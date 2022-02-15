@@ -4,7 +4,7 @@ exports[`prerender should prerender selected pages 1`] = `25`;
 
 exports[`prerender should prerender selected pages 2`] = `
 "
-/** filePath: dist/app.js **/
+/** filePath: dist\\\\app.js **/
 require(\\"./runtime\\");
 
 require(\\"./common\\");
@@ -453,7 +453,7 @@ require(\\"./taro\\");
         var ReactDOM$1;
         var pageKeyId = Object(taro_runtime[\\"incrementId\\"])();
         var hooks$1 = taro_runtime[\\"container\\"].get(taro_runtime[\\"SERVICE_IDENTIFIER\\"].Hooks);
-        function setReconciler() {
+        function setReconciler(ReactDOM) {
             var _a;
             hooks$1.getLifecycle = function(instance, lifecycle) {
                 lifecycle = lifecycle.replace(/^on(Show|Hide)$/, \\"componentDid$1\\");
@@ -463,7 +463,7 @@ require(\\"./taro\\");
                 event.type = event.type.replace(/-/g, \\"\\");
             }));
             hooks$1.batchedEventUpdates = function(cb) {
-                ReactDOM$1.unstable_batchedUpdates(cb);
+                ReactDOM.unstable_batchedUpdates(cb);
             };
             hooks$1.mergePageInstance = function(prev, next) {
                 if (!prev || !next) return;
@@ -543,7 +543,7 @@ require(\\"./taro\\");
             var appInstanceRef = react.createRef();
             var isReactComponent = isClassComponent(R$1, App);
             var appWrapper;
-            setReconciler();
+            setReconciler(ReactDOM$1);
             function getAppInstance() {
                 return appInstanceRef.current;
             }
@@ -872,7 +872,7 @@ require(\\"./taro\\");
                 } ]);
                 return Entry;
             }(R.Component);
-            setReconciler();
+            setReconciler(ReactDOM);
             var app = taro_runtime[\\"document\\"].getElementById(\\"app\\");
             ReactDOM.render(h(Entry, {}), app);
         }
@@ -880,7 +880,7 @@ require(\\"./taro\\");
             runtime_R = react;
             h = react.createElement;
             runtime_ReactDOM = reactdom;
-            setReconciler();
+            setReconciler(runtime_ReactDOM);
             var componentObj = {
                 options: componentConfig,
                 properties: {
@@ -1026,13 +1026,13 @@ require(\\"./taro\\");
         module.exports = wx._prerender
       }
 
-/** filePath: dist/app.json **/
+/** filePath: dist\\\\app.json **/
 {\\"pages\\":[\\"pages/index/index\\",\\"others/detail/index\\",\\"others/normal/index\\"],\\"window\\":{\\"backgroundTextStyle\\":\\"light\\",\\"navigationBarBackgroundColor\\":\\"#fff\\",\\"navigationBarTitleText\\":\\"WeChat\\",\\"navigationBarTextStyle\\":\\"black\\"}}
 
-/** filePath: dist/app.wxss **/
+/** filePath: dist\\\\app.wxss **/
 
 
-/** filePath: dist/base.wxml **/
+/** filePath: dist\\\\base.wxml **/
 <wxs module=\\"xs\\" src=\\"./utils.wxs\\" />
 <template name=\\"taro_tmpl\\">
   <block wx:for=\\"{{root.cn}}\\" wx:key=\\"sid\\">
@@ -1818,14 +1818,14 @@ require(\\"./taro\\");
 </template>
 
 
-/** filePath: dist/common.js **/
+/** filePath: dist\\\\common.js **/
 (wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 2 ], [ , function(module, __webpack_exports__, __webpack_require__) {
     \\"use strict\\";
     __webpack_require__.r(__webpack_exports__);
     __webpack_exports__[\\"default\\"] = \\"react-mock\\";
 } ] ]);
 
-/** filePath: dist/comp.js **/
+/** filePath: dist\\\\comp.js **/
 (wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 6 ], {
     14: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
@@ -1835,14 +1835,14 @@ require(\\"./taro\\");
     }
 }, [ [ 14, 0, 1 ] ] ]);
 
-/** filePath: dist/comp.json **/
+/** filePath: dist\\\\comp.json **/
 {\\"component\\":true,\\"usingComponents\\":{\\"comp\\":\\"./comp\\",\\"custom-wrapper\\":\\"./custom-wrapper\\"}}
 
-/** filePath: dist/comp.wxml **/
+/** filePath: dist\\\\comp.wxml **/
 <import src=\\"./base.wxml\\" />
 <template is=\\"tmpl_0_container\\" data=\\"{{i:i,l:l}}\\" />
 
-/** filePath: dist/custom-wrapper.js **/
+/** filePath: dist\\\\custom-wrapper.js **/
 (wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 7 ], {
     15: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
@@ -1852,16 +1852,16 @@ require(\\"./taro\\");
     }
 }, [ [ 15, 0, 1 ] ] ]);
 
-/** filePath: dist/custom-wrapper.json **/
+/** filePath: dist\\\\custom-wrapper.json **/
 {\\"component\\":true,\\"usingComponents\\":{\\"comp\\":\\"./comp\\",\\"custom-wrapper\\":\\"./custom-wrapper\\"}}
 
-/** filePath: dist/custom-wrapper.wxml **/
+/** filePath: dist\\\\custom-wrapper.wxml **/
 <import src=\\"./base.wxml\\" />
   <block wx:for=\\"{{i.cn}}\\" wx:key=\\"sid\\">
     <template is=\\"tmpl_0_container\\" data=\\"{{i:item,l:''}}\\" />
   </block>
 
-/** filePath: dist/others/detail/index.js **/
+/** filePath: dist\\\\others\\\\detail\\\\index.js **/
 (wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 8 ], {
     18: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
@@ -3140,10 +3140,10 @@ require(\\"./taro\\");
         module.exports = wx._prerender
       }
 
-/** filePath: dist/others/detail/index.json **/
+/** filePath: dist\\\\others\\\\detail\\\\index.json **/
 {\\"usingComponents\\":{\\"custom-wrapper\\":\\"../../custom-wrapper\\",\\"comp\\":\\"../../comp\\"}}
 
-/** filePath: dist/others/detail/index.wxml **/
+/** filePath: dist\\\\others\\\\detail\\\\index.wxml **/
 <import src=\\"../../base.wxml\\"/>
 <block wx:if=\\"{{root.uid}}\\">
   <template is=\\"taro_tmpl\\" data=\\"{{root:root}}\\" />
@@ -3152,7 +3152,7 @@ require(\\"./taro\\");
 <view id=\\"_n_15\\" ><view class=\\"taro-region-picker taro-region-picker-gray\\" id=\\"_n_10\\" ><picker id=\\"_n_9\\" mode=\\"multiSelector\\" range='[[\\"北京市\\",\\"天津市\\",\\"上海市\\",\\"重庆市\\",\\"河北省\\",\\"山西省\\",\\"内蒙古\\",\\"辽宁省\\",\\"吉林省\\",\\"黑龙江省\\",\\"江苏省\\",\\"浙江省\\",\\"安徽省\\",\\"福建省\\",\\"江西省\\",\\"山东省\\",\\"河南省\\",\\"湖北省\\",\\"湖南省\\",\\"广东省\\",\\"广西\\",\\"海南省\\",\\"四川省\\",\\"贵州省\\",\\"云南省\\",\\"西藏\\",\\"陕西省\\",\\"甘肃省\\",\\"青海省\\",\\"宁夏\\",\\"新疆\\",\\"香港\\",\\"澳门\\",\\"台湾省\\"],[\\"北京市\\"],[\\"东城区\\",\\"西城区\\",\\"崇文区\\",\\"宣武区\\",\\"朝阳区\\",\\"丰台区\\",\\"石景山区\\",\\"海淀区\\",\\"门头沟区\\",\\"房山区\\",\\"通州区\\",\\"顺义区\\",\\"昌平区\\",\\"大兴区\\",\\"怀柔区\\",\\"平谷区\\",\\"密云县\\",\\"延庆县\\",\\"延庆镇\\"]]' value='[0,0,0]' ><view style=\\"width: 100%;height: 44px;\\" id=\\"_n_8\\" ><text id=\\"_n_7\\" >请选择省市区</text></view></picker></view></view>
 </block>
 
-/** filePath: dist/others/normal/index.js **/
+/** filePath: dist\\\\others\\\\normal\\\\index.js **/
 (wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 9 ], {
     20: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
@@ -3198,14 +3198,14 @@ require(\\"./taro\\");
     }
 }, [ [ 20, 0, 1, 3, 2 ] ] ]);
 
-/** filePath: dist/others/normal/index.json **/
+/** filePath: dist\\\\others\\\\normal\\\\index.json **/
 {\\"usingComponents\\":{\\"custom-wrapper\\":\\"../../custom-wrapper\\",\\"comp\\":\\"../../comp\\"}}
 
-/** filePath: dist/others/normal/index.wxml **/
+/** filePath: dist\\\\others\\\\normal\\\\index.wxml **/
 <import src=\\"../../base.wxml\\"/>
 <template is=\\"taro_tmpl\\" data=\\"{{root:root}}\\" />
 
-/** filePath: dist/pages/index/index.js **/
+/** filePath: dist\\\\pages\\\\index\\\\index.js **/
 (wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 10 ], {
     16: function(module, exports, __webpack_require__) {},
     19: function(module, __webpack_exports__, __webpack_require__) {
@@ -3253,10 +3253,10 @@ require(\\"./taro\\");
         module.exports = wx._prerender
       }
 
-/** filePath: dist/pages/index/index.json **/
+/** filePath: dist\\\\pages\\\\index\\\\index.json **/
 {\\"navigationBarTitleText\\":\\"首页\\",\\"usingComponents\\":{\\"custom-wrapper\\":\\"../../custom-wrapper\\",\\"comp\\":\\"../../comp\\"}}
 
-/** filePath: dist/pages/index/index.wxml **/
+/** filePath: dist\\\\pages\\\\index\\\\index.wxml **/
 <import src=\\"../../base.wxml\\"/>
 <block wx:if=\\"{{root.uid}}\\">
   <template is=\\"taro_tmpl\\" data=\\"{{root:root}}\\" />
@@ -3265,13 +3265,127 @@ require(\\"./taro\\");
 <view class=\\"index\\" id=\\"_n_19\\" ><text id=\\"_n_18\\" >Hello world!</text></view>
 </block>
 
-/** filePath: dist/pages/index/index.wxss **/
+/** filePath: dist\\\\pages\\\\index\\\\index.wxss **/
 
 
-/** filePath: dist/runtime.js **/
+/** filePath: dist\\\\runtime.js **/
+(function(modules) {
+    function webpackJsonpCallback(data) {
+        var chunkIds = data[0];
+        var moreModules = data[1];
+        var executeModules = data[2];
+        var moduleId, chunkId, i = 0, resolves = [];
+        for (;i < chunkIds.length; i++) {
+            chunkId = chunkIds[i];
+            if (Object.prototype.hasOwnProperty.call(installedChunks, chunkId) && installedChunks[chunkId]) {
+                resolves.push(installedChunks[chunkId][0]);
+            }
+            installedChunks[chunkId] = 0;
+        }
+        for (moduleId in moreModules) {
+            if (Object.prototype.hasOwnProperty.call(moreModules, moduleId)) {
+                modules[moduleId] = moreModules[moduleId];
+            }
+        }
+        if (parentJsonpFunction) parentJsonpFunction(data);
+        while (resolves.length) {
+            resolves.shift()();
+        }
+        deferredModules.push.apply(deferredModules, executeModules || []);
+        return checkDeferredModules();
+    }
+    function checkDeferredModules() {
+        var result;
+        for (var i = 0; i < deferredModules.length; i++) {
+            var deferredModule = deferredModules[i];
+            var fulfilled = true;
+            for (var j = 1; j < deferredModule.length; j++) {
+                var depId = deferredModule[j];
+                if (installedChunks[depId] !== 0) fulfilled = false;
+            }
+            if (fulfilled) {
+                deferredModules.splice(i--, 1);
+                result = __webpack_require__(__webpack_require__.s = deferredModule[0]);
+            }
+        }
+        return result;
+    }
+    var installedModules = {};
+    var installedChunks = {
+        0: 0
+    };
+    var deferredModules = [];
+    function __webpack_require__(moduleId) {
+        if (installedModules[moduleId]) {
+            return installedModules[moduleId].exports;
+        }
+        var module = installedModules[moduleId] = {
+            i: moduleId,
+            l: false,
+            exports: {}
+        };
+        modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
+        module.l = true;
+        return module.exports;
+    }
+    __webpack_require__.m = modules;
+    __webpack_require__.c = installedModules;
+    __webpack_require__.d = function(exports, name, getter) {
+        if (!__webpack_require__.o(exports, name)) {
+            Object.defineProperty(exports, name, {
+                enumerable: true,
+                get: getter
+            });
+        }
+    };
+    __webpack_require__.r = function(exports) {
+        if (typeof Symbol !== \\"undefined\\" && Symbol.toStringTag) {
+            Object.defineProperty(exports, Symbol.toStringTag, {
+                value: \\"Module\\"
+            });
+        }
+        Object.defineProperty(exports, \\"__esModule\\", {
+            value: true
+        });
+    };
+    __webpack_require__.t = function(value, mode) {
+        if (mode & 1) value = __webpack_require__(value);
+        if (mode & 8) return value;
+        if (mode & 4 && typeof value === \\"object\\" && value && value.__esModule) return value;
+        var ns = Object.create(null);
+        __webpack_require__.r(ns);
+        Object.defineProperty(ns, \\"default\\", {
+            enumerable: true,
+            value: value
+        });
+        if (mode & 2 && typeof value != \\"string\\") for (var key in value) __webpack_require__.d(ns, key, function(key) {
+            return value[key];
+        }.bind(null, key));
+        return ns;
+    };
+    __webpack_require__.n = function(module) {
+        var getter = module && module.__esModule ? function getDefault() {
+            return module[\\"default\\"];
+        } : function getModuleExports() {
+            return module;
+        };
+        __webpack_require__.d(getter, \\"a\\", getter);
+        return getter;
+    };
+    __webpack_require__.o = function(object, property) {
+        return Object.prototype.hasOwnProperty.call(object, property);
+    };
+    __webpack_require__.p = \\"/\\";
+    var jsonpArray = wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || [];
+    var oldJsonpFunction = jsonpArray.push.bind(jsonpArray);
+    jsonpArray.push = webpackJsonpCallback;
+    jsonpArray = jsonpArray.slice();
+    for (var i = 0; i < jsonpArray.length; i++) webpackJsonpCallback(jsonpArray[i]);
+    var parentJsonpFunction = oldJsonpFunction;
+    checkDeferredModules();
+})([]);
 
-
-/** filePath: dist/taro.js **/
+/** filePath: dist\\\\taro.js **/
 (wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 1 ], {
     0: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
@@ -3287,7 +3401,7 @@ require(\\"./taro\\");
     }
 } ]);
 
-/** filePath: dist/utils.wxs **/
+/** filePath: dist\\\\utils.wxs **/
 module.exports = {
   a: function (l, n, s) {
     var a = [\\"view\\",\\"catch-view\\",\\"cover-view\\",\\"static-view\\",\\"pure-view\\",\\"block\\",\\"text\\",\\"static-text\\",\\"slot\\",\\"slot-view\\",\\"label\\",\\"form\\",\\"scroll-view\\",\\"swiper\\",\\"swiper-item\\"]
@@ -3328,7 +3442,7 @@ module.exports = {
   }
 }
 
-/** filePath: dist/vendors.js **/
+/** filePath: dist\\\\vendors.js **/
 (wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 3 ], [ , , , function(module, __webpack_exports__, __webpack_require__) {
     \\"use strict\\";
     __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
@@ -3484,7 +3598,7 @@ exports[`prerender should transform dom tree 1`] = `25`;
 
 exports[`prerender should transform dom tree 2`] = `
 "
-/** filePath: dist/app.js **/
+/** filePath: dist\\\\app.js **/
 require(\\"./runtime\\");
 
 require(\\"./common\\");
@@ -3933,7 +4047,7 @@ require(\\"./taro\\");
         var ReactDOM$1;
         var pageKeyId = Object(taro_runtime[\\"incrementId\\"])();
         var hooks$1 = taro_runtime[\\"container\\"].get(taro_runtime[\\"SERVICE_IDENTIFIER\\"].Hooks);
-        function setReconciler() {
+        function setReconciler(ReactDOM) {
             var _a;
             hooks$1.getLifecycle = function(instance, lifecycle) {
                 lifecycle = lifecycle.replace(/^on(Show|Hide)$/, \\"componentDid$1\\");
@@ -3943,7 +4057,7 @@ require(\\"./taro\\");
                 event.type = event.type.replace(/-/g, \\"\\");
             }));
             hooks$1.batchedEventUpdates = function(cb) {
-                ReactDOM$1.unstable_batchedUpdates(cb);
+                ReactDOM.unstable_batchedUpdates(cb);
             };
             hooks$1.mergePageInstance = function(prev, next) {
                 if (!prev || !next) return;
@@ -4023,7 +4137,7 @@ require(\\"./taro\\");
             var appInstanceRef = react.createRef();
             var isReactComponent = isClassComponent(R$1, App);
             var appWrapper;
-            setReconciler();
+            setReconciler(ReactDOM$1);
             function getAppInstance() {
                 return appInstanceRef.current;
             }
@@ -4352,7 +4466,7 @@ require(\\"./taro\\");
                 } ]);
                 return Entry;
             }(R.Component);
-            setReconciler();
+            setReconciler(ReactDOM);
             var app = taro_runtime[\\"document\\"].getElementById(\\"app\\");
             ReactDOM.render(h(Entry, {}), app);
         }
@@ -4360,7 +4474,7 @@ require(\\"./taro\\");
             runtime_R = react;
             h = react.createElement;
             runtime_ReactDOM = reactdom;
-            setReconciler();
+            setReconciler(runtime_ReactDOM);
             var componentObj = {
                 options: componentConfig,
                 properties: {
@@ -4506,13 +4620,13 @@ require(\\"./taro\\");
         module.exports = wx._prerender
       }
 
-/** filePath: dist/app.json **/
+/** filePath: dist\\\\app.json **/
 {\\"pages\\":[\\"pages/index/index\\",\\"others/detail/index\\",\\"others/normal/index\\"],\\"window\\":{\\"backgroundTextStyle\\":\\"light\\",\\"navigationBarBackgroundColor\\":\\"#fff\\",\\"navigationBarTitleText\\":\\"WeChat\\",\\"navigationBarTextStyle\\":\\"black\\"}}
 
-/** filePath: dist/app.wxss **/
+/** filePath: dist\\\\app.wxss **/
 
 
-/** filePath: dist/base.wxml **/
+/** filePath: dist\\\\base.wxml **/
 <wxs module=\\"xs\\" src=\\"./utils.wxs\\" />
 <template name=\\"taro_tmpl\\">
   <block wx:for=\\"{{root.cn}}\\" wx:key=\\"sid\\">
@@ -5298,14 +5412,14 @@ require(\\"./taro\\");
 </template>
 
 
-/** filePath: dist/common.js **/
+/** filePath: dist\\\\common.js **/
 (wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 2 ], [ , function(module, __webpack_exports__, __webpack_require__) {
     \\"use strict\\";
     __webpack_require__.r(__webpack_exports__);
     __webpack_exports__[\\"default\\"] = \\"react-mock\\";
 } ] ]);
 
-/** filePath: dist/comp.js **/
+/** filePath: dist\\\\comp.js **/
 (wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 6 ], {
     14: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
@@ -5315,14 +5429,14 @@ require(\\"./taro\\");
     }
 }, [ [ 14, 0, 1 ] ] ]);
 
-/** filePath: dist/comp.json **/
+/** filePath: dist\\\\comp.json **/
 {\\"component\\":true,\\"usingComponents\\":{\\"comp\\":\\"./comp\\",\\"custom-wrapper\\":\\"./custom-wrapper\\"}}
 
-/** filePath: dist/comp.wxml **/
+/** filePath: dist\\\\comp.wxml **/
 <import src=\\"./base.wxml\\" />
 <template is=\\"tmpl_0_container\\" data=\\"{{i:i,l:l}}\\" />
 
-/** filePath: dist/custom-wrapper.js **/
+/** filePath: dist\\\\custom-wrapper.js **/
 (wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 7 ], {
     15: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
@@ -5332,16 +5446,16 @@ require(\\"./taro\\");
     }
 }, [ [ 15, 0, 1 ] ] ]);
 
-/** filePath: dist/custom-wrapper.json **/
+/** filePath: dist\\\\custom-wrapper.json **/
 {\\"component\\":true,\\"usingComponents\\":{\\"comp\\":\\"./comp\\",\\"custom-wrapper\\":\\"./custom-wrapper\\"}}
 
-/** filePath: dist/custom-wrapper.wxml **/
+/** filePath: dist\\\\custom-wrapper.wxml **/
 <import src=\\"./base.wxml\\" />
   <block wx:for=\\"{{i.cn}}\\" wx:key=\\"sid\\">
     <template is=\\"tmpl_0_container\\" data=\\"{{i:item,l:''}}\\" />
   </block>
 
-/** filePath: dist/others/detail/index.js **/
+/** filePath: dist\\\\others\\\\detail\\\\index.js **/
 (wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 8 ], {
     18: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
@@ -6620,10 +6734,10 @@ require(\\"./taro\\");
         module.exports = wx._prerender
       }
 
-/** filePath: dist/others/detail/index.json **/
+/** filePath: dist\\\\others\\\\detail\\\\index.json **/
 {\\"usingComponents\\":{\\"custom-wrapper\\":\\"../../custom-wrapper\\",\\"comp\\":\\"../../comp\\"}}
 
-/** filePath: dist/others/detail/index.wxml **/
+/** filePath: dist\\\\others\\\\detail\\\\index.wxml **/
 <import src=\\"../../base.wxml\\"/>
 <block wx:if=\\"{{root.uid}}\\">
   <template is=\\"taro_tmpl\\" data=\\"{{root:root}}\\" />
@@ -6632,7 +6746,7 @@ require(\\"./taro\\");
 <video id=\\"_n_15\\" src=\\"https://github.com/taro\\" ></video>
 </block>
 
-/** filePath: dist/others/normal/index.js **/
+/** filePath: dist\\\\others\\\\normal\\\\index.js **/
 (wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 9 ], {
     20: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
@@ -6678,14 +6792,14 @@ require(\\"./taro\\");
     }
 }, [ [ 20, 0, 1, 3, 2 ] ] ]);
 
-/** filePath: dist/others/normal/index.json **/
+/** filePath: dist\\\\others\\\\normal\\\\index.json **/
 {\\"usingComponents\\":{\\"custom-wrapper\\":\\"../../custom-wrapper\\",\\"comp\\":\\"../../comp\\"}}
 
-/** filePath: dist/others/normal/index.wxml **/
+/** filePath: dist\\\\others\\\\normal\\\\index.wxml **/
 <import src=\\"../../base.wxml\\"/>
 <template is=\\"taro_tmpl\\" data=\\"{{root:root}}\\" />
 
-/** filePath: dist/pages/index/index.js **/
+/** filePath: dist\\\\pages\\\\index\\\\index.js **/
 (wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 10 ], {
     16: function(module, exports, __webpack_require__) {},
     19: function(module, __webpack_exports__, __webpack_require__) {
@@ -6733,10 +6847,10 @@ require(\\"./taro\\");
         module.exports = wx._prerender
       }
 
-/** filePath: dist/pages/index/index.json **/
+/** filePath: dist\\\\pages\\\\index\\\\index.json **/
 {\\"navigationBarTitleText\\":\\"首页\\",\\"usingComponents\\":{\\"custom-wrapper\\":\\"../../custom-wrapper\\",\\"comp\\":\\"../../comp\\"}}
 
-/** filePath: dist/pages/index/index.wxml **/
+/** filePath: dist\\\\pages\\\\index\\\\index.wxml **/
 <import src=\\"../../base.wxml\\"/>
 <block wx:if=\\"{{root.uid}}\\">
   <template is=\\"taro_tmpl\\" data=\\"{{root:root}}\\" />
@@ -6745,13 +6859,127 @@ require(\\"./taro\\");
 <view class=\\"index\\" id=\\"_n_19\\" ><text id=\\"_n_18\\" >Hello world!</text></view>
 </block>
 
-/** filePath: dist/pages/index/index.wxss **/
+/** filePath: dist\\\\pages\\\\index\\\\index.wxss **/
 
 
-/** filePath: dist/runtime.js **/
+/** filePath: dist\\\\runtime.js **/
+(function(modules) {
+    function webpackJsonpCallback(data) {
+        var chunkIds = data[0];
+        var moreModules = data[1];
+        var executeModules = data[2];
+        var moduleId, chunkId, i = 0, resolves = [];
+        for (;i < chunkIds.length; i++) {
+            chunkId = chunkIds[i];
+            if (Object.prototype.hasOwnProperty.call(installedChunks, chunkId) && installedChunks[chunkId]) {
+                resolves.push(installedChunks[chunkId][0]);
+            }
+            installedChunks[chunkId] = 0;
+        }
+        for (moduleId in moreModules) {
+            if (Object.prototype.hasOwnProperty.call(moreModules, moduleId)) {
+                modules[moduleId] = moreModules[moduleId];
+            }
+        }
+        if (parentJsonpFunction) parentJsonpFunction(data);
+        while (resolves.length) {
+            resolves.shift()();
+        }
+        deferredModules.push.apply(deferredModules, executeModules || []);
+        return checkDeferredModules();
+    }
+    function checkDeferredModules() {
+        var result;
+        for (var i = 0; i < deferredModules.length; i++) {
+            var deferredModule = deferredModules[i];
+            var fulfilled = true;
+            for (var j = 1; j < deferredModule.length; j++) {
+                var depId = deferredModule[j];
+                if (installedChunks[depId] !== 0) fulfilled = false;
+            }
+            if (fulfilled) {
+                deferredModules.splice(i--, 1);
+                result = __webpack_require__(__webpack_require__.s = deferredModule[0]);
+            }
+        }
+        return result;
+    }
+    var installedModules = {};
+    var installedChunks = {
+        0: 0
+    };
+    var deferredModules = [];
+    function __webpack_require__(moduleId) {
+        if (installedModules[moduleId]) {
+            return installedModules[moduleId].exports;
+        }
+        var module = installedModules[moduleId] = {
+            i: moduleId,
+            l: false,
+            exports: {}
+        };
+        modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
+        module.l = true;
+        return module.exports;
+    }
+    __webpack_require__.m = modules;
+    __webpack_require__.c = installedModules;
+    __webpack_require__.d = function(exports, name, getter) {
+        if (!__webpack_require__.o(exports, name)) {
+            Object.defineProperty(exports, name, {
+                enumerable: true,
+                get: getter
+            });
+        }
+    };
+    __webpack_require__.r = function(exports) {
+        if (typeof Symbol !== \\"undefined\\" && Symbol.toStringTag) {
+            Object.defineProperty(exports, Symbol.toStringTag, {
+                value: \\"Module\\"
+            });
+        }
+        Object.defineProperty(exports, \\"__esModule\\", {
+            value: true
+        });
+    };
+    __webpack_require__.t = function(value, mode) {
+        if (mode & 1) value = __webpack_require__(value);
+        if (mode & 8) return value;
+        if (mode & 4 && typeof value === \\"object\\" && value && value.__esModule) return value;
+        var ns = Object.create(null);
+        __webpack_require__.r(ns);
+        Object.defineProperty(ns, \\"default\\", {
+            enumerable: true,
+            value: value
+        });
+        if (mode & 2 && typeof value != \\"string\\") for (var key in value) __webpack_require__.d(ns, key, function(key) {
+            return value[key];
+        }.bind(null, key));
+        return ns;
+    };
+    __webpack_require__.n = function(module) {
+        var getter = module && module.__esModule ? function getDefault() {
+            return module[\\"default\\"];
+        } : function getModuleExports() {
+            return module;
+        };
+        __webpack_require__.d(getter, \\"a\\", getter);
+        return getter;
+    };
+    __webpack_require__.o = function(object, property) {
+        return Object.prototype.hasOwnProperty.call(object, property);
+    };
+    __webpack_require__.p = \\"/\\";
+    var jsonpArray = wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || [];
+    var oldJsonpFunction = jsonpArray.push.bind(jsonpArray);
+    jsonpArray.push = webpackJsonpCallback;
+    jsonpArray = jsonpArray.slice();
+    for (var i = 0; i < jsonpArray.length; i++) webpackJsonpCallback(jsonpArray[i]);
+    var parentJsonpFunction = oldJsonpFunction;
+    checkDeferredModules();
+})([]);
 
-
-/** filePath: dist/taro.js **/
+/** filePath: dist\\\\taro.js **/
 (wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 1 ], {
     0: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
@@ -6767,7 +6995,7 @@ require(\\"./taro\\");
     }
 } ]);
 
-/** filePath: dist/utils.wxs **/
+/** filePath: dist\\\\utils.wxs **/
 module.exports = {
   a: function (l, n, s) {
     var a = [\\"view\\",\\"catch-view\\",\\"cover-view\\",\\"static-view\\",\\"pure-view\\",\\"block\\",\\"text\\",\\"static-text\\",\\"slot\\",\\"slot-view\\",\\"label\\",\\"form\\",\\"scroll-view\\",\\"swiper\\",\\"swiper-item\\"]
@@ -6808,7 +7036,7 @@ module.exports = {
   }
 }
 
-/** filePath: dist/vendors.js **/
+/** filePath: dist\\\\vendors.js **/
 (wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 3 ], [ , , , function(module, __webpack_exports__, __webpack_require__) {
     \\"use strict\\";
     __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
@@ -6964,7 +7192,7 @@ exports[`prerender should transform result xml 1`] = `25`;
 
 exports[`prerender should transform result xml 2`] = `
 "
-/** filePath: dist/app.js **/
+/** filePath: dist\\\\app.js **/
 require(\\"./runtime\\");
 
 require(\\"./common\\");
@@ -7413,7 +7641,7 @@ require(\\"./taro\\");
         var ReactDOM$1;
         var pageKeyId = Object(taro_runtime[\\"incrementId\\"])();
         var hooks$1 = taro_runtime[\\"container\\"].get(taro_runtime[\\"SERVICE_IDENTIFIER\\"].Hooks);
-        function setReconciler() {
+        function setReconciler(ReactDOM) {
             var _a;
             hooks$1.getLifecycle = function(instance, lifecycle) {
                 lifecycle = lifecycle.replace(/^on(Show|Hide)$/, \\"componentDid$1\\");
@@ -7423,7 +7651,7 @@ require(\\"./taro\\");
                 event.type = event.type.replace(/-/g, \\"\\");
             }));
             hooks$1.batchedEventUpdates = function(cb) {
-                ReactDOM$1.unstable_batchedUpdates(cb);
+                ReactDOM.unstable_batchedUpdates(cb);
             };
             hooks$1.mergePageInstance = function(prev, next) {
                 if (!prev || !next) return;
@@ -7503,7 +7731,7 @@ require(\\"./taro\\");
             var appInstanceRef = react.createRef();
             var isReactComponent = isClassComponent(R$1, App);
             var appWrapper;
-            setReconciler();
+            setReconciler(ReactDOM$1);
             function getAppInstance() {
                 return appInstanceRef.current;
             }
@@ -7832,7 +8060,7 @@ require(\\"./taro\\");
                 } ]);
                 return Entry;
             }(R.Component);
-            setReconciler();
+            setReconciler(ReactDOM);
             var app = taro_runtime[\\"document\\"].getElementById(\\"app\\");
             ReactDOM.render(h(Entry, {}), app);
         }
@@ -7840,7 +8068,7 @@ require(\\"./taro\\");
             runtime_R = react;
             h = react.createElement;
             runtime_ReactDOM = reactdom;
-            setReconciler();
+            setReconciler(runtime_ReactDOM);
             var componentObj = {
                 options: componentConfig,
                 properties: {
@@ -7986,13 +8214,13 @@ require(\\"./taro\\");
         module.exports = wx._prerender
       }
 
-/** filePath: dist/app.json **/
+/** filePath: dist\\\\app.json **/
 {\\"pages\\":[\\"pages/index/index\\",\\"others/detail/index\\",\\"others/normal/index\\"],\\"window\\":{\\"backgroundTextStyle\\":\\"light\\",\\"navigationBarBackgroundColor\\":\\"#fff\\",\\"navigationBarTitleText\\":\\"WeChat\\",\\"navigationBarTextStyle\\":\\"black\\"}}
 
-/** filePath: dist/app.wxss **/
+/** filePath: dist\\\\app.wxss **/
 
 
-/** filePath: dist/base.wxml **/
+/** filePath: dist\\\\base.wxml **/
 <wxs module=\\"xs\\" src=\\"./utils.wxs\\" />
 <template name=\\"taro_tmpl\\">
   <block wx:for=\\"{{root.cn}}\\" wx:key=\\"sid\\">
@@ -8778,14 +9006,14 @@ require(\\"./taro\\");
 </template>
 
 
-/** filePath: dist/common.js **/
+/** filePath: dist\\\\common.js **/
 (wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 2 ], [ , function(module, __webpack_exports__, __webpack_require__) {
     \\"use strict\\";
     __webpack_require__.r(__webpack_exports__);
     __webpack_exports__[\\"default\\"] = \\"react-mock\\";
 } ] ]);
 
-/** filePath: dist/comp.js **/
+/** filePath: dist\\\\comp.js **/
 (wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 6 ], {
     14: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
@@ -8795,14 +9023,14 @@ require(\\"./taro\\");
     }
 }, [ [ 14, 0, 1 ] ] ]);
 
-/** filePath: dist/comp.json **/
+/** filePath: dist\\\\comp.json **/
 {\\"component\\":true,\\"usingComponents\\":{\\"comp\\":\\"./comp\\",\\"custom-wrapper\\":\\"./custom-wrapper\\"}}
 
-/** filePath: dist/comp.wxml **/
+/** filePath: dist\\\\comp.wxml **/
 <import src=\\"./base.wxml\\" />
 <template is=\\"tmpl_0_container\\" data=\\"{{i:i,l:l}}\\" />
 
-/** filePath: dist/custom-wrapper.js **/
+/** filePath: dist\\\\custom-wrapper.js **/
 (wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 7 ], {
     15: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
@@ -8812,16 +9040,16 @@ require(\\"./taro\\");
     }
 }, [ [ 15, 0, 1 ] ] ]);
 
-/** filePath: dist/custom-wrapper.json **/
+/** filePath: dist\\\\custom-wrapper.json **/
 {\\"component\\":true,\\"usingComponents\\":{\\"comp\\":\\"./comp\\",\\"custom-wrapper\\":\\"./custom-wrapper\\"}}
 
-/** filePath: dist/custom-wrapper.wxml **/
+/** filePath: dist\\\\custom-wrapper.wxml **/
 <import src=\\"./base.wxml\\" />
   <block wx:for=\\"{{i.cn}}\\" wx:key=\\"sid\\">
     <template is=\\"tmpl_0_container\\" data=\\"{{i:item,l:''}}\\" />
   </block>
 
-/** filePath: dist/others/detail/index.js **/
+/** filePath: dist\\\\others\\\\detail\\\\index.js **/
 (wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 8 ], {
     18: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
@@ -10100,10 +10328,10 @@ require(\\"./taro\\");
         module.exports = wx._prerender
       }
 
-/** filePath: dist/others/detail/index.json **/
+/** filePath: dist\\\\others\\\\detail\\\\index.json **/
 {\\"usingComponents\\":{\\"custom-wrapper\\":\\"../../custom-wrapper\\",\\"comp\\":\\"../../comp\\"}}
 
-/** filePath: dist/others/detail/index.wxml **/
+/** filePath: dist\\\\others\\\\detail\\\\index.wxml **/
 <import src=\\"../../base.wxml\\"/>
 <block wx:if=\\"{{root.uid}}\\">
   <template is=\\"taro_tmpl\\" data=\\"{{root:root}}\\" />
@@ -10112,7 +10340,7 @@ require(\\"./taro\\");
 <video src=\\"https://github.com/taro\\" />
 </block>
 
-/** filePath: dist/others/normal/index.js **/
+/** filePath: dist\\\\others\\\\normal\\\\index.js **/
 (wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 9 ], {
     20: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
@@ -10158,14 +10386,14 @@ require(\\"./taro\\");
     }
 }, [ [ 20, 0, 1, 3, 2 ] ] ]);
 
-/** filePath: dist/others/normal/index.json **/
+/** filePath: dist\\\\others\\\\normal\\\\index.json **/
 {\\"usingComponents\\":{\\"custom-wrapper\\":\\"../../custom-wrapper\\",\\"comp\\":\\"../../comp\\"}}
 
-/** filePath: dist/others/normal/index.wxml **/
+/** filePath: dist\\\\others\\\\normal\\\\index.wxml **/
 <import src=\\"../../base.wxml\\"/>
 <template is=\\"taro_tmpl\\" data=\\"{{root:root}}\\" />
 
-/** filePath: dist/pages/index/index.js **/
+/** filePath: dist\\\\pages\\\\index\\\\index.js **/
 (wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 10 ], {
     16: function(module, exports, __webpack_require__) {},
     19: function(module, __webpack_exports__, __webpack_require__) {
@@ -10213,10 +10441,10 @@ require(\\"./taro\\");
         module.exports = wx._prerender
       }
 
-/** filePath: dist/pages/index/index.json **/
+/** filePath: dist\\\\pages\\\\index\\\\index.json **/
 {\\"navigationBarTitleText\\":\\"首页\\",\\"usingComponents\\":{\\"custom-wrapper\\":\\"../../custom-wrapper\\",\\"comp\\":\\"../../comp\\"}}
 
-/** filePath: dist/pages/index/index.wxml **/
+/** filePath: dist\\\\pages\\\\index\\\\index.wxml **/
 <import src=\\"../../base.wxml\\"/>
 <block wx:if=\\"{{root.uid}}\\">
   <template is=\\"taro_tmpl\\" data=\\"{{root:root}}\\" />
@@ -10225,13 +10453,127 @@ require(\\"./taro\\");
 <view class=\\"index\\" id=\\"_n_19\\" ><text id=\\"_n_18\\" >Hello world!</text></view>
 </block>
 
-/** filePath: dist/pages/index/index.wxss **/
+/** filePath: dist\\\\pages\\\\index\\\\index.wxss **/
 
 
-/** filePath: dist/runtime.js **/
+/** filePath: dist\\\\runtime.js **/
+(function(modules) {
+    function webpackJsonpCallback(data) {
+        var chunkIds = data[0];
+        var moreModules = data[1];
+        var executeModules = data[2];
+        var moduleId, chunkId, i = 0, resolves = [];
+        for (;i < chunkIds.length; i++) {
+            chunkId = chunkIds[i];
+            if (Object.prototype.hasOwnProperty.call(installedChunks, chunkId) && installedChunks[chunkId]) {
+                resolves.push(installedChunks[chunkId][0]);
+            }
+            installedChunks[chunkId] = 0;
+        }
+        for (moduleId in moreModules) {
+            if (Object.prototype.hasOwnProperty.call(moreModules, moduleId)) {
+                modules[moduleId] = moreModules[moduleId];
+            }
+        }
+        if (parentJsonpFunction) parentJsonpFunction(data);
+        while (resolves.length) {
+            resolves.shift()();
+        }
+        deferredModules.push.apply(deferredModules, executeModules || []);
+        return checkDeferredModules();
+    }
+    function checkDeferredModules() {
+        var result;
+        for (var i = 0; i < deferredModules.length; i++) {
+            var deferredModule = deferredModules[i];
+            var fulfilled = true;
+            for (var j = 1; j < deferredModule.length; j++) {
+                var depId = deferredModule[j];
+                if (installedChunks[depId] !== 0) fulfilled = false;
+            }
+            if (fulfilled) {
+                deferredModules.splice(i--, 1);
+                result = __webpack_require__(__webpack_require__.s = deferredModule[0]);
+            }
+        }
+        return result;
+    }
+    var installedModules = {};
+    var installedChunks = {
+        0: 0
+    };
+    var deferredModules = [];
+    function __webpack_require__(moduleId) {
+        if (installedModules[moduleId]) {
+            return installedModules[moduleId].exports;
+        }
+        var module = installedModules[moduleId] = {
+            i: moduleId,
+            l: false,
+            exports: {}
+        };
+        modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
+        module.l = true;
+        return module.exports;
+    }
+    __webpack_require__.m = modules;
+    __webpack_require__.c = installedModules;
+    __webpack_require__.d = function(exports, name, getter) {
+        if (!__webpack_require__.o(exports, name)) {
+            Object.defineProperty(exports, name, {
+                enumerable: true,
+                get: getter
+            });
+        }
+    };
+    __webpack_require__.r = function(exports) {
+        if (typeof Symbol !== \\"undefined\\" && Symbol.toStringTag) {
+            Object.defineProperty(exports, Symbol.toStringTag, {
+                value: \\"Module\\"
+            });
+        }
+        Object.defineProperty(exports, \\"__esModule\\", {
+            value: true
+        });
+    };
+    __webpack_require__.t = function(value, mode) {
+        if (mode & 1) value = __webpack_require__(value);
+        if (mode & 8) return value;
+        if (mode & 4 && typeof value === \\"object\\" && value && value.__esModule) return value;
+        var ns = Object.create(null);
+        __webpack_require__.r(ns);
+        Object.defineProperty(ns, \\"default\\", {
+            enumerable: true,
+            value: value
+        });
+        if (mode & 2 && typeof value != \\"string\\") for (var key in value) __webpack_require__.d(ns, key, function(key) {
+            return value[key];
+        }.bind(null, key));
+        return ns;
+    };
+    __webpack_require__.n = function(module) {
+        var getter = module && module.__esModule ? function getDefault() {
+            return module[\\"default\\"];
+        } : function getModuleExports() {
+            return module;
+        };
+        __webpack_require__.d(getter, \\"a\\", getter);
+        return getter;
+    };
+    __webpack_require__.o = function(object, property) {
+        return Object.prototype.hasOwnProperty.call(object, property);
+    };
+    __webpack_require__.p = \\"/\\";
+    var jsonpArray = wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || [];
+    var oldJsonpFunction = jsonpArray.push.bind(jsonpArray);
+    jsonpArray.push = webpackJsonpCallback;
+    jsonpArray = jsonpArray.slice();
+    for (var i = 0; i < jsonpArray.length; i++) webpackJsonpCallback(jsonpArray[i]);
+    var parentJsonpFunction = oldJsonpFunction;
+    checkDeferredModules();
+})([]);
 
-
-/** filePath: dist/taro.js **/
+/** filePath: dist\\\\taro.js **/
 (wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 1 ], {
     0: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
@@ -10247,7 +10589,7 @@ require(\\"./taro\\");
     }
 } ]);
 
-/** filePath: dist/utils.wxs **/
+/** filePath: dist\\\\utils.wxs **/
 module.exports = {
   a: function (l, n, s) {
     var a = [\\"view\\",\\"catch-view\\",\\"cover-view\\",\\"static-view\\",\\"pure-view\\",\\"block\\",\\"text\\",\\"static-text\\",\\"slot\\",\\"slot-view\\",\\"label\\",\\"form\\",\\"scroll-view\\",\\"swiper\\",\\"swiper-item\\"]
@@ -10288,7 +10630,7 @@ module.exports = {
   }
 }
 
-/** filePath: dist/vendors.js **/
+/** filePath: dist\\\\vendors.js **/
 (wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 3 ], [ , , , function(module, __webpack_exports__, __webpack_require__) {
     \\"use strict\\";
     __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
