@@ -19,5 +19,5 @@ export function pxTransform (size: number): number {
   }
   const formatSize = ~~size
   const rateSize = formatSize * deviceRatio[designWidth]
-  return rateSize * deviceWidthDp / uiWidthPx / 2
+  return rateSize * deviceWidthDp / (uiWidthPx * 2)
 }
