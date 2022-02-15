@@ -126,6 +126,11 @@ export class PullToRefresh implements ComponentInterface {
 
   init = () => {
     const ele = this.scrollContainer
+    const child = this.el.childNodes[this.el.childNodes.length - 1].childNodes[0]
+    this.el.appendChild = child.appendChild.bind(child)
+    this.el.insertBefore = child.insertBefore.bind(child)
+    this.el.replaceChild = child.replaceChild.bind(child)
+    this.el.removeChild = child.removeChild.bind(child)
     this._to = {
       touchstart: this.onTouchStart.bind(this, ele),
       touchmove: this.onTouchMove.bind(this, ele),
@@ -243,7 +248,7 @@ export class PullToRefresh implements ComponentInterface {
   }
 
   setContentStyle = (ty: number) => {
-    // todos: Why sometimes do not have `this.contentRef` ?
+    // TODO: Why sometimes do not have `this.contentRef` ?
     if (this.contentRef) {
       // translate3d 不清理 会影响内部元素 定位
       if (ty) {
