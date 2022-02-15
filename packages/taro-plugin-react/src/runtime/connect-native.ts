@@ -109,7 +109,7 @@ function initNativeComponentEntry (R: typeof React, ReactDOM) {
     }
   }
 
-  setReconciler()
+  setReconciler(ReactDOM)
 
   const app = document.getElementById('app')
 
@@ -124,7 +124,7 @@ export function createNativeComponentConfig (Component, react: typeof React, rea
   h = react.createElement
   ReactDOM = reactdom
 
-  setReconciler()
+  setReconciler(ReactDOM)
 
   const componentObj = {
     options: componentConfig,
