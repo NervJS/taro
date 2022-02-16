@@ -1,6 +1,19 @@
 import Taro from '../../index'
 
 declare module '../../index' {
+  namespace saveFileToDisk {
+    interface Option {
+      /** 待保存文件路径 */
+      filePath: string
+      /** 接口调用结束的回调函数（调用成功、失败都会执行） */
+      complete?: (res: TaroGeneral.CallbackResult) => void
+      /** 接口调用失败的回调函数 */
+      fail?: (result: TaroGeneral.CallbackResult) => void
+      /** 接口调用成功的回调函数 */
+      success?: (result: TaroGeneral.CallbackResult) => void
+    }
+  }
+
   namespace saveFile {
     interface Option {
       /** 临时存储文件路径 */
@@ -63,12 +76,12 @@ declare module '../../index' {
       /** 接口调用失败的回调函数 */
       fail?: (res: TaroGeneral.CallbackResult) => void
       /** 文件类型，指定文件类型打开文件 */
-      fileType?: keyof fileType
+      fileType?: keyof FileType
       /** 接口调用成功的回调函数 */
       success?: (res: TaroGeneral.CallbackResult) => void
     }
     /** 文件类型 */
-    interface fileType {
+    interface FileType {
       /** doc 格式 */
       doc
       /** docx 格式 */
@@ -166,22 +179,17 @@ declare module '../../index' {
     }
   }
 
-  /** 文件管理器 */
+  /** 文件管理器，可通过 [Taro.getFileSystemManager](./getFileSystemManager) 获取。
+   * @supported weapp
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.html
+   */
   interface FileSystemManager {
-    /** FileSystemManager.readdir 的同步版本
-     * @supported weapp
-     * @see https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.readdirSync.html
-     */
-    readdirSync(
-      /** 要读取的目录路径 */
-      dirPath: string,
-    ): string[]
     /** 判断文件/目录是否存在
      * @supported weapp
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.access.html
      */
     access(option: FileSystemManager.AccessOption): void
-    /** FileSystemManager.access 的同步版本
+    /** [FileSystemManager.access](#access) 的同步版本
      * @supported weapp
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.accessSync.html
      */
@@ -194,7 +202,7 @@ declare module '../../index' {
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.appendFile.html
      */
     appendFile(option: FileSystemManager.AppendFileOption): void
-    /** FileSystemManager.appendFile 的同步版本
+    /** [FileSystemManager.appendFile](#appendfile) 的同步版本
      * @supported weapp
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.appendFileSync.html
      */
@@ -204,14 +212,24 @@ declare module '../../index' {
       /** 要追加的文本或二进制数据 */
       data: string | ArrayBuffer,
       /** 指定写入文件的字符编码 */
-      encoding?: keyof FileSystemManager.encoding,
+      encoding?: keyof FileSystemManager.Encoding,
     ): void
+    /** 关闭文件
+     * @supported weapp
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.close.html
+     */
+    close(option: FileSystemManager.CloseOption): void
+    /** [FileSystemManager.close](#close) 的同步版本
+     * @supported weapp
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.closeSync.html
+     */
+    closeSync(option: FileSystemManager.CloseSyncOption): void
     /** 复制文件
      * @supported weapp
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.copyFile.html
      */
     copyFile(option: FileSystemManager.CopyFileOption): void
-    /** FileSystemManager.copyFile 的同步版本
+    /** [FileSystemManager.copyFile](#copyfile) 的同步版本
      * @supported weapp
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.copyFileSync.html
      */
@@ -221,7 +239,27 @@ declare module '../../index' {
       /** 目标文件路径 */
       destPath: string,
     ): void
-    /** 获取该小程序下的 本地临时文件 或 本地缓存文件 信息
+    /** 获取文件的状态信息
+     * @supported weapp
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.fstat.html
+     */
+    fstat(option: FileSystemManager.FstatOption): void
+    /** [FileSystemManager.fstat](#fstat) 的同步版本
+     * @supported weapp
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.fstatSync.html
+     */
+    fstatSync(option: FileSystemManager.FstatSyncOption): Stats
+    /** 对文件内容进行截断操作
+     * @supported weapp
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.ftruncate.html
+     */
+    ftruncate(option: FileSystemManager.FtruncateOption): void
+    /** [FileSystemManager.ftruncate](#ftruncate) 的同步版本
+     * @supported weapp
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.ftruncateSync.html
+     */
+    ftruncateSync(option: FileSystemManager.FtruncateSyncOption): void
+    /** 获取该小程序下的 `本地临时文件` 或 `本地缓存文件` 信息
      * @supported weapp
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.getFileInfo.html
      */
@@ -236,7 +274,7 @@ declare module '../../index' {
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.mkdir.html
      */
     mkdir(option: FileSystemManager.MkdirOption): void
-    /** FileSystemManager.mkdir 的同步版本
+    /** [FileSystemManager.mkdir](#mkdir) 的同步版本
      * @supported weapp
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.mkdirSync.html
      */
@@ -246,16 +284,80 @@ declare module '../../index' {
       /** 是否在递归创建该目录的上级目录后再创建该目录。如果对应的上级目录已经存在，则不创建该上级目录。如 dirPath 为 a/b/c/d 且 recursive 为 true，将创建 a 目录，再在 a 目录下创建 b 目录，以此类推直至创建 a/b/c 目录下的 d 目录。 */
       recursive?: boolean,
     ): void
-    /** 读取本地文件内容
+    /**打开文件，返回文件描述符
      * @supported weapp
-     * @see https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.readFile.html
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.open.html
      */
-    readFile(option: FileSystemManager.ReadFileOption): void
+    open(option: FileSystemManager.OpenOption): void
+    /** [FileSystemManager.openSync](#opensync) 的同步版本
+     * @supported weapp
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.ftruncateSync.html
+     */
+    openSync(option: FileSystemManager.OpenSyncOption): string /** 文件描述符 */
+    /** 读文件
+     * @supported weapp
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.read.html
+     */
+    read(option: FileSystemManager.ReadOption): void
+    /** 读取指定压缩类型的本地文件内容
+     * @supported weapp
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.readCompressedFile.html
+     */
+    readCompressedFile(option: FileSystemManager.readCompressedFile.Option): Promise<FileSystemManager.readCompressedFile.Promised>
+    /** 同步读取指定压缩类型的本地文件内容
+     * @supported weapp
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.readCompressedFileSync.html
+     */
+    readCompressedFileSync(option: FileSystemManager.readCompressedFileSync.Option): ArrayBuffer /** 文件读取结果 */
     /** 读取目录内文件列表
      * @supported weapp
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.readdir.html
      */
     readdir(option: FileSystemManager.ReaddirOption): void
+    /** [FileSystemManager.readdir](#readdir) 的同步版本
+     * @supported weapp
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.readdirSync.html
+     */
+    readdirSync(
+      /** 要读取的目录路径 */
+      dirPath: string,
+    ): string[]
+    /** 读取本地文件内容
+     * @supported weapp
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.readFile.html
+     */
+    readFile(option: FileSystemManager.ReadFileOption): void
+    /** [FileSystemManager.readFile](#readfile) 的同步版本
+     * @supported weapp
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.readFileSync.html
+     */
+    readFileSync(
+      /** 要读取的文件的路径 */
+      filePath: string,
+      /** 指定读取文件的字符编码，如果不传 encoding，则以 ArrayBuffer 格式读取文件的二进制内容 */
+      encoding?: keyof FileSystemManager.Encoding,
+      /**从文件指定位置开始读，如果不指定，则从文件头开始读。读取的范围应该是左闭右开区间 [position, position+length)。有效范围：[0, fileLength - 1]。单位：byte */
+      position?: number,
+      /**指定文件的长度，如果不指定，则读到文件末尾。有效范围：[1, fileLength]。单位：byte */
+      length?: number,
+    ): string | ArrayBuffer
+    /** [FileSystemManager.read](#read) 的同步版本
+     * @supported weapp
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.readSync.html
+     */
+    readSync(
+      option: FileSystemManager.ReadSyncOption
+    ): {
+      /** 实际读取的字节数 */
+      bytesRead: number
+      /** 被写入的缓存区的对象，即接口入参的 arrayBuffer */
+      arrayBuffer: ArrayBuffer
+    }
+    /** 读取压缩包内的文件
+     * @supported weapp
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.readZipEntry.html
+     */
+    readZipEntry(option: FileSystemManager.readZipEntry.Option): Promise<FileSystemManager.readZipEntry.Promised>
     /** 删除该小程序下已保存的本地缓存文件
      * @supported weapp
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.removeSavedFile.html
@@ -266,7 +368,7 @@ declare module '../../index' {
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.rename.html
      */
     rename(option: FileSystemManager.RenameOption): void
-    /** FileSystemManager.rename 的同步版本
+    /** [FileSystemManager.rename](#rename) 的同步版本
      * @supported weapp
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.renameSync.html
      */
@@ -281,7 +383,7 @@ declare module '../../index' {
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.rmdir.html
      */
     rmdir(option: FileSystemManager.RmdirOption): void
-    /** FileSystemManager.rmdir 的同步版本
+    /** [FileSystemManager.rmdir](#rmdir) 的同步版本
      * @supported weapp
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.rmdirSync.html
      */
@@ -296,17 +398,47 @@ declare module '../../index' {
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.saveFile.html
      */
     saveFile(option: FileSystemManager.SaveFileOption): void
+    /** [FileSystemManager.saveFile](#savefile) 的同步版本
+     * @supported weapp
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.saveFileSync.html
+     */
+    saveFileSync(
+      /** 临时存储文件路径 */
+      tempFilePath: string,
+      /** 要存储的文件路径 */
+      filePath?: string,
+    ): string
     /** 获取文件 Stats 对象
      * @supported weapp
      * https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.stat.html
      */
     stat(option: FileSystemManager.StatOption): void
+    /** [FileSystemManager.stat](#stat) 的同步版本
+     * @supported weapp
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.statSync.html
+     */
+    statSync(
+      /** 文件/目录路径 */
+      path: string,
+      /** 是否递归获取目录下的每个文件的 Stats 信息 */
+      recursive?: boolean,
+    ): Stats | TaroGeneral.IAnyObject
+    /** 对文件内容进行截断操作
+     * @supported weapp
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.truncate.html
+     */
+    truncate(option: FileSystemManager.TruncateOption): void
+    /** 对文件内容进行截断操作 ([truncate](#truncate) 的同步版本)
+     * @supported weapp
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.truncateSync.html
+     */
+    truncateSync(option: FileSystemManager.TruncateSyncOption): void
     /** 删除文件
      * @supported weapp
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.unlink.html
      */
     unlink(option: FileSystemManager.UnlinkOption): void
-    /** FileSystemManager.unlink 的同步版本
+    /** [FileSystemManager.unlink](#unlink) 的同步版本
      * @supported weapp
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.unlinkSync.html
      */
@@ -319,12 +451,17 @@ declare module '../../index' {
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.unzip.html
      */
     unzip(option: FileSystemManager.UnzipOption): void
+    /** 写入文件
+     * @supported weapp
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.write.html
+     */
+    write(option: FileSystemManager.WriteOption): void
     /** 写文件
      * @supported weapp
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.writeFile.html
      */
     writeFile(option: FileSystemManager.WriteFileOption): void
-    /** FileSystemManager.writeFile 的同步版本
+    /** [FileSystemManager.writeFile](#writefile) 的同步版本
      * @supported weapp
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.writeFileSync.html
      */
@@ -334,115 +471,9 @@ declare module '../../index' {
       /** 要写入的文本或二进制数据 */
       data: string | ArrayBuffer,
       /** 指定写入文件的字符编码 */
-      encoding?: keyof FileSystemManager.encoding,
+      encoding?: keyof FileSystemManager.Encoding,
     ): void
-    /** FileSystemManager.stat 的同步版本
-     * @supported weapp
-     * @see https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.statSync.html
-     */
-    statSync(
-      /** 文件/目录路径 */
-      path: string,
-      /** 是否递归获取目录下的每个文件的 Stats 信息 */
-      recursive?: boolean,
-    ): Stats | TaroGeneral.IAnyObject
-    /** FileSystemManager.saveFile 的同步版本
-     * @supported weapp
-     * @see https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.saveFileSync.html
-     */
-    saveFileSync(
-      /** 临时存储文件路径 */
-      tempFilePath: string,
-      /** 要存储的文件路径 */
-      filePath?: string,
-    ): string
-    /** FileSystemManager.readFile 的同步版本
-     * @supported weapp
-     * @see https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.readFileSync.html
-     */
-    readFileSync(
-      /** 要读取的文件的路径 */
-      filePath: string,
-      /** 指定读取文件的字符编码，如果不传 encoding，则以 ArrayBuffer 格式读取文件的二进制内容 */
-      encoding?: keyof FileSystemManager.encoding,
-      /**从文件指定位置开始读，如果不指定，则从文件头开始读。读取的范围应该是左闭右开区间 [position, position+length)。有效范围：[0, fileLength - 1]。单位：byte */
-      position?: number,
-      /**指定文件的长度，如果不指定，则读到文件末尾。有效范围：[1, fileLength]。单位：byte */
-      length?: number,
-    ): string | ArrayBuffer
-    /** 获取文件的状态信息
-     * @supported weapp
-     * @see https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.fstat.html
-     */
-    fstat(option: FileSystemManager.FstatOption): void
-    /** FileSystemManager.fstat 的同步版本
-     * @supported weapp
-     * @see https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.fstatSync.html
-     */
-    fstatSync(option: FileSystemManager.FstatSyncOption): Stats
-    /**关闭文件
-     * @supported weapp
-     * @see https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.close.html
-     */
-    close(option: FileSystemManager.CloseOption): void
-    /**FileSystemManager.close 的同步版本
-     * @supported weapp
-     * @see https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.closeSync.html
-     */
-    closeSync(option: FileSystemManager.CloseSyncOption): void
-    /**对文件内容进行截断操作
-     * @supported weapp
-     * @see https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.ftruncate.html
-     */
-    ftruncate(option: FileSystemManager.FtruncateOption): void
-    /**FileSystemManager.ftruncate 的同步版本
-     * @supported weapp
-     * @see https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.ftruncateSync.html
-     */
-    ftruncateSync(option: FileSystemManager.FtruncateSyncOption): void
-    /**打开文件，返回文件描述符
-     * @supported weapp
-     * @see https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.open.html
-     */
-    open(option: FileSystemManager.OpenOption): void
-    /**FileSystemManager.ftruncate 的同步版本
-     * @supported weapp
-     * @see https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.ftruncateSync.html
-     */
-    openSync(option: FileSystemManager.OpenSyncOption): string /** 文件描述符 */
-    /** 读文件
-     * @supported weapp
-     * @see https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.read.html
-     */
-    read(option: FileSystemManager.ReadOption): void
-    /** FileSystemManager.read 的同步版本
-     * @supported weapp
-     * @see https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.readSync.html
-     */
-    readSync(
-      option: FileSystemManager.ReadSyncOption
-    ): {
-      /** 实际读取的字节数 */
-      bytesRead: number
-      /** 被写入的缓存区的对象，即接口入参的 arrayBuffer */
-      arrayBuffer: ArrayBuffer
-    }
-    /** 对文件内容进行截断操作
-     * @supported weapp
-     * @see https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.truncate.html
-     */
-    truncate(option: FileSystemManager.TruncateOption): void
-    /** truncate 的同步版本
-     * @supported weapp
-     * @see https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.truncateSync.html
-     */
-    truncateSync(option: FileSystemManager.TruncateSyncOption): void
-    /** 写入文件
-     * @supported weapp
-     * @see https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.write.html
-     */
-    write(option: FileSystemManager.WriteOption): void
-    /** write 的同步版本
+    /** [write](#write) 的同步版本
      * @supported weapp
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.writeSync.html
      */
@@ -456,7 +487,7 @@ declare module '../../index' {
 
   namespace FileSystemManager {
     /** 字符编码 */
-    interface encoding {
+    interface Encoding {
       ascii
       base64
       binary
@@ -475,17 +506,17 @@ declare module '../../index' {
     }
     /** 文件系统标志 */
     interface flag {
-      a /**打开文件用于追加。 如果文件不存在，则创建该文件	*/
-      ax /**类似于 'a'，但如果路径存在，则失败	*/
-      'a+' /**打开文件用于读取和追加。 如果文件不存在，则创建该文件	*/
-      'ax+' /**类似于 'a+'，但如果路径存在，则失败	*/
-      as /**打开文件用于追加（在同步模式中）。 如果文件不存在，则创建该文件	*/
-      'as+' /**打开文件用于读取和追加（在同步模式中）。 如果文件不存在，则创建该文件	*/
-      r /**打开文件用于读取。 如果文件不存在，则会发生异常	*/
-      'r+' /**打开文件用于读取和写入。 如果文件不存在，则会发生异常	*/
-      w /**打开文件用于写入。 如果文件不存在则创建文件，如果文件存在则截断文件	*/
-      wx /**类似于 'w'，但如果路径存在，则失败	*/
-      'w+' /**打开文件用于读取和写入。 如果文件不存在则创建文件，如果文件存在则截断文件	*/
+      a /**打开文件用于追加。 如果文件不存在，则创建该文件 */
+      ax /**类似于 'a'，但如果路径存在，则失败 */
+      'a+' /**打开文件用于读取和追加。 如果文件不存在，则创建该文件 */
+      'ax+' /**类似于 'a+'，但如果路径存在，则失败 */
+      as /**打开文件用于追加（在同步模式中）。 如果文件不存在，则创建该文件 */
+      'as+' /**打开文件用于读取和追加（在同步模式中）。 如果文件不存在，则创建该文件 */
+      r /**打开文件用于读取。 如果文件不存在，则会发生异常 */
+      'r+' /**打开文件用于读取和写入。 如果文件不存在，则会发生异常 */
+      w /**打开文件用于写入。 如果文件不存在则创建文件，如果文件存在则截断文件 */
+      wx /**类似于 'w'，但如果路径存在，则失败 */
+      'w+' /**打开文件用于读取和写入。 如果文件不存在则创建文件，如果文件存在则截断文件 */
       'wx+' /**类似于 'w+'，但如果路径存在，则失败*/
     }
     interface AccessOption {
@@ -515,7 +546,7 @@ declare module '../../index' {
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
       complete?: (res: TaroGeneral.CallbackResult) => void
       /** 指定写入文件的字符编码 */
-      encoding?: keyof FileSystemManager.encoding
+      encoding?: keyof FileSystemManager.Encoding
       /** 接口调用失败的回调函数 */
       fail?: (result: AppendFileFailCallbackResult) => void
       /** 接口调用成功的回调函数 */
@@ -639,7 +670,7 @@ declare module '../../index' {
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
       complete?: (res: TaroGeneral.CallbackResult) => void
       /** 指定读取文件的字符编码，如果不传 encoding，则以 ArrayBuffer 格式读取文件的二进制内容 */
-      encoding?: keyof FileSystemManager.encoding
+      encoding?: keyof FileSystemManager.Encoding
       /** 接口调用失败的回调函数 */
       fail?: (result: ReadFileFailCallbackResult) => void
       /** 接口调用成功的回调函数 */
@@ -685,6 +716,74 @@ declare module '../../index' {
       files: string[]
       /** 调用结果 */
       errMsg: string
+    }
+
+    namespace readZipEntry {
+      type Promised = FailCallbackResult | SuccessCallbackResult
+      interface Option {
+        /** 要读取的压缩包的路径 (本地路径) */
+        filePath: string
+        /** 统一指定读取文件的字符编码，只在 entries 值为"all"时有效。如果 entries 值为"all"且不传 encoding，则以 ArrayBuffer 格式读取文件的二进制内容 */
+        encoding?: keyof Encoding | string
+        /** 要读取的压缩包内的文件列表（当传入"all" 时表示读取压缩包内所有文件） */
+        entries: File[] | 'all'
+        /** 接口调用结束的回调函数（调用成功、失败都会执行） */
+        complete?: (res: TaroGeneral.CallbackResult) => void
+        /** 接口调用失败的回调函数 */
+        fail?: (result: FailCallbackResult) => void
+        /** 接口调用成功的回调函数 */
+        success?: (res: SuccessCallbackResult) => void
+      }
+      interface File {
+        /** 压缩包内文件路径 */
+        path: string
+        /** 指定读取文件的字符编码，如果不传 encoding，则以 ArrayBuffer 格式读取文件的二进制内容 */
+        encoding?: keyof Encoding | string
+        /** 从文件指定位置开始读，如果不指定，则从文件头开始读。读取的范围应该是左闭右开区间 [position, position+length)。有效范围：[0, fileLength - 1]。单位：byte */
+        position?: number
+        /** 指定文件的长度，如果不指定，则读到文件末尾。有效范围：[1, fileLength]。单位：byte */
+        length?: number
+      }
+      /** 字符编码合法值 */
+      interface Encoding {
+        ascii
+        base64
+        binary
+        hex
+        /** @illustrate 以小端序读取 */
+        ucs2
+        /** @illustrate 以小端序读取 */
+        'ucs-2'
+        /** @illustrate 以小端序读取 */
+        utf16le
+        /** @illustrate 以小端序读取 */
+        'utf-16le'
+        'utf-8'
+        utf8
+        latin1
+      }
+      interface FailCallbackResult extends TaroGeneral.CallbackResult {
+        /** 错误信息
+         *
+         * 可选值：
+         * - 'fail no such file or directory, open ${filePath}': 指定的 filePath 所在目录不存在
+         * - 'fail permission denied, open ${dirPath}': 指定的 filePath 路径没有读权限
+         * - 'fail sdcard not mounted': Android sdcard 挂载失败
+         *  */
+        errMsg: string
+      }
+      interface SuccessCallbackResult extends TaroGeneral.CallbackResult {
+        /** 文件读取结果。res.entries 是一个对象，key是文件路径，value是一个对象 FileItem ，表示该文件的读取结果。每个 FileItem 包含 data （文件内容） 和 errMsg （错误信息） 属性。 */
+        entries: {
+          [path: string]: FileItem
+        }
+      }
+      interface FileItem extends TaroGeneral.CallbackResult {
+        /** 文件内容 */
+        data: string | ArrayBuffer
+        /** 错误信息 */
+        errMsg: string
+      }
     }
 
     interface RemoveSavedFileOption {
@@ -799,7 +898,7 @@ declare module '../../index' {
       errMsg: string
     }
     interface StatSuccessCallbackResult extends TaroGeneral.CallbackResult {
-      /** [Stats](https://developers.weixin.qq.com/miniprogram/dev/api/file/Stats.html)|Object
+      /** [Stats](/docs/apis/files/Stats) | Object
        *
        * 当 recursive 为 false 时，res.stats 是一个 Stats 对象。当 recursive 为 true 且 path 是一个目录的路径时，res.stats 是一个 Object，key 以 path 为根路径的相对路径，value 是该路径对应的 Stats 对象。 */
       stats: Stats | TaroGeneral.IAnyObject
@@ -857,7 +956,7 @@ declare module '../../index' {
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
       complete?: (res: TaroGeneral.CallbackResult) => void
       /** 指定写入文件的字符编码 */
-      encoding?: keyof FileSystemManager.encoding
+      encoding?: keyof FileSystemManager.Encoding
       /** 接口调用失败的回调函数 */
       fail?: (result: WriteFileFailCallbackResult) => void
       /** 接口调用成功的回调函数 */
@@ -887,8 +986,8 @@ declare module '../../index' {
       /** 错误信息
        *
        * 可选值：
-       * - 'bad file descriptor':	无效的文件描述符;
-       * - 'fail permission denied':	指定的 fd 路径没有读权限; */
+       * - 'bad file descriptor': 无效的文件描述符;
+       * - 'fail permission denied': 指定的 fd 路径没有读权限; */
       errMsg: string
     }
     interface FstatSuccessCallbackResult extends TaroGeneral.CallbackResult {
@@ -915,7 +1014,7 @@ declare module '../../index' {
       /** 错误信息
        *
        * 可选值：
-       * - 'bad file descriptor':	无效的文件描述符 */
+       * - 'bad file descriptor': 无效的文件描述符 */
       errMsg: string
     }
     interface CloseSyncOption {
@@ -938,10 +1037,10 @@ declare module '../../index' {
       /** 错误信息
        *
        * 可选值：
-       * - 'bad file descriptor':	无效的文件描述符
-       * - 'fail permission denied':	指定的 fd 没有写权限
-       * - 'fail the maximum size of the file storage limit is exceeded':	存储空间不足
-       * - 'fail sdcard not mounted	android sdcard': 挂载失败 */
+       * - 'bad file descriptor': 无效的文件描述符
+       * - 'fail permission denied': 指定的 fd 没有写权限
+       * - 'fail the maximum size of the file storage limit is exceeded': 存储空间不足
+       * - 'fail sdcard not mounted android sdcard': 挂载失败 */
       errMsg: string
     }
     interface FtruncateSyncOption {
@@ -967,7 +1066,7 @@ declare module '../../index' {
       /** 错误信息
        *
        * 可选值：
-       * - 'fail no such file or directory "${filePath}"':	上级目录不存在 */
+       * - 'fail no such file or directory "${filePath}"': 上级目录不存在 */
       errMsg: string
     }
     interface OpenSuccessCallbackResult extends TaroGeneral.CallbackResult {
@@ -1004,12 +1103,12 @@ declare module '../../index' {
       /** 错误信息
        *
        * 可选值：
-       * - 'bad file descriptor':	无效的文件描述符
-        - 'fail permission denied':	指定的 fd 路径没有读权限
-        - 'fail the value of "offset" is out of range':	传入的 offset 不合法
-        - 'fail the value of "length" is out of range':	传入的 length 不合法
-        - 'fail sdcard not mounted':	android sdcard 挂载失败
-        - 'bad file descriptor':	无效的文件描述符
+       * - 'bad file descriptor': 无效的文件描述符
+       * - 'fail permission denied': 指定的 fd 路径没有读权限
+       * - 'fail the value of "offset" is out of range': 传入的 offset 不合法
+       * - 'fail the value of "length" is out of range': 传入的 length 不合法
+       * - 'fail sdcard not mounted': android sdcard 挂载失败
+       * - 'bad file descriptor': 无效的文件描述符
        *  */
       errMsg: string
     }
@@ -1020,6 +1119,53 @@ declare module '../../index' {
       arrayBuffer: ArrayBuffer
       /** 调用结果 */
       errMsg: string
+    }
+    namespace readCompressedFile {
+      type Promised = FailCallbackResult | SuccessCallbackResult
+      interface Option {
+        /** 要读取的文件的路径 (本地用户文件或代码包文件) */
+        filePath: string
+        /** 文件压缩类型，目前仅支持 'br'。 */
+        compressionAlgorithm: keyof CompressionAlgorithm | string
+        /** 接口调用结束的回调函数（调用成功、失败都会执行） */
+        complete?: (res: TaroGeneral.CallbackResult) => void
+        /** 接口调用失败的回调函数 */
+        fail?: (result: FailCallbackResult) => void
+        /** 接口调用成功的回调函数 */
+        success?: (res: SuccessCallbackResult) => void
+      }
+      /** 文件压缩类型合法值 */
+      interface CompressionAlgorithm {
+        /** brotli压缩文件 */
+        br
+      }
+      interface FailCallbackResult extends TaroGeneral.CallbackResult {
+        /** 错误信息
+         *
+         * 可选值：
+         * - 'fail decompress fail': 指定的 compressionAlgorithm 与文件实际压缩格式不符
+         * - 'fail no such file or directory, open ${filePath}': 指定的 filePath 所在目录不存在
+         * - 'fail permission denied, open ${dirPath}': 指定的 filePath 路径没有读权限
+         *  */
+        errMsg: string
+      }
+      interface SuccessCallbackResult extends TaroGeneral.CallbackResult {
+        /** 文件内容 */
+        data: ArrayBuffer
+      }
+    }
+    namespace readCompressedFileSync {
+      interface Option {
+        /** 要读取的文件的路径 (本地用户文件或代码包文件) */
+        filePath: string
+        /** 文件压缩类型，目前仅支持 'br'。 */
+        compressionAlgorithm: keyof CompressionAlgorithm | string
+      }
+      /** 文件压缩类型合法值 */
+      interface CompressionAlgorithm {
+        /** brotli压缩文件 */
+        br
+      }
     }
     interface ReadSyncOption {
       /** 文件描述符。fd 通过 FileSystemManager.open 或 FileSystemManager.openSync 接口获得 */
@@ -1049,11 +1195,11 @@ declare module '../../index' {
       /** 错误信息
        *
        * 可选值：
-       * - 'fail no such file or directory, open ${filePath}':	指定的 filePath 所在目录不存在
-        - 'fail illegal operation on a directory, open "${filePath}"':	指定的 filePath 是一个已经存在的目录
-        - 'fail permission denied, open ${dirPath}':	指定的 filePath 路径没有写权限
-        - 'fail the maximum size of the file storage limit is exceeded':	存储空间不足
-        - 'fail sdcard not mounted':	android sdcard 挂载失败
+       * - 'fail no such file or directory, open ${filePath}': 指定的 filePath 所在目录不存在
+       * - 'fail illegal operation on a directory, open "${filePath}"': 指定的 filePath 是一个已经存在的目录
+       * - 'fail permission denied, open ${dirPath}': 指定的 filePath 路径没有写权限
+       * - 'fail the maximum size of the file storage limit is exceeded': 存储空间不足
+       * - 'fail sdcard not mounted': android sdcard 挂载失败
        *  */
       errMsg: string
     }
@@ -1073,7 +1219,7 @@ declare module '../../index' {
       /** 只在 data 类型是 ArrayBuffer 时有效，指定要写入的字节数，默认为 arrayBuffer 从0开始偏移 offset 个字节后剩余的字节数 */
       length?: number
       /** 只在 data 类型是 String 时有效，指定写入文件的字符编码，默认为 utf8 */
-      encoding?: keyof FileSystemManager.encoding
+      encoding?: keyof FileSystemManager.Encoding
       /** 指定文件开头的偏移量，即数据要被写入的位置。当 position 不传或者传入非 Number 类型的值时，数据会被写入当前指针所在位置。 */
       position?: number
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
@@ -1087,9 +1233,9 @@ declare module '../../index' {
       /** 错误信息
        *
        * 可选值：
-       * 'bad file descriptor':	无效的文件描述符
-       * 'fail permission denied':	指定的 fd 路径没有写权限
-       * 'fail sdcard not mounted':	android sdcard 挂载失败
+       * 'bad file descriptor': 无效的文件描述符
+       * 'fail permission denied': 指定的 fd 路径没有写权限
+       * 'fail sdcard not mounted': android sdcard 挂载失败
        *  */
       errMsg: string
     }
@@ -1109,22 +1255,36 @@ declare module '../../index' {
       /** 只在 data 类型是 ArrayBuffer 时有效，指定要写入的字节数，默认为 arrayBuffer 从0开始偏移 offset 个字节后剩余的字节数 */
       length?: number
       /** 只在 data 类型是 String 时有效，指定写入文件的字符编码，默认为 utf8 */
-      encoding?: keyof FileSystemManager.encoding
+      encoding?: keyof FileSystemManager.Encoding
       /** 指定文件开头的偏移量，即数据要被写入的位置。当 position 不传或者传入非 Number 类型的值时，数据会被写入当前指针所在位置。 */
       position?: number
     }
   }
 
-  /** 描述文件状态的对象 */
+  /** 文件读取结果。 通过 [FileSystemManager.readSync](./FileSystemManager#readsync) 接口返回
+   * @supported weapp
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/file/ReadResult.html
+   */
+  interface ReadResult {
+    /** 实际读取的字节数 */
+    bytesRead: number
+    /** 被写入的缓存区的对象，即接口入参的 arrayBuffer */
+    arrayBuffer: ArrayBuffer
+  }
+
+  /** 描述文件状态的对象
+   * @supported weapp
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/file/Stats.html
+   */
   interface Stats {
-    /** 文件最近一次被存取或被执行的时间，UNIX 时间戳，对应 POSIX stat.st_atime */
-    lastAccessedTime: number
-    /** 文件最后一次被修改的时间，UNIX 时间戳，对应 POSIX stat.st_mtime */
-    lastModifiedTime: number
     /** 文件的类型和存取的权限，对应 POSIX stat.st_mode */
     mode: string
     /** 文件大小，单位：B，对应 POSIX stat.st_size */
     size: number
+    /** 文件最近一次被存取或被执行的时间，UNIX 时间戳，对应 POSIX stat.st_atime */
+    lastAccessedTime: number
+    /** 文件最后一次被修改的时间，UNIX 时间戳，对应 POSIX stat.st_mtime */
+    lastModifiedTime: number
     /** 判断当前文件是否一个目录
      * @supported weapp
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/file/Stats.isDirectory.html
@@ -1137,9 +1297,36 @@ declare module '../../index' {
     isFile(): boolean
   }
 
+  /** 文件写入结果。 通过 [FileSystemManager.writeSync](./FileSystemManager#writesync) 接口返回
+   * @supported weapp
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/file/WriteResult.html
+   */
+  interface WriteResult {
+    /** 实际被写入到文件中的字节数（注意，被写入的字节数不一定与被写入的字符串字符数相同） */
+    bytesWritten: number
+  }
+
   interface TaroStatic {
-    /** 保存文件到本地。**注意：saveFile 会把临时文件移动，因此调用成功后传入的 tempFilePath 将不可用**
+    /** 保存文件系统的文件到用户磁盘，仅在 PC 端支持
      * @supported weapp
+     * @example
+     * ```tsx
+     * Taro.saveFileToDisk({
+     *   filePath: `${Taro.env.USER_DATA_PATH}/hello.txt`,
+     *   success(res) {
+     *     console.log(res)
+     *   },
+     *   fail(res) {
+     *     console.error(res)
+     *   }
+     * })
+     * ```
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/file/wx.saveFileToDisk.html
+     */
+    saveFileToDisk(option: saveFileToDisk.Option): Promise<TaroGeneral.CallbackResult>
+
+    /** 保存文件到本地。**注意：saveFile 会把临时文件移动，因此调用成功后传入的 tempFilePath 将不可用**
+     * @supported weapp, rn
      * @example
      * ```tsx
      * Taro.chooseImage({
@@ -1159,7 +1346,7 @@ declare module '../../index' {
     saveFile(option: saveFile.Option): Promise<saveFile.SuccessCallbackResult | saveFile.FailCallbackResult>
 
     /** 删除该小程序下已保存的本地缓存文件
-     * @supported weapp
+     * @supported weapp, rn
      * @example
      * ```tsx
      * Taro.getSavedFileList({
@@ -1184,7 +1371,7 @@ declare module '../../index' {
      * @example
      ```tsx
      * Taro.downloadFile({
-     *   url: 'http://example.com/somefile.pdf',
+     *   url: 'https://example.com/somefile.pdf',
      *   success: function (res) {
      *     var filePath = res.tempFilePath
      *     Taro.openDocument({
@@ -1201,7 +1388,7 @@ declare module '../../index' {
     openDocument(option: openDocument.Option): Promise<TaroGeneral.CallbackResult>
 
     /** 获取本地已保存的文件列表
-     * @supported weapp
+     * @supported weapp, rn
      * @example
      * ```tsx
      * Taro.getSavedFileList({
@@ -1214,8 +1401,8 @@ declare module '../../index' {
      */
     getSavedFileList(option?: getSavedFileList.Option): Promise<getSavedFileList.SuccessCallbackResult>
 
-    /** 获取本地文件的文件信息。此接口只能用于获取已保存到本地的文件，若需要获取临时文件信息，请使用 [Taro.getFileInfo](https://developers.weixin.qq.com/miniprogram/dev/api/file/wx.getFileInfo.html) 接口。
-     * @supported weapp
+    /** 获取本地文件的文件信息。此接口只能用于获取已保存到本地的文件，若需要获取临时文件信息，请使用 [Taro.getFileInfo](/docs/apis/files/getFileInfo) 接口。
+     * @supported weapp, rn
      * @example
      * ```tsx
      * Taro.getSavedFileInfo({
@@ -1232,7 +1419,7 @@ declare module '../../index' {
 
     /**
      * 获取该小程序下的 本地临时文件 或 本地缓存文件 信息
-     * @supported weapp
+     * @supported weapp, rn
      * @example
      * ```tsx
      * Taro.getFileInfo({

@@ -94,7 +94,7 @@ export interface ModifyRmAttrPayload {
   (element: TaroElement, key: string, payload: UpdatePayload): void
 }
 
-export interface OnAddEvent<T extends TaroEventTarget = TaroEventTarget> {
+export interface OnAddEvent<T extends TaroEventTarget = any> {
   (type: string, handler: EventHandler, options: any, node: T): void
 }
 
