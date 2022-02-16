@@ -75,6 +75,9 @@ export default (ctx, options) => {
   ctx.onBuildFinish(() => {
     console.log('compile end')
   })
+  ctx.onBuildComplete(() => {
+    console.log('Taro build complete')
+  })
 }
 ```
 
@@ -133,14 +136,15 @@ After configuring this plugin to the medium project, you can upload the compiled
 
 You can also extend the code build process through plugins.
 
-As mentioned earlier, there are `onBuildStart` and `onBuildFinish` hooks for the build process to indicate the start and finish of the build respectively, and there are more APIs to modify the build process as follows.
+As mentioned earlier, there are `onBuildStart`, `onBuildFinish` and `onBuildComplete` hooks for the build process to indicate the start, finish and complete of the build respectively, and there are more APIs to modify the build process as follows.
 
 
 - `ctx.onBuildStart(() => void)`, compile start, receive a callback function
 - `ctx.modifyWebpackChain(args: { chain: any }) => void)`, In this hook, you can make the desired adjustments to the webpackChain, which is equivalent to configuring [`webpackChain`](./config-detail.md#miniwebpackchain)
 - `ctx.modifyBuildAssets(args: { assets: any }) => void)`, Modify the compiled result
 - `ctx.modifyBuildTempFileContent(args: { tempFiles: any }) => void)`, Modify intermediate files during the compilation process, such as the configuration of an app or page
-- `ctx.onBuildFinish(() => void)`, the compilation ends and a callback function is received
+- `ctx.onBuildFinish(() => void)`, the compilation ends and a callback function is received. It is triggered after every Webpack compilation. So in watch mode, it will trigger this callback function on every detected file change, which implies there may be multiple calls to this callback function.
+- `ctx.onBuildComplete(() => void)`, build complete and a callback function is received. It is only triggered when the Taro build process is fully completed. So it differs from `onBuildFinish` in that it is triggered only once.
 
 #### Compiler Platform Expansion
 
