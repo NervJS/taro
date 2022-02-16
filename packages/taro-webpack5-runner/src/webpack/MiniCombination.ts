@@ -96,6 +96,7 @@ export class MiniCombination extends Combination<MiniBuildConfig> {
     const webpackOutput = this.getOutput({
       publicPath: '/',
       globalObject,
+      isBuildPlugin,
       output
     })
     const webpackPlugin = new MiniWebpackPlugin(this)
@@ -119,13 +120,14 @@ export class MiniCombination extends Combination<MiniBuildConfig> {
     return this.isBuildPlugin ? this.buildNativePlugin.entry : entry
   }
 
-  getOutput ({ publicPath, globalObject, output }) {
+  getOutput ({ publicPath, globalObject, isBuildPlugin, output }) {
     return {
       path: this.outputDir,
       publicPath,
       filename: '[name].js',
       chunkFilename: '[name].js',
       globalObject,
+      enabledLibraryTypes: isBuildPlugin ? ['commonjs'] : [],
       ...output
     }
   }

@@ -13,7 +13,7 @@ export class BuildNativePlugin {
   pluginConfig: Record<string, any>
   pluginMainEntry: string
   chunkPrefix: string
-  commonChunks: ['plugin/runtime', 'plugin/vendors', 'plugin/taro', 'plugin/common']
+  commonChunks = ['plugin/runtime', 'plugin/vendors', 'plugin/taro', 'plugin/common']
 
   constructor (combination: MiniCombination) {
     this.combination = combination
@@ -22,7 +22,8 @@ export class BuildNativePlugin {
   }
 
   static getPlugin (combination: MiniCombination) {
-    return nativePlugin ?? new BuildNativePlugin(combination)
+    nativePlugin ||= new BuildNativePlugin(combination)
+    return nativePlugin
   }
 
   init () {

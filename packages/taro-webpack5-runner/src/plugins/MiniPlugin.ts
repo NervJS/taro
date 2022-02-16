@@ -207,7 +207,10 @@ export default class TaroMiniPlugin {
         this.compileIndependentPages(compiler, compilation, dependencies, promises)
         dependencies.forEach(dep => {
           promises.push(new Promise<null>((resolve, reject) => {
-            compilation.addEntry(this.options.sourceDir, dep, dep.name, err => err ? reject(err) : resolve(null))
+            compilation.addEntry(this.options.sourceDir, dep, {
+              name: dep.name,
+              ...dep.options
+            }, err => err ? reject(err) : resolve(null))
           }))
         })
         await Promise.all(promises)
@@ -367,7 +370,7 @@ export default class TaroMiniPlugin {
     const { pluginConfig, template } = this.options
     const normalFiles = new Set<IComponent>()
     Object.keys(this.appEntry).forEach(key => {
-      const filePath = this.appEntry[key][0]
+      const filePath = this.appEntry[key][0] || this.appEntry[key].import[0]
       if (key === this.options.pluginMainEntry) {
         this.addEntry(filePath, key, META_TYPE.EXPORTS)
       }
@@ -421,7 +424,11 @@ export default class TaroMiniPlugin {
     }
     this.addEntry(path.resolve(__dirname, '..', 'template/custom-wrapper'), this.getIsBuildPluginPath('custom-wrapper', true), META_TYPE.STATIC)
     normalFiles.forEach(item => {
-      this.addEntry(item.path, item.name, META_TYPE.NORMAL)
+      this.addEntry(item.path, item.name, META_TYPE.NORMAL, {
+        library: {
+          type: 'commonjs'
+        }
+      })
     })
     this.pages.forEach(item => {
       if (!this.isWatch) {
@@ -562,16 +569,18 @@ export default class TaroMiniPlugin {
   /**
    * 在 this.dependencies 中新增或修改模块
    */
-  addEntry (entryPath: string, entryName: string, entryType: META_TYPE) {
-    let dep
+  addEntry (entryPath: string, entryName: string, entryType: META_TYPE, options = {}) {
+    let dep: TaroSingleEntryDependency
     if (this.dependencies.has(entryPath)) {
-      dep = this.dependencies.get(entryPath)
+      dep = this.dependencies.get(entryPath)!
       dep.name = entryName
       dep.loc = { name: entryName }
-      dep.entryPath = entryPath
-      dep.entryType = entryType
+      dep.request = entryPath
+      dep.userRequest = entryPath
+      dep.miniType = entryType
+      dep.options = options
     } else {
-      dep = new TaroSingleEntryDependency(entryPath, entryName, { name: entryName }, entryType)
+      dep = new TaroSingleEntryDependency(entryPath, entryName, { name: entryName }, entryType, options)
     }
     this.dependencies.set(entryPath, dep)
   }
@@ -987,7 +996,7 @@ export default class TaroMiniPlugin {
         const pluginJSON = fs.readJSONSync(pluginJSONPath)
         this.modifyPluginJSON(pluginJSON)
         const relativePath = pluginJSONPath.replace(sourceDir, '').replace(/\\/g, '/')
-        compilation.assets[relativePath] = new RawSource(pluginJSON)
+        compilation.assets[relativePath] = new RawSource(JSON.stringify(pluginJSON))
       }
     }
     if (typeof modifyBuildAssets === 'function') {
