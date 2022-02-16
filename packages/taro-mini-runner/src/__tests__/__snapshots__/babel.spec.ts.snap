@@ -852,7 +852,9 @@ require(\\"./taro\\");
                                 key: compId,
                                 getCtx: getCtx,
                                 renderComponent: function renderComponent(ctx) {
-                                    return h(Component, Object.assign(Object.assign({}, (ctx.data || (ctx.data = {})).props), refs));
+                                    return h(Component, Object.assign(Object.assign(Object.assign({}, (ctx.data || (ctx.data = {})).props), refs), {
+                                        $scope: ctx
+                                    }));
                                 }
                             })
                         };
@@ -889,6 +891,7 @@ require(\\"./taro\\");
             ReactDOM.render(h(Entry, {}), app);
         }
         function createNativeComponentConfig(Component, react, reactdom, componentConfig) {
+            var _a, _b;
             runtime_R = react;
             h = react.createElement;
             runtime_ReactDOM = reactdom;
@@ -963,6 +966,24 @@ require(\\"./taro\\");
                         }
                     });
                 }
+            }
+            if (Component.onShareAppMessage || ((_a = Component.prototype) === null || _a === void 0 ? void 0 : _a.onShareAppMessage) || Component.enableShareAppMessage) {
+                componentObj.methods.onShareAppMessage = function(options) {
+                    var target = options === null || options === void 0 ? void 0 : options.target;
+                    if (target) {
+                        var id = target.id;
+                        var element = taro_runtime[\\"document\\"].getElementById(id);
+                        if (element) {
+                            target.dataset = element.dataset;
+                        }
+                    }
+                    return Object(taro_runtime[\\"safeExecute\\"])(this.compId, \\"onShareAppMessage\\", options);
+                };
+            }
+            if (Component.onShareTimeline || ((_b = Component.prototype) === null || _b === void 0 ? void 0 : _b.onShareTimeline) || Component.enableShareTimeline) {
+                componentObj.methods.onShareTimeline = function() {
+                    return Object(taro_runtime[\\"safeExecute\\"])(this.compId, \\"onShareTimeline\\");
+                };
             }
             return componentObj;
         }
