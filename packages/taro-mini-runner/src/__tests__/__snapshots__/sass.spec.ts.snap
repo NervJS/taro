@@ -465,7 +465,7 @@ require(\\"./taro\\");
         var ReactDOM$1;
         var pageKeyId = Object(taro_runtime[\\"incrementId\\"])();
         var hooks$1 = taro_runtime[\\"container\\"].get(taro_runtime[\\"SERVICE_IDENTIFIER\\"].Hooks);
-        function setReconciler() {
+        function setReconciler(ReactDOM) {
             var _a;
             hooks$1.getLifecycle = function(instance, lifecycle) {
                 lifecycle = lifecycle.replace(/^on(Show|Hide)$/, \\"componentDid$1\\");
@@ -475,7 +475,7 @@ require(\\"./taro\\");
                 event.type = event.type.replace(/-/g, \\"\\");
             }));
             hooks$1.batchedEventUpdates = function(cb) {
-                ReactDOM$1.unstable_batchedUpdates(cb);
+                ReactDOM.unstable_batchedUpdates(cb);
             };
             hooks$1.mergePageInstance = function(prev, next) {
                 if (!prev || !next) return;
@@ -555,7 +555,7 @@ require(\\"./taro\\");
             var appInstanceRef = react.createRef();
             var isReactComponent = isClassComponent(R$1, App);
             var appWrapper;
-            setReconciler();
+            setReconciler(ReactDOM$1);
             function getAppInstance() {
                 return appInstanceRef.current;
             }
@@ -884,7 +884,7 @@ require(\\"./taro\\");
                 } ]);
                 return Entry;
             }(R.Component);
-            setReconciler();
+            setReconciler(ReactDOM);
             var app = taro_runtime[\\"document\\"].getElementById(\\"app\\");
             ReactDOM.render(h(Entry, {}), app);
         }
@@ -892,7 +892,7 @@ require(\\"./taro\\");
             runtime_R = react;
             h = react.createElement;
             runtime_ReactDOM = reactdom;
-            setReconciler();
+            setReconciler(runtime_ReactDOM);
             var componentObj = {
                 options: componentConfig,
                 properties: {
@@ -2578,7 +2578,7 @@ require(\\"./taro\\");
         var ReactDOM$1;
         var pageKeyId = Object(taro_runtime[\\"incrementId\\"])();
         var hooks$1 = taro_runtime[\\"container\\"].get(taro_runtime[\\"SERVICE_IDENTIFIER\\"].Hooks);
-        function setReconciler() {
+        function setReconciler(ReactDOM) {
             var _a;
             hooks$1.getLifecycle = function(instance, lifecycle) {
                 lifecycle = lifecycle.replace(/^on(Show|Hide)$/, \\"componentDid$1\\");
@@ -2588,7 +2588,7 @@ require(\\"./taro\\");
                 event.type = event.type.replace(/-/g, \\"\\");
             }));
             hooks$1.batchedEventUpdates = function(cb) {
-                ReactDOM$1.unstable_batchedUpdates(cb);
+                ReactDOM.unstable_batchedUpdates(cb);
             };
             hooks$1.mergePageInstance = function(prev, next) {
                 if (!prev || !next) return;
@@ -2668,7 +2668,7 @@ require(\\"./taro\\");
             var appInstanceRef = react.createRef();
             var isReactComponent = isClassComponent(R$1, App);
             var appWrapper;
-            setReconciler();
+            setReconciler(ReactDOM$1);
             function getAppInstance() {
                 return appInstanceRef.current;
             }
@@ -2997,7 +2997,7 @@ require(\\"./taro\\");
                 } ]);
                 return Entry;
             }(R.Component);
-            setReconciler();
+            setReconciler(ReactDOM);
             var app = taro_runtime[\\"document\\"].getElementById(\\"app\\");
             ReactDOM.render(h(Entry, {}), app);
         }
@@ -3005,7 +3005,7 @@ require(\\"./taro\\");
             runtime_R = react;
             h = react.createElement;
             runtime_ReactDOM = reactdom;
-            setReconciler();
+            setReconciler(runtime_ReactDOM);
             var componentObj = {
                 options: componentConfig,
                 properties: {
@@ -4691,7 +4691,7 @@ require(\\"./taro\\");
         var ReactDOM$1;
         var pageKeyId = Object(taro_runtime[\\"incrementId\\"])();
         var hooks$1 = taro_runtime[\\"container\\"].get(taro_runtime[\\"SERVICE_IDENTIFIER\\"].Hooks);
-        function setReconciler() {
+        function setReconciler(ReactDOM) {
             var _a;
             hooks$1.getLifecycle = function(instance, lifecycle) {
                 lifecycle = lifecycle.replace(/^on(Show|Hide)$/, \\"componentDid$1\\");
@@ -4701,7 +4701,7 @@ require(\\"./taro\\");
                 event.type = event.type.replace(/-/g, \\"\\");
             }));
             hooks$1.batchedEventUpdates = function(cb) {
-                ReactDOM$1.unstable_batchedUpdates(cb);
+                ReactDOM.unstable_batchedUpdates(cb);
             };
             hooks$1.mergePageInstance = function(prev, next) {
                 if (!prev || !next) return;
@@ -4781,7 +4781,7 @@ require(\\"./taro\\");
             var appInstanceRef = react.createRef();
             var isReactComponent = isClassComponent(R$1, App);
             var appWrapper;
-            setReconciler();
+            setReconciler(ReactDOM$1);
             function getAppInstance() {
                 return appInstanceRef.current;
             }
@@ -5110,7 +5110,7 @@ require(\\"./taro\\");
                 } ]);
                 return Entry;
             }(R.Component);
-            setReconciler();
+            setReconciler(ReactDOM);
             var app = taro_runtime[\\"document\\"].getElementById(\\"app\\");
             ReactDOM.render(h(Entry, {}), app);
         }
@@ -5118,7 +5118,7 @@ require(\\"./taro\\");
             runtime_R = react;
             h = react.createElement;
             runtime_ReactDOM = reactdom;
-            setReconciler();
+            setReconciler(runtime_ReactDOM);
             var componentObj = {
                 options: componentConfig,
                 properties: {
@@ -6804,7 +6804,7 @@ require(\\"./taro\\");
         var ReactDOM$1;
         var pageKeyId = Object(taro_runtime[\\"incrementId\\"])();
         var hooks$1 = taro_runtime[\\"container\\"].get(taro_runtime[\\"SERVICE_IDENTIFIER\\"].Hooks);
-        function setReconciler() {
+        function setReconciler(ReactDOM) {
             var _a;
             hooks$1.getLifecycle = function(instance, lifecycle) {
                 lifecycle = lifecycle.replace(/^on(Show|Hide)$/, \\"componentDid$1\\");
@@ -6814,7 +6814,7 @@ require(\\"./taro\\");
                 event.type = event.type.replace(/-/g, \\"\\");
             }));
             hooks$1.batchedEventUpdates = function(cb) {
-                ReactDOM$1.unstable_batchedUpdates(cb);
+                ReactDOM.unstable_batchedUpdates(cb);
             };
             hooks$1.mergePageInstance = function(prev, next) {
                 if (!prev || !next) return;
@@ -6894,7 +6894,7 @@ require(\\"./taro\\");
             var appInstanceRef = react.createRef();
             var isReactComponent = isClassComponent(R$1, App);
             var appWrapper;
-            setReconciler();
+            setReconciler(ReactDOM$1);
             function getAppInstance() {
                 return appInstanceRef.current;
             }
@@ -7223,7 +7223,7 @@ require(\\"./taro\\");
                 } ]);
                 return Entry;
             }(R.Component);
-            setReconciler();
+            setReconciler(ReactDOM);
             var app = taro_runtime[\\"document\\"].getElementById(\\"app\\");
             ReactDOM.render(h(Entry, {}), app);
         }
@@ -7231,7 +7231,7 @@ require(\\"./taro\\");
             runtime_R = react;
             h = react.createElement;
             runtime_ReactDOM = reactdom;
-            setReconciler();
+            setReconciler(runtime_ReactDOM);
             var componentObj = {
                 options: componentConfig,
                 properties: {
