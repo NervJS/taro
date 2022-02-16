@@ -90,7 +90,7 @@ $ npm run start
 
 在开发之前请先阅读[《Taro 的仓库概览》](./codebase-overview)，它介绍了 Taro 仓库构成、如何开发和提交规范等信息。
 
-如果是首次提交代码，可参考文章：[如何参与大型开源项目-Taro 共建](/blog/2022-01-19-how-to-join-Taro.md)。
+如果是首次提交代码，可参考文章：[如何参与大型开源项目-Taro 共建](https://docs.taro.zone/blog/2022-01-19-how-to-join-Taro.md)。
 
 ### 工具分享
 
