@@ -431,21 +431,8 @@ html[data-theme='dark'] .docusaurus-highlight-code-line {
 }
 
 html .top_tip a {
-  display: inline-block;
-  padding: 0 10px;
-  line-height: 22px;
-  align-items: center;
-  background: var(--docsearch-key-gradient);
-  border-radius: 3px;
-  box-shadow: var(--docsearch-key-shadow);
-  height: 22px;
-  justify-content: center;
-  margin-right: .4em;
-  padding-bottom: 2px;
-  position: relative;
-  top: -1px;
-  width: auto;
-  text-decoration: none;
+  padding: 0 5px;
+  color: #5c5cff;
 }
 html[data-theme="dark"] .top_tip a {
 color: var(--docsearch-muted-color);
