@@ -15,8 +15,8 @@ const siteConfigGithub = {
   tagline: 'Taro 是一个开放式跨端跨框架解决方案，支持使用 React/Vue/Nerv 等框架来开发微信/京东/百度/支付宝/字节跳动/ QQ 小程序/H5/React Native 等应用。',
   url: 'https://nervjs.github.io' /* your website url */,
   baseUrl: process.env.BASE === 'taro' ? '/taro/' : '/' /* base url for your project */,
-  onBrokenLinks: 'throw',
-  onBrokenMarkdownLinks: 'warn',
+  // onBrokenLinks: 'throw',
+  // onBrokenMarkdownLinks: 'warn',
   favicon: './img/favicon.ico',
   organizationName: 'nervjs',
   projectName: 'taro',
@@ -118,16 +118,17 @@ const siteConfigGithub = {
           label: '博客',
           position: 'left',
         },
-        {href: 'https://github.com/NervJS/taro/discussions', label: '论坛', position: 'left'},
         {href: 'https://github.com/NervJS/taro/issues', label: '问题反馈', position: 'left'},
+        {href: 'https://deco-preview.jd.com?from=taro-docs', label: '设计稿生成代码', position: 'left'},
         {
           label: '生态系统',
           position: 'right',
           items:[
-            {href: 'https://nutui.jd.com/#/', label: 'NutUI'},
-            {href: 'https://taro-ui.jd.com', label: 'Taro UI'},
+            {href: 'https://github.com/NervJS/taro/discussions', label: '论坛'},
             {href: 'https://taro-ext.jd.com', label: '物料市场'},
             {to: 'showcase', label: '案例'},
+            {href: 'https://nutui.jd.com/#/', label: 'NutUI'},
+            {href: 'https://taro-ui.jd.com', label: 'Taro UI'},
             {href: 'https://taro.jd.com/jdmp/index.html', label: '京东小程序'},
           ]
         },
@@ -164,14 +165,14 @@ const siteConfigGithub = {
       theme: require('prism-react-renderer/themes/github'),
       darkTheme: require('prism-react-renderer/themes/dracula'),
     },
-    // announcementBar: {
-    //   id: 'support_us', // Any value that will identify this message.
-    //   content:
-    //     '<div class="top_tip" role="alert">感谢大家的支持</div>',
-    //   backgroundColor: '#ffba00', // Defaults to `#fff`.
-    //   textColor: '#091E42', // Defaults to `#000`.
-    //   isCloseable: true, // Defaults to `true`.
-    // }
+    announcementBar: {
+      id: 'support_us', // Any value that will identify this message.
+      content:
+        '<div class="top_tip" role="alert">由凹凸实验室倾力打造的「Deco 设计稿一键生成多端代码」预览版正式上线啦，欢迎<a target="_blank" href="https://deco-preview.jd.com?from=taro-docs">免费试用</a>！</div>',
+      backgroundColor: '#f6ffed', // Defaults to `#fff`.
+      textColor: '#333333', // Defaults to `#000`.
+      isCloseable: true, // Defaults to `true`.
+    }
   }),
 
 
@@ -219,8 +220,8 @@ const siteConfigTaroZone = {
   tagline: 'Taro 是一个开放式跨端跨框架解决方案，支持使用 React/Vue/Nerv 等框架来开发微信/京东/百度/支付宝/字节跳动/ QQ 小程序/H5 等应用。',
   url: 'https://docs.taro.zone' /* your website url */,
   baseUrl: process.env.BASE === 'taro' ? '/taro/' : '/' /* base url for your project */,
-  onBrokenLinks: 'throw',
-  onBrokenMarkdownLinks: 'warn',
+  // onBrokenLinks: 'throw',
+  // onBrokenMarkdownLinks: 'warn',
   favicon: './img/favicon.ico',
   organizationName: 'nervjs',
   projectName: 'taro',
@@ -328,16 +329,17 @@ const siteConfigTaroZone = {
             label: '博客',
             position: 'left',
           },
-          {href: 'https://github.com/NervJS/taro/discussions', label: '论坛', position: 'left'},
           {href: 'https://github.com/NervJS/taro/issues', label: '问题反馈', position: 'left'},
+          {href: 'https://deco-preview.jd.com?from=taro-docs', label: '设计稿生成代码', position: 'left'},
           {
             label: '生态系统',
             position: 'right',
             items:[
-              {href: 'https://nutui.jd.com/#/', label: 'NutUI'},
-              {href: 'https://taro-ui.jd.com', label: 'Taro UI'},
+              {href: 'https://github.com/NervJS/taro/discussions', label: '论坛'},
               {href: 'https://taro-ext.jd.com', label: '物料市场'},
               {to: 'showcase', label: '案例'},
+              {href: 'https://nutui.jd.com/#/', label: 'NutUI'},
+              {href: 'https://taro-ui.jd.com', label: 'Taro UI'},
               {href: 'https://taro.jd.com/jdmp/index.html', label: '京东小程序'},
             ]
           },
@@ -370,14 +372,14 @@ const siteConfigTaroZone = {
         copyright: `Copyright © ${new Date().getFullYear()} Taro by O2 labs`,
       },
 
-      // announcementBar: {
-      //   id: 'support_us', // Any value that will identify this message.
-      //   content:
-      //     '<div class="top_tip" role="alert">谢谢大家的支持！</div>',
-      //   backgroundColor: '#ffba00', // Defaults to `#fff`.
-      //   textColor: '#091E42', // Defaults to `#000`.
-      //   isCloseable: true, // Defaults to `true`.
-      // }
+      announcementBar: {
+        id: 'support_us', // Any value that will identify this message.
+        content:
+          '<div class="top_tip" role="alert">由凹凸实验室倾力打造的「Deco 设计稿一键生成多端代码」预览版正式上线啦，欢迎<a target="_blank" href="https://deco-preview.jd.com?from=taro-docs">免费试用</a>！</div>',
+        backgroundColor: '#f6ffed', // Defaults to `#fff`.
+        textColor: '#333333', // Defaults to `#000`.
+        isCloseable: true, // Defaults to `true`.
+      }
     }),
 
   customFields: {
