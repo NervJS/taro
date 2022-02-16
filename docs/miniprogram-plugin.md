@@ -1,22 +1,25 @@
 ---
-title: 小程序插件开发
+title: 微信小程序插件开发
 ---
 
-## 微信小程序插件开发
+Taro 支持开发微信小程序插件，本文将介绍主要用法。
 
-> 目前微信小程序仅支持使用 `React` 来进行开发
+:::info
+目前微信小程序仅支持使用 `React` 来进行开发
+:::
 
-[微信小程序插件开发概述](https://developers.weixin.qq.com/miniprogram/dev/framework/plugin/)
+## 参考
 
-### 创建插件开发模版
+- [微信小程序插件开发概述](https://developers.weixin.qq.com/miniprogram/dev/framework/plugin/)
+- [完整示例](https://github.com/NervJS/taro/tree/next/examples/build-weapp-plugin)
+
+## 开发步骤
+
+### 1. 创建插件开发模版
 
 微信小程序插件分为**页面**、**组件**、**接口**三种。开发者可以使用 `taro init` 命令，然后选择生成**微信小程序插件模版**，即可在当前目录生成包含上述三种插件类型的 Taro 微信小程序插件项目。
 
-### 修改 appid
-
-创建完模版后，首先需要修改 `project.config.json` 的 **appid** 字段和 `src/app.js` 的 **prodiver** 字段为同一 appid。
-
-### 项目结构
+#### 项目结构
 
 推荐的插件项目结构如下：
 
@@ -37,6 +40,10 @@ title: 小程序插件开发
     └── package.json
     └── package.config.json
 
+### 配置 appid
+
+创建完模版后，首先需要修改 `project.config.json` 的 **appid** 字段和 `src/app.config.ts` 的 **prodiver** 字段为同一 appid。
+
 ### 编译项目
 
 ```bin
@@ -48,7 +55,7 @@ taro build --plugin weapp --watch
 
 在微信开发者工具中添加 Taro 插件项目根目录。
 
-### 使用插件页面
+## 使用插件页面
 
 plugin.json 的 **pages** 字段加入页面插件路径：
 
@@ -68,7 +75,21 @@ plugin.json 的 **pages** 字段加入页面插件路径：
 </Navigator>
 ```
 
-### 使用插件组件
+### 插件页面获取小程序渲染层元素
+
+```js
+// 通过 this.props.$scope 获取到小程序原生配置对象
+const query = Taro.createSelectorQuery().in(this.props.$scope)
+query.select('#id').boundingClientRect().exec(res => {
+  console.log(res)
+})
+```
+
+### genericsImplementation
+
+支持使用 `genericsImplementation` 传入组件到插件页面，详细用法请看 Demo。
+
+## 使用插件组件
 
 plugin.json 的 **publicComponents** 字段加入组件插件路径：
 
@@ -92,7 +113,7 @@ export default class Index extends Component {
 }
 ```
 
-#### 插件组件接受外部 props
+### 插件组件接受外部 props
 
 如果需要给插件传入参数，需要将参数统一放在组件的 `props` 中进行传入。
 
@@ -108,7 +129,33 @@ const extraProps = {
 <Plugin props={extraProps} />
 ```
 
-### 使用插件接口
+### 插件组件事件传递
+
+微信小程序的 props 支持传递函数，因此我们也可以通过给插件组件传入函数 props 达到事件传递的目的。
+
+```js
+// 调用方传入事件回调函数
+<Plugin props={{ onSomeEvent () {} }} />
+
+// 插件调用事件函数
+this.props.onSomeEvent()
+```
+
+### 插件组件获取小程序渲染层元素
+
+```js
+// 通过 this.props.$scope 获取到小程序原生配置对象
+const query = Taro.createSelectorQuery().in(this.props.$scope)
+query.select('#id').boundingClientRect().exec(res => {
+  console.log(res)
+})
+```
+
+### componentGenerics
+
+暂不支持 `componentGenerics`。
+
+## 使用插件接口
 
 plugin.json 的 **main** 字段加入接口插件路径：
 
