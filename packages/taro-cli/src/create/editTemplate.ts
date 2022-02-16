@@ -76,14 +76,12 @@ function shouldIgnoreFile (filePath: string) {
 export async function changeDefaultNameInTemplate ({ projectName, templatePath, projectPath }: PlaceholderConfig) {
   const regex = validateProjectName(projectName)
   if (!regex) {
-    console.log(chalk.yellow('因项目名称不符合 java package 包命名规则，故 android 项目默认名不做替换！'))
+    console.log(chalk.yellow('因项目名称不符合 java package 包命名规则（只能包含字母、数字和下划线，且必须以字母开头），故项目默认名不做替换！'))
+    return
   }
   const defaultName = getTemplateName(templatePath)
 
   for (const filePath of walk(projectPath).reverse()) {
-    if (filePath.includes('android') && !regex) {
-      continue
-    }
     if (shouldIgnoreFile(filePath)) {
       continue
     }
