@@ -56,13 +56,13 @@
       "type": "image/png"
     },
     {
-      "src": "path/to/regular_icon.png",
+      "src": "img/icons/icon-196x196.png",
       "sizes": "196x196",
       "type": "image/png",
       "purpose": "any"
     },
     {
-      "src": "path/to/maskable_icon.png",
+      "src": "img/icons/icon-196x196.png",
       "sizes": "196x196",
       "type": "image/png",
       "purpose": "maskable"
