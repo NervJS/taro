@@ -8,6 +8,7 @@
 // See https://docusaurus.io/docs/site-config.html for all the possible
 // site configuration options.
 const versions = require('./versions.json');
+const path = require('path');
 
 
 const siteConfigGithub = {
@@ -33,7 +34,7 @@ const siteConfigGithub = {
           lastVersion: "3.x",
           versions: {
             current: {
-              label: `下个版本`
+              label: '下个版本',
             }
           }
         },
@@ -46,6 +47,10 @@ const siteConfigGithub = {
         },
         theme: {
           customCss: require.resolve('./static/css/custom.css'),
+        },
+        sitemap: {
+          changefreq: 'weekly',
+          priority: 0.5,
         },
       })
     ],
@@ -208,11 +213,69 @@ const siteConfigGithub = {
     },
   },
 
-
-
-  // You may provide arbitrary config keys to be used as needed by your
-  // template. For example, if you need your repo's URL...
-  //   repoUrl: 'https://github.com/facebook/test-site',
+  plugins: [
+    [
+      'pwa',
+      {
+        debug: true,
+        offlineModeActivationStrategies: [
+          'appInstalled',
+          'standalone',
+          'queryString',
+        ],
+        // swRegister: false,
+        swCustom: path.resolve(__dirname, 'src/sw.js'),
+        pwaHead: [
+          {
+            tagName: 'link',
+            rel: 'icon',
+            href: 'img/taroLogo180.png',
+          },
+          {
+            tagName: 'link',
+            rel: 'manifest',
+            href: 'manifest.json',
+          },
+          {
+            tagName: 'meta',
+            name: 'theme-color',
+            content: 'rgb(37, 194, 160)',
+          },
+          {
+            tagName: 'meta',
+            name: 'apple-mobile-web-app-capable',
+            content: 'yes',
+          },
+          {
+            tagName: 'meta',
+            name: 'apple-mobile-web-app-status-bar-style',
+            content: '#000',
+          },
+          {
+            tagName: 'link',
+            rel: 'apple-touch-icon',
+            href: 'img/taroLogo180.png',
+          },
+          {
+            tagName: 'link',
+            rel: 'mask-icon',
+            href: 'img/taroLogo180.png',
+            color: 'rgb(62, 204, 94)',
+          },
+          {
+            tagName: 'meta',
+            name: 'msapplication-TileImage',
+            content: 'img/taroLogo180.png',
+          },
+          {
+            tagName: 'meta',
+            name: 'msapplication-TileColor',
+            content: '#000',
+          },
+        ],
+      },
+    ],
+  ],
 }
 
 const siteConfigTaroZone = {
@@ -238,7 +301,7 @@ const siteConfigTaroZone = {
           lastVersion: "3.x",
           versions: {
             current: {
-              label: `下个版本`
+              label: '下个版本',
             }
           }
         },
@@ -251,6 +314,10 @@ const siteConfigTaroZone = {
         },
         theme: {
           customCss: require.resolve('./static/css/custom.css'),
+        },
+        sitemap: {
+          changefreq: 'weekly',
+          priority: 0.5,
         },
       })
     ],
@@ -418,6 +485,69 @@ const siteConfigTaroZone = {
   // You may provide arbitrary config keys to be used as needed by your
   // template. For example, if you need your repo's URL...
   //   repoUrl: 'https://github.com/facebook/test-site',
+  plugins: [
+    [
+      'pwa',
+      {
+        debug: true,
+        offlineModeActivationStrategies: [
+          'appInstalled',
+          'standalone',
+          'queryString',
+        ],
+        // swRegister: false,
+        swCustom: path.resolve(__dirname, 'src/sw.js'),
+        pwaHead: [
+          {
+            tagName: 'link',
+            rel: 'icon',
+            href: 'img/taroLogo180.png',
+          },
+          {
+            tagName: 'link',
+            rel: 'manifest',
+            href: 'manifest.json',
+          },
+          {
+            tagName: 'meta',
+            name: 'theme-color',
+            content: 'rgb(37, 194, 160)',
+          },
+          {
+            tagName: 'meta',
+            name: 'apple-mobile-web-app-capable',
+            content: 'yes',
+          },
+          {
+            tagName: 'meta',
+            name: 'apple-mobile-web-app-status-bar-style',
+            content: '#000',
+          },
+          {
+            tagName: 'link',
+            rel: 'apple-touch-icon',
+            href: 'img/taroLogo180.png',
+          },
+          {
+            tagName: 'link',
+            rel: 'mask-icon',
+            href: 'img/taroLogo180.png',
+            color: 'rgb(62, 204, 94)',
+          },
+          {
+            tagName: 'meta',
+            name: 'msapplication-TileImage',
+            content: 'img/taroLogo180.png',
+          },
+          {
+            tagName: 'meta',
+            name: 'msapplication-TileColor',
+            content: '#000',
+          },
+        ],
+      },
+    ],
+  ],
 }
 
 const siteConfig = process.env.BASE == 'zone' ? siteConfigTaroZone : siteConfigGithub
