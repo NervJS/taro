@@ -57,7 +57,7 @@ const transformDecls = (styles, declarations, result, options = {}) => {
       !options.scalable &&
       /(\d+)px/.test(value)
     ) {
-      value = value.replace(/(\d+)px/, '$1PX')
+      value = value.replace(/(\d+)px/g, '$1PX')
     }
 
     if (shorthandBorderProps.indexOf(property) > -1) {

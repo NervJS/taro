@@ -3452,6 +3452,23 @@ describe('ICSS :export pseudo-selector', () => {
     })
   })
 
+  it('does not transform value to scalePx2dp when option scalable false', () => {
+    expect(
+      transform(`
+      .foo {
+        padding: 10px 20px;
+      }
+    `, { scalable: false })
+    ).toEqual({
+      foo: {
+        paddingTop: 10,
+        paddingRight: 20,
+        paddingBottom: 10,
+        paddingLeft: 20
+      }
+    })
+  })
+
   it('should throw an error if exportedKey has the same name as a class and is defined twice', () => {
     expect(() =>
       transform(`
