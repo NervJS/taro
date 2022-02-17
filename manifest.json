@@ -1,11 +1,13 @@
 {
   "name": "Taro 文档",
   "short_name": "Taro 文档",
-  "theme_color": "#2196f3",
-  "background_color": "#424242",
+  "description": "开放式跨端跨框架解决方案，支持使用 React/Vue/Nerv 等框架来开发微信/京东/百度/支付宝/字节跳动/ QQ 小程序/H5/React Native 等应用。",
+  "theme_color": "#0000c2",
+  "background_color": "#ffffff",
   "display": "standalone",
+  "id": "docs.taro.zone",
   "scope": "./",
-  "start_url": "./index.html",
+  "start_url": "./docs",
   "related_applications": [
     {
       "platform": "webapp",
@@ -52,6 +54,18 @@
       "src": "img/icons/icon-512x512.png",
       "sizes": "512x512",
       "type": "image/png"
+    },
+    {
+      "src": "path/to/regular_icon.png",
+      "sizes": "196x196",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "path/to/maskable_icon.png",
+      "sizes": "196x196",
+      "type": "image/png",
+      "purpose": "maskable"
     }
   ]
 }
