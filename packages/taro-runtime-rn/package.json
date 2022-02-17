@@ -29,7 +29,8 @@
     },
     "dependencies": {
         "@tarojs/components-rn": "3.4.1",
-        "@tarojs/router-rn": "3.4.1"
+        "@tarojs/router-rn": "3.4.1",
+        "react-native-root-siblings": "^4.1.1"
     },
     "resolutions": {
         "@types/react": "17.0.11"
