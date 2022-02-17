@@ -25,7 +25,7 @@
     "url": "https://github.com/NervJS/taro/issues"
   },
   "dependencies": {
-    "@pmmmwh/react-refresh-webpack-plugin": "0.4.3",
+    "@pmmmwh/react-refresh-webpack-plugin": "0.5.4",
     "@prefresh/webpack": "^3.2.3",
     "@tarojs/runtime": "3.4.1",
     "@tarojs/shared": "3.4.1",

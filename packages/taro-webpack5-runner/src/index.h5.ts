@@ -74,7 +74,7 @@ async function buildDev (webpackConfig: webpack.Configuration, config: H5BuildCo
   const pathname = routerMode === 'browser' ? routerBasename : '/'
   const devUrl = formatUrl({
     protocol: devServerOptions.https ? 'https' : 'http',
-    hostname: devServerOptions.host,
+    hostname: !devServerOptions.host || devServerOptions.host.startsWith('local-ip') ? 'localhost' : devServerOptions.host,
     port: devServerOptions.port,
     pathname
   })
@@ -106,7 +106,7 @@ async function buildDev (webpackConfig: webpack.Configuration, config: H5BuildCo
   })
 
   return new Promise<void>((resolve, reject) => {
-    server.listen(devServerOptions.port!, devServerOptions.host!, err => {
+    server.startCallback(err => {
       if (err) {
         reject(err)
         return console.log(err)

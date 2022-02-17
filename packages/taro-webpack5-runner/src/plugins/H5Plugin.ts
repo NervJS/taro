@@ -8,6 +8,7 @@ import {
   FRAMEWORK_MAP,
   FRAMEWORK_EXT_MAP
 } from '@tarojs/helper'
+import * as webpack from 'webpack'
 
 const PLUGIN_NAME = 'H5Plugin'
 
@@ -72,7 +73,7 @@ export default class H5Plugin {
     )
 
     compiler.hooks.compilation.tap(PLUGIN_NAME, compilation => {
-      compilation.hooks.normalModuleLoader.tap(PLUGIN_NAME, (_loaderContext, module: any) => {
+      webpack.NormalModule.getCompilationHooks(compilation).loader.tap(PLUGIN_NAME, (_loaderContext, module: any) => {
         const { framework, entryFileName, designWidth, deviceRatio, loaderMeta } = this.options
         const { dir, name } = path.parse(module.resource)
         if (path.join(dir, name) === this.appEntry) {
@@ -187,7 +188,7 @@ export default class H5Plugin {
   }
 
   getConfigFilePath (filePath) {
-    console.log('filePath: ', filePath)
+    // console.log('filePath: ', filePath)
     return resolveMainFilePath(`${filePath.replace(path.extname(filePath), '')}.config`)
   }
 }
