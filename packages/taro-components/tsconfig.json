@@ -6,7 +6,10 @@
     "skipLibCheck": true,
     "sourceMap": true,
     "jsx": "react",
-    "jsxFactory": "h"
+    "jsxFactory": "h",
+    "typeRoots": [
+      "node_modules/@types"
+    ]
   },
   "include": [
     "./src"

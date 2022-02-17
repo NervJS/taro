@@ -3,8 +3,10 @@
   "compilerOptions": {
     "baseUrl": ".",
     "target": "ESNext",
-    "module": "ESNext",
-    "types": ["node"]
+    "types": ["node"],
+    "typeRoots": [
+      "node_modules/@types"
+    ]
   },
   "include": [
     "./src"
