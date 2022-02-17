@@ -1,8 +1,8 @@
 ## Demo - 在原生小程序项目中使用 Taro 生成的页面
 
-本项目展示了如何在原生小程序的主包和分包中使用 Taro 生成的页面。
+本示例展示了如何在原生小程序的主包和分包中使用 Taro 生成的页面。
 
-[详细文档](http://localhost:3000/taro/docs/next/taro-in-miniapp#%E5%9F%BA%E7%A1%80%E6%B7%B7%E5%90%88%E7%94%A8%E6%B3%95)
+[详细文档](https://docs.taro.zone/docs/taro-in-miniapp)
 
 ### 开发环境
 
@@ -29,3 +29,16 @@ $ npm run build
 #### 2. 预览
 
 小程序开发者工具导入项目，项目路径请指向 `blended-basic/miniapp`。
+
+### 介绍
+
+本示例包括了以下特性：
+
+#### 原生项目在主包使用 Taro 页面
+
+- Taro 页面使用原生项目里暴露的方法
+- Taro 页面使用原生项目里的原生自定义组件
+
+#### 原生项目在分包使用 Taro 页面
+
+- 分包依赖细分
