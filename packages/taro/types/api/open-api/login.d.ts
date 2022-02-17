@@ -1,6 +1,21 @@
 import Taro from '../../index'
 
 declare module '../../index' {
+  namespace pluginLogin {
+    interface Option {
+      /** 接口调用结束的回调函数（调用成功、失败都会执行） */
+      complete?: (res: TaroGeneral.CallbackResult) => void
+      /** 接口调用失败的回调函数 */
+      fail?: (res: TaroGeneral.CallbackResult) => void
+      /** 接口调用成功的回调函数 */
+      success?: (result: SuccessCallbackResult) => void
+    }
+    interface SuccessCallbackResult extends TaroGeneral.CallbackResult {
+      /** 用于换取 openpid 的凭证（有效期五分钟）。插件开发者可以用此 code 在开发者服务器后台调用 [auth.getPluginOpenPId](https://developers.weixin.qq.com/miniprogram/dev/api-backend/open-api/user-info/auth.getPluginOpenPId.html) 换取 openpid。 */
+      code: string
+    }
+  }
+
   namespace login {
     interface Option {
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
@@ -32,6 +47,12 @@ declare module '../../index' {
   }
 
   interface TaroStatic {
+    /** **该接口仅在小程序插件中可调用**，调用接口获得插件用户标志凭证（code）。插件可以此凭证换取用于识别用户的标识 openpid。用户不同、宿主小程序不同或插件不同的情况下，该标识均不相同，即当且仅当同一个用户在同一个宿主小程序中使用同一个插件时，openpid 才会相同
+     * @supported weapp
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/open-api/login/wx.pluginLogin.html
+     */
+    pluginLogin(option?: pluginLogin.Option): Promise<pluginLogin.SuccessCallbackResult>
+
     /** 调用接口获取登录凭证（code）。通过凭证进而换取用户登录态信息，包括用户的唯一标识（openid）及本次登录的会话密钥（session_key）等。用户数据的加解密通讯需要依赖会话密钥完成。更多使用方法详见 [小程序登录](https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/login.html)。
      * @supported weapp
      * @example

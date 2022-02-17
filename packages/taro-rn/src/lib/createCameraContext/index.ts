@@ -113,6 +113,10 @@ class CameraContext {
       }
     }
   }
+
+  setZoom = () => {
+    console.log('not support')
+  }
 }
 /**
  * 创建 video 上下文 VideoContext 对象。

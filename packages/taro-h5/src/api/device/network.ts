@@ -1,7 +1,7 @@
 import Taro from '@tarojs/api'
 
-import { MethodHandler } from '../../utils/handler'
-import { temporarilyNotSupport } from '../../utils'
+import { CallbackManager, MethodHandler } from '../utils/handler'
+import { temporarilyNotSupport } from '../utils'
 
 function getConnection () {
   // @ts-ignore
@@ -13,7 +13,7 @@ export const getNetworkType: typeof Taro.getNetworkType = (options = {}) => {
   const { success, fail, complete } = options
   const handle = new MethodHandler<Taro.getNetworkType.SuccessCallbackResult>({ name: 'getNetworkType', success, fail, complete })
 
-  let networkType: keyof Taro.getNetworkType.networkType = 'unknown'
+  let networkType: keyof Taro.getNetworkType.NetworkType = 'unknown'
   // 浏览器不支持获取网络状态
   if (!connection) {
     return handle.success({ networkType })
@@ -51,20 +51,40 @@ export const getNetworkType: typeof Taro.getNetworkType = (options = {}) => {
   return handle.success({ networkType })
 }
 
-export const onNetworkStatusChange: typeof Taro.onNetworkStatusChange = (cb) => {
+const networkStatusManager = new CallbackManager()
+
+const networkStatusListener = async () => {
+  const { networkType } = await getNetworkType()
+  const isConnected = networkType !== 'none'
+  const obj = { isConnected, networkType }
+  networkStatusManager.trigger(obj)
+}
+
+/**
+ * 在最近的八次网络请求中, 出现下列三个现象之一则判定弱网。
+ * - 出现三次以上连接超时
+ * - 出现三次 rtt 超过 400
+ * - 出现三次以上的丢包
+ * > 弱网事件通知规则是: 弱网状态变化时立即通知, 状态不变时 30s 内最多通知一次。
+ */
+export const onNetworkWeakChange = temporarilyNotSupport('onNetworkWeakChange')
+
+export const onNetworkStatusChange: typeof Taro.onNetworkStatusChange = callback => {
+  networkStatusManager.add(callback)
   const connection = getConnection()
-  if (connection) {
-    connection.addEventListener('change', function () {
-      getNetworkType()
-        .then(res => {
-          const { networkType } = res
-          const isConnected = networkType !== 'none'
-          const obj = { isConnected, networkType }
-          cb(obj)
-        })
-    })
+  if (connection && networkStatusManager.count() === 1) {
+    connection.addEventListener('change', networkStatusListener)
   }
 }
 
-export const offNetworkStatusChange = temporarilyNotSupport('offNetworkStatusChange')
+export const offNetworkWeakChange = temporarilyNotSupport('offNetworkStatusChange')
+
+export const offNetworkStatusChange: typeof Taro.offNetworkStatusChange = callback => {
+  networkStatusManager.remove(callback)
+  const connection = getConnection()
+  if (connection && networkStatusManager.count() === 0) {
+    connection.removeEventListener('change', networkStatusListener)
+  }
+}
+
 export const getLocalIPAddress = temporarilyNotSupport('getLocalIPAddress')

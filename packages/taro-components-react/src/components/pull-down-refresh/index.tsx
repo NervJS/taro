@@ -78,7 +78,11 @@ class PullDownRefresh extends React.Component<IProps, IState> {
   listeners: [string, (...args: any[]) => void][] = []
 
   get scrollContainer () {
-    return document.querySelector('.taro-tabbar__panel') || document.body
+    return document.querySelector('.taro_page_stationed') ||
+      document.querySelector('.taro_page') ||
+      document.querySelector('.taro_router') ||
+      document.querySelector('.taro-tabbar__panel') ||
+      document.body
   }
 
   componentDidMount () {
@@ -264,7 +268,7 @@ class PullDownRefresh extends React.Component<IProps, IState> {
   }
 
   setContentStyle = (ty) => {
-    // todos: Why sometimes do not have `this.contentRef` ?
+    // TODO: Why sometimes do not have `this.contentRef` ?
     if (this.contentRef) {
       // translate3d 不清理 会影响内部元素定位
       if (ty) {

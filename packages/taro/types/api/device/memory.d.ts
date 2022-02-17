@@ -9,10 +9,10 @@ declare module '../../index' {
 
     interface CallbackResult {
       /** 内存告警等级，只有 Android 才有，对应系统宏定义 */
-      level: keyof level
+      level: keyof Level
     }
 
-    interface level {
+    interface Level {
       /** TRIM_MEMORY_RUNNING_MODERATE */
       5
       /** TRIM_MEMORY_RUNNING_LOW */
@@ -46,8 +46,8 @@ declare module '../../index' {
      */
     offMemoryWarning(
       /** 取消监听内存不足告警事件 */
-      callback: (...args: any[]) => any,
+      callback: onMemoryWarning.Callback,
     ): void
-    
+
   }
 }
