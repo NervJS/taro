@@ -73,17 +73,42 @@ export class H5Combination extends Combination<H5BuildConfig> {
   }
 
   getOptimization (mode: string) {
+    const isProd = mode === 'production'
     const { terser } = this.config
     const minimizer: Record<string, any> = {}
     const isTerserEnabled = !(terser?.enable === false)
 
-    if (mode === 'production' && isTerserEnabled) {
+    if (isProd && isTerserEnabled) {
       const terserOptions = recursiveMerge({}, this.defaultTerserOptions, terser?.config || {})
       minimizer.terserPlugin = WebpackPlugin.getTerserPlugin(terserOptions)
     }
 
     return {
-      minimizer
+      minimizer,
+      splitChunks: {
+        chunks: 'initial',
+        hidePathInfo: true,
+        minSize: 0,
+        cacheGroups: {
+          name: !isProd,
+          common: {
+            name: isProd ? false : 'common',
+            minChunks: 2,
+            priority: 1
+          },
+          vendors: {
+            name: isProd ? false : 'vendors',
+            minChunks: 2,
+            test: module => /[\\/]node_modules[\\/]/.test(module.resource),
+            priority: 10
+          },
+          taro: {
+            name: isProd ? false : 'taro',
+            test: module => /@tarojs[\\/][a-z]+/.test(module.context),
+            priority: 100
+          }
+        }
+      }
     }
   }
 }
