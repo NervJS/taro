@@ -52,7 +52,6 @@ const transformDecls = (styles, declarations, result, options = {}) => {
     // scalable option, when it is false, transform single value 'px' unit to 'PX'
     // do not be wrapped by scalePx2dp function
     if (
-      isLengthUnit &&
       typeof options.scalable === 'boolean' &&
       !options.scalable &&
       /(\d+)px/.test(value)
