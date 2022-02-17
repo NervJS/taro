@@ -1,5 +1,6 @@
 import { Component, Prop, h, ComponentInterface, Host, State, Event, EventEmitter, Element } from '@stencil/core'
 import Taro from '@tarojs/taro'
+import { IH5RouterConfig } from '@tarojs/taro/types/compile'
 import classNames from 'classnames'
 import resolvePathname from 'resolve-pathname'
 
@@ -42,7 +43,7 @@ export interface Conf {
   position?: 'bottom' | 'top'
   custom: boolean
   customRoutes: Record<string, string | string[]>
-  mode: 'hash' | 'browser'
+  mode: IH5RouterConfig['mode']
   basename: string
   homePage: string
   currentPagename: string

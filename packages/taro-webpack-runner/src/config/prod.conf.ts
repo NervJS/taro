@@ -163,6 +163,7 @@ export default function (appPath: string, config: Partial<BuildConfig>): any {
         chunks: 'initial',
         minSize: 0,
         cacheGroups: {
+          default: false,
           common: {
             name: false,
             minChunks: 2,

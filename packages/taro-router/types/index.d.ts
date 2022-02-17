@@ -1,3 +1,4 @@
+import { IH5RouterConfig } from '@tarojs/taro/types/compile'
 /**
  *
  * original code from: https://github.com/qiu8310/minapp/blob/master/packages/minapp-wx/typing/wx.d.ts
@@ -274,7 +275,7 @@ declare namespace Router {
 
 declare const createHistory: (props: {
   basename?: string;
-  mode: 'hash' | 'browser',
+  mode: IH5RouterConfig['mode'],
   firstPagePath: string;
   customRoutes: {
     [key: string]: string | string[]

@@ -90,6 +90,8 @@ export class H5Combination extends Combination<H5BuildConfig> {
         hidePathInfo: true,
         minSize: 0,
         cacheGroups: {
+          default: false,
+          defaultVendors: false,
           name: !isProd,
           common: {
             name: isProd ? false : 'common',

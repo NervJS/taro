@@ -6,6 +6,7 @@ import {
   SERVICE_IDENTIFIER, stringify
 } from '@tarojs/runtime'
 import type { AppConfig, PageConfig } from '@tarojs/taro'
+import { IH5RouterConfig } from '@tarojs/taro/types/compile'
 import { Listener as LocationListener, Action as LocationAction } from 'history'
 import UniversalRouter, { Routes } from 'universal-router'
 
@@ -22,7 +23,7 @@ export interface Route extends PageConfig {
 export interface RouterConfig extends AppConfig {
   routes: Route[],
   router: {
-    mode: 'hash' | 'browser'
+    mode: IH5RouterConfig['mode']
     basename: string
     customRoutes?: Record<string, string | string[]>
     pathname: string

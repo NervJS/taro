@@ -1,10 +1,11 @@
+import { IH5RouterConfig } from '@tarojs/taro/types/compile'
 import { BrowserHistoryOptions, createBrowserHistory, createHashHistory, History } from 'history'
 
 export let history: History
 
 let basename = '/'
 
-export function setHistoryMode (mode?: 'hash' | 'browser', base = '/') {
+export function setHistoryMode (mode?: IH5RouterConfig['mode'], base = '/') {
   const options: BrowserHistoryOptions = {
     window
   }
