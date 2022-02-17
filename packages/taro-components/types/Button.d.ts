@@ -7,13 +7,13 @@ interface ButtonProps extends StandardProps {
    * @supported weapp, h5, rn, alipay
    * @default default
    */
-  size?: keyof ButtonProps.size
+  size?: keyof ButtonProps.Size
 
   /** 按钮的样式类型
    * @supported weapp, h5, rn, alipay
    * @default default
    */
-  type?: keyof ButtonProps.type
+  type?: keyof ButtonProps.Type
 
   /** 按钮是否镂空，背景色透明
    * @supported weapp, h5, rn, alipay
@@ -36,12 +36,12 @@ interface ButtonProps extends StandardProps {
   /** 用于 `<form/>` 组件，点击分别会触发 `<form/>` 组件的 submit/reset 事件
    * @supported weapp, alipay
    */
-  formType?: keyof ButtonProps.formType
+  formType?: keyof ButtonProps.FormType
 
   /** 微信开放能力
    * @supported weapp, alipay, qq
    */
-  openType?: ButtonProps.openType
+  openType?: ButtonProps.OpenType
 
   /** 指定按下去的样式类。当 `hover-class="none"` 时，没有点击态效果
    * @default button-hover
@@ -79,7 +79,7 @@ interface ButtonProps extends StandardProps {
    * 生效时机: `open-type="getUserInfo"`
    * @supported weapp
    */
-  lang?: keyof ButtonProps.lang
+  lang?: keyof ButtonProps.Lang
 
   /** 会话来源
    *
@@ -199,14 +199,14 @@ interface ButtonProps extends StandardProps {
 
 declare namespace ButtonProps {
   /** size 的合法值 */
-  interface size {
+  interface Size {
     /** 默认大小 */
     default
     /** 小尺寸 */
     mini
   }
   /** type 的合法值 */
-  interface type {
+  interface Type {
     /** 绿色 */
     primary
     /** 白色 */
@@ -215,14 +215,14 @@ declare namespace ButtonProps {
     warn
   }
   /** form-type 的合法值 */
-  interface formType {
+  interface FormType {
     /** 提交表单 */
     submit
     /** 重置表单 */
     reset
   }
   /** open-type 的合法值 */
-  type openType = keyof openTypeKeys["weapp"] | keyof openTypeKeys["alipay"] | keyof openTypeKeys["qq"]
+  type OpenType = keyof openTypeKeys["weapp"] | keyof openTypeKeys["alipay"] | keyof openTypeKeys["qq"]
   /** open-type 的合法值 */
   interface openTypeKeys {
     weapp: {
@@ -297,7 +297,7 @@ declare namespace ButtonProps {
     }
   }
   /** lang 的合法值 */
-  interface lang {
+  interface Lang {
     /** 英文 */
     en
     /** 简体中文 */
@@ -313,7 +313,7 @@ declare namespace ButtonProps {
       /** 头像 */
       avatarUrl: string
       /** 性别 */
-      gender: keyof gender
+      gender: keyof Gender
       /** 省份，如：`Yunnan` */
       province: string
       /** 城市，如：`Dalian` */
@@ -336,7 +336,7 @@ declare namespace ButtonProps {
   }
 
   /** 性别的合法值 */
-  interface gender {
+  interface Gender {
     /** 未知 */
     0
     /** 男 */
@@ -469,7 +469,7 @@ declare namespace ButtonProps {
  *     <button size="mini" type="warn">按钮</button>
  *   </view>
  * </template>
- * 
+ *
  * <script>
  * export default {
  *   data() {

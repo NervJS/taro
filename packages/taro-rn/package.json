@@ -53,7 +53,7 @@
     "react-native-device-info": "~8.4.8",
     "react-native-image-resizer": "~1.4.5",
     "react-native-image-zoom-viewer": "^3.0.1",
-    "react-native-root-siblings": "^3.1.0",
+    "react-native-root-siblings": "^4.1.1",
     "react-native-root-toast": "^3.0.1",
     "react-native-safe-area-context": "~3.3.2",
     "react-native-stylekit": "^1.0.0",

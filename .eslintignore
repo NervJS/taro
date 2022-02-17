@@ -4,6 +4,7 @@ lib
 node_modules
 *.d.ts
 coverage
+examples
 
 packages/taro-cli/src/__tests__/fixtures
 packages/taro-cli/templates

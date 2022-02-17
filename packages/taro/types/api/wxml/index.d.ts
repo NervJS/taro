@@ -18,10 +18,12 @@ declare module '../../index' {
    */
   interface IntersectionObserver {
     /** 停止监听。回调函数将不再触发
+     * @supported weapp
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/wxml/IntersectionObserver.disconnect.html
      */
     disconnect(): void
     /** 指定目标节点并开始监听相交状态变化情况
+     * @supported weapp
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/wxml/IntersectionObserver.observe.html
      */
     observe(
@@ -31,6 +33,7 @@ declare module '../../index' {
       callback: IntersectionObserver.ObserveCallback,
     ): void
     /** 使用选择器指定一个节点，作为参照区域之一。
+     * @supported weapp
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/wxml/IntersectionObserver.relativeTo.html
      */
     relativeTo(
@@ -40,6 +43,7 @@ declare module '../../index' {
       margins?: IntersectionObserver.RelativeToMargins,
     ): IntersectionObserver
     /** 指定页面显示区域作为参照区域之一
+     * @supported weapp
      * @example
      * 下面的示例代码中，如果目标节点（用选择器 .target-class 指定）进入显示区域以下 100px 时，就会触发回调函数。
      *
@@ -175,109 +179,6 @@ declare module '../../index' {
     }) => void
   }
 
-  /** 查询节点信息的对象
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/wxml/SelectorQuery.html
-   */
-  interface SelectorQuery {
-    /** 执行所有的请求。请求结果按请求次序构成数组，在callback的第一个参数中返回。
-     * @supported weapp, h5
-     * @see https://developers.weixin.qq.com/miniprogram/dev/api/wxml/SelectorQuery.exec.html
-     */
-    exec(
-      /** 回调函数 */
-      callback?: (...args: any[]) => any,
-    ): NodesRef
-    /** 在当前页面下选择第一个匹配选择器 `selector` 的节点。返回一个 `NodesRef` 对象实例，可以用于获取节点信息。
-     *
-     * **selector 语法**
-     *
-     *
-     * selector类似于 CSS 的选择器，但仅支持下列语法。
-     *
-     * - ID选择器：#the-id
-     * - class选择器（可以连续指定多个）：.a-class.another-class
-     * - 子元素选择器：.the-parent > .the-child
-     * - 后代选择器：.the-ancestor .the-descendant
-     * - 跨自定义组件的后代选择器：.the-ancestor >>> .the-descendant
-     * - 多选择器的并集：#a-node, .some-other-nodes
-     * @supported weapp, h5
-     * @example
-     * ```tsx
-     * Taro.createSelectorQuery().select('#the-id').fields({
-     *   dataset: true,
-     *   size: true,
-     *   scrollOffset: true,
-     *   properties: ['scrollX', 'scrollY']
-     * }, function (res){
-     *   res.dataset    // 节点的dataset
-     *   res.width      // 节点的宽度
-     *   res.height     // 节点的高度
-     *   res.scrollLeft // 节点的水平滚动位置
-     *   res.scrollTop  // 节点的竖直滚动位置
-     *   res.scrollX    // 节点 scroll-x 属性的当前值
-     *   res.scrollY    // 节点 scroll-x 属性的当前值
-     * }).exec()
-     * ```
-     * @see https://developers.weixin.qq.com/miniprogram/dev/api/wxml/SelectorQuery.select.html
-     */
-    select(
-      /** 选择器 */
-      selector: string,
-    ): NodesRef
-    /** 在当前页面下选择匹配选择器 selector 的所有节点。
-     *
-     * **selector 语法**
-     *
-     * selector类似于 CSS 的选择器，但仅支持下列语法。
-     *
-     * - ID选择器：#the-id
-     * - class选择器（可以连续指定多个）：.a-class.another-class
-     * - 子元素选择器：.the-parent > .the-child
-     * - 后代选择器：.the-ancestor .the-descendant
-     * - 跨自定义组件的后代选择器：.the-ancestor >>> .the-descendant
-     * - 多选择器的并集：#a-node, .some-other-nodes
-     * @supported weapp, h5
-     * @see https://developers.weixin.qq.com/miniprogram/dev/api/wxml/SelectorQuery.selectAll.html
-     */
-    selectAll(
-      /** 选择器 */
-      selector: string,
-    ): NodesRef
-    /** 选择显示区域。可用于获取显示区域的尺寸、滚动位置等信息。
-     * @supported weapp, h5
-     * @example
-     * ```tsx
-     * Taro.createSelectorQuery().selectViewport().scrollOffset(function (res) {
-     *   res.id      // 节点的ID
-     *   res.dataset // 节点的dataset
-     *   res.scrollLeft // 节点的水平滚动位置
-     *   res.scrollTop  // 节点的竖直滚动位置
-     * }).exec()
-     * ```
-     * @see https://developers.weixin.qq.com/miniprogram/dev/api/wxml/SelectorQuery.selectViewport.html
-     */
-    selectViewport(): NodesRef
-    /** 将选择器的选取范围更改为自定义组件 `component` 内。（初始时，选择器仅选取页面范围的节点，不会选取任何自定义组件中的节点）。
-     * @supported weapp, h5
-     * @example
-     * ```tsx
-     * Component({
-     *   queryMultipleNodes () {
-     *     const query = Taro.createSelectorQuery().in(this)
-     *     query.select('#the-id').boundingClientRect(function(res){
-     *       res.top // 这个组件内 #the-id 节点的上边界坐标
-     *     }).exec()
-     *   }
-     * })
-     * ```
-     * @see https://developers.weixin.qq.com/miniprogram/dev/api/wxml/SelectorQuery.in.html
-     */
-    in(
-        /** 自定义组件实例 */
-        component: TaroGeneral.IAnyObject,
-    ): SelectorQuery
-  }
-
   /** 用于获取 `WXML` 节点信息的对象
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/wxml/NodesRef.html
    */
@@ -318,8 +219,8 @@ declare module '../../index' {
       /** 回调函数，在执行 `SelectorQuery.exec` 方法后，节点信息会在 `callback` 中返回。 */
       callback?: NodesRef.BoundingClientRectCallback,
     ): SelectorQuery
-    /** 添加节点的 Context 对象查询请求。目前支持 [VideoContext](https://developers.weixin.qq.com/miniprogram/dev/api/media/video/VideoContext.html)、[CanvasContext](https://developers.weixin.qq.com/miniprogram/dev/api/canvas/CanvasContext.html)、[LivePlayerContext](https://developers.weixin.qq.com/miniprogram/dev/api/media/live/LivePlayerContext.html)、[EditorContext](https://developers.weixin.qq.com/miniprogram/dev/api/media/editor/EditorContext.html)和 [MapContext](https://developers.weixin.qq.com/miniprogram/dev/api/media/map/MapContext.html) 的获取。
-     * @supported weapp
+    /** 添加节点的 Context 对象查询请求。目前支持 [VideoContext](/docs/apis/media/video/VideoContext)、[CanvasContext](/docs/apis/canvas/CanvasContext)、[LivePlayerContext](/docs/apis/media/live/LivePlayerContext)、[EditorContext](/docs/apis/media/editor/EditorContext)和 [MapContext](/docs/apis/media/map/MapContext) 的获取。
+     * @supported weapp, h5
      * @example
      * ```tsx
      * Taro.createSelectorQuery().select('.the-video-class').context(function (res) {
@@ -367,8 +268,8 @@ declare module '../../index' {
       /** 回调函数 */
       callback?: NodesRef.FieldsCallback,
     ): SelectorQuery
-    /** 获取 Node 节点实例。目前支持 [Canvas](https://developers.weixin.qq.com/miniprogram/dev/component/canvas.html) 的获取。
-     * @supported weapp
+    /** 获取 Node 节点实例。目前支持 [Canvas](/docs/components/canvas/canvas) 的获取。
+     * @supported weapp, h5
      * @example
      * ```tsx
      * Taro.createSelectorQuery().select('.canvas').node(function(res){
@@ -476,6 +377,109 @@ declare module '../../index' {
       /** 节点的竖直滚动位置 */
       scrollTop: number
     }
+  }
+
+  /** 查询节点信息的对象
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/wxml/SelectorQuery.html
+   */
+  interface SelectorQuery {
+    /** 执行所有的请求。请求结果按请求次序构成数组，在callback的第一个参数中返回。
+     * @supported weapp, h5
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/wxml/SelectorQuery.exec.html
+     */
+    exec(
+      /** 回调函数 */
+      callback?: (...args: any[]) => any,
+    ): NodesRef
+    /** 将选择器的选取范围更改为自定义组件 `component` 内。（初始时，选择器仅选取页面范围的节点，不会选取任何自定义组件中的节点）。
+     * @supported weapp, h5
+     * @example
+     * ```tsx
+     * Component({
+     *   queryMultipleNodes () {
+     *     const query = Taro.createSelectorQuery().in(this)
+     *     query.select('#the-id').boundingClientRect(function(res){
+     *       res.top // 这个组件内 #the-id 节点的上边界坐标
+     *     }).exec()
+     *   }
+     * })
+     * ```
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/wxml/SelectorQuery.in.html
+     */
+    in(
+        /** 自定义组件实例 */
+        component: TaroGeneral.IAnyObject,
+    ): SelectorQuery
+    /** 在当前页面下选择第一个匹配选择器 `selector` 的节点。返回一个 `NodesRef` 对象实例，可以用于获取节点信息。
+     *
+     * **selector 语法**
+     *
+     *
+     * selector类似于 CSS 的选择器，但仅支持下列语法。
+     *
+     * - ID选择器：#the-id
+     * - class选择器（可以连续指定多个）：.a-class.another-class
+     * - 子元素选择器：.the-parent > .the-child
+     * - 后代选择器：.the-ancestor .the-descendant
+     * - 跨自定义组件的后代选择器：.the-ancestor >>> .the-descendant
+     * - 多选择器的并集：#a-node, .some-other-nodes
+     * @supported weapp, h5
+     * @example
+     * ```tsx
+     * Taro.createSelectorQuery().select('#the-id').fields({
+     *   dataset: true,
+     *   size: true,
+     *   scrollOffset: true,
+     *   properties: ['scrollX', 'scrollY']
+     * }, function (res){
+     *   res.dataset    // 节点的dataset
+     *   res.width      // 节点的宽度
+     *   res.height     // 节点的高度
+     *   res.scrollLeft // 节点的水平滚动位置
+     *   res.scrollTop  // 节点的竖直滚动位置
+     *   res.scrollX    // 节点 scroll-x 属性的当前值
+     *   res.scrollY    // 节点 scroll-x 属性的当前值
+     * }).exec()
+     * ```
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/wxml/SelectorQuery.select.html
+     */
+    select(
+      /** 选择器 */
+      selector: string,
+    ): NodesRef
+    /** 在当前页面下选择匹配选择器 selector 的所有节点。
+     *
+     * **selector 语法**
+     *
+     * selector类似于 CSS 的选择器，但仅支持下列语法。
+     *
+     * - ID选择器：#the-id
+     * - class选择器（可以连续指定多个）：.a-class.another-class
+     * - 子元素选择器：.the-parent > .the-child
+     * - 后代选择器：.the-ancestor .the-descendant
+     * - 跨自定义组件的后代选择器：.the-ancestor >>> .the-descendant
+     * - 多选择器的并集：#a-node, .some-other-nodes
+     * @supported weapp, h5
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/wxml/SelectorQuery.selectAll.html
+     */
+    selectAll(
+      /** 选择器 */
+      selector: string,
+    ): NodesRef
+    /** 选择显示区域。可用于获取显示区域的尺寸、滚动位置等信息。
+     * @supported weapp, h5
+     * @example
+     * ```tsx
+     * Taro.createSelectorQuery().selectViewport().scrollOffset(function (res) {
+     *   res.id      // 节点的ID
+     *   res.dataset // 节点的dataset
+     *   res.scrollLeft // 节点的水平滚动位置
+     *   res.scrollTop  // 节点的竖直滚动位置
+     * }).exec()
+     * ```
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/wxml/SelectorQuery.selectViewport.html
+     */
+    selectViewport(): NodesRef
   }
 
   interface TaroStatic {

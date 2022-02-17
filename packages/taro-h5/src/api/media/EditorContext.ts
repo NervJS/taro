@@ -11,6 +11,8 @@ export class EditorContext implements Taro.EditorContext {
 
   getContents = temporarilyNotSupport('EditorContext.getContents')
 
+  getSelectionText = temporarilyNotSupport('EditorContext.getSelectionText')
+
   insertDivider = temporarilyNotSupport('EditorContext.insertDivider')
 
   insertImage = temporarilyNotSupport('EditorContext.insertImage')
