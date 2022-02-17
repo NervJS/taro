@@ -11,7 +11,7 @@ import * as NaturalChunkOrderPlugin from 'webpack/lib/optimize/NaturalChunkOrder
 import * as SplitChunksPlugin from 'webpack/lib/optimize/SplitChunksPlugin'
 import * as RuntimeChunkPlugin from 'webpack/lib/optimize/RuntimeChunkPlugin'
 import * as MiniCssExtractPlugin from 'mini-css-extract-plugin'
-import convert from 'convert-source-map'
+import * as convert from 'convert-source-map'
 import offsetLines from 'offset-sourcemap-lines'
 import { ConcatSource } from 'webpack-sources'
 import { urlToRequest } from 'loader-utils'
