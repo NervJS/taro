@@ -34,6 +34,8 @@ html, body {
     }
     &-bottom {
       bottom: 0;
+      margin-bottom: constant(safe-area-inset-bottom); 
+      margin-bottom: env(safe-area-inset-bottom);
     }
     &-hide {
       display: none;
