@@ -6,30 +6,41 @@ title: 原生项目使用 Taro
 Taro v3.0.25 开始支持
 :::
 
-#### 示例项目：
-
-[taro-blended](https://github.com/NervJS/taro-blended)
-
 ## 基础混合用法
 
-### App 入口
+### 示例项目
 
-#### 1. 以混合模式进行打包
+[blended-basic](https://github.com/NervJS/taro/tree/next/examples/blended-basic)
 
-编译项目时使用 `--blended` 参数以输出混合模式的代码。
+### 用法
+
+#### 1. 开发环境
+
+1.1 推荐在 Taro 项目中进行开发调试，在生产环境下再把产物移动到原生小程序中进行预览。
 
 ```bash
-taro build --type weapp --blended
-taro build --type weapp --watch --blended
+# 和编译普通 Taro 项目一样
+$ taro build --type [platform] --watch
 ```
 
-#### 2. 移动 Taro 项目的输出目录到原生项目内
+1.2 小程序开发者工具导入 **Taro 项目**进行预览。
 
-可以编写一个** Taro 插件**自动移动，可以参考 [plugin-mv](https://github.com/NervJS/taro-blended/blob/master/taro-project/plugin-mv/index.js)。
+#### 2. 生产环境
 
-#### 3. 原生项目的 app.js 中引用 Taro 入口文件
+1.1 编译项目时使用 `--blended` 参数以输出混合模式的代码。
 
-```js title="app.config.js"
+```bash
+# 以混合模式进行打包
+$ taro build --type [platform] --blended
+```
+
+1.2 移动 Taro 项目的输出目录到原生项目内
+
+也可以编写一个 **Taro 插件**自动移动，可以参考 [plugin-mv](https://github.com/NervJS/taro/blob/next/examples/blended-basic/taro-project/plugin-mv/index.js)。
+
+1.3 原生项目的 `app.js` 中引用 Taro 入口文件
+
+```js title="app.config.js" {2,7,12}
 // 必须引用 Taro 项目的入口文件
 const taroApp = require('./taro/app.js').taroApp
 
@@ -46,9 +57,9 @@ App({
 })
 ```
 
-### 引用原生项目的 JS 文件
+### Taro 项目引用原生项目的 JS 文件
 
-有时我们需要在 Taro 项目中引用原生项目中的公共 js 模块，如上报 sdk。但是 Webpack 会把这些公共模块一并打包，导致公共模块存在两份（Taro 产物中一份，原生项目中一份）。
+有时我们需要在 Taro 项目中引用原生项目中的公共 JS 模块（如上报 sdk）。但是 Webpack 会把这些公共模块一并打包，导致公共模块存在两份（Taro 产物中一份，原生项目中一份）。
 
 为了优化包体积大小，我们希望不要打包到 Taro 产物中，而是直接引用原生项目中的代码，可以使用 Webpack 的 [externals](https://webpack.js.org/configuration/externals/) 配置去实现。
 
@@ -60,6 +71,8 @@ App({
     |   └── utils
     |       └── util.js
     └── taro-project      Taro 项目
+        ├── config
+        |   └── index.js 
         └── src
             └── pages
                 └── index 此页面中希望引用 miniapp/utils/util.js
@@ -68,11 +81,17 @@ App({
 2. 配置 Webpack `externals`，选择出不需要打包的依赖，并计算好相对路径。
 3. 设置环境变量 `process.env.NODE_ENV` 为 `production` 时，externals 生效。（当没有手动设置环境变量时，默认在 `watch` 模式时环境变量为 `development`，否则为 `production`）
 
-```js title="config/index.js"
+```js title="config/index.js" {3,8,10,15-29}
 const config = {
   alias: {
-    // 开发环境直接引用原生项目下的依赖，方便开发
-    '@/utils': process.env.NODE_ENV === 'production' ? path.resolve(__dirname, '../utils') : path.resolve(__dirname, '../../miniapp/utils')
+    '@/utils': process.env.NODE_ENV === 'production'
+      // 生产环境路径计算：
+      // Webpack 编译发生在 taro-project 下，假设编译后的 taro-project/dist 会被移到到 miniapp/taro。
+      // path.resolve(__dirname, '..') 为 taro-project。taro-project/dist 之于 taro-project，相当于 miniapp/taro 之于 miniapp。
+      // 再根据 miniapp/utils 与 miniapp 的相对路径，得出 path.resolve(__dirname, '../utils')
+      ? path.resolve(__dirname, '../utils')
+      // 开发环境直接引用原生项目下的依赖，方便开发
+      : path.resolve(__dirname, '../../miniapp/utils')
   },
   mini: {
     webpackChain (chain) {
@@ -98,6 +117,8 @@ const config = {
 }
 ```
 
+#### 效果
+
 ```js title="taro-project/src/pages/index/index.js"
 import { logSomething } from '@/utils/util'
 logSomething()
@@ -110,12 +131,13 @@ logSomething()
     // ...
   }),
   "@/utils/util": (function(module, exports) {
+    // 成功 external
     module.exports = require("../../../utils/util");
   })
 }
 ```
 
-### 引用原生项目的原生组件
+### Taro 项目引用原生项目的原生组件
 
 有时我们需要在 Taro 项目中引用原生项目中的公共自定义组件。
 
@@ -133,8 +155,10 @@ logSomething()
     |           ├── index.wxss
     |           └── index.json
     └── taro-project           Taro 项目
+        ├── config
+        |   └── index.js 
         └── src
-            ├── components     把原生项目的组件拷贝过来，让开发环境能正确解析组件
+            ├── components     小程序不支持引用根目录之外的组件，因此只能把原生项目的组件拷贝过来，让开发环境能正确解析组件
             |   └── title      
             └── pages
                 └── index      此页面中希望引用 miniapp/components/title
@@ -142,15 +166,22 @@ logSomething()
 1. 把原生项目的组件拷贝到 Taro 项目，让开发环境能正确解析组件。
 2. 根据开发环境和生产环境，正确配置 `alias`
 
-```js title="config/index.js"
+```js title="config/index.js" {3,8,10}
 const config = {
   alias: {
-    '@/components': process.env.NODE_ENV === 'production' ? path.resolve(__dirname, '../components') : path.resolve(__dirname, '../../miniapp/components')
+    '@/components': process.env.NODE_ENV === 'production'
+      // 生产环境路径计算：
+      // Webpack 编译发生在 taro-project 下，假设编译后的 taro-project/dist 会被移到到 miniapp/taro。
+      // path.resolve(__dirname, '..') 为 taro-project。taro-project/dist 之于 taro-project，相当于 miniapp/taro 之于 miniapp。
+      // 再根据 miniapp/components 与 miniapp 的相对路径，得出 path.resolve(__dirname, '../components')
+      ? path.resolve(__dirname, '../components')
+      // 开发环境引用 taro-project/src 下的组件
+      : path.resolve(__dirname, '../src/components')
   }
 }
 ```
 
-```js title="taro-project/src/pages/index/index.config.js"
+```js title="taro-project/src/pages/index/index.config.js" {3}
 export default {
   usingComponents: {
     title: '@/components/title/index'
@@ -158,15 +189,15 @@ export default {
 }
 ```
 
-## 对 Taro 项目的部分页面分包
+### 对 Taro 项目的部分页面分包
 
-对 Taro 项目中**部分页面**进行分包。
+在原生项目中直接配置 subPackages 指向 Taro 编译后的页面即可。
 
-### 依赖细分
+#### 依赖细分
 
-Taro 默认会把页面共用的普通依赖打包到 `common.js`，node_modules 依赖打包到 `vendor.js`。
+Taro 默认会把页面共用的普通依赖打包为主包里的 `common.js`，node_modules 依赖打包为主包里的 `vendor.js`。
 
-但是在分包时，我们会希望把**只有在分包中共用的依赖**打包到分包中，而不是打在主包的 `common.js` 和 `vendor.js` 中。这就需要我们对依赖进行细分，可以借助 Webpack 的 [splitChunk](https://webpack.js.org/plugins/split-chunks-plugin/) 和 Taro 的 [addChunkPages](./config-detail#miniaddchunkpages) 配置去实现。
+但是在分包时，我们会希望把**只有在分包中共用的依赖**打包到分包中，而不是打在主包的 `common.js` 和 `vendor.js` 中。这就需要我们对依赖进行细分。可以借助 Webpack 的 [splitChunk](https://webpack.js.org/plugins/split-chunks-plugin/) 和 Taro 的 [addChunkPages](./config-detail#miniaddchunkpages) 配置去实现。
 
 #### 例子
 
@@ -178,7 +209,7 @@ Taro 默认会把页面共用的普通依赖打包到 `common.js`，node_modules
     |   └── subPackages
     |       ├── foo
     |       ├── bar
-    |       └── common.js 只有 subPackages 子包中使用的公共依赖
+    |       └── common.js 只有 subPackages 子包中使用的公共依赖
     └── src
         └── subPackages
             ├── foo
@@ -187,7 +218,7 @@ Taro 默认会把页面共用的普通依赖打包到 `common.js`，node_modules
 1. 使用 **Webpack splitChunks** 把只有 `subpackages` 子包独有的依赖打包到 `subpackages/common.js` 中。
 2. 使用 **Taro addChunkPages** 配置，在子包中所有页面的头部添加对 `subpackages/common.js` 的引用。
 
-```js title="config/index.js"
+```js title="config/index.js" {3-6,12-20}
 const config = {
   mini: {
     addChunkPages (pages) {
@@ -219,6 +250,10 @@ const config = {
 
 ## 把 Taro 项目作为一个完整分包
 
+### 示例项目
+
+[blended-apart](https://github.com/NervJS/taro/tree/next/examples/blended-apart)
+
 ### 使用方法
 
 #### 1. 安装使用插件
@@ -239,20 +274,31 @@ const config = {
 }
 ```
 
-#### 2. 以混合模式进行打包
+#### 2. 开发环境
 
-编译项目时使用 `--blended` 参数以输出混合模式的代码。
+2.1 推荐在 Taro 项目中进行开发调试，在生产环境下再把产物移动到原生小程序中进行预览。
 
 ```bash
-taro build --type weapp --blended
-taro build --type weapp --watch --blended
+# 和编译普通 Taro 项目一样
+$ taro build --type [platform] --watch
 ```
 
-#### 3. 移动 Taro 项目的输出目录到原生项目内
+2.2 小程序开发者工具导入 **Taro 项目**进行预览。
 
-可以编写一个** Taro 插件**自动移动，可以参考 [plugin-mv](https://github.com/NervJS/taro-blended/blob/master/taro-project/plugin-mv/index.js)。
+#### 3. 生产环境
 
-#### 4. 设置原生项目的分包配置
+3.1 编译项目时使用 `--blended` 参数以输出混合模式的代码。
+
+```bash
+# 以混合模式进行打包
+$ taro build --type [platform] --blended
+```
+
+3.2 移动 Taro 项目的输出目录到原生项目内
+
+也可以编写一个 **Taro 插件**自动移动，可以参考 [plugin-mv](https://github.com/NervJS/taro/blob/next/examples/blended-basic/taro-project/plugin-mv/index.js)。
+
+3.3 设置原生项目的分包配置
 
 ### 把 Taro 项目拆分到多个分包
 
@@ -260,9 +306,8 @@ taro build --type weapp --watch --blended
 
 为此，和普通打出**一个分包**不同的是，首先需要配置 Webpack 的 `output.jsonpFunction` 配置，避免 `chunkid` 的冲突。
 
-```js title="config/index.js"
+```js title="config/index.js" {7}
 config = {
-  // ...
   mini: {
     webpackChain (chain) {
       chain.merge({
@@ -285,6 +330,10 @@ Taro v3.1.2 开始支持，且暂时只支持 React
 :::
 
 Taro 支持把组件编译为**原生小程序自定义组件**，供原生项目使用。
+
+### 示例项目
+
+[blended-taro-component](https://github.com/NervJS/taro/tree/next/examples/blended-taro-component)
 
 ### 使用方法
 
