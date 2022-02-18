@@ -288,6 +288,11 @@ function processApis (taro, global, config: IProcessApisIOptions = {}) {
 
         // 给 promise 对象挂载属性
         if (key === 'uploadFile' || key === 'downloadFile') {
+          task && ['abort', 'offHeadersReceived', 'offProgressUpdate', 'onHeadersReceived', 'onProgressUpdate'].forEach(method => {
+            if (method in task) {
+              p[method] = task[method].bind(task)
+            }
+          })
           p.progress = cb => {
             task?.onProgressUpdate(cb)
             return p
