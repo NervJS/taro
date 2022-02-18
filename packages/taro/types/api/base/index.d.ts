@@ -35,6 +35,13 @@ declare module '../../index' {
       schema: string
     ): boolean
 
+    /** 判断能否使用 WebP 格式
+     * 
+     * > 在小程序平台中仅在 android 和 devtools 设备时可用
+     * @supported global
+     */
+    canIUseWebp(): boolean
+
     /**
      * 将 Base64 字符串转成 ArrayBuffer 数据。
      * @supported weapp, h5, rn
