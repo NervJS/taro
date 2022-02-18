@@ -6,13 +6,12 @@ title: 更多资源
 
 ## 开源项目
 
-### Taro3 
+### Taro3
 
 - [Taro UI Vue3](https://b2nil.github.io/taro-ui-vue3/)
 - [Taro UI Vue](https://github.com/psaren/taro-ui-vue)
 - [基于 Taro + Taro-ui + Typescript + redux 开发的网易云音乐小程序](https://github.com/lsqy/taro-music)
 - [Taro Design 开源页面设计器](https://github.com/ShaoGongBra/taro-design)
-
 
 ### Taro2
 
@@ -22,8 +21,7 @@ title: 更多资源
 - [基于 Taro + Taro-ui + Typescript + redux 开发的网易云音乐小程序](https://github.com/lsqy/taro-music/tree/feature_taro2.x)
 - [基于 Taro2.0 + dva + Taro-ui + wemark 开发的 markdown 文章博客小程序](https://github.com/hirCodd/JavaNorthMiniApp.git)
 
-
-### Taro1 
+### Taro1
 
 - 💯 [首个 Taro 多端统一实例 - 网易严选（小程序 + H5 + React Native）](https://github.com/js-newbee/taro-yanxuan)
 - 💯 [基于 Taro + Dva 构建的时装衣橱(电商实战项目)](https://github.com/EasyTuan/taro-msparis)
@@ -71,6 +69,10 @@ title: 更多资源
 - [Taro 与 Redux 结合使用教程](https://github.com/imageslr/taro-library#%E5%BC%95%E5%85%A5-redux)
 - [微信小程序开发之影分身术](https://juejin.im/post/5c788d28e51d4560a82be8d2)
 
+## 视频教程
+
+- [凹凸极客沙龙《用Webpack打包小程序》2020-04-17](https://www.bilibili.com/video/BV15A411b7cy) by [luckyadam](https://github.com/luckyadam)
+
 ## 开发技巧
 
 - [微信小程序 wx.request 对于 JSON 含 \u2028 处理异常](https://segmentfault.com/a/1190000015443614)
@@ -92,8 +94,6 @@ title: 更多资源
 - [与微信小程序原生融合的示例（Vue版）](https://github.com/NervJS/taro-sample-weapp/tree/vue)
 - [Taro 示例项目(内置 计数器 与 异步请求): Taro + Dva + Typescript + Immutable](https://github.com/didilinkin/tarojs-ts-cli)
 - 💯 [nice-router-taro 脚手架项目，DVA+数据驱动页面+数据驱动表单+数据驱动list](https://github.com/kala888/nice-router-taro)
-
-
 
 ### Taro 2
 

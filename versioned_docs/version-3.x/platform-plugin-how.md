@@ -264,8 +264,11 @@ import { ComponentType } from 'react'
 import Taro from '@tarojs/taro'
 
 declare module '@tarojs/taro' {
-  namespace ix {
-    function onCashierEventReceive (cb: any): void
+  interface Ix {
+    onCashierEventReceive (cb: any): void
+  }
+  interface TaroStatic {
+    ix: Ix
   }
 }
 
