@@ -3469,6 +3469,46 @@ describe('ICSS :export pseudo-selector', () => {
     })
   })
 
+  it('should transform border-[direction] property', () => {
+    expect(
+      transform(`
+      .left {
+        border-left: red 1px solid;
+      }
+      .right {
+        border-right: solid 1px red;
+      }
+      .bottom {
+        border-bottom: solid red 1px;
+      }
+      .top {
+        border-top: 1px red solid;
+      }
+    `, { scalable: false })
+    ).toEqual({
+      top: {
+        borderTopWidth: 1,
+        borderTopStyle: 'solid',
+        borderTopColor: 'red'
+      },
+      right: {
+        borderRightWidth: 1,
+        borderRightStyle: 'solid',
+        borderRightColor: 'red'
+      },
+      bottom: {
+        borderBottomWidth: 1,
+        borderBottomStyle: 'solid',
+        borderBottomColor: 'red'
+      },
+      left: {
+        borderLeftWidth: 1,
+        borderLeftStyle: 'solid',
+        borderLeftColor: 'red'
+      }
+    })
+  })
+
   it('should throw an error if exportedKey has the same name as a class and is defined twice', () => {
     expect(() =>
       transform(`
