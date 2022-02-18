@@ -1,11 +1,11 @@
-import fs from 'fs'
-import path from 'path'
+import * as fs from 'fs'
+import * as path from 'path'
 import { printLog, processTypeEnum } from '@tarojs/helper'
 import { ResolveStyleOptions, LogLevelEnum } from '../types'
-import resolve from 'resolve'
+import * as resolve from 'resolve'
 import nodeModulesPaths from 'resolve/lib/node-modules-paths'
 
-export function insertBefore (source: string, additional: string) {
+export function insertBefore (source?: string, additional?: string) {
   if (!source && !additional) {
     return ''
   }
@@ -18,7 +18,7 @@ export function insertBefore (source: string, additional: string) {
   return additional + ';\n' + source
 }
 
-export function insertAfter (source: string, additional: string) {
+export function insertAfter (source?: string, additional?: string) {
   if (!source && !additional) {
     return ''
   }
@@ -82,7 +82,7 @@ export function resolveStyle (id: string, opts: ResolveStyleOptions) {
     ext
   ]
 
-  let file: string
+  let file = ''
   let isNodeModulesPath = false
   try {
     if ((/^(?:\.\.?(?:\/|$)|\/|([A-Za-z]:)?[/\\])/).test(id)) {
@@ -187,7 +187,7 @@ export function normalizeSourceMap (map, resourcePath) {
 }
 // copy end
 
-export function getAdditionalData (data: string, config: string | ((key: string) => string)) {
+export function getAdditionalData (data: string, config?: string | ((key: string) => string)) {
   let additionalData = ''
   if (typeof config !== 'undefined') {
     additionalData =

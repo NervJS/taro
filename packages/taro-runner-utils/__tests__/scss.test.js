@@ -1,4 +1,4 @@
-import path from 'path'
+import * as path from 'path'
 import { getBundleResult, getBundleContent, getSassLoaderOption } from '../dist/index'
 
 describe('getBundleResult', () => {
