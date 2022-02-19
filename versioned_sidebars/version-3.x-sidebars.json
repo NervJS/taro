@@ -67,6 +67,7 @@
           "come-from-miniapp",
           "wxcloudbase",
           "miniprogram-plugin",
+          "independent-subpackage",
           "mini-troubleshooting"
         ]
       },
