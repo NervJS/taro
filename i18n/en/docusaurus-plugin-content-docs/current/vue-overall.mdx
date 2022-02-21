@@ -10,12 +10,11 @@ Taro 3 supports running Web frameworks directly on each platform, and developers
 
 However, Taro follows the WeChat mini program specification in terms of components, APIs, routing and other specifications, so there are some differences between using React in Taro and the familiar web side for developers, which will be listed in detail below.
 
-## Entry components and page components#
+## Entry components and page components
 
 Because Taro follows the routing specification for mini program, it introduces [entry component](. /vue-entry) and [page component](. /vue-page) concepts, corresponding to the mini program specification's entry component `app` and page component `page`, respectively.
 
 A Taro application consists of an entry component and at least one page component.
-
 
 ## Built-in Components
 
@@ -206,13 +205,13 @@ Triggered after the page component is rendered to Taro's virtual DOM.
 
 At this point, Taro's virtual DOM can be accessed (using Vue ref, document.getElementById, etc.) and manipulation of it (setting the style of the DOM, etc.) is supported.
 
-However, this does not mean that Taro's virtual DOM data has been transferred from the logical layer `setData` to the view layer. So at this point ** it is not possible to get the DOM nodes of the rendering layer of the mini program by methods like `createSelectorQuery`. ** Only in the [onReady](vue-page#onready-) lifecycle.
+However, this does not mean that Taro's virtual DOM data has been transferred from the logical layer `setData` to the view layer. So at this point **it is not possible to get the DOM nodes of the rendering layer of the mini program by methods like `createSelectorQuery`.** Only in the [onReady](vue-page#onready-) lifecycle.
 
 ### Methods for mini program pages
 
 The methods in the mini program page will also work in Taro's page: write the method of the same name in the Vue object.
 
-**Note: **The degree of support for the mini program page method varies from end to end, so please check the documentation for the corresponding mini program.
+**Note:**The degree of support for the mini program page method varies from end to end, so please check the documentation for the corresponding mini program.
 
 ## Ref
 
