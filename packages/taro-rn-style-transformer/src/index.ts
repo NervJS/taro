@@ -1,4 +1,4 @@
-import path from 'path'
+import * as path from 'path'
 // import semver from 'semver'
 // import reactNativePKG from 'react-native/package.json'
 import StyleTransform from './transforms'
@@ -14,7 +14,7 @@ const upstreamTransformer = require('metro-react-native-babel-transformer')
 const getSingleStyleTransform = styleTransformIns()
 
 function styleTransformIns () {
-  let styleTransform = null
+  let styleTransform: StyleTransform | null = null
   return function (config) {
     // 初始化 config
     if (!styleTransform) {
