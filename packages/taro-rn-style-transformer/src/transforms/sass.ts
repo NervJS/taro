@@ -1,5 +1,5 @@
-import fs from 'fs'
-import path from 'path'
+import * as fs from 'fs'
+import * as path from 'path'
 import { Options } from 'sass'
 import { insertAfter, insertBefore, resolveStyle, getAdditionalData } from '../utils'
 import { TransformOptions, RenderResult, RenderAdditionalResult } from '../types'
@@ -71,7 +71,7 @@ function getGlobalResource (filename: string, config: SassGlobalConfig) {
 
 function combineResource (src: string, filename: string, config: Config) {
   // sass config
-  const globalResource = getGlobalResource(filename, config.sass)
+  const globalResource = getGlobalResource(filename, config.sass || {})
 
   // sass tranform config
   const additionalData = getAdditionalData(src, config.additionalData)
