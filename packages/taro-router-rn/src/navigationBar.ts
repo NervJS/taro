@@ -15,7 +15,7 @@ function setNavigateConfig (obj) {
   const params = oldParams?.navigateConfig || {}
   navigationRef.current?.setParams({
     navigateConfig: Object.assign({}, { ...params }, { ...obj })
-  })
+  } as never)
 }
 
 export function setNavigationBarTitle (option: NavigateBarTitleOption): Promise<CallbackResult> {

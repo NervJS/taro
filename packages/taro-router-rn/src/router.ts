@@ -5,7 +5,7 @@ import { camelCase } from 'lodash'
 import { NavigationContainer } from '@react-navigation/native'
 import { BackBehavior } from '@react-navigation/routers/src/TabRouter'
 import { createStackNavigator, CardStyleInterpolators } from '@react-navigation/stack'
-import { StackHeaderOptions, StackCardMode, StackHeaderMode } from '@react-navigation/stack/src/types'
+import { StackHeaderOptions, StackHeaderMode } from '@react-navigation/stack/src/types'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { navigationRef } from './rootNavigation'
 import CustomTabBar from './view/TabBar'
@@ -13,6 +13,7 @@ import HeadTitle from './view/HeadTitle'
 import BackButton from './view/BackButton'
 import { getTabItemConfig, getTabVisible, setTabConfig, getTabInitRoute, handleUrl } from './utils/index'
 
+export type StackCardMode = 'card' | 'modal';
 interface WindowConfig {
   pageOrientation?: 'auto' | 'portrait' | 'landscape'
   pullRefresh?: 'YES' | 'NO' | boolean
@@ -237,7 +238,7 @@ function createTabStack (config: RouterConfig, parentProps: any) {
   const userOptions: Record<string, any> = rnConfig?.options || {}
   tabBar?.list.forEach((item, index) => {
     const defaultOptions = Object.assign({}, { tabBarVisible: config.tabBar?.custom ? false : getTabVisible() }, getTabItemOptions(item, index))
-    const tabItemOptions = Object.assign({}, defaultOptions, userOptions)
+    const tabItemOptions = Object.assign({}, defaultOptions, userOptions, { headerShown: false, title: item.text + 'xxx' })
     setTabConfig('tabBarVisible', tabItemOptions.tabBarVisible)
     const path = item.pagePath.startsWith('/') ? item.pagePath : `/${item.pagePath}`
     const tabName = camelCase(path)
@@ -282,16 +283,15 @@ function createTabStack (config: RouterConfig, parentProps: any) {
   return React.createElement(Tab.Navigator,
     {
       ...tabProps,
-      tabBarOptions: tabBarOptions,
-      tabBar: (props) => createTabBar(props, userOptions),
+      tabBar: (props) => createTabBar(props, userOptions, tabBarOptions),
       initialRouteName: tabInitRouteName,
       children: tabList
     },
     tabList)
 }
 
-function createTabBar (props, userOptions) {
-  return React.createElement(CustomTabBar, { ...props, userOptions })
+function createTabBar (props, userOptions, tabBarOptions) {
+  return React.createElement(CustomTabBar, { ...props, userOptions, ...tabBarOptions })
 }
 
 function getLinkingConfig (config: RouterConfig) {
