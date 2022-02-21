@@ -1,4 +1,4 @@
-import path from 'path'
+import * as path from 'path'
 
 /**
  * REF: https://jestjs.io/docs/en/webpack

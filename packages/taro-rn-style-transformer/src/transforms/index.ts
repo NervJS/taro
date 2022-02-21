@@ -1,4 +1,4 @@
-import path from 'path'
+import * as path from 'path'
 import transformCSS from 'taro-css-to-react-native'
 import { recursiveMerge, printLog, processTypeEnum } from '@tarojs/helper'
 
@@ -235,7 +235,7 @@ export default class StyleTransform {
       result.css,
       {
         parseMediaQueries: true,
-        scalable: this.config.rn.postcss.scalable
+        scalable: this.config.rn.postcss?.scalable
       }
     )
 

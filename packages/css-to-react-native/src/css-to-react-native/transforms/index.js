@@ -7,6 +7,7 @@ import textShadow from './textShadow'
 import textDecoration from './textDecoration'
 import textDecorationLine from './textDecorationLine'
 import transform from './transform'
+import { border, borderTop, borderRight, borderBottom, borderLeft, borderColor, borderRadius, borderWidth } from './border'
 import { directionFactory, anyOrderFactory, shadowOffsetFactory } from './util'
 
 const {
@@ -22,31 +23,6 @@ const {
 const background = tokenStream => ({
   $merge: { backgroundColor: tokenStream.expect(COLOR) }
 })
-const border = anyOrderFactory({
-  borderWidth: {
-    tokens: [LENGTH, UNSUPPORTED_LENGTH_UNIT],
-    default: 1
-  },
-  borderColor: {
-    tokens: [COLOR],
-    default: 'black'
-  },
-  borderStyle: {
-    tokens: [regExpToken(/^(solid|dashed|dotted)$/)],
-    default: 'solid'
-  }
-})
-const borderColor = directionFactory({
-  types: [WORD],
-  prefix: 'border',
-  suffix: 'Color'
-})
-const borderRadius = directionFactory({
-  directions: ['TopLeft', 'TopRight', 'BottomRight', 'BottomLeft'],
-  prefix: 'border',
-  suffix: 'Radius'
-})
-const borderWidth = directionFactory({ prefix: 'border', suffix: 'Width' })
 const margin = directionFactory({
   types: [LENGTH, UNSUPPORTED_LENGTH_UNIT, PERCENT, AUTO],
   prefix: 'margin'
@@ -70,6 +46,10 @@ const textShadowOffset = shadowOffsetFactory()
 export default {
   background,
   border,
+  borderTop,
+  borderRight,
+  borderBottom,
+  borderLeft,
   borderColor,
   borderRadius,
   borderWidth,
