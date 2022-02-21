@@ -13,11 +13,19 @@ export class H5WebpackPlugin {
     this.combination = combination
   }
 
-  getPlugins () {
+  getPlugins (isMultiRouterMode = false, pages: string[]) {
+    const { config } = this.combination
+    const { entryFileName = 'app' } = config
     const plugins: Record<string, { plugin: any, args: PluginArgs }> = {
       definePlugin: this.getDefinePlugin(),
-      htmlWebpackPlugin: this.getHtmlWebpackPlugin(),
       mainPlugin: this.getH5Plugin()
+    }
+    if (isMultiRouterMode) {
+      pages.forEach(page => {
+        plugins[page] = this.getHtmlWebpackPlugin(page, [entryFileName])
+      })
+    } else {
+      plugins.htmlWebpackPlugin = this.getHtmlWebpackPlugin()
     }
 
     const miniCssExtractPlugin = this.getMiniCssExtractPlugin()
@@ -89,10 +97,13 @@ export class H5WebpackPlugin {
     return cssoWebpackPlugin
   }
 
-  getHtmlWebpackPlugin () {
-    const args = {
-      filename: 'index.html',
+  getHtmlWebpackPlugin (entry = '', chunks: string[] = []) {
+    const args: Record<string, string | string []> = {
+      filename: `${entry || 'index'}.html`,
       template: path.join(this.combination.sourceDir, 'index.html')
+    }
+    if (entry && entry !== 'index') {
+      args.chunks = [...chunks, entry]
     }
     return WebpackPlugin.getPlugin(HtmlWebpackPlugin, [args])
   }

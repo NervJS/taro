@@ -10,7 +10,8 @@ export function setHistoryMode (mode?: IH5RouterConfig['mode'], base = '/') {
     window
   }
   basename = base
-  if (mode === 'browser') {
+
+  if (mode === 'multi' || mode === 'browser') {
     history = createBrowserHistory(options)
   } else {
     // default is hash
