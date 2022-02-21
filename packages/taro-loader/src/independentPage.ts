@@ -40,15 +40,18 @@ if (typeof PRERENDER !== 'undefined') {
   ${globalObject}._prerender = inst
 }`
   return `${setReconciler}
-import { createPageConfig, window } from '@tarojs/runtime'
+import { defaultReconciler } from '@tarojs/shared'
+import { createPageConfig, window, container, SERVICE_IDENTIFIER } from '@tarojs/runtime'
 import { ${creator} } from '${creatorLocation}'
-import component from ${stringify(componentPath)}
 ${importFrameworkStatement}
+var hooks = container.get(SERVICE_IDENTIFIER.Hooks)
+hooks.initNativeApiImpls = [defaultReconciler.initNativeApi]
 var config = ${configString};
 var appConfig = ${JSON.stringify(appConfig)};
 window.__taroAppConfig = appConfig
 ${mockAppStatement}
 ${creator}(App, ${frameworkArgsCopy})
+var component = require(${stringify(componentPath)}).default
 ${config.enableShareTimeline ? 'component.enableShareTimeline = true' : ''}
 ${config.enableShareAppMessage ? 'component.enableShareAppMessage = true' : ''}
 var inst = Page(createPageConfig(component, '${options.name}', {}, config || {}))
