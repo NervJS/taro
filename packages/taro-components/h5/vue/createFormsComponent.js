@@ -21,11 +21,11 @@ export default function createFormsComponent (name, event, modelValue = 'value',
     methods: {
       input (e) {
         this.$emit('input', e)
-        this.$emit('model', e.target.value)
+        this.$emit('model', e.detail.value)
       },
       change (e) {
         this.$emit('change', e)
-        this.$emit('model', e.target.value)
+        this.$emit('model', e.detail.value)
       }
     },
     render (createElement) {
