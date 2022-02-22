@@ -1,9 +1,9 @@
 import * as path from 'path'
 import * as fs from 'fs-extra'
 import * as webpack from 'webpack'
-import * as SingleEntryDependency from 'webpack/lib/dependencies/SingleEntryDependency'
+import * as EntryDependency from 'webpack/lib/dependencies/EntryDependency'
 import * as JsonpTemplatePlugin from 'webpack/lib/web/JsonpTemplatePlugin'
-import * as NaturalChunkOrderPlugin from 'webpack/lib/optimize/NaturalChunkOrderPlugin'
+import * as NaturalChunkIdsPlugin from 'webpack/lib/ids/NaturalChunkIdsPlugin'
 import * as SplitChunksPlugin from 'webpack/lib/optimize/SplitChunksPlugin'
 import * as RuntimeChunkPlugin from 'webpack/lib/optimize/RuntimeChunkPlugin'
 import * as MiniCssExtractPlugin from 'mini-css-extract-plugin'
@@ -220,7 +220,7 @@ export default class TaroMiniPlugin {
 
     compiler.hooks.compilation.tap(PLUGIN_NAME, (compilation, { normalModuleFactory }) => {
       /** For Webpack compilation get factory from compilation.dependencyFactories by denpendence's constructor */
-      compilation.dependencyFactories.set(SingleEntryDependency, normalModuleFactory)
+      compilation.dependencyFactories.set(EntryDependency, normalModuleFactory)
       compilation.dependencyFactories.set(TaroSingleEntryDependency as any, normalModuleFactory)
 
       /**
@@ -744,14 +744,15 @@ export default class TaroMiniPlugin {
     if (independentPackages.size) {
       independentPackages.forEach((pages, name) => {
         const childCompiler = compilation.createChildCompiler(PLUGIN_NAME, {
-          path: `${compiler.options.output}/${name}`
+          path: `${compiler.options.output}/${name}`,
+          chunkLoadingGlobal: `subpackage_${name}`
         })
         const compPath = path.resolve(__dirname, '..', 'template/comp')
         childCompiler.inputFileSystem = compiler.inputFileSystem
         childCompiler.outputFileSystem = compiler.outputFileSystem
         childCompiler.context = compiler.context
         new JsonpTemplatePlugin().apply(childCompiler)
-        new NaturalChunkOrderPlugin().apply(childCompiler)
+        new NaturalChunkIdsPlugin().apply(childCompiler)
         new MiniCssExtractPlugin({
           filename: `[name]${this.options.fileType.style}`,
           chunkFilename: `[name]${this.options.fileType.style}`
