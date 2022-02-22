@@ -1,4 +1,4 @@
-import path from 'path'
+import * as path from 'path'
 import less from 'less'
 import makeLessImport from '../utils/lessImport'
 import { insertBefore, getAdditionalData } from '../utils'

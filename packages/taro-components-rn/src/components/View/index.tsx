@@ -10,13 +10,14 @@ import {
   View,
   Text,
 } from 'react-native'
-import { extracteTextStyle } from '../../utils'
-import ClickableSimplified from '../ClickableSimplified'
+import { extracteTextStyle, omit } from '../../utils'
+import ClickableSimplified, { clickableHandlers } from '../ClickableSimplified'
 import { _ViewProps } from './PropsType'
 
 const stringToText = (child: any, props: any) => {
   // TODO: 实现小程序中效果
-  return (typeof child === 'string' || typeof child === 'number') ? <Text {...props}>{child}</Text> : child
+  return (typeof child === 'string' || typeof child === 'number')
+    ? <Text {...omit(props, clickableHandlers)}>{child}</Text> : child
 }
 
 const _View: React.FC<_ViewProps> = (props: _ViewProps) => {

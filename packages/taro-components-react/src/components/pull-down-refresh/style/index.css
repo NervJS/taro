@@ -3,6 +3,7 @@
 }
 .rmc-pull-to-refresh-content-wrapper {
   overflow: hidden;
+  min-height: 100vh;
 }
 
 .rmc-pull-to-refresh-transition {

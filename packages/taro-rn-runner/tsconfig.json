@@ -1,28 +1,13 @@
 {
-    "include": [
-      "src/**/*"
-    ],
-    "compilerOptions": {
-      "rootDir": "./src",
-      "outDir": "./dist",
-      "strictNullChecks": true,
-      "sourceMap": true,
-      "allowJs": true,
-      "noImplicitAny": false,
-      "allowSyntheticDefaultImports": true,
-      "downlevelIteration": true,
-      "moduleResolution": "node",
-      "target": "es5",
-      "skipLibCheck": true,
-      "lib": [
-        "ES2015",
-      ],
-      "types": [
-        "node"
-      ],
-      "typeRoots": [
-        "./node_modules",
-        "./src/types"
-      ]
-    }
+  "extends": "../../tsconfig.root.json",
+  "include": ["src/**/*"],
+  "compilerOptions": {
+    "rootDir": "./src",
+    "outDir": "./dist",
+    "sourceMap": true,
+    "skipLibCheck": true,
+    "types": ["node"],
+    "module": "commonjs",
+    "typeRoots": ["./node_modules/@types", "./src/types"]
   }
+}

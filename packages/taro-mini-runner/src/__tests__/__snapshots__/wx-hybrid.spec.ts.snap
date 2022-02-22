@@ -382,7 +382,7 @@ require(\\"./taro\\");
         let ReactDOM$1;
         const pageKeyId = Object(taro_runtime[\\"incrementId\\"])();
         const hooks$1 = taro_runtime[\\"container\\"].get(taro_runtime[\\"SERVICE_IDENTIFIER\\"].Hooks);
-        function setReconciler() {
+        function setReconciler(ReactDOM) {
             var _a;
             hooks$1.getLifecycle = function(instance, lifecycle) {
                 lifecycle = lifecycle.replace(/^on(Show|Hide)$/, \\"componentDid$1\\");
@@ -392,7 +392,7 @@ require(\\"./taro\\");
                 event.type = event.type.replace(/-/g, \\"\\");
             }));
             hooks$1.batchedEventUpdates = function(cb) {
-                ReactDOM$1.unstable_batchedUpdates(cb);
+                ReactDOM.unstable_batchedUpdates(cb);
             };
             hooks$1.mergePageInstance = function(prev, next) {
                 if (!prev || !next) return;
@@ -456,7 +456,7 @@ require(\\"./taro\\");
             const appInstanceRef = react.createRef();
             const isReactComponent = isClassComponent(R$1, App);
             let appWrapper;
-            setReconciler();
+            setReconciler(ReactDOM$1);
             function getAppInstance() {
                 return appInstanceRef.current;
             }
@@ -699,7 +699,9 @@ require(\\"./taro\\");
                             key: compId,
                             getCtx: getCtx,
                             renderComponent(ctx) {
-                                return h(Component, Object.assign(Object.assign({}, (ctx.data || (ctx.data = {})).props), refs));
+                                return h(Component, Object.assign(Object.assign(Object.assign({}, (ctx.data || (ctx.data = {})).props), refs), {
+                                    $scope: ctx
+                                }));
                             }
                         })
                     };
@@ -720,15 +722,16 @@ require(\\"./taro\\");
                     return components.map(({element: element}) => element);
                 }
             }
-            setReconciler();
+            setReconciler(ReactDOM);
             const app = taro_runtime[\\"document\\"].getElementById(\\"app\\");
             ReactDOM.render(h(Entry, {}), app);
         }
         function createNativeComponentConfig(Component, react, reactdom, componentConfig) {
+            var _a, _b;
             runtime_R = react;
             h = react.createElement;
             runtime_ReactDOM = reactdom;
-            setReconciler();
+            setReconciler(runtime_ReactDOM);
             const componentObj = {
                 options: componentConfig,
                 properties: {
@@ -796,6 +799,24 @@ require(\\"./taro\\");
                         }
                     });
                 }
+            }
+            if (Component.onShareAppMessage || ((_a = Component.prototype) === null || _a === void 0 ? void 0 : _a.onShareAppMessage) || Component.enableShareAppMessage) {
+                componentObj.methods.onShareAppMessage = function(options) {
+                    const target = options === null || options === void 0 ? void 0 : options.target;
+                    if (target) {
+                        const id = target.id;
+                        const element = taro_runtime[\\"document\\"].getElementById(id);
+                        if (element) {
+                            target.dataset = element.dataset;
+                        }
+                    }
+                    return Object(taro_runtime[\\"safeExecute\\"])(this.compId, \\"onShareAppMessage\\", options);
+                };
+            }
+            if (Component.onShareTimeline || ((_b = Component.prototype) === null || _b === void 0 ? void 0 : _b.onShareTimeline) || Component.enableShareTimeline) {
+                componentObj.methods.onShareTimeline = function() {
+                    return Object(taro_runtime[\\"safeExecute\\"])(this.compId, \\"onShareTimeline\\");
+                };
             }
             return componentObj;
         }
