@@ -45,7 +45,8 @@ export class Combination<T extends MiniBuildConfig | H5BuildConfig> {
     const sassLoaderOption = await getSassLoaderOption(rawConfig)
     this.config = {
       ...rawConfig,
-      sassLoaderOption
+      sassLoaderOption,
+      mode: process.env.NODE_ENV || rawConfig.mode
     }
   }
 
