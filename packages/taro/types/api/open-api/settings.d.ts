@@ -28,6 +28,11 @@ declare module '../../index' {
 
   namespace getSetting {
     interface Option {
+      /**
+       * 是否同时获取用户订阅消息的订阅状态，默认不获取。注意：withSubscriptions 只返回用户勾选过订阅面板中的“总是保持以上选择，不再询问”的订阅消息。
+       * 最低版本：2.10.1
+       */
+      withSubscriptions?: boolean
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
       complete?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用失败的回调函数 */
