@@ -1,5 +1,5 @@
 {
-  "version": "3.4.1-zeta.177",
+  "version": "3.4.1",
   "npmClient": "yarn",
   "npmClientArgs": [
     "--ignore-engines"

@@ -238,7 +238,7 @@ function createTabStack (config: RouterConfig, parentProps: any) {
   const userOptions: Record<string, any> = rnConfig?.options || {}
   tabBar?.list.forEach((item, index) => {
     const defaultOptions = Object.assign({}, { tabBarVisible: config.tabBar?.custom ? false : getTabVisible() }, getTabItemOptions(item, index))
-    const tabItemOptions = Object.assign({}, defaultOptions, userOptions, { headerShown: false, title: item.text + 'xxx' })
+    const tabItemOptions = Object.assign({}, defaultOptions, userOptions, { headerShown: false, title: item.text })
     setTabConfig('tabBarVisible', tabItemOptions.tabBarVisible)
     const path = item.pagePath.startsWith('/') ? item.pagePath : `/${item.pagePath}`
     const tabName = camelCase(path)
