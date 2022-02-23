@@ -35,7 +35,7 @@ jobs:
           issue-number: ${{ github.event.issue.number }}
           # The comment body. Can use either issues_list or comment_body
           body: |
-            # 等待热心的小伙伴解决问题中..., 下面有一些相关的 issues 可能帮助到你:
+            等待热心的小伙伴解决问题中..., 有一些相关的 issues 可能帮助到你!
             ${{ steps.search.outputs.issues_list }}
             Thank you so much! 
       # An Action to create a record in an Algolia Index
