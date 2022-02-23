@@ -29,6 +29,7 @@
   "license": "MIT",
   "peerDependencies": {
     "@react-native-community/masked-view": "~0.1.11",
+    "@react-native-masked-view/masked-view": "~0.2.6",
     "react-native-gesture-handler": "~1.10.3",
     "react-native-reanimated": "~1.13.3",
     "react-native-safe-area-context": "~3.3.2",
@@ -37,9 +38,10 @@
   "dependencies": {
     "@react-native-community/bob": "^0.16.2",
     "@react-native-community/masked-view": "~0.1.11",
-    "@react-navigation/bottom-tabs": "^5.8.0",
-    "@react-navigation/native": "^5.7.3",
-    "@react-navigation/stack": "^5.9.0",
+    "@react-native-masked-view/masked-view": "~0.2.6",
+    "@react-navigation/bottom-tabs": "^6.2.0",
+    "@react-navigation/native": "^6.0.8",
+    "@react-navigation/stack": "^6.1.1",
     "nanoid": "^3.1.12",
     "query-string": "^6.1.0",
     "react-native-gesture-handler": "~1.10.3",
