@@ -13,7 +13,6 @@ import HeadTitle from './view/HeadTitle'
 import BackButton from './view/BackButton'
 import { getTabItemConfig, getTabVisible, setTabConfig, getTabInitRoute, handleUrl } from './utils/index'
 
-export type StackCardMode = 'card' | 'modal';
 interface WindowConfig {
   pageOrientation?: 'auto' | 'portrait' | 'landscape'
   pullRefresh?: 'YES' | 'NO' | boolean
@@ -64,7 +63,6 @@ interface RNConfig {
   },
   stackProps?:{
     keyboardHandlingEnabled?:boolean,
-    mode?: StackCardMode;
     headerMode?: StackHeaderMode;
     detachInactiveScreens?:boolean,
   }
