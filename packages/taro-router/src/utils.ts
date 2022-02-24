@@ -36,12 +36,12 @@ class RoutesAlias {
   }
 
   getAll = (url = '') => {
-    return this.conf.filter((arr) => {
-      return arr.includes(url)
-    }).reduceRight((p, a) => {
-      p.unshift(a[1])
-      return p
-    }, [url])
+    return this.conf
+      .filter((arr) => arr.includes(url))
+      .reduceRight((p, a) => {
+        p.unshift(a[1])
+        return p
+      }, [])
   }
 }
 

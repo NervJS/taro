@@ -24,7 +24,7 @@ export function prependBasename (url = '') {
 }
 
 export const hasBasename = (path = '', prefix = '') =>
-  new RegExp('^' + prefix + '(\\/|\\?|#|$)', 'i').test(path)
+  new RegExp('^' + prefix + '(\\/|\\?|#|$)', 'i').test(path) || path === prefix
 
 export const stripBasename = (path = '', prefix = '') =>
   hasBasename(path, prefix) ? path.substr(prefix.length) : path

@@ -1,5 +1,5 @@
-import { AppConfig } from '@tarojs/taro'
 import { FRAMEWORK_MAP } from '@tarojs/helper'
+import { AppConfig } from '@tarojs/taro'
 import { defaults } from 'lodash'
 import * as path from 'path'
 import * as webpack from 'webpack'
@@ -76,7 +76,7 @@ export default class H5Plugin {
         const routerMode = routerConfig?.mode || 'hash'
         const isMultiRouterMode = routerMode === 'multi'
         const isApp = !isMultiRouterMode && pageName === entryFileName
-        if (isApp || this.pagesConfigList.has(pageName)) {
+        if (isApp || this.inst.pagesConfigList.has(pageName)) {
           module.loaders.push({
             loader: '@tarojs/taro-loader/lib/h5',
             options: {
@@ -85,7 +85,7 @@ export default class H5Plugin {
               entryFileName,
               sourceDir,
               filename: name.replace(configSuffix, ''),
-              pages: this.pagesConfigList,
+              pages: this.inst.pagesConfigList,
               useHtmlComponents: this.options.useHtmlComponents,
               config: {
                 router: this.options.routerConfig,

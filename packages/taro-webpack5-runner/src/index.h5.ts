@@ -172,7 +172,7 @@ async function getDevServerOptions (appPath: string, config: H5BuildConfig): Pro
         }
 
         const customRoutesConf = getEntriesRoutes(customRoutes)
-        const idx = getEntriesRoutes(customRoutes).findIndex(list => list[1].includes(pagePath))
+        const idx = getEntriesRoutes(customRoutes).findIndex(list => list[1] === pagePath)
         if (idx > -1) {
           // NOTE: 自定义路由
           return addHtmlSuffix(customRoutesConf[idx][0])
