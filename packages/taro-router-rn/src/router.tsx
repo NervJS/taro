@@ -233,7 +233,7 @@ function getInitParams (config, pageName) {
   return params
 }
 
-function createTabStack (config: RouterConfig, parentProps: any) {
+function createTabStack (config: RouterConfig, parentProps: any, screenOptions) {
   const Tab = createBottomTabNavigator()
   const tabBar = config.tabBar
   const rnConfig = config.rnConfig
@@ -286,7 +286,7 @@ function createTabStack (config: RouterConfig, parentProps: any) {
     {...tabProps}
     tabBar={(props) => createTabBar(props, tabOptions, tabBarOptions)}
     initialRouteName={tabInitRouteName}
-    screenOptions={getStackOptions(config) as BottomTabNavigationOptions}
+    screenOptions={screenOptions}
   >{tabList}</Tab.Navigator>
 }
 
@@ -335,17 +335,14 @@ function createTabNavigate (config: RouterConfig) {
   const pageList = getPageList(config)
   const linking = getLinkingConfig(config)
   const stackProps = config.rnConfig?.stackProps
+  const screenOptions = getStackOptions(config)
   return <NavigationContainer
     ref={navigationRef}
     linking={linking}
   >
     <Stack.Navigator
       {...stackProps}
-      screenOptions={() => {
-        const options = getCurrentOptions()
-        const defaultOptions = getStackOptions(config)
-        return Object.assign({}, defaultOptions, options)
-      }}
+      screenOptions={screenOptions}
       initialRouteName={getInitRouteName(config)}
     >
       <Stack.Screen
@@ -354,7 +351,7 @@ function createTabNavigate (config: RouterConfig) {
         options={{
           headerShown: false
         }}
-      >{(props) => createTabStack(config, props)}</Stack.Screen>
+      >{(props) => createTabStack(config, props, screenOptions)}</Stack.Screen>
       {pageList.map(item => {
         const initParams = getInitParams(config, item.name)
         return <Stack.Screen
@@ -387,11 +384,4 @@ function createStackNavigate (config: RouterConfig) {
         return <Stack.Screen key={item.name} name={item.name} component={item.component} initialParams={initParams} />
       })}</Stack.Navigator>
   </NavigationContainer>
-}
-
-function getCurrentOptions () {
-  const options = navigationRef.current?.getCurrentOptions() || {}
-  const params: Record<string, any> = navigationRef.current?.getCurrentRoute()?.params || {}
-  const navParams = params?.navigateConfig || {}
-  return Object.assign({}, options, navParams)
 }
