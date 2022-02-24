@@ -22,7 +22,7 @@ interface TabBarProps extends TabBarOptions {
   state: Record<string, any>,
   navigation: any,
   descriptors: Record<string, any>,
-  userOptions: TabOptions
+  tabOptions: TabOptions
 }
 
 interface TabBarState {
@@ -76,8 +76,8 @@ export class TabBar extends React.PureComponent<TabBarProps, TabBarState> {
   constructor (props: TabBarProps) {
     super(props)
     const { height = 0, width = 0 } = Dimensions.get('window')
-    const { safeAreaInsets, userOptions = {} } = this.props
-    const { tabBarVisible = true } = userOptions
+    const { safeAreaInsets, tabOptions = {} } = this.props
+    const { tabBarVisible = true } = tabOptions
     const tabVisible = tabBarVisible === false ? false : getTabVisible()
     this.state = {
       visible: new Animated.Value(tabVisible ? 1 : 0),

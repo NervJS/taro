@@ -12,6 +12,7 @@ import HeadTitle from './view/HeadTitle'
 import BackButton from './view/BackButton'
 import { getTabItemConfig, getTabVisible, setTabConfig, getTabInitRoute, handleUrl } from './utils/index'
 import React from 'react'
+import { TabOptions } from './view/TabBarItem'
 
 export type StackCardMode = 'card' | 'modal';
 interface WindowConfig {
@@ -54,7 +55,7 @@ interface RNConfig {
   initialRouteName?: string,
   linking?: string[],
   screenOptions?: StackNavigationOptions,
-  options?: ExtBottomTabNavigationOptions,
+  tabOptions?: TabOptions,
   tabBarOptions?: BottomTabNavigationOptions,
   tabProps?: {
     backBehavior?: BackBehavior;
@@ -237,10 +238,10 @@ function createTabStack (config: RouterConfig, parentProps: any) {
   const tabBar = config.tabBar
   const rnConfig = config.rnConfig
   const tabList: any = []
-  const userOptions: ExtBottomTabNavigationOptions = rnConfig?.options || {}
+  const tabOptions: TabOptions = rnConfig?.tabOptions || {}
   tabBar?.list.forEach((item, index) => {
     const defaultOptions = Object.assign({}, { tabBarVisible: config.tabBar?.custom ? false : getTabVisible() }, getTabItemOptions(item, index))
-    const tabItemOptions = Object.assign({}, defaultOptions, userOptions, { headerShown: false, title: item.text })
+    const tabItemOptions = Object.assign({}, defaultOptions, tabOptions, { headerShown: false, title: item.text })
     setTabConfig('tabBarVisible', tabItemOptions.tabBarVisible)
     const path = item.pagePath.startsWith('/') ? item.pagePath : `/${item.pagePath}`
     const tabName = camelCase(path)
@@ -283,14 +284,14 @@ function createTabStack (config: RouterConfig, parentProps: any) {
   const tabInitRouteName = getTabInitRoute() || getInitTabRoute(config) || tabNames[0]
   return <Tab.Navigator
     {...tabProps}
-    tabBar={(props) => createTabBar(props, userOptions, tabBarOptions)}
+    tabBar={(props) => createTabBar(props, tabOptions, tabBarOptions)}
     initialRouteName={tabInitRouteName}
     screenOptions={getStackOptions(config) as BottomTabNavigationOptions}
   >{tabList}</Tab.Navigator>
 }
 
-function createTabBar (props, userOptions, tabBarOptions) {
-  return <CustomTabBar {...props} userOptions={userOptions} {...tabBarOptions} />
+function createTabBar (props, tabOptions: TabOptions, tabBarOptions) {
+  return <CustomTabBar {...props} tabOptions={tabOptions} {...tabBarOptions} />
 }
 
 function getLinkingConfig (config: RouterConfig) {

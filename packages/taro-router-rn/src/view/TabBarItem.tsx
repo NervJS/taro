@@ -37,7 +37,7 @@ interface TabBarItemProps extends TabBarOptions{
   labelColor: string,
   iconSource: ImageSourcePropType
   size?: number,
-  userOptions?: TabOptions
+  tabOptions?: TabOptions
 }
 
 const styles = StyleSheet.create({
@@ -105,13 +105,13 @@ export default class TabBarItem extends React.PureComponent<TabBarItemProps> {
       size = 20,
       labelColor,
       iconSource,
-      userOptions,
+      tabOptions,
       tabStyle = {},
       labelStyle = {},
       allowFontScaling = true,
       showLabel = true
     } = this.props
-    const tabBarBadgeStyle = userOptions?.tabBarBadgeStyle || {}
+    const tabBarBadgeStyle = tabOptions?.tabBarBadgeStyle || {}
     return (
       <View style={[styles.tabItem, styles.itemHorizontal, tabStyle]}>
         <View style={styles.icon}>
