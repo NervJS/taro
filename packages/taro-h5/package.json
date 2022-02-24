@@ -12,13 +12,14 @@
   ],
   "sideEffects": false,
   "scripts": {
+    "copy:assets": "copy src/**/*.css dist",
+    "build": "rollup -c && npm run copy:assets && tsc",
+    "predev": "npm run copy:assets",
+    "dev": "tsc -w",
     "test": "jest",
     "test:ci": "jest -i --coverage false",
     "test:dev": "jest --watch",
-    "test:coverage": "jest --coverage",
-    "copy:assets": "copy src/**/*.css dist",
-    "build": "rollup -c && npm run copy:assets && tsc",
-    "dev": "tsc -w & npm run copy:assets"
+    "test:coverage": "jest --coverage"
   },
   "repository": {
     "type": "git",

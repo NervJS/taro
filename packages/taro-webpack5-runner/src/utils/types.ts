@@ -78,7 +78,7 @@ export interface MiniBuildConfig extends CommonBuildConfig, IMiniAppConfig {
 }
 
 export interface H5BuildConfig extends CommonBuildConfig, IH5Config {
-  entryFileName?: string;
+  entryFileName?: string
 }
 
 export type AddPageChunks = ((pages: Map<string, string[]>, pagesNames?: string[]) => void)

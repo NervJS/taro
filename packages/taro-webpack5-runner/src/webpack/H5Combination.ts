@@ -10,6 +10,7 @@ import { H5WebpackModule } from './H5WebpackModule'
 import { addLeadingSlash, addTrailingSlash } from '../utils'
 
 import type { H5BuildConfig } from '../utils/types'
+type Output = Required<webpack.Configuration>['output']
 
 export class H5Combination extends Combination<H5BuildConfig> {
   enableSourceMap: boolean
@@ -41,13 +42,15 @@ export class H5Combination extends Combination<H5BuildConfig> {
     } = config
     const routerMode = router?.mode || 'hash'
     const isMultiRouterMode = routerMode === 'multi'
-    const pages: string[] = this.getAppConfig(entryFileName, entry).pages ?? []
+    const appConfig = this.getAppConfig(entryFileName, entry)
+    const pages: string[] = appConfig.pages ?? []
     if (isMultiRouterMode) {
+      delete entry[entryFileName]
       this.getPagesConfigList(pages).forEach((page, index) => {
+        // TODO 多页面应用支持自定义路由
         entry[index] = [page]
       })
     }
-    console.log('entry', entry)
 
     this.enableSourceMap = enableSourceMap
 
@@ -55,7 +58,8 @@ export class H5Combination extends Combination<H5BuildConfig> {
       mode,
       publicPath,
       chunkDirectory,
-      customOutput: output
+      customOutput: output as Output,
+      entryFileName
     })
     const webpackPlugin = new H5WebpackPlugin(this)
     const webpackModule = new H5WebpackModule(this)
@@ -72,19 +76,23 @@ export class H5Combination extends Combination<H5BuildConfig> {
     })
   }
 
-  getOutput ({ mode, publicPath, chunkDirectory, customOutput }: {
+  getOutput ({
+    mode, publicPath, chunkDirectory, customOutput = {}, entryFileName = 'app'
+  }: {
     mode: H5BuildConfig['mode']
     publicPath: string
     chunkDirectory: H5BuildConfig['chunkDirectory']
-    customOutput: H5BuildConfig['output']
-  }) {
+    customOutput?: Output
+    entryFileName?: string
+  }): Output {
     publicPath = addTrailingSlash(publicPath)
     if (mode === 'development') {
       publicPath = addLeadingSlash(publicPath)
     }
+    const filename: Output['filename'] = (chunk) => chunk.runtime === entryFileName ? 'js/[name].js' : '[name].js'
     return {
       path: this.outputDir,
-      filename: 'js/[name].js',
+      filename,
       chunkFilename: `${chunkDirectory}/[name].js`,
       publicPath,
       ...customOutput
@@ -107,17 +115,20 @@ export class H5Combination extends Combination<H5BuildConfig> {
       defaultVendors: false,
       common: {
         name: isProd ? false : 'common',
+        filename: 'js/[name].js',
         minChunks: 2,
         priority: 1
       },
       vendors: {
         name: isProd ? false : 'vendors',
+        filename: 'js/[name].js',
         minChunks: 2,
         test: module => /[\\/]node_modules[\\/]/.test(module.resource),
         priority: 10
       },
       taro: {
         name: isProd ? false : 'taro',
+        filename: 'js/[name].js',
         test: module => /@tarojs[\\/][a-z]+/.test(module.context),
         priority: 100
       }
@@ -146,6 +157,7 @@ export class H5Combination extends Combination<H5BuildConfig> {
 
   getAppEntry (entryFileName = 'app', entry: webpack.Entry) {
     const appEntry = entry[entryFileName]
+    if (!appEntry) return path.join(this.sourceDir, entryFileName)
     if (Array.isArray(appEntry)) {
       return appEntry.filter(item => path.basename(item, path.extname(item)) === entryFileName)[0]
     } else if (Array.isArray(appEntry.import)) {
@@ -160,7 +172,7 @@ export class H5Combination extends Combination<H5BuildConfig> {
 
   getPagesConfigList (pages: string[] = []) {
     const pageMap = new Map()
-    pages.forEach((page) => pageMap.set(page, this.getConfigFilePath(path.join(this.appPath, this.sourceRoot, page))))
+    pages.forEach((page) => pageMap.set(page, this.getConfigFilePath(path.join(this.sourceDir, page))))
     return pageMap
   }
 }

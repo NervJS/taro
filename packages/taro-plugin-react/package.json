@@ -30,7 +30,8 @@
     "@tarojs/runtime": "3.4.1",
     "@tarojs/shared": "3.4.1",
     "acorn": "^8.0.4",
-    "acorn-walk": "^8.0.0"
+    "acorn-walk": "^8.0.0",
+    "react-refresh": "0.11.0"
   },
   "devDependencies": {
     "@tarojs/service": "3.4.1",

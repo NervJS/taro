@@ -14,15 +14,13 @@ export class H5WebpackPlugin {
   }
 
   getPlugins (isMultiRouterMode = false, pages: string[]) {
-    const { config } = this.combination
-    const { entryFileName = 'app' } = config
     const plugins: Record<string, { plugin: any, args: PluginArgs }> = {
       definePlugin: this.getDefinePlugin(),
       mainPlugin: this.getH5Plugin()
     }
     if (isMultiRouterMode) {
       pages.forEach(page => {
-        plugins[page] = this.getHtmlWebpackPlugin(page, [entryFileName])
+        plugins[page] = this.getHtmlWebpackPlugin(page)
       })
     } else {
       plugins.htmlWebpackPlugin = this.getHtmlWebpackPlugin()

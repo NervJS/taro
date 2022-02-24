@@ -57,7 +57,7 @@ export default class H5Plugin {
     }
   }
 
-  apply (compiler) {
+  apply (compiler: webpack.Compiler) {
     this.appEntry = this.getAppEntry(compiler)
     compiler.hooks.run.tapAsync(
       PLUGIN_NAME,
@@ -74,15 +74,25 @@ export default class H5Plugin {
 
     compiler.hooks.compilation.tap(PLUGIN_NAME, compilation => {
       webpack.NormalModule.getCompilationHooks(compilation).loader.tap(PLUGIN_NAME, (_loaderContext, module: any) => {
-        const { framework, entryFileName, designWidth, deviceRatio, loaderMeta } = this.options
+        const { framework, entryFileName, designWidth, deviceRatio, loaderMeta, routerConfig } = this.options
         const { dir, name } = path.parse(module.resource)
-        if (path.join(dir, name) === this.appEntry) {
+        const configSuffix = '.config'
+        if (!name.includes(configSuffix)) return
+
+        const filePath = path.join(dir, name)
+        const pageName = filePath.replace(this.sourceDir + '/', '').replace(configSuffix, '')
+        const routerMode = routerConfig?.mode || 'hash'
+        const isMultiRouterMode = routerMode === 'multi'
+        const isApp = !isMultiRouterMode && pageName === entryFileName
+        if (isApp || this.pagesConfigList.has(pageName)) {
           module.loaders.push({
             loader: '@tarojs/taro-loader/lib/h5',
             options: {
               framework,
               loaderMeta,
-              filename: entryFileName,
+              entryFileName,
+              sourceDir: this.sourceDir,
+              filename: name.replace(configSuffix, ''),
               pages: this.pagesConfigList,
               useHtmlComponents: this.options.useHtmlComponents,
               config: {
@@ -100,20 +110,17 @@ export default class H5Plugin {
     })
   }
 
-  getAppEntry (compiler) {
+  getAppEntry (compiler: webpack.Compiler) {
     const { entry } = compiler.options
-    const { entryFileName } = this.options
-    function getEntryPath (entry) {
-      const app = entry[entryFileName]
-      if (Array.isArray(app)) {
-        return app.filter(item => path.basename(item, path.extname(item)) === entryFileName)[0]
-      } else if (Array.isArray(app.import)) {
-        return app.import.filter(item => path.basename(item, path.extname(item)) === entryFileName)[0]
-      }
-      return app
+    const { entryFileName, sourceDir } = this.options
+    const appEntry = entry[entryFileName]
+    if (!appEntry) return path.join(sourceDir, entryFileName)
+    if (Array.isArray(appEntry)) {
+      return appEntry.filter(item => path.basename(item, path.extname(item)) === entryFileName)[0]
+    } else if (Array.isArray(appEntry.import)) {
+      return appEntry.import.filter(item => path.basename(item, path.extname(item)) === entryFileName)[0]
     }
-    const appEntryPath = getEntryPath(entry)
-    return appEntryPath
+    return appEntry
   }
 
   run () {
@@ -127,12 +134,12 @@ export default class H5Plugin {
     if (!appPages || !appPages.length) {
       throw new Error('全局配置缺少 pages 字段，请检查！')
     }
-    const { framework } = this.options
+    const { framework, sourceDir } = this.options
 
     this.pages = new Set([
       ...appPages.map(item => ({
         name: item,
-        path: resolveMainFilePath(path.join(this.options.sourceDir, item), FRAMEWORK_EXT_MAP[framework])
+        path: resolveMainFilePath(path.join(sourceDir, item), FRAMEWORK_EXT_MAP[framework])
       }))
     ])
     this.getSubPackages()
@@ -161,7 +168,6 @@ export default class H5Plugin {
                 name: pageItem,
                 path: pagePath
               })
-              // eslint-disable-next-line no-unused-expressions
               this.appConfig.pages?.push(pageItem)
             }
           })
@@ -187,8 +193,14 @@ export default class H5Plugin {
     this.appConfig = appConfig
   }
 
-  getConfigFilePath (filePath) {
+  getConfigFilePath (filePath = '') {
     // console.log('filePath: ', filePath)
     return resolveMainFilePath(`${filePath.replace(path.extname(filePath), '')}.config`)
+  }
+
+  getTargetFilePath (filePath: string, targetExtname: string) {
+    const extname = path.extname(filePath)
+    if (extname) return filePath.replace(extname, targetExtname)
+    return filePath + targetExtname
   }
 }

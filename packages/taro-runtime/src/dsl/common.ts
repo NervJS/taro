@@ -67,7 +67,11 @@ export function stringify (obj?: Record<string, unknown>) {
 
 export function getPath (id: string, options?: Record<string, unknown>): string {
   const idx = id.indexOf('?')
-  return `${idx > -1 ? id.substring(0, idx) : id}${stringify(process.env.TARO_ENV === 'h5' ? { stamp: options?.stamp || '' } : options)}`
+  if (process.env.TARO_ENV === 'h5') {
+    return `${idx > -1 ? id.substring(0, idx) : id}${stringify(options?.stamp ? { stamp: options.stamp } : {})}`
+  } else {
+    return `${idx > -1 ? id.substring(0, idx) : id}${stringify(options)}`
+  }
 }
 
 export function getOnReadyEventKey (path: string) {

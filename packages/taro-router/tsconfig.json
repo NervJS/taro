@@ -2,6 +2,8 @@
   "extends": "../../tsconfig.root.json",
   "compilerOptions": {
     "baseUrl": ".",
+    "outDir": "dist",
+    "skipLibCheck": true,
     "target": "ESNext",
     "types": ["node"],
     "typeRoots": [

@@ -2,9 +2,9 @@
   "name": "@tarojs/router",
   "version": "3.4.1",
   "description": "Taro-router",
-  "main:h5": "dist/router.esm.js",
-  "main": "dist/index.js",
-  "module": "dist/router.esm.js",
+  "main:h5": "dist/router.js",
+  "main": "dist/index.cjs.js",
+  "module": "dist/router.js",
   "typings": "src/index.ts",
   "files": [
     "dist",
@@ -12,8 +12,8 @@
     "index.js"
   ],
   "scripts": {
-    "build": "rollup -c rollup.config.js",
-    "dev": "rollup -c rollup.config.js --watch",
+    "build": "cross-env TARGET=umd rollup -c rollup.config.js && tsc",
+    "dev": "tsc -w",
     "test": "jest",
     "test:dev": "jest --watch"
   },
