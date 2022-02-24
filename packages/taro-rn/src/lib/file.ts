@@ -16,7 +16,7 @@ let timer: any
 
 const _fetch = (requestPromise, timeout) => {
   let timeoutAction
-  const timerPromise = new Promise((resolve, reject) => {
+  const timerPromise = new Promise((_resolve, reject) => {
     timeoutAction = () => {
       reject(new Error('网络请求超时'))
     }
@@ -40,6 +40,7 @@ const createFormData = (filePath, body, name) => {
     data.append(key, body[key])
   })
 
+  // @ts-ignore
   data.append(name, fileObj)
 
   return data

@@ -4,8 +4,8 @@ let _unsubscribe: any = null
 
 let _callbacks: Set<Function> = new Set()
 
-function getTypeFromState(connectionInfo:NetInfoState): keyof Taro.getNetworkType.networkType {
-  let type: keyof Taro.getNetworkType.networkType
+function getTypeFromState(connectionInfo:NetInfoState): keyof Taro.getNetworkType.NetworkType {
+  let type: keyof Taro.getNetworkType.NetworkType
   if(connectionInfo.type === NetInfoStateType.wifi) {
     type = NetInfoStateType.wifi
   } else if(connectionInfo.type === NetInfoStateType.cellular && connectionInfo.details.cellularGeneration) {

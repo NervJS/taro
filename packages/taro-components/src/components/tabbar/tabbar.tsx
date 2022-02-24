@@ -370,7 +370,8 @@ export class Tabbar implements ComponentInterface {
         <div
           class={containerCls}
           style={{
-            backgroundColor: this.backgroundColor || ''
+            backgroundColor: this.backgroundColor || '',
+            height: 'inherit'
           }}
         >
           {this.list.map((item, index) => {

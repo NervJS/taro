@@ -108,6 +108,18 @@ class VideoContext {
     console.log('not support')
   }
 
+  exitBackgroundPlayback () {
+    console.log('not support')
+  }
+
+  exitPictureInPicture () {
+    console.log('not support')
+  }
+
+  requestBackgroundPlayback () {
+    console.log('not support')
+  }
+
   /**
    * 停止视频
    */

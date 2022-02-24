@@ -215,7 +215,7 @@ declare module '../../index' {
       /** 服务路径 */
       path: string
       /** HTTP请求方法，默认 GET */
-      method?: keyof request.method
+      method?: keyof request.Method
       /** 请求数据 */
       data?: P
       /** 设置请求的 header，header 中不能设置 Referer。content-type 默认为 application/json */
@@ -223,7 +223,7 @@ declare module '../../index' {
       /** 超时时间，单位为毫秒 */
       timeout?: number
       /** 返回的数据格式 */
-      dataType?: request.dataType
+      dataType?: request.DataType
       /** 响应的数据类型 */
       responseType?: keyof {
         text

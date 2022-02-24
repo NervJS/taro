@@ -7,7 +7,7 @@ export function getImageInfo(option: Taro.getImageInfo.Option): Promise<Taro.get
     Image.getSize(
       src,
       (width, height) => {
-        const orientation: keyof Taro.getImageInfo.orientation = 'up'
+        const orientation: keyof Taro.getImageInfo.Orientation = 'up'
         const res = {
           width,
           height,
