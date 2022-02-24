@@ -14,6 +14,10 @@ export const getRootPath = function () {
 
 export const addLeadingSlash = (url: string) => (url.charAt(0) === '/' ? url : '/' + url)
 export const addTrailingSlash = (url: string) => (url.charAt(url.length - 1) === '/' ? url : url + '/')
+export const hasBasename = (path = '', prefix = '') => new RegExp('^' + prefix + '(\\/|\\?|#|$)', 'i').test(path) || path === prefix
+export const stripBasename = (path = '', prefix = '') => hasBasename(path, prefix) ? path.substr(prefix.length) : path
+export const stripTrailingSlash = (path = '') => (path.charAt(path.length - 1) === '/' ? path.substring(0, path.length - 1) : path)
+export const addHtmlSuffix = (path = '') => `${path}.html`
 
 export const formatOpenHost = host => {
   let result = host

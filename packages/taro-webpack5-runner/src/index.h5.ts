@@ -4,12 +4,13 @@ import { format as formatUrl } from 'url'
 import * as webpack from 'webpack'
 import * as WebpackDevServer from 'webpack-dev-server'
 import { isFunction } from '@tarojs/shared'
-import { recursiveMerge } from '@tarojs/helper'
+import { FRAMEWORK_MAP, recursiveMerge, SOURCE_DIR } from '@tarojs/helper'
 import { H5Combination } from './webpack/H5Combination'
 import { bindProdLogger, bindDevLogger, printBuildError } from './utils/logHelper'
-import { addLeadingSlash, addTrailingSlash, formatOpenHost } from './utils'
+import { addHtmlSuffix, addLeadingSlash, addTrailingSlash, formatOpenHost, stripBasename, stripTrailingSlash } from './utils'
 
 import type { H5BuildConfig } from './utils/types'
+import H5AppInstance from './utils/H5AppInstance'
 
 export default async function build (appPath: string, rawConfig: H5BuildConfig): Promise<void> {
   const combination = new H5Combination(appPath, rawConfig)
@@ -131,6 +132,55 @@ async function getDevServerOptions (appPath: string, config: H5BuildConfig): Pro
   const publicPath = config.publicPath ? addLeadingSlash(addTrailingSlash(config.publicPath)) : '/'
   const outputPath = path.join(appPath, config.outputRoot || 'dist')
   const customDevServerOption = config.devServer || {}
+  const routerConfig = config.router || {}
+  const routerMode = routerConfig.mode || 'hash'
+  const isMultiRouterMode = routerMode === 'multi'
+  const proxy = {}
+  if (isMultiRouterMode) {
+    const app = new H5AppInstance(config.entry as webpack.EntryNormalized, {
+      sourceDir: path.join(appPath, config.sourceRoot || SOURCE_DIR),
+      framework: config.framework as FRAMEWORK_MAP,
+      entryFileName: config.entryFileName
+    })
+    const appConfig = app.appConfig
+    const customRoutes = routerConfig?.customRoutes || {}
+    const routerBasename = routerConfig.basename || '/'
+    const getEntriesRoutes = (customRoutes: Record<string, string | string[]> = {}) => {
+      const conf: string[][] = []
+      for (let key in customRoutes) {
+        const path = customRoutes[key]
+        key = addLeadingSlash(key)
+        if (typeof path === 'string') {
+          conf.push([key, addLeadingSlash(path)])
+        } else if (path?.length > 0) {
+          conf.push(...path.map(p => [key, addLeadingSlash(p)]))
+        }
+      }
+      return conf
+    }
+    const bypass: WebpackDevServer.ByPass = req => {
+      if (req.headers.accept?.indexOf('html') !== -1) {
+        const pagePath = stripTrailingSlash(stripBasename(req.path, routerBasename))
+        // console.log('bypass:' + req.path, pagePath)
+        if (pagePath === '') {
+          return addHtmlSuffix(appConfig.entryPagePath || appConfig.pages?.[0])
+        }
+
+        const pageIdx = (appConfig.pages ?? []).findIndex(e => addLeadingSlash(e) === pagePath)
+        if (pageIdx > -1) {
+          return addHtmlSuffix(appConfig.pages?.[pageIdx])
+        }
+
+        const customRoutesConf = getEntriesRoutes(customRoutes)
+        const idx = getEntriesRoutes(customRoutes).findIndex(list => list[1].includes(pagePath))
+        if (idx > -1) {
+          // NOTE: 自定义路由
+          return addHtmlSuffix(customRoutesConf[idx][0])
+        }
+      }
+    }
+    proxy[routerBasename] = { bypass }
+  }
 
   const devServerOptions: WebpackDevServer.Configuration = recursiveMerge<any>(
     {
@@ -161,7 +211,8 @@ async function getDevServerOptions (appPath: string, config: H5BuildConfig): Pro
           from: /./,
           to: publicPath
         }]
-      }
+      },
+      proxy
     },
     customDevServerOption
   )

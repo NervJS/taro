@@ -1,7 +1,6 @@
-import { isEmptyObject, readConfig, recursiveMerge, resolveMainFilePath } from '@tarojs/helper'
-import { AppConfig } from '@tarojs/taro'
+import { FRAMEWORK_MAP, recursiveMerge, resolveMainFilePath } from '@tarojs/helper'
 import * as path from 'path'
-import webpack from 'webpack'
+import * as webpack from 'webpack'
 import { Combination } from './Combination'
 import { H5BaseConfig } from './H5BaseConfig'
 import { WebpackPlugin } from './WebpackPlugin'
@@ -9,6 +8,7 @@ import { H5WebpackPlugin } from './H5WebpackPlugin'
 import { H5WebpackModule } from './H5WebpackModule'
 import { addLeadingSlash, addTrailingSlash } from '../utils'
 
+import H5AppInstance from '../utils/H5AppInstance'
 import type { H5BuildConfig } from '../utils/types'
 type Output = Required<webpack.Configuration>['output']
 
@@ -25,6 +25,8 @@ export class H5Combination extends Combination<H5BuildConfig> {
     warnings: false
   }
 
+  inst: H5AppInstance
+
   process (config: Partial<H5BuildConfig>) {
     const baseConfig = new H5BaseConfig(this.appPath, config)
     const chain = this.chain = baseConfig.chain
@@ -38,16 +40,19 @@ export class H5Combination extends Combination<H5BuildConfig> {
       publicPath = '/',
       chunkDirectory = 'chunk',
       alias = {},
-      router
+      router,
+      framework
     } = config
     const routerMode = router?.mode || 'hash'
     const isMultiRouterMode = routerMode === 'multi'
-    const appConfig = this.getAppConfig(entryFileName, entry)
-    const pages: string[] = appConfig.pages ?? []
+    this.inst = new H5AppInstance(entry as webpack.EntryNormalized, {
+      sourceDir: this.sourceDir,
+      framework: framework as FRAMEWORK_MAP,
+      entryFileName
+    })
     if (isMultiRouterMode) {
       delete entry[entryFileName]
-      this.getPagesConfigList(pages).forEach((page, index) => {
-        // TODO 多页面应用支持自定义路由
+      this.inst.pagesConfigList.forEach((page, index) => {
         entry[index] = [page]
       })
     }
@@ -70,7 +75,7 @@ export class H5Combination extends Combination<H5BuildConfig> {
       mode,
       devtool: this.getDevtool(enableSourceMap, sourceMapType),
       resolve: { alias },
-      plugin: webpackPlugin.getPlugins(isMultiRouterMode, pages),
+      plugin: webpackPlugin.getPlugins(isMultiRouterMode, this.inst.appConfig?.pages ?? []),
       module: webpackModule.getModules(),
       optimization: this.getOptimization(mode)
     })
@@ -143,27 +148,6 @@ export class H5Combination extends Combination<H5BuildConfig> {
         cacheGroups
       }
     }
-  }
-
-  getAppConfig (entryFileName = 'app', entry: webpack.Entry): AppConfig {
-    const appEntry = this.getAppEntry(entryFileName, entry)
-    const appConfigPath = this.getConfigFilePath(appEntry)
-    const appConfig = readConfig(appConfigPath)
-    if (isEmptyObject(appConfig)) {
-      throw new Error('缺少 app 全局配置，请检查！')
-    }
-    return appConfig
-  }
-
-  getAppEntry (entryFileName = 'app', entry: webpack.Entry) {
-    const appEntry = entry[entryFileName]
-    if (!appEntry) return path.join(this.sourceDir, entryFileName)
-    if (Array.isArray(appEntry)) {
-      return appEntry.filter(item => path.basename(item, path.extname(item)) === entryFileName)[0]
-    } else if (Array.isArray(appEntry.import)) {
-      return appEntry.import.filter(item => path.basename(item, path.extname(item)) === entryFileName)[0]
-    }
-    return appEntry
   }
 
   getConfigFilePath (filePath = '') {
