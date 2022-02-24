@@ -68,6 +68,7 @@
           "wxcloudbase",
           "miniprogram-plugin",
           "independent-subpackage",
+          "custom-tabbar",
           "mini-troubleshooting"
         ]
       },
