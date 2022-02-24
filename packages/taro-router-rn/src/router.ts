@@ -5,7 +5,8 @@ import { camelCase } from 'lodash'
 import { NavigationContainer } from '@react-navigation/native'
 import { BackBehavior } from '@react-navigation/routers/src/TabRouter'
 import { createStackNavigator, CardStyleInterpolators } from '@react-navigation/stack'
-import { StackHeaderOptions, StackHeaderMode } from '@react-navigation/stack/src/types'
+import { StackHeaderOptions, StackHeaderMode, StackNavigationOptions } from '@react-navigation/stack/src/types'
+import { BottomTabNavigationOptions } from '@react-navigation/bottom-tabs/src/types'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { navigationRef } from './rootNavigation'
 import CustomTabBar from './view/TabBar'
@@ -13,6 +14,7 @@ import HeadTitle from './view/HeadTitle'
 import BackButton from './view/BackButton'
 import { getTabItemConfig, getTabVisible, setTabConfig, getTabInitRoute, handleUrl } from './utils/index'
 
+export type StackCardMode = 'card' | 'modal';
 interface WindowConfig {
   pageOrientation?: 'auto' | 'portrait' | 'landscape'
   pullRefresh?: 'YES' | 'NO' | boolean
@@ -52,16 +54,16 @@ interface PageItem {
 interface RNConfig {
   initialRouteName?: string,
   linking?: string[],
-  screenOptions?: Record<string, any>,
-  tabBarOptions?: Record<string, any>,
-  options?: Record<string, any>,
-  tabProps?:{
+  screenOptions?: StackNavigationOptions,
+  options?: ExtBottomTabNavigationOptions,
+  tabBarOptions?: BottomTabNavigationOptions,
+  tabProps?: {
     backBehavior?: BackBehavior;
     lazy?: boolean,
     detachInactiveScreens?:boolean,
     sceneContainerStyle?: StyleProp<ViewStyle>
   },
-  stackProps?:{
+  stackProps?: {
     keyboardHandlingEnabled?:boolean,
     headerMode?: StackHeaderMode;
     detachInactiveScreens?:boolean,
@@ -107,7 +109,11 @@ function getPageList (config: RouterConfig) {
   return pageList.filter(item => tabNames.indexOf(item.name) === -1)
 }
 
-function getTabItemOptions (item, index: number) {
+type ExtBottomTabNavigationOptions = BottomTabNavigationOptions & {
+  tabBarVisible?: boolean // useable
+}
+
+function getTabItemOptions (item, index: number): ExtBottomTabNavigationOptions {
   return {
     tabBarLabel: getTabItemConfig(index, 'tabBarLabel') || item.text,
     tabBarBadge: getTabItemConfig(index, 'tabBarBadge'),
@@ -121,7 +127,7 @@ function getHeaderView (title: string, color: string, props: any) {
 }
 
 // screen配置的内容
-function getStackOptions (config: RouterConfig) {
+function getStackOptions (config: RouterConfig): StackNavigationOptions {
   const windowOptions = config.window || {}
   const title = ''
   const headColor = windowOptions.navigationBarTextStyle || 'white'
@@ -143,7 +149,6 @@ function getStackOptions (config: RouterConfig) {
     cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
     cardStyle: { elevation: 1 },
     headerBackTitleVisible: false,
-    headerPressColorAndroid: 'rgba(255,255,255,0)',
     headerTitleAlign,
     // eslint-disable-next-line react/display-name
     headerBackImage: ({ tintColor }) => {
@@ -233,7 +238,7 @@ function createTabStack (config: RouterConfig, parentProps: any) {
   const tabBar = config.tabBar
   const rnConfig = config.rnConfig
   const tabList: any = []
-  const userOptions: Record<string, any> = rnConfig?.options || {}
+  const userOptions: ExtBottomTabNavigationOptions = rnConfig?.options || {}
   tabBar?.list.forEach((item, index) => {
     const defaultOptions = Object.assign({}, { tabBarVisible: config.tabBar?.custom ? false : getTabVisible() }, getTabItemOptions(item, index))
     const tabItemOptions = Object.assign({}, defaultOptions, userOptions, { headerShown: false, title: item.text })
@@ -262,7 +267,7 @@ function createTabStack (config: RouterConfig, parentProps: any) {
 
   const userTabBarOptions = rnConfig?.tabBarOptions || {}
   // tabbarOptions
-  const tabBarOptions = Object.assign({
+  const tabBarOptions: BottomTabNavigationOptions = Object.assign({
     backBehavior: 'none',
     activeTintColor: tabBar?.selectedColor || '#3cc51f',
     inactiveTintColor: tabBar?.color || '#7A7E83',
@@ -283,9 +288,9 @@ function createTabStack (config: RouterConfig, parentProps: any) {
       ...tabProps,
       tabBar: (props) => createTabBar(props, userOptions, tabBarOptions),
       initialRouteName: tabInitRouteName,
+      screenOptions: getStackOptions(config) as BottomTabNavigationOptions,
       children: tabList
-    },
-    tabList)
+    })
 }
 
 function createTabBar (props, userOptions, tabBarOptions) {
@@ -335,8 +340,11 @@ function createTabNavigate (config: RouterConfig) {
   const tabScreen = React.createElement(Stack.Screen, {
     name: 'tabNav',
     key: 'tabScreen',
+    options: {
+      headerShown: false
+    },
     children: (props) => createTabStack(config, props)
-  }, (props) => createTabStack(config, props))
+  })
   screeList.push(tabScreen)
   const pageList = getPageList(config)
   pageList.forEach(item => {
@@ -363,7 +371,7 @@ function createTabNavigate (config: RouterConfig) {
       initialRouteName: getInitRouteName(config),
       children: screeList
     }, screeList)
-  return React.createElement(NavigationContainer, { ref: navigationRef, linking: linking, children: tabStack }, tabStack)
+  return React.createElement(NavigationContainer, { ref: navigationRef, linking: linking, children: tabStack })
 }
 
 function createStackNavigate (config: RouterConfig) {

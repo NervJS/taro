@@ -84,13 +84,7 @@ export class PageProvider extends React.Component<any> {
       }, screenOptions)
       // 页面的config
       if (pageConfig) {
-        if (this.isTabBarPage()) {
-          navigation.setParams({
-            navigateConfig: navBarParams
-          })
-        } else {
-          navigation.setOptions(navBarParams)
-        }
+        navigation.setOptions(navBarParams)
       }
     }
   }

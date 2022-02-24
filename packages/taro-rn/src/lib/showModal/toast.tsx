@@ -5,6 +5,8 @@ import RootSiblings from 'react-native-root-siblings'
 import successPng from './success.png'
 import { errorHandler, shouldBeObject, successHandler } from '../../utils'
 
+const globalAny: any = global
+
 const styles = StyleSheet.create({
   toastView: {
     width: 76,
@@ -156,15 +158,15 @@ function showToast (options: Taro.showToast.Option): Promise<TaroGeneral.Callbac
   try {
     // setTimeout fires incorrectly when using chrome debug #4470
     // https://github.com/facebook/react-native/issues/4470
-    (global as any).wxToastRootSiblings && (global as any).wxToastRootSiblings.destroy();
+    globalAny.wxToastRootSiblings && globalAny.wxToastRootSiblings.destroy();
 
-    (global as any).wxToastRootSiblings = new RootSiblings(ToastView)
+    globalAny.wxToastRootSiblings = new RootSiblings(ToastView)
     setTimeout(() => {
-      (global as any).wxToastRootSiblings && (global as any).wxToastRootSiblings.update(ToastView)
+      globalAny.wxToastRootSiblings && globalAny.wxToastRootSiblings.update(ToastView)
     }, 100)
     if (duration > 0) {
       setTimeout(() => {
-        (global as any).wxToastRootSiblings && (global as any).wxToastRootSiblings.destroy()
+        globalAny.wxToastRootSiblings && globalAny.wxToastRootSiblings.destroy()
       }, duration)
     }
     return successHandler(success, complete)(res)
@@ -199,8 +201,8 @@ function hideToast (opts: Taro.hideToast.Option = {}): void {
   const { success, fail, complete } = opts
 
   try {
-    (global as any).wxToastRootSiblings && (global as any).wxToastRootSiblings.destroy();
-    (global as any).wxToastRootSiblings = undefined
+    globalAny.wxToastRootSiblings && globalAny.wxToastRootSiblings.destroy();
+    globalAny.wxToastRootSiblings = undefined
     const res = { errMsg: 'showToast:ok' }
     success?.(res)
     complete?.(res)
@@ -215,8 +217,8 @@ function hideLoading (opts: Taro.hideLoading.Option = {}): void {
   const { success, fail, complete } = opts
 
   try {
-    (global as any).wxToastRootSiblings && (global as any).wxToastRootSiblings.destroy();
-    (global as any).wxToastRootSiblings = undefined
+    globalAny.wxToastRootSiblings && globalAny.wxToastRootSiblings.destroy();
+    globalAny.wxToastRootSiblings = undefined
     const res = { errMsg: 'showLoading:ok' }
     success?.(res)
     complete?.(res)
