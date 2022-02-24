@@ -4,7 +4,6 @@ import { NavigationContainer } from '@react-navigation/native'
 import { BackBehavior } from '@react-navigation/routers/src/TabRouter'
 import { createStackNavigator, CardStyleInterpolators } from '@react-navigation/stack'
 import { StackHeaderOptions, StackHeaderMode, StackNavigationOptions } from '@react-navigation/stack/src/types'
-import { BottomTabNavigationOptions } from '@react-navigation/bottom-tabs/src/types'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { navigationRef } from './rootNavigation'
 import CustomTabBar from './view/TabBar'
@@ -14,7 +13,6 @@ import { getTabItemConfig, getTabVisible, setTabConfig, getTabInitRoute, handleU
 import React from 'react'
 import { TabOptions } from './view/TabBarItem'
 
-export type StackCardMode = 'card' | 'modal';
 interface WindowConfig {
   pageOrientation?: 'auto' | 'portrait' | 'landscape'
   pullRefresh?: 'YES' | 'NO' | boolean
@@ -56,7 +54,7 @@ interface RNConfig {
   linking?: string[],
   screenOptions?: StackNavigationOptions,
   tabOptions?: TabOptions,
-  tabBarOptions?: BottomTabNavigationOptions,
+  tabBarOptions?: Record<string, any>,
   tabProps?: {
     backBehavior?: BackBehavior;
     lazy?: boolean,
@@ -109,11 +107,7 @@ function getPageList (config: RouterConfig) {
   return pageList.filter(item => tabNames.indexOf(item.name) === -1)
 }
 
-type ExtBottomTabNavigationOptions = BottomTabNavigationOptions & {
-  tabBarVisible?: boolean // useable
-}
-
-function getTabItemOptions (item, index: number): ExtBottomTabNavigationOptions {
+function getTabItemOptions (item, index: number) {
   return {
     tabBarLabel: getTabItemConfig(index, 'tabBarLabel') || item.text,
     tabBarBadge: getTabItemConfig(index, 'tabBarBadge'),
@@ -266,7 +260,7 @@ function createTabStack (config: RouterConfig, parentProps: any, screenOptions) 
 
   const userTabBarOptions = rnConfig?.tabBarOptions || {}
   // tabbarOptions
-  const tabBarOptions: BottomTabNavigationOptions = Object.assign({
+  const tabBarOptions = Object.assign({
     backBehavior: 'none',
     activeTintColor: tabBar?.selectedColor || '#3cc51f',
     inactiveTintColor: tabBar?.color || '#7A7E83',
