@@ -115,7 +115,7 @@ Valid values of res.networkType
 
 ```tsx
 Taro.getNetworkType({
-  success: function (res)) {
+  success: function (res) {
     var networkType = res.networkType
   }
 })

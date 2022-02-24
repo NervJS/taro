@@ -7,7 +7,7 @@ sidebar_label: LivePlayer
 
 需要先通过类目审核，再在小程序管理后台，“设置”-“接口设置”中自助开通该组件权限。
 
-支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
+支持情况：<img title="微信小程序" src={require('@site/static/img/platform/weapp.png').default} className="icon_platform" width="25px"/> <img title="H5" src={require('@site/static/img/platform/h5.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="React Native" src={require('@site/static/img/platform/rn.png').default} className="icon_platform icon_platform--not-support" width="25px"/> <img title="Harmony" src={require('@site/static/img/platform/harmony.png').default} className="icon_platform icon_platform--not-support" width="25px"/>
 
 > [参考文档](https://developers.weixin.qq.com/miniprogram/dev/component/live-player.html)
 
@@ -67,8 +67,8 @@ class App extends Components {
 | orientation | `keyof Orientation` | `"vertical"` | 否 | 画面方向 |
 | objectFit | `keyof objectFit` | `"contain"` | 否 | 填充模式 |
 | backgroundMute | `boolean` | `false` | 否 | 进入后台时是否静音（已废弃，默认退台静音）<br />**不推荐使用** |
-| minCache | `number` | `1` | 否 | 进最小缓冲区，单位s |
-| maxCache | `number` | `3` | 否 | 进最小缓冲区，单位s |
+| minCache | `number` | `1` | 否 | 最小缓冲区，单位s |
+| maxCache | `number` | `3` | 否 | 最大缓冲区，单位s |
 | soundMode | `keyof soundMode` | `"speaker"` | 否 | 声音输出方式 |
 | autoPauseIfNavigate | `boolean` | `true` | 否 | 当跳转到本小程序的其他页面时，是否自动暂停本页面的实时音视频播放 |
 | autoPauseIfOpenNavigate | `boolean` | `true` | 否 | 当跳转到其它微信原生页面时，是否自动暂停本页面的实时音视频播放 |
@@ -82,27 +82,27 @@ class App extends Components {
 
 ### API 支持度
 
-| API | 微信小程序 | H5 | React Native |
-| :---: | :---: | :---: | :---: |
-| LivePlayerProps.src | ✔️ |  |  |
-| LivePlayerProps.mode | ✔️ |  |  |
-| LivePlayerProps.autoplay | ✔️ |  |  |
-| LivePlayerProps.muted | ✔️ |  |  |
-| LivePlayerProps.orientation | ✔️ |  |  |
-| LivePlayerProps.objectFit | ✔️ |  |  |
-| LivePlayerProps.backgroundMute | ✔️ |  |  |
-| LivePlayerProps.minCache | ✔️ |  |  |
-| LivePlayerProps.maxCache | ✔️ |  |  |
-| LivePlayerProps.soundMode | ✔️ |  |  |
-| LivePlayerProps.autoPauseIfNavigate | ✔️ |  |  |
-| LivePlayerProps.autoPauseIfOpenNavigate | ✔️ |  |  |
-| LivePlayerProps.pictureInPictureMode | ✔️ |  |  |
-| LivePlayerProps.onStateChange | ✔️ |  |  |
-| LivePlayerProps.onFullScreenChange | ✔️ |  |  |
-| LivePlayerProps.onNetStatus | ✔️ |  |  |
-| LivePlayerProps.onAudioVolumeNotify | ✔️ |  |  |
-| LivePlayerProps.onEnterPictureInPicture | ✔️ |  |  |
-| LivePlayerProps.onLeavePictureInPicture | ✔️ |  |  |
+| API | 微信小程序 | H5 | React Native | Harmony |
+| :---: | :---: | :---: | :---: | :---: |
+| LivePlayerProps.src | ✔️ |  |  |  |
+| LivePlayerProps.mode | ✔️ |  |  |  |
+| LivePlayerProps.autoplay | ✔️ |  |  |  |
+| LivePlayerProps.muted | ✔️ |  |  |  |
+| LivePlayerProps.orientation | ✔️ |  |  |  |
+| LivePlayerProps.objectFit | ✔️ |  |  |  |
+| LivePlayerProps.backgroundMute | ✔️ |  |  |  |
+| LivePlayerProps.minCache | ✔️ |  |  |  |
+| LivePlayerProps.maxCache | ✔️ |  |  |  |
+| LivePlayerProps.soundMode | ✔️ |  |  |  |
+| LivePlayerProps.autoPauseIfNavigate | ✔️ |  |  |  |
+| LivePlayerProps.autoPauseIfOpenNavigate | ✔️ |  |  |  |
+| LivePlayerProps.pictureInPictureMode | ✔️ |  |  |  |
+| LivePlayerProps.onStateChange | ✔️ |  |  |  |
+| LivePlayerProps.onFullScreenChange | ✔️ |  |  |  |
+| LivePlayerProps.onNetStatus | ✔️ |  |  |  |
+| LivePlayerProps.onAudioVolumeNotify | ✔️ |  |  |  |
+| LivePlayerProps.onEnterPictureInPicture | ✔️ |  |  |  |
+| LivePlayerProps.onLeavePictureInPicture | ✔️ |  |  |  |
 
 ### Mode
 

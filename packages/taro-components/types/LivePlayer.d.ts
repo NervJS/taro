@@ -44,13 +44,13 @@ interface LivePlayerProps extends StandardProps {
    */
   backgroundMute?: boolean
 
-  /** 进最小缓冲区，单位s
+  /** 最小缓冲区，单位s
    * @default 1
    * @supported weapp
    */
   minCache?: number
 
-  /** 进最小缓冲区，单位s
+  /** 最大缓冲区，单位s
    * @default 3
    * @supported weapp
    */
