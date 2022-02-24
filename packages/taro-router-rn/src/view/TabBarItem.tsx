@@ -1,4 +1,3 @@
-// eslint-disable-next-line no-use-before-define
 import * as React from 'react'
 import {
   View,
@@ -97,7 +96,6 @@ const styles = StyleSheet.create({
 })
 
 export default class TabBarItem extends React.PureComponent<TabBarItemProps> {
-  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   render () {
     const {
       label,

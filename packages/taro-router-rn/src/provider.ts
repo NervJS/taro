@@ -97,7 +97,6 @@ export class PageProvider extends React.Component<any> {
 
   private unSubscribleFocus
 
-  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   render () {
     return this.props.children
   }
