@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/router",
-  "version": "3.4.1",
+  "version": "3.4.2",
   "description": "Taro-router",
   "main:h5": "dist/router.js",
   "main": "dist/index.cjs.js",
@@ -27,8 +27,8 @@
   "author": "O2Team",
   "license": "MIT",
   "dependencies": {
-    "@tarojs/runtime": "3.4.1",
-    "@tarojs/taro": "3.4.1",
+    "@tarojs/runtime": "3.4.2",
+    "@tarojs/taro": "3.4.2",
     "history": "^5.1.0",
     "query-string": "^6.13.8",
     "universal-router": "^8.3.0",

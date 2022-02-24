@@ -32,7 +32,7 @@ export function startLocationUpdate(opts: Taro.startLocationUpdate.Option): Prom
       throw new Error('startLocationUpdate:fail')
     } else {
       _watchID = Geolocation.watchPosition(({ coords }) => {
-        const { latitude, longitude, altitude, accuracy, altitudeAccuracy, heading, speed } = coords
+        const { latitude, longitude, altitude, accuracy, speed } = coords
         _cbManager.trigger({
           accuracy,
           altitude,
