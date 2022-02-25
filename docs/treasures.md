@@ -312,6 +312,21 @@ Taroify 是移动端组件库 Vant 的 Taro 版本，两者基于相同的视觉
 
 ---
 
+### Tard
+
+`React`
+
+Tard 是一套基于Taro框架开发的多端React UI组件库。
+
+@jd-antelope 出品。【[物料详情](https://tard-ui.selling.cn/docs)】【[Github](https://github.com/jd-antelope/tard)】
+
+<img src="https://img30.360buyimg.com/img/jfs/t1/136536/19/21123/599490/6183a34bE2b06216c/0b9557af04c325d1.png.webp" width="700px" />
+
+|  | 微信 | 阿里系 | 百度 | 头条 | H5 | RN |
+|:--:|:--:|:--:|:--:|:--:|:--:|:--:|
+| 支持度 | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | |
+
+---
 ## 插件
 
 ---
