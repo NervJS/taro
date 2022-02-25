@@ -119,7 +119,8 @@ export default function generateEntry ({
 
   const appTabBar = getFormatTabBar(appPath, basePath)
 
-  const code = `import { AppRegistry } from 'react-native'
+  const code = `import 'react-native-gesture-handler'
+  import { AppRegistry } from 'react-native'
   import { createReactNativeApp, createPageConfig } from '@tarojs/runtime-rn'
   import Component from '${appComponentPath}'
   ${importPageList}
