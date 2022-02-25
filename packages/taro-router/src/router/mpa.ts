@@ -5,24 +5,8 @@ import {
   eventCenter, IHooks,
   SERVICE_IDENTIFIER, stringify
 } from '@tarojs/runtime'
-import type { AppConfig } from '@tarojs/taro'
-import { IH5RouterConfig } from '@tarojs/taro/types/compile'
-import { Route } from '.'
 import MultiPageHandler from './multi-page'
-
-export interface MultiRouterConfig extends AppConfig {
-  route: Route,
-  pageName: string
-  router: {
-    mode: IH5RouterConfig['mode']
-    basename: string
-    customRoutes?: Record<string, string | string[]>
-    pathname: string
-    forcePath?: string
-  }
-  // 下拉刷新组件
-  PullDownRefresh?: any
-}
+import { MpaRouterConfig, RouterConfig } from '.'
 
 // TODO 支持多路由 (APP 生命周期仅触发一次)
 /** Note: 关于多页面应用
@@ -35,9 +19,10 @@ export interface MultiRouterConfig extends AppConfig {
 
 export async function createMultiRouter (
   app: AppInstance,
-  config: MultiRouterConfig,
+  config: MpaRouterConfig,
   framework?: string
 ) {
+  RouterConfig.config = config
   const handler = new MultiPageHandler(config)
   const runtimeHooks = container.get<IHooks>(SERVICE_IDENTIFIER.Hooks)
   const launchParam = handler.getQuery()

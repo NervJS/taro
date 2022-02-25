@@ -1,9 +1,10 @@
-export function addLeadingSlash (path?: string) {
-  if (path == null) {
-    return ''
-  }
-  return path.charAt(0) === '/' ? path : '/' + path
-}
+export const addLeadingSlash = (url = '') => (url.charAt(0) === '/' ? url : '/' + url)
+
+export const hasBasename = (path = '', prefix = '') =>
+  new RegExp('^' + prefix + '(\\/|\\?|#|$)', 'i').test(path) || path === prefix
+
+export const stripBasename = (path = '', prefix = '') =>
+  hasBasename(path, prefix) ? path.substr(prefix.length) : path
 
 class RoutesAlias {
   conf: Array<string[]> = []

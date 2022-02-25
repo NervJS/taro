@@ -3,17 +3,17 @@ import { PageConfig } from '@tarojs/taro'
 import { Current, PageInstance } from '@tarojs/runtime'
 import queryString from 'query-string'
 
-import { MultiRouterConfig } from './multi'
-import { setHistoryMode, stripBasename } from '../history'
-import { initTabbar } from '../tabbar'
 import { bindPageResize } from '../events/resize'
 import { bindPageScroll } from '../events/scroll'
-import { Route } from '.'
+import { setHistoryMode } from '../history'
+import { initTabbar } from '../tabbar'
+import { stripBasename } from '../utils'
+import { Route, MpaRouterConfig } from './'
 
 export default class MultiPageHandler {
-  protected config: MultiRouterConfig
+  protected config: MpaRouterConfig
 
-  constructor (config: MultiRouterConfig) {
+  constructor (config: MpaRouterConfig) {
     this.config = config
     this.mount()
   }

@@ -12,7 +12,7 @@ export const getRootPath = function () {
   return path.resolve(__dirname, '../../')
 }
 
-export const addLeadingSlash = (url: string) => (url.charAt(0) === '/' ? url : '/' + url)
+export const addLeadingSlash = (url = '') => (url.charAt(0) === '/' ? url : '/' + url)
 export const addTrailingSlash = (url: string) => (url.charAt(url.length - 1) === '/' ? url : url + '/')
 
 export const formatOpenHost = host => {
