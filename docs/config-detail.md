@@ -18,7 +18,6 @@ title: 编译配置详情
 
 代码编译后的生产目录。
 
-
 ## designWidth
 
 `number`
@@ -131,7 +130,6 @@ module.exports = {
 ```
 
 这样就能在代码中通过 `process.env.NODE_ENV === 'development'` 来判断环境。
-
 
 ## copy
 
@@ -1151,7 +1149,7 @@ module.exports = {
 
 #### h5.router.mode
 
-`'hash' | 'browser'`
+`'hash' | 'browser' | 'multi'`
 
 默认值：`'hash'`
 
@@ -1175,6 +1173,13 @@ module.exports = {
 
 * `https://{{domain}}/#/pages/index/index`（**hash** 模式）
 * `https://{{domain}}/pages/index/index`（**browser** 模式）
+
+'multi' 对应多页面应用路由模式，需要注意的是很多小程序的组件或 API 都是基于 SPA 设计使用的，在 MPA 模式下并不适用，所以使用该模式可能会导致以下隐患：
+
+* TabBar 会多次加载，且不支持路由动画
+* App 生命周期会多次触发（暂未修复），onPageNotFound 事件不支持
+* 生产环境需要额外配置路由映射（根目录跳转、404 页面……）
+* getCurrentPages 等相关方法不支持
 
 #### h5.router.basename
 
@@ -1398,7 +1403,6 @@ module.exports = {
 }
 ```
 
-
 ### h5.sassLoaderOption
 
 `object`
@@ -1598,7 +1602,7 @@ module.exports = {
     // ...
     sass: {
       options: { /* ... */ },
-    	// 加入到脚本注入的每个 sass 文件头部，在 config.sass 之前
+     // 加入到脚本注入的每个 sass 文件头部，在 config.sass 之前
       additionalData: '', // {String|Function}
     }
   }
@@ -1661,6 +1665,7 @@ module.exports = {
 ```
 
 ### rn.enableMultipleClassName
+
 `boolean`
 
 支持多 `className` 转换，以 `classname` 或 `style` 结尾的， 提取前缀， 然后根据前缀，再生成对应的 xxxStyle。如：`barClassName -> barStyle`。默认值 `false`，不开启。
@@ -1674,6 +1679,7 @@ module.exports = {
 ```
 
 ### rn.enableMergeStyle
+
 `boolean`
 
 当标签 `style` 属性值是数组时转换成对象。默认值 `false`，不开启。
@@ -1687,6 +1693,7 @@ module.exports = {
 ```
 
 ### rn.enableSvgTransform
+
 `boolean`
 
 将 `svg` 文件转换为组件引入。默认值 `false`，不开启。详情：[#10793](https://github.com/NervJS/taro/pull/10793)
