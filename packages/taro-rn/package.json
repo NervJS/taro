@@ -62,11 +62,11 @@
   },
   "devDependencies": {
     "@tarojs/taro": "3.4.2",
-    "@types/react-native": "0.66.5",
+    "@types/react-native": "0.67.0",
     "babel-plugin-jest-hoist": "^26.6.2",
     "cpy-cli": "^3.1.1",
     "jest-expo": "^39.0.0",
-    "react-native": "^0.66.0",
+    "react-native": "^0.67.3",
     "rimraf": "^3.0.0"
   },
   "peerDependencies": {
