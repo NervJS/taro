@@ -239,6 +239,18 @@ module.exports = {
 }
 ```
 
+## jsMinimizer
+
+:::info
+Taro v3.6 开始支持。
+:::
+
+`terser | esbuild`
+
+默认值 `terser`
+
+配置 JS 压缩工具。
+
 ## terser
 
 `object`
@@ -272,6 +284,51 @@ module.exports = {
 ```
 
 > terser 配置只在**生产模式**下生效。如果你正在使用 **watch** 模式，又希望启用 terser，那么则需要设置 `process.env.NODE_ENV` 为 `'production'`。
+
+## esbuild
+
+:::info
+Taro v3.6 开始支持。
+:::
+
+`object`
+
+### esbuild.minify
+
+`object`
+
+当 `jsMinimizer` 为 `esbuild` 时适用。配置 [esbuild MinifyPlugin](https://github.com/privatenumber/esbuild-loader#js-minification-eg-terser) 工具以压缩 JS 代码。
+
+### esbuild.minify.enable
+
+`boolean`
+
+默认值 `true`
+
+是否开启 JS 代码压缩。
+
+### esbuild.minify.config
+
+`object`
+
+esbuild MnifyPlugin 的具体配置。
+
+```js
+module.exports = {
+  // ...
+  esbuild: {
+    minify: {
+      enable: true,
+      config: {
+        // 配置项同 https://github.com/privatenumber/esbuild-loader#minifyplugin
+        target: 'es5' // target 默认值为 es5
+      }
+    }
+  }
+}
+```
+
+> esbuild 配置只在**生产模式**下生效。如果你正在使用 **watch** 模式，又希望启用 esbuild，那么则需要设置 `process.env.NODE_ENV` 为 `'production'`。
 
 ## csso
 
