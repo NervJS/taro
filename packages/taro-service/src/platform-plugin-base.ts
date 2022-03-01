@@ -99,18 +99,18 @@ export abstract class TaroPlatformBase {
         ? `$ set NODE_ENV=production && taro build --type ${platform} --watch`
         : `$ NODE_ENV=production taro build --type ${platform} --watch`
 
-      tips.push(chalk.yellowBright(`1. 预览模式生成的文件较大，设置 NODE_ENV 为 production 可以开启压缩。
+      tips.push(chalk.yellowBright(`预览模式生成的文件较大，设置 NODE_ENV 为 production 可以开启压缩。
 Example:
 ${exampleCommand}`))
     }
 
     if (config.compiler === 'webpack5' && !config.cache?.enable) {
-      tips.push(chalk.yellowBright('2. 建议开启持久化缓存功能，能有效提升二次编译速度，详情请参考: https://docs.taro.zone/docs/config-detail#cache。'))
+      tips.push(chalk.yellowBright('建议开启持久化缓存功能，能有效提升二次编译速度，详情请参考: https://docs.taro.zone/docs/config-detail#cache。'))
     }
 
     if (tips.length) {
       console.log(chalk.yellowBright('Tips:'))
-      tips.forEach(item => console.log(item))
+      tips.forEach((item, index) => console.log(`${chalk.yellowBright(index + 1)}. ${item}`))
       console.log('\n')
     }
   }
