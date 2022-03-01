@@ -86,7 +86,9 @@ export default class Config {
       designWidth: initialConfig.designWidth,
       deviceRatio: initialConfig.deviceRatio,
       projectConfigName: initialConfig.projectConfigName,
+      jsMinimizer: initialConfig.jsMinimizer,
       terser: initialConfig.terser,
+      esbuild: initialConfig.esbuild,
       ...initialConfig[useConfigName]
     }
   }

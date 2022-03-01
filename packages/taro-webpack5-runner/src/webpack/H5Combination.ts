@@ -1,9 +1,8 @@
-import { FRAMEWORK_MAP, recursiveMerge, resolveMainFilePath } from '@tarojs/helper'
+import { FRAMEWORK_MAP, resolveMainFilePath } from '@tarojs/helper'
 import * as path from 'path'
 import * as webpack from 'webpack'
 import { Combination } from './Combination'
 import { H5BaseConfig } from './H5BaseConfig'
-import { WebpackPlugin } from './WebpackPlugin'
 import { H5WebpackPlugin } from './H5WebpackPlugin'
 import { H5WebpackModule } from './H5WebpackModule'
 import { addLeadingSlash, addTrailingSlash } from '../utils'
@@ -14,16 +13,6 @@ type Output = Required<webpack.Configuration>['output']
 
 export class H5Combination extends Combination<H5BuildConfig> {
   enableSourceMap: boolean
-  defaultTerserOptions: {
-    keep_fnames: true,
-    output: {
-      comments: false,
-      keep_quoted_props: true,
-      quote_keys: true,
-      beautify: false
-    },
-    warnings: false
-  }
 
   inst: H5AppInstance
 
@@ -106,14 +95,6 @@ export class H5Combination extends Combination<H5BuildConfig> {
 
   getOptimization (mode: string) {
     const isProd = mode === 'production'
-    const { terser } = this.config
-    const minimizer: Record<string, any> = {}
-    const isTerserEnabled = !(terser?.enable === false)
-
-    if (isProd && isTerserEnabled) {
-      const terserOptions = recursiveMerge({}, this.defaultTerserOptions, terser?.config || {})
-      minimizer.terserPlugin = WebpackPlugin.getTerserPlugin(terserOptions)
-    }
 
     const cacheGroups: Record<string, unknown> = {
       default: false,
@@ -140,7 +121,6 @@ export class H5Combination extends Combination<H5BuildConfig> {
     }
     if (!isProd) cacheGroups.name = false
     return {
-      minimizer,
       splitChunks: {
         chunks: 'initial',
         hidePathInfo: true,

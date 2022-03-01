@@ -45,6 +45,8 @@ const schema = Joi.object().keys({
 
   compiler: Joi.string().valid('webpack4', 'webpack5'),
 
+  jsMinimizer: Joi.string().valid('terser', 'esbuild'),
+
   cache: Joi.object().keys({
     enable: Joi.bool()
   }).unknown(),
@@ -96,6 +98,12 @@ const schema = Joi.object().keys({
   terser: Joi.object().keys({
     enable: Joi.bool(),
     config: Joi.object()
+  }),
+  esbuild: Joi.object().keys({
+    minify: Joi.object().keys({
+      enable: Joi.bool(),
+      config: Joi.object()
+    })
   }),
   sass: Joi.object().keys({
     resource: Joi.alternatives(Joi.array(), Joi.string()),

@@ -375,8 +375,10 @@ export interface IProjectBaseConfig {
   alias?: IOption
   defineConstants?: IOption
   copy?: ICopyOptions
+  jsMinimizer?: 'terser' | 'esbuild'
   csso?: TogglableOptions
   terser?: TogglableOptions
+  esbuild?: Record<'minify', TogglableOptions>
   uglify?: TogglableOptions
   sass?: ISassOptions
   plugins?: PluginItem[]

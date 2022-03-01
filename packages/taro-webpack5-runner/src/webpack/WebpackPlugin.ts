@@ -4,6 +4,7 @@ import * as CopyWebpackPlugin from 'copy-webpack-plugin'
 import * as MiniCssExtractPlugin from 'mini-css-extract-plugin'
 import CssoWebpackPlugin from 'csso-webpack-plugin'
 import * as TerserPlugin from 'terser-webpack-plugin'
+import { ESBuildMinifyPlugin } from 'esbuild-loader'
 
 import type { ICopyOptions } from '@tarojs/taro/types/compile'
 
@@ -57,5 +58,9 @@ export class WebpackPlugin {
       parallel: true,
       terserOptions
     }])
+  }
+
+  static getESBuildMinifyPlugin (esbuildMinifyOptions) {
+    return WebpackPlugin.getPlugin(ESBuildMinifyPlugin, [esbuildMinifyOptions])
   }
 }
