@@ -62,6 +62,9 @@ export class MiniBaseConfig extends BaseConfig {
       },
       optimization: {
         sideEffects: true
+      },
+      performance: {
+        maxEntrypointSize: 2 * 1000 * 1000
       }
     })
 

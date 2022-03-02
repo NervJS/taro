@@ -53,14 +53,21 @@ export class BaseConfig {
     return this._chain
   }
 
-  // JS minimizer 配置
+  // minimizer 配置
   protected setMinimizer (config: Config, defaultTerserOptions) {
     if (config.mode !== 'production') return
 
-    const { jsMinimizer = 'terser', terser, esbuild } = config
     let minimize = true
     const minimizer: Record<string, any> = {}
+    const {
+      jsMinimizer = 'terser',
+      cssMinimizer = 'csso',
+      terser,
+      esbuild,
+      csso
+    } = config
 
+    /** JS */
     if (jsMinimizer === 'esbuild') {
       if (esbuild?.minify?.enable === false) {
         // 只有在明确配置了 esbuild.minify.enable: false 时才不启用压缩
@@ -79,6 +86,26 @@ export class BaseConfig {
       } else {
         const terserOptions = recursiveMerge({}, defaultTerserOptions, terser?.config || {})
         minimizer.terserPlugin = WebpackPlugin.getTerserPlugin(terserOptions)
+      }
+    }
+
+    /** CSS */
+    if (cssMinimizer === 'esbuild') {
+      minimizer.esBuildCssPlugin = WebpackPlugin.getCssMinimizerPlugin(cssMinimizer, {})
+    } else if (cssMinimizer === 'parcelCss') {
+      minimizer.parcelCssPlugin = WebpackPlugin.getCssMinimizerPlugin(cssMinimizer, {})
+    } else {
+      if (csso?.enable !== false) {
+        const defaultOption = {
+          mergeRules: false,
+          mergeIdents: false,
+          reduceIdents: false,
+          discardUnused: false,
+          minifySelectors: false
+        }
+
+        const cssoConfig = Object.assign(defaultOption, csso?.config || {})
+        minimizer.cssoWebpackPlugin = WebpackPlugin.getCssMinimizerPlugin('csso', cssoConfig)
       }
     }
 

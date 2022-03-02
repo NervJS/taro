@@ -1,10 +1,11 @@
 import { ProvidePlugin, DefinePlugin } from 'webpack'
 import * as path from 'path'
+import { REG_STYLE } from '@tarojs/helper'
 import * as CopyWebpackPlugin from 'copy-webpack-plugin'
 import * as MiniCssExtractPlugin from 'mini-css-extract-plugin'
-import CssoWebpackPlugin from 'csso-webpack-plugin'
 import * as TerserPlugin from 'terser-webpack-plugin'
 import { ESBuildMinifyPlugin } from 'esbuild-loader'
+import * as CssMinimizerPlugin from 'css-minimizer-webpack-plugin'
 
 import type { ICopyOptions } from '@tarojs/taro/types/compile'
 
@@ -49,10 +50,6 @@ export class WebpackPlugin {
     return WebpackPlugin.getPlugin(MiniCssExtractPlugin, [args])
   }
 
-  static getCssoWebpackPlugin (args: any[]) {
-    return WebpackPlugin.getPlugin(CssoWebpackPlugin, args)
-  }
-
   static getTerserPlugin (terserOptions) {
     return WebpackPlugin.getPlugin(TerserPlugin, [{
       parallel: true,
@@ -62,5 +59,21 @@ export class WebpackPlugin {
 
   static getESBuildMinifyPlugin (esbuildMinifyOptions) {
     return WebpackPlugin.getPlugin(ESBuildMinifyPlugin, [esbuildMinifyOptions])
+  }
+
+  static getCssMinimizerPlugin (minimizer: 'esbuild' | 'parcelCss' | 'csso', minimizerOptions: Record<string, any>) {
+    let minify = CssMinimizerPlugin.cssoMinify
+    if (minimizer === 'esbuild') {
+      minify = CssMinimizerPlugin.esbuildMinify
+    } else if (minimizer === 'parcelCss') {
+      minify = CssMinimizerPlugin.parcelCssMinify
+    }
+    const options = {
+      test: REG_STYLE,
+      parallel: true,
+      minify,
+      minimizerOptions
+    }
+    return WebpackPlugin.getPlugin(CssMinimizerPlugin, [options])
   }
 }

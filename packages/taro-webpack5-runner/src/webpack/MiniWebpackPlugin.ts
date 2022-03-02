@@ -1,5 +1,5 @@
 import { isFunction, isArray } from '@tarojs/shared'
-import { PLATFORMS, REG_STYLE } from '@tarojs/helper'
+import { PLATFORMS } from '@tarojs/helper'
 import { WebpackPlugin } from './WebpackPlugin'
 import MiniPlugin from '../plugins/MiniPlugin'
 import BuildNativePlugin from '../plugins/BuildNativePlugin'
@@ -25,9 +25,6 @@ export class MiniWebpackPlugin {
 
     const copyWebpackPlugin = this.getCopyWebpackPlugin()
     if (copyWebpackPlugin) plugins.copyWebpackPlugin = copyWebpackPlugin
-
-    const cssoWebpackPlugin = this.getCssoWebpackPlugin()
-    if (cssoWebpackPlugin) plugins.cssoWebpackPlugin = cssoWebpackPlugin
 
     /** 需要在 MiniPlugin 前，否则无法获取 entry 地址 */
     const miniSplitChunksPlugin = this.getMiniSplitChunksPlugin()
@@ -109,26 +106,6 @@ export class MiniWebpackPlugin {
       chunkFilename: `[name]${fileType.style}`
     }, miniCssExtractPluginOption)
     return WebpackPlugin.getMiniCssExtractPlugin(args)
-  }
-
-  getCssoWebpackPlugin () {
-    const { mode, csso } = this.combination.config
-    const isCssoEnabled = !(csso?.enable === false)
-    const defaultOption = {
-      mergeRules: false,
-      mergeIdents: false,
-      reduceIdents: false,
-      discardUnused: false,
-      minifySelectors: false
-    }
-    let cssoWebpackPlugin
-
-    if (mode === 'production' && isCssoEnabled) {
-      const cssoConfig = Object.assign(defaultOption, csso?.config)
-      cssoWebpackPlugin = WebpackPlugin.getCssoWebpackPlugin([cssoConfig, REG_STYLE])
-    }
-
-    return cssoWebpackPlugin
   }
 
   getMiniSplitChunksPlugin () {

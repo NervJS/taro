@@ -376,6 +376,7 @@ export interface IProjectBaseConfig {
   defineConstants?: IOption
   copy?: ICopyOptions
   jsMinimizer?: 'terser' | 'esbuild'
+  cssMinimizer?: 'csso' | 'esbuild' | 'parcelCss'
   csso?: TogglableOptions
   terser?: TogglableOptions
   esbuild?: Record<'minify', TogglableOptions>

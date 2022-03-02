@@ -32,9 +32,6 @@ export class H5WebpackPlugin {
     const copyWebpackPlugin = this.getCopyWebpackPlugin()
     if (copyWebpackPlugin) plugins.copyWebpackPlugin = copyWebpackPlugin
 
-    const cssoWebpackPlugin = this.getCssoWebpackPlugin()
-    if (cssoWebpackPlugin) plugins.cssoWebpackPlugin = cssoWebpackPlugin
-
     return plugins
   }
 
@@ -73,26 +70,6 @@ export class H5WebpackPlugin {
       chunkFilename: 'css/[name].css'
     }, miniCssExtractPluginOption)
     return WebpackPlugin.getMiniCssExtractPlugin(args)
-  }
-
-  getCssoWebpackPlugin () {
-    const { mode, csso } = this.combination.config
-    const isCssoEnabled = !(csso?.enable === false)
-    const defaultOption = {
-      mergeRules: false,
-      mergeIdents: false,
-      reduceIdents: false,
-      discardUnused: false,
-      minifySelectors: false
-    }
-    let cssoWebpackPlugin
-
-    if (mode === 'production' && isCssoEnabled) {
-      const cssoConfig = Object.assign(defaultOption, csso?.config)
-      cssoWebpackPlugin = WebpackPlugin.getCssoWebpackPlugin([cssoConfig])
-    }
-
-    return cssoWebpackPlugin
   }
 
   getHtmlWebpackPlugin (entry = '', chunks: string[] = []) {

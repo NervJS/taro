@@ -47,6 +47,8 @@ const schema = Joi.object().keys({
 
   jsMinimizer: Joi.string().valid('terser', 'esbuild'),
 
+  cssMinimizer: Joi.string().valid('csso', 'esbuild', 'parcelCss'),
+
   cache: Joi.object().keys({
     enable: Joi.bool()
   }).unknown(),

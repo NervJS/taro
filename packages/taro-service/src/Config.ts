@@ -87,6 +87,7 @@ export default class Config {
       deviceRatio: initialConfig.deviceRatio,
       projectConfigName: initialConfig.projectConfigName,
       jsMinimizer: initialConfig.jsMinimizer,
+      cssMinimizer: initialConfig.cssMinimizer,
       terser: initialConfig.terser,
       esbuild: initialConfig.esbuild,
       ...initialConfig[useConfigName]
