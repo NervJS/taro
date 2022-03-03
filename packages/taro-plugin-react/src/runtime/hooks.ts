@@ -4,13 +4,19 @@ import {
   getPageInstance,
   injectPageInstance
 } from '@tarojs/runtime'
-import { PageContext, R as React } from './connect'
+
+import * as Connect from './connect'
+import * as ConnectNative from './connect-native'
+
 import { HOOKS_APP_ID } from './utils'
 
 import type { Func, PageLifeCycle } from '@tarojs/runtime'
 
 const taroHooks = (lifecycle: keyof PageLifeCycle) => {
   return (fn: Func) => {
+    const PageContext = ConnectNative.PageContextNative || Connect.PageContext
+    const React = ConnectNative.RNative || Connect.R
+
     const id = React.useContext(PageContext) || HOOKS_APP_ID
 
     // hold fn ref and keep up to date
@@ -84,6 +90,8 @@ export const useAddToFavorites = taroHooks('onAddToFavorites')
 export const useReady = taroHooks('onReady')
 
 export const useRouter = (dynamic = false) => {
+  const React = ConnectNative.RNative || Connect.R
+
   return dynamic ? Current.router : React.useMemo(() => Current.router, [])
 }
 

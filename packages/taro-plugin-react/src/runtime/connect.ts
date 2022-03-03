@@ -32,7 +32,7 @@ let ReactDOM
 const pageKeyId = incrementId()
 const hooks = container.get<IHooks>(SERVICE_IDENTIFIER.Hooks)
 
-export function setReconciler (ReactDOM) {
+export function setReconciler (ReactDOM, hooks) {
   hooks.getLifecycle = function (instance, lifecycle: string) {
     lifecycle = lifecycle.replace(/^on(Show|Hide)$/, 'componentDid$1')
     return instance[lifecycle]
@@ -183,7 +183,7 @@ export function createReactApp (
   const isReactComponent = isClassComponent(R, App)
   let appWrapper: AppWrapper
 
-  setReconciler(ReactDOM)
+  setReconciler(ReactDOM, hooks)
 
   function getAppInstance (): ReactAppInstance | null {
     return appInstanceRef.current
