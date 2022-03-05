@@ -2,7 +2,7 @@ import Taro from '../../index'
 
 declare module '../../index' {
   namespace request {
-    interface Option <T, U extends string | TaroGeneral.IAnyObject | ArrayBuffer = any | any > {
+    interface Option <T = any, U extends string | TaroGeneral.IAnyObject | ArrayBuffer = any | any > {
       /** 开发者服务器接口地址 */
       url: string
       /** 请求的参数 */
