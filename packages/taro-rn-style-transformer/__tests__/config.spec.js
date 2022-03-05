@@ -1,4 +1,4 @@
-import path from 'path'
+import * as path from 'path'
 import { recursiveMerge } from '@tarojs/helper'
 
 import StyleTransform, { getWrapedCSS } from '../src/transforms'

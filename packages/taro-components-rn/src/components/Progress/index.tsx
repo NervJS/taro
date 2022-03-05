@@ -94,11 +94,11 @@ export default class _Progress extends React.Component<ProgressProps, ProgressSt
     this.animate()
   }
 
-  getSnapshotBeforeUpdate(prevProps: ProgressProps, prevState: ProgressState): boolean {
+  getSnapshotBeforeUpdate(_prevProps: ProgressProps, prevState: ProgressState): boolean {
     return prevState.percent !== this.state.percent
   }
 
-  componentDidUpdate(prevProps: ProgressProps, prevState: ProgressState, snapshot: boolean): void {
+  componentDidUpdate(_prevProps: ProgressProps, _prevState: ProgressState, snapshot: boolean): void {
     if (snapshot) {
       this.animate()
     }

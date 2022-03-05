@@ -690,6 +690,21 @@ declare module '../../index' {
      * @see https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/Cloud.database.html
      */
     database(config?: cloud.IConfig): DB.Database
+
+    /** 调用云托管服务
+     * @supported weapp
+     * @example
+     * 假设已经初始化了一个叫c1的云开发实例，并发起云托管调用
+     *
+     * ``` tsx
+     * const r = await c1.callContainer({
+     *   path: '/path/to/container', // 填入容器的访问路径
+     *   method: 'POST',
+     * })
+     * ```
+     * @see https://developers.weixin.qq.com/miniprogram/dev/wxcloud/reference-sdk-api/container/Cloud.callContainer.html
+     */
+     callContainer < R = any, P = any >(params: cloud.CallContainerParam<P>): Promise<cloud.CallContainerResult<R>>
   }
 
   namespace DB {

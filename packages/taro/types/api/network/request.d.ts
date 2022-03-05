@@ -2,7 +2,7 @@ import Taro from '../../index'
 
 declare module '../../index' {
   namespace request {
-    interface Option < U extends string | TaroGeneral.IAnyObject | ArrayBuffer = any | any > {
+    interface Option <T = any, U extends string | TaroGeneral.IAnyObject | ArrayBuffer = any | any > {
       /** 开发者服务器接口地址 */
       url: string
       /** 请求的参数 */
@@ -55,7 +55,7 @@ declare module '../../index' {
        */
       enableChunked?: boolean
       /** 接口调用成功的回调函数 */
-      success?: (result: SuccessCallbackResult) => void
+      success?: (result: SuccessCallbackResult<T>) => void
       /** 接口调用失败的回调函数 */
       fail?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
@@ -367,7 +367,7 @@ declare module '../../index' {
      * ```
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/network/request/wx.request.html
      */
-    request<T = any, U = any>(option: request.Option<U>): RequestTask<T>
+    request<T = any, U = any>(option: request.Option<T,U>): RequestTask<T>
 
     /** 可以使用拦截器在请求发出前或发出后做一些额外操作。
      *

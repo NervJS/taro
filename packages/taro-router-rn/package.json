@@ -51,6 +51,6 @@
     "@types/node": "^14.14.41"
   },
   "devDependencies": {
-    "@types/react-native": "0.66.5"
+    "@types/react-native": "0.67.0"
   }
 }
