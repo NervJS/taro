@@ -20,11 +20,28 @@ title: 编译配置详情
 
 ## designWidth
 
-`number`
+:::info
+Taro v3.4.3 开始支持传入**函数**，[#11073](https://github.com/NervJS/taro/pull/11073)
+:::
+
+`number | function`
 
 默认值：`750`
 
 设计稿尺寸，详情请见[设计稿及尺寸单位](./size.md)。
+
+当传入函数时，参数是当前样式文件的绝对路径，开发者可以根据不同的文件路径返回对应的 `designWidth`，例子：
+
+```js title="config/index.js"
+config = {
+  designWidth (input) {
+    if (input.file.replace(/\\+/g, '/').indexOf('@nutui/nutui-taro') > -1) {
+      return 375
+    }
+    return 750
+  }
+}
+```
 
 ## defineConstants
 
@@ -708,7 +725,9 @@ module.exports = {
 
 ### mini.debugReact
 
-> 自 v3.0.8 开始支持
+:::info
+Taro v3.0.8 开始支持。
+:::
 
 `boolean`
 
@@ -718,7 +737,9 @@ module.exports = {
 
 ### mini.hot
 
-> 自 v3.4.0 开始支持
+:::info
+Taro v3.4.0 开始支持。
+:::
 
 `boolean`
 
@@ -728,7 +749,9 @@ module.exports = {
 
 ### mini.minifyXML
 
-> 自 v3.0.8 开始支持
+:::info
+Taro v3.0.8 开始支持。
+:::
 
 `object`
 
@@ -969,7 +992,9 @@ module.exports = {
 
 ### mini.lessLoaderOption
 
-> 自 v3.0.26 开始支持
+:::info
+Taro v3.0.26 开始支持。
+:::
 
 `object`
 
@@ -1306,7 +1331,9 @@ module.exports = {
 * `https://{{domain}}/#/index`（**hash** 模式）
 * `https://{{domain}}/myapp/index`（**browser** 模式）
 
-> 版本 3.3.18+ 开始支持传入数组配置自定义路由
+:::info
+Taro v3.3.18+ 开始支持传入数组配置自定义路由。
+:::
 
 ### h5.enableSourceMap
 
@@ -1326,7 +1353,9 @@ module.exports = {
 
 ### h5.useHtmlComponents
 
-> Taro 3.2.4 开始支持
+:::info
+Taro v3.2.4 开始支持。
+:::
 
 `boolean`
 
@@ -1494,7 +1523,9 @@ module.exports = {
 
 ### h5.lessLoaderOption
 
-> 自 v3.0.26 开始支持
+:::info
+Taro v3.0.26 开始支持。
+:::
 
 `object`
 

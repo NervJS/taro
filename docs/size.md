@@ -39,6 +39,10 @@ const DEVICE_RATIO = {
 }
 ```
 
+:::info
+Taro v3.4.3 开始支持配置**函数形式**的 `designWidth`，借此开发者可以动态地设置 `designWidth`，详情请查看：[config.designWidth](./config-detail#designwidth)
+:::
+
 ## API
 
 在编译时，Taro 会帮你对样式做尺寸转换操作，但是如果是在 JS 中书写了行内样式，那么编译时就无法做替换了，针对这种情况，Taro 提供了 API `Taro.pxTransform` 来做运行时的尺寸转换。
@@ -49,23 +53,48 @@ Taro.pxTransform(10) // 小程序：rpx，H5：rem
 
 ## 配置
 
-默认配置会对所有的 `px` 单位进行转换，有大写字母的 `Px` 或 `PX` 则会被忽略。
+### 默认配置
 
-参数默认值如下：
+**默认配置会对所有的 `px` 单位进行转换，有大写字母的 `Px` 或 `PX` 则会被忽略。**
 
-```js
-{
-  onePxTransform: true,
-  unitPrecision: 5,
-  propList: ['*'],
-  selectorBlackList: [],
-  replace: true,
-  mediaQuery: false,
-  minPixelValue: 0
+`postcss.pxtransform` 的参数默认值如下：
+
+```js title="config/index.js"
+config = {
+  mini: {
+    postcss: {
+      pxtransform: {
+        enable: true,
+        config: {
+          onePxTransform: true,
+          unitPrecision: 5,
+          propList: ['*'],
+          selectorBlackList: [],
+          replace: true,
+          mediaQuery: false,
+          minPixelValue: 0
+        }
+      }
+    }
+  }
+  h5: {
+    postcss: {
+      pxtransform: {
+        enable: true,
+        config: {
+          onePxTransform: true,
+          unitPrecision: 5,
+          propList: ['*'],
+          selectorBlackList: [],
+          replace: true,
+          mediaQuery: false,
+          minPixelValue: 0
+        }
+      }
+    }
+  }
 }
 ```
-
-Type: `Object | Null`
 
 ### `onePxTransform` (Boolean)
 

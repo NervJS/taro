@@ -18,14 +18,30 @@ title: 编译配置详情
 
 代码编译后的生产目录。
 
-
 ## designWidth
 
-`number`
+:::info
+Taro v3.4.3 开始支持传入**函数**，[#11073](https://github.com/NervJS/taro/pull/11073)
+:::
+
+`number | function`
 
 默认值：`750`
 
 设计稿尺寸，详情请见[设计稿及尺寸单位](./size.md)。
+
+当传入函数时，参数是当前样式文件的绝对路径，开发者可以根据不同的文件路径返回对应的 `designWidth`，例子：
+
+```js title="config/index.js"
+config = {
+  designWidth (input) {
+    if (input.file.replace(/\\+/g, '/').indexOf('@nutui/nutui-taro') > -1) {
+      return 375
+    }
+    return 750
+  }
+}
+```
 
 ## defineConstants
 
@@ -131,7 +147,6 @@ module.exports = {
 ```
 
 这样就能在代码中通过 `process.env.NODE_ENV === 'development'` 来判断环境。
-
 
 ## copy
 
@@ -241,6 +256,18 @@ module.exports = {
 }
 ```
 
+## jsMinimizer
+
+:::info
+Taro v3.6 开始支持。
+:::
+
+`terser | esbuild`
+
+默认值 `terser`
+
+配置 JS 压缩工具。
+
 ## terser
 
 `object`
@@ -274,6 +301,65 @@ module.exports = {
 ```
 
 > terser 配置只在**生产模式**下生效。如果你正在使用 **watch** 模式，又希望启用 terser，那么则需要设置 `process.env.NODE_ENV` 为 `'production'`。
+
+## esbuild
+
+:::info
+Taro v3.6 开始支持。
+:::
+
+`object`
+
+### esbuild.minify
+
+`object`
+
+当 `jsMinimizer` 为 `esbuild` 时适用。配置 [esbuild MinifyPlugin](https://github.com/privatenumber/esbuild-loader#js-minification-eg-terser) 工具以压缩 JS 代码。
+
+### esbuild.minify.enable
+
+`boolean`
+
+默认值 `true`
+
+是否开启 JS 代码压缩。
+
+### esbuild.minify.config
+
+`object`
+
+esbuild MnifyPlugin 的具体配置。
+
+```js
+module.exports = {
+  // ...
+  esbuild: {
+    minify: {
+      enable: true,
+      config: {
+        // 配置项同 https://github.com/privatenumber/esbuild-loader#minifyplugin
+        target: 'es5' // target 默认值为 es5
+      }
+    }
+  }
+}
+```
+
+> esbuild 配置只在**生产模式**下生效。如果你正在使用 **watch** 模式，又希望启用 esbuild，那么则需要设置 `process.env.NODE_ENV` 为 `'production'`。
+
+## cssMinimizer
+
+:::info
+Taro v3.6 开始支持。
+:::
+
+`csso | esbuild | parcelCss`
+
+默认值 `csso`
+
+配置 CSS 压缩工具。
+
+使用 [css-minimizer-webpack-plugin](https://github.com/webpack-contrib/css-minimizer-webpack-plugin) 实现，Taro 内部会根据不同配置值选用不同的压缩工具。建议开发者根据项目实际环境进行选择，可参考 [CSS Minification Benchmark](https://goalsmashers.github.io/css-minification-benchmark)。
 
 ## csso
 
@@ -403,6 +489,71 @@ module.exports = {
 }
 ```
 
+## framework
+
+`string`
+
+使用的开发框架。可选值：`react`、`preact`、`nerv`、`vue`、`vue3`。
+
+## compiler
+
+:::info
+Taro v3.6 开始支持。
+:::
+
+`string`
+
+默认值：`'webpack4'`
+
+使用的编译工具。可选值：`webpack4`、`webpack5`。
+
+## cache
+
+:::info
+Taro v3.6 开始支持。
+:::
+
+Webpack5 持久化缓存配置。具体配置请参考 [WebpackConfig.cache](https://webpack.js.org/configuration/cache/#cache)。
+
+Taro 遵循 Webpack **“构建安全比构建速度重要”**的理念，默认不开启持久化缓存功能。但当开发者能处理好缓存策略时，强烈建议开启缓存，这能大大提高二次编译速度。
+
+除了 [cache.buildDependencies](./config-detail#cachebuilddependencies)、[cache.name](./config-detail#cachename) 具有默认值外，开发者的其它 cache 配置将会合并进 `WebpackConfig.cache`。
+
+### cache.enable
+
+`boolean`
+
+默认值 `false`
+
+是否开启持久化缓存。
+
+值为 `false` 时：开发模式下 `WebpackConfig.cache.type = 'memory'`，而生产模式下 `WebpackConfig.cache = false`。
+
+值为 `true` 时：开发模式和生产模式下均为 `WebpackConfig.cache.type = 'filesystem'`。
+
+### cache.buildDependencies
+
+默认值
+
+```js
+webpackConfig = {
+  cache: {
+    buildDependencies: {
+      config: [path.join(appPath, 'config/index.js')]
+    }
+  }
+}
+```
+
+当依赖的文件或该文件的依赖改变时，使缓存失效。详情请参考 [WebpackConfig.cache.buildDependencies](https://webpack.js.org/configuration/cache/#cachebuilddependencies)。
+
+### cache.name
+
+`string`
+
+默认值 `process.env.NODE_ENV-process.env.TARO_ENV`。
+
+缓存子目录的名称。详情请参考 [WebpackConfig.cache.name](https://webpack.js.org/configuration/cache/#cachename)。
 
 ## mini
 
@@ -574,7 +725,9 @@ module.exports = {
 
 ### mini.debugReact
 
-> 自 v3.0.8 开始支持
+:::info
+Taro v3.0.8 开始支持。
+:::
 
 `boolean`
 
@@ -584,7 +737,9 @@ module.exports = {
 
 ### mini.hot
 
-> 自 v3.4.0 开始支持
+:::info
+Taro v3.4.0 开始支持。
+:::
 
 `boolean`
 
@@ -594,7 +749,9 @@ module.exports = {
 
 ### mini.minifyXML
 
-> 自 v3.0.8 开始支持
+:::info
+Taro v3.0.8 开始支持。
+:::
 
 `object`
 
@@ -835,7 +992,9 @@ module.exports = {
 
 ### mini.lessLoaderOption
 
-> 自 v3.0.26 开始支持
+:::info
+Taro v3.0.26 开始支持。
+:::
 
 `object`
 
@@ -1086,7 +1245,7 @@ module.exports = {
 
 #### h5.router.mode
 
-`'hash' | 'browser'`
+`'hash' | 'browser' | 'multi'`
 
 默认值：`'hash'`
 
@@ -1110,6 +1269,13 @@ module.exports = {
 
 * `https://{{domain}}/#/pages/index/index`（**hash** 模式）
 * `https://{{domain}}/pages/index/index`（**browser** 模式）
+
+'multi' 对应多页面应用路由模式，需要注意的是很多小程序的组件或 API 都是基于 SPA 设计使用的，在 MPA 模式下并不适用，所以使用该模式可能会导致以下隐患：
+
+* TabBar 会多次加载，且不支持路由动画
+* App 生命周期会多次触发（暂未修复），onPageNotFound 事件不支持
+* 生产环境需要额外配置路由映射（根目录跳转、404 页面……）
+* getCurrentPages 等相关方法不支持
 
 #### h5.router.basename
 
@@ -1165,7 +1331,9 @@ module.exports = {
 * `https://{{domain}}/#/index`（**hash** 模式）
 * `https://{{domain}}/myapp/index`（**browser** 模式）
 
-> 版本 3.3.18+ 开始支持传入数组配置自定义路由
+:::info
+Taro v3.3.18+ 开始支持传入数组配置自定义路由。
+:::
 
 ### h5.enableSourceMap
 
@@ -1185,7 +1353,9 @@ module.exports = {
 
 ### h5.useHtmlComponents
 
-> Taro 3.2.4 开始支持
+:::info
+Taro v3.2.4 开始支持。
+:::
 
 `boolean`
 
@@ -1333,7 +1503,6 @@ module.exports = {
 }
 ```
 
-
 ### h5.sassLoaderOption
 
 `object`
@@ -1354,7 +1523,9 @@ module.exports = {
 
 ### h5.lessLoaderOption
 
-> 自 v3.0.26 开始支持
+:::info
+Taro v3.0.26 开始支持。
+:::
 
 `object`
 
@@ -1533,7 +1704,7 @@ module.exports = {
     // ...
     sass: {
       options: { /* ... */ },
-    	// 加入到脚本注入的每个 sass 文件头部，在 config.sass 之前
+     // 加入到脚本注入的每个 sass 文件头部，在 config.sass 之前
       additionalData: '', // {String|Function}
     }
   }
@@ -1596,6 +1767,7 @@ module.exports = {
 ```
 
 ### rn.enableMultipleClassName
+
 `boolean`
 
 支持多 `className` 转换，以 `classname` 或 `style` 结尾的， 提取前缀， 然后根据前缀，再生成对应的 xxxStyle。如：`barClassName -> barStyle`。默认值 `false`，不开启。
@@ -1609,6 +1781,7 @@ module.exports = {
 ```
 
 ### rn.enableMergeStyle
+
 `boolean`
 
 当标签 `style` 属性值是数组时转换成对象。默认值 `false`，不开启。
@@ -1622,6 +1795,7 @@ module.exports = {
 ```
 
 ### rn.enableSvgTransform
+
 `boolean`
 
 将 `svg` 文件转换为组件引入。默认值 `false`，不开启。详情：[#10793](https://github.com/NervJS/taro/pull/10793)
