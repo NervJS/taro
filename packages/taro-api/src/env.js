@@ -27,6 +27,6 @@ export function getEnv () {
   } else if (process.env.TARO_ENV === 'rn') {
     return ENV_TYPE.RN
   } else {
-    return 'Unknown'
+    return process.env.TARO_ENV || 'Unknown'
   }
 }
