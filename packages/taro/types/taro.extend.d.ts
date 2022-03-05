@@ -9,7 +9,7 @@ declare module './index' {
     duration?: number
   }
 
-  interface RequestParams extends request.Option<any> {
+  interface RequestParams<T> extends request.Option<T,any> {
     [propName: string]: any
   }
 
