@@ -38,21 +38,21 @@ interface PageContainerProps extends StandardProps {
    */
   round?: boolean
 
-  /** 自定义遮罩层样式
+  /** 是否在下滑一段距离后关闭
    * @default false
    * @supported weapp
    */
   closeOnSlideDown?: boolean
 
-  /** 是否在下滑一段距离后关闭
+  /** 自定义遮罩层样式
    * @supported weapp
    */
-  overlayStyle?: boolean
+  overlayStyle?: string
 
   /** 自定义弹出层样式
    * @supported weapp
    */
-  customStyle?: boolean
+  customStyle?: string
 
   /** 进入前触发
    * @supported weapp
