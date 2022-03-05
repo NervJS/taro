@@ -92,8 +92,5 @@
     "webpack": "4.46.0",
     "webpack-chain": "4.9.0",
     "webpack-format-messages": "^2.0.5"
-  },
-  "devDependencies": {
-    "@types/convert-source-map": "^1.5.2"
   }
 }
