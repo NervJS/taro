@@ -168,19 +168,19 @@ interface ButtonProps extends StandardProps {
    */
   onGetPhoneNumber?: CommonEventFunction<ButtonProps.onGetPhoneNumberEventDetail>
 
+  /** 获取头像信息
+   *
+   * 生效时机：`open-type="chooseAvatar"`
+   * @supported weapp
+   */
+  onChooseAvatar?: CommonEventFunction<ButtonProps.onChooseAvatarEventDetail>
+
   /** 获取用户实名
    *
    * 生效时机：`open-type="getRealnameAuthInfo"`
    * @supported weapp
    */
   onGetRealnameAuthInfo?: CommonEventFunction
-
-  /** 获取头像信息
-   *
-   * 生效时机：`open-type="chooseAvatar"`
-   * @supported weapp
-   */
-   onChooseavatar?: CommonEventFunction
 
   /** 当使用开放能力时，发生错误的回调
    *
@@ -245,6 +245,10 @@ declare namespace ButtonProps {
        * @see https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/getPhoneNumber.html
        */
       getPhoneNumber
+      /** 获取用户头像，可以从 bindchooseavatar 回调中获取到头像信息
+       * @see https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/userProfile.html
+       */
+      chooseAvatar
       /** 获取用户信息，可以从 bindgetuserinfo 回调中获取到用户信息 */
       getUserInfo
       /** 用户实名信息授权，已经弃用 */
@@ -368,6 +372,11 @@ declare namespace ButtonProps {
     encryptedData: string
     /** 加密算法的初始向量 */
     iv: string
+  }
+
+  interface onChooseAvatarEventDetail {
+    /* 获取用户头像的临时链接 */
+    avatarUrl: string
   }
 
   interface onOpenSettingEventDetail {
