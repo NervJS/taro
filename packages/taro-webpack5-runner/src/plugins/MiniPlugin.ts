@@ -7,6 +7,8 @@ import * as NaturalChunkIdsPlugin from 'webpack/lib/ids/NaturalChunkIdsPlugin'
 import * as SplitChunksPlugin from 'webpack/lib/optimize/SplitChunksPlugin'
 import * as RuntimeChunkPlugin from 'webpack/lib/optimize/RuntimeChunkPlugin'
 import * as MiniCssExtractPlugin from 'mini-css-extract-plugin'
+import * as convert from 'convert-source-map'
+import offsetLines from 'offset-sourcemap-lines'
 import { ConcatSource, RawSource } from 'webpack-sources'
 import { urlToRequest } from 'loader-utils'
 import { minify } from 'html-minifier'
@@ -1124,17 +1126,40 @@ export default class TaroMiniPlugin {
 
     if (!assets[appStyle]) return
 
-    const originSource = assets[appStyle]
-    const source = new ConcatSource(originSource)
+    const commonStyles: string[] = []
 
     Object.keys(assets).forEach(assetName => {
       const fileName = path.basename(assetName, path.extname(assetName))
       if ((REG_STYLE.test(assetName) || REG_STYLE_EXT.test(assetName)) && this.options.commonChunks.includes(fileName)) {
-        source.add('\n')
-        source.add(`@import ${JSON.stringify(urlToRequest(assetName))};`)
-        assets[appStyle] = source
+        commonStyles.push(`@import ${JSON.stringify(urlToRequest(assetName))};\n`)
       }
     })
+
+    if (commonStyles.length > 0) {
+      const source = new ConcatSource()
+      let rawSource = assets[appStyle].source() as string
+      source.add(commonStyles.join(''))
+
+      const rawConvSourceMap = convert.fromSource(rawSource)
+
+      if (rawConvSourceMap) {
+        rawSource = convert.removeComments(rawSource)
+        source.add(rawSource)
+        const offsettedMap = offsetLines(rawConvSourceMap.toObject(), commonStyles.length)
+        source.add(convert.fromObject(offsettedMap).toComment())
+      } else {
+        source.add(rawSource)
+        const appStyleMap = appStyle + '.map'
+        if (assets[appStyleMap]) {
+          const mapContext = String(assets[appStyleMap].source())
+          const offsettedMap = offsetLines(JSON.parse(mapContext), commonStyles.length)
+          const offsettedMapText = JSON.stringify(offsettedMap)
+          assets[appStyleMap] = new RawSource(offsettedMapText)
+        }
+      }
+
+      assets[appStyle] = source
+    }
   }
 
   addTarBarFilesToDependencies (compilation: Compilation) {
