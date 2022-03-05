@@ -15,9 +15,9 @@ function plugin (_opts) {
       }
       rule.selector = rule.selector.replace(reg, '$1.h5-$2')
     })
-    let removeCursorStyle = true;
+    let removeCursorStyle = true
     if (typeof _opts?.removeCursorStyle === 'boolean') {
-      removeCursorStyle = _opts.removeCursorStyle;
+      removeCursorStyle = _opts.removeCursorStyle
     }
     if (removeCursorStyle) {
       root.walkDecls(function (decl) {
