@@ -12,4 +12,9 @@ export function initNativeApi (taro) {
     }
   })
   taro.cloud = wx.cloud
+  taro.getTabBar = function (pageCtx) {
+    if (typeof pageCtx?.getTabBar === 'function') {
+      return pageCtx.getTabBar()?.$taroInstances
+    }
+  }
 }
