@@ -4,7 +4,276 @@ exports[`qq should base template loop 10 times 1`] = `19`;
 
 exports[`qq should base template loop 10 times 2`] = `
 "
-/** filePath: dist/app.js **/
+/** filePath: dist\\\\runtime.js **/
+(function(modules) {
+    function webpackJsonpCallback(data) {
+        var chunkIds = data[0];
+        var moreModules = data[1];
+        var executeModules = data[2];
+        var moduleId, chunkId, i = 0, resolves = [];
+        for (;i < chunkIds.length; i++) {
+            chunkId = chunkIds[i];
+            if (Object.prototype.hasOwnProperty.call(installedChunks, chunkId) && installedChunks[chunkId]) {
+                resolves.push(installedChunks[chunkId][0]);
+            }
+            installedChunks[chunkId] = 0;
+        }
+        for (moduleId in moreModules) {
+            if (Object.prototype.hasOwnProperty.call(moreModules, moduleId)) {
+                modules[moduleId] = moreModules[moduleId];
+            }
+        }
+        if (parentJsonpFunction) parentJsonpFunction(data);
+        while (resolves.length) {
+            resolves.shift()();
+        }
+        deferredModules.push.apply(deferredModules, executeModules || []);
+        return checkDeferredModules();
+    }
+    function checkDeferredModules() {
+        var result;
+        for (var i = 0; i < deferredModules.length; i++) {
+            var deferredModule = deferredModules[i];
+            var fulfilled = true;
+            for (var j = 1; j < deferredModule.length; j++) {
+                var depId = deferredModule[j];
+                if (installedChunks[depId] !== 0) fulfilled = false;
+            }
+            if (fulfilled) {
+                deferredModules.splice(i--, 1);
+                result = __webpack_require__(__webpack_require__.s = deferredModule[0]);
+            }
+        }
+        return result;
+    }
+    var installedModules = {};
+    var installedChunks = {
+        0: 0
+    };
+    var deferredModules = [];
+    function __webpack_require__(moduleId) {
+        if (installedModules[moduleId]) {
+            return installedModules[moduleId].exports;
+        }
+        var module = installedModules[moduleId] = {
+            i: moduleId,
+            l: false,
+            exports: {}
+        };
+        modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
+        module.l = true;
+        return module.exports;
+    }
+    __webpack_require__.m = modules;
+    __webpack_require__.c = installedModules;
+    __webpack_require__.d = function(exports, name, getter) {
+        if (!__webpack_require__.o(exports, name)) {
+            Object.defineProperty(exports, name, {
+                enumerable: true,
+                get: getter
+            });
+        }
+    };
+    __webpack_require__.r = function(exports) {
+        if (typeof Symbol !== \\"undefined\\" && Symbol.toStringTag) {
+            Object.defineProperty(exports, Symbol.toStringTag, {
+                value: \\"Module\\"
+            });
+        }
+        Object.defineProperty(exports, \\"__esModule\\", {
+            value: true
+        });
+    };
+    __webpack_require__.t = function(value, mode) {
+        if (mode & 1) value = __webpack_require__(value);
+        if (mode & 8) return value;
+        if (mode & 4 && typeof value === \\"object\\" && value && value.__esModule) return value;
+        var ns = Object.create(null);
+        __webpack_require__.r(ns);
+        Object.defineProperty(ns, \\"default\\", {
+            enumerable: true,
+            value: value
+        });
+        if (mode & 2 && typeof value != \\"string\\") for (var key in value) __webpack_require__.d(ns, key, function(key) {
+            return value[key];
+        }.bind(null, key));
+        return ns;
+    };
+    __webpack_require__.n = function(module) {
+        var getter = module && module.__esModule ? function getDefault() {
+            return module[\\"default\\"];
+        } : function getModuleExports() {
+            return module;
+        };
+        __webpack_require__.d(getter, \\"a\\", getter);
+        return getter;
+    };
+    __webpack_require__.o = function(object, property) {
+        return Object.prototype.hasOwnProperty.call(object, property);
+    };
+    __webpack_require__.p = \\"/\\";
+    var jsonpArray = qq[\\"webpackJsonp\\"] = qq[\\"webpackJsonp\\"] || [];
+    var oldJsonpFunction = jsonpArray.push.bind(jsonpArray);
+    jsonpArray.push = webpackJsonpCallback;
+    jsonpArray = jsonpArray.slice();
+    for (var i = 0; i < jsonpArray.length; i++) webpackJsonpCallback(jsonpArray[i]);
+    var parentJsonpFunction = oldJsonpFunction;
+    checkDeferredModules();
+})([]);
+
+/** filePath: dist\\\\taro.js **/
+(qq[\\"webpackJsonp\\"] = qq[\\"webpackJsonp\\"] || []).push([ [ 1 ], {
+    0: function(module, __webpack_exports__, __webpack_require__) {
+        \\"use strict\\";
+        var _unused_webpack_default_export = \\"taro-runtime-mock\\";
+    },
+    2: function(module, __webpack_exports__, __webpack_require__) {
+        \\"use strict\\";
+        var _unused_webpack_default_export = \\"taro-components-mock\\";
+    },
+    9: function(module, __webpack_exports__, __webpack_require__) {
+        \\"use strict\\";
+        __webpack_exports__[\\"a\\"] = \\"taro-react-mock\\";
+    }
+} ]);
+
+/** filePath: dist\\\\common.js **/
+(qq[\\"webpackJsonp\\"] = qq[\\"webpackJsonp\\"] || []).push([ [ 2 ], [ , function(module, __webpack_exports__, __webpack_require__) {
+    \\"use strict\\";
+    __webpack_require__.r(__webpack_exports__);
+    __webpack_exports__[\\"default\\"] = \\"react-mock\\";
+} ] ]);
+
+/** filePath: dist\\\\vendors.js **/
+(qq[\\"webpackJsonp\\"] = qq[\\"webpackJsonp\\"] || []).push([ [ 3 ], [ , , , function(module, __webpack_exports__, __webpack_require__) {
+    \\"use strict\\";
+    __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
+        return _classCallCheck;
+    }));
+    function _classCallCheck(instance, Constructor) {
+        if (!(instance instanceof Constructor)) {
+            throw new TypeError(\\"Cannot call a class as a function\\");
+        }
+    }
+}, function(module, __webpack_exports__, __webpack_require__) {
+    \\"use strict\\";
+    __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
+        return _createClass;
+    }));
+    function _defineProperties(target, props) {
+        for (var i = 0; i < props.length; i++) {
+            var descriptor = props[i];
+            descriptor.enumerable = descriptor.enumerable || false;
+            descriptor.configurable = true;
+            if (\\"value\\" in descriptor) descriptor.writable = true;
+            Object.defineProperty(target, descriptor.key, descriptor);
+        }
+    }
+    function _createClass(Constructor, protoProps, staticProps) {
+        if (protoProps) _defineProperties(Constructor.prototype, protoProps);
+        if (staticProps) _defineProperties(Constructor, staticProps);
+        return Constructor;
+    }
+}, function(module, __webpack_exports__, __webpack_require__) {
+    \\"use strict\\";
+    __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
+        return _createSuper;
+    }));
+    function _getPrototypeOf(o) {
+        _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) {
+            return o.__proto__ || Object.getPrototypeOf(o);
+        };
+        return _getPrototypeOf(o);
+    }
+    function _isNativeReflectConstruct() {
+        if (typeof Reflect === \\"undefined\\" || !Reflect.construct) return false;
+        if (Reflect.construct.sham) return false;
+        if (typeof Proxy === \\"function\\") return true;
+        try {
+            Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], (function() {})));
+            return true;
+        } catch (e) {
+            return false;
+        }
+    }
+    var helpers_typeof = __webpack_require__(8);
+    var typeof_default = __webpack_require__.n(helpers_typeof);
+    function _assertThisInitialized(self) {
+        if (self === void 0) {
+            throw new ReferenceError(\\"this hasn't been initialised - super() hasn't been called\\");
+        }
+        return self;
+    }
+    function _possibleConstructorReturn(self, call) {
+        if (call && (typeof_default()(call) === \\"object\\" || typeof call === \\"function\\")) {
+            return call;
+        } else if (call !== void 0) {
+            throw new TypeError(\\"Derived constructors may only return object or undefined\\");
+        }
+        return _assertThisInitialized(self);
+    }
+    function _createSuper(Derived) {
+        var hasNativeReflectConstruct = _isNativeReflectConstruct();
+        return function _createSuperInternal() {
+            var Super = _getPrototypeOf(Derived), result;
+            if (hasNativeReflectConstruct) {
+                var NewTarget = _getPrototypeOf(this).constructor;
+                result = Reflect.construct(Super, arguments, NewTarget);
+            } else {
+                result = Super.apply(this, arguments);
+            }
+            return _possibleConstructorReturn(this, result);
+        };
+    }
+}, function(module, __webpack_exports__, __webpack_require__) {
+    \\"use strict\\";
+    __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
+        return _inherits;
+    }));
+    function _setPrototypeOf(o, p) {
+        _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) {
+            o.__proto__ = p;
+            return o;
+        };
+        return _setPrototypeOf(o, p);
+    }
+    function _inherits(subClass, superClass) {
+        if (typeof superClass !== \\"function\\" && superClass !== null) {
+            throw new TypeError(\\"Super expression must either be null or a function\\");
+        }
+        subClass.prototype = Object.create(superClass && superClass.prototype, {
+            constructor: {
+                value: subClass,
+                writable: true,
+                configurable: true
+            }
+        });
+        if (superClass) _setPrototypeOf(subClass, superClass);
+    }
+}, , function(module, exports) {
+    function _typeof(obj) {
+        \\"@babel/helpers - typeof\\";
+        if (typeof Symbol === \\"function\\" && typeof Symbol.iterator === \\"symbol\\") {
+            module.exports = _typeof = function _typeof(obj) {
+                return typeof obj;
+            };
+            module.exports[\\"default\\"] = module.exports, module.exports.__esModule = true;
+        } else {
+            module.exports = _typeof = function _typeof(obj) {
+                return obj && typeof Symbol === \\"function\\" && obj.constructor === Symbol && obj !== Symbol.prototype ? \\"symbol\\" : typeof obj;
+            };
+            module.exports[\\"default\\"] = module.exports, module.exports.__esModule = true;
+        }
+        return _typeof(obj);
+    }
+    module.exports = _typeof;
+    module.exports[\\"default\\"] = module.exports, module.exports.__esModule = true;
+} ] ]);
+
+/** filePath: dist\\\\app.qss **/
+
+
+/** filePath: dist\\\\app.js **/
 require(\\"./runtime\\");
 
 require(\\"./common\\");
@@ -118,6 +387,7 @@ require(\\"./taro\\");
                 bindGetUserInfo: _empty,
                 bindContact: _empty,
                 bindGetPhoneNumber: _empty,
+                bindChooseAvatar: _empty,
                 bindError: _empty,
                 bindOpenSetting: _empty,
                 bindLaunchApp: _empty
@@ -1086,13 +1356,171 @@ require(\\"./taro\\");
 
 
 
-/** filePath: dist/app.json **/
+/** filePath: dist\\\\comp.js **/
+(qq[\\"webpackJsonp\\"] = qq[\\"webpackJsonp\\"] || []).push([ [ 6 ], {
+    13: function(module, __webpack_exports__, __webpack_require__) {
+        \\"use strict\\";
+        __webpack_require__.r(__webpack_exports__);
+        var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
+        Component(Object(_tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__[\\"createRecursiveComponentConfig\\"])());
+    }
+}, [ [ 13, 0, 1 ] ] ]);
+
+/** filePath: dist\\\\custom-wrapper.js **/
+(qq[\\"webpackJsonp\\"] = qq[\\"webpackJsonp\\"] || []).push([ [ 7 ], {
+    14: function(module, __webpack_exports__, __webpack_require__) {
+        \\"use strict\\";
+        __webpack_require__.r(__webpack_exports__);
+        var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
+        Component(Object(_tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__[\\"createRecursiveComponentConfig\\"])(\\"custom-wrapper\\"));
+    }
+}, [ [ 14, 0, 1 ] ] ]);
+
+/** filePath: dist\\\\pages\\\\index\\\\index.qss **/
+
+
+/** filePath: dist\\\\pages\\\\index\\\\index.js **/
+(qq[\\"webpackJsonp\\"] = qq[\\"webpackJsonp\\"] || []).push([ [ 8 ], {
+    15: function(module, __webpack_exports__, __webpack_require__) {
+        \\"use strict\\";
+        __webpack_require__.r(__webpack_exports__);
+        __webpack_exports__[\\"default\\"] = \\"dependencies\\";
+    },
+    16: function(module, exports, __webpack_require__) {},
+    18: function(module, __webpack_exports__, __webpack_require__) {
+        \\"use strict\\";
+        __webpack_require__.r(__webpack_exports__);
+        var taro_runtime = __webpack_require__(0);
+        function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {
+            try {
+                var info = gen[key](arg);
+                var value = info.value;
+            } catch (error) {
+                reject(error);
+                return;
+            }
+            if (info.done) {
+                resolve(value);
+            } else {
+                Promise.resolve(value).then(_next, _throw);
+            }
+        }
+        function _asyncToGenerator(fn) {
+            return function() {
+                var self = this, args = arguments;
+                return new Promise((function(resolve, reject) {
+                    var gen = fn.apply(self, args);
+                    function _next(value) {
+                        asyncGeneratorStep(gen, resolve, reject, _next, _throw, \\"next\\", value);
+                    }
+                    function _throw(err) {
+                        asyncGeneratorStep(gen, resolve, reject, _next, _throw, \\"throw\\", err);
+                    }
+                    _next(undefined);
+                }));
+            };
+        }
+        var classCallCheck = __webpack_require__(3);
+        var createClass = __webpack_require__(4);
+        var inherits = __webpack_require__(6);
+        var createSuper = __webpack_require__(5);
+        var regenerator = __webpack_require__(7);
+        var regenerator_default = __webpack_require__.n(regenerator);
+        var react = __webpack_require__(1);
+        var taro_components = __webpack_require__(2);
+        var index = __webpack_require__(16);
+        var index_Index = function(_Component) {
+            Object(inherits[\\"a\\"])(Index, _Component);
+            var _super = Object(createSuper[\\"a\\"])(Index);
+            function Index() {
+                Object(classCallCheck[\\"a\\"])(this, Index);
+                return _super.apply(this, arguments);
+            }
+            Object(createClass[\\"a\\"])(Index, [ {
+                key: \\"componentWillMount\\",
+                value: function() {
+                    var _componentWillMount = _asyncToGenerator(regenerator_default.a.mark((function _callee() {
+                        return regenerator_default.a.wrap((function _callee$(_context) {
+                            while (1) {
+                                switch (_context.prev = _context.next) {
+                                  case 0:
+                                    _context.next = 2;
+                                    return Promise.resolve(1);
+
+                                  case 2:
+                                  case \\"end\\":
+                                    return _context.stop();
+                                }
+                            }
+                        }), _callee);
+                    })));
+                    function componentWillMount() {
+                        return _componentWillMount.apply(this, arguments);
+                    }
+                    return componentWillMount;
+                }()
+            }, {
+                key: \\"componentDidMount\\",
+                value: function componentDidMount() {}
+            }, {
+                key: \\"componentWillUnmount\\",
+                value: function componentWillUnmount() {}
+            }, {
+                key: \\"componentDidShow\\",
+                value: function componentDidShow() {}
+            }, {
+                key: \\"componentDidHide\\",
+                value: function componentDidHide() {}
+            }, {
+                key: \\"render\\",
+                value: function render() {
+                    return react[\\"default\\"].createElement(taro_components[\\"View\\"], {
+                        className: \\"index\\"
+                    }, react[\\"default\\"].createElement(taro_components[\\"Text\\"], null, \\"Hello world!\\"), react[\\"default\\"].createElement(taro_components[\\"Input\\"], {
+                        placeholder: \\"input\\",
+                        value: \\"\\"
+                    }), react[\\"default\\"].createElement(taro_components[\\"Textarea\\"], {
+                        value: \\"\\"
+                    }), react[\\"default\\"].createElement(taro_components[\\"Swiper\\"], null, react[\\"default\\"].createElement(taro_components[\\"SwiperItem\\"], null, react[\\"default\\"].createElement(taro_components[\\"Text\\"], null, \\"Swiper item\\"))), react[\\"default\\"].createElement(taro_components[\\"Video\\"], null), react[\\"default\\"].createElement(taro_components[\\"Canvas\\"], null, react[\\"default\\"].createElement(taro_components[\\"CoverView\\"], null, react[\\"default\\"].createElement(taro_components[\\"CoverImage\\"], null))));
+                }
+            } ]);
+            return Index;
+        }(react[\\"Component\\"]);
+        var config = {
+            navigationBarTitleText: \\"\\\\u9996\\\\u9875\\"
+        };
+        var inst = Page(Object(taro_runtime[\\"createPageConfig\\"])(index_Index, \\"pages/index/index\\", {
+            root: {
+                cn: []
+            }
+        }, config || {}));
+    },
+    7: function(module, exports, __webpack_require__) {
+        module.exports = __webpack_require__(15);
+    }
+}, [ [ 18, 0, 1, 3, 2 ] ] ]);
+
+/** filePath: dist\\\\pages\\\\index\\\\index.json **/
+{\\"navigationBarTitleText\\":\\"首页\\",\\"usingComponents\\":{\\"custom-wrapper\\":\\"../../custom-wrapper\\",\\"comp\\":\\"../../comp\\"}}
+
+/** filePath: dist\\\\pages\\\\index\\\\index.qml **/
+<import src=\\"../../base.qml\\"/>
+<template is=\\"taro_tmpl\\" data=\\"{{root:root}}\\" />
+
+/** filePath: dist\\\\app.json **/
 {\\"pages\\":[\\"pages/index/index\\"],\\"window\\":{\\"backgroundTextStyle\\":\\"light\\",\\"navigationBarBackgroundColor\\":\\"#fff\\",\\"navigationBarTitleText\\":\\"WeChat\\",\\"navigationBarTextStyle\\":\\"black\\"}}
 
-/** filePath: dist/app.qss **/
+/** filePath: dist\\\\comp.qml **/
+<import src=\\"./base.qml\\" />
+<template is=\\"tmpl_0_container\\" data=\\"{{i:i,l:l}}\\" />
 
+/** filePath: dist\\\\comp.json **/
+{\\"component\\":true,\\"usingComponents\\":{\\"comp\\":\\"./comp\\",\\"custom-wrapper\\":\\"./custom-wrapper\\"}}
 
-/** filePath: dist/base.qml **/
+/** filePath: dist\\\\custom-wrapper.json **/
+{\\"component\\":true,\\"usingComponents\\":{\\"comp\\":\\"./comp\\",\\"custom-wrapper\\":\\"./custom-wrapper\\"}}
+
+/** filePath: dist\\\\base.qml **/
 <wxs module=\\"xs\\" src=\\"./utils.wxs\\" />
 <template name=\\"taro_tmpl\\">
   <block wx:for=\\"{{root.cn}}\\" wx:key=\\"sid\\">
@@ -2102,200 +2530,13 @@ require(\\"./taro\\");
 </template>
 
 
-/** filePath: dist/common.js **/
-(qq[\\"webpackJsonp\\"] = qq[\\"webpackJsonp\\"] || []).push([ [ 2 ], [ , function(module, __webpack_exports__, __webpack_require__) {
-    \\"use strict\\";
-    __webpack_require__.r(__webpack_exports__);
-    __webpack_exports__[\\"default\\"] = \\"react-mock\\";
-} ] ]);
-
-/** filePath: dist/comp.js **/
-(qq[\\"webpackJsonp\\"] = qq[\\"webpackJsonp\\"] || []).push([ [ 6 ], {
-    13: function(module, __webpack_exports__, __webpack_require__) {
-        \\"use strict\\";
-        __webpack_require__.r(__webpack_exports__);
-        var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
-        Component(Object(_tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__[\\"createRecursiveComponentConfig\\"])());
-    }
-}, [ [ 13, 0, 1 ] ] ]);
-
-/** filePath: dist/comp.json **/
-{\\"component\\":true,\\"usingComponents\\":{\\"comp\\":\\"./comp\\",\\"custom-wrapper\\":\\"./custom-wrapper\\"}}
-
-/** filePath: dist/comp.qml **/
-<import src=\\"./base.qml\\" />
-<template is=\\"tmpl_0_container\\" data=\\"{{i:i,l:l}}\\" />
-
-/** filePath: dist/custom-wrapper.js **/
-(qq[\\"webpackJsonp\\"] = qq[\\"webpackJsonp\\"] || []).push([ [ 7 ], {
-    14: function(module, __webpack_exports__, __webpack_require__) {
-        \\"use strict\\";
-        __webpack_require__.r(__webpack_exports__);
-        var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
-        Component(Object(_tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__[\\"createRecursiveComponentConfig\\"])(\\"custom-wrapper\\"));
-    }
-}, [ [ 14, 0, 1 ] ] ]);
-
-/** filePath: dist/custom-wrapper.json **/
-{\\"component\\":true,\\"usingComponents\\":{\\"comp\\":\\"./comp\\",\\"custom-wrapper\\":\\"./custom-wrapper\\"}}
-
-/** filePath: dist/custom-wrapper.qml **/
+/** filePath: dist\\\\custom-wrapper.qml **/
 <import src=\\"./base.qml\\" />
   <block wx:for=\\"{{i.cn}}\\" wx:key=\\"sid\\">
     <template is=\\"tmpl_0_container\\" data=\\"{{i:item,l:''}}\\" />
   </block>
 
-/** filePath: dist/pages/index/index.js **/
-(qq[\\"webpackJsonp\\"] = qq[\\"webpackJsonp\\"] || []).push([ [ 8 ], {
-    15: function(module, __webpack_exports__, __webpack_require__) {
-        \\"use strict\\";
-        __webpack_require__.r(__webpack_exports__);
-        __webpack_exports__[\\"default\\"] = \\"dependencies\\";
-    },
-    16: function(module, exports, __webpack_require__) {},
-    18: function(module, __webpack_exports__, __webpack_require__) {
-        \\"use strict\\";
-        __webpack_require__.r(__webpack_exports__);
-        var taro_runtime = __webpack_require__(0);
-        function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {
-            try {
-                var info = gen[key](arg);
-                var value = info.value;
-            } catch (error) {
-                reject(error);
-                return;
-            }
-            if (info.done) {
-                resolve(value);
-            } else {
-                Promise.resolve(value).then(_next, _throw);
-            }
-        }
-        function _asyncToGenerator(fn) {
-            return function() {
-                var self = this, args = arguments;
-                return new Promise((function(resolve, reject) {
-                    var gen = fn.apply(self, args);
-                    function _next(value) {
-                        asyncGeneratorStep(gen, resolve, reject, _next, _throw, \\"next\\", value);
-                    }
-                    function _throw(err) {
-                        asyncGeneratorStep(gen, resolve, reject, _next, _throw, \\"throw\\", err);
-                    }
-                    _next(undefined);
-                }));
-            };
-        }
-        var classCallCheck = __webpack_require__(3);
-        var createClass = __webpack_require__(4);
-        var inherits = __webpack_require__(6);
-        var createSuper = __webpack_require__(5);
-        var regenerator = __webpack_require__(7);
-        var regenerator_default = __webpack_require__.n(regenerator);
-        var react = __webpack_require__(1);
-        var taro_components = __webpack_require__(2);
-        var index = __webpack_require__(16);
-        var index_Index = function(_Component) {
-            Object(inherits[\\"a\\"])(Index, _Component);
-            var _super = Object(createSuper[\\"a\\"])(Index);
-            function Index() {
-                Object(classCallCheck[\\"a\\"])(this, Index);
-                return _super.apply(this, arguments);
-            }
-            Object(createClass[\\"a\\"])(Index, [ {
-                key: \\"componentWillMount\\",
-                value: function() {
-                    var _componentWillMount = _asyncToGenerator(regenerator_default.a.mark((function _callee() {
-                        return regenerator_default.a.wrap((function _callee$(_context) {
-                            while (1) {
-                                switch (_context.prev = _context.next) {
-                                  case 0:
-                                    _context.next = 2;
-                                    return Promise.resolve(1);
-
-                                  case 2:
-                                  case \\"end\\":
-                                    return _context.stop();
-                                }
-                            }
-                        }), _callee);
-                    })));
-                    function componentWillMount() {
-                        return _componentWillMount.apply(this, arguments);
-                    }
-                    return componentWillMount;
-                }()
-            }, {
-                key: \\"componentDidMount\\",
-                value: function componentDidMount() {}
-            }, {
-                key: \\"componentWillUnmount\\",
-                value: function componentWillUnmount() {}
-            }, {
-                key: \\"componentDidShow\\",
-                value: function componentDidShow() {}
-            }, {
-                key: \\"componentDidHide\\",
-                value: function componentDidHide() {}
-            }, {
-                key: \\"render\\",
-                value: function render() {
-                    return react[\\"default\\"].createElement(taro_components[\\"View\\"], {
-                        className: \\"index\\"
-                    }, react[\\"default\\"].createElement(taro_components[\\"Text\\"], null, \\"Hello world!\\"), react[\\"default\\"].createElement(taro_components[\\"Input\\"], {
-                        placeholder: \\"input\\",
-                        value: \\"\\"
-                    }), react[\\"default\\"].createElement(taro_components[\\"Textarea\\"], {
-                        value: \\"\\"
-                    }), react[\\"default\\"].createElement(taro_components[\\"Swiper\\"], null, react[\\"default\\"].createElement(taro_components[\\"SwiperItem\\"], null, react[\\"default\\"].createElement(taro_components[\\"Text\\"], null, \\"Swiper item\\"))), react[\\"default\\"].createElement(taro_components[\\"Video\\"], null), react[\\"default\\"].createElement(taro_components[\\"Canvas\\"], null, react[\\"default\\"].createElement(taro_components[\\"CoverView\\"], null, react[\\"default\\"].createElement(taro_components[\\"CoverImage\\"], null))));
-                }
-            } ]);
-            return Index;
-        }(react[\\"Component\\"]);
-        var config = {
-            navigationBarTitleText: \\"\\\\u9996\\\\u9875\\"
-        };
-        var inst = Page(Object(taro_runtime[\\"createPageConfig\\"])(index_Index, \\"pages/index/index\\", {
-            root: {
-                cn: []
-            }
-        }, config || {}));
-    },
-    7: function(module, exports, __webpack_require__) {
-        module.exports = __webpack_require__(15);
-    }
-}, [ [ 18, 0, 1, 3, 2 ] ] ]);
-
-/** filePath: dist/pages/index/index.json **/
-{\\"navigationBarTitleText\\":\\"首页\\",\\"usingComponents\\":{\\"custom-wrapper\\":\\"../../custom-wrapper\\",\\"comp\\":\\"../../comp\\"}}
-
-/** filePath: dist/pages/index/index.qml **/
-<import src=\\"../../base.qml\\"/>
-<template is=\\"taro_tmpl\\" data=\\"{{root:root}}\\" />
-
-/** filePath: dist/pages/index/index.qss **/
-
-
-/** filePath: dist/runtime.js **/
-
-
-/** filePath: dist/taro.js **/
-(qq[\\"webpackJsonp\\"] = qq[\\"webpackJsonp\\"] || []).push([ [ 1 ], {
-    0: function(module, __webpack_exports__, __webpack_require__) {
-        \\"use strict\\";
-        var _unused_webpack_default_export = \\"taro-runtime-mock\\";
-    },
-    2: function(module, __webpack_exports__, __webpack_require__) {
-        \\"use strict\\";
-        var _unused_webpack_default_export = \\"taro-components-mock\\";
-    },
-    9: function(module, __webpack_exports__, __webpack_require__) {
-        \\"use strict\\";
-        __webpack_exports__[\\"a\\"] = \\"taro-react-mock\\";
-    }
-} ]);
-
-/** filePath: dist/utils.wxs **/
+/** filePath: dist\\\\utils.wxs **/
 module.exports = {
   a: function (l, n, s) {
     var a = [\\"view\\",\\"catch-view\\",\\"cover-view\\",\\"static-view\\",\\"pure-view\\",\\"block\\",\\"text\\",\\"static-text\\",\\"slot\\",\\"slot-view\\",\\"label\\",\\"form\\",\\"scroll-view\\",\\"swiper\\",\\"swiper-item\\"]
@@ -2335,132 +2576,6 @@ module.exports = {
     return l
   }
 }
-
-/** filePath: dist/vendors.js **/
-(qq[\\"webpackJsonp\\"] = qq[\\"webpackJsonp\\"] || []).push([ [ 3 ], [ , , , function(module, __webpack_exports__, __webpack_require__) {
-    \\"use strict\\";
-    __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
-        return _classCallCheck;
-    }));
-    function _classCallCheck(instance, Constructor) {
-        if (!(instance instanceof Constructor)) {
-            throw new TypeError(\\"Cannot call a class as a function\\");
-        }
-    }
-}, function(module, __webpack_exports__, __webpack_require__) {
-    \\"use strict\\";
-    __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
-        return _createClass;
-    }));
-    function _defineProperties(target, props) {
-        for (var i = 0; i < props.length; i++) {
-            var descriptor = props[i];
-            descriptor.enumerable = descriptor.enumerable || false;
-            descriptor.configurable = true;
-            if (\\"value\\" in descriptor) descriptor.writable = true;
-            Object.defineProperty(target, descriptor.key, descriptor);
-        }
-    }
-    function _createClass(Constructor, protoProps, staticProps) {
-        if (protoProps) _defineProperties(Constructor.prototype, protoProps);
-        if (staticProps) _defineProperties(Constructor, staticProps);
-        return Constructor;
-    }
-}, function(module, __webpack_exports__, __webpack_require__) {
-    \\"use strict\\";
-    __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
-        return _createSuper;
-    }));
-    function _getPrototypeOf(o) {
-        _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) {
-            return o.__proto__ || Object.getPrototypeOf(o);
-        };
-        return _getPrototypeOf(o);
-    }
-    function _isNativeReflectConstruct() {
-        if (typeof Reflect === \\"undefined\\" || !Reflect.construct) return false;
-        if (Reflect.construct.sham) return false;
-        if (typeof Proxy === \\"function\\") return true;
-        try {
-            Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], (function() {})));
-            return true;
-        } catch (e) {
-            return false;
-        }
-    }
-    var helpers_typeof = __webpack_require__(8);
-    var typeof_default = __webpack_require__.n(helpers_typeof);
-    function _assertThisInitialized(self) {
-        if (self === void 0) {
-            throw new ReferenceError(\\"this hasn't been initialised - super() hasn't been called\\");
-        }
-        return self;
-    }
-    function _possibleConstructorReturn(self, call) {
-        if (call && (typeof_default()(call) === \\"object\\" || typeof call === \\"function\\")) {
-            return call;
-        } else if (call !== void 0) {
-            throw new TypeError(\\"Derived constructors may only return object or undefined\\");
-        }
-        return _assertThisInitialized(self);
-    }
-    function _createSuper(Derived) {
-        var hasNativeReflectConstruct = _isNativeReflectConstruct();
-        return function _createSuperInternal() {
-            var Super = _getPrototypeOf(Derived), result;
-            if (hasNativeReflectConstruct) {
-                var NewTarget = _getPrototypeOf(this).constructor;
-                result = Reflect.construct(Super, arguments, NewTarget);
-            } else {
-                result = Super.apply(this, arguments);
-            }
-            return _possibleConstructorReturn(this, result);
-        };
-    }
-}, function(module, __webpack_exports__, __webpack_require__) {
-    \\"use strict\\";
-    __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
-        return _inherits;
-    }));
-    function _setPrototypeOf(o, p) {
-        _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) {
-            o.__proto__ = p;
-            return o;
-        };
-        return _setPrototypeOf(o, p);
-    }
-    function _inherits(subClass, superClass) {
-        if (typeof superClass !== \\"function\\" && superClass !== null) {
-            throw new TypeError(\\"Super expression must either be null or a function\\");
-        }
-        subClass.prototype = Object.create(superClass && superClass.prototype, {
-            constructor: {
-                value: subClass,
-                writable: true,
-                configurable: true
-            }
-        });
-        if (superClass) _setPrototypeOf(subClass, superClass);
-    }
-}, , function(module, exports) {
-    function _typeof(obj) {
-        \\"@babel/helpers - typeof\\";
-        if (typeof Symbol === \\"function\\" && typeof Symbol.iterator === \\"symbol\\") {
-            module.exports = _typeof = function _typeof(obj) {
-                return typeof obj;
-            };
-            module.exports[\\"default\\"] = module.exports, module.exports.__esModule = true;
-        } else {
-            module.exports = _typeof = function _typeof(obj) {
-                return obj && typeof Symbol === \\"function\\" && obj.constructor === Symbol && obj !== Symbol.prototype ? \\"symbol\\" : typeof obj;
-            };
-            module.exports[\\"default\\"] = module.exports, module.exports.__esModule = true;
-        }
-        return _typeof(obj);
-    }
-    module.exports = _typeof;
-    module.exports[\\"default\\"] = module.exports, module.exports.__esModule = true;
-} ] ]);
 "
 `;
 
@@ -2468,7 +2583,276 @@ exports[`qq should build qq app 1`] = `19`;
 
 exports[`qq should build qq app 2`] = `
 "
-/** filePath: dist/app.js **/
+/** filePath: dist\\\\runtime.js **/
+(function(modules) {
+    function webpackJsonpCallback(data) {
+        var chunkIds = data[0];
+        var moreModules = data[1];
+        var executeModules = data[2];
+        var moduleId, chunkId, i = 0, resolves = [];
+        for (;i < chunkIds.length; i++) {
+            chunkId = chunkIds[i];
+            if (Object.prototype.hasOwnProperty.call(installedChunks, chunkId) && installedChunks[chunkId]) {
+                resolves.push(installedChunks[chunkId][0]);
+            }
+            installedChunks[chunkId] = 0;
+        }
+        for (moduleId in moreModules) {
+            if (Object.prototype.hasOwnProperty.call(moreModules, moduleId)) {
+                modules[moduleId] = moreModules[moduleId];
+            }
+        }
+        if (parentJsonpFunction) parentJsonpFunction(data);
+        while (resolves.length) {
+            resolves.shift()();
+        }
+        deferredModules.push.apply(deferredModules, executeModules || []);
+        return checkDeferredModules();
+    }
+    function checkDeferredModules() {
+        var result;
+        for (var i = 0; i < deferredModules.length; i++) {
+            var deferredModule = deferredModules[i];
+            var fulfilled = true;
+            for (var j = 1; j < deferredModule.length; j++) {
+                var depId = deferredModule[j];
+                if (installedChunks[depId] !== 0) fulfilled = false;
+            }
+            if (fulfilled) {
+                deferredModules.splice(i--, 1);
+                result = __webpack_require__(__webpack_require__.s = deferredModule[0]);
+            }
+        }
+        return result;
+    }
+    var installedModules = {};
+    var installedChunks = {
+        0: 0
+    };
+    var deferredModules = [];
+    function __webpack_require__(moduleId) {
+        if (installedModules[moduleId]) {
+            return installedModules[moduleId].exports;
+        }
+        var module = installedModules[moduleId] = {
+            i: moduleId,
+            l: false,
+            exports: {}
+        };
+        modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
+        module.l = true;
+        return module.exports;
+    }
+    __webpack_require__.m = modules;
+    __webpack_require__.c = installedModules;
+    __webpack_require__.d = function(exports, name, getter) {
+        if (!__webpack_require__.o(exports, name)) {
+            Object.defineProperty(exports, name, {
+                enumerable: true,
+                get: getter
+            });
+        }
+    };
+    __webpack_require__.r = function(exports) {
+        if (typeof Symbol !== \\"undefined\\" && Symbol.toStringTag) {
+            Object.defineProperty(exports, Symbol.toStringTag, {
+                value: \\"Module\\"
+            });
+        }
+        Object.defineProperty(exports, \\"__esModule\\", {
+            value: true
+        });
+    };
+    __webpack_require__.t = function(value, mode) {
+        if (mode & 1) value = __webpack_require__(value);
+        if (mode & 8) return value;
+        if (mode & 4 && typeof value === \\"object\\" && value && value.__esModule) return value;
+        var ns = Object.create(null);
+        __webpack_require__.r(ns);
+        Object.defineProperty(ns, \\"default\\", {
+            enumerable: true,
+            value: value
+        });
+        if (mode & 2 && typeof value != \\"string\\") for (var key in value) __webpack_require__.d(ns, key, function(key) {
+            return value[key];
+        }.bind(null, key));
+        return ns;
+    };
+    __webpack_require__.n = function(module) {
+        var getter = module && module.__esModule ? function getDefault() {
+            return module[\\"default\\"];
+        } : function getModuleExports() {
+            return module;
+        };
+        __webpack_require__.d(getter, \\"a\\", getter);
+        return getter;
+    };
+    __webpack_require__.o = function(object, property) {
+        return Object.prototype.hasOwnProperty.call(object, property);
+    };
+    __webpack_require__.p = \\"/\\";
+    var jsonpArray = qq[\\"webpackJsonp\\"] = qq[\\"webpackJsonp\\"] || [];
+    var oldJsonpFunction = jsonpArray.push.bind(jsonpArray);
+    jsonpArray.push = webpackJsonpCallback;
+    jsonpArray = jsonpArray.slice();
+    for (var i = 0; i < jsonpArray.length; i++) webpackJsonpCallback(jsonpArray[i]);
+    var parentJsonpFunction = oldJsonpFunction;
+    checkDeferredModules();
+})([]);
+
+/** filePath: dist\\\\taro.js **/
+(qq[\\"webpackJsonp\\"] = qq[\\"webpackJsonp\\"] || []).push([ [ 1 ], {
+    0: function(module, __webpack_exports__, __webpack_require__) {
+        \\"use strict\\";
+        var _unused_webpack_default_export = \\"taro-runtime-mock\\";
+    },
+    2: function(module, __webpack_exports__, __webpack_require__) {
+        \\"use strict\\";
+        var _unused_webpack_default_export = \\"taro-components-mock\\";
+    },
+    9: function(module, __webpack_exports__, __webpack_require__) {
+        \\"use strict\\";
+        __webpack_exports__[\\"a\\"] = \\"taro-react-mock\\";
+    }
+} ]);
+
+/** filePath: dist\\\\common.js **/
+(qq[\\"webpackJsonp\\"] = qq[\\"webpackJsonp\\"] || []).push([ [ 2 ], [ , function(module, __webpack_exports__, __webpack_require__) {
+    \\"use strict\\";
+    __webpack_require__.r(__webpack_exports__);
+    __webpack_exports__[\\"default\\"] = \\"react-mock\\";
+} ] ]);
+
+/** filePath: dist\\\\vendors.js **/
+(qq[\\"webpackJsonp\\"] = qq[\\"webpackJsonp\\"] || []).push([ [ 3 ], [ , , , function(module, __webpack_exports__, __webpack_require__) {
+    \\"use strict\\";
+    __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
+        return _classCallCheck;
+    }));
+    function _classCallCheck(instance, Constructor) {
+        if (!(instance instanceof Constructor)) {
+            throw new TypeError(\\"Cannot call a class as a function\\");
+        }
+    }
+}, function(module, __webpack_exports__, __webpack_require__) {
+    \\"use strict\\";
+    __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
+        return _createClass;
+    }));
+    function _defineProperties(target, props) {
+        for (var i = 0; i < props.length; i++) {
+            var descriptor = props[i];
+            descriptor.enumerable = descriptor.enumerable || false;
+            descriptor.configurable = true;
+            if (\\"value\\" in descriptor) descriptor.writable = true;
+            Object.defineProperty(target, descriptor.key, descriptor);
+        }
+    }
+    function _createClass(Constructor, protoProps, staticProps) {
+        if (protoProps) _defineProperties(Constructor.prototype, protoProps);
+        if (staticProps) _defineProperties(Constructor, staticProps);
+        return Constructor;
+    }
+}, function(module, __webpack_exports__, __webpack_require__) {
+    \\"use strict\\";
+    __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
+        return _createSuper;
+    }));
+    function _getPrototypeOf(o) {
+        _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) {
+            return o.__proto__ || Object.getPrototypeOf(o);
+        };
+        return _getPrototypeOf(o);
+    }
+    function _isNativeReflectConstruct() {
+        if (typeof Reflect === \\"undefined\\" || !Reflect.construct) return false;
+        if (Reflect.construct.sham) return false;
+        if (typeof Proxy === \\"function\\") return true;
+        try {
+            Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], (function() {})));
+            return true;
+        } catch (e) {
+            return false;
+        }
+    }
+    var helpers_typeof = __webpack_require__(8);
+    var typeof_default = __webpack_require__.n(helpers_typeof);
+    function _assertThisInitialized(self) {
+        if (self === void 0) {
+            throw new ReferenceError(\\"this hasn't been initialised - super() hasn't been called\\");
+        }
+        return self;
+    }
+    function _possibleConstructorReturn(self, call) {
+        if (call && (typeof_default()(call) === \\"object\\" || typeof call === \\"function\\")) {
+            return call;
+        } else if (call !== void 0) {
+            throw new TypeError(\\"Derived constructors may only return object or undefined\\");
+        }
+        return _assertThisInitialized(self);
+    }
+    function _createSuper(Derived) {
+        var hasNativeReflectConstruct = _isNativeReflectConstruct();
+        return function _createSuperInternal() {
+            var Super = _getPrototypeOf(Derived), result;
+            if (hasNativeReflectConstruct) {
+                var NewTarget = _getPrototypeOf(this).constructor;
+                result = Reflect.construct(Super, arguments, NewTarget);
+            } else {
+                result = Super.apply(this, arguments);
+            }
+            return _possibleConstructorReturn(this, result);
+        };
+    }
+}, function(module, __webpack_exports__, __webpack_require__) {
+    \\"use strict\\";
+    __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
+        return _inherits;
+    }));
+    function _setPrototypeOf(o, p) {
+        _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) {
+            o.__proto__ = p;
+            return o;
+        };
+        return _setPrototypeOf(o, p);
+    }
+    function _inherits(subClass, superClass) {
+        if (typeof superClass !== \\"function\\" && superClass !== null) {
+            throw new TypeError(\\"Super expression must either be null or a function\\");
+        }
+        subClass.prototype = Object.create(superClass && superClass.prototype, {
+            constructor: {
+                value: subClass,
+                writable: true,
+                configurable: true
+            }
+        });
+        if (superClass) _setPrototypeOf(subClass, superClass);
+    }
+}, , function(module, exports) {
+    function _typeof(obj) {
+        \\"@babel/helpers - typeof\\";
+        if (typeof Symbol === \\"function\\" && typeof Symbol.iterator === \\"symbol\\") {
+            module.exports = _typeof = function _typeof(obj) {
+                return typeof obj;
+            };
+            module.exports[\\"default\\"] = module.exports, module.exports.__esModule = true;
+        } else {
+            module.exports = _typeof = function _typeof(obj) {
+                return obj && typeof Symbol === \\"function\\" && obj.constructor === Symbol && obj !== Symbol.prototype ? \\"symbol\\" : typeof obj;
+            };
+            module.exports[\\"default\\"] = module.exports, module.exports.__esModule = true;
+        }
+        return _typeof(obj);
+    }
+    module.exports = _typeof;
+    module.exports[\\"default\\"] = module.exports, module.exports.__esModule = true;
+} ] ]);
+
+/** filePath: dist\\\\app.qss **/
+
+
+/** filePath: dist\\\\app.js **/
 require(\\"./runtime\\");
 
 require(\\"./common\\");
@@ -2582,6 +2966,7 @@ require(\\"./taro\\");
                 bindGetUserInfo: _empty,
                 bindContact: _empty,
                 bindGetPhoneNumber: _empty,
+                bindChooseAvatar: _empty,
                 bindError: _empty,
                 bindOpenSetting: _empty,
                 bindLaunchApp: _empty
@@ -3550,13 +3935,171 @@ require(\\"./taro\\");
 
 
 
-/** filePath: dist/app.json **/
+/** filePath: dist\\\\comp.js **/
+(qq[\\"webpackJsonp\\"] = qq[\\"webpackJsonp\\"] || []).push([ [ 6 ], {
+    13: function(module, __webpack_exports__, __webpack_require__) {
+        \\"use strict\\";
+        __webpack_require__.r(__webpack_exports__);
+        var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
+        Component(Object(_tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__[\\"createRecursiveComponentConfig\\"])());
+    }
+}, [ [ 13, 0, 1 ] ] ]);
+
+/** filePath: dist\\\\custom-wrapper.js **/
+(qq[\\"webpackJsonp\\"] = qq[\\"webpackJsonp\\"] || []).push([ [ 7 ], {
+    14: function(module, __webpack_exports__, __webpack_require__) {
+        \\"use strict\\";
+        __webpack_require__.r(__webpack_exports__);
+        var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
+        Component(Object(_tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__[\\"createRecursiveComponentConfig\\"])(\\"custom-wrapper\\"));
+    }
+}, [ [ 14, 0, 1 ] ] ]);
+
+/** filePath: dist\\\\pages\\\\index\\\\index.qss **/
+
+
+/** filePath: dist\\\\pages\\\\index\\\\index.js **/
+(qq[\\"webpackJsonp\\"] = qq[\\"webpackJsonp\\"] || []).push([ [ 8 ], {
+    15: function(module, __webpack_exports__, __webpack_require__) {
+        \\"use strict\\";
+        __webpack_require__.r(__webpack_exports__);
+        __webpack_exports__[\\"default\\"] = \\"dependencies\\";
+    },
+    16: function(module, exports, __webpack_require__) {},
+    18: function(module, __webpack_exports__, __webpack_require__) {
+        \\"use strict\\";
+        __webpack_require__.r(__webpack_exports__);
+        var taro_runtime = __webpack_require__(0);
+        function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {
+            try {
+                var info = gen[key](arg);
+                var value = info.value;
+            } catch (error) {
+                reject(error);
+                return;
+            }
+            if (info.done) {
+                resolve(value);
+            } else {
+                Promise.resolve(value).then(_next, _throw);
+            }
+        }
+        function _asyncToGenerator(fn) {
+            return function() {
+                var self = this, args = arguments;
+                return new Promise((function(resolve, reject) {
+                    var gen = fn.apply(self, args);
+                    function _next(value) {
+                        asyncGeneratorStep(gen, resolve, reject, _next, _throw, \\"next\\", value);
+                    }
+                    function _throw(err) {
+                        asyncGeneratorStep(gen, resolve, reject, _next, _throw, \\"throw\\", err);
+                    }
+                    _next(undefined);
+                }));
+            };
+        }
+        var classCallCheck = __webpack_require__(3);
+        var createClass = __webpack_require__(4);
+        var inherits = __webpack_require__(6);
+        var createSuper = __webpack_require__(5);
+        var regenerator = __webpack_require__(7);
+        var regenerator_default = __webpack_require__.n(regenerator);
+        var react = __webpack_require__(1);
+        var taro_components = __webpack_require__(2);
+        var index = __webpack_require__(16);
+        var index_Index = function(_Component) {
+            Object(inherits[\\"a\\"])(Index, _Component);
+            var _super = Object(createSuper[\\"a\\"])(Index);
+            function Index() {
+                Object(classCallCheck[\\"a\\"])(this, Index);
+                return _super.apply(this, arguments);
+            }
+            Object(createClass[\\"a\\"])(Index, [ {
+                key: \\"componentWillMount\\",
+                value: function() {
+                    var _componentWillMount = _asyncToGenerator(regenerator_default.a.mark((function _callee() {
+                        return regenerator_default.a.wrap((function _callee$(_context) {
+                            while (1) {
+                                switch (_context.prev = _context.next) {
+                                  case 0:
+                                    _context.next = 2;
+                                    return Promise.resolve(1);
+
+                                  case 2:
+                                  case \\"end\\":
+                                    return _context.stop();
+                                }
+                            }
+                        }), _callee);
+                    })));
+                    function componentWillMount() {
+                        return _componentWillMount.apply(this, arguments);
+                    }
+                    return componentWillMount;
+                }()
+            }, {
+                key: \\"componentDidMount\\",
+                value: function componentDidMount() {}
+            }, {
+                key: \\"componentWillUnmount\\",
+                value: function componentWillUnmount() {}
+            }, {
+                key: \\"componentDidShow\\",
+                value: function componentDidShow() {}
+            }, {
+                key: \\"componentDidHide\\",
+                value: function componentDidHide() {}
+            }, {
+                key: \\"render\\",
+                value: function render() {
+                    return react[\\"default\\"].createElement(taro_components[\\"View\\"], {
+                        className: \\"index\\"
+                    }, react[\\"default\\"].createElement(taro_components[\\"Text\\"], null, \\"Hello world!\\"), react[\\"default\\"].createElement(taro_components[\\"Input\\"], {
+                        placeholder: \\"input\\",
+                        value: \\"\\"
+                    }), react[\\"default\\"].createElement(taro_components[\\"Textarea\\"], {
+                        value: \\"\\"
+                    }), react[\\"default\\"].createElement(taro_components[\\"Swiper\\"], null, react[\\"default\\"].createElement(taro_components[\\"SwiperItem\\"], null, react[\\"default\\"].createElement(taro_components[\\"Text\\"], null, \\"Swiper item\\"))), react[\\"default\\"].createElement(taro_components[\\"Video\\"], null), react[\\"default\\"].createElement(taro_components[\\"Canvas\\"], null, react[\\"default\\"].createElement(taro_components[\\"CoverView\\"], null, react[\\"default\\"].createElement(taro_components[\\"CoverImage\\"], null))));
+                }
+            } ]);
+            return Index;
+        }(react[\\"Component\\"]);
+        var config = {
+            navigationBarTitleText: \\"\\\\u9996\\\\u9875\\"
+        };
+        var inst = Page(Object(taro_runtime[\\"createPageConfig\\"])(index_Index, \\"pages/index/index\\", {
+            root: {
+                cn: []
+            }
+        }, config || {}));
+    },
+    7: function(module, exports, __webpack_require__) {
+        module.exports = __webpack_require__(15);
+    }
+}, [ [ 18, 0, 1, 3, 2 ] ] ]);
+
+/** filePath: dist\\\\pages\\\\index\\\\index.json **/
+{\\"navigationBarTitleText\\":\\"首页\\",\\"usingComponents\\":{\\"custom-wrapper\\":\\"../../custom-wrapper\\",\\"comp\\":\\"../../comp\\"}}
+
+/** filePath: dist\\\\pages\\\\index\\\\index.qml **/
+<import src=\\"../../base.qml\\"/>
+<template is=\\"taro_tmpl\\" data=\\"{{root:root}}\\" />
+
+/** filePath: dist\\\\app.json **/
 {\\"pages\\":[\\"pages/index/index\\"],\\"window\\":{\\"backgroundTextStyle\\":\\"light\\",\\"navigationBarBackgroundColor\\":\\"#fff\\",\\"navigationBarTitleText\\":\\"WeChat\\",\\"navigationBarTextStyle\\":\\"black\\"}}
 
-/** filePath: dist/app.qss **/
+/** filePath: dist\\\\comp.qml **/
+<import src=\\"./base.qml\\" />
+<template is=\\"tmpl_0_container\\" data=\\"{{i:i,l:l}}\\" />
 
+/** filePath: dist\\\\comp.json **/
+{\\"component\\":true,\\"usingComponents\\":{\\"comp\\":\\"./comp\\",\\"custom-wrapper\\":\\"./custom-wrapper\\"}}
 
-/** filePath: dist/base.qml **/
+/** filePath: dist\\\\custom-wrapper.json **/
+{\\"component\\":true,\\"usingComponents\\":{\\"comp\\":\\"./comp\\",\\"custom-wrapper\\":\\"./custom-wrapper\\"}}
+
+/** filePath: dist\\\\base.qml **/
 <wxs module=\\"xs\\" src=\\"./utils.wxs\\" />
 <template name=\\"taro_tmpl\\">
   <block wx:for=\\"{{root.cn}}\\" wx:key=\\"sid\\">
@@ -4566,200 +5109,13 @@ require(\\"./taro\\");
 </template>
 
 
-/** filePath: dist/common.js **/
-(qq[\\"webpackJsonp\\"] = qq[\\"webpackJsonp\\"] || []).push([ [ 2 ], [ , function(module, __webpack_exports__, __webpack_require__) {
-    \\"use strict\\";
-    __webpack_require__.r(__webpack_exports__);
-    __webpack_exports__[\\"default\\"] = \\"react-mock\\";
-} ] ]);
-
-/** filePath: dist/comp.js **/
-(qq[\\"webpackJsonp\\"] = qq[\\"webpackJsonp\\"] || []).push([ [ 6 ], {
-    13: function(module, __webpack_exports__, __webpack_require__) {
-        \\"use strict\\";
-        __webpack_require__.r(__webpack_exports__);
-        var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
-        Component(Object(_tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__[\\"createRecursiveComponentConfig\\"])());
-    }
-}, [ [ 13, 0, 1 ] ] ]);
-
-/** filePath: dist/comp.json **/
-{\\"component\\":true,\\"usingComponents\\":{\\"comp\\":\\"./comp\\",\\"custom-wrapper\\":\\"./custom-wrapper\\"}}
-
-/** filePath: dist/comp.qml **/
-<import src=\\"./base.qml\\" />
-<template is=\\"tmpl_0_container\\" data=\\"{{i:i,l:l}}\\" />
-
-/** filePath: dist/custom-wrapper.js **/
-(qq[\\"webpackJsonp\\"] = qq[\\"webpackJsonp\\"] || []).push([ [ 7 ], {
-    14: function(module, __webpack_exports__, __webpack_require__) {
-        \\"use strict\\";
-        __webpack_require__.r(__webpack_exports__);
-        var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
-        Component(Object(_tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__[\\"createRecursiveComponentConfig\\"])(\\"custom-wrapper\\"));
-    }
-}, [ [ 14, 0, 1 ] ] ]);
-
-/** filePath: dist/custom-wrapper.json **/
-{\\"component\\":true,\\"usingComponents\\":{\\"comp\\":\\"./comp\\",\\"custom-wrapper\\":\\"./custom-wrapper\\"}}
-
-/** filePath: dist/custom-wrapper.qml **/
+/** filePath: dist\\\\custom-wrapper.qml **/
 <import src=\\"./base.qml\\" />
   <block wx:for=\\"{{i.cn}}\\" wx:key=\\"sid\\">
     <template is=\\"tmpl_0_container\\" data=\\"{{i:item,l:''}}\\" />
   </block>
 
-/** filePath: dist/pages/index/index.js **/
-(qq[\\"webpackJsonp\\"] = qq[\\"webpackJsonp\\"] || []).push([ [ 8 ], {
-    15: function(module, __webpack_exports__, __webpack_require__) {
-        \\"use strict\\";
-        __webpack_require__.r(__webpack_exports__);
-        __webpack_exports__[\\"default\\"] = \\"dependencies\\";
-    },
-    16: function(module, exports, __webpack_require__) {},
-    18: function(module, __webpack_exports__, __webpack_require__) {
-        \\"use strict\\";
-        __webpack_require__.r(__webpack_exports__);
-        var taro_runtime = __webpack_require__(0);
-        function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {
-            try {
-                var info = gen[key](arg);
-                var value = info.value;
-            } catch (error) {
-                reject(error);
-                return;
-            }
-            if (info.done) {
-                resolve(value);
-            } else {
-                Promise.resolve(value).then(_next, _throw);
-            }
-        }
-        function _asyncToGenerator(fn) {
-            return function() {
-                var self = this, args = arguments;
-                return new Promise((function(resolve, reject) {
-                    var gen = fn.apply(self, args);
-                    function _next(value) {
-                        asyncGeneratorStep(gen, resolve, reject, _next, _throw, \\"next\\", value);
-                    }
-                    function _throw(err) {
-                        asyncGeneratorStep(gen, resolve, reject, _next, _throw, \\"throw\\", err);
-                    }
-                    _next(undefined);
-                }));
-            };
-        }
-        var classCallCheck = __webpack_require__(3);
-        var createClass = __webpack_require__(4);
-        var inherits = __webpack_require__(6);
-        var createSuper = __webpack_require__(5);
-        var regenerator = __webpack_require__(7);
-        var regenerator_default = __webpack_require__.n(regenerator);
-        var react = __webpack_require__(1);
-        var taro_components = __webpack_require__(2);
-        var index = __webpack_require__(16);
-        var index_Index = function(_Component) {
-            Object(inherits[\\"a\\"])(Index, _Component);
-            var _super = Object(createSuper[\\"a\\"])(Index);
-            function Index() {
-                Object(classCallCheck[\\"a\\"])(this, Index);
-                return _super.apply(this, arguments);
-            }
-            Object(createClass[\\"a\\"])(Index, [ {
-                key: \\"componentWillMount\\",
-                value: function() {
-                    var _componentWillMount = _asyncToGenerator(regenerator_default.a.mark((function _callee() {
-                        return regenerator_default.a.wrap((function _callee$(_context) {
-                            while (1) {
-                                switch (_context.prev = _context.next) {
-                                  case 0:
-                                    _context.next = 2;
-                                    return Promise.resolve(1);
-
-                                  case 2:
-                                  case \\"end\\":
-                                    return _context.stop();
-                                }
-                            }
-                        }), _callee);
-                    })));
-                    function componentWillMount() {
-                        return _componentWillMount.apply(this, arguments);
-                    }
-                    return componentWillMount;
-                }()
-            }, {
-                key: \\"componentDidMount\\",
-                value: function componentDidMount() {}
-            }, {
-                key: \\"componentWillUnmount\\",
-                value: function componentWillUnmount() {}
-            }, {
-                key: \\"componentDidShow\\",
-                value: function componentDidShow() {}
-            }, {
-                key: \\"componentDidHide\\",
-                value: function componentDidHide() {}
-            }, {
-                key: \\"render\\",
-                value: function render() {
-                    return react[\\"default\\"].createElement(taro_components[\\"View\\"], {
-                        className: \\"index\\"
-                    }, react[\\"default\\"].createElement(taro_components[\\"Text\\"], null, \\"Hello world!\\"), react[\\"default\\"].createElement(taro_components[\\"Input\\"], {
-                        placeholder: \\"input\\",
-                        value: \\"\\"
-                    }), react[\\"default\\"].createElement(taro_components[\\"Textarea\\"], {
-                        value: \\"\\"
-                    }), react[\\"default\\"].createElement(taro_components[\\"Swiper\\"], null, react[\\"default\\"].createElement(taro_components[\\"SwiperItem\\"], null, react[\\"default\\"].createElement(taro_components[\\"Text\\"], null, \\"Swiper item\\"))), react[\\"default\\"].createElement(taro_components[\\"Video\\"], null), react[\\"default\\"].createElement(taro_components[\\"Canvas\\"], null, react[\\"default\\"].createElement(taro_components[\\"CoverView\\"], null, react[\\"default\\"].createElement(taro_components[\\"CoverImage\\"], null))));
-                }
-            } ]);
-            return Index;
-        }(react[\\"Component\\"]);
-        var config = {
-            navigationBarTitleText: \\"\\\\u9996\\\\u9875\\"
-        };
-        var inst = Page(Object(taro_runtime[\\"createPageConfig\\"])(index_Index, \\"pages/index/index\\", {
-            root: {
-                cn: []
-            }
-        }, config || {}));
-    },
-    7: function(module, exports, __webpack_require__) {
-        module.exports = __webpack_require__(15);
-    }
-}, [ [ 18, 0, 1, 3, 2 ] ] ]);
-
-/** filePath: dist/pages/index/index.json **/
-{\\"navigationBarTitleText\\":\\"首页\\",\\"usingComponents\\":{\\"custom-wrapper\\":\\"../../custom-wrapper\\",\\"comp\\":\\"../../comp\\"}}
-
-/** filePath: dist/pages/index/index.qml **/
-<import src=\\"../../base.qml\\"/>
-<template is=\\"taro_tmpl\\" data=\\"{{root:root}}\\" />
-
-/** filePath: dist/pages/index/index.qss **/
-
-
-/** filePath: dist/runtime.js **/
-
-
-/** filePath: dist/taro.js **/
-(qq[\\"webpackJsonp\\"] = qq[\\"webpackJsonp\\"] || []).push([ [ 1 ], {
-    0: function(module, __webpack_exports__, __webpack_require__) {
-        \\"use strict\\";
-        var _unused_webpack_default_export = \\"taro-runtime-mock\\";
-    },
-    2: function(module, __webpack_exports__, __webpack_require__) {
-        \\"use strict\\";
-        var _unused_webpack_default_export = \\"taro-components-mock\\";
-    },
-    9: function(module, __webpack_exports__, __webpack_require__) {
-        \\"use strict\\";
-        __webpack_exports__[\\"a\\"] = \\"taro-react-mock\\";
-    }
-} ]);
-
-/** filePath: dist/utils.wxs **/
+/** filePath: dist\\\\utils.wxs **/
 module.exports = {
   a: function (l, n, s) {
     var a = [\\"view\\",\\"catch-view\\",\\"cover-view\\",\\"static-view\\",\\"pure-view\\",\\"block\\",\\"text\\",\\"static-text\\",\\"slot\\",\\"slot-view\\",\\"label\\",\\"form\\",\\"scroll-view\\",\\"swiper\\",\\"swiper-item\\"]
@@ -4799,131 +5155,5 @@ module.exports = {
     return l
   }
 }
-
-/** filePath: dist/vendors.js **/
-(qq[\\"webpackJsonp\\"] = qq[\\"webpackJsonp\\"] || []).push([ [ 3 ], [ , , , function(module, __webpack_exports__, __webpack_require__) {
-    \\"use strict\\";
-    __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
-        return _classCallCheck;
-    }));
-    function _classCallCheck(instance, Constructor) {
-        if (!(instance instanceof Constructor)) {
-            throw new TypeError(\\"Cannot call a class as a function\\");
-        }
-    }
-}, function(module, __webpack_exports__, __webpack_require__) {
-    \\"use strict\\";
-    __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
-        return _createClass;
-    }));
-    function _defineProperties(target, props) {
-        for (var i = 0; i < props.length; i++) {
-            var descriptor = props[i];
-            descriptor.enumerable = descriptor.enumerable || false;
-            descriptor.configurable = true;
-            if (\\"value\\" in descriptor) descriptor.writable = true;
-            Object.defineProperty(target, descriptor.key, descriptor);
-        }
-    }
-    function _createClass(Constructor, protoProps, staticProps) {
-        if (protoProps) _defineProperties(Constructor.prototype, protoProps);
-        if (staticProps) _defineProperties(Constructor, staticProps);
-        return Constructor;
-    }
-}, function(module, __webpack_exports__, __webpack_require__) {
-    \\"use strict\\";
-    __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
-        return _createSuper;
-    }));
-    function _getPrototypeOf(o) {
-        _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) {
-            return o.__proto__ || Object.getPrototypeOf(o);
-        };
-        return _getPrototypeOf(o);
-    }
-    function _isNativeReflectConstruct() {
-        if (typeof Reflect === \\"undefined\\" || !Reflect.construct) return false;
-        if (Reflect.construct.sham) return false;
-        if (typeof Proxy === \\"function\\") return true;
-        try {
-            Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], (function() {})));
-            return true;
-        } catch (e) {
-            return false;
-        }
-    }
-    var helpers_typeof = __webpack_require__(8);
-    var typeof_default = __webpack_require__.n(helpers_typeof);
-    function _assertThisInitialized(self) {
-        if (self === void 0) {
-            throw new ReferenceError(\\"this hasn't been initialised - super() hasn't been called\\");
-        }
-        return self;
-    }
-    function _possibleConstructorReturn(self, call) {
-        if (call && (typeof_default()(call) === \\"object\\" || typeof call === \\"function\\")) {
-            return call;
-        } else if (call !== void 0) {
-            throw new TypeError(\\"Derived constructors may only return object or undefined\\");
-        }
-        return _assertThisInitialized(self);
-    }
-    function _createSuper(Derived) {
-        var hasNativeReflectConstruct = _isNativeReflectConstruct();
-        return function _createSuperInternal() {
-            var Super = _getPrototypeOf(Derived), result;
-            if (hasNativeReflectConstruct) {
-                var NewTarget = _getPrototypeOf(this).constructor;
-                result = Reflect.construct(Super, arguments, NewTarget);
-            } else {
-                result = Super.apply(this, arguments);
-            }
-            return _possibleConstructorReturn(this, result);
-        };
-    }
-}, function(module, __webpack_exports__, __webpack_require__) {
-    \\"use strict\\";
-    __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
-        return _inherits;
-    }));
-    function _setPrototypeOf(o, p) {
-        _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) {
-            o.__proto__ = p;
-            return o;
-        };
-        return _setPrototypeOf(o, p);
-    }
-    function _inherits(subClass, superClass) {
-        if (typeof superClass !== \\"function\\" && superClass !== null) {
-            throw new TypeError(\\"Super expression must either be null or a function\\");
-        }
-        subClass.prototype = Object.create(superClass && superClass.prototype, {
-            constructor: {
-                value: subClass,
-                writable: true,
-                configurable: true
-            }
-        });
-        if (superClass) _setPrototypeOf(subClass, superClass);
-    }
-}, , function(module, exports) {
-    function _typeof(obj) {
-        \\"@babel/helpers - typeof\\";
-        if (typeof Symbol === \\"function\\" && typeof Symbol.iterator === \\"symbol\\") {
-            module.exports = _typeof = function _typeof(obj) {
-                return typeof obj;
-            };
-            module.exports[\\"default\\"] = module.exports, module.exports.__esModule = true;
-        } else {
-            module.exports = _typeof = function _typeof(obj) {
-                return obj && typeof Symbol === \\"function\\" && obj.constructor === Symbol && obj !== Symbol.prototype ? \\"symbol\\" : typeof obj;
-            };
-            module.exports[\\"default\\"] = module.exports, module.exports.__esModule = true;
-        }
-        return _typeof(obj);
-    }
-    module.exports = _typeof;
-    module.exports[\\"default\\"] = module.exports, module.exports.__esModule = true;
-} ] ]);
 "
 `;
