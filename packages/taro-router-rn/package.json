@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/router-rn",
-  "version": "3.4.1",
+  "version": "3.4.2",
   "description": "Taro-router-rn",
   "main": "dist/index.js",
   "typings": "src/index.ts",
@@ -51,6 +51,6 @@
     "@types/node": "^14.14.41"
   },
   "devDependencies": {
-    "@types/react-native": "0.66.5"
+    "@types/react-native": "0.67.0"
   }
 }
