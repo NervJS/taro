@@ -1063,8 +1063,8 @@ require(\\"./taro\\");
 {\\"pages\\":[\\"pages/index/index\\",\\"pages/about/index\\"],\\"window\\":{\\"backgroundTextStyle\\":\\"light\\",\\"navigationBarBackgroundColor\\":\\"#fff\\",\\"navigationBarTitleText\\":\\"WeChat\\",\\"navigationBarTextStyle\\":\\"black\\"}}
 
 /** filePath: dist/app.wxss **/
-.body{background-color:#e8e8ed}
 @import \\"./common.wxss\\";
+.body{background-color:#e8e8ed}
 
 /** filePath: dist/base.wxml **/
 <wxs module=\\"xs\\" src=\\"./utils.wxs\\" />
