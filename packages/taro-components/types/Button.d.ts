@@ -175,6 +175,13 @@ interface ButtonProps extends StandardProps {
    */
   onGetRealnameAuthInfo?: CommonEventFunction
 
+  /** 获取头像信息
+   *
+   * 生效时机：`open-type="chooseAvatar"`
+   * @supported weapp
+   */
+   onChooseavatar?: CommonEventFunction
+
   /** 当使用开放能力时，发生错误的回调
    *
    * 生效时机：`open-type="launchApp"`
