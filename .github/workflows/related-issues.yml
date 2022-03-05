@@ -1,0 +1,57 @@
+name: related-issues
+on:
+  # Triggers the workflow on push or pull request events but only for the main branch
+  issues:
+    types: 
+      - opened
+
+jobs:
+  get-related-issues:
+    permissions: 
+      # Gives the workflow write permissions only in issues
+      issues: write
+    runs-on: ubuntu-latest
+    steps:
+      # Performs a search in an Algolia Index based on Issue Title
+      # The Index should have historical Issues
+      # Returns two outputs:
+      # issues_list: a markdown list of issues
+      # comment_body: a generic comment body with the list of issues
+      - id: search
+        name: Search based on issue title
+        uses: brob/algolia-issue-search@v1.0
+        with: 
+          # Requires an Algolia account with an App ID and write key
+          app_id: ${{ secrets.ALGOLIA_APP_ID }}
+          api_key: ${{ secrets.ALGOLIA_API_KEY }}
+          index_name: ${{ github.event.repository.name }}
+          issue_title: ${{ github.event.issue.title }}
+      - name: Create or Update Comment
+        uses: peter-evans/create-or-update-comment@v1.4.5
+        with:
+          # GITHUB_TOKEN or a repo scoped PAT.
+          token: ${{ github.token }}
+          # The number of the issue or pull request in which to create a comment.
+          issue-number: ${{ github.event.issue.number }}
+          # The comment body. Can use either issues_list or comment_body
+          body: |
+            等待热心的小伙伴解决问题中..., 有一些相关的 issues 可能帮助到你!
+            ${{ steps.search.outputs.issues_list }}
+            Thank you so much! 
+      # An Action to create a record in an Algolia Index
+      # This is a generic Action and can be used outside of this workflow
+      - name: Add Algolia Record
+        id: ingest
+        uses: chuckmeyer/add-algolia-record@v1
+        with:
+          app_id: ${{ secrets.ALGOLIA_APP_ID }}
+          api_key: ${{ secrets.ALGOLIA_API_KEY }}
+          index_name: ${{ github.event.repository.name }}
+          # Record needs to be a string of JSON
+          record: |
+            {
+              "title": "${{ github.event.issue.title }}", 
+              "url": "${{ github.event.issue.html_url }}", 
+              "labels": "${{ github.event.issue.labels }}",
+              "objectID": "${{ github.event.issue.number }}"
+            }

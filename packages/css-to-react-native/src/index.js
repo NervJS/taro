@@ -52,12 +52,11 @@ const transformDecls = (styles, declarations, result, options = {}) => {
     // scalable option, when it is false, transform single value 'px' unit to 'PX'
     // do not be wrapped by scalePx2dp function
     if (
-      isLengthUnit &&
       typeof options.scalable === 'boolean' &&
       !options.scalable &&
       /(\d+)px/.test(value)
     ) {
-      value = value.replace(/(\d+)px/, '$1PX')
+      value = value.replace(/(\d+)px/g, '$1PX')
     }
 
     if (shorthandBorderProps.indexOf(property) > -1) {

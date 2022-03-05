@@ -39,8 +39,8 @@ const DEFAULT_WEAPP_OPTIONS = {
 
 let targetUnit
 
-module.exports = postcss.plugin('postcss-pxtransform', function (options) {
-  options = Object.assign(DEFAULT_WEAPP_OPTIONS, options || {})
+module.exports = postcss.plugin('postcss-pxtransform', function (options = {}) {
+  options = Object.assign({}, DEFAULT_WEAPP_OPTIONS, options)
 
   const isFunctionDw = typeof options.designWidth === 'function'
   const designWidth = input => isFunctionDw
@@ -54,7 +54,7 @@ module.exports = postcss.plugin('postcss-pxtransform', function (options) {
       break
     }
     case 'rn': {
-      options.rootValue = input => 1 / options.deviceRatio[designWidth(input)]
+      options.rootValue = input => 1 / options.deviceRatio[designWidth(input)] * 2
       targetUnit = 'px'
       break
     }
@@ -74,12 +74,12 @@ module.exports = postcss.plugin('postcss-pxtransform', function (options) {
 
   const opts = Object.assign({}, defaults, options)
   const onePxTransform = typeof options.onePxTransform === 'undefined' ? true : options.onePxTransform
-  const pxReplace = createPxReplace(opts.rootValue, opts.unitPrecision,
-    opts.minPixelValue, onePxTransform)
 
   const satisfyPropList = createPropListMatcher(opts.propList)
 
   return function (css) {
+    const pxReplace = createPxReplace(opts.rootValue, opts.unitPrecision, opts.minPixelValue, onePxTransform)(css.source.input)
+
     for (let i = 0; i < css.nodes.length; i++) {
       if (css.nodes[i].type === 'comment') {
         if (css.nodes[i].text === 'postcss-pxtransform disable') {
@@ -160,7 +160,7 @@ module.exports = postcss.plugin('postcss-pxtransform', function (options) {
       if (blacklistedSelector(opts.selectorBlackList,
         decl.parent.selector)) return
 
-      const value = decl.value.replace(pxRegex, pxReplace(css.source.input))
+      const value = decl.value.replace(pxRegex, pxReplace)
 
       // if rem unit already exists, do not add or replace
       if (declarationExists(decl.parent, decl.prop, value)) return
@@ -175,7 +175,7 @@ module.exports = postcss.plugin('postcss-pxtransform', function (options) {
     if (opts.mediaQuery) {
       css.walkAtRules('media', function (rule) {
         if (rule.params.indexOf('px') === -1) return
-        rule.params = rule.params.replace(pxRegex, pxReplace(css.source.input))
+        rule.params = rule.params.replace(pxRegex, pxReplace)
       })
     }
   }

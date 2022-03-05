@@ -1,4 +1,4 @@
-import path from 'path'
+import * as path from 'path'
 import camelize from 'camelize'
 import { transformCSS } from 'taro-css-to-react-native'
 import { types as Types, template as Template, PluginObj } from 'babel__core'
@@ -286,8 +286,8 @@ export default function (babel: {
       },
       JSXOpeningElement (astPath, state: PluginPass) {
         const { node } = astPath
-        const { file, opts } = state
-        const { enableMultipleClassName } = opts
+        const { file, opts = {} } = state
+        const { enableMultipleClassName = false } = opts
         const { styleMatchRule, classNameMathRule } = getMatchRule(enableMultipleClassName)
         const cssModuleStylesheets = file.get('cssModuleStylesheets') || []
 
