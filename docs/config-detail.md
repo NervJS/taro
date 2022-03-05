@@ -330,6 +330,20 @@ module.exports = {
 
 > esbuild 配置只在**生产模式**下生效。如果你正在使用 **watch** 模式，又希望启用 esbuild，那么则需要设置 `process.env.NODE_ENV` 为 `'production'`。
 
+## cssMinimizer
+
+:::info
+Taro v3.6 开始支持。
+:::
+
+`csso | esbuild | parcelCss`
+
+默认值 `csso`
+
+配置 CSS 压缩工具。
+
+使用 [css-minimizer-webpack-plugin](https://github.com/webpack-contrib/css-minimizer-webpack-plugin) 实现，Taro 内部会根据不同配置值选用不同的压缩工具。建议开发者根据项目实际环境进行选择，可参考 [CSS Minification Benchmark](https://goalsmashers.github.io/css-minification-benchmark)。
+
 ## csso
 
 `object`
