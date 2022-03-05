@@ -6,6 +6,7 @@ import { processTypeEnum, IProcessTypeMap } from './constants';
 import * as utils from './utils';
 import * as npm from './npm';
 import createBabelRegister, { injectDefineConfigHeader } from './babelRegister';
+import createSwcRegister from './swcRegister';
 
 export declare enum META_TYPE {
   ENTRY = 'ENTRY',
@@ -26,6 +27,7 @@ export declare enum FRAMEWORK_MAP {
 
 declare interface helper {
   npm: typeof npm;
+  createSwcRegister: typeof createSwcRegister;
   createBabelRegister: typeof createBabelRegister;
   injectDefineConfigHeader: typeof injectDefineConfigHeader;
   fs: typeof fs;

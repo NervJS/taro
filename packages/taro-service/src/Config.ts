@@ -8,7 +8,7 @@ import {
   OUTPUT_DIR,
   ENTRY,
   resolveScriptPath,
-  createBabelRegister,
+  createSwcRegister,
   getModuleDefaultExport
 } from '@tarojs/helper'
 
@@ -37,7 +37,7 @@ export default class Config {
       this.initialConfig = {}
       this.isInitSuccess = false
     } else {
-      createBabelRegister({
+      createSwcRegister({
         only: [
           filePath => filePath.indexOf(path.join(this.appPath, CONFIG_DIR_NAME)) >= 0
         ]
