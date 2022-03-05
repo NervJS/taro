@@ -12,7 +12,7 @@ export function shouldBeObject (target: unknown) {
   }
 }
 
-export function findDOM (inst): TaroElement | HTMLElement | undefined {
+export function findDOM (inst?): TaroElement | HTMLElement | undefined {
   const runtimeHooks = container.get<IHooks>(SERVICE_IDENTIFIER.Hooks)
 
   if (inst) {
@@ -88,30 +88,51 @@ export function serializeParams (params) {
 export function temporarilyNotSupport (apiName) {
   return () => {
     const errMsg = `暂时不支持 API ${apiName}`
-    console.error(errMsg)
-    return Promise.reject({
-      errMsg
-    })
+    if (process.env.NODE_ENV !== 'production') {
+      console.error(errMsg)
+      return Promise.reject({
+        errMsg
+      })
+    } else {
+      console.warn(errMsg)
+      return Promise.resolve({
+        errMsg
+      })
+    }
   }
 }
 
 export function weixinCorpSupport (apiName) {
   return () => {
     const errMsg = `h5端仅在微信公众号中支持 API ${apiName}`
-    console.error(errMsg)
-    return Promise.reject({
-      errMsg
-    })
+    if (process.env.NODE_ENV !== 'production') {
+      console.error(errMsg)
+      return Promise.reject({
+        errMsg
+      })
+    } else {
+      console.warn(errMsg)
+      return Promise.resolve({
+        errMsg
+      })
+    }
   }
 }
 
 export function permanentlyNotSupport (apiName) {
   return () => {
     const errMsg = `不支持 API ${apiName}`
-    console.error(errMsg)
-    return Promise.reject({
-      errMsg
-    })
+    if (process.env.NODE_ENV !== 'production') {
+      console.error(errMsg)
+      return Promise.reject({
+        errMsg
+      })
+    } else {
+      console.warn(errMsg)
+      return Promise.resolve({
+        errMsg
+      })
+    }
   }
 }
 

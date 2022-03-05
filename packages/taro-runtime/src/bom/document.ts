@@ -1,5 +1,5 @@
 import { createEvent } from '../dom/event'
-import { isBrowser, doc } from '../env'
+import { doc } from '../env'
 import ioc_container from '../container'
 import SERVICE_IDENTIFIER from '../constants/identifiers'
 import { ElementNames, InstanceNamedFactory } from '../interface'
@@ -50,4 +50,6 @@ export function createDocument () {
   return doc
 }
 
-export const document = (isBrowser ? doc : createDocument()) as TaroDocumentInstance
+export const document = process.env.TARO_ENV === 'h5'
+  ? (doc as unknown) as TaroDocumentInstance
+  : createDocument()

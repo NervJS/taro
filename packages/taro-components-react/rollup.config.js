@@ -1,8 +1,8 @@
-import resolve from 'rollup-plugin-node-resolve'
-import commonjs from 'rollup-plugin-commonjs'
+import babel from '@rollup/plugin-babel'
+import commonjs from '@rollup/plugin-commonjs'
+import resolve from '@rollup/plugin-node-resolve'
 import typescript from 'rollup-plugin-typescript2'
 import postcss from 'rollup-plugin-postcss'
-import babel from '@rollup/plugin-babel'
 
 // 供 Loader 使用的运行时入口
 export default {
@@ -20,13 +20,14 @@ export default {
   plugins: [
     typescript(),
     resolve({
-      preferBuiltins: false
+      preferBuiltins: false,
+      mainFields: ['main:h5', 'browser', 'module', 'jsnext:main', 'main']
     }),
     postcss({
       inject: { insertAt: 'top' }
     }),
     commonjs({
-      include: 'node_modules/**'
+      include: '../../node_modules/**'
     }),
     babel({
       extensions: ['.js', '.jsx', '.es6', '.es', '.mjs', 'ts', 'tsx'],

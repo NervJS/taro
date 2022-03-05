@@ -1,4 +1,4 @@
-import Taro from '@tarojs/taro'
+import Taro from '@tarojs/api'
 
 import { shouldBeObject } from '../../utils'
 import { MethodHandler } from '../../utils/handler'
@@ -14,23 +14,12 @@ export const previewImage: typeof Taro.previewImage = async (options) => {
   function loadImage (url: string, loadFail: typeof fail): Promise<Node> {
     return new Promise((resolve) => {
       const item = document.createElement('taro-swiper-item-core')
-      item.style.cssText = `
-        display: flex;
-        align-items: start;
-        justify-content: center;
-        overflow-y: scroll;
-      `
+      item.style.cssText = 'display:flex;align-items:start;justify-content:center;overflow-y:scroll;'
       const image = new Image()
       image.style.maxWidth = '100%'
       image.src = url
       const div = document.createElement('div')
-      div.style.cssText = `
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        max-width: 100%;
-        min-height: 100%;
-      `
+      div.style.cssText = 'display:flex;align-items:center;justify-content:center;max-width:100%;min-height:100%;'
       div.appendChild(image)
       item.appendChild(div)
       // Note: 等待图片加载完后返回，会导致轮播被卡住
@@ -55,17 +44,7 @@ export const previewImage: typeof Taro.previewImage = async (options) => {
   const handle = new MethodHandler({ name: 'previewImage', success, fail, complete })
   const container = document.createElement('div')
   container.classList.add('preview-image')
-  container.style.cssText = `
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: 1050;
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-    outline: 0;
-    background-color: #111;
-  `
+  container.style.cssText = 'position:fixed;top:0;left:0;z-index:1050;width:100%;height:100%;overflow:hidden;outline:0;background-color:#111;'
   container.addEventListener('click', () => {
     container.remove()
   })

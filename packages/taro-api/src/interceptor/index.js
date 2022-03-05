@@ -7,9 +7,14 @@ export default class Link {
   }
 
   request (requestParams) {
-    this.chain.interceptors = this.chain.interceptors.filter(interceptor => interceptor !== this.taroInterceptor)
-    this.chain.interceptors.push(this.taroInterceptor)
-    return this.chain.proceed({ ...requestParams })
+    const chain = this.chain
+    const taroInterceptor = this.taroInterceptor
+
+    chain.interceptors = chain.interceptors
+      .filter(interceptor => interceptor !== taroInterceptor)
+      .concat(taroInterceptor)
+
+    return chain.proceed({ ...requestParams })
   }
 
   addInterceptor (interceptor) {

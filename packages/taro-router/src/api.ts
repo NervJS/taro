@@ -21,12 +21,9 @@ interface NavigateBackOption extends Base {
 function processNavigateUrl (option: Option) {
   const pathPieces = parsePath(option.url)
 
-  // 处理自定义路由
-  pathPieces.pathname = routesAlias.getAlias(addLeadingSlash(pathPieces.pathname))
-
   // 处理相对路径
-  if (pathPieces?.pathname?.includes('./')) {
-    const parts = history.location.pathname.split('/')
+  if (pathPieces.pathname?.includes('./')) {
+    const parts = routesAlias.getOrigin(history.location.pathname).split('/')
     parts.pop()
     pathPieces.pathname.split('/').forEach((item) => {
       if (item === '.') {
@@ -36,6 +33,9 @@ function processNavigateUrl (option: Option) {
     })
     pathPieces.pathname = parts.join('/')
   }
+
+  // 处理自定义路由
+  pathPieces.pathname = routesAlias.getAlias(addLeadingSlash(pathPieces.pathname))
 
   // 处理 basename
   pathPieces.pathname = prependBasename(pathPieces.pathname)
@@ -50,7 +50,7 @@ async function navigate (option: Option | NavigateBackOption, method: 'navigateT
   return new Promise<TaroGeneral.CallbackResult>((resolve, reject) => {
     const { success, complete, fail } = option
     const unListen = history.listen(() => {
-      const res = { errMsg: `${method}: ok` }
+      const res = { errMsg: `${method}:ok` }
       success?.(res)
       complete?.(res)
       resolve(res)
@@ -74,7 +74,7 @@ async function navigate (option: Option | NavigateBackOption, method: 'navigateT
         history.go(-option.delta)
       }
     } catch (error) {
-      const res = { errMsg: `${method}: fail ${error.message || error}` }
+      const res = { errMsg: `${method}:fail ${error.message || error}` }
       fail?.(res)
       complete?.(res)
       reject(res)

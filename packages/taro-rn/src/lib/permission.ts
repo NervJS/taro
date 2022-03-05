@@ -33,7 +33,7 @@ const getAuthSetting = async () => {
   return auths
 }
 
-const handleAppStateChange = async (nextAppState, resolve, reject, opts) => {
+const handleAppStateChange = async (_nextAppState, resolve, reject, opts) => {
   const { success, fail, complete } = opts
   const res: any = {}
 

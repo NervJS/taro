@@ -71,6 +71,8 @@ interface ITaroMiniPluginOptions {
   alias: Record<string, string>
   deviceRatio: any
   designWidth: number
+  loaderMeta?: Record<string, string>
+  hot: boolean
 }
 
 export interface IComponentObj {
@@ -144,7 +146,8 @@ export default class TaroMiniPlugin {
         templ: '.wxml',
         xs: '.wxs'
       },
-      minifyXML: {}
+      minifyXML: {},
+      hot: false
     }, options)
 
     const { template, baseLevel } = this.options
@@ -245,8 +248,8 @@ export default class TaroMiniPlugin {
        * webpack NormalModule 在 runLoaders 真正解析资源的前一刻，
        * 往 NormalModule.loaders 中插入对应的 Taro Loader
        */
-      compilation.hooks.normalModuleLoader.tap(PLUGIN_NAME, (loaderContext, module:/** TaroNormalModule */ any) => {
-        const { framework, designWidth, deviceRatio } = this.options
+      compilation.hooks.normalModuleLoader.tap(PLUGIN_NAME, (_loaderContext, module:/** TaroNormalModule */ any) => {
+        const { framework, loaderMeta, designWidth, deviceRatio } = this.options
         if (module.miniType === META_TYPE.ENTRY) {
           const loaderName = '@tarojs/taro-loader'
           if (!isLoaderExist(module.loaders, loaderName)) {
@@ -254,6 +257,7 @@ export default class TaroMiniPlugin {
               loader: loaderName,
               options: {
                 framework,
+                loaderMeta,
                 prerender: this.prerenderPages.size > 0,
                 config: this.appConfig,
                 runtimePath: this.options.runtimePath,
@@ -280,11 +284,13 @@ export default class TaroMiniPlugin {
               loader: loaderName,
               options: {
                 framework,
+                loaderMeta,
                 name: module.name,
                 prerender: this.prerenderPages.has(module.name),
                 config: this.filesConfig,
                 appConfig: this.appConfig,
-                runtimePath: this.options.runtimePath
+                runtimePath: this.options.runtimePath,
+                hot: this.options.hot
               }
             })
           }
@@ -295,6 +301,7 @@ export default class TaroMiniPlugin {
               loader: loaderName,
               options: {
                 framework,
+                loaderMeta,
                 name: module.name,
                 prerender: this.prerenderPages.has(module.name),
                 runtimePath: this.options.runtimePath
@@ -844,7 +851,7 @@ export default class TaroMiniPlugin {
    */
   getTabBarFiles (appConfig: AppConfig) {
     const tabBar = appConfig.tabBar
-    const { sourceDir } = this.options
+    const { sourceDir, framework } = this.options
     if (tabBar && typeof tabBar === 'object' && !isEmptyObject(tabBar)) {
       // eslint-disable-next-line dot-notation
       const list = tabBar['list'] || []
@@ -856,7 +863,7 @@ export default class TaroMiniPlugin {
       })
       if (tabBar.custom) {
         const customTabBarPath = path.join(sourceDir, 'custom-tab-bar')
-        const customTabBarComponentPath = resolveMainFilePath(customTabBarPath)
+        const customTabBarComponentPath = resolveMainFilePath(customTabBarPath, FRAMEWORK_EXT_MAP[framework])
         if (fs.existsSync(customTabBarComponentPath)) {
           const customTabBarComponentTemplPath = this.getTemplatePath(customTabBarComponentPath)
           const isNative = this.isNativePageORComponent(customTabBarComponentTemplPath)
@@ -929,7 +936,7 @@ export default class TaroMiniPlugin {
     this.generateTemplateFile(compilation, this.getIsBuildPluginPath(customWrapperName, isBuildPlugin), template.buildCustomComponentTemplate, this.options.fileType.templ)
     this.generateXSFile(compilation, 'utils', isBuildPlugin)
     // 为独立分包生成 base/comp/custom-wrapper
-    this.independentPackages.forEach((pages, name) => {
+    this.independentPackages.forEach((_pages, name) => {
       this.generateTemplateFile(compilation, `${name}/${baseTemplateName}`, template.buildTemplate, componentConfig)
       if (!template.isSupportRecursive) {
         // 如微信、QQ 不支持递归模版的小程序，需要使用自定义组件协助递归

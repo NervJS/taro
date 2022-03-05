@@ -22,7 +22,7 @@ html, body {
     flex: 1;
     position: relative;
     overflow: auto;
-    -webkit-overflow-scrolling: touch;
+    -webkit-overflow-scrolling: auto;
   }
   &__tabbar {
     position: relative;
@@ -34,6 +34,8 @@ html, body {
     }
     &-bottom {
       bottom: 0;
+      margin-bottom: constant(safe-area-inset-bottom); 
+      margin-bottom: env(safe-area-inset-bottom);
     }
     &-hide {
       display: none;

@@ -1,8 +1,6 @@
-import { EMPTY_OBJ } from '@tarojs/shared'
-import container from '../container'
-import { ElementNames } from '../interface'
+import { EMPTY_OBJ, isFunction } from '@tarojs/shared'
 import { isParentBinded } from '../utils'
-import SERVICE_IDENTIFIER from '../constants/identifiers'
+import { getDocument, getHooks } from '../container/store'
 import {
   CONFIRM,
   CURRENT_TARGET,
@@ -15,16 +13,7 @@ import {
 } from '../constants'
 
 import type { TaroElement } from './element'
-import type { InstanceNamedFactory, EventOptions, MpEvent, TaroDocumentInstance, IHooks } from '../interface'
-
-let hooks
-let getElement
-let document
-if (process.env.TARO_ENV !== 'h5') {
-  hooks = container.get<IHooks>(SERVICE_IDENTIFIER.Hooks)
-  getElement = container.get<InstanceNamedFactory>(SERVICE_IDENTIFIER.TaroElementFactory)
-  document = getElement(ElementNames.Document)() as TaroDocumentInstance
-}
+import type { EventOptions, MpEvent } from '../interface'
 
 // Taro 事件对象。以 Web 标准的事件对象为基础，加入小程序事件对象中携带的部分信息，并模拟实现事件冒泡。
 export class TaroEvent {
@@ -66,26 +55,32 @@ export class TaroEvent {
   }
 
   get target () {
-    const element = document.getElementById(this.mpEvent?.target.id)
-    return {
-      ...this.mpEvent?.target,
-      ...this.mpEvent?.detail,
-      dataset: element !== null ? element.dataset : EMPTY_OBJ
+    const target = Object.create(this.mpEvent?.target || null)
+
+    const element = getDocument().getElementById(target.id)
+    target.dataset = element !== null ? element.dataset : EMPTY_OBJ
+
+    for (const key in this.mpEvent?.detail) {
+      target[key] = this.mpEvent!.detail[key]
     }
+
+    return target
   }
 
   get currentTarget () {
-    const element = document.getElementById(this.mpEvent?.currentTarget.id)
+    const currentTarget = Object.create(this.mpEvent?.currentTarget || null)
 
+    const element = getDocument().getElementById(currentTarget.id)
     if (element === null) {
       return this.target
     }
+    currentTarget.dataset = element.dataset
 
-    return {
-      ...this.mpEvent?.currentTarget,
-      ...this.mpEvent?.detail,
-      dataset: element.dataset
+    for (const key in this.mpEvent?.detail) {
+      currentTarget[key] = this.mpEvent!.detail[key]
     }
+
+    return currentTarget
   }
 }
 
@@ -117,20 +112,23 @@ const eventsBatch = {}
 
 // 小程序的事件代理回调函数
 export function eventHandler (event: MpEvent) {
+  const hooks = getHooks()
+
   hooks.modifyMpEvent?.(event)
 
-  if (event.currentTarget == null) {
-    event.currentTarget = event.target
-  }
+  event.currentTarget ||= event.target
 
-  const node = document.getElementById(event.currentTarget.id)
+  const currentTarget = event.currentTarget
+  const id = currentTarget.dataset?.sid as string /** sid */ || currentTarget.id /** uid */ || ''
+
+  const node = getDocument().getElementById(id)
   if (node) {
     const dispatch = () => {
       const e = createEvent(event, node)
       hooks.modifyTaroEvent?.(e, node)
       node.dispatchEvent(e)
     }
-    if (typeof hooks.batchedEventUpdates === 'function') {
+    if (isFunction(hooks.batchedEventUpdates)) {
       const type = event.type
 
       if (

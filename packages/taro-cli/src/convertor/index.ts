@@ -3,8 +3,9 @@ import * as path from 'path'
 
 import { AppConfig, TabBar } from '@tarojs/taro'
 import * as prettier from 'prettier'
-import traverse, { NodePath } from 'babel-traverse'
-import * as t from 'babel-types'
+import traverse, { NodePath } from '@babel/traverse'
+import template from '@babel/template'
+import * as t from '@babel/types'
 import * as taroize from '@tarojs/taroize'
 import wxTransformer from '@tarojs/transformer-wx'
 import * as postcss from 'postcss'
@@ -29,8 +30,6 @@ import Creator from '../create/creator'
 import babylonConfig from '../config/babylon'
 import { analyzeImportUrl, incrementId } from './helper'
 import { getPkgVersion } from '../util'
-
-const template = require('babel-template')
 
 const prettierJSConfig: prettier.Options = {
   semi: false,
@@ -75,7 +74,7 @@ function processStyleImports (content: string, processFn: (a: string, b: string)
   const style: string[] = []
   const imports: string[] = []
   const styleReg = new RegExp('.wxss')
-  content = content.replace(CSS_IMPORT_REG, (m, $1, $2) => {
+  content = content.replace(CSS_IMPORT_REG, (m, _$1, $2) => {
     if (styleReg.test($2)) {
       style.push(m)
       imports.push($2)
@@ -213,7 +212,7 @@ export default class Convertor {
                       componentClassName = (parentNode.id as t.Identifier).name
                     }
                   } else {
-                    componentClassName = node.id.name
+                    componentClassName = node.id!.name
                   }
                 }
               }
@@ -237,7 +236,7 @@ export default class Convertor {
                     }
                   })
                   if (isTaroComponent) {
-                    componentClassName = declaration.id.name
+                    componentClassName = declaration.id!.name
                   }
                 }
               }

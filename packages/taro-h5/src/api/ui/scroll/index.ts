@@ -4,7 +4,7 @@ import { Current } from '@tarojs/runtime'
 import { MethodHandler } from '../../utils/handler'
 import { getTimingFunc, easeInOut } from '../../utils'
 
-let timer: NodeJS.Timeout
+let timer: NodeJS.Timer
 const FRAME_DURATION = 17
 
 /**
@@ -21,9 +21,9 @@ export const pageScrollTo: typeof Taro.pageScrollTo = ({ scrollTop, selector = '
         }, reject)
       }
 
-      const id = Current.page?.path
+      const id = Current.page?.path?.replace(/([^a-z0-9\u00a0-\uffff_-])/ig, '\\$1')
       const el: HTMLDivElement | null = (id
-        ? document.getElementById(id)
+        ? document.querySelector(`.taro_page#${id}`)
         : document.querySelector('.taro_page') ||
       document.querySelector('.taro_router')) as HTMLDivElement
 

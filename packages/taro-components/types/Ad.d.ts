@@ -50,55 +50,55 @@ declare namespace AdProps {
    */
   interface AdErrCode {
     /**
-     * @abnormal 后端错误调用失败
+     * @illustrate 后端错误调用失败
      * @reason 该项错误不是开发者的异常情况
      * @solution 一般情况下忽略一段时间即可恢复。
      */
     1000
     /**
-     * @abnormal 参数错误
+     * @illustrate 参数错误
      * @reason 使用方法错误
      * @solution 可以前往 developers.weixin.qq.com 确认具体教程（小程序和小游戏分别有各自的教程，可以在顶部选项中，“设计”一栏的右侧进行切换。
      */
     1001
     /**
-     * @abnormal 广告单元无效
+     * @illustrate 广告单元无效
      * @reason 可能是拼写错误、或者误用了其他APP的广告ID
      * @solution 请重新前往 mp.weixin.qq.com 确认广告位ID。
      */
     1002
     /**
-     * @abnormal 内部错误
+     * @illustrate 内部错误
      * @reason 该项错误不是开发者的异常情况
      * @solution 一般情况下忽略一段时间即可恢复。
      */
     1003
     /**
-     * @abnormal 无合适的广告
+     * @illustrate 无合适的广告
      * @reason 广告不是每一次都会出现，这次没有出现可能是由于该用户不适合浏览广告
      * @solution 属于正常情况，且开发者需要针对这种情况做形态上的兼容。
      */
     1004
     /**
-     * @abnormal 广告组件审核中
+     * @illustrate 广告组件审核中
      * @reason 你的广告正在被审核，无法展现广告
      * @solution 请前往 mp.weixin.qq.com 确认审核状态，且开发者需要针对这种情况做形态上的兼容。
      */
     1005
     /**
-     * @abnormal 广告组件被驳回
+     * @illustrate 广告组件被驳回
      * @reason 你的广告审核失败，无法展现广告
      * @solution 请前往 mp.weixin.qq.com 确认审核状态，且开发者需要针对这种情况做形态上的兼容。
      */
     1006
     /**
-     * @abnormal 广告组件被封禁
+     * @illustrate 广告组件被封禁
      * @reason 你的广告能力已经被封禁，封禁期间无法展现广告
      * @solution 请前往 mp.weixin.qq.com 确认小程序广告封禁状态。
      */
     1007
     /**
-     * @abnormal 广告单元已关闭
+     * @illustrate 广告单元已关闭
      * @reason 该广告位的广告能力已经被关闭
      * @solution 请前往 mp.weixin.qq.com 重新打开对应广告位的展现。
      */
@@ -110,7 +110,7 @@ declare namespace AdProps {
 /** Banner 广告
  * @classification open
  * @supported weapp
- * @example
+ * @example_react
  * ```tsx
  * class App extends Component {
  *   render () {
@@ -125,6 +125,18 @@ declare namespace AdProps {
  *     )
  *   }
  * }
+ * ```
+ * @example_vue
+ * ```html
+ * <template>
+ *   <ad
+ *     unit-id=""
+ *     ad-intervals="60"
+ *     `@load="onLoad"
+ *     `@error="onError"
+ *     `@close="onClose"
+ *   />
+ * </template>
  * ```
  * @see https://developers.weixin.qq.com/miniprogram/dev/component/ad.html
  */

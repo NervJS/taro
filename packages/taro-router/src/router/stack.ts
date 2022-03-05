@@ -8,8 +8,10 @@ class Stacks {
   set delta (delta: number) {
     if (delta > 0) {
       this.backDelta = delta
-    } else {
+    } else if (this.backDelta > 0) {
       --this.backDelta
+    } else {
+      this.backDelta = 0
     }
   }
 
@@ -38,8 +40,9 @@ class Stacks {
     if (this.backDelta >= 1) {
       return this.backDelta
     }
+    const index = this.getLastIndex(pathname)
     // NOTE: 此处为了修复浏览器后退多级页面，在大量重复路由状况下可能出现判断错误的情况 （增强判断能力只能考虑在 query 中新增参数来判断，暂时搁置）
-    return this.getLastIndex(pathname) || 1
+    return index > 0 ? index : 1
   }
 
   getPrevIndex (pathname: string, stateWith = 1) {

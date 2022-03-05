@@ -1,7 +1,6 @@
 'use strict'
 
 const postcss = require('postcss')
-const objectAssign = require('object-assign')
 const pxRegex = require('./lib/pixel-unit-regex')
 const filterPropList = require('./lib/filter-prop-list')
 
@@ -40,8 +39,8 @@ const DEFAULT_WEAPP_OPTIONS = {
 
 let targetUnit
 
-module.exports = postcss.plugin('postcss-pxtransform', function (options) {
-  options = Object.assign(DEFAULT_WEAPP_OPTIONS, options || {})
+module.exports = postcss.plugin('postcss-pxtransform', function (options = {}) {
+  options = Object.assign({}, DEFAULT_WEAPP_OPTIONS, options)
 
   switch (options.platform) {
     case 'h5': {
@@ -50,7 +49,7 @@ module.exports = postcss.plugin('postcss-pxtransform', function (options) {
       break
     }
     case 'rn': {
-      options.rootValue = options.deviceRatio[options.designWidth] * 2
+      options.rootValue = 1 / options.deviceRatio[options.designWidth] * 2
       targetUnit = 'px'
       break
     }
@@ -68,7 +67,7 @@ module.exports = postcss.plugin('postcss-pxtransform', function (options) {
 
   convertLegacyOptions(options)
 
-  const opts = objectAssign({}, defaults, options)
+  const opts = Object.assign({}, defaults, options)
   const onePxTransform = typeof options.onePxTransform === 'undefined' ? true : options.onePxTransform
   const pxReplace = createPxReplace(opts.rootValue, opts.unitPrecision,
     opts.minPixelValue, onePxTransform)

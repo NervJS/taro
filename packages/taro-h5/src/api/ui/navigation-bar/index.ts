@@ -1,4 +1,4 @@
-import Taro from '@tarojs/taro'
+import Taro from '@tarojs/api'
 
 import { MethodHandler } from '../../utils/handler'
 import { getParameterError, shouldBeObject, temporarilyNotSupport } from '../../utils'
@@ -16,7 +16,7 @@ export function setNavigationBarTitle (options) {
   }
 
   const { title, success, fail, complete } = options
-  const handle = new MethodHandler({ name: 'makePhoneCall', success, fail, complete })
+  const handle = new MethodHandler({ name: 'setNavigationBarTitle', success, fail, complete })
 
   if (!title || typeof title !== 'string') {
     return handle.fail({

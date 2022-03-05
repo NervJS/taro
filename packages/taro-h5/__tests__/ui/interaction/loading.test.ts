@@ -1,4 +1,4 @@
-import * as Taro from '../../../src/api'
+import * as Taro from '@tarojs/taro-h5'
 import 'jest-dom/extend-expect'
 
 describe('loading', () => {
@@ -9,17 +9,18 @@ describe('loading', () => {
 
     expect.assertions(4)
     Taro.showLoading({
+      // @ts-ignore
       title: 123,
       success,
       fail,
       complete
     })
       .catch(err => {
-        const excpectErrObj = { errMsg: 'showLoading:fail parameter error: parameter.title should be String instead of Number' }
+        const expectErrObj = { errMsg: 'showLoading:fail parameter error: parameter.title should be String instead of Number' }
         expect(success.mock.calls.length).toBe(0)
-        expect(fail).toHaveBeenCalledWith(excpectErrObj)
-        expect(complete).toHaveBeenCalledWith(excpectErrObj)
-        expect(err).toEqual(excpectErrObj)
+        expect(fail).toHaveBeenCalledWith(expectErrObj)
+        expect(complete).toHaveBeenCalledWith(expectErrObj)
+        expect(err).toEqual(expectErrObj)
       })
   })
 
@@ -38,7 +39,7 @@ describe('loading', () => {
         expect(res).toEqual(errObj)
       })
 
-    const toast = document.body.lastChild
+    const toast: any = document.body.lastChild
     expect(toast.childNodes.length).toBe(2)
     expect(toast).not.toBeVisible()
 
@@ -63,7 +64,7 @@ describe('loading', () => {
       mask: true
     })
 
-    const toast = document.body.lastChild
+    const toast: any = document.body.lastChild
     const mask = toast.firstChild
 
     setTimeout(() => {

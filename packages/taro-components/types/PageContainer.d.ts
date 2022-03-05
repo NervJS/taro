@@ -30,7 +30,7 @@ interface PageContainerProps extends StandardProps {
    * @default bottom
    * @supported weapp
    */
-  position?: keyof PageContainerProps.position
+  position?: keyof PageContainerProps.Position
 
   /** 是否显示圆角
    * @default false
@@ -38,21 +38,21 @@ interface PageContainerProps extends StandardProps {
    */
   round?: boolean
 
-  /** 自定义遮罩层样式
+  /** 是否在下滑一段距离后关闭
    * @default false
    * @supported weapp
    */
   closeOnSlideDown?: boolean
 
-  /** 是否在下滑一段距离后关闭
+  /** 自定义遮罩层样式
    * @supported weapp
    */
-  overlayStyle?: boolean
+  overlayStyle?: string
 
   /** 自定义弹出层样式
    * @supported weapp
    */
-  customStyle?: boolean
+  customStyle?: string
 
   /** 进入前触发
    * @supported weapp
@@ -91,10 +91,15 @@ interface PageContainerProps extends StandardProps {
 }
 
 declare namespace PageContainerProps {
-  interface position {
+  /** 弹出位置 */
+  interface Position {
+    /** 上方弹出 */
     top
+    /** 下方弹出 */
     bottom
+    /** 左边弹出 */
     left
+    /** 右边弹出 */
     right
   }
 }
@@ -108,6 +113,7 @@ declare namespace PageContainerProps {
  *   1. tip: 当前页面最多只有 1 个容器，若已存在容器的情况下，无法增加新的容器
  *   2. tip: wx.navigateBack 无法在页面栈顶调用，此时没有上一级页面
  * @classification viewContainer
+ * @supported weapp
  * @see https://developers.weixin.qq.com/miniprogram/dev/component/page-container.html
  */
 declare const PageContainer: ComponentType<PageContainerProps>

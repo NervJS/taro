@@ -27,11 +27,11 @@ declare module '../../index' {
       /** 抬头名称 */
       title: string
       /** 抬头类型 */
-      type: keyof invoice_type
+      type: keyof InvoiceType
     }
 
     /** 抬头类型 */
-    interface invoice_type {
+    interface InvoiceType {
       0: '单位'
       1: '个人'
     }

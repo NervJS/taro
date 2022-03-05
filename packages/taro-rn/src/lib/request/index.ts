@@ -78,7 +78,7 @@ function _request<T = any>(options: Taro.request.Option): Taro.RequestTask<T> {
       return response
     })
 
-  const timeoutPromise = new Promise((resolve, reject) => {
+  const timeoutPromise = new Promise((_resolve, reject) => {
     const timer = setTimeout(() => {
       controller?.abort()
       reject(Error('request:fail timeout'))

@@ -1,6 +1,5 @@
-import { inject, injectable } from 'inversify'
+import { injectable } from 'inversify'
 import { isArray, isUndefined, Shortcuts, EMPTY_OBJ, warn, isString, toCamelCase, isFunction } from '@tarojs/shared'
-import SERVICE_IDENTIFIER from '../constants/identifiers'
 import { TaroNode } from './node'
 import { NodeType } from './node_types'
 import { eventSource } from './event-source'
@@ -8,6 +7,9 @@ import { isElement, isHasExtractProp, shortcutAttr } from '../utils'
 import { Style } from './style'
 import { treeToArray } from './tree'
 import { ClassList } from './class-list'
+import { getElementImpl } from '../container/store'
+import { MutationObserver } from '../dom-external/mutation-observer'
+import { MutationRecordType } from '../dom-external/mutation-observer/record'
 import {
   ID,
   CLASS,
@@ -22,10 +24,7 @@ import {
 } from '../constants'
 
 import type { TaroEvent } from './event'
-import type { Attributes, InstanceNamedFactory } from '../interface'
-import type { TaroNodeImpl } from '../dom-external/node-impl'
-import type { TaroElementImpl } from '../dom-external/element-impl'
-import type { Hooks } from '../hooks'
+import type { Attributes } from '../interface'
 
 @injectable()
 export class TaroElement extends TaroNode {
@@ -35,17 +34,13 @@ export class TaroElement extends TaroNode {
   public dataset: Record<string, unknown> = EMPTY_OBJ
   public innerHTML: string
 
-  public constructor (// eslint-disable-next-line @typescript-eslint/indent
-    @inject(SERVICE_IDENTIFIER.TaroNodeImpl) nodeImpl: TaroNodeImpl,
-    @inject(SERVICE_IDENTIFIER.TaroElementFactory) getElement: InstanceNamedFactory,
-    @inject(SERVICE_IDENTIFIER.Hooks) hooks: Hooks,
-    @inject(SERVICE_IDENTIFIER.TaroElementImpl) elementImpl: TaroElementImpl
-  ) {
-    super(nodeImpl, getElement, hooks)
-    elementImpl.bind(this)
+  public constructor () {
+    super()
+    const impl = getElementImpl()
+    impl.bind(this)
     this.nodeType = NodeType.ELEMENT_NODE
     this.style = new Style(this)
-    hooks.patchElement(this)
+    this.hooks.patchElement?.(this)
   }
 
   private _stopPropagation (event: TaroEvent) {
@@ -148,12 +143,25 @@ export class TaroElement extends TaroNode {
 
     const isPureView = this.nodeName === VIEW && !isHasExtractProp(this) && !this.isAnyEventBinded()
 
+    if (qualifiedName !== STYLE) {
+      MutationObserver.record({
+        target: this,
+        type: MutationRecordType.ATTRIBUTES,
+        attributeName: qualifiedName,
+        oldValue: this.getAttribute(qualifiedName)
+      })
+    }
+
     switch (qualifiedName) {
       case STYLE:
         this.style.cssText = value as string
         break
       case ID:
-        eventSource.delete(this.uid)
+        if (this.uid !== this.sid) {
+          // eventSource[sid] 永远保留，直到组件卸载
+          // eventSource[uid] 可变
+          eventSource.delete(this.uid)
+        }
         value = String(value)
         this.props[qualifiedName] = this.uid = value
         eventSource.set(value, this)
@@ -203,6 +211,13 @@ export class TaroElement extends TaroNode {
 
   public removeAttribute (qualifiedName: string) {
     const isStaticView = this.nodeName === VIEW && isHasExtractProp(this) && !this.isAnyEventBinded()
+
+    MutationObserver.record({
+      target: this,
+      type: MutationRecordType.ATTRIBUTES,
+      attributeName: qualifiedName,
+      oldValue: this.getAttribute(qualifiedName)
+    })
 
     if (qualifiedName === STYLE) {
       this.style.cssText = ''
@@ -280,6 +295,7 @@ export class TaroElement extends TaroNode {
       if (listener._stop) {
         listener._stop = false
       } else {
+        this.hooks.modifyDispatchEvent(event, this)
         result = listener.call(this, event)
       }
       if ((result === false || event._end) && cancelable) {

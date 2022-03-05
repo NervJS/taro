@@ -1,4 +1,4 @@
-import * as Taro from '../../../src/api'
+import * as Taro from '@tarojs/taro-h5'
 import 'jest-dom/extend-expect'
 
 describe('actionSheet', () => {

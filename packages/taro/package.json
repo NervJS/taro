@@ -1,14 +1,12 @@
 {
   "name": "@tarojs/taro",
-  "version": "3.3.18",
+  "version": "3.4.2",
   "description": "Taro framework",
   "homepage": "https://github.com/nervjs/taro/tree/master/packages/taro#readme",
   "main": "index.js",
-  "main:h5": "h5.js",
   "typings": "types/index.d.ts",
   "files": [
     "index.js",
-    "h5.js",
     "types",
     "html.css",
     "html5.css"
@@ -26,8 +24,8 @@
   "author": "O2Team",
   "license": "MIT",
   "dependencies": {
-    "@tarojs/api": "3.3.18",
-    "@tarojs/runtime": "3.3.18",
-    "@tarojs/taro-h5": "3.3.18"
+    "@tarojs/api": "3.4.2",
+    "@tarojs/runtime": "3.4.2",
+    "@tarojs/taro-h5": "3.4.2"
   }
 }

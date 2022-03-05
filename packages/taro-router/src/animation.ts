@@ -9,16 +9,19 @@ export function loadAnimateStyle (ms = 300) {
   top: 0;
   width: 100%;
   height: 100%;
-  transform: translate3d(100%, 0, 0);
+  background-color: #fff;
+  transform: translate(100%, 0);
   transition: transform ${ms}ms;
+  z-index: 0;
 }
 
-.taro_router .taro_page.taro_tabbar_page {
+.taro_router .taro_page.taro_tabbar_page,
+.taro_router .taro_page.taro_page_show.taro_page_stationed {
   transform: none;
 }
 
 .taro_router .taro_page.taro_page_show {
-  transform: translate3d(0, 0, 0);
+  transform: translate(0, 0);
 }`
 
   const style = document.createElement('style')

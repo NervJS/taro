@@ -1,5 +1,5 @@
+import * as Taro from '@tarojs/taro-h5'
 import { Server } from 'mock-socket'
-import * as Taro from '../../src/api'
 const mockConsole = require('jest-mock-console')
 
 describe('websocket', () => {
@@ -7,6 +7,7 @@ describe('websocket', () => {
     mockConsole()
 
     expect.assertions(2)
+    // @ts-ignore
     return Taro.connectSocket()
       .catch(err => {
         const expectErrMsg = 'connectSocket:fail parameter error: parameter should be Object instead of Undefined'
@@ -55,7 +56,7 @@ describe('websocket', () => {
       complete
     })
       .catch(err => {
-        const expectErrMsg = `request:fail invalid url "${url}"`
+        const expectErrMsg = `connectSocket:fail request:fail invalid url "${url}"`
         expect(success.mock.calls.length).toBe(0)
         expect(fail.mock.calls.length).toBe(1)
         expect(fail.mock.calls[0][0]).toEqual({ errMsg: expectErrMsg })
@@ -75,12 +76,12 @@ describe('websocket', () => {
     expect.assertions(9)
     return Promise.all([
       Taro.connectSocket({ url: 'wss://localhost:8080', success })
-        .then(task => {
+        .then((task: any) => {
           expect(success.mock.calls[0][0]).toEqual({ socketTaskId: 1, errMsg: 'connectSocket:ok' })
           task.close()
         }),
       Taro.connectSocket({ url: 'wss://localhost:8090', success })
-        .then(task => {
+        .then((task: any) => {
           task.close()
           expect(success.mock.calls[1][0]).toEqual({ socketTaskId: 2, errMsg: 'connectSocket:ok' })
         }),
@@ -91,7 +92,7 @@ describe('websocket', () => {
         complete
       })
         .catch(err => {
-          const expectErrMsg = '同时最多发起 2 个 socket 请求，更多请参考文档。'
+          const expectErrMsg = 'connectSocket:fail 同时最多发起 2 个 socket 请求，更多请参考文档。'
           expect(success.mock.calls.length).toBe(2)
           expect(fail.mock.calls.length).toBe(1)
           expect(fail.mock.calls[0][0]).toEqual({ errMsg: expectErrMsg })
@@ -123,7 +124,7 @@ describe('websocket', () => {
       success,
       complete
     })
-      .then(task => {
+      .then((task: any) => {
         const closeCode = 100
         const closeReason = 'yeah'
         jest.spyOn(task.ws, 'send')
@@ -163,12 +164,13 @@ describe('websocket', () => {
     expect.assertions(2)
     return Promise.all([
       Taro.connectSocket({ url: 'ws://not-real', protocols: ['foo'] })
-        .then(task => {
+        .then((task: any) => {
           expect(task.ws.protocol).toMatch('foo')
           task.close()
         }),
+      // @ts-ignore
       Taro.connectSocket({ url: 'ws://not-real-too', protocols: 'bar' })
-        .then(task => {
+        .then((task: any) => {
           expect(task.ws.protocol).toMatch('')
           task.close()
         })
@@ -180,7 +182,7 @@ describe('websocket', () => {
     return Taro.connectSocket({
       url: 'wss://localhost:8080'
     })
-      .then(task => {
+      .then((task: any) => {
         task.onOpen(() => {})
         task.onMessage(() => {})
         task.onClose(() => {})
@@ -204,7 +206,7 @@ describe('websocket', () => {
     return Taro.connectSocket({
       url: 'wss://localhost:8080'
     })
-      .then(task => {
+      .then((task: any) => {
         task.send({
           data: 'test',
           success,

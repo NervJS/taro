@@ -17,7 +17,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        node-version: [14.x, 16.x, 17.x]
+        node-version: [14.x, 16.x]
 
     steps:
     - uses: actions/checkout@v2
@@ -47,8 +47,6 @@ jobs:
     - run: yarn config set registry https://registry.yarnpkg.com
     - name: install
       run: yarn
-    - name: bootstrap
-      run: yarn run bootstrap:lerna
     - name: lint
       run: yarn run lint
     - name: build
@@ -57,4 +55,3 @@ jobs:
       run: yarn test
       env:
         CI: true
-        NODE_OPTIONS: ${{ fromJSON('["", "--openssl-legacy-provider"]')[matrix.node-version == '17.x'] }} # support webpack4 on nodejs 17

@@ -18,22 +18,7 @@ const {
   options,
   eventCenter,
   Events,
-  preload,
-  useDidShow,
-  useDidHide,
-  usePullDownRefresh,
-  useReachBottom,
-  usePageScroll,
-  useResize,
-  useShareAppMessage,
-  useTabItemTap,
-  useTitleClick,
-  useOptionMenuClick,
-  usePullIntercept,
-  useShareTimeline,
-  useAddToFavorites,
-  useReady,
-  useRouter
+  preload
 } = Taro as any
 
 const taro: typeof Taro = {
@@ -57,22 +42,7 @@ const taro: typeof Taro = {
   reLaunch,
   redirectTo,
   getCurrentPages,
-  switchTab,
-  useDidShow,
-  useDidHide,
-  usePullDownRefresh,
-  useReachBottom,
-  usePageScroll,
-  useResize,
-  useShareAppMessage,
-  useTabItemTap,
-  useTitleClick,
-  useOptionMenuClick,
-  usePullIntercept,
-  useShareTimeline,
-  useAddToFavorites,
-  useReady,
-  useRouter
+  switchTab
 }
 
 const initPxTransform = getInitPxTransform(taro)
@@ -84,6 +54,7 @@ const pxTransform = function (size) {
   const { designWidth } = taro.config
   return Math.ceil((((parseInt(size, 10) / 40) * 640) / designWidth) * 10000) / 10000 + 'rem'
 }
+
 const canIUseWebp = function () {
   const canvas = document.createElement('canvas')
   return canvas.toDataURL('image/webp').indexOf('data:image/webp') === 0
@@ -114,20 +85,5 @@ export {
   pxTransform,
   canIUseWebp,
   history,
-  createRouter,
-  useDidShow,
-  useDidHide,
-  usePullDownRefresh,
-  useReachBottom,
-  usePageScroll,
-  useResize,
-  useShareAppMessage,
-  useTabItemTap,
-  useTitleClick,
-  useOptionMenuClick,
-  usePullIntercept,
-  useShareTimeline,
-  useAddToFavorites,
-  useReady,
-  useRouter
+  createRouter
 }

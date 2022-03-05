@@ -27,16 +27,16 @@ export interface PageProps {
   tid?: string
 }
 
-export interface ReactPageComponent<T = PageProps> extends ComponentClass<T>, Show, PageInstance {
+export interface ReactPageComponent<T = PageProps> extends ComponentClass<T>, PageInstance {
   //
 }
 
-export interface ReactPageInstance<T = PageProps> extends Component<T>, Show, PageInstance {
+export interface ReactPageInstance<T = PageProps> extends Component<T>, PageInstance {
   componentDidShow?(): void
   componentDidHide?(): void
 }
 
-export interface ReactAppInstance<T = AppInstance> extends Component<T>, Show, AppInstance {
+export interface ReactAppInstance<T = AppInstance> extends Component<T>, AppInstance {
   //
 }
 
@@ -55,8 +55,8 @@ export interface PageLifeCycle extends Show {
   onShareTimeline?(): void
   onAddToFavorites?(): void
   eh?(event: MpEvent): void
-  onLoad(options: Record<string, unknown>, cb?: Func): void
-  onUnload(): void
+  onLoad?(options: Record<string, unknown>, cb?: Func): void
+  onUnload?(): void
 }
 
 export interface PageInstance extends PageLifeCycle {
@@ -66,16 +66,18 @@ export interface PageInstance extends PageLifeCycle {
 }
 
 interface Show {
-  componentDidShow?(options?: unknown): void
-  componentDidHide?(options?: unknown): void
-  onShow?(options?: unknown): void
-  onHide?(options?: unknown): void
+  componentDidShow?(): void
+  componentDidHide?(): void
+  onShow?(): void
+  onHide?(): void
 }
 
 export interface AppInstance extends Show {
-  onLaunch? (options?: string): void
+  onLaunch? (options?: Record<string, unknown>): void
   mount? (component: React.ComponentClass | ComponentOptions<VueCtor> | Vue3Component, id: string, cb: (...args: any[]) => void): void
   mount? (component: React.ComponentClass | ComponentOptions<VueCtor> | Vue3Component, id: string, cb: () => void): void
+  componentDidShow?(options?: Record<string, unknown>): void
+  onShow?(options?: Record<string, unknown>): void
   unmount? (id: string): void
   unmount? (id: string, cb: () => void): void
   onPageNotFound? (res: any): void
