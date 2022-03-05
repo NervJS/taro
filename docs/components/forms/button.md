@@ -213,6 +213,7 @@ export default {
 | onGetAuthorize | `CommonEventFunction` |  | 否 | 支付宝获取会员基础信息授权回调<br /><br />生效时机：`open-type="getAuthorize"` |
 | onContact | `CommonEventFunction<onContactEventDetail>` |  | 否 | 客服消息回调<br /><br />生效时机：`open-type="contact"` |
 | onGetPhoneNumber | `CommonEventFunction<onGetPhoneNumberEventDetail>` |  | 否 | 获取用户手机号回调<br /><br />生效时机：`open-type="getphonenumber"` |
+| onChooseAvatar | `CommonEventFunction<onChooseAvatarEventDetail>` |  | 否 | 获取头像信息<br /><br />生效时机：`open-type="chooseavatar"` |
 | onGetRealnameAuthInfo | `CommonEventFunction` |  | 否 | 获取用户实名<br /><br />生效时机：`open-type="getRealnameAuthInfo"` |
 | onError | `CommonEventFunction` |  | 否 | 当使用开放能力时，发生错误的回调<br /><br />生效时机：`open-type="launchApp"` |
 | onOpenSetting | `CommonEventFunction<onOpenSettingEventDetail>` |  | 否 | 在打开授权设置页后回调<br /><br />生效时机：`open-type="openSetting"` |
@@ -243,6 +244,7 @@ export default {
 | ButtonProps.businessId | ✔️ |  |  |  |  |
 | ButtonProps.scope | ✔️ |  |  |  |  |
 | ButtonProps.onGetUserInfo | ✔️ |  |  |  |  |
+| ButtonProps.onChooseAvatar | ✔️ |  |  |  |  |
 | ButtonProps.onGetAuthorize |  | ✔️ |  |  |  |
 | ButtonProps.onContact | ✔️ |  |  |  |  |
 | ButtonProps.onGetPhoneNumber | ✔️ |  |  |  |  |
@@ -289,7 +291,7 @@ open-type 的合法值
 
 | 参数 | 类型 | 说明 |
 | --- | --- | --- |
-| weapp | `{ contact: any; share: any; getPhoneNumber: any; getUserInfo: any; getRealnameAuthInfo: any; launchApp: any; openSetting: any; feedback: any; }` |  |
+| weapp | `{ contact: any; share: any; getPhoneNumber: any; getUserInfo: any; chooseavatar: any; getRealnameAuthInfo: any; launchApp: any; openSetting: any; feedback: any; }` |  |
 | alipay | `{ share: any; getAuthorize: any; contactShare: any; lifestyle: any; }` | 支付宝小程序专属的 open-type 合法值<br />[参考地址](https://opendocs.alipay.com/mini/component/button) |
 | qq | `{ share: any; getUserInfo: any; launchApp: any; openSetting: any; feedback: any; openGroupProfile: any; addFriend: any; addColorSign: any; openPublicProfile: any; addGroupApp: any; shareMessageToFriend: any; }` | QQ 小程序专属的 open-type 合法值<br />[参考地址](https://q.qq.com/wiki/develop/miniprogram/component/form/button.html) |
 
@@ -347,3 +349,9 @@ lang 的合法值
 | --- | --- |
 | errMsg | `string` |
 | authSetting | `Record<string, boolean>` |
+
+### onChooseAvatarEventDetail
+
+| 参数      | 类型     | 说明               |
+| --------- | -------- | ------------------ |
+| avatarUrl | `string` | 用户头像的临时链接 |
