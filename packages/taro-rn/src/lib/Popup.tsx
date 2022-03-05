@@ -54,7 +54,7 @@ class Popup extends Component<any, any> {
   }
 
   handleLayout ():void {
-    this.popup.measure((x, y, w, h) => {
+    this.popup.measure((_x, _y, _w, h) => {
       this.height = h
       this.setState({ translateY: new Animated.Value(h) })
       Animated.timing(this.state.translateY, {

@@ -1,6 +1,7 @@
 import { ComponentType } from 'react'
-import { StandardProps, CommonEventFunction } from './common'
+import { StandardProps } from './common'
 
+/** @ignore */
 type KeyboardAccessoryProps = StandardProps
 
 /** 设置 input / textarea 聚焦时键盘上方 cover-view / cover-image 工具栏视图

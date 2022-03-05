@@ -7,6 +7,7 @@ import { downloadFile } from '../file'
 
 const styles = StyleSheet.create({
   mask: {
+    elevation: 1,
     position: 'absolute',
     backgroundColor: '#000000',
     top: 0,

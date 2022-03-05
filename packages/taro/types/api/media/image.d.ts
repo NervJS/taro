@@ -77,7 +77,7 @@ declare module '../../index' {
       /** [拍照时设备方向](http://sylvana.net/jpegcrop/exif_orientation.html)
        * @default "up"
        */
-      orientation: keyof orientation
+      orientation: keyof Orientation
       /** 图片的本地路径 */
       path: string
       /** 图片格式 */
@@ -88,7 +88,7 @@ declare module '../../index' {
       errMsg: string
     }
 
-    interface orientation {
+    interface Orientation {
       /** 默认方向（手机横持拍照），对应 Exif 中的 1。或无 orientation 信息。 */
       'up'
       /** 同 up，但镜像翻转，对应 Exif 中的 2 */
@@ -105,6 +105,23 @@ declare module '../../index' {
       'right-mirrored'
       /** 逆时针旋转90度，对应 Exif 中的 8 */
       'left'
+    }
+  }
+
+  namespace editImage {
+    interface Option {
+      /** 图片路径，图片的路径，支持本地路径、代码包路径 */
+      src: string
+      /** 接口调用结束的回调函数（调用成功、失败都会执行） */
+      complete?: (res: TaroGeneral.CallbackResult) => void
+      /** 接口调用失败的回调函数 */
+      fail?: (res: TaroGeneral.CallbackResult) => void
+      /** 接口调用成功的回调函数 */
+      success?: (result: SuccessCallbackResult) => void
+    }
+    interface SuccessCallbackResult extends TaroGeneral.CallbackResult {
+      /** 编辑后图片的临时文件路径 (本地路径) */
+      tempFilePath: string
     }
   }
 
@@ -202,7 +219,7 @@ declare module '../../index' {
       /** 接口调用成功的回调函数 */
       success?: (result: SuccessCallbackResult) => void
       /** 所选的文件的类型  */
-      type?: keyof selectType
+      type?: keyof SelectType
     }
     interface SuccessCallbackResult extends TaroGeneral.CallbackResult {
       /** 返回选择的文件的本地临时文件对象数组 */
@@ -221,9 +238,9 @@ declare module '../../index' {
       /** 选择的文件的会话发送时间，Unix时间戳，工具暂不支持此属性 */
       time: number
       /** 选择的文件类型  */
-      type: keyof selectedType
+      type: keyof SelectedType
     }
-    interface selectType {
+    interface SelectType {
       /** 从所有文件选择 */
       all
       /** 只能选择视频文件 */
@@ -233,7 +250,7 @@ declare module '../../index' {
       /** 可以选择除了图片和视频之外的其它的文件 */
       file
     }
-    interface selectedType {
+    interface SelectedType {
       /** 选择了视频文件 */
       video
       /** 选择了图片文件 */
@@ -256,6 +273,18 @@ declare module '../../index' {
      */
     saveImageToPhotosAlbum(option: saveImageToPhotosAlbum.Option): Promise<TaroGeneral.CallbackResult>
 
+    /** 预览图片和视频。
+     * @supported weapp
+     * @example
+     * ```tsx
+     * Taro.previewMedia({
+     *   sources: []
+     * })
+     * ```
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/image/wx.previewMedia.html
+     */
+    previewMedia(option: previewMedia.Option): Promise<TaroGeneral.CallbackResult>
+
     /** 在新页面中全屏预览图片。预览的过程中用户可以进行保存图片、发送给朋友等操作。
      * @supported weapp, h5, rn, alipay, swan
      * @example
@@ -268,18 +297,6 @@ declare module '../../index' {
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/image/wx.previewImage.html
      */
     previewImage(option: previewImage.Option): Promise<TaroGeneral.CallbackResult>
-
-    /** 预览图片和视频。
-     * @supported weapp
-     * @example
-     * ```tsx
-     * Taro.previewMedia({
-     *   sources: []
-     * })
-     * ```
-     * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/image/wx.previewMedia.html
-     */
-    previewMedia(option: previewMedia.Option): Promise<TaroGeneral.CallbackResult>
 
     /** 获取图片信息。网络图片需先配置download域名才能生效。
      * @supported weapp, h5, rn, alipay, swan
@@ -308,27 +325,20 @@ declare module '../../index' {
      */
     getImageInfo(option: getImageInfo.Option): Promise<getImageInfo.SuccessCallbackResult>
 
-    /**
-     * 从本地相册选择图片或使用相机拍照。
-     * @supported weapp, h5, rn, alipay, swan
+    /** 编辑图片接口
+     * @supported weapp
      * @example
      * ```tsx
-     * Taro.chooseImage({
-     *   count: 1, // 默认9
-     *   sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
-     *   sourceType: ['album', 'camera'], // 可以指定来源是相册还是相机，默认二者都有，在H5浏览器端支持使用 `user` 和 `environment`分别指定为前后摄像头
-     *   success: function (res) {
-     *     // 返回选定照片的本地文件路径列表，tempFilePath可以作为img标签的src属性显示图片
-     *     var tempFilePaths = res.tempFilePaths
-     *   }
+     * Taro.editImage({
+     *   src: '', // 图片路径
      * })
      * ```
-     * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/image/wx.chooseImage.html
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/image/wx.editImage.html
      */
-    chooseImage(option: chooseImage.Option): Promise<chooseImage.SuccessCallbackResult>
+    editImage(option: editImage.Option): Promise<editImage.SuccessCallbackResult>
 
     /** 压缩图片接口，可选压缩质量
-     * @supported weapp
+     * @supported weapp, rn
      * @example
      * ```tsx
      * Taro.compressImage({
@@ -356,5 +366,24 @@ declare module '../../index' {
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/image/wx.chooseMessageFile.html
      */
     chooseMessageFile(option: chooseMessageFile.Option): Promise<chooseMessageFile.SuccessCallbackResult>
+
+    /**
+     * 从本地相册选择图片或使用相机拍照。
+     * @supported weapp, h5, rn, alipay, swan
+     * @example
+     * ```tsx
+     * Taro.chooseImage({
+     *   count: 1, // 默认9
+     *   sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
+     *   sourceType: ['album', 'camera'], // 可以指定来源是相册还是相机，默认二者都有，在H5浏览器端支持使用 `user` 和 `environment`分别指定为前后摄像头
+     *   success: function (res) {
+     *     // 返回选定照片的本地文件路径列表，tempFilePath可以作为img标签的src属性显示图片
+     *     var tempFilePaths = res.tempFilePaths
+     *   }
+     * })
+     * ```
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/image/wx.chooseImage.html
+     */
+    chooseImage(option: chooseImage.Option): Promise<chooseImage.SuccessCallbackResult>
   }
 }

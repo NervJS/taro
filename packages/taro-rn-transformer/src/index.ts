@@ -1,6 +1,6 @@
 import * as path from 'path'
 import appLoader, { getAppPages } from './app'
-import componentLoader from './page'
+import componentLoader from './component'
 import { TransformType, globalAny } from './types/index'
 import { isPageFile, getCommonStyle, isSourceComponent, isNPMComponent } from './utils'
 

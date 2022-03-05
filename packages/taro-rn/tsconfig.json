@@ -1,4 +1,5 @@
 {
+  "extends": "../../tsconfig.root.json",
   "include": [
     "src/**/*",
     "./types"
@@ -7,19 +8,9 @@
   "compilerOptions": {
     "rootDir": "./src",
     "outDir": "./dist",
-    "strictNullChecks": true,
+    "skipLibCheck": true,
     "sourceMap": true,
-    "allowJs": true,
-    "noImplicitAny": false,
-    "allowSyntheticDefaultImports": true,
-    "esModuleInterop": true,
-    "downlevelIteration": true,
     "jsx": "react",
-    "moduleResolution": "node",
-    "target": "ES2015",
-    "lib": [
-      "ES2015"
-    ],
     "typeRoots": [
       "./node_modules/@types",
       "./src/types"

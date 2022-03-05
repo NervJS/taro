@@ -1,14 +1,12 @@
 import { PageInstance } from '@tarojs/runtime'
-import { PageConfig } from '@tarojs/taro'
 
 let pageScrollFn
 let pageDOM: Element | Window = window
 
-export function bindPageScroll (page: PageInstance, pageEl: HTMLElement, config: Partial<PageConfig>) {
+export function bindPageScroll (page: PageInstance, pageEl: HTMLElement, distance = 50) {
   pageEl.removeEventListener('scroll', pageScrollFn)
   pageDOM = pageEl
 
-  const distance = config.onReachBottomDistance || 50
   let isReachBottom = false
 
   pageScrollFn = function () {
