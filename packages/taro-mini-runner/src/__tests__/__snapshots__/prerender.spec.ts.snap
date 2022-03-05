@@ -34,6 +34,12 @@ require(\\"./taro\\");
                 }
             });
             taro.cloud = wx.cloud;
+            taro.getTabBar = function(pageCtx) {
+                var _a;
+                if (typeof (pageCtx === null || pageCtx === void 0 ? void 0 : pageCtx.getTabBar) === \\"function\\") {
+                    return (_a = pageCtx.getTabBar()) === null || _a === void 0 ? void 0 : _a.$taroInstances;
+                }
+            };
         }
         var _true = \\"true\\";
         var _false = \\"false\\";
@@ -3535,6 +3541,12 @@ require(\\"./taro\\");
                 }
             });
             taro.cloud = wx.cloud;
+            taro.getTabBar = function(pageCtx) {
+                var _a;
+                if (typeof (pageCtx === null || pageCtx === void 0 ? void 0 : pageCtx.getTabBar) === \\"function\\") {
+                    return (_a = pageCtx.getTabBar()) === null || _a === void 0 ? void 0 : _a.$taroInstances;
+                }
+            };
         }
         var _true = \\"true\\";
         var _false = \\"false\\";
@@ -7036,6 +7048,12 @@ require(\\"./taro\\");
                 }
             });
             taro.cloud = wx.cloud;
+            taro.getTabBar = function(pageCtx) {
+                var _a;
+                if (typeof (pageCtx === null || pageCtx === void 0 ? void 0 : pageCtx.getTabBar) === \\"function\\") {
+                    return (_a = pageCtx.getTabBar()) === null || _a === void 0 ? void 0 : _a.$taroInstances;
+                }
+            };
         }
         var _true = \\"true\\";
         var _false = \\"false\\";

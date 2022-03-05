@@ -5,7 +5,7 @@ import { noop } from '../../utils'
 import { VirtualListProps } from './PropsType'
 import { ScrollViewProps } from '../ScrollView/PropsType'
 
-class _VirtualList extends React.Component<VirtualListProps<any> & ScrollViewProps<any>, any> {
+class _VirtualList extends React.Component<VirtualListProps & ScrollViewProps<any>, any> {
   static defaultProps = {
     upperThreshold: 50,
     lowerThreshold: 50,
