@@ -392,6 +392,47 @@ function Picker ({ mode, value, onInitial }) {
 }
 ```
 
+### 小程序自定义组件对象实例
+
+开发者可以通过 `props.$scope` 获取到小程序的自定义组件对象实例。
+
+使用某些小程序 API 时可能需要使用此实例，如获取视图层 DOM：
+
+`Taro.createSelectorQuery().in(props.$scope)`
+
+### 组件间通信与事件
+
+支持使用两种方式进行组件间通信。
+
+#### 使用小程序的 triggerEvent
+
+和小程序原生自定义组件的[组件间通信与事件](https://developers.weixin.qq.com/miniprogram/dev/framework/custom-component/events.html)一样，子组件使用 `triggerEvent` 发送事件。
+
+```js title="子组件"
+props.$scope.triggerEvent('myevent', myEventDetail, myEventOption)
+```
+
+#### 通过 props 传递事件回调
+
+```js title="父组件"
+Page({
+  data: {
+    childProps: {
+      // props 里可以传递函数
+      onMyEvent (value, index) {
+        console.log(value, index)
+      }
+    }
+  }
+})
+// 和普通 props 传递一样
+<child props="{{childProps}}">
+```
+
+```js title="子组件"
+props.onMyEvent(value, index)
+```
+
 ### 组件配置
 
 :::info
