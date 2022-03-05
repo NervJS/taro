@@ -170,7 +170,7 @@ interface ButtonProps extends StandardProps {
 
   /** 获取头像信息
    *
-   * 生效时机：`open-type="chooseAvatar"`
+   * 生效时机：`open-type="chooseavatar"`
    * @supported weapp
    */
   onChooseAvatar?: CommonEventFunction<ButtonProps.onChooseAvatarEventDetail>
