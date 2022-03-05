@@ -279,6 +279,39 @@ config = {
 }
 ```
 
+## 插件 postcss 配置项
+
+`@tarojs/plugin-html` 会启用 postcss 插件：`postcss-html-transform` 对样式进行一些处理，例如去除 `*` 选择符等。以下是 `postcss-html-transform` 的一些配置项：
+
+### removeCursorStyle
+
+:::info
+Taro v3.4.3 开始支持。
+:::
+
+`boolean`
+
+默认值：`true`
+
+设置是否去除 `cursor` 相关样式。
+
+用法：
+
+```js title="config/index.js" {6-9}
+config = {
+  // ...
+  mini: {
+    // ...
+    postcss: {
+      htmltransform: {
+        enable: true,
+        removeCursorStyle: false
+      }
+    }
+  }
+}
+```
+
 ## 详细设计
 
 RFC 文档：[《0004-rendering-html》](https://github.com/NervJS/taro-rfcs/blob/html-support/rfcs/0004-rendering-html.md)
