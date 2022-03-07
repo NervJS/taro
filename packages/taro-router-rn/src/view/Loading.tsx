@@ -1,4 +1,3 @@
-// eslint-disable-next-line no-use-before-define
 import * as React from 'react'
 import { Animated, StyleSheet, Easing } from 'react-native'
 
@@ -38,7 +37,6 @@ class LoadingView extends React.Component<LoadingViewProps, LoadingViewState> {
     }).start(() => this.startAnimation())
   }
 
-  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   render () {
     return (
       <Animated.Image

@@ -17,8 +17,9 @@ interface NavigateBackOption extends BaseOption {
   delta?: number
 }
 
-interface NavigateRef extends NavigationContainerRef {
-  setOptions: (obj: any) => void
+interface NavigateRef extends NavigationContainerRef<ReactNavigation.RootParamList> {
+  setOptions: (obj: any) => void;
+  navigateConfig: (obj: any) => void;
 }
 
 let routeEvtChannel
@@ -67,7 +68,7 @@ export function navigate (option: NavigateOption | NavigateBackOption, method: N
         navigationRef.current?.dispatch(StackActions.replace('tabNav'))
         setTabInitRoute(routeParam.pageName)
       } else {
-        navigationRef.current?.navigate(routeParam.pageName, routeParam.params)
+        navigationRef.current?.navigate(routeParam.pageName as never, routeParam.params as never)
       }
     } else if (method === 'navigateBack') {
       const number = (option as NavigateBackOption).delta ? (option as NavigateBackOption).delta : 1
