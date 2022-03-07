@@ -36,6 +36,22 @@ options = {
 }
 ```
 
+### 动态计算designWidth
+
+基础组件库一般是`375`，如果业务系统UI设计是`750`，可以如下配置后`1:1`切图，小程序、H5、RN时有效
+
+```js
+options = {
+    platform: 'h5',
+    designWidth (input) {
+      if (input.file.replace(/\\+/g, '/').indexOf('@nutui/nutui-taro') > -1) {
+        return 375
+      }
+      return 750
+    },
+}
+```
+
 ### 输入/输出
 
 默认配置下，所有的 px 都会被转换。
@@ -114,7 +130,7 @@ Type: `Object | Null`
 ###  `platform` （String）（必填）
 `weapp` 或 `h5` 或 `rn`
 
-### `designWidth`（Number）（必填）
+### `designWidth`（Number|Function）（必填）
 `640` 或 `750` 或 `828`
 
 ### `unitPrecision` (Number) 
