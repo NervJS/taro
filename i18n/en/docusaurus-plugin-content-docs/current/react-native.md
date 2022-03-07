@@ -6,6 +6,8 @@ title: React Native Development Process
 > This article mainly explains the Taro React Native end environment installation - development - debugging - packaging - release principles and processes, React Native development before the considerations, please see [Note before development](./react-native-remind.md)
 > 
 > Taro3.x cross-platform（h5、weapp、rn）project development can refer to:[Taro cross-platform demo（React Native + Weapp + h5）](https://github.com/wuba/Taro-Mortgage-Calculator)
+> 
+> For Taro React Native APP development debugging tool, please check [Taro Playground](https://github.com/wuba/taro-playground) project.
 
 ## Introduction
 
@@ -36,9 +38,9 @@ The initialization template provided by `taro init` will use the latest version 
 | React Native Versions | Compatibility | Shell Project Branch |
 | - | - | - |
 | < 0.60.0 | Not compatible, consider using Taro version 1.x/2.x | - |
-| 0.60.x | compatible, but not fully tested, please provide issue | [0.63.2](https://github.com/NervJS/taro-native-shell/tree/0.63.2), change react-native version to 0.60.0 |
-| 0.61.x | compatible, but not fully tested, please provide issue | [0.63.2](https://github.com/NervJS/taro-native-shell/tree/0.63.2), change react-native version to 0.61.0 |
-| 0.62.x | compatible, but not fully tested, please provide issue | [0.63.2](https://github.com/NervJS/taro-native-shell/tree/0.63.2), change react-native version to 0.62.0 |
+| 0.60.x | <=3.4.2 compatible, but not fully tested, please provide issue | [0.63.2](https://github.com/NervJS/taro-native-shell/tree/0.63.2), change react-native version to 0.60.0 |
+| 0.61.x | <=3.4.2 compatible, but not fully tested, please provide issue | [0.63.2](https://github.com/NervJS/taro-native-shell/tree/0.63.2), change react-native version to 0.61.0 |
+| 0.62.x | <=3.4.2 compatible, but not fully tested, please provide issue | [0.63.2](https://github.com/NervJS/taro-native-shell/tree/0.63.2), change react-native version to 0.62.0 |
 | 0.63.x | >= 3.2.0, but after version 3.2.13, you need to add the configuration manually, refer to [PR](https://github.com/NervJS/taro/pull/9540) | [0.63.2](https://github.com/NervJS/taro-native-shell/tree/0.63.2) |
 | 0.64.x | >= 3.2.0 | [0.64.0](https://github.com/NervJS/taro-native-shell/tree/0.64.0) |
 | 0.65.x | >= 3.3.10 | - |
