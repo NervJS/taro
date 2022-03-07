@@ -70,8 +70,9 @@ export default (ctx: IPluginContext) => {
       async function updateSelf () {
         const targetTaroVersion = await getTargetVersion()
         let command
-
-        if (shouldUseCnpm()) {
+        if (shouldUseYarn()) {
+          command = `yarn global add @tarojs/cli@${targetTaroVersion}`
+        } else if (shouldUseCnpm()) {
           command = `cnpm i -g @tarojs/cli@${targetTaroVersion}`
         } else {
           command = `npm i -g @tarojs/cli@${targetTaroVersion}`

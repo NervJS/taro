@@ -1,17 +1,17 @@
-/* eslint-disable react/no-children-prop */
-import * as React from 'react'
 import { StyleProp, ViewStyle } from 'react-native'
 import { camelCase } from 'lodash'
 import { NavigationContainer } from '@react-navigation/native'
 import { BackBehavior } from '@react-navigation/routers/src/TabRouter'
 import { createStackNavigator, CardStyleInterpolators } from '@react-navigation/stack'
-import { StackHeaderOptions, StackCardMode, StackHeaderMode } from '@react-navigation/stack/src/types'
+import { StackHeaderOptions, StackHeaderMode, StackNavigationOptions } from '@react-navigation/stack/src/types'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { navigationRef } from './rootNavigation'
 import CustomTabBar from './view/TabBar'
 import HeadTitle from './view/HeadTitle'
 import BackButton from './view/BackButton'
 import { getTabItemConfig, getTabVisible, setTabConfig, getTabInitRoute, handleUrl } from './utils/index'
+import React from 'react'
+import { TabOptions } from './view/TabBarItem'
 
 interface WindowConfig {
   pageOrientation?: 'auto' | 'portrait' | 'landscape'
@@ -52,18 +52,17 @@ interface PageItem {
 interface RNConfig {
   initialRouteName?: string,
   linking?: string[],
-  screenOptions?: Record<string, any>,
+  screenOptions?: StackNavigationOptions,
+  tabOptions?: TabOptions,
   tabBarOptions?: Record<string, any>,
-  options?: Record<string, any>,
-  tabProps?:{
+  tabProps?: {
     backBehavior?: BackBehavior;
     lazy?: boolean,
     detachInactiveScreens?:boolean,
     sceneContainerStyle?: StyleProp<ViewStyle>
   },
-  stackProps?:{
+  stackProps?: {
     keyboardHandlingEnabled?:boolean,
-    mode?: StackCardMode;
     headerMode?: StackHeaderMode;
     detachInactiveScreens?:boolean,
   }
@@ -80,7 +79,7 @@ export interface RouterConfig {
   entryPagePath?: string, // 默认启动路径
 }
 
-export function createRouter (config: RouterConfig): React.ReactNode {
+export function createRouter (config: RouterConfig) {
   if (config?.tabBar?.list?.length) {
     return createTabNavigate(config)
   } else {
@@ -118,11 +117,11 @@ function getTabItemOptions (item, index: number) {
 }
 
 function getHeaderView (title: string, color: string, props: any) {
-  return React.createElement(HeadTitle, { label: title, color, headerProps: props }, null)
+  return <HeadTitle label={title} color={color} headerProps={props} />
 }
 
 // screen配置的内容
-function getStackOptions (config: RouterConfig) {
+function getStackOptions (config: RouterConfig): StackNavigationOptions {
   const windowOptions = config.window || {}
   const title = ''
   const headColor = windowOptions.navigationBarTextStyle || 'white'
@@ -144,11 +143,10 @@ function getStackOptions (config: RouterConfig) {
     cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
     cardStyle: { elevation: 1 },
     headerBackTitleVisible: false,
-    headerPressColorAndroid: 'rgba(255,255,255,0)',
     headerTitleAlign,
     // eslint-disable-next-line react/display-name
     headerBackImage: ({ tintColor }) => {
-      return React.createElement(BackButton, { tintColor }, null)
+      return <BackButton tintColor={tintColor} />
     }
   }
   const rnConfig = config.rnConfig || {}
@@ -229,29 +227,28 @@ function getInitParams (config, pageName) {
   return params
 }
 
-function createTabStack (config: RouterConfig, parentProps: any) {
+function createTabStack (config: RouterConfig, parentProps: any, screenOptions) {
   const Tab = createBottomTabNavigator()
   const tabBar = config.tabBar
   const rnConfig = config.rnConfig
   const tabList: any = []
-  const userOptions: Record<string, any> = rnConfig?.options || {}
+  const tabOptions: TabOptions = rnConfig?.tabOptions || {}
   tabBar?.list.forEach((item, index) => {
     const defaultOptions = Object.assign({}, { tabBarVisible: config.tabBar?.custom ? false : getTabVisible() }, getTabItemOptions(item, index))
-    const tabItemOptions = Object.assign({}, defaultOptions, userOptions)
+    const tabItemOptions = Object.assign({}, defaultOptions, tabOptions, { headerShown: false, title: item.text })
     setTabConfig('tabBarVisible', tabItemOptions.tabBarVisible)
     const path = item.pagePath.startsWith('/') ? item.pagePath : `/${item.pagePath}`
     const tabName = camelCase(path)
     const tabPage: PageItem = getTabItem(config, tabName) as PageItem
     const initParams = getInitParams(config, tabName)
-    const tabNode = React.createElement(Tab.Screen, {
-      key: `tab${tabName}`,
-      name: `${tabPage.name}`,
-      options: tabItemOptions,
-      component: tabPage.component,
-      initialParams: initParams,
-      ...parentProps
-    })
-    tabList.push(tabNode)
+    tabList.push(<Tab.Screen
+      key={`tab${tabName}`}
+      name={tabPage.name}
+      options={tabItemOptions}
+      component={tabPage.component}
+      initialParams={initParams}
+      {...parentProps}
+    />)
   })
 
   const borderColorMap = {
@@ -279,19 +276,16 @@ function createTabStack (config: RouterConfig, parentProps: any) {
   const tabProps = config.rnConfig?.tabProps || {}
 
   const tabInitRouteName = getTabInitRoute() || getInitTabRoute(config) || tabNames[0]
-  return React.createElement(Tab.Navigator,
-    {
-      ...tabProps,
-      tabBarOptions: tabBarOptions,
-      tabBar: (props) => createTabBar(props, userOptions),
-      initialRouteName: tabInitRouteName,
-      children: tabList
-    },
-    tabList)
+  return <Tab.Navigator
+    {...tabProps}
+    tabBar={(props) => createTabBar(props, tabOptions, tabBarOptions)}
+    initialRouteName={tabInitRouteName}
+    screenOptions={screenOptions}
+  >{tabList}</Tab.Navigator>
 }
 
-function createTabBar (props, userOptions) {
-  return React.createElement(CustomTabBar, { ...props, userOptions })
+function createTabBar (props, tabOptions: TabOptions, tabBarOptions) {
+  return <CustomTabBar {...props} tabOptions={tabOptions} {...tabBarOptions} />
 }
 
 function getLinkingConfig (config: RouterConfig) {
@@ -331,74 +325,57 @@ function getLinkingConfig (config: RouterConfig) {
 }
 
 function createTabNavigate (config: RouterConfig) {
-  const screeList: any = []
   const Stack = createStackNavigator()
-  // 第一个页面是tabbar的
-  const tabScreen = React.createElement(Stack.Screen, {
-    name: 'tabNav',
-    key: 'tabScreen',
-    children: (props) => createTabStack(config, props)
-  }, (props) => createTabStack(config, props))
-  screeList.push(tabScreen)
   const pageList = getPageList(config)
-  pageList.forEach(item => {
-    const initParams = getInitParams(config, item.name)
-    const screenNode = React.createElement(Stack.Screen,
-      {
-        key: `${item.name}`,
-        name: `${item.name}`,
-        component: item.component,
-        initialParams: initParams
-      }, null)
-    screeList.push(screenNode)
-  })
   const linking = getLinkingConfig(config)
   const stackProps = config.rnConfig?.stackProps
-  const tabStack = React.createElement(Stack.Navigator,
-    {
-      ...stackProps,
-      screenOptions: () => {
-        const options = getCurrentOptions()
-        const defaultOptions = getStackOptions(config)
-        return Object.assign({}, defaultOptions, options)
-      },
-      initialRouteName: getInitRouteName(config),
-      children: screeList
-    }, screeList)
-  return React.createElement(NavigationContainer, { ref: navigationRef, linking: linking, children: tabStack }, tabStack)
+  const screenOptions = getStackOptions(config)
+  return <NavigationContainer
+    ref={navigationRef}
+    linking={linking}
+  >
+    <Stack.Navigator
+      {...stackProps}
+      screenOptions={screenOptions}
+      initialRouteName={getInitRouteName(config)}
+    >
+      <Stack.Screen
+        name='tabNav'
+        key='tabScreen'
+        options={{
+          headerShown: false
+        }}
+      >{(props) => createTabStack(config, props, screenOptions)}</Stack.Screen>
+      {pageList.map(item => {
+        const initParams = getInitParams(config, item.name)
+        return <Stack.Screen
+          key={item.name}
+          name={item.name}
+          component={item.component}
+          initialParams={initParams}
+        ></Stack.Screen>
+      })}
+    </Stack.Navigator>
+  </NavigationContainer>
 }
 
 function createStackNavigate (config: RouterConfig) {
   const Stack = createStackNavigator()
   const pageList = getPageList(config)
   if (pageList.length <= 0) return null
-  const screenChild: any = []
-  pageList.forEach(item => {
-    const initParams = getInitParams(config, item.name)
-    const screenNode = React.createElement(Stack.Screen,
-      {
-        key: `${item.name}`,
-        name: `${item.name}`,
-        component: item.component,
-        initialParams: initParams
-      }, null)
-    screenChild.push(screenNode)
-  })
   const linking = getLinkingConfig(config)
   const stackProps = config.rnConfig?.stackProps
-  const stackNav = React.createElement(Stack.Navigator,
-    {
-      ...stackProps,
-      screenOptions: getStackOptions(config),
-      children: screenChild,
-      initialRouteName: getInitRouteName(config)
-    }, screenChild)
-  return React.createElement(NavigationContainer, { ref: navigationRef, linking: linking, children: stackNav }, stackNav)
-}
-
-function getCurrentOptions () {
-  const options = navigationRef.current?.getCurrentOptions() || {}
-  const params: Record<string, any> = navigationRef.current?.getCurrentRoute()?.params || {}
-  const navParams = params?.navigateConfig || {}
-  return Object.assign({}, options, navParams)
+  return <NavigationContainer
+    ref={navigationRef}
+    linking={linking}
+  >
+    <Stack.Navigator
+      {...stackProps}
+      screenOptions={getStackOptions(config)}
+      initialRouteName={getInitRouteName(config)}
+    >{pageList.map(item => {
+        const initParams = getInitParams(config, item.name)
+        return <Stack.Screen key={item.name} name={item.name} component={item.component} initialParams={initParams} />
+      })}</Stack.Navigator>
+  </NavigationContainer>
 }

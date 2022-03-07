@@ -11,6 +11,7 @@
     "skipLibCheck": true,
     "sourceMap": true,
     "jsx": "react",
+    "lib": ["ESNEXT"],
     "typeRoots": [
       "./node_modules/@types",
       "./src/types"
