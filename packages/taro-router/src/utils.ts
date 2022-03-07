@@ -38,8 +38,8 @@ class RoutesAlias {
   getAll = (url = '') => {
     return this.conf.filter((arr) => {
       return arr.includes(url)
-    }).reduce((p, a) => {
-      p.push(a[1])
+    }).reduceRight((p, a) => {
+      p.unshift(a[1])
       return p
     }, [url])
   }

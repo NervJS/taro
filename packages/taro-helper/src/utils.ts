@@ -494,14 +494,6 @@ export function removeHeadSlash (str: string) {
   return str.replace(/^(\/|\\)/, '')
 }
 
-export function defineAppConfig (config: any) {
-  return config
-}
-
-export function definePageConfig (config: any) {
-  return config
-}
-
 function analyzeImport (filePath: string): string[] {
   const code = fs.readFileSync(filePath).toString()
   let importPaths: string[] = []
@@ -626,6 +618,25 @@ function readSFCPageConfig (configPath: string) {
   return result
 }
 
+export function readPageConfig (configPath: string) {
+  let result: any = {}
+  const extNames = ['.js', '.jsx', '.ts', '.tsx', '.vue']
+
+  // check source file extension
+  extNames.some(ext => {
+    const tempPath = configPath.replace('.config', ext)
+    if (fs.existsSync(tempPath)) {
+      try {
+        result = readSFCPageConfig(tempPath)
+      } catch (error) {
+        result = {}
+      }
+      return true
+    }
+  })
+  return result
+}
+
 export function readConfig (configPath: string) {
   let result: any = {}
   if (fs.existsSync(configPath)) {
@@ -644,20 +655,7 @@ export function readConfig (configPath: string) {
 
     result = getModuleDefaultExport(require(configPath))
   } else {
-    const extNames = ['.js', '.jsx', '.ts', '.tsx', '.vue']
-
-    // check source file extension
-    extNames.some(ext => {
-      const tempPath = configPath.replace('.config', ext)
-      if (fs.existsSync(tempPath)) {
-        try {
-          result = readSFCPageConfig(tempPath)
-        } catch (error) {
-          result = {}
-        }
-        return true
-      }
-    })
+    result = readPageConfig(configPath)
   }
   return result
 }

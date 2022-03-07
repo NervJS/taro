@@ -9,7 +9,7 @@ function formatTimeStr(time = ''): Date {
   year = ~~year || 2000
   month = ~~month || 1
   day = ~~day || 1
-  return new Date(`${year}-${month}-${day}`)
+  return new Date(year, month - 1, day)
 }
 
 export default class DateSelector extends React.Component<DateProps, DateState> {
@@ -62,7 +62,9 @@ export default class DateSelector extends React.Component<DateProps, DateState> 
   }
 
   onValueChange = (vals: any[]): void => {
-    this.setState({ value: new Date(`${vals[0]}-${~~vals[1] + 1}-${vals[2] || 1}`) })
+    this.setState({
+      value: new Date(vals[0], ~~vals[1], vals[2] || 1)
+    })
   }
 
   onOk = (): void => {

@@ -114,7 +114,7 @@ interface VideoProps extends StandardProps {
    * @supported weapp, swan, alipay
    * @h5 待定
    */
-  objectFit?: keyof VideoProps.objectFit
+  objectFit?: keyof VideoProps.ObjectFit
 
   /** 视频封面的图片网络资源地址，如果 controls 属性值为 false 则设置 poster 无效
    * @supported weapp, h5, swan, alipay, tt, rn
@@ -142,7 +142,7 @@ interface VideoProps extends StandardProps {
    * @supported weapp
    * @h5 待定
    */
-  playBtnPosition?: keyof VideoProps.playBtnPosition
+  playBtnPosition?: keyof VideoProps.PlayBtnPosition
 
   /** 是否开启播放手势，即双击切换播放/暂停
    * @default false
@@ -203,12 +203,12 @@ interface VideoProps extends StandardProps {
   /**
    * 是否在小窗模式下显示播放进度（目前有bug，先注释掉）
    * @supported weapp
-   * 
+   *
    * 先注释掉，原因如下：
    * 该属性超过了 wxml 属性的长度限制，实际无法使用且导致编译报错。可等微信官方修复后再放开。
    * 参考1：https://developers.weixin.qq.com/community/develop/doc/000a429beb87f0eac07acc0fc5b400
    * 参考2: https://developers.weixin.qq.com/community/develop/doc/0006883619c48054286a4308258c00?_at=vyxqpllafi
-   * 
+   *
    */
   // pictureInPictureShowProgress?: boolean
 
@@ -217,7 +217,7 @@ interface VideoProps extends StandardProps {
    * @supported weapp
    */
   enableAutoRotation?: boolean
-  
+
   /**
    * 是否显示锁屏按钮，仅在全屏时显示，锁屏后控制栏的操作
    * @supported weapp
@@ -318,7 +318,7 @@ declare namespace VideoProps {
     '-90'
   }
   /** objectFit 的合法值 */
-  interface objectFit {
+  interface ObjectFit {
     /** 包含 */
     contain
     /** 填充 */
@@ -327,7 +327,7 @@ declare namespace VideoProps {
     cover
   }
   /** playBtnPosition 的合法值 */
-  interface playBtnPosition {
+  interface PlayBtnPosition {
     /** controls bar上 */
     bottom
     /** 视频中间 */
@@ -364,7 +364,7 @@ declare namespace VideoProps {
 }
 
 /** 视频。相关api：Taro.createVideoContext
- * 
+ *
  * 备注：h5上因为没有测试，所以暂时写了“待定”，需要`Video`来确认。
  * @classification media
  * @supported weapp, h5, swan, alipay, tt
@@ -374,7 +374,7 @@ declare namespace VideoProps {
  *   constructor() {
  *     super(...arguments)
  *   }
- * 
+ *
  *   render() {
  *     return (
  *       <View className='components-page'>
