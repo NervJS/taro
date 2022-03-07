@@ -48,7 +48,26 @@ Taro 移动端的开发基于 Facebook 的开源项目 [React Native](https://gi
 
 ## 通过模板进行初始化
 
-使用 `taro init` 命令进行初始，选择 `react-native` 模板。完成后执行 `yarn upgradePeerdeps` 进行依赖初始化，模板相比于壳工程模式，将 js 工程与原生工程进行了合并，更加易于理解和使用。更多细节请查看 [react-native 模板文档](https://github.com/NervJS/taro-project-templates/tree/v3.1/react-native)。
+使用 `taro init` 命令进行初始，选择 `react-native` 模板。完成后执行 `yarn upgradePeerdeps` 进行依赖初始化，模板相比于壳工程模式，将 js 工程与原生工程进行了合并，更加易于理解和使用。更多细节请查看 [react-native 模板文档](https://github.com/NervJS/taro-project-templates/tree/v3.4/react-native)。
+
+常用命令如下：
+
+```shell
+# 更新相关依赖。在初始化完成后或 Taro 版本更新后执行，用于同步 peerDependencies。
+$ yarn upgradePeerdeps
+
+# 打包 js bundle 及静态资源。在初始化完成后执行，用于打包默认使用的 bundle。
+$ yarn build:rn --platform ios
+
+# 启动 bundle server
+$ yarn start
+
+# 启动 iOS
+$ yarn ios
+
+# 启动安卓
+$ yarn android
+```
 
 ## 搭建 iOS 开发环境
 

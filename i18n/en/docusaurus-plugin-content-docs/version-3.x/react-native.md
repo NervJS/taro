@@ -49,7 +49,26 @@ The initialization template provided by `taro init` will use the latest version 
 
 ## Initialization by template
 
-Use the `taro init` command to initialize and select the `react-native` template. When finished, execute `yarn upgradePeerdeps` for dependency initialization. The template is easier to understand and use than the shell project pattern, which merges js projects with native projects. See the [react-native template documentation](https://github.com/NervJS/taro-project-templates/tree/v3.1/react-native) for more details.
+Use the `taro init` command to initialize and select the `react-native` template. When finished, execute `yarn upgradePeerdeps` for dependency initialization. The template is easier to understand and use than the shell project pattern, which merges js projects with native projects. See the [react-native template documentation](https://github.com/NervJS/taro-project-templates/tree/v3.4/react-native) for more details.
+
+Common commands are as follows:
+
+```shell
+# Update related dependencies. Executed after initialization is complete or after a Taro version update to synchronize peerDependencies.
+$ yarn upgradePeerdeps
+
+# Package js bundles and static resources. Executed after initialization to package bundles that are used by default.
+$ yarn build:rn --platform ios
+
+# Start the bundle server
+$ yarn start
+
+# Start iOS
+$ yarn ios
+
+# Start Android
+$ yarn android
+```
 
 ## Build iOS development environment
 

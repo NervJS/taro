@@ -303,7 +303,7 @@ Taro Playground 项目提供了较全面的示例代码，开发者可以参考�
 
 [1] 壳工程地址：https://github.com/NervJS/taro-native-shell
 
-[2] 模板源码地址：https://github.com/NervJS/taro-project-templates/tree/v3.1/react-native
+[2] 模板源码地址：https://github.com/NervJS/taro-project-templates/tree/v3.4/react-native
 
 [3] GitHub Action 文档：https://docs.github.com/cn/actions
 
