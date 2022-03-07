@@ -35,7 +35,6 @@ export function isFunction (obj: unknown): boolean {
   return typeof obj === 'function'
 }
 
-// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export function isEmptyObject (obj: any): boolean {
   if (obj == null) {
     return true
