@@ -26,3 +26,7 @@ export const hasBasename = (path = '', prefix = '') =>
 
 export const stripBasename = (path = '', prefix = '') =>
   hasBasename(path, prefix) ? path.substr(prefix.length) : path
+
+export const onlyContainsBasename = (path: string) => {
+  return path === basename || path === `${basename}/`
+}
