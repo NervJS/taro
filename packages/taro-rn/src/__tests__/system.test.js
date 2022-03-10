@@ -7,8 +7,8 @@ describe('system', () => {
   describe('getSystemInfoSync', () => {
     test('能同步返回正确的系统信息', () => {
       const expectRes = {
-        brand: null,
-        model: null,
+        brand: expect.any(String),
+        model: expect.any(String),
         pixelRatio: expect.any(Number),
         safeArea: expect.any(Object),
         screenWidth: expect.any(Number),
@@ -17,8 +17,8 @@ describe('system', () => {
         windowHeight: expect.any(Number),
         statusBarHeight: expect.any(Number),
         language: null,
-        version: null,
-        system: undefined,
+        version: expect.any(String),
+        system: expect.any(String),
         platform: expect.any(String),
         fontSizeSetting: expect.any(Number),
         SDKVersion: null
@@ -35,8 +35,8 @@ describe('system', () => {
       const fail = jest.fn()
       const complete = jest.fn()
       const expectRes = {
-        brand: null,
-        model: null,
+        brand: expect.any(String),
+        model: expect.any(String),
         pixelRatio: expect.any(Number),
         safeArea: expect.any(Object),
         screenWidth: expect.any(Number),
@@ -45,8 +45,8 @@ describe('system', () => {
         windowHeight: expect.any(Number),
         statusBarHeight: expect.any(Number),
         language: null,
-        version: null,
-        system: undefined,
+        version: expect.any(String),
+        system: expect.any(String),
         platform: expect.any(String),
         fontSizeSetting: expect.any(Number),
         SDKVersion: null
