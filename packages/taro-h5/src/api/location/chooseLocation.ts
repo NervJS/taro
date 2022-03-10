@@ -2,7 +2,9 @@ import Taro from '@tarojs/api'
 import { MethodHandler } from '../utils/handler'
 import './style.css'
 
-function createLocationChooser (handler, key = LOCATION_APIKEY) {
+function createLocationChooser (handler, key = LOCATION_APIKEY, mapOpt) {
+  const { latitude, longitude, coordtype = 5, radius = 2000, zoom = 13, mapdraggable = 0, search = 1, policy = 1, total = 10 } = mapOpt ?? {}
+  const coord = !!latitude&&!!longitude ? `${latitude},${longitude}` : ''
   const html = `
 <div class='taro_choose_location'>
   <div class='taro_choose_location_bar'>
@@ -10,7 +12,7 @@ function createLocationChooser (handler, key = LOCATION_APIKEY) {
     <p class='taro_choose_location_title'>位置</p>
     <button class='taro_choose_location_submit'>完成</button>
   </div>
-  <iframe class='taro_choose_location_frame' frameborder='0' src='https://apis.map.qq.com/tools/locpicker?search=1&type=1&key=${key}&referer=myapp'></iframe>
+  <iframe class='taro_choose_location_frame' frameborder='0' src='https://apis.map.qq.com/tools/locpicker?search=1&type=1&key=${key}&coord=${coord}&coordtype=${coordtype}&radius=${radius}&zoom=${zoom}&mapdraggable=${mapdraggable}&search=${search}&policy=${policy}&total=${total}&referer=myapp'></iframe>
 </div>
 `
   const container = document.createElement('div')
@@ -57,7 +59,7 @@ function createLocationChooser (handler, key = LOCATION_APIKEY) {
 /**
  * 打开地图选择位置。
  */
-export const chooseLocation: typeof Taro.chooseLocation = ({ success, fail, complete } = {}) => {
+export const chooseLocation: typeof Taro.chooseLocation = ({ success, fail, complete, complete, latitude, longitude, coordtype = 5, radius = 2000, zoom = 13, mapdraggable = 0, search = 1, policy = 1, total = 10 } = {}) => {
   const key = LOCATION_APIKEY
   const handle = new MethodHandler({ name: 'chooseLocation', success, fail, complete })
   return new Promise((resolve, reject) => {
@@ -96,7 +98,9 @@ export const chooseLocation: typeof Taro.chooseLocation = ({ success, fail, comp
           return handle.fail({}, reject)
         }
       }
-    }, key)
+    }, key, {
+      latitude, longitude, coordtype, radius, zoom, mapdraggable, search, policy, total
+    })
 
     document.body.appendChild(chooser.container)
 
