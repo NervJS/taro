@@ -208,6 +208,7 @@ class _Input extends React.Component<InputProps, InputState> {
 
     // fix: https://reactnative.dev/docs/textinput#multiline
     const textAlignVertical = _multiline ? 'top' : 'auto'
+
     return (
       <TextInput
         {...omit(this.props, [
