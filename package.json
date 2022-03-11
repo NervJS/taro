@@ -93,6 +93,8 @@
     "@vue/runtime-core": "3.0.0",
     "@vue/runtime-dom": "3.0.0",
     "@wojtekmaj/enzyme-adapter-react-17": "0.6.1",
+    "@swc/core": "^1.2.148",
+    "@swc/jest": "^0.2.20",
     "babel-jest": "24.9.0",
     "babel-plugin-syntax-jsx": "6.18.0",
     "babel-preset-power-assert": "3.0.0",

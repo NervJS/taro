@@ -1,7 +1,11 @@
 import { Config } from '@stencil/core'
 import { sass } from '@stencil/sass'
 
-const { jsWithTs: tsjPreset } = require('ts-jest/presets')
+// const { jsWithTs: tsjPreset } = require('ts-jest/presets')
+
+// const fs = require('fs')
+
+// const swcConfig = JSON.parse(fs.readFileSync('../../.swcrc', 'utf-8'))
 
 export const config: Config = {
   namespace: 'taro-components',
@@ -31,7 +35,8 @@ export const config: Config = {
   testing: {
     testRegex: '(/__tests__/.*|(\\.|/)(tt|spec))\\.[jt]sx?$',
     transform: {
-      ...tsjPreset.transform
+      // ...tsjPreset.transform
+      '^.+\\.(t|j)sx?$': '@swc/jest'
     },
     globals: {
       'ts-jest': {

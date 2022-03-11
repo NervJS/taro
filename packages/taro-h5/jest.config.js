@@ -1,4 +1,7 @@
-const { jsWithTs: tsjPreset } = require('ts-jest/presets')
+// const { jsWithTs: tsjPreset } = require('ts-jest/presets')
+const fs = require('fs')
+
+const config = JSON.parse(fs.readFileSync('../../.swcrc', 'utf-8'))
 
 module.exports = {
   preset: 'ts-jest',
@@ -12,9 +15,12 @@ module.exports = {
     'jest-mock-console/dist/setupTestFramework.js'
   ],
   transform: {
-    '^.+\\.jsx?$': 'babel-jest',
-    '^.+\\.tsx?$': 'ts-jest',
-    ...tsjPreset.transform
+    // '^.+\\.jsx?$': 'babel-jest',
+    // '^.+\\.tsx?$': 'ts-jest',
+    // ...tsjPreset.transform
+    '^.+\\.(t|j)sx?$': ['@swc/jest', {
+      ...config
+    }]
   },
   testMatch: ['**/__tests__/**/?(*.)+(spec|test).[jt]s?(x)'],
   testPathIgnorePatterns: [
