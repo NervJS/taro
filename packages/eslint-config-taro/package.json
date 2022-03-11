@@ -1,6 +1,6 @@
 {
   "name": "eslint-config-taro",
-  "version": "3.4.1",
+  "version": "3.4.3",
   "description": "Taro specific linting rules for ESLint",
   "main": "index.js",
   "files": [
@@ -8,6 +8,7 @@
     "index.js",
     "html-tags.js",
     "react.js",
+    "preact.js",  
     "nerv.js",
     "vue.js",
     "vue3.js",

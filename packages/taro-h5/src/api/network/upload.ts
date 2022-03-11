@@ -1,5 +1,4 @@
 import Taro from '@tarojs/api'
-import { temporarilyNotSupport } from '../utils'
 import { CallbackManager } from '../utils/handler'
 import {
   convertObjectUrlToBlob,
@@ -125,17 +124,12 @@ const createUploadTask = ({ url, filePath, formData = {}, name, header, timeout,
    */
   const offProgressUpdate = callbackManager.progressUpdate.remove
 
-  const headersReceived = temporarilyNotSupport('UploadTask.headersReceived')
-  const progress = temporarilyNotSupport('UploadTask.progress')
-
   return {
     abort,
     onHeadersReceived,
     offHeadersReceived,
     onProgressUpdate,
-    offProgressUpdate,
-    headersReceived,
-    progress
+    offProgressUpdate
   }
 }
 

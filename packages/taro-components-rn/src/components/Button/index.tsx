@@ -20,6 +20,7 @@
  * - show-message-card
  * - bindcontact
  * - bindgetphonenumber
+ * - bindchooseavatar
  * - app-parameter
  * - binderror
  * - bindopensetting

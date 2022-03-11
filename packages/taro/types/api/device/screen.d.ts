@@ -1,6 +1,21 @@
 import Taro from '../../index'
 
 declare module '../../index' {
+  namespace setVisualEffectOnCapture {
+    interface Option {
+      /** 截屏/录屏时的表现，仅支持 none / hidden，传入 hidden 则表示在截屏/录屏时隐藏屏幕
+       * @default "none"
+       */
+      visualEffect?: 'none' | 'hidden'
+      /** 接口调用结束的回调函数（调用成功、失败都会执行） */
+      complete?: (res: TaroGeneral.CallbackResult) => void
+      /** 接口调用失败的回调函数 */
+      fail?: (res: TaroGeneral.CallbackResult) => void
+      /** 接口调用成功的回调函数 */
+      success?: (res: TaroGeneral.CallbackResult) => void
+    }
+  }
+
   namespace setScreenBrightness {
     interface Option {
       /** 屏幕亮度值，范围 0 ~ 1。0 最暗，1 最亮 */
@@ -31,6 +46,13 @@ declare module '../../index' {
     }
   }
 
+  namespace onUserCaptureScreen {
+    /** 用户主动截屏事件的回调函数 */
+    type Callback = (
+        result: TaroGeneral.CallbackResult,
+    ) => void
+  }
+
   namespace getScreenBrightness {
     interface Option {
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
@@ -48,6 +70,12 @@ declare module '../../index' {
   }
 
   interface TaroStatic {
+    /** 设置截屏/录屏时屏幕表现，仅支持在 Android 端调用
+     * @supported weapp
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/screen/wx.setVisualEffectOnCapture.html
+     */
+    setVisualEffectOnCapture(option: setVisualEffectOnCapture.Option): Promise<TaroGeneral.CallbackResult>
+
     /** 设置屏幕亮度。
      * @supported weapp, rn
      * @example
@@ -60,7 +88,7 @@ declare module '../../index' {
 
     /**
      * 设置是否保持常亮状态。仅在当前小程序生效，离开小程序后设置失效。
-     * @supported weapp
+     * @supported weapp, rn
      * @example
      * ```tsx
      * // 保持屏幕常亮
@@ -85,20 +113,8 @@ declare module '../../index' {
      */
     onUserCaptureScreen(
       /** 用户主动截屏事件的回调函数 */
-      callback: (res: TaroGeneral.CallbackResult) => void,
+      callback: onUserCaptureScreen.Callback,
     ): void
-
-    /**
-     * 获取屏幕亮度。
-     *
-     * **说明**
-     * - 若安卓系统设置中开启了自动调节亮度功能，则屏幕亮度会根据光线自动调整，该接口仅能获取自动调节亮度之前的值，而非实时的亮度值。
-     * @supported weapp
-     * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/screen/wx.getScreenBrightness.html
-     */
-    getScreenBrightness(
-      option?: getScreenBrightness.Option
-    ): Promise<getScreenBrightness.SuccessCallbackOption>
 
     /** 用户主动截屏事件。取消事件监听。
      * @supported weapp
@@ -106,7 +122,19 @@ declare module '../../index' {
      */
     offUserCaptureScreen(
       /** 用户主动截屏事件的回调函数 */
-      callback: (...args: any[]) => any,
+      callback: onUserCaptureScreen.Callback,
     ): void
+
+    /**
+     * 获取屏幕亮度。
+     *
+     * **说明**
+     * - 若安卓系统设置中开启了自动调节亮度功能，则屏幕亮度会根据光线自动调整，该接口仅能获取自动调节亮度之前的值，而非实时的亮度值。
+     * @supported weapp, rn
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/screen/wx.getScreenBrightness.html
+     */
+    getScreenBrightness(
+      option?: getScreenBrightness.Option
+    ): Promise<getScreenBrightness.SuccessCallbackOption>
   }
 }

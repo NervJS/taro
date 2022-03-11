@@ -110,6 +110,11 @@ export interface ICompileOption {
 interface Runtime {
   enableInnerHTML: boolean
   enableSizeAPIs: boolean
+  enableAdjacentHTML: boolean
+  enableTemplateContent: boolean
+  enableCloneNode: boolean
+  enableContains: boolean
+  enableMutationObserver: boolean
 }
 
 export interface IMiniAppConfig {

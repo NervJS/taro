@@ -68,6 +68,10 @@ declare module '../../index' {
     }
   }
 
+  /** 页面间事件通信通道
+   * @supported weapp
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/route/EventChannel.html
+   */
   interface EventChannel {
     /** 触发一个事件
      * @supported weapp
@@ -78,16 +82,6 @@ declare module '../../index' {
       eventName: string,
       /** 事件参数 */
       ...args: any
-    ): void
-    /** 取消监听一个事件。给出第二个参数时，只取消给出的监听函数，否则取消所有监听函数
-     * @supported weapp
-     * @see https://developers.weixin.qq.com/miniprogram/dev/api/route/EventChannel.off.html
-     */
-    off(
-      /** 事件名称 */
-      eventName: string,
-      /** 事件监听函数 */
-      fn: TaroGeneral.EventCallback,
     ): void
     /** 持续监听一个事件
      * @supported weapp
@@ -104,6 +98,16 @@ declare module '../../index' {
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/route/EventChannel.once.html
      */
     once(
+      /** 事件名称 */
+      eventName: string,
+      /** 事件监听函数 */
+      fn: TaroGeneral.EventCallback,
+    ): void
+    /** 取消监听一个事件。给出第二个参数时，只取消给出的监听函数，否则取消所有监听函数
+     * @supported weapp
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/route/EventChannel.off.html
+     */
+    off(
       /** 事件名称 */
       eventName: string,
       /** 事件监听函数 */

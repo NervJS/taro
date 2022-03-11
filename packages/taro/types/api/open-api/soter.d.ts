@@ -74,7 +74,7 @@ declare module '../../index' {
   namespace checkIsSoterEnrolledInDevice {
     interface Option {
       /** 认证方式 */
-      checkAuthMode: keyof requestAuthModes
+      checkAuthMode: keyof RequestAuthModes
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
       complete?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用失败的回调函数 */
@@ -83,7 +83,7 @@ declare module '../../index' {
       success?: (result: SuccessCallbackResult) => void
     }
 
-    interface requestAuthModes {
+    interface RequestAuthModes {
       /** 指纹识别 */
       fingerPrint
       /** 人脸识别 */

@@ -78,7 +78,7 @@ export const parseStyles = (styles = ''): { [key: string]: string } => {
 }
 
 // eslint-disable-next-line
-export const noop = (...args: any[]): void => {}
+export const noop = (..._args: any[]): void => {}
 
 export default {
   omit,
