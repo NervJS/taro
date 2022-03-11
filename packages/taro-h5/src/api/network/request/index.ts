@@ -86,6 +86,10 @@ function _request (options) {
   params.credentials = options.credentials
   return fetch(url, params)
     .then(response => {
+      if (!response) {
+        const errorResponse = { ok: false }
+        throw errorResponse
+      }
       res.statusCode = response.status
       res.header = {}
       for (const key of response.headers.keys()) {
