@@ -72,6 +72,7 @@ declare module '../../index' {
 
   interface TaroStatic {
     /** 检查是否支持面部识别
+     * @deprecated
      * @supported weapp
      */
     checkIsSupportFacialRecognition(
@@ -79,6 +80,7 @@ declare module '../../index' {
     ): Promise<checkIsSupportFacialRecognition.CallbackResult>
 
     /** 开始人脸识别认证
+     * @deprecated
      * @supported weapp
      */
     startFacialRecognitionVerify(
@@ -86,6 +88,7 @@ declare module '../../index' {
     ): Promise<startFacialRecognitionVerify.CallbackResult>
 
     /** 开始人脸识别认证并上传认证视频
+     * @deprecated
      * @supported weapp
      */
     startFacialRecognitionVerifyAndUploadVideo(

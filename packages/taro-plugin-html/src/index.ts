@@ -104,7 +104,7 @@ function modifyPostcssConfigs (config: Record<string, any>, options: IOptions, i
   const postcssConfig = config.postcss
 
   if (!isH5) {
-    postcssConfig.htmltransform = {
+    postcssConfig.htmltransform ||= {
       enable: true
     }
   }
