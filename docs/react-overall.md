@@ -288,3 +288,4 @@ export default class Test extends React.Component {
 * `useEffect`、`componentDidMount` 中获取不到渲染层元素信息，[7116](https://github.com/NervJS/taro/issues/7116)
 * `useEffect` 或 `useLayoutEffect` 中获取不到组件最新的宽高，[#7491](https://github.com/NervJS/taro/issues/7491)
 * 嵌套层级较深时，使用 `selectorQuery` 无法查询到子元素，[#7411](https://github.com/NervJS/taro/issues/7411)
+* Taro React 支持使用 Recoil，如果使用中遇到 `ReferenceError: Window is not defined` 的报错，请参考 [#11429](https://github.com/NervJS/taro/issues/11429) 以绕过。
