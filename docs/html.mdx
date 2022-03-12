@@ -71,7 +71,9 @@ export default {
   <TabItem value="React">
 
 ```jsx
-import '@tarojs/taro/html.css'
+if (process.env.TARO_ENV !== 'h5') {
+  require('@tarojs/taro/html.css')
+}
 
 function helloWorld() {
   const html = `<h1 style="color: red">Wallace is way taller than other reporters.</h1>`
@@ -90,7 +92,9 @@ function helloWorld() {
 </template>
 
 <script>
-import '@tarojs/taro/html.css'
+if (process.env.TARO_ENV !== 'h5') {
+  require('@tarojs/taro/html.css')
+}
 
 export default {
   data () {
