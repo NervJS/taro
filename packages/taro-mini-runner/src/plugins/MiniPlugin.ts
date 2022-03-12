@@ -31,7 +31,8 @@ import {
   processTypeEnum,
   FRAMEWORK_MAP,
   isAliasPath,
-  replaceAliasPath
+  replaceAliasPath,
+  SCRIPT_EXT
 } from '@tarojs/helper'
 
 import TaroSingleEntryPlugin from './TaroSingleEntryPlugin'
@@ -865,7 +866,7 @@ export default class TaroMiniPlugin {
       })
       if (tabBar.custom) {
         const customTabBarPath = path.join(sourceDir, 'custom-tab-bar')
-        const customTabBarComponentPath = resolveMainFilePath(customTabBarPath, FRAMEWORK_EXT_MAP[framework])
+        const customTabBarComponentPath = resolveMainFilePath(customTabBarPath, [...FRAMEWORK_EXT_MAP[framework], ...SCRIPT_EXT])
         if (fs.existsSync(customTabBarComponentPath)) {
           const customTabBarComponentTemplPath = this.getTemplatePath(customTabBarComponentPath)
           const isNative = this.isNativePageORComponent(customTabBarComponentTemplPath)
