@@ -102,7 +102,9 @@ export class Textarea implements ComponentInterface {
     let origHeight = ta.style.height,
       height = ta.offsetHeight,
       scrollHeight = ta.scrollHeight,
-      overflow = ta.style.overflow
+      overflow = ta.style.overflow,
+      originMinHeight = ta.style.minHeight || null
+
     /// only bother if the ta is bigger than content
     if (height >= scrollHeight) {
       ta.style.minHeight = 0
@@ -126,7 +128,7 @@ export class Textarea implements ComponentInterface {
         ta.style.height = origHeight
         /// put the overflow back
         ta.style.overflow = overflow
-        ta.style.minHeight = null
+        ta.style.minHeight = originMinHeight
         return height
       }
     } else {
