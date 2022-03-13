@@ -105,6 +105,7 @@ export class Textarea implements ComponentInterface {
       overflow = ta.style.overflow
     /// only bother if the ta is bigger than content
     if (height >= scrollHeight) {
+      ta.style.minHeight = 0
       /// check that our browser supports changing dimension
       /// calculations mid-way through a function call...
       ta.style.height = height + scanAmount + 'px'
@@ -125,6 +126,7 @@ export class Textarea implements ComponentInterface {
         ta.style.height = origHeight
         /// put the overflow back
         ta.style.overflow = overflow
+        ta.style.minHeight = null
         return height
       }
     } else {
