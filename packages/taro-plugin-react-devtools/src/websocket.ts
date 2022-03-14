@@ -13,6 +13,7 @@ export default class WebSocket {
   private _ws: any
 
   constructor (url: string) {
+    if (!Taro.connectSocket) return
     this.url = url
     this.readyState = this.CONNECTING
 

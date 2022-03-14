@@ -35,8 +35,7 @@ import { container, SERVICE_IDENTIFIER } from '@tarojs/runtime'
 import { createNativeComponentConfig } from '${creatorLocation}'
 ${importFrameworkStatement}
 var hooks = container.get(SERVICE_IDENTIFIER.Hooks)
-
-hooks.initNativeApiImpls = [...(hooks.initNativeApiImpls || []), defaultReconciler.initNativeApi]
+hooks.initNativeApiImpls = (hooks.initNativeApiImpls || []).concat(defaultReconciler.initNativeApi)
 var component = require(${stringify(componentPath)}).default
 var config = ${configString};
 var inst = Component(createNativeComponentConfig(component, ${frameworkArgs}))
