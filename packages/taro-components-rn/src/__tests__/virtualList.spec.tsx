@@ -1,9 +1,7 @@
-// eslint-disable-next-line no-use-before-define
 import * as React from 'react'
+import { render } from '@testing-library/react-native'
 import { View } from 'react-native'
-import { shallow } from 'enzyme'
-import toJson from 'enzyme-to-json'
-import VirtualList from '../src/components/VirtualList'
+import VirtualList from '../components/VirtualList'
 const Row = React.memo(props => {
   const ctx: any = props
   const { index, style, data } = ctx
@@ -16,9 +14,8 @@ const Row = React.memo(props => {
 
 describe('VirtualList', () => {
   it('VirtualList render', () => {
-    // eslint-disable-next-line
     // @ts-ignore
-    const wrapper = shallow(<VirtualList>{Row}</VirtualList>)
-    expect(toJson(wrapper)).toMatchSnapshot()
+    const { toJSON } = render(<VirtualList>{Row}</VirtualList>)
+    expect(toJSON()).toMatchSnapshot()
   })
 })

@@ -34,7 +34,7 @@ class Popup extends Component<any, any> {
 
   constructor (props:Props) {
     super(props)
-    this.state = { visible: false, translateY: new Animated.Value(height) }
+    this.state = { visible: props.visible ?? false, translateY: new Animated.Value(height) }
     this.handleLayout = this.handleLayout.bind(this)
   }
 
