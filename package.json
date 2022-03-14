@@ -63,7 +63,7 @@
     "@babel/preset-typescript": "^7.14.5",
     "@babel/traverse": "^7.14.5",
     "@babel/types": "^7.14.5",
-    "@commitlint/cli": "^7.2.1",
+    "@commitlint/cli": "^16.2.1",
     "@commitlint/config-conventional": "^9.0.1",
     "@rollup/plugin-babel": "^5.2.1",
     "@rollup/plugin-commonjs": "^20.0.0",
