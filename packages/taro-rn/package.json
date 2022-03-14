@@ -18,7 +18,7 @@
     "lint": "eslint .",
     "test": "jest --silent",
     "test:dev": "jest --watch",
-    "test:ci": "jest --silent -i --coverage false",
+    "test:ci": "jest -i --silent --coverage false",
     "test:coverage": "jest --coverage",
     "script": "node ./script"
   },
@@ -63,11 +63,9 @@
   "devDependencies": {
     "@tarojs/taro": "3.4.3",
     "@types/react-native": "0.67.0",
-    "babel-plugin-jest-hoist": "^26.6.2",
     "cpy-cli": "^3.1.1",
-    "jest-expo": "^39.0.0",
-    "react-native": "^0.67.3",
-    "rimraf": "^3.0.0"
+    "fbjs-scripts": "^3.0.1",
+    "react-native": "^0.67.3"
   },
   "peerDependencies": {
     "@react-native-async-storage/async-storage": "~1.15.11",

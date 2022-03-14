@@ -1,4 +1,4 @@
-import utils from '../src/utils'
+import utils from '../utils'
 
 describe('Utils', () => {
   describe('omit should works well', () => {
