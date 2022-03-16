@@ -8,7 +8,6 @@ module.exports = {
   testEnvironment: 'node',
   transform: {
     // ...tsjPreset.transform,
-    // '^.+\\.(ts|tsx)$': ['@swc/jest']
     '^.+\\.(t|j)sx?$': ['@swc/jest', {
       ...config
     }]

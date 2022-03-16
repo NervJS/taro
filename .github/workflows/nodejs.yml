@@ -5,7 +5,7 @@ on:
     branches:
       - next
       - feat/use-h5
-      - feat/swc-jest
+
   pull_request:
     branches:
       - next
