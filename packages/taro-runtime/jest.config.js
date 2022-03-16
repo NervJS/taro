@@ -54,5 +54,5 @@ module.exports = {
     '@tarojs/plugin-framework-vue2': path.resolve(__dirname, '..', '..', 'packages/taro-plugin-vue2/dist/runtime.js')
   },
   // setupFiles: ['<rootDir>/__tests__/setup.js'],
-  testMatch: ['**/__tests__/?(*.)+(spec|test).[jt]s?(x)']
+  testMatch: ['**/__tests__/dom.spec.js']
 }

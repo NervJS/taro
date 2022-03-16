@@ -3,7 +3,7 @@
     "parser": {
       "syntax": "typescript",
       "tsx": true,
-      "decorators": true,
+      "decorators": false,
       "dynamicImport": false
     },
     "transform": {
