@@ -1,10 +1,9 @@
 import { REG_VUE } from '@tarojs/helper'
-import { DEFAULT_Components } from '@tarojs/runner-utils'
 import { getLoaderMeta } from './loader-meta'
 import { getVueLoaderPath } from './index'
+import { transformTaroEnv, trnasformH5Tags } from './transforms'
 
 import type { IPluginContext } from '@tarojs/service'
-import type { RootNode, TemplateChildNode, ElementNode } from '@vue/compiler-core'
 
 export function modifyH5WebpackChain (ctx: IPluginContext, chain) {
   setStyleLoader(ctx, chain)
@@ -54,16 +53,10 @@ function setVueLoader (chain) {
     },
     compilerOptions: {
       // https://github.com/vuejs/vue-next/blob/master/packages/compiler-core/src/options.ts
-      nodeTransforms: [(node: RootNode | TemplateChildNode) => {
-        if (node.type === 1 /* ELEMENT */) {
-          node = node as ElementNode
-          const nodeName = node.tag
-          if (DEFAULT_Components.has(nodeName)) {
-            node.tag = `taro-${nodeName}`
-            node.tagType = 1 /* 0: ELEMENT, 1: COMPONENT */
-          }
-        }
-      }]
+      nodeTransforms: [
+        transformTaroEnv,
+        trnasformH5Tags
+      ]
     }
   }
 
