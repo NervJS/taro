@@ -55,7 +55,7 @@ const keyboardTypeMap: { [key: string]: string } = {
 //   go: '前往',
 // }
 
-class _Input extends React.Component<InputProps, InputState> {
+export class Input extends React.Component<InputProps, InputState> {
   static defaultProps = {
     type: 'text',
     maxlength: 140,
@@ -192,6 +192,7 @@ class _Input extends React.Component<InputProps, InputState> {
       _autoHeight,
       autoFocus,
       focus,
+      forwardedRef,
     } = this.props
 
     const keyboardType: KeyboardTypeOptions = keyboardTypeMap[type] as KeyboardTypeOptions
@@ -231,8 +232,10 @@ class _Input extends React.Component<InputProps, InputState> {
           'onConfirm',
           '_multiline',
           '_autoHeight',
-          '_onLineChange'
+          '_onLineChange',
+          'forwardedRef'
         ])}
+        ref={forwardedRef}
         defaultValue={value}
         keyboardType={keyboardType}
         secureTextEntry={!!password}
@@ -262,4 +265,6 @@ class _Input extends React.Component<InputProps, InputState> {
   }
 }
 
-export default _Input
+export default React.forwardRef<TextInput>((props, ref) => {
+  return <Input {...props} forwardedRef={ref} />
+})
