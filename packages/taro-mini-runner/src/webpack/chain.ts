@@ -378,7 +378,7 @@ export const getModule = (appPath: string, {
   if (compile.exclude && compile.exclude.length) {
     scriptRule.exclude = [
       ...compile.exclude,
-      filename => /node_modules/.test(filename) && !(/taro/.test(filename))
+      filename => /css-loader/.test(filename) || (/node_modules/.test(filename) && !(/taro/.test(filename)))
     ]
   } else if (compile.include && compile.include.length) {
     scriptRule.include = [
@@ -387,7 +387,7 @@ export const getModule = (appPath: string, {
       filename => /taro/.test(filename)
     ]
   } else {
-    scriptRule.exclude = [filename => /node_modules/.test(filename) && !(/taro/.test(filename))]
+    scriptRule.exclude = [filename => /css-loader/.test(filename) || (/node_modules/.test(filename) && !(/taro/.test(filename)))]
   }
 
   const rule: Record<string, IRule> = {
@@ -520,23 +520,21 @@ export function getDevtool (enableSourceMap, sourceMapType = 'cheap-module-sourc
 }
 
 export function getRuntimeConstants (runtime) {
-  const constants = {
-    ENABLE_INNER_HTML: true,
-    ENABLE_ADJACENT_HTML: true,
-    ENABLE_SIZE_APIS: false
-  }
+  const constants: Record<string, boolean> = {}
 
-  if (runtime.enableInnerHTML !== undefined) {
-    constants.ENABLE_INNER_HTML = runtime.enableInnerHTML
-  }
+  constants.ENABLE_INNER_HTML = runtime.enableInnerHTML ?? true
 
-  if (runtime.enableAdjacentHTML !== undefined) {
-    constants.ENABLE_ADJACENT_HTML = runtime.enableAdjacentHTML
-  }
+  constants.ENABLE_ADJACENT_HTML = runtime.enableAdjacentHTML ?? false
 
-  if (runtime.enableSizeAPIs !== undefined) {
-    constants.ENABLE_SIZE_APIS = runtime.enableSizeAPIs
-  }
+  constants.ENABLE_SIZE_APIS = runtime.enableSizeAPIs ?? false
+
+  constants.ENABLE_TEMPLATE_CONTENT = runtime.enableTemplateContent ?? false
+
+  constants.ENABLE_CLONE_NODE = runtime.enableCloneNode ?? false
+
+  constants.ENABLE_CONTAINS = runtime.enableContains ?? false
+
+  constants.ENABLE_MUTATION_OBSERVER = runtime.enableMutationObserver ?? false
 
   return constants
 }

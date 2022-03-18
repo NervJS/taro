@@ -1,6 +1,6 @@
 import * as path from 'path'
 import { EventEmitter } from 'events'
-
+import { merge } from 'lodash'
 import { AsyncSeriesWaterfallHook } from 'tapable'
 import { IProjectConfig, PluginItem } from '@tarojs/taro/types/compile'
 import {
@@ -14,6 +14,7 @@ import * as joi from '@hapi/joi'
 
 import {
   IPreset,
+  IPluginsObject,
   IPlugin,
   IPaths,
   IHook,
@@ -44,11 +45,11 @@ export default class Kernel extends EventEmitter {
   optsPlugins: PluginItem[] | void
   plugins: Map<string, IPlugin>
   paths: IPaths
-  extraPlugins: IPlugin[]
+  extraPlugins: IPluginsObject
   config: Config
   initialConfig: IProjectConfig
   hooks: Map<string, IHook[]>
-  methods: Map<string, (...args: any[]) => void>
+  methods: Map<string, ((...args: any[]) => void)[]>
   commands: Map<string, ICommand>
   platforms: Map<string, IPlatform>
   helper: any
@@ -114,7 +115,7 @@ export default class Kernel extends EventEmitter {
       only: [...Object.keys(allConfigPresets), ...Object.keys(allConfigPlugins)]
     })
     this.plugins = new Map()
-    this.extraPlugins = []
+    this.extraPlugins = {}
     this.resolvePresets(allConfigPresets)
     this.resolvePlugins(allConfigPlugins)
   }
@@ -127,12 +128,13 @@ export default class Kernel extends EventEmitter {
   }
 
   resolvePlugins (plugins) {
+    plugins = merge(this.extraPlugins, plugins)
     const allPlugins = resolvePresetsOrPlugins(this.appPath, plugins, PluginType.Plugin)
-    const _plugins = [...this.extraPlugins, ...allPlugins]
-    while (_plugins.length) {
-      this.initPlugin(_plugins.shift()!)
+
+    while (allPlugins.length) {
+      this.initPlugin(allPlugins.shift()!)
     }
-    this.extraPlugins = []
+    this.extraPlugins = {}
   }
 
   initPreset (preset: IPreset) {
@@ -148,7 +150,7 @@ export default class Kernel extends EventEmitter {
       }
     }
     if (Array.isArray(plugins)) {
-      this.extraPlugins.push(...resolvePresetsOrPlugins(this.appPath, convertPluginsToObject(plugins)(), PluginType.Plugin))
+      this.extraPlugins = merge(this.extraPlugins, convertPluginsToObject(plugins)())
     }
   }
 
@@ -203,7 +205,17 @@ export default class Kernel extends EventEmitter {
     })
     return new Proxy(pluginCtx, {
       get: (target, name: string) => {
-        if (this.methods.has(name)) return this.methods.get(name)
+        if (this.methods.has(name)) {
+          const method = this.methods.get(name)
+          if (Array.isArray(method)) {
+            return (...arg) => {
+              method.forEach(item => {
+                item.apply(this, arg)
+              })
+            }
+          }
+          return method
+        }
         if (kernelApis.includes(name)) {
           return typeof this[name] === 'function' ? this[name].bind(this) : this[name]
         }
@@ -268,6 +280,18 @@ export default class Kernel extends EventEmitter {
     this.runOpts = opts
   }
 
+  runHelp (name: string) {
+    const command = this.commands.get(name)
+    const defaultOptionsMap = new Map()
+    defaultOptionsMap.set('-h, --help', 'output usage information')
+    let customOptionsMap = new Map()
+    if (command?.optionsMap) {
+      customOptionsMap = new Map(Object.entries(command?.optionsMap))
+    }
+    const optionsMap = new Map([...customOptionsMap, ...defaultOptionsMap])
+    printHelpLog(name, optionsMap, command?.synopsisList ? new Set(command?.synopsisList) : new Set())
+  }
+
   async run (args: string | { name: string, opts?: any }) {
     let name
     let opts
@@ -289,16 +313,7 @@ export default class Kernel extends EventEmitter {
       throw new Error(`${name} 命令不存在`)
     }
     if (opts?.isHelp) {
-      const command = this.commands.get(name)
-      const defaultOptionsMap = new Map()
-      defaultOptionsMap.set('-h, --help', 'output usage information')
-      let customOptionsMap = new Map()
-      if (command?.optionsMap) {
-        customOptionsMap = new Map(Object.entries(command?.optionsMap))
-      }
-      const optionsMap = new Map([...customOptionsMap, ...defaultOptionsMap])
-      printHelpLog(name, optionsMap, command?.synopsisList ? new Set(command?.synopsisList) : new Set())
-      return
+      return this.runHelp(name)
     }
     if (opts?.options?.platform) {
       opts.config = this.runWithPlatform(opts.options.platform)

@@ -13,3 +13,5 @@ declare interface HTMLMediaElement {}
 declare interface File {}
 
 declare interface MediaTrackSettings {}
+
+declare const global: any

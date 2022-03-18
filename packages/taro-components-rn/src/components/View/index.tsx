@@ -10,17 +10,20 @@ import {
   View,
   Text,
 } from 'react-native'
-import ClickableSimplified from '../ClickableSimplified'
+import { extracteTextStyle, omit } from '../../utils'
+import ClickableSimplified, { clickableHandlers } from '../ClickableSimplified'
 import { _ViewProps } from './PropsType'
 
 const stringToText = (child: any, props: any) => {
   // TODO: 实现小程序中效果
-  return (typeof child === 'string' || typeof child === 'number') ? <Text {...props}>{child}</Text> : child
+  return (typeof child === 'string' || typeof child === 'number')
+    ? <Text {...omit(props, clickableHandlers)}>{child}</Text> : child
 }
 
 const _View: React.FC<_ViewProps> = (props: _ViewProps) => {
+  const textStyle = extracteTextStyle(props.style)
   // 兼容View中没用Text包裹的文字 防止报错 直接继承props在安卓中文字会消失？？？
-  const child = Array.isArray(props.children) ? props.children.map((c: any, i: number) => stringToText(c, { key: i, ...props, style: {} })) : stringToText(props.children, { ...props, style: {} })
+  const child = Array.isArray(props.children) ? props.children.map((c: any, i: number) => stringToText(c, { key: i, ...props, style: textStyle })) : stringToText(props.children, { ...props, style: textStyle })
   return (
     <View
       style={props.style}

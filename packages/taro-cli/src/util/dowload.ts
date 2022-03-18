@@ -15,7 +15,7 @@ export function getGithubRepoLatestReleaseVersion (repoName: string) {
           'User-Agent': 'Awesome-Octocat-App'
         }
       },
-      (err, response, body) => {
+      (err, _response, body) => {
         if (err) {
           throw new Error('快应用容器版本请求失败，请重试！')
         }
@@ -29,7 +29,7 @@ export function getGithubRepoLatestReleaseVersion (repoName: string) {
 
 export async function downloadGithubRepoLatestRelease (repoName: string, appPath: string, dest: string) {
   const latestTagName = await getGithubRepoLatestReleaseVersion(repoName)
-  return new Promise((resolve, reject) => {
+  return new Promise<void>((resolve, reject) => {
     const downloadUrl = `${GITHUB}${repoName}/archive/${latestTagName}.zip`
     const downloadTemp = 'download_temp.zip'
     request({

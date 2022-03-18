@@ -1,3 +1,4 @@
+import { isString, isFunction } from './is'
 import { unsupport, setUniqueKeyToRoute } from './utils'
 
 declare const getCurrentPages: () => any
@@ -37,6 +38,7 @@ const needPromiseApis = new Set<string>([
   'connectSocket',
   'createBLEConnection',
   'downloadFile',
+  'exitMiniProgram',
   'getAvailableAudioSources',
   'getBLEDeviceCharacteristics',
   'getBLEDeviceServices',
@@ -140,11 +142,17 @@ const needPromiseApis = new Set<string>([
 
 function getCanIUseWebp (taro) {
   return function () {
-    if (typeof taro.getSystemInfoSync !== 'function') {
-      console.error('不支持 API canIUseWebp')
+    const res = taro.getSystemInfoSync?.()
+
+    if (!res) {
+      if (process.env.NODE_ENV !== 'production') {
+        console.error('不支持 API canIUseWebp')
+      }
       return false
     }
-    const { platform } = taro.getSystemInfoSync()
+
+    const { platform } = res
+
     const platformLower = platform.toLowerCase()
     if (platformLower === 'android' || platformLower === 'devtools') {
       return true
@@ -155,12 +163,14 @@ function getCanIUseWebp (taro) {
 
 function getNormalRequest (global) {
   return function request (options) {
-    options = options || {}
-    if (typeof options === 'string') {
-      options = {
-        url: options
-      }
-    }
+    options = options
+      ? (
+        isString(options)
+          ? { url: options }
+          : options
+      )
+      : {}
+
     const originSuccess = options.success
     const originFail = options.fail
     const originComplete = options.complete
@@ -208,7 +218,11 @@ function processApis (taro, global, config: IProcessApisIOptions = {}) {
     'webpackJsonp'
   ]
 
-  const apis = new Set(Object.keys(global).filter(api => preserved.indexOf(api) === -1))
+  const apis = new Set(
+    !config.isOnlyPromisify
+      ? Object.keys(global).filter(api => preserved.indexOf(api) === -1)
+      : patchNeedPromiseApis
+  )
 
   if (config.modifyApis) {
     config.modifyApis(apis)
@@ -232,7 +246,7 @@ function processApis (taro, global, config: IProcessApisIOptions = {}) {
         if (config.transformMeta) {
           const transformResult = config.transformMeta(key, options)
           key = transformResult.key
-          ;(options as Record<string, any>) = transformResult.options
+          ; (options as Record<string, any>) = transformResult.options
           // 新 key 可能不存在
           if (!global.hasOwnProperty(key)) {
             return unsupport(key)()
@@ -274,6 +288,11 @@ function processApis (taro, global, config: IProcessApisIOptions = {}) {
 
         // 给 promise 对象挂载属性
         if (key === 'uploadFile' || key === 'downloadFile') {
+          task && ['abort', 'offHeadersReceived', 'offProgressUpdate', 'onHeadersReceived', 'onProgressUpdate'].forEach(method => {
+            if (method in task) {
+              p[method] = task[method].bind(task)
+            }
+          })
           p.progress = cb => {
             task?.onProgressUpdate(cb)
             return p
@@ -299,7 +318,7 @@ function processApis (taro, global, config: IProcessApisIOptions = {}) {
         taro[key] = unsupport(key)
         return
       }
-      if (typeof global[key] === 'function') {
+      if (isFunction(global[key])) {
         taro[key] = (...args) => {
           if (config.handleSyncApis) {
             return config.handleSyncApis(key, global, args)
@@ -334,7 +353,7 @@ function equipCommonApis (taro, global, apis: Record<string, any> = {}) {
   }
 
   // request & interceptors
-  const request = apis.request ? apis.request : getNormalRequest(global)
+  const request = apis.request || getNormalRequest(global)
   function taroInterceptor (chain) {
     return request(chain.requestParams)
   }

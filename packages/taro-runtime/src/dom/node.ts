@@ -1,48 +1,49 @@
-import { inject, injectable } from 'inversify'
+import { injectable } from 'inversify'
 import { Shortcuts, ensure } from '@tarojs/shared'
-import SERVICE_IDENTIFIER from '../constants/identifiers'
 import { NodeType } from './node_types'
 import { incrementId, isComment } from '../utils'
 import { TaroEventTarget } from './event-target'
 import { hydrate } from '../hydrate'
 import { eventSource } from './event-source'
 import { ElementNames } from '../interface'
+import { getElementFactory, getNodeImpl } from '../container/store'
+import { MutationObserver } from '../dom-external/mutation-observer'
+import { MutationRecordType } from '../dom-external/mutation-observer/record'
 import {
-  STYLE,
-  DATASET,
-  PROPS,
-  OBJECT
+  DOCUMENT_FRAGMENT
 } from '../constants'
 
-import type { UpdatePayload, InstanceNamedFactory } from '../interface'
+import type { UpdatePayload } from '../interface'
 import type { TaroDocument } from './document'
 import type { TaroRootElement } from './root'
 import type { TaroElement } from './element'
-import type { TaroNodeImpl } from '../dom-external/node-impl'
-import type { Hooks } from '../hooks'
 
+interface RemoveChildOptions {
+  cleanRef?: boolean
+  doUpdate?: boolean
+}
+
+const CHILDNODES = Shortcuts.Childnodes
 const nodeId = incrementId()
 
 @injectable()
 export class TaroNode extends TaroEventTarget {
   public uid: string
+  public sid: string
   public nodeType: NodeType
   public nodeName: string
   public parentNode: TaroNode | null = null
   public childNodes: TaroNode[] = []
 
-  protected _getElement: InstanceNamedFactory
+  protected _getElement = getElementFactory()
 
-  public constructor (// eslint-disable-next-line @typescript-eslint/indent
-    @inject(SERVICE_IDENTIFIER.TaroNodeImpl) impl: TaroNodeImpl,
-    @inject(SERVICE_IDENTIFIER.TaroElementFactory) getElement: InstanceNamedFactory,
-    @inject(SERVICE_IDENTIFIER.Hooks) hooks: Hooks
-  ) {
-    super(hooks)
+  public constructor () {
+    super()
+    const impl = getNodeImpl()
     impl.bind(this)
-    this._getElement = getElement
-    this.uid = `_n_${nodeId()}`
-    eventSource.set(this.uid, this)
+    this.uid = `_n_${nodeId()}` // dom 节点 id，开发者可修改
+    this.sid = this.uid // dom 节点全局唯一 id，不可被修改
+    eventSource.set(this.sid, this)
   }
 
   private hydrate = (node: TaroNode) => () => hydrate(node as TaroElement)
@@ -51,12 +52,28 @@ export class TaroNode extends TaroEventTarget {
    * like jQuery's $.empty()
    */
   private _empty () {
-    while (this.childNodes.length > 0) {
-      const child = this.childNodes[0]
+    while (this.firstChild) {
+      // Data Structure
+      const child = this.firstChild
       child.parentNode = null
-      eventSource.delete(child.uid)
       this.childNodes.shift()
+
+      // eventSource
+      eventSource.removeNodeTree(child)
     }
+  }
+
+  private updateChildNodes (isClean?: boolean) {
+    const cleanChildNodes = () => []
+    const rerenderChildNodes = () => {
+      const childNodes = this.childNodes.filter(node => !isComment(node))
+      return childNodes.map(hydrate)
+    }
+
+    this.enqueueUpdate({
+      path: `${this._path}.${CHILDNODES}`,
+      value: isClean ? cleanChildNodes : rerenderChildNodes
+    })
   }
 
   protected get _root (): TaroRootElement | null {
@@ -80,7 +97,7 @@ export class TaroNode extends TaroEventTarget {
       const indexOfNode = list.indexOf(this)
       const index = this.hooks.getPathIndex(indexOfNode)
 
-      return `${parentNode._path}.${Shortcuts.Childnodes}.${index}`
+      return `${parentNode._path}.${CHILDNODES}.${index}`
     }
 
     return ''
@@ -118,90 +135,164 @@ export class TaroNode extends TaroEventTarget {
    * @TODO 等待完整 innerHTML 实现
    */
   public set textContent (text: string) {
+    const document = this._getElement<TaroDocument>(ElementNames.Document)()
+    const newText = document.createTextNode(text)
+
+    // @Todo: appendChild 会多触发一次
+    MutationObserver.record({
+      type: MutationRecordType.CHILD_LIST,
+      target: this,
+      removedNodes: this.childNodes.slice(),
+      addedNodes: text === '' ? [] : [newText]
+    })
+
     this._empty()
+
     if (text === '') {
-      this.enqueueUpdate({
-        path: `${this._path}.${Shortcuts.Childnodes}`,
-        value: () => []
-      })
+      this.updateChildNodes(true)
     } else {
-      const document = this._getElement<TaroDocument>(ElementNames.Document)()
-      this.appendChild(document.createTextNode(text))
+      this.appendChild(newText)
+      this.updateChildNodes()
     }
   }
 
+  /**
+   * @doc https://developer.mozilla.org/zh-CN/docs/Web/API/Node/insertBefore
+   * @scenario
+   * [A,B,C]
+   *   1. insert D before C, D has no parent
+   *   2. insert D before C, D has the same parent of C
+   *   3. insert D before C, D has the different parent of C
+   */
   public insertBefore<T extends TaroNode> (newChild: T, refChild?: TaroNode | null, isReplace?: boolean): T {
-    newChild.remove()
-    newChild.parentNode = this
-    let payload: UpdatePayload
+    if (newChild.nodeName === DOCUMENT_FRAGMENT) {
+      newChild.childNodes.reduceRight((previousValue, currentValue) => {
+        this.insertBefore(currentValue, previousValue)
+        return currentValue
+      }, refChild)
+      return newChild
+    }
 
+    // Parent release newChild
+    //   - cleanRef: false (No need to clean eventSource, because newChild is about to be inserted)
+    //   - update: true (Need to update parent.childNodes, because parent.childNodes is reordered)
+    newChild.remove({ cleanRef: false })
+
+    // Data structure
+    newChild.parentNode = this
     if (refChild) {
+      // insertBefore & replaceChild
       const index = this.findIndex(refChild)
       this.childNodes.splice(index, 0, newChild)
-      if (isReplace) {
-        payload = {
-          path: newChild._path,
-          value: this.hydrate(newChild)
-        }
-      } else {
-        payload = {
-          path: `${this._path}.${Shortcuts.Childnodes}`,
-          value: () => {
-            const childNodes = this.childNodes.filter(node => !isComment(node))
-            return childNodes.map(hydrate)
-          }
-        }
-      }
     } else {
+      // appendChild
       this.childNodes.push(newChild)
-      payload = {
+    }
+
+    // Serialization
+    if (!refChild || isReplace) {
+      // appendChild & replaceChild
+      this.enqueueUpdate({
         path: newChild._path,
         value: this.hydrate(newChild)
-      }
+      })
+    } else {
+      // insertBefore
+      this.updateChildNodes()
     }
 
-    this.enqueueUpdate(payload)
-
-    if (!eventSource.has(newChild.uid)) {
-      eventSource.set(newChild.uid, newChild)
-    }
+    MutationObserver.record({
+      type: MutationRecordType.CHILD_LIST,
+      target: this,
+      addedNodes: [newChild],
+      removedNodes: isReplace
+        ? [refChild as TaroNode] /** replaceChild */
+        : [],
+      nextSibling: isReplace
+        ? (refChild as TaroNode).nextSibling /** replaceChild */
+        : (refChild || null), /** insertBefore & appendChild */
+      previousSibling: newChild.previousSibling
+    })
 
     return newChild
   }
 
-  public appendChild (child: TaroNode) {
-    this.insertBefore(child)
+  /**
+   * @doc https://developer.mozilla.org/zh-CN/docs/Web/API/Node/appendChild
+   * @scenario
+   * [A,B,C]
+   *   1. append C, C has no parent
+   *   2. append C, C has the same parent of B
+   *   3. append C, C has the different parent of B
+   */
+  public appendChild (newChild: TaroNode) {
+    return this.insertBefore(newChild)
   }
 
+  /**
+   * @doc https://developer.mozilla.org/zh-CN/docs/Web/API/Node/replaceChild
+   * @scenario
+   * [A,B,C]
+   *   1. replace B with C, C has no parent
+   *   2. replace B with C, C has no parent, C has the same parent of B
+   *   3. replace B with C, C has no parent, C has the different parent of B
+   */
   public replaceChild (newChild: TaroNode, oldChild: TaroNode) {
-    if (oldChild.parentNode === this) {
-      this.insertBefore(newChild, oldChild, true)
-      oldChild.remove(true)
-      return oldChild
-    }
+    if (oldChild.parentNode !== this) return
+
+    // Insert the newChild
+    this.insertBefore(newChild, oldChild, true)
+
+    // Destroy the oldChild
+    //   - cleanRef: true (Need to clean eventSource, because the oldChild was detached from the DOM tree)
+    //   - update: false (No need to update parent.childNodes, because replace will not cause the parent.childNodes being reordered)
+    oldChild.remove({ doUpdate: false })
+
+    return oldChild
   }
 
-  public removeChild<T extends TaroNode> (child: T, isReplace?: boolean): T {
-    const index = this.findIndex(child)
-    this.childNodes.splice(index, 1)
-    if (!isReplace) {
-      this.enqueueUpdate({
-        path: `${this._path}.${Shortcuts.Childnodes}`,
-        value: () => {
-          const childNodes = this.childNodes.filter(node => !isComment(node))
-          return childNodes.map(hydrate)
-        }
+  /**
+   * @doc https://developer.mozilla.org/zh-CN/docs/Web/API/Node/removeChild
+   * @scenario
+   * [A,B,C]
+   *   1. remove A or B
+   *   2. remove C
+   */
+  public removeChild<T extends TaroNode> (child: T, options: RemoveChildOptions = {}): T {
+    const { cleanRef, doUpdate } = options
+
+    if (cleanRef !== false && doUpdate !== false) {
+      // appendChild/replaceChild/insertBefore 不应该触发
+      // @Todo: 但其实如果 newChild 的父节点是另一颗子树的节点，应该是要触发的
+      MutationObserver.record({
+        type: MutationRecordType.CHILD_LIST,
+        target: this,
+        removedNodes: [child],
+        nextSibling: child.nextSibling,
+        previousSibling: child.previousSibling
       })
     }
+
+    // Data Structure
+    const index = this.findIndex(child)
+    this.childNodes.splice(index, 1)
     child.parentNode = null
-    eventSource.delete(child.uid)
-    // @TODO: eventSource memory overflow
-    // child._empty()
+
+    // Set eventSource
+    if (cleanRef !== false) {
+      eventSource.removeNodeTree(child)
+    }
+
+    // Serialization
+    if (doUpdate !== false) {
+      this.updateChildNodes()
+    }
+
     return child
   }
 
-  public remove (isReplace?: boolean) {
-    this.parentNode?.removeChild(this, isReplace)
+  public remove (options?: RemoveChildOptions) {
+    this.parentNode?.removeChild(this, options)
   }
 
   public hasChildNodes () {
@@ -210,47 +301,6 @@ export class TaroNode extends TaroEventTarget {
 
   public enqueueUpdate (payload: UpdatePayload) {
     this._root?.enqueueUpdate(payload)
-  }
-
-  public cloneNode (isDeep = false) {
-    const document = this._getElement<TaroDocument>(ElementNames.Document)()
-    let newNode
-
-    if (this.nodeType === NodeType.ELEMENT_NODE) {
-      newNode = document.createElement(this.nodeName)
-    } else if (this.nodeType === NodeType.TEXT_NODE) {
-      newNode = document.createTextNode('')
-    }
-
-    for (const key in this) {
-      const value: any = this[key]
-      if ([PROPS, DATASET].includes(key) && typeof value === OBJECT) {
-        newNode[key] = { ...value }
-      } else if (key === '_value') {
-        newNode[key] = value
-      } else if (key === STYLE) {
-        newNode.style._value = { ...value._value }
-        newNode.style._usedStyleProp = new Set(Array.from(value._usedStyleProp))
-      }
-    }
-
-    if (isDeep) {
-      newNode.childNodes = this.childNodes.map(node => node.cloneNode(true))
-    }
-
-    return newNode
-  }
-
-  public contains (node: TaroNode & { id?: string }): boolean {
-    let isContains = false
-    this.childNodes.some(childNode => {
-      const { uid } = childNode
-      if (uid === node.uid || uid === node.id || childNode.contains(node)) {
-        isContains = true
-        return true
-      }
-    })
-    return isContains
   }
 
   public get ownerDocument () {

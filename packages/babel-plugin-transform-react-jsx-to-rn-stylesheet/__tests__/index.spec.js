@@ -1,6 +1,6 @@
 import { transform } from '@babel/core'
 import syntaxJSX from 'babel-plugin-syntax-jsx'
-import jSXStylePlugin from '../dist/index'
+import jSXStylePlugin from '../src/index'
 
 const mergeStylesFunctionTemplate = `function _mergeStyles() {
   var newTarget = {};
@@ -45,16 +45,8 @@ const getClassNameFunctionTemplate = `function _getClassName() {
 const getStyleFunctionTemplete = `function _getStyle(classNameExpression) {
   var className = _getClassName(classNameExpression);\n
   var classNameArr = className.split(/\\s+/);
-  var style = [];
-
-  if (classNameArr.length === 1) {
-    style.push(_styleSheet[classNameArr[0].trim()]);
-  } else {
-    classNameArr.forEach(function (cls) {
-      style.push(_styleSheet[cls.trim()]);
-    });
-  }
-
+  var style = {};
+  classNameArr.reduce((sty, cls) => Object.assign(sty, _styleSheet[cls.trim()]), style);
   return style;
 }`
 
@@ -589,6 +581,30 @@ class App extends Component {
     const b = a;
     return <div style={_mergeEleStyles({ ...b
     })} />;
+  }\n
+}`)
+  })
+
+  it('Processing module style conditional expression When css module enable', () => {
+    expect(getTransfromCode(`
+import { createElement, Component } from 'rax';
+import './app.scss';
+import styleSheet from './app.module.scss';
+
+class App extends Component {
+  render() {
+    const a = 1 ? styleSheet.red : styleSheet.blue;
+    return <div className={a} />;
+  }
+}`, false, { enableCSSModule: true })).toBe(`import { createElement, Component } from 'rax';
+import appScssStyleSheet from "./app.scss";
+import styleSheet from './app.module.scss';
+var _styleSheet = appScssStyleSheet;
+
+class App extends Component {
+  render() {
+    const a = 1 ? styleSheet.red : styleSheet.blue;
+    return <div style={a} />;
   }\n
 }`)
   })

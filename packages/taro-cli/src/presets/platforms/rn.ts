@@ -30,7 +30,7 @@ function makeSureReactNativeInstalled (workspaceRoot: string): Promise<void> {
       // 便于开发时切换版本
       const devTag = process.env.DEVTAG || ''
       console.log('Installing React-Native related packages:')
-      let packages = `react@^17.0.0 react-native@^0.64.0 @tarojs/taro-rn${devTag} @tarojs/rn-runner${devTag}`
+      let packages = `react@^17.0.2 react-native@^0.67.3 @tarojs/taro-rn${devTag} @tarojs/rn-runner${devTag}`
       console.log(packages)
       // windows下不加引号的话，package.json中添加的依赖不会自动带上^
       packages = packages.split(' ').map(str => `"${str}"`).join(' ')
@@ -57,7 +57,7 @@ export default (ctx: IPluginContext) => {
     useConfigName: 'rn',
     async fn ({ config }) {
       const { appPath, nodeModulesPath } = ctx.paths
-      const { deviceType = 'android', port, resetCache, qr } = ctx.runOpts.options
+      const { deviceType = 'android', port, resetCache, publicPath, bundleOutput, sourcemapOutput, sourceMapUrl, sourcemapSourcesRoot, assetsDest, qr } = ctx.runOpts.options
       const { npm } = ctx.helper
       printDevelopmentTip('rn')
 
@@ -69,6 +69,12 @@ export default (ctx: IPluginContext) => {
         port,
         qr,
         resetCache,
+        publicPath,
+        bundleOutput,
+        sourcemapOutput,
+        sourceMapUrl,
+        sourcemapSourcesRoot,
+        assetsDest,
         buildAdapter: config.platform,
         globalObject: 'global' // TODO: 是否可以去掉？
       }

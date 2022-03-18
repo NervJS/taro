@@ -1,12 +1,13 @@
-import { createSelectorQuery } from '@tarojs/taro'
 /* eslint-disable no-sequences */
 /* eslint-disable no-case-declarations */
 /* eslint-disable no-void */
 /* eslint-disable no-return-assign */
+import Taro from '@tarojs/taro'
+import { getRTLOffsetType } from '../domHelpers'
 import { memoizeOne } from '../memoize'
 import { createElement, PureComponent } from 'react'
 import { cancelTimeout, requestTimeout } from '../timer'
-import { getRTLOffsetType } from '../domHelpers'
+
 const IS_SCROLLING_DEBOUNCE_INTERVAL = 200
 
 const defaultItemKey = (index) => index // In DEV mode, this Set helps us only log a warning once per component instance.
@@ -21,7 +22,7 @@ export function isRtlFunc ({ direction }) {
   return direction === 'rtl'
 }
 export function getRectSize (id, success = () => {}, fail = () => {}) {
-  const query = createSelectorQuery()
+  const query = Taro.createSelectorQuery()
   query.select(id).boundingClientRect((res) => {
     if (res) {
       success(res)

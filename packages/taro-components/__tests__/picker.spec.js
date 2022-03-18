@@ -58,6 +58,50 @@ describe('Picker', () => {
     await waitForChange(content)
   }
 
+  it('use mouse events', async () => {
+    const onChange = sinon.spy()
+    const selected = 1
+    const domRef = React.createRef()
+
+    const app = (
+      <Picker
+        range={['A', 'B', 'C', 'D']}
+        value={selected}
+        onChange={e => onChange(e.detail)}
+      >
+        <div ref={domRef}>Picker</div>
+      </Picker>
+    )
+    const { node } = await mount(app, scratch)
+    const slider = document.querySelector('.weui-picker')
+    const confirm = document.querySelectorAll('.weui-picker__action')[1]
+    const content = document.querySelector('.weui-picker__content')
+    const column = document.querySelector('.weui-picker__group')
+
+    assert(node.value === selected)
+
+    domRef.current.click()
+    await waitForChange(slider)
+
+    const cur = document.querySelector('.weui-picker__indicator')
+    const curRect = cur.getBoundingClientRect()
+    const startY = curRect.top + curRect.height / 2
+    const endY = curRect.top - curRect.height / 2
+
+    simulant.fire(column, 'mousedown', new MouseEvent(column, { clientY: startY }))
+
+    simulant.fire(column, 'mousemove', new MouseEvent(column, { clientY: endY }))
+    await waitForChange(content)
+
+    simulant.fire(column, 'mouseup', new MouseEvent(column, { clientY: endY }))
+    await waitForChange(content)
+
+    confirm.click()
+
+    assert(node.value === 2)
+    assert(onChange.calledOnceWith({ value: 2 }))
+  })
+
   it('should can be canceled', async () => {
     const onCancel = sinon.spy()
     const domRef = React.createRef()

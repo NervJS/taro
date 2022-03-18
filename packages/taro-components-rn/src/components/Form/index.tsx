@@ -11,7 +11,7 @@ import {
 import { noop } from '../../utils'
 import { FormProps, FormValues } from './PropsType'
 
-function isFormTypeElement (typeName: string): boolean {
+function isFormTypeElement(typeName: string): boolean {
   return [
     '_Input',
     '_Textarea',
@@ -56,7 +56,7 @@ class _Form extends React.Component<FormProps> {
   }
 
   deppDiveIntoChildren = (children: React.ReactNode): React.ReactNode => {
-    return React.Children.toArray(children).map((child: any) => {
+    const result = React.Children.toArray(children).map((child: any) => {
       const childTypeName = child.type && child.type.name
       if (!child.type) return child
       if (childTypeName === '_Button' && ['submit', 'reset'].indexOf(child.props.formType) >= 0) {
@@ -74,6 +74,7 @@ class _Form extends React.Component<FormProps> {
         ? this.bindValueChangeEvent(child)
         : React.cloneElement(child, { ...child.props }, this.deppDiveIntoChildren(child.props.children))
     })
+    return result.length ? result : null
   }
 
   submit = (): void => {
@@ -90,7 +91,7 @@ class _Form extends React.Component<FormProps> {
     onReset()
   }
 
-  render (): JSX.Element {
+  render(): JSX.Element {
     const {
       children,
       style,

@@ -1,7 +1,5 @@
 import { CSSProperties, LegacyRef } from 'react'
 
-export type Omit<T, K extends keyof T> = Pick<T, ({ [P in keyof T]: P } & { [P in K]: never } & { [x: string]: never })[keyof T]>;
-
 export interface StandardProps<T = any, TouchEvent extends BaseTouchEvent<any> = ITouchEvent> extends EventProps<TouchEvent> {
   /** 组件的唯一标示, 保持整个页面唯一 */
   id?: string
@@ -16,7 +14,7 @@ export interface StandardProps<T = any, TouchEvent extends BaseTouchEvent<any> =
   /** 组件是否显示, 所有组件默认显示 */
   hidden?: boolean
   /** 动画属性 */
-  animation?: { actions: object[] }
+  animation?: { actions: TaroGeneral.IAnyObject[] }
   /** 引用 */
   ref?: LegacyRef<T>
   /**
@@ -24,7 +22,7 @@ export interface StandardProps<T = any, TouchEvent extends BaseTouchEvent<any> =
    * @see https://taro-docs.jd.com/taro/docs/html
    */
   dangerouslySetInnerHTML?: {
-    __html: string;
+    __html: string
   }
 }
 
@@ -146,13 +144,10 @@ export interface Target {
   }
 }
 
-/**
- * @ignore
- */
-export interface currentTarget extends Target {}
+export type currentTarget = Target
 
 /** 网络状态数据 */
-export interface netStatus {
+export interface NetStatus {
   /* 当前视频编/码器输出的比特率，单位 kbps */
   videoBitrate?: number
   /* 当前音频编/码器输出的比特率，单位 kbps */

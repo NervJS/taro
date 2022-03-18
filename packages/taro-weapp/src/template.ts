@@ -17,7 +17,7 @@ export class Template extends UnRecursiveTemplate {
     type: 'weapp'
   }
 
-  constructor (pluginOptions: IOptions) {
+  constructor (pluginOptions?: IOptions) {
     super()
     this.pluginOptions = pluginOptions || {}
   }
@@ -57,8 +57,8 @@ export class Template extends UnRecursiveTemplate {
       const list = res.split('</template>')
 
       const target = `
-    <keyboard-accessory style="{{i.cn[0].st}}" class="{{i.cn[0].cl}}" bindtap="eh"  id="{{i.cn[0].uid}}">
-      <block wx:for="{{i.cn[0].cn}}" wx:key="uid">
+    <keyboard-accessory style="{{i.cn[0].st}}" class="{{i.cn[0].cl}}" bindtap="eh"  id="{{i.cn[0].uid||i.cn[0].sid}}" data-sid="{{i.cn[0].sid}}">
+      <block wx:for="{{i.cn[0].cn}}" wx:key="sid">
         <template is="{{xs.e(cid+1)}}" data="{{i:item,l:l}}" />
       </block>
     </keyboard-accessory>

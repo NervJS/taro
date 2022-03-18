@@ -1,6 +1,5 @@
 import * as path from 'path'
 import { get, mapValues, merge } from 'lodash'
-import { FRAMEWORK_MAP } from '@tarojs/helper'
 import { addLeadingSlash, addTrailingSlash } from '../util'
 import {
   getCopyWebpackPlugin,
@@ -9,15 +8,12 @@ import {
   getHtmlWebpackPlugin,
   getMiniCssExtractPlugin,
   getMainPlugin,
-  getFastRefreshPlugin,
   getModule,
   getOutput,
   processEnvOption
 } from '../util/chain'
 import { BuildConfig } from '../util/types'
 import getBaseChain from './base.conf'
-import { customVueChain } from './vue'
-import { customVue3Chain } from './vue3'
 
 const emptyObj = {}
 
@@ -92,7 +88,7 @@ export default function (appPath: string, config: Partial<BuildConfig>): any {
   }
 
   if (isMultiRouterMode) {
-    merge(plugin, mapValues(entry, (filePath, entryName) => {
+    merge(plugin, mapValues(entry, (_filePath, entryName) => {
       return getHtmlWebpackPlugin([{
         filename: `${entryName}.html`,
         template: path.join(appPath, sourceRoot, 'index.html'),
@@ -107,20 +103,7 @@ export default function (appPath: string, config: Partial<BuildConfig>): any {
   }
   plugin.definePlugin = getDefinePlugin([processEnvOption(env), defineConstants])
 
-  if (config.framework === FRAMEWORK_MAP.REACT && config.devServer?.hot !== false) {
-    // 默认开启 fast-refresh
-    plugin.fastRefreshPlugin = getFastRefreshPlugin()
-  }
-
   const mode = 'development'
-
-  if (config.framework === FRAMEWORK_MAP.REACT || config.framework === FRAMEWORK_MAP.NERV) {
-    if (useHtmlComponents && config.framework === FRAMEWORK_MAP.REACT) {
-      alias['@tarojs/components$'] = '@tarojs/components-react/index'
-    } else {
-      alias['@tarojs/components$'] = '@tarojs/components/dist-h5/react'
-    }
-  }
 
   chain.merge({
     mode,
@@ -156,20 +139,6 @@ export default function (appPath: string, config: Partial<BuildConfig>): any {
       noEmitOnErrors: true
     }
   })
-
-  switch (config.framework) {
-    case FRAMEWORK_MAP.VUE:
-      customVueChain(chain, {
-        styleLoaderOption
-      })
-      break
-    case FRAMEWORK_MAP.VUE3:
-      customVue3Chain(chain, {
-        styleLoaderOption
-      })
-      break
-    default:
-  }
 
   return chain
 }

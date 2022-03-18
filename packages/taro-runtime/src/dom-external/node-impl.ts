@@ -1,65 +1,57 @@
-import { isFunction, warn } from '@tarojs/shared'
-import { inject, injectable, optional } from 'inversify'
+import { inject, injectable } from 'inversify'
 import SERVICE_IDENTIFIER from '../constants/identifiers'
 import { ElementNames, InstanceNamedFactory } from '../interface'
+import { setInnerHTML } from '../dom-external/inner-html/html'
+import { cloneNode, insertAdjacentHTMLImpl, contains } from './node'
 
 import type { Ctx, GetDoc } from '../interface'
-import type { setInnerHTML } from '../dom-external/inner-html/html'
 import type { TaroDocument } from '../dom/document'
-import type { insertAdjacentHTMLImpl, IPosition } from './node'
 
-type SetInnerHTML = typeof setInnerHTML
-type InsertAdjacentHTMLImpl = typeof insertAdjacentHTMLImpl
+declare const ENABLE_INNER_HTML: boolean
+declare const ENABLE_ADJACENT_HTML: boolean
+declare const ENABLE_CLONE_NODE: boolean
+declare const ENABLE_CONTAINS: boolean
 
 @injectable()
 export class TaroNodeImpl {
-  ctx: Ctx
   public getDoc: GetDoc
-  public innerHTMLImpl: SetInnerHTML
-  public adjacentImpl: InsertAdjacentHTMLImpl
 
   constructor (// eslint-disable-next-line @typescript-eslint/indent
-    @inject(SERVICE_IDENTIFIER.TaroElementFactory) getElement: InstanceNamedFactory,
-    @inject(SERVICE_IDENTIFIER.InnerHTMLImpl) @optional() innerHTMLImpl: SetInnerHTML,
-    @inject(SERVICE_IDENTIFIER.insertAdjacentHTMLImpl) @optional() adjacentImpl: InsertAdjacentHTMLImpl
+    @inject(SERVICE_IDENTIFIER.TaroElementFactory) getElement: InstanceNamedFactory
   ) {
     this.getDoc = () => getElement<TaroDocument>(ElementNames.Document)()
-    this.innerHTMLImpl = innerHTMLImpl
-    this.adjacentImpl = adjacentImpl
   }
 
   public bind (ctx: Ctx) {
-    this.ctx = ctx
-    this.bindInnerHTML()
-    this.bindAdjacentHTML()
-  }
+    const getDoc = this.getDoc
 
-  private bindInnerHTML () {
-    const { ctx, innerHTMLImpl: impl, getDoc } = this
-    Object.defineProperty(ctx, 'innerHTML', {
-      configurable: true,
-      enumerable: true,
-      set (html: string) {
-        if (isFunction(impl)) {
-          impl.call(ctx, ctx, html, getDoc)
-        } else {
-          process.env.NODE_ENV !== 'production' && warn(true, '请实现 node.innerHTML')
-        }
-      },
-      get (): string {
-        return ''
-      }
-    })
-  }
+    if (ENABLE_INNER_HTML) {
+      bindInnerHTML(ctx, getDoc)
 
-  private bindAdjacentHTML () {
-    const { ctx, adjacentImpl: impl, getDoc } = this
-    ctx.insertAdjacentHTML = function (position: IPosition, html: string) {
-      if (isFunction(impl)) {
-        impl.call(ctx, position, html, getDoc)
-      } else {
-        process.env.NODE_ENV !== 'production' && warn(true, '请实现 node.insertAdjacentHTML')
+      if (ENABLE_ADJACENT_HTML) {
+        ctx.insertAdjacentHTML = insertAdjacentHTMLImpl.bind(ctx, getDoc)
       }
     }
+
+    if (ENABLE_CLONE_NODE) {
+      ctx.cloneNode = cloneNode.bind(ctx, getDoc)
+    }
+
+    if (ENABLE_CONTAINS) {
+      ctx.contains = contains.bind(ctx)
+    }
   }
+}
+
+function bindInnerHTML (ctx, getDoc) {
+  Object.defineProperty(ctx, 'innerHTML', {
+    configurable: true,
+    enumerable: true,
+    set (html: string) {
+      setInnerHTML.call(this, this, html, getDoc)
+    },
+    get (): string {
+      return ''
+    }
+  })
 }

@@ -1,4 +1,4 @@
-import path from 'path'
+import * as path from 'path'
 import camelize from 'camelize'
 import { transformCSS } from 'taro-css-to-react-native'
 import { types as Types, template as Template, PluginObj } from 'babel__core'
@@ -18,7 +18,8 @@ const isStyle = value => {
   return RN_CSS_EXT.indexOf(ext) > -1
 }
 
-const isModuleSource = value => value.indexOf('.module.') > -1
+// 样式文件带有 .module./.linaria. 若开启 css module 则走 css module 逻辑
+const isModuleSource = value => value.indexOf('.module.') > -1 || value.indexOf('.linaria.') > -1
 
 // like `className='header1 header2 '`
 const isMultiClassName = value => /^.*[^\s]+\s[^\s]+.*$/.test(value)
@@ -108,19 +109,11 @@ function ${MERGE_ELE_STYLES_FUNC_NAME}() {
 }
 `
 const getStyleFunction = `
-function ${GET_STYLE_FUNC_NAME}(classNameExpression) { 
+function ${GET_STYLE_FUNC_NAME}(classNameExpression) {
   var className = ${GET_CLS_NAME_FUNC_NAME}(classNameExpression);
   var classNameArr = className.split(/\\s+/);
-
-  var style = [];
-  if (classNameArr.length === 1) {
-    style.push(${STYLE_SHEET_NAME}[classNameArr[0].trim()]);
-  } else {
-      classNameArr.forEach(function(cls) {
-      style.push(${STYLE_SHEET_NAME}[cls.trim()]);
-    });
-  }
-
+  var style = {};
+  classNameArr.reduce((sty, cls) => Object.assign(sty, ${STYLE_SHEET_NAME}[cls.trim()]), style);
   return style;
 }
 `
@@ -162,6 +155,7 @@ export default function (babel: {
       }
     }
 
+    // assign 属性引用
     if (t.isMemberExpression(expression) && t.isIdentifier(expression.object)) {
       if (cssModuleStylesheets.includes(expression.object.name)) {
         return true
@@ -176,7 +170,18 @@ export default function (babel: {
       }
     }
 
-    // 解构
+    // Conditional_Operator 条件（三元）运算符
+    if (t.isConditionalExpression(expression)) {
+      const { consequent, alternate } = expression
+      if (
+        isCSSMemberOrBindings(consequent, cssModuleStylesheets, astPath) ||
+        isCSSMemberOrBindings(alternate, cssModuleStylesheets, astPath)
+      ) {
+        return true
+      }
+    }
+
+    // spread 解构
     if (t.isObjectExpression(expression)) {
       for (const prop of expression.properties) {
         if (t.isSpreadElement(prop)) {
@@ -191,8 +196,8 @@ export default function (babel: {
   function isJSXCSSModuleExpression (value, cssModuleStylesheets, astPath) {
     if (t.isJSXExpressionContainer(value)) {
       // 1. memberExpression a. 导入. b. 赋值. like `className="{style.red}"` or `const a = style; className="{a.red}"`
-      // 2. 解构 like `className="{{ ...style.red }}"`
-      // 3. memberExpression 和 解构. like `const a = { ...style }; className="{a.red}"
+      // 2. spread like `className="{{ ...style.red }}"`
+      // 3. memberExpression and spread. like `const a = { ...style }; className="{a.red}"
 
       if (isCSSMemberOrBindings(value.expression, cssModuleStylesheets, astPath)) {
         return true
@@ -296,8 +301,8 @@ export default function (babel: {
       },
       JSXOpeningElement (astPath, state: PluginPass) {
         const { node } = astPath
-        const { file, opts } = state
-        const { enableMultipleClassName } = opts
+        const { file, opts = {} } = state
+        const { enableMultipleClassName = false } = opts
         const { styleMatchRule, classNameMathRule } = getMatchRule(enableMultipleClassName)
         const cssModuleStylesheets = file.get('cssModuleStylesheets') || []
 
@@ -423,7 +428,7 @@ function importDeclaration (astPath, state, t) {
       styleSheetName = specifiers[0].local.name
     }
 
-    if (isModuleSource(sourceValue) && enableCSSModule) {
+    if (enableCSSModule && isModuleSource(sourceValue)) {
       if (styleSheetName) {
         cssModuleStylesheets.push(styleSheetName)
       }

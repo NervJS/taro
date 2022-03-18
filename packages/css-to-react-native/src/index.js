@@ -23,7 +23,7 @@ const shorthandBorderProps = [
   'border-style'
 ]
 
-const transformDecls = (styles, declarations, result, options) => {
+const transformDecls = (styles, declarations, result, options = {}) => {
   for (const d in declarations) {
     const declaration = declarations[d]
     if (declaration.type !== 'declaration') continue
@@ -52,11 +52,11 @@ const transformDecls = (styles, declarations, result, options) => {
     // scalable option, when it is false, transform single value 'px' unit to 'PX'
     // do not be wrapped by scalePx2dp function
     if (
+      typeof options.scalable === 'boolean' &&
       !options.scalable &&
-      isLengthUnit &&
-      /px/.test(value)
+      /(\d+)px/.test(value)
     ) {
-      value = value.replace(/px/g, 'PX')
+      value = value.replace(/(\d+)px/g, '$1PX')
     }
 
     if (shorthandBorderProps.indexOf(property) > -1) {
@@ -93,8 +93,8 @@ const transform = (css, options) => {
 
         rule.declarations.forEach(({ property, value }) => {
           const isAlreadyDefinedAsClass =
-            result[property] !== undefined &&
-            result.__exportProps[property] === undefined
+            typeof result[property] !== 'undefined' &&
+            typeof result.__exportProps[property] === 'undefined'
 
           if (isAlreadyDefinedAsClass) {
             throw new Error(

@@ -20,6 +20,7 @@ interface IMainPluginOptions {
   useHtmlComponents: boolean,
   deviceRatio: any
   designWidth: number
+  loaderMeta?: Record<string, string>
 }
 
 export default class MainPlugin {
@@ -71,14 +72,15 @@ export default class MainPlugin {
     )
 
     compiler.hooks.compilation.tap(PLUGIN_NAME, compilation => {
-      compilation.hooks.normalModuleLoader.tap(PLUGIN_NAME, (loaderContext, module: any) => {
-        const { framework, entryFileName, designWidth, deviceRatio } = this.options
+      compilation.hooks.normalModuleLoader.tap(PLUGIN_NAME, (_loaderContext, module: any) => {
+        const { framework, entryFileName, designWidth, deviceRatio, loaderMeta } = this.options
         const { dir, name } = path.parse(module.resource)
         if (path.join(dir, name) === this.appEntry) {
           module.loaders.push({
             loader: '@tarojs/taro-loader/lib/h5',
             options: {
               framework,
+              loaderMeta,
               filename: entryFileName,
               pages: this.pagesConfigList,
               useHtmlComponents: this.options.useHtmlComponents,

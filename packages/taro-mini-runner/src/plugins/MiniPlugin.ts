@@ -11,6 +11,8 @@ import * as NaturalChunkOrderPlugin from 'webpack/lib/optimize/NaturalChunkOrder
 import * as SplitChunksPlugin from 'webpack/lib/optimize/SplitChunksPlugin'
 import * as RuntimeChunkPlugin from 'webpack/lib/optimize/RuntimeChunkPlugin'
 import * as MiniCssExtractPlugin from 'mini-css-extract-plugin'
+import * as convert from 'convert-source-map'
+import offsetLines from 'offset-sourcemap-lines'
 import { ConcatSource } from 'webpack-sources'
 import { urlToRequest } from 'loader-utils'
 import { minify } from 'html-minifier'
@@ -71,6 +73,8 @@ interface ITaroMiniPluginOptions {
   alias: Record<string, string>
   deviceRatio: any
   designWidth: number
+  loaderMeta?: Record<string, string>
+  hot: boolean
 }
 
 export interface IComponentObj {
@@ -144,7 +148,8 @@ export default class TaroMiniPlugin {
         templ: '.wxml',
         xs: '.wxs'
       },
-      minifyXML: {}
+      minifyXML: {},
+      hot: false
     }, options)
 
     const { template, baseLevel } = this.options
@@ -245,8 +250,8 @@ export default class TaroMiniPlugin {
        * webpack NormalModule 在 runLoaders 真正解析资源的前一刻，
        * 往 NormalModule.loaders 中插入对应的 Taro Loader
        */
-      compilation.hooks.normalModuleLoader.tap(PLUGIN_NAME, (loaderContext, module:/** TaroNormalModule */ any) => {
-        const { framework, designWidth, deviceRatio } = this.options
+      compilation.hooks.normalModuleLoader.tap(PLUGIN_NAME, (_loaderContext, module:/** TaroNormalModule */ any) => {
+        const { framework, loaderMeta, designWidth, deviceRatio } = this.options
         if (module.miniType === META_TYPE.ENTRY) {
           const loaderName = '@tarojs/taro-loader'
           if (!isLoaderExist(module.loaders, loaderName)) {
@@ -254,6 +259,7 @@ export default class TaroMiniPlugin {
               loader: loaderName,
               options: {
                 framework,
+                loaderMeta,
                 prerender: this.prerenderPages.size > 0,
                 config: this.appConfig,
                 runtimePath: this.options.runtimePath,
@@ -280,11 +286,13 @@ export default class TaroMiniPlugin {
               loader: loaderName,
               options: {
                 framework,
+                loaderMeta,
                 name: module.name,
                 prerender: this.prerenderPages.has(module.name),
                 config: this.filesConfig,
                 appConfig: this.appConfig,
-                runtimePath: this.options.runtimePath
+                runtimePath: this.options.runtimePath,
+                hot: this.options.hot
               }
             })
           }
@@ -295,6 +303,7 @@ export default class TaroMiniPlugin {
               loader: loaderName,
               options: {
                 framework,
+                loaderMeta,
                 name: module.name,
                 prerender: this.prerenderPages.has(module.name),
                 runtimePath: this.options.runtimePath
@@ -844,7 +853,7 @@ export default class TaroMiniPlugin {
    */
   getTabBarFiles (appConfig: AppConfig) {
     const tabBar = appConfig.tabBar
-    const { sourceDir } = this.options
+    const { sourceDir, framework } = this.options
     if (tabBar && typeof tabBar === 'object' && !isEmptyObject(tabBar)) {
       // eslint-disable-next-line dot-notation
       const list = tabBar['list'] || []
@@ -856,7 +865,7 @@ export default class TaroMiniPlugin {
       })
       if (tabBar.custom) {
         const customTabBarPath = path.join(sourceDir, 'custom-tab-bar')
-        const customTabBarComponentPath = resolveMainFilePath(customTabBarPath)
+        const customTabBarComponentPath = resolveMainFilePath(customTabBarPath, FRAMEWORK_EXT_MAP[framework])
         if (fs.existsSync(customTabBarComponentPath)) {
           const customTabBarComponentTemplPath = this.getTemplatePath(customTabBarComponentPath)
           const isNative = this.isNativePageORComponent(customTabBarComponentTemplPath)
@@ -929,7 +938,7 @@ export default class TaroMiniPlugin {
     this.generateTemplateFile(compilation, this.getIsBuildPluginPath(customWrapperName, isBuildPlugin), template.buildCustomComponentTemplate, this.options.fileType.templ)
     this.generateXSFile(compilation, 'utils', isBuildPlugin)
     // 为独立分包生成 base/comp/custom-wrapper
-    this.independentPackages.forEach((pages, name) => {
+    this.independentPackages.forEach((_pages, name) => {
       this.generateTemplateFile(compilation, `${name}/${baseTemplateName}`, template.buildTemplate, componentConfig)
       if (!template.isSupportRecursive) {
         // 如微信、QQ 不支持递归模版的小程序，需要使用自定义组件协助递归
@@ -1151,21 +1160,46 @@ export default class TaroMiniPlugin {
 
     if (!assets[appStyle]) return
 
-    const originSource: string = assets[appStyle].source()
-    const source = new ConcatSource()
-    source.add(originSource)
+    const commonStyles: string[] = []
 
     Object.keys(assets).forEach(assetName => {
       const fileName = path.basename(assetName, path.extname(assetName))
       if ((REG_STYLE.test(assetName) || REG_STYLE_EXT.test(assetName)) && this.options.commonChunks.includes(fileName)) {
-        source.add('\n')
-        source.add(`@import ${JSON.stringify(urlToRequest(assetName))};`)
-        assets[appStyle] = {
-          size: () => source.source().length,
-          source: () => source.source()
-        }
+        commonStyles.push(`@import ${JSON.stringify(urlToRequest(assetName))};\n`)
       }
     })
+
+    if (commonStyles.length > 0) {
+      const source = new ConcatSource()
+      let rawSource = assets[appStyle].source()
+      source.add(commonStyles.join(''))
+
+      const rawConvSourceMap = convert.fromSource(rawSource)
+
+      if (rawConvSourceMap) {
+        rawSource = convert.removeComments(rawSource)
+        source.add(rawSource)
+        const offsettedMap = offsetLines(rawConvSourceMap.toObject(), commonStyles.length)
+        source.add(convert.fromObject(offsettedMap).toComment())
+      } else {
+        source.add(rawSource)
+        const appStyleMap = appStyle + '.map'
+        if (assets[appStyleMap]) {
+          const mapContext = assets[appStyleMap].source()
+          const offsettedMap = offsetLines(JSON.parse(mapContext), commonStyles.length)
+          const offsettedMapText = JSON.stringify(offsettedMap)
+          assets[appStyleMap] = {
+            size: () => offsettedMapText.length,
+            source: () => offsettedMapText
+          }
+        }
+      }
+
+      assets[appStyle] = {
+        size: () => source.source().length,
+        source: () => source.source()
+      }
+    }
   }
 
   addTarBarFilesToDependencies (compilation: webpack.compilation.Compilation) {

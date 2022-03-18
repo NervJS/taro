@@ -132,7 +132,7 @@ class Swiper extends React.Component<SwiperProps, Record<string, unknown>> {
         observerUpdate (_swiper: ISwiper, e) {
           const target = e.target
           const className = target && typeof target.className === 'string' ? target.className : ''
-          if (className.includes('taro_page') && target.style.display === 'block') {
+          if (className.includes('taro_page') && target.style.display !== 'none') {
             if (that.props.autoplay && target.contains(_swiper.$el[0])) {
               _swiper.slideTo(that._$current)
             }
@@ -219,9 +219,9 @@ class Swiper extends React.Component<SwiperProps, Record<string, unknown>> {
   componentWillUnmount () {
     this.$el = null
     if (this.mySwiper) this.mySwiper.destroy()
-    this.observer.disconnect && this.observer.disconnect()
-    this.observerFirst.disconnect && this.observerFirst.disconnect()
-    this.observerLast.disconnect && this.observerLast.disconnect()
+    this.observer?.disconnect?.()
+    this.observerFirst?.disconnect?.()
+    this.observerLast?.disconnect?.()
   }
 
   handleOnChange (e: Event) {
@@ -239,8 +239,8 @@ class Swiper extends React.Component<SwiperProps, Record<string, unknown>> {
   }
 
   handleSwiperLoopListen = () => {
-    this.observerFirst?.disconnect && this.observerFirst.disconnect()
-    this.observerLast?.disconnect && this.observerLast.disconnect()
+    this.observerFirst?.disconnect?.()
+    this.observerLast?.disconnect?.()
     this.observerFirst = new MutationObserver(this.handleSwiperLoop)
     this.observerLast = new MutationObserver(this.handleSwiperLoop)
     const wrapper = this.mySwiper.$wrapperEl[0]
@@ -257,7 +257,7 @@ class Swiper extends React.Component<SwiperProps, Record<string, unknown>> {
   }
 
   handleSwiperLoop = debounce(() => {
-    if (this.mySwiper && this.props.circular) {
+    if (this.mySwiper && this.mySwiper.$wrapperEl && this.props.circular) {
       // @ts-ignore
       this.mySwiper.loopDestroy()
       // @ts-ignore

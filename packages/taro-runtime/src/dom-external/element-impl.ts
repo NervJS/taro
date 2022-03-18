@@ -1,33 +1,30 @@
-import { isFunction, warn } from '@tarojs/shared'
-import { inject, injectable, optional } from 'inversify'
-import SERVICE_IDENTIFIER from '../constants/identifiers'
+import { injectable } from 'inversify'
+import { getBoundingClientRectImpl, getTemplateContent } from './element'
 
 import type { Ctx } from '../interface'
-import type { getBoundingClientRectImpl } from './element'
+
+declare const ENABLE_SIZE_APIS: boolean
+declare const ENABLE_TEMPLATE_CONTENT: boolean
 
 @injectable()
 export class TaroElementImpl {
-  public rectImpl: typeof getBoundingClientRectImpl
-
-  constructor (// eslint-disable-next-line @typescript-eslint/indent
-    @inject(SERVICE_IDENTIFIER.getBoundingClientRectImpl) @optional() rectImpl: typeof getBoundingClientRectImpl
-  ) {
-    this.rectImpl = rectImpl
-  }
-
   bind (ctx: Ctx) {
-    this.bindRect(ctx)
-  }
+    if (ENABLE_SIZE_APIS) {
+      ctx.getBoundingClientRect = getBoundingClientRectImpl.bind(ctx)
+    }
 
-  bindRect (ctx: Ctx) {
-    const impl = this.rectImpl
-    ctx.getBoundingClientRect = async function (...args: any[]) {
-      if (isFunction(impl)) {
-        return await impl.apply(ctx, args)
-      }
-
-      process.env.NODE_ENV !== 'production' && warn(true, '请实现 element.getBoundingClientRect')
-      return Promise.resolve(null)
+    if (ENABLE_TEMPLATE_CONTENT) {
+      bindContent(ctx)
     }
   }
+}
+
+function bindContent (ctx: Ctx) {
+  Object.defineProperty(ctx, 'content', {
+    configurable: true,
+    enumerable: true,
+    get () {
+      return getTemplateContent(ctx)
+    }
+  })
 }

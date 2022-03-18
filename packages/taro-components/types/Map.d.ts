@@ -19,6 +19,16 @@ interface MapProps extends StandardProps {
    * @alipay 取值范围为5-18
    */
   scale?: number
+  /** 最小缩放级别3-20
+   * @default 3
+   * @supported weapp
+   */
+  minScale?: number
+  /** 最大缩放级别3-20
+   * @default 20
+   * @supported weapp
+   */
+  maxScale?: number
 
   /** 标记点
    * @supported weapp, swan, alipay
@@ -302,7 +312,7 @@ declare namespace MapProps {
   }
 
   /** marker 上的自定义气泡 customCallout
-   * 
+   *
    * `customCallout` 存在时将忽略 `callout` 与 `title` 属性。自定义气泡采用采用 `cover-view` 定制，灵活度更高。
    */
   interface customCallout {
@@ -489,14 +499,14 @@ declare namespace MapProps {
       end
     }
 
-    interface causedByBegin {
+    interface CausedByBegin {
       /** 手势触发 */
       gesture
       /** 接口触发 */
       update
     }
 
-    interface causedByEnd {
+    interface CausedByEnd {
       /** 拖动导致 */
       drag
       /** 缩放导致 */
@@ -513,7 +523,7 @@ declare namespace MapProps {
     /** 导致视野变化的原因
      * @remarks 有效值为 gesture（手势触发）、update（接口触发或调用更新接口导致）、drag（拖动导致）、scale（缩放导致）
      */
-    causedBy: keyof (T extends 'begin' ? RegionChangeDetail.causedByBegin : RegionChangeDetail.causedByEnd)
+    causedBy: keyof (T extends 'begin' ? RegionChangeDetail.CausedByBegin : RegionChangeDetail.CausedByEnd)
     /** 视野改变详情 */
     detail: regionChangeDetail<RegionChangeDetail.type>
   }
@@ -522,7 +532,7 @@ declare namespace MapProps {
     rotate: number
     /** 倾斜角度 */
     skew: number
-    causedBy: keyof (T extends 'begin' ? RegionChangeDetail.causedByBegin : RegionChangeDetail.causedByEnd)
+    causedBy: keyof (T extends 'begin' ? RegionChangeDetail.CausedByBegin : RegionChangeDetail.CausedByEnd)
     type: T | string
     scale: number
     centerLocation: point
@@ -541,7 +551,7 @@ declare namespace MapProps {
 /** 地图。相关api Taro.createMapContext。
  * @classification maps
  * @supported weapp, alipay, swan
- * @example
+ * @example_react
  * ```tsx
  * class App extends Component {
  *   onTap () {}
@@ -551,6 +561,60 @@ declare namespace MapProps {
  *     )
  *   }
  * }
+ * ```
+ * @example_vue
+ * ```html
+ * <template>
+ *   <map
+ *     id="map"
+ *     style="width: 100%; height: 300px;"
+ *     longitude="113.324520"
+ *     latitude="23.099994"
+ *     scale="14"
+ *     :markers="markers"
+ *     :polyline="polyline"
+ *     :show-location="true"
+ *     `@regionchange="regionchange"
+ *     `@markertap="markertap"
+ *   />
+ * </template>
+ *
+ * <script>
+ * export default {
+ *   data() {
+ *     return {
+ *       markers: [{
+ *         iconPath: "https://avatars2.githubusercontent.com/u/1782542?s=460&u=d20514a52100ed1f82282bcfca6f49052793c889&v=4",
+ *         id: 0,
+ *         latitude: 23.099994,
+ *         longitude: 113.324520,
+ *         width: 50,
+ *         height: 50
+ *       }],
+ *       polyline: [{
+ *         points: [{
+ *           longitude: 113.3245211,
+ *           latitude: 23.10229
+ *         }, {
+ *           longitude: 113.324520,
+ *           latitude: 23.21229
+ *         }],
+ *         color:"#FF0000DD",
+ *         width: 2,
+ *         dottedLine: true
+ *       }]
+ *     }
+ *   },
+ *   methods: {
+ *     regionchange(e) {
+ *       console.log(e.type)
+ *     },
+ *     markertap(e) {
+ *       console.log("markertap:", e.detail.markerId)
+ *     }
+ *   }
+ * }
+ * </script>
  * ```
  * @see https://developers.weixin.qq.com/miniprogram/dev/component/map.html#map
  */

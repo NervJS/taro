@@ -79,6 +79,63 @@ declare namespace EditorProps {
  * *编辑器内支持部分 HTML 标签和内联样式，不支持 **class** 和 **id***
  * @classification forms
  * @supported weapp
+ * @example_react
+ * ```tsx
+ * class App extends Components {
+ *   state = {
+ *     placeholder: '来，输入隔壁的名字试试...'
+ *   }
+ * 
+ *   editorReady = e => {
+ *     Taro.createSelectorQuery().select('#editor').context((res) => {
+ *       this.editorCtx = res.context
+ *     }).exec()
+ *   }
+ * 
+ *   undo = e => {
+ *     this.editorCtx.undo()
+ *   }
+ * 
+ *   render () {
+ *     return (
+ *       <View>
+ *         <Editor id='editor' className='editor' placeholder={this.state.placeholder} onReady={this.editorReady}></Editor>
+ *         <Button type='warn' onClick={this.undo}>撤销</Button>
+ *       </View>
+ *     )
+ *   }
+ * }
+ * ```
+ * @example_vue
+ * ```html
+ * <template>
+ *   <view class="container">
+ *     <editor id="editor" class="editor" :placeholder="placeholder" `@ready="editorReady"></editor>
+ *     <button type="warn" `@tap="undo">撤销</button>
+ *   </view>
+ * </template>
+ * 
+ * <script>
+ *   import Taro from '@tarojs/taro'
+ *   export default {
+ *     data() {
+ *       return {
+ *         placeholder: '来，输入隔壁的名字试试...'
+ *       }
+ *     },
+ *     methods: {
+ *       editorReady() {
+ *         Taro.createSelectorQuery().select('#editor').context((res) => {
+ *           this.editorCtx = res.context
+ *         }).exec()
+ *       },
+ *       undo() {
+ *         this.editorCtx.undo()
+ *       }
+ *     }
+ *   }
+ * </script>
+ * ```
  * @see https://developers.weixin.qq.com/miniprogram/dev/component/editor.html
  */
 declare const Editor: ComponentType<EditorProps>

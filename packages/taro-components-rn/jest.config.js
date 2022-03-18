@@ -1,35 +1,12 @@
 module.exports = {
-  ...require('jest-expo/jest-preset'),
+  preset: 'jest-expo',
   verbose: true,
-  preset: 'react-native',
+  setupFilesAfterEnv: ['<rootDir>/src/setup.ts'],
   transform: {
-    '^.+\\.js$': '<rootDir>/node_modules/react-native/jest/preprocessor.js',
+    '^.+\\.js$': '<rootDir>/../../node_modules/react-native/jest/preprocessor.js',
     '^.+\\.tsx?$': 'ts-jest'
   },
   transformIgnorePatterns: [
-    'node_modules/(?!(react-native|@react-native|@bang88/react-native-ultimate-listview|react-native-.*|expo-.*|@expo/.*|@unimodules/.*|unimodules-.*|@react-native-community/.*|@react-native-picker/.*)/)'
-  ],
-  testMatch: [
-    '**/__tests__/**/*.spec.ts?(x)',
-    '**/?(*.)+(spec|test).ts?(x)'
-  ],
-  modulePathIgnorePatterns: [
-    '<rootDir>/TCRNExample'
-  ],
-  moduleFileExtensions: [
-    'ts',
-    'tsx',
-    'js',
-    'jsx',
-    'json',
-    'node'
-  ],
-  coveragePathIgnorePatterns: [
-    '/node_modules/',
-    './setupTests.js'
-  ],
-  moduleNameMapper: {
-    '\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$': '<rootDir>/__mocks__/fileMock.js'
-  },
-  setupFilesAfterEnv: ['./setup.js']
+    'node_modules/(?!((jest-)?react-native|@react-native(-community)?)|expo(nent)?|@expo(nent)?/.*|@expo-google-fonts/.*|react-navigation|@react-navigation/.*|@unimodules/.*|unimodules|sentry-expo|native-base|react-native-svg)'
+  ]
 }

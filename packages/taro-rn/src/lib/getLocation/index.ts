@@ -1,28 +1,26 @@
 import Geolocation from '@react-native-community/geolocation'
-import { Permissions } from 'react-native-unimodules'
+import * as Permissions from 'expo-permissions'
 import { askAsyncPermissions } from '../../utils/premissions'
+import { errorHandler } from '../../utils'
 
 export async function getLocation(opts: Taro.getLocation.Option = {}): Promise<Taro.getLocation.SuccessCallbackResult> {
+  const { isHighAccuracy = false, highAccuracyExpireTime = 3000, success, fail, complete } = opts
+
   try {
     const status = await askAsyncPermissions(Permissions.LOCATION)
     if (status !== 'granted') {
       const res = { errMsg: 'Permissions denied!' }
-      return Promise.reject(res)
+      return errorHandler(fail, complete)(res)
     }
   } catch (err) {
-    const res = {
-      errMsg: 'Permissions denied!',
-      err
-    }
-    return Promise.reject(res)
+    const res = { errMsg: 'Permissions denied!' }
+    return errorHandler(fail, complete)(res)
   }
-
-  const { isHighAccuracy = false, highAccuracyExpireTime = 3000, success, fail, complete } = opts
 
   return new Promise((resolve, reject) => {
     Geolocation.getCurrentPosition(
       ({ coords }) => {
-        const { latitude, longitude, altitude, accuracy, altitudeAccuracy, heading, speed } = coords
+        const { latitude, longitude, altitude, accuracy, speed } = coords
         const res = {
           latitude,
           longitude,

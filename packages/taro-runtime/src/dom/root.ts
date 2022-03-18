@@ -1,9 +1,7 @@
-import { inject, injectable } from 'inversify'
-import { isFunction, Shortcuts } from '@tarojs/shared'
-import get from 'lodash-es/get'
-import SERVICE_IDENTIFIER from '../constants/identifiers'
+import { injectable } from 'inversify'
+import { isFunction, isUndefined, Shortcuts } from '@tarojs/shared'
 import { TaroElement } from './element'
-import { incrementId } from '../utils'
+import { customWrapperCache } from '../utils'
 import { perf } from '../perf'
 import { options } from '../options'
 import {
@@ -13,33 +11,56 @@ import {
   CUSTOM_WRAPPER
 } from '../constants'
 
-import type { Func, UpdatePayload, UpdatePayloadValue, InstanceNamedFactory, MpInstance, HydratedData } from '../interface'
-import type { TaroNodeImpl } from '../dom-external/node-impl'
-import type { TaroElementImpl } from '../dom-external/element-impl'
-import type { Hooks } from '../hooks'
-import type { Events } from '../emitter/emitter'
+import type { Func, UpdatePayload, UpdatePayloadValue, MpInstance, HydratedData } from '../interface'
 
-const eventIncrementId = incrementId()
+function findCustomWrapper (root: TaroRootElement, dataPathArr: string[]) {
+  // ['root', 'cn', '[0]'] remove 'root' => ['cn', '[0]']
+  const list = dataPathArr.slice(1)
+  let currentData: any = root
+  let customWrapper: Record<string, any> | undefined
+  let splitedPath = ''
+
+  list.some((item, i) => {
+    const key = item
+      // '[0]' => '0'
+      .replace(/^\[(.+)\]$/, '$1')
+      // 'cn' => 'childNodes'
+      .replace(/\bcn\b/g, 'childNodes')
+
+    currentData = currentData[key]
+
+    if (isUndefined(currentData)) return true
+
+    if (currentData.nodeName === CUSTOM_WRAPPER) {
+      const res = customWrapperCache.get(currentData.sid)
+      if (res) {
+        customWrapper = res
+        splitedPath = dataPathArr.slice(i + 2).join('.')
+      }
+    }
+  })
+
+  if (customWrapper) {
+    return {
+      customWrapper,
+      splitedPath
+    }
+  }
+}
 
 @injectable()
 export class TaroRootElement extends TaroElement {
-  private pendingUpdate = false
-  private pendingFlush = false
   private updatePayloads: UpdatePayload[] = []
+
   private updateCallbacks: Func[]= []
-  private eventCenter: Events
+
+  public pendingUpdate = false
+
   public ctx: null | MpInstance = null
 
-  public constructor (// eslint-disable-next-line @typescript-eslint/indent
-    @inject(SERVICE_IDENTIFIER.TaroNodeImpl) nodeImpl: TaroNodeImpl,
-    @inject(SERVICE_IDENTIFIER.TaroElementFactory) getElement: InstanceNamedFactory,
-    @inject(SERVICE_IDENTIFIER.Hooks) hooks: Hooks,
-    @inject(SERVICE_IDENTIFIER.TaroElementImpl) elementImpl: TaroElementImpl,
-    @inject(SERVICE_IDENTIFIER.eventCenter) eventCenter: Events
-  ) {
-    super(nodeImpl, getElement, hooks, elementImpl)
+  public constructor () {
+    super()
     this.nodeName = ROOT_STR
-    this.eventCenter = eventCenter
   }
 
   public get _path (): string {
@@ -53,7 +74,7 @@ export class TaroRootElement extends TaroElement {
   public enqueueUpdate (payload: UpdatePayload): void {
     this.updatePayloads.push(payload)
 
-    if (!this.pendingUpdate && this.ctx !== null) {
+    if (!this.pendingUpdate && this.ctx) {
       this.performUpdate()
     }
   }
@@ -94,90 +115,68 @@ export class TaroRootElement extends TaroElement {
         }
       }
 
-      if (isFunction(prerender)) {
-        prerender(data)
+      // 预渲染
+      if (isFunction(prerender)) return prerender(data)
+
+      // 正常渲染
+      this.pendingUpdate = false
+      let normalUpdate = {}
+      const customWrapperMap: Map<Record<any, any>, Record<string, any>> = new Map()
+
+      if (initRender) {
+        // 初次渲染，使用页面级别的 setData
+        normalUpdate = data
       } else {
-        this.pendingUpdate = false
-        const customWrapperUpdate: { ctx: any, data: Record<string, any> }[] = []
-        const normalUpdate = {}
-        if (!initRender) {
-          for (const p in data) {
-            const dataPathArr = p.split('.')
-            let hasCustomWrapper = false
-            for (let i = dataPathArr.length; i > 0; i--) {
-              const allPath = dataPathArr.slice(0, i).join('.')
-              const getData = get(ctx.__data__ || ctx.data, allPath)
-              if (getData && getData.nn && getData.nn === CUSTOM_WRAPPER) {
-                const customWrapperId = getData.uid
-                const customWrapper = ctx.selectComponent(`#${customWrapperId}`)
-                const splitedPath = dataPathArr.slice(i).join('.')
-                if (customWrapper) {
-                  hasCustomWrapper = true
-                  customWrapperUpdate.push({
-                    ctx: ctx.selectComponent(`#${customWrapperId}`),
-                    data: {
-                      [`i.${splitedPath}`]: data[p]
-                    }
-                  })
-                }
-                break
-              }
-            }
-            if (!hasCustomWrapper) {
-              normalUpdate[p] = data[p]
-            }
+        // 更新渲染，区分 CustomWrapper 与页面级别的 setData
+        for (const p in data) {
+          const dataPathArr = p.split('.')
+          const found = findCustomWrapper(this, dataPathArr)
+          if (found) {
+            // 此项数据使用 CustomWrapper 去更新
+            const { customWrapper, splitedPath } = found
+            // 合并同一个 customWrapper 的相关更新到一次 setData 中
+            customWrapperMap.set(customWrapper, {
+              ...(customWrapperMap.get(customWrapper) || {}),
+              [`i.${splitedPath}`]: data[p]
+            })
+          } else {
+            // 此项数据使用页面去更新
+            normalUpdate[p] = data[p]
           }
         }
-        const updateArrLen = customWrapperUpdate.length
-        if (updateArrLen) {
-          const eventId = `${this._path}_update_${eventIncrementId()}`
-          const eventCenter = this.eventCenter
-          let executeTime = 0
-          eventCenter.once(eventId, () => {
-            executeTime++
-            if (executeTime === updateArrLen + 1) {
-              perf.stop(SET_DATA)
-              if (!this.pendingFlush) {
-                this.flushUpdateCallback()
-              }
-              if (initRender) {
-                perf.stop(PAGE_INIT)
-              }
-            }
-          }, eventCenter)
-          customWrapperUpdate.forEach(item => {
-            if (process.env.NODE_ENV !== 'production' && options.debug) {
-              // eslint-disable-next-line no-console
-              console.log('custom wrapper setData: ', item.data)
-            }
-            item.ctx.setData(item.data, () => {
-              eventCenter.trigger(eventId)
-            })
-          })
-          if (Object.keys(normalUpdate).length) {
-            if (process.env.NODE_ENV !== 'production' && options.debug) {
-              // eslint-disable-next-line no-console
-              console.log('setData:', normalUpdate)
-            }
-            ctx.setData(normalUpdate, () => {
-              eventCenter.trigger(eventId)
-            })
-          }
-        } else {
+      }
+
+      const customWrpperCount = customWrapperMap.size
+      const isNeedNormalUpdate = Object.keys(normalUpdate).length > 0
+      const updateArrLen = customWrpperCount + (isNeedNormalUpdate ? 1 : 0)
+      let executeTime = 0
+
+      const cb = () => {
+        if (++executeTime === updateArrLen) {
+          perf.stop(SET_DATA)
+          this.flushUpdateCallback()
+          initRender && perf.stop(PAGE_INIT)
+        }
+      }
+
+      // custom-wrapper setData
+      if (customWrpperCount) {
+        customWrapperMap.forEach((data, ctx) => {
           if (process.env.NODE_ENV !== 'production' && options.debug) {
             // eslint-disable-next-line no-console
-            console.log('setData:', data)
+            console.log('custom wrapper setData: ', data)
           }
-          ctx.setData(data, () => {
-            perf.stop(SET_DATA)
-            if (!this.pendingFlush) {
-              this.flushUpdateCallback()
-            }
-            if (initRender) {
-              perf.stop(PAGE_INIT)
-            }
-          })
+          ctx.setData(data, cb)
+        })
+      }
+
+      // page setData
+      if (isNeedNormalUpdate) {
+        if (process.env.NODE_ENV !== 'production' && options.debug) {
+          // eslint-disable-next-line no-console
+          console.log('page setData:', normalUpdate)
         }
+        ctx.setData(normalUpdate, cb)
       }
     }, 0)
   }
@@ -189,8 +188,10 @@ export class TaroRootElement extends TaroElement {
   }
 
   public flushUpdateCallback () {
-    this.pendingFlush = false
-    const copies = this.updateCallbacks.slice(0)
+    const updateCallbacks = this.updateCallbacks
+    if (!updateCallbacks.length) return
+
+    const copies = updateCallbacks.slice(0)
     this.updateCallbacks.length = 0
     for (let i = 0; i < copies.length; i++) {
       copies[i]()

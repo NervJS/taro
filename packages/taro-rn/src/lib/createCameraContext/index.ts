@@ -1,11 +1,12 @@
 import * as Permissions from 'expo-permissions'
-const globalAny:any = global
+import { errorHandler, successHandler } from '../../utils'
+const globalAny: any = global
 
 class CameraContext {
   private cameraRef: any
   private recordCallback: Taro.CameraContext.StopRecordOption
 
-  constructor (cameraRef) {
+  constructor(cameraRef) {
     this.cameraRef = cameraRef
   }
 
@@ -51,33 +52,51 @@ class CameraContext {
   /**
    * 拍摄照片
    */
-  takePhoto = (option: Taro.CameraContext.TakePhotoOption) => {
-    let quality = 0
-    switch (option.quality) {
+  takePhoto = async (option: Taro.CameraContext.TakePhotoOption) => {
+    const { quality = 'normal', success, fail, complete } = option
+    let _quality = 0
+    switch (quality) {
       case 'high':
-        quality = 1
+        _quality = 1
         break
       case 'normal':
-        quality = 0.6
+        _quality = 0.6
         break
       case 'low':
-        quality = 0.3
+        _quality = 0.3
         break
     }
-    Permissions.askAsync(Permissions.CAMERA, Permissions.AUDIO_RECORDING).then(() =>
-      this.cameraRef?.takePictureAsync({ quality: quality }).then(res => {
-        const { uri } = res
-        option?.success?.({
-          tempImagePath: uri ?? '',
-          errMsg: 'takePhoto: ok'
-        })
-      }).catch(e => {
-        option?.fail?.({ errMsg: e })
-      }).finally(() =>
-        option?.complete?.({ errMsg: '' })
-      )).catch((e) =>
-      console.log(e)
-    )
+    try {
+      const { status } = await Permissions.askAsync(Permissions.CAMERA, Permissions.AUDIO_RECORDING)
+      if (status === 'granted') {
+        if (this.cameraRef?.takePictureAsync) {
+          const { uri } = await this.cameraRef.takePictureAsync({ quality: _quality })
+          const res = {
+            tempImagePath: uri,
+            errMsg: 'takePhoto: ok'
+          }
+          return successHandler(success, complete)(res)
+        } else {
+          const err = {
+            errMsg: 'takePhoto: fail',
+            err: Error('unknown')
+          }
+          return errorHandler(fail, complete)(err)
+        }
+      } else {
+        const err = {
+          errMsg: 'takePhoto: fail',
+          err: Error('You have not enabled camera permissions')
+        }
+        return errorHandler(fail, complete)(err)
+      }
+    } catch (error) {
+      const err = {
+        errMsg: 'takePhoto: fail',
+        err: error
+      }
+      return errorHandler(fail, complete)(err)
+    }
   }
 
   /**
@@ -93,6 +112,10 @@ class CameraContext {
         console.log('not support')
       }
     }
+  }
+
+  setZoom = () => {
+    console.log('not support')
   }
 }
 /**

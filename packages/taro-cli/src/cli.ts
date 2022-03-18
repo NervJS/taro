@@ -23,7 +23,13 @@ export default class CLI {
         version: ['v'],
         help: ['h'],
         port: ['p'],
-        resetCache: ['reset-cache']
+        resetCache: ['reset-cache'], // specially for rn, Removes cached files.
+        publicPath: ['public-path'], // specially for rn, assets public path.
+        bundleOutput: ['bundle-output'], // specially for rn, File name where to store the resulting bundle.
+        sourcemapOutput: ['sourcemap-output'], // specially for rn, File name where to store the sourcemap file for resulting bundle.
+        sourceMapUrl: ['sourcemap-use-absolute-path'], // specially for rn, Report SourceMapURL using its full path.
+        sourcemapSourcesRoot: ['sourcemap-sources-root'], // specially for rn, Path to make sourcemaps sources entries relative to.
+        assetsDest: ['assets-dest'] // specially for rn, Directory name where to store assets referenced in the bundle.
       },
       boolean: ['version', 'help']
     })
@@ -40,18 +46,11 @@ export default class CLI {
         case 'build': {
           let plugin
           let platform = args.type
+          const { publicPath, bundleOutput, sourcemapOutput, sourceMapUrl, sourcemapSourcesRoot, assetsDest } = args
           if (typeof args.plugin === 'string') {
             plugin = args.plugin
             platform = 'plugin'
           }
-          kernel.optsPlugins = [
-            '@tarojs/plugin-platform-weapp',
-            '@tarojs/plugin-platform-alipay',
-            '@tarojs/plugin-platform-swan',
-            '@tarojs/plugin-platform-tt',
-            '@tarojs/plugin-platform-qq',
-            '@tarojs/plugin-platform-jd'
-          ]
           customCommand('build', kernel, {
             _: args._,
             platform,
@@ -61,6 +60,12 @@ export default class CLI {
             env: args.env,
             deviceType: args.platform,
             resetCache: !!args.resetCache,
+            publicPath,
+            bundleOutput,
+            sourcemapOutput,
+            sourceMapUrl,
+            sourcemapSourcesRoot,
+            assetsDest,
             qr: !!args.qr,
             blended: Boolean(args.blended),
             h: args.h
@@ -72,6 +77,7 @@ export default class CLI {
           init(kernel, {
             appPath: this.appPath,
             projectName,
+            description: args.description,
             typescript: args.typescript,
             templateSource: args['template-source'],
             clone: !!args.clone,

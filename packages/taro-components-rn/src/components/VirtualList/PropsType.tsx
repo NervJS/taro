@@ -1,12 +1,13 @@
 import React, { ComponentType } from 'react'
-import { StyleProp, ViewStyle, NativeSyntheticEvent, NativeScrollEvent } from 'react-native'
+import { ListRenderItemInfo, StyleProp, ViewStyle, NativeSyntheticEvent, NativeScrollEvent } from 'react-native'
+
 export interface ViewProps {
   style?: StyleProp<ViewStyle>;
   children?: React.ReactNode;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export interface VirtualListProps<T> {
+export interface VirtualListProps {
   /** 列表的高度。 */
   height: string | number;
   /** 列表的宽度。 */
@@ -24,7 +25,7 @@ export interface VirtualListProps<T> {
   /** 滚动方向。vertical 为垂直滚动，horizontal 为平行滚动。默认为 vertical。 */
   layout?: 'vertical' | 'horizontal';
   /** 列表滚动时调用函数 */
-  onScroll?: (event: VirtualListEvent<VirtualListProps.onScrollDetail>) => void;
+  onScroll?: (event: VirtualListEvent) => void;
   /** 调用平台原生的滚动监听函数。 */
   onScrollNative?: (event: NativeSyntheticEvent<NativeScrollEvent>) => void;
   /** 在可视区域之外渲染的列表单项数量，值设置得越高，快速滚动时出现白屏的概率就越小，相应地，每次滚动的性能会变得越差。 */
@@ -42,11 +43,11 @@ export interface VirtualListProps<T> {
     index: number;
     /** 组件是否正在滚动，当 useIsScrolling 值为 true 时返回布尔值，否则返回 undefined */
     // isScrolling?: boolean
-  }>;
+  } & ListRenderItemInfo<any>>;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-interface VirtualListEvent<T> {
+interface VirtualListEvent {
   /** 滚动方向，可能值为 forward 往前， backward 往后。 */
   scrollDirection: 'forward' | 'backward';
   /** 滚动距离 */

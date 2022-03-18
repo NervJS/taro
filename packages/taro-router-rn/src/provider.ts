@@ -58,11 +58,11 @@ export class PageProvider extends React.Component<any> {
       const color = pageConfig.navigationBarTextStyle || headerTintColor || winOptions?.navigationBarTextStyle || 'white'
       const bgColor = pageConfig.navigationBarBackgroundColor || headerStyle?.backgroundColor || winOptions?.navigationBarBackgroundColor || '#000000'
       let showHeader = headerShown
-      if (pageConfig.navigationStyle) {
-        showHeader = pageConfig.navigationStyle !== 'custom'
-      }
       if (winOptions.navigationStyle) {
         showHeader = winOptions.navigationStyle !== 'custom'
+      }
+      if (pageConfig.navigationStyle) {
+        showHeader = pageConfig.navigationStyle !== 'custom'
       }
 
       const rnConfig = pageConfig?.rn || {}
@@ -84,13 +84,7 @@ export class PageProvider extends React.Component<any> {
       }, screenOptions)
       // 页面的config
       if (pageConfig) {
-        if (this.isTabBarPage()) {
-          navigation.setParams({
-            navigateConfig: navBarParams
-          })
-        } else {
-          navigation.setOptions(navBarParams)
-        }
+        navigation.setOptions(navBarParams)
       }
     }
   }
@@ -103,7 +97,6 @@ export class PageProvider extends React.Component<any> {
 
   private unSubscribleFocus
 
-  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   render () {
     return this.props.children
   }

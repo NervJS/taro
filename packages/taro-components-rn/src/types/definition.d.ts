@@ -20,3 +20,13 @@ declare interface HTMLMediaElement {}
 
 declare interface MediaTrackSettings {}
 // end
+
+
+declare const global: {
+  _taroCamera
+}
+
+declare module '*.png' {
+  const value: any
+  export default value
+}

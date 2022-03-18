@@ -11,5 +11,14 @@ export const hostConfig = {
   },
   getSpecialNodes (): string[] {
     return ['text', 'image']
+  },
+  modifyTaroEvent (event, node) {
+    if (node.tagName === 'MAP' && event.type === 'regionchange') {
+      event.type = 'end'
+    }
+  },
+  getMiniLifecycle (config) {
+    config.page[0] = 'onInit'
+    return config
   }
 }

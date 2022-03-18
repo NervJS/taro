@@ -13,7 +13,6 @@ import { join, resolve } from 'path'
 import * as TerserPlugin from 'terser-webpack-plugin'
 import * as webpack from 'webpack'
 import { PostcssOption, IPostcssOption, ICopyOptions } from '@tarojs/taro/types/compile'
-import * as ReactRefreshWebpackPlugin from '@pmmmwh/react-refresh-webpack-plugin'
 
 import MainPlugin from '../plugins/MainPlugin'
 import { getPostcssPlugins } from '../config/postcss.conf'
@@ -228,10 +227,6 @@ export const getCopyWebpackPlugin = ({ copy, appPath }: { copy: ICopyOptions; ap
 
 export const getMainPlugin = args => {
   return partial(getPlugin, MainPlugin)([args])
-}
-
-export const getFastRefreshPlugin = () => {
-  return partial(getPlugin, ReactRefreshWebpackPlugin)([])
 }
 
 const styleModuleReg = /(.*\.module).*\.(css|s[ac]ss|less|styl)\b/
@@ -502,7 +497,25 @@ export const getModule = (appPath: string, {
   }
   rule.script = {
     test: REG_SCRIPTS,
-    exclude: [filename => /@tarojs\/components/.test(filename) || (/node_modules/.test(filename) && !(/taro/.test(filename)))],
+    exclude: [filename => {
+      /**
+       * 要优先处理 css-loader 问题
+       *
+       * https://github.com/webpack-contrib/mini-css-extract-plugin/issues/471#issuecomment-750266195
+       */
+      if (/css-loader/.test(filename)) return true
+      // 若包含 @tarojs/components，则跳过 babel-loader 处理
+      if (/@tarojs\/components/.test(filename)) return true
+
+      // 非 node_modules 下的文件直接走 babel-loader 逻辑
+      if (!(/node_modules/.test(filename))) return false
+
+      // 除了包含 taro 和 inversify 的第三方依赖均不经过 babel-loader 处理
+      if (/taro/.test(filename)) return false
+      if (/inversify/.test(filename)) return false
+
+      return true
+    }],
     use: {
       babelLoader: getBabelLoader([{
         compact: false

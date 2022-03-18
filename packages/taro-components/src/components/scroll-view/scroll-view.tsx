@@ -60,17 +60,20 @@ export class ScrollView implements ComponentInterface {
   @Prop() scrollWithAnimation = false
 
   @Event({
-    eventName: 'scroll'
+    eventName: 'scroll',
+    bubbles: false
   })
   onScroll: EventEmitter
 
   @Event({
-    eventName: 'scrolltoupper'
+    eventName: 'scrolltoupper',
+    bubbles: false
   })
   onScrollToUpper: EventEmitter
 
   @Event({
-    eventName: 'scrolltolower'
+    eventName: 'scrolltolower',
+    bubbles: false
   })
   onScrollToLower: EventEmitter
 
