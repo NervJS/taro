@@ -24,6 +24,7 @@ import {
   REG_SCRIPTS,
   REG_CSS,
   REG_TEMPLATE,
+  FRAMEWORK_MAP,
   chalk
 } from '@tarojs/helper'
 import { getSassLoaderOption } from '@tarojs/runner-utils'
@@ -213,7 +214,8 @@ export const getModule = (appPath: string, {
   imageUrlLoaderOption,
   mediaUrlLoaderOption,
   postcss,
-  fileType
+  fileType,
+  framework
 }) => {
   const postcssOption: IPostcssOption = postcss || {}
 
@@ -315,8 +317,9 @@ export const getModule = (appPath: string, {
   const stylusLoader = getStylusLoader([{ sourceMap: enableSourceMap }, stylusLoaderOption])
 
   const cssLoaders: {
-    include?;
-    use;
+    include?
+    resourceQuery?
+    use
   }[] = [{
     use: [
       extractCssLoader,
@@ -348,6 +351,17 @@ export const getModule = (appPath: string, {
         postcssLoader
       ]
     })
+
+    if (framework === FRAMEWORK_MAP.VUE3 || framework === FRAMEWORK_MAP.VUE) {
+      cssLoaders.unshift({
+        resourceQuery: /module/,
+        use: [
+          extractCssLoader,
+          cssLoaderWithModule,
+          postcssLoader
+        ]
+      })
+    }
   }
 
   const urlOptions: PostcssOption.url = recursiveMerge({}, defaultUrlOption, postcssOption.url)

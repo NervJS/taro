@@ -238,7 +238,8 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
       mediaUrlLoaderOption,
 
       postcss,
-      fileType
+      fileType,
+      framework
     }),
     plugin,
     optimization: {
