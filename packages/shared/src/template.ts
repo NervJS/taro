@@ -122,7 +122,7 @@ export class BaseTemplate {
         for (let prop in component) {
           if (hasOwn(component, prop)) {
             let propValue = component[prop]
-            if (prop.startsWith('bind')) {
+            if (prop.startsWith('bind') || propValue === 'eh') {
               propValue = 'eh'
             } else if (propValue === '') {
               propValue = `i.${toCamelCase(prop)}`
