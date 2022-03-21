@@ -15,7 +15,7 @@ import { createDevServerMiddleware } from '@react-native-community/cli-server-ap
 import { TerminalReporter } from './config/terminal-reporter'
 import { getResolveDependencyFn } from 'metro/src/lib/transformHelpers'
 import * as Server from 'metro/src/Server'
-import saveAssets from '@react-native-community/cli/build/commands/bundle/saveAssets'
+import saveAssets from '@react-native-community/cli-plugin-metro/build/commands/bundle/saveAssets'
 import * as outputBundle from 'metro/src/shared/output/bundle'
 
 function concatOutputFileName (config: any): string {

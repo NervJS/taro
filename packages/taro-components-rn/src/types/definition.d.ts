@@ -25,3 +25,8 @@ declare interface MediaTrackSettings {}
 declare const global: {
   _taroCamera
 }
+
+declare module '*.png' {
+  const value: any
+  export default value
+}

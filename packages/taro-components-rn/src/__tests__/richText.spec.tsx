@@ -1,7 +1,6 @@
-// eslint-disable-next-line no-use-before-define
 import * as React from 'react'
-import renderer from 'react-test-renderer'
-import RichText from '../src/components/RichText'
+import { render } from '@testing-library/react-native'
+import RichText from '../components/RichText'
 
 describe('RichText', () => {
   it('RichText render', () => {
@@ -25,7 +24,7 @@ describe('RichText', () => {
         ]
       }
     ]
-    const tree = renderer.create(<RichText nodes={nodes} />).toJSON()
+    const tree = render(<RichText nodes={nodes} />).toJSON()
     expect(tree).toMatchSnapshot()
   })
 })
