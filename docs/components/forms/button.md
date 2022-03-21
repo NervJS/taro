@@ -708,6 +708,11 @@ lang 的合法值
       <td><code>string</code></td>
       <td>加密算法的初始向量</td>
     </tr>
+    <tr>
+      <td>code</td>
+      <td><code>string</code></td>
+      <td>动态令牌。可通过动态令牌换取用户手机号。使用方法详情 <a href="https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/share.html#%E4%BD%BF%E7%94%A8%E6%8C%87%E5%BC%95">参考地址</a></td>
+    </tr>
   </tbody>
 </table>
 
