@@ -1,6 +1,6 @@
 import { transform } from '@babel/core'
 import syntaxJSX from 'babel-plugin-syntax-jsx'
-import jSXStylePlugin from '../src/index'
+import jSXStylePlugin from '../dist/index'
 
 const mergeStylesFunctionTemplate = `function _mergeStyles() {
   var newTarget = {};
@@ -48,6 +48,10 @@ const getStyleFunctionTemplete = `function _getStyle(classNameExpression) {
   var style = {};
   classNameArr.reduce((sty, cls) => Object.assign(sty, _styleSheet[cls.trim()]), style);
   return style;
+}`
+
+const mergeEleStylesFunctionTemplate = `function _mergeEleStyles() {
+  return [].concat.apply([], arguments).reduce((pre, cur) => Object.assign(pre, cur), {});
 }`
 
 describe('jsx style plugin', () => {
@@ -116,11 +120,14 @@ class App extends Component {
   }
 }`)).toBe(`import { createElement, Component } from 'rax';
 import appCssStyleSheet from "./app.css";
+
+${mergeEleStylesFunctionTemplate}
+
 var _styleSheet = appCssStyleSheet;
 
 class App extends Component {
   render() {
-    return <div style={[_styleSheet["header1"], _styleSheet["header2"]]} />;
+    return <div style={_mergeEleStyles(_styleSheet["header1"], _styleSheet["header2"])} />;
   }
 
 }`)
@@ -179,13 +186,15 @@ class App extends Component {
 import app1CssStyleSheet from "./app1.css";
 import app2CssStyleSheet from "./app2.css";
 
+${mergeEleStylesFunctionTemplate}
+
 ${mergeStylesFunctionTemplate}
 
 var _styleSheet = _mergeStyles(app1CssStyleSheet, app2CssStyleSheet);
 
 class App extends Component {
   render() {
-    return <div style={[_styleSheet["header1"], _styleSheet["header2"]]} />;
+    return <div style={_mergeEleStyles(_styleSheet["header1"], _styleSheet["header2"])} />;
   }
 
 }`)
@@ -204,13 +213,15 @@ class App extends Component {
 import appCssStyleSheet from "./app.css";
 import appCssStyleSheet1 from "../app.css";
 
+${mergeEleStylesFunctionTemplate}
+
 ${mergeStylesFunctionTemplate}
 
 var _styleSheet = _mergeStyles(appCssStyleSheet, appCssStyleSheet1);
 
 class App extends Component {
   render() {
-    return <div style={[_styleSheet["header1"], _styleSheet["header2"]]} />;
+    return <div style={_mergeEleStyles(_styleSheet["header1"], _styleSheet["header2"])} />;
   }
 
 }`)
@@ -229,13 +240,15 @@ class App extends Component {
 import appCssStyleSheet from "./app.css";
 import style from "./style.css";
 
+${mergeEleStylesFunctionTemplate}
+
 ${mergeStylesFunctionTemplate}
 
 var _styleSheet = _mergeStyles(appCssStyleSheet, style);
 
 class App extends Component {
   render() {
-    return <div style={[_styleSheet["header2"], style.header1]} />;
+    return <div style={_mergeEleStyles(_styleSheet["header2"], style.header1)} />;
   }
 
 }`)
@@ -254,13 +267,16 @@ class App extends Component {
   }
 }`)).toBe(`import { createElement, Component } from 'rax';
 import appCssStyleSheet from "./app.css";
+
+${mergeEleStylesFunctionTemplate}
+
 var _styleSheet = appCssStyleSheet;
 
 class App extends Component {
   render() {
-    return <div style={[_styleSheet["header"], {
+    return <div style={_mergeEleStyles(_styleSheet["header"], {
       height: 100
-    }]} />;
+    })} />;
   }\n
 }`)
   })
@@ -279,13 +295,15 @@ class App extends Component {
 import appCssStyleSheet from "./app.css";
 import style from "./style.css";
 
+${mergeEleStylesFunctionTemplate}
+
 ${mergeStylesFunctionTemplate}
 
 var _styleSheet = _mergeStyles(appCssStyleSheet, style);
 
 class App extends Component {
   render() {
-    return <div style={[_styleSheet["header2"], style.header1, style.header3]} />;
+    return <div style={_mergeEleStyles(_styleSheet["header2"], style.header1, style.header3)} />;
   }\n
 }`)
   })
@@ -407,11 +425,14 @@ import './app.less';
 render(<div className="header" style={{width: 100, height: 100}} />);
 `)).toBe(`import { createElement, render } from 'rax';
 import appLessStyleSheet from "./app.less";
+
+${mergeEleStylesFunctionTemplate}
+
 var _styleSheet = appLessStyleSheet;
-render(<div style={[_styleSheet["header"], {
+render(<div style={_mergeEleStyles(_styleSheet["header"], {
   width: 100,
   height: 100
-}]} />);`)
+})} />);`)
   })
   it('transform styleAttribute inline string', () => {
     expect(getTransfromCode(`
@@ -436,15 +457,18 @@ import './app.less';
 render(<div className="header" style="width:100px;height:100px;background-color:rgba(0, 0, 0, 0.5);border: 1px solid;" />);
 `)).toBe(`import { createElement, render } from 'rax';
 import appLessStyleSheet from "./app.less";
+
+${mergeEleStylesFunctionTemplate}
+
 var _styleSheet = appLessStyleSheet;
-render(<div style={[_styleSheet["header"], {
+render(<div style={_mergeEleStyles(_styleSheet["header"], {
   "width": 100,
   "height": 100,
   "backgroundColor": "rgba(0, 0, 0, 0.5)",
   "borderWidth": 1,
   "borderStyle": "solid",
   "borderColor": "black"
-}]} />);`)
+})} />);`)
   })
 
   it('ignore merge stylesheet when css module enable', () => {
@@ -460,11 +484,14 @@ class App extends Component {
 }`, false, { enableCSSModule: true })).toBe(`import { createElement, Component } from 'rax';
 import appScssStyleSheet from "./app.scss";
 import styleSheet from './app.module.scss';
+
+${mergeEleStylesFunctionTemplate}
+
 var _styleSheet = appScssStyleSheet;
 
 class App extends Component {
   render() {
-    return <div style={[_styleSheet["header"], styleSheet.red]} />;
+    return <div style={_mergeEleStyles(_styleSheet["header"], styleSheet.red)} />;
   }\n
 }`)
   })
@@ -585,13 +612,15 @@ class App extends Component {
 import appScssStyleSheet from "./app.scss";
 import styleSheet from "./app.module.scss";
 
+${mergeEleStylesFunctionTemplate}
+
 ${mergeStylesFunctionTemplate}
 
 var _styleSheet = _mergeStyles(appScssStyleSheet, styleSheet);
 
 class App extends Component {
   render() {
-    return <div style={[_styleSheet["header"], styleSheet.red]} />;
+    return <div style={_mergeEleStyles(_styleSheet["header"], styleSheet.red)} />;
   }\n
 }`)
   })
@@ -649,15 +678,18 @@ class App extends Component {
   }
 }`, false, { enableMultipleClassName: true })).toBe(`import { createElement, Component } from 'rax';
 import appCssStyleSheet from "./app.css";
+
+${mergeEleStylesFunctionTemplate}
+
 var _styleSheet = appCssStyleSheet;
 
 class App extends Component {
   render() {
-    return <div style={[_styleSheet["container"], {
+    return <div style={_mergeEleStyles(_styleSheet["container"], {
       color: "red"
-    }]} headerStyle={[_styleSheet["header"], {
+    })} headerStyle={_mergeEleStyles(_styleSheet["header"], {
       color: "green"
-    }]} />;
+    })} />;
   }
 
 }`)
