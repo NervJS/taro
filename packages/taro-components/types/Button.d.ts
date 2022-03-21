@@ -372,6 +372,8 @@ declare namespace ButtonProps {
     encryptedData: string
     /** 加密算法的初始向量 */
     iv: string
+    /** 动态令牌。可通过动态令牌换取用户手机号。使用方法详情 [phonenumber.getPhoneNumber](https://developers.weixin.qq.com/miniprogram/dev/api-backend/open-api/phonenumber/phonenumber.getPhoneNumber.html) 接口 */
+    code:string
   }
 
   interface onChooseAvatarEventDetail {
