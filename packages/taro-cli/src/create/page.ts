@@ -9,6 +9,7 @@ import fetchTemplate from './fetchTemplate'
 export interface IPageConf {
   projectDir: string;
   projectName: string;
+  packageName: string;
   template: string;
   description?: string;
   pageName: string;
