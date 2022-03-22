@@ -36,9 +36,13 @@ class _Form extends React.Component<FormProps> {
     const tmpProps = { ...child.props }
     // Initial value
     if (['_Input', '_Textarea', '_Slider', '_Picker'].indexOf(childTypeName) >= 0) {
-      this.formValues[childPropsName] = child.props.value
+      if (child.props.value !== undefined) {
+        this.formValues[childPropsName] = child.props.value
+      }
     } else if (childTypeName === '_Switch') {
-      this.formValues[childPropsName] = !!child.props.checked
+      if (child.props.checked !== undefined) {
+        this.formValues[childPropsName] = !!child.props.checked
+      }
     } else {
       tmpProps._onGroupDataInitial = (value: any) => {
         this.formValues[childPropsName] = value
