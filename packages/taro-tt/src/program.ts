@@ -9,6 +9,7 @@ export default class TT extends TaroPlatformBase {
   globalObject = 'tt'
   projectConfigJson = 'project.tt.json'
   runtimePath = `${PACKAGE_NAME}/dist/runtime`
+  taroComponentsPath = `${PACKAGE_NAME}/dist/components-react`
   fileType = {
     templ: '.ttml',
     style: '.ttss',

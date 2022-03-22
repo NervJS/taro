@@ -159,6 +159,8 @@ export class Swiper implements ComponentInterface {
     this.el.removeChild = <T extends Node>(oldChild: T): T => {
       return newVal.removeChild(oldChild)
     }
+    this.el.addEventListener('DOMNodeInserted', this.handleSwiperSize)
+    this.el.addEventListener('DOMNodeRemoved', this.handleSwiperSize)
   }
 
   @Watch("circular")
@@ -202,6 +204,8 @@ export class Swiper implements ComponentInterface {
   }
 
   disconnectedCallback () {
+    this.el.removeEventListener('DOMNodeInserted', this.handleSwiperSize)
+    this.el.removeEventListener('DOMNodeRemoved', this.handleSwiperSize)
     this.observer?.disconnect?.()
     this.observerFirst?.disconnect?.()
     this.observerLast?.disconnect?.()
@@ -234,6 +238,12 @@ export class Swiper implements ComponentInterface {
     }
   }, 500)
 
+  handleSwiperSize = debounce(() => {
+    if (this.swiper && !this.circular) {
+      this.swiper.updateSlides()
+    }
+  }, 50)
+
   handleInit () {
     const {
       autoplay,
@@ -262,7 +272,13 @@ export class Swiper implements ComponentInterface {
           that.current = this.realIndex
         },
         // slideChange 事件在 swiper.slideTo 改写 current 时不触发，因此用 slideChangeTransitionEnd 事件代替
-        slideChangeTransitionEnd () {
+        slideChangeTransitionEnd (_swiper: ISwiper) {
+          if (circular) {
+            if (_swiper.isBeginning || _swiper.isEnd) {
+              _swiper.slideToLoop(this.realIndex, 0) // 更新下标
+              return
+            }
+          }
           that.onChange.emit({
             current: this.realIndex,
             source: ''
@@ -277,7 +293,7 @@ export class Swiper implements ComponentInterface {
         observerUpdate (_swiper: ISwiper, e) {
           const target = e.target
           const className = target && typeof target.className === 'string' ? target.className : ''
-          if (className.includes('taro_page') && target.style.display === 'block') {
+          if (className.includes('taro_page') && target.style.display !== 'none') {
             if (that.autoplay && target.contains(_swiper.$el[0])) {
               _swiper.slideTo(that.current)
             }

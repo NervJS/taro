@@ -7,18 +7,21 @@ import { AppConfig, SubPackage } from '@tarojs/taro'
 import { resolveMainFilePath, readConfig, promoteRelativePath, normalizePath } from '@tarojs/helper'
 import { isString, isFunction, isArray } from '@tarojs/shared'
 
+import { IFileType } from '../utils/types'
+
 const PLUGIN_NAME = 'MiniSplitChunkPlugin'
 const SUB_COMMON_DIR = 'sub-common'
 const SUB_VENDORS_NAME = 'sub-vendors'
 
-enum FileExtsMap {
-  JS = '.js',
-  JS_MAP = '.js.map',
-  STYLE = '.wxss'
+const FileExtsMap = {
+  JS: '.js',
+  JS_MAP: '.js.map',
+  STYLE: '.wxss'
 }
 
 interface MiniSplitChunksPluginOption {
   exclude?: (string | ExcludeFunctionItem)[]
+  fileType: IFileType
 }
 
 interface ExcludeFunctionItem {
@@ -43,6 +46,7 @@ export default class MiniSplitChunksPlugin extends SplitChunksPlugin {
   subPackages: SubPackage[]
   subRoots: string[]
   subRootRegExps: RegExp[]
+  fileType: IFileType
 
   constructor (options: MiniSplitChunksPluginOption) {
     super()
@@ -52,6 +56,14 @@ export default class MiniSplitChunksPlugin extends SplitChunksPlugin {
     this.subPackagesVendors = new Map()
     this.distPath = ''
     this.exclude = options.exclude || []
+    this.fileType = options.fileType || {
+      style: '.wxss',
+      config: '.json',
+      script: '.js',
+      templ: '.wxml',
+      xs: '.wxs'
+    }
+    FileExtsMap.STYLE = this.fileType.style
   }
 
   apply (compiler: any) {
@@ -91,9 +103,7 @@ export default class MiniSplitChunksPlugin extends SplitChunksPlugin {
         }
 
         subChunks.forEach((subChunk: webpack.compilation.Chunk) => {
-          const modules = Array.from(subChunk.modulesIterable)
-
-          modules.map((module: any) => {
+          subChunk.modulesIterable.forEach((module: any) => {
             if (this.isExternalModule(module)) {
               return
             }
@@ -107,11 +117,11 @@ export default class MiniSplitChunksPlugin extends SplitChunksPlugin {
             }
 
             const chunks: webpack.compilation.Chunk[] = Array.from(module.chunksIterable)
-
+            const chunkNames: string[] = chunks.map(chunk => chunk.name)
             /**
              * 找出没有被主包引用，且被多个分包引用的module，并记录在subCommonDeps中
              */
-            if (!this.hasMainChunk(chunks) && this.isSubsDep(chunks)) {
+            if (!this.hasMainChunk(chunkNames) && this.isSubsDep(chunkNames)) {
               let depPath = ''
               let depName = ''
 
@@ -131,7 +141,7 @@ export default class MiniSplitChunksPlugin extends SplitChunksPlugin {
               }
 
               if (!this.subCommonDeps.has(depName)) {
-                const subCommonDepChunks = new Set(chunks.map(chunk => chunk.name))
+                const subCommonDepChunks = new Set(chunkNames)
 
                 this.subCommonDeps.set(depName, {
                   identifier: module._identifier,
@@ -378,28 +388,17 @@ export default class MiniSplitChunksPlugin extends SplitChunksPlugin {
   /**
    * 判断module有没被主包引用
    */
-  hasMainChunk (chunks: webpack.compilation.Chunk[]): boolean {
-    const chunkNames: string[] = chunks.map(chunk => chunk.name)
-    let hasMainChunk = false
-
+  hasMainChunk (chunkNames: string[]): boolean {
     /**
      * 遍历chunk，如果其中有一个chunk，无法匹配分包root，则视为非分包的chunk
      */
-    chunkNames.forEach((chunkName: string) => {
-      const isMatch: RegExp | undefined = this.subRootRegExps.find(subRootRegExp => subRootRegExp.test(chunkName))
-
-      if (!isMatch) {
-        hasMainChunk = true
-      }
-    })
-    return hasMainChunk
+    return !!chunkNames.find((chunkName) => !(this.subRootRegExps.find(subRootRegExp => subRootRegExp.test(chunkName))))
   }
 
   /**
    * 判断该module有没被多个分包引用
    */
-  isSubsDep (chunks: webpack.compilation.Chunk[]): boolean {
-    const chunkNames: string[] = chunks.map(chunk => chunk.name)
+  isSubsDep (chunkNames: string[]): boolean {
     const chunkSubRoots: Set<string> = new Set()
 
     chunkNames.forEach((chunkName: string) => {
@@ -409,7 +408,7 @@ export default class MiniSplitChunksPlugin extends SplitChunksPlugin {
         }
       })
     })
-    return [...chunkSubRoots].length > 1
+    return chunkSubRoots.size > 1
   }
 
   /**

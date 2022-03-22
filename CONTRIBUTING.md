@@ -10,11 +10,88 @@
 
 ## 开发配置
 
-你需要保证你的 Node.js 版本大于 8，把仓库 clone 到本地，并运行以下命令：
+> 你需要保证你的 Node.js 版本大于 12
+
+### 安装依赖
+
+基于 yarn workspace。
 
 ```bash
-$ npm install # or yarn
-$ npm run bootstrap
+$ yarn
+```
+
+### 编译构建
+
+```bash
+# 全局编译
+$ yarn build # 等价于 lerna run build
+
+# 编译某个子包，如 `@tarojs/cli`
+$ lerna run build --scope=@tarojs/cli
+```
+
+### 新增/删除依赖
+
+可以分为三种情况：
+
+> 应该尽量把子包的 devDependencies 作为根目录的 devDependencies，从而安装在根目录。
+> 如果版本遇到冲突，可以安装在子包内。
+
+#### 1. 根目录
+
+```bash
+# 新增
+$ yarn add -W -D <dependency>
+
+# 删除
+$ yarn remove -W -D <dependency>
+```
+
+#### 2. 操作某个子包
+
+```bash
+# 为某个子包（如 @tarojs/cli）新增一个依赖
+$ yarn workspace @tarojs/cli add <dependency>
+
+# 为某个子包（如 @tarojs/cli）删除一个依赖
+$ yarn workspace @tarojs/cli remove <dependency>
+
+# 如遇到报错 "expected workspace package to exist for"，请使用 yarn@1.18 再尝试。
+# 相关 issues：
+#   - https://github.com/yarnpkg/yarn/issues/7807
+#   - https://github.com/yarnpkg/yarn/issues/7734
+$ npx yarn@1.18 workspace @tarojs/cli add <dependency>
+```
+
+#### 3. 操作所有子包
+
+```bash
+# 新增
+$ yarn workspaces add <dependency>
+
+# 删除
+$ yarn workspaces remove <dependency>
+```
+
+### 清理所有依赖
+
+```bash
+# 包括删除根目录的 node_modules 和所有 workspace 里的 node_modules
+$ npm run clear-all
+```
+
+### 运行子包的 `npm script`
+
+```bash
+$ lerna run <script-name> --scope=<workspace> --stream
+```
+
+### 提交发布
+
+```bash
+$ yarn run version --lerna_version=<version>
+$ git add .
+$ git commit -m "chore(release): publish <version>"
 ```
 
 ## 提交 commit

@@ -69,8 +69,6 @@ export const hasOwn = (
   key: string | symbol
 ) => hasOwnProperty.call(val, key)
 
-const reportIssue = '如有疑问，请提交 issue 至：https://github.com/nervjs/taro/issues'
-
 /**
  * ensure takes a condition and throw a error if the condition fails,
  * like failure::ensure: https://docs.rs/failure/0.1.1/failure/macro.ensure.html
@@ -79,7 +77,12 @@ const reportIssue = '如有疑问，请提交 issue 至：https://github.com/ner
  */
 export function ensure (condition: boolean, msg: string): asserts condition {
   if (!condition) {
-    throw new Error(msg + '\n' + reportIssue)
+    if (process.env.NODE_ENV !== 'production') {
+      const reportIssue = '\n如有疑问，请提交 issue 至：https://github.com/nervjs/taro/issues'
+      throw new Error(msg + reportIssue)
+    } else {
+      throw new Error(msg)
+    }
   }
 }
 
@@ -159,15 +162,14 @@ export function mergeReconciler (hostConfig) {
   Object.keys(hostConfig).forEach(key => {
     const value = hostConfig[key]
     const raw = defaultReconciler[key]
-    if (!raw) {
-      defaultReconciler[key] = value
-    } else {
-      if (isArray(raw)) {
-        defaultReconciler[key] = raw.push(value)
-      } else {
-        defaultReconciler[key] = [raw, value]
-      }
-    }
+
+    defaultReconciler[key] = !raw
+      ? value
+      : (
+        isArray(raw)
+          ? raw.concat(value)
+          : [raw, value]
+      )
   })
 }
 

@@ -53,7 +53,7 @@ function _request<T = any>(options: Taro.request.Option): Taro.RequestTask<T> {
   params.method = method
   let controller
   // eslint-disable-next-line no-undef
-  if (AbortController) {
+  if (typeof(AbortController) !== 'undefined' ) {
     // eslint-disable-next-line no-undef
     controller = new AbortController()
     const signal = controller.signal
@@ -78,7 +78,7 @@ function _request<T = any>(options: Taro.request.Option): Taro.RequestTask<T> {
       return response
     })
 
-  const timeoutPromise = new Promise((resolve, reject) => {
+  const timeoutPromise = new Promise((_resolve, reject) => {
     const timer = setTimeout(() => {
       controller?.abort()
       reject(Error('request:fail timeout'))

@@ -1,28 +1,22 @@
-import { inject, injectable } from 'inversify'
+import { injectable } from 'inversify'
 import { Shortcuts } from '@tarojs/shared'
-import SERVICE_IDENTIFIER from '../constants/identifiers'
 import { TaroNode } from './node'
 import { NodeType } from './node_types'
-
-import type { TaroNodeImpl } from '../dom-external/node-impl'
-import type { InstanceNamedFactory } from '../interface'
-import type { Hooks } from '../hooks'
+import { MutationObserver } from '../dom-external/mutation-observer'
+import { MutationRecordType } from '../dom-external/mutation-observer/record'
 
 @injectable()
 export class TaroText extends TaroNode {
   public _value: string
-
-  public constructor (// eslint-disable-next-line @typescript-eslint/indent
-    @inject(SERVICE_IDENTIFIER.TaroNodeImpl) nodeImpl: TaroNodeImpl,
-    @inject(SERVICE_IDENTIFIER.TaroElementFactory) getElement: InstanceNamedFactory,
-    @inject(SERVICE_IDENTIFIER.Hooks) hooks: Hooks
-  ) {
-    super(nodeImpl, getElement, hooks)
-    this.nodeType = NodeType.TEXT_NODE
-    this.nodeName = '#text'
-  }
+  public nodeType = NodeType.TEXT_NODE
+  public nodeName = '#text'
 
   public set textContent (text: string) {
+    MutationObserver.record({
+      target: this,
+      type: MutationRecordType.CHARACTER_DATA,
+      oldValue: this._value
+    })
     this._value = text
     this.enqueueUpdate({
       path: `${this._path}.${Shortcuts.Text}`,
@@ -39,6 +33,14 @@ export class TaroText extends TaroNode {
   }
 
   public get nodeValue (): string {
+    return this._value
+  }
+
+  public set data (text: string) {
+    this.textContent = text
+  }
+
+  public get data (): string {
     return this._value
   }
 }

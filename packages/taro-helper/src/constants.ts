@@ -138,10 +138,13 @@ export const UPDATE_PACKAGE_LIST = [
   '@tarojs/cli',
   '@tarojs/components',
   '@tarojs/taro-h5',
+  '@tarojs/taro-rn',
+  '@tarojs/rn-runner',
   '@tarojs/helper',
   '@tarojs/taro-loader',
   '@tarojs/mini-runner',
   '@tarojs/react',
+  '@tarojs/plugin-framework-react',
   '@tarojs/router',
   '@tarojs/runner-utils',
   '@tarojs/runtime',
@@ -155,6 +158,7 @@ export const UPDATE_PACKAGE_LIST = [
   '@tarojs/plugin-platform-tt',
   '@tarojs/plugin-platform-qq',
   '@tarojs/plugin-platform-jd',
+  '@tarojs/plugin-html',
   'nervjs',
   'nerv-devtools'
 ]
@@ -179,9 +183,9 @@ export const taroJsMobxCommon = '@tarojs/mobx-common'
 export const DEVICE_RATIO_NAME = 'deviceRatio'
 export const isWindows = os.platform() === 'win32'
 
-export const DEFAULT_TEMPLATE_SRC = 'github:NervJS/taro-project-templates#v3.1'
-export const DEFAULT_TEMPLATE_SRC_GITEE = 'direct:https://gitee.com/o2team/taro-project-templates.git#v3.1'
-export const TARO_CONFIG_FLODER = '.taro3.1'
+export const DEFAULT_TEMPLATE_SRC = 'github:NervJS/taro-project-templates#v3.4'
+export const DEFAULT_TEMPLATE_SRC_GITEE = 'direct:https://gitee.com/o2team/taro-project-templates.git#v3.4'
+export const TARO_CONFIG_FLODER = '.taro3.4'
 export const TARO_BASE_CONFIG = 'index.json'
 
 export const OUTPUT_DIR = 'dist'

@@ -5,7 +5,7 @@ import chalk from 'chalk';
 import { processTypeEnum, IProcessTypeMap } from './constants';
 import * as utils from './utils';
 import * as npm from './npm';
-import createBabelRegister from './babelRegister';
+import createBabelRegister, { injectDefineConfigHeader } from './babelRegister';
 
 export declare enum META_TYPE {
   ENTRY = 'ENTRY',
@@ -27,6 +27,7 @@ export declare enum FRAMEWORK_MAP {
 declare interface helper {
   npm: typeof npm;
   createBabelRegister: typeof createBabelRegister;
+  injectDefineConfigHeader: typeof injectDefineConfigHeader;
   fs: typeof fs;
   chokidar: typeof chokidar;
   chalk: typeof chalk;
@@ -74,6 +75,7 @@ declare interface helper {
   getModuleDefaultExport: (exports: any) => any;
   removeHeadSlash: (str: string) => string;
   readConfig: (configPath: string) => any;
+  readPageConfig: (configPath: string) => any;
   PLATFORMS: any;
   processTypeEnum: typeof processTypeEnum;
   processTypeMap: IProcessTypeMap;

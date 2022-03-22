@@ -1,7 +1,6 @@
 import * as webpack from 'webpack'
 import { getOptions, stringifyRequest } from 'loader-utils'
 import * as path from 'path'
-import { frameworkMeta } from './utils'
 
 interface PageConfig {
   content: any
@@ -18,8 +17,9 @@ export default function (this: webpack.loader.LoaderContext) {
     importFrameworkStatement,
     mockAppStatement,
     frameworkArgs,
-    creator
-  } = frameworkMeta[options.framework]
+    creator,
+    creatorLocation
+  } = options.loaderMeta
   const appConfig = options.appConfig
   const frameworkArgsArray = frameworkArgs.split(',')
   frameworkArgsArray.splice(frameworkArgsArray.length - 1, 1, 'appConfig')
@@ -33,19 +33,25 @@ export default function (this: webpack.loader.LoaderContext) {
   const setReconciler = runtimePath.reduce((res, item) => {
     return res + `import '${item}'\n`
   }, '')
+  const { globalObject } = this._compilation.outputOptions
+
   const prerender = `
 if (typeof PRERENDER !== 'undefined') {
-  global._prerender = inst
+  ${globalObject}._prerender = inst
 }`
   return `${setReconciler}
-import { createPageConfig, ${creator}, window } from '@tarojs/runtime'
-import component from ${stringify(componentPath)}
+import { defaultReconciler } from '@tarojs/shared'
+import { createPageConfig, window, container, SERVICE_IDENTIFIER } from '@tarojs/runtime'
+import { ${creator} } from '${creatorLocation}'
 ${importFrameworkStatement}
+var hooks = container.get(SERVICE_IDENTIFIER.Hooks)
+hooks.initNativeApiImpls = [defaultReconciler.initNativeApi]
 var config = ${configString};
 var appConfig = ${JSON.stringify(appConfig)};
 window.__taroAppConfig = appConfig
 ${mockAppStatement}
 ${creator}(App, ${frameworkArgsCopy})
+var component = require(${stringify(componentPath)}).default
 ${config.enableShareTimeline ? 'component.enableShareTimeline = true' : ''}
 ${config.enableShareAppMessage ? 'component.enableShareAppMessage = true' : ''}
 var inst = Page(createPageConfig(component, '${options.name}', {}, config || {}))

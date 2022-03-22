@@ -3,19 +3,19 @@ import { StandardProps, CommonEventFunction } from './common'
 
 interface VideoProps extends StandardProps {
   /** 要播放视频的资源地址
-   * @supported weapp, h5, swan, alipay, tt
+   * @supported weapp, h5, swan, alipay, tt, rn
    */
   src: string
 
   /** 指定视频时长
-   * @supported weapp, swan, alipay
+   * @supported weapp, swan, alipay, rn
    * @h5 待定
    */
   duration?: number
 
   /** 是否显示默认播放控件（播放/暂停按钮、播放进度、时间）
    * @default true
-   * @supported weapp, h5, swan, alipay, tt
+   * @supported weapp, h5, swan, alipay, tt, rn
    */
   controls?: boolean
 
@@ -41,24 +41,24 @@ interface VideoProps extends StandardProps {
 
   /** 是否自动播放
    * @default false
-   * @supported weapp, h5, swan, alipay, tt
+   * @supported weapp, h5, swan, alipay, tt, rn
    */
   autoplay?: boolean
 
   /** 是否循环播放
    * @default false
-   * @supported weapp, h5, swan, alipay, tt
+   * @supported weapp, h5, swan, alipay, tt, rn
    */
   loop?: boolean
 
   /** 是否静音播放
    * @default false
-   * @supported weapp, h5, swan, alipay, tt
+   * @supported weapp, h5, swan, alipay, tt, rn
    */
   muted?: boolean
 
   /** 指定视频初始播放位置
-   * @supported weapp, h5, swan, alipay, tt
+   * @supported weapp, h5, swan, alipay, tt, rn
    */
   initialTime?: number
 
@@ -97,7 +97,7 @@ interface VideoProps extends StandardProps {
 
   /** 是否显示视频中间的播放按钮
    * @default true
-   * @supported weapp, swan, alipay
+   * @supported weapp, swan, alipay, rn
    * @h5 待定
    */
   showCenterPlayBtn?: boolean
@@ -114,10 +114,10 @@ interface VideoProps extends StandardProps {
    * @supported weapp, swan, alipay
    * @h5 待定
    */
-  objectFit?: keyof VideoProps.objectFit
+  objectFit?: keyof VideoProps.ObjectFit
 
   /** 视频封面的图片网络资源地址，如果 controls 属性值为 false 则设置 poster 无效
-   * @supported weapp, h5, swan, alipay, tt
+   * @supported weapp, h5, swan, alipay, tt, rn
    */
   poster?: string
 
@@ -142,7 +142,7 @@ interface VideoProps extends StandardProps {
    * @supported weapp
    * @h5 待定
    */
-  playBtnPosition?: keyof VideoProps.playBtnPosition
+  playBtnPosition?: keyof VideoProps.PlayBtnPosition
 
   /** 是否开启播放手势，即双击切换播放/暂停
    * @default false
@@ -203,12 +203,12 @@ interface VideoProps extends StandardProps {
   /**
    * 是否在小窗模式下显示播放进度（目前有bug，先注释掉）
    * @supported weapp
-   * 
+   *
    * 先注释掉，原因如下：
    * 该属性超过了 wxml 属性的长度限制，实际无法使用且导致编译报错。可等微信官方修复后再放开。
    * 参考1：https://developers.weixin.qq.com/community/develop/doc/000a429beb87f0eac07acc0fc5b400
    * 参考2: https://developers.weixin.qq.com/community/develop/doc/0006883619c48054286a4308258c00?_at=vyxqpllafi
-   * 
+   *
    */
   // pictureInPictureShowProgress?: boolean
 
@@ -217,7 +217,7 @@ interface VideoProps extends StandardProps {
    * @supported weapp
    */
   enableAutoRotation?: boolean
-  
+
   /**
    * 是否显示锁屏按钮，仅在全屏时显示，锁屏后控制栏的操作
    * @supported weapp
@@ -225,31 +225,31 @@ interface VideoProps extends StandardProps {
   showScreenLockButton?: boolean
 
   /** 当开始/继续播放时触发 play 事件
-   * @supported weapp, h5, swan, alipay, tt
+   * @supported weapp, h5, swan, alipay, tt, rn
    */
   onPlay?: CommonEventFunction
 
   /** 当暂停播放时触发 pause 事件
-   * @supported weapp, h5, swan, alipay, tt
+   * @supported weapp, h5, swan, alipay, tt, rn
    */
   onPause?: CommonEventFunction
 
   /** 当播放到末尾时触发 ended 事件
-   * @supported weapp, h5, swan, alipay, tt
+   * @supported weapp, h5, swan, alipay, tt, rn
    */
   onEnded?: CommonEventFunction
 
   /** 播放进度变化时触发, 触发频率 250ms 一次
    *
    * event.detail = {currentTime, duration}
-   * @supported weapp, h5, swan, alipay, tt
+   * @supported weapp, h5, swan, alipay, tt, rn
    */
   onTimeUpdate?: CommonEventFunction<VideoProps.onTimeUpdateEventDetail>
 
   /** 当视频进入和退出全屏时触发
    *
    * event.detail = {fullScreen, direction}，direction取为 vertical 或 horizontal
-   * @supported weapp, swan, alipay
+   * @supported weapp, swan, alipay, rn
    * @h5 待定
    */
   onFullscreenChange?: CommonEventFunction<VideoProps.onFullscreenChangeEventDetail>
@@ -263,7 +263,7 @@ interface VideoProps extends StandardProps {
   onWaiting?: CommonEventFunction<VideoProps.onWaitingEventDetail>
 
   /** 视频播放出错时触发
-   * @supported weapp, h5, swan, alipay, tt
+   * @supported weapp, h5, swan, alipay, tt, rn
    */
   onError?: CommonEventFunction
   /** 加载进度变化时触发，只支持一段加载
@@ -273,7 +273,7 @@ interface VideoProps extends StandardProps {
   onProgress?: CommonEventFunction<VideoProps.onProgressEventDetail>
 
   /** 视频元数据加载完成时触发。event.detail = {width, height, duration}
-   * @supported weapp
+   * @supported weapp, rn
    */
   onLoadedMetaData?: CommonEventFunction
 
@@ -300,6 +300,11 @@ interface VideoProps extends StandardProps {
    * @supported weapp
    */
   onSeekComplete?: CommonEventFunction
+
+  /** 用于透传 `WebComponents` 上的属性到内部 H5 标签上
+   * @supported h5
+   */
+  nativeProps?: Record<string, unknown>
 }
 
 declare namespace VideoProps {
@@ -313,7 +318,7 @@ declare namespace VideoProps {
     '-90'
   }
   /** objectFit 的合法值 */
-  interface objectFit {
+  interface ObjectFit {
     /** 包含 */
     contain
     /** 填充 */
@@ -322,7 +327,7 @@ declare namespace VideoProps {
     cover
   }
   /** playBtnPosition 的合法值 */
-  interface playBtnPosition {
+  interface PlayBtnPosition {
     /** controls bar上 */
     bottom
     /** 视频中间 */
@@ -359,27 +364,27 @@ declare namespace VideoProps {
 }
 
 /** 视频。相关api：Taro.createVideoContext
- * 
+ *
  * 备注：h5上因为没有测试，所以暂时写了“待定”，需要`Video`来确认。
  * @classification media
  * @supported weapp, h5, swan, alipay, tt
- * @example
+ * @example_react
  * ```tsx
  * export default class PageView extends Component {
  *   constructor() {
  *     super(...arguments)
  *   }
- * 
+ *
  *   render() {
  *     return (
  *       <View className='components-page'>
  *         <Video
- *           src='http://wxsnsdy.tc.qq.com/105/20210/snsdyvideodownload?filekey=30280201010421301f0201690402534804102ca905ce620b1241b726bc41dcff44e00204012882540400&bizid=1023&hy=SH&fileparam=302c020101042530230204136ffd93020457e3c4ff02024ef202031e8d7f02030f42400204045a320a0201000400'
+ *           id='video'
+ *           src='https://wxsnsdy.tc.qq.com/105/20210/snsdyvideodownload?filekey=30280201010421301f0201690402534804102ca905ce620b1241b726bc41dcff44e00204012882540400&bizid=1023&hy=SH&fileparam=302c020101042530230204136ffd93020457e3c4ff02024ef202031e8d7f02030f42400204045a320a0201000400'
+ *           poster='https://misc.aotu.io/booxood/mobile-video/cover_900x500.jpg'
+ *           initialTime='0'
  *           controls={true}
  *           autoplay={false}
- *           poster='http://misc.aotu.io/booxood/mobile-video/cover_900x500.jpg'
- *           initialTime='0'
- *           id='video'
  *           loop={false}
  *           muted={false}
  *         />
@@ -387,6 +392,21 @@ declare namespace VideoProps {
  *     )
  *   }
  * }
+ * ```
+ * @example_vue
+ * ```html
+ * <template>
+ *   <video
+ *     id="video"
+ *     src="https://wxsnsdy.tc.qq.com/105/20210/snsdyvideodownload?filekey=30280201010421301f0201690402534804102ca905ce620b1241b726bc41dcff44e00204012882540400&bizid=1023&hy=SH&fileparam=302c020101042530230204136ffd93020457e3c4ff02024ef202031e8d7f02030f42400204045a320a0201000400"
+ *     poster="https://misc.aotu.io/booxood/mobile-video/cover_900x500.jpg"
+ *     initial-time="0"
+ *     :controls="true"
+ *     :autoplay="false"
+ *     :loop="false"
+ *     :muted="false"
+ *   />
+ * </template>
  * ```
  * @see https://developers.weixin.qq.com/miniprogram/dev/component/video.html
  */

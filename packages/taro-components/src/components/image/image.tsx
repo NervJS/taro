@@ -79,9 +79,9 @@ export class Image implements ComponentInterface {
   render () {
     const {
       src,
-      mode,
-      lazyLoad,
-      aspectFillMode,
+      mode = 'scaleToFill',
+      lazyLoad = false,
+      aspectFillMode = 'width',
       imageOnLoad,
       imageOnError,
       nativeProps

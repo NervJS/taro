@@ -1,31 +1,14 @@
 {
+  "extends": "../../tsconfig.root.json",
   "compilerOptions": {
-    "target": "ES2017",
-    "module": "ESNext",
-    "removeComments": false,
-    "preserveConstEnums": false,
-    "moduleResolution": "node",
-    "experimentalDecorators": true,
-    "noImplicitAny": false,
-    "allowSyntheticDefaultImports": true,
-    "outDir": "lib",
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "strictNullChecks": true,
-    "skipLibCheck": true,
-    "resolveJsonModule": true,
-    "sourceMap": true,
     "baseUrl": ".",
-    "rootDir": ".",
+    "module": "ESNext",
+    "skipLibCheck": true,
+    "sourceMap": true,
     "jsx": "react",
-    "jsxFactory": "h",
-    "declaration": false
+    "jsxFactory": "h"
   },
   "include": [
-    "src"
-  ],
-  "exclude": [
-    "node_modules"
-  ],
-  "compileOnSave": false
+    "./src"
+  ]
 }

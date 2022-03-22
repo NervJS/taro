@@ -3,7 +3,7 @@ import { render, ContainerMap } from './render'
 import { TaroReconciler } from './reconciler'
 import { TaroElement } from '@tarojs/runtime'
 import { ReactNode } from 'react'
-import { ensure } from '@tarojs/shared'
+import { ensure, isFunction } from '@tarojs/shared'
 
 const unstable_batchedUpdates = TaroReconciler.batchedUpdates
 
@@ -36,7 +36,7 @@ function findDOMNode (comp?: TaroElement | ReactNode) {
   return TaroReconciler.findHostInstance(comp as Record<string, any>)
 }
 
-const portalType = typeof Symbol === 'function' && Symbol.for
+const portalType = isFunction(Symbol) && Symbol.for
   ? Symbol.for('react.portal')
   : 0xeaca
 

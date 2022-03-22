@@ -1,7 +1,7 @@
 import * as path from 'path'
 import * as fs from 'fs'
 import { camelCase } from 'lodash'
-import { isEmptyObject } from '@tarojs/helper'
+import { isEmptyObject, readPageConfig } from '@tarojs/helper'
 import { getConfigContent, getConfigFilePath, parseBase64Image } from './utils'
 import { TransformEntry, AppConfig } from './types/index'
 
@@ -22,7 +22,11 @@ function getPagesResource (appPath: string, basePath: string, pathPrefix: string
     if (fs.existsSync(configFile)) {
       importConfigs.push(`import ${screenConfigName} from '.${pathPrefix}${pagePath}.config'`)
     } else {
-      importConfigs.push(`const ${screenConfigName} = {}`)
+      let result = {}
+      try {
+        result = readPageConfig(configFile)
+      } catch (err) {}
+      importConfigs.push(`const ${screenConfigName} = ${JSON.stringify(result)}`)
     }
   })
   return {
@@ -115,7 +119,8 @@ export default function generateEntry ({
 
   const appTabBar = getFormatTabBar(appPath, basePath)
 
-  const code = `import { AppRegistry } from 'react-native'
+  const code = `import 'react-native-gesture-handler'
+  import { AppRegistry } from 'react-native'
   import { createReactNativeApp, createPageConfig } from '@tarojs/runtime-rn'
   import Component from '${appComponentPath}'
   ${importPageList}

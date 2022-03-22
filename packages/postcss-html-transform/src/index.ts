@@ -9,16 +9,22 @@ const reg = new RegExp(`(^| |\\+|,|~|>|\\n)(${tagsCombine})\\b(?=$| |\\.|\\+|,|~
 function plugin (_opts) {
   return function (root) {
     root.walkRules(function (rule) {
-      if (/(^| )\*(?![=/*])/.test(rule)) {
+      if (/(^| )\*(?![=/*])/.test(rule.selector)) {
         rule.remove()
         return
       }
       rule.selector = rule.selector.replace(reg, '$1.h5-$2')
     })
-    root.walkDecls(function (decl) {
-      if (decl.prop === 'cursor') {
-        decl.remove()
-      }
-    })
+    let removeCursorStyle = true
+    if (typeof _opts?.removeCursorStyle === 'boolean') {
+      removeCursorStyle = _opts.removeCursorStyle
+    }
+    if (removeCursorStyle) {
+      root.walkDecls(function (decl) {
+        if (decl.prop === 'cursor') {
+          decl.remove()
+        }
+      })
+    }
   }
 }

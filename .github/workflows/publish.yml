@@ -22,7 +22,7 @@ jobs:
       - name: Setup Node ${{ matrix.node_version }}
         uses: actions/setup-node@v1
         with:
-          node-version: 12
+          node-version: 16
           registry-url: 'https://registry.npmjs.org'
       - name: Git Identity
         run: |
@@ -97,9 +97,6 @@ jobs:
       - name: install
         if: startsWith( env.commitmsg , 'chore(release):' ) && steps.tag_check.outputs.exists_tag == 'false'
         run: yarn
-      - name: bootstrap
-        if: startsWith( env.commitmsg , 'chore(release):' ) && steps.tag_check.outputs.exists_tag == 'false'
-        run: yarn run bootstrap:lerna
       - name: build
         if: startsWith( env.commitmsg , 'chore(release):' ) && steps.tag_check.outputs.exists_tag == 'false'
         run: yarn build

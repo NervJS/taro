@@ -9,42 +9,24 @@ export const ENV_TYPE = {
   JD: 'JD'
 }
 
-let _env = null
-
-// 一个taro项目肯定运行同样的环境
 export function getEnv () {
-  if (_env) return _env
-  if (typeof jd !== 'undefined' && jd.getSystemInfo) {
-    _env = ENV_TYPE.JD
-    return ENV_TYPE.JD
-  }
-  if (typeof qq !== 'undefined' && qq.getSystemInfo) {
-    _env = ENV_TYPE.QQ
-    return ENV_TYPE.QQ
-  }
-  if (typeof tt !== 'undefined' && tt.getSystemInfo) {
-    _env = ENV_TYPE.TT
-    return ENV_TYPE.TT
-  }
-  if (typeof wx !== 'undefined' && wx.getSystemInfo) {
-    _env = ENV_TYPE.WEAPP
+  if (process.env.TARO_ENV === 'weapp') {
     return ENV_TYPE.WEAPP
-  }
-  if (typeof swan !== 'undefined' && swan.getSystemInfo) {
-    _env = ENV_TYPE.SWAN
-    return ENV_TYPE.SWAN
-  }
-  if (typeof my !== 'undefined' && my.getSystemInfo) {
-    _env = ENV_TYPE.ALIPAY
+  } else if (process.env.TARO_ENV === 'alipay') {
     return ENV_TYPE.ALIPAY
-  }
-  if (typeof global !== 'undefined' && global.__fbGenNativeModule) {
-    _env = ENV_TYPE.RN
-    return ENV_TYPE.RN
-  }
-  if (typeof window !== 'undefined') {
-    _env = ENV_TYPE.WEB
+  } else if (process.env.TARO_ENV === 'swan') {
+    return ENV_TYPE.SWAN
+  } else if (process.env.TARO_ENV === 'tt') {
+    return ENV_TYPE.TT
+  } else if (process.env.TARO_ENV === 'jd') {
+    return ENV_TYPE.JD
+  } else if (process.env.TARO_ENV === 'qq') {
+    return ENV_TYPE.QQ
+  } else if (process.env.TARO_ENV === 'h5') {
     return ENV_TYPE.WEB
+  } else if (process.env.TARO_ENV === 'rn') {
+    return ENV_TYPE.RN
+  } else {
+    return process.env.TARO_ENV || 'Unknown'
   }
-  return 'Unknown environment'
 }

@@ -1,10 +1,10 @@
 import { ComponentType } from 'react'
-import { StandardProps, CommonEventFunction, TouchEventFunction, Omit } from './common'
+import { StandardProps, CommonEventFunction, TouchEventFunction } from './common'
 
 interface MovableViewProps extends Omit<StandardProps, 'animation'> {
   /** movable-view 的移动方向，属性值有`all`、`vertical`、`horizontal`、`none`
    * @default none
-   * @supported weapp
+   * @supported weapp, rn
    */
   direction?: 'all' | 'vertical' | 'horizontal' | 'none'
 
@@ -21,12 +21,12 @@ interface MovableViewProps extends Omit<StandardProps, 'animation'> {
   outOfBounds?: boolean
 
   /** 定义 x 轴方向的偏移，如果 x 的值不在可移动范围内，会自动移动到可移动范围；改变 x 的值会触发动画
-   * @supported weapp
+   * @supported weapp, rn
    */
   x?: number | string
 
   /** 定义 y 轴方向的偏移，如果 y 的值不在可移动范围内，会自动移动到可移动范围；改变 y 的值会触发动画
-   * @supported weapp
+   * @supported weapp, rn
    */
   y?: number | string
 
@@ -44,7 +44,7 @@ interface MovableViewProps extends Omit<StandardProps, 'animation'> {
 
   /** 是否禁用
    * @default false
-   * @supported weapp
+   * @supported weapp, rn
    */
   disabled?: boolean
 
@@ -97,6 +97,14 @@ interface MovableViewProps extends Omit<StandardProps, 'animation'> {
    * @supported weapp
    */
   onVTouchMove?: TouchEventFunction
+  /** 开始拖动时触发
+   * @supported rn
+   */
+  onDragStart?: CommonEventFunction
+  /** 拖动结束时触发
+   * @supported rn
+   */
+  onDragEnd?: CommonEventFunction
 }
 
 declare namespace MovableViewProps {
@@ -135,8 +143,8 @@ declare namespace MovableViewProps {
 
 /** 可移动的视图容器，在页面中可以拖拽滑动。movable-view 必须在 movable-area 组件中，并且必须是直接子节点，否则不能移动。
  * @classification viewContainer
- * @supported weapp, swan, alipay
- * @example
+ * @supported weapp, swan, alipay, rn
+ * @example_react
  * ```tsx
  * class App extends Components {
  *   render () {
@@ -147,6 +155,12 @@ declare namespace MovableViewProps {
  *     )
  *   }
  * }
+ * ```
+ * @example_vue
+ * ```html
+ *   <movable-area style='height: 200px; width: 200px; background: red;'>
+ *     <movable-view style='height: 50px; width: 50px; background: blue;' direction='all'>带我走</movable-view>
+ *   </movable-area>
  * ```
  * @see https://developers.weixin.qq.com/miniprogram/dev/component/movable-view.html
  */
