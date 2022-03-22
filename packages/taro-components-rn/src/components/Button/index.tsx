@@ -20,6 +20,7 @@
  * - show-message-card
  * - bindcontact
  * - bindgetphonenumber
+ * - bindchooseavatar
  * - app-parameter
  * - binderror
  * - bindopensetting
@@ -43,6 +44,8 @@ import {
 import styles from './styles'
 import { extracteTextStyle, noop } from '../../utils'
 import { ButtonProps, ButtonState } from './PropsType'
+import loadingWarnPng from '../../assets/loading-warn.png'
+import ladingPng from '../../assets/loading.png'
 
 const Loading = (props: { type: ButtonProps['type'], hasSibling: boolean }) => {
   const { type = 'primary', hasSibling } = props
@@ -79,10 +82,11 @@ const Loading = (props: { type: ButtonProps['type'], hasSibling: boolean }) => {
   }
 
   return (
-    <Animated.View style={loadingStyle}>
+    <Animated.View testID='loading' style={loadingStyle}>
       <Image
+        accessibilityLabel='loading image'
         source={
-          type === 'warn' ? require('../../assets/loading-warn.png') : require('../../assets/loading.png')
+          type === 'warn' ? loadingWarnPng : ladingPng
         }
         style={styles.loadingImg}
       />

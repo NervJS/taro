@@ -50,6 +50,7 @@ export const components = {
     bindGetUserInfo: _empty,
     bindContact: _empty,
     bindGetPhoneNumber: _empty,
+    bindChooseAvatar: _empty,
     bindError: _empty,
     bindOpenSetting: _empty,
     bindLaunchApp: _empty

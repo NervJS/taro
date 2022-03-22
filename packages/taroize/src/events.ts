@@ -1,6 +1,7 @@
 export const specialEvents = new Map<string, string>()
 specialEvents.set('bindtimeupdate', 'onTimeUpdate')
 specialEvents.set('bindgetphoneNumber', 'onGetPhoneNumber')
+specialEvents.set('bindchooseavatar', 'onChooseAvatar')
 specialEvents.set('bindgetrealnameauthinfo', 'onGetRealnameAuthInfo')
 specialEvents.set('bindopensetting', 'onOpenSetting')
 specialEvents.set('bindscancode', 'onScanCode')

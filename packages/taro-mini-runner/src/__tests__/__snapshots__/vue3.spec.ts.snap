@@ -89,6 +89,7 @@ require(\\"./taro\\");
                 bindGetUserInfo: _empty,
                 bindContact: _empty,
                 bindGetPhoneNumber: _empty,
+                bindChooseAvatar: _empty,
                 bindError: _empty,
                 bindOpenSetting: _empty,
                 bindLaunchApp: _empty
@@ -527,6 +528,7 @@ require(\\"./taro\\");
         function createVue3Page(h, id) {
             return function(component) {
                 var _a;
+                component = isClassComponent(component) ? component.__vccOpts : component;
                 var inject = {
                     props: {
                         tid: String
@@ -574,7 +576,7 @@ require(\\"./taro\\");
             var _Object$create;
             var pages = [];
             var appInstance;
-            undefined(!isFunction(app._component), \\"\\\\u5165\\\\u53e3\\\\u7ec4\\\\u4ef6\\\\u4e0d\\\\u652f\\\\u6301\\\\u4f7f\\\\u7528\\\\u51fd\\\\u6570\\\\u5f0f\\\\u7ec4\\\\u4ef6\\");
+            undefined(!(isFunction(app._component) && !isClassComponent(app._component)), \\"\\\\u5165\\\\u53e3\\\\u7ec4\\\\u4ef6\\\\u4e0d\\\\u652f\\\\u6301\\\\u4f7f\\\\u7528\\\\u51fd\\\\u6570\\\\u5f0f\\\\u7ec4\\\\u4ef6\\");
             setReconciler();
             app._component.render = function() {
                 return pages.slice();
@@ -648,6 +650,9 @@ require(\\"./taro\\");
             })), _Object$create));
             taro_runtime[\\"Current\\"].app = appConfig;
             return appConfig;
+        }
+        function isClassComponent(value) {
+            return isFunction(value) && \\"__vccOpts\\" in value;
         }
         var runtime_hooks = taro_runtime[\\"container\\"].get(taro_runtime[\\"SERVICE_IDENTIFIER\\"].Hooks);
         runtime_hooks.initNativeApiImpls || (runtime_hooks.initNativeApiImpls = []);

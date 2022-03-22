@@ -1,8 +1,6 @@
-// eslint-disable-next-line no-use-before-define
 import * as React from 'react'
-import { shallow } from 'enzyme'
-import toJson from 'enzyme-to-json'
-import Video from '../src/components/Video'
+import { render } from '@testing-library/react-native'
+import Video from '../components/Video'
 
 describe('Video', () => {
   const videoOpts = {
@@ -17,7 +15,7 @@ describe('Video', () => {
   }
 
   it('render Video', () => {
-    const wrapper = shallow(<Video {...videoOpts} />)
-    expect(toJson(wrapper)).toMatchSnapshot()
+    const { toJSON } = render(<Video {...videoOpts} />)
+    expect(toJSON()).toMatchSnapshot()
   })
 })

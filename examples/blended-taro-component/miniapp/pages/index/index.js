@@ -10,7 +10,10 @@ Page({
     canIUse: wx.canIUse('button.open-type.getUserInfo'),
     pickerProps: {
       title: 'test',
-      list: ['A', 'B', 'C']
+      list: ['A', 'B', 'C'],
+      onButtonClick () {
+        console.log('on button click')
+      }
     }
   },
   // 事件处理函数

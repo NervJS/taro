@@ -12,6 +12,7 @@ const styles = StyleSheet.create({
 const Mask: React.FC<any> = ({ transparent = false, style, onPress, children }) =>
   <TouchableWithoutFeedback onPress={onPress}>
     <View
+      accessibilityLabel='mask'
       style={[styles.mask, { backgroundColor: transparent ? 'transparent' : 'rgba(0,0,0,.6)' }, style]}
     >
       <TouchableWithoutFeedback>{children}</TouchableWithoutFeedback>

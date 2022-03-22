@@ -42,25 +42,30 @@ let targetUnit
 module.exports = postcss.plugin('postcss-pxtransform', function (options = {}) {
   options = Object.assign({}, DEFAULT_WEAPP_OPTIONS, options)
 
+  const isFunctionDw = typeof options.designWidth === 'function'
+  const designWidth = input => isFunctionDw
+    ? options.designWidth(input)
+    : options.designWidth
+
   switch (options.platform) {
     case 'h5': {
-      options.rootValue = baseFontSize * options.designWidth / 640
+      options.rootValue = input => baseFontSize * designWidth(input) / 640
       targetUnit = 'rem'
       break
     }
     case 'rn': {
-      options.rootValue = 1 / options.deviceRatio[options.designWidth] * 2
+      options.rootValue = input => 1 / options.deviceRatio[designWidth(input)] * 2
       targetUnit = 'px'
       break
     }
     case 'quickapp': {
-      options.rootValue = 1
+      options.rootValue = () => 1
       targetUnit = 'px'
       break
     }
     default: {
       // mini-program
-      options.rootValue = 1 / options.deviceRatio[options.designWidth]
+      options.rootValue = input => 1 / options.deviceRatio[designWidth(input)]
       targetUnit = 'rpx'
     }
   }
@@ -69,12 +74,12 @@ module.exports = postcss.plugin('postcss-pxtransform', function (options = {}) {
 
   const opts = Object.assign({}, defaults, options)
   const onePxTransform = typeof options.onePxTransform === 'undefined' ? true : options.onePxTransform
-  const pxReplace = createPxReplace(opts.rootValue, opts.unitPrecision,
-    opts.minPixelValue, onePxTransform)
 
   const satisfyPropList = createPropListMatcher(opts.propList)
 
   return function (css) {
+    const pxReplace = createPxReplace(opts.rootValue, opts.unitPrecision, opts.minPixelValue, onePxTransform)(css.source.input)
+
     for (let i = 0; i < css.nodes.length; i++) {
       if (css.nodes[i].type === 'comment') {
         if (css.nodes[i].text === 'postcss-pxtransform disable') {
@@ -200,15 +205,17 @@ function convertLegacyOptions (options) {
 }
 
 function createPxReplace (rootValue, unitPrecision, minPixelValue, onePxTransform) {
-  return function (m, $1) {
-    if (!$1) return m
-    if (!onePxTransform && parseInt($1, 10) === 1) {
-      return m
+  return function (input) {
+    return function (m, $1) {
+      if (!$1) return m
+      if (!onePxTransform && parseInt($1, 10) === 1) {
+        return m
+      }
+      const pixels = parseFloat($1)
+      if (pixels < minPixelValue) return m
+      const fixedVal = toFixed((pixels / rootValue(input)), unitPrecision)
+      return (fixedVal === 0) ? '0' : fixedVal + targetUnit
     }
-    const pixels = parseFloat($1)
-    if (pixels < minPixelValue) return m
-    const fixedVal = toFixed((pixels / rootValue), unitPrecision)
-    return (fixedVal === 0) ? '0' : fixedVal + targetUnit
   }
 }
 

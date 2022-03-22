@@ -108,7 +108,7 @@ module.exports = (_, options = {}) => {
     decoratorsBeforeExport,
     decoratorsLegacy
   } = options
-  if (options.framework && options.framework !== 'react') {
+  if (options.framework && !['react', 'preact'].includes(options.framework)) {
     throw new Error(`Value "${options.framework}" of option "framework" is not supported for React-Native`)
   }
 

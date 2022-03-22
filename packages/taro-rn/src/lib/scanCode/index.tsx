@@ -182,7 +182,7 @@ export async function scanCode(option: Taro.scanCode.Option = {}): Promise<Taro.
           style={{ width, height }}
           ratio='16:9'
         />
-        <TouchableOpacity style={styles.closeIcon} onPress={() => hide(scannerView)}>
+        <TouchableOpacity accessibilityLabel="Close" style={styles.closeIcon} onPress={() => hide(scannerView)}>
           {safeViewWrapper(<Image source={iconClose} style={styles.closeImg}/>)}
         </TouchableOpacity>
         {!onlyFromCamera && (<TouchableOpacity style={styles.albumIcon} onPress={() => {
