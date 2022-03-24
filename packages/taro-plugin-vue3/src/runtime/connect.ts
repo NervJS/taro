@@ -11,6 +11,7 @@ import type {
   App,
   Component,
   ComponentPublicInstance,
+  ComponentOptions,
   VNode,
   h as createElement
 } from '@vue/runtime-core'
@@ -64,6 +65,8 @@ function setReconciler () {
 
 function createVue3Page (h: typeof createElement, id: string) {
   return function (component): VNode {
+    // 处理类组件
+    component = isClassComponent(component) ? component.__vccOpts : component
     const inject = {
       props: {
         tid: String
@@ -125,11 +128,11 @@ export function createVue3App (app: App<TaroElement>, h: typeof createElement, c
   let pages: VNode[] = []
   let appInstance: ComponentPublicInstance
 
-  ensure(!isFunction(app._component), '入口组件不支持使用函数式组件')
+  ensure(!(isFunction(app._component) && !isClassComponent(app._component)), '入口组件不支持使用函数式组件')
 
   setReconciler()
 
-  app._component.render = function () {
+  ;(app._component as ComponentOptions).render = function () {
     return pages.slice()
   }
 
@@ -215,4 +218,8 @@ export function createVue3App (app: App<TaroElement>, h: typeof createElement, c
   Current.app = appConfig
 
   return appConfig
+}
+
+function isClassComponent (value: unknown) {
+  return isFunction(value) && '__vccOpts' in value
 }

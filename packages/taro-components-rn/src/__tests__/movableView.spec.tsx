@@ -1,12 +1,10 @@
-// eslint-disable-next-line no-use-before-define
 import * as React from 'react'
-import { shallow } from 'enzyme'
-import toJson from 'enzyme-to-json'
-import MovableView from '../src/components/MovableView'
+import { render } from '@testing-library/react-native'
+import MovableView from '../components/MovableView'
 
 describe('MovableView', () => {
   it('MovableView render', () => {
-    const wrapper = shallow(<MovableView
+    const { getByTestId } = render(<MovableView
       direction='all'
       onDragStart={jest.fn}
       onDragEnd={jest.fn}
@@ -16,6 +14,9 @@ describe('MovableView', () => {
         height: 100,
       }}
     />)
-    expect(toJson(wrapper)).toMatchSnapshot()
+    expect(getByTestId('movableView')).toHaveStyle({
+      left: 0,
+      top: 0,
+    })
   })
 })

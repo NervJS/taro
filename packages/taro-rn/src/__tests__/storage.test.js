@@ -63,7 +63,7 @@ describe('storage', () => {
         fail,
         complete
       }).catch(err => {
-        const expectErrMsg = err.message
+        const expectErrMsg = err.errMsg
         expect(fail.mock.calls.length).toBe(1)
         expect(fail.mock.calls[0][0]).toEqual({ errMsg: expectErrMsg })
         expect(complete.mock.calls.length).toBe(1)
