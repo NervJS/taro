@@ -549,8 +549,8 @@ require(\\"./taro\\");
                     component.mixins = [ inject ];
                 }
                 var ProviderComponent = {
-                    provide: {
-                        id: id
+                    setup: function setup() {
+                        Object(vue[\\"provide\\"])(\\"id\\", id);
                     },
                     render: function render() {
                         return this.$slots.default();
