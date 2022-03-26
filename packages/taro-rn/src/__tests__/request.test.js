@@ -110,7 +110,7 @@ describe('request', () => {
         method: 'post',
         dataType: 'json',
         header: {
-          'content-type': 'application/json'
+          'content-type': 'application/json;charset=UTF-8'
         },
         data: {
           a: 1

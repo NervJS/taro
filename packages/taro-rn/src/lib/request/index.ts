@@ -34,9 +34,9 @@ function _request<T = any>(options: Taro.request.Option): Taro.RequestTask<T> {
   } else {
     if (typeof data === 'object') {
       const contentType = options.header && (options.header['content-type'] || options.header['Content-Type'])
-      if (contentType === 'application/json') {
+      if (contentType.startsWith('application/json')) {
         data = JSON.stringify(data)
-      } else if (contentType === 'application/x-www-form-urlencoded') {
+      } else if (contentType.startsWith('application/x-www-form-urlencoded')) {
         data = serializeParams(data)
       }
     }
