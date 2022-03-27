@@ -20,6 +20,7 @@ export default function (this: webpack.loader.LoaderContext) {
     : this.request.split('!').slice(thisLoaderIndex + 1).join('!')
   const runtimePath = Array.isArray(options.runtimePath) ? options.runtimePath : [options.runtimePath]
   const setReconciler = runtimePath.reduce((res, item) => {
+    if (/^@tarojs\/plugin-(react|vue)-devtools/.test(item)) return res
     return res + `import '${item}'\n`
   }, '')
   const { globalObject } = this._compilation.outputOptions
