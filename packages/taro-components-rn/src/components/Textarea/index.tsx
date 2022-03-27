@@ -10,13 +10,13 @@
  */
 
 import * as React from 'react'
-import { Keyboard } from 'react-native'
-import Input from '../Input'
+import { Keyboard, TextInput } from 'react-native'
+import { Input } from '../Input'
 import { omit } from '../../utils'
 import { TextareaProps } from './PropsType'
 
 const _Textarea: React.FC<TextareaProps> = (props: TextareaProps) => {
-  const { autoHeight, onLineChange, autoFocus, maxlength } = props
+  const { autoHeight, onLineChange, autoFocus, maxlength, forwardedRef } = props
   return (
     <Input
       _multiline={true}
@@ -33,13 +33,17 @@ const _Textarea: React.FC<TextareaProps> = (props: TextareaProps) => {
         // props
         'autoHeight',
         'onLineChange',
-        'maxlength'
+        'maxlength',
+        'forwardedRef',
       ])}
       maxlength={maxlength}
+      forwardedRef={forwardedRef}
     />
   )
 }
 
 _Textarea.displayName = '_Textarea'
 
-export default _Textarea
+export default React.forwardRef((props:TextareaProps, ref: React.ForwardedRef<TextInput>) => {
+  return <_Textarea {...props} forwardedRef={ref} />
+})

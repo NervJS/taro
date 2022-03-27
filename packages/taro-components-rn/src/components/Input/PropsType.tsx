@@ -1,5 +1,5 @@
 import { FormItemProps } from '@tarojs/components'
-import { ViewStyle, StyleProp } from 'react-native'
+import { ViewStyle, StyleProp, TextInput } from 'react-native'
 
 export type Event = {
   target: { value?: string };
@@ -44,4 +44,5 @@ export interface InputProps extends FormItemProps{
   _multiline?: boolean;
   _autoHeight?: boolean;
   _onLineChange?: (evt: EventOnLineChange) => void;
+  forwardedRef?: React.ForwardedRef<TextInput>;
 }
