@@ -18,9 +18,10 @@ const customizeChain = async (chain, modifyWebpackChainFunc: Function, customize
 export default async function build (appPath: string, config: IBuildConfig) {
   const mode = config.mode
   const baseWebpackChain = baseConf(appPath)
-  await customizeChain(baseWebpackChain, config.modifyWebpackChain, config.webpackChain)
+  await customizeChain(baseWebpackChain, config.modifyWebpackChain)
   const buildWebpackConf = buildConf(appPath, mode, config, baseWebpackChain)
   const webpackChain = baseWebpackChain.merge(buildWebpackConf)
+  await customizeChain(webpackChain, null, config.webpackChain)
   const webpackConfig = webpackChain.toConfig()
   const onBuildFinish = config.onBuildFinish
   const compiler = webpack(webpackConfig)
