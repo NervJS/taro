@@ -11,6 +11,8 @@ import * as NaturalChunkOrderPlugin from 'webpack/lib/optimize/NaturalChunkOrder
 import * as SplitChunksPlugin from 'webpack/lib/optimize/SplitChunksPlugin'
 import * as RuntimeChunkPlugin from 'webpack/lib/optimize/RuntimeChunkPlugin'
 import * as MiniCssExtractPlugin from 'mini-css-extract-plugin'
+import * as convert from 'convert-source-map'
+import offsetLines from 'offset-sourcemap-lines'
 import { ConcatSource } from 'webpack-sources'
 import { urlToRequest } from 'loader-utils'
 import { minify } from 'html-minifier'
@@ -29,7 +31,8 @@ import {
   processTypeEnum,
   FRAMEWORK_MAP,
   isAliasPath,
-  replaceAliasPath
+  replaceAliasPath,
+  SCRIPT_EXT
 } from '@tarojs/helper'
 
 import TaroSingleEntryPlugin from './TaroSingleEntryPlugin'
@@ -863,7 +866,7 @@ export default class TaroMiniPlugin {
       })
       if (tabBar.custom) {
         const customTabBarPath = path.join(sourceDir, 'custom-tab-bar')
-        const customTabBarComponentPath = resolveMainFilePath(customTabBarPath, FRAMEWORK_EXT_MAP[framework])
+        const customTabBarComponentPath = resolveMainFilePath(customTabBarPath, [...FRAMEWORK_EXT_MAP[framework], ...SCRIPT_EXT])
         if (fs.existsSync(customTabBarComponentPath)) {
           const customTabBarComponentTemplPath = this.getTemplatePath(customTabBarComponentPath)
           const isNative = this.isNativePageORComponent(customTabBarComponentTemplPath)
@@ -1158,21 +1161,46 @@ export default class TaroMiniPlugin {
 
     if (!assets[appStyle]) return
 
-    const originSource: string = assets[appStyle].source()
-    const source = new ConcatSource()
-    source.add(originSource)
+    const commonStyles: string[] = []
 
     Object.keys(assets).forEach(assetName => {
       const fileName = path.basename(assetName, path.extname(assetName))
       if ((REG_STYLE.test(assetName) || REG_STYLE_EXT.test(assetName)) && this.options.commonChunks.includes(fileName)) {
-        source.add('\n')
-        source.add(`@import ${JSON.stringify(urlToRequest(assetName))};`)
-        assets[appStyle] = {
-          size: () => source.source().length,
-          source: () => source.source()
-        }
+        commonStyles.push(`@import ${JSON.stringify(urlToRequest(assetName))};\n`)
       }
     })
+
+    if (commonStyles.length > 0) {
+      const source = new ConcatSource()
+      let rawSource = assets[appStyle].source()
+      source.add(commonStyles.join(''))
+
+      const rawConvSourceMap = convert.fromSource(rawSource)
+
+      if (rawConvSourceMap) {
+        rawSource = convert.removeComments(rawSource)
+        source.add(rawSource)
+        const offsettedMap = offsetLines(rawConvSourceMap.toObject(), commonStyles.length)
+        source.add(convert.fromObject(offsettedMap).toComment())
+      } else {
+        source.add(rawSource)
+        const appStyleMap = appStyle + '.map'
+        if (assets[appStyleMap]) {
+          const mapContext = assets[appStyleMap].source()
+          const offsettedMap = offsetLines(JSON.parse(mapContext), commonStyles.length)
+          const offsettedMapText = JSON.stringify(offsettedMap)
+          assets[appStyleMap] = {
+            size: () => offsettedMapText.length,
+            source: () => offsettedMapText
+          }
+        }
+      }
+
+      assets[appStyle] = {
+        size: () => source.source().length,
+        source: () => source.source()
+      }
+    }
   }
 
   addTarBarFilesToDependencies (compilation: webpack.compilation.Compilation) {

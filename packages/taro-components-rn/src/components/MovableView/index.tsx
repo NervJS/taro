@@ -92,7 +92,7 @@ class _MovableView extends React.Component<MovableViewProps, any> {
   render(): JSX.Element {
     const { style } = this.props
     return (
-      <Animated.View ref={this.$ref} onLayout={this._onLayout} {...this.panResponder.panHandlers} style={[style, this.state.pan.getLayout()]}>
+      <Animated.View testID="movableView" ref={this.$ref} onLayout={this._onLayout} {...this.panResponder.panHandlers} style={[style, this.state.pan.getLayout()]}>
         <View>{this.props.children}</View>
       </Animated.View>
     )
