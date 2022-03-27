@@ -5,10 +5,7 @@ import {
   safeExecute,
   addLeadingSlash,
   incrementId,
-  eventHandler,
-  SERVICE_IDENTIFIER,
-  container,
-  IHooks
+  eventHandler
 } from '@tarojs/runtime'
 import { isClassComponent } from './utils'
 import { setReconciler } from './connect'
@@ -22,12 +19,10 @@ import type {
 
 declare const getCurrentPages: () => PageInstance[]
 
-const hooks = container.get<IHooks>(SERVICE_IDENTIFIER.Hooks)
 const getNativeCompId = incrementId()
-export let RNative: typeof React
+let R: typeof React
 let h: typeof React.createElement
 let ReactDOM
-export let PageContextNative: React.Context<string>
 
 function initNativeComponentEntry (R: typeof React, ReactDOM) {
   interface IEntryState {
@@ -39,13 +34,9 @@ function initNativeComponentEntry (R: typeof React, ReactDOM) {
 
   interface IWrapperProps {
     getCtx: () => any
-    renderComponent: (ctx: any) => React.ReactElement,
-    id: string,
+    renderComponent: (ctx: any) => React.ReactElement
   }
 
-  if (!PageContextNative) {
-    PageContextNative = R.createContext('')
-  }
   class NativeComponentWrapper extends R.Component<IWrapperProps, Record<any, any>> {
     root = R.createRef<TaroRootElement>()
     ctx = this.props.getCtx()
@@ -64,13 +55,7 @@ function initNativeComponentEntry (R: typeof React, ReactDOM) {
           {
             ref: this.root
           },
-          h(
-            PageContextNative.Provider,
-            {
-              value: this.props.id
-            },
-            this.props.renderComponent(this.ctx)
-          )
+          this.props.renderComponent(this.ctx)
         )
       )
     }
@@ -96,7 +81,6 @@ function initNativeComponentEntry (R: typeof React, ReactDOM) {
         compId,
         element: h(NativeComponentWrapper, {
           key: compId,
-          id: compId,
           getCtx,
           renderComponent (ctx) {
             return h(Component, { ...(ctx.data ||= {}).props, ...refs, $scope: ctx })
@@ -125,7 +109,7 @@ function initNativeComponentEntry (R: typeof React, ReactDOM) {
     }
   }
 
-  setReconciler(ReactDOM, hooks)
+  setReconciler(ReactDOM)
 
   const app = document.getElementById('app')
 
@@ -136,11 +120,11 @@ function initNativeComponentEntry (R: typeof React, ReactDOM) {
 }
 
 export function createNativeComponentConfig (Component, react: typeof React, reactdom, componentConfig) {
-  RNative = react
+  R = react
   h = react.createElement
   ReactDOM = reactdom
 
-  setReconciler(ReactDOM, hooks)
+  setReconciler(ReactDOM)
 
   const componentObj: Record<string, any> = {
     options: componentConfig,
@@ -155,7 +139,7 @@ export function createNativeComponentConfig (Component, react: typeof React, rea
     },
     created () {
       if (!Current.app) {
-        initNativeComponentEntry(RNative, ReactDOM)
+        initNativeComponentEntry(R, ReactDOM)
       }
     },
     attached () {
