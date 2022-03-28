@@ -5,6 +5,7 @@ import {
   Current,
   injectPageInstance
 } from '@tarojs/runtime'
+import { provide } from 'vue'
 import { setDefaultDescriptor, setRouterParams } from './utils'
 
 import type {
@@ -91,7 +92,9 @@ function createVue3Page (h: typeof createElement, id: string) {
     }
 
     const ProviderComponent = {
-      provide: { id },
+      setup () {
+        provide('id', id)
+      },
       render () {
         return this.$slots.default()
       }
