@@ -26,10 +26,6 @@ function setReconciler () {
     return instance.$options[lifecycle]
   }
 
-  hooks.modifyMpEventImpls?.push(function (event) {
-    event.type = event.type.replace(/-/g, '')
-  })
-
   if (process.env.TARO_ENV === 'h5') {
     hooks.createPullDownComponent = (component, path, h: typeof createElement) => {
       const inject = {
