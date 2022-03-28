@@ -12615,24 +12615,6 @@ css-shorthand-properties@^1.1.1:
   resolved "https://registry.yarnpkg.com/css-shorthand-properties/-/css-shorthand-properties-1.1.1.tgz#1c808e63553c283f289f2dd56fcee8f3337bd935"
   integrity sha512-Md+Juc7M3uOdbAFwOYlTrccIZ7oCFuzrhKYQjdeUEW/sE1hv17Jp/Bws+ReOPpGVBTYCBoYo+G17V5Qo8QQ75A==
 
-css-to-react-native-transform@^1.4.0:
-  version "1.9.0"
-  resolved "https://registry.yarnpkg.com/css-to-react-native-transform/-/css-to-react-native-transform-1.9.0.tgz#63369f479048ab7662f5320f8010840ad91344e7"
-  integrity sha512-darzotx5xx+Q0bzASkvNBasztLCssNerzf9jpMZx0H4CTY6J/y2Wh50ZtYAJ3FmESEux1bJcGa6T0zfISTuFqw==
-  dependencies:
-    css "^2.2.4"
-    css-mediaquery "^0.1.2"
-    css-to-react-native "^2.3.0"
-
-css-to-react-native@^2.3.0:
-  version "2.3.2"
-  resolved "https://registry.yarnpkg.com/css-to-react-native/-/css-to-react-native-2.3.2.tgz#e75e2f8f7aa385b4c3611c52b074b70a002f2e7d"
-  integrity sha512-VOFaeZA053BqvvvqIA8c9n0+9vFppVBAHCp6JgFTtTMU3Mzi+XnelJ9XC9ul3BqFzZyQ5N+H0SnwsWT2Ebchxw==
-  dependencies:
-    camelize "^1.0.0"
-    css-color-keywords "^1.0.0"
-    postcss-value-parser "^3.3.0"
-
 css-tree@1.0.0-alpha.29:
   version "1.0.0-alpha.29"
   resolved "https://registry.yarnpkg.com/css-tree/-/css-tree-1.0.0-alpha.29.tgz#3fa9d4ef3142cbd1c301e7664c1f352bd82f5a39"
@@ -28966,17 +28948,6 @@ tar@^6.0.5:
     minizlib "^2.1.1"
     mkdirp "^1.0.3"
     yallist "^4.0.0"
-
-taro-css-to-react-native@^2.0.4:
-  version "2.2.17"
-  resolved "https://registry.yarnpkg.com/taro-css-to-react-native/-/taro-css-to-react-native-2.2.17.tgz#b63bdb82fcdc41e88eac8a7c822190f0c5c32911"
-  integrity sha512-h/+ZMUGOLNX5ZlFUonRza5op+eDct2ZxSzTa9WzaE4Xc/HIwMz+/WkuRPrREew2dSYVmT3smXmb0rXXlTs3EJw==
-  dependencies:
-    camelize "^1.0.0"
-    css "^2.2.4"
-    css-color-keywords "^1.0.0"
-    css-mediaquery "^0.1.2"
-    postcss-value-parser "^3.3.0"
 
 temp-dir@^1.0.0:
   version "1.0.0"
