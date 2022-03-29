@@ -34,5 +34,9 @@
   "devDependencies": {
     "@tarojs/helper": "3.5.0-canary.1",
     "lodash": "^4.17.21"
+  },
+  "dependencies": {
+    "mkdirp": "^1.0.4",
+    "normalize-path": "^3.0.0"
   }
 }

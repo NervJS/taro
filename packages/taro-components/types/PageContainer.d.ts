@@ -30,7 +30,7 @@ interface PageContainerProps extends StandardProps {
    * @default bottom
    * @supported weapp
    */
-  position?: keyof PageContainerProps.position
+  position?: keyof PageContainerProps.Position
 
   /** 是否显示圆角
    * @default false
@@ -38,21 +38,21 @@ interface PageContainerProps extends StandardProps {
    */
   round?: boolean
 
-  /** 自定义遮罩层样式
+  /** 是否在下滑一段距离后关闭
    * @default false
    * @supported weapp
    */
   closeOnSlideDown?: boolean
 
-  /** 是否在下滑一段距离后关闭
+  /** 自定义遮罩层样式
    * @supported weapp
    */
-  overlayStyle?: boolean
+  overlayStyle?: string
 
   /** 自定义弹出层样式
    * @supported weapp
    */
-  customStyle?: boolean
+  customStyle?: string
 
   /** 进入前触发
    * @supported weapp
@@ -92,15 +92,15 @@ interface PageContainerProps extends StandardProps {
 
 declare namespace PageContainerProps {
   /** 弹出位置 */
-  interface position {
+  interface Position {
     /** 上方弹出 */
     top
     /** 下方弹出 */
     bottom
-    /** 左边弹出 */
-    left
     /** 右边弹出 */
     right
+    /** 中央弹出 */
+    center
   }
 }
 

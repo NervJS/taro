@@ -108,7 +108,7 @@ module.exports = (_, options = {}) => {
     decoratorsBeforeExport,
     decoratorsLegacy
   } = options
-  if (options.framework && options.framework !== 'react') {
+  if (options.framework && !['react', 'preact'].includes(options.framework)) {
     throw new Error(`Value "${options.framework}" of option "framework" is not supported for React-Native`)
   }
 
@@ -168,6 +168,10 @@ module.exports = (_, options = {}) => {
   )
 
   plugins.push(require('../remove-define-config'))
+
+  plugins.push(
+    [require('babel-plugin-minify-dead-code-elimination'), {}]
+  )
 
   return {
     presets,

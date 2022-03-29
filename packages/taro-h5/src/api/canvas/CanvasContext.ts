@@ -5,7 +5,7 @@ interface IAction {
   args: any[]
 }
 
-const TextBaseLineMap: Record<keyof Taro.CanvasContext.textBaseline, CanvasTextBaseline> = {
+const TextBaseLineMap: Record<keyof Taro.CanvasContext.TextBaseline, CanvasTextBaseline> = {
   top: 'top',
   bottom: 'bottom',
   middle: 'middle',
@@ -93,7 +93,7 @@ export class CanvasContext implements Taro.CanvasContext {
   clip (...args) { return this.enqueueActions(this.ctx.clip, ...args) }
   closePath (...args) { return this.enqueueActions(this.ctx.closePath, ...args) }
 
-  createPattern (image: string, repetition: keyof Taro.CanvasContext.repetition): void {
+  createPattern (image: string, repetition: keyof Taro.CanvasContext.Repetition): void {
     return this.createPattern(image, repetition)
   }
 
@@ -166,7 +166,7 @@ export class CanvasContext implements Taro.CanvasContext {
     this.globalAlpha = alpha
   }
 
-  setLineCap (lineCap: keyof Taro.CanvasContext.lineCap): void {
+  setLineCap (lineCap: keyof Taro.CanvasContext.LineCap): void {
     this.lineCap = lineCap
   }
 
@@ -177,7 +177,7 @@ export class CanvasContext implements Taro.CanvasContext {
     })
   }
 
-  setLineJoin (lineJoin: keyof Taro.CanvasContext.lineJoin): void {
+  setLineJoin (lineJoin: keyof Taro.CanvasContext.LineJoin): void {
     this.lineJoin = lineJoin
   }
 
@@ -202,11 +202,11 @@ export class CanvasContext implements Taro.CanvasContext {
     this.enqueueActions(() => { this.ctx.strokeStyle = color })
   }
 
-  setTextAlign (align: keyof Taro.CanvasContext.align): void {
+  setTextAlign (align: keyof Taro.CanvasContext.Align): void {
     this.textAlign = align
   }
 
-  setTextBaseline (textBaseline: keyof Taro.CanvasContext.textBaseline): void {
+  setTextBaseline (textBaseline: keyof Taro.CanvasContext.TextBaseline): void {
     this.textBaseline = TextBaseLineMap[textBaseline] || 'alphabetic'
   }
 

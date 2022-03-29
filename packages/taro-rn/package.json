@@ -18,7 +18,7 @@
     "lint": "eslint .",
     "test": "jest --silent",
     "test:dev": "jest --watch",
-    "test:ci": "jest --silent -i --coverage false",
+    "test:ci": "jest -i --silent --coverage false",
     "test:coverage": "jest --coverage",
     "script": "node ./script"
   },
@@ -53,22 +53,19 @@
     "react-native-device-info": "~8.4.8",
     "react-native-image-resizer": "~1.4.5",
     "react-native-image-zoom-viewer": "^3.0.1",
-    "react-native-root-siblings": "^3.1.0",
+    "react-native-root-siblings": "^4.1.1",
     "react-native-root-toast": "^3.0.1",
-    "react-native-safe-area-context": "~3.3.2",
+    "react-native-safe-area-context": "~3.4.1",
     "react-native-stylekit": "^1.0.0",
-    "react-native-syan-image-picker": "0.4.10",
+    "react-native-syan-image-picker": "0.5.3",
     "react-native-unimodules": "~0.14.10"
   },
   "devDependencies": {
     "@tarojs/taro": "3.5.0-canary.1",
-    "@types/react-native": "0.66.5",
-    "babel-plugin-jest-hoist": "^26.6.2",
+    "@types/react-native": "0.67.0",
     "cpy-cli": "^3.1.1",
-    "jest-expo": "^39.0.0",
-    "mock-socket": "^7.1.0",
-    "react-native": "^0.66.0",
-    "rimraf": "^3.0.0"
+    "fbjs-scripts": "^3.0.1",
+    "react-native": "^0.67.3"
   },
   "peerDependencies": {
     "@react-native-async-storage/async-storage": "~1.15.11",
@@ -87,8 +84,8 @@
     "expo-sensors": "~10.2.2",
     "react-native-device-info": "~8.4.8",
     "react-native-image-resizer": "~1.4.5",
-    "react-native-safe-area-context": "~3.3.2",
-    "react-native-syan-image-picker": "0.4.10",
+    "react-native-safe-area-context": "~3.4.1",
+    "react-native-syan-image-picker": "0.5.3",
     "react-native-unimodules": "~0.14.10"
   },
   "resolutions": {

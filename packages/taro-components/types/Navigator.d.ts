@@ -6,7 +6,7 @@ interface NavigatorProps extends StandardProps {
    * @default "self"
    * @supported weapp, swan
    */
-  target?: keyof NavigatorProps.target
+  target?: keyof NavigatorProps.Target
 
   /** 当前小程序内的跳转链接
    * @supported weapp, swan, alipay, tt
@@ -17,7 +17,7 @@ interface NavigatorProps extends StandardProps {
    * @default "navigate"
    * @supported weapp, swan, alipay, tt
    */
-  openType?: keyof NavigatorProps.openType
+  openType?: keyof NavigatorProps.OpenType
 
   /** 当 open-type 为 'navigateBack' 时有效，表示回退的层数
    * @supported weapp, swan, tt
@@ -42,7 +42,7 @@ interface NavigatorProps extends StandardProps {
   /** 当 `target="miniProgram"` 时有效，要打开的小程序版本
    * @supported weapp, swan
    */
-  version?: keyof NavigatorProps.version
+  version?: keyof NavigatorProps.Version
 
   /** 指定按下去的样式类。当 `hover-class="none"` 时，没有点击态效果
    * @default "navigator-hover"
@@ -86,17 +86,17 @@ interface NavigatorProps extends StandardProps {
 
 declare namespace NavigatorProps {
   /** target 的合法值 */
-  interface target {
+  interface Target {
     /** 当前小程序 */
     self
     /** 其它小程序 */
     miniProgram
   }
   /** open-type 的合法值 */
-  interface openType {
+  interface OpenType {
     /** 对应 Taro.navigateTo 或 Taro.navigateToMiniProgram 的功能 */
     navigate
-    /** 对应 Taro.redirectTo 的功能 */	
+    /** 对应 Taro.redirectTo 的功能 */
     redirect
     /** 对应 Taro.switchTab 的功能 */
     switchTab
@@ -108,7 +108,7 @@ declare namespace NavigatorProps {
     exit
   }
   /** version 的合法值 */
-  interface version {
+  interface Version {
     /** 开发版 */
     develop
     /** 体验版 */

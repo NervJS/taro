@@ -7,8 +7,10 @@ import {
   incrementId,
   eventHandler
 } from '@tarojs/runtime'
+import { EMPTY_OBJ } from '@tarojs/shared'
 import { isClassComponent } from './utils'
 import { setReconciler } from './connect'
+import { reactMeta } from './react-meta'
 
 import type * as React from 'react'
 import type { PageInstance } from '@tarojs/taro'
@@ -20,7 +22,6 @@ import type {
 declare const getCurrentPages: () => PageInstance[]
 
 const getNativeCompId = incrementId()
-let R: typeof React
 let h: typeof React.createElement
 let ReactDOM
 
@@ -77,13 +78,27 @@ function initNativeComponentEntry (R: typeof React, ReactDOM) {
         forwardedRef: inject,
         reactReduxForwardedRef: inject
       }
+      if (reactMeta.PageContext === EMPTY_OBJ) {
+        reactMeta.PageContext = R.createContext('')
+      }
       const item = {
         compId,
         element: h(NativeComponentWrapper, {
           key: compId,
           getCtx,
           renderComponent (ctx) {
-            return h(Component, { ...(ctx.data ||= {}).props, ...refs })
+            return h(
+              reactMeta.PageContext.Provider,
+              { value: compId },
+              h(
+                Component,
+                {
+                  ...(ctx.data ||= {}).props,
+                  ...refs,
+                  $scope: ctx
+                }
+              )
+            )
           }
         })
       }
@@ -109,7 +124,7 @@ function initNativeComponentEntry (R: typeof React, ReactDOM) {
     }
   }
 
-  setReconciler()
+  setReconciler(ReactDOM)
 
   const app = document.getElementById('app')
 
@@ -120,13 +135,13 @@ function initNativeComponentEntry (R: typeof React, ReactDOM) {
 }
 
 export function createNativeComponentConfig (Component, react: typeof React, reactdom, componentConfig) {
-  R = react
+  reactMeta.R = react
   h = react.createElement
   ReactDOM = reactdom
 
-  setReconciler()
+  setReconciler(ReactDOM)
 
-  const componentObj = {
+  const componentObj: Record<string, any> = {
     options: componentConfig,
     properties: {
       props: {
@@ -139,7 +154,7 @@ export function createNativeComponentConfig (Component, react: typeof React, rea
     },
     created () {
       if (!Current.app) {
-        initNativeComponentEntry(R, ReactDOM)
+        initNativeComponentEntry(react, ReactDOM)
       }
     },
     attached () {
@@ -197,6 +212,34 @@ export function createNativeComponentConfig (Component, react: typeof React, rea
           this._optionsValue = value
         }
       })
+    }
+  }
+
+  // onShareAppMessage 和 onShareTimeline 一样，会影响小程序右上方按钮的选项，因此不能默认注册。
+  if (
+    Component.onShareAppMessage ||
+    Component.prototype?.onShareAppMessage ||
+    Component.enableShareAppMessage
+  ) {
+    componentObj.methods.onShareAppMessage = function (options) {
+      const target = options?.target
+      if (target) {
+        const id = target.id
+        const element = document.getElementById(id)
+        if (element) {
+          target!.dataset = element.dataset
+        }
+      }
+      return safeExecute(this.compId, 'onShareAppMessage', options)
+    }
+  }
+  if (
+    Component.onShareTimeline ||
+    Component.prototype?.onShareTimeline ||
+    Component.enableShareTimeline
+  ) {
+    componentObj.methods.onShareTimeline = function () {
+      return safeExecute(this.compId, 'onShareTimeline')
     }
   }
 

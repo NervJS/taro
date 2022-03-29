@@ -30,8 +30,8 @@
     "npm": ">=6.0.0"
   },
   "dependencies": {
-    "@react-native-community/cli": "^5.0.1",
-    "@react-native-community/cli-server-api": "^5.0.1",
+    "@react-native-community/cli-plugin-metro": "^6.0.0",
+    "@react-native-community/cli-server-api": "^6.0.0",
     "@tarojs/helper": "3.5.0-canary.1",
     "@tarojs/rn-style-transformer": "3.5.0-canary.1",
     "@tarojs/rn-supporter": "3.5.0-canary.1",

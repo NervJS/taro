@@ -93,7 +93,7 @@ function taroShouldUpdate (pkgs): ErrorLine[] {
 function taroOutdate (pkgs): ErrorLine[] {
   const list: ErrorLine[] = []
   pkgs.forEach(({ moduleName, isInstalled }) => {
-    if (!UPDATE_PACKAGE_LIST.includes(moduleName) && /^@tarojs/.test(moduleName)) {
+    if (!UPDATE_PACKAGE_LIST.includes(moduleName) && /^@tarojs/.test(moduleName) && !/^@tarojs\/plugin-/.test(moduleName)) {
       list.push({
         desc: `Taro 3 不再依赖 ${moduleName}，可以${isInstalled ? '卸载' : '从 package.json 移除'}`,
         valid: true

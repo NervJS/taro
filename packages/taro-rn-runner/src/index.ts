@@ -15,7 +15,7 @@ import { createDevServerMiddleware } from '@react-native-community/cli-server-ap
 import { TerminalReporter } from './config/terminal-reporter'
 import { getResolveDependencyFn } from 'metro/src/lib/transformHelpers'
 import * as Server from 'metro/src/Server'
-import saveAssets from '@react-native-community/cli/build/commands/bundle/saveAssets'
+import saveAssets from '@react-native-community/cli-plugin-metro/build/commands/bundle/saveAssets'
 import * as outputBundle from 'metro/src/shared/output/bundle'
 
 function concatOutputFileName (config: any): string {
@@ -78,7 +78,7 @@ function getOutputSourceMapOption (config: any): Record<string, any> {
 // TODO: 返回值
 // HttpServer | {code: string, map: string}
 // IBuildConfig
-export default async function build (appPath: string, config: any): Promise<any> {
+export default async function build (_appPath: string, config: any): Promise<any> {
   process.env.TARO_ENV = PLATFORMS.RN
   // TODO:新增环境变量是否可以在metro构建过程中可以访问到？
   const entry = getRNConfigEntry()
@@ -154,7 +154,7 @@ export default async function build (appPath: string, config: any): Promise<any>
 
       readline.emitKeypressEvents(process.stdin)
       process.stdin.setRawMode && process.stdin.setRawMode(true)
-      process.stdin.on('keypress', (key, data) => {
+      process.stdin.on('keypress', (_key, data) => {
         const { ctrl, name } = data
         if (name === 'r') {
           messageSocket.broadcast('reload')

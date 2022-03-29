@@ -1,4 +1,4 @@
-import path from 'path'
+import * as path from 'path'
 import { sync as resolveSync } from 'resolve'
 import postcss, { ProcessOptions } from 'postcss'
 import pxtransform from 'postcss-pxtransform'
