@@ -20,7 +20,7 @@ npm i @tarojs/plugin-mini-ci -D
  */
 const CIPluginOpt = {
     weapp: {
-        appid: "微信小程戏appid",
+        appid: "微信小程序appid",
         privateKeyPath: "密钥文件相对项目根目录的相对路径，例如 key/private.appid.key"
     },
     tt: {
