@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`ScrollView ScrollView render 1`] = `
-<ScrollView
+<RCTScrollView
   contentContainerStyle={
     Array [
       Object {},
@@ -17,6 +17,8 @@ exports[`ScrollView ScrollView render 1`] = `
   scrollsToTop={false}
   style={Object {}}
 >
-  scroll me
-</ScrollView>
+  <View>
+    scroll me
+  </View>
+</RCTScrollView>
 `;

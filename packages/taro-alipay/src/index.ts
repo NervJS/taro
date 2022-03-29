@@ -73,7 +73,7 @@ ${main}`
       }
       const pluginJSON = JSON.parse(assets['/plugin/plugin.json'].source())
       pluginJSON.publicPages = pluginJSON.pages
-      delete pluginJSON.pages
+      pluginJSON.pages = Object.values(pluginJSON.publicPages)
       const pluginJSONStr = JSON.stringify(pluginJSON, null, 2)
       assets['/plugin/plugin.json'] = {
         size: () => pluginJSONStr.length,
