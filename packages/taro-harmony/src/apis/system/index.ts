@@ -81,9 +81,8 @@ const onNetworkStatusChange: OnNetworkStatusChange = function (cb) {
   })
 }
 
-const offNetworkStatusChange: OffNetworkStatusChange = function (callback) {
+const offNetworkStatusChange: OffNetworkStatusChange = function () {
   network.unsubscribe()
-  callback?.()
 }
 
 /* 同步版本 */
