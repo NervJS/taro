@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/plugin-framework-react",
-  "version": "3.4.2",
+  "version": "3.4.4",
   "description": "React/Preact/Nerv 框架插件",
   "author": "drchan",
   "homepage": "https://github.com/nervjs/taro",
@@ -27,14 +27,14 @@
   "dependencies": {
     "@pmmmwh/react-refresh-webpack-plugin": "0.5.4",
     "@prefresh/webpack": "^3.2.3",
-    "@tarojs/runtime": "3.4.2",
-    "@tarojs/shared": "3.4.2",
+    "@tarojs/runtime": "3.4.4",
+    "@tarojs/shared": "3.4.4",
     "acorn": "^8.0.4",
     "acorn-walk": "^8.0.0",
     "react-refresh": "0.11.0"
   },
   "devDependencies": {
-    "@tarojs/service": "3.4.2",
-    "@tarojs/taro": "3.4.2"
+    "@tarojs/service": "3.4.4",
+    "@tarojs/taro": "3.4.4"
   }
 }

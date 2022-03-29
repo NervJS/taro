@@ -20,6 +20,7 @@ export default function (this: webpack.loader.LoaderContext) {
     : this.request.split('!').slice(thisLoaderIndex + 1).join('!')
   const runtimePath = Array.isArray(options.runtimePath) ? options.runtimePath : [options.runtimePath]
   const setReconciler = runtimePath.reduce((res, item) => {
+    if (/^@tarojs\/plugin-(react|vue)-devtools/.test(item)) return res
     return res + `import '${item}'\n`
   }, '')
   const { globalObject } = this._compilation.outputOptions
@@ -35,7 +36,7 @@ import { container, SERVICE_IDENTIFIER } from '@tarojs/runtime'
 import { createNativeComponentConfig } from '${creatorLocation}'
 ${importFrameworkStatement}
 var hooks = container.get(SERVICE_IDENTIFIER.Hooks)
-hooks.initNativeApiImpls = [defaultReconciler.initNativeApi]
+hooks.initNativeApiImpls = (hooks.initNativeApiImpls || []).concat(defaultReconciler.initNativeApi)
 var component = require(${stringify(componentPath)}).default
 var config = ${configString};
 var inst = Component(createNativeComponentConfig(component, ${frameworkArgs}))

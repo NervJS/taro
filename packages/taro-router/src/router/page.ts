@@ -104,7 +104,7 @@ export default class PageHandler {
   getQuery (stamp = 0, search = '', options: Record<string, unknown> = {}) {
     search = search ? `${search}&${this.search}` : this.search
     const query = search
-      ? queryString.parse(search)
+      ? queryString.parse(search, { decode: false })
       : {}
 
     query.stamp = stamp.toString()

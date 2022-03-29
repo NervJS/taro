@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/plugin-framework-vue2",
-  "version": "3.4.2",
+  "version": "3.4.4",
   "description": "Vue2 框架插件",
   "author": "drchan",
   "homepage": "https://github.com/nervjs/taro",
@@ -25,13 +25,13 @@
     "url": "https://github.com/NervJS/taro/issues"
   },
   "dependencies": {
-    "@tarojs/helper": "3.4.2",
-    "@tarojs/runner-utils": "3.4.2",
-    "@tarojs/runtime": "3.4.2",
-    "@tarojs/shared": "3.4.2"
+    "@tarojs/helper": "3.4.4",
+    "@tarojs/runner-utils": "3.4.4",
+    "@tarojs/runtime": "3.4.4",
+    "@tarojs/shared": "3.4.4"
   },
   "devDependencies": {
-    "@tarojs/service": "3.4.2",
-    "@tarojs/taro": "3.4.2"
+    "@tarojs/service": "3.4.4",
+    "@tarojs/taro": "3.4.4"
   }
 }

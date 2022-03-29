@@ -50,6 +50,7 @@ export const components = {
     bindGetUserInfo: _empty,
     bindContact: _empty,
     bindGetPhoneNumber: _empty,
+    bindChooseAvatar: _empty,
     bindError: _empty,
     bindOpenSetting: _empty,
     bindLaunchApp: _empty
@@ -320,6 +321,12 @@ export const components = {
     bindLeave: _empty,
     bindAfterLeave: _empty,
     bindClickOverlay: _empty
+  },
+  ShareElement: {
+    mapkey: _empty,
+    transform: _false,
+    duration: '300',
+    'easing-function': "'ease-out'"
   },
   KeyboardAccessory: {}
 }

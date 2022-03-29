@@ -257,6 +257,7 @@ export function createComponentConfig (component: React.ComponentClass, componen
       Current.app!.mount!(component, path, () => {
         componentElement = document.getElementById<TaroRootElement>(path)
         ensure(componentElement !== null, '没有找到组件实例。')
+        this.$taroInstances = instances.get(path)
         safeExecute(path, ON_LOAD)
         if (process.env.TARO_ENV !== 'h5') {
           componentElement.ctx = this
