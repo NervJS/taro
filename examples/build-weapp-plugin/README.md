@@ -22,7 +22,7 @@ $ npm run build
 
 #### 3. 开发
 
-插件逻辑位于 `src/plugin` 内，而 `pages/index` 则是用于测试插件的页面。
+插件逻辑位于 `src/plugin` 内，而 `src/pages/index` 则是用于测试插件的页面。
 
 #### 4. 预览
 

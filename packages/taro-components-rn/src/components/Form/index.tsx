@@ -36,9 +36,13 @@ class _Form extends React.Component<FormProps> {
     const tmpProps = { ...child.props }
     // Initial value
     if (['_Input', '_Textarea', '_Slider', '_Picker'].indexOf(childTypeName) >= 0) {
-      this.formValues[childPropsName] = child.props.value
+      if (child.props.value !== undefined) {
+        this.formValues[childPropsName] = child.props.value
+      }
     } else if (childTypeName === '_Switch') {
-      this.formValues[childPropsName] = !!child.props.checked
+      if (child.props.checked !== undefined) {
+        this.formValues[childPropsName] = !!child.props.checked
+      }
     } else {
       tmpProps._onGroupDataInitial = (value: any) => {
         this.formValues[childPropsName] = value
@@ -56,7 +60,7 @@ class _Form extends React.Component<FormProps> {
   }
 
   deppDiveIntoChildren = (children: React.ReactNode): React.ReactNode => {
-    return React.Children.toArray(children).map((child: any) => {
+    const result = React.Children.toArray(children).map((child: any) => {
       const childTypeName = child.type && child.type.name
       if (!child.type) return child
       if (childTypeName === '_Button' && ['submit', 'reset'].indexOf(child.props.formType) >= 0) {
@@ -74,6 +78,7 @@ class _Form extends React.Component<FormProps> {
         ? this.bindValueChangeEvent(child)
         : React.cloneElement(child, { ...child.props }, this.deppDiveIntoChildren(child.props.children))
     })
+    return result.length ? result : null
   }
 
   submit = (): void => {
