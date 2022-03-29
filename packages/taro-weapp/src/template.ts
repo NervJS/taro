@@ -32,6 +32,9 @@ export class Template extends UnRecursiveTemplate {
       if (nameLowerCase === 'bindlongtap' && componentName !== 'canvas') return 'bindlongpress'
       return nameLowerCase
     }
+    if (componentName === 'share-element') {
+      if (value === 'i.mapkey') return 'key'
+    }
     return name
   }
 
