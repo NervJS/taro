@@ -28,6 +28,9 @@ export class BaseConfig {
       },
       resolveLoader: {
         modules: [path.resolve(__dirname, '../../node_modules'), 'node_modules']
+      },
+      output: {
+        chunkLoadingGlobal: 'webpackJsonp'
       }
     })
 
