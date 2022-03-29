@@ -11,7 +11,7 @@ import { componentConfig } from '../template/component'
 import TaroNormalModule from './TaroNormalModule'
 import { getChunkEntryModule } from '../utils/webpack'
 
-import type { Compiler, Chunk, Compilation } from 'webpack'
+import type { Compiler, Chunk, Compilation, ChunkGraph } from 'webpack'
 import type { AddPageChunks, IComponent } from '../utils/types'
 
 const PLUGIN_NAME = 'TaroLoadChunksPlugin'
@@ -55,7 +55,7 @@ export default class TaroLoadChunksPlugin {
         /**
          * 收集 common chunks 中使用到 @tarojs/components 中的组件
          */
-        commonChunks = chunksArray.filter(chunk => this.commonChunks.includes(chunk.name)).reverse()
+        commonChunks = chunksArray.filter(chunk => this.commonChunks.includes(chunk.name) && chunkHasJs(chunk, compilation.chunkGraph)).reverse()
 
         this.isCompDepsFound = false
         for (const chunk of commonChunks) {
@@ -193,4 +193,11 @@ export function addRequireToSource (id: string, modules: Source, commonChunks: (
   source.add(modules)
   source.add(';')
   return source
+}
+
+function chunkHasJs (chunk: Chunk, chunkGraph: ChunkGraph) {
+  if (chunk.name === 'runtime') return true
+  if (chunkGraph.getNumberOfEntryModules(chunk) > 0) return true
+
+  return Boolean(chunkGraph.getChunkModulesIterableBySourceType(chunk, 'javascript'))
 }
