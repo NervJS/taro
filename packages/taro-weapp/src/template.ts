@@ -43,7 +43,7 @@ export class Template extends UnRecursiveTemplate {
       return `function(i, prefix) {
       var s = i.focus !== undefined ? 'focus' : 'blur'
       var r = prefix + i.${nn} + '_' + s
-      if (i.nn === 'textarea' && i.cn[0] && i.cn[0].nn === 'keyboard-accessory') {
+      if ((i.nn === 'textarea' || i.nn === 'input') && i.cn[0] && i.cn[0].nn === 'keyboard-accessory') {
         r = r + '_ka'
       }
       return r
@@ -56,7 +56,7 @@ export class Template extends UnRecursiveTemplate {
   modifyTemplateResult = (res: string, nodeName: string, _level, children) => {
     if (nodeName === 'keyboard-accessory') return ''
 
-    if (nodeName === 'textarea' && this.pluginOptions.enablekeyboardAccessory) {
+    if ((nodeName === 'textarea' || nodeName === 'input') && this.pluginOptions.enablekeyboardAccessory) {
       const list = res.split('</template>')
 
       const target = `
@@ -69,11 +69,11 @@ export class Template extends UnRecursiveTemplate {
 
       const templateFocus = list[1]
         .replace(children, target)
-        .replace('_textarea_focus', '_textarea_focus_ka')
+        .replace(`_${nodeName}_focus`, `_${nodeName}_focus_ka`)
 
       const templateBlur = list[2]
         .replace(children, target)
-        .replace('_textarea_blur', '_textarea_blur_ka')
+        .replace(`_${nodeName}_blur`, `_${nodeName}_blur_ka`)
 
       list.splice(3, 0, templateFocus, templateBlur)
       return list.join('</template>')
