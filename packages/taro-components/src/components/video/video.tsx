@@ -1,12 +1,14 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { Component, h, ComponentInterface, Prop, State, Event, EventEmitter, Host, Watch, Listen, Element, Method } from '@stencil/core'
 import classNames from 'classnames'
+import Hls from 'hls.js'
 import {
   formatTime,
   calcDist,
   normalizeNumber,
   throttle,
-  screenFn
+  screenFn,
+  isHls
 } from './utils'
 
 @Component({
@@ -30,6 +32,7 @@ export class Video implements ComponentInterface {
   private lastPercentage
   private nextPercentage
   private gestureType = 'none'
+  private hls: Hls
 
   @Element() el: HTMLTaroVideoCoreElement
 
@@ -185,6 +188,7 @@ export class Video implements ComponentInterface {
   }
 
   componentDidLoad () {
+    this.init()
     if (this.initialTime) {
       this.videoRef.currentTime = this.initialTime
     }
@@ -208,6 +212,11 @@ export class Video implements ComponentInterface {
   @Watch('enableDanmu')
   watchEnableDanmu (newVal) {
     this._enableDanmu = newVal
+  }
+
+  @Watch('src')
+  watchSrc () {
+    this.init()
   }
 
   analyseGesture = (e: TouchEvent) => {
@@ -302,6 +311,37 @@ export class Video implements ComponentInterface {
     this.gestureType = 'none'
     this.lastTouchScreenX = undefined
     this.lastTouchScreenY = undefined
+  }
+
+  loadNativePlayer = () => {
+    if (this.videoRef) {
+      this.videoRef.src = this.src
+      this.videoRef.load()
+    }
+  }
+
+  init = () => {
+    const { src, videoRef } = this
+
+    if (isHls(src)) {
+      if (Hls.isSupported()) {
+        if (this.hls) {
+          this.hls.destroy()
+        }
+        this.hls = new Hls()
+        this.hls.loadSource(src)
+        this.hls.attachMedia(videoRef)
+        this.hls.on(Hls.Events.MANIFEST_PARSED, () => {
+          this.autoplay && this.play()
+        })
+      } else if (videoRef.canPlayType('application/vnd.apple.mpegurl')) {
+        this.loadNativePlayer()
+      } else {
+        console.error('该浏览器不支持 HLS 播放')
+      }
+    } else {
+      this.loadNativePlayer()
+    }
   }
 
   handlePlay = () => {
@@ -477,7 +517,6 @@ export class Video implements ComponentInterface {
 
   render () {
     const {
-      src,
       controls,
       autoplay,
       loop,
@@ -517,7 +556,6 @@ export class Video implements ComponentInterface {
               this.videoRef = dom as HTMLVideoElement
             }
           }}
-          src={src}
           autoplay={autoplay}
           loop={loop}
           muted={muted}

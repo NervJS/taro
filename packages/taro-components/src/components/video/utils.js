@@ -107,3 +107,5 @@ export const screenFn = (function () {
   // and the fn variable is set to this returned value.
   return ret
 })()
+
+export const isHls = url => /\.(m3u8)($|\?)/i.test(url)
