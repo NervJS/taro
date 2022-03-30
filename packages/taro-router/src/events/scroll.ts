@@ -4,6 +4,7 @@ let pageScrollFn
 let pageDOM: Element | Window = window
 
 export function bindPageScroll (page: PageInstance, pageEl: HTMLElement, distance = 50) {
+  if (!pageScrollFn)  return
   pageEl.removeEventListener('scroll', pageScrollFn)
   pageDOM = pageEl
 
