@@ -34,7 +34,7 @@ export default class Weapp extends TaroPlatformBase {
     this.template = new Template(pluginOptions)
     this.setupTransaction.addWrapper({
       close () {
-        this.modifyTemplate()
+        this.modifyTemplate(pluginOptions)
         this.modifyWebpackConfig()
       }
     })
@@ -43,12 +43,15 @@ export default class Weapp extends TaroPlatformBase {
   /**
    * 增加组件或修改组件属性
    */
-  modifyTemplate () {
+  modifyTemplate (pluginOptions?: IOptions) {
     const template = this.template
     template.mergeComponents(this.ctx, components)
     template.voidElements.add('voip-room')
-    template.voidElements.delete('textarea')
     template.focusComponents.add('editor')
+    if (pluginOptions?.enablekeyboardAccessory) {
+      template.voidElements.delete('input')
+      template.voidElements.delete('textarea')
+    }
   }
 
   /**
