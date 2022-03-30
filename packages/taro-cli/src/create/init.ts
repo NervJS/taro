@@ -9,6 +9,7 @@ import { IProjectConf } from './project'
 import { IPageConf } from './page'
 import Creator from './creator'
 import { changeDefaultNameInTemplate } from './editTemplate'
+import { packageObj } from '../config/packagesManagement'
 
 const CONFIG_DIR_NAME = 'config'
 export const TEMPLATE_CREATOR = 'template_creator.js'
@@ -129,21 +130,6 @@ function createFiles (
     logs.push(`${chalk.green('✔ ')}${chalk.grey(`创建文件: ${destinationPath}`)}`)
   })
   return logs
-}
-
-const packageObj = {
-  yarn: {
-    command: 'yarn install'
-  },
-  pnpm: {
-    command: 'pnpm install'
-  },
-  cnpm: {
-    command: 'cnpm install'
-  },
-  npm: {
-    command: 'npm install'
-  }
 }
 
 export async function createPage (creater: Creator, params: IPageConf, cb) {
