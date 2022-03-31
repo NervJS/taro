@@ -71,7 +71,7 @@ export function isExclude (id: string, excludes: string[]) {
       item = item.replace(dollarTailRE, '')
       if (item === id) return true
     } else {
-      if (id.startsWith(item + '/')) return true
+      if (item === id || id.startsWith(item + '/')) return true
     }
   }))
 }
