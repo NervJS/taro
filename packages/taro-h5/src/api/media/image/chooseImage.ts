@@ -15,12 +15,21 @@ export const chooseImage: typeof Taro.chooseImage = function (options) {
     return Promise.reject(res)
   }
 
-  const { count = 1, success, fail, complete, imageId = 'taroChooseImage' } = options
+  const {
+    count = 1,
+    success,
+    fail,
+    complete,
+    imageId = 'taroChooseImage',
+    sourceType = ['album', 'camera']
+  } = options
   const handle = new MethodHandler({ name: 'chooseImage', success, fail, complete })
   const res: Partial<Taro.chooseImage.SuccessCallbackResult> = {
     tempFilePaths: [],
     tempFiles: []
   }
+  const sourceTypeString = sourceType && sourceType.toString()
+  const acceptableSourceType = ['user', 'environment', 'camera']
 
   if (count && typeof count !== 'number') {
     res.errMsg = getParameterError({
@@ -39,6 +48,9 @@ export const chooseImage: typeof Taro.chooseImage = function (options) {
     if (count > 1) {
       obj.setAttribute('multiple', 'multiple')
     }
+    if (acceptableSourceType.indexOf(sourceTypeString) > -1) {
+      obj.setAttribute('capture', sourceTypeString)
+    }
     obj.setAttribute('accept', 'image/*')
     obj.setAttribute('style', 'position: fixed; top: -4000px; left: -3000px; z-index: -300;')
     document.body.appendChild(obj)
@@ -48,6 +60,11 @@ export const chooseImage: typeof Taro.chooseImage = function (options) {
       el.setAttribute('multiple', 'multiple')
     } else {
       el.removeAttribute('multiple')
+    }
+    if (acceptableSourceType.indexOf(sourceTypeString) > -1) {
+      el.setAttribute('capture', sourceTypeString)
+    } else {
+      el.removeAttribute('capture')
     }
   }
 
