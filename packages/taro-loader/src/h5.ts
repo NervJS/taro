@@ -9,8 +9,8 @@ function genResource (path: string, pages: Map<string, string>, loaderContext: w
   return `
   Object.assign({
       path: '${path}',
-      load: function(context, params) {
-          return import(${stringify(join(loaderContext.context, path))}).then((element)=>[element,context, params]);
+      load: function(_, params) {
+          return import(${stringify(join(loaderContext.context, path))}).then((element)=>[element, params]);
       }
   }, ${JSON.stringify(readConfig(pages.get(path)!))}),
 `

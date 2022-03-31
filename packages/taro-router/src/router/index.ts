@@ -7,7 +7,7 @@ import {
   eventCenter,
   IHooks,
   SERVICE_IDENTIFIER,
-  stringify,
+  stringify
 } from '@tarojs/runtime'
 import type { AppConfig, PageConfig } from '@tarojs/taro'
 import { Listener as LocationListener, Action as LocationAction } from 'history'
@@ -55,10 +55,9 @@ export function createRouter(app: AppInstance, config: RouterConfig, framework?:
   const render: LocationListener = async ({ location, action }) => {
     handler.pathname = location.pathname
     let element
-    let routerContext
     let routerParams
     try {
-      [element, routerContext, routerParams] = await router.resolve(handler.router.forcePath || handler.pathname)
+      [element, routerParams] = await router.resolve(handler.router.forcePath || handler.pathname)
     } catch (error) {
       if (error.status === 404) {
         app.onPageNotFound?.({
