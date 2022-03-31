@@ -82,7 +82,7 @@ export function getOnHideEventKey (path: string) {
   return path + '.' + ON_HIDE
 }
 
-export function createPageConfig (component: any, pageName?: string, data?: Record<string, unknown>, pageConfig?: PageConfig) {
+export function createPageConfig (component: any, pageName?: string, data?: Record<string, unknown>, pageConfig?: PageConfig, pageOptions?: Record<string, unknown>) {
   // 小程序 Page 构造器是一个傲娇小公主，不能把复杂的对象挂载到参数上
   const id = pageName ?? `taro_page_${pageId()}`
   const hooks = getHooks()
@@ -235,6 +235,9 @@ export function createPageConfig (component: any, pageName?: string, data?: Reco
 
   if (!isUndefined(data)) {
     config.data = data
+  }
+  if (!isUndefined(pageOptions)) {
+    config.options = pageOptions
   }
 
   hooks.modifyPageObject?.(config)

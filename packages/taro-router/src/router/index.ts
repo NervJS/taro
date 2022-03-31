@@ -1,9 +1,13 @@
 /* eslint-disable dot-notation */
 import {
   AppInstance,
-  container, createPageConfig, Current,
-  eventCenter, IHooks,
-  SERVICE_IDENTIFIER, stringify
+  container,
+  createPageConfig,
+  Current,
+  eventCenter,
+  IHooks,
+  SERVICE_IDENTIFIER,
+  stringify,
 } from '@tarojs/runtime'
 import type { AppConfig, PageConfig } from '@tarojs/taro'
 import { Listener as LocationListener, Action as LocationAction } from 'history'
@@ -20,7 +24,7 @@ export interface Route extends PageConfig {
 }
 
 export interface RouterConfig extends AppConfig {
-  routes: Route[],
+  routes: Route[]
   router: {
     mode: 'hash' | 'browser'
     basename: string
@@ -32,11 +36,7 @@ export interface RouterConfig extends AppConfig {
   PullDownRefresh?: any
 }
 
-export function createRouter (
-  app: AppInstance,
-  config: RouterConfig,
-  framework?: string
-) {
+export function createRouter(app: AppInstance, config: RouterConfig, framework?: string) {
   const handler = new PageHandler(config)
 
   const runtimeHooks = container.get<IHooks>(SERVICE_IDENTIFIER.Hooks)
@@ -55,8 +55,10 @@ export function createRouter (
   const render: LocationListener = async ({ location, action }) => {
     handler.pathname = location.pathname
     let element
+    let routerContext
+    let routerParams
     try {
-      element = await router.resolve(handler.router.forcePath || handler.pathname)
+      [element, routerContext, routerParams] = await router.resolve(handler.router.forcePath || handler.pathname)
     } catch (error) {
       if (error.status === 404) {
         app.onPageNotFound?.({
@@ -73,7 +75,7 @@ export function createRouter (
     eventCenter.trigger('__taroRouterChange', {
       toLocation: {
         path: handler.pathname
-      }
+      },
     })
 
     if (pageConfig) {
@@ -124,10 +126,13 @@ export function createRouter (
       delete loadConfig['load']
 
       const page = createPageConfig(
-        enablePullDownRefresh ? runtimeHooks.createPullDownComponent?.(el, location.pathname, framework, handler.PullDownRefresh) : el,
+        enablePullDownRefresh
+          ? runtimeHooks.createPullDownComponent?.(el, location.pathname, framework, handler.PullDownRefresh)
+          : el,
         pathname + stringify(handler.getQuery(stacksIndex)),
         {},
-        loadConfig
+        loadConfig,
+        routerParams
       )
       return handler.load(page, pageConfig, stacksIndex)
     }
