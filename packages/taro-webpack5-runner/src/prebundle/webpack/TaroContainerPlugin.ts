@@ -136,6 +136,20 @@ class TaroContainerPlugin {
             }
           }
         )
+
+        /**
+         * 删除多余的 assets
+         *  - entry chunk
+         *  - remote runtime chunk
+         */
+        compilation.hooks.processAssets.tapAsync(
+          PLUGIN_NAME,
+          async (assets, callback: any) => {
+            delete assets['main.js']
+            delete assets['runtime.js']
+            callback()
+          }
+        )
       }
     )
   }
