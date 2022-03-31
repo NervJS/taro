@@ -60,7 +60,13 @@ export async function bundle (deps: CollectedDeps, combination: MiniCombination)
     entryPoints: Array.from(flattenDeps.keys()),
     bundle: true,
     format: 'esm',
-    define: getDefines(combination),
+    define: {
+      ...getDefines(combination),
+      // AMD 被 esbuild 转 ESM 后，是套着 ESM 外皮的 AMD 语法模块。
+      // Webpack HarmonyDetectionParserPlugin 会阻止 AMDDefineDependencyParserPlugin 对这些模块的处理。
+      // 导致这些模块报错（如 lodash）。目前的办法是把 define 置为 false，不支持 AMD 导出。
+      define: 'false'
+    },
     splitting: true,
     metafile: true,
     ignoreAnnotations: true,
