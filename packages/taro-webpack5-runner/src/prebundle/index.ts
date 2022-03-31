@@ -103,15 +103,21 @@ export async function preBundle (
   }
 
   const mainBuildOutput = combination.chain.output.entries()
+  const runtimeRequirements = new Set<string>()
   let taroRuntimeBundlePath = exposes['./@tarojs/runtime']
 
   Object.keys(metafile.outputs).some(key => {
+    // 找出 @tarojs/runtime 被 split 切分的 chunk，作为后续 ProvidePlugin 的提供者。
+    // 原因是 @tarojs/runtime 里使用了一些如 raf、caf 等全局变量，又因为 esbuild 把
+    // @tarojs/runtime split 成 entry 和依赖 chunk 两部分。如果我们把 entry 作为
+    // ProvidePlugin 的提供者，依赖 chunk 会被注入 raf、caf，导致循环依赖的问题。所以
+    // 这种情况下只能把依赖 chunk 作为 ProvidePlugin 的提供者。
     const output = metafile.outputs[key]
     if (output.entryPoint === 'entry:@tarojs_runtime') {
       const dep = output.imports.find(dep => {
         const depPath = dep.path
-        const output = metafile.outputs[depPath]
-        return output.exports.includes('TaroRootElement')
+        const depOutput = metafile.outputs[depPath]
+        return depOutput.exports.includes('TaroRootElement')
       })
       if (dep) {
         taroRuntimeBundlePath = path.join(appPath, dep.path)
@@ -123,7 +129,7 @@ export async function preBundle (
   const compiler = webpack({
     entry: path.resolve(__dirname, './webpack/index.js'),
     mode: process.env.NODE_ENV === 'production' ? 'production' : 'development',
-    devtool: 'hidden-source-map',
+    devtool: combination.enableSourceMap && 'hidden-source-map',
     output: {
       ...mainBuildOutput,
       path: path.join(mainBuildOutput.path, 'prebundle')
@@ -135,7 +141,7 @@ export async function preBundle (
         runtime: 'runtime',
         exposes
       }),
-      new TaroContainerPlugin(),
+      new TaroContainerPlugin(runtimeRequirements),
       new webpack.ProvidePlugin({
         window: [taroRuntimeBundlePath, 'window$1'],
         document: [taroRuntimeBundlePath, 'document$1'],
@@ -176,6 +182,7 @@ export async function preBundle (
     .use(path.resolve(__dirname, './webpack/TaroContainerReferencePlugin.js'), [
       mfOptions,
       deps,
-      stats
+      stats,
+      runtimeRequirements
     ])
 }

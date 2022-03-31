@@ -6,6 +6,7 @@
 import * as path from 'path'
 import { RuntimeModule, Module, Template, RuntimeGlobals, javascript } from 'webpack'
 import { META_TYPE } from '@tarojs/helper'
+import { RawSource } from 'webpack-sources'
 import { addRequireToSource, getIdOrName } from '../../plugins/TaroLoadChunksPlugin'
 import { getChunkEntryModule } from '../../utils/webpack'
 
@@ -93,30 +94,35 @@ class TaroRemoteRuntimeModule extends RuntimeModule {
 }
 
 class TaroContainerReferencePlugin {
-  private options: MFOptions
   private deps: CollectedDeps
   private stats: StatsCompilation
+  private remoteName: string
+  private runtimeRequirements: Set<string>
 
-  constructor (options, deps: CollectedDeps, stats: StatsCompilation) {
-    this.options = options
+  constructor (options: MFOptions, deps: CollectedDeps, stats: StatsCompilation, runtimeRequirements: Set<string>) {
     this.deps = deps
     this.stats = stats
+    this.remoteName = Object.keys(options.remotes)[0]
+    this.runtimeRequirements = runtimeRequirements
   }
 
   apply (compiler: Compiler) {
     compiler.hooks.compilation.tap(
       PLUGIN_NAME,
       (compilation, { normalModuleFactory }) => {
+        /**
+         * 把预编译的依赖改为 Remote module 的形式
+         * 例如把 import '@tarojs/taro' 改为 import 'lib-app/@tarojs/taro'
+         */
         normalModuleFactory.hooks.factorize.tap(
           PLUGIN_NAME,
           data => {
             if (!data.request.includes('!')) {
               for (const dep of this.deps.keys()) {
-                // data.request.includes('taro') && !data.request.includes('node_modules') && console.log('data.request: ', data.request)
                 if (data.request === dep || data.request === '@tarojs/runtime') {
                   return new RemoteModule(
                     data.request,
-                    [`webpack/container/reference/${Object.keys(this.options.remotes)[0]}`],
+                    [`webpack/container/reference/${this.remoteName}`],
                     `./${data.request}`,
                     'default' // share scope
                   )
@@ -126,15 +132,28 @@ class TaroContainerReferencePlugin {
           }
         )
 
+        /**
+         * 修改 webpack runtime
+         *   1. 注入一些 webpack 内置的工具函数（remote 打包时注入了，而 host 里没有，需要补全，后续改为自动补全）
+         *   2. 修改 webpack/runtime/remotes 模块的输出
+         *     a) 生成 id 映射对象 idToExternalAndNameMapping
+         *     b) 插入自动注册模块的逻辑
+         */
         compilation.hooks.additionalTreeRuntimeRequirements.tap(
           PLUGIN_NAME,
           (chunk, set) => {
-            set.add(RuntimeGlobals.makeNamespaceObject)
+            // webpack runtime 增加 Rmote runtime 使用到的工具函数
+            this.runtimeRequirements.forEach(item => set.add(item))
             compilation.addRuntimeModule(chunk, new TaroRemoteRuntimeModule())
           }
         )
 
-        javascript.JavascriptModulesPlugin.getCompilationHooks(compilation).render.tap(
+        /**
+         * 在 dist/app.js 头部注入 require，
+         * 依赖所有的预编译 chunk 和 remoteEntry
+         */
+        const hooks = javascript.JavascriptModulesPlugin.getCompilationHooks(compilation)
+        hooks.render.tap(
           PLUGIN_NAME,
           (modules: ConcatSource, { chunk }) => {
             const chunkEntryModule = getChunkEntryModule(compilation, chunk) as any
@@ -152,7 +171,22 @@ class TaroContainerReferencePlugin {
             } else {
               return modules
             }
-          })
+          }
+        )
+
+        /**
+         * 模块 "webpack/container/reference/lib-app" 用于网络加载 remoteEntry.js，
+         * 在小程序环境则不需要了，因此将模块输出改为空字符串，减少不必要的代码
+         */
+        hooks.renderModuleContent.tap(
+          PLUGIN_NAME,
+          (source, module: any) => {
+            if (module.userRequest === `webpack/container/reference/${this.remoteName}`) {
+              return new RawSource('')
+            }
+            return source
+          }
+        )
       }
     )
   }
