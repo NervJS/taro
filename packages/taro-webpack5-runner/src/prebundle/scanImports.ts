@@ -1,4 +1,5 @@
 import esbuild from 'esbuild'
+import * as path from 'path'
 import * as fs from 'fs'
 import {
   externalModule,
@@ -173,7 +174,7 @@ function getScanImportsPlugin (deps: CollectedDeps, includes: string[], excludes
 
         if (deps.has(id)) return externalModule({ path: id })
 
-        const resolvedPath = await resolve(importer, id)
+        const resolvedPath = await resolve(path.dirname(importer), id)
 
         if (resolvedPath.includes('node_modules') || includes.includes(id)) {
           if (canBeOptimized(resolvedPath)) {
@@ -196,7 +197,7 @@ function getScanImportsPlugin (deps: CollectedDeps, includes: string[], excludes
 
       // catch all
       build.onResolve({ filter: /.*/ }, async ({ path: id, importer }) => {
-        const resolvedPath = await resolve(importer, id)
+        const resolvedPath = await resolve(path.dirname(importer), id)
 
         const namespace = canBeScaned(resolvedPath) ? 'vue' : undefined
 

@@ -135,7 +135,7 @@ function getEntryPlugin (flattenDeps: CollectedDeps, flatIdExports: Map<string, 
           }
         }
 
-        const resolvedPath = await resolve(importer, id)
+        const resolvedPath = await resolve(path.dirname(importer), id)
         if (assetsRE.test(resolvedPath)) {
           return externalModule({ path: id })
         } else {
