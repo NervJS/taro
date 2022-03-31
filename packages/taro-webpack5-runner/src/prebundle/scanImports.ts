@@ -53,6 +53,8 @@ export async function scanImports ({ entries, combination }: ScanImportsConfig):
   ]
 
   const excludes = [
+    // 编译 Host 时需要扫描 @tarojs/components 的 useExports，因此不能被 external
+    '@tarojs/components',
     ...((config as any).prebundle?.excludes || [])
   ]
 
