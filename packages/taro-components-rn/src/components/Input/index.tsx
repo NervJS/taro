@@ -56,6 +56,7 @@ const keyboardTypeMap: { [key: string]: string } = {
 // }
 
 class _Input extends React.Component<InputProps, InputState> {
+  static displayName = '_Input'
   static defaultProps = {
     type: 'text',
     maxlength: 140,
