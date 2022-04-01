@@ -31,9 +31,6 @@
     "@tarojs/shared": "3.4.4",
     "webpack": "4.46.0"
   },
-  "peerDependencies": {
-    "vue": "^3.0.0"
-  },
   "devDependencies": {
     "@tarojs/service": "3.4.4",
     "@tarojs/taro": "3.4.4",
