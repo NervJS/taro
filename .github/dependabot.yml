@@ -60,3 +60,9 @@ updates:
     - 7.12.1
     - 7.12.13
     - 7.13.0
+- package-ecosystem: "github-actions"
+  directory: "/"
+  schedule:
+    interval: daily
+    time: "21:00"
+  open-pull-requests-limit: 10
