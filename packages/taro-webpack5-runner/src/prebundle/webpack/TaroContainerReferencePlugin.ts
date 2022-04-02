@@ -3,14 +3,13 @@
  * MIT License http://www.opensource.org/licenses/mit-license.php
  * Author Tobias Koppers @sokra and Zackary Jackson @ScriptedAlchemy
  */
-import * as path from 'path'
 import { RuntimeModule, Module, Template, RuntimeGlobals, javascript } from 'webpack'
 import { META_TYPE } from '@tarojs/helper'
 import { RawSource } from 'webpack-sources'
 import { addRequireToSource, getIdOrName } from '../../plugins/TaroLoadChunksPlugin'
 import { getChunkEntryModule } from '../../utils/webpack'
 
-import type { Compiler, Compilation, ChunkGraph, StatsCompilation } from 'webpack'
+import type { Compiler, Compilation, ChunkGraph } from 'webpack'
 import type { ConcatSource } from 'webpack-sources'
 import type { CollectedDeps } from '../constant'
 import type TaroNormalModule from '../../plugins/TaroNormalModule'
@@ -95,13 +94,13 @@ class TaroRemoteRuntimeModule extends RuntimeModule {
 
 class TaroContainerReferencePlugin {
   private deps: CollectedDeps
-  private stats: StatsCompilation
+  private remoteAssets: { name: string}[]
   private remoteName: string
   private runtimeRequirements: Set<string>
 
-  constructor (options: MFOptions, deps: CollectedDeps, stats: StatsCompilation, runtimeRequirements: Set<string>) {
+  constructor (options: MFOptions, deps: CollectedDeps, remoteAssets: { name: string}[], runtimeRequirements: Set<string>) {
     this.deps = deps
-    this.stats = stats
+    this.remoteAssets = remoteAssets
     this.remoteName = Object.keys(options.remotes)[0]
     this.runtimeRequirements = runtimeRequirements
   }
@@ -160,12 +159,7 @@ class TaroContainerReferencePlugin {
             if (chunkEntryModule) {
               const entryModule: TaroNormalModule = chunkEntryModule.rootModule ?? chunkEntryModule
               if (entryModule.miniType === META_TYPE.ENTRY) {
-                const assets = this.stats.assets
-                  ?.filter(item => item.name !== 'runtime.js')
-                  ?.map(item => ({
-                    name: path.join('prebundle', item.name)
-                  })) || []
-                return addRequireToSource(getIdOrName(chunk), modules, assets)
+                return addRequireToSource(getIdOrName(chunk), modules, this.remoteAssets)
               }
               return modules
             } else {

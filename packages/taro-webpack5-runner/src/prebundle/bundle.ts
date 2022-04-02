@@ -6,7 +6,6 @@ import {
   flattenId,
   externalModule,
   getResolve,
-  getDepsCacheDir,
   getDefines
 } from './utils'
 import {
@@ -24,7 +23,7 @@ type ExportsData = ReturnType<typeof parse> & { hasReExports?: boolean, needInte
 // 1. flatten all ids to eliminate slash
 // 2. in the plugin, read the entry ourselves as virtual files to retain the
 //    path.
-export async function bundle (deps: CollectedDeps, combination: MiniCombination) {
+export async function bundle (deps: CollectedDeps, combination: MiniCombination, prebundleOutputDir: string) {
   await init
 
   const appPath = combination.appPath
@@ -50,10 +49,10 @@ export async function bundle (deps: CollectedDeps, combination: MiniCombination)
 
   // bundle deps
   const entryPlugin = getEntryPlugin(flattenDeps, flatIdExports)
-  const depsCacheDir = getDepsCacheDir(appPath)
-  fs.existsSync(depsCacheDir)
-    ? fs.emptyDirSync(depsCacheDir)
-    : fs.ensureDirSync(depsCacheDir)
+
+  fs.existsSync(prebundleOutputDir)
+    ? fs.emptyDirSync(prebundleOutputDir)
+    : fs.ensureDirSync(prebundleOutputDir)
 
   const result = await esbuild.build({
     absWorkingDir: appPath,
@@ -70,7 +69,7 @@ export async function bundle (deps: CollectedDeps, combination: MiniCombination)
     splitting: true,
     metafile: true,
     ignoreAnnotations: true,
-    outdir: depsCacheDir,
+    outdir: prebundleOutputDir,
     plugins: [
       entryPlugin
     ]

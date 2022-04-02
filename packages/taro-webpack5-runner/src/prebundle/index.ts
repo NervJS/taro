@@ -22,6 +22,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
+import * as fs from 'fs-extra'
 import * as path from 'path'
 import { PerformanceObserver, performance } from 'perf_hooks'
 import { resolveMainFilePath, readConfig, chalk } from '@tarojs/helper'
@@ -29,9 +30,18 @@ import * as webpack from 'webpack'
 import { scanImports } from './scanImports'
 import { bundle } from './bundle'
 import TaroContainerPlugin from './webpack/TaroContainerPlugin'
-import { createResolve, flattenId, getDepsCacheDir } from './utils'
+import { createResolve, flattenId, getCacheDir, getHash, getDefines } from './utils'
 
 import type { MiniCombination } from '../webpack/MiniCombination'
+import type { CollectedDeps } from './constant'
+
+interface Metadata {
+  bundleHash?: string
+  mfHash?: string
+  taroRuntimeBundlePath?: string
+  runtimeRequirements?: Set<string>
+  remoteAssets?: { name: string }[]
+}
 
 export async function preBundle (
   combination: MiniCombination
@@ -45,6 +55,16 @@ export async function preBundle (
   performanceObserver.observe({ type: 'measure' })
 
   const appPath = combination.appPath
+  const cacheDir = getCacheDir(appPath)
+  const prebundleCacheDir = path.resolve(cacheDir, './prebundle')
+  const remoteCacheDir = path.resolve(cacheDir, './remote')
+  const metadataPath = path.join(cacheDir, 'metadata.json')
+  const preMetadata: Metadata = fs.readJSONSync(metadataPath) || {}
+  const metadata: Metadata = {}
+  let isUseCache = true
+
+  const resolveOptions = combination.chain.toConfig().resolve
+  createResolve(appPath, resolveOptions)
 
   /**
    * 找出所有 webpack entry
@@ -65,9 +85,6 @@ export async function preBundle (
 
   // console.log('\nPrebundle entries: \n', ...entries.map(entry => `\t${entry}\n`, '\n'))
 
-  const resolveOptions = combination.chain.toConfig().resolve
-  createResolve(appPath, resolveOptions)
-
   /**
    * 1. 扫描出所有的 node_modules 依赖
    */
@@ -76,6 +93,7 @@ export async function preBundle (
   const deps = await scanImports({ entries, combination })
 
   performance.measure('Scan imports duration', 'scan start')
+
   console.log(chalk.cyan(
     '\nPrebundle dependencies: \n',
     ...[...deps.keys()].map(dep => `    ${dep}\n`)
@@ -86,7 +104,35 @@ export async function preBundle (
    */
   performance.mark('prebundle start')
 
-  const { metafile } = await bundle(deps, combination)
+  metadata.bundleHash = await getBundleHash(deps, combination, cacheDir)
+
+  if (preMetadata.bundleHash !== metadata.bundleHash) {
+    isUseCache = false
+
+    const { metafile } = await bundle(deps, combination, prebundleCacheDir)
+
+    // 找出 @tarojs/runtime 被 split 切分的 chunk，作为后续 ProvidePlugin 的提供者。
+    // 原因是 @tarojs/runtime 里使用了一些如 raf、caf 等全局变量，又因为 esbuild 把
+    // @tarojs/runtime split 成 entry 和依赖 chunk 两部分。如果我们把 entry 作为
+    // ProvidePlugin 的提供者，依赖 chunk 会被注入 raf、caf，导致循环依赖的问题。所以
+    // 这种情况下只能把依赖 chunk 作为 ProvidePlugin 的提供者。
+    Object.keys(metafile.outputs).some(key => {
+      const output = metafile.outputs[key]
+      if (output.entryPoint === 'entry:@tarojs_runtime') {
+        const dep = output.imports.find(dep => {
+          const depPath = dep.path
+          const depOutput = metafile.outputs[depPath]
+          return depOutput.exports.includes('TaroRootElement')
+        })
+        if (dep) {
+          metadata.taroRuntimeBundlePath = path.join(appPath, dep.path)
+        }
+        return true
+      }
+    })
+  } else {
+    metadata.taroRuntimeBundlePath = path.join(appPath, preMetadata.taroRuntimeBundlePath!)
+  }
 
   performance.measure('Prebundle duration', 'prebundle start')
 
@@ -96,73 +142,89 @@ export async function preBundle (
   performance.mark('Build lib-app start')
 
   const exposes = {}
-  const depsCacheDir = getDepsCacheDir(appPath)
-  for (const id of deps.keys()) {
-    const flatId = flattenId(id)
-    exposes[`./${id}`] = path.join(depsCacheDir, `${flatId}.js`)
+  const mode = process.env.NODE_ENV === 'production' ? 'production' : 'development'
+  const devtool = combination.enableSourceMap && 'hidden-source-map'
+  const mainBuildOutput = combination.chain.output.entries()
+  const taroRuntimeBundlePath: string = metadata.taroRuntimeBundlePath || exposes['./@tarojs/runtime']
+  const output = {
+    path: remoteCacheDir,
+    chunkLoadingGlobal: mainBuildOutput.chunkLoadingGlobal,
+    globalObject: mainBuildOutput.globalObject
   }
 
-  const mainBuildOutput = combination.chain.output.entries()
-  const runtimeRequirements = new Set<string>()
-  let taroRuntimeBundlePath = exposes['./@tarojs/runtime']
+  metadata.mfHash = getMfHash({
+    bundleHash: metadata.bundleHash,
+    mode,
+    devtool,
+    output,
+    taroRuntimeBundlePath
+  })
 
-  Object.keys(metafile.outputs).some(key => {
-    // 找出 @tarojs/runtime 被 split 切分的 chunk，作为后续 ProvidePlugin 的提供者。
-    // 原因是 @tarojs/runtime 里使用了一些如 raf、caf 等全局变量，又因为 esbuild 把
-    // @tarojs/runtime split 成 entry 和依赖 chunk 两部分。如果我们把 entry 作为
-    // ProvidePlugin 的提供者，依赖 chunk 会被注入 raf、caf，导致循环依赖的问题。所以
-    // 这种情况下只能把依赖 chunk 作为 ProvidePlugin 的提供者。
-    const output = metafile.outputs[key]
-    if (output.entryPoint === 'entry:@tarojs_runtime') {
-      const dep = output.imports.find(dep => {
-        const depPath = dep.path
-        const depOutput = metafile.outputs[depPath]
-        return depOutput.exports.includes('TaroRootElement')
-      })
-      if (dep) {
-        taroRuntimeBundlePath = path.join(appPath, dep.path)
-      }
-      return true
+  if (preMetadata.mfHash !== metadata.mfHash) {
+    isUseCache = false
+
+    fs.existsSync(remoteCacheDir) && fs.emptyDirSync(remoteCacheDir)
+
+    for (const id of deps.keys()) {
+      const flatId = flattenId(id)
+      exposes[`./${id}`] = path.join(prebundleCacheDir, `${flatId}.js`)
     }
-  })
+    metadata.runtimeRequirements = new Set<string>()
 
-  const compiler = webpack({
-    entry: path.resolve(__dirname, './webpack/index.js'),
-    mode: process.env.NODE_ENV === 'production' ? 'production' : 'development',
-    devtool: combination.enableSourceMap && 'hidden-source-map',
-    output: {
-      ...mainBuildOutput,
-      path: path.join(mainBuildOutput.path, 'prebundle')
-    },
-    plugins: [
-      new webpack.container.ModuleFederationPlugin({
-        name: 'lib_app',
-        filename: 'remoteEntry.js',
-        runtime: 'runtime',
-        exposes
-      }),
-      new TaroContainerPlugin(runtimeRequirements),
-      new webpack.ProvidePlugin({
-        window: [taroRuntimeBundlePath, 'window$1'],
-        document: [taroRuntimeBundlePath, 'document$1'],
-        navigator: [taroRuntimeBundlePath, 'navigator'],
-        requestAnimationFrame: [taroRuntimeBundlePath, 'raf'],
-        cancelAnimationFrame: [taroRuntimeBundlePath, 'caf'],
-        Element: [taroRuntimeBundlePath, 'TaroElement'],
-        SVGElement: [taroRuntimeBundlePath, 'SVGElement'],
-        MutationObserver: [taroRuntimeBundlePath, 'MutationObserver']
-      })
-    ]
-  })
-  const stats = await new Promise((resolve, reject) => {
-    compiler.run((err: Error, stats: webpack.Stats) => {
-      compiler.close(err2 => {
-        if (err || err2) return reject(err || err2)
-        performance.measure('Build Remote lib-app duration', 'Build lib-app start')
-        resolve(stats.toJson())
+    const compiler = webpack({
+      entry: path.resolve(__dirname, './webpack/index.js'),
+      mode,
+      devtool,
+      output,
+      cache: {
+        type: 'filesystem',
+        cacheDirectory: path.join(cacheDir, 'webpack-cache'),
+        buildDependencies: {
+          config: Object.values(exposes)
+        }
+      },
+      plugins: [
+        new webpack.container.ModuleFederationPlugin({
+          name: 'lib_app',
+          filename: 'remoteEntry.js',
+          runtime: 'runtime',
+          exposes
+        }),
+        new TaroContainerPlugin(metadata.runtimeRequirements),
+        new webpack.ProvidePlugin({
+          window: [taroRuntimeBundlePath, 'window$1'],
+          document: [taroRuntimeBundlePath, 'document$1'],
+          navigator: [taroRuntimeBundlePath, 'navigator'],
+          requestAnimationFrame: [taroRuntimeBundlePath, 'raf'],
+          cancelAnimationFrame: [taroRuntimeBundlePath, 'caf'],
+          Element: [taroRuntimeBundlePath, 'TaroElement'],
+          SVGElement: [taroRuntimeBundlePath, 'SVGElement'],
+          MutationObserver: [taroRuntimeBundlePath, 'MutationObserver']
+        })
+      ]
+    })
+    metadata.remoteAssets = await new Promise((resolve, reject) => {
+      compiler.run((err: Error, stats: webpack.Stats) => {
+        compiler.close(err2 => {
+          if (err || err2) return reject(err || err2)
+          const { assets } = stats.toJson()
+          const remoteAssets = assets
+            ?.filter(item => item.name !== 'runtime.js')
+            ?.map(item => ({
+              name: path.join('prebundle', item.name)
+            })) || []
+          resolve(remoteAssets)
+        })
       })
     })
-  })
+  } else {
+    metadata.runtimeRequirements = new Set(preMetadata.runtimeRequirements)
+    metadata.remoteAssets = preMetadata.remoteAssets
+  }
+
+  fs.copy(remoteCacheDir, path.join(mainBuildOutput.path, 'prebundle'))
+
+  performance.measure('Build Remote lib-app duration', 'Build lib-app start')
 
   /**
    * 4. 项目 Host 配置 Module Federation
@@ -182,7 +244,56 @@ export async function preBundle (
     .use(path.resolve(__dirname, './webpack/TaroContainerReferencePlugin.js'), [
       mfOptions,
       deps,
-      stats,
-      runtimeRequirements
+      metadata.remoteAssets,
+      metadata.runtimeRequirements
     ])
+
+  if (!isUseCache) {
+    commit(appPath, metadataPath, metadata)
+  }
+}
+
+async function getBundleHash (deps: CollectedDeps, combination: MiniCombination, cacheDir: string): Promise<string> {
+  const appPath = combination.appPath
+  const defines = getDefines(combination)
+  const lockfiles = ['package-lock.json', 'yarn.lock', 'pnpm-lock.yaml']
+  const lockfilesContents = await Promise.all(lockfiles.map(item => {
+    return new Promise<string>(resolve => {
+      fs.readFile(path.join(appPath, item))
+        .then(content => resolve(content.toString()))
+        .catch(() => resolve(''))
+    })
+  }))
+  return getHash(
+    formatDepsString(deps) +
+    lockfilesContents.join('\n') +
+    JSON.stringify(defines) +
+    cacheDir
+  )
+}
+
+function formatDepsString (deps: CollectedDeps) {
+  const list = Array.from(deps.entries())
+  list.sort((a, b) => a[0].localeCompare(b[0]))
+  return JSON.stringify(list)
+}
+
+function getMfHash (obj: Record<string, any>) {
+  return getHash(JSON.stringify(obj))
+}
+
+async function commit (appPath: string, metadataPath: string, metadata: Metadata) {
+  // Todo: 改为相对路径
+  await fs.writeJSON(metadataPath, metadata, {
+    spaces: 2,
+    replacer (key, value) {
+      if (value instanceof Set) {
+        return Array.from(value)
+      }
+      if (key === 'taroRuntimeBundlePath') {
+        return path.relative(appPath, value)
+      }
+      return value
+    }
+  })
 }

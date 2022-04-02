@@ -1,5 +1,6 @@
 import * as enhancedResolve from 'enhanced-resolve'
 import * as path from 'path'
+import { createHash } from 'crypto'
 
 import type { MiniCombination } from '../webpack/MiniCombination'
 
@@ -49,8 +50,8 @@ export function flattenId (id: string) {
   return id.replace(/(\s*>\s*)/g, '__').replace(/[/.:]/g, '_')
 }
 
-export function getDepsCacheDir (appPath: string) {
-  return path.resolve(appPath, './node_modules/.taro', './prebundle')
+export function getCacheDir (appPath: string) {
+  return path.resolve(appPath, './node_modules/.taro')
 }
 
 export function getDefines (combination: MiniCombination) {
@@ -74,4 +75,8 @@ export function isExclude (id: string, excludes: string[]) {
       if (item === id || id.startsWith(item + '/')) return true
     }
   }))
+}
+
+export function getHash (content: string) {
+  return createHash('sha256').update(content).digest('hex').substring(0, 8)
 }
