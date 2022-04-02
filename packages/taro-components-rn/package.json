@@ -31,7 +31,7 @@
     "@react-native-picker/picker": "~2.2.1",
     "@unimodules/core": "^7.1.2",
     "@unimodules/react-native-adapter": "^6.3.9",
-    "expo-asset": "^8.3.3",
+    "expo-asset": "~8.3.3",
     "expo-av": "~9.2.3",
     "expo-barcode-scanner": "~10.2.2",
     "expo-camera": "~11.2.2",
