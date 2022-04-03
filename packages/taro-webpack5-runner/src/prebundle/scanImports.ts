@@ -26,10 +26,17 @@ import type { CollectedDeps } from './constant'
 
 interface ScanImportsConfig {
   entries: string[],
-  combination: MiniCombination
+  combination: MiniCombination,
+  include: string[]
+  exclude: string[]
 }
 
-export async function scanImports ({ entries, combination }: ScanImportsConfig): Promise<CollectedDeps> {
+export async function scanImports ({
+  entries,
+  combination,
+  include,
+  exclude
+}: ScanImportsConfig): Promise<CollectedDeps> {
   const { appPath, config } = combination
   const deps: CollectedDeps = new Map()
 
@@ -49,13 +56,13 @@ export async function scanImports ({ entries, combination }: ScanImportsConfig):
     '@tarojs/runtime',
     loaderMeta.creatorLocation,
     ...(runtimePath || []),
-    ...((config as any).prebundle?.includes || [])
+    ...include
   ]
 
   const excludes = [
     // 编译 Host 时需要扫描 @tarojs/components 的 useExports，因此不能被 external
     '@tarojs/components',
-    ...((config as any).prebundle?.excludes || [])
+    ...exclude
   ]
 
   const scanImportsPlugin = getScanImportsPlugin(deps, includes, excludes)

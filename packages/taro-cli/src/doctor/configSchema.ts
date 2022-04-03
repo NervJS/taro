@@ -43,7 +43,19 @@ const schema = Joi.object().keys({
 
   framework: Joi.any().valid('nerv', 'react', 'preact', 'vue', 'vue3').required(),
 
-  compiler: Joi.string().valid('webpack4', 'webpack5'),
+  compiler: Joi.alternatives(
+    Joi.string().valid('webpack4', 'webpack5'),
+    Joi.object().keys({
+      type: Joi.string().valid('webpack4', 'webpack5'),
+      prebundle: Joi.object().keys({
+        enable: Joi.boolean(),
+        timings: Joi.boolean(),
+        cacheDir: Joi.string(),
+        include: Joi.array().items(Joi.string()),
+        exclude: Joi.array().items(Joi.string())
+      })
+    })
+  ),
 
   jsMinimizer: Joi.string().valid('terser', 'esbuild'),
 

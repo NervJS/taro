@@ -42,6 +42,7 @@ export abstract class TaroPlatformBase {
   ctx: IPluginContext
   helper: IPluginContext['helper']
   config: any
+  compiler: string
 
   abstract platform: string
   abstract globalObject: string
@@ -58,6 +59,8 @@ export abstract class TaroPlatformBase {
     this.ctx = ctx
     this.helper = ctx.helper
     this.config = config
+    const _compiler = config.compiler
+    this.compiler = typeof _compiler === 'object' ? _compiler.type : _compiler
   }
 
   /**
@@ -104,7 +107,7 @@ Example:
 ${exampleCommand}`))
     }
 
-    if (config.compiler === 'webpack5' && !config.cache?.enable) {
+    if (this.compiler === 'webpack5' && !config.cache?.enable) {
       tips.push(chalk.yellowBright('建议开启持久化缓存功能，能有效提升二次编译速度，详情请参考: https://docs.taro.zone/docs/config-detail#cache。'))
     }
 
@@ -123,10 +126,12 @@ ${exampleCommand}`))
     const { npm } = this.helper
 
     let runnerPkg: string
-    if (this.config.compiler === 'webpack5') {
-      runnerPkg = '@tarojs/webpack5-runner'
-    } else {
-      runnerPkg = '@tarojs/mini-runner'
+    switch (this.compiler) {
+      case 'webpack5':
+        runnerPkg = '@tarojs/webpack5-runner'
+        break
+      default:
+        runnerPkg = '@tarojs/mini-runner'
     }
 
     const runner = await npm.getNpmPkg(runnerPkg, appPath)

@@ -30,12 +30,19 @@ import * as webpack from 'webpack'
 import { scanImports } from './scanImports'
 import { bundle } from './bundle'
 import TaroContainerPlugin from './webpack/TaroContainerPlugin'
-import { createResolve, flattenId, getCacheDir, getHash, getDefines } from './utils'
+import {
+  createResolve,
+  flattenId,
+  getCacheDir,
+  getBundleHash,
+  getMfHash,
+  commitMeta,
+  getPrebunbleOptions
+} from './utils'
 
 import type { MiniCombination } from '../webpack/MiniCombination'
-import type { CollectedDeps } from './constant'
 
-interface Metadata {
+export interface Metadata {
   bundleHash?: string
   mfHash?: string
   taroRuntimeBundlePath?: string
@@ -46,16 +53,11 @@ interface Metadata {
 export async function preBundle (
   combination: MiniCombination
 ) {
-  const performanceObserver = new PerformanceObserver(items => {
-    const list = items.getEntries()
-    list.forEach(item => {
-      console.log(chalk.cyan(`\n${item.name}: ${Math.round(item.duration)}ms\n`))
-    })
-  })
-  performanceObserver.observe({ type: 'measure' })
+  const prebundleOptions = getPrebunbleOptions(combination)
+  if (!prebundleOptions.enable) return
 
   const appPath = combination.appPath
-  const cacheDir = getCacheDir(appPath)
+  const cacheDir = prebundleOptions.cacheDir || getCacheDir(appPath)
   const prebundleCacheDir = path.resolve(cacheDir, './prebundle')
   const remoteCacheDir = path.resolve(cacheDir, './remote')
   const metadataPath = path.join(cacheDir, 'metadata.json')
@@ -65,6 +67,10 @@ export async function preBundle (
 
   const resolveOptions = combination.chain.toConfig().resolve
   createResolve(appPath, resolveOptions)
+
+  if (prebundleOptions.timings) {
+    startTimingObserve()
+  }
 
   /**
    * 找出所有 webpack entry
@@ -90,7 +96,12 @@ export async function preBundle (
    */
   performance.mark('scan start')
 
-  const deps = await scanImports({ entries, combination })
+  const deps = await scanImports({
+    entries,
+    combination,
+    include: prebundleOptions.include || [],
+    exclude: prebundleOptions.exclude || []
+  })
 
   performance.measure('Scan imports duration', 'scan start')
 
@@ -249,51 +260,16 @@ export async function preBundle (
     ])
 
   if (!isUseCache) {
-    commit(appPath, metadataPath, metadata)
+    commitMeta(appPath, metadataPath, metadata)
   }
 }
 
-async function getBundleHash (deps: CollectedDeps, combination: MiniCombination, cacheDir: string): Promise<string> {
-  const appPath = combination.appPath
-  const defines = getDefines(combination)
-  const lockfiles = ['package-lock.json', 'yarn.lock', 'pnpm-lock.yaml']
-  const lockfilesContents = await Promise.all(lockfiles.map(item => {
-    return new Promise<string>(resolve => {
-      fs.readFile(path.join(appPath, item))
-        .then(content => resolve(content.toString()))
-        .catch(() => resolve(''))
+function startTimingObserve () {
+  const performanceObserver = new PerformanceObserver(items => {
+    const list = items.getEntries()
+    list.forEach(item => {
+      console.log(chalk.cyan(`\n${item.name}: ${Math.round(item.duration)}ms\n`))
     })
-  }))
-  return getHash(
-    formatDepsString(deps) +
-    lockfilesContents.join('\n') +
-    JSON.stringify(defines) +
-    cacheDir
-  )
-}
-
-function formatDepsString (deps: CollectedDeps) {
-  const list = Array.from(deps.entries())
-  list.sort((a, b) => a[0].localeCompare(b[0]))
-  return JSON.stringify(list)
-}
-
-function getMfHash (obj: Record<string, any>) {
-  return getHash(JSON.stringify(obj))
-}
-
-async function commit (appPath: string, metadataPath: string, metadata: Metadata) {
-  // Todo: 改为相对路径
-  await fs.writeJSON(metadataPath, metadata, {
-    spaces: 2,
-    replacer (key, value) {
-      if (value instanceof Set) {
-        return Array.from(value)
-      }
-      if (key === 'taroRuntimeBundlePath') {
-        return path.relative(appPath, value)
-      }
-      return value
-    }
   })
+  performanceObserver.observe({ type: 'measure' })
 }

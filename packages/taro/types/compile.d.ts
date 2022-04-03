@@ -363,6 +363,20 @@ interface ICache {
   name?: string
 }
 
+type CompilerTypes = 'webpack4' | 'webpack5'
+interface IPrebundle {
+  enable?: boolean
+  timings?: boolean
+  cacheDir?: string
+  include?: string[]
+  exclude?: string[]
+}
+interface ICompiler {
+  type: CompilerTypes
+  prebundle: IPrebundle
+}
+type Compiler = CompilerTypes | ICompiler
+
 export interface IProjectBaseConfig {
   projectName?: string
   date?: string
@@ -386,7 +400,7 @@ export interface IProjectBaseConfig {
   presets?: PluginItem[]
   baseLevel?: number
   framework?: string
-  compiler?: 'webpack4' | 'webpack5'
+  compiler?: Compiler
   cache?: ICache
 }
 
