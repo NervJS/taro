@@ -42,7 +42,7 @@ config = {
 
 ## 通过webpackChain配置解决开发环境下小程序包体积过大无法进行预览上传的问题(不影响devtools的使用)
 ```js
-// config/dev.sj
+// config/dev.js
 module.exports = {
  mini: {
     webpackChain: (chain, webpack) => {
