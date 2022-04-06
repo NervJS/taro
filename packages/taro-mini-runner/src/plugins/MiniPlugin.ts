@@ -1173,17 +1173,18 @@ export default class TaroMiniPlugin {
     if (commonStyles.length > 0) {
       const source = new ConcatSource()
       let rawSource = assets[appStyle].source()
-      source.add(commonStyles.join(''))
 
       const rawConvSourceMap = convert.fromSource(rawSource)
 
       if (rawConvSourceMap) {
         rawSource = convert.removeComments(rawSource)
         source.add(rawSource)
+        source.add(commonStyles.join(''))
         const offsettedMap = offsetLines(rawConvSourceMap.toObject(), commonStyles.length)
         source.add(convert.fromObject(offsettedMap).toComment())
       } else {
         source.add(rawSource)
+        source.add(commonStyles.join(''))
         const appStyleMap = appStyle + '.map'
         if (assets[appStyleMap]) {
           const mapContext = assets[appStyleMap].source()
