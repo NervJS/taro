@@ -30,6 +30,12 @@ require(\\"./taro\\");
                 }
             });
             taro.cloud = wx.cloud;
+            taro.getTabBar = function(pageCtx) {
+                var _a;
+                if (typeof (pageCtx === null || pageCtx === void 0 ? void 0 : pageCtx.getTabBar) === \\"function\\") {
+                    return (_a = pageCtx.getTabBar()) === null || _a === void 0 ? void 0 : _a.$taroInstances;
+                }
+            };
         }
         var _true = \\"true\\";
         var _false = \\"false\\";
@@ -81,6 +87,7 @@ require(\\"./taro\\");
                 bindGetUserInfo: _empty,
                 bindContact: _empty,
                 bindGetPhoneNumber: _empty,
+                bindChooseAvatar: _empty,
                 bindError: _empty,
                 bindOpenSetting: _empty,
                 bindLaunchApp: _empty
@@ -98,6 +105,7 @@ require(\\"./taro\\");
                 \\"header-text\\": _empty
             },
             PickerView: {
+                \\"immediate-change\\": _false,
                 bindPickStart: _empty,
                 bindPickEnd: _empty
             },
@@ -344,6 +352,12 @@ require(\\"./taro\\");
                 bindLeave: _empty,
                 bindAfterLeave: _empty,
                 bindClickOverlay: _empty
+            },
+            ShareElement: {
+                mapkey: _empty,
+                transform: _false,
+                duration: \\"300\\",
+                \\"easing-function\\": \\"'ease-out'\\"
             },
             KeyboardAccessory: {}
         };

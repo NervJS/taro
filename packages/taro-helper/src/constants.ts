@@ -138,10 +138,13 @@ export const UPDATE_PACKAGE_LIST = [
   '@tarojs/cli',
   '@tarojs/components',
   '@tarojs/taro-h5',
+  '@tarojs/taro-rn',
+  '@tarojs/rn-runner',
   '@tarojs/helper',
   '@tarojs/taro-loader',
   '@tarojs/mini-runner',
   '@tarojs/react',
+  '@tarojs/plugin-framework-react',
   '@tarojs/router',
   '@tarojs/runner-utils',
   '@tarojs/runtime',
@@ -155,6 +158,7 @@ export const UPDATE_PACKAGE_LIST = [
   '@tarojs/plugin-platform-tt',
   '@tarojs/plugin-platform-qq',
   '@tarojs/plugin-platform-jd',
+  '@tarojs/plugin-html',
   'nervjs',
   'nerv-devtools'
 ]

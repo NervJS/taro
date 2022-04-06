@@ -98,31 +98,31 @@ interface ScrollViewProps extends StandardProps {
   refresherTriggered?: boolean
 
   /** 启用 scroll-view 增强特性
-   * @supported weapp 2.12.0+
+   * @supported weapp
    * @default false
    */
   enhanced?: boolean
 
   /** iOS 下 scroll-view 边界弹性控制 (同时开启 enhanced 属性后生效)
-   * @supported weapp 2.12.0+
+   * @supported weapp
    * @default true
    */
   bounces?: boolean
 
   /** 滚动条显隐控制 (同时开启 enhanced 属性后生效)
-   * @supported weapp 2.12.0+
+   * @supported weapp
    * @default true
    */
   showScrollbar?: boolean
 
   /** 分页滑动效果 (同时开启 enhanced 属性后生效)
-   * @supported weapp 2.12.0+
+   * @supported weapp
    * @default false
    */
   pagingEnabled?: boolean
 
   /** boolean	false	滑动减速速率控制 (同时开启 enhanced 属性后生效)
-   * @supported weapp 2.12.0+
+   * @supported weapp
    * @default false
    */
   fastDeceleration?: boolean
@@ -164,17 +164,17 @@ interface ScrollViewProps extends StandardProps {
   onRefresherAbort?: CommonEventFunction
 
   /** 滑动开始事件 (同时开启 enhanced 属性后生效)
-   * @supported weapp 2.12.0+
+   * @supported weapp
    */
   onDragStart?: CommonEventFunction
 
   /** 滑动事件 (同时开启 enhanced 属性后生效)
-   * @supported weapp 2.12.0+
+   * @supported weapp
    */
   onDragging?: CommonEventFunction
 
   /** 滑动结束事件 (同时开启 enhanced 属性后生效)
-   * @supported weapp 2.12.0+
+   * @supported weapp
    */
   onDragEnd?: CommonEventFunction
 }
@@ -200,7 +200,8 @@ declare namespace ScrollViewProps {
  * H5 中 ScrollView 组件是通过一个高度（或宽度）固定的容器内部滚动来实现的，因此务必正确的设置容器的高度。例如: 如果 ScrollView 的高度将 body 撑开，就会同时存在两个滚动条（body 下的滚动条，以及 ScrollView 的滚动条）。
  * 微信小程序 中 ScrollView 组件如果设置 scrollX 横向滚动时，并且子元素为多个时（单个子元素时设置固定宽度则可以正常横向滚动），需要通过 WXSS 设置 `white-space: nowrap` 来保证元素不换行，并对 ScrollView 内部元素设置 `display: inline-block` 来使其能够横向滚动。
  * @classification viewContainer
- * @example
+ * @supported weapp, swan, alipay, tt, h5, rn
+ * @example_react
  * ```tsx
  * export default class PageView extends Component {
  *   constructor() {
@@ -254,6 +255,87 @@ declare namespace ScrollViewProps {
  *     )
  *   }
  * }
+ * ```
+ * @example_vue
+ * ```html
+ * <template>
+ *   <view class="container">
+ *     <view class="page-body">
+ *       <view class="page-section">
+ *         <view class="page-section-title">
+ *           <text>Vertical Scroll - 纵向滚动</text>
+ *         </view>
+ *         <view class="page-section-spacing">
+ *           <scroll-view :scroll-y="true" style="height: 300rpx;" `@scrolltoupper="upper" `@scrolltolower="lower" `@scroll="scroll" :scroll-into-view="toView" :scroll-top="scrollTop">
+ *             <view id="demo1" class="scroll-view-item demo-text-1">1</view>
+ *             <view id="demo2"  class="scroll-view-item demo-text-2">2</view>
+ *             <view id="demo3" class="scroll-view-item demo-text-3">3</view>
+ *           </scroll-view>
+ *         </view>
+ *       </view>
+ *       <view class="page-section">
+ *         <view class="page-section-title">
+ *           <text>Horizontal Scroll - 横向滚动</text>
+ *         </view>
+ *         <view class="page-section-spacing">
+ *           <scroll-view class="scroll-view_H" :scroll-x="true" `@scroll="scroll" style="width: 100%">
+ *             <view id="demo21" class="scroll-view-item_H demo-text-1">a</view>
+ *             <view id="demo22"  class="scroll-view-item_H demo-text-2">b</view>
+ *             <view id="demo23" class="scroll-view-item_H demo-text-3">c</view>
+ *           </scroll-view>
+ *         </view>
+ *       </view>
+ *     </view>
+ *   </view>
+ * </template>
+ * 
+ * <script>
+ * const order = ['demo1', 'demo2', 'demo3']
+ * export default {
+ *   name: 'Index',
+ *   data() {
+ *     return {
+ *       scrollTop: 0,
+ *       toView: 'demo2'
+ *     }
+ *   },
+ * 
+ *   methods: {
+ *     upper(e) {
+ *       console.log('upper:', e)
+ *     },
+ * 
+ *     lower(e) {
+ *       console.log('lower:', e)
+ *     },
+ * 
+ *     scroll(e) {
+ *       console.log('scroll:', e)
+ *     }
+ *   }
+ * }
+ * </script>
+ * 
+ * <style>
+ * .page-section-spacing{
+ *   margin-top: 60rpx;
+ * }
+ * .scroll-view_H{
+ *   white-space: nowrap;
+ * }
+ * .scroll-view-item{
+ *   height: 300rpx;
+ * }
+ * .scroll-view-item_H{
+ *   display: inline-block;
+ *   width: 100%;
+ *   height: 300rpx;
+ * }
+ * 
+ * .demo-text-1 { background: #ccc; }
+ * .demo-text-2 { background: #999; }
+ * .demo-text-3 { background: #666; }
+ * </style>
  * ```
  * @see https://developers.weixin.qq.com/miniprogram/dev/component/scroll-view.html
  */

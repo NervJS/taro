@@ -32,6 +32,12 @@ require(\\"./taro\\");
                 }
             });
             taro.cloud = wx.cloud;
+            taro.getTabBar = function(pageCtx) {
+                var _a;
+                if (typeof (pageCtx === null || pageCtx === void 0 ? void 0 : pageCtx.getTabBar) === \\"function\\") {
+                    return (_a = pageCtx.getTabBar()) === null || _a === void 0 ? void 0 : _a.$taroInstances;
+                }
+            };
         }
         var _true = \\"true\\";
         var _false = \\"false\\";
@@ -83,6 +89,7 @@ require(\\"./taro\\");
                 bindGetUserInfo: _empty,
                 bindContact: _empty,
                 bindGetPhoneNumber: _empty,
+                bindChooseAvatar: _empty,
                 bindError: _empty,
                 bindOpenSetting: _empty,
                 bindLaunchApp: _empty
@@ -100,6 +107,7 @@ require(\\"./taro\\");
                 \\"header-text\\": _empty
             },
             PickerView: {
+                \\"immediate-change\\": _false,
                 bindPickStart: _empty,
                 bindPickEnd: _empty
             },
@@ -347,6 +355,12 @@ require(\\"./taro\\");
                 bindAfterLeave: _empty,
                 bindClickOverlay: _empty
             },
+            ShareElement: {
+                mapkey: _empty,
+                transform: _false,
+                duration: \\"300\\",
+                \\"easing-function\\": \\"'ease-out'\\"
+            },
             KeyboardAccessory: {}
         };
         var hostConfig = {
@@ -507,19 +521,16 @@ require(\\"./taro\\");
             }, options);
         }
         function setReconciler() {
-            var _a;
             var hooks = taro_runtime[\\"container\\"].get(taro_runtime[\\"SERVICE_IDENTIFIER\\"].Hooks);
             hooks.getLifecycle = function(instance, lifecycle) {
                 return instance.$options[lifecycle];
             };
-            (_a = hooks.modifyMpEventImpls) === null || _a === void 0 ? void 0 : _a.push((function(event) {
-                event.type = event.type.replace(/-/g, \\"\\");
-            }));
             if (false) {}
         }
         function createVue3Page(h, id) {
             return function(component) {
                 var _a;
+                component = isClassComponent(component) ? component.__vccOpts : component;
                 var inject = {
                     props: {
                         tid: String
@@ -540,8 +551,8 @@ require(\\"./taro\\");
                     component.mixins = [ inject ];
                 }
                 var ProviderComponent = {
-                    provide: {
-                        id: id
+                    setup: function setup() {
+                        Object(vue[\\"provide\\"])(\\"id\\", id);
                     },
                     render: function render() {
                         return this.$slots.default();
@@ -567,7 +578,7 @@ require(\\"./taro\\");
             var _Object$create;
             var pages = [];
             var appInstance;
-            undefined(!isFunction(app._component), \\"\\\\u5165\\\\u53e3\\\\u7ec4\\\\u4ef6\\\\u4e0d\\\\u652f\\\\u6301\\\\u4f7f\\\\u7528\\\\u51fd\\\\u6570\\\\u5f0f\\\\u7ec4\\\\u4ef6\\");
+            undefined(!(isFunction(app._component) && !isClassComponent(app._component)), \\"\\\\u5165\\\\u53e3\\\\u7ec4\\\\u4ef6\\\\u4e0d\\\\u652f\\\\u6301\\\\u4f7f\\\\u7528\\\\u51fd\\\\u6570\\\\u5f0f\\\\u7ec4\\\\u4ef6\\");
             setReconciler();
             app._component.render = function() {
                 return pages.slice();
@@ -641,6 +652,9 @@ require(\\"./taro\\");
             })), _Object$create));
             taro_runtime[\\"Current\\"].app = appConfig;
             return appConfig;
+        }
+        function isClassComponent(value) {
+            return isFunction(value) && \\"__vccOpts\\" in value;
         }
         var runtime_hooks = taro_runtime[\\"container\\"].get(taro_runtime[\\"SERVICE_IDENTIFIER\\"].Hooks);
         runtime_hooks.initNativeApiImpls || (runtime_hooks.initNativeApiImpls = []);

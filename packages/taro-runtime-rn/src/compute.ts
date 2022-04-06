@@ -18,6 +18,6 @@ export function pxTransform (size: number): number {
     throw new Error(`deviceRatio 配置中不存在 ${designWidth} 的设置！`)
   }
   const formatSize = ~~size
-  const rateSize = formatSize / (deviceRatio[designWidth] * 2)
-  return rateSize * deviceWidthDp / uiWidthPx
+  const rateSize = formatSize * deviceRatio[designWidth]
+  return rateSize * deviceWidthDp / (uiWidthPx * 2)
 }

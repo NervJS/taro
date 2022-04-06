@@ -20,7 +20,7 @@ export async function getLocation(opts: Taro.getLocation.Option = {}): Promise<T
   return new Promise((resolve, reject) => {
     Geolocation.getCurrentPosition(
       ({ coords }) => {
-        const { latitude, longitude, altitude, accuracy, altitudeAccuracy, heading, speed } = coords
+        const { latitude, longitude, altitude, accuracy, speed } = coords
         const res = {
           latitude,
           longitude,

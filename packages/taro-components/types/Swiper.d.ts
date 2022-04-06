@@ -163,9 +163,10 @@ declare namespace SwiperProps {
 }
 
 /** 滑块视图容器。其中只可放置 swiper-item 组件，否则会导致未定义的行为。
+ * > 不要为 `SwiperItem` 设置 **style** 属性，可以通过 class 设置样式。[7147](https://github.com/NervJS/taro/issues/7147)
  * @classification viewContainer
  * @supported weapp, swan, alipay, tt, h5, rn
- * @example
+ * @example_react
  * ```tsx
  * class App extends Component {
  *   render () {
@@ -191,6 +192,30 @@ declare namespace SwiperProps {
  *     )
  *   }
  * }
+ * ```
+ * @example_vue
+ * ```html
+ * <template>
+ *   <swiper
+ *     class='test-h'
+ *     indicator-color='#999'
+ *     indicator-active-color='#333'
+ *     :vertical="true"
+ *     :circular="true"
+ *     :indicator-dots="true"
+ *     :autoplay="true"
+ *   >
+ *     <swiper-item>
+ *       <view class='demo-text-1'>1</view>
+ *     </swiper-item>
+ *     <swiper-item>
+ *       <view class='demo-text-2'>2</view>
+ *     </swiper-item>
+ *     <swiper-item>
+ *       <view class='demo-text-3'>3</view>
+ *     </swiper-item>
+ *   </swiper>
+ * </template>
  * ```
  * @see https://developers.weixin.qq.com/miniprogram/dev/component/swiper.html
  */

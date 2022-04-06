@@ -44,4 +44,15 @@ const runtimeUtilsConfig = {
   ...base
 }
 
-module.exports = [comileConfig, runtimeConfig, runtimeUtilsConfig]
+// React 下 webpack 会 alias @tarojs/components 为此文件
+const otherConfig = {
+  input: path.join(cwd, 'src/components-react.ts'),
+  output: {
+    file: path.join(cwd, 'dist/components-react.js'),
+    format: 'es',
+    sourcemap: true
+  },
+  ...base
+}
+
+module.exports = [comileConfig, runtimeConfig, runtimeUtilsConfig, otherConfig]

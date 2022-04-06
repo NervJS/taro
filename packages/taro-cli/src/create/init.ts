@@ -8,6 +8,7 @@ import { getAllFilesInFloder, getPkgVersion } from '../util'
 import { IProjectConf } from './project'
 import { IPageConf } from './page'
 import Creator from './creator'
+import { changeDefaultNameInTemplate } from './editTemplate'
 
 const CONFIG_DIR_NAME = 'config'
 export const TEMPLATE_CREATOR = 'template_creator.js'
@@ -18,7 +19,9 @@ const styleExtMap = {
   stylus: 'styl',
   none: 'css'
 }
-
+enum TemplateType {
+  rn = 'react-native'
+}
 const doNotCopyFiles = ['.DS_Store', '.npmrc', TEMPLATE_CREATOR]
 
 function createFiles (
@@ -51,9 +54,10 @@ function createFiles (
   const globalChangeExt = Boolean(handler)
   const currentStyleExt = styleExtMap[css] || 'css'
 
-  files.forEach(file => {
+  files.forEach(async file => {
     // fileRePath startsWith '/'
     const fileRePath = file.replace(templatePath, '').replace(new RegExp(`\\${path.sep}`, 'g'), '/')
+
     let externalConfig: any = null
 
     const isVueFramework = /^vue/.test(framework)
@@ -121,6 +125,7 @@ function createFiles (
     creater.template(template, fileRePath, path.join(projectPath, destRePath), config)
 
     const destinationPath = creater.destinationPath(path.join(projectPath, destRePath))
+
     logs.push(`${chalk.green('✔ ')}${chalk.grey(`创建文件: ${destinationPath}`)}`)
   })
   return logs
@@ -160,8 +165,8 @@ export async function createApp (creater: Creator, params: IProjectConf, cb) {
   const { projectName, projectDir, template, autoInstall = true, framework } = params
   const logs: string[] = []
   // path
-  const templatePath = creater.templatePath(template)
   const projectPath = path.join(projectDir, projectName)
+  const templatePath = creater.templatePath(template)
 
   // npm & yarn
   const version = getPkgVersion()
@@ -200,11 +205,16 @@ export async function createApp (creater: Creator, params: IProjectConf, cb) {
   )
 
   // fs commit
-  creater.fs.commit(() => {
+  creater.fs.commit(async () => {
     // logs
     console.log()
     console.log(`${chalk.green('✔ ')}${chalk.grey(`创建项目: ${chalk.grey.bold(projectName)}`)}`)
     logs.forEach(log => console.log(log))
+
+    // 当选择 rn 模板时，替换默认项目名
+    if (template === TemplateType.rn) {
+      await changeDefaultNameInTemplate({ projectName, templatePath, projectPath })
+    }
     console.log()
 
     // git init

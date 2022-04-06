@@ -84,13 +84,7 @@ export class PageProvider extends React.Component<any> {
       }, screenOptions)
       // 页面的config
       if (pageConfig) {
-        if (this.isTabBarPage()) {
-          navigation.setParams({
-            navigateConfig: navBarParams
-          })
-        } else {
-          navigation.setOptions(navBarParams)
-        }
+        navigation.setOptions(navBarParams)
       }
     }
   }
@@ -103,7 +97,6 @@ export class PageProvider extends React.Component<any> {
 
   private unSubscribleFocus
 
-  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   render () {
     return this.props.children
   }

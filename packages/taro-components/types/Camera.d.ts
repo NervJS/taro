@@ -6,31 +6,31 @@ interface CameraProps extends StandardProps {
    * @default "normal"
    * @supported weapp, rn
    */
-  mode?: keyof CameraProps.mode
+  mode?: keyof CameraProps.Mode
 
   /** 分辨率，不支持动态修改
    * @default "medium"
    * @supported weapp
    */
-  resolution?: keyof CameraProps.resolution
+  resolution?: keyof CameraProps.Resolution
 
   /** 摄像头朝向
    * @default "back"
    * @supported weapp, rn
    */
-  devicePosition?: keyof CameraProps.devicePosition
+  devicePosition?: keyof CameraProps.DevicePosition
 
   /** 闪光灯
    * @default "auto"
    * @supported weapp, rn
    */
-  flash?: keyof CameraProps.flash
+  flash?: keyof CameraProps.Flash
 
   /** 指定期望的相机帧数据尺寸
    * @default "medium"
    * @supported weapp
    */
-  frameSize?: keyof CameraProps.frameSize
+  frameSize?: keyof CameraProps.FrameSize
 
   /** 扫码识别区域，格式为[x, y, w, h]，
    * x,y是相对于camera显示区域的左上角，
@@ -64,14 +64,14 @@ interface CameraProps extends StandardProps {
 
 declare namespace CameraProps {
   /** mode 的合法值 */
-  interface mode {
+  interface Mode {
     /** 相机模式 */
     normal
     /** 扫码模式 */
     scanCode
   }
   /** resolution 的合法值 */
-  interface resolution {
+  interface Resolution {
     /** 低 */
     low
     /** 中 */
@@ -80,14 +80,14 @@ declare namespace CameraProps {
     high
   }
   /** device-position 的合法值 */
-  interface devicePosition {
+  interface DevicePosition {
     /** 前置 */
     front
     /** 后置 */
     back
   }
   /** flash 的合法值 */
-  interface flash {
+  interface Flash {
     /** 自动 */
     auto
     /** 打开 */
@@ -98,7 +98,7 @@ declare namespace CameraProps {
     torch
   }
   /** frame-size 的合法值 */
-  interface frameSize {
+  interface FrameSize {
     /** 小尺寸帧数据 */
     small
     /** 中尺寸帧数据 */
@@ -115,7 +115,7 @@ declare namespace CameraProps {
 
 /** 系统相机
  * @classification media
- * @supported weapp
+ * @supported weapp, rn
  * @see https://developers.weixin.qq.com/miniprogram/dev/component/camera.html
  */
 declare const Camera: ComponentType<CameraProps>
