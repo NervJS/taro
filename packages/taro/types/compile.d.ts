@@ -368,6 +368,7 @@ interface IPrebundle {
   enable?: boolean
   timings?: boolean
   cacheDir?: string
+  force?: boolean
   include?: string[]
   exclude?: string[]
 }

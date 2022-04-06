@@ -51,6 +51,7 @@ const schema = Joi.object().keys({
         enable: Joi.boolean(),
         timings: Joi.boolean(),
         cacheDir: Joi.string(),
+        force: Joi.boolean(),
         include: Joi.array().items(Joi.string()),
         exclude: Joi.array().items(Joi.string())
       })

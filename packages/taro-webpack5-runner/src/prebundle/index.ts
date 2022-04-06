@@ -64,7 +64,7 @@ export async function preBundle (
   const metadataPath = path.join(cacheDir, 'metadata.json')
   let preMetadata: Metadata = {}
   try {
-    preMetadata = fs.readJSONSync(metadataPath)
+    preMetadata = prebundleOptions.force === true ? {} : fs.readJSONSync(metadataPath)
   } catch (e) {}
   const metadata: Metadata = {}
   let isUseCache = true

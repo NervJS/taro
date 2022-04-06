@@ -140,6 +140,7 @@ export function getPrebunbleOptions (combination: MiniCombination) {
   const defaultOptions: IPrebundle = {
     enable: true,
     timings: true,
+    force: false,
     include: [],
     exclude: []
   }
