@@ -37,7 +37,8 @@ import {
   getBundleHash,
   getMfHash,
   commitMeta,
-  getPrebunbleOptions
+  getPrebunbleOptions,
+  formatDepsString
 } from './utils'
 
 import type { MiniCombination } from '../webpack/MiniCombination'
@@ -61,7 +62,10 @@ export async function preBundle (
   const prebundleCacheDir = path.resolve(cacheDir, './prebundle')
   const remoteCacheDir = path.resolve(cacheDir, './remote')
   const metadataPath = path.join(cacheDir, 'metadata.json')
-  const preMetadata: Metadata = fs.readJSONSync(metadataPath) || {}
+  let preMetadata: Metadata = {}
+  try {
+    preMetadata = fs.readJSONSync(metadataPath)
+  } catch (e) {}
   const metadata: Metadata = {}
   let isUseCache = true
 
@@ -107,7 +111,7 @@ export async function preBundle (
 
   console.log(chalk.cyan(
     '\nPrebundle dependencies: \n',
-    ...[...deps.keys()].map(dep => `    ${dep}\n`)
+    ...JSON.parse(formatDepsString(deps)).map(dep => `    ${dep[0]}\n`)
   ))
 
   /**
