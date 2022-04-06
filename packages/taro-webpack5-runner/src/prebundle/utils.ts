@@ -3,6 +3,7 @@ import * as path from 'path'
 import { createHash } from 'crypto'
 import * as enhancedResolve from 'enhanced-resolve'
 import { isObject } from '@tarojs/shared'
+import { recursiveMerge } from '@tarojs/helper'
 
 import type { CollectedDeps } from './constant'
 import type { Metadata } from './index'
@@ -146,7 +147,7 @@ export function getPrebunbleOptions (combination: MiniCombination) {
   }
 
   if (isObject<ICompiler>(config.compiler)) {
-    return config.compiler.prebundle || defaultOptions
+    return recursiveMerge({}, defaultOptions, config.compiler.prebundle)
   }
 
   return defaultOptions

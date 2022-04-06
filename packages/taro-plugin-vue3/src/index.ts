@@ -33,6 +33,26 @@ export default (ctx: IPluginContext, config: IConfig = {}) => {
       modifyMiniWebpackChain(ctx, chain, data, config.mini)
     }
   })
+
+  ctx.modifyRunnerOpts(({ opts }) => {
+    const { compiler } = opts
+    const WEBPACK5 = 'webpack5'
+    // 提供给 webpack5 依赖预编译收集器的第三方依赖
+    const deps = ['@tarojs/plugin-framework-vue3/dist/runtime']
+    if (compiler === WEBPACK5) {
+      opts.compiler = {
+        type: WEBPACK5,
+        prebundle: {
+          include: deps
+        }
+      }
+    } else if (typeof compiler === 'object' && compiler.type === WEBPACK5) {
+      compiler.prebundle ||= {}
+      const prebundleOptions = compiler.prebundle
+      prebundleOptions.include ||= []
+      prebundleOptions.include = prebundleOptions.include.concat(deps)
+    }
+  })
 }
 
 // function setAlias (chain) {

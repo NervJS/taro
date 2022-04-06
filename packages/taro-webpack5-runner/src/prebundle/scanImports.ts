@@ -42,19 +42,10 @@ export async function scanImports ({
 
   // plugin-platform 等插件的 runtime 文件入口
   const runtimePath = typeof config.runtimePath === 'string' ? [config.runtimePath] : config.runtimePath
-  // plugin-framework 插件的 runtime 文件入口
-  const mainPlugin = process.env.TARO_ENV === 'h5' ? 'mainPlugin' : 'miniPlugin'
-  let loaderMeta: any = {}
-  combination.chain.plugin(mainPlugin)
-    .tap(args => {
-      loaderMeta = args[0].loaderMeta
-      return args
-    })
 
   const includes = [
     '@tarojs/taro',
     '@tarojs/runtime',
-    loaderMeta.creatorLocation,
     ...(runtimePath || []),
     ...include
   ]
