@@ -29,8 +29,6 @@
     "@ant-design/react-native": "^4.2.0",
     "@react-native-community/slider": "~4.1.12",
     "@react-native-picker/picker": "~2.2.1",
-    "@unimodules/core": "^7.1.2",
-    "@unimodules/react-native-adapter": "^6.3.9",
     "expo-asset": "~8.3.3",
     "expo-av": "~9.2.3",
     "expo-barcode-scanner": "~10.2.2",
@@ -39,12 +37,12 @@
     "react-native-maps": "^0.25.0",
     "react-native-pager-view": "~5.4.9",
     "react-native-svg": "~12.1.1",
-    "react-native-webview": "~11.14.3",
-    "unimodules-permissions-interface": "~5.3.0"
+    "react-native-webview": "~11.14.3"
   },
   "devDependencies": {
     "@tarojs/components": "3.4.4",
     "@types/react-native": "0.67.0",
+    "@unimodules/core": "^7.1.2",
     "cpy-cli": "^3.1.1",
     "expo-constants": "~9.2.0",
     "expo-file-system": "~11.1.3",
