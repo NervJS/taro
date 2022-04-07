@@ -64,7 +64,7 @@ export default class TaroNormalModulesPlugin {
                 .forEach(p => attrs.add(p.key.name))
             }
           }, {
-            ...walk.base, Import: () => {}
+            ...walk.base, Import: walk.base.Import || (() => {})
           })
         })
       })
