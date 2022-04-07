@@ -186,6 +186,7 @@ export class _Image extends React.Component<ImageProps, ImageState> {
 
     return (
       <Image
+        testID='image'
         source={source}
         resizeMode={rMode}
         onError={this.onError}
