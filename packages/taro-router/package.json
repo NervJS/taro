@@ -30,8 +30,7 @@
     "@tarojs/runtime": "3.4.3",
     "@tarojs/taro": "3.4.3",
     "history": "^5.1.0",
-    "query-string": "^6.13.8",
-    "universal-router": "^8.3.0",
-    "url-parse": "^1.4.7"
+    "query-string": "^7.1.1",
+    "universal-router": "^8.3.0"
   }
 }

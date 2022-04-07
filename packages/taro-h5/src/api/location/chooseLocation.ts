@@ -1,10 +1,18 @@
 import Taro from '@tarojs/api'
+import { stringify } from 'query-string'
+
 import { MethodHandler } from '../utils/handler'
 import './style.css'
 
-function createLocationChooser (handler, key = LOCATION_APIKEY, mapOpt) {
-  const { longitude, latitude, coordtype = 5, radius = 2000, zoom = 13, mapdraggable = 0, search = 1, policy = 1, total = 10 } = mapOpt ?? {}
-  const coord = !!latitude && !!longitude ? `${latitude},${longitude}` : ''
+function createLocationChooser (handler, key = LOCATION_APIKEY, mapOpt: Taro.chooseLocation.Option['mapOpts'] = {}) {
+  const { latitude, longitude, ...opts } = mapOpt
+  const query = {
+    key,
+    type: 1,
+    coord: mapOpt.coord ?? [latitude, longitude].every(e => Number(e) >= 0) ? `${latitude},${longitude}` : undefined,
+    referer: 'myapp',
+    ...opts
+  }
   const html = `
 <div class='taro_choose_location'>
   <div class='taro_choose_location_bar'>
@@ -12,7 +20,7 @@ function createLocationChooser (handler, key = LOCATION_APIKEY, mapOpt) {
     <p class='taro_choose_location_title'>位置</p>
     <button class='taro_choose_location_submit'>完成</button>
   </div>
-  <iframe class='taro_choose_location_frame' frameborder='0' src='https://apis.map.qq.com/tools/locpicker?type=1&key=${key}&coord=${coord}&coordtype=${coordtype}&radius=${radius}&zoom=${zoom}&mapdraggable=${mapdraggable}&search=${search}&policy=${policy}&total=${total}&referer=myapp'></iframe>
+  <iframe class='taro_choose_location_frame' frameborder='0' src="https://apis.map.qq.com/tools/locpicker?${stringify(query, { arrayFormat: 'comma', skipNull: true })}" />
 </div>
 `
   const container = document.createElement('div')
@@ -59,7 +67,7 @@ function createLocationChooser (handler, key = LOCATION_APIKEY, mapOpt) {
 /**
  * 打开地图选择位置。
  */
-export const chooseLocation: typeof Taro.chooseLocation = ({ success, fail, complete, complete, longitude, latitude, coordtype = 5, radius = 2000, zoom = 13, mapdraggable = 0, search = 1, policy = 1, total = 10 } = {}) => {
+export const chooseLocation: typeof Taro.chooseLocation = ({ success, fail, complete, mapOpts } = {}) => {
   const key = LOCATION_APIKEY
   const handle = new MethodHandler({ name: 'chooseLocation', success, fail, complete })
   return new Promise((resolve, reject) => {
@@ -98,11 +106,7 @@ export const chooseLocation: typeof Taro.chooseLocation = ({ success, fail, comp
           return handle.fail({}, reject)
         }
       }
-    }, key,
-    {
-      longitude, latitude, coordtype, radius, zoom, mapdraggable, search, policy, total
-    }
-    )
+    }, key, mapOpts)
 
     document.body.appendChild(chooser.container)
 
