@@ -31,6 +31,8 @@ export default (ctx: IPluginContext) => {
   })
 
   ctx.modifyRunnerOpts(({ opts }) => {
+    if (!opts?.compiler) return
+
     const { compiler } = opts
     const WEBPACK5 = 'webpack5'
     // 提供给 webpack5 依赖预编译收集器的第三方依赖
