@@ -1,6 +1,8 @@
 import Taro from '@tarojs/api'
 import { CallbackManager, MethodHandler } from '../utils/handler'
 import { getDeviceInfo } from '../../api/base/system'
+
+let compassListener
 const callbackManager = new CallbackManager()
 
 /**
