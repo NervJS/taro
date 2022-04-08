@@ -1,8 +1,21 @@
 import Taro from '@tarojs/api'
 import { CallbackManager, MethodHandler } from '../utils/handler'
-
+import { getDeviceInfo } from '../../api/base/system'
 const callbackManager = new CallbackManager()
-let compassListener
+
+/**
+ * 按系统类型获取对应绝对orientation事件名，因为安卓系统中
+ * 直接监听deviceorientation事件得到的不是绝对orientation
+ */
+const getDeviceorientationAbsoluteEventNameByOS = () => {
+  if(getDeviceInfo().system==='AndroidOS')
+  {
+    return "deviceorientationabsolute"
+  }
+  else{
+    return "deviceorientation"
+  }
+}
 
 /**
  * 停止监听罗盘数据
@@ -10,7 +23,7 @@ let compassListener
 export const stopCompass: typeof Taro.stopCompass = ({ success, fail, complete } = {}) => {
   const handle = new MethodHandler({ name: 'stopCompass', success, fail, complete })
   try {
-    window.removeEventListener('deviceorientation', compassListener, true)
+    window.removeEventListener(getDeviceorientationAbsoluteEventNameByOS(), compassListener, true)
     return handle.success()
   } catch (e) {
     return handle.fail({ errMsg: e.message })
@@ -42,7 +55,7 @@ export const startCompass: typeof Taro.startCompass = ({ success, fail, complete
         stopCompass()
       }
       compassListener = getDeviceOrientationListener(200)
-      window.addEventListener('deviceorientation', compassListener, true)
+      window.addEventListener(getDeviceorientationAbsoluteEventNameByOS(), compassListener, true)
     } else {
       throw new Error('compass is not supported')
     }
