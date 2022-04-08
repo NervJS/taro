@@ -1,36 +1,35 @@
 import { mergeWith } from 'lodash'
-import babel from '@rollup/plugin-babel'
 import commonjs from '@rollup/plugin-commonjs'
 import resolve from '@rollup/plugin-node-resolve'
-import typescript from 'rollup-plugin-typescript2'
+import typescript from '@rollup/plugin-typescript'
+import externals from 'rollup-plugin-node-externals'
 import postcss from 'rollup-plugin-postcss'
 
 import exportNameOnly from './build/rollup-plugin-export-name-only'
 
 const baseConfig = {
-  external: d => {
-    return /^@tarojs\/(api|router|runtime|taro)$/.test(d) || d.includes('@babel/runtime')
-  },
   output: {
     format: 'cjs',
-    sourcemap: false,
-    exports: 'auto'
+    sourcemap: true,
+    exports: 'named'
   },
   treeshake: false,
   plugins: [
+    externals({
+      devDeps: false
+    }),
     resolve({
       preferBuiltins: false,
       mainFields: ['main:h5', 'browser', 'module', 'jsnext:main', 'main']
     }),
-    postcss({
-      inject: { insertAt: 'top' }
-    }),
-    babel({
-      babelHelpers: 'bundled'
+    typescript({
+      tsconfig: './tsconfig.json',
+      declaration: true,
+      sourceMap: true
     }),
     commonjs(),
-    typescript({
-      useTsconfigDeclarationDir: true
+    postcss({
+      inject: { insertAt: 'top' }
     })
   ]
 }
