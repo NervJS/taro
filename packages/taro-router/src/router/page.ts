@@ -133,8 +133,11 @@ export default class PageHandler {
       container.appendChild(panel)
 
       document.body.appendChild(container)
-
-      initTabbar(this.config)
+      document.onreadystatechange = () => {
+        if(document.readyState == 'complete') {
+          initTabbar(this.config)
+        }
+      }
     } else {
       document.body.appendChild(app)
     }
