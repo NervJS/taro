@@ -34,6 +34,8 @@ export interface InputProps extends FormItemProps{
   cursor?: number;
   selectionStart: number;
   selectionEnd: number;
+  placeholderStyle?: string;
+  placeholderTextColor?: string;
   onInput?: (evt: Event) => void;
   onChange?: (evt: Event) => void;
   onFocus?: (evt: Event) => void;
