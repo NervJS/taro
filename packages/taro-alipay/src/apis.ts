@@ -4,6 +4,71 @@ import { needPromiseApis } from './apis-list'
 declare const my: any
 
 const apiDiff = {
+  getScreenBrightness: {
+    res: {
+      set: [
+        {
+          key: 'value',
+          value (res) {
+            return res.brightness
+          }
+        }
+      ],
+      remove: ['code']
+    }
+  },
+  scan: {
+    res: {
+      set: [
+        {
+          key: 'result',
+          value (res) {
+            return res.code
+          }
+        }
+      ],
+      remove: ['code']
+    }
+  },
+  getClipboard: {
+    res: {
+      set: [
+        {
+          key: 'data',
+          value (res) {
+            return res.text
+          }
+        }
+      ],
+      remove: ['text']
+    }
+  },
+  chooseImage: {
+    res: {
+      set: [
+        {
+          key: 'tempFilePaths',
+          value (res) {
+            return res.apFilePaths
+          }
+        }
+      ],
+      remove: ['apFilePaths']
+    }
+  },
+  downloadFile: {
+    res: {
+      set: [
+        {
+          key: 'tempFilePath',
+          value (res) {
+            return res.apFilePath
+          }
+        }
+      ],
+      remove: ['apFilePath']
+    }
+  },
   login: {
     alias: 'getAuthCode',
     options: {
@@ -119,6 +184,17 @@ const apiDiff = {
         old: 'tempFilePath',
         new: 'apFilePath'
       }]
+    },
+    res: {
+      set: [
+        {
+          key: 'savedFilePath',
+          value (res) {
+            return res.apFilePath
+          }
+        }
+      ],
+      remove: ['apFilePath']
     }
   },
   openLocation: {
@@ -352,20 +428,21 @@ export function modifyApis (apis: Set<string>) {
 }
 
 export function modifyAsyncResult (key, res) {
-  if (key === 'saveFile') {
-    res.savedFilePath = res.apFilePath
-  } else if (key === 'downloadFile') {
-    res.tempFilePath = res.apFilePath
-  } else if (key === 'chooseImage') {
-    res.tempFilePaths = res.apFilePaths
-  } else if (key === 'getClipboard') {
-    res.data = res.text
-  } else if (key === 'scan') {
-    res.result = res.code
-  } else if (key === 'getScreenBrightness') {
-    res.value = res.brightness
-    delete res.brightness
-  } else if (key === 'connectSocket') {
+  // if (key === 'saveFile') {
+  //   res.savedFilePath = res.apFilePath
+  // } else if (key === 'downloadFile') {
+  //   res.tempFilePath = res.apFilePath
+  // } else if (key === 'chooseImage') {
+  //   res.tempFilePaths = res.apFilePaths
+  // } else if (key === 'getClipboard') {
+  //   res.data = res.text
+  // } else if (key === 'scan') {
+  //   res.result = res.code
+  // } else if (key === 'getScreenBrightness') {
+  //   res.value = res.brightness
+  //   delete res.brightness
+  // } else
+  if (key === 'connectSocket') {
     res.onClose = function (cb) {
       my.onSocketClose(cb)
     }
