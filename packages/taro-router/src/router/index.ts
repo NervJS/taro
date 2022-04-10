@@ -53,7 +53,7 @@ export function createRouter (
   app.onLaunch?.(launchParam)
 
   const render: LocationListener = async ({ location, action }) => {
-    handler.pathname = location.pathname
+    handler.pathname = decodeURI(location.pathname)
     let element
     try {
       element = await router.resolve(handler.router.forcePath || handler.pathname)

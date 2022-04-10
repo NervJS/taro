@@ -146,7 +146,7 @@ export class Tabbar implements ComponentInterface {
     const customRoute = this.customRoutes.filter(([, customUrl]) => {
       const pathA = splitUrl(customUrl).path
       const pathB = splitUrl(url).path
-      return pathA === pathB
+      return decodeURI(pathA!) === pathB
     })
     return customRoute.length ? customRoute[0][0] : url
   }
@@ -156,7 +156,7 @@ export class Tabbar implements ComponentInterface {
     this.list.forEach(({ pagePath }, idx) => {
       const pathA = splitUrl(url).path
       const pathB = splitUrl(pagePath).path
-      if (pathA === pathB) {
+      if (decodeURI(pathA!) === pathB) {
         foundIndex = idx
       }
     })
@@ -166,7 +166,7 @@ export class Tabbar implements ComponentInterface {
   switchTab = (index: number) => {
     this.selectedIndex = index
     Taro.switchTab({
-      url: this.list[index].pagePath
+      url: encodeURI(this.list[index].pagePath)
     })
   }
 
