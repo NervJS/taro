@@ -4,6 +4,28 @@ import { needPromiseApis } from './apis-list'
 declare const my: any
 
 const apiDiff = {
+  login: {
+    alias: 'getAuthCode',
+    options: {
+      set: [
+        {
+          key: 'scopes',
+          value: 'auth_base'
+        }
+      ]
+    }
+  },
+  getAuthCode: {
+    res: {
+      set: [{
+        key: 'code',
+        value (res) {
+          return res.authCode
+        }
+      }],
+      remove: ['authCode']
+    }
+  },
   getExtConfig: {
     res: {
       set: [{
