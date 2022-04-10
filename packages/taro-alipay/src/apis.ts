@@ -4,6 +4,17 @@ import { needPromiseApis } from './apis-list'
 declare const my: any
 
 const apiDiff = {
+  getExtConfig: {
+    res: {
+      set: [{
+        key: 'extConfig',
+        value (res) {
+          return res.data
+        }
+      }],
+      remove: ['data']
+    }
+  },
   showActionSheet: {
     options: {
       change: [{
@@ -357,6 +368,31 @@ export function modifyAsyncResult (key, res) {
       my.closeSocket()
     }
   }
+
+  Object.keys(apiDiff).forEach(item => {
+    const apiItem = apiDiff[item]
+    if (key !== item) {
+      return
+    }
+    if (!apiItem.res) {
+      return
+    }
+
+    const set = apiItem.res.set
+    const remove = apiItem.res.remove
+
+    if (set) {
+      set.forEach(setItem => {
+        res[setItem.key] = typeof setItem.value === 'function' ? setItem.value(res) : setItem.value
+      })
+    }
+
+    if (remove) {
+      remove.forEach(removeItem => {
+        delete res[removeItem]
+      })
+    }
+  })
 }
 
 export function initNativeApi (taro) {
