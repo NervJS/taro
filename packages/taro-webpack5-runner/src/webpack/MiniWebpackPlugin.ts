@@ -110,7 +110,7 @@ export class MiniWebpackPlugin {
 
   getMiniSplitChunksPlugin () {
     const { fileType } = this.combination
-    const { optimizeMainPackage } = this.combination.config
+    const { optimizeMainPackage } = this.combination
     let miniSplitChunksPlugin
 
     if (optimizeMainPackage?.enable) {

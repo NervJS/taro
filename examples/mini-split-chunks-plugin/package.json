@@ -1,0 +1,67 @@
+{
+  "name": "MiniSplitChunksPlugin",
+  "version": "1.0.0",
+  "private": true,
+  "description": "",
+  "templateInfo": {
+    "name": "default",
+    "typescript": false,
+    "css": "sass"
+  },
+  "scripts": {
+    "build:weapp": "taro build --type weapp",
+    "build:swan": "taro build --type swan",
+    "build:alipay": "taro build --type alipay",
+    "build:tt": "taro build --type tt",
+    "build:h5": "taro build --type h5",
+    "build:rn": "taro build --type rn",
+    "build:qq": "taro build --type qq",
+    "build:jd": "taro build --type jd",
+    "build:quickapp": "taro build --type quickapp",
+    "dev:weapp": "npm run build:weapp -- --watch",
+    "dev:swan": "npm run build:swan -- --watch",
+    "dev:alipay": "npm run build:alipay -- --watch",
+    "dev:tt": "npm run build:tt -- --watch",
+    "dev:h5": "npm run build:h5 -- --watch",
+    "dev:rn": "npm run build:rn -- --watch",
+    "dev:qq": "npm run build:qq -- --watch",
+    "dev:jd": "npm run build:jd -- --watch",
+    "dev:quickapp": "npm run build:quickapp -- --watch",
+    "doctor": "taro doctor"
+  },
+  "browserslist": [
+    "last 3 versions",
+    "Android >= 4.1",
+    "ios >= 8"
+  ],
+  "author": "",
+  "dependencies": {
+    "@babel/runtime": "^7.7.7",
+    "@tarojs/components": "../../packages/taro-components",
+    "@tarojs/plugin-framework-react": "../../packages/taro-plugin-react",
+    "@tarojs/react": "../../packages/taro-react",
+    "@tarojs/runtime": "../../packages/taro-runtime",
+    "@tarojs/taro": "../../packages/taro",
+    "lottie-miniprogram": "^1.0.12",
+    "miniprogram-sm-crypto": "^0.3.7",
+    "react": "^17.0.0",
+    "react-dom": "^17.0.0",
+    "taro-ui": "^3.1.0-beta.2",
+    "threejs-miniprogram": "^0.0.8"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.8.0",
+    "@tarojs/cli": "../../packages/taro-cli",
+    "@tarojs/webpack5-runner": "../../packages/taro-webpack5-runner",
+    "@tarojs/service": "../../packages/taro-service",
+    "@types/react": "^17.0.2",
+    "@types/webpack-env": "^1.13.6",
+    "babel-preset-taro": "../../packages/babel-preset-taro",
+    "eslint": "^6.8.0",
+    "eslint-config-taro": "../../packages/eslint-config-taro",
+    "eslint-plugin-import": "^2.12.0",
+    "eslint-plugin-react": "^7.8.2",
+    "eslint-plugin-react-hooks": "^4.2.0",
+    "stylelint": "9.3.0"
+  }
+}
