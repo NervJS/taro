@@ -33,7 +33,7 @@ import {
   TextInputContentSizeChangeEventData,
   KeyboardTypeOptions
 } from 'react-native'
-import { noop, omit } from '../../utils'
+import { noop, omit, parseStyles } from '../../utils'
 import { InputProps, InputState } from './PropsType'
 
 const keyboardTypeMap: { [key: string]: string } = {
@@ -193,8 +193,8 @@ class _Input extends React.Component<InputProps, InputState> {
       _autoHeight,
       autoFocus,
       focus,
+      placeholderStyle,
     } = this.props
-
     const keyboardType: KeyboardTypeOptions = keyboardTypeMap[type] as KeyboardTypeOptions
 
     const selection = (() => {
@@ -210,30 +210,36 @@ class _Input extends React.Component<InputProps, InputState> {
     // fix: https://reactnative.dev/docs/textinput#multiline
     const textAlignVertical = _multiline ? 'top' : 'auto'
 
+    const placeholderTextColor = this.props.placeholderTextColor || parseStyles(placeholderStyle)?.color
+
+    const props = omit(this.props, [
+      'style',
+      'value',
+      'type',
+      'password',
+      'placeholder',
+      'disabled',
+      'maxlength',
+      'confirmType',
+      'confirmHold',
+      'cursor',
+      'selectionStart',
+      'selectionEnd',
+      'onInput',
+      'onFocus',
+      'onBlur',
+      'onKeyDown',
+      'onConfirm',
+      '_multiline',
+      '_autoHeight',
+      '_onLineChange',
+      'placeholderStyle',
+      'placeholderTextColor',
+    ])
+
     return (
       <TextInput
-        {...omit(this.props, [
-          'style',
-          'value',
-          'type',
-          'password',
-          'placeholder',
-          'disabled',
-          'maxlength',
-          'confirmType',
-          'confirmHold',
-          'cursor',
-          'selectionStart',
-          'selectionEnd',
-          'onInput',
-          'onFocus',
-          'onBlur',
-          'onKeyDown',
-          'onConfirm',
-          '_multiline',
-          '_autoHeight',
-          '_onLineChange'
-        ])}
+        {...props}
         defaultValue={value}
         keyboardType={keyboardType}
         secureTextEntry={!!password}
@@ -255,9 +261,14 @@ class _Input extends React.Component<InputProps, InputState> {
         textAlignVertical={textAlignVertical}
         onContentSizeChange={this.onContentSizeChange}
         underlineColorAndroid="rgba(0,0,0,0)"
-        style={[{
-          padding: 0,
-        }, style, _multiline && _autoHeight && { height: Math.max(35, this.state.height) }]}
+        placeholderTextColor={placeholderTextColor}
+        style={[
+          {
+            padding: 0
+          },
+          style,
+          _multiline && _autoHeight && { height: Math.max(35, this.state.height) }
+        ]}
       />
     )
   }

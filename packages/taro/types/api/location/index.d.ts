@@ -87,16 +87,22 @@ declare module '../../index' {
 
   namespace chooseLocation {
     interface Option {
-      /** 接口调用结束的回调函数（调用成功、失败都会执行） */
-      complete?: (res: TaroGeneral.CallbackResult) => void
-      /** 接口调用失败的回调函数 */
-      fail?: (res: TaroGeneral.CallbackResult) => void
       /** 目标地纬度 */
       latitude?: number
       /** 目标地经度 */
       longitude?: number
+      /** 地图选点组件参数
+       * @supported h5
+       * @h5 仅支持 H5 使用
+       * @see https://lbs.qq.com/webApi/component/componentGuide/componentPicker
+       */
+      mapOpts?: Record<string, unknown>
       /** 接口调用成功的回调函数 */
       success?: (result: SuccessCallbackResult) => void
+      /** 接口调用失败的回调函数 */
+      fail?: (res: TaroGeneral.CallbackResult) => void
+      /** 接口调用结束的回调函数（调用成功、失败都会执行） */
+      complete?: (res: TaroGeneral.CallbackResult) => void
     }
 
     interface SuccessCallbackResult extends TaroGeneral.CallbackResult {
