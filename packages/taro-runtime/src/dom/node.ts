@@ -134,6 +134,7 @@ export class TaroNode extends TaroEventTarget {
    * @textContent 目前只能置空子元素
    * @TODO 等待完整 innerHTML 实现
    */
+  // eslint-disable-next-line accessor-pairs
   public set textContent (text: string) {
     const document = this._getElement<TaroDocument>(ElementNames.Document)()
     const newText = document.createTextNode(text)
