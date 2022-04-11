@@ -2,16 +2,10 @@ import * as path from 'path'
 import * as fs from 'fs-extra'
 import * as webpack from 'webpack'
 import * as EntryDependency from 'webpack/lib/dependencies/EntryDependency'
-import * as JsonpTemplatePlugin from 'webpack/lib/web/JsonpTemplatePlugin'
-import * as NaturalChunkIdsPlugin from 'webpack/lib/ids/NaturalChunkIdsPlugin'
-import * as SplitChunksPlugin from 'webpack/lib/optimize/SplitChunksPlugin'
-import * as RuntimeChunkPlugin from 'webpack/lib/optimize/RuntimeChunkPlugin'
-import * as MiniCssExtractPlugin from 'mini-css-extract-plugin'
 import * as convert from 'convert-source-map'
 import offsetLines from 'offset-sourcemap-lines'
 import { ConcatSource, RawSource } from 'webpack-sources'
 import { urlToRequest } from 'loader-utils'
-import { minify } from 'html-minifier'
 import { AppConfig, Config } from '@tarojs/taro'
 import { RecursiveTemplate, UnRecursiveTemplate } from '@tarojs/shared/dist/template'
 import {
@@ -745,6 +739,12 @@ export default class TaroMiniPlugin {
   compileIndependentPages (compiler, compilation, dependencies, promises) {
     const independentPackages = this.independentPackages
     if (independentPackages.size) {
+      const JsonpTemplatePlugin = require('webpack/lib/web/JsonpTemplatePlugin')
+      const NaturalChunkIdsPlugin = require('webpack/lib/ids/NaturalChunkIdsPlugin')
+      const SplitChunksPlugin = require('webpack/lib/optimize/SplitChunksPlugin')
+      const RuntimeChunkPlugin = require('webpack/lib/optimize/RuntimeChunkPlugin')
+      const MiniCssExtractPlugin = require('mini-css-extract-plugin')
+
       independentPackages.forEach((pages, name) => {
         const childCompiler = compilation.createChildCompiler(PLUGIN_NAME, {
           path: `${compiler.options.output}/${name}`,
@@ -1023,6 +1023,7 @@ export default class TaroMiniPlugin {
     const fileTemplName = this.getTemplatePath(this.getComponentName(filePath))
 
     if (this.options.minifyXML?.collapseWhitespace) {
+      const minify = require('html-minifier').minify
       templStr = minify(templStr, {
         collapseWhitespace: true,
         keepClosingSlash: true

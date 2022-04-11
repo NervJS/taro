@@ -1,10 +1,9 @@
-import * as autoprefixer from 'autoprefixer'
 import * as path from 'path'
 import * as constparse from 'postcss-plugin-constparse'
-import * as pxtransform from 'postcss-pxtransform'
 import { sync as resolveSync } from 'resolve'
-import { IPostcssOption, TogglableOptions } from '@tarojs/taro/types/compile'
 import { recursiveMerge, isNpmPkg } from '@tarojs/helper'
+
+import type { IPostcssOption, TogglableOptions } from '@tarojs/taro/types/compile'
 
 const defaultAutoprefixerOption = {
   enable: true,
@@ -51,10 +50,12 @@ export const getPostcssPlugins = function (appPath: string, {
   const pxtransformOption = recursiveMerge<TogglableOptions>({}, defaultPxtransformOption, postcssOption.pxtransform)
 
   if (autoprefixerOption.enable) {
+    const autoprefixer = require('autoprefixer')
     plugins.push(autoprefixer(autoprefixerOption.config))
   }
 
   if (pxtransformOption.enable) {
+    const pxtransform = require('postcss-pxtransform')
     plugins.push(pxtransform(pxtransformOption.config))
   }
 
