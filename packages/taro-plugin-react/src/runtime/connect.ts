@@ -187,10 +187,32 @@ export function createReactApp (
     return appInstanceRef.current
   }
 
+  function renderReactRoot () {
+    let appId = 'app'
+    if (process.env.TARO_ENV === 'h5') {
+      appId = config?.appId || appId
+    } else {
+      ReactDOM.version = react.version
+    }
+    const container = document.getElementById(appId)
+    const version = Number((ReactDOM.version || '').split('.')[0])
+    if (version >= 18) {
+      const root = ReactDOM.createRoot(container)
+      root.render?.(h(AppWrapper))
+    } else {
+      ReactDOM.render?.(h(AppWrapper), container)
+    }
+  }
+
   class AppWrapper extends react.Component {
     // run createElement() inside the render function to make sure that owner is right
     private pages: Array<() => PageComponent> = []
     private elements: Array<PageComponent> = []
+
+    constructor (props) {
+      super(props)
+      appWrapper = this
+    }
 
     public mount (pageComponent: ReactPageComponent, id: string, cb: () => void) {
       const pageWrapper = connectReactPage(react, id)(pageComponent)
@@ -230,7 +252,7 @@ export function createReactApp (
   }
 
   if (process.env.TARO_ENV !== 'h5') {
-    appWrapper = ReactDOM.render?.(h(AppWrapper), document.getElementById('app'))
+    renderReactRoot()
   }
 
   const [ONLAUNCH, ONSHOW, ONHIDE] = hooks.getMiniLifecycleImpl().app
@@ -259,7 +281,7 @@ export function createReactApp (
 
         if (process.env.TARO_ENV === 'h5') {
           // 由于 H5 路由初始化的时候会清除 app 下的 dom 元素，所以需要在路由初始化后执行 render
-          appWrapper = ReactDOM.render?.(h(AppWrapper), document.getElementById(config?.appId || 'app'))
+          renderReactRoot()
         }
 
         // 用户编写的入口组件实例

@@ -30,6 +30,7 @@ const hostConfig: HostConfig<
 > & {
   hideInstance (instance: TaroElement): void
   unhideInstance (instance: TaroElement, props): void
+  getCurrentEventPriority(): number
 } = {
   createInstance (type) {
     return document.createElement(type)
@@ -49,6 +50,11 @@ const hostConfig: HostConfig<
 
   getChildHostContext () {
     return {}
+  },
+
+  getCurrentEventPriority () {
+    // 因 @types/react-reconciler 未更新，ts会报错，这里直接返回16
+    return 16 // import { DefaultEventPriority } from 'react-reconciler/constants'
   },
 
   appendChild (parent, child) {
@@ -146,7 +152,7 @@ const TaroReconciler = Reconciler(hostConfig)
 if (process.env.NODE_ENV !== 'production') {
   const foundDevTools = TaroReconciler.injectIntoDevTools({
     bundleType: 1,
-    version: '17.0.2',
+    version: '18.0.0',
     rendererPackageName: 'taro-react'
   })
   if (!foundDevTools) {
