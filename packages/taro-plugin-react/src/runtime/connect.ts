@@ -23,6 +23,7 @@ import type {
 } from '@tarojs/runtime'
 
 type PageComponent = React.CElement<PageProps, React.Component<PageProps, any, any>>
+declare const __TARO_FRAMEWORK_REACT_MODE__: string
 
 let h: typeof React.createElement
 let ReactDOM
@@ -69,7 +70,7 @@ export function setReconciler (ReactDOM) {
       const isReactComponent = isClassComponent(R, el)
 
       return R.forwardRef((props, ref) => {
-        const newProps: React.Props<any> = { ...props }
+        const newProps: React.ComponentProps<any> = { ...props }
         const refs = isReactComponent ? { ref: ref } : {
           forwardedRef: ref,
           // 兼容 react-redux 7.20.1+
@@ -187,10 +188,33 @@ export function createReactApp (
     return appInstanceRef.current
   }
 
+  function renderReactRoot () {
+    const reactMode = __TARO_FRAMEWORK_REACT_MODE__
+    let appId = 'app'
+    if (process.env.TARO_ENV === 'h5') {
+      appId = config?.appId || appId
+    } else {
+      ReactDOM.version = react.version
+    }
+    const container = document.getElementById(appId)
+    const version = Number((ReactDOM.version || '').split('.')[0])
+    if (version >= 18 && reactMode === 'concurrent') {
+      const root = ReactDOM.createRoot(container)
+      root.render?.(h(AppWrapper))
+    } else {
+      ReactDOM.render?.(h(AppWrapper), container)
+    }
+  }
+
   class AppWrapper extends react.Component {
     // run createElement() inside the render function to make sure that owner is right
     private pages: Array<() => PageComponent> = []
     private elements: Array<PageComponent> = []
+
+    constructor (props) {
+      super(props)
+      appWrapper = this
+    }
 
     public mount (pageComponent: ReactPageComponent, id: string, cb: () => void) {
       const pageWrapper = connectReactPage(react, id)(pageComponent)
@@ -215,7 +239,7 @@ export function createReactApp (
         elements.push(page())
       }
 
-      let props: React.Props<any> | null = null
+      let props: React.ComponentProps<any> | null = null
 
       if (isReactComponent) {
         props = { ref: appInstanceRef }
@@ -230,7 +254,7 @@ export function createReactApp (
   }
 
   if (process.env.TARO_ENV !== 'h5') {
-    appWrapper = ReactDOM.render?.(h(AppWrapper), document.getElementById('app'))
+    renderReactRoot()
   }
 
   const [ONLAUNCH, ONSHOW, ONHIDE] = hooks.getMiniLifecycleImpl().app
@@ -259,7 +283,7 @@ export function createReactApp (
 
         if (process.env.TARO_ENV === 'h5') {
           // 由于 H5 路由初始化的时候会清除 app 下的 dom 元素，所以需要在路由初始化后执行 render
-          appWrapper = ReactDOM.render?.(h(AppWrapper), document.getElementById(config?.appId || 'app'))
+          renderReactRoot()
         }
 
         // 用户编写的入口组件实例
