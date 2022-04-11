@@ -35,7 +35,7 @@ module.exports = {
     ENABLE_CONTAINS: true,
     'ts-jest': {
       diagnostics: false,
-      tsConfig: 'tsconfig.test.json'
+      tsconfig: 'tsconfig.test.json'
     }
   },
   testPathIgnorePatterns: [
