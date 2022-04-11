@@ -29,7 +29,7 @@
     "@ant-design/react-native": "^4.2.0",
     "@react-native-community/slider": "~4.1.12",
     "@react-native-picker/picker": "~2.2.1",
-    "expo-asset": "^8.3.3",
+    "expo-asset": "~8.3.3",
     "expo-av": "~9.2.3",
     "expo-barcode-scanner": "~10.2.2",
     "expo-camera": "~11.2.2",

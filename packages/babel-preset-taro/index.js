@@ -162,7 +162,7 @@ module.exports = (_, options = {}) => {
       apis
     }])
   }
-  if (options['dynamic-import-node'] || process.env.TARO_ENV !== 'h5') {
+  if (typeof options['dynamic-import-node'] === 'boolean' ? options['dynamic-import-node'] : process.env.TARO_ENV !== 'h5') {
     plugins.push([require('babel-plugin-dynamic-import-node')])
   }
 
