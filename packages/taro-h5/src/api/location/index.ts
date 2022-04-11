@@ -12,8 +12,8 @@ export const onLocationChange = temporarilyNotSupport('onLocationChange')
 export const offLocationChangeError = temporarilyNotSupport('offLocationChangeError')
 export const offLocationChange = temporarilyNotSupport('offLocationChange')
 
-export const getLocation = processOpenApi('getLocation')
-
 export const choosePoi = temporarilyNotSupport('choosePoi')
 
 export * from './chooseLocation'
+
+export * from './getLocation'
