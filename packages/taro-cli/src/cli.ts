@@ -50,6 +50,7 @@ export default class CLI {
         presets: [],
         plugins: []
       })
+      kernel.optsPlugins ||= []
 
       // 针对不同的内置命令注册对应的命令插件
       if (commandPlugins.includes(targetPlugin)) {
@@ -90,7 +91,7 @@ export default class CLI {
           }
 
           // 根据 framework 启用插件
-          const framework = kernel.config.initialConfig.framework
+          const framework = kernel.config?.initialConfig.framework
           switch (framework) {
             case 'vue':
               kernel.optsPlugins.push('@tarojs/plugin-framework-vue2')
