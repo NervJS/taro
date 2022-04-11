@@ -1,44 +1,306 @@
 import * as path from 'path'
 import * as md5 from 'md5'
-import webpack from 'webpack'
 import * as SplitChunksPlugin from 'webpack/lib/optimize/SplitChunksPlugin'
-import { ConcatSource } from 'webpack-sources'
+import { ConcatSource, RawSource } from 'webpack-sources'
 import { AppConfig, SubPackage } from '@tarojs/taro'
 import { resolveMainFilePath, readConfig, promoteRelativePath, normalizePath } from '@tarojs/helper'
 import { isString, isFunction, isArray } from '@tarojs/shared'
 
-import type { Compiler, Chunk, Module } from 'webpack'
+import type { Compiler, Chunk, Module, Compilation, ChunkGraph, sources } from 'webpack'
 import type { IFileType } from '../utils/types'
 
-const PLUGIN_NAME = 'MiniSplitChunkPlugin'
-const SUB_COMMON_DIR = 'sub-common'
-const SUB_VENDORS_NAME = 'sub-vendors'
+const PLUGIN_NAME = 'MiniSplitChunkPlugin' // 插件名
+const SUB_COMMON_DIR = 'sub-common' // 分包公共依赖目录
+const SUB_VENDORS_NAME = 'sub-vendors' // 分包 vendors 文件名
 
 const FileExtsMap = {
   JS: '.js',
   JS_MAP: '.js.map',
   STYLE: '.wxss'
-}
+} // 默认支持的文件扩展名
 
+// 插件 options
 interface MiniSplitChunksPluginOption {
   exclude?: (string | ExcludeFunctionItem)[]
   fileType: IFileType
 }
 
+// 排除函数
 interface ExcludeFunctionItem {
   (module: Module): boolean
 }
 
+// 依赖信息
 interface DepInfo {
   identifier: string
   resource: string
   chunks: Set<string>
 }
 
+const INITIAL_CHUNK_FILTER = chunk => chunk.canBeInitial()
+const ASYNC_CHUNK_FILTER = chunk => !chunk.canBeInitial()
+const ALL_CHUNK_FILTER = _ => true
+
+/**
+ * @param {OptimizationSplitChunksSizes} value the sizes
+ * @param {string[]} defaultSizeTypes the default size types
+ * @returns {SplitChunksSizes} normalized representation
+ */
+const normalizeSizes = (value, defaultSizeTypes) => {
+  if (typeof value === 'number') {
+    /** @type {Record<string, number>} */
+    const o = {}
+    for (const sizeType of defaultSizeTypes) o[sizeType] = value
+    return o
+  } else if (typeof value === 'object' && value !== null) {
+    return { ...value }
+  } else {
+    return {}
+  }
+}
+
+/**
+ * @param {...SplitChunksSizes} sizes the sizes
+ * @returns {SplitChunksSizes} the merged sizes
+ */
+const mergeSizes = (...sizes) => {
+  /** @type {SplitChunksSizes} */
+  let merged = {}
+  for (let i = sizes.length - 1; i >= 0; i--) {
+    merged = Object.assign(merged, sizes[i])
+  }
+  return merged
+}
+
+/**
+ * @param {false|string|Function} name the chunk name
+ * @returns {GetName} a function to get the name of the chunk
+ */
+const normalizeName = name => {
+  if (typeof name === 'string') {
+    return () => name
+  }
+  if (typeof name === 'function') {
+    return /** @type {GetName} */ (name)
+  }
+}
+
+/**
+ * @param {OptimizationSplitChunksCacheGroup["chunks"]} chunks the chunk filter option
+ * @returns {ChunkFilterFunction} the chunk filter function
+ */
+const normalizeChunksFilter = chunks => {
+  if (chunks === 'initial') {
+    return INITIAL_CHUNK_FILTER
+  }
+  if (chunks === 'async') {
+    return ASYNC_CHUNK_FILTER
+  }
+  if (chunks === 'all') {
+    return ALL_CHUNK_FILTER
+  }
+  if (typeof chunks === 'function') {
+    return chunks
+  }
+}
+
+/**
+ * @param {undefined|boolean|string|RegExp|Function} test test option
+ * @param {Module} module the module
+ * @param {CacheGroupsContext} context context object
+ * @returns {boolean} true, if the module should be selected
+ */
+const checkTest = (test, module, context) => {
+  if (test === undefined) return true
+  if (typeof test === 'function') {
+    return test(module, context)
+  }
+  if (typeof test === 'boolean') return test
+  if (typeof test === 'string') {
+    const name = module.nameForCondition()
+    return name && name.startsWith(test)
+  }
+  if (test instanceof RegExp) {
+    const name = module.nameForCondition()
+    return name && test.test(name)
+  }
+  return false
+}
+
+/**
+ * @param {undefined|string|RegExp|Function} test type option
+ * @param {Module} module the module
+ * @returns {boolean} true, if the module should be selected
+ */
+const checkModuleType = (test, module) => {
+  if (test === undefined) return true
+  if (typeof test === 'function') {
+    return test(module.type)
+  }
+  if (typeof test === 'string') {
+    const type = module.type
+    return test === type
+  }
+  if (test instanceof RegExp) {
+    const type = module.type
+    return test.test(type)
+  }
+  return false
+}
+
+/**
+ * @param {undefined|string|RegExp|Function} test type option
+ * @param {Module} module the module
+ * @returns {boolean} true, if the module should be selected
+ */
+const checkModuleLayer = (test, module) => {
+  if (test === undefined) return true
+  if (typeof test === 'function') {
+    return test(module.layer)
+  }
+  if (typeof test === 'string') {
+    const layer = module.layer
+    return test === '' ? !layer : layer && layer.startsWith(test)
+  }
+  if (test instanceof RegExp) {
+    const layer = module.layer
+    return test.test(layer)
+  }
+  return false
+}
+
+/**
+ * @param {OptimizationSplitChunksCacheGroup} options the group options
+ * @param {string} key key of cache group
+ * @param {string[]} defaultSizeTypes the default size types
+ * @returns {CacheGroupSource} the normalized cached group
+ */
+const createCacheGroupSource = (options, key, defaultSizeTypes) => {
+  const minSize = normalizeSizes(options.minSize, defaultSizeTypes)
+  const minSizeReduction = normalizeSizes(
+    options.minSizeReduction,
+    defaultSizeTypes
+  )
+  const maxSize = normalizeSizes(options.maxSize, defaultSizeTypes)
+  return {
+    key,
+    priority: options.priority,
+    getName: normalizeName(options.name),
+    chunksFilter: normalizeChunksFilter(options.chunks),
+    enforce: options.enforce,
+    minSize,
+    minSizeReduction,
+    minRemainingSize: mergeSizes(
+      normalizeSizes(options.minRemainingSize, defaultSizeTypes),
+      minSize
+    ),
+    enforceSizeThreshold: normalizeSizes(
+      options.enforceSizeThreshold,
+      defaultSizeTypes
+    ),
+    maxAsyncSize: mergeSizes(
+      normalizeSizes(options.maxAsyncSize, defaultSizeTypes),
+      maxSize
+    ),
+    maxInitialSize: mergeSizes(
+      normalizeSizes(options.maxInitialSize, defaultSizeTypes),
+      maxSize
+    ),
+    minChunks: options.minChunks,
+    maxAsyncRequests: options.maxAsyncRequests,
+    maxInitialRequests: options.maxInitialRequests,
+    filename: options.filename,
+    idHint: options.idHint,
+    automaticNameDelimiter: options.automaticNameDelimiter,
+    reuseExistingChunk: options.reuseExistingChunk,
+    usedExports: options.usedExports
+  }
+}
+
+/**
+ * @param {GetCacheGroups | Record<string, false|string|RegExp|OptimizationSplitChunksGetCacheGroups|OptimizationSplitChunksCacheGroup>} cacheGroups the cache group options
+ * @param {string[]} defaultSizeTypes the default size types
+ * @returns {GetCacheGroups} a function to get the cache groups
+ */
+const normalizeCacheGroups = (cacheGroups, defaultSizeTypes) => {
+  if (typeof cacheGroups === 'function') {
+    return cacheGroups
+  }
+  if (typeof cacheGroups === 'object' && cacheGroups !== null) {
+    /** @type {(function(Module, CacheGroupsContext, CacheGroupSource[]): void)[]} */
+    const handlers: any[] = []
+    for (const key of Object.keys(cacheGroups)) {
+      const option = cacheGroups[key]
+      if (option === false) {
+        continue
+      }
+      if (typeof option === 'string' || option instanceof RegExp) {
+        const source = createCacheGroupSource({}, key, defaultSizeTypes)
+        handlers.push((module, context, results) => {
+          if (checkTest(option, module, context)) {
+            results.push(source)
+          }
+        })
+      } else if (typeof option === 'function') {
+        const cache = new WeakMap()
+        handlers.push((module, _, results) => {
+          const result = option(module)
+          if (result) {
+            const groups = Array.isArray(result) ? result : [result]
+            for (const group of groups) {
+              const cachedSource = cache.get(group)
+              if (cachedSource !== undefined) {
+                results.push(cachedSource)
+              } else {
+                const source = createCacheGroupSource(
+                  group,
+                  key,
+                  defaultSizeTypes
+                )
+                cache.set(group, source)
+                results.push(source)
+              }
+            }
+          }
+        })
+      } else {
+        const source = createCacheGroupSource(option, key, defaultSizeTypes)
+        handlers.push((module, context, results) => {
+          if (
+            checkTest(option.test, module, context) &&
+            checkModuleType(option.type, module) &&
+            checkModuleLayer(option.layer, module)
+          ) {
+            results.push(source)
+          }
+        })
+      }
+    }
+    /**
+     * @param {Module} module the current module
+     * @param {CacheGroupsContext} context the current context
+     * @returns {CacheGroupSource[]} the matching cache groups
+     */
+    const fn = (module, context) => {
+      /** @type {CacheGroupSource[]} */
+      const results = []
+      for (const fn of handlers) {
+        fn(module, context, results)
+      }
+      return results
+    }
+    return fn
+  }
+  return () => null
+}
+
+/**
+ * 继承 SplitChunksPlugin 的插件，用于将分包公共依赖提取到单独的文件中
+ */
 export default class MiniSplitChunksPlugin extends SplitChunksPlugin {
   options: any
   subCommonDeps: Map<string, DepInfo>
-  chunkSubCommons: Map<string, Set<string>>
+  subCommonChunks: Map<string, Set<string>>
   subPackagesVendors: Map<string, Chunk>
   context: string
   distPath: string
@@ -48,12 +310,12 @@ export default class MiniSplitChunksPlugin extends SplitChunksPlugin {
   subRoots: string[]
   subRootRegExps: RegExp[]
   fileType: IFileType
+  assets: { [pathname: string]: sources.Source }
 
   constructor (options: MiniSplitChunksPluginOption) {
     super()
-    this.options = null
     this.subCommonDeps = new Map()
-    this.chunkSubCommons = new Map()
+    this.subCommonChunks = new Map()
     this.subPackagesVendors = new Map()
     this.distPath = ''
     this.exclude = options.exclude || []
@@ -68,29 +330,38 @@ export default class MiniSplitChunksPlugin extends SplitChunksPlugin {
   }
 
   apply (compiler: Compiler) {
-    this.context = compiler.context
+    const { webpack, context, options } = compiler
+    const { util, Compilation } = webpack
+
+    this.context = context
     this.subPackages = this.getSubpackageConfig(compiler).map((subPackage: SubPackage) => ({
       ...subPackage,
       root: this.formatSubRoot(subPackage.root)
     }))
     this.subRoots = this.subPackages.map((subPackage: SubPackage) => subPackage.root)
     this.subRootRegExps = this.subRoots.map((subRoot: string) => new RegExp(`^${subRoot}\\/`))
-    this.distPath = compiler?.options?.output?.path as string
-    this.isDevMode = compiler.options.mode === 'development'
+    this.distPath = options.output.path || ''
+    this.isDevMode = options.mode === 'development'
 
     /**
      * 调用父类SplitChunksPlugin的apply方法，注册相关处理事件
      */
     super.apply(compiler)
 
-    compiler.hooks.compilation.tap(PLUGIN_NAME, compilation => {
-      compilation.hooks.optimizeChunks.tap(PLUGIN_NAME, chunks => {
+    /**
+     * 当一个编译创建完成时，调用该方法
+     */
+    compiler.hooks.thisCompilation.tap(PLUGIN_NAME, (compilation: Compilation) => {
+      /**
+       * 在chunk优化阶段的开始时，调用该方法
+       */
+      compilation.hooks.optimizeChunks.tap(PLUGIN_NAME, (chunks: Chunk[]) => {
         const splitChunksOriginConfig = {
-          ...compiler?.options?.optimization?.splitChunks
+          ...options.optimization?.splitChunks
         }
 
         this.subCommonDeps = new Map()
-        this.chunkSubCommons = new Map()
+        this.subCommonChunks = new Map()
         this.subPackagesVendors = new Map()
 
         /**
@@ -102,14 +373,18 @@ export default class MiniSplitChunksPlugin extends SplitChunksPlugin {
         }
 
         if (subChunks.length === 0) {
-          this.options = SplitChunksPlugin.normalizeOptions(splitChunksOriginConfig)
+          this.options = {
+            ...this.options,
+            maxInitialRequests: Infinity,
+            getCacheGroups: normalizeCacheGroups({ ...splitChunksOriginConfig.cacheGroups }, this.options.defaultSizeTypes)
+          }
           return
         }
 
         const chunkGraph = compilation.chunkGraph
 
-        subChunks.forEach(subChunk => {
-          const modulesIterable = chunkGraph.getOrderedChunkModulesIterable(subChunk, webpack.util.comparators.compareModulesByIdentifier)
+        subChunks.forEach((subChunk: Chunk) => {
+          const modulesIterable = chunkGraph.getOrderedChunkModulesIterable(subChunk, util.comparators.compareModulesByIdentifier)
           for (const module of modulesIterable) {
             if (this.isExternalModule(module)) {
               return
@@ -123,25 +398,14 @@ export default class MiniSplitChunksPlugin extends SplitChunksPlugin {
               return
             }
 
-            const chunks: Chunk[] = Array.from(module.chunksIterable)
+            const chunks: Chunk[] = Array.from(chunkGraph.getModuleChunks(module))
             const chunkNames: string[] = chunks.map(chunk => chunk.name)
             /**
              * 找出没有被主包引用，且被多个分包引用的module，并记录在subCommonDeps中
              */
             if (!this.hasMainChunk(chunkNames) && this.isSubsDep(chunkNames)) {
               const { resource, _identifier: identifier } = module as any
-              const depPath: string = resource ?? identifier
-              let depName = ''
-
-              if (this.isDevMode) {
-                /**
-                 * 避免开发模式下，清除sub-common源目录后，触发重新编译时，sub-common目录缺失无变化的chunk导致文件copy失败的问题
-                 */
-                depName = md5(depPath + new Date().getTime())
-              } else {
-                depName = md5(depPath)
-              }
-
+              const depName = md5(resource ?? identifier)
               if (!this.subCommonDeps.has(depName)) {
                 const subCommonDepChunks = new Set(chunkNames)
 
@@ -163,14 +427,15 @@ export default class MiniSplitChunksPlugin extends SplitChunksPlugin {
         /**
          * 用新的option配置生成新的cacheGroups配置
          */
-        this.options = SplitChunksPlugin.normalizeOptions({
-          ...splitChunksOriginConfig,
-          cacheGroups: {
-            ...splitChunksOriginConfig?.cacheGroups,
+        this.options = {
+          ...this.options,
+          maxInitialRequests: Infinity,
+          getCacheGroups: normalizeCacheGroups({
+            ...splitChunksOriginConfig?.cacheGroups || {},
             ...this.getSubPackageVendorsCacheGroup(),
             ...this.getSubCommonCacheGroup()
-          }
-        })
+          }, this.options.defaultSizeTypes)
+        }
       })
 
       /**
@@ -201,119 +466,92 @@ export default class MiniSplitChunksPlugin extends SplitChunksPlugin {
         this.subCommonDeps = existSubCommonDeps
       })
 
-      /**
-       * 往分包page头部添加require
-       */
-      webpack.javascript.JavascriptModulesPlugin.getCompilationHooks(compilation).render.tap(PLUGIN_NAME, (modules, { chunk }) => {
-        if (this.isSubChunk(chunk)) {
-          const chunkName = chunk.name
-          const chunkSubRoot = this.subRoots.find(subRoot => new RegExp(`^${subRoot}\\/`).test(chunkName)) as string
-          const chunkAbsulutePath = path.resolve(this.distPath, chunkName)
-          const source = new ConcatSource()
-          const hasSubVendors = this.subPackagesVendors.has(chunkSubRoot)
-          const subVendors = this.subPackagesVendors.get(chunkSubRoot)!
-          const subCommon = [...(this.chunkSubCommons.get(chunkName) || [])]
-
-          /**
-           * require该分包下的sub-vendors
-           */
-          if (hasSubVendors) {
-            const subVendorsAbsolutePath = path.resolve(this.distPath, subVendors.name)
-            const relativePath = this.getRealRelativePath(chunkAbsulutePath, subVendorsAbsolutePath)
-
-            source.add(`require(${JSON.stringify(relativePath)});\n`)
-          }
-
-          // require sub-common下的模块
-          if (subCommon.length > 0) {
-            subCommon.forEach(moduleName => {
-              const moduleAbsulutePath = path.resolve(this.distPath, chunkSubRoot, SUB_COMMON_DIR, moduleName)
-              const relativePath = this.getRealRelativePath(chunkAbsulutePath, moduleAbsulutePath)
-
-              source.add(`require(${JSON.stringify(relativePath)});\n`)
-            })
-          }
-
-          source.add(modules)
-          source.add(';')
-          return source
-        } else {
-          return modules
-        }
+      compilation.hooks.processAssets.tap({
+        name: PLUGIN_NAME,
+        stage: Compilation.PROCESS_ASSETS_STAGE_ANALYSE // see below for more stages
+      }, (assets) => {
+        this.assets = assets
       })
+    })
 
-      // @todo: webpack5 bug
-      compiler.hooks.emit.tapAsync(PLUGIN_NAME, this.tryAsync((compilation) => {
-        const assets = compilation.assets
-        const subChunks = compilation.entries.filter(entry => this.isSubChunk(entry))
-
-        subChunks.forEach(subChunk => {
-          const subChunkName = subChunk.name
-          const subRoot = this.subRoots.find(subRoot => new RegExp(`^${subRoot}\\/`).test(subChunkName)) as string
-          const chunkWxssName = `${subChunkName}${FileExtsMap.STYLE}`
-          const subCommon = [...(this.chunkSubCommons.get(subChunkName) || [])]
-          const wxssAbsulutePath = path.resolve(this.distPath, chunkWxssName)
-          const subVendorsWxssPath = path.join(subRoot, `${SUB_VENDORS_NAME}${FileExtsMap.STYLE}`)
-          const source = new ConcatSource()
-
-          if (assets[normalizePath(subVendorsWxssPath)]) {
-            const subVendorsAbsolutePath = path.resolve(this.distPath, subVendorsWxssPath)
-            const relativePath = this.getRealRelativePath(wxssAbsulutePath, subVendorsAbsolutePath)
-
-            source.add(`@import ${JSON.stringify(relativePath)};\n`)
-          }
-
-          if (subCommon.length > 0) {
-            subCommon.forEach(moduleName => {
-              const wxssFileName = `${moduleName}${FileExtsMap.STYLE}`
-              const wxssFilePath = path.join(SUB_COMMON_DIR, wxssFileName)
-
-              if (assets[normalizePath(wxssFilePath)]) {
-                const moduleAbsulutePath = path.resolve(this.distPath, subRoot, SUB_COMMON_DIR, wxssFileName)
-                const relativePath = this.getRealRelativePath(wxssAbsulutePath, moduleAbsulutePath)
-
-                source.add(`@import ${JSON.stringify(`${relativePath}`)};\n`)
+    compiler.hooks.emit.tapAsync(PLUGIN_NAME, this.tryAsync((compilation: Compilation) => {
+      for (const entryName of compilation.entries.keys()) {
+        if (this.isSubEntry(entryName)) {
+          const subRoot = this.subRoots.find(subRoot => new RegExp(`^${subRoot}\\/`).test(entryName)) as string
+          const subCommon = [...(this.subCommonChunks.get(entryName) || [])]
+          for (const key in FileExtsMap) {
+            const ext = FileExtsMap[key]
+            if (ext === FileExtsMap.JS || ext === FileExtsMap.STYLE) {
+              const source = new ConcatSource()
+              const chunkName = `${entryName}${ext}`
+              const chunkAbsulutePath = path.resolve(this.distPath, chunkName)
+              const subVendorsPath = path.join(subRoot, `${SUB_VENDORS_NAME}${ext}`)
+              // 将子包 vendors 插入到 entry 中
+              if (this.assets[normalizePath(subVendorsPath)]) {
+                const subVendorsAbsolutePath = path.resolve(this.distPath, subVendorsPath)
+                const vendorsRelativePath = this.getRealRelativePath(chunkAbsulutePath, subVendorsAbsolutePath)
+                if (ext === FileExtsMap.STYLE) {
+                  source.add(`@import ${JSON.stringify(`${vendorsRelativePath}`)};`)
+                }
+                if (ext === FileExtsMap.JS) {
+                  source.add(`require(${JSON.stringify(`${vendorsRelativePath}`)});`)
+                }
               }
-
-              // 复制sub-common下的资源到分包下
-              for (const key in FileExtsMap) {
-                const ext = FileExtsMap[key]
-                const assetName = path.join(SUB_COMMON_DIR, `${moduleName}${ext}`)
-                const subAssetName = path.join(subRoot, assetName)
-                const assetSource = assets[normalizePath(assetName)]
-
+              // 将子包下的 common 模块替换为父包下的 common 模块
+              subCommon.forEach(moduleName => {
+                const moduleFileName = `${moduleName}${ext}`
+                const moduleFilePath = path.join(SUB_COMMON_DIR, moduleFileName)
+                const subRootModuleFilePath = path.join(subRoot, moduleFilePath)
+                const assetSource = this.assets[normalizePath(moduleFilePath)]
                 if (assetSource) {
-                  assets[normalizePath(subAssetName)] = {
-                    size: () => assetSource.source().length,
-                    source: () => assetSource.source()
+                  const moduleAbsulutePath = path.resolve(this.distPath, subRootModuleFilePath)
+                  const chunkRelativePath = this.getRealRelativePath(path.resolve(this.distPath, chunkName), moduleAbsulutePath)
+                  this.assets[normalizePath(subRootModuleFilePath)] = {
+                    size: () => assetSource.size(),
+                    source: () => assetSource.source(),
+                    updateHash: () => assetSource.updateHash,
+                    buffer: () => assetSource.buffer(),
+                    map: () => assetSource.map(),
+                    sourceAndMap: () => assetSource.sourceAndMap()
+                  }
+                  if (ext === FileExtsMap.STYLE) {
+                    source.add(`@import ${JSON.stringify(`${chunkRelativePath}`)};`)
+                  }
+                  if (ext === FileExtsMap.JS) {
+                    source.add(`require(${JSON.stringify(`${chunkRelativePath}`)});`)
+                  }
+                }
+              })
+              if (this.assets[chunkName]) {
+                const originSource = this.assets[chunkName].source()
+                if (ext === FileExtsMap.STYLE && typeof originSource === 'string') {
+                  if (originSource.indexOf('@charset') > -1) {
+                    this.assets[chunkName] = new RawSource(`@charset "UTF-8";${source.source()}${originSource.replace('@charset "UTF-8";', '')}`)
+                  } else {
+                    this.assets[chunkName] = new RawSource(`${source.source()}${originSource}`)
+                  }
+                }
+                if (ext === FileExtsMap.JS && typeof originSource === 'string') {
+                  if (originSource.indexOf('use strict') > -1) {
+                    this.assets[chunkName] = new RawSource(`"use strict";${source.source()}${originSource.replace('"use strict";', '')}`)
+                  } else {
+                    this.assets[chunkName] = new RawSource(`${source.source()}${originSource}`)
                   }
                 }
               }
-            })
-          }
-
-          if (assets[chunkWxssName]) {
-            const originSource = assets[chunkWxssName].source()
-
-            source.add(originSource)
-          }
-
-          assets[chunkWxssName] = {
-            size: () => source.source().length,
-            source: () => source.source()
-          }
-        })
-
-        /**
-         * 根目录下的sub-common资源删掉不输出
-         */
-        for (const assetPath in assets) {
-          if (new RegExp(`^${SUB_COMMON_DIR}\\/.*`).test(assetPath)) {
-            delete assets[assetPath]
+            }
           }
         }
-      }))
-    })
+      }
+      /**
+       * 根目录下的sub-common资源删掉不输出
+       */
+      for (const assetPath in this.assets) {
+        if (new RegExp(`^${SUB_COMMON_DIR}\\/.*`).test(assetPath)) {
+          delete this.assets[assetPath]
+        }
+      }
+    }))
   }
 
   /**
@@ -331,14 +569,21 @@ export default class MiniSplitChunksPlugin extends SplitChunksPlugin {
   /**
    * 根据 webpack entry 配置获取入口文件路径
    */
-  getAppEntry (compiler: Compiler): string {
-    const originalEntry = compiler.options.entry
-
-    if (isFunction(originalEntry)) {
+  getAppEntry (compiler: Compiler) {
+    const { entry } = compiler.options
+    if (isFunction(entry)) {
       return ''
-    } else {
-      return path.resolve(this.context, originalEntry.app[0])
     }
+    function getEntryPath (entry) {
+      const app = entry.app
+      if (Array.isArray(app)) {
+        return app[0]
+      } else if (Array.isArray(app.import)) {
+        return app.import[0]
+      }
+      return app
+    }
+    return getEntryPath(entry)
   }
 
   /**
@@ -375,6 +620,13 @@ export default class MiniSplitChunksPlugin extends SplitChunksPlugin {
     const isSubChunk = this.subRootRegExps.find(subRootRegExp => subRootRegExp.test(chunk.name))
 
     return !!isSubChunk
+  }
+
+  /**
+   * 判断是否是子 entry & 排除.config entry
+   */
+  isSubEntry (entry: string): boolean {
+    return !!this.subRootRegExps.find(subRootRegExp => subRootRegExp.test(entry)) && entry.indexOf('.config') === -1
   }
 
   /**
@@ -428,11 +680,11 @@ export default class MiniSplitChunksPlugin extends SplitChunksPlugin {
 
     this.subRoots.forEach(subRoot => {
       subPackageVendorsCacheGroup[subRoot] = {
-        test: (module, chunks) => {
+        test: (module, { chunkGraph }: { chunkGraph: ChunkGraph }) => {
           if (this.hasExclude() && this.isExcludeModule(module)) {
             return false
           }
-
+          const chunks: any = Array.from(chunkGraph.getModuleChunksIterable(module))
           return chunks.every(chunk => new RegExp(`^${subRoot}\\/`).test(chunk.name))
         },
         name: normalizePath(path.join(subRoot, SUB_VENDORS_NAME)),
@@ -488,23 +740,22 @@ export default class MiniSplitChunksPlugin extends SplitChunksPlugin {
   }
 
   setChunkSubCommons (subCommonDeps: Map<string, DepInfo>) {
-    const chunkSubCommons: Map<string, Set<string>> = new Map()
+    const subCommonChunks: Map<string, Set<string>> = new Map()
 
     subCommonDeps.forEach((depInfo: DepInfo, depName: string) => {
       const chunks: string[] = [...depInfo.chunks]
-
       chunks.forEach(chunk => {
-        if (chunkSubCommons.has(chunk)) {
-          const chunkSubCommon = chunkSubCommons.get(chunk) as Set<string>
+        if (subCommonChunks.has(chunk)) {
+          const chunkSubCommon = subCommonChunks.get(chunk) as Set<string>
 
           chunkSubCommon.add(depName)
-          chunkSubCommons.set(chunk, chunkSubCommon)
+          subCommonChunks.set(chunk, chunkSubCommon)
         } else {
-          chunkSubCommons.set(chunk, new Set([depName]))
+          subCommonChunks.set(chunk, new Set([depName]))
         }
       })
     })
-    this.chunkSubCommons = chunkSubCommons
+    this.subCommonChunks = subCommonChunks
   }
 
   /**

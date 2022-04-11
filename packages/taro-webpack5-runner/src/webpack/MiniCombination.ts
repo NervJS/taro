@@ -15,6 +15,9 @@ export class MiniCombination extends Combination<MiniBuildConfig> {
   enableSourceMap: boolean
   buildNativePlugin: BuildNativePlugin
   fileType: IFileType
+  optimizeMainPackage: { enable?: boolean | undefined; exclude?: any[] | undefined; } = {
+    enable: true
+  }
 
   process (config: Partial<MiniBuildConfig>) {
     const baseConfig = new MiniBaseConfig(this.appPath, config)
@@ -36,7 +39,8 @@ export class MiniCombination extends Combination<MiniBuildConfig> {
       isBuildNativeComp = false,
       isBuildPlugin = false,
       /** hooks */
-      modifyComponentConfig
+      modifyComponentConfig,
+      optimizeMainPackage
     } = config
 
     this.fileType = fileType
@@ -52,6 +56,10 @@ export class MiniCombination extends Combination<MiniBuildConfig> {
       // 编译目标 - 小程序原生插件
       this.isBuildPlugin = true
       this.buildNativePlugin = BuildNativePlugin.getPlugin(this)
+    }
+
+    if (optimizeMainPackage) {
+      this.optimizeMainPackage = optimizeMainPackage
     }
 
     const webpackEntry = this.getEntry(entry)
