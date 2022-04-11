@@ -3,9 +3,9 @@ import Taro from '../../index'
 declare module '../../index' {
   namespace canvasToTempFilePath {
     interface Option {
-      /** 画布标识，传入 [canvas](/docs/components/canvas/canvas) 组件实例 （canvas type="2d" 时使用该属性）。 */
+      /** 画布标识，传入 [canvas](/docs/components/canvas) 组件实例 （canvas type="2d" 时使用该属性）。 */
       canvas?: CanvasProps
-      /** 画布标识，传入 [canvas](/docs/components/canvas/canvas) 组件的 canvas-id */
+      /** 画布标识，传入 [canvas](/docs/components/canvas) 组件的 canvas-id */
       canvasId?: string
       /** 图片的质量，目前仅对 jpg 有效。取值范围为 (0, 1]，不在范围内时当作 1.0 处理。 */
       quality?: number
@@ -75,7 +75,7 @@ declare module '../../index' {
   }
   namespace canvasPutImageData {
     interface Option {
-      /** 画布标识，传入 [canvas](/docs/components/canvas/canvas) 组件的 canvas-id 属性。 */
+      /** 画布标识，传入 [canvas](/docs/components/canvas) 组件的 canvas-id 属性。 */
       canvasId: string
       /** 图像像素点数据，一维数组，每四项表示一个像素点的 rgba */
       data: Uint8ClampedArray
@@ -97,7 +97,7 @@ declare module '../../index' {
   }
   namespace canvasGetImageData {
     interface Option {
-      /** 画布标识，传入 [canvas](/docs/components/canvas/canvas) 组件的 `canvas-id` 属性。 */
+      /** 画布标识，传入 [canvas](/docs/components/canvas) 组件的 `canvas-id` 属性。 */
       canvasId: string
       /** 将要被提取的图像数据矩形区域的高度 */
       height: number
@@ -1736,9 +1736,9 @@ declare module '../../index' {
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/canvas/wx.createCanvasContext.html
      */
     createCanvasContext(
-      /** 要获取上下文的 [canvas](/docs/components/canvas/canvas) 组件 canvas-id 属性 */
+      /** 要获取上下文的 [canvas](/docs/components/canvas) 组件 canvas-id 属性 */
       canvasId: string,
-      /** 在自定义组件下，当前组件实例的this，表示在这个自定义组件下查找拥有 canvas-id 的 [canvas](/docs/components/canvas/canvas) ，如果省略则不在任何自定义组件内查找 */
+      /** 在自定义组件下，当前组件实例的this，表示在这个自定义组件下查找拥有 canvas-id 的 [canvas](/docs/components/canvas) ，如果省略则不在任何自定义组件内查找 */
       component?: TaroGeneral.IAnyObject,
     ): CanvasContext
 
@@ -1767,7 +1767,7 @@ declare module '../../index' {
      */
     canvasToTempFilePath(
       option: canvasToTempFilePath.Option,
-      /** 在自定义组件下，当前组件实例的this，以操作组件内 [canvas](/docs/components/canvas/canvas) 组件 */
+      /** 在自定义组件下，当前组件实例的this，以操作组件内 [canvas](/docs/components/canvas) 组件 */
       component?: TaroGeneral.IAnyObject,
     ): Promise<canvasToTempFilePath.SuccessCallbackResult>
 
@@ -1789,7 +1789,7 @@ declare module '../../index' {
      */
     canvasPutImageData(
       option: canvasPutImageData.Option,
-      /** 在自定义组件下，当前组件实例的this，以操作组件内 [canvas](/docs/components/canvas/canvas) 组件 */
+      /** 在自定义组件下，当前组件实例的this，以操作组件内 [canvas](/docs/components/canvas) 组件 */
       component?: TaroGeneral.IAnyObject,
     ): Promise<TaroGeneral.CallbackResult>
 
@@ -1815,7 +1815,7 @@ declare module '../../index' {
      */
     canvasGetImageData(
       option: canvasGetImageData.Option,
-      /** 在自定义组件下，当前组件实例的this，以操作组件内 [canvas](/docs/components/canvas/canvas) 组件 */
+      /** 在自定义组件下，当前组件实例的this，以操作组件内 [canvas](/docs/components/canvas) 组件 */
       component?: TaroGeneral.IAnyObject,
     ): Promise<canvasGetImageData.SuccessCallbackResult>
   }
