@@ -52,7 +52,7 @@ function findCustomWrapper (root: TaroRootElement, dataPathArr: string[]) {
 export class TaroRootElement extends TaroElement {
   private updatePayloads: UpdatePayload[] = []
 
-  private updateCallbacks: Func[]= []
+  private updateCallbacks: Func[] = []
 
   public pendingUpdate = false
 

@@ -45,7 +45,7 @@ require(\\"./taro\\");
         function processApis() {}
         var EMPTY_OBJ = {};
     },
-    13: function(module, __webpack_exports__, __webpack_require__) {
+    12: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         (function(navigator) {
             var _tarojs_shared__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(1);
@@ -558,39 +558,12 @@ require(\\"./taro\\");
             Object(_tarojs_shared__WEBPACK_IMPORTED_MODULE_0__[\\"e\\"])(components);
         }).call(this, __webpack_require__(0)[\\"navigator\\"]);
     },
-    14: function(module, exports, __webpack_require__) {},
-    16: function(module, __webpack_exports__, __webpack_require__) {
+    13: function(module, exports, __webpack_require__) {},
+    15: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_require__.r(__webpack_exports__);
-        var runtime = __webpack_require__(13);
+        var runtime = __webpack_require__(12);
         var taro_runtime = __webpack_require__(0);
-        function _arrayLikeToArray(arr, len) {
-            if (len == null || len > arr.length) len = arr.length;
-            for (var i = 0, arr2 = new Array(len); i < len; i++) {
-                arr2[i] = arr[i];
-            }
-            return arr2;
-        }
-        function _arrayWithoutHoles(arr) {
-            if (Array.isArray(arr)) return _arrayLikeToArray(arr);
-        }
-        function _iterableToArray(iter) {
-            if (typeof Symbol !== \\"undefined\\" && iter[Symbol.iterator] != null || iter[\\"@@iterator\\"] != null) return Array.from(iter);
-        }
-        function _unsupportedIterableToArray(o, minLen) {
-            if (!o) return;
-            if (typeof o === \\"string\\") return _arrayLikeToArray(o, minLen);
-            var n = Object.prototype.toString.call(o).slice(8, -1);
-            if (n === \\"Object\\" && o.constructor) n = o.constructor.name;
-            if (n === \\"Map\\" || n === \\"Set\\") return Array.from(o);
-            if (n === \\"Arguments\\" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen);
-        }
-        function _nonIterableSpread() {
-            throw new TypeError(\\"Invalid attempt to spread non-iterable instance.\\\\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.\\");
-        }
-        function _toConsumableArray(arr) {
-            return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread();
-        }
         function _defineProperty(obj, key, value) {
             if (key in obj) {
                 Object.defineProperty(obj, key, {
@@ -631,6 +604,21 @@ require(\\"./taro\\");
             }
             return _arr;
         }
+        function _arrayLikeToArray(arr, len) {
+            if (len == null || len > arr.length) len = arr.length;
+            for (var i = 0, arr2 = new Array(len); i < len; i++) {
+                arr2[i] = arr[i];
+            }
+            return arr2;
+        }
+        function _unsupportedIterableToArray(o, minLen) {
+            if (!o) return;
+            if (typeof o === \\"string\\") return _arrayLikeToArray(o, minLen);
+            var n = Object.prototype.toString.call(o).slice(8, -1);
+            if (n === \\"Object\\" && o.constructor) n = o.constructor.name;
+            if (n === \\"Map\\" || n === \\"Set\\") return Array.from(o);
+            if (n === \\"Arguments\\" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen);
+        }
         function _nonIterableRest() {
             throw new TypeError(\\"Invalid attempt to destructure non-iterable instance.\\\\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.\\");
         }
@@ -641,7 +629,23 @@ require(\\"./taro\\");
         var createClass = __webpack_require__(4);
         var inherits = __webpack_require__(6);
         var createSuper = __webpack_require__(5);
+        function _arrayWithoutHoles(arr) {
+            if (Array.isArray(arr)) return _arrayLikeToArray(arr);
+        }
+        function _iterableToArray(iter) {
+            if (typeof Symbol !== \\"undefined\\" && iter[Symbol.iterator] != null || iter[\\"@@iterator\\"] != null) return Array.from(iter);
+        }
+        function _nonIterableSpread() {
+            throw new TypeError(\\"Invalid attempt to spread non-iterable instance.\\\\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.\\");
+        }
+        function _toConsumableArray(arr) {
+            return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread();
+        }
         var taro = __webpack_require__(1);
+        var reactMeta = {
+            PageContext: taro[\\"a\\"],
+            R: taro[\\"a\\"]
+        };
         var HOOKS_APP_ID = \\"taro-app\\";
         function isClassComponent(R, component) {
             var _a;
@@ -666,8 +670,88 @@ require(\\"./taro\\");
                 params: options === null || options === void 0 ? void 0 : options.query
             }, options);
         }
-        var PageContext = taro[\\"a\\"];
-        var R$1 = taro[\\"a\\"];
+        var runtime_taroHooks = function taroHooks(lifecycle) {
+            return function(fn) {
+                var React = reactMeta.R, PageContext = reactMeta.PageContext;
+                var id = React.useContext(PageContext) || HOOKS_APP_ID;
+                var fnRef = React.useRef(fn);
+                if (fnRef.current !== fn) fnRef.current = fn;
+                React.useLayoutEffect((function() {
+                    var inst = Object(taro_runtime[\\"getPageInstance\\"])(id);
+                    var first = false;
+                    if (inst == null) {
+                        first = true;
+                        inst = Object.create(null);
+                    }
+                    inst = inst;
+                    var callback = function callback() {
+                        return fnRef.current.apply(fnRef, arguments);
+                    };
+                    if (Object(taro[\\"d\\"])(inst[lifecycle])) {
+                        inst[lifecycle] = [ inst[lifecycle], callback ];
+                    } else {
+                        inst[lifecycle] = [].concat(_toConsumableArray(inst[lifecycle] || []), [ callback ]);
+                    }
+                    if (first) {
+                        Object(taro_runtime[\\"injectPageInstance\\"])(inst, id);
+                    }
+                    return function() {
+                        var inst = Object(taro_runtime[\\"getPageInstance\\"])(id);
+                        var list = inst[lifecycle];
+                        if (list === callback) {
+                            inst[lifecycle] = undefined;
+                        } else if (Object(taro[\\"c\\"])(list)) {
+                            inst[lifecycle] = list.filter((function(item) {
+                                return item !== callback;
+                            }));
+                        }
+                    };
+                }), []);
+            };
+        };
+        var useDidShow = runtime_taroHooks(\\"componentDidShow\\");
+        var useDidHide = runtime_taroHooks(\\"componentDidHide\\");
+        var usePullDownRefresh = runtime_taroHooks(\\"onPullDownRefresh\\");
+        var useReachBottom = runtime_taroHooks(\\"onReachBottom\\");
+        var usePageScroll = runtime_taroHooks(\\"onPageScroll\\");
+        var useResize = runtime_taroHooks(\\"onResize\\");
+        var useShareAppMessage = runtime_taroHooks(\\"onShareAppMessage\\");
+        var useTabItemTap = runtime_taroHooks(\\"onTabItemTap\\");
+        var useTitleClick = runtime_taroHooks(\\"onTitleClick\\");
+        var useOptionMenuClick = runtime_taroHooks(\\"onOptionMenuClick\\");
+        var usePullIntercept = runtime_taroHooks(\\"onPullIntercept\\");
+        var useShareTimeline = runtime_taroHooks(\\"onShareTimeline\\");
+        var useAddToFavorites = runtime_taroHooks(\\"onAddToFavorites\\");
+        var useReady = runtime_taroHooks(\\"onReady\\");
+        var runtime_useRouter = function useRouter() {
+            var dynamic = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
+            var React = reactMeta.R;
+            return dynamic ? taro_runtime[\\"Current\\"].router : React.useMemo((function() {
+                return taro_runtime[\\"Current\\"].router;
+            }), []);
+        };
+        var useScope = function useScope() {
+            return undefined;
+        };
+        var taroHooks$1 = Object.freeze({
+            __proto__: null,
+            useDidShow: useDidShow,
+            useDidHide: useDidHide,
+            usePullDownRefresh: usePullDownRefresh,
+            useReachBottom: useReachBottom,
+            usePageScroll: usePageScroll,
+            useResize: useResize,
+            useShareAppMessage: useShareAppMessage,
+            useTabItemTap: useTabItemTap,
+            useTitleClick: useTitleClick,
+            useOptionMenuClick: useOptionMenuClick,
+            usePullIntercept: usePullIntercept,
+            useShareTimeline: useShareTimeline,
+            useAddToFavorites: useAddToFavorites,
+            useReady: useReady,
+            useRouter: runtime_useRouter,
+            useScope: useScope
+        });
         var h$1;
         var ReactDOM$1;
         var pageKeyId = Object(taro_runtime[\\"incrementId\\"])();
@@ -707,8 +791,8 @@ require(\\"./taro\\");
                     forwardedRef: inject,
                     reactReduxForwardedRef: inject
                 };
-                if (PageContext === taro[\\"a\\"]) {
-                    PageContext = R.createContext(\\"\\");
+                if (reactMeta.PageContext === taro[\\"a\\"]) {
+                    reactMeta.PageContext = R.createContext(\\"\\");
                 }
                 return function(_R$Component) {
                     Object(inherits[\\"a\\"])(PageWrapper, _R$Component);
@@ -730,7 +814,7 @@ require(\\"./taro\\");
                     }, {
                         key: \\"render\\",
                         value: function render() {
-                            var children = this.state.hasError ? [] : h$1(PageContext.Provider, {
+                            var children = this.state.hasError ? [] : h$1(reactMeta.PageContext.Provider, {
                                 value: id
                             }, h$1(Page, Object.assign(Object.assign({}, this.props), refs)));
                             if (false) {} else {
@@ -756,18 +840,18 @@ require(\\"./taro\\");
             var _Object$create;
             var _a;
             if (false) {}
-            R$1 = react;
+            reactMeta.R = react;
             h$1 = react.createElement;
             ReactDOM$1 = dom;
             var appInstanceRef = react.createRef();
-            var isReactComponent = isClassComponent(R$1, App);
+            var isReactComponent = isClassComponent(react, App);
             var appWrapper;
             setReconciler(ReactDOM$1);
             function getAppInstance() {
                 return appInstanceRef.current;
             }
-            var AppWrapper = function(_R$1$Component) {
-                Object(inherits[\\"a\\"])(AppWrapper, _R$1$Component);
+            var AppWrapper = function(_react$Component) {
+                Object(inherits[\\"a\\"])(AppWrapper, _react$Component);
                 var _super2 = Object(createSuper[\\"a\\"])(AppWrapper);
                 function AppWrapper() {
                     var _this2;
@@ -780,7 +864,7 @@ require(\\"./taro\\");
                 Object(createClass[\\"a\\"])(AppWrapper, [ {
                     key: \\"mount\\",
                     value: function mount(pageComponent, id, cb) {
-                        var pageWrapper = connectReactPage(R$1, id)(pageComponent);
+                        var pageWrapper = connectReactPage(react, id)(pageComponent);
                         var key = id + pageKeyId();
                         var page = function page() {
                             return h$1(pageWrapper, {
@@ -819,7 +903,7 @@ require(\\"./taro\\");
                     }
                 } ]);
                 return AppWrapper;
-            }(R$1.Component);
+            }(react.Component);
             if (true) {
                 appWrapper = (_a = ReactDOM$1.render) === null || _a === void 0 ? void 0 : _a.call(ReactDOM$1, h$1(AppWrapper), taro_runtime[\\"document\\"].getElementById(\\"app\\"));
             }
@@ -909,88 +993,7 @@ require(\\"./taro\\");
             taro_runtime[\\"Current\\"].app = appObj;
             return appObj;
         }
-        var runtime_taroHooks = function taroHooks(lifecycle) {
-            return function(fn) {
-                var id = R$1.useContext(PageContext) || HOOKS_APP_ID;
-                var fnRef = R$1.useRef(fn);
-                if (fnRef.current !== fn) fnRef.current = fn;
-                R$1.useLayoutEffect((function() {
-                    var inst = Object(taro_runtime[\\"getPageInstance\\"])(id);
-                    var first = false;
-                    if (inst == null) {
-                        first = true;
-                        inst = Object.create(null);
-                    }
-                    inst = inst;
-                    var callback = function callback() {
-                        return fnRef.current.apply(fnRef, arguments);
-                    };
-                    if (Object(taro[\\"d\\"])(inst[lifecycle])) {
-                        inst[lifecycle] = [ inst[lifecycle], callback ];
-                    } else {
-                        inst[lifecycle] = [].concat(_toConsumableArray(inst[lifecycle] || []), [ callback ]);
-                    }
-                    if (first) {
-                        Object(taro_runtime[\\"injectPageInstance\\"])(inst, id);
-                    }
-                    return function() {
-                        var inst = Object(taro_runtime[\\"getPageInstance\\"])(id);
-                        var list = inst[lifecycle];
-                        if (list === callback) {
-                            inst[lifecycle] = undefined;
-                        } else if (Object(taro[\\"c\\"])(list)) {
-                            inst[lifecycle] = list.filter((function(item) {
-                                return item !== callback;
-                            }));
-                        }
-                    };
-                }), []);
-            };
-        };
-        var useDidShow = runtime_taroHooks(\\"componentDidShow\\");
-        var useDidHide = runtime_taroHooks(\\"componentDidHide\\");
-        var usePullDownRefresh = runtime_taroHooks(\\"onPullDownRefresh\\");
-        var useReachBottom = runtime_taroHooks(\\"onReachBottom\\");
-        var usePageScroll = runtime_taroHooks(\\"onPageScroll\\");
-        var useResize = runtime_taroHooks(\\"onResize\\");
-        var useShareAppMessage = runtime_taroHooks(\\"onShareAppMessage\\");
-        var useTabItemTap = runtime_taroHooks(\\"onTabItemTap\\");
-        var useTitleClick = runtime_taroHooks(\\"onTitleClick\\");
-        var useOptionMenuClick = runtime_taroHooks(\\"onOptionMenuClick\\");
-        var usePullIntercept = runtime_taroHooks(\\"onPullIntercept\\");
-        var useShareTimeline = runtime_taroHooks(\\"onShareTimeline\\");
-        var useAddToFavorites = runtime_taroHooks(\\"onAddToFavorites\\");
-        var useReady = runtime_taroHooks(\\"onReady\\");
-        var runtime_useRouter = function useRouter() {
-            var dynamic = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
-            return dynamic ? taro_runtime[\\"Current\\"].router : R$1.useMemo((function() {
-                return taro_runtime[\\"Current\\"].router;
-            }), []);
-        };
-        var useScope = function useScope() {
-            return undefined;
-        };
-        var taroHooks$1 = Object.freeze({
-            __proto__: null,
-            useDidShow: useDidShow,
-            useDidHide: useDidHide,
-            usePullDownRefresh: usePullDownRefresh,
-            useReachBottom: useReachBottom,
-            usePageScroll: usePageScroll,
-            useResize: useResize,
-            useShareAppMessage: useShareAppMessage,
-            useTabItemTap: useTabItemTap,
-            useTitleClick: useTitleClick,
-            useOptionMenuClick: useOptionMenuClick,
-            usePullIntercept: usePullIntercept,
-            useShareTimeline: useShareTimeline,
-            useAddToFavorites: useAddToFavorites,
-            useReady: useReady,
-            useRouter: runtime_useRouter,
-            useScope: useScope
-        });
         var getNativeCompId = Object(taro_runtime[\\"incrementId\\"])();
-        var runtime_R;
         var h;
         var runtime_ReactDOM;
         function initNativeComponentEntry(R, ReactDOM) {
@@ -1053,15 +1056,20 @@ require(\\"./taro\\");
                             forwardedRef: inject,
                             reactReduxForwardedRef: inject
                         };
+                        if (reactMeta.PageContext === taro[\\"a\\"]) {
+                            reactMeta.PageContext = R.createContext(\\"\\");
+                        }
                         var item = {
                             compId: compId,
                             element: h(NativeComponentWrapper, {
                                 key: compId,
                                 getCtx: getCtx,
                                 renderComponent: function renderComponent(ctx) {
-                                    return h(Component, Object.assign(Object.assign(Object.assign({}, (ctx.data || (ctx.data = {})).props), refs), {
+                                    return h(reactMeta.PageContext.Provider, {
+                                        value: compId
+                                    }, h(Component, Object.assign(Object.assign(Object.assign({}, (ctx.data || (ctx.data = {})).props), refs), {
                                         $scope: ctx
-                                    }));
+                                    })));
                                 }
                             })
                         };
@@ -1099,7 +1107,7 @@ require(\\"./taro\\");
         }
         function createNativeComponentConfig(Component, react, reactdom, componentConfig) {
             var _a, _b;
-            runtime_R = react;
+            reactMeta.R = react;
             h = react.createElement;
             runtime_ReactDOM = reactdom;
             setReconciler(runtime_ReactDOM);
@@ -1116,7 +1124,7 @@ require(\\"./taro\\");
                 },
                 created: function created() {
                     if (!taro_runtime[\\"Current\\"].app) {
-                        initNativeComponentEntry(runtime_R, runtime_ReactDOM);
+                        initNativeComponentEntry(react, runtime_ReactDOM);
                     }
                 },
                 attached: function attached() {
@@ -1206,7 +1214,7 @@ require(\\"./taro\\");
             var oldDiffedHook, oldVNodeHook, runtime_options;
         }
         var mocks_react = __webpack_require__(2);
-        var src_app = __webpack_require__(14);
+        var src_app = __webpack_require__(13);
         var app_App = function(_Component) {
             Object(inherits[\\"a\\"])(App, _Component);
             var _super = Object(createSuper[\\"a\\"])(App);
@@ -1235,7 +1243,7 @@ require(\\"./taro\\");
             return App;
         }(mocks_react[\\"Component\\"]);
         var lib_src_app = app_App;
-        var taro_react = __webpack_require__(9);
+        var taro_react = __webpack_require__(8);
         var app_config = {
             pages: [ \\"pages/index/index\\", \\"pages/about/index\\" ],
             window: {
@@ -1271,7 +1279,7 @@ require(\\"./taro\\");
             }
         });
     }
-}, [ [ 16, 0, 1, 3, 2 ] ] ]);
+}, [ [ 15, 0, 1, 3, 2 ] ] ]);
 
 
 
@@ -1418,13 +1426,13 @@ h�hځ� �r������Nb2��х��K~��>;;ːL�1�
 
 /** filePath: dist/custom-wrapper.js **/
 (my[\\"webpackJsonp\\"] = my[\\"webpackJsonp\\"] || []).push([ [ 6 ], {
-    15: function(module, __webpack_exports__, __webpack_require__) {
+    14: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_require__.r(__webpack_exports__);
         var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
         Component(Object(_tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__[\\"createRecursiveComponentConfig\\"])(\\"custom-wrapper\\"));
     }
-}, [ [ 15, 0, 1 ] ] ]);
+}, [ [ 14, 0, 1 ] ] ]);
 
 /** filePath: dist/custom-wrapper.json **/
 {\\"component\\":true,\\"usingComponents\\":{\\"custom-wrapper\\":\\"./custom-wrapper\\"}}
@@ -1435,7 +1443,7 @@ h�hځ� �r������Nb2��х��K~��>;;ːL�1�
 
 /** filePath: dist/pages/about/index.js **/
 (my[\\"webpackJsonp\\"] = my[\\"webpackJsonp\\"] || []).push([ [ 7 ], {
-    18: function(module, __webpack_exports__, __webpack_require__) {
+    17: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_require__.r(__webpack_exports__);
         var taro_runtime = __webpack_require__(0);
@@ -1471,7 +1479,7 @@ h�hځ� �r������Nb2��х��K~��>;;ːL�1�
             }
         }, config || {}));
     }
-}, [ [ 18, 0, 1, 3, 2 ] ] ]);
+}, [ [ 17, 0, 1, 3, 2 ] ] ]);
 
 /** filePath: dist/pages/about/index.json **/
 {\\"navigationBarTitleText\\":\\"关于\\",\\"usingComponents\\":{\\"custom-wrapper\\":\\"../../custom-wrapper\\"}}
@@ -1482,7 +1490,7 @@ h�hځ� �r������Nb2��х��K~��>;;ːL�1�
 
 /** filePath: dist/pages/index/index.js **/
 (my[\\"webpackJsonp\\"] = my[\\"webpackJsonp\\"] || []).push([ [ 9 ], {
-    17: function(module, __webpack_exports__, __webpack_require__) {
+    16: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_require__.r(__webpack_exports__);
         var taro_runtime = __webpack_require__(0);
@@ -1518,7 +1526,7 @@ h�hځ� �r������Nb2��х��K~��>;;ːL�1�
             }
         }, config || {}));
     }
-}, [ [ 17, 0, 1, 3, 2 ] ] ]);
+}, [ [ 16, 0, 1, 3, 2 ] ] ]);
 
 /** filePath: dist/pages/index/index.json **/
 {\\"navigationBarTitleText\\":\\"首页\\",\\"usingComponents\\":{\\"custom-wrapper\\":\\"../../custom-wrapper\\"}}
@@ -1537,7 +1545,7 @@ h�hځ� �r������Nb2��х��K~��>;;ːL�1�
         \\"use strict\\";
         var _unused_webpack_default_export = \\"taro-components-mock\\";
     },
-    9: function(module, __webpack_exports__, __webpack_require__) {
+    8: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_exports__[\\"a\\"] = \\"taro-react-mock\\";
     }
@@ -1594,6 +1602,9 @@ export default {
     function _createClass(Constructor, protoProps, staticProps) {
         if (protoProps) _defineProperties(Constructor.prototype, protoProps);
         if (staticProps) _defineProperties(Constructor, staticProps);
+        Object.defineProperty(Constructor, \\"prototype\\", {
+            writable: false
+        });
         return Constructor;
     }
 }, function(module, __webpack_exports__, __webpack_require__) {
@@ -1618,8 +1629,14 @@ export default {
             return false;
         }
     }
-    var helpers_typeof = __webpack_require__(8);
-    var typeof_default = __webpack_require__.n(helpers_typeof);
+    function _typeof(obj) {
+        \\"@babel/helpers - typeof\\";
+        return _typeof = \\"function\\" == typeof Symbol && \\"symbol\\" == typeof Symbol.iterator ? function(obj) {
+            return typeof obj;
+        } : function(obj) {
+            return obj && \\"function\\" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? \\"symbol\\" : typeof obj;
+        }, _typeof(obj);
+    }
     function _assertThisInitialized(self) {
         if (self === void 0) {
             throw new ReferenceError(\\"this hasn't been initialised - super() hasn't been called\\");
@@ -1627,7 +1644,7 @@ export default {
         return self;
     }
     function _possibleConstructorReturn(self, call) {
-        if (call && (typeof_default()(call) === \\"object\\" || typeof call === \\"function\\")) {
+        if (call && (_typeof(call) === \\"object\\" || typeof call === \\"function\\")) {
             return call;
         } else if (call !== void 0) {
             throw new TypeError(\\"Derived constructors may only return object or undefined\\");
@@ -1670,26 +1687,11 @@ export default {
                 configurable: true
             }
         });
+        Object.defineProperty(subClass, \\"prototype\\", {
+            writable: false
+        });
         if (superClass) _setPrototypeOf(subClass, superClass);
     }
-}, , function(module, exports) {
-    function _typeof(obj) {
-        \\"@babel/helpers - typeof\\";
-        if (typeof Symbol === \\"function\\" && typeof Symbol.iterator === \\"symbol\\") {
-            module.exports = _typeof = function _typeof(obj) {
-                return typeof obj;
-            };
-            module.exports[\\"default\\"] = module.exports, module.exports.__esModule = true;
-        } else {
-            module.exports = _typeof = function _typeof(obj) {
-                return obj && typeof Symbol === \\"function\\" && obj.constructor === Symbol && obj !== Symbol.prototype ? \\"symbol\\" : typeof obj;
-            };
-            module.exports[\\"default\\"] = module.exports, module.exports.__esModule = true;
-        }
-        return _typeof(obj);
-    }
-    module.exports = _typeof;
-    module.exports[\\"default\\"] = module.exports, module.exports.__esModule = true;
 } ] ]);
 "
 `;
@@ -1708,8 +1710,8 @@ require(\\"./vendors\\");
 require(\\"./taro\\");
 
 (wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 4 ], {
-    12: function(module, exports, __webpack_require__) {},
-    15: function(module, __webpack_exports__, __webpack_require__) {
+    11: function(module, exports, __webpack_require__) {},
+    14: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_require__.r(__webpack_exports__);
         var mocks_taro = \\"taro\\";
@@ -2051,6 +2053,12 @@ require(\\"./taro\\");
                 bindAfterLeave: _empty,
                 bindClickOverlay: _empty
             },
+            ShareElement: {
+                mapkey: _empty,
+                transform: _false,
+                duration: \\"300\\",
+                \\"easing-function\\": \\"'ease-out'\\"
+            },
             KeyboardAccessory: {}
         };
         var hostConfig = {
@@ -2059,33 +2067,6 @@ require(\\"./taro\\");
         mergeReconciler(hostConfig);
         mergeInternalComponents(runtime_components);
         var taro_runtime = __webpack_require__(0);
-        function _arrayLikeToArray(arr, len) {
-            if (len == null || len > arr.length) len = arr.length;
-            for (var i = 0, arr2 = new Array(len); i < len; i++) {
-                arr2[i] = arr[i];
-            }
-            return arr2;
-        }
-        function _arrayWithoutHoles(arr) {
-            if (Array.isArray(arr)) return _arrayLikeToArray(arr);
-        }
-        function _iterableToArray(iter) {
-            if (typeof Symbol !== \\"undefined\\" && iter[Symbol.iterator] != null || iter[\\"@@iterator\\"] != null) return Array.from(iter);
-        }
-        function _unsupportedIterableToArray(o, minLen) {
-            if (!o) return;
-            if (typeof o === \\"string\\") return _arrayLikeToArray(o, minLen);
-            var n = Object.prototype.toString.call(o).slice(8, -1);
-            if (n === \\"Object\\" && o.constructor) n = o.constructor.name;
-            if (n === \\"Map\\" || n === \\"Set\\") return Array.from(o);
-            if (n === \\"Arguments\\" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen);
-        }
-        function _nonIterableSpread() {
-            throw new TypeError(\\"Invalid attempt to spread non-iterable instance.\\\\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.\\");
-        }
-        function _toConsumableArray(arr) {
-            return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread();
-        }
         function _defineProperty(obj, key, value) {
             if (key in obj) {
                 Object.defineProperty(obj, key, {
@@ -2126,6 +2107,21 @@ require(\\"./taro\\");
             }
             return _arr;
         }
+        function _arrayLikeToArray(arr, len) {
+            if (len == null || len > arr.length) len = arr.length;
+            for (var i = 0, arr2 = new Array(len); i < len; i++) {
+                arr2[i] = arr[i];
+            }
+            return arr2;
+        }
+        function _unsupportedIterableToArray(o, minLen) {
+            if (!o) return;
+            if (typeof o === \\"string\\") return _arrayLikeToArray(o, minLen);
+            var n = Object.prototype.toString.call(o).slice(8, -1);
+            if (n === \\"Object\\" && o.constructor) n = o.constructor.name;
+            if (n === \\"Map\\" || n === \\"Set\\") return Array.from(o);
+            if (n === \\"Arguments\\" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen);
+        }
         function _nonIterableRest() {
             throw new TypeError(\\"Invalid attempt to destructure non-iterable instance.\\\\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.\\");
         }
@@ -2136,6 +2132,22 @@ require(\\"./taro\\");
         var createClass = __webpack_require__(3);
         var inherits = __webpack_require__(5);
         var createSuper = __webpack_require__(4);
+        function _arrayWithoutHoles(arr) {
+            if (Array.isArray(arr)) return _arrayLikeToArray(arr);
+        }
+        function _iterableToArray(iter) {
+            if (typeof Symbol !== \\"undefined\\" && iter[Symbol.iterator] != null || iter[\\"@@iterator\\"] != null) return Array.from(iter);
+        }
+        function _nonIterableSpread() {
+            throw new TypeError(\\"Invalid attempt to spread non-iterable instance.\\\\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.\\");
+        }
+        function _toConsumableArray(arr) {
+            return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread();
+        }
+        var reactMeta = {
+            PageContext: EMPTY_OBJ,
+            R: EMPTY_OBJ
+        };
         var HOOKS_APP_ID = \\"taro-app\\";
         function isClassComponent(R, component) {
             var _a;
@@ -2160,8 +2172,88 @@ require(\\"./taro\\");
                 params: options === null || options === void 0 ? void 0 : options.query
             }, options);
         }
-        var PageContext = EMPTY_OBJ;
-        var R$1 = EMPTY_OBJ;
+        var runtime_taroHooks = function taroHooks(lifecycle) {
+            return function(fn) {
+                var React = reactMeta.R, PageContext = reactMeta.PageContext;
+                var id = React.useContext(PageContext) || HOOKS_APP_ID;
+                var fnRef = React.useRef(fn);
+                if (fnRef.current !== fn) fnRef.current = fn;
+                React.useLayoutEffect((function() {
+                    var inst = Object(taro_runtime[\\"getPageInstance\\"])(id);
+                    var first = false;
+                    if (inst == null) {
+                        first = true;
+                        inst = Object.create(null);
+                    }
+                    inst = inst;
+                    var callback = function callback() {
+                        return fnRef.current.apply(fnRef, arguments);
+                    };
+                    if (isFunction(inst[lifecycle])) {
+                        inst[lifecycle] = [ inst[lifecycle], callback ];
+                    } else {
+                        inst[lifecycle] = [].concat(_toConsumableArray(inst[lifecycle] || []), [ callback ]);
+                    }
+                    if (first) {
+                        Object(taro_runtime[\\"injectPageInstance\\"])(inst, id);
+                    }
+                    return function() {
+                        var inst = Object(taro_runtime[\\"getPageInstance\\"])(id);
+                        var list = inst[lifecycle];
+                        if (list === callback) {
+                            inst[lifecycle] = undefined;
+                        } else if (isArray(list)) {
+                            inst[lifecycle] = list.filter((function(item) {
+                                return item !== callback;
+                            }));
+                        }
+                    };
+                }), []);
+            };
+        };
+        var useDidShow = runtime_taroHooks(\\"componentDidShow\\");
+        var useDidHide = runtime_taroHooks(\\"componentDidHide\\");
+        var usePullDownRefresh = runtime_taroHooks(\\"onPullDownRefresh\\");
+        var useReachBottom = runtime_taroHooks(\\"onReachBottom\\");
+        var usePageScroll = runtime_taroHooks(\\"onPageScroll\\");
+        var useResize = runtime_taroHooks(\\"onResize\\");
+        var useShareAppMessage = runtime_taroHooks(\\"onShareAppMessage\\");
+        var useTabItemTap = runtime_taroHooks(\\"onTabItemTap\\");
+        var useTitleClick = runtime_taroHooks(\\"onTitleClick\\");
+        var useOptionMenuClick = runtime_taroHooks(\\"onOptionMenuClick\\");
+        var usePullIntercept = runtime_taroHooks(\\"onPullIntercept\\");
+        var useShareTimeline = runtime_taroHooks(\\"onShareTimeline\\");
+        var useAddToFavorites = runtime_taroHooks(\\"onAddToFavorites\\");
+        var useReady = runtime_taroHooks(\\"onReady\\");
+        var runtime_useRouter = function useRouter() {
+            var dynamic = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
+            var React = reactMeta.R;
+            return dynamic ? taro_runtime[\\"Current\\"].router : React.useMemo((function() {
+                return taro_runtime[\\"Current\\"].router;
+            }), []);
+        };
+        var useScope = function useScope() {
+            return undefined;
+        };
+        var taroHooks$1 = Object.freeze({
+            __proto__: null,
+            useDidShow: useDidShow,
+            useDidHide: useDidHide,
+            usePullDownRefresh: usePullDownRefresh,
+            useReachBottom: useReachBottom,
+            usePageScroll: usePageScroll,
+            useResize: useResize,
+            useShareAppMessage: useShareAppMessage,
+            useTabItemTap: useTabItemTap,
+            useTitleClick: useTitleClick,
+            useOptionMenuClick: useOptionMenuClick,
+            usePullIntercept: usePullIntercept,
+            useShareTimeline: useShareTimeline,
+            useAddToFavorites: useAddToFavorites,
+            useReady: useReady,
+            useRouter: runtime_useRouter,
+            useScope: useScope
+        });
         var h$1;
         var ReactDOM$1;
         var pageKeyId = Object(taro_runtime[\\"incrementId\\"])();
@@ -2201,8 +2293,8 @@ require(\\"./taro\\");
                     forwardedRef: inject,
                     reactReduxForwardedRef: inject
                 };
-                if (PageContext === EMPTY_OBJ) {
-                    PageContext = R.createContext(\\"\\");
+                if (reactMeta.PageContext === EMPTY_OBJ) {
+                    reactMeta.PageContext = R.createContext(\\"\\");
                 }
                 return function(_R$Component) {
                     Object(inherits[\\"a\\"])(PageWrapper, _R$Component);
@@ -2224,7 +2316,7 @@ require(\\"./taro\\");
                     }, {
                         key: \\"render\\",
                         value: function render() {
-                            var children = this.state.hasError ? [] : h$1(PageContext.Provider, {
+                            var children = this.state.hasError ? [] : h$1(reactMeta.PageContext.Provider, {
                                 value: id
                             }, h$1(Page, Object.assign(Object.assign({}, this.props), refs)));
                             if (false) {} else {
@@ -2250,18 +2342,18 @@ require(\\"./taro\\");
             var _Object$create;
             var _a;
             if (false) {}
-            R$1 = react;
+            reactMeta.R = react;
             h$1 = react.createElement;
             ReactDOM$1 = dom;
             var appInstanceRef = react.createRef();
-            var isReactComponent = isClassComponent(R$1, App);
+            var isReactComponent = isClassComponent(react, App);
             var appWrapper;
             setReconciler(ReactDOM$1);
             function getAppInstance() {
                 return appInstanceRef.current;
             }
-            var AppWrapper = function(_R$1$Component) {
-                Object(inherits[\\"a\\"])(AppWrapper, _R$1$Component);
+            var AppWrapper = function(_react$Component) {
+                Object(inherits[\\"a\\"])(AppWrapper, _react$Component);
                 var _super2 = Object(createSuper[\\"a\\"])(AppWrapper);
                 function AppWrapper() {
                     var _this2;
@@ -2274,7 +2366,7 @@ require(\\"./taro\\");
                 Object(createClass[\\"a\\"])(AppWrapper, [ {
                     key: \\"mount\\",
                     value: function mount(pageComponent, id, cb) {
-                        var pageWrapper = connectReactPage(R$1, id)(pageComponent);
+                        var pageWrapper = connectReactPage(react, id)(pageComponent);
                         var key = id + pageKeyId();
                         var page = function page() {
                             return h$1(pageWrapper, {
@@ -2313,7 +2405,7 @@ require(\\"./taro\\");
                     }
                 } ]);
                 return AppWrapper;
-            }(R$1.Component);
+            }(react.Component);
             if (true) {
                 appWrapper = (_a = ReactDOM$1.render) === null || _a === void 0 ? void 0 : _a.call(ReactDOM$1, h$1(AppWrapper), taro_runtime[\\"document\\"].getElementById(\\"app\\"));
             }
@@ -2403,88 +2495,7 @@ require(\\"./taro\\");
             taro_runtime[\\"Current\\"].app = appObj;
             return appObj;
         }
-        var runtime_taroHooks = function taroHooks(lifecycle) {
-            return function(fn) {
-                var id = R$1.useContext(PageContext) || HOOKS_APP_ID;
-                var fnRef = R$1.useRef(fn);
-                if (fnRef.current !== fn) fnRef.current = fn;
-                R$1.useLayoutEffect((function() {
-                    var inst = Object(taro_runtime[\\"getPageInstance\\"])(id);
-                    var first = false;
-                    if (inst == null) {
-                        first = true;
-                        inst = Object.create(null);
-                    }
-                    inst = inst;
-                    var callback = function callback() {
-                        return fnRef.current.apply(fnRef, arguments);
-                    };
-                    if (isFunction(inst[lifecycle])) {
-                        inst[lifecycle] = [ inst[lifecycle], callback ];
-                    } else {
-                        inst[lifecycle] = [].concat(_toConsumableArray(inst[lifecycle] || []), [ callback ]);
-                    }
-                    if (first) {
-                        Object(taro_runtime[\\"injectPageInstance\\"])(inst, id);
-                    }
-                    return function() {
-                        var inst = Object(taro_runtime[\\"getPageInstance\\"])(id);
-                        var list = inst[lifecycle];
-                        if (list === callback) {
-                            inst[lifecycle] = undefined;
-                        } else if (isArray(list)) {
-                            inst[lifecycle] = list.filter((function(item) {
-                                return item !== callback;
-                            }));
-                        }
-                    };
-                }), []);
-            };
-        };
-        var useDidShow = runtime_taroHooks(\\"componentDidShow\\");
-        var useDidHide = runtime_taroHooks(\\"componentDidHide\\");
-        var usePullDownRefresh = runtime_taroHooks(\\"onPullDownRefresh\\");
-        var useReachBottom = runtime_taroHooks(\\"onReachBottom\\");
-        var usePageScroll = runtime_taroHooks(\\"onPageScroll\\");
-        var useResize = runtime_taroHooks(\\"onResize\\");
-        var useShareAppMessage = runtime_taroHooks(\\"onShareAppMessage\\");
-        var useTabItemTap = runtime_taroHooks(\\"onTabItemTap\\");
-        var useTitleClick = runtime_taroHooks(\\"onTitleClick\\");
-        var useOptionMenuClick = runtime_taroHooks(\\"onOptionMenuClick\\");
-        var usePullIntercept = runtime_taroHooks(\\"onPullIntercept\\");
-        var useShareTimeline = runtime_taroHooks(\\"onShareTimeline\\");
-        var useAddToFavorites = runtime_taroHooks(\\"onAddToFavorites\\");
-        var useReady = runtime_taroHooks(\\"onReady\\");
-        var runtime_useRouter = function useRouter() {
-            var dynamic = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
-            return dynamic ? taro_runtime[\\"Current\\"].router : R$1.useMemo((function() {
-                return taro_runtime[\\"Current\\"].router;
-            }), []);
-        };
-        var useScope = function useScope() {
-            return undefined;
-        };
-        var taroHooks$1 = Object.freeze({
-            __proto__: null,
-            useDidShow: useDidShow,
-            useDidHide: useDidHide,
-            usePullDownRefresh: usePullDownRefresh,
-            useReachBottom: useReachBottom,
-            usePageScroll: usePageScroll,
-            useResize: useResize,
-            useShareAppMessage: useShareAppMessage,
-            useTabItemTap: useTabItemTap,
-            useTitleClick: useTitleClick,
-            useOptionMenuClick: useOptionMenuClick,
-            usePullIntercept: usePullIntercept,
-            useShareTimeline: useShareTimeline,
-            useAddToFavorites: useAddToFavorites,
-            useReady: useReady,
-            useRouter: runtime_useRouter,
-            useScope: useScope
-        });
         var getNativeCompId = Object(taro_runtime[\\"incrementId\\"])();
-        var runtime_R;
         var h;
         var runtime_ReactDOM;
         function initNativeComponentEntry(R, ReactDOM) {
@@ -2547,15 +2558,20 @@ require(\\"./taro\\");
                             forwardedRef: inject,
                             reactReduxForwardedRef: inject
                         };
+                        if (reactMeta.PageContext === EMPTY_OBJ) {
+                            reactMeta.PageContext = R.createContext(\\"\\");
+                        }
                         var item = {
                             compId: compId,
                             element: h(NativeComponentWrapper, {
                                 key: compId,
                                 getCtx: getCtx,
                                 renderComponent: function renderComponent(ctx) {
-                                    return h(Component, Object.assign(Object.assign(Object.assign({}, (ctx.data || (ctx.data = {})).props), refs), {
+                                    return h(reactMeta.PageContext.Provider, {
+                                        value: compId
+                                    }, h(Component, Object.assign(Object.assign(Object.assign({}, (ctx.data || (ctx.data = {})).props), refs), {
                                         $scope: ctx
-                                    }));
+                                    })));
                                 }
                             })
                         };
@@ -2593,7 +2609,7 @@ require(\\"./taro\\");
         }
         function createNativeComponentConfig(Component, react, reactdom, componentConfig) {
             var _a, _b;
-            runtime_R = react;
+            reactMeta.R = react;
             h = react.createElement;
             runtime_ReactDOM = reactdom;
             setReconciler(runtime_ReactDOM);
@@ -2610,7 +2626,7 @@ require(\\"./taro\\");
                 },
                 created: function created() {
                     if (!taro_runtime[\\"Current\\"].app) {
-                        initNativeComponentEntry(runtime_R, runtime_ReactDOM);
+                        initNativeComponentEntry(react, runtime_ReactDOM);
                     }
                 },
                 attached: function attached() {
@@ -2700,7 +2716,7 @@ require(\\"./taro\\");
             var oldDiffedHook, oldVNodeHook, runtime_options;
         }
         var mocks_react = __webpack_require__(1);
-        var src_app = __webpack_require__(12);
+        var src_app = __webpack_require__(11);
         var app_App = function(_Component) {
             Object(inherits[\\"a\\"])(App, _Component);
             var _super = Object(createSuper[\\"a\\"])(App);
@@ -2729,7 +2745,7 @@ require(\\"./taro\\");
             return App;
         }(mocks_react[\\"Component\\"]);
         var lib_src_app = app_App;
-        var taro_react = __webpack_require__(8);
+        var taro_react = __webpack_require__(7);
         var app_config = {
             pages: [ \\"pages/index/index\\", \\"pages/about/index\\" ],
             window: {
@@ -2765,7 +2781,7 @@ require(\\"./taro\\");
             }
         });
     }
-}, [ [ 15, 0, 1, 3, 2 ] ] ]);
+}, [ [ 14, 0, 1, 3, 2 ] ] ]);
 
 
 
@@ -3596,13 +3612,13 @@ h�hځ� �r������Nb2��х��K~��>;;ːL�1�
 
 /** filePath: dist/comp.js **/
 (wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 6 ], {
-    13: function(module, __webpack_exports__, __webpack_require__) {
+    12: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_require__.r(__webpack_exports__);
         var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
         Component(Object(_tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__[\\"createRecursiveComponentConfig\\"])());
     }
-}, [ [ 13, 0, 1 ] ] ]);
+}, [ [ 12, 0, 1 ] ] ]);
 
 /** filePath: dist/comp.json **/
 {\\"component\\":true,\\"usingComponents\\":{\\"comp\\":\\"./comp\\",\\"custom-wrapper\\":\\"./custom-wrapper\\"}}
@@ -3613,13 +3629,13 @@ h�hځ� �r������Nb2��х��K~��>;;ːL�1�
 
 /** filePath: dist/custom-wrapper.js **/
 (wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 7 ], {
-    14: function(module, __webpack_exports__, __webpack_require__) {
+    13: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_require__.r(__webpack_exports__);
         var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
         Component(Object(_tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__[\\"createRecursiveComponentConfig\\"])(\\"custom-wrapper\\"));
     }
-}, [ [ 14, 0, 1 ] ] ]);
+}, [ [ 13, 0, 1 ] ] ]);
 
 /** filePath: dist/custom-wrapper.json **/
 {\\"component\\":true,\\"usingComponents\\":{\\"comp\\":\\"./comp\\",\\"custom-wrapper\\":\\"./custom-wrapper\\"}}
@@ -3632,7 +3648,7 @@ h�hځ� �r������Nb2��х��K~��>;;ːL�1�
 
 /** filePath: dist/pages/about/index.js **/
 (wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 8 ], {
-    17: function(module, __webpack_exports__, __webpack_require__) {
+    16: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_require__.r(__webpack_exports__);
         var taro_runtime = __webpack_require__(0);
@@ -3668,7 +3684,7 @@ h�hځ� �r������Nb2��х��K~��>;;ːL�1�
             }
         }, config || {}));
     }
-}, [ [ 17, 0, 1, 3, 2 ] ] ]);
+}, [ [ 16, 0, 1, 3, 2 ] ] ]);
 
 /** filePath: dist/pages/about/index.json **/
 {\\"navigationBarTitleText\\":\\"关于\\",\\"usingComponents\\":{\\"custom-wrapper\\":\\"../../custom-wrapper\\",\\"comp\\":\\"../../comp\\"}}
@@ -3679,7 +3695,7 @@ h�hځ� �r������Nb2��х��K~��>;;ːL�1�
 
 /** filePath: dist/pages/index/index.js **/
 (wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 10 ], {
-    16: function(module, __webpack_exports__, __webpack_require__) {
+    15: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_require__.r(__webpack_exports__);
         var taro_runtime = __webpack_require__(0);
@@ -3715,7 +3731,7 @@ h�hځ� �r������Nb2��х��K~��>;;ːL�1�
             }
         }, config || {}));
     }
-}, [ [ 16, 0, 1, 3, 2 ] ] ]);
+}, [ [ 15, 0, 1, 3, 2 ] ] ]);
 
 /** filePath: dist/pages/index/index.json **/
 {\\"navigationBarTitleText\\":\\"首页\\",\\"usingComponents\\":{\\"custom-wrapper\\":\\"../../custom-wrapper\\",\\"comp\\":\\"../../comp\\"}}
@@ -3728,20 +3744,16 @@ h�hځ� �r������Nb2��х��K~��>;;ːL�1�
 
 
 /** filePath: dist/taro.js **/
-(wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 1 ], {
-    0: function(module, __webpack_exports__, __webpack_require__) {
-        \\"use strict\\";
-        var _unused_webpack_default_export = \\"taro-runtime-mock\\";
-    },
-    6: function(module, __webpack_exports__, __webpack_require__) {
-        \\"use strict\\";
-        var _unused_webpack_default_export = \\"taro-components-mock\\";
-    },
-    8: function(module, __webpack_exports__, __webpack_require__) {
-        \\"use strict\\";
-        __webpack_exports__[\\"a\\"] = \\"taro-react-mock\\";
-    }
-} ]);
+(wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 1 ], [ function(module, __webpack_exports__, __webpack_require__) {
+    \\"use strict\\";
+    var _unused_webpack_default_export = \\"taro-runtime-mock\\";
+}, , , , , , function(module, __webpack_exports__, __webpack_require__) {
+    \\"use strict\\";
+    var _unused_webpack_default_export = \\"taro-components-mock\\";
+}, function(module, __webpack_exports__, __webpack_require__) {
+    \\"use strict\\";
+    __webpack_exports__[\\"a\\"] = \\"taro-react-mock\\";
+} ] ]);
 
 /** filePath: dist/utils.wxs **/
 module.exports = {
@@ -3812,6 +3824,9 @@ module.exports = {
     function _createClass(Constructor, protoProps, staticProps) {
         if (protoProps) _defineProperties(Constructor.prototype, protoProps);
         if (staticProps) _defineProperties(Constructor, staticProps);
+        Object.defineProperty(Constructor, \\"prototype\\", {
+            writable: false
+        });
         return Constructor;
     }
 }, function(module, __webpack_exports__, __webpack_require__) {
@@ -3836,8 +3851,14 @@ module.exports = {
             return false;
         }
     }
-    var helpers_typeof = __webpack_require__(7);
-    var typeof_default = __webpack_require__.n(helpers_typeof);
+    function _typeof(obj) {
+        \\"@babel/helpers - typeof\\";
+        return _typeof = \\"function\\" == typeof Symbol && \\"symbol\\" == typeof Symbol.iterator ? function(obj) {
+            return typeof obj;
+        } : function(obj) {
+            return obj && \\"function\\" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? \\"symbol\\" : typeof obj;
+        }, _typeof(obj);
+    }
     function _assertThisInitialized(self) {
         if (self === void 0) {
             throw new ReferenceError(\\"this hasn't been initialised - super() hasn't been called\\");
@@ -3845,7 +3866,7 @@ module.exports = {
         return self;
     }
     function _possibleConstructorReturn(self, call) {
-        if (call && (typeof_default()(call) === \\"object\\" || typeof call === \\"function\\")) {
+        if (call && (_typeof(call) === \\"object\\" || typeof call === \\"function\\")) {
             return call;
         } else if (call !== void 0) {
             throw new TypeError(\\"Derived constructors may only return object or undefined\\");
@@ -3888,26 +3909,11 @@ module.exports = {
                 configurable: true
             }
         });
+        Object.defineProperty(subClass, \\"prototype\\", {
+            writable: false
+        });
         if (superClass) _setPrototypeOf(subClass, superClass);
     }
-}, , function(module, exports) {
-    function _typeof(obj) {
-        \\"@babel/helpers - typeof\\";
-        if (typeof Symbol === \\"function\\" && typeof Symbol.iterator === \\"symbol\\") {
-            module.exports = _typeof = function _typeof(obj) {
-                return typeof obj;
-            };
-            module.exports[\\"default\\"] = module.exports, module.exports.__esModule = true;
-        } else {
-            module.exports = _typeof = function _typeof(obj) {
-                return obj && typeof Symbol === \\"function\\" && obj.constructor === Symbol && obj !== Symbol.prototype ? \\"symbol\\" : typeof obj;
-            };
-            module.exports[\\"default\\"] = module.exports, module.exports.__esModule = true;
-        }
-        return _typeof(obj);
-    }
-    module.exports = _typeof;
-    module.exports[\\"default\\"] = module.exports, module.exports.__esModule = true;
 } ] ]);
 "
 `;

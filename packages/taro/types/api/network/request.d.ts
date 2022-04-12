@@ -367,7 +367,7 @@ declare module '../../index' {
      * ```
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/network/request/wx.request.html
      */
-    request<T = any, U = any>(option: request.Option<T,U>): RequestTask<T>
+    request<T = any, U = any>(option: request.Option<T, U>): RequestTask<T>
 
     /** 可以使用拦截器在请求发出前或发出后做一些额外操作。
      *
