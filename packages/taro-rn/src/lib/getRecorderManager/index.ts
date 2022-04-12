@@ -72,7 +72,8 @@ class RecorderManager {
     }: any = opts
     const options = {
       android: Object.assign({}, RecorderManager.RecordingOptions.android, { sampleRate, numberOfChannels, bitRate: encodeBitRate }),
-      ios: Object.assign({}, RecorderManager.RecordingOptions.ios, { sampleRate, numberOfChannels, bitRate: encodeBitRate })
+      ios: Object.assign({}, RecorderManager.RecordingOptions.ios, { sampleRate, numberOfChannels, bitRate: encodeBitRate }),
+      web: {}
     }
     try {
       await Audio.setAudioModeAsync({
