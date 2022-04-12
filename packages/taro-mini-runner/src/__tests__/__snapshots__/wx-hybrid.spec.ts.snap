@@ -14,8 +14,8 @@ require(\\"./vendors\\");
 require(\\"./taro\\");
 
 (wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 4 ], {
-    14: function(module, exports, __webpack_require__) {},
-    24: function(module, __webpack_exports__, __webpack_require__) {
+    13: function(module, exports, __webpack_require__) {},
+    23: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_require__.r(__webpack_exports__);
         var mocks_taro = __webpack_require__(1);
@@ -857,7 +857,7 @@ require(\\"./taro\\");
         var inherits = __webpack_require__(7);
         var createSuper = __webpack_require__(6);
         var mocks_react = __webpack_require__(2);
-        var src_app = __webpack_require__(14);
+        var src_app = __webpack_require__(13);
         var app_App = function(_React$Component) {
             Object(inherits[\\"a\\"])(App, _React$Component);
             var _super = Object(createSuper[\\"a\\"])(App);
@@ -886,7 +886,7 @@ require(\\"./taro\\");
             return App;
         }(mocks_react[\\"default\\"].Component);
         var lib_src_app = app_App;
-        var taro_react = __webpack_require__(9);
+        var taro_react = __webpack_require__(8);
         var app_config = {
             pages: [ \\"pages/index/index\\", \\"pages/native/native\\" ],
             window: {
@@ -907,7 +907,7 @@ require(\\"./taro\\");
             }
         });
     }
-}, [ [ 24, 0, 1, 3, 2 ] ] ]);
+}, [ [ 23, 0, 1, 3, 2 ] ] ]);
 
 
 
@@ -1859,13 +1859,13 @@ require(\\"./taro\\");
 
 /** filePath: dist/comp.js **/
 (wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 6 ], {
-    15: function(module, __webpack_exports__, __webpack_require__) {
+    14: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_require__.r(__webpack_exports__);
         var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
         Component(Object(_tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__[\\"createRecursiveComponentConfig\\"])());
     }
-}, [ [ 15, 0, 1 ] ] ]);
+}, [ [ 14, 0, 1 ] ] ]);
 
 /** filePath: dist/comp.json **/
 {\\"component\\":true,\\"usingComponents\\":{\\"comp\\":\\"./comp\\",\\"custom-wrapper\\":\\"./custom-wrapper\\"}}
@@ -1876,7 +1876,7 @@ require(\\"./taro\\");
 
 /** filePath: dist/components/tab/tab.js **/
 (wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 7 ], {
-    22: function(module, exports) {
+    21: function(module, exports) {
         Component({
             behaviors: [],
             properties: {
@@ -1910,7 +1910,7 @@ require(\\"./taro\\");
             }
         });
     }
-}, [ [ 22, 0 ] ] ]);
+}, [ [ 21, 0 ] ] ]);
 
 /** filePath: dist/components/tab/tab.json **/
 {\\"component\\":true,\\"usingComponents\\":{}}
@@ -1923,13 +1923,13 @@ require(\\"./taro\\");
 
 /** filePath: dist/custom-wrapper.js **/
 (wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 10 ], {
-    16: function(module, __webpack_exports__, __webpack_require__) {
+    15: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_require__.r(__webpack_exports__);
         var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
         Component(Object(_tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__[\\"createRecursiveComponentConfig\\"])(\\"custom-wrapper\\"));
     }
-}, [ [ 16, 0, 1 ] ] ]);
+}, [ [ 15, 0, 1 ] ] ]);
 
 /** filePath: dist/custom-wrapper.json **/
 {\\"component\\":true,\\"usingComponents\\":{\\"comp\\":\\"./comp\\",\\"custom-wrapper\\":\\"./custom-wrapper\\"}}
@@ -1942,8 +1942,8 @@ require(\\"./taro\\");
 
 /** filePath: dist/pages/index/index.js **/
 (wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 11 ], {
-    17: function(module, exports, __webpack_require__) {},
-    25: function(module, __webpack_exports__, __webpack_require__) {
+    16: function(module, exports, __webpack_require__) {},
+    24: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_require__.r(__webpack_exports__);
         var taro_runtime = __webpack_require__(0);
@@ -1954,7 +1954,7 @@ require(\\"./taro\\");
         var taro = __webpack_require__(1);
         var react = __webpack_require__(2);
         var taro_components = __webpack_require__(3);
-        var index = __webpack_require__(17);
+        var index = __webpack_require__(16);
         var index_Index = function(_React$Component) {
             Object(inherits[\\"a\\"])(Index, _React$Component);
             var _super = Object(createSuper[\\"a\\"])(Index);
@@ -2024,7 +2024,7 @@ require(\\"./taro\\");
             }
         }, config || {}));
     }
-}, [ [ 25, 0, 1, 3, 2 ] ] ]);
+}, [ [ 24, 0, 1, 3, 2 ] ] ]);
 
 /** filePath: dist/pages/index/index.json **/
 {\\"navigationBarTitleText\\":\\"首页\\",\\"usingComponents\\":{\\"custom-wrapper\\":\\"../../custom-wrapper\\",\\"tab\\":\\"../../components/tab/tab\\",\\"comp\\":\\"../../comp\\"}}
@@ -2038,8 +2038,8 @@ require(\\"./taro\\");
 
 /** filePath: dist/pages/native/native.js **/
 (wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 13 ], {
-    18: function(module, exports, __webpack_require__) {
-        var _require = __webpack_require__(19), add = _require.add;
+    17: function(module, exports, __webpack_require__) {
+        var _require = __webpack_require__(18), add = _require.add;
         Page({
             data: {
                 text: \\"This is page data.\\",
@@ -2062,7 +2062,7 @@ require(\\"./taro\\");
             }
         });
     },
-    19: function(module, __webpack_exports__, __webpack_require__) {
+    18: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_require__.r(__webpack_exports__);
         __webpack_require__.d(__webpack_exports__, \\"add\\", (function() {
@@ -2072,7 +2072,7 @@ require(\\"./taro\\");
             return a + b;
         }
     }
-}, [ [ 18, 0 ] ] ]);
+}, [ [ 17, 0 ] ] ]);
 
 /** filePath: dist/pages/native/native.json **/
 {\\"navigationBarBackgroundColor\\":\\"#ffffff\\",\\"navigationBarTextStyle\\":\\"black\\",\\"navigationBarTitleText\\":\\"混写页面示例\\",\\"backgroundColor\\":\\"#eeeeee\\",\\"backgroundTextStyle\\":\\"light\\",\\"usingComponents\\":{\\"custom-wrapper\\":\\"../../custom-wrapper\\",\\"tab\\":\\"../../components/tab/tab\\"}}
@@ -2100,7 +2100,7 @@ require(\\"./taro\\");
         \\"use strict\\";
         var _unused_webpack_default_export = \\"taro-components-mock\\";
     },
-    9: function(module, __webpack_exports__, __webpack_require__) {
+    8: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_exports__[\\"a\\"] = \\"taro-react-mock\\";
     }
@@ -2175,6 +2175,9 @@ module.exports = {
     function _createClass(Constructor, protoProps, staticProps) {
         if (protoProps) _defineProperties(Constructor.prototype, protoProps);
         if (staticProps) _defineProperties(Constructor, staticProps);
+        Object.defineProperty(Constructor, \\"prototype\\", {
+            writable: false
+        });
         return Constructor;
     }
 }, function(module, __webpack_exports__, __webpack_require__) {
@@ -2199,8 +2202,14 @@ module.exports = {
             return false;
         }
     }
-    var helpers_typeof = __webpack_require__(8);
-    var typeof_default = __webpack_require__.n(helpers_typeof);
+    function _typeof(obj) {
+        \\"@babel/helpers - typeof\\";
+        return _typeof = \\"function\\" == typeof Symbol && \\"symbol\\" == typeof Symbol.iterator ? function(obj) {
+            return typeof obj;
+        } : function(obj) {
+            return obj && \\"function\\" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? \\"symbol\\" : typeof obj;
+        }, _typeof(obj);
+    }
     function _assertThisInitialized(self) {
         if (self === void 0) {
             throw new ReferenceError(\\"this hasn't been initialised - super() hasn't been called\\");
@@ -2208,7 +2217,7 @@ module.exports = {
         return self;
     }
     function _possibleConstructorReturn(self, call) {
-        if (call && (typeof_default()(call) === \\"object\\" || typeof call === \\"function\\")) {
+        if (call && (_typeof(call) === \\"object\\" || typeof call === \\"function\\")) {
             return call;
         } else if (call !== void 0) {
             throw new TypeError(\\"Derived constructors may only return object or undefined\\");
@@ -2251,26 +2260,11 @@ module.exports = {
                 configurable: true
             }
         });
+        Object.defineProperty(subClass, \\"prototype\\", {
+            writable: false
+        });
         if (superClass) _setPrototypeOf(subClass, superClass);
     }
-}, function(module, exports) {
-    function _typeof(obj) {
-        \\"@babel/helpers - typeof\\";
-        if (typeof Symbol === \\"function\\" && typeof Symbol.iterator === \\"symbol\\") {
-            module.exports = _typeof = function _typeof(obj) {
-                return typeof obj;
-            };
-            module.exports[\\"default\\"] = module.exports, module.exports.__esModule = true;
-        } else {
-            module.exports = _typeof = function _typeof(obj) {
-                return obj && typeof Symbol === \\"function\\" && obj.constructor === Symbol && obj !== Symbol.prototype ? \\"symbol\\" : typeof obj;
-            };
-            module.exports[\\"default\\"] = module.exports, module.exports.__esModule = true;
-        }
-        return _typeof(obj);
-    }
-    module.exports = _typeof;
-    module.exports[\\"default\\"] = module.exports, module.exports.__esModule = true;
 } ] ]);
 "
 `;
