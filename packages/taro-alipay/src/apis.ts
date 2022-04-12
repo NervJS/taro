@@ -3,7 +3,7 @@ import { needPromiseApis } from './apis-list'
 
 declare const my: any
 
-const apiDiff = {
+const asyncResultApiDiff = {
   getScreenBrightness: {
     res: {
       set: [
@@ -69,17 +69,6 @@ const apiDiff = {
       remove: ['apFilePath']
     }
   },
-  login: {
-    alias: 'getAuthCode',
-    options: {
-      set: [
-        {
-          key: 'scopes',
-          value: 'auth_base'
-        }
-      ]
-    }
-  },
   getAuthCode: {
     res: {
       set: [{
@@ -102,6 +91,34 @@ const apiDiff = {
       remove: ['data']
     }
   },
+  saveFile: {
+    res: {
+      set: [
+        {
+          key: 'savedFilePath',
+          value (res) {
+            return res.apFilePath
+          }
+        }
+      ],
+      remove: ['apFilePath']
+    }
+  }
+}
+
+const apiDiff = {
+  login: {
+    alias: 'getAuthCode',
+    options: {
+      set: [
+        {
+          key: 'scopes',
+          value: 'auth_base'
+        }
+      ]
+    }
+  },
+
   showActionSheet: {
     options: {
       change: [{
@@ -184,17 +201,6 @@ const apiDiff = {
         old: 'tempFilePath',
         new: 'apFilePath'
       }]
-    },
-    res: {
-      set: [
-        {
-          key: 'savedFilePath',
-          value (res) {
-            return res.apFilePath
-          }
-        }
-      ],
-      remove: ['apFilePath']
     }
   },
   openLocation: {
@@ -428,20 +434,6 @@ export function modifyApis (apis: Set<string>) {
 }
 
 export function modifyAsyncResult (key, res) {
-  // if (key === 'saveFile') {
-  //   res.savedFilePath = res.apFilePath
-  // } else if (key === 'downloadFile') {
-  //   res.tempFilePath = res.apFilePath
-  // } else if (key === 'chooseImage') {
-  //   res.tempFilePaths = res.apFilePaths
-  // } else if (key === 'getClipboard') {
-  //   res.data = res.text
-  // } else if (key === 'scan') {
-  //   res.result = res.code
-  // } else if (key === 'getScreenBrightness') {
-  //   res.value = res.brightness
-  //   delete res.brightness
-  // } else
   if (key === 'connectSocket') {
     res.onClose = function (cb) {
       my.onSocketClose(cb)
@@ -468,7 +460,7 @@ export function modifyAsyncResult (key, res) {
     }
   }
 
-  Object.keys(apiDiff).forEach(item => {
+  Object.keys(asyncResultApiDiff).forEach(item => {
     const apiItem = apiDiff[item]
     if (key !== item) {
       return
