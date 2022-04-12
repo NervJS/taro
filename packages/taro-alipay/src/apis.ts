@@ -3,108 +3,6 @@ import { needPromiseApis } from './apis-list'
 
 declare const my: any
 
-const asyncResultApiDiff = {
-  getScreenBrightness: {
-    res: {
-      set: [
-        {
-          key: 'value',
-          value (res) {
-            return res.brightness
-          }
-        }
-      ],
-      remove: ['code']
-    }
-  },
-  scan: {
-    res: {
-      set: [
-        {
-          key: 'result',
-          value (res) {
-            return res.code
-          }
-        }
-      ],
-      remove: ['code']
-    }
-  },
-  getClipboard: {
-    res: {
-      set: [
-        {
-          key: 'data',
-          value (res) {
-            return res.text
-          }
-        }
-      ],
-      remove: ['text']
-    }
-  },
-  chooseImage: {
-    res: {
-      set: [
-        {
-          key: 'tempFilePaths',
-          value (res) {
-            return res.apFilePaths
-          }
-        }
-      ],
-      remove: ['apFilePaths']
-    }
-  },
-  downloadFile: {
-    res: {
-      set: [
-        {
-          key: 'tempFilePath',
-          value (res) {
-            return res.apFilePath
-          }
-        }
-      ],
-      remove: ['apFilePath']
-    }
-  },
-  getAuthCode: {
-    res: {
-      set: [{
-        key: 'code',
-        value (res) {
-          return res.authCode
-        }
-      }],
-      remove: ['authCode']
-    }
-  },
-  getExtConfig: {
-    res: {
-      set: [{
-        key: 'extConfig',
-        value (res) {
-          return res.data
-        }
-      }],
-      remove: ['data']
-    }
-  },
-  saveFile: {
-    res: {
-      set: [
-        {
-          key: 'savedFilePath',
-          value (res) {
-            return res.apFilePath
-          }
-        }
-      ],
-      remove: ['apFilePath']
-    }
-  }
-}
 
 const apiDiff = {
   login: {
@@ -280,6 +178,109 @@ const apiDiff = {
   },
   closeBLEConnection: {
     alias: 'disconnectBLEDevice'
+  }
+}
+
+const asyncResultApiDiff = {
+  getScreenBrightness: {
+    res: {
+      set: [
+        {
+          key: 'value',
+          value (res) {
+            return res.brightness
+          }
+        }
+      ],
+      remove: ['brightness']
+    }
+  },
+  scan: {
+    res: {
+      set: [
+        {
+          key: 'result',
+          value (res) {
+            return res.code
+          }
+        }
+      ],
+      // remove: ['code']
+    }
+  },
+  getClipboard: {
+    res: {
+      set: [
+        {
+          key: 'data',
+          value (res) {
+            return res.text
+          }
+        }
+      ],
+      // remove: ['text']
+    }
+  },
+  chooseImage: {
+    res: {
+      set: [
+        {
+          key: 'tempFilePaths',
+          value (res) {
+            return res.apFilePaths
+          }
+        }
+      ],
+      // remove: ['apFilePaths']
+    }
+  },
+  downloadFile: {
+    res: {
+      set: [
+        {
+          key: 'tempFilePath',
+          value (res) {
+            return res.apFilePath
+          }
+        }
+      ],
+      // remove: ['apFilePath']
+    }
+  },
+  getAuthCode: {
+    res: {
+      set: [{
+        key: 'code',
+        value (res) {
+          return res.authCode
+        }
+      }],
+      // remove: ['authCode']
+    }
+  },
+  getExtConfig: {
+    res: {
+      set: [{
+        key: 'extConfig',
+        value (res) {
+          return res.data
+        }
+      }],
+      // remove: ['data']
+    }
+  },
+  saveFile: {
+    res: {
+      set: [
+        {
+          key: 'savedFilePath',
+          value (res) {
+            return res.apFilePath
+          }
+        }
+      ],
+      // remove: ['apFilePath']
+    }
   }
 }
 
