@@ -10,7 +10,6 @@ import {
   createDebug
 } from '@tarojs/helper'
 import * as helper from '@tarojs/helper'
-import * as joi from '@hapi/joi'
 
 import {
   IPreset,
@@ -58,7 +57,7 @@ export default class Kernel extends EventEmitter {
 
   constructor (options: IKernelOptions) {
     super()
-    this.debugger = createDebug('Taro:Kernel')
+    this.debugger = process.env.DEBUG === 'Taro:Kernel' ? createDebug('Taro:Kernel') : function () {}
     this.appPath = options.appPath || process.cwd()
     this.optsPresets = options.presets
     this.optsPlugins = options.plugins
@@ -67,14 +66,8 @@ export default class Kernel extends EventEmitter {
     this.commands = new Map()
     this.platforms = new Map()
     this.initHelper()
-  }
-
-  async init () {
-    this.debugger('init')
     this.initConfig()
     this.initPaths()
-    this.initPresetsAndPlugins()
-    await this.applyPlugins('onReady')
   }
 
   initConfig () {
@@ -167,6 +160,7 @@ export default class Kernel extends EventEmitter {
     if (typeof pluginCtx.optsSchema !== 'function') {
       return
     }
+    const joi = require('@hapi/joi')
     const schema = pluginCtx.optsSchema(joi)
     if (!joi.isSchema(schema)) {
       throw new Error(`插件${pluginCtx.id}中设置参数检查 schema 有误，请检查！`)
@@ -243,6 +237,9 @@ export default class Kernel extends EventEmitter {
       throw new Error('调用失败，未传入正确的名称！')
     }
     const hooks = this.hooks.get(name) || []
+    if (!hooks.length) {
+      return await initialVal
+    }
     const waterfall = new AsyncSeriesWaterfallHook(['arg'])
     if (hooks.length) {
       const resArr: any[] = []
@@ -306,24 +303,33 @@ export default class Kernel extends EventEmitter {
     this.debugger('command:runOpts')
     this.debugger(`command:runOpts:${JSON.stringify(opts, null, 2)}`)
     this.setRunOpts(opts)
-    await this.init()
+
+    this.debugger('initPresetsAndPlugins')
+    this.initPresetsAndPlugins()
+
+    await this.applyPlugins('onReady')
+
     this.debugger('command:onStart')
     await this.applyPlugins('onStart')
+
     if (!this.commands.has(name)) {
       throw new Error(`${name} 命令不存在`)
     }
+
     if (opts?.isHelp) {
       return this.runHelp(name)
     }
+
     if (opts?.options?.platform) {
       opts.config = this.runWithPlatform(opts.options.platform)
+      await this.applyPlugins({
+        name: 'modifyRunnerOpts',
+        opts: {
+          opts: opts?.config
+        }
+      })
     }
-    await this.applyPlugins({
-      name: 'modifyRunnerOpts',
-      opts: {
-        opts: opts?.config
-      }
-    })
+
     await this.applyPlugins({
       name,
       opts
