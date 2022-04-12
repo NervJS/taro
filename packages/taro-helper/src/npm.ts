@@ -1,5 +1,3 @@
-import * as resolvePath from 'resolve'
-import * as spawn from 'cross-spawn'
 import * as chalk from 'chalk'
 
 import * as Util from './utils'
@@ -23,6 +21,7 @@ const defaultInstallOptions: IInstallOptions = {
 export const taroPluginPrefix = '@tarojs/plugin-'
 
 export function resolveNpm (pluginName: string, root): Promise<string> {
+  const resolvePath = require('resolve')
   if (!npmCached[pluginName]) {
     return new Promise((resolve, reject) => {
       resolvePath(`${pluginName}`, { basedir: root }, (err, res) => {
@@ -38,6 +37,7 @@ export function resolveNpm (pluginName: string, root): Promise<string> {
 }
 
 export function resolveNpmSync (pluginName: string, root): string {
+  const resolvePath = require('resolve')
   try {
     if (!npmCached[pluginName]) {
       const res = resolvePath.sync(pluginName, { basedir: root })
@@ -101,6 +101,7 @@ export function installNpmPkg (pkgList: string[] | string, options: IInstallOpti
       args.push('--save')
     }
   }
+  const spawn = require('cross-spawn')
   const output = spawn.sync(installer, args, {
     stdio: ['ignore', 'pipe', 'inherit']
   })
