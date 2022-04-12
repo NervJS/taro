@@ -1,3 +1,5 @@
+import register from '../open-api/w3c-api/index'
+register()
 export * from './account'
 export * from './address'
 export * from './authorize'

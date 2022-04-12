@@ -1,8 +1,8 @@
 import Taro from '@tarojs/api'
-import { processOpenApi, shouldBeObject } from '../utils'
-import { MethodHandler } from '../utils/handler'
+import { shouldBeObject } from '../../utils'
+import { MethodHandler } from '../../utils/handler'
 
-const getLocationInWeb: (options: Taro.getLocation.Option) => Promise<Taro.getLocation.SuccessCallbackResult | undefined> = (options: Taro.getLocation.Option): Promise<Taro.getLocation.SuccessCallbackResult | undefined> => {
+export const getLocationByW3CApi: (options: Taro.getLocation.Option) => Promise<Taro.getLocation.SuccessCallbackResult | undefined> = (options: Taro.getLocation.Option): Promise<Taro.getLocation.SuccessCallbackResult | undefined> => {
   // 断言 options 必须是 Object
   const isObject = shouldBeObject(options)
   if (!isObject.flag) {
@@ -28,7 +28,7 @@ const getLocationInWeb: (options: Taro.getLocation.Option) => Promise<Taro.getLo
   // Web端API实现暂时仅支持GPS坐标系
   if (options.type!.toUpperCase() !== 'WGS84') {
     return handle.fail({
-      errMsg: 'This coordinate system type is not temporarily supported"'
+      errMsg: 'This coordinate system type is not temporarily supported'
     })
   }
 
@@ -37,7 +37,7 @@ const getLocationInWeb: (options: Taro.getLocation.Option) => Promise<Taro.getLo
 
   if (!geolocationSupported) {
     return handle.fail({
-      errMsg: 'getLocation:fail The current browser does not support this feature'
+      errMsg: 'The current browser does not support this feature'
     })
   }
 
@@ -61,8 +61,8 @@ const getLocationInWeb: (options: Taro.getLocation.Option) => Promise<Taro.getLo
             speed: position.coords.speed!,
             /** 垂直精度，单位 m（Android 无法获取，返回 0） */
             verticalAccuracy: position.coords.altitudeAccuracy || 0,
-            /** 调用结果 */
-            errMsg: 'getLocation:ok'
+            /** 调用结果,自动补充 */
+            errMsg: ''
           }
           handle.success(result, resolve)
         },
@@ -74,15 +74,3 @@ const getLocationInWeb: (options: Taro.getLocation.Option) => Promise<Taro.getLo
     }
   )
 }
-
-const getGetLocationImpl = () => {
-  // @ts-ignore
-  // 在微信JS-SDK环境下调用openApi，否则调用Web API
-  if (window.wx) {
-    return processOpenApi('getLocation')
-  } else {
-    return getLocationInWeb
-  }
-}
-
-export const getLocation = getGetLocationImpl()

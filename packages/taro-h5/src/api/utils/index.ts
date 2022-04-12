@@ -104,7 +104,7 @@ export function temporarilyNotSupport (apiName) {
 
 export function weixinCorpSupport (apiName) {
   return () => {
-    const errMsg = `h5端仅在微信公众号中支持 API ${apiName}`
+    const errMsg = `h5端当前仅在微信公众号JS-SDK环境下支持此 API ${apiName}`
     if (process.env.NODE_ENV !== 'production') {
       console.error(errMsg)
       return Promise.reject({
@@ -119,7 +119,7 @@ export function weixinCorpSupport (apiName) {
   }
 }
 
-export function permanentlyNotSupport (apiName) {
+export function permanentlyNotSupport(apiName) {
   return () => {
     const errMsg = `不支持 API ${apiName}`
     if (process.env.NODE_ENV !== 'production') {
@@ -146,12 +146,44 @@ export const isValidColor = (color) => {
   return VALID_COLOR_REG.test(color)
 }
 
-export function processOpenApi (apiName: string, defaultOptions?: Record<string, unknown>, formatResult = res => res, formatParams = options => options) {
-  // @ts-ignore
-  if (!window.wx) {
-    return weixinCorpSupport(apiName)
+export interface IOpenApi {
+  (options): Promise<any>
+}
+
+class W3cApiRegistry {
+  apis: Map<String, IOpenApi> = new Map<String, IOpenApi>()
+
+  public register(apis: Array<{ apiName: String, processApi: IOpenApi }>) {
+    apis.forEach(e => {
+      this.apis.set(e.apiName, e.processApi)
+    })
   }
+
+}
+
+const w3cApiRegistry = new W3cApiRegistry()
+
+export { w3cApiRegistry }
+
+export function processOpenApi(apiName: string, defaultOptions?: Record<string, unknown>, formatResult = res => res, formatParams = options => options) {
+
   return options => {
+
+    //默认绑定为微信JS-SDK实现
+    // @ts-ignore
+    let targetApi
+
+    //非JS-SDK环境下切换为w3c实现
+    // @ts-ignore
+    if (window.wx) {
+      // @ts-ignore
+      targetApi = wx[apiName]
+    } else if (w3cApiRegistry.apis.get(apiName)) {
+      targetApi = w3cApiRegistry.apis.get(apiName)
+    } else {
+      return weixinCorpSupport(apiName)()
+    }
+
     options = options || {}
     const obj = Object.assign({}, defaultOptions, options)
     const p = new Promise((resolve, reject) => {
@@ -167,7 +199,7 @@ export function processOpenApi (apiName: string, defaultOptions?: Record<string,
         }
       })
       // @ts-ignore
-      wx[apiName](formatParams(obj))
+      targetApi(formatParams(obj))
     })
     return p
   }
