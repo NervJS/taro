@@ -5,6 +5,6 @@ module.exports = {
     'plugin:vue/vue3-essential'
   ],
   parserOptions: {
-    parser: require.resolve('babel-eslint')
+    parser: require.resolve('@babel/eslint-parser')
   }
 }
