@@ -3,7 +3,6 @@ import { needPromiseApis } from './apis-list'
 
 declare const my: any
 
-
 const apiDiff = {
   login: {
     alias: 'getAuthCode',
@@ -204,8 +203,7 @@ const asyncResultApiDiff = {
             return res.code
           }
         }
-      ],
-      // remove: ['code']
+      ]
     }
   },
   getClipboard: {
@@ -217,8 +215,7 @@ const asyncResultApiDiff = {
             return res.text
           }
         }
-      ],
-      // remove: ['text']
+      ]
     }
   },
   chooseImage: {
@@ -230,8 +227,7 @@ const asyncResultApiDiff = {
             return res.apFilePaths
           }
         }
-      ],
-      // remove: ['apFilePaths']
+      ]
     }
   },
   downloadFile: {
@@ -243,8 +239,7 @@ const asyncResultApiDiff = {
             return res.apFilePath
           }
         }
-      ],
-      // remove: ['apFilePath']
+      ]
     }
   },
   getAuthCode: {
@@ -254,8 +249,7 @@ const asyncResultApiDiff = {
         value (res) {
           return res.authCode
         }
-      }],
-      // remove: ['authCode']
+      }]
     }
   },
   getExtConfig: {
@@ -265,8 +259,7 @@ const asyncResultApiDiff = {
         value (res) {
           return res.data
         }
-      }],
-      // remove: ['data']
+      }]
     }
   },
   saveFile: {
@@ -278,8 +271,7 @@ const asyncResultApiDiff = {
             return res.apFilePath
           }
         }
-      ],
-      // remove: ['apFilePath']
+      ]
     }
   }
 }
