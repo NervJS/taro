@@ -315,8 +315,9 @@ export const getModule = (appPath: string, {
   const stylusLoader = getStylusLoader([{ sourceMap: enableSourceMap }, stylusLoaderOption])
 
   const cssLoaders: {
-    include?;
-    use;
+    include?
+    resourceQuery?
+    use
   }[] = [{
     use: [
       extractCssLoader,
@@ -332,6 +333,15 @@ export const getModule = (appPath: string, {
     if (cssModuleOptions.config!.namingPattern === 'module') {
       /* 不排除 node_modules 内的样式 */
       cssModuleCondition = styleModuleReg
+      // for vue
+      cssLoaders.unshift({
+        resourceQuery: /module=true/,
+        use: [
+          extractCssLoader,
+          cssLoaderWithModule,
+          postcssLoader
+        ]
+      })
     } else {
       cssModuleCondition = {
         and: [
