@@ -39,13 +39,13 @@ class Carousel extends React.Component<CarouselProps, CarouselState> {
     pagination: defaultPagination,
     dotStyle: {},
     dotActiveStyle: {},
-  };
+  }
 
-  viewPager = React.createRef<ViewPager>();
+  viewPager = React.createRef<ViewPager>()
 
-  private autoplayTimer: number;
-  private isScrolling: boolean;
-  private count: number;
+  private autoplayTimer: number
+  private isScrolling: boolean
+  private count: number
 
   constructor(props: CarouselProps) {
     super(props)
@@ -212,7 +212,7 @@ class Carousel extends React.Component<CarouselProps, CarouselState> {
   private getChildrenCount = (children: React.ReactNode) => {
     const count = children ? React.Children.count(children) || 1 : 0
     return count
-  };
+  }
 
   private autoplay = (stop = false) => {
     if (stop) {
@@ -243,7 +243,7 @@ class Carousel extends React.Component<CarouselProps, CarouselState> {
       }
       this.goTo(newIndex)
     }, autoplayInterval)
-  };
+  }
 
   private renderDots = (index: number) => {
     const {
@@ -264,7 +264,7 @@ class Carousel extends React.Component<CarouselProps, CarouselState> {
       dotStyle,
       dotActiveStyle,
     })
-  };
+  }
 }
 
 export default Carousel

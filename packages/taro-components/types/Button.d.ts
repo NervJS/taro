@@ -168,19 +168,13 @@ interface ButtonProps extends StandardProps {
    */
   onGetPhoneNumber?: CommonEventFunction<ButtonProps.onGetPhoneNumberEventDetail>
 
-  /** 获取头像信息
-   *
-   * 生效时机：`open-type="chooseavatar"`
-   * @supported weapp
-   */
-  onChooseAvatar?: CommonEventFunction<ButtonProps.onChooseAvatarEventDetail>
-
   /** 获取用户实名
    *
    * 生效时机：`open-type="getRealnameAuthInfo"`
+   * @deprecated
    * @supported weapp
    */
-  onGetRealnameAuthInfo?: CommonEventFunction
+  onGetRealNameAuthInfo?: CommonEventFunction
 
   /** 当使用开放能力时，发生错误的回调
    *
@@ -201,7 +195,14 @@ interface ButtonProps extends StandardProps {
    * 生效时机：`open-type="launchApp"`
    * @supported weapp
    */
-  onLaunchapp?: CommonEventFunction
+  onLaunchApp?: CommonEventFunction
+
+  /** 获取用户头像回调
+   *
+   * 生效时机：`open-type="chooseAvatar"`
+   * @supported weapp
+   */
+  onChooseAvatar?: CommonEventFunction
 }
 
 declare namespace ButtonProps {
@@ -233,7 +234,7 @@ declare namespace ButtonProps {
   /** open-type 的合法值 */
   interface openTypeKeys {
     weapp: {
-      /** 打开客服会话，如果用户在会话中点击消息卡片后返回小程序，可以从 bindcontact 回调中获得具体信息
+      /** 打开客服会话，如果用户在会话中点击消息卡片后返回小程序，可以从回调中获得具体信息
        * @see https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/customer-message/customer-message.html
        */
       contact
@@ -241,19 +242,17 @@ declare namespace ButtonProps {
        * @see https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/share.html#%E4%BD%BF%E7%94%A8%E6%8C%87%E5%BC%95
        */
       share
-      /** 获取用户手机号，可以从 bindgetphonenumber 回调中获取到用户信息
+      /** 获取用户手机号，可以从回调中获取到用户信息
        * @see https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/getPhoneNumber.html
        */
       getPhoneNumber
-      /** 获取用户头像，可以从 bindchooseavatar 回调中获取到头像信息
-       * @see https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/userProfile.html
-       */
-      chooseAvatar
-      /** 获取用户信息，可以从 bindgetuserinfo 回调中获取到用户信息 */
+      /** 获取用户信息，可以从回调中获取到用户信息 */
       getUserInfo
-      /** 用户实名信息授权，已经弃用 */
-      getRealnameAuthInfo
-      /** 打开APP，可以通过app-parameter属性设定向APP传的参数
+      /** 用户实名信息授权
+       * @deprecated
+       */
+      getRealNameAuthInfo
+      /** 打开APP，可以通过 app-parameter 属性设定向APP传的参数
        * @see https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/launchApp.html
        */
       launchApp
@@ -261,6 +260,8 @@ declare namespace ButtonProps {
       openSetting
       /** 打开“意见反馈”页面，用户可提交反馈内容并上传日志，开发者可以登录小程序管理后台后进入左侧菜单“客服反馈”页面获取到反馈内容 */
       feedback
+      /** 获取用户头像，可以从回调中获得具体信息 */
+      chooseAvatar
     }
     /** 支付宝小程序专属的 open-type 合法值
      * @see https://opendocs.alipay.com/mini/component/button
@@ -372,13 +373,10 @@ declare namespace ButtonProps {
     encryptedData: string
     /** 加密算法的初始向量 */
     iv: string
-    /** 动态令牌。可通过动态令牌换取用户手机号。使用方法详情 [phonenumber.getPhoneNumber](https://developers.weixin.qq.com/miniprogram/dev/api-backend/open-api/phonenumber/phonenumber.getPhoneNumber.html) 接口 */
-    code:string
-  }
-
-  interface onChooseAvatarEventDetail {
-    /* 获取用户头像的临时链接 */
-    avatarUrl: string
+    /** 动态令牌。可通过动态令牌换取用户手机号。
+     * @see https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/share.html#%E4%BD%BF%E7%94%A8%E6%8C%87%E5%BC%95
+     */
+    code?: string
   }
 
   interface onOpenSettingEventDetail {

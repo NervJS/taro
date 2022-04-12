@@ -15,14 +15,29 @@ export const getImageInfo: typeof Taro.getImageInfo = (options) => {
     return Promise.reject(res)
   }
 
+  const getBase64Image = (image: HTMLImageElement) => {
+    try {
+      const canvas = document.createElement('canvas')
+      canvas.width = image.width
+      canvas.height = image.height
+      const ctx = canvas.getContext('2d')
+      ctx?.drawImage(image, 0, 0, image.width, image.height)
+      return canvas.toDataURL('image/png')
+    } catch (e) {
+      console.error('getImageInfo:get base64 fail', e)
+    }
+  }
+
   const { src, success, fail, complete } = options
   const handle = new MethodHandler({ name: 'getImageInfo', success, fail, complete })
   return new Promise((resolve, reject) => {
     const image = new Image()
+    image.crossOrigin = ''
     image.onload = () => {
       handle.success({
         width: image.naturalWidth,
-        height: image.naturalHeight
+        height: image.naturalHeight,
+        path: getBase64Image(image) || src
       }, resolve)
     }
     image.onerror = (e: any) => {
