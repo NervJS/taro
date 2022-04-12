@@ -4,615 +4,896 @@ exports[`vue should build vue app 1`] = `16`;
 
 exports[`vue should build vue app 2`] = `
 "
-/** filePath: dist/app.js **/
+/** filePath: dist\\\\runtime.js **/
+(function(modules) {
+    function webpackJsonpCallback(data) {
+        var chunkIds = data[0];
+        var moreModules = data[1];
+        var executeModules = data[2];
+        var moduleId, chunkId, i = 0, resolves = [];
+        for (;i < chunkIds.length; i++) {
+            chunkId = chunkIds[i];
+            if (Object.prototype.hasOwnProperty.call(installedChunks, chunkId) && installedChunks[chunkId]) {
+                resolves.push(installedChunks[chunkId][0]);
+            }
+            installedChunks[chunkId] = 0;
+        }
+        for (moduleId in moreModules) {
+            if (Object.prototype.hasOwnProperty.call(moreModules, moduleId)) {
+                modules[moduleId] = moreModules[moduleId];
+            }
+        }
+        if (parentJsonpFunction) parentJsonpFunction(data);
+        while (resolves.length) {
+            resolves.shift()();
+        }
+        deferredModules.push.apply(deferredModules, executeModules || []);
+        return checkDeferredModules();
+    }
+    function checkDeferredModules() {
+        var result;
+        for (var i = 0; i < deferredModules.length; i++) {
+            var deferredModule = deferredModules[i];
+            var fulfilled = true;
+            for (var j = 1; j < deferredModule.length; j++) {
+                var depId = deferredModule[j];
+                if (installedChunks[depId] !== 0) fulfilled = false;
+            }
+            if (fulfilled) {
+                deferredModules.splice(i--, 1);
+                result = __webpack_require__(__webpack_require__.s = deferredModule[0]);
+            }
+        }
+        return result;
+    }
+    var installedModules = {};
+    var installedChunks = {
+        0: 0
+    };
+    var deferredModules = [];
+    function __webpack_require__(moduleId) {
+        if (installedModules[moduleId]) {
+            return installedModules[moduleId].exports;
+        }
+        var module = installedModules[moduleId] = {
+            i: moduleId,
+            l: false,
+            exports: {}
+        };
+        modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
+        module.l = true;
+        return module.exports;
+    }
+    __webpack_require__.m = modules;
+    __webpack_require__.c = installedModules;
+    __webpack_require__.d = function(exports, name, getter) {
+        if (!__webpack_require__.o(exports, name)) {
+            Object.defineProperty(exports, name, {
+                enumerable: true,
+                get: getter
+            });
+        }
+    };
+    __webpack_require__.r = function(exports) {
+        if (typeof Symbol !== \\"undefined\\" && Symbol.toStringTag) {
+            Object.defineProperty(exports, Symbol.toStringTag, {
+                value: \\"Module\\"
+            });
+        }
+        Object.defineProperty(exports, \\"__esModule\\", {
+            value: true
+        });
+    };
+    __webpack_require__.t = function(value, mode) {
+        if (mode & 1) value = __webpack_require__(value);
+        if (mode & 8) return value;
+        if (mode & 4 && typeof value === \\"object\\" && value && value.__esModule) return value;
+        var ns = Object.create(null);
+        __webpack_require__.r(ns);
+        Object.defineProperty(ns, \\"default\\", {
+            enumerable: true,
+            value: value
+        });
+        if (mode & 2 && typeof value != \\"string\\") for (var key in value) __webpack_require__.d(ns, key, function(key) {
+            return value[key];
+        }.bind(null, key));
+        return ns;
+    };
+    __webpack_require__.n = function(module) {
+        var getter = module && module.__esModule ? function getDefault() {
+            return module[\\"default\\"];
+        } : function getModuleExports() {
+            return module;
+        };
+        __webpack_require__.d(getter, \\"a\\", getter);
+        return getter;
+    };
+    __webpack_require__.o = function(object, property) {
+        return Object.prototype.hasOwnProperty.call(object, property);
+    };
+    __webpack_require__.p = \\"/\\";
+    var jsonpArray = wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || [];
+    var oldJsonpFunction = jsonpArray.push.bind(jsonpArray);
+    jsonpArray.push = webpackJsonpCallback;
+    jsonpArray = jsonpArray.slice();
+    for (var i = 0; i < jsonpArray.length; i++) webpackJsonpCallback(jsonpArray[i]);
+    var parentJsonpFunction = oldJsonpFunction;
+    checkDeferredModules();
+})([]);
+
+/** filePath: dist\\\\taro.js **/
+(wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 1 ], [ function(module, exports, __webpack_require__) {
+    \\"use strict\\";
+    Object.defineProperty(exports, \\"__esModule\\", {
+        value: true
+    });
+    exports.default = void 0;
+    var _default = \\"taro-runtime-mock\\";
+    exports.default = _default;
+} ] ]);
+
+/** filePath: dist\\\\app.wxss **/
+
+
+/** filePath: dist\\\\app.js **/
 require(\\"./runtime\\");
 
 require(\\"./taro\\");
 
-(wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 2 ], {
-    3: function(module, exports, __webpack_require__) {},
-    6: function(module, __webpack_exports__, __webpack_require__) {
-        \\"use strict\\";
-        __webpack_require__.r(__webpack_exports__);
-        var mocks_taro = \\"taro\\";
-        function mergeReconciler() {}
-        function mergeInternalComponents() {}
-        function isFunction() {}
-        function isArray() {}
-        function processApis() {}
-        var EMPTY_OBJ = {};
-        var needPromiseApis = new Set([ \\"authPrivateMessage\\", \\"disableAlertBeforeUnload\\", \\"enableAlertBeforeUnload\\", \\"getBackgroundFetchData\\", \\"getGroupEnterInfo\\", \\"getShareInfo\\", \\"getWeRunData\\", \\"join1v1Chat\\", \\"openVideoEditor\\", \\"saveFileToDisk\\", \\"scanItem\\", \\"setEnable1v1Chat\\", \\"setWindowSize\\", \\"sendBizRedPacket\\", \\"startFacialRecognitionVerify\\", \\"openCustomerServiceChat\\", \\"getLocalIPAddress\\", \\"getUserProfile\\" ]);
-        function initNativeApi(taro) {
-            processApis(taro, wx, {
-                needPromiseApis: needPromiseApis,
-                modifyApis: function modifyApis(apis) {
-                    apis.delete(\\"lanDebug\\");
-                }
-            });
-            taro.cloud = wx.cloud;
-            taro.getTabBar = function(pageCtx) {
-                var _a;
-                if (typeof (pageCtx === null || pageCtx === void 0 ? void 0 : pageCtx.getTabBar) === \\"function\\") {
-                    return (_a = pageCtx.getTabBar()) === null || _a === void 0 ? void 0 : _a.$taroInstances;
-                }
-            };
-        }
-        var _true = \\"true\\";
-        var _false = \\"false\\";
-        var _empty = \\"\\";
-        var _zero = \\"0\\";
-        var components = {
-            Progress: {
-                \\"border-radius\\": _zero,
-                \\"font-size\\": \\"16\\",
-                duration: \\"30\\",
-                bindActiveEnd: _empty
-            },
-            RichText: {
-                space: _empty
-            },
-            Text: {
-                \\"user-select\\": _false
-            },
-            Map: {
-                polygons: \\"[]\\",
-                subkey: _empty,
-                rotate: _zero,
-                skew: _zero,
-                \\"max-scale\\": \\"20\\",
-                \\"min-scale\\": \\"3\\",
-                \\"enable-3D\\": _false,
-                \\"show-compass\\": _false,
-                \\"show-scale\\": _false,
-                \\"enable-overlooking\\": _false,
-                \\"enable-zoom\\": _true,
-                \\"enable-scroll\\": _true,
-                \\"enable-rotate\\": _false,
-                \\"enable-satellite\\": _false,
-                \\"enable-traffic\\": _false,
-                setting: \\"[]\\",
-                bindLabelTap: _empty,
-                bindRegionChange: _empty,
-                bindPoiTap: _empty
-            },
-            Button: {
-                lang: \\"en\\",
-                \\"session-from\\": _empty,
-                \\"send-message-title\\": _empty,
-                \\"send-message-path\\": _empty,
-                \\"send-message-img\\": _empty,
-                \\"app-parameter\\": _empty,
-                \\"show-message-card\\": _false,
-                \\"business-id\\": _empty,
-                bindGetUserInfo: _empty,
-                bindContact: _empty,
-                bindGetPhoneNumber: _empty,
-                bindChooseAvatar: _empty,
-                bindError: _empty,
-                bindOpenSetting: _empty,
-                bindLaunchApp: _empty
-            },
-            Form: {
-                \\"report-submit-timeout\\": _zero
-            },
-            Input: {
-                \\"always-embed\\": _false,
-                \\"adjust-position\\": _true,
-                \\"hold-keyboard\\": _false,
-                bindKeyboardHeightChange: _empty
-            },
-            Picker: {
-                \\"header-text\\": _empty
-            },
-            PickerView: {
-                \\"immediate-change\\": _false,
-                bindPickStart: _empty,
-                bindPickEnd: _empty
-            },
-            Slider: {
-                color: \\"'#e9e9e9'\\",
-                \\"selected-color\\": \\"'#1aad19'\\"
-            },
-            Textarea: {
-                \\"show-confirm-bar\\": _true,
-                \\"adjust-position\\": _true,
-                \\"hold-keyboard\\": _false,
-                \\"disable-default-padding\\": _false,
-                \\"confirm-type\\": \\"'return'\\",
-                \\"confirm-hold\\": _false,
-                bindKeyboardHeightChange: _empty
-            },
-            ScrollView: {
-                \\"enable-flex\\": _false,
-                \\"scroll-anchoring\\": _false,
-                \\"refresher-enabled\\": _false,
-                \\"refresher-threshold\\": \\"45\\",
-                \\"refresher-default-style\\": \\"'black'\\",
-                \\"refresher-background\\": \\"'#FFF'\\",
-                \\"refresher-triggered\\": _false,
-                enhanced: _false,
-                bounces: _true,
-                \\"show-scrollbar\\": _true,
-                \\"paging-enabled\\": _false,
-                \\"fast-deceleration\\": _false,
-                bindDragStart: _empty,
-                bindDragging: _empty,
-                bindDragEnd: _empty,
-                bindRefresherPulling: _empty,
-                bindRefresherRefresh: _empty,
-                bindRefresherRestore: _empty,
-                bindRefresherAbort: _empty
-            },
-            Swiper: {
-                \\"snap-to-edge\\": _false,
-                \\"easing-function\\": \\"'default'\\"
-            },
-            SwiperItem: {
-                \\"skip-hidden-item-layout\\": _false
-            },
-            Navigator: {
-                target: \\"'self'\\",
-                \\"app-id\\": _empty,
-                path: _empty,
-                \\"extra-data\\": _empty,
-                version: \\"'version'\\"
-            },
-            Camera: {
-                mode: \\"'normal'\\",
-                resolution: \\"'medium'\\",
-                \\"frame-size\\": \\"'medium'\\",
-                bindInitDone: _empty,
-                bindScanCode: _empty
-            },
-            Image: {
-                webp: _false,
-                \\"show-menu-by-longpress\\": _false
-            },
-            LivePlayer: {
-                mode: \\"'live'\\",
-                \\"sound-mode\\": \\"'speaker'\\",
-                \\"auto-pause-if-navigate\\": _true,
-                \\"auto-pause-if-open-native\\": _true,
-                \\"picture-in-picture-mode\\": \\"[]\\",
-                bindstatechange: _empty,
-                bindfullscreenchange: _empty,
-                bindnetstatus: _empty,
-                bindAudioVolumeNotify: _empty,
-                bindEnterPictureInPicture: _empty,
-                bindLeavePictureInPicture: _empty
-            },
-            Video: {
-                title: _empty,
-                \\"play-btn-position\\": \\"'bottom'\\",
-                \\"enable-play-gesture\\": _false,
-                \\"auto-pause-if-navigate\\": _true,
-                \\"auto-pause-if-open-native\\": _true,
-                \\"vslide-gesture\\": _false,
-                \\"vslide-gesture-in-fullscreen\\": _true,
-                \\"ad-unit-id\\": _empty,
-                \\"poster-for-crawler\\": _empty,
-                \\"show-casting-button\\": _false,
-                \\"picture-in-picture-mode\\": \\"[]\\",
-                \\"enable-auto-rotation\\": _false,
-                \\"show-screen-lock-button\\": _false,
-                \\"show-snapshot-button\\": _false,
-                \\"show-background-playback-button\\": _false,
-                \\"background-poster\\": _empty,
-                bindProgress: _empty,
-                bindLoadedMetadata: _empty,
-                bindControlsToggle: _empty,
-                bindEnterPictureInPicture: _empty,
-                bindLeavePictureInPicture: _empty,
-                bindSeekComplete: _empty,
-                bindAdLoad: _empty,
-                bindAdError: _empty,
-                bindAdClose: _empty,
-                bindAdPlay: _empty
-            },
-            Canvas: {
-                type: _empty
-            },
-            Ad: {
-                \\"ad-type\\": \\"'banner'\\",
-                \\"ad-theme\\": \\"'white'\\"
-            },
-            CoverView: {
-                \\"marker-id\\": _empty,
-                slot: _empty
-            },
-            Editor: {
-                \\"read-only\\": _false,
-                placeholder: _empty,
-                \\"show-img-size\\": _false,
-                \\"show-img-toolbar\\": _false,
-                \\"show-img-resize\\": _false,
-                focus: _false,
-                bindReady: _empty,
-                bindFocus: _empty,
-                bindBlur: _empty,
-                bindInput: _empty,
-                bindStatusChange: _empty,
-                name: _empty
-            },
-            MatchMedia: {
-                \\"min-width\\": _empty,
-                \\"max-width\\": _empty,
-                width: _empty,
-                \\"min-height\\": _empty,
-                \\"max-height\\": _empty,
-                height: _empty,
-                orientation: _empty
-            },
-            FunctionalPageNavigator: {
-                version: \\"'release'\\",
-                name: _empty,
-                args: _empty,
-                bindSuccess: _empty,
-                bindFail: _empty,
-                bindCancel: _empty
-            },
-            LivePusher: {
-                url: _empty,
-                mode: \\"'RTC'\\",
-                autopush: _false,
-                muted: _false,
-                \\"enable-camera\\": _true,
-                \\"auto-focus\\": _true,
-                orientation: \\"'vertical'\\",
-                beauty: _zero,
-                whiteness: _zero,
-                aspect: \\"'9:16'\\",
-                \\"min-bitrate\\": \\"200\\",
-                \\"max-bitrate\\": \\"1000\\",
-                \\"audio-quality\\": \\"'high'\\",
-                \\"waiting-image\\": _empty,
-                \\"waiting-image-hash\\": _empty,
-                zoom: _false,
-                \\"device-position\\": \\"'front'\\",
-                \\"background-mute\\": _false,
-                mirror: _false,
-                \\"remote-mirror\\": _false,
-                \\"local-mirror\\": _false,
-                \\"audio-reverb-type\\": _zero,
-                \\"enable-mic\\": _true,
-                \\"enable-agc\\": _false,
-                \\"enable-ans\\": _false,
-                \\"audio-volume-type\\": \\"'voicecall'\\",
-                \\"video-width\\": \\"360\\",
-                \\"video-height\\": \\"640\\",
-                \\"beauty-style\\": \\"'smooth'\\",
-                filter: \\"'standard'\\",
-                animation: _empty,
-                bindStateChange: _empty,
-                bindNetStatus: _empty,
-                bindBgmStart: _empty,
-                bindBgmProgress: _empty,
-                bindBgmComplete: _empty,
-                bindAudioVolumeNotify: _empty
-            },
-            OfficialAccount: {
-                bindLoad: _empty,
-                bindError: _empty
-            },
-            OpenData: {
-                type: _empty,
-                \\"open-gid\\": _empty,
-                lang: \\"'en'\\",
-                \\"default-text\\": _empty,
-                \\"default-avatar\\": _empty,
-                bindError: _empty
-            },
-            NavigationBar: {
-                title: _empty,
-                loading: _false,
-                \\"front-color\\": _empty,
-                \\"background-color\\": _empty,
-                \\"color-animation-duration\\": _zero,
-                \\"color-animation-timing-func\\": \\"'linear'\\"
-            },
-            PageMeta: {
-                \\"background-text-style\\": _empty,
-                \\"background-color\\": _empty,
-                \\"background-color-top\\": _empty,
-                \\"background-color-bottom\\": _empty,
-                \\"scroll-top\\": \\"''\\",
-                \\"scroll-duration\\": \\"300\\",
-                \\"page-style\\": \\"''\\",
-                \\"root-font-size\\": \\"''\\",
-                bindResize: _empty,
-                bindScroll: _empty,
-                bindScrollDone: _empty
-            },
-            VoipRoom: {
-                openid: _empty,
-                mode: \\"'camera'\\",
-                \\"device-position\\": \\"'front'\\",
-                bindError: _empty
-            },
-            AdCustom: {
-                \\"unit-id\\": _empty,
-                \\"ad-intervals\\": _empty,
-                bindLoad: _empty,
-                bindError: _empty
-            },
-            PageContainer: {
-                show: _false,
-                duration: \\"300\\",
-                \\"z-index\\": \\"100\\",
-                overlay: _true,
-                position: \\"'bottom'\\",
-                round: _false,
-                \\"close-on-slideDown\\": _false,
-                \\"overlay-style\\": _empty,
-                \\"custom-style\\": _empty,
-                bindBeforeEnter: _empty,
-                bindEnter: _empty,
-                bindAfterEnter: _empty,
-                bindBeforeLeave: _empty,
-                bindLeave: _empty,
-                bindAfterLeave: _empty,
-                bindClickOverlay: _empty
-            },
-            ShareElement: {
-                mapkey: _empty,
-                transform: _false,
-                duration: \\"300\\",
-                \\"easing-function\\": \\"'ease-out'\\"
-            },
-            KeyboardAccessory: {}
+(wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 2 ], [ , function(module, exports, __webpack_require__) {
+    \\"use strict\\";
+    Object.defineProperty(exports, \\"__esModule\\", {
+        value: true
+    });
+    exports.default = exports.EMPTY_OBJ = void 0;
+    exports.isArray = isArray;
+    exports.isFunction = isFunction;
+    exports.mergeInternalComponents = mergeInternalComponents;
+    exports.mergeReconciler = mergeReconciler;
+    exports.processApis = processApis;
+    var _default = \\"taro\\";
+    exports.default = _default;
+    function mergeReconciler() {}
+    function mergeInternalComponents() {}
+    function isFunction() {}
+    function isArray() {}
+    function processApis() {}
+    const EMPTY_OBJ = {};
+    exports.EMPTY_OBJ = EMPTY_OBJ;
+}, , , function(module, exports, __webpack_require__) {
+    \\"use strict\\";
+    Object.defineProperty(exports, \\"__esModule\\", {
+        value: true
+    });
+    exports.default = void 0;
+    var _default = \\"vue-mock\\";
+    exports.default = _default;
+}, , function(module, exports, __webpack_require__) {
+    \\"use strict\\";
+    Object.defineProperty(exports, \\"__esModule\\", {
+        value: true
+    });
+    exports.connectVuePage = connectVuePage;
+    exports.createVueApp = createVueApp;
+    var _shared = __webpack_require__(1);
+    var _runtime = __webpack_require__(0);
+    function setDefaultDescriptor(obj) {
+        obj.writable = true;
+        obj.enumerable = true;
+        return obj;
+    }
+    function setRouterParams(options) {
+        _runtime.Current.router = Object.assign({
+            params: options === null || options === void 0 ? void 0 : options.query
+        }, options);
+    }
+    let Vue;
+    function setReconciler() {
+        const hooks = _runtime.container.get(_runtime.SERVICE_IDENTIFIER.Hooks);
+        hooks.onRemoveAttribute = function(dom, qualifiedName) {
+            const props = dom.props;
+            if (!props.hasOwnProperty(qualifiedName) || (0, _shared.isBoolean)(props[qualifiedName])) {
+                dom.setAttribute(qualifiedName, false);
+                return true;
+            }
         };
-        var hostConfig = {
-            initNativeApi: initNativeApi
+        hooks.getLifecycle = function(instance, lifecycle) {
+            return instance.$options[lifecycle];
         };
-        mergeReconciler(hostConfig);
-        mergeInternalComponents(components);
-        var taro_runtime = __webpack_require__(0);
-        function _defineProperty(obj, key, value) {
-            if (key in obj) {
-                Object.defineProperty(obj, key, {
-                    value: value,
-                    enumerable: true,
-                    configurable: true,
-                    writable: true
-                });
-            } else {
-                obj[key] = value;
-            }
-            return obj;
-        }
-        function _arrayWithHoles(arr) {
-            if (Array.isArray(arr)) return arr;
-        }
-        function _iterableToArrayLimit(arr, i) {
-            var _i = arr == null ? null : typeof Symbol !== \\"undefined\\" && arr[Symbol.iterator] || arr[\\"@@iterator\\"];
-            if (_i == null) return;
-            var _arr = [];
-            var _n = true;
-            var _d = false;
-            var _s, _e;
-            try {
-                for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) {
-                    _arr.push(_s.value);
-                    if (i && _arr.length === i) break;
-                }
-            } catch (err) {
-                _d = true;
-                _e = err;
-            } finally {
-                try {
-                    if (!_n && _i[\\"return\\"] != null) _i[\\"return\\"]();
-                } finally {
-                    if (_d) throw _e;
-                }
-            }
-            return _arr;
-        }
-        function _arrayLikeToArray(arr, len) {
-            if (len == null || len > arr.length) len = arr.length;
-            for (var i = 0, arr2 = new Array(len); i < len; i++) {
-                arr2[i] = arr[i];
-            }
-            return arr2;
-        }
-        function _unsupportedIterableToArray(o, minLen) {
-            if (!o) return;
-            if (typeof o === \\"string\\") return _arrayLikeToArray(o, minLen);
-            var n = Object.prototype.toString.call(o).slice(8, -1);
-            if (n === \\"Object\\" && o.constructor) n = o.constructor.name;
-            if (n === \\"Map\\" || n === \\"Set\\") return Array.from(o);
-            if (n === \\"Arguments\\" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen);
-        }
-        function _nonIterableRest() {
-            throw new TypeError(\\"Invalid attempt to destructure non-iterable instance.\\\\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.\\");
-        }
-        function _slicedToArray(arr, i) {
-            return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest();
-        }
-        function setDefaultDescriptor(obj) {
-            obj.writable = true;
-            obj.enumerable = true;
-            return obj;
-        }
-        function setRouterParams(options) {
-            taro_runtime[\\"Current\\"].router = Object.assign({
-                params: options === null || options === void 0 ? void 0 : options.query
-            }, options);
-        }
-        var runtime_Vue;
-        function setReconciler() {
-            var hooks = taro_runtime[\\"container\\"].get(taro_runtime[\\"SERVICE_IDENTIFIER\\"].Hooks);
-            hooks.onRemoveAttribute = function(dom, qualifiedName) {
-                var props = dom.props;
-                if (!props.hasOwnProperty(qualifiedName) || undefined(props[qualifiedName])) {
-                    dom.setAttribute(qualifiedName, false);
-                    return true;
-                }
-            };
-            hooks.getLifecycle = function(instance, lifecycle) {
-                return instance.$options[lifecycle];
-            };
-            if (false) {}
-        }
-        function connectVuePage(Vue, id) {
-            return function(component) {
-                var injectedPage = Vue.extend({
-                    props: {
-                        tid: String
-                    },
-                    mixins: [ component, {
-                        created: function created() {
-                            Object(taro_runtime[\\"injectPageInstance\\"])(this, id);
-                        }
-                    } ]
-                });
-                var options = {
-                    render: function render(h) {
-                        return h(false ? undefined : \\"root\\", {
-                            attrs: {
-                                id: id,
-                                class: false ? undefined : \\"\\"
-                            }
-                        }, [ h(injectedPage, {
-                            props: {
-                                tid: id
-                            }
-                        }) ]);
-                    }
-                };
-                return options;
-            };
-        }
-        function createVueApp(App, vue, config) {
-            var _Object$create;
-            if (false) {}
-            runtime_Vue = vue;
-            runtime_Vue.config.getTagNamespace = undefined;
-            var elements = [];
-            var pages = [];
-            var appInstance;
-            setReconciler();
-            var wrapper = new runtime_Vue({
-                render: function render(h) {
-                    while (pages.length > 0) {
-                        var page = pages.pop();
-                        elements.push(page(h));
-                    }
-                    return h(App, {
-                        ref: \\"app\\"
-                    }, elements.slice());
+        if (false) {}
+    }
+    function connectVuePage(Vue, id) {
+        return component => {
+            const injectedPage = Vue.extend({
+                props: {
+                    tid: String
                 },
-                methods: {
-                    mount: function mount(component, id, cb) {
-                        pages.push((function(h) {
-                            return h(component, {
-                                key: id
-                            });
-                        }));
-                        this.updateSync(cb);
-                    },
-                    updateSync: function updateSync(cb) {
-                        this._update(this._render(), false);
-                        this.$children.forEach((function(child) {
-                            return child._update(child._render(), false);
-                        }));
-                        cb();
-                    },
-                    unmount: function unmount(id, cb) {
-                        for (var i = 0; i < elements.length; i++) {
-                            var element = elements[i];
-                            if (element.key === id) {
-                                elements.splice(i, 1);
-                                break;
-                            }
-                        }
-                        this.updateSync(cb);
+                mixins: [ component, {
+                    created() {
+                        (0, _runtime.injectPageInstance)(this, id);
                     }
-                }
+                } ]
             });
-            if (true) {
-                wrapper.$mount(taro_runtime[\\"document\\"].getElementById(\\"app\\"));
-            }
-            var hooks = taro_runtime[\\"container\\"].get(taro_runtime[\\"SERVICE_IDENTIFIER\\"].Hooks);
-            var _hooks$getMiniLifecyc = _slicedToArray(hooks.getMiniLifecycleImpl().app, 3), ONLAUNCH = _hooks$getMiniLifecyc[0], ONSHOW = _hooks$getMiniLifecyc[1], ONHIDE = _hooks$getMiniLifecyc[2];
-            var appObj = Object.create({
-                mount: function mount(component, id, cb) {
-                    var page = connectVuePage(runtime_Vue, id)(component);
-                    wrapper.mount(page, id, cb);
-                },
-                unmount: function unmount(id, cb) {
-                    wrapper.unmount(id, cb);
+            const options = {
+                render(h) {
+                    return h(false ? undefined : \\"root\\", {
+                        attrs: {
+                            id: id,
+                            class: false ? undefined : \\"\\"
+                        }
+                    }, [ h(injectedPage, {
+                        props: {
+                            tid: id
+                        }
+                    }) ]);
                 }
-            }, (_Object$create = {
-                config: setDefaultDescriptor({
-                    configurable: true,
-                    value: config
-                })
-            }, _defineProperty(_Object$create, ONLAUNCH, setDefaultDescriptor({
-                value: function value(options) {
+            };
+            return options;
+        };
+    }
+    function createVueApp(App, vue, config) {
+        if (false) {}
+        Vue = vue;
+        Vue.config.getTagNamespace = _shared.noop;
+        const elements = [];
+        const pages = [];
+        let appInstance;
+        setReconciler();
+        const wrapper = new Vue({
+            render(h) {
+                while (pages.length > 0) {
+                    const page = pages.pop();
+                    elements.push(page(h));
+                }
+                return h(App, {
+                    ref: \\"app\\"
+                }, elements.slice());
+            },
+            methods: {
+                mount(component, id, cb) {
+                    pages.push(h => h(component, {
+                        key: id
+                    }));
+                    this.updateSync(cb);
+                },
+                updateSync(cb) {
+                    this._update(this._render(), false);
+                    this.$children.forEach(child => child._update(child._render(), false));
+                    cb();
+                },
+                unmount(id, cb) {
+                    for (let i = 0; i < elements.length; i++) {
+                        const element = elements[i];
+                        if (element.key === id) {
+                            elements.splice(i, 1);
+                            break;
+                        }
+                    }
+                    this.updateSync(cb);
+                }
+            }
+        });
+        if (true) {
+            wrapper.$mount(_runtime.document.getElementById(\\"app\\"));
+        }
+        const hooks = _runtime.container.get(_runtime.SERVICE_IDENTIFIER.Hooks);
+        const [ONLAUNCH, ONSHOW, ONHIDE] = hooks.getMiniLifecycleImpl().app;
+        const appObj = Object.create({
+            mount(component, id, cb) {
+                const page = connectVuePage(Vue, id)(component);
+                wrapper.mount(page, id, cb);
+            },
+            unmount(id, cb) {
+                wrapper.unmount(id, cb);
+            }
+        }, {
+            config: setDefaultDescriptor({
+                configurable: true,
+                value: config
+            }),
+            [ONLAUNCH]: setDefaultDescriptor({
+                value(options) {
                     setRouterParams(options);
                     if (false) {}
                     appInstance = wrapper.$refs.app;
-                    if (appInstance != null && isFunction(appInstance.$options.onLaunch)) {
+                    if (appInstance != null && (0, _shared.isFunction)(appInstance.$options.onLaunch)) {
                         appInstance.$options.onLaunch.call(appInstance, options);
                     }
                 }
-            })), _defineProperty(_Object$create, ONSHOW, setDefaultDescriptor({
-                value: function value(options) {
+            }),
+            [ONSHOW]: setDefaultDescriptor({
+                value(options) {
                     setRouterParams(options);
-                    if (appInstance != null && isFunction(appInstance.$options.onShow)) {
+                    if (appInstance != null && (0, _shared.isFunction)(appInstance.$options.onShow)) {
                         appInstance.$options.onShow.call(appInstance, options);
                     }
                 }
-            })), _defineProperty(_Object$create, ONHIDE, setDefaultDescriptor({
-                value: function value(options) {
-                    if (appInstance != null && isFunction(appInstance.$options.onHide)) {
+            }),
+            [ONHIDE]: setDefaultDescriptor({
+                value(options) {
+                    if (appInstance != null && (0, _shared.isFunction)(appInstance.$options.onHide)) {
                         appInstance.$options.onHide.call(appInstance, options);
                     }
                 }
-            })), _Object$create));
-            taro_runtime[\\"Current\\"].app = appObj;
-            return appObj;
+            })
+        });
+        _runtime.Current.app = appObj;
+        return appObj;
+    }
+}, function(module, exports, __webpack_require__) {
+    \\"use strict\\";
+    var _interopRequireDefault = __webpack_require__(14).default;
+    Object.defineProperty(exports, \\"__esModule\\", {
+        value: true
+    });
+    exports.default = void 0;
+    var _vue = _interopRequireDefault(__webpack_require__(4));
+    __webpack_require__(15);
+    const App = new _vue.default({
+        onShow() {},
+        render(h) {
+            return h(\\"block\\", this.$slots.default);
         }
-        var mocks_vue = \\"vue-mock\\";
-        var app = __webpack_require__(3);
-        var app_App = new mocks_vue({
-            onShow: function onShow() {},
-            render: function render(h) {
-                return h(\\"block\\", this.$slots.default);
+    });
+    var _default = App;
+    exports.default = _default;
+}, , , , , function(module, __webpack_exports__, __webpack_require__) {
+    \\"use strict\\";
+    __webpack_require__.r(__webpack_exports__);
+    var _tarojs_plugin_platform_weapp_dist_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(13);
+    var _tarojs_plugin_platform_weapp_dist_runtime__WEBPACK_IMPORTED_MODULE_0___default = __webpack_require__.n(_tarojs_plugin_platform_weapp_dist_runtime__WEBPACK_IMPORTED_MODULE_0__);
+    var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(0);
+    var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_1___default = __webpack_require__.n(_tarojs_runtime__WEBPACK_IMPORTED_MODULE_1__);
+    var _tarojs_plugin_framework_vue2_dist_runtime__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(6);
+    var _tarojs_plugin_framework_vue2_dist_runtime__WEBPACK_IMPORTED_MODULE_2___default = __webpack_require__.n(_tarojs_plugin_framework_vue2_dist_runtime__WEBPACK_IMPORTED_MODULE_2__);
+    var _tarojs_taro__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(1);
+    var _tarojs_taro__WEBPACK_IMPORTED_MODULE_3___default = __webpack_require__.n(_tarojs_taro__WEBPACK_IMPORTED_MODULE_3__);
+    var _node_modules_babel_loader_lib_index_js_app_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(7);
+    var _node_modules_babel_loader_lib_index_js_app_js__WEBPACK_IMPORTED_MODULE_4___default = __webpack_require__.n(_node_modules_babel_loader_lib_index_js_app_js__WEBPACK_IMPORTED_MODULE_4__);
+    var vue__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(4);
+    var vue__WEBPACK_IMPORTED_MODULE_5___default = __webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_5__);
+    var config = {
+        pages: [ \\"pages/index/index\\" ],
+        window: {
+            backgroundTextStyle: \\"light\\",
+            navigationBarBackgroundColor: \\"#fff\\",
+            navigationBarTitleText: \\"WeChat\\",
+            navigationBarTextStyle: \\"black\\"
+        }
+    };
+    _tarojs_runtime__WEBPACK_IMPORTED_MODULE_1__[\\"window\\"].__taroAppConfig = config;
+    var inst = App(Object(_tarojs_plugin_framework_vue2_dist_runtime__WEBPACK_IMPORTED_MODULE_2__[\\"createVueApp\\"])(_node_modules_babel_loader_lib_index_js_app_js__WEBPACK_IMPORTED_MODULE_4___default.a, vue__WEBPACK_IMPORTED_MODULE_5___default.a, config));
+    Object(_tarojs_taro__WEBPACK_IMPORTED_MODULE_3__[\\"initPxTransform\\"])({
+        designWidth: 750,
+        deviceRatio: {
+            640: 1.17,
+            750: 1,
+            828: .905
+        }
+    });
+}, function(module, exports, __webpack_require__) {
+    \\"use strict\\";
+    var _shared = __webpack_require__(1);
+    const needPromiseApis = new Set([ \\"authPrivateMessage\\", \\"disableAlertBeforeUnload\\", \\"enableAlertBeforeUnload\\", \\"getBackgroundFetchData\\", \\"getGroupEnterInfo\\", \\"getShareInfo\\", \\"getWeRunData\\", \\"join1v1Chat\\", \\"openVideoEditor\\", \\"saveFileToDisk\\", \\"scanItem\\", \\"setEnable1v1Chat\\", \\"setWindowSize\\", \\"sendBizRedPacket\\", \\"startFacialRecognitionVerify\\", \\"openCustomerServiceChat\\", \\"getLocalIPAddress\\", \\"getUserProfile\\" ]);
+    function initNativeApi(taro) {
+        (0, _shared.processApis)(taro, wx, {
+            needPromiseApis: needPromiseApis,
+            modifyApis(apis) {
+                apis.delete(\\"lanDebug\\");
             }
         });
-        var lib_src_app = app_App;
-        var app_config = {
-            pages: [ \\"pages/index/index\\" ],
-            window: {
-                backgroundTextStyle: \\"light\\",
-                navigationBarBackgroundColor: \\"#fff\\",
-                navigationBarTitleText: \\"WeChat\\",
-                navigationBarTextStyle: \\"black\\"
+        taro.cloud = wx.cloud;
+        taro.getTabBar = function(pageCtx) {
+            var _a;
+            if (typeof (pageCtx === null || pageCtx === void 0 ? void 0 : pageCtx.getTabBar) === \\"function\\") {
+                return (_a = pageCtx.getTabBar()) === null || _a === void 0 ? void 0 : _a.$taroInstances;
             }
         };
-        taro_runtime[\\"window\\"].__taroAppConfig = app_config;
-        var inst = App(createVueApp(lib_src_app, mocks_vue, app_config));
-        undefined({
-            designWidth: 750,
-            deviceRatio: {
-                640: 1.17,
-                750: 1,
-                828: .905
-            }
-        });
     }
-}, [ [ 6, 0, 1 ] ] ]);
+    const _true = \\"true\\";
+    const _false = \\"false\\";
+    const _empty = \\"\\";
+    const _zero = \\"0\\";
+    const components = {
+        Progress: {
+            \\"border-radius\\": _zero,
+            \\"font-size\\": \\"16\\",
+            duration: \\"30\\",
+            bindActiveEnd: _empty
+        },
+        RichText: {
+            space: _empty
+        },
+        Text: {
+            \\"user-select\\": _false
+        },
+        Map: {
+            polygons: \\"[]\\",
+            subkey: _empty,
+            rotate: _zero,
+            skew: _zero,
+            \\"max-scale\\": \\"20\\",
+            \\"min-scale\\": \\"3\\",
+            \\"enable-3D\\": _false,
+            \\"show-compass\\": _false,
+            \\"show-scale\\": _false,
+            \\"enable-overlooking\\": _false,
+            \\"enable-zoom\\": _true,
+            \\"enable-scroll\\": _true,
+            \\"enable-rotate\\": _false,
+            \\"enable-satellite\\": _false,
+            \\"enable-traffic\\": _false,
+            setting: \\"[]\\",
+            bindLabelTap: _empty,
+            bindRegionChange: _empty,
+            bindPoiTap: _empty
+        },
+        Button: {
+            lang: \\"en\\",
+            \\"session-from\\": _empty,
+            \\"send-message-title\\": _empty,
+            \\"send-message-path\\": _empty,
+            \\"send-message-img\\": _empty,
+            \\"app-parameter\\": _empty,
+            \\"show-message-card\\": _false,
+            \\"business-id\\": _empty,
+            bindGetUserInfo: _empty,
+            bindContact: _empty,
+            bindGetPhoneNumber: _empty,
+            bindChooseAvatar: _empty,
+            bindError: _empty,
+            bindOpenSetting: _empty,
+            bindLaunchApp: _empty
+        },
+        Form: {
+            \\"report-submit-timeout\\": _zero
+        },
+        Input: {
+            \\"always-embed\\": _false,
+            \\"adjust-position\\": _true,
+            \\"hold-keyboard\\": _false,
+            bindKeyboardHeightChange: _empty
+        },
+        Picker: {
+            \\"header-text\\": _empty
+        },
+        PickerView: {
+            \\"immediate-change\\": _false,
+            bindPickStart: _empty,
+            bindPickEnd: _empty
+        },
+        Slider: {
+            color: \\"'#e9e9e9'\\",
+            \\"selected-color\\": \\"'#1aad19'\\"
+        },
+        Textarea: {
+            \\"show-confirm-bar\\": _true,
+            \\"adjust-position\\": _true,
+            \\"hold-keyboard\\": _false,
+            \\"disable-default-padding\\": _false,
+            \\"confirm-type\\": \\"'return'\\",
+            \\"confirm-hold\\": _false,
+            bindKeyboardHeightChange: _empty
+        },
+        ScrollView: {
+            \\"enable-flex\\": _false,
+            \\"scroll-anchoring\\": _false,
+            \\"refresher-enabled\\": _false,
+            \\"refresher-threshold\\": \\"45\\",
+            \\"refresher-default-style\\": \\"'black'\\",
+            \\"refresher-background\\": \\"'#FFF'\\",
+            \\"refresher-triggered\\": _false,
+            enhanced: _false,
+            bounces: _true,
+            \\"show-scrollbar\\": _true,
+            \\"paging-enabled\\": _false,
+            \\"fast-deceleration\\": _false,
+            bindDragStart: _empty,
+            bindDragging: _empty,
+            bindDragEnd: _empty,
+            bindRefresherPulling: _empty,
+            bindRefresherRefresh: _empty,
+            bindRefresherRestore: _empty,
+            bindRefresherAbort: _empty
+        },
+        Swiper: {
+            \\"snap-to-edge\\": _false,
+            \\"easing-function\\": \\"'default'\\"
+        },
+        SwiperItem: {
+            \\"skip-hidden-item-layout\\": _false
+        },
+        Navigator: {
+            target: \\"'self'\\",
+            \\"app-id\\": _empty,
+            path: _empty,
+            \\"extra-data\\": _empty,
+            version: \\"'version'\\"
+        },
+        Camera: {
+            mode: \\"'normal'\\",
+            resolution: \\"'medium'\\",
+            \\"frame-size\\": \\"'medium'\\",
+            bindInitDone: _empty,
+            bindScanCode: _empty
+        },
+        Image: {
+            webp: _false,
+            \\"show-menu-by-longpress\\": _false
+        },
+        LivePlayer: {
+            mode: \\"'live'\\",
+            \\"sound-mode\\": \\"'speaker'\\",
+            \\"auto-pause-if-navigate\\": _true,
+            \\"auto-pause-if-open-native\\": _true,
+            \\"picture-in-picture-mode\\": \\"[]\\",
+            bindstatechange: _empty,
+            bindfullscreenchange: _empty,
+            bindnetstatus: _empty,
+            bindAudioVolumeNotify: _empty,
+            bindEnterPictureInPicture: _empty,
+            bindLeavePictureInPicture: _empty
+        },
+        Video: {
+            title: _empty,
+            \\"play-btn-position\\": \\"'bottom'\\",
+            \\"enable-play-gesture\\": _false,
+            \\"auto-pause-if-navigate\\": _true,
+            \\"auto-pause-if-open-native\\": _true,
+            \\"vslide-gesture\\": _false,
+            \\"vslide-gesture-in-fullscreen\\": _true,
+            \\"ad-unit-id\\": _empty,
+            \\"poster-for-crawler\\": _empty,
+            \\"show-casting-button\\": _false,
+            \\"picture-in-picture-mode\\": \\"[]\\",
+            \\"enable-auto-rotation\\": _false,
+            \\"show-screen-lock-button\\": _false,
+            \\"show-snapshot-button\\": _false,
+            \\"show-background-playback-button\\": _false,
+            \\"background-poster\\": _empty,
+            bindProgress: _empty,
+            bindLoadedMetadata: _empty,
+            bindControlsToggle: _empty,
+            bindEnterPictureInPicture: _empty,
+            bindLeavePictureInPicture: _empty,
+            bindSeekComplete: _empty,
+            bindAdLoad: _empty,
+            bindAdError: _empty,
+            bindAdClose: _empty,
+            bindAdPlay: _empty
+        },
+        Canvas: {
+            type: _empty
+        },
+        Ad: {
+            \\"ad-type\\": \\"'banner'\\",
+            \\"ad-theme\\": \\"'white'\\"
+        },
+        CoverView: {
+            \\"marker-id\\": _empty,
+            slot: _empty
+        },
+        Editor: {
+            \\"read-only\\": _false,
+            placeholder: _empty,
+            \\"show-img-size\\": _false,
+            \\"show-img-toolbar\\": _false,
+            \\"show-img-resize\\": _false,
+            focus: _false,
+            bindReady: _empty,
+            bindFocus: _empty,
+            bindBlur: _empty,
+            bindInput: _empty,
+            bindStatusChange: _empty,
+            name: _empty
+        },
+        MatchMedia: {
+            \\"min-width\\": _empty,
+            \\"max-width\\": _empty,
+            width: _empty,
+            \\"min-height\\": _empty,
+            \\"max-height\\": _empty,
+            height: _empty,
+            orientation: _empty
+        },
+        FunctionalPageNavigator: {
+            version: \\"'release'\\",
+            name: _empty,
+            args: _empty,
+            bindSuccess: _empty,
+            bindFail: _empty,
+            bindCancel: _empty
+        },
+        LivePusher: {
+            url: _empty,
+            mode: \\"'RTC'\\",
+            autopush: _false,
+            muted: _false,
+            \\"enable-camera\\": _true,
+            \\"auto-focus\\": _true,
+            orientation: \\"'vertical'\\",
+            beauty: _zero,
+            whiteness: _zero,
+            aspect: \\"'9:16'\\",
+            \\"min-bitrate\\": \\"200\\",
+            \\"max-bitrate\\": \\"1000\\",
+            \\"audio-quality\\": \\"'high'\\",
+            \\"waiting-image\\": _empty,
+            \\"waiting-image-hash\\": _empty,
+            zoom: _false,
+            \\"device-position\\": \\"'front'\\",
+            \\"background-mute\\": _false,
+            mirror: _false,
+            \\"remote-mirror\\": _false,
+            \\"local-mirror\\": _false,
+            \\"audio-reverb-type\\": _zero,
+            \\"enable-mic\\": _true,
+            \\"enable-agc\\": _false,
+            \\"enable-ans\\": _false,
+            \\"audio-volume-type\\": \\"'voicecall'\\",
+            \\"video-width\\": \\"360\\",
+            \\"video-height\\": \\"640\\",
+            \\"beauty-style\\": \\"'smooth'\\",
+            filter: \\"'standard'\\",
+            animation: _empty,
+            bindStateChange: _empty,
+            bindNetStatus: _empty,
+            bindBgmStart: _empty,
+            bindBgmProgress: _empty,
+            bindBgmComplete: _empty,
+            bindAudioVolumeNotify: _empty
+        },
+        OfficialAccount: {
+            bindLoad: _empty,
+            bindError: _empty
+        },
+        OpenData: {
+            type: _empty,
+            \\"open-gid\\": _empty,
+            lang: \\"'en'\\",
+            \\"default-text\\": _empty,
+            \\"default-avatar\\": _empty,
+            bindError: _empty
+        },
+        NavigationBar: {
+            title: _empty,
+            loading: _false,
+            \\"front-color\\": _empty,
+            \\"background-color\\": _empty,
+            \\"color-animation-duration\\": _zero,
+            \\"color-animation-timing-func\\": \\"'linear'\\"
+        },
+        PageMeta: {
+            \\"background-text-style\\": _empty,
+            \\"background-color\\": _empty,
+            \\"background-color-top\\": _empty,
+            \\"background-color-bottom\\": _empty,
+            \\"scroll-top\\": \\"''\\",
+            \\"scroll-duration\\": \\"300\\",
+            \\"page-style\\": \\"''\\",
+            \\"root-font-size\\": \\"''\\",
+            bindResize: _empty,
+            bindScroll: _empty,
+            bindScrollDone: _empty
+        },
+        VoipRoom: {
+            openid: _empty,
+            mode: \\"'camera'\\",
+            \\"device-position\\": \\"'front'\\",
+            bindError: _empty
+        },
+        AdCustom: {
+            \\"unit-id\\": _empty,
+            \\"ad-intervals\\": _empty,
+            bindLoad: _empty,
+            bindError: _empty
+        },
+        PageContainer: {
+            show: _false,
+            duration: \\"300\\",
+            \\"z-index\\": \\"100\\",
+            overlay: _true,
+            position: \\"'bottom'\\",
+            round: _false,
+            \\"close-on-slideDown\\": _false,
+            \\"overlay-style\\": _empty,
+            \\"custom-style\\": _empty,
+            bindBeforeEnter: _empty,
+            bindEnter: _empty,
+            bindAfterEnter: _empty,
+            bindBeforeLeave: _empty,
+            bindLeave: _empty,
+            bindAfterLeave: _empty,
+            bindClickOverlay: _empty
+        },
+        ShareElement: {
+            mapkey: _empty,
+            transform: _false,
+            duration: \\"300\\",
+            \\"easing-function\\": \\"'ease-out'\\"
+        },
+        KeyboardAccessory: {}
+    };
+    const hostConfig = {
+        initNativeApi: initNativeApi
+    };
+    (0, _shared.mergeReconciler)(hostConfig);
+    (0, _shared.mergeInternalComponents)(components);
+}, function(module, exports) {
+    function _interopRequireDefault(obj) {
+        return obj && obj.__esModule ? obj : {
+            default: obj
+        };
+    }
+    module.exports = _interopRequireDefault, module.exports.__esModule = true, module.exports[\\"default\\"] = module.exports;
+}, function(module, exports, __webpack_require__) {} ], [ [ 12, 0, 1 ] ] ]);
 
 
 
-/** filePath: dist/app.json **/
+/** filePath: dist\\\\comp.js **/
+(wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 4 ], {
+    16: function(module, exports, __webpack_require__) {
+        \\"use strict\\";
+        var _runtime = __webpack_require__(0);
+        Component((0, _runtime.createRecursiveComponentConfig)());
+    }
+}, [ [ 16, 0, 1 ] ] ]);
+
+/** filePath: dist\\\\custom-wrapper.js **/
+(wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 5 ], {
+    17: function(module, exports, __webpack_require__) {
+        \\"use strict\\";
+        var _runtime = __webpack_require__(0);
+        Component((0, _runtime.createRecursiveComponentConfig)(\\"custom-wrapper\\"));
+    }
+}, [ [ 17, 0, 1 ] ] ]);
+
+/** filePath: dist\\\\pages\\\\index\\\\index.js **/
+(wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 6 ], {
+    18: function(module, __webpack_exports__, __webpack_require__) {
+        \\"use strict\\";
+        __webpack_require__.r(__webpack_exports__);
+        var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
+        var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0___default = __webpack_require__.n(_tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__);
+        var _taro_loader_lib_raw_js_index_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(8);
+        var config = {
+            navigationBarTitleText: \\"\\\\u9996\\\\u9875\\"
+        };
+        var inst = Page(Object(_tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__[\\"createPageConfig\\"])(_taro_loader_lib_raw_js_index_vue__WEBPACK_IMPORTED_MODULE_1__[\\"default\\"], \\"pages/index/index\\", {
+            root: {
+                cn: []
+            }
+        }, config || {}));
+    },
+    2: function(module, __webpack_exports__, __webpack_require__) {
+        \\"use strict\\";
+        var _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_lib_index_js_vue_loader_options_index_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(3);
+        var _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_lib_index_js_vue_loader_options_index_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0___default = __webpack_require__.n(_node_modules_babel_loader_lib_index_js_node_modules_vue_loader_lib_index_js_vue_loader_options_index_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__);
+        __webpack_exports__[\\"default\\"] = _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_lib_index_js_vue_loader_options_index_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0___default.a;
+    },
+    3: function(module, exports, __webpack_require__) {
+        \\"use strict\\";
+        Object.defineProperty(exports, \\"__esModule\\", {
+            value: true
+        });
+        exports.default = void 0;
+        var _default = {
+            data() {
+                return {
+                    msg: \\"Hello world!\\"
+                };
+            }
+        };
+        exports.default = _default;
+    },
+    5: function(module, __webpack_exports__, __webpack_require__) {
+        \\"use strict\\";
+        __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
+            return render;
+        }));
+        __webpack_require__.d(__webpack_exports__, \\"b\\", (function() {
+            return staticRenderFns;
+        }));
+        var render = function() {
+            var _vm = this;
+            var _h = _vm.$createElement;
+            var _c = _vm._self._c || _h;
+            return _c(\\"view\\", {
+                staticClass: \\"index\\"
+            }, [ _c(\\"text\\", [ _vm._v(_vm._s(_vm.msg)) ]) ]);
+        };
+        var staticRenderFns = [];
+        render._withStripped = true;
+    },
+    8: function(module, __webpack_exports__, __webpack_require__) {
+        \\"use strict\\";
+        var _index_vue_vue_type_template_id_1badc801___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(5);
+        var _index_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(2);
+        var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(9);
+        var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__[\\"a\\"])(_index_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__[\\"default\\"], _index_vue_vue_type_template_id_1badc801___WEBPACK_IMPORTED_MODULE_0__[\\"a\\"], _index_vue_vue_type_template_id_1badc801___WEBPACK_IMPORTED_MODULE_0__[\\"b\\"], false, null, null, \\"5eda716c\\");
+        component.options.__file = \\"src/pages/index/index.vue\\";
+        __webpack_exports__[\\"default\\"] = component.exports;
+    },
+    9: function(module, __webpack_exports__, __webpack_require__) {
+        \\"use strict\\";
+        __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
+            return normalizeComponent;
+        }));
+        function normalizeComponent(scriptExports, render, staticRenderFns, functionalTemplate, injectStyles, scopeId, moduleIdentifier, shadowMode) {
+            var options = typeof scriptExports === \\"function\\" ? scriptExports.options : scriptExports;
+            if (render) {
+                options.render = render;
+                options.staticRenderFns = staticRenderFns;
+                options._compiled = true;
+            }
+            if (functionalTemplate) {
+                options.functional = true;
+            }
+            if (scopeId) {
+                options._scopeId = \\"data-v-\\" + scopeId;
+            }
+            var hook;
+            if (moduleIdentifier) {
+                hook = function(context) {
+                    context = context || this.$vnode && this.$vnode.ssrContext || this.parent && this.parent.$vnode && this.parent.$vnode.ssrContext;
+                    if (!context && typeof __VUE_SSR_CONTEXT__ !== \\"undefined\\") {
+                        context = __VUE_SSR_CONTEXT__;
+                    }
+                    if (injectStyles) {
+                        injectStyles.call(this, context);
+                    }
+                    if (context && context._registeredComponents) {
+                        context._registeredComponents.add(moduleIdentifier);
+                    }
+                };
+                options._ssrRegister = hook;
+            } else if (injectStyles) {
+                hook = shadowMode ? function() {
+                    injectStyles.call(this, (options.functional ? this.parent : this).$root.$options.shadowRoot);
+                } : injectStyles;
+            }
+            if (hook) {
+                if (options.functional) {
+                    options._injectStyles = hook;
+                    var originalRender = options.render;
+                    options.render = function renderWithStyleInjection(h, context) {
+                        hook.call(context);
+                        return originalRender(h, context);
+                    };
+                } else {
+                    var existing = options.beforeCreate;
+                    options.beforeCreate = existing ? [].concat(existing, hook) : [ hook ];
+                }
+            }
+            return {
+                exports: scriptExports,
+                options: options
+            };
+        }
+    }
+}, [ [ 18, 0, 1 ] ] ]);
+
+/** filePath: dist\\\\pages\\\\index\\\\index.json **/
+{\\"navigationBarTitleText\\":\\"首页\\",\\"usingComponents\\":{\\"custom-wrapper\\":\\"../../custom-wrapper\\",\\"comp\\":\\"../../comp\\"}}
+
+/** filePath: dist\\\\pages\\\\index\\\\index.wxml **/
+<import src=\\"../../base.wxml\\"/>
+<template is=\\"taro_tmpl\\" data=\\"{{root:root}}\\" />
+
+/** filePath: dist\\\\app.json **/
 {\\"pages\\":[\\"pages/index/index\\"],\\"window\\":{\\"backgroundTextStyle\\":\\"light\\",\\"navigationBarBackgroundColor\\":\\"#fff\\",\\"navigationBarTitleText\\":\\"WeChat\\",\\"navigationBarTextStyle\\":\\"black\\"}}
 
-/** filePath: dist/app.wxss **/
+/** filePath: dist\\\\comp.wxml **/
+<import src=\\"./base.wxml\\" />
+<template is=\\"tmpl_0_container\\" data=\\"{{i:i,l:l}}\\" />
 
+/** filePath: dist\\\\comp.json **/
+{\\"component\\":true,\\"usingComponents\\":{\\"comp\\":\\"./comp\\",\\"custom-wrapper\\":\\"./custom-wrapper\\"}}
 
-/** filePath: dist/base.wxml **/
+/** filePath: dist\\\\custom-wrapper.json **/
+{\\"component\\":true,\\"usingComponents\\":{\\"comp\\":\\"./comp\\",\\"custom-wrapper\\":\\"./custom-wrapper\\"}}
+
+/** filePath: dist\\\\base.wxml **/
 <wxs module=\\"xs\\" src=\\"./utils.wxs\\" />
 <template name=\\"taro_tmpl\\">
   <block wx:for=\\"{{root.cn}}\\" wx:key=\\"sid\\">
@@ -1390,151 +1671,13 @@ require(\\"./taro\\");
 </template>
 
 
-/** filePath: dist/comp.js **/
-(wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 4 ], {
-    4: function(module, __webpack_exports__, __webpack_require__) {
-        \\"use strict\\";
-        __webpack_require__.r(__webpack_exports__);
-        var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
-        Component(Object(_tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__[\\"createRecursiveComponentConfig\\"])());
-    }
-}, [ [ 4, 0, 1 ] ] ]);
-
-/** filePath: dist/comp.json **/
-{\\"component\\":true,\\"usingComponents\\":{\\"comp\\":\\"./comp\\",\\"custom-wrapper\\":\\"./custom-wrapper\\"}}
-
-/** filePath: dist/comp.wxml **/
-<import src=\\"./base.wxml\\" />
-<template is=\\"tmpl_0_container\\" data=\\"{{i:i,l:l}}\\" />
-
-/** filePath: dist/custom-wrapper.js **/
-(wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 5 ], {
-    5: function(module, __webpack_exports__, __webpack_require__) {
-        \\"use strict\\";
-        __webpack_require__.r(__webpack_exports__);
-        var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
-        Component(Object(_tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__[\\"createRecursiveComponentConfig\\"])(\\"custom-wrapper\\"));
-    }
-}, [ [ 5, 0, 1 ] ] ]);
-
-/** filePath: dist/custom-wrapper.json **/
-{\\"component\\":true,\\"usingComponents\\":{\\"comp\\":\\"./comp\\",\\"custom-wrapper\\":\\"./custom-wrapper\\"}}
-
-/** filePath: dist/custom-wrapper.wxml **/
+/** filePath: dist\\\\custom-wrapper.wxml **/
 <import src=\\"./base.wxml\\" />
   <block wx:for=\\"{{i.cn}}\\" wx:key=\\"sid\\">
     <template is=\\"tmpl_0_container\\" data=\\"{{i:item,l:''}}\\" />
   </block>
 
-/** filePath: dist/pages/index/index.js **/
-(wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 6 ], {
-    7: function(module, __webpack_exports__, __webpack_require__) {
-        \\"use strict\\";
-        __webpack_require__.r(__webpack_exports__);
-        var taro_runtime = __webpack_require__(0);
-        var render = function() {
-            var _vm = this;
-            var _h = _vm.$createElement;
-            var _c = _vm._self._c || _h;
-            return _c(\\"view\\", {
-                staticClass: \\"index\\"
-            }, [ _c(\\"text\\", [ _vm._v(_vm._s(_vm.msg)) ]) ]);
-        };
-        var staticRenderFns = [];
-        render._withStripped = true;
-        var indexvue_type_script_lang_js_ = {
-            data: function data() {
-                return {
-                    msg: \\"Hello world!\\"
-                };
-            }
-        };
-        var pages_indexvue_type_script_lang_js_ = indexvue_type_script_lang_js_;
-        function normalizeComponent(scriptExports, render, staticRenderFns, functionalTemplate, injectStyles, scopeId, moduleIdentifier, shadowMode) {
-            var options = typeof scriptExports === \\"function\\" ? scriptExports.options : scriptExports;
-            if (render) {
-                options.render = render;
-                options.staticRenderFns = staticRenderFns;
-                options._compiled = true;
-            }
-            if (functionalTemplate) {
-                options.functional = true;
-            }
-            if (scopeId) {
-                options._scopeId = \\"data-v-\\" + scopeId;
-            }
-            var hook;
-            if (moduleIdentifier) {
-                hook = function(context) {
-                    context = context || this.$vnode && this.$vnode.ssrContext || this.parent && this.parent.$vnode && this.parent.$vnode.ssrContext;
-                    if (!context && typeof __VUE_SSR_CONTEXT__ !== \\"undefined\\") {
-                        context = __VUE_SSR_CONTEXT__;
-                    }
-                    if (injectStyles) {
-                        injectStyles.call(this, context);
-                    }
-                    if (context && context._registeredComponents) {
-                        context._registeredComponents.add(moduleIdentifier);
-                    }
-                };
-                options._ssrRegister = hook;
-            } else if (injectStyles) {
-                hook = shadowMode ? function() {
-                    injectStyles.call(this, (options.functional ? this.parent : this).$root.$options.shadowRoot);
-                } : injectStyles;
-            }
-            if (hook) {
-                if (options.functional) {
-                    options._injectStyles = hook;
-                    var originalRender = options.render;
-                    options.render = function renderWithStyleInjection(h, context) {
-                        hook.call(context);
-                        return originalRender(h, context);
-                    };
-                } else {
-                    var existing = options.beforeCreate;
-                    options.beforeCreate = existing ? [].concat(existing, hook) : [ hook ];
-                }
-            }
-            return {
-                exports: scriptExports,
-                options: options
-            };
-        }
-        var component = normalizeComponent(pages_indexvue_type_script_lang_js_, render, staticRenderFns, false, null, null, null);
-        if (false) {
-            var api;
-        }
-        component.options.__file = \\"src/pages/index/index.vue\\";
-        var index = component.exports;
-        var config = {
-            navigationBarTitleText: \\"\\\\u9996\\\\u9875\\"
-        };
-        var inst = Page(Object(taro_runtime[\\"createPageConfig\\"])(index, \\"pages/index/index\\", {
-            root: {
-                cn: []
-            }
-        }, config || {}));
-    }
-}, [ [ 7, 0, 1 ] ] ]);
-
-/** filePath: dist/pages/index/index.json **/
-{\\"navigationBarTitleText\\":\\"首页\\",\\"usingComponents\\":{\\"custom-wrapper\\":\\"../../custom-wrapper\\",\\"comp\\":\\"../../comp\\"}}
-
-/** filePath: dist/pages/index/index.wxml **/
-<import src=\\"../../base.wxml\\"/>
-<template is=\\"taro_tmpl\\" data=\\"{{root:root}}\\" />
-
-/** filePath: dist/runtime.js **/
-
-
-/** filePath: dist/taro.js **/
-(wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 1 ], [ function(module, __webpack_exports__, __webpack_require__) {
-    \\"use strict\\";
-    var _unused_webpack_default_export = \\"taro-runtime-mock\\";
-} ] ]);
-
-/** filePath: dist/utils.wxs **/
+/** filePath: dist\\\\utils.wxs **/
 module.exports = {
   a: function (l, n, s) {
     var a = [\\"view\\",\\"catch-view\\",\\"cover-view\\",\\"static-view\\",\\"pure-view\\",\\"block\\",\\"text\\",\\"static-text\\",\\"slot\\",\\"slot-view\\",\\"label\\",\\"form\\",\\"scroll-view\\",\\"swiper\\",\\"swiper-item\\"]

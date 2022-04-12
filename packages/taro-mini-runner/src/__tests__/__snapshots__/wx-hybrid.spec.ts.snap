@@ -4,7 +4,385 @@ exports[`wx-hybrid should compatible with weapp native pages and components 1`] 
 
 exports[`wx-hybrid should compatible with weapp native pages and components 2`] = `
 "
-/** filePath: dist/app.js **/
+/** filePath: dist\\\\pages\\\\native\\\\native.wxml **/
+<view class=\\"native\\" bindtap=\\"viewTap\\">
+  <text>{{text}}{{x}}</text>
+  <tab myProperty=\\"kkl\\" bindmyevent=\\"handler\\" />
+</view>
+
+
+/** filePath: dist\\\\pages\\\\native\\\\native.js **/
+(wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 13 ], {
+    17: function(module, exports, __webpack_require__) {
+        const {add: add} = __webpack_require__(18);
+        Page({
+            data: {
+                text: \\"This is page data.\\",
+                x: add(1, 2)
+            },
+            created(options) {
+                console.log(options);
+            },
+            onReady() {},
+            viewTap() {
+                this.setData({
+                    text: \\"Set some data for updating view.\\"
+                }, (function() {}));
+            },
+            handler(e) {
+                console.log(e);
+            },
+            customData: {
+                hi: \\"MINA\\"
+            }
+        });
+    },
+    18: function(module, exports, __webpack_require__) {
+        \\"use strict\\";
+        Object.defineProperty(exports, \\"__esModule\\", {
+            value: true
+        });
+        exports.add = add;
+        function add(a, b) {
+            return a + b;
+        }
+    }
+}, [ [ 17, 0 ] ] ]);
+
+/** filePath: dist\\\\pages\\\\native\\\\native.wxss **/
+.native{color:red}
+
+/** filePath: dist\\\\pages\\\\native\\\\native.json **/
+{\\"navigationBarBackgroundColor\\":\\"#ffffff\\",\\"navigationBarTextStyle\\":\\"black\\",\\"navigationBarTitleText\\":\\"混写页面示例\\",\\"backgroundColor\\":\\"#eeeeee\\",\\"backgroundTextStyle\\":\\"light\\",\\"usingComponents\\":{\\"custom-wrapper\\":\\"../../custom-wrapper\\",\\"tab\\":\\"../../components/tab/tab\\"}}
+
+/** filePath: dist\\\\pages\\\\index\\\\index.wxss **/
+.title{text-align:center;line-height:80rpx;font-size:36rpx}.main{padding:0 50rpx}.wrapper{margin-bottom:24rpx}
+
+/** filePath: dist\\\\pages\\\\index\\\\index.js **/
+(wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 11 ], {
+    14: function(module, __webpack_exports__, __webpack_require__) {
+        \\"use strict\\";
+        __webpack_require__.r(__webpack_exports__);
+        var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
+        var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0___default = __webpack_require__.n(_tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__);
+        var _node_modules_babel_loader_lib_index_js_index_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(6);
+        var _node_modules_babel_loader_lib_index_js_index_js__WEBPACK_IMPORTED_MODULE_1___default = __webpack_require__.n(_node_modules_babel_loader_lib_index_js_index_js__WEBPACK_IMPORTED_MODULE_1__);
+        var config = {
+            navigationBarTitleText: \\"\\\\u9996\\\\u9875\\",
+            usingComponents: {
+                tab: \\"../../components/tab/tab\\"
+            }
+        };
+        var inst = Page(Object(_tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__[\\"createPageConfig\\"])(_node_modules_babel_loader_lib_index_js_index_js__WEBPACK_IMPORTED_MODULE_1___default.a, \\"pages/index/index\\", {
+            root: {
+                cn: []
+            }
+        }, config || {}));
+    },
+    16: function(module, exports, __webpack_require__) {},
+    6: function(module, exports, __webpack_require__) {
+        \\"use strict\\";
+        var _interopRequireDefault = __webpack_require__(3).default;
+        Object.defineProperty(exports, \\"__esModule\\", {
+            value: true
+        });
+        exports.default = void 0;
+        var _taro = _interopRequireDefault(__webpack_require__(1));
+        var _react = _interopRequireDefault(__webpack_require__(2));
+        var _components = __webpack_require__(15);
+        __webpack_require__(16);
+        class Index extends _react.default.Component {
+            gotoWxParse() {
+                _taro.default.navigateTo({
+                    url: \\"/pages/wxParse/wxParse\\"
+                });
+            }
+            gotoEcharts() {
+                _taro.default.navigateTo({
+                    url: \\"/pages/echarts/echarts\\"
+                });
+            }
+            gotoNative() {
+                _taro.default.navigateTo({
+                    url: \\"/pages/native/native\\"
+                });
+            }
+            tabEvent(e) {
+                console.log(e);
+            }
+            render() {
+                return _react.default.createElement(_components.View, {
+                    className: \\"index\\"
+                }, _react.default.createElement(_components.View, {
+                    className: \\"title\\"
+                }, \\"\\\\u4e0e\\\\u5c0f\\\\u7a0b\\\\u5e8f\\\\u539f\\\\u751f\\\\u878d\\\\u5408\\\\u7684\\\\u5404\\\\u79cd\\\\u793a\\\\u4f8b\\"), _react.default.createElement(_components.View, {
+                    className: \\"main\\"
+                }, _react.default.createElement(_components.View, {
+                    className: \\"wrapper\\"
+                }, _react.default.createElement(\\"tab\\", {
+                    onMyevent: this.tabEvent,
+                    myProperty: \\"This is tab\\"
+                })), _react.default.createElement(_components.View, {
+                    className: \\"wrapper\\"
+                }, _react.default.createElement(_components.Button, {
+                    type: \\"primary\\",
+                    onClick: this.gotoNative
+                }, \\"\\\\u6df7\\\\u5199\\\\u539f\\\\u751f\\\\u9875\\\\u9762\\\\u793a\\\\u4f8b\\"))));
+            }
+        }
+        exports.default = Index;
+    }
+}, [ [ 14, 0, 1, 3, 2 ] ] ]);
+
+/** filePath: dist\\\\pages\\\\index\\\\index.json **/
+{\\"navigationBarTitleText\\":\\"首页\\",\\"usingComponents\\":{\\"custom-wrapper\\":\\"../../custom-wrapper\\",\\"tab\\":\\"../../components/tab/tab\\",\\"comp\\":\\"../../comp\\"}}
+
+/** filePath: dist\\\\pages\\\\index\\\\index.wxml **/
+<import src=\\"../../base.wxml\\"/>
+<template is=\\"taro_tmpl\\" data=\\"{{root:root}}\\" />
+
+/** filePath: dist\\\\components\\\\tab\\\\tab.wxml **/
+<view class=\\"tab\\" bindtap=\\"clickHandler\\">
+  {{myProperty}}
+</view>
+
+
+/** filePath: dist\\\\components\\\\tab\\\\tab.js **/
+(wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 7 ], {
+    21: function(module, exports) {
+        Component({
+            behaviors: [],
+            properties: {
+                myProperty: {
+                    type: String,
+                    value: \\"\\",
+                    observer: function(newVal, oldVal, changedPath) {}
+                },
+                myProperty2: String
+            },
+            data: {},
+            attached: function() {},
+            moved: function() {},
+            detached: function() {},
+            methods: {
+                onMyButtonTap: function() {
+                    this.setData({});
+                },
+                _myPrivateMethod: function() {
+                    this.setData({
+                        \\"A[0].B\\": \\"myPrivateData\\"
+                    });
+                },
+                _propertyChange: function(newVal, oldVal) {},
+                clickHandler() {
+                    console.log(\\"sdsd\\");
+                    this.triggerEvent(\\"myevent\\", {
+                        f: 1
+                    });
+                }
+            }
+        });
+    }
+}, [ [ 21, 0 ] ] ]);
+
+/** filePath: dist\\\\components\\\\tab\\\\tab.json **/
+{\\"component\\":true,\\"usingComponents\\":{}}
+
+/** filePath: dist\\\\runtime.js **/
+(function(modules) {
+    function webpackJsonpCallback(data) {
+        var chunkIds = data[0];
+        var moreModules = data[1];
+        var executeModules = data[2];
+        var moduleId, chunkId, i = 0, resolves = [];
+        for (;i < chunkIds.length; i++) {
+            chunkId = chunkIds[i];
+            if (Object.prototype.hasOwnProperty.call(installedChunks, chunkId) && installedChunks[chunkId]) {
+                resolves.push(installedChunks[chunkId][0]);
+            }
+            installedChunks[chunkId] = 0;
+        }
+        for (moduleId in moreModules) {
+            if (Object.prototype.hasOwnProperty.call(moreModules, moduleId)) {
+                modules[moduleId] = moreModules[moduleId];
+            }
+        }
+        if (parentJsonpFunction) parentJsonpFunction(data);
+        while (resolves.length) {
+            resolves.shift()();
+        }
+        deferredModules.push.apply(deferredModules, executeModules || []);
+        return checkDeferredModules();
+    }
+    function checkDeferredModules() {
+        var result;
+        for (var i = 0; i < deferredModules.length; i++) {
+            var deferredModule = deferredModules[i];
+            var fulfilled = true;
+            for (var j = 1; j < deferredModule.length; j++) {
+                var depId = deferredModule[j];
+                if (installedChunks[depId] !== 0) fulfilled = false;
+            }
+            if (fulfilled) {
+                deferredModules.splice(i--, 1);
+                result = __webpack_require__(__webpack_require__.s = deferredModule[0]);
+            }
+        }
+        return result;
+    }
+    var installedModules = {};
+    var installedChunks = {
+        0: 0
+    };
+    var deferredModules = [];
+    function __webpack_require__(moduleId) {
+        if (installedModules[moduleId]) {
+            return installedModules[moduleId].exports;
+        }
+        var module = installedModules[moduleId] = {
+            i: moduleId,
+            l: false,
+            exports: {}
+        };
+        modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
+        module.l = true;
+        return module.exports;
+    }
+    __webpack_require__.m = modules;
+    __webpack_require__.c = installedModules;
+    __webpack_require__.d = function(exports, name, getter) {
+        if (!__webpack_require__.o(exports, name)) {
+            Object.defineProperty(exports, name, {
+                enumerable: true,
+                get: getter
+            });
+        }
+    };
+    __webpack_require__.r = function(exports) {
+        if (typeof Symbol !== \\"undefined\\" && Symbol.toStringTag) {
+            Object.defineProperty(exports, Symbol.toStringTag, {
+                value: \\"Module\\"
+            });
+        }
+        Object.defineProperty(exports, \\"__esModule\\", {
+            value: true
+        });
+    };
+    __webpack_require__.t = function(value, mode) {
+        if (mode & 1) value = __webpack_require__(value);
+        if (mode & 8) return value;
+        if (mode & 4 && typeof value === \\"object\\" && value && value.__esModule) return value;
+        var ns = Object.create(null);
+        __webpack_require__.r(ns);
+        Object.defineProperty(ns, \\"default\\", {
+            enumerable: true,
+            value: value
+        });
+        if (mode & 2 && typeof value != \\"string\\") for (var key in value) __webpack_require__.d(ns, key, function(key) {
+            return value[key];
+        }.bind(null, key));
+        return ns;
+    };
+    __webpack_require__.n = function(module) {
+        var getter = module && module.__esModule ? function getDefault() {
+            return module[\\"default\\"];
+        } : function getModuleExports() {
+            return module;
+        };
+        __webpack_require__.d(getter, \\"a\\", getter);
+        return getter;
+    };
+    __webpack_require__.o = function(object, property) {
+        return Object.prototype.hasOwnProperty.call(object, property);
+    };
+    __webpack_require__.p = \\"/\\";
+    var jsonpArray = wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || [];
+    var oldJsonpFunction = jsonpArray.push.bind(jsonpArray);
+    jsonpArray.push = webpackJsonpCallback;
+    jsonpArray = jsonpArray.slice();
+    for (var i = 0; i < jsonpArray.length; i++) webpackJsonpCallback(jsonpArray[i]);
+    var parentJsonpFunction = oldJsonpFunction;
+    checkDeferredModules();
+})([]);
+
+/** filePath: dist\\\\taro.js **/
+(wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 1 ], {
+    0: function(module, exports, __webpack_require__) {
+        \\"use strict\\";
+        Object.defineProperty(exports, \\"__esModule\\", {
+            value: true
+        });
+        exports.default = void 0;
+        var _default = \\"taro-runtime-mock\\";
+        exports.default = _default;
+    },
+    15: function(module, exports, __webpack_require__) {
+        \\"use strict\\";
+        Object.defineProperty(exports, \\"__esModule\\", {
+            value: true
+        });
+        exports.default = void 0;
+        var _default = \\"taro-components-mock\\";
+        exports.default = _default;
+    },
+    5: function(module, exports, __webpack_require__) {
+        \\"use strict\\";
+        Object.defineProperty(exports, \\"__esModule\\", {
+            value: true
+        });
+        exports.default = void 0;
+        var _default = \\"taro-react-mock\\";
+        exports.default = _default;
+    }
+} ]);
+
+/** filePath: dist\\\\common.js **/
+(wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 2 ], [ , function(module, exports, __webpack_require__) {
+    \\"use strict\\";
+    Object.defineProperty(exports, \\"__esModule\\", {
+        value: true
+    });
+    exports.default = exports.EMPTY_OBJ = void 0;
+    exports.isArray = isArray;
+    exports.isFunction = isFunction;
+    exports.mergeInternalComponents = mergeInternalComponents;
+    exports.mergeReconciler = mergeReconciler;
+    exports.processApis = processApis;
+    var _default = \\"taro\\";
+    exports.default = _default;
+    function mergeReconciler() {}
+    function mergeInternalComponents() {}
+    function isFunction() {}
+    function isArray() {}
+    function processApis() {}
+    const EMPTY_OBJ = {};
+    exports.EMPTY_OBJ = EMPTY_OBJ;
+}, function(module, exports, __webpack_require__) {
+    \\"use strict\\";
+    Object.defineProperty(exports, \\"__esModule\\", {
+        value: true
+    });
+    exports.default = void 0;
+    var _default = \\"react-mock\\";
+    exports.default = _default;
+} ] ]);
+
+/** filePath: dist\\\\vendors.js **/
+(wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 3 ], {
+    3: function(module, exports) {
+        function _interopRequireDefault(obj) {
+            return obj && obj.__esModule ? obj : {
+                default: obj
+            };
+        }
+        module.exports = _interopRequireDefault, module.exports.__esModule = true, module.exports[\\"default\\"] = module.exports;
+    }
+} ]);
+
+/** filePath: dist\\\\app.wxss **/
+
+
+/** filePath: dist\\\\app.js **/
 require(\\"./runtime\\");
 
 require(\\"./common\\");
@@ -14,14 +392,14 @@ require(\\"./vendors\\");
 require(\\"./taro\\");
 
 (wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 4 ], {
-    13: function(module, exports, __webpack_require__) {},
+    11: function(module, exports, __webpack_require__) {},
     23: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_require__.r(__webpack_exports__);
         var mocks_taro = __webpack_require__(1);
         const needPromiseApis = new Set([ \\"authPrivateMessage\\", \\"disableAlertBeforeUnload\\", \\"enableAlertBeforeUnload\\", \\"getBackgroundFetchData\\", \\"getGroupEnterInfo\\", \\"getShareInfo\\", \\"getWeRunData\\", \\"join1v1Chat\\", \\"openVideoEditor\\", \\"saveFileToDisk\\", \\"scanItem\\", \\"setEnable1v1Chat\\", \\"setWindowSize\\", \\"sendBizRedPacket\\", \\"startFacialRecognitionVerify\\", \\"openCustomerServiceChat\\", \\"getLocalIPAddress\\", \\"getUserProfile\\" ]);
         function initNativeApi(taro) {
-            Object(mocks_taro[\\"h\\"])(taro, wx, {
+            Object(mocks_taro[\\"processApis\\"])(taro, wx, {
                 needPromiseApis: needPromiseApis,
                 modifyApis(apis) {
                     apis.delete(\\"lanDebug\\");
@@ -362,22 +740,22 @@ require(\\"./taro\\");
         const hostConfig = {
             initNativeApi: initNativeApi
         };
-        Object(mocks_taro[\\"g\\"])(hostConfig);
-        Object(mocks_taro[\\"f\\"])(components);
+        Object(mocks_taro[\\"mergeReconciler\\"])(hostConfig);
+        Object(mocks_taro[\\"mergeInternalComponents\\"])(components);
         var taro_runtime = __webpack_require__(0);
         const reactMeta = {
-            PageContext: mocks_taro[\\"a\\"],
-            R: mocks_taro[\\"a\\"]
+            PageContext: mocks_taro[\\"EMPTY_OBJ\\"],
+            R: mocks_taro[\\"EMPTY_OBJ\\"]
         };
         const HOOKS_APP_ID = \\"taro-app\\";
         function isClassComponent(R, component) {
             var _a;
             const prototype = component.prototype;
             if ((_a = component.displayName) === null || _a === void 0 ? void 0 : _a.includes(\\"Connect\\")) return false;
-            return Object(mocks_taro[\\"e\\"])(component.render) || !!(prototype === null || prototype === void 0 ? void 0 : prototype.isReactComponent) || prototype instanceof R.Component;
+            return Object(mocks_taro[\\"isFunction\\"])(component.render) || !!(prototype === null || prototype === void 0 ? void 0 : prototype.isReactComponent) || prototype instanceof R.Component;
         }
         function ensureIsArray(item) {
-            if (Object(mocks_taro[\\"d\\"])(item)) {
+            if (Object(mocks_taro[\\"isArray\\"])(item)) {
                 return item;
             } else {
                 return item ? [ item ] : [];
@@ -407,7 +785,7 @@ require(\\"./taro\\");
                 }
                 inst = inst;
                 const callback = (...args) => fnRef.current(...args);
-                if (Object(mocks_taro[\\"e\\"])(inst[lifecycle])) {
+                if (Object(mocks_taro[\\"isFunction\\"])(inst[lifecycle])) {
                     inst[lifecycle] = [ inst[lifecycle], callback ];
                 } else {
                     inst[lifecycle] = [ ...inst[lifecycle] || [], callback ];
@@ -420,7 +798,7 @@ require(\\"./taro\\");
                     const list = inst[lifecycle];
                     if (list === callback) {
                         inst[lifecycle] = undefined;
-                    } else if (Object(mocks_taro[\\"d\\"])(list)) {
+                    } else if (Object(mocks_taro[\\"isArray\\"])(list)) {
                         inst[lifecycle] = list.filter(item => item !== callback);
                     }
                 };
@@ -501,7 +879,7 @@ require(\\"./taro\\");
                     forwardedRef: inject,
                     reactReduxForwardedRef: inject
                 };
-                if (reactMeta.PageContext === mocks_taro[\\"a\\"]) {
+                if (reactMeta.PageContext === mocks_taro[\\"EMPTY_OBJ\\"]) {
                     reactMeta.PageContext = R.createContext(\\"\\");
                 }
                 return class PageWrapper extends R.Component {
@@ -711,7 +1089,7 @@ require(\\"./taro\\");
                         forwardedRef: inject,
                         reactReduxForwardedRef: inject
                     };
-                    if (reactMeta.PageContext === mocks_taro[\\"a\\"]) {
+                    if (reactMeta.PageContext === mocks_taro[\\"EMPTY_OBJ\\"]) {
                         reactMeta.PageContext = R.createContext(\\"\\");
                     }
                     const item = {
@@ -852,41 +1230,11 @@ require(\\"./taro\\");
             }
         }));
         if (false) {}
-        var classCallCheck = __webpack_require__(4);
-        var createClass = __webpack_require__(5);
-        var inherits = __webpack_require__(7);
-        var createSuper = __webpack_require__(6);
+        var lib_src_app = __webpack_require__(4);
+        var app_default = __webpack_require__.n(lib_src_app);
         var mocks_react = __webpack_require__(2);
-        var src_app = __webpack_require__(13);
-        var app_App = function(_React$Component) {
-            Object(inherits[\\"a\\"])(App, _React$Component);
-            var _super = Object(createSuper[\\"a\\"])(App);
-            function App() {
-                Object(classCallCheck[\\"a\\"])(this, App);
-                return _super.apply(this, arguments);
-            }
-            Object(createClass[\\"a\\"])(App, [ {
-                key: \\"componentDidMount\\",
-                value: function componentDidMount() {}
-            }, {
-                key: \\"componentDidShow\\",
-                value: function componentDidShow() {}
-            }, {
-                key: \\"componentDidHide\\",
-                value: function componentDidHide() {}
-            }, {
-                key: \\"componentCatchError\\",
-                value: function componentCatchError() {}
-            }, {
-                key: \\"render\\",
-                value: function render() {
-                    return this.props.children;
-                }
-            } ]);
-            return App;
-        }(mocks_react[\\"default\\"].Component);
-        var lib_src_app = app_App;
-        var taro_react = __webpack_require__(8);
+        var taro_react = __webpack_require__(5);
+        var taro_react_default = __webpack_require__.n(taro_react);
         var app_config = {
             pages: [ \\"pages/index/index\\", \\"pages/native/native\\" ],
             window: {
@@ -897,7 +1245,7 @@ require(\\"./taro\\");
             }
         };
         taro_runtime[\\"window\\"].__taroAppConfig = app_config;
-        var app_inst = App(createReactApp(lib_src_app, mocks_react, taro_react[\\"a\\"], app_config));
+        var app_inst = App(createReactApp(app_default.a, mocks_react, taro_react_default.a, app_config));
         Object(mocks_taro[\\"initPxTransform\\"])({
             designWidth: 750,
             deviceRatio: {
@@ -906,18 +1254,65 @@ require(\\"./taro\\");
                 828: .905
             }
         });
+    },
+    4: function(module, exports, __webpack_require__) {
+        \\"use strict\\";
+        var _interopRequireDefault = __webpack_require__(3).default;
+        Object.defineProperty(exports, \\"__esModule\\", {
+            value: true
+        });
+        exports.default = void 0;
+        var _taro = _interopRequireDefault(__webpack_require__(1));
+        var _react = _interopRequireDefault(__webpack_require__(2));
+        __webpack_require__(11);
+        class App extends _react.default.Component {
+            componentDidMount() {}
+            componentDidShow() {}
+            componentDidHide() {}
+            componentCatchError() {}
+            render() {
+                return this.props.children;
+            }
+        }
+        var _default = App;
+        exports.default = _default;
     }
 }, [ [ 23, 0, 1, 3, 2 ] ] ]);
 
 
 
-/** filePath: dist/app.json **/
+/** filePath: dist\\\\comp.js **/
+(wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 6 ], {
+    12: function(module, exports, __webpack_require__) {
+        \\"use strict\\";
+        var _runtime = __webpack_require__(0);
+        Component((0, _runtime.createRecursiveComponentConfig)());
+    }
+}, [ [ 12, 0, 1 ] ] ]);
+
+/** filePath: dist\\\\custom-wrapper.js **/
+(wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 10 ], {
+    13: function(module, exports, __webpack_require__) {
+        \\"use strict\\";
+        var _runtime = __webpack_require__(0);
+        Component((0, _runtime.createRecursiveComponentConfig)(\\"custom-wrapper\\"));
+    }
+}, [ [ 13, 0, 1 ] ] ]);
+
+/** filePath: dist\\\\app.json **/
 {\\"pages\\":[\\"pages/index/index\\",\\"pages/native/native\\"],\\"window\\":{\\"backgroundTextStyle\\":\\"light\\",\\"navigationBarBackgroundColor\\":\\"#fff\\",\\"navigationBarTitleText\\":\\"WeChat\\",\\"navigationBarTextStyle\\":\\"black\\"}}
 
-/** filePath: dist/app.wxss **/
+/** filePath: dist\\\\comp.wxml **/
+<import src=\\"./base.wxml\\" />
+<template is=\\"tmpl_0_container\\" data=\\"{{i:i,l:l}}\\" />
 
+/** filePath: dist\\\\comp.json **/
+{\\"component\\":true,\\"usingComponents\\":{\\"comp\\":\\"./comp\\",\\"custom-wrapper\\":\\"./custom-wrapper\\"}}
 
-/** filePath: dist/base.wxml **/
+/** filePath: dist\\\\custom-wrapper.json **/
+{\\"component\\":true,\\"usingComponents\\":{\\"comp\\":\\"./comp\\",\\"custom-wrapper\\":\\"./custom-wrapper\\"}}
+
+/** filePath: dist\\\\base.wxml **/
 <wxs module=\\"xs\\" src=\\"./utils.wxs\\" />
 <template name=\\"taro_tmpl\\">
   <block wx:for=\\"{{root.cn}}\\" wx:key=\\"sid\\">
@@ -957,6 +1352,18 @@ require(\\"./taro\\");
   </view>
 </template>
 
+<template name=\\"tmpl_0_icon\\">
+  <icon type=\\"{{i.type}}\\" size=\\"{{xs.b(i.size,23)}}\\" color=\\"{{i.color}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\"></icon>
+</template>
+
+<template name=\\"tmpl_0_progress\\">
+  <progress percent=\\"{{i.percent}}\\" stroke-width=\\"{{xs.b(i.strokeWidth,6)}}\\" color=\\"{{xs.b(i.color,'#09BB07')}}\\" activeColor=\\"{{xs.b(i.activeColor,'#09BB07')}}\\" backgroundColor=\\"{{xs.b(i.backgroundColor,'#EBEBEB')}}\\" active=\\"{{xs.b(i.active,false)}}\\" active-mode=\\"{{xs.b(i.activeMode,'backwards')}}\\" show-info=\\"{{xs.b(i.showInfo,false)}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\"></progress>
+</template>
+
+<template name=\\"tmpl_0_rich-text\\">
+  <rich-text nodes=\\"{{xs.b(i.nodes,[])}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\"></rich-text>
+</template>
+
 <template name=\\"tmpl_0_static-text\\">
   <text selectable=\\"{{xs.b(i.selectable,false)}}\\" space=\\"{{i.space}}\\" decode=\\"{{xs.b(i.decode,false)}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"sid\\">
@@ -981,12 +1388,184 @@ require(\\"./taro\\");
   </button>
 </template>
 
+<template name=\\"tmpl_0_checkbox\\">
+  <checkbox value=\\"{{i.value}}\\" disabled=\\"{{i.disabled}}\\" checked=\\"{{xs.b(i.checked,false)}}\\" color=\\"{{xs.b(i.color,'#09BB07')}}\\" name=\\"{{i.name}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
+    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"sid\\">
+      <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
+    </block>
+  </checkbox>
+</template>
+
+<template name=\\"tmpl_0_checkbox-group\\">
+  <checkbox-group bindchange=\\"eh\\" name=\\"{{i.name}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
+    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"sid\\">
+      <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
+    </block>
+  </checkbox-group>
+</template>
+
+<template name=\\"tmpl_0_form\\">
+  <form report-submit=\\"{{xs.b(i.reportSubmit,false)}}\\" bindsubmit=\\"eh\\" bindreset=\\"eh\\" name=\\"{{i.name}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
+    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"sid\\">
+      <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
+    </block>
+  </form>
+</template>
+
+<template name=\\"tmpl_0_input\\">
+  <template is=\\"{{xs.c(i, 'tmpl_0_')}}\\" data=\\"{{i:i}}\\" />
+</template>
+
+<template name=\\"tmpl_0_input_focus\\">
+  <input value=\\"{{i.value}}\\" type=\\"{{xs.b(i.type,'')}}\\" password=\\"{{xs.b(i.password,false)}}\\" placeholder=\\"{{i.placeholder}}\\" placeholder-style=\\"{{i.placeholderStyle}}\\" placeholder-class=\\"{{xs.b(i.placeholderClass,'input-placeholder')}}\\" disabled=\\"{{i.disabled}}\\" maxlength=\\"{{xs.b(i.maxlength,140)}}\\" cursor-spacing=\\"{{xs.b(i.cursorSpacing,0)}}\\" focus=\\"{{xs.b(i.focus,false)}}\\" confirm-type=\\"{{xs.b(i.confirmType,'done')}}\\" confirm-hold=\\"{{xs.b(i.confirmHold,false)}}\\" cursor=\\"{{xs.b(i.cursor,i.value.length)}}\\" selection-start=\\"{{xs.b(i.selectionStart,-1)}}\\" selection-end=\\"{{xs.b(i.selectionEnd,-1)}}\\" bindinput=\\"eh\\" bindfocus=\\"eh\\" bindblur=\\"eh\\" bindconfirm=\\"eh\\" name=\\"{{i.name}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\"></input>
+</template>
+
+<template name=\\"tmpl_0_input_blur\\">
+  <input value=\\"{{i.value}}\\" type=\\"{{xs.b(i.type,'')}}\\" password=\\"{{xs.b(i.password,false)}}\\" placeholder=\\"{{i.placeholder}}\\" placeholder-style=\\"{{i.placeholderStyle}}\\" placeholder-class=\\"{{xs.b(i.placeholderClass,'input-placeholder')}}\\" disabled=\\"{{i.disabled}}\\" maxlength=\\"{{xs.b(i.maxlength,140)}}\\" cursor-spacing=\\"{{xs.b(i.cursorSpacing,0)}}\\" confirm-type=\\"{{xs.b(i.confirmType,'done')}}\\" confirm-hold=\\"{{xs.b(i.confirmHold,false)}}\\" cursor=\\"{{xs.b(i.cursor,i.value.length)}}\\" selection-start=\\"{{xs.b(i.selectionStart,-1)}}\\" selection-end=\\"{{xs.b(i.selectionEnd,-1)}}\\" bindinput=\\"eh\\" bindfocus=\\"eh\\" bindblur=\\"eh\\" bindconfirm=\\"eh\\" name=\\"{{i.name}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\"></input>
+</template>
+
+<template name=\\"tmpl_0_label\\">
+  <label for=\\"{{i.for}}\\" name=\\"{{i.name}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
+    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"sid\\">
+      <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
+    </block>
+  </label>
+</template>
+
+<template name=\\"tmpl_0_picker\\">
+  <picker mode=\\"{{xs.b(i.mode,'selector')}}\\" disabled=\\"{{i.disabled}}\\" range=\\"{{i.range}}\\" range-key=\\"{{i.rangeKey}}\\" value=\\"{{i.value}}\\" start=\\"{{i.start}}\\" end=\\"{{i.end}}\\" fields=\\"{{xs.b(i.fields,'day')}}\\" custom-item=\\"{{i.customItem}}\\" name=\\"{{i.name}}\\" bindcancel=\\"eh\\" bindchange=\\"eh\\" bindcolumnchange=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
+    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"sid\\">
+      <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
+    </block>
+  </picker>
+</template>
+
+<template name=\\"tmpl_0_picker-view\\">
+  <picker-view value=\\"{{i.value}}\\" indicator-style=\\"{{i.indicatorStyle}}\\" indicator-class=\\"{{i.indicatorClass}}\\" mask-style=\\"{{i.maskStyle}}\\" mask-class=\\"{{i.maskClass}}\\" bindchange=\\"eh\\" name=\\"{{i.name}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
+    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"sid\\">
+      <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
+    </block>
+  </picker-view>
+</template>
+
+<template name=\\"tmpl_0_picker-view-column\\">
+  <picker-view-column name=\\"{{i.name}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
+    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"sid\\">
+      <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
+    </block>
+  </picker-view-column>
+</template>
+
+<template name=\\"tmpl_0_radio\\">
+  <radio value=\\"{{i.value}}\\" checked=\\"{{xs.b(i.checked,false)}}\\" disabled=\\"{{i.disabled}}\\" color=\\"{{xs.b(i.color,'#09BB07')}}\\" name=\\"{{i.name}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
+    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"sid\\">
+      <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
+    </block>
+  </radio>
+</template>
+
+<template name=\\"tmpl_0_radio-group\\">
+  <radio-group bindchange=\\"eh\\" name=\\"{{i.name}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
+    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"sid\\">
+      <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
+    </block>
+  </radio-group>
+</template>
+
+<template name=\\"tmpl_0_slider\\">
+  <slider min=\\"{{xs.b(i.min,0)}}\\" max=\\"{{xs.b(i.max,100)}}\\" step=\\"{{xs.b(i.step,1)}}\\" disabled=\\"{{i.disabled}}\\" value=\\"{{xs.b(i.value,0)}}\\" activeColor=\\"{{xs.b(i.activeColor,'#1aad19')}}\\" backgroundColor=\\"{{xs.b(i.backgroundColor,'#e9e9e9')}}\\" block-size=\\"{{xs.b(i.blockSize,28)}}\\" block-color=\\"{{xs.b(i.blockColor,'#ffffff')}}\\" show-value=\\"{{xs.b(i.showValue,false)}}\\" bindchange=\\"eh\\" bindchanging=\\"eh\\" name=\\"{{i.name}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\"></slider>
+</template>
+
+<template name=\\"tmpl_0_switch\\">
+  <switch checked=\\"{{xs.b(i.checked,false)}}\\" disabled=\\"{{i.disabled}}\\" type=\\"{{xs.b(i.type,'switch')}}\\" color=\\"{{xs.b(i.color,'#04BE02')}}\\" bindchange=\\"eh\\" name=\\"{{i.name}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\"></switch>
+</template>
+
+<template name=\\"tmpl_0_cover-image\\">
+  <cover-image src=\\"{{i.src}}\\" bindload=\\"eh\\" binderror=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
+    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"sid\\">
+      <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
+    </block>
+  </cover-image>
+</template>
+
+<template name=\\"tmpl_0_textarea\\">
+  <template is=\\"{{xs.c(i, 'tmpl_0_')}}\\" data=\\"{{i:i}}\\" />
+</template>
+
+<template name=\\"tmpl_0_textarea_focus\\">
+  <textarea value=\\"{{i.value}}\\" placeholder=\\"{{i.placeholder}}\\" placeholder-style=\\"{{i.placeholderStyle}}\\" placeholder-class=\\"{{xs.b(i.placeholderClass,'textarea-placeholder')}}\\" disabled=\\"{{i.disabled}}\\" maxlength=\\"{{xs.b(i.maxlength,140)}}\\" auto-focus=\\"{{xs.b(i.autoFocus,false)}}\\" focus=\\"{{xs.b(i.focus,false)}}\\" auto-height=\\"{{xs.b(i.autoHeight,false)}}\\" fixed=\\"{{xs.b(i.fixed,false)}}\\" cursor-spacing=\\"{{xs.b(i.cursorSpacing,0)}}\\" cursor=\\"{{xs.b(i.cursor,-1)}}\\" selection-start=\\"{{xs.b(i.selectionStart,-1)}}\\" selection-end=\\"{{xs.b(i.selectionEnd,-1)}}\\" bindfocus=\\"eh\\" bindblur=\\"eh\\" bindlinechange=\\"eh\\" bindinput=\\"eh\\" bindconfirm=\\"eh\\" name=\\"{{i.name}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\"></textarea>
+</template>
+
+<template name=\\"tmpl_0_textarea_blur\\">
+  <textarea value=\\"{{i.value}}\\" placeholder=\\"{{i.placeholder}}\\" placeholder-style=\\"{{i.placeholderStyle}}\\" placeholder-class=\\"{{xs.b(i.placeholderClass,'textarea-placeholder')}}\\" disabled=\\"{{i.disabled}}\\" maxlength=\\"{{xs.b(i.maxlength,140)}}\\" auto-focus=\\"{{xs.b(i.autoFocus,false)}}\\" auto-height=\\"{{xs.b(i.autoHeight,false)}}\\" fixed=\\"{{xs.b(i.fixed,false)}}\\" cursor-spacing=\\"{{xs.b(i.cursorSpacing,0)}}\\" cursor=\\"{{xs.b(i.cursor,-1)}}\\" selection-start=\\"{{xs.b(i.selectionStart,-1)}}\\" selection-end=\\"{{xs.b(i.selectionEnd,-1)}}\\" bindfocus=\\"eh\\" bindblur=\\"eh\\" bindlinechange=\\"eh\\" bindinput=\\"eh\\" bindconfirm=\\"eh\\" name=\\"{{i.name}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\"></textarea>
+</template>
+
+<template name=\\"tmpl_0_cover-view\\">
+  <cover-view scroll-top=\\"{{xs.b(i.scrollTop,false)}}\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
+    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"sid\\">
+      <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
+    </block>
+  </cover-view>
+</template>
+
+<template name=\\"tmpl_0_movable-area\\">
+  <movable-area scale-area=\\"{{xs.b(i.scaleArea,false)}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
+    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"sid\\">
+      <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
+    </block>
+  </movable-area>
+</template>
+
+<template name=\\"tmpl_0_movable-view\\">
+  <movable-view direction=\\"{{xs.b(i.direction,none)}}\\" inertia=\\"{{xs.b(i.inertia,false)}}\\" out-of-bounds=\\"{{xs.b(i.outOfBounds,false)}}\\" x=\\"{{i.x}}\\" y=\\"{{i.y}}\\" damping=\\"{{xs.b(i.damping,20)}}\\" friction=\\"{{xs.b(i.friction,2)}}\\" disabled=\\"{{i.disabled}}\\" scale=\\"{{xs.b(i.scale,false)}}\\" scale-min=\\"{{xs.b(i.scaleMin,0.5)}}\\" scale-max=\\"{{xs.b(i.scaleMax,10)}}\\" scale-value=\\"{{xs.b(i.scaleValue,1)}}\\" bindchange=\\"eh\\" bindscale=\\"eh\\" bindhtouchmove=\\"eh\\" bindvtouchmove=\\"eh\\" width=\\"{{xs.b(i.width,'10px')}}\\" height=\\"{{xs.b(i.height,'10px')}}\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" animation=\\"{{i.animation}}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
+    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"sid\\">
+      <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
+    </block>
+  </movable-view>
+</template>
+
 <template name=\\"tmpl_0_scroll-view\\">
   <scroll-view scroll-x=\\"{{xs.b(i.scrollX,false)}}\\" scroll-y=\\"{{xs.b(i.scrollY,false)}}\\" upper-threshold=\\"{{xs.b(i.upperThreshold,50)}}\\" lower-threshold=\\"{{xs.b(i.lowerThreshold,50)}}\\" scroll-top=\\"{{i.scrollTop}}\\" scroll-left=\\"{{i.scrollLeft}}\\" scroll-into-view=\\"{{i.scrollIntoView}}\\" scroll-with-animation=\\"{{xs.b(i.scrollWithAnimation,false)}}\\" enable-back-to-top=\\"{{xs.b(i.enableBackToTop,false)}}\\" bindscrolltoupper=\\"eh\\" bindscrolltolower=\\"eh\\" bindscroll=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" animation=\\"{{i.animation}}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"sid\\">
       <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
     </block>
   </scroll-view>
+</template>
+
+<template name=\\"tmpl_0_swiper\\">
+  <swiper indicator-dots=\\"{{xs.b(i.indicatorDots,false)}}\\" indicator-color=\\"{{xs.b(i.indicatorColor,'rgba(0, 0, 0, .3)')}}\\" indicator-active-color=\\"{{xs.b(i.indicatorActiveColor,'#000000')}}\\" autoplay=\\"{{xs.b(i.autoplay,false)}}\\" current=\\"{{xs.b(i.current,0)}}\\" interval=\\"{{xs.b(i.interval,5000)}}\\" duration=\\"{{xs.b(i.duration,500)}}\\" circular=\\"{{xs.b(i.circular,false)}}\\" vertical=\\"{{xs.b(i.vertical,false)}}\\" previous-margin=\\"{{xs.b(i.previousMargin,'0px')}}\\" next-margin=\\"{{xs.b(i.nextMargin,'0px')}}\\" display-multiple-items=\\"{{xs.b(i.displayMultipleItems,1)}}\\" bindchange=\\"eh\\" bindtransition=\\"eh\\" bindanimationfinish=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
+    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"sid\\">
+      <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
+    </block>
+  </swiper>
+</template>
+
+<template name=\\"tmpl_0_swiper-item\\">
+  <swiper-item item-id=\\"{{i.itemId}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
+    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"sid\\">
+      <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
+    </block>
+  </swiper-item>
+</template>
+
+<template name=\\"tmpl_0_navigator\\">
+  <navigator url=\\"{{i.url}}\\" open-type=\\"{{xs.b(i.openType,'navigate')}}\\" delta=\\"{{xs.b(i.delta,1)}}\\" hover-class=\\"{{xs.b(i.hoverClass,'navigator-hover')}}\\" hover-stop-propagation=\\"{{xs.b(i.hoverStopPropagation,false)}}\\" hover-start-time=\\"{{xs.b(i.hoverStartTime,50)}}\\" hover-stay-time=\\"{{xs.b(i.hoverStayTime,600)}}\\" bindsuccess=\\"eh\\" bindfail=\\"eh\\" bindcomplete=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
+    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"sid\\">
+      <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
+    </block>
+  </navigator>
+</template>
+
+<template name=\\"tmpl_0_audio\\">
+  <audio id=\\"{{i.id}}\\" src=\\"{{i.src}}\\" loop=\\"{{xs.b(i.loop,false)}}\\" controls=\\"{{xs.b(i.controls,false)}}\\" poster=\\"{{i.poster}}\\" name=\\"{{i.name}}\\" author=\\"{{i.author}}\\" binderror=\\"eh\\" bindplay=\\"eh\\" bindpause=\\"eh\\" bindtimeupdate=\\"eh\\" bindended=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\"></audio>
+</template>
+
+<template name=\\"tmpl_0_camera\\">
+  <camera device-position=\\"{{xs.b(i.devicePosition,'back')}}\\" flash=\\"{{xs.b(i.flash,'auto')}}\\" bindstop=\\"eh\\" binderror=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
+    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"sid\\">
+      <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
+    </block>
+  </camera>
 </template>
 
 <template name=\\"tmpl_0_static-image\\">
@@ -1003,6 +1582,74 @@ require(\\"./taro\\");
       <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
     </block>
   </image>
+</template>
+
+<template name=\\"tmpl_0_live-player\\">
+  <live-player src=\\"{{i.src}}\\" autoplay=\\"{{xs.b(i.autoplay,false)}}\\" muted=\\"{{xs.b(i.muted,false)}}\\" orientation=\\"{{xs.b(i.orientation,'vertical')}}\\" object-fit=\\"{{xs.b(i.objectFit,'contain')}}\\" background-mute=\\"{{xs.b(i.backgroundMute,false)}}\\" min-cache=\\"{{xs.b(i.minCache,1)}}\\" max-cache=\\"{{xs.b(i.maxCache,3)}}\\" bindstatechange=\\"eh\\" bindfullscreenchange=\\"eh\\" bindnetstatus=\\"eh\\" animation=\\"{{i.animation}}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
+    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"sid\\">
+      <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
+    </block>
+  </live-player>
+</template>
+
+<template name=\\"tmpl_0_video\\">
+  <video src=\\"{{i.src}}\\" duration=\\"{{i.duration}}\\" controls=\\"{{xs.b(i.controls,true)}}\\" danmu-list=\\"{{i.danmuList}}\\" danmu-btn=\\"{{i.danmuBtn}}\\" enable-danmu=\\"{{i.enableDanmu}}\\" autoplay=\\"{{xs.b(i.autoplay,false)}}\\" loop=\\"{{xs.b(i.loop,false)}}\\" muted=\\"{{xs.b(i.muted,false)}}\\" initial-time=\\"{{xs.b(i.initialTime,0)}}\\" page-gesture=\\"{{xs.b(i.pageGesture,false)}}\\" direction=\\"{{i.direction}}\\" show-progress=\\"{{xs.b(i.showProgress,true)}}\\" show-fullscreen-btn=\\"{{xs.b(i.showFullscreenBtn,true)}}\\" show-play-btn=\\"{{xs.b(i.showPlayBtn,true)}}\\" show-center-play-btn=\\"{{xs.b(i.showCenterPlayBtn,true)}}\\" enable-progress-gesture=\\"{{xs.b(i.enableProgressGesture,true)}}\\" object-fit=\\"{{xs.b(i.objectFit,'contain')}}\\" poster=\\"{{i.poster}}\\" show-mute-btn=\\"{{xs.b(i.showMuteBtn,false)}}\\" bindplay=\\"eh\\" bindpause=\\"eh\\" bindended=\\"eh\\" bindtimeupdate=\\"eh\\" bindfullscreenchange=\\"eh\\" bindwaiting=\\"eh\\" binderror=\\"eh\\" animation=\\"{{i.animation}}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
+    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"sid\\">
+      <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
+    </block>
+  </video>
+</template>
+
+<template name=\\"tmpl_0_canvas\\">
+  <canvas canvas-id=\\"{{i.canvasId}}\\" disable-scroll=\\"{{xs.b(i.disableScroll,false)}}\\" binderror=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongtap=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
+    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"sid\\">
+      <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
+    </block>
+  </canvas>
+</template>
+
+<template name=\\"tmpl_0_ad\\">
+  <ad unit-id=\\"{{i.unitId}}\\" ad-intervals=\\"{{i.adIntervals}}\\" bindload=\\"eh\\" binderror=\\"eh\\" bindclose=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\"></ad>
+</template>
+
+<template name=\\"tmpl_0_web-view\\">
+  <web-view src=\\"{{i.src}}\\" bindmessage=\\"eh\\" bindload=\\"eh\\" binderror=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
+    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"sid\\">
+      <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
+    </block>
+  </web-view>
+</template>
+
+<template name=\\"tmpl_0_block\\">
+  <block  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
+    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"sid\\">
+      <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
+    </block>
+  </block>
+</template>
+
+<template name=\\"tmpl_0_map\\">
+  <map longitude=\\"{{i.longitude}}\\" latitude=\\"{{i.latitude}}\\" scale=\\"{{xs.b(i.scale,16)}}\\" markers=\\"{{xs.b(i.markers,[])}}\\" covers=\\"{{i.covers}}\\" polyline=\\"{{xs.b(i.polyline,[])}}\\" circles=\\"{{xs.b(i.circles,[])}}\\" controls=\\"{{xs.b(i.controls,[])}}\\" include-points=\\"{{xs.b(i.includePoints,[])}}\\" show-location=\\"{{i.showLocation}}\\" layer-style=\\"{{xs.b(i.layerStyle,1)}}\\" bindmarkertap=\\"eh\\" bindcontroltap=\\"eh\\" bindcallouttap=\\"eh\\" bindupdated=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
+    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"sid\\">
+      <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
+    </block>
+  </map>
+</template>
+
+<template name=\\"tmpl_0_slot\\">
+  <view slot=\\"{{i.name}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
+    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"sid\\">
+      <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
+    </block>
+  </view>
+</template>
+
+<template name=\\"tmpl_0_slot-view\\">
+  <view slot=\\"{{i.name}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
+    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"sid\\">
+      <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
+    </block>
+  </view>
 </template>
 
 <template name=\\"tmpl_0_#text\\">
@@ -1069,12 +1716,76 @@ require(\\"./taro\\");
   </text>
 </template>
 
+<template name=\\"tmpl_1_form\\">
+  <form report-submit=\\"{{xs.b(i.reportSubmit,false)}}\\" bindsubmit=\\"eh\\" bindreset=\\"eh\\" name=\\"{{i.name}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
+    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"sid\\">
+      <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
+    </block>
+  </form>
+</template>
+
+<template name=\\"tmpl_1_label\\">
+  <label for=\\"{{i.for}}\\" name=\\"{{i.name}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
+    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"sid\\">
+      <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
+    </block>
+  </label>
+</template>
+
+<template name=\\"tmpl_1_cover-view\\">
+  <cover-view scroll-top=\\"{{xs.b(i.scrollTop,false)}}\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
+    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"sid\\">
+      <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
+    </block>
+  </cover-view>
+</template>
+
 <template name=\\"tmpl_1_scroll-view\\">
   <scroll-view scroll-x=\\"{{xs.b(i.scrollX,false)}}\\" scroll-y=\\"{{xs.b(i.scrollY,false)}}\\" upper-threshold=\\"{{xs.b(i.upperThreshold,50)}}\\" lower-threshold=\\"{{xs.b(i.lowerThreshold,50)}}\\" scroll-top=\\"{{i.scrollTop}}\\" scroll-left=\\"{{i.scrollLeft}}\\" scroll-into-view=\\"{{i.scrollIntoView}}\\" scroll-with-animation=\\"{{xs.b(i.scrollWithAnimation,false)}}\\" enable-back-to-top=\\"{{xs.b(i.enableBackToTop,false)}}\\" bindscrolltoupper=\\"eh\\" bindscrolltolower=\\"eh\\" bindscroll=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" animation=\\"{{i.animation}}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"sid\\">
       <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
     </block>
   </scroll-view>
+</template>
+
+<template name=\\"tmpl_1_swiper\\">
+  <swiper indicator-dots=\\"{{xs.b(i.indicatorDots,false)}}\\" indicator-color=\\"{{xs.b(i.indicatorColor,'rgba(0, 0, 0, .3)')}}\\" indicator-active-color=\\"{{xs.b(i.indicatorActiveColor,'#000000')}}\\" autoplay=\\"{{xs.b(i.autoplay,false)}}\\" current=\\"{{xs.b(i.current,0)}}\\" interval=\\"{{xs.b(i.interval,5000)}}\\" duration=\\"{{xs.b(i.duration,500)}}\\" circular=\\"{{xs.b(i.circular,false)}}\\" vertical=\\"{{xs.b(i.vertical,false)}}\\" previous-margin=\\"{{xs.b(i.previousMargin,'0px')}}\\" next-margin=\\"{{xs.b(i.nextMargin,'0px')}}\\" display-multiple-items=\\"{{xs.b(i.displayMultipleItems,1)}}\\" bindchange=\\"eh\\" bindtransition=\\"eh\\" bindanimationfinish=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
+    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"sid\\">
+      <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
+    </block>
+  </swiper>
+</template>
+
+<template name=\\"tmpl_1_swiper-item\\">
+  <swiper-item item-id=\\"{{i.itemId}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
+    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"sid\\">
+      <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
+    </block>
+  </swiper-item>
+</template>
+
+<template name=\\"tmpl_1_block\\">
+  <block  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
+    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"sid\\">
+      <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
+    </block>
+  </block>
+</template>
+
+<template name=\\"tmpl_1_slot\\">
+  <view slot=\\"{{i.name}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
+    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"sid\\">
+      <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
+    </block>
+  </view>
+</template>
+
+<template name=\\"tmpl_1_slot-view\\">
+  <view slot=\\"{{i.name}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
+    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"sid\\">
+      <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
+    </block>
+  </view>
 </template>
 
 <template name=\\"tmpl_1_tab\\">
@@ -1137,12 +1848,76 @@ require(\\"./taro\\");
   </text>
 </template>
 
+<template name=\\"tmpl_2_form\\">
+  <form report-submit=\\"{{xs.b(i.reportSubmit,false)}}\\" bindsubmit=\\"eh\\" bindreset=\\"eh\\" name=\\"{{i.name}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
+    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"sid\\">
+      <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
+    </block>
+  </form>
+</template>
+
+<template name=\\"tmpl_2_label\\">
+  <label for=\\"{{i.for}}\\" name=\\"{{i.name}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
+    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"sid\\">
+      <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
+    </block>
+  </label>
+</template>
+
+<template name=\\"tmpl_2_cover-view\\">
+  <cover-view scroll-top=\\"{{xs.b(i.scrollTop,false)}}\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
+    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"sid\\">
+      <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
+    </block>
+  </cover-view>
+</template>
+
 <template name=\\"tmpl_2_scroll-view\\">
   <scroll-view scroll-x=\\"{{xs.b(i.scrollX,false)}}\\" scroll-y=\\"{{xs.b(i.scrollY,false)}}\\" upper-threshold=\\"{{xs.b(i.upperThreshold,50)}}\\" lower-threshold=\\"{{xs.b(i.lowerThreshold,50)}}\\" scroll-top=\\"{{i.scrollTop}}\\" scroll-left=\\"{{i.scrollLeft}}\\" scroll-into-view=\\"{{i.scrollIntoView}}\\" scroll-with-animation=\\"{{xs.b(i.scrollWithAnimation,false)}}\\" enable-back-to-top=\\"{{xs.b(i.enableBackToTop,false)}}\\" bindscrolltoupper=\\"eh\\" bindscrolltolower=\\"eh\\" bindscroll=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" animation=\\"{{i.animation}}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"sid\\">
       <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
     </block>
   </scroll-view>
+</template>
+
+<template name=\\"tmpl_2_swiper\\">
+  <swiper indicator-dots=\\"{{xs.b(i.indicatorDots,false)}}\\" indicator-color=\\"{{xs.b(i.indicatorColor,'rgba(0, 0, 0, .3)')}}\\" indicator-active-color=\\"{{xs.b(i.indicatorActiveColor,'#000000')}}\\" autoplay=\\"{{xs.b(i.autoplay,false)}}\\" current=\\"{{xs.b(i.current,0)}}\\" interval=\\"{{xs.b(i.interval,5000)}}\\" duration=\\"{{xs.b(i.duration,500)}}\\" circular=\\"{{xs.b(i.circular,false)}}\\" vertical=\\"{{xs.b(i.vertical,false)}}\\" previous-margin=\\"{{xs.b(i.previousMargin,'0px')}}\\" next-margin=\\"{{xs.b(i.nextMargin,'0px')}}\\" display-multiple-items=\\"{{xs.b(i.displayMultipleItems,1)}}\\" bindchange=\\"eh\\" bindtransition=\\"eh\\" bindanimationfinish=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
+    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"sid\\">
+      <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
+    </block>
+  </swiper>
+</template>
+
+<template name=\\"tmpl_2_swiper-item\\">
+  <swiper-item item-id=\\"{{i.itemId}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
+    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"sid\\">
+      <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
+    </block>
+  </swiper-item>
+</template>
+
+<template name=\\"tmpl_2_block\\">
+  <block  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
+    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"sid\\">
+      <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
+    </block>
+  </block>
+</template>
+
+<template name=\\"tmpl_2_slot\\">
+  <view slot=\\"{{i.name}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
+    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"sid\\">
+      <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
+    </block>
+  </view>
+</template>
+
+<template name=\\"tmpl_2_slot-view\\">
+  <view slot=\\"{{i.name}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
+    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"sid\\">
+      <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
+    </block>
+  </view>
 </template>
 
 <template name=\\"tmpl_2_tab\\">
@@ -1205,12 +1980,76 @@ require(\\"./taro\\");
   </text>
 </template>
 
+<template name=\\"tmpl_3_form\\">
+  <form report-submit=\\"{{xs.b(i.reportSubmit,false)}}\\" bindsubmit=\\"eh\\" bindreset=\\"eh\\" name=\\"{{i.name}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
+    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"sid\\">
+      <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
+    </block>
+  </form>
+</template>
+
+<template name=\\"tmpl_3_label\\">
+  <label for=\\"{{i.for}}\\" name=\\"{{i.name}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
+    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"sid\\">
+      <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
+    </block>
+  </label>
+</template>
+
+<template name=\\"tmpl_3_cover-view\\">
+  <cover-view scroll-top=\\"{{xs.b(i.scrollTop,false)}}\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
+    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"sid\\">
+      <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
+    </block>
+  </cover-view>
+</template>
+
 <template name=\\"tmpl_3_scroll-view\\">
   <scroll-view scroll-x=\\"{{xs.b(i.scrollX,false)}}\\" scroll-y=\\"{{xs.b(i.scrollY,false)}}\\" upper-threshold=\\"{{xs.b(i.upperThreshold,50)}}\\" lower-threshold=\\"{{xs.b(i.lowerThreshold,50)}}\\" scroll-top=\\"{{i.scrollTop}}\\" scroll-left=\\"{{i.scrollLeft}}\\" scroll-into-view=\\"{{i.scrollIntoView}}\\" scroll-with-animation=\\"{{xs.b(i.scrollWithAnimation,false)}}\\" enable-back-to-top=\\"{{xs.b(i.enableBackToTop,false)}}\\" bindscrolltoupper=\\"eh\\" bindscrolltolower=\\"eh\\" bindscroll=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" animation=\\"{{i.animation}}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"sid\\">
       <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
     </block>
   </scroll-view>
+</template>
+
+<template name=\\"tmpl_3_swiper\\">
+  <swiper indicator-dots=\\"{{xs.b(i.indicatorDots,false)}}\\" indicator-color=\\"{{xs.b(i.indicatorColor,'rgba(0, 0, 0, .3)')}}\\" indicator-active-color=\\"{{xs.b(i.indicatorActiveColor,'#000000')}}\\" autoplay=\\"{{xs.b(i.autoplay,false)}}\\" current=\\"{{xs.b(i.current,0)}}\\" interval=\\"{{xs.b(i.interval,5000)}}\\" duration=\\"{{xs.b(i.duration,500)}}\\" circular=\\"{{xs.b(i.circular,false)}}\\" vertical=\\"{{xs.b(i.vertical,false)}}\\" previous-margin=\\"{{xs.b(i.previousMargin,'0px')}}\\" next-margin=\\"{{xs.b(i.nextMargin,'0px')}}\\" display-multiple-items=\\"{{xs.b(i.displayMultipleItems,1)}}\\" bindchange=\\"eh\\" bindtransition=\\"eh\\" bindanimationfinish=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
+    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"sid\\">
+      <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
+    </block>
+  </swiper>
+</template>
+
+<template name=\\"tmpl_3_swiper-item\\">
+  <swiper-item item-id=\\"{{i.itemId}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
+    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"sid\\">
+      <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
+    </block>
+  </swiper-item>
+</template>
+
+<template name=\\"tmpl_3_block\\">
+  <block  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
+    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"sid\\">
+      <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
+    </block>
+  </block>
+</template>
+
+<template name=\\"tmpl_3_slot\\">
+  <view slot=\\"{{i.name}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
+    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"sid\\">
+      <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
+    </block>
+  </view>
+</template>
+
+<template name=\\"tmpl_3_slot-view\\">
+  <view slot=\\"{{i.name}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
+    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"sid\\">
+      <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
+    </block>
+  </view>
 </template>
 
 <template name=\\"tmpl_3_tab\\">
@@ -1273,6 +2112,46 @@ require(\\"./taro\\");
   </text>
 </template>
 
+<template name=\\"tmpl_4_label\\">
+  <label for=\\"{{i.for}}\\" name=\\"{{i.name}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
+    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"sid\\">
+      <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
+    </block>
+  </label>
+</template>
+
+<template name=\\"tmpl_4_cover-view\\">
+  <cover-view scroll-top=\\"{{xs.b(i.scrollTop,false)}}\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
+    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"sid\\">
+      <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
+    </block>
+  </cover-view>
+</template>
+
+<template name=\\"tmpl_4_block\\">
+  <block  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
+    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"sid\\">
+      <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
+    </block>
+  </block>
+</template>
+
+<template name=\\"tmpl_4_slot\\">
+  <view slot=\\"{{i.name}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
+    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"sid\\">
+      <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
+    </block>
+  </view>
+</template>
+
+<template name=\\"tmpl_4_slot-view\\">
+  <view slot=\\"{{i.name}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
+    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"sid\\">
+      <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
+    </block>
+  </view>
+</template>
+
 <template name=\\"tmpl_4_tab\\">
   <tab bindmyevent=\\"eh\\" myProperty=\\"{{i.myProperty}}\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"sid\\">
@@ -1333,6 +2212,46 @@ require(\\"./taro\\");
   </text>
 </template>
 
+<template name=\\"tmpl_5_label\\">
+  <label for=\\"{{i.for}}\\" name=\\"{{i.name}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
+    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"sid\\">
+      <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
+    </block>
+  </label>
+</template>
+
+<template name=\\"tmpl_5_cover-view\\">
+  <cover-view scroll-top=\\"{{xs.b(i.scrollTop,false)}}\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
+    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"sid\\">
+      <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
+    </block>
+  </cover-view>
+</template>
+
+<template name=\\"tmpl_5_block\\">
+  <block  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
+    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"sid\\">
+      <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
+    </block>
+  </block>
+</template>
+
+<template name=\\"tmpl_5_slot\\">
+  <view slot=\\"{{i.name}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
+    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"sid\\">
+      <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
+    </block>
+  </view>
+</template>
+
+<template name=\\"tmpl_5_slot-view\\">
+  <view slot=\\"{{i.name}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
+    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"sid\\">
+      <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
+    </block>
+  </view>
+</template>
+
 <template name=\\"tmpl_5_tab\\">
   <tab bindmyevent=\\"eh\\" myProperty=\\"{{i.myProperty}}\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"sid\\">
@@ -1383,6 +2302,38 @@ require(\\"./taro\\");
       <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
     </block>
   </text>
+</template>
+
+<template name=\\"tmpl_6_cover-view\\">
+  <cover-view scroll-top=\\"{{xs.b(i.scrollTop,false)}}\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
+    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"sid\\">
+      <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
+    </block>
+  </cover-view>
+</template>
+
+<template name=\\"tmpl_6_block\\">
+  <block  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
+    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"sid\\">
+      <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
+    </block>
+  </block>
+</template>
+
+<template name=\\"tmpl_6_slot\\">
+  <view slot=\\"{{i.name}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
+    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"sid\\">
+      <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
+    </block>
+  </view>
+</template>
+
+<template name=\\"tmpl_6_slot-view\\">
+  <view slot=\\"{{i.name}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
+    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"sid\\">
+      <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
+    </block>
+  </view>
 </template>
 
 <template name=\\"tmpl_6_tab\\">
@@ -1437,6 +2388,38 @@ require(\\"./taro\\");
   </text>
 </template>
 
+<template name=\\"tmpl_7_cover-view\\">
+  <cover-view scroll-top=\\"{{xs.b(i.scrollTop,false)}}\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
+    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"sid\\">
+      <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
+    </block>
+  </cover-view>
+</template>
+
+<template name=\\"tmpl_7_block\\">
+  <block  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
+    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"sid\\">
+      <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
+    </block>
+  </block>
+</template>
+
+<template name=\\"tmpl_7_slot\\">
+  <view slot=\\"{{i.name}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
+    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"sid\\">
+      <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
+    </block>
+  </view>
+</template>
+
+<template name=\\"tmpl_7_slot-view\\">
+  <view slot=\\"{{i.name}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
+    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"sid\\">
+      <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
+    </block>
+  </view>
+</template>
+
 <template name=\\"tmpl_7_tab\\">
   <tab bindmyevent=\\"eh\\" myProperty=\\"{{i.myProperty}}\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"sid\\">
@@ -1487,6 +2470,22 @@ require(\\"./taro\\");
       <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
     </block>
   </text>
+</template>
+
+<template name=\\"tmpl_8_cover-view\\">
+  <cover-view scroll-top=\\"{{xs.b(i.scrollTop,false)}}\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
+    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"sid\\">
+      <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
+    </block>
+  </cover-view>
+</template>
+
+<template name=\\"tmpl_8_block\\">
+  <block  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
+    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"sid\\">
+      <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
+    </block>
+  </block>
 </template>
 
 <template name=\\"tmpl_8_tab\\">
@@ -1541,6 +2540,22 @@ require(\\"./taro\\");
   </text>
 </template>
 
+<template name=\\"tmpl_9_cover-view\\">
+  <cover-view scroll-top=\\"{{xs.b(i.scrollTop,false)}}\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
+    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"sid\\">
+      <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
+    </block>
+  </cover-view>
+</template>
+
+<template name=\\"tmpl_9_block\\">
+  <block  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
+    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"sid\\">
+      <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
+    </block>
+  </block>
+</template>
+
 <template name=\\"tmpl_9_tab\\">
   <tab bindmyevent=\\"eh\\" myProperty=\\"{{i.myProperty}}\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"sid\\">
@@ -1591,6 +2606,22 @@ require(\\"./taro\\");
       <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
     </block>
   </text>
+</template>
+
+<template name=\\"tmpl_10_cover-view\\">
+  <cover-view scroll-top=\\"{{xs.b(i.scrollTop,false)}}\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
+    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"sid\\">
+      <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
+    </block>
+  </cover-view>
+</template>
+
+<template name=\\"tmpl_10_block\\">
+  <block  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
+    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"sid\\">
+      <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
+    </block>
+  </block>
 </template>
 
 <template name=\\"tmpl_10_tab\\">
@@ -1645,6 +2676,22 @@ require(\\"./taro\\");
   </text>
 </template>
 
+<template name=\\"tmpl_11_cover-view\\">
+  <cover-view scroll-top=\\"{{xs.b(i.scrollTop,false)}}\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
+    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"sid\\">
+      <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
+    </block>
+  </cover-view>
+</template>
+
+<template name=\\"tmpl_11_block\\">
+  <block  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
+    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"sid\\">
+      <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
+    </block>
+  </block>
+</template>
+
 <template name=\\"tmpl_11_tab\\">
   <tab bindmyevent=\\"eh\\" myProperty=\\"{{i.myProperty}}\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"sid\\">
@@ -1695,6 +2742,22 @@ require(\\"./taro\\");
       <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
     </block>
   </text>
+</template>
+
+<template name=\\"tmpl_12_cover-view\\">
+  <cover-view scroll-top=\\"{{xs.b(i.scrollTop,false)}}\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
+    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"sid\\">
+      <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
+    </block>
+  </cover-view>
+</template>
+
+<template name=\\"tmpl_12_block\\">
+  <block  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
+    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"sid\\">
+      <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
+    </block>
+  </block>
 </template>
 
 <template name=\\"tmpl_12_tab\\">
@@ -1749,6 +2812,22 @@ require(\\"./taro\\");
   </text>
 </template>
 
+<template name=\\"tmpl_13_cover-view\\">
+  <cover-view scroll-top=\\"{{xs.b(i.scrollTop,false)}}\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
+    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"sid\\">
+      <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
+    </block>
+  </cover-view>
+</template>
+
+<template name=\\"tmpl_13_block\\">
+  <block  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
+    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"sid\\">
+      <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
+    </block>
+  </block>
+</template>
+
 <template name=\\"tmpl_13_tab\\">
   <tab bindmyevent=\\"eh\\" myProperty=\\"{{i.myProperty}}\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"sid\\">
@@ -1801,6 +2880,22 @@ require(\\"./taro\\");
   </text>
 </template>
 
+<template name=\\"tmpl_14_cover-view\\">
+  <cover-view scroll-top=\\"{{xs.b(i.scrollTop,false)}}\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
+    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"sid\\">
+      <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
+    </block>
+  </cover-view>
+</template>
+
+<template name=\\"tmpl_14_block\\">
+  <block  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
+    <block wx:for=\\"{{i.cn}}\\" wx:key=\\"sid\\">
+      <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
+    </block>
+  </block>
+</template>
+
 <template name=\\"tmpl_14_tab\\">
   <tab bindmyevent=\\"eh\\" myProperty=\\"{{i.myProperty}}\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"sid\\">
@@ -1823,290 +2918,13 @@ require(\\"./taro\\");
 </template>
 
 
-/** filePath: dist/common.js **/
-(wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 2 ], [ , function(module, __webpack_exports__, __webpack_require__) {
-    \\"use strict\\";
-    __webpack_require__.d(__webpack_exports__, \\"g\\", (function() {
-        return mergeReconciler;
-    }));
-    __webpack_require__.d(__webpack_exports__, \\"f\\", (function() {
-        return mergeInternalComponents;
-    }));
-    __webpack_require__.d(__webpack_exports__, \\"e\\", (function() {
-        return isFunction;
-    }));
-    __webpack_require__.d(__webpack_exports__, \\"d\\", (function() {
-        return isArray;
-    }));
-    __webpack_require__.d(__webpack_exports__, \\"h\\", (function() {
-        return processApis;
-    }));
-    __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
-        return EMPTY_OBJ;
-    }));
-    __webpack_exports__[\\"b\\"] = \\"taro\\";
-    function mergeReconciler() {}
-    function mergeInternalComponents() {}
-    function isFunction() {}
-    function isArray() {}
-    function processApis() {}
-    var EMPTY_OBJ = {};
-}, function(module, __webpack_exports__, __webpack_require__) {
-    \\"use strict\\";
-    __webpack_require__.r(__webpack_exports__);
-    __webpack_exports__[\\"default\\"] = \\"react-mock\\";
-} ] ]);
-
-/** filePath: dist/comp.js **/
-(wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 6 ], {
-    14: function(module, __webpack_exports__, __webpack_require__) {
-        \\"use strict\\";
-        __webpack_require__.r(__webpack_exports__);
-        var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
-        Component(Object(_tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__[\\"createRecursiveComponentConfig\\"])());
-    }
-}, [ [ 14, 0, 1 ] ] ]);
-
-/** filePath: dist/comp.json **/
-{\\"component\\":true,\\"usingComponents\\":{\\"comp\\":\\"./comp\\",\\"custom-wrapper\\":\\"./custom-wrapper\\"}}
-
-/** filePath: dist/comp.wxml **/
-<import src=\\"./base.wxml\\" />
-<template is=\\"tmpl_0_container\\" data=\\"{{i:i,l:l}}\\" />
-
-/** filePath: dist/components/tab/tab.js **/
-(wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 7 ], {
-    21: function(module, exports) {
-        Component({
-            behaviors: [],
-            properties: {
-                myProperty: {
-                    type: String,
-                    value: \\"\\",
-                    observer: function observer(newVal, oldVal, changedPath) {}
-                },
-                myProperty2: String
-            },
-            data: {},
-            attached: function attached() {},
-            moved: function moved() {},
-            detached: function detached() {},
-            methods: {
-                onMyButtonTap: function onMyButtonTap() {
-                    this.setData({});
-                },
-                _myPrivateMethod: function _myPrivateMethod() {
-                    this.setData({
-                        \\"A[0].B\\": \\"myPrivateData\\"
-                    });
-                },
-                _propertyChange: function _propertyChange(newVal, oldVal) {},
-                clickHandler: function clickHandler() {
-                    console.log(\\"sdsd\\");
-                    this.triggerEvent(\\"myevent\\", {
-                        f: 1
-                    });
-                }
-            }
-        });
-    }
-}, [ [ 21, 0 ] ] ]);
-
-/** filePath: dist/components/tab/tab.json **/
-{\\"component\\":true,\\"usingComponents\\":{}}
-
-/** filePath: dist/components/tab/tab.wxml **/
-<view class=\\"tab\\" bindtap=\\"clickHandler\\">
-  {{myProperty}}
-</view>
-
-
-/** filePath: dist/custom-wrapper.js **/
-(wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 10 ], {
-    15: function(module, __webpack_exports__, __webpack_require__) {
-        \\"use strict\\";
-        __webpack_require__.r(__webpack_exports__);
-        var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
-        Component(Object(_tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__[\\"createRecursiveComponentConfig\\"])(\\"custom-wrapper\\"));
-    }
-}, [ [ 15, 0, 1 ] ] ]);
-
-/** filePath: dist/custom-wrapper.json **/
-{\\"component\\":true,\\"usingComponents\\":{\\"comp\\":\\"./comp\\",\\"custom-wrapper\\":\\"./custom-wrapper\\"}}
-
-/** filePath: dist/custom-wrapper.wxml **/
+/** filePath: dist\\\\custom-wrapper.wxml **/
 <import src=\\"./base.wxml\\" />
   <block wx:for=\\"{{i.cn}}\\" wx:key=\\"sid\\">
     <template is=\\"tmpl_0_container\\" data=\\"{{i:item,l:''}}\\" />
   </block>
 
-/** filePath: dist/pages/index/index.js **/
-(wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 11 ], {
-    16: function(module, exports, __webpack_require__) {},
-    24: function(module, __webpack_exports__, __webpack_require__) {
-        \\"use strict\\";
-        __webpack_require__.r(__webpack_exports__);
-        var taro_runtime = __webpack_require__(0);
-        var classCallCheck = __webpack_require__(4);
-        var createClass = __webpack_require__(5);
-        var inherits = __webpack_require__(7);
-        var createSuper = __webpack_require__(6);
-        var taro = __webpack_require__(1);
-        var react = __webpack_require__(2);
-        var taro_components = __webpack_require__(3);
-        var index = __webpack_require__(16);
-        var index_Index = function(_React$Component) {
-            Object(inherits[\\"a\\"])(Index, _React$Component);
-            var _super = Object(createSuper[\\"a\\"])(Index);
-            function Index() {
-                Object(classCallCheck[\\"a\\"])(this, Index);
-                return _super.apply(this, arguments);
-            }
-            Object(createClass[\\"a\\"])(Index, [ {
-                key: \\"gotoWxParse\\",
-                value: function gotoWxParse() {
-                    taro[\\"b\\"].navigateTo({
-                        url: \\"/pages/wxParse/wxParse\\"
-                    });
-                }
-            }, {
-                key: \\"gotoEcharts\\",
-                value: function gotoEcharts() {
-                    taro[\\"b\\"].navigateTo({
-                        url: \\"/pages/echarts/echarts\\"
-                    });
-                }
-            }, {
-                key: \\"gotoNative\\",
-                value: function gotoNative() {
-                    taro[\\"b\\"].navigateTo({
-                        url: \\"/pages/native/native\\"
-                    });
-                }
-            }, {
-                key: \\"tabEvent\\",
-                value: function tabEvent(e) {
-                    console.log(e);
-                }
-            }, {
-                key: \\"render\\",
-                value: function render() {
-                    return react[\\"default\\"].createElement(taro_components[\\"View\\"], {
-                        className: \\"index\\"
-                    }, react[\\"default\\"].createElement(taro_components[\\"View\\"], {
-                        className: \\"title\\"
-                    }, \\"\\\\u4e0e\\\\u5c0f\\\\u7a0b\\\\u5e8f\\\\u539f\\\\u751f\\\\u878d\\\\u5408\\\\u7684\\\\u5404\\\\u79cd\\\\u793a\\\\u4f8b\\"), react[\\"default\\"].createElement(taro_components[\\"View\\"], {
-                        className: \\"main\\"
-                    }, react[\\"default\\"].createElement(taro_components[\\"View\\"], {
-                        className: \\"wrapper\\"
-                    }, react[\\"default\\"].createElement(\\"tab\\", {
-                        onMyevent: this.tabEvent,
-                        myProperty: \\"This is tab\\"
-                    })), react[\\"default\\"].createElement(taro_components[\\"View\\"], {
-                        className: \\"wrapper\\"
-                    }, react[\\"default\\"].createElement(taro_components[\\"Button\\"], {
-                        type: \\"primary\\",
-                        onClick: this.gotoNative
-                    }, \\"\\\\u6df7\\\\u5199\\\\u539f\\\\u751f\\\\u9875\\\\u9762\\\\u793a\\\\u4f8b\\"))));
-                }
-            } ]);
-            return Index;
-        }(react[\\"default\\"].Component);
-        var config = {
-            navigationBarTitleText: \\"\\\\u9996\\\\u9875\\",
-            usingComponents: {
-                tab: \\"../../components/tab/tab\\"
-            }
-        };
-        var inst = Page(Object(taro_runtime[\\"createPageConfig\\"])(index_Index, \\"pages/index/index\\", {
-            root: {
-                cn: []
-            }
-        }, config || {}));
-    }
-}, [ [ 24, 0, 1, 3, 2 ] ] ]);
-
-/** filePath: dist/pages/index/index.json **/
-{\\"navigationBarTitleText\\":\\"首页\\",\\"usingComponents\\":{\\"custom-wrapper\\":\\"../../custom-wrapper\\",\\"tab\\":\\"../../components/tab/tab\\",\\"comp\\":\\"../../comp\\"}}
-
-/** filePath: dist/pages/index/index.wxml **/
-<import src=\\"../../base.wxml\\"/>
-<template is=\\"taro_tmpl\\" data=\\"{{root:root}}\\" />
-
-/** filePath: dist/pages/index/index.wxss **/
-.title{text-align:center;line-height:80rpx;font-size:36rpx}.main{padding:0 50rpx}.wrapper{margin-bottom:24rpx}
-
-/** filePath: dist/pages/native/native.js **/
-(wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 13 ], {
-    17: function(module, exports, __webpack_require__) {
-        var _require = __webpack_require__(18), add = _require.add;
-        Page({
-            data: {
-                text: \\"This is page data.\\",
-                x: add(1, 2)
-            },
-            created: function created(options) {
-                console.log(options);
-            },
-            onReady: function onReady() {},
-            viewTap: function viewTap() {
-                this.setData({
-                    text: \\"Set some data for updating view.\\"
-                }, (function() {}));
-            },
-            handler: function handler(e) {
-                console.log(e);
-            },
-            customData: {
-                hi: \\"MINA\\"
-            }
-        });
-    },
-    18: function(module, __webpack_exports__, __webpack_require__) {
-        \\"use strict\\";
-        __webpack_require__.r(__webpack_exports__);
-        __webpack_require__.d(__webpack_exports__, \\"add\\", (function() {
-            return add;
-        }));
-        function add(a, b) {
-            return a + b;
-        }
-    }
-}, [ [ 17, 0 ] ] ]);
-
-/** filePath: dist/pages/native/native.json **/
-{\\"navigationBarBackgroundColor\\":\\"#ffffff\\",\\"navigationBarTextStyle\\":\\"black\\",\\"navigationBarTitleText\\":\\"混写页面示例\\",\\"backgroundColor\\":\\"#eeeeee\\",\\"backgroundTextStyle\\":\\"light\\",\\"usingComponents\\":{\\"custom-wrapper\\":\\"../../custom-wrapper\\",\\"tab\\":\\"../../components/tab/tab\\"}}
-
-/** filePath: dist/pages/native/native.wxml **/
-<view class=\\"native\\" bindtap=\\"viewTap\\">
-  <text>{{text}}{{x}}</text>
-  <tab myProperty=\\"kkl\\" bindmyevent=\\"handler\\" />
-</view>
-
-
-/** filePath: dist/pages/native/native.wxss **/
-.native{color:red}
-
-/** filePath: dist/runtime.js **/
-
-
-/** filePath: dist/taro.js **/
-(wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 1 ], {
-    0: function(module, __webpack_exports__, __webpack_require__) {
-        \\"use strict\\";
-        var _unused_webpack_default_export = \\"taro-runtime-mock\\";
-    },
-    3: function(module, __webpack_exports__, __webpack_require__) {
-        \\"use strict\\";
-        var _unused_webpack_default_export = \\"taro-components-mock\\";
-    },
-    8: function(module, __webpack_exports__, __webpack_require__) {
-        \\"use strict\\";
-        __webpack_exports__[\\"a\\"] = \\"taro-react-mock\\";
-    }
-} ]);
-
-/** filePath: dist/utils.wxs **/
+/** filePath: dist\\\\utils.wxs **/
 module.exports = {
   a: function (l, n, s) {
     var a = [\\"view\\",\\"catch-view\\",\\"cover-view\\",\\"static-view\\",\\"pure-view\\",\\"block\\",\\"text\\",\\"static-text\\",\\"slot\\",\\"slot-view\\",\\"label\\",\\"form\\",\\"scroll-view\\",\\"swiper\\",\\"swiper-item\\",\\"tab\\"]
@@ -2146,125 +2964,5 @@ module.exports = {
     return l
   }
 }
-
-/** filePath: dist/vendors.js **/
-(wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 3 ], [ , , , , function(module, __webpack_exports__, __webpack_require__) {
-    \\"use strict\\";
-    __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
-        return _classCallCheck;
-    }));
-    function _classCallCheck(instance, Constructor) {
-        if (!(instance instanceof Constructor)) {
-            throw new TypeError(\\"Cannot call a class as a function\\");
-        }
-    }
-}, function(module, __webpack_exports__, __webpack_require__) {
-    \\"use strict\\";
-    __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
-        return _createClass;
-    }));
-    function _defineProperties(target, props) {
-        for (var i = 0; i < props.length; i++) {
-            var descriptor = props[i];
-            descriptor.enumerable = descriptor.enumerable || false;
-            descriptor.configurable = true;
-            if (\\"value\\" in descriptor) descriptor.writable = true;
-            Object.defineProperty(target, descriptor.key, descriptor);
-        }
-    }
-    function _createClass(Constructor, protoProps, staticProps) {
-        if (protoProps) _defineProperties(Constructor.prototype, protoProps);
-        if (staticProps) _defineProperties(Constructor, staticProps);
-        Object.defineProperty(Constructor, \\"prototype\\", {
-            writable: false
-        });
-        return Constructor;
-    }
-}, function(module, __webpack_exports__, __webpack_require__) {
-    \\"use strict\\";
-    __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
-        return _createSuper;
-    }));
-    function _getPrototypeOf(o) {
-        _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) {
-            return o.__proto__ || Object.getPrototypeOf(o);
-        };
-        return _getPrototypeOf(o);
-    }
-    function _isNativeReflectConstruct() {
-        if (typeof Reflect === \\"undefined\\" || !Reflect.construct) return false;
-        if (Reflect.construct.sham) return false;
-        if (typeof Proxy === \\"function\\") return true;
-        try {
-            Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], (function() {})));
-            return true;
-        } catch (e) {
-            return false;
-        }
-    }
-    function _typeof(obj) {
-        \\"@babel/helpers - typeof\\";
-        return _typeof = \\"function\\" == typeof Symbol && \\"symbol\\" == typeof Symbol.iterator ? function(obj) {
-            return typeof obj;
-        } : function(obj) {
-            return obj && \\"function\\" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? \\"symbol\\" : typeof obj;
-        }, _typeof(obj);
-    }
-    function _assertThisInitialized(self) {
-        if (self === void 0) {
-            throw new ReferenceError(\\"this hasn't been initialised - super() hasn't been called\\");
-        }
-        return self;
-    }
-    function _possibleConstructorReturn(self, call) {
-        if (call && (_typeof(call) === \\"object\\" || typeof call === \\"function\\")) {
-            return call;
-        } else if (call !== void 0) {
-            throw new TypeError(\\"Derived constructors may only return object or undefined\\");
-        }
-        return _assertThisInitialized(self);
-    }
-    function _createSuper(Derived) {
-        var hasNativeReflectConstruct = _isNativeReflectConstruct();
-        return function _createSuperInternal() {
-            var Super = _getPrototypeOf(Derived), result;
-            if (hasNativeReflectConstruct) {
-                var NewTarget = _getPrototypeOf(this).constructor;
-                result = Reflect.construct(Super, arguments, NewTarget);
-            } else {
-                result = Super.apply(this, arguments);
-            }
-            return _possibleConstructorReturn(this, result);
-        };
-    }
-}, function(module, __webpack_exports__, __webpack_require__) {
-    \\"use strict\\";
-    __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
-        return _inherits;
-    }));
-    function _setPrototypeOf(o, p) {
-        _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) {
-            o.__proto__ = p;
-            return o;
-        };
-        return _setPrototypeOf(o, p);
-    }
-    function _inherits(subClass, superClass) {
-        if (typeof superClass !== \\"function\\" && superClass !== null) {
-            throw new TypeError(\\"Super expression must either be null or a function\\");
-        }
-        subClass.prototype = Object.create(superClass && superClass.prototype, {
-            constructor: {
-                value: subClass,
-                writable: true,
-                configurable: true
-            }
-        });
-        Object.defineProperty(subClass, \\"prototype\\", {
-            writable: false
-        });
-        if (superClass) _setPrototypeOf(subClass, superClass);
-    }
-} ] ]);
 "
 `;
