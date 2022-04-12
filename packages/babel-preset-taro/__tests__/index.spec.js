@@ -90,9 +90,9 @@ describe('babel-preset-taro', () => {
 
     const [override] = config.overrides
 
-    const [, , [ts, tsConfig]] = override.presets
+    const [, , [ts, tsconfig]] = override.presets
     expect(typeof ts.default === 'function').toBeTruthy()
-    expect(tsConfig.jsxPragma === 'React').toBeTruthy()
+    expect(tsconfig.jsxPragma === 'React').toBeTruthy()
   })
 
   it('typescript nerv', () => {
@@ -103,9 +103,9 @@ describe('babel-preset-taro', () => {
 
     const [override] = config.overrides
 
-    const [, , [ts, tsConfig]] = override.presets
+    const [, , [ts, tsconfig]] = override.presets
     expect(typeof ts.default === 'function').toBeTruthy()
-    expect(tsConfig.jsxPragma === 'Nerv').toBeTruthy()
+    expect(tsconfig.jsxPragma === 'Nerv').toBeTruthy()
   })
 
   it('typescript vue', () => {
@@ -115,10 +115,10 @@ describe('babel-preset-taro', () => {
     })
 
     const [override, vueOverride] = config.overrides
-    const [, , [ts, tsConfig]] = override.presets
+    const [, , [ts, tsconfig]] = override.presets
 
     expect(typeof ts.default === 'function').toBeTruthy()
-    expect(tsConfig.hasOwnProperty('jsxPragma') === false).toBeTruthy()
+    expect(tsconfig.hasOwnProperty('jsxPragma') === false).toBeTruthy()
 
     expect(vueOverride.include.test('a.vue')).toBeTruthy()
   })

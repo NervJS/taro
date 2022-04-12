@@ -13,7 +13,7 @@ import type { AppConfig, PageConfig } from '@tarojs/taro'
 import { Listener as LocationListener, Action as LocationAction } from 'history'
 import UniversalRouter, { Routes } from 'universal-router'
 
-import { history, prependBasename } from '../history'
+import { history, stripBasename, prependBasename } from '../history'
 import PageHandler from './page'
 import stacks from './stack'
 import { addLeadingSlash, routesAlias } from '../utils'
@@ -137,7 +137,8 @@ export function createRouter(app: AppInstance, config: RouterConfig, framework?:
     }
   }
 
-  if (history.location.pathname === '/') {
+  const stripped = stripBasename(history.location.pathname, handler.basename)
+  if (stripped === '/' || stripped === '') {
     history.replace(prependBasename(entryPagePath + history.location.search))
   }
 
