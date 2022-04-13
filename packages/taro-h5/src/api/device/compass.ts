@@ -1,6 +1,6 @@
 import Taro from '@tarojs/api'
+
 import { CallbackManager, MethodHandler } from '../utils/handler'
-import { getDeviceInfo } from '../../api/base/system'
 
 let compassListener
 const callbackManager = new CallbackManager()
@@ -10,13 +10,16 @@ const callbackManager = new CallbackManager()
  * 直接监听deviceorientation事件得到的不是绝对orientation
  */
 const getDeviceorientationAbsoluteEventNameByOS = () => {
-  if(getDeviceInfo().system==='AndroidOS')
-  {
-    return "deviceorientationabsolute"
-  }
-  else{
-    return "deviceorientation"
-  }
+  ['absolutedeviceorientation',
+    'deviceorientationabsolute',
+    'deviceorientation']
+    .forEach(item => {
+      if ('on' + item in window) {
+        return item
+      }
+    }
+    )
+  return ''
 }
 
 /**
@@ -52,7 +55,7 @@ const getDeviceOrientationListener = interval => {
 export const startCompass: typeof Taro.startCompass = ({ success, fail, complete } = {}) => {
   const handle = new MethodHandler({ name: 'startCompass', success, fail, complete })
   try {
-    if (window.DeviceOrientationEvent) {
+    if (getDeviceorientationAbsoluteEventNameByOS() !== '') {
       if (compassListener) {
         stopCompass()
       }
@@ -71,7 +74,14 @@ export const startCompass: typeof Taro.startCompass = ({ success, fail, complete
  * 监听罗盘数据变化事件。频率：5 次/秒，接口调用后会自动开始监听，可使用 wx.stopCompass 停止监听。
  */
 export const onCompassChange: typeof Taro.onCompassChange = callback => {
-  callbackManager.add(callback)
+  callbackManager.add((result: { accuracy, direction, absolute }) => {
+    if (!result.absolute) {
+      console.warn(`Warning: In 'onCompassChange',
+      your browser is not supported to get the orientation relative to the earth,
+       the orientation data will be related to the initial orientation of the device .`)
+    }
+    callback(result)
+  })
 }
 
 /**
