@@ -14,11 +14,6 @@ export default function customCommand (
       }
     })
 
-    // 设置环境变量
-    if (options.platform) {
-      process.env.TARO_ENV = options.platform
-    }
-
     kernel.run({
       name: command,
       opts: {
