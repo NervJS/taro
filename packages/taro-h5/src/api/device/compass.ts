@@ -70,15 +70,20 @@ export const startCompass: typeof Taro.startCompass = ({ success, fail, complete
   }
 }
 
+let isFirstTimeOnCompassChange = true
+
 /**
  * 监听罗盘数据变化事件。频率：5 次/秒，接口调用后会自动开始监听，可使用 wx.stopCompass 停止监听。
  */
 export const onCompassChange: typeof Taro.onCompassChange = callback => {
   callbackManager.add((result: { accuracy, direction, absolute }) => {
     if (!result.absolute) {
-      console.warn(`Warning: In 'onCompassChange',
-      your browser is not supported to get the orientation relative to the earth,
-       the orientation data will be related to the initial orientation of the device .`)
+      if (isFirstTimeOnCompassChange) {
+        isFirstTimeOnCompassChange = false
+        console.warn(`Warning: In 'onCompassChange',
+        your browser is not supported to get the orientation relative to the earth,
+        the orientation data will be related to the initial orientation of the device .`)
+      }
     }
     callback(result)
   })
