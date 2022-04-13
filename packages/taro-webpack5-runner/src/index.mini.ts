@@ -1,17 +1,20 @@
 import * as webpack from 'webpack'
-
+import { isEmpty } from 'lodash'
 import { MiniCombination } from './webpack/MiniCombination'
-
 import { printBuildError, bindProdLogger, bindDevLogger } from './utils/logHelper'
 import { Prerender } from './prerender/prerender'
-import { isEmpty } from 'lodash'
+import { preBundle } from './prebundle'
 
 import type { Stats } from 'webpack'
 import type { MiniBuildConfig } from './utils/types'
 
 export default async function build (appPath: string, rawConfig: MiniBuildConfig): Promise<Stats> {
   const combination = new MiniCombination(appPath, rawConfig)
-  const webpackConfig = await combination.getWebpackConfig()
+  await combination.make()
+
+  await preBundle(combination)
+
+  const webpackConfig = combination.chain.toConfig()
   const config = combination.config
 
   return new Promise<Stats>((resolve, reject) => {

@@ -1,11 +1,6 @@
 import { ProvidePlugin, DefinePlugin } from 'webpack'
 import * as path from 'path'
 import { REG_STYLE } from '@tarojs/helper'
-import * as CopyWebpackPlugin from 'copy-webpack-plugin'
-import * as MiniCssExtractPlugin from 'mini-css-extract-plugin'
-import * as TerserPlugin from 'terser-webpack-plugin'
-import { ESBuildMinifyPlugin } from 'esbuild-loader'
-import * as CssMinimizerPlugin from 'css-minimizer-webpack-plugin'
 
 import type { ICopyOptions } from '@tarojs/taro/types/compile'
 
@@ -21,6 +16,7 @@ export class WebpackPlugin {
 
   static getCopyWebpackPlugin (appPath: string, copy: ICopyOptions) {
     /** @doc https://webpack.js.org/plugins/copy-webpack-plugin */
+    const CopyWebpackPlugin = require('copy-webpack-plugin')
     const globalIgnores: string[] = copy.options?.ignore ?? []
     const patterns = copy.patterns.map(({ from, to, ignore = [], ...extra }) => {
       return {
@@ -47,10 +43,12 @@ export class WebpackPlugin {
   }
 
   static getMiniCssExtractPlugin (args: Record<string, any>) {
+    const MiniCssExtractPlugin = require('mini-css-extract-plugin')
     return WebpackPlugin.getPlugin(MiniCssExtractPlugin, [args])
   }
 
   static getTerserPlugin (terserOptions) {
+    const TerserPlugin = require('terser-webpack-plugin')
     return WebpackPlugin.getPlugin(TerserPlugin, [{
       parallel: true,
       terserOptions
@@ -58,10 +56,12 @@ export class WebpackPlugin {
   }
 
   static getESBuildMinifyPlugin (esbuildMinifyOptions) {
+    const ESBuildMinifyPlugin = require('esbuild-loader').ESBuildMinifyPlugin
     return WebpackPlugin.getPlugin(ESBuildMinifyPlugin, [esbuildMinifyOptions])
   }
 
   static getCssMinimizerPlugin (minimizer: 'esbuild' | 'parcelCss' | 'csso', minimizerOptions: Record<string, any>) {
+    const CssMinimizerPlugin = require('css-minimizer-webpack-plugin')
     let minify = CssMinimizerPlugin.cssoMinify
     if (minimizer === 'esbuild') {
       minify = CssMinimizerPlugin.esbuildMinify

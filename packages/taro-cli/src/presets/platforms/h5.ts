@@ -33,10 +33,13 @@ export default (ctx: IPluginContext) => {
       h5RunnerOpts.entry = merge(defaultEntry, customEntry)
 
       let runnerPkg: string
-      if (config.compiler === 'webpack5') {
-        runnerPkg = '@tarojs/webpack5-runner'
-      } else {
-        runnerPkg = '@tarojs/webpack-runner'
+      const compiler = typeof config.compiler === 'object' ? config.compiler.type : config.compiler
+      switch (compiler) {
+        case 'webpack5':
+          runnerPkg = '@tarojs/webpack5-runner'
+          break
+        default:
+          runnerPkg = '@tarojs/webpack-runner'
       }
       const webpackRunner = await npm.getNpmPkg(runnerPkg, appPath)
 

@@ -8,8 +8,6 @@ import {
   REG_IMAGE
 } from '@tarojs/helper'
 import { isFunction } from '@tarojs/shared'
-import * as MiniCssExtractPlugin from 'mini-css-extract-plugin'
-import * as sass from 'sass'
 
 import type { PostcssOption } from '@tarojs/taro/types/compile'
 
@@ -36,40 +34,6 @@ export interface IRule {
 }
 
 export type CssModuleOptionConfig = Exclude<PostcssOption.cssModules['config'], undefined>
-
-const baseSassOptions = {
-  sourceMap: true,
-  implementation: sass,
-  sassOptions: {
-    outputStyle: 'expanded',
-    fiber: false,
-    importer (url, prev, done) {
-      // 让 sass 文件里的 @import 能解析小程序原生样式文体，如 @import "a.wxss";
-      const extname = path.extname(url)
-      // fix: @import 文件可以不带scss/sass缀，如: @import "define";
-      if (extname === '.scss' || extname === '.sass' || extname === '.css' || !extname) {
-        return null
-      } else {
-        const filePath = path.resolve(path.dirname(prev), url)
-        fs.access(filePath, fs.constants.F_OK, (err) => {
-          if (err) {
-            console.log(err)
-            return null
-          } else {
-            fs.readFile(filePath)
-              .then(res => {
-                done({ contents: res.toString() })
-              })
-              .catch(err => {
-                console.log(err)
-                return null
-              })
-          }
-        })
-      }
-    }
-  }
-}
 
 export class WebpackModule {
   static getLoader (loaderName: string, options: Record<string, any>) {
@@ -108,6 +72,7 @@ export class WebpackModule {
   }
 
   static getExtractCSSLoader () {
+    const MiniCssExtractPlugin = require('mini-css-extract-plugin')
     return {
       loader: MiniCssExtractPlugin.loader
     }
@@ -121,8 +86,44 @@ export class WebpackModule {
     return WebpackModule.getLoader('postcss-loader', options)
   }
 
+  static getBaseSassOptions () {
+    return {
+      sourceMap: true,
+      implementation: require('sass'),
+      sassOptions: {
+        outputStyle: 'expanded',
+        fiber: false,
+        importer (url, prev, done) {
+          // 让 sass 文件里的 @import 能解析小程序原生样式文体，如 @import "a.wxss";
+          const extname = path.extname(url)
+          // fix: @import 文件可以不带scss/sass缀，如: @import "define";
+          if (extname === '.scss' || extname === '.sass' || extname === '.css' || !extname) {
+            return null
+          } else {
+            const filePath = path.resolve(path.dirname(prev), url)
+            fs.access(filePath, fs.constants.F_OK, (err) => {
+              if (err) {
+                console.log(err)
+                return null
+              } else {
+                fs.readFile(filePath)
+                  .then(res => {
+                    done({ contents: res.toString() })
+                  })
+                  .catch(err => {
+                    console.log(err)
+                    return null
+                  })
+              }
+            })
+          }
+        }
+      }
+    }
+  }
+
   static getSassLoader (sassLoaderOption) {
-    const options = recursiveMerge<any>({}, baseSassOptions, {
+    const options = recursiveMerge<any>({}, WebpackModule.getBaseSassOptions(), {
       sassOptions: {
         indentedSyntax: true
       }
@@ -131,7 +132,7 @@ export class WebpackModule {
   }
 
   static getScssLoader (sassLoaderOption) {
-    const options = recursiveMerge({}, baseSassOptions, sassLoaderOption)
+    const options = recursiveMerge({}, WebpackModule.getBaseSassOptions(), sassLoaderOption)
     return WebpackModule.getLoader('sass-loader', options)
   }
 
