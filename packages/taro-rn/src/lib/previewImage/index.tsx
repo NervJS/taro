@@ -26,9 +26,9 @@ export function previewImage(obj: Taro.previewImage.Option): void {
     complete
   }: any = obj || {}
   const index = urls.indexOf(current)
-  if (index === -1) {
-    throw new Error('"current" or "urls" is invalid')
-  }
+  // if (index === -1) {
+  //   throw new Error('"current" or "urls" is invalid')
+  // }
 
   let sibling
   function backhandler() {
