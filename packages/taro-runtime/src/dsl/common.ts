@@ -155,8 +155,8 @@ export function createPageConfig (component: any, pageName?: string, data?: Reco
       }
     },
     [ONUNLOAD] () {
-      // 触发onUnload生命周期
       const $taroPath = this.$taroPath
+      // 触发onUnload生命周期
       safeExecute($taroPath, ONUNLOAD)
       unmounting = true
       Current.app!.unmount!($taroPath, () => {
