@@ -322,5 +322,11 @@ export const components = {
     bindAfterLeave: _empty,
     bindClickOverlay: _empty
   },
+  ShareElement: {
+    mapkey: _empty,
+    transform: _false,
+    duration: '300',
+    'easing-function': "'ease-out'"
+  },
   KeyboardAccessory: {}
 }

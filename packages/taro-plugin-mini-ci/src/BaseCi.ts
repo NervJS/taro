@@ -81,16 +81,16 @@ export interface CIOptions {
 
 export default abstract class BaseCI {
   /** taro 插件上下文 */
-  protected ctx: IPluginContext;
+  protected ctx: IPluginContext
 
   /** 传入的插件选项 */
-  protected pluginOpts: CIOptions;
+  protected pluginOpts: CIOptions
 
   /** 当前要发布的版本号 */
-  protected version: string;
+  protected version: string
 
   /** 当前发布内容的描述 */
-  protected desc: string;
+  protected desc: string
 
   constructor (ctx: IPluginContext, pluginOpts: CIOptions) {
     this.ctx = ctx

@@ -6,19 +6,19 @@ exports[`css modules should use css modules with global mode 2`] = `
 "
 /** filePath: dist/chunk/1.js **/
 (window[\\"webpackJsonp\\"] = window[\\"webpackJsonp\\"] || []).push([ [ 1 ], {
-    \\"14\\": function(module, exports, __webpack_require__) {
+    \\"13\\": function(module, exports, __webpack_require__) {
         module.exports = {
             \\"cbody\\": \\"index-module__cbody___3Vfl2\\",
             \\"ctext\\": \\"index-module__ctext___Dq1RJ\\"
         };
     },
-    \\"15\\": function(module, exports, __webpack_require__) {
+    \\"14\\": function(module, exports, __webpack_require__) {
         module.exports = {
             \\"cwrapper\\": \\"index__cwrapper___oXrpd\\"
         };
     },
-    \\"16\\": function(module, exports, __webpack_require__) {},
-    \\"17\\": function(module, __webpack_exports__, __webpack_require__) {
+    \\"15\\": function(module, exports, __webpack_require__) {},
+    \\"16\\": function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_require__.r(__webpack_exports__);
         __webpack_require__.d(__webpack_exports__, \\"default\\", (function() {
@@ -30,11 +30,11 @@ exports[`css modules should use css modules with global mode 2`] = `
         var _babel_runtime_helpers_esm_createSuper__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(4);
         var react__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(0);
         var _tarojs_components__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(1);
-        var _index_module_css__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(14);
+        var _index_module_css__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(13);
         var _index_module_css__WEBPACK_IMPORTED_MODULE_6___default = __webpack_require__.n(_index_module_css__WEBPACK_IMPORTED_MODULE_6__);
-        var _index_css__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(15);
+        var _index_css__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(14);
         var _index_css__WEBPACK_IMPORTED_MODULE_7___default = __webpack_require__.n(_index_css__WEBPACK_IMPORTED_MODULE_7__);
-        var _index_global_css__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(16);
+        var _index_global_css__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(15);
         var _index_global_css__WEBPACK_IMPORTED_MODULE_8___default = __webpack_require__.n(_index_global_css__WEBPACK_IMPORTED_MODULE_8__);
         var Index = function(_Component) {
             Object(_babel_runtime_helpers_esm_inherits__WEBPACK_IMPORTED_MODULE_2__[\\"a\\"])(Index, _Component);
@@ -290,7 +290,7 @@ exports[`css modules should use css modules with global mode 2`] = `
     jsonpArray = jsonpArray.slice();
     for (var i = 0; i < jsonpArray.length; i++) webpackJsonpCallback(jsonpArray[i]);
     var parentJsonpFunction = oldJsonpFunction;
-    return __webpack_require__(__webpack_require__.s = 7);
+    return __webpack_require__(__webpack_require__.s = 6);
 })([ function(module, __webpack_exports__, __webpack_require__) {
     \\"use strict\\";
     __webpack_require__.r(__webpack_exports__);
@@ -334,6 +334,9 @@ exports[`css modules should use css modules with global mode 2`] = `
     function _createClass(Constructor, protoProps, staticProps) {
         if (protoProps) _defineProperties(Constructor.prototype, protoProps);
         if (staticProps) _defineProperties(Constructor, staticProps);
+        Object.defineProperty(Constructor, \\"prototype\\", {
+            \\"writable\\": false
+        });
         return Constructor;
     }
 }, function(module, __webpack_exports__, __webpack_require__) {
@@ -358,8 +361,14 @@ exports[`css modules should use css modules with global mode 2`] = `
             return false;
         }
     }
-    var helpers_typeof = __webpack_require__(6);
-    var typeof_default = __webpack_require__.n(helpers_typeof);
+    function _typeof(obj) {
+        \\"@babel/helpers - typeof\\";
+        return _typeof = \\"function\\" == typeof Symbol && \\"symbol\\" == typeof Symbol.iterator ? function(obj) {
+            return typeof obj;
+        } : function(obj) {
+            return obj && \\"function\\" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? \\"symbol\\" : typeof obj;
+        }, _typeof(obj);
+    }
     function _assertThisInitialized(self) {
         if (self === void 0) {
             throw new ReferenceError(\\"this hasn't been initialised - super() hasn't been called\\");
@@ -367,7 +376,7 @@ exports[`css modules should use css modules with global mode 2`] = `
         return self;
     }
     function _possibleConstructorReturn(self, call) {
-        if (call && (typeof_default()(call) === \\"object\\" || typeof call === \\"function\\")) {
+        if (call && (_typeof(call) === \\"object\\" || typeof call === \\"function\\")) {
             return call;
         } else if (call !== void 0) {
             throw new TypeError(\\"Derived constructors may only return object or undefined\\");
@@ -410,31 +419,16 @@ exports[`css modules should use css modules with global mode 2`] = `
                 \\"configurable\\": true
             }
         });
+        Object.defineProperty(subClass, \\"prototype\\", {
+            \\"writable\\": false
+        });
         if (superClass) _setPrototypeOf(subClass, superClass);
     }
-}, function(module, exports) {
-    function _typeof(obj) {
-        \\"@babel/helpers - typeof\\";
-        if (typeof Symbol === \\"function\\" && typeof Symbol.iterator === \\"symbol\\") {
-            module.exports = _typeof = function _typeof(obj) {
-                return typeof obj;
-            };
-            module.exports[\\"default\\"] = module.exports, module.exports.__esModule = true;
-        } else {
-            module.exports = _typeof = function _typeof(obj) {
-                return obj && typeof Symbol === \\"function\\" && obj.constructor === Symbol && obj !== Symbol.prototype ? \\"symbol\\" : typeof obj;
-            };
-            module.exports[\\"default\\"] = module.exports, module.exports.__esModule = true;
-        }
-        return _typeof(obj);
-    }
-    module.exports = _typeof;
-    module.exports[\\"default\\"] = module.exports, module.exports.__esModule = true;
 }, function(module, exports, __webpack_require__) {
-    module.exports = __webpack_require__(13);
+    module.exports = __webpack_require__(12);
 }, function(module, exports, __webpack_require__) {}, function(module, exports, __webpack_require__) {
-    var api = __webpack_require__(10);
-    var content = __webpack_require__(11);
+    var api = __webpack_require__(9);
+    var content = __webpack_require__(10);
     content = content.__esModule ? content.default : content;
     if (typeof content === \\"string\\") {
         content = [ [ module.i, content, \\"\\" ] ];
@@ -659,7 +653,7 @@ exports[`css modules should use css modules with global mode 2`] = `
         };
     };
 }, function(module, exports, __webpack_require__) {
-    var ___CSS_LOADER_API_IMPORT___ = __webpack_require__(12);
+    var ___CSS_LOADER_API_IMPORT___ = __webpack_require__(11);
     exports = ___CSS_LOADER_API_IMPORT___(false);
     exports.push([ module.i, \\"\\", \\"\\" ]);
     module.exports = exports;
@@ -736,7 +730,7 @@ exports[`css modules should use css modules with global mode 2`] = `
     var inherits = __webpack_require__(5);
     var createSuper = __webpack_require__(4);
     var react = __webpack_require__(0);
-    var app = __webpack_require__(8);
+    var app = __webpack_require__(7);
     var app_App = function(_Component) {
         Object(inherits[\\"a\\"])(App, _Component);
         var _super = Object(createSuper[\\"a\\"])(App);
@@ -774,7 +768,7 @@ exports[`css modules should use css modules with global mode 2`] = `
     function taro_framework_createVueApp() {}
     function taro_framework_createVue3App() {}
     var taro_components = __webpack_require__(1);
-    var mocks_taro_components = __webpack_require__(9);
+    var mocks_taro_components = __webpack_require__(8);
     Object(taro_components[\\"c\\"])().then((function() {
         Object(taro_components[\\"d\\"])(taro_runtime_window);
     }));
@@ -808,7 +802,7 @@ exports[`css modules should use css modules with global mode 2`] = `
     config.routes = [ Object.assign({
         \\"path\\": \\"pages/index/index\\",
         \\"load\\": function load() {
-            return __webpack_require__.e(1).then(__webpack_require__.bind(null, 17));
+            return __webpack_require__.e(1).then(__webpack_require__.bind(null, 16));
         }
     }, {
         \\"navigationBarTitleText\\": \\"首页\\"
@@ -833,15 +827,15 @@ exports[`css modules should use css modules with module mode 2`] = `
 "
 /** filePath: dist/chunk/1.js **/
 (window[\\"webpackJsonp\\"] = window[\\"webpackJsonp\\"] || []).push([ [ 1 ], {
-    \\"14\\": function(module, exports, __webpack_require__) {
+    \\"13\\": function(module, exports, __webpack_require__) {
         module.exports = {
             \\"cbody\\": \\"index-module__cbody___3Vfl2\\",
             \\"ctext\\": \\"index-module__ctext___Dq1RJ\\"
         };
     },
+    \\"14\\": function(module, exports, __webpack_require__) {},
     \\"15\\": function(module, exports, __webpack_require__) {},
-    \\"16\\": function(module, exports, __webpack_require__) {},
-    \\"17\\": function(module, __webpack_exports__, __webpack_require__) {
+    \\"16\\": function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_require__.r(__webpack_exports__);
         __webpack_require__.d(__webpack_exports__, \\"default\\", (function() {
@@ -853,11 +847,11 @@ exports[`css modules should use css modules with module mode 2`] = `
         var _babel_runtime_helpers_esm_createSuper__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(4);
         var react__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(0);
         var _tarojs_components__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(1);
-        var _index_module_css__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(14);
+        var _index_module_css__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(13);
         var _index_module_css__WEBPACK_IMPORTED_MODULE_6___default = __webpack_require__.n(_index_module_css__WEBPACK_IMPORTED_MODULE_6__);
-        var _index_css__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(15);
+        var _index_css__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(14);
         var _index_css__WEBPACK_IMPORTED_MODULE_7___default = __webpack_require__.n(_index_css__WEBPACK_IMPORTED_MODULE_7__);
-        var _index_global_css__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(16);
+        var _index_global_css__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(15);
         var _index_global_css__WEBPACK_IMPORTED_MODULE_8___default = __webpack_require__.n(_index_global_css__WEBPACK_IMPORTED_MODULE_8__);
         var Index = function(_Component) {
             Object(_babel_runtime_helpers_esm_inherits__WEBPACK_IMPORTED_MODULE_2__[\\"a\\"])(Index, _Component);
@@ -1113,7 +1107,7 @@ exports[`css modules should use css modules with module mode 2`] = `
     jsonpArray = jsonpArray.slice();
     for (var i = 0; i < jsonpArray.length; i++) webpackJsonpCallback(jsonpArray[i]);
     var parentJsonpFunction = oldJsonpFunction;
-    return __webpack_require__(__webpack_require__.s = 7);
+    return __webpack_require__(__webpack_require__.s = 6);
 })([ function(module, __webpack_exports__, __webpack_require__) {
     \\"use strict\\";
     __webpack_require__.r(__webpack_exports__);
@@ -1157,6 +1151,9 @@ exports[`css modules should use css modules with module mode 2`] = `
     function _createClass(Constructor, protoProps, staticProps) {
         if (protoProps) _defineProperties(Constructor.prototype, protoProps);
         if (staticProps) _defineProperties(Constructor, staticProps);
+        Object.defineProperty(Constructor, \\"prototype\\", {
+            \\"writable\\": false
+        });
         return Constructor;
     }
 }, function(module, __webpack_exports__, __webpack_require__) {
@@ -1181,8 +1178,14 @@ exports[`css modules should use css modules with module mode 2`] = `
             return false;
         }
     }
-    var helpers_typeof = __webpack_require__(6);
-    var typeof_default = __webpack_require__.n(helpers_typeof);
+    function _typeof(obj) {
+        \\"@babel/helpers - typeof\\";
+        return _typeof = \\"function\\" == typeof Symbol && \\"symbol\\" == typeof Symbol.iterator ? function(obj) {
+            return typeof obj;
+        } : function(obj) {
+            return obj && \\"function\\" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? \\"symbol\\" : typeof obj;
+        }, _typeof(obj);
+    }
     function _assertThisInitialized(self) {
         if (self === void 0) {
             throw new ReferenceError(\\"this hasn't been initialised - super() hasn't been called\\");
@@ -1190,7 +1193,7 @@ exports[`css modules should use css modules with module mode 2`] = `
         return self;
     }
     function _possibleConstructorReturn(self, call) {
-        if (call && (typeof_default()(call) === \\"object\\" || typeof call === \\"function\\")) {
+        if (call && (_typeof(call) === \\"object\\" || typeof call === \\"function\\")) {
             return call;
         } else if (call !== void 0) {
             throw new TypeError(\\"Derived constructors may only return object or undefined\\");
@@ -1233,31 +1236,16 @@ exports[`css modules should use css modules with module mode 2`] = `
                 \\"configurable\\": true
             }
         });
+        Object.defineProperty(subClass, \\"prototype\\", {
+            \\"writable\\": false
+        });
         if (superClass) _setPrototypeOf(subClass, superClass);
     }
-}, function(module, exports) {
-    function _typeof(obj) {
-        \\"@babel/helpers - typeof\\";
-        if (typeof Symbol === \\"function\\" && typeof Symbol.iterator === \\"symbol\\") {
-            module.exports = _typeof = function _typeof(obj) {
-                return typeof obj;
-            };
-            module.exports[\\"default\\"] = module.exports, module.exports.__esModule = true;
-        } else {
-            module.exports = _typeof = function _typeof(obj) {
-                return obj && typeof Symbol === \\"function\\" && obj.constructor === Symbol && obj !== Symbol.prototype ? \\"symbol\\" : typeof obj;
-            };
-            module.exports[\\"default\\"] = module.exports, module.exports.__esModule = true;
-        }
-        return _typeof(obj);
-    }
-    module.exports = _typeof;
-    module.exports[\\"default\\"] = module.exports, module.exports.__esModule = true;
 }, function(module, exports, __webpack_require__) {
-    module.exports = __webpack_require__(13);
+    module.exports = __webpack_require__(12);
 }, function(module, exports, __webpack_require__) {}, function(module, exports, __webpack_require__) {
-    var api = __webpack_require__(10);
-    var content = __webpack_require__(11);
+    var api = __webpack_require__(9);
+    var content = __webpack_require__(10);
     content = content.__esModule ? content.default : content;
     if (typeof content === \\"string\\") {
         content = [ [ module.i, content, \\"\\" ] ];
@@ -1482,7 +1470,7 @@ exports[`css modules should use css modules with module mode 2`] = `
         };
     };
 }, function(module, exports, __webpack_require__) {
-    var ___CSS_LOADER_API_IMPORT___ = __webpack_require__(12);
+    var ___CSS_LOADER_API_IMPORT___ = __webpack_require__(11);
     exports = ___CSS_LOADER_API_IMPORT___(false);
     exports.push([ module.i, \\"\\", \\"\\" ]);
     module.exports = exports;
@@ -1559,7 +1547,7 @@ exports[`css modules should use css modules with module mode 2`] = `
     var inherits = __webpack_require__(5);
     var createSuper = __webpack_require__(4);
     var react = __webpack_require__(0);
-    var app = __webpack_require__(8);
+    var app = __webpack_require__(7);
     var app_App = function(_Component) {
         Object(inherits[\\"a\\"])(App, _Component);
         var _super = Object(createSuper[\\"a\\"])(App);
@@ -1597,7 +1585,7 @@ exports[`css modules should use css modules with module mode 2`] = `
     function taro_framework_createVueApp() {}
     function taro_framework_createVue3App() {}
     var taro_components = __webpack_require__(1);
-    var mocks_taro_components = __webpack_require__(9);
+    var mocks_taro_components = __webpack_require__(8);
     Object(taro_components[\\"c\\"])().then((function() {
         Object(taro_components[\\"d\\"])(taro_runtime_window);
     }));
@@ -1631,7 +1619,7 @@ exports[`css modules should use css modules with module mode 2`] = `
     config.routes = [ Object.assign({
         \\"path\\": \\"pages/index/index\\",
         \\"load\\": function load() {
-            return __webpack_require__.e(1).then(__webpack_require__.bind(null, 17));
+            return __webpack_require__.e(1).then(__webpack_require__.bind(null, 16));
         }
     }, {
         \\"navigationBarTitleText\\": \\"首页\\"

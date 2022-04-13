@@ -7,8 +7,10 @@ import {
   incrementId,
   eventHandler
 } from '@tarojs/runtime'
+import { EMPTY_OBJ } from '@tarojs/shared'
 import { isClassComponent } from './utils'
 import { setReconciler } from './connect'
+import { reactMeta } from './react-meta'
 
 import type * as React from 'react'
 import type { PageInstance } from '@tarojs/taro'
@@ -20,7 +22,6 @@ import type {
 declare const getCurrentPages: () => PageInstance[]
 
 const getNativeCompId = incrementId()
-let R: typeof React
 let h: typeof React.createElement
 let ReactDOM
 
@@ -77,13 +78,27 @@ function initNativeComponentEntry (R: typeof React, ReactDOM) {
         forwardedRef: inject,
         reactReduxForwardedRef: inject
       }
+      if (reactMeta.PageContext === EMPTY_OBJ) {
+        reactMeta.PageContext = R.createContext('')
+      }
       const item = {
         compId,
         element: h(NativeComponentWrapper, {
           key: compId,
           getCtx,
           renderComponent (ctx) {
-            return h(Component, { ...(ctx.data ||= {}).props, ...refs, $scope: ctx })
+            return h(
+              reactMeta.PageContext.Provider,
+              { value: compId },
+              h(
+                Component,
+                {
+                  ...(ctx.data ||= {}).props,
+                  ...refs,
+                  $scope: ctx
+                }
+              )
+            )
           }
         })
       }
@@ -120,7 +135,7 @@ function initNativeComponentEntry (R: typeof React, ReactDOM) {
 }
 
 export function createNativeComponentConfig (Component, react: typeof React, reactdom, componentConfig) {
-  R = react
+  reactMeta.R = react
   h = react.createElement
   ReactDOM = reactdom
 
@@ -139,7 +154,7 @@ export function createNativeComponentConfig (Component, react: typeof React, rea
     },
     created () {
       if (!Current.app) {
-        initNativeComponentEntry(R, ReactDOM)
+        initNativeComponentEntry(react, ReactDOM)
       }
     },
     attached () {
