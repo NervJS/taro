@@ -379,7 +379,7 @@ export const getModule = (appPath: string, {
       cssModuleCondition = styleModuleReg
       // for vue
       cssLoaders.unshift({
-        resourceQuery: /module=true/,
+        resourceQuery: /module=/,
         use: [cssLoaderWithModule]
       })
     } else {
