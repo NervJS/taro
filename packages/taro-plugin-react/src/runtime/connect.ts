@@ -9,6 +9,7 @@ import {
   incrementId
 } from '@tarojs/runtime'
 import { isClassComponent, ensureIsArray, setDefaultDescriptor, setRouterParams, HOOKS_APP_ID } from './utils'
+import { reactMeta } from './react-meta'
 
 import type * as React from 'react'
 import type { AppConfig } from '@tarojs/taro'
@@ -23,9 +24,6 @@ import type {
 
 type PageComponent = React.CElement<PageProps, React.Component<PageProps, any, any>>
 
-// 初始值设置为 any 主要是为了过 TS 的校验
-export let PageContext: React.Context<string> = EMPTY_OBJ
-export let R: typeof React = EMPTY_OBJ
 let h: typeof React.createElement
 let ReactDOM
 
@@ -109,8 +107,8 @@ export function connectReactPage (
       reactReduxForwardedRef: inject
     }
 
-    if (PageContext === EMPTY_OBJ) {
-      PageContext = R.createContext('')
+    if (reactMeta.PageContext === EMPTY_OBJ) {
+      reactMeta.PageContext = R.createContext('')
     }
 
     return class PageWrapper extends R.Component<PageProps, { hasError: boolean }> {
@@ -135,7 +133,7 @@ export function connectReactPage (
       render () {
         const children = this.state.hasError
           ? []
-          : h(PageContext.Provider, { value: id }, h(Page, {
+          : h(reactMeta.PageContext.Provider, { value: id }, h(Page, {
             ...this.props,
             ...refs
           }))
@@ -176,11 +174,11 @@ export function createReactApp (
     ensure(!!dom, '构建 React/Nerv 项目请把 process.env.FRAMEWORK 设置为 \'react\'/\'nerv\' ')
   }
 
-  R = react
+  reactMeta.R = react
   h = react.createElement
   ReactDOM = dom
   const appInstanceRef = react.createRef<ReactAppInstance>()
-  const isReactComponent = isClassComponent(R, App)
+  const isReactComponent = isClassComponent(react, App)
   let appWrapper: AppWrapper
 
   setReconciler(ReactDOM)
@@ -189,13 +187,13 @@ export function createReactApp (
     return appInstanceRef.current
   }
 
-  class AppWrapper extends R.Component {
+  class AppWrapper extends react.Component {
     // run createElement() inside the render function to make sure that owner is right
     private pages: Array<() => PageComponent> = []
     private elements: Array<PageComponent> = []
 
     public mount (pageComponent: ReactPageComponent, id: string, cb: () => void) {
-      const pageWrapper = connectReactPage(R, id)(pageComponent)
+      const pageWrapper = connectReactPage(react, id)(pageComponent)
       const key = id + pageKeyId()
       const page = () => h(pageWrapper, { key, tid: id })
       this.pages.push(page)

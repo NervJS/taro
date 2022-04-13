@@ -61,7 +61,7 @@ export function ensureHtmlClass (tagName: string, className = ''): string {
   const classList = className.split(' ')
   const htmlClass = `h5-${tagName}`
   if (classList.indexOf(htmlClass) === -1) {
-    classList.push(htmlClass)
+    classList.unshift(htmlClass)
   }
   return classList.join(' ')
 }
