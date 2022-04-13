@@ -119,7 +119,7 @@ export function weixinCorpSupport (apiName) {
   }
 }
 
-export function permanentlyNotSupport(apiName) {
+export function permanentlyNotSupport (apiName) {
   return () => {
     const errMsg = `不支持 API ${apiName}`
     if (process.env.NODE_ENV !== 'production') {
@@ -151,29 +151,26 @@ export interface IOpenApi {
 }
 
 class W3cApiRegistry {
-  apis: Map<String, IOpenApi> = new Map<String, IOpenApi>()
+  apis: Map<string, IOpenApi> = new Map<string, IOpenApi>()
 
-  public register(apis: Array<{ apiName: String, processApi: IOpenApi }>) {
+  public register (apis: Array<{ apiName: string, processApi: IOpenApi }>) {
     apis.forEach(e => {
       this.apis.set(e.apiName, e.processApi)
     })
   }
-
 }
 
 const w3cApiRegistry = new W3cApiRegistry()
 
 export { w3cApiRegistry }
 
-export function processOpenApi(apiName: string, defaultOptions?: Record<string, unknown>, formatResult = res => res, formatParams = options => options) {
-
+export function processOpenApi (apiName: string, defaultOptions?: Record<string, unknown>, formatResult = res => res, formatParams = options => options) {
   return options => {
-
-    //默认绑定为微信JS-SDK实现
+    // 默认绑定为微信JS-SDK实现
     // @ts-ignore
     let targetApi
 
-    //非JS-SDK环境下切换为w3c实现
+    // 非JS-SDK环境下切换为w3c实现
     // @ts-ignore
     if (window.wx) {
       // @ts-ignore

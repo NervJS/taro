@@ -61,7 +61,7 @@ describe('location', () => {
   test('should get location info object from w3c api', () => {
     // @ts-ignore
     navigator.geolocation = {
-      getCurrentPosition (successCallback, errorCallback, optiosns) {
+      getCurrentPosition (successCallback) {
         successCallback(mockW3CGetLocationResult as GeolocationPosition)
       }
     }
