@@ -25,7 +25,7 @@
     "version:lerna": "lerna version ${npm_config_lerna_version} --exact --no-git-tag-version --force-publish --yes",
     "version:git": "git add . && git commit -m \"chore(release): publish ${npm_config_lerna_version}\"",
     "version:changelog": "conventional-changelog -p angular",
-    "clear-all": "rimraf node_modules && lerna clean -y"
+    "clear-all": "lerna clean -y && rimraf node_modules"
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": [
