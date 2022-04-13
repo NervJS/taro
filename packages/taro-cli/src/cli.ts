@@ -71,6 +71,7 @@ export default class CLI {
             case 'tt':
             case 'qq':
             case 'jd':
+            case 'xhs':
               kernel.optsPlugins = [
                 ...kernel.optsPlugins,
                 `@tarojs/plugin-platform-${platform}`,

@@ -29,6 +29,7 @@ https://github.com/NervJS/taro/blob/master/CONTRIBUTING.md
 - [ ] 字节跳动小程序
 - [ ] QQ 轻应用
 - [ ] 京东小程序
+- [ ] 小红书小程序
 - [ ] 快应用平台（QuickApp）
 - [ ] Web 平台（H5）
 - [ ] 移动端（React-Native）

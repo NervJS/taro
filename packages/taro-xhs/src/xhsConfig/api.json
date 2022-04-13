@@ -1,0 +1,784 @@
+{
+  "console": { "log": true, "warn": true, "error": true, "group": true },
+  "Animation": {},
+  "EditorContext": {},
+  "MapContext": {},
+  "offAppHide": {},
+  "offAppShow": {},
+  "offError": {},
+  "offPageNotFound": {},
+  "offUnhandledRejection": {},
+  "onAppHide": {},
+  "onAppNotification": {
+    "callback": { "type": { "updateGetAppInfo": true }, "data": true }
+  },
+  "onAppShow": { "callback": { "path": true, "scene": true, "query": true } },
+  "onAppStateChange": {
+    "callback": { "appState": { "active": true, "background": true } }
+  },
+  "onError": {},
+  "onHeadersReceivedUploadTask": { "callback": { "header": true } },
+  "onLocationChange": {
+    "callback": {
+      "latitude": true,
+      "longitude": true,
+      "speed": true,
+      "accuracy": true,
+      "altitude": true,
+      "verticalAccuracy": true,
+      "horizontalAccuracy": true
+    }
+  },
+  "onNativeComponentEvent": {
+    "callback": {
+      "componentType": { "input": true },
+      "componentId": true,
+      "componentEventName": {
+        "bindinput": true,
+        "bindfocus": true,
+        "bindblur": true,
+        "bindconfirm": true,
+        "bindselection": true
+      },
+      "data": true
+    }
+  },
+  "onNetworkStatusChange": {
+    "callback": {
+      "isConnected": true,
+      "networkType": {
+        "wifi": true,
+        "2g": true,
+        "3g": true,
+        "4g": true,
+        "5g": true,
+        "unknown": true,
+        "none": true
+      }
+    }
+  },
+  "onPageNotFound": {
+    "callback": { "path": true, "query": true, "isEntryPage": true }
+  },
+  "onProgressUpdateUploadTask": {
+    "callback": {
+      "progress": true,
+      "totalBytesSent": true,
+      "totalBytesExpectedToSend": true
+    }
+  },
+  "onShareAppMessage": {
+    "callback": { "from": { "button": true, "menu": true }, "target": true }
+  },
+  "onUnhandledRejection": { "callback": { "reason": true, "promise": true } },
+  "resume": { "object": { "type": true, "setObject": true } },
+  "arrayBufferToBase64": true,
+  "authorize": {
+    "success": { "errMsg": true },
+    "object": {
+      "scope": {
+        "scope.userInfo": true,
+        "scope.userLocation": true,
+        "scope.userLocationBackground": true,
+        "scope.writePhotosAlbum": true,
+        "scope.camera": true
+      },
+      "success": true,
+      "fail": true,
+      "complete": true
+    }
+  },
+  "base64ToArrayBuffer": { "return": { "arrayBuffer": true } },
+  "canIUse": true,
+  "checkSession": {
+    "success": { "errMsg": true },
+    "object": { "success": true, "fail": true, "complete": true }
+  },
+  "chooseImage": {
+    "success": { "tempFilePaths": true, "tempFiles": true, "errMsg": true },
+    "object": {
+      "count": true,
+      "sizeType": true,
+      "sourceType": true,
+      "success": true,
+      "fail": true,
+      "complete": true
+    }
+  },
+  "chooseLocation": {
+    "success": {
+      "name": true,
+      "address": true,
+      "latitude": true,
+      "longitude": true,
+      "errMsg": true
+    },
+    "object": {
+      "latitude": true,
+      "longitude": true,
+      "success": true,
+      "fail": true,
+      "complete": true
+    }
+  },
+  "clearStorage": {
+    "success": { "errMsg": true },
+    "object": { "success": true, "fail": true, "complete": true }
+  },
+  "clearStorageSync": true,
+  "controlIOSBounce": {
+    "success": { "errMsg": true },
+    "object": {
+      "disable": true,
+      "success": true,
+      "fail": true,
+      "complete": true
+    }
+  },
+  "createAnimation": {
+    "object": {
+      "duration": true,
+      "timingFunction": {
+        "linear": true,
+        "ease": true,
+        "ease-in": true,
+        "ease-in-out": true,
+        "ease-out": true,
+        "step-start": true,
+        "step-end": true
+      },
+      "delay": true,
+      "transformOrigin": true
+    }
+  },
+  "emitApmTrack": {
+    "success": { "errMsg": true },
+    "object": { "data": true, "success": true, "fail": true, "complete": true }
+  },
+  "emitTrack": {
+    "success": { "errMsg": true },
+    "object": { "data": true, "success": true, "fail": true, "complete": true }
+  },
+  "env": { "return": { "USER_DATA_PATH": true } },
+  "exitMiniProgram": {
+    "success": { "errMsg": true },
+    "object": { "success": true, "fail": true, "complete": true }
+  },
+  "getAccountInfoSync": { "return": { "miniProgram": true } },
+  "getAppInfoSync": {
+    "return": {
+      "env": { "local": true, "develop": true, "trial": true, "release": true },
+      "platform": { "android": true, "iOS": true, "ide": true },
+      "debug": true,
+      "closeWebViewWhiteList": true,
+      "webViewWhiteList": true,
+      "flag": true
+    }
+  },
+  "getClipboardData": {
+    "success": { "data": true, "errMsg": true },
+    "object": { "success": true, "fail": true, "complete": true }
+  },
+  "getContainerInitTime": {
+    "success": { "initTime": true, "errMsg": true },
+    "object": {
+      "type": { "webview": true, "jsc": true },
+      "success": true,
+      "fail": true,
+      "complete": true
+    }
+  },
+  "getEagletDeviceInfo": {
+    "success": {
+      "appId": true,
+      "uniqueId": true,
+      "deviceId": true,
+      "sessionId": true,
+      "idfa": true,
+      "idfv": true,
+      "imei": true,
+      "userInfo": true,
+      "errMsg": true
+    },
+    "object": { "success": true, "fail": true, "complete": true }
+  },
+  "getEnterOptionsSync": { "return": { "path": true, "query": true } },
+  "getExtConfig": {
+    "success": { "errMsg": true, "extConfig": true },
+    "object": { "success": true, "fail": true, "complete": true }
+  },
+  "getExtConfigSync": true,
+  "getImageInfo": {
+    "success": {
+      "errMsg": true,
+      "width": true,
+      "height": true,
+      "path": true,
+      "orientation": {
+        "up": true,
+        "up-mirrored": true,
+        "down": true,
+        "down-mirrored": true,
+        "left-mirrored": true,
+        "right": true,
+        "right-mirrored": true,
+        "left": true
+      },
+      "type": true
+    },
+    "object": { "src": true, "success": true, "fail": true, "complete": true }
+  },
+  "getLaunchOptionsSync": { "return": { "path": true, "query": true } },
+  "getLocation": {
+    "success": {
+      "latitude": true,
+      "longitude": true,
+      "speed": true,
+      "accuracy": true,
+      "altitude": true,
+      "verticalAccuracy": true,
+      "horizontalAccuracy": true,
+      "errMsg": true
+    },
+    "object": { "type": true, "success": true, "fail": true, "complete": true }
+  },
+  "getMenuButtonBoundingClientRect": { "return": { "errMsg": true } },
+  "getNetworkType": {
+    "success": {
+      "errMsg": true,
+      "networkType": {
+        "wifi": true,
+        "2g": true,
+        "3g": true,
+        "4g": true,
+        "5g": true,
+        "unknown": true,
+        "none": true
+      }
+    },
+    "object": { "success": true, "fail": true, "complete": true }
+  },
+  "getPhoneNumber": {
+    "success": { "errMsg": true, "encryptedData": true, "iv": true },
+    "object": { "success": true, "fail": true, "complete": true }
+  },
+  "getSetting": {
+    "success": { "errMsg": true, "authSetting": true },
+    "object": { "success": true, "fail": true, "complete": true }
+  },
+  "getStorage": {
+    "success": { "errMsg": true, "data": true },
+    "object": { "key": true, "success": true, "fail": true, "complete": true }
+  },
+  "getStorageInfo": {
+    "success": {
+      "errMsg": true,
+      "keys": true,
+      "currentSize": true,
+      "limitSize": true
+    },
+    "object": { "success": true, "fail": true, "complete": true }
+  },
+  "getStorageInfoSync": {
+    "return": { "keys": true, "currentSize": true, "limitSize": true }
+  },
+  "getStorageSync": { "return": { "code": true, "data": true, "msg": true } },
+  "getSystemInfo": {
+    "success": {
+      "brand": true,
+      "model": true,
+      "pixelRatio": true,
+      "screenWidth": true,
+      "screenHeight": true,
+      "windowWidth": true,
+      "windowHeight": true,
+      "language": true,
+      "version": true,
+      "system": true,
+      "platform": true,
+      "SDKVersion": true,
+      "albumAuthorized": true,
+      "cameraAuthorized": true,
+      "locationAuthorized": true,
+      "microphoneAuthorized": true,
+      "locationEnabled": true,
+      "host": true,
+      "notificationAlertAuthorized": true,
+      "notificationAuthorized": true,
+      "notificationBadgeAuthorized": true,
+      "notificationSoundAuthorized": true,
+      "safeArea": true,
+      "statusBarHeight": true,
+      "theme": true,
+      "wifiEnabled": true,
+      "fontSizeSetting": true,
+      "navigationBarHeight": true,
+      "bluetoothEnabled": true,
+      "errMsg": true
+    },
+    "object": { "success": true, "fail": true, "complete": true }
+  },
+  "getSystemInfoSync": {
+    "return": {
+      "brand": true,
+      "model": true,
+      "pixelRatio": true,
+      "screenWidth": true,
+      "screenHeight": true,
+      "windowWidth": true,
+      "windowHeight": true,
+      "language": true,
+      "version": true,
+      "system": true,
+      "platform": true,
+      "SDKVersion": true,
+      "albumAuthorized": true,
+      "cameraAuthorized": true,
+      "locationAuthorized": true,
+      "microphoneAuthorized": true,
+      "locationEnabled": true,
+      "host": true,
+      "notificationAlertAuthorized": true,
+      "notificationAuthorized": true,
+      "notificationBadgeAuthorized": true,
+      "notificationSoundAuthorized": true,
+      "safeArea": true,
+      "statusBarHeight": true,
+      "theme": true,
+      "wifiEnabled": true,
+      "fontSizeSetting": true,
+      "navigationBarHeight": true,
+      "bluetoothEnabled": true
+    }
+  },
+  "getUserProfile": {
+    "success": { "errMsg": true, "userInfo": true },
+    "object": { "success": true, "fail": true, "complete": true }
+  },
+  "hideHomeButton": {
+    "success": { "errMsg": true },
+    "object": { "success": true, "fail": true, "complete": true }
+  },
+  "hideLoading": {
+    "success": { "errMsg": true },
+    "object": { "success": true, "fail": true, "complete": true }
+  },
+  "hideShareMenu": {
+    "success": { "errMsg": true },
+    "object": { "success": true, "fail": true, "complete": true }
+  },
+  "hideTabBar": {
+    "success": { "errMsg": true },
+    "object": {
+      "animation": true,
+      "success": true,
+      "fail": true,
+      "complete": true
+    }
+  },
+  "hideToast": {
+    "success": { "errMsg": true },
+    "object": { "success": true, "fail": true, "complete": true }
+  },
+  "login": {
+    "success": { "errMsg": true, "code": true },
+    "object": {
+      "timeout": true,
+      "success": true,
+      "fail": true,
+      "complete": true
+    }
+  },
+  "makePhoneCall": {
+    "success": { "errMsg": true },
+    "object": {
+      "phoneNumber": true,
+      "success": true,
+      "fail": true,
+      "complete": true
+    }
+  },
+  "nativeComponentBeforeInit": {
+    "success": {
+      "isScrollViewFound": true,
+      "isRenderComplete": true,
+      "errMsg": true
+    },
+    "object": {
+      "type": { "input": true },
+      "componentId": true,
+      "props": true,
+      "success": true,
+      "fail": true,
+      "complete": true
+    }
+  },
+  "nativeComponentContainerUpdate": {
+    "success": { "errMsg": true },
+    "object": {
+      "componentId": true,
+      "props": true,
+      "success": true,
+      "fail": true,
+      "complete": true
+    }
+  },
+  "nativeComponentDelete": {
+    "success": { "errMsg": true },
+    "object": {
+      "type": { "input": true },
+      "componentId": true,
+      "success": true,
+      "fail": true,
+      "complete": true
+    }
+  },
+  "nativeComponentInit": {
+    "success": { "errMsg": true },
+    "object": {
+      "type": { "input": true },
+      "componentId": true,
+      "props": true,
+      "success": true,
+      "fail": true,
+      "complete": true
+    }
+  },
+  "nativeComponentUpdate": {
+    "success": { "errMsg": true },
+    "object": {
+      "type": { "input": true },
+      "componentId": true,
+      "props": true,
+      "success": true,
+      "fail": true,
+      "complete": true
+    }
+  },
+  "navigateBack": {
+    "success": { "errMsg": true },
+    "object": { "delta": true, "success": true, "fail": true, "complete": true }
+  },
+  "navigateTo": {
+    "success": { "errMsg": true },
+    "object": { "url": true, "success": true, "fail": true, "complete": true }
+  },
+  "offHeadersReceivedUploadTask": {
+    "success": { "errMsg": true },
+    "object": {
+      "taskId": true,
+      "success": true,
+      "fail": true,
+      "complete": true
+    }
+  },
+  "offProgressUpdateUploadTask": {
+    "success": { "errMsg": true },
+    "object": {
+      "taskId": true,
+      "success": true,
+      "fail": true,
+      "complete": true
+    }
+  },
+  "openSetting": {
+    "success": { "errMsg": true, "authSetting": true },
+    "object": { "success": true, "fail": true, "complete": true }
+  },
+  "pageScrollTo": {
+    "success": { "errMsg": true },
+    "object": {
+      "scrollTop": true,
+      "duration": true,
+      "success": true,
+      "fail": true,
+      "complete": true
+    }
+  },
+  "previewImage": {
+    "success": { "errMsg": true },
+    "object": {
+      "urls": true,
+      "showmenu": true,
+      "current": true,
+      "success": true,
+      "fail": true,
+      "complete": true
+    }
+  },
+  "reLaunch": {
+    "success": { "errMsg": true },
+    "object": { "url": true, "success": true, "fail": true, "complete": true }
+  },
+  "redirectTo": {
+    "success": { "errMsg": true },
+    "object": { "url": true, "success": true, "fail": true, "complete": true }
+  },
+  "removeStorage": {
+    "success": { "errMsg": true },
+    "object": { "key": true, "success": true, "fail": true, "complete": true }
+  },
+  "removeStorageSync": true,
+  "request": {
+    "success": {
+      "data": true,
+      "statusCode": true,
+      "header": true,
+      "cookies": true
+    },
+    "object": {
+      "url": true,
+      "data": true,
+      "header": true,
+      "timeout": true,
+      "method": {
+        "OPTIONS": true,
+        "GET": true,
+        "POST": true,
+        "PUT": true,
+        "DELETE": true
+      },
+      "dataType": { "json": true, "其他": true },
+      "responseType": { "text": true, "arraybuffer": true },
+      "success": true,
+      "fail": true,
+      "complete": true
+    }
+  },
+  "requestOrderPayment": {
+    "success": { "result": true, "msg": true, "success": true, "errMsg": true },
+    "object": {
+      "orderInfo": true,
+      "success": true,
+      "fail": true,
+      "complete": true
+    }
+  },
+  "saveImageToPhotosAlbum": {
+    "success": { "errMsg": true },
+    "object": {
+      "filePath": true,
+      "success": true,
+      "fail": true,
+      "complete": true
+    }
+  },
+  "scanCode": {
+    "success": {
+      "errMsg": true,
+      "result": true,
+      "scanType": {
+        "QR_CODE": true,
+        "AZTEC": true,
+        "CODABAR": true,
+        "CODE_39": true,
+        "CODE_93": true,
+        "CODE_128": true,
+        "DATA_MATRIX": true,
+        "EAN_8": true,
+        "EAN_13": true,
+        "ITF": true,
+        "MAXICODE": true,
+        "PDF_417": true,
+        "RSS_14": true,
+        "RSS_EXPANDED": true,
+        "UPC_A": true,
+        "UPC_E": true,
+        "UPC_EAN_EXTENSION": true,
+        "WX_CODE": true,
+        "CODE_25": true
+      },
+      "charSet": true,
+      "path": true,
+      "rawData": true
+    },
+    "object": {
+      "onlyFromCamera": true,
+      "scanType": true,
+      "success": true,
+      "fail": true,
+      "complete": true
+    }
+  },
+  "setClipboardData": {
+    "success": { "errMsg": true },
+    "object": { "data": true, "success": true, "fail": true, "complete": true }
+  },
+  "setNavigationBarColor": {
+    "success": { "errMsg": true },
+    "object": {
+      "frontColor": true,
+      "backgroundColor": true,
+      "animation": true,
+      "success": true,
+      "fail": true,
+      "complete": true
+    }
+  },
+  "setNavigationBarTitle": {
+    "success": { "errMsg": true },
+    "object": { "title": true, "success": true, "fail": true, "complete": true }
+  },
+  "setStorage": {
+    "success": { "errMsg": true },
+    "object": {
+      "key": true,
+      "data": true,
+      "success": true,
+      "fail": true,
+      "complete": true
+    }
+  },
+  "setStorageSync": true,
+  "setTabBarItem": {
+    "success": { "errMsg": true },
+    "object": {
+      "index": true,
+      "text": true,
+      "iconPath": true,
+      "selectedIconPath": true,
+      "success": true,
+      "fail": true,
+      "complete": true
+    }
+  },
+  "setTabBarStyle": {
+    "success": { "errMsg": true },
+    "object": {
+      "color": true,
+      "selectedColor": true,
+      "backgroundColor": true,
+      "borderStyle": { "black": true, "white": true },
+      "success": true,
+      "fail": true,
+      "complete": true
+    }
+  },
+  "share": {
+    "success": { "errMsg": true },
+    "object": {
+      "title": true,
+      "path": true,
+      "imageUrl": true,
+      "success": true,
+      "fail": true,
+      "complete": true
+    }
+  },
+  "showActionSheet": {
+    "success": { "errMsg": true, "tapIndex": true },
+    "object": {
+      "alertText": true,
+      "itemList": true,
+      "itemColor": true,
+      "success": true,
+      "fail": true,
+      "complete": true
+    }
+  },
+  "showLoading": {
+    "success": { "errMsg": true },
+    "object": {
+      "title": true,
+      "mask": true,
+      "success": true,
+      "fail": true,
+      "complete": true
+    }
+  },
+  "showModal": {
+    "success": { "errMsg": true, "cancel": true, "confirm": true },
+    "object": {
+      "title": true,
+      "content": true,
+      "showCancel": true,
+      "cancelText": true,
+      "cancelColor": true,
+      "confirmText": true,
+      "confirmColor": true,
+      "editable": true,
+      "placeholderText": true,
+      "success": true,
+      "fail": true,
+      "complete": true
+    }
+  },
+  "showShareMenu": {
+    "success": { "errMsg": true },
+    "object": { "success": true, "fail": true, "complete": true }
+  },
+  "showTabBar": {
+    "success": { "errMsg": true },
+    "object": {
+      "animation": true,
+      "success": true,
+      "fail": true,
+      "complete": true
+    }
+  },
+  "showToast": {
+    "success": { "errMsg": true },
+    "object": {
+      "title": true,
+      "icon": { "success": true, "error": true, "loading": true, "none": true },
+      "image": true,
+      "duration": true,
+      "mask": true,
+      "success": true,
+      "fail": true,
+      "complete": true
+    }
+  },
+  "startLocationUpdate": {
+    "success": { "errMsg": true },
+    "object": { "success": true, "fail": true, "complete": true }
+  },
+  "startLocationUpdateBackground": {
+    "success": { "errMsg": true },
+    "object": { "success": true, "fail": true, "complete": true }
+  },
+  "startPullDownRefresh": {
+    "success": { "errMsg": true },
+    "object": { "success": true, "fail": true, "complete": true }
+  },
+  "stopLocationUpdate": {
+    "success": { "errMsg": true },
+    "object": { "success": true, "fail": true, "complete": true }
+  },
+  "stopPullDownRefresh": {
+    "success": { "errMsg": true },
+    "object": { "success": true, "fail": true, "complete": true }
+  },
+  "switchTab": {
+    "success": { "errMsg": true },
+    "object": { "url": true, "success": true, "fail": true, "complete": true }
+  },
+  "uploadFile": {
+    "success": { "data": true, "statusCode": true, "errMsg": true },
+    "object": {
+      "url": true,
+      "filePath": true,
+      "name": true,
+      "header": true,
+      "formData": true,
+      "timeout": true,
+      "success": true,
+      "fail": true,
+      "complete": true
+    }
+  },
+  "uploadTask": {},
+  "uploadTaskAbort": {
+    "success": { "errMsg": true },
+    "object": {
+      "taskId": true,
+      "success": true,
+      "fail": true,
+      "complete": true
+    }
+  },
+  "uploadTaskOffHeadersReceived": {},
+  "uploadTaskOffProgressUpdate": {},
+  "uploadTaskOnHeadersReceived": {},
+  "uploadTaskOnProgressUpdate": {}
+}

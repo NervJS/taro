@@ -1,0 +1,15 @@
+{
+  "id":true,
+  "class":true,
+  "style":true,
+  "name":true,
+  "hidden":true,
+  "bindtap":true,
+  "bindtouchstart":true,
+  "bindtouchmove":true,
+  "bindtouchend":true,
+  "catchtap":true,
+  "catchtouchstart":true,
+  "catchtouchmove":true,
+  "catchtouchend":true
+}
