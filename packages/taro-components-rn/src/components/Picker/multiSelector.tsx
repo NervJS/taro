@@ -72,7 +72,7 @@ export default class MultiSelector extends React.Component<MultiSelectorProps, M
     value: []
   }
 
-  dismissByOk = false;
+  dismissByOk = false
 
   static getDerivedStateFromProps(nextProps: MultiSelectorProps, lastState: MultiSelectorState): MultiSelectorState | null {
     let ret: any = null

@@ -13,10 +13,11 @@ export default (ctx: IPluginContext) => {
       '--css [css]': 'CSS预处理器(sass/less/stylus/none)',
       '-h, --help': 'output usage information'
     },
-    async fn () {
+    async fn (opts) {
       // init project
       const { appPath } = ctx.paths
-      const { projectName, templateSource, clone, template, description, typescript, css } = ctx.runOpts
+      const { options } = opts
+      const { projectName, templateSource, clone, template, description, typescript, css } = options
       const Project = require('../../create/project').default
       const project = new Project({
         projectName,

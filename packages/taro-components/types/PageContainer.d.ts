@@ -97,10 +97,10 @@ declare namespace PageContainerProps {
     top
     /** 下方弹出 */
     bottom
-    /** 左边弹出 */
-    left
     /** 右边弹出 */
     right
+    /** 中央弹出 */
+    center
   }
 }
 
