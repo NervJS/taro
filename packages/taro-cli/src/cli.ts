@@ -44,6 +44,7 @@ export default class CLI {
 
       // 设置环境变量
       process.env.NODE_ENV ||= args.env || (args.watch ? 'development' : 'production')
+      process.env.TARO_ENV = args.type
 
       const kernel = new Kernel({
         appPath,
