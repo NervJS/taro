@@ -73,7 +73,7 @@
     "download-git-repo": "^2.0.0",
     "ejs": "^2.6.1",
     "envinfo": "^6.0.1",
-    "eslint": "^6.1.0",
+    "eslint": "^8.12.0",
     "eslint-config-taro": "3.4.4",
     "eslint-plugin-import": "^2.8.0",
     "eslint-plugin-react": "^7.4.0",

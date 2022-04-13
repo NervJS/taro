@@ -30,7 +30,7 @@ class Tabbar extends React.Component<TabbarProps, TabbarState> {
 
   static defaultProps = {
     homePage: '',
-  };
+  }
 
   hideBar(): void {
     this.setState({ isShow: false })

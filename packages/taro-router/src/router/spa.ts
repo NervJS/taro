@@ -11,7 +11,7 @@ import UniversalRouter, { Routes } from 'universal-router'
 import { history, prependBasename } from '../history'
 import PageHandler from './page'
 import stacks from './stack'
-import { addLeadingSlash, routesAlias } from '../utils'
+import { addLeadingSlash, routesAlias, stripBasename } from '../utils'
 import { RouterConfig, SpaRouterConfig } from '.'
 
 export function createRouter (
@@ -117,7 +117,10 @@ export function createRouter (
   }
 
   if (history.location.pathname === '/') {
-    history.replace(prependBasename(entryPagePath + history.location.search))
+    const stripped = stripBasename(history.location.pathname, handler.basename)
+    if (stripped === '/' || stripped === '') {
+      history.replace(prependBasename(entryPagePath + history.location.search))
+    }
   }
 
   render({ location: history.location, action: LocationAction.Push })

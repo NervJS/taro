@@ -7,10 +7,17 @@ import type { IPluginContext } from '@tarojs/service'
 import type { RootNode, TemplateChildNode, ElementNode } from '@vue/compiler-core'
 
 export function modifyH5WebpackChain (ctx: IPluginContext, chain) {
+  // vue3 tsx 使用原生组件
+  setAlias(chain)
   setStyleLoader(ctx, chain)
   setVueLoader(chain)
   setLoader(chain)
   setTaroApiLoader(chain)
+}
+
+function setAlias (chain) {
+  const alias = chain.resolve.alias
+  alias.set('@tarojs/components$', '@tarojs/components/dist-h5/vue3')
 }
 
 function setStyleLoader (ctx: IPluginContext, chain) {

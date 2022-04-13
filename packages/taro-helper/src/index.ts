@@ -1,7 +1,6 @@
 import * as fs from 'fs-extra'
 import * as chalk from 'chalk'
 import * as chokidar from 'chokidar'
-import createDebug from 'debug'
 
 import * as constants from './constants'
 import * as utils from './utils'
@@ -19,7 +18,7 @@ export const helper = {
   fs,
   chalk,
   chokidar,
-  createDebug
+  createDebug: id => require('debug')(id)
 }
 
 export default helper
