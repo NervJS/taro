@@ -338,6 +338,9 @@ export default class MiniSplitChunksPlugin extends SplitChunksPlugin {
       ...subPackage,
       root: this.formatSubRoot(subPackage.root)
     }))
+    if (this.subPackages.length === 0) {
+      return
+    }
     this.subRoots = this.subPackages.map((subPackage: SubPackage) => subPackage.root)
     this.subRootRegExps = this.subRoots.map((subRoot: string) => new RegExp(`^${subRoot}\\/`))
     this.distPath = options.output.path || ''
