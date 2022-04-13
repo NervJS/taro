@@ -16,6 +16,7 @@ import type { IRule, CssModuleOptionConfig } from './WebpackModule'
 
 type CSSLoaders = {
   include?
+  resourceQuery?
   use
 }[]
 
@@ -176,6 +177,11 @@ export class H5WebpackModule {
       if (cssModuleOptionConfig.namingPattern === 'module') {
         /* 不排除 node_modules 内的样式 */
         cssModuleCondition = styleModuleReg
+        // for vue
+        cssLoaders.unshift({
+          resourceQuery: /module=/,
+          use: [cssLoaderWithModule]
+        })
       } else {
         cssModuleCondition = {
           and: [

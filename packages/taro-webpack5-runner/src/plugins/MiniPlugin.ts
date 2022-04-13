@@ -2,8 +2,6 @@ import * as path from 'path'
 import * as fs from 'fs-extra'
 import * as webpack from 'webpack'
 import * as EntryDependency from 'webpack/lib/dependencies/EntryDependency'
-import * as convert from 'convert-source-map'
-import offsetLines from 'offset-sourcemap-lines'
 import { ConcatSource, RawSource } from 'webpack-sources'
 import { urlToRequest } from 'loader-utils'
 import { AppConfig, Config } from '@tarojs/taro'
@@ -747,7 +745,7 @@ export default class TaroMiniPlugin {
 
       independentPackages.forEach((pages, name) => {
         const childCompiler = compilation.createChildCompiler(PLUGIN_NAME, {
-          path: `${compiler.options.output}/${name}`,
+          path: `${compiler.options.output.path}/${name}`,
           chunkLoadingGlobal: `subpackage_${name}`
         })
         const compPath = path.resolve(__dirname, '..', 'template/comp')
@@ -959,7 +957,7 @@ export default class TaroMiniPlugin {
       }
     })
     this.pages.forEach(page => {
-      const importBaseTemplatePath = promoteRelativePath(path.relative(page.path, path.join(sourceDir, this.getTemplatePath(baseTemplateName))))
+      let importBaseTemplatePath = promoteRelativePath(path.relative(page.path, path.join(sourceDir, this.getTemplatePath(baseTemplateName))))
       const config = this.filesConfig[this.getConfigFilePath(page.name)]
       let isIndependent = false
       let independentName = ''
@@ -967,6 +965,7 @@ export default class TaroMiniPlugin {
         if (pages.includes(page.path)) {
           isIndependent = true
           independentName = name
+          importBaseTemplatePath = promoteRelativePath(path.relative(page.path, path.join(sourceDir, name, this.getTemplatePath(baseTemplateName))))
         }
       })
       if (config) {
@@ -1128,40 +1127,17 @@ export default class TaroMiniPlugin {
 
     if (!assets[appStyle]) return
 
-    const commonStyles: string[] = []
+    const originSource = assets[appStyle]
+    const source = new ConcatSource(originSource)
 
     Object.keys(assets).forEach(assetName => {
       const fileName = path.basename(assetName, path.extname(assetName))
       if ((REG_STYLE.test(assetName) || REG_STYLE_EXT.test(assetName)) && this.options.commonChunks.includes(fileName)) {
-        commonStyles.push(`@import ${JSON.stringify(urlToRequest(assetName))};\n`)
+        source.add('\n')
+        source.add(`@import ${JSON.stringify(urlToRequest(assetName))};`)
+        assets[appStyle] = source
       }
     })
-
-    if (commonStyles.length > 0) {
-      const source = new ConcatSource()
-      let rawSource = assets[appStyle].source() as string
-      source.add(commonStyles.join(''))
-
-      const rawConvSourceMap = convert.fromSource(rawSource)
-
-      if (rawConvSourceMap) {
-        rawSource = convert.removeComments(rawSource)
-        source.add(rawSource)
-        const offsettedMap = offsetLines(rawConvSourceMap.toObject(), commonStyles.length)
-        source.add(convert.fromObject(offsettedMap).toComment())
-      } else {
-        source.add(rawSource)
-        const appStyleMap = appStyle + '.map'
-        if (assets[appStyleMap]) {
-          const mapContext = String(assets[appStyleMap].source())
-          const offsettedMap = offsetLines(JSON.parse(mapContext), commonStyles.length)
-          const offsettedMapText = JSON.stringify(offsettedMap)
-          assets[appStyleMap] = new RawSource(offsettedMapText)
-        }
-      }
-
-      assets[appStyle] = source
-    }
   }
 
   addTarBarFilesToDependencies (compilation: Compilation) {
