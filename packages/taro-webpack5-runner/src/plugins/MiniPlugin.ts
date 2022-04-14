@@ -1141,10 +1141,15 @@ export default class TaroMiniPlugin {
   }
 
   addTarBarFilesToDependencies (compilation: Compilation) {
-    const { fileDependencies } = compilation
+    const { fileDependencies, missingDependencies } = compilation
     this.tabBarIcons.forEach(icon => {
       if (!fileDependencies.has(icon)) {
         fileDependencies.add(icon)
+      }
+      // 避免触发 watchpack 里 WatchpackFileWatcher 类的 "initial-missing" 事件中 _onRemove 逻辑，
+      // 它会把 tabbar icon 当做已 remove 多次触发构建
+      if (!missingDependencies.has(icon)) {
+        missingDependencies.add(icon)
       }
     })
   }
