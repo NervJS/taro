@@ -119,7 +119,6 @@
     "gh-pages": "^1.1.0",
     "gulp": "^4.0.2",
     "gulp-typescript": "^5.0.1",
-    "html-webpack-plugin": "^3.0.6",
     "husky": "^1.2.0",
     "jest": "26.4.2",
     "jest-dom": "^1.3.1",
