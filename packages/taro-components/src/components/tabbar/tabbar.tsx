@@ -139,14 +139,14 @@ export class Tabbar implements ComponentInterface {
       url = location.pathname
     }
     const processedUrl = addLeadingSlash(stripBasename(url, routerBasename))
-    return processedUrl === '/' ? this.homePage : processedUrl
+    return decodeURI(processedUrl === '/' ? this.homePage : processedUrl)
   }
 
   getOriginUrl = (url: string) => {
     const customRoute = this.customRoutes.filter(([, customUrl]) => {
       const pathA = splitUrl(customUrl).path
       const pathB = splitUrl(url).path
-      return decodeURI(pathA!) === pathB
+      return pathA === pathB
     })
     return customRoute.length ? customRoute[0][0] : url
   }
@@ -156,7 +156,7 @@ export class Tabbar implements ComponentInterface {
     this.list.forEach(({ pagePath }, idx) => {
       const pathA = splitUrl(url).path
       const pathB = splitUrl(pagePath).path
-      if (decodeURI(pathA!) === pathB) {
+      if (pathA === pathB) {
         foundIndex = idx
       }
     })
@@ -166,7 +166,7 @@ export class Tabbar implements ComponentInterface {
   switchTab = (index: number) => {
     this.selectedIndex = index
     Taro.switchTab({
-      url: encodeURI(this.list[index].pagePath)
+      url: this.list[index].pagePath
     })
   }
 
