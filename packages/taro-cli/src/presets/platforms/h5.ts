@@ -31,7 +31,18 @@ export default (ctx: IPluginContext) => {
         outputRoot: config.outputRoot || OUTPUT_DIR
       })
       h5RunnerOpts.entry = merge(defaultEntry, customEntry)
-      const webpackRunner = await npm.getNpmPkg('@tarojs/webpack-runner', appPath)
+
+      let runnerPkg: string
+      const compiler = typeof config.compiler === 'object' ? config.compiler.type : config.compiler
+      switch (compiler) {
+        case 'webpack5':
+          runnerPkg = '@tarojs/webpack5-runner'
+          break
+        default:
+          runnerPkg = '@tarojs/webpack-runner'
+      }
+      const webpackRunner = await npm.getNpmPkg(runnerPkg, appPath)
+
       webpackRunner(appPath, h5RunnerOpts)
     }
   })

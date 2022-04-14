@@ -19,7 +19,7 @@ export interface StandardProps<T = any, TouchEvent extends BaseTouchEvent<any> =
   ref?: LegacyRef<T>
   /**
    * 渲染 HTML
-   * @see https://taro-docs.jd.com/taro/docs/html
+   * @see /docs/html
    */
   dangerouslySetInnerHTML?: {
     __html: string

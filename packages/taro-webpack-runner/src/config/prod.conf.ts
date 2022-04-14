@@ -159,7 +159,28 @@ export default function (appPath: string, config: Partial<BuildConfig>): any {
     optimization: {
       minimizer,
       splitChunks: {
-        name: false
+        name: false,
+        chunks: 'initial',
+        minSize: 0,
+        cacheGroups: {
+          default: false,
+          common: {
+            name: false,
+            minChunks: 2,
+            priority: 1
+          },
+          vendors: {
+            name: false,
+            minChunks: 2,
+            test: module => /[\\/]node_modules[\\/]/.test(module.resource),
+            priority: 10
+          },
+          taro: {
+            name: false,
+            test: module => /@tarojs[\\/][a-z]+/.test(module.context),
+            priority: 100
+          }
+        }
       }
     }
   })

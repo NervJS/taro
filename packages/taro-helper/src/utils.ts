@@ -1,16 +1,9 @@
 import * as fs from 'fs-extra'
 import * as path from 'path'
 import * as os from 'os'
-import { Transform } from 'stream'
 import * as child_process from 'child_process'
-import * as parser from '@babel/parser'
-import traverse from '@babel/traverse'
-
 import * as chalk from 'chalk'
-import * as findWorkspaceRoot from 'find-yarn-workspace-root'
 import { isPlainObject, camelCase, mergeWith, flatMap } from 'lodash'
-import * as yauzl from 'yauzl'
-
 import {
   processTypeEnum,
   processTypeMap,
@@ -22,7 +15,7 @@ import {
   CSS_EXT,
   REG_SCRIPTS
 } from './constants'
-import createBabelRegister from './babelRegister'
+import createSwcRegister, { InjectDefinConfigHeader } from './swcRegister'
 
 const execSync = child_process.execSync
 
@@ -123,6 +116,7 @@ export function printLog (type: processTypeEnum, tag: string, filePath?: string)
 }
 
 export function recursiveFindNodeModules (filePath: string, lastFindPath?: string): string {
+  const findWorkspaceRoot = require('find-yarn-workspace-root')
   if (lastFindPath && (normalizePath(filePath) === normalizePath(lastFindPath))) {
     return filePath
   }
@@ -393,6 +387,9 @@ export const applyArrayedVisitors = obj => {
 }
 
 export function unzip (zipPath) {
+  const Transform = require('stream').Transform
+  const yauzl = require('yauzl')
+
   return new Promise<void>((resolve, reject) => {
     yauzl.open(zipPath, { lazyEntries: true }, (err, zipfile) => {
       if (err || !zipfile) throw err
@@ -495,6 +492,8 @@ export function removeHeadSlash (str: string) {
 }
 
 function analyzeImport (filePath: string): string[] {
+  const parser = require('@babel/parser')
+  const traverse = require('@babel/traverse').default
   const code = fs.readFileSync(filePath).toString()
   let importPaths: string[] = []
   filePath = path.dirname(filePath)
@@ -642,11 +641,12 @@ export function readConfig (configPath: string) {
   if (fs.existsSync(configPath)) {
     const importPaths = REG_SCRIPTS.test(configPath) ? analyzeImport(configPath) : []
 
-    createBabelRegister({
+    createSwcRegister({
       only: [
         configPath,
         filepath => importPaths.includes(filepath)
-      ]
+      ],
+      plugin: m => new InjectDefinConfigHeader().visitProgram(m)
     })
 
     importPaths.concat([configPath]).forEach(item => {

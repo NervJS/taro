@@ -3,14 +3,14 @@ import { PageConfig, RouterAnimate } from '@tarojs/taro'
 import { Current, PageInstance, requestAnimationFrame } from '@tarojs/runtime'
 import queryString from 'query-string'
 
-import stacks from './stack'
-import { Route, RouterConfig } from './'
-import { setHistoryMode, stripBasename } from '../history'
 import { loadAnimateStyle } from '../animation'
-import { initTabbar } from '../tabbar'
-import { addLeadingSlash, routesAlias } from '../utils'
 import { bindPageResize } from '../events/resize'
 import { bindPageScroll } from '../events/scroll'
+import { setHistoryMode } from '../history'
+import { initTabbar } from '../tabbar'
+import { addLeadingSlash, routesAlias, stripBasename } from '../utils'
+import stacks from './stack'
+import { Route, SpaRouterConfig } from './'
 
 function setDisplay (el?: HTMLElement | null, type = '') {
   if (el) {
@@ -19,14 +19,14 @@ function setDisplay (el?: HTMLElement | null, type = '') {
 }
 
 export default class PageHandler {
-  protected config: RouterConfig
+  protected config: SpaRouterConfig
   protected readonly defaultAnimation: RouterAnimate = { duration: 300, delay: 50 }
   protected unloadTimer: NodeJS.Timeout | null
   protected hideTimer: NodeJS.Timeout | null
   protected lastHidePage: HTMLElement | null
   protected lastUnloadPage: PageInstance | null
 
-  constructor (config: RouterConfig) {
+  constructor (config: SpaRouterConfig) {
     this.config = config
     this.mount()
   }

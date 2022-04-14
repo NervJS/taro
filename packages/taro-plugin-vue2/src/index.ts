@@ -22,6 +22,28 @@ export default (ctx: IPluginContext) => {
       setStyleLoader(ctx, chain)
     }
   })
+
+  ctx.modifyRunnerOpts(({ opts }) => {
+    if (!opts?.compiler) return
+
+    const { compiler } = opts
+    const WEBPACK5 = 'webpack5'
+    // 提供给 webpack5 依赖预编译收集器的第三方依赖
+    const deps = ['@tarojs/plugin-framework-vue2/dist/runtime']
+    if (compiler === WEBPACK5) {
+      opts.compiler = {
+        type: WEBPACK5,
+        prebundle: {
+          include: deps
+        }
+      }
+    } else if (typeof compiler === 'object' && compiler.type === WEBPACK5) {
+      compiler.prebundle ||= {}
+      const prebundleOptions = compiler.prebundle
+      prebundleOptions.include ||= []
+      prebundleOptions.include = prebundleOptions.include.concat(deps)
+    }
+  })
 }
 
 function getVueLoaderPath (): string {
