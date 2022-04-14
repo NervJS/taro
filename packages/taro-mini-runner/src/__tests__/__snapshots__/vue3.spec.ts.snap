@@ -355,6 +355,12 @@ require(\\"./taro\\");
                 bindAfterLeave: _empty,
                 bindClickOverlay: _empty
             },
+            ShareElement: {
+                mapkey: _empty,
+                transform: _false,
+                duration: \\"300\\",
+                \\"easing-function\\": \\"'ease-out'\\"
+            },
             KeyboardAccessory: {}
         };
         var hostConfig = {
@@ -515,14 +521,10 @@ require(\\"./taro\\");
             }, options);
         }
         function setReconciler() {
-            var _a;
             var hooks = taro_runtime[\\"container\\"].get(taro_runtime[\\"SERVICE_IDENTIFIER\\"].Hooks);
             hooks.getLifecycle = function(instance, lifecycle) {
                 return instance.$options[lifecycle];
             };
-            (_a = hooks.modifyMpEventImpls) === null || _a === void 0 ? void 0 : _a.push((function(event) {
-                event.type = event.type.replace(/-/g, \\"\\");
-            }));
             if (false) {}
         }
         function createVue3Page(h, id) {
@@ -549,8 +551,8 @@ require(\\"./taro\\");
                     component.mixins = [ inject ];
                 }
                 var ProviderComponent = {
-                    provide: {
-                        id: id
+                    setup: function setup() {
+                        Object(vue[\\"provide\\"])(\\"id\\", id);
                     },
                     render: function render() {
                         return this.$slots.default();

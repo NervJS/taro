@@ -350,7 +350,7 @@ declare namespace PickerRegionProps {
  *     </view>
  *   </view>
  * </template>
- * 
+ *
  * <script>
  *   export default {
  *     data() {
@@ -365,11 +365,11 @@ declare namespace PickerRegionProps {
  *       onChange: function(e) {
  *         this.selectorChecked = this.selector[e.detail.value]
  *       },
- * 
+ *
  *       onTimeChange: function(e) {
  *         this.timeSel = e.detail.value
  *       },
- * 
+ *
  *       onDateChange: function(e) {
  *         this.dateSel = e.detail.value
  *       }

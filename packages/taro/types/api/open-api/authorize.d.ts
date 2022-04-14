@@ -37,7 +37,7 @@ declare module '../../index' {
   }
 
   interface TaroStatic {
-    /** **仅小程序插件中能调用该接口**，用法同 [Taro.authorize](./authorize)。目前仅支持三种 scope
+    /** **仅小程序插件中能调用该接口**，用法同 [Taro.authorize](../authorize)。目前仅支持三种 scope
      * @supported weapp
      * @example
      * ```tsx
