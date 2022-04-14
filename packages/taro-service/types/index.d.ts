@@ -1,6 +1,6 @@
 import helper from '@tarojs/helper'
 import { IProjectConfig } from '@tarojs/taro/types/compile'
-import joi from '@hapi/joi'
+import joi from 'joi'
 
 import { IPlugin, IPaths, IHook, ICommand, IPlatform } from '../src/utils/types'
 
