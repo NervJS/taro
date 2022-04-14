@@ -79,8 +79,7 @@ export async function preBundle (
   /**
    * 找出所有 webpack entry
    * TODO:
-   *   - 抽取和 MiniPlugin 的重复逻辑
-   *   - 确认是否有除了 App 和 Page 外还需要处理的 entry
+   *   - 目前只处理了 Page entry，例如原生小程序组件 js entry 等并没有处理
    */
   const entries: string[] = []
   const appJsPath = combination.config.entry!.app[0]
