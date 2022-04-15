@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/router-rn",
-  "version": "3.4.4",
+  "version": "3.4.6",
   "description": "Taro-router-rn",
   "main": "dist/index.js",
   "typings": "src/index.ts",
@@ -30,7 +30,6 @@
   "peerDependencies": {
     "@react-native-masked-view/masked-view": "~0.2.6",
     "react-native-gesture-handler": "~1.10.3",
-    "react-native-reanimated": "~2.4.1",
     "react-native-safe-area-context": "~3.4.1",
     "react-native-screens": "^3.12.0"
   },

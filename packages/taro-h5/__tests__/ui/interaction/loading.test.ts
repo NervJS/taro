@@ -9,7 +9,6 @@ describe('loading', () => {
 
     expect.assertions(4)
     Taro.showLoading({
-      // @ts-ignore
       title: 123,
       success,
       fail,

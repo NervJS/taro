@@ -1,16 +1,13 @@
-import babel from '@rollup/plugin-babel'
 import commonjs from '@rollup/plugin-commonjs'
-import typescript from 'rollup-plugin-typescript2'
 import resolve from '@rollup/plugin-node-resolve'
+import typescript from '@rollup/plugin-typescript'
+import externals from 'rollup-plugin-node-externals'
 import * as path from 'path'
 
 const cwd = __dirname
 
 const baseConfig = {
   input: path.join(cwd, 'src/index.ts'),
-  external: d => {
-    return /^@tarojs\/(runtime|taro)$/.test(d) || d.includes('@babel/runtime')
-  },
   output: [
     {
       file: path.join(cwd, 'dist/index.js'),
@@ -20,16 +17,18 @@ const baseConfig = {
     }
   ],
   plugins: [
-    typescript(),
+    externals({
+      devDeps: false
+    }),
     resolve({
       preferBuiltins: false,
       mainFields: ['main:h5', 'browser', 'module', 'jsnext:main', 'main']
     }),
-    commonjs(),
-    babel({
-      extensions: ['.js', '.jsx', '.es6', '.es', '.mjs', 'ts', 'tsx'],
-      babelHelpers: 'runtime'
-    })
+    typescript({
+      tsconfig: './tsconfig.json',
+      sourceMap: true
+    }),
+    commonjs()
   ]
 }
 const esmConfig = Object.assign({}, baseConfig, {

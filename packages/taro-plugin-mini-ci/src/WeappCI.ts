@@ -7,9 +7,9 @@ import { Project } from 'miniprogram-ci'
 import BaseCI from './BaseCi'
 
 export default class WeappCI extends BaseCI {
-  private instance: Project;
+  private instance: Project
   /** 微信开发者安装路径 */
-  private devToolsInstallPath: string;
+  private devToolsInstallPath: string
 
   _init () {
     const { outputPath, appPath } = this.ctx.paths
