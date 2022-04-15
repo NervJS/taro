@@ -4,12 +4,11 @@ const mockConsole = require('jest-mock-console')
 describe('storage', () => {
   beforeEach(() => {
     localStorage.clear()
+    mockConsole()
   })
 
   describe('setStorage', () => {
     test('options should be object', () => {
-      mockConsole()
-
       expect.assertions(4)
       return Promise.all([
         Taro.setStorage()
@@ -28,7 +27,6 @@ describe('storage', () => {
     })
 
     test('options.key should be string', () => {
-      mockConsole()
       const success = jest.fn()
       const fail = jest.fn()
       const complete = jest.fn()
@@ -82,8 +80,6 @@ describe('storage', () => {
 
   describe('setStorageSync', () => {
     test('key should be a string', () => {
-      mockConsole()
-
       Taro.setStorageSync()
 
       const expectErrMsg = 'setStorage:fail parameter error: parameter should be String instead of Undefined'
@@ -118,8 +114,6 @@ describe('storage', () => {
 
   describe('getStorage', () => {
     test('options should be object', () => {
-      mockConsole()
-
       expect.assertions(4)
       return Promise.all([
         Taro.getStorage()
@@ -138,7 +132,6 @@ describe('storage', () => {
     })
 
     test('options.key should be string', () => {
-      mockConsole()
       const success = jest.fn()
       const fail = jest.fn()
       const complete = jest.fn()
@@ -223,8 +216,6 @@ describe('storage', () => {
 
   describe('getStorageSync', () => {
     test('key should be a string', () => {
-      mockConsole()
-
       const res = Taro.getStorageSync(1)
 
       const expectErrMsg = 'getStorageSync:fail parameter error: parameter should be String instead of Number'
@@ -262,7 +253,6 @@ describe('storage', () => {
 
     test('should return a string when stored data is undefined', () => {
       const key = 'test'
-      // @ts-ignore
       Taro.setStorageSync(key)
       expect(Taro.getStorageSync(key)).toBe('')
     })
@@ -336,18 +326,14 @@ describe('storage', () => {
 
   describe('removeStorage', () => {
     test('options should be object', () => {
-      mockConsole()
-
       expect.assertions(4)
       return Promise.all([
-        // @ts-ignore
         Taro.removeStorage()
           .catch(err => {
             const expectErrMsg = 'removeStorage:fail parameter error: parameter should be Object instead of Undefined'
             expect(console.error).toHaveBeenNthCalledWith(1, expectErrMsg)
             expect(err.errMsg).toMatch(expectErrMsg)
           }),
-        // @ts-ignore
         Taro.removeStorage(null)
           .catch(err => {
             const expectErrMsg = 'removeStorage:fail parameter error: parameter should be Object instead of Null'
@@ -358,7 +344,6 @@ describe('storage', () => {
     })
 
     test('options.key should be string', () => {
-      mockConsole()
       const success = jest.fn()
       const fail = jest.fn()
       const complete = jest.fn()
@@ -410,9 +395,6 @@ describe('storage', () => {
 
   describe('removeStorageSync', () => {
     test('key should be a string', () => {
-      mockConsole()
-
-      // @ts-ignore
       Taro.removeStorageSync()
 
       const expectErrMsg = 'removeStorage:fail parameter error: parameter should be String instead of Undefined'

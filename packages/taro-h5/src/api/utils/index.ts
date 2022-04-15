@@ -146,44 +146,30 @@ export const isValidColor = (color) => {
   return VALID_COLOR_REG.test(color)
 }
 
-export interface IOpenApi {
-  (options): Promise<any>
+interface IProcessOpenApi<TOptions = Record<string, unknown>, TResult = any> {
+  name: string
+  defaultOptions?: TOptions
+  standardMethod?: (opts: TOptions) => TResult | Promise<TResult>
+  formatOptions?: (opts: TOptions) => TOptions
+  formatResult?: (res: TResult) => TResult
 }
 
-class W3cApiRegistry {
-  apis: Map<string, IOpenApi> = new Map<string, IOpenApi>()
-
-  public register (apis: Array<{ apiName: string, processApi: IOpenApi }>) {
-    apis.forEach(e => {
-      this.apis.set(e.apiName, e.processApi)
-    })
+export function processOpenApi ({
+  name,
+  defaultOptions,
+  standardMethod,
+  formatOptions = options => options,
+  formatResult = res => res
+}: IProcessOpenApi) {
+  // @ts-ignore
+  const targetApi = window?.wx?.[name] || standardMethod
+  if (typeof targetApi !== 'function') {
+    return weixinCorpSupport(name)
   }
-}
 
-const w3cApiRegistry = new W3cApiRegistry()
-
-export { w3cApiRegistry }
-
-export function processOpenApi (apiName: string, defaultOptions?: Record<string, unknown>, formatResult = res => res, formatParams = options => options) {
-  return options => {
-    // 默认绑定为微信JS-SDK实现
-    // @ts-ignore
-    let targetApi
-
-    // 非JS-SDK环境下切换为w3c实现
-    // @ts-ignore
-    if (window.wx) {
-      // @ts-ignore
-      targetApi = wx[apiName]
-    } else if (w3cApiRegistry.apis.get(apiName)) {
-      targetApi = w3cApiRegistry.apis.get(apiName)
-    } else {
-      return weixinCorpSupport(apiName)()
-    }
-
-    options = options || {}
+  return (options = {}) => {
     const obj = Object.assign({}, defaultOptions, options)
-    const p = new Promise((resolve, reject) => {
+    return new Promise((resolve, reject) => {
       ['fail', 'success', 'complete'].forEach(k => {
         obj[k] = oriRes => {
           const res = formatResult(oriRes)
@@ -195,10 +181,8 @@ export function processOpenApi (apiName: string, defaultOptions?: Record<string,
           }
         }
       })
-      // @ts-ignore
-      targetApi(formatParams(obj))
+      targetApi(formatOptions(obj))
     })
-    return p
   }
 }
 

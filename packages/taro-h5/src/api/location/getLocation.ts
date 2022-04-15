@@ -1,8 +1,8 @@
 import Taro from '@tarojs/api'
-import { shouldBeObject } from '../../utils'
-import { MethodHandler } from '../../utils/handler'
+import { processOpenApi, shouldBeObject } from '../utils'
+import { MethodHandler } from '../utils/handler'
 
-export const getLocationByW3CApi: (options: Taro.getLocation.Option) => Promise<Taro.getLocation.SuccessCallbackResult | undefined> = (options: Taro.getLocation.Option): Promise<Taro.getLocation.SuccessCallbackResult | undefined> => {
+const getLocationByW3CApi: (options: Taro.getLocation.Option) => Promise<Taro.getLocation.SuccessCallbackResult | undefined> = (options: Taro.getLocation.Option): Promise<Taro.getLocation.SuccessCallbackResult | undefined> => {
   // 断言 options 必须是 Object
   const isObject = shouldBeObject(options)
   if (!isObject.flag) {
@@ -74,3 +74,8 @@ export const getLocationByW3CApi: (options: Taro.getLocation.Option) => Promise<
     }
   )
 }
+
+export const getLocation = processOpenApi({
+  name: 'getLocation',
+  standardMethod: getLocationByW3CApi
+})
