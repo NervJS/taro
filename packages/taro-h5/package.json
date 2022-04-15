@@ -16,7 +16,7 @@
     "test:ci": "jest -i --coverage false",
     "test:dev": "jest --watch",
     "test:coverage": "jest --coverage",
-    "copy:assets": "copy src/**/*.css dist",
+    "copy:assets": "copy-cli src/**/*.css dist",
     "build": "rollup -c && tsc",
     "dev": "tsc -w",
     "prebuild": "npm run copy:assets",
