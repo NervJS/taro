@@ -163,7 +163,7 @@ export function processOpenApi ({
 }: IProcessOpenApi) {
   return (options = {}) => {
     // @ts-ignore
-    const targetApi = window?.wx?.[name] || standardMethod
+    const targetApi = window?.wx?.[name] ?? standardMethod
     if (typeof targetApi !== 'function') {
       return weixinCorpSupport(name)
     }

@@ -1,14 +1,35 @@
 import * as Taro from '@tarojs/taro-h5'
+const mockConsole = require('jest-mock-console')
 
 describe('location', () => {
+  beforeEach(() => {
+    mockConsole()
+    // @ts-ignore
+    navigator.geolocation = {
+      getCurrentPosition: jest.fn((callback) => {
+        callback({
+          coords: {
+            accuracy: 2,
+            altitude: 1,
+            altitudeAccuracy: 6,
+            latitude: 3,
+            longitude: 4,
+            speed: 5
+          }
+        })
+      })
+    }
+  })
+
   test('should catch unsupported error', () => {
+    expect.assertions(2)
     return Taro.getLocation({
       type: 'GCJ-02'
     })
       .catch(err => {
-        expect(err).toEqual({
-          errMsg: 'getLocation:fail This coordinate system type is not temporarily supported'
-        })
+        const expectErrMsg = 'getLocation:fail This coordinate system type is not temporarily supported'
+        expect(console.error).toHaveBeenNthCalledWith(1, expectErrMsg)
+        expect(err.errMsg).toMatch(expectErrMsg)
       })
   })
 
@@ -25,14 +46,13 @@ describe('location', () => {
 
   test('should get location info object from wx', () => {
     // @ts-ignore
-    Object.defineProperty(window, 'wx', {
-      value: {
-        getLocation: (options) => {
-          options.complete(mockLocation)
-          options.success(mockLocation)
-        }
-      }
-    })
+    window.wx = {
+      getLocation: jest.fn((options) => {
+        options.complete?.(mockLocation)
+        options.success?.(mockLocation)
+      })
+    }
+    expect.assertions(1)
     return Taro.getLocation({
       type: 'WGS84'
     })
@@ -46,21 +66,7 @@ describe('location', () => {
   })
 
   test('should get location info object from w3c api', () => {
-    // @ts-ignore
-    navigator.geolocation = {
-      getCurrentPosition (callback) {
-        callback({
-          coords: {
-            altitude: 1,
-            accuracy: 2,
-            latitude: 3,
-            longitude: 4,
-            speed: 5,
-            altitudeAccuracy: 6
-          }
-        })
-      }
-    }
+    expect.assertions(8)
     return Taro.getLocation({
       type: 'WGS84'
     })
@@ -69,20 +75,19 @@ describe('location', () => {
           expect(res).toHaveProperty(k)
         })
       })
-      .finally(() => {
-        // @ts-ignore
-        navigator.geolocation = null
-      })
   })
 
   test('should return Promise that reject does not support browser feature', () => {
+    // @ts-ignore
+    delete navigator.geolocation
+    expect.assertions(2)
     return Taro.getLocation({
       type: 'WGS84'
     })
       .catch(err => {
-        expect(err).toEqual({
-          errMsg: 'getLocation:fail The current browser does not support this feature'
-        })
+        const expectErrMsg = 'getLocation:fail The current browser does not support this feature'
+        expect(console.error).toHaveBeenNthCalledWith(1, expectErrMsg)
+        expect(err.errMsg).toMatch(expectErrMsg)
       })
   })
 })
