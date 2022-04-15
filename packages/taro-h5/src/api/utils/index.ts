@@ -104,7 +104,7 @@ export function temporarilyNotSupport (apiName) {
 
 export function weixinCorpSupport (apiName) {
   return () => {
-    const errMsg = `h5端仅在微信公众号中支持 API ${apiName}`
+    const errMsg = `h5端当前仅在微信公众号JS-SDK环境下支持此 API ${apiName}`
     if (process.env.NODE_ENV !== 'production') {
       console.error(errMsg)
       return Promise.reject({
@@ -146,15 +146,29 @@ export const isValidColor = (color) => {
   return VALID_COLOR_REG.test(color)
 }
 
-export function processOpenApi (apiName: string, defaultOptions?: Record<string, unknown>, formatResult = res => res, formatParams = options => options) {
-  // @ts-ignore
-  if (!window.wx) {
-    return weixinCorpSupport(apiName)
-  }
-  return options => {
-    options = options || {}
+interface IProcessOpenApi<TOptions = Record<string, unknown>, TResult = any> {
+  name: string
+  defaultOptions?: TOptions
+  standardMethod?: (opts: TOptions) => TResult | Promise<TResult>
+  formatOptions?: (opts: TOptions) => TOptions
+  formatResult?: (res: TResult) => TResult
+}
+
+export function processOpenApi ({
+  name,
+  defaultOptions,
+  standardMethod,
+  formatOptions = options => options,
+  formatResult = res => res
+}: IProcessOpenApi) {
+  return (options = {}) => {
+    // @ts-ignore
+    const targetApi = window?.wx?.[name] ?? standardMethod
+    if (typeof targetApi !== 'function') {
+      return weixinCorpSupport(name)
+    }
     const obj = Object.assign({}, defaultOptions, options)
-    const p = new Promise((resolve, reject) => {
+    return new Promise((resolve, reject) => {
       ['fail', 'success', 'complete'].forEach(k => {
         obj[k] = oriRes => {
           const res = formatResult(oriRes)
@@ -166,10 +180,8 @@ export function processOpenApi (apiName: string, defaultOptions?: Record<string,
           }
         }
       })
-      // @ts-ignore
-      wx[apiName](formatParams(obj))
+      targetApi(formatOptions(obj))
     })
-    return p
   }
 }
 
