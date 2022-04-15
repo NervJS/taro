@@ -143,7 +143,7 @@ export class Tabbar implements ComponentInterface {
       url = location.pathname
     }
     const processedUrl = addLeadingSlash(stripBasename(url, routerBasename))
-    return processedUrl === '/' ? this.homePage : processedUrl
+    return decodeURI(processedUrl === '/' ? this.homePage : processedUrl)
   }
 
   getOriginUrl = (url: string) => {
