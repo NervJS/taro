@@ -107,7 +107,7 @@ export class PickerViewColumn {
   render() {
     const { paddingtop } = this;
     return (
-      <Host class="_picker-view-column-container" style={{ 'paddingTop': `${paddingtop}px`, 'paddingBottom': `${paddingtop}px` }}>
+      <Host class="taro-picker-view-column-container" style={{ 'paddingTop': `${paddingtop}px`, 'paddingBottom': `${paddingtop}px` }}>
 
       </Host>
     )

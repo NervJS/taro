@@ -98,7 +98,7 @@ export class PickerView {
   componentDidRender() {
     this.el.childNodes.forEach(item => {
       let childEle = (item as Element)
-      if ('TARO-PICKER-VIEW-COLUMN-CORE' !== childEle.tagName && childEle.className !== '_picker-view-mask-container') {
+      if ('TARO-PICKER-VIEW-COLUMN-CORE' !== childEle.tagName && childEle.className !== 'taro-picker-view-mask-container') {
         this.el.removeChild(item)
       }
     })
@@ -123,14 +123,14 @@ export class PickerView {
 
   render() {
 
-    const indicatorStyle = this.getCssStyleFrom('_picker-view-mask-indicator', this.indicatorClass, this.indicatorStyle);
-    const maskTopStyle = this.getCssStyleFrom('_picker-view-mask-top', this.maskClass, this.maskStyle);
-    const maskBottomStyle = this.getCssStyleFrom('_picker-view-mask-bottom', this.maskClass, this.maskStyle);
+    const indicatorStyle = this.getCssStyleFrom('taro-picker-view-mask-indicator', this.indicatorClass, this.indicatorStyle);
+    const maskTopStyle = this.getCssStyleFrom('taro-picker-view-mask-top', this.maskClass, this.maskStyle);
+    const maskBottomStyle = this.getCssStyleFrom('taro-picker-view-mask-bottom', this.maskClass, this.maskStyle);
 
     return (
-      <Host class="_picker-view-container">
+      <Host class="taro-picker-view-container">
         <slot />
-        <div class='_picker-view-mask-container'>
+        <div class='taro-picker-view-mask-container'>
           <div class={maskTopStyle[0]} style={maskTopStyle[1]} />
           <div class={indicatorStyle[0]} style={indicatorStyle[1]} ref={indicator => this.indicator = indicator} />
           <div class={maskBottomStyle[0]} style={maskBottomStyle[1]} />

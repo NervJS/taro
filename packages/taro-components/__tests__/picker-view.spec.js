@@ -82,20 +82,20 @@ describe('PickerView', () => {
 
     await waitForChange(node)
 
-    const indicatorEle = document.querySelector('._picker-view-mask-indicator')
+    const indicatorEle = document.querySelector('.taro-picker-view-mask-indicator')
     const indicatorEleClassName = indicatorEle.className
 
     assert(indicatorEleClassName.indexOf('test_indicatorClass') > -1)
 
-    const maskTopEle = document.querySelector('._picker-view-mask-top')
+    const maskTopEle = document.querySelector('.taro-picker-view-mask-top')
     const maskTopEleClassName = maskTopEle.className
     assert(maskTopEleClassName.indexOf('test_maskClass') > -1)
 
-    const maskBottomEle = document.querySelector('._picker-view-mask-bottom')
+    const maskBottomEle = document.querySelector('.taro-picker-view-mask-bottom')
     const maskBottomEleClassName = maskBottomEle.className
     assert(maskBottomEleClassName.indexOf('test_maskClass') > -1)
 
-    const pickerViewColumnEle = document.querySelector('._picker-view-column-container')
+    const pickerViewColumnEle = document.querySelector('.taro-picker-view-column-container')
 
     // 模拟滑动
     const startY = 0
