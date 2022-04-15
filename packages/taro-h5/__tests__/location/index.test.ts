@@ -20,17 +20,19 @@ describe('location', () => {
     longitude: 5,
     speed: 6,
     verticalAccuracy: 0,
-    errMsg: 'getLocation: ok'
+    errMsg: 'getLocation:ok'
   }
 
   test('should get location info object from wx', () => {
     // @ts-ignore
-    window.wx = {
-      getLocation (options) {
-        options.complete(mockLocation)
-        options.success(mockLocation)
+    Object.defineProperty(window, 'wx', {
+      value: {
+        getLocation: (options) => {
+          options.complete(mockLocation)
+          options.success(mockLocation)
+        }
       }
-    }
+    })
     return Taro.getLocation({
       type: 'WGS84'
     })
@@ -39,7 +41,7 @@ describe('location', () => {
       })
       .finally(() => {
         // @ts-ignore
-        window.wx = null
+        delete window.wx
       })
   })
 

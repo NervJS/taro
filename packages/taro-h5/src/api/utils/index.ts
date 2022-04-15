@@ -161,13 +161,12 @@ export function processOpenApi ({
   formatOptions = options => options,
   formatResult = res => res
 }: IProcessOpenApi) {
-  // @ts-ignore
-  const targetApi = window?.wx?.[name] || standardMethod
-  if (typeof targetApi !== 'function') {
-    return weixinCorpSupport(name)
-  }
-
   return (options = {}) => {
+    // @ts-ignore
+    const targetApi = window?.wx?.[name] || standardMethod
+    if (typeof targetApi !== 'function') {
+      return weixinCorpSupport(name)
+    }
     const obj = Object.assign({}, defaultOptions, options)
     return new Promise((resolve, reject) => {
       ['fail', 'success', 'complete'].forEach(k => {
