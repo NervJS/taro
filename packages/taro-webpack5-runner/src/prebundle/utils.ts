@@ -1,9 +1,10 @@
 import * as fs from 'fs-extra'
 import * as path from 'path'
 import { createHash } from 'crypto'
+import { performance } from 'perf_hooks'
 import * as enhancedResolve from 'enhanced-resolve'
 import { isObject } from '@tarojs/shared'
-import { recursiveMerge } from '@tarojs/helper'
+import { recursiveMerge, chalk } from '@tarojs/helper'
 
 import type { CollectedDeps } from './constant'
 import type { Metadata } from './index'
@@ -139,8 +140,8 @@ export function getPrebunbleOptions (combination: MiniCombination) {
   type IPrebundle = ICompiler['prebundle']
 
   const defaultOptions: IPrebundle = {
-    enable: true,
-    timings: true,
+    enable: process.env.NODE_ENV !== 'production', // 因为使用了 esbuild 单独打包依赖，会使项目体积略微变大，所以生产模式下默认不开启
+    timings: false,
     force: false,
     include: [],
     exclude: []
@@ -151,4 +152,14 @@ export function getPrebunbleOptions (combination: MiniCombination) {
   }
 
   return defaultOptions
+}
+
+export function getMeasure (isLogTiming: boolean) {
+  return function (name: string, start: number) {
+    if (isLogTiming) {
+      const now = performance.now()
+      const duration = now - start
+      console.log(chalk.cyan(`${name}: ${Math.round(duration)}ms\n`))
+    }
+  }
 }

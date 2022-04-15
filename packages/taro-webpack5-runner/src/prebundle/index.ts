@@ -24,7 +24,7 @@
  */
 import * as fs from 'fs-extra'
 import * as path from 'path'
-import { PerformanceObserver, performance } from 'perf_hooks'
+import { performance } from 'perf_hooks'
 import { resolveMainFilePath, readConfig, chalk } from '@tarojs/helper'
 import * as webpack from 'webpack'
 import { scanImports } from './scanImports'
@@ -38,7 +38,8 @@ import {
   getMfHash,
   commitMeta,
   getPrebunbleOptions,
-  formatDepsString
+  formatDepsString,
+  getMeasure
 } from './utils'
 
 import type { MiniCombination } from '../webpack/MiniCombination'
@@ -72,9 +73,7 @@ export async function preBundle (
   const resolveOptions = combination.chain.toConfig().resolve
   createResolve(appPath, resolveOptions)
 
-  if (prebundleOptions.timings) {
-    startTimingObserve()
-  }
+  const measure = getMeasure(prebundleOptions.timings)
 
   /**
    * 找出所有 webpack entry
@@ -97,7 +96,7 @@ export async function preBundle (
   /**
    * 1. 扫描出所有的 node_modules 依赖
    */
-  performance.mark('scan start')
+  const SCAN_START = performance.now()
 
   const deps = await scanImports({
     entries,
@@ -106,17 +105,17 @@ export async function preBundle (
     exclude: prebundleOptions.exclude || []
   })
 
-  performance.measure('Scan imports duration', 'scan start')
-
   console.log(chalk.cyan(
     '\nPrebundle dependencies: \n',
     ...JSON.parse(formatDepsString(deps)).map(dep => `    ${dep[0]}\n`)
   ))
 
+  measure('Scan imports duration', SCAN_START)
+
   /**
    * 2. 使用 esbuild 对 node_modules 依赖进行 bundle
    */
-  performance.mark('prebundle start')
+  const PREBUNDLE_START = performance.now()
 
   metadata.bundleHash = await getBundleHash(deps, combination, cacheDir)
 
@@ -148,12 +147,12 @@ export async function preBundle (
     metadata.taroRuntimeBundlePath = path.join(appPath, preMetadata.taroRuntimeBundlePath!)
   }
 
-  performance.measure('Prebundle duration', 'prebundle start')
+  measure('Prebundle duration', PREBUNDLE_START)
 
   /**
    * 3. 把依赖的 bundle 产物打包成 Webpack Module Federation 格式
    */
-  performance.mark('Build lib-app start')
+  const BUILD_LIB_START = performance.now()
 
   const exposes = {}
   const mode = process.env.NODE_ENV === 'production' ? 'production' : 'development'
@@ -238,7 +237,7 @@ export async function preBundle (
 
   fs.copy(remoteCacheDir, path.join(mainBuildOutput.path, 'prebundle'))
 
-  performance.measure('Build Remote lib-app duration', 'Build lib-app start')
+  measure('Build remote lib-app duration', BUILD_LIB_START)
 
   /**
    * 4. 项目 Host 配置 Module Federation
@@ -265,14 +264,4 @@ export async function preBundle (
   if (!isUseCache) {
     commitMeta(appPath, metadataPath, metadata)
   }
-}
-
-function startTimingObserve () {
-  const performanceObserver = new PerformanceObserver(items => {
-    const list = items.getEntries()
-    list.forEach(item => {
-      console.log(chalk.cyan(`\n${item.name}: ${Math.round(item.duration)}ms\n`))
-    })
-  })
-  performanceObserver.observe({ type: 'measure' })
 }
