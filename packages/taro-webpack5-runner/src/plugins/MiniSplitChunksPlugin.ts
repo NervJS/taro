@@ -711,7 +711,7 @@ export default class MiniSplitChunksPlugin extends SplitChunksPlugin {
         name: cacheGroupName,
         test: module => {
           if (!module.resource) {
-            return module._identifier === depInfo.identifier
+            return !!module._identifier && module._identifier === depInfo.identifier
           }
           return module.resource === depInfo.resource
         },
