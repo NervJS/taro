@@ -77,13 +77,19 @@ export default class CLI {
             case 'tt':
             case 'qq':
             case 'jd':
-              kernel.optsPlugins = [
-                ...kernel.optsPlugins,
-                `@tarojs/plugin-platform-${platform}`,
+              kernel.optsPlugins.push(`@tarojs/plugin-platform-${platform}`)
+            // eslint-disable-next-line no-fallthrough
+            case 'kwai':
+            case 'xhs':
+            case 'lark':
+            case 'qywx':
+            case 'dd':
+            case 'iot':
+              kernel.optsPlugins.push(
                 path.resolve(filesPath, 'writeFileToDist.js'),
                 path.resolve(filesPath, 'generateProjectConfig.js'),
                 path.resolve(filesPath, 'generateFrameworkInfo.js')
-              ]
+              )
               break
             default: {
               // h5, rn
