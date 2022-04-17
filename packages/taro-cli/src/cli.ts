@@ -53,7 +53,9 @@ export default class CLI {
 
       const kernel = new Kernel({
         appPath,
-        presets: [],
+        presets: [
+          path.resolve(__dirname, '.', 'presets', 'index.js')
+        ],
         plugins: []
       })
       kernel.optsPlugins ||= []
