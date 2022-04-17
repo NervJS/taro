@@ -6,6 +6,6 @@
   "author": "Simba",
   "license": "MIT",
   "dependencies": {
-    "postcss": "^6.0.22"
+    "postcss": "8.3.5"
   }
 }

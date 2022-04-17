@@ -21,6 +21,6 @@
     "url": "https://github.com/NervJS/taro/issues"
   },
   "dependencies": {
-    "postcss": "^6.0.22"
+    "postcss": "8.3.5"
   }
 }

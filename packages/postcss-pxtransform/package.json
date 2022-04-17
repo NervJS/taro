@@ -19,7 +19,7 @@
   },
   "homepage": "https://github.com/NervJS/taro#readme",
   "dependencies": {
-    "postcss": "^6.0.22"
+    "postcss": "8.3.5"
   },
   "scripts": {
     "test": "jest"
