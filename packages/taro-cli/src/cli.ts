@@ -65,6 +65,7 @@ export default class CLI {
       }
 
       switch (command) {
+        case 'inspect':
         case 'build': {
           let plugin
           let platform = args.type
@@ -110,6 +111,12 @@ export default class CLI {
             plugin = args.plugin
             platform = 'plugin'
             kernel.optsPlugins.push(path.resolve(platformsPath, 'plugin.js'))
+          }
+
+          // 传递 inspect 参数即可
+          if (command === 'inspect') {
+            customCommand(command, kernel, args)
+            break
           }
 
           customCommand(command, kernel, {
