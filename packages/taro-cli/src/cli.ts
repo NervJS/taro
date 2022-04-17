@@ -38,7 +38,6 @@ export default class CLI {
       const presetsPath = path.resolve(__dirname, 'presets')
       const commandsPath = path.resolve(presetsPath, 'commands')
       const platformsPath = path.resolve(presetsPath, 'platforms')
-      const filesPath = path.resolve(presetsPath, 'files')
       const commandPlugins = fs.readdirSync(commandsPath)
       const targetPlugin = `${command}.js`
 
@@ -64,12 +63,6 @@ export default class CLI {
       if (commandPlugins.includes(targetPlugin)) {
         kernel.optsPlugins.push(path.resolve(commandsPath, targetPlugin))
       }
-      // 兼容现有其他小程序平台插件
-      kernel.optsPlugins.push(
-        path.resolve(filesPath, 'writeFileToDist.js'),
-        path.resolve(filesPath, 'generateProjectConfig.js'),
-        path.resolve(filesPath, 'generateFrameworkInfo.js')
-      )
 
       switch (command) {
         case 'build': {
