@@ -3,6 +3,8 @@ import { navigator } from './navigator'
 import { document } from './document'
 import { win } from '../env'
 import { raf, caf } from './raf'
+import { History } from './history'
+import { Location } from './location'
 import { getComputedStyle } from './getComputedStyle'
 import { DATE } from '../constants'
 
@@ -38,6 +40,9 @@ if (process.env.TARO_ENV && process.env.TARO_ENV !== 'h5') {
   window.clearTimeout = function (...args: Parameters<typeof clearTimeout>) {
     return clearTimeout(...args)
   }
+
+  window.location = new Location()
+  window.history = new History(window.location)
 
   document.defaultView = window
 }
