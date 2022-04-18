@@ -66,6 +66,11 @@ const schema = Joi.object().keys({
     enable: Joi.bool()
   }).unknown(),
 
+  logger: Joi.object().keys({
+    quiet: Joi.bool(),
+    stats: Joi.bool()
+  }).unknown(),
+
   mini: Joi.object().keys({
     baseLevel: Joi.number().integer().positive(),
     compile: Joi.object().keys({

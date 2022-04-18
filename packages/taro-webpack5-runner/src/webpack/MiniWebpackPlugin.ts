@@ -164,7 +164,8 @@ export class MiniWebpackPlugin {
       modifyMiniConfigs: config.modifyMiniConfigs,
       modifyBuildAssets: config.modifyBuildAssets,
       onCompilerMake: config.onCompilerMake,
-      onParseCreateElement: config.onParseCreateElement
+      onParseCreateElement: config.onParseCreateElement,
+      logger: config.logger
     }
 
     return WebpackPlugin.getPlugin(plugin, [options])

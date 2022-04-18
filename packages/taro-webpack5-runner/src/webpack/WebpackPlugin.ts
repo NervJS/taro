@@ -1,6 +1,7 @@
 import { ProvidePlugin, DefinePlugin } from 'webpack'
 import * as path from 'path'
 import { REG_STYLE } from '@tarojs/helper'
+import { TaroWebpackBarPlugin } from '../plugins/WebpackBarPlugin'
 
 import type { ICopyOptions } from '@tarojs/taro/types/compile'
 
@@ -75,5 +76,9 @@ export class WebpackPlugin {
       minimizerOptions
     }
     return WebpackPlugin.getPlugin(CssMinimizerPlugin, [options])
+  }
+
+  static getWebpackBarPlugin (webpackBarOptions = {}) {
+    return WebpackPlugin.getPlugin(TaroWebpackBarPlugin, [webpackBarOptions])
   }
 }

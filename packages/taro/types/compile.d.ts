@@ -378,6 +378,11 @@ interface ICompiler {
 }
 type Compiler = CompilerTypes | ICompiler
 
+interface ILogger {
+  quiet: boolean
+  stats: boolean
+}
+
 export interface IProjectBaseConfig {
   projectName?: string
   date?: string
@@ -403,6 +408,7 @@ export interface IProjectBaseConfig {
   framework?: string
   compiler?: Compiler
   cache?: ICache
+  logger?: ILogger
 }
 
 export interface IProjectConfig extends IProjectBaseConfig {

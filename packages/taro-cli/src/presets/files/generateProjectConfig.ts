@@ -29,6 +29,9 @@ export default (ctx: IPluginContext) => {
       filePath: distConfigName,
       content: JSON.stringify(distProjectConfig, null, 2)
     })
-    printLog(processTypeEnum.GENERATE, '工具配置', `${outputPath}/${distConfigName}`)
+
+    if (ctx.initialConfig.logger?.quiet === false) {
+      printLog(processTypeEnum.GENERATE, '工具配置', `${outputPath}/${distConfigName}`)
+    }
   })
 }

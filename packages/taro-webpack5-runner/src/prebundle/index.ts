@@ -106,7 +106,7 @@ export async function preBundle (
   })
 
   console.log(chalk.cyan(
-    '\nPrebundle dependencies: \n',
+    'Prebundle dependencies: \n',
     ...JSON.parse(formatDepsString(deps)).map(dep => `    ${dep[0]}\n`)
   ))
 

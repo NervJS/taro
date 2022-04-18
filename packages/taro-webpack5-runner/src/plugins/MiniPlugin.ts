@@ -64,6 +64,9 @@ interface ITaroMiniPluginOptions {
   designWidth: number
   loaderMeta?: Record<string, string>
   hot: boolean
+  logger?: {
+    quiet?: boolean
+  }
 }
 
 export interface IComponentObj {
@@ -426,7 +429,7 @@ export default class TaroMiniPlugin {
       })
     })
     this.pages.forEach(item => {
-      if (!this.isWatch) {
+      if (!this.isWatch && this.options.logger?.quiet === false) {
         printLog(processTypeEnum.COMPILE, '发现页面', this.getShowPath(item.path))
       }
       this.compileFile(item)
@@ -502,7 +505,7 @@ export default class TaroMiniPlugin {
       throw new Error('全局配置缺少 pages 字段，请检查！')
     }
 
-    if (!this.isWatch) {
+    if (!this.isWatch && this.options.logger?.quiet === false) {
       printLog(processTypeEnum.COMPILE, '发现入口', this.getShowPath(this.appEntry))
     }
     const { framework, prerender } = this.options
@@ -530,7 +533,7 @@ export default class TaroMiniPlugin {
    */
   getPagesConfig () {
     this.pages.forEach(page => {
-      if (!this.isWatch) {
+      if (!this.isWatch && this.options.logger?.quiet === false) {
         printLog(processTypeEnum.COMPILE, '发现页面', this.getShowPath(page.path))
       }
       this.compileFile(page)
@@ -837,7 +840,7 @@ export default class TaroMiniPlugin {
         if (fs.existsSync(customTabBarComponentPath)) {
           const customTabBarComponentTemplPath = this.getTemplatePath(customTabBarComponentPath)
           const isNative = this.isNativePageORComponent(customTabBarComponentTemplPath)
-          if (!this.isWatch) {
+          if (!this.isWatch && this.options.logger?.quiet === false) {
             printLog(processTypeEnum.COMPILE, '自定义 tabBar', this.getShowPath(customTabBarComponentPath))
           }
           const componentObj: IComponent = {

@@ -1,9 +1,11 @@
 import * as path from 'path'
 import * as Chain from 'webpack-chain'
-import { recursiveMerge } from '@tarojs/helper'
+import * as formatMessages from 'webpack-format-messages'
+import { recursiveMerge, chalk } from '@tarojs/helper'
 import { MultiPlatformPlugin } from '@tarojs/runner-utils'
 import { WebpackPlugin } from './WebpackPlugin'
 
+import type { Stats } from 'webpack'
 import type { H5BuildConfig, MiniBuildConfig } from '../utils/types'
 
 type Config = Partial<MiniBuildConfig | H5BuildConfig>
@@ -31,6 +33,47 @@ export class BaseConfig {
       },
       output: {
         chunkLoadingGlobal: 'webpackJsonp'
+      },
+      plugin: {
+        webpackbar: WebpackPlugin.getWebpackBarPlugin({
+          reporters: [
+            'basic',
+            'fancy',
+            {
+              done (_context, { stats }: { stats: Stats }) {
+                const { warnings, errors } = formatMessages(stats)
+
+                if (stats.hasWarnings()) {
+                  console.log(chalk.bgKeyword('orange')('⚠️ Warinings: \n'))
+                  warnings.forEach(w => console.log(w + '\n'))
+                }
+
+                if (stats.hasErrors()) {
+                  console.log(chalk.bgRed('✖ Errors: \n'))
+                  errors.forEach(e => console.log(e + '\n'))
+                  !config.isWatch && process.exit(1)
+                }
+
+                if (config.isWatch) {
+                  console.log(chalk.gray(`→ Watching... [${new Date().toLocaleString()}]\n`))
+                }
+
+                if (config.logger?.stats === true && config.mode === 'production') {
+                  console.log(chalk.bgBlue('ℹ Stats: \n'))
+                  console.log(stats.toString({
+                    colors: true,
+                    modules: false,
+                    children: false,
+                    chunks: false,
+                    chunkModules: false
+                  }))
+                }
+              }
+            }
+          ],
+          basic: config.logger?.quiet === false,
+          fancy: config.logger?.quiet !== false
+        })
       }
     })
 

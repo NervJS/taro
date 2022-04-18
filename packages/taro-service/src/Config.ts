@@ -75,6 +75,7 @@ export default class Config {
       framework: initialConfig.framework,
       compiler: initialConfig.compiler,
       cache: initialConfig.cache,
+      logger: initialConfig.logger,
       baseLevel: initialConfig.baseLevel,
       csso: initialConfig.csso,
       sass: initialConfig.sass,

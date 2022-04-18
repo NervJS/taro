@@ -1,7 +1,6 @@
 import * as webpack from 'webpack'
 import { isEmpty } from 'lodash'
 import { MiniCombination } from './webpack/MiniCombination'
-import { printBuildError, bindProdLogger, bindDevLogger } from './utils/logHelper'
 import { Prerender } from './prerender/prerender'
 import { preBundle } from './prebundle'
 
@@ -35,7 +34,6 @@ export default async function build (appPath: string, rawConfig: MiniBuildConfig
     const callback = async (err: Error, stats: Stats) => {
       if (err || stats.hasErrors()) {
         const error = err ?? stats.toJson().errors
-        printBuildError(error)
         onFinish(error, null)
         return reject(error)
       }
@@ -55,13 +53,11 @@ export default async function build (appPath: string, rawConfig: MiniBuildConfig
     }
 
     if (config.isWatch) {
-      bindDevLogger(compiler)
       compiler.watch({
         aggregateTimeout: 300,
         poll: undefined
       }, callback)
     } else {
-      bindProdLogger(compiler)
       compiler.run((err: Error, stats: Stats) => {
         compiler.close(err2 => callback(err || err2, stats))
       })

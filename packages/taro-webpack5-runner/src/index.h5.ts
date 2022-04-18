@@ -4,13 +4,14 @@ import { format as formatUrl } from 'url'
 import * as webpack from 'webpack'
 import * as WebpackDevServer from 'webpack-dev-server'
 import { isFunction } from '@tarojs/shared'
-import { FRAMEWORK_MAP, recursiveMerge, SOURCE_DIR } from '@tarojs/helper'
+import { FRAMEWORK_MAP, recursiveMerge, SOURCE_DIR, chalk } from '@tarojs/helper'
 import { H5Combination } from './webpack/H5Combination'
-import { bindProdLogger, bindDevLogger, printBuildError } from './utils/logHelper'
-import { addHtmlSuffix, addLeadingSlash, addTrailingSlash, formatOpenHost, stripBasename, stripTrailingSlash } from './utils'
+import { addHtmlSuffix, addLeadingSlash, addTrailingSlash, stripBasename, stripTrailingSlash } from './utils'
 
 import type { H5BuildConfig } from './utils/types'
 import H5AppInstance from './utils/H5AppInstance'
+
+let isFirstBuild = true
 
 export default async function build (appPath: string, rawConfig: H5BuildConfig): Promise<void> {
   const combination = new H5Combination(appPath, rawConfig)
@@ -40,12 +41,9 @@ async function buildProd (webpackConfig: webpack.Configuration, config: H5BuildC
     callback()
   })
   return new Promise((resolve, reject) => {
-    bindProdLogger(compiler)
-
     compiler.run((error, stats) => {
       compiler.close(error2 => {
         const err = error || error2
-        err && printBuildError(err)
 
         if (isFunction(onBuildFinish)) {
           onBuildFinish({
@@ -79,7 +77,14 @@ async function buildDev (webpackConfig: webpack.Configuration, config: H5BuildCo
     port: devServerOptions.port,
     pathname
   })
-  bindDevLogger(compiler, devUrl)
+  compiler.hooks.done.tap('taroDone', () => {
+    if (isFirstBuild) {
+      isFirstBuild = false
+      if (devUrl) {
+        console.log(chalk.cyan(`ℹ Listening at ${devUrl}\n`))
+      }
+    }
+  })
 
   compiler.hooks.emit.tapAsync('taroBuildDone', async (compilation, callback) => {
     if (isFunction(config.modifyBuildAssets)) {
@@ -113,17 +118,6 @@ async function buildDev (webpackConfig: webpack.Configuration, config: H5BuildCo
         return console.log(err)
       }
       resolve()
-
-      /* 补充处理devServer.open配置 */
-      if (devServerOptions.open) {
-        const openUrl = formatUrl({
-          protocol: devServerOptions.https ? 'https' : 'http',
-          hostname: formatOpenHost(devServerOptions.host),
-          port: devServerOptions.port,
-          pathname
-        })
-        console.log(openUrl)
-      }
     })
   })
 }
@@ -194,7 +188,7 @@ async function getDevServerOptions (appPath: string, config: H5BuildConfig): Pro
       },
       compress: true,
       // disableHostCheck: true, // the disableHostCheck and allowedHosts options were removed in favor of the firewall option
-      host: 'local-ip',
+      host: '0.0.0.0',
       // useLocalIp: true, @breaking: move in favor { host: 'local-ip' } (https://github.com/webpack/webpack-dev-server/releases?page=2)
       hot: true,
       https: false,
@@ -221,8 +215,7 @@ async function getDevServerOptions (appPath: string, config: H5BuildConfig): Pro
   const availablePort = await detectPort(Number(originalPort))
 
   if (availablePort !== originalPort) {
-    console.log()
-    console.log(`预览端口 ${originalPort} 被占用, 自动切换到空闲端口 ${availablePort}`)
+    console.log(`ℹ 预览端口 ${originalPort} 被占用, 自动切换到空闲端口 ${availablePort}`)
     devServerOptions.port = availablePort
   }
 
