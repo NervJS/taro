@@ -1,11 +1,13 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { Component, h, Host, Element, Prop, Event, EventEmitter, Listen } from '@stencil/core'
 import classNames from 'classnames'
+
+import { convertStyle } from '../../utils'
+
 @Component({
   tag: 'taro-picker-view-core',
   styleUrl: './style/index.scss'
 })
-
 export class PickerView {
   private indicator: HTMLDivElement | undefined
   // 当前ref
@@ -37,10 +39,10 @@ export class PickerView {
   @Event({
     eventName: 'pickend'
   })
-  @Event() onPickEnd: EventEmitter
+  onPickEnd: EventEmitter
 
-  @Listen('col-select')
-  function(e: CustomEvent<{ curIndex: string, selectedIndex: string }>) {
+  @Listen('onselect')
+  onSelect(e: CustomEvent<{ curIndex: string; selectedIndex: string }>) {
     e.stopPropagation()
     if ((e.target as Element).tagName !== 'TARO-PICKER-VIEW-COLUMN-CORE') return
     let _curIndex: number = +e.detail.curIndex
@@ -49,15 +51,15 @@ export class PickerView {
     this.onChange.emit({ value: this.value })
   }
 
-  @Listen('col-pick-start')
-  colPickStart(e: CustomEvent<{ curIndex: string, selectedIndex: string }>) {
+  @Listen('onselectstart')
+  onSelectStart(e: CustomEvent<{ curIndex: string; selectedIndex: string }>) {
     e.stopPropagation()
     if ((e.target as Element).tagName !== 'TARO-PICKER-VIEW-COLUMN-CORE') return
     this.onPickStart.emit()
   }
 
-  @Listen('col-pick-end')
-  colPickEnd(e: CustomEvent<{ curIndex: string, selectedIndex: string }>) {
+  @Listen('onselectend')
+  onPickerColEnd(e: CustomEvent<{ curIndex: string; selectedIndex: string }>) {
     e.stopPropagation()
     if ((e.target as Element).tagName !== 'TARO-PICKER-VIEW-COLUMN-CORE') return
     this.onPickEnd.emit()
@@ -66,74 +68,47 @@ export class PickerView {
   componentDidLoad() {
     const childList = this.el.querySelectorAll('taro-picker-view-column-core')
     childList.forEach((element, index) => {
-      element.setAttribute('tag', `${index}`)
-      let selectindex = '0'
+      element.setAttribute('col', `${index}`)
+      let selectIndex = '0'
       if (!!this.value && this.value.length > index) {
-        selectindex = `${this.value[index]}`
+        selectIndex = `${this.value[index]}`
       }
-      let indicatorHeight: number = this.indicator?.clientHeight || 0
-      let paddingtop = (this.getPickerViewHeight() - indicatorHeight) / 2.0
-      element.setAttribute('initselectindex', `${selectindex}`)
-      element.setAttribute('paddingtop', `${paddingtop}`)
+      const pickerHeight = this.el.getBoundingClientRect().height
+      const indicatorHeight = this.indicator?.offsetHeight || 0
+      const paddingVertical = (pickerHeight - indicatorHeight) / 2.0
+      element.setAttribute('initial-position', `${selectIndex}`)
+      element.setAttribute('padding-vertical', `${paddingVertical}`)
     })
   }
 
-  // 获取控件的高度
-  getPickerViewHeight(): number {
-    return this.el.getBoundingClientRect().height;
-  }
-
-  // style字符串转map结构
-  convertStyleToObject(style: string | undefined): { [key: string]: string | undefined; } | undefined {
-    if (style) {
-      let regex = /([\w-]*)\s*:\s*([^;]*)/g;
-      let match;
-      let properties: { [key: string]: string | undefined; } = {};
-      while (match = regex.exec(style)) properties[`${match[1]}`] = match[2].trim();
-      return properties
-    }
-  }
-
-  // 过滤非PickerViewColumn组件
+  // 过滤非 PickerViewColumn 组件
   componentDidRender() {
     this.el.childNodes.forEach(item => {
-      let childEle = (item as Element)
-      if ('TARO-PICKER-VIEW-COLUMN-CORE' !== childEle.tagName && childEle.className !== 'taro-picker-view-mask-container') {
+      const childEle = item as HTMLElement
+      if (
+        'TARO-PICKER-VIEW-COLUMN-CORE' !== childEle.tagName &&
+        childEle.className !== 'taro-picker-view-mask-container'
+      ) {
         this.el.removeChild(item)
       }
     })
   }
 
-  /// 返回一个元素
-  getCssStyleFrom(originClass: string, newClass: string | undefined, newStyle: string | undefined): [string, {
-    [key: string]: string | undefined;
-  } | undefined] {
-
-    const params = {
-      [`${originClass}`]: true,
-    }
-    if (!!newClass && newClass !== '') {
-      params[`${newClass}`] = true
-    }
-    const cls = classNames(params)
-    const style = this.convertStyleToObject(newStyle);
-
-    return [cls, style];
-  }
-
   render() {
-
-    const indicatorStyle = this.getCssStyleFrom('taro-picker-view-mask-indicator', this.indicatorClass, this.indicatorStyle);
-    const maskTopStyle = this.getCssStyleFrom('taro-picker-view-mask-top', this.maskClass, this.maskStyle);
-    const maskBottomStyle = this.getCssStyleFrom('taro-picker-view-mask-bottom', this.maskClass, this.maskStyle);
+    const indicatorCls = classNames('taro-picker-view-mask-indicator', this.indicatorClass)
+    const maskTopCls = classNames('taro-picker-view-mask-top', this.maskClass)
+    const maskBtmCls = classNames('taro-picker-view-mask-bottom', this.maskClass)
+    const indicatorStyle = convertStyle(this.indicatorStyle)
+    const maskTopStyle = convertStyle(this.maskStyle)
+    const maskBottomStyle = convertStyle(this.maskStyle)
 
     return (
       <Host class="taro-picker-view-container">
         <slot />
-        <div class='taro-picker-view-mask-container'>
-          <div class={maskTopStyle[0]} style={maskTopStyle[1]} />
-          <div class={indicatorStyle[0]} style={indicatorStyle[1]} ref={indicator => this.indicator = indicator} />
-          <div class={maskBottomStyle[0]} style={maskBottomStyle[1]} />
+        <div class="taro-picker-view-mask-container">
+          <div class={maskTopCls} style={maskTopStyle} />
+          <div class={indicatorCls} style={indicatorStyle} ref={indicator => (this.indicator = indicator)} />
+          <div class={maskBtmCls} style={maskBottomStyle} />
         </div>
       </Host>
     )
