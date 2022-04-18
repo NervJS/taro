@@ -165,3 +165,6 @@ export interface NetStatus {
   /* 视频画面的高度 */
   videoHeight?: number | string
 }
+
+/** vue style type */
+export type StyleValue = string | CSSProperties | Array<StyleValue>
