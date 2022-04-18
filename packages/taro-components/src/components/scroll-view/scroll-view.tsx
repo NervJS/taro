@@ -2,6 +2,8 @@
 import { Component, h, ComponentInterface, Prop, Event, EventEmitter, Watch, Element, Host } from '@stencil/core'
 import classNames from 'classnames'
 
+import { debounce } from '../../utils'
+
 function easeOutScroll (from: number, to: number, callback) {
   if (from === to || typeof from !== 'number') {
     return
@@ -27,17 +29,6 @@ function easeOutScroll (from: number, to: number, callback) {
   }
 
   step()
-}
-
-function debounce (fn, delay: number) {
-  let timer: NodeJS.Timeout
-
-  return function (...arrs) {
-    clearTimeout(timer)
-    timer = setTimeout(function () {
-      fn(...arrs)
-    }, delay)
-  }
 }
 
 @Component({
@@ -163,7 +154,7 @@ export class ScrollView implements ComponentInterface {
     this._scrollLeft = scrollLeft
     this._scrollTop = scrollTop
 
-    this.uperAndLower()
+    this.upperAndLower()
 
     this.onScroll.emit({
       scrollLeft,
@@ -173,7 +164,7 @@ export class ScrollView implements ComponentInterface {
     })
   }
 
-  uperAndLower = debounce(() => {
+  upperAndLower = debounce(() => {
     const {
       offsetWidth,
       offsetHeight,

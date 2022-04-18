@@ -18,14 +18,15 @@
   },
   "main": "index.js",
   "scripts": {
-    "lint": "eslint packages/  --ext .js --ext .ts --ext .tsx",
     "build": "lerna run build",
+    "clear-all": "rimraf node_modules && lerna clean -y",
+    "lint": "eslint packages/  --ext .js --ext .ts --ext .tsx",
+    "lint:style": "stylelint ./packages/**/*.{css,scss}",
     "test": "lerna run --scope @tarojs/cli --scope babel-preset-taro --scope @tarojs/components --scope @tarojs/taro-h5 --scope @tarojs/react --scope @tarojs/webpack-runner --scope @tarojs/mini-runner --scope @tarojs/runtime --scope @tarojs/taro-rn --scope @tarojs/components-rn test:ci --parallel",
     "version": "npm-run-all version:lerna version:git version:changelog",
-    "version:lerna": "lerna version ${npm_config_lerna_version} --exact --no-git-tag-version --force-publish --yes",
-    "version:git": "git add . && git commit -m \"chore(release): publish ${npm_config_lerna_version}\"",
     "version:changelog": "conventional-changelog -p angular",
-    "clear-all": "rimraf node_modules && lerna clean -y"
+    "version:git": "git add . && git commit -m \"chore(release): publish ${npm_config_lerna_version}\"",
+    "version:lerna": "lerna version ${npm_config_lerna_version} --exact --no-git-tag-version --force-publish --yes"
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": [
@@ -138,6 +139,8 @@
     "node-sass": "6.0.1",
     "npm-run-all": "^4.1.2",
     "ora": "^2.1.0",
+    "postcss": "^8.4.12",
+    "postcss-scss": "^4.0.3",
     "power-assert": "^1.6.1",
     "prettier": "^1.18.2",
     "react": "17.0.2",
@@ -153,7 +156,9 @@
     "shelljs": "^0.8.1",
     "sinon": "^7.5.0",
     "style-loader": "1.3.0",
-    "stylelint": "^13.6.1",
+    "stylelint": "^14.6.1",
+    "stylelint-config-standard-scss": "^3.0.0",
+    "stylelint-order": "^5.0.0",
     "ts-jest": "26.5.5",
     "typescript": "4.3.5",
     "vue": "^2.6.11",
