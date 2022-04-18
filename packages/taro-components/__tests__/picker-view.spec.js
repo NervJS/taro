@@ -66,7 +66,7 @@ describe('PickerView', () => {
               <PickerViewColumn>
                 {this.state.years.map(item => {
                   return (
-                    <View style='height: 60px; line-height: 60px; text-aligin: center;' key={item}>{item}年</View>
+                    <View style='height: 60px; line-height: 60px; text-align: center;' key={item}>{item}年</View>
                   )
                 })}
               </PickerViewColumn>
