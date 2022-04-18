@@ -146,42 +146,46 @@ export const isValidColor = (color) => {
   return VALID_COLOR_REG.test(color)
 }
 
-interface IProcessOpenApi<TOptions = Record<string, unknown>, TResult = any> {
+interface IProcessOpenApi<TOptions = Record<string, unknown>, TResult extends TaroGeneral.CallbackResult = any> {
   name: string
   defaultOptions?: TOptions
-  standardMethod?: (opts: TOptions) => TResult | Promise<TResult>
+  standardMethod?: (opts: TOptions) => Promise<TResult>
   formatOptions?: (opts: TOptions) => TOptions
   formatResult?: (res: TResult) => TResult
 }
 
-export function processOpenApi ({
+export function processOpenApi<TOptions = Record<string, unknown>, TResult extends TaroGeneral.CallbackResult = any> ({
   name,
   defaultOptions,
   standardMethod,
   formatOptions = options => options,
   formatResult = res => res
-}: IProcessOpenApi) {
-  return (options = {}) => {
+}: IProcessOpenApi<TOptions, TResult>) {
+  const notSupported = weixinCorpSupport(name)
+  return (options: Partial<TOptions> = {}): Promise<TResult> => {
     // @ts-ignore
-    const targetApi = window?.wx?.[name] ?? standardMethod
-    if (typeof targetApi !== 'function') {
-      return weixinCorpSupport(name)
-    }
-    const obj = Object.assign({}, defaultOptions, options)
-    return new Promise((resolve, reject) => {
-      ['fail', 'success', 'complete'].forEach(k => {
-        obj[k] = oriRes => {
-          const res = formatResult(oriRes)
-          options[k] && options[k](res)
-          if (k === 'success') {
-            resolve(res)
-          } else if (k === 'fail') {
-            reject(res)
+    const targetApi = window?.wx?.[name]
+    const opts = formatOptions(Object.assign({}, defaultOptions, options))
+    if (typeof targetApi === 'function') {
+      return new Promise<TResult>((resolve, reject) => {
+        ['fail', 'success', 'complete'].forEach(k => {
+          opts[k] = preRef => {
+            const res = formatResult(preRef)
+            options[k] && options[k](res)
+            if (k === 'success') {
+              resolve(res)
+            } else if (k === 'fail') {
+              reject(res)
+            }
           }
-        }
+          return targetApi(opts)
+        })
       })
-      targetApi(formatOptions(obj))
-    })
+    } else if (typeof standardMethod === 'function') {
+      return standardMethod(opts)
+    } else {
+      return notSupported() as Promise<TResult>
+    }
   }
 }
 
