@@ -9,25 +9,24 @@ export interface HistoryState {
 }
 
 export class History extends Events {
-
   /* private property */
-  #location: LocationType.Location
-  #stack: HistoryState[] = []
-  #cur: number = 0
+  __location: LocationType.Location
+  __stack: HistoryState[] = []
+  __cur = 0
 
-  constructor(location: LocationType.Location){
+  constructor (location: LocationType.Location) {
     super()
-    this.#location = location
-    this.#stack = [{
+    this.__location = location
+    this.__stack = [{
       state: null,
       title: '',
       url: ''
     }]
 
-    this.#location.on('__record_history__', (href: string) => {
-      this.#cur++
-      this.#stack = this.#stack.slice(0, this.#cur)
-      this.#stack.push({
+    this.__location.on('__record_history__', (href: string) => {
+      this.__cur++
+      this.__stack = this.__stack.slice(0, this.__cur)
+      this.__stack.push({
         state: null,
         title: '',
         url: href
@@ -36,29 +35,30 @@ export class History extends Events {
   }
 
   /* public property */
-  get length(){
-    return this.#stack.length
+  get length () {
+    return this.__stack.length
   }
 
   /* public method */
-  go(delta: number){
+  go (delta: number) {
     return delta
   }
 
-  back(){
+  back () {
     this.go(-1)
   }
 
-  forward(){
+  forward () {
     this.go(1)
   }
 
-  pushState(state: unknown, title: string, url: string){
-    if(!url || !isString(url)) return
+  pushState (/* state: unknown, title: string, */ url: string) {
+    if (!url || !isString(url)) return 0
+    return 1
   }
 
-  replaceState(state: unknown, title: string, url: string){
-    if(!url || !isString(url)) return
+  replaceState (/* state: unknown, title: string, */ url: string) {
+    if (!url || !isString(url)) return 0
+    return 2
   }
-
 }

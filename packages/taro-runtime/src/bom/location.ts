@@ -1,6 +1,9 @@
 import { Events } from '../emitter/emitter'
 import { isString, isNumber } from '@tarojs/shared'
 
+// TODO: 可以获取到当前app, router, page
+// import { getCurrentInstance } from '../current'
+
 type PreValue = {
   protocol: string
   hostname: string
@@ -10,15 +13,15 @@ type PreValue = {
   hash: string
 }
 
-function parseUrl(url = ''){
+function parseUrl (url = '') {
   const result = { href: '', origin: '', protocol: '', hostname: '', host: '', port: '', pathname: '', search: '', hash: '' }
-  if(!url || !isString(url)) return result
+  if (!url || !isString(url)) return result
 
   url = url.trim()
-  const PATTERN = /^(([^:/?#]+):)?\/\/(([^/?#]+):(.+)@)?([^/?#:]*)(:(\d+))?([^?#]*)(\?([^#]*))?(#(.*))?/,
-        matches = url.match(PATTERN)
+  const PATTERN = /^(([^:/?#]+):)?\/\/(([^/?#]+):(.+)@)?([^/?#:]*)(:(\d+))?([^?#]*)(\?([^#]*))?(#(.*))?/
+  const matches = url.match(PATTERN)
 
-  if(!matches) return result
+  if (!matches) return result
 
   result.protocol = matches[1] || 'https:'
   result.hostname = matches[6] || ''
@@ -34,194 +37,200 @@ function parseUrl(url = ''){
 }
 
 export class Location extends Events {
-
   /* private property */
-  #hash: string = ''
-  #hostname: string = ''
-  #pathname: string = '/'
-  #port: string = ''
-  #protocol: string = 'https:'
-  #search: string = ''
-
-  #lastHref: string = ''
+  __hash = ''
+  __hostname = ''
+  __pathname = '/'
+  __port = ''
+  __protocol = 'https:'
+  __search = ''
 
   /* private method */
-  #getPreValue(): PreValue{
+  __getPreValue (): PreValue {
     return {
-      protocol: this.#protocol,
-      hostname: this.#hostname,
-      port: this.#port,
-      pathname: this.#pathname,
-      search: this.#search,
-      hash: this.#hash
+      protocol: this.__protocol,
+      hostname: this.__hostname,
+      port: this.__port,
+      pathname: this.__pathname,
+      search: this.__search,
+      hash: this.__hash
     }
   }
-  #recordHistory(){
-    this.trigger('__record_history__', this.href)
-  }
-  #triggerHashChange(){
-    // TODO: 触发全局hashchange事件
-  }
-  #checkUrlChange(preValue: PreValue){
+
+  // __recordHistory(){
+  //   this.trigger('__record_history__', this.href)
+  // }
+  // __triggerHashChange(){
+  //   // TODO: 触发全局hashchange事件
+  // }
+  __checkUrlChange (preValue: PreValue) {
     return !preValue
   }
 
-
   /* public property */
-  get protocol(){
-    return this.#protocol
+  get protocol () {
+    return this.__protocol
   }
-  set protocol(val: string){
+
+  set protocol (val: string) {
     const reg = /^(http|https):?$/i
-    if(!val || !isString(val) || !reg.test(val.trim())) return
+    if (!val || !isString(val) || !reg.test(val.trim())) return
 
     val = val.trim()
-    const preValue = this.#getPreValue()
+    const preValue = this.__getPreValue()
 
-    this.#protocol = val.endsWith(':') ? val : `${val}:`
+    this.__protocol = val.endsWith(':') ? val : `${val}:`
 
-    this.#checkUrlChange(preValue)
+    this.__checkUrlChange(preValue)
   }
 
-  get host(){
-    return (this.#hostname || '') + (this.#port ? ':' + this.#port : '')
+  get host () {
+    return (this.__hostname || '') + (this.__port ? ':' + this.__port : '')
   }
-  set host(val: string){
-    if(!val || !isString(val)) return
+
+  set host (val: string) {
+    if (!val || !isString(val)) return
     val = val.trim()
 
     const { hostname, port } = parseUrl(`//${val}`)
-    const preValue = this.#getPreValue()
+    const preValue = this.__getPreValue()
 
-    this.#hostname = hostname
-    this.#port = port
+    this.__hostname = hostname
+    this.__port = port
 
-    this.#checkUrlChange(preValue)
+    this.__checkUrlChange(preValue)
   }
 
-  get hostname(){
-    return this.#hostname
+  get hostname () {
+    return this.__hostname
   }
-  set hostname(val: string){
-    if(!val || !isString(val)) return
+
+  set hostname (val: string) {
+    if (!val || !isString(val)) return
     val = val.trim()
 
     const { hostname } = parseUrl(`//${val}`)
-    const preValue = this.#getPreValue()
+    const preValue = this.__getPreValue()
 
-    this.#hostname = hostname
+    this.__hostname = hostname
 
-    this.#checkUrlChange(preValue)
+    this.__checkUrlChange(preValue)
   }
 
-  get port(){
-    return this.#port
-  }
-  set port(val: string){
-    let xVal = Number(val = val.trim())
-    if(!isNumber(xVal) || xVal <= 0) return
-    if(val === this.#port) return
-
-    const preValue = this.#getPreValue()
-
-    this.#port = val
-
-    this.#checkUrlChange(preValue)
+  get port () {
+    return this.__port
   }
 
-  get pathname(){
-    return this.#pathname
+  set port (val: string) {
+    const xVal = Number(val = val.trim())
+    if (!isNumber(xVal) || xVal <= 0) return
+    if (val === this.__port) return
+
+    const preValue = this.__getPreValue()
+
+    this.__port = val
+
+    this.__checkUrlChange(preValue)
   }
-  set pathname(val: string){
-    if(!val || !isString(val)) return
+
+  get pathname () {
+    return this.__pathname
+  }
+
+  set pathname (val: string) {
+    if (!val || !isString(val)) return
     val = val.trim()
 
     val = val.startsWith('/') ? val : `/${val}`
 
-    const preValue = this.#getPreValue()
+    const preValue = this.__getPreValue()
     const { pathname } = parseUrl(`//taro.com${val}`)
 
-    this.#pathname = pathname
+    this.__pathname = pathname
 
-    this.#checkUrlChange(preValue)
+    this.__checkUrlChange(preValue)
   }
 
-  get search(){
-    return this.#search
+  get search () {
+    return this.__search
   }
-  set search(val: string){
-    if(!val || !isString(val)) return
+
+  set search (val: string) {
+    if (!val || !isString(val)) return
     val = val.trim()
 
     val = val.startsWith('?') ? val : `?${val}`
-    const preValue = this.#getPreValue()
+    const preValue = this.__getPreValue()
     const { search } = parseUrl(`//taro.com${val}`)
 
-    this.#search = search
+    this.__search = search
 
-    this.#checkUrlChange(preValue)
+    this.__checkUrlChange(preValue)
   }
 
-  get hash(){
-    return this.#hash
+  get hash () {
+    return this.__hash
   }
-  set hash(val: string){
-    if(!val || !isString(val)) return
+
+  set hash (val: string) {
+    if (!val || !isString(val)) return
     val = val.trim()
 
     val = val.startsWith('#') ? val : `#${val}`
-    const preValue = this.#getPreValue()
+    const preValue = this.__getPreValue()
     const { hash } = parseUrl(`//taro.com${val}`)
 
-    this.#hash = hash
+    this.__hash = hash
 
-    this.#checkUrlChange(preValue)
+    this.__checkUrlChange(preValue)
   }
 
-  get href(){
-    return `${this.#protocol}//${this.host}${this.#pathname}${this.#search}${this.#hash}`
+  get href () {
+    return `${this.__protocol}//${this.host}${this.__pathname}${this.__search}${this.__hash}`
   }
-  set href(val: string){
+
+  set href (val: string) {
     const reg = /^(http:|https:)?\/\/.+/
-    if(!val || !isString(val) || !reg.test(val = val.trim())) return
+    if (!val || !isString(val) || !reg.test(val = val.trim())) return
 
     const {
       protocol, hostname, port, hash, search, pathname
     } = parseUrl(val)
-    const preValue = this.#getPreValue()
+    const preValue = this.__getPreValue()
 
-    this.#protocol = protocol
-    this.#hostname = hostname
-    this.#port = port
-    this.#pathname = pathname
-    this.#search = search
-    this.#hash = hash
+    this.__protocol = protocol
+    this.__hostname = hostname
+    this.__port = port
+    this.__pathname = pathname
+    this.__search = search
+    this.__hash = hash
 
-    this.#checkUrlChange(preValue)
+    this.__checkUrlChange(preValue)
   }
 
-  get origin(){
-    return `${this.#protocol}//${this.host}`
+  get origin () {
+    return `${this.__protocol}//${this.host}`
   }
-  set origin(val: string){
+
+  set origin (val: string) {
     const reg = /^(http:|https:)?\/\/.+/
-    if(!val || !isString(val) || !reg.test(val = val.trim())) return
+    if (!val || !isString(val) || !reg.test(val = val.trim())) return
 
-    const {protocol, hostname, port} = parseUrl(val)
-    const preValue = this.#getPreValue()
+    const { protocol, hostname, port } = parseUrl(val)
+    const preValue = this.__getPreValue()
 
-    this.#protocol = protocol
-    this.#hostname = hostname
-    this.#port = port
+    this.__protocol = protocol
+    this.__hostname = hostname
+    this.__port = port
 
-    this.#checkUrlChange(preValue)
+    this.__checkUrlChange(preValue)
   }
 
   /* public method */
-  assign(){}
-  reload(){}
-  replace(){}
-  toString(){
+  assign () {}
+  reload () {}
+  replace () {}
+  toString () {
     return this.href
   }
 }

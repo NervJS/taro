@@ -65,6 +65,7 @@ export function stringify (obj?: Record<string, unknown>) {
   return path === '' ? path : '?' + path
 }
 
+// TODO: 需要考虑路由中有 # 符号的情况
 export function getPath (id: string, options?: Record<string, unknown>): string {
   const idx = id.indexOf('?')
   return `${idx > -1 ? id.substring(0, idx) : id}${stringify(process.env.TARO_ENV === 'h5' ? { stamp: options?.stamp || '' } : options)}`
