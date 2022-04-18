@@ -2,7 +2,7 @@ import Taro from '@tarojs/api'
 import { processOpenApi, shouldBeObject } from '../utils'
 import { MethodHandler } from '../utils/handler'
 
-const getLocationByW3CApi: (options: Taro.getLocation.Option) => Promise<Taro.getLocation.SuccessCallbackResult | undefined> = (options: Taro.getLocation.Option): Promise<Taro.getLocation.SuccessCallbackResult | undefined> => {
+const getLocationByW3CApi: (options: Taro.getLocation.Option) => Promise<Taro.getLocation.SuccessCallbackResult> = (options: Taro.getLocation.Option): Promise<Taro.getLocation.SuccessCallbackResult> => {
   // 断言 options 必须是 Object
   const isObject = shouldBeObject(options)
   if (!isObject.flag) {
@@ -16,17 +16,16 @@ const getLocationByW3CApi: (options: Taro.getLocation.Option) => Promise<Taro.ge
 
   const handle = new MethodHandler({ name: 'getLocation', success, fail, complete })
 
-  // let defaultMaximumAge =  5 * 1000 //允许取多久以内的缓存位置,Taro接口参数中没有定义
+  // const defaultMaximumAge = 5 * 1000
 
   const positionOptions: PositionOptions = {
-
     enableHighAccuracy: options.isHighAccuracy || (options.altitude != null), // 海拔定位需要高精度
+    // maximumAge: defaultMaximumAge, // 允许取多久以内的缓存位置
     timeout: options.highAccuracyExpireTime // 高精度定位超时时间
-    // maximumAge: defaultMaximumAge //允许取多久以内的缓存位置
   }
 
   // Web端API实现暂时仅支持GPS坐标系
-  if (options.type!.toUpperCase() !== 'WGS84') {
+  if (options.type?.toUpperCase() !== 'WGS84') {
     return handle.fail({
       errMsg: 'This coordinate system type is not temporarily supported'
     })
@@ -42,7 +41,7 @@ const getLocationByW3CApi: (options: Taro.getLocation.Option) => Promise<Taro.ge
   }
 
   // 开始获取位置
-  return new Promise<Taro.getLocation.SuccessCallbackResult | undefined>(
+  return new Promise<Taro.getLocation.SuccessCallbackResult>(
     (resolve, reject) => {
       navigator.geolocation.getCurrentPosition(
         (position) => {

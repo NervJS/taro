@@ -1,42 +1,41 @@
 .taro-checkbox {
-  position: relative;
   display: inline-block;
+  position: relative;
 
   &_checked {
     display: inline-block;
-    min-height: 0;
-    -webkit-appearance: none;
-    appearance: none;
-    outline: 0;
-    font-size: 23px;
+    position: relative;
+    top: 5px;
     border: 1px solid #d1d1d1;
-    background-color: #ffffff;
     border-radius: 3px;
-    color: #1AAD19;
     width: 23px;
     height: 23px;
-    position: relative;
+    min-height: 0;
+    appearance: none;
+    outline: 0;
+    background-color: #fff;
     vertical-align: 0;
-    top: 5px;
+    font-size: 23px;
+    color: #1aad19;
 
     &:checked::before {
-      font-family: "weui";
+      display: inline-block;
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      vertical-align: middle;
+      text-decoration: inherit;
+      text-align: center;
+      text-transform: none;
+      font-family: weui;
       font-style: normal;
       font-weight: normal;
       font-variant: normal;
-      text-transform: none;
-      text-align: center;
-      speak: none;
-      display: inline-block;
-      vertical-align: middle;
-      text-decoration: inherit;
-      content: "\EA08";
-      color: inherit;
       font-size: inherit;
-      position: absolute;
-      top: 50%;
-      left: 50%;
+      color: inherit;
+      content: "\EA08";
       transform: translate(-50%, -48%) scale(0.73);
+      speak: none;
     }
   }
 }

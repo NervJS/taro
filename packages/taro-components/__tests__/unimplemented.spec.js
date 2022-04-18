@@ -3,8 +3,6 @@ import ReactDOM from 'react-dom'
 import {
   MovableArea,
   MovableView,
-  PickerView,
-  PickerViewColumn,
   OpenData,
   Camera
 } from '../h5/react'
@@ -85,14 +83,6 @@ describe('unimplemented', () => {
 
   it('MovableView', async () => {
     await testComponent(MovableView)
-  })
-
-  it('PickerViewColumn', async () => {
-    await testComponent(PickerViewColumn)
-  })
-
-  it('PickerView', async () => {
-    await testComponent(PickerView)
   })
 
   it('OpenData', async () => {
