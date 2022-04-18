@@ -41,11 +41,12 @@ exports.taroApp = app
   return `${setReconciler}
 import { window } from '@tarojs/runtime'
 import { ${creator} } from '${creatorLocation}'
-import { initPxTransform } from '@tarojs/taro'
+import Taro, { initPxTransform } from '@tarojs/taro'
 import component from ${stringify(this.request.split('!').slice(thisLoaderIndex + 1).join('!'))}
 ${importFrameworkStatement}
 var config = ${config};
 window.__taroAppConfig = config
+window.Taro = Taro
 ${instantiateApp}
 ${options.prerender ? prerender : ''}
 initPxTransform({

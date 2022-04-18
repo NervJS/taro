@@ -34,8 +34,8 @@ if (process.env.TARO_ENV && process.env.TARO_ENV !== 'h5') {
         (this as any).Date = Date
       }
 
-      this.location = new Location()
-      this.history = new History(this.location)
+      this.location = new Location({ win: this })
+      this.history = new History(this.location, { win: this })
 
       this.document.defaultView = this
     }

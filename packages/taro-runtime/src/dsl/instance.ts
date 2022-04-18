@@ -82,4 +82,5 @@ export interface AppInstance extends Show {
   unmount? (id: string, cb: () => void): void
   onPageNotFound? (res: any): void
   taroGlobalData?: Record<any, any>
+  config?: Record<any, any>
 }
