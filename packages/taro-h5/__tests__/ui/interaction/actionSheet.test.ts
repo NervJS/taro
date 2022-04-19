@@ -157,13 +157,14 @@ describe('actionSheet', () => {
       success,
       fail,
       complete
-    }).catch(res => {
-      const expectObj = { errMsg: 'showActionSheet:fail cancel' }
-      expect(success.mock.calls.length).toBe(0)
-      expect(fail).toHaveBeenCalledWith(expectObj)
-      expect(complete).toHaveBeenCalledWith(expectObj)
-      expect(res).toEqual(expectObj)
     })
+      .catch(res => {
+        const expectObj = { errMsg: 'showActionSheet:fail cancel' }
+        expect(success.mock.calls.length).toBe(0)
+        expect(fail).toHaveBeenCalledWith(expectObj)
+        expect(complete).toHaveBeenCalledWith(expectObj)
+        expect(res).toEqual(expectObj)
+      })
 
     const actionSheet: any = document.body.lastChild
     const cancel = actionSheet.lastChild.lastChild
@@ -184,13 +185,14 @@ describe('actionSheet', () => {
       success,
       fail,
       complete
-    }).catch(res => {
-      const expectObj = { errMsg: 'showActionSheet:fail cancel' }
-      expect(success.mock.calls.length).toBe(0)
-      expect(fail).toHaveBeenCalledWith(expectObj)
-      expect(complete).toHaveBeenCalledWith(expectObj)
-      expect(res).toEqual(expectObj)
     })
+      .catch(res => {
+        const expectObj = { errMsg: 'showActionSheet:fail cancel' }
+        expect(success.mock.calls.length).toBe(0)
+        expect(fail).toHaveBeenCalledWith(expectObj)
+        expect(complete).toHaveBeenCalledWith(expectObj)
+        expect(res).toEqual(expectObj)
+      })
 
     const actionSheet: any = document.body.lastChild
     const mask = actionSheet.firstChild

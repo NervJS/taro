@@ -9,7 +9,6 @@ describe('modal', () => {
 
     expect.assertions(4)
     Taro.showModal({
-      // @ts-ignore
       title: null,
       success,
       fail,
@@ -52,7 +51,6 @@ describe('modal', () => {
 
     expect.assertions(4)
     Taro.showModal({
-      // @ts-ignore
       cancelText: 1,
       success,
       fail,
@@ -95,7 +93,6 @@ describe('modal', () => {
 
     expect.assertions(4)
     Taro.showModal({
-      // @ts-ignore
       confirmText: 1,
       success,
       fail,
@@ -159,7 +156,6 @@ describe('modal', () => {
 
     expect.assertions(4)
     Taro.showModal({
-      // @ts-ignore
       confirmColor: 1,
       success,
       fail,

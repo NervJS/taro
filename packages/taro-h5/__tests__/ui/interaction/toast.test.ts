@@ -10,7 +10,6 @@ describe('toast', () => {
 
     expect.assertions(4)
     Taro.showToast({
-      // @ts-ignore
       title: 123,
       success,
       fail,
@@ -32,7 +31,6 @@ describe('toast', () => {
 
     expect.assertions(4)
     Taro.showToast({
-      // @ts-ignore
       duration: null,
       success,
       fail,
