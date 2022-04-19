@@ -1,6 +1,7 @@
 import Taro from '@tarojs/api'
 
 import { getDeviceInfo } from '../base/system'
+import { throttle } from '../utils'
 import { CallbackManager, MethodHandler } from '../utils/handler'
 
 const callbackManager = new CallbackManager()
@@ -29,33 +30,6 @@ export const stopCompass: typeof Taro.stopCompass = ({ success, fail, complete }
 }
 
 let CompassChangeTrigger = false
-const getDeviceOrientationListener = interval => {
-  let lock = false
-  let timer: NodeJS.Timeout
-  return (evt: DeviceOrientationEvent) => {
-    if (lock) return
-    lock = true
-    timer && clearTimeout(timer)
-    const isAndroid = getDeviceInfo().system === 'AndroidOS'
-    if (isAndroid && !evt.absolute && !CompassChangeTrigger) {
-      CompassChangeTrigger = true
-      console.warn('Warning: In \'onCompassChange\', your browser is not supported to get the orientation relative to the earth, the orientation data will be related to the initial orientation of the device .')
-    }
-    const alpha = evt.alpha || 0
-    /**
-     * 由于平台差异，accuracy 在 iOS/Android 的值不同。
-     * - iOS：accuracy 是一个 number 类型的值，表示相对于磁北极的偏差。0 表示设备指向磁北，90 表示指向东，180 表示指向南，依此类推。
-     * - Android：accuracy 是一个 string 类型的枚举值。
-     */
-    const accuracy = isAndroid ? evt.absolute ? 'high' : 'medium' : alpha
-    callbackManager.trigger({
-      direction: 360 - alpha,
-      accuracy: accuracy
-    } as unknown as Parameters<typeof Taro.onCompassChange>[number])
-    timer = setTimeout(() => { lock = false }, interval)
-  }
-}
-
 /**
  * 开始监听罗盘数据
  */
@@ -66,7 +40,24 @@ export const startCompass: typeof Taro.startCompass = ({ success, fail, complete
       if (compassListener) {
         stopCompass()
       }
-      compassListener = getDeviceOrientationListener(5000)
+      compassListener = throttle((evt: DeviceOrientationEvent) => {
+        const isAndroid = getDeviceInfo().system === 'AndroidOS'
+        if (isAndroid && !evt.absolute && !CompassChangeTrigger) {
+          CompassChangeTrigger = true
+          console.warn('Warning: In \'onCompassChange\', your browser is not supported to get the orientation relative to the earth, the orientation data will be related to the initial orientation of the device .')
+        }
+        const alpha = evt.alpha || 0
+        /**
+         * 由于平台差异，accuracy 在 iOS/Android 的值不同。
+         * - iOS：accuracy 是一个 number 类型的值，表示相对于磁北极的偏差。0 表示设备指向磁北，90 表示指向东，180 表示指向南，依此类推。
+         * - Android：accuracy 是一个 string 类型的枚举值。
+         */
+        const accuracy = isAndroid ? evt.absolute ? 'high' : 'medium' : alpha
+        callbackManager.trigger({
+          direction: 360 - alpha,
+          accuracy: accuracy
+        } as unknown as Parameters<typeof Taro.onCompassChange>[number])
+      }, 5000)
       window.addEventListener(deviceorientationEventName, compassListener, true)
     } else {
       throw new Error('compass is not supported')
