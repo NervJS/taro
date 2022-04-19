@@ -25,10 +25,13 @@ export function previewImage(obj: Taro.previewImage.Option): void {
     fail,
     complete
   }: any = obj || {}
-  const index = urls.indexOf(current)
-  // if (index === -1) {
-  //   throw new Error('"current" or "urls" is invalid')
-  // }
+
+  let index = 0
+  if (urls.length === 0) {
+    throw new Error('"current" or "urls" is invalid')
+  } else {
+   index = Math.max(current, urls.indexOf(current))
+  }
 
   let sibling
   function backhandler() {
