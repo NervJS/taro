@@ -227,6 +227,8 @@ export class BaseTemplate {
         return str + `bind${value}="eh" `
       } else if (attr === 'class') {
         return str + `class="{{i.${Shortcuts.Class}}}" `
+      } else if (attr === 'style') {
+        return str + `style="{{i.${Shortcuts.Style}}}" `
       }
 
       return str + `${attr}="{{i.${toCamelCase(attr)}}}" `

@@ -174,6 +174,8 @@ declare module './index' {
     name?: string
     /** 分包是否是独立分包 */
     independent?: boolean
+    /** 分包支持引用独立的插件 */
+    plugins?: Plugins
   }
 
   interface Plugins {

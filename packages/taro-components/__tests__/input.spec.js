@@ -42,7 +42,7 @@ describe('Input', () => {
     let instance
 
     class App extends React.Component {
-      state ={
+      state = {
         maxLength,
         disabled,
         value,
