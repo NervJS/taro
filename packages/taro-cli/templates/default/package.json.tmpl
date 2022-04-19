@@ -52,11 +52,12 @@
     "vue": "^3.0.0"<%}%>
   },
   "devDependencies": {
-    "@types/webpack-env": "^1.13.6",<% if (framework === 'react' || framework === 'preact' || framework === 'nerv') {%>
-    "@types/react": "^17.0.2",<%}%>
-    "@tarojs/mini-runner": "<%= version %>",
     "@babel/core": "^7.8.0",
-    "@tarojs/webpack-runner": "<%= version %>",
+    "@types/webpack-env": "^1.13.6",<% if (framework === 'react' || framework === 'preact' || framework === 'nerv') {%>
+    "@types/react": "^17.0.2",<%}%><% if (compiler === 'webpack4') {%>
+    "@tarojs/mini-runner": "<%= version %>",
+    "@tarojs/webpack-runner": "<%= version %>",<%} else if (compiler === 'webpack5') {%>
+    "@tarojs/webpack5-runner": "<%= version %>",<%}%>
     "babel-preset-taro": "<%= version %>",<% if (framework === 'vue') {%>
     "vue-loader": "^15.9.2",
     "eslint-plugin-vue": "^6.x",<%}%><% if (framework === 'vue3') {%>

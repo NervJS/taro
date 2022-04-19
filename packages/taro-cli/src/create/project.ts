@@ -36,6 +36,7 @@ export interface IProjectConf {
   env?: string;
   autoInstall?: boolean,
   framework: 'react' | 'preact' | 'nerv' | 'vue' | 'vue3'
+  compiler?: 'webpack4' | 'webpack5' | 'vite'
 }
 
 interface AskMethods {
@@ -95,6 +96,7 @@ export default class Project extends Creator {
     this.askFramework(conf, prompts)
     this.askTypescript(conf, prompts)
     this.askCSS(conf, prompts)
+    this.askCompiler(conf, prompts)
     await this.askTemplateSource(conf, prompts)
 
     const answers = await inquirer.prompt(prompts)
@@ -190,6 +192,28 @@ export default class Project extends Creator {
         name: 'css',
         message: '请选择 CSS 预处理器（Sass/Less/Stylus）',
         choices: cssChoices
+      })
+    }
+  }
+
+  askCompiler: AskMethods = function (conf, prompts) {
+    const compilerChoices = [
+      {
+        name: 'Webpack5',
+        value: 'webpack5'
+      },
+      {
+        name: 'Webpack4',
+        value: 'webpack4'
+      }
+    ]
+
+    if ((typeof conf.compiler as string | undefined) !== 'string') {
+      prompts.push({
+        type: 'list',
+        name: 'compiler',
+        message: '请选择编译工具',
+        choices: compilerChoices
       })
     }
   }

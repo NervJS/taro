@@ -47,7 +47,8 @@ function createFiles (
     templatePath,
     projectPath,
     pageName,
-    framework
+    framework,
+    compiler
   } = options
   const logs: string[] = []
   // 模板库模板，直接创建，不需要改后缀
@@ -95,7 +96,8 @@ function createFiles (
         typescript,
         template,
         pageName,
-        framework
+        framework,
+        compiler
       },
       externalConfig
     )
