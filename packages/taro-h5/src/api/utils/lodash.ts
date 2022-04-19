@@ -28,6 +28,3 @@ export function debounce (fn, ms = 250, scope?) {
     }, ms)
   }
 }
-
-export * from './style'
-export * from './url'
