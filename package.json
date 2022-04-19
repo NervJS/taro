@@ -103,6 +103,7 @@
     "cli-highlight": "^2.1.4",
     "conventional-changelog-cli": "^2.0.1",
     "copy": "^0.3.2",
+    "core-js": "^2.6.5",
     "cross-env": "^7.0.2",
     "css-loader": "^0.28.10",
     "eslint": "^8.12.0",
