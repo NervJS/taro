@@ -38,7 +38,6 @@ export default class CLI {
       const presetsPath = path.resolve(__dirname, 'presets')
       const commandsPath = path.resolve(presetsPath, 'commands')
       const platformsPath = path.resolve(presetsPath, 'platforms')
-      const filesPath = path.resolve(presetsPath, 'files')
       const commandPlugins = fs.readdirSync(commandsPath)
       const targetPlugin = `${command}.js`
 
@@ -53,7 +52,9 @@ export default class CLI {
 
       const kernel = new Kernel({
         appPath,
-        presets: [],
+        presets: [
+          path.resolve(__dirname, '.', 'presets', 'index.js')
+        ],
         plugins: []
       })
       kernel.optsPlugins ||= []
@@ -64,6 +65,7 @@ export default class CLI {
       }
 
       switch (command) {
+        case 'inspect':
         case 'build': {
           let plugin
           let platform = args.type
@@ -77,13 +79,7 @@ export default class CLI {
             case 'tt':
             case 'qq':
             case 'jd':
-              kernel.optsPlugins = [
-                ...kernel.optsPlugins,
-                `@tarojs/plugin-platform-${platform}`,
-                path.resolve(filesPath, 'writeFileToDist.js'),
-                path.resolve(filesPath, 'generateProjectConfig.js'),
-                path.resolve(filesPath, 'generateFrameworkInfo.js')
-              ]
+              kernel.optsPlugins.push(`@tarojs/plugin-platform-${platform}`)
               break
             default: {
               // h5, rn
@@ -115,6 +111,12 @@ export default class CLI {
             plugin = args.plugin
             platform = 'plugin'
             kernel.optsPlugins.push(path.resolve(platformsPath, 'plugin.js'))
+          }
+
+          // 传递 inspect 参数即可
+          if (command === 'inspect') {
+            customCommand(command, kernel, args)
+            break
           }
 
           customCommand(command, kernel, {
