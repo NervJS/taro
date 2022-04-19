@@ -14,10 +14,10 @@ import {
   SOURCE_DIR
 } from '@tarojs/helper'
 import { isArray } from '@tarojs/shared'
-
 import { createApp } from './init'
 import fetchTemplate from './fetchTemplate'
 import Creator from './creator'
+import { clearConsole } from '../util'
 
 import type { ITemplates } from './fetchTemplate'
 
@@ -68,6 +68,7 @@ export default class Project extends Creator {
   }
 
   init () {
+    clearConsole()
     console.log(chalk.green('Taro 即将创建一个新项目!'))
     console.log(`Need help? Go and open issue: ${chalk.blueBright('https://tls.jd.com/taro-issue-helper')}`)
     console.log()
@@ -148,7 +149,7 @@ export default class Project extends Creator {
       prompts.push({
         type: 'input',
         name: 'description',
-        message: '请输入项目介绍！'
+        message: '请输入项目介绍'
       })
     }
   }
@@ -203,10 +204,10 @@ export default class Project extends Creator {
         name: 'PReact',
         value: 'preact'
       },
-      {
-        name: 'Nerv',
-        value: 'nerv'
-      },
+      // {
+      //   name: 'Nerv',
+      //   value: 'nerv'
+      // },
       {
         name: 'Vue',
         value: 'vue'
@@ -258,7 +259,11 @@ export default class Project extends Creator {
         value: DEFAULT_TEMPLATE_SRC
       },
       {
-        name: '输入',
+        name: 'CLI 内置默认模板',
+        value: 'default-template'
+      },
+      {
+        name: '自定义',
         value: 'self-input'
       },
       {
@@ -327,7 +332,11 @@ export default class Project extends Creator {
     this.conf.templateSource = this.conf.templateSource || templateSource
 
     // 使用默认模版
-    if (this.conf?.template === 'default' || answers.templateSource === NONE_AVALIABLE_TEMPLATE) return Promise.resolve([])
+    if (answers.templateSource === 'default-template') {
+      this.conf.template = 'default'
+      answers.templateSource = DEFAULT_TEMPLATE_SRC_GITEE
+    }
+    if (this.conf.template === 'default' || answers.templateSource === NONE_AVALIABLE_TEMPLATE) return Promise.resolve([])
 
     // 从模板源下载模板
     const isClone = /gitee/.test(this.conf.templateSource) || this.conf.clone
