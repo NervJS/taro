@@ -28,7 +28,7 @@
   },
   "dependencies": {
     "@babel/eslint-parser": "^7.17.0",
-    "@typescript-eslint/parser": "^4.15.1"
+    "@typescript-eslint/parser": "^5.20.0"
   },
   "author": "O2Team",
   "license": "MIT"
