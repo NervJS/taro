@@ -84,7 +84,7 @@ type SlimProps = {
 }
 
 /** 转换react的类型到vue */
-type RemoveReactAttribute = keyof Omit<StandardProps, 'id' | 'hidden' | 'animation'>
+type RemoveReactAttribute = 'className' | 'style' | 'key' | 'ref' | 'dangerouslySetInnerHTML'
 export type TransformReact2VueType<P extends StandardProps = Record<string, never>> = DistributiveOmit<P, RemoveReactAttribute> & SlimProps
 
 export declare class VueComponentType<P = Record<string, never>> extends TaroElement {
