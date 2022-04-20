@@ -1,4 +1,4 @@
-export const formatTime = (time: number): string => {
+export const formatTime = (time: number | null): string => {
   if (time === null) return ''
   const sec = Math.round(time / 1000 % 60)
   const min = Math.floor((time - sec) / 1000 / 60)
@@ -72,7 +72,7 @@ export const screenFn = (function () {
   ]
   let i = 0
   const l = fnMap.length
-  const ret = {}
+  const ret: Record<string, any> = {}
   // This for loop essentially checks the current document object for the property/methods above.
   for (; i < l; i++) {
     val = fnMap[i]

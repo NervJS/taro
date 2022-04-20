@@ -32,5 +32,8 @@
   },
   "publishConfig": {
     "access": "public"
+  },
+  "devDependencies": {
+    "webpack": "^4"
   }
 }
