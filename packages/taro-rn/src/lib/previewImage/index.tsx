@@ -27,10 +27,11 @@ export function previewImage(obj: Taro.previewImage.Option): void {
   }: any = obj || {}
 
   let index = 0
-  if (urls.length === 0) {
-    throw new Error('"current" or "urls" is invalid')
+  if (!urls || urls.length === 0) {
+    throw new Error('待预览的图片列表"urls"不能为空')
   } else {
-   index = Math.max(current, urls.indexOf(current))
+    urls.indexOf(current) === -1 ? console.warn('显示的图片不在预览列表当中') : ''
+    index = Math.max(0, urls.indexOf(current))
   }
 
   let sibling
