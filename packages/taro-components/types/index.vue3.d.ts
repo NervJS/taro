@@ -3,13 +3,14 @@
  * 如何使用?
  * 请在醒目全局的类型文件中写入以下代码，覆盖默认的组件类型提示
  * ```typescript
- *   declare module '@tarojs/components' {
+ *   export declare module '@tarojs/components' {
  *     export * from '@tarojs/components/types/index.vue3'
  *   }
  * ```
  */
 import { TaroElement } from '@tarojs/runtime'
-import { StandardProps, StyleValue } from './common'
+import { StandardProps } from './common'
+import * as CSS from 'csstype'
 /** 视图容器 */
 import { CoverImageProps } from './CoverImage'
 import { CoverViewProps } from './CoverView'
@@ -76,147 +77,83 @@ type DistributiveOmit<T, K extends keyof T> = T extends unknown
   ? Omit<T, K>
   : never;
 
-type ReserverdProps = {
+type SlimProps = {
   class?: any
-  style?: StyleValue
+  style?: CSS.Properties<string | number>
   innerHTML?: string
 }
 
 /** 转换react的类型到vue */
 type RemoveReactAttribute = keyof Omit<StandardProps, 'id' | 'hidden' | 'animation'>
-export type TransformReact2VueType<P extends StandardProps = Record<string, never>> = DistributiveOmit<P, RemoveReactAttribute> & ReserverdProps
+export type TransformReact2VueType<P extends StandardProps = Record<string, never>> = DistributiveOmit<P, RemoveReactAttribute> & SlimProps
 
 export declare class VueComponentType<P = Record<string, never>> extends TaroElement {
   $props: TransformReact2VueType<P>
-  /** webstorm 提示貌似找的是props */
+  /** WebStorm 提示貌似找的是props */
   props: this['$props']
 }
 
 /** 视图容器 */
-declare class Block extends VueComponentType {}
-declare class CoverImage extends VueComponentType<CoverImageProps> {}
-declare class CoverView extends VueComponentType<CoverViewProps> {}
-declare class MatchMedia extends VueComponentType<MatchMediaProps> {}
-declare class MovableArea extends VueComponentType<MovableAreaProps> {}
-declare class MovableView extends VueComponentType<MovableViewProps> {}
-declare class PageContainer extends VueComponentType<PageContainerProps> {}
-declare class ScrollView extends VueComponentType<ScrollViewProps> {}
-declare class ShareElement extends VueComponentType<ShareElementProps> {}
-declare class Swiper extends VueComponentType<SwiperProps> {}
-declare class SwiperItem extends VueComponentType<SwiperItemProps> {}
-declare class View extends VueComponentType<ViewProps> {}
+export declare class Block extends VueComponentType {}
+export declare class CoverImage extends VueComponentType<CoverImageProps> {}
+export declare class CoverView extends VueComponentType<CoverViewProps> {}
+export declare class MatchMedia extends VueComponentType<MatchMediaProps> {}
+export declare class MovableArea extends VueComponentType<MovableAreaProps> {}
+export declare class MovableView extends VueComponentType<MovableViewProps> {}
+export declare class PageContainer extends VueComponentType<PageContainerProps> {}
+export declare class ScrollView extends VueComponentType<ScrollViewProps> {}
+export declare class ShareElement extends VueComponentType<ShareElementProps> {}
+export declare class Swiper extends VueComponentType<SwiperProps> {}
+export declare class SwiperItem extends VueComponentType<SwiperItemProps> {}
+export declare class View extends VueComponentType<ViewProps> {}
 /** 基础内容 */
-declare class Icon extends VueComponentType<IconProps> {}
-declare class Progress extends VueComponentType<ProgressProps> {}
-declare class RichText extends VueComponentType<RichTextProps> {}
-declare class Text extends VueComponentType<TextProps> {}
+export declare class Icon extends VueComponentType<IconProps> {}
+export declare class Progress extends VueComponentType<ProgressProps> {}
+export declare class RichText extends VueComponentType<RichTextProps> {}
+export declare class Text extends VueComponentType<TextProps> {}
 /** 表单组件 */
-declare class Button extends VueComponentType<ButtonProps> {}
-declare class Checkbox extends VueComponentType<CheckboxProps> {}
-declare class CheckboxGroup extends VueComponentType<CheckboxGroupProps> {}
-declare class Editor extends VueComponentType<EditorProps> {}
-declare class Form extends VueComponentType<FormProps> {}
-declare class Input extends VueComponentType<InputProps> {}
-declare class KeyboardAccessory extends VueComponentType<KeyboardAccessoryProps> {}
-declare class Label extends VueComponentType<LabelProps> {}
-declare class Picker extends VueComponentType<PickerMultiSelectorProps | PickerTimeProps | PickerDateProps | PickerRegionProps | PickerSelectorProps> {}
-declare class PickerView extends VueComponentType<PickerViewProps> {}
-declare class PickerViewColumn extends VueComponentType {}
-declare class Radio extends VueComponentType<RadioProps> {}
-declare class RadioGroup extends VueComponentType<RadioGroupProps> {}
-declare class Slider extends VueComponentType<SliderProps> {}
-declare class Switch extends VueComponentType<SwitchProps> {}
-declare class Textarea extends VueComponentType<TextareaProps> {}
+export declare class Button extends VueComponentType<ButtonProps> {}
+export declare class Checkbox extends VueComponentType<CheckboxProps> {}
+export declare class CheckboxGroup extends VueComponentType<CheckboxGroupProps> {}
+export declare class Editor extends VueComponentType<EditorProps> {}
+export declare class Form extends VueComponentType<FormProps> {}
+export declare class Input extends VueComponentType<InputProps> {}
+export declare class KeyboardAccessory extends VueComponentType<KeyboardAccessoryProps> {}
+export declare class Label extends VueComponentType<LabelProps> {}
+export declare class Picker extends VueComponentType<PickerMultiSelectorProps | PickerTimeProps | PickerDateProps | PickerRegionProps | PickerSelectorProps> {}
+export declare class PickerView extends VueComponentType<PickerViewProps> {}
+export declare class PickerViewColumn extends VueComponentType {}
+export declare class Radio extends VueComponentType<RadioProps> {}
+export declare class RadioGroup extends VueComponentType<RadioGroupProps> {}
+export declare class Slider extends VueComponentType<SliderProps> {}
+export declare class Switch extends VueComponentType<SwitchProps> {}
+export declare class Textarea extends VueComponentType<TextareaProps> {}
 /** 导航 */
-declare class FunctionalPageNavigator extends VueComponentType<FunctionalPageNavigatorProps> {}
-declare class Navigator extends VueComponentType<NavigatorProps> {}
-declare class NavigationBar extends VueComponentType<NavigationBarProps> {}
+export declare class FunctionalPageNavigator extends VueComponentType<FunctionalPageNavigatorProps> {}
+export declare class Navigator extends VueComponentType<NavigatorProps> {}
+export declare class NavigationBar extends VueComponentType<NavigationBarProps> {}
 /** 媒体组件 */
-declare class Audio extends VueComponentType<AudioProps> {}
-declare class Camera extends VueComponentType<CameraProps> {}
-declare class Image extends VueComponentType<ImageProps> {}
-declare class LivePlayer extends VueComponentType<LivePlayerProps> {}
-declare class LivePusher extends VueComponentType<LivePusherProps> {}
-declare class Video extends VueComponentType<VideoProps> {}
-declare class VoipRoom extends VueComponentType<VoipRoomProps> {}
+export declare class Audio extends VueComponentType<AudioProps> {}
+export declare class Camera extends VueComponentType<CameraProps> {}
+export declare class Image extends VueComponentType<ImageProps> {}
+export declare class LivePlayer extends VueComponentType<LivePlayerProps> {}
+export declare class LivePusher extends VueComponentType<LivePusherProps> {}
+export declare class Video extends VueComponentType<VideoProps> {}
+export declare class VoipRoom extends VueComponentType<VoipRoomProps> {}
 /** 地图 */
-declare class Map extends VueComponentType<MapProps> {}
+export declare class Map extends VueComponentType<MapProps> {}
 /** 画布 */
-declare class Canvas extends VueComponentType<CanvasProps> {}
+export declare class Canvas extends VueComponentType<CanvasProps> {}
 /** 开放能力 */
-declare class Ad extends VueComponentType<AdProps> {}
-declare class AdCustom extends VueComponentType<AdCustomProps> {}
-declare class OfficialAccount extends VueComponentType<OfficialAccountProps> {}
-declare class OpenData extends VueComponentType<OpenDataProps> {}
-declare class WebView extends VueComponentType<WebViewProps> {}
+export declare class Ad extends VueComponentType<AdProps> {}
+export declare class AdCustom extends VueComponentType<AdCustomProps> {}
+export declare class OfficialAccount extends VueComponentType<OfficialAccountProps> {}
+export declare class OpenData extends VueComponentType<OpenDataProps> {}
+export declare class WebView extends VueComponentType<WebViewProps> {}
 /** 配置节点 */
-declare class PageMeta extends VueComponentType<PageMetaProps> {}
+export declare class PageMeta extends VueComponentType<PageMetaProps> {}
 
-declare class CustomWrapper extends VueComponentType<CustomWrapperProps> {}
-declare class Slot extends VueComponentType<SlotProps> {}
+export declare class CustomWrapper extends VueComponentType<CustomWrapperProps> {}
+export declare class Slot extends VueComponentType<SlotProps> {}
 
 export * from './index'
-
-export {
-  /** 视图容器 */
-  Block,
-  CoverImage,
-  CoverView,
-  MatchMedia,
-  MovableArea,
-  MovableView,
-  PageContainer,
-  ScrollView,
-  ShareElement,
-  Swiper,
-  SwiperItem,
-  View,
-  /** 基础内容 */
-  Icon,
-  Progress,
-  RichText,
-  Text,
-  /** 表单组件 */
-  Button,
-  Checkbox,
-  CheckboxGroup,
-  Editor,
-  Form,
-  Input,
-  KeyboardAccessory,
-  Label,
-  Picker,
-  PickerView,
-  PickerViewColumn,
-  Radio,
-  RadioGroup,
-  Slider,
-  Switch,
-  Textarea,
-  /** 导航 */
-  FunctionalPageNavigator,
-  Navigator,
-  NavigationBar,
-  /** 媒体组件 */
-  Audio,
-  Camera,
-  Image,
-  LivePlayer,
-  LivePusher,
-  Video,
-  VoipRoom,
-  /** 地图 */
-  Map,
-  /** 画布 */
-  Canvas,
-  /** 开放能力 */
-  Ad,
-  AdCustom,
-  OfficialAccount,
-  OpenData,
-  WebView,
-  /** 配置节点 */
-  PageMeta,
-  CustomWrapper,
-  Slot
-}

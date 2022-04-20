@@ -5,7 +5,7 @@ const LONG_TAP_DELAY = 500
 
 @Component({
   tag: 'taro-canvas-core',
-  styleUrl: './style/index.css'
+  styleUrl: './style/index.scss'
 })
 export class Canvas implements ComponentInterface {
   private timer: NodeJS.Timeout
