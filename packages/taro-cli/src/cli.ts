@@ -43,7 +43,7 @@ export default class CLI {
 
       // 设置环境变量
       process.env.NODE_ENV ||= args.env
-      if (!process.env.NODE_ENV && (command === 'build' || command === 'inspect')) {
+      if (process.env.NODE_ENV === 'undefined' && (command === 'build' || command === 'inspect')) {
         process.env.NODE_ENV = (args.watch ? 'development' : 'production')
       }
       if (args.type) {
