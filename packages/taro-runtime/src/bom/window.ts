@@ -8,13 +8,12 @@ import { Location } from './location'
 import { getComputedStyle } from './getComputedStyle'
 import { DATE } from '../constants'
 import { Events } from '../emitter/emitter'
+import { getCurrentInstance } from '../current'
+import * as pageCache from '../utils/pageCache'
 
 let WindowConstructor
 if (process.env.TARO_ENV && process.env.TARO_ENV !== 'h5') {
   class Window extends Events {
-    location: Location
-    history: History
-
     constructor () {
       super()
 
@@ -33,9 +32,6 @@ if (process.env.TARO_ENV && process.env.TARO_ENV !== 'h5') {
       if (!(DATE in this)) {
         (this as any).Date = Date
       }
-
-      this.location = new Location({ win: this })
-      this.history = new History(this.location, { win: this })
 
       this.document.defaultView = this
     }
@@ -58,6 +54,42 @@ if (process.env.TARO_ENV && process.env.TARO_ENV !== 'h5') {
 
     get getComputedStyle () {
       return getComputedStyle
+    }
+
+    get location () {
+      const Current = getCurrentInstance()
+      if (Current.page) {
+        const pageId = (Current.page as any).$taroPath
+        if (pageCache.has(pageId)) {
+          return pageCache.getLocation(pageId)
+        } else {
+          const location = new Location({ win: this })
+          const history = new History(location, { win: this })
+          pageCache.init(pageId, {
+            location,
+            history
+          })
+        }
+      }
+      return null
+    }
+
+    get history () {
+      const Current = getCurrentInstance()
+      if (Current.page) {
+        const pageId = (Current.page as any).$taroPath
+        if (pageCache.has(pageId)) {
+          return pageCache.getHistory(pageId)
+        } else {
+          const location = new Location({ win: this })
+          const history = new History(location, { win: this })
+          pageCache.init(pageId, {
+            location,
+            history
+          })
+        }
+      }
+      return null
     }
 
     addEventListener (event: string, callback: (arg: any)=>void) {
