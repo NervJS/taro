@@ -151,6 +151,11 @@ function getScanImportsPlugin (deps: CollectedDeps, includes: string[], excludes
           }
         }
 
+        // "export * from" syntax will not re'export "default", so we patch one.
+        if (!js.includes('export default')) {
+          js += 'export default {}'
+        }
+
         return {
           loader: 'js',
           contents: js
