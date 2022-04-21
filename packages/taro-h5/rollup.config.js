@@ -24,7 +24,6 @@ const baseConfig = {
     }),
     typescript({
       tsconfig: './tsconfig.json',
-      declaration: true,
       sourceMap: true
     }),
     commonjs(),
@@ -44,6 +43,12 @@ const variesConfig = [{
   input: 'src/index.ts',
   output: {
     file: 'dist/index.cjs.js'
+  }
+}, {
+  input: 'src/index.ts',
+  output: {
+    format: 'es',
+    file: 'dist/index.esm.js'
   }
 }]
 

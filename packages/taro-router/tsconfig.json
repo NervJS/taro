@@ -3,8 +3,9 @@
   "compilerOptions": {
     "baseUrl": ".",
     "outDir": "dist",
+    "module": "ESNext",
     "skipLibCheck": true,
-    "target": "ESNext",
+    "sourceMap": false,
     "types": ["node"],
     "typeRoots": [
       "node_modules/@types"

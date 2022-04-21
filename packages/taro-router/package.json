@@ -2,9 +2,10 @@
   "name": "@tarojs/router",
   "version": "3.5.0-alpha.3",
   "description": "Taro-router",
-  "main:h5": "dist/router.esm.js",
+  "browser": "dist/index.esm.js",
+  "main:h5": "dist/index.js",
   "main": "dist/index.js",
-  "module": "dist/router.esm.js",
+  "module": "dist/index.cjs.js",
   "typings": "src/index.ts",
   "files": [
     "dist",
@@ -12,8 +13,8 @@
     "index.js"
   ],
   "scripts": {
-    "build": "rollup -c rollup.config.js",
-    "dev": "rollup -c rollup.config.js --watch",
+    "build": "rollup -c && tsc",
+    "dev": "tsc -w",
     "test": "jest",
     "test:dev": "jest --watch"
   },

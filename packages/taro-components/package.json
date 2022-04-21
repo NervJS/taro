@@ -2,9 +2,10 @@
   "name": "@tarojs/components",
   "version": "3.5.0-alpha.3",
   "description": "",
-  "main:h5": "src/index.js",
+  "browser": "dist/index.js",
+  "main:h5": "dist/index.js",
   "main": "dist/index.js",
-  "module": "dist/index.mjs",
+  "module": "dist/index.cjs.js",
   "types": "types/index.d.ts",
   "sideEffects": [
     "*.scss",
