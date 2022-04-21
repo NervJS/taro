@@ -2,9 +2,9 @@
   "name": "@tarojs/router",
   "version": "3.5.0-alpha.1",
   "description": "Taro-router",
-  "main:h5": "dist/router.js",
+  "main:h5": "dist/index.js",
   "main": "dist/index.cjs.js",
-  "module": "dist/router.js",
+  "module": "dist/index.js",
   "typings": "src/index.ts",
   "files": [
     "dist",
