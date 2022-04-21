@@ -10,7 +10,7 @@ const baseConfig = {
   input: path.join(cwd, 'src/index.ts'),
   output: [
     {
-      file: path.join(cwd, 'dist/index.cjs.js'),
+      file: path.join(cwd, 'dist/index.js'),
       format: 'cjs',
       sourcemap: true,
       exports: 'named'
@@ -35,7 +35,7 @@ const esmConfig = Object.assign({}, baseConfig, {
   output: Object.assign({}, baseConfig.output, {
     sourcemap: true,
     format: 'es',
-    file: path.join(cwd, 'dist/router.js')
+    file: path.join(cwd, 'dist/router.esm.js')
   })
 })
 
