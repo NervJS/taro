@@ -40,6 +40,7 @@
   },
   "devDependencies": {
     "@tarojs/components": "3.5.0-alpha.3",
+    "@types/react": "^17.0.0",
     "@types/react-native": "0.67.0",
     "@unimodules/core": "^7.1.2",
     "cpy-cli": "^3.1.1",
@@ -57,9 +58,5 @@
     "react-native-pager-view": "~5.4.9",
     "react-native-svg": "~12.1.1",
     "react-native-webview": "~11.14.3"
-  },
-  "resolutions": {
-    "@types/react": "17.0.11",
-    "@types/node": "^14.14.41"
   }
 }
