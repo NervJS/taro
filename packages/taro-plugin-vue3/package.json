@@ -28,8 +28,7 @@
     "@tarojs/helper": "3.5.0-alpha.3",
     "@tarojs/runner-utils": "3.5.0-alpha.3",
     "@tarojs/runtime": "3.5.0-alpha.3",
-    "@tarojs/shared": "3.5.0-alpha.3",
-    "webpack": "4.46.0"
+    "@tarojs/shared": "3.5.0-alpha.3"
   },
   "peerDependencies": {
     "vue": "^3.0.0"
