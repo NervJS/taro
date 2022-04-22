@@ -122,6 +122,7 @@ export async function compile (app: string, customConfig: Partial<BuildConfig> =
         '@tarojs/runtime': path.resolve(__dirname, '../mocks/taro-runtime'),
         '@tarojs/shared': path.resolve(__dirname, '../mocks/taro-shared'),
         '@tarojs/taro-h5': path.resolve(__dirname, '../mocks/taro-h5'),
+        '@tarojs/router': path.resolve(__dirname, '../mocks/taro-router'),
         '@tarojs/plugin-framework-react/dist/runtime': path.resolve(__dirname, '../mocks/taro-framework'),
         '@tarojs/plugin-framework-vue2/dist/runtime': path.resolve(__dirname, '../mocks/taro-framework'),
         '@tarojs/plugin-framework-vue3/dist/runtime': path.resolve(__dirname, '../mocks/taro-framework'),
@@ -153,7 +154,8 @@ function frameworkPatch (chain, webpack, config) {
     initialConfig: {
       framework: config.framework || 'react'
     },
-    modifyWebpackChain: cb => cb({ chain, webpack, data: {} })
+    modifyWebpackChain: cb => cb({ chain, webpack, data: {} }),
+    modifyRunnerOpts: cb => cb(config)
   }
 
   let frameworkPlugin: any = ReactLikePlugin
