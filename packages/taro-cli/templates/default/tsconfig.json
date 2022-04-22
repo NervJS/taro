@@ -15,7 +15,7 @@
     "sourceMap": true,
     "baseUrl": ".",
     "rootDir": ".",
-    "jsx": "react-jsx",<% if (framework === 'preact') {%>
+    "jsx": "<%= ['vue', 'vue3'].includes(framework) ? 'preserve' : 'react-jsx' %>",<% if (framework === 'preact') {%>
     "skipLibCheck": true,<%}%><% if (framework === 'nerv') {%>
     "jsx": "react",
     "jsxFactory": "Nerv.createElement",<%}%>

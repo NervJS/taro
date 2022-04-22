@@ -268,7 +268,7 @@ declare module '../../index' {
       /** 回调函数 */
       callback?: NodesRef.FieldsCallback,
     ): SelectorQuery
-    /** 获取 Node 节点实例。目前支持 [Canvas](/docs/components/canvas/canvas) 的获取。
+    /** 获取 Node 节点实例。目前支持 [Canvas](/docs/components/canvas) 的获取。
      * @supported weapp, h5
      * @example
      * ```tsx

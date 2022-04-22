@@ -92,17 +92,6 @@ describe('inspect', () => {
   })
 
   describe('init', () => {
-    const baseOpts = {
-      appPath: APP_PATH,
-      projectName: undefined,
-      typescript: undefined,
-      templateSource: undefined,
-      clone: false,
-      template: undefined,
-      css: undefined,
-      isHelp: false
-    }
-
     it('should make configs', () => {
       const projectName = 'temp'
       const templateSource = 'https://url'
@@ -113,14 +102,23 @@ describe('inspect', () => {
       const ins = MockedKernel.mock.instances[0]
       expect(ins.run).toHaveBeenCalledWith({
         name: 'init',
-        opts: Object.assign({}, baseOpts, {
-          projectName,
-          typescript: true,
-          templateSource,
-          clone: true,
-          template,
-          css
-        })
+        opts: {
+          _: [
+            'init',
+            'temp'
+          ],
+          options: {
+            appPath: APP_PATH,
+            projectName,
+            typescript: true,
+            templateSource,
+            description: undefined,
+            clone: true,
+            template,
+            css
+          },
+          isHelp: false
+        }
       })
     })
 
@@ -131,7 +129,22 @@ describe('inspect', () => {
       const ins = MockedKernel.mock.instances[0]
       expect(ins.run).toHaveBeenCalledWith({
         name: 'init',
-        opts: Object.assign({}, baseOpts, { projectName })
+        opts: {
+          _: [
+            'init'
+          ],
+          options: {
+            appPath: APP_PATH,
+            projectName,
+            typescript: undefined,
+            templateSource: undefined,
+            description: undefined,
+            clone: false,
+            template: undefined,
+            css: undefined
+          },
+          isHelp: false
+        }
       })
     })
   })

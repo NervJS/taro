@@ -2,11 +2,12 @@
 import { Component, h, ComponentInterface, Prop, State, Event, EventEmitter, Host, Watch, Listen, Element, Method } from '@stencil/core'
 import classNames from 'classnames'
 import Hls from 'hls.js'
+
+import { throttle } from '../../utils'
 import {
   formatTime,
   calcDist,
   normalizeNumber,
-  throttle,
   screenFn,
   isHls
 } from './utils'

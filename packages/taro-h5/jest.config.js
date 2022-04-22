@@ -32,6 +32,7 @@ module.exports = {
     ENABLE_CONTAINS: true,
     'ts-jest': {
       diagnostics: false,
+      isolatedModules: true,
       tsconfig: {
         jsx: 'react',
         allowJs: true,
