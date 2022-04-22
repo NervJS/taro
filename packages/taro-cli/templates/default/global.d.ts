@@ -16,3 +16,9 @@ declare namespace NodeJS {
     TARO_ENV: 'weapp' | 'swan' | 'alipay' | 'h5' | 'rn' | 'tt' | 'quickapp' | 'qq' | 'jd'
   }
 }
+
+<%if (['vue', 'vue3'].includes(framework)) {-%>
+declare module '@tarojs/components' {
+  export * from '@tarojs/components/types/index.vue3'
+}
+<%}-%>
