@@ -12,7 +12,7 @@ export class VideoControl implements ComponentInterface {
   private isDraggingProgressBall = false
   private hideControlsTimer: NodeJS.Timeout
   private percentage = 0
-  private progressDimentions = {
+  private progressDimensions = {
     left: 0,
     width: 0
   }
@@ -89,10 +89,10 @@ export class VideoControl implements ComponentInterface {
   }
 
   calcPercentage = (pageX: number): number => {
-    let pos = pageX - this.progressDimentions.left
+    let pos = pageX - this.progressDimensions.left
     pos = Math.max(pos, 0)
-    pos = Math.min(pos, this.progressDimentions.width)
-    return pos / this.progressDimentions.width
+    pos = Math.min(pos, this.progressDimensions.width)
+    return pos / this.progressDimensions.width
   }
 
   onDragProgressBallStart = () => {
@@ -148,8 +148,8 @@ export class VideoControl implements ComponentInterface {
                   ref={ref => {
                     if (!ref) return
                     const rect = ref.getBoundingClientRect()
-                    this.progressDimentions.left = rect.left
-                    this.progressDimentions.width = rect.width
+                    this.progressDimensions.left = rect.left
+                    this.progressDimensions.width = rect.width
                   }}>
                   <div class='taro-video-progress-buffered' style={{ width: '100%' }} />
                   <div

@@ -1,7 +1,7 @@
-export const formatTime = (time: number | null): string => {
-  if (time === null) return ''
-  const sec = Math.round(time / 1000 % 60)
-  const min = Math.floor((time - sec) / 1000 / 60)
+export const formatTime = (time?: number): string => {
+  if (!time) return ''
+  const sec = Math.round(time % 60)
+  const min = Math.round((time - sec) / 60)
   return `${min < 10 ? `0${min}` : min}:${sec < 10 ? `0${sec}` : sec}`
 }
 
@@ -96,3 +96,5 @@ export const screenFn = (function () {
   // and the fn variable is set to this returned value.
   return ret
 })()
+
+export const isHls = url => /\.(m3u8)($|\?)/i.test(url)
