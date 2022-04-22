@@ -220,7 +220,7 @@ export class Video implements ComponentInterface {
     this.init()
   }
 
-  analyseGesture = (e: TouchEvent) => {
+  analyzeGesture = (e: TouchEvent) => {
     const obj: {
       type: string
       dataX?: number
@@ -272,7 +272,7 @@ export class Video implements ComponentInterface {
     if (this.lastTouchScreenX === undefined || this.lastTouchScreenY === undefined) return
     if (await this.controlsRef.getIsDraggingProgressBall()) return
 
-    const gestureObj = this.analyseGesture(e)
+    const gestureObj = this.analyzeGesture(e)
     if (gestureObj.type === 'adjustVolume') {
       this.toastVolumeRef.style.visibility = 'visible'
       const nextVolume = Math.max(Math.min(this.lastVolume - gestureObj.dataY!, 1), 0)
@@ -527,8 +527,6 @@ export class Video implements ComponentInterface {
       isFirst,
       isMute,
       isFullScreen,
-      duration,
-      _duration,
       showCenterPlayBtn,
       isPlaying,
       _enableDanmu,
@@ -537,7 +535,8 @@ export class Video implements ComponentInterface {
       showFullscreenBtn,
       nativeProps
     } = this
-    const durationTime = formatTime(duration || _duration || null)
+    const duration = this.duration || this._duration
+    const durationTime = formatTime(duration)
 
     return (
       <Host
@@ -600,7 +599,7 @@ export class Video implements ComponentInterface {
           }}
           controls={controls}
           currentTime={this.currentTime}
-          duration={this.duration || this._duration || undefined}
+          duration={duration}
           isPlaying={this.isPlaying}
           pauseFunc={this._pause}
           playFunc={this._play}
