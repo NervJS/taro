@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { render, ContainerMap } from './render'
+import { render, createRoot, ContainerMap } from './render'
 import { TaroReconciler } from './reconciler'
 import { TaroElement } from '@tarojs/runtime'
 import { ReactNode } from 'react'
@@ -56,6 +56,7 @@ function createPortal (
 
 export {
   render,
+  createRoot,
   unstable_batchedUpdates,
   unmountComponentAtNode,
   findDOMNode,
@@ -64,6 +65,7 @@ export {
 
 export default {
   render,
+  createRoot,
   unstable_batchedUpdates,
   unmountComponentAtNode,
   findDOMNode,

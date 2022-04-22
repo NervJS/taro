@@ -5,8 +5,13 @@ import type { IPluginContext } from '@tarojs/service'
 
 export type Frameworks = 'react' | 'preact' | 'nerv'
 
-export default (ctx: IPluginContext) => {
+type IConfig = {
+  reactMode?: 'legacy' | 'concurrent'
+}
+
+export default (ctx: IPluginContext, config: IConfig = {}) => {
   const { framework } = ctx.initialConfig
+  const { reactMode = 'legacy' } = config // will change default value in the future
 
   if (framework !== 'react' && framework !== 'nerv' && framework !== 'preact') return
 
@@ -18,6 +23,7 @@ export default (ctx: IPluginContext) => {
       .tap(args => {
         const config = args[0]
         config.__TARO_FRAMEWORK__ = `"${framework}"`
+        config.__TARO_FRAMEWORK_REACT_MODE__ = `"${reactMode}"`
         return args
       })
 
