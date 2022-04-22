@@ -1,6 +1,8 @@
 /**
  * vue tsx @tarojs/components 类型提示文件
- * 如何使用?
+ *
+ * ## 如何使用?
+
  * 请在醒目全局的类型文件中写入以下代码，覆盖默认的组件类型提示
  * ```typescript
  *   export declare module '@tarojs/components' {
@@ -9,6 +11,7 @@
  * ```
  */
 import { TaroElement } from '@tarojs/runtime'
+
 import { StandardProps } from './common'
 import * as CSS from 'csstype'
 /** 视图容器 */
@@ -72,23 +75,21 @@ import { PageMetaProps } from './PageMeta'
 import { CustomWrapperProps } from './CustomWrapper'
 import { SlotProps } from './Slot'
 
-// 联合类型不能用omit（比如picker）
-type DistributiveOmit<T, K extends keyof T> = T extends unknown
-  ? Omit<T, K>
-  : never;
+/** 联合类型不能用omit（比如picker） */
+type DistributiveOmit<T, K extends keyof T> = T extends unknown ? Omit<T, K> : never
 
-type SlimProps = {
+interface SlimProps {
   class?: any
   style?: CSS.Properties<string | number>
   innerHTML?: string
 }
 
-/** 转换react的类型到vue */
+/** 转换 react 的类型到 vue */
 type RemoveReactAttribute = 'className' | 'style' | 'key' | 'ref' | 'dangerouslySetInnerHTML'
 export type TransformReact2VueType<P extends StandardProps = Record<string, never>> = DistributiveOmit<P, RemoveReactAttribute> & SlimProps
 
 export declare class VueComponentType<P = Record<string, never>> extends TaroElement {
-  $props: TransformReact2VueType<P>
+  readonly $props: TransformReact2VueType<P>
   /** WebStorm 提示貌似找的是props */
   props: this['$props']
 }

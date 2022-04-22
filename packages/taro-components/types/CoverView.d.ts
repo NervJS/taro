@@ -66,7 +66,7 @@ interface CoverViewProps extends ViewProps {
  *     </cover-view>
  *   </view>
  * </template>
- * 
+ *
  * <style>
  * .container {
  *   position: relative;

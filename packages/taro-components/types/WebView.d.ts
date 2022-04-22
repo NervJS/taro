@@ -45,7 +45,7 @@ declare namespace WebViewProps {
  * ```tsx
  * class App extends Component {
  *   handleMessage () {}
- *   
+ *
  *   render () {
  *     return (
  *       <WebView src='https://mp.weixin.qq.com/' onMessage={this.handleMessage} />

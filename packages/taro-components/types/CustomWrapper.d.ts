@@ -11,7 +11,7 @@ interface CustomWrapperProps extends StandardProps {
  * ```tsx
  * import { Component } from 'react'
  * import { CustomWrapper, View, Text } from '@tarojs/components'
- * 
+ *
  * export default class C extends Component {
  *   render () {
  *     return (

@@ -100,7 +100,7 @@ declare namespace SliderProps {
  *   constructor() {
  *     super(...arguments)
  *   }
- * 
+ *
  *   render() {
  *     return (
  *       <View className='components-page'>
