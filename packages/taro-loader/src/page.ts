@@ -1,14 +1,15 @@
-import * as webpack from 'webpack'
 import { getOptions, stringifyRequest } from 'loader-utils'
 import { normalizePath } from '@tarojs/helper'
 import * as path from 'path'
+
+import type * as webpack from 'webpack'
 
 interface PageConfig {
   content: any
   path: string
 }
 
-export default function (this: webpack.loader.LoaderContext, source: string) {
+export default function (this: webpack.LoaderContext<any>, source: string) {
   const options = getOptions(this)
   const { config: loaderConfig } = options
   const config = getPageConfig(loaderConfig, this.resourcePath)
@@ -22,7 +23,7 @@ export default function (this: webpack.loader.LoaderContext, source: string) {
   const componentPath = isNeedRawLoader
     ? `${raw}!${this.resourcePath}`
     : this.request.split('!').slice(thisLoaderIndex + 1).join('!')
-  const { globalObject } = this._compilation.outputOptions
+  const { globalObject } = this._compilation?.outputOptions || { globalObject: 'wx' }
 
   const prerender = `
 if (typeof PRERENDER !== 'undefined') {

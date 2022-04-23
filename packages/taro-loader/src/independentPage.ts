@@ -1,13 +1,14 @@
-import * as webpack from 'webpack'
 import { getOptions, stringifyRequest } from 'loader-utils'
 import * as path from 'path'
+
+import type * as webpack from 'webpack'
 
 interface PageConfig {
   content: any
   path: string
 }
 
-export default function (this: webpack.loader.LoaderContext) {
+export default function (this: webpack.LoaderContext<any>) {
   const options = getOptions(this)
   const config = getPageConfig(options.config, this.resourcePath)
   const configString = JSON.stringify(config)
@@ -33,7 +34,7 @@ export default function (this: webpack.loader.LoaderContext) {
   const setReconciler = runtimePath.reduce((res, item) => {
     return res + `import '${item}'\n`
   }, '')
-  const { globalObject } = this._compilation.outputOptions
+  const { globalObject } = this._compilation?.outputOptions || { globalObject: 'wx' }
 
   const prerender = `
 if (typeof PRERENDER !== 'undefined') {

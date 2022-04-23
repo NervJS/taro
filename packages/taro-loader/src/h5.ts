@@ -1,11 +1,12 @@
 import { readConfig } from '@tarojs/helper'
 import { AppConfig } from '@tarojs/taro'
 import { IH5Config } from '@tarojs/taro/types/compile'
-import * as webpack from 'webpack'
 import { getOptions, stringifyRequest } from 'loader-utils'
 import { join, dirname } from 'path'
 
-function genResource (path: string, pages: Map<string, string>, loaderContext: webpack.loader.LoaderContext, syncFileName: string | false = false) {
+import type * as webpack from 'webpack'
+
+function genResource (path: string, pages: Map<string, string>, loaderContext: webpack.LoaderContext<any>, syncFileName: string | false = false) {
   const stringify = (s: string): string => stringifyRequest(loaderContext, s)
   if (syncFileName) {
     return `
@@ -28,7 +29,7 @@ function genResource (path: string, pages: Map<string, string>, loaderContext: w
 // TODO 优化加载 config 方法，保留 config 文件内的变量
 }
 
-export default function (this: webpack.loader.LoaderContext) {
+export default function (this: webpack.LoaderContext<any>) {
   const options = getOptions(this)
   const stringify = (s: string): string => stringifyRequest(this, s)
   const {
