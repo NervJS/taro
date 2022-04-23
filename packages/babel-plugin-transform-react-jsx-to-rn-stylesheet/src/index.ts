@@ -145,7 +145,15 @@ export default function (babel: {
         const binding = astPath.scope.getBinding(expression.name)
         if (binding) {
           const { node } = binding.path
-          if (isCSSMemberOrBindings(node.init, cssModuleStylesheets, astPath)) {
+          // some call expression args references like Object.assign or @babel/runtime/helpers/extends
+          if (t.isCallExpression(node.init)) {
+            const { arguments: args } = node.init
+            for (const arg of args) {
+              if (isCSSMemberOrBindings(arg, cssModuleStylesheets, astPath)) {
+                return true
+              }
+            }
+          } else if (isCSSMemberOrBindings(node.init, cssModuleStylesheets, astPath)) {
             return true
           }
         }

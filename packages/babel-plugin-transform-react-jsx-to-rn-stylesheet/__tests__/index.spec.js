@@ -598,6 +598,30 @@ class App extends Component {
 }`)
   })
 
+  it('Processing module style through call expression When css module enable', () => {
+    expect(getTransfromCode(`
+import { createElement, Component } from 'rax';
+import styleSheet from './app.module.scss';
+
+class App extends Component {
+  render() {
+    const a = Object.assign({}, styleSheet.red);
+    const b = Object.assign({}, a);
+    return <div className={a}><span className={b} /></div>;
+  }
+}`, false, { enableCSSModule: true })).toBe(`import { createElement, Component } from 'rax';
+import styleSheet from './app.module.scss';
+var _styleSheet = {};
+
+class App extends Component {
+  render() {
+    const a = Object.assign({}, styleSheet.red);
+    const b = Object.assign({}, a);
+    return <div style={a}><span style={b} /></div>;
+  }\n
+}`)
+  })
+
   it('merge stylesheet when css module disable', () => {
     expect(getTransfromCode(`
 import { createElement, Component } from 'rax';
