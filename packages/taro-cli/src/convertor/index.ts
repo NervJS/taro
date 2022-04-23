@@ -8,7 +8,7 @@ import template from '@babel/template'
 import * as t from '@babel/types'
 import * as taroize from '@tarojs/taroize'
 import wxTransformer from '@tarojs/transformer-wx'
-import * as postcss from 'postcss'
+import postcss from 'postcss'
 import * as unitTransform from 'postcss-taro-unit-transform'
 // import * as inquirer from 'inquirer'
 
