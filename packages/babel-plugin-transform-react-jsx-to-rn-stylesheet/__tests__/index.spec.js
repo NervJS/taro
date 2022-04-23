@@ -607,7 +607,7 @@ class App extends Component {
   render() {
     const a = Object.assign({}, styleSheet.red);
     const b = Object.assign({}, a);
-    return <div className={a}><span className={b} /></div>;
+    return <div className={a}><span className={b} /><span className={Object.assign({}, b)} /></div>;
   }
 }`, false, { enableCSSModule: true })).toBe(`import { createElement, Component } from 'rax';
 import styleSheet from './app.module.scss';
@@ -617,7 +617,7 @@ class App extends Component {
   render() {
     const a = Object.assign({}, styleSheet.red);
     const b = Object.assign({}, a);
-    return <div style={a}><span style={b} /></div>;
+    return <div style={a}><span style={b} /><span style={Object.assign({}, b)} /></div>;
   }\n
 }`)
   })
