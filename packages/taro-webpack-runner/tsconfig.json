@@ -7,7 +7,7 @@
     "module": "commonjs",
     "sourceMap": true,
     "paths": {
-      "webpack": ["./node_modules/@types/webpack"],
+      "webpack": ["./node_modules/webpack"],
       "webpack-dev-server": ["./node_modules/@types/webpack-dev-server"],
     },
     "preserveConstEnums": true,

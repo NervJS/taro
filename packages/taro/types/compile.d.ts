@@ -1,6 +1,6 @@
-import * as webpack from 'webpack'
-import * as webpackDevServer from 'webpack-dev-server'
 export { Current } from '@tarojs/runtime'
+import webpack from 'webpack'
+import webpackDevServer from 'webpack-dev-server'
 
 export const enum TEMPLATE_TYPES {
   WEAPP = '.wxml',
@@ -127,7 +127,7 @@ export interface IMiniAppConfig {
   }
 
   webpackChain?: (chain: any, webpack: any, PARSE_AST_TYPE: any) => void
-  entry?: webpack.Entry
+  entry?: webpack.EntryObject
   output?: webpack.Output
   postcss?: IPostcssOption
   cssLoaderOption?: IOption
@@ -177,7 +177,7 @@ export interface IH5Config {
 
   webpackChain?: (chain: any, webpack: any) => void
 
-  entry?: webpack.Entry
+  entry?: webpack.EntryObject
   output?: webpack.Output
   router?: IH5RouterConfig
   devServer?: webpackDevServer.Configuration

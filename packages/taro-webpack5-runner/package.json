@@ -101,7 +101,6 @@
     "webpackbar": "^5.0.2"
   },
   "devDependencies": {
-    "@types/webpack": "5",
     "@types/webpack-dev-server": "4"
   }
 }

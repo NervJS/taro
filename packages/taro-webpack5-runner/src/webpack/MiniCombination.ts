@@ -1,5 +1,4 @@
 import { taroJsComponents } from '@tarojs/helper'
-import webpack from 'webpack'
 
 import { Combination } from './Combination'
 import { MiniBaseConfig } from './MiniBaseConfig'
@@ -86,7 +85,7 @@ export class MiniCombination extends Combination<MiniBuildConfig> {
     })
   }
 
-  getEntry (entry: webpack.Entry) {
+  getEntry (entry: MiniBuildConfig['entry']) {
     return this.isBuildPlugin ? this.buildNativePlugin.entry : entry
   }
 

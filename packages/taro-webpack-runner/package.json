@@ -68,7 +68,6 @@
     "webpack-format-messages": "^2.0.5"
   },
   "devDependencies": {
-    "@types/webpack": "4",
     "@types/webpack-dev-server": "3"
   }
 }
