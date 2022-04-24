@@ -65,7 +65,6 @@
     "@tarojs/taro": "3.5.0-alpha.4",
     "@types/react": "^17.0.0",
     "@types/react-native": "0.67.0",
-    "cpy-cli": "^3.1.1",
     "fbjs-scripts": "^3.0.1",
     "react-native": "^0.67.3"
   },

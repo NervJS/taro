@@ -8,6 +8,6 @@
     "skipLibCheck": true,
     "types": ["node"],
     "module": "commonjs",
-    "typeRoots": ["./node_modules/@types", "./src/types"]
+    "typeRoots": ["./node_modules/@types"]
   }
 }
