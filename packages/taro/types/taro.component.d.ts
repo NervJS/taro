@@ -1,5 +1,5 @@
-/// <reference types="react" />
-/// <reference types="vue" />
+import React from 'react'
+import Vue from 'vue'
 
 import Taro, { Config } from './index'
 
@@ -73,7 +73,7 @@ declare module './index' {
     onHide?(): void
   }
   interface AppInstance extends Show {
-    mount(component: React.ComponentClass | Vue.ComponentOptions<Vue>, id: string, cb: () => void): void
+    mount(component: React.Component | Vue.ComponentOptions<Vue>, id: string, cb: () => void): void
     componentDidShow?(options?: Record<string, unknown>): void
     onShow?(options?: Record<string, unknown>): void
     unmount(id: string, cb: () => void): void

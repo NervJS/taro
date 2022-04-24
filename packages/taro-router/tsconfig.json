@@ -6,7 +6,6 @@
     "module": "ESNext",
     "skipLibCheck": true,
     "sourceMap": false,
-    "types": ["node"],
     "typeRoots": [
       "node_modules/@types"
     ]
