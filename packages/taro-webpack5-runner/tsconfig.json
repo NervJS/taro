@@ -10,7 +10,7 @@
     "esModuleInterop": true,
     "paths": {
       "webpack": ["./node_modules/webpack"],
-      "webpack-dev-server": ["./node_modules/@types/webpack-dev-server"],
+      "webpack-dev-server": ["./node_modules/@types/webpack-dev-server", "./node_modules/webpack-dev-server"],
     },
     "preserveConstEnums": true,
     "skipLibCheck": true
@@ -18,6 +18,6 @@
   "include": ["./src", "./types"],
   "exclude": [
     "./src/__tests__",
-    "./src/template/comp.ts"
-  ]
+    "./src/template/comp.ts",
+  ],
 }

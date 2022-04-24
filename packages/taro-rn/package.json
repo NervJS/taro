@@ -12,7 +12,7 @@
     "libList.js"
   ],
   "scripts": {
-    "assets": "cpy \"**/*.png\" \"../dist/\" --cwd=src --parents",
+    "assets": "cpy 'src/**/*.png' '!src/__tests__/*' dist",
     "build": "rimraf ./dist && tsc && yarn assets && yarn script",
     "dev": "yarn assets && tsc --watch",
     "lint": "eslint .",

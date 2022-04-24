@@ -89,6 +89,8 @@
     "@types/sinon": "^7.5.0",
     "@types/tapable": "^1",
     "@types/testing-library__jest-dom": "^5.14.3",
+    "@types/webpack": "4",
+    "@types/webpack-dev-server": "3",
     "@typescript-eslint/eslint-plugin": "^5.17.0",
     "@typescript-eslint/parser": "^5.17.0",
     "@vue/compiler-core": "3.0.0",
@@ -160,7 +162,9 @@
     "typescript": "4.3.5",
     "vue": "^2.6.11",
     "vue-loader": "^15.9.3",
-    "vue-template-compiler": "^2.6.11"
+    "vue-template-compiler": "^2.6.11",
+    "webpack": "4.46.0",
+    "webpack-dev-server": "3.11.3"
   },
   "version": "3.4.2"
 }
