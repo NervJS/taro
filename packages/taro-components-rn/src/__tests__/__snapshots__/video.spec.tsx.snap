@@ -172,9 +172,7 @@ exports[`Video render Video 1`] = `
             "marginTop": 10,
           }
         }
-      >
-        
-      </Text>
+      />
     </View>
   </View>
 </View>
