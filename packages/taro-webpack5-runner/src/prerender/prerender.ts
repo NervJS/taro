@@ -1,4 +1,4 @@
-import * as webpack from 'webpack'
+import webpack from 'webpack'
 import * as fs from 'fs'
 import { join } from 'path'
 import { Shortcuts, noop, isString, isObject, isFunction } from '@tarojs/shared'

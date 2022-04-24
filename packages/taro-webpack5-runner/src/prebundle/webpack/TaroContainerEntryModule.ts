@@ -3,7 +3,7 @@
  * MIT License http://www.opensource.org/licenses/mit-license.php
  * Author Tobias Koppers @sokra, Zackary Jackson @ScriptedAlchemy, Marais Rossouw @maraisr
  */
-import { util } from 'webpack'
+import webpack from 'webpack'
 const ContainerEntryModule = require('webpack/lib/container/ContainerEntryModule')
 const RuntimeGlobals = require('webpack/lib/RuntimeGlobals')
 const Template = require('webpack/lib/Template')
@@ -80,7 +80,7 @@ export default class TaroContainerEntryModule extends ContainerEntryModule {
   }
 }
 
-util.serialization.register(TaroContainerEntryModule, '@tarojs/webpack5-runner/dist/prebundle/TaroContainerEntryModule', 'TaroContainerEntryModule', {
+webpack.util.serialization.register(TaroContainerEntryModule, '@tarojs/webpack5-runner/dist/prebundle/TaroContainerEntryModule', 'TaroContainerEntryModule', {
   serialize (obj, context) {
     obj.serialize(context)
   },

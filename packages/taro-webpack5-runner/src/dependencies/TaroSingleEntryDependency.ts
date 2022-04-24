@@ -1,7 +1,7 @@
-import { dependencies } from 'webpack'
 import { META_TYPE } from '@tarojs/helper'
+import webpack from 'webpack'
 
-export default class TaroSingleEntryDependency extends dependencies.ModuleDependency {
+export default class TaroSingleEntryDependency extends webpack.dependencies.ModuleDependency {
   name: string
   miniType: META_TYPE
   loc: any

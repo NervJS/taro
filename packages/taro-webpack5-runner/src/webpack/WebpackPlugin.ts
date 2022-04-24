@@ -1,4 +1,4 @@
-import { ProvidePlugin, DefinePlugin } from 'webpack'
+import webpack from 'webpack'
 import * as path from 'path'
 import { REG_STYLE } from '@tarojs/helper'
 import { TaroWebpackBarPlugin } from '../plugins/WebpackBarPlugin'
@@ -35,12 +35,12 @@ export class WebpackPlugin {
   }
 
   static getProviderPlugin (args: Record<string, string | string[]>) {
-    return WebpackPlugin.getPlugin(ProvidePlugin, [args])
+    return WebpackPlugin.getPlugin(webpack.ProvidePlugin, [args])
   }
 
   static getDefinePlugin (definitionsList: Record<string, string>[]) {
     const definitions = Object.assign({}, ...definitionsList)
-    return WebpackPlugin.getPlugin(DefinePlugin, [definitions])
+    return WebpackPlugin.getPlugin(webpack.DefinePlugin, [definitions])
   }
 
   static getMiniCssExtractPlugin (args: Record<string, any>) {

@@ -1,12 +1,12 @@
 import { taroJsComponents } from '@tarojs/helper'
+import webpack from 'webpack'
+
 import { Combination } from './Combination'
 import { MiniBaseConfig } from './MiniBaseConfig'
 import { MiniWebpackPlugin } from './MiniWebpackPlugin'
 import { MiniWebpackModule } from './MiniWebpackModule'
 import { BuildNativePlugin } from './BuildNativePlugin'
 import { componentConfig } from '../template/component'
-
-import type { Entry } from 'webpack'
 import type { MiniBuildConfig, IFileType } from '../utils/types'
 
 export class MiniCombination extends Combination<MiniBuildConfig> {
@@ -86,7 +86,7 @@ export class MiniCombination extends Combination<MiniBuildConfig> {
     })
   }
 
-  getEntry (entry: Entry) {
+  getEntry (entry: webpack.Entry) {
     return this.isBuildPlugin ? this.buildNativePlugin.entry : entry
   }
 

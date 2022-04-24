@@ -1,15 +1,15 @@
+import { resolveMainFilePath, chalk } from '@tarojs/helper'
 import * as fs from 'fs-extra'
 import * as path from 'path'
-import { resolveMainFilePath, chalk } from '@tarojs/helper'
+import webpack from 'webpack'
 
-import type { Entry } from 'webpack'
 import type { MiniCombination } from './MiniCombination'
 
 let nativePlugin: BuildNativePlugin
 
 export class BuildNativePlugin {
   combination: MiniCombination
-  entry: Entry
+  entry: webpack.Entry
   pluginConfig: Record<string, any>
   pluginMainEntry: string
   chunkPrefix: string
@@ -35,7 +35,7 @@ export class BuildNativePlugin {
     if (!fs.existsSync(pluginConfigPath)) return console.log(chalk.red('缺少插件配置文件，请检查！'))
 
     const pluginConfig = fs.readJSONSync(pluginConfigPath)
-    const entryObj: Entry = {}
+    const entryObj: webpack.Entry = {}
     let pluginMainEntry = ''
 
     Object.keys(pluginConfig).forEach(key => {

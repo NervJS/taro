@@ -1,6 +1,6 @@
 import { FRAMEWORK_MAP, resolveMainFilePath } from '@tarojs/helper'
 import * as path from 'path'
-import * as webpack from 'webpack'
+import webpack from 'webpack'
 import { Combination } from './Combination'
 import { H5BaseConfig } from './H5BaseConfig'
 import { H5WebpackPlugin } from './H5WebpackPlugin'

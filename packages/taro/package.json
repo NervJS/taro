@@ -29,7 +29,9 @@
     "@tarojs/taro-h5": "3.5.0-alpha.4"
   },
   "optionalDependencies": {
-    "@types/react": "17",
+    "@types/react": "*",
+    "@types/webpack": "*",
+    "@types/webpack-dev-server": "*",
     "vue": "*"
   }
 }

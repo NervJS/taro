@@ -1,6 +1,6 @@
 import * as path from 'path'
-import * as webpack from 'webpack'
-import * as Chain from 'webpack-chain'
+import webpack from 'webpack'
+import Chain from 'webpack-chain'
 import { isFunction } from '@tarojs/shared'
 import { META_TYPE } from '@tarojs/helper'
 import { getSassLoaderOption } from '@tarojs/runner-utils'

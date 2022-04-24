@@ -1,4 +1,4 @@
-import * as ora from 'ora'
+import ora from 'ora'
 import { partial, pipe } from 'lodash/fp'
 import * as formatMessages from 'webpack-format-messages'
 import { chalk } from '@tarojs/helper'

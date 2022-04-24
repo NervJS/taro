@@ -66,5 +66,9 @@
     "webpack-chain": "4.9.0",
     "webpack-dev-server": "3.11.3",
     "webpack-format-messages": "^2.0.5"
+  },
+  "devDependencies": {
+    "@types/webpack": "4",
+    "@types/webpack-dev-server": "3"
   }
 }

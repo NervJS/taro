@@ -1,12 +1,12 @@
 import * as path from 'path'
 import * as md5 from 'md5'
+import webpack from 'webpack'
 import * as SplitChunksPlugin from 'webpack/lib/optimize/SplitChunksPlugin'
 import { ConcatSource, RawSource } from 'webpack-sources'
 import { AppConfig, SubPackage } from '@tarojs/taro'
 import { resolveMainFilePath, readConfig, promoteRelativePath, normalizePath } from '@tarojs/helper'
 import { isString, isFunction, isArray } from '@tarojs/shared'
 
-import type { Compiler, Chunk, Module, Compilation, ChunkGraph, sources } from 'webpack'
 import type { IFileType } from '../utils/types'
 
 const PLUGIN_NAME = 'MiniSplitChunkPlugin' // 插件名
@@ -27,7 +27,7 @@ interface MiniSplitChunksPluginOption {
 
 // 排除函数
 interface ExcludeFunctionItem {
-  (module: Module): boolean
+  (module: webpack.Module): boolean
 }
 
 // 依赖信息
@@ -301,7 +301,7 @@ export default class MiniSplitChunksPlugin extends SplitChunksPlugin {
   options: any
   subCommonDeps: Map<string, DepInfo>
   subCommonChunks: Map<string, Set<string>>
-  subPackagesVendors: Map<string, Chunk>
+  subPackagesVendors: Map<string, webpack.Chunk>
   context: string
   distPath: string
   exclude: (string | ExcludeFunctionItem)[]
@@ -310,7 +310,7 @@ export default class MiniSplitChunksPlugin extends SplitChunksPlugin {
   subRoots: string[]
   subRootRegExps: RegExp[]
   fileType: IFileType
-  assets: { [pathname: string]: sources.Source }
+  assets: { [pathname: string]: webpack.sources.Source }
 
   constructor (options: MiniSplitChunksPluginOption) {
     super()
@@ -329,7 +329,7 @@ export default class MiniSplitChunksPlugin extends SplitChunksPlugin {
     FileExtsMap.STYLE = this.fileType.style
   }
 
-  apply (compiler: Compiler) {
+  apply (compiler: webpack.Compiler) {
     const { webpack, context, options } = compiler
     const { util, Compilation } = webpack
 
@@ -354,11 +354,11 @@ export default class MiniSplitChunksPlugin extends SplitChunksPlugin {
     /**
      * 当一个编译创建完成时，调用该方法
      */
-    compiler.hooks.thisCompilation.tap(PLUGIN_NAME, (compilation: Compilation) => {
+    compiler.hooks.thisCompilation.tap(PLUGIN_NAME, (compilation: webpack.Compilation) => {
       /**
        * 在chunk优化阶段的开始时，调用该方法
        */
-      compilation.hooks.optimizeChunks.tap(PLUGIN_NAME, (chunks: Chunk[]) => {
+      compilation.hooks.optimizeChunks.tap(PLUGIN_NAME, (chunks: webpack.Chunk[]) => {
         const splitChunksOriginConfig = {
           ...options.optimization?.splitChunks
         }
@@ -370,7 +370,7 @@ export default class MiniSplitChunksPlugin extends SplitChunksPlugin {
         /**
          * 找出分包入口chunks
          */
-        const subChunks: Chunk[] = []
+        const subChunks: webpack.Chunk[] = []
         for (const chunk of chunks) {
           if (this.isSubChunk(chunk)) subChunks.push(chunk)
         }
@@ -386,7 +386,7 @@ export default class MiniSplitChunksPlugin extends SplitChunksPlugin {
 
         const chunkGraph = compilation.chunkGraph
 
-        subChunks.forEach((subChunk: Chunk) => {
+        subChunks.forEach((subChunk: webpack.Chunk) => {
           const modulesIterable = chunkGraph.getOrderedChunkModulesIterable(subChunk, util.comparators.compareModulesByIdentifier)
           for (const module of modulesIterable) {
             if (this.isExternalModule(module)) {
@@ -401,7 +401,7 @@ export default class MiniSplitChunksPlugin extends SplitChunksPlugin {
               return
             }
 
-            const chunks: Chunk[] = Array.from(chunkGraph.getModuleChunks(module))
+            const chunks: webpack.Chunk[] = Array.from(chunkGraph.getModuleChunks(module))
             const chunkNames: string[] = chunks.map(chunk => chunk.name)
             /**
              * 找出没有被主包引用，且被多个分包引用的module，并记录在subCommonDeps中
@@ -477,7 +477,7 @@ export default class MiniSplitChunksPlugin extends SplitChunksPlugin {
       })
     })
 
-    compiler.hooks.emit.tapAsync(PLUGIN_NAME, this.tryAsync((compilation: Compilation) => {
+    compiler.hooks.emit.tapAsync(PLUGIN_NAME, this.tryAsync((compilation: webpack.Compilation) => {
       for (const entryName of compilation.entries.keys()) {
         if (this.isSubEntry(entryName)) {
           const subRoot = this.subRoots.find(subRoot => new RegExp(`^${subRoot}\\/`).test(entryName)) as string
@@ -572,7 +572,7 @@ export default class MiniSplitChunksPlugin extends SplitChunksPlugin {
   /**
    * 根据 webpack entry 配置获取入口文件路径
    */
-  getAppEntry (compiler: Compiler) {
+  getAppEntry (compiler: webpack.Compiler) {
     const { entry } = compiler.options
     if (isFunction(entry)) {
       return ''
@@ -592,7 +592,7 @@ export default class MiniSplitChunksPlugin extends SplitChunksPlugin {
   /**
    * 获取分包配置
    */
-  getSubpackageConfig (compiler: Compiler): SubPackage[] {
+  getSubpackageConfig (compiler: webpack.Compiler): SubPackage[] {
     const appEntry = this.getAppEntry(compiler)
     const appConfigPath = this.getConfigFilePath(appEntry)
     const appConfig: AppConfig = readConfig(appConfigPath)
@@ -619,7 +619,7 @@ export default class MiniSplitChunksPlugin extends SplitChunksPlugin {
     return subRoot
   }
 
-  isSubChunk (chunk: Chunk): boolean {
+  isSubChunk (chunk: webpack.Chunk): boolean {
     const isSubChunk = this.subRootRegExps.find(subRootRegExp => subRootRegExp.test(chunk.name))
 
     return !!isSubChunk
@@ -635,7 +635,7 @@ export default class MiniSplitChunksPlugin extends SplitChunksPlugin {
   /**
    * match *\/sub-vendors
    */
-  matchSubVendors (chunk: Chunk): boolean {
+  matchSubVendors (chunk: webpack.Chunk): boolean {
     const subVendorsRegExps = this.subRoots.map(subRoot => new RegExp(`^${normalizePath(path.join(subRoot, SUB_VENDORS_NAME))}$`))
     const isSubVendors = subVendorsRegExps.find(subVendorsRegExp => subVendorsRegExp.test(chunk.name))
 
@@ -645,7 +645,7 @@ export default class MiniSplitChunksPlugin extends SplitChunksPlugin {
   /**
    * match sub-common\/*
    */
-  matchSubCommon (chunk: Chunk): boolean {
+  matchSubCommon (chunk: webpack.Chunk): boolean {
     return new RegExp(`^${SUB_COMMON_DIR}\\/`).test(chunk.name)
   }
 
@@ -683,7 +683,7 @@ export default class MiniSplitChunksPlugin extends SplitChunksPlugin {
 
     this.subRoots.forEach(subRoot => {
       subPackageVendorsCacheGroup[subRoot] = {
-        test: (module, { chunkGraph }: { chunkGraph: ChunkGraph }) => {
+        test: (module, { chunkGraph }: { chunkGraph: webpack.ChunkGraph }) => {
           if (this.hasExclude() && this.isExcludeModule(module)) {
             return false
           }

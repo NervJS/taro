@@ -1,5 +1,5 @@
 import * as path from 'path'
-import * as webpack from 'webpack'
+import webpack from 'webpack'
 import { Config } from '@tarojs/taro'
 import {
   resolveMainFilePath,

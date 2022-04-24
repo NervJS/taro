@@ -1,7 +1,7 @@
-import { NormalModule, util } from 'webpack'
 import { META_TYPE } from '@tarojs/helper'
+import webpack from 'webpack'
 
-export default class TaroNormalModule extends NormalModule {
+export default class TaroNormalModule extends webpack.NormalModule {
   name: string
   miniType: META_TYPE
   constructor (data) {
@@ -25,7 +25,7 @@ export default class TaroNormalModule extends NormalModule {
   }
 }
 
-util.serialization.register(TaroNormalModule, '@tarojs/webpack5-runner/dist/plugins/TaroNormalModule', 'TaroNormalModule', {
+webpack.util.serialization.register(TaroNormalModule, '@tarojs/webpack5-runner/dist/plugins/TaroNormalModule', 'TaroNormalModule', {
   serialize (obj, context) {
     obj.serialize(context)
   },

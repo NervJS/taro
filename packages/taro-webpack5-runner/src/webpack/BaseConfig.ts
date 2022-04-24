@@ -1,11 +1,11 @@
-import * as path from 'path'
-import * as Chain from 'webpack-chain'
-import * as formatMessages from 'webpack-format-messages'
 import { recursiveMerge, chalk } from '@tarojs/helper'
 import { MultiPlatformPlugin } from '@tarojs/runner-utils'
-import { WebpackPlugin } from './WebpackPlugin'
+import * as path from 'path'
+import webpack from 'webpack'
+import Chain from 'webpack-chain'
+import * as formatMessages from 'webpack-format-messages'
 
-import type { Stats } from 'webpack'
+import { WebpackPlugin } from './WebpackPlugin'
 import type { H5BuildConfig, MiniBuildConfig } from '../utils/types'
 
 type Config = Partial<MiniBuildConfig | H5BuildConfig>
@@ -40,7 +40,7 @@ export class BaseConfig {
             'basic',
             'fancy',
             {
-              done (_context, { stats }: { stats: Stats }) {
+              done (_context, { stats }: { stats: webpack.Stats }) {
                 const { warnings, errors } = formatMessages(stats)
 
                 if (stats.hasWarnings()) {

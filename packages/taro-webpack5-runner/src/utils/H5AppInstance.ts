@@ -8,7 +8,7 @@ import {
 import { AppConfig } from '@tarojs/taro'
 import { defaults } from 'lodash'
 import * as path from 'path'
-import * as webpack from 'webpack'
+import webpack from 'webpack'
 
 interface IH5AppInstOptions {
   sourceDir: string

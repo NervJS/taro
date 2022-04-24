@@ -3,21 +3,19 @@
  * MIT License http://www.opensource.org/licenses/mit-license.php
  * Author Tobias Koppers @sokra and Zackary Jackson @ScriptedAlchemy
  */
-import { RuntimeModule, Module, Template, RuntimeGlobals, javascript } from 'webpack'
 import { META_TYPE } from '@tarojs/helper'
-import { RawSource } from 'webpack-sources'
-import { addRequireToSource, getIdOrName } from '../../plugins/TaroLoadChunksPlugin'
-import { getChunkEntryModule } from '../../utils/webpack'
+import webpack from 'webpack'
+import { RawSource, ConcatSource } from 'webpack-sources'
 
-import type { Compiler, Compilation, ChunkGraph } from 'webpack'
-import type { ConcatSource } from 'webpack-sources'
 import type { CollectedDeps } from '../constant'
+import { addRequireToSource, getIdOrName } from '../../plugins/TaroLoadChunksPlugin'
 import type TaroNormalModule from '../../plugins/TaroNormalModule'
+import { getChunkEntryModule } from '../../utils/webpack'
 
 const RemoteModule = require('webpack/lib/container/RemoteModule')
 const PLUGIN_NAME = 'TaroContainerReferencePlugin'
 
-interface RemoteModule extends Module {
+interface RemoteModule extends webpack.Module {
   request: string
   externalRequests: string[]
   internalRequest: string
@@ -29,9 +27,9 @@ interface MFOptions {
   remotes: Record<string, string>
 }
 
-class TaroRemoteRuntimeModule extends RuntimeModule {
-  compilation: Compilation
-  chunkGraph: ChunkGraph
+class TaroRemoteRuntimeModule extends webpack.RuntimeModule {
+  compilation: webpack.Compilation
+  chunkGraph: webpack.ChunkGraph
 
   constructor () {
     super('remotes loading')
@@ -62,7 +60,7 @@ class TaroRemoteRuntimeModule extends RuntimeModule {
         idToExternalAndNameMapping[id] = [shareScope, name, externalModuleId]
       }
     }
-    return Template.asString([
+    return webpack.Template.asString([
       `var chunkMapping = ${JSON.stringify(
         chunkToRemotesMapping,
         null,
@@ -73,9 +71,9 @@ class TaroRemoteRuntimeModule extends RuntimeModule {
         null,
         '\t'
       )};`,
-      `${RuntimeGlobals.require}.taro = ${runtimeTemplate.basicFunction('get', [
+      `${webpack.RuntimeGlobals.require}.taro = ${runtimeTemplate.basicFunction('get', [
         'for (var id in idToExternalAndNameMapping) {',
-        Template.indent([
+        webpack.Template.indent([
           'var mappedName = idToExternalAndNameMapping[id][1];',
           'var factory = get(mappedName);',
           `__webpack_modules__[id] = (${runtimeTemplate.basicFunction(
@@ -105,7 +103,7 @@ class TaroContainerReferencePlugin {
     this.runtimeRequirements = runtimeRequirements
   }
 
-  apply (compiler: Compiler) {
+  apply (compiler: webpack.Compiler) {
     compiler.hooks.compilation.tap(
       PLUGIN_NAME,
       (compilation, { normalModuleFactory }) => {
@@ -151,7 +149,7 @@ class TaroContainerReferencePlugin {
          * 在 dist/app.js 头部注入 require，
          * 依赖所有的预编译 chunk 和 remoteEntry
          */
-        const hooks = javascript.JavascriptModulesPlugin.getCompilationHooks(compilation)
+        const hooks = webpack.javascript.JavascriptModulesPlugin.getCompilationHooks(compilation)
         hooks.render.tap(
           PLUGIN_NAME,
           (modules: ConcatSource, { chunk }) => {

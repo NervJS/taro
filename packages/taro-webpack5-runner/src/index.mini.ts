@@ -1,13 +1,12 @@
-import * as webpack from 'webpack'
+import webpack from 'webpack'
 import { isEmpty } from 'lodash'
 import { MiniCombination } from './webpack/MiniCombination'
 import { Prerender } from './prerender/prerender'
 import { preBundle } from './prebundle'
 
-import type { Stats } from 'webpack'
 import type { MiniBuildConfig } from './utils/types'
 
-export default async function build (appPath: string, rawConfig: MiniBuildConfig): Promise<Stats> {
+export default async function build (appPath: string, rawConfig: MiniBuildConfig): Promise<webpack.Stats> {
   const combination = new MiniCombination(appPath, rawConfig)
   await combination.make()
 
@@ -16,12 +15,12 @@ export default async function build (appPath: string, rawConfig: MiniBuildConfig
   const webpackConfig = combination.chain.toConfig()
   const config = combination.config
 
-  return new Promise<Stats>((resolve, reject) => {
+  return new Promise<webpack.Stats>((resolve, reject) => {
     const compiler = webpack(webpackConfig)
     const onBuildFinish = config.onBuildFinish
     let prerender: Prerender
 
-    const onFinish = function (error, stats: Stats | null) {
+    const onFinish = function (error, stats: webpack.Stats | null) {
       if (typeof onBuildFinish !== 'function') return
 
       onBuildFinish({
@@ -31,7 +30,7 @@ export default async function build (appPath: string, rawConfig: MiniBuildConfig
       })
     }
 
-    const callback = async (err: Error, stats: Stats) => {
+    const callback = async (err: Error, stats: webpack.Stats) => {
       if (err || stats.hasErrors()) {
         const error = err ?? stats.toJson().errors
         onFinish(error, null)
@@ -58,7 +57,7 @@ export default async function build (appPath: string, rawConfig: MiniBuildConfig
         poll: undefined
       }, callback)
     } else {
-      compiler.run((err: Error, stats: Stats) => {
+      compiler.run((err: Error, stats: webpack.Stats) => {
         compiler.close(err2 => callback(err || err2, stats))
       })
     }
