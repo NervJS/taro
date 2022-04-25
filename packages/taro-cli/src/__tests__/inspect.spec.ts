@@ -87,7 +87,7 @@ describe('inspect', () => {
     } catch (error) {}
 
     expect(exitSpy).toBeCalledWith(0)
-    expect(logSpy).toBeCalledTimes(2)
+    expect(logSpy).toBeCalledTimes(1)
 
     exitSpy.mockRestore()
     logSpy.mockRestore()
