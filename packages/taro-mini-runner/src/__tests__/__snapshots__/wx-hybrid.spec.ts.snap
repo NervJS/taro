@@ -534,7 +534,6 @@ require(\\"./taro\\");
             };
         }
         function createReactApp(App, react, dom, config) {
-            var _a;
             if (false) {}
             reactMeta.R = react;
             h$1 = react.createElement;
@@ -546,11 +545,28 @@ require(\\"./taro\\");
             function getAppInstance() {
                 return appInstanceRef.current;
             }
+            function renderReactRoot() {
+                var _a, _b;
+                const reactMode = \\"legacy\\";
+                let appId = \\"app\\";
+                if (false) {} else {
+                    ReactDOM$1.version = react.version;
+                }
+                const container = taro_runtime[\\"document\\"].getElementById(appId);
+                const version = Number((ReactDOM$1.version || \\"\\").split(\\".\\")[0]);
+                if (version >= 18 && reactMode === \\"concurrent\\") {
+                    const root = ReactDOM$1.createRoot(container);
+                    (_a = root.render) === null || _a === void 0 ? void 0 : _a.call(root, h$1(AppWrapper));
+                } else {
+                    (_b = ReactDOM$1.render) === null || _b === void 0 ? void 0 : _b.call(ReactDOM$1, h$1(AppWrapper), container);
+                }
+            }
             class AppWrapper extends react.Component {
-                constructor() {
-                    super(...arguments);
+                constructor(props) {
+                    super(props);
                     this.pages = [];
                     this.elements = [];
+                    appWrapper = this;
                 }
                 mount(pageComponent, id, cb) {
                     const pageWrapper = connectReactPage(react, id)(pageComponent);
@@ -584,7 +600,7 @@ require(\\"./taro\\");
                 }
             }
             if (true) {
-                appWrapper = (_a = ReactDOM$1.render) === null || _a === void 0 ? void 0 : _a.call(ReactDOM$1, h$1(AppWrapper), taro_runtime[\\"document\\"].getElementById(\\"app\\"));
+                renderReactRoot();
             }
             const [ONLAUNCH, ONSHOW, ONHIDE] = hooks$1.getMiniLifecycleImpl().app;
             const appObj = Object.create({
@@ -604,7 +620,7 @@ require(\\"./taro\\");
                 }),
                 [ONLAUNCH]: setDefaultDescriptor({
                     value(options) {
-                        var _a, _b;
+                        var _a;
                         setRouterParams(options);
                         if (false) {}
                         const app = getAppInstance();
@@ -628,7 +644,7 @@ require(\\"./taro\\");
                                 });
                                 Object.defineProperties(this, descriptors);
                             }
-                            (_b = app.onLaunch) === null || _b === void 0 ? void 0 : _b.call(app, options);
+                            (_a = app.onLaunch) === null || _a === void 0 ? void 0 : _a.call(app, options);
                         }
                     }
                 }),
