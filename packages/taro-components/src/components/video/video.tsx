@@ -1,12 +1,15 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { Component, h, ComponentInterface, Prop, State, Event, EventEmitter, Host, Watch, Listen, Element, Method } from '@stencil/core'
 import classNames from 'classnames'
+import Hls from 'hls.js'
+
+import { throttle } from '../../utils'
 import {
   formatTime,
   calcDist,
   normalizeNumber,
-  throttle,
-  screenFn
+  screenFn,
+  isHls
 } from './utils'
 
 @Component({
@@ -30,6 +33,7 @@ export class Video implements ComponentInterface {
   private lastPercentage
   private nextPercentage
   private gestureType = 'none'
+  private hls: Hls
 
   @Element() el: HTMLTaroVideoCoreElement
 
@@ -185,6 +189,7 @@ export class Video implements ComponentInterface {
   }
 
   componentDidLoad () {
+    this.init()
     if (this.initialTime) {
       this.videoRef.currentTime = this.initialTime
     }
@@ -210,7 +215,12 @@ export class Video implements ComponentInterface {
     this._enableDanmu = newVal
   }
 
-  analyseGesture = (e: TouchEvent) => {
+  @Watch('src')
+  watchSrc () {
+    this.init()
+  }
+
+  analyzeGesture = (e: TouchEvent) => {
     const obj: {
       type: string
       dataX?: number
@@ -262,7 +272,7 @@ export class Video implements ComponentInterface {
     if (this.lastTouchScreenX === undefined || this.lastTouchScreenY === undefined) return
     if (await this.controlsRef.getIsDraggingProgressBall()) return
 
-    const gestureObj = this.analyseGesture(e)
+    const gestureObj = this.analyzeGesture(e)
     if (gestureObj.type === 'adjustVolume') {
       this.toastVolumeRef.style.visibility = 'visible'
       const nextVolume = Math.max(Math.min(this.lastVolume - gestureObj.dataY!, 1), 0)
@@ -302,6 +312,37 @@ export class Video implements ComponentInterface {
     this.gestureType = 'none'
     this.lastTouchScreenX = undefined
     this.lastTouchScreenY = undefined
+  }
+
+  loadNativePlayer = () => {
+    if (this.videoRef) {
+      this.videoRef.src = this.src
+      this.videoRef.load()
+    }
+  }
+
+  init = () => {
+    const { src, videoRef } = this
+
+    if (isHls(src)) {
+      if (Hls.isSupported()) {
+        if (this.hls) {
+          this.hls.destroy()
+        }
+        this.hls = new Hls()
+        this.hls.loadSource(src)
+        this.hls.attachMedia(videoRef)
+        this.hls.on(Hls.Events.MANIFEST_PARSED, () => {
+          this.autoplay && this.play()
+        })
+      } else if (videoRef.canPlayType('application/vnd.apple.mpegurl')) {
+        this.loadNativePlayer()
+      } else {
+        console.error('该浏览器不支持 HLS 播放')
+      }
+    } else {
+      this.loadNativePlayer()
+    }
   }
 
   handlePlay = () => {
@@ -477,7 +518,6 @@ export class Video implements ComponentInterface {
 
   render () {
     const {
-      src,
       controls,
       autoplay,
       loop,
@@ -487,8 +527,6 @@ export class Video implements ComponentInterface {
       isFirst,
       isMute,
       isFullScreen,
-      duration,
-      _duration,
       showCenterPlayBtn,
       isPlaying,
       _enableDanmu,
@@ -497,7 +535,8 @@ export class Video implements ComponentInterface {
       showFullscreenBtn,
       nativeProps
     } = this
-    const durationTime = formatTime(duration || _duration || null)
+    const duration = this.duration || this._duration
+    const durationTime = formatTime(duration)
 
     return (
       <Host
@@ -517,7 +556,6 @@ export class Video implements ComponentInterface {
               this.videoRef = dom as HTMLVideoElement
             }
           }}
-          src={src}
           autoplay={autoplay}
           loop={loop}
           muted={muted}
@@ -561,7 +599,7 @@ export class Video implements ComponentInterface {
           }}
           controls={controls}
           currentTime={this.currentTime}
-          duration={this.duration || this._duration || undefined}
+          duration={duration}
           isPlaying={this.isPlaying}
           pauseFunc={this._pause}
           playFunc={this._play}

@@ -42,7 +42,10 @@ export default class CLI {
       const targetPlugin = `${command}.js`
 
       // 设置环境变量
-      process.env.NODE_ENV ||= args.env || (args.watch ? 'development' : 'production')
+      process.env.NODE_ENV ||= args.env
+      if (process.env.NODE_ENV === 'undefined' && (command === 'build' || command === 'inspect')) {
+        process.env.NODE_ENV = (args.watch ? 'development' : 'production')
+      }
       if (args.type) {
         process.env.TARO_ENV = args.type
       }

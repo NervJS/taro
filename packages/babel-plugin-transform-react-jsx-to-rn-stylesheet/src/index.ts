@@ -188,6 +188,17 @@ export default function (babel: {
         }
       }
     }
+
+    // 函数调用
+    // some call expression args references like Object.assign or @babel/runtime/helpers/extends
+    if (t.isCallExpression(expression)) {
+      const { arguments: args } = expression
+      for (const arg of args) {
+        if (isCSSMemberOrBindings(arg, cssModuleStylesheets, astPath)) {
+          return true
+        }
+      }
+    }
   }
 
   function isJSXCSSModuleExpression (value, cssModuleStylesheets, astPath) {
