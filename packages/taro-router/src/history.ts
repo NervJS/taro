@@ -1,17 +1,12 @@
+import { StateEvent } from '@tarojs/router/types/history'
 import { IH5RouterConfig } from '@tarojs/taro/types/compile'
 import { Action, Blocker, BrowserHistoryOptions, createBrowserHistory, createHashHistory, History, Listener, Location, To, Path } from 'history'
+
 import { RouterConfig } from './router'
 
 export let history: History
 
 let basename = '/'
-
-interface StateEvent extends Event {
-  action?: 'pushState' | 'replaceState' | 'popState'
-  state?: any
-  unused?: string
-  url?: string | URL | null
-}
 
 class MpaHistory implements History {
   action: Action

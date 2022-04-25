@@ -1,4 +1,4 @@
-import { temporarilyNotSupport } from '../utils'
+import { temporarilyNotSupport } from '../../utils'
 
 // 实时语音
 export const updateVoIPChatMuteConfig = temporarilyNotSupport('updateVoIPChatMuteConfig')

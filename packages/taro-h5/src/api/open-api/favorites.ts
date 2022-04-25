@@ -1,4 +1,4 @@
-import { temporarilyNotSupport } from '../utils'
+import { temporarilyNotSupport } from '../../utils'
 
 // 收藏
 export const addVideoToFavorites = temporarilyNotSupport('addVideoToFavorites')

@@ -1,4 +1,4 @@
-import { temporarilyNotSupport } from '../utils'
+import { temporarilyNotSupport } from '../../utils'
 
 // 蓝牙-信标(Beacon)
 export const stopBeaconDiscovery = temporarilyNotSupport('stopBeaconDiscovery')

@@ -1,4 +1,4 @@
-import { temporarilyNotSupport } from '../utils'
+import { temporarilyNotSupport } from '../../utils'
 
 // 判断支持版本
 export const isVKSupport = temporarilyNotSupport('isVKSupport')

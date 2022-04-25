@@ -2,7 +2,7 @@ import Taro from '@tarojs/api'
 import 'whatwg-fetch'
 import jsonpRetry from 'jsonp-retry'
 
-import { serializeParams } from '../../utils'
+import { serializeParams } from '../../../utils'
 
 // @ts-ignore
 const { Link } = Taro

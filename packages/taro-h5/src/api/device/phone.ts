@@ -1,6 +1,6 @@
 import Taro from '@tarojs/api'
-import { shouldBeObject, getParameterError } from '../utils'
-import { MethodHandler } from '../utils/handler'
+import { shouldBeObject, getParameterError } from '../../utils'
+import { MethodHandler } from '../../utils/handler'
 
 export const makePhoneCall: typeof Taro.makePhoneCall = (options) => {
   // options must be an Object

@@ -1,4 +1,4 @@
-import { temporarilyNotSupport } from '../utils'
+import { temporarilyNotSupport } from '../../utils'
 
 // NFC
 export const stopHCE = temporarilyNotSupport('stopHCE')

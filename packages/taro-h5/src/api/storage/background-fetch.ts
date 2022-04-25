@@ -1,4 +1,4 @@
-import { temporarilyNotSupport } from '../utils'
+import { temporarilyNotSupport } from '../../utils'
 
 // 周期性更新
 export const setBackgroundFetchToken = temporarilyNotSupport('setBackgroundFetchToken')

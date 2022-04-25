@@ -8,7 +8,7 @@ const LONG_TAP_DELAY = 500
   styleUrl: './style/index.scss'
 })
 export class Canvas implements ComponentInterface {
-  private timer: NodeJS.Timeout
+  private timer: ReturnType<typeof setTimeout>
 
   @Prop() canvasId: string
   @Prop() nativeProps = {}

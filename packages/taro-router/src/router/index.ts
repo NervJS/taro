@@ -1,35 +1,6 @@
-import { AppConfig, PageConfig } from '@tarojs/taro'
-import { IH5RouterConfig } from '@tarojs/taro/types/compile'
+import { MpaRouterConfig, SpaRouterConfig } from '@tarojs/router/types/router'
 
 import { addLeadingSlash } from '../utils'
-
-export interface Route extends PageConfig {
-  path?: string
-  load?: () => Promise<any>
-}
-
-export interface Router {
-  mode: IH5RouterConfig['mode']
-  basename: string
-  customRoutes?: Record<string, string | string[]>
-  pathname: string
-  forcePath?: string
-}
-
-export interface SpaRouterConfig extends AppConfig {
-  routes: Route[]
-  router: Router
-  // 下拉刷新组件
-  PullDownRefresh?: any
-}
-
-export interface MpaRouterConfig extends AppConfig {
-  route: Route,
-  pageName: string
-  router: Router
-  // 下拉刷新组件
-  PullDownRefresh?: any
-}
 
 export class RouterConfig {
   private static __config: SpaRouterConfig | MpaRouterConfig

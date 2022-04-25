@@ -1,4 +1,4 @@
-import { temporarilyNotSupport } from '../utils'
+import { temporarilyNotSupport } from '../../utils'
 
 // 更新
 export const updateWeChatApp = temporarilyNotSupport('updateWeChatApp')

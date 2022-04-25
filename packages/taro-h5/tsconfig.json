@@ -6,12 +6,7 @@
     "module": "ESNext",
     "skipLibCheck": true,
     "sourceMap": false,
-    "paths": {
-      "react-native": ["./types/slim.d.ts"]
-    },
-    "typeRoots": [
-      "node_modules/@types"
-    ]
+    "typeRoots": ["./node_modules/@types"],
   },
-  "include": ["./src", "./types"]
+  "include": ["./src", "./types"],
 }

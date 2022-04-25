@@ -1,4 +1,4 @@
-import { temporarilyNotSupport } from '../utils'
+import { temporarilyNotSupport } from '../../utils'
 
 // 性能
 export const reportPerformance = temporarilyNotSupport('reportPerformance')

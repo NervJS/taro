@@ -1,4 +1,4 @@
-import { temporarilyNotSupport } from '../utils'
+import { temporarilyNotSupport } from '../../utils'
 
 // 设置
 export const openSetting = temporarilyNotSupport('openSetting')

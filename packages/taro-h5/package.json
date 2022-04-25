@@ -41,8 +41,5 @@
     "mobile-detect": "^1.4.2",
     "query-string": "^7.1.1",
     "whatwg-fetch": "^3.4.0"
-  },
-  "optionalDependencies": {
-    "@tarojs/taro": "3.5.0-alpha.4"
   }
 }

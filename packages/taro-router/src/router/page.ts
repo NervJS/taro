@@ -1,4 +1,5 @@
 /* eslint-disable dot-notation */
+import { Route, SpaRouterConfig } from '@tarojs/router/types/router'
 import { PageConfig, RouterAnimate } from '@tarojs/taro'
 import { Current, PageInstance, requestAnimationFrame } from '@tarojs/runtime'
 import queryString from 'query-string'
@@ -10,7 +11,6 @@ import { setHistoryMode } from '../history'
 import { initTabbar } from '../tabbar'
 import { addLeadingSlash, routesAlias, stripBasename } from '../utils'
 import stacks from './stack'
-import { Route, SpaRouterConfig } from './'
 
 function setDisplay (el?: HTMLElement | null, type = '') {
   if (el) {
@@ -21,8 +21,8 @@ function setDisplay (el?: HTMLElement | null, type = '') {
 export default class PageHandler {
   protected config: SpaRouterConfig
   protected readonly defaultAnimation: RouterAnimate = { duration: 300, delay: 50 }
-  protected unloadTimer: NodeJS.Timeout | null
-  protected hideTimer: NodeJS.Timeout | null
+  protected unloadTimer: ReturnType<typeof setTimeout> | null
+  protected hideTimer: ReturnType<typeof setTimeout> | null
   protected lastHidePage: HTMLElement | null
   protected lastUnloadPage: PageInstance | null
 

@@ -10,7 +10,7 @@ export class VideoControl implements ComponentInterface {
   private progressBallRef: HTMLDivElement
   private visible = false
   private isDraggingProgressBall = false
-  private hideControlsTimer: NodeJS.Timeout
+  private hideControlsTimer: ReturnType<typeof setTimeout>
   private percentage = 0
   private progressDimensions = {
     left: 0,

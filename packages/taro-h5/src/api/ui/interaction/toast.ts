@@ -1,4 +1,4 @@
-import { inlineStyle } from '../../utils'
+import { inlineStyle } from '../../../utils'
 
 export default class Toast {
   options = {
@@ -81,8 +81,8 @@ export default class Toast {
   toast: HTMLDivElement
   title: HTMLParagraphElement
   type: any
-  hideOpacityTimer: any
-  hideDisplayTimer: any
+  hideOpacityTimer: ReturnType<typeof setTimeout>
+  hideDisplayTimer: ReturnType<typeof setTimeout>
 
   create (options = {}, _type: 'loading' | 'toast' = 'toast') {
     // style

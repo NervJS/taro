@@ -1,6 +1,6 @@
 import Taro from '@tarojs/api'
-import { temporarilyNotSupport } from '../utils'
-import { MethodHandler } from '../utils/handler'
+import { temporarilyNotSupport } from '../../utils'
+import { MethodHandler } from '../../utils/handler'
 
 // 电量
 export const getBatteryInfoSync = temporarilyNotSupport('getBatteryInfoSync')

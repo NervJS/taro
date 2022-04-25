@@ -1,4 +1,4 @@
-import { processOpenApi } from '../utils'
+import { processOpenApi } from '../../utils'
 
 // 扫码
 export const scanCode = processOpenApi({

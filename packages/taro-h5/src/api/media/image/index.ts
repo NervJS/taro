@@ -1,4 +1,4 @@
-import { temporarilyNotSupport } from '../../utils'
+import { temporarilyNotSupport } from '../../../utils'
 
 // 图片
 export const saveImageToPhotosAlbum = temporarilyNotSupport('saveImageToPhotosAlbum')

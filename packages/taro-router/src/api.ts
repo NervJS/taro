@@ -1,23 +1,11 @@
+import { Option, NavigateBackOption } from '@tarojs/router/types/api'
 import Taro from '@tarojs/taro'
 import { parsePath } from 'history'
+
 import stacks from './router/stack'
 import { history, prependBasename } from './history'
 import { routesAlias, addLeadingSlash } from './utils'
 import { RouterConfig } from './router'
-
-interface Base {
-  success?: (...args: any[]) => void
-  fail?: (...args: any[]) => void
-  complete?: (...args: any[]) => void
-}
-
-interface Option extends Base {
-  url: string
-}
-
-interface NavigateBackOption extends Base {
-  delta: number
-}
 
 type MethodName = 'navigateTo' | 'navigateBack' | 'switchTab' | 'redirectTo' | 'reLaunch'
 

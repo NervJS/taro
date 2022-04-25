@@ -1,4 +1,5 @@
 /* eslint-disable dot-notation */
+import { SpaRouterConfig } from '@tarojs/router/types/router'
 import {
   AppInstance,
   container, createPageConfig, Current,
@@ -12,7 +13,7 @@ import { history, prependBasename } from '../history'
 import PageHandler from './page'
 import stacks from './stack'
 import { addLeadingSlash, routesAlias, stripBasename } from '../utils'
-import { RouterConfig, SpaRouterConfig } from '.'
+import { RouterConfig } from '.'
 
 export function createRouter (
   app: AppInstance,

@@ -2,15 +2,11 @@
   "extends": "../../tsconfig.root.json",
   "compilerOptions": {
     "baseUrl": ".",
-    "outDir": "dist",
     "module": "ESNext",
+    "outDir": "dist",
     "skipLibCheck": true,
     "sourceMap": false,
-    "typeRoots": [
-      "node_modules/@types"
-    ]
+    "typeRoots": ["./node_modules/@types"],
   },
-  "include": [
-    "./src"
-  ]
+  "include": ["./src", "./types"],
 }

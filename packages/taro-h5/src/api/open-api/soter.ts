@@ -1,4 +1,4 @@
-import { temporarilyNotSupport } from '../utils'
+import { temporarilyNotSupport } from '../../utils'
 
 // 生物认证
 export const startSoterAuthentication = temporarilyNotSupport('startSoterAuthentication')

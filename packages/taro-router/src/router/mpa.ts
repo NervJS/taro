@@ -1,12 +1,13 @@
 /* eslint-disable dot-notation */
+import { MpaRouterConfig } from '@tarojs/router/types/router'
 import {
   AppInstance,
   container, createPageConfig,
   eventCenter, IHooks,
   SERVICE_IDENTIFIER, stringify
 } from '@tarojs/runtime'
+import { RouterConfig } from '.'
 import MultiPageHandler from './multi-page'
-import { MpaRouterConfig, RouterConfig } from '.'
 
 // TODO 支持多路由 (APP 生命周期仅触发一次)
 /** Note: 关于多页面应用

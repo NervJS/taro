@@ -1,4 +1,4 @@
-import { temporarilyNotSupport } from '../utils'
+import { temporarilyNotSupport } from '../../utils'
 
 // 跳转
 export const openEmbeddedMiniProgram = temporarilyNotSupport('openEmbeddedMiniProgram')
