@@ -1,18 +1,10 @@
 {
+  "extends": "../../tsconfig.root.json",
   "compilerOptions": {
     "target": "ES2017",
     "module": "commonjs",
-    "removeComments": false,
     "preserveConstEnums": true,
-    "moduleResolution": "node",
-    "experimentalDecorators": true,
-    "noImplicitAny": false,
-    "allowSyntheticDefaultImports": true,
     "outDir": "./dist",
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "strictNullChecks": true,
-    "resolveJsonModule": true,
     "traceResolution": false,
     "sourceMap": true,
     "baseUrl": ".",
@@ -20,9 +12,7 @@
     "declaration": true,
     "declarationDir": "types"
   },
-  "include": [
-    "src"
-  ],
+  "include": ["./src"],
   "exclude": [
     "node_modules",
   ],

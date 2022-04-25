@@ -1,6 +1,5 @@
 {
   "extends": "../../tsconfig.root.json",
-  "include": ["src/**/*"],
   "compilerOptions": {
     "rootDir": "./src",
     "outDir": "./dist",
@@ -8,5 +7,6 @@
     "types": ["node"],
     "module": "commonjs",
     "typeRoots": ["./node_modules/@types"]
-  }
+  },
+  "include": ["./src"],
 }
