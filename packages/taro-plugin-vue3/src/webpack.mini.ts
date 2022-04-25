@@ -24,7 +24,7 @@ function setVueLoader (chain, data, config: IConfig) {
     .plugin('vueLoaderPlugin')
     .use(VueLoaderPlugin)
 
-  const compilerOptions = config?.vueLoaderOption?.compilerOptions || config?.mini?.compilerOptions || {}
+  const compilerOptions = config.vueLoaderOption?.compilerOptions || config.mini?.compilerOptions || {}
   // loader
   const vueLoaderOption: any = {
     optimizeSSR: false,
@@ -36,8 +36,8 @@ function setVueLoader (chain, data, config: IConfig) {
       image: 'src',
       'cover-image': 'src'
     },
-    compilerOptions,
-    ...(config?.vueLoaderOption ?? {})
+    ...(config.vueLoaderOption ?? {}),
+    compilerOptions
   }
 
   vueLoaderOption.compilerOptions.nodeTransforms ||= []

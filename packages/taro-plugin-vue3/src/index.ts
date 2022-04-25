@@ -32,7 +32,7 @@ export default (ctx: IPluginContext, config: IConfig = {}) => {
 
     if (process.env.TARO_ENV === 'h5') {
       // H5
-      modifyH5WebpackChain(ctx, chain, data, config)
+      modifyH5WebpackChain(ctx, chain, config)
     } else {
       // 小程序
       modifyMiniWebpackChain(ctx, chain, data, config)
