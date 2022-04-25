@@ -12,7 +12,6 @@
       "webpack": ["./node_modules/@types/webpack", "./node_modules/webpack"],
       "webpack-dev-server": ["./types/slim.d.ts"],
     },
-    "skipLibCheck": true
   },
   "include": ["./src", "./types"],
   "exclude": [

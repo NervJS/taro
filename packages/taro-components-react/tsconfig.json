@@ -4,7 +4,6 @@
     "baseUrl": ".",
     "jsx": "react",
     "module": "ESNext",
-    "skipLibCheck": true,
     "sourceMap": false,
     "typeRoots": ["./node_modules/@types"],
   },

@@ -13,7 +13,6 @@
       "webpack-dev-server": ["./node_modules/@types/webpack-dev-server", "./node_modules/webpack-dev-server"],
     },
     "preserveConstEnums": true,
-    "skipLibCheck": true
   },
   "include": ["./src", "./types"],
   "exclude": [

@@ -5,7 +5,6 @@
     "rootDir": "./src",
     "outDir": "./dist",
     "sourceMap": true,
-    "skipLibCheck": true,
     "types": ["node"],
     "module": "commonjs",
     "typeRoots": ["./node_modules/@types"]

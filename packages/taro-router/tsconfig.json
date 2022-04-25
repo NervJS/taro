@@ -4,7 +4,6 @@
     "baseUrl": ".",
     "module": "ESNext",
     "outDir": "dist",
-    "skipLibCheck": true,
     "sourceMap": false,
     "typeRoots": ["./node_modules/@types"],
   },

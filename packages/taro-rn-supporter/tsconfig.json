@@ -3,7 +3,6 @@
     "rootDir": "./src",
     "outDir": "dist",
     "sourceMap": true,
-    "skipLibCheck": true,
     "types": ["node"],
     "typeRoots": ["./node_modules/@types"]
   },
