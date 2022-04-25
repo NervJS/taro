@@ -11,12 +11,13 @@ taro-textarea-core .auto-height {
   &:focus {
     outline: none;
   }
-  -webkit-appearance: none;
-  cursor: auto;
-  width: 100%;
-  height: 150px;
-  border: 0;
+
   display: block;
   position: relative;
+  border: 0;
+  width: 100%;
+  height: 150px;
+  appearance: none;
+  cursor: auto;
   line-height: 1.5;
 }

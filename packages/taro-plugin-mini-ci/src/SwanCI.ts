@@ -5,11 +5,16 @@ import generateQrCode from './QRCode'
 import BaseCI from './BaseCi'
 
 export default class SwanCI extends BaseCI {
-  private swanBin = path.resolve(require.resolve('swan-toolkit'), '../../.bin/swan')
+  private swanBin
 
   protected _init (): void {
     if (this.pluginOpts.swan == null) {
       throw new Error('请为"@tarojs/plugin-mini-ci"插件配置 "swan" 选项')
+    }
+    try {
+      this.swanBin = path.resolve(require.resolve('swan-toolkit'), '../../.bin/swan')
+    } catch (error) {
+      throw new Error('请安装依赖：swan-toolkit')
     }
   }
 
