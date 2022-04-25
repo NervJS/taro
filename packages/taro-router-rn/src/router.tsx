@@ -335,6 +335,7 @@ function createTabNavigate (config: RouterConfig) {
     linking={linking}
   >
     <Stack.Navigator
+      detachInactiveScreens={false}
       {...stackProps}
       screenOptions={screenOptions}
       initialRouteName={getInitRouteName(config)}
@@ -370,6 +371,7 @@ function createStackNavigate (config: RouterConfig) {
     linking={linking}
   >
     <Stack.Navigator
+      detachInactiveScreens={false}
       {...stackProps}
       screenOptions={getStackOptions(config)}
       initialRouteName={getInitRouteName(config)}
