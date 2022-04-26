@@ -160,25 +160,13 @@ declare module './index' {
     getTabBar?(): ComponentInstance
     /** 返回页面标识符（一个字符串），可以用来判断几个自定义组件实例是不是在同一个页面内 */
     getPageId?(): string
-    /**
-     * 执行关键帧动画，详见[动画](https://developers.weixin.qq.com/miniprogram/dev/framework/view/animation.html)
-     * 最低基础库版本：`2.9.0`
-     **/
+    /** 执行关键帧动画，详见[动画](https://developers.weixin.qq.com/miniprogram/dev/framework/view/animation.html) */
     animate?(selector: string, keyFrames: KeyFrame[], duration: number, callback: () => void): void
-    /**
-     * 滚动驱动的动画，详见[动画](https://developers.weixin.qq.com/miniprogram/dev/framework/view/animation.html)
-     * 最低基础库版本：`2.9.0`
-     **/
+    /** 滚动驱动的动画，详见[动画](https://developers.weixin.qq.com/miniprogram/dev/framework/view/animation.html) */
     animate?(selector: string, keyFrames: KeyFrame[], duration: number, scrollTimeline: ScrollTimelineOption): void
-    /**
-     * 清除关键帧动画，详见[动画](https://developers.weixin.qq.com/miniprogram/dev/framework/view/animation.html)
-     * 最低基础库版本：`2.9.0`
-     **/
+    /** 清除关键帧动画，详见[动画](https://developers.weixin.qq.com/miniprogram/dev/framework/view/animation.html) */
     clearAnimation?(selector: string, callback: () => void): void
-    /**
-     * 清除关键帧动画，详见[动画](https://developers.weixin.qq.com/miniprogram/dev/framework/view/animation.html)
-     * 最低基础库版本：`2.9.0`
-     **/
+    /** 清除关键帧动画，详见[动画](https://developers.weixin.qq.com/miniprogram/dev/framework/view/animation.html) */
     clearAnimation?(selector: string, options: ClearAnimationOptions, callback: () => void): void
     /** 清除关键帧动画，详见[动画](https://developers.weixin.qq.com/miniprogram/dev/framework/view/animation.html) */
     setUpdatePerformanceListener?(options: {
