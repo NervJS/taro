@@ -18,6 +18,7 @@ export function setClipboardData(opts: Taro.setClipboardData.Option): Promise<Ta
     data,
   }
   showToast({
+    icon: "none",
     title: '内容已复制'
   })
   return successHandler(success, complete)(res)

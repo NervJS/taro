@@ -179,7 +179,10 @@ const apiDiff = {
     alias: 'disconnectBLEDevice'
   }
 }
-
+/**
+ * 抹平API返回值的差异
+ * key 为 alipay小程序中的api名称
+ */
 const asyncResultApiDiff = {
   getScreenBrightness: {
     res: {
@@ -426,7 +429,7 @@ export function modifyApis (apis: Set<string>) {
   apis.delete('alert')
 }
 
-export function modifyAsyncResult (key, res) {
+export function modifyAsyncResult (key: string, res) {
   if (key === 'connectSocket') {
     res.onClose = function (cb) {
       my.onSocketClose(cb)
@@ -453,9 +456,9 @@ export function modifyAsyncResult (key, res) {
     }
   }
 
-  Object.keys(asyncResultApiDiff).forEach(item => {
-    const apiItem = apiDiff[item]
-    if (key !== item) {
+  Object.keys(asyncResultApiDiff).forEach(apiKey => {
+    const apiItem = asyncResultApiDiff[apiKey]
+    if (key !== apiKey) {
       return
     }
     if (!apiItem.res) {
