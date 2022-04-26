@@ -39,5 +39,12 @@ export const components = {
   },
   Canvas: {
     type: ''
+  },
+  // ======== 额外组件 ========
+  RtcRoom: {
+    'user-id': '',
+    mode: 'camera',
+    'device-position': 'front',
+    bindError: ''
   }
 }
