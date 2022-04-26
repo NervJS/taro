@@ -103,6 +103,12 @@ require(\\"./taro\\");
                 \\"always-embed\\": _false,
                 \\"adjust-position\\": _true,
                 \\"hold-keyboard\\": _false,
+                \\"safe-password-cert-path\\": \\"\\",
+                \\"safe-password-length\\": \\"\\",
+                \\"safe-password-time-stamp\\": \\"\\",
+                \\"safe-password-nonce\\": \\"\\",
+                \\"safe-password-salt\\": \\"\\",
+                \\"safe-password-custom-hash\\": \\"\\",
                 bindKeyboardHeightChange: _empty
             },
             Picker: {
@@ -2423,6 +2429,12 @@ require(\\"./taro\\");
                 \\"always-embed\\": _false,
                 \\"adjust-position\\": _true,
                 \\"hold-keyboard\\": _false,
+                \\"safe-password-cert-path\\": \\"\\",
+                \\"safe-password-length\\": \\"\\",
+                \\"safe-password-time-stamp\\": \\"\\",
+                \\"safe-password-nonce\\": \\"\\",
+                \\"safe-password-salt\\": \\"\\",
+                \\"safe-password-custom-hash\\": \\"\\",
                 bindKeyboardHeightChange: _empty
             },
             Picker: {
@@ -4681,6 +4693,12 @@ require(\\"./taro\\");
                 \\"always-embed\\": _false,
                 \\"adjust-position\\": _true,
                 \\"hold-keyboard\\": _false,
+                \\"safe-password-cert-path\\": \\"\\",
+                \\"safe-password-length\\": \\"\\",
+                \\"safe-password-time-stamp\\": \\"\\",
+                \\"safe-password-nonce\\": \\"\\",
+                \\"safe-password-salt\\": \\"\\",
+                \\"safe-password-custom-hash\\": \\"\\",
                 bindKeyboardHeightChange: _empty
             },
             Picker: {
