@@ -472,9 +472,9 @@ require(\\"./taro\\");
                         my.closeSocket();
                     };
                 }
-                Object.keys(asyncResultApiDiff).forEach((function(item) {
-                    var apiItem = apiDiff[item];
-                    if (key !== item) {
+                Object.keys(asyncResultApiDiff).forEach((function(apiKey) {
+                    var apiItem = asyncResultApiDiff[apiKey];
+                    if (key !== apiKey) {
                         return;
                     }
                     if (!apiItem.res) {
