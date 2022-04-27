@@ -16,7 +16,8 @@
     "mini",
     "types",
     "dist-h5",
-    "virtual-list"
+    "virtual-list",
+    "vue3.d.ts"
   ],
   "collection": "dist/collection/collection-manifest.json",
   "collection:main": "dist/collection/index.js",
