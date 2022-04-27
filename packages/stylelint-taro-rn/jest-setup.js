@@ -37,7 +37,7 @@ global.testRule = (rule, schema) => {
             const options = {
               code: testCase.code,
               config: stylelintConfig,
-              syntax: schema.syntax
+              customSyntax: schema.syntax // https://github.com/stylelint/stylelint/issues/5663
             }
 
             return stylelint.lint(options).then(output => {
