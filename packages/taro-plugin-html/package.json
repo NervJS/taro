@@ -28,9 +28,11 @@
     "url": "https://github.com/NervJS/taro/issues"
   },
   "homepage": "https://github.com/NervJS/taro#readme",
-  "devDependencies": {
+  "peerDependencies": {
     "@tarojs/runtime": "3.5.0-alpha.4",
-    "@tarojs/service": "3.5.0-alpha.4",
     "@tarojs/shared": "3.5.0-alpha.4"
+  },
+  "devDependencies": {
+    "@tarojs/service": "3.5.0-alpha.4"
   }
 }
