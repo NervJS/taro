@@ -34,9 +34,15 @@
     "@tarojs/service": "3.5.0-alpha.6",
     "@tarojs/taro": "3.5.0-alpha.6"
   },
-  "optionalDependencies": {
-    "@pmmmwh/react-refresh-webpack-plugin": "0.5.4",
-    "@prefresh/webpack": "^3.2.3",
-    "react-refresh": "0.11.0"
+  "peerDependenciesMeta": {
+    "@pmmmwh/react-refresh-webpack-plugin": {
+      "optional": true
+    },
+    "@prefresh/webpack": {
+      "optional": true
+    },
+    "react-refresh": {
+      "optional": true
+    }
   }
 }
