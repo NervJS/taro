@@ -92,7 +92,7 @@ describe('stylelint-config-react-native-css-modules', () => {
       .then(result => {
         expect(result.errored).toBe(true)
         expect(
-          result.output.includes('react-native/css-property-no-unknown')
+          result.output.includes('taro-rn/css-property-no-unknown')
         ).toBe(true)
       })
   })
@@ -111,7 +111,7 @@ describe('stylelint-config-react-native-css-modules', () => {
       })
       .then(result => {
         expect(result.errored).toBe(false)
-        expect(result.output.includes('id selectors are ignored')).toBe(true)
+        expect(result.output.includes('selector-max-id')).toBe(true)
       })
   })
 
@@ -129,7 +129,7 @@ describe('stylelint-config-react-native-css-modules', () => {
       })
       .then(result => {
         expect(result.errored).toBe(false)
-        expect(result.output.includes('type selectors are ignored')).toBe(true)
+        expect(result.output.includes('selector-max-type')).toBe(true)
       })
   })
 
@@ -147,7 +147,7 @@ describe('stylelint-config-react-native-css-modules', () => {
       })
       .then(result => {
         expect(result.errored).toBe(false)
-        expect(result.output.includes('universal selectors are ignored')).toBe(
+        expect(result.output.includes('selector-max-universal')).toBe(
           true
         )
       })
@@ -167,7 +167,7 @@ describe('stylelint-config-react-native-css-modules', () => {
       })
       .then(result => {
         expect(result.errored).toBe(false)
-        expect(result.output.includes('combinator selectors are ignored')).toBe(
+        expect(result.output.includes('selector-max-combinators')).toBe(
           true
         )
       })
@@ -187,7 +187,7 @@ describe('stylelint-config-react-native-css-modules', () => {
       })
       .then(result => {
         expect(result.errored).toBe(false)
-        expect(result.output.includes('attribute selectors are ignored')).toBe(
+        expect(result.output.includes('selector-max-attribute')).toBe(
           true
         )
       })
@@ -207,7 +207,7 @@ describe('stylelint-config-react-native-css-modules', () => {
       })
       .then(result => {
         expect(result.errored).toBe(false)
-        expect(result.output.includes('type selectors are ignored')).toBe(true)
+        expect(result.output.includes('selector-max-type')).toBe(true)
       })
   })
 
@@ -226,7 +226,7 @@ describe('stylelint-config-react-native-css-modules', () => {
       .then(result => {
         expect(result.errored).toBe(false)
         expect(
-          result.output.includes('pseudo class selectors are ignored')
+          result.output.includes('selector-pseudo-class-allowed-list')
         ).toBe(true)
       })
   })
@@ -281,7 +281,25 @@ describe('stylelint-config-react-native-css-modules', () => {
       })
       .then(result => {
         expect(result.errored).toBe(false)
-        expect(result.output.includes('font-weight value')).toBe(true)
+        expect(result.output.includes('taro-rn/font-weight-no-ignored-values')).toBe(true)
+      })
+  })
+
+  it('does not allow for line-heights that are invalid', () => {
+    const css = '.foo { line-height: 1 }'
+    expect.assertions(2)
+
+    return stylelint
+      .lint({
+        code: css,
+        formatter: 'string',
+        config: {
+          extends: './index'
+        }
+      })
+      .then(result => {
+        expect(result.errored).toBe(true)
+        expect(result.output.includes('line-height "1"')).toBe(true)
       })
   })
 
@@ -300,7 +318,7 @@ describe('stylelint-config-react-native-css-modules', () => {
       })
       .then(result => {
         expect(result.errored).toBe(false)
-        expect(result.output.includes('the @-rule is ignored')).toBe(true)
+        expect(result.output.includes('at-rule-disallowed-list')).toBe(true)
       })
   })
 
@@ -318,7 +336,7 @@ describe('stylelint-config-react-native-css-modules', () => {
       })
       .then(result => {
         expect(result.errored).toBe(false)
-        expect(result.output.includes('the @-rule is ignored')).toBe(true)
+        expect(result.output.includes('at-rule-disallowed-list')).toBe(true)
       })
   })
 
@@ -338,7 +356,7 @@ describe('stylelint-config-react-native-css-modules', () => {
         expect(result.errored).toBe(false)
         expect(
           result.output.includes(
-            'the unit is ignored by React Native CSS modules'
+            'unit-allowed-list'
           )
         ).toBe(true)
       })
