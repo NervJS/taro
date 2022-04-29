@@ -93,8 +93,8 @@
     "@types/webpack-dev-server": "3",
     "@typescript-eslint/eslint-plugin": "^5.17.0",
     "@typescript-eslint/parser": "^5.17.0",
-    "@vue/babel-preset-jsx": "^1.2.4",
     "@vue/babel-plugin-jsx": "^1.0.6",
+    "@vue/babel-preset-jsx": "^1.2.4",
     "@vue/compiler-core": "3.0.0",
     "@vue/runtime-core": "3.0.0",
     "@vue/runtime-dom": "3.0.0",
@@ -168,5 +168,5 @@
     "webpack": "4.46.0",
     "webpack-dev-server": "3.11.3"
   },
-  "version": "3.4.2"
+  "version": "3.5.0-alpha.8"
 }

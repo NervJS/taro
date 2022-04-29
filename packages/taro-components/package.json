@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/components",
-  "version": "3.5.0-alpha.7",
+  "version": "3.5.0-alpha.8",
   "description": "",
   "browser": "dist/index.js",
   "main:h5": "dist/index.js",
@@ -40,7 +40,7 @@
   "dependencies": {
     "@stencil/core": "2.15.1",
     "@stencil/sass": "1.5.2",
-    "@tarojs/taro": "3.5.0-alpha.7",
+    "@tarojs/taro": "3.5.0-alpha.8",
     "better-scroll": "^1.14.1",
     "classnames": "^2.2.5",
     "hls.js": "^1.1.5",
