@@ -1,6 +1,6 @@
 'use strict'
 
-const postcss = require('postcss')
+// const postcss = require('postcss')
 const pxRegex = require('./lib/pixel-unit-regex')
 const filterPropList = require('./lib/filter-prop-list')
 
@@ -39,7 +39,7 @@ const DEFAULT_WEAPP_OPTIONS = {
 
 let targetUnit
 
-module.exports = postcss.plugin('postcss-pxtransform', function (options = {}) {
+module.exports = (options = {}) => {
   options = Object.assign({}, DEFAULT_WEAPP_OPTIONS, options)
 
   const isFunctionDw = typeof options.designWidth === 'function'
@@ -76,110 +76,112 @@ module.exports = postcss.plugin('postcss-pxtransform', function (options = {}) {
   const onePxTransform = typeof options.onePxTransform === 'undefined' ? true : options.onePxTransform
 
   const satisfyPropList = createPropListMatcher(opts.propList)
+  return {
+    postcssPlugin: 'postcss-pxtransform',
+    Once (css) {
+      const pxReplace = createPxReplace(opts.rootValue, opts.unitPrecision, opts.minPixelValue, onePxTransform)(css.source.input)
 
-  return function (css) {
-    const pxReplace = createPxReplace(opts.rootValue, opts.unitPrecision, opts.minPixelValue, onePxTransform)(css.source.input)
-
-    for (let i = 0; i < css.nodes.length; i++) {
-      if (css.nodes[i].type === 'comment') {
-        if (css.nodes[i].text === 'postcss-pxtransform disable') {
-          return
-        } else {
-          break
+      for (let i = 0; i < css.nodes.length; i++) {
+        if (css.nodes[i].type === 'comment') {
+          if (css.nodes[i].text === 'postcss-pxtransform disable') {
+            return
+          } else {
+            break
+          }
         }
       }
-    }
 
-    // delete code between comment in RN
-    if (options.platform === 'rn') {
+      // delete code between comment in RN
+      if (options.platform === 'rn') {
+        css.walkComments(comment => {
+          if (comment.text === 'postcss-pxtransform rn eject enable') {
+            let next = comment.next()
+            while (next) {
+              if (next.type === 'comment' && next.text === 'postcss-pxtransform rn eject disable') {
+                break
+              }
+              const temp = next.next()
+              next.remove()
+              next = temp
+            }
+          }
+        })
+      }
+
+      /*  #ifdef  %PLATFORM%  */
+      // 平台特有样式
+      /*  #endif  */
       css.walkComments(comment => {
-        if (comment.text === 'postcss-pxtransform rn eject enable') {
-          let next = comment.next()
-          while (next) {
-            if (next.type === 'comment' && next.text === 'postcss-pxtransform rn eject disable') {
-              break
+        const wordList = comment.text.split(' ')
+        // 指定平台保留
+        if (wordList.indexOf('#ifdef') > -1) {
+          // 非指定平台
+          if (wordList.indexOf(options.platform) === -1) {
+            let next = comment.next()
+            while (next) {
+              if (next.type === 'comment' && next.text.trim() === '#endif') {
+                break
+              }
+              const temp = next.next()
+              next.remove()
+              next = temp
             }
-            const temp = next.next()
-            next.remove()
-            next = temp
           }
         }
       })
-    }
 
-    /*  #ifdef  %PLATFORM%  */
-    // 平台特有样式
-    /*  #endif  */
-    css.walkComments(comment => {
-      const wordList = comment.text.split(' ')
-      // 指定平台保留
-      if (wordList.indexOf('#ifdef') > -1) {
-        // 非指定平台
-        if (wordList.indexOf(options.platform) === -1) {
-          let next = comment.next()
-          while (next) {
-            if (next.type === 'comment' && next.text.trim() === '#endif') {
-              break
+      /*  #ifndef  %PLATFORM%  */
+      // 平台特有样式
+      /*  #endif  */
+      css.walkComments(comment => {
+        const wordList = comment.text.split(' ')
+        // 指定平台剔除
+        if (wordList.indexOf('#ifndef') > -1) {
+          // 指定平台
+          if (wordList.indexOf(options.platform) > -1) {
+            let next = comment.next()
+            while (next) {
+              if (next.type === 'comment' && next.text.trim() === '#endif') {
+                break
+              }
+              const temp = next.next()
+              next.remove()
+              next = temp
             }
-            const temp = next.next()
-            next.remove()
-            next = temp
           }
         }
-      }
-    })
-
-    /*  #ifndef  %PLATFORM%  */
-    // 平台特有样式
-    /*  #endif  */
-    css.walkComments(comment => {
-      const wordList = comment.text.split(' ')
-      // 指定平台剔除
-      if (wordList.indexOf('#ifndef') > -1) {
-        // 指定平台
-        if (wordList.indexOf(options.platform) > -1) {
-          let next = comment.next()
-          while (next) {
-            if (next.type === 'comment' && next.text.trim() === '#endif') {
-              break
-            }
-            const temp = next.next()
-            next.remove()
-            next = temp
-          }
-        }
-      }
-    })
-
-    css.walkDecls(function (decl, i) {
-      // This should be the fastest test and will remove most declarations
-      if (decl.value.indexOf('px') === -1) return
-
-      if (!satisfyPropList(decl.prop)) return
-
-      if (blacklistedSelector(opts.selectorBlackList,
-        decl.parent.selector)) return
-
-      const value = decl.value.replace(pxRegex, pxReplace)
-
-      // if rem unit already exists, do not add or replace
-      if (declarationExists(decl.parent, decl.prop, value)) return
-
-      if (opts.replace) {
-        decl.value = value
-      } else {
-        decl.parent.insertAfter(i, decl.clone({ value: value }))
-      }
-    })
-
-    if (opts.mediaQuery) {
-      css.walkAtRules('media', function (rule) {
-        if (rule.params.indexOf('px') === -1) return
-        rule.params = rule.params.replace(pxRegex, pxReplace)
       })
+
+      css.walkDecls(function (decl, i) {
+        // This should be the fastest test and will remove most declarations
+        if (decl.value.indexOf('px') === -1) return
+
+        if (!satisfyPropList(decl.prop)) return
+
+        if (blacklistedSelector(opts.selectorBlackList,
+          decl.parent.selector)) return
+
+        const value = decl.value.replace(pxRegex, pxReplace)
+
+        // if rem unit already exists, do not add or replace
+        if (declarationExists(decl.parent, decl.prop, value)) return
+
+        if (opts.replace) {
+          decl.value = value
+        } else {
+          decl.parent.insertAfter(i, decl.clone({ value: value }))
+        }
+      })
+
+      if (opts.mediaQuery) {
+        css.walkAtRules('media', function (rule) {
+          if (rule.params.indexOf('px') === -1) return
+          rule.params = rule.params.replace(pxRegex, pxReplace)
+        })
+      }
     }
   }
-})
+}
 
 function convertLegacyOptions (options) {
   if (typeof options !== 'object') return
@@ -283,3 +285,5 @@ function createPropListMatcher (propList) {
     )
   }
 }
+
+module.exports.postcss = true
