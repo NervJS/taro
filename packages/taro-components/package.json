@@ -56,9 +56,15 @@
     "simulant": "^0.2.2",
     "workbox-build": "4.3.1"
   },
-  "optionalDependencies": {
-    "@types/react": "17",
-    "@types/react-native": "*",
-    "vue": "*"
+  "peerDependenciesMeta": {
+    "@types/react": {
+      "optional": true
+    },
+    "@types/react-native": {
+      "optional": true
+    },
+    "vue": {
+      "optional": true
+    }
   }
 }

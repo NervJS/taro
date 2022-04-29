@@ -3,29 +3,17 @@ import { AppConfig } from '@tarojs/taro'
 import { IH5Config } from '@tarojs/taro/types/compile'
 import { getOptions, stringifyRequest } from 'loader-utils'
 import { join, dirname } from 'path'
-
 import type * as webpack from 'webpack'
 
 function genResource (path: string, pages: Map<string, string>, loaderContext: webpack.LoaderContext<any>, syncFileName: string | false = false) {
   const stringify = (s: string): string => stringifyRequest(loaderContext, s)
-  if (syncFileName) {
-    return `
-    Object.assign({
-        path: '${path}',
-        load: function() {
-            return require(${stringify(join(loaderContext.context, syncFileName))})
-        }
-    }, ${JSON.stringify(readConfig(pages.get(path)!))})
-`
+  const importDependent = syncFileName ? 'require' : 'import'
+  return `Object.assign({
+  path: '${path}',
+  load: function() {
+    return ${importDependent}(${stringify(join(loaderContext.context, syncFileName || path))})
   }
-  return `
-  Object.assign({
-      path: '${path}',
-      load: function() {
-          return import(${stringify(join(loaderContext.context, path))})
-      }
-  }, ${JSON.stringify(readConfig(pages.get(path)!))})
-`
+}, ${JSON.stringify(readConfig(pages.get(path)!))})`
 // TODO 优化加载 config 方法，保留 config 文件内的变量
 }
 
@@ -78,13 +66,11 @@ applyPolyfills().then(function () {
   const components = options.useHtmlComponents ? compatComponentImport || '' : webComponents
   const routerCreator = isMultiRouterMode ? 'createMultiRouter' : 'createRouter'
   const pageName = isMultiRouterMode ? join(dirname(this.resourcePath), options.filename).replace(options.sourceDir + '/', '') : ''
-  const routesConfig = isMultiRouterMode ? `
-  config.routes = []
-  config.route = ${genResource(pageName, pages, this, options.filename)}
-  config.pageName = "${pageName}"` : `
-  config.routes = [
-    ${config.pages?.map(path => genResource(path, pages, this)).join(',')}
-  ]`
+  const routesConfig = isMultiRouterMode ? `config.routes = []
+config.route = ${genResource(pageName, pages, this, options.filename)}
+config.pageName = "${pageName}"` : `config.routes = [
+  ${config.pages?.map(path => genResource(path, pages, this)).join(',')}
+]`
 
   const code = `import { initPxTransform } from '@tarojs/taro'
 import { ${routerCreator} } from '@tarojs/router'

@@ -28,10 +28,18 @@
     "@tarojs/runtime": "3.5.0-alpha.7",
     "@tarojs/taro-h5": "3.5.0-alpha.7"
   },
-  "optionalDependencies": {
-    "@types/react": "*",
-    "@types/webpack": "*",
-    "@types/webpack-dev-server": "*",
-    "vue": "*"
+  "peerDependenciesMeta": {
+    "@types/react": {
+      "optional": true
+    },
+    "@types/webpack": {
+      "optional": true
+    },
+    "@types/webpack-dev-server": {
+      "optional": true
+    },
+    "vue": {
+      "optional": true
+    }
   }
 }
