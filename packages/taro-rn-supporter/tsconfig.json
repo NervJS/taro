@@ -5,6 +5,7 @@
     "outDir": "dist",
     "sourceMap": true,
     "types": ["node"],
+    "module": "commonjs",
     "typeRoots": ["./node_modules/@types"]
   },
   "include": ["./src"],
