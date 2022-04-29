@@ -121,7 +121,7 @@ const buildDev = async (appPath: string, config: BuildConfig): Promise<any> => {
 
   const devUrl = formatUrl({
     protocol: devServerOptions.https ? 'https' : 'http',
-    hostname: devServerOptions.host,
+    hostname: formatOpenHost(devServerOptions.host),
     port: devServerOptions.port,
     pathname
   })

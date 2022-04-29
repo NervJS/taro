@@ -22,7 +22,7 @@ export const addHtmlSuffix = (path = '') => `${path}.html`
 export const formatOpenHost = host => {
   let result = host
   // 配置host为0.0.0.0时,可以转换为ip打开, 其他以配置host默认打开
-  if (result === '0.0.0.0') {
+  if (!result || result === '0.0.0.0' || result.startsWith('local-ip')) {
     // 设置localhost为初值, 防止没正确获取到host时以0.0.0.0打开
     result = 'localhost'
     const interfaces = networkInterfaces()

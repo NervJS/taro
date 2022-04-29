@@ -6,7 +6,7 @@ import WebpackDevServer from 'webpack-dev-server'
 import { isFunction } from '@tarojs/shared'
 import { FRAMEWORK_MAP, recursiveMerge, SOURCE_DIR, chalk } from '@tarojs/helper'
 import { H5Combination } from './webpack/H5Combination'
-import { addHtmlSuffix, addLeadingSlash, addTrailingSlash, stripBasename, stripTrailingSlash } from './utils'
+import { addHtmlSuffix, addLeadingSlash, addTrailingSlash, formatOpenHost, stripBasename, stripTrailingSlash } from './utils'
 
 import type { H5BuildConfig } from './utils/types'
 import H5AppInstance from './utils/H5AppInstance'
@@ -66,6 +66,7 @@ async function buildDev (webpackConfig: webpack.Configuration, config: H5BuildCo
   const onBuildFinish = config.onBuildFinish
 
   const devServerOptions = await getDevServerOptions(appPath, config)
+  devServerOptions.host = formatOpenHost(devServerOptions.host)
 
   const compiler = webpack(webpackConfig)
   const server = new WebpackDevServer(devServerOptions, compiler)
@@ -73,7 +74,7 @@ async function buildDev (webpackConfig: webpack.Configuration, config: H5BuildCo
   const pathname = routerMode === 'browser' ? routerBasename : '/'
   const devUrl = formatUrl({
     protocol: devServerOptions.https ? 'https' : 'http',
-    hostname: !devServerOptions.host || devServerOptions.host.startsWith('local-ip') ? 'localhost' : devServerOptions.host,
+    hostname: devServerOptions.host,
     port: devServerOptions.port,
     pathname
   })
