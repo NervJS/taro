@@ -1,5 +1,5 @@
 import webpack from 'webpack'
-import * as path from 'path'
+import path from 'path'
 import { REG_STYLE } from '@tarojs/helper'
 import { TaroWebpackBarPlugin } from '../plugins/WebpackBarPlugin'
 

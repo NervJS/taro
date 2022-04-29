@@ -1,5 +1,5 @@
 import webpack from 'webpack'
-import * as fs from 'fs'
+import fs from 'fs'
 import { join } from 'path'
 import { Shortcuts, noop, isString, isObject, isFunction } from '@tarojs/shared'
 import { printPrerenderSuccess, printPrerenderFail } from '../utils/logHelper'

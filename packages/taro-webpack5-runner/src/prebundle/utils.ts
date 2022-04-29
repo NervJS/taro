@@ -1,8 +1,8 @@
-import * as fs from 'fs-extra'
-import * as path from 'path'
+import fs from 'fs-extra'
+import path from 'path'
 import { createHash } from 'crypto'
 import { performance } from 'perf_hooks'
-import * as enhancedResolve from 'enhanced-resolve'
+import enhancedResolve from 'enhanced-resolve'
 import { isObject } from '@tarojs/shared'
 import { recursiveMerge, chalk } from '@tarojs/helper'
 

@@ -1,4 +1,4 @@
-import * as path from 'path'
+import path from 'path'
 import webpack from 'webpack'
 import Chain from 'webpack-chain'
 import { isFunction } from '@tarojs/shared'

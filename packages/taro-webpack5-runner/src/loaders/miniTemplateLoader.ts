@@ -1,4 +1,4 @@
-import * as sax from 'sax'
+import sax from 'sax'
 import { isUrlRequest, urlToRequest } from 'loader-utils'
 
 export default function miniTemplateLoader (source) {

@@ -1,4 +1,4 @@
-import * as path from 'path'
+import path from 'path'
 import webpack from 'webpack'
 import { ConcatSource, Source } from 'webpack-sources'
 import { toDashed } from '@tarojs/shared'

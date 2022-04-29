@@ -1,4 +1,4 @@
-import * as path from 'path'
+import path from 'path'
 import { sync as resolveSync } from 'resolve'
 import { isNpmPkg, recursiveMerge } from '@tarojs/helper'
 

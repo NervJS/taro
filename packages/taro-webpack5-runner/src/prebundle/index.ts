@@ -22,8 +22,8 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-import * as fs from 'fs-extra'
-import * as path from 'path'
+import fs from 'fs-extra'
+import path from 'path'
 import { performance } from 'perf_hooks'
 import { resolveMainFilePath, readConfig, chalk } from '@tarojs/helper'
 import webpack from 'webpack'

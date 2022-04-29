@@ -7,7 +7,7 @@ import {
 } from '@tarojs/helper'
 import { AppConfig } from '@tarojs/taro'
 import { defaults } from 'lodash'
-import * as path from 'path'
+import path from 'path'
 import webpack from 'webpack'
 
 interface IH5AppInstOptions {

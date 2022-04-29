@@ -1,5 +1,5 @@
 import detectPort from 'detect-port'
-import * as path from 'path'
+import path from 'path'
 import { format as formatUrl } from 'url'
 import webpack from 'webpack'
 import WebpackDevServer from 'webpack-dev-server'

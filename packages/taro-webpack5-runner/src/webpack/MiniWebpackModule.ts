@@ -8,7 +8,7 @@ import {
   REG_CSS,
   REG_TEMPLATE
 } from '@tarojs/helper'
-import * as path from 'path'
+import path from 'path'
 import { cloneDeep } from 'lodash'
 import { WebpackModule } from './WebpackModule'
 import { getPostcssPlugins } from '../postcss/postcss.mini'

@@ -1,5 +1,5 @@
-import * as path from 'path'
-import * as constparse from 'postcss-plugin-constparse'
+import path from 'path'
+import constparse from 'postcss-plugin-constparse'
 import { sync as resolveSync } from 'resolve'
 import { recursiveMerge, isNpmPkg } from '@tarojs/helper'
 

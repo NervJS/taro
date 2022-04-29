@@ -1,9 +1,9 @@
 import { recursiveMerge, chalk } from '@tarojs/helper'
 import { MultiPlatformPlugin } from '@tarojs/runner-utils'
-import * as path from 'path'
+import path from 'path'
 import webpack from 'webpack'
 import Chain from 'webpack-chain'
-import * as formatMessages from 'webpack-format-messages'
+import formatMessages from 'webpack-format-messages'
 
 import { WebpackPlugin } from './WebpackPlugin'
 import type { H5BuildConfig, MiniBuildConfig } from '../utils/types'

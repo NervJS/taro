@@ -1,5 +1,5 @@
-import * as path from 'path'
-import * as HtmlWebpackPlugin from 'html-webpack-plugin'
+import path from 'path'
+import HtmlWebpackPlugin from 'html-webpack-plugin'
 import { WebpackPlugin } from './WebpackPlugin'
 import H5Plugin from '../plugins/H5Plugin'
 

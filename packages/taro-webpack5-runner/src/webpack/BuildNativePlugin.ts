@@ -1,6 +1,6 @@
 import { resolveMainFilePath, chalk } from '@tarojs/helper'
-import * as fs from 'fs-extra'
-import * as path from 'path'
+import fs from 'fs-extra'
+import path from 'path'
 import webpack from 'webpack'
 
 import type { MiniCombination } from './MiniCombination'
