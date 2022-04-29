@@ -138,7 +138,7 @@ export class PullToRefresh implements ComponentInterface {
       touchcancel: this.onTouchEnd.bind(this, ele)
     }
     Object.keys(this._to).forEach(key => {
-      ele.addEventListener(key, this._to[key], willPreventDefault)
+      child.addEventListener(key, this._to[key], willPreventDefault)
     })
   }
 
