@@ -1,19 +1,25 @@
 /* eslint-disable no-console */
-import * as tt from 'tt-ide-cli'
 import BaseCI from './BaseCi'
 import * as cp from 'child_process'
 import * as fs from 'fs'
 
 export default class TTCI extends BaseCI {
+  tt
+
   async _init () {
     if (this.pluginOpts.tt == null) {
       throw new Error('请为"@tarojs/plugin-mini-ci"插件配置 "tt" 选项')
     }
+    try {
+      this.tt = require('tt-ide-cli')
+    } catch (error) {
+      throw new Error('请安装依赖：tt-ide-cli')
+    }
   }
 
   async _beforeCheck () {
-    await tt.loginByEmail(this.pluginOpts.tt!.email, this.pluginOpts.tt!.password)
-    return await tt.checkSession()
+    await this.tt.loginByEmail(this.pluginOpts.tt!.email, this.pluginOpts.tt!.password)
+    return await this.tt.checkSession()
   }
 
   open () {
@@ -51,7 +57,7 @@ export default class TTCI extends BaseCI {
     const { outputPath } = this.ctx.paths
     try {
       printLog(processTypeEnum.START, '预览字节跳动小程序')
-      await tt.preview({
+      await this.tt.preview({
         entry: outputPath,
         force: true,
         small: true
@@ -69,7 +75,7 @@ export default class TTCI extends BaseCI {
     try {
       printLog(processTypeEnum.START, '上传代码到字节跳动后台')
       printLog(processTypeEnum.REMIND, `本次上传版本号为："${this.version}"，上传描述为：“${this.desc}”`)
-      await tt.upload({
+      await this.tt.upload({
         entry: outputPath,
         version: this.version,
         changeLog: this.desc
