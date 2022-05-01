@@ -5,27 +5,45 @@ const reg = new RegExp(`(^| |\\+|,|~|>|\\n)(${tagsCombine})\\b(?=$| |\\.|\\+|,|~
 
 module.exports = (_opts) => {
   return {
-    postcssPlugin: 'postcss-dark-theme-class',
-    Once (root) {
-      root.walkRules(function (rule) {
-        if (/(^| )\*(?![=/*])/.test(rule.selector)) {
-          rule.remove()
-          return
-        }
-        rule.selector = rule.selector.replace(reg, '$1.h5-$2')
-      })
+    postcssPlugin: 'postcss-html-transform',
+    AtRule (rule) {
+      if (/(^| )\*(?![=/*])/.test(rule.selector)) {
+        rule.remove()
+        return
+      }
+      rule.selector = rule.selector.replace(reg, '$1.h5-$2')
+    },
+    Declaration (decl) {
       let removeCursorStyle = true
       if (typeof _opts?.removeCursorStyle === 'boolean') {
         removeCursorStyle = _opts.removeCursorStyle
       }
       if (removeCursorStyle) {
-        root.walkDecls(function (decl) {
-          if (decl.prop === 'cursor') {
-            decl.remove()
-          }
-        })
+        if (decl.prop === 'cursor') {
+          decl.remove()
+        }
       }
     }
+    // Once (root) {
+    //   root.walkRules(function (rule) {
+    //     if (/(^| )\*(?![=/*])/.test(rule.selector)) {
+    //       rule.remove()
+    //       return
+    //     }
+    //     rule.selector = rule.selector.replace(reg, '$1.h5-$2')
+    //   })
+    //   let removeCursorStyle = true
+    //   if (typeof _opts?.removeCursorStyle === 'boolean') {
+    //     removeCursorStyle = _opts.removeCursorStyle
+    //   }
+    //   if (removeCursorStyle) {
+    //     root.walkDecls(function (decl) {
+    //       if (decl.prop === 'cursor') {
+    //         decl.remove()
+    //       }
+    //     })
+    //   }
+    // }
   }
 }
 

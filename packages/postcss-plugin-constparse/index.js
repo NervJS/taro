@@ -17,17 +17,24 @@ module.exports = (opts = {}) => {
 
   return {
     postcssPlugin: 'postcss-plugin-constparse',
-    Once (root) {
-      // 在小程序下会忽略
+    Declaration (decl) {
       if (opts.platform === PLATFORM.WEAPP) return
-      root.walkDecls(function (decl) {
-        let value = decl.value
-        opts.constants.forEach(item => {
-          value = value.replace(new RegExp(item.key, 'g'), item.val)
-        })
-        decl.value = value
+      let value = decl.value
+      opts.constants.forEach(item => {
+        value = value.replace(new RegExp(item.key, 'g'), item.val)
       })
+      decl.value = value
     }
+    // Once (root) {
+    //   // 在小程序下会忽略
+    //   root.walkDecls(function (decl) {
+    //     let value = decl.value
+    //     opts.constants.forEach(item => {
+    //       value = value.replace(new RegExp(item.key, 'g'), item.val)
+    //     })
+    //     decl.value = value
+    //   })
+    // }
   }
 }
 

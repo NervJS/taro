@@ -76,6 +76,7 @@ module.exports = (options = {}) => {
   const onePxTransform = typeof options.onePxTransform === 'undefined' ? true : options.onePxTransform
 
   const satisfyPropList = createPropListMatcher(opts.propList)
+
   return {
     postcssPlugin: 'postcss-pxtransform',
     Once (css) {
