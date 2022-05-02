@@ -2,7 +2,6 @@ import * as Taro from '@tarojs/taro-h5'
 
 describe('createAnimation', () => {
   it('test unit', () => {
-    // @ts-ignore
     const ani: any = Taro.createAnimation()
     const { rules, transform } = ani
     ani.left(10)

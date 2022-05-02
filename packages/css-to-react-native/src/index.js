@@ -43,7 +43,8 @@ const transformDecls = (styles, declarations, result, options = {}) => {
       !isPercent &&
       !isUnsupportedUnit
     ) {
-      throw new Error(`Failed to parse declaration "${property}: ${value}"`)
+      // ignore invalid value avoid throw error cause app crash
+      continue
     }
 
     if (!result.__viewportUnits && isViewportUnit) {

@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/components",
-  "version": "3.4.5",
+  "version": "3.4.8",
   "description": "",
   "main:h5": "src/index.js",
   "main": "dist/index.js",
@@ -16,7 +16,8 @@
     "mini",
     "types",
     "dist-h5",
-    "virtual-list"
+    "virtual-list",
+    "vue3.d.ts"
   ],
   "collection": "dist/collection/collection-manifest.json",
   "collection:main": "dist/collection/index.js",
@@ -38,9 +39,10 @@
   "license": "MIT",
   "dependencies": {
     "@stencil/core": "2.9.0",
-    "@tarojs/taro": "3.4.5",
+    "@tarojs/taro": "3.4.8",
     "better-scroll": "^1.14.1",
     "classnames": "^2.2.5",
+    "hls.js": "^1.1.5",
     "intersection-observer": "^0.7.0",
     "omit.js": "^1.0.0",
     "resolve-pathname": "^3.0.0",

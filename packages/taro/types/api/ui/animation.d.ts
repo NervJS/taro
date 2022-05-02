@@ -386,77 +386,15 @@ declare module '../../index' {
     translateY?: number | string
     /** Z 方向位移，即 CSS transform translateZ */
     translateZ?: number | string
-  }
-
-  /** @ignore */
-  interface ClearAnimationOptions {
-    /** 基点位置，即 CSS transform-origin */
-    transformOrigin?: boolean
-    /** 背景颜色，即 CSS background-color */
-    backgroundColor?: boolean
-    /** 底边位置，即 CSS bottom */
-    bottom?: boolean
-    /** 高度，即 CSS height */
-    height?: boolean
-    /** 左边位置，即 CSS left */
-    left?: boolean
-    /** 宽度，即 CSS width */
-    width?: boolean
-    /** 不透明度，即 CSS opacity */
-    opacity?: boolean
-    /** 右边位置，即 CSS right */
-    right?: boolean
-    /** 顶边位置，即 CSS top */
-    top?: boolean
-    /** 变换矩阵，即 CSS transform matrix */
-    matrix?: boolean
-    /** 三维变换矩阵，即 CSS transform matrix3d */
-    matrix3d?: boolean
-    /** 旋转，即 CSS transform rotate */
-    rotate?: boolean
-    /** 三维旋转，即 CSS transform rotate3d */
-    rotate3d?: boolean
-    /** X 方向旋转，即 CSS transform rotateX */
-    rotateX?: boolean
-    /** Y 方向旋转，即 CSS transform rotateY */
-    rotateY?: boolean
-    /** Z 方向旋转，即 CSS transform rotateZ */
-    rotateZ?: boolean
-    /** 缩放，即 CSS transform scale */
-    scale?: boolean
-    /** 三维缩放，即 CSS transform scale3d */
-    scale3d?: boolean
-    /** X 方向缩放，即 CSS transform scaleX */
-    scaleX?: boolean
-    /** Y 方向缩放，即 CSS transform scaleY */
-    scaleY?: boolean
-    /** Z 方向缩放，即 CSS transform scaleZ */
-    scaleZ?: boolean
-    /** 倾斜，即 CSS transform skew */
-    skew?: boolean
-    /** X 方向倾斜，即 CSS transform skewX */
-    skewX?: boolean
-    /** Y 方向倾斜，即 CSS transform skewY */
-    skewY?: boolean
-    /** 位移，即 CSS transform translate */
-    translate?: boolean
-    /** 三维位移，即 CSS transform translate3d */
-    translate3d?: boolean
-    /** X 方向位移，即 CSS transform translateX */
-    translateX?: boolean
-    /** Y 方向位移，即 CSS transform translateY */
-    translateY?: boolean
-    /** Z 方向位移，即 CSS transform translateZ */
-    translateZ?: boolean
-  }
-
-  /** @ignore */
-  interface ScrollTimelineKeyframe {
     composite?: 'replace' | 'add' | 'accumulate' | 'auto'
     easing?: string
-    offset?: number | null
-    [property: string]: string | number | null | undefined
+    [property: string]: any
   }
+
+  type ClearAnimationOptions = {
+    [p in keyof KeyFrame]: boolean
+  }
+
 
   /** @ignore */
   interface ScrollTimelineOption {

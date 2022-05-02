@@ -104,7 +104,7 @@ export function temporarilyNotSupport (apiName) {
 
 export function weixinCorpSupport (apiName) {
   return () => {
-    const errMsg = `h5端仅在微信公众号中支持 API ${apiName}`
+    const errMsg = `h5端当前仅在微信公众号JS-SDK环境下支持此 API ${apiName}`
     if (process.env.NODE_ENV !== 'production') {
       console.error(errMsg)
       return Promise.reject({
@@ -136,55 +136,49 @@ export function permanentlyNotSupport (apiName) {
   }
 }
 
-export function isFunction (obj) {
-  return typeof obj === 'function'
+interface IProcessOpenApi<TOptions = Record<string, unknown>, TResult extends TaroGeneral.CallbackResult = any> {
+  name: string
+  defaultOptions?: TOptions
+  standardMethod?: (opts: TOptions) => Promise<TResult>
+  formatOptions?: (opts: TOptions) => TOptions
+  formatResult?: (res: TResult) => TResult
 }
 
-const VALID_COLOR_REG = /^#[0-9a-fA-F]{6}$/
-
-export const isValidColor = (color) => {
-  return VALID_COLOR_REG.test(color)
-}
-
-export function processOpenApi (apiName: string, defaultOptions?: Record<string, unknown>, formatResult = res => res, formatParams = options => options) {
-  // @ts-ignore
-  if (!window.wx) {
-    return weixinCorpSupport(apiName)
-  }
-  return options => {
-    options = options || {}
-    const obj = Object.assign({}, defaultOptions, options)
-    const p = new Promise((resolve, reject) => {
-      ['fail', 'success', 'complete'].forEach(k => {
-        obj[k] = oriRes => {
-          const res = formatResult(oriRes)
-          options[k] && options[k](res)
-          if (k === 'success') {
-            resolve(res)
-          } else if (k === 'fail') {
-            reject(res)
+export function processOpenApi<TOptions = Record<string, unknown>, TResult extends TaroGeneral.CallbackResult = any> ({
+  name,
+  defaultOptions,
+  standardMethod,
+  formatOptions = options => options,
+  formatResult = res => res
+}: IProcessOpenApi<TOptions, TResult>) {
+  const notSupported = weixinCorpSupport(name)
+  return (options: Partial<TOptions> = {}): Promise<TResult> => {
+    // @ts-ignore
+    const targetApi = window?.wx?.[name]
+    const opts = formatOptions(Object.assign({}, defaultOptions, options))
+    if (typeof targetApi === 'function') {
+      return new Promise<TResult>((resolve, reject) => {
+        ['fail', 'success', 'complete'].forEach(k => {
+          opts[k] = preRef => {
+            const res = formatResult(preRef)
+            options[k] && options[k](res)
+            if (k === 'success') {
+              resolve(res)
+            } else if (k === 'fail') {
+              reject(res)
+            }
           }
-        }
+          return targetApi(opts)
+        })
       })
-      // @ts-ignore
-      wx[apiName](formatParams(obj))
-    })
-    return p
-  }
-}
-
-/**
- * ease-in-out的函数
- * @param t 0-1的数字
- */
-export const easeInOut = (t: number) => t < 0.5 ? 4 * t * t * t : (t - 1) * (2 * t - 2) * (2 * t - 2) + 1
-
-export const getTimingFunc = (easeFunc, frameCnt) => {
-  return x => {
-    if (frameCnt <= 1) {
-      return easeFunc(1)
+    } else if (typeof standardMethod === 'function') {
+      return standardMethod(opts)
+    } else {
+      return notSupported() as Promise<TResult>
     }
-    const t = x / (frameCnt - 1)
-    return easeFunc(t)
   }
 }
+
+export * from './animation'
+export * from './lodash'
+export * from './valid'

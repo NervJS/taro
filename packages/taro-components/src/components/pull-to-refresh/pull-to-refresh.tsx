@@ -32,7 +32,7 @@ const willPreventDefault = supportsPassive ? { passive: false } : false
 
 @Component({
   tag: 'taro-pull-to-refresh',
-  styleUrl: './style/index.css'
+  styleUrl: './style/index.scss'
 })
 export class PullToRefresh implements ComponentInterface {
   @Prop() prefixCls = 'rmc-pull-to-refresh'
