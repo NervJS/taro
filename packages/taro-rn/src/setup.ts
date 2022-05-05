@@ -42,8 +42,8 @@ jest.doMock('react-native', () => {
   return ReactNative
 })
 
-jest.doMock('@unimodules/core', () => {
-  const unimodules = jest.requireActual('@unimodules/core') as any
+jest.doMock('expo-modules-core', () => {
+  const unimodules = jest.requireActual('expo-modules-core') as any
   const permisson = jest.requireActual('./__tests__/__mock__/mockExpoPermissions')
   const { NativeModulesProxy } = unimodules
 
@@ -60,12 +60,5 @@ jest.doMock('@unimodules/core', () => {
   }
   NativeModulesProxy.ExpoPermissions = permisson
 
-  return unimodules
-})
-
-jest.doMock('react-native-unimodules', () => {
-  const unimodules = jest.requireActual('react-native-unimodules') as any
-  const permisson = jest.requireActual('./__tests__/__mock__/mockExpoPermissions')
-  unimodules.Permissions = permisson
   return unimodules
 })

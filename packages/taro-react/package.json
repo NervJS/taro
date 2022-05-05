@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/react",
-  "version": "3.4.4",
+  "version": "3.5.0-alpha.8",
   "description": "like react-dom, but for mini apps.",
   "author": "yuche <i@yuche.me>",
   "homepage": "https://github.com/nervjs/taro/tree/master/packages/taro-react#readme",
@@ -24,9 +24,9 @@
     "url": "https://github.com/NervJS/taro/issues"
   },
   "dependencies": {
-    "@tarojs/runtime": "3.4.4",
-    "@tarojs/shared": "3.4.4",
-    "react-reconciler": "0.26.1",
+    "@tarojs/runtime": "3.5.0-alpha.8",
+    "@tarojs/shared": "3.5.0-alpha.8",
+    "react-reconciler": "0.27.0",
     "scheduler": "^0.20.1"
   },
   "publishConfig": {

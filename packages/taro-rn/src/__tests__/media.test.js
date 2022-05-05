@@ -1,7 +1,3 @@
-// import CameraRoll from './__mock__/mockCameraRoll'
-import '@unimodules/core'
-import 'react-native'
-import 'react-native-unimodules'
 import { getImageInfo } from '../lib/getImageInfo'
 import { saveImageToPhotosAlbum } from '../lib/saveImageToPhotosAlbum'
 import { saveVideoToPhotosAlbum } from '../lib/saveVideoToPhotosAlbum'

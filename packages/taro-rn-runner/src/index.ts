@@ -8,7 +8,7 @@ import { PLATFORMS } from '@tarojs/helper'
 import * as path from 'path'
 import * as fse from 'fs-extra'
 import * as url from 'url'
-import { generate } from 'qrcode-terminal'
+import * as qr from 'qrcode-terminal'
 
 import * as readline from 'readline'
 import { createDevServerMiddleware } from '@react-native-community/cli-server-api'
@@ -173,7 +173,7 @@ export default async function build (_appPath: string, config: any): Promise<any
           const url = `taro://${host}:${metroConfig.server.port}`
           console.log(PLAYGROUNDINFO)
           console.log(`print qrcode of '${url}':`)
-          generate(url, { small: true })
+          qr.generate(url, { small: true })
         } else {
           console.log('print qrcode error: host not found.')
         }

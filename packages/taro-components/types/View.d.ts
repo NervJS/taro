@@ -1,6 +1,6 @@
 import { ComponentType } from 'react'
-import { StandardProps } from './common'
 import { StyleProp, ViewStyle } from 'react-native'
+import { StandardProps } from './common'
 
 interface ViewProps extends StandardProps {
   /** 指定按下去的样式类。当 `hover-class="none"` 时，没有点击态效果
@@ -86,7 +86,7 @@ interface ViewProps extends StandardProps {
  *     </view>
  *   </view>
  * </template>
- * 
+ *
  * <style>
  * .flex-wrp { display: flex; }
  * .flex-wrp-column{ flex-direction: column; }

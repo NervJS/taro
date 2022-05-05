@@ -1,6 +1,7 @@
 import { Current } from '@tarojs/runtime'
 import * as Taro from '@tarojs/taro-h5'
-import { findDOM } from '../../src/api/utils'
+
+import { findDOM } from '../../src/utils'
 import { buildApp } from '../utils'
 
 let pageDOM: any

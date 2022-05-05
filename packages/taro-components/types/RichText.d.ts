@@ -95,7 +95,7 @@ declare namespace RichTextProps {
  *     <rich-text :nodes="nodes"></rich-text>
  *   </view>
  * </template>
- * 
+ *
  * <script>
  * export default {
  *   name: 'Index',

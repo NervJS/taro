@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, ActivityIndicator, StyleSheet, Alert, BackHandler } from 'react-native'
+import { View, ActivityIndicator, StyleSheet, Alert, Modal } from 'react-native'
 import RootSiblings from 'react-native-root-siblings'
 import ImageViewer from 'react-native-image-zoom-viewer'
 import { saveMedia } from '../media'
@@ -31,13 +31,8 @@ export function previewImage(obj: Taro.previewImage.Option): void {
   }
 
   let sibling
-  function backhandler() {
-    onSwipeDown()
-    return true
-  }
 
   function onSwipeDown() {
-    BackHandler.removeEventListener('hardwareBackPress', backhandler)
     sibling?.destroy()
     sibling = undefined
   }
@@ -92,7 +87,7 @@ export function previewImage(obj: Taro.previewImage.Option): void {
   }
   try {
     sibling = new RootSiblings(
-      <View style={styles.mask}>
+      <Modal style={styles.mask} onRequestClose={onSwipeDown}>
         <ImageViewer
           imageUrls={urls.map((item: string) => {
             return {
@@ -119,9 +114,8 @@ export function previewImage(obj: Taro.previewImage.Option): void {
             )
           }}
         />
-      </View>
+      </Modal>
     )
-    BackHandler.addEventListener('hardwareBackPress', backhandler)
   } catch (e) {
     onFail(e)
   }

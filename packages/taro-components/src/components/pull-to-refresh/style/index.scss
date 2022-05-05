@@ -1,0 +1,55 @@
+.rmc-pull-to-refresh-content {
+  transform-origin: left top 0;
+}
+
+.rmc-pull-to-refresh-content-wrapper {
+  overflow: hidden;
+  min-height: 100vh;
+}
+
+.rmc-pull-to-refresh-transition {
+  transition: transform 0.3s;
+}
+
+@keyframes rmc-pull-to-refresh-indicator {
+  50% {
+    opacity: 0.2;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+.rmc-pull-to-refresh-indicator {
+  height: 30px;
+  line-height: 10px;
+  text-align: center;
+}
+
+.rmc-pull-to-refresh-indicator > div {
+  display: inline-block;
+  margin: 3px;
+  border-radius: 100%;
+  width: 6px;
+  height: 6px;
+  background-color: grey;
+  animation: rmc-pull-to-refresh-indicator 0.5s 0s infinite linear;
+  animation-fill-mode: both;
+}
+
+.rmc-pull-to-refresh-indicator > div:nth-child(0) {
+  animation-delay: -0.1s !important;
+}
+
+.rmc-pull-to-refresh-indicator > div:nth-child(1) {
+  animation-delay: -0.2s !important;
+}
+
+.rmc-pull-to-refresh-indicator > div:nth-child(2) {
+  animation-delay: -0.3s !important;
+}
+
+.rmc-pull-to-refresh-down .rmc-pull-to-refresh-indicator {
+  margin-top: -25px;
+}

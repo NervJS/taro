@@ -1,22 +1,23 @@
-import * as webpack from 'webpack'
-import { getOptions, stringifyRequest } from 'loader-utils'
-import { AppConfig } from '@tarojs/taro'
-import { join, dirname } from 'path'
 import { readConfig } from '@tarojs/helper'
+import { AppConfig } from '@tarojs/taro'
+import { IH5Config } from '@tarojs/taro/types/compile'
+import { getOptions, stringifyRequest } from 'loader-utils'
+import { join, dirname } from 'path'
+import type * as webpack from 'webpack'
 
-function genResource (path: string, pages: Map<string, string>, loaderContext: webpack.loader.LoaderContext) {
+function genResource (path: string, pages: Map<string, string>, loaderContext: webpack.LoaderContext<any>, syncFileName: string | false = false) {
   const stringify = (s: string): string => stringifyRequest(loaderContext, s)
-  return `
-  Object.assign({
-      path: '${path}',
-      load: function(_, params) {
-          return import(${stringify(join(loaderContext.context, path))}).then((element)=>[element, params]);
-      }
-  }, ${JSON.stringify(readConfig(pages.get(path)!))}),
-`
+  const importDependent = syncFileName ? 'require' : 'import'
+  return `Object.assign({
+  path: '${path}',
+  load: function() {
+    return ${importDependent}(${stringify(join(loaderContext.context, syncFileName || path))})
+  }
+}, ${JSON.stringify(readConfig(pages.get(path)!))})`
+// TODO 优化加载 config 方法，保留 config 文件内的变量
 }
 
-export default function (this: webpack.loader.LoaderContext) {
+export default function (this: webpack.LoaderContext<any>) {
   const options = getOptions(this)
   const stringify = (s: string): string => stringifyRequest(this, s)
   const {
@@ -30,8 +31,10 @@ export default function (this: webpack.loader.LoaderContext) {
     compatComponentImport,
     compatComponentExtra
   } = options.loaderMeta
-  const config: AppConfig = options.config
+  const config: AppConfig & IH5Config = options.config
   const pages: Map<string, string> = options.pages
+  const routerMode = config?.router?.mode || 'hash'
+  const isMultiRouterMode = routerMode === 'multi'
   const pxTransformConfig = options.pxTransformConfig
   let tabBarCode = `var tabbarIconPath = []
 var tabbarSelectedIconPath = []
@@ -61,9 +64,17 @@ applyPolyfills().then(function () {
 `
 
   const components = options.useHtmlComponents ? compatComponentImport || '' : webComponents
+  const routerCreator = isMultiRouterMode ? 'createMultiRouter' : 'createRouter'
+  const pageName = isMultiRouterMode ? join(dirname(this.resourcePath), options.filename).replace(options.sourceDir + '/', '') : ''
+  const routesConfig = isMultiRouterMode ? `config.routes = []
+config.route = ${genResource(pageName, pages, this, options.filename)}
+config.pageName = "${pageName}"` : `config.routes = [
+  ${config.pages?.map(path => genResource(path, pages, this)).join(',')}
+]`
 
-  const code = `import { createRouter, initPxTransform } from '@tarojs/taro'
-import component from ${stringify(join(dirname(this.resourcePath), options.filename))}
+  const code = `import { initPxTransform } from '@tarojs/taro'
+import { ${routerCreator} } from '@tarojs/router'
+import component from ${stringify(join(options.sourceDir, options.entryFileName))}
 import { window } from '@tarojs/runtime'
 import { ${creator} } from '${creatorLocation}'
 ${importFrameworkStatement}
@@ -83,18 +94,15 @@ if (config.tabBar) {
     }
   }
 }
-config.routes = [
-  ${config.pages?.map(path => genResource(path, pages, this)).join('')}
-]
+${routesConfig}
 ${options.useHtmlComponents ? compatComponentExtra : ''}
 ${execBeforeCreateWebApp || ''}
 var inst = ${creator}(component, ${frameworkArgs})
-createRouter(inst, config, ${importFrameworkName})
+${routerCreator}(inst, config, ${importFrameworkName})
 initPxTransform({
   designWidth: ${pxTransformConfig.designWidth},
   deviceRatio: ${JSON.stringify(pxTransformConfig.deviceRatio)}
 })
 `
-
   return code
 }

@@ -776,7 +776,8 @@ export default class TaroMiniPlugin {
     if (independentPackages.size) {
       independentPackages.forEach((pages, name) => {
         const childCompiler = compilation.createChildCompiler(PLUGIN_NAME, {
-          path: `${compiler.options.output}/${name}`
+          path: `${compiler.options.output.path}/${name}`,
+          jsonpFunction: `${compiler.options.output.jsonpFunction}/${name}`
         })
         const compPath = path.resolve(__dirname, '..', 'template/comp')
         childCompiler.inputFileSystem = compiler.inputFileSystem
@@ -971,7 +972,7 @@ export default class TaroMiniPlugin {
       }
     })
     this.pages.forEach(page => {
-      const importBaseTemplatePath = promoteRelativePath(path.relative(page.path, path.join(sourceDir, this.getTemplatePath(baseTemplateName))))
+      let importBaseTemplatePath = promoteRelativePath(path.relative(page.path, path.join(sourceDir, this.getTemplatePath(baseTemplateName))))
       const config = this.filesConfig[this.getConfigFilePath(page.name)]
       let isIndependent = false
       let independentName = ''
@@ -979,6 +980,7 @@ export default class TaroMiniPlugin {
         if (pages.includes(page.path)) {
           isIndependent = true
           independentName = name
+          importBaseTemplatePath = promoteRelativePath(path.relative(page.path, path.join(sourceDir, name, this.getTemplatePath(baseTemplateName))))
         }
       })
       if (config) {

@@ -19,6 +19,7 @@ export default {
       }
     }
   },
+  compiler: 'webpack4',
   deviceRatio: {
     640: 1.17,
     750: 1,

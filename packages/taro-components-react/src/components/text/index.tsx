@@ -3,8 +3,7 @@ import React from 'react'
 import classNames from 'classnames'
 import './style/index.css'
 
-interface IProps {
-  className?: string
+interface IProps extends React.HTMLAttributes<HTMLSpanElement> {
   selectable?: boolean
 }
 

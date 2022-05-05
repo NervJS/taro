@@ -1,4 +1,4 @@
-import { temporarilyNotSupport } from '../utils'
+import { temporarilyNotSupport } from '../../utils'
 
 // 发票
 export const chooseInvoiceTitle = temporarilyNotSupport('chooseInvoiceTitle')

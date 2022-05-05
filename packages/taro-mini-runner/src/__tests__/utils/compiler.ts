@@ -135,7 +135,8 @@ function frameworkPatch (chain, webpack, config: Partial<IBuildConfig> = {}) {
     initialConfig: {
       framework: config.framework || 'react'
     },
-    modifyWebpackChain: cb => cb({ chain, webpack, data: { componentConfig } })
+    modifyWebpackChain: cb => cb({ chain, webpack, data: { componentConfig } }),
+    modifyRunnerOpts: cb => cb(config)
   }
 
   let frameworkPlugin: any = ReactLikePlugin

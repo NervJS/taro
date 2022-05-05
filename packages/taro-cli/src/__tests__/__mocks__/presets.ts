@@ -13,6 +13,9 @@ export default () => {
       path.resolve(__dirname, '../../presets', 'platforms', 'h5.ts'),
       path.resolve(__dirname, '../../presets', 'platforms', 'plugin.ts'),
 
+      // hooks
+      path.resolve(__dirname, '../../presets', 'hooks', 'build.ts'),
+
       // commands
       path.resolve(__dirname, '../../presets', 'commands', 'build.ts'),
       path.resolve(__dirname, '../../presets', 'commands', 'init.ts'),

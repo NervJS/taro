@@ -1,4 +1,4 @@
-import { temporarilyNotSupport } from '../utils'
+import { temporarilyNotSupport } from '../../utils'
 
 // 键盘
 export const onKeyboardHeightChange = temporarilyNotSupport('onKeyboardHeightChange')

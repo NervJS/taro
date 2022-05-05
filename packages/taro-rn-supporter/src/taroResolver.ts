@@ -61,7 +61,7 @@ function searchReactNativeModule (moduleName: string, platform: string): string 
 /**
  * resolveRequest 文件处理，alias，文件后缀加载等
  */
-function handleFile (context, realModuleName, platform, moduleName) {
+function handleFile (context, _realModuleName, platform, moduleName) {
   const savedOriginModulePath = context.originModulePath
   const savedAllowHaste = context.allowHaste
   if (moduleName.startsWith('@tarojs/')) {

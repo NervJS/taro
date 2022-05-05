@@ -15,7 +15,7 @@ import {
   CSS_EXT,
   REG_SCRIPTS
 } from './constants'
-import createBabelRegister from './babelRegister'
+import createSwcRegister, { InjectDefinConfigHeader } from './swcRegister'
 
 const execSync = child_process.execSync
 
@@ -641,11 +641,12 @@ export function readConfig (configPath: string) {
   if (fs.existsSync(configPath)) {
     const importPaths = REG_SCRIPTS.test(configPath) ? analyzeImport(configPath) : []
 
-    createBabelRegister({
+    createSwcRegister({
       only: [
         configPath,
         filepath => importPaths.includes(filepath)
-      ]
+      ],
+      plugin: m => new InjectDefinConfigHeader().visitProgram(m)
     })
 
     importPaths.concat([configPath]).forEach(item => {

@@ -6,6 +6,7 @@ import * as constants from './constants'
 import * as utils from './utils'
 import * as npm from './npm'
 import createBabelRegister, { injectDefineConfigHeader } from './babelRegister'
+import createSwcRegister from './swcRegister'
 
 export const helper = {
   ...constants,
@@ -13,6 +14,7 @@ export const helper = {
   npm,
   createBabelRegister,
   injectDefineConfigHeader,
+  createSwcRegister,
   fs,
   chalk,
   chokidar,

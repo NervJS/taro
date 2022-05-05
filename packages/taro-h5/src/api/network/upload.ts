@@ -1,5 +1,5 @@
 import Taro from '@tarojs/api'
-import { CallbackManager } from '../utils/handler'
+import { CallbackManager } from '../../utils/handler'
 import {
   convertObjectUrlToBlob,
   NETWORK_TIMEOUT,
@@ -8,7 +8,7 @@ import {
 } from './utils'
 
 const createUploadTask = ({ url, filePath, formData = {}, name, header, timeout, fileName, success, error }): Taro.UploadTask => {
-  let timeoutInter
+  let timeoutInter: ReturnType<typeof setTimeout>
   let formKey
   const apiName = 'uploadFile'
   const xhr = new XMLHttpRequest()

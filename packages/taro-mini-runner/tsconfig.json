@@ -8,15 +8,16 @@
     "module": "commonjs",
     "sourceMap": true,
     "preserveConstEnums": true,
-    "skipLibCheck": true
+    "paths": {
+      "webpack": ["./node_modules/@types/webpack", "./node_modules/webpack"],
+      "webpack-dev-server": ["./types/slim.d.ts"],
+    },
   },
-  "include": [
-    "./src"
-  ],
+  "include": ["./src", "./types"],
   "exclude": [
     "./src/__tests__",
     "./src/template/comp.ts",
     "./src/quickapp",
-    "./src/loaders/quickappStyleLoader.ts"
-  ]
+    "./src/loaders/quickappStyleLoader.ts",
+  ],
 }

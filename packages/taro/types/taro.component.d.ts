@@ -1,5 +1,5 @@
-/// <reference types="react" />
-/// <reference types="vue" />
+import React from 'react'
+import Vue from 'vue'
 
 import Taro, { Config } from './index'
 
@@ -73,7 +73,7 @@ declare module './index' {
     onHide?(): void
   }
   interface AppInstance extends Show {
-    mount(component: React.ComponentClass | Vue.ComponentOptions<Vue>, id: string, cb: () => void): void
+    mount(component: React.Component | Vue.ComponentOptions<Vue>, id: string, cb: () => void): void
     componentDidShow?(options?: Record<string, unknown>): void
     onShow?(options?: Record<string, unknown>): void
     unmount(id: string, cb: () => void): void
@@ -162,6 +162,10 @@ declare module './index' {
     getPageId?(): string
     /** 执行关键帧动画，详见[动画](https://developers.weixin.qq.com/miniprogram/dev/framework/view/animation.html) */
     animate?(selector: string, keyFrames: KeyFrame[], duration: number, callback: () => void): void
+    /** 滚动驱动的动画，详见[动画](https://developers.weixin.qq.com/miniprogram/dev/framework/view/animation.html) */
+    animate?(selector: string, keyFrames: KeyFrame[], duration: number, scrollTimeline: ScrollTimelineOption): void
+    /** 清除关键帧动画，详见[动画](https://developers.weixin.qq.com/miniprogram/dev/framework/view/animation.html) */
+    clearAnimation?(selector: string, callback: () => void): void
     /** 清除关键帧动画，详见[动画](https://developers.weixin.qq.com/miniprogram/dev/framework/view/animation.html) */
     clearAnimation?(selector: string, options: ClearAnimationOptions, callback: () => void): void
     /** 清除关键帧动画，详见[动画](https://developers.weixin.qq.com/miniprogram/dev/framework/view/animation.html) */

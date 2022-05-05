@@ -63,6 +63,8 @@ export default class TaroNormalModulesPlugin {
                 .filter(p => p.type === 'Property' && p.key.type === 'Identifier' && p.key.name !== 'children')
                 .forEach(p => attrs.add(p.key.name))
             }
+          }, {
+            ...walk.base, Import: walk.base.Import || (() => {})
           })
         })
       })

@@ -1,4 +1,4 @@
-import { temporarilyNotSupport } from '../../utils'
+import { temporarilyNotSupport } from '../../../utils'
 
 // 生命周期
 export const getLaunchOptionsSync = temporarilyNotSupport('getLaunchOptionsSync')

@@ -6,7 +6,7 @@ import { IProjectConfig, PluginItem } from '@tarojs/taro/types/compile'
 import {
   NODE_MODULES,
   recursiveFindNodeModules,
-  createBabelRegister,
+  createSwcRegister,
   createDebug
 } from '@tarojs/helper'
 import * as helper from '@tarojs/helper'
@@ -104,7 +104,7 @@ export default class Kernel extends EventEmitter {
     const allConfigPlugins = mergePlugins(this.optsPlugins || [], initialConfig.plugins || [])()
     this.debugger('initPresetsAndPlugins', allConfigPresets, allConfigPlugins)
     process.env.NODE_ENV !== 'test' &&
-    createBabelRegister({
+    createSwcRegister({
       only: [...Object.keys(allConfigPresets), ...Object.keys(allConfigPlugins)]
     })
     this.plugins = new Map()
@@ -160,7 +160,7 @@ export default class Kernel extends EventEmitter {
     if (typeof pluginCtx.optsSchema !== 'function') {
       return
     }
-    const joi = require('@hapi/joi')
+    const joi = require('joi')
     const schema = pluginCtx.optsSchema(joi)
     if (!joi.isSchema(schema)) {
       throw new Error(`插件${pluginCtx.id}中设置参数检查 schema 有误，请检查！`)

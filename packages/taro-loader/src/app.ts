@@ -1,8 +1,9 @@
-import * as webpack from 'webpack'
 import { getOptions, stringifyRequest } from 'loader-utils'
 import { normalizePath } from '@tarojs/helper'
 
-export default function (this: webpack.loader.LoaderContext) {
+import type * as webpack from 'webpack'
+
+export default function (this: webpack.LoaderContext<any>) {
   const stringify = (s: string): string => stringifyRequest(this, s)
 
   const options = getOptions(this)
@@ -12,7 +13,7 @@ export default function (this: webpack.loader.LoaderContext) {
   const pxTransformConfig = options.pxTransformConfig
   const loaders = this.loaders
   const thisLoaderIndex = loaders.findIndex(item => normalizePath(item.path).indexOf('@tarojs/taro-loader') >= 0)
-  const { globalObject } = this._compilation.outputOptions
+  const { globalObject } = this._compilation?.outputOptions || { globalObject: 'wx' }
 
   const prerender = `
 if (typeof PRERENDER !== 'undefined') {

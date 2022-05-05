@@ -1,4 +1,4 @@
-import { temporarilyNotSupport } from '../utils'
+import { temporarilyNotSupport } from '../../utils'
 
 // 用户信息
 export const getUserProfile = temporarilyNotSupport('getUserProfile')

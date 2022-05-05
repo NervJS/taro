@@ -1,6 +1,6 @@
-import React from 'react'
-import classNames from 'classnames'
 import Taro from '@tarojs/taro'
+import classNames from 'classnames'
+import React from 'react'
 
 import './style/index.css'
 
@@ -10,8 +10,8 @@ function setTransform (nodeStyle, value) {
   nodeStyle.MozTransform = value
 }
 
-const isWebView = typeof navigator !== 'undefined' &&
-  /(iPhone|iPod|iPad).*AppleWebKit(?!.*Safari)/i.test(navigator.userAgent)
+const isWebView =
+  typeof navigator !== 'undefined' && /(iPhone|iPod|iPad).*AppleWebKit(?!.*Safari)/i.test(navigator.userAgent)
 
 enum PullDownState {
   activate = 'activate',
@@ -39,8 +39,7 @@ try {
 
 const willPreventDefault = supportsPassive ? { passive: false } : false
 
-interface IProps {
-  className?: string
+interface IProps extends React.HTMLAttributes<HTMLBaseElement> {
   prefixCls: string
   distanceToRefresh: number
   damping: number
@@ -49,7 +48,7 @@ interface IProps {
 }
 
 interface IState {
-  currSt: PullDownState,
+  currSt: PullDownState
   dragOnEdge: boolean
 }
 
@@ -78,41 +77,49 @@ class PullDownRefresh extends React.Component<IProps, IState> {
   listeners: [string, (...args: any[]) => void][] = []
 
   get scrollContainer () {
-    return document.querySelector('.taro_page_stationed') ||
+    return (
+      document.querySelector('.taro_page_stationed') ||
       document.querySelector('.taro_page') ||
       document.querySelector('.taro_router') ||
       document.querySelector('.taro-tabbar__panel') ||
       document.body
+    )
   }
 
   componentDidMount () {
     this.init()
     this._isMounted = true
     this.listeners = [
-      ['__taroStartPullDownRefresh', ({ successHandler, errorHandler }) => {
-        try {
-          this.triggerPullDownRefresh(true)
-          successHandler({
-            errMsg: 'startPullDownRefresh: ok'
-          })
-        } catch (e) {
-          errorHandler({
-            errMsg: 'startPullDownRefresh: fail'
-          })
+      [
+        '__taroStartPullDownRefresh',
+        ({ successHandler, errorHandler }) => {
+          try {
+            this.triggerPullDownRefresh(true)
+            successHandler({
+              errMsg: 'startPullDownRefresh: ok'
+            })
+          } catch (e) {
+            errorHandler({
+              errMsg: 'startPullDownRefresh: fail'
+            })
+          }
         }
-      }],
-      ['__taroStopPullDownRefresh', ({ successHandler, errorHandler }) => {
-        try {
-          this.triggerPullDownRefresh(false)
-          successHandler({
-            errMsg: 'stopPullDownRefresh: ok'
-          })
-        } catch (e) {
-          errorHandler({
-            errMsg: 'stopPullDownRefresh: fail'
-          })
+      ],
+      [
+        '__taroStopPullDownRefresh',
+        ({ successHandler, errorHandler }) => {
+          try {
+            this.triggerPullDownRefresh(false)
+            successHandler({
+              errMsg: 'stopPullDownRefresh: ok'
+            })
+          } catch (e) {
+            errorHandler({
+              errMsg: 'stopPullDownRefresh: fail'
+            })
+          }
         }
-      }]
+      ]
     ]
     this.listeners.forEach(([evtName, callback]) => {
       Taro.eventCenter.on(evtName, callback)
@@ -267,7 +274,7 @@ class PullDownRefresh extends React.Component<IProps, IState> {
     this.setContentStyle(0)
   }
 
-  setContentStyle = (ty) => {
+  setContentStyle = ty => {
     // TODO: Why sometimes do not have `this.contentRef` ?
     if (this.contentRef) {
       // translate3d 不清理 会影响内部元素定位
@@ -288,12 +295,7 @@ class PullDownRefresh extends React.Component<IProps, IState> {
     delete props.distanceToRefresh
     delete props.onRefresh
 
-    const {
-      className,
-      prefixCls,
-      children,
-      ...restProps
-    } = props
+    const { className, prefixCls, children, ...restProps } = props
 
     const renderRefresh = (cls: string) => {
       const { currSt, dragOnEdge } = this.state
@@ -305,7 +307,8 @@ class PullDownRefresh extends React.Component<IProps, IState> {
             className={cla}
             ref={el => {
               this.contentRef = el
-            }}>
+            }}
+          >
             {showIndicator && (
               <div className={`${prefixCls}-indicator`}>
                 <div />

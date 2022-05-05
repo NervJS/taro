@@ -5,8 +5,13 @@ import type { IPluginContext } from '@tarojs/service'
 
 export type Frameworks = 'react' | 'preact' | 'nerv'
 
-export default (ctx: IPluginContext) => {
+type IConfig = {
+  reactMode?: 'legacy' | 'concurrent'
+}
+
+export default (ctx: IPluginContext, config: IConfig = {}) => {
   const { framework } = ctx.initialConfig
+  const { reactMode = 'legacy' } = config // will change default value in the future
 
   if (framework !== 'react' && framework !== 'nerv' && framework !== 'preact') return
 
@@ -18,6 +23,7 @@ export default (ctx: IPluginContext) => {
       .tap(args => {
         const config = args[0]
         config.__TARO_FRAMEWORK__ = `"${framework}"`
+        config.__TARO_FRAMEWORK_REACT_MODE__ = `"${reactMode}"`
         return args
       })
 
@@ -27,6 +33,33 @@ export default (ctx: IPluginContext) => {
     } else {
       // 小程序
       modifyMiniWebpackChain(ctx, framework, chain)
+    }
+  })
+
+  ctx.modifyRunnerOpts(({ opts }) => {
+    if (!opts?.compiler) return
+
+    const { compiler } = opts
+    const WEBPACK5 = 'webpack5'
+    // 提供给 webpack5 依赖预编译收集器的第三方依赖
+    const deps = [
+      'react',
+      'react-dom',
+      'react/jsx-runtime',
+      '@tarojs/plugin-framework-react/dist/runtime'
+    ]
+    if (compiler === WEBPACK5) {
+      opts.compiler = {
+        type: WEBPACK5,
+        prebundle: {
+          include: deps
+        }
+      }
+    } else if (typeof compiler === 'object' && compiler.type === WEBPACK5) {
+      compiler.prebundle ||= {}
+      const prebundleOptions = compiler.prebundle
+      prebundleOptions.include ||= []
+      prebundleOptions.include = prebundleOptions.include.concat(deps)
     }
   })
 }

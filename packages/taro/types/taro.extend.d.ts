@@ -1,3 +1,5 @@
+import React from 'react'
+
 import Taro, { Component } from './index'
 
 declare module './index' {

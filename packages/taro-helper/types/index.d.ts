@@ -6,6 +6,7 @@ import { processTypeEnum, IProcessTypeMap } from './constants';
 import * as utils from './utils';
 import * as npm from './npm';
 import createBabelRegister, { injectDefineConfigHeader } from './babelRegister';
+import createSwcRegister from './swcRegister';
 
 export declare enum META_TYPE {
   ENTRY = 'ENTRY',
@@ -26,6 +27,7 @@ export declare enum FRAMEWORK_MAP {
 
 declare interface helper {
   npm: typeof npm;
+  createSwcRegister: typeof createSwcRegister;
   createBabelRegister: typeof createBabelRegister;
   injectDefineConfigHeader: typeof injectDefineConfigHeader;
   fs: typeof fs;
@@ -133,9 +135,9 @@ declare interface helper {
   taroJsMobxCommon: "@tarojs/mobx-common";
   DEVICE_RATIO_NAME: "deviceRatio";
   isWindows: boolean;
-  DEFAULT_TEMPLATE_SRC: "github:NervJS/taro-project-templates#v3.1";
-  DEFAULT_TEMPLATE_SRC_GITEE: "direct:https://gitee.com/o2team/taro-project-templates.git#v3.1";
-  TARO_CONFIG_FLODER: ".taro3.1";
+  DEFAULT_TEMPLATE_SRC: "github:NervJS/taro-project-templates#v3.5";
+  DEFAULT_TEMPLATE_SRC_GITEE: "direct:https://gitee.com/o2team/taro-project-templates.git#v3.5";
+  TARO_CONFIG_FLODER: ".taro3.5";
   TARO_BASE_CONFIG: "index.json";
   OUTPUT_DIR: "dist";
   SOURCE_DIR: "src";

@@ -5,12 +5,20 @@ import { getVueLoaderPath } from './index'
 
 import type { IPluginContext } from '@tarojs/service'
 import type { RootNode, TemplateChildNode, ElementNode } from '@vue/compiler-core'
+import type { IConfig } from './index'
 
-export function modifyH5WebpackChain (ctx: IPluginContext, chain) {
+export function modifyH5WebpackChain (ctx: IPluginContext, chain, config: IConfig) {
+  // vue3 tsx 使用原生组件
+  setAlias(chain)
   setStyleLoader(ctx, chain)
-  setVueLoader(chain)
+  setVueLoader(chain, config)
   setLoader(chain)
   setTaroApiLoader(chain)
+}
+
+function setAlias (chain) {
+  const alias = chain.resolve.alias
+  alias.set('@tarojs/components$', '@tarojs/components/dist-h5/vue3')
 }
 
 function setStyleLoader (ctx: IPluginContext, chain) {
@@ -27,7 +35,7 @@ function setStyleLoader (ctx: IPluginContext, chain) {
     })
 }
 
-function setVueLoader (chain) {
+function setVueLoader (chain, config: IConfig) {
   const vueLoaderPath = getVueLoaderPath()
 
   // plugin
@@ -36,6 +44,7 @@ function setVueLoader (chain) {
     .plugin('vueLoaderPlugin')
     .use(VueLoaderPlugin)
 
+  const compilerOptions = config.vueLoaderOption?.compilerOptions || {}
   // loader
   const vueLoaderOption = {
     transformAssetUrls: {
@@ -52,7 +61,9 @@ function setVueLoader (chain) {
       'taro-image': 'src',
       'taro-cover-image': 'src'
     },
+    ...(config.vueLoaderOption ?? {}),
     compilerOptions: {
+      ...compilerOptions,
       // https://github.com/vuejs/vue-next/blob/master/packages/compiler-core/src/options.ts
       nodeTransforms: [(node: RootNode | TemplateChildNode) => {
         if (node.type === 1 /* ELEMENT */) {

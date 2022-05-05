@@ -136,7 +136,29 @@ export default function (appPath: string, config: Partial<BuildConfig>): any {
     }),
     plugin,
     optimization: {
-      noEmitOnErrors: true
+      noEmitOnErrors: true,
+      splitChunks: {
+        chunks: 'initial',
+        minSize: 0,
+        cacheGroups: {
+          common: {
+            name: 'common',
+            minChunks: 2,
+            priority: 1
+          },
+          vendors: {
+            name: 'vendors',
+            minChunks: 2,
+            test: module => /[\\/]node_modules[\\/]/.test(module.resource),
+            priority: 10
+          },
+          taro: {
+            name: 'taro',
+            test: module => /@tarojs[\\/][a-z]+/.test(module.context),
+            priority: 100
+          }
+        }
+      }
     }
   })
 

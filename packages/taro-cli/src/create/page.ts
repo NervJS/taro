@@ -16,6 +16,7 @@ export interface IPageConf {
   typescript?: boolean;
   date?: string;
   framework: 'react' | 'preact' | 'nerv' | 'vue' | 'vue3'
+  compiler?: 'webpack4' | 'webpack5' | 'vite'
 }
 
 export default class Page extends Creator {
@@ -57,7 +58,8 @@ export default class Page extends Creator {
     const templateInfo = pkg.templateInfo || {
       name: 'default',
       css: 'none',
-      typescript: false
+      typescript: false,
+      compiler: 'webpack5'
     }
 
     // set template name

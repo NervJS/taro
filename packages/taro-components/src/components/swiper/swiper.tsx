@@ -1,9 +1,10 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { Component, h, ComponentInterface, Prop, Event, EventEmitter, Watch, Host, Element, State } from '@stencil/core'
-import SwiperJS from 'swiper/swiper-bundle.esm.js'
 import classNames from 'classnames'
-
 import type ISwiper from 'swiper'
+import SwiperJS from 'swiper/swiper-bundle.esm.js'
+
+import { debounce } from '../../utils'
 
 let INSTANCE_ID = 0
 
@@ -362,16 +363,5 @@ export class Swiper implements ComponentInterface {
         </div>
       </Host>
     )
-  }
-}
-
-function debounce (fn, delay: number) {
-  let timer: NodeJS.Timeout
-
-  return function (...arrs) {
-    clearTimeout(timer)
-    timer = setTimeout(function () {
-      fn(...arrs)
-    }, delay)
   }
 }

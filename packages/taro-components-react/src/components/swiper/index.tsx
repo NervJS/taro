@@ -1,24 +1,21 @@
-import 'weui'
-import React from 'react'
-import classNames from 'classnames'
-import Swipers from 'swiper/swiper-bundle.esm.js'
-
-import type ISwiper from 'swiper'
-
 import 'swiper/swiper-bundle.min.css'
+
+import classNames from 'classnames'
+import React from 'react'
+import Swipers from 'swiper/swiper-bundle.esm.js'
+import type ISwiper from 'swiper'
+import 'weui'
+
+import { debounce } from '../../utils'
 import './style/index.css'
 
 let INSTANCE_ID = 0
 
-interface SwiperItemProps {
-  className: string
-  style: Record<string, string>
+interface SwiperItemProps extends React.HTMLAttributes<HTMLDivElement> {
   itemId: string
 }
 
-interface SwiperProps {
-  className?: string
-  style?: Record<string, string>
+interface SwiperProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'onChange'> {
   autoplay?: boolean
   interval?: number
   duration?: number
@@ -312,14 +309,3 @@ class Swiper extends React.Component<SwiperProps, Record<string, unknown>> {
 }
 
 export { Swiper, SwiperItem }
-
-function debounce (fn, delay: number) {
-  let timer: NodeJS.Timeout
-
-  return function (...arrs) {
-    clearTimeout(timer)
-    timer = setTimeout(function () {
-      fn(...arrs)
-    }, delay)
-  }
-}

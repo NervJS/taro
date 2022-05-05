@@ -1,4 +1,4 @@
-import { temporarilyNotSupport } from '../utils'
+import { temporarilyNotSupport } from '../../utils'
 
 // 支付
 export const requestPayment = temporarilyNotSupport('requestPayment')

@@ -1,16 +1,16 @@
 /* eslint-disable dot-notation */
+import { Route, SpaRouterConfig } from '@tarojs/router/types/router'
 import { PageConfig, RouterAnimate } from '@tarojs/taro'
 import { Current, PageInstance, requestAnimationFrame } from '@tarojs/runtime'
 import queryString from 'query-string'
 
-import stacks from './stack'
-import { Route, RouterConfig } from './'
-import { setHistoryMode, stripBasename } from '../history'
 import { loadAnimateStyle } from '../animation'
-import { initTabbar } from '../tabbar'
-import { addLeadingSlash, routesAlias } from '../utils'
 import { bindPageResize } from '../events/resize'
 import { bindPageScroll } from '../events/scroll'
+import { setHistoryMode } from '../history'
+import { initTabbar } from '../tabbar'
+import { addLeadingSlash, routesAlias, stripBasename } from '../utils'
+import stacks from './stack'
 
 function setDisplay (el?: HTMLElement | null, type = '') {
   if (el) {
@@ -19,14 +19,14 @@ function setDisplay (el?: HTMLElement | null, type = '') {
 }
 
 export default class PageHandler {
-  protected config: RouterConfig
+  protected config: SpaRouterConfig
   protected readonly defaultAnimation: RouterAnimate = { duration: 300, delay: 50 }
-  protected unloadTimer: NodeJS.Timeout | null
-  protected hideTimer: NodeJS.Timeout | null
+  protected unloadTimer: ReturnType<typeof setTimeout> | null
+  protected hideTimer: ReturnType<typeof setTimeout> | null
   protected lastHidePage: HTMLElement | null
   protected lastUnloadPage: PageInstance | null
 
-  constructor (config: RouterConfig) {
+  constructor (config: SpaRouterConfig) {
     this.config = config
     this.mount()
   }
@@ -58,11 +58,17 @@ export default class PageHandler {
   set pathname (p) { this.router.pathname = p }
   get pathname () { return this.router.pathname }
   get basename () { return this.router.basename || '' }
+
+  get homePage () {
+    return this.config.entryPagePath || this.routes[0].path || this.basename
+  }
+
   get pageConfig () {
+    const routePath = stripBasename(this.pathname, this.basename)
+    const homePage = this.homePage
     return this.routes.find(r => {
-      const routePath = stripBasename(this.pathname, this.basename)
       const pagePath = addLeadingSlash(r.path)
-      return pagePath === routePath || routesAlias.getConfig(pagePath)?.includes(routePath)
+      return [pagePath, homePage].includes(routePath) || routesAlias.getConfig(pagePath)?.includes(routePath)
     })
   }
 

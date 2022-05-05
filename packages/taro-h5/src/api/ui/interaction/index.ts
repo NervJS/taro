@@ -1,6 +1,6 @@
 import Taro from '@tarojs/api'
-import { getParameterError, temporarilyNotSupport } from '../../utils'
-import { MethodHandler } from '../../utils/handler'
+import { getParameterError, temporarilyNotSupport } from '../../../utils'
+import { MethodHandler } from '../../../utils/handler'
 import Toast from './toast'
 import Modal from './modal'
 import ActionSheet from './actionSheet'

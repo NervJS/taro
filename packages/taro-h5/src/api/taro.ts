@@ -1,11 +1,8 @@
 import Taro from '@tarojs/api'
+import { history } from '@tarojs/router'
 
-import {
-  history,
-  createRouter
-} from '@tarojs/router'
 import { getApp, getCurrentInstance, getCurrentPages, nextTick, navigateBack, navigateTo, reLaunch, redirectTo, switchTab } from '../api'
-import { permanentlyNotSupport } from '../api/utils'
+import { permanentlyNotSupport } from '../utils'
 
 const {
   Behavior,
@@ -36,7 +33,6 @@ const taro: typeof Taro = {
   Events,
   preload,
   history,
-  createRouter,
   navigateBack,
   navigateTo,
   reLaunch,
@@ -84,6 +80,5 @@ export {
   requirePlugin,
   pxTransform,
   canIUseWebp,
-  history,
-  createRouter
+  history
 }

@@ -73,7 +73,7 @@ export default class MainPlugin {
 
     compiler.hooks.compilation.tap(PLUGIN_NAME, compilation => {
       compilation.hooks.normalModuleLoader.tap(PLUGIN_NAME, (_loaderContext, module: any) => {
-        const { framework, entryFileName, designWidth, deviceRatio, loaderMeta } = this.options
+        const { framework, entryFileName, sourceDir, designWidth, deviceRatio, loaderMeta } = this.options
         const { dir, name } = path.parse(module.resource)
         if (path.join(dir, name) === this.appEntry) {
           module.loaders.push({
@@ -81,6 +81,8 @@ export default class MainPlugin {
             options: {
               framework,
               loaderMeta,
+              entryFileName,
+              sourceDir,
               filename: entryFileName,
               pages: this.pagesConfigList,
               useHtmlComponents: this.options.useHtmlComponents,

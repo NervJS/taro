@@ -1,4 +1,4 @@
-import { temporarilyNotSupport } from '../../utils'
+import { temporarilyNotSupport } from '../../../utils'
 
 // 应用级事件
 export const onUnhandledRejection = temporarilyNotSupport('onUnhandledRejection')

@@ -8,7 +8,7 @@ import {
   OUTPUT_DIR,
   ENTRY,
   resolveScriptPath,
-  createBabelRegister,
+  createSwcRegister,
   getModuleDefaultExport
 } from '@tarojs/helper'
 
@@ -37,7 +37,7 @@ export default class Config {
       this.initialConfig = {}
       this.isInitSuccess = false
     } else {
-      createBabelRegister({
+      createSwcRegister({
         only: [
           filePath => filePath.indexOf(path.join(this.appPath, CONFIG_DIR_NAME)) >= 0
         ]
@@ -73,6 +73,9 @@ export default class Config {
       outputRoot: outputDirName,
       platform,
       framework: initialConfig.framework,
+      compiler: initialConfig.compiler,
+      cache: initialConfig.cache,
+      logger: initialConfig.logger,
       baseLevel: initialConfig.baseLevel,
       csso: initialConfig.csso,
       sass: initialConfig.sass,
@@ -84,7 +87,10 @@ export default class Config {
       designWidth: initialConfig.designWidth,
       deviceRatio: initialConfig.deviceRatio,
       projectConfigName: initialConfig.projectConfigName,
+      jsMinimizer: initialConfig.jsMinimizer,
+      cssMinimizer: initialConfig.cssMinimizer,
       terser: initialConfig.terser,
+      esbuild: initialConfig.esbuild,
       ...initialConfig[useConfigName]
     }
   }

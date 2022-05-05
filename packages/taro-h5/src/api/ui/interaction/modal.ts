@@ -1,4 +1,4 @@
-import { inlineStyle } from '../../utils'
+import { inlineStyle } from '../../../utils'
 
 export default class Modal {
   options = {
@@ -65,8 +65,8 @@ export default class Modal {
   text: HTMLDivElement
   cancel: HTMLDivElement
   confirm: HTMLDivElement
-  hideOpacityTimer: any
-  hideDisplayTimer: any
+  hideOpacityTimer: ReturnType<typeof setTimeout>
+  hideDisplayTimer: ReturnType<typeof setTimeout>
 
   create (options = {}) {
     return new Promise<string>((resolve) => {

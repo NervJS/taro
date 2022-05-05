@@ -1,4 +1,4 @@
-import { temporarilyNotSupport } from '../utils'
+import { temporarilyNotSupport } from '../../utils'
 
 // Wi-Fi
 export const stopWifi = temporarilyNotSupport('stopWifi')

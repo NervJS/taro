@@ -2,14 +2,10 @@
   "extends": "../../tsconfig.root.json",
   "compilerOptions": {
     "baseUrl": ".",
-    "declaration": false,
-    "module": "es6",
     "outDir": "dist",
-    "rootDir": "./src",
-    "skipLibCheck": true,
+    "module": "ESNext",
     "sourceMap": false,
-    "target": "es2018",
-    "types": ["node", "jest", "./src/types"]
+    "typeRoots": ["./node_modules/@types"],
   },
-  "include": ["./src"]
+  "include": ["./src", "./types"],
 }

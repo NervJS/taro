@@ -1,9 +1,9 @@
 import Taro from '@tarojs/api'
-import { CallbackManager } from '../utils/handler'
+import { CallbackManager } from '../../utils/handler'
 import { NETWORK_TIMEOUT, setHeader, XHR_STATS } from './utils'
 
 const createDownloadTask = ({ url, header, success, error }): Taro.DownloadTask => {
-  let timeout
+  let timeout: ReturnType<typeof setTimeout>
   const apiName = 'downloadFile'
   const xhr = new XMLHttpRequest()
   const callbackManager = {
