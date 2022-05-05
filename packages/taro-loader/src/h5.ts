@@ -11,7 +11,7 @@ function genResource (path: string, pages: Map<string, string>, loaderContext: w
   return `Object.assign({
   path: '${path}',
   load: function(context, params) {
-    const page = await ${importDependent}(${stringify(join(loaderContext.context, syncFileName || path))})
+    const page = ${importDependent}(${stringify(join(loaderContext.context, syncFileName || path))})
     return [${importDependent}(${stringify(join(loaderContext.context, syncFileName || path))}), context, params]
   }
 }, ${JSON.stringify(readConfig(pages.get(path)!))})`
