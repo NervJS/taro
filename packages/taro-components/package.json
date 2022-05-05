@@ -17,7 +17,8 @@
     "mini",
     "types",
     "dist-h5",
-    "virtual-list"
+    "virtual-list",
+    "vue3.d.ts"
   ],
   "collection": "dist/collection/collection-manifest.json",
   "collection:main": "dist/collection/index.js",
@@ -38,7 +39,7 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
-    "@stencil/core": "2.15.1",
+    "@stencil/core": "~2.14.0",
     "@stencil/sass": "1.5.2",
     "@tarojs/taro": "3.5.0-alpha.8",
     "better-scroll": "^1.14.1",
