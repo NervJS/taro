@@ -58,11 +58,17 @@ export default class PageHandler {
   set pathname (p) { this.router.pathname = p }
   get pathname () { return this.router.pathname }
   get basename () { return this.router.basename || '' }
+
+  get homePage () {
+    return this.config.entryPagePath || this.routes[0].path || this.basename
+  }
+
   get pageConfig () {
+    const routePath = stripBasename(this.pathname, this.basename)
+    const homePage = this.homePage
     return this.routes.find(r => {
-      const routePath = stripBasename(this.pathname, this.basename)
       const pagePath = addLeadingSlash(r.path)
-      return pagePath === routePath || routesAlias.getConfig(pagePath)?.includes(routePath)
+      return [pagePath, homePage].includes(routePath) || routesAlias.getConfig(pagePath)?.includes(routePath)
     })
   }
 

@@ -31,7 +31,6 @@ export function createRouter (
     path: routesAlias.getAll(addLeadingSlash(route.path)),
     action: route.load
   }))
-  const entryPagePath: string = config.entryPagePath || routes[0].path?.[0] || ''
   const router = new UniversalRouter(routes, { baseUrl: basename || '' })
   const launchParam = handler.getQuery(stacks.length)
   app.onLaunch?.(launchParam)
@@ -117,9 +116,9 @@ export function createRouter (
     }
   }
 
-  const stripped = stripBasename(history.location.pathname, handler.basename)
-  if (stripped === '/' || stripped === '') {
-    history.replace(prependBasename(entryPagePath + history.location.search))
+  const routePath = stripBasename(history.location.pathname, handler.basename)
+  if (routePath === '/' || routePath === '') {
+    history.replace(prependBasename(handler.homePage + history.location.search))
   }
 
   render({ location: history.location, action: LocationAction.Push })
