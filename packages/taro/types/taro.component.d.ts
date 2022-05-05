@@ -177,8 +177,11 @@ declare module './index' {
   interface PageInstance extends PageLifeCycle, ComponentInstance {
     /** 页面配置 */
     config?: PageConfig
+    /** 页面的初始数据 */
     data?: Record<string, unknown>
+    /** 页面路径 */
     path?: string
+    /** 页面的组件选项 */
     options?: Record<string, unknown>
   }
   interface TaroStatic {

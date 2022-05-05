@@ -41,9 +41,10 @@ export function createRouter (
 
   const render: LocationListener = async ({ location, action }) => {
     handler.pathname = decodeURI(location.pathname)
-    let element
+    let element, params
     try {
-      element = await router.resolve(handler.router.forcePath || handler.pathname)
+      const result = await router.resolve(handler.router.forcePath || handler.pathname)
+      ;[element, , params] = await Promise.all(result)
     } catch (error) {
       if (error.status === 404) {
         app.onPageNotFound?.({
@@ -116,6 +117,7 @@ export function createRouter (
         {},
         loadConfig
       )
+      if (params) page.options = params
       return handler.load(page, pageConfig, stacksIndex)
     }
   }
