@@ -69,6 +69,12 @@ require(\\"./taro\\");
             },
             Canvas: {
                 type: \\"\\"
+            },
+            RtcRoom: {
+                \\"user-id\\": \\"\\",
+                mode: \\"camera\\",
+                \\"device-position\\": \\"front\\",
+                bindError: \\"\\"
             }
         };
         var hostConfig = {

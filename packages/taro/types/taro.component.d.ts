@@ -162,6 +162,10 @@ declare module './index' {
     getPageId?(): string
     /** 执行关键帧动画，详见[动画](https://developers.weixin.qq.com/miniprogram/dev/framework/view/animation.html) */
     animate?(selector: string, keyFrames: KeyFrame[], duration: number, callback: () => void): void
+    /** 滚动驱动的动画，详见[动画](https://developers.weixin.qq.com/miniprogram/dev/framework/view/animation.html) */
+    animate?(selector: string, keyFrames: KeyFrame[], duration: number, scrollTimeline: ScrollTimelineOption): void
+    /** 清除关键帧动画，详见[动画](https://developers.weixin.qq.com/miniprogram/dev/framework/view/animation.html) */
+    clearAnimation?(selector: string, callback: () => void): void
     /** 清除关键帧动画，详见[动画](https://developers.weixin.qq.com/miniprogram/dev/framework/view/animation.html) */
     clearAnimation?(selector: string, options: ClearAnimationOptions, callback: () => void): void
     /** 清除关键帧动画，详见[动画](https://developers.weixin.qq.com/miniprogram/dev/framework/view/animation.html) */
