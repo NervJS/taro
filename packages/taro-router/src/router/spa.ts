@@ -27,10 +27,14 @@ export function createRouter (
 
   routesAlias.set(handler.router.customRoutes)
   const basename = handler.router.basename
-  const routes: Routes = handler.routes.map(route => ({
-    path: routesAlias.getAll(addLeadingSlash(route.path)),
-    action: route.load
-  }))
+  const routes: Routes = handler.routes.map(route => {
+    const routePath = addLeadingSlash(route.path)
+    const paths = routesAlias.getAll(routePath)
+    return {
+      path: paths.length < 1 ? routePath : paths,
+      action: route.load
+    }
+  })
   const router = new UniversalRouter(routes, { baseUrl: basename || '' })
   const launchParam = handler.getQuery(stacks.length)
   app.onLaunch?.(launchParam)
