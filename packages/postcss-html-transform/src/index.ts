@@ -6,20 +6,34 @@ const htmlTags = ['html', 'body', 'a', 'audio', 'button', 'canvas', 'form', 'ifr
 const tagsCombine = htmlTags.join('|')
 const reg = new RegExp(`(^| |\\+|,|~|>|\\n)(${tagsCombine})\\b(?=$| |\\.|\\+|,|~|:|\\[)`, 'g')
 
-function plugin (_opts) {
-  return function (root) {
-    root.walkRules(function (rule) {
-      if (/(^| )\*(?![=/*])/.test(rule.selector)) {
-        rule.remove()
-        return
-      }
-      rule.selector = rule.selector.replace(reg, '$1.h5-$2')
-    })
-    let removeCursorStyle = true
-    if (typeof _opts?.removeCursorStyle === 'boolean') {
-      removeCursorStyle = _opts.removeCursorStyle
+function plugin (options) {
+  let walkRules
+  switch (options.platform) {
+    case 'h5': {
+      break
     }
-    if (removeCursorStyle) {
+    case 'rn': {
+      break
+    }
+    case 'quickapp': {
+      break
+    }
+    default: {
+      // mini-program
+      walkRules = (rule) => {
+        if (/(^| )\*(?![=/*])/.test(rule.selector)) {
+          rule.remove()
+          return
+        }
+        rule.selector = rule.selector.replace(reg, '$1.h5-$2')
+      }
+    }
+  }
+  return function (root) {
+    if (typeof walkRules === 'function') {
+      root.walkRules(walkRules)
+    }
+    if (options?.removeCursorStyle) {
       root.walkDecls(function (decl) {
         if (decl.prop === 'cursor') {
           decl.remove()

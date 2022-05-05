@@ -28,6 +28,16 @@ const defaultUrlOption: {
   }
 }
 
+const defaultHtmltransformOption: {
+  [key: string]: any
+} = {
+  enable: false,
+  config: {
+    platform: process.env.TARO_ENV,
+    removeCursorStyle: true
+  }
+}
+
 const optionsWithDefaults = ['autoprefixer', 'pxtransform', 'cssModules', 'url', 'htmltransform']
 
 const plugins = [] as any[]
@@ -47,6 +57,7 @@ export const getPostcssPlugins = function (appPath: string, {
 
   const autoprefixerOption = recursiveMerge({}, defaultAutoprefixerOption, postcssOption.autoprefixer)
   const pxtransformOption = recursiveMerge({}, defaultPxtransformOption, postcssOption.pxtransform)
+  const htmltransformOption = recursiveMerge({}, defaultHtmltransformOption, postcssOption.htmltransform)
   const urlOption = recursiveMerge({}, defaultUrlOption, postcssOption.url)
   if (autoprefixerOption.enable) {
     const autoprefixer = require('autoprefixer')
@@ -61,9 +72,9 @@ export const getPostcssPlugins = function (appPath: string, {
     const url = require('postcss-url')
     plugins.push(url(urlOption.config))
   }
-  if (postcssOption.htmltransform?.enable) {
+  if (htmltransformOption?.enable) {
     const htmlTransform = require('postcss-html-transform')
-    plugins.push(htmlTransform(postcssOption.htmltransform.config))
+    plugins.push(htmlTransform(htmltransformOption.config))
   }
   plugins.unshift(require('postcss-import'))
   Object.entries(postcssOption).forEach(([pluginName, pluginOption]) => {

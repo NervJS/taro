@@ -29,6 +29,16 @@ const defaultConstparseOption = {
   platform: 'h5'
 }
 
+const defaultHtmltransformOption: {
+  [key: string]: any
+} = {
+  enable: true,
+  config: {
+    platform: process.env.TARO_ENV,
+    removeCursorStyle: false
+  }
+}
+
 const optionsWithDefaults = ['autoprefixer', 'pxtransform', 'cssModules']
 
 const plugins = [] as any[]
@@ -48,6 +58,7 @@ export const getPostcssPlugins = function (appPath: string, {
 
   const autoprefixerOption = recursiveMerge<TogglableOptions>({}, defaultAutoprefixerOption, postcssOption.autoprefixer)
   const pxtransformOption = recursiveMerge<TogglableOptions>({}, defaultPxtransformOption, postcssOption.pxtransform)
+  const htmltransformOption = recursiveMerge({}, defaultHtmltransformOption, postcssOption.htmltransform)
 
   if (autoprefixerOption.enable) {
     const autoprefixer = require('autoprefixer')
@@ -57,6 +68,11 @@ export const getPostcssPlugins = function (appPath: string, {
   if (pxtransformOption.enable) {
     const pxtransform = require('postcss-pxtransform')
     plugins.push(pxtransform(pxtransformOption.config))
+  }
+
+  if (htmltransformOption?.enable) {
+    const htmlTransform = require('postcss-html-transform')
+    plugins.push(htmlTransform(htmltransformOption.config))
   }
 
   plugins.push(constparse(defaultConstparseOption))
