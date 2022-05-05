@@ -10,8 +10,9 @@ function genResource (path: string, pages: Map<string, string>, loaderContext: w
   const importDependent = syncFileName ? 'require' : 'import'
   return `Object.assign({
   path: '${path}',
-  load: function() {
-    return ${importDependent}(${stringify(join(loaderContext.context, syncFileName || path))})
+  load: function(context, params) {
+    const page = await ${importDependent}(${stringify(join(loaderContext.context, syncFileName || path))})
+    return [${importDependent}(${stringify(join(loaderContext.context, syncFileName || path))}), context, params]
   }
 }, ${JSON.stringify(readConfig(pages.get(path)!))})`
 // TODO 优化加载 config 方法，保留 config 文件内的变量
