@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/router",
-  "version": "3.5.0-alpha.8",
+  "version": "3.5.0-alpha.9",
   "description": "Taro-router",
   "browser": "dist/index.esm.js",
   "main:h5": "dist/index.js",
@@ -28,8 +28,8 @@
   "author": "O2Team",
   "license": "MIT",
   "dependencies": {
-    "@tarojs/runtime": "3.5.0-alpha.8",
-    "@tarojs/taro": "3.5.0-alpha.8",
+    "@tarojs/runtime": "3.5.0-alpha.9",
+    "@tarojs/taro": "3.5.0-alpha.9",
     "history": "^5.1.0",
     "query-string": "^7.1.1",
     "universal-router": "^8.3.0"
