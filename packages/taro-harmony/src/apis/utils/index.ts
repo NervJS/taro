@@ -28,13 +28,3 @@ export function callAsyncFail<T extends FunctionType> (reject, res, options?: IA
   options?.complete?.(res)
   reject(res)
 }
-
-export function callCallbackSuccess<T extends FunctionType> (res, options?: IAsyncParams<T>) {
-  options?.success?.(res)
-  options?.complete?.(res)
-}
-
-export function callCallbackFail<T extends FunctionType> (res, options?: IAsyncParams<T>) {
-  options?.fail?.(res)
-  options?.complete?.(res)
-}

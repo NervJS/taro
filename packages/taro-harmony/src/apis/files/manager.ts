@@ -1,6 +1,7 @@
 import Taro from '@tarojs/taro'
 import { isNumber, isString } from '@tarojs/shared'
-import { validateParams, callCallbackSuccess, callCallbackFail } from '../utils'
+import { callCallbackFail, callCallbackSuccess, notSupport } from './utils'
+import { validateParams } from '../utils'
 
 const fileio = require('@ohos.fileio')
 
@@ -17,30 +18,81 @@ const openSchema = {
   filePath: 'String'
 }
 
+const readSchema = {
+  fd: 'String',
+  arrayBuffer: 'Object'
+}
+
 const writeSchema = {
   fd: 'String',
   data: 'String'
 }
 
-interface ReadOrWriteOption {
+const renameSchema = {
+  newPath: 'String',
+  oldPath: 'String'
+}
+
+interface ReadOption {
   offset: number,
+  length: number,
+  position: number
+}
+
+interface WriteOption extends ReadOption {
+  encoding: 'utf-8'
+}
+
+interface ReadFileOption {
   length: number,
   position: number,
   encoding: 'utf-8'
+}
+interface ReadResult {
+  bytesRead: number,
+  arrayBuffer: ArrayBuffer
+}
+
+interface WriteResult {
+  bytesWritten: number
 }
 
 function convertDataToString (data: string | ArrayBuffer): string {
   if (isString(data)) {
     return data
   }
-  return String.fromCharCode.apply(null, data)
+  return String.fromCharCode.apply(null, new Uint8Array(data))
 }
 
-function convertReadOrWriteOption (option: Taro.FileSystemManager.WriteOption | Taro.FileSystemManager.WriteSyncOption): ReadOrWriteOption | null {
+function convertWriteOption (option: Taro.FileSystemManager.WriteOption | Taro.FileSystemManager.WriteSyncOption): WriteOption | null {
   const { offset, length, position } = option
   if (isNumber(offset) && isNumber(length) && isNumber(position)) {
     return {
       offset,
+      length,
+      position,
+      encoding: 'utf-8'
+    }
+  }
+  return null
+}
+
+function convertReadOption (option: Taro.FileSystemManager.ReadOption | Taro.FileSystemManager.ReadSyncOption): ReadOption | null {
+  const { offset, length, position } = option
+  if (isNumber(offset) && isNumber(length) && isNumber(position)) {
+    return {
+      offset,
+      length,
+      position
+    }
+  }
+  return null
+}
+
+function convertReadFileOption (option: Taro.FileSystemManager.ReadFileOption): ReadFileOption | null {
+  const { length, position } = option
+  if (isNumber(length) && isNumber(position)) {
+    return {
       length,
       position,
       encoding: 'utf-8'
@@ -137,21 +189,92 @@ function open (option: Taro.FileSystemManager.OpenOption) {
     const res = { errMsg: error.message }
     return callCallbackFail(res, option)
   }
-
-  // 由于 HarmonyOS fileio 的 open 异步方法在【文件不存在】，并在【指定不存在则创建文件标志】后依旧会抛出：
-  // No such file or directory 异常，为保证接口的可用性，此处降级使用 fileio 的 openSync 方法。
-  try {
-    const fd = fileio.openSync(option.filePath, convertOpenFlag(option.flag), 0o666)
-    callCallbackSuccess({ fd: `${fd}` }, option)
-  } catch (error) {
-    const res = { errMsg: error.message ? error.message : error }
-    callCallbackFail(res, option)
-  }
+  // 由于 HarmonyOS 异步方法 fileio.open 在【文件不存在】，并在【指定不存在则创建文件标志】后依旧抛出 No such file or directory 异常，
+  // 为保证接口的可用性，此处降级使用 fileio.openSync 方法。
+  const openPromise = new Promise((resolve, reject) => {
+    try {
+      const fd = fileio.openSync(option.filePath, convertOpenFlag(option.flag), 0o666)
+      resolve({ fd: `${fd}` })
+    } catch (error) {
+      reject(new Error(error.message ? error.message : error))
+    }
+  })
+  openPromise.then((res) => callCallbackSuccess(res, option))
+    .catch((error) => callCallbackFail({ errMsg: error.message }, option))
 }
 
 function openSync (option: Taro.FileSystemManager.OpenSyncOption): string {
   validateParams('openSync', option, openSchema)
   return `${fileio.openSync(option.filePath, convertOpenFlag(option.flag), 0o666)}`
+}
+
+function read (option: Taro.FileSystemManager.ReadOption) {
+  try {
+    validateParams('read', option, readSchema)
+  } catch (error) {
+    const res = { errMsg: error.message }
+    return callCallbackFail(res, option)
+  }
+
+  fileio.read(parseInt(option.fd, 10), option.arrayBuffer, convertReadOption(option), (error, readOut) => {
+    if (error) {
+      const res = { errMsg: error.message ? error.message : error }
+      callCallbackFail(res, option)
+    } else {
+      callCallbackSuccess({ bytesRead: readOut.bytesRead, arrayBuffer: readOut.buffer }, option)
+    }
+  })
+}
+
+function readSync (option: Taro.FileSystemManager.ReadSyncOption): ReadResult {
+  validateParams('readSync', option, readSchema)
+  return {
+    bytesRead: fileio.readSync(parseInt(option.fd, 10), option.arrayBuffer, convertReadOption(option)),
+    arrayBuffer: option.arrayBuffer
+  }
+}
+
+function readCompressedFile (option: Taro.FileSystemManager.readCompressedFile.Option) {
+  notSupport('readCompressedFile', option)
+}
+
+function readCompressedFileSync (_: Taro.FileSystemManager.readCompressedFileSync.Option): ArrayBuffer {
+  notSupport('readCompressedFileSync')
+  return new ArrayBuffer(0)
+}
+
+/**
+ * HarmonyOS encoding 目前仅支持 utf-8，详情参见：
+ * https://developer.harmonyos.com/cn/docs/documentation/doc-references/js-apis-fileio-0000001168366687#section17477155374810
+ */
+function readFile (option: Taro.FileSystemManager.ReadFileOption) {
+  try {
+    validateParams('readFile', option, openSchema)
+  } catch (error) {
+    const res = { errMsg: error.message }
+    return callCallbackFail(res, option)
+  }
+
+  // 由于 HarmonyOS 异步方法 fileio.readText 方法不能正常工作，
+  // 为保证接口的可用性，此处降级使用 fileio.readFileSync 方法。
+  const readFilePromise = new Promise((resolve, reject) => {
+    try {
+      const data = fileio.readTextSync(option.filePath, convertReadFileOption(option))
+      resolve({ data })
+    } catch (error) {
+      reject(new Error(error.message ? error.message : error))
+    }
+  })
+  readFilePromise.then((res) => callCallbackSuccess(res, option))
+    .catch((error) => callCallbackFail({ errMsg: error.message }, option))
+}
+
+/**
+ * HarmonyOS encoding 目前仅支持 utf-8，详情参见：
+ * https://developer.harmonyos.com/cn/docs/documentation/doc-references/js-apis-fileio-0000001168366687#section4147155065718
+ */
+function readFileSync (filePath: string, encoding?: keyof Taro.FileSystemManager.Encoding, position?: number, length?: number): string | ArrayBuffer {
+  return fileio.readTextSync(filePath, convertReadFileOption({ filePath, encoding, length, position }))
 }
 
 /**
@@ -166,7 +289,7 @@ function write (option: Taro.FileSystemManager.WriteOption) {
     const res = { errMsg: error.message }
     return callCallbackFail(res, option)
   }
-  fileio.write(parseInt(option.fd, 10), data, convertReadOrWriteOption(option), (error, bytesWritten) => {
+  fileio.write(parseInt(option.fd, 10), data, convertWriteOption(option), (error, bytesWritten) => {
     if (error) {
       const res = { errMsg: error.message ? error.message : error }
       callCallbackFail(res, option)
@@ -180,11 +303,11 @@ function write (option: Taro.FileSystemManager.WriteOption) {
  * HarmonyOS encoding 目前仅支持 utf-8，详情参见：
  * https://developer.harmonyos.com/cn/docs/documentation/doc-references/js-apis-fileio-0000001168366687#section144923345218
  */
-function writeSync (option: Taro.FileSystemManager.WriteSyncOption): { bytesWritten: number } {
+function writeSync (option: Taro.FileSystemManager.WriteSyncOption): WriteResult {
   const data = convertDataToString(option.data)
   validateParams('writeSync', { ...option, data }, writeSchema)
   return {
-    bytesWritten: fileio.writeSync(parseInt(option.fd, 10), data, convertReadOrWriteOption(option))
+    bytesWritten: fileio.writeSync(parseInt(option.fd, 10), data, convertWriteOption(option))
   }
 }
 
@@ -209,6 +332,49 @@ function writeFileSync (filePath: string, data: string | ArrayBuffer) {
   writeSync({ fd, data })
 }
 
+function rename (option: Taro.FileSystemManager.RenameOption) {
+  try {
+    validateParams('rename', option, renameSchema)
+  } catch (error) {
+    const res = { errMsg: error.message }
+    return callCallbackFail(res, option)
+  }
+  fileio.rename(option.oldPath, option.newPath, (error) => {
+    if (error) {
+      const res = { errMsg: error.message ? error.message : error }
+      callCallbackFail(res, option)
+    } else {
+      callCallbackSuccess(undefined, option)
+    }
+  })
+}
+
+function renameSync (oldPath: string, newPath: string) {
+  fileio.renameSync(oldPath, newPath)
+}
+
+function unlink (option: Taro.FileSystemManager.UnlinkOption) {
+  try {
+    validateParams('unlink', option, openSchema)
+  } catch (error) {
+    const res = { errMsg: error.message }
+    return callCallbackFail(res, option)
+  }
+
+  fileio.unlink(option.filePath, (error) => {
+    if (error) {
+      const res = { errMsg: error.message ? error.message : error }
+      callCallbackFail(res, option)
+    } else {
+      callCallbackSuccess(undefined, option)
+    }
+  })
+}
+
+function unlinkSync (filePath: string) {
+  fileio.unlinkSync(filePath)
+}
+
 export function getFileSystemManager () {
   return {
     access,
@@ -217,9 +383,19 @@ export function getFileSystemManager () {
     copyFileSync,
     open,
     openSync,
+    read,
+    readSync,
+    readCompressedFile,
+    readCompressedFileSync,
+    readFile,
+    readFileSync,
     write,
     writeSync,
     writeFile,
-    writeFileSync
+    writeFileSync,
+    rename,
+    renameSync,
+    unlink,
+    unlinkSync
   }
 }
