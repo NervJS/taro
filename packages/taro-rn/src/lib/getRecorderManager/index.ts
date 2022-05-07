@@ -78,11 +78,11 @@ class RecorderManager {
     try {
       await Audio.setAudioModeAsync({
         allowsRecordingIOS: true,
-        interruptionModeIOS: Audio.INTERRUPTION_MODE_IOS_DO_NOT_MIX,
+        interruptionModeIOS: 1, // InterruptionModeIOS.DoNotMix
         playsInSilentModeIOS: true,
         staysActiveInBackground: false,
         shouldDuckAndroid: true,
-        interruptionModeAndroid: Audio.INTERRUPTION_MODE_ANDROID_DO_NOT_MIX,
+        interruptionModeAndroid: 1, //InterruptionModeAndroid.DoNotMix
         playThroughEarpieceAndroid: true
       } as any)
 

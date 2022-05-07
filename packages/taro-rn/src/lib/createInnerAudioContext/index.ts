@@ -141,10 +141,10 @@ class InnerAudioContext {
     await Audio.setAudioModeAsync({
       allowsRecordingIOS: false,
       staysActiveInBackground: false,
-      interruptionModeIOS: Audio.INTERRUPTION_MODE_IOS_DO_NOT_MIX,
+      interruptionModeIOS: 1, // InterruptionModeIOS.DoNotMix
       playsInSilentModeIOS: !this._obeyMuteSwitch,
       shouldDuckAndroid: true,
-      interruptionModeAndroid: Audio.INTERRUPTION_MODE_ANDROID_DO_NOT_MIX,
+      interruptionModeAndroid: 1, // InterruptionModeAndroid.DoNotMix
       playThroughEarpieceAndroid: false
     })
     const soundStatus = await this.soundObject.getStatusAsync()
