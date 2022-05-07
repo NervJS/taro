@@ -21,6 +21,8 @@ export class TaroEvent {
 
   public bubbles: boolean
 
+  public button: number // @see: https://developer.mozilla.org/zh-CN/docs/Web/API/MouseEvent/button
+
   public cancelable: boolean
 
   public _stop = false
@@ -40,6 +42,7 @@ export class TaroEvent {
     this.mpEvent = event
     this.bubbles = Boolean(opts && opts.bubbles)
     this.cancelable = Boolean(opts && opts.cancelable)
+    this.button = 0
   }
 
   public stopPropagation () {

@@ -9,70 +9,71 @@ export interface HistoryState {
 }
 
 type Options = {
-  win: any
+  window: any
 }
 
 export class History extends Events {
   /* private property */
-  __location: LocationType.Location
-  __stack: HistoryState[] = []
-  __cur = 0
+  #location: LocationType.Location
+  #stack: HistoryState[] = []
+  #cur = 0
 
-  win: any
+  #window: any
 
   constructor (location: LocationType.Location, options: Options) {
     super()
 
-    this.win = options.win
-    this.__location = location
+    this.#window = options.window
+    this.#location = location
 
-    this.__location.on('__record_history__', (href: string) => {
-      this.__cur++
-      this.__stack = this.__stack.slice(0, this.__cur)
-      this.__stack.push({
+    this.#location.on('__record_history__', (href: string) => {
+      this.#cur++
+      this.#stack = this.#stack.slice(0, this.#cur)
+      this.#stack.push({
         state: null,
         title: '',
         url: href
       })
     }, null)
 
-    this.__location.on('__reset_history__', (href: string) => {
-      this.__reset(href)
+    this.#location.on('__reset_history__', (href: string) => {
+      this.#reset(href)
     }, null)
 
-    this.__reset()
+    this.#reset()
   }
 
-  __reset (href = '') {
-    this.__stack = [
+  #reset (href = '') {
+    this.#stack = [
       {
         state: null,
         title: '',
-        url: href
+        url: href || this.#location.href
       }
     ]
-    this.__cur = 0
+    this.#cur = 0
   }
 
   /* public property */
   get length () {
-    return this.__stack.length
+    return this.#stack.length
   }
 
   get state () {
-    return this.__stack[this.__cur]
+    return this.#stack[this.#cur]
   }
 
   /* public method */
   go (delta: number) {
     if (!isNumber(delta) || isNaN(delta)) return
 
-    let targetIdx = this.__cur + delta
-    if (targetIdx < 0) targetIdx = 0
-    if (targetIdx >= this.length) targetIdx = this.length - 1
-    this.__cur = targetIdx
+    let targetIdx = this.#cur + delta
+    targetIdx = Math.min(Math.max(targetIdx, 0), this.length - 1)
 
-    this.win.trigger('popstate', this.__stack[this.__cur])
+    this.#cur = targetIdx
+
+    this.#location.trigger('__set_href_without_history__', this.#stack[this.#cur].url)
+    this.#window.trigger('popstate', this.#stack[this.#cur])
   }
 
   back () {
@@ -85,21 +86,25 @@ export class History extends Events {
 
   pushState (state: any, title: string, url: string) {
     if (!url || !isString(url)) return
-    this.__stack = this.__stack.slice(0, this.__cur + 1)
-    this.__stack.push({
+    this.#stack = this.#stack.slice(0, this.#cur + 1)
+    this.#stack.push({
       state,
       title,
       url
     })
-    this.__cur = this.length - 1
+    this.#cur = this.length - 1
+
+    this.#location.trigger('__set_href_without_history__', url)
   }
 
   replaceState (state: any, title: string, url: string) {
     if (!url || !isString(url)) return
-    this.__stack[this.__cur] = {
+    this.#stack[this.#cur] = {
       state,
       title,
       url
     }
+
+    this.#location.trigger('__set_href_without_history__', url)
   }
 }

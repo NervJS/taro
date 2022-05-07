@@ -4,6 +4,7 @@ import { getHooks } from '../container/store'
 import { eventHandler } from '../dom/event'
 import { Current } from '../current'
 import { document } from '../bom/document'
+import { window } from '../bom/window'
 import { incrementId, customWrapperCache } from '../utils'
 import { perf } from '../perf'
 import { eventCenter } from '../emitter/emitter'
@@ -65,7 +66,6 @@ export function stringify (obj?: Record<string, unknown>) {
   return path === '' ? path : '?' + path
 }
 
-// TODO: 需要考虑路由中有 # 符号的情况
 export function getPath (id: string, options?: Record<string, unknown>): string {
   const idx = id.indexOf('?')
   return `${idx > -1 ? id.substring(0, idx) : id}${stringify(process.env.TARO_ENV === 'h5' ? { stamp: options?.stamp || '' } : options)}`
@@ -98,6 +98,8 @@ export function createPageConfig (component: any, pageName?: string, data?: Reco
   let pageElement: TaroRootElement | null = null
   let unmounting = false
   let prepareMountList: (() => void)[] = []
+  let _location
+  let _history
 
   function setCurrentRouter (page: MpInstance) {
     const router = process.env.TARO_ENV === 'h5' ? page.$taroPath : page.route || page.__route__ || page.$taroPath
@@ -133,6 +135,8 @@ export function createPageConfig (component: any, pageName?: string, data?: Reco
       }
 
       setCurrentRouter(this)
+      // 初始化当前页面的location&history
+      window.trigger('__init_location_and_history__')
 
       const mount = () => {
         Current.app!.mount!(component, $taroPath, () => {
@@ -156,6 +160,8 @@ export function createPageConfig (component: any, pageName?: string, data?: Reco
       }
     },
     [ONUNLOAD] () {
+      _location = null
+      _history = null
       const $taroPath = this.$taroPath
       // 触发onUnload生命周期
       safeExecute($taroPath, ONUNLOAD)
@@ -185,6 +191,8 @@ export function createPageConfig (component: any, pageName?: string, data?: Reco
         // 设置 Current 的 page 和 router
         Current.page = this as any
         setCurrentRouter(this)
+        // 恢复location&history
+        window.trigger('__recover_location_and_history__', _location, _history)
         // 触发生命周期
         safeExecute(this.$taroPath, ON_SHOW, options)
         // 通过事件触发子组件的生命周期
@@ -192,6 +200,8 @@ export function createPageConfig (component: any, pageName?: string, data?: Reco
       })
     },
     [ONHIDE] () {
+      _location = window.location
+      _history = window.history
       // 设置 Current 的 page 和 router
       if (Current.page === this) {
         Current.page = null

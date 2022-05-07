@@ -8,12 +8,13 @@ import { Location } from './location'
 import { getComputedStyle } from './getComputedStyle'
 import { DATE } from '../constants'
 import { Events } from '../emitter/emitter'
-import { getCurrentInstance } from '../current'
-import * as pageCache from '../utils/pageCache'
 
 let WindowConstructor
 if (process.env.TARO_ENV && process.env.TARO_ENV !== 'h5') {
   class Window extends Events {
+    location: Location
+    history: History
+
     constructor () {
       super()
 
@@ -33,7 +34,24 @@ if (process.env.TARO_ENV && process.env.TARO_ENV !== 'h5') {
         (this as any).Date = Date
       }
 
-      this.document.defaultView = this
+      document.defaultView = this
+
+      this.initEvent()
+    }
+
+    initEvent () {
+      this.on('__init_location_and_history__', () => {
+        this.location = new Location({ window: this })
+        this.history = new History(this.location, { window: this })
+      }, null)
+
+      this.on('__recover_location_and_history__', (location: Location, history: History) => {
+        if (location) {
+          location.trigger('__recover_location__')
+          this.location = location
+        }
+        history && (this.history = history)
+      }, null)
     }
 
     get document () {
@@ -54,42 +72,6 @@ if (process.env.TARO_ENV && process.env.TARO_ENV !== 'h5') {
 
     get getComputedStyle () {
       return getComputedStyle
-    }
-
-    get location () {
-      const Current = getCurrentInstance()
-      if (Current.page) {
-        const pageId = (Current.page as any).$taroPath
-        if (pageCache.has(pageId)) {
-          return pageCache.getLocation(pageId)
-        } else {
-          const location = new Location({ win: this })
-          const history = new History(location, { win: this })
-          pageCache.init(pageId, {
-            location,
-            history
-          })
-        }
-      }
-      return null
-    }
-
-    get history () {
-      const Current = getCurrentInstance()
-      if (Current.page) {
-        const pageId = (Current.page as any).$taroPath
-        if (pageCache.has(pageId)) {
-          return pageCache.getHistory(pageId)
-        } else {
-          const location = new Location({ win: this })
-          const history = new History(location, { win: this })
-          pageCache.init(pageId, {
-            location,
-            history
-          })
-        }
-      }
-      return null
     }
 
     addEventListener (event: string, callback: (arg: any)=>void) {
