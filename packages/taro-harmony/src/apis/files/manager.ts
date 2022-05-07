@@ -256,7 +256,7 @@ function readFile (option: Taro.FileSystemManager.ReadFileOption) {
   }
 
   // 由于 HarmonyOS 异步方法 fileio.readText 方法不能正常工作，
-  // 为保证接口的可用性，此处降级使用 fileio.readFileSync 方法。
+  // 为保证接口的可用性，此处降级使用 fileio.readTextSync 方法。
   const readFilePromise = new Promise((resolve, reject) => {
     try {
       const data = fileio.readTextSync(option.filePath, convertReadFileOption(option))
