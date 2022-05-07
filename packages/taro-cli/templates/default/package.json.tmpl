@@ -48,7 +48,7 @@
     "@tarojs/runtime": "<%= version %>",
     "@tarojs/shared": "<%= version %>",
     "@tarojs/taro": "<%= version %>",
-    "@tarojs/taro-h5": "<%= version %>",<% if (framework === 'react' || framework === 'preact' || framework === 'nerv') {%>
+    "@tarojs/taro-h5": "<%= version %>",<% if (['react', 'preact', 'nerv'].includes(framework)) {%>
     "@tarojs/plugin-framework-react": "<%= version %>",<%}%><% if (framework === 'react') {%>
     "@tarojs/react": "<%= version %>",
     "react-dom": "^17.0.0",
@@ -63,14 +63,16 @@
   },
   "devDependencies": {
     "@babel/core": "^7.8.0",
-    "@types/webpack-env": "^1.13.6",<% if (framework === 'react' || framework === 'preact' || framework === 'nerv') {%>
+    "@types/webpack-env": "^1.13.6",<% if (['react', 'preact', 'nerv'].includes(framework)) {%>
     "@types/react": "^17.0.2",<%}%><% if (compiler === 'webpack4') {%>
     "@tarojs/mini-runner": "<%= version %>",
     "@tarojs/webpack-runner": "<%= version %>",
     "webpack": "4.46.0",<%} else if (compiler === 'webpack5') {%>
     "webpack": "5.69.0",
     "@tarojs/webpack5-runner": "<%= version %>",<%}%>
-    "babel-preset-taro": "<%= version %>",<% if (framework === 'vue') {%>
+    "babel-preset-taro": "<%= version %>",<% if (['vue', 'vue3'].includes(framework)) {%>
+    "css-loader": "3.4.2",
+    "style-loader": "1.3.0",<%}%><% if (framework === 'vue') {%>
     "@vue/babel-preset-jsx": "^1.2.4",
     "vue-loader": "^15.9.2",
     "eslint-plugin-vue": "^6.x",<%}%><% if (framework === 'vue3') {%>
@@ -83,7 +85,7 @@
     "@pmmmwh/react-refresh-webpack-plugin": "0.5.5",
     "react-refresh": "0.11.0",<%}%><% if (framework === 'preact') {%>
     "@prefresh/webpack": "^3.2.3",
-    "@prefresh/babel-plugin": "^0.4.1",<%}%><% if (framework === 'react' || framework === 'preact' || framework === 'nerv') {%>
+    "@prefresh/babel-plugin": "^0.4.1",<%}%><% if (['react', 'preact', 'nerv'].includes(framework)) {%>
     "eslint-plugin-react": "^7.8.2",
     "eslint-plugin-import": "^2.12.0",
     "eslint-plugin-react-hooks": "^4.2.0",<%}%>

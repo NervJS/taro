@@ -43,7 +43,6 @@
     "@tarojs/plugin-platform-swan": "3.5.0-alpha.10",
     "@tarojs/plugin-platform-tt": "3.5.0-alpha.10",
     "@tarojs/plugin-platform-weapp": "3.5.0-alpha.10",
-    "@tarojs/react": "3.5.0-alpha.10",
     "@tarojs/runner-utils": "3.5.0-alpha.10",
     "@tarojs/shared": "3.5.0-alpha.10",
     "@tarojs/taro": "3.5.0-alpha.10",
