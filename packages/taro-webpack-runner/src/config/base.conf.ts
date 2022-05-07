@@ -1,8 +1,6 @@
 import { MultiPlatformPlugin } from '@tarojs/runner-utils'
-import * as path from 'path'
 import * as Chain from 'webpack-chain'
 
-import { getRootPath } from '../util'
 import type { BuildConfig } from '../util/types'
 
 export default (_appPath: string, _config: Partial<BuildConfig>) => {
@@ -21,7 +19,7 @@ export default (_appPath: string, _config: Partial<BuildConfig>) => {
       }
     },
     resolveLoader: {
-      modules: [path.resolve(getRootPath(), '../../node_modules'), 'node_modules']
+      modules: ['node_modules']
     }
   })
 

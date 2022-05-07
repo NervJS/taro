@@ -6,7 +6,6 @@ import Chain from 'webpack-chain'
 import formatMessages from 'webpack-format-messages'
 
 import { WebpackPlugin } from './WebpackPlugin'
-import { getRootPath } from '../utils'
 import type { H5BuildConfig, MiniBuildConfig } from '../utils/types'
 
 type Config = Partial<MiniBuildConfig | H5BuildConfig>
@@ -29,7 +28,7 @@ export class BaseConfig {
         }
       },
       resolveLoader: {
-        modules: [path.resolve(getRootPath(), '../../node_modules'), 'node_modules']
+        modules: ['node_modules']
       },
       output: {
         chunkLoadingGlobal: 'webpackJsonp'
