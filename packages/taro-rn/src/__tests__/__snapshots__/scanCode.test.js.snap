@@ -16,6 +16,11 @@ exports[`scanCode should render scanCode success 1`] = `
   }
 >
   <ViewManagerAdapter_ExponentCamera
+    onBarCodeScanned={[Function]}
+    onCameraReady={[Function]}
+    onFacesDetected={[Function]}
+    onMountError={[Function]}
+    onPictureSaved={[Function]}
     proxiedProperties={
       Object {
         "autoFocus": undefined,
@@ -26,11 +31,6 @@ exports[`scanCode should render scanCode success 1`] = `
         "faceDetectorSettings": Object {},
         "flashMode": undefined,
         "focusDepth": 0,
-        "onBarCodeScanned": [Function],
-        "onCameraReady": [Function],
-        "onFacesDetected": [Function],
-        "onMountError": [Function],
-        "onPictureSaved": [Function],
         "type": undefined,
         "whiteBalance": undefined,
         "zoom": 0,

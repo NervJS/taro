@@ -1,4 +1,3 @@
-// eslint-disable-next-line
 import React from 'react'
 import { RootSiblingParent } from 'react-native-root-siblings';
 import { render, waitFor } from '@testing-library/react-native';
