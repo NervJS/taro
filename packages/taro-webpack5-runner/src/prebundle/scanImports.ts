@@ -1,5 +1,4 @@
-import type { Loader } from 'esbuild'
-import esbuild from 'esbuild'
+import esbuild, { Loader } from 'esbuild'
 import fs from 'fs'
 import path from 'path'
 

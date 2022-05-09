@@ -1,8 +1,8 @@
 import { chalk } from '@tarojs/helper'
-import { modifyMiniWebpackChain } from './webpack.mini'
-import { modifyH5WebpackChain } from './webpack.h5'
-
 import type { IPluginContext } from '@tarojs/service'
+
+import { modifyH5WebpackChain } from './webpack.h5'
+import { modifyMiniWebpackChain } from './webpack.mini'
 
 type CompilerOptions = {
   isCustomElement: (tag: string) => boolean
@@ -27,7 +27,9 @@ export default (ctx: IPluginContext, config: IConfig = {}) => {
 
   ctx.modifyWebpackChain(({ chain, webpack, data }) => {
     // 通用
-    // setAlias(chain)
+    if (process.env.NODE_ENV !== 'production') {
+      setAlias(chain)
+    }
     setDefinePlugin(chain, webpack)
 
     if (process.env.TARO_ENV === 'h5') {
@@ -62,11 +64,11 @@ export default (ctx: IPluginContext, config: IConfig = {}) => {
   })
 }
 
-// function setAlias (chain) {
-//   // 避免 npm link 时，taro composition apis 使用的 vue 和项目使用的 vue 实例不一致。
-//   chain.resolve.alias
-//     .set('vue', require.resolve('vue'))
-// }
+function setAlias (chain) {
+  // 避免 npm link 时，taro composition apis 使用的 vue 和项目使用的 vue 实例不一致。
+  chain.resolve.alias
+    .set('vue', require.resolve('vue'))
+}
 
 function setDefinePlugin (chain, webpack) {
   chain

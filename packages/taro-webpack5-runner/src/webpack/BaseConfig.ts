@@ -6,7 +6,7 @@ import Chain from 'webpack-chain'
 import formatMessages from 'webpack-format-messages'
 
 import type { H5BuildConfig, MiniBuildConfig } from '../utils/types'
-import { WebpackPlugin } from './WebpackPlugin'
+import WebpackPlugin from './WebpackPlugin'
 
 type Config = Partial<MiniBuildConfig | H5BuildConfig>
 

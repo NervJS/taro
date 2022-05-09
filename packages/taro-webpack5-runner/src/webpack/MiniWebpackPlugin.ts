@@ -6,8 +6,7 @@ import BuildNativePlugin from '../plugins/BuildNativePlugin'
 import MiniPlugin from '../plugins/MiniPlugin'
 import MiniSplitChunksPlugin from '../plugins/MiniSplitChunksPlugin'
 import type { MiniCombination } from './MiniCombination'
-import type { PluginArgs } from './WebpackPlugin'
-import { WebpackPlugin } from './WebpackPlugin'
+import WebpackPlugin, { PluginArgs } from './WebpackPlugin'
 
 export class MiniWebpackPlugin {
   combination: MiniCombination

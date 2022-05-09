@@ -20,8 +20,8 @@ type CSSLoaders = {
   use
 }[]
 
-const taroModuleRegs = [/@tarojs[/\\_]components/, /\btaro-components\b/]
-const defaultEsnextModuleRegs = [
+const taroModuleRgx = [/@tarojs[/\\_]components/, /\btaro-components\b/]
+const defaultEsnextModuleRgx = [
   /@tarojs[/\\_]components/,
   /\btaro-components\b/,
   /@tarojs[/\\_]taro-h5/,
@@ -29,10 +29,10 @@ const defaultEsnextModuleRegs = [
   /@tarojs[/\\_]router/,
   /\btaro-router\b/
 ]
-const isTaroModule = (filename: string) => taroModuleRegs.some(reg => reg.test(filename))
+const isTaroModule = (filename: string) => taroModuleRgx.some(reg => reg.test(filename))
 
 const getEsnextModuleRules = (esnextModules: (string | RegExp)[]) => {
-  return [...defaultEsnextModuleRegs, ...esnextModules]
+  return [...defaultEsnextModuleRgx, ...esnextModules]
 }
 
 export class H5WebpackModule {

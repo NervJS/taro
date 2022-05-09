@@ -7,7 +7,7 @@ import { TaroWebpackBarPlugin } from '../plugins/WebpackBarPlugin'
 
 export type PluginArgs = Record<string, any>[]
 
-export class WebpackPlugin {
+export default class WebpackPlugin {
   static getPlugin (plugin, args: PluginArgs) {
     return {
       plugin,

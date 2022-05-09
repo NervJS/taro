@@ -1,9 +1,9 @@
-import { REG_VUE, chalk } from '@tarojs/helper'
+import { chalk, REG_VUE } from '@tarojs/helper'
 import { DEFAULT_Components } from '@tarojs/runner-utils'
-import { internalComponents, toCamelCase, capitalize } from '@tarojs/shared/dist/template'
-import { getLoaderMeta } from './loader-meta'
-
 import type { IPluginContext } from '@tarojs/service'
+import { capitalize, internalComponents, toCamelCase } from '@tarojs/shared/dist/template'
+
+import { getLoaderMeta } from './loader-meta'
 
 const CUSTOM_WRAPPER = 'custom-wrapper'
 let isBuildH5
@@ -15,6 +15,9 @@ export default (ctx: IPluginContext) => {
   isBuildH5 = process.env.TARO_ENV === 'h5'
 
   ctx.modifyWebpackChain(({ chain, data }) => {
+    if (process.env.NODE_ENV !== 'production') {
+      setAlias(chain)
+    }
     customVueChain(chain, data)
     setLoader(chain)
 
@@ -176,4 +179,10 @@ function setLoader (chain) {
         return args
       })
   }
+}
+
+function setAlias (chain) {
+  // 避免 npm link 时，taro composition apis 使用的 vue 和项目使用的 vue 实例不一致。
+  chain.resolve.alias
+    .set('vue', require.resolve('vue'))
 }

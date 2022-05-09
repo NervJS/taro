@@ -4,7 +4,7 @@ import path from 'path'
 import H5Plugin from '../plugins/H5Plugin'
 import type { H5Combination } from './H5Combination'
 import type { PluginArgs } from './WebpackPlugin'
-import { WebpackPlugin } from './WebpackPlugin'
+import WebpackPlugin from './WebpackPlugin'
 
 export class H5WebpackPlugin {
   combination: H5Combination
