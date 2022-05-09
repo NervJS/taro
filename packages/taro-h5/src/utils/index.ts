@@ -1,5 +1,5 @@
 /* eslint-disable prefer-promise-reject-errors */
-import { Current, container, SERVICE_IDENTIFIER, IHooks, TaroElement } from '@tarojs/runtime'
+import { container, Current, IHooks, SERVICE_IDENTIFIER, TaroElement } from '@tarojs/runtime'
 
 export function shouldBeObject (target: unknown) {
   if (target && typeof target === 'object') return { flag: true }

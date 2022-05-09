@@ -1,8 +1,8 @@
+import 'weui'
+import './style/index.css'
+
 import classNames from 'classnames'
 import React from 'react'
-import 'weui'
-
-import './style/index.css'
 
 interface IProps extends React.HTMLAttributes<HTMLDivElement> {
   hoverClass?: string

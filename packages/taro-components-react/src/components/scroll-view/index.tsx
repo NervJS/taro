@@ -1,10 +1,11 @@
-import classNames from 'classnames'
 import 'weui'
-import React from 'react'
-// import omit from 'omit.js'
-
-import { throttle } from '../../utils'
 import './style/index.css'
+
+import classNames from 'classnames'
+import React from 'react'
+
+// import omit from 'omit.js'
+import { throttle } from '../../utils'
 
 function easeOutScroll (from = 0, to = 0, callback) {
   if (from === to || typeof from !== 'number') {

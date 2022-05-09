@@ -1,17 +1,17 @@
-import * as path from 'path'
-import * as webpack from 'webpack'
-import * as merge from 'webpack-merge'
-import { createFsFromVolume, Volume, IFs } from 'memfs'
-import * as joinPath from 'memory-fs/lib/join'
 import ReactLikePlugin from '@tarojs/plugin-framework-react'
 import Vue2Plugin from '@tarojs/plugin-framework-vue2'
 import Vue3Plugin from '@tarojs/plugin-framework-vue3'
+import { createFsFromVolume, IFs, Volume } from 'memfs'
+import * as joinPath from 'memory-fs/lib/join'
+import * as path from 'path'
+import * as webpack from 'webpack'
+import * as merge from 'webpack-merge'
 
-import baseConfig from './config'
 import prodConf from '../../config/prod.conf'
-import { BuildConfig } from '../../util/types'
 import { customizeChain } from '../../index'
 import { makeConfig } from '../../util/chain'
+import { BuildConfig } from '../../util/types'
+import baseConfig from './config'
 
 interface EnsuredFs extends IFs {
   join: () => string

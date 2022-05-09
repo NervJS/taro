@@ -1,8 +1,8 @@
 import Vue from 'vue'
 
+import components from './components'
 import createComponent from './createComponent'
 import createFormsComponent from './createFormsComponent'
-import components from './components'
 
 components.forEach(params => {
   if (typeof params === 'string') {

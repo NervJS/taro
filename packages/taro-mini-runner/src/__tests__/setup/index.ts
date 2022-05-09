@@ -1,6 +1,6 @@
-import * as fs from 'fs'
 import * as babel from '@babel/core'
-import { createFsFromVolume, Volume, IFs } from 'memfs'
+import * as fs from 'fs'
+import { createFsFromVolume, IFs, Volume } from 'memfs'
 import * as joinPath from 'memory-fs/lib/join'
 
 interface EnsuredFs extends IFs {

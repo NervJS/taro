@@ -1,21 +1,21 @@
 import {
-  recursiveMerge,
   isNodeModule,
+  recursiveMerge,
+  REG_CSS,
+  REG_LESS,
   REG_SASS_SASS,
   REG_SASS_SCSS,
-  REG_LESS,
   REG_STYLUS,
-  REG_CSS,
   REG_TEMPLATE
 } from '@tarojs/helper'
-import path from 'path'
+import type { IPostcssOption, PostcssOption } from '@tarojs/taro/types/compile'
 import { cloneDeep } from 'lodash'
-import { WebpackModule } from './WebpackModule'
-import { getPostcssPlugins } from '../postcss/postcss.mini'
+import path from 'path'
 
-import type { PostcssOption, IPostcssOption } from '@tarojs/taro/types/compile'
+import { getPostcssPlugins } from '../postcss/postcss.mini'
 import type { MiniCombination } from './MiniCombination'
-import type { IRule, CssModuleOptionConfig } from './WebpackModule'
+import type { CssModuleOptionConfig, IRule } from './WebpackModule'
+import { WebpackModule } from './WebpackModule'
 
 type PostcssUrlConfig = PostcssOption.url['config']
 type CSSLoaders = {

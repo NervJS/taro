@@ -13,15 +13,15 @@
 */
 
 import {
-  internalComponents,
   focusComponents,
-  voidElements,
+  internalComponents,
   nestElements,
-  singleQuote
+  singleQuote,
+  voidElements
 } from './components'
+import { isBooleanStringLiteral, isFunction, isNumber } from './is'
 import { Shortcuts } from './shortcuts'
-import { isBooleanStringLiteral, isNumber, isFunction } from './is'
-import { toCamelCase, toKebabCase, toDashed, hasOwn, indent, capitalize } from './utils'
+import { capitalize, hasOwn, indent, toCamelCase, toDashed, toKebabCase } from './utils'
 
 interface Component {
   nodeName: string;
@@ -646,8 +646,8 @@ export class UnRecursiveTemplate extends BaseTemplate {
 }
 
 export {
-  internalComponents,
-  toCamelCase,
   capitalize,
-  Shortcuts
+  internalComponents,
+  Shortcuts,
+  toCamelCase
 }

@@ -1,10 +1,10 @@
-import webpack from 'webpack'
 import { isEmpty } from 'lodash'
-import { MiniCombination } from './webpack/MiniCombination'
-import { Prerender } from './prerender/prerender'
-import { preBundle } from './prebundle'
+import webpack from 'webpack'
 
+import { preBundle } from './prebundle'
+import { Prerender } from './prerender/prerender'
 import type { MiniBuildConfig } from './utils/types'
+import { MiniCombination } from './webpack/MiniCombination'
 
 export default async function build (appPath: string, rawConfig: MiniBuildConfig): Promise<webpack.Stats> {
   const combination = new MiniCombination(appPath, rawConfig)
@@ -20,7 +20,7 @@ export default async function build (appPath: string, rawConfig: MiniBuildConfig
     const onBuildFinish = config.onBuildFinish
     let prerender: Prerender
 
-    const onFinish = function (error, stats: webpack.Stats | null) {
+    const onFinish = function (error: Error | null, stats: webpack.Stats | null) {
       if (typeof onBuildFinish !== 'function') return
 
       onBuildFinish({

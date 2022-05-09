@@ -1,13 +1,13 @@
-import * as fs from 'fs-extra'
-import * as path from 'path'
-import * as ora from 'ora'
+import { chalk } from '@tarojs/helper'
 import * as AdmZip from 'adm-zip'
 import * as download from 'download-git-repo'
+import * as fs from 'fs-extra'
+import * as ora from 'ora'
+import * as path from 'path'
 import * as request from 'request'
-import { chalk } from '@tarojs/helper'
-import { TEMPLATE_CREATOR } from './init'
 
 import { getTemplateSourceType, readDirWithFileTypes } from '../util'
+import { TEMPLATE_CREATOR } from './init'
 
 export interface ITemplates {
   name: string,

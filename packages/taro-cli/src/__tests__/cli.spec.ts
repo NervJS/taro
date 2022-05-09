@@ -1,6 +1,7 @@
 import { Kernel } from '@tarojs/service'
-import { getPkgVersion } from '../util'
+
 import CLI from '../cli'
+import { getPkgVersion } from '../util'
 
 jest.mock('@tarojs/service')
 const MockedKernel = (Kernel as unknown) as (jest.Mock<Kernel>)

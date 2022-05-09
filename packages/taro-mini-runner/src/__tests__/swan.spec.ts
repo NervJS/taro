@@ -1,5 +1,6 @@
-import { Swan } from '@tarojs/plugin-platform-swan'
 import * as helper from '@tarojs/helper'
+import { Swan } from '@tarojs/plugin-platform-swan'
+
 import { compile, getOutput } from './utils/compiler'
 
 describe('swan', () => {

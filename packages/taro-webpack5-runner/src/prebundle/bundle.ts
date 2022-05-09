@@ -1,19 +1,19 @@
+import { init, parse } from 'es-module-lexer'
+import esbuild from 'esbuild'
 import fs from 'fs-extra'
 import path from 'path'
-import esbuild from 'esbuild'
-import { init, parse } from 'es-module-lexer'
-import {
-  flattenId,
-  externalModule,
-  getResolve,
-  getDefines
-} from './utils'
+
+import type { MiniCombination } from '../webpack/MiniCombination'
+import type { CollectedDeps } from './constant'
 import {
   assetsRE
 } from './constant'
-
-import type { CollectedDeps } from './constant'
-import type { MiniCombination } from '../webpack/MiniCombination'
+import {
+  externalModule,
+  flattenId,
+  getDefines,
+  getResolve
+} from './utils'
 
 type ExportsData = ReturnType<typeof parse> & { hasReExports?: boolean, needInterop?: boolean }
 

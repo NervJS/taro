@@ -2,7 +2,7 @@
  * https://github.com/BBKolton/reactify-wc/
  * modified event naming
  **/
-import React, { createRef, createElement } from 'react'
+import React, { createElement, createRef } from 'react'
 
 // eslint-disable-next-line
 const h = React.createElement

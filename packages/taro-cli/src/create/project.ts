@@ -1,25 +1,25 @@
-import * as path from 'path'
-import * as fs from 'fs-extra'
-import * as inquirer from 'inquirer'
-import * as semver from 'semver'
-import * as request from 'request'
-import * as ora from 'ora'
 import {
+  chalk,
   DEFAULT_TEMPLATE_SRC,
   DEFAULT_TEMPLATE_SRC_GITEE,
-  TARO_CONFIG_FLODER,
-  TARO_BASE_CONFIG,
   getUserHomeDir,
-  chalk,
-  SOURCE_DIR
+  SOURCE_DIR,
+  TARO_BASE_CONFIG,
+  TARO_CONFIG_FLODER
 } from '@tarojs/helper'
 import { isArray } from '@tarojs/shared'
-import { createApp } from './init'
-import fetchTemplate from './fetchTemplate'
-import Creator from './creator'
-import { clearConsole } from '../util'
+import * as fs from 'fs-extra'
+import * as inquirer from 'inquirer'
+import * as ora from 'ora'
+import * as path from 'path'
+import * as request from 'request'
+import * as semver from 'semver'
 
+import { clearConsole } from '../util'
+import Creator from './creator'
 import type { ITemplates } from './fetchTemplate'
+import fetchTemplate from './fetchTemplate'
+import { createApp } from './init'
 
 export interface IProjectConf {
   projectName: string;

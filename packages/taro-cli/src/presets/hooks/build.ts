@@ -1,4 +1,5 @@
 import { IPluginContext } from '@tarojs/service'
+
 import * as hooks from '../constant'
 
 export default (ctx: IPluginContext) => {

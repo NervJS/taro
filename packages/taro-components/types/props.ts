@@ -28,7 +28,7 @@ export { FormProps } from './Form'
 export { InputProps } from './Input'
 export { KeyboardAccessoryProps } from './KeyboardAccessory'
 export { LabelProps } from './Label'
-export { PickerDateProps, PickerTimeProps, PickerRegionProps, PickerSelectorProps, PickerMultiSelectorProps } from './Picker'
+export { PickerDateProps, PickerMultiSelectorProps, PickerRegionProps, PickerSelectorProps, PickerTimeProps } from './Picker'
 export { PickerViewProps } from './PickerView'
 export { PickerViewColumnProps } from './PickerViewColumn'
 export { RadioProps } from './Radio'
@@ -39,8 +39,8 @@ export { TextareaProps } from './Textarea'
 
 /** 导航 */
 export { FunctionalPageNavigatorProps } from './FunctionalPageNavigator'
-export { NavigatorProps } from './Navigator'
 export { NavigationBarProps } from './NavigationBar'
+export { NavigatorProps } from './Navigator'
 // export { TabbarProps } from './Tabbar'
 // export { TabbarItemProps } from './TabbarItem'
 
@@ -67,7 +67,6 @@ export { OpenDataProps } from './OpenData'
 export { WebViewProps } from './WebView'
 
 /** 配置节点 */
-export { PageMetaProps } from './PageMeta'
-
 export { CustomWrapperProps } from './CustomWrapper'
+export { PageMetaProps } from './PageMeta'
 export { SlotProps } from './Slot'

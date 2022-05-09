@@ -1,6 +1,7 @@
 import Taro from '@tarojs/api'
-import { CanvasContext } from '../canvas/CanvasContext'
+
 import { findDOM } from '../../utils'
+import { CanvasContext } from '../canvas/CanvasContext'
 import { NodesRef } from './nodesRef'
 
 type TElement = Document | HTMLElement | Element

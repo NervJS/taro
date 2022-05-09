@@ -1,10 +1,11 @@
-import * as path from 'path'
 import {
-  getUserHomeDir,
   fs,
-  TARO_CONFIG_FLODER,
-  TARO_BASE_CONFIG
+  getUserHomeDir,
+  TARO_BASE_CONFIG,
+  TARO_CONFIG_FLODER
 } from '@tarojs/helper'
+import * as path from 'path'
+
 import { run } from './utils'
 
 jest.mock('@tarojs/helper', () => {

@@ -1,6 +1,6 @@
-import * as path from 'path'
 import { ESLint } from 'eslint'
 import * as glob from 'glob'
+import * as path from 'path'
 
 export default async function ({ projectConfig }) {
   const appPath = process.cwd()

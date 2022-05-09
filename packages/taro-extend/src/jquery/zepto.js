@@ -9,10 +9,11 @@
 //     Zepto.js
 //     (c) 2010-2017 Thomas Fuchs
 //     Zepto.js may be freely distributed under the MIT license.
-import Taro from '@tarojs/taro'
 import { window } from '@tarojs/runtime'
-import { Sizzle } from './sizzle'
+import Taro from '@tarojs/taro'
+
 import { initEvent } from './event'
+import { Sizzle } from './sizzle'
 
 export const Zepto = (function () {
   let undefined; let key; let $; let classList; const emptyArray = []; const concat = emptyArray.concat; const filter = emptyArray.filter; const slice = emptyArray.slice

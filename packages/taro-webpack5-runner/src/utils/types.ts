@@ -1,26 +1,26 @@
-import { IProjectBaseConfig, IMiniAppConfig, IH5Config } from '@tarojs/taro/types/compile'
-import { PrerenderConfig } from '../prerender/prerender'
-
+import type { RecursiveTemplate, UnRecursiveTemplate } from '@tarojs/shared/dist/template'
+import { IH5Config, IMiniAppConfig, IProjectBaseConfig } from '@tarojs/taro/types/compile'
 import type Webpack from 'webpack'
 import type Chain from 'webpack-chain'
-import type { RecursiveTemplate, UnRecursiveTemplate } from '@tarojs/shared/dist/template'
-import type { IcomponentConfig } from '../template/component'
+
+import { PrerenderConfig } from '../prerender/prerender'
+import type { IComponentConfig } from '../template/component'
 
 export interface IOption {
   [key: string]: any
 }
 
 export interface IComponent {
-  name: string,
-  path: string,
-  isNative: boolean,
-  stylePath?: string,
+  name: string
+  path: string
+  isNative: boolean
+  stylePath?: string
   templatePath?: string
 }
 
 export interface IComponentObj {
-  name?: string,
-  path: string | null,
+  name?: string
+  path: string | null
   type?: string
 }
 
@@ -29,21 +29,21 @@ export interface IChain {
 }
 
 export interface IFileType {
-  style: string,
-  script: string,
-  templ: string,
-  config: string,
+  style: string
+  script: string
+  templ: string
+  config: string
   xs?: string
 }
 
 export type Func = (...args: any[]) => any
 
 export interface HookModifyWebpackChain {
-  (chain: Chain, webpack: typeof Webpack, data: { componentConfig: IcomponentConfig }): Promise<any>
+  (chain: Chain, webpack: typeof Webpack, data: { componentConfig: IComponentConfig }): Promise<any>
 }
 
 export interface CommonBuildConfig extends IProjectBaseConfig {
-  mode: 'production' | 'development',
+  mode: 'production' | 'development'
   isWatch: boolean
   port?: number
   /** hooks */
@@ -55,16 +55,16 @@ export interface CommonBuildConfig extends IProjectBaseConfig {
 }
 
 export interface MiniBuildConfig extends CommonBuildConfig, IMiniAppConfig {
-  isBuildPlugin: boolean,
+  isBuildPlugin: boolean
   isBuildNativeComp?: boolean
-  isSupportRecursive: boolean,
-  isSupportXS: boolean,
-  buildAdapter: string,
-  nodeModulesPath: string,
-  fileType: IFileType,
-  globalObject: string,
-  framework: string,
-  baseLevel: number,
+  isSupportRecursive: boolean
+  isSupportXS: boolean
+  buildAdapter: string
+  nodeModulesPath: string
+  fileType: IFileType
+  globalObject: string
+  framework: string
+  baseLevel: number
   prerender?: PrerenderConfig
   template: RecursiveTemplate | UnRecursiveTemplate
   runtimePath?: string | string[]
@@ -72,9 +72,9 @@ export interface MiniBuildConfig extends CommonBuildConfig, IMiniAppConfig {
   blended?: boolean
   hot?: boolean
   /** hooks */
-  modifyComponentConfig: (componentConfig: IcomponentConfig, config: Partial<MiniBuildConfig>) => Promise<any>,
-  onCompilerMake: (compilation) => Promise<any>,
-  onParseCreateElement: (nodeName, componentConfig) => Promise<any>,
+  modifyComponentConfig: (componentConfig: IComponentConfig, config: Partial<MiniBuildConfig>) => Promise<any>
+  onCompilerMake: (compilation) => Promise<any>
+  onParseCreateElement: (nodeName, componentConfig) => Promise<any>
 }
 
 export interface H5BuildConfig extends CommonBuildConfig, IH5Config {

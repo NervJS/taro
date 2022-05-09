@@ -1,35 +1,34 @@
-import * as fs from 'fs-extra'
-import * as path from 'path'
-
-import { AppConfig, TabBar } from '@tarojs/taro'
-import * as prettier from 'prettier'
-import traverse, { NodePath } from '@babel/traverse'
 import template from '@babel/template'
+import traverse, { NodePath } from '@babel/traverse'
 import * as t from '@babel/types'
-import * as taroize from '@tarojs/taroize'
-import wxTransformer from '@tarojs/transformer-wx'
-import * as postcss from 'postcss'
-import * as unitTransform from 'postcss-taro-unit-transform'
 // import * as inquirer from 'inquirer'
-
 import {
-  printLog,
-  promoteRelativePath,
-  resolveScriptPath,
+  chalk,
   CSS_IMPORT_REG,
-  pascalCase,
   emptyDirectory,
+  pascalCase,
+  printLog,
   processTypeEnum,
+  promoteRelativePath,
+  REG_IMAGE,
   REG_TYPESCRIPT,
   REG_URL,
-  REG_IMAGE,
-  chalk
+  resolveScriptPath
 } from '@tarojs/helper'
-import { generateMinimalEscapeCode } from '../util/astConvert'
-import Creator from '../create/creator'
+import { AppConfig, TabBar } from '@tarojs/taro'
+import * as taroize from '@tarojs/taroize'
+import wxTransformer from '@tarojs/transformer-wx'
+import * as fs from 'fs-extra'
+import * as path from 'path'
+import * as postcss from 'postcss'
+import * as unitTransform from 'postcss-taro-unit-transform'
+import * as prettier from 'prettier'
+
 import babylonConfig from '../config/babylon'
-import { analyzeImportUrl, incrementId } from './helper'
+import Creator from '../create/creator'
 import { getPkgVersion } from '../util'
+import { generateMinimalEscapeCode } from '../util/astConvert'
+import { analyzeImportUrl, incrementId } from './helper'
 
 const prettierJSConfig: prettier.Options = {
   semi: false,

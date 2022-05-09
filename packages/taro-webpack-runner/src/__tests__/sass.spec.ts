@@ -1,4 +1,5 @@
 import * as path from 'path'
+
 import { compile, getOutput } from './utils/compiler'
 
 describe('sass', () => {

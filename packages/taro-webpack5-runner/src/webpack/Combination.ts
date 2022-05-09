@@ -1,12 +1,12 @@
+import { META_TYPE } from '@tarojs/helper'
+import { getSassLoaderOption } from '@tarojs/runner-utils'
+import { isFunction } from '@tarojs/shared'
 import path from 'path'
 import webpack from 'webpack'
 import Chain from 'webpack-chain'
-import { isFunction } from '@tarojs/shared'
-import { META_TYPE } from '@tarojs/helper'
-import { getSassLoaderOption } from '@tarojs/runner-utils'
-import { componentConfig } from '../template/component'
 
-import type { MiniBuildConfig, H5BuildConfig } from '../utils/types'
+import { componentConfig } from '../template/component'
+import type { H5BuildConfig, MiniBuildConfig } from '../utils/types'
 
 export class Combination<T extends MiniBuildConfig | H5BuildConfig> {
   appPath: string

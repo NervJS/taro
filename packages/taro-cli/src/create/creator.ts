@@ -1,8 +1,8 @@
-import * as path from 'path'
 import * as fs from 'fs-extra'
+import * as _ from 'lodash'
 import * as memFs from 'mem-fs'
 import * as editor from 'mem-fs-editor'
-import * as _ from 'lodash'
+import * as path from 'path'
 
 import { getRootPath } from '../util'
 

@@ -1,6 +1,6 @@
-import { SocketTask } from './socketTask'
-import { shouldBeObject, getParameterError } from '../../../utils'
+import { getParameterError, shouldBeObject } from '../../../utils'
 import { MethodHandler } from '../../../utils/handler'
+import { SocketTask } from './socketTask'
 
 let socketTasks: SocketTask[] = []
 let socketsCounter = 1

@@ -1,5 +1,5 @@
-import * as fs from 'fs'
 import * as babel from '@babel/core'
+import * as fs from 'fs'
 
 jest.mock('sass', () => {
   const originalModule = jest.requireActual('node-sass')

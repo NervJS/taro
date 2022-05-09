@@ -1,13 +1,13 @@
-import * as path from 'path'
-import { defaults } from 'lodash'
-import { AppConfig } from '@tarojs/taro'
 import {
-  readConfig,
-  resolveMainFilePath,
-  isEmptyObject,
+  FRAMEWORK_EXT_MAP,
   FRAMEWORK_MAP,
-  FRAMEWORK_EXT_MAP
+  isEmptyObject,
+  readConfig,
+  resolveMainFilePath
 } from '@tarojs/helper'
+import { AppConfig } from '@tarojs/taro'
+import { defaults } from 'lodash'
+import * as path from 'path'
 
 const PLUGIN_NAME = 'MainPlugin'
 

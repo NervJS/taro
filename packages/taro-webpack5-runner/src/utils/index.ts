@@ -1,6 +1,5 @@
-import path from 'path'
-
 import { networkInterfaces } from 'os'
+import path from 'path'
 
 export const emptyObj = {}
 export const emptyTogglableObj = {

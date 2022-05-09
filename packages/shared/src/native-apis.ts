@@ -1,5 +1,5 @@
-import { isString, isFunction } from './is'
-import { unsupport, setUniqueKeyToRoute } from './utils'
+import { isFunction, isString } from './is'
+import { setUniqueKeyToRoute, unsupport } from './utils'
 
 declare const getCurrentPages: () => any
 declare const getApp: () => any

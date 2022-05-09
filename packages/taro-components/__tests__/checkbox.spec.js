@@ -1,10 +1,11 @@
-import React from 'react'
 import * as assert from 'assert'
+import React from 'react'
 import simulant from 'simulant'
 import * as sinon from 'sinon'
+
 import { Checkbox, CheckboxGroup } from '../h5/react'
-import { waitForChange } from './utils'
 import { mount } from './test-tools'
+import { waitForChange } from './utils'
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const h = React.createElement

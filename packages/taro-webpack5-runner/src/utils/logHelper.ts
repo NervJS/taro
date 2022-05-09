@@ -1,7 +1,7 @@
-import ora from 'ora'
-import { partial, pipe } from 'lodash/fp'
-import formatMessages from 'webpack-format-messages'
 import { chalk } from '@tarojs/helper'
+import { partial, pipe } from 'lodash/fp'
+import ora from 'ora'
+import formatMessages from 'webpack-format-messages'
 
 const getServeSpinner = (() => {
   let spinner
@@ -173,9 +173,9 @@ const bindProdLogger = compiler => {
 }
 
 export {
-  printBuildError,
-  printCompiling,
-  getServeSpinner,
   bindDevLogger,
-  bindProdLogger
+  bindProdLogger,
+  getServeSpinner,
+  printBuildError,
+  printCompiling
 }

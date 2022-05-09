@@ -1,6 +1,6 @@
+import { chalk, isWindows } from '@tarojs/helper'
 import * as fs from 'fs-extra'
 import * as path from 'path'
-import { isWindows, chalk } from '@tarojs/helper'
 
 export function getRootPath (): string {
   return path.resolve(__dirname, '../../')

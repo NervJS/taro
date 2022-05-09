@@ -1,14 +1,14 @@
+import { chalk, recursiveMerge } from '@tarojs/helper'
+import { isObject } from '@tarojs/shared'
+import { createHash } from 'crypto'
+import enhancedResolve from 'enhanced-resolve'
 import fs from 'fs-extra'
 import path from 'path'
-import { createHash } from 'crypto'
 import { performance } from 'perf_hooks'
-import enhancedResolve from 'enhanced-resolve'
-import { isObject } from '@tarojs/shared'
-import { recursiveMerge, chalk } from '@tarojs/helper'
 
+import type { MiniCombination } from '../webpack/MiniCombination'
 import type { CollectedDeps } from './constant'
 import type { Metadata } from './index'
-import type { MiniCombination } from '../webpack/MiniCombination'
 
 let resolve: (importer: string, request: string) => Promise<string>
 export function createResolve (appPath: string, resolveOptions) {
@@ -132,7 +132,7 @@ export async function commitMeta (appPath: string, metadataPath: string, metadat
   })
 }
 
-export function getPrebunbleOptions (combination: MiniCombination) {
+export function getPrebundleOptions (combination: MiniCombination) {
   const config = combination.config
 
   type Compiler = typeof config.compiler

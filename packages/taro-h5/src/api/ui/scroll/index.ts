@@ -1,8 +1,8 @@
 import Taro from '@tarojs/api'
 import { Current } from '@tarojs/runtime'
 
+import { easeInOut, getTimingFunc } from '../../../utils'
 import { MethodHandler } from '../../../utils/handler'
-import { getTimingFunc, easeInOut } from '../../../utils'
 
 let timer: ReturnType<typeof setTimeout>
 const FRAME_DURATION = 17

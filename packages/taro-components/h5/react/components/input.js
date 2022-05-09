@@ -1,5 +1,7 @@
 import React from 'react'
+
 import reactifyWc from '../utils/reactify-wc'
+
 const Input = reactifyWc('taro-input-core')
 
 // eslint-disable-next-line

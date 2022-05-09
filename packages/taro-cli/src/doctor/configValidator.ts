@@ -1,6 +1,7 @@
 import * as _ from 'lodash/fp'
-import joi2desc from './joi2desc'
+
 import configSchema from './configSchema'
+import joi2desc from './joi2desc'
 
 function buildDesc (error) {
   return error.path.join('.') + ' ' + joi2desc(error)

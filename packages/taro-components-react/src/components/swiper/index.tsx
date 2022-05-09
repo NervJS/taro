@@ -1,13 +1,13 @@
 import 'swiper/swiper-bundle.min.css'
+import 'weui'
+import './style/index.css'
 
 import classNames from 'classnames'
 import React from 'react'
-import Swipers from 'swiper/swiper-bundle.esm.js'
 import type ISwiper from 'swiper'
-import 'weui'
+import Swipers from 'swiper/swiper-bundle.esm.js'
 
 import { debounce } from '../../utils'
-import './style/index.css'
 
 let INSTANCE_ID = 0
 

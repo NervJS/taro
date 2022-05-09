@@ -1,5 +1,6 @@
 import build from '../dist/index'
 import { appPath, config, configNoWatch } from './mock/build_testdata'
+
 const Metro = require('metro')
 
 describe('init', () => {

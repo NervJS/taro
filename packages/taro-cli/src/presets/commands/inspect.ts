@@ -1,12 +1,12 @@
-import * as path from 'path'
-import { IPluginContext } from '@tarojs/service'
 import {
-  SOURCE_DIR,
-  OUTPUT_DIR,
   ENTRY,
-  resolveScriptPath
+  OUTPUT_DIR,
+  resolveScriptPath,
+  SOURCE_DIR
 } from '@tarojs/helper'
+import { IPluginContext } from '@tarojs/service'
 import highlight from 'cli-highlight'
+import * as path from 'path'
 
 export default (ctx: IPluginContext) => {
   ctx.registerCommand({

@@ -1,16 +1,16 @@
-import * as path from 'path'
-import * as merge from 'webpack-merge'
 import * as helper from '@tarojs/helper'
-import { IFs } from 'memfs'
-import { Weapp } from '@tarojs/plugin-platform-weapp'
 import ReactLikePlugin from '@tarojs/plugin-framework-react'
 import Vue2Plugin from '@tarojs/plugin-framework-vue2'
 import Vue3Plugin from '@tarojs/plugin-framework-vue3'
+import { Weapp } from '@tarojs/plugin-platform-weapp'
+import { IFs } from 'memfs'
+import * as path from 'path'
+import * as merge from 'webpack-merge'
 
-import baseConfig from './config'
+import build from '../../index'
 import { componentConfig } from '../../template/component'
 import { IBuildConfig } from '../../utils/types'
-import build from '../../index'
+import baseConfig from './config'
 
 // interface EnsuredFs extends IFs {
 //   join: () => string

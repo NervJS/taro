@@ -1,15 +1,15 @@
+import { chalk, FRAMEWORK_MAP, recursiveMerge, SOURCE_DIR } from '@tarojs/helper'
+import { isFunction } from '@tarojs/shared'
 import detectPort from 'detect-port'
 import path from 'path'
 import { format as formatUrl } from 'url'
 import webpack from 'webpack'
 import WebpackDevServer from 'webpack-dev-server'
-import { isFunction } from '@tarojs/shared'
-import { FRAMEWORK_MAP, recursiveMerge, SOURCE_DIR, chalk } from '@tarojs/helper'
-import { H5Combination } from './webpack/H5Combination'
-import { addHtmlSuffix, addLeadingSlash, addTrailingSlash, formatOpenHost, stripBasename, stripTrailingSlash } from './utils'
 
-import type { H5BuildConfig } from './utils/types'
+import { addHtmlSuffix, addLeadingSlash, addTrailingSlash, formatOpenHost, stripBasename, stripTrailingSlash } from './utils'
 import H5AppInstance from './utils/H5AppInstance'
+import type { H5BuildConfig } from './utils/types'
+import { H5Combination } from './webpack/H5Combination'
 
 let isFirstBuild = true
 

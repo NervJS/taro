@@ -4,6 +4,7 @@
  * Author Tobias Koppers @sokra, Zackary Jackson @ScriptedAlchemy, Marais Rossouw @maraisr
  */
 import webpack from 'webpack'
+
 const ContainerEntryModule = require('webpack/lib/container/ContainerEntryModule')
 const RuntimeGlobals = require('webpack/lib/RuntimeGlobals')
 const Template = require('webpack/lib/Template')

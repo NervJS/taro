@@ -1,22 +1,24 @@
 /* eslint-disable camelcase */
 import './polyfill'
-import { getEnv, ENV_TYPE } from './env'
+
+import {
+  Current,
+  eventCenter,
+  Events,
+  getCurrentInstance,
+  nextTick,
+  options
+} from '@tarojs/runtime'
+
+import { ENV_TYPE, getEnv } from './env'
 import Link from './interceptor'
 import * as interceptors from './interceptor/interceptors'
 import {
   Behavior,
+  getInitPxTransform,
   getPreload,
-  getPxTransform,
-  getInitPxTransform
+  getPxTransform
 } from './tools'
-import {
-  Current,
-  getCurrentInstance,
-  options,
-  nextTick,
-  eventCenter,
-  Events
-} from '@tarojs/runtime'
 
 const Taro = {
   Behavior,

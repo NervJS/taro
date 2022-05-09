@@ -1,6 +1,6 @@
+import { getRTLOffsetType } from '../domHelpers'
 import { memoizeOne } from '../memoize'
 import { cancelTimeout, requestTimeout } from '../timer'
-import { getRTLOffsetType } from '../domHelpers'
 
 const IS_SCROLLING_DEBOUNCE_INTERVAL = 150
 

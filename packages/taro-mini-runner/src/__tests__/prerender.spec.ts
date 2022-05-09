@@ -1,4 +1,5 @@
 import * as fs from 'fs-extra'
+
 import { detailMock, indexMock } from './fixtures/prerender/vmMock'
 
 let compile

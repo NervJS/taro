@@ -1,18 +1,18 @@
 import {
-  recursiveMerge,
   isNodeModule,
+  recursiveMerge,
+  REG_LESS,
   REG_SASS_SASS,
   REG_SASS_SCSS,
-  REG_LESS,
-  REG_STYLUS,
-  REG_STYLE
+  REG_STYLE,
+  REG_STYLUS
 } from '@tarojs/helper'
-import { WebpackModule } from './WebpackModule'
-import { getPostcssPlugins } from '../postcss/postcss.h5'
-
 import type { PostcssOption } from '@tarojs/taro/types/compile'
+
+import { getPostcssPlugins } from '../postcss/postcss.h5'
 import type { H5Combination } from './H5Combination'
-import type { IRule, CssModuleOptionConfig } from './WebpackModule'
+import type { CssModuleOptionConfig, IRule } from './WebpackModule'
+import { WebpackModule } from './WebpackModule'
 
 type CSSLoaders = {
   include?

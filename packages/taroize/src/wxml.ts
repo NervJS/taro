@@ -1,15 +1,17 @@
 /* eslint-disable camelcase */
-import { parse } from 'himalaya-wxml'
-import * as t from 'babel-types'
-import { camelCase, cloneDeep } from 'lodash'
 import traverse, { NodePath, Visitor } from 'babel-traverse'
-import { buildTemplate, DEFAULT_Component_SET, buildImportStatement, buildBlockElement, parseCode, codeFrameError, isValidVarName } from './utils'
-import { specialEvents } from './events'
-import { parseTemplate, parseModule } from './template'
-import { usedComponents, errors, globals, THIRD_PARTY_COMPONENTS } from './global'
-import { reserveKeyWords } from './constant'
+import * as t from 'babel-types'
 import { parse as parseFile } from 'babylon'
+import { parse } from 'himalaya-wxml'
+import { camelCase, cloneDeep } from 'lodash'
+
 import { getCacheWxml, saveCacheWxml } from './cache'
+import { reserveKeyWords } from './constant'
+import { specialEvents } from './events'
+import { errors, globals, THIRD_PARTY_COMPONENTS, usedComponents } from './global'
+import { parseModule, parseTemplate } from './template'
+import { buildBlockElement, buildImportStatement, buildTemplate, codeFrameError, DEFAULT_Component_SET, isValidVarName, parseCode } from './utils'
+
 const { prettyPrint } = require('html')
 
 const allCamelCase = (str: string) =>

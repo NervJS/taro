@@ -1,6 +1,5 @@
-import { BaseConfig } from './BaseConfig'
-
 import type { H5BuildConfig } from '../utils/types'
+import { BaseConfig } from './BaseConfig'
 
 export class H5BaseConfig extends BaseConfig {
   defaultTerserOptions = {

@@ -1,5 +1,6 @@
-import Taro from '@tarojs/api'
 import 'whatwg-fetch'
+
+import Taro from '@tarojs/api'
 import jsonpRetry from 'jsonp-retry'
 
 import { serializeParams } from '../../../utils'

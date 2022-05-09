@@ -1,5 +1,5 @@
-export * from './is'
-export { Shortcuts } from './shortcuts'
 export * from './components'
-export * from './utils'
+export * from './is'
 export * from './native-apis'
+export { Shortcuts } from './shortcuts'
+export * from './utils'

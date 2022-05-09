@@ -1,13 +1,14 @@
-import * as path from 'path'
 import { get, mapValues, merge } from 'lodash'
+import * as path from 'path'
+
 import { addLeadingSlash, addTrailingSlash } from '../util'
 import {
   getCopyWebpackPlugin,
   getDefinePlugin,
   getDevtool,
   getHtmlWebpackPlugin,
-  getMiniCssExtractPlugin,
   getMainPlugin,
+  getMiniCssExtractPlugin,
   getModule,
   getOutput,
   processEnvOption

@@ -1,5 +1,6 @@
-import { buildTemplate } from './utils'
 import * as t from 'babel-types'
+
+import { buildTemplate } from './utils'
 
 export function parseJSON (json?: string) {
   if (!json) {

@@ -10,9 +10,9 @@ import devConf from './config/dev.conf'
 import baseDevServerOption from './config/devServer.conf'
 import prodConf from './config/prod.conf'
 import { addLeadingSlash, addTrailingSlash, formatOpenHost } from './util'
+import { makeConfig } from './util/chain'
 import { bindDevLogger, bindProdLogger, printBuildError } from './util/logHelper'
 import { BuildConfig, Func } from './util/types'
-import { makeConfig } from './util/chain'
 
 export const customizeChain = async (chain, modifyWebpackChainFunc: Func, customizeFunc?: Func) => {
   if (modifyWebpackChainFunc instanceof Function) {

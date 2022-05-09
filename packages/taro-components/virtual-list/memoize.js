@@ -29,6 +29,7 @@ export function memoizeOne (resultFn, isEqual) {
     }
     lastResult = resultFn.apply(this, newArgs)
     calledOnce = true
+    // eslint-disable-next-line @typescript-eslint/no-this-alias
     lastThis = this
     lastArgs = newArgs
     return lastResult

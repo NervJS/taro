@@ -1,6 +1,5 @@
-import { getOptions, stringifyRequest } from 'loader-utils'
 import { normalizePath } from '@tarojs/helper'
-
+import { getOptions, stringifyRequest } from 'loader-utils'
 import type * as webpack from 'webpack'
 
 export default function (this: webpack.LoaderContext<any>) {

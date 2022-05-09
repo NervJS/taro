@@ -1,6 +1,5 @@
-import { BaseConfig } from './BaseConfig'
-
 import type { MiniBuildConfig } from '../utils/types'
+import { BaseConfig } from './BaseConfig'
 
 export class MiniBaseConfig extends BaseConfig {
   defaultTerserOptions = {

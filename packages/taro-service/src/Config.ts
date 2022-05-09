@@ -1,16 +1,15 @@
-import * as path from 'path'
-import * as fs from 'fs-extra'
-
-import * as merge from 'webpack-merge'
-import { IProjectConfig } from '@tarojs/taro/types/compile'
 import {
-  SOURCE_DIR,
-  OUTPUT_DIR,
-  ENTRY,
-  resolveScriptPath,
   createSwcRegister,
-  getModuleDefaultExport
+  ENTRY,
+  getModuleDefaultExport,
+  OUTPUT_DIR,
+  resolveScriptPath,
+  SOURCE_DIR
 } from '@tarojs/helper'
+import { IProjectConfig } from '@tarojs/taro/types/compile'
+import * as fs from 'fs-extra'
+import * as path from 'path'
+import * as merge from 'webpack-merge'
 
 import {
   CONFIG_DIR_NAME,

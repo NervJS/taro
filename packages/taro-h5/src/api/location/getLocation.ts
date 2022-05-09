@@ -1,4 +1,5 @@
 import Taro from '@tarojs/api'
+
 import { processOpenApi, shouldBeObject } from '../../utils'
 import { MethodHandler } from '../../utils/handler'
 

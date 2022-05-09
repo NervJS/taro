@@ -1,7 +1,7 @@
 import Taro from '@tarojs/api'
 import { history } from '@tarojs/router'
 
-import { getApp, getCurrentInstance, getCurrentPages, nextTick, navigateBack, navigateTo, reLaunch, redirectTo, switchTab } from '../api'
+import { getApp, getCurrentInstance, getCurrentPages, navigateBack, navigateTo, nextTick, redirectTo, reLaunch, switchTab } from '../api'
 import { permanentlyNotSupport } from '../utils'
 
 const {
@@ -67,18 +67,18 @@ export default taro
 
 export {
   Behavior,
-  getEnv,
-  ENV_TYPE,
-  Link,
-  interceptors,
-  initPxTransform,
+  canIUseWebp,
   Current,
-  options,
+  ENV_TYPE,
   eventCenter,
   Events,
+  getEnv,
+  history,
+  initPxTransform,
+  interceptors,
+  Link,
+  options,
   preload,
-  requirePlugin,
   pxTransform,
-  canIUseWebp,
-  history
+  requirePlugin
 }

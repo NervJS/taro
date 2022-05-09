@@ -1,5 +1,6 @@
-import { QQ } from '@tarojs/plugin-platform-qq'
 import * as helper from '@tarojs/helper'
+import { QQ } from '@tarojs/plugin-platform-qq'
+
 import { compile, getOutput } from './utils/compiler'
 
 const program = new QQ({ helper } as any, {})

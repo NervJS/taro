@@ -5,14 +5,15 @@
  */
 import { META_TYPE } from '@tarojs/helper'
 import webpack from 'webpack'
-import { RawSource, ConcatSource } from 'webpack-sources'
+import { ConcatSource, RawSource } from 'webpack-sources'
 
-import type { CollectedDeps } from '../constant'
 import { addRequireToSource, getIdOrName } from '../../plugins/TaroLoadChunksPlugin'
 import type TaroNormalModule from '../../plugins/TaroNormalModule'
 import { getChunkEntryModule } from '../../utils/webpack'
+import type { CollectedDeps } from '../constant'
 
 const RemoteModule = require('webpack/lib/container/RemoteModule')
+
 const PLUGIN_NAME = 'TaroContainerReferencePlugin'
 
 interface RemoteModule extends webpack.Module {

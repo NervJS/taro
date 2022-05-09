@@ -2,7 +2,7 @@ import { readConfig } from '@tarojs/helper'
 import { AppConfig } from '@tarojs/taro'
 import { IH5Config } from '@tarojs/taro/types/compile'
 import { getOptions, stringifyRequest } from 'loader-utils'
-import { join, dirname } from 'path'
+import { dirname, join } from 'path'
 import type * as webpack from 'webpack'
 
 function genResource (path: string, pages: Map<string, string>, loaderContext: webpack.LoaderContext<any>, syncFileName: string | false = false) {

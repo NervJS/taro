@@ -1,6 +1,7 @@
-import * as path from 'path'
-import chalk from 'chalk'
 import { fs } from '@tarojs/helper'
+import chalk from 'chalk'
+import * as path from 'path'
+
 import { run } from './utils'
 
 jest.mock('cli-highlight', () => {

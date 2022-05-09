@@ -1,4 +1,4 @@
-import { resolveMainFilePath, chalk } from '@tarojs/helper'
+import { chalk, resolveMainFilePath } from '@tarojs/helper'
 import fs from 'fs-extra'
 import path from 'path'
 import webpack from 'webpack'

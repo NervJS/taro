@@ -22,27 +22,27 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
+import { chalk, readConfig, resolveMainFilePath } from '@tarojs/helper'
 import fs from 'fs-extra'
 import path from 'path'
 import { performance } from 'perf_hooks'
-import { resolveMainFilePath, readConfig, chalk } from '@tarojs/helper'
 import webpack from 'webpack'
-import { scanImports } from './scanImports'
-import { bundle } from './bundle'
-import TaroContainerPlugin from './webpack/TaroContainerPlugin'
-import {
-  createResolve,
-  flattenId,
-  getCacheDir,
-  getBundleHash,
-  getMfHash,
-  commitMeta,
-  getPrebunbleOptions,
-  formatDepsString,
-  getMeasure
-} from './utils'
 
 import type { MiniCombination } from '../webpack/MiniCombination'
+import { bundle } from './bundle'
+import { scanImports } from './scanImports'
+import {
+  commitMeta,
+  createResolve,
+  flattenId,
+  formatDepsString,
+  getBundleHash,
+  getCacheDir,
+  getMeasure,
+  getMfHash,
+  getPrebundleOptions
+} from './utils'
+import TaroContainerPlugin from './webpack/TaroContainerPlugin'
 
 export interface Metadata {
   bundleHash?: string
@@ -55,7 +55,7 @@ export interface Metadata {
 export async function preBundle (
   combination: MiniCombination
 ) {
-  const prebundleOptions = getPrebunbleOptions(combination)
+  const prebundleOptions = getPrebundleOptions(combination)
   if (!prebundleOptions.enable) return
 
   const appPath = combination.appPath

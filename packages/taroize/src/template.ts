@@ -1,10 +1,11 @@
 import { NodePath } from 'babel-traverse'
 import * as t from 'babel-types'
-import { buildRender, buildBlockElement, pascalName, setting } from './utils'
-import { resolve, relative, extname, dirname } from 'path'
 import * as fs from 'fs'
-import { parseWXML, createWxmlVistor } from './wxml'
+import { dirname, extname, relative, resolve } from 'path'
+
 import { errors } from './global'
+import { buildBlockElement, buildRender, pascalName, setting } from './utils'
+import { createWxmlVistor, parseWXML } from './wxml'
 
 function isNumeric (n) {
   return !isNaN(parseFloat(n)) && isFinite(n)

@@ -1,10 +1,10 @@
-import * as path from 'path'
+import { chalk, DEFAULT_TEMPLATE_SRC, getUserHomeDir, TARO_BASE_CONFIG, TARO_CONFIG_FLODER } from '@tarojs/helper'
 import * as fs from 'fs-extra'
-import { DEFAULT_TEMPLATE_SRC, TARO_CONFIG_FLODER, TARO_BASE_CONFIG, getUserHomeDir, chalk } from '@tarojs/helper'
+import * as path from 'path'
 
 import Creator from './creator'
-import { createPage } from './init'
 import fetchTemplate from './fetchTemplate'
+import { createPage } from './init'
 
 export interface IPageConf {
   projectDir: string;

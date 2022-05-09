@@ -1,5 +1,6 @@
-import { JD } from '@tarojs/plugin-platform-jd'
 import * as helper from '@tarojs/helper'
+import { JD } from '@tarojs/plugin-platform-jd'
+
 import { compile, getOutput } from './utils/compiler'
 
 describe('jd', () => {

@@ -57,7 +57,7 @@ const configNoWatch = {
 }
 
 export {
+  appPath,
   config,
-  configNoWatch,
-  appPath
+  configNoWatch
 }

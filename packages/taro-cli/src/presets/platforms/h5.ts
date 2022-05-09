@@ -1,6 +1,7 @@
-import * as path from 'path'
-import { merge, get } from 'lodash'
 import { IPluginContext } from '@tarojs/service'
+import { get, merge } from 'lodash'
+import * as path from 'path'
+
 import { getPkgVersion } from '../../util'
 
 export default (ctx: IPluginContext) => {

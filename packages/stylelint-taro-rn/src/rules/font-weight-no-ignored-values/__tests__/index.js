@@ -1,4 +1,4 @@
-import rule, { ruleName, messages } from '..'
+import rule, { messages, ruleName } from '..'
 
 const acceptedWeights = ['400', '700', 'normal', 'bold']
 const rejectedWeights = ['100', '200', '300', '500', '600', '800', '900']

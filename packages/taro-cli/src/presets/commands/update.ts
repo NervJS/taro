@@ -1,9 +1,10 @@
-import * as path from 'path'
+import { IPluginContext } from '@tarojs/service'
 import { exec } from 'child_process'
 import * as getLatestVersion from 'latest-version'
-import * as semver from 'semver'
 import * as ora from 'ora'
-import { IPluginContext } from '@tarojs/service'
+import * as path from 'path'
+import * as semver from 'semver'
+
 import { getPkgItemByKey } from '../../util'
 
 export default (ctx: IPluginContext) => {

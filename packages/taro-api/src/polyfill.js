@@ -1,4 +1,4 @@
-import { isFunction, isUndefined, isObject } from './utils'
+import { isFunction, isObject, isUndefined } from './utils'
 
 function isBadObj (x) {
   !isObject(x) || x === null

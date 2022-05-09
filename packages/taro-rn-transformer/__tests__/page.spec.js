@@ -1,4 +1,5 @@
 import * as path from 'path'
+
 import * as transformer from '../dist/index'
 
 const Home = `import './app.scss';

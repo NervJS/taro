@@ -1,4 +1,5 @@
 import Taro from '@tarojs/api'
+
 import { temporarilyNotSupport } from '../../utils'
 
 // 富文本

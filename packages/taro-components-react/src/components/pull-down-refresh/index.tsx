@@ -1,8 +1,8 @@
+import './style/index.css'
+
 import Taro from '@tarojs/taro'
 import classNames from 'classnames'
 import React from 'react'
-
-import './style/index.css'
 
 function setTransform (nodeStyle, value) {
   nodeStyle.transform = value

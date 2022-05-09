@@ -1,4 +1,5 @@
 import Taro from '@tarojs/api'
+
 import { CallbackManager } from '../../utils/handler'
 import {
   convertObjectUrlToBlob,

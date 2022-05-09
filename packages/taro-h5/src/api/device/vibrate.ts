@@ -1,4 +1,5 @@
 import Taro from '@tarojs/api'
+
 import { MethodHandler } from '../../utils/handler'
 
 const vibrator = function vibrator (mm) {

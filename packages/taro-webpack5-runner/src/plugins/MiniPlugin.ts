@@ -1,34 +1,34 @@
+import {
+  FRAMEWORK_EXT_MAP,
+  isAliasPath,
+  isEmptyObject,
+  META_TYPE,
+  NODE_MODULES_REG,
+  printLog,
+  processTypeEnum,
+  promoteRelativePath,
+  readConfig,
+  REG_STYLE,
+  replaceAliasPath,
+  resolveMainFilePath,
+  SCRIPT_EXT
+} from '@tarojs/helper'
+import { RecursiveTemplate, UnRecursiveTemplate } from '@tarojs/shared/dist/template'
+import { AppConfig, Config } from '@tarojs/taro'
 import fs from 'fs-extra'
+import { urlToRequest } from 'loader-utils'
 import path from 'path'
 import webpack from 'webpack'
 import EntryDependency from 'webpack/lib/dependencies/EntryDependency'
 import { ConcatSource, RawSource } from 'webpack-sources'
-import { urlToRequest } from 'loader-utils'
-import { AppConfig, Config } from '@tarojs/taro'
-import { RecursiveTemplate, UnRecursiveTemplate } from '@tarojs/shared/dist/template'
-import {
-  resolveMainFilePath,
-  readConfig,
-  isEmptyObject,
-  promoteRelativePath,
-  META_TYPE,
-  REG_STYLE,
-  NODE_MODULES_REG,
-  FRAMEWORK_EXT_MAP,
-  printLog,
-  processTypeEnum,
-  isAliasPath,
-  replaceAliasPath,
-  SCRIPT_EXT
-} from '@tarojs/helper'
 
-import TaroSingleEntryPlugin from './TaroSingleEntryPlugin'
 import TaroSingleEntryDependency from '../dependencies/TaroSingleEntryDependency'
-import TaroNormalModulesPlugin from './TaroNormalModulesPlugin'
-import TaroLoadChunksPlugin from './TaroLoadChunksPlugin'
+import { PrerenderConfig, validatePrerenderPages } from '../prerender/prerender'
 import { componentConfig } from '../template/component'
-import { validatePrerenderPages, PrerenderConfig } from '../prerender/prerender'
-import { AddPageChunks, IComponent, IFileType, Func } from '../utils/types'
+import { AddPageChunks, Func, IComponent, IFileType } from '../utils/types'
+import TaroLoadChunksPlugin from './TaroLoadChunksPlugin'
+import TaroNormalModulesPlugin from './TaroNormalModulesPlugin'
+import TaroSingleEntryPlugin from './TaroSingleEntryPlugin'
 
 const PLUGIN_NAME = 'TaroMiniPlugin'
 

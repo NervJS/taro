@@ -1,6 +1,6 @@
 import Convertor from './convertor'
-import doctor from './doctor'
 import Project from './create/project'
+import doctor from './doctor'
 
 export default {
   Convertor,

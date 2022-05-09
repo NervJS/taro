@@ -1,4 +1,5 @@
 import pageLoader from '../src/page'
+
 const path = require('path')
 
 describe('app-loader', () => {

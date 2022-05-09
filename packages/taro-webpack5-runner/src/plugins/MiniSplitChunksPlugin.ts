@@ -1,11 +1,11 @@
-import path from 'path'
+import { normalizePath, promoteRelativePath, readConfig, resolveMainFilePath } from '@tarojs/helper'
+import { isArray, isFunction, isString } from '@tarojs/shared'
+import { AppConfig, SubPackage } from '@tarojs/taro'
 import md5 from 'md5'
+import path from 'path'
 import webpack from 'webpack'
 import SplitChunksPlugin from 'webpack/lib/optimize/SplitChunksPlugin'
 import { ConcatSource, RawSource } from 'webpack-sources'
-import { AppConfig, SubPackage } from '@tarojs/taro'
-import { resolveMainFilePath, readConfig, promoteRelativePath, normalizePath } from '@tarojs/helper'
-import { isString, isFunction, isArray } from '@tarojs/shared'
 
 import type { IFileType } from '../utils/types'
 

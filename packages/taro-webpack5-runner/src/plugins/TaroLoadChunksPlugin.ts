@@ -1,17 +1,17 @@
+import {
+  META_TYPE,
+  promoteRelativePath,
+  taroJsComponents
+} from '@tarojs/helper'
+import { toDashed } from '@tarojs/shared'
 import path from 'path'
 import webpack from 'webpack'
 import { ConcatSource, Source } from 'webpack-sources'
-import { toDashed } from '@tarojs/shared'
-import {
-  promoteRelativePath,
-  META_TYPE,
-  taroJsComponents
-} from '@tarojs/helper'
-import { componentConfig } from '../template/component'
-import TaroNormalModule from './TaroNormalModule'
-import { getChunkEntryModule } from '../utils/webpack'
 
+import { componentConfig } from '../template/component'
 import type { AddPageChunks, IComponent } from '../utils/types'
+import { getChunkEntryModule } from '../utils/webpack'
+import TaroNormalModule from './TaroNormalModule'
 
 const PLUGIN_NAME = 'TaroLoadChunksPlugin'
 

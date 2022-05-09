@@ -3,9 +3,10 @@
 /* eslint-disable no-void */
 /* eslint-disable no-return-assign */
 import { createSelectorQuery } from '@tarojs/taro'
+import { createElement, PureComponent } from 'react'
+
 import { getRTLOffsetType } from '../domHelpers'
 import { memoizeOne } from '../memoize'
-import { createElement, PureComponent } from 'react'
 import { cancelTimeout, requestTimeout } from '../timer'
 
 const IS_SCROLLING_DEBOUNCE_INTERVAL = 200

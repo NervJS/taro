@@ -1,7 +1,6 @@
-import { getOptions, stringifyRequest } from 'loader-utils'
 import { normalizePath } from '@tarojs/helper'
+import { getOptions, stringifyRequest } from 'loader-utils'
 import * as path from 'path'
-
 import type * as webpack from 'webpack'
 
 interface PageConfig {

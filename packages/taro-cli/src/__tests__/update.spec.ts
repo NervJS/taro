@@ -1,14 +1,15 @@
-import * as path from 'path'
-import { run } from './utils'
-import { getPkgVersion } from '../util'
-import { exec } from 'child_process'
 import {
   chalk,
   fs,
+  PROJECT_CONFIG,
   shouldUseCnpm,
-  shouldUseYarn,
-  PROJECT_CONFIG
+  shouldUseYarn
 } from '@tarojs/helper'
+import { exec } from 'child_process'
+import * as path from 'path'
+
+import { getPkgVersion } from '../util'
+import { run } from './utils'
 
 const runUpdate = run('update')
 const lastestVersion = getPkgVersion()

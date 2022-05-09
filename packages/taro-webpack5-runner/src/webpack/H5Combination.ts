@@ -1,14 +1,15 @@
 import { FRAMEWORK_MAP, resolveMainFilePath } from '@tarojs/helper'
 import path from 'path'
 import webpack from 'webpack'
-import { Combination } from './Combination'
-import { H5BaseConfig } from './H5BaseConfig'
-import { H5WebpackPlugin } from './H5WebpackPlugin'
-import { H5WebpackModule } from './H5WebpackModule'
-import { addLeadingSlash, addTrailingSlash } from '../utils'
 
+import { addLeadingSlash, addTrailingSlash } from '../utils'
 import H5AppInstance from '../utils/H5AppInstance'
 import type { H5BuildConfig } from '../utils/types'
+import { Combination } from './Combination'
+import { H5BaseConfig } from './H5BaseConfig'
+import { H5WebpackModule } from './H5WebpackModule'
+import { H5WebpackPlugin } from './H5WebpackPlugin'
+
 type Output = Required<webpack.Configuration>['output']
 
 export class H5Combination extends Combination<H5BuildConfig> {

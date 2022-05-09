@@ -1,28 +1,28 @@
+import type { Loader } from 'esbuild'
 import esbuild from 'esbuild'
-import path from 'path'
 import fs from 'fs'
+import path from 'path'
+
+import type { MiniCombination } from '../webpack/MiniCombination'
+import type { CollectedDeps } from './constant'
 import {
-  externalModule,
+  assetsRE,
+  commentRE,
+  importsRE,
+  langRE,
+  multilineCommentsRE,
+  scriptRE,
+  singlelineCommentsRE,
+  virtualModulePrefix,
+  virtualModuleRE
+} from './constant'
+import {
   canBeOptimized,
   canBeScaned,
+  externalModule,
   getResolve,
   isExclude
 } from './utils'
-import {
-  virtualModulePrefix,
-  virtualModuleRE,
-  assetsRE,
-  commentRE,
-  scriptRE,
-  langRE,
-  multilineCommentsRE,
-  singlelineCommentsRE,
-  importsRE
-} from './constant'
-
-import type { Loader } from 'esbuild'
-import type { MiniCombination } from '../webpack/MiniCombination'
-import type { CollectedDeps } from './constant'
 
 interface ScanImportsConfig {
   entries: string[],

@@ -1,15 +1,14 @@
-import fs from 'fs-extra'
-import path from 'path'
 import {
   recursiveMerge,
-  REG_SCRIPTS,
-  REG_MEDIA,
   REG_FONT,
-  REG_IMAGE
+  REG_IMAGE,
+  REG_MEDIA,
+  REG_SCRIPTS
 } from '@tarojs/helper'
 import { isFunction } from '@tarojs/shared'
-
 import type { PostcssOption } from '@tarojs/taro/types/compile'
+import fs from 'fs-extra'
+import path from 'path'
 
 export interface IRule {
   test?: any

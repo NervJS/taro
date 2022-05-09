@@ -1,13 +1,13 @@
-import { isFunction, isArray } from '@tarojs/shared'
 import { PLATFORMS } from '@tarojs/helper'
-import { WebpackPlugin } from './WebpackPlugin'
-import MiniPlugin from '../plugins/MiniPlugin'
-import BuildNativePlugin from '../plugins/BuildNativePlugin'
-import MiniSplitChunksPlugin from '../plugins/MiniSplitChunksPlugin'
-
+import { isArray, isFunction } from '@tarojs/shared'
 import { ICopyOptions } from '@tarojs/taro/types/compile'
+
+import BuildNativePlugin from '../plugins/BuildNativePlugin'
+import MiniPlugin from '../plugins/MiniPlugin'
+import MiniSplitChunksPlugin from '../plugins/MiniSplitChunksPlugin'
 import type { MiniCombination } from './MiniCombination'
 import type { PluginArgs } from './WebpackPlugin'
+import { WebpackPlugin } from './WebpackPlugin'
 
 export class MiniWebpackPlugin {
   combination: MiniCombination

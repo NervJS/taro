@@ -1,5 +1,6 @@
-import * as Taro from '@tarojs/taro-h5'
 import 'jest-dom/extend-expect'
+
+import * as Taro from '@tarojs/taro-h5'
 
 describe('modal', () => {
   test('options.title should be String', () => {

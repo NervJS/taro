@@ -1,7 +1,8 @@
-import * as path from 'path'
 import chalk from 'chalk'
-import { run } from './utils'
+import * as path from 'path'
+
 import { getPkgVersion } from '../util'
+import { run } from './utils'
 
 jest.mock('envinfo', () => {
   const envinfo = jest.requireActual('envinfo')

@@ -1,5 +1,5 @@
+import { IH5Config, IProjectBaseConfig } from '@tarojs/taro/types/compile'
 import * as webpack from 'webpack'
-import { IProjectBaseConfig, IH5Config } from '@tarojs/taro/types/compile'
 
 type FunctionLikeCustomWebpackConfig = (webpackConfig: webpack.Configuration, webpack) => webpack.Configuration
 
