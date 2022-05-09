@@ -13,6 +13,7 @@ const createDownloadTask = ({ url, header, success, error }): Taro.DownloadTask 
   }
 
   xhr.open('GET', url, true)
+  xhr.withCredentials = true
   xhr.responseType = 'blob'
   setHeader(xhr, header)
 

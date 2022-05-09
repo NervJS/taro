@@ -20,6 +20,7 @@ const createUploadTask = ({ url, filePath, formData = {}, name, header, timeout,
   }
 
   xhr.open('POST', url)
+  xhr.withCredentials = true
   setHeader(xhr, header)
 
   for (formKey in formData) {
