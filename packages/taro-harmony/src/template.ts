@@ -25,7 +25,8 @@ export class Template extends RecursiveTemplate {
     'video',
     'web-view',
     'picker',
-    'checkbox'
+    'checkbox',
+    'rich-text'
   ]
 
   constructor () {
