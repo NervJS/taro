@@ -1,9 +1,12 @@
 import Taro from '@tarojs/taro'
 import { isNumber, isString } from '@tarojs/shared'
-import { callCallbackFail, callCallbackSuccess, notSupport } from './utils'
+import { callCallbackFail, callCallbackSuccess, notSupport, notSupportAsync } from './utils'
 import { validateParams } from '../utils'
 
+const app = require('@system.app')
 const fileio = require('@ohos.fileio')
+
+const rootCachePath = `/data/data/${app.getInfo().appID}/cache`
 
 const accessSchema = {
   path: 'String'
@@ -33,6 +36,13 @@ const renameSchema = {
   oldPath: 'String'
 }
 
+const closeSchema = {
+  fd: 'String'
+}
+
+const saveFileSchema = {
+  tempFilePath: 'String'
+}
 interface ReadOption {
   offset: number,
   length: number,
@@ -101,6 +111,24 @@ function convertReadFileOption (option: Taro.FileSystemManager.ReadFileOption): 
   return null
 }
 
+function convertFd (fd: string): number {
+  return parseInt(fd, 10)
+}
+
+function validateSavedFilePath (savedFilePath: string) {
+  if (savedFilePath.indexOf(rootCachePath) !== 0) {
+    throw new Error(`The filePath should in ${rootCachePath}`)
+  }
+}
+
+function parseSavedFilePath (srcPath: string, savedFilePath: string | undefined) : string {
+  if (isString(savedFilePath) && savedFilePath.length > 0) {
+    validateSavedFilePath(savedFilePath)
+    return savedFilePath
+  }
+  return `${rootCachePath}/${srcPath.split('/').pop()}`
+}
+
 /**
  * HarmonyOS flag 详情参见：
  * https://developer.harmonyos.com/cn/docs/documentation/doc-references/js-apis-fileio-0000001168366687#section1153565865716
@@ -138,6 +166,23 @@ function convertOpenFlag (flag?: keyof Taro.FileSystemManager.flag): number {
   } else {
     return 0o0
   }
+}
+
+function unzip (option: Taro.FileSystemManager.UnzipOption) {
+  notSupport('unzip', option)
+}
+
+function readCompressedFile (option: Taro.FileSystemManager.readCompressedFile.Option) {
+  notSupport('readCompressedFile', option)
+}
+
+function readCompressedFileSync (_: Taro.FileSystemManager.readCompressedFileSync.Option): ArrayBuffer {
+  notSupport('readCompressedFileSync')
+  return new ArrayBuffer(0)
+}
+
+function readZipEntry (option: Taro.FileSystemManager.readZipEntry.Option): Promise<Taro.FileSystemManager.readZipEntry.Promised> {
+  return notSupportAsync('readZipEntry', option)
 }
 
 function access (option: Taro.FileSystemManager.AccessOption) {
@@ -216,7 +261,7 @@ function read (option: Taro.FileSystemManager.ReadOption) {
     return callCallbackFail(res, option)
   }
 
-  fileio.read(parseInt(option.fd, 10), option.arrayBuffer, convertReadOption(option), (error, readOut) => {
+  fileio.read(convertFd(option.fd), option.arrayBuffer, convertReadOption(option), (error, readOut) => {
     if (error) {
       const res = { errMsg: error.message ? error.message : error }
       callCallbackFail(res, option)
@@ -229,18 +274,9 @@ function read (option: Taro.FileSystemManager.ReadOption) {
 function readSync (option: Taro.FileSystemManager.ReadSyncOption): ReadResult {
   validateParams('readSync', option, readSchema)
   return {
-    bytesRead: fileio.readSync(parseInt(option.fd, 10), option.arrayBuffer, convertReadOption(option)),
+    bytesRead: fileio.readSync(convertFd(option.fd), option.arrayBuffer, convertReadOption(option)),
     arrayBuffer: option.arrayBuffer
   }
-}
-
-function readCompressedFile (option: Taro.FileSystemManager.readCompressedFile.Option) {
-  notSupport('readCompressedFile', option)
-}
-
-function readCompressedFileSync (_: Taro.FileSystemManager.readCompressedFileSync.Option): ArrayBuffer {
-  notSupport('readCompressedFileSync')
-  return new ArrayBuffer(0)
 }
 
 /**
@@ -289,7 +325,7 @@ function write (option: Taro.FileSystemManager.WriteOption) {
     const res = { errMsg: error.message }
     return callCallbackFail(res, option)
   }
-  fileio.write(parseInt(option.fd, 10), data, convertWriteOption(option), (error, bytesWritten) => {
+  fileio.write(convertFd(option.fd), data, convertWriteOption(option), (error, bytesWritten) => {
     if (error) {
       const res = { errMsg: error.message ? error.message : error }
       callCallbackFail(res, option)
@@ -307,7 +343,7 @@ function writeSync (option: Taro.FileSystemManager.WriteSyncOption): WriteResult
   const data = convertDataToString(option.data)
   validateParams('writeSync', { ...option, data }, writeSchema)
   return {
-    bytesWritten: fileio.writeSync(parseInt(option.fd, 10), data, convertWriteOption(option))
+    bytesWritten: fileio.writeSync(convertFd(option.fd), data, convertWriteOption(option))
   }
 }
 
@@ -375,8 +411,82 @@ function unlinkSync (filePath: string) {
   fileio.unlinkSync(filePath)
 }
 
+function close (option: Taro.FileSystemManager.CloseOption) {
+  try {
+    validateParams('close', option, closeSchema)
+  } catch (error) {
+    const res = { errMsg: error.message }
+    return callCallbackFail(res, option)
+  }
+  fileio.close(convertFd(option.fd), (error) => {
+    if (error) {
+      const res = { errMsg: error.message ? error.message : error }
+      callCallbackFail(res, option)
+    } else {
+      callCallbackSuccess(undefined, option)
+    }
+  })
+}
+
+function closeSync (option: Taro.FileSystemManager.CloseSyncOption) {
+  validateParams('closeSync', option, closeSchema)
+  fileio.closeSync(convertFd(option.fd))
+}
+
+function saveFile (option: Taro.FileSystemManager.SaveFileOption) {
+  try {
+    validateParams('saveFile', option, saveFileSchema)
+  } catch (error) {
+    const res = { errMsg: error.message }
+    return callCallbackFail(res, option)
+  }
+
+  try {
+    const savedFilePath = parseSavedFilePath(option.tempFilePath, option.filePath)
+    rename({
+      oldPath: option.tempFilePath,
+      newPath: savedFilePath,
+      success: () => {
+        callCallbackSuccess({ savedFilePath }, option)
+      },
+      fail: (res) => {
+        callCallbackFail(res, option)
+      }
+    })
+  } catch (error) {
+    const res = { errMsg: error.message }
+    return callCallbackFail(res, option)
+  }
+}
+
+function saveFileSync (tempFilePath: string, filePath?: string): string {
+  const savedFilePath = parseSavedFilePath(tempFilePath, filePath)
+  renameSync(tempFilePath, savedFilePath)
+  return savedFilePath
+}
+
+function removeSavedFile (option: Taro.FileSystemManager.RemoveSavedFileOption) {
+  try {
+    validateParams('removeSavedFile', option, openSchema)
+  } catch (error) {
+    const res = { errMsg: error.message }
+    return callCallbackFail(res, option)
+  }
+  try {
+    validateSavedFilePath(option.filePath)
+  } catch (error) {
+    const res = { errMsg: error.message }
+    return callCallbackFail(res, option)
+  }
+  unlink(option)
+}
+
 export function getFileSystemManager () {
   return {
+    unzip,
+    readCompressedFile,
+    readCompressedFileSync,
+    readZipEntry,
     access,
     accessSync,
     copyFile,
@@ -385,8 +495,6 @@ export function getFileSystemManager () {
     openSync,
     read,
     readSync,
-    readCompressedFile,
-    readCompressedFileSync,
     readFile,
     readFileSync,
     write,
@@ -396,6 +504,11 @@ export function getFileSystemManager () {
     rename,
     renameSync,
     unlink,
-    unlinkSync
+    unlinkSync,
+    close,
+    closeSync,
+    saveFile,
+    saveFileSync,
+    removeSavedFile
   }
 }

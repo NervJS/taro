@@ -1,13 +1,6 @@
 import { IAsyncParams, FunctionType } from '../utils/types'
 import { callAsyncSuccess, callAsyncFail } from '../utils'
 
-const ability_featureAbility = require('@ohos.ability.featureAbility')
-
-export async function getCacheDir (): Promise<string> {
-  const context = ability_featureAbility.getContext()
-  return await context.getCacheDir()
-}
-
 export function callCallbackSuccess<T extends FunctionType> (res, options?: IAsyncParams<T>) {
   options?.success?.(res)
   options?.complete?.(res)
