@@ -62,7 +62,6 @@
     "react-native-syan-image-picker": "0.5.3"
   },
   "devDependencies": {
-    "@tarojs/taro": "3.5.0-alpha.13",
     "@types/react": "^17.0.0",
     "@types/react-native": "0.67.0",
     "fbjs-scripts": "^3.0.1",

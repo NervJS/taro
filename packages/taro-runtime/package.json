@@ -28,8 +28,5 @@
     "inversify": "5.1.1",
     "lodash-es": "4.17.21",
     "reflect-metadata": "^0.1.13"
-  },
-  "devDependencies": {
-    "@tarojs/taro": "3.5.0-alpha.13"
   }
 }

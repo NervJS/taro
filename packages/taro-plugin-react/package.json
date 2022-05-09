@@ -30,10 +30,6 @@
     "acorn": "^8.0.4",
     "acorn-walk": "^8.0.0"
   },
-  "devDependencies": {
-    "@tarojs/service": "3.5.0-alpha.13",
-    "@tarojs/taro": "3.5.0-alpha.13"
-  },
   "peerDependenciesMeta": {
     "@pmmmwh/react-refresh-webpack-plugin": {
       "optional": true

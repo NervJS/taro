@@ -25,8 +25,7 @@
   "license": "MIT",
   "dependencies": {
     "@tarojs/api": "3.5.0-alpha.13",
-    "@tarojs/runtime": "3.5.0-alpha.13",
-    "@tarojs/taro-h5": "3.5.0-alpha.13"
+    "@tarojs/runtime": "3.5.0-alpha.13"
   },
   "peerDependenciesMeta": {
     "@types/react": {

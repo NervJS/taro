@@ -32,10 +32,5 @@
   },
   "peerDependencies": {
     "vue": "^3.0.0"
-  },
-  "devDependencies": {
-    "@tarojs/service": "3.5.0-alpha.13",
-    "@tarojs/taro": "3.5.0-alpha.13",
-    "vue": "^3.0.0"
   }
 }
