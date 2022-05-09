@@ -59,7 +59,7 @@ export class PullToRefresh implements ComponentInterface {
   private get scrollContainer () {
     return this.el.parentElement ||
       document.querySelector('.taro_page_stationed') ||
-      document.querySelector('.taro_page_show.taro_page') ||
+      document.querySelector('.taro_page') ||
       document.querySelector('.taro_router') ||
       document.querySelector('.taro-tabbar__panel') ||
       document.body
