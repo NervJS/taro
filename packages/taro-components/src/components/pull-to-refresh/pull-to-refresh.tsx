@@ -57,8 +57,9 @@ export class PullToRefresh implements ComponentInterface {
   private _isMounted = false;
 
   private get scrollContainer () {
-    return document.querySelector('.taro_page_stationed') ||
-      document.querySelector('.taro_page') ||
+    return this.el.parentElement ||
+      document.querySelector('.taro_page_stationed') ||
+      document.querySelector('.taro_page_show.taro_page') ||
       document.querySelector('.taro_router') ||
       document.querySelector('.taro-tabbar__panel') ||
       document.body
@@ -126,11 +127,11 @@ export class PullToRefresh implements ComponentInterface {
 
   init = () => {
     const ele = this.scrollContainer
-    const child = this.el.childNodes[this.el.childNodes.length - 1].childNodes[0]
-    this.el.appendChild = child.appendChild.bind(child)
-    this.el.insertBefore = child.insertBefore.bind(child)
-    this.el.replaceChild = child.replaceChild.bind(child)
-    this.el.removeChild = child.removeChild.bind(child)
+    const child = this.el.querySelector('rmc-pull-to-refresh-content')
+    this.el.appendChild = child?.appendChild.bind(child)
+    this.el.insertBefore = child?.insertBefore.bind(child)
+    this.el.replaceChild = child?.replaceChild.bind(child)
+    this.el.removeChild = child?.removeChild.bind(child)
     this._to = {
       touchstart: this.onTouchStart.bind(this, ele),
       touchmove: this.onTouchMove.bind(this, ele),
@@ -138,7 +139,7 @@ export class PullToRefresh implements ComponentInterface {
       touchcancel: this.onTouchEnd.bind(this, ele)
     }
     Object.keys(this._to).forEach(key => {
-      child.addEventListener(key, this._to[key], willPreventDefault)
+      ele.addEventListener(key, this._to[key], willPreventDefault)
     })
   }
 
