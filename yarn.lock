@@ -12336,18 +12336,13 @@ expo-modules-autolinking@~0.7.0:
     find-up "^5.0.0"
     fs-extra "^9.1.0"
 
-expo-modules-core@0.9.1, expo-modules-core@~0.9.1:
-  version "0.9.1"
-  resolved "https://registry.yarnpkg.com/expo-modules-core/-/expo-modules-core-0.9.1.tgz#7c68c1d7abe4277a7b7b2a9a3a107a35e8ad93e9"
-  integrity sha512-B46RolbTz4HPt2tQMHxqBQpQzQbFVyKO8FCFuiJYU3wbWIjmj9wTyT+NPBQiz7C/C5+L/QuFadO8OjB28UG4Dg==
+expo-modules-core@0.9.2, expo-modules-core@~0.9.2:
+  version "0.9.2"
+  resolved "https://registry.yarnpkg.com/expo-modules-core/-/expo-modules-core-0.9.2.tgz#657a3d804e73f3d41e6fa35d40a44aee5a4a287e"
+  integrity sha512-p/C0GJxFIIDGwmrWi70Q0ggfsgeUFS25ZkkBgoaHT7MVgiMjlKA/DCC3D6ZUkHl/JlzUm0aTftIGS8LWXsnZBw==
   dependencies:
     compare-versions "^3.4.0"
     invariant "^2.2.4"
-
-expo-permissions@~13.2.0:
-  version "13.2.0"
-  resolved "https://registry.yarnpkg.com/expo-permissions/-/expo-permissions-13.2.0.tgz#9306f1ae3c49dbe9157f948983486ccb19fc2989"
-  integrity sha512-fAvutJjlUjlmyR2jjI9uQT0LXQ+A3U8hZnA4twQG8eXEURR3/V5WSGkx5wwX+7OF6qWR68rvs7Xjkd3ghsCm4w==
 
 expo-sensors@~11.1.1:
   version "11.1.1"
@@ -12357,10 +12352,10 @@ expo-sensors@~11.1.1:
     "@expo/config-plugins" "^4.0.2"
     invariant "^2.2.4"
 
-expo@~45.0.1:
-  version "45.0.1"
-  resolved "https://registry.yarnpkg.com/expo/-/expo-45.0.1.tgz#e7fbf8947dae33bbdd97f9eb45e6dc23eadce4b6"
-  integrity sha512-pHGPU/b53TYtaMmzKG9aNliKA4EpHno5svTZQ8EGFBz8f+VManZFfR306x3raMFPqj8sXv0Wfm39f0+pqx9l2A==
+expo@~45.0.2:
+  version "45.0.2"
+  resolved "https://registry.yarnpkg.com/expo/-/expo-45.0.2.tgz#d773d1b6f427bcdbfcb3da26274b35b2749c632c"
+  integrity sha512-WRVNTEc2ZqstGwVIxCAfJUTsmhFVAWR4vNaF4kTDEQa2J5GHbFuSQbENYrTeLldLc5Q/60HX3xfxUu8pqqdjGA==
   dependencies:
     "@babel/runtime" "^7.14.0"
     "@expo/cli" "0.1.4"
@@ -12374,7 +12369,7 @@ expo@~45.0.1:
     expo-font "~10.1.0"
     expo-keep-awake "~10.1.1"
     expo-modules-autolinking "0.8.0"
-    expo-modules-core "0.9.1"
+    expo-modules-core "0.9.2"
     fbemitter "^3.0.0"
     getenv "^1.0.0"
     invariant "^2.2.4"
