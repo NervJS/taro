@@ -41,7 +41,7 @@ if (process.env.TARO_ENV && process.env.TARO_ENV !== 'h5') {
         (this as any).Date = Date
       }
 
-      this.document = document // TODO:
+      this.document = document
       this.document.defaultView = this
       this.navigator = navigator
       this.requestAnimationFrame = raf
@@ -56,49 +56,29 @@ if (process.env.TARO_ENV && process.env.TARO_ENV !== 'h5') {
     }
 
     initEvent () {
-      this.on(CONTEXT_ACTIONS.INIT, (uniqId: string) => {
+      this.on(CONTEXT_ACTIONS.INIT, (pageId: string) => {
         // 页面onload，为该页面建立新的上下文信息
-        this.location.trigger(CONTEXT_ACTIONS.INIT, uniqId)
+        this.location.trigger(CONTEXT_ACTIONS.INIT, pageId)
       }, null)
 
-      this.on(CONTEXT_ACTIONS.RECOVER, (uniqId: string) => {
+      this.on(CONTEXT_ACTIONS.RECOVER, (pageId: string) => {
         // 页面onshow，恢复当前页面的上下文信息
-        this.location.trigger(CONTEXT_ACTIONS.RECOVER, uniqId)
-        this.history.trigger(CONTEXT_ACTIONS.RECOVER, uniqId)
+        this.location.trigger(CONTEXT_ACTIONS.RECOVER, pageId)
+        this.history.trigger(CONTEXT_ACTIONS.RECOVER, pageId)
       }, null)
 
-      this.on(CONTEXT_ACTIONS.RESTORE, (uniqId: string) => {
+      this.on(CONTEXT_ACTIONS.RESTORE, (pageId: string) => {
         // 页面onhide，缓存当前页面的上下文信息
-        this.location.trigger(CONTEXT_ACTIONS.RESTORE, uniqId)
-        this.history.trigger(CONTEXT_ACTIONS.RESTORE, uniqId)
+        this.location.trigger(CONTEXT_ACTIONS.RESTORE, pageId)
+        this.history.trigger(CONTEXT_ACTIONS.RESTORE, pageId)
       }, null)
 
-      this.on(CONTEXT_ACTIONS.DESTORY, (uniqId: string) => {
+      this.on(CONTEXT_ACTIONS.DESTORY, (pageId: string) => {
         // 页面onunload，清除当前页面的上下文信息
-        this.location.trigger(CONTEXT_ACTIONS.DESTORY, uniqId)
-        this.history.trigger(CONTEXT_ACTIONS.DESTORY, uniqId)
+        this.location.trigger(CONTEXT_ACTIONS.DESTORY, pageId)
+        this.history.trigger(CONTEXT_ACTIONS.DESTORY, pageId)
       }, null)
     }
-
-    // get document () {
-    //   return document
-    // }
-
-    // get navigator () {
-    //   return navigator
-    // }
-
-    // get requestAnimationFrame () {
-    //   return raf
-    // }
-
-    // get cancelAnimationFrame () {
-    //   return caf
-    // }
-
-    // get getComputedStyle () {
-    //   return getComputedStyle
-    // }
 
     addEventListener (event: string, callback: (arg: any)=>void) {
       if (!event || !isString(event)) return
@@ -123,63 +103,6 @@ if (process.env.TARO_ENV && process.env.TARO_ENV !== 'h5') {
 }
 
 export const window: any = process.env.TARO_ENV === 'h5' ? win : new WindowConstructor()
-
-// function proxyToWindow(instance: string){
-//   if(process.env.TARO_ENV === 'h5'){
-//     return window[instance]
-//   }
-
-//   const keys = Object.getOwnPropertyNames(window[instance])
-//   const protoKeys = Object.getOwnPropertyNames(Object.getPrototypeOf(window[instance]))
-//   console.log(instance, 'keys', keys.concat(protoKeys).join(','))
-//   let proxy = {}
-//   keys.concat(protoKeys).forEach( key =>{
-//     Object.defineProperty(proxy, key, {
-//       get: function(){
-//         console.log('读取', instance, key, window[instance][key], window.history.name)
-//         return window[instance][key]  // TODO: 这个貌似缓存住了
-//       },
-//       set: function(val){
-//         console.log('设置', instance, key, val, window.history.name)
-//         window[instance][key] = val
-//       }
-//     })
-//   })
-//   return proxy
-// }
-// 每次读到的都是window上最新的值
-// export const location = proxyToWindow('location')
-// export const history = proxyToWindow('history')
+// 在某些第三方库中，会全局作用域中直接读取location和history
 export const location = window.location
 export const history = window.history
-
-// if (process.env.TARO_ENV && process.env.TARO_ENV !== 'h5') {
-//   const globalProperties = [
-//     ...Object.getOwnPropertyNames(global || win),
-//     ...Object.getOwnPropertySymbols(global || win)
-//   ]
-
-//   globalProperties.forEach(property => {
-//     if (property === 'atob') return
-//     if (!Object.prototype.hasOwnProperty.call(window, property)) {
-//       window[property] = global[property]
-//     }
-//   })
-
-//   window.requestAnimationFrame = raf
-//   window.cancelAnimationFrame = caf
-//   window.getComputedStyle = getComputedStyle
-//   window.addEventListener = noop
-//   window.removeEventListener = noop
-//   if (!(DATE in window)) {
-//     window.Date = Date
-//   }
-//   window.setTimeout = function (...args: Parameters<typeof setTimeout>) {
-//     return setTimeout(...args)
-//   }
-//   window.clearTimeout = function (...args: Parameters<typeof clearTimeout>) {
-//     return clearTimeout(...args)
-//   }
-
-//   document.defaultView = window
-// }

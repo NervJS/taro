@@ -1,4 +1,4 @@
-import { isString, isNumber } from '@tarojs/shared'
+import { isString, isNumber, warn } from '@tarojs/shared'
 import { Events } from '../emitter/emitter'
 import { CONTEXT_ACTIONS } from '../constants/events'
 import { RuntimeCache } from '../utils/cache'
@@ -333,8 +333,14 @@ export class Location extends Events {
   }
 
   /* public method */
-  assign () {}
-  reload () {}
+  assign () {
+    warn(true, '小程序环境中调用location.assign()无效.')
+  }
+
+  reload () {
+    warn(true, '小程序环境中调用location.reload()无效.')
+  }
+
   replace (val: string) {
     this.trigger('__set_href_without_history__', val)
   }
@@ -343,6 +349,7 @@ export class Location extends Events {
     return this.href
   }
 
+  // For debug
   get cache () {
     return cache
   }

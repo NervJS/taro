@@ -143,6 +143,7 @@ export class History extends Events {
     this.#location.trigger('__set_href_without_history__', url)
   }
 
+  // For debug
   get cache () {
     return cache
   }
