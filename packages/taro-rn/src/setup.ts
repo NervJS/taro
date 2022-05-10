@@ -44,7 +44,6 @@ jest.doMock('react-native', () => {
 
 jest.doMock('expo-modules-core', () => {
   const unimodules = jest.requireActual('expo-modules-core') as any
-  const permisson = jest.requireActual('./__tests__/__mock__/mockExpoPermissions')
   const { NativeModulesProxy } = unimodules
 
   NativeModulesProxy.ExpoLocation = {
@@ -58,7 +57,27 @@ jest.doMock('expo-modules-core', () => {
       }
     }))
   }
-  NativeModulesProxy.ExpoPermissions = permisson
-
   return unimodules
+})
+
+const grantedPromise = jest.fn(() => Promise.resolve({
+  granted: true
+}))
+
+jest.doMock('expo-image-picker', () => {
+  const expoImagePicker = jest.requireActual('expo-image-picker') as any
+  expoImagePicker.requestMediaLibraryPermissionsAsync = grantedPromise
+  return expoImagePicker
+})
+
+jest.doMock('expo-location', () => {
+  const expoLocation = jest.requireActual('expo-location') as any
+  expoLocation.requestForegroundPermissionsAsync = grantedPromise
+  return expoLocation
+})
+
+jest.doMock('expo-barcode-scanner', () => {
+  const expoBarcodeSacnner = jest.requireActual('expo-barcode-scanner') as any
+  expoBarcodeSacnner.requestPermissionsAsync = grantedPromise
+  return expoBarcodeSacnner
 })
