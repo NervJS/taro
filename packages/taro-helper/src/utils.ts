@@ -1,19 +1,20 @@
-import * as fs from 'fs-extra'
-import * as path from 'path'
-import * as os from 'os'
-import * as child_process from 'child_process'
 import * as chalk from 'chalk'
-import { isPlainObject, camelCase, mergeWith, flatMap } from 'lodash'
+import * as child_process from 'child_process'
+import * as fs from 'fs-extra'
+import { camelCase, flatMap, isPlainObject, mergeWith } from 'lodash'
+import * as os from 'os'
+import * as path from 'path'
+
 import {
-  processTypeEnum,
-  processTypeMap,
-  TARO_CONFIG_FLODER,
-  SCRIPT_EXT,
+  CSS_EXT,
+  CSS_IMPORT_REG,
   NODE_MODULES_REG,
   PLATFORMS,
-  CSS_IMPORT_REG,
-  CSS_EXT,
-  REG_SCRIPTS
+  processTypeEnum,
+  processTypeMap,
+  REG_SCRIPTS,
+  SCRIPT_EXT,
+  TARO_CONFIG_FLODER
 } from './constants'
 import createSwcRegister, { InjectDefinConfigHeader } from './swcRegister'
 
@@ -527,7 +528,9 @@ function analyzeImport (filePath: string): string[] {
       if (!dep) return
 
       importPaths.push(dep)
-      importPaths = importPaths.concat(analyzeImport(dep))
+      if (path.extname(dep) !== '.json') {
+        importPaths = importPaths.concat(analyzeImport(dep))
+      }
     }
   })
   return importPaths
