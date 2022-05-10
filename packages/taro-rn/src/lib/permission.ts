@@ -1,7 +1,12 @@
 import { Linking, AppState, NativeEventSubscription } from 'react-native';
 import { getCameraPermissionsAsync, getMicrophonePermissionsAsync, requestCameraPermissionsAsync, requestMicrophonePermissionsAsync } from 'expo-camera'
 import { getMediaLibraryPermissionsAsync, requestMediaLibraryPermissionsAsync } from 'expo-image-picker'
-import { getForegroundPermissionsAsync, getBackgroundPermissionsAsync, requestForegroundPermissionsAsync, requestBackgroundPermissionsAsync } from 'expo-location'
+import {
+  getForegroundPermissionsAsync,
+  // getBackgroundPermissionsAsync,
+  requestForegroundPermissionsAsync,
+  // requestBackgroundPermissionsAsync
+} from 'expo-location'
 import { errorHandler, successHandler } from '../utils';
 
 const scopeMap = {
@@ -9,7 +14,7 @@ const scopeMap = {
   'scope.record': [getMicrophonePermissionsAsync, requestMicrophonePermissionsAsync],
   'scope.writePhotosAlbum': [getMediaLibraryPermissionsAsync, requestMediaLibraryPermissionsAsync],
   'scope.camera': [getCameraPermissionsAsync, requestCameraPermissionsAsync],
-  'scope.userLocationBackground': [getBackgroundPermissionsAsync, requestBackgroundPermissionsAsync],
+  // 'scope.userLocationBackground': [getBackgroundPermissionsAsync, requestBackgroundPermissionsAsync],
   // 'scope.NOTIFICATIONS': Permissions.NOTIFICATIONS,
   // 'scope.USER_FACING_NOTIFICATIONS': Permissions.USER_FACING_NOTIFICATIONS,
   // 'scope.CONTACTS': Permissions.CONTACTS,
@@ -23,9 +28,12 @@ let appStateSubscription: NativeEventSubscription | undefined
 
 const getAuthSetting = async () => {
   let auths = {}
-  for(const key of Object.keys(scopeMap)) {
-    auths[key] = (await scopeMap[key][0]).granted
-  }
+
+  await Promise.all(Object.keys(scopeMap).map(async key => {
+    const { granted } = await scopeMap[key][0]()
+    auths[key] = granted
+  }))
+
   return auths
 }
 
@@ -58,7 +66,7 @@ export async function authorize(opts: Taro.authorize.Option): Promise<TaroGenera
   const res: any = {}
 
     try {
-      const { granted } = await scopeMap[scope][1]
+      const { granted } = await scopeMap[scope][1]()
       if (granted) {
         res.errMsg = 'authorize:ok'
         return successHandler(success, complete)(res)

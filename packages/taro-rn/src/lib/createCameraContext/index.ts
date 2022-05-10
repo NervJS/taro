@@ -77,7 +77,7 @@ class CameraContext {
     }
     try {
       const { granted } = await requestCameraPermissionsAsync()
-      if (!granted) {
+      if (granted) {
         if (this.cameraRef?.takePictureAsync) {
           const { uri } = await this.cameraRef.takePictureAsync({ quality: _quality })
           const res = {
