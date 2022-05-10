@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/components-rn",
-  "version": "3.5.0-alpha.13",
+  "version": "3.5.0-alpha.14",
   "description": "多端解决方案基础组件（RN）",
   "main": "./dist/index.js",
   "scripts": {
@@ -39,7 +39,7 @@
     "react-native-webview": "~11.14.3"
   },
   "devDependencies": {
-    "@tarojs/components": "3.5.0-alpha.13",
+    "@tarojs/components": "3.5.0-alpha.14",
     "@types/react": "^17.0.0",
     "@types/react-native": "0.67.0",
     "@unimodules/core": "^7.1.2",

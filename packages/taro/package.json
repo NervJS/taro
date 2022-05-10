@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/taro",
-  "version": "3.5.0-alpha.13",
+  "version": "3.5.0-alpha.14",
   "description": "Taro framework",
   "homepage": "https://github.com/nervjs/taro/tree/master/packages/taro#readme",
   "main": "index.js",
@@ -24,8 +24,8 @@
   "author": "O2Team",
   "license": "MIT",
   "dependencies": {
-    "@tarojs/api": "3.5.0-alpha.13",
-    "@tarojs/runtime": "3.5.0-alpha.13"
+    "@tarojs/api": "3.5.0-alpha.14",
+    "@tarojs/runtime": "3.5.0-alpha.14"
   },
   "peerDependenciesMeta": {
     "@types/react": {
