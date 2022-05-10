@@ -1,5 +1,4 @@
 import { Audio } from 'expo-av'
-import * as Permissions from 'expo-permissions'
 import * as FileSystem from 'expo-file-system'
 
 class RecorderManager {
@@ -52,13 +51,10 @@ class RecorderManager {
    * @param {string} [opts.audioSource='auto'] - 指定录音的音频输入源，可通过 wx.getAvailableAudioSources() 获取当前可用的音频源 ❌
    */
   async start (opts = {}) {
-    const { status } = await Permissions.getAsync(Permissions.AUDIO_RECORDING)
-    if (status !== 'granted') {
-      const { status } = await Permissions.askAsync(Permissions.AUDIO_RECORDING)
-      if (status !== 'granted') {
-        const res = { errMsg: 'Permissions denied!' }
-        return Promise.reject(res)
-      }
+    const { granted } = await Audio.requestPermissionsAsync()
+    if (!granted) {
+      const res = { errMsg: 'Permissions denied!' }
+      return Promise.reject(res)
     }
 
     const {

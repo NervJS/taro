@@ -43,14 +43,14 @@
     "@types/react": "^17.0.0",
     "@types/react-native": "0.67.0",
     "@unimodules/core": "^7.1.2",
-    "expo": "~45.0.1",
+    "expo": "~45.0.2",
     "metro-react-native-babel-preset": "^0.66.2",
     "react-native": "^0.67.3"
   },
   "peerDependencies": {
     "@react-native-community/slider": "~4.1.12",
     "@react-native-picker/picker": "~2.2.1",
-    "expo": "~45.0.1",
+    "expo": "~45.0.2",
     "expo-av": "~11.2.3",
     "expo-barcode-scanner": "~11.3.0",
     "expo-camera": "~12.2.0",
