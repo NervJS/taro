@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/plugin-framework-react",
-  "version": "3.5.0-alpha.14",
+  "version": "3.5.0-alpha.15",
   "description": "React/Preact/Nerv 框架插件",
   "author": "drchan",
   "homepage": "https://github.com/nervjs/taro",
@@ -25,8 +25,8 @@
     "url": "https://github.com/NervJS/taro/issues"
   },
   "dependencies": {
-    "@tarojs/runtime": "3.5.0-alpha.14",
-    "@tarojs/shared": "3.5.0-alpha.14",
+    "@tarojs/runtime": "3.5.0-alpha.15",
+    "@tarojs/shared": "3.5.0-alpha.15",
     "acorn": "^8.0.4",
     "acorn-walk": "^8.0.0"
   },

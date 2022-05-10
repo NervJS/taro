@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/plugin-framework-vue3",
-  "version": "3.5.0-alpha.14",
+  "version": "3.5.0-alpha.15",
   "description": "Vue3 框架插件",
   "author": "drchan",
   "homepage": "https://github.com/nervjs/taro",
@@ -25,10 +25,10 @@
     "url": "https://github.com/NervJS/taro/issues"
   },
   "dependencies": {
-    "@tarojs/helper": "3.5.0-alpha.14",
-    "@tarojs/runner-utils": "3.5.0-alpha.14",
-    "@tarojs/runtime": "3.5.0-alpha.14",
-    "@tarojs/shared": "3.5.0-alpha.14"
+    "@tarojs/helper": "3.5.0-alpha.15",
+    "@tarojs/runner-utils": "3.5.0-alpha.15",
+    "@tarojs/runtime": "3.5.0-alpha.15",
+    "@tarojs/shared": "3.5.0-alpha.15"
   },
   "peerDependencies": {
     "vue": "^3.0.0"
