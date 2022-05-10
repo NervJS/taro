@@ -394,7 +394,6 @@ declare module '../../index' {
   /** @ignore */
   type ClearAnimationOptions = Record<keyof KeyFrame, boolean>
 
-
   /** @ignore */
   interface ScrollTimelineOption {
     /** 指定滚动元素的选择器（只支持 scroll-view），该元素滚动时会驱动动画的进度 */
