@@ -101,7 +101,8 @@ require(\\"./taro\\");
                 bindOpenSetting: \\"\\",
                 bindContact: \\"\\",
                 bindChooseAddress: \\"\\",
-                bindChooseInvoiceTitle: \\"\\"
+                bindChooseInvoiceTitle: \\"\\",
+                bindLogin: \\"\\"
             },
             Form: {
                 \\"report-type\\": \\"default\\",

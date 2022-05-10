@@ -1258,14 +1258,16 @@ describe('line-height', () => {
       }
     })
   })
-  it('throws for line-height with multiplier', () => {
-    expect(() =>
+  it('ignore line-height value with a multiplier', () => {
+    expect(
       transform(`
       .test {
         line-height: 1.5;
       }
     `)
-    ).toThrow('Failed to parse declaration "line-height: 1.5"')
+    ).toEqual({
+      test: {}
+    })
   })
 })
 

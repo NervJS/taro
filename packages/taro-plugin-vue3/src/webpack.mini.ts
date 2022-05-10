@@ -9,15 +9,13 @@ import type { IConfig } from './index'
 
 const CUSTOM_WRAPPER = 'custom-wrapper'
 
-type MiniConfig = IConfig['mini']
-
-export function modifyMiniWebpackChain (_ctx: IPluginContext, chain, data, config: MiniConfig) {
+export function modifyMiniWebpackChain (_ctx: IPluginContext, chain, data, config: IConfig) {
   setVueLoader(chain, data, config)
   setLoader(chain)
   setDefinePlugin(chain)
 }
 
-function setVueLoader (chain, data, config: MiniConfig) {
+function setVueLoader (chain, data, config: IConfig) {
   const vueLoaderPath = getVueLoaderPath()
 
   // plugin
@@ -26,6 +24,7 @@ function setVueLoader (chain, data, config: MiniConfig) {
     .plugin('vueLoaderPlugin')
     .use(VueLoaderPlugin)
 
+  const compilerOptions = config.vueLoaderOption?.compilerOptions || config.mini?.compilerOptions || {}
   // loader
   const vueLoaderOption: any = {
     optimizeSSR: false,
@@ -37,11 +36,8 @@ function setVueLoader (chain, data, config: MiniConfig) {
       image: 'src',
       'cover-image': 'src'
     },
-    compilerOptions: {}
-  }
-
-  if (config?.compilerOptions) {
-    vueLoaderOption.compilerOptions = Object.assign({}, config.compilerOptions)
+    ...(config.vueLoaderOption ?? {}),
+    compilerOptions
   }
 
   vueLoaderOption.compilerOptions.nodeTransforms ||= []

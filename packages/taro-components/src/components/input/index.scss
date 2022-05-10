@@ -4,9 +4,9 @@ taro-input-core {
 
 input {
   display: block;
-  height: 1.4rem;
-  text-align: inherit;
-  text-overflow: clip;
   overflow: hidden;
+  height: 1.4rem;
+  text-overflow: clip;
+  text-align: inherit;
   white-space: nowrap;
 }
