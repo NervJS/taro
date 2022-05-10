@@ -1,5 +1,7 @@
-import { Events } from '../emitter/emitter'
 import { isString, isNumber } from '@tarojs/shared'
+import { Events } from '../emitter/emitter'
+import { RuntimeCache } from '../utils/cache'
+import { CONTEXT_ACTIONS } from '../constants/events'
 import type * as LocationType from './location'
 
 export interface HistoryState {
@@ -11,6 +13,12 @@ export interface HistoryState {
 type Options = {
   window: any
 }
+type HistoryContext = {
+  location: LocationType.Location
+  stack: HistoryState[]
+  cur: number
+}
+const cache = new RuntimeCache<HistoryContext>('history')
 
 export class History extends Events {
   /* private property */
@@ -38,6 +46,33 @@ export class History extends Events {
 
     this.#location.on('__reset_history__', (href: string) => {
       this.#reset(href)
+    }, null)
+
+    // 切换上下文行为
+
+    this.on(CONTEXT_ACTIONS.INIT, () => {
+      this.#reset()
+    }, null)
+
+    this.on(CONTEXT_ACTIONS.RESTORE, (pageId: string) => {
+      cache.set(pageId, {
+        location: this.#location,
+        stack: this.#stack,
+        cur: this.#cur
+      })
+    }, null)
+
+    this.on(CONTEXT_ACTIONS.RECOVER, (pageId: string) => {
+      if (cache.has(pageId)) {
+        const ctx = cache.get(pageId)!
+        this.#location = ctx.location
+        this.#stack = ctx.stack
+        this.#cur = ctx.cur
+      }
+    }, null)
+
+    this.on(CONTEXT_ACTIONS.DESTORY, (pageId: string) => {
+      cache.delete(pageId)
     }, null)
 
     this.#reset()
@@ -106,5 +141,9 @@ export class History extends Events {
     }
 
     this.#location.trigger('__set_href_without_history__', url)
+  }
+
+  get cache () {
+    return cache
   }
 }

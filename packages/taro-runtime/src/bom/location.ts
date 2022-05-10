@@ -1,10 +1,10 @@
 import { isString, isNumber } from '@tarojs/shared'
 import { Events } from '../emitter/emitter'
+import { CONTEXT_ACTIONS } from '../constants/events'
+import { RuntimeCache } from '../utils/cache'
 import { getCurrentInstance } from '../current'
 
-// export enum LocationAction {
-
-// }
+const DEFAULT_HOSTNAME = 'taro.com'
 
 type PreValue = {
   protocol: string
@@ -18,81 +18,21 @@ type PreValue = {
 type Options = {
   window: any
 }
-
-function resolveRelativePath (path, relative): string {
-  const relativeArr = relative.split('/')
-  const parent = relativeArr.slice(0, relativeArr.length - 1)
-  let depth = 0
-  const dests = path.split('../').map(v => {
-    v === '' && depth++
-    return v
-  })
-
-  if (depth > parent.length) return relative
-
-  return parent.slice(0, parent.length - depth).concat(dests.filter(v => v !== '')).join('/')
+type LocationContext = {
+  lastHref: string
 }
 
-function generateFullUrl (val = '') {
-  const origin = 'https://taro.com'
-  if (val.startsWith('/')) {
-    return origin + val
-  }
-  if (val.startsWith('?')) {
-    return origin + val
-  }
-  if (val.startsWith('#')) {
-    return origin + val
-  }
-  if (/(https?:)?\/\//.test(val)) {
-    return val
-  }
-  return val
-}
-
-function parseUrl (url = '') {
-  const result = {
-    href: '',
-    origin: '',
-    protocol: '',
-    hostname: '',
-    host: '',
-    port: '',
-    pathname: '',
-    search: '',
-    hash: ''
-  }
-  if (!url || !isString(url)) return result
-
-  url = url.trim()
-  const PATTERN = /^(([^:/?#]+):)?\/\/(([^/?#]+):(.+)@)?([^/?#:]*)(:(\d+))?([^?#]*)(\?([^#]*))?(#(.*))?/
-  const matches = url.match(PATTERN)
-
-  if (!matches) return result
-
-  result.protocol = matches[1] || 'https:'
-  result.hostname = matches[6] || ''
-  result.port = matches[8] || ''
-  result.pathname = matches[9] || '/'
-  result.search = matches[10] || ''
-  result.hash = matches[12] || ''
-  result.href = url
-  result.origin = result.protocol + '//' + result.hostname
-  result.host = result.hostname + (result.port ? `:${result.port}` : '')
-
-  return result
-}
+const cache = new RuntimeCache<LocationContext>('location')
 
 export class Location extends Events {
   /* private property */
   #hash = ''
-  #hostname = ''
+  #hostname = DEFAULT_HOSTNAME
   #pathname = '/'
   #port = ''
   #protocol = 'https:'
   #search = ''
 
-  #oldHref = ''
   #noCheckUrl = false
   #window: any
 
@@ -103,17 +43,42 @@ export class Location extends Events {
 
     this.#reset()
 
-    this.on('__recover_location__', () => {
-      // 数据恢复时，不需要执行跳转
+    this.on('__set_href_without_history__', (href: string) => {
       this.#noCheckUrl = true
-      this.href = this.#oldHref
+
+      const lastHash = this.#hash
+      this.href = generateFullUrl(href)
+      if (lastHash !== this.#hash) {
+        this.#window.trigger('hashchange')
+      }
+
       this.#noCheckUrl = false
     }, null)
 
-    this.on('__set_href_without_history__', (href: string) => {
-      this.#noCheckUrl = true
-      this.href = generateFullUrl(href)
-      this.#noCheckUrl = false
+    // 切换上下文行为
+
+    this.on(CONTEXT_ACTIONS.INIT, () => {
+      this.#reset()
+    }, null)
+
+    this.on(CONTEXT_ACTIONS.RESTORE, (pageId: string) => {
+      cache.set(pageId, {
+        lastHref: this.href
+      })
+    }, null)
+
+    this.on(CONTEXT_ACTIONS.RECOVER, (pageId: string) => {
+      // 数据恢复时，不需要执行跳转
+      if (cache.has(pageId)) {
+        const ctx = cache.get(pageId)!
+        this.#noCheckUrl = true
+        this.href = ctx.lastHref
+        this.#noCheckUrl = false
+      }
+    }, null)
+
+    this.on(CONTEXT_ACTIONS.DESTORY, (pageId: string) => {
+      cache.delete(pageId)
     }, null)
   }
 
@@ -127,7 +92,7 @@ export class Location extends Events {
         return `${key}=${params[key]}`
       })
       const searchStr = searchArr.length > 0 ? '?' + searchArr.join('&') : ''
-      const url = `https://taro.com${path.startsWith('/') ? path : '/' + path}${searchStr}`
+      const url = `https://${DEFAULT_HOSTNAME}${path.startsWith('/') ? path : '/' + path}${searchStr}`
       const { protocol, hostname, port, pathname, search, hash } = parseUrl(url)
       this.#protocol = protocol
       this.#hostname = hostname
@@ -135,8 +100,6 @@ export class Location extends Events {
       this.#pathname = pathname
       this.#search = search
       this.#hash = hash
-
-      this.#oldHref = this.href
 
       this.trigger('__reset_history__', this.href)
     }
@@ -167,7 +130,7 @@ export class Location extends Events {
   }
 
   /**
-   * 校验url的变化，判断是否需要跳转
+   * 校验url的变化，是否需要更新history
    */
   #checkUrlChange (preValue: PreValue): boolean {
     if (this.#noCheckUrl) {
@@ -206,8 +169,6 @@ export class Location extends Events {
   }
 
   set protocol (val: string) {
-    this.#oldHref = this.href
-
     const reg = /^(http|https):?$/i
     if (!val || !isString(val) || !reg.test(val.trim())) return
 
@@ -224,8 +185,6 @@ export class Location extends Events {
   }
 
   set host (val: string) {
-    this.#oldHref = this.href
-
     if (!val || !isString(val)) return
     val = val.trim()
 
@@ -243,8 +202,6 @@ export class Location extends Events {
   }
 
   set hostname (val: string) {
-    this.#oldHref = this.href
-
     if (!val || !isString(val)) return
     val = val.trim()
 
@@ -261,8 +218,6 @@ export class Location extends Events {
   }
 
   set port (val: string) {
-    this.#oldHref = this.href
-
     const xVal = Number((val = val.trim()))
     if (!isNumber(xVal) || xVal <= 0) return
     if (val === this.#port) return
@@ -279,8 +234,6 @@ export class Location extends Events {
   }
 
   set pathname (val: string) {
-    this.#oldHref = this.href
-
     if (!val || !isString(val)) return
     val = val.trim()
 
@@ -296,7 +249,7 @@ export class Location extends Events {
       newPathName = resolveRelativePath(val, preValue.pathname)
     }
 
-    const { pathname, search, hash } = parseUrl(`//taro.com${newPathName}`)
+    const { pathname, search, hash } = parseUrl(`//${DEFAULT_HOSTNAME}${newPathName}`)
 
     this.#pathname = pathname
     this.#search = search
@@ -310,14 +263,12 @@ export class Location extends Events {
   }
 
   set search (val: string) {
-    this.#oldHref = this.href
-
     if (!val || !isString(val)) return
     val = val.trim()
 
     val = val.startsWith('?') ? val : `?${val}`
     const preValue = this.#getPreValue()
-    const { search } = parseUrl(`//taro.com${val}`)
+    const { search } = parseUrl(`//${DEFAULT_HOSTNAME}${val}`)
 
     this.#search = search
 
@@ -330,14 +281,12 @@ export class Location extends Events {
 
   // 小程序的navigateTo存在截断hash字符串的问题
   set hash (val: string) {
-    this.#oldHref = this.href
-
     if (!val || !isString(val)) return
     val = val.trim()
 
     val = val.startsWith('#') ? val : `#${val}`
     const preValue = this.#getPreValue()
-    const { hash } = parseUrl(`//taro.com${val}`)
+    const { hash } = parseUrl(`//${DEFAULT_HOSTNAME}${val}`)
 
     this.#hash = hash
 
@@ -349,8 +298,6 @@ export class Location extends Events {
   }
 
   set href (val: string) {
-    !this.#noCheckUrl && (this.#oldHref = this.href)
-
     const reg = /^(http:|https:)?\/\/.+/
     if (!val || !isString(val) || !reg.test((val = val.trim()))) return
 
@@ -372,8 +319,6 @@ export class Location extends Events {
   }
 
   set origin (val: string) {
-    this.#oldHref = this.href
-
     const reg = /^(http:|https:)?\/\/.+/
     if (!val || !isString(val) || !reg.test((val = val.trim()))) return
 
@@ -397,4 +342,72 @@ export class Location extends Events {
   toString () {
     return this.href
   }
+
+  get cache () {
+    return cache
+  }
+}
+
+function resolveRelativePath (path, relative): string {
+  const relativeArr = relative.split('/')
+  const parent = relativeArr.slice(0, relativeArr.length - 1)
+  let depth = 0
+  const dests = path.split('../').map(v => {
+    v === '' && depth++
+    return v
+  })
+
+  if (depth > parent.length) return relative
+
+  return parent.slice(0, parent.length - depth).concat(dests.filter(v => v !== '')).join('/')
+}
+
+function generateFullUrl (val = '') {
+  const origin = `https://${DEFAULT_HOSTNAME}`
+  if (val.startsWith('/')) {
+    return origin + val
+  }
+  if (val.startsWith('?')) {
+    return origin + val
+  }
+  if (val.startsWith('#')) {
+    return origin + val
+  }
+  if (/(https?:)?\/\//.test(val)) {
+    return val
+  }
+  return val
+}
+
+function parseUrl (url = '') {
+  const result = {
+    href: '',
+    origin: '',
+    protocol: '',
+    hostname: '',
+    host: '',
+    port: '',
+    pathname: '',
+    search: '',
+    hash: ''
+  }
+  if (!url || !isString(url)) return result
+
+  url = url.trim()
+  const PATTERN = /^(([^:/?#]+):)?\/\/(([^/?#]+):(.+)@)?([^/?#:]*)(:(\d+))?([^?#]*)(\?([^#]*))?(#(.*))?/
+  const matches = url.match(PATTERN)
+
+  if (!matches) return result
+
+  result.protocol = matches[1] || 'https:'
+  result.hostname = matches[6] || DEFAULT_HOSTNAME
+  result.port = matches[8] || ''
+  result.pathname = matches[9] || '/'
+  result.search = matches[10] || ''
+  result.hash = matches[12] || ''
+  result.href = url
+  result.origin = result.protocol + '//' + result.hostname
+  result.host = result.hostname + (result.port ? `:${result.port}` : '')
+
+  return result
 }

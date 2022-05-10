@@ -7,11 +7,18 @@ import { History } from './history'
 import { Location } from './location'
 import { getComputedStyle } from './getComputedStyle'
 import { DATE } from '../constants'
+import { CONTEXT_ACTIONS } from '../constants/events'
 import { Events } from '../emitter/emitter'
 
 let WindowConstructor
 if (process.env.TARO_ENV && process.env.TARO_ENV !== 'h5') {
   class Window extends Events {
+    document: typeof document
+    navigator: typeof navigator
+    requestAnimationFrame: any
+    cancelAnimationFrame: any
+    getComputedStyle: any
+
     location: Location
     history: History
 
@@ -34,45 +41,64 @@ if (process.env.TARO_ENV && process.env.TARO_ENV !== 'h5') {
         (this as any).Date = Date
       }
 
-      document.defaultView = this
+      this.document = document // TODO:
+      this.document.defaultView = this
+      this.navigator = navigator
+      this.requestAnimationFrame = raf
+      this.cancelAnimationFrame = caf
+      this.getComputedStyle = getComputedStyle
+
+      // 应用启动时，提供给需要读取历史信息的库使用
+      this.location = new Location({ window: this })
+      this.history = new History(this.location, { window: this })
 
       this.initEvent()
     }
 
     initEvent () {
-      this.on('__init_location_and_history__', () => {
-        this.location = new Location({ window: this })
-        this.history = new History(this.location, { window: this })
+      this.on(CONTEXT_ACTIONS.INIT, (uniqId: string) => {
+        // 页面onload，为该页面建立新的上下文信息
+        this.location.trigger(CONTEXT_ACTIONS.INIT, uniqId)
       }, null)
 
-      this.on('__recover_location_and_history__', (location: Location, history: History) => {
-        if (location) {
-          location.trigger('__recover_location__')
-          this.location = location
-        }
-        history && (this.history = history)
+      this.on(CONTEXT_ACTIONS.RECOVER, (uniqId: string) => {
+        // 页面onshow，恢复当前页面的上下文信息
+        this.location.trigger(CONTEXT_ACTIONS.RECOVER, uniqId)
+        this.history.trigger(CONTEXT_ACTIONS.RECOVER, uniqId)
+      }, null)
+
+      this.on(CONTEXT_ACTIONS.RESTORE, (uniqId: string) => {
+        // 页面onhide，缓存当前页面的上下文信息
+        this.location.trigger(CONTEXT_ACTIONS.RESTORE, uniqId)
+        this.history.trigger(CONTEXT_ACTIONS.RESTORE, uniqId)
+      }, null)
+
+      this.on(CONTEXT_ACTIONS.DESTORY, (uniqId: string) => {
+        // 页面onunload，清除当前页面的上下文信息
+        this.location.trigger(CONTEXT_ACTIONS.DESTORY, uniqId)
+        this.history.trigger(CONTEXT_ACTIONS.DESTORY, uniqId)
       }, null)
     }
 
-    get document () {
-      return document
-    }
+    // get document () {
+    //   return document
+    // }
 
-    get navigator () {
-      return navigator
-    }
+    // get navigator () {
+    //   return navigator
+    // }
 
-    get requestAnimationFrame () {
-      return raf
-    }
+    // get requestAnimationFrame () {
+    //   return raf
+    // }
 
-    get cancelAnimationFrame () {
-      return caf
-    }
+    // get cancelAnimationFrame () {
+    //   return caf
+    // }
 
-    get getComputedStyle () {
-      return getComputedStyle
-    }
+    // get getComputedStyle () {
+    //   return getComputedStyle
+    // }
 
     addEventListener (event: string, callback: (arg: any)=>void) {
       if (!event || !isString(event)) return
@@ -97,6 +123,35 @@ if (process.env.TARO_ENV && process.env.TARO_ENV !== 'h5') {
 }
 
 export const window: any = process.env.TARO_ENV === 'h5' ? win : new WindowConstructor()
+
+// function proxyToWindow(instance: string){
+//   if(process.env.TARO_ENV === 'h5'){
+//     return window[instance]
+//   }
+
+//   const keys = Object.getOwnPropertyNames(window[instance])
+//   const protoKeys = Object.getOwnPropertyNames(Object.getPrototypeOf(window[instance]))
+//   console.log(instance, 'keys', keys.concat(protoKeys).join(','))
+//   let proxy = {}
+//   keys.concat(protoKeys).forEach( key =>{
+//     Object.defineProperty(proxy, key, {
+//       get: function(){
+//         console.log('读取', instance, key, window[instance][key], window.history.name)
+//         return window[instance][key]  // TODO: 这个貌似缓存住了
+//       },
+//       set: function(val){
+//         console.log('设置', instance, key, val, window.history.name)
+//         window[instance][key] = val
+//       }
+//     })
+//   })
+//   return proxy
+// }
+// 每次读到的都是window上最新的值
+// export const location = proxyToWindow('location')
+// export const history = proxyToWindow('history')
+export const location = window.location
+export const history = window.history
 
 // if (process.env.TARO_ENV && process.env.TARO_ENV !== 'h5') {
 //   const globalProperties = [

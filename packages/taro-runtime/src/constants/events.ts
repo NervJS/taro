@@ -16,3 +16,13 @@ export const BUBBLE_EVENTS = new Set([
   'animationiteration',
   'animationend'
 ])
+
+/**
+ * 页面上下文切换时的行为
+ */
+export const CONTEXT_ACTIONS = {
+  INIT: '__init__',
+  RECOVER: '__recover__',
+  RESTORE: '__restore__',
+  DESTORY: '__destory__'
+}

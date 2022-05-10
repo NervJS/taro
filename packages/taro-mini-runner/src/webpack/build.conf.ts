@@ -180,6 +180,8 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
     window: ['@tarojs/runtime', 'window'],
     document: ['@tarojs/runtime', 'document'],
     navigator: ['@tarojs/runtime', 'navigator'],
+    history: ['@tarojs/runtime', 'history'], // 已知在vue-router源码中会直接读取 history & location
+    location: ['@tarojs/runtime', 'location'],
     requestAnimationFrame: ['@tarojs/runtime', 'requestAnimationFrame'],
     cancelAnimationFrame: ['@tarojs/runtime', 'cancelAnimationFrame'],
     Element: ['@tarojs/runtime', 'TaroElement'],
