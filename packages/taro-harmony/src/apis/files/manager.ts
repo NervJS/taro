@@ -6,7 +6,7 @@ import { validateParams } from '../utils'
 const app = require('@system.app')
 const fileio = require('@ohos.fileio')
 
-const rootCachePath = `/data/data/${app.getInfo().appID}/cache`
+const rootSavedFilePath = `/data/data/${app.getInfo().appID}/files`
 
 const accessSchema = {
   path: 'String'
@@ -116,8 +116,8 @@ function convertFd (fd: string): number {
 }
 
 function validateSavedFilePath (savedFilePath: string) {
-  if (savedFilePath.indexOf(rootCachePath) !== 0) {
-    throw new Error(`The filePath should in ${rootCachePath}`)
+  if (savedFilePath.indexOf(rootSavedFilePath) !== 0) {
+    throw new Error(`The filePath should in ${rootSavedFilePath}`)
   }
 }
 
@@ -126,7 +126,7 @@ function parseSavedFilePath (srcPath: string, savedFilePath: string | undefined)
     validateSavedFilePath(savedFilePath)
     return savedFilePath
   }
-  return `${rootCachePath}/${srcPath.split('/').pop()}`
+  return `${rootSavedFilePath}/${srcPath.split('/').pop()}`
 }
 
 /**
