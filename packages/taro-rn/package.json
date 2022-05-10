@@ -79,6 +79,7 @@
     "expo-file-system": "~14.0.0",
     "expo-image-picker": "~13.1.1",
     "expo-keep-awake": "~10.1.1",
+    "expo-location": "~14.0.2",
     "expo-modules-core": "~0.9.2",
     "expo-sensors": "~11.1.1",
     "react-native-device-info": "~8.4.8",
