@@ -6,17 +6,18 @@ import webpack from 'webpack'
 import Chain from 'webpack-chain'
 
 import { componentConfig } from '../template/component'
-import type { H5BuildConfig, MiniBuildConfig } from '../utils/types'
+import type { CommonBuildConfig, H5BuildConfig, MiniBuildConfig } from '../utils/types'
 
-export class Combination<T extends MiniBuildConfig | H5BuildConfig> {
+export class Combination<T extends MiniBuildConfig | H5BuildConfig = CommonBuildConfig> {
   appPath: string
+  config: T
+  chain: Chain
+  enableSourceMap: boolean
   sourceRoot: string
   outputRoot: string
   sourceDir: string
   outputDir: string
   rawConfig: T
-  config: T
-  chain: Chain
 
   constructor (appPath: string, config: T) {
     this.appPath = appPath
@@ -25,6 +26,7 @@ export class Combination<T extends MiniBuildConfig | H5BuildConfig> {
     this.outputRoot = config.outputRoot || 'dist'
     this.sourceDir = path.join(appPath, this.sourceRoot)
     this.outputDir = path.join(appPath, this.outputRoot)
+    this.enableSourceMap = process.env.NODE_ENV !== 'production'
   }
 
   async getWebpackConfig () {
@@ -63,8 +65,8 @@ export class Combination<T extends MiniBuildConfig | H5BuildConfig> {
     }
   }
 
-  getDevtool (enableSourceMap: boolean, sourceMapType: string) {
+  getDevtool (sourceMapType: string) {
     /** @docs https://webpack.js.org/configuration/devtool/ */
-    return enableSourceMap && sourceMapType
+    return this.enableSourceMap && sourceMapType
   }
 }

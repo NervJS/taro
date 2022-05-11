@@ -3,6 +3,7 @@ import type { IPostcssOption } from '@tarojs/taro/types/compile'
 import path from 'path'
 import { sync as resolveSync } from 'resolve'
 
+const platform = process.env.TARO_ENV
 const defaultAutoprefixerOption = {
   enable: true,
   config: {
@@ -14,7 +15,7 @@ const defaultPxtransformOption: {
 } = {
   enable: true,
   config: {
-    platform: process.env.TARO_ENV
+    platform
   }
 }
 
@@ -32,7 +33,7 @@ const defaultHtmltransformOption: {
 } = {
   enable: false,
   config: {
-    platform: process.env.TARO_ENV,
+    platform,
     removeCursorStyle: true
   }
 }

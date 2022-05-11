@@ -4,6 +4,7 @@ import path from 'path'
 import constparse from 'postcss-plugin-constparse'
 import { sync as resolveSync } from 'resolve'
 
+const platform = 'h5'
 const defaultAutoprefixerOption = {
   enable: true,
   config: {
@@ -15,7 +16,7 @@ const defaultPxtransformOption: {
 } = {
   enable: true,
   config: {
-    platform: 'h5'
+    platform
   }
 }
 const defaultConstparseOption = {
@@ -25,7 +26,7 @@ const defaultConstparseOption = {
       val: '50PX'
     }
   ],
-  platform: 'h5'
+  platform
 }
 
 const defaultHtmltransformOption: {
@@ -33,7 +34,7 @@ const defaultHtmltransformOption: {
 } = {
   enable: true,
   config: {
-    platform: process.env.TARO_ENV,
+    platform,
     removeCursorStyle: false
   }
 }

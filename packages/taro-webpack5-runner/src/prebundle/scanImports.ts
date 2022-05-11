@@ -2,7 +2,7 @@ import esbuild, { Loader } from 'esbuild'
 import fs from 'fs'
 import path from 'path'
 
-import type { MiniCombination } from '../webpack/MiniCombination'
+import type { Combination } from '../webpack/Combination'
 import type { CollectedDeps } from './constant'
 import {
   assetsRE,
@@ -24,8 +24,8 @@ import {
 } from './utils'
 
 interface ScanImportsConfig {
-  entries: string[],
-  combination: MiniCombination,
+  entries: string[]
+  combination: Combination
   include: string[]
   exclude: string[]
 }
@@ -33,33 +33,16 @@ interface ScanImportsConfig {
 export async function scanImports ({
   entries,
   combination,
-  include,
-  exclude
+  include = [],
+  exclude = []
 }: ScanImportsConfig): Promise<CollectedDeps> {
-  const { appPath, config } = combination
   const deps: CollectedDeps = new Map()
 
-  // plugin-platform 等插件的 runtime 文件入口
-  const runtimePath = typeof config.runtimePath === 'string' ? [config.runtimePath] : config.runtimePath
-
-  const includes = [
-    '@tarojs/taro',
-    '@tarojs/runtime',
-    ...(runtimePath || []),
-    ...include
-  ]
-
-  const excludes = [
-    // 编译 Host 时需要扫描 @tarojs/components 的 useExports，因此不能被 external
-    '@tarojs/components',
-    ...exclude
-  ]
-
-  const scanImportsPlugin = getScanImportsPlugin(deps, includes, excludes)
+  const scanImportsPlugin = getScanImportsPlugin(deps, include, exclude)
 
   await Promise.all(entries.map(entry =>
     esbuild.build({
-      absWorkingDir: appPath,
+      absWorkingDir: combination.appPath,
       entryPoints: [entry],
       bundle: true,
       write: false,
@@ -73,8 +56,8 @@ export async function scanImports ({
   // 有一些 Webpack loaders 添加的依赖没有办法提前分析出来
   // 可以把它们写进 includes，然后在这里 resolve 后加入到 deps
   const resolve = getResolve()
-  await Promise.all(includes.map(async item => {
-    const resolvePath = await resolve(appPath, item)
+  await Promise.all(include.map(async item => {
+    const resolvePath = await resolve(combination.appPath, item)
     deps.set(item, resolvePath)
   }))
 

@@ -6,6 +6,7 @@ import { format as formatUrl } from 'url'
 import webpack from 'webpack'
 import WebpackDevServer from 'webpack-dev-server'
 
+import { preBundle } from './prebundle/index.h5'
 import { addHtmlSuffix, addLeadingSlash, addTrailingSlash, formatOpenHost, stripBasename, stripTrailingSlash } from './utils'
 import H5AppInstance from './utils/H5AppInstance'
 import type { H5BuildConfig } from './utils/types'
@@ -18,6 +19,8 @@ export default async function build (appPath: string, rawConfig: H5BuildConfig):
   const webpackConfig = await combination.getWebpackConfig()
   const config = combination.config
   const { isWatch } = config
+
+  await preBundle(combination)
 
   try {
     if (isWatch) {

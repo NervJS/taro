@@ -119,7 +119,6 @@ interface Runtime {
 
 export interface IMiniAppConfig {
   appOutput?: boolean
-  enableSourceMap?: boolean
   sourceMapType?: string
   debugReact?: boolean
   minifyXML?: {
@@ -127,7 +126,6 @@ export interface IMiniAppConfig {
   }
 
   webpackChain?: (chain: any, webpack: any, PARSE_AST_TYPE: any) => void
-  entry?: webpack.EntryObject
   output?: webpack.Output
   postcss?: IPostcssOption
   cssLoaderOption?: IOption
@@ -177,11 +175,9 @@ export interface IH5Config {
 
   webpackChain?: (chain: any, webpack: any) => void
 
-  entry?: webpack.EntryObject
   output?: webpack.Output
   router?: IH5RouterConfig
   devServer?: webpackDevServer.Configuration
-  enableSourceMap?: boolean
   sourceMapType?: 'none' | 'eval' | 'cheap-eval-source-map' | 'cheap-module-eval-source-map' | 'eval-source-map' | 'cheap-source-map' | 'cheap-module-source-map' | 'inline-cheap-source-map' | 'inline-cheap-module-source-map' | 'source-map' | 'inline-source-map' | 'hidden-source-map' | 'nosources-source-map'
   enableExtract?: boolean
   transformOnly?: boolean

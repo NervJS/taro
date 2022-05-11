@@ -1,7 +1,7 @@
 import { isEmpty } from 'lodash'
 import webpack from 'webpack'
 
-import { preBundle } from './prebundle'
+import { preBundle } from './prebundle/index.mini'
 import { Prerender } from './prerender/prerender'
 import type { MiniBuildConfig } from './utils/types'
 import { MiniCombination } from './webpack/MiniCombination'

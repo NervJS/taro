@@ -3,11 +3,8 @@ import esbuild from 'esbuild'
 import fs from 'fs-extra'
 import path from 'path'
 
-import type { MiniCombination } from '../webpack/MiniCombination'
-import type { CollectedDeps } from './constant'
-import {
-  assetsRE
-} from './constant'
+import type { Combination } from '../webpack/Combination'
+import { assetsRE, CollectedDeps } from './constant'
 import {
   externalModule,
   flattenId,
@@ -23,7 +20,7 @@ type ExportsData = ReturnType<typeof parse> & { hasReExports?: boolean, needInte
 // 1. flatten all ids to eliminate slash
 // 2. in the plugin, read the entry ourselves as virtual files to retain the
 //    path.
-export async function bundle (deps: CollectedDeps, combination: MiniCombination, prebundleOutputDir: string) {
+export async function bundle (deps: CollectedDeps, combination: Combination, prebundleOutputDir: string) {
   await init
 
   const appPath = combination.appPath

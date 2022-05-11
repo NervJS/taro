@@ -40,21 +40,12 @@ import {
   getCacheDir,
   getMeasure,
   getMfHash,
-  getPrebundleOptions
+  getPrebundleOptions,
+  Metadata
 } from './utils'
 import TaroContainerPlugin from './webpack/TaroContainerPlugin'
 
-export interface Metadata {
-  bundleHash?: string
-  mfHash?: string
-  taroRuntimeBundlePath?: string
-  runtimeRequirements?: Set<string>
-  remoteAssets?: { name: string }[]
-}
-
-export async function preBundle (
-  combination: MiniCombination
-) {
+export async function preBundle (combination: MiniCombination) {
   const prebundleOptions = getPrebundleOptions(combination)
   if (!prebundleOptions.enable) return
 
@@ -63,11 +54,13 @@ export async function preBundle (
   const prebundleCacheDir = path.resolve(cacheDir, './prebundle')
   const remoteCacheDir = path.resolve(cacheDir, './remote')
   const metadataPath = path.join(cacheDir, 'metadata.json')
-  let preMetadata: Metadata = {}
-  try {
-    preMetadata = prebundleOptions.force === true ? {} : fs.readJSONSync(metadataPath)
-  } catch (e) {}
   const metadata: Metadata = {}
+  const preMetadata: Metadata = {}
+  try {
+    if (prebundleOptions.force === true) {
+      Object.assign(preMetadata, fs.readJSONSync(metadataPath))
+    }
+  } catch (e) {}
   let isUseCache = true
 
   const resolveOptions = combination.chain.toConfig().resolve
@@ -81,7 +74,8 @@ export async function preBundle (
    *   - 目前只处理了 Page entry，例如原生小程序组件 js entry 等并没有处理
    */
   const entries: string[] = []
-  const appJsPath = combination.config.entry!.app[0]
+  const config = combination.config
+  const appJsPath = config.entry!.app[0]
   const appConfigPath = resolveMainFilePath(`${appJsPath.replace(path.extname(appJsPath), '')}.config`)
   const appConfig = readConfig(appConfigPath)
 
@@ -98,11 +92,22 @@ export async function preBundle (
    */
   const SCAN_START = performance.now()
 
+  // plugin-platform 等插件的 runtime 文件入口
+  const runtimePath = typeof config.runtimePath === 'string' ? [config.runtimePath] : config.runtimePath || []
   const deps = await scanImports({
     entries,
     combination,
-    include: prebundleOptions.include || [],
-    exclude: prebundleOptions.exclude || []
+    include: [
+      '@tarojs/taro',
+      '@tarojs/runtime',
+      ...runtimePath,
+      ...prebundleOptions.include || []
+    ],
+    exclude: [
+      // 小程序编译 Host 时需要扫描 @tarojs/components 的 useExports，因此不能被 external
+      '@tarojs/components',
+      ...prebundleOptions.exclude || []
+    ]
   })
 
   console.log(chalk.cyan(
@@ -185,17 +190,10 @@ export async function preBundle (
     metadata.runtimeRequirements = new Set<string>()
 
     const compiler = webpack({
+      devtool,
       entry: path.resolve(__dirname, './webpack/index.js'),
       mode,
-      devtool,
       output,
-      cache: {
-        type: 'filesystem',
-        cacheDirectory: path.join(cacheDir, 'webpack-cache'),
-        buildDependencies: {
-          config: Object.values(exposes)
-        }
-      },
       plugins: [
         new webpack.container.ModuleFederationPlugin({
           name: 'lib_app',
@@ -214,7 +212,14 @@ export async function preBundle (
           SVGElement: [taroRuntimeBundlePath, 'SVGElement'],
           MutationObserver: [taroRuntimeBundlePath, 'MutationObserver']
         })
-      ]
+      ],
+      cache: {
+        type: 'filesystem',
+        cacheDirectory: path.join(cacheDir, 'webpack-cache'),
+        buildDependencies: {
+          config: Object.values(exposes)
+        }
+      }
     })
     metadata.remoteAssets = await new Promise((resolve, reject) => {
       compiler.run((err: Error, stats: webpack.Stats) => {
@@ -243,7 +248,7 @@ export async function preBundle (
    * 4. 项目 Host 配置 Module Federation
    */
   const chain = combination.chain
-  const mfOptions = {
+  const MfOpt = {
     name: 'main_app',
     remotes: {
       'lib-app': 'lib_app@http://localhost:3000/remoteEntry.js'
@@ -251,11 +256,11 @@ export async function preBundle (
   }
   chain
     .plugin('ModuleFederationPlugin')
-    .use(webpack.container.ModuleFederationPlugin, [mfOptions])
+    .use(webpack.container.ModuleFederationPlugin, [MfOpt])
   chain
     .plugin('TaroContainerReferencePlugin')
     .use(path.resolve(__dirname, './webpack/TaroContainerReferencePlugin.js'), [
-      mfOptions,
+      MfOpt,
       deps,
       metadata.remoteAssets,
       metadata.runtimeRequirements

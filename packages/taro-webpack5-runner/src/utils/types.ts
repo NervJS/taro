@@ -43,8 +43,10 @@ export interface HookModifyWebpackChain {
 }
 
 export interface CommonBuildConfig extends IProjectBaseConfig {
-  mode: 'production' | 'development'
+  enableSourceMap?: boolean
+  entry?: Webpack.EntryObject
   isWatch: boolean
+  mode: 'production' | 'development'
   port?: number
   /** hooks */
   modifyWebpackChain: HookModifyWebpackChain

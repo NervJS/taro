@@ -13,8 +13,6 @@ import { H5WebpackPlugin } from './H5WebpackPlugin'
 type Output = Required<webpack.Configuration>['output']
 
 export class H5Combination extends Combination<H5BuildConfig> {
-  enableSourceMap: boolean
-
   inst: H5AppInstance
 
   process (config: Partial<H5BuildConfig>) {
@@ -25,7 +23,6 @@ export class H5Combination extends Combination<H5BuildConfig> {
       output = {},
       entryFileName = 'app',
       mode = 'production',
-      enableSourceMap = process.env.NODE_ENV !== 'production',
       sourceMapType = 'eval-cheap-module-source-map',
       publicPath = '/',
       chunkDirectory = 'chunk',
@@ -47,8 +44,6 @@ export class H5Combination extends Combination<H5BuildConfig> {
       })
     }
 
-    this.enableSourceMap = enableSourceMap
-
     const webpackOutput = this.getOutput({
       mode,
       publicPath,
@@ -63,7 +58,7 @@ export class H5Combination extends Combination<H5BuildConfig> {
       entry,
       output: webpackOutput,
       mode,
-      devtool: this.getDevtool(enableSourceMap, sourceMapType),
+      devtool: this.getDevtool(sourceMapType),
       resolve: { alias },
       plugin: webpackPlugin.getPlugins(isMultiRouterMode, this.inst.appConfig?.pages ?? []),
       module: webpackModule.getModules(),

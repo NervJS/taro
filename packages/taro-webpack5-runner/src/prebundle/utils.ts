@@ -6,9 +6,16 @@ import fs from 'fs-extra'
 import path from 'path'
 import { performance } from 'perf_hooks'
 
-import type { MiniCombination } from '../webpack/MiniCombination'
+import type { Combination } from '../webpack/Combination'
 import type { CollectedDeps } from './constant'
-import type { Metadata } from './index'
+
+export interface Metadata {
+  bundleHash?: string
+  mfHash?: string
+  taroRuntimeBundlePath?: string
+  runtimeRequirements?: Set<string>
+  remoteAssets?: { name: string }[]
+}
 
 let resolve: (importer: string, request: string) => Promise<string>
 export function createResolve (appPath: string, resolveOptions) {
@@ -60,7 +67,7 @@ export function getCacheDir (appPath: string) {
   return path.resolve(appPath, './node_modules/.taro')
 }
 
-export function getDefines (combination: MiniCombination) {
+export function getDefines (combination: Combination) {
   let defines
   combination.chain.plugin('definePlugin').tap(args => {
     defines = args[0]
@@ -87,7 +94,7 @@ export function getHash (content: string) {
   return createHash('sha256').update(content).digest('hex').substring(0, 8)
 }
 
-export async function getBundleHash (deps: CollectedDeps, combination: MiniCombination, cacheDir: string): Promise<string> {
+export async function getBundleHash (deps: CollectedDeps, combination: Combination, cacheDir: string): Promise<string> {
   const appPath = combination.appPath
   const defines = getDefines(combination)
   const lockfiles = ['package-lock.json', 'yarn.lock', 'pnpm-lock.yaml']
@@ -132,7 +139,7 @@ export async function commitMeta (appPath: string, metadataPath: string, metadat
   })
 }
 
-export function getPrebundleOptions (combination: MiniCombination) {
+export function getPrebundleOptions (combination: Combination) {
   const config = combination.config
 
   type Compiler = typeof config.compiler

@@ -3,16 +3,17 @@
  * MIT License http://www.opensource.org/licenses/mit-license.php
  * Author Tobias Koppers @sokra, Zackary Jackson @ScriptedAlchemy, Marais Rossouw @maraisr
  */
+import webpack from 'webpack'
+
 import TaroContainerEntryModule from './TaroContainerEntryModule'
 
 const ContainerEntryDependency = require('webpack/lib/container/ContainerEntryDependency')
 const ContainerEntryModuleFactory = require('webpack/lib/container/ContainerEntryModuleFactory')
 
 const PLUGIN_NAME = 'TaroContainerPlugin'
-
-class TaroContainerEntryModuleFactory extends ContainerEntryModuleFactory {
-  create ({ dependencies: [dependency] }, callback) {
-    const dep = dependency
+class TaroContainerEntryModuleFactory extends ContainerEntryModuleFactory implements MapValue<webpack.Compilation['dependencyFactories']> {
+  create (data, callback) {
+    const dep = data?.dependencies[0]
     callback(null, {
       module: new TaroContainerEntryModule(dep.name, dep.exposes, dep.shareScope)
     })
@@ -32,7 +33,7 @@ class TaroContainerPlugin {
     this.runtimeRequirements = runtimeRequirements
   }
 
-  apply (compiler) {
+  apply (compiler: webpack.Compiler) {
     compiler.hooks.thisCompilation.tap(
       {
         name: PLUGIN_NAME,

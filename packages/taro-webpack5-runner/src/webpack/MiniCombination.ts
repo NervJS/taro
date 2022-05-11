@@ -9,11 +9,10 @@ import { MiniWebpackModule } from './MiniWebpackModule'
 import { MiniWebpackPlugin } from './MiniWebpackPlugin'
 
 export class MiniCombination extends Combination<MiniBuildConfig> {
-  isBuildNativeComp = false
-  isBuildPlugin = false
-  enableSourceMap: boolean
   buildNativePlugin: BuildNativePlugin
   fileType: IFileType
+  isBuildNativeComp = false
+  isBuildPlugin = false
   optimizeMainPackage: { enable?: boolean | undefined; exclude?: any[] | undefined; } = {
     enable: true
   }
@@ -26,7 +25,6 @@ export class MiniCombination extends Combination<MiniBuildConfig> {
       output = {},
       mode = 'production',
       globalObject = 'wx',
-      enableSourceMap = process.env.NODE_ENV !== 'production',
       sourceMapType = 'cheap-module-source-map',
       fileType = {
         style: '.wxss',
@@ -43,7 +41,6 @@ export class MiniCombination extends Combination<MiniBuildConfig> {
     } = config
 
     this.fileType = fileType
-    this.enableSourceMap = enableSourceMap
 
     modifyComponentConfig?.(componentConfig, config)
 
@@ -75,7 +72,7 @@ export class MiniCombination extends Combination<MiniBuildConfig> {
       entry: webpackEntry,
       output: webpackOutput,
       mode,
-      devtool: this.getDevtool(enableSourceMap, sourceMapType),
+      devtool: this.getDevtool(sourceMapType),
       resolve: {
         alias: this.getAlias()
       },
