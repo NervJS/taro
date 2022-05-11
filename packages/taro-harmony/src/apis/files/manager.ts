@@ -4,9 +4,12 @@ import { callCallbackFail, callCallbackSuccess, notSupport, notSupportAsync } fr
 import { validateParams } from '../utils'
 
 const app = require('@system.app')
+const zlib = require('@ohos.zlib')
+const file = require('@system.file')
 const fileio = require('@ohos.fileio')
 
-const rootSavedFilePath = `/data/data/${app.getInfo().appID}/files`
+const rootDataPath = `/data/data/${app.getInfo().appID}`
+const rootSavedFilePath = `${rootDataPath}/files`
 
 const accessSchema = {
   path: 'String'
@@ -19,6 +22,10 @@ const copyFileSchema = {
 
 const filePathSchema = {
   filePath: 'String'
+}
+
+const dirPathSchema = {
+  dirPath: 'String'
 }
 
 const readSchema = {
@@ -43,10 +50,15 @@ const fdSchema = {
 const saveFileSchema = {
   tempFilePath: 'String'
 }
+
+const unzipSchema = {
+  targetPath: 'String',
+  zipFilePath: 'String'
+}
 interface ReadOption {
-  offset: number,
-  length: number,
-  position: number
+  offset?: number,
+  length?: number,
+  position?: number
 }
 
 interface WriteOption extends ReadOption {
@@ -54,8 +66,8 @@ interface WriteOption extends ReadOption {
 }
 
 interface ReadFileOption {
-  length: number,
-  position: number,
+  position?: number,
+  length?: number,
   encoding: 'utf-8'
 }
 interface ReadResult {
@@ -67,6 +79,10 @@ interface WriteResult {
   bytesWritten: number
 }
 
+function convertFilePathToUri (filePath: string): string {
+  return filePath.replace(rootDataPath, 'internal:/')
+}
+
 function convertDataToString (data: string | ArrayBuffer): string {
   if (isString(data)) {
     return data
@@ -74,59 +90,54 @@ function convertDataToString (data: string | ArrayBuffer): string {
   return String.fromCharCode.apply(null, new Uint8Array(data))
 }
 
-function convertWriteOption (option: Taro.FileSystemManager.WriteOption | Taro.FileSystemManager.WriteSyncOption): WriteOption | null {
+function convertReadOption (option: Taro.FileSystemManager.ReadOption | Taro.FileSystemManager.ReadSyncOption): ReadOption {
+  const result: ReadOption = {}
   const { offset, length, position } = option
-  if (isNumber(offset) && isNumber(length) && isNumber(position)) {
-    return {
-      offset,
-      length,
-      position,
-      encoding: 'utf-8'
-    }
+  if (isNumber(offset)) {
+    result.offset = offset
   }
-  return null
+  if (isNumber(length)) {
+    result.length = length
+  }
+  if (isNumber(position)) {
+    result.position = position
+  }
+  return result
 }
 
-function convertReadOption (option: Taro.FileSystemManager.ReadOption | Taro.FileSystemManager.ReadSyncOption): ReadOption | null {
-  const { offset, length, position } = option
-  if (isNumber(offset) && isNumber(length) && isNumber(position)) {
-    return {
-      offset,
-      length,
-      position
-    }
+function convertWriteOption (option: Taro.FileSystemManager.WriteOption | Taro.FileSystemManager.WriteSyncOption): WriteOption {
+  const result: WriteOption = {
+    encoding: 'utf-8'
   }
-  return null
+  const { offset, length, position } = option
+  if (isNumber(offset)) {
+    result.offset = offset
+  }
+  if (isNumber(length)) {
+    result.length = length
+  }
+  if (isNumber(position)) {
+    result.position = position
+  }
+  return result
 }
 
-function convertReadFileOption (option: Taro.FileSystemManager.ReadFileOption): ReadFileOption | null {
-  const { length, position } = option
-  if (isNumber(length) && isNumber(position)) {
-    return {
-      length,
-      position,
-      encoding: 'utf-8'
-    }
+function convertReadFileOption (option: Taro.FileSystemManager.ReadFileOption): ReadFileOption {
+  const result: ReadFileOption = {
+    encoding: 'utf-8'
   }
-  return null
+  const { position, length } = option
+  if (isNumber(position)) {
+    result.position = position
+  }
+  if (isNumber(length)) {
+    result.length = length
+  }
+  return result
 }
 
 function convertFd (fd: string): number {
   return parseInt(fd, 10)
-}
-
-function validateSavedFilePath (savedFilePath: string) {
-  if (savedFilePath.indexOf(rootSavedFilePath) !== 0) {
-    throw new Error(`The filePath should in ${rootSavedFilePath}`)
-  }
-}
-
-function parseSavedFilePath (srcPath: string, savedFilePath: string | undefined) : string {
-  if (isString(savedFilePath) && savedFilePath.length > 0) {
-    validateSavedFilePath(savedFilePath)
-    return savedFilePath
-  }
-  return `${rootSavedFilePath}/${srcPath.split('/').pop()}`
 }
 
 /**
@@ -168,8 +179,27 @@ function convertOpenFlag (flag?: keyof Taro.FileSystemManager.flag): number {
   }
 }
 
-function unzip (option: Taro.FileSystemManager.UnzipOption) {
-  notSupport('unzip', option)
+function validateSavedFilePath (savedFilePath: string) {
+  if (savedFilePath.indexOf(rootSavedFilePath) !== 0) {
+    throw new Error(`The filePath should in ${rootSavedFilePath}`)
+  }
+}
+
+function parseSavedFilePath (srcPath: string, savedFilePath: string | undefined) : string {
+  if (isString(savedFilePath) && savedFilePath.length > 0) {
+    validateSavedFilePath(savedFilePath)
+    return savedFilePath
+  }
+  return `${rootSavedFilePath}/${srcPath.split('/').pop()}`
+}
+
+function isFileExist (filePath: string): boolean {
+  try {
+    accessSync(filePath)
+    return true
+  } catch (_) {
+    return false
+  }
 }
 
 function readCompressedFile (option: Taro.FileSystemManager.readCompressedFile.Option): Promise<Taro.FileSystemManager.readCompressedFile.Promised> {
@@ -202,8 +232,65 @@ function access (option: Taro.FileSystemManager.AccessOption) {
   })
 }
 
-function accessSync (path: string): void {
+function accessSync (path: string) {
   fileio.accessSync(path)
+}
+
+function mkdir (option: Taro.FileSystemManager.MkdirOption) {
+  try {
+    validateParams('mkdir', option, dirPathSchema)
+  } catch (error) {
+    const res = { errMsg: error.message }
+    return callCallbackFail(res, option)
+  }
+  file.mkdir({
+    uri: convertFilePathToUri(option.dirPath),
+    recursive: true,
+    success: () => callCallbackSuccess(undefined, option),
+    fail: (data, code) => {
+      const res = { errMsg: `mkdir invoke failed, code: ${code}, data: ${data}` }
+      callCallbackFail(res, option)
+    }
+  })
+}
+
+function mkdirSync (dirPath: string, recursive?: boolean) {
+  if (recursive === true) {
+    const parentDirPath = dirPath.split('/').slice(0, -1).join('/')
+    if (isFileExist(parentDirPath)) {
+      fileio.mkdirSync(dirPath)
+    } else {
+      mkdirSync(parentDirPath, true)
+    }
+  } else {
+    fileio.mkdirSync(dirPath)
+  }
+}
+
+function rmdir (option: Taro.FileSystemManager.RmdirOption) {
+  try {
+    validateParams('rmdir', option, dirPathSchema)
+  } catch (error) {
+    const res = { errMsg: error.message }
+    return callCallbackFail(res, option)
+  }
+  file.rmdir({
+    uri: convertFilePathToUri(option.dirPath),
+    recursive: true,
+    success: () => callCallbackSuccess(undefined, option),
+    fail: (data, code) => {
+      const res = { errMsg: `rmdir invoke failed, code: ${code}, data: ${data}` }
+      callCallbackFail(res, option)
+    }
+  })
+}
+
+function rmdirSync (dirPath: string, recursive?: boolean) {
+  if (recursive === true) {
+    notSupport('rmdirSync recursive')
+  } else {
+    fileio.rmdirSync(dirPath)
+  }
 }
 
 function copyFile (option: Taro.FileSystemManager.CopyFileOption) {
@@ -234,7 +321,7 @@ function open (option: Taro.FileSystemManager.OpenOption) {
     const res = { errMsg: error.message }
     return callCallbackFail(res, option)
   }
-  // 由于 HarmonyOS 异步方法 fileio.open 在【文件不存在】，并在【指定不存在则创建文件标志】后依旧抛出 No such file or directory 异常，
+  // 由于 HarmonyOS 异步方法 fileio.open 在【文件不存在则创建】模式下依旧抛出 No such file or directory 异常，
   // 为保证接口的可用性，此处降级使用 fileio.openSync 方法。
   const openPromise = new Promise((resolve, reject) => {
     try {
@@ -251,6 +338,42 @@ function open (option: Taro.FileSystemManager.OpenOption) {
 function openSync (option: Taro.FileSystemManager.OpenSyncOption): string {
   validateParams('openSync', option, filePathSchema)
   return fileio.openSync(option.filePath, convertOpenFlag(option.flag), 0o666).toString()
+}
+
+function getFileInfo (option: Taro.FileSystemManager.getFileInfoOption) {
+  open({
+    filePath: option.filePath,
+    flag: 'r',
+    success: ({ fd }) => {
+      const fstatPromise = new Promise((resolve) => {
+        fstat({
+          fd,
+          success: ({ stats }) => resolve({
+            error: null,
+            res: { size: stats.size }
+          }),
+          fail: (res) => resolve({
+            error: res,
+            res: null
+          })
+        })
+      })
+      fstatPromise.then(({ error, res }) => {
+        close({
+          fd,
+          success: () => {
+            if (error === null) {
+              callCallbackSuccess(res, option)
+            } else {
+              callCallbackFail(error, option)
+            }
+          },
+          fail: (res) => callCallbackFail(res, option)
+        })
+      })
+    },
+    fail: (res) => callCallbackFail(res, option)
+  })
 }
 
 function read (option: Taro.FileSystemManager.ReadOption) {
@@ -291,18 +414,14 @@ function readFile (option: Taro.FileSystemManager.ReadFileOption) {
     return callCallbackFail(res, option)
   }
 
-  // 由于 HarmonyOS 异步方法 fileio.readText 方法不能正常工作，
-  // 为保证接口的可用性，此处降级使用 fileio.readTextSync 方法。
-  const readFilePromise = new Promise((resolve, reject) => {
-    try {
-      const data = fileio.readTextSync(option.filePath, convertReadFileOption(option))
-      resolve({ data })
-    } catch (error) {
-      reject(new Error(error.message ? error.message : error))
+  fileio.readText(option.filePath, convertReadFileOption(option), (error, data) => {
+    if (error) {
+      const res = { errMsg: error.message ? error.message : error }
+      callCallbackFail(res, option)
+    } else {
+      callCallbackSuccess({ data }, option)
     }
   })
-  readFilePromise.then((res) => callCallbackSuccess(res, option))
-    .catch((error) => callCallbackFail({ errMsg: error.message }, option))
 }
 
 /**
@@ -352,11 +471,32 @@ function writeFileWithFlag (option: Taro.FileSystemManager.WriteFileOption, flag
     flag,
     filePath: option.filePath,
     success: ({ fd }) => {
-      write({
-        fd,
-        data: option.data,
-        success: (res) => callCallbackSuccess(res, option),
-        fail: (res) => callCallbackFail(res, option)
+      const writePromise = new Promise((resolve) => {
+        write({
+          fd,
+          data: option.data,
+          success: (res) => resolve({
+            error: null,
+            res
+          }),
+          fail: (res) => resolve({
+            error: res,
+            res: null
+          })
+        })
+      })
+      writePromise.then(({ error, res }) => {
+        close({
+          fd,
+          success: () => {
+            if (error === null) {
+              callCallbackSuccess(res, option)
+            } else {
+              callCallbackFail(error, option)
+            }
+          },
+          fail: (res) => callCallbackFail(res, option)
+        })
       })
     },
     fail: (res) => callCallbackFail(res, option)
@@ -370,6 +510,7 @@ function writeFile (option: Taro.FileSystemManager.WriteFileOption) {
 function writeFileSyncWithFlag (filePath: string, data: string | ArrayBuffer, flag: keyof Taro.FileSystemManager.flag) {
   const fd = openSync({ filePath, flag })
   writeSync({ fd, data })
+  closeSync({ fd })
 }
 
 function writeFileSync (filePath: string, data: string | ArrayBuffer) {
@@ -447,7 +588,7 @@ function fstat (option: Taro.FileSystemManager.FstatOption) {
         isDirectory: () => stats.isDirectory(),
         isFile: () => stats.isFile()
       }
-      callCallbackSuccess(res, option)
+      callCallbackSuccess({ stats: res }, option)
     }
   })
 }
@@ -581,6 +722,21 @@ function removeSavedFile (option: Taro.FileSystemManager.RemoveSavedFileOption) 
   unlink(option)
 }
 
+function unzip (option: Taro.FileSystemManager.UnzipOption) {
+  try {
+    validateParams('unzip', option, unzipSchema)
+  } catch (error) {
+    const res = { errMsg: error.message }
+    return callCallbackFail(res, option)
+  }
+  zlib.unzipFile(option.zipFilePath, option.targetPath).then(() => {
+    callCallbackSuccess(undefined, option)
+  }).catch(error => {
+    const res = { errMsg: error.message ? error.message : error }
+    callCallbackFail(res, option)
+  })
+}
+
 export function getFileSystemManager () {
   return {
     access,
@@ -595,6 +751,9 @@ export function getFileSystemManager () {
     fstatSync,
     ftruncate,
     ftruncateSync,
+    getFileInfo,
+    mkdir,
+    mkdirSync,
     open,
     openSync,
     read,
@@ -607,6 +766,8 @@ export function getFileSystemManager () {
     removeSavedFile,
     rename,
     renameSync,
+    rmdir,
+    rmdirSync,
     saveFile,
     saveFileSync,
     truncate,
