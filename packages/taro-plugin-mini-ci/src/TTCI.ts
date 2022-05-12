@@ -5,7 +5,6 @@ import * as fs from 'fs'
 import * as path from 'path'
 import generateQrCode from './QRCode'
 
-
 export default class TTCI extends BaseCI {
   tt
 
@@ -22,7 +21,7 @@ export default class TTCI extends BaseCI {
 
   async _beforeCheck () {
     await this.tt.loginByEmail({
-      email: this.pluginOpts.tt!.email, 
+      email: this.pluginOpts.tt!.email,
       password: this.pluginOpts.tt!.password
     })
     return await this.tt.checkSession()
@@ -68,7 +67,7 @@ export default class TTCI extends BaseCI {
     )
     try {
       printLog(processTypeEnum.START, '预览字节跳动小程序')
-     const previewResult = await this.tt.preview({
+      const previewResult = await this.tt.preview({
         project: {
           path: outputPath
         },
@@ -76,13 +75,13 @@ export default class TTCI extends BaseCI {
           path: appInfo.pages[0]
         },
         qrcode: {
-          format: "imageSVG", 
+          format: "imageSVG",
           options: {
             small: true
-          },
-        },
+          }
+        }
       })
-      generateQrCode(previewResult.shortUrl);
+      generateQrCode(previewResult.shortUrl)
       printLog(processTypeEnum.GENERATE, '二维码已生成，请扫码预览')
     } catch (error) {
       console.log(chalk.red(`上传失败 ${new Date().toLocaleString()} \n${error.message}`))
@@ -103,7 +102,7 @@ export default class TTCI extends BaseCI {
         },
         version: this.version,
         changeLog: this.desc,
-        needUploadSourcemap: true,
+        needUploadSourcemap: true
       })
       printLog(processTypeEnum.REMIND, '上传完成')
     } catch (error) {
