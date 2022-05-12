@@ -13,6 +13,8 @@ declare module '../../index' {
       scrollTop?: number
       /** 选择器, css selector */
       selector?: string
+      /** 偏移距离，需要和 selector 参数搭配使用，可以滚动到 selector 加偏移距离的位置，单位 px */
+      offsetTop?: number
       /** 接口调用成功的回调函数 */
       success?: (res: TaroGeneral.CallbackResult) => void
     }
