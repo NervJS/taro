@@ -75,7 +75,7 @@ export default class TTCI extends BaseCI {
           path: appInfo.pages[0]
         },
         qrcode: {
-          format: "imageSVG",
+          format: 'imageSVG',
           options: {
             small: true
           }
