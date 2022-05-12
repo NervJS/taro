@@ -1,3 +1,29 @@
+/**
+ * HarmonyOS 文档：
+ * https://developer.harmonyos.com/cn/docs/documentation/doc-references/js-apis-fileio-0000001168366687
+ *
+ * WX 文档：
+ * https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.html
+ *
+ * Taro.js 文档
+ * https://taro-docs.jd.com/taro/docs/apis/files/FileSystemManager
+ *
+ * HarmonyOS 不支持接口：
+ * readCompressedFile
+ * readCompressedFileSync
+ * readdirSync
+ * readZipEntry
+ *
+ * HarmonyOS 差异性接口：
+ * readFile：encoding 仅支持 utf-8
+ * readFileSync：encoding 仅支持 utf-8
+ * write：encoding 仅支持 utf-8
+ * writeSync：encoding 仅支持 utf-8
+ * rmdirSync：recursive 参数无效（即不支持递归删除）
+ * statSync：recursive 参数无效（即不支持递归获取目录下的每个文件的 Stats 信息）
+ * getSavedFileList：返回值 fileList 中的每一项不包含 createTime 属性
+ */
+
 import Taro from '@tarojs/taro'
 import { isNumber, isString } from '@tarojs/shared'
 import { callCallbackFail, callCallbackSuccess, notSupport, notSupportAsync } from './utils'
@@ -9,9 +35,10 @@ const file = require('@system.file')
 const fileio = require('@ohos.fileio')
 
 const rootDataPath = `/data/data/${app.getInfo().appID}`
-const rootSavedFilePath = `${rootDataPath}/files`
+const rootSavedFilePath = `${rootDataPath}/cache/savedFile`
+mkdir({ dirPath: rootSavedFilePath })
 
-const accessSchema = {
+const pathSchema = {
   path: 'String'
 }
 
@@ -79,8 +106,22 @@ interface WriteResult {
   bytesWritten: number
 }
 
+interface StatWithFdResult {
+  stats: Taro.Stats | null,
+  error: Taro.FileSystemManager.StatFailCallbackResult | null
+}
+
+interface GetDirFilesResult {
+  files: string[],
+  dirs: string[]
+}
+
 function convertFilePathToUri (filePath: string): string {
   return filePath.replace(rootDataPath, 'internal:/')
+}
+
+function convertUriToFilePath (uri: string): string {
+  return uri.replace('internal:/', rootDataPath)
 }
 
 function convertDataToString (data: string | ArrayBuffer): string {
@@ -179,7 +220,7 @@ function convertOpenFlag (flag?: keyof Taro.FileSystemManager.flag): number {
   }
 }
 
-function validateSavedFilePath (savedFilePath: string) {
+export function validateSavedFilePath (savedFilePath: string) {
   if (savedFilePath.indexOf(rootSavedFilePath) !== 0) {
     throw new Error(`The filePath should in ${rootSavedFilePath}`)
   }
@@ -202,6 +243,23 @@ function isFileExist (filePath: string): boolean {
   }
 }
 
+function getDirFiles (dirPath: string): Promise<GetDirFilesResult> {
+  return new Promise((resolve, reject) => {
+    file.list({
+      uri: convertFilePathToUri(dirPath),
+      success: ({ fileList }) => {
+        resolve({
+          files: fileList.filter(({ type }) => type.toLowerCase() === 'file').map(({ uri }) => convertUriToFilePath(uri)),
+          dirs: fileList.filter(({ type }) => type.toLowerCase() === 'dir').map(({ uri }) => convertUriToFilePath(uri))
+        })
+      },
+      fail: (error) => {
+        reject(new Error(error))
+      }
+    })
+  })
+}
+
 function readCompressedFile (option: Taro.FileSystemManager.readCompressedFile.Option): Promise<Taro.FileSystemManager.readCompressedFile.Promised> {
   return notSupportAsync('readCompressedFile', option)
 }
@@ -211,13 +269,18 @@ function readCompressedFileSync (_: Taro.FileSystemManager.readCompressedFileSyn
   return new ArrayBuffer(0)
 }
 
+function readdirSync (_: string): string[] {
+  notSupport('readdirSync')
+  return []
+}
+
 function readZipEntry (option: Taro.FileSystemManager.readZipEntry.Option): Promise<Taro.FileSystemManager.readZipEntry.Promised> {
   return notSupportAsync('readZipEntry', option)
 }
 
 function access (option: Taro.FileSystemManager.AccessOption) {
   try {
-    validateParams('access', option, accessSchema)
+    validateParams('access', option, pathSchema)
   } catch (error) {
     const res = { errMsg: error.message }
     return callCallbackFail(res, option)
@@ -245,10 +308,10 @@ function mkdir (option: Taro.FileSystemManager.MkdirOption) {
   }
   file.mkdir({
     uri: convertFilePathToUri(option.dirPath),
-    recursive: true,
+    recursive: option.recursive,
     success: () => callCallbackSuccess(undefined, option),
-    fail: (data, code) => {
-      const res = { errMsg: `mkdir invoke failed, code: ${code}, data: ${data}` }
+    fail: (error, code) => {
+      const res = { errMsg: `mkdir invoke failed, code: ${code}, error: ${error}` }
       callCallbackFail(res, option)
     }
   })
@@ -256,11 +319,13 @@ function mkdir (option: Taro.FileSystemManager.MkdirOption) {
 
 function mkdirSync (dirPath: string, recursive?: boolean) {
   if (recursive === true) {
-    const parentDirPath = dirPath.split('/').slice(0, -1).join('/')
-    if (isFileExist(parentDirPath)) {
-      fileio.mkdirSync(dirPath)
-    } else {
-      mkdirSync(parentDirPath, true)
+    const pathParts = dirPath.split('/')
+    for (let index = 0; index < pathParts.length; index++) {
+      const filePath = pathParts.slice(0, index + 1).join('/')
+      if (filePath.length === 0 || isFileExist(filePath)) {
+        continue
+      }
+      fileio.mkdirSync(filePath)
     }
   } else {
     fileio.mkdirSync(dirPath)
@@ -276,10 +341,10 @@ function rmdir (option: Taro.FileSystemManager.RmdirOption) {
   }
   file.rmdir({
     uri: convertFilePathToUri(option.dirPath),
-    recursive: true,
+    recursive: option.recursive,
     success: () => callCallbackSuccess(undefined, option),
-    fail: (data, code) => {
-      const res = { errMsg: `rmdir invoke failed, code: ${code}, data: ${data}` }
+    fail: (error, code) => {
+      const res = { errMsg: `rmdir invoke failed, code: ${code}, error: ${error}` }
       callCallbackFail(res, option)
     }
   })
@@ -291,6 +356,22 @@ function rmdirSync (dirPath: string, recursive?: boolean) {
   } else {
     fileio.rmdirSync(dirPath)
   }
+}
+
+function readdir (option: Taro.FileSystemManager.ReaddirOption) {
+  try {
+    validateParams('readdir', option, dirPathSchema)
+  } catch (error) {
+    const res = { errMsg: error.message }
+    return callCallbackFail(res, option)
+  }
+
+  getDirFiles(option.dirPath).then(({ files, dirs }) => {
+    callCallbackSuccess({ files: [...files, ...dirs] }, option)
+  }).catch((error) => {
+    const res = { errMsg: error.message }
+    callCallbackFail(res, option)
+  })
 }
 
 function copyFile (option: Taro.FileSystemManager.CopyFileOption) {
@@ -338,42 +419,6 @@ function open (option: Taro.FileSystemManager.OpenOption) {
 function openSync (option: Taro.FileSystemManager.OpenSyncOption): string {
   validateParams('openSync', option, filePathSchema)
   return fileio.openSync(option.filePath, convertOpenFlag(option.flag), 0o666).toString()
-}
-
-function getFileInfo (option: Taro.FileSystemManager.getFileInfoOption) {
-  open({
-    filePath: option.filePath,
-    flag: 'r',
-    success: ({ fd }) => {
-      const fstatPromise = new Promise((resolve) => {
-        fstat({
-          fd,
-          success: ({ stats }) => resolve({
-            error: null,
-            res: { size: stats.size }
-          }),
-          fail: (res) => resolve({
-            error: res,
-            res: null
-          })
-        })
-      })
-      fstatPromise.then(({ error, res }) => {
-        close({
-          fd,
-          success: () => {
-            if (error === null) {
-              callCallbackSuccess(res, option)
-            } else {
-              callCallbackFail(error, option)
-            }
-          },
-          fail: (res) => callCallbackFail(res, option)
-        })
-      })
-    },
-    fail: (res) => callCallbackFail(res, option)
-  })
 }
 
 function read (option: Taro.FileSystemManager.ReadOption) {
@@ -606,6 +651,118 @@ function fstatSync (option: Taro.FileSystemManager.FstatSyncOption): Taro.Stats 
   }
 }
 
+function statWithFd (fd: string): Promise<StatWithFdResult> {
+  return new Promise((resolve) => {
+    fstat({
+      fd,
+      success: ({ stats }) => resolve({
+        stats,
+        error: null
+      }),
+      fail: (error) => resolve({
+        error,
+        stats: null
+      })
+    })
+  })
+}
+
+function statWithPath (path: string): Promise<Taro.Stats> {
+  return new Promise((resolve, reject) => {
+    open({
+      filePath: path,
+      flag: 'r',
+      success: ({ fd }) => {
+        statWithFd(fd).then(({ error, stats }) => {
+          close({
+            fd,
+            success: () => {
+              if (error === null) {
+                resolve(stats!)
+              } else {
+                reject(error)
+              }
+            },
+            fail: (error) => reject(error)
+          })
+        })
+      },
+      fail: (error) => reject(error)
+    })
+  })
+}
+
+async function statWithRecursive (rootPath: string): Promise<Record<string, Taro.Stats>> {
+  let result: Record<string, Taro.Stats> = {}
+  const { files, dirs } = await getDirFiles(rootPath)
+  for (const dir of dirs) {
+    result[dir] = await statWithPath(dir)
+    result = {
+      ...result,
+      ...(await statWithRecursive(dir))
+    }
+  }
+  for (const file of files) {
+    result[file] = await statWithPath(file)
+  }
+  return result
+}
+
+function stat (option: Taro.FileSystemManager.StatOption) {
+  try {
+    validateParams('fstat', option, pathSchema)
+  } catch (error) {
+    const res = { errMsg: error.message }
+    return callCallbackFail(res, option)
+  }
+
+  const statPromise = option.recursive === true ? statWithRecursive(option.path) : statWithPath(option.path)
+  statPromise.then((stats) => {
+    callCallbackSuccess({ stats }, option)
+  }).catch((error) => {
+    const res = { errMsg: error.message ? error.message : error }
+    callCallbackFail(res, option)
+  })
+}
+
+function statSync (path: string, recursive?: boolean): Taro.Stats | TaroGeneral.IAnyObject {
+  if (recursive === true) {
+    notSupport('statSync recursive')
+  }
+  const fd = openSync({ filePath: path, flag: 'r' })
+  const stats = fstatSync({ fd })
+  closeSync({ fd })
+  return stats
+}
+
+function getFileInfo (option: Taro.FileSystemManager.getFileInfoOption) {
+  statWithPath(option.filePath).then((stats) => {
+    callCallbackSuccess({ size: stats.size }, option)
+  }).catch((error) => {
+    const res = { errMsg: error.message ? error.message : error }
+    callCallbackFail(res, option)
+  })
+}
+
+function getSavedFileList (option: Taro.FileSystemManager.getSavedFileListOption) {
+  statWithRecursive(rootSavedFilePath).then((stats) => {
+    const fileList = Object.keys(stats).map((filePath) => {
+      const file = stats[filePath]
+      if (file.isFile()) {
+        return {
+          filePath,
+          size: file.size
+        }
+      }
+      return null
+    }).filter((file) => file !== null)
+    callCallbackSuccess({ fileList }, option)
+  }).catch((error) => {
+    const res = { errMsg: error.message ? error.message : error }
+    callCallbackFail(res, option)
+  })
+}
+
 function ftruncate (option: Taro.FileSystemManager.FtruncateOption) {
   try {
     validateParams('ftruncate', option, fdSchema)
@@ -737,7 +894,7 @@ function unzip (option: Taro.FileSystemManager.UnzipOption) {
   })
 }
 
-export function getFileSystemManager () {
+export function getFileSystemManager (): Taro.FileSystemManager {
   return {
     access,
     accessSync,
@@ -752,6 +909,7 @@ export function getFileSystemManager () {
     ftruncate,
     ftruncateSync,
     getFileInfo,
+    getSavedFileList,
     mkdir,
     mkdirSync,
     open,
@@ -759,6 +917,8 @@ export function getFileSystemManager () {
     read,
     readCompressedFile,
     readCompressedFileSync,
+    readdir,
+    readdirSync,
     readFile,
     readFileSync,
     readSync,
@@ -770,6 +930,8 @@ export function getFileSystemManager () {
     rmdirSync,
     saveFile,
     saveFileSync,
+    stat,
+    statSync,
     truncate,
     truncateSync,
     unlink,

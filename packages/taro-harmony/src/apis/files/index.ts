@@ -1,12 +1,31 @@
+/**
+ * HarmonyOS 文档：
+ * https://developer.harmonyos.com/cn/docs/documentation/doc-references/js-apis-fileio-0000001168366687
+ *
+ * WX 文档：
+ * https://developers.weixin.qq.com/miniprogram/dev/api/file/wx.saveFileToDisk.html
+ *
+ * Taro.js 文档
+ * https://taro-docs.jd.com/taro/docs/apis/files/saveFileToDisk
+ *
+ * HarmonyOS 不支持接口：
+ * saveFileToDisk
+ *
+ * HarmonyOS 差异性接口：
+ * openDocument：showMenu、type 选项无效
+ * getSavedFileList：返回值 fileList 中的每一项不包含 createTime 属性
+ * getSavedFileInfo：返回值不包含 createTime 属性
+ */
+
 import Taro from '@tarojs/taro'
 import { notSupportAsync } from './utils'
-import { getFileSystemManager } from './manager'
+import { getFileSystemManager, validateSavedFilePath } from './manager'
 import { validateParams, callAsyncSuccess, callAsyncFail } from '../utils'
 
 const fileio = require('@ohos.fileio')
 const document = require('@ohos.document')
 
-const openDocumentSchema = {
+const filePathSchema = {
   filePath: 'String'
 }
 
@@ -21,7 +40,7 @@ function saveFileToDisk (option: Taro.saveFileToDisk.Option): Promise<TaroGenera
 function openDocument (option: Taro.openDocument.Option): Promise<TaroGeneral.CallbackResult> {
   return new Promise((resolve, reject) => {
     try {
-      validateParams('access', option, openDocumentSchema)
+      validateParams('access', option, filePathSchema)
     } catch (error) {
       const res = { errMsg: error.message }
       return callAsyncFail(reject, res, option)
@@ -88,11 +107,41 @@ function getFileInfo (option: Taro.getFileInfo.Option): Promise<Taro.getFileInfo
   })
 }
 
+function getSavedFileList (option?: Taro.getSavedFileList.Option): Promise<Taro.getSavedFileList.SuccessCallbackResult> {
+  return new Promise((resolve, reject) => {
+    const fileSystemManager = getFileSystemManager()
+    fileSystemManager.getSavedFileList({
+      success: (res) => callAsyncSuccess(resolve, res, option),
+      fail: (res) => callAsyncFail(reject, res, option)
+    })
+  })
+}
+
+function getSavedFileInfo (option: Taro.getSavedFileInfo.Option): Promise<Taro.getSavedFileInfo.SuccessCallbackResult> {
+  return new Promise((resolve, reject) => {
+    try {
+      validateParams('getSavedFileInfo', option, filePathSchema)
+      validateSavedFilePath(option.filePath)
+    } catch (error) {
+      const res = { errMsg: error.message }
+      return callAsyncFail(reject, res, option)
+    }
+    const fileSystemManager = getFileSystemManager()
+    fileSystemManager.getFileInfo({
+      filePath: option.filePath,
+      success: ({ size }) => callAsyncSuccess(resolve, { size }, option),
+      fail: (res) => callAsyncFail(reject, res, option)
+    })
+  })
+}
+
 export {
   saveFileToDisk,
   saveFile,
   removeSavedFile,
   openDocument,
   getFileInfo,
+  getSavedFileList,
+  getSavedFileInfo,
   getFileSystemManager
 }
