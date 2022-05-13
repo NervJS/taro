@@ -35,16 +35,7 @@ const file = require('@system.file')
 const fileio = require('@ohos.fileio')
 
 const rootDataPath = `/data/data/${app.getInfo().appID}`
-
-/**
- * uri 格式的存储目录有 cache、app、share，除 cache 外，其他两个目录在调用 file.list 时无法得到目录下的文件列表，
- * 故将 rootSavedFilePath 设置在 cache 里。
- *
- * uri 存储定义参见：
- * https://developer.harmonyos.com/cn/docs/documentation/doc-guides/js-framework-file-0000000000611396#section1856519365229
- */
-const rootSavedFilePath = `${rootDataPath}/cache/savedFile`
-mkdir({ dirPath: rootSavedFilePath })
+const rootSavedFilePath = `${rootDataPath}/files`
 
 const pathSchema = {
   path: 'String'
@@ -125,11 +116,13 @@ interface GetDirFilesResult {
 }
 
 function convertFilePathToUri (filePath: string): string {
-  return filePath.replace(rootDataPath, 'internal:/')
+  let uri = filePath.replace(/\/+/g, '/').replace(rootDataPath, 'internal:').replace('internal:/files', 'internal:/app')
+  uri = /\/$/.test(uri) ? uri : `${uri}/`
+  return uri.replace(/\//g, '//')
 }
 
 function convertUriToFilePath (uri: string): string {
-  return uri.replace('internal:/', rootDataPath)
+  return uri.replace(/\/+/g, '/').replace('internal:/app', 'internal:/files').replace('internal:', rootDataPath)
 }
 
 function convertDataToString (data: string | ArrayBuffer): string {
