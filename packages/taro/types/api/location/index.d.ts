@@ -190,7 +190,7 @@ declare module '../../index' {
 
   interface TaroStatic {
     /** 关闭监听实时位置变化，前后台都停止消息接收
-     * @supported weapp
+     * @supported weapp, rn
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/location/wx.stopLocationUpdate.html
      */
     stopLocationUpdate(option?: stopLocationUpdate.Option): void
@@ -212,7 +212,7 @@ declare module '../../index' {
      *
      * **注意**
      * - 获取位置信息需配置[地理位置用途说明](https://developers.weixin.qq.com/miniprogram/dev/reference/configuration/app.html#permission)。
-     * @supported weapp
+     * @supported weapp, rn
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/location/wx.startLocationUpdate.html
      */
     startLocationUpdate(option?: startLocationUpdate.Option): void
@@ -248,7 +248,7 @@ declare module '../../index' {
     ): void
 
     /** 监听实时地理位置变化事件，需结合 Taro.startLocationUpdateBackground、Taro.startLocationUpdate 使用。
-     * @supported weapp
+     * @supported weapp, rn
      * @example
      * ```tsx
      * const _locationChangeFn = function (res) {
@@ -274,7 +274,7 @@ declare module '../../index' {
     ): void
 
     /** 取消监听实时地理位置变化事件
-     * @supported weapp
+     * @supported weapp, rn
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/location/wx.offLocationChange.html
      */
     offLocationChange(
@@ -287,7 +287,7 @@ declare module '../../index' {
      * **注意**
      * - 工具中定位模拟使用IP定位，可能会有一定误差。且工具目前仅支持 gcj02 坐标。
      * - 使用第三方服务进行逆地址解析时，请确认第三方服务默认的坐标系，正确进行坐标转换。
-     * @supported weapp
+     * @supported weapp, rn
      * @example
      *  ```tsx
      * Taro.getLocation({
