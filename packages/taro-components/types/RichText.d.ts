@@ -5,7 +5,7 @@ interface RichTextProps extends StandardProps {
   /** 节点列表/ HTML String */
   nodes?: Nodes
   /** 显示连续空格
-   * @supported weapp
+   * @supported weapp, rn
    */
   space?: keyof RichTextProps.TSpace
 }
@@ -95,7 +95,7 @@ declare namespace RichTextProps {
  *     <rich-text :nodes="nodes"></rich-text>
  *   </view>
  * </template>
- * 
+ *
  * <script>
  * export default {
  *   name: 'Index',
