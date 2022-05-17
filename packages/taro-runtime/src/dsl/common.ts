@@ -1,5 +1,5 @@
 /* eslint-disable dot-notation */
-import { isFunction, EMPTY_OBJ, ensure, Shortcuts, isUndefined, isArray, isString } from '@tarojs/shared'
+import { isFunction, EMPTY_OBJ, ensure, Shortcuts, isUndefined, isArray, isString, isObject } from '@tarojs/shared'
 import { getHooks } from '../container/store'
 import { eventHandler } from '../dom/event'
 import { Current } from '../current'
@@ -295,6 +295,11 @@ export function createRecursiveComponentConfig (componentName?: string) {
       attached () {
         const componentId = this.data.i?.sid
         if (isString(componentId)) {
+          // CustomWrapper 组件实例可能会因为内存原因被引擎回收，当再度实例化时，为新的实例装填数据
+          const existedCustomWrapper = customWrapperCache.get(componentId)
+          if (existedCustomWrapper && isObject(existedCustomWrapper.data)) {
+            setTimeout(() => this.setData(existedCustomWrapper.data), 0)
+          }
           customWrapperCache.set(componentId, this)
         }
       },
