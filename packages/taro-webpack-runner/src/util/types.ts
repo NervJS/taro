@@ -15,12 +15,14 @@ export interface Chain {
 export type Func = (...args: any[]) => void
 
 export interface BuildConfig extends IProjectBaseConfig, IH5Config {
-  isWatch: boolean;
-  port?: number;
-  entryFileName?: string;
-  modifyWebpackChain: Func;
-  modifyMiniConfigs: Func;
-  modifyBuildAssets: Func;
-  onWebpackChainReady: Func;
-  onBuildFinish: Func;
+  enableSourceMap?: boolean
+  entryFileName?: string
+  entry?: webpack.Entry
+  isWatch: boolean
+  port?: number
+  modifyWebpackChain: Func
+  modifyMiniConfigs: Func
+  modifyBuildAssets: Func
+  onWebpackChainReady: Func
+  onBuildFinish: Func
 }
