@@ -64,7 +64,7 @@ export class Template extends RecursiveTemplate {
 
   modifyLoopBody = (child: string, nodeName: string) => {
     if (nodeName === 'picker-view') {
-      return `<picker-view-column>
+      return `<picker-view-column class="{{item.cl}}" style="{{item.st}}">
         <view a:for="{{item.cn}}" a:key="sid">
           ${child}
         </view>
