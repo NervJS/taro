@@ -91,12 +91,12 @@ declare module '../../index' {
    */
   interface DownloadTask {
     /** 中断下载任务
-     * @supported weapp, h5, rn
+     * @supported weapp, h5
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/network/download/DownloadTask.abort.html
      */
     abort(): void
     /** 监听下载进度变化事件
-     * @supported weapp, h5, rn
+     * @supported weapp, h5
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/network/download/DownloadTask.onProgressUpdate.html
      */
     onProgressUpdate(
@@ -104,7 +104,7 @@ declare module '../../index' {
       callback: DownloadTask.OnProgressUpdateCallback,
     ): void
     /** 取消监听下载进度变化事件
-     * @supported weapp, h5, rn
+     * @supported weapp, h5
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/network/download/DownloadTask.offProgressUpdate.html
      */
     offProgressUpdate(

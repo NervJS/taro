@@ -3,7 +3,7 @@ import { StandardProps, CommonEventFunction } from './common'
 
 interface WebViewProps extends StandardProps {
   /** webview 指向网页的链接。可打开关联的公众号的文章，其它网页需登录小程序管理后台配置业务域名。
-   * @supported weapp, h5
+   * @supported weapp, h5, rn
    */
   src: string
 
@@ -13,12 +13,12 @@ interface WebViewProps extends StandardProps {
   onMessage?: CommonEventFunction<WebViewProps.onMessageEventDetail>
 
   /** 网页加载成功时候触发此事件。e.detail = { src }
-   * @supported weapp, h5
+   * @supported weapp, h5, rn
    */
   onLoad?: CommonEventFunction<WebViewProps.onLoadEventDetail>
 
   /** 网页加载失败的时候触发此事件。e.detail = { src }
-   * @supported weapp, h5
+   * @supported weapp, h5, rn
    */
   onError?: CommonEventFunction<WebViewProps.onErrorEventDetail>
 }
@@ -45,7 +45,7 @@ declare namespace WebViewProps {
  * ```tsx
  * class App extends Component {
  *   handleMessage () {}
- *   
+ *
  *   render () {
  *     return (
  *       <WebView src='https://mp.weixin.qq.com/' onMessage={this.handleMessage} />

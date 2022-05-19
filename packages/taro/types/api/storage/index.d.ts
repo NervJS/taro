@@ -207,7 +207,7 @@ declare module '../../index' {
     ): T
 
     /** Taro.getStorageInfo 的同步版本
-     * @supported weapp, h5
+     * @supported weapp, h5, rn
      * @example
      * ```tsx
      * try {
