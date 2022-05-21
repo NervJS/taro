@@ -53,19 +53,19 @@ declare module '../../index' {
 
   interface TaroStatic {
     /** 停止监听陀螺仪数据。
-     * @supported weapp, rn
+     * @supported weapp, rn, tt
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/gyroscope/wx.stopGyroscope.html
      */
     stopGyroscope(option?: stopGyroscope.Option): Promise<TaroGeneral.CallbackResult>
 
     /** 开始监听陀螺仪数据。
-     * @supported weapp, rn
+     * @supported weapp, rn, tt
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/gyroscope/wx.startGyroscope.html
      */
     startGyroscope(option: startGyroscope.Option): Promise<TaroGeneral.CallbackResult>
 
     /** 监听陀螺仪数据变化事件。频率根据 Taro.startGyroscope() 的 interval 参数。可以使用 Taro.stopGyroscope() 停止监听。
-     * @supported weapp, rn
+     * @supported weapp, rn, tt
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/gyroscope/wx.onGyroscopeChange.html
      */
     onGyroscopeChange(
@@ -74,7 +74,7 @@ declare module '../../index' {
     ): void
 
     /** 取消监听陀螺仪数据变化事件。
-     * @supported weapp, rn
+     * @supported weapp, rn, tt
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/gyroscope/wx.offGyroscopeChange.html
      */
     offGyroscopeChange(

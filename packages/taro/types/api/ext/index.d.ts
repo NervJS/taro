@@ -31,7 +31,7 @@ declare module '../../index' {
      *
      * **Tips**
      * 1. 本接口暂时无法通过 Taro.canIUse 判断是否兼容，开发者需要自行判断 Taro.getExtConfigSync 是否存在来兼容
-     * @supported weapp
+     * @supported weapp, tt
      * @example
      * ```tsx
      * let extConfig = Taro.getExtConfigSync? Taro.getExtConfigSync(): {}
@@ -46,7 +46,7 @@ declare module '../../index' {
      *
      * **Tips**
      * 1. 本接口暂时无法通过 Taro.canIUse 判断是否兼容，开发者需要自行判断 Taro.getExtConfig 是否存在来兼容
-     * @supported weapp
+     * @supported weapp, tt
      * @example
      * ```tsx
      * if(Taro.getExtConfig) {
