@@ -43,10 +43,11 @@ export async function scanImports ({
   await Promise.all(entries.map(entry =>
     esbuild.build({
       absWorkingDir: combination.appPath,
-      entryPoints: [entry],
       bundle: true,
-      write: false,
+      chunkNames: 'chunk/[name]-[hash]',
+      entryPoints: [entry],
       format: 'esm',
+      write: false,
       plugins: [
         scanImportsPlugin
       ]

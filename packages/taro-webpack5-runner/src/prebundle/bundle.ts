@@ -53,8 +53,9 @@ export async function bundle (deps: CollectedDeps, combination: Combination, pre
 
   const result = await esbuild.build({
     absWorkingDir: appPath,
-    entryPoints: Array.from(flattenDeps.keys()),
     bundle: true,
+    chunkNames: 'chunk/[name]-[hash]',
+    entryPoints: Array.from(flattenDeps.keys()),
     format: 'esm',
     define: {
       ...getDefines(combination),

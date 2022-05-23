@@ -6,6 +6,7 @@
 import { META_TYPE } from '@tarojs/helper'
 import webpack, { container, NormalModule, RuntimeGlobals } from 'webpack'
 import RemoteModule from 'webpack/lib/container/RemoteModule'
+import type { ContainerReferencePluginOptions, RemotesConfig } from 'webpack/types'
 import { ConcatSource, RawSource } from 'webpack-sources'
 
 import { addRequireToSource, getIdOrName } from '../../plugins/TaroLoadChunksPlugin'
@@ -24,13 +25,13 @@ const RemoteToExternalDependency = require('webpack/lib/container/RemoteToExtern
 const PLUGIN_NAME = 'TaroContainerReferencePlugin'
 const slashCode = '/'.charCodeAt(0)
 
-export type ContainerReferencePluginOptions = ConstructorParameters<typeof ContainerReferencePlugin>[0]
 type MFOptions = Partial<ContainerReferencePluginOptions>
 
 export default class TaroContainerReferencePlugin extends ContainerReferencePlugin {
   private deps: CollectedDeps
   private remoteAssets: Record<'name', string>[]
   private remoteName: string
+  private remoteConfig: RemotesConfig
   private runtimeRequirements: Set<string>
 
   protected _remoteType?: ContainerReferencePluginOptions['remoteType']
@@ -39,9 +40,12 @@ export default class TaroContainerReferencePlugin extends ContainerReferencePlug
   constructor (options: MFOptions, deps: CollectedDeps, remoteAssets: Record<'name', string>[] = [], runtimeRequirements: Set<string>) {
     super(options as ContainerReferencePluginOptions)
     const { remotes = {} } = options
+    const remoteName = Object.keys(remotes)[0] || MF_NAME
+    const [, remoteConfig] = this._remotes.find(([key, config]) => key === remoteName && config) || [this.remoteName, { external: [], shareScope: 'default' }]
     this.deps = deps
     this.remoteAssets = remoteAssets
-    this.remoteName = Object.keys(remotes)[0] || MF_NAME
+    this.remoteName = remoteName
+    this.remoteConfig = remoteConfig
     this.runtimeRequirements = runtimeRequirements
   }
 
@@ -82,7 +86,6 @@ export default class TaroContainerReferencePlugin extends ContainerReferencePlug
          * 把预编译的依赖改为 Remote module 的形式
          * 例如把 import '@tarojs/taro' 改为 import '[remote]/@tarojs/taro'
          */
-        const [key, config] = remotes.find(([key, config]) => key === this.remoteName && config) || { external: [], shareScope: 'default' }
         normalModuleFactory.hooks.factorize.tap(
           PLUGIN_NAME,
           data => {
@@ -101,17 +104,19 @@ export default class TaroContainerReferencePlugin extends ContainerReferencePlug
                   )
                 }
               }
+              const [key, config] = [this.remoteName, this.remoteConfig]
               for (const dep of this.deps.keys()) {
                 if (data.request === dep || data.request === '@tarojs/runtime') {
+                  const externalList = typeof config.external === 'string' ? [config.external] : config.external
                   return new RemoteModule(
-                    data.request,
-                    config.external.map((external, i) =>
+                    `${key}/${data.request}`,
+                    externalList.map((external, i) =>
                       external.startsWith('internal ')
                         ? external.slice(9)
                         : `webpack/container/reference/${key}${i ? `/fallback-${i}` : ''}`
                     ),
                     `./${data.request}`,
-                    config.shareScope // share scope
+                    config.shareScope || 'default' // share scope
                   )
                 }
               }

@@ -40,10 +40,12 @@ export default class TaroRemoteRuntimeModule extends RuntimeModule {
   }
 
   generate () {
-    if (process.env.TARO_ENV === 'h5') {
-      return this.generateWeb()
+    switch (process.env.TARO_ENV) {
+      case 'h5':
+        return this.generateWeb()
+      default:
+        return this.generateMini()
     }
-    return this.generateMini()
   }
 
   generateWeb () {

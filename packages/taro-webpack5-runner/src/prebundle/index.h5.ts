@@ -173,6 +173,7 @@ export async function preBundle (combination: H5Combination) {
   const taroRuntimeBundlePath: string = metadata.taroRuntimeBundlePath || exposes['./@tarojs/runtime']
   const output = {
     path: remoteCacheDir,
+    chunkFilename: 'chunk/[name].js',
     chunkLoadingGlobal: mainBuildOutput.chunkLoadingGlobal,
     globalObject: mainBuildOutput.globalObject
   }
@@ -249,7 +250,8 @@ export async function preBundle (combination: H5Combination) {
   const MfOpt = {
     name: 'taro-app',
     remotes: {
-      [MF_NAME]: `${MF_NAME}@remoteEntry.js`
+      // [MF_NAME]: `${MF_NAME}@remoteEntry.js`
+      [MF_NAME]: `${MF_NAME}@http://10.252.18.83:10086/remoteEntry.js`
     }
   }
   chain
