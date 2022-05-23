@@ -20,7 +20,7 @@ import {
   singleQuote
 } from './components'
 import { Shortcuts } from './shortcuts'
-import { isBooleanStringLiteral, isNumber, isFunction } from './is'
+import { isBooleanStringLiteral, isNumber, isFunction, isString } from './is'
 import { toCamelCase, toKebabCase, toDashed, hasOwn, indent, capitalize } from './utils'
 
 interface Component {
@@ -79,6 +79,7 @@ export class BaseTemplate {
   protected isSupportRecursive: boolean
   protected supportXS = false
   protected miniComponents: Components
+  protected thirdPartyPatcher: Record<string, Record<string, string>> = {}
   protected modifyCompProps?: (compName: string, target: Record<string, string>) => Record<string, string>
   protected modifyLoopBody?: (child: string, nodeName: string) => string
   protected modifyLoopContainer?: (children: string, nodeName: string) => string
@@ -206,7 +207,7 @@ export class BaseTemplate {
 `
   }
 
-  protected buildThirdPartyAttr (attrs: Set<string>) {
+  protected buildThirdPartyAttr (attrs: Set<string>, patcher: Record<string, string> = {}) {
     return Array.from(attrs).reduce((str, attr) => {
       if (attr.startsWith('@')) {
         // vue2
@@ -231,6 +232,13 @@ export class BaseTemplate {
         return str + `style="{{i.${Shortcuts.Style}}}" `
       }
 
+      const patchValue = patcher[attr]
+      if (isBooleanStringLiteral(patchValue) || isNumber(patchValue) || isString(patchValue)) {
+        const propValue = this.supportXS
+          ? `xs.b(i.${toCamelCase(attr)},${patchValue})`
+          : `i.${toCamelCase(attr)}===undefined?${patchValue}:i.${toCamelCase(attr)}`
+        return str + `${attr}="{{${propValue}}}" `
+      }
       return str + `${attr}="{{i.${toCamelCase(attr)}}}" `
     }, '')
   }
@@ -375,7 +383,7 @@ export class BaseTemplate {
 
         template += `
 <template name="tmpl_${level}_${compName}">
-  <${compName} ${this.buildThirdPartyAttr(attrs)} id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+  <${compName} ${this.buildThirdPartyAttr(attrs, this.thirdPartyPatcher[compName] || {})} id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <block ${Adapter.for}="{{i.${Shortcuts.Childnodes}}}" ${Adapter.key}="sid">
       ${child}
     </block>
@@ -479,6 +487,10 @@ export class BaseTemplate {
 
   public mergeComponents (ctx, patch: Record<string, Record<string, string>>) {
     ctx.helper.recursiveMerge(this.internalComponents, patch)
+  }
+
+  public mergeThirdPartyComponents (patch: Record<string, Record<string, string>>) {
+    this.thirdPartyPatcher = patch
   }
 
   protected buildXSTmplName () {
