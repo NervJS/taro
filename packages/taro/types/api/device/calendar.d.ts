@@ -80,7 +80,7 @@ declare module '../../index' {
      */
     addPhoneRepeatCalendar(option: addPhoneRepeatCalendar.Option): Promise<TaroGeneral.CallbackResult>
     /** 向系统日历添加事件
-     * @supported weapp
+     * @supported weapp, tt
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/calendar/wx.addPhoneCalendar.html
      */
     addPhoneCalendar(option: addPhoneCalendar.Option): Promise<TaroGeneral.CallbackResult>
