@@ -778,10 +778,10 @@ require(\\"./taro\\");
                     }
                 },
                 attached() {
-                    setCurrent();
-                    this.compId = getNativeCompId();
+                    const compId = this.compId = getNativeCompId();
+                    setCurrent(compId);
                     this.config = componentConfig;
-                    taro_runtime[\\"Current\\"].app.mount(Component, this.compId, () => this);
+                    taro_runtime[\\"Current\\"].app.mount(Component, compId, () => this);
                 },
                 ready() {
                     Object(taro_runtime[\\"safeExecute\\"])(this.compId, \\"onReady\\");
@@ -801,7 +801,7 @@ require(\\"./taro\\");
                     eh: taro_runtime[\\"eventHandler\\"]
                 }
             };
-            function setCurrent() {
+            function setCurrent(compId) {
                 const pages = getCurrentPages();
                 const currentPage = pages[pages.length - 1];
                 if (taro_runtime[\\"Current\\"].page === currentPage) return;
@@ -810,6 +810,7 @@ require(\\"./taro\\");
                 const router = {
                     params: currentPage.options || {},
                     path: Object(taro_runtime[\\"addLeadingSlash\\"])(route),
+                    $taroPath: compId,
                     onReady: \\"\\",
                     onHide: \\"\\",
                     onShow: \\"\\"

@@ -28,7 +28,7 @@ declare module '../../index' {
    * **Tips**
    *  - 微信开发者工具上可以通过「编译模式」下的「下次编译模拟更新」开关来调试
    *  - 小程序开发版/体验版没有「版本」概念，所以无法在开发版/体验版上测试更版本更新情况
-   * @supported weapp
+   * @supported weapp, tt
    * @example
    * ```tsx
    * const updateManager = Taro.getUpdateManager()
@@ -59,12 +59,12 @@ declare module '../../index' {
    */
   interface UpdateManager {
     /** 强制小程序重启并使用新版本。在小程序新版本下载完成后（即收到 `onUpdateReady` 回调）调用。
-     * @supported weapp
+     * @supported weapp, tt
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/base/update/UpdateManager.applyUpdate.html
      */
     applyUpdate(): void
     /** 监听向微信后台请求检查更新结果事件。微信在小程序冷启动时自动检查更新，不需由开发者主动触发。
-     * @supported weapp
+     * @supported weapp, tt
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/base/update/UpdateManager.onCheckForUpdate.html
      */
     onCheckForUpdate(
@@ -72,7 +72,7 @@ declare module '../../index' {
         callback: UpdateManager.OnCheckForUpdateCallback,
     ): void
     /** 监听小程序有版本更新事件。客户端主动触发下载（无需开发者触发），下载成功后回调
-     * @supported weapp
+     * @supported weapp, tt
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/base/update/UpdateManager.onUpdateReady.html
      */
     onUpdateReady(
@@ -80,7 +80,7 @@ declare module '../../index' {
         callback: (res: TaroGeneral.CallbackResult) => void,
     ): void
     /** 监听小程序更新失败事件。小程序有新版本，客户端主动触发下载（无需开发者触发），下载失败（可能是网络原因等）后回调
-     * @supported weapp
+     * @supported weapp, tt
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/base/update/UpdateManager.onUpdateFailed.html
      */
     onUpdateFailed(
@@ -122,7 +122,7 @@ declare module '../../index' {
      *   // 新的版本下载失败
      * })
      * ```
-     * @supported weapp
+     * @supported weapp, tt
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/base/update/wx.getUpdateManager.html
      */
     getUpdateManager(): UpdateManager

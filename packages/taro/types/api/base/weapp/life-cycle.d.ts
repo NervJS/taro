@@ -137,7 +137,7 @@ declare module '../../../index' {
      *
      * **注意**
      * 部分版本在无`referrerInfo`的时候会返回 `undefined`，建议使用 `options.referrerInfo && options.referrerInfo.appId` 进行判断。
-     * @supported weapp
+     * @supported weapp, tt
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/base/app/life-cycle/wx.getLaunchOptionsSync.html
      */
     getLaunchOptionsSync(): getLaunchOptionsSync.LaunchOptions

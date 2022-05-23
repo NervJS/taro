@@ -10,7 +10,7 @@ declare module '../../index' {
      * ****
      *
      * 注： 使用该接口需同时在 [camera](/docs/components/media/camera) 组件属性中指定 frame-size。
-     * @supported weapp
+     * @supported weapp, tt
      * @example
      * ```tsx
      * const context = wx.createCameraContext()
@@ -26,22 +26,22 @@ declare module '../../index' {
       callback: CameraContext.OnCameraFrameCallback,
     ): CameraFrameListener
     /** 设置缩放级别
-     * @supported weapp
+     * @supported weapp, tt
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/camera/CameraContext.setZoom.html
      */
     setZoom(option: CameraContext.SetZoomOption): void
     /** 开始录像
-     * @supported weapp, rn
+     * @supported weapp, rn, tt
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/camera/CameraContext.startRecord.html
      */
     startRecord(option: CameraContext.StartRecordOption): void
     /** 结束录像
-     * @supported weapp, rn
+     * @supported weapp, rn, tt
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/camera/CameraContext.stopRecord.html
      */
     stopRecord(option?: CameraContext.StopRecordOption): void
     /** 拍摄照片
-     * @supported weapp, rn
+     * @supported weapp, rn, tt
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/camera/CameraContext.takePhoto.html
      */
     takePhoto(option: CameraContext.TakePhotoOption): void
@@ -139,12 +139,12 @@ declare module '../../index' {
    */
   interface CameraFrameListener {
     /** 开始监听帧数据
-     * @supported weapp
+     * @supported weapp, tt
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/camera/CameraFrameListener.start.html
      */
     start(option?: CameraFrameListener.StartOption): void
     /** 停止监听帧数据
-     * @supported weapp
+     * @supported weapp, tt
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/camera/CameraFrameListener.stop.html
      */
     stop(option?: CameraFrameListener.StopOption): void
@@ -171,7 +171,7 @@ declare module '../../index' {
 
   interface TaroStatic {
     /** 创建 camera 上下文 CameraContext 对象。
-     * @supported weapp, rn
+     * @supported weapp, rn, tt
      * @example
      * ```tsx
      * const cameraContext = Taro.createCameraContext()
