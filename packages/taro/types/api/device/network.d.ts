@@ -101,7 +101,7 @@ declare module '../../index' {
     ): void
 
     /** 监听网络状态变化。
-     * @supported weapp, h5, rn
+     * @supported weapp, h5, rn, tt
      * @example
      * ```tsx
      * Taro.onNetworkStatusChange(function (res) {
@@ -135,7 +135,7 @@ declare module '../../index' {
     ): void
 
     /** 获取网络类型。
-     * @supported weapp, h5, rn
+     * @supported weapp, h5, rn, tt
      * @example
      * ```tsx
      * Taro.getNetworkType({

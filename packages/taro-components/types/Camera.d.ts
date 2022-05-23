@@ -4,31 +4,31 @@ import { StandardProps, CommonEventFunction } from './common'
 interface CameraProps extends StandardProps {
   /** 模式，有效值为normal, scanCode
    * @default "normal"
-   * @supported weapp, rn
+   * @supported weapp, rn, tt
    */
   mode?: keyof CameraProps.Mode
 
   /** 分辨率，不支持动态修改
    * @default "medium"
-   * @supported weapp
+   * @supported weapp, tt
    */
   resolution?: keyof CameraProps.Resolution
 
   /** 摄像头朝向
    * @default "back"
-   * @supported weapp, rn
+   * @supported weapp, rn, tt
    */
   devicePosition?: keyof CameraProps.DevicePosition
 
   /** 闪光灯
    * @default "auto"
-   * @supported weapp, rn
+   * @supported weapp, rn, tt
    */
   flash?: keyof CameraProps.Flash
 
   /** 指定期望的相机帧数据尺寸
    * @default "medium"
-   * @supported weapp
+   * @supported weapp, tt
    */
   frameSize?: keyof CameraProps.FrameSize
 
@@ -41,23 +41,23 @@ interface CameraProps extends StandardProps {
 
   /** 摄像头在非正常终止时触发，
    * 如退出后台等情况
-   * @supported weapp, rn
+   * @supported weapp, rn, tt
    */
   onStop?: CommonEventFunction
 
   /** 用户不允许使用摄像头时触发
-   * @supported weapp, rn
+   * @supported weapp, rn, tt
    */
   onError?: CommonEventFunction
 
   /** 相机初始化完成时触发
-   * @supported weapp, rn
+   * @supported weapp, rn, tt
    */
   onInitDone?: CommonEventFunction<CameraProps.onInitDoneEventDetail>
 
   /** 在成功识别到一维码时触发，
    * 仅在 mode="scanCode" 时生效
-   * @supported weapp, rn
+   * @supported weapp, rn, tt
    */
   onScanCode?: CommonEventFunction
 }
@@ -115,7 +115,7 @@ declare namespace CameraProps {
 
 /** 系统相机
  * @classification media
- * @supported weapp, rn
+ * @supported weapp, rn, tt
  * @see https://developers.weixin.qq.com/miniprogram/dev/component/camera.html
  */
 declare const Camera: ComponentType<CameraProps>
