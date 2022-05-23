@@ -3,7 +3,7 @@ import { AppConfig } from '@tarojs/taro'
 import { IH5Config } from '@tarojs/taro/types/compile'
 import { getOptions, stringifyRequest } from 'loader-utils'
 import { dirname, join } from 'path'
-import type * as webpack from 'webpack'
+import * as webpack from 'webpack'
 
 function genResource (path: string, pages: Map<string, string>, loaderContext: webpack.LoaderContext<any>, syncFileName: string | false = false) {
   const stringify = (s: string): string => stringifyRequest(loaderContext, s)
@@ -22,7 +22,7 @@ export default function (this: webpack.LoaderContext<any>) {
   const options = getOptions(this)
   const stringify = (s: string): string => stringifyRequest(this, s)
   const {
-    importFrameworkStatement,
+    // importFrameworkStatement,
     frameworkArgs,
     creator,
     creatorLocation,
@@ -56,8 +56,8 @@ var tabbarSelectedIconPath = []
   }
 
   const webComponents = `
-import { defineCustomElements, applyPolyfills } from '@tarojs/components/loader'
-import '@tarojs/components/dist/taro-components/taro-components.css'
+const { defineCustomElements, applyPolyfills } = await import('@tarojs/components/loader')
+import('@tarojs/components/dist/taro-components/taro-components.css')
 ${extraImportForWeb || ''}
 applyPolyfills().then(function () {
   defineCustomElements(window)
@@ -73,37 +73,39 @@ config.pageName = "${pageName}"` : `config.routes = [
   ${config.pages?.map(path => genResource(path, pages, this)).join(',')}
 ]`
 
-  const code = `import { initPxTransform } from '@tarojs/taro'
-import { ${routerCreator} } from '@tarojs/router'
-import component from ${stringify(join(options.sourceDir, options.entryFileName))}
-import { window } from '@tarojs/runtime'
-import { ${creator} } from '${creatorLocation}'
-${importFrameworkStatement}
-${components}
-var config = ${JSON.stringify(config)}
-window.__taroAppConfig = config
-${config.tabBar ? tabBarCode : ''}
-if (config.tabBar) {
-  var tabbarList = config.tabBar.list
-  for (var i = 0; i < tabbarList.length; i++) {
-    var t = tabbarList[i]
-    if (t.iconPath) {
-      t.iconPath = tabbarIconPath[i]
-    }
-    if (t.selectedIconPath) {
-      t.selectedIconPath = tabbarSelectedIconPath[i]
+  const code = `(async () => {
+  const { initPxTransform } = await import('@tarojs/taro')
+  const { ${routerCreator} } = await import('@tarojs/router')
+  const component = await import(${stringify(join(options.sourceDir, options.entryFileName))})
+  const { window } = await import('@tarojs/runtime')
+  const { ${creator} } = await import('${creatorLocation}')
+  const React = await import('react')
+  const ReactDOM = await import('react-dom')
+  ${components}
+  var config = ${JSON.stringify(config)}
+  window.__taroAppConfig = config
+  ${config.tabBar ? tabBarCode : ''}
+  if (config.tabBar) {
+    var tabbarList = config.tabBar.list
+    for (var i = 0; i < tabbarList.length; i++) {
+      var t = tabbarList[i]
+      if (t.iconPath) {
+        t.iconPath = tabbarIconPath[i]
+      }
+      if (t.selectedIconPath) {
+        t.selectedIconPath = tabbarSelectedIconPath[i]
+      }
     }
   }
-}
-${routesConfig}
-${options.useHtmlComponents ? compatComponentExtra : ''}
-${execBeforeCreateWebApp || ''}
-var inst = ${creator}(component, ${frameworkArgs})
-${routerCreator}(inst, config, ${importFrameworkName})
-initPxTransform({
-  designWidth: ${pxTransformConfig.designWidth},
-  deviceRatio: ${JSON.stringify(pxTransformConfig.deviceRatio)}
-})
-`
+  ${routesConfig}
+  ${options.useHtmlComponents ? compatComponentExtra : ''}
+  ${execBeforeCreateWebApp || ''}
+  var inst = ${creator}(component.default, ${frameworkArgs})
+  ${routerCreator}(inst, config, ${importFrameworkName})
+  initPxTransform({
+    designWidth: ${pxTransformConfig.designWidth},
+    deviceRatio: ${JSON.stringify(pxTransformConfig.deviceRatio)}
+  })
+})()`
   return code
 }
