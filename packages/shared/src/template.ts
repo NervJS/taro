@@ -20,9 +20,8 @@ import {
   singleQuote
 } from './components'
 import { Shortcuts } from './shortcuts'
-import { isBooleanStringLiteral, isNumber, isFunction } from './is'
+import { isBooleanStringLiteral, isNumber, isFunction, isString } from './is'
 import { toCamelCase, toKebabCase, toDashed, hasOwn, indent, capitalize } from './utils'
-import { isString } from 'lodash'
 
 interface Component {
   nodeName: string;
