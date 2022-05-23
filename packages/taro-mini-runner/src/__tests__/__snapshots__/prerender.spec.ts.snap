@@ -929,10 +929,10 @@ require(\\"./taro\\");
                 },
                 attached: function attached() {
                     var _this6 = this;
-                    setCurrent();
-                    this.compId = getNativeCompId();
+                    var compId = this.compId = getNativeCompId();
+                    setCurrent(compId);
                     this.config = componentConfig;
-                    taro_runtime[\\"Current\\"].app.mount(Component, this.compId, (function() {
+                    taro_runtime[\\"Current\\"].app.mount(Component, compId, (function() {
                         return _this6;
                     }));
                 },
@@ -954,7 +954,7 @@ require(\\"./taro\\");
                     eh: taro_runtime[\\"eventHandler\\"]
                 }
             };
-            function setCurrent() {
+            function setCurrent(compId) {
                 var pages = getCurrentPages();
                 var currentPage = pages[pages.length - 1];
                 if (taro_runtime[\\"Current\\"].page === currentPage) return;
@@ -963,6 +963,7 @@ require(\\"./taro\\");
                 var router = {
                     params: currentPage.options || {},
                     path: Object(taro_runtime[\\"addLeadingSlash\\"])(route),
+                    $taroPath: compId,
                     onReady: \\"\\",
                     onHide: \\"\\",
                     onShow: \\"\\"
@@ -4451,10 +4452,10 @@ require(\\"./taro\\");
                 },
                 attached: function attached() {
                     var _this6 = this;
-                    setCurrent();
-                    this.compId = getNativeCompId();
+                    var compId = this.compId = getNativeCompId();
+                    setCurrent(compId);
                     this.config = componentConfig;
-                    taro_runtime[\\"Current\\"].app.mount(Component, this.compId, (function() {
+                    taro_runtime[\\"Current\\"].app.mount(Component, compId, (function() {
                         return _this6;
                     }));
                 },
@@ -4476,7 +4477,7 @@ require(\\"./taro\\");
                     eh: taro_runtime[\\"eventHandler\\"]
                 }
             };
-            function setCurrent() {
+            function setCurrent(compId) {
                 var pages = getCurrentPages();
                 var currentPage = pages[pages.length - 1];
                 if (taro_runtime[\\"Current\\"].page === currentPage) return;
@@ -4485,6 +4486,7 @@ require(\\"./taro\\");
                 var router = {
                     params: currentPage.options || {},
                     path: Object(taro_runtime[\\"addLeadingSlash\\"])(route),
+                    $taroPath: compId,
                     onReady: \\"\\",
                     onHide: \\"\\",
                     onShow: \\"\\"
@@ -7973,10 +7975,10 @@ require(\\"./taro\\");
                 },
                 attached: function attached() {
                     var _this6 = this;
-                    setCurrent();
-                    this.compId = getNativeCompId();
+                    var compId = this.compId = getNativeCompId();
+                    setCurrent(compId);
                     this.config = componentConfig;
-                    taro_runtime[\\"Current\\"].app.mount(Component, this.compId, (function() {
+                    taro_runtime[\\"Current\\"].app.mount(Component, compId, (function() {
                         return _this6;
                     }));
                 },
@@ -7998,7 +8000,7 @@ require(\\"./taro\\");
                     eh: taro_runtime[\\"eventHandler\\"]
                 }
             };
-            function setCurrent() {
+            function setCurrent(compId) {
                 var pages = getCurrentPages();
                 var currentPage = pages[pages.length - 1];
                 if (taro_runtime[\\"Current\\"].page === currentPage) return;
@@ -8007,6 +8009,7 @@ require(\\"./taro\\");
                 var router = {
                     params: currentPage.options || {},
                     path: Object(taro_runtime[\\"addLeadingSlash\\"])(route),
+                    $taroPath: compId,
                     onReady: \\"\\",
                     onHide: \\"\\",
                     onShow: \\"\\"
