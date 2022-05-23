@@ -13,6 +13,8 @@ declare module '../../index' {
       scrollTop?: number
       /** 选择器, css selector */
       selector?: string
+      /** 偏移距离，需要和 selector 参数搭配使用，可以滚动到 selector 加偏移距离的位置，单位 px */
+      offsetTop?: number
       /** 接口调用成功的回调函数 */
       success?: (res: TaroGeneral.CallbackResult) => void
     }
@@ -58,7 +60,7 @@ declare module '../../index' {
     scrollTo(object: ScrollViewContext.scrollTo.Option): void
 
     /** 滚动至指定位置
-     * @supported weapp
+     * @supported weapp, tt
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui/scroll/ScrollViewContext.scrollIntoView.html
      */
     scrollIntoView(
@@ -96,7 +98,7 @@ declare module '../../index' {
      *  - 后代选择器：.the-ancestor .the-descendant
      *  - 跨自定义组件的后代选择器：.the-ancestor >>> .the-descendant
      *  - 多选择器的并集：#a-node, .some-other-nodes
-     * @supported weapp, h5, rn
+     * @supported weapp, h5, rn, tt
      * @example
      * ```tsx
      * Taro.pageScrollTo({

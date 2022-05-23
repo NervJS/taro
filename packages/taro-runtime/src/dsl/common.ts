@@ -1,19 +1,19 @@
 /* eslint-disable dot-notation */
-import { isFunction, EMPTY_OBJ, ensure, Shortcuts, isUndefined, isArray, isString } from '@tarojs/shared'
-import { getHooks } from '../container/store'
-import { eventHandler } from '../dom/event'
-import { Current } from '../current'
-import { document } from '../bom/document'
-import { incrementId, customWrapperCache } from '../utils'
-import { perf } from '../perf'
-import { eventCenter } from '../emitter/emitter'
-import { raf } from '../bom/raf'
-import { PAGE_INIT, CUSTOM_WRAPPER, VIEW, ON_READY, ON_SHOW, ON_HIDE, ON_LOAD, OPTIONS, EXTERNAL_CLASSES, BEHAVIORS } from '../constants'
-
+import { EMPTY_OBJ, ensure, isArray, isFunction, isString, isUndefined, Shortcuts } from '@tarojs/shared'
 import type { PageConfig } from '@tarojs/taro'
-import type { Instance, PageInstance, PageProps } from './instance'
-import type { Func, MpInstance } from '../interface'
+
+import { document } from '../bom/document'
+import { raf } from '../bom/raf'
+import { BEHAVIORS, CUSTOM_WRAPPER, EXTERNAL_CLASSES, ON_HIDE, ON_LOAD, ON_READY, ON_SHOW, OPTIONS, PAGE_INIT, VIEW } from '../constants'
+import { getHooks } from '../container/store'
+import { Current } from '../current'
+import { eventHandler } from '../dom/event'
 import type { TaroRootElement } from '../dom/root'
+import { eventCenter } from '../emitter/emitter'
+import type { Func, MpInstance } from '../interface'
+import { perf } from '../perf'
+import { customWrapperCache, incrementId } from '../utils'
+import type { Instance, PageInstance, PageProps } from './instance'
 
 const instances = new Map<string, Instance>()
 const pageId = incrementId()
@@ -107,6 +107,7 @@ export function createPageConfig (component: any, pageName?: string, data?: Reco
     Current.router = {
       params: page.$taroParams!,
       path: addLeadingSlash(router),
+      $taroPath: page.$taroPath,
       onReady: getOnReadyEventKey(id),
       onShow: getOnShowEventKey(id),
       onHide: getOnHideEventKey(id)
@@ -115,24 +116,23 @@ export function createPageConfig (component: any, pageName?: string, data?: Reco
   let loadResolver: (...args: unknown[]) => void
   let hasLoaded: Promise<void>
   const config: PageInstance = {
-    [ONLOAD] (this: MpInstance, options: Record<string, unknown> = {}, cb?: Func) {
+    [ONLOAD] (this: MpInstance, options: Readonly<Record<string, unknown>> = {}, cb?: Func) {
       hasLoaded = new Promise(resolve => { loadResolver = resolve })
 
       perf.start(PAGE_INIT)
 
       Current.page = this as any
       this.config = pageConfig || {}
-      options.$taroTimestamp = Date.now()
 
-      // this.$taroPath 是页面唯一标识，不可变，因此页面参数 options 也不可变
-      this.$taroPath = getPath(id, options)
-      const $taroPath = this.$taroPath
+      // this.$taroPath 是页面唯一标识
+      const uniqueOptions = Object.assign({}, options, { $taroTimestamp: Date.now() })
+      const $taroPath = this.$taroPath = getPath(id, uniqueOptions)
       if (process.env.TARO_ENV === 'h5') {
-        config.path = this.$taroPath
+        config.path = $taroPath
       }
       // this.$taroParams 作为暴露给开发者的页面参数对象，可以被随意修改
       if (this.$taroParams == null) {
-        this.$taroParams = Object.assign({}, options)
+        this.$taroParams = uniqueOptions
       }
 
       setCurrentRouter(this)

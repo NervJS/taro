@@ -1,9 +1,10 @@
-import { isUndefined, toCamelCase, toDashed, Shortcuts, warn, isString } from '@tarojs/shared'
-import { styleProperties } from './style_properties'
-import { TaroElement } from './element'
+import { isString, isUndefined, Shortcuts, toCamelCase, toDashed, warn } from '@tarojs/shared'
+
 import { PROPERTY_THRESHOLD } from '../constants'
 import { MutationObserver } from '../dom-external/mutation-observer'
 import { MutationRecordType } from '../dom-external/mutation-observer/record'
+import { TaroElement } from './element'
+import { styleProperties } from './style_properties'
 
 function setStyle (this: Style, newVal: string, styleKey: string) {
   const old = this[styleKey]
@@ -89,7 +90,10 @@ export class Style {
     this._usedStyleProp.forEach(key => {
       const val = this[key]
       if (!val) return
-      const styleName = isCssVariable(key) ? key : toDashed(key)
+      let styleName = isCssVariable(key) ? key : toDashed(key)
+      if (styleName.indexOf('webkit') === 0 || styleName.indexOf('Webkit') === 0) {
+        styleName = `-${styleName}`
+      }
       texts.push(`${styleName}: ${val};`)
     })
     return texts.join(' ')

@@ -87,7 +87,7 @@ declare module '../../index' {
       ...args: any[]
     ): void
     /** 向调试面板中打印 log 日志
-     * @supported weapp
+     * @supported weapp, tt
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/base/debug/console.log.html
      */
     log(

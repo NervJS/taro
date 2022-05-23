@@ -32,7 +32,7 @@ declare module '../../index' {
      * __注意：__
      * - __不要尝试修改页面栈，会导致路由以及页面状态错误。__
      * - 不要在 `App.onLaunch` 的时候调用 `getCurrentPages()`，此时 `page` 还没有生成。
-     * @supported weapp, h5
+     * @supported weapp, h5, rn, tt
      * @example
      * ```tsx
      * Taro.getCurrentPages().length
