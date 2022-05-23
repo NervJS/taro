@@ -30,6 +30,7 @@ import webpack from 'webpack'
 
 import type { MiniCombination } from '../webpack/MiniCombination'
 import { bundle } from './bundle'
+import { MF_NAME } from './constant'
 import { scanImports } from './scanImports'
 import {
   commitMeta,
@@ -43,7 +44,7 @@ import {
   getPrebundleOptions,
   Metadata
 } from './utils'
-import TaroContainerPlugin from './webpack/TaroContainerPlugin'
+import TaroModuleFederationPlugin from './webpack/TaroModuleFederationPlugin'
 
 export async function preBundle (combination: MiniCombination) {
   const prebundleOptions = getPrebundleOptions(combination)
@@ -159,7 +160,7 @@ export async function preBundle (combination: MiniCombination) {
    */
   const BUILD_LIB_START = performance.now()
 
-  const exposes = {}
+  const exposes: Record<string, string> = {}
   const mode = process.env.NODE_ENV === 'production' ? 'production' : 'development'
   const devtool = combination.enableSourceMap && 'hidden-source-map'
   const mainBuildOutput = combination.chain.output.entries()
@@ -195,13 +196,12 @@ export async function preBundle (combination: MiniCombination) {
       mode,
       output,
       plugins: [
-        new webpack.container.ModuleFederationPlugin({
-          name: 'lib_app',
+        new TaroModuleFederationPlugin({
+          name: MF_NAME,
           filename: 'remoteEntry.js',
           runtime: 'runtime',
           exposes
-        }),
-        new TaroContainerPlugin(metadata.runtimeRequirements),
+        }, deps, metadata.remoteAssets, metadata.runtimeRequirements),
         new webpack.ProvidePlugin({
           window: [taroRuntimeBundlePath, 'window$1'],
           document: [taroRuntimeBundlePath, 'document$1'],
@@ -222,9 +222,9 @@ export async function preBundle (combination: MiniCombination) {
       }
     })
     metadata.remoteAssets = await new Promise((resolve, reject) => {
-      compiler.run((err: Error, stats: webpack.Stats) => {
-        compiler.close(err2 => {
-          if (err || err2) return reject(err || err2)
+      compiler.run((error: Error, stats: webpack.Stats) => {
+        compiler.close(err => {
+          if (error || err) return reject(error || err)
           const { assets } = stats.toJson()
           const remoteAssets = assets
             ?.filter(item => item.name !== 'runtime.js')
@@ -242,24 +242,21 @@ export async function preBundle (combination: MiniCombination) {
 
   fs.copy(remoteCacheDir, path.join(mainBuildOutput.path, 'prebundle'))
 
-  measure('Build remote lib-app duration', BUILD_LIB_START)
+  measure(`Build remote ${MF_NAME} duration`, BUILD_LIB_START)
 
   /**
    * 4. 项目 Host 配置 Module Federation
    */
   const chain = combination.chain
   const MfOpt = {
-    name: 'main_app',
+    name: 'taro-app',
     remotes: {
-      'lib-app': 'lib_app@http://localhost:3000/remoteEntry.js'
+      [MF_NAME]: `${MF_NAME}@remoteEntry.js`
     }
   }
   chain
-    .plugin('ModuleFederationPlugin')
-    .use(webpack.container.ModuleFederationPlugin, [MfOpt])
-  chain
-    .plugin('TaroContainerReferencePlugin')
-    .use(path.resolve(__dirname, './webpack/TaroContainerReferencePlugin.js'), [
+    .plugin('TaroModuleFederationPlugin')
+    .use(TaroModuleFederationPlugin, [
       MfOpt,
       deps,
       metadata.remoteAssets,

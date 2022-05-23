@@ -4,114 +4,144 @@
  * Author Tobias Koppers @sokra and Zackary Jackson @ScriptedAlchemy
  */
 import { META_TYPE } from '@tarojs/helper'
-import webpack from 'webpack'
+import webpack, { container, NormalModule, RuntimeGlobals } from 'webpack'
+import RemoteModule from 'webpack/lib/container/RemoteModule'
 import { ConcatSource, RawSource } from 'webpack-sources'
 
 import { addRequireToSource, getIdOrName } from '../../plugins/TaroLoadChunksPlugin'
 import type TaroNormalModule from '../../plugins/TaroNormalModule'
 import { getChunkEntryModule } from '../../utils/webpack'
-import type { CollectedDeps } from '../constant'
+import { CollectedDeps, MF_NAME } from '../constant'
+import TaroRemoteRuntimeModule from './TaroRemoteRuntimeModule'
 
-const RemoteModule = require('webpack/lib/container/RemoteModule')
+const { ContainerReferencePlugin } = container
+const ExternalsPlugin = require('webpack/lib/ExternalsPlugin')
+const FallbackDependency = require('webpack/lib/container/FallbackDependency')
+const FallbackItemDependency = require('webpack/lib/container/FallbackItemDependency')
+const FallbackModuleFactory = require('webpack/lib/container/FallbackModuleFactory')
+const RemoteToExternalDependency = require('webpack/lib/container/RemoteToExternalDependency')
 
 const PLUGIN_NAME = 'TaroContainerReferencePlugin'
+const slashCode = '/'.charCodeAt(0)
 
-interface RemoteModule extends webpack.Module {
-  request: string
-  externalRequests: string[]
-  internalRequest: string
-  shareScope: string
-}
+export type ContainerReferencePluginOptions = ConstructorParameters<typeof ContainerReferencePlugin>[0]
+type MFOptions = Partial<ContainerReferencePluginOptions>
 
-interface MFOptions {
-  name: string
-  remotes: Record<string, string>
-}
-
-class TaroRemoteRuntimeModule extends webpack.RuntimeModule {
-  compilation: webpack.Compilation
-  chunkGraph: webpack.ChunkGraph
-
-  constructor () {
-    super('remotes loading')
-  }
-
-  generate () {
-    const { compilation, chunkGraph } = this
-    const { runtimeTemplate, moduleGraph } = compilation
-    const chunkToRemotesMapping: Record<string | number, (string | number)[]> = {}
-    const idToExternalAndNameMapping = {}
-    for (const chunk of compilation.chunks) {
-      const modules = ((chunkGraph.getChunkModulesIterableBySourceType(
-        chunk,
-        'remote'
-      )) as unknown) as Iterable<RemoteModule> | undefined
-      if (!modules) continue
-      const remotes: (string | number)[] = (chunkToRemotesMapping[chunk.id!] = [])
-      for (const m of modules) {
-        const module: RemoteModule = m
-        const name = module.internalRequest
-        const id = chunkGraph.getModuleId(module)
-        const shareScope = module.shareScope
-        const dep = module.dependencies[0]
-        const externalModule = moduleGraph.getModule(dep)
-        const externalModuleId =
-          externalModule && chunkGraph.getModuleId(externalModule)
-        remotes.push(id)
-        idToExternalAndNameMapping[id] = [shareScope, name, externalModuleId]
-      }
-    }
-    return webpack.Template.asString([
-      `var chunkMapping = ${JSON.stringify(
-        chunkToRemotesMapping,
-        null,
-        '\t'
-      )};`,
-      `var idToExternalAndNameMapping = ${JSON.stringify(
-        idToExternalAndNameMapping,
-        null,
-        '\t'
-      )};`,
-      `${webpack.RuntimeGlobals.require}.taro = ${runtimeTemplate.basicFunction('get', [
-        'for (var id in idToExternalAndNameMapping) {',
-        webpack.Template.indent([
-          'var mappedName = idToExternalAndNameMapping[id][1];',
-          'var factory = get(mappedName);',
-          `__webpack_modules__[id] = (${runtimeTemplate.basicFunction(
-            'factory',
-            [`return ${runtimeTemplate.basicFunction(
-              'module',
-              ['module.exports = factory();']
-            )}`]
-          )})(factory);`
-        ]),
-        '}'
-      ])};`
-    ])
-  }
-}
-
-class TaroContainerReferencePlugin {
+export default class TaroContainerReferencePlugin extends ContainerReferencePlugin {
   private deps: CollectedDeps
-  private remoteAssets: { name: string}[]
+  private remoteAssets: Record<'name', string>[]
   private remoteName: string
   private runtimeRequirements: Set<string>
 
-  constructor (options: MFOptions, deps: CollectedDeps, remoteAssets: { name: string}[], runtimeRequirements: Set<string>) {
+  protected _remoteType?: ContainerReferencePluginOptions['remoteType']
+  protected _remotes
+
+  constructor (options: MFOptions, deps: CollectedDeps, remoteAssets: Record<'name', string>[] = [], runtimeRequirements: Set<string>) {
+    super(options as ContainerReferencePluginOptions)
+    const { remotes = {} } = options
     this.deps = deps
     this.remoteAssets = remoteAssets
-    this.remoteName = Object.keys(options.remotes)[0]
+    this.remoteName = Object.keys(remotes)[0] || MF_NAME
     this.runtimeRequirements = runtimeRequirements
   }
 
   apply (compiler: webpack.Compiler) {
+    switch (process.env.TARO_ENV) {
+      case 'h5':
+        this.applyWebApp(compiler)
+        break
+      default:
+        this.applyMiniApp(compiler)
+    }
+  }
+
+  applyWebApp (compiler: webpack.Compiler) {
+    const { _remotes: remotes, _remoteType: remoteType } = this
+    const remoteExternals: Record<string, string> = {}
+    for (const [key, config] of remotes) {
+      let i = 0
+      for (const external of config.external) {
+        if (external.startsWith('internal ')) continue
+        remoteExternals[
+          `webpack/container/reference/${key}${i ? `/fallback-${i}` : ''}`
+        ] = external
+        i++
+      }
+    }
+
+    new ExternalsPlugin(remoteType, remoteExternals).apply(compiler)
+
+    compiler.hooks.compilation.tap(
+      PLUGIN_NAME,
+      (compilation, { normalModuleFactory }) => {
+        compilation.dependencyFactories.set(RemoteToExternalDependency, normalModuleFactory)
+        compilation.dependencyFactories.set(FallbackItemDependency, normalModuleFactory)
+        compilation.dependencyFactories.set(FallbackDependency, new FallbackModuleFactory())
+
+        /**
+         * 把预编译的依赖改为 Remote module 的形式
+         * 例如把 import '@tarojs/taro' 改为 import '[remote]/@tarojs/taro'
+         */
+        const [key, config] = remotes.find(([key, config]) => key === this.remoteName && config) || { external: [], shareScope: 'default' }
+        normalModuleFactory.hooks.factorize.tap(
+          PLUGIN_NAME,
+          data => {
+            if (!data.request.includes('!')) {
+              for (const [key, config] of remotes) {
+                if (
+                  data.request.startsWith(`${key}`) && (data.request.length === key.length || data.request.charCodeAt(key.length) === slashCode)
+                ) {
+                  return new RemoteModule(
+                    data.request,
+                    config.external.map((external, i) =>
+                      external.startsWith('internal ') ? external.slice(9) : `webpack/container/reference/${key}${i ? `/fallback-${i}` : ''}`
+                    ),
+                    `.${data.request.slice(key.length)}`,
+                    config.shareScope
+                  )
+                }
+              }
+              for (const dep of this.deps.keys()) {
+                if (data.request === dep || data.request === '@tarojs/runtime') {
+                  return new RemoteModule(
+                    data.request,
+                    config.external.map((external, i) =>
+                      external.startsWith('internal ')
+                        ? external.slice(9)
+                        : `webpack/container/reference/${key}${i ? `/fallback-${i}` : ''}`
+                    ),
+                    `./${data.request}`,
+                    config.shareScope // share scope
+                  )
+                }
+              }
+            }
+          }
+        )
+
+        compilation.hooks.runtimeRequirementInTree
+          .for(RuntimeGlobals.ensureChunkHandlers)
+          .tap(PLUGIN_NAME, (chunk, set) => {
+            set.add(RuntimeGlobals.module)
+            set.add(RuntimeGlobals.moduleFactoriesAddOnly)
+            set.add(RuntimeGlobals.hasOwnProperty)
+            set.add(RuntimeGlobals.initializeSharing)
+            set.add(RuntimeGlobals.shareScopeMap)
+            compilation.addRuntimeModule(chunk, new TaroRemoteRuntimeModule())
+          })
+      }
+    )
+  }
+
+  applyMiniApp (compiler: webpack.Compiler) {
     compiler.hooks.compilation.tap(
       PLUGIN_NAME,
       (compilation, { normalModuleFactory }) => {
         /**
          * 把预编译的依赖改为 Remote module 的形式
-         * 例如把 import '@tarojs/taro' 改为 import 'lib-app/@tarojs/taro'
+         * 例如把 import '@tarojs/taro' 改为 import '[remote]/@tarojs/taro'
          */
+        const [key, config] = this._remotes.find(([key, config]) => key === this.remoteName && config) || { external: [], shareScope: 'default' }
         normalModuleFactory.hooks.factorize.tap(
           PLUGIN_NAME,
           data => {
@@ -120,9 +150,13 @@ class TaroContainerReferencePlugin {
                 if (data.request === dep || data.request === '@tarojs/runtime') {
                   return new RemoteModule(
                     data.request,
-                    [`webpack/container/reference/${this.remoteName}`],
+                    config.external.map((external, i) =>
+                      external.startsWith('internal ')
+                        ? external.slice(9)
+                        : `webpack/container/reference/${key}${i ? `/fallback-${i}` : ''}`
+                    ),
                     `./${data.request}`,
-                    'default' // share scope
+                    config.shareScope // share scope
                   )
                 }
               }
@@ -140,7 +174,7 @@ class TaroContainerReferencePlugin {
         compilation.hooks.additionalTreeRuntimeRequirements.tap(
           PLUGIN_NAME,
           (chunk, set) => {
-            // webpack runtime 增加 Rmote runtime 使用到的工具函数
+            // webpack runtime 增加 Remote runtime 使用到的工具函数
             this.runtimeRequirements.forEach(item => set.add(item))
             compilation.addRuntimeModule(chunk, new TaroRemoteRuntimeModule())
           }
@@ -168,12 +202,12 @@ class TaroContainerReferencePlugin {
         )
 
         /**
-         * 模块 "webpack/container/reference/lib-app" 用于网络加载 remoteEntry.js，
+         * 模块 "webpack/container/reference/[remote]" 用于网络加载 remoteEntry.js，
          * 在小程序环境则不需要了，因此将模块输出改为空字符串，减少不必要的代码
          */
         hooks.renderModuleContent.tap(
           PLUGIN_NAME,
-          (source, module: any) => {
+          (source, module: NormalModule) => {
             if (module.userRequest === `webpack/container/reference/${this.remoteName}`) {
               return new RawSource('')
             }
@@ -184,5 +218,3 @@ class TaroContainerReferencePlugin {
     )
   }
 }
-
-module.exports = TaroContainerReferencePlugin

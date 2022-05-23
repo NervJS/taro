@@ -29,11 +29,6 @@ export class Combination<T extends MiniBuildConfig | H5BuildConfig = CommonBuild
     this.enableSourceMap = process.env.NODE_ENV !== 'production'
   }
 
-  async getWebpackConfig () {
-    await this.make()
-    return this.chain.toConfig()
-  }
-
   async make () {
     await this.pre(this.rawConfig)
     this.process(this.config, this.appPath)

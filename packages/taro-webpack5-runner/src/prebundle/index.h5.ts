@@ -28,8 +28,9 @@ import path from 'path'
 import { performance } from 'perf_hooks'
 import webpack from 'webpack'
 
-import type { Combination } from '../webpack/Combination'
+import type { H5Combination } from '../webpack/H5Combination'
 import { bundle } from './bundle'
+import { MF_NAME } from './constant'
 import { scanImports } from './scanImports'
 import {
   commitMeta,
@@ -43,8 +44,9 @@ import {
   getPrebundleOptions,
   Metadata
 } from './utils'
+import TaroModuleFederationPlugin from './webpack/TaroModuleFederationPlugin'
 
-export async function preBundle (combination: Combination) {
+export async function preBundle (combination: H5Combination) {
   const prebundleOptions = getPrebundleOptions(combination)
   if (!prebundleOptions.enable) return
 
@@ -77,9 +79,13 @@ export async function preBundle (combination: Combination) {
   /**
    * TODO:
    * - [ ] 多页面应用情况
-   * - [ ] include @tarojs/taro-loader 内部依赖
-   * - [ ] host 服务排除 node_modules 依赖
-   * - [ ] 提供 host 加载 remote 依赖服务
+   * - [x] js 编译排除 node_modules 目录
+   * - [x] 通过 ContainerReference 插件重定向依赖路径
+   * - [x] moduleId 加载错误 // __webpack_require__(moduleId)
+   * - [ ] esbuild 编译考虑 css 加载问题
+   * - [ ] remote 依赖，异步改成同步
+   * - [ ] 开发环境依赖更新触发 ws 热加载心跳
+   * - [ ] 回归 react、vue 热更新状态
    */
   const appJsPath = config.entry!.app[0]
   const appConfigPath = resolveMainFilePath(`${appJsPath.replace(path.extname(appJsPath), '')}.config`)
@@ -101,7 +107,7 @@ export async function preBundle (combination: Combination) {
     combination,
     include: [
       '@tarojs/taro',
-      '@tarojs/taro-h5',
+      // '@tarojs/taro-h5',
       '@tarojs/runtime',
       '@tarojs/router',
       ...prebundleOptions.include || []
@@ -160,7 +166,7 @@ export async function preBundle (combination: Combination) {
    */
   const BUILD_LIB_START = performance.now()
 
-  const exposes = {}
+  const exposes: Record<string, string> = {}
   const mode = process.env.NODE_ENV === 'production' ? 'production' : 'development'
   const devtool = combination.enableSourceMap && 'hidden-source-map'
   const mainBuildOutput = combination.chain.output.entries()
@@ -169,6 +175,10 @@ export async function preBundle (combination: Combination) {
     path: remoteCacheDir,
     chunkLoadingGlobal: mainBuildOutput.chunkLoadingGlobal,
     globalObject: mainBuildOutput.globalObject
+  }
+  for (const id of deps.keys()) {
+    const flatId = flattenId(id)
+    exposes[`./${id}`] = path.join(prebundleCacheDir, `${flatId}.js`)
   }
 
   metadata.mfHash = getMfHash({
@@ -184,38 +194,33 @@ export async function preBundle (combination: Combination) {
 
     fs.existsSync(remoteCacheDir) && fs.emptyDirSync(remoteCacheDir)
 
-    for (const id of deps.keys()) {
-      const flatId = flattenId(id)
-      exposes[`./${id}`] = path.join(prebundleCacheDir, `${flatId}.js`)
-    }
     metadata.runtimeRequirements = new Set<string>()
-    const plugins = [
-      new webpack.container.ModuleFederationPlugin({
-        name: 'lib_app',
-        filename: 'remoteEntry.js',
-        runtime: 'runtime',
-        exposes
-      })
-    ]
 
     const compiler = webpack({
-      devtool,
-      entry: path.resolve(__dirname, './webpack/index.js'),
-      mode,
-      output,
-      plugins,
       cache: {
         type: 'filesystem',
         cacheDirectory: path.join(cacheDir, 'webpack-cache'),
         buildDependencies: {
           config: Object.values(exposes)
         }
-      }
+      },
+      devtool,
+      entry: path.resolve(__dirname, './webpack/index.js'),
+      mode,
+      output,
+      plugins: [
+        new TaroModuleFederationPlugin({
+          name: MF_NAME,
+          filename: 'remoteEntry.js',
+          runtime: 'runtime',
+          exposes
+        }, deps, metadata.remoteAssets, metadata.runtimeRequirements)
+      ]
     })
     metadata.remoteAssets = await new Promise((resolve, reject) => {
-      compiler.run((err: Error, stats: webpack.Stats) => {
-        compiler.close(err2 => {
-          if (err || err2) return reject(err || err2)
+      compiler.run((error: Error, stats: webpack.Stats) => {
+        compiler.close(err => {
+          if (error || err) return reject(error || err)
           const { assets } = stats.toJson()
           const remoteAssets = assets
             ?.filter(item => item.name !== 'runtime.js')
@@ -231,23 +236,34 @@ export async function preBundle (combination: Combination) {
     metadata.remoteAssets = preMetadata.remoteAssets
   }
 
-  fs.copy(remoteCacheDir, path.join(mainBuildOutput.path, 'prebundle'))
+  if (process.env.NODE_ENV === 'production' || config.devServer?.devMiddleware?.writeToDisk) {
+    fs.copy(remoteCacheDir, path.join(mainBuildOutput.path, 'prebundle'))
+  }
 
-  measure('Build remote lib-app duration', BUILD_LIB_START)
+  measure(`Build remote ${MF_NAME} duration`, BUILD_LIB_START)
 
   /**
    * 4. 项目 Host 配置 Module Federation
    */
   const chain = combination.chain
   const MfOpt = {
-    name: 'main_app',
+    name: 'taro-app',
     remotes: {
-      'lib-app': 'lib_app@http://localhost:3000/remoteEntry.js'
+      [MF_NAME]: `${MF_NAME}@remoteEntry.js`
     }
   }
   chain
-    .plugin('ModuleFederationPlugin')
-    .use(webpack.container.ModuleFederationPlugin, [MfOpt])
+    .plugin('TaroModuleFederationPlugin')
+    .use(TaroModuleFederationPlugin, [
+      MfOpt,
+      deps,
+      metadata.remoteAssets,
+      metadata.runtimeRequirements
+    ])
+
+  // node_modules 已预编译，不需要二次加载 (TODO: 修复 esbuild 加载 css 问题后，也应当移除对应规则对依赖的加载)
+  const script = chain.module.rule('script')
+  script.exclude.add(/node_modules/)
 
   if (!isUseCache) {
     commitMeta(appPath, metadataPath, metadata)

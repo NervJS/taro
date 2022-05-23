@@ -64,7 +64,7 @@ export function flattenId (id: string) {
 }
 
 export function getCacheDir (appPath: string) {
-  return path.resolve(appPath, './node_modules/.taro')
+  return path.resolve(appPath, './node_modules/.taro', process.env.TARO_ENV || '')
 }
 
 export function getDefines (combination: Combination) {

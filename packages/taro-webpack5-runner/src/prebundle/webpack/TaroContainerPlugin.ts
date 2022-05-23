@@ -5,20 +5,12 @@
  */
 import webpack from 'webpack'
 
-import TaroContainerEntryModule from './TaroContainerEntryModule'
+import TaroContainerEntryModuleFactory from './TaroContainerEntryModuleFactory'
 
+const { ContainerPlugin } = webpack.container
 const ContainerEntryDependency = require('webpack/lib/container/ContainerEntryDependency')
-const ContainerEntryModuleFactory = require('webpack/lib/container/ContainerEntryModuleFactory')
 
 const PLUGIN_NAME = 'TaroContainerPlugin'
-class TaroContainerEntryModuleFactory extends ContainerEntryModuleFactory implements MapValue<webpack.Compilation['dependencyFactories']> {
-  create (data, callback) {
-    const dep = data?.dependencies[0]
-    callback(null, {
-      module: new TaroContainerEntryModule(dep.name, dep.exposes, dep.shareScope)
-    })
-  }
-}
 
 /**
  * 劫持 ContainerEntryDependency，把生成的 Module 替换为 TaroContainerEntryModule
@@ -26,14 +18,25 @@ class TaroContainerEntryModuleFactory extends ContainerEntryModuleFactory implem
  *   1. 插入 taroModuleMap 把异步逻辑改为同步
  *   2. 插入自动注册模块的逻辑
  */
-class TaroContainerPlugin {
+class TaroContainerPlugin extends ContainerPlugin {
   runtimeRequirements: Set<string>
 
-  constructor (runtimeRequirements) {
-    this.runtimeRequirements = runtimeRequirements
+  constructor (options, runtimeRequirements?: Set<string>) {
+    super(options)
+    this.runtimeRequirements = runtimeRequirements || new Set()
   }
 
   apply (compiler: webpack.Compiler) {
+    switch (process.env.TARO_ENV) {
+      case 'h5':
+        super.apply(compiler)
+        break
+      default:
+        this.applyMiniApp(compiler)
+    }
+  }
+
+  applyMiniApp (compiler: webpack.Compiler) {
     compiler.hooks.thisCompilation.tap(
       {
         name: PLUGIN_NAME,

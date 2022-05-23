@@ -66,3 +66,5 @@ export const importsRE =
   /(?<!\/\/.*)(?<=^|;|\*\/)\s*import(?!\s+type)(?:[\w*{}\n\r\t, ]+from\s*)?\s*("[^"]+"|'[^']+')\s*(?=$|;|\/\/|\/\*)/gm
 
 export type CollectedDeps = Map<string, string>
+
+export const MF_NAME = 'taro_app_library'

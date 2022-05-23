@@ -16,11 +16,13 @@ let isFirstBuild = true
 
 export default async function build (appPath: string, rawConfig: H5BuildConfig): Promise<void> {
   const combination = new H5Combination(appPath, rawConfig)
-  const webpackConfig = await combination.getWebpackConfig()
-  const config = combination.config
-  const { isWatch } = config
+  await combination.make()
 
   await preBundle(combination)
+
+  const webpackConfig = combination.chain.toConfig()
+  const config = combination.config
+  const { isWatch } = config
 
   try {
     if (isWatch) {
