@@ -73,6 +73,10 @@ async function buildDev (webpackConfig: webpack.Configuration, config: H5BuildCo
   const devServerOptions = await getDevServerOptions(appPath, config)
   devServerOptions.host = formatOpenHost(devServerOptions.host)
 
+  devServerOptions.static = {
+    directory: path.join(appPath, 'node_modules/.taro/h5/remote')
+  }
+
   const compiler = webpack(webpackConfig)
   const server = new WebpackDevServer(devServerOptions, compiler)
 

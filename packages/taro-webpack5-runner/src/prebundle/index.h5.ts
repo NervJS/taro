@@ -78,14 +78,18 @@ export async function preBundle (combination: H5Combination) {
   const config = combination.config
   /**
    * TODO:
-   * - [ ] 多页面应用情况
    * - [x] js 编译排除 node_modules 目录
    * - [x] 通过 ContainerReference 插件重定向依赖路径
    * - [x] moduleId 加载错误 // __webpack_require__(moduleId)
    * - [ ] esbuild 编译考虑 css 加载问题
-   * - [ ] remote 依赖，异步改成同步
+   * - [ ] 优化 proxy 方法
    * - [ ] 开发环境依赖更新触发 ws 热加载心跳
+   * - [ ] remote 依赖，异步改成同步
+   *   - [ ] app.config.js 加载时异步获取相关依赖
+   *   - [ ] 回归测试 react、vue、vue3、nerv 加载状态
+   * - [ ] 回归多页面应用情况
    * - [ ] 回归 react、vue 热更新状态
+   * - [ ] 更新生产环境 prebundle 加载逻辑
    */
   const appJsPath = config.entry!.app[0]
   const appConfigPath = resolveMainFilePath(`${appJsPath.replace(path.extname(appJsPath), '')}.config`)
@@ -250,8 +254,7 @@ export async function preBundle (combination: H5Combination) {
   const MfOpt = {
     name: 'taro-app',
     remotes: {
-      // [MF_NAME]: `${MF_NAME}@remoteEntry.js`
-      [MF_NAME]: `${MF_NAME}@http://10.252.18.83:10086/remoteEntry.js`
+      [MF_NAME]: `${MF_NAME}@remoteEntry.js`
     }
   }
   chain
