@@ -3,35 +3,35 @@ import { StandardProps, CommonEventFunction } from './common'
 
 interface MapProps extends StandardProps {
   /** 中心经度
-   * @supported weapp, swan, alipay
+   * @supported weapp, swan, alipay, tt
    */
   longitude: number
 
   /** 中心纬度
-   * @supported weapp, swan, alipay
+   * @supported weapp, swan, alipay, tt
    */
   latitude: number
 
   /** 缩放级别，取值范围为3-20
    * @default 16
-   * @supported weapp, swan, alipay
+   * @supported weapp, swan, alipay, tt
    * @swan 取值范围为4-21
    * @alipay 取值范围为5-18
    */
   scale?: number
   /** 最小缩放级别3-20
    * @default 3
-   * @supported weapp
+   * @supported weapp, tt
    */
   minScale?: number
   /** 最大缩放级别3-20
    * @default 20
-   * @supported weapp
+   * @supported weapp, tt
    */
   maxScale?: number
 
   /** 标记点
-   * @supported weapp, swan, alipay
+   * @supported weapp, swan, alipay, tt
    */
   markers?: MapProps.marker[]
 
@@ -42,12 +42,12 @@ interface MapProps extends StandardProps {
   covers?: any[]
 
   /** 路线
-   * @supported weapp, swan, alipay
+   * @supported weapp, swan, alipay, tt
    */
   polyline?: MapProps.polyline[]
 
   /** 圆
-   * @supported weapp, swan, alipay
+   * @supported weapp, swan, alipay, tt
    */
   circles?: MapProps.circle[]
 
@@ -58,18 +58,18 @@ interface MapProps extends StandardProps {
   controls?: MapProps.control[]
 
   /** 缩放视野以包含所有给定的坐标点
-   * @supported weapp, swan, alipay
+   * @supported weapp, swan, alipay, tt
    */
   includePoints?: MapProps.point[]
 
   /** 显示带有方向的当前定位点
    * @default false
-   * @supported weapp, swan, alipay
+   * @supported weapp, swan, alipay, tt
    */
   showLocation?: boolean
 
   /** 多边形
-   * @supported weapp, swan, alipay
+   * @supported weapp, swan, alipay, tt
    */
   polygons?: MapProps.polygon[]
 
@@ -86,67 +86,67 @@ interface MapProps extends StandardProps {
 
   /** 旋转角度，范围 0 ~ 360, 地图正北和设备 y 轴角度的夹角
    * @default 0
-   * @supported weapp
+   * @supported weapp, tt
    */
   rotate?: number
 
   /** 倾斜角度，范围 0 ~ 40 , 关于 z 轴的倾角
    * @default 0
-   * @supported weapp
+   * @supported weapp, tt
    */
   skew?: number
 
   /** 展示 3D 楼块
    * @default false
-   * @supported weapp, swan
+   * @supported weapp, swan, tt
    */
   enable3D?: boolean
 
   /** 显示指南针
    * @default false
-   * @supported weapp, swan
+   * @supported weapp, swan, tt
    */
   showCompass?: boolean
 
   /** 显示比例尺
    * @default false
-   * @supported weapp
+   * @supported weapp, tt
    */
   showScale?: boolean
 
   /** 开启俯视
    * @default false
-   * @supported weapp, swan
+   * @supported weapp, swan, tt
    */
   enableOverlooking?: boolean
 
   /** 是否支持缩放
    * @default true
-   * @supported weapp, swan
+   * @supported weapp, swan, tt
    */
   enableZoom?: boolean
 
   /** 是否支持拖动
    * @default true
-   * @supported weapp, swan
+   * @supported weapp, swan, tt
    */
   enableScroll?: boolean
 
   /** 是否支持旋转
    * @default false
-   * @supported weapp, swan
+   * @supported weapp, swan, tt
    */
   enableRotate?: boolean
 
   /** 是否开启卫星图
    * @default false
-   * @supported weapp
+   * @supported weapp, tt
    */
   enableSatellite?: boolean
 
   /** 是否开启实时路况
    * @default false
-   * @supported weapp
+   * @supported weapp, tt
    */
   enableTraffic?: boolean
 
@@ -158,17 +158,17 @@ interface MapProps extends StandardProps {
   setting?: MapProps | { [key: string]: number | string | any }
 
   /** 点击地图时触发
-   * @supported weapp, swan, alipay
+   * @supported weapp, swan, alipay, tt
    */
   onTap?: CommonEventFunction
 
   /** 点击标记点时触发，e.detail = {markerId}
-   * @supported weapp, swan, alipay
+   * @supported weapp, swan, alipay, tt
    */
   onMarkerTap?: CommonEventFunction<MapProps.onMarkerTapEventDetail>
 
   /** 点击label时触发，e.detail = {markerId}
-   * @supported weapp
+   * @supported weapp, tt
    */
   onLabelTap?: CommonEventFunction<MapProps.onLabelTapEventDetail>
 
@@ -178,17 +178,17 @@ interface MapProps extends StandardProps {
   onControlTap?: CommonEventFunction<MapProps.onControlTapEventDetail>
 
   /** 点击标记点对应的气泡时触发，e.detail = {markerId}
-   * @supported weapp, swan, alipay
+   * @supported weapp, swan, alipay, tt
    */
   onCalloutTap?: CommonEventFunction<MapProps.onCalloutTapEventDetail>
 
   /** 在地图渲染更新完成时触发
-   * @supported weapp, swan
+   * @supported weapp, swan, tt
    */
   onUpdated?: CommonEventFunction
 
   /** 视野发生变化时触发
-   * @supported weapp, swan, alipay
+   * @supported weapp, swan, alipay, tt
    */
   onRegionChange?: CommonEventFunction<MapProps.onRegionEventDetail<'begin'> | MapProps.onRegionEventDetail<'end'>>
 

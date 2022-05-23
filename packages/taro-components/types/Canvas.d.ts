@@ -64,7 +64,7 @@ declare namespace CanvasProps {
  *
  * `<Canvas />` 组件的 RN 版本尚未实现。
  * @classification canvas
- * @supported weapp
+ * @supported weapp, tt
  * @example_react
  * ```tsx
  * class App extends Components {

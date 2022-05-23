@@ -20,12 +20,12 @@ interface FormProps extends StandardProps {
 
   /** 携带 form 中的数据触发 submit 事件
    * event.detail = { value : {'name': 'value'} , formId: '' }
-   * @supported weapp, rn
+   * @supported weapp, rn, tt
    */
   onSubmit?: CommonEventFunction<FormProps.onSubmitEventDetail>
 
   /** 表单重置时会触发 reset 事件
-   * @supported weapp, h5, rn
+   * @supported weapp, h5, rn, tt
    */
   onReset?: CommonEventFunction
 }

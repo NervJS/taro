@@ -43,7 +43,7 @@ declare module '../../index' {
 
   interface TaroStatic {
     /** 在input、textarea等focus拉起键盘之后，手动调用此接口收起键盘
-     * @supported weapp, rn
+     * @supported weapp, rn, tt
      * @example
      * ```tsx
      * Taro.hideKeyboard({

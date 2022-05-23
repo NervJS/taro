@@ -63,13 +63,13 @@ interface SwiperProps extends StandardProps {
 
   /** 前边距，可用于露出前一项的一小部分，接受 px 和 rpx 值
    * @default "0px"
-   * @supported weapp, h5
+   * @supported weapp, h5, tt
    */
   previousMargin?: string
 
   /** 后边距，可用于露出后一项的一小部分，接受 px 和 rpx 值
    * @default "0px"
-   * @supported weapp, h5
+   * @supported weapp, h5, tt
    */
   nextMargin?: string
 
@@ -94,7 +94,7 @@ interface SwiperProps extends StandardProps {
 
   /** 指定 swiper 切换缓动动画类型
    * @default "default"
-   * @supported weapp
+   * @supported weapp, tt
    */
   easingFunction?: keyof SwiperProps.TEasingFunction
 
@@ -104,12 +104,12 @@ interface SwiperProps extends StandardProps {
   onChange?: CommonEventFunction<SwiperProps.onChangeEventDetail>
 
   /** swiper-item 的位置发生改变时会触发 transition 事件
-   * @supported weapp
+   * @supported weapp, tt
    */
   onTransition?: CommonEventFunction<SwiperProps.onTransitionEventDetail>
 
   /** 动画结束时会触发 animationfinish 事件
-   * @supported weapp, swan, h5, rn
+   * @supported weapp, swan, h5, rn, tt
    */
   onAnimationFinish?: SwiperProps['onChange']
   

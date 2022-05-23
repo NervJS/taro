@@ -3,21 +3,21 @@ import { StandardProps, CommonEventFunction, FormItemProps } from './common'
 
 interface CheckboxGroupProps extends StandardProps, FormItemProps {
   /** 表单组件中加上 name 来作为 key
-   * @supported h5
+   * @supported h5, tt
    */
   name?: string
 
   /** `<CheckboxGroup/>` 中选中项发生改变是触发 change 事件
    * 
    * event.detail = { value: [选中的checkbox的 value 的数组] }
-   * @supported weapp, h5, rn
+   * @supported weapp, h5, rn, tt
    */
   onChange?: CommonEventFunction<{ value: string[] }>
 }
 
 /** 多项选择器，内部由多个checkbox组成
  * @classification forms
- * @supported weapp, h5, rn
+ * @supported weapp, h5, rn, tt
  * @example
  * ```tsx
  * export default class PageCheckbox extends Component {

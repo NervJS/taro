@@ -4,30 +4,30 @@ import Taro from '../../index'
 declare module '../../index' {
   /** `MapContext` 实例，可通过 [Taro.createMapContext](./createMapContext) 获取。
    * `MapContext` 通过 id 跟一个 map 组件绑定，操作对应的 map 组件。
-   * @supported weapp
+   * @supported weapp, tt
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/map/MapContext.html
    */
   interface MapContext {
     /** 获取当前地图中心的经纬度。返回的是 gcj02 坐标系，可以用于 [Taro.openLocation()](/docs/apis/location/openLocation)
-     * @supported weapp
+     * @supported weapp, tt
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/map/MapContext.getCenterLocation.html
      */
     getCenterLocation(option?: MapContext.GetCenterLocationOption): Promise<MapContext.GetCenterLocationSuccessCallbackResult>
 
     /** 设置定位点图标，支持网络路径、本地路径、代码包路径
-     * @supported weapp
+     * @supported weapp, tt
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/map/MapContext.setLocMarkerIcon.html
      */
     setLocMarkerIcon(option?: MapContext.SetLocMarkerIconOption): Promise<TaroGeneral.CallbackResult>
 
     /** 将地图中心移置当前定位点，此时需设置地图组件 show-location 为true。
-     * @supported weapp
+     * @supported weapp, tt
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/map/MapContext.moveToLocation.html
      */
     moveToLocation(option: MapContext.MoveToLocationOption): Promise<TaroGeneral.CallbackResult>
 
     /** 平移marker，带动画
-     * @supported weapp
+     * @supported weapp, tt
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/map/MapContext.translateMarker.html
      */
     translateMarker(option: MapContext.TranslateMarkerOption): Promise<TaroGeneral.CallbackResult>
@@ -36,37 +36,37 @@ declare module '../../index' {
     moveAlong(object)
 
     /** 缩放视野展示所有经纬度
-     * @supported weapp
+     * @supported weapp, tt
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/map/MapContext.includePoints.html
      */
     includePoints(option: MapContext.IncludePointsOption): Promise<TaroGeneral.CallbackResult>
 
     /** 获取当前地图的视野范围
-     * @supported weapp
+     * @supported weapp, tt
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/map/MapContext.getRegion.html
      */
     getRegion(option?: MapContext.GetRegionOption): Promise<MapContext.GetRegionSuccessCallbackResult>
 
     /** 获取当前地图的旋转角
-     * @supported weapp
+     * @supported weapp, tt
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/map/MapContext.getRotate.html
      */
     getRotate(option?: MapContext.GetRotateOption): Promise<MapContext.GetRotateSuccessCallbackResult>
 
     /** 获取当前地图的倾斜角
-     * @supported weapp
+     * @supported weapp, tt
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/map/MapContext.getSkew.html
      */
     getSkew(option?: MapContext.GetSkewOption): Promise<MapContext.GetSkewSuccessCallbackResult>
 
     /** 获取当前地图的缩放级别
-     * @supported weapp
+     * @supported weapp, tt
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/map/MapContext.getScale.html
      */
     getScale(option?: MapContext.GetScaleOption): Promise<MapContext.GetScaleSuccessCallbackResult>
 
     /** 设置地图中心点偏移，向后向下为增长，屏幕比例范围(0.25~0.75)，默认偏移为[0.5, 0.5]
-     * @supported weapp
+     * @supported weapp, tt
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/map/MapContext.setCenterOffset.html
      */
     setCenterOffset(option: MapContext.SetCenterOffsetOption): Promise<TaroGeneral.CallbackResult>
@@ -84,7 +84,7 @@ declare module '../../index' {
     addCustomLayer(option: MapContext.AddCustomLayerOption): Promise<TaroGeneral.CallbackResult>
 
     /** 创建自定义图片图层，图片会随着地图缩放而缩放。
-     * @supported weapp
+     * @supported weapp, tt
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/map/MapContext.addGroundOverlay.html
      */
     addGroundOverlay(option: MapContext.AddGroundLayerOption): Promise<TaroGeneral.CallbackResult>
@@ -120,13 +120,13 @@ declare module '../../index' {
     setBoundary(option: MapContext.SetBoundaryOption): Promise<TaroGeneral.CallbackResult>
 
     /** 更新自定义图片图层。
-     * @supported weapp
+     * @supported weapp, tt
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/map/MapContext.updateGroundOverlay.html
      */
     updateGroundOverlay(option: MapContext.UpdateGroundOverlayOption): Promise<TaroGeneral.CallbackResult>
 
     /** 移除自定义图片图层。
-     * @supported weapp
+     * @supported weapp, tt
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/map/MapContext.removeGroundOverlay.html
      */
     removeGroundOverlay(option: MapContext.RemoveGroundOverlayOption): Promise<TaroGeneral.CallbackResult>
@@ -621,7 +621,7 @@ declare module '../../index' {
 
   interface TaroStatic {
     /** 创建 [map](/docs/components/maps/map) 上下文 [MapContext](/docs/apis/media/map/MapContext) 对象。
-     * @supported weapp
+     * @supported weapp, tt
      * @example
      * ```tsx
      * const mapCtx = Taro.createMapContext('myMap')
