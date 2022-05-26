@@ -86,6 +86,7 @@
     "@types/node": "^14.14.31",
     "@types/react": "^18.0.0",
     "@types/react-reconciler": "0.26.1",
+    "@types/request": "^2.48.1",
     "@types/resolve": "1.19.0",
     "@types/sinon": "^7.5.0",
     "@types/tapable": "^1",
