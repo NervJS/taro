@@ -1,4 +1,4 @@
-import { chalk, DEFAULT_TEMPLATE_SRC, getUserHomeDir, TARO_BASE_CONFIG, TARO_CONFIG_FLODER } from '@tarojs/helper'
+import { chalk, DEFAULT_TEMPLATE_SRC, getUserHomeDir, TARO_BASE_CONFIG, TARO_CONFIG_FOLDER } from '@tarojs/helper'
 import * as fs from 'fs-extra'
 import * as path from 'path'
 
@@ -7,14 +7,14 @@ import fetchTemplate from './fetchTemplate'
 import { createPage } from './init'
 
 export interface IPageConf {
-  projectDir: string;
-  projectName: string;
-  template: string;
-  description?: string;
-  pageName: string;
-  css: 'none' | 'sass' | 'stylus' | 'less';
-  typescript?: boolean;
-  date?: string;
+  projectDir: string
+  projectName: string
+  template: string
+  description?: string
+  pageName: string
+  css: 'none' | 'sass' | 'stylus' | 'less'
+  typescript?: boolean
+  date?: string
   framework: 'react' | 'preact' | 'nerv' | 'vue' | 'vue3'
   compiler?: 'webpack4' | 'webpack5' | 'vite'
 }
@@ -74,7 +74,7 @@ export default class Page extends Creator {
     let templateSource = DEFAULT_TEMPLATE_SRC
     if (!homedir) chalk.yellow('找不到用户根目录，使用默认模版源！')
 
-    const taroConfigPath = path.join(homedir, TARO_CONFIG_FLODER)
+    const taroConfigPath = path.join(homedir, TARO_CONFIG_FOLDER)
     const taroConfig = path.join(taroConfigPath, TARO_BASE_CONFIG)
 
     if (fs.existsSync(taroConfig)) {

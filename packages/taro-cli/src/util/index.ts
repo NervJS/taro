@@ -25,18 +25,18 @@ export function printPkgVersion () {
   console.log()
 }
 
-export const getAllFilesInFloder = async (
-  floder: string,
+export const getAllFilesInFolder = async (
+  folder: string,
   filter: string[] = []
 ): Promise<string[]> => {
   let files: string[] = []
-  const list = readDirWithFileTypes(floder)
+  const list = readDirWithFileTypes(folder)
 
   await Promise.all(
     list.map(async item => {
-      const itemPath = path.join(floder, item.name)
+      const itemPath = path.join(folder, item.name)
       if (item.isDirectory) {
-        const _files = await getAllFilesInFloder(itemPath, filter)
+        const _files = await getAllFilesInFolder(itemPath, filter)
         files = [...files, ..._files]
       } else if (item.isFile) {
         if (!filter.find(rule => rule === item.name)) files.push(itemPath)
@@ -63,10 +63,10 @@ interface FileStat {
   isFile: boolean
 }
 
-export function readDirWithFileTypes (floder: string): FileStat[] {
-  const list = fs.readdirSync(floder)
+export function readDirWithFileTypes (folder: string): FileStat[] {
+  const list = fs.readdirSync(folder)
   const res = list.map(name => {
-    const stat = fs.statSync(path.join(floder, name))
+    const stat = fs.statSync(path.join(folder, name))
     return {
       name,
       isDirectory: stat.isDirectory(),

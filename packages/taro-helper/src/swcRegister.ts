@@ -1,7 +1,7 @@
 import { CallExpression } from '@swc/core'
 import { Visitor } from '@swc/core/Visitor.js'
 
-export class InjectDefinConfigHeader extends Visitor {
+export class InjectDefineConfigHeader extends Visitor {
   visitTsType (expression) {
     return expression
   }

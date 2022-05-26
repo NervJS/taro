@@ -5,7 +5,7 @@ import {
   getUserHomeDir,
   SOURCE_DIR,
   TARO_BASE_CONFIG,
-  TARO_CONFIG_FLODER
+  TARO_CONFIG_FOLDER
 } from '@tarojs/helper'
 import { isArray } from '@tarojs/shared'
 import * as fs from 'fs-extra'
@@ -256,7 +256,7 @@ export default class Project extends Creator {
     if (conf.template === 'default' || conf.templateSource) return
 
     const homedir = getUserHomeDir()
-    const taroConfigPath = path.join(homedir, TARO_CONFIG_FLODER)
+    const taroConfigPath = path.join(homedir, TARO_CONFIG_FOLDER)
     const taroConfig = path.join(taroConfigPath, TARO_BASE_CONFIG)
 
     let localTemplateSource: string

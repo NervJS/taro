@@ -4,7 +4,7 @@ import * as fs from 'fs-extra'
 import * as ora from 'ora'
 import * as path from 'path'
 
-import { getAllFilesInFloder, getPkgVersion } from '../util'
+import { getAllFilesInFolder, getPkgVersion } from '../util'
 import Creator from './creator'
 import { changeDefaultNameInTemplate } from './editTemplate'
 import { IPageConf } from './page'
@@ -187,7 +187,7 @@ export async function createApp (creater: Creator, params: IProjectConf, cb) {
   }
 
   // 遍历出模板中所有文件
-  const files = await getAllFilesInFloder(templatePath, doNotCopyFiles)
+  const files = await getAllFilesInFolder(templatePath, doNotCopyFiles)
 
   // 引入模板编写者的自定义逻辑
   const handlerPath = path.join(templatePath, TEMPLATE_CREATOR)

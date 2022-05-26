@@ -75,7 +75,7 @@ export declare const DEVICE_RATIO_NAME = "deviceRatio";
 export declare const isWindows: boolean;
 export declare const DEFAULT_TEMPLATE_SRC = "github:NervJS/taro-project-templates#v3.5";
 export declare const DEFAULT_TEMPLATE_SRC_GITEE = "direct:https://gitee.com/o2team/taro-project-templates.git#v3.5";
-export declare const TARO_CONFIG_FLODER = ".taro3.5";
+export declare const TARO_CONFIG_FOLDER = ".taro3.5";
 export declare const TARO_BASE_CONFIG = "index.json";
 export declare const OUTPUT_DIR = "dist";
 export declare const SOURCE_DIR = "src";

@@ -31,13 +31,13 @@ export declare const mergeVisitors: (src: any, ...args: any[]) => any;
 export declare const applyArrayedVisitors: (obj: any) => any;
 export declare function unzip(zipPath: any): Promise<unknown>;
 export declare function getBabelConfig(babel: any): any;
-export declare const getAllFilesInFloder: (floder: string, filter?: string[]) => Promise<string[]>;
+export declare const getAllFilesInFolder: (folder: string, filter?: string[]) => Promise<string[]>;
 export interface FileStat {
     name: string;
     isDirectory: boolean;
     isFile: boolean;
 }
-export declare function readDirWithFileTypes(floder: string): FileStat[];
+export declare function readDirWithFileTypes(folder: string): FileStat[];
 export declare function extnameExpRegOf(filePath: string): RegExp;
 export declare function addPlatforms(platform: string): void;
 export declare const getModuleDefaultExport: (exports: any) => any;

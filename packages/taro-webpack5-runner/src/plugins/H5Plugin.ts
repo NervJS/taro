@@ -65,7 +65,7 @@ export default class H5Plugin {
     )
 
     compiler.hooks.compilation.tap(PLUGIN_NAME, compilation => {
-      webpack.NormalModule.getCompilationHooks(compilation).loader.tap(PLUGIN_NAME, (_loaderContext, module: any) => {
+      webpack.NormalModule.getCompilationHooks(compilation).loader.tap(PLUGIN_NAME, (_loaderContext, module: webpack.NormalModule) => {
         const { framework, entryFileName, sourceDir, designWidth, deviceRatio, loaderMeta, routerConfig } = this.options
         const { dir, name } = path.parse(module.resource)
         const configSuffix = '.config'
@@ -95,7 +95,9 @@ export default class H5Plugin {
                 designWidth,
                 deviceRatio
               }
-            }
+            },
+            ident: null,
+            type: null
           })
         }
       })
