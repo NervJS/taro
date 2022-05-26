@@ -252,13 +252,6 @@ export default class MiniSplitChunksPlugin extends SplitChunksPlugin {
         const subVendorsWxssPath = path.join(subRoot, `${SUB_VENDORS_NAME}${FileExtsMap.STYLE}`)
         const source = new ConcatSource()
 
-        if (assets[normalizePath(subVendorsWxssPath)]) {
-          const subVendorsAbsolutePath = path.resolve(this.distPath, subVendorsWxssPath)
-          const relativePath = this.getRealRelativePath(wxssAbsulutePath, subVendorsAbsolutePath)
-
-          source.add(`@import ${JSON.stringify(relativePath)};\n`)
-        }
-
         if (subCommon.length > 0) {
           subCommon.forEach(moduleName => {
             const wxssFileName = `${moduleName}${FileExtsMap.STYLE}`
@@ -286,6 +279,13 @@ export default class MiniSplitChunksPlugin extends SplitChunksPlugin {
               }
             }
           })
+        }
+
+        if (assets[normalizePath(subVendorsWxssPath)]) {
+          const subVendorsAbsolutePath = path.resolve(this.distPath, subVendorsWxssPath)
+          const relativePath = this.getRealRelativePath(wxssAbsulutePath, subVendorsAbsolutePath)
+
+          source.add(`@import ${JSON.stringify(relativePath)};\n`)
         }
 
         if (assets[chunkWxssName]) {
