@@ -2,6 +2,11 @@ import { ComponentType } from 'react'
 import { StandardProps } from './common'
 
 interface RichTextProps extends StandardProps {
+  /** 文本是否可选，该属性会使节点显示为 block
+   * @default false
+   * @supported weapp
+   */
+  userSelect?: boolean
   /** 节点列表/ HTML String */
   nodes?: Nodes
   /** 显示连续空格
