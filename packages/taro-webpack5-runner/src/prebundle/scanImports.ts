@@ -44,7 +44,6 @@ export async function scanImports ({
     esbuild.build({
       absWorkingDir: combination.appPath,
       bundle: true,
-      chunkNames: 'chunk/[name]-[hash]',
       entryPoints: [entry],
       format: 'esm',
       write: false,

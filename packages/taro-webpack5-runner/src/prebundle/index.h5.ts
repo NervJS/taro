@@ -28,9 +28,10 @@ import path from 'path'
 import { performance } from 'perf_hooks'
 import webpack from 'webpack'
 
+import { addLeadingSlash, addTrailingSlash } from '../utils'
 import type { H5Combination } from '../webpack/H5Combination'
 import { bundle } from './bundle'
-import { MF_NAME } from './constant'
+import { assetsRE, MF_NAME } from './constant'
 import { scanImports } from './scanImports'
 import {
   commitMeta,
@@ -58,7 +59,7 @@ export async function preBundle (combination: H5Combination) {
   const metadata: Metadata = {}
   const preMetadata: Metadata = {}
   try {
-    if (prebundleOptions.force === true) {
+    if (prebundleOptions.force !== true) {
       Object.assign(preMetadata, fs.readJSONSync(metadataPath))
     }
   } catch (e) {}
@@ -69,19 +70,10 @@ export async function preBundle (combination: H5Combination) {
 
   const measure = getMeasure(prebundleOptions.timings)
 
-  /**
-   * 找出所有 webpack entry
-   * TODO:
-   *   - 目前只处理了 Page entry，例如原生小程序组件 js entry 等并没有处理
-   */
   const entries: string[] = []
   const config = combination.config
   /**
    * TODO:
-   * - [x] js 编译排除 node_modules 目录
-   * - [x] 通过 ContainerReference 插件重定向依赖路径
-   * - [x] moduleId 加载错误 // __webpack_require__(moduleId)
-   * - [ ] esbuild 编译考虑 css 加载问题
    * - [ ] 优化 proxy 方法
    * - [ ] 开发环境依赖更新触发 ws 热加载心跳
    * - [ ] remote 依赖，异步改成同步
@@ -89,7 +81,6 @@ export async function preBundle (combination: H5Combination) {
    *   - [ ] 回归测试 react、vue、vue3、nerv 加载状态
    * - [ ] 回归多页面应用情况
    * - [ ] 回归 react、vue 热更新状态
-   * - [ ] 更新生产环境 prebundle 加载逻辑
    */
   const appJsPath = config.entry!.app[0]
   const appConfigPath = resolveMainFilePath(`${appJsPath.replace(path.extname(appJsPath), '')}.config`)
@@ -175,11 +166,14 @@ export async function preBundle (combination: H5Combination) {
   const devtool = combination.enableSourceMap && 'hidden-source-map'
   const mainBuildOutput = combination.chain.output.entries()
   const taroRuntimeBundlePath: string = metadata.taroRuntimeBundlePath || exposes['./@tarojs/runtime']
+  const publicPath = config.publicPath ? addLeadingSlash(addTrailingSlash(config.publicPath)) : '/'
+  const chunkDirectory = config.chunkDirectory || 'chunk'
   const output = {
-    path: remoteCacheDir,
-    chunkFilename: 'chunk/[name].js',
+    chunkFilename: `${chunkDirectory}/[name].js`,
     chunkLoadingGlobal: mainBuildOutput.chunkLoadingGlobal,
-    globalObject: mainBuildOutput.globalObject
+    globalObject: mainBuildOutput.globalObject,
+    path: remoteCacheDir,
+    publicPath
   }
   for (const id of deps.keys()) {
     const flatId = flattenId(id)
@@ -208,6 +202,18 @@ export async function preBundle (combination: H5Combination) {
         buildDependencies: {
           config: Object.values(exposes)
         }
+      },
+      module: {
+        // TODO 同步普通打包文件配置
+        rules: [
+          {
+            test: assetsRE,
+            type: 'asset/resource',
+            generator: {
+              filename: 'static/[hash][ext][query]'
+            }
+          }
+        ]
       },
       devtool,
       entry: path.resolve(__dirname, './webpack/index.js'),
@@ -242,7 +248,7 @@ export async function preBundle (combination: H5Combination) {
   }
 
   if (process.env.NODE_ENV === 'production' || config.devServer?.devMiddleware?.writeToDisk) {
-    fs.copy(remoteCacheDir, path.join(mainBuildOutput.path, 'prebundle'))
+    fs.copy(remoteCacheDir, mainBuildOutput.path)
   }
 
   measure(`Build remote ${MF_NAME} duration`, BUILD_LIB_START)

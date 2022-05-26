@@ -1,5 +1,5 @@
 import { init, parse } from 'es-module-lexer'
-import esbuild from 'esbuild'
+import esbuild, { Plugin } from 'esbuild'
 import fs from 'fs-extra'
 import path from 'path'
 
@@ -9,6 +9,7 @@ import {
   externalModule,
   flattenId,
   getDefines,
+  getHash,
   getResolve
 } from './utils'
 
@@ -45,7 +46,7 @@ export async function bundle (deps: CollectedDeps, combination: Combination, pre
   }
 
   // bundle deps
-  const entryPlugin = getEntryPlugin(flattenDeps, flatIdExports)
+  const entryPlugin = getEntryPlugin(flattenDeps, flatIdExports, prebundleOutputDir)
 
   fs.existsSync(prebundleOutputDir)
     ? fs.emptyDirSync(prebundleOutputDir)
@@ -54,7 +55,6 @@ export async function bundle (deps: CollectedDeps, combination: Combination, pre
   const result = await esbuild.build({
     absWorkingDir: appPath,
     bundle: true,
-    chunkNames: 'chunk/[name]-[hash]',
     entryPoints: Array.from(flattenDeps.keys()),
     format: 'esm',
     define: {
@@ -115,13 +115,22 @@ exports.default = module.exports
   }
 }
 
-function getEntryPlugin (flattenDeps: CollectedDeps, flatIdExports: Map<string, ExportsData>) {
+function getEntryPlugin (flattenDeps: CollectedDeps, flatIdExports: Map<string, ExportsData>, prebundleOutputDir: string): Plugin {
   const resolve = getResolve()
   return {
     name: 'entry',
     setup (build) {
       // assets
-      build.onResolve(({ filter: assetsRE }), externalModule)
+      build.onResolve({ filter: assetsRE }, async ({ path: id, resolveDir }) => {
+        const filePath = path.isAbsolute(id) ? id : path.join(resolveDir, id)
+        const fileExt = path.extname(filePath)
+        const fileBasename = path.basename(filePath, fileExt)
+        const fileContent = await fs.readFile(filePath)
+
+        const outputFile = path.join(prebundleOutputDir, `${fileBasename}-${getHash(filePath)}${fileExt}`)
+        await fs.writeFile(outputFile, fileContent)
+        return externalModule({ path: `./${path.relative(prebundleOutputDir, outputFile)}` })
+      })
 
       build.onResolve({ filter: /^[\w@][^:]/ }, async ({ path: id, importer }) => {
         // entry

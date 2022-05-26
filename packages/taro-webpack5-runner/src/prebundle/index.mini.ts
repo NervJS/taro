@@ -58,7 +58,7 @@ export async function preBundle (combination: MiniCombination) {
   const metadata: Metadata = {}
   const preMetadata: Metadata = {}
   try {
-    if (prebundleOptions.force === true) {
+    if (prebundleOptions.force !== true) {
       Object.assign(preMetadata, fs.readJSONSync(metadataPath))
     }
   } catch (e) {}
