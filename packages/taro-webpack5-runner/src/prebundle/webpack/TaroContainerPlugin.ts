@@ -12,12 +12,6 @@ const ContainerEntryDependency = require('webpack/lib/container/ContainerEntryDe
 
 const PLUGIN_NAME = 'TaroContainerPlugin'
 
-/**
- * 劫持 ContainerEntryDependency，把生成的 Module 替换为 TaroContainerEntryModule
- * 目的是修改 remoteEntry.js 的 container module 输出：
- *   1. 插入 taroModuleMap 把异步逻辑改为同步
- *   2. 插入自动注册模块的逻辑
- */
 class TaroContainerPlugin extends ContainerPlugin {
   runtimeRequirements: Set<string>
 
@@ -36,6 +30,12 @@ class TaroContainerPlugin extends ContainerPlugin {
     }
   }
 
+  /**
+   * 劫持 ContainerEntryDependency，把生成的 Module 替换为 TaroContainerEntryModule
+   * 目的是修改 remoteEntry.js 的 container module 输出：
+   *   1. 插入 taroModuleMap 把异步逻辑改为同步
+   *   2. 插入自动注册模块的逻辑
+   */
   applyMiniApp (compiler: webpack.Compiler) {
     compiler.hooks.thisCompilation.tap(
       {

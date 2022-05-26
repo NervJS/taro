@@ -232,7 +232,8 @@ export async function preBundle (combination: H5Combination) {
       compiler.run((error: Error, stats: webpack.Stats) => {
         compiler.close(err => {
           if (error || err) return reject(error || err)
-          const { assets } = stats.toJson()
+          const { assets = [], errors = [] } = stats.toJson()
+          if (errors[0]) return reject(errors[0])
           const remoteAssets = assets
             ?.filter(item => item.name !== 'runtime.js')
             ?.map(item => ({
