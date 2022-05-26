@@ -765,8 +765,9 @@ exports[`nerv should build nerv app 2`] = `
     }
     config.routes = [ Object.assign({
         \\"path\\": \\"pages/index/index\\",
-        \\"load\\": function load() {
-            return __webpack_require__.e(1).then(__webpack_require__.bind(null, 14));
+        \\"load\\": function load(context, params) {
+            var page = __webpack_require__.e(1).then(__webpack_require__.bind(null, 14));
+            return [ page, context, params ];
         }
     }, {
         \\"navigationBarTitleText\\": \\"首页\\"
