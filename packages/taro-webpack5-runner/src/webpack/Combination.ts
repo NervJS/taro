@@ -1,12 +1,16 @@
-import { META_TYPE } from '@tarojs/helper'
+import { META_TYPE, recursiveMerge } from '@tarojs/helper'
 import { getSassLoaderOption } from '@tarojs/runner-utils'
-import { isFunction } from '@tarojs/shared'
+import { isFunction, isObject } from '@tarojs/shared'
 import path from 'path'
 import webpack from 'webpack'
 import Chain from 'webpack-chain'
 
 import { componentConfig } from '../template/component'
 import type { CommonBuildConfig, H5BuildConfig, MiniBuildConfig } from '../utils/types'
+import { PluginArgs } from './WebpackPlugin'
+
+type ICompiler = Exclude<CommonBuildConfig['compiler'], string | undefined>
+type IPrebundle = ICompiler['prebundle']
 
 export class Combination<T extends MiniBuildConfig | H5BuildConfig = CommonBuildConfig> {
   appPath: string
@@ -18,6 +22,8 @@ export class Combination<T extends MiniBuildConfig | H5BuildConfig = CommonBuild
   sourceDir: string
   outputDir: string
   rawConfig: T
+
+  prebundleOptions?: IPrebundle
 
   constructor (appPath: string, config: T) {
     this.appPath = appPath
@@ -47,6 +53,10 @@ export class Combination<T extends MiniBuildConfig | H5BuildConfig = CommonBuild
     }
   }
 
+  addPlugin (name: string, plugin: any, ...args: PluginArgs) {
+    this.chain.plugin(name).use(plugin, args)
+  }
+
   async post (config: T, chain: Chain) {
     const { modifyWebpackChain, webpackChain, onWebpackChainReady } = config
     if (isFunction(modifyWebpackChain)) {
@@ -63,5 +73,23 @@ export class Combination<T extends MiniBuildConfig | H5BuildConfig = CommonBuild
   getDevtool (sourceMapType: string) {
     /** @docs https://webpack.js.org/configuration/devtool/ */
     return this.enableSourceMap && sourceMapType
+  }
+
+  getPrebundleOptions () {
+    if (this.prebundleOptions) return this.prebundleOptions
+
+    const defaultOptions: IPrebundle = {
+      enable: process.env.NODE_ENV !== 'production', // 因为使用了 esbuild 单独打包依赖，会使项目体积略微变大，所以生产模式下默认不开启
+      timings: false,
+      force: false,
+      include: [],
+      exclude: []
+    }
+
+    if (isObject<ICompiler>(this.config.compiler)) {
+      this.prebundleOptions = recursiveMerge({}, defaultOptions, this.config.compiler.prebundle)
+    }
+
+    return this.prebundleOptions as IPrebundle
   }
 }

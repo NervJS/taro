@@ -85,6 +85,7 @@ export class H5WebpackPlugin {
 
   getH5Plugin () {
     const {
+      appPath,
       sourceDir,
       outputDir,
       config
@@ -96,7 +97,9 @@ export class H5WebpackPlugin {
       designWidth = 750,
       deviceRatio
     } = config
+    const prebundleOptions = this.combination.getPrebundleOptions()
     const options = {
+      appPath,
       sourceDir,
       outputDir,
       framework: config.framework,
@@ -104,7 +107,8 @@ export class H5WebpackPlugin {
       routerConfig: router,
       useHtmlComponents,
       designWidth,
-      deviceRatio
+      deviceRatio,
+      prebundle: prebundleOptions.enable
     }
 
     return WebpackPlugin.getPlugin(H5Plugin, [options])

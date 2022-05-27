@@ -41,13 +41,12 @@ import {
   getCacheDir,
   getMeasure,
   getMfHash,
-  getPrebundleOptions,
   Metadata
 } from './utils'
 import TaroModuleFederationPlugin from './webpack/TaroModuleFederationPlugin'
 
 export async function preBundle (combination: MiniCombination) {
-  const prebundleOptions = getPrebundleOptions(combination)
+  const prebundleOptions = combination.getPrebundleOptions()
   if (!prebundleOptions.enable) return
 
   const appPath = combination.appPath

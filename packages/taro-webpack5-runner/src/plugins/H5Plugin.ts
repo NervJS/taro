@@ -4,11 +4,13 @@ import { defaults } from 'lodash'
 import path from 'path'
 import webpack from 'webpack'
 
+import { VirtualModule } from '../prebundle/index.h5'
 import H5AppInstance from '../utils/H5AppInstance'
 
 const PLUGIN_NAME = 'H5Plugin'
 
 interface IH5PluginOptions {
+  appPath: string
   sourceDir: string
   routerConfig: any
   entryFileName: string
@@ -16,6 +18,7 @@ interface IH5PluginOptions {
   useHtmlComponents: boolean
   deviceRatio: any
   designWidth: number
+  prebundle?: boolean
   loaderMeta?: Record<string, string>
 }
 
@@ -29,13 +32,15 @@ export default class H5Plugin {
 
   constructor (options = {}) {
     this.options = defaults(options || {}, {
+      appPath: '',
       sourceDir: '',
       routerConfig: {},
       entryFileName: 'app',
       framework: FRAMEWORK_MAP.NERV,
       useHtmlComponents: false,
       deviceRatio: {},
-      designWidth: 750
+      designWidth: 750,
+      prebundle: false
     })
   }
 
@@ -65,36 +70,43 @@ export default class H5Plugin {
     )
 
     compiler.hooks.compilation.tap(PLUGIN_NAME, compilation => {
-      webpack.NormalModule.getCompilationHooks(compilation).loader.tap(PLUGIN_NAME, (_loaderContext, module: webpack.NormalModule) => {
-        const { framework, entryFileName, sourceDir, designWidth, deviceRatio, loaderMeta, routerConfig } = this.options
+      webpack.NormalModule.getCompilationHooks(compilation).loader.tap(PLUGIN_NAME, (_loaderContext: webpack.LoaderContext<any>, module: webpack.NormalModule) => {
+        const { framework, entryFileName, appPath, sourceDir, designWidth, deviceRatio, loaderMeta, prebundle, routerConfig } = this.options
         const { dir, name } = path.parse(module.resource)
-        const configSuffix = '.config'
-        if (!name.includes(configSuffix)) return
+        const suffixRgx = /\.(boot|config)/
+        if (!suffixRgx.test(name)) return
 
         const filePath = path.join(dir, name)
-        const pageName = filePath.replace(sourceDir + '/', '').replace(configSuffix, '')
+        const pageName = filePath.replace(sourceDir + '/', '').replace(suffixRgx, '')
         const routerMode = routerConfig?.mode || 'hash'
         const isMultiRouterMode = routerMode === 'multi'
         const isApp = !isMultiRouterMode && pageName === entryFileName
+        const bootstrap = prebundle && !/\.boot$/.test(name)
         if (isApp || this.inst.pagesConfigList.has(pageName)) {
+          if (bootstrap) {
+            const bootPath = path.relative(appPath, path.join(sourceDir, `${isMultiRouterMode ? pageName : entryFileName}.boot.js`))
+            VirtualModule.writeModule(bootPath, '/** bootstrap application code */')
+          }
+
           module.loaders.push({
             loader: '@tarojs/taro-loader/lib/h5',
             options: {
-              framework,
-              loaderMeta,
-              entryFileName,
-              sourceDir,
-              filename: name.replace(configSuffix, ''),
-              pages: this.inst.pagesConfigList,
-              useHtmlComponents: this.options.useHtmlComponents,
+              bootstrap,
               config: {
                 router: this.options.routerConfig,
                 ...this.inst.appConfig
               },
+              entryFileName,
+              filename: name.replace(suffixRgx, ''),
+              framework,
+              loaderMeta,
+              pages: this.inst.pagesConfigList,
               pxTransformConfig: {
                 designWidth,
                 deviceRatio
-              }
+              },
+              sourceDir,
+              useHtmlComponents: this.options.useHtmlComponents
             },
             ident: null,
             type: null

@@ -75,67 +75,61 @@ export default class TaroContainerReferencePlugin extends ContainerReferencePlug
 
     new ExternalsPlugin(remoteType, remoteExternals).apply(compiler)
 
-    compiler.hooks.compilation.tap(
-      PLUGIN_NAME,
-      (compilation, { normalModuleFactory }) => {
-        compilation.dependencyFactories.set(RemoteToExternalDependency, normalModuleFactory)
-        compilation.dependencyFactories.set(FallbackItemDependency, normalModuleFactory)
-        compilation.dependencyFactories.set(FallbackDependency, new FallbackModuleFactory())
+    compiler.hooks.compilation.tap(PLUGIN_NAME, (compilation, { normalModuleFactory }) => {
+      compilation.dependencyFactories.set(RemoteToExternalDependency, normalModuleFactory)
+      compilation.dependencyFactories.set(FallbackItemDependency, normalModuleFactory)
+      compilation.dependencyFactories.set(FallbackDependency, new FallbackModuleFactory())
 
-        /**
-         * 把预编译的依赖改为 Remote module 的形式
-         * 例如把 import '@tarojs/taro' 改为 import '[remote]/@tarojs/taro'
-         */
-        normalModuleFactory.hooks.factorize.tap(
-          PLUGIN_NAME,
-          data => {
-            if (!data.request.includes('!')) {
-              for (const [key, config] of remotes) {
-                if (
-                  data.request.startsWith(`${key}`) && (data.request.length === key.length || data.request.charCodeAt(key.length) === slashCode)
-                ) {
-                  return new RemoteModule(
-                    data.request,
-                    config.external.map((external, i) =>
-                      external.startsWith('internal ') ? external.slice(9) : `webpack/container/reference/${key}${i ? `/fallback-${i}` : ''}`
-                    ),
-                    `.${data.request.slice(key.length)}`,
-                    config.shareScope
-                  )
-                }
-              }
-              const [key, config] = [this.remoteName, this.remoteConfig]
-              for (const dep of this.deps.keys()) {
-                if (data.request === dep || data.request === '@tarojs/runtime') {
-                  const externalList = typeof config.external === 'string' ? [config.external] : config.external
-                  return new RemoteModule(
-                    `${key}/${data.request}`,
-                    externalList.map((external, i) =>
-                      external.startsWith('internal ')
-                        ? external.slice(9)
-                        : `webpack/container/reference/${key}${i ? `/fallback-${i}` : ''}`
-                    ),
-                    `./${data.request}`,
-                    config.shareScope || 'default' // share scope
-                  )
-                }
-              }
+      /**
+       * 把预编译的依赖改为 Remote module 的形式
+       * 例如把 import '@tarojs/taro' 改为 import '[remote]/@tarojs/taro'
+       */
+      normalModuleFactory.hooks.factorize.tap(PLUGIN_NAME, data => {
+        if (!data.request.includes('!')) {
+          for (const [key, config] of remotes) {
+            if (
+              data.request.startsWith(`${key}`) && (data.request.length === key.length || data.request.charCodeAt(key.length) === slashCode)
+            ) {
+              return new RemoteModule(
+                data.request,
+                config.external.map((external, i) =>
+                  external.startsWith('internal ') ? external.slice(9) : `webpack/container/reference/${key}${i ? `/fallback-${i}` : ''}`
+                ),
+                `.${data.request.slice(key.length)}`,
+                config.shareScope
+              )
             }
           }
-        )
+          const [key, config] = [this.remoteName, this.remoteConfig]
+          for (const dep of this.deps.keys()) {
+            if (data.request === dep || data.request === '@tarojs/runtime') {
+              const externalList = typeof config.external === 'string' ? [config.external] : config.external
+              return new RemoteModule(
+                `${key}/${data.request}`,
+                externalList.map((external, i) =>
+                  external.startsWith('internal ')
+                    ? external.slice(9)
+                    : `webpack/container/reference/${key}${i ? `/fallback-${i}` : ''}`
+                ),
+                `./${data.request}`,
+                config.shareScope || 'default' // share scope
+              )
+            }
+          }
+        }
+      })
 
-        compilation.hooks.runtimeRequirementInTree
-          .for(RuntimeGlobals.ensureChunkHandlers)
-          .tap(PLUGIN_NAME, (chunk, set) => {
-            set.add(RuntimeGlobals.module)
-            set.add(RuntimeGlobals.moduleFactoriesAddOnly)
-            set.add(RuntimeGlobals.hasOwnProperty)
-            set.add(RuntimeGlobals.initializeSharing)
-            set.add(RuntimeGlobals.shareScopeMap)
-            compilation.addRuntimeModule(chunk, new TaroRemoteRuntimeModule())
-          })
-      }
-    )
+      compilation.hooks.runtimeRequirementInTree
+        .for(RuntimeGlobals.ensureChunkHandlers)
+        .tap(PLUGIN_NAME, (chunk, set) => {
+          set.add(RuntimeGlobals.module)
+          set.add(RuntimeGlobals.moduleFactoriesAddOnly)
+          set.add(RuntimeGlobals.hasOwnProperty)
+          set.add(RuntimeGlobals.initializeSharing)
+          set.add(RuntimeGlobals.shareScopeMap)
+          compilation.addRuntimeModule(chunk, new TaroRemoteRuntimeModule())
+        })
+    })
   }
 
   applyMiniApp (compiler: webpack.Compiler) {

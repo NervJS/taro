@@ -14,6 +14,8 @@ type Output = Required<webpack.Configuration>['output']
 
 export class H5Combination extends Combination<H5BuildConfig> {
   inst: H5AppInstance
+  webpackPlugin = new H5WebpackPlugin(this)
+  webpackModule = new H5WebpackModule(this)
 
   process (config: Partial<H5BuildConfig>) {
     const baseConfig = new H5BaseConfig(this.appPath, config)
@@ -51,8 +53,6 @@ export class H5Combination extends Combination<H5BuildConfig> {
       customOutput: output as Output,
       entryFileName
     })
-    const webpackPlugin = new H5WebpackPlugin(this)
-    const webpackModule = new H5WebpackModule(this)
 
     chain.merge({
       entry,
@@ -60,8 +60,8 @@ export class H5Combination extends Combination<H5BuildConfig> {
       mode,
       devtool: this.getDevtool(sourceMapType),
       resolve: { alias },
-      plugin: webpackPlugin.getPlugins(isMultiRouterMode, this.inst.appConfig?.pages ?? []),
-      module: webpackModule.getModules(),
+      plugin: this.webpackPlugin.getPlugins(isMultiRouterMode, this.inst.appConfig?.pages ?? []),
+      module: this.webpackModule.getModules(),
       optimization: this.getOptimization(mode)
     })
   }

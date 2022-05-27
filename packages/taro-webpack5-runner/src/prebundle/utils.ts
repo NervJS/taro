@@ -1,5 +1,4 @@
-import { chalk, recursiveMerge } from '@tarojs/helper'
-import { isObject } from '@tarojs/shared'
+import { chalk } from '@tarojs/helper'
 import { createHash } from 'crypto'
 import enhancedResolve from 'enhanced-resolve'
 import fs from 'fs-extra'
@@ -139,29 +138,7 @@ export async function commitMeta (appPath: string, metadataPath: string, metadat
   })
 }
 
-export function getPrebundleOptions (combination: Combination) {
-  const config = combination.config
-
-  type Compiler = typeof config.compiler
-  type ICompiler = Exclude<Compiler, string | undefined>
-  type IPrebundle = ICompiler['prebundle']
-
-  const defaultOptions: IPrebundle = {
-    enable: process.env.NODE_ENV !== 'production', // 因为使用了 esbuild 单独打包依赖，会使项目体积略微变大，所以生产模式下默认不开启
-    timings: false,
-    force: false,
-    include: [],
-    exclude: []
-  }
-
-  if (isObject<ICompiler>(config.compiler)) {
-    return recursiveMerge({}, defaultOptions, config.compiler.prebundle)
-  }
-
-  return defaultOptions
-}
-
-export function getMeasure (isLogTiming: boolean) {
+export function getMeasure (isLogTiming?: boolean) {
   return function (name: string, start: number) {
     if (isLogTiming) {
       const now = performance.now()
