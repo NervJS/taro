@@ -131,8 +131,6 @@ export async function compile (app: string, customConfig: Partial<BuildConfig> =
         '@tarojs/components/dist-h5/vue3': path.resolve(__dirname, '../mocks/taro-components'),
         '@tarojs/components/loader': path.resolve(__dirname, '../mocks/taro-components'),
         '@tarojs/components/dist/taro-components/taro-components.css': path.resolve(__dirname, '../mocks/taro-components.css'),
-        '@pmmmwh/react-refresh-webpack-plugin': path.resolve(__dirname, '../mocks/react-refresh'),
-        '@prefresh/webpack': path.resolve(__dirname, '../mocks/react-refresh'),
         'react-dom': path.resolve(__dirname, '../mocks/react'),
         react: path.resolve(__dirname, '../mocks/react'),
         vue: path.resolve(__dirname, '../mocks/vue'),

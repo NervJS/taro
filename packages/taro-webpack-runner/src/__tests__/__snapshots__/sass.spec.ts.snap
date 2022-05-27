@@ -706,9 +706,6 @@ exports[`sass should build app with sass 2`] = `
     function taro_framework_createVue3App() {}
     var taro_components = __webpack_require__(1);
     var mocks_taro_components = __webpack_require__(7);
-    Object(taro_components[\\"c\\"])().then((function() {
-        Object(taro_components[\\"d\\"])(taro_runtime_window);
-    }));
     var config = {
         \\"router\\": {
             \\"mode\\": \\"hash\\",
@@ -723,6 +720,9 @@ exports[`sass should build app with sass 2`] = `
             \\"navigationBarTextStyle\\": \\"black\\"
         }
     };
+    Object(taro_components[\\"c\\"])().then((function() {
+        Object(taro_components[\\"d\\"])(taro_runtime_window);
+    }));
     taro_runtime_window.__taroAppConfig = config;
     if (config.tabBar) {
         var tabbarList = config.tabBar.list;
@@ -738,8 +738,9 @@ exports[`sass should build app with sass 2`] = `
     }
     config.routes = [ Object.assign({
         \\"path\\": \\"pages/index/index\\",
-        \\"load\\": function load() {
-            return __webpack_require__.e(1).then(__webpack_require__.bind(null, 13));
+        \\"load\\": function load(context, params) {
+            var page = __webpack_require__.e(1).then(__webpack_require__.bind(null, 13));
+            return [ page, context, params ];
         }
     }, {
         \\"navigationBarTitleText\\": \\"首页\\"
@@ -1492,9 +1493,6 @@ exports[`sass should build app with scss 2`] = `
     function taro_framework_createVue3App() {}
     var taro_components = __webpack_require__(1);
     var mocks_taro_components = __webpack_require__(8);
-    Object(taro_components[\\"c\\"])().then((function() {
-        Object(taro_components[\\"d\\"])(taro_runtime_window);
-    }));
     var config = {
         \\"router\\": {
             \\"mode\\": \\"hash\\",
@@ -1509,6 +1507,9 @@ exports[`sass should build app with scss 2`] = `
             \\"navigationBarTextStyle\\": \\"black\\"
         }
     };
+    Object(taro_components[\\"c\\"])().then((function() {
+        Object(taro_components[\\"d\\"])(taro_runtime_window);
+    }));
     taro_runtime_window.__taroAppConfig = config;
     if (config.tabBar) {
         var tabbarList = config.tabBar.list;
@@ -1524,8 +1525,9 @@ exports[`sass should build app with scss 2`] = `
     }
     config.routes = [ Object.assign({
         \\"path\\": \\"pages/index/index\\",
-        \\"load\\": function load() {
-            return __webpack_require__.e(1).then(__webpack_require__.bind(null, 14));
+        \\"load\\": function load(context, params) {
+            var page = __webpack_require__.e(1).then(__webpack_require__.bind(null, 14));
+            return [ page, context, params ];
         }
     }, {
         \\"navigationBarTitleText\\": \\"首页\\"
@@ -2278,9 +2280,6 @@ exports[`sass should set global sass content with data 2`] = `
     function taro_framework_createVue3App() {}
     var taro_components = __webpack_require__(1);
     var mocks_taro_components = __webpack_require__(8);
-    Object(taro_components[\\"c\\"])().then((function() {
-        Object(taro_components[\\"d\\"])(taro_runtime_window);
-    }));
     var config = {
         \\"router\\": {
             \\"mode\\": \\"hash\\",
@@ -2295,6 +2294,9 @@ exports[`sass should set global sass content with data 2`] = `
             \\"navigationBarTextStyle\\": \\"black\\"
         }
     };
+    Object(taro_components[\\"c\\"])().then((function() {
+        Object(taro_components[\\"d\\"])(taro_runtime_window);
+    }));
     taro_runtime_window.__taroAppConfig = config;
     if (config.tabBar) {
         var tabbarList = config.tabBar.list;
@@ -2310,8 +2312,9 @@ exports[`sass should set global sass content with data 2`] = `
     }
     config.routes = [ Object.assign({
         \\"path\\": \\"pages/index/index\\",
-        \\"load\\": function load() {
-            return __webpack_require__.e(1).then(__webpack_require__.bind(null, 14));
+        \\"load\\": function load(context, params) {
+            var page = __webpack_require__.e(1).then(__webpack_require__.bind(null, 14));
+            return [ page, context, params ];
         }
     }, {
         \\"navigationBarTitleText\\": \\"首页\\"
@@ -3064,9 +3067,6 @@ exports[`sass should set global sass content with source & dir 2`] = `
     function taro_framework_createVue3App() {}
     var taro_components = __webpack_require__(1);
     var mocks_taro_components = __webpack_require__(8);
-    Object(taro_components[\\"c\\"])().then((function() {
-        Object(taro_components[\\"d\\"])(taro_runtime_window);
-    }));
     var config = {
         \\"router\\": {
             \\"mode\\": \\"hash\\",
@@ -3081,6 +3081,9 @@ exports[`sass should set global sass content with source & dir 2`] = `
             \\"navigationBarTextStyle\\": \\"black\\"
         }
     };
+    Object(taro_components[\\"c\\"])().then((function() {
+        Object(taro_components[\\"d\\"])(taro_runtime_window);
+    }));
     taro_runtime_window.__taroAppConfig = config;
     if (config.tabBar) {
         var tabbarList = config.tabBar.list;
@@ -3096,8 +3099,9 @@ exports[`sass should set global sass content with source & dir 2`] = `
     }
     config.routes = [ Object.assign({
         \\"path\\": \\"pages/index/index\\",
-        \\"load\\": function load() {
-            return __webpack_require__.e(1).then(__webpack_require__.bind(null, 14));
+        \\"load\\": function load(context, params) {
+            var page = __webpack_require__.e(1).then(__webpack_require__.bind(null, 14));
+            return [ page, context, params ];
         }
     }, {
         \\"navigationBarTitleText\\": \\"首页\\"
@@ -3850,9 +3854,6 @@ exports[`sass should set global sass content with source 2`] = `
     function taro_framework_createVue3App() {}
     var taro_components = __webpack_require__(1);
     var mocks_taro_components = __webpack_require__(8);
-    Object(taro_components[\\"c\\"])().then((function() {
-        Object(taro_components[\\"d\\"])(taro_runtime_window);
-    }));
     var config = {
         \\"router\\": {
             \\"mode\\": \\"hash\\",
@@ -3867,6 +3868,9 @@ exports[`sass should set global sass content with source 2`] = `
             \\"navigationBarTextStyle\\": \\"black\\"
         }
     };
+    Object(taro_components[\\"c\\"])().then((function() {
+        Object(taro_components[\\"d\\"])(taro_runtime_window);
+    }));
     taro_runtime_window.__taroAppConfig = config;
     if (config.tabBar) {
         var tabbarList = config.tabBar.list;
@@ -3882,8 +3886,9 @@ exports[`sass should set global sass content with source 2`] = `
     }
     config.routes = [ Object.assign({
         \\"path\\": \\"pages/index/index\\",
-        \\"load\\": function load() {
-            return __webpack_require__.e(1).then(__webpack_require__.bind(null, 14));
+        \\"load\\": function load(context, params) {
+            var page = __webpack_require__.e(1).then(__webpack_require__.bind(null, 14));
+            return [ page, context, params ];
         }
     }, {
         \\"navigationBarTitleText\\": \\"首页\\"

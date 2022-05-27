@@ -637,10 +637,6 @@ exports[`vue should build vue app 2`] = `
     function taro_framework_createVue3App() {}
     var taro_components = __webpack_require__(0);
     var mocks_taro_components = __webpack_require__(6);
-    __webpack_require__(0);
-    Object(taro_components[\\"applyPolyfills\\"])().then((function() {
-        Object(taro_components[\\"defineCustomElements\\"])(taro_runtime_window);
-    }));
     var config = {
         \\"router\\": {
             \\"mode\\": \\"hash\\",
@@ -655,6 +651,10 @@ exports[`vue should build vue app 2`] = `
             \\"navigationBarTextStyle\\": \\"black\\"
         }
     };
+    __webpack_require__(0);
+    Object(taro_components[\\"applyPolyfills\\"])().then((function() {
+        Object(taro_components[\\"defineCustomElements\\"])(taro_runtime_window);
+    }));
     taro_runtime_window.__taroAppConfig = config;
     if (config.tabBar) {
         var tabbarList = config.tabBar.list;

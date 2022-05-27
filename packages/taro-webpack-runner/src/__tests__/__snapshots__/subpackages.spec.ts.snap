@@ -797,9 +797,6 @@ exports[`subpackages should process subpackages 2`] = `
     function taro_framework_createVue3App() {}
     var taro_components = __webpack_require__(1);
     var mocks_taro_components = __webpack_require__(9);
-    Object(taro_components[\\"c\\"])().then((function() {
-        Object(taro_components[\\"d\\"])(taro_runtime_window);
-    }));
     var config = {
         \\"router\\": {
             \\"mode\\": \\"hash\\",
@@ -818,6 +815,9 @@ exports[`subpackages should process subpackages 2`] = `
             \\"pages\\": [ \\"detail/index\\" ]
         } ]
     };
+    Object(taro_components[\\"c\\"])().then((function() {
+        Object(taro_components[\\"d\\"])(taro_runtime_window);
+    }));
     taro_runtime_window.__taroAppConfig = config;
     if (config.tabBar) {
         var tabbarList = config.tabBar.list;
@@ -833,15 +833,17 @@ exports[`subpackages should process subpackages 2`] = `
     }
     config.routes = [ Object.assign({
         \\"path\\": \\"pages/index/index\\",
-        \\"load\\": function load() {
-            return __webpack_require__.e(2).then(__webpack_require__.bind(null, 16));
+        \\"load\\": function load(context, params) {
+            var page = __webpack_require__.e(2).then(__webpack_require__.bind(null, 16));
+            return [ page, context, params ];
         }
     }, {
         \\"navigationBarTitleText\\": \\"首页\\"
     }), Object.assign({
         \\"path\\": \\"packageA/detail/index\\",
-        \\"load\\": function load() {
-            return __webpack_require__.e(1).then(__webpack_require__.bind(null, 17));
+        \\"load\\": function load(context, params) {
+            var page = __webpack_require__.e(1).then(__webpack_require__.bind(null, 17));
+            return [ page, context, params ];
         }
     }, {
         \\"navigationBarTitleText\\": \\"详情页\\"
