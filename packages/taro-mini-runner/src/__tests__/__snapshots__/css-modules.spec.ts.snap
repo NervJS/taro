@@ -53,7 +53,8 @@ require(\\"./taro\\");
                 bindActiveEnd: _empty
             },
             RichText: {
-                space: _empty
+                space: _empty,
+                \\"user-select\\": _false
             },
             Text: {
                 \\"user-select\\": _false
@@ -2249,7 +2250,8 @@ require(\\"./taro\\");
                 bindActiveEnd: _empty
             },
             RichText: {
-                space: _empty
+                space: _empty,
+                \\"user-select\\": _false
             },
             Text: {
                 \\"user-select\\": _false
