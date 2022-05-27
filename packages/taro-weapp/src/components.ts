@@ -12,7 +12,8 @@ export const components = {
     bindActiveEnd: _empty
   },
   RichText: {
-    space: _empty
+    space: _empty,
+    'user-select': _false
   },
   Text: {
     'user-select': _false
