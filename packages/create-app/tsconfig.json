@@ -1,0 +1,13 @@
+{
+  "extends": "../../tsconfig.root.json",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "outDir": "dist",
+    "module": "commonjs",
+    "skipLibCheck": true,
+    "resolveJsonModule": true
+  },
+  "exclude": [
+    "./__tests__"
+  ]
+}
