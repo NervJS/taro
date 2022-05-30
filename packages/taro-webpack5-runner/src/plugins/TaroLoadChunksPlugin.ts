@@ -22,6 +22,7 @@ interface IOptions {
   addChunkPages?: AddPageChunks,
   pages: Set<IComponent>,
   needAddCommon?: string[]
+  isIndependentPackages?: boolean
 }
 
 export default class TaroLoadChunksPlugin {
@@ -32,6 +33,7 @@ export default class TaroLoadChunksPlugin {
   pages: Set<IComponent>
   isCompDepsFound: boolean
   needAddCommon: string[]
+  isIndependentPackages: boolean
 
   constructor (options: IOptions) {
     this.commonChunks = options.commonChunks
@@ -40,6 +42,7 @@ export default class TaroLoadChunksPlugin {
     this.addChunkPages = options.addChunkPages
     this.pages = options.pages
     this.needAddCommon = options.needAddCommon || []
+    this.isIndependentPackages = options.isIndependentPackages || false
   }
 
   apply (compiler: webpack.Compiler) {
@@ -128,6 +131,12 @@ export default class TaroLoadChunksPlugin {
             return addRequireToSource(getIdOrName(chunk), modules, commonChunks)
           }
 
+          if (this.isIndependentPackages &&
+            (miniType === META_TYPE.PAGE || miniType === META_TYPE.COMPONENT)
+          ) {
+            return addRequireToSource(getIdOrName(chunk), modules, commonChunks)
+          }
+
           // addChunkPages
           if (fileChunks.size &&
             (miniType === META_TYPE.PAGE || miniType === META_TYPE.COMPONENT)
@@ -195,7 +204,7 @@ export function addRequireToSource (id: string, modules: Source, commonChunks: (
 }
 
 function chunkHasJs (chunk: webpack.Chunk, chunkGraph: webpack.ChunkGraph) {
-  if (chunk.name === 'runtime') return true
+  if (chunk.name === chunk.runtime) return true
   if (chunkGraph.getNumberOfEntryModules(chunk) > 0) return true
 
   return Boolean(chunkGraph.getChunkModulesIterableBySourceType(chunk, 'javascript'))

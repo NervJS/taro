@@ -799,7 +799,8 @@ export default class TaroMiniPlugin {
           addChunkPages: this.options.addChunkPages,
           pages: childPages,
           framework: this.options.framework,
-          needAddCommon: [`${name}/comp`]
+          isIndependentPackages: true,
+          needAddCommon: [`${name}/comp`, `${name}/custom-wrapper`]
         }).apply(childCompiler)
         // 添加 comp 和 custom-wrapper 组件
         new TaroSingleEntryPlugin(compiler.context, path.resolve(__dirname, '..', 'template/comp'), `${name}/comp`, META_TYPE.STATIC).apply(childCompiler)
