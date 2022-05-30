@@ -25,9 +25,7 @@
   },
   "dependencies": {
     "@tarojs/shared": "3.4.10",
-    "inversify": "5.1.1",
-    "lodash-es": "4.17.15",
-    "reflect-metadata": "^0.1.13"
+    "lodash-es": "4.17.15"
   },
   "devDependencies": {
     "@tarojs/taro": "3.4.10"

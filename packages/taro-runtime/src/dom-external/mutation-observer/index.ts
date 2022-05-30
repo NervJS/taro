@@ -1,6 +1,6 @@
 import { noop } from '@tarojs/shared'
 import { MutationObserverImpl, recordMutation } from './implements'
-import { MutationRecord } from './record'
+import { MutationRecord, MutationRecordType } from './record'
 
 import type { MutationCallback, MutationObserverInit } from './implements'
 import type { TaroNode } from '../../dom/node'
@@ -40,4 +40,8 @@ export class MutationObserver {
   static record (record: MutationRecord) {
     recordMutation(record)
   }
+}
+
+export {
+  MutationRecordType
 }

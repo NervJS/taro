@@ -1,7 +1,5 @@
-import { ensure, EMPTY_OBJ } from '@tarojs/shared'
+import { hooks, ensure, EMPTY_OBJ } from '@tarojs/shared'
 import {
-  container,
-  SERVICE_IDENTIFIER,
   Current,
   document,
   getPageInstance,
@@ -14,7 +12,6 @@ import { reactMeta } from './react-meta'
 import type * as React from 'react'
 import type { AppConfig } from '@tarojs/taro'
 import type {
-  IHooks,
   AppInstance,
   Instance,
   ReactAppInstance,
@@ -28,23 +25,22 @@ let h: typeof React.createElement
 let ReactDOM
 
 const pageKeyId = incrementId()
-const hooks = container.get<IHooks>(SERVICE_IDENTIFIER.Hooks)
 
 export function setReconciler (ReactDOM) {
-  hooks.getLifecycle = function (instance, lifecycle: string) {
+  hooks.tap('getLifecycle', function (instance, lifecycle: string) {
     lifecycle = lifecycle.replace(/^on(Show|Hide)$/, 'componentDid$1')
     return instance[lifecycle]
-  }
+  })
 
-  hooks.modifyMpEventImpls?.push(function (event) {
+  hooks.tap('modifyMpEvent', function (event) {
     event.type = event.type.replace(/-/g, '')
   })
 
-  hooks.batchedEventUpdates = function (cb) {
+  hooks.tap('batchedEventUpdates', function (cb) {
     ReactDOM.unstable_batchedUpdates(cb)
-  }
+  })
 
-  hooks.mergePageInstance = function (prev, next) {
+  hooks.tap('mergePageInstance', function (prev, next) {
     if (!prev || !next) return
 
     // 子组件使用 lifecycle hooks 注册了生命周期后，会存在 prev，里面是注册的生命周期回调。
@@ -57,10 +53,10 @@ export function setReconciler (ReactDOM) {
       const nextList = ensureIsArray<() => any>(next[item])
       next[item] = nextList.concat(prevList)
     })
-  }
+  })
 
   if (process.env.TARO_ENV === 'h5') {
-    hooks.createPullDownComponent = (
+    hooks.tap('createPullDownComponent', (
       el: React.FunctionComponent<PageProps> | React.ComponentClass<PageProps>,
       _,
       R: typeof React,
@@ -85,11 +81,11 @@ export function setReconciler (ReactDOM) {
           })
         )
       })
-    }
+    })
 
-    hooks.getDOMNode = inst => {
+    hooks.tap('getDOMNode', inst => {
       return ReactDOM.findDOMNode(inst)
-    }
+    })
   }
 }
 
@@ -233,7 +229,7 @@ export function createReactApp (
     appWrapper = ReactDOM.render?.(h(AppWrapper), document.getElementById('app'))
   }
 
-  const [ONLAUNCH, ONSHOW, ONHIDE] = hooks.getMiniLifecycleImpl().app
+  const [ONLAUNCH, ONSHOW, ONHIDE] = hooks.call('getMiniLifecycleImpl')!.app
 
   const appObj: AppInstance = Object.create({
     render (cb: () => void) {
@@ -332,7 +328,7 @@ export function createReactApp (
     const instance = getPageInstance(HOOKS_APP_ID)
     if (instance) {
       const app = getAppInstance()
-      const func = hooks.getLifecycle(instance, lifecycle)
+      const func = hooks.call('getLifecycle', instance, lifecycle)
       if (Array.isArray(func)) {
         func.forEach(cb => cb.apply(app, option))
       }

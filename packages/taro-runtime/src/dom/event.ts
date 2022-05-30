@@ -1,6 +1,6 @@
-import { EMPTY_OBJ, isFunction } from '@tarojs/shared'
+import { hooks, EMPTY_OBJ } from '@tarojs/shared'
+import env from '../env'
 import { isParentBinded } from '../utils'
-import { getDocument, getHooks } from '../container/store'
 import {
   CONFIRM,
   CURRENT_TARGET,
@@ -57,7 +57,7 @@ export class TaroEvent {
   get target () {
     const target = Object.create(this.mpEvent?.target || null)
 
-    const element = getDocument().getElementById(target.id)
+    const element = env.document.getElementById(target.id)
     target.dataset = element !== null ? element.dataset : EMPTY_OBJ
 
     for (const key in this.mpEvent?.detail) {
@@ -70,7 +70,7 @@ export class TaroEvent {
   get currentTarget () {
     const currentTarget = Object.create(this.mpEvent?.currentTarget || null)
 
-    const element = getDocument().getElementById(currentTarget.id)
+    const element = env.document.getElementById(currentTarget.id)
     if (element === null) {
       return this.target
     }
@@ -112,32 +112,30 @@ const eventsBatch = {}
 
 // 小程序的事件代理回调函数
 export function eventHandler (event: MpEvent) {
-  const hooks = getHooks()
-
-  hooks.modifyMpEvent?.(event)
+  hooks.call('modifyMpEventImpl', event)
 
   event.currentTarget ||= event.target
 
   const currentTarget = event.currentTarget
   const id = currentTarget.dataset?.sid as string /** sid */ || currentTarget.id /** uid */ || ''
 
-  const node = getDocument().getElementById(id)
+  const node = env.document.getElementById(id)
   if (node) {
     const dispatch = () => {
       const e = createEvent(event, node)
-      hooks.modifyTaroEvent?.(e, node)
+      hooks.call('modifyTaroEvent', e, node)
       node.dispatchEvent(e)
     }
-    if (isFunction(hooks.batchedEventUpdates)) {
+    if (hooks.isExist('batchedEventUpdates')) {
       const type = event.type
 
       if (
-        !hooks.isBubbleEvents(type) ||
+        !hooks.call('isBubbleEvents', type) ||
         !isParentBinded(node, type) ||
         (type === TOUCHMOVE && !!node.props.catchMove)
       ) {
         // 最上层组件统一 batchUpdate
-        hooks.batchedEventUpdates(() => {
+        hooks.call('batchedEventUpdates', () => {
           if (eventsBatch[type]) {
             eventsBatch[type].forEach(fn => fn())
             delete eventsBatch[type]

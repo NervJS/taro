@@ -2,8 +2,7 @@ import { isUndefined, toCamelCase, toDashed, Shortcuts, warn, isString } from '@
 import { styleProperties } from './style_properties'
 import { TaroElement } from './element'
 import { PROPERTY_THRESHOLD } from '../constants'
-import { MutationObserver } from '../dom-external/mutation-observer'
-import { MutationRecordType } from '../dom-external/mutation-observer/record'
+import { MutationObserver, MutationRecordType } from '../dom-external/mutation-observer'
 
 function setStyle (this: Style, newVal: string, styleKey: string) {
   const old = this[styleKey]

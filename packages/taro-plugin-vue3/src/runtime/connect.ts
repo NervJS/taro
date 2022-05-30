@@ -1,7 +1,5 @@
-import { isFunction, ensure, isArray } from '@tarojs/shared'
+import { hooks, isFunction, ensure, isArray } from '@tarojs/shared'
 import {
-  container,
-  SERVICE_IDENTIFIER,
   Current,
   injectPageInstance
 } from '@tarojs/runtime'
@@ -17,17 +15,15 @@ import type {
   h as createElement
 } from '@vue/runtime-core'
 import type { AppConfig as Config } from '@tarojs/taro'
-import type { IHooks, AppInstance, TaroElement } from '@tarojs/runtime'
+import type { AppInstance, TaroElement } from '@tarojs/runtime'
 
 function setReconciler () {
-  const hooks = container.get<IHooks>(SERVICE_IDENTIFIER.Hooks)
-
-  hooks.getLifecycle = function (instance, lifecycle) {
+  hooks.tap('getLifecycle', function (instance, lifecycle) {
     return instance.$options[lifecycle]
-  }
+  })
 
   if (process.env.TARO_ENV === 'h5') {
-    hooks.createPullDownComponent = (component, path, h: typeof createElement) => {
+    hooks.tap('createPullDownComponent', (component, path, h: typeof createElement) => {
       const inject = {
         props: {
           tid: String
@@ -52,11 +48,11 @@ function setReconciler () {
           )
         }
       }
-    }
+    })
 
-    hooks.getDOMNode = (el) => {
+    hooks.tap('getDOMNode', el => {
       return el.$el as any
-    }
+    })
   }
 }
 
@@ -139,8 +135,7 @@ export function createVue3App (app: App<TaroElement>, h: typeof createElement, c
     appInstance = app.mount('#app')
   }
 
-  const hooks = container.get<IHooks>(SERVICE_IDENTIFIER.Hooks)
-  const [ONLAUNCH, ONSHOW, ONHIDE] = hooks.getMiniLifecycleImpl().app
+  const [ONLAUNCH, ONSHOW, ONHIDE] = hooks.call('getMiniLifecycleImpl')!.app
 
   const appConfig: AppInstance = Object.create({
     mount (component: Component, id: string, cb: () => void) {

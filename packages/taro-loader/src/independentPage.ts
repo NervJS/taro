@@ -40,12 +40,9 @@ if (typeof PRERENDER !== 'undefined') {
   ${globalObject}._prerender = inst
 }`
   return `${setReconciler}
-import { defaultReconciler } from '@tarojs/shared'
-import { createPageConfig, window, container, SERVICE_IDENTIFIER } from '@tarojs/runtime'
+import { createPageConfig, window } from '@tarojs/runtime'
 import { ${creator} } from '${creatorLocation}'
 ${importFrameworkStatement}
-var hooks = container.get(SERVICE_IDENTIFIER.Hooks)
-hooks.initNativeApiImpls = [defaultReconciler.initNativeApi]
 var config = ${configString};
 var appConfig = ${JSON.stringify(appConfig)};
 window.__taroAppConfig = appConfig

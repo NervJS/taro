@@ -1,13 +1,11 @@
 import { internalComponents } from './components'
-import { isArray } from './is'
+import { hooks } from './runtime-hooks'
 
 export const EMPTY_OBJ: any = {}
 
 export const EMPTY_ARR = []
 
 export const noop = (..._: unknown[]) => {}
-
-export const defaultReconciler = Object.create(null)
 
 /**
  * Boxed value.
@@ -158,18 +156,11 @@ export function mergeInternalComponents (components) {
   })
 }
 
-export function mergeReconciler (hostConfig) {
-  Object.keys(hostConfig).forEach(key => {
-    const value = hostConfig[key]
-    const raw = defaultReconciler[key]
-
-    defaultReconciler[key] = !raw
-      ? value
-      : (
-        isArray(raw)
-          ? raw.concat(value)
-          : [raw, value]
-      )
+export function mergeReconciler (hostConfig, hooksForTest?) {
+  const obj = hooksForTest || hooks
+  const keys = Object.keys(hostConfig)
+  keys.forEach(key => {
+    obj.tap(key, hostConfig[key])
   })
 }
 

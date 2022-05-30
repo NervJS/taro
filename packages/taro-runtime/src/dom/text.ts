@@ -1,15 +1,17 @@
-import { injectable } from 'inversify'
 import { Shortcuts } from '@tarojs/shared'
 import { TaroNode } from './node'
 import { NodeType } from './node_types'
-import { MutationObserver } from '../dom-external/mutation-observer'
-import { MutationRecordType } from '../dom-external/mutation-observer/record'
+import { MutationObserver, MutationRecordType } from '../dom-external/mutation-observer'
 
-@injectable()
 export class TaroText extends TaroNode {
   public _value: string
   public nodeType = NodeType.TEXT_NODE
   public nodeName = '#text'
+
+  constructor (value) {
+    super()
+    this._value = value
+  }
 
   public set textContent (text: string) {
     MutationObserver.record({

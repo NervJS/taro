@@ -1,6 +1,6 @@
 import { Current } from './current'
 import { TaroRootElement } from './dom/root'
-import { document } from './bom/document'
+import env from './env'
 
 import type { Func } from './interface'
 
@@ -15,7 +15,7 @@ export const nextTick = (cb: Func, ctx?: Record<string, any>) => {
   if (router !== null) {
     let pageElement: TaroRootElement | null = null
     const path = router.$taroPath
-    pageElement = document.getElementById<TaroRootElement>(path)
+    pageElement = env.document.getElementById<TaroRootElement>(path)
     if (pageElement?.pendingUpdate) {
       if (process.env.TARO_ENV === 'h5') {
         // eslint-disable-next-line dot-notation

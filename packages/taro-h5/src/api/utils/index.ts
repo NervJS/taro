@@ -1,5 +1,5 @@
 /* eslint-disable prefer-promise-reject-errors */
-import { Current, container, SERVICE_IDENTIFIER, IHooks, TaroElement } from '@tarojs/runtime'
+import { hooks, Current, TaroElement } from '@tarojs/runtime'
 
 export function shouldBeObject (target: unknown) {
   if (target && typeof target === 'object') return { flag: true }
@@ -13,13 +13,8 @@ export function shouldBeObject (target: unknown) {
 }
 
 export function findDOM (inst?): TaroElement | HTMLElement | undefined {
-  const runtimeHooks = container.get<IHooks>(SERVICE_IDENTIFIER.Hooks)
-
-  if (inst) {
-    const find = runtimeHooks.getDOMNode
-    if (typeof find === 'function') {
-      return find(inst)
-    }
+  if (inst && hooks.isExist('getDOMNode')) {
+    return hooks.call('getDOMNode', inst)
   }
 
   const page = Current.page

@@ -1,4 +1,3 @@
-import { injectable } from 'inversify'
 import { isFunction, isUndefined, Shortcuts } from '@tarojs/shared'
 import { TaroElement } from './element'
 import { customWrapperCache } from '../utils'
@@ -48,7 +47,6 @@ function findCustomWrapper (root: TaroRootElement, dataPathArr: string[]) {
   }
 }
 
-@injectable()
 export class TaroRootElement extends TaroElement {
   private updatePayloads: UpdatePayload[] = []
 
@@ -61,6 +59,7 @@ export class TaroRootElement extends TaroElement {
   public constructor () {
     super()
     this.nodeName = ROOT_STR
+    this.tagName = ROOT_STR.toUpperCase()
   }
 
   public get _path (): string {

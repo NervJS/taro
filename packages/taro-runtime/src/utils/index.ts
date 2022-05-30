@@ -1,4 +1,4 @@
-import { Shortcuts } from '@tarojs/shared'
+import { Shortcuts, isFunction } from '@tarojs/shared'
 import { NodeType } from '../dom/node_types'
 import {
   ROOT_STR,
@@ -12,6 +12,7 @@ import {
 import type { TaroElement } from '../dom/element'
 import type { TaroText } from '../dom/text'
 import type { TaroNode } from '../dom/node'
+import { Func } from '../interface'
 
 export const incrementId = () => {
   let id = 0
@@ -68,3 +69,20 @@ export function shortcutAttr (key: string): string {
 }
 
 export const customWrapperCache = new Map<string, Record<string, any>>()
+
+interface Ctor {
+  new (...args: any[]): any
+}
+
+export function extend (ctor: Ctor, methodName: string, options: Func | Record<string, any>) {
+  if (isFunction(options)) {
+    options = {
+      value: options
+    }
+  }
+  Object.defineProperty(ctor.prototype, methodName, {
+    configurable: true,
+    enumerable: true,
+    ...options
+  })
+}

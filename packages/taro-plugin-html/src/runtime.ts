@@ -1,5 +1,5 @@
-import { Shortcuts, warn } from '@tarojs/shared'
-import { container, SERVICE_IDENTIFIER, TaroElement } from '@tarojs/runtime'
+import { hooks, Shortcuts, warn } from '@tarojs/shared'
+import { TaroElement } from '@tarojs/runtime'
 import {
   isHtmlTags,
   getMappedType,
@@ -10,11 +10,7 @@ import {
   defineMappedProp
 } from './utils'
 
-import type { IHooks } from '@tarojs/runtime'
-
-const hooks = container.get<IHooks>(SERVICE_IDENTIFIER.Hooks)
-
-hooks.modifyHydrateData = data => {
+hooks.tap('modifyHydrateData', data => {
   const nodeName = data[Shortcuts.NodeName]
   if (!isHtmlTags(nodeName)) return
 
@@ -47,9 +43,9 @@ hooks.modifyHydrateData = data => {
 
   data[Shortcuts.Class] = ensureHtmlClass(nodeName, data[Shortcuts.Class])
   data[Shortcuts.Style] = ensureRect(data, data[Shortcuts.Style])
-}
+})
 
-hooks.modifySetAttrPayload = (element, key, payload) => {
+hooks.tap('modifySetAttrPayload', (element, key, payload) => {
   const { nodeName, _path, props } = element
   if (!isHtmlTags(nodeName)) return
 
@@ -71,9 +67,9 @@ hooks.modifySetAttrPayload = (element, key, payload) => {
     payload.path = `${_path}.${Shortcuts.Style}`
     payload.value = ensureRect(props, element.style.cssText)
   }
-}
+})
 
-hooks.modifyRmAttrPayload = (element, key, payload) => {
+hooks.tap('modifyRmAttrPayload', (element, key, payload) => {
   const { nodeName, _path, props } = element
   if (!isHtmlTags(nodeName)) return
 
@@ -94,9 +90,9 @@ hooks.modifyRmAttrPayload = (element, key, payload) => {
     payload.path = `${_path}.${Shortcuts.Style}`
     payload.value = ensureRect(props, element.style.cssText)
   }
-}
+})
 
-hooks.onAddEvent = (type, _handler, _options, node) => {
+hooks.tap('onAddEvent', (type, _handler, _options, node) => {
   node = node as TaroElement
   if (!isHtmlTags(node.nodeName)) return
   if (type === 'click') {
@@ -112,10 +108,9 @@ hooks.onAddEvent = (type, _handler, _options, node) => {
       defineMappedProp(node.__handlers, type, 'confirm')
     }
   }
-}
+})
 
-hooks.modifyTaroEventImpls ||= []
-hooks.modifyTaroEventImpls.push((event, element) => {
+hooks.tap('modifyTaroEvent', (event, element) => {
   const { nodeName, props } = element
   if (nodeName === 'input' && event.type === 'tap') {
     if (props.type === 'checkbox') {

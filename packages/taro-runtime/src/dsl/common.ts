@@ -1,9 +1,8 @@
 /* eslint-disable dot-notation */
-import { isFunction, EMPTY_OBJ, ensure, Shortcuts, isUndefined, isArray, isString } from '@tarojs/shared'
-import { getHooks } from '../container/store'
+import { hooks, isFunction, EMPTY_OBJ, ensure, Shortcuts, isUndefined, isArray, isString } from '@tarojs/shared'
 import { eventHandler } from '../dom/event'
 import { Current } from '../current'
-import { document } from '../bom/document'
+import env from '../env'
 import { incrementId, customWrapperCache } from '../utils'
 import { perf } from '../perf'
 import { eventCenter } from '../emitter/emitter'
@@ -19,7 +18,7 @@ const instances = new Map<string, Instance>()
 const pageId = incrementId()
 
 export function injectPageInstance (inst: Instance<PageProps>, id: string) {
-  getHooks().mergePageInstance?.(instances.get(id), inst)
+  hooks.call('mergePageInstance', instances.get(id), inst)
   instances.set(id, inst)
 }
 
@@ -41,7 +40,7 @@ export function safeExecute (path: string, lifecycle: string, ...args: unknown[]
     return
   }
 
-  const func = getHooks().getLifecycle(instance, lifecycle as keyof PageInstance)
+  const func = hooks.call('getLifecycle', instance, lifecycle as keyof PageInstance)
 
   if (isArray(func)) {
     const res = func.map(fn => fn.apply(instance, args))
@@ -85,7 +84,6 @@ export function getOnHideEventKey (path: string) {
 export function createPageConfig (component: any, pageName?: string, data?: Record<string, unknown>, pageConfig?: PageConfig) {
   // 小程序 Page 构造器是一个傲娇小公主，不能把复杂的对象挂载到参数上
   const id = pageName ?? `taro_page_${pageId()}`
-  const hooks = getHooks()
   const [
     ONLOAD,
     ONUNLOAD,
@@ -93,7 +91,7 @@ export function createPageConfig (component: any, pageName?: string, data?: Reco
     ONSHOW,
     ONHIDE,
     LIFECYCLES
-  ] = hooks.getMiniLifecycleImpl().page
+  ] = hooks.call('getMiniLifecycleImpl')!.page
   let pageElement: TaroRootElement | null = null
   let unmounting = false
   let prepareMountList: (() => void)[] = []
@@ -135,7 +133,7 @@ export function createPageConfig (component: any, pageName?: string, data?: Reco
 
       const mount = () => {
         Current.app!.mount!(component, $taroPath, () => {
-          pageElement = document.getElementById<TaroRootElement>($taroPath)
+          pageElement = env.document.getElementById<TaroRootElement>($taroPath)
 
           ensure(pageElement !== null, '没有找到页面实例。')
           safeExecute($taroPath, ON_LOAD, this.$taroParams)
@@ -239,7 +237,7 @@ export function createPageConfig (component: any, pageName?: string, data?: Reco
     config.data = data
   }
 
-  hooks.modifyPageObject?.(config)
+  hooks.call('modifyPageObject', config)
 
   return config
 }
@@ -253,7 +251,7 @@ export function createComponentConfig (component: React.ComponentClass, componen
       perf.start(PAGE_INIT)
       const path = getPath(id, { id: this.getPageId?.() || pageId() })
       Current.app!.mount!(component, path, () => {
-        componentElement = document.getElementById<TaroRootElement>(path)
+        componentElement = env.document.getElementById<TaroRootElement>(path)
         ensure(componentElement !== null, '没有找到组件实例。')
         this.$taroInstances = instances.get(path)
         safeExecute(path, ON_LOAD)

@@ -1,9 +1,8 @@
 /* eslint-disable dot-notation */
 import {
-  AppInstance,
-  container, createPageConfig, Current,
-  eventCenter, IHooks,
-  SERVICE_IDENTIFIER, stringify
+  AppInstance, hooks,
+  createPageConfig, Current,
+  eventCenter, stringify
 } from '@tarojs/runtime'
 import type { AppConfig, PageConfig } from '@tarojs/taro'
 import { Listener as LocationListener, Action as LocationAction } from 'history'
@@ -38,8 +37,6 @@ export function createRouter (
   framework?: string
 ) {
   const handler = new PageHandler(config)
-
-  const runtimeHooks = container.get<IHooks>(SERVICE_IDENTIFIER.Hooks)
 
   routesAlias.set(handler.router.customRoutes)
   const basename = handler.router.basename
@@ -124,7 +121,7 @@ export function createRouter (
       delete loadConfig['load']
 
       const page = createPageConfig(
-        enablePullDownRefresh ? runtimeHooks.createPullDownComponent?.(el, location.pathname, framework, handler.PullDownRefresh) : el,
+        enablePullDownRefresh ? hooks.call('createPullDownComponent', el, location.pathname, framework, handler.PullDownRefresh) : el,
         pathname + stringify(handler.getQuery(stacksIndex)),
         {},
         loadConfig

@@ -1,22 +1,17 @@
-import { injectable } from 'inversify'
-import { Shortcuts, ensure } from '@tarojs/shared'
+import { hooks, Shortcuts, ensure } from '@tarojs/shared'
+import env from '../env'
 import { NodeType } from './node_types'
-import { incrementId, isComment } from '../utils'
+import { incrementId, isComment, extend } from '../utils'
 import { TaroEventTarget } from './event-target'
 import { hydrate } from '../hydrate'
 import { eventSource } from './event-source'
-import { ElementNames } from '../interface'
-import { getElementFactory, getNodeImpl } from '../container/store'
-import { MutationObserver } from '../dom-external/mutation-observer'
-import { MutationRecordType } from '../dom-external/mutation-observer/record'
-import {
-  DOCUMENT_FRAGMENT
-} from '../constants'
+import { MutationObserver, MutationRecordType } from '../dom-external/mutation-observer'
+import { DOCUMENT_FRAGMENT } from '../constants'
 
-import type { UpdatePayload } from '../interface'
-import type { TaroDocument } from './document'
+import type { UpdatePayload, Func } from '../interface'
 import type { TaroRootElement } from './root'
 import type { TaroElement } from './element'
+import type { TaroDocument } from './document'
 
 interface RemoveChildOptions {
   cleanRef?: boolean
@@ -26,7 +21,6 @@ interface RemoveChildOptions {
 const CHILDNODES = Shortcuts.Childnodes
 const nodeId = incrementId()
 
-@injectable()
 export class TaroNode extends TaroEventTarget {
   public uid: string
   public sid: string
@@ -35,12 +29,8 @@ export class TaroNode extends TaroEventTarget {
   public parentNode: TaroNode | null = null
   public childNodes: TaroNode[] = []
 
-  protected _getElement = getElementFactory()
-
   public constructor () {
     super()
-    const impl = getNodeImpl()
-    impl.bind(this)
     this.uid = `_n_${nodeId()}` // dom 节点 id，开发者可修改
     this.sid = this.uid // dom 节点全局唯一 id，不可被修改
     eventSource.set(this.sid, this)
@@ -95,7 +85,7 @@ export class TaroNode extends TaroEventTarget {
       // 计算路径时，先过滤掉 comment 节点
       const list = parentNode.childNodes.filter(node => !isComment(node))
       const indexOfNode = list.indexOf(this)
-      const index = this.hooks.getPathIndex(indexOfNode)
+      const index = hooks.call('getPathIndex', indexOfNode)
 
       return `${parentNode._path}.${CHILDNODES}.${index}`
     }
@@ -136,7 +126,7 @@ export class TaroNode extends TaroEventTarget {
    */
   // eslint-disable-next-line accessor-pairs
   public set textContent (text: string) {
-    const document = this._getElement<TaroDocument>(ElementNames.Document)()
+    const document = env.document
     const newText = document.createTextNode(text)
 
     // @Todo: appendChild 会多触发一次
@@ -304,8 +294,11 @@ export class TaroNode extends TaroEventTarget {
     this._root?.enqueueUpdate(payload)
   }
 
-  public get ownerDocument () {
-    const document = this._getElement<TaroDocument>(ElementNames.Document)()
-    return document
+  public get ownerDocument (): TaroDocument {
+    return env.document
+  }
+
+  static extend (methodName: string, options: Func | Record<string, any>) {
+    extend(TaroNode, methodName, options)
   }
 }

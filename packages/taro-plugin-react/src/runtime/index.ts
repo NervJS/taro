@@ -1,17 +1,9 @@
-import {
-  container,
-  SERVICE_IDENTIFIER
-} from '@tarojs/runtime'
+import { hooks } from '@tarojs/shared'
 import * as taroHooks from './hooks'
-
-import type { IHooks } from '@tarojs/runtime'
 
 declare const __TARO_FRAMEWORK__: string
 
-const hooks = container.get<IHooks>(SERVICE_IDENTIFIER.Hooks)
-
-hooks.initNativeApiImpls ||= []
-hooks.initNativeApiImpls.push(function (taro) {
+hooks.tap('initNativeApi', function (taro) {
   for (const hook in taroHooks) {
     taro[hook] = taroHooks[hook]
   }
@@ -60,7 +52,7 @@ if (__TARO_FRAMEWORK__ === 'preact') {
     if (oldDiffedHook) oldDiffedHook(newVNode)
   }
 
-  hooks.modifyMpEventImpls?.push(e => {
+  hooks.tap('modifyMpEvent', e => {
     const type = e.type
     if (type === 'tap') {
       e.type = 'click'
