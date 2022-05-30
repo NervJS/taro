@@ -37,6 +37,7 @@ class TaroContainerPlugin extends ContainerPlugin {
    *   2. 插入自动注册模块的逻辑
    */
   applyMiniApp (compiler: webpack.Compiler) {
+    super.apply(compiler)
     compiler.hooks.thisCompilation.tap(
       {
         name: PLUGIN_NAME,
