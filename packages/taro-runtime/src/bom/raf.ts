@@ -1,22 +1,16 @@
 // https://github.com/myrne/performance-now
-export let now
+export let now: () => number
 
 (function () {
   let loadTime
   if ((typeof performance !== 'undefined' && performance !== null) && performance.now) {
-    now = function () {
-      return performance.now()
-    }
+    now = () => performance.now()
   } else if (Date.now) {
-    now = function () {
-      return Date.now() - loadTime
-    }
     loadTime = Date.now()
+    now = () => Date.now() - loadTime
   } else {
-    now = function () {
-      return new Date().getTime() - loadTime
-    }
     loadTime = new Date().getTime()
+    now = () => new Date().getTime() - loadTime
   }
 })()
 
@@ -38,6 +32,6 @@ const caf = typeof cancelAnimationFrame !== 'undefined' && cancelAnimationFrame 
   }
 
 export {
-  raf,
-  caf
+  caf,
+  raf
 }

@@ -2,18 +2,18 @@
 import { SpaRouterConfig } from '@tarojs/router/types/router'
 import {
   AppInstance,
-  container, createPageConfig, Current,
-  eventCenter, IHooks,
-  SERVICE_IDENTIFIER, stringify
+  createPageConfig, Current,
+  eventCenter, hooks,
+  stringify
 } from '@tarojs/runtime'
-import { Listener as LocationListener, Action as LocationAction } from 'history'
+import { Action as LocationAction, Listener as LocationListener } from 'history'
 import UniversalRouter, { Routes } from 'universal-router'
 
 import { history, prependBasename } from '../history'
-import PageHandler from './page'
-import stacks from './stack'
 import { addLeadingSlash, routesAlias, stripBasename } from '../utils'
 import { RouterConfig } from '.'
+import PageHandler from './page'
+import stacks from './stack'
 
 export function createRouter (
   app: AppInstance,
@@ -22,8 +22,6 @@ export function createRouter (
 ) {
   RouterConfig.config = config
   const handler = new PageHandler(config)
-
-  const runtimeHooks = container.get<IHooks>(SERVICE_IDENTIFIER.Hooks)
 
   routesAlias.set(handler.router.customRoutes)
   const basename = handler.router.basename
@@ -112,7 +110,7 @@ export function createRouter (
       delete loadConfig['load']
 
       const page = createPageConfig(
-        enablePullDownRefresh ? runtimeHooks.createPullDownComponent?.(el, location.pathname, framework, handler.PullDownRefresh) : el,
+        enablePullDownRefresh ? hooks.call('createPullDownComponent', el, location.pathname, framework, handler.PullDownRefresh) : el,
         pathname + stringify(handler.getQuery(stacksIndex)),
         {},
         loadConfig

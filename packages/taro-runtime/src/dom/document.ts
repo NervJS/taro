@@ -1,45 +1,44 @@
-import { inject, injectable } from 'inversify'
 import { controlledComponent, isUndefined } from '@tarojs/shared'
-import { SID_TARO_TEXT_FACTORY } from '../constants/identifiers'
-import { TaroElement } from '../dom/element'
-import { NodeType } from '../dom/node_types'
-import { eventSource } from '../dom/event-source'
-import { ElementNames, InstanceFactory } from '../interface'
+
 import {
-  ROOT_STR,
+  COMMENT,
   DOCUMENT_ELEMENT_NAME,
-  COMMENT
+  ROOT_STR
 } from '../constants'
+import { TaroElement } from '../dom/element'
+import { createEvent } from '../dom/event'
+import { eventSource } from '../dom/event-source'
+import { FormElement } from '../dom/form'
+import { NodeType } from '../dom/node_types'
+import { TaroRootElement } from '../dom/root'
+import { TaroText } from '../dom/text'
+import env from '../env'
 
-import type { FormElement } from '../dom/form'
-import type { TaroRootElement } from '../dom/root'
-import type { TaroText } from '../dom/text'
-
-@injectable()
 export class TaroDocument extends TaroElement {
-  private _getText: InstanceFactory<TaroText>
+  public documentElement: TaroElement
+  public head: TaroElement
+  public body: TaroElement
+  public createEvent = createEvent
 
-  public constructor (// eslint-disable-next-line @typescript-eslint/indent
-    @inject(SID_TARO_TEXT_FACTORY) getText: InstanceFactory<TaroText>
-  ) {
+  public constructor () {
     super()
-    this._getText = getText
     this.nodeType = NodeType.DOCUMENT_NODE
     this.nodeName = DOCUMENT_ELEMENT_NAME
   }
 
   public createElement (type: string): TaroElement | TaroRootElement | FormElement {
-    const getElement = this._getElement
-
     if (type === ROOT_STR) {
-      return getElement<TaroRootElement>(ElementNames.RootElement)()
+      return new TaroRootElement()
     }
 
-    if (controlledComponent.has(type)) {
-      return getElement<FormElement>(ElementNames.FormElement)(type)
-    }
+    const element = controlledComponent.has(type)
+      ? new FormElement()
+      : new TaroElement()
 
-    return getElement<TaroElement>(ElementNames.Element)(type)
+    element.nodeName = type
+    element.tagName = type.toUpperCase()
+
+    return element
   }
 
   // an ugly fake createElementNS to deal with @vue/runtime-dom's
@@ -49,7 +48,7 @@ export class TaroDocument extends TaroElement {
   }
 
   public createTextNode (text: string): TaroText {
-    return this._getText(text)
+    return new TaroText(text)
   }
 
   public getElementById<T extends TaroElement> (id: string | undefined | null): T | null {
@@ -72,8 +71,12 @@ export class TaroDocument extends TaroElement {
 
   // @TODO: @PERF: 在 hydrate 移除掉空的 node
   public createComment (): TaroText {
-    const textnode = this._getText('')
+    const textnode = new TaroText('')
     textnode.nodeName = COMMENT
     return textnode
+  }
+
+  get defaultView () {
+    return env.window
   }
 }

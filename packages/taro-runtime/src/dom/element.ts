@@ -1,32 +1,28 @@
-import { injectable } from 'inversify'
-import { isArray, isUndefined, Shortcuts, EMPTY_OBJ, warn, isString, toCamelCase, isFunction } from '@tarojs/shared'
+import { EMPTY_OBJ, hooks, isArray, isFunction, isString, isUndefined, Shortcuts, toCamelCase, warn } from '@tarojs/shared'
+
+import {
+  CATCH_VIEW,
+  CATCHMOVE,
+  CLASS,
+  FOCUS,
+  ID,
+  PROPERTY_THRESHOLD,
+  PURE_VIEW,
+  STATIC_VIEW,
+  STYLE,
+  VIEW
+} from '../constants'
+import { MutationObserver, MutationRecordType } from '../dom-external/mutation-observer'
+import type { Attributes, Func } from '../interface'
+import { extend, isElement, isHasExtractProp, shortcutAttr } from '../utils'
+import { ClassList } from './class-list'
+import type { TaroEvent } from './event'
+import { eventSource } from './event-source'
 import { TaroNode } from './node'
 import { NodeType } from './node_types'
-import { eventSource } from './event-source'
-import { isElement, isHasExtractProp, shortcutAttr } from '../utils'
 import { Style } from './style'
 import { treeToArray } from './tree'
-import { ClassList } from './class-list'
-import { getElementImpl } from '../container/store'
-import { MutationObserver } from '../dom-external/mutation-observer'
-import { MutationRecordType } from '../dom-external/mutation-observer/record'
-import {
-  ID,
-  CLASS,
-  STYLE,
-  FOCUS,
-  VIEW,
-  STATIC_VIEW,
-  PURE_VIEW,
-  PROPERTY_THRESHOLD,
-  CATCHMOVE,
-  CATCH_VIEW
-} from '../constants'
 
-import type { TaroEvent } from './event'
-import type { Attributes } from '../interface'
-
-@injectable()
 export class TaroElement extends TaroNode {
   public tagName: string
   public props: Record<string, any> = {}
@@ -36,11 +32,9 @@ export class TaroElement extends TaroNode {
 
   public constructor () {
     super()
-    const impl = getElementImpl()
-    impl.bind(this)
     this.nodeType = NodeType.ELEMENT_NODE
     this.style = new Style(this)
-    this.hooks.patchElement?.(this)
+    hooks.call('patchElement', this)
   }
 
   private _stopPropagation (event: TaroEvent) {
@@ -185,7 +179,7 @@ export class TaroElement extends TaroNode {
       value: isFunction(value) ? () => value : value
     }
 
-    this.hooks.modifySetAttrPayload?.(this, qualifiedName, payload)
+    hooks.call('modifySetAttrPayload', this, qualifiedName, payload)
 
     this.enqueueUpdate(payload)
 
@@ -222,7 +216,7 @@ export class TaroElement extends TaroNode {
     if (qualifiedName === STYLE) {
       this.style.cssText = ''
     } else {
-      const isInterrupt = this.hooks.onRemoveAttribute?.(this, qualifiedName)
+      const isInterrupt = hooks.call('onRemoveAttribute', this, qualifiedName)
       if (isInterrupt) {
         return
       }
@@ -240,7 +234,7 @@ export class TaroElement extends TaroNode {
       value: ''
     }
 
-    this.hooks.modifyRmAttrPayload?.(this, qualifiedName, payload)
+    hooks.call('modifyRmAttrPayload', this, qualifiedName, payload)
 
     this.enqueueUpdate(payload)
 
@@ -295,7 +289,7 @@ export class TaroElement extends TaroNode {
       if (listener._stop) {
         listener._stop = false
       } else {
-        this.hooks.modifyDispatchEvent(event, this)
+        hooks.call('modifyDispatchEvent', event, this)
         result = listener.call(this, event)
       }
       if ((result === false || event._end) && cancelable) {
@@ -318,7 +312,7 @@ export class TaroElement extends TaroNode {
 
   public addEventListener (type, handler, options) {
     const name = this.nodeName
-    const SPECIAL_NODES = this.hooks.getSpecialNodes()
+    const SPECIAL_NODES = hooks.call('getSpecialNodes')!
 
     if (!this.isAnyEventBinded() && SPECIAL_NODES.indexOf(name) > -1) {
       this.enqueueUpdate({
@@ -334,7 +328,7 @@ export class TaroElement extends TaroNode {
     super.removeEventListener(type, handler)
 
     const name = this.nodeName
-    const SPECIAL_NODES = this.hooks.getSpecialNodes()
+    const SPECIAL_NODES = hooks.call('getSpecialNodes')!
 
     if (!this.isAnyEventBinded() && SPECIAL_NODES.indexOf(name) > -1) {
       this.enqueueUpdate({
@@ -342,5 +336,9 @@ export class TaroElement extends TaroNode {
         value: isHasExtractProp(this) ? `static-${name}` : `pure-${name}`
       })
     }
+  }
+
+  static extend (methodName: string, options: Func | Record<string, any>) {
+    extend(TaroElement, methodName, options)
   }
 }

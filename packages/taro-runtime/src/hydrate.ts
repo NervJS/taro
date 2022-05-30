@@ -1,18 +1,18 @@
-import { Shortcuts, toCamelCase } from '@tarojs/shared'
-import { isText, isHasExtractProp, isComment } from './utils'
+import { hooks, Shortcuts, toCamelCase } from '@tarojs/shared'
+
 import {
-  VIEW,
+  CATCH_VIEW,
+  CATCHMOVE,
   CLASS,
-  STYLE,
   ID,
   PURE_VIEW,
-  CATCHMOVE,
-  CATCH_VIEW
+  STYLE,
+  VIEW
 } from './constants'
-
-import type { MiniData, MiniElementData } from './interface'
 import type { TaroElement } from './dom/element'
 import type { TaroText } from './dom/text'
+import type { MiniData, MiniElementData } from './interface'
+import { isComment, isHasExtractProp, isText } from './utils'
 
 /**
  * React also has a fancy function's name for this: `hydrate()`.
@@ -35,7 +35,7 @@ export function hydrate (node: TaroElement | TaroText): MiniData {
     sid: node.sid
   }
   const { props } = node
-  const SPECIAL_NODES = node.hooks.getSpecialNodes()
+  const SPECIAL_NODES = hooks.call('getSpecialNodes')!
 
   if (node.uid !== node.sid) {
     data.uid = node.uid
@@ -83,7 +83,7 @@ export function hydrate (node: TaroElement | TaroText): MiniData {
     data[Shortcuts.Style] = node.cssText
   }
 
-  node.hooks.modifyHydrateData?.(data)
+  hooks.call('modifyHydrateData', data)
 
   return data
 }

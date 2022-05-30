@@ -1,5 +1,7 @@
 export * from './components'
+export * from './event-emitter'
 export * from './is'
 export * from './native-apis'
+export * from './runtime-hooks'
 export { Shortcuts } from './shortcuts'
 export * from './utils'

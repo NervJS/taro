@@ -5,8 +5,7 @@
     "module": "ESNext",
     "target": "ES2017",
     "sourceMap": true,
-    "declaration": true,
-    "emitDecoratorMetadata": true
+    "declaration": true
   },
   "include": [
     "./src"

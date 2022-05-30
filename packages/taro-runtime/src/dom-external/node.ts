@@ -1,14 +1,8 @@
-import {
-  STYLE,
-  DATASET,
-  PROPS,
-  OBJECT
-} from '../constants'
-import { parser } from '../dom-external/inner-html/parser'
-import { GetDoc } from '../interface'
-import { NodeType } from '../dom/node_types'
-
 import type { TaroNode } from 'src/dom/node'
+
+import { DATASET, OBJECT, PROPS, STYLE } from '../constants'
+import { NodeType } from '../dom/node_types'
+import { parser } from '../dom-external/inner-html/parser'
 
 export type IPosition = 'beforebegin' | 'afterbegin' | 'beforeend' | 'afterend'
 
@@ -16,13 +10,12 @@ export type IPosition = 'beforebegin' | 'afterbegin' | 'beforeend' | 'afterend'
  * An implementation of `Element.insertAdjacentHTML()`
  * to support Vue 3 with a version of or greater than `vue@3.1.2`
  */
-export function insertAdjacentHTMLImpl (
+export function insertAdjacentHTML (
   this: TaroNode,
-  getDoc: GetDoc,
   position: IPosition,
   html: string
 ) {
-  const parsedNodes = parser(html, getDoc())
+  const parsedNodes = parser(html, this.ownerDocument)
 
   for (let i = 0; i < parsedNodes.length; i++) {
     const n = parsedNodes[i]
@@ -48,8 +41,8 @@ export function insertAdjacentHTMLImpl (
   }
 }
 
-export function cloneNode (this: TaroNode, getDoc, isDeep = false) {
-  const document = getDoc()
+export function cloneNode (this: TaroNode, isDeep = false) {
+  const document = this.ownerDocument
   let newNode
 
   if (this.nodeType === NodeType.ELEMENT_NODE) {

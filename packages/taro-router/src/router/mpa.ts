@@ -2,10 +2,11 @@
 import { MpaRouterConfig } from '@tarojs/router/types/router'
 import {
   AppInstance,
-  container, createPageConfig,
-  eventCenter, IHooks,
-  SERVICE_IDENTIFIER, stringify
+  createPageConfig,
+  eventCenter, hooks,
+  stringify
 } from '@tarojs/runtime'
+
 import { RouterConfig } from '.'
 import MultiPageHandler from './multi-page'
 
@@ -25,7 +26,6 @@ export async function createMultiRouter (
 ) {
   RouterConfig.config = config
   const handler = new MultiPageHandler(config)
-  const runtimeHooks = container.get<IHooks>(SERVICE_IDENTIFIER.Hooks)
   const launchParam = handler.getQuery()
   app.onLaunch?.(launchParam)
 
@@ -58,7 +58,7 @@ export async function createMultiRouter (
   delete loadConfig['path']
   delete loadConfig['load']
   const page = createPageConfig(
-    enablePullDownRefresh ? runtimeHooks.createPullDownComponent?.(el, location.pathname, framework, config.PullDownRefresh) : el,
+    enablePullDownRefresh ? hooks.call('createPullDownComponent', el, location.pathname, framework, config.PullDownRefresh) : el,
     pathName + stringify(launchParam),
     {},
     loadConfig

@@ -1,8 +1,7 @@
 import { isString, isUndefined, Shortcuts, toCamelCase, toDashed, warn } from '@tarojs/shared'
 
 import { PROPERTY_THRESHOLD } from '../constants'
-import { MutationObserver } from '../dom-external/mutation-observer'
-import { MutationRecordType } from '../dom-external/mutation-observer/record'
+import { MutationObserver, MutationRecordType } from '../dom-external/mutation-observer'
 import { TaroElement } from './element'
 import { styleProperties } from './style_properties'
 
