@@ -197,7 +197,7 @@ export class Tabbar implements ComponentInterface {
 
     if (typeof to === 'string') {
       const routerBasename = this.conf.basename || '/'
-      currentPage = stripBasename(addLeadingSlash(to || this.homePage), routerBasename)
+      currentPage = stripBasename(addLeadingSlash(to || this.homePage), routerBasename) || '/'
     } else {
       currentPage = this.getCurrentUrl()
     }
