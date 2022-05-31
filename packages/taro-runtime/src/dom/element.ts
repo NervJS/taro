@@ -1,4 +1,4 @@
-import { EMPTY_OBJ, hooks, isArray, isFunction, isString, isUndefined, Shortcuts, toCamelCase, warn } from '@tarojs/shared'
+import { EMPTY_OBJ, hooks, isArray, isFunction, isObject, isString, isUndefined, Shortcuts, toCamelCase, warn } from '@tarojs/shared'
 
 import {
   CATCH_VIEW,
@@ -314,7 +314,13 @@ export class TaroElement extends TaroNode {
     const name = this.nodeName
     const SPECIAL_NODES = hooks.call('getSpecialNodes')!
 
-    if (!this.isAnyEventBinded() && SPECIAL_NODES.indexOf(name) > -1) {
+    let sideEffect = true
+    if (isObject<Record<string, any>>(options) && options.sideEffect === false) {
+      sideEffect = false
+      delete options.sideEffect
+    }
+
+    if (sideEffect !== false && !this.isAnyEventBinded() && SPECIAL_NODES.indexOf(name) > -1) {
       this.enqueueUpdate({
         path: `${this._path}.${Shortcuts.NodeName}`,
         value: name
@@ -324,13 +330,13 @@ export class TaroElement extends TaroNode {
     super.addEventListener(type, handler, options)
   }
 
-  public removeEventListener (type, handler) {
+  public removeEventListener (type, handler, sideEffect = true) {
     super.removeEventListener(type, handler)
 
     const name = this.nodeName
     const SPECIAL_NODES = hooks.call('getSpecialNodes')!
 
-    if (!this.isAnyEventBinded() && SPECIAL_NODES.indexOf(name) > -1) {
+    if (sideEffect !== false && !this.isAnyEventBinded() && SPECIAL_NODES.indexOf(name) > -1) {
       this.enqueueUpdate({
         path: `${this._path}.${Shortcuts.NodeName}`,
         value: isHasExtractProp(this) ? `static-${name}` : `pure-${name}`
