@@ -30,7 +30,7 @@ const createUploadTask = ({ url, filePath, formData = {}, name, header, timeout,
     callbackManager.progressUpdate.trigger({
       progress: Math.round(loaded / total * 100),
       totalBytesSent: loaded,
-      totalBytesExpectedToSent: total
+      totalBytesExpectedToSend: total
     })
   }
 
