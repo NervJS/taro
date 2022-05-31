@@ -74,6 +74,7 @@ export const getPostcssPlugins = function (appPath: string, {
     const htmlTransform = require('postcss-html-transform')
     plugins.push(htmlTransform(htmltransformOption.config))
   }
+  plugins.unshift(require('postcss-import'))
 
   plugins.push(constparse(defaultConstparseOption))
 
