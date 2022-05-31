@@ -1,4 +1,4 @@
-import { isString, isUndefined, Shortcuts, toCamelCase, toDashed, warn } from '@tarojs/shared'
+import { isNull, isString, isUndefined, Shortcuts, toCamelCase, toDashed, warn } from '@tarojs/shared'
 
 import { PROPERTY_THRESHOLD } from '../constants'
 import { MutationObserver, MutationRecordType } from '../dom-external/mutation-observer'
@@ -8,7 +8,7 @@ import { styleProperties } from './style_properties'
 function setStyle (this: Style, newVal: string, styleKey: string) {
   const old = this[styleKey]
   const oldCssTxt = this.cssText
-  if (newVal) {
+  if (!isNull(newVal) && !isUndefined(newVal)) {
     this._usedStyleProp.add(styleKey)
   }
 
@@ -43,7 +43,8 @@ function initStyle (ctor: typeof Style) {
     const styleKey = styleProperties[i]
     properties[styleKey] = {
       get (this: Style) {
-        return this._value[styleKey] || ''
+        const val = this._value[styleKey]
+        return isNull(val) || isUndefined(val) ? '' : val
       },
       set (this: Style, newVal: string) {
         setStyle.call(this, newVal, styleKey)
@@ -88,7 +89,7 @@ export class Style {
     const texts: string[] = []
     this._usedStyleProp.forEach(key => {
       const val = this[key]
-      if (!val) return
+      if (isNull(val) || isUndefined(val)) return
       let styleName = isCssVariable(key) ? key : toDashed(key)
       if (styleName.indexOf('webkit') === 0 || styleName.indexOf('Webkit') === 0) {
         styleName = `-${styleName}`
