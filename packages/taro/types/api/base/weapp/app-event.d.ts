@@ -178,7 +178,7 @@ declare module '../../../index' {
      * **注意**
      *
      * 部分版本在无`referrerInfo`的时候会返回 `undefined`，建议使用 `options.referrerInfo && options.referrerInfo.appId` 进行判断。
-     * @supported weapp, tt
+     * @supported weapp, h5, tt
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/base/app/app-event/wx.onAppShow.html
      */
     onAppShow(
@@ -187,7 +187,7 @@ declare module '../../../index' {
     ): void
 
     /** 监听小程序切后台事件。该事件与 [`App.onHide`](https://developers.weixin.qq.com/miniprogram/dev/reference/api/App.html#onhide) 的回调时机一致。
-     * @supported weapp, tt
+     * @supported weapp, h5, tt
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/base/app/app-event/wx.onAppHide.html
      */
     onAppHide(
@@ -245,7 +245,7 @@ declare module '../../../index' {
     ): void
 
     /** 取消监听小程序切前台事件
-     * @supported weapp, tt
+     * @supported weapp, h5, tt
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/base/app/app-event/wx.offAppShow.html
      */
     offAppShow(
@@ -254,7 +254,7 @@ declare module '../../../index' {
     ): void
 
     /** 取消监听小程序切后台事件
-     * @supported weapp, tt
+     * @supported weapp, h5, tt
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/base/app/app-event/wx.offAppHide.html
      */
     offAppHide(
