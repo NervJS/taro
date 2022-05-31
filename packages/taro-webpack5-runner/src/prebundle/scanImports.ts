@@ -45,6 +45,7 @@ export async function scanImports ({
       absWorkingDir: combination.appPath,
       bundle: true,
       entryPoints: [entry],
+      mainFields: ['main:h5', 'browser', 'module', 'jsnext:main', 'main'],
       format: 'esm',
       write: false,
       plugins: [

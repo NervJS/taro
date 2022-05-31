@@ -56,6 +56,7 @@ export async function bundle (deps: CollectedDeps, combination: Combination, pre
     absWorkingDir: appPath,
     bundle: true,
     entryPoints: Array.from(flattenDeps.keys()),
+    mainFields: ['main:h5', 'browser', 'module', 'jsnext:main', 'main'],
     format: 'esm',
     define: {
       ...getDefines(combination),
