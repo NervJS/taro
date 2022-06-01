@@ -42,15 +42,15 @@ let targetUnit
 module.exports = postcss.plugin('postcss-pxtransform', function (options = {}) {
   options = Object.assign({}, DEFAULT_WEAPP_OPTIONS, options)
 
-  const isFunctionDw = typeof options.designWidth === 'function'
-  const designWidth = input => isFunctionDw
+  const transUnits = ['px']
+  const designWidth = input => typeof options.designWidth === 'function'
     ? options.designWidth(input)
     : options.designWidth
-
   switch (options.platform) {
     case 'h5': {
       options.rootValue = input => baseFontSize * designWidth(input) / 640
       targetUnit = 'rem'
+      transUnits.push('rpx')
       break
     }
     case 'rn': {
@@ -74,6 +74,7 @@ module.exports = postcss.plugin('postcss-pxtransform', function (options = {}) {
 
   const opts = Object.assign({}, defaults, options)
   const onePxTransform = typeof options.onePxTransform === 'undefined' ? true : options.onePxTransform
+  const pxRgx = pxRegex(transUnits)
 
   const satisfyPropList = createPropListMatcher(opts.propList)
 
@@ -157,10 +158,9 @@ module.exports = postcss.plugin('postcss-pxtransform', function (options = {}) {
 
       if (!satisfyPropList(decl.prop)) return
 
-      if (blacklistedSelector(opts.selectorBlackList,
-        decl.parent.selector)) return
+      if (blacklistedSelector(opts.selectorBlackList, decl.parent.selector)) return
 
-      const value = decl.value.replace(pxRegex, pxReplace)
+      const value = decl.value.replace(pxRgx, pxReplace)
 
       // if rem unit already exists, do not add or replace
       if (declarationExists(decl.parent, decl.prop, value)) return
@@ -175,7 +175,7 @@ module.exports = postcss.plugin('postcss-pxtransform', function (options = {}) {
     if (opts.mediaQuery) {
       css.walkAtRules('media', function (rule) {
         if (rule.params.indexOf('px') === -1) return
-        rule.params = rule.params.replace(pxRegex, pxReplace)
+        rule.params = rule.params.replace(pxRgx, pxReplace)
       })
     }
   }

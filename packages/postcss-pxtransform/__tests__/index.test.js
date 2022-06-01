@@ -619,3 +619,24 @@ describe('platform 为 h5，指定平台 h5 平台剔除', () => {
     expect(processed).toBe('/*  #ifndef  h5  *//*  #endif  */ .test{}')
   })
 })
+
+describe('rpx 单位转换', () => {
+  it('{platform: \'weapp\', designWidth: 640} ', () => {
+    const rules = 'h1 {margin: 0 0 20rpx;font-size: 40Px;line-height: 1.2;} .test{}'
+    const options = {
+      platform: 'weapp',
+      designWidth: 640
+    }
+    const processed = postcss(pxtorem(options)).process(rules).css
+    expect(processed).toBe('h1 {margin: 0 0 20rpx;font-size: 40Px;line-height: 1.2;} .test{}')
+  })
+  it('{platform: \'h5\', designWidth: 640} ', () => {
+    const rules = 'h1 {margin: 0 0 20rpx;font-size: 40Px;line-height: 1.2;} .test{}'
+    const options = {
+      platform: 'h5',
+      designWidth: 640
+    }
+    const processed = postcss(pxtorem(options)).process(rules).css
+    expect(processed).toBe('h1 {margin: 0 0 0.5rem;font-size: 40Px;line-height: 1.2;} .test{}')
+  })
+})
