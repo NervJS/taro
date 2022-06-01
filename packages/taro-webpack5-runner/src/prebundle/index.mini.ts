@@ -113,6 +113,7 @@ export async function preBundle (combination: MiniCombination) {
     customEsbuildConfig
   })
 
+  deps.size &&
   console.log(chalk.cyan(
     'Prebundle dependencies: \n',
     ...JSON.parse(formatDepsString(deps)).map(dep => `    ${dep[0]}\n`)

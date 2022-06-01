@@ -75,11 +75,13 @@ export function getDefines (combination: Combination) {
   return defines
 }
 
-export function isExclude (id: string, excludes: string[]) {
+export function isExclude (id: string, excludes: (string | RegExp)[]) {
   return Boolean(excludes.find(item => {
     const dollarTailRE = /\$$/
 
-    if (dollarTailRE.test(item)) {
+    if (item instanceof RegExp) {
+      return item.test(id)
+    } else if (dollarTailRE.test(item)) {
       // 全路径匹配
       item = item.replace(dollarTailRE, '')
       if (item === id) return true

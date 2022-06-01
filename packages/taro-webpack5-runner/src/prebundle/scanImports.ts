@@ -62,6 +62,7 @@ export async function scanImports ({
   // 可以把它们写进 includes，然后在这里 resolve 后加入到 deps
   const resolve = getResolve()
   await Promise.all(include.map(async item => {
+    if (isExclude(item, exclude)) return
     const resolvePath = await resolve(combination.appPath, item)
     deps.set(item, resolvePath)
   }))
