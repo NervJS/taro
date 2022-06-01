@@ -1,7 +1,6 @@
 import { chalk } from '@tarojs/helper'
-import { isArray, isString } from '@tarojs/shared'
-
 import type { IPluginContext, TaroPlatformBase } from '@tarojs/service'
+import { isArray, isString } from '@tarojs/shared'
 
 const spawn = require('cross-spawn')
 const detectPort = require('detect-port')
@@ -59,7 +58,7 @@ export default function (ctx: IPluginContext, options: IOptions) {
 }
 
 function injectRuntimePath (platform: TaroPlatformBase) {
-  const injectedPath = '@tarojs/plugin-vue-devtools/dist/runtime'
+  const injectedPath = 'post:@tarojs/plugin-vue-devtools/dist/runtime'
 
   if (isArray(platform.runtimePath)) {
     platform.runtimePath.push(injectedPath)

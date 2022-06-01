@@ -2,6 +2,8 @@ import { getOptions, stringifyRequest } from 'loader-utils'
 import * as path from 'path'
 import type * as webpack from 'webpack'
 
+import { REG_POST } from './constants'
+
 interface PageConfig {
   content: any
   path: string
@@ -30,8 +32,14 @@ export default function (this: webpack.LoaderContext<any>) {
     ? `${raw}!${this.resourcePath}`
     : this.request.split('!').slice(1).join('!')
   const runtimePath = Array.isArray(options.runtimePath) ? options.runtimePath : [options.runtimePath]
+  let setReconcilerPost = ''
   const setReconciler = runtimePath.reduce((res, item) => {
-    return res + `import '${item}'\n`
+    if (REG_POST.test(item)) {
+      setReconcilerPost += `import '${item.replace(REG_POST, '')}'\n`
+      return res
+    } else {
+      return res + `import '${item}'\n`
+    }
   }, '')
   const { globalObject } = this._compilation?.outputOptions || { globalObject: 'wx' }
 
@@ -42,6 +50,7 @@ if (typeof PRERENDER !== 'undefined') {
   return `${setReconciler}
 import { createPageConfig, window } from '@tarojs/runtime'
 import { ${creator} } from '${creatorLocation}'
+${setReconcilerPost}
 ${importFrameworkStatement}
 var config = ${configString};
 var appConfig = ${JSON.stringify(appConfig)};

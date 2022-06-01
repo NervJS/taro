@@ -2,6 +2,8 @@ import { normalizePath } from '@tarojs/helper'
 import { getOptions, stringifyRequest } from 'loader-utils'
 import type * as webpack from 'webpack'
 
+import { REG_POST } from './constants'
+
 export default function (this: webpack.LoaderContext<any>) {
   const stringify = (s: string): string => stringifyRequest(this, s)
 
@@ -20,8 +22,14 @@ if (typeof PRERENDER !== 'undefined') {
 }`
 
   const runtimePath = Array.isArray(options.runtimePath) ? options.runtimePath : [options.runtimePath]
+  let setReconcilerPost = ''
   const setReconciler = runtimePath.reduce((res, item) => {
-    return res + `import '${item}'\n`
+    if (REG_POST.test(item)) {
+      setReconcilerPost += `import '${item.replace(REG_POST, '')}'\n`
+      return res
+    } else {
+      return res + `import '${item}'\n`
+    }
   }, '')
 
   const createApp = `${creator}(component, ${frameworkArgs})`
@@ -42,6 +50,7 @@ exports.taroApp = app
 import { window } from '@tarojs/runtime'
 import { ${creator} } from '${creatorLocation}'
 import { initPxTransform } from '@tarojs/taro'
+${setReconcilerPost}
 import component from ${stringify(this.request.split('!').slice(thisLoaderIndex + 1).join('!'))}
 ${importFrameworkStatement}
 var config = ${config};

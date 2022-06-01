@@ -94,7 +94,8 @@ export async function preBundle (combination: MiniCombination) {
   const SCAN_START = performance.now()
 
   // plugin-platform 等插件的 runtime 文件入口
-  const runtimePath = typeof config.runtimePath === 'string' ? [config.runtimePath] : config.runtimePath || []
+  let runtimePath = typeof config.runtimePath === 'string' ? [config.runtimePath] : config.runtimePath || []
+  runtimePath = runtimePath.map(item => item.replace(/^post:/, ''))
   const deps = await scanImports({
     entries,
     combination,
