@@ -25,12 +25,12 @@ export default (ctx: IPluginContext, config: IConfig = {}) => {
   const { framework } = ctx.initialConfig
   if (framework !== 'vue3') return
 
-  ctx.modifyWebpackChain(({ chain, webpack, data }) => {
+  ctx.modifyWebpackChain(({ chain, data }) => {
     // 通用
     if (process.env.NODE_ENV !== 'production') {
       setAlias(chain)
     }
-    setDefinePlugin(chain, webpack)
+    setDefinePlugin(chain)
 
     if (process.env.TARO_ENV === 'h5') {
       // H5
@@ -70,13 +70,15 @@ function setAlias (chain) {
     .set('vue', require.resolve('vue'))
 }
 
-function setDefinePlugin (chain, webpack) {
+function setDefinePlugin (chain) {
   chain
-    .plugin('defined')
-    .use(webpack.DefinePlugin, [{
-      __VUE_OPTIONS_API__: JSON.stringify(true),
-      __VUE_PROD_DEVTOOLS__: JSON.stringify(false)
-    }])
+    .plugin('definePlugin')
+    .tap(args => {
+      const config = args[0]
+      config.__VUE_OPTIONS_API__ = JSON.stringify(true)
+      config.__VUE_PROD_DEVTOOLS__ = JSON.stringify(false)
+      return args
+    })
 }
 
 export function getVueLoaderPath (): string {
