@@ -83,7 +83,8 @@ export class Combination<T extends MiniBuildConfig | H5BuildConfig = CommonBuild
       timings: false,
       force: false,
       include: [],
-      exclude: []
+      exclude: [],
+      esbuild: {}
     }
 
     if (isObject<ICompiler>(this.config.compiler)) {

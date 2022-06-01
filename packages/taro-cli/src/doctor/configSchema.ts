@@ -53,7 +53,8 @@ const schema = Joi.object().keys({
         cacheDir: Joi.string(),
         force: Joi.boolean(),
         include: Joi.array().items(Joi.string()),
-        exclude: Joi.array().items(Joi.string())
+        exclude: Joi.array().items(Joi.string()),
+        esbuild: Joi.object().unknown()
       })
     })
   ),

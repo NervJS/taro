@@ -21,7 +21,12 @@ type ExportsData = ReturnType<typeof parse> & { hasReExports?: boolean, needInte
 // 1. flatten all ids to eliminate slash
 // 2. in the plugin, read the entry ourselves as virtual files to retain the
 //    path.
-export async function bundle (deps: CollectedDeps, combination: Combination, prebundleOutputDir: string) {
+export async function bundle (
+  deps: CollectedDeps,
+  combination: Combination,
+  prebundleOutputDir: string,
+  customEsbuildConfig: Record<string, any> = {}
+) {
   await init
 
   const appPath = combination.appPath
@@ -47,6 +52,7 @@ export async function bundle (deps: CollectedDeps, combination: Combination, pre
 
   // bundle deps
   const entryPlugin = getEntryPlugin(flattenDeps, flatIdExports, prebundleOutputDir)
+  const customPlugins = customEsbuildConfig.plugins || []
 
   fs.existsSync(prebundleOutputDir)
     ? fs.emptyDirSync(prebundleOutputDir)
@@ -70,7 +76,8 @@ export async function bundle (deps: CollectedDeps, combination: Combination, pre
     ignoreAnnotations: true,
     outdir: prebundleOutputDir,
     plugins: [
-      entryPlugin
+      entryPlugin,
+      ...customPlugins
     ]
   })
 

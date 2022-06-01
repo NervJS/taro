@@ -28,17 +28,20 @@ interface ScanImportsConfig {
   combination: Combination
   include: string[]
   exclude: string[]
+  customEsbuildConfig?: Record<string, any>
 }
 
 export async function scanImports ({
   entries,
   combination,
   include = [],
-  exclude = []
+  exclude = [],
+  customEsbuildConfig = {}
 }: ScanImportsConfig): Promise<CollectedDeps> {
   const deps: CollectedDeps = new Map()
 
   const scanImportsPlugin = getScanImportsPlugin(deps, include, exclude)
+  const customPlugins = customEsbuildConfig.plugins || []
 
   await Promise.all(entries.map(entry =>
     esbuild.build({
@@ -49,7 +52,8 @@ export async function scanImports ({
       format: 'esm',
       write: false,
       plugins: [
-        scanImportsPlugin
+        scanImportsPlugin,
+        ...customPlugins
       ]
     })
   ))
