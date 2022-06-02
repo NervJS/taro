@@ -110,6 +110,9 @@ export function createPageConfig (component: any, pageName?: string, data?: Reco
       onShow: getOnShowEventKey(id),
       onHide: getOnHideEventKey(id)
     }
+    if (!isUndefined(page.exitState)) {
+      Current.router.exitState = page.exitState
+    }
   }
   let loadResolver: (...args: unknown[]) => void
   let hasLoaded: Promise<void>

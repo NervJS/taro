@@ -82,6 +82,8 @@ export const useShareTimeline = taroHooks('onShareTimeline')
 
 export const useAddToFavorites = taroHooks('onAddToFavorites')
 
+export const useSaveExitState = taroHooks('onSaveExitState')
+
 export const useReady = taroHooks('onReady')
 
 export const useLoad = taroHooks('onLoad')

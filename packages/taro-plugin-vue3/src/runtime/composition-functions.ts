@@ -71,6 +71,8 @@ export const useShareTimeline = createHook('onShareTimeline')
 
 export const useAddToFavorites = createHook('onAddToFavorites')
 
+export const useSaveExitState = createHook('onSaveExitState')
+
 export const useRouter = () => {
   // return dynamic ? Current.router : React.useMemo(() => Current.router, [])
   return Current.router

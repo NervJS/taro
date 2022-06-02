@@ -10,6 +10,7 @@ export interface MpInstance {
   $taroPath: string
   __data__: any
   data: any
+  exitState?: any
   selectComponent: (selector: string) => any
 }
 

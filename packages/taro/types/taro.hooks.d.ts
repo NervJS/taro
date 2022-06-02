@@ -53,6 +53,15 @@ declare module './index' {
     useShareTimeline(callback: () => ShareTimelineReturnObject): void
 
     /**
+     * 页面销毁前保留状态回调
+     * **仅微信小程序支持。**
+     */
+    useSaveExitState(callback: () => {
+      data: Record<any, any>
+      expireTimeStamp?: number
+    }): void
+
+    /**
      * 页面加载完成时的回调。
      */
     useLoad(callback: () => void): void

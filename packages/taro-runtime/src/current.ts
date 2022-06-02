@@ -7,6 +7,7 @@ export interface Router {
   onReady: string,
   onHide: string,
   onShow: string
+  exitState?: any
 }
 
 interface Current {

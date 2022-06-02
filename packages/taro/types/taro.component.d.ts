@@ -47,6 +47,7 @@ declare module './index' {
 
     shareTicket: string | undefined
     scene: number | undefined
+    exitState?: any
   }
   interface Component<P = {}, S = {}, SS = any> extends ComponentLifecycle<P, S, SS> {
     $scope?: any
