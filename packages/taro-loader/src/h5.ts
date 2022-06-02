@@ -2,7 +2,7 @@ import { readConfig } from '@tarojs/helper'
 import { AppConfig } from '@tarojs/taro'
 import { IH5Config } from '@tarojs/taro/types/compile'
 import { getOptions, stringifyRequest } from 'loader-utils'
-import { dirname, join } from 'path'
+import { basename, dirname, join } from 'path'
 import type * as webpack from 'webpack'
 
 function genResource (path: string, pages: Map<string, string>, loaderContext: webpack.LoaderContext<any>, syncFileName: string | false = false) {
@@ -37,7 +37,22 @@ export default function (this: webpack.LoaderContext<any>) {
   const isMultiRouterMode = routerMode === 'multi'
   const pxTransformConfig = options.pxTransformConfig
 
-  const pageName = isMultiRouterMode ? join(dirname(this.resourcePath), options.name).replace(options.sourceDir + '/', '') : ''
+  const pathDirname = dirname(this.resourcePath)
+  const pathBasename = basename(this.resourcePath)
+  const pageName = isMultiRouterMode ? join(pathDirname, options.name).replace(options.sourceDir + '/', '') : ''
+  if (options.bootstrap || pathBasename.includes('.boot')) {
+    /** NOTE: Webpack Virtual Module plugin doesn't support triggering a rebuild for webpack5,
+     * which can cause "module not found" error when webpack5 cache is enabled.
+     * Currently the only "non-hacky" workaround is to mark this module as non-cacheable.
+     *
+     * See also:
+     *   - https://github.com/sysgears/webpack-virtual-modules/issues/76
+     *   - https://github.com/sysgears/webpack-virtual-modules/issues/86
+     *   - https://github.com/windicss/windicss-webpack-plugin/blob/bbb91323a2a0c0f880eecdf49b831be092ccf511/src/loaders/virtual-module.ts
+     *   - https://github.com/sveltejs/svelte-loader/pull/151
+     */
+    this.cacheable?.(false)
+  }
   if (options.bootstrap) return `import(${stringify(join(options.sourceDir, `${isMultiRouterMode ? pageName : options.entryFileName}.boot`))})`
 
   let tabBarCode = `var tabbarIconPath = []
@@ -48,11 +63,11 @@ var tabbarSelectedIconPath = []
     for (let i = 0; i < tabbarList.length; i++) {
       const t = tabbarList[i]
       if (t.iconPath) {
-        const iconPath = stringify(join(dirname(this.resourcePath), t.iconPath))
+        const iconPath = stringify(join(pathDirname, t.iconPath))
         tabBarCode += `tabbarIconPath[${i}] = typeof require(${iconPath}) === 'object' ? require(${iconPath}).default : require(${iconPath})\n`
       }
       if (t.selectedIconPath) {
-        const iconPath = stringify(join(dirname(this.resourcePath), t.selectedIconPath))
+        const iconPath = stringify(join(pathDirname, t.selectedIconPath))
         tabBarCode += `tabbarSelectedIconPath[${i}] = typeof require(${iconPath}) === 'object' ? require(${iconPath}).default : require(${iconPath})\n`
       }
     }
