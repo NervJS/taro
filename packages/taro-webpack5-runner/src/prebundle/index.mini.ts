@@ -173,6 +173,22 @@ export async function preBundle (combination: MiniCombination) {
     chunkLoadingGlobal: mainBuildOutput.chunkLoadingGlobal,
     globalObject: mainBuildOutput.globalObject
   }
+  const provideObject = {
+    window: [taroRuntimeBundlePath, 'window$1'],
+    document: [taroRuntimeBundlePath, 'document$1'],
+    navigator: [taroRuntimeBundlePath, 'navigator'],
+    requestAnimationFrame: [taroRuntimeBundlePath, 'raf'],
+    cancelAnimationFrame: [taroRuntimeBundlePath, 'caf'],
+    Element: [taroRuntimeBundlePath, 'TaroElement'],
+    SVGElement: [taroRuntimeBundlePath, 'SVGElement'],
+    MutationObserver: [taroRuntimeBundlePath, 'MutationObserver']
+  }
+  const customWebpackConfig = prebundleOptions.webpack || {}
+  if (customWebpackConfig.provide?.length) {
+    customWebpackConfig.provide.forEach(cb => {
+      cb(provideObject, taroRuntimeBundlePath)
+    })
+  }
 
   metadata.mfHash = getMfHash({
     bundleHash: metadata.bundleHash,
@@ -205,16 +221,7 @@ export async function preBundle (combination: MiniCombination) {
           runtime: 'runtime',
           exposes
         }, deps, metadata.remoteAssets, metadata.runtimeRequirements),
-        new webpack.ProvidePlugin({
-          window: [taroRuntimeBundlePath, 'window$1'],
-          document: [taroRuntimeBundlePath, 'document$1'],
-          navigator: [taroRuntimeBundlePath, 'navigator'],
-          requestAnimationFrame: [taroRuntimeBundlePath, 'raf'],
-          cancelAnimationFrame: [taroRuntimeBundlePath, 'caf'],
-          Element: [taroRuntimeBundlePath, 'TaroElement'],
-          SVGElement: [taroRuntimeBundlePath, 'SVGElement'],
-          MutationObserver: [taroRuntimeBundlePath, 'MutationObserver']
-        })
+        new webpack.ProvidePlugin(provideObject)
       ],
       cache: {
         type: 'filesystem',

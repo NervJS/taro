@@ -67,11 +67,13 @@ export default function (ctx: IPluginContext, options: IOptions) {
       const prebundle = opts.compiler.prebundle
       if (prebundle.enable === false) return
 
-      // @todos
-      // 预编译时暂时不处理本插件和 vue，因为本插件使用了 providePlugin 注入了 "globalThis" 和 "HTMLElement"。
-      // 但目前预编译第三阶段还不支持配置 Webpack，导致无法应用上述注入。待后续预编译第三阶段支持后可调整回来。
-      prebundle.exclude ||= []
-      prebundle.exclude.push('vue', /^@tarojs[\\/]/)
+      prebundle.webpack ||= {}
+      const webpackConfig = prebundle.webpack
+      webpackConfig.provide ||= []
+      webpackConfig.provide.push(function (obj, taroRuntimeBundlePath) {
+        obj.globalThis = [taroRuntimeBundlePath, 'window']
+        obj.HTMLElement = [taroRuntimeBundlePath, 'TaroElement']
+      })
     }
   })
 }

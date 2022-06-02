@@ -54,7 +54,10 @@ const schema = Joi.object().keys({
         force: Joi.boolean(),
         include: Joi.array(),
         exclude: Joi.array(),
-        esbuild: Joi.object().unknown()
+        esbuild: Joi.object().unknown(),
+        webpack: Joi.object().keys({
+          provide: Joi.array().items(Joi.function())
+        })
       })
     })
   ),
