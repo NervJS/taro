@@ -1,14 +1,14 @@
 import {
-  inject,
-  ref,
-  onMounted
-} from 'vue'
-import {
   Current,
   getPageInstance,
   injectPageInstance
 } from '@tarojs/runtime'
-import { isFunction, isUndefined, isArray } from '@tarojs/shared'
+import { isArray, isFunction, isUndefined } from '@tarojs/shared'
+import {
+  inject,
+  onMounted,
+  ref
+} from 'vue'
 
 function createHook (lifecycle) {
   return fn => {
@@ -44,6 +44,10 @@ export const useDidShow = createHook('onShow')
 export const useDidHide = createHook('onHide')
 
 export const useReady = createHook('onReady')
+
+export const useLoad = createHook('onLoad')
+
+export const useUnload = createHook('onUnload')
 
 export const usePullDownRefresh = createHook('onPullDownRefresh')
 

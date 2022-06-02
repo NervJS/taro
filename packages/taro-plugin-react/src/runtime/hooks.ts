@@ -1,13 +1,13 @@
-import { isFunction, isArray } from '@tarojs/shared'
+import type { Func, PageLifeCycle } from '@tarojs/runtime'
 import {
   Current,
   getPageInstance,
   injectPageInstance
 } from '@tarojs/runtime'
+import { isArray, isFunction } from '@tarojs/shared'
+
 import { reactMeta } from './react-meta'
 import { HOOKS_APP_ID } from './utils'
-
-import type { Func, PageLifeCycle } from '@tarojs/runtime'
 
 const taroHooks = (lifecycle: keyof PageLifeCycle) => {
   return (fn: Func) => {
@@ -83,6 +83,10 @@ export const useShareTimeline = taroHooks('onShareTimeline')
 export const useAddToFavorites = taroHooks('onAddToFavorites')
 
 export const useReady = taroHooks('onReady')
+
+export const useLoad = taroHooks('onLoad')
+
+export const useUnload = taroHooks('onUnload')
 
 export const useRouter = (dynamic = false) => {
   const React = reactMeta.R
