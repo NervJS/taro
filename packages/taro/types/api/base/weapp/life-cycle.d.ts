@@ -21,14 +21,14 @@ declare module '../../../index' {
       /** API 类别 */
       apiCategory?: keyof LaunchOptions.ApiCategory
     }
-  
+
     namespace LaunchOptions {
       /** 来源信息 */
       interface ReferrerInfo {
         /** 来源小程序、公众号或 App 的 appId */
-        appId: string
+        appId?: string
         /** 来源小程序传过来的数据，scene=1037或1038时支持 */
-        extraData: TaroGeneral.IAnyObject
+        extraData?: TaroGeneral.IAnyObject
       }
       /** ChatType 类型合法值 */
       interface ForwardMaterial {
@@ -86,14 +86,14 @@ declare module '../../../index' {
       /** API 类别 */
       apiCategory?: keyof EnterOptions.ApiCategory
     }
-  
+
     namespace EnterOptions {
       /** 来源信息 */
       interface ReferrerInfo {
         /** 来源小程序、公众号或 App 的 appId */
-        appId: string
+        appId?: string
         /** 来源小程序传过来的数据，scene=1037或1038时支持 */
-        extraData: TaroGeneral.IAnyObject
+        extraData?: TaroGeneral.IAnyObject
       }
       /** ChatType 类型合法值 */
       interface ForwardMaterial {
