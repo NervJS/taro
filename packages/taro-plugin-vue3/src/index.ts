@@ -1,5 +1,6 @@
-import { chalk } from '@tarojs/helper'
+import { chalk, fs } from '@tarojs/helper'
 import type { IPluginContext } from '@tarojs/service'
+import { isString } from '@tarojs/shared'
 
 import { modifyH5WebpackChain } from './webpack.h5'
 import { modifyMiniWebpackChain } from './webpack.mini'
@@ -45,21 +46,35 @@ export default (ctx: IPluginContext, config: IConfig = {}) => {
     if (!opts?.compiler) return
 
     const { compiler } = opts
-    const WEBPACK5 = 'webpack5'
     // 提供给 webpack5 依赖预编译收集器的第三方依赖
     const deps = ['@tarojs/plugin-framework-vue3/dist/runtime']
-    if (compiler === WEBPACK5) {
+    if (isString(opts.compiler)) {
       opts.compiler = {
-        type: WEBPACK5,
-        prebundle: {
-          include: deps
-        }
+        type: opts.compiler
       }
-    } else if (typeof compiler === 'object' && compiler.type === WEBPACK5) {
+    }
+    if (compiler.type === 'webpack5') {
       compiler.prebundle ||= {}
       const prebundleOptions = compiler.prebundle
       prebundleOptions.include ||= []
       prebundleOptions.include = prebundleOptions.include.concat(deps)
+
+      const taroVue3Plugin = {
+        name: 'taroVue3Plugin',
+        setup (build) {
+          build.onLoad({ filter: /taro-h5[\\/]dist[\\/]index/ }, ({ path }) => {
+            const content = fs.readFileSync(path).toString()
+            return {
+              contents: require('./api-loader')(content)
+            }
+          })
+        }
+      }
+
+      prebundleOptions.esbuild ||= {}
+      const esbuildConfig = prebundleOptions.esbuild
+      esbuildConfig.plugins ||= []
+      esbuildConfig.plugins.push(taroVue3Plugin)
     }
   })
 }

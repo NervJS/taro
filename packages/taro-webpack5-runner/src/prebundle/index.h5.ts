@@ -58,6 +58,7 @@ export async function preBundle (combination: H5Combination) {
 
   const appPath = combination.appPath
   const cacheDir = prebundleOptions.cacheDir || getCacheDir(appPath)
+  const customEsbuildConfig = prebundleOptions.esbuild || {}
   const prebundleCacheDir = path.resolve(cacheDir, './prebundle')
   const remoteCacheDir = path.resolve(cacheDir, './remote')
   const metadataPath = path.join(cacheDir, 'metadata.json')
@@ -116,7 +117,8 @@ export async function preBundle (combination: H5Combination) {
     ],
     exclude: [
       ...prebundleOptions.exclude || []
-    ]
+    ],
+    customEsbuildConfig
   })
 
   console.log(chalk.cyan(
@@ -136,7 +138,7 @@ export async function preBundle (combination: H5Combination) {
   if (preMetadata.bundleHash !== metadata.bundleHash) {
     isUseCache = false
 
-    const { metafile } = await bundle(deps, combination, prebundleCacheDir)
+    const { metafile } = await bundle(deps, combination, prebundleCacheDir, customEsbuildConfig)
 
     // 找出 @tarojs/runtime 被 split 切分的 chunk，作为后续 ProvidePlugin 的提供者。
     // 原因是 @tarojs/runtime 里使用了一些如 raf、caf 等全局变量，又因为 esbuild 把

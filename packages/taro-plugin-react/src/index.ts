@@ -1,7 +1,9 @@
-import { modifyMiniWebpackChain } from './webpack.mini'
-import { modifyH5WebpackChain } from './webpack.h5'
-
+import { fs } from '@tarojs/helper'
 import type { IPluginContext } from '@tarojs/service'
+import { isString } from '@tarojs/shared'
+
+import { modifyH5WebpackChain } from './webpack.h5'
+import { modifyMiniWebpackChain } from './webpack.mini'
 
 export type Frameworks = 'react' | 'preact' | 'nerv'
 
@@ -40,7 +42,6 @@ export default (ctx: IPluginContext, config: IConfig = {}) => {
     if (!opts?.compiler) return
 
     const { compiler } = opts
-    const WEBPACK5 = 'webpack5'
     // 提供给 webpack5 依赖预编译收集器的第三方依赖
     const deps = [
       'react',
@@ -48,18 +49,34 @@ export default (ctx: IPluginContext, config: IConfig = {}) => {
       'react/jsx-runtime',
       '@tarojs/plugin-framework-react/dist/runtime'
     ]
-    if (compiler === WEBPACK5) {
+    if (isString(opts.compiler)) {
       opts.compiler = {
-        type: WEBPACK5,
-        prebundle: {
-          include: deps
-        }
+        type: opts.compiler
       }
-    } else if (typeof compiler === 'object' && compiler.type === WEBPACK5) {
+    }
+    if (compiler.type === 'webpack5') {
       compiler.prebundle ||= {}
       const prebundleOptions = compiler.prebundle
       prebundleOptions.include ||= []
       prebundleOptions.include = prebundleOptions.include.concat(deps)
+      if (prebundleOptions.enable === false) return
+
+      const taroReactPlugin = {
+        name: 'taroReactPlugin',
+        setup (build) {
+          build.onLoad({ filter: /taro-h5[\\/]dist[\\/]index/ }, ({ path }) => {
+            const content = fs.readFileSync(path).toString()
+            return {
+              contents: require('./api-loader')(content)
+            }
+          })
+        }
+      }
+
+      prebundleOptions.esbuild ||= {}
+      const esbuildConfig = prebundleOptions.esbuild
+      esbuildConfig.plugins ||= []
+      esbuildConfig.plugins.push(taroReactPlugin)
     }
   })
 }
