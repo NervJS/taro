@@ -1,6 +1,7 @@
 import { chalk, REG_VUE } from '@tarojs/helper'
 import { DEFAULT_Components } from '@tarojs/runner-utils'
 import type { IPluginContext } from '@tarojs/service'
+import { isString } from '@tarojs/shared'
 import { capitalize, internalComponents, toCamelCase } from '@tarojs/shared/dist/template'
 
 import { getLoaderMeta } from './loader-meta'
@@ -30,17 +31,14 @@ export default (ctx: IPluginContext) => {
     if (!opts?.compiler) return
 
     const { compiler } = opts
-    const WEBPACK5 = 'webpack5'
     // 提供给 webpack5 依赖预编译收集器的第三方依赖
     const deps = ['@tarojs/plugin-framework-vue2/dist/runtime']
-    if (compiler === WEBPACK5) {
+    if (isString(opts.compiler)) {
       opts.compiler = {
-        type: WEBPACK5,
-        prebundle: {
-          include: deps
-        }
+        type: opts.compiler
       }
-    } else if (typeof compiler === 'object' && compiler.type === WEBPACK5) {
+    }
+    if (compiler.type === 'webpack5') {
       compiler.prebundle ||= {}
       const prebundleOptions = compiler.prebundle
       prebundleOptions.include ||= []
