@@ -1,4 +1,4 @@
-import type { Func, PageLifeCycle } from '@tarojs/runtime'
+import type { AppInstance, Func, PageLifeCycle } from '@tarojs/runtime'
 import {
   Current,
   getPageInstance,
@@ -9,7 +9,7 @@ import { isArray, isFunction } from '@tarojs/shared'
 import { reactMeta } from './react-meta'
 import { HOOKS_APP_ID } from './utils'
 
-const taroHooks = (lifecycle: keyof PageLifeCycle) => {
+const taroHooks = (lifecycle: keyof PageLifeCycle | keyof AppInstance) => {
   return (fn: Func) => {
     const { R: React, PageContext } = reactMeta
     const id = React.useContext(PageContext) || HOOKS_APP_ID
@@ -85,6 +85,8 @@ export const useAddToFavorites = taroHooks('onAddToFavorites')
 export const useSaveExitState = taroHooks('onSaveExitState')
 
 export const useReady = taroHooks('onReady')
+
+export const useLaunch = taroHooks('onLaunch')
 
 export const useLoad = taroHooks('onLoad')
 

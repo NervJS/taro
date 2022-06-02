@@ -309,6 +309,7 @@ export function createReactApp (
 
           app.onLaunch?.(options)
         }
+        triggerAppHook('onLaunch', options)
       }
     }),
 

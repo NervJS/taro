@@ -62,6 +62,11 @@ declare module './index' {
     }): void
 
     /**
+     * 小程序初始化完成时的回调。
+     */
+    useLaunch(callback: (options: getLaunchOptionsSync.LaunchOptions) => void): void
+
+    /**
      * 页面加载完成时的回调。
      */
     useLoad(callback: () => void): void
