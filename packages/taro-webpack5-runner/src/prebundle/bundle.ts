@@ -161,7 +161,7 @@ function getEntryPlugin (flattenDeps: CollectedDeps, flatIdExports: Map<string, 
 
       build.onLoad({ filter: /^[\w@][^:]/, namespace: 'entry' }, async ({ path: id }) => {
         let js = ''
-        const filePath = flattenDeps.get(id)
+        const filePath = flattenDeps.get(id)?.replace(/\\/g, '\\\\')
         const exportsData = flatIdExports.get(id)!
         const [importsList, exportsList] = exportsData
         const hasReExports = exportsData.hasReExports
