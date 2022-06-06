@@ -198,6 +198,22 @@ export function createVueApp (App: ComponentOptions<VueCtor>, vue: V, config: Ap
           appInstance.$options.onHide.call(appInstance, options)
         }
       }
+    }),
+
+    onError: setDefaultDescriptor({
+      value (error) {
+        if (appInstance != null && isFunction(appInstance.$options.onError)) {
+          appInstance.$options.onError.call(appInstance, error)
+        }
+      }
+    }),
+
+    onPageNotFound: setDefaultDescriptor({
+      value (res) {
+        if (appInstance != null && isFunction(appInstance.$options.onPageNotFound)) {
+          appInstance.$options.onPageNotFound.call(appInstance, res)
+        }
+      }
     })
   })
 

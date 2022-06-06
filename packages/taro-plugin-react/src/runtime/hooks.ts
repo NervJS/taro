@@ -92,6 +92,10 @@ export const useLoad = taroHooks('onLoad')
 
 export const useUnload = taroHooks('onUnload')
 
+export const useError = taroHooks('onError')
+
+export const usePageNotFound = taroHooks('onPageNotFound')
+
 export const useRouter = (dynamic = false) => {
   const React = reactMeta.R
   return dynamic ? Current.router : React.useMemo(() => Current.router, [])

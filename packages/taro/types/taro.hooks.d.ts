@@ -67,6 +67,16 @@ declare module './index' {
     useLaunch(callback: (options: getLaunchOptionsSync.LaunchOptions) => void): void
 
     /**
+     * 小程序发生脚本错误或 API 调用报错时触发的回调。
+     */
+    useError(callback: (error: string) => void): void
+
+    /**
+     * 小程序要打开的页面不存在时触发的回调。
+     */
+    usePageNotFound(callback: (res: { path: string, query: Record<any, any>, isEntryPage: boolean, [key: string]: any }) => void): void
+
+    /**
      * 页面加载完成时的回调。
      */
     useLoad(callback: () => void): void

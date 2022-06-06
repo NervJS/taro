@@ -206,6 +206,20 @@ export function createVue3App (app: App<TaroElement>, h: typeof createElement, c
         const onHide = appInstance?.$options?.onHide
         isFunction(onHide) && onHide.call(appInstance, options)
       }
+    }),
+
+    onError: setDefaultDescriptor({
+      value (error) {
+        const onError = appInstance?.$options?.onError
+        isFunction(onError) && onError.call(appInstance, error)
+      }
+    }),
+
+    onPageNotFound: setDefaultDescriptor({
+      value (res) {
+        const onPageNotFound = appInstance?.$options?.onPageNotFound
+        isFunction(onPageNotFound) && onPageNotFound.call(appInstance, res)
+      }
     })
   })
 

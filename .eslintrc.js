@@ -10,6 +10,7 @@ module.exports = {
     // 'camelcase': ['error', {allow: ['^internal_', '^unstable_']}]
     camelcase: 0,
     indent: 'off',
+    '@typescript-eslint/no-this-alias': 0,
     '@typescript-eslint/ban-ts-comment': 0,
     '@typescript-eslint/camelcase': 0,
     '@typescript-eslint/explicit-function-return-type': 0,

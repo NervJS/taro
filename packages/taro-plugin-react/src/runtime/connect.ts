@@ -341,10 +341,19 @@ export function createReactApp (
       }
     }),
 
+    onError: setDefaultDescriptor({
+      value (error: unknown) {
+        const app = getAppInstance()
+        app?.onError?.(error)
+        triggerAppHook('onError', error)
+      }
+    }),
+
     onPageNotFound: setDefaultDescriptor({
       value (res: unknown) {
         const app = getAppInstance()
         app?.onPageNotFound?.(res)
+        triggerAppHook('onPageNotFound', res)
       }
     })
   })
