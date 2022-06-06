@@ -1,8 +1,8 @@
 const path = require('path')
 
-const appPath = path.resolve(__dirname, '../../../..', '')
+export const appPath = path.resolve(__dirname, '../../../..', '')
 
-const config = {
+export const config = {
   entry: 'app',
   copy: { patterns: [], options: {} },
   sourceRoot: 'src',
@@ -48,16 +48,11 @@ const config = {
   deviceType: 'android',
   port: undefined,
   buildAdapter: 'rn',
-  globalObject: 'global'
+  globalObject: 'global',
+  resetCache: true
 }
 
-const configNoWatch = {
+export const configNoWatch = {
   ...config,
   isWatch: false
-}
-
-export {
-  appPath,
-  config,
-  configNoWatch
 }
