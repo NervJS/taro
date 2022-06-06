@@ -342,7 +342,7 @@ export function createReactApp (
     }),
 
     onError: setDefaultDescriptor({
-      value (error: unknown) {
+      value (error: string) {
         const app = getAppInstance()
         app?.onError?.(error)
         triggerAppHook('onError', error)
