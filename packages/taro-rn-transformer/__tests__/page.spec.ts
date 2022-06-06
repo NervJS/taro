@@ -1,6 +1,6 @@
 import * as path from 'path'
 
-import * as transformer from '../dist/index'
+import { transform } from '../src/index'
 
 const Home = `import './app.scss';
 import * as React from 'React'
@@ -26,15 +26,16 @@ function run () {
     nextTransformer: ({ src }) => { return src }
   }
   const commonPath = path.join(path.resolve(__dirname), 'src/app.scss')
-  const arr = []
-  arr.push({
+  const arr = [{
     name: '',
     path: commonPath,
     fileName: 'app.scss'
-  })
+  }]
+  // @ts-ignore
   global.__taroCommonStyle = arr
+  // @ts-ignore
   global.__taroAppPages = ['src/pages']
-  const code = transformer.transform({ src: Page, filename: 'src/pages', options })
+  const code = transform({ src: Page, filename: 'src/pages', options })
   return code
 }
 

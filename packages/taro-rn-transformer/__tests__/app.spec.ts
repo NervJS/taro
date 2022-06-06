@@ -1,6 +1,6 @@
 import * as path from 'path'
 
-import * as transformer from '../dist/index'
+import { transform } from '../src/index'
 
 const App = `class HomeScreen extends React.Component {
   render () {
@@ -14,7 +14,7 @@ function run () {
     isEntryFile: () => { return true },
     nextTransformer: ({ src }) => { return src }
   }
-  const code = transformer.transform({ src: App, filename: './src/app', options })
+  const code = transform({ src: App, filename: './src/app', options })
   return code
 }
 
