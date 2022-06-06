@@ -114,7 +114,7 @@ export function connectReactPage (
       }
 
       static getDerivedStateFromError (error: Error) {
-        process.env.NODE_ENV !== 'production' && console.warn(error)
+        Current.app?.onError?.(error.message + error.stack)
         return { hasError: true }
       }
 
