@@ -21,6 +21,7 @@ require(\\"./taro\\");
         function isArray() {}
         function processApis() {}
         var EMPTY_OBJ = {};
+        var hooks = {};
         var needPromiseApis = new Set([ \\"authPrivateMessage\\", \\"disableAlertBeforeUnload\\", \\"enableAlertBeforeUnload\\", \\"getBackgroundFetchData\\", \\"getGroupEnterInfo\\", \\"getShareInfo\\", \\"getWeRunData\\", \\"join1v1Chat\\", \\"openVideoEditor\\", \\"saveFileToDisk\\", \\"scanItem\\", \\"setEnable1v1Chat\\", \\"setWindowSize\\", \\"sendBizRedPacket\\", \\"startFacialRecognitionVerify\\", \\"openCustomerServiceChat\\", \\"getLocalIPAddress\\", \\"getUserProfile\\" ]);
         function initNativeApi(taro) {
             processApis(taro, wx, {
@@ -369,7 +370,14 @@ require(\\"./taro\\");
             KeyboardAccessory: {}
         };
         var hostConfig = {
-            initNativeApi: initNativeApi
+            initNativeApi: initNativeApi,
+            getMiniLifecycle: function getMiniLifecycle(config) {
+                var methods = config.page[5];
+                if (methods.indexOf(\\"onSaveExitState\\") === -1) {
+                    methods.push(\\"onSaveExitState\\");
+                }
+                return config;
+            }
         };
         mergeReconciler(hostConfig);
         mergeInternalComponents(components);
@@ -447,17 +455,17 @@ require(\\"./taro\\");
         }
         var runtime_Vue;
         function setReconciler() {
-            var hooks = taro_runtime[\\"container\\"].get(taro_runtime[\\"SERVICE_IDENTIFIER\\"].Hooks);
-            hooks.onRemoveAttribute = function(dom, qualifiedName) {
+            hooks.tap(\\"onRemoveAttribute\\", (function(dom, qualifiedName) {
                 var props = dom.props;
                 if (!props.hasOwnProperty(qualifiedName) || undefined(props[qualifiedName])) {
                     dom.setAttribute(qualifiedName, false);
                     return true;
                 }
-            };
-            hooks.getLifecycle = function(instance, lifecycle) {
+                return false;
+            }));
+            hooks.tap(\\"getLifecycle\\", (function(instance, lifecycle) {
                 return instance.$options[lifecycle];
-            };
+            }));
             if (false) {}
         }
         function connectVuePage(Vue, id) {
@@ -539,8 +547,7 @@ require(\\"./taro\\");
             if (true) {
                 wrapper.$mount(taro_runtime[\\"document\\"].getElementById(\\"app\\"));
             }
-            var hooks = taro_runtime[\\"container\\"].get(taro_runtime[\\"SERVICE_IDENTIFIER\\"].Hooks);
-            var _hooks$getMiniLifecyc = _slicedToArray(hooks.getMiniLifecycleImpl().app, 3), ONLAUNCH = _hooks$getMiniLifecyc[0], ONSHOW = _hooks$getMiniLifecyc[1], ONHIDE = _hooks$getMiniLifecyc[2];
+            var _hooks$call$app = _slicedToArray(hooks.call(\\"getMiniLifecycleImpl\\").app, 3), ONLAUNCH = _hooks$call$app[0], ONSHOW = _hooks$call$app[1], ONHIDE = _hooks$call$app[2];
             var appObj = Object.create({
                 mount: function mount(component, id, cb) {
                     var page = connectVuePage(runtime_Vue, id)(component);
@@ -574,6 +581,18 @@ require(\\"./taro\\");
                 value: function value(options) {
                     if (appInstance != null && isFunction(appInstance.$options.onHide)) {
                         appInstance.$options.onHide.call(appInstance, options);
+                    }
+                }
+            })), _defineProperty(_Object$create, \\"onError\\", setDefaultDescriptor({
+                value: function value(error) {
+                    if (appInstance != null && isFunction(appInstance.$options.onError)) {
+                        appInstance.$options.onError.call(appInstance, error);
+                    }
+                }
+            })), _defineProperty(_Object$create, \\"onPageNotFound\\", setDefaultDescriptor({
+                value: function value(res) {
+                    if (appInstance != null && isFunction(appInstance.$options.onPageNotFound)) {
+                        appInstance.$options.onPageNotFound.call(appInstance, res);
                     }
                 }
             })), _Object$create));

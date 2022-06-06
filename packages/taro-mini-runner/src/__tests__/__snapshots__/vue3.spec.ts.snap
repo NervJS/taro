@@ -23,6 +23,7 @@ require(\\"./taro\\");
         function isArray() {}
         function processApis() {}
         var EMPTY_OBJ = {};
+        var hooks = {};
         var needPromiseApis = new Set([ \\"authPrivateMessage\\", \\"disableAlertBeforeUnload\\", \\"enableAlertBeforeUnload\\", \\"getBackgroundFetchData\\", \\"getGroupEnterInfo\\", \\"getShareInfo\\", \\"getWeRunData\\", \\"join1v1Chat\\", \\"openVideoEditor\\", \\"saveFileToDisk\\", \\"scanItem\\", \\"setEnable1v1Chat\\", \\"setWindowSize\\", \\"sendBizRedPacket\\", \\"startFacialRecognitionVerify\\", \\"openCustomerServiceChat\\", \\"getLocalIPAddress\\", \\"getUserProfile\\" ]);
         function initNativeApi(taro) {
             processApis(taro, wx, {
@@ -371,7 +372,14 @@ require(\\"./taro\\");
             KeyboardAccessory: {}
         };
         var hostConfig = {
-            initNativeApi: initNativeApi
+            initNativeApi: initNativeApi,
+            getMiniLifecycle: function getMiniLifecycle(config) {
+                var methods = config.page[5];
+                if (methods.indexOf(\\"onSaveExitState\\") === -1) {
+                    methods.push(\\"onSaveExitState\\");
+                }
+                return config;
+            }
         };
         mergeReconciler(hostConfig);
         mergeInternalComponents(components);
@@ -480,6 +488,8 @@ require(\\"./taro\\");
         var useDidShow = createHook(\\"onShow\\");
         var useDidHide = createHook(\\"onHide\\");
         var useReady = createHook(\\"onReady\\");
+        var useLoad = createHook(\\"onLoad\\");
+        var useUnload = createHook(\\"onUnload\\");
         var usePullDownRefresh = createHook(\\"onPullDownRefresh\\");
         var useReachBottom = createHook(\\"onReachBottom\\");
         var usePageScroll = createHook(\\"onPageScroll\\");
@@ -491,6 +501,7 @@ require(\\"./taro\\");
         var usePullIntercept = createHook(\\"onPullIntercept\\");
         var useShareTimeline = createHook(\\"onShareTimeline\\");
         var useAddToFavorites = createHook(\\"onAddToFavorites\\");
+        var useSaveExitState = createHook(\\"onSaveExitState\\");
         var runtime_useRouter = function useRouter() {
             return taro_runtime[\\"Current\\"].router;
         };
@@ -499,6 +510,8 @@ require(\\"./taro\\");
             useDidShow: useDidShow,
             useDidHide: useDidHide,
             useReady: useReady,
+            useLoad: useLoad,
+            useUnload: useUnload,
             usePullDownRefresh: usePullDownRefresh,
             useReachBottom: useReachBottom,
             usePageScroll: usePageScroll,
@@ -510,6 +523,7 @@ require(\\"./taro\\");
             usePullIntercept: usePullIntercept,
             useShareTimeline: useShareTimeline,
             useAddToFavorites: useAddToFavorites,
+            useSaveExitState: useSaveExitState,
             useRouter: runtime_useRouter
         });
         var setGlobalDataPlugin = {
@@ -528,10 +542,9 @@ require(\\"./taro\\");
             }, options);
         }
         function setReconciler() {
-            var hooks = taro_runtime[\\"container\\"].get(taro_runtime[\\"SERVICE_IDENTIFIER\\"].Hooks);
-            hooks.getLifecycle = function(instance, lifecycle) {
+            hooks.tap(\\"getLifecycle\\", (function(instance, lifecycle) {
                 return instance.$options[lifecycle];
-            };
+            }));
             if (false) {}
         }
         function createVue3Page(h, id) {
@@ -593,8 +606,7 @@ require(\\"./taro\\");
             if (true) {
                 appInstance = app.mount(\\"#app\\");
             }
-            var hooks = taro_runtime[\\"container\\"].get(taro_runtime[\\"SERVICE_IDENTIFIER\\"].Hooks);
-            var _hooks$getMiniLifecyc = _slicedToArray(hooks.getMiniLifecycleImpl().app, 3), ONLAUNCH = _hooks$getMiniLifecyc[0], ONSHOW = _hooks$getMiniLifecyc[1], ONHIDE = _hooks$getMiniLifecyc[2];
+            var _hooks$call$app = _slicedToArray(hooks.call(\\"getMiniLifecycleImpl\\").app, 3), ONLAUNCH = _hooks$call$app[0], ONSHOW = _hooks$call$app[1], ONHIDE = _hooks$call$app[2];
             var appConfig = Object.create({
                 mount: function mount(component, id, cb) {
                     var page = createVue3Page(h, id)(component);
@@ -656,6 +668,18 @@ require(\\"./taro\\");
                     var onHide = (_a = appInstance === null || appInstance === void 0 ? void 0 : appInstance.$options) === null || _a === void 0 ? void 0 : _a.onHide;
                     isFunction(onHide) && onHide.call(appInstance, options);
                 }
+            })), _defineProperty(_Object$create, \\"onError\\", setDefaultDescriptor({
+                value: function value(error) {
+                    var _a;
+                    var onError = (_a = appInstance === null || appInstance === void 0 ? void 0 : appInstance.$options) === null || _a === void 0 ? void 0 : _a.onError;
+                    isFunction(onError) && onError.call(appInstance, error);
+                }
+            })), _defineProperty(_Object$create, \\"onPageNotFound\\", setDefaultDescriptor({
+                value: function value(res) {
+                    var _a;
+                    var onPageNotFound = (_a = appInstance === null || appInstance === void 0 ? void 0 : appInstance.$options) === null || _a === void 0 ? void 0 : _a.onPageNotFound;
+                    isFunction(onPageNotFound) && onPageNotFound.call(appInstance, res);
+                }
             })), _Object$create));
             taro_runtime[\\"Current\\"].app = appConfig;
             return appConfig;
@@ -663,9 +687,7 @@ require(\\"./taro\\");
         function isClassComponent(value) {
             return isFunction(value) && \\"__vccOpts\\" in value;
         }
-        var runtime_hooks = taro_runtime[\\"container\\"].get(taro_runtime[\\"SERVICE_IDENTIFIER\\"].Hooks);
-        runtime_hooks.initNativeApiImpls || (runtime_hooks.initNativeApiImpls = []);
-        runtime_hooks.initNativeApiImpls.push((function(taro) {
+        hooks.tap(\\"initNativeApi\\", (function(taro) {
             for (var hook in taroHooks) {
                 taro[hook] = taroHooks[hook];
             }

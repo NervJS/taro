@@ -18,10 +18,10 @@ require(\\"./taro\\");
     18: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_require__.r(__webpack_exports__);
-        var mocks_taro = __webpack_require__(2);
+        var mocks_taro = __webpack_require__(1);
         var needPromiseApis = new Set([ \\"authPrivateMessage\\", \\"disableAlertBeforeUnload\\", \\"enableAlertBeforeUnload\\", \\"getBackgroundFetchData\\", \\"getGroupEnterInfo\\", \\"getShareInfo\\", \\"getWeRunData\\", \\"join1v1Chat\\", \\"openVideoEditor\\", \\"saveFileToDisk\\", \\"scanItem\\", \\"setEnable1v1Chat\\", \\"setWindowSize\\", \\"sendBizRedPacket\\", \\"startFacialRecognitionVerify\\", \\"openCustomerServiceChat\\", \\"getLocalIPAddress\\", \\"getUserProfile\\" ]);
         function initNativeApi(taro) {
-            Object(mocks_taro[\\"h\\"])(taro, wx, {
+            Object(mocks_taro[\\"i\\"])(taro, wx, {
                 needPromiseApis: needPromiseApis,
                 modifyApis: function modifyApis(apis) {
                     apis.delete(\\"lanDebug\\");
@@ -367,10 +367,17 @@ require(\\"./taro\\");
             KeyboardAccessory: {}
         };
         var hostConfig = {
-            initNativeApi: initNativeApi
+            initNativeApi: initNativeApi,
+            getMiniLifecycle: function getMiniLifecycle(config) {
+                var methods = config.page[5];
+                if (methods.indexOf(\\"onSaveExitState\\") === -1) {
+                    methods.push(\\"onSaveExitState\\");
+                }
+                return config;
+            }
         };
-        Object(mocks_taro[\\"g\\"])(hostConfig);
-        Object(mocks_taro[\\"f\\"])(runtime_components);
+        Object(mocks_taro[\\"h\\"])(hostConfig);
+        Object(mocks_taro[\\"g\\"])(runtime_components);
         var taro_runtime = __webpack_require__(0);
         function _defineProperty(obj, key, value) {
             if (key in obj) {
@@ -459,10 +466,10 @@ require(\\"./taro\\");
             var _a;
             var prototype = component.prototype;
             if ((_a = component.displayName) === null || _a === void 0 ? void 0 : _a.includes(\\"Connect\\")) return false;
-            return Object(mocks_taro[\\"e\\"])(component.render) || !!(prototype === null || prototype === void 0 ? void 0 : prototype.isReactComponent) || prototype instanceof R.Component;
+            return Object(mocks_taro[\\"f\\"])(component.render) || !!(prototype === null || prototype === void 0 ? void 0 : prototype.isReactComponent) || prototype instanceof R.Component;
         }
         function ensureIsArray(item) {
-            if (Object(mocks_taro[\\"d\\"])(item)) {
+            if (Object(mocks_taro[\\"e\\"])(item)) {
                 return item;
             } else {
                 return item ? [ item ] : [];
@@ -495,7 +502,7 @@ require(\\"./taro\\");
                     var callback = function callback() {
                         return fnRef.current.apply(fnRef, arguments);
                     };
-                    if (Object(mocks_taro[\\"e\\"])(inst[lifecycle])) {
+                    if (Object(mocks_taro[\\"f\\"])(inst[lifecycle])) {
                         inst[lifecycle] = [ inst[lifecycle], callback ];
                     } else {
                         inst[lifecycle] = [].concat(_toConsumableArray(inst[lifecycle] || []), [ callback ]);
@@ -508,7 +515,7 @@ require(\\"./taro\\");
                         var list = inst[lifecycle];
                         if (list === callback) {
                             inst[lifecycle] = undefined;
-                        } else if (Object(mocks_taro[\\"d\\"])(list)) {
+                        } else if (Object(mocks_taro[\\"e\\"])(list)) {
                             inst[lifecycle] = list.filter((function(item) {
                                 return item !== callback;
                             }));
@@ -530,7 +537,13 @@ require(\\"./taro\\");
         var usePullIntercept = runtime_taroHooks(\\"onPullIntercept\\");
         var useShareTimeline = runtime_taroHooks(\\"onShareTimeline\\");
         var useAddToFavorites = runtime_taroHooks(\\"onAddToFavorites\\");
+        var useSaveExitState = runtime_taroHooks(\\"onSaveExitState\\");
         var useReady = runtime_taroHooks(\\"onReady\\");
+        var useLaunch = runtime_taroHooks(\\"onLaunch\\");
+        var useLoad = runtime_taroHooks(\\"onLoad\\");
+        var useUnload = runtime_taroHooks(\\"onUnload\\");
+        var useError = runtime_taroHooks(\\"onError\\");
+        var usePageNotFound = runtime_taroHooks(\\"onPageNotFound\\");
         var runtime_useRouter = function useRouter() {
             var dynamic = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
             var React = reactMeta.R;
@@ -556,27 +569,31 @@ require(\\"./taro\\");
             usePullIntercept: usePullIntercept,
             useShareTimeline: useShareTimeline,
             useAddToFavorites: useAddToFavorites,
+            useSaveExitState: useSaveExitState,
             useReady: useReady,
+            useLaunch: useLaunch,
+            useLoad: useLoad,
+            useUnload: useUnload,
+            useError: useError,
+            usePageNotFound: usePageNotFound,
             useRouter: runtime_useRouter,
             useScope: useScope
         });
         var h$1;
         var ReactDOM$1;
         var pageKeyId = Object(taro_runtime[\\"incrementId\\"])();
-        var hooks$1 = taro_runtime[\\"container\\"].get(taro_runtime[\\"SERVICE_IDENTIFIER\\"].Hooks);
         function setReconciler(ReactDOM) {
-            var _a;
-            hooks$1.getLifecycle = function(instance, lifecycle) {
+            mocks_taro[\\"c\\"].tap(\\"getLifecycle\\", (function(instance, lifecycle) {
                 lifecycle = lifecycle.replace(/^on(Show|Hide)$/, \\"componentDid$1\\");
                 return instance[lifecycle];
-            };
-            (_a = hooks$1.modifyMpEventImpls) === null || _a === void 0 ? void 0 : _a.push((function(event) {
+            }));
+            mocks_taro[\\"c\\"].tap(\\"modifyMpEvent\\", (function(event) {
                 event.type = event.type.replace(/-/g, \\"\\");
             }));
-            hooks$1.batchedEventUpdates = function(cb) {
+            mocks_taro[\\"c\\"].tap(\\"batchedEventUpdates\\", (function(cb) {
                 ReactDOM.unstable_batchedUpdates(cb);
-            };
-            hooks$1.mergePageInstance = function(prev, next) {
+            }));
+            mocks_taro[\\"c\\"].tap(\\"mergePageInstance\\", (function(prev, next) {
                 if (!prev || !next) return;
                 if (\\"constructor\\" in prev) return;
                 Object.keys(prev).forEach((function(item) {
@@ -584,7 +601,7 @@ require(\\"./taro\\");
                     var nextList = ensureIsArray(next[item]);
                     next[item] = nextList.concat(prevList);
                 }));
-            };
+            }));
             if (false) {}
         }
         function connectReactPage(R, id) {
@@ -634,7 +651,8 @@ require(\\"./taro\\");
                     } ], [ {
                         key: \\"getDerivedStateFromError\\",
                         value: function getDerivedStateFromError(error) {
-                            false && false;
+                            var _a, _b;
+                            (_b = (_a = taro_runtime[\\"Current\\"].app) === null || _a === void 0 ? void 0 : _a.onError) === null || _b === void 0 ? void 0 : _b.call(_a, error.message + error.stack);
                             return {
                                 hasError: true
                             };
@@ -731,7 +749,7 @@ require(\\"./taro\\");
             if (true) {
                 renderReactRoot();
             }
-            var _hooks$1$getMiniLifec = _slicedToArray(hooks$1.getMiniLifecycleImpl().app, 3), ONLAUNCH = _hooks$1$getMiniLifec[0], ONSHOW = _hooks$1$getMiniLifec[1], ONHIDE = _hooks$1$getMiniLifec[2];
+            var _hooks$call$app = _slicedToArray(mocks_taro[\\"c\\"].call(\\"getMiniLifecycleImpl\\").app, 3), ONLAUNCH = _hooks$call$app[0], ONSHOW = _hooks$call$app[1], ONHIDE = _hooks$call$app[2];
             var appObj = Object.create({
                 render: function render(cb) {
                     appWrapper.forceUpdate(cb);
@@ -776,6 +794,7 @@ require(\\"./taro\\");
                         }
                         (_a = app.onLaunch) === null || _a === void 0 ? void 0 : _a.call(app, options);
                     }
+                    triggerAppHook(\\"onLaunch\\", options);
                 }
             })), _defineProperty(_Object$create, ONSHOW, setDefaultDescriptor({
                 value: function value(options) {
@@ -792,11 +811,19 @@ require(\\"./taro\\");
                     (_a = app === null || app === void 0 ? void 0 : app.componentDidHide) === null || _a === void 0 ? void 0 : _a.call(app);
                     triggerAppHook(\\"onHide\\");
                 }
+            })), _defineProperty(_Object$create, \\"onError\\", setDefaultDescriptor({
+                value: function value(error) {
+                    var _a;
+                    var app = getAppInstance();
+                    (_a = app === null || app === void 0 ? void 0 : app.onError) === null || _a === void 0 ? void 0 : _a.call(app, error);
+                    triggerAppHook(\\"onError\\", error);
+                }
             })), _defineProperty(_Object$create, \\"onPageNotFound\\", setDefaultDescriptor({
                 value: function value(res) {
                     var _a;
                     var app = getAppInstance();
                     (_a = app === null || app === void 0 ? void 0 : app.onPageNotFound) === null || _a === void 0 ? void 0 : _a.call(app, res);
+                    triggerAppHook(\\"onPageNotFound\\", res);
                 }
             })), _Object$create));
             function triggerAppHook(lifecycle) {
@@ -806,7 +833,7 @@ require(\\"./taro\\");
                 var instance = Object(taro_runtime[\\"getPageInstance\\"])(HOOKS_APP_ID);
                 if (instance) {
                     var app = getAppInstance();
-                    var func = hooks$1.getLifecycle(instance, lifecycle);
+                    var func = mocks_taro[\\"c\\"].call(\\"getLifecycle\\", instance, lifecycle);
                     if (Array.isArray(func)) {
                         func.forEach((function(cb) {
                             return cb.apply(app, option);
@@ -1027,10 +1054,7 @@ require(\\"./taro\\");
             }
             return componentObj;
         }
-        var runtime_a;
-        var hooks = taro_runtime[\\"container\\"].get(taro_runtime[\\"SERVICE_IDENTIFIER\\"].Hooks);
-        hooks.initNativeApiImpls || (hooks.initNativeApiImpls = []);
-        hooks.initNativeApiImpls.push((function(taro) {
+        mocks_taro[\\"c\\"].tap(\\"initNativeApi\\", (function(taro) {
             for (var hook in taroHooks$1) {
                 taro[hook] = taroHooks$1[hook];
             }
@@ -1038,7 +1062,7 @@ require(\\"./taro\\");
         if (false) {
             var oldDiffedHook, oldVNodeHook, runtime_options;
         }
-        var mocks_react = __webpack_require__(1);
+        var mocks_react = __webpack_require__(2);
         var src_app = __webpack_require__(14);
         var app_App = function(_Component) {
             Object(inherits[\\"a\\"])(App, _Component);
@@ -2060,27 +2084,26 @@ h�hځ� �r������Nb2��х��K~��>;;ːL�1�
 /** filePath: dist/common.js **/
 (wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 2 ], [ , function(module, __webpack_exports__, __webpack_require__) {
     \\"use strict\\";
-    __webpack_require__.r(__webpack_exports__);
-    __webpack_exports__[\\"default\\"] = \\"react-mock\\";
-}, function(module, __webpack_exports__, __webpack_require__) {
-    \\"use strict\\";
-    __webpack_require__.d(__webpack_exports__, \\"g\\", (function() {
+    __webpack_require__.d(__webpack_exports__, \\"h\\", (function() {
         return mergeReconciler;
     }));
-    __webpack_require__.d(__webpack_exports__, \\"f\\", (function() {
+    __webpack_require__.d(__webpack_exports__, \\"g\\", (function() {
         return mergeInternalComponents;
     }));
-    __webpack_require__.d(__webpack_exports__, \\"e\\", (function() {
+    __webpack_require__.d(__webpack_exports__, \\"f\\", (function() {
         return isFunction;
     }));
-    __webpack_require__.d(__webpack_exports__, \\"d\\", (function() {
+    __webpack_require__.d(__webpack_exports__, \\"e\\", (function() {
         return isArray;
     }));
-    __webpack_require__.d(__webpack_exports__, \\"h\\", (function() {
+    __webpack_require__.d(__webpack_exports__, \\"i\\", (function() {
         return processApis;
     }));
     __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
         return EMPTY_OBJ;
+    }));
+    __webpack_require__.d(__webpack_exports__, \\"c\\", (function() {
+        return hooks;
     }));
     __webpack_exports__[\\"b\\"] = \\"taro\\";
     function mergeReconciler() {}
@@ -2089,6 +2112,11 @@ h�hځ� �r������Nb2��х��K~��>;;ːL�1�
     function isArray() {}
     function processApis() {}
     var EMPTY_OBJ = {};
+    var hooks = {};
+}, function(module, __webpack_exports__, __webpack_require__) {
+    \\"use strict\\";
+    __webpack_require__.r(__webpack_exports__);
+    __webpack_exports__[\\"default\\"] = \\"react-mock\\";
 } ] ]);
 
 /** filePath: dist/comp.js **/
@@ -2119,9 +2147,9 @@ h�hځ� �r������Nb2��х��K~��>;;ːL�1�
         var createClass = __webpack_require__(4);
         var inherits = __webpack_require__(6);
         var createSuper = __webpack_require__(5);
-        var react = __webpack_require__(1);
+        var react = __webpack_require__(2);
         var taro_components = __webpack_require__(7);
-        var taro = __webpack_require__(2);
+        var taro = __webpack_require__(1);
         var custom_tab_bar = __webpack_require__(17);
         var custom_tab_bar_Index = function(_Component) {
             Object(inherits[\\"a\\"])(Index, _Component);
@@ -2199,7 +2227,7 @@ h�hځ� �r������Nb2��х��K~��>;;ːL�1�
         var createClass = __webpack_require__(4);
         var inherits = __webpack_require__(6);
         var createSuper = __webpack_require__(5);
-        var react = __webpack_require__(1);
+        var react = __webpack_require__(2);
         var taro_components = __webpack_require__(7);
         var detail_Index = function(_Component) {
             Object(inherits[\\"a\\"])(Index, _Component);
@@ -2246,7 +2274,7 @@ h�hځ� �r������Nb2��х��K~��>;;ːL�1�
         var createClass = __webpack_require__(4);
         var inherits = __webpack_require__(6);
         var createSuper = __webpack_require__(5);
-        var react = __webpack_require__(1);
+        var react = __webpack_require__(2);
         var taro_components = __webpack_require__(7);
         var index_Index = function(_Component) {
             Object(inherits[\\"a\\"])(Index, _Component);

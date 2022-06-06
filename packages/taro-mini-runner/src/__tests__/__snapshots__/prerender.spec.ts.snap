@@ -25,6 +25,7 @@ require(\\"./taro\\");
         function isArray() {}
         function processApis() {}
         var EMPTY_OBJ = {};
+        var hooks = {};
         var needPromiseApis = new Set([ \\"authPrivateMessage\\", \\"disableAlertBeforeUnload\\", \\"enableAlertBeforeUnload\\", \\"getBackgroundFetchData\\", \\"getGroupEnterInfo\\", \\"getShareInfo\\", \\"getWeRunData\\", \\"join1v1Chat\\", \\"openVideoEditor\\", \\"saveFileToDisk\\", \\"scanItem\\", \\"setEnable1v1Chat\\", \\"setWindowSize\\", \\"sendBizRedPacket\\", \\"startFacialRecognitionVerify\\", \\"openCustomerServiceChat\\", \\"getLocalIPAddress\\", \\"getUserProfile\\" ]);
         function initNativeApi(taro) {
             processApis(taro, wx, {
@@ -373,7 +374,14 @@ require(\\"./taro\\");
             KeyboardAccessory: {}
         };
         var hostConfig = {
-            initNativeApi: initNativeApi
+            initNativeApi: initNativeApi,
+            getMiniLifecycle: function getMiniLifecycle(config) {
+                var methods = config.page[5];
+                if (methods.indexOf(\\"onSaveExitState\\") === -1) {
+                    methods.push(\\"onSaveExitState\\");
+                }
+                return config;
+            }
         };
         mergeReconciler(hostConfig);
         mergeInternalComponents(runtime_components);
@@ -524,7 +532,13 @@ require(\\"./taro\\");
         var usePullIntercept = runtime_taroHooks(\\"onPullIntercept\\");
         var useShareTimeline = runtime_taroHooks(\\"onShareTimeline\\");
         var useAddToFavorites = runtime_taroHooks(\\"onAddToFavorites\\");
+        var useSaveExitState = runtime_taroHooks(\\"onSaveExitState\\");
         var useReady = runtime_taroHooks(\\"onReady\\");
+        var useLaunch = runtime_taroHooks(\\"onLaunch\\");
+        var useLoad = runtime_taroHooks(\\"onLoad\\");
+        var useUnload = runtime_taroHooks(\\"onUnload\\");
+        var useError = runtime_taroHooks(\\"onError\\");
+        var usePageNotFound = runtime_taroHooks(\\"onPageNotFound\\");
         var runtime_useRouter = function useRouter() {
             var dynamic = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
             var React = reactMeta.R;
@@ -550,27 +564,31 @@ require(\\"./taro\\");
             usePullIntercept: usePullIntercept,
             useShareTimeline: useShareTimeline,
             useAddToFavorites: useAddToFavorites,
+            useSaveExitState: useSaveExitState,
             useReady: useReady,
+            useLaunch: useLaunch,
+            useLoad: useLoad,
+            useUnload: useUnload,
+            useError: useError,
+            usePageNotFound: usePageNotFound,
             useRouter: runtime_useRouter,
             useScope: useScope
         });
         var h$1;
         var ReactDOM$1;
         var pageKeyId = Object(taro_runtime[\\"incrementId\\"])();
-        var hooks$1 = taro_runtime[\\"container\\"].get(taro_runtime[\\"SERVICE_IDENTIFIER\\"].Hooks);
         function setReconciler(ReactDOM) {
-            var _a;
-            hooks$1.getLifecycle = function(instance, lifecycle) {
+            hooks.tap(\\"getLifecycle\\", (function(instance, lifecycle) {
                 lifecycle = lifecycle.replace(/^on(Show|Hide)$/, \\"componentDid$1\\");
                 return instance[lifecycle];
-            };
-            (_a = hooks$1.modifyMpEventImpls) === null || _a === void 0 ? void 0 : _a.push((function(event) {
+            }));
+            hooks.tap(\\"modifyMpEvent\\", (function(event) {
                 event.type = event.type.replace(/-/g, \\"\\");
             }));
-            hooks$1.batchedEventUpdates = function(cb) {
+            hooks.tap(\\"batchedEventUpdates\\", (function(cb) {
                 ReactDOM.unstable_batchedUpdates(cb);
-            };
-            hooks$1.mergePageInstance = function(prev, next) {
+            }));
+            hooks.tap(\\"mergePageInstance\\", (function(prev, next) {
                 if (!prev || !next) return;
                 if (\\"constructor\\" in prev) return;
                 Object.keys(prev).forEach((function(item) {
@@ -578,7 +596,7 @@ require(\\"./taro\\");
                     var nextList = ensureIsArray(next[item]);
                     next[item] = nextList.concat(prevList);
                 }));
-            };
+            }));
             if (false) {}
         }
         function connectReactPage(R, id) {
@@ -628,7 +646,8 @@ require(\\"./taro\\");
                     } ], [ {
                         key: \\"getDerivedStateFromError\\",
                         value: function getDerivedStateFromError(error) {
-                            false && false;
+                            var _a, _b;
+                            (_b = (_a = taro_runtime[\\"Current\\"].app) === null || _a === void 0 ? void 0 : _a.onError) === null || _b === void 0 ? void 0 : _b.call(_a, error.message + error.stack);
                             return {
                                 hasError: true
                             };
@@ -725,7 +744,7 @@ require(\\"./taro\\");
             if (true) {
                 renderReactRoot();
             }
-            var _hooks$1$getMiniLifec = _slicedToArray(hooks$1.getMiniLifecycleImpl().app, 3), ONLAUNCH = _hooks$1$getMiniLifec[0], ONSHOW = _hooks$1$getMiniLifec[1], ONHIDE = _hooks$1$getMiniLifec[2];
+            var _hooks$call$app = _slicedToArray(hooks.call(\\"getMiniLifecycleImpl\\").app, 3), ONLAUNCH = _hooks$call$app[0], ONSHOW = _hooks$call$app[1], ONHIDE = _hooks$call$app[2];
             var appObj = Object.create({
                 render: function render(cb) {
                     appWrapper.forceUpdate(cb);
@@ -770,6 +789,7 @@ require(\\"./taro\\");
                         }
                         (_a = app.onLaunch) === null || _a === void 0 ? void 0 : _a.call(app, options);
                     }
+                    triggerAppHook(\\"onLaunch\\", options);
                 }
             })), Object(defineProperty[\\"a\\"])(_Object$create, ONSHOW, setDefaultDescriptor({
                 value: function value(options) {
@@ -786,11 +806,19 @@ require(\\"./taro\\");
                     (_a = app === null || app === void 0 ? void 0 : app.componentDidHide) === null || _a === void 0 ? void 0 : _a.call(app);
                     triggerAppHook(\\"onHide\\");
                 }
+            })), Object(defineProperty[\\"a\\"])(_Object$create, \\"onError\\", setDefaultDescriptor({
+                value: function value(error) {
+                    var _a;
+                    var app = getAppInstance();
+                    (_a = app === null || app === void 0 ? void 0 : app.onError) === null || _a === void 0 ? void 0 : _a.call(app, error);
+                    triggerAppHook(\\"onError\\", error);
+                }
             })), Object(defineProperty[\\"a\\"])(_Object$create, \\"onPageNotFound\\", setDefaultDescriptor({
                 value: function value(res) {
                     var _a;
                     var app = getAppInstance();
                     (_a = app === null || app === void 0 ? void 0 : app.onPageNotFound) === null || _a === void 0 ? void 0 : _a.call(app, res);
+                    triggerAppHook(\\"onPageNotFound\\", res);
                 }
             })), _Object$create));
             function triggerAppHook(lifecycle) {
@@ -800,7 +828,7 @@ require(\\"./taro\\");
                 var instance = Object(taro_runtime[\\"getPageInstance\\"])(HOOKS_APP_ID);
                 if (instance) {
                     var app = getAppInstance();
-                    var func = hooks$1.getLifecycle(instance, lifecycle);
+                    var func = hooks.call(\\"getLifecycle\\", instance, lifecycle);
                     if (Array.isArray(func)) {
                         func.forEach((function(cb) {
                             return cb.apply(app, option);
@@ -1021,10 +1049,7 @@ require(\\"./taro\\");
             }
             return componentObj;
         }
-        var runtime_a;
-        var hooks = taro_runtime[\\"container\\"].get(taro_runtime[\\"SERVICE_IDENTIFIER\\"].Hooks);
-        hooks.initNativeApiImpls || (hooks.initNativeApiImpls = []);
-        hooks.initNativeApiImpls.push((function(taro) {
+        hooks.tap(\\"initNativeApi\\", (function(taro) {
             for (var hook in taroHooks$1) {
                 taro[hook] = taroHooks$1[hook];
             }
@@ -3566,6 +3591,7 @@ require(\\"./taro\\");
         function isArray() {}
         function processApis() {}
         var EMPTY_OBJ = {};
+        var hooks = {};
         var needPromiseApis = new Set([ \\"authPrivateMessage\\", \\"disableAlertBeforeUnload\\", \\"enableAlertBeforeUnload\\", \\"getBackgroundFetchData\\", \\"getGroupEnterInfo\\", \\"getShareInfo\\", \\"getWeRunData\\", \\"join1v1Chat\\", \\"openVideoEditor\\", \\"saveFileToDisk\\", \\"scanItem\\", \\"setEnable1v1Chat\\", \\"setWindowSize\\", \\"sendBizRedPacket\\", \\"startFacialRecognitionVerify\\", \\"openCustomerServiceChat\\", \\"getLocalIPAddress\\", \\"getUserProfile\\" ]);
         function initNativeApi(taro) {
             processApis(taro, wx, {
@@ -3914,7 +3940,14 @@ require(\\"./taro\\");
             KeyboardAccessory: {}
         };
         var hostConfig = {
-            initNativeApi: initNativeApi
+            initNativeApi: initNativeApi,
+            getMiniLifecycle: function getMiniLifecycle(config) {
+                var methods = config.page[5];
+                if (methods.indexOf(\\"onSaveExitState\\") === -1) {
+                    methods.push(\\"onSaveExitState\\");
+                }
+                return config;
+            }
         };
         mergeReconciler(hostConfig);
         mergeInternalComponents(runtime_components);
@@ -4065,7 +4098,13 @@ require(\\"./taro\\");
         var usePullIntercept = runtime_taroHooks(\\"onPullIntercept\\");
         var useShareTimeline = runtime_taroHooks(\\"onShareTimeline\\");
         var useAddToFavorites = runtime_taroHooks(\\"onAddToFavorites\\");
+        var useSaveExitState = runtime_taroHooks(\\"onSaveExitState\\");
         var useReady = runtime_taroHooks(\\"onReady\\");
+        var useLaunch = runtime_taroHooks(\\"onLaunch\\");
+        var useLoad = runtime_taroHooks(\\"onLoad\\");
+        var useUnload = runtime_taroHooks(\\"onUnload\\");
+        var useError = runtime_taroHooks(\\"onError\\");
+        var usePageNotFound = runtime_taroHooks(\\"onPageNotFound\\");
         var runtime_useRouter = function useRouter() {
             var dynamic = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
             var React = reactMeta.R;
@@ -4091,27 +4130,31 @@ require(\\"./taro\\");
             usePullIntercept: usePullIntercept,
             useShareTimeline: useShareTimeline,
             useAddToFavorites: useAddToFavorites,
+            useSaveExitState: useSaveExitState,
             useReady: useReady,
+            useLaunch: useLaunch,
+            useLoad: useLoad,
+            useUnload: useUnload,
+            useError: useError,
+            usePageNotFound: usePageNotFound,
             useRouter: runtime_useRouter,
             useScope: useScope
         });
         var h$1;
         var ReactDOM$1;
         var pageKeyId = Object(taro_runtime[\\"incrementId\\"])();
-        var hooks$1 = taro_runtime[\\"container\\"].get(taro_runtime[\\"SERVICE_IDENTIFIER\\"].Hooks);
         function setReconciler(ReactDOM) {
-            var _a;
-            hooks$1.getLifecycle = function(instance, lifecycle) {
+            hooks.tap(\\"getLifecycle\\", (function(instance, lifecycle) {
                 lifecycle = lifecycle.replace(/^on(Show|Hide)$/, \\"componentDid$1\\");
                 return instance[lifecycle];
-            };
-            (_a = hooks$1.modifyMpEventImpls) === null || _a === void 0 ? void 0 : _a.push((function(event) {
+            }));
+            hooks.tap(\\"modifyMpEvent\\", (function(event) {
                 event.type = event.type.replace(/-/g, \\"\\");
             }));
-            hooks$1.batchedEventUpdates = function(cb) {
+            hooks.tap(\\"batchedEventUpdates\\", (function(cb) {
                 ReactDOM.unstable_batchedUpdates(cb);
-            };
-            hooks$1.mergePageInstance = function(prev, next) {
+            }));
+            hooks.tap(\\"mergePageInstance\\", (function(prev, next) {
                 if (!prev || !next) return;
                 if (\\"constructor\\" in prev) return;
                 Object.keys(prev).forEach((function(item) {
@@ -4119,7 +4162,7 @@ require(\\"./taro\\");
                     var nextList = ensureIsArray(next[item]);
                     next[item] = nextList.concat(prevList);
                 }));
-            };
+            }));
             if (false) {}
         }
         function connectReactPage(R, id) {
@@ -4169,7 +4212,8 @@ require(\\"./taro\\");
                     } ], [ {
                         key: \\"getDerivedStateFromError\\",
                         value: function getDerivedStateFromError(error) {
-                            false && false;
+                            var _a, _b;
+                            (_b = (_a = taro_runtime[\\"Current\\"].app) === null || _a === void 0 ? void 0 : _a.onError) === null || _b === void 0 ? void 0 : _b.call(_a, error.message + error.stack);
                             return {
                                 hasError: true
                             };
@@ -4266,7 +4310,7 @@ require(\\"./taro\\");
             if (true) {
                 renderReactRoot();
             }
-            var _hooks$1$getMiniLifec = _slicedToArray(hooks$1.getMiniLifecycleImpl().app, 3), ONLAUNCH = _hooks$1$getMiniLifec[0], ONSHOW = _hooks$1$getMiniLifec[1], ONHIDE = _hooks$1$getMiniLifec[2];
+            var _hooks$call$app = _slicedToArray(hooks.call(\\"getMiniLifecycleImpl\\").app, 3), ONLAUNCH = _hooks$call$app[0], ONSHOW = _hooks$call$app[1], ONHIDE = _hooks$call$app[2];
             var appObj = Object.create({
                 render: function render(cb) {
                     appWrapper.forceUpdate(cb);
@@ -4311,6 +4355,7 @@ require(\\"./taro\\");
                         }
                         (_a = app.onLaunch) === null || _a === void 0 ? void 0 : _a.call(app, options);
                     }
+                    triggerAppHook(\\"onLaunch\\", options);
                 }
             })), Object(defineProperty[\\"a\\"])(_Object$create, ONSHOW, setDefaultDescriptor({
                 value: function value(options) {
@@ -4327,11 +4372,19 @@ require(\\"./taro\\");
                     (_a = app === null || app === void 0 ? void 0 : app.componentDidHide) === null || _a === void 0 ? void 0 : _a.call(app);
                     triggerAppHook(\\"onHide\\");
                 }
+            })), Object(defineProperty[\\"a\\"])(_Object$create, \\"onError\\", setDefaultDescriptor({
+                value: function value(error) {
+                    var _a;
+                    var app = getAppInstance();
+                    (_a = app === null || app === void 0 ? void 0 : app.onError) === null || _a === void 0 ? void 0 : _a.call(app, error);
+                    triggerAppHook(\\"onError\\", error);
+                }
             })), Object(defineProperty[\\"a\\"])(_Object$create, \\"onPageNotFound\\", setDefaultDescriptor({
                 value: function value(res) {
                     var _a;
                     var app = getAppInstance();
                     (_a = app === null || app === void 0 ? void 0 : app.onPageNotFound) === null || _a === void 0 ? void 0 : _a.call(app, res);
+                    triggerAppHook(\\"onPageNotFound\\", res);
                 }
             })), _Object$create));
             function triggerAppHook(lifecycle) {
@@ -4341,7 +4394,7 @@ require(\\"./taro\\");
                 var instance = Object(taro_runtime[\\"getPageInstance\\"])(HOOKS_APP_ID);
                 if (instance) {
                     var app = getAppInstance();
-                    var func = hooks$1.getLifecycle(instance, lifecycle);
+                    var func = hooks.call(\\"getLifecycle\\", instance, lifecycle);
                     if (Array.isArray(func)) {
                         func.forEach((function(cb) {
                             return cb.apply(app, option);
@@ -4562,10 +4615,7 @@ require(\\"./taro\\");
             }
             return componentObj;
         }
-        var runtime_a;
-        var hooks = taro_runtime[\\"container\\"].get(taro_runtime[\\"SERVICE_IDENTIFIER\\"].Hooks);
-        hooks.initNativeApiImpls || (hooks.initNativeApiImpls = []);
-        hooks.initNativeApiImpls.push((function(taro) {
+        hooks.tap(\\"initNativeApi\\", (function(taro) {
             for (var hook in taroHooks$1) {
                 taro[hook] = taroHooks$1[hook];
             }
@@ -7107,6 +7157,7 @@ require(\\"./taro\\");
         function isArray() {}
         function processApis() {}
         var EMPTY_OBJ = {};
+        var hooks = {};
         var needPromiseApis = new Set([ \\"authPrivateMessage\\", \\"disableAlertBeforeUnload\\", \\"enableAlertBeforeUnload\\", \\"getBackgroundFetchData\\", \\"getGroupEnterInfo\\", \\"getShareInfo\\", \\"getWeRunData\\", \\"join1v1Chat\\", \\"openVideoEditor\\", \\"saveFileToDisk\\", \\"scanItem\\", \\"setEnable1v1Chat\\", \\"setWindowSize\\", \\"sendBizRedPacket\\", \\"startFacialRecognitionVerify\\", \\"openCustomerServiceChat\\", \\"getLocalIPAddress\\", \\"getUserProfile\\" ]);
         function initNativeApi(taro) {
             processApis(taro, wx, {
@@ -7455,7 +7506,14 @@ require(\\"./taro\\");
             KeyboardAccessory: {}
         };
         var hostConfig = {
-            initNativeApi: initNativeApi
+            initNativeApi: initNativeApi,
+            getMiniLifecycle: function getMiniLifecycle(config) {
+                var methods = config.page[5];
+                if (methods.indexOf(\\"onSaveExitState\\") === -1) {
+                    methods.push(\\"onSaveExitState\\");
+                }
+                return config;
+            }
         };
         mergeReconciler(hostConfig);
         mergeInternalComponents(runtime_components);
@@ -7606,7 +7664,13 @@ require(\\"./taro\\");
         var usePullIntercept = runtime_taroHooks(\\"onPullIntercept\\");
         var useShareTimeline = runtime_taroHooks(\\"onShareTimeline\\");
         var useAddToFavorites = runtime_taroHooks(\\"onAddToFavorites\\");
+        var useSaveExitState = runtime_taroHooks(\\"onSaveExitState\\");
         var useReady = runtime_taroHooks(\\"onReady\\");
+        var useLaunch = runtime_taroHooks(\\"onLaunch\\");
+        var useLoad = runtime_taroHooks(\\"onLoad\\");
+        var useUnload = runtime_taroHooks(\\"onUnload\\");
+        var useError = runtime_taroHooks(\\"onError\\");
+        var usePageNotFound = runtime_taroHooks(\\"onPageNotFound\\");
         var runtime_useRouter = function useRouter() {
             var dynamic = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
             var React = reactMeta.R;
@@ -7632,27 +7696,31 @@ require(\\"./taro\\");
             usePullIntercept: usePullIntercept,
             useShareTimeline: useShareTimeline,
             useAddToFavorites: useAddToFavorites,
+            useSaveExitState: useSaveExitState,
             useReady: useReady,
+            useLaunch: useLaunch,
+            useLoad: useLoad,
+            useUnload: useUnload,
+            useError: useError,
+            usePageNotFound: usePageNotFound,
             useRouter: runtime_useRouter,
             useScope: useScope
         });
         var h$1;
         var ReactDOM$1;
         var pageKeyId = Object(taro_runtime[\\"incrementId\\"])();
-        var hooks$1 = taro_runtime[\\"container\\"].get(taro_runtime[\\"SERVICE_IDENTIFIER\\"].Hooks);
         function setReconciler(ReactDOM) {
-            var _a;
-            hooks$1.getLifecycle = function(instance, lifecycle) {
+            hooks.tap(\\"getLifecycle\\", (function(instance, lifecycle) {
                 lifecycle = lifecycle.replace(/^on(Show|Hide)$/, \\"componentDid$1\\");
                 return instance[lifecycle];
-            };
-            (_a = hooks$1.modifyMpEventImpls) === null || _a === void 0 ? void 0 : _a.push((function(event) {
+            }));
+            hooks.tap(\\"modifyMpEvent\\", (function(event) {
                 event.type = event.type.replace(/-/g, \\"\\");
             }));
-            hooks$1.batchedEventUpdates = function(cb) {
+            hooks.tap(\\"batchedEventUpdates\\", (function(cb) {
                 ReactDOM.unstable_batchedUpdates(cb);
-            };
-            hooks$1.mergePageInstance = function(prev, next) {
+            }));
+            hooks.tap(\\"mergePageInstance\\", (function(prev, next) {
                 if (!prev || !next) return;
                 if (\\"constructor\\" in prev) return;
                 Object.keys(prev).forEach((function(item) {
@@ -7660,7 +7728,7 @@ require(\\"./taro\\");
                     var nextList = ensureIsArray(next[item]);
                     next[item] = nextList.concat(prevList);
                 }));
-            };
+            }));
             if (false) {}
         }
         function connectReactPage(R, id) {
@@ -7710,7 +7778,8 @@ require(\\"./taro\\");
                     } ], [ {
                         key: \\"getDerivedStateFromError\\",
                         value: function getDerivedStateFromError(error) {
-                            false && false;
+                            var _a, _b;
+                            (_b = (_a = taro_runtime[\\"Current\\"].app) === null || _a === void 0 ? void 0 : _a.onError) === null || _b === void 0 ? void 0 : _b.call(_a, error.message + error.stack);
                             return {
                                 hasError: true
                             };
@@ -7807,7 +7876,7 @@ require(\\"./taro\\");
             if (true) {
                 renderReactRoot();
             }
-            var _hooks$1$getMiniLifec = _slicedToArray(hooks$1.getMiniLifecycleImpl().app, 3), ONLAUNCH = _hooks$1$getMiniLifec[0], ONSHOW = _hooks$1$getMiniLifec[1], ONHIDE = _hooks$1$getMiniLifec[2];
+            var _hooks$call$app = _slicedToArray(hooks.call(\\"getMiniLifecycleImpl\\").app, 3), ONLAUNCH = _hooks$call$app[0], ONSHOW = _hooks$call$app[1], ONHIDE = _hooks$call$app[2];
             var appObj = Object.create({
                 render: function render(cb) {
                     appWrapper.forceUpdate(cb);
@@ -7852,6 +7921,7 @@ require(\\"./taro\\");
                         }
                         (_a = app.onLaunch) === null || _a === void 0 ? void 0 : _a.call(app, options);
                     }
+                    triggerAppHook(\\"onLaunch\\", options);
                 }
             })), Object(defineProperty[\\"a\\"])(_Object$create, ONSHOW, setDefaultDescriptor({
                 value: function value(options) {
@@ -7868,11 +7938,19 @@ require(\\"./taro\\");
                     (_a = app === null || app === void 0 ? void 0 : app.componentDidHide) === null || _a === void 0 ? void 0 : _a.call(app);
                     triggerAppHook(\\"onHide\\");
                 }
+            })), Object(defineProperty[\\"a\\"])(_Object$create, \\"onError\\", setDefaultDescriptor({
+                value: function value(error) {
+                    var _a;
+                    var app = getAppInstance();
+                    (_a = app === null || app === void 0 ? void 0 : app.onError) === null || _a === void 0 ? void 0 : _a.call(app, error);
+                    triggerAppHook(\\"onError\\", error);
+                }
             })), Object(defineProperty[\\"a\\"])(_Object$create, \\"onPageNotFound\\", setDefaultDescriptor({
                 value: function value(res) {
                     var _a;
                     var app = getAppInstance();
                     (_a = app === null || app === void 0 ? void 0 : app.onPageNotFound) === null || _a === void 0 ? void 0 : _a.call(app, res);
+                    triggerAppHook(\\"onPageNotFound\\", res);
                 }
             })), _Object$create));
             function triggerAppHook(lifecycle) {
@@ -7882,7 +7960,7 @@ require(\\"./taro\\");
                 var instance = Object(taro_runtime[\\"getPageInstance\\"])(HOOKS_APP_ID);
                 if (instance) {
                     var app = getAppInstance();
-                    var func = hooks$1.getLifecycle(instance, lifecycle);
+                    var func = hooks.call(\\"getLifecycle\\", instance, lifecycle);
                     if (Array.isArray(func)) {
                         func.forEach((function(cb) {
                             return cb.apply(app, option);
@@ -8103,10 +8181,7 @@ require(\\"./taro\\");
             }
             return componentObj;
         }
-        var runtime_a;
-        var hooks = taro_runtime[\\"container\\"].get(taro_runtime[\\"SERVICE_IDENTIFIER\\"].Hooks);
-        hooks.initNativeApiImpls || (hooks.initNativeApiImpls = []);
-        hooks.initNativeApiImpls.push((function(taro) {
+        hooks.tap(\\"initNativeApi\\", (function(taro) {
             for (var hook in taroHooks$1) {
                 taro[hook] = taroHooks$1[hook];
             }
