@@ -1,22 +1,21 @@
-import * as Metro from 'metro'
-import getMetroConfig from './config'
-import { getRNConfigEntry } from './config/config-holder'
-import { getOpenHost, PLAYGROUNDINFO } from './utils'
-import preview from './config/preview'
-
-import { PLATFORMS } from '@tarojs/helper'
-import * as path from 'path'
-import * as fse from 'fs-extra'
-import * as url from 'url'
-import * as qr from 'qrcode-terminal'
-
-import * as readline from 'readline'
+import saveAssets from '@react-native-community/cli-plugin-metro/build/commands/bundle/saveAssets'
 import { createDevServerMiddleware } from '@react-native-community/cli-server-api'
-import { TerminalReporter } from './config/terminal-reporter'
+import { PLATFORMS } from '@tarojs/helper'
+import * as fse from 'fs-extra'
+import * as Metro from 'metro'
 import { getResolveDependencyFn } from 'metro/src/lib/transformHelpers'
 import * as Server from 'metro/src/Server'
-import saveAssets from '@react-native-community/cli-plugin-metro/build/commands/bundle/saveAssets'
 import * as outputBundle from 'metro/src/shared/output/bundle'
+import * as path from 'path'
+import * as qr from 'qrcode-terminal'
+import * as readline from 'readline'
+import * as url from 'url'
+
+import getMetroConfig from './config'
+import { getRNConfigEntry } from './config/config-holder'
+import preview from './config/preview'
+import { TerminalReporter } from './config/terminal-reporter'
+import { getOpenHost, PLAYGROUNDINFO } from './utils'
 
 function concatOutputFileName (config: any): string {
   // 优先级：--bundle-output > config.output > config.outputRoot
@@ -120,7 +119,7 @@ export default async function build (_appPath: string, config: any): Promise<any
       metroConfig.server.port = config.port
     }
 
-    const { middleware, attachToServer } = createDevServerMiddleware({
+    const { middleware, messageSocketEndpoint } = createDevServerMiddleware({
       port: metroConfig.server.port,
       watchFolders: metroConfig.watchFolders
     })
@@ -150,17 +149,15 @@ export default async function build (_appPath: string, config: any): Promise<any
       console.log(`React-Native Dev server is running on port: ${metroConfig.server.port}`)
       console.log('\n\nTo reload the app press "r"\nTo open developer menu press "d"\n')
 
-      const { messageSocket } = attachToServer(server)
-
       readline.emitKeypressEvents(process.stdin)
       process.stdin.setRawMode && process.stdin.setRawMode(true)
       process.stdin.on('keypress', (_key, data) => {
         const { ctrl, name } = data
         if (name === 'r') {
-          messageSocket.broadcast('reload')
+          messageSocketEndpoint.broadcast('reload')
           console.log('Reloading app...')
         } else if (name === 'd') {
-          messageSocket.broadcast('devMenu')
+          messageSocketEndpoint.broadcast('devMenu')
           console.log('Opening developer menu...')
         } else if (ctrl && (name === 'c')) {
           process.exit()

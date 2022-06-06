@@ -5,9 +5,9 @@ import {
   Text,
   TouchableHighlight,
   StyleSheet,
-  Platform,
-  ViewPropTypes
+  Platform
 } from 'react-native'
+import { ViewPropTypes } from 'deprecated-react-native-prop-types'
 import { initialWindowMetrics } from 'react-native-safe-area-context';
 import { Mask } from '../Mask'
 import { Popup } from '../Popup'

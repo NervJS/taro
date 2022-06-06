@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { StyleSheet, TouchableWithoutFeedback, View, ViewPropTypes } from 'react-native'
+import { StyleSheet, TouchableWithoutFeedback, View } from 'react-native'
+import { ViewPropTypes } from 'deprecated-react-native-prop-types'
 
 const styles = StyleSheet.create({
   mask: {
