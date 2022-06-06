@@ -1,3 +1,2 @@
-import { Supporter } from './Support'
-export default { Supporter }
-module.exports = Supporter
+export { emptyModulePath } from './defaults'
+export { Supporter } from './Support'

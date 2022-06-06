@@ -1,8 +1,9 @@
-import * as path from 'path'
 import * as fs from 'fs'
 import * as MetroResolver from 'metro-resolver'
-import * as ModuleResolution from 'metro/src/node-haste/DependencyGraph/ModuleResolution'
-import { resolvePathFromAlias, resolveExtFile } from './utils'
+import * as path from 'path'
+
+import { emptyModulePath } from './defaults'
+import { resolveExtFile, resolvePathFromAlias } from './utils'
 
 interface VersionInfo {
   major: number;
@@ -101,7 +102,7 @@ function handleTaroFile (context, realModuleName, platform, moduleName) {
     }
   }
   const savedOriginModulePath = context.originModulePath
-  if ((savedOriginModulePath === ModuleResolution.ModuleResolver.EMPTY_MODULE) && moduleName.startsWith('./')) {
+  if ((savedOriginModulePath === require.resolve(emptyModulePath)) && moduleName.startsWith('./')) {
     context.originModulePath = path.join(context.projectRoot, './index')
   }
   const savedAllowHaste = context.allowHaste
@@ -133,8 +134,8 @@ function handleTaroFile (context, realModuleName, platform, moduleName) {
 }
 
 export {
+  getReactNativeVersion,
   handleFile,
   handleTaroFile,
-  searchReactNativeModule,
-  getReactNativeVersion
+  searchReactNativeModule
 }
