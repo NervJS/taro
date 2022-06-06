@@ -47,5 +47,3 @@ export function transform ({ src, filename, options }: TransformType) {
     options: options
   })
 }
-
-exports.transform = transform
