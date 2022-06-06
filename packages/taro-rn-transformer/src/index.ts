@@ -1,11 +1,11 @@
 import * as path from 'path'
+
 import appLoader, { getAppPages } from './app'
 import componentLoader from './component'
-import { TransformType, globalAny } from './types/index'
-import { isPageFile, getCommonStyle, isSourceComponent, isNPMComponent } from './utils'
+import { globalAny, TransformType } from './types/index'
+import { getCommonStyle, isNPMComponent, isPageFile, isSourceComponent } from './utils'
 
-// eslint-disable-next-line import/no-commonjs
-module.exports.transform = function ({ src, filename, options }: TransformType) {
+export function transform ({ src, filename, options }: TransformType) {
   let code = src
   const sourceDir = options?.sourceRoot || 'src'
   const entryName = options?.entry || 'app'

@@ -1,4 +1,4 @@
-import { getRNConfigBabelPlugin, getRNConfigEntry, getRNConfigOutput, getRNConfigTransformer } from '../dist/config/config-holder'
+import { getRNConfigBabelPlugin, getRNConfigEntry, getRNConfigOutput, getRNConfigTransformer } from '../src/config/config-holder'
 
 const path = require('path')
 
