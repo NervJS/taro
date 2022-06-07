@@ -16,6 +16,7 @@ declare const __TARO_FRAMEWORK_REACT_MODE__: string
 
 let h: typeof React.createElement
 let ReactDOM
+let Fragment: typeof React.Fragment
 
 const pageKeyId = incrementId()
 
@@ -166,6 +167,7 @@ export function createReactApp (
   reactMeta.R = react
   h = react.createElement
   ReactDOM = dom
+  Fragment = react.Fragment
   const appInstanceRef = react.createRef<ReactAppInstance>()
   const isReactComponent = isClassComponent(react, App)
   let appWrapper: AppWrapper
@@ -236,7 +238,7 @@ export function createReactApp (
       return h(
         App,
         props,
-        process.env.TARO_ENV === 'h5' ? h('div', null, elements.slice()) : elements.slice()
+        process.env.TARO_ENV === 'h5' ? h(Fragment ?? 'div', null, elements.slice()) : elements.slice()
       )
     }
   }
