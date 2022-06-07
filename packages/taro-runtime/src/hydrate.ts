@@ -14,6 +14,8 @@ import type { TaroText } from './dom/text'
 import type { MiniData, MiniElementData } from './interface'
 import { isComment, isHasExtractProp, isText } from './utils'
 
+let SPECIAL_NODES
+
 /**
  * React also has a fancy function's name for this: `hydrate()`.
  * You may have been heard `hydrate` as a SSR-related function,
@@ -35,7 +37,10 @@ export function hydrate (node: TaroElement | TaroText): MiniData {
     sid: node.sid
   }
   const { props } = node
-  const SPECIAL_NODES = hooks.call('getSpecialNodes')!
+
+  if (!SPECIAL_NODES) {
+    SPECIAL_NODES = hooks.call('getSpecialNodes')!
+  }
 
   if (node.uid !== node.sid) {
     data.uid = node.uid
