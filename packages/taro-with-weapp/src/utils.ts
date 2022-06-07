@@ -109,7 +109,7 @@ export function report (msg) {
   console.warn('[Taro Convert Warning] ' + msg)
 }
 
-export const unsupport = new Map([
+export const nonsupport = new Map([
   ['onError', '不支持 App 的 onError 生命周期方法。'],
   ['onPageNotFound', '不支持 App 的 onPageNotFound 生命周期方法。'],
   ['onUnhandledRejection', '不支持 App 的 onUnhandledRejection 生命周期方法。'],
@@ -136,8 +136,8 @@ export function flattenBehaviors (behavior, behaviorMap: Map<string, any[]>) {
 
   Object.keys(behavior).forEach(key => {
     // 不支持的属性
-    if (unsupport.has(key)) {
-      const advise = unsupport.get(key)
+    if (nonsupport.has(key)) {
+      const advise = nonsupport.get(key)
       return report(advise)
     }
 

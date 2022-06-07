@@ -1,5 +1,5 @@
 import { isFunction, isString } from './is'
-import { setUniqueKeyToRoute, unsupport } from './utils'
+import { nonsupport, setUniqueKeyToRoute } from './utils'
 
 declare const getCurrentPages: () => any
 declare const getApp: () => any
@@ -249,7 +249,7 @@ function processApis (taro, global, config: IProcessApisIOptions = {}) {
           ; (options as Record<string, any>) = transformResult.options
           // 新 key 可能不存在
           if (!global.hasOwnProperty(key)) {
-            return unsupport(key)()
+            return nonsupport(key)()
           }
         }
 
@@ -316,7 +316,7 @@ function processApis (taro, global, config: IProcessApisIOptions = {}) {
 
       // API 不存在
       if (!global.hasOwnProperty(platformKey)) {
-        taro[key] = unsupport(key)
+        taro[key] = nonsupport(key)
         return
       }
       if (isFunction(global[key])) {
@@ -343,14 +343,14 @@ function processApis (taro, global, config: IProcessApisIOptions = {}) {
  */
 function equipCommonApis (taro, global, apis: Record<string, any> = {}) {
   taro.canIUseWebp = getCanIUseWebp(taro)
-  taro.getCurrentPages = getCurrentPages || unsupport('getCurrentPages')
-  taro.getApp = getApp || unsupport('getApp')
+  taro.getCurrentPages = getCurrentPages || nonsupport('getCurrentPages')
+  taro.getApp = getApp || nonsupport('getApp')
   taro.env = global.env || {}
 
   try {
-    taro.requirePlugin = requirePlugin || unsupport('requirePlugin')
+    taro.requirePlugin = requirePlugin || nonsupport('requirePlugin')
   } catch (error) {
-    taro.requirePlugin = unsupport('requirePlugin')
+    taro.requirePlugin = nonsupport('requirePlugin')
   }
 
   // request & interceptors

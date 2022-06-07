@@ -1,7 +1,8 @@
 import {
-  Current,
-  getPageInstance,
-  injectPageInstance
+  AppInstance, Current,
+  Func, getPageInstance,
+  injectPageInstance,
+  PageLifeCycle
 } from '@tarojs/runtime'
 import { isArray, isFunction, isUndefined } from '@tarojs/shared'
 import {
@@ -10,8 +11,8 @@ import {
   ref
 } from 'vue'
 
-function createHook (lifecycle) {
-  return fn => {
+function createHook (lifecycle: keyof PageLifeCycle | keyof AppInstance) {
+  return (fn: Func) => {
     const id = inject<string>('id')!
     const fnRef = ref(fn)
 

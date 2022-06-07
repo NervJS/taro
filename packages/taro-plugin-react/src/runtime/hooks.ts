@@ -1,8 +1,8 @@
-import type { AppInstance, Func, PageLifeCycle } from '@tarojs/runtime'
 import {
-  Current,
-  getPageInstance,
-  injectPageInstance
+  AppInstance, Current,
+  Func, getPageInstance,
+  injectPageInstance,
+  PageLifeCycle
 } from '@tarojs/runtime'
 import { isArray, isFunction } from '@tarojs/shared'
 

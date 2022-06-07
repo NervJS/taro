@@ -1,16 +1,8 @@
-import type {
-  AppInstance,
-  Instance,
-  PageProps,
-  ReactAppInstance,
-  ReactPageComponent
-} from '@tarojs/runtime'
 import {
-  Current,
-  document,
-  getPageInstance,
-  incrementId,
-  injectPageInstance
+  AppInstance, Current, document, getPageInstance,
+  incrementId, injectPageInstance, Instance,
+  PageLifeCycle, PageProps,
+  ReactAppInstance, ReactPageComponent
 } from '@tarojs/runtime'
 import { EMPTY_OBJ, ensure, hooks } from '@tarojs/shared'
 import type { AppConfig } from '@tarojs/taro'
@@ -358,7 +350,7 @@ export function createReactApp (
     })
   })
 
-  function triggerAppHook (lifecycle, ...option) {
+  function triggerAppHook (lifecycle: keyof PageLifeCycle | keyof AppInstance, ...option) {
     const instance = getPageInstance(HOOKS_APP_ID)
     if (instance) {
       const app = getAppInstance()

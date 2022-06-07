@@ -31,7 +31,7 @@ export class RichText implements ComponentInterface {
 
   renderNode = (node: ElementType) => {
     if ('type' in node && node.type === 'text') {
-      // unsupport Html Entries
+      // nonsupport Html Entries
       const content = (node.text || '').replace(/&nbsp;/g, '\u00A0')
       return content
     } else if ('name' in node && node.name) {

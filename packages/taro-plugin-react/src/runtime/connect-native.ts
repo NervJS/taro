@@ -1,15 +1,7 @@
-import type {
-  Instance,
-  TaroRootElement
-} from '@tarojs/runtime'
 import {
-  addLeadingSlash,
-  Current,
-  document,
-  eventHandler,
-  incrementId,
-  injectPageInstance,
-  safeExecute
+  addLeadingSlash, Current, document, eventHandler,
+  incrementId, injectPageInstance, Instance, safeExecute,
+  TaroRootElement
 } from '@tarojs/runtime'
 import { EMPTY_OBJ } from '@tarojs/shared'
 import type { PageInstance } from '@tarojs/taro'

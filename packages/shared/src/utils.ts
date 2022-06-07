@@ -164,7 +164,7 @@ export function mergeReconciler (hostConfig, hooksForTest?) {
   })
 }
 
-export function unsupport (api) {
+export function nonsupport (api) {
   return function () {
     console.warn(`小程序暂不支持 ${api}`)
   }
