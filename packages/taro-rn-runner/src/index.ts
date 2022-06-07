@@ -17,6 +17,7 @@ import { getResolveDependencyFn } from 'metro/src/lib/transformHelpers'
 import * as Server from 'metro/src/Server'
 import saveAssets from '@react-native-community/cli-plugin-metro/build/commands/bundle/saveAssets'
 import * as outputBundle from 'metro/src/shared/output/bundle'
+import buildComponent from './config/build-component'
 
 function concatOutputFileName (config: any): string {
   // 优先级：--bundle-output > config.output > config.outputRoot
@@ -109,7 +110,12 @@ export default async function build (_appPath: string, config: any): Promise<any
     if (error instanceof Error) throw error
   }
 
-  if (config.isWatch) {
+  if (config.isBuildNativeComp) {
+    return buildComponent(
+      _appPath,
+      config
+    )
+  } else if (config.isWatch) {
     if (!metroConfig.server || (metroConfig.server.useGlobalHotkey === undefined)) {
       if (!metroConfig.server) {
         metroConfig.server = {}

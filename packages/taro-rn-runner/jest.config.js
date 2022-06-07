@@ -29,5 +29,6 @@ module.exports = {
     'node_modules',
     'utils'
   ],
-  testMatch: ['**/__tests__/?(*.)+(spec|test).[jt]s?(x)']
+  testMatch: ['**/__tests__/?(*.)+(spec|test).[jt]s?(x)'],
+  setupFilesAfterEnv: ['./jest.setup.js']
 }

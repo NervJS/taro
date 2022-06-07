@@ -192,5 +192,7 @@ export {
   getProjectConfig,
   getRNConfig,
   resolvePathFromAlias,
-  resolveExtFile
+  resolveExtFile,
+  includes,
+  isRelativePath
 }
