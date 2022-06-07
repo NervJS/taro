@@ -9,7 +9,7 @@ import {
 } from '@tarojs/helper'
 import type { PostcssOption } from '@tarojs/taro/types/compile'
 
-import { getPostcssPlugins } from '../postcss/postcss.h5'
+import { getDefaultPostcssConfig, getPostcssPlugins } from '../postcss/postcss.h5'
 import type { H5Combination } from './H5Combination'
 import type { CssModuleOptionConfig, IRule } from './WebpackModule'
 import { WebpackModule } from './WebpackModule'
@@ -224,11 +224,11 @@ export class H5WebpackModule {
       })
     const postcssLoader = WebpackModule.getPostCSSLoader({
       postcssOptions: {
-        plugins: getPostcssPlugins(appPath, {
+        plugins: getPostcssPlugins(appPath, getDefaultPostcssConfig({
           designWidth,
           deviceRatio,
-          postcssOption
-        })
+          option: postcssOption
+        }))
       }
     })
     return {

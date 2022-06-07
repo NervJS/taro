@@ -1,7 +1,6 @@
 import { isNpmPkg, recursiveMerge } from '@tarojs/helper'
 import type { IPostcssOption, TogglableOptions } from '@tarojs/taro/types/compile'
 import path from 'path'
-import constparse from 'postcss-plugin-constparse'
 import { sync as resolveSync } from 'resolve'
 
 const platform = 'h5'
@@ -39,15 +38,14 @@ const defaultHtmltransformOption: {
   }
 }
 
-const optionsWithDefaults = ['autoprefixer', 'pxtransform', 'cssModules']
-
 const plugins = [] as any[]
 
-export const getPostcssPlugins = function (appPath: string, {
+export const getDefaultPostcssConfig = function ({
   designWidth,
   deviceRatio,
-  postcssOption = {} as IPostcssOption
+  option = {} as IPostcssOption
 }) {
+  const { autoprefixer, pxtransform, htmltransform, ...options } = option
   if (designWidth) {
     defaultPxtransformOption.config.designWidth = designWidth
   }
@@ -55,43 +53,40 @@ export const getPostcssPlugins = function (appPath: string, {
   if (deviceRatio) {
     defaultPxtransformOption.config.deviceRatio = deviceRatio
   }
+  const autoprefixerOption = recursiveMerge<TogglableOptions>({}, defaultAutoprefixerOption, autoprefixer)
+  const pxtransformOption = recursiveMerge<TogglableOptions>({}, defaultPxtransformOption, pxtransform)
+  const htmltransformOption = recursiveMerge({}, defaultHtmltransformOption, htmltransform)
 
-  const autoprefixerOption = recursiveMerge<TogglableOptions>({}, defaultAutoprefixerOption, postcssOption.autoprefixer)
-  const pxtransformOption = recursiveMerge<TogglableOptions>({}, defaultPxtransformOption, postcssOption.pxtransform)
-  const htmltransformOption = recursiveMerge({}, defaultHtmltransformOption, postcssOption.htmltransform)
+  return [
+    [require('postcss-import'), {}],
+    [require('autoprefixer'), autoprefixerOption],
+    [require('postcss-pxtransform'), pxtransformOption],
+    [require('postcss-html-transform'), htmltransformOption],
+    [require('postcss-plugin-constparse'), defaultConstparseOption],
+    ...Object.entries(options)
+  ]
+}
 
-  if (autoprefixerOption.enable) {
-    const autoprefixer = require('autoprefixer')
-    plugins.push(autoprefixer(autoprefixerOption.config))
-  }
+export const getPostcssPlugins = function (appPath: string, option = {} as IPostcssOption) {
+  option.forEach(([plugin, pluginOption]) => {
+    if (!pluginOption) return
+    if (Object.hasOwnProperty.call(pluginOption, 'enable') && !pluginOption.enable) return
 
-  if (pxtransformOption.enable) {
-    const pxtransform = require('postcss-pxtransform')
-    plugins.push(pxtransform(pxtransformOption.config))
-  }
+    if (typeof plugin !== 'string') {
+      plugins.push(plugin(pluginOption.config || {}))
+      return
+    }
 
-  if (htmltransformOption?.enable) {
-    const htmlTransform = require('postcss-html-transform')
-    plugins.push(htmlTransform(htmltransformOption.config))
-  }
-  plugins.unshift(require('postcss-import'))
-
-  plugins.push(constparse(defaultConstparseOption))
-
-  Object.entries(postcssOption).forEach(([pluginName, pluginOption]) => {
-    if (optionsWithDefaults.indexOf(pluginName) > -1) return
-    if (!pluginOption || !pluginOption.enable) return
-
-    if (!isNpmPkg(pluginName)) {
+    if (!isNpmPkg(plugin)) {
       // local plugin
-      pluginName = path.join(appPath, pluginName)
+      plugin = path.join(appPath, plugin)
     }
 
     try {
-      const pluginPath = resolveSync(pluginName, { basedir: appPath })
+      const pluginPath = resolveSync(plugin, { basedir: appPath })
       plugins.push(require(pluginPath)(pluginOption.config || {}))
     } catch (e) {
-      const msg = e.code === 'MODULE_NOT_FOUND' ? `缺少postcss插件${pluginName}, 已忽略` : e
+      const msg = e.code === 'MODULE_NOT_FOUND' ? `缺少 postcss 插件 "${plugin}", 已忽略` : e
       console.log(msg)
     }
   })

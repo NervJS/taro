@@ -14,7 +14,7 @@ import * as sass from 'sass'
 import * as TerserPlugin from 'terser-webpack-plugin'
 import * as webpack from 'webpack'
 
-import { getPostcssPlugins } from '../config/postcss.conf'
+import { getDefaultPostcssConfig, getPostcssPlugins } from '../config/postcss.conf'
 import MainPlugin from '../plugins/MainPlugin'
 import { BuildConfig, Option } from './types'
 
@@ -397,11 +397,11 @@ export const getModule = (appPath: string, {
     { sourceMap: enableSourceMap },
     {
       postcssOptions: {
-        plugins: getPostcssPlugins(appPath, {
+        plugins: getPostcssPlugins(appPath, getDefaultPostcssConfig({
           designWidth,
           deviceRatio,
-          postcssOption
-        })
+          option: postcssOption
+        }))
       }
     }
   ])
