@@ -48,5 +48,5 @@ export function parseHtmlScript (pxtransformOption: IPostcssOption['pxtransform'
     ? options.designWidth(input)
     : options.designWidth
   const deviceRatio = options.deviceRatio[designWidth(min)]
-  return `!function(n){function f(){var e=n.document.documentElement,t=e.getBoundingClientRect().width,x=t/16/${deviceRatio};e.style.fontSize=x>=${max}?"${max}px":x<=${min}?"${min}px":x+"px"}n.addEventListener("resize",(function(){f()})),f()}(window);`
+  return `!function(n){function f(){var e=n.document.documentElement,w=e.getBoundingClientRect().width,x=w/16/${deviceRatio};e.style.fontSize=x>=${max}?"${max}px":x<=${min}?"${min}px":x+"px"},n.addEventListener("resize",(function(){f()})),f()}(window);`
 }
