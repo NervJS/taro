@@ -53,6 +53,13 @@ export class H5Combination extends Combination<H5BuildConfig> {
       customOutput: output as Output,
       entryFileName
     })
+    const module = this.webpackModule.getModules()
+    const [, pxtransformOption] = this.webpackModule.__postCssOption.find(([name]) => name === 'postcss-pxtransform') || []
+    if (isMultiRouterMode) {
+      this.webpackPlugin.pages = this.inst.appConfig?.pages
+    }
+    this.webpackPlugin.pxtransformOption = pxtransformOption as any
+    const plugin = this.webpackPlugin.getPlugins()
 
     chain.merge({
       entry,
@@ -60,8 +67,8 @@ export class H5Combination extends Combination<H5BuildConfig> {
       mode,
       devtool: this.getDevtool(sourceMapType),
       resolve: { alias },
-      plugin: this.webpackPlugin.getPlugins(isMultiRouterMode, this.inst.appConfig?.pages ?? []),
-      module: this.webpackModule.getModules(),
+      plugin,
+      module,
       optimization: this.getOptimization(mode)
     })
   }

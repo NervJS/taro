@@ -7,6 +7,7 @@ import {
   REG_STYLE,
   REG_STYLUS
 } from '@tarojs/helper'
+import { Func } from '@tarojs/runtime'
 import type { PostcssOption } from '@tarojs/taro/types/compile'
 
 import { getDefaultPostcssConfig, getPostcssPlugins } from '../postcss/postcss.h5'
@@ -37,6 +38,7 @@ const getEsnextModuleRules = (esnextModules: (string | RegExp)[]) => {
 
 export class H5WebpackModule {
   combination: H5Combination
+  __postCssOption: [string, any, Func?][]
 
   constructor (combination: H5Combination) {
     this.combination = combination
@@ -222,13 +224,14 @@ export class H5WebpackModule {
           return filename.indexOf(pattern) > -1
         }
       })
+    this.__postCssOption = getDefaultPostcssConfig({
+      designWidth,
+      deviceRatio,
+      option: postcssOption
+    })
     const postcssLoader = WebpackModule.getPostCSSLoader({
       postcssOptions: {
-        plugins: getPostcssPlugins(appPath, getDefaultPostcssConfig({
-          designWidth,
-          deviceRatio,
-          option: postcssOption
-        }))
+        plugins: getPostcssPlugins(appPath, this.__postCssOption)
       }
     })
     return {

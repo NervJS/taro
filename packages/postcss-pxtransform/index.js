@@ -29,8 +29,6 @@ const deviceRatio = {
   828: 1.81 / 2
 }
 
-const baseFontSize = 40
-
 const DEFAULT_WEAPP_OPTIONS = {
   platform: 'weapp',
   designWidth: 750,
@@ -48,7 +46,8 @@ module.exports = postcss.plugin('postcss-pxtransform', function (options = {}) {
     : options.designWidth
   switch (options.platform) {
     case 'h5': {
-      options.rootValue = input => baseFontSize * designWidth(input) / 640
+      // options.rootValue = input => 1 / options.deviceRatio[designWidth(input)] * (designWidth(input) / 16)
+      options.rootValue = input => Math.max(Math.min(1 / options.deviceRatio[designWidth(input)] * (designWidth(input) / 16), options.max ?? 40), options.mix ?? 20)
       targetUnit = 'rem'
       transUnits.push('rpx')
       break

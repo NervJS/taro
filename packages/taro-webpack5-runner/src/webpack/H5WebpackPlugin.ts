@@ -1,3 +1,4 @@
+import { IPostcssOption } from '@tarojs/taro/types/compile'
 import HtmlWebpackPlugin from 'html-webpack-plugin'
 import path from 'path'
 
@@ -8,17 +9,21 @@ import WebpackPlugin from './WebpackPlugin'
 
 export class H5WebpackPlugin {
   combination: H5Combination
+  pages?: string[]
+  pxtransformOption?: IPostcssOption['pxtransform']
 
   constructor (combination: H5Combination) {
     this.combination = combination
   }
 
-  getPlugins (isMultiRouterMode = false, pages: string[]) {
+  getPlugins () {
     const plugins: Record<string, { plugin: any, args: PluginArgs }> = {
       definePlugin: this.getDefinePlugin(),
       mainPlugin: this.getH5Plugin()
     }
-    if (isMultiRouterMode) {
+    const pages = this.pages || []
+    if (pages.length > 0) {
+      // NOTE: multi router
       pages.forEach(page => {
         plugins[page] = this.getHtmlWebpackPlugin(page)
       })
@@ -73,9 +78,17 @@ export class H5WebpackPlugin {
   }
 
   getHtmlWebpackPlugin (entry = '', chunks: string[] = []) {
+    const options = this.pxtransformOption?.config || {}
+    const max = options?.max ?? 40
+    const min = options?.min ?? 20
+    const designWidth = input => typeof options.designWidth === 'function'
+      ? options.designWidth(input)
+      : options.designWidth
+    const deviceRatio = options.deviceRatio[designWidth(min)]
     const args: Record<string, string | string []> = {
       filename: `${entry || 'index'}.html`,
-      template: path.join(this.combination.sourceDir, 'index.html')
+      template: path.join(this.combination.sourceDir, 'index.html'),
+      script: `!function(n){function f(){var e=n.document.documentElement,t=e.getBoundingClientRect().width,x=t/16/${deviceRatio};e.style.fontSize=x>=${max}?"${max}px":x<=${min}?"${min}px":x+"px"}n.addEventListener("resize",(function(){f()})),f()}(window);`
     }
     if (entry && entry !== 'index') {
       args.chunks = [...chunks, entry]
