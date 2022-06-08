@@ -15,7 +15,8 @@
 
 .taro-video-container {
   display: inline-block;
-  overflow: hidden;
+  // NOTE: video 元素父节点设置该属性会导致 iOS 元素层级问题 https://stackoverflow.com/questions/49653475/video-and-z-index-inside-scaled-element-some-divs-disappear
+  // overflow: hidden;
   position: absolute;
   left: 0;
   top: 0;

@@ -527,7 +527,9 @@ function analyzeImport (filePath: string): string[] {
       if (!dep) return
 
       importPaths.push(dep)
-      importPaths = importPaths.concat(analyzeImport(dep))
+      if (path.extname(dep) !== '.json') {
+        importPaths = importPaths.concat(analyzeImport(dep))
+      }
     }
   })
   return importPaths

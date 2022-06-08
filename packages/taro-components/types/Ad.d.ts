@@ -3,12 +3,12 @@ import { StandardProps, CommonEventFunction } from './common'
 
 interface AdProps extends StandardProps {
   /** 广告单元id，可在[小程序管理后台](https://mp.weixin.qq.com/)的流量主模块新建
-   * @supported weapp
+   * @supported weapp, tt
    */
   unitId: string
 
   /** 广告自动刷新的间隔时间，单位为秒，参数值必须大于等于30（该参数不传入时 Banner 广告不会自动刷新）
-   * @supported weapp
+   * @supported weapp, tt
    */
   adIntervals?: number
 
@@ -23,17 +23,17 @@ interface AdProps extends StandardProps {
   adTheme?: 'white' | 'black'
 
   /** 广告加载成功的回调
-   * @supported weapp
+   * @supported weapp, tt
    */
   onLoad?: CommonEventFunction
 
   /** 当广告发生错误时，触发的事件，可以通过该事件获取错误码及原因，事件对象event.detail = {errCode: 1002}
-   * @supported weapp
+   * @supported weapp, tt
    */
   onError?: CommonEventFunction<AdProps.onErrorEventDetail>
 
   /** 广告关闭的回调
-   * @supported weapp
+   * @supported weapp, tt
    */
   onClose?: CommonEventFunction
 }
@@ -109,7 +109,7 @@ declare namespace AdProps {
 
 /** Banner 广告
  * @classification open
- * @supported weapp
+ * @supported weapp, tt
  * @example_react
  * ```tsx
  * class App extends Component {

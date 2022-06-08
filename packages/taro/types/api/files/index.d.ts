@@ -180,17 +180,17 @@ declare module '../../index' {
   }
 
   /** 文件管理器，可通过 [Taro.getFileSystemManager](./getFileSystemManager) 获取。
-   * @supported weapp
+   * @supported weapp, tt
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.html
    */
   interface FileSystemManager {
     /** 判断文件/目录是否存在
-     * @supported weapp
+     * @supported weapp, tt
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.access.html
      */
     access(option: FileSystemManager.AccessOption): void
     /** [FileSystemManager.access](#access) 的同步版本
-     * @supported weapp
+     * @supported weapp, tt
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.accessSync.html
      */
     accessSync(
@@ -225,12 +225,12 @@ declare module '../../index' {
      */
     closeSync(option: FileSystemManager.CloseSyncOption): void
     /** 复制文件
-     * @supported weapp
+     * @supported weapp, tt
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.copyFile.html
      */
     copyFile(option: FileSystemManager.CopyFileOption): void
     /** [FileSystemManager.copyFile](#copyfile) 的同步版本
-     * @supported weapp
+     * @supported weapp, tt
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.copyFileSync.html
      */
     copyFileSync(
@@ -260,22 +260,22 @@ declare module '../../index' {
      */
     ftruncateSync(option: FileSystemManager.FtruncateSyncOption): void
     /** 获取该小程序下的 `本地临时文件` 或 `本地缓存文件` 信息
-     * @supported weapp
+     * @supported weapp, tt
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.getFileInfo.html
      */
     getFileInfo(option: FileSystemManager.getFileInfoOption): void
     /** 获取该小程序下已保存的本地缓存文件列表
-     * @supported weapp
+     * @supported weapp, tt
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.getSavedFileList.html
      */
     getSavedFileList(option?: FileSystemManager.getSavedFileListOption): void
     /** 创建目录
-     * @supported weapp
+     * @supported weapp, tt
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.mkdir.html
      */
     mkdir(option: FileSystemManager.MkdirOption): void
     /** [FileSystemManager.mkdir](#mkdir) 的同步版本
-     * @supported weapp
+     * @supported weapp, tt
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.mkdirSync.html
      */
     mkdirSync(
@@ -310,12 +310,12 @@ declare module '../../index' {
      */
     readCompressedFileSync(option: FileSystemManager.readCompressedFileSync.Option): ArrayBuffer /** 文件读取结果 */
     /** 读取目录内文件列表
-     * @supported weapp
+     * @supported weapp, tt
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.readdir.html
      */
     readdir(option: FileSystemManager.ReaddirOption): void
     /** [FileSystemManager.readdir](#readdir) 的同步版本
-     * @supported weapp
+     * @supported weapp, tt
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.readdirSync.html
      */
     readdirSync(
@@ -323,12 +323,12 @@ declare module '../../index' {
       dirPath: string,
     ): string[]
     /** 读取本地文件内容
-     * @supported weapp
+     * @supported weapp, tt
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.readFile.html
      */
     readFile(option: FileSystemManager.ReadFileOption): void
     /** [FileSystemManager.readFile](#readfile) 的同步版本
-     * @supported weapp
+     * @supported weapp, tt
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.readFileSync.html
      */
     readFileSync(
@@ -364,12 +364,12 @@ declare module '../../index' {
      */
     removeSavedFile(option: FileSystemManager.RemoveSavedFileOption): void
     /** 重命名文件。可以把文件从 oldPath 移动到 newPath
-     * @supported weapp
+     * @supported weapp, tt
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.rename.html
      */
     rename(option: FileSystemManager.RenameOption): void
     /** [FileSystemManager.rename](#rename) 的同步版本
-     * @supported weapp
+     * @supported weapp, tt
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.renameSync.html
      */
     renameSync(
@@ -379,12 +379,12 @@ declare module '../../index' {
       newPath: string,
     ): void
     /** 删除目录
-     * @supported weapp
+     * @supported weapp, tt
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.rmdir.html
      */
     rmdir(option: FileSystemManager.RmdirOption): void
     /** [FileSystemManager.rmdir](#rmdir) 的同步版本
-     * @supported weapp
+     * @supported weapp, tt
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.rmdirSync.html
      */
     rmdirSync(
@@ -394,12 +394,12 @@ declare module '../../index' {
       recursive?: boolean,
     ): void
     /** 保存临时文件到本地。此接口会移动临时文件，因此调用成功后，tempFilePath 将不可用。
-     * @supported weapp
+     * @supported weapp, tt
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.saveFile.html
      */
     saveFile(option: FileSystemManager.SaveFileOption): void
     /** [FileSystemManager.saveFile](#savefile) 的同步版本
-     * @supported weapp
+     * @supported weapp, tt
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.saveFileSync.html
      */
     saveFileSync(
@@ -409,12 +409,12 @@ declare module '../../index' {
       filePath?: string,
     ): string
     /** 获取文件 Stats 对象
-     * @supported weapp
+     * @supported weapp, tt
      * https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.stat.html
      */
     stat(option: FileSystemManager.StatOption): void
     /** [FileSystemManager.stat](#stat) 的同步版本
-     * @supported weapp
+     * @supported weapp, tt
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.statSync.html
      */
     statSync(
@@ -434,12 +434,12 @@ declare module '../../index' {
      */
     truncateSync(option: FileSystemManager.TruncateSyncOption): void
     /** 删除文件
-     * @supported weapp
+     * @supported weapp, tt
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.unlink.html
      */
     unlink(option: FileSystemManager.UnlinkOption): void
     /** [FileSystemManager.unlink](#unlink) 的同步版本
-     * @supported weapp
+     * @supported weapp, tt
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.unlinkSync.html
      */
     unlinkSync(
@@ -447,7 +447,7 @@ declare module '../../index' {
       filePath: string,
     ): void
     /** 解压文件
-     * @supported weapp
+     * @supported weapp, tt
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.unzip.html
      */
     unzip(option: FileSystemManager.UnzipOption): void
@@ -457,12 +457,12 @@ declare module '../../index' {
      */
     write(option: FileSystemManager.WriteOption): void
     /** 写文件
-     * @supported weapp
+     * @supported weapp, tt
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.writeFile.html
      */
     writeFile(option: FileSystemManager.WriteFileOption): void
     /** [FileSystemManager.writeFile](#writefile) 的同步版本
-     * @supported weapp
+     * @supported weapp, tt
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.writeFileSync.html
      */
     writeFileSync(
@@ -1326,7 +1326,7 @@ declare module '../../index' {
     saveFileToDisk(option: saveFileToDisk.Option): Promise<TaroGeneral.CallbackResult>
 
     /** 保存文件到本地。**注意：saveFile 会把临时文件移动，因此调用成功后传入的 tempFilePath 将不可用**
-     * @supported weapp, rn
+     * @supported weapp, rn, tt
      * @example
      * ```tsx
      * Taro.chooseImage({
@@ -1346,7 +1346,7 @@ declare module '../../index' {
     saveFile(option: saveFile.Option): Promise<saveFile.SuccessCallbackResult | saveFile.FailCallbackResult>
 
     /** 删除该小程序下已保存的本地缓存文件
-     * @supported weapp, rn
+     * @supported weapp, rn, tt
      * @example
      * ```tsx
      * Taro.getSavedFileList({
@@ -1367,7 +1367,7 @@ declare module '../../index' {
     removeSavedFile(option: removeSavedFile.Option): Promise<TaroGeneral.CallbackResult>
 
     /** 新开页面打开文档，支持格式
-     * @supported weapp
+     * @supported weapp, tt
      * @example
      ```tsx
      * Taro.downloadFile({
@@ -1388,7 +1388,7 @@ declare module '../../index' {
     openDocument(option: openDocument.Option): Promise<TaroGeneral.CallbackResult>
 
     /** 获取本地已保存的文件列表
-     * @supported weapp, rn
+     * @supported weapp, rn, tt
      * @example
      * ```tsx
      * Taro.getSavedFileList({
@@ -1419,7 +1419,7 @@ declare module '../../index' {
 
     /**
      * 获取该小程序下的 本地临时文件 或 本地缓存文件 信息
-     * @supported weapp, rn
+     * @supported weapp, rn, tt
      * @example
      * ```tsx
      * Taro.getFileInfo({
@@ -1434,7 +1434,7 @@ declare module '../../index' {
     getFileInfo(option: getFileInfo.Option): Promise<getFileInfo.SuccessCallbackResult | getFileInfo.FailCallbackResult>
 
     /** 获取全局唯一的文件管理器
-     * @supported weapp
+     * @supported weapp, tt
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/file/wx.getFileSystemManager.html
      */
     getFileSystemManager(): FileSystemManager

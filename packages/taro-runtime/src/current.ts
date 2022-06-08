@@ -3,6 +3,7 @@ import { AppInstance, PageInstance } from './dsl/instance'
 export interface Router {
   params: Record<string, unknown>,
   path: string,
+  $taroPath: string,
   onReady: string,
   onHide: string,
   onShow: string

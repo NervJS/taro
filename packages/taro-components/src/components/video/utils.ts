@@ -13,9 +13,8 @@ export const normalizeNumber = (number: number): number => {
   return Math.max(-1, Math.min(number, 1))
 }
 
-/**
- * @returns: {requestFullscreen: 'requestFullscreen', exitFullscreen: 'exitFullscreen', ...}
- */
+export let scene = 'default'
+
 export const screenFn = (function () {
   let val
   const fnMap = [
@@ -65,10 +64,10 @@ export const screenFn = (function () {
   var defaultIOSMap = [
     'webkitEnterFullscreen',
     'webkitExitFullscreen',
-    'webkitFullscreenElement',
-    'webkitFullscreenEnabled',
-    'webkitfullscreenchange',
-    'webkitfullscreenerror'
+    'webkitCurrentFullScreenElement',
+    'webkitSupportsFullscreen',
+    'fullscreenchange',
+    'fullscreenerror'
   ]
   let i = 0
   const l = fnMap.length
@@ -84,6 +83,7 @@ export const screenFn = (function () {
     }
   }
   if (!ret[fnMap[0][0]]) {
+    scene = 'iOS'
     // when there is no any APIs be set.
 
     // In IOS, there is no 'webkitEnterFullscreen' property `in document` but video can use it for fullscreen.

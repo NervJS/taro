@@ -943,7 +943,7 @@ declare module '../../index' {
     createMediaAudioPlayer(): MediaAudioPlayer
 
     /** 创建内部 audio 上下文 InnerAudioContext 对象。
-     * @supported weapp, h5, rn
+     * @supported weapp, h5, rn, tt
      * @example
      * ```tsx
      * const innerAudioContext = Taro.createInnerAudioContext()
