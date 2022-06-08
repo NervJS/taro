@@ -38,7 +38,7 @@ const getEsnextModuleRules = (esnextModules: (string | RegExp)[]) => {
 
 export class H5WebpackModule {
   combination: H5Combination
-  __postCssOption: [string, any, Func?][]
+  __postcssOption: [string, any, Func?][]
 
   constructor (combination: H5Combination) {
     this.combination = combination
@@ -224,14 +224,14 @@ export class H5WebpackModule {
           return filename.indexOf(pattern) > -1
         }
       })
-    this.__postCssOption = getDefaultPostcssConfig({
+    this.__postcssOption = getDefaultPostcssConfig({
       designWidth,
       deviceRatio,
       option: postcssOption
     })
     const postcssLoader = WebpackModule.getPostCSSLoader({
       postcssOptions: {
-        plugins: getPostcssPlugins(appPath, this.__postCssOption)
+        plugins: getPostcssPlugins(appPath, this.__postcssOption)
       }
     })
     return {

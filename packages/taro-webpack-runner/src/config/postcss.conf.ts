@@ -52,7 +52,7 @@ export const getDefaultPostcssConfig = function ({
   designWidth,
   deviceRatio,
   option = {} as IPostcssOption
-}): [string | Func, any][] {
+}): [string, any, Func?][] {
   const { autoprefixer, pxtransform, htmltransform, url, ...options } = option
   if (designWidth) {
     defaultPxtransformOption.config.designWidth = designWidth
@@ -67,36 +67,36 @@ export const getDefaultPostcssConfig = function ({
   const urlOption = recursiveMerge({}, defaultUrlOption, url)
 
   return [
-    [require('postcss-import'), {}],
-    [require('autoprefixer'), autoprefixerOption],
-    [require('postcss-pxtransform'), pxtransformOption],
-    [require('postcss-html-transform'), htmltransformOption],
-    [require('postcss-plugin-constparse'), defaultConstparseOption],
-    [require('postcss-url'), urlOption],
+    ['postcss-import', {}, require('postcss-import')],
+    ['autoprefixer', autoprefixerOption, require('autoprefixer')],
+    ['postcss-pxtransform', pxtransformOption, require('postcss-pxtransform')],
+    ['postcss-html-transform', htmltransformOption, require('postcss-html-transform')],
+    ['postcss-plugin-constparse', defaultConstparseOption, require('postcss-plugin-constparse')],
+    ['postcss-url', urlOption, require('postcss-url')],
     ...Object.entries(options)
   ]
 }
 
 export const getPostcssPlugins = function (appPath: string, option = {} as IPostcssOption) {
-  option.forEach(([plugin, pluginOption]) => {
+  option.forEach(([pluginName, pluginOption, pluginPkg]) => {
     if (!pluginOption) return
     if (Object.hasOwnProperty.call(pluginOption, 'enable') && !pluginOption.enable) return
 
-    if (typeof plugin !== 'string') {
-      plugins.push(plugin(pluginOption.config || {}))
+    if (pluginPkg) {
+      plugins.push(pluginPkg(pluginOption.config || {}))
       return
     }
 
-    if (!isNpmPkg(plugin)) {
+    if (!isNpmPkg(pluginName)) {
       // local plugin
-      plugin = path.join(appPath, plugin)
+      pluginName = path.join(appPath, pluginName)
     }
 
     try {
-      const pluginPath = resolveSync(plugin, { basedir: appPath })
+      const pluginPath = resolveSync(pluginName, { basedir: appPath })
       plugins.push(require(pluginPath)(pluginOption.config || {}))
     } catch (e) {
-      const msg = e.code === 'MODULE_NOT_FOUND' ? `缺少 postcss 插件 "${plugin}", 已忽略` : e
+      const msg = e.code === 'MODULE_NOT_FOUND' ? `缺少 postcss 插件 "${pluginName}", 已忽略` : e
       console.log(msg)
     }
   })

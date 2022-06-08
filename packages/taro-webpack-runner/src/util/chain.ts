@@ -252,7 +252,7 @@ const getEsnextModuleRules = esnextModules => {
   return [...defaultEsnextModuleRegs, ...esnextModules]
 }
 
-export const getModule = (appPath: string, {
+export const parseModule = (appPath: string, {
   staticDirectory,
   designWidth,
   deviceRatio,
@@ -271,7 +271,7 @@ export const getModule = (appPath: string, {
 
   postcss
 }) => {
-  const postcssOption: IPostcssOption = postcss || {}
+  const customPostcssOption: IPostcssOption = postcss || {}
 
   const defaultStyleLoaderOption = {
     /**
@@ -283,7 +283,7 @@ export const getModule = (appPath: string, {
   const cssModuleOptions: PostcssOption.cssModules = recursiveMerge(
     {},
     defaultCssModuleOption,
-    postcssOption.cssModules
+    customPostcssOption.cssModules
   )
 
   const { namingPattern, generateScopedName } = cssModuleOptions.config!
@@ -393,15 +393,16 @@ export const getModule = (appPath: string, {
     })
   }
 
+  const postcssOption = getDefaultPostcssConfig({
+    designWidth,
+    deviceRatio,
+    option: customPostcssOption
+  })
   const postcssLoader = getPostcssLoader([
     { sourceMap: enableSourceMap },
     {
       postcssOptions: {
-        plugins: getPostcssPlugins(appPath, getDefaultPostcssConfig({
-          designWidth,
-          deviceRatio,
-          option: postcssOption
-        }))
+        plugins: getPostcssPlugins(appPath, postcssOption)
       }
     }
   ])
@@ -565,7 +566,7 @@ export const getModule = (appPath: string, {
     }
   }
 
-  return { rule }
+  return { rule, postcssOption }
 }
 
 export const getOutput = (appPath: string, [{ outputRoot, publicPath, chunkDirectory }, customOutput]) => {

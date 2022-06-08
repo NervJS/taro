@@ -54,7 +54,7 @@ export class H5Combination extends Combination<H5BuildConfig> {
       entryFileName
     })
     const module = this.webpackModule.getModules()
-    const [, pxtransformOption] = this.webpackModule.__postCssOption.find(([name]) => name === 'postcss-pxtransform') || []
+    const [, pxtransformOption] = this.webpackModule.__postcssOption.find(([name]) => name === 'postcss-pxtransform') || []
     if (isMultiRouterMode) {
       this.webpackPlugin.pages = this.inst.appConfig?.pages
     }

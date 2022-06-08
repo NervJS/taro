@@ -1,3 +1,4 @@
+import { IPostcssOption } from '@tarojs/taro/types/compile'
 import { networkInterfaces } from 'os'
 import * as path from 'path'
 
@@ -37,4 +38,15 @@ export const formatOpenHost = host => {
     }
   }
   return result
+}
+
+export function parseHtmlScript (pxtransformOption: IPostcssOption['pxtransform'] = {}) {
+  const options = pxtransformOption?.config || {}
+  const max = options?.max ?? 40
+  const min = options?.min ?? 20
+  const designWidth = input => typeof options.designWidth === 'function'
+    ? options.designWidth(input)
+    : options.designWidth
+  const deviceRatio = options.deviceRatio[designWidth(min)]
+  return `!function(n){function f(){var e=n.document.documentElement,t=e.getBoundingClientRect().width,x=t/16/${deviceRatio};e.style.fontSize=x>=${max}?"${max}px":x<=${min}?"${min}px":x+"px"}n.addEventListener("resize",(function(){f()})),f()}(window);`
 }

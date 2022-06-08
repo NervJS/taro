@@ -1,7 +1,7 @@
 import { get, mapValues, merge } from 'lodash'
 import * as path from 'path'
 
-import { addLeadingSlash, addTrailingSlash } from '../util'
+import { addLeadingSlash, addTrailingSlash, parseHtmlScript } from '../util'
 import {
   getCopyWebpackPlugin,
   getDefinePlugin,
@@ -9,8 +9,8 @@ import {
   getHtmlWebpackPlugin,
   getMainPlugin,
   getMiniCssExtractPlugin,
-  getModule,
   getOutput,
+  parseModule,
   processEnvOption
 } from '../util/chain'
 import { BuildConfig } from '../util/types'
@@ -59,9 +59,30 @@ export default function (appPath: string, config: Partial<BuildConfig>): any {
   } = config
   const sourceDir = path.join(appPath, sourceRoot)
   const outputDir = path.join(appPath, outputRoot)
-  const plugin = {} as any
-
   const isMultiRouterMode = get(router, 'mode') === 'multi'
+
+  const { rule, postcssOption } = parseModule(appPath, {
+    designWidth,
+    deviceRatio,
+    enableExtract,
+    enableSourceMap,
+
+    styleLoaderOption,
+    cssLoaderOption,
+    lessLoaderOption,
+    sassLoaderOption,
+    stylusLoaderOption,
+    fontUrlLoaderOption,
+    imageUrlLoaderOption,
+    mediaUrlLoaderOption,
+    esnextModules,
+
+    postcss,
+    staticDirectory
+  })
+  const [, pxtransformOption] = postcssOption.find(([name]) => name === 'postcss-pxtransform') || []
+
+  const plugin = {} as any
 
   plugin.mainPlugin = getMainPlugin({
     framework: config.framework,
@@ -88,18 +109,21 @@ export default function (appPath: string, config: Partial<BuildConfig>): any {
     plugin.copyWebpackPlugin = getCopyWebpackPlugin({ copy, appPath })
   }
 
+  const htmlScript = parseHtmlScript(pxtransformOption)
   if (isMultiRouterMode) {
     merge(plugin, mapValues(entry, (_filePath, entryName) => {
       return getHtmlWebpackPlugin([{
         filename: `${entryName}.html`,
         template: path.join(appPath, sourceRoot, 'index.html'),
+        script: htmlScript,
         chunks: [entryName]
       }])
     }))
   } else {
     plugin.htmlWebpackPlugin = getHtmlWebpackPlugin([{
       filename: 'index.html',
-      template: path.join(appPath, sourceRoot, 'index.html')
+      template: path.join(appPath, sourceRoot, 'index.html'),
+      script: htmlScript
     }])
   }
   plugin.definePlugin = getDefinePlugin([processEnvOption(env), defineConstants])
@@ -116,25 +140,7 @@ export default function (appPath: string, config: Partial<BuildConfig>): any {
       chunkDirectory
     }, output]),
     resolve: { alias },
-    module: getModule(appPath, {
-      designWidth,
-      deviceRatio,
-      enableExtract,
-      enableSourceMap,
-
-      styleLoaderOption,
-      cssLoaderOption,
-      lessLoaderOption,
-      sassLoaderOption,
-      stylusLoaderOption,
-      fontUrlLoaderOption,
-      imageUrlLoaderOption,
-      mediaUrlLoaderOption,
-      esnextModules,
-
-      postcss,
-      staticDirectory
-    }),
+    module: { rule },
     plugin,
     optimization: {
       noEmitOnErrors: true,
