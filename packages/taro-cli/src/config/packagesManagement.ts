@@ -9,7 +9,7 @@ const packageObj = {
   },
   cnpm: {
     command: 'cnpm install',
-    globalCommand: 'cnpm i -g @tarojs/cli@'
+    globalCommand: 'cnpm i -g @tarojs/cli'
   },
   npm: {
     command: 'npm install',

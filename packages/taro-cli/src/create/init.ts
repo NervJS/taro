@@ -173,19 +173,6 @@ export async function createApp (creater: Creator, params: IProjectConf, cb) {
 
   // npm & yarn
   const version = getPkgVersion()
-  const isShouldUseYarn = packageName === 'yarn'// shouldUseYarn()
-  const useNpmrc = !isShouldUseYarn
-  const yarnLockfilePath = path.join('yarn-lockfiles', `${version}-yarn.lock`)
-  const useYarnLock = isShouldUseYarn && fs.existsSync(creater.templatePath(template, yarnLockfilePath))
-
-  if (useNpmrc) {
-    creater.template(template, '.npmrc', path.join(projectPath, '.npmrc'))
-    logs.push(`${chalk.green('✔ ')}${chalk.grey(`创建文件: ${projectName}${path.sep}.npmrc`)}`)
-  }
-  if (useYarnLock) {
-    creater.template(template, yarnLockfilePath, path.join(projectPath, 'yarn.lock'))
-    logs.push(`${chalk.green('✔ ')}${chalk.grey(`创建文件: ${projectName}${path.sep}yarn.lock`)}`)
-  }
 
   // 遍历出模板中所有文件
   const files = await getAllFilesInFolder(templatePath, doNotCopyFiles)
