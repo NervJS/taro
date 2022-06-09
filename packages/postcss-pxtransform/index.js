@@ -46,8 +46,10 @@ module.exports = postcss.plugin('postcss-pxtransform', function (options = {}) {
     : options.designWidth
   switch (options.platform) {
     case 'h5': {
-      // options.rootValue = input => 1 / options.deviceRatio[designWidth(input)] * (designWidth(input) / 16)
-      options.rootValue = input => Math.max(Math.min(1 / options.deviceRatio[designWidth(input)] * (designWidth(input) / 16), options.max ?? 40), options.mix ?? 20)
+      options.rootValue = (input, m) => {
+        const val = Math.max(Math.min(1 / options.deviceRatio[designWidth(input)] * (designWidth(input) / 16), options.max ?? 40), options.mix ?? 20)
+        return m.indexOf('rpx') >= 0 ? val / 0.5 : val
+      }
       targetUnit = 'rem'
       transUnits.push('rpx')
       break
@@ -212,7 +214,7 @@ function createPxReplace (rootValue, unitPrecision, minPixelValue, onePxTransfor
       }
       const pixels = parseFloat($1)
       if (pixels < minPixelValue) return m
-      const fixedVal = toFixed((pixels / rootValue(input)), unitPrecision)
+      const fixedVal = toFixed((pixels / rootValue(input, m, $1)), unitPrecision)
       return (fixedVal === 0) ? '0' : fixedVal + targetUnit
     }
   }

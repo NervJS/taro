@@ -640,6 +640,6 @@ describe('rpx 单位转换', () => {
       designWidth: 640
     }
     const processed = postcss(px2rem(options)).process(rules).css
-    expect(processed).toBe('h1 {margin: 0 0 0.585rem;font-size: 40Px;line-height: 1.2;} .test{}')
+    expect(processed).toBe('h1 {margin: 0 0 0.2925rem;font-size: 40Px;line-height: 1.2;} .test{}')
   })
 })
