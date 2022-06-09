@@ -24,12 +24,12 @@ import { Shortcuts } from './shortcuts'
 import { capitalize, hasOwn, indent, toCamelCase, toDashed, toKebabCase } from './utils'
 
 interface Component {
-  nodeName: string;
-  attributes: Attributes;
+  nodeName: string
+  attributes: Attributes
 }
 
 interface Components {
-  [key: string]: Record<string, string>;
+  [key: string]: Record<string, string>
 }
 
 interface ComponentConfig {
@@ -40,15 +40,15 @@ interface ComponentConfig {
 }
 
 export interface IAdapter {
-  if: string;
-  else: string;
-  elseif: string;
-  for: string;
-  forItem: string;
-  forIndex: string;
-  key: string;
-  xs?: string,
-  type: string;
+  if: string
+  else: string
+  elseif: string
+  for: string
+  forItem: string
+  forIndex: string
+  key: string
+  xs?: string
+  type: string
 }
 
 export type Attributes = Record<string, string>

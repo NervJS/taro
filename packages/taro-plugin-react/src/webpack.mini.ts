@@ -1,8 +1,8 @@
 
-import { getLoaderMeta } from './loader-meta'
-
 import type { IPluginContext } from '@tarojs/service'
+
 import type { Frameworks } from './index'
+import { getLoaderMeta } from './loader-meta'
 
 export function modifyMiniWebpackChain (ctx: IPluginContext, framework: Frameworks, chain) {
   setAlias(ctx, framework, chain)

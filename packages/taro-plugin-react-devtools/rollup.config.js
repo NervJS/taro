@@ -1,6 +1,6 @@
+import { join } from 'path'
 import copy from 'rollup-plugin-copy'
 import typescript from 'rollup-plugin-typescript2'
-import { join } from 'path'
 
 const cwd = __dirname
 

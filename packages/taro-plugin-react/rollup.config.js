@@ -1,5 +1,5 @@
-import typescript from 'rollup-plugin-typescript2'
 import * as path from 'path'
+import typescript from 'rollup-plugin-typescript2'
 
 const cwd = __dirname
 

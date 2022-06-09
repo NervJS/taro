@@ -1,7 +1,7 @@
 /* eslint-disable dot-notation */
 import { Route, SpaRouterConfig } from '@tarojs/router/types/router'
-import { PageConfig, RouterAnimate } from '@tarojs/taro'
 import { Current, PageInstance, requestAnimationFrame } from '@tarojs/runtime'
+import { PageConfig, RouterAnimate } from '@tarojs/taro'
 import queryString from 'query-string'
 
 import { loadAnimateStyle } from '../animation'

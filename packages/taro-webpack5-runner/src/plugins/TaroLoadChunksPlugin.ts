@@ -16,11 +16,11 @@ import TaroNormalModule from './TaroNormalModule'
 const PLUGIN_NAME = 'TaroLoadChunksPlugin'
 
 interface IOptions {
-  commonChunks: string[],
-  isBuildPlugin: boolean,
-  framework: string,
-  addChunkPages?: AddPageChunks,
-  pages: Set<IComponent>,
+  commonChunks: string[]
+  isBuildPlugin: boolean
+  framework: string
+  addChunkPages?: AddPageChunks
+  pages: Set<IComponent>
   needAddCommon?: string[]
   isIndependentPackages?: boolean
 }

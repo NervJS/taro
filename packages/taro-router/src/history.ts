@@ -1,6 +1,6 @@
 import { StateEvent } from '@tarojs/router/types/history'
 import { IH5RouterConfig } from '@tarojs/taro/types/compile'
-import { Action, Blocker, BrowserHistoryOptions, createBrowserHistory, createHashHistory, History, Listener, Location, To, Path } from 'history'
+import { Action, Blocker, BrowserHistoryOptions, createBrowserHistory, createHashHistory, History, Listener, Location, Path, To } from 'history'
 
 import { RouterConfig } from './router'
 

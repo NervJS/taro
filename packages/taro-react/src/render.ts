@@ -1,7 +1,8 @@
 import { TaroElement } from '@tarojs/runtime'
 import { ReactNode } from 'react'
-import { TaroReconciler } from './reconciler'
 import { OpaqueRoot } from 'react-reconciler'
+
+import { TaroReconciler } from './reconciler'
 
 export const ContainerMap: WeakMap<TaroElement, Root> = new WeakMap()
 

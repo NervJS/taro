@@ -17,7 +17,7 @@ import {
 } from './utils/constants'
 
 interface IConfigOptions {
-  appPath: string,
+  appPath: string
 }
 
 export default class Config {

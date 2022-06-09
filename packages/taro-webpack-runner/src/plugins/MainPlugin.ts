@@ -12,12 +12,12 @@ import * as path from 'path'
 const PLUGIN_NAME = 'MainPlugin'
 
 interface IMainPluginOptions {
-  sourceDir: string,
-  outputDir: string,
-  routerConfig: any,
-  entryFileName: string,
-  framework: FRAMEWORK_MAP,
-  useHtmlComponents: boolean,
+  sourceDir: string
+  outputDir: string
+  routerConfig: any
+  entryFileName: string
+  framework: FRAMEWORK_MAP
+  useHtmlComponents: boolean
   deviceRatio: any
   designWidth: number
   loaderMeta?: Record<string, string>

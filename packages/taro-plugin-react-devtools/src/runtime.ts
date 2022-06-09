@@ -1,4 +1,5 @@
 import WebSocket from './websocket'
+
 const { connectToDevTools } = require('./backend')
 
 declare const __REACT_DEVTOOLS_PORT__: number

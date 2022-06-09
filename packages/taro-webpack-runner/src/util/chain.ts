@@ -210,7 +210,7 @@ export const getCssoWebpackPlugin = ([cssoOption]) => {
     partial(getPlugin, CssoWebpackPlugin)
   )([defaultCSSCompressOption, cssoOption])
 }
-export const getCopyWebpackPlugin = ({ copy, appPath }: { copy: ICopyOptions; appPath: string }) => {
+export const getCopyWebpackPlugin = ({ copy, appPath }: { copy: ICopyOptions, appPath: string }) => {
   const args = [
     copy.patterns.map(({ from, to, ...extra }) => {
       return {

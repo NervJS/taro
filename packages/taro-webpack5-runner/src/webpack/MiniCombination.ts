@@ -13,7 +13,7 @@ export class MiniCombination extends Combination<MiniBuildConfig> {
   fileType: IFileType
   isBuildNativeComp = false
   isBuildPlugin = false
-  optimizeMainPackage: { enable?: boolean | undefined; exclude?: any[] | undefined; } = {
+  optimizeMainPackage: { enable?: boolean | undefined, exclude?: any[] | undefined } = {
     enable: true
   }
 

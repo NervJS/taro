@@ -15,7 +15,7 @@ type CompilerOptions = {
 export interface IConfig {
   mini?: {
     compilerOptions: CompilerOptions
-  },
+  }
   vueLoaderOption?: {
     compilerOptions: CompilerOptions
     [key: string]: any

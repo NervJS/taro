@@ -17,7 +17,7 @@ module.exports = {
     '@typescript-eslint/explicit-module-boundary-types': 0,
     '@typescript-eslint/indent': ['error', 2],
     '@typescript-eslint/interface-name-prefix': 0,
-    '@typescript-eslint/member-delimiter-style': 0,
+    '@typescript-eslint/member-delimiter-style': ['warn', { multiline: { delimiter: 'none' }, singleline: { delimiter: 'comma' } }],
     '@typescript-eslint/no-empty-function': 0,
     '@typescript-eslint/no-explicit-any': 0,
     '@typescript-eslint/no-unused-vars': ['error', { argsIgnorePattern: '^_', args: 'after-used' }],

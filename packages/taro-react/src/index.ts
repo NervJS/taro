@@ -1,9 +1,10 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { render, createRoot, ContainerMap } from './render'
-import { TaroReconciler } from './reconciler'
 import { TaroElement } from '@tarojs/runtime'
-import { ReactNode } from 'react'
 import { ensure, isFunction } from '@tarojs/shared'
+import { ReactNode } from 'react'
+
+import { TaroReconciler } from './reconciler'
+import { ContainerMap, createRoot, render } from './render'
 
 const unstable_batchedUpdates = TaroReconciler.batchedUpdates
 
@@ -55,12 +56,12 @@ function createPortal (
 }
 
 export {
-  render,
+  createPortal,
   createRoot,
-  unstable_batchedUpdates,
-  unmountComponentAtNode,
   findDOMNode,
-  createPortal
+  render,
+  unmountComponentAtNode,
+  unstable_batchedUpdates
 }
 
 export default {

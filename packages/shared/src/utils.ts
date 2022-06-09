@@ -13,7 +13,7 @@ export const noop = (..._: unknown[]) => {}
  * @typeparam T Value type.
  */
 export interface Box<T> {
-  v: T;
+  v: T
 }
 
 /**

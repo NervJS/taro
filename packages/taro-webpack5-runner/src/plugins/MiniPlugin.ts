@@ -68,8 +68,8 @@ interface ITaroMiniPluginOptions {
 }
 
 export interface IComponentObj {
-  name?: string,
-  path: string | null,
+  name?: string
+  path: string | null
   type?: string
 }
 

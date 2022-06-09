@@ -1,7 +1,8 @@
-import typescript from 'rollup-plugin-typescript2'
 import * as path from 'path'
+import typescript from 'rollup-plugin-typescript2'
 
 const buble = require('rollup-plugin-buble')
+
 const cwd = __dirname
 
 const baseConfig = {

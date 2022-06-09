@@ -1,7 +1,8 @@
 import { isFunction, isString, Shortcuts } from '@tarojs/shared'
+
 import {
-  inlineElements,
   blockElements,
+  inlineElements,
   specialElements,
   SpecialMaps
 } from './constant'

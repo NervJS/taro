@@ -11,7 +11,7 @@ export enum HOOK_TYPE {
 }
 
 interface Hook {
-  type: HOOK_TYPE,
+  type: HOOK_TYPE
   initial?: Func | null
 }
 
@@ -55,14 +55,14 @@ interface MiniTextData {
 type MiniData = MiniElementData | MiniTextData
 
 interface UpdatePayload {
-  path: string;
+  path: string
   value: string | boolean | (() => MiniData | MiniData[])
 }
 
 type Target = Record<string, unknown> & { dataset: Record<string, unknown>, id: string }
 
 interface MpEvent {
-  type: string;
+  type: string
   detail: Record<string, unknown>
   target: Target
   currentTarget: Target
