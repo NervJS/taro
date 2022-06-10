@@ -3,10 +3,13 @@ import { Project } from '@tarojs/cli'
 
 export function init () {
   const argv = minimist(process.argv.slice(2), {
-    boolean: ['typescript', 'ts']
+    alias: {
+      typescript: ['ts']
+    },
+    boolean: ['typescript']
   })
   const projectName: string | undefined = argv._[0]
-  const typescript: boolean | undefined = argv.typescript || argv.ts || undefined
+  const typescript: boolean | undefined = argv.typescript || undefined
   const appPath = process.cwd()
 
   const project = new Project({
