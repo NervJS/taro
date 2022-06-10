@@ -38,6 +38,20 @@ const noopToken = predicate => node => (predicate(node) ? '<token>' : null)
 
 const valueForTypeToken = type => node => (node.type === type ? node.value : null)
 
+const functionValueForTypeToken = type => node => {
+  if (node.type === type) {
+    // handle rgb(a) function value
+    if (/^rgba?$/i.test(node.value)) {
+      const result = node.nodes
+        .filter(token => token.type === 'word')
+        .map(token => token.value)
+
+      return `${node.value}(${result.join(', ')})`
+    }
+  }
+  return null
+}
+
 export const regExpToken = (regExp, transform = String) => node => {
   if (node.type !== 'word') return null
 
@@ -57,6 +71,7 @@ export const tokens = {
   SLASH: noopToken(node => node.type === 'div' && node.value === '/'),
   COMMA: noopToken(node => node.type === 'div' && node.value === ','),
   WORD: valueForTypeToken('word'),
+  FUNC: functionValueForTypeToken('function'),
   NONE: regExpToken(noneRe),
   AUTO: regExpToken(autoRe),
   NUMBER: regExpToken(numberRe, Number),
