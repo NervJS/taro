@@ -59,6 +59,10 @@ const transformDecls = (styles, declarations, result, options = {}) => {
     ) {
       value = value.replace(/(\d+)px/g, '$1PX')
     }
+    // expect value is legal so that remove !import
+    if (/!import/i.test(value)) {
+      value = value.replace(/!import/, '')
+    }
 
     if (shorthandBorderProps.indexOf(property) > -1) {
       // transform single value shorthand border properties back to

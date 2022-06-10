@@ -3511,6 +3511,20 @@ describe('ICSS :export pseudo-selector', () => {
     })
   })
 
+  it('should transform propertyValue remove !import key', () => {
+    expect(
+      transform(`
+      .foo {
+        color: red !import;
+      }
+    `, { scalable: false })
+    ).toEqual({
+      foo: {
+        color: 'red'
+      }
+    })
+  })
+
   it('should throw an error if exportedKey has the same name as a class and is defined twice', () => {
     expect(() =>
       transform(`
