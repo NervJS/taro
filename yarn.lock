@@ -7222,10 +7222,10 @@ babel-plugin-jsx-attributes-array-to-object@0.3.0:
   resolved "https://registry.yarnpkg.com/babel-plugin-jsx-attributes-array-to-object/-/babel-plugin-jsx-attributes-array-to-object-0.3.0.tgz#ac7b551a2407750ac899460fe5e38b1dceaebed1"
   integrity sha512-XvbCsBFo/y4n2DzRtICQ60Kb3FWPIK359YsUkDPjC4UBCF/FMENKYzxarEhAD1GnrAuui5wOUvli89yqF1IzdA==
 
-babel-plugin-minify-dead-code-elimination@0.5.1:
-  version "0.5.1"
-  resolved "https://registry.yarnpkg.com/babel-plugin-minify-dead-code-elimination/-/babel-plugin-minify-dead-code-elimination-0.5.1.tgz#1a0c68e44be30de4976ca69ffc535e08be13683f"
-  integrity sha512-x8OJOZIrRmQBcSqxBcLbMIK8uPmTvNWPXH2bh5MDCW1latEqYiRMuUkPImKcfpo59pTUB2FT7HfcgtG8ZlR5Qg==
+babel-plugin-minify-dead-code-elimination@^0.5.2:
+  version "0.5.2"
+  resolved "https://registry.yarnpkg.com/babel-plugin-minify-dead-code-elimination/-/babel-plugin-minify-dead-code-elimination-0.5.2.tgz#f386ceec77a80cc4e76022a04c21b7d68e0aa5eb"
+  integrity sha512-krq9Lwi0QIzyAlcNBXTL4usqUvevB4BzktdEsb8srcXC1AaYqRJiAQw6vdKdJSaXbz6snBvziGr6ch/aoRCfpA==
   dependencies:
     babel-helper-evaluate-path "^0.5.0"
     babel-helper-mark-eval-scopes "^0.4.3"
@@ -23405,6 +23405,13 @@ rollup-plugin-buble@^0.19.8:
     buble "^0.19.8"
     rollup-pluginutils "^2.3.3"
 
+rollup-plugin-clear@^2.0.7:
+  version "2.0.7"
+  resolved "https://registry.npmjs.org/rollup-plugin-clear/-/rollup-plugin-clear-2.0.7.tgz#27a191bccb3964246ca2aad427e8798cbe87c9b1"
+  integrity sha512-Hg8NC3JcJBO1ofgyQC0IACpyKn/yhHPGZ3C7R3ubNGWUXy9JXHQrewk4J4hVcZznw6SOKayLsaNae596Rwt8Vg==
+  dependencies:
+    rimraf "^2.6.2"
+
 rollup-plugin-copy@^3.4.0:
   version "3.4.0"
   resolved "https://registry.yarnpkg.com/rollup-plugin-copy/-/rollup-plugin-copy-3.4.0.tgz#f1228a3ffb66ffad8606e2f3fb7ff23141ed3286"
@@ -23415,6 +23422,14 @@ rollup-plugin-copy@^3.4.0:
     fs-extra "^8.1.0"
     globby "10.0.1"
     is-plain-object "^3.0.0"
+
+rollup-plugin-image-file@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.npmjs.org/rollup-plugin-image-file/-/rollup-plugin-image-file-1.0.0.tgz#550bacc7d7ff6b6f70c98d7cf0ab006d79b9beaa"
+  integrity sha512-ThduEAog2/yyOt8rJmXBiwjvEGkNr2r7iJ5XXBfbhZT4jZ1xTjqwm0tIp7Si9W5KoOiRkGgla5K170ynChNUcQ==
+  dependencies:
+    rollup "2.75.6"
+    rollup-pluginutils "2.8.2"
 
 rollup-plugin-node-externals@^4.0.0:
   version "4.0.0"
@@ -23461,12 +23476,19 @@ rollup-pluginutils@2.8.1:
   dependencies:
     estree-walker "^0.6.1"
 
-rollup-pluginutils@^2.3.3, rollup-pluginutils@^2.8.2:
+rollup-pluginutils@2.8.2, rollup-pluginutils@^2.3.3, rollup-pluginutils@^2.8.2:
   version "2.8.2"
   resolved "https://registry.yarnpkg.com/rollup-pluginutils/-/rollup-pluginutils-2.8.2.tgz#72f2af0748b592364dbd3389e600e5a9444a351e"
   integrity sha512-EEp9NhnUkwY8aif6bxgovPHMoMoNr2FulJziTndpt5H9RdwC47GSGuII9XxpSdzVGM0GWrNPHV6ie1LTNJPaLQ==
   dependencies:
     estree-walker "^0.6.1"
+
+rollup@2.75.6:
+  version "2.75.6"
+  resolved "https://registry.npmjs.org/rollup/-/rollup-2.75.6.tgz#ac4dc8600f95942a0180f61c7c9d6200e374b439"
+  integrity sha512-OEf0TgpC9vU6WGROJIk1JA3LR5vk/yvqlzxqdrE2CzzXnqKXNzbAwlWUXis8RS3ZPe7LAq+YUxsRa0l3r27MLA==
+  optionalDependencies:
+    fsevents "~2.3.2"
 
 rollup@^2.56.2:
   version "2.70.2"

@@ -1,6 +1,7 @@
-import mediaQuery from 'css-mediaquery'
-import transformCSS from './css-to-react-native'
 import parseCSS from 'css/lib/parse'
+import mediaQuery from 'css-mediaquery'
+
+import transformCSS from './css-to-react-native'
 import {
   dimensionFeatures,
   mediaQueryFeatures
@@ -58,6 +59,10 @@ const transformDecls = (styles, declarations, result, options = {}) => {
       /(\d+)px/.test(value)
     ) {
       value = value.replace(/(\d+)px/g, '$1PX')
+    }
+    // expect value is legal so that remove !import
+    if (/!import/i.test(value)) {
+      value = value.replace(/!import/, '')
     }
 
     if (shorthandBorderProps.indexOf(property) > -1) {
