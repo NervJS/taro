@@ -1,3 +1,6 @@
+
+import { resolveExtFile } from './utils'
+import rollupResolver from './rollupResolver'
 import { Supporter } from './Support'
-export default { Supporter }
-module.exports = Supporter
+
+export { rollupResolver, resolveExtFile, Supporter as default }

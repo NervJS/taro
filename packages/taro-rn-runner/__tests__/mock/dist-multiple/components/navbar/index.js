@@ -5,7 +5,7 @@ import Text from '@tarojs/components-rn/dist/components/Text';
 import Image from '@tarojs/components-rn/dist/components/Image';
 import { Dimensions, StyleSheet } from 'react-native';
 
-var img = "data:image/webp;base64,UklGRqwAAABXRUJQVlA4TJ8AAAAvMMALEGdgKpKNfTN+NZBP/wTUMBXJxr4ZvxrIp38CTEWysW/Grwby6Z8ANZEkKeff3Em4iJ4i5g/A7n4E+CSCkST/P8LuLlUVdzfNzAKb2tqb/BO99xU/XUIk4CASwEKUUI1l6gljRP+FBIkGvoDCn+wNDrMVYjbPHVbz/GA2d5ndfrU79WELujxfI7Yw5fv5IGCGACt9wBomwHwIEgcA";
+var iconBack = require('../../assets/icon_back-541a82be.webp');
 
 // 一般app 只有竖屏模式，所以可以只获取一次 width
 const deviceWidthDp = Dimensions.get('window').width;
@@ -51,6 +51,6 @@ var indexScssStyleSheet = StyleSheet.create({
 
 console.log('rn resolve');
 
-var _styleSheet=indexScssStyleSheet;console.log('process.env.TARO_ENV',"rn");function Navbar(props){var title=props.title,rightElement=props.rightElement;return React.createElement(View,{style:_styleSheet["navbar"]},React.createElement(View,{style:_styleSheet["navbar-leftElement"]},React.createElement(Image,{src:img,onClick:function back(){return navigateBack();},style:_styleSheet["icon-back"]})),React.createElement(View,{style:_styleSheet["navbar-title"]},typeof title==='string'?React.createElement(Text,{style:_styleSheet["navbar-title-text"]},title):title),React.createElement(View,{style:_styleSheet["navbar-rightElement"]},rightElement));}
+var _styleSheet=indexScssStyleSheet;console.log('process.env.TARO_ENV',"rn");function Navbar(props){var title=props.title,rightElement=props.rightElement;return React.createElement(View,{style:_styleSheet["navbar"]},React.createElement(View,{style:_styleSheet["navbar-leftElement"]},React.createElement(Image,{src:iconBack,onClick:function back(){return navigateBack();},style:_styleSheet["icon-back"]})),React.createElement(View,{style:_styleSheet["navbar-title"]},typeof title==='string'?React.createElement(Text,{style:_styleSheet["navbar-title-text"]},title):title),React.createElement(View,{style:_styleSheet["navbar-rightElement"]},rightElement));}
 
 export { Navbar as default };

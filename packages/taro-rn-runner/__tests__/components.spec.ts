@@ -5,16 +5,17 @@ import * as path from 'path'
 
 describe('build_components', () => {
   it('single component', async () => {
-    await runner(appPath, {
+    const result = await runner(appPath, {
       ...config,
       nativeComponents: {
         externals: ['react', 'react-native', /@tarojs\/components-rn/, /@babel\/runtime/],
         output: 'dist-single'
       }
     })
+    expect(result).toMatchSnapshot()
   })
   it('multiple components', async () => {
-    await build(config, {
+    const result = await build(config, {
       input: [
         'components/cell/index',
         'components/navbar/index'
@@ -24,5 +25,6 @@ describe('build_components', () => {
       externals: ['react', 'react-native', /@tarojs\/components-rn/, /@tarojs\/taro-rn/, /@babel\/runtime/],
       externalResolve: () => {}
     })
+    expect(result).toMatchSnapshot()
   })
 })

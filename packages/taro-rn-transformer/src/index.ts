@@ -1,5 +1,5 @@
 import * as path from 'path'
-import appLoader, { getAppPages } from './app'
+import appLoader, { getAppPages, getAppConfig } from './app'
 import componentLoader from './component'
 import { TransformType, globalAny } from './types/index'
 import { isPageFile, getCommonStyle, isSourceComponent, isNPMComponent } from './utils'
@@ -47,3 +47,5 @@ module.exports.transform = function ({ src, filename, options }: TransformType) 
     options: options
   })
 }
+
+module.exports.getAppConfig = getAppConfig

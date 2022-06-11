@@ -1,7 +1,6 @@
 import { rollupTransform as styleTransformer } from '@tarojs/rn-style-transformer'
-import taroResolver from '@tarojs/rn-supporter/dist/rollupResolver'
-import { resolveExtFile } from '@tarojs/rn-supporter/dist/utils'
-import { getAppConfig } from '@tarojs/rn-transformer/dist/app'
+import { resolveExtFile, rollupResolver as taroResolver } from '@tarojs/rn-supporter'
+import { getAppConfig } from '@tarojs/rn-transformer'
 import babel from '@rollup/plugin-babel'
 import * as commonjs from '@rollup/plugin-commonjs'
 import nodeResolve from '@rollup/plugin-node-resolve'
@@ -9,7 +8,7 @@ import { merge } from 'lodash'
 import * as path from 'path'
 import { rollup } from 'rollup'
 import * as clear from 'rollup-plugin-clear'
-import * as image from '@rollup/plugin-image'
+import image from 'rollup-plugin-image-file'
 
 const DefaultConfig = {
   externals: [
@@ -69,7 +68,9 @@ export const build = async (projectConfig, componentConfig: ComponentConfig) => 
     plugins: [
       clear({ targets: [output] }),
       // @ts-ignore
-      image(),
+      image({
+        extensions: ['.jpg', '.jpeg', '.png', '.webp', '.gif', '.svg']
+      }),
       taroResolver({
         externalResolve
       }),
@@ -98,7 +99,8 @@ export const build = async (projectConfig, componentConfig: ComponentConfig) => 
       styleTransformer({ format: 'es', config: projectConfig })
     ]
   })
-  return await bundle.write({ dir: output })
+  const result = await bundle.write({ dir: output })
+  return result
 }
 
 type ExternalsFn = () => Array<string | RegExp>

@@ -3,7 +3,7 @@ import * as os from 'os'
 import * as path from 'path'
 import resolveReactNativePath from '@react-native-community/cli/build/tools/config/resolveReactNativePath'
 import findProjectRoot from '@react-native-community/cli/build/tools/config/findProjectRoot'
-import * as Supporter from '@tarojs/rn-supporter'
+import Supporter from '@tarojs/rn-supporter'
 import ConditionalFileStore from './conditional-file-store'
 
 const reactNativePath: string = resolveReactNativePath(findProjectRoot())
