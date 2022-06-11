@@ -6557,10 +6557,10 @@ babel-plugin-jsx-attributes-array-to-object@0.3.0:
   resolved "https://registry.yarnpkg.com/babel-plugin-jsx-attributes-array-to-object/-/babel-plugin-jsx-attributes-array-to-object-0.3.0.tgz#ac7b551a2407750ac899460fe5e38b1dceaebed1"
   integrity sha512-XvbCsBFo/y4n2DzRtICQ60Kb3FWPIK359YsUkDPjC4UBCF/FMENKYzxarEhAD1GnrAuui5wOUvli89yqF1IzdA==
 
-babel-plugin-minify-dead-code-elimination@0.5.1:
-  version "0.5.1"
-  resolved "https://registry.yarnpkg.com/babel-plugin-minify-dead-code-elimination/-/babel-plugin-minify-dead-code-elimination-0.5.1.tgz#1a0c68e44be30de4976ca69ffc535e08be13683f"
-  integrity sha512-x8OJOZIrRmQBcSqxBcLbMIK8uPmTvNWPXH2bh5MDCW1latEqYiRMuUkPImKcfpo59pTUB2FT7HfcgtG8ZlR5Qg==
+babel-plugin-minify-dead-code-elimination@^0.5.2:
+  version "0.5.2"
+  resolved "https://registry.yarnpkg.com/babel-plugin-minify-dead-code-elimination/-/babel-plugin-minify-dead-code-elimination-0.5.2.tgz#f386ceec77a80cc4e76022a04c21b7d68e0aa5eb"
+  integrity sha512-krq9Lwi0QIzyAlcNBXTL4usqUvevB4BzktdEsb8srcXC1AaYqRJiAQw6vdKdJSaXbz6snBvziGr6ch/aoRCfpA==
   dependencies:
     babel-helper-evaluate-path "^0.5.0"
     babel-helper-mark-eval-scopes "^0.4.3"
@@ -25694,8 +25694,10 @@ watchpack@^1.7.4:
   resolved "https://registry.yarnpkg.com/watchpack/-/watchpack-1.7.5.tgz#1267e6c55e0b9b5be44c2023aed5437a2c26c453"
   integrity sha512-9P3MWk6SrKjHsGkLT2KHXdQ/9SNkyoJbabxnKOoJepsvJjJG8uYTR3yTPxPQvNDI3w4Nz1xnE0TLHK4RIVe/MQ==
   dependencies:
+    chokidar "^3.4.1"
     graceful-fs "^4.1.2"
     neo-async "^2.5.0"
+    watchpack-chokidar2 "^2.0.1"
   optionalDependencies:
     chokidar "^3.4.1"
     watchpack-chokidar2 "^2.0.1"
