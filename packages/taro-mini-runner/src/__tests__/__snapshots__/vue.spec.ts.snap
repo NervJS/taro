@@ -49,7 +49,8 @@ require(\\"./taro\\");
                 bindActiveEnd: _empty
             },
             RichText: {
-                space: _empty
+                space: _empty,
+                \\"user-select\\": _false
             },
             Text: {
                 \\"user-select\\": _false
@@ -105,6 +106,7 @@ require(\\"./taro\\");
                 \\"safe-password-nonce\\": \\"\\",
                 \\"safe-password-salt\\": \\"\\",
                 \\"safe-password-custom-hash\\": \\"\\",
+                \\"auto-fill\\": _empty,
                 bindKeyboardHeightChange: _empty
             },
             Picker: {

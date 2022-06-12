@@ -3,7 +3,7 @@ import { StandardProps, CommonEventFunction, NetStatus } from './common'
 
 interface LivePlayerProps extends StandardProps {
   /** 音视频地址。目前仅支持 flv, rtmp 格式
-   * @supported weapp
+   * @supported weapp, tt
    */
   src?: string
 
@@ -15,25 +15,25 @@ interface LivePlayerProps extends StandardProps {
 
   /** 自动播放
    * @default false
-   * @supported weapp
+   * @supported weapp, tt
    */
   autoplay?: boolean
 
   /** 是否静音
    * @default false
-   * @supported weapp
+   * @supported weapp, tt
    */
   muted?: boolean
 
   /** 画面方向
    * @default "vertical"
-   * @supported weapp
+   * @supported weapp, tt
    */
   orientation?: keyof LivePlayerProps.Orientation
 
   /** 填充模式
    * @default "contain"
-   * @supported weapp
+   * @supported weapp, tt
    */
   objectFit?: keyof LivePlayerProps.objectFit
 
@@ -80,12 +80,12 @@ interface LivePlayerProps extends StandardProps {
   pictureInPictureMode?: ('push' | 'pop')[] | 'push' | 'pop' | ''
 
   /** 播放状态变化事件，detail = {code}
-   * @supported weapp
+   * @supported weapp, tt
    */
   onStateChange?: CommonEventFunction<LivePlayerProps.onStateChangeEventDetail>
 
   /** 全屏变化事件，detail = {direction, fullScreen}
-   * @supported weapp
+   * @supported weapp, tt
    */
   onFullScreenChange?: CommonEventFunction<LivePlayerProps.onFullScreenChangeEventDetail>
 
@@ -208,7 +208,7 @@ declare namespace LivePlayerProps {
  *
  * 需要先通过类目审核，再在小程序管理后台，“设置”-“接口设置”中自助开通该组件权限。
  * @classification media
- * @supported weapp
+ * @supported weapp, tt
  * @example_react
  * ```tsx
  * class App extends Components {

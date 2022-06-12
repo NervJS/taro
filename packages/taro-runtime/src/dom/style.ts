@@ -89,7 +89,10 @@ export class Style {
     this._usedStyleProp.forEach(key => {
       const val = this[key]
       if (!val) return
-      const styleName = isCssVariable(key) ? key : toDashed(key)
+      let styleName = isCssVariable(key) ? key : toDashed(key)
+      if (styleName.indexOf('webkit') === 0 || styleName.indexOf('Webkit') === 0) {
+        styleName = `-${styleName}`
+      }
       texts.push(`${styleName}: ${val};`)
     })
     return texts.join(' ')

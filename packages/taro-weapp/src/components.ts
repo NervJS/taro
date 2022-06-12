@@ -12,7 +12,8 @@ export const components = {
     bindActiveEnd: _empty
   },
   RichText: {
-    space: _empty
+    space: _empty,
+    'user-select': _false
   },
   Text: {
     'user-select': _false
@@ -68,6 +69,7 @@ export const components = {
     'safe-password-nonce': '',
     'safe-password-salt': '',
     'safe-password-custom-hash': '',
+    'auto-fill': _empty,
     bindKeyboardHeightChange: _empty
   },
   Picker: {
