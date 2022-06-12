@@ -296,7 +296,11 @@ export class Swiper implements ComponentInterface {
           const className = target && typeof target.className === 'string' ? target.className : ''
           if (className.includes('taro_page') && target.style.display !== 'none') {
             if (that.autoplay && target.contains(_swiper.$el[0])) {
-              _swiper.slideTo(that.current)
+              if (circular) {
+                _swiper.slideToLoop(this.realIndex, 0) // 更新下标
+              } else {
+                _swiper.slideTo(this.realIndex)
+              } 
             }
           }
         }
