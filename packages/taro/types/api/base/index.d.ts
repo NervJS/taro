@@ -3,7 +3,7 @@ import Taro from '../../index'
 declare module '../../index' {
   interface TaroStatic {
     /** 判断小程序的 API，回调，参数，组件等是否在当前版本可用。
-     * @supported weapp
+     * @supported weapp, tt
      * @example
      * ```tsx
      * Taro.canIUse('openBluetoothAdapter')
@@ -44,7 +44,7 @@ declare module '../../index' {
 
     /**
      * 将 Base64 字符串转成 ArrayBuffer 数据。
-     * @supported weapp, h5, rn
+     * @supported weapp, h5, rn, tt
      * @example
      * ```tsx
      * const base64 = 'CxYh'
@@ -59,7 +59,7 @@ declare module '../../index' {
 
     /**
      * 将 ArrayBuffer 数据转成 Base64 字符串。
-     * @supported weapp, h5, rn
+     * @supported weapp, h5, rn, tt
      * @example
      * ```tsx
      * const arrayBuffer = new Uint8Array([11, 22, 33])

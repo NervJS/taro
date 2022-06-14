@@ -155,7 +155,7 @@ declare module '../../index' {
    */
   interface RecorderManager {
     /** 监听录音错误事件
-     * @supported weapp, rn
+     * @supported weapp, rn, tt
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/recorder/RecorderManager.onError.html
      */
     onError(
@@ -163,7 +163,7 @@ declare module '../../index' {
       callback: RecorderManager.OnErrorCallback,
     ): void
     /** 监听已录制完指定帧大小的文件事件。如果设置了 frameSize，则会回调此事件。
-     * @supported weapp
+     * @supported weapp, tt
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/recorder/RecorderManager.onFrameRecorded.html
      */
     onFrameRecorded(
@@ -187,7 +187,7 @@ declare module '../../index' {
       callback: (res: TaroGeneral.CallbackResult) => void,
     ): void
     /** 监听录音暂停事件
-     * @supported weapp, rn
+     * @supported weapp, rn, tt
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/recorder/RecorderManager.onPause.html
      */
     onPause(
@@ -195,7 +195,7 @@ declare module '../../index' {
       callback: (res: TaroGeneral.CallbackResult) => void,
     ): void
     /** 监听录音继续事件
-     * @supported weapp, rn
+     * @supported weapp, rn, tt
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/recorder/RecorderManager.onResume.html
      */
     onResume(
@@ -203,7 +203,7 @@ declare module '../../index' {
       callback: (res: TaroGeneral.CallbackResult) => void,
     ): void
     /** 监听录音开始事件
-     * @supported weapp, rn
+     * @supported weapp, rn, tt
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/recorder/RecorderManager.onStart.html
      */
     onStart(
@@ -211,7 +211,7 @@ declare module '../../index' {
       callback: (res: TaroGeneral.CallbackResult) => void,
     ): void
     /** 监听录音结束事件
-     * @supported weapp, rn
+     * @supported weapp, rn, tt
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/recorder/RecorderManager.onStop.html
      */
     onStop(
@@ -224,17 +224,17 @@ declare module '../../index' {
      */
     pause(): void
     /** 继续录音
-     * @supported weapp, rn
+     * @supported weapp, rn, tt
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/recorder/RecorderManager.resume.html
      */
     resume(): void
     /** 开始录音
-     * @supported weapp, rn
+     * @supported weapp, rn, tt
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/recorder/RecorderManager.start.html
      */
     start(option: RecorderManager.StartOption): void
     /** 停止录音
-     * @supported weapp, rn
+     * @supported weapp, rn, tt
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/recorder/RecorderManager.stop.html
      */
     stop(): void

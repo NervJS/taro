@@ -143,17 +143,17 @@ declare module '../../index' {
    */
   interface SocketTask {
     /** 通过 WebSocket 连接发送数据
-     * @supported weapp, h5, rn, alipay, swan
+     * @supported weapp, h5, rn, alipay, swan, tt
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/network/websocket/SocketTask.send.html
      */
     send(option: SocketTask.SendOption): void
     /** 关闭 WebSocket 连接
-     * @supported weapp, h5, rn, alipay, swan
+     * @supported weapp, h5, rn, alipay, swan, tt
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/network/websocket/SocketTask.close.html
      */
     close(option: SocketTask.CloseOption): void
     /** 监听 WebSocket 连接打开事件
-     * @supported weapp, h5, rn, alipay, swan
+     * @supported weapp, h5, rn, alipay, swan, tt
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/network/websocket/SocketTask.onOpen.html
      */
     onOpen(
@@ -161,7 +161,7 @@ declare module '../../index' {
       callback: SocketTask.OnOpenCallback
     ): void
     /** 监听 WebSocket 连接关闭事件
-     * @supported weapp, h5, rn, alipay, swan
+     * @supported weapp, h5, rn, alipay, swan, tt
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/network/websocket/SocketTask.onClose.html
      */
     onClose(
@@ -169,7 +169,7 @@ declare module '../../index' {
       callback: SocketTask.OnCloseCallback
     ): void
     /** 监听 WebSocket 错误事件
-     * @supported weapp, h5, rn, alipay, swan
+     * @supported weapp, h5, rn, alipay, swan, tt
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/network/websocket/SocketTask.onError.html
      */
     onError(
@@ -177,7 +177,7 @@ declare module '../../index' {
       callback: SocketTask.OnErrorCallback
     ): void
     /** 监听 WebSocket 接受到服务器的消息事件
-     * @supported weapp, h5, rn, alipay, swan
+     * @supported weapp, h5, rn, alipay, swan, tt
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/network/websocket/SocketTask.onMessage.html
      */
     onMessage<T = any>(
