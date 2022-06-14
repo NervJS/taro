@@ -15,6 +15,7 @@ describe('build_components', () => {
     })
     expect(result).toMatchSnapshot()
   })
+
   it('multiple components', async () => {
     const result = await build(config, {
       input: [
@@ -23,6 +24,19 @@ describe('build_components', () => {
       ],
       sourceRootPath: path.resolve(__dirname, './mock/src'),
       output: path.resolve(__dirname, './mock/dist-multiple'),
+      externals: ['react', 'react-native', /@tarojs\/components-rn/, /@tarojs\/taro-rn/, /@babel\/runtime/],
+      externalResolve: () => {}
+    })
+    expect(result).toMatchSnapshot()
+  })
+
+  it('svg transform', async () => {
+    const result = await build(config, {
+      input: [
+        'components/svg/index'
+      ],
+      sourceRootPath: path.resolve(__dirname, './mock/src'),
+      output: path.resolve(__dirname, './mock/dist-svg'),
       externals: ['react', 'react-native', /@tarojs\/components-rn/, /@tarojs\/taro-rn/, /@babel\/runtime/],
       externalResolve: () => {}
     })

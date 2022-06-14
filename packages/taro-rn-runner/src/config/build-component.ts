@@ -20,7 +20,7 @@ const DefaultConfig = {
 }
 
 export const build = async (projectConfig, componentConfig: ComponentConfig) => {
-  const mergedConfig = merge(DefaultConfig, componentConfig)
+  const mergedConfig = merge({}, DefaultConfig, componentConfig)
   const { input, externals, output, externalResolve } = mergedConfig
   let { sourceRootPath } = componentConfig
 
@@ -67,9 +67,10 @@ export const build = async (projectConfig, componentConfig: ComponentConfig) => 
     external: getExternal(),
     plugins: [
       clear({ targets: [output] }),
+      // TODO: 使用 react-native-svg-transformer 处理
       // @ts-ignore
       image({
-        extensions: ['.jpg', '.jpeg', '.png', '.webp', '.gif', '.svg']
+        extensions: ['.jpg', '.jpeg', '.png', '.webp', '.gif', '.svg', '.svgx']
       }),
       taroResolver({
         externalResolve

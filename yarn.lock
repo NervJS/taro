@@ -23423,10 +23423,10 @@ rollup-plugin-copy@^3.4.0:
     globby "10.0.1"
     is-plain-object "^3.0.0"
 
-rollup-plugin-image-file@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.npmjs.org/rollup-plugin-image-file/-/rollup-plugin-image-file-1.0.0.tgz#550bacc7d7ff6b6f70c98d7cf0ab006d79b9beaa"
-  integrity sha512-ThduEAog2/yyOt8rJmXBiwjvEGkNr2r7iJ5XXBfbhZT4jZ1xTjqwm0tIp7Si9W5KoOiRkGgla5K170ynChNUcQ==
+rollup-plugin-image-file@^1.0.2:
+  version "1.0.2"
+  resolved "https://npm.amh-group.com/rollup-plugin-image-file/-/rollup-plugin-image-file-1.0.2.tgz#4c5365679d77be5e3f44db6056014126f06fbe25"
+  integrity sha512-o3Ss9iZb4cF1R2jQYbIprk7GRE9/L17l674Azq/9zykTgnEpGM+lpXj43q4O71LwqVnzH0XV9POwDJqJMwWLcQ==
   dependencies:
     rollup "2.75.6"
     rollup-pluginutils "2.8.2"
@@ -26851,10 +26851,8 @@ watchpack@^1.7.4:
   resolved "https://registry.yarnpkg.com/watchpack/-/watchpack-1.7.5.tgz#1267e6c55e0b9b5be44c2023aed5437a2c26c453"
   integrity sha512-9P3MWk6SrKjHsGkLT2KHXdQ/9SNkyoJbabxnKOoJepsvJjJG8uYTR3yTPxPQvNDI3w4Nz1xnE0TLHK4RIVe/MQ==
   dependencies:
-    chokidar "^3.4.1"
     graceful-fs "^4.1.2"
     neo-async "^2.5.0"
-    watchpack-chokidar2 "^2.0.1"
   optionalDependencies:
     chokidar "^3.4.1"
     watchpack-chokidar2 "^2.0.1"

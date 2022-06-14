@@ -1,13 +1,11 @@
 import React from 'react'
 import Taro from '@tarojs/taro'
 import { View, Text, Image } from '@tarojs/components'
-// @ts-ignore
 import iconBack from './icon_back.webp'
 import './index.scss'
 import './resolver'
 
 console.log('process.env.TARO_ENV', process.env.TARO_ENV)
-
 export default function Navbar (props: Props) {
   const { title, rightElement } = props
   const back = () => Taro.navigateBack()
