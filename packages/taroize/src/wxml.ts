@@ -69,8 +69,8 @@ export type AttrValue =
   | null
 
 export interface Imports {
-  ast: t.File,
-  name: string,
+  ast: t.File
+  name: string
   wxs?: boolean
 }
 
@@ -557,7 +557,6 @@ function transformIf (
     return
   }
   if (value === null || !t.isJSXExpressionContainer(value)) {
-    // tslint:disable-next-line
     console.error('wx:if 的值需要用双括号 `{{}}` 包裹它的值')
     if (value && t.isStringLiteral(value)) {
       value = t.jSXExpressionContainer(buildTemplate(value.value))
@@ -626,7 +625,6 @@ function handleConditions (conditions: Condition[]) {
       conditions[0].path.replaceWith(t.jSXExpressionContainer(node))
       conditions.slice(1).forEach(c => c.path.remove())
     } catch (error) {
-      // tslint:disable-next-line
       console.error('wx:elif 的值需要用双括号 `{{}}` 包裹它的值')
     }
   }
@@ -634,8 +632,8 @@ function handleConditions (conditions: Condition[]) {
 
 function findWXIfProps (
   jsx: NodePath<t.Node>
-): { reg: RegExpMatchArray; tester: AttrValue } | null {
-  let matches: { reg: RegExpMatchArray; tester: AttrValue } | null = null
+): { reg: RegExpMatchArray, tester: AttrValue } | null {
+  let matches: { reg: RegExpMatchArray, tester: AttrValue } | null = null
   jsx &&
     jsx.isJSXElement() &&
     jsx
@@ -768,7 +766,6 @@ export function parseContent (content: string, single = false): { type: 'raw' | 
   let match
   let index
   let tokenValue
-  // tslint:disable-next-line
   while ((match = handlebarsRE.exec(content))) {
     index = match.index
     // push text token
@@ -826,7 +823,6 @@ function parseAttribute (attr: Attribute) {
         }
       }
       if (t.isThisExpression(expr)) {
-        // tslint:disable-next-line
         console.error('在参数中使用 `this` 可能会造成意想不到的结果，已将此参数修改为 `__placeholder__`，你可以在转换后的代码查找这个关键字修改。')
         expr = t.stringLiteral('__placeholder__')
       }

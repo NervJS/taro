@@ -101,7 +101,7 @@ $ git commit -m "chore(release): publish <version>"
 ## 代码风格
 
 * `JavaScript`：JavaScript 风格遵从 [JavaScript Standard Style](https://github.com/standard/standard)。
-* `TypeScript`：TypeScript 风格也是 [JavaScript Standard Style](https://github.com/standard/standard) 的变种，详情请看相关包目录下的 `tslint.json` 和 `tsconfig.json`。
+* `TypeScript`：TypeScript 风格也是 [JavaScript Standard Style](https://github.com/standard/standard) 的变种，详情请看相关包目录下的 `eslint.json` 和 `tsconfig.json`。
 * 样式：遵循相关包目录下的 `.stylelintrc` 风格。
 
 ## Pull Request 指南

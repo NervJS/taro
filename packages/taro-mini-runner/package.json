@@ -9,8 +9,6 @@
     "prod": "tsc && npm run mv:comp",
     "mv:comp": "node ./mv-comp.js",
     "clean": "rimraf dist",
-    "lint": "tslint src/**/*.ts --fix",
-    "lint:typecheck": "tslint -p tsconfig.json src/**/*.ts --fix",
     "test": "cross-env NODE_ENV=jest jest",
     "test:ci": "cross-env NODE_ENV=jest jest -i",
     "test:dev": "cross-env NODE_ENV=jest jest --watch",
