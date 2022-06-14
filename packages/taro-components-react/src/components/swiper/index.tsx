@@ -15,8 +15,6 @@ interface SwiperItemProps extends React.HTMLAttributes<HTMLDivElement> {
 }
 
 interface SwiperProps extends React.HTMLAttributes<HTMLDivElement> {
-  className?: string
-  style?: Record<string, string>
   autoplay?: boolean
   interval?: number
   duration?: number
