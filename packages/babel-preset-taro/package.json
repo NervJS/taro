@@ -40,7 +40,7 @@
     "babel-plugin-dynamic-import-node": "2.3.3",
     "babel-plugin-global-define": "1.0.3",
     "babel-plugin-jsx-attributes-array-to-object": "0.3.0",
-    "babel-plugin-minify-dead-code-elimination": "0.5.1",
+    "babel-plugin-minify-dead-code-elimination": "^0.5.2",
     "babel-plugin-transform-imports-api": "1.0.0",
     "babel-plugin-transform-react-jsx-to-rn-stylesheet": "3.5.0-beta.2",
     "babel-plugin-transform-taroapi": "3.5.0-beta.2",
