@@ -70,7 +70,7 @@
     "mem-fs-editor": "7.1.0",
     "minimist": "1.2.5",
     "npm-check": "^5.9.0",
-    "ora": "^2.0.0",
+    "ora": "^6.1.0",
     "postcss": "^6.0.22",
     "postcss-taro-unit-transform": "1.2.15",
     "prettier": "^1.16.4",

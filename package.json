@@ -138,7 +138,7 @@
     "nervjs": "^1.4.6",
     "node-sass": "6.0.1",
     "npm-run-all": "^4.1.2",
-    "ora": "^2.1.0",
+    "ora": "^6.1.0",
     "postcss": "^8.4.12",
     "postcss-scss": "^4.0.3",
     "power-assert": "^1.6.1",
