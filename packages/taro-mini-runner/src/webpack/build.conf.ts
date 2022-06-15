@@ -134,7 +134,7 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
   /** 需要在miniPlugin前，否则无法获取entry地址 */
   if (optimizeMainPackage.enable) {
     plugin.miniSplitChunksPlugin = getMiniSplitChunksPlugin({
-      exclude: optimizeMainPackage.exclude,
+      ...optimizeMainPackage,
       fileType
     })
   }
