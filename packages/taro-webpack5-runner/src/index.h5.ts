@@ -1,12 +1,12 @@
 import { chalk, FRAMEWORK_MAP, recursiveMerge, SOURCE_DIR } from '@tarojs/helper'
 import { isFunction } from '@tarojs/shared'
+import preBundle from '@tarojs/webpack5-prebundle'
 import detectPort from 'detect-port'
 import path from 'path'
 import { format as formatUrl } from 'url'
 import webpack from 'webpack'
 import WebpackDevServer from 'webpack-dev-server'
 
-import { preBundle } from './prebundle/index.h5'
 import { addHtmlSuffix, addLeadingSlash, addTrailingSlash, formatOpenHost, stripBasename, stripTrailingSlash } from './utils'
 import H5AppInstance from './utils/H5AppInstance'
 import type { H5BuildConfig } from './utils/types'
@@ -18,7 +18,7 @@ export default async function build (appPath: string, rawConfig: H5BuildConfig):
   const combination = new H5Combination(appPath, rawConfig)
   await combination.make()
 
-  await preBundle(combination)
+  await preBundle.run(combination)
 
   const webpackConfig = combination.chain.toConfig()
   const config = combination.config

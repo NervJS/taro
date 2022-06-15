@@ -1,10 +1,10 @@
 import { FRAMEWORK_MAP } from '@tarojs/helper'
 import { AppConfig } from '@tarojs/taro'
+import { VirtualModule } from '@tarojs/webpack5-prebundle/dist/index.h5'
 import { defaults } from 'lodash'
 import path from 'path'
 import webpack from 'webpack'
 
-import { VirtualModule } from '../prebundle/index.h5'
 import H5AppInstance from '../utils/H5AppInstance'
 
 const PLUGIN_NAME = 'H5Plugin'

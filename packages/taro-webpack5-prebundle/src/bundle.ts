@@ -2,8 +2,8 @@ import { init, parse } from 'es-module-lexer'
 import esbuild, { Plugin } from 'esbuild'
 import fs from 'fs-extra'
 import path from 'path'
+import Chain from 'webpack-chain'
 
-import type { Combination } from '../webpack/Combination'
 import { assetsRE, CollectedDeps } from './constant'
 import {
   externalModule,
@@ -22,14 +22,14 @@ type ExportsData = ReturnType<typeof parse> & { hasReExports?: boolean, needInte
 // 2. in the plugin, read the entry ourselves as virtual files to retain the
 //    path.
 export async function bundle (
+  appPath: string,
   deps: CollectedDeps,
-  combination: Combination,
+  chain: Chain,
   prebundleOutputDir: string,
   customEsbuildConfig: Record<string, any> = {}
 ) {
   await init
 
-  const appPath = combination.appPath
   const flattenDeps: CollectedDeps = new Map()
   const flatIdExports = new Map<string, ExportsData>()
 
@@ -65,7 +65,7 @@ export async function bundle (
     mainFields: ['main:h5', 'browser', 'module', 'jsnext:main', 'main'],
     format: 'esm',
     define: {
-      ...getDefines(combination),
+      ...getDefines(chain),
       // AMD 被 esbuild 转 ESM 后，是套着 ESM 外皮的 AMD 语法模块。
       // Webpack HarmonyDetectionParserPlugin 会阻止 AMDDefineDependencyParserPlugin 对这些模块的处理。
       // 导致这些模块报错（如 lodash）。目前的办法是把 define 置为 false，不支持 AMD 导出。

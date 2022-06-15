@@ -1,0 +1,22 @@
+
+{
+  "extends": "../../tsconfig.root.json",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "declaration": true,
+    "esModuleInterop": true,
+    "module": "commonjs",
+    "outDir": "dist",
+    "paths": {
+      "webpack": ["./node_modules/webpack"],
+      "webpack-dev-server": ["./node_modules/@types/webpack-dev-server", "./node_modules/webpack-dev-server"],
+    },
+    "preserveConstEnums": true,
+    "rootDir": "./src",
+    "sourceMap": true,
+  },
+  "include": ["./src", "./types"],
+  "exclude": [
+    "./src/__tests__",
+  ],
+}

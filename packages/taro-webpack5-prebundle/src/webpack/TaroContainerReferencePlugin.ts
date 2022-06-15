@@ -9,10 +9,8 @@ import RemoteModule from 'webpack/lib/container/RemoteModule'
 import type { ContainerReferencePluginOptions, RemotesConfig } from 'webpack/types'
 import { ConcatSource, RawSource } from 'webpack-sources'
 
-import { addRequireToSource, getIdOrName } from '../../plugins/TaroLoadChunksPlugin'
-import type TaroNormalModule from '../../plugins/TaroNormalModule'
-import { getChunkEntryModule } from '../../utils/webpack'
 import { CollectedDeps, MF_NAME } from '../constant'
+import { addRequireToSource, getChunkEntryModule, getChunkIdOrName } from '../utils'
 import TaroRemoteRuntimeModule from './TaroRemoteRuntimeModule'
 
 const { ContainerReferencePlugin } = container
@@ -189,9 +187,9 @@ export default class TaroContainerReferencePlugin extends ContainerReferencePlug
           (modules: ConcatSource, { chunk }) => {
             const chunkEntryModule = getChunkEntryModule(compilation, chunk) as any
             if (chunkEntryModule) {
-              const entryModule: TaroNormalModule = chunkEntryModule.rootModule ?? chunkEntryModule
+              const entryModule = chunkEntryModule.rootModule ?? chunkEntryModule
               if (entryModule.miniType === META_TYPE.ENTRY) {
-                return addRequireToSource(getIdOrName(chunk), modules, this.remoteAssets)
+                return addRequireToSource(getChunkIdOrName(chunk), modules, this.remoteAssets)
               }
               return modules
             } else {

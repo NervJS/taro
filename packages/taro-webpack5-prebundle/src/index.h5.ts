@@ -27,12 +27,14 @@ import fs from 'fs-extra'
 import path from 'path'
 import { performance } from 'perf_hooks'
 import webpack from 'webpack'
+import VirtualModulesPlugin from 'webpack-virtual-modules'
 
-import type { MiniCombination } from '../webpack/MiniCombination'
 import { bundle } from './bundle'
-import { MF_NAME } from './constant'
+import { assetsRE, MF_NAME } from './constant'
 import { scanImports } from './scanImports'
 import {
+  addLeadingSlash,
+  addTrailingSlash,
   commitMeta,
   createResolve,
   flattenId,
@@ -45,9 +47,14 @@ import {
 } from './utils'
 import TaroModuleFederationPlugin from './webpack/TaroModuleFederationPlugin'
 
-export async function preBundle (combination: MiniCombination) {
+export const VirtualModule = new VirtualModulesPlugin()
+
+export async function preBundle (combination) {
   const prebundleOptions = combination.getPrebundleOptions()
   if (!prebundleOptions.enable) return
+
+  // Note: 新增 web 虚拟入口，用于同步加载 webpack 动态依赖
+  combination.addPlugin('VirtualModule', VirtualModule)
 
   const appPath = combination.appPath
   const cacheDir = prebundleOptions.cacheDir || getCacheDir(appPath)
@@ -69,14 +76,21 @@ export async function preBundle (combination: MiniCombination) {
 
   const measure = getMeasure(prebundleOptions.timings)
 
-  /**
-   * 找出所有 webpack entry
-   * TODO:
-   *   - 目前只处理了 Page entry，例如原生小程序组件 js entry 等并没有处理
-   */
   const entries: string[] = []
   const config = combination.config
-  const appJsPath = config.entry!.app[0]
+  const {
+    chunkDirectory = 'chunk',
+    entryFileName = 'app',
+    entry = {}
+  } = config
+  /**
+   * TODO:
+   * - [ ] 优化 proxy 方法
+   * - [ ] 开发环境依赖更新触发 ws 热加载心跳
+   * - [ ] 回归多页面应用情况
+   * - [ ] 回归 react、vue 热更新状态
+   */
+  const appJsPath = entry[entryFileName][0]
   const appConfigPath = resolveMainFilePath(`${appJsPath.replace(path.extname(appJsPath), '')}.config`)
   const appConfig = readConfig(appConfigPath)
 
@@ -86,34 +100,27 @@ export async function preBundle (combination: MiniCombination) {
     entries.push(pageJsPath)
   })
 
-  // console.log('\nPrebundle entries: \n', ...entries.map(entry => `\t${entry}\n`, '\n'))
-
   /**
    * 1. 扫描出所有的 node_modules 依赖
    */
   const SCAN_START = performance.now()
 
-  // plugin-platform 等插件的 runtime 文件入口
-  let runtimePath = typeof config.runtimePath === 'string' ? [config.runtimePath] : config.runtimePath || []
-  runtimePath = runtimePath.map(item => item.replace(/^post:/, ''))
   const deps = await scanImports({
+    appPath,
     entries,
-    combination,
     include: [
       '@tarojs/taro',
+      // '@tarojs/taro-h5',
       '@tarojs/runtime',
-      ...runtimePath,
+      '@tarojs/router',
       ...prebundleOptions.include || []
     ],
     exclude: [
-      // 小程序编译 Host 时需要扫描 @tarojs/components 的 useExports，因此不能被 external
-      '@tarojs/components',
       ...prebundleOptions.exclude || []
     ],
     customEsbuildConfig
   })
 
-  deps.size &&
   console.log(chalk.cyan(
     'Prebundle dependencies: \n',
     ...JSON.parse(formatDepsString(deps)).map(dep => `    ${dep[0]}\n`)
@@ -126,12 +133,12 @@ export async function preBundle (combination: MiniCombination) {
    */
   const PREBUNDLE_START = performance.now()
 
-  metadata.bundleHash = await getBundleHash(deps, combination, cacheDir)
+  metadata.bundleHash = await getBundleHash(appPath, deps, combination.chain, cacheDir)
 
   if (preMetadata.bundleHash !== metadata.bundleHash) {
     isUseCache = false
 
-    const { metafile } = await bundle(deps, combination, prebundleCacheDir, customEsbuildConfig)
+    const { metafile } = await bundle(appPath, deps, combination.chain, prebundleCacheDir, customEsbuildConfig)
 
     // 找出 @tarojs/runtime 被 split 切分的 chunk，作为后续 ProvidePlugin 的提供者。
     // 原因是 @tarojs/runtime 里使用了一些如 raf、caf 等全局变量，又因为 esbuild 把
@@ -168,26 +175,17 @@ export async function preBundle (combination: MiniCombination) {
   const devtool = combination.enableSourceMap && 'hidden-source-map'
   const mainBuildOutput = combination.chain.output.entries()
   const taroRuntimeBundlePath: string = metadata.taroRuntimeBundlePath || exposes['./@tarojs/runtime']
+  const publicPath = config.publicPath ? addLeadingSlash(addTrailingSlash(config.publicPath)) : '/'
   const output = {
-    path: remoteCacheDir,
+    chunkFilename: `${chunkDirectory}/[name].js`,
     chunkLoadingGlobal: mainBuildOutput.chunkLoadingGlobal,
-    globalObject: mainBuildOutput.globalObject
+    globalObject: mainBuildOutput.globalObject,
+    path: remoteCacheDir,
+    publicPath
   }
-  const provideObject = {
-    window: [taroRuntimeBundlePath, 'window$1'],
-    document: [taroRuntimeBundlePath, 'document$1'],
-    navigator: [taroRuntimeBundlePath, 'navigator'],
-    requestAnimationFrame: [taroRuntimeBundlePath, 'raf'],
-    cancelAnimationFrame: [taroRuntimeBundlePath, 'caf'],
-    Element: [taroRuntimeBundlePath, 'TaroElement'],
-    SVGElement: [taroRuntimeBundlePath, 'SVGElement'],
-    MutationObserver: [taroRuntimeBundlePath, 'MutationObserver']
-  }
-  const customWebpackConfig = prebundleOptions.webpack || {}
-  if (customWebpackConfig.provide?.length) {
-    customWebpackConfig.provide.forEach(cb => {
-      cb(provideObject, taroRuntimeBundlePath)
-    })
+  for (const id of deps.keys()) {
+    const flatId = flattenId(id)
+    exposes[`./${id}`] = path.join(prebundleCacheDir, `${flatId}.js`)
   }
 
   metadata.mfHash = getMfHash({
@@ -203,13 +201,28 @@ export async function preBundle (combination: MiniCombination) {
 
     fs.existsSync(remoteCacheDir) && fs.emptyDirSync(remoteCacheDir)
 
-    for (const id of deps.keys()) {
-      const flatId = flattenId(id)
-      exposes[`./${id}`] = path.join(prebundleCacheDir, `${flatId}.js`)
-    }
     metadata.runtimeRequirements = new Set<string>()
 
     const compiler = webpack({
+      cache: {
+        type: 'filesystem',
+        cacheDirectory: path.join(cacheDir, 'webpack-cache'),
+        buildDependencies: {
+          config: Object.values(exposes)
+        }
+      },
+      module: {
+        // TODO 同步普通打包文件配置
+        rules: [
+          {
+            test: assetsRE,
+            type: 'asset/resource',
+            generator: {
+              filename: 'static/[hash][ext][query]'
+            }
+          }
+        ]
+      },
       devtool,
       entry: path.resolve(__dirname, './webpack/index.js'),
       mode,
@@ -220,16 +233,8 @@ export async function preBundle (combination: MiniCombination) {
           filename: 'remoteEntry.js',
           runtime: 'runtime',
           exposes
-        }, deps, metadata.remoteAssets, metadata.runtimeRequirements),
-        new webpack.ProvidePlugin(provideObject)
-      ],
-      cache: {
-        type: 'filesystem',
-        cacheDirectory: path.join(cacheDir, 'webpack-cache'),
-        buildDependencies: {
-          config: Object.values(exposes)
-        }
-      }
+        }, deps, metadata.remoteAssets, metadata.runtimeRequirements)
+      ]
     })
     metadata.remoteAssets = await new Promise((resolve, reject) => {
       compiler.run((error: Error, stats: webpack.Stats) => {
@@ -251,7 +256,9 @@ export async function preBundle (combination: MiniCombination) {
     metadata.remoteAssets = preMetadata.remoteAssets
   }
 
-  fs.copy(remoteCacheDir, path.join(mainBuildOutput.path, 'prebundle'))
+  if (process.env.NODE_ENV === 'production' || config.devServer?.devMiddleware?.writeToDisk) {
+    fs.copy(remoteCacheDir, mainBuildOutput.path)
+  }
 
   measure(`Build remote ${MF_NAME} duration`, BUILD_LIB_START)
 
@@ -273,6 +280,10 @@ export async function preBundle (combination: MiniCombination) {
       metadata.remoteAssets,
       metadata.runtimeRequirements
     ])
+
+  // node_modules 已预编译，不需要二次加载 (TODO: 修复 esbuild 加载 css 问题后，也应当移除对应规则对依赖的加载)
+  const script = chain.module.rule('script')
+  script.exclude.add(/node_modules/)
 
   if (!isUseCache) {
     commitMeta(appPath, metadataPath, metadata)

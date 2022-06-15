@@ -4,9 +4,9 @@ import enhancedResolve from 'enhanced-resolve'
 import fs from 'fs-extra'
 import path from 'path'
 import { performance } from 'perf_hooks'
+import Chain from 'webpack-chain'
 
-import type { Combination } from '../webpack/Combination'
-import type { CollectedDeps } from './constant'
+import type { CollectedDeps } from '../constant'
 
 export interface Metadata {
   bundleHash?: string
@@ -50,14 +50,6 @@ export function externalModule ({ path }: { path: string }) {
   }
 }
 
-export function canBeOptimized (path: string) {
-  return /\.[jt]sx?$/.test(path)
-}
-
-export function canBeScaned (path: string) {
-  return /\.vue/.test(path)
-}
-
 export function flattenId (id: string) {
   return id.replace(/(\s*>\s*)/g, '__').replace(/[/.:]/g, '_')
 }
@@ -66,9 +58,9 @@ export function getCacheDir (appPath: string) {
   return path.resolve(appPath, './node_modules/.taro', process.env.TARO_ENV || '')
 }
 
-export function getDefines (combination: Combination) {
+export function getDefines (chain: Chain) {
   let defines
-  combination.chain.plugin('definePlugin').tap(args => {
+  chain.plugin('definePlugin').tap(args => {
     defines = args[0]
     return args
   })
@@ -91,13 +83,20 @@ export function isExclude (id: string, excludes: (string | RegExp)[]) {
   }))
 }
 
+export function isOptimizeIncluded (path: string) {
+  return /\.[jt]sx?$/.test(path)
+}
+
+export function isScanIncluded (path: string) {
+  return /\.vue/.test(path)
+}
+
 export function getHash (content: string) {
   return createHash('sha256').update(content).digest('hex').substring(0, 8)
 }
 
-export async function getBundleHash (deps: CollectedDeps, combination: Combination, cacheDir: string): Promise<string> {
-  const appPath = combination.appPath
-  const defines = getDefines(combination)
+export async function getBundleHash (appPath: string, deps: CollectedDeps, chain: Chain, cacheDir: string): Promise<string> {
+  const defines = getDefines(chain)
   const lockfiles = ['package-lock.json', 'yarn.lock', 'pnpm-lock.yaml']
   const lockfilesContents = await Promise.all(lockfiles.map(item => {
     return new Promise<string>(resolve => {
@@ -149,3 +148,6 @@ export function getMeasure (isLogTiming?: boolean) {
     }
   }
 }
+
+export * from './path'
+export * from './webpack'

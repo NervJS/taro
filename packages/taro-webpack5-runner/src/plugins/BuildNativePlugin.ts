@@ -10,9 +10,8 @@ import path from 'path'
 import webpack from 'webpack'
 
 import { IComponent } from '../utils/types'
-import { getChunkEntryModule } from '../utils/webpack'
+import { addRequireToSource, getChunkEntryModule, getChunkIdOrName } from '../utils/webpack'
 import MiniPlugin from './MiniPlugin'
-import { addRequireToSource, getIdOrName } from './TaroLoadChunksPlugin'
 
 const PLUGIN_NAME = 'BuildNativePlugin'
 
@@ -80,14 +79,14 @@ export default class BuildNativePlugin extends MiniPlugin {
     compiler.hooks.thisCompilation.tap(PLUGIN_NAME, compilation => {
       compilation.hooks.afterOptimizeChunks.tap(PLUGIN_NAME, chunks => {
         for (const chunk of chunks) {
-          const id = getIdOrName(chunk)
+          const id = getChunkIdOrName(chunk)
           if (this.options.commonChunks.includes(id)) return
 
           const deps: { name: string }[] = []
 
           for (const group of chunk.groupsIterable) {
             group.chunks.forEach(chunk => {
-              const currentChunkId = getIdOrName(chunk)
+              const currentChunkId = getChunkIdOrName(chunk)
               if (id === currentChunkId) return
               deps.push({
                 name: currentChunkId
@@ -104,7 +103,7 @@ export default class BuildNativePlugin extends MiniPlugin {
         // addChunkPages
         if (fileChunks.size) {
           let source
-          const id = getIdOrName(chunk)
+          const id = getChunkIdOrName(chunk)
           fileChunks.forEach((v, k) => {
             if (k === id) {
               source = addRequireToSource(id, modules, v)
