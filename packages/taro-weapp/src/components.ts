@@ -69,6 +69,7 @@ export const components = {
     'safe-password-nonce': '',
     'safe-password-salt': '',
     'safe-password-custom-hash': '',
+    'auto-fill': _empty,
     bindKeyboardHeightChange: _empty
   },
   Picker: {
