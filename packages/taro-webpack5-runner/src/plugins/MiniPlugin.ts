@@ -936,15 +936,14 @@ export default class TaroMiniPlugin {
             [customWrapperName]: `./${customWrapperName}`
           }
         })
-        this.generateConfigFile(compilation, `${name}/${customWrapperName}`, {
-          component: true,
-          usingComponents: {
-            [baseCompName]: `./${baseCompName}`,
-            [customWrapperName]: `./${customWrapperName}`
-          }
-        })
         this.generateTemplateFile(compilation, `${name}/${baseCompName}`, template.buildBaseComponentTemplate, this.options.fileType.templ)
       }
+      this.generateConfigFile(compilation, `${name}/${customWrapperName}`, {
+        component: true,
+        usingComponents: {
+          [customWrapperName]: `./${customWrapperName}`
+        }
+      })
       this.generateTemplateFile(compilation, `${name}/${customWrapperName}`, template.buildCustomComponentTemplate, this.options.fileType.templ)
       this.generateXSFile(compilation, `${name}/utils`, isBuildPlugin)
     })
