@@ -4,7 +4,8 @@
  * Author Tobias Koppers @sokra and Zackary Jackson @ScriptedAlchemy
 */
 import _ from 'lodash'
-import { Compiler, container, sharing } from 'webpack'
+import { Compiler, sharing } from 'webpack'
+import ModuleFederationPlugin from 'webpack/lib/container/ModuleFederationPlugin'
 import isValidExternalsType from 'webpack/schemas/plugins/container/ExternalsType.check.js'
 import type { ContainerReferencePluginOptions, ModuleFederationPluginOptions } from 'webpack/types'
 
@@ -12,24 +13,30 @@ import { CollectedDeps } from '../utils/constant'
 import TaroContainerPlugin from './TaroContainerPlugin'
 import TaroContainerReferencePlugin from './TaroContainerReferencePlugin'
 
-const { ModuleFederationPlugin } = container
 const { SharePlugin } = sharing
 
 const PLUGIN_NAME = 'TaroModuleFederationPlugin'
 
+interface IParams {
+  deps: CollectedDeps
+  env: string
+  remoteAssets?: Record<'name', string>[]
+  runtimeRequirements: Set<string>
+}
+
 export default class TaroModuleFederationPlugin extends ModuleFederationPlugin {
-  private deps
-  private remoteAssets
-  private runtimeRequirements
+  private deps: IParams['deps']
+  private remoteAssets: IParams['remoteAssets']
+  private runtimeRequirements: IParams['runtimeRequirements']
 
   protected _options: ModuleFederationPluginOptions
 
-  constructor (options: ModuleFederationPluginOptions, deps: CollectedDeps, remoteAssets: Record<'name', string>[] = [], runtimeRequirements: Set<string>) {
+  constructor (options: ModuleFederationPluginOptions, private params: IParams) {
     super(options)
 
-    this.deps = deps
-    this.remoteAssets = remoteAssets
-    this.runtimeRequirements = runtimeRequirements
+    this.deps = params.deps
+    this.remoteAssets = params.remoteAssets || []
+    this.runtimeRequirements = params.runtimeRequirements
   }
 
   /** Apply the plugin */
@@ -55,7 +62,10 @@ export default class TaroModuleFederationPlugin extends ModuleFederationPlugin {
             runtime,
             exposes
           },
-          this.runtimeRequirements
+          {
+            env: this.params.env,
+            runtimeRequirements: this.runtimeRequirements
+          }
         ).apply(compiler)
       }
       if (!_.isEmpty(remotes)) {
@@ -65,9 +75,12 @@ export default class TaroModuleFederationPlugin extends ModuleFederationPlugin {
         }
         new TaroContainerReferencePlugin(
           opt,
-          this.deps,
-          this.remoteAssets,
-          this.runtimeRequirements
+          {
+            deps: this.deps,
+            env: this.params.env,
+            remoteAssets: this.remoteAssets,
+            runtimeRequirements: this.runtimeRequirements
+          }
         ).apply(compiler)
       }
       if (shared) {

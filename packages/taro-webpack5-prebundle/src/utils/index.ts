@@ -54,8 +54,8 @@ export function flattenId (id: string) {
   return id.replace(/(\s*>\s*)/g, '__').replace(/[/.:]/g, '_')
 }
 
-export function getCacheDir (appPath: string) {
-  return path.resolve(appPath, './node_modules/.taro', process.env.TARO_ENV || '')
+export function getCacheDir (appPath: string, env = '') {
+  return path.resolve(appPath, './node_modules/.taro', env)
 }
 
 export function getDefines (chain: Chain) {

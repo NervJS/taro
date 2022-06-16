@@ -22,6 +22,7 @@ export class TaroPrebundle {
       enableSourceMap,
       entry,
       entryFileName,
+      env: this.env,
       sourceRoot
     }
 

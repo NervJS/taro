@@ -169,9 +169,12 @@ export default class MiniPrebundle extends BasePrebundle<IMiniPrebundleConfig> {
               runtime: 'runtime',
               exposes
             },
-            deps,
-            metadata.remoteAssets,
-            metadata.runtimeRequirements
+            {
+              deps,
+              env: this.env,
+              remoteAssets: metadata.remoteAssets,
+              runtimeRequirements: metadata.runtimeRequirements
+            }
           ),
           new webpack.ProvidePlugin(provideObject)
         ],
@@ -217,6 +220,12 @@ export default class MiniPrebundle extends BasePrebundle<IMiniPrebundleConfig> {
     }
     this.chain
       .plugin('TaroModuleFederationPlugin')
-      .use(TaroModuleFederationPlugin, [MfOpt, deps, metadata.remoteAssets, metadata.runtimeRequirements])
+      .use(TaroModuleFederationPlugin, [MfOpt,
+        {
+          deps,
+          env: this.env,
+          remoteAssets: metadata.remoteAssets,
+          runtimeRequirements: metadata.runtimeRequirements
+        }])
   }
 }

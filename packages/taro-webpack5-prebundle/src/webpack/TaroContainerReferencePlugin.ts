@@ -4,7 +4,8 @@
  * Author Tobias Koppers @sokra and Zackary Jackson @ScriptedAlchemy
  */
 import { META_TYPE } from '@tarojs/helper'
-import webpack, { container, NormalModule, RuntimeGlobals } from 'webpack'
+import webpack, { NormalModule, RuntimeGlobals } from 'webpack'
+import ContainerReferencePlugin from 'webpack/lib/container/ContainerReferencePlugin'
 import RemoteModule from 'webpack/lib/container/RemoteModule'
 import type { ContainerReferencePluginOptions, RemotesConfig } from 'webpack/types'
 import { ConcatSource, RawSource } from 'webpack-sources'
@@ -13,7 +14,6 @@ import { addRequireToSource, getChunkEntryModule, getChunkIdOrName } from '../ut
 import { CollectedDeps, MF_NAME } from '../utils/constant'
 import TaroRemoteRuntimeModule from './TaroRemoteRuntimeModule'
 
-const { ContainerReferencePlugin } = container
 const ExternalsPlugin = require('webpack/lib/ExternalsPlugin')
 const FallbackDependency = require('webpack/lib/container/FallbackDependency')
 const FallbackItemDependency = require('webpack/lib/container/FallbackItemDependency')
@@ -25,30 +25,37 @@ const slashCode = '/'.charCodeAt(0)
 
 type MFOptions = Partial<ContainerReferencePluginOptions>
 
+interface IParams {
+  deps: CollectedDeps
+  env: string
+  remoteAssets?: Record<'name', string>[]
+  runtimeRequirements: Set<string>
+}
+
 export default class TaroContainerReferencePlugin extends ContainerReferencePlugin {
-  private deps: CollectedDeps
-  private remoteAssets: Record<'name', string>[]
+  private deps: IParams['deps']
+  private remoteAssets: Exclude<IParams['remoteAssets'], undefined>
   private remoteName: string
   private remoteConfig: RemotesConfig
-  private runtimeRequirements: Set<string>
+  private runtimeRequirements: IParams['runtimeRequirements']
 
   protected _remoteType?: ContainerReferencePluginOptions['remoteType']
   protected _remotes
 
-  constructor (options: MFOptions, deps: CollectedDeps, remoteAssets: Record<'name', string>[] = [], runtimeRequirements: Set<string>) {
+  constructor (options: MFOptions, private params: IParams) {
     super(options as ContainerReferencePluginOptions)
     const { remotes = {} } = options
     const remoteName = Object.keys(remotes)[0] || MF_NAME
     const [, remoteConfig] = this._remotes.find(([key, config]) => key === remoteName && config) || [this.remoteName, { external: [], shareScope: 'default' }]
-    this.deps = deps
-    this.remoteAssets = remoteAssets
+    this.deps = params.deps
+    this.remoteAssets = params.remoteAssets || []
     this.remoteName = remoteName
     this.remoteConfig = remoteConfig
-    this.runtimeRequirements = runtimeRequirements
+    this.runtimeRequirements = params.runtimeRequirements
   }
 
   apply (compiler: webpack.Compiler) {
-    switch (process.env.TARO_ENV) {
+    switch (this.params.env) {
       case 'h5':
         this.applyWebApp(compiler)
         break
@@ -125,7 +132,7 @@ export default class TaroContainerReferencePlugin extends ContainerReferencePlug
           set.add(RuntimeGlobals.hasOwnProperty)
           set.add(RuntimeGlobals.initializeSharing)
           set.add(RuntimeGlobals.shareScopeMap)
-          compilation.addRuntimeModule(chunk, new TaroRemoteRuntimeModule())
+          compilation.addRuntimeModule(chunk, new TaroRemoteRuntimeModule(this.params.env))
         })
     })
   }
@@ -173,7 +180,7 @@ export default class TaroContainerReferencePlugin extends ContainerReferencePlug
           (chunk, set) => {
             // webpack runtime 增加 Remote runtime 使用到的工具函数
             this.runtimeRequirements.forEach(item => set.add(item))
-            compilation.addRuntimeModule(chunk, new TaroRemoteRuntimeModule())
+            compilation.addRuntimeModule(chunk, new TaroRemoteRuntimeModule(this.params.env))
           }
         )
 

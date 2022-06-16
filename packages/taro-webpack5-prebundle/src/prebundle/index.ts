@@ -16,6 +16,7 @@ export interface IPrebundleConfig {
   enableSourceMap: boolean
   entry: webpack.Entry
   entryFileName?: string
+  env: string
   sourceRoot: string
 }
 
@@ -25,6 +26,7 @@ export default class BasePrebundle<T extends IPrebundleConfig = IPrebundleConfig
   cacheDir: string
   chain: Chain
   customEsbuildConfig: IPrebundle['esbuild']
+  env: string
   prebundleCacheDir: string
   remoteCacheDir: string
   metadataPath: string
@@ -37,14 +39,15 @@ export default class BasePrebundle<T extends IPrebundleConfig = IPrebundleConfig
   constructor (protected config: T, protected option: IPrebundle) {
     if (!option.enable) return
 
-    const { appPath, chain, sourceRoot } = this.config
-    const { cacheDir = getCacheDir(appPath), esbuild = {}, force } = this.option
+    const { appPath, env, chain, sourceRoot } = this.config
+    const { cacheDir = getCacheDir(appPath, env), esbuild = {}, force } = this.option
 
     this.chain = chain
     this.sourceRoot = sourceRoot
     this.appPath = appPath
     this.cacheDir = cacheDir
     this.customEsbuildConfig = esbuild
+    this.env = env
     this.prebundleCacheDir = path.resolve(cacheDir, './prebundle')
     this.remoteCacheDir = path.resolve(cacheDir, './remote')
     this.metadataPath = path.join(cacheDir, 'metadata.json')

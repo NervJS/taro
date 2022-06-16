@@ -180,9 +180,12 @@ export default class H5Prebundle extends BasePrebundle<IH5PrebundleConfig> {
               runtime: 'runtime',
               exposes
             },
-            deps,
-            metadata.remoteAssets,
-            metadata.runtimeRequirements
+            {
+              deps,
+              env: this.env,
+              remoteAssets: metadata.remoteAssets,
+              runtimeRequirements: metadata.runtimeRequirements
+            }
           )
         ]
       })
@@ -222,7 +225,13 @@ export default class H5Prebundle extends BasePrebundle<IH5PrebundleConfig> {
     }
     this.chain
       .plugin('TaroModuleFederationPlugin')
-      .use(TaroModuleFederationPlugin, [MfOpt, deps, metadata.remoteAssets, metadata.runtimeRequirements])
+      .use(TaroModuleFederationPlugin, [MfOpt,
+        {
+          deps,
+          env: this.env,
+          remoteAssets: metadata.remoteAssets,
+          runtimeRequirements: metadata.runtimeRequirements
+        }])
 
     // node_modules 已预编译，不需要二次加载 (TODO: 修复 esbuild 加载 css 问题后，也应当移除对应规则对依赖的加载)
     const script = this.chain.module.rule('script')
