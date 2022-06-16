@@ -1,6 +1,6 @@
 import { FRAMEWORK_MAP } from '@tarojs/helper'
 import { AppConfig } from '@tarojs/taro'
-import { VirtualModule } from '@tarojs/webpack5-prebundle/dist/index.h5'
+import { VirtualModule } from '@tarojs/webpack5-prebundle/dist/h5'
 import { defaults } from 'lodash'
 import path from 'path'
 import webpack from 'webpack'

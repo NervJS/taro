@@ -1,16 +1,15 @@
 import { META_TYPE, recursiveMerge } from '@tarojs/helper'
 import { getSassLoaderOption } from '@tarojs/runner-utils'
 import { isFunction, isObject } from '@tarojs/shared'
+import { IPrebundle } from '@tarojs/webpack5-prebundle'
 import path from 'path'
 import webpack from 'webpack'
 import Chain from 'webpack-chain'
 
 import { componentConfig } from '../template/component'
 import type { CommonBuildConfig, H5BuildConfig, MiniBuildConfig } from '../utils/types'
-import { PluginArgs } from './WebpackPlugin'
 
 type ICompiler = Exclude<CommonBuildConfig['compiler'], string | undefined>
-type IPrebundle = ICompiler['prebundle']
 
 export class Combination<T extends MiniBuildConfig | H5BuildConfig = CommonBuildConfig> {
   appPath: string
@@ -51,10 +50,6 @@ export class Combination<T extends MiniBuildConfig | H5BuildConfig = CommonBuild
       sassLoaderOption,
       mode: process.env.NODE_ENV || rawConfig.mode
     }
-  }
-
-  addPlugin (name: string, plugin: any, ...args: PluginArgs) {
-    this.chain.plugin(name).use(plugin, args)
   }
 
   async post (config: T, chain: Chain) {

@@ -6,7 +6,7 @@ import path from 'path'
 import { performance } from 'perf_hooks'
 import Chain from 'webpack-chain'
 
-import type { CollectedDeps } from '../constant'
+import type { CollectedDeps } from './constant'
 
 export interface Metadata {
   bundleHash?: string

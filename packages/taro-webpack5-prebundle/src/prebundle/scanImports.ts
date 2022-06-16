@@ -2,9 +2,16 @@ import esbuild, { Loader } from 'esbuild'
 import fs from 'fs'
 import path from 'path'
 
-import type { CollectedDeps } from './constant'
+import {
+  externalModule,
+  getResolve,
+  isExclude,
+  isOptimizeIncluded,
+  isScanIncluded
+} from '../utils'
 import {
   assetsRE,
+  CollectedDeps,
   commentRE,
   importsRE,
   langRE,
@@ -13,14 +20,7 @@ import {
   singlelineCommentsRE,
   virtualModulePrefix,
   virtualModuleRE
-} from './constant'
-import {
-  externalModule,
-  getResolve,
-  isExclude,
-  isOptimizeIncluded,
-  isScanIncluded
-} from './utils'
+} from '../utils/constant'
 
 interface ScanImportsConfig {
   appPath: string

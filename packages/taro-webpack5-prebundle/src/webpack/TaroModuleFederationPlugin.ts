@@ -8,7 +8,7 @@ import { Compiler, container, sharing } from 'webpack'
 import isValidExternalsType from 'webpack/schemas/plugins/container/ExternalsType.check.js'
 import type { ContainerReferencePluginOptions, ModuleFederationPluginOptions } from 'webpack/types'
 
-import { CollectedDeps } from '../constant'
+import { CollectedDeps } from '../utils/constant'
 import TaroContainerPlugin from './TaroContainerPlugin'
 import TaroContainerReferencePlugin from './TaroContainerReferencePlugin'
 

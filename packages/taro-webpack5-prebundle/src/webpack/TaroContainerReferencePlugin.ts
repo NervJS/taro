@@ -9,8 +9,8 @@ import RemoteModule from 'webpack/lib/container/RemoteModule'
 import type { ContainerReferencePluginOptions, RemotesConfig } from 'webpack/types'
 import { ConcatSource, RawSource } from 'webpack-sources'
 
-import { CollectedDeps, MF_NAME } from '../constant'
 import { addRequireToSource, getChunkEntryModule, getChunkIdOrName } from '../utils'
+import { CollectedDeps, MF_NAME } from '../utils/constant'
 import TaroRemoteRuntimeModule from './TaroRemoteRuntimeModule'
 
 const { ContainerReferencePlugin } = container

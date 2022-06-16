@@ -4,14 +4,14 @@ import fs from 'fs-extra'
 import path from 'path'
 import Chain from 'webpack-chain'
 
-import { assetsRE, CollectedDeps } from './constant'
 import {
   externalModule,
   flattenId,
   getDefines,
   getHash,
   getResolve
-} from './utils'
+} from '../utils'
+import { assetsRE, CollectedDeps } from '../utils/constant'
 
 type ExportsData = ReturnType<typeof parse> & { hasReExports?: boolean, needInterop?: boolean }
 
