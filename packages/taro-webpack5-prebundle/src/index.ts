@@ -11,11 +11,11 @@ export class TaroPrebundle {
     const options = combination.getPrebundleOptions()
     if (!options.enable) return
 
-    let Prebundle: typeof BasePrebundle
+    let prebundleRunner: BasePrebundle
 
     const { appPath, chain, config = {}, sourceRoot } = combination
     const { chunkDirectory = 'chunk', devServer, enableSourceMap, entryFileName = 'app', entry = {}, publicPath, runtimePath } = config
-    const prebundleConfig: IPrebundleConfig & Record<string, unknown> = {
+    const prebundleConfig: IPrebundleConfig = {
       appPath,
       chain,
       chunkDirectory,
@@ -28,16 +28,20 @@ export class TaroPrebundle {
 
     switch (this.env) {
       case 'h5':
-        Prebundle = (await import('./h5')).default as typeof BasePrebundle
-        prebundleConfig.devServer = devServer
-        prebundleConfig.publicPath = publicPath
+        prebundleRunner = new (await import('./h5')).H5Prebundle({
+          ...prebundleConfig,
+          devServer,
+          publicPath
+        }, options)
         break
       default:
-        Prebundle = (await import('./mini')).default as typeof BasePrebundle
-        prebundleConfig.runtimePath = runtimePath
+        prebundleRunner = new (await import('./mini')).MiniPrebundle({
+          ...prebundleConfig,
+          runtimePath
+        }, options)
     }
 
-    return new Prebundle(prebundleConfig, options)
+    return prebundleRunner.run()
   }
 }
 

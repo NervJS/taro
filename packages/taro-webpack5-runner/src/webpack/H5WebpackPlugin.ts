@@ -85,7 +85,7 @@ export class H5WebpackPlugin {
       ? options.designWidth(input)
       : options.designWidth
     const deviceRatio = options.deviceRatio[designWidth(min)]
-    const htmlScript = `!function(n){function f(){var e=n.document.documentElement,w=e.getBoundingClientRect().width,x=w/16/${deviceRatio};e.style.fontSize=x>=${max}?"${max}px":x<=${min}?"${min}px":x+"px"},n.addEventListener("resize",(function(){f()})),f()}(window);`
+    const htmlScript = `!function(n){function f(){var e=n.document.documentElement,w=e.getBoundingClientRect().width,x=w/16/${deviceRatio};e.style.fontSize=x>=${max}?"${max}px":x<=${min}?"${min}px":x+"px"}n.addEventListener("resize",(function(){f()})),f()}(window);`
     const args: Record<string, string | string []> = {
       filename: `${entry || 'index'}.html`,
       template: path.join(this.combination.sourceDir, 'index.html'),

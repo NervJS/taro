@@ -1,6 +1,7 @@
 import { chalk, fs, readConfig, resolveMainFilePath } from '@tarojs/helper'
 import { IProjectBaseConfig } from '@tarojs/taro/types/compile'
 import path from 'path'
+import { performance } from 'perf_hooks'
 import webpack from 'webpack'
 import Chain from 'webpack-chain'
 
@@ -54,21 +55,19 @@ export default class BasePrebundle<T extends IPrebundleConfig = IPrebundleConfig
     this.metadata = {}
     this.preMetadata = {}
 
+    this.measure = getMeasure(this.option.timings)
+
     try {
       if (force !== true) {
         Object.assign(this.preMetadata, fs.readJSONSync(this.metadataPath))
       }
     } catch (e) {}
-
-    this.run().then(() => {
-      if (!this.isUseCache) {
-        commitMeta(appPath, this.metadataPath, this.metadata)
-      }
-    })
   }
 
   async run () {
-    throw new Error('未实现依赖预加载方法')
+    if (!this.isUseCache) {
+      commitMeta(this.appPath, this.metadataPath, this.metadata)
+    }
   }
 
   addPlugin (name: string, plugin: any, ...args: Record<string, any>[]) {

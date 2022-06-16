@@ -49,10 +49,9 @@ export interface IH5PrebundleConfig extends IPrebundleConfig {
   publicPath?: string
 }
 
-export default class H5Prebundle extends BasePrebundle<IH5PrebundleConfig> {
+export class H5Prebundle extends BasePrebundle<IH5PrebundleConfig> {
   /**
    * TODO:
-   * - [ ] 优化 proxy 方法
    * - [ ] 开发环境依赖更新触发 ws 热加载心跳
    * - [ ] 回归 react、vue 热更新状态
    */
@@ -84,30 +83,7 @@ export default class H5Prebundle extends BasePrebundle<IH5PrebundleConfig> {
 
     if (preMetadata.bundleHash !== metadata.bundleHash) {
       this.isUseCache = false
-
-      const { metafile } = await bundle(appPath, deps, this.chain, prebundleCacheDir, customEsbuildConfig)
-
-      // 找出 @tarojs/runtime 被 split 切分的 chunk，作为后续 ProvidePlugin 的提供者。
-      // 原因是 @tarojs/runtime 里使用了一些如 raf、caf 等全局变量，又因为 esbuild 把
-      // @tarojs/runtime split 成 entry 和依赖 chunk 两部分。如果我们把 entry 作为
-      // ProvidePlugin 的提供者，依赖 chunk 会被注入 raf、caf，导致循环依赖的问题。所以
-      // 这种情况下只能把依赖 chunk 作为 ProvidePlugin 的提供者。
-      Object.keys(metafile.outputs).some(key => {
-        const output = metafile.outputs[key]
-        if (output.entryPoint === 'entry:@tarojs_runtime') {
-          const dep = output.imports.find(dep => {
-            const depPath = dep.path
-            const depOutput = metafile.outputs[depPath]
-            return depOutput.exports.includes('TaroRootElement')
-          })
-          if (dep) {
-            metadata.taroRuntimeBundlePath = path.join(appPath, dep.path)
-          }
-          return true
-        }
-      })
-    } else {
-      metadata.taroRuntimeBundlePath = path.join(appPath, preMetadata.taroRuntimeBundlePath!)
+      await bundle(appPath, deps, this.chain, prebundleCacheDir, customEsbuildConfig)
     }
 
     this.measure('Prebundle duration', PREBUNDLE_START)
@@ -119,7 +95,6 @@ export default class H5Prebundle extends BasePrebundle<IH5PrebundleConfig> {
     const mode = process.env.NODE_ENV === 'production' ? 'production' : 'development'
     const devtool = this.config.enableSourceMap && 'hidden-source-map'
     const mainBuildOutput = this.chain.output.entries()
-    const taroRuntimeBundlePath: string = metadata.taroRuntimeBundlePath || exposes['./@tarojs/runtime']
     const publicPath = this.config.publicPath ? addLeadingSlash(addTrailingSlash(this.config.publicPath)) : '/'
     const output = {
       chunkFilename: `${chunkDirectory}/[name].js`,
@@ -137,8 +112,7 @@ export default class H5Prebundle extends BasePrebundle<IH5PrebundleConfig> {
       bundleHash: metadata.bundleHash,
       mode,
       devtool,
-      output,
-      taroRuntimeBundlePath
+      output
     })
 
     if (preMetadata.mfHash !== metadata.mfHash) {
@@ -210,9 +184,7 @@ export default class H5Prebundle extends BasePrebundle<IH5PrebundleConfig> {
       metadata.remoteAssets = preMetadata.remoteAssets
     }
 
-    if (process.env.NODE_ENV === 'production' || this.config.devServer?.devMiddleware?.writeToDisk) {
-      fs.copy(remoteCacheDir, mainBuildOutput.path)
-    }
+    fs.copy(remoteCacheDir, mainBuildOutput.path)
 
     this.measure(`Build remote ${MF_NAME} duration`, BUILD_LIB_START)
 
@@ -236,5 +208,16 @@ export default class H5Prebundle extends BasePrebundle<IH5PrebundleConfig> {
     // node_modules 已预编译，不需要二次加载 (TODO: 修复 esbuild 加载 css 问题后，也应当移除对应规则对依赖的加载)
     const script = this.chain.module.rule('script')
     script.exclude.add(/node_modules/)
+
+    // Proxy
+    // this.chain.devServer.merge({
+    //   static: {
+    //     directory: path.join(appPath, 'node_modules/.taro/h5/remote')
+    //   }
+    // })
+
+    await super.run()
   }
+
+  setHost () {}
 }

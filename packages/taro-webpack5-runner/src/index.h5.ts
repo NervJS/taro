@@ -25,111 +25,100 @@ export default async function build (appPath: string, rawConfig: H5BuildConfig):
   const { isWatch } = config
 
   try {
-    if (isWatch) {
-      await buildDev(webpackConfig, config, appPath)
+    const onBuildFinish = config.onBuildFinish
+    const compiler = webpack(webpackConfig)
+
+    if (!isWatch) {
+      compiler.hooks.emit.tapAsync('taroBuildDone', async (compilation, callback) => {
+        if (isFunction(config.modifyBuildAssets)) {
+          await config.modifyBuildAssets(compilation.assets)
+        }
+        callback()
+      })
+      return new Promise((resolve, reject) => {
+        compiler.run((error, stats) => {
+          compiler.close(error2 => {
+            const err = error || error2
+
+            if (isFunction(onBuildFinish)) {
+              onBuildFinish({
+                error: err,
+                stats: err ? null : stats,
+                isWatch: false
+              })
+            }
+
+            err ? reject(err) : resolve()
+          })
+        })
+      })
     } else {
-      await buildProd(webpackConfig, config)
+      const routerConfig = config.router || {}
+      const routerMode = routerConfig.mode || 'hash'
+      const routerBasename = routerConfig.basename || '/'
+
+      config.devServer = recursiveMerge(config.devServer || {}, webpackConfig.devServer)
+      const devServerOptions = await getDevServerOptions(appPath, config)
+      devServerOptions.host = formatOpenHost(devServerOptions.host)
+
+      const server = new WebpackDevServer(devServerOptions, compiler)
+
+      const pathname = routerMode === 'browser' ? routerBasename : '/'
+      const devUrl = formatUrl({
+        protocol: devServerOptions.https ? 'https' : 'http',
+        hostname: devServerOptions.host,
+        port: devServerOptions.port,
+        pathname
+      })
+
+      compiler.hooks.done.tap('taroDone', () => {
+        if (isFirstBuild) {
+          isFirstBuild = false
+          if (devUrl) {
+            console.log(chalk.cyan(`ℹ Listening at ${devUrl}\n`))
+          }
+        }
+      })
+
+      compiler.hooks.emit.tapAsync('taroBuildDone', async (compilation, callback) => {
+        if (isFunction(config.modifyBuildAssets)) {
+          await config.modifyBuildAssets(compilation.assets)
+        }
+        callback()
+      })
+      compiler.hooks.done.tap('taroBuildDone', stats => {
+        if (isFunction(onBuildFinish)) {
+          onBuildFinish({
+            error: null,
+            stats,
+            isWatch: true
+          })
+        }
+      })
+      compiler.hooks.failed.tap('taroBuildDone', error => {
+        if (isFunction(onBuildFinish)) {
+          onBuildFinish({
+            error,
+            stats: null,
+            isWatch: true
+          })
+        }
+      })
+
+      return new Promise<void>((resolve, reject) => {
+        server.startCallback(err => {
+          if (err) {
+            reject(err)
+            return console.log(err)
+          }
+          resolve()
+        })
+      })
     }
   } catch (err) {
     console.error(err)
     !isWatch && process.exit(1)
   }
-}
-
-async function buildProd (webpackConfig: webpack.Configuration, config: H5BuildConfig): Promise<void> {
-  const compiler = webpack(webpackConfig)
-  const onBuildFinish = config.onBuildFinish
-  compiler.hooks.emit.tapAsync('taroBuildDone', async (compilation, callback) => {
-    if (isFunction(config.modifyBuildAssets)) {
-      await config.modifyBuildAssets(compilation.assets)
-    }
-    callback()
-  })
-  return new Promise((resolve, reject) => {
-    compiler.run((error, stats) => {
-      compiler.close(error2 => {
-        const err = error || error2
-
-        if (isFunction(onBuildFinish)) {
-          onBuildFinish({
-            error: err,
-            stats: err ? null : stats,
-            isWatch: false
-          })
-        }
-
-        err ? reject(err) : resolve()
-      })
-    })
-  })
-}
-
-async function buildDev (webpackConfig: webpack.Configuration, config: H5BuildConfig, appPath: string): Promise<any> {
-  const routerConfig = config.router || {}
-  const routerMode = routerConfig.mode || 'hash'
-  const routerBasename = routerConfig.basename || '/'
-  const onBuildFinish = config.onBuildFinish
-
-  const devServerOptions = await getDevServerOptions(appPath, config)
-  devServerOptions.host = formatOpenHost(devServerOptions.host)
-
-  devServerOptions.static = {
-    directory: path.join(appPath, 'node_modules/.taro/h5/remote')
-  }
-
-  const compiler = webpack(webpackConfig)
-  const server = new WebpackDevServer(devServerOptions, compiler)
-
-  const pathname = routerMode === 'browser' ? routerBasename : '/'
-  const devUrl = formatUrl({
-    protocol: devServerOptions.https ? 'https' : 'http',
-    hostname: devServerOptions.host,
-    port: devServerOptions.port,
-    pathname
-  })
-  compiler.hooks.done.tap('taroDone', () => {
-    if (isFirstBuild) {
-      isFirstBuild = false
-      if (devUrl) {
-        console.log(chalk.cyan(`ℹ Listening at ${devUrl}\n`))
-      }
-    }
-  })
-
-  compiler.hooks.emit.tapAsync('taroBuildDone', async (compilation, callback) => {
-    if (isFunction(config.modifyBuildAssets)) {
-      await config.modifyBuildAssets(compilation.assets)
-    }
-    callback()
-  })
-  compiler.hooks.done.tap('taroBuildDone', stats => {
-    if (isFunction(onBuildFinish)) {
-      onBuildFinish({
-        error: null,
-        stats,
-        isWatch: true
-      })
-    }
-  })
-  compiler.hooks.failed.tap('taroBuildDone', error => {
-    if (isFunction(onBuildFinish)) {
-      onBuildFinish({
-        error,
-        stats: null,
-        isWatch: true
-      })
-    }
-  })
-
-  return new Promise<void>((resolve, reject) => {
-    server.startCallback(err => {
-      if (err) {
-        reject(err)
-        return console.log(err)
-      }
-      resolve()
-    })
-  })
 }
 
 async function getDevServerOptions (appPath: string, config: H5BuildConfig): Promise<WebpackDevServer.Configuration> {

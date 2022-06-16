@@ -42,7 +42,7 @@ export interface IMiniPrebundleConfig extends IPrebundleConfig {
   runtimePath?: string
 }
 
-export default class MiniPrebundle extends BasePrebundle<IMiniPrebundleConfig> {
+export class MiniPrebundle extends BasePrebundle<IMiniPrebundleConfig> {
   async run () {
     const { appPath, cacheDir, customEsbuildConfig, prebundleCacheDir, remoteCacheDir, metadata, preMetadata } = this
     this.isUseCache = true
@@ -227,5 +227,7 @@ export default class MiniPrebundle extends BasePrebundle<IMiniPrebundleConfig> {
           remoteAssets: metadata.remoteAssets,
           runtimeRequirements: metadata.runtimeRequirements
         }])
+
+    await super.run()
   }
 }

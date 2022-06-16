@@ -2,7 +2,7 @@ import { readConfig } from '@tarojs/helper'
 import { AppConfig } from '@tarojs/taro'
 import { IH5Config } from '@tarojs/taro/types/compile'
 import { getOptions, stringifyRequest } from 'loader-utils'
-import { basename, dirname, join } from 'path'
+import { dirname, join } from 'path'
 import type * as webpack from 'webpack'
 
 function genResource (path: string, pages: Map<string, string>, loaderContext: webpack.LoaderContext<any>, syncFileName: string | false = false) {
@@ -38,9 +38,8 @@ export default function (this: webpack.LoaderContext<any>) {
   const pxTransformConfig = options.pxTransformConfig
 
   const pathDirname = dirname(this.resourcePath)
-  const pathBasename = basename(this.resourcePath)
   const pageName = isMultiRouterMode ? join(pathDirname, options.name).replace(options.sourceDir + '/', '') : ''
-  if (options.bootstrap || pathBasename.includes('.boot')) {
+  if (options.bootstrap) {
     /** NOTE: Webpack Virtual Module plugin doesn't support triggering a rebuild for webpack5,
      * which can cause "module not found" error when webpack5 cache is enabled.
      * Currently the only "non-hacky" workaround is to mark this module as non-cacheable.
