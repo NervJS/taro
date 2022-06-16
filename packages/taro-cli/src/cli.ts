@@ -21,6 +21,7 @@ export default class CLI {
         version: ['v'],
         help: ['h'],
         port: ['p'],
+        type: ['t'],
         resetCache: ['reset-cache'], // specially for rn, Removes cached files.
         publicPath: ['public-path'], // specially for rn, assets public path.
         bundleOutput: ['bundle-output'], // specially for rn, File name where to store the resulting bundle.
