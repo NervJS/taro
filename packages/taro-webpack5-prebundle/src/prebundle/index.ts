@@ -15,7 +15,7 @@ export interface IPrebundleConfig {
   chain: Chain
   chunkDirectory?: string
   enableSourceMap: boolean
-  entry: webpack.Entry
+  entry: webpack.EntryObject
   entryFileName?: string
   env: string
   sourceRoot: string

@@ -1,48 +1,80 @@
-import BasePrebundle, { IPrebundleConfig } from './prebundle'
+import webpack from 'webpack'
+import Chain from 'webpack-chain'
+import webpackDevServer from 'webpack-dev-server'
+
+import { IH5PrebundleConfig } from './h5'
+import { IMiniPrebundleConfig } from './mini'
+import BasePrebundle, { IPrebundle } from './prebundle'
 
 export * from './prebundle'
 
-export class TaroPrebundle {
-  constructor (public env: string = process.env.TARO_ENV || 'h5') {
+export interface IPrebundleParam {
+  env?: string
+
+  appPath: string
+  sourceRoot: string
+  chain: Chain
+  entry: webpack.EntryObject
+  chunkDirectory?: string
+  enableSourceMap?: boolean
+  entryFileName?: string
+
+  devServer?: webpackDevServer.Configuration
+  publicPath?: string
+  runtimePath?: string | string[]
+}
+
+export default class TaroPrebundle {
+  public env: string
+
+  constructor (protected params: IPrebundleParam) {
+    const { env = process.env.TARO_ENV || 'h5' } = params
     this.env = env
   }
 
-  async run (combination) {
-    const options = combination.getPrebundleOptions()
+  get config (): IH5PrebundleConfig | IMiniPrebundleConfig {
+    const env = this.env
+    const {
+      appPath,
+      chain,
+      chunkDirectory = 'chunk',
+      devServer,
+      enableSourceMap = false,
+      entryFileName = 'app',
+      entry = {},
+      publicPath,
+      runtimePath,
+      sourceRoot
+    } = this.params
+
+    return {
+      appPath,
+      chain,
+      chunkDirectory,
+      devServer,
+      enableSourceMap,
+      entryFileName,
+      entry,
+      env,
+      publicPath,
+      runtimePath,
+      sourceRoot
+    }
+  }
+
+  async run (options: IPrebundle) {
     if (!options.enable) return
 
     let prebundleRunner: BasePrebundle
 
-    const { appPath, chain, config = {}, sourceRoot } = combination
-    const { chunkDirectory = 'chunk', devServer, enableSourceMap, entryFileName = 'app', entry = {}, publicPath, runtimePath } = config
-    const prebundleConfig: IPrebundleConfig = {
-      appPath,
-      chain,
-      chunkDirectory,
-      enableSourceMap,
-      entry,
-      entryFileName,
-      env: this.env,
-      sourceRoot
-    }
-
     switch (this.env) {
       case 'h5':
-        prebundleRunner = new (await import('./h5')).H5Prebundle({
-          ...prebundleConfig,
-          devServer,
-          publicPath
-        }, options)
+        prebundleRunner = new (await import('./h5')).H5Prebundle(this.config, options)
         break
       default:
-        prebundleRunner = new (await import('./mini')).MiniPrebundle({
-          ...prebundleConfig,
-          runtimePath
-        }, options)
+        prebundleRunner = new (await import('./mini')).MiniPrebundle(this.config, options)
     }
 
     return prebundleRunner.run()
   }
 }
-
-export default new TaroPrebundle()

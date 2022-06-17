@@ -312,7 +312,7 @@ export default class TaroMiniPlugin {
    * @returns app 入口文件路径
    */
   getAppEntry (compiler: webpack.Compiler) {
-    // const originalEntry = compiler.options.entry as webpack.Entry
+    // const originalEntry = compiler.options.entry as webpack.EntryObject
     // compiler.options.entry = {}
     // return path.resolve(this.context, originalEntry.app[0])
     const { entry } = compiler.options

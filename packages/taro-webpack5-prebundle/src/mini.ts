@@ -39,7 +39,7 @@ import { MF_NAME } from './utils/constant'
 import TaroModuleFederationPlugin from './webpack/TaroModuleFederationPlugin'
 
 export interface IMiniPrebundleConfig extends IPrebundleConfig {
-  runtimePath?: string
+  runtimePath?: string | string[]
 }
 
 export class MiniPrebundle extends BasePrebundle<IMiniPrebundleConfig> {
