@@ -1,3 +1,4 @@
+import { chalk, recursiveMerge } from '@tarojs/helper'
 import { IPostcssOption } from '@tarojs/taro/types/compile'
 import HtmlWebpackPlugin from 'html-webpack-plugin'
 import path from 'path'
@@ -94,7 +95,13 @@ export class H5WebpackPlugin {
     if (entry && entry !== 'index') {
       args.chunks = [...chunks, entry]
     }
-    return WebpackPlugin.getPlugin(HtmlWebpackPlugin, [args])
+    const htmlPluginOption = this.combination.config?.htmlPluginOption ?? {}
+    if (process.env.NODE_ENV !== 'production' && Object.hasOwnProperty.call(htmlPluginOption, 'script')) {
+      console.warn(
+        chalk.yellowBright('配置文件覆盖 htmlPluginOption.script 参数会导致 pxtransform 脚本失效，请慎重使用！')
+      )
+    }
+    return WebpackPlugin.getPlugin(HtmlWebpackPlugin, [recursiveMerge(args, htmlPluginOption)])
   }
 
   getH5Plugin () {

@@ -1,6 +1,7 @@
 export { Current } from '@tarojs/runtime'
 import webpack from 'webpack'
 import webpackDevServer from 'webpack-dev-server'
+import HtmlWebpackPlugin from 'html-webpack-plugin'
 
 export const enum TEMPLATE_TYPES {
   WEAPP = '.wxml',
@@ -195,6 +196,7 @@ export interface IH5Config {
   useHtmlComponents?: boolean
 
   postcss?: IPostcssOption
+  htmlPluginOption?: HtmlWebpackPlugin.Options
 }
 
 type FeatureItem = {
