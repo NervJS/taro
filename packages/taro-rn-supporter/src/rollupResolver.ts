@@ -3,8 +3,8 @@ import * as path from 'path'
 import { includes, isRelativePath, resolveExtFile, resolvePathFromAlias } from './utils'
 
 interface ResolverOption {
-  include?: (path:boolean) => boolean
-  exclude?: (path:boolean) => boolean
+  include?: (path: boolean) => boolean
+  exclude?: (path: boolean) => boolean
   externalResolve: (importee: string, importer: string) => string | undefined | null
 }
 
@@ -22,31 +22,43 @@ export default function resolver (options: ResolverOption) {
 
   return {
     name: 'taro-resolver',
-    async resolveId (moduleName, originModulePath = '') {
+    async resolveId (moduleName, originModulePath = '', resolveOptions) {
       if (/\0/.test(moduleName)) return null
 
       if (!isInclude(moduleName, originModulePath)) {
         return null
       }
 
+      let externalId
+
       for (const key in DEFAULT_ALIAS) {
         if (key === moduleName) {
-          return { id: DEFAULT_ALIAS[key], external: true }
+          const updatedId = DEFAULT_ALIAS[key]
+          if ((externalId = externalResolve(updatedId, originModulePath))) {
+            return { id: externalId, external: true }
+          }
+          return this.resolve(updatedId, originModulePath, Object.assign({ skipSelf: true }, resolveOptions)).then(
+            resolved => resolved || { id: updatedId, external: true }
+          )
         }
       }
 
-      const externalId = externalResolve(moduleName, originModulePath)
-      if (externalId) {
+      moduleName = resolvePathFromAlias(moduleName)
+
+      if ((externalId = externalResolve(moduleName, originModulePath))) {
         return { id: externalId, external: true }
       }
+
       if (!path.isAbsolute(moduleName) && !isRelativePath(moduleName)) {
         return null
       }
 
-      moduleName = resolvePathFromAlias(moduleName)
-      // 处理后缀 .rn.ts
       moduleName = resolveExtFile({ originModulePath }, moduleName, undefined)
-      return { id: moduleName }
+
+      if (moduleName) {
+        return { id: moduleName }
+      }
+      return null
     }
   }
 }

@@ -1,30 +1,44 @@
 import babel from '@rollup/plugin-babel'
 import * as commonjs from '@rollup/plugin-commonjs'
+import * as json from '@rollup/plugin-json'
 import nodeResolve from '@rollup/plugin-node-resolve'
+import * as pluginReplace from '@rollup/plugin-replace'
+import { recursiveMerge } from '@tarojs/helper'
 import { rollupTransform as styleTransformer } from '@tarojs/rn-style-transformer'
 import { resolveExtFile, rollupResolver as taroResolver } from '@tarojs/rn-supporter'
 import { getAppConfig } from '@tarojs/rn-transformer'
-import { merge } from 'lodash'
+import * as jsx from 'acorn-jsx'
 import * as path from 'path'
-import { rollup } from 'rollup'
+import { Plugin as RollupPlugin, rollup, RollupOptions } from 'rollup'
 import * as clear from 'rollup-plugin-clear'
 import image from 'rollup-plugin-image-file'
 
-const DefaultConfig = {
-  externals: [
-    'react',
-    'react-native'
-  ],
-  output: 'dist',
-  externalResolve: () => {}
+type ExternalsFn = () => Array<string | RegExp>
+
+interface IComponentConfig {
+  input: string[] | string
+  output?: string
+  sourceRootPath?: string
+  externals?: Array<string | RegExp> | ExternalsFn
+  externalResolve?: (importee, importer) => string | null | void
+  modifyRollupConfig?: (config: RollupOptions, innerplugins?: RollupPlugin[]) => RollupOptions
 }
 
-export const build = async (projectConfig, componentConfig: ComponentConfig) => {
-  const mergedConfig = merge({}, DefaultConfig, componentConfig)
-  const { input, externals, output, externalResolve } = mergedConfig
-  let { sourceRootPath } = componentConfig
+const DefaultConfig: Pick<
+IComponentConfig,
+'externals' | 'output' | 'externalResolve' | 'sourceRootPath' | 'modifyRollupConfig'
+> = {
+  externals: [/^react(\/.*)?$/, /^react-native(\/.*)?$/, /^@react-native/],
+  output: 'dist',
+  externalResolve: importee => (likeDependent(importee) ? importee : null),
+  sourceRootPath: process.cwd(),
+  modifyRollupConfig: config => config
+}
 
-  sourceRootPath = sourceRootPath || process.cwd()
+export const build = async (projectConfig, componentConfig: IComponentConfig) => {
+  const mergedConfig = recursiveMerge({ ...DefaultConfig }, componentConfig)
+  const { input, externals, output, externalResolve, sourceRootPath, modifyRollupConfig } = mergedConfig
+
   const getInputOption = () => {
     const components: string[] = Array.isArray(input) ? input : [input]
 
@@ -34,7 +48,10 @@ export const build = async (projectConfig, componentConfig: ComponentConfig) => 
         absolutePath = path.resolve(sourceRootPath, cur)
       }
       const realPath = resolveExtFile({ originModulePath: absolutePath }, absolutePath)
-      const relativePath = path.relative(sourceRootPath, realPath).replace(/\.(js|ts|jsx|tsx)$/, '')
+      const relativePath = path
+        .relative(sourceRootPath, realPath)
+        .replace(/\.(js|ts|jsx|tsx)$/, '')
+        .replace(/\.{1,}\//g, '')
 
       return {
         ...pre,
@@ -56,15 +73,21 @@ export const build = async (projectConfig, componentConfig: ComponentConfig) => 
     }
     _externals = Array.isArray(externals) ? externals : [externals]
     return _externals.filter(Boolean).map(item => {
-      if ((item as unknown as RegExp).test) return item
+      if (((item as unknown) as RegExp).test) return item
       const match = (item as string).match(/^\/(.+)\/$/)
       return match ? new RegExp(match[1]) : item
     })
   }
 
-  const bundle = await rollup({
+  const rollupOptions: RollupOptions = {
     input: getInputOption(),
+    output: {
+      format: 'es',
+      dir: output
+    },
     external: getExternal(),
+    // @ts-ignore react native 相关的一些库中可能包含 jsx 语法
+    acornInjectPlugins: [jsx()],
     plugins: [
       clear({ targets: [output] }),
       // TODO: 使用 react-native-svg-transformer 处理
@@ -72,6 +95,8 @@ export const build = async (projectConfig, componentConfig: ComponentConfig) => 
       image({
         extensions: ['.jpg', '.jpeg', '.png', '.webp', '.gif', '.svg', '.svgx']
       }),
+      // @ts-ignore
+      json(),
       taroResolver({
         externalResolve
       }),
@@ -79,39 +104,52 @@ export const build = async (projectConfig, componentConfig: ComponentConfig) => 
         extensions: ['.mjs', '.js', '.json', '.node', '.ts', '.tsx']
       }),
       // @ts-ignore
-      commonjs({
-        include: [/node_modules/, /src/, '*'],
-        transformMixedEsModules: true,
-        requireReturnsDefault: 'auto'
+      pluginReplace({
+        'process.env.NODE_ENV': JSON.stringify('production')
       }),
+      // @ts-ignore
+      commonjs(),
       babel({
         babelHelpers: 'runtime',
-        presets: [[
-          'babel-preset-taro',
-          {
-            framework: 'react',
-            ts: true,
-            reactJsxRuntime: projectConfig.reactJsxRuntime || 'classic',
-            disableImportExportTransform: true
-          }
-        ]],
+        presets: [
+          [
+            'babel-preset-taro',
+            {
+              framework: 'react',
+              ts: true,
+              reactJsxRuntime: projectConfig.reactJsxRuntime || 'classic',
+              disableImportExportTransform: true
+            }
+          ]
+        ],
         extensions: ['js', 'ts', 'jsx', 'tsx']
       }),
-      styleTransformer({ format: 'es', config: projectConfig })
+      styleTransformer({ config: projectConfig })
     ]
+  }
+
+  const newRollupOptions = modifyRollupConfig(rollupOptions, {
+    taroResolver,
+    styleTransformer
   })
-  const result = await bundle.write({ dir: output })
-  return result
+  const { output: outputOptions, ...inputOptions } = newRollupOptions
+
+  let bundle
+  try {
+    bundle = await rollup(inputOptions)
+
+    const result = await bundle.write(outputOptions)
+    return result
+  } catch (error) {
+    console.error(error)
+  }
+  if (bundle) {
+    await bundle.close()
+  }
 }
 
-type ExternalsFn = () => Array<string | RegExp>
-
-interface ComponentConfig {
-  input: string[] | string
-  output: string
-  externals: Array<string | RegExp> | ExternalsFn
-  externalResolve: (importee, importer) => string | void,
-  sourceRootPath: string
+function likeDependent (str: string) {
+  return !str.startsWith('.') && !str.startsWith('/')
 }
 
 export default async function (projectPath: string, config: any) {
@@ -122,7 +160,7 @@ export default async function (projectPath: string, config: any) {
 
   const componentConfig = {
     ...nativeComponents,
-    input: appConfig.components,
+    input: nativeComponents.components || appConfig.components,
     output: path.join(projectPath, output),
     sourceRootPath: path.join(projectPath, sourceRoot)
   }

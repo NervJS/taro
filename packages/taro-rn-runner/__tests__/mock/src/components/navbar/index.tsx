@@ -3,7 +3,7 @@ import Taro from '@tarojs/taro'
 import { View, Text, Image } from '@tarojs/components'
 import iconBack from './icon_back.webp'
 import './index.scss'
-import './resolver'
+import 'src/components/navbar/resolver'
 
 console.log('process.env.TARO_ENV', process.env.TARO_ENV)
 export default function Navbar (props: Props) {
