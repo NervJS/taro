@@ -1,4 +1,4 @@
-import swc from '@swc/core'
+import * as swc from '@swc/core'
 import { REG_SCRIPTS } from '@tarojs/helper'
 import { init, parse } from 'es-module-lexer'
 import esbuild, { Plugin } from 'esbuild'
@@ -188,7 +188,7 @@ function getEntryPlugin ({
       })
 
       !isEmpty(swcConfig) && build.onLoad({ filter: REG_SCRIPTS }, async ({ path }) => {
-        const result = await swc.transform(fs.readFileSync(path, 'utf-8'), swcConfig)
+        const result = swc.transformSync(fs.readFileSync(path, 'utf-8'), swcConfig)
         return { contents: result.code }
       })
 

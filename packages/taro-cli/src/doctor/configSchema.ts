@@ -55,6 +55,7 @@ const schema = Joi.object().keys({
         include: Joi.array(),
         exclude: Joi.array(),
         esbuild: Joi.object().unknown(),
+        swc: Joi.object().unknown(),
         webpack: Joi.object().keys({
           provide: Joi.array().items(Joi.function())
         })
