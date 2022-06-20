@@ -1,28 +1,28 @@
-import * as path from 'path'
 import { PLATFORMS, taroJsComponents } from '@tarojs/helper'
+import * as path from 'path'
 
-import { IBuildConfig } from '../utils/types'
-import {
-  getCopyWebpackPlugin,
-  getDefinePlugin,
-  processEnvOption,
-  getCssoWebpackPlugin,
-  getTerserPlugin,
-  getDevtool,
-  getOutput,
-  getModule,
-  mergeOption,
-  getMiniPlugin,
-  getMiniSplitChunksPlugin,
-  getBuildNativePlugin,
-  getProviderPlugin,
-  getMiniCssExtractPlugin,
-  getEntry,
-  getRuntimeConstants
-} from './chain'
-import getBaseConf from './base.conf'
 import { createTarget } from '../plugins/MiniPlugin'
 import { componentConfig } from '../template/component'
+import { IBuildConfig } from '../utils/types'
+import getBaseConf from './base.conf'
+import {
+  getBuildNativePlugin,
+  getCopyWebpackPlugin,
+  getCssoWebpackPlugin,
+  getDefinePlugin,
+  getDevtool,
+  getEntry,
+  getMiniCssExtractPlugin,
+  getMiniPlugin,
+  getMiniSplitChunksPlugin,
+  getModule,
+  getOutput,
+  getProviderPlugin,
+  getRuntimeConstants,
+  getTerserPlugin,
+  mergeOption,
+  processEnvOption
+} from './chain'
 
 export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
   const chain = getBaseConf(appPath)
@@ -134,7 +134,7 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
   /** 需要在miniPlugin前，否则无法获取entry地址 */
   if (optimizeMainPackage.enable) {
     plugin.miniSplitChunksPlugin = getMiniSplitChunksPlugin({
-      exclude: optimizeMainPackage.exclude,
+      ...optimizeMainPackage,
       fileType
     })
   }

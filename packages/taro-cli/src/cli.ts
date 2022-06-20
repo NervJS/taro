@@ -47,6 +47,7 @@ export default class CLI {
       if (process.env.NODE_ENV === 'undefined' && (command === 'build' || command === 'inspect')) {
         process.env.NODE_ENV = (args.watch ? 'development' : 'production')
       }
+      args.type ||= args.t
       if (args.type) {
         process.env.TARO_ENV = args.type
       }
