@@ -5,35 +5,46 @@ import { MutationObserver, MutationRecordType } from '../dom-external/mutation-o
 import { TaroElement } from './element'
 import { styleProperties } from './style_properties'
 
-function setStyle (this: Style, newVal: string, styleKey: string) {
-  const old = this[styleKey]
-  const oldCssTxt = this.cssText
-  if (!isNull(newVal) && !isUndefined(newVal)) {
-    this._usedStyleProp.add(styleKey)
-  }
+function recordCss (obj: Style) {
+  MutationObserver.record({
+    type: MutationRecordType.ATTRIBUTES,
+    target: obj._element,
+    attributeName: 'style',
+    oldValue: obj.cssText
+  })
+}
 
+function enqueueUpdate (obj: Style) {
+  const element = obj._element
+  if (element._root) {
+    element.enqueueUpdate({
+      path: `${element._path}.${Shortcuts.Style}`,
+      value: obj.cssText
+    })
+  }
+}
+
+function setStyle (this: Style, newVal: string, styleKey: string) {
   process.env.NODE_ENV !== 'production' && warn(
     isString(newVal) && newVal.length > PROPERTY_THRESHOLD,
     `Style 属性 ${styleKey} 的值数据量过大，可能会影响渲染性能，考虑使用 CSS 类或其它方案替代。`
   )
 
-  if (old !== newVal) {
+  const old = this[styleKey]
+
+  if (old === newVal) return
+
+  !this._pending && recordCss(this)
+
+  if (isNull(newVal) || isUndefined(newVal)) {
+    this._usedStyleProp.delete(styleKey)
+    delete this._value[styleKey]
+  } else {
+    this._usedStyleProp.add(styleKey)
     this._value[styleKey] = newVal
-    this._element.enqueueUpdate({
-      path: `${this._element._path}.${Shortcuts.Style}`,
-      value: this.cssText
-    })
-    // @Todo:
-    //   el.style.cssText = 'x: y;m: n'（Bug: 触发两次）
-    //   el.style.cssText = 'x: y'（正常）
-    //   el.style.x = y（正常）
-    MutationObserver.record({
-      type: MutationRecordType.ATTRIBUTES,
-      target: this._element,
-      attributeName: 'style',
-      oldValue: oldCssTxt
-    })
   }
+
+  !this._pending && enqueueUpdate(this)
 }
 
 function initStyle (ctor: typeof Style) {
@@ -60,6 +71,8 @@ function isCssVariable (propertyName) {
 }
 
 export class Style {
+  public _pending: boolean
+
   public _usedStyleProp: Set<string>
 
   public _value: Partial<CSSStyleDeclaration>
@@ -86,6 +99,8 @@ export class Style {
   }
 
   public get cssText () {
+    if (!this._usedStyleProp.size) return ''
+
     const texts: string[] = []
     this._usedStyleProp.forEach(key => {
       const val = this[key]
@@ -100,15 +115,16 @@ export class Style {
   }
 
   public set cssText (str: string) {
-    if (str == null) {
-      str = ''
-    }
+    this._pending = true
+    recordCss(this)
 
     this._usedStyleProp.forEach(prop => {
       this.removeProperty(prop)
     })
 
-    if (str === '') {
+    if (str === '' || isUndefined(str) || isNull(str)) {
+      this._pending = false
+      enqueueUpdate(this)
       return
     }
 
@@ -129,6 +145,9 @@ export class Style {
       }
       this.setProperty(propName.trim(), val.trim())
     }
+
+    this._pending = false
+    enqueueUpdate(this)
   }
 
   public setProperty (propertyName: string, value?: string | null) {
@@ -138,11 +157,8 @@ export class Style {
     } else {
       propertyName = toCamelCase(propertyName)
     }
-    if (isUndefined(value)) {
-      return
-    }
 
-    if (value === null || value === '') {
+    if (isNull(value) || isUndefined(value)) {
       this.removeProperty(propertyName)
     } else {
       this[propertyName] = value
@@ -156,8 +172,7 @@ export class Style {
     }
 
     const value = this[propertyName]
-    this[propertyName] = ''
-    this._usedStyleProp.delete(propertyName)
+    this[propertyName] = undefined
     return value
   }
 

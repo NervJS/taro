@@ -66,7 +66,7 @@ export class TaroNode extends TaroEventTarget {
     })
   }
 
-  protected get _root (): TaroRootElement | null {
+  public get _root (): TaroRootElement | null {
     return this.parentNode?._root || null
   }
 
