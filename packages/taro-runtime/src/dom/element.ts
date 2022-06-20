@@ -172,6 +172,9 @@ export class TaroElement extends TaroNode {
         break
     }
 
+    // Serialization
+    if (!this._root) return
+
     qualifiedName = shortcutAttr(qualifiedName)
 
     const payload = {
@@ -226,6 +229,9 @@ export class TaroElement extends TaroNode {
       }
       delete this.props[qualifiedName]
     }
+
+    // Serialization
+    if (!this._root) return
 
     qualifiedName = shortcutAttr(qualifiedName)
 
