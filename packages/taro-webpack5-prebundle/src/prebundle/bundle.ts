@@ -3,6 +3,7 @@ import { REG_SCRIPTS } from '@tarojs/helper'
 import { init, parse } from 'es-module-lexer'
 import esbuild, { Plugin } from 'esbuild'
 import fs from 'fs-extra'
+import { isEmpty } from 'lodash'
 import path from 'path'
 import Chain from 'webpack-chain'
 
@@ -17,19 +18,29 @@ import { assetsRE, CollectedDeps } from '../utils/constant'
 
 type ExportsData = ReturnType<typeof parse> & { hasReExports?: boolean, needInterop?: boolean }
 
+interface BundleConfig {
+  appPath: string
+  deps: CollectedDeps
+  chain: Chain
+  prebundleOutputDir: string
+  customEsbuildConfig?: Record<string, any>
+  customSwcConfig?: swc.Config
+}
+
 // esbuild generates nested directory output with lowest common ancestor base
 // this is unpredictable and makes it difficult to analyze entry / output
 // mapping. So what we do here is:
 // 1. flatten all ids to eliminate slash
 // 2. in the plugin, read the entry ourselves as virtual files to retain the
 //    path.
-export async function bundle (
-  appPath: string,
-  deps: CollectedDeps,
-  chain: Chain,
-  prebundleOutputDir: string,
-  customEsbuildConfig: Record<string, any> = {}
-) {
+export async function bundle ({
+  appPath,
+  deps,
+  chain,
+  prebundleOutputDir,
+  customEsbuildConfig = {},
+  customSwcConfig = {}
+}: BundleConfig) {
   await init
 
   const flattenDeps: CollectedDeps = new Map()
@@ -54,7 +65,10 @@ export async function bundle (
 
   // bundle deps
   const entryPlugin = getEntryPlugin({
-    flattenDeps, flatIdExports, prebundleOutputDir
+    flattenDeps,
+    flatIdExports,
+    prebundleOutputDir,
+    swcConfig: customSwcConfig || {}
   })
   const customPlugins = customEsbuildConfig.plugins || []
 
@@ -131,12 +145,12 @@ function getEntryPlugin ({
   flattenDeps,
   flatIdExports,
   prebundleOutputDir,
-  target
+  swcConfig
 }: {
   flattenDeps: CollectedDeps
   flatIdExports: Map<string, ExportsData>
   prebundleOutputDir: string
-  target?: swc.JscTarget
+  swcConfig?: swc.Config
 }): Plugin {
   const resolve = getResolve()
   return {
@@ -173,11 +187,8 @@ function getEntryPlugin ({
         }
       })
 
-      target && build.onLoad({ filter: REG_SCRIPTS }, async ({ path }) => {
-        const result = await swc.transform(
-          fs.readFileSync(path, 'utf-8'), {
-            jsc: { target }
-          })
+      !isEmpty(swcConfig) && build.onLoad({ filter: REG_SCRIPTS }, async ({ path }) => {
+        const result = await swc.transform(fs.readFileSync(path, 'utf-8'), swcConfig)
         return { contents: result.code }
       })
 

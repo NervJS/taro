@@ -51,7 +51,14 @@ export class MiniPrebundle extends BasePrebundle<IMiniPrebundleConfig> {
     if (this.preMetadata.bundleHash !== this.metadata.bundleHash) {
       this.isUseCache = false
 
-      const { metafile } = await bundle(this.appPath, this.deps, this.chain, this.prebundleCacheDir, this.customEsbuildConfig)
+      const { metafile } = await bundle({
+        appPath: this.appPath,
+        deps: this.deps,
+        chain: this.chain,
+        prebundleOutputDir: this.prebundleCacheDir,
+        customEsbuildConfig: this.customEsbuildConfig,
+        customSwcConfig: this.customSwcConfig
+      })
 
       // 找出 @tarojs/runtime 被 split 切分的 chunk，作为后续 ProvidePlugin 的提供者。
       // 原因是 @tarojs/runtime 里使用了一些如 raf、caf 等全局变量，又因为 esbuild 把

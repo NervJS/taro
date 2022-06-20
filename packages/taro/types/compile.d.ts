@@ -370,8 +370,8 @@ interface IPrebundle {
   force?: boolean
   include?: string[]
   exclude?: string[]
-  target?: swc.JscTarget
   esbuild?: Record<string, any>
+  swc?: swc.Config
   webpack?: {
     provide?: any[]
   }

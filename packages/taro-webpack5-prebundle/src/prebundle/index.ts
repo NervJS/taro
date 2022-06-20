@@ -1,3 +1,4 @@
+import swc from '@swc/core'
 import { chalk, fs, readConfig, resolveMainFilePath } from '@tarojs/helper'
 import { IProjectBaseConfig } from '@tarojs/taro/types/compile'
 import path from 'path'
@@ -30,6 +31,7 @@ export default class BasePrebundle<T extends IPrebundleConfig = IPrebundleConfig
   cacheDir: string
   chain: Chain
   customEsbuildConfig: IPrebundle['esbuild']
+  customSwcConfig?: swc.Config
   env: string
   prebundleCacheDir: string
   remoteCacheDir: string
@@ -45,13 +47,14 @@ export default class BasePrebundle<T extends IPrebundleConfig = IPrebundleConfig
     if (!option.enable) return
 
     const { appPath, env, chain, sourceRoot } = this.config
-    const { cacheDir = getCacheDir(appPath, env), esbuild = {}, force } = this.option
+    const { cacheDir = getCacheDir(appPath, env), esbuild = {}, force, swc } = this.option
 
     this.chain = chain
     this.sourceRoot = sourceRoot
     this.appPath = appPath
     this.cacheDir = cacheDir
     this.customEsbuildConfig = esbuild
+    this.customSwcConfig = swc
     this.env = env
     this.prebundleCacheDir = path.resolve(cacheDir, './prebundle')
     this.remoteCacheDir = path.resolve(cacheDir, './remote')
@@ -125,7 +128,14 @@ export default class BasePrebundle<T extends IPrebundleConfig = IPrebundleConfig
 
     if (this.preMetadata.bundleHash !== this.metadata.bundleHash) {
       this.isUseCache = false
-      await bundle(this.appPath, this.deps, this.chain, this.prebundleCacheDir, this.customEsbuildConfig)
+      await bundle({
+        appPath: this.appPath,
+        deps: this.deps,
+        chain: this.chain,
+        prebundleOutputDir: this.prebundleCacheDir,
+        customEsbuildConfig: this.customEsbuildConfig,
+        customSwcConfig: this.customSwcConfig
+      })
     }
 
     this.measure('Prebundle duration', PREBUNDLE_START)
