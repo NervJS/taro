@@ -120,7 +120,7 @@ exports.default = module.exports
     }
   }
 
-  await processAll
+  await Promise.all(processAll)
 
   return {
     metafile: result.metafile
