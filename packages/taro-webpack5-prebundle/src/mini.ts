@@ -43,44 +43,15 @@ export interface IMiniPrebundleConfig extends IPrebundleConfig {
 }
 
 export class MiniPrebundle extends BasePrebundle<IMiniPrebundleConfig> {
-  async run () {
-    const { appPath, cacheDir, customEsbuildConfig, prebundleCacheDir, remoteCacheDir, metadata, preMetadata } = this
-    this.isUseCache = true
-
-    const resolveOptions = this.chain.toConfig().resolve
-    createResolve(appPath, resolveOptions)
-
-    const { entryFileName = 'app', entry = {} } = this.config
-    const { include = [], exclude = [] } = this.option
-
-    /** 1. 扫描出所有的 node_modules 依赖 */
-    /**
-     * 找出所有 webpack entry
-     * TODO:
-     *   - 目前只处理了 Page entry，例如原生小程序组件 js entry 等并没有处理
-     */
-    const entries: string[] = this.getEntries(entry[entryFileName][0])
-    // plugin-platform 等插件的 runtime 文件入口
-    const runtimePath = typeof this.config.runtimePath === 'string' ? [this.config.runtimePath] : this.config.runtimePath || []
-    const deps = await this.getDeps(entries,
-      ['@tarojs/taro', '@tarojs/runtime'].concat(
-        ...runtimePath.map(item => item.replace(/^post:/, '')),
-        include
-      ),
-      [
-        '@tarojs/components' // 小程序编译 Host 时需要扫描 @tarojs/components 的 useExports，因此不能被 external
-      ].concat(exclude)
-    )
-
-    /** 2. 使用 esbuild 对 node_modules 依赖进行 bundle */
+  async bundle () {
     const PREBUNDLE_START = performance.now()
 
-    metadata.bundleHash = await getBundleHash(appPath, deps, this.chain, cacheDir)
+    this.metadata.bundleHash = await getBundleHash(this.appPath, this.deps, this.chain, this.cacheDir)
 
-    if (preMetadata.bundleHash !== metadata.bundleHash) {
+    if (this.preMetadata.bundleHash !== this.metadata.bundleHash) {
       this.isUseCache = false
 
-      const { metafile } = await bundle(appPath, deps, this.chain, prebundleCacheDir, customEsbuildConfig)
+      const { metafile } = await bundle(this.appPath, this.deps, this.chain, this.prebundleCacheDir, this.customEsbuildConfig)
 
       // 找出 @tarojs/runtime 被 split 切分的 chunk，作为后续 ProvidePlugin 的提供者。
       // 原因是 @tarojs/runtime 里使用了一些如 raf、caf 等全局变量，又因为 esbuild 把
@@ -96,27 +67,28 @@ export class MiniPrebundle extends BasePrebundle<IMiniPrebundleConfig> {
             return depOutput.exports.includes('TaroRootElement')
           })
           if (dep) {
-            metadata.taroRuntimeBundlePath = path.join(appPath, dep.path)
+            this.metadata.taroRuntimeBundlePath = path.join(this.appPath, dep.path)
           }
           return true
         }
       })
     } else {
-      metadata.taroRuntimeBundlePath = path.join(appPath, preMetadata.taroRuntimeBundlePath!)
+      this.metadata.taroRuntimeBundlePath = path.join(this.appPath, this.preMetadata.taroRuntimeBundlePath!)
     }
 
     this.measure('Prebundle duration', PREBUNDLE_START)
+  }
 
-    /** 3. 把依赖的 bundle 产物打包成 Webpack Module Federation 格式 */
+  async buildLib () {
     const BUILD_LIB_START = performance.now()
 
     const exposes: Record<string, string> = {}
     const mode = process.env.NODE_ENV === 'production' ? 'production' : 'development'
     const devtool = this.config.enableSourceMap && 'hidden-source-map'
     const mainBuildOutput = this.chain.output.entries()
-    const taroRuntimeBundlePath: string = metadata.taroRuntimeBundlePath || exposes['./@tarojs/runtime']
+    const taroRuntimeBundlePath: string = this.metadata.taroRuntimeBundlePath || exposes['./@tarojs/runtime']
     const output = {
-      path: remoteCacheDir,
+      path: this.remoteCacheDir,
       chunkLoadingGlobal: mainBuildOutput.chunkLoadingGlobal,
       globalObject: mainBuildOutput.globalObject
     }
@@ -137,26 +109,34 @@ export class MiniPrebundle extends BasePrebundle<IMiniPrebundleConfig> {
       })
     }
 
-    metadata.mfHash = getMfHash({
-      bundleHash: metadata.bundleHash,
+    this.metadata.mfHash = getMfHash({
+      bundleHash: this.metadata.bundleHash,
       mode,
       devtool,
       output,
       taroRuntimeBundlePath
     })
 
-    if (preMetadata.mfHash !== metadata.mfHash) {
+    if (this.preMetadata.mfHash !== this.metadata.mfHash) {
       this.isUseCache = false
 
-      fs.existsSync(remoteCacheDir) && fs.emptyDirSync(remoteCacheDir)
+      fs.existsSync(this.remoteCacheDir) && fs.emptyDirSync(this.remoteCacheDir)
 
-      for (const id of deps.keys()) {
+      for (const id of this.deps.keys()) {
         const flatId = flattenId(id)
-        exposes[`./${id}`] = path.join(prebundleCacheDir, `${flatId}.js`)
+        exposes[`./${id}`] = path.join(this.prebundleCacheDir, `${flatId}.js`)
       }
-      metadata.runtimeRequirements = new Set<string>()
+
+      this.metadata.runtimeRequirements = new Set<string>()
 
       const compiler = webpack({
+        cache: {
+          type: 'filesystem',
+          cacheDirectory: path.join(this.cacheDir, 'webpack-cache'),
+          buildDependencies: {
+            config: Object.values(exposes)
+          }
+        },
         devtool,
         entry: path.resolve(__dirname, './webpack/index.js'),
         mode,
@@ -170,23 +150,16 @@ export class MiniPrebundle extends BasePrebundle<IMiniPrebundleConfig> {
               exposes
             },
             {
-              deps,
+              deps: this.deps,
               env: this.env,
-              remoteAssets: metadata.remoteAssets,
-              runtimeRequirements: metadata.runtimeRequirements
+              remoteAssets: this.metadata.remoteAssets,
+              runtimeRequirements: this.metadata.runtimeRequirements
             }
           ),
           new webpack.ProvidePlugin(provideObject)
-        ],
-        cache: {
-          type: 'filesystem',
-          cacheDirectory: path.join(cacheDir, 'webpack-cache'),
-          buildDependencies: {
-            config: Object.values(exposes)
-          }
-        }
+        ]
       })
-      metadata.remoteAssets = await new Promise((resolve, reject) => {
+      this.metadata.remoteAssets = await new Promise((resolve, reject) => {
         compiler.run((error: Error, stats: webpack.Stats) => {
           compiler.close(err => {
             if (error || err) return reject(error || err)
@@ -203,30 +176,47 @@ export class MiniPrebundle extends BasePrebundle<IMiniPrebundleConfig> {
         })
       })
     } else {
-      metadata.runtimeRequirements = new Set(preMetadata.runtimeRequirements)
-      metadata.remoteAssets = preMetadata.remoteAssets
+      this.metadata.runtimeRequirements = new Set(this.preMetadata.runtimeRequirements)
+      this.metadata.remoteAssets = this.preMetadata.remoteAssets
     }
 
-    fs.copy(remoteCacheDir, path.join(mainBuildOutput.path, 'prebundle'))
+    fs.copy(this.remoteCacheDir, path.join(mainBuildOutput.path, 'prebundle'))
 
     this.measure(`Build remote ${MF_NAME} duration`, BUILD_LIB_START)
+  }
 
-    /** 4. 项目 Host 配置 Module Federation */
-    const MfOpt = {
-      name: 'taro-app',
-      remotes: {
-        [MF_NAME]: `${MF_NAME}@remoteEntry.js`
-      }
-    }
-    this.chain
-      .plugin('TaroModuleFederationPlugin')
-      .use(TaroModuleFederationPlugin, [MfOpt,
-        {
-          deps,
-          env: this.env,
-          remoteAssets: metadata.remoteAssets,
-          runtimeRequirements: metadata.runtimeRequirements
-        }])
+  async run () {
+    this.isUseCache = true
+    createResolve(this.appPath, this.chain.toConfig().resolve)
+
+    /** 扫描出所有的 node_modules 依赖 */
+    /**
+     * 找出所有 webpack entry
+     * TODO:
+     *   - 目前只处理了 Page entry，例如原生小程序组件 js entry 等并没有处理
+     */
+    const entries: string[] = this.getEntries(this.entryPath)
+    // plugin-platform 等插件的 runtime 文件入口
+    const runtimePath = typeof this.config.runtimePath === 'string' ? [this.config.runtimePath] : this.config.runtimePath || []
+    const { include = [], exclude = [] } = this.option
+    await this.setDeps(entries,
+      ['@tarojs/taro', '@tarojs/runtime'].concat(
+        ...runtimePath.map(item => item.replace(/^post:/, '')),
+        include
+      ),
+      [
+        '@tarojs/components' // 小程序编译 Host 时需要扫描 @tarojs/components 的 useExports，因此不能被 external
+      ].concat(exclude)
+    )
+
+    /** 使用 esbuild 对 node_modules 依赖进行 bundle */
+    await this.bundle()
+
+    /** 把依赖的 bundle 产物打包成 Webpack Module Federation 格式 */
+    await this.buildLib()
+
+    /** 项目 Host 配置 Module Federation */
+    this.setHost()
 
     await super.run()
   }

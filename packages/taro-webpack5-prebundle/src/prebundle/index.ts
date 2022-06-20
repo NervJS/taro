@@ -5,7 +5,10 @@ import { performance } from 'perf_hooks'
 import webpack from 'webpack'
 import Chain from 'webpack-chain'
 
-import { commitMeta, formatDepsString, getCacheDir, getMeasure, Metadata } from '../utils'
+import { commitMeta, formatDepsString, getBundleHash, getCacheDir, getMeasure, Metadata } from '../utils'
+import { CollectedDeps, MF_NAME } from '../utils/constant'
+import TaroModuleFederationPlugin from '../webpack/TaroModuleFederationPlugin'
+import { bundle } from './bundle'
 import { scanImports } from './scanImports'
 
 export type IPrebundle = Exclude<IProjectBaseConfig['compiler'], string | undefined>['prebundle']
@@ -33,8 +36,9 @@ export default class BasePrebundle<T extends IPrebundleConfig = IPrebundleConfig
   metadataPath: string
   metadata: Metadata
   preMetadata: Metadata
-  isUseCache: boolean
+  isUseCache = true
 
+  deps: CollectedDeps = new Map()
   measure: ReturnType<typeof getMeasure>
 
   constructor (protected config: T, protected option: IPrebundle) {
@@ -74,6 +78,11 @@ export default class BasePrebundle<T extends IPrebundleConfig = IPrebundleConfig
     this.chain.plugin(name).use(plugin, args)
   }
 
+  get entryPath () {
+    const { entryFileName = 'app', entry = {} } = this.config
+    return entry[entryFileName][0]
+  }
+
   /** 找出所有 webpack entry */
   getEntries (appJsPath: string) {
     const { appPath, sourceRoot } = this.config
@@ -90,24 +99,52 @@ export default class BasePrebundle<T extends IPrebundleConfig = IPrebundleConfig
     return entries
   }
 
-  async getDeps (entries, include: string[] = [], exclude: string[] = []) {
+  async setDeps (entries: string[], include: string[] = [], exclude: string[] = []) {
     const SCAN_START = performance.now()
 
-    const deps = await scanImports({
+    await scanImports({
       appPath: this.appPath,
       customEsbuildConfig: this.customEsbuildConfig,
       entries,
       exclude,
       include
-    })
+    }, this.deps)
 
-    deps.size &&
+    this.deps.size &&
       console.log(
-        chalk.cyan('Prebundle dependencies: \n', ...JSON.parse(formatDepsString(deps)).map(dep => `    ${dep[0]}\n`))
+        chalk.cyan('Prebundle dependencies: \n', ...JSON.parse(formatDepsString(this.deps)).map(dep => `    ${dep[0]}\n`))
       )
 
     this.measure('Scan imports duration', SCAN_START)
+  }
 
-    return deps
+  async bundle () {
+    const PREBUNDLE_START = performance.now()
+
+    this.metadata.bundleHash = await getBundleHash(this.appPath, this.deps, this.chain, this.cacheDir)
+
+    if (this.preMetadata.bundleHash !== this.metadata.bundleHash) {
+      this.isUseCache = false
+      await bundle(this.appPath, this.deps, this.chain, this.prebundleCacheDir, this.customEsbuildConfig)
+    }
+
+    this.measure('Prebundle duration', PREBUNDLE_START)
+  }
+
+  setHost () {
+    this.chain
+      .plugin('TaroModuleFederationPlugin')
+      .use(TaroModuleFederationPlugin, [{
+        name: 'taro-app',
+        remotes: {
+          [MF_NAME]: `${MF_NAME}@remoteEntry.js`
+        }
+      },
+      {
+        deps: this.deps,
+        env: this.env,
+        remoteAssets: this.metadata.remoteAssets,
+        runtimeRequirements: this.metadata.runtimeRequirements || new Set()
+      }])
   }
 }

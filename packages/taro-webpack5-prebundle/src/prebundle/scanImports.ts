@@ -36,9 +36,9 @@ export async function scanImports ({
   include = [],
   exclude = [],
   customEsbuildConfig = {}
-}: ScanImportsConfig): Promise<CollectedDeps> {
-  const deps: CollectedDeps = new Map()
-
+}: ScanImportsConfig,
+deps: CollectedDeps = new Map()
+): Promise<CollectedDeps> {
   const scanImportsPlugin = getScanImportsPlugin(deps, include, exclude)
   const customPlugins = customEsbuildConfig.plugins || []
 

@@ -1,3 +1,4 @@
+import swc from '@swc/core'
 export { Current } from '@tarojs/runtime'
 import webpack from 'webpack'
 import webpackDevServer from 'webpack-dev-server'
@@ -369,6 +370,7 @@ interface IPrebundle {
   force?: boolean
   include?: string[]
   exclude?: string[]
+  target?: swc.JscTarget
   esbuild?: Record<string, any>
   webpack?: {
     provide?: any[]

@@ -1,3 +1,5 @@
+import swc from '@swc/core'
+import { REG_SCRIPTS } from '@tarojs/helper'
 import { init, parse } from 'es-module-lexer'
 import esbuild, { Plugin } from 'esbuild'
 import fs from 'fs-extra'
@@ -51,7 +53,9 @@ export async function bundle (
   }
 
   // bundle deps
-  const entryPlugin = getEntryPlugin(flattenDeps, flatIdExports, prebundleOutputDir)
+  const entryPlugin = getEntryPlugin({
+    flattenDeps, flatIdExports, prebundleOutputDir
+  })
   const customPlugins = customEsbuildConfig.plugins || []
 
   fs.existsSync(prebundleOutputDir)
@@ -123,7 +127,17 @@ exports.default = module.exports
   }
 }
 
-function getEntryPlugin (flattenDeps: CollectedDeps, flatIdExports: Map<string, ExportsData>, prebundleOutputDir: string): Plugin {
+function getEntryPlugin ({
+  flattenDeps,
+  flatIdExports,
+  prebundleOutputDir,
+  target
+}: {
+  flattenDeps: CollectedDeps
+  flatIdExports: Map<string, ExportsData>
+  prebundleOutputDir: string
+  target?: swc.JscTarget
+}): Plugin {
   const resolve = getResolve()
   return {
     name: 'entry',
@@ -157,6 +171,14 @@ function getEntryPlugin (flattenDeps: CollectedDeps, flatIdExports: Map<string, 
             path: resolvedPath
           }
         }
+      })
+
+      target && build.onLoad({ filter: REG_SCRIPTS }, async ({ path }) => {
+        const result = await swc.transform(
+          fs.readFileSync(path, 'utf-8'), {
+            jsc: { target }
+          })
+        return { contents: result.code }
       })
 
       build.onLoad({ filter: /^[\w@][^:]/, namespace: 'entry' }, async ({ path: id }) => {
