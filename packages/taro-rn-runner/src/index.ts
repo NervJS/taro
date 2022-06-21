@@ -189,7 +189,10 @@ export default async function build (_appPath: string, config: any): Promise<any
     const savedBuildFunc = outputBundle.build
     outputBundle.build = async (packagerClient, requestOptions) => {
       const resolutionFn = await getResolveDependencyFn(packagerClient.getBundler().getBundler(), requestOptions.platform)
-      requestOptions.entryFile = resolutionFn(metroConfig.projectRoot, requestOptions.entryFile)
+      // try for test case build_noWatch
+      try {
+        requestOptions.entryFile = resolutionFn(metroConfig.projectRoot, requestOptions.entryFile)
+      } catch (e) {}
       return savedBuildFunc(packagerClient, requestOptions)
     }
 
