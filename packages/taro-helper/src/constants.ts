@@ -205,5 +205,6 @@ export const FRAMEWORK_EXT_MAP = {
   vue: VUE_EXT,
   vue3: VUE_EXT,
   react: SCRIPT_EXT,
-  nerv: SCRIPT_EXT
+  nerv: SCRIPT_EXT,
+  preact: SCRIPT_EXT
 }
