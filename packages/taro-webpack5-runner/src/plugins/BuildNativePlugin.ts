@@ -7,7 +7,7 @@ import {
 } from '@tarojs/helper'
 import { Config } from '@tarojs/taro'
 import path from 'path'
-import webpack from 'webpack'
+import webpack, { Compilation, Compiler } from 'webpack'
 
 import { IComponent } from '../utils/types'
 import { addRequireToSource, getChunkEntryModule, getChunkIdOrName } from '../utils/webpack'
@@ -18,12 +18,12 @@ const PLUGIN_NAME = 'BuildNativePlugin'
 export default class BuildNativePlugin extends MiniPlugin {
   pageLoaderName = '@tarojs/taro-loader/lib/native-component'
 
-  apply (compiler: webpack.Compiler) {
+  apply (compiler: Compiler) {
     super.apply(compiler)
     this.addLoadChunksPlugin(compiler)
   }
 
-  run (compiler: webpack.Compiler) {
+  run (compiler: Compiler) {
     this.appConfig = this.getAppConfig()
     this.getPages()
     this.getPagesConfig()
@@ -73,7 +73,7 @@ export default class BuildNativePlugin extends MiniPlugin {
     }
   }
 
-  addLoadChunksPlugin (compiler: webpack.Compiler) {
+  addLoadChunksPlugin (compiler: Compiler) {
     const fileChunks = new Map<string, { name: string }[]>()
 
     compiler.hooks.thisCompilation.tap(PLUGIN_NAME, compilation => {
@@ -116,13 +116,13 @@ export default class BuildNativePlugin extends MiniPlugin {
   }
 
   // 不生成 app.json
-  generateConfigFile (compilation: webpack.Compilation, filePath: string, config: Config & { component?: boolean }) {
+  generateConfigFile (compilation: Compilation, filePath: string, config: Config & { component?: boolean }) {
     if (filePath === this.appEntry) return
     super.generateConfigFile(compilation, filePath, config)
   }
 
   // 加载 taro-runtime 前必须先加载端平台插件的 runtime
-  addLoader (compiler: webpack.Compiler) {
+  addLoader (compiler: Compiler) {
     compiler.hooks.compilation.tap(PLUGIN_NAME, compilation => {
       webpack.NormalModule.getCompilationHooks(compilation).loader.tap(PLUGIN_NAME, (_loaderContext, module: any) => {
         if (module.rawRequest === '@tarojs/runtime') {

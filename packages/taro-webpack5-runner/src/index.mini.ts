@@ -1,12 +1,12 @@
 import Prebundle from '@tarojs/webpack5-prebundle'
 import { isEmpty } from 'lodash'
-import webpack from 'webpack'
+import webpack, { Stats } from 'webpack'
 
 import { Prerender } from './prerender/prerender'
 import type { MiniBuildConfig } from './utils/types'
 import { MiniCombination } from './webpack/MiniCombination'
 
-export default async function build (appPath: string, rawConfig: MiniBuildConfig): Promise<webpack.Stats> {
+export default async function build (appPath: string, rawConfig: MiniBuildConfig): Promise<Stats> {
   const combination = new MiniCombination(appPath, rawConfig)
   await combination.make()
 
@@ -24,12 +24,12 @@ export default async function build (appPath: string, rawConfig: MiniBuildConfig
   const webpackConfig = combination.chain.toConfig()
   const config = combination.config
 
-  return new Promise<webpack.Stats>((resolve, reject) => {
+  return new Promise<Stats>((resolve, reject) => {
     const compiler = webpack(webpackConfig)
     const onBuildFinish = config.onBuildFinish
     let prerender: Prerender
 
-    const onFinish = function (error: Error | null, stats: webpack.Stats | null) {
+    const onFinish = function (error: Error | null, stats: Stats | null) {
       if (typeof onBuildFinish !== 'function') return
 
       onBuildFinish({
@@ -39,7 +39,7 @@ export default async function build (appPath: string, rawConfig: MiniBuildConfig
       })
     }
 
-    const callback = async (err: Error, stats: webpack.Stats) => {
+    const callback = async (err: Error, stats: Stats) => {
       if (err || stats.hasErrors()) {
         const error = err ?? stats.toJson().errors
         onFinish(error, null)
@@ -66,7 +66,7 @@ export default async function build (appPath: string, rawConfig: MiniBuildConfig
         poll: undefined
       }, callback)
     } else {
-      compiler.run((err: Error, stats: webpack.Stats) => {
+      compiler.run((err: Error, stats: Stats) => {
         compiler.close(err2 => callback(err || err2, stats))
       })
     }

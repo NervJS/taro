@@ -4,7 +4,7 @@
  * Author Tobias Koppers @sokra and Zackary Jackson @ScriptedAlchemy
  */
 import { META_TYPE } from '@tarojs/helper'
-import webpack, { NormalModule, RuntimeGlobals } from 'webpack'
+import webpack, { Compiler, NormalModule, RuntimeGlobals } from 'webpack'
 import ContainerReferencePlugin from 'webpack/lib/container/ContainerReferencePlugin'
 import RemoteModule from 'webpack/lib/container/RemoteModule'
 import type { ContainerReferencePluginOptions, RemotesConfig } from 'webpack/types'
@@ -54,7 +54,7 @@ export default class TaroContainerReferencePlugin extends ContainerReferencePlug
     this.runtimeRequirements = params.runtimeRequirements
   }
 
-  apply (compiler: webpack.Compiler) {
+  apply (compiler: Compiler) {
     switch (this.params.env) {
       case 'h5':
         this.applyWebApp(compiler)
@@ -64,7 +64,7 @@ export default class TaroContainerReferencePlugin extends ContainerReferencePlug
     }
   }
 
-  applyWebApp (compiler: webpack.Compiler) {
+  applyWebApp (compiler: Compiler) {
     const { _remotes: remotes, _remoteType: remoteType } = this
     const remoteExternals: Record<string, string> = {}
     for (const [key, config] of remotes) {
@@ -137,7 +137,7 @@ export default class TaroContainerReferencePlugin extends ContainerReferencePlug
     })
   }
 
-  applyMiniApp (compiler: webpack.Compiler) {
+  applyMiniApp (compiler: Compiler) {
     compiler.hooks.compilation.tap(
       PLUGIN_NAME,
       (compilation, { normalModuleFactory }) => {

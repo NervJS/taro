@@ -25,7 +25,7 @@
 import fs from 'fs-extra'
 import path from 'path'
 import { performance } from 'perf_hooks'
-import webpack from 'webpack'
+import webpack, { ProvidePlugin, Stats } from 'webpack'
 
 import BasePrebundle, { IPrebundleConfig } from './prebundle'
 import { bundle } from './prebundle/bundle'
@@ -163,11 +163,11 @@ export class MiniPrebundle extends BasePrebundle<IMiniPrebundleConfig> {
               runtimeRequirements: this.metadata.runtimeRequirements
             }
           ),
-          new webpack.ProvidePlugin(provideObject)
+          new ProvidePlugin(provideObject)
         ]
       })
       this.metadata.remoteAssets = await new Promise((resolve, reject) => {
-        compiler.run((error: Error, stats: webpack.Stats) => {
+        compiler.run((error: Error, stats: Stats) => {
           compiler.close(err => {
             if (error || err) return reject(error || err)
             const { assets = [], errors = [] } = stats.toJson()

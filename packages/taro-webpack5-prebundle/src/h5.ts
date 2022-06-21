@@ -25,7 +25,7 @@
 import fs from 'fs-extra'
 import path from 'path'
 import { performance } from 'perf_hooks'
-import webpack from 'webpack'
+import webpack, { Stats } from 'webpack'
 import webpackDevServer from 'webpack-dev-server'
 import VirtualModulesPlugin from 'webpack-virtual-modules'
 
@@ -126,7 +126,7 @@ export class H5Prebundle extends BasePrebundle<IH5PrebundleConfig> {
         ]
       })
       this.metadata.remoteAssets = await new Promise((resolve, reject) => {
-        compiler.run((error: Error, stats: webpack.Stats) => {
+        compiler.run((error: Error, stats: Stats) => {
           compiler.close(err => {
             if (error || err) return reject(error || err)
             const { assets = [], errors = [] } = stats.toJson()

@@ -1,6 +1,6 @@
 import { FRAMEWORK_MAP, resolveMainFilePath } from '@tarojs/helper'
 import path from 'path'
-import webpack from 'webpack'
+import { Configuration, EntryNormalized } from 'webpack'
 
 import { addLeadingSlash, addTrailingSlash } from '../utils'
 import H5AppInstance from '../utils/H5AppInstance'
@@ -10,7 +10,7 @@ import { H5BaseConfig } from './H5BaseConfig'
 import { H5WebpackModule } from './H5WebpackModule'
 import { H5WebpackPlugin } from './H5WebpackPlugin'
 
-type Output = Required<webpack.Configuration>['output']
+type Output = Required<Configuration>['output']
 
 export class H5Combination extends Combination<H5BuildConfig> {
   inst: H5AppInstance
@@ -34,7 +34,7 @@ export class H5Combination extends Combination<H5BuildConfig> {
     } = config
     const routerMode = router?.mode || 'hash'
     const isMultiRouterMode = routerMode === 'multi'
-    this.inst = new H5AppInstance(entry as webpack.EntryNormalized, {
+    this.inst = new H5AppInstance(entry as EntryNormalized, {
       sourceDir: this.sourceDir,
       framework: framework as FRAMEWORK_MAP,
       entryFileName

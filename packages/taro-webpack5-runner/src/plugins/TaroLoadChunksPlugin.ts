@@ -3,7 +3,7 @@ import {
   taroJsComponents
 } from '@tarojs/helper'
 import { toDashed } from '@tarojs/shared'
-import webpack from 'webpack'
+import webpack, { Chunk, ChunkGraph, Compilation, Compiler } from 'webpack'
 import { ConcatSource } from 'webpack-sources'
 
 import { componentConfig } from '../template/component'
@@ -43,14 +43,14 @@ export default class TaroLoadChunksPlugin {
     this.isIndependentPackages = options.isIndependentPackages || false
   }
 
-  apply (compiler: webpack.Compiler) {
+  apply (compiler: Compiler) {
     const pagesList = this.pages
     const addChunkPagesList = new Map<string, string[]>()
-    compiler.hooks.thisCompilation.tap(PLUGIN_NAME, (compilation: webpack.Compilation) => {
+    compiler.hooks.thisCompilation.tap(PLUGIN_NAME, (compilation: Compilation) => {
       let commonChunks
       const fileChunks = new Map<string, { name: string }[]>()
 
-      compilation.hooks.afterOptimizeChunks.tap(PLUGIN_NAME, (chunks: webpack.Chunk[]) => {
+      compilation.hooks.afterOptimizeChunks.tap(PLUGIN_NAME, (chunks: Chunk[]) => {
         const chunksArray = Array.from(chunks)
         /**
          * 收集 common chunks 中使用到 @tarojs/components 中的组件
@@ -155,7 +155,7 @@ export default class TaroLoadChunksPlugin {
     })
   }
 
-  collectComponents (compilation: webpack.Compilation, chunk: webpack.Chunk) {
+  collectComponents (compilation: Compilation, chunk: Chunk) {
     const chunkGraph = compilation.chunkGraph
     const moduleGraph = compilation.moduleGraph
     const modulesIterable: Iterable<TaroNormalModule> = chunkGraph.getOrderedChunkModulesIterable(chunk, webpack.util.comparators.compareModulesByIdentifier) as any
@@ -177,7 +177,7 @@ export default class TaroLoadChunksPlugin {
   }
 }
 
-function chunkHasJs (chunk: webpack.Chunk, chunkGraph: webpack.ChunkGraph) {
+function chunkHasJs (chunk: Chunk, chunkGraph: ChunkGraph) {
   if (chunk.name === chunk.runtime) return true
   if (chunkGraph.getNumberOfEntryModules(chunk) > 0) return true
 

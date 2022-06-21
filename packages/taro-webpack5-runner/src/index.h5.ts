@@ -4,7 +4,7 @@ import Prebundle from '@tarojs/webpack5-prebundle'
 import detectPort from 'detect-port'
 import path from 'path'
 import { format as formatUrl } from 'url'
-import webpack from 'webpack'
+import webpack, { EntryNormalized } from 'webpack'
 import WebpackDevServer from 'webpack-dev-server'
 
 import { addHtmlSuffix, addLeadingSlash, addTrailingSlash, formatOpenHost, stripBasename, stripTrailingSlash } from './utils'
@@ -142,7 +142,7 @@ async function getDevServerOptions (appPath: string, config: H5BuildConfig): Pro
   const isMultiRouterMode = routerMode === 'multi'
   const proxy = {}
   if (isMultiRouterMode) {
-    const app = new H5AppInstance(config.entry as webpack.EntryNormalized, {
+    const app = new H5AppInstance(config.entry as EntryNormalized, {
       sourceDir: path.join(appPath, config.sourceRoot || SOURCE_DIR),
       framework: config.framework as FRAMEWORK_MAP,
       entryFileName: config.entryFileName

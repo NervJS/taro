@@ -4,12 +4,13 @@
  * Author Tobias Koppers @sokra, Zackary Jackson @ScriptedAlchemy, Marais Rossouw @maraisr
  */
 import webpack from 'webpack'
+import ContainerPlugin from 'webpack/lib/container/ContainerPlugin'
 import { ConcatSource } from 'webpack-sources'
 
 const { Template, RuntimeGlobals } = webpack
 const ContainerEntryModule = require('webpack/lib/container/ContainerEntryModule')
 
-type Exposes = ConstructorParameters<typeof webpack.container.ContainerPlugin>[0]['exposes']
+type Exposes = ConstructorParameters<typeof ContainerPlugin>[0]['exposes']
 export default class TaroContainerEntryModule extends ContainerEntryModule {
   // eslint-disable-next-line no-useless-constructor
   constructor (name: string, exposes: Exposes, shareScope: string) {

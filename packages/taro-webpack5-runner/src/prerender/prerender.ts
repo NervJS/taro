@@ -3,7 +3,7 @@ import type { IAdapter } from '@tarojs/shared/dist/template'
 import fs from 'fs'
 import { join } from 'path'
 import type { NodeVM } from 'vm2'
-import webpack from 'webpack'
+import { Configuration, Stats, StatsCompilation } from 'webpack'
 
 import { printPrerenderFail, printPrerenderSuccess } from '../utils/logHelper'
 import type { MiniBuildConfig } from '../utils/types'
@@ -106,12 +106,12 @@ export class Prerender {
   private globalObject: string
   private outputPath: string
   private prerenderConfig: PrerenderConfig
-  private stat: webpack.StatsCompilation
+  private stat: StatsCompilation
   private vm: NodeVM
   private appLoaded = false
   private adapter: IAdapter
 
-  public constructor (buildConfig: MiniBuildConfig, webpackConfig: webpack.Configuration, stat: webpack.Stats, adapter) {
+  public constructor (buildConfig: MiniBuildConfig, webpackConfig: Configuration, stat: Stats, adapter) {
     const VM = require('vm2').NodeVM
     this.buildConfig = buildConfig
     this.outputPath = webpackConfig.output!.path!

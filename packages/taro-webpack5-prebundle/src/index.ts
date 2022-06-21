@@ -1,4 +1,4 @@
-import webpack from 'webpack'
+import { EntryObject } from 'webpack'
 import Chain from 'webpack-chain'
 import webpackDevServer from 'webpack-dev-server'
 
@@ -14,7 +14,7 @@ export interface IPrebundleParam {
   appPath: string
   sourceRoot: string
   chain: Chain
-  entry: webpack.EntryObject
+  entry: EntryObject
   chunkDirectory?: string
   enableSourceMap?: boolean
   entryFileName?: string
