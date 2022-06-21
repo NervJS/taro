@@ -117,7 +117,7 @@ var indexScssStyleSheet = StyleSheet.create({
 
 console.log('rn resolve');
 
-var _styleSheet=indexScssStyleSheet;console.log('process.env.TARO_ENV',\\"rn\\");function Navbar(props){var title=props.title,rightElement=props.rightElement;return jsxs(View,{style:_styleSheet[\\"navbar\\"],children:[jsx(View,{style:_styleSheet[\\"navbar-leftElement\\"],children:jsx(Image,{src:iconBack,onClick:function back(){return navigateBack();},style:_styleSheet[\\"icon-back\\"]})}),jsx(View,{style:_styleSheet[\\"navbar-title\\"],children:typeof title==='string'?jsx(Text,{style:_styleSheet[\\"navbar-title-text\\"],children:title}):title}),jsx(View,{style:_styleSheet[\\"navbar-rightElement\\"],children:rightElement})]});}
+var _styleSheet=indexScssStyleSheet;console.log('isRn',true);function Navbar(props){var title=props.title,rightElement=props.rightElement;return jsxs(View,{style:_styleSheet[\\"navbar\\"],children:[jsx(View,{style:_styleSheet[\\"navbar-leftElement\\"],children:jsx(Image,{src:iconBack,onClick:function back(){return navigateBack();},style:_styleSheet[\\"icon-back\\"]})}),jsx(View,{style:_styleSheet[\\"navbar-title\\"],children:typeof title==='string'?jsx(Text,{style:_styleSheet[\\"navbar-title-text\\"],children:title}):title}),jsx(View,{style:_styleSheet[\\"navbar-rightElement\\"],children:rightElement})]});}
 
 export { Navbar as default };
 ",
@@ -227,7 +227,7 @@ var indexScssStyleSheet = StyleSheet.create({
 
 console.log('rn resolve');
 
-var _styleSheet=indexScssStyleSheet;console.log('process.env.TARO_ENV',\\"rn\\");function Navbar(props){var title=props.title,rightElement=props.rightElement;return jsxs(View,{style:_styleSheet[\\"navbar\\"],children:[jsx(View,{style:_styleSheet[\\"navbar-leftElement\\"],children:jsx(Image,{src:iconBack,onClick:function back(){return navigateBack();},style:_styleSheet[\\"icon-back\\"]})}),jsx(View,{style:_styleSheet[\\"navbar-title\\"],children:typeof title==='string'?jsx(Text,{style:_styleSheet[\\"navbar-title-text\\"],children:title}):title}),jsx(View,{style:_styleSheet[\\"navbar-rightElement\\"],children:rightElement})]});}
+var _styleSheet=indexScssStyleSheet;console.log('isRn',true);function Navbar(props){var title=props.title,rightElement=props.rightElement;return jsxs(View,{style:_styleSheet[\\"navbar\\"],children:[jsx(View,{style:_styleSheet[\\"navbar-leftElement\\"],children:jsx(Image,{src:iconBack,onClick:function back(){return navigateBack();},style:_styleSheet[\\"icon-back\\"]})}),jsx(View,{style:_styleSheet[\\"navbar-title\\"],children:typeof title==='string'?jsx(Text,{style:_styleSheet[\\"navbar-title-text\\"],children:title}):title}),jsx(View,{style:_styleSheet[\\"navbar-rightElement\\"],children:rightElement})]});}
 
 export { Navbar as default };
 ",
@@ -365,47 +365,6 @@ console.log({fileBuild:fileBuild});
 `;
 
 exports[`build_components require react-native component 1`] = `
-Array [
-  "import { Children, Component } from 'react';
-import { AppRegistry } from 'react-native';
-import { jsx, Fragment, jsxs } from 'react/jsx-runtime';
-
-function _classCallCheck(instance,Constructor){if(!(instance instanceof Constructor)){throw new TypeError(\\"Cannot call a class as a function\\");}}
-
-function _defineProperties(target,props){for(var i=0;i<props.length;i++){var descriptor=props[i];descriptor.enumerable=descriptor.enumerable||false;descriptor.configurable=true;if(\\"value\\"in descriptor)descriptor.writable=true;Object.defineProperty(target,descriptor.key,descriptor);}}function _createClass(Constructor,protoProps,staticProps){if(protoProps)_defineProperties(Constructor.prototype,protoProps);if(staticProps)_defineProperties(Constructor,staticProps);Object.defineProperty(Constructor,\\"prototype\\",{writable:false});return Constructor;}
-
-function ChildrenWrapper(props){return jsx(Fragment,{children:props.children});}
-
-function _extends(){_extends=Object.assign?Object.assign.bind():function(target){for(var i=1;i<arguments.length;i++){var source=arguments[i];for(var key in source){if(Object.prototype.hasOwnProperty.call(source,key)){target[key]=source[key];}}}return target;};return _extends.apply(this,arguments);}
-
-var RootControllerChanges;(function(RootControllerChanges){RootControllerChanges[RootControllerChanges[\\"Insert\\"]=0]=\\"Insert\\";RootControllerChanges[RootControllerChanges[\\"Update\\"]=1]=\\"Update\\";RootControllerChanges[RootControllerChanges[\\"Remove\\"]=2]=\\"Remove\\";})(RootControllerChanges||(RootControllerChanges={}));var RootController=function(){function RootController(){_classCallCheck(this,RootController);this.siblings=new Set();this.pendingActions=[];this.callback=null;}_createClass(RootController,[{key:\\"update\\",value:function update(id,element,callback){if(!this.siblings.has(id)){this.emit(id,{change:RootControllerChanges.Insert,element:element,updateCallback:callback});this.siblings.add(id);}else {this.emit(id,{change:RootControllerChanges.Update,element:element,updateCallback:callback});}}},{key:\\"destroy\\",value:function destroy(id,callback){if(this.siblings.has(id)){this.emit(id,{change:RootControllerChanges.Remove,element:null,updateCallback:callback});this.siblings.delete(id);}else if(callback){callback();}}},{key:\\"setCallback\\",value:function setCallback(callback){this.callback=callback;this.pendingActions.forEach(function(_ref){var id=_ref.id,action=_ref.action;callback(id,action);});}},{key:\\"emit\\",value:function emit(id,action){if(this.callback){this.callback(id,action);}else {this.pendingActions.push({action:action,id:id});}}}]);return RootController;}();
-
-function _setPrototypeOf(o,p){_setPrototypeOf=Object.setPrototypeOf?Object.setPrototypeOf.bind():function(o,p){o.__proto__=p;return o;};return _setPrototypeOf(o,p);}
-
-function _inherits(subClass,superClass){if(typeof superClass!==\\"function\\"&&superClass!==null){throw new TypeError(\\"Super expression must either be null or a function\\");}subClass.prototype=Object.create(superClass&&superClass.prototype,{constructor:{value:subClass,writable:true,configurable:true}});Object.defineProperty(subClass,\\"prototype\\",{writable:false});if(superClass)_setPrototypeOf(subClass,superClass);}
-
-function _typeof(obj){\\"@babel/helpers - typeof\\";return _typeof=\\"function\\"==typeof Symbol&&\\"symbol\\"==typeof Symbol.iterator?function(obj){return typeof obj;}:function(obj){return obj&&\\"function\\"==typeof Symbol&&obj.constructor===Symbol&&obj!==Symbol.prototype?\\"symbol\\":typeof obj;},_typeof(obj);}
-
-function _assertThisInitialized(self){if(self===void 0){throw new ReferenceError(\\"this hasn't been initialised - super() hasn't been called\\");}return self;}
-
-function _possibleConstructorReturn(self,call){if(call&&(_typeof(call)===\\"object\\"||typeof call===\\"function\\")){return call;}else if(call!==void 0){throw new TypeError(\\"Derived constructors may only return object or undefined\\");}return _assertThisInitialized(self);}
-
-function _getPrototypeOf(o){_getPrototypeOf=Object.setPrototypeOf?Object.getPrototypeOf.bind():function(o){return o.__proto__||Object.getPrototypeOf(o);};return _getPrototypeOf(o);}
-
-function _createSuper$1(Derived){var hasNativeReflectConstruct=_isNativeReflectConstruct$1();return function(){var Super=_getPrototypeOf(Derived),result;if(hasNativeReflectConstruct){var NewTarget=_getPrototypeOf(this).constructor;result=Reflect.construct(Super,arguments,NewTarget);}else {result=Super.apply(this,arguments);}return _possibleConstructorReturn(this,result);};}function _isNativeReflectConstruct$1(){if(typeof Reflect===\\"undefined\\"||!Reflect.construct)return false;if(Reflect.construct.sham)return false;if(typeof Proxy===\\"function\\")return true;try{Boolean.prototype.valueOf.call(Reflect.construct(Boolean,[],function(){}));return true;}catch(e){return false;}}var _default$1=function(_Component){_inherits(_default,_Component);var _super=_createSuper$1(_default);function _default(){_classCallCheck(this,_default);return _super.apply(this,arguments);}_createClass(_default,[{key:\\"shouldComponentUpdate\\",value:function shouldComponentUpdate(nextProps){return nextProps.shouldUpdate;}},{key:\\"render\\",value:function render(){var child=this.props.children;return child===null||child===false?null:Children.only(child);}}]);return _default;}(Component);
-
-function _createSuper(Derived){var hasNativeReflectConstruct=_isNativeReflectConstruct();return function(){var Super=_getPrototypeOf(Derived),result;if(hasNativeReflectConstruct){var NewTarget=_getPrototypeOf(this).constructor;result=Reflect.construct(Super,arguments,NewTarget);}else {result=Super.apply(this,arguments);}return _possibleConstructorReturn(this,result);};}function _isNativeReflectConstruct(){if(typeof Reflect===\\"undefined\\"||!Reflect.construct)return false;if(Reflect.construct.sham)return false;if(typeof Proxy===\\"function\\")return true;try{Boolean.prototype.valueOf.call(Reflect.construct(Boolean,[],function(){}));return true;}catch(e){return false;}}var _default=function(_Component){_inherits(_default,_Component);var _super=_createSuper(_default);function _default(props){var _this;_classCallCheck(this,_default);_this=_super.call(this,props);_this.siblingsPool=[];_this.updatedSiblings=new Set();_this.unmounted=false;_this.state={siblings:[]};return _this;}_createClass(_default,[{key:\\"componentDidMount\\",value:function componentDidMount(){var _this2=this;this.props.controller.setCallback(function(id,change){setImmediate(function(){return _this2.commitChange(id,change);});});}},{key:\\"componentDidUpdate\\",value:function componentDidUpdate(){this.updatedSiblings.clear();}},{key:\\"componentWillUnmount\\",value:function componentWillUnmount(){this.unmounted=true;}},{key:\\"commitChange\\",value:function commitChange(id,_ref){var _this3=this;var change=_ref.change,element=_ref.element,updateCallback=_ref.updateCallback;if(this.unmounted){return;}var siblings=Array.from(this.siblingsPool);var index=siblings.findIndex(function(sibling){return sibling.id===id;});if(change===RootControllerChanges.Remove){if(index>-1){siblings.splice(index,1);}else {this.invokeCallback(updateCallback);return;}}else if(change===RootControllerChanges.Update){if(index>-1){siblings.splice(index,1,{element:element,id:id});this.updatedSiblings.add(id);}else {this.invokeCallback(updateCallback);return;}}else {if(index>-1){siblings.splice(index,1);}siblings.push({element:element,id:id});this.updatedSiblings.add(id);}this.siblingsPool=siblings;this.setState({siblings:siblings},function(){return _this3.invokeCallback(updateCallback);});}},{key:\\"invokeCallback\\",value:function invokeCallback(callback){if(callback){callback();}}},{key:\\"renderSiblings\\",value:function renderSiblings(){var _this4=this;return this.state.siblings.map(function(_ref2){var id=_ref2.id,element=_ref2.element;return jsx(_default$1,{shouldUpdate:_this4.updatedSiblings.has(id),children:_this4.wrapSibling(element)},\\"root-sibling-\\"+id);});}},{key:\\"wrapSibling\\",value:function wrapSibling(element){var renderSibling=this.props.renderSibling;if(renderSibling){return renderSibling(element);}else {return element;}}},{key:\\"render\\",value:function render(){return jsxs(Fragment,{children:[this.props.children,this.renderSiblings()]});}}]);return _default;}(Component);
-
-function wrapRootComponent(_Root,renderSibling){var controller=new RootController();return {Root:function Root(props){return jsx(_default,{controller:controller,renderSibling:renderSibling,children:jsx(_Root,_extends({},props))});},manager:{update:function update(id,element,callback){controller.update(id,element,callback);},destroy:function destroy(id,callback){controller.destroy(id,callback);}}};}
-
-var siblingWrapper=function(sibling){return sibling;};function renderSibling(sibling){return siblingWrapper(sibling);}if(!global.__rootSiblingsInjected&&!global.__rootSiblingsDisabled){AppRegistry.setWrapperComponentProvider(function(){return Root;});global.__rootSiblingsInjected=true;}var _wrapRootComponent=wrapRootComponent(ChildrenWrapper,renderSibling),Root=_wrapRootComponent.Root,defaultManager=_wrapRootComponent.manager;var uuid=0;var managerStack=[defaultManager];var inactiveManagers=new Set();function getActiveManager(){for(var i=managerStack.length-1;i>=0;i--){var manager=managerStack[i];if(!inactiveManagers.has(manager)){return manager;}}return defaultManager;}var RootSiblingsManager=function(){function RootSiblingsManager(element,callback){_classCallCheck(this,RootSiblingsManager);this.id=\\"root-sibling-\\"+(uuid+1);this.manager=getActiveManager();this.manager.update(this.id,element,callback);uuid++;}_createClass(RootSiblingsManager,[{key:\\"update\\",value:function update(element,callback){this.manager.update(this.id,element,callback);}},{key:\\"destroy\\",value:function destroy(callback){this.manager.destroy(this.id,callback);}}]);return RootSiblingsManager;}();
-
-console.log({silblings:RootSiblingsManager});
-",
-]
-`;
-
-exports[`build_components require react-native component 2`] = `
 Array [
   "import { Children, Component } from 'react';
 import { AppRegistry } from 'react-native';

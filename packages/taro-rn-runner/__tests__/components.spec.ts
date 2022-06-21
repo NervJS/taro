@@ -93,14 +93,4 @@ describe('build_components', () => {
     })
     expect(getCode(result)).toMatchSnapshot()
   })
-
-  it('require react-native component', async () => {
-    const result = await build(config, {
-      input: ['utils/requireReactNative/index'],
-      sourceRootPath: path.resolve(__dirname, './mock/src'),
-      externalResolve: () => {},
-      output: path.resolve(__dirname, './mock/dist/require-native')
-    })
-    expect(getCode(result)).toMatchSnapshot()
-  })
 })

@@ -21,7 +21,10 @@ interface IComponentConfig {
   sourceRootPath?: string
   external?: Array<string | RegExp> | ExternalFn
   externalResolve?: (importee, importer) => string | null | void
-  modifyRollupConfig?: (config: RollupOptions, innerplugins?: [ taroResolver, styleTransformer ]) => RollupOptions
+  modifyRollupConfig?: (
+    config: RollupOptions,
+    innerplugins?: [typeof taroResolver, typeof styleTransformer]
+  ) => RollupOptions
 }
 
 const DEFAULT_CONFIG: Pick<

@@ -56,11 +56,7 @@ export default function resolver (options: ResolverOption) {
       }
 
       moduleName = resolveExtFile({ originModulePath }, moduleName, undefined)
-
-      if (moduleName) {
-        return { id: moduleName }
-      }
-      return null
+      return moduleName || null
     }
   }
 }

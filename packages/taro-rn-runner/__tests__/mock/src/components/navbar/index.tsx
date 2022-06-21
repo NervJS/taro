@@ -5,7 +5,7 @@ import iconBack from './icon_back.webp'
 import './index.scss'
 import 'src/components/navbar/resolver'
 
-console.log('process.env.TARO_ENV', process.env.TARO_ENV)
+console.log('isRn', process.env.TARO_ENV === 'rn')
 export default function Navbar (props: Props) {
   const { title, rightElement } = props
   const back = () => Taro.navigateBack()
