@@ -24,6 +24,7 @@ import { createApp } from './init'
 export interface IProjectConf {
   projectName: string;
   projectDir: string;
+  packageName: string;
   templateSource: string;
   clone?: boolean;
   template: string;
@@ -62,7 +63,8 @@ export default class Project extends Creator {
         projectName: '',
         projectDir: '',
         template: '',
-        description: ''
+        description: '',
+        packageName: ''
       },
       options
     )
@@ -97,6 +99,7 @@ export default class Project extends Creator {
     this.askTypescript(conf, prompts)
     this.askCSS(conf, prompts)
     this.askCompiler(conf, prompts)
+    this.askPackage(conf, prompts)
     await this.askTemplateSource(conf, prompts)
 
     const answers = await inquirer.prompt(prompts)
@@ -347,6 +350,36 @@ export default class Project extends Creator {
         name: 'template',
         message: '请选择模板',
         choices
+      })
+    }
+  }
+
+  askPackage: AskMethods = function (conf, prompts) {
+    const packages = [
+      {
+        name: 'yarn',
+        value: 'yarn'
+      },
+      {
+        name: 'pnpm',
+        value: 'pnpm'
+      },
+      {
+        name: 'npm',
+        value: 'npm'
+      },
+      {
+        name: 'cnpm',
+        value: 'cnpm'
+      }
+    ]
+
+    if ((typeof conf.packageName as string | undefined) !== 'string') {
+      prompts.push({
+        type: 'list',
+        name: 'packageName',
+        message: '请选择包管理工具',
+        choices: packages
       })
     }
   }

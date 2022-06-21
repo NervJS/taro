@@ -1,9 +1,10 @@
-import { chalk, shouldUseCnpm, shouldUseYarn } from '@tarojs/helper'
+import { chalk } from '@tarojs/helper'
 import { exec } from 'child_process'
 import * as fs from 'fs-extra'
 import * as ora from 'ora'
 import * as path from 'path'
 
+import { packageObj } from '../config/packagesManagement'
 import { getAllFilesInFolder, getPkgVersion } from '../util'
 import Creator from './creator'
 import { changeDefaultNameInTemplate } from './editTemplate'
@@ -164,7 +165,7 @@ export async function createPage (creater: Creator, params: IPageConf, cb) {
 }
 
 export async function createApp (creater: Creator, params: IProjectConf, cb) {
-  const { projectName, projectDir, template, autoInstall = true, framework } = params
+  const { projectName, projectDir, template, autoInstall = true, framework, packageName } = params
   const logs: string[] = []
   // path
   const projectPath = path.join(projectDir, projectName)
@@ -172,19 +173,6 @@ export async function createApp (creater: Creator, params: IProjectConf, cb) {
 
   // npm & yarn
   const version = getPkgVersion()
-  const isShouldUseYarn = shouldUseYarn()
-  const useNpmrc = !isShouldUseYarn
-  const yarnLockfilePath = path.join('yarn-lockfiles', `${version}-yarn.lock`)
-  const useYarnLock = isShouldUseYarn && fs.existsSync(creater.templatePath(template, yarnLockfilePath))
-
-  if (useNpmrc) {
-    creater.template(template, '.npmrc', path.join(projectPath, '.npmrc'))
-    logs.push(`${chalk.green('✔ ')}${chalk.grey(`创建文件: ${projectName}${path.sep}.npmrc`)}`)
-  }
-  if (useYarnLock) {
-    creater.template(template, yarnLockfilePath, path.join(projectPath, 'yarn.lock'))
-    logs.push(`${chalk.green('✔ ')}${chalk.grey(`创建文件: ${projectName}${path.sep}yarn.lock`)}`)
-  }
 
   // 遍历出模板中所有文件
   const files = await getAllFilesInFolder(templatePath, doNotCopyFiles)
@@ -243,14 +231,15 @@ export async function createApp (creater: Creator, params: IProjectConf, cb) {
 
     if (autoInstall) {
       // packages install
-      let command: string
-      if (isShouldUseYarn) {
-        command = 'yarn install'
-      } else if (shouldUseCnpm()) {
-        command = 'cnpm install'
-      } else {
-        command = 'npm install'
-      }
+      const command: string = packageObj[packageName].command
+      // if (isShouldUseYarn) {
+      //   command = 'yarn install'
+      // } else if (shouldUseCnpm()) {
+      //   command = 'cnpm install'
+      // } else {
+      //   command = 'npm install'
+      // }
+
       const installSpinner = ora(`执行安装项目依赖 ${chalk.cyan.bold(command)}, 需要一会儿...`).start()
       exec(command, (error, stdout, stderr) => {
         if (error) {

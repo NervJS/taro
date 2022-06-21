@@ -17,7 +17,7 @@ export default (ctx: IPluginContext) => {
       // init project
       const { appPath } = ctx.paths
       const { options } = opts
-      const { projectName, templateSource, clone, template, description, typescript, css } = options
+      const { projectName, templateSource, clone, template, description, typescript, css, packageName } = options
       const Project = require('../../create/project').default
       const project = new Project({
         projectName,
@@ -27,7 +27,8 @@ export default (ctx: IPluginContext) => {
         template,
         description,
         typescript,
-        css
+        css,
+        packageName
       })
 
       project.create()

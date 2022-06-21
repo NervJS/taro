@@ -1,10 +1,12 @@
 import { IPluginContext } from '@tarojs/service'
 import { exec } from 'child_process'
+import * as inquirer from 'inquirer'
 import * as getLatestVersion from 'latest-version'
 import * as ora from 'ora'
 import * as path from 'path'
 import * as semver from 'semver'
 
+import { packageObj } from '../../config/packagesManagement'
 import { getPkgItemByKey } from '../../util'
 
 export default (ctx: IPluginContext) => {
@@ -20,14 +22,16 @@ export default (ctx: IPluginContext) => {
       const {
         chalk,
         fs,
-        shouldUseCnpm,
-        shouldUseYarn,
         PROJECT_CONFIG,
         UPDATE_PACKAGE_LIST
       } = ctx.helper
 
       const pkgPath = path.join(appPath, 'package.json')
       const pkgName = getPkgItemByKey('name')
+      const conf = {
+        packageName: null
+      }
+      const prompts: Record<string, unknown>[] = []
 
       async function getTargetVersion () {
         let targetTaroVersion
@@ -70,14 +74,16 @@ export default (ctx: IPluginContext) => {
       /** 更新全局的 Taro CLI */
       async function updateSelf () {
         const targetTaroVersion = await getTargetVersion()
-        let command
-        if (shouldUseYarn()) {
-          command = `yarn global add @tarojs/cli@${targetTaroVersion}`
-        } else if (shouldUseCnpm()) {
-          command = `cnpm i -g @tarojs/cli@${targetTaroVersion}`
-        } else {
-          command = `npm i -g @tarojs/cli@${targetTaroVersion}`
-        }
+        await askPackage(conf, prompts)
+        const answers = await inquirer.prompt(prompts)
+        const command = `${packageObj[answers.packageName].globalCommand}@${targetTaroVersion}`
+        // if (shouldUseYarn()) {
+        //   command = `yarn global add @tarojs/cli@${targetTaroVersion}`
+        // } else if (shouldUseCnpm()) {
+        //   command = `cnpm i -g @tarojs/cli@${targetTaroVersion}`
+        // } else {
+        //   command = `npm i -g @tarojs/cli@${targetTaroVersion}`
+        // }
 
         execUpdate(command, targetTaroVersion, true)
       }
@@ -123,16 +129,49 @@ export default (ctx: IPluginContext) => {
           console.error(err)
         }
 
-        let command
-        if (shouldUseYarn()) {
-          command = 'yarn'
-        } else if (shouldUseCnpm()) {
-          command = 'cnpm install'
-        } else {
-          command = 'npm install'
-        }
+        await askPackage(conf, prompts)
+        const answers = await inquirer.prompt(prompts)
+
+        const command = packageObj[answers.packageName].command
+        // if (shouldUseYarn()) {
+        //   command = 'yarn'
+        // } else if (shouldUseCnpm()) {
+        //   command = 'cnpm install'
+        // } else {
+        //   command = 'npm install'
+        // }
 
         execUpdate(command, version)
+      }
+
+      function askPackage (conf, prompts) {
+        const packages = [
+          {
+            name: 'yarn',
+            value: 'yarn'
+          },
+          {
+            name: 'pnpm',
+            value: 'pnpm'
+          },
+          {
+            name: 'npm',
+            value: 'npm'
+          },
+          {
+            name: 'cnpm',
+            value: 'cnpm'
+          }
+        ]
+
+        if ((typeof conf.packageName as string | undefined) !== 'string') {
+          prompts.push({
+            type: 'list',
+            name: 'packageName',
+            message: '请选择包管理工具',
+            choices: packages
+          })
+        }
       }
 
       if (updateType === 'self') return updateSelf()
