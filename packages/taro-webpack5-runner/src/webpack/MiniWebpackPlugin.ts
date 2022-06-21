@@ -151,7 +151,7 @@ export class MiniWebpackPlugin {
       alias: config.alias || {},
       constantsReplaceList: definePluginOptions,
       /** building mode */
-      hot: config.hot || false,
+      hot: false,
       prerender: config.prerender,
       blended: config.blended,
       isBuildNativeComp,

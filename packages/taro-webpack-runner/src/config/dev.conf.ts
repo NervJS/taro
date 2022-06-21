@@ -1,3 +1,4 @@
+import { chalk, recursiveMerge } from '@tarojs/helper'
 import { get, mapValues, merge } from 'lodash'
 import * as path from 'path'
 
@@ -55,7 +56,8 @@ export default function (appPath: string, config: Partial<BuildConfig>): any {
 
     useHtmlComponents = false,
 
-    postcss = emptyObj
+    postcss = emptyObj,
+    htmlPluginOption = emptyObj
   } = config
   const sourceDir = path.join(appPath, sourceRoot)
   const outputDir = path.join(appPath, outputRoot)
@@ -110,21 +112,26 @@ export default function (appPath: string, config: Partial<BuildConfig>): any {
   }
 
   const htmlScript = parseHtmlScript(pxtransformOption)
+  if (process.env.NODE_ENV !== 'production' && Object.hasOwnProperty.call(htmlPluginOption, 'script')) {
+    console.warn(
+      chalk.yellowBright('配置文件覆盖 htmlPluginOption.script 参数会导致 pxtransform 脚本失效，请慎重使用！')
+    )
+  }
   if (isMultiRouterMode) {
     merge(plugin, mapValues(entry, (_filePath, entryName) => {
-      return getHtmlWebpackPlugin([{
+      return getHtmlWebpackPlugin([recursiveMerge({
         filename: `${entryName}.html`,
         template: path.join(appPath, sourceRoot, 'index.html'),
         script: htmlScript,
         chunks: [entryName]
-      }])
+      }, htmlPluginOption)])
     }))
   } else {
-    plugin.htmlWebpackPlugin = getHtmlWebpackPlugin([{
+    plugin.htmlWebpackPlugin = getHtmlWebpackPlugin([recursiveMerge({
       filename: 'index.html',
       template: path.join(appPath, sourceRoot, 'index.html'),
       script: htmlScript
-    }])
+    }, htmlPluginOption)])
   }
   plugin.definePlugin = getDefinePlugin([processEnvOption(env), defineConstants])
 

@@ -1,7 +1,7 @@
+import Prebundle from '@tarojs/webpack5-prebundle'
 import { isEmpty } from 'lodash'
 import webpack from 'webpack'
 
-import { preBundle } from './prebundle/index.mini'
 import { Prerender } from './prerender/prerender'
 import type { MiniBuildConfig } from './utils/types'
 import { MiniCombination } from './webpack/MiniCombination'
@@ -10,7 +10,16 @@ export default async function build (appPath: string, rawConfig: MiniBuildConfig
   const combination = new MiniCombination(appPath, rawConfig)
   await combination.make()
 
-  await preBundle(combination)
+  const { enableSourceMap, entry = {}, runtimePath } = combination.config
+  const prebundle = new Prebundle({
+    appPath,
+    sourceRoot: combination.sourceRoot,
+    chain: combination.chain,
+    enableSourceMap,
+    entry,
+    runtimePath
+  })
+  await prebundle.run(combination.getPrebundleOptions())
 
   const webpackConfig = combination.chain.toConfig()
   const config = combination.config

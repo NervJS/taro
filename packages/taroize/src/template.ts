@@ -206,7 +206,6 @@ export function parseModule (jsx: NodePath<t.JSXElement>, dirPath: string, type:
     const block = buildBlockElement()
     if (wxmlStr === '') {
       if (jsx.node.children.length) {
-        // tslint:disable-next-line: no-console
         console.error(`标签: <include src="${srcValue}"> 没有自动关闭。形如：<include src="${srcValue}" /> 才是标准的 wxml 格式。`)
       }
       jsx.remove()

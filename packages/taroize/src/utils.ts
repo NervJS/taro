@@ -150,7 +150,6 @@ export function codeFrameError (node, msg: string) {
   ${errMsg}`)
 }
 
-// tslint:disable-next-line
 // eslint-disable-next-line camelcase
 export const DEFAULT_Component_SET = new Set<string>([
   'View',

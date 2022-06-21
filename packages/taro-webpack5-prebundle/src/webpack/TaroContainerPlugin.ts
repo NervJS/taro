@@ -4,24 +4,29 @@
  * Author Tobias Koppers @sokra, Zackary Jackson @ScriptedAlchemy, Marais Rossouw @maraisr
  */
 import webpack from 'webpack'
+import ContainerPlugin from 'webpack/lib/container/ContainerPlugin'
 
 import TaroContainerEntryModuleFactory from './TaroContainerEntryModuleFactory'
 
-const { ContainerPlugin } = webpack.container
 const ContainerEntryDependency = require('webpack/lib/container/ContainerEntryDependency')
 
 const PLUGIN_NAME = 'TaroContainerPlugin'
 
-class TaroContainerPlugin extends ContainerPlugin {
-  runtimeRequirements: Set<string>
+interface IParams {
+  env: string
+  runtimeRequirements?: Set<string>
+}
 
-  constructor (options, runtimeRequirements?: Set<string>) {
+class TaroContainerPlugin extends ContainerPlugin {
+  runtimeRequirements: Exclude<IParams['runtimeRequirements'], undefined>
+
+  constructor (options, private params: IParams) {
     super(options)
-    this.runtimeRequirements = runtimeRequirements || new Set()
+    this.runtimeRequirements = params.runtimeRequirements || new Set()
   }
 
   apply (compiler: webpack.Compiler) {
-    switch (process.env.TARO_ENV) {
+    switch (this.params.env) {
       case 'h5':
         super.apply(compiler)
         break

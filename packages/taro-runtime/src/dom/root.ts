@@ -66,7 +66,7 @@ export class TaroRootElement extends TaroElement {
     return ROOT_STR
   }
 
-  protected get _root (): TaroRootElement {
+  public get _root (): TaroRootElement {
     return this
   }
 

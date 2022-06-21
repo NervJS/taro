@@ -2,10 +2,16 @@ import esbuild, { Loader } from 'esbuild'
 import fs from 'fs'
 import path from 'path'
 
-import type { Combination } from '../webpack/Combination'
-import type { CollectedDeps } from './constant'
+import {
+  externalModule,
+  getResolve,
+  isExclude,
+  isOptimizeIncluded,
+  isScanIncluded
+} from '../utils'
 import {
   assetsRE,
+  CollectedDeps,
   commentRE,
   importsRE,
   langRE,
@@ -14,38 +20,31 @@ import {
   singlelineCommentsRE,
   virtualModulePrefix,
   virtualModuleRE
-} from './constant'
-import {
-  canBeOptimized,
-  canBeScaned,
-  externalModule,
-  getResolve,
-  isExclude
-} from './utils'
+} from '../utils/constant'
 
 interface ScanImportsConfig {
+  appPath: string
   entries: string[]
-  combination: Combination
   include: string[]
   exclude: string[]
   customEsbuildConfig?: Record<string, any>
 }
 
 export async function scanImports ({
+  appPath,
   entries,
-  combination,
   include = [],
   exclude = [],
   customEsbuildConfig = {}
-}: ScanImportsConfig): Promise<CollectedDeps> {
-  const deps: CollectedDeps = new Map()
-
+}: ScanImportsConfig,
+deps: CollectedDeps = new Map()
+): Promise<CollectedDeps> {
   const scanImportsPlugin = getScanImportsPlugin(deps, include, exclude)
   const customPlugins = customEsbuildConfig.plugins || []
 
   await Promise.all(entries.map(entry =>
     esbuild.build({
-      absWorkingDir: combination.appPath,
+      absWorkingDir: appPath,
       bundle: true,
       entryPoints: [entry],
       mainFields: ['main:h5', 'browser', 'module', 'jsnext:main', 'main'],
@@ -63,7 +62,7 @@ export async function scanImports ({
   const resolve = getResolve()
   await Promise.all(include.map(async item => {
     if (isExclude(item, exclude)) return
-    const resolvePath = await resolve(combination.appPath, item)
+    const resolvePath = await resolve(appPath, item)
     deps.set(item, resolvePath)
   }))
 
@@ -170,11 +169,11 @@ function getScanImportsPlugin (deps: CollectedDeps, includes: string[], excludes
         const resolvedPath = await resolve(path.dirname(importer), id)
 
         if (resolvedPath.includes('node_modules') || includes.includes(id)) {
-          if (canBeOptimized(resolvedPath)) {
+          if (isOptimizeIncluded(resolvedPath)) {
             deps.set(id, resolvedPath)
           }
           return externalModule({ path: id })
-        } else if (canBeScaned(resolvedPath)) {
+        } else if (isScanIncluded(resolvedPath)) {
           return {
             path: resolvedPath,
             namespace: 'vue'
@@ -192,7 +191,7 @@ function getScanImportsPlugin (deps: CollectedDeps, includes: string[], excludes
       build.onResolve({ filter: /.*/ }, async ({ path: id, importer }) => {
         const resolvedPath = await resolve(path.dirname(importer), id)
 
-        const namespace = canBeScaned(resolvedPath) ? 'vue' : undefined
+        const namespace = isScanIncluded(resolvedPath) ? 'vue' : undefined
 
         return {
           path: resolvedPath,

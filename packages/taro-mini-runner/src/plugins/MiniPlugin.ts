@@ -1,45 +1,44 @@
-import * as path from 'path'
+import {
+  FRAMEWORK_EXT_MAP,
+  FRAMEWORK_MAP,
+  isAliasPath,
+  isEmptyObject,
+  META_TYPE,
+  NODE_MODULES_REG,
+  printLog,
+  processTypeEnum,
+  promoteRelativePath,
+  readConfig,
+  REG_STYLE,
+  replaceAliasPath,
+  resolveMainFilePath,
+  SCRIPT_EXT
+} from '@tarojs/helper'
+import { RecursiveTemplate, UnRecursiveTemplate } from '@tarojs/shared/dist/template'
+import { AppConfig, Config } from '@tarojs/taro'
 import * as fs from 'fs-extra'
-
+import { minify } from 'html-minifier'
+import { urlToRequest } from 'loader-utils'
+import * as MiniCssExtractPlugin from 'mini-css-extract-plugin'
+import * as path from 'path'
 import * as webpack from 'webpack'
 import * as SingleEntryDependency from 'webpack/lib/dependencies/SingleEntryDependency'
 import * as FunctionModulePlugin from 'webpack/lib/FunctionModulePlugin'
-import * as JsonpTemplatePlugin from 'webpack/lib/web/JsonpTemplatePlugin'
-import * as NodeSourcePlugin from 'webpack/lib/node/NodeSourcePlugin'
 import * as LoaderTargetPlugin from 'webpack/lib/LoaderTargetPlugin'
+import * as NodeSourcePlugin from 'webpack/lib/node/NodeSourcePlugin'
 import * as NaturalChunkOrderPlugin from 'webpack/lib/optimize/NaturalChunkOrderPlugin'
-import * as SplitChunksPlugin from 'webpack/lib/optimize/SplitChunksPlugin'
 import * as RuntimeChunkPlugin from 'webpack/lib/optimize/RuntimeChunkPlugin'
-import * as MiniCssExtractPlugin from 'mini-css-extract-plugin'
+import * as SplitChunksPlugin from 'webpack/lib/optimize/SplitChunksPlugin'
+import * as JsonpTemplatePlugin from 'webpack/lib/web/JsonpTemplatePlugin'
 import { ConcatSource } from 'webpack-sources'
-import { urlToRequest } from 'loader-utils'
-import { minify } from 'html-minifier'
-import { AppConfig, Config } from '@tarojs/taro'
-import { RecursiveTemplate, UnRecursiveTemplate } from '@tarojs/shared/dist/template'
-import {
-  resolveMainFilePath,
-  readConfig,
-  isEmptyObject,
-  promoteRelativePath,
-  META_TYPE,
-  REG_STYLE,
-  NODE_MODULES_REG,
-  FRAMEWORK_EXT_MAP,
-  printLog,
-  processTypeEnum,
-  FRAMEWORK_MAP,
-  isAliasPath,
-  replaceAliasPath,
-  SCRIPT_EXT
-} from '@tarojs/helper'
 
-import TaroSingleEntryPlugin from './TaroSingleEntryPlugin'
 import TaroSingleEntryDependency from '../dependencies/TaroSingleEntryDependency'
-import TaroNormalModulesPlugin from './TaroNormalModulesPlugin'
-import TaroLoadChunksPlugin from './TaroLoadChunksPlugin'
+import { PrerenderConfig, validatePrerenderPages } from '../prerender/prerender'
 import { componentConfig } from '../template/component'
-import { validatePrerenderPages, PrerenderConfig } from '../prerender/prerender'
-import { AddPageChunks, IComponent, IFileType, Func } from '../utils/types'
+import { AddPageChunks, Func, IComponent, IFileType } from '../utils/types'
+import TaroLoadChunksPlugin from './TaroLoadChunksPlugin'
+import TaroNormalModulesPlugin from './TaroNormalModulesPlugin'
+import TaroSingleEntryPlugin from './TaroSingleEntryPlugin'
 
 const PLUGIN_NAME = 'TaroMiniPlugin'
 
@@ -77,8 +76,8 @@ interface ITaroMiniPluginOptions {
 }
 
 export interface IComponentObj {
-  name?: string,
-  path: string | null,
+  name?: string
+  path: string | null
   type?: string
 }
 
@@ -666,7 +665,10 @@ export default class TaroMiniPlugin {
     const filePath = file.path
     const fileConfigPath = file.isNative ? this.replaceExt(filePath, '.json') : this.getConfigFilePath(filePath)
     const fileConfig = readConfig(fileConfigPath)
-    const usingComponents = fileConfig.usingComponents
+    // 修复百度小程序内容服务组件使用新的引入方式"usingSwanComponents"导致的无法编译到页面配置json的问题
+    // 获取 fileConfig 里面的匹配 "/^using[A-Za-z]*Components$/"的字段，之后合并到 usingComponents 中
+    const usingArray = Object.keys(fileConfig).filter(item => /^using[A-Za-z]*Components$/.test(item)).map(item => fileConfig[item])
+    const usingComponents = usingArray.length < 1 ? undefined : Object.assign({}, ...usingArray)
 
     // 递归收集依赖的第三方组件
     if (usingComponents) {
@@ -949,15 +951,14 @@ export default class TaroMiniPlugin {
             [customWrapperName]: `./${customWrapperName}`
           }
         })
-        this.generateConfigFile(compilation, `${name}/${customWrapperName}`, {
-          component: true,
-          usingComponents: {
-            [baseCompName]: `./${baseCompName}`,
-            [customWrapperName]: `./${customWrapperName}`
-          }
-        })
         this.generateTemplateFile(compilation, `${name}/${baseCompName}`, template.buildBaseComponentTemplate, this.options.fileType.templ)
       }
+      this.generateConfigFile(compilation, `${name}/${customWrapperName}`, {
+        component: true,
+        usingComponents: {
+          [customWrapperName]: `./${customWrapperName}`
+        }
+      })
       this.generateTemplateFile(compilation, `${name}/${customWrapperName}`, template.buildCustomComponentTemplate, this.options.fileType.templ)
       this.generateXSFile(compilation, `${name}/utils`, isBuildPlugin)
     })

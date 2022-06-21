@@ -31,7 +31,7 @@ export class TaroNode extends TaroEventTarget {
 
   public constructor () {
     super()
-    this.uid = `_n_${nodeId()}` // dom 节点 id，开发者可修改
+    this.uid = '_' + nodeId() // dom 节点 id，开发者可修改
     this.sid = this.uid // dom 节点全局唯一 id，不可被修改
     eventSource.set(this.sid, this)
   }
@@ -66,7 +66,7 @@ export class TaroNode extends TaroEventTarget {
     })
   }
 
-  protected get _root (): TaroRootElement | null {
+  public get _root (): TaroRootElement | null {
     return this.parentNode?._root || null
   }
 

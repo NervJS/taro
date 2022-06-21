@@ -30,7 +30,7 @@ if (typeof PRERENDER !== 'undefined') {
 }`
 
   const hmr = !options.hot ? '' : `if (process.env.NODE_ENV !== 'production') {
-  const cache = __webpack_require__.c
+  const cache = __webpack_require__.c || {}
   Object.keys(cache).forEach(item => {
     if (item.indexOf('${options.name}') !== -1) delete cache[item]
   })

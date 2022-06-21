@@ -1,19 +1,31 @@
+import * as swc from '@swc/core'
+import { REG_SCRIPTS } from '@tarojs/helper'
 import { init, parse } from 'es-module-lexer'
 import esbuild, { Plugin } from 'esbuild'
 import fs from 'fs-extra'
+import { isEmpty } from 'lodash'
 import path from 'path'
+import Chain from 'webpack-chain'
 
-import type { Combination } from '../webpack/Combination'
-import { assetsRE, CollectedDeps } from './constant'
 import {
   externalModule,
   flattenId,
   getDefines,
   getHash,
   getResolve
-} from './utils'
+} from '../utils'
+import { assetsRE, CollectedDeps } from '../utils/constant'
 
 type ExportsData = ReturnType<typeof parse> & { hasReExports?: boolean, needInterop?: boolean }
+
+interface BundleConfig {
+  appPath: string
+  deps: CollectedDeps
+  chain: Chain
+  prebundleOutputDir: string
+  customEsbuildConfig?: Record<string, any>
+  customSwcConfig?: swc.Config
+}
 
 // esbuild generates nested directory output with lowest common ancestor base
 // this is unpredictable and makes it difficult to analyze entry / output
@@ -21,15 +33,16 @@ type ExportsData = ReturnType<typeof parse> & { hasReExports?: boolean, needInte
 // 1. flatten all ids to eliminate slash
 // 2. in the plugin, read the entry ourselves as virtual files to retain the
 //    path.
-export async function bundle (
-  deps: CollectedDeps,
-  combination: Combination,
-  prebundleOutputDir: string,
-  customEsbuildConfig: Record<string, any> = {}
-) {
+export async function bundle ({
+  appPath,
+  deps,
+  chain,
+  prebundleOutputDir,
+  customEsbuildConfig = {},
+  customSwcConfig = {}
+}: BundleConfig) {
   await init
 
-  const appPath = combination.appPath
   const flattenDeps: CollectedDeps = new Map()
   const flatIdExports = new Map<string, ExportsData>()
 
@@ -51,7 +64,12 @@ export async function bundle (
   }
 
   // bundle deps
-  const entryPlugin = getEntryPlugin(flattenDeps, flatIdExports, prebundleOutputDir)
+  const entryPlugin = getEntryPlugin({
+    flattenDeps,
+    flatIdExports,
+    prebundleOutputDir,
+    swcConfig: customSwcConfig || {}
+  })
   const customPlugins = customEsbuildConfig.plugins || []
 
   fs.existsSync(prebundleOutputDir)
@@ -65,7 +83,7 @@ export async function bundle (
     mainFields: ['main:h5', 'browser', 'module', 'jsnext:main', 'main'],
     format: 'esm',
     define: {
-      ...getDefines(combination),
+      ...getDefines(chain),
       // AMD 被 esbuild 转 ESM 后，是套着 ESM 外皮的 AMD 语法模块。
       // Webpack HarmonyDetectionParserPlugin 会阻止 AMDDefineDependencyParserPlugin 对这些模块的处理。
       // 导致这些模块报错（如 lodash）。目前的办法是把 define 置为 false，不支持 AMD 导出。
@@ -116,14 +134,24 @@ exports.default = module.exports
     }
   }
 
-  await processAll
+  await Promise.all(processAll)
 
   return {
     metafile: result.metafile
   }
 }
 
-function getEntryPlugin (flattenDeps: CollectedDeps, flatIdExports: Map<string, ExportsData>, prebundleOutputDir: string): Plugin {
+function getEntryPlugin ({
+  flattenDeps,
+  flatIdExports,
+  prebundleOutputDir,
+  swcConfig
+}: {
+  flattenDeps: CollectedDeps
+  flatIdExports: Map<string, ExportsData>
+  prebundleOutputDir: string
+  swcConfig?: swc.Config
+}): Plugin {
   const resolve = getResolve()
   return {
     name: 'entry',
@@ -157,6 +185,11 @@ function getEntryPlugin (flattenDeps: CollectedDeps, flatIdExports: Map<string, 
             path: resolvedPath
           }
         }
+      })
+
+      !isEmpty(swcConfig) && build.onLoad({ filter: REG_SCRIPTS }, async ({ path }) => {
+        const result = swc.transformSync(fs.readFileSync(path, 'utf-8'), swcConfig)
+        return { contents: result.code }
       })
 
       build.onLoad({ filter: /^[\w@][^:]/, namespace: 'entry' }, async ({ path: id }) => {

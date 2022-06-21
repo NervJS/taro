@@ -9,7 +9,7 @@ let nativePlugin: BuildNativePlugin
 
 export class BuildNativePlugin {
   combination: MiniCombination
-  entry: webpack.Entry
+  entry: webpack.EntryObject
   pluginConfig: Record<string, any>
   pluginMainEntry: string
   chunkPrefix: string
@@ -35,7 +35,7 @@ export class BuildNativePlugin {
     if (!fs.existsSync(pluginConfigPath)) return console.log(chalk.red('缺少插件配置文件，请检查！'))
 
     const pluginConfig = fs.readJSONSync(pluginConfigPath)
-    const entryObj: webpack.Entry = {}
+    const entryObj: webpack.EntryObject = {}
     let pluginMainEntry = ''
 
     Object.keys(pluginConfig).forEach(key => {

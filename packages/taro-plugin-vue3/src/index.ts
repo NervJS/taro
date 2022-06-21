@@ -45,7 +45,6 @@ export default (ctx: IPluginContext, config: IConfig = {}) => {
   ctx.modifyRunnerOpts(({ opts }) => {
     if (!opts?.compiler) return
 
-    const { compiler } = opts
     // 提供给 webpack5 依赖预编译收集器的第三方依赖
     const deps = ['@tarojs/plugin-framework-vue3/dist/runtime']
     if (isString(opts.compiler)) {
@@ -53,6 +52,7 @@ export default (ctx: IPluginContext, config: IConfig = {}) => {
         type: opts.compiler
       }
     }
+    const { compiler } = opts
     if (compiler.type === 'webpack5') {
       compiler.prebundle ||= {}
       const prebundleOptions = compiler.prebundle

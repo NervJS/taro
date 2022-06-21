@@ -312,7 +312,7 @@ export default class TaroMiniPlugin {
    * @returns app 入口文件路径
    */
   getAppEntry (compiler: webpack.Compiler) {
-    // const originalEntry = compiler.options.entry as webpack.Entry
+    // const originalEntry = compiler.options.entry as webpack.EntryObject
     // compiler.options.entry = {}
     // return path.resolve(this.context, originalEntry.app[0])
     const { entry } = compiler.options
@@ -936,15 +936,14 @@ export default class TaroMiniPlugin {
             [customWrapperName]: `./${customWrapperName}`
           }
         })
-        this.generateConfigFile(compilation, `${name}/${customWrapperName}`, {
-          component: true,
-          usingComponents: {
-            [baseCompName]: `./${baseCompName}`,
-            [customWrapperName]: `./${customWrapperName}`
-          }
-        })
         this.generateTemplateFile(compilation, `${name}/${baseCompName}`, template.buildBaseComponentTemplate, this.options.fileType.templ)
       }
+      this.generateConfigFile(compilation, `${name}/${customWrapperName}`, {
+        component: true,
+        usingComponents: {
+          [customWrapperName]: `./${customWrapperName}`
+        }
+      })
       this.generateTemplateFile(compilation, `${name}/${customWrapperName}`, template.buildCustomComponentTemplate, this.options.fileType.templ)
       this.generateXSFile(compilation, `${name}/utils`, isBuildPlugin)
     })

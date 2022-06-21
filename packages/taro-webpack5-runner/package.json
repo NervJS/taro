@@ -1,7 +1,7 @@
 {
   "name": "@tarojs/webpack5-runner",
   "version": "3.5.0-beta.2",
-  "description": "Mini app runner for taro",
+  "description": "Taro app runner",
   "main": "index.js",
   "scripts": {
     "build": "npm run clean && npm run prod",
@@ -9,8 +9,6 @@
     "prod": "tsc && npm run mv:comp",
     "mv:comp": "node ./mv-comp.js",
     "clean": "rimraf dist",
-    "lint": "tslint src/**/*.ts --fix",
-    "lint:typecheck": "tslint -p tsconfig.json src/**/*.ts --fix",
     "test": "cross-env NODE_ENV=jest jest",
     "test:ci": "cross-env NODE_ENV=jest jest -i",
     "test:dev": "cross-env NODE_ENV=jest jest --watch",
@@ -47,6 +45,7 @@
     "@tarojs/shared": "3.5.0-beta.2",
     "@tarojs/taro": "3.5.0-beta.2",
     "@tarojs/taro-loader": "3.5.0-beta.2",
+    "@tarojs/webpack5-prebundle": "3.5.0-beta.2",
     "autoprefixer": "^9.7.4",
     "babel-loader": "8.2.1",
     "copy-webpack-plugin": "10.2.0",
@@ -54,7 +53,6 @@
     "css-minimizer-webpack-plugin": "3.4.1",
     "csso": "^5.0.2",
     "detect-port": "^1.3.0",
-    "es-module-lexer": "^0.10.4",
     "esbuild": "^0.14.27",
     "esbuild-loader": "2.18.0",
     "file-loader": "6.0.0",
@@ -97,7 +95,6 @@
     "webpack-dev-server": "4.7.4",
     "webpack-format-messages": "^2.0.6",
     "webpack-sources": "^3.2.3",
-    "webpack-virtual-modules": "^0.4.3",
     "webpackbar": "^5.0.2"
   }
 }

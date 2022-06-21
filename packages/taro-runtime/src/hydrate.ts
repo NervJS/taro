@@ -84,8 +84,9 @@ export function hydrate (node: TaroElement | TaroText): MiniData {
     data[Shortcuts.Class] = node.className
   }
 
-  if (node.cssText !== '' && nodeName !== 'swiper-item') {
-    data[Shortcuts.Style] = node.cssText
+  const cssText = node.cssText
+  if (cssText !== '' && nodeName !== 'swiper-item') {
+    data[Shortcuts.Style] = cssText
   }
 
   hooks.call('modifyHydrateData', data)

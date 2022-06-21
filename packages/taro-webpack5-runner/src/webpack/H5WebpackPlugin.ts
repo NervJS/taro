@@ -1,3 +1,4 @@
+import { chalk, recursiveMerge } from '@tarojs/helper'
 import { IPostcssOption } from '@tarojs/taro/types/compile'
 import HtmlWebpackPlugin from 'html-webpack-plugin'
 import path from 'path'
@@ -85,7 +86,7 @@ export class H5WebpackPlugin {
       ? options.designWidth(input)
       : options.designWidth
     const deviceRatio = options.deviceRatio[designWidth(min)]
-    const htmlScript = `!function(n){function f(){var e=n.document.documentElement,w=e.getBoundingClientRect().width,x=w/16/${deviceRatio};e.style.fontSize=x>=${max}?"${max}px":x<=${min}?"${min}px":x+"px"},n.addEventListener("resize",(function(){f()})),f()}(window);`
+    const htmlScript = `!function(n){function f(){var e=n.document.documentElement,w=e.getBoundingClientRect().width,x=w/16/${deviceRatio};e.style.fontSize=x>=${max}?"${max}px":x<=${min}?"${min}px":x+"px"}n.addEventListener("resize",(function(){f()})),f()}(window);`
     const args: Record<string, string | string []> = {
       filename: `${entry || 'index'}.html`,
       template: path.join(this.combination.sourceDir, 'index.html'),
@@ -94,7 +95,13 @@ export class H5WebpackPlugin {
     if (entry && entry !== 'index') {
       args.chunks = [...chunks, entry]
     }
-    return WebpackPlugin.getPlugin(HtmlWebpackPlugin, [args])
+    const htmlPluginOption = this.combination.config?.htmlPluginOption ?? {}
+    if (process.env.NODE_ENV !== 'production' && Object.hasOwnProperty.call(htmlPluginOption, 'script')) {
+      console.warn(
+        chalk.yellowBright('配置文件覆盖 htmlPluginOption.script 参数会导致 pxtransform 脚本失效，请慎重使用！')
+      )
+    }
+    return WebpackPlugin.getPlugin(HtmlWebpackPlugin, [recursiveMerge(args, htmlPluginOption)])
   }
 
   getH5Plugin () {
