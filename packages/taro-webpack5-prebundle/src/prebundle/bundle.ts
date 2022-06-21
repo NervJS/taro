@@ -74,6 +74,10 @@ export async function bundle ({
     entryPoints: Array.from(flattenDeps.keys()),
     mainFields: ['main:h5', 'browser', 'module', 'jsnext:main', 'main'],
     format: 'esm',
+    loader: {
+      '.js': 'jsx',
+      '.ts': 'tsx'
+    },
     define: {
       ...getDefines(chain),
       // AMD 被 esbuild 转 ESM 后，是套着 ESM 外皮的 AMD 语法模块。
