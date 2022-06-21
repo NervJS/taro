@@ -4,11 +4,12 @@ import runner from '../dist/index'
 import { build } from '../src/config/build-component'
 import { appPath, config } from './mock/components_testdata'
 
+const getCode = (result) => result.output.map(chunk => chunk.code)
+
 describe('build_components', () => {
-  // metro runServer 容易超时
   const spy = jest.spyOn(process, 'cwd')
   spy.mockReturnValue(path.resolve(__dirname, '', 'mock'))
-
+  // metro runServer 容易超时
   jest.setTimeout(300000)
 
   it('single component', async () => {
@@ -19,7 +20,7 @@ describe('build_components', () => {
         output: 'dist/single'
       }
     })
-    expect(result).toMatchSnapshot()
+    expect(getCode(result)).toMatchSnapshot()
   })
 
   it('multiple components', async () => {
@@ -30,7 +31,7 @@ describe('build_components', () => {
       external: ['react', 'react-native', /@tarojs\/components-rn/, /@tarojs\/taro-rn/, /@babel\/runtime/],
       externalResolve: () => {}
     })
-    expect(result).toMatchSnapshot()
+    expect(getCode(result)).toMatchSnapshot()
   })
 
   it('modify rollup config', async () => {
@@ -49,7 +50,7 @@ describe('build_components', () => {
         }
       }
     })
-    expect(result).toMatchSnapshot()
+    expect(getCode(result)).toMatchSnapshot()
   })
 
   it('svg transform', async () => {
@@ -60,7 +61,7 @@ describe('build_components', () => {
       external: ['react', 'react-native', /@tarojs\/components-rn/, /@tarojs\/taro-rn/, /@babel\/runtime/],
       externalResolve: () => {}
     })
-    expect(result).toMatchSnapshot()
+    expect(getCode(result)).toMatchSnapshot()
   })
 
   it('named export', async () => {
@@ -70,7 +71,7 @@ describe('build_components', () => {
       externalResolve: () => {},
       output: path.resolve(__dirname, './mock/dist/named-export')
     })
-    expect(result).toMatchSnapshot()
+    expect(getCode(result)).toMatchSnapshot()
   })
 
   it('dynamic require', async () => {
@@ -80,7 +81,7 @@ describe('build_components', () => {
       externalResolve: () => {},
       output: path.resolve(__dirname, './mock/dist/dynamic-import')
     })
-    expect(result).toMatchSnapshot()
+    expect(getCode(result)).toMatchSnapshot()
   })
 
   it('require react-native component', async () => {
@@ -90,7 +91,7 @@ describe('build_components', () => {
       externalResolve: () => {},
       output: path.resolve(__dirname, './mock/dist/require-native')
     })
-    expect(result).toMatchSnapshot()
+    expect(getCode(result)).toMatchSnapshot()
   })
 
   it('require react-native component', async () => {
@@ -100,6 +101,6 @@ describe('build_components', () => {
       externalResolve: () => {},
       output: path.resolve(__dirname, './mock/dist/require-native')
     })
-    expect(result).toMatchSnapshot()
+    expect(getCode(result)).toMatchSnapshot()
   })
 })
