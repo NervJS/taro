@@ -1050,6 +1050,41 @@ describe('border', () => {
       })
     })
 
+    it('should transform border-color with rgb(a) property', () => {
+      expect(
+        transform(`
+        .top {
+          border-color: rgba(65, 131, 196, 0.2);
+        }
+        .right {
+          border-color: RGBA(40, 42, 54, 75%);
+        }
+        .bottom {
+          border-color: rgba(65, 131, 196, 20%) yellow RGBA(40, 42, 54, .75);
+        }
+        .left {
+          border-color: rgb(65, 131, 196);
+        }
+      `, { scalable: false })
+      ).toEqual({
+        top: {
+          borderColor: 'rgba(65, 131, 196, 0.2)'
+        },
+        right: {
+          borderColor: 'RGBA(40, 42, 54, 75%)'
+        },
+        bottom: {
+          borderTopColor: 'rgba(65, 131, 196, 20%)',
+          borderLeftColor: 'yellow',
+          borderRightColor: 'yellow',
+          borderBottomColor: 'RGBA(40, 42, 54, .75)'
+        },
+        left: {
+          borderColor: 'rgb(65, 131, 196)'
+        }
+      })
+    })
+
     it('transforms border-width', () => {
       expect(
         transform(`
