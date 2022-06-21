@@ -14,7 +14,7 @@ import {
   getHash,
   getResolve
 } from '../utils'
-import { assetsRE, CollectedDeps } from '../utils/constant'
+import { assetsRE, CollectedDeps, defaultEsbuildLoader } from '../utils/constant'
 
 type ExportsData = ReturnType<typeof parse> & { hasReExports?: boolean, needInterop?: boolean }
 
@@ -74,10 +74,7 @@ export async function bundle ({
     entryPoints: Array.from(flattenDeps.keys()),
     mainFields: ['main:h5', 'browser', 'module', 'jsnext:main', 'main'],
     format: 'esm',
-    loader: {
-      '.js': 'jsx',
-      '.ts': 'tsx'
-    },
+    loader: defaults(customEsbuildConfig.loader, defaultEsbuildLoader),
     define: {
       ...getDefines(chain),
       // AMD 被 esbuild 转 ESM 后，是套着 ESM 外皮的 AMD 语法模块。

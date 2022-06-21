@@ -1,5 +1,6 @@
 import esbuild, { Loader } from 'esbuild'
 import fs from 'fs'
+import { defaults } from 'lodash'
 import path from 'path'
 
 import {
@@ -13,6 +14,7 @@ import {
   assetsRE,
   CollectedDeps,
   commentRE,
+  defaultEsbuildLoader,
   importsRE,
   langRE,
   multilineCommentsRE,
@@ -49,6 +51,7 @@ deps: CollectedDeps = new Map()
       entryPoints: [entry],
       mainFields: ['main:h5', 'browser', 'module', 'jsnext:main', 'main'],
       format: 'esm',
+      loader: defaults(customEsbuildConfig.loader, defaultEsbuildLoader),
       write: false,
       plugins: [
         scanImportsPlugin,
