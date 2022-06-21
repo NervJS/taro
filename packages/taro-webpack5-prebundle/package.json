@@ -40,9 +40,6 @@
     "webpack-sources": "^3.2.3",
     "webpack-virtual-modules": "^0.4.3"
   },
-  "devDependencies": {
-    "webpack": "5.69.0"
-  },
   "peerDependencies": {
     "webpack": "5.69.0"
   }

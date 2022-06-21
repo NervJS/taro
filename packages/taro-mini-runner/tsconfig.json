@@ -7,11 +7,12 @@
     "rootDir": "./src",
     "module": "commonjs",
     "sourceMap": true,
-    "preserveConstEnums": true,
     "paths": {
-      "webpack": ["./node_modules/@types/webpack", "./node_modules/webpack"],
+      "webpack": ["./node_modules/@types/webpack", "../../node_modules/@types/webpack", "./node_modules/webpack"],
       "webpack-dev-server": ["./types/slim.d.ts"],
     },
+    "preserveConstEnums": true,
+    "typeRoots": ["./types", "./node_modules/@types", "../../node_modules/@types"],
   },
   "include": ["./src", "./types"],
   "exclude": [
