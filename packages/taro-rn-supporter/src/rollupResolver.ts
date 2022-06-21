@@ -23,7 +23,9 @@ export default function resolver (options: ResolverOption) {
   return {
     name: 'taro-resolver',
     async resolveId (moduleName, originModulePath = '', resolveOptions) {
-      if (/\0/.test(moduleName)) return null
+      if (moduleName.startsWith('\0')) {
+        return null
+      }
 
       if (!isInclude(moduleName, originModulePath)) {
         return null

@@ -15,7 +15,7 @@ describe('build_components', () => {
     const result = await runner(appPath, {
       ...config,
       nativeComponents: {
-        externals: ['react', 'react-native', /@tarojs\/components-rn/, /@babel\/runtime/],
+        external: ['react', 'react-native', /@tarojs\/components-rn/, /@babel\/runtime/],
         output: 'dist/single'
       }
     })
@@ -27,7 +27,7 @@ describe('build_components', () => {
       input: ['components/cell/index', 'components/navbar/index'],
       sourceRootPath: path.resolve(__dirname, './mock/src'),
       output: path.resolve(__dirname, './mock/dist/multiple'),
-      externals: ['react', 'react-native', /@tarojs\/components-rn/, /@tarojs\/taro-rn/, /@babel\/runtime/],
+      external: ['react', 'react-native', /@tarojs\/components-rn/, /@tarojs\/taro-rn/, /@babel\/runtime/],
       externalResolve: () => {}
     })
     expect(result).toMatchSnapshot()
@@ -57,7 +57,7 @@ describe('build_components', () => {
       input: ['components/svg/index'],
       sourceRootPath: path.resolve(__dirname, './mock/src'),
       output: path.resolve(__dirname, './mock/dist/svg'),
-      externals: ['react', 'react-native', /@tarojs\/components-rn/, /@tarojs\/taro-rn/, /@babel\/runtime/],
+      external: ['react', 'react-native', /@tarojs\/components-rn/, /@tarojs\/taro-rn/, /@babel\/runtime/],
       externalResolve: () => {}
     })
     expect(result).toMatchSnapshot()

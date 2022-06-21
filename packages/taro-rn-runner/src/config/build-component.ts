@@ -9,26 +9,26 @@ import { resolveExtFile, rollupResolver as taroResolver } from '@tarojs/rn-suppo
 import { getAppConfig } from '@tarojs/rn-transformer'
 import * as jsx from 'acorn-jsx'
 import * as path from 'path'
-import { Plugin as RollupPlugin, rollup, RollupOptions } from 'rollup'
+import { rollup, RollupOptions } from 'rollup'
 import * as clear from 'rollup-plugin-clear'
 import image from 'rollup-plugin-image-file'
 
-type ExternalsFn = () => Array<string | RegExp>
+type ExternalFn = (arr: Array<string | RegExp>) => Array<string | RegExp>
 
 interface IComponentConfig {
   input: string[] | string
   output?: string
   sourceRootPath?: string
-  externals?: Array<string | RegExp> | ExternalsFn
+  external?: Array<string | RegExp> | ExternalFn
   externalResolve?: (importee, importer) => string | null | void
-  modifyRollupConfig?: (config: RollupOptions, innerplugins?: RollupPlugin[]) => RollupOptions
+  modifyRollupConfig?: (config: RollupOptions, innerplugins?: [ taroResolver, styleTransformer ]) => RollupOptions
 }
 
-const DefaultConfig: Pick<
+const DEFAULT_CONFIG: Pick<
 IComponentConfig,
-'externals' | 'output' | 'externalResolve' | 'sourceRootPath' | 'modifyRollupConfig'
+'external' | 'output' | 'externalResolve' | 'sourceRootPath' | 'modifyRollupConfig'
 > = {
-  externals: [/^react(\/.*)?$/, /^react-native(\/.*)?$/, /^@react-native/],
+  external: [/^react(\/.*)?$/, /^react-native(\/.*)?$/, /^@react-native/],
   output: 'dist',
   externalResolve: importee => (likeDependent(importee) ? importee : null),
   sourceRootPath: process.cwd(),
@@ -36,8 +36,8 @@ IComponentConfig,
 }
 
 export const build = async (projectConfig, componentConfig: IComponentConfig) => {
-  const mergedConfig = recursiveMerge({ ...DefaultConfig }, componentConfig)
-  const { input, externals, output, externalResolve, sourceRootPath, modifyRollupConfig } = mergedConfig
+  const mergedConfig = recursiveMerge({ ...DEFAULT_CONFIG }, componentConfig)
+  const { input, external, output, externalResolve, sourceRootPath, modifyRollupConfig } = mergedConfig
 
   const getInputOption = () => {
     const components: string[] = Array.isArray(input) ? input : [input]
@@ -67,12 +67,11 @@ export const build = async (projectConfig, componentConfig: IComponentConfig) =>
   }
 
   const getExternal = () => {
-    let _externals = externals
-    if (typeof _externals === 'function') {
-      return (_externals as ExternalsFn)()
+    if (typeof external === 'function') {
+      return external(DEFAULT_CONFIG.external)
     }
-    _externals = Array.isArray(externals) ? externals : [externals]
-    return _externals.filter(Boolean).map(item => {
+    const _external = Array.isArray(external) ? external : [external]
+    return _external.filter(Boolean).map(item => {
       if (((item as unknown) as RegExp).test) return item
       const match = (item as string).match(/^\/(.+)\/$/)
       return match ? new RegExp(match[1]) : item
@@ -117,7 +116,7 @@ export const build = async (projectConfig, componentConfig: IComponentConfig) =>
             {
               framework: 'react',
               ts: true,
-              reactJsxRuntime: projectConfig.reactJsxRuntime || 'classic',
+              reactJsxRuntime: projectConfig.reactJsxRuntime || 'automatic',
               disableImportExportTransform: true
             }
           ]
@@ -149,14 +148,14 @@ export const build = async (projectConfig, componentConfig: IComponentConfig) =>
 }
 
 function likeDependent (str: string) {
-  return !str.startsWith('.') && !str.startsWith('/')
+  return !str.match(/^\.?\.\//) && !path.isAbsolute(str)
 }
 
 export default async function (projectPath: string, config: any) {
   const { sourceRoot, entry, nativeComponents } = config
   const appPath = path.join(projectPath, sourceRoot, entry)
   const appConfig = getAppConfig(appPath)
-  const { output = DefaultConfig.output } = nativeComponents || {}
+  const { output = DEFAULT_CONFIG.output } = nativeComponents || {}
 
   const componentConfig = {
     ...nativeComponents,
