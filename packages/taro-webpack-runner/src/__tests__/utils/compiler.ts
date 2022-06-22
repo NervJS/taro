@@ -24,7 +24,7 @@ function ensureWebpackMemoryFs (fs: IFs): EnsuredFs {
   return newFs
 }
 
-function run (webpackConfig: webpack.Configuration): Promise<webpack.Stats> {
+function run (webpackConfig: webpack.Configuration): Promise<webpack.Stats | undefined> {
   const compiler = webpack(webpackConfig)
   const fs = createFsFromVolume(new Volume())
   const ensuredFs = ensureWebpackMemoryFs(fs)
@@ -33,8 +33,8 @@ function run (webpackConfig: webpack.Configuration): Promise<webpack.Stats> {
 
   return new Promise((resolve, reject) => {
     compiler.run((err, stats) => {
-      if (err || stats.hasErrors()) {
-        const error = err ?? stats.toJson().errors
+      if (err ?? stats?.hasErrors()) {
+        const error = err ?? stats!.toJson().errors
         reject(error)
       } else {
         resolve(stats)

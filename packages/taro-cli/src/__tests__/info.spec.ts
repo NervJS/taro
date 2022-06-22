@@ -38,7 +38,7 @@ describe('info', () => {
     logSpy.mockRestore()
   })
 
-  it('should log infomations', async () => {
+  it('should log information', async () => {
     const logSpy = jest.spyOn(console, 'log')
     logSpy.mockImplementation(() => {})
 
