@@ -150,10 +150,8 @@ export default class TaroMiniPlugin {
       minifyXML: {},
       hot: false
     }, options)
-    
     /** 将 preact 映射为 react */
     if (this.options.framework === 'preact') this.options.framework = 'react'
-
     const { template, baseLevel } = this.options
     if (template.isSupportRecursive === false && baseLevel > 0) {
       (template as UnRecursiveTemplate).baseLevel = baseLevel
