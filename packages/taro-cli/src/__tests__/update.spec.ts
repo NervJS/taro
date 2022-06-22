@@ -11,7 +11,7 @@ import * as path from 'path'
 import { getPkgVersion } from '../util'
 import { run } from './utils'
 
-const runUpdate = run('update')
+const runUpdate = run('update', ['commands/update'])
 const lastestVersion = getPkgVersion()
 
 jest.mock('child_process', () => {
@@ -122,14 +122,16 @@ describe('update', () => {
   it('should log errors', async () => {
     const spy = jest.spyOn(console, 'log')
     spy.mockImplementation(() => {})
-    await runUpdate('')
+    await runUpdate('', {
+      args: ['--npm=npm']
+    })
     expect(spy).toBeCalledTimes(3)
     spy.mockRestore()
   })
 
   it('should update self', async () => {
     await runUpdate('', {
-      args: ['self']
+      args: ['self', '--npm=npm']
     })
     expect(execMocked).toBeCalledWith(`npm i -g @tarojs/cli@${lastestVersion}`)
   })
@@ -137,7 +139,7 @@ describe('update', () => {
   it('should update self using cnpm', async () => {
     shouldUseCnpmMocked.mockReturnValue(true)
     await runUpdate('', {
-      args: ['self']
+      args: ['self', '--npm=cnpm']
     })
     expect(execMocked).toBeCalledWith(`cnpm i -g @tarojs/cli@${lastestVersion}`)
   })
@@ -145,7 +147,7 @@ describe('update', () => {
   it('should update self to specific version', async () => {
     const version = '3.0.0-beta.0'
     await runUpdate('', {
-      args: ['self', version]
+      args: ['self', version, '--npm=npm']
     })
     expect(execMocked).toBeCalledWith(`npm i -g @tarojs/cli@${version}`)
   })
@@ -160,7 +162,7 @@ describe('update', () => {
     logSpy.mockImplementation(() => {})
     try {
       await runUpdate('', {
-        args: ['project']
+        args: ['project', '--npm=npm']
       })
     } catch (error) {}
     expect(exitSpy).toBeCalledWith(1)
@@ -178,7 +180,7 @@ describe('update', () => {
     logSpy.mockImplementation(() => {})
 
     await runUpdate(appPath, {
-      args: ['project']
+      args: ['project', '--npm=npm']
     })
     expect(writeJson.mock.calls[0][0]).toEqual(pkgPath)
     expect(writeJson.mock.calls[0][1]).toEqual(packageMap)
@@ -197,7 +199,7 @@ describe('update', () => {
     logSpy.mockImplementation(() => {})
 
     await runUpdate(appPath, {
-      args: ['project', version]
+      args: ['project', version, '--npm=npm']
     })
     expect(writeJson.mock.calls[0][0]).toEqual(pkgPath)
     expect(writeJson.mock.calls[0][1]).toEqual(packageMap)
@@ -214,7 +216,7 @@ describe('update', () => {
     shouldUseYarnMocked.mockReturnValue(true)
 
     await runUpdate(appPath, {
-      args: ['project']
+      args: ['project', '--npm=yarn']
     })
     expect(execMocked).toBeCalledWith('yarn')
 
@@ -229,7 +231,7 @@ describe('update', () => {
     shouldUseCnpmMocked.mockReturnValue(true)
 
     await runUpdate(appPath, {
-      args: ['project']
+      args: ['project', '--npm=cnpm']
     })
     expect(execMocked).toBeCalledWith('cnpm install')
 

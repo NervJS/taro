@@ -10,15 +10,18 @@ interface IRun {
   (appPath: string, options?: IRunOptions): Promise<Kernel>
 }
 
-export function run (name: string): IRun {
+export function run (name: string, presets: string[] = []): IRun {
   return async function (appPath, opts = {}) {
     const { options = {}, args = [] } = opts
     const kernel = new Kernel({
       appPath: appPath,
       presets: [
-        path.resolve(__dirname, '../__mocks__', 'presets.ts')
-      ]
+        path.resolve(__dirname, '../__mocks__', 'presets.ts'),
+        ...presets.map(e => path.resolve(__dirname, '../../presets', `${e}.ts`))
+      ],
+      plugins: []
     })
+    kernel.optsPlugins ||= []
 
     await kernel.run({
       name,

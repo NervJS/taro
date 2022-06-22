@@ -26,7 +26,7 @@ jest.mock('@tarojs/helper', () => {
   }
 })
 
-const runInspect = run('inspect')
+const runInspect = run('inspect', ['commands/inspect'])
 
 describe('inspect', () => {
   it('should exit because there isn\'t a Taro project', async () => {

@@ -15,7 +15,7 @@ jest.mock('envinfo', () => {
   }
 })
 
-const runInfo = run('info')
+const runInfo = run('info', ['commands/info'])
 
 describe('info', () => {
   it('should exit because there isn\'t a Taro project', async () => {
