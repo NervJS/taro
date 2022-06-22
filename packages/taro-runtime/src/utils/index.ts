@@ -1,4 +1,9 @@
-import { isFunction, Shortcuts } from '@tarojs/shared'
+import {
+  getComponentsAlias as _getComponentsAlias,
+  internalComponents,
+  isFunction,
+  Shortcuts
+} from '@tarojs/shared'
 
 import {
   CLASS,
@@ -114,4 +119,12 @@ export function extend (ctor: Ctor, methodName: string, options: Func | Record<s
     enumerable: true,
     ...options
   })
+}
+
+let componentsAlias
+export function getComponentsAlias () {
+  if (!componentsAlias) {
+    componentsAlias = _getComponentsAlias(internalComponents)
+  }
+  return componentsAlias
 }

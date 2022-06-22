@@ -12,9 +12,10 @@ import {
 import type { TaroElement } from './dom/element'
 import type { TaroText } from './dom/text'
 import type { MiniData, MiniElementData } from './interface'
-import { isComment, isHasExtractProp, isText } from './utils'
+import { getComponentsAlias, isComment, isHasExtractProp, isText } from './utils'
 
 let SPECIAL_NODES
+let componentsAlias
 
 /**
  * React also has a fancy function's name for this: `hydrate()`.
@@ -23,23 +24,28 @@ let SPECIAL_NODES
  * it's a vnode traverser and modifier: that's exactly what Taro's doing in here.
  */
 export function hydrate (node: TaroElement | TaroText): MiniData {
+  if (!componentsAlias) {
+    // 初始化 componentsAlias
+    componentsAlias = getComponentsAlias()
+  }
+
+  if (!SPECIAL_NODES) {
+    // 初始化 SPECIAL_NODES
+    SPECIAL_NODES = hooks.call('getSpecialNodes')!
+  }
+
   const nodeName = node.nodeName
 
   if (isText(node)) {
     return {
       [Shortcuts.Text]: node.nodeValue,
-      [Shortcuts.NodeName]: nodeName
+      [Shortcuts.NodeName]: componentsAlias[nodeName]._num
     }
   }
 
   const data: MiniElementData = {
     [Shortcuts.NodeName]: nodeName,
     sid: node.sid
-  }
-  const { props } = node
-
-  if (!SPECIAL_NODES) {
-    SPECIAL_NODES = hooks.call('getSpecialNodes')!
   }
 
   if (node.uid !== node.sid) {
@@ -53,6 +59,7 @@ export function hydrate (node: TaroElement | TaroText): MiniData {
     }
   }
 
+  const { props } = node
   for (const prop in props) {
     const propInCamelCase = toCamelCase(prop)
     if (
@@ -90,6 +97,18 @@ export function hydrate (node: TaroElement | TaroText): MiniData {
   }
 
   hooks.call('modifyHydrateData', data)
+
+  const nn = data[Shortcuts.NodeName]
+  const componentAlias = componentsAlias[nn]
+  if (componentAlias) {
+    data[Shortcuts.NodeName] = componentAlias._num
+    for (const prop in data) {
+      if (prop in componentAlias) {
+        data[componentAlias[prop]] = data[prop]
+        delete data[prop]
+      }
+    }
+  }
 
   return data
 }
