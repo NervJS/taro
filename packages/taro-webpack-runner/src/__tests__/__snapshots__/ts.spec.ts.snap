@@ -57,7 +57,7 @@ exports[`typescript should build project with ts 2`] = `
 } ]);
 
 /** filePath: dist/css/1.css **/
-.body #header{width:.21333rem;height:.42667rem}
+.body #header{width:.25rem;height:.5rem}
 
 /** filePath: dist/css/app.css **/
 
