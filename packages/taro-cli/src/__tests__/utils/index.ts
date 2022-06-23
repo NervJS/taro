@@ -2,7 +2,7 @@ import { Kernel } from '@tarojs/service'
 import * as path from 'path'
 
 interface IRunOptions {
-  options?: Record<string, string | boolean>,
+  options?: Record<string, string | boolean>
   args?: string[]
 }
 
@@ -17,7 +17,7 @@ export function run (name: string, presets: string[] = []): IRun {
       appPath: appPath,
       presets: [
         path.resolve(__dirname, '../__mocks__', 'presets.ts'),
-        ...presets.map(e => path.resolve(__dirname, '../../presets', `${e}.ts`))
+        ...presets.map(e => path.isAbsolute(e) ? e : path.resolve(__dirname, '../../presets', `${e}.ts`))
       ],
       plugins: []
     })
