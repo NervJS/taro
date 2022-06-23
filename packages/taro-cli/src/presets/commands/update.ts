@@ -6,7 +6,7 @@ import * as ora from 'ora'
 import * as path from 'path'
 import * as semver from 'semver'
 
-import { packageObj } from '../../config/packagesManagement'
+import packagesManagement from '../../config/packagesManagement'
 import { getPkgItemByKey } from '../../util'
 
 export default (ctx: IPluginContext) => {
@@ -79,9 +79,9 @@ export default (ctx: IPluginContext) => {
       /** 更新全局的 Taro CLI */
       async function updateSelf () {
         const targetTaroVersion = await getTargetVersion()
-        askPackage(conf, prompts)
+        askNpm(conf, prompts)
         const answers = npm ? { npm } : await inquirer.prompt(prompts)
-        const command = `${packageObj[answers.npm].globalCommand}@${targetTaroVersion}`
+        const command = `${packagesManagement[answers.npm].globalCommand}@${targetTaroVersion}`
         // if (shouldUseYarn()) {
         //   command = `yarn global add @tarojs/cli@${targetTaroVersion}`
         // } else if (shouldUseCnpm()) {
@@ -134,10 +134,10 @@ export default (ctx: IPluginContext) => {
           console.error(err)
         }
 
-        askPackage(conf, prompts)
+        askNpm(conf, prompts)
         const answers = npm ? { npm } : await inquirer.prompt(prompts)
 
-        const command = packageObj[answers.npm].command
+        const command = packagesManagement[answers.npm].command
         // if (shouldUseYarn()) {
         //   command = 'yarn'
         // } else if (shouldUseCnpm()) {
@@ -149,7 +149,7 @@ export default (ctx: IPluginContext) => {
         execUpdate(command, version)
       }
 
-      function askPackage (conf, prompts) {
+      function askNpm (conf, prompts) {
         const packages = [
           {
             name: 'yarn',

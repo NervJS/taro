@@ -99,7 +99,7 @@ export default class Project extends Creator {
     this.askTypescript(conf, prompts)
     this.askCSS(conf, prompts)
     this.askCompiler(conf, prompts)
-    this.askPackage(conf, prompts)
+    this.askNpm(conf, prompts)
     await this.askTemplateSource(conf, prompts)
 
     const answers = await inquirer.prompt(prompts)
@@ -354,7 +354,7 @@ export default class Project extends Creator {
     }
   }
 
-  askPackage: AskMethods = function (conf, prompts) {
+  askNpm: AskMethods = function (conf, prompts) {
     const packages = [
       {
         name: 'yarn',

@@ -1,4 +1,4 @@
-const packageObj = {
+const packagesManagement = {
   yarn: {
     command: 'yarn install',
     globalCommand: 'yarn global add @tarojs/cli'
@@ -17,6 +17,4 @@ const packageObj = {
   }
 }
 
-export {
-  packageObj
-}
+export default packagesManagement

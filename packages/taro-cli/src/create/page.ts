@@ -9,7 +9,7 @@ import { createPage } from './init'
 export interface IPageConf {
   projectDir: string
   projectName: string
-  packageName: string
+  npm: string
   template: string
   description?: string
   pageName: string

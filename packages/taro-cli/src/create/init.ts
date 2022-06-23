@@ -4,7 +4,7 @@ import * as fs from 'fs-extra'
 import * as ora from 'ora'
 import * as path from 'path'
 
-import { packageObj } from '../config/packagesManagement'
+import packagesManagement from '../config/packagesManagement'
 import { getAllFilesInFolder, getPkgVersion } from '../util'
 import Creator from './creator'
 import { changeDefaultNameInTemplate } from './editTemplate'
@@ -26,15 +26,15 @@ enum TemplateType {
 const doNotCopyFiles = ['.DS_Store', '.npmrc', TEMPLATE_CREATOR]
 
 function createFiles (
-  creater: Creator,
+  creator: Creator,
   files: string[],
   handler,
   options: (IProjectConf | IPageConf) & {
-    templatePath: string;
-    projectPath: string;
-    pageName: string;
-    period: string;
-    version?: string;
+    templatePath: string
+    projectPath: string
+    pageName: string
+    period: string
+    version?: string
   }
 ): string[] {
   const {
@@ -125,19 +125,19 @@ function createFiles (
     }
 
     // 创建
-    creater.template(template, fileRePath, path.join(projectPath, destRePath), config)
+    creator.template(template, fileRePath, path.join(projectPath, destRePath), config)
 
-    const destinationPath = creater.destinationPath(path.join(projectPath, destRePath))
+    const destinationPath = creator.destinationPath(path.join(projectPath, destRePath))
 
     logs.push(`${chalk.green('✔ ')}${chalk.grey(`创建文件: ${destinationPath}`)}`)
   })
   return logs
 }
 
-export async function createPage (creater: Creator, params: IPageConf, cb) {
+export async function createPage (creator: Creator, params: IPageConf, cb) {
   const { projectDir, template, pageName } = params
   // path
-  const templatePath = creater.templatePath(template)
+  const templatePath = creator.templatePath(template)
 
   if (!fs.existsSync(templatePath)) return console.log(chalk.red(`创建页面错误：找不到模板${templatePath}`))
 
@@ -147,7 +147,7 @@ export async function createPage (creater: Creator, params: IPageConf, cb) {
   const files = Array.isArray(basePageFiles) ? basePageFiles : []
   const handler = fs.existsSync(handlerPath) ? require(handlerPath).handler : null
 
-  const logs = createFiles(creater, files, handler, {
+  const logs = createFiles(creator, files, handler, {
     ...params,
     templatePath,
     projectPath: projectDir,
@@ -155,7 +155,7 @@ export async function createPage (creater: Creator, params: IPageConf, cb) {
     period: 'createPage'
   })
 
-  creater.fs.commit(() => {
+  creator.fs.commit(() => {
     // logs
     console.log()
     logs.forEach(log => console.log(log))
@@ -164,12 +164,12 @@ export async function createPage (creater: Creator, params: IPageConf, cb) {
   })
 }
 
-export async function createApp (creater: Creator, params: IProjectConf, cb) {
-  const { projectName, projectDir, template, autoInstall = true, framework, packageName } = params
+export async function createApp (creator: Creator, params: IProjectConf, cb) {
+  const { projectName, projectDir, template, autoInstall = true, framework, npm } = params
   const logs: string[] = []
   // path
   const projectPath = path.join(projectDir, projectName)
-  const templatePath = creater.templatePath(template)
+  const templatePath = creator.templatePath(template)
 
   // npm & yarn
   const version = getPkgVersion()
@@ -183,7 +183,7 @@ export async function createApp (creater: Creator, params: IProjectConf, cb) {
 
   // 为所有文件进行创建
   logs.push(
-    ...createFiles(creater, files, handler, {
+    ...createFiles(creator, files, handler, {
       ...params,
       framework,
       version,
@@ -195,7 +195,7 @@ export async function createApp (creater: Creator, params: IProjectConf, cb) {
   )
 
   // fs commit
-  creater.fs.commit(async () => {
+  creator.fs.commit(async () => {
     // logs
     console.log()
     console.log(`${chalk.green('✔ ')}${chalk.grey(`创建项目: ${chalk.grey.bold(projectName)}`)}`)
@@ -231,7 +231,7 @@ export async function createApp (creater: Creator, params: IProjectConf, cb) {
 
     if (autoInstall) {
       // packages install
-      const command: string = packageObj[packageName].command
+      const command: string = packagesManagement[npm].command
       // if (isShouldUseYarn) {
       //   command = 'yarn install'
       // } else if (shouldUseCnpm()) {
