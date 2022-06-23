@@ -225,15 +225,15 @@ declare namespace ScrollViewProps {
  *     const Threshold = 20
  *     const vStyleA = {
  *       height: '150px',
- *       'background-color': 'rgb(26, 173, 25)'
+ *       'backgroundColor': 'rgb(26, 173, 25)'
  *     }
  *     const vStyleB = {
  *        height: '150px',
- *       'background-color': 'rgb(39,130,215)'
+ *       'backgroundColor': 'rgb(39,130,215)'
  *     }
  *     const vStyleC = {
  *       height: '150px',
- *       'background-color': 'rgb(241,241,241)',
+ *       'backgroundColor': 'rgb(241,241,241)',
  *       color: '#333'
  *     }
  *     return (
