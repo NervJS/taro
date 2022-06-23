@@ -96,7 +96,7 @@ export default (ctx: IPluginContext) => {
       /** 更新当前项目中的 Taro 相关依赖 */
       async function updateProject () {
         if (!configPath || !fs.existsSync(configPath)) {
-          console.log(chalk.red(`找不到项目配置文件${PROJECT_CONFIG}，请确定当前目录是Taro项目根目录!`))
+          console.log(chalk.red(`找不到项目配置文件 ${PROJECT_CONFIG}，请确定当前目录是 Taro 项目根目录!`))
           process.exit(1)
         }
         const packageMap = require(pkgPath)
