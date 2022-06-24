@@ -97,28 +97,28 @@ export class Template extends RecursiveTemplate {
 
     const template =
 `<view s-if="{{item.nn==='${viewAlias}'&&(item.st||item.cl)}}" id="{{item.uid||item.sid}}" data-sid="{{item.sid}}" ${this.buildFlattenNodeAttributes('view')}>
-  <block s-for="{{item.cn}}" s-key="sid">
+  <block s-for="{{xs.g(item)}}" s-key="*this">
     ${indent(child, 4)}
   </block>
 </view>
 <text s-elif="{{item.nn==='${textAlias}'&&(item.st||item.cl)}}" id="{{item.uid||item.sid}}" data-sid="{{item.sid}}" ${this.buildFlattenNodeAttributes('text')}>
-  <block s-for="{{item.cn}}" s-key="sid">
+  <block s-for="{{xs.g(item)}}" s-key="*this">
     <block>{{item.v}}</block>
   </block>
 </text>
 <text s-elif="{{item.nn==='${staticTextAlias}'&&(item.st||item.cl)}}" id="{{item.uid||item.sid}}" data-sid="{{item.sid}}" ${this.buildFlattenNodeAttributes('static-text')}>
-  <block s-for="{{item.cn}}" s-key="sid">
+  <block s-for="{{xs.g(item)}}" s-key="*this">
     <block>{{item.v}}</block>
   </block>
 </text>
 <button s-elif="{{item.nn==='${buttonAlias}'&&(item.st||item.cl)}}" id="{{item.uid||item.sid}}" data-sid="{{item.sid}}" ${this.buildFlattenNodeAttributes('button')}>
-  <block s-for="{{item.cn}}" s-key="sid">
+  <block s-for="{{xs.g(item)}}" s-key="*this">
     <template is="{{xs.e(0)}}" data="{{{ i:item }}}" />
   </block>
 </button>
 <input s-elif="{{item.nn==='${inputAlias}'&&(item.st||item.cl)}}" id="{{item.uid||item.sid}}" data-sid="{{item.sid}}" ${this.buildFlattenNodeAttributes('input')} />
 <swiper s-elif="{{item.nn==='${swiperAlias}'&&(item.st||item.cl)}}" id="{{item.uid||item.sid}}" data-sid="{{item.sid}}" ${this.buildFlattenNodeAttributes('swiper')}>
-  <block s-for="{{xs.f(item.cn)}}" s-key="sid">
+  <block s-for="{{xs.f(item)}}" s-key="*this">
     <template is="{{xs.e(0)}}" data="{{{ i:item }}}" />
   </block>
 </swiper>
@@ -143,7 +143,7 @@ export class Template extends RecursiveTemplate {
 
     const template =
 `<cover-view s-if="{{item.nn==='${coverViewAlias}'}}" id="{{item.uid||item.sid}}" data-sid="{{item.sid}}" ${this.buildFlattenNodeAttributes('cover-view')}>
-  <block s-for="{{item.cn}}" s-key="sid">
+  <block s-for="{{xs.g(item)}}" s-key="*this">
     ${indent(child, 4)}
   </block>
 </cover-view>
@@ -169,7 +169,7 @@ export class Template extends RecursiveTemplate {
     const template =
 `<block s-if="item.nn === '${contentAlias}'">{{item.v}}</block>
 <text s-else id="{{item.uid||item.sid}}" data-sid="{{item.sid}}" ${this.buildFlattenNodeAttributes('text')}>
-  <block s-for="{{item.cn}}" s-key="sid">
+  <block s-for="{{xs.g(item)}}" s-key="*this">
     ${indent(child, 4)}
   </block>
 </text>`
@@ -208,10 +208,10 @@ export class Template extends RecursiveTemplate {
 
       case 'picker-view':
         return `<picker-view-column id="{{item.uid||item.sid}}" data-sid="{{item.sid}}" ${this.buildFlattenNodeAttributes('picker-view-column')}>
-          <block s-for="{{item.cn}}" s-key="sid">
-            ${child}
-          </block>
-        </picker-view-column>`
+  <block s-for="{{xs.g(item)}}" s-key="*this">
+    <template is="{{xs.e(0)}}" data="{{{ i:item }}}" />
+  </block>
+</picker-view-column>`
 
       default:
         return child
@@ -220,7 +220,24 @@ export class Template extends RecursiveTemplate {
 
   modifyLoopContainer = (children: string, nodeName: string) => {
     if (nodeName === 'swiper') {
-      return children.replace(/s-for="{{i\.cn}}"/, 's-for="{{xs.f(i.cn)}}"')
+      return children.replace(/s-for="{{i\.cn}}"/, 's-for="{{xs.f(i)}}"').replace(/i:i\[item\]/, 'i:item')
+    }
+
+    if (
+      nodeName === 'view' ||
+      nodeName === 'cover-view' ||
+      nodeName === 'canvas' ||
+      nodeName === 'map' ||
+      nodeName === 'animation-view' ||
+      nodeName === 'camera' ||
+      nodeName === 'live-player' ||
+      nodeName === 'video' ||
+      nodeName === 'text' ||
+      nodeName === 'static-text' ||
+      nodeName === 'picker-view'
+    ) {
+      // flatten
+      return children.replace(/s-for="{{i\.cn}}"/, 's-for="{{xs.g(i)}}"')
     }
 
     return children
@@ -235,7 +252,14 @@ export class Template extends RecursiveTemplate {
     const componentsAlias = this.componentsAlias
     const swiperAlias = componentsAlias['swiper-item']._num
     return `f: function (l) {
-    return l.filter(function (i) {return i.nn === '${swiperAlias}'})
+    return l.cn.filter(function (i) {return l[i].nn === '${swiperAlias}'}).map(function (index) {
+      return l[index]
+    })
+  },
+  g: function (i) {
+    return i.cn.map(function (index) {
+      return i[index]
+    })
   }`
   }
 }

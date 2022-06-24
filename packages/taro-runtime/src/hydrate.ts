@@ -82,7 +82,14 @@ export function hydrate (node: TaroElement | TaroText): MiniData {
   childNodes = childNodes.filter(node => !isComment(node))
 
   if (childNodes.length > 0) {
-    data[Shortcuts.Childnodes] = childNodes.map(hydrate)
+    const indexes: string[] = []
+    // const children = {}
+    childNodes.forEach(node => {
+      const sid = node.sid
+      indexes.push(sid)
+      data[sid] = hydrate(node as TaroElement | TaroText)
+    })
+    data[Shortcuts.Childnodes] = indexes
   } else {
     data[Shortcuts.Childnodes] = []
   }

@@ -69,11 +69,11 @@ export class Template extends RecursiveTemplate {
 
   modifyLoopBody = (child: string, nodeName: string) => {
     if (nodeName === 'picker-view') {
-      return `<picker-view-column class="{{item.cl}}" style="{{item.st}}">
-        <view a:for="{{item.cn}}" a:key="sid">
-          ${child}
-        </view>
-      </picker-view-column>`
+      return `<picker-view-column class="{{i[item].cl}}" style="{{i[item].st}}">
+  <view a:for="{{i[item].cn}}" a:key="*this" a:for-item="node">
+    <template is="{{xs.e(0)}}" data="{{i:i[item][node]}}" />
+  </view>
+</picker-view-column>`
     }
     return child
   }
@@ -86,10 +86,10 @@ export class Template extends RecursiveTemplate {
     }
     if (nodeName === 'swiper') {
       return `
-    <block a:for="{{xs.f(i.cn)}}" a:key="sid">
-      <swiper-item class="{{item.cl}}" style="{{item.st}}" id="{{item.uid||item.sid}}" data-sid="{{item.sid}}">
-        <block a:for="{{item.cn}}" a:key="sid">
-          <template is="{{xs.e(0)}}" data="{{i:item}}" />
+    <block a:for="{{xs.f(i)}}" a:key="*this">
+      <swiper-item class="{{i[item].cl}}" style="{{i[item].st}}" id="{{i[item].uid||i[item].sid}}" data-sid="{{i[item].sid}}">
+        <block a:for="{{i[item].cn}}" a:key="*this" a:for-item="node">
+          <template is="{{xs.e(0)}}" data="{{i:i[item][node]}}" />
         </block>
       </swiper-item>
     </block>
@@ -109,18 +109,18 @@ export class Template extends RecursiveTemplate {
     const slotAlias = slot._num
     const slotNamePropAlias = slot.name
 
-    return `<view a:if="{{item.nn==='${slotAlias}'}}" slot="{{item.${slotNamePropAlias}}}" id="{{item.uid||item.sid}}" data-sid="{{item.sid}}">
-        <block a:for="{{item.cn}}" a:key="sid">
-          <template is="{{xs.e(0)}}" data="{{i:item}}" />
+    return `<view a:if="{{i[item].nn==='${slotAlias}'}}" slot="{{i[item].${slotNamePropAlias}}}" id="{{i[item].uid||i[item].sid}}" data-sid="{{i[item].sid}}">
+        <block a:for="{{i[item].cn}}" a:key="*this" a:for-item="node">
+          <template is="{{xs.e(0)}}" data="{{i:i[item][node]}}" />
         </block>
       </view>
-      <template a:else is="{{xs.e(0)}}" data="{{i:item}}" />`
+      <template a:else is="{{xs.e(0)}}" data="{{i:i[item]}}" />`
   }
 
   buildXSTmpExtra () {
     const swiperItemAlias = this.componentsAlias['swiper-item']._num
     return `f: function (l) {
-    return l.filter(function (i) {return i.nn === '${swiperItemAlias}'})
+    return l.cn.filter(function (i) {return l[i].nn === '${swiperItemAlias}'})
   }`
   }
 }

@@ -204,12 +204,12 @@ export class BaseTemplate {
     const Adapter = this.Adapter
 
     const data = !this.isSupportRecursive && this.supportXS
-      ? `${this.dataKeymap('i:item,l:\'\'')}`
-      : this.dataKeymap('i:item')
+      ? `${this.dataKeymap('i:root[item],l:\'\'')}`
+      : this.dataKeymap('i:root[item]')
 
     return `${this.buildXsTemplate()}
 <template name="taro_tmpl">
-  <block ${Adapter.for}="{{root.cn}}" ${Adapter.key}="sid">
+  <block ${Adapter.for}="{{root.${Shortcuts.Childnodes}}}" ${Adapter.key}="*this">
     <template is="tmpl_0_${Shortcuts.Container}" data="{{${data}}}" />
   </block>
 </template>
@@ -263,8 +263,8 @@ export class BaseTemplate {
     const nextLevel = isSupportRecursive ? 0 : level + 1
 
     const data = !this.isSupportRecursive && supportXS
-      ? `${this.dataKeymap('i:item,l:l')}`
-      : this.dataKeymap('i:item')
+      ? `${this.dataKeymap('i:i[item],l:l')}`
+      : this.dataKeymap('i:i[item]')
 
     let child = supportXS
       ? `<template is="{{xs.e(${isSupportRecursive ? 0 : 'cid+1'})}}" data="{{${data}}}" />`
@@ -277,7 +277,7 @@ export class BaseTemplate {
     let children = this.voidElements.has(comp.nodeName)
       ? ''
       : `
-    <block ${Adapter.for}="{{i.${Shortcuts.Childnodes}}}" ${Adapter.key}="sid">
+    <block ${Adapter.for}="{{i.${Shortcuts.Childnodes}}}" ${Adapter.key}="*this">
       ${indent(child, 6)}
     </block>
   `
@@ -370,8 +370,8 @@ export class BaseTemplate {
     let template = ''
 
     const data = !isSupportRecursive && supportXS
-      ? `${this.dataKeymap('i:item,l:l')}`
-      : this.dataKeymap('i:item')
+      ? `${this.dataKeymap('i:i[item],l:l')}`
+      : this.dataKeymap('i:i[item]')
 
     componentConfig.thirdPartyComponents.forEach((attrs, compName) => {
       if (compName === 'custom-wrapper') {
@@ -395,7 +395,7 @@ export class BaseTemplate {
         template += `
 <template name="tmpl_${level}_${compName}">
   <${compName} ${this.buildThirdPartyAttr(attrs, this.thirdPartyPatcher[compName] || {})} id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
-    <block ${Adapter.for}="{{i.${Shortcuts.Childnodes}}}" ${Adapter.key}="sid">
+    <block ${Adapter.for}="{{i.${Shortcuts.Childnodes}}}" ${Adapter.key}="*this">
       ${child}
     </block>
   </${compName}>
@@ -471,10 +471,10 @@ export class BaseTemplate {
   public buildCustomComponentTemplate = (ext: string) => {
     const Adapter = this.Adapter
     const data = !this.isSupportRecursive && this.supportXS
-      ? `${this.dataKeymap('i:item,l:\'\'')}`
-      : this.dataKeymap('i:item')
+      ? `${this.dataKeymap('i:i[item],l:\'\'')}`
+      : this.dataKeymap('i:i[item]')
     return `<import src="./base${ext}" />
-  <block ${Adapter.for}="{{i.${Shortcuts.Childnodes}}}" ${Adapter.key}="sid">
+  <block ${Adapter.for}="{{i.${Shortcuts.Childnodes}}}" ${Adapter.key}="*this">
     <template is="tmpl_0_container" data="{{${data}}}" />
   </block>`
   }
