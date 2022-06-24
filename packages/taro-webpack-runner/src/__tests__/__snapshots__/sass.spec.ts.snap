@@ -813,7 +813,7 @@ exports[`sass should build app with scss 2`] = `
 } ]);
 
 /** filePath: dist/css/1.css **/
-.index{width:100%}.index .list{display:flex}.index .list .list-item{width:.42667rem}
+.index{width:100%}.index .list{display:flex}.index .list .list-item{width:.5rem}
 
 /** filePath: dist/css/app.css **/
 
@@ -1600,7 +1600,7 @@ exports[`sass should set global sass content with data 2`] = `
 } ]);
 
 /** filePath: dist/css/1.css **/
-.body{background-color:red}.index{width:100%}.index .list{display:flex}.index .list .list-item{width:.42667rem}
+.body{background-color:red}.index{width:100%}.index .list{display:flex}.index .list .list-item{width:.5rem}
 
 /** filePath: dist/css/app.css **/
 .body{background-color:red}
@@ -2387,7 +2387,7 @@ exports[`sass should set global sass content with source & dir 2`] = `
 } ]);
 
 /** filePath: dist/css/1.css **/
-.body{background-color:#00f}.index{width:100%}.index .list{display:flex}.index .list .list-item{width:.42667rem}
+.body{background-color:#00f}.index{width:100%}.index .list{display:flex}.index .list .list-item{width:.5rem}
 
 /** filePath: dist/css/app.css **/
 .body{background-color:#00f}
@@ -3174,7 +3174,7 @@ exports[`sass should set global sass content with source 2`] = `
 } ]);
 
 /** filePath: dist/css/1.css **/
-.body{background-color:#00f}.index{width:100%}.index .list{display:flex}.index .list .list-item{width:.42667rem}
+.body{background-color:#00f}.index{width:100%}.index .list{display:flex}.index .list .list-item{width:.5rem}
 
 /** filePath: dist/css/app.css **/
 .body{background-color:#00f}

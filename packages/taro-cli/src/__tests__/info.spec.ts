@@ -15,7 +15,7 @@ jest.mock('envinfo', () => {
   }
 })
 
-const runInfo = run('info')
+const runInfo = run('info', ['commands/info'])
 
 describe('info', () => {
   it('should exit because there isn\'t a Taro project', async () => {
@@ -38,7 +38,7 @@ describe('info', () => {
     logSpy.mockRestore()
   })
 
-  it('should log infomations', async () => {
+  it('should log information', async () => {
     const logSpy = jest.spyOn(console, 'log')
     logSpy.mockImplementation(() => {})
 

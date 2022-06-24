@@ -22,26 +22,26 @@ import fetchTemplate from './fetchTemplate'
 import { createApp } from './init'
 
 export interface IProjectConf {
-  projectName: string;
-  projectDir: string;
-  packageName: string;
-  templateSource: string;
-  clone?: boolean;
-  template: string;
-  description?: string;
-  typescript?: boolean;
-  css: 'none' | 'sass' | 'stylus' | 'less';
-  date?: string;
-  src?: string;
-  sourceRoot?: string;
-  env?: string;
-  autoInstall?: boolean,
+  projectName: string
+  projectDir: string
+  npm: string
+  templateSource: string
+  clone?: boolean
+  template: string
+  description?: string
+  typescript?: boolean
+  css: 'none' | 'sass' | 'stylus' | 'less'
+  date?: string
+  src?: string
+  sourceRoot?: string
+  env?: string
+  autoInstall?: boolean
   framework: 'react' | 'preact' | 'nerv' | 'vue' | 'vue3'
   compiler?: 'webpack4' | 'webpack5' | 'vite'
 }
 
 interface AskMethods {
-  (conf: IProjectConf, prompts: Record<string, unknown>[], choices?: ITemplates[]): void;
+  (conf: IProjectConf, prompts: Record<string, unknown>[], choices?: ITemplates[]): void
 }
 
 const NONE_AVALIABLE_TEMPLATE = '无可用模板'
@@ -64,7 +64,7 @@ export default class Project extends Creator {
         projectDir: '',
         template: '',
         description: '',
-        packageName: ''
+        npm: ''
       },
       options
     )
@@ -99,7 +99,7 @@ export default class Project extends Creator {
     this.askTypescript(conf, prompts)
     this.askCSS(conf, prompts)
     this.askCompiler(conf, prompts)
-    this.askPackage(conf, prompts)
+    this.askNpm(conf, prompts)
     await this.askTemplateSource(conf, prompts)
 
     const answers = await inquirer.prompt(prompts)
@@ -354,7 +354,7 @@ export default class Project extends Creator {
     }
   }
 
-  askPackage: AskMethods = function (conf, prompts) {
+  askNpm: AskMethods = function (conf, prompts) {
     const packages = [
       {
         name: 'yarn',
@@ -374,10 +374,10 @@ export default class Project extends Creator {
       }
     ]
 
-    if ((typeof conf.packageName as string | undefined) !== 'string') {
+    if ((typeof conf.npm as string | undefined) !== 'string') {
       prompts.push({
         type: 'list',
-        name: 'packageName',
+        name: 'npm',
         message: '请选择包管理工具',
         choices: packages
       })

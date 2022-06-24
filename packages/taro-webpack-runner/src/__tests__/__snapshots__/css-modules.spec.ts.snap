@@ -71,7 +71,7 @@ exports[`css modules should use css modules with global mode 2`] = `
 } ]);
 
 /** filePath: dist/css/1.css **/
-.index-module__cbody___3Vfl2{height:6.4rem;background-color:#e8e8ed}.index-module__ctext___Dq1RJ{display:inline-block;width:100%;color:#ff0}.index__cwrapper___oXrpd{font-size:.768rem}.chomepage{background:gray}
+.index-module__cbody___3Vfl2{height:7.5rem;background-color:#e8e8ed}.index-module__ctext___Dq1RJ{display:inline-block;width:100%;color:#ff0}.index__cwrapper___oXrpd{font-size:.9rem}.chomepage{background:gray}
 
 /** filePath: dist/css/app.css **/
 
@@ -871,7 +871,7 @@ exports[`css modules should use css modules with module mode 2`] = `
 } ]);
 
 /** filePath: dist/css/1.css **/
-.index-module__cbody___3Vfl2{height:6.4rem;background-color:#e8e8ed}.index-module__ctext___Dq1RJ{display:inline-block;width:100%;color:#ff0}.cwrapper{font-size:.768rem}.chomepage{background:gray}
+.index-module__cbody___3Vfl2{height:7.5rem;background-color:#e8e8ed}.index-module__ctext___Dq1RJ{display:inline-block;width:100%;color:#ff0}.cwrapper{font-size:.9rem}.chomepage{background:gray}
 
 /** filePath: dist/css/app.css **/
 

@@ -6,7 +6,7 @@ import * as ora from 'ora'
 import * as path from 'path'
 import * as semver from 'semver'
 
-import { packageObj } from '../../config/packagesManagement'
+import packagesManagement from '../../config/packagesManagement'
 import { getPkgItemByKey } from '../../util'
 
 export default (ctx: IPluginContext) => {
@@ -16,7 +16,12 @@ export default (ctx: IPluginContext) => {
       'taro update self [version]',
       'taro update project [version]'
     ],
-    async fn ({ _ }) {
+    optionsMap: {
+      '--npm [npm]': '包管理工具',
+      '-h, --help': 'output usage information'
+    },
+    async fn ({ _, options }) {
+      const { npm } = options
       const [, updateType, version] = _ as [string, ('self' | 'project')?, number?]
       const { appPath, configPath } = ctx.paths
       const {
@@ -29,7 +34,7 @@ export default (ctx: IPluginContext) => {
       const pkgPath = path.join(appPath, 'package.json')
       const pkgName = getPkgItemByKey('name')
       const conf = {
-        packageName: null
+        npm: null
       }
       const prompts: Record<string, unknown>[] = []
 
@@ -74,9 +79,9 @@ export default (ctx: IPluginContext) => {
       /** 更新全局的 Taro CLI */
       async function updateSelf () {
         const targetTaroVersion = await getTargetVersion()
-        await askPackage(conf, prompts)
-        const answers = await inquirer.prompt(prompts)
-        const command = `${packageObj[answers.packageName].globalCommand}@${targetTaroVersion}`
+        askNpm(conf, prompts)
+        const answers = npm ? { npm } : await inquirer.prompt(prompts)
+        const command = `${packagesManagement[answers.npm].globalCommand}@${targetTaroVersion}`
         // if (shouldUseYarn()) {
         //   command = `yarn global add @tarojs/cli@${targetTaroVersion}`
         // } else if (shouldUseCnpm()) {
@@ -91,7 +96,7 @@ export default (ctx: IPluginContext) => {
       /** 更新当前项目中的 Taro 相关依赖 */
       async function updateProject () {
         if (!configPath || !fs.existsSync(configPath)) {
-          console.log(chalk.red(`找不到项目配置文件${PROJECT_CONFIG}，请确定当前目录是Taro项目根目录!`))
+          console.log(chalk.red(`找不到项目配置文件 ${PROJECT_CONFIG}，请确定当前目录是 Taro 项目根目录!`))
           process.exit(1)
         }
         const packageMap = require(pkgPath)
@@ -129,10 +134,10 @@ export default (ctx: IPluginContext) => {
           console.error(err)
         }
 
-        await askPackage(conf, prompts)
-        const answers = await inquirer.prompt(prompts)
+        askNpm(conf, prompts)
+        const answers = npm ? { npm } : await inquirer.prompt(prompts)
 
-        const command = packageObj[answers.packageName].command
+        const command = packagesManagement[answers.npm].command
         // if (shouldUseYarn()) {
         //   command = 'yarn'
         // } else if (shouldUseCnpm()) {
@@ -144,7 +149,7 @@ export default (ctx: IPluginContext) => {
         execUpdate(command, version)
       }
 
-      function askPackage (conf, prompts) {
+      function askNpm (conf, prompts) {
         const packages = [
           {
             name: 'yarn',
@@ -164,10 +169,10 @@ export default (ctx: IPluginContext) => {
           }
         ]
 
-        if ((typeof conf.packageName as string | undefined) !== 'string') {
+        if ((typeof conf.npm as string | undefined) !== 'string') {
           prompts.push({
             type: 'list',
-            name: 'packageName',
+            name: 'npm',
             message: '请选择包管理工具',
             choices: packages
           })

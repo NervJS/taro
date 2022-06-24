@@ -25,7 +25,7 @@ jest.mock('@tarojs/helper', () => {
   }
 })
 
-const runConfig = run('config')
+const runConfig = run('config', ['commands/config'])
 
 describe('config', () => {
   const getUserHomeDirMocked = getUserHomeDir as jest.Mock<any>

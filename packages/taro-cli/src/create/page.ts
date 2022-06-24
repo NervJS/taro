@@ -7,15 +7,15 @@ import fetchTemplate from './fetchTemplate'
 import { createPage } from './init'
 
 export interface IPageConf {
-  projectDir: string;
-  projectName: string;
-  packageName: string;
-  template: string;
-  description?: string;
-  pageName: string;
-  css: 'none' | 'sass' | 'stylus' | 'less';
-  typescript?: boolean;
-  date?: string;
+  projectDir: string
+  projectName: string
+  npm: string
+  template: string
+  description?: string
+  pageName: string
+  css: 'none' | 'sass' | 'stylus' | 'less'
+  typescript?: boolean
+  date?: string
   framework: 'react' | 'preact' | 'nerv' | 'vue' | 'vue3'
   compiler?: 'webpack4' | 'webpack5' | 'vite'
 }

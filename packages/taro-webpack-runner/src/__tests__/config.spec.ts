@@ -12,7 +12,7 @@ describe('config', () => {
       sourceRoot,
       outputRoot
     })
-    const assets = stats.toJson().assets || []
+    const assets = stats?.toJson().assets || []
 
     expect(assets.length).toMatchSnapshot()
 
@@ -34,7 +34,7 @@ describe('config', () => {
         options: {}
       }
     })
-    const assets = stats.toJson().assets || []
+    const assets = stats?.toJson().assets || []
 
     expect(assets.length).toMatchSnapshot()
 
@@ -62,7 +62,7 @@ describe('config', () => {
         '@/utils': path.resolve(__dirname, './fixtures/config/origin/alias/utils')
       }
     })
-    const assets = stats.toJson().assets || []
+    const assets = stats?.toJson().assets || []
 
     expect(assets.length).toMatchSnapshot()
 
