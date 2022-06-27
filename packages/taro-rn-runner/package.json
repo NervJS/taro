@@ -39,6 +39,7 @@
     "@rollup/plugin-node-resolve": "^13.3.0",
     "@rollup/plugin-json": "^4.1.0",
     "@rollup/plugin-replace": "^4.0.0",
+    "@rollup/plugin-babel": "^5.3.1",
     "@rollup/plugin-commonjs": "^20.0.0",
     "acorn-jsx": "^5.3.2",
     "fs-extra": "^8.0.1",
