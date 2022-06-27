@@ -8,7 +8,7 @@ import {
 import { AppConfig } from '@tarojs/taro'
 import { defaults } from 'lodash'
 import path from 'path'
-import webpack from 'webpack'
+import { EntryNormalized } from 'webpack'
 
 interface IH5AppInstOptions {
   sourceDir: string
@@ -18,12 +18,12 @@ interface IH5AppInstOptions {
 
 export default class H5AppInstance {
   options: IH5AppInstOptions
-  entry: webpack.EntryNormalized
+  entry: EntryNormalized
   __appConfig?: AppConfig
   __pages?: Set<{ name: string, path: string }>
   __pagesConfigList?: Map<string, string>
 
-  constructor (entry: webpack.EntryNormalized = {}, options: Partial<IH5AppInstOptions> = {}) {
+  constructor (entry: EntryNormalized = {}, options: Partial<IH5AppInstOptions> = {}) {
     this.options = defaults(options || {}, {
       sourceDir: '',
       entryFileName: 'app',

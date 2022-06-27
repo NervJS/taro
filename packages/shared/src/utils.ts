@@ -154,6 +154,37 @@ export function mergeInternalComponents (components) {
       internalComponents[name] = components[name]
     }
   })
+  return internalComponents
+}
+
+export function getComponentsAlias (origin: typeof internalComponents) {
+  const mapping = {}
+  const viewAttrs = origin.View
+  const extraList = {
+    '#text': {},
+    StaticView: viewAttrs,
+    StaticImage: origin.Image,
+    StaticText: origin.Text,
+    PureView: viewAttrs,
+    CatchView: viewAttrs
+  }
+  origin = { ...origin, ...extraList }
+  Object.keys(origin)
+    .sort()
+    .forEach((key, num) => {
+      const obj = {
+        _num: String(num)
+      }
+      Object.keys(origin[key])
+        .filter(attr => !(/^bind/.test(attr)) && !['focus', 'blur'].includes(attr))
+        .sort()
+        .forEach((attr, index) => {
+          obj[toCamelCase(attr)] = 'p' + index
+        })
+      mapping[toDashed(key)] = obj
+    })
+
+  return mapping
 }
 
 export function mergeReconciler (hostConfig, hooksForTest?) {

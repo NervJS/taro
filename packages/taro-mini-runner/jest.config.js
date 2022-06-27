@@ -9,5 +9,5 @@ module.exports = {
       diagnostics: false
     }
   },
-  testTimeout: 30000
+  testTimeout: 60000
 }

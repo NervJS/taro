@@ -1,4 +1,4 @@
-import { isFunction, isUndefined, Shortcuts } from '@tarojs/shared'
+import { isFunction } from '@tarojs/shared'
 
 import {
   CUSTOM_WRAPPER,
@@ -20,15 +20,11 @@ function findCustomWrapper (root: TaroRootElement, dataPathArr: string[]) {
   let splitedPath = ''
 
   list.some((item, i) => {
-    const key = item
-      // '[0]' => '0'
-      .replace(/^\[(.+)\]$/, '$1')
-      // 'cn' => 'childNodes'
-      .replace(/\bcn\b/g, 'childNodes')
+    const childNode = currentData.childNodes.find(node => node.sid === item)
 
-    currentData = currentData[key]
+    if (!childNode) return true
 
-    if (isUndefined(currentData)) return true
+    currentData = childNode
 
     if (currentData.nodeName === CUSTOM_WRAPPER) {
       const res = customWrapperCache.get(currentData.sid)
@@ -86,15 +82,11 @@ export class TaroRootElement extends TaroElement {
     setTimeout(() => {
       perf.start(SET_DATA)
       const data: Record<string, UpdatePayloadValue | ReturnType<HydratedData>> = Object.create(null)
-      const resetPaths = new Set<string>(
-        initRender
-          ? ['root.cn.[0]', 'root.cn[0]']
-          : []
-      )
+      const resetPaths = new Set<string>()
 
       while (this.updatePayloads.length > 0) {
         const { path, value } = this.updatePayloads.shift()!
-        if (path.endsWith(Shortcuts.Childnodes)) {
+        if (isFunction(value)) {
           resetPaths.add(path)
         }
         data[path] = value

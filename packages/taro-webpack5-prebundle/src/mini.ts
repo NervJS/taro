@@ -25,7 +25,7 @@
 import fs from 'fs-extra'
 import path from 'path'
 import { performance } from 'perf_hooks'
-import webpack from 'webpack'
+import webpack, { ProvidePlugin, Stats } from 'webpack'
 
 import BasePrebundle, { IPrebundleConfig } from './prebundle'
 import { bundle } from './prebundle/bundle'
@@ -65,7 +65,7 @@ export class MiniPrebundle extends BasePrebundle<IMiniPrebundleConfig> {
       // @tarojs/runtime split 成 entry 和依赖 chunk 两部分。如果我们把 entry 作为
       // ProvidePlugin 的提供者，依赖 chunk 会被注入 raf、caf，导致循环依赖的问题。所以
       // 这种情况下只能把依赖 chunk 作为 ProvidePlugin 的提供者。
-      Object.keys(metafile.outputs).some(key => {
+      metafile && Object.keys(metafile.outputs).some(key => {
         const output = metafile.outputs[key]
         if (output.entryPoint === 'entry:@tarojs_runtime') {
           const dep = output.imports.find(dep => {
@@ -163,11 +163,11 @@ export class MiniPrebundle extends BasePrebundle<IMiniPrebundleConfig> {
               runtimeRequirements: this.metadata.runtimeRequirements
             }
           ),
-          new webpack.ProvidePlugin(provideObject)
+          new ProvidePlugin(provideObject)
         ]
       })
       this.metadata.remoteAssets = await new Promise((resolve, reject) => {
-        compiler.run((error: Error, stats: webpack.Stats) => {
+        compiler.run((error: Error, stats: Stats) => {
           compiler.close(err => {
             if (error || err) return reject(error || err)
             const { assets = [], errors = [] } = stats.toJson()

@@ -1,6 +1,7 @@
 import { fs } from '@tarojs/helper'
 import type { IPluginContext } from '@tarojs/service'
 import { isString } from '@tarojs/shared'
+import { Plugin } from 'esbuild'
 
 import { modifyH5WebpackChain } from './webpack.h5'
 import { modifyMiniWebpackChain } from './webpack.mini'
@@ -61,7 +62,7 @@ export default (ctx: IPluginContext, config: IConfig = {}) => {
       prebundleOptions.include = prebundleOptions.include.concat(deps)
       if (prebundleOptions.enable === false) return
 
-      const taroReactPlugin = {
+      const taroReactPlugin: Plugin = {
         name: 'taroReactPlugin',
         setup (build) {
           build.onLoad({ filter: /taro-h5[\\/]dist[\\/]index/ }, ({ path }) => {

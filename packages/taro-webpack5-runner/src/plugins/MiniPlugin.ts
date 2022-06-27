@@ -18,7 +18,7 @@ import { AppConfig, Config } from '@tarojs/taro'
 import fs from 'fs-extra'
 import { urlToRequest } from 'loader-utils'
 import path from 'path'
-import webpack from 'webpack'
+import webpack, { Compilation, Compiler } from 'webpack'
 import EntryDependency from 'webpack/lib/dependencies/EntryDependency'
 import { ConcatSource, RawSource } from 'webpack-sources'
 
@@ -134,7 +134,7 @@ export default class TaroMiniPlugin {
   /**
    * 自动驱动 tapAsync
    */
-  tryAsync<T extends webpack.Compiler | webpack.Compilation> (fn: (target: T) => Promise<any>) {
+  tryAsync<T extends Compiler | Compilation> (fn: (target: T) => Promise<any>) {
     return async (arg: T, callback: any) => {
       try {
         await fn(arg)
@@ -148,7 +148,7 @@ export default class TaroMiniPlugin {
   /**
    * 插件入口
    */
-  apply (compiler: webpack.Compiler) {
+  apply (compiler: Compiler) {
     this.context = compiler.context
     this.appEntry = this.getAppEntry(compiler)
     const {
@@ -160,7 +160,7 @@ export default class TaroMiniPlugin {
     /** build mode */
     compiler.hooks.run.tapAsync(
       PLUGIN_NAME,
-      this.tryAsync<webpack.Compiler>(async compiler => {
+      this.tryAsync<Compiler>(async compiler => {
         await this.run(compiler)
         new TaroLoadChunksPlugin({
           commonChunks: commonChunks,
@@ -175,7 +175,7 @@ export default class TaroMiniPlugin {
     /** watch mode */
     compiler.hooks.watchRun.tapAsync(
       PLUGIN_NAME,
-      this.tryAsync<webpack.Compiler>(async compiler => {
+      this.tryAsync<Compiler>(async compiler => {
         const changedFiles = this.getChangedFiles(compiler)
         if (changedFiles?.size > 0) {
           this.isWatch = true
@@ -197,7 +197,7 @@ export default class TaroMiniPlugin {
     /** compilation.addEntry */
     compiler.hooks.make.tapAsync(
       PLUGIN_NAME,
-      this.tryAsync<webpack.Compilation>(async compilation => {
+      this.tryAsync<Compilation>(async compilation => {
         const dependencies = this.dependencies
         const promises: Promise<null>[] = []
         this.compileIndependentPages(compiler, compilation, dependencies, promises)
@@ -289,7 +289,7 @@ export default class TaroMiniPlugin {
       compilation.hooks.processAssets.tapAsync(
         {
           name: PLUGIN_NAME,
-          stage: webpack.Compilation.PROCESS_ASSETS_STAGE_ADDITIONAL
+          stage: Compilation.PROCESS_ASSETS_STAGE_ADDITIONAL
         },
         this.tryAsync<any>(async () => {
           await this.generateMiniFiles(compilation)
@@ -299,7 +299,7 @@ export default class TaroMiniPlugin {
 
     compiler.hooks.afterEmit.tapAsync(
       PLUGIN_NAME,
-      this.tryAsync<webpack.Compilation>(async compilation => {
+      this.tryAsync<Compilation>(async compilation => {
         await this.addTarBarFilesToDependencies(compilation)
       })
     )
@@ -311,7 +311,7 @@ export default class TaroMiniPlugin {
    * 根据 webpack entry 配置获取入口文件路径
    * @returns app 入口文件路径
    */
-  getAppEntry (compiler: webpack.Compiler) {
+  getAppEntry (compiler: Compiler) {
     // const originalEntry = compiler.options.entry as webpack.EntryObject
     // compiler.options.entry = {}
     // return path.resolve(this.context, originalEntry.app[0])
@@ -339,7 +339,7 @@ export default class TaroMiniPlugin {
     return appEntryPath
   }
 
-  getChangedFiles (compiler: webpack.Compiler) {
+  getChangedFiles (compiler: Compiler) {
     return compiler.modifiedFiles
   }
 
@@ -347,7 +347,7 @@ export default class TaroMiniPlugin {
    * 分析 app 入口文件，搜集页面、组件信息，
    * 往 this.dependencies 中添加资源模块
    */
-  run (compiler: webpack.Compiler) {
+  run (compiler: Compiler) {
     if (this.options.isBuildPlugin) {
       this.getPluginFiles()
       this.getConfigFiles(compiler)
@@ -541,7 +541,7 @@ export default class TaroMiniPlugin {
   /**
    * 往 this.dependencies 中新增或修改所有 config 配置模块
    */
-  getConfigFiles (compiler: webpack.Compiler) {
+  getConfigFiles (compiler: Compiler) {
     const filesConfig = this.filesConfig
     Object.keys(filesConfig).forEach(item => {
       if (fs.existsSync(filesConfig[item].path)) {
@@ -866,7 +866,7 @@ export default class TaroMiniPlugin {
   }
 
   /** 生成小程序相关文件 */
-  async generateMiniFiles (compilation: webpack.Compilation) {
+  async generateMiniFiles (compilation: Compilation) {
     const { template, modifyBuildAssets, modifyMiniConfigs, isBuildPlugin, sourceDir } = this.options
     const baseTemplateName = this.getIsBuildPluginPath('base', isBuildPlugin)
     const baseCompName = 'comp'
@@ -1008,7 +1008,7 @@ export default class TaroMiniPlugin {
     }
   }
 
-  generateConfigFile (compilation: webpack.Compilation, filePath: string, config: Config & { component?: boolean }) {
+  generateConfigFile (compilation: Compilation, filePath: string, config: Config & { component?: boolean }) {
     const fileConfigName = this.getConfigPath(this.getComponentName(filePath))
     const unOfficalConfigs = ['enableShareAppMessage', 'enableShareTimeline', 'components']
     unOfficalConfigs.forEach(item => {
@@ -1018,7 +1018,7 @@ export default class TaroMiniPlugin {
     compilation.assets[fileConfigName] = new RawSource(fileConfigStr)
   }
 
-  generateTemplateFile (compilation: webpack.Compilation, filePath: string, templateFn: (...args) => string, ...options) {
+  generateTemplateFile (compilation: Compilation, filePath: string, templateFn: (...args) => string, ...options) {
     let templStr = templateFn(...options)
     const fileTemplName = this.getTemplatePath(this.getComponentName(filePath))
 
@@ -1033,7 +1033,7 @@ export default class TaroMiniPlugin {
     compilation.assets[fileTemplName] = new RawSource(templStr)
   }
 
-  generateXSFile (compilation: webpack.Compilation, xsPath, isBuildPlugin: boolean) {
+  generateXSFile (compilation: Compilation, xsPath, isBuildPlugin: boolean) {
     const ext = this.options.fileType.xs
     if (ext == null) {
       return
@@ -1097,7 +1097,7 @@ export default class TaroMiniPlugin {
    * 输出 themeLocation 文件
    * @param compilation
    */
-  generateDarkModeFile (compilation: webpack.Compilation) {
+  generateDarkModeFile (compilation: Compilation) {
     const themeLocationPath = path.resolve(this.options.sourceDir, this.themeLocation)
     if (fs.existsSync(themeLocationPath)) {
       const themeLocationSource = fs.readFileSync(themeLocationPath)
@@ -1108,7 +1108,7 @@ export default class TaroMiniPlugin {
   /**
    * 输出 tabbar icons 文件
    */
-  generateTabBarFiles (compilation: webpack.Compilation) {
+  generateTabBarFiles (compilation: Compilation) {
     this.tabBarIcons.forEach(icon => {
       const iconPath = path.resolve(this.options.sourceDir, icon)
       if (fs.existsSync(iconPath)) {
@@ -1121,7 +1121,7 @@ export default class TaroMiniPlugin {
   /**
    * 小程序全局样式文件中引入 common chunks 中的公共样式文件
    */
-  injectCommonStyles ({ assets }: webpack.Compilation) {
+  injectCommonStyles ({ assets }: Compilation) {
     const styleExt = this.options.fileType.style
     const appStyle = `app${styleExt}`
     const REG_STYLE_EXT = new RegExp(`\\.(${styleExt.replace('.', '')})(\\?.*)?$`)
@@ -1141,7 +1141,7 @@ export default class TaroMiniPlugin {
     })
   }
 
-  addTarBarFilesToDependencies (compilation: webpack.Compilation) {
+  addTarBarFilesToDependencies (compilation: Compilation) {
     const { fileDependencies, missingDependencies } = compilation
     this.tabBarIcons.forEach(icon => {
       if (!fileDependencies.has(icon)) {

@@ -3,7 +3,7 @@
  * MIT License http://www.opensource.org/licenses/mit-license.php
  * Author Tobias Koppers @sokra, Zackary Jackson @ScriptedAlchemy, Marais Rossouw @maraisr
  */
-import webpack from 'webpack'
+import { Compiler } from 'webpack'
 import ContainerPlugin from 'webpack/lib/container/ContainerPlugin'
 
 import TaroContainerEntryModuleFactory from './TaroContainerEntryModuleFactory'
@@ -25,7 +25,7 @@ class TaroContainerPlugin extends ContainerPlugin {
     this.runtimeRequirements = params.runtimeRequirements || new Set()
   }
 
-  apply (compiler: webpack.Compiler) {
+  apply (compiler: Compiler) {
     switch (this.params.env) {
       case 'h5':
         super.apply(compiler)
@@ -41,7 +41,7 @@ class TaroContainerPlugin extends ContainerPlugin {
    *   1. 插入 taroModuleMap 把异步逻辑改为同步
    *   2. 插入自动注册模块的逻辑
    */
-  applyMiniApp (compiler: webpack.Compiler) {
+  applyMiniApp (compiler: Compiler) {
     super.apply(compiler)
     compiler.hooks.thisCompilation.tap(
       {

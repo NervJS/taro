@@ -46,19 +46,22 @@ hooks.tap('modifyHydrateData', data => {
   data[Shortcuts.Style] = ensureRect(data, data[Shortcuts.Style])
 })
 
-hooks.tap('modifySetAttrPayload', (element, key, payload) => {
+hooks.tap('modifySetAttrPayload', (element, key, payload, componentsAlias) => {
   const { nodeName, _path, props } = element
   if (!isHtmlTags(nodeName)) return
 
   // map nodeName
-  mapNameByContion(nodeName, key, element)
+  mapNameByContion(nodeName, key, element, componentsAlias)
+
+  const mapName = getMappedType(nodeName, props)
+  const alias = componentsAlias[mapName]
 
   // map attr Key/Value
   const attrMapFn = getAttrMapFn(nodeName)
   if (attrMapFn) {
     const value = payload.value
     const [mapKey, mapValue] = attrMapFn(key, value, props)
-    payload.path = `${_path}.${mapKey}`
+    payload.path = `${_path}.${alias[mapKey] || mapKey}`
     payload.value = mapValue
   }
 
@@ -70,19 +73,22 @@ hooks.tap('modifySetAttrPayload', (element, key, payload) => {
   }
 })
 
-hooks.tap('modifyRmAttrPayload', (element, key, payload) => {
+hooks.tap('modifyRmAttrPayload', (element, key, payload, componentsAlias) => {
   const { nodeName, _path, props } = element
   if (!isHtmlTags(nodeName)) return
 
   // map nodeName
-  mapNameByContion(nodeName, key, element)
+  mapNameByContion(nodeName, key, element, componentsAlias)
+
+  const mapName = getMappedType(nodeName, props)
+  const alias = componentsAlias[mapName]
 
   // map attr Key/Value
   const attrMapFn = getAttrMapFn(nodeName)
   if (attrMapFn) {
     const value = payload[key]
     const [mapKey] = attrMapFn(key, value, props)
-    payload.path = `${_path}.${mapKey}`
+    payload.path = `${_path}.${alias[mapKey] || mapKey}`
   }
 
   if (key === Shortcuts.Class) {

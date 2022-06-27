@@ -3,7 +3,7 @@ import * as Joi from 'joi'
 const schema = Joi.object().keys({
   projectName: Joi.string().required(),
   date: Joi.date(),
-  designWidth: Joi.number().integer().positive(),
+  designWidth: Joi.alternatives(Joi.number().integer().positive(), Joi.function()),
   deviceRatio: Joi.object().pattern(Joi.number(), Joi.number()),
   sourceRoot: Joi.string().required(),
   outputRoot: Joi.string().required(),

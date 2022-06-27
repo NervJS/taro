@@ -26,7 +26,12 @@ jest.mock('@tarojs/helper', () => {
   }
 })
 
-const runInspect = run('inspect')
+const runInspect = run('inspect', [
+  'commands/build',
+  'commands/inspect',
+  require.resolve('@tarojs/plugin-platform-weapp'),
+  'platforms/h5'
+])
 
 describe('inspect', () => {
   it('should exit because there isn\'t a Taro project', async () => {
@@ -137,7 +142,7 @@ describe('inspect', () => {
       const appPath = path.resolve(__dirname, 'fixtures/default')
       await runInspect(appPath, {
         options: {
-          type: 'alipay',
+          type: 'weapp',
           output: outputPath
         },
         args: ['resolve.mainFields.0']

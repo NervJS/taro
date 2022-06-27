@@ -3,7 +3,7 @@ import { chalk, fs, readConfig, resolveMainFilePath } from '@tarojs/helper'
 import { IProjectBaseConfig } from '@tarojs/taro/types/compile'
 import path from 'path'
 import { performance } from 'perf_hooks'
-import webpack from 'webpack'
+import { EntryObject } from 'webpack'
 import Chain from 'webpack-chain'
 
 import { commitMeta, formatDepsString, getBundleHash, getCacheDir, getMeasure, Metadata } from '../utils'
@@ -19,7 +19,7 @@ export interface IPrebundleConfig {
   chain: Chain
   chunkDirectory?: string
   enableSourceMap: boolean
-  entry: webpack.EntryObject
+  entry: EntryObject
   entryFileName?: string
   env: string
   sourceRoot: string

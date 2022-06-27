@@ -1,4 +1,4 @@
-import webpack from 'webpack'
+import { Compiler } from 'webpack'
 
 import TaroSingleEntryDependency from '../dependencies/TaroSingleEntryDependency'
 import { componentConfig } from '../template/component'
@@ -16,7 +16,7 @@ export default class TaroNormalModulesPlugin {
     this.onParseCreateElement = onParseCreateElement
   }
 
-  apply (compiler: webpack.Compiler) {
+  apply (compiler: Compiler) {
     compiler.hooks.compilation.tap(PLUGIN_NAME, (_, { normalModuleFactory }) => {
       normalModuleFactory.hooks.createModule.tapPromise(PLUGIN_NAME, (data, { dependencies }) => {
         const dependency = dependencies[0]

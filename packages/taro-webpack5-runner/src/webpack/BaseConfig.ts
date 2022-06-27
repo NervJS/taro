@@ -1,7 +1,7 @@
 import { chalk, recursiveMerge } from '@tarojs/helper'
 import { MultiPlatformPlugin } from '@tarojs/runner-utils'
 import path from 'path'
-import webpack from 'webpack'
+import { Stats } from 'webpack'
 import Chain from 'webpack-chain'
 import formatMessages from 'webpack-format-messages'
 
@@ -39,7 +39,7 @@ export class BaseConfig {
             'basic',
             'fancy',
             {
-              done (_context, { stats }: { stats: webpack.Stats }) {
+              done (_context, { stats }: { stats: Stats }) {
                 const { warnings, errors } = formatMessages(stats)
 
                 if (stats.hasWarnings()) {

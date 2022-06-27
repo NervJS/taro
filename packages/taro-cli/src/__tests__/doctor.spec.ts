@@ -46,7 +46,7 @@ jest.mock('ora', () => {
   return ora
 })
 
-const runDoctor = run('doctor')
+const runDoctor = run('doctor', ['commands/doctor'])
 
 describe('doctor', () => {
   it('should exit because there isn\'t a Taro project', async () => {

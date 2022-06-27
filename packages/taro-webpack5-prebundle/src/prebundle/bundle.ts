@@ -3,7 +3,7 @@ import { REG_SCRIPTS } from '@tarojs/helper'
 import { init, parse } from 'es-module-lexer'
 import esbuild, { Plugin } from 'esbuild'
 import fs from 'fs-extra'
-import { isEmpty } from 'lodash'
+import { defaults } from 'lodash'
 import path from 'path'
 import Chain from 'webpack-chain'
 
@@ -14,7 +14,7 @@ import {
   getHash,
   getResolve
 } from '../utils'
-import { assetsRE, CollectedDeps } from '../utils/constant'
+import { assetsRE, CollectedDeps, defaultEsbuildLoader } from '../utils/constant'
 
 type ExportsData = ReturnType<typeof parse> & { hasReExports?: boolean, needInterop?: boolean }
 
@@ -63,25 +63,18 @@ export async function bundle ({
     flatIdExports.set(flatId, exportsData)
   }
 
-  // bundle deps
-  const entryPlugin = getEntryPlugin({
-    flattenDeps,
-    flatIdExports,
-    prebundleOutputDir,
-    swcConfig: customSwcConfig || {}
-  })
-  const customPlugins = customEsbuildConfig.plugins || []
-
   fs.existsSync(prebundleOutputDir)
     ? fs.emptyDirSync(prebundleOutputDir)
     : fs.ensureDirSync(prebundleOutputDir)
 
-  const result = await esbuild.build({
+  return esbuild.build({
     absWorkingDir: appPath,
     bundle: true,
+    write: false,
     entryPoints: Array.from(flattenDeps.keys()),
     mainFields: ['main:h5', 'browser', 'module', 'jsnext:main', 'main'],
     format: 'esm',
+    loader: defaults(customEsbuildConfig.loader, defaultEsbuildLoader),
     define: {
       ...getDefines(chain),
       // AMD 被 esbuild 转 ESM 后，是套着 ESM 外皮的 AMD 语法模块。
@@ -94,58 +87,22 @@ export async function bundle ({
     ignoreAnnotations: true,
     outdir: prebundleOutputDir,
     plugins: [
-      entryPlugin,
-      ...customPlugins
+      getEntryPlugin({
+        flattenDeps,
+        flatIdExports,
+        prebundleOutputDir,
+        swcConfig: customSwcConfig || {}
+      }),
+      ...customEsbuildConfig.plugins || [],
+      getSwcPlugin({ appPath, flatIdExports }, customSwcConfig)
     ]
   })
-
-  // esbuild 把 Commonjs 转 ESM 时，打包后只有 export default 语句，
-  // 无法实现原模块 module.exports = 的功能。
-  // 因此使用一个 CommonJS 规范的中间模块进行处理。
-  const processAll: Promise<void>[] = []
-  const metaOutput = result.metafile.outputs
-
-  for (const outputName in metaOutput) {
-    const output = metaOutput[outputName]
-
-    if (!output.entryPoint?.startsWith('entry:')) continue
-
-    const entry = output.entryPoint.replace(/^entry:/, '')
-    if (!flatIdExports.has(entry)) continue
-
-    const exportsData = flatIdExports.get(entry)
-    if (
-      exportsData?.needInterop &&
-      output.exports.length === 1 &&
-      output.exports[0] === 'default'
-    ) {
-      const srcPath = path.join(appPath, outputName)
-      const destPath = path.join(appPath, outputName.replace(/(\.js)$/, '.core$1'))
-      const p = fs.move(srcPath, destPath)
-        .then(() => fs.writeFile(
-          srcPath,
-          `const m = require('./${path.basename(destPath)}')
-module.exports = m.default
-exports.default = module.exports
-`
-        ))
-
-      processAll.push(p)
-    }
-  }
-
-  await Promise.all(processAll)
-
-  return {
-    metafile: result.metafile
-  }
 }
 
 function getEntryPlugin ({
   flattenDeps,
   flatIdExports,
-  prebundleOutputDir,
-  swcConfig
+  prebundleOutputDir
 }: {
   flattenDeps: CollectedDeps
   flatIdExports: Map<string, ExportsData>
@@ -187,11 +144,6 @@ function getEntryPlugin ({
         }
       })
 
-      !isEmpty(swcConfig) && build.onLoad({ filter: REG_SCRIPTS }, async ({ path }) => {
-        const result = swc.transformSync(fs.readFileSync(path, 'utf-8'), swcConfig)
-        return { contents: result.code }
-      })
-
       build.onLoad({ filter: /^[\w@][^:]/, namespace: 'entry' }, async ({ path: id }) => {
         let js = ''
         const filePath = flattenDeps.get(id)?.replace(/\\/g, '\\\\')
@@ -227,9 +179,67 @@ function getEntryPlugin ({
 
         return {
           loader: 'js',
-          contents: js,
-          resolveDir: process.cwd()
+          resolveDir: process.cwd(),
+          contents: js
         }
+      })
+    }
+  }
+}
+
+export function getSwcPlugin ({
+  appPath,
+  flatIdExports
+}: {
+  appPath: string
+  flatIdExports: Map<string, ExportsData>
+}, config?: swc.Config): Plugin {
+  return {
+    name: 'swc-plugin',
+    setup (build) {
+      build.onEnd(async ({ outputFiles = [], metafile = {} }) => {
+        await Promise.all(outputFiles.map(async ({ path, text }) => {
+          if (!REG_SCRIPTS.test(path)) return
+          const { code } = swc.transformSync(text, defaults(config, { jsc: { target: 'es2015' } }))
+          fs.writeFile(path, code)
+        }))
+
+        // esbuild 把 Commonjs 转 ESM 时，打包后只有 export default 语句，
+        // 无法实现原模块 module.exports = 的功能。
+        // 因此使用一个 CommonJS 规范的中间模块进行处理。
+        const processAll: Promise<void>[] = []
+        const metaOutput = metafile.outputs
+
+        for (const outputName in metaOutput) {
+          const output = metaOutput[outputName]
+
+          if (!output.entryPoint?.startsWith('entry:')) continue
+
+          const entry = output.entryPoint.replace(/^entry:/, '')
+          if (!flatIdExports.has(entry)) continue
+
+          if (
+            flatIdExports.get(entry)?.needInterop &&
+            output.exports.length === 1 &&
+            output.exports[0] === 'default'
+          ) {
+            const srcPath = path.join(appPath, outputName)
+            const destPath = path.join(appPath, outputName.replace(/(\.js)$/, '.core$1'))
+
+            processAll.push(
+              fs.move(srcPath, destPath)
+                .then(() => fs.writeFile(
+                  srcPath,
+                  `const m = require('./${path.basename(destPath)}')
+module.exports = m.default
+exports.default = module.exports
+`
+                ))
+            )
+          }
+        }
+
+        await Promise.all(processAll)
       })
     }
   }

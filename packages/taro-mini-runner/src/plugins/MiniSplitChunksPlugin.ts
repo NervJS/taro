@@ -22,7 +22,7 @@ interface MiniSplitChunksPluginOption {
   exclude?: (string | ExcludeFunctionItem)[]
   fileType: IFileType
   /**
-   * 支持自定义目录及名称，减少requre消耗的体积
+   * 支持自定义目录及名称，减少 require 消耗的体积
    */
   subCommonDir?:string
   subVendorsName?:string

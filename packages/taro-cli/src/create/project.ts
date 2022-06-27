@@ -22,25 +22,26 @@ import fetchTemplate from './fetchTemplate'
 import { createApp } from './init'
 
 export interface IProjectConf {
-  projectName: string;
-  projectDir: string;
-  templateSource: string;
-  clone?: boolean;
-  template: string;
-  description?: string;
-  typescript?: boolean;
-  css: 'none' | 'sass' | 'stylus' | 'less';
-  date?: string;
-  src?: string;
-  sourceRoot?: string;
-  env?: string;
-  autoInstall?: boolean,
+  projectName: string
+  projectDir: string
+  npm: string
+  templateSource: string
+  clone?: boolean
+  template: string
+  description?: string
+  typescript?: boolean
+  css: 'none' | 'sass' | 'stylus' | 'less'
+  date?: string
+  src?: string
+  sourceRoot?: string
+  env?: string
+  autoInstall?: boolean
   framework: 'react' | 'preact' | 'nerv' | 'vue' | 'vue3'
   compiler?: 'webpack4' | 'webpack5' | 'vite'
 }
 
 interface AskMethods {
-  (conf: IProjectConf, prompts: Record<string, unknown>[], choices?: ITemplates[]): void;
+  (conf: IProjectConf, prompts: Record<string, unknown>[], choices?: ITemplates[]): void
 }
 
 const NONE_AVALIABLE_TEMPLATE = '无可用模板'
@@ -62,7 +63,8 @@ export default class Project extends Creator {
         projectName: '',
         projectDir: '',
         template: '',
-        description: ''
+        description: '',
+        npm: ''
       },
       options
     )
@@ -97,6 +99,7 @@ export default class Project extends Creator {
     this.askTypescript(conf, prompts)
     this.askCSS(conf, prompts)
     this.askCompiler(conf, prompts)
+    this.askNpm(conf, prompts)
     await this.askTemplateSource(conf, prompts)
 
     const answers = await inquirer.prompt(prompts)
@@ -347,6 +350,36 @@ export default class Project extends Creator {
         name: 'template',
         message: '请选择模板',
         choices
+      })
+    }
+  }
+
+  askNpm: AskMethods = function (conf, prompts) {
+    const packages = [
+      {
+        name: 'yarn',
+        value: 'yarn'
+      },
+      {
+        name: 'pnpm',
+        value: 'pnpm'
+      },
+      {
+        name: 'npm',
+        value: 'npm'
+      },
+      {
+        name: 'cnpm',
+        value: 'cnpm'
+      }
+    ]
+
+    if ((typeof conf.npm as string | undefined) !== 'string') {
+      prompts.push({
+        type: 'list',
+        name: 'npm',
+        message: '请选择包管理工具',
+        choices: packages
       })
     }
   }
