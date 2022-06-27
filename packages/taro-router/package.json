@@ -6,7 +6,7 @@
   "main:h5": "dist/index.js",
   "main": "dist/index.js",
   "module": "dist/index.cjs.js",
-  "typings": "src/index.ts",
+  "typings": "dist/index.d.ts",
   "files": [
     "dist",
     "types",

@@ -1,5 +1,4 @@
-import { MpaRouterConfig, SpaRouterConfig } from '@tarojs/router/types/router'
-
+import type { MpaRouterConfig, SpaRouterConfig } from '../../types/router'
 import { addLeadingSlash } from '../utils'
 
 export class RouterConfig {

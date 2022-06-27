@@ -1,9 +1,9 @@
 /* eslint-disable dot-notation */
-import { MpaRouterConfig, Route } from '@tarojs/router/types/router'
 import { Current, PageInstance } from '@tarojs/runtime'
 import { PageConfig } from '@tarojs/taro'
 import queryString from 'query-string'
 
+import type { MpaRouterConfig, Route } from '../../types/router'
 import { bindPageResize } from '../events/resize'
 import { bindPageScroll } from '../events/scroll'
 import { setHistoryMode } from '../history'

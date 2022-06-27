@@ -4,8 +4,7 @@
     "baseUrl": ".",
     "outDir": "dist",
     "module": "ESNext",
-    "sourceMap": false,
-    "typeRoots": ["./node_modules/@types"],
+    "sourceMap": false
   },
-  "include": ["./src", "./types"],
+  "include": ["./src", "./types"]
 }

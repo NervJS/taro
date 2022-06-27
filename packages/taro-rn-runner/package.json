@@ -30,6 +30,7 @@
     "npm": ">=6.0.0"
   },
   "dependencies": {
+    "@react-native-community/cli": "^7.0.3",
     "@react-native-community/cli-plugin-metro": "^7.0.0",
     "@react-native-community/cli-server-api": "^7.0.0",
     "@tarojs/helper": "workspace:*",

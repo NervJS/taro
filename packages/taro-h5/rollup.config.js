@@ -23,7 +23,7 @@ const baseConfig = {
       mainFields: ['main:h5', 'browser', 'module', 'jsnext:main', 'main']
     }),
     typescript({
-      tsconfig: './tsconfig.json',
+      typescript: require('typescript'),
       sourceMap: true
     }),
     commonjs(),

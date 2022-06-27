@@ -32,7 +32,7 @@
     "expo-av": "~11.2.3",
     "expo-barcode-scanner": "~11.3.0",
     "expo-camera": "~12.2.0",
-    "prop-types": "^15.6.2",
+    "prop-types": "^15.7.2",
     "react-native-maps": "^0.25.0",
     "react-native-pager-view": "~5.4.9",
     "react-native-svg": "~12.1.1",

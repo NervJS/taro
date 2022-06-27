@@ -74,7 +74,7 @@
     "postcss-pxtransform": "workspace:*",
     "postcss-url": "8.0.0",
     "regenerator-runtime": "0.11",
-    "resolve": "^1.6.0",
+    "resolve": "^1.22.0",
     "resolve-url-loader": "4.0.0",
     "sass": "1.50.0",
     "sass-loader": "10.2.0",
@@ -88,6 +88,7 @@
     "vue-loader": "^15.9.3",
     "webpack": "4.46.0",
     "webpack-chain": "4.9.0",
+    "webpack-sources": "^3.2.3",
     "webpack-format-messages": "^2.0.5"
   },
   "devDependencies": {

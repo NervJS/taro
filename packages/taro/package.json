@@ -25,7 +25,7 @@
   "license": "MIT",
   "dependencies": {
     "@tarojs/api": "workspace:*",
-    "@tarojs/runtime": "3.5.0-beta.2"
+    "@tarojs/runtime": "workspace:*"
   },
   "peerDependenciesMeta": {
     "@types/react": {

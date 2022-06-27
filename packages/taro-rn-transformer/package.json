@@ -34,6 +34,10 @@
   "dependencies": {
     "lodash": "^4.17.21",
     "mkdirp": "^1.0.4",
+    "mime-types": "^2.1.27",
     "normalize-path": "^3.0.0"
+  },
+  "devDependencies": {
+    "@tarojs/helper": "workspace:*"
   }
 }
