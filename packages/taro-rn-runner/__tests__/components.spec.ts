@@ -23,6 +23,13 @@ describe('build_components', () => {
     expect(getCode(result)).toMatchSnapshot()
   })
 
+  it('nativeComponents  not set', async () => {
+    const result = await runner(appPath, {
+      ...config
+    })
+    expect(getCode(result)).toMatchSnapshot()
+  })
+
   it('multiple components', async () => {
     const result = await build(config, {
       input: ['components/cell/index', 'components/navbar/index'],

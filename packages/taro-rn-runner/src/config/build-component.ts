@@ -162,7 +162,7 @@ export default async function (projectPath: string, config: any) {
 
   const componentConfig = {
     ...nativeComponents,
-    input: nativeComponents.components || appConfig.components,
+    input: appConfig?.components,
     output: path.join(projectPath, output),
     sourceRootPath: path.join(projectPath, sourceRoot)
   }
