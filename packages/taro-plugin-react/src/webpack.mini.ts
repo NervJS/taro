@@ -1,6 +1,6 @@
 
+import { fs } from '@tarojs/helper'
 import type { IPluginContext } from '@tarojs/service'
-import * as fs from 'fs-extra'
 
 import type { Frameworks } from './index'
 import { getLoaderMeta } from './loader-meta'

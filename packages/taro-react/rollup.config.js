@@ -1,7 +1,6 @@
+import buble from '@rollup/plugin-buble'
+import typescript from '@rollup/plugin-typescript'
 import * as path from 'path'
-import typescript from 'rollup-plugin-typescript2'
-
-const buble = require('rollup-plugin-buble')
 
 const cwd = __dirname
 
@@ -23,7 +22,7 @@ const baseConfig = {
 }
 
 const esmConfig = Object.assign({}, baseConfig, {
-  output: Object.assign({}, baseConfig.output, {
+  output: Object.assign({}, baseConfig.output[0], {
     sourcemap: true,
     format: 'es',
     file: path.join(cwd, 'dist/react.esm.js')

@@ -1,5 +1,6 @@
-import JD from './program'
 import type { IPluginContext } from '@tarojs/service'
+
+import JD from './program'
 
 // 让其它平台插件可以继承此平台
 export { JD }

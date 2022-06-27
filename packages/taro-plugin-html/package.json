@@ -30,6 +30,7 @@
   "homepage": "https://github.com/NervJS/taro#readme",
   "dependencies": {
     "@tarojs/runtime": "workspace:*",
-    "@tarojs/shared": "3.5.0-beta.2"
+    "@tarojs/service": "workspace:*",
+    "@tarojs/shared": "workspace:*"
   }
 }

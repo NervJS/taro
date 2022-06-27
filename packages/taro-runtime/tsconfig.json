@@ -5,12 +5,9 @@
     "module": "ESNext",
     "target": "ES2017",
     "sourceMap": true,
-    "declaration": true
+    "declaration": true,
+    "declarationDir": "./dist"
   },
-  "include": [
-    "./src"
-  ],
-  "exclude": [
-    "./src/__tests__"
-  ]
+  "include": ["./src"],
+  "exclude": ["./src/__tests__"]
 }

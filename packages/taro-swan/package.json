@@ -29,6 +29,6 @@
   "dependencies": {
     "@tarojs/components": "workspace:*",
     "@tarojs/service": "workspace:*",
-    "@tarojs/shared": "3.5.0-beta.2"
+    "@tarojs/shared": "workspace:*"
   }
 }

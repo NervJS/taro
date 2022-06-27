@@ -29,6 +29,7 @@
   "homepage": "https://github.com/NervJS/taro#readme",
   "dependencies": {
     "@tarojs/helper": "workspace:*",
+    "@tarojs/service": "workspace:*",
     "@tarojs/shared": "workspace:*",
     "@tarojs/taro": "workspace:*",
     "@vue/devtools": "6.0.0-beta.15",

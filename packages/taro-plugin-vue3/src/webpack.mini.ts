@@ -4,8 +4,8 @@ import { capitalize, internalComponents, toCamelCase } from '@tarojs/shared/dist
 import type { AttributeNode, DirectiveNode, ElementNode, RootNode, SimpleExpressionNode, TemplateChildNode } from '@vue/compiler-core'
 
 import type { IConfig } from './index'
-import { getVueLoaderPath } from './index'
 import { getLoaderMeta } from './loader-meta'
+import { getVueLoaderPath } from './runtime/utils'
 
 const CUSTOM_WRAPPER = 'custom-wrapper'
 

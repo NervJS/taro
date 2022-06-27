@@ -1,5 +1,5 @@
+import typescript from '@rollup/plugin-typescript'
 import * as path from 'path'
-import typescript from 'rollup-plugin-typescript2'
 
 const cwd = __dirname
 
@@ -9,7 +9,7 @@ const base = {
 }
 
 // 供 CLI 编译时使用的 Taro 插件入口
-const comileConfig = {
+const compileConfig = {
   input: path.join(cwd, 'src/index.ts'),
   output: {
     file: path.join(cwd, 'dist/index.js'),
@@ -31,4 +31,4 @@ const runtimeConfig = {
   ...base
 }
 
-module.exports = [comileConfig, runtimeConfig]
+module.exports = [compileConfig, runtimeConfig]

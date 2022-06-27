@@ -7,11 +7,11 @@ import { parseVue } from './vue'
 import { parseWXML } from './wxml'
 
 interface Option {
-  json?: string,
-  script?: string,
-  wxml?: string,
+  json?: string
+  script?: string
+  wxml?: string
   path: string
-  rootPath: string,
+  rootPath: string
   framework: 'react' | 'vue'
   isApp?: boolean
 }

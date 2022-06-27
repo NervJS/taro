@@ -23,6 +23,7 @@ importers:
       '@commitlint/cli': ^16.2.1
       '@commitlint/config-conventional': ^16.2.1
       '@rollup/plugin-babel': ^5.2.1
+      '@rollup/plugin-buble': ^0.21.3
       '@rollup/plugin-commonjs': ^20.0.0
       '@rollup/plugin-node-resolve': ^8.0.0
       '@rollup/plugin-replace': ^2.2.0
@@ -104,17 +105,16 @@ importers:
       react-test-renderer: 18.0.0
       rimraf: ^3.0.0
       rollup: ^2.56.2
-      rollup-plugin-buble: ^0.19.8
       rollup-plugin-copy: ^3.4.0
       rollup-plugin-node-externals: ^4.0.0
       rollup-plugin-postcss: ^3.1.8
-      rollup-plugin-typescript2: ^0.24.3
       shelljs: ^0.8.1
       sinon: ^7.5.0
       stylelint: ^14.6.1
       stylelint-config-standard-scss: ^3.0.0
       stylelint-order: ^5.0.0
       ts-jest: 26.5.5
+      tslib: ^1.9.3
       typescript: 4.6.3
       vue: ^2.6.11
       vue-loader: ^17.0.0
@@ -142,10 +142,11 @@ importers:
       '@commitlint/cli': registry.npmjs.org/@commitlint/cli/16.3.0
       '@commitlint/config-conventional': registry.npmjs.org/@commitlint/config-conventional/16.2.4
       '@rollup/plugin-babel': registry.npmjs.org/@rollup/plugin-babel/5.3.1_za5spbk65gc2bmrclluhieacz4
+      '@rollup/plugin-buble': registry.npmjs.org/@rollup/plugin-buble/0.21.3_rollup@2.75.7
       '@rollup/plugin-commonjs': registry.npmjs.org/@rollup/plugin-commonjs/20.0.0_rollup@2.75.7
       '@rollup/plugin-node-resolve': registry.npmjs.org/@rollup/plugin-node-resolve/8.4.0_rollup@2.75.7
       '@rollup/plugin-replace': registry.npmjs.org/@rollup/plugin-replace/2.4.2_rollup@2.75.7
-      '@rollup/plugin-typescript': registry.npmjs.org/@rollup/plugin-typescript/8.3.3_i2xh4vonrskkyoggjt45flfb4i
+      '@rollup/plugin-typescript': registry.npmjs.org/@rollup/plugin-typescript/8.3.3_6m3355xsrtmvtsuejaomqj6cbi
       '@testing-library/jest-native': registry.npmjs.org/@testing-library/jest-native/4.0.5
       '@testing-library/react-native': registry.npmjs.org/@testing-library/react-native/9.1.0_hu3ahtgtujq76vsul4i4hbebdu
       '@types/autoprefixer': registry.npmjs.org/@types/autoprefixer/9.7.0
@@ -223,17 +224,16 @@ importers:
       react-test-renderer: registry.npmjs.org/react-test-renderer/18.0.0_react@18.0.0
       rimraf: registry.npmjs.org/rimraf/3.0.2
       rollup: registry.npmjs.org/rollup/2.75.7
-      rollup-plugin-buble: registry.npmjs.org/rollup-plugin-buble/0.19.8
       rollup-plugin-copy: registry.npmjs.org/rollup-plugin-copy/3.4.0
       rollup-plugin-node-externals: registry.npmjs.org/rollup-plugin-node-externals/4.0.0_rollup@2.75.7
       rollup-plugin-postcss: registry.npmjs.org/rollup-plugin-postcss/3.1.8
-      rollup-plugin-typescript2: registry.npmjs.org/rollup-plugin-typescript2/0.24.3_i2xh4vonrskkyoggjt45flfb4i
       shelljs: registry.npmjs.org/shelljs/0.8.5
       sinon: registry.npmjs.org/sinon/7.5.0
       stylelint: registry.npmjs.org/stylelint/14.9.1
       stylelint-config-standard-scss: registry.npmjs.org/stylelint-config-standard-scss/3.0.0_uyk3cwxn3favstz4untq233szu
       stylelint-order: registry.npmjs.org/stylelint-order/5.0.0_stylelint@14.9.1
       ts-jest: registry.npmjs.org/ts-jest/26.5.5_4nycgsvmr4wd6j3k72djcnxh2a
+      tslib: registry.npmjs.org/tslib/1.14.1
       typescript: registry.npmjs.org/typescript/4.6.3
       vue: registry.npmjs.org/vue/2.6.14
       vue-loader: registry.npmjs.org/vue-loader/17.0.0_webpack@5.69.0
@@ -364,7 +364,7 @@ importers:
     specifiers:
       '@tarojs/components': workspace:*
       '@tarojs/service': workspace:*
-      '@tarojs/shared': 3.5.0-beta.2
+      '@tarojs/shared': workspace:*
     dependencies:
       '@tarojs/components': link:../taro-components
       '@tarojs/service': link:../taro-service
@@ -508,6 +508,8 @@ importers:
   packages/taro-components-react:
     specifiers:
       '@babel/runtime': ^7.14.5
+      '@tarojs/taro': workspace:*
+      '@types/node': ^14.14.31
       better-scroll: ^1.14.1
       classnames: ^2.2.5
       intersection-observer: ^0.7.0
@@ -522,6 +524,9 @@ importers:
       resolve-pathname: registry.npmjs.org/resolve-pathname/3.0.0
       swiper: registry.npmjs.org/swiper/6.8.0
       weui: registry.npmjs.org/weui/1.1.3
+    devDependencies:
+      '@tarojs/taro': link:../taro
+      '@types/node': registry.npmjs.org/@types/node/14.18.21
 
   packages/taro-components-rn:
     specifiers:
@@ -639,7 +644,7 @@ importers:
   packages/taro-jd:
     specifiers:
       '@tarojs/service': workspace:*
-      '@tarojs/shared': 3.5.0-beta.2
+      '@tarojs/shared': workspace:*
     dependencies:
       '@tarojs/service': link:../taro-service
       '@tarojs/shared': link:../shared
@@ -779,18 +784,22 @@ importers:
   packages/taro-plugin-html:
     specifiers:
       '@tarojs/runtime': workspace:*
-      '@tarojs/shared': 3.5.0-beta.2
+      '@tarojs/service': workspace:*
+      '@tarojs/shared': workspace:*
     dependencies:
       '@tarojs/runtime': link:../taro-runtime
+      '@tarojs/service': link:../taro-service
       '@tarojs/shared': link:../shared
 
   packages/taro-plugin-mini-ci:
     specifiers:
+      '@tarojs/service': workspace:*
       minimist: ^1.2.5
       miniprogram-ci: ^1.6.1
       qrcode-terminal: ^0.12.0
       shelljs: ^0.8.4
     dependencies:
+      '@tarojs/service': link:../taro-service
       minimist: registry.npmjs.org/minimist/1.2.6
       miniprogram-ci: registry.npmjs.org/miniprogram-ci/1.8.25
       qrcode-terminal: registry.npmjs.org/qrcode-terminal/0.12.0
@@ -798,19 +807,29 @@ importers:
 
   packages/taro-plugin-react:
     specifiers:
+      '@tarojs/helper': workspace:*
       '@tarojs/runtime': workspace:*
+      '@tarojs/service': workspace:*
       '@tarojs/shared': workspace:*
+      '@tarojs/taro': workspace:*
       acorn: ^8.0.4
       acorn-walk: ^8.0.0
+      esbuild: ^0.14.27
     dependencies:
+      '@tarojs/helper': link:../taro-helper
       '@tarojs/runtime': link:../taro-runtime
+      '@tarojs/service': link:../taro-service
       '@tarojs/shared': link:../shared
       acorn: registry.npmjs.org/acorn/8.7.1
       acorn-walk: registry.npmjs.org/acorn-walk/8.2.0
+    devDependencies:
+      '@tarojs/taro': link:../taro
+      esbuild: registry.npmjs.org/esbuild/0.14.47
 
   packages/taro-plugin-react-devtools:
     specifiers:
       '@tarojs/helper': workspace:*
+      '@tarojs/service': workspace:*
       '@tarojs/shared': workspace:*
       '@tarojs/taro': workspace:*
       cross-spawn: ^7.0.3
@@ -818,6 +837,7 @@ importers:
       react-devtools: 4.14.0
     dependencies:
       '@tarojs/helper': link:../taro-helper
+      '@tarojs/service': link:../taro-service
       '@tarojs/shared': link:../shared
       '@tarojs/taro': link:../taro
       cross-spawn: registry.npmjs.org/cross-spawn/7.0.3
@@ -827,6 +847,7 @@ importers:
   packages/taro-plugin-vue-devtools:
     specifiers:
       '@tarojs/helper': workspace:*
+      '@tarojs/service': workspace:*
       '@tarojs/shared': workspace:*
       '@tarojs/taro': workspace:*
       '@vue/devtools': 6.0.0-beta.15
@@ -834,6 +855,7 @@ importers:
       detect-port: ^1.3.0
     dependencies:
       '@tarojs/helper': link:../taro-helper
+      '@tarojs/service': link:../taro-service
       '@tarojs/shared': link:../shared
       '@tarojs/taro': link:../taro
       '@vue/devtools': registry.npmjs.org/@vue/devtools/6.0.0-beta.15
@@ -845,14 +867,18 @@ importers:
       '@tarojs/helper': workspace:*
       '@tarojs/runner-utils': workspace:*
       '@tarojs/runtime': workspace:*
-      '@tarojs/shared': 3.5.0-beta.2
+      '@tarojs/service': workspace:*
+      '@tarojs/shared': workspace:*
+      '@tarojs/taro': workspace:*
       vue: ^2.0.0
     dependencies:
       '@tarojs/helper': link:../taro-helper
       '@tarojs/runner-utils': link:../taro-runner-utils
       '@tarojs/runtime': link:../taro-runtime
+      '@tarojs/service': link:../taro-service
       '@tarojs/shared': link:../shared
     devDependencies:
+      '@tarojs/taro': link:../taro
       vue: registry.npmjs.org/vue/2.6.14
 
   packages/taro-plugin-vue3:
@@ -860,21 +886,25 @@ importers:
       '@tarojs/helper': workspace:*
       '@tarojs/runner-utils': workspace:*
       '@tarojs/runtime': workspace:*
-      '@tarojs/shared': 3.5.0-beta.2
+      '@tarojs/service': workspace:*
+      '@tarojs/shared': workspace:*
+      '@tarojs/taro': workspace:*
       vue: ^3.0.0
     dependencies:
       '@tarojs/helper': link:../taro-helper
       '@tarojs/runner-utils': link:../taro-runner-utils
       '@tarojs/runtime': link:../taro-runtime
+      '@tarojs/service': link:../taro-service
       '@tarojs/shared': link:../shared
     devDependencies:
+      '@tarojs/taro': link:../taro
       vue: registry.npmjs.org/vue/3.2.37
 
   packages/taro-qq:
     specifiers:
       '@tarojs/plugin-platform-weapp': workspace:*
       '@tarojs/service': workspace:*
-      '@tarojs/shared': 3.5.0-beta.2
+      '@tarojs/shared': workspace:*
     dependencies:
       '@tarojs/plugin-platform-weapp': link:../taro-weapp
       '@tarojs/service': link:../taro-service
@@ -1114,10 +1144,13 @@ importers:
   packages/taro-runtime:
     specifiers:
       '@tarojs/shared': workspace:*
+      '@tarojs/taro': workspace:*
       lodash-es: 4.17.21
     dependencies:
       '@tarojs/shared': link:../shared
       lodash-es: registry.npmjs.org/lodash-es/4.17.21
+    devDependencies:
+      '@tarojs/taro': link:../taro
 
   packages/taro-runtime-rn:
     specifiers:
@@ -1160,7 +1193,7 @@ importers:
     specifiers:
       '@tarojs/components': workspace:*
       '@tarojs/service': workspace:*
-      '@tarojs/shared': 3.5.0-beta.2
+      '@tarojs/shared': workspace:*
     dependencies:
       '@tarojs/components': link:../taro-components
       '@tarojs/service': link:../taro-service
@@ -1170,7 +1203,7 @@ importers:
     specifiers:
       '@tarojs/components': workspace:*
       '@tarojs/service': workspace:*
-      '@tarojs/shared': 3.5.0-beta.2
+      '@tarojs/shared': workspace:*
     dependencies:
       '@tarojs/components': link:../taro-components
       '@tarojs/service': link:../taro-service
@@ -1180,7 +1213,7 @@ importers:
     specifiers:
       '@tarojs/components': workspace:*
       '@tarojs/service': workspace:*
-      '@tarojs/shared': 3.5.0-beta.2
+      '@tarojs/shared': workspace:*
     dependencies:
       '@tarojs/components': link:../taro-components
       '@tarojs/service': link:../taro-service
@@ -8007,6 +8040,21 @@ packages:
       rollup: registry.npmjs.org/rollup/2.75.7
     dev: true
 
+  registry.npmjs.org/@rollup/plugin-buble/0.21.3_rollup@2.75.7:
+    resolution: {integrity: sha512-Iv8cCuFPnMdqV4pcyU+OrfjOfagPArRQ1PyQjx5KgHk3dARedI+8PNTLSMpJts0lQJr8yF2pAU4GxpxCBJ9HYw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@rollup/plugin-buble/-/plugin-buble-0.21.3.tgz}
+    id: registry.npmjs.org/@rollup/plugin-buble/0.21.3
+    name: '@rollup/plugin-buble'
+    version: 0.21.3
+    engines: {node: '>= 8.0.0'}
+    peerDependencies:
+      rollup: ^1.20.0||^2.0.0
+    dependencies:
+      '@rollup/pluginutils': registry.npmjs.org/@rollup/pluginutils/3.1.0_rollup@2.75.7
+      '@types/buble': registry.npmjs.org/@types/buble/0.19.2
+      buble: registry.npmjs.org/buble/0.20.0
+      rollup: registry.npmjs.org/rollup/2.75.7
+    dev: true
+
   registry.npmjs.org/@rollup/plugin-commonjs/20.0.0_rollup@2.75.7:
     resolution: {integrity: sha512-5K0g5W2Ol8hAcTHqcTBHiA7M58tfmYi1o9KxeJuuRNpGaTa5iLjcyemBitCBcKXaHamOBBEH2dGom6v6Unmqjg==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@rollup/plugin-commonjs/-/plugin-commonjs-20.0.0.tgz}
     id: registry.npmjs.org/@rollup/plugin-commonjs/20.0.0
@@ -8058,7 +8106,7 @@ packages:
       rollup: registry.npmjs.org/rollup/2.75.7
     dev: true
 
-  registry.npmjs.org/@rollup/plugin-typescript/8.3.3_i2xh4vonrskkyoggjt45flfb4i:
+  registry.npmjs.org/@rollup/plugin-typescript/8.3.3_6m3355xsrtmvtsuejaomqj6cbi:
     resolution: {integrity: sha512-55L9SyiYu3r/JtqdjhwcwaECXP7JeJ9h1Sg1VWRJKIutla2MdZQodTgcCNybXLMCnqpNLEhS2vGENww98L1npg==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@rollup/plugin-typescript/-/plugin-typescript-8.3.3.tgz}
     id: registry.npmjs.org/@rollup/plugin-typescript/8.3.3
     name: '@rollup/plugin-typescript'
@@ -8075,6 +8123,7 @@ packages:
       '@rollup/pluginutils': registry.npmjs.org/@rollup/pluginutils/3.1.0_rollup@2.75.7
       resolve: registry.npmjs.org/resolve/1.22.1
       rollup: registry.npmjs.org/rollup/2.75.7
+      tslib: registry.npmjs.org/tslib/1.14.1
       typescript: registry.npmjs.org/typescript/4.6.3
     dev: true
 
@@ -8736,6 +8785,14 @@ packages:
     deprecated: This is a stub types definition. browserslist provides its own type definitions, so you do not need this installed.
     dependencies:
       browserslist: registry.npmjs.org/browserslist/4.21.0
+    dev: true
+
+  registry.npmjs.org/@types/buble/0.19.2:
+    resolution: {integrity: sha512-uUD8zIfXMKThmFkahTXDGI3CthFH1kMg2dOm3KLi4GlC5cbARA64bEcUMbbWdWdE73eoc/iBB9PiTMqH0dNS2Q==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@types/buble/-/buble-0.19.2.tgz}
+    name: '@types/buble'
+    version: 0.19.2
+    dependencies:
+      magic-string: registry.npmjs.org/magic-string/0.25.9
     dev: true
 
   registry.npmjs.org/@types/cacheable-request/6.0.2:
@@ -13399,10 +13456,10 @@ packages:
       buffer: registry.npmjs.org/buffer/5.7.1
     dev: false
 
-  registry.npmjs.org/buble/0.19.8:
-    resolution: {integrity: sha512-IoGZzrUTY5fKXVkgGHw3QeXFMUNBFv+9l8a4QJKG1JhG3nCMHTdEX1DCOg8568E2Q9qvAQIiSokv6Jsgx8p2cA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/buble/-/buble-0.19.8.tgz}
+  registry.npmjs.org/buble/0.20.0:
+    resolution: {integrity: sha512-/1gnaMQE8xvd5qsNBl+iTuyjJ9XxeaVxAMF86dQ4EyxFJOZtsgOS8Ra+7WHgZTam5IFDtt4BguN0sH0tVTKrOw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/buble/-/buble-0.20.0.tgz}
     name: buble
-    version: 0.19.8
+    version: 0.20.0
     hasBin: true
     dependencies:
       acorn: registry.npmjs.org/acorn/6.4.2
@@ -13411,8 +13468,7 @@ packages:
       chalk: registry.npmjs.org/chalk/2.4.2
       magic-string: registry.npmjs.org/magic-string/0.25.9
       minimist: registry.npmjs.org/minimist/1.2.6
-      os-homedir: registry.npmjs.org/os-homedir/2.0.0
-      regexpu-core: registry.npmjs.org/regexpu-core/4.8.0
+      regexpu-core: registry.npmjs.org/regexpu-core/4.5.4
     dev: true
 
   registry.npmjs.org/buffer-alloc-unsafe/1.1.0:
@@ -27471,14 +27527,6 @@ packages:
     version: 1.0.2
     engines: {node: '>=0.10.0'}
 
-  registry.npmjs.org/os-homedir/2.0.0:
-    resolution: {integrity: sha512-saRNz0DSC5C/I++gFIaJTXoFJMRwiP5zHar5vV3xQ2TkgEw6hDCcU5F272JjUylpiVgBrZNQHnfjkLabTfb92Q==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/os-homedir/-/os-homedir-2.0.0.tgz}
-    name: os-homedir
-    version: 2.0.0
-    engines: {node: '>=0.10.0'}
-    deprecated: This is not needed anymore. Use `require('os').homedir()` instead.
-    dev: true
-
   registry.npmjs.org/os-tmpdir/1.0.2:
     resolution: {integrity: sha512-D2FR03Vir7FIu45XBY20mTb+/ZSWB00sjU9jdQXt83gDrI4Ztz5Fs7/yy74g2N5SVQY4xY1qDr4rNddwYRVX0g==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/os-tmpdir/-/os-tmpdir-1.0.2.tgz}
     name: os-tmpdir
@@ -31232,10 +31280,10 @@ packages:
     dependencies:
       regenerate: registry.npmjs.org/regenerate/1.4.2
 
-  registry.npmjs.org/regenerate-unicode-properties/9.0.0:
-    resolution: {integrity: sha512-3E12UeNSPfjrgwjkR81m5J7Aw/T55Tu7nUyZVQYCKEOs+2dkxEY+DpPtZzO4YruuiPb7NkYLVcyJC4+zCbk5pA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/regenerate-unicode-properties/-/regenerate-unicode-properties-9.0.0.tgz}
+  registry.npmjs.org/regenerate-unicode-properties/8.2.0:
+    resolution: {integrity: sha512-F9DjY1vKLo/tPePDycuH3dn9H1OTPIkVD9Kz4LODu+F2C75mgjAJ7x/gwy6ZcSNRAAkhNlJSOHRe8k3p+K9WhA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/regenerate-unicode-properties/-/regenerate-unicode-properties-8.2.0.tgz}
     name: regenerate-unicode-properties
-    version: 9.0.0
+    version: 8.2.0
     engines: {node: '>=4'}
     dependencies:
       regenerate: registry.npmjs.org/regenerate/1.4.2
@@ -31321,18 +31369,18 @@ packages:
       regjsparser: registry.npmjs.org/regjsparser/0.1.5
     dev: false
 
-  registry.npmjs.org/regexpu-core/4.8.0:
-    resolution: {integrity: sha512-1F6bYsoYiz6is+oz70NWur2Vlh9KWtswuRuzJOfeYUrfPX2o8n74AnUVaOGDbUqVGO9fNHu48/pjJO4sNVwsOg==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/regexpu-core/-/regexpu-core-4.8.0.tgz}
+  registry.npmjs.org/regexpu-core/4.5.4:
+    resolution: {integrity: sha512-BtizvGtFQKGPUcTy56o3nk1bGRp4SZOTYrDtGNlqCQufptV5IkkLN6Emw+yunAJjzf+C9FQFtvq7IoA3+oMYHQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/regexpu-core/-/regexpu-core-4.5.4.tgz}
     name: regexpu-core
-    version: 4.8.0
+    version: 4.5.4
     engines: {node: '>=4'}
     dependencies:
       regenerate: registry.npmjs.org/regenerate/1.4.2
-      regenerate-unicode-properties: registry.npmjs.org/regenerate-unicode-properties/9.0.0
+      regenerate-unicode-properties: registry.npmjs.org/regenerate-unicode-properties/8.2.0
       regjsgen: registry.npmjs.org/regjsgen/0.5.2
-      regjsparser: registry.npmjs.org/regjsparser/0.7.0
-      unicode-match-property-ecmascript: registry.npmjs.org/unicode-match-property-ecmascript/2.0.0
-      unicode-match-property-value-ecmascript: registry.npmjs.org/unicode-match-property-value-ecmascript/2.0.0
+      regjsparser: registry.npmjs.org/regjsparser/0.6.9
+      unicode-match-property-ecmascript: registry.npmjs.org/unicode-match-property-ecmascript/1.0.4
+      unicode-match-property-value-ecmascript: registry.npmjs.org/unicode-match-property-value-ecmascript/1.2.0
     dev: true
 
   registry.npmjs.org/regexpu-core/5.0.1:
@@ -31410,10 +31458,10 @@ packages:
       jsesc: registry.npmjs.org/jsesc/0.5.0
     dev: false
 
-  registry.npmjs.org/regjsparser/0.7.0:
-    resolution: {integrity: sha512-A4pcaORqmNMDVwUjWoTzuhwMGpP+NykpfqAsEgI1FSH/EzC7lrN5TMd+kN8YCovX+jMpu8eaqXgXPCa0g8FQNQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/regjsparser/-/regjsparser-0.7.0.tgz}
+  registry.npmjs.org/regjsparser/0.6.9:
+    resolution: {integrity: sha512-ZqbNRz1SNjLAiYuwY0zoXW8Ne675IX5q+YHioAGbCw4X96Mjl2+dcX9B2ciaeyYjViDAfvIjFpQjJgLttTEERQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/regjsparser/-/regjsparser-0.6.9.tgz}
     name: regjsparser
-    version: 0.7.0
+    version: 0.6.9
     hasBin: true
     dependencies:
       jsesc: registry.npmjs.org/jsesc/0.5.0
@@ -31754,14 +31802,6 @@ packages:
     version: 0.2.1
     deprecated: https://github.com/lydell/resolve-url#deprecated
 
-  registry.npmjs.org/resolve/1.12.0:
-    resolution: {integrity: sha512-B/dOmuoAik5bKcD6s6nXDCjzUKnaDvdkRyAk6rsmsKLipWj4797iothd7jmmUhWTfinVMU+wc56rYKsit2Qy4w==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/resolve/-/resolve-1.12.0.tgz}
-    name: resolve
-    version: 1.12.0
-    dependencies:
-      path-parse: registry.npmjs.org/path-parse/1.0.7
-    dev: true
-
   registry.npmjs.org/resolve/1.22.1:
     resolution: {integrity: sha512-nBpuuYuY5jFsli/JIs1oldw6fOQCBioohqWZg/2hiaOybXOft4lonv85uDOKXdf8rhyK159cxU5cDcK/NKk8zw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/resolve/-/resolve-1.22.1.tgz}
     name: resolve
@@ -31965,16 +32005,6 @@ packages:
       semver-compare: registry.npmjs.org/semver-compare/1.0.0
       sprintf-js: registry.npmjs.org/sprintf-js/1.1.2
 
-  registry.npmjs.org/rollup-plugin-buble/0.19.8:
-    resolution: {integrity: sha512-8J4zPk2DQdk3rxeZvxgzhHh/rm5nJkjwgcsUYisCQg1QbT5yagW+hehYEW7ZNns/NVbDCTv4JQ7h4fC8qKGOKw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/rollup-plugin-buble/-/rollup-plugin-buble-0.19.8.tgz}
-    name: rollup-plugin-buble
-    version: 0.19.8
-    deprecated: This module has been deprecated and is no longer maintained. Please use @rollup/plugin-buble.
-    dependencies:
-      buble: registry.npmjs.org/buble/0.19.8
-      rollup-pluginutils: registry.npmjs.org/rollup-pluginutils/2.8.2
-    dev: true
-
   registry.npmjs.org/rollup-plugin-copy/3.4.0:
     resolution: {integrity: sha512-rGUmYYsYsceRJRqLVlE9FivJMxJ7X6jDlP79fmFkL8sJs7VVMSVyA2yfyL+PGyO/vJs4A87hwhgVfz61njI+uQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/rollup-plugin-copy/-/rollup-plugin-copy-3.4.0.tgz}
     name: rollup-plugin-copy
@@ -32021,32 +32051,6 @@ packages:
       rollup-pluginutils: registry.npmjs.org/rollup-pluginutils/2.8.2
       safe-identifier: registry.npmjs.org/safe-identifier/0.4.2
       style-inject: registry.npmjs.org/style-inject/0.3.0
-    dev: true
-
-  registry.npmjs.org/rollup-plugin-typescript2/0.24.3_i2xh4vonrskkyoggjt45flfb4i:
-    resolution: {integrity: sha512-D7yovQlhnRoz7pG/RF0ni+koxgzEShwfAGuOq6OVqKzcATHOvmUt2ePeYVdc9N0adcW1PcTzklUEM0oNWE/POw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/rollup-plugin-typescript2/-/rollup-plugin-typescript2-0.24.3.tgz}
-    id: registry.npmjs.org/rollup-plugin-typescript2/0.24.3
-    name: rollup-plugin-typescript2
-    version: 0.24.3
-    peerDependencies:
-      rollup: '>=0.68.0'
-      typescript: '>=2.4.0'
-    dependencies:
-      find-cache-dir: registry.npmjs.org/find-cache-dir/3.3.2
-      fs-extra: registry.npmjs.org/fs-extra/8.1.0
-      resolve: registry.npmjs.org/resolve/1.12.0
-      rollup: registry.npmjs.org/rollup/2.75.7
-      rollup-pluginutils: registry.npmjs.org/rollup-pluginutils/2.8.1
-      tslib: registry.npmjs.org/tslib/1.10.0
-      typescript: registry.npmjs.org/typescript/4.6.3
-    dev: true
-
-  registry.npmjs.org/rollup-pluginutils/2.8.1:
-    resolution: {integrity: sha512-J5oAoysWar6GuZo0s+3bZ6sVZAC0pfqKz68De7ZgDi5z63jOVZn1uJL/+z1jeKHNbGII8kAyHF5q8LnxSX5lQg==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/rollup-pluginutils/-/rollup-pluginutils-2.8.1.tgz}
-    name: rollup-pluginutils
-    version: 2.8.1
-    dependencies:
-      estree-walker: registry.npmjs.org/estree-walker/0.6.1
     dev: true
 
   registry.npmjs.org/rollup-pluginutils/2.8.2:
@@ -35127,6 +35131,7 @@ packages:
     resolution: {integrity: sha512-qOebF53frne81cf0S9B41ByenJ3/IuH8yJKngAX35CmiZySA0khhkovshKK+jGCaMnVomla7gVlIcc3EvKPbTQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/tslib/-/tslib-1.10.0.tgz}
     name: tslib
     version: 1.10.0
+    dev: false
 
   registry.npmjs.org/tslib/1.14.1:
     resolution: {integrity: sha512-Xni35NKzjgMrwevysHTCArtLDpPvye8zV/0E4EyYn43P7/7qvQwPh9BGkHewbMulVntbigmcT7rdX3BNo9wRJg==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/tslib/-/tslib-1.14.1.tgz}
@@ -35432,11 +35437,28 @@ packages:
       string.fromcodepoint: registry.npmjs.org/string.fromcodepoint/0.2.1
     dev: false
 
+  registry.npmjs.org/unicode-canonical-property-names-ecmascript/1.0.4:
+    resolution: {integrity: sha512-jDrNnXWHd4oHiTZnx/ZG7gtUTVp+gCcTTKr8L0HjlwphROEW3+Him+IpvC+xcJEFegapiMZyZe02CyuOnRmbnQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/unicode-canonical-property-names-ecmascript/-/unicode-canonical-property-names-ecmascript-1.0.4.tgz}
+    name: unicode-canonical-property-names-ecmascript
+    version: 1.0.4
+    engines: {node: '>=4'}
+    dev: true
+
   registry.npmjs.org/unicode-canonical-property-names-ecmascript/2.0.0:
     resolution: {integrity: sha512-yY5PpDlfVIU5+y/BSCxAJRBIS1Zc2dDG3Ujq+sR0U+JjUevW2JhocOF+soROYDSaAezOzOKuyyixhD6mBknSmQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/unicode-canonical-property-names-ecmascript/-/unicode-canonical-property-names-ecmascript-2.0.0.tgz}
     name: unicode-canonical-property-names-ecmascript
     version: 2.0.0
     engines: {node: '>=4'}
+
+  registry.npmjs.org/unicode-match-property-ecmascript/1.0.4:
+    resolution: {integrity: sha512-L4Qoh15vTfntsn4P1zqnHulG0LdXgjSO035fEpdtp6YxXhMT51Q6vgM5lYdG/5X3MjS+k/Y9Xw4SFCY9IkR0rg==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/unicode-match-property-ecmascript/-/unicode-match-property-ecmascript-1.0.4.tgz}
+    name: unicode-match-property-ecmascript
+    version: 1.0.4
+    engines: {node: '>=4'}
+    dependencies:
+      unicode-canonical-property-names-ecmascript: registry.npmjs.org/unicode-canonical-property-names-ecmascript/1.0.4
+      unicode-property-aliases-ecmascript: registry.npmjs.org/unicode-property-aliases-ecmascript/1.1.0
+    dev: true
 
   registry.npmjs.org/unicode-match-property-ecmascript/2.0.0:
     resolution: {integrity: sha512-5kaZCrbp5mmbz5ulBkDkbY0SsPOjKqVS35VpL9ulMPfSl0J0Xsm+9Evphv9CoIZFwre7aJoa94AY6seMKGVN5Q==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/unicode-match-property-ecmascript/-/unicode-match-property-ecmascript-2.0.0.tgz}
@@ -35447,11 +35469,25 @@ packages:
       unicode-canonical-property-names-ecmascript: registry.npmjs.org/unicode-canonical-property-names-ecmascript/2.0.0
       unicode-property-aliases-ecmascript: registry.npmjs.org/unicode-property-aliases-ecmascript/2.0.0
 
+  registry.npmjs.org/unicode-match-property-value-ecmascript/1.2.0:
+    resolution: {integrity: sha512-wjuQHGQVofmSJv1uVISKLE5zO2rNGzM/KCYZch/QQvez7C1hUhBIuZ701fYXExuufJFMPhv2SyL8CyoIfMLbIQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/unicode-match-property-value-ecmascript/-/unicode-match-property-value-ecmascript-1.2.0.tgz}
+    name: unicode-match-property-value-ecmascript
+    version: 1.2.0
+    engines: {node: '>=4'}
+    dev: true
+
   registry.npmjs.org/unicode-match-property-value-ecmascript/2.0.0:
     resolution: {integrity: sha512-7Yhkc0Ye+t4PNYzOGKedDhXbYIBe1XEQYQxOPyhcXNMJ0WCABqqj6ckydd6pWRZTHV4GuCPKdBAUiMc60tsKVw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/unicode-match-property-value-ecmascript/-/unicode-match-property-value-ecmascript-2.0.0.tgz}
     name: unicode-match-property-value-ecmascript
     version: 2.0.0
     engines: {node: '>=4'}
+
+  registry.npmjs.org/unicode-property-aliases-ecmascript/1.1.0:
+    resolution: {integrity: sha512-PqSoPh/pWetQ2phoj5RLiaqIk4kCNwoV3CI+LfGmWLKI3rE3kl1h59XpX2BjgDrmbxD9ARtQobPGU1SguCYuQg==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/unicode-property-aliases-ecmascript/-/unicode-property-aliases-ecmascript-1.1.0.tgz}
+    name: unicode-property-aliases-ecmascript
+    version: 1.1.0
+    engines: {node: '>=4'}
+    dev: true
 
   registry.npmjs.org/unicode-property-aliases-ecmascript/2.0.0:
     resolution: {integrity: sha512-5Zfuy9q/DFr4tfO7ZPeVXb1aPoeQSdeFMLpYuFebehDAhbuevLs5yxSZmIFN1tP5F9Wl4IpJrYojg85/zgyZHQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/unicode-property-aliases-ecmascript/-/unicode-property-aliases-ecmascript-2.0.0.tgz}

@@ -1,17 +1,15 @@
-import typescript from 'rollup-plugin-typescript2'
+import typescript from '@rollup/plugin-typescript'
 import * as path from 'path'
 
 const cwd = __dirname
 
 const base = {
   external: ['@tarojs/shared', '@tarojs/service'],
-  plugins: [typescript({
-    useTsconfigDeclarationDir: true
-  })]
+  plugins: [typescript()]
 }
 
 // 供 CLI 编译时使用的 Taro 插件入口
-const comileConfig = {
+const compileConfig = {
   input: path.join(cwd, 'src/index.ts'),
   output: {
     file: path.join(cwd, 'dist/index.js'),
@@ -55,4 +53,4 @@ const otherConfig = {
   ...base
 }
 
-module.exports = [comileConfig, runtimeConfig, runtimeUtilsConfig, otherConfig]
+module.exports = [compileConfig, runtimeConfig, runtimeUtilsConfig, otherConfig]

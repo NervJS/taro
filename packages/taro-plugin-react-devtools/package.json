@@ -29,6 +29,7 @@
   "homepage": "https://github.com/NervJS/taro#readme",
   "dependencies": {
     "@tarojs/helper": "workspace:*",
+    "@tarojs/service": "workspace:*",
     "@tarojs/shared": "workspace:*",
     "@tarojs/taro": "workspace:*",
     "cross-spawn": "^7.0.3",

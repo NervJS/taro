@@ -28,6 +28,7 @@
     "url": "https://github.com/NervJS/taro/issues"
   },
   "dependencies": {
+    "@tarojs/service": "workspace:*",
     "minimist": "^1.2.5",
     "miniprogram-ci": "^1.6.1",
     "qrcode-terminal": "^0.12.0",

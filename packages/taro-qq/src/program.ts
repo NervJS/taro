@@ -1,7 +1,7 @@
-import { Weapp } from '@tarojs/plugin-platform-weapp'
-import { components } from './components'
-
 import type { IOptions } from '@tarojs/plugin-platform-weapp'
+import { Weapp } from '@tarojs/plugin-platform-weapp'
+
+import { components } from './components'
 
 const PACKAGE_NAME = '@tarojs/plugin-platform-qq'
 
