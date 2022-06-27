@@ -33,9 +33,9 @@
   },
   "homepage": "https://github.com/NervJS/taro#readme",
   "dependencies": {
-    "@tarojs/helper": "3.5.0-beta.2",
-    "@tarojs/shared": "3.5.0-beta.2",
-    "@tarojs/taro": "3.5.0-beta.2",
+    "@tarojs/helper": "workspace:*",
+    "@tarojs/shared": "workspace:*",
+    "@tarojs/taro": "workspace:*",
     "fs-extra": "^8.1.0",
     "joi": "^17.6.0",
     "lodash": "^4.17.21",

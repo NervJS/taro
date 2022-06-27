@@ -39,7 +39,7 @@
     "react-native-webview": "~11.14.3"
   },
   "devDependencies": {
-    "@tarojs/components": "3.5.0-beta.2",
+    "@tarojs/components": "workspace:*",
     "@types/react": "^17.0.0",
     "@types/react-native": "^0.67.7",
     "@unimodules/core": "^7.1.2",

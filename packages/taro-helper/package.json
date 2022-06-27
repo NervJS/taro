@@ -42,7 +42,7 @@
     "@babel/runtime": "^7.14.5",
     "@swc/core": "^1.2.204",
     "@swc/register": "^0.1.10",
-    "@tarojs/taro": "3.5.0-beta.2",
+    "@tarojs/taro": "workspace:*",
     "chalk": "3.0.0",
     "chokidar": "^3.3.1",
     "cross-spawn": "^7.0.3",
