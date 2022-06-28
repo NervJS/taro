@@ -38,21 +38,6 @@ export class TaroNode extends TaroEventTarget {
 
   private hydrate = (node: TaroNode) => () => hydrate(node as TaroElement)
 
-  /**
-   * like jQuery's $.empty()
-   */
-  private _empty () {
-    while (this.firstChild) {
-      // Data Structure
-      const child = this.firstChild
-      child.parentNode = null
-      this.childNodes.shift()
-
-      // eventSource
-      eventSource.removeNodeTree(child)
-    }
-  }
-
   private updateChildNodes (isClean?: boolean) {
     const cleanChildNodes = () => []
     const rerenderChildNodes = () => {
@@ -126,25 +111,30 @@ export class TaroNode extends TaroEventTarget {
    */
   // eslint-disable-next-line accessor-pairs
   public set textContent (text: string) {
-    const document = env.document
-    const newText = document.createTextNode(text)
+    const removedNodes = this.childNodes.slice()
+    const addedNodes: TaroNode[] = []
+
+    // Handle old children' data structure & ref
+    while (this.firstChild) {
+      this.removeChild(this.firstChild, { doUpdate: false })
+    }
+
+    if (text === '') {
+      this.updateChildNodes(true)
+    } else {
+      const newText = env.document.createTextNode(text)
+      addedNodes.push(newText)
+      this.appendChild(newText)
+      this.updateChildNodes()
+    }
 
     // @Todo: appendChild 会多触发一次
     MutationObserver.record({
       type: MutationRecordType.CHILD_LIST,
       target: this,
-      removedNodes: this.childNodes.slice(),
-      addedNodes: text === '' ? [] : [newText]
+      removedNodes,
+      addedNodes
     })
-
-    this._empty()
-
-    if (text === '') {
-      this.updateChildNodes(true)
-    } else {
-      this.appendChild(newText)
-      this.updateChildNodes()
-    }
   }
 
   /**
@@ -182,8 +172,19 @@ export class TaroNode extends TaroEventTarget {
 
     // Serialization
     if (this._root) {
-      if (!refChild || isReplace) {
-        // appendChild & replaceChild
+      if (!refChild) {
+        // appendChild
+        const isOnlyChild = this.childNodes.length === 1
+        if (isOnlyChild) {
+          this.updateChildNodes()
+        } else {
+          this.enqueueUpdate({
+            path: newChild._path,
+            value: this.hydrate(newChild)
+          })
+        }
+      } else if (isReplace) {
+        // replaceChild
         this.enqueueUpdate({
           path: newChild._path,
           value: this.hydrate(newChild)
