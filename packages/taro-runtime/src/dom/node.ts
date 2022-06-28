@@ -38,28 +38,32 @@ export class TaroNode extends TaroEventTarget {
 
   private hydrate = (node: TaroNode) => () => hydrate(node as TaroElement)
 
-  private resetChildIndexes () {
-    // 计算路径时，先过滤掉 comment 节点
-    this.enqueueUpdate({
-      path: `${this._path}.${CHILDNODES}`,
-      value: () => this.childNodes.filter(node => !isComment(node)).map(node => node.sid)
-    })
+  /**
+   * like jQuery's $.empty()
+   */
+  private _empty () {
+    while (this.firstChild) {
+      // Data Structure
+      const child = this.firstChild
+      child.parentNode = null
+      this.childNodes.shift()
+
+      // eventSource
+      eventSource.removeNodeTree(child)
+    }
   }
 
-  private hydrateNode (child: TaroNode, options: { isSetIndex?: boolean, isRemove?: boolean } = {}) {
-    const _path = this._path
-    this.enqueueUpdate({
-      path: `${_path}.${child.sid}`,
-      value: options.isRemove ? null : this.hydrate(child)
-    })
-    if (options.isRemove !== true && options.isSetIndex !== false) {
-      const indexOfChild = this.childNodes.filter(node => !isComment(node)).indexOf(child)
-      const index = hooks.call('getPathIndex', indexOfChild)
-      this.enqueueUpdate({
-        path: `${_path}.${CHILDNODES}.${index}`,
-        value: child.sid
-      })
+  private updateChildNodes (isClean?: boolean) {
+    const cleanChildNodes = () => []
+    const rerenderChildNodes = () => {
+      const childNodes = this.childNodes.filter(node => !isComment(node))
+      return childNodes.map(hydrate)
     }
+
+    this.enqueueUpdate({
+      path: `${this._path}.${CHILDNODES}`,
+      value: isClean ? cleanChildNodes : rerenderChildNodes
+    })
   }
 
   public get _root (): TaroRootElement | null {
@@ -78,11 +82,12 @@ export class TaroNode extends TaroEventTarget {
     const parentNode = this.parentNode
 
     if (parentNode) {
-      // const list = parentNode.childNodes.filter(node => !isComment(node))
-      // const indexOfNode = list.indexOf(this)
-      // const index = hooks.call('getPathIndex', indexOfNode)
+      // 计算路径时，先过滤掉 comment 节点
+      const list = parentNode.childNodes.filter(node => !isComment(node))
+      const indexOfNode = list.indexOf(this)
+      const index = hooks.call('getPathIndex', indexOfNode)
 
-      return `${parentNode._path}.${this.sid}`
+      return `${parentNode._path}.${CHILDNODES}.${index}`
     }
 
     return ''
@@ -121,25 +126,25 @@ export class TaroNode extends TaroEventTarget {
    */
   // eslint-disable-next-line accessor-pairs
   public set textContent (text: string) {
-    const addedNodes: TaroNode[] = []
-    while (this.firstChild) {
-      this.removeChild(this.firstChild)
-    }
-
-    if (text !== '') {
-      const document = env.document
-      const newText = document.createTextNode(text)
-      addedNodes.push(newText)
-      this.appendChild(newText)
-    }
+    const document = env.document
+    const newText = document.createTextNode(text)
 
     // @Todo: appendChild 会多触发一次
     MutationObserver.record({
       type: MutationRecordType.CHILD_LIST,
       target: this,
       removedNodes: this.childNodes.slice(),
-      addedNodes
+      addedNodes: text === '' ? [] : [newText]
     })
+
+    this._empty()
+
+    if (text === '') {
+      this.updateChildNodes(true)
+    } else {
+      this.appendChild(newText)
+      this.updateChildNodes()
+    }
   }
 
   /**
@@ -162,12 +167,7 @@ export class TaroNode extends TaroEventTarget {
     // Parent release newChild
     //   - cleanRef: false (No need to clean eventSource, because newChild is about to be inserted)
     //   - update: true (Need to update parent.childNodes, because parent.childNodes is reordered)
-    const isSort = newChild.parentNode === this
-    if (isSort) {
-      newChild.remove({ cleanRef: false, doUpdate: false })
-    } else {
-      newChild.remove({ cleanRef: false })
-    }
+    newChild.remove({ cleanRef: false })
 
     // Data structure
     newChild.parentNode = this
@@ -181,38 +181,15 @@ export class TaroNode extends TaroEventTarget {
     }
 
     // Serialization
-    if (this._root) {
-      if (refChild) {
-        if (isReplace) {
-          // replaceChild
-
-          // Destroy the refChild
-          //   - cleanRef: true (Need to clean eventSource, because the refChild was detached from the DOM tree)
-          //   - update: false (No need to update parent.childNodes, because replace will not cause the parent.childNodes being reordered)
-          refChild.remove({ doUpdate: false })
-          this.hydrateNode(refChild, { isRemove: true })
-          if (isSort) {
-            this.resetChildIndexes()
-          } else {
-            this.hydrateNode(newChild)
-          }
-        } else {
-          // insertBefore
-          this.resetChildIndexes()
-          if (!isSort) {
-            this.hydrateNode(newChild, { isSetIndex: false })
-          }
-        }
-      } else {
-        // appendChild
-        const isOnlyChild = this.childNodes.length === 1
-        if (isSort) {
-          this.resetChildIndexes()
-        } else {
-          isOnlyChild && this.resetChildIndexes()
-          this.hydrateNode(newChild, { isSetIndex: !isOnlyChild })
-        }
-      }
+    if (!refChild || isReplace) {
+      // appendChild & replaceChild
+      this.enqueueUpdate({
+        path: newChild._path,
+        value: this.hydrate(newChild)
+      })
+    } else {
+      // insertBefore
+      this.updateChildNodes()
     }
 
     MutationObserver.record({
@@ -257,6 +234,11 @@ export class TaroNode extends TaroEventTarget {
     // Insert the newChild
     this.insertBefore(newChild, oldChild, true)
 
+    // Destroy the oldChild
+    //   - cleanRef: true (Need to clean eventSource, because the oldChild was detached from the DOM tree)
+    //   - update: false (No need to update parent.childNodes, because replace will not cause the parent.childNodes being reordered)
+    oldChild.remove({ doUpdate: false })
+
     return oldChild
   }
 
@@ -293,16 +275,8 @@ export class TaroNode extends TaroEventTarget {
     }
 
     // Serialization
-    if (this._root && doUpdate !== false) {
-      this.resetChildIndexes()
-      if (this.childNodes.length === 0) {
-        this.enqueueUpdate({
-          path: this._path,
-          value: this.hydrate(this)
-        })
-      } else {
-        this.hydrateNode(child, { isRemove: true })
-      }
+    if (doUpdate !== false) {
+      this.updateChildNodes()
     }
 
     return child

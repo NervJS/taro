@@ -154,7 +154,6 @@ export function mergeInternalComponents (components) {
       internalComponents[name] = components[name]
     }
   })
-  return internalComponents
 }
 
 export function getComponentsAlias (origin: typeof internalComponents) {

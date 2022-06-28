@@ -15,13 +15,13 @@ export interface MpInstance {
 }
 
 export interface MiniElementData {
-  [Shortcuts.Childnodes]?: string[]
+  [Shortcuts.Childnodes]?: MiniData[]
   [Shortcuts.NodeName]: string
   [Shortcuts.Class]?: string
   [Shortcuts.Style]?: string
   uid?: string
   sid: string
-  [key: string]: unknown | Record<string, MiniData>
+  [key: string]: unknown
 }
 
 interface MiniTextData {
@@ -31,4 +31,4 @@ interface MiniTextData {
 
 export type MiniData = MiniElementData | MiniTextData
 
-export type HydratedData = () => MiniData | MiniData[] | string[]
+export type HydratedData = () => MiniData | MiniData[]
