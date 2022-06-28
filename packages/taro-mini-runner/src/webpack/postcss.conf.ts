@@ -1,5 +1,5 @@
-import { IPostcssOption } from '@tarojs/taro/types/compile'
 import { isNpmPkg, recursiveMerge } from '@tarojs/helper'
+import { IPostcssOption } from '@tarojs/taro/types/compile'
 import * as path from 'path'
 import { sync as resolveSync } from 'resolve'
 

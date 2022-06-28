@@ -16,7 +16,7 @@ declare module 'webpack/lib/container/ModuleFederationPlugin' {
 declare module 'webpack/lib/container/RemoteModule' {
   import webpack from 'webpack'
   class RemoteModule extends webpack.Module {
-    constructor (request: string, externalRequests: string[], internalRequest: string, shareScope: string): RemoteModule
+    constructor (request: string, externalRequests: string[], internalRequest: string, shareScope: string)
     request: string
     externalRequests: string[]
     internalRequest: string

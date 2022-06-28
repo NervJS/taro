@@ -135,7 +135,7 @@ export default class TaroMiniPlugin {
    * 自动驱动 tapAsync
    */
   tryAsync<T extends Compiler | Compilation> (fn: (target: T) => Promise<any>) {
-    return async ([arg]: [T], callback: any) => {
+    return async (arg: T, callback: any) => {
       try {
         await fn(arg)
         callback()
@@ -197,7 +197,7 @@ export default class TaroMiniPlugin {
     /** compilation.addEntry */
     compiler.hooks.make.tapAsync(
       PLUGIN_NAME,
-      this.tryAsync<Compilation>(async (compilation) => {
+      this.tryAsync<Compilation>(async compilation => {
         const dependencies = this.dependencies
         const promises: Promise<null>[] = []
         this.compileIndependentPages(compiler, compilation, dependencies, promises)
@@ -214,7 +214,7 @@ export default class TaroMiniPlugin {
       })
     )
 
-    compiler.hooks.compilation.tap(PLUGIN_NAME, ([compilation], { normalModuleFactory }) => {
+    compiler.hooks.compilation.tap(PLUGIN_NAME, (compilation, { normalModuleFactory }) => {
       /** For Webpack compilation get factory from compilation.dependencyFactories by denpendence's constructor */
       compilation.dependencyFactories.set(EntryDependency, normalModuleFactory)
       compilation.dependencyFactories.set(TaroSingleEntryDependency as any, normalModuleFactory)
@@ -299,7 +299,7 @@ export default class TaroMiniPlugin {
 
     compiler.hooks.afterEmit.tapAsync(
       PLUGIN_NAME,
-      this.tryAsync<Compilation>(async (compilation) => {
+      this.tryAsync<Compilation>(async compilation => {
         await this.addTarBarFilesToDependencies(compilation)
       })
     )
@@ -550,7 +550,7 @@ export default class TaroMiniPlugin {
     })
 
     // webpack createChunkAssets 前一刻，去除所有 config chunks
-    compiler.hooks.compilation.tap(PLUGIN_NAME, ([compilation]) => {
+    compiler.hooks.compilation.tap(PLUGIN_NAME, compilation => {
       compilation.hooks.beforeChunkAssets.tap(PLUGIN_NAME, () => {
         const chunks = compilation.chunks
         const configNames = Object.keys(filesConfig)

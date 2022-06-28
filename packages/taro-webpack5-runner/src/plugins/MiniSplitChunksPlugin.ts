@@ -347,11 +347,11 @@ export default class MiniSplitChunksPlugin extends SplitChunksPlugin {
     /**
      * 当一个编译创建完成时，调用该方法
      */
-    compiler.hooks.thisCompilation.tap(PLUGIN_NAME, ([compilation]) => {
+    compiler.hooks.thisCompilation.tap(PLUGIN_NAME, (compilation: Compilation) => {
       /**
        * 在chunk优化阶段的开始时，调用该方法
        */
-      compilation.hooks.optimizeChunks.tap(PLUGIN_NAME, ([chunks]) => {
+      compilation.hooks.optimizeChunks.tap(PLUGIN_NAME, (chunks: Chunk[]) => {
         const splitChunksOriginConfig = {
           ...options.optimization?.splitChunks
         }
@@ -437,7 +437,7 @@ export default class MiniSplitChunksPlugin extends SplitChunksPlugin {
       /**
        * 收集分包下的sub-vendors和sub-common下的公共模块信息
        */
-      compilation.hooks.afterOptimizeChunks.tap(PLUGIN_NAME, ([chunks]) => {
+      compilation.hooks.afterOptimizeChunks.tap(PLUGIN_NAME, chunks => {
         const existSubCommonDeps = new Map()
 
         for (const chunk of chunks) {
@@ -465,7 +465,7 @@ export default class MiniSplitChunksPlugin extends SplitChunksPlugin {
       compilation.hooks.processAssets.tap({
         name: PLUGIN_NAME,
         stage: Compilation.PROCESS_ASSETS_STAGE_ANALYSE // see below for more stages
-      }, ([assets]) => {
+      }, (assets) => {
         this.assets = assets
       })
     })

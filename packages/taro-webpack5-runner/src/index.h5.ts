@@ -41,7 +41,7 @@ export default async function build (appPath: string, rawConfig: H5BuildConfig):
     const compiler = webpack(webpackConfig)
 
     if (!isWatch) {
-      compiler.hooks.emit.tapAsync('taroBuildDone', async ([compilation], callback) => {
+      compiler.hooks.emit.tapAsync('taroBuildDone', async (compilation, callback) => {
         if (isFunction(config.modifyBuildAssets)) {
           await config.modifyBuildAssets(compilation.assets)
         }
@@ -92,7 +92,7 @@ export default async function build (appPath: string, rawConfig: H5BuildConfig):
         }
       })
 
-      compiler.hooks.emit.tapAsync('taroBuildDone', async ([compilation], callback) => {
+      compiler.hooks.emit.tapAsync('taroBuildDone', async (compilation, callback) => {
         if (isFunction(config.modifyBuildAssets)) {
           await config.modifyBuildAssets(compilation.assets)
         }

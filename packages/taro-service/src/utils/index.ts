@@ -1,5 +1,5 @@
 import { chalk, getModuleDefaultExport } from '@tarojs/helper'
-import { PluginItem } from '@tarojs/taro/types/compile'
+import type { PluginItem } from '@tarojs/taro/types/compile'
 import { merge } from 'lodash'
 import * as path from 'path'
 import * as resolve from 'resolve'
@@ -64,7 +64,12 @@ export function resolvePresetsOrPlugins (root: string, args, type: PluginType): 
       type,
       opts: args[item] || {},
       apply () {
-        return getModuleDefaultExport(require(fPath))
+        try {
+          return getModuleDefaultExport(require(fPath))
+        } catch (error) {
+          console.error(error)
+          throw new Error(`插件依赖 "${item}" 加载失败，请检查插件配置`)
+        }
       }
     }
   })

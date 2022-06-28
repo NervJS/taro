@@ -72,6 +72,7 @@
     "@tarojs/router": "workspace:*",
     "@tarojs/shared": "workspace:*",
     "@tarojs/taro": "workspace:*",
+    "@tarojs/taro-loader": "workspace:*",
     "@tarojs/webpack-runner": "workspace:*",
     "@testing-library/jest-native": "^4.0.4",
     "@testing-library/react-native": "^9.0.0",
@@ -95,6 +96,7 @@
     "@types/request": "^2.48.1",
     "@types/resolve": "1.19.0",
     "@types/sass": "^1.16.1",
+    "@types/sax": "^1.2.4",
     "@types/sinon": "^7.5.0",
     "@types/tapable": "^1",
     "@types/testing-library__jest-dom": "^5.14.3",
@@ -174,7 +176,7 @@
     "vue-template-compiler": "^2.6.11",
     "webpack": "5.69.0",
     "webpack-chain": "6.5.1",
-    "webpack-dev-server": "4.7.4"
-  },
-  "version": "3.5.0-beta.2"
+    "webpack-dev-server": "4.7.4",
+    "webpack-sources": "^3.2.3"
+  }
 }

@@ -76,8 +76,8 @@ export default class BuildNativePlugin extends MiniPlugin {
   addLoadChunksPlugin (compiler: Compiler) {
     const fileChunks = new Map<string, { name: string }[]>()
 
-    compiler.hooks.thisCompilation.tap(PLUGIN_NAME, ([compilation]) => {
-      compilation.hooks.afterOptimizeChunks.tap(PLUGIN_NAME, ([chunks]) => {
+    compiler.hooks.thisCompilation.tap(PLUGIN_NAME, compilation => {
+      compilation.hooks.afterOptimizeChunks.tap(PLUGIN_NAME, chunks => {
         for (const chunk of chunks) {
           const id = getChunkIdOrName(chunk)
           if (this.options.commonChunks.includes(id)) return
@@ -97,7 +97,7 @@ export default class BuildNativePlugin extends MiniPlugin {
           fileChunks.set(id, deps)
         }
       })
-      webpack.javascript.JavascriptModulesPlugin.getCompilationHooks(compilation).render.tap(PLUGIN_NAME, ([modules], { chunk }) => {
+      webpack.javascript.JavascriptModulesPlugin.getCompilationHooks(compilation).render.tap(PLUGIN_NAME, (modules, { chunk }) => {
         if (!getChunkEntryModule(compilation, chunk)) return modules
 
         // addChunkPages
@@ -123,7 +123,7 @@ export default class BuildNativePlugin extends MiniPlugin {
 
   // 加载 taro-runtime 前必须先加载端平台插件的 runtime
   addLoader (compiler: Compiler) {
-    compiler.hooks.compilation.tap(PLUGIN_NAME, ([compilation]) => {
+    compiler.hooks.compilation.tap(PLUGIN_NAME, compilation => {
       webpack.NormalModule.getCompilationHooks(compilation).loader.tap(PLUGIN_NAME, (_loaderContext, module: any) => {
         if (module.rawRequest === '@tarojs/runtime') {
           module.loaders.unshift({

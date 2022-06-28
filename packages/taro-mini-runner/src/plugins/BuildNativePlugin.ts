@@ -1,16 +1,17 @@
+import {
+  FRAMEWORK_EXT_MAP,
+  isEmptyObject,
+  printLog,
+  processTypeEnum,
+  resolveMainFilePath
+} from '@tarojs/helper'
+import { Config } from '@tarojs/taro'
 import * as path from 'path'
 import * as webpack from 'webpack'
-import { Config } from '@tarojs/taro'
-import {
-  resolveMainFilePath,
-  isEmptyObject,
-  FRAMEWORK_EXT_MAP,
-  printLog,
-  processTypeEnum
-} from '@tarojs/helper'
-import { getIdOrName, addRequireToSource } from './TaroLoadChunksPlugin'
+
 import { IComponent } from '../utils/types'
 import MiniPlugin from './MiniPlugin'
+import { addRequireToSource, getIdOrName } from './TaroLoadChunksPlugin'
 
 const PLUGIN_NAME = 'BuildNativePlugin'
 
