@@ -26,8 +26,5 @@
   "dependencies": {
     "@tarojs/shared": "workspace:*",
     "lodash-es": "4.17.21"
-  },
-  "devDependencies": {
-    "@tarojs/taro": "workspace:*"
   }
 }

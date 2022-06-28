@@ -1,4 +1,4 @@
-import chalk from 'chalk'
+import { chalk } from '@tarojs/helper'
 import * as path from 'path'
 
 import { getPkgVersion } from '../util'

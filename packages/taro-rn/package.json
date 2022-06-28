@@ -62,12 +62,9 @@
     "react-native-syan-image-picker": "0.5.3"
   },
   "devDependencies": {
-    "@jest/globals": "^26.6.2",
-    "@tarojs/taro": "workspace:*",
     "@types/react": "^17.0.0",
     "@types/react-native": "^0.67.7",
     "fbjs-scripts": "^3.0.1",
-    "prop-types": "^15.7.2",
     "react-native": "^0.68.2"
   },
   "peerDependencies": {

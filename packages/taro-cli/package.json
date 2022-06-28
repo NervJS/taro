@@ -78,8 +78,5 @@
     "tapable": "^1.1.3",
     "xml2js": "^0.4.19",
     "xxhashjs": "^0.2.2"
-  },
-  "devDependencies": {
-    "@tarojs/taro": "workspace:*"
   }
 }

@@ -1,5 +1,4 @@
-import { fs } from '@tarojs/helper'
-import chalk from 'chalk'
+import { chalk, fs } from '@tarojs/helper'
 import * as path from 'path'
 
 import { run } from './utils'

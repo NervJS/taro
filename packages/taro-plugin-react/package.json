@@ -32,10 +32,6 @@
     "acorn": "^8.0.4",
     "acorn-walk": "^8.0.0"
   },
-  "devDependencies": {
-    "@tarojs/taro": "workspace:*",
-    "esbuild": "^0.14.27"
-  },
   "peerDependenciesMeta": {
     "@pmmmwh/react-refresh-webpack-plugin": {
       "optional": true

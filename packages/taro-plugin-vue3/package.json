@@ -32,7 +32,6 @@
     "@tarojs/shared": "workspace:*"
   },
   "devDependencies": {
-    "@tarojs/taro": "workspace:*",
     "vue": "^3.0.0"
   },
   "peerDependencies": {

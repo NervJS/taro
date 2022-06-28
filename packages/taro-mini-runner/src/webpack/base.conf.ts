@@ -1,5 +1,5 @@
-import * as Chain from 'webpack-chain'
 import { MultiPlatformPlugin } from '@tarojs/runner-utils'
+import * as Chain from 'webpack-chain'
 
 export default (_appPath: string) => {
   const chain = new Chain()

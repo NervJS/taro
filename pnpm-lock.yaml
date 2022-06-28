@@ -22,15 +22,25 @@ importers:
       '@babel/types': ^7.14.5
       '@commitlint/cli': ^16.2.1
       '@commitlint/config-conventional': ^16.2.1
+      '@jest/globals': ^26.6.2
       '@rollup/plugin-babel': ^5.2.1
       '@rollup/plugin-buble': ^0.21.3
       '@rollup/plugin-commonjs': ^20.0.0
       '@rollup/plugin-node-resolve': ^8.0.0
       '@rollup/plugin-replace': ^2.2.0
       '@rollup/plugin-typescript': ^8.3.1
+      '@tarojs/components': workspace:*
+      '@tarojs/helper': workspace:*
+      '@tarojs/mini-runner': workspace:*
+      '@tarojs/plugin-platform-weapp': workspace:*
+      '@tarojs/router': workspace:*
+      '@tarojs/shared': workspace:*
+      '@tarojs/taro': workspace:*
+      '@tarojs/webpack-runner': workspace:*
       '@testing-library/jest-native': ^4.0.4
       '@testing-library/react-native': ^9.0.0
       '@types/autoprefixer': 9.7.0
+      '@types/babel__core': ^7.1.14
       '@types/babel__traverse': ^7.0.7
       '@types/babel-types': ^7.0.7
       '@types/debug': ^4.1.5
@@ -39,13 +49,16 @@ importers:
       '@types/history': ^4.7.5
       '@types/inquirer': ^8.2.1
       '@types/jest': ^27.4.1
+      '@types/less': ^3.0.2
       '@types/lodash': ^4.14.142
       '@types/lodash-es': ^4.17.6
       '@types/node': ^14.14.31
+      '@types/postcss-import': ^12.0.0
       '@types/react': ^18.0.0
       '@types/react-reconciler': 0.26.1
       '@types/request': ^2.48.1
       '@types/resolve': 1.19.0
+      '@types/sass': ^1.16.1
       '@types/sinon': ^7.5.0
       '@types/tapable': ^1
       '@types/testing-library__jest-dom': ^5.14.3
@@ -61,14 +74,17 @@ importers:
       babel-jest: 24.9.0
       babel-plugin-syntax-jsx: 6.18.0
       babel-preset-power-assert: 3.0.0
+      babel-preset-taro: workspace:*
       cli-highlight: ^2.1.4
       core-js: ^2.6.5
       cpy-cli: ^4.1.0
       cross-env: ^7.0.2
+      esbuild: ^0.14.27
       eslint: ^8.12.0
       eslint-config-prettier: ^6.4.0
       eslint-config-standard: ^14.1.1
       eslint-config-standard-jsx: ^8.1.0
+      eslint-config-taro: workspace:*
       eslint-plugin-flowtype: ^3.2.0
       eslint-plugin-import: ^2.26.0
       eslint-plugin-jest: 26.1.3
@@ -100,6 +116,7 @@ importers:
       postcss-scss: ^4.0.3
       power-assert: ^1.6.1
       prettier: ^1.18.2
+      prop-types: ^15.7.2
       react: 18.0.0
       react-dom: 18.0.0
       react-test-renderer: 18.0.0
@@ -141,15 +158,25 @@ importers:
       '@babel/types': registry.npmjs.org/@babel/types/7.18.4
       '@commitlint/cli': registry.npmjs.org/@commitlint/cli/16.3.0
       '@commitlint/config-conventional': registry.npmjs.org/@commitlint/config-conventional/16.2.4
-      '@rollup/plugin-babel': registry.npmjs.org/@rollup/plugin-babel/5.3.1_za5spbk65gc2bmrclluhieacz4
+      '@jest/globals': registry.npmjs.org/@jest/globals/26.6.2
+      '@rollup/plugin-babel': registry.npmjs.org/@rollup/plugin-babel/5.3.1_jdbmuitb4lfrmgnwxssk2saqxq
       '@rollup/plugin-buble': registry.npmjs.org/@rollup/plugin-buble/0.21.3_rollup@2.75.7
       '@rollup/plugin-commonjs': registry.npmjs.org/@rollup/plugin-commonjs/20.0.0_rollup@2.75.7
       '@rollup/plugin-node-resolve': registry.npmjs.org/@rollup/plugin-node-resolve/8.4.0_rollup@2.75.7
       '@rollup/plugin-replace': registry.npmjs.org/@rollup/plugin-replace/2.4.2_rollup@2.75.7
       '@rollup/plugin-typescript': registry.npmjs.org/@rollup/plugin-typescript/8.3.3_6m3355xsrtmvtsuejaomqj6cbi
+      '@tarojs/components': link:packages/taro-components
+      '@tarojs/helper': link:packages/taro-helper
+      '@tarojs/mini-runner': link:packages/taro-mini-runner
+      '@tarojs/plugin-platform-weapp': link:packages/taro-weapp
+      '@tarojs/router': link:packages/taro-router
+      '@tarojs/shared': link:packages/shared
+      '@tarojs/taro': link:packages/taro
+      '@tarojs/webpack-runner': link:packages/taro-webpack-runner
       '@testing-library/jest-native': registry.npmjs.org/@testing-library/jest-native/4.0.5
       '@testing-library/react-native': registry.npmjs.org/@testing-library/react-native/9.1.0_aa47jmiaxy2oibaazbswofkigi
       '@types/autoprefixer': registry.npmjs.org/@types/autoprefixer/9.7.0
+      '@types/babel__core': registry.npmjs.org/@types/babel__core/7.1.19
       '@types/babel__traverse': registry.npmjs.org/@types/babel__traverse/7.17.1
       '@types/babel-types': registry.npmjs.org/@types/babel-types/7.0.11
       '@types/debug': registry.npmjs.org/@types/debug/4.1.7
@@ -158,13 +185,16 @@ importers:
       '@types/history': registry.npmjs.org/@types/history/4.7.11
       '@types/inquirer': registry.npmjs.org/@types/inquirer/8.2.1
       '@types/jest': registry.npmjs.org/@types/jest/27.5.2
+      '@types/less': registry.npmjs.org/@types/less/3.0.3
       '@types/lodash': registry.npmjs.org/@types/lodash/4.14.182
       '@types/lodash-es': registry.npmjs.org/@types/lodash-es/4.17.6
       '@types/node': registry.npmjs.org/@types/node/14.18.21
+      '@types/postcss-import': registry.npmjs.org/@types/postcss-import/12.0.1
       '@types/react': registry.npmjs.org/@types/react/18.0.14
       '@types/react-reconciler': registry.npmjs.org/@types/react-reconciler/0.26.1
       '@types/request': registry.npmjs.org/@types/request/2.48.8
       '@types/resolve': registry.npmjs.org/@types/resolve/1.19.0
+      '@types/sass': registry.npmjs.org/@types/sass/1.43.1
       '@types/sinon': registry.npmjs.org/@types/sinon/7.5.2
       '@types/tapable': registry.npmjs.org/@types/tapable/1.0.8
       '@types/testing-library__jest-dom': registry.npmjs.org/@types/testing-library__jest-dom/5.14.5
@@ -180,14 +210,17 @@ importers:
       babel-jest: registry.npmjs.org/babel-jest/24.9.0_@babel+core@7.18.5
       babel-plugin-syntax-jsx: registry.npmjs.org/babel-plugin-syntax-jsx/6.18.0
       babel-preset-power-assert: registry.npmjs.org/babel-preset-power-assert/3.0.0_power-assert@1.6.1
+      babel-preset-taro: link:packages/babel-preset-taro
       cli-highlight: registry.npmjs.org/cli-highlight/2.1.11
       core-js: registry.npmjs.org/core-js/2.6.12
       cpy-cli: registry.npmjs.org/cpy-cli/4.1.0
       cross-env: registry.npmjs.org/cross-env/7.0.3
+      esbuild: registry.npmjs.org/esbuild/0.14.47
       eslint: registry.npmjs.org/eslint/8.18.0
       eslint-config-prettier: registry.npmjs.org/eslint-config-prettier/6.15.0_eslint@8.18.0
       eslint-config-standard: registry.npmjs.org/eslint-config-standard/14.1.1_kh4dbgcrlopojvl2wjliwz75se
       eslint-config-standard-jsx: registry.npmjs.org/eslint-config-standard-jsx/8.1.0_pvloe4reurrd7ffmicb2bet3ki
+      eslint-config-taro: link:packages/eslint-config-taro
       eslint-plugin-flowtype: registry.npmjs.org/eslint-plugin-flowtype/3.13.0_eslint@8.18.0
       eslint-plugin-import: registry.npmjs.org/eslint-plugin-import/2.26.0_zgg5sxdhnxsuz2d3vdnwdtmcnu
       eslint-plugin-jest: registry.npmjs.org/eslint-plugin-jest/26.1.3_dqntsig6ny6hbbezj7gfyzz4pi
@@ -219,6 +252,7 @@ importers:
       postcss-scss: registry.npmjs.org/postcss-scss/4.0.4_postcss@8.4.14
       power-assert: registry.npmjs.org/power-assert/1.6.1
       prettier: registry.npmjs.org/prettier/1.19.1
+      prop-types: registry.npmjs.org/prop-types/15.8.1
       react: registry.npmjs.org/react/18.0.0
       react-dom: registry.npmjs.org/react-dom/18.0.0_react@18.0.0
       react-test-renderer: registry.npmjs.org/react-test-renderer/18.0.0_react@18.0.0
@@ -238,20 +272,17 @@ importers:
       vue: registry.npmjs.org/vue/2.6.14
       vue-loader: registry.npmjs.org/vue-loader/17.0.0_webpack@5.69.0
       vue-template-compiler: registry.npmjs.org/vue-template-compiler/2.6.14
-      webpack: registry.npmjs.org/webpack/5.69.0
+      webpack: registry.npmjs.org/webpack/5.69.0_esbuild@0.14.47
       webpack-chain: registry.npmjs.org/webpack-chain/6.5.1
       webpack-dev-server: registry.npmjs.org/webpack-dev-server/4.7.4_webpack@5.69.0
 
   packages/babel-plugin-transform-react-jsx-to-rn-stylesheet:
     specifiers:
-      '@types/babel__core': ^7.1.14
       camelize: ^1.0.0
       taro-css-to-react-native: workspace:*
     dependencies:
       camelize: registry.npmjs.org/camelize/1.0.0
       taro-css-to-react-native: link:../css-to-react-native
-    devDependencies:
-      '@types/babel__core': registry.npmjs.org/@types/babel__core/7.1.19
 
   packages/babel-plugin-transform-taroapi:
     specifiers: {}
@@ -386,7 +417,6 @@ importers:
       '@tarojs/helper': workspace:*
       '@tarojs/service': workspace:*
       '@tarojs/shared': workspace:*
-      '@tarojs/taro': workspace:*
       '@tarojs/taroize': workspace:*
       '@tarojs/transformer-wx': ^2.0.4
       adm-zip: ^0.4.13
@@ -456,8 +486,6 @@ importers:
       tapable: registry.npmjs.org/tapable/1.1.3
       xml2js: registry.npmjs.org/xml2js/0.4.23
       xxhashjs: registry.npmjs.org/xxhashjs/0.2.2
-    devDependencies:
-      '@tarojs/taro': link:../taro
 
   packages/taro-cli/templates/wxcloud/cloud/functions/login:
     specifiers:
@@ -511,8 +539,6 @@ importers:
   packages/taro-components-react:
     specifiers:
       '@babel/runtime': ^7.14.5
-      '@tarojs/taro': workspace:*
-      '@types/node': ^14.14.31
       better-scroll: ^1.14.1
       classnames: ^2.2.5
       intersection-observer: ^0.7.0
@@ -527,16 +553,12 @@ importers:
       resolve-pathname: registry.npmjs.org/resolve-pathname/3.0.0
       swiper: registry.npmjs.org/swiper/6.8.0
       weui: registry.npmjs.org/weui/1.1.3
-    devDependencies:
-      '@tarojs/taro': link:../taro
-      '@types/node': registry.npmjs.org/@types/node/14.18.21
 
   packages/taro-components-rn:
     specifiers:
       '@ant-design/react-native': ^4.2.0
       '@react-native-community/slider': ~4.1.12
       '@react-native-picker/picker': ~2.2.1
-      '@tarojs/components': workspace:*
       '@types/react': ^17.0.0
       '@types/react-native': ^0.67.7
       '@unimodules/core': ^7.1.2
@@ -565,7 +587,6 @@ importers:
       react-native-svg: registry.npmjs.org/react-native-svg/12.1.1_zqxy7fpkavjkgz5xll7ed4r6rq
       react-native-webview: registry.npmjs.org/react-native-webview/11.14.4_zqxy7fpkavjkgz5xll7ed4r6rq
     devDependencies:
-      '@tarojs/components': link:../taro-components
       '@types/react': registry.npmjs.org/@types/react/17.0.47
       '@types/react-native': registry.npmjs.org/@types/react-native/0.67.11
       '@unimodules/core': registry.npmjs.org/@unimodules/core/7.1.2
@@ -585,7 +606,6 @@ importers:
       '@tarojs/api': workspace:*
       '@tarojs/router': workspace:*
       '@tarojs/runtime': workspace:*
-      '@tarojs/taro': workspace:*
       base64-js: ^1.3.0
       jsonp-retry: ^1.0.3
       mobile-detect: ^1.4.2
@@ -600,8 +620,6 @@ importers:
       mobile-detect: registry.npmjs.org/mobile-detect/1.4.5
       query-string: registry.npmjs.org/query-string/7.1.1
       whatwg-fetch: registry.npmjs.org/whatwg-fetch/3.6.2
-    devDependencies:
-      '@tarojs/taro': link:../taro
 
   packages/taro-helper:
     specifiers:
@@ -819,10 +837,8 @@ importers:
       '@tarojs/runtime': workspace:*
       '@tarojs/service': workspace:*
       '@tarojs/shared': workspace:*
-      '@tarojs/taro': workspace:*
       acorn: ^8.0.4
       acorn-walk: ^8.0.0
-      esbuild: ^0.14.27
     dependencies:
       '@tarojs/helper': link:../taro-helper
       '@tarojs/runtime': link:../taro-runtime
@@ -830,9 +846,6 @@ importers:
       '@tarojs/shared': link:../shared
       acorn: registry.npmjs.org/acorn/8.7.1
       acorn-walk: registry.npmjs.org/acorn-walk/8.2.0
-    devDependencies:
-      '@tarojs/taro': link:../taro
-      esbuild: registry.npmjs.org/esbuild/0.14.47
 
   packages/taro-plugin-react-devtools:
     specifiers:
@@ -877,7 +890,6 @@ importers:
       '@tarojs/runtime': workspace:*
       '@tarojs/service': workspace:*
       '@tarojs/shared': workspace:*
-      '@tarojs/taro': workspace:*
       vue: ^2.0.0
     dependencies:
       '@tarojs/helper': link:../taro-helper
@@ -886,7 +898,6 @@ importers:
       '@tarojs/service': link:../taro-service
       '@tarojs/shared': link:../shared
     devDependencies:
-      '@tarojs/taro': link:../taro
       vue: registry.npmjs.org/vue/2.6.14
 
   packages/taro-plugin-vue3:
@@ -896,7 +907,6 @@ importers:
       '@tarojs/runtime': workspace:*
       '@tarojs/service': workspace:*
       '@tarojs/shared': workspace:*
-      '@tarojs/taro': workspace:*
       vue: ^3.0.0
     dependencies:
       '@tarojs/helper': link:../taro-helper
@@ -905,7 +915,6 @@ importers:
       '@tarojs/service': link:../taro-service
       '@tarojs/shared': link:../shared
     devDependencies:
-      '@tarojs/taro': link:../taro
       vue: registry.npmjs.org/vue/3.2.37
 
   packages/taro-qq:
@@ -932,14 +941,12 @@ importers:
 
   packages/taro-rn:
     specifiers:
-      '@jest/globals': ^26.6.2
       '@react-native-async-storage/async-storage': ~1.15.11
       '@react-native-community/cameraroll': ~4.1.2
       '@react-native-community/clipboard': ~1.5.1
       '@react-native-community/geolocation': ~2.0.2
       '@react-native-community/netinfo': ~7.1.2
       '@tarojs/runtime-rn': workspace:*
-      '@tarojs/taro': workspace:*
       '@types/react': ^17.0.0
       '@types/react-native': ^0.67.7
       babel-preset-expo: ~9.0.2
@@ -957,7 +964,6 @@ importers:
       expo-sensors: ~11.2.0
       fbjs-scripts: ^3.0.1
       nullthrows: ^1.1.1
-      prop-types: ^15.7.2
       react-native: ^0.68.2
       react-native-device-info: ~8.4.8
       react-native-image-resizer: ~1.4.5
@@ -997,12 +1003,9 @@ importers:
       react-native-stylekit: registry.npmjs.org/react-native-stylekit/1.0.0
       react-native-syan-image-picker: registry.npmjs.org/react-native-syan-image-picker/0.5.3
     devDependencies:
-      '@jest/globals': registry.npmjs.org/@jest/globals/26.6.2
-      '@tarojs/taro': link:../taro
       '@types/react': registry.npmjs.org/@types/react/17.0.47
       '@types/react-native': registry.npmjs.org/@types/react-native/0.67.11
       fbjs-scripts: registry.npmjs.org/fbjs-scripts/3.0.1
-      prop-types: registry.npmjs.org/prop-types/15.8.1
       react-native: registry.npmjs.org/react-native/0.68.2_react@17.0.2
 
   packages/taro-rn-runner:
@@ -1046,9 +1049,6 @@ importers:
   packages/taro-rn-style-transformer:
     specifiers:
       '@tarojs/helper': workspace:*
-      '@types/less': ^3.0.2
-      '@types/postcss-import': ^12.0.0
-      '@types/sass': ^1.16.1
       fbjs: ^2.0.0
       less: ^3.12.2
       postcss: ^8.4.12
@@ -1079,10 +1079,6 @@ importers:
       stylelint-taro-rn: link:../stylelint-taro-rn
       stylus: registry.npmjs.org/stylus/0.55.0
       taro-css-to-react-native: link:../css-to-react-native
-    devDependencies:
-      '@types/less': registry.npmjs.org/@types/less/3.0.3
-      '@types/postcss-import': registry.npmjs.org/@types/postcss-import/12.0.1
-      '@types/sass': registry.npmjs.org/@types/sass/1.43.1
 
   packages/taro-rn-supporter:
     specifiers:
@@ -1102,7 +1098,6 @@ importers:
 
   packages/taro-rn-transformer:
     specifiers:
-      '@tarojs/helper': workspace:*
       lodash: ^4.17.21
       mime-types: ^2.1.27
       mkdirp: ^1.0.4
@@ -1112,8 +1107,6 @@ importers:
       mime-types: registry.npmjs.org/mime-types/2.1.35
       mkdirp: registry.npmjs.org/mkdirp/1.0.4
       normalize-path: registry.npmjs.org/normalize-path/3.0.0
-    devDependencies:
-      '@tarojs/helper': link:../taro-helper
 
   packages/taro-router:
     specifiers:
@@ -1171,13 +1164,10 @@ importers:
   packages/taro-runtime:
     specifiers:
       '@tarojs/shared': workspace:*
-      '@tarojs/taro': workspace:*
       lodash-es: 4.17.21
     dependencies:
       '@tarojs/shared': link:../shared
       lodash-es: registry.npmjs.org/lodash-es/4.17.21
-    devDependencies:
-      '@tarojs/taro': link:../taro
 
   packages/taro-runtime-rn:
     specifiers:
@@ -1271,6 +1261,7 @@ importers:
       open: 7.0.2
       ora: 4.0.3
       postcss: 8.3.5
+      postcss-html-transform: workspace:*
       postcss-import: 12.0.1
       postcss-loader: 4.3.0
       postcss-plugin-constparse: workspace:*
@@ -1311,6 +1302,7 @@ importers:
       open: registry.npmjs.org/open/7.0.2
       ora: registry.npmjs.org/ora/4.0.3
       postcss: registry.npmjs.org/postcss/8.3.5
+      postcss-html-transform: link:../postcss-html-transform
       postcss-import: registry.npmjs.org/postcss-import/12.0.1
       postcss-loader: registry.npmjs.org/postcss-loader/4.3.0_mmkiswgrgezhd2zweiqe7apfva
       postcss-plugin-constparse: link:../postcss-plugin-constparse
@@ -1688,7 +1680,7 @@ packages:
       '@babel/traverse': registry.npmjs.org/@babel/traverse/7.18.5
       '@babel/types': registry.npmjs.org/@babel/types/7.18.4
       convert-source-map: registry.npmjs.org/convert-source-map/1.8.0
-      debug: registry.npmjs.org/debug/4.1.1
+      debug: registry.npmjs.org/debug/4.3.4
       gensync: registry.npmjs.org/gensync/1.0.0-beta.2
       json5: registry.npmjs.org/json5/2.2.1
       semver: registry.npmjs.org/semver/6.3.0
@@ -1733,6 +1725,7 @@ packages:
       '@babel/types': registry.npmjs.org/@babel/types/7.18.4
       '@jridgewell/gen-mapping': registry.npmjs.org/@jridgewell/gen-mapping/0.1.1
       jsesc: registry.npmjs.org/jsesc/2.5.2
+    dev: false
 
   registry.npmjs.org/@babel/generator/7.18.2:
     resolution: {integrity: sha512-W1lG5vUwFvfMd8HVXqdfbuG7RuaSrTCCD8cl8fP8wOivdbtbIg2Db3IWUcgvfxKbbn6ZBGYRW/Zk1MIwK49mgw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@babel/generator/-/generator-7.18.2.tgz}
@@ -1873,7 +1866,7 @@ packages:
       '@babel/helper-module-imports': registry.npmjs.org/@babel/helper-module-imports/7.16.7
       '@babel/helper-plugin-utils': registry.npmjs.org/@babel/helper-plugin-utils/7.17.12
       '@babel/traverse': registry.npmjs.org/@babel/traverse/7.18.5
-      debug: registry.npmjs.org/debug/4.1.1
+      debug: registry.npmjs.org/debug/4.3.4
       lodash.debounce: registry.npmjs.org/lodash.debounce/4.0.8
       resolve: registry.npmjs.org/resolve/1.22.1
       semver: registry.npmjs.org/semver/6.3.0
@@ -2062,7 +2055,7 @@ packages:
     dependencies:
       '@babel/helper-function-name': registry.npmjs.org/@babel/helper-function-name/7.17.9
       '@babel/template': registry.npmjs.org/@babel/template/7.16.7
-      '@babel/traverse': registry.npmjs.org/@babel/traverse/7.17.10
+      '@babel/traverse': registry.npmjs.org/@babel/traverse/7.18.5
       '@babel/types': registry.npmjs.org/@babel/types/7.18.4
     transitivePeerDependencies:
       - supports-color
@@ -2119,6 +2112,7 @@ packages:
     hasBin: true
     dependencies:
       '@babel/types': registry.npmjs.org/@babel/types/7.18.4
+    dev: false
 
   registry.npmjs.org/@babel/parser/7.18.5:
     resolution: {integrity: sha512-YZWVaglMiplo7v8f1oMQ5ZPQr0vn7HPeZXxXWsxXJRjGVrzUFn9OxFQl1sb5wzfootjA/yChhW84BV+383FSOw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@babel/parser/-/parser-7.18.5.tgz}
@@ -4631,6 +4625,7 @@ packages:
       globals: registry.npmjs.org/globals/11.12.0
     transitivePeerDependencies:
       - supports-color
+    dev: false
 
   registry.npmjs.org/@babel/traverse/7.18.5:
     resolution: {integrity: sha512-aKXj1KT66sBj0vVzk6rEeAO6Z9aiiQ68wfDgge3nHhA/my6xMM/7HGQUNumKZaoa2qUPQ5whJG9aAifsxUKfLA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@babel/traverse/-/traverse-7.18.5.tgz}
@@ -4862,10 +4857,10 @@ packages:
       '@commitlint/execute-rule': registry.npmjs.org/@commitlint/execute-rule/16.2.1
       '@commitlint/resolve-extends': registry.npmjs.org/@commitlint/resolve-extends/16.2.1
       '@commitlint/types': registry.npmjs.org/@commitlint/types/16.2.1
-      '@types/node': registry.npmjs.org/@types/node/14.18.21
+      '@types/node': registry.npmjs.org/@types/node/18.0.0
       chalk: registry.npmjs.org/chalk/4.1.2
       cosmiconfig: registry.npmjs.org/cosmiconfig/7.0.1
-      cosmiconfig-typescript-loader: registry.npmjs.org/cosmiconfig-typescript-loader/2.0.2_fsb2wp5eurnm6htzxyzmzmycca
+      cosmiconfig-typescript-loader: registry.npmjs.org/cosmiconfig-typescript-loader/2.0.2_badfd7pi43ncrdeelhhkl7tg34
       lodash: registry.npmjs.org/lodash/4.17.21
       resolve-from: registry.npmjs.org/resolve-from/5.0.0
       typescript: registry.npmjs.org/typescript/4.6.3
@@ -5471,7 +5466,7 @@ packages:
     engines: {node: '>= 10.14.2'}
     dependencies:
       '@jest/types': registry.npmjs.org/@jest/types/26.6.2
-      '@types/node': registry.npmjs.org/@types/node/14.18.21
+      '@types/node': registry.npmjs.org/@types/node/18.0.0
       chalk: registry.npmjs.org/chalk/4.1.2
       jest-message-util: registry.npmjs.org/jest-message-util/26.6.2
       jest-util: registry.npmjs.org/jest-util/26.6.2
@@ -5485,7 +5480,7 @@ packages:
     engines: {node: ^10.13.0 || ^12.13.0 || ^14.15.0 || >=15.0.0}
     dependencies:
       '@jest/types': registry.npmjs.org/@jest/types/27.5.1
-      '@types/node': registry.npmjs.org/@types/node/14.18.21
+      '@types/node': registry.npmjs.org/@types/node/18.0.0
       chalk: registry.npmjs.org/chalk/4.1.2
       jest-message-util: registry.npmjs.org/jest-message-util/27.5.1
       jest-util: registry.npmjs.org/jest-util/27.5.1
@@ -5503,7 +5498,7 @@ packages:
       '@jest/test-result': registry.npmjs.org/@jest/test-result/26.6.2
       '@jest/transform': registry.npmjs.org/@jest/transform/26.6.2
       '@jest/types': registry.npmjs.org/@jest/types/26.6.2
-      '@types/node': registry.npmjs.org/@types/node/14.18.21
+      '@types/node': registry.npmjs.org/@types/node/18.0.0
       ansi-escapes: registry.npmjs.org/ansi-escapes/4.3.2
       chalk: registry.npmjs.org/chalk/4.1.2
       exit: registry.npmjs.org/exit/0.1.2
@@ -7071,7 +7066,7 @@ packages:
       warn-once: registry.npmjs.org/warn-once/0.1.0
     dev: false
 
-  registry.npmjs.org/@rollup/plugin-babel/5.3.1_za5spbk65gc2bmrclluhieacz4:
+  registry.npmjs.org/@rollup/plugin-babel/5.3.1_jdbmuitb4lfrmgnwxssk2saqxq:
     resolution: {integrity: sha512-WFfdLWU/xVWKeRQnKmIAQULUI7Il0gZnBIH/ZFO069wYIfPu+8zrfp/KMW0atmELoRDq8FbiP3VCss9MhCut7Q==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@rollup/plugin-babel/-/plugin-babel-5.3.1.tgz}
     id: registry.npmjs.org/@rollup/plugin-babel/5.3.1
     name: '@rollup/plugin-babel'
@@ -7088,6 +7083,7 @@ packages:
       '@babel/core': registry.npmjs.org/@babel/core/7.18.5
       '@babel/helper-module-imports': registry.npmjs.org/@babel/helper-module-imports/7.16.7
       '@rollup/pluginutils': registry.npmjs.org/@rollup/pluginutils/3.1.0_rollup@2.75.7
+      '@types/babel__core': registry.npmjs.org/@types/babel__core/7.1.19
       rollup: registry.npmjs.org/rollup/2.75.7
     dev: true
 
@@ -8267,7 +8263,7 @@ packages:
     name: '@types/resolve'
     version: 1.17.1
     dependencies:
-      '@types/node': registry.npmjs.org/@types/node/14.18.21
+      '@types/node': registry.npmjs.org/@types/node/18.0.0
     dev: true
 
   registry.npmjs.org/@types/resolve/1.19.0:
@@ -8378,7 +8374,7 @@ packages:
     name: '@types/through'
     version: 0.0.30
     dependencies:
-      '@types/node': registry.npmjs.org/@types/node/14.18.21
+      '@types/node': registry.npmjs.org/@types/node/18.0.0
     dev: true
 
   registry.npmjs.org/@types/tough-cookie/4.0.2:
@@ -14119,7 +14115,7 @@ packages:
       xml2js: registry.npmjs.org/xml2js/0.4.23
     dev: false
 
-  registry.npmjs.org/cosmiconfig-typescript-loader/2.0.2_fsb2wp5eurnm6htzxyzmzmycca:
+  registry.npmjs.org/cosmiconfig-typescript-loader/2.0.2_badfd7pi43ncrdeelhhkl7tg34:
     resolution: {integrity: sha512-KmE+bMjWMXJbkWCeY4FJX/npHuZPNr9XF9q9CIQ/bpFwi1qHfCmSiKarrCcRa0LO4fWjk93pVoeRtJAkTGcYNw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/cosmiconfig-typescript-loader/-/cosmiconfig-typescript-loader-2.0.2.tgz}
     id: registry.npmjs.org/cosmiconfig-typescript-loader/2.0.2
     name: cosmiconfig-typescript-loader
@@ -14129,9 +14125,9 @@ packages:
       '@types/node': '*'
       typescript: '>=3'
     dependencies:
-      '@types/node': registry.npmjs.org/@types/node/14.18.21
+      '@types/node': registry.npmjs.org/@types/node/18.0.0
       cosmiconfig: registry.npmjs.org/cosmiconfig/7.0.1
-      ts-node: registry.npmjs.org/ts-node/10.8.1_fsb2wp5eurnm6htzxyzmzmycca
+      ts-node: registry.npmjs.org/ts-node/10.8.1_badfd7pi43ncrdeelhhkl7tg34
       typescript: registry.npmjs.org/typescript/4.6.3
     transitivePeerDependencies:
       - '@swc/core'
@@ -18804,7 +18800,7 @@ packages:
     name: fs-extra
     version: 5.0.0
     dependencies:
-      graceful-fs: registry.npmjs.org/graceful-fs/4.1.11
+      graceful-fs: registry.npmjs.org/graceful-fs/4.2.10
       jsonfile: registry.npmjs.org/jsonfile/4.0.0
       universalify: registry.npmjs.org/universalify/0.1.2
     dev: true
@@ -21942,7 +21938,7 @@ packages:
       '@jest/environment': registry.npmjs.org/@jest/environment/26.6.2
       '@jest/fake-timers': registry.npmjs.org/@jest/fake-timers/26.6.2
       '@jest/types': registry.npmjs.org/@jest/types/26.6.2
-      '@types/node': registry.npmjs.org/@types/node/14.18.21
+      '@types/node': registry.npmjs.org/@types/node/18.0.0
       jest-mock: registry.npmjs.org/jest-mock/26.6.2
       jest-util: registry.npmjs.org/jest-util/26.6.2
       jsdom: registry.npmjs.org/jsdom/16.7.0
@@ -21962,7 +21958,7 @@ packages:
       '@jest/environment': registry.npmjs.org/@jest/environment/26.6.2
       '@jest/fake-timers': registry.npmjs.org/@jest/fake-timers/26.6.2
       '@jest/types': registry.npmjs.org/@jest/types/26.6.2
-      '@types/node': registry.npmjs.org/@types/node/14.18.21
+      '@types/node': registry.npmjs.org/@types/node/18.0.0
       jest-mock: registry.npmjs.org/jest-mock/26.6.2
       jest-util: registry.npmjs.org/jest-util/26.6.2
     dev: true
@@ -22058,7 +22054,7 @@ packages:
     dependencies:
       '@jest/types': registry.npmjs.org/@jest/types/26.6.2
       '@types/graceful-fs': registry.npmjs.org/@types/graceful-fs/4.1.5
-      '@types/node': registry.npmjs.org/@types/node/14.18.21
+      '@types/node': registry.npmjs.org/@types/node/18.0.0
       anymatch: registry.npmjs.org/anymatch/3.1.2
       fb-watchman: registry.npmjs.org/fb-watchman/2.0.1
       graceful-fs: registry.npmjs.org/graceful-fs/4.2.10
@@ -22107,7 +22103,7 @@ packages:
       '@jest/source-map': registry.npmjs.org/@jest/source-map/26.6.2
       '@jest/test-result': registry.npmjs.org/@jest/test-result/26.6.2
       '@jest/types': registry.npmjs.org/@jest/types/26.6.2
-      '@types/node': registry.npmjs.org/@types/node/14.18.21
+      '@types/node': registry.npmjs.org/@types/node/18.0.0
       chalk: registry.npmjs.org/chalk/4.1.2
       co: registry.npmjs.org/co/4.6.0
       expect: registry.npmjs.org/expect/26.6.2
@@ -22347,7 +22343,7 @@ packages:
       '@jest/environment': registry.npmjs.org/@jest/environment/26.6.2
       '@jest/test-result': registry.npmjs.org/@jest/test-result/26.6.2
       '@jest/types': registry.npmjs.org/@jest/types/26.6.2
-      '@types/node': registry.npmjs.org/@types/node/14.18.21
+      '@types/node': registry.npmjs.org/@types/node/18.0.0
       chalk: registry.npmjs.org/chalk/4.1.2
       emittery: registry.npmjs.org/emittery/0.7.2
       exit: registry.npmjs.org/exit/0.1.2
@@ -22426,7 +22422,7 @@ packages:
     version: 26.6.2
     engines: {node: '>= 10.14.2'}
     dependencies:
-      '@types/node': registry.npmjs.org/@types/node/14.18.21
+      '@types/node': registry.npmjs.org/@types/node/18.0.0
       graceful-fs: registry.npmjs.org/graceful-fs/4.2.10
     dev: true
 
@@ -22564,7 +22560,7 @@ packages:
     dependencies:
       '@jest/test-result': registry.npmjs.org/@jest/test-result/26.6.2
       '@jest/types': registry.npmjs.org/@jest/types/26.6.2
-      '@types/node': registry.npmjs.org/@types/node/14.18.21
+      '@types/node': registry.npmjs.org/@types/node/18.0.0
       ansi-escapes: registry.npmjs.org/ansi-escapes/4.3.2
       chalk: registry.npmjs.org/chalk/4.1.2
       jest-util: registry.npmjs.org/jest-util/26.6.2
@@ -22579,7 +22575,7 @@ packages:
     dependencies:
       '@jest/test-result': registry.npmjs.org/@jest/test-result/27.5.1
       '@jest/types': registry.npmjs.org/@jest/types/27.5.1
-      '@types/node': registry.npmjs.org/@types/node/14.18.21
+      '@types/node': registry.npmjs.org/@types/node/18.0.0
       ansi-escapes: registry.npmjs.org/ansi-escapes/4.3.2
       chalk: registry.npmjs.org/chalk/4.1.2
       jest-util: registry.npmjs.org/jest-util/27.5.1
@@ -27851,7 +27847,7 @@ packages:
     name: postcss-modules-extract-imports
     version: 1.1.0
     dependencies:
-      postcss: registry.npmjs.org/postcss/6.0.1
+      postcss: registry.npmjs.org/postcss/6.0.23
     dev: true
 
   registry.npmjs.org/postcss-modules-extract-imports/2.0.0:
@@ -27881,7 +27877,7 @@ packages:
     version: 1.2.0
     dependencies:
       css-selector-tokenizer: registry.npmjs.org/css-selector-tokenizer/0.7.3
-      postcss: registry.npmjs.org/postcss/6.0.1
+      postcss: registry.npmjs.org/postcss/6.0.23
     dev: true
 
   registry.npmjs.org/postcss-modules-local-by-default/3.0.3:
@@ -27917,7 +27913,7 @@ packages:
     version: 1.1.0
     dependencies:
       css-selector-tokenizer: registry.npmjs.org/css-selector-tokenizer/0.7.3
-      postcss: registry.npmjs.org/postcss/6.0.1
+      postcss: registry.npmjs.org/postcss/6.0.23
     dev: true
 
   registry.npmjs.org/postcss-modules-scope/2.2.0:
@@ -27949,7 +27945,7 @@ packages:
     version: 1.3.0
     dependencies:
       icss-replace-symbols: registry.npmjs.org/icss-replace-symbols/1.1.0
-      postcss: registry.npmjs.org/postcss/6.0.1
+      postcss: registry.npmjs.org/postcss/6.0.23
     dev: true
 
   registry.npmjs.org/postcss-modules-values/3.0.0:
@@ -28702,7 +28698,6 @@ packages:
       chalk: registry.npmjs.org/chalk/2.4.2
       source-map: registry.npmjs.org/source-map/0.6.1
       supports-color: registry.npmjs.org/supports-color/5.5.0
-    dev: false
 
   registry.npmjs.org/postcss/7.0.21:
     resolution: {integrity: sha512-uIFtJElxJo29QC753JzhidoAhvp/e/Exezkdhfmt8AymWT6/5B7W1WmponYWkHk2eg6sONyTch0A3nkMPun3SQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/postcss/-/postcss-7.0.21.tgz}
@@ -33725,7 +33720,6 @@ packages:
       serialize-javascript: registry.npmjs.org/serialize-javascript/6.0.0
       terser: registry.npmjs.org/terser/5.14.1
       webpack: registry.npmjs.org/webpack/5.69.0_esbuild@0.14.47
-    dev: false
 
   registry.npmjs.org/terser-webpack-plugin/5.3.3_webpack@5.69.0:
     resolution: {integrity: sha512-Fx60G5HNYknNTNQnzQ1VePRuu89ZVYWfjRAeT5rITuCY/1b08s49e5kSQwHDirKZWuoKOBRFS98EUUoZ9kLEwQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/terser-webpack-plugin/-/terser-webpack-plugin-5.3.3.tgz}
@@ -34151,7 +34145,7 @@ packages:
       yargs-parser: registry.npmjs.org/yargs-parser/20.2.9
     dev: true
 
-  registry.npmjs.org/ts-node/10.8.1_fsb2wp5eurnm6htzxyzmzmycca:
+  registry.npmjs.org/ts-node/10.8.1_badfd7pi43ncrdeelhhkl7tg34:
     resolution: {integrity: sha512-Wwsnao4DQoJsN034wePSg5nZiw4YKXf56mPIAeD6wVmiv+RytNSWqc2f3fKvcUoV+Yn2+yocD71VOfQHbmVX4g==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/ts-node/-/ts-node-10.8.1.tgz}
     id: registry.npmjs.org/ts-node/10.8.1
     name: ts-node
@@ -34173,7 +34167,7 @@ packages:
       '@tsconfig/node12': registry.npmjs.org/@tsconfig/node12/1.0.11
       '@tsconfig/node14': registry.npmjs.org/@tsconfig/node14/1.0.3
       '@tsconfig/node16': registry.npmjs.org/@tsconfig/node16/1.0.3
-      '@types/node': registry.npmjs.org/@types/node/14.18.21
+      '@types/node': registry.npmjs.org/@types/node/18.0.0
       acorn: registry.npmjs.org/acorn/8.7.1
       acorn-walk: registry.npmjs.org/acorn-walk/8.2.0
       arg: registry.npmjs.org/arg/4.1.3
@@ -35282,7 +35276,7 @@ packages:
       chalk: registry.npmjs.org/chalk/4.1.2
       hash-sum: registry.npmjs.org/hash-sum/2.0.0
       loader-utils: registry.npmjs.org/loader-utils/2.0.2
-      webpack: registry.npmjs.org/webpack/5.69.0
+      webpack: registry.npmjs.org/webpack/5.69.0_esbuild@0.14.47
     dev: true
 
   registry.npmjs.org/vue-style-loader/4.1.3:
@@ -35825,7 +35819,6 @@ packages:
       - '@swc/core'
       - esbuild
       - uglify-js
-    dev: false
 
   registry.npmjs.org/webpack/5.69.0_wkjo2hiq5f7hoisy3o6yu6yuja:
     resolution: {integrity: sha512-E5Fqu89Gu8fR6vejRqu26h8ld/k6/dCVbeGUcuZjc+goQHDfCPU9rER71JmdtBYGmci7Ec2aFEATQ2IVXKy2wg==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/webpack/-/webpack-5.69.0.tgz}

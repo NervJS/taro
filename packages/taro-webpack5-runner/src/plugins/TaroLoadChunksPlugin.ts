@@ -46,11 +46,11 @@ export default class TaroLoadChunksPlugin {
   apply (compiler: Compiler) {
     const pagesList = this.pages
     const addChunkPagesList = new Map<string, string[]>()
-    compiler.hooks.thisCompilation.tap(PLUGIN_NAME, (compilation: Compilation) => {
+    compiler.hooks.thisCompilation.tap(PLUGIN_NAME, ([compilation]) => {
       let commonChunks
       const fileChunks = new Map<string, { name: string }[]>()
 
-      compilation.hooks.afterOptimizeChunks.tap(PLUGIN_NAME, (chunks: Chunk[]) => {
+      compilation.hooks.afterOptimizeChunks.tap(PLUGIN_NAME, ([chunks]) => {
         const chunksArray = Array.from(chunks)
         /**
          * 收集 common chunks 中使用到 @tarojs/components 中的组件
@@ -88,7 +88,7 @@ export default class TaroLoadChunksPlugin {
         }
       })
 
-      webpack.javascript.JavascriptModulesPlugin.getCompilationHooks(compilation).render.tap(PLUGIN_NAME, (modules: ConcatSource, { chunk }) => {
+      webpack.javascript.JavascriptModulesPlugin.getCompilationHooks(compilation).render.tap(PLUGIN_NAME, ([modules, context], { chunk }) => {
         const chunkEntryModule = getChunkEntryModule(compilation, chunk) as any
         if (chunkEntryModule) {
           const entryModule: TaroNormalModule = chunkEntryModule.rootModule ?? chunkEntryModule
@@ -96,19 +96,19 @@ export default class TaroLoadChunksPlugin {
             const source = new ConcatSource()
             source.add('module.exports=')
             source.add(modules)
-            return source
+            return [source, context]
           } else {
-            return modules
+            return [modules, context]
           }
         } else {
-          return modules
+          return [modules, context]
         }
       })
 
       /**
        * 在每个 chunk 文本刚生成后，按判断条件在文本头部插入 require 语句
        */
-      webpack.javascript.JavascriptModulesPlugin.getCompilationHooks(compilation).render.tap(PLUGIN_NAME, (modules: ConcatSource, { chunk }) => {
+      webpack.javascript.JavascriptModulesPlugin.getCompilationHooks(compilation).render.tap(PLUGIN_NAME, ([modules], { chunk }) => {
         const chunkEntryModule = getChunkEntryModule(compilation, chunk) as any
         if (chunkEntryModule) {
           if (this.isBuildPlugin) {

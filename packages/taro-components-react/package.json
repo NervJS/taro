@@ -30,9 +30,5 @@
     "resolve-pathname": "^3.0.0",
     "swiper": "6.8.0",
     "weui": "^1.1.2"
-  },
-  "devDependencies": {
-    "@tarojs/taro": "workspace:*",
-    "@types/node": "^14.14.31"
   }
 }
