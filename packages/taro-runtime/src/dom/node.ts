@@ -181,15 +181,17 @@ export class TaroNode extends TaroEventTarget {
     }
 
     // Serialization
-    if (!refChild || isReplace) {
-      // appendChild & replaceChild
-      this.enqueueUpdate({
-        path: newChild._path,
-        value: this.hydrate(newChild)
-      })
-    } else {
-      // insertBefore
-      this.updateChildNodes()
+    if (this._root) {
+      if (!refChild || isReplace) {
+        // appendChild & replaceChild
+        this.enqueueUpdate({
+          path: newChild._path,
+          value: this.hydrate(newChild)
+        })
+      } else {
+        // insertBefore
+        this.updateChildNodes()
+      }
     }
 
     MutationObserver.record({
@@ -275,7 +277,7 @@ export class TaroNode extends TaroEventTarget {
     }
 
     // Serialization
-    if (doUpdate !== false) {
+    if (this._root && doUpdate !== false) {
       this.updateChildNodes()
     }
 
