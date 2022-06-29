@@ -13,8 +13,8 @@
   ],
   "scripts": {
     "assets": "cpy 'src/**/*.png' '!src/__tests__/*' dist",
-    "build": "rimraf ./dist && tsc && yarn assets && yarn script",
-    "dev": "yarn assets && tsc --watch",
+    "build": "rimraf ./dist && tsc && pnpm run assets && pnpm run script",
+    "dev": "pnpm run assets && tsc --watch",
     "lint": "eslint .",
     "test": "jest --silent",
     "test:dev": "jest --watch",

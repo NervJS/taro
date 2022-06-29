@@ -5,8 +5,8 @@
   "main": "./dist/index.js",
   "scripts": {
     "assets": "cpy 'src/**/*.png' '!src/__tests__/*' dist",
-    "build": "rimraf ./dist && tsc && yarn assets",
-    "dev": "yarn assets && tsc --watch",
+    "build": "rimraf ./dist && tsc && pnpm run assets",
+    "dev": "pnpm run assets && tsc --watch",
     "lint": "eslint .",
     "test": "jest --silent",
     "test:dev": "jest --watch",

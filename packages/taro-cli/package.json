@@ -9,7 +9,7 @@
     "test:dev": "cross-env NODE_ENV=test jest --watch",
     "test:coverage": "cross-env NODE_ENV=test jest --coverage",
     "updateSnapshot": "cross-env NODE_ENV=test jest --updateSnapshot",
-    "build": "npm run clean && npm run prod",
+    "build": "pnpm run clean && pnpm run prod",
     "dev": "tsc -w",
     "prod": "tsc",
     "clean": "rimraf dist"

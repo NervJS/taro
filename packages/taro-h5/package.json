@@ -15,8 +15,8 @@
   "sideEffects": false,
   "scripts": {
     "assets": "cpy 'src/**/*.css' dist",
-    "build": "rimraf ./dist && tsc && npm run assets && rollup -c",
-    "predev": "npm run assets",
+    "build": "rimraf ./dist && tsc && pnpm run assets && rollup -c",
+    "predev": "pnpm run assets",
     "dev": "tsc -w",
     "test": "jest",
     "test:ci": "jest -i --coverage false",

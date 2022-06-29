@@ -4,9 +4,9 @@
   "description": "Mini app runner for taro",
   "main": "index.js",
   "scripts": {
-    "build": "npm run clean && npm run prod",
-    "dev": "npm run mv:comp && tsc -w",
-    "prod": "tsc && npm run mv:comp",
+    "build": "pnpm run clean && pnpm run prod",
+    "dev": "pnpm run mv:comp && tsc -w",
+    "prod": "tsc && pnpm run mv:comp",
     "mv:comp": "node ./mv-comp.js",
     "clean": "rimraf dist",
     "test": "cross-env NODE_ENV=jest jest",

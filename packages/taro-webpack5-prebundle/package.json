@@ -4,7 +4,7 @@
   "description": "Taro app webpack5 prebundle",
   "main": "dist/index.js",
   "scripts": {
-    "build": "npm run clean && npm run prod",
+    "build": "pnpm run clean && pnpm run prod",
     "dev": "tsc -w",
     "prod": "tsc",
     "clean": "rimraf dist",
