@@ -17,6 +17,9 @@ import type { EventOptions, MpEvent } from '../interface'
 
 // Taro 事件对象。以 Web 标准的事件对象为基础，加入小程序事件对象中携带的部分信息，并模拟实现事件冒泡。
 export class TaroEvent {
+  private cacheTarget
+  private cacheCurrentTarget
+
   public type: string
 
   public bubbles: boolean
@@ -55,32 +58,52 @@ export class TaroEvent {
   }
 
   get target () {
-    const target = Object.create(this.mpEvent?.target || null)
+    const cacheTarget = this.cacheTarget
+    if (!cacheTarget) {
+      const target = Object.create(this.mpEvent?.target || null)
 
-    const element = getDocument().getElementById(target.id)
-    target.dataset = element !== null ? element.dataset : EMPTY_OBJ
+      const element = getDocument().getElementById(target.id)
+      target.dataset = element !== null ? element.dataset : EMPTY_OBJ
 
-    for (const key in this.mpEvent?.detail) {
-      target[key] = this.mpEvent!.detail[key]
+      for (const key in this.mpEvent?.detail) {
+        target[key] = this.mpEvent!.detail[key]
+      }
+
+      this.cacheTarget = target
+
+      return target
+    } else {
+      return cacheTarget
     }
-
-    return target
   }
 
   get currentTarget () {
-    const currentTarget = Object.create(this.mpEvent?.currentTarget || null)
+    const cacheCurrentTarget = this.cacheCurrentTarget
+    if (!cacheCurrentTarget) {
+      const doc = getDocument()
 
-    const element = getDocument().getElementById(currentTarget.id)
-    if (element === null) {
-      return this.target
+      const currentTarget = Object.create(this.mpEvent?.currentTarget || null)
+
+      const element = doc.getElementById(currentTarget.id)
+      const targetElement = doc.getElementById(this.mpEvent?.target?.id || null)
+
+      if (element === null || (element && element === targetElement)) {
+        this.cacheCurrentTarget = this.target
+        return this.target
+      }
+
+      currentTarget.dataset = element.dataset
+
+      for (const key in this.mpEvent?.detail) {
+        currentTarget[key] = this.mpEvent!.detail[key]
+      }
+
+      this.cacheCurrentTarget = currentTarget
+
+      return currentTarget
+    } else {
+      return cacheCurrentTarget
     }
-    currentTarget.dataset = element.dataset
-
-    for (const key in this.mpEvent?.detail) {
-      currentTarget[key] = this.mpEvent!.detail[key]
-    }
-
-    return currentTarget
   }
 }
 
