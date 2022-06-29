@@ -154,6 +154,7 @@ export function mergeInternalComponents (components) {
       internalComponents[name] = components[name]
     }
   })
+  return internalComponents
 }
 
 export function getComponentsAlias (origin: typeof internalComponents) {
@@ -169,7 +170,16 @@ export function getComponentsAlias (origin: typeof internalComponents) {
   }
   origin = { ...origin, ...extraList }
   Object.keys(origin)
-    .sort()
+    .sort((a, b) => {
+      const reg = /^(Static|Pure|Catch)*(View|Image|Text)$/
+      if (reg.test(a)) {
+        return -1
+      } else if (reg.test(b)) {
+        return 1
+      } else {
+        return a >= b ? 1 : -1
+      }
+    })
     .forEach((key, num) => {
       const obj = {
         _num: String(num)
