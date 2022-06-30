@@ -1,7 +1,8 @@
-import * as fs from 'fs'
-import * as path from 'path'
-import { merge, isEmpty } from 'lodash'
 import * as helper from '@tarojs/helper'
+import * as fs from 'fs'
+import { isEmpty, merge } from 'lodash'
+import * as path from 'path'
+
 import { Config, RNConfig } from './types/index'
 
 // 编译config
@@ -187,10 +188,12 @@ function includes (filePath: string): boolean {
 }
 
 export {
-  setFromRunner,
-  isTaroRunner,
   getProjectConfig,
   getRNConfig,
+  includes,
+  isRelativePath,
+  isTaroRunner,
+  resolveExtFile,
   resolvePathFromAlias,
-  resolveExtFile
+  setFromRunner
 }

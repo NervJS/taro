@@ -14,21 +14,21 @@ type GetModulesRunBeforeMainModuleFunc = () => any
 type GetPolyfillsFunc = () => any
 interface MetroConfig {
   transformer: {
-    dynamicDepsInPackages: string;
-    babelTransformerPath: string;
-    assetRegistryPath: string;
-  },
+    dynamicDepsInPackages: string
+    babelTransformerPath: string
+    assetRegistryPath: string
+  }
   resolver: {
-    sourceExts: string[];
-    resolveRequest?: ResolveRequestFunc;
-  },
+    sourceExts: string[]
+    resolveRequest?: ResolveRequestFunc
+  }
   serializer: {
-    getModulesRunBeforeMainModule: GetModulesRunBeforeMainModuleFunc,
+    getModulesRunBeforeMainModule: GetModulesRunBeforeMainModuleFunc
     getPolyfills: GetPolyfillsFunc
-  },
-  cacheStores: ConditionalFileStore<any>[],
+  }
+  cacheStores: ConditionalFileStore<any>[]
   server: {
-    port: number;
+    port: number
   }
 }
 

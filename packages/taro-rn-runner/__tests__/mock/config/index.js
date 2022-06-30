@@ -81,6 +81,7 @@ const config = {
       ios: 'iosbundle/main.bundle'
     },
     alias: {
+      'src': path.resolve(__dirname, '..', 'src/'),
       '@/components': path.resolve(__dirname, '..', 'src/components'),
       '@/utils': path.resolve(__dirname, '..', 'src/utils')
     },
