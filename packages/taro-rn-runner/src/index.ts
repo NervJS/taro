@@ -119,7 +119,11 @@ export default async function build (_appPath: string, config: any): Promise<any
       metroConfig.server.port = config.port
     }
 
-    const { middleware, messageSocketEndpoint } = createDevServerMiddleware({
+    const {
+      middleware,
+      messageSocketEndpoint,
+      websocketEndpoints
+    } = createDevServerMiddleware({
       port: metroConfig.server.port,
       watchFolders: metroConfig.watchFolders
     })
@@ -144,7 +148,8 @@ export default async function build (_appPath: string, config: any): Promise<any
     // 支持host
     return Metro.runServer(metroConfig, {
       ...commonOptions,
-      hmrEnabled: true
+      hmrEnabled: true,
+      websocketEndpoints
     }).then(server => {
       console.log(`React-Native Dev server is running on port: ${metroConfig.server.port}`)
       console.log('\n\nTo reload the app press "r"\nTo open developer menu press "d"\n')
