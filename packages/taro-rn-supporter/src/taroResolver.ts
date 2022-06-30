@@ -6,16 +6,16 @@ import { emptyModulePath } from './defaults'
 import { resolveExtFile, resolvePathFromAlias } from './utils'
 
 interface VersionInfo {
-  major: number;
-  minor: number;
-  patch: number;
+  major: number
+  minor: number
+  patch: number
 }
 
 function getReactNativeBasePath (): string {
   const reactNativeModuleName = 'react-native'
   const rnBasePath = require.resolve(reactNativeModuleName)
   const splittings = rnBasePath.split(path.sep)
-  const index = splittings.indexOf(reactNativeModuleName)
+  const index = splittings.lastIndexOf(reactNativeModuleName)
   return splittings.slice(0, index + 1).join(path.sep)
 }
 

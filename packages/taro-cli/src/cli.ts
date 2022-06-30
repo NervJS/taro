@@ -116,6 +116,9 @@ export default class CLI {
             plugin = args.plugin
             platform = 'plugin'
             kernel.optsPlugins.push(path.resolve(platformsPath, 'plugin.js'))
+            if (plugin === 'weapp' || plugin === 'alipay') {
+              kernel.optsPlugins.push(`@tarojs/plugin-platform-${plugin}`)
+            }
           }
 
           // 传递 inspect 参数即可
