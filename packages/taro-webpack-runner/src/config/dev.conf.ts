@@ -88,6 +88,7 @@ export default function (appPath: string, config: Partial<BuildConfig>): any {
 
   plugin.mainPlugin = getMainPlugin({
     framework: config.framework,
+    frameworkExts: config.frameworkExts,
     entryFileName,
     sourceDir,
     outputDir,

@@ -1,16 +1,16 @@
+import {
+  isEmptyObject,
+  printLog,
+  processTypeEnum,
+  resolveMainFilePath
+} from '@tarojs/helper'
+import { Config } from '@tarojs/taro'
 import * as path from 'path'
 import * as webpack from 'webpack'
-import { Config } from '@tarojs/taro'
-import {
-  resolveMainFilePath,
-  isEmptyObject,
-  FRAMEWORK_EXT_MAP,
-  printLog,
-  processTypeEnum
-} from '@tarojs/helper'
-import { getIdOrName, addRequireToSource } from './TaroLoadChunksPlugin'
+
 import { IComponent } from '../utils/types'
 import MiniPlugin from './MiniPlugin'
+import { addRequireToSource, getIdOrName } from './TaroLoadChunksPlugin'
 
 const PLUGIN_NAME = 'BuildNativePlugin'
 
@@ -44,12 +44,12 @@ export default class BuildNativePlugin extends MiniPlugin {
       printLog(processTypeEnum.COMPILE, '发现入口', this.getShowPath(this.appEntry))
     }
 
-    const { framework } = this.options
+    const { frameworkExts } = this.options
     this.prerenderPages = new Set()
 
     this.pages = new Set([
       ...appPages.map<IComponent>(item => {
-        const pagePath = resolveMainFilePath(path.join(this.options.sourceDir, item), FRAMEWORK_EXT_MAP[framework])
+        const pagePath = resolveMainFilePath(path.join(this.options.sourceDir, item), frameworkExts)
 
         return {
           name: item,

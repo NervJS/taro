@@ -1,9 +1,8 @@
 import {
-  FRAMEWORK_EXT_MAP,
-  FRAMEWORK_MAP,
   isEmptyObject,
   readConfig,
-  resolveMainFilePath
+  resolveMainFilePath,
+  SCRIPT_EXT
 } from '@tarojs/helper'
 import { AppConfig } from '@tarojs/taro'
 import { defaults } from 'lodash'
@@ -13,7 +12,7 @@ import { EntryNormalized } from 'webpack'
 interface IH5AppInstOptions {
   sourceDir: string
   entryFileName: string
-  framework: FRAMEWORK_MAP
+  frameworkExts: string[]
 }
 
 export default class H5AppInstance {
@@ -27,7 +26,7 @@ export default class H5AppInstance {
     this.options = defaults(options || {}, {
       sourceDir: '',
       entryFileName: 'app',
-      framework: FRAMEWORK_MAP.NERV
+      frameworkExts: SCRIPT_EXT
     })
     this.entry = entry
   }
@@ -62,12 +61,12 @@ export default class H5AppInstance {
       if (!appPages || !appPages.length) {
         throw new Error('全局配置缺少 pages 字段，请检查！')
       }
-      const { framework, sourceDir } = this.options
+      const { frameworkExts, sourceDir } = this.options
 
       this.__pages = new Set([
         ...appPages.map(item => ({
           name: item,
-          path: resolveMainFilePath(path.join(sourceDir, item), FRAMEWORK_EXT_MAP[framework])
+          path: resolveMainFilePath(path.join(sourceDir, item), frameworkExts)
         }))
       ])
       this.getSubPackages()
@@ -77,7 +76,7 @@ export default class H5AppInstance {
 
   getSubPackages () {
     const subPackages = this.appConfig.subPackages || this.appConfig.subpackages
-    const { framework, sourceDir } = this.options
+    const { frameworkExts, sourceDir } = this.options
     if (subPackages && subPackages.length) {
       subPackages.forEach(item => {
         if (item.pages && item.pages.length) {
@@ -92,7 +91,7 @@ export default class H5AppInstance {
               }
             })
             if (!hasPageIn) {
-              const pagePath = resolveMainFilePath(path.join(sourceDir, pageItem), FRAMEWORK_EXT_MAP[framework])
+              const pagePath = resolveMainFilePath(path.join(sourceDir, pageItem), frameworkExts)
               this.pages.add({
                 name: pageItem,
                 path: pagePath

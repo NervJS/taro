@@ -1,4 +1,4 @@
-import { FRAMEWORK_MAP, resolveMainFilePath } from '@tarojs/helper'
+import { resolveMainFilePath } from '@tarojs/helper'
 import path from 'path'
 import { Configuration, EntryNormalized } from 'webpack'
 
@@ -30,13 +30,13 @@ export class H5Combination extends Combination<H5BuildConfig> {
       chunkDirectory = 'chunk',
       alias = {},
       router,
-      framework
+      frameworkExts
     } = config
     const routerMode = router?.mode || 'hash'
     const isMultiRouterMode = routerMode === 'multi'
     this.inst = new H5AppInstance(entry as EntryNormalized, {
       sourceDir: this.sourceDir,
-      framework: framework as FRAMEWORK_MAP,
+      frameworkExts,
       entryFileName
     })
     if (isMultiRouterMode) {

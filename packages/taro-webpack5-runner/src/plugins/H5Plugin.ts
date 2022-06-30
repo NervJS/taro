@@ -1,4 +1,4 @@
-import { FRAMEWORK_MAP } from '@tarojs/helper'
+import { FRAMEWORK_MAP, SCRIPT_EXT } from '@tarojs/helper'
 import { AppConfig } from '@tarojs/taro'
 import { VirtualModule } from '@tarojs/webpack5-prebundle/dist/h5'
 import { defaults } from 'lodash'
@@ -15,6 +15,7 @@ interface IH5PluginOptions {
   routerConfig: any
   entryFileName: string
   framework: FRAMEWORK_MAP
+  frameworkExts: string[]
   useHtmlComponents: boolean
   deviceRatio: any
   designWidth: number
@@ -37,6 +38,7 @@ export default class H5Plugin {
       routerConfig: {},
       entryFileName: 'app',
       framework: FRAMEWORK_MAP.NERV,
+      frameworkExts: SCRIPT_EXT,
       useHtmlComponents: false,
       deviceRatio: {},
       designWidth: 750,

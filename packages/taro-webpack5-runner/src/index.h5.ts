@@ -1,4 +1,4 @@
-import { chalk, FRAMEWORK_MAP, recursiveMerge, SOURCE_DIR } from '@tarojs/helper'
+import { chalk, recursiveMerge, SOURCE_DIR } from '@tarojs/helper'
 import { isFunction } from '@tarojs/shared'
 import Prebundle from '@tarojs/webpack5-prebundle'
 import detectPort from 'detect-port'
@@ -144,7 +144,7 @@ async function getDevServerOptions (appPath: string, config: H5BuildConfig): Pro
   if (isMultiRouterMode) {
     const app = new H5AppInstance(config.entry as EntryNormalized, {
       sourceDir: path.join(appPath, config.sourceRoot || SOURCE_DIR),
-      framework: config.framework as FRAMEWORK_MAP,
+      frameworkExts: config.frameworkExts,
       entryFileName: config.entryFileName
     })
     const appConfig = app.appConfig

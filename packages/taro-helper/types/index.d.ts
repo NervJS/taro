@@ -148,7 +148,6 @@ declare interface helper {
   TEMP_DIR: '.temp'
   NPM_DIR: 'npm'
   ENTRY: 'app'
-  FRAMEWORK_EXT_MAP: Record<FRAMEWORK_MAP, string[]>
 }
 declare const helper: helper
 // @ts-ignore

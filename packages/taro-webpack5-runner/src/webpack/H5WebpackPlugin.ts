@@ -124,6 +124,7 @@ export class H5WebpackPlugin {
       sourceDir,
       outputDir,
       framework: config.framework,
+      frameworkExts: config.frameworkExts,
       entryFileName,
       routerConfig: router,
       useHtmlComponents,
