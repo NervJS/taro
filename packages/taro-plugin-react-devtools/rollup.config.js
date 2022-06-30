@@ -1,7 +1,7 @@
-import typescript from '@rollup/plugin-typescript'
 import { join } from 'path'
 import copy from 'rollup-plugin-copy'
 import externals from 'rollup-plugin-node-externals'
+import ts from 'rollup-plugin-ts'
 
 const cwd = __dirname
 
@@ -15,7 +15,7 @@ const base = {
         { src: 'src/backend/index.js', dest: 'dist/backend' }
       ]
     }),
-    typescript()
+    ts()
   ]
 }
 

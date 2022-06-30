@@ -1,4 +1,4 @@
-import typescript from '@rollup/plugin-typescript'
+import ts from 'rollup-plugin-ts'
 
 const { join } = require('path')
 
@@ -15,10 +15,11 @@ const baseConfig = {
     }
   ],
   plugins: [
-    typescript({
-      compilerOptions: {
+    ts({
+      tsconfig: config => ({
+        ...config,
         preserveConstEnums: true
-      }
+      })
     })
   ]
 }
@@ -29,7 +30,7 @@ const esmConfig = Object.assign({}, baseConfig, {
     file: join(cwd, 'dist/shared.esm.js')
   }),
   plugins: [
-    typescript()
+    ts()
   ]
 })
 
@@ -45,7 +46,7 @@ const templateConfig = {
     }
   ],
   plugins: [
-    typescript()
+    ts()
   ]
 }
 

@@ -1,6 +1,6 @@
-import typescript from '@rollup/plugin-typescript'
 import * as path from 'path'
 import externals from 'rollup-plugin-node-externals'
+import ts from 'rollup-plugin-ts'
 
 const cwd = __dirname
 
@@ -9,7 +9,7 @@ const base = {
     externals({
       devDeps: false
     }),
-    typescript()
+    ts()
   ]
 }
 

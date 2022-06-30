@@ -1,11 +1,11 @@
-import typescript from '@rollup/plugin-typescript'
 import * as path from 'path'
+import ts from 'rollup-plugin-ts'
 
 const cwd = __dirname
 
 const base = {
   external: ['@tarojs/shared', '@tarojs/service'],
-  plugins: [typescript()]
+  plugins: [ts()]
 }
 
 // 供 CLI 编译时使用的 Taro 插件入口

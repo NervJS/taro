@@ -22,7 +22,7 @@ export default (ctx: IPluginContext) => {
     },
     async fn ({ _, options }) {
       const { npm } = options
-      const [, updateType, version] = _ as [string, ('self' | 'project')?, number?]
+      const [, updateType, version] = _ as [string, ('self' | 'project')?, string?]
       const { appPath, configPath } = ctx.paths
       const {
         chalk,

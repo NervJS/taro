@@ -1,8 +1,8 @@
 import babel from '@rollup/plugin-babel'
 import commonjs from '@rollup/plugin-commonjs'
 import resolve from '@rollup/plugin-node-resolve'
-import typescript from '@rollup/plugin-typescript'
 import postcss from 'rollup-plugin-postcss'
+import ts from 'rollup-plugin-ts'
 
 // 供 Loader 使用的运行时入口
 export default {
@@ -25,8 +25,11 @@ export default {
     postcss({
       inject: { insertAt: 'top' }
     }),
-    typescript({
-      sourceMap: true
+    ts({
+      tsconfig: config => ({
+        ...config,
+        sourceMap: true
+      })
     }),
     commonjs({
       include: '../../node_modules/**'

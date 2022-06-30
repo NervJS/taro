@@ -1,6 +1,6 @@
 import buble from '@rollup/plugin-buble'
-import typescript from '@rollup/plugin-typescript'
 import * as path from 'path'
+import ts from 'rollup-plugin-ts'
 
 const cwd = __dirname
 
@@ -16,7 +16,7 @@ const baseConfig = {
     }
   ],
   plugins: [
-    typescript(),
+    ts(),
     buble()
   ]
 }

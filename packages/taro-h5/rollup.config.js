@@ -1,9 +1,9 @@
 import commonjs from '@rollup/plugin-commonjs'
 import resolve from '@rollup/plugin-node-resolve'
-import typescript from '@rollup/plugin-typescript'
 import { mergeWith } from 'lodash'
 import externals from 'rollup-plugin-node-externals'
 import postcss from 'rollup-plugin-postcss'
+import ts from 'rollup-plugin-ts'
 
 import exportNameOnly from './build/rollup-plugin-export-name-only'
 
@@ -22,9 +22,11 @@ const baseConfig = {
       preferBuiltins: false,
       mainFields: ['main:h5', 'browser', 'module', 'jsnext:main', 'main']
     }),
-    typescript({
-      typescript: require('typescript'),
-      sourceMap: true
+    ts({
+      tsconfig: config => ({
+        ...config,
+        sourceMap: true
+      })
     }),
     commonjs(),
     postcss({
