@@ -185,10 +185,4 @@ declare module './index' {
     /** 页面的组件选项 */
     options?: Record<string, unknown>
   }
-  interface TaroStatic {
-    memo<P = {}>(
-      FunctionComponent: FunctionComponent<P>,
-      compare?: (oldProps: P, newProps: P) => boolean
-    ): FunctionComponent<P>
-  }
 }

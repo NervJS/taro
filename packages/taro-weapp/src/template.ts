@@ -47,7 +47,7 @@ export class Template extends UnRecursiveTemplate {
       return `function(i, prefix) {
       var s = i.focus !== undefined ? 'focus' : 'blur'
       var r = prefix + i.${nn} + '_' + s
-      if ((i.nn === '${textarea}' || i.nn === '${input}') && i.cn[0] && i[i.cn[0]].nn === '${ka}') {
+      if ((i.nn === '${textarea}' || i.nn === '${input}') && i.cn[0] && i.cn[0].nn === '${ka}') {
         r = r + '_ka'
       }
       return r
@@ -66,9 +66,9 @@ export class Template extends UnRecursiveTemplate {
       const nodeNameAlias = componentAlias._num
 
       const target = `
-    <keyboard-accessory style="{{i[i.cn[0]].st}}" class="{{i[i.cn[0]].cl}}" bindtap="eh"  id="{{i[i.cn[0]].uid||i[i.cn[0]].sid}}" data-sid="{{i[i.cn[0]].sid}}">
-      <block wx:for="{{i[i.cn[0]].cn}}" wx:key="*this">
-        <template is="{{xs.e(cid+1)}}" data="{{i:i[i.cn[0]][item],l:l}}" />
+    <keyboard-accessory style="{{i.cn[0].st}}" class="{{i.cn[0].cl}}" bindtap="eh"  id="{{i.cn[0].uid||i.cn[0].sid}}" data-sid="{{i.cn[0].sid}}">
+      <block wx:for="{{i.cn[0].cn}}" wx:key="sid">
+        <template is="{{xs.e(cid+1)}}" data="{{i:item,l:l}}" />
       </block>
     </keyboard-accessory>
   `
