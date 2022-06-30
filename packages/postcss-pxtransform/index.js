@@ -47,7 +47,8 @@ module.exports = postcss.plugin('postcss-pxtransform', function (options = {}) {
   switch (options.platform) {
     case 'h5': {
       options.rootValue = (input, m) => {
-        const val = Math.max(Math.min(1 / options.deviceRatio[designWidth(input)] * (designWidth(input) / 16), options.max ?? 40), options.mix ?? 20)
+        const rv = 1 / options.deviceRatio[designWidth(input)] * (designWidth(input) / 16)
+        const val = Math.max(Math.min(rv, options.max ?? 40), options.mix ?? 20)
         return m.indexOf('rpx') >= 0 ? val / 0.5 : val
       }
       targetUnit = 'rem'

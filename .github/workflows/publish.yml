@@ -138,9 +138,9 @@ jobs:
       - name: Publish
         run: |
           if [ '${{ github.event_name }}' == 'pull_request' ] ; then
-            pnpm -r --filter=./packages/* exec npm publish
+            pnpm -r --filter=./packages/* exec pnpm publish
           elif [ '${{ github.event_name }}' == 'push' ] ; then
-            pnpm -r --filter=./packages/* exec npm publish ${{ env.PUBLISH_PARAMS }}
+            pnpm -r --filter=./packages/* exec pnpm publish ${{ env.PUBLISH_PARAMS }}
           fi
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
