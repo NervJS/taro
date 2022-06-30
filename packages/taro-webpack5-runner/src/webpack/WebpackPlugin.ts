@@ -63,7 +63,7 @@ export default class WebpackPlugin {
 
   static getCssMinimizerPlugin (minimizer: 'esbuild' | 'parcelCss' | 'csso', minimizerOptions: Record<string, any>) {
     const CssMinimizerPlugin = require('css-minimizer-webpack-plugin')
-    let minify = CssMinimizerPlugin.cssoMinify
+    let minify = CssMinimizerPlugin.cssnanoMinify
     if (minimizer === 'esbuild') {
       minify = CssMinimizerPlugin.esbuildMinify
     } else if (minimizer === 'parcelCss') {
@@ -73,7 +73,12 @@ export default class WebpackPlugin {
       test: REG_STYLE,
       parallel: true,
       minify,
-      minimizerOptions
+      minimizerOptions: {
+        preset: [
+          'default',
+          minimizerOptions
+        ]
+      }
     }
     return WebpackPlugin.getPlugin(CssMinimizerPlugin, [options])
   }
