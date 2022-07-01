@@ -11,6 +11,7 @@ on:
 
 env:
   CI: true
+  BRANCH_NAME: ${{ github.head_ref || github.ref_name }}
 jobs:
   publish:
     name: Publish
@@ -95,7 +96,7 @@ jobs:
       # ------------------ If git tag already exists, skip -------------
 
       - name: Git tag verification
-        if: steps.tag_check.outputs.exists_tag != 'false'
+        if: steps.tag_check.outputs.exists_tag == false
         uses: andymckay/cancel-action@0.2
 
       # Bootstrap project
@@ -106,11 +107,10 @@ jobs:
           key: ${{ runner.os }}-${{ hashFiles('**/pnpm-lock.yaml') }}
           restore-keys: |
             ${{ runner.os }}-
-
       - name: install
-        uses: pnpm/action-setup@v2.1.0
+        uses: pnpm/action-setup@v2.2.2
         with:
-          version: 7.4.0
+          version: 7.4
           run_install: |
             - recursive: true
               args: [--frozen-lockfile]
@@ -138,9 +138,9 @@ jobs:
       - name: Publish
         run: |
           if [ '${{ github.event_name }}' == 'pull_request' ] ; then
-            pnpm -r --filter=./packages/* exec pnpm publish
+            pnpm publish --registry=https://registry.npmjs.org/ --publish-branch=${{ env.BRANCH_NAME }} -r
           elif [ '${{ github.event_name }}' == 'push' ] ; then
-            pnpm -r --filter=./packages/* exec pnpm publish ${{ env.PUBLISH_PARAMS }}
+            pnpm publish --registry=https://registry.npmjs.org/ --publish-branch=${{ env.BRANCH_NAME }} -r ${{ env.PUBLISH_PARAMS }}
           fi
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -148,13 +148,10 @@ jobs:
 
       # ------------------ After publish -------------
 
-      - name: Pull request merged verification
-        if: github.event.pull_request.merged != true
-        uses: andymckay/cancel-action@0.2
-
       # Create release when event is PR
       - name: Create Release
         id: create_release
+        if: github.event.pull_request.merged == true
         uses: actions/create-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -169,6 +166,7 @@ jobs:
 
       # Create PR page comment when event is PR
       - uses: actions/github-script@0.8.0
+        if: github.event.pull_request.merged == true
         with:
           github-token: ${{secrets.GITHUB_TOKEN}}
           script: |

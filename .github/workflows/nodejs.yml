@@ -37,16 +37,13 @@ jobs:
           key: ${{ runner.os }}-${{ hashFiles('**/pnpm-lock.yaml') }}
           restore-keys: |
             ${{ runner.os }}-
-
       - name: install
-        uses: pnpm/action-setup@v2.1.0
+        uses: pnpm/action-setup@v2.2.2
         with:
-          version: 7.4.0
+          version: 7.4
           run_install: |
             - recursive: true
               args: [--frozen-lockfile]
-      - name: build
-        run: pnpm run build
       - name: lint
         run: pnpm run lint
       - name: build

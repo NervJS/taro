@@ -38,8 +38,11 @@ module.exports = {
     'react/jsx-uses-vars': 'warn',
     'react/prop-types': 0,
     'react/no-find-dom-node': 0,
+    quotes: ['error', 'single', { avoidEscape: true, allowTemplateLiterals: true }],
+    semi: ['error', 'never'],
     'simple-import-sort/imports': 'error',
     'simple-import-sort/exports': 'error',
+    'space-before-function-paren': ['error', 'always'],
     'standard/no-callback-literal': 0
   },
   env: {
