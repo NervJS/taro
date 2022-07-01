@@ -47,15 +47,6 @@
       "<rootDir>/node_modules"
     ]
   },
-  "lint-staged": {
-    "*.{js,json,md}": [
-      "prettier --write",
-      "git add"
-    ]
-  },
-  "prettier": {
-    "trailingComma": "all"
-  },
   "files": [
     "dist",
     "src",

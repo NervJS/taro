@@ -59,17 +59,6 @@
     ],
     "testRegex": ".*\\.test\\.js$|src/.*/__tests__/.*\\.js$"
   },
-  "lint-staged": {
-    "**/*.{js,json,md}": [
-      "prettier --write",
-      "git add"
-    ]
-  },
-  "prettier": {
-    "semi": true,
-    "singleQuote": false,
-    "trailingComma": "none"
-  },
   "dependencies": {
     "react-native-known-styling-properties": "^1.0.4"
   }

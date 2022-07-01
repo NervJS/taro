@@ -22,7 +22,7 @@
     "preinstall": "npx only-allow pnpm",
     "build": "pnpm -r --filter=./packages/* run build",
     "clear-all": "rimraf **/node_modules",
-    "lint": "eslint packages/  --ext .js --ext .ts --ext .tsx",
+    "lint": "eslint packages/ --ext .js --ext .ts --ext .tsx",
     "lint:style": "stylelint ./packages/**/*.{css,scss}",
     "test": "pnpm -r --filter @tarojs/cli --filter babel-preset-taro --filter @tarojs/components --filter @tarojs/taro-h5 --filter @tarojs/react --filter @tarojs/webpack-runner --filter @tarojs/mini-runner --filter @tarojs/runtime --filter @tarojs/taro-rn --filter @tarojs/components-rn run test:ci --parallel",
     "version": "run-s version:*",
@@ -35,7 +35,7 @@
       "eslint --fix",
       "git add"
     ],
-    "*.{json}": [
+    "*.json": [
       "prettier --write",
       "git add -f"
     ]
@@ -163,7 +163,7 @@
     "postcss": "^8.4.12",
     "postcss-scss": "^4.0.3",
     "power-assert": "^1.6.1",
-    "prettier": "^1.18.2",
+    "prettier": "^2.7.1",
     "prop-types": "^15.7.2",
     "react": "18.0.0",
     "react-dom": "18.0.0",
