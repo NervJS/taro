@@ -1,5 +1,4 @@
 import {
-  FRAMEWORK_EXT_MAP,
   isEmptyObject,
   printLog,
   processTypeEnum,
@@ -45,12 +44,12 @@ export default class BuildNativePlugin extends MiniPlugin {
       printLog(processTypeEnum.COMPILE, '发现入口', this.getShowPath(this.appEntry))
     }
 
-    const { framework } = this.options
+    const { frameworkExts } = this.options
     this.prerenderPages = new Set()
 
     this.pages = new Set([
       ...appPages.map<IComponent>(item => {
-        const pagePath = resolveMainFilePath(path.join(this.options.sourceDir, item), FRAMEWORK_EXT_MAP[framework])
+        const pagePath = resolveMainFilePath(path.join(this.options.sourceDir, item), frameworkExts)
 
         return {
           name: item,

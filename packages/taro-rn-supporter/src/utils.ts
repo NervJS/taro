@@ -190,6 +190,8 @@ function includes (filePath: string): boolean {
 export {
   getProjectConfig,
   getRNConfig,
+  includes,
+  isRelativePath,
   isTaroRunner,
   resolveExtFile,
   resolvePathFromAlias,

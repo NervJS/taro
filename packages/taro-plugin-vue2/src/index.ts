@@ -1,4 +1,4 @@
-import { chalk, REG_VUE } from '@tarojs/helper'
+import { chalk, REG_VUE, VUE_EXT } from '@tarojs/helper'
 import { DEFAULT_Components } from '@tarojs/runner-utils'
 import type { IPluginContext } from '@tarojs/service'
 import { isString } from '@tarojs/shared'
@@ -28,6 +28,8 @@ export default (ctx: IPluginContext) => {
   })
 
   ctx.modifyRunnerOpts(({ opts }) => {
+    opts.frameworkExts = VUE_EXT
+
     if (!opts?.compiler) return
 
     // 提供给 webpack5 依赖预编译收集器的第三方依赖

@@ -141,6 +141,7 @@ export class MiniWebpackPlugin {
       nodeModulesPath: config.nodeModulesPath,
       /** config & message */
       framework: config.framework || 'react',
+      frameworkExts: config.frameworkExts,
       fileType,
       template: config.template,
       commonChunks: this.getCommonChunks(),

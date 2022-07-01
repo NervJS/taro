@@ -410,6 +410,7 @@ export interface IProjectBaseConfig {
   presets?: PluginItem[]
   baseLevel?: number
   framework?: string
+  frameworkExts?: string[]
   compiler?: Compiler
   cache?: ICache
   logger?: ILogger

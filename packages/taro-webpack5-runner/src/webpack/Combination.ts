@@ -1,4 +1,4 @@
-import { META_TYPE, recursiveMerge } from '@tarojs/helper'
+import { META_TYPE, recursiveMerge, SCRIPT_EXT } from '@tarojs/helper'
 import { getSassLoaderOption } from '@tarojs/runner-utils'
 import { isFunction, isObject } from '@tarojs/shared'
 import { IPrebundle } from '@tarojs/webpack5-prebundle'
@@ -48,7 +48,8 @@ export class Combination<T extends MiniBuildConfig | H5BuildConfig = CommonBuild
     this.config = {
       ...rawConfig,
       sassLoaderOption,
-      mode: process.env.NODE_ENV || rawConfig.mode
+      mode: process.env.NODE_ENV || rawConfig.mode,
+      frameworkExts: rawConfig.frameworkExts || SCRIPT_EXT
     }
   }
 

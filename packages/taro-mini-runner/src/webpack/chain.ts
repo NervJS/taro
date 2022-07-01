@@ -13,7 +13,8 @@ import {
   REG_STYLE,
   REG_STYLUS,
   REG_TEMPLATE,
-  resolveMainFilePath
+  resolveMainFilePath,
+  SCRIPT_EXT
 } from '@tarojs/helper'
 import { getSassLoaderOption } from '@tarojs/runner-utils'
 import { ICopyOptions, IPostcssOption, PostcssOption } from '@tarojs/taro/types/compile'
@@ -61,7 +62,8 @@ export const makeConfig = async (buildConfig: IBuildConfig) => {
   const sassLoaderOption = await getSassLoaderOption(buildConfig)
   return {
     ...buildConfig,
-    sassLoaderOption
+    sassLoaderOption,
+    frameworkExts: buildConfig.frameworkExts || SCRIPT_EXT
   }
 }
 

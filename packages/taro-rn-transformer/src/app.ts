@@ -43,7 +43,7 @@ function getPageScreen (pagePath: string) {
   return `{name:'${screen}',pagePath:'${pagePath}',component:createPageConfig(${screen},{...${screenConfigName},pagePath:'${pagePath}'})}`
 }
 
-function getAppConfig (appPath: string) {
+export function getAppConfig (appPath: string) {
   // 读取配置文件内容
   if (!appPath) {
     throw new Error('缺少 app 全局配置文件，请检查！')
@@ -127,7 +127,7 @@ export default function generateEntry ({
   ${importPageList}
   ${`import AppComponentConfig from '${appComponentPath}.config';`}
   ${importPageConfig}
-  
+
   AppComponentConfig.tabBar = ${JSON.stringify(appTabBar)}
 
   const buildConfig = ${JSON.stringify(appConfig)}
