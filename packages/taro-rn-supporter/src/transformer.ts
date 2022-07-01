@@ -1,5 +1,6 @@
-import { transform as babelTransform, getCacheKey } from 'metro-react-native-babel-transformer'
 import { merge } from 'lodash'
+import { getCacheKey, transform as babelTransform } from 'metro-react-native-babel-transformer'
+
 import { getProjectConfig } from './utils'
 
 const _babelTransform = ({ src, filename, options, plugins }) => {
@@ -38,8 +39,8 @@ const transform = ({ src, filename, options, plugins }) => {
 }
 
 export {
-  transform,
-  getCacheKey
+  getCacheKey,
+  transform
 }
 
 module.exports.transform = function ({ src, filename, options }) {

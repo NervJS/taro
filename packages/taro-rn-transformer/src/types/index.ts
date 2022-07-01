@@ -1,43 +1,43 @@
 export const globalAny: any = global
 export interface TransformType {
-  src: string,
-  filename: string,
+  src: string
+  filename: string
   options: {
-    nextTransformer: any,
-    entry?: string,
-    sourceRoot?: string,
-    projectRoot: string,
-    appName?: string,
-    isEntryFile: (filename: string) => boolean,
-    designWidth?: number,
-    deviceRatio?: Record<number, number>,
-    rn?: Record<string, any>,
+    nextTransformer: any
+    entry?: string
+    sourceRoot?: string
+    projectRoot: string
+    appName?: string
+    isEntryFile: (filename: string) => boolean
+    designWidth?: number
+    deviceRatio?: Record<number, number>
+    rn?: Record<string, any>
   }
 }
 
 export interface TransformPage {
-  projectRoot: string,
-  filename: string,
-  sourceCode: string,
-  sourceDir: string,
+  projectRoot: string
+  filename: string
+  sourceCode: string
+  sourceDir: string
 }
 
 export interface TransformEntry {
-  sourceDir: string,
-  appName: string,
-  projectRoot: string,
-  filename: string,
-  designWidth: number,
-  deviceRatio: Record<number, number>,
+  sourceDir: string
+  appName: string
+  projectRoot: string
+  filename: string
+  designWidth: number
+  deviceRatio: Record<number, number>
   entryName: string
 }
 
 export interface AppConfig {
   pages: string[]
   subPackages?: SubPackage[]
-  subpackages?: SubPackage[],
-  designWidth: number,
-  deviceRatio?: Record<number, unknown>,
+  subpackages?: SubPackage[]
+  designWidth: number
+  deviceRatio?: Record<number, unknown>
   tabBar:Record<string, any>
 }
 

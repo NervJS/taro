@@ -1,10 +1,9 @@
-import { TaroElement } from './element'
 import {
-  VALUE,
+  CHANGE,
   INPUT,
-  CHANGE
+  VALUE
 } from '../constants'
-
+import { TaroElement } from './element'
 import type { TaroEvent } from './event'
 
 export class FormElement extends TaroElement {

@@ -1,15 +1,16 @@
 // RootNavigation.js
-import * as React from 'react'
+import { NavigationContainerRef, StackActions } from '@react-navigation/native'
 import { camelCase } from 'lodash'
-import { StackActions, NavigationContainerRef } from '@react-navigation/native'
-import { getTabBarPages, setTabInitRoute, handleUrl } from './utils/index'
-import { CallbackResult, BaseOption } from './utils/types'
+import * as React from 'react'
+
+import { getTabBarPages, handleUrl, setTabInitRoute } from './utils/index'
+import { BaseOption, CallbackResult } from './utils/types'
 // import { getOpenerEventChannel } from './getOpenerEventChannel'
 
 type NavigateMethod = 'navigateTo' | 'redirectTo' | 'navigateBack' | 'switchTab' | 'reLaunch'
 
 interface NavigateOption extends BaseOption {
-  url: string,
+  url: string
   events?: Record<string, any>
 }
 
@@ -18,8 +19,8 @@ interface NavigateBackOption extends BaseOption {
 }
 
 interface NavigateRef extends NavigationContainerRef<ReactNavigation.RootParamList> {
-  setOptions: (obj: any) => void;
-  navigateConfig: (obj: any) => void;
+  setOptions: (obj: any) => void
+  navigateConfig: (obj: any) => void
 }
 
 let routeEvtChannel

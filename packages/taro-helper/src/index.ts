@@ -1,12 +1,12 @@
-import * as fs from 'fs-extra'
 import * as chalk from 'chalk'
 import * as chokidar from 'chokidar'
+import * as fs from 'fs-extra'
 
-import * as constants from './constants'
-import * as utils from './utils'
-import * as npm from './npm'
 import createBabelRegister, { injectDefineConfigHeader } from './babelRegister'
+import * as constants from './constants'
+import * as npm from './npm'
 import createSwcRegister from './swcRegister'
+import * as utils from './utils'
 
 export const helper = {
   ...constants,

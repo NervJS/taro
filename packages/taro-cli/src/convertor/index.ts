@@ -41,31 +41,31 @@ const OUTPUT_STYLE_EXTNAME = '.scss'
 const WX_GLOBAL_FN = new Set<string>(['getApp', 'getCurrentPages', 'requirePlugin', 'Behavior'])
 
 interface IComponent {
-  name: string;
-  path: string;
+  name: string
+  path: string
 }
 
 interface IImport {
-  ast: t.File;
-  name: string;
-  wxs?: boolean;
+  ast: t.File
+  name: string
+  wxs?: boolean
 }
 
 interface IParseAstOptions {
-  ast: t.File;
-  sourceFilePath: string;
-  outputFilePath: string;
-  importStylePath?: string | null;
-  depComponents?: Set<IComponent>;
-  imports?: IImport[];
-  isApp?: boolean;
+  ast: t.File
+  sourceFilePath: string
+  outputFilePath: string
+  importStylePath?: string | null
+  depComponents?: Set<IComponent>
+  imports?: IImport[]
+  isApp?: boolean
 }
 
 interface ITaroizeOptions {
-  json?: string;
-  script?: string;
-  wxml?: string;
-  path?: string;
+  json?: string
+  script?: string
+  wxml?: string
+  path?: string
   rootPath?: string
 }
 
@@ -158,7 +158,7 @@ export default class Convertor {
     importStylePath,
     depComponents,
     imports = []
-  }: IParseAstOptions): { ast: t.File; scriptFiles: Set<string> } {
+  }: IParseAstOptions): { ast: t.File, scriptFiles: Set<string> } {
     const scriptFiles = new Set<string>()
     // eslint-disable-next-line @typescript-eslint/no-this-alias
     const self = this

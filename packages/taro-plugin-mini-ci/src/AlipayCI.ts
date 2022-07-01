@@ -1,5 +1,6 @@
 /* eslint-disable no-console */
 import * as path from 'path'
+
 import BaseCI from './BaseCi'
 import generateQrCode from './QRCode'
 

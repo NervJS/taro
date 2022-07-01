@@ -1,5 +1,6 @@
-import { allCSS2RNProps } from 'react-native-known-styling-properties'
-import { utils } from 'stylelint'
+import { allCSS2RNProps } from "react-native-known-styling-properties";
+import { utils } from "stylelint";
+
 import {
   isCustomProperty,
   isExportBlock,
@@ -9,18 +10,18 @@ import {
   kebabCase,
   namespace,
   optionsMatches
-} from '../../utils'
+} from "../../utils";
 
-export const ruleName = namespace('css-property-no-unknown')
+export const ruleName = namespace("css-property-no-unknown");
 
 export const messages = utils.ruleMessages(ruleName, {
   rejected: property => `无效的 React Native 样式属性 "${property}"`
-})
+});
 
-const props = allCSS2RNProps.map(kebabCase)
+const props = allCSS2RNProps.map(kebabCase);
 
-export default function (actual, options) {
-  return function (root, result) {
+export default function(actual, options) {
+  return function(root, result) {
     const validOptions = utils.validateOptions(
       result,
       ruleName,
@@ -34,37 +35,37 @@ export default function (actual, options) {
         },
         optional: true
       }
-    )
+    );
 
     if (!validOptions) {
-      return
+      return;
     }
 
     root.walkDecls(decl => {
-      const prop = decl.prop
+      const prop = decl.prop;
 
       if (!isStandardSyntaxProperty(prop)) {
-        return
+        return;
       }
 
       if (!isStandardSyntaxDeclaration(decl)) {
-        return
+        return;
       }
 
       if (isCustomProperty(prop)) {
-        return
+        return;
       }
 
       if (isExportBlock(decl.parent)) {
-        return
+        return;
       }
 
-      if (optionsMatches(options, 'ignoreProperties', prop)) {
-        return
+      if (optionsMatches(options, "ignoreProperties", prop)) {
+        return;
       }
 
       if (props.indexOf(prop.toLowerCase()) !== -1) {
-        return
+        return;
       }
 
       utils.report({
@@ -72,7 +73,7 @@ export default function (actual, options) {
         node: decl,
         result,
         ruleName
-      })
-    })
-  }
+      });
+    });
+  };
 }

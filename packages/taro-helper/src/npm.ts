@@ -9,7 +9,7 @@ const erroneous: string[] = []
 
 type pluginFunction = (pluginName: string, content: string | null, file: string, config: Record<string, any>, root: string) => any
 export interface IInstallOptions {
-  dev: boolean,
+  dev: boolean
   peerDependencies?: boolean
 }
 

@@ -21,7 +21,7 @@ export const enum processTypeEnum {
 
 export interface IProcessTypeMap {
   [key: string]: {
-    name: string,
+    name: string
     color: string | chalk.Chalk
   }
 }

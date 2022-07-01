@@ -6,9 +6,9 @@ import { emptyModulePath } from './defaults'
 import { resolveExtFile, resolvePathFromAlias } from './utils'
 
 interface VersionInfo {
-  major: number;
-  minor: number;
-  patch: number;
+  major: number
+  minor: number
+  patch: number
 }
 
 function getReactNativeBasePath (): string {

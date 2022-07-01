@@ -1,9 +1,10 @@
-import * as path from 'path'
+import { isEmptyObject, readPageConfig } from '@tarojs/helper'
 import * as fs from 'fs'
 import { camelCase } from 'lodash'
-import { isEmptyObject, readPageConfig } from '@tarojs/helper'
+import * as path from 'path'
+
+import { AppConfig, TransformEntry } from './types/index'
 import { getConfigContent, getConfigFilePath, parseBase64Image } from './utils'
-import { TransformEntry, AppConfig } from './types/index'
 
 function getPagesResource (appPath: string, basePath: string, pathPrefix: string) {
   const importPages: string[] = []
