@@ -79,7 +79,7 @@ export default class H5Plugin {
         if (!suffixRgx.test(name)) return
 
         const filePath = path.join(dir, name)
-        const pageName = filePath.replace(sourceDir + process.platform === 'win32' ? '\\' : '/', '').replace(suffixRgx, '')
+        const pageName = filePath.replace(sourceDir + (process.platform === 'win32' ? '\\' : '/'), '').replace(suffixRgx, '')
         const routerMode = routerConfig?.mode || 'hash'
         const isMultiRouterMode = routerMode === 'multi'
         const isApp = !isMultiRouterMode && pageName === entryFileName
