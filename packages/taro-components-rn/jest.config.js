@@ -3,7 +3,7 @@ module.exports = {
   verbose: true,
   setupFilesAfterEnv: ['<rootDir>/src/setup.ts'],
   transform: {
-    '^.+\\.js$': '<rootDir>/../../node_modules/react-native/jest/preprocessor.js',
+    '^.+\\.js$': '<rootDir>/node_modules/react-native/jest/preprocessor.js',
     '^.+\\.tsx?$': 'ts-jest'
   },
   transformIgnorePatterns: [
