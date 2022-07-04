@@ -36,6 +36,8 @@ export default (ctx: IPluginContext) => {
           target: 'es5'
         }
       }
+      prebundleOptions.exclude ||= []
+      prebundleOptions.exclude.push('@tarojs/plugin-platform-alipay/dist/runtime')
     }
   })
 }
