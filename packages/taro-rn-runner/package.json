@@ -55,5 +55,12 @@
     "qrcode-terminal": "^0.12.0",
     "rollup-plugin-clear": "^2.0.7",
     "rollup-plugin-image-file": "^1.0.2"
+  },
+  "devDependencies": {
+    "expo-file-system": "~14.0.0",
+    "react-is": "^16.13.0",
+    "react-native-root-siblings": "^4.1.1",
+    "stylelint-config-taro-rn": "workspace:*",
+    "stylelint-taro-rn": "workspace:*"
   }
 }

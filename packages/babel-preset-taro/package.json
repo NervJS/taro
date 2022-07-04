@@ -46,5 +46,8 @@
     "babel-plugin-transform-taroapi": "workspace:*",
     "core-js": "^3.6.5",
     "metro-react-native-babel-preset": "^0.67.0"
+  },
+  "devDependencies": {
+    "@tarojs/taro-rn": "workspace:*"
   }
 }
