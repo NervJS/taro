@@ -82,11 +82,13 @@ export class H5WebpackPlugin {
     const options = this.pxtransformOption?.config || {}
     const max = options?.max ?? 40
     const min = options?.min ?? 20
+    const baseFontSize = options.baseFontSize ?? min > 1 ? min : 20
     const designWidth = input => typeof options.designWidth === 'function'
       ? options.designWidth(input)
       : options.designWidth
-    const deviceRatio = options.deviceRatio[designWidth(min)]
-    const htmlScript = `!function(n){function f(){var e=n.document.documentElement,w=e.getBoundingClientRect().width,x=w/16/${deviceRatio};e.style.fontSize=x>=${max}?"${max}px":x<=${min}?"${min}px":x+"px"}n.addEventListener("resize",(function(){f()})),f()}(window);`
+    const dw = designWidth(min)
+    const rv = Math.max(Math.min(1 / options.deviceRatio[dw] / baseFontSize, max), min) * 2
+    const htmlScript = `!function(n){function f(){var e=n.document.documentElement,w=e.getBoundingClientRect().width;e.style.fontSize=${rv}*w/${dw}+"px"}n.addEventListener("resize",(function(){f()})),f()}(window);`
     const args: Record<string, string | string []> = {
       filename: `${entry || 'index'}.html`,
       template: path.join(this.combination.sourceDir, 'index.html'),
