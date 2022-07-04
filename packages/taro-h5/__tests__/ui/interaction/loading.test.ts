@@ -1,4 +1,4 @@
-import 'jest-dom/extend-expect'
+import '@testing-library/jest-dom/extend-expect'
 
 import * as Taro from '@tarojs/taro-h5'
 

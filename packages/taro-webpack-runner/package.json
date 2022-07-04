@@ -73,6 +73,7 @@
   },
   "devDependencies": {
     "@types/webpack": "4",
-    "@types/webpack-dev-server": "3"
+    "@types/webpack-dev-server": "3",
+    "webpack-merge": "^4.2.2"
   }
 }

@@ -41,12 +41,14 @@ importers:
       '@tarojs/plugin-platform-tt': workspace:*
       '@tarojs/plugin-platform-weapp': workspace:*
       '@tarojs/router': workspace:*
+      '@tarojs/runtime': workspace:*
       '@tarojs/shared': workspace:*
       '@tarojs/taro': workspace:*
       '@tarojs/taro-h5': workspace:*
       '@tarojs/taro-loader': workspace:*
       '@tarojs/taro-rn': workspace:*
       '@tarojs/webpack-runner': workspace:*
+      '@testing-library/jest-dom': ^5.16.4
       '@testing-library/jest-native': ^4.0.4
       '@testing-library/react-native': ^9.0.0
       '@types/autoprefixer': 9.7.0
@@ -111,7 +113,6 @@ importers:
       gh-pages: ^1.1.0
       husky: ^8.0.1
       jest: 26.4.2
-      jest-dom: ^1.3.1
       jest-expo: ^45.0.1
       jest-fetch-mock: ^3.0.3
       jest-localstorage-mock: ^2.4.0
@@ -191,12 +192,14 @@ importers:
       '@tarojs/plugin-platform-tt': link:packages/taro-tt
       '@tarojs/plugin-platform-weapp': link:packages/taro-weapp
       '@tarojs/router': link:packages/taro-router
+      '@tarojs/runtime': link:packages/taro-runtime
       '@tarojs/shared': link:packages/shared
       '@tarojs/taro': link:packages/taro
       '@tarojs/taro-h5': link:packages/taro-h5
       '@tarojs/taro-loader': link:packages/taro-loader
       '@tarojs/taro-rn': link:packages/taro-rn
       '@tarojs/webpack-runner': link:packages/taro-webpack-runner
+      '@testing-library/jest-dom': registry.npmjs.org/@testing-library/jest-dom/5.16.4
       '@testing-library/jest-native': registry.npmjs.org/@testing-library/jest-native/4.0.5
       '@testing-library/react-native': registry.npmjs.org/@testing-library/react-native/9.1.0_hu3ahtgtujq76vsul4i4hbebdu
       '@types/autoprefixer': registry.npmjs.org/@types/autoprefixer/9.7.0
@@ -261,7 +264,6 @@ importers:
       gh-pages: registry.npmjs.org/gh-pages/1.2.0
       husky: registry.npmjs.org/husky/8.0.1
       jest: registry.npmjs.org/jest/26.4.2
-      jest-dom: registry.npmjs.org/jest-dom/1.12.1
       jest-expo: registry.npmjs.org/jest-expo/45.0.1_jjjottrgczsepz5a4pvitltx5m
       jest-fetch-mock: registry.npmjs.org/jest-fetch-mock/3.0.3
       jest-localstorage-mock: registry.npmjs.org/jest-localstorage-mock/2.4.21
@@ -774,6 +776,7 @@ importers:
       webpack: 4.46.0
       webpack-chain: 4.9.0
       webpack-format-messages: ^2.0.5
+      webpack-merge: ^4.2.2
       webpack-sources: ^3.2.3
     dependencies:
       '@babel/core': registry.npmjs.org/@babel/core/7.18.5
@@ -836,6 +839,7 @@ importers:
       webpack-sources: registry.npmjs.org/webpack-sources/3.2.3
     devDependencies:
       '@types/webpack': registry.npmjs.org/@types/webpack/4.41.32
+      webpack-merge: registry.npmjs.org/webpack-merge/4.2.2
 
   packages/taro-plugin-html:
     specifiers:
@@ -1337,6 +1341,7 @@ importers:
       webpack-chain: 4.9.0
       webpack-dev-server: 3.11.3
       webpack-format-messages: ^2.0.5
+      webpack-merge: ^4.2.2
     dependencies:
       '@tarojs/helper': link:../taro-helper
       '@tarojs/runner-utils': link:../taro-runner-utils
@@ -1381,6 +1386,7 @@ importers:
     devDependencies:
       '@types/webpack': registry.npmjs.org/@types/webpack/4.41.32
       '@types/webpack-dev-server': registry.npmjs.org/@types/webpack-dev-server/3.11.6
+      webpack-merge: registry.npmjs.org/webpack-merge/4.2.2
 
   packages/taro-webpack5-prebundle:
     specifiers:
@@ -8849,6 +8855,23 @@ packages:
       - supports-color
     dev: false
 
+  registry.npmjs.org/@testing-library/jest-dom/5.16.4:
+    resolution: {integrity: sha512-Gy+IoFutbMQcky0k+bqqumXZ1cTGswLsFqmNLzNdSKkU9KGV2u9oXhukCbbJ9/LRPKiqwxEE8VpV/+YZlfkPUA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@testing-library/jest-dom/-/jest-dom-5.16.4.tgz}
+    name: '@testing-library/jest-dom'
+    version: 5.16.4
+    engines: {node: '>=8', npm: '>=6', yarn: '>=1'}
+    dependencies:
+      '@babel/runtime': registry.npmjs.org/@babel/runtime/7.18.3
+      '@types/testing-library__jest-dom': registry.npmjs.org/@types/testing-library__jest-dom/5.14.5
+      aria-query: registry.npmjs.org/aria-query/5.0.0
+      chalk: registry.npmjs.org/chalk/3.0.0
+      css: registry.npmjs.org/css/3.0.0
+      css.escape: registry.npmjs.org/css.escape/1.5.1
+      dom-accessibility-api: registry.npmjs.org/dom-accessibility-api/0.5.14
+      lodash: registry.npmjs.org/lodash/4.17.21
+      redent: registry.npmjs.org/redent/3.0.0
+    dev: true
+
   registry.npmjs.org/@testing-library/jest-native/4.0.5:
     resolution: {integrity: sha512-SwtoZmNGjYC88CBCIf8FJxQD6vGv942zIgJwVK0/WgT/j77t6dDM1kkvaMaQy/poyjHnsq4QH5FgxNZLg5PenA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@testing-library/jest-native/-/jest-native-4.0.5.tgz}
     name: '@testing-library/jest-native'
@@ -11326,6 +11349,13 @@ packages:
     resolution: {integrity: sha512-8+9WqebbFzpX9OR+Wa6O29asIogeRMzcGtAINdpMHHyAg10f05aSFVBbcEqGf/PXw1EjAZ+q2/bEBg3DvurK3Q==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/argparse/-/argparse-2.0.1.tgz}
     name: argparse
     version: 2.0.1
+
+  registry.npmjs.org/aria-query/5.0.0:
+    resolution: {integrity: sha512-V+SM7AbUwJ+EBnB8+DXs0hPZHO0W6pqBcc0dW90OwtVG02PswOu/teuARoLQjdDOH+t9pJgGnW5/Qmouf3gPJg==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/aria-query/-/aria-query-5.0.0.tgz}
+    name: aria-query
+    version: 5.0.0
+    engines: {node: '>=6.0'}
+    dev: true
 
   registry.npmjs.org/arity-n/1.0.4:
     resolution: {integrity: sha512-fExL2kFDC1Q2DUOx3whE/9KoN66IzkY4b4zUHUBFM1ojEYjZZYDcUW3bek/ufGionX9giIKDC5redH2IlGqcQQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/arity-n/-/arity-n-1.0.4.tgz}
@@ -16165,6 +16195,12 @@ packages:
     engines: {node: '>= 6'}
     dev: false
 
+  registry.npmjs.org/css.escape/1.5.1:
+    resolution: {integrity: sha512-YUifsXXuknHlUsmlgyY0PKzgPOr7/FjCePfHNt0jxm83wHZi44VDMQ7/fGNkjY3/jV1MC+1CmZbaHzugyeRtpg==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/css.escape/-/css.escape-1.5.1.tgz}
+    name: css.escape
+    version: 1.5.1
+    dev: true
+
   registry.npmjs.org/css/2.2.4:
     resolution: {integrity: sha512-oUnjmWpy0niI3x/mPL8dVEI1l7MnG3+HHyRPHf+YFSbK+svOhXpmSOcDURUh2aOCgl2grzrOPt1nHLuCVFULLw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/css/-/css-2.2.4.tgz}
     name: css
@@ -16174,6 +16210,7 @@ packages:
       source-map: registry.npmjs.org/source-map/0.6.1
       source-map-resolve: registry.npmjs.org/source-map-resolve/0.5.3
       urix: registry.npmjs.org/urix/0.1.0
+    dev: false
 
   registry.npmjs.org/css/3.0.0:
     resolution: {integrity: sha512-DG9pFfwOrzc+hawpmqX/dHYHJG+Bsdb0klhyi1sDneOgGOXy9wQIC8hzyVp1e4NRYDBdxcylvywPkkXCHAzTyQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/css/-/css-3.0.0.tgz}
@@ -16183,7 +16220,6 @@ packages:
       inherits: registry.npmjs.org/inherits/2.0.4
       source-map: registry.npmjs.org/source-map/0.6.1
       source-map-resolve: registry.npmjs.org/source-map-resolve/0.6.0
-    dev: false
 
   registry.npmjs.org/cssesc/3.0.0:
     resolution: {integrity: sha512-/Tb/JcjK111nNScGob5MNtsntNM1aCNUDipB/TkwZFhyDrrE47SOx/18wF2bbjgc3ZzCSKW1T5nt5EbFoAz/Vg==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/cssesc/-/cssesc-3.0.0.tgz}
@@ -17268,6 +17304,12 @@ packages:
     engines: {node: '>=6.0.0'}
     dependencies:
       esutils: registry.npmjs.org/esutils/2.0.3
+
+  registry.npmjs.org/dom-accessibility-api/0.5.14:
+    resolution: {integrity: sha512-NMt+m9zFMPZe0JcY9gN224Qvk6qLIdqex29clBvc/y75ZBX9YA9wNK3frsYvu2DI1xcCIwxwnX+TlsJ2DSOADg==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/dom-accessibility-api/-/dom-accessibility-api-0.5.14.tgz}
+    name: dom-accessibility-api
+    version: 0.5.14
+    dev: true
 
   registry.npmjs.org/dom-converter/0.2.0:
     resolution: {integrity: sha512-gd3ypIPfOMr9h5jIKq8E3sHOTCjeirnl0WK5ZdS1AW0Odt0b1PaWaHdJ4Qk4klv+YB9aJBS7mESXjFoDQPu6DA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/dom-converter/-/dom-converter-0.2.0.tgz}
@@ -23506,17 +23548,6 @@ packages:
       - utf-8-validate
     dev: true
 
-  registry.npmjs.org/jest-diff/22.4.3:
-    resolution: {integrity: sha512-/QqGvCDP5oZOF6PebDuLwrB2BMD8ffJv6TAGAdEVuDx1+uEgrHpSFrfrOiMRx2eJ1hgNjlQrOQEHetVwij90KA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/jest-diff/-/jest-diff-22.4.3.tgz}
-    name: jest-diff
-    version: 22.4.3
-    dependencies:
-      chalk: registry.npmjs.org/chalk/2.4.2
-      diff: registry.npmjs.org/diff/3.5.0
-      jest-get-type: registry.npmjs.org/jest-get-type/22.4.3
-      pretty-format: registry.npmjs.org/pretty-format/22.4.3
-    dev: true
-
   registry.npmjs.org/jest-diff/24.9.0:
     resolution: {integrity: sha512-qMfrTs8AdJE2iqrTp0hzh7kTd2PQWrsFyj9tORoKmu32xjPjeE4NyjVRDz8ybYwqS2ik8N4hsIpiVTyFeo2lBQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/jest-diff/-/jest-diff-24.9.0.tgz}
     name: jest-diff
@@ -23560,21 +23591,6 @@ packages:
     engines: {node: '>= 10.14.2'}
     dependencies:
       detect-newline: registry.npmjs.org/detect-newline/3.1.0
-    dev: true
-
-  registry.npmjs.org/jest-dom/1.12.1:
-    resolution: {integrity: sha512-QZGnuUT3sK6YNcJq6kyrK1PE1WrkYaaXtOJD4WrT6RIv6qyrUS76xYbWGUxXAZykcqhqaTmCSuCpn//0GDtgqA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/jest-dom/-/jest-dom-1.12.1.tgz}
-    name: jest-dom
-    version: 1.12.1
-    engines: {node: '> 4', npm: '> 3'}
-    deprecated: '🚨 jest-dom has moved to @testing-library/jest-dom. Please uninstall jest-dom and install @testing-library/jest-dom instead, or use an older version of jest-dom. Learn more about this change here: https://github.com/testing-library/dom-testing-library/issues/260 Thanks! :)'
-    dependencies:
-      chalk: registry.npmjs.org/chalk/2.4.2
-      css: registry.npmjs.org/css/2.2.4
-      jest-diff: registry.npmjs.org/jest-diff/22.4.3
-      jest-matcher-utils: registry.npmjs.org/jest-matcher-utils/22.4.3
-      pretty-format: registry.npmjs.org/pretty-format/23.6.0
-      redent: registry.npmjs.org/redent/2.0.0
     dev: true
 
   registry.npmjs.org/jest-each/26.6.2:
@@ -23656,12 +23672,6 @@ packages:
       promise-polyfill: registry.npmjs.org/promise-polyfill/8.2.3
     transitivePeerDependencies:
       - encoding
-    dev: true
-
-  registry.npmjs.org/jest-get-type/22.4.3:
-    resolution: {integrity: sha512-/jsz0Y+V29w1chdXVygEKSz2nBoHoYqNShPe+QgxSNjAuP1i8+k4LbQNrfoliKej0P45sivkSCh7yiD6ubHS3w==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/jest-get-type/-/jest-get-type-22.4.3.tgz}
-    name: jest-get-type
-    version: 22.4.3
     dev: true
 
   registry.npmjs.org/jest-get-type/24.9.0:
@@ -23800,16 +23810,6 @@ packages:
     name: jest-localstorage-mock
     version: 2.4.21
     engines: {node: '>=6.16.0'}
-    dev: true
-
-  registry.npmjs.org/jest-matcher-utils/22.4.3:
-    resolution: {integrity: sha512-lsEHVaTnKzdAPR5t4B6OcxXo9Vy4K+kRRbG5gtddY8lBEC+Mlpvm1CJcsMESRjzUhzkz568exMV1hTB76nAKbA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/jest-matcher-utils/-/jest-matcher-utils-22.4.3.tgz}
-    name: jest-matcher-utils
-    version: 22.4.3
-    dependencies:
-      chalk: registry.npmjs.org/chalk/2.4.2
-      jest-get-type: registry.npmjs.org/jest-get-type/22.4.3
-      pretty-format: registry.npmjs.org/pretty-format/22.4.3
     dev: true
 
   registry.npmjs.org/jest-matcher-utils/24.9.0:
@@ -30582,24 +30582,6 @@ packages:
       renderkid: registry.npmjs.org/renderkid/3.0.0
     dev: false
 
-  registry.npmjs.org/pretty-format/22.4.3:
-    resolution: {integrity: sha512-S4oT9/sT6MN7/3COoOy+ZJeA92VmOnveLHgrwBE3Z1W5N9S2A1QGNYiE1z75DAENbJrXXUb+OWXhpJcg05QKQQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/pretty-format/-/pretty-format-22.4.3.tgz}
-    name: pretty-format
-    version: 22.4.3
-    dependencies:
-      ansi-regex: registry.npmjs.org/ansi-regex/3.0.1
-      ansi-styles: registry.npmjs.org/ansi-styles/3.2.1
-    dev: true
-
-  registry.npmjs.org/pretty-format/23.6.0:
-    resolution: {integrity: sha512-zf9NV1NSlDLDjycnwm6hpFATCGl/K1lt0R/GdkAK2O5LN/rwJoB+Mh93gGJjut4YbmecbfgLWVGSTCr0Ewvvbw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/pretty-format/-/pretty-format-23.6.0.tgz}
-    name: pretty-format
-    version: 23.6.0
-    dependencies:
-      ansi-regex: registry.npmjs.org/ansi-regex/3.0.1
-      ansi-styles: registry.npmjs.org/ansi-styles/3.2.1
-    dev: true
-
   registry.npmjs.org/pretty-format/24.9.0:
     resolution: {integrity: sha512-00ZMZUiHaJrNfk33guavqgvfJS30sLYf0f8+Srklv0AMPodGGHcoHgksZ3OThYnIvOd+8yMCn0YiEOogjlgsnA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/pretty-format/-/pretty-format-24.9.0.tgz}
     name: pretty-format
@@ -33818,7 +33800,6 @@ packages:
     dependencies:
       atob: registry.npmjs.org/atob/2.1.2
       decode-uri-component: registry.npmjs.org/decode-uri-component/0.2.0
-    dev: false
 
   registry.npmjs.org/source-map-support/0.4.18:
     resolution: {integrity: sha512-try0/JqxPLF9nOjvSta7tVondkP5dwgyLDjVoyMDlmjugT2lRZ1OfsrYTkCd2hkDnJTKRbO/Rl3orm8vlsUzbA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/source-map-support/-/source-map-support-0.4.18.tgz}
@@ -37308,7 +37289,6 @@ packages:
     version: 4.2.2
     dependencies:
       lodash: registry.npmjs.org/lodash/4.17.21
-    dev: false
 
   registry.npmjs.org/webpack-sources/1.4.3:
     resolution: {integrity: sha512-lgTS3Xhv1lCOKo7SA5TjKXMjpSM4sBjNV5+q2bqesbSPs5FjGmU6jjtBSkX9b4qW87vDIsCIlUPOEhbZrMdjeQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/webpack-sources/-/webpack-sources-1.4.3.tgz}
