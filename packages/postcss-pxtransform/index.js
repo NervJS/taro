@@ -41,17 +41,13 @@ module.exports = postcss.plugin('postcss-pxtransform', function (options = {}) {
   options = Object.assign({}, DEFAULT_WEAPP_OPTIONS, options)
 
   const transUnits = ['px']
-  const baseFontSize = options.baseFontSize ?? options.mix >= 1 ? options.mix : 20
+  const baseFontSize = options.baseFontSize ?? options.minRootSize >= 1 ? options.minRootSize : 20
   const designWidth = input => typeof options.designWidth === 'function'
     ? options.designWidth(input)
     : options.designWidth
   switch (options.platform) {
     case 'h5': {
-      options.rootValue = input => {
-        const rv = 1 / options.deviceRatio[designWidth(input)] * baseFontSize
-        const val = Math.max(Math.min(rv, options.max ?? 40), options.mix ?? 20)
-        return val * 2
-      }
+      options.rootValue = input => baseFontSize / options.deviceRatio[designWidth(input)] * 2
       targetUnit = 'rem'
       transUnits.push('rpx')
       break
