@@ -10,27 +10,10 @@ import { StyleSheetValidation } from './StyleSheet'
 import { TransformOptions, RenderAdditionalResult } from '../types'
 import { normalizeSourceMap } from '../utils'
 
-// todo: 有点长了，可以考虑通过 import 导入
 export function getWrapedCSS (css) {
   return `
-import { StyleSheet, Dimensions } from 'react-native'
-
-// 一般app 只有竖屏模式，所以可以只获取一次 width
-const deviceWidthDp = Dimensions.get('window').width
-const deviceHeightDp = Dimensions.get('window').height
-const uiWidthPx = 375
-
-function scalePx2dp (uiElementPx) {
-  return uiElementPx * deviceWidthDp / uiWidthPx
-}
-function scaleVu2dp(uiElementPx, unit) {
-  return ({
-    vw: uiElementPx * deviceWidthDp / 100,
-    vh: uiElementPx * deviceHeightDp / 100,
-    vmax: uiElementPx * Math.max(deviceWidthDp, deviceHeightDp) / 100,
-    vmin: uiElementPx * Math.min(deviceWidthDp, deviceHeightDp) / 100,
-  })[unit]
-}
+import { StyleSheet } from 'react-native'
+import { scalePx2dp, scaleVu2dp } from '@tarojs/runtime-rn'
 
 // 用来标识 rn-runner transformer 是否读写缓存
 function ignoreStyleFileCache() {}
