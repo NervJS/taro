@@ -18,6 +18,7 @@ importers:
       '@babel/preset-env': ^7.14.5
       '@babel/preset-react': ^7.14.5
       '@babel/preset-typescript': ^7.14.5
+      '@babel/runtime': ^7.14.5
       '@babel/traverse': ^7.14.5
       '@babel/types': ^7.14.5
       '@commitlint/cli': ^16.2.1
@@ -41,6 +42,7 @@ importers:
       '@tarojs/plugin-platform-tt': workspace:*
       '@tarojs/plugin-platform-weapp': workspace:*
       '@tarojs/router': workspace:*
+      '@tarojs/runner-utils': workspace:*
       '@tarojs/runtime': workspace:*
       '@tarojs/shared': workspace:*
       '@tarojs/taro': workspace:*
@@ -169,6 +171,7 @@ importers:
       '@babel/preset-env': registry.npmjs.org/@babel/preset-env/7.18.2_@babel+core@7.18.5
       '@babel/preset-react': registry.npmjs.org/@babel/preset-react/7.17.12_@babel+core@7.18.5
       '@babel/preset-typescript': registry.npmjs.org/@babel/preset-typescript/7.17.12_@babel+core@7.18.5
+      '@babel/runtime': registry.npmjs.org/@babel/runtime/7.18.3
       '@babel/traverse': registry.npmjs.org/@babel/traverse/7.18.5
       '@babel/types': registry.npmjs.org/@babel/types/7.18.4
       '@commitlint/cli': registry.npmjs.org/@commitlint/cli/16.3.0
@@ -192,6 +195,7 @@ importers:
       '@tarojs/plugin-platform-tt': link:packages/taro-tt
       '@tarojs/plugin-platform-weapp': link:packages/taro-weapp
       '@tarojs/router': link:packages/taro-router
+      '@tarojs/runner-utils': link:packages/taro-runner-utils
       '@tarojs/runtime': link:packages/taro-runtime
       '@tarojs/shared': link:packages/shared
       '@tarojs/taro': link:packages/taro
@@ -289,7 +293,7 @@ importers:
       rollup-plugin-copy: registry.npmjs.org/rollup-plugin-copy/3.4.0
       rollup-plugin-node-externals: registry.npmjs.org/rollup-plugin-node-externals/4.0.0_rollup@2.75.7
       rollup-plugin-postcss: registry.npmjs.org/rollup-plugin-postcss/3.1.8
-      rollup-plugin-ts: registry.npmjs.org/rollup-plugin-ts/3.0.2_5fbs3kle7qnxcizu7rwf4hpuum
+      rollup-plugin-ts: registry.npmjs.org/rollup-plugin-ts/3.0.2_hbdm3g7d6nykyzblzzemb4zhwy
       shelljs: registry.npmjs.org/shelljs/0.8.5
       sinon: registry.npmjs.org/sinon/7.5.0
       stylelint: registry.npmjs.org/stylelint/14.9.1
@@ -32619,7 +32623,7 @@ packages:
       style-inject: registry.npmjs.org/style-inject/0.3.0
     dev: true
 
-  registry.npmjs.org/rollup-plugin-ts/3.0.2_5fbs3kle7qnxcizu7rwf4hpuum:
+  registry.npmjs.org/rollup-plugin-ts/3.0.2_hbdm3g7d6nykyzblzzemb4zhwy:
     resolution: {integrity: sha512-67qi2QTHewhLyKDG6fX3jpohWpmUPPIT/xJ7rsYK46X6MqmoWy64Ti0y8ygPfLv8mXDCdRZUofM3mTxDfCswRA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/rollup-plugin-ts/-/rollup-plugin-ts-3.0.2.tgz}
     id: registry.npmjs.org/rollup-plugin-ts/3.0.2
     name: rollup-plugin-ts
@@ -32655,6 +32659,7 @@ packages:
       '@babel/plugin-transform-runtime': registry.npmjs.org/@babel/plugin-transform-runtime/7.18.5_@babel+core@7.18.5
       '@babel/preset-env': registry.npmjs.org/@babel/preset-env/7.18.2_@babel+core@7.18.5
       '@babel/preset-typescript': registry.npmjs.org/@babel/preset-typescript/7.17.12_@babel+core@7.18.5
+      '@babel/runtime': registry.npmjs.org/@babel/runtime/7.18.3
       '@rollup/pluginutils': registry.npmjs.org/@rollup/pluginutils/4.2.1
       '@wessberg/stringutil': registry.npmjs.org/@wessberg/stringutil/1.0.19
       ansi-colors: registry.npmjs.org/ansi-colors/4.1.3

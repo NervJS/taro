@@ -130,7 +130,7 @@ export async function compile (app: string, customConfig: Partial<IBuildConfig> 
  * 处理不同框架的自定义逻辑
  * @param chain webpack-chain
  */
-function frameworkPatch (chain, webpack, config: Partial<IBuildConfig> = {}) {
+function frameworkPatch (chain, webpack, config) {
   const mockCtx = {
     initialConfig: {
       framework: config.framework || 'react'
@@ -142,9 +142,11 @@ function frameworkPatch (chain, webpack, config: Partial<IBuildConfig> = {}) {
   let frameworkPlugin: any = ReactLikePlugin
   switch (config.framework) {
     case 'vue':
+      config.opts = {}
       frameworkPlugin = Vue2Plugin
       break
     case 'vue3':
+      config.opts = {}
       frameworkPlugin = Vue3Plugin
       break
   }

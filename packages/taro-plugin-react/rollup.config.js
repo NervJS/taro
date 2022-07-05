@@ -1,19 +1,15 @@
 import * as path from 'path'
+import externals from 'rollup-plugin-node-externals'
 import ts from 'rollup-plugin-ts'
 
 const cwd = __dirname
 
 const base = {
-  external: [
-    '@tarojs/helper',
-    '@tarojs/shared',
-    '@tarojs/runtime',
-    '@pmmmwh/react-refresh-webpack-plugin',
-    'acorn',
-    'acorn-walk'
-  ],
   plugins: [
-    ts()
+    externals({
+      devDeps: false,
+    }),
+    ts(),
   ]
 }
 
