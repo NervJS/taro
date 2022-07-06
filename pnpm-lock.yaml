@@ -669,6 +669,7 @@ importers:
       '@babel/runtime': ^7.14.5
       '@swc/core': ^1.2.204
       '@swc/register': ^0.1.10
+      ansi-escapes: ^4.3.2
       chalk: 3.0.0
       chokidar: ^3.3.1
       cross-spawn: ^7.0.3
@@ -677,6 +678,7 @@ importers:
       fs-extra: ^8.0.1
       lodash: ^4.17.21
       resolve: ^1.22.0
+      supports-hyperlinks: ^2.2.0
       yauzl: 2.10.0
     dependencies:
       '@babel/core': registry.npmjs.org/@babel/core/7.18.5
@@ -689,6 +691,7 @@ importers:
       '@babel/runtime': registry.npmjs.org/@babel/runtime/7.18.3
       '@swc/core': registry.npmjs.org/@swc/core/1.2.205
       '@swc/register': registry.npmjs.org/@swc/register/0.1.10_@swc+core@1.2.205
+      ansi-escapes: registry.npmjs.org/ansi-escapes/4.3.2
       chalk: registry.npmjs.org/chalk/3.0.0
       chokidar: registry.npmjs.org/chokidar/3.5.3
       cross-spawn: registry.npmjs.org/cross-spawn/7.0.3
@@ -697,6 +700,7 @@ importers:
       fs-extra: registry.npmjs.org/fs-extra/8.1.0
       lodash: registry.npmjs.org/lodash/4.17.21
       resolve: registry.npmjs.org/resolve/1.22.1
+      supports-hyperlinks: registry.npmjs.org/supports-hyperlinks/2.2.0
       yauzl: registry.npmjs.org/yauzl/2.10.0
 
   packages/taro-jd:

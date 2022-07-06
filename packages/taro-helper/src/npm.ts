@@ -1,5 +1,4 @@
-import * as chalk from 'chalk'
-
+import { chalk } from './terminal'
 import * as Util from './utils'
 
 const PEERS = /UNMET PEER DEPENDENCY ([a-z\-0-9.]+)@(.+)/gm

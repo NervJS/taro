@@ -1,24 +1,11 @@
-import * as chalk from 'chalk'
-import * as chokidar from 'chokidar'
-import * as fs from 'fs-extra'
+export * as chokidar from 'chokidar'
+export * as fs from 'fs-extra'
 
-import createBabelRegister, { injectDefineConfigHeader } from './babelRegister'
-import * as constants from './constants'
-import * as npm from './npm'
-import createSwcRegister from './swcRegister'
-import * as utils from './utils'
+export const createDebug = (id: string) => require('debug')(id)
 
-export const helper = {
-  ...constants,
-  ...utils,
-  npm,
-  createBabelRegister,
-  injectDefineConfigHeader,
-  createSwcRegister,
-  fs,
-  chalk,
-  chokidar,
-  createDebug: id => require('debug')(id)
-}
-
-export default helper
+export { default as createBabelRegister, injectDefineConfigHeader } from './babelRegister'
+export * from './constants'
+export * as npm from './npm'
+export { default as createSwcRegister } from './swcRegister'
+export * from './terminal'
+export * from './utils'

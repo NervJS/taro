@@ -3,7 +3,7 @@
   "version": "3.5.0-theta.1",
   "description": "Taro Helper",
   "main": "index.js",
-  "types": "types/index.d.ts",
+  "types": "dist/index.d.ts",
   "scripts": {
     "build": "run-s clean prod",
     "dev": "tsc -w",
@@ -42,6 +42,7 @@
     "@babel/runtime": "^7.14.5",
     "@swc/core": "^1.2.204",
     "@swc/register": "^0.1.10",
+    "ansi-escapes": "^4.3.2",
     "chalk": "3.0.0",
     "chokidar": "^3.3.1",
     "cross-spawn": "^7.0.3",
@@ -50,6 +51,7 @@
     "fs-extra": "^8.0.1",
     "lodash": "^4.17.21",
     "resolve": "^1.22.0",
+    "supports-hyperlinks": "^2.2.0",
     "yauzl": "2.10.0"
   }
 }
