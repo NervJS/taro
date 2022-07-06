@@ -3,6 +3,8 @@ import Taro from '../../index'
 declare module '../../index' {
   namespace vibrateShort {
     interface Option {
+      /** 震动强度类型，有效值为：heavy、medium、light */
+      type: 'heavy' | 'medium' | 'light'
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
       complete?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用失败的回调函数 */
@@ -25,6 +27,8 @@ declare module '../../index' {
 
   interface TaroStatic {
     /** 使手机发生较短时间的振动（15 ms）。仅在 iPhone `7 / 7 Plus` 以上及 Android 机型生效
+     * @h5 不支持 type 参数
+     * @rn 不支持 type 参数
      * @supported weapp, h5, rn, tt
      * @example
      * ```tsx
