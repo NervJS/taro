@@ -44,21 +44,23 @@ deps: CollectedDeps = new Map()
   const scanImportsPlugin = getScanImportsPlugin(deps, include, exclude)
   const customPlugins = customEsbuildConfig.plugins || []
 
-  await Promise.all(entries.map(entry =>
-    esbuild.build({
-      absWorkingDir: appPath,
-      bundle: true,
-      entryPoints: [entry],
-      mainFields: ['main:h5', 'browser', 'module', 'jsnext:main', 'main'],
-      format: 'esm',
-      loader: defaults(customEsbuildConfig.loader, defaultEsbuildLoader),
-      write: false,
-      plugins: [
-        scanImportsPlugin,
-        ...customPlugins
-      ]
-    })
-  ))
+  await Promise.all(entries.map(async entry => {
+    try {
+      await esbuild.build({
+        absWorkingDir: appPath,
+        bundle: true,
+        entryPoints: [entry],
+        mainFields: ['main:h5', 'browser', 'module', 'jsnext:main', 'main'],
+        format: 'esm',
+        loader: defaults(customEsbuildConfig.loader, defaultEsbuildLoader),
+        write: false,
+        plugins: [
+          scanImportsPlugin,
+          ...customPlugins
+        ]
+      })
+    } catch (e) {}
+  }))
 
   // 有一些 Webpack loaders 添加的依赖没有办法提前分析出来
   // 可以把它们写进 includes，然后在这里 resolve 后加入到 deps

@@ -1,12 +1,13 @@
 import swc from '@swc/core'
-import { chalk, fs, readConfig, resolveMainFilePath } from '@tarojs/helper'
+import { chalk, fs, readConfig, resolveMainFilePath, terminalLink } from '@tarojs/helper'
 import { IProjectBaseConfig } from '@tarojs/taro/types/compile'
+import { Message } from 'esbuild'
 import path from 'path'
 import { performance } from 'perf_hooks'
 import { EntryObject } from 'webpack'
 import Chain from 'webpack-chain'
 
-import { commitMeta, formatDepsString, getBundleHash, getCacheDir, getMeasure, Metadata } from '../utils'
+import { commitMeta, getBundleHash, getCacheDir, getMeasure, Metadata, sortDeps } from '../utils'
 import { CollectedDeps, MF_NAME } from '../utils/constant'
 import TaroModuleFederationPlugin from '../webpack/TaroModuleFederationPlugin'
 import { bundle } from './bundle'
@@ -115,7 +116,10 @@ export default class BasePrebundle<T extends IPrebundleConfig = IPrebundleConfig
 
     this.deps.size &&
       console.log(
-        chalk.cyan('Prebundle dependencies: \n', ...JSON.parse(formatDepsString(this.deps)).map(dep => `    ${dep[0]}\n`))
+        chalk.cyan(
+          'Prebundle dependencies: \n',
+          ...Array.from(this.deps.keys()).sort(sortDeps).map(dep => `    ${dep}\n`)
+        )
       )
 
     this.measure('Scan imports duration', SCAN_START)
@@ -128,17 +132,43 @@ export default class BasePrebundle<T extends IPrebundleConfig = IPrebundleConfig
 
     if (this.preMetadata.bundleHash !== this.metadata.bundleHash) {
       this.isUseCache = false
-      await bundle({
-        appPath: this.appPath,
-        deps: this.deps,
-        chain: this.chain,
-        prebundleOutputDir: this.prebundleCacheDir,
-        customEsbuildConfig: this.customEsbuildConfig,
-        customSwcConfig: this.customSwcConfig
-      })
+      try {
+        await bundle({
+          appPath: this.appPath,
+          deps: this.deps,
+          chain: this.chain,
+          prebundleOutputDir: this.prebundleCacheDir,
+          customEsbuildConfig: this.customEsbuildConfig,
+          customSwcConfig: this.customSwcConfig
+        })
+      } catch (result) {
+        return this.handleBundleError(result?.errors)
+      }
     }
 
     this.measure('Prebundle duration', PREBUNDLE_START)
+  }
+
+  handleBundleError (errors: Message[] = []) {
+    const keys = Array.from(this.deps.keys())
+    if (errors.length > 0) {
+      const deps = errors.reduce((p, e) => {
+        const file = e.location?.file || ''
+        const key = keys.find(key => file?.includes(key))
+        if (key) p.push(key)
+        return p
+      }, [] as string[])
+      deps.forEach(key => this.deps.delete(key))
+      console.log(
+        chalk.yellowBright(
+          `检测到依赖编译错误，已跳过`, deps.sort(sortDeps).map(e => chalk.bold(e)).join('、'),`依赖预编译。`,
+          `\n    > 可以通过手动配置 ${
+            terminalLink('compiler.prebundle.exclude', 'https://nervjs.github.io/taro-docs/docs/next/config-detail#compilerprebundleexclude')
+          } 忽略该提示`
+        ),
+      )
+      return this.bundle()
+    }
   }
 
   setHost () {
