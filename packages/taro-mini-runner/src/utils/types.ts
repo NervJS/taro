@@ -40,15 +40,11 @@ export interface IFileType {
 export type Func = (...args: any[]) => any
 
 export interface IBuildConfig extends IProjectBaseConfig, IMiniAppConfig {
-  baseLevel: number
   blended?: boolean
   buildAdapter: string
-  enableSourceMap?: boolean
   entry?: webpack.Entry
   hot?: boolean
-  isWatch: boolean
   fileType: IFileType
-  framework: string
   globalObject: string
   isBuildNativeComp?: boolean
   isBuildPlugin: boolean
@@ -56,16 +52,10 @@ export interface IBuildConfig extends IProjectBaseConfig, IMiniAppConfig {
   isSupportRecursive: boolean
   isSupportXS: boolean
   mode: 'production' | 'development'
-  modifyWebpackChain: Func
-  modifyBuildAssets: Func
-  modifyMiniConfigs: Func
   modifyComponentConfig: Func
   nodeModulesPath: string
   onCompilerMake: Func
   onParseCreateElement: Func
-  onWebpackChainReady: Func
-  onBuildFinish: Func
-  port?: number
   prerender?: PrerenderConfig
   quickappJSON: any
   runtimePath?: string | string[]
