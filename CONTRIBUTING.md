@@ -14,20 +14,20 @@
 
 ### 安装依赖
 
-基于 yarn workspace。
+基于 pnpm workspace。
 
 ```bash
-$ yarn
+$ pnpm install
 ```
 
 ### 编译构建
 
 ```bash
 # 全局编译
-$ yarn build # 等价于 lerna run build
+$ pnpm run build # 等价于 pnpm -r --filter=./packages/* run build
 
 # 编译某个子包，如 `@tarojs/cli`
-$ lerna run build --scope=@tarojs/cli
+$ pnpm --filter @tarojs/cli run dev
 ```
 
 ### 新增/删除依赖
@@ -41,36 +41,30 @@ $ lerna run build --scope=@tarojs/cli
 
 ```bash
 # 新增
-$ yarn add -W -D <dependency>
+$ pnpm add -wD <dependency>
 
 # 删除
-$ yarn remove -W -D <dependency>
+$ pnpm remove -wD <dependency>
 ```
 
 #### 2. 操作某个子包
 
 ```bash
 # 为某个子包（如 @tarojs/cli）新增一个依赖
-$ yarn workspace @tarojs/cli add <dependency>
+$ pnpm --filter @tarojs/cli add <dependency>
 
 # 为某个子包（如 @tarojs/cli）删除一个依赖
-$ yarn workspace @tarojs/cli remove <dependency>
-
-# 如遇到报错 "expected workspace package to exist for"，请使用 yarn@1.18 再尝试。
-# 相关 issues：
-#   - https://github.com/yarnpkg/yarn/issues/7807
-#   - https://github.com/yarnpkg/yarn/issues/7734
-$ npx yarn@1.18 workspace @tarojs/cli add <dependency>
+$ pnpm --filter @tarojs/cli remove <dependency>
 ```
 
 #### 3. 操作所有子包
 
 ```bash
 # 新增
-$ yarn workspaces add <dependency>
+$ pnpm -r --filter=./packages/* add <dependency>
 
 # 删除
-$ yarn workspaces remove <dependency>
+$ pnpm -r --filter=./packages/* remove <dependency>
 ```
 
 ### 清理所有依赖
@@ -88,11 +82,17 @@ $ lerna run <script-name> --scope=<workspace> --stream
 
 ### 提交发布
 
-```bash
-$ yarn run version --lerna_version=<version>
-$ git add .
-$ git commit -m "chore(release): publish <version>"
-```
+- PR 发布规则
+
+  ```bash
+  $ pnpm version <version>
+  ```
+
+- `feat/**` 分支发布规则
+
+  ```bash
+  $ pnpm version <version> --tag=<tag>
+  ```
 
 ## 提交 commit
 

@@ -5,7 +5,7 @@ import type { ElementNode, RootNode, TemplateChildNode } from '@vue/compiler-cor
 
 import type { IConfig } from './index'
 import { getLoaderMeta } from './loader-meta'
-import { getVueLoaderPath } from './runtime/utils'
+import { getVueLoaderPath } from './utils'
 
 export function modifyH5WebpackChain (ctx: IPluginContext, chain, config: IConfig) {
   // vue3 tsx 使用原生组件
