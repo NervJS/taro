@@ -5,7 +5,7 @@ import type { AttributeNode, DirectiveNode, ElementNode, RootNode, SimpleExpress
 
 import type { IConfig } from './index'
 import { getLoaderMeta } from './loader-meta'
-import { getVueLoaderPath } from './runtime/utils'
+import { getVueLoaderPath } from './utils'
 
 const CUSTOM_WRAPPER = 'custom-wrapper'
 
