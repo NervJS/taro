@@ -9,7 +9,7 @@
     "skipLibCheck": true,
     "sourceMap": false,
     "target": "es2018",
-    "types": ["node", "jest", "./src/types"]
+    "types": ["node", "jest"]
   },
-  "include": ["./src"]
+  "include": ["./src", "./types"]
 }
