@@ -6,5 +6,5 @@
     "sourceMap": true,
     "module": "commonjs"
   },
-  "include": ["./src"],
+  "include": ["./src"]
 }

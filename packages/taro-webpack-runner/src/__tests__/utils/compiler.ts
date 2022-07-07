@@ -161,9 +161,11 @@ function frameworkPatch (chain, webpack, config) {
   let frameworkPlugin: any = ReactLikePlugin
   switch (config.framework) {
     case 'vue':
+      config.opts = {}
       frameworkPlugin = Vue2Plugin
       break
     case 'vue3':
+      config.opts = {}
       frameworkPlugin = Vue3Plugin
       break
   }

@@ -1,4 +1,3 @@
-
 {
   "extends": "../../tsconfig.root.json",
   "compilerOptions": {
@@ -8,15 +7,8 @@
     "module": "commonjs",
     "sourceMap": true,
     "esModuleInterop": true,
-    "paths": {
-      "webpack": ["./node_modules/webpack"],
-      "webpack-dev-server": ["./node_modules/@types/webpack-dev-server", "./node_modules/webpack-dev-server"],
-    },
-    "preserveConstEnums": true,
+    "preserveConstEnums": true
   },
-  "include": ["./src", "./types"],
-  "exclude": [
-    "./src/__tests__",
-    "./src/template/comp.ts",
-  ],
+  "include": ["./src", "../../types"],
+  "exclude": ["./src/__tests__", "./src/template/comp.ts"]
 }

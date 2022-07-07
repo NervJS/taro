@@ -92,7 +92,7 @@ describe('prerender', () => {
         match: 'others/**',
         include: ['pages/index/index'],
         exclude: ['others/normal/index'],
-        transformXML (data, { path }, xml) {
+        transformXML (_data, { path }, xml) {
           if (path === 'others/detail/index') {
             return '<video src="https://github.com/taro" />'
           }

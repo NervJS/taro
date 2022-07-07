@@ -6,7 +6,7 @@ import { validateProjectName } from './validate'
 
 interface PlaceholderConfig {
   projectName: string
-  templatePath: string,
+  templatePath: string
   projectPath: string
 }
 

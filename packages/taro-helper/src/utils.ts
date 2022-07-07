@@ -1,4 +1,3 @@
-import * as chalk from 'chalk'
 import * as child_process from 'child_process'
 import * as fs from 'fs-extra'
 import { camelCase, flatMap, isPlainObject, mergeWith } from 'lodash'
@@ -17,6 +16,7 @@ import {
   TARO_CONFIG_FOLDER
 } from './constants'
 import createSwcRegister, { InjectDefineConfigHeader } from './swcRegister'
+import { chalk } from './terminal'
 
 const execSync = child_process.execSync
 

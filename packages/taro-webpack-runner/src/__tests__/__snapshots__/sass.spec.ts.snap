@@ -294,7 +294,7 @@ exports[`sass should build app with sass 2`] = `
         return _createSuper;
     }));
     function _getPrototypeOf(o) {
-        _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) {
+        _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function _getPrototypeOf(o) {
             return o.__proto__ || Object.getPrototypeOf(o);
         };
         return _getPrototypeOf(o);
@@ -351,7 +351,7 @@ exports[`sass should build app with sass 2`] = `
         return _inherits;
     }));
     function _setPrototypeOf(o, p) {
-        _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) {
+        _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function _setPrototypeOf(o, p) {
             o.__proto__ = p;
             return o;
         };
@@ -1068,7 +1068,7 @@ exports[`sass should build app with scss 2`] = `
         return _createSuper;
     }));
     function _getPrototypeOf(o) {
-        _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) {
+        _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function _getPrototypeOf(o) {
             return o.__proto__ || Object.getPrototypeOf(o);
         };
         return _getPrototypeOf(o);
@@ -1125,7 +1125,7 @@ exports[`sass should build app with scss 2`] = `
         return _inherits;
     }));
     function _setPrototypeOf(o, p) {
-        _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) {
+        _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function _setPrototypeOf(o, p) {
             o.__proto__ = p;
             return o;
         };
@@ -1855,7 +1855,7 @@ exports[`sass should set global sass content with data 2`] = `
         return _createSuper;
     }));
     function _getPrototypeOf(o) {
-        _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) {
+        _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function _getPrototypeOf(o) {
             return o.__proto__ || Object.getPrototypeOf(o);
         };
         return _getPrototypeOf(o);
@@ -1912,7 +1912,7 @@ exports[`sass should set global sass content with data 2`] = `
         return _inherits;
     }));
     function _setPrototypeOf(o, p) {
-        _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) {
+        _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function _setPrototypeOf(o, p) {
             o.__proto__ = p;
             return o;
         };
@@ -2642,7 +2642,7 @@ exports[`sass should set global sass content with source & dir 2`] = `
         return _createSuper;
     }));
     function _getPrototypeOf(o) {
-        _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) {
+        _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function _getPrototypeOf(o) {
             return o.__proto__ || Object.getPrototypeOf(o);
         };
         return _getPrototypeOf(o);
@@ -2699,7 +2699,7 @@ exports[`sass should set global sass content with source & dir 2`] = `
         return _inherits;
     }));
     function _setPrototypeOf(o, p) {
-        _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) {
+        _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function _setPrototypeOf(o, p) {
             o.__proto__ = p;
             return o;
         };
@@ -3429,7 +3429,7 @@ exports[`sass should set global sass content with source 2`] = `
         return _createSuper;
     }));
     function _getPrototypeOf(o) {
-        _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) {
+        _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function _getPrototypeOf(o) {
             return o.__proto__ || Object.getPrototypeOf(o);
         };
         return _getPrototypeOf(o);
@@ -3486,7 +3486,7 @@ exports[`sass should set global sass content with source 2`] = `
         return _inherits;
     }));
     function _setPrototypeOf(o, p) {
-        _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) {
+        _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function _setPrototypeOf(o, p) {
             o.__proto__ = p;
             return o;
         };

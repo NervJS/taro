@@ -43,17 +43,8 @@ export interface HookModifyWebpackChain {
 }
 
 export interface CommonBuildConfig extends IProjectBaseConfig {
-  enableSourceMap?: boolean
   entry?: Webpack.EntryObject
-  isWatch: boolean
   mode: 'production' | 'development'
-  port?: number
-  /** hooks */
-  modifyWebpackChain: HookModifyWebpackChain
-  modifyMiniConfigs: (configMap) => Promise<any>
-  modifyBuildAssets: (assets, plugin?) => Promise<any>
-  onWebpackChainReady: (webpackChain: Chain) => Promise<any>
-  onBuildFinish: (res: { error, stats, isWatch }) => Promise<any>
 }
 
 export interface MiniBuildConfig extends CommonBuildConfig, IMiniAppConfig {
@@ -65,8 +56,6 @@ export interface MiniBuildConfig extends CommonBuildConfig, IMiniAppConfig {
   nodeModulesPath: string
   fileType: IFileType
   globalObject: string
-  framework: string
-  baseLevel: number
   prerender?: PrerenderConfig
   template: RecursiveTemplate | UnRecursiveTemplate
   runtimePath?: string | string[]

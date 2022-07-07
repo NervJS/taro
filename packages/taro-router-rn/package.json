@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/router-rn",
-  "version": "3.5.0-beta.4",
+  "version": "3.5.0-theta.1",
   "description": "Taro-router-rn",
   "main": "dist/index.js",
   "typings": "src/index.ts",
@@ -38,6 +38,7 @@
     "@react-native-masked-view/masked-view": "~0.2.6",
     "@react-navigation/bottom-tabs": "^6.2.0",
     "@react-navigation/native": "^6.0.8",
+    "@react-navigation/routers": "^6.1.0",
     "@react-navigation/stack": "^6.1.1",
     "nanoid": "^3.1.12",
     "query-string": "^6.1.0",

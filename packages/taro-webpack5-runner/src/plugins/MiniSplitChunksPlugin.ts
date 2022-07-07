@@ -43,13 +43,11 @@ const ALL_CHUNK_FILTER = _ => true
 
 /**
  * @param {OptimizationSplitChunksSizes} value the sizes
- * @param {string[]} defaultSizeTypes the default size types
  * @returns {SplitChunksSizes} normalized representation
  */
-const normalizeSizes = (value, defaultSizeTypes) => {
+const normalizeSizes = (value, defaultSizeTypes: string[]) => {
   if (typeof value === 'number') {
-    /** @type {Record<string, number>} */
-    const o = {}
+    const o: Record<string, number> = {}
     for (const sizeType of defaultSizeTypes) o[sizeType] = value
     return o
   } else if (typeof value === 'object' && value !== null) {
@@ -72,16 +70,13 @@ const mergeSizes = (...sizes) => {
   return merged
 }
 
-/**
- * @param {false|string|Function} name the chunk name
- * @returns {GetName} a function to get the name of the chunk
- */
-const normalizeName = name => {
+type TGetName = (name: string) => string
+const normalizeName = (name: false | string | TGetName) => {
   if (typeof name === 'string') {
     return () => name
   }
   if (typeof name === 'function') {
-    return /** @type {GetName} */ (name)
+    return name
   }
 }
 
@@ -105,12 +100,12 @@ const normalizeChunksFilter = chunks => {
 }
 
 /**
- * @param {undefined|boolean|string|RegExp|Function} test test option
  * @param {Module} module the module
  * @param {CacheGroupsContext} context context object
  * @returns {boolean} true, if the module should be selected
  */
-const checkTest = (test, module, context) => {
+type TestFunc = (module, context) => boolean
+const checkTest = (test: undefined | boolean |string |RegExp | TestFunc, module, context): boolean => {
   if (test === undefined) return true
   if (typeof test === 'function') {
     return test(module, context)
@@ -128,11 +123,11 @@ const checkTest = (test, module, context) => {
 }
 
 /**
- * @param {undefined|string|RegExp|Function} test type option
  * @param {Module} module the module
  * @returns {boolean} true, if the module should be selected
  */
-const checkModuleType = (test, module) => {
+type TModuleType = (type: string) => boolean
+const checkModuleType = (test: undefined | string | RegExp | TModuleType, module): boolean => {
   if (test === undefined) return true
   if (typeof test === 'function') {
     return test(module.type)
@@ -153,7 +148,7 @@ const checkModuleType = (test, module) => {
  * @param {Module} module the module
  * @returns {boolean} true, if the module should be selected
  */
-const checkModuleLayer = (test, module) => {
+const checkModuleLayer = (test, module): boolean => {
   if (test === undefined) return true
   if (typeof test === 'function') {
     return test(module.layer)
@@ -171,11 +166,9 @@ const checkModuleLayer = (test, module) => {
 
 /**
  * @param {OptimizationSplitChunksCacheGroup} options the group options
- * @param {string} key key of cache group
- * @param {string[]} defaultSizeTypes the default size types
  * @returns {CacheGroupSource} the normalized cached group
  */
-const createCacheGroupSource = (options, key, defaultSizeTypes) => {
+const createCacheGroupSource = (options, key: string, defaultSizeTypes: string[]) => {
   const minSize = normalizeSizes(options.minSize, defaultSizeTypes)
   const minSizeReduction = normalizeSizes(
     options.minSizeReduction,
@@ -219,10 +212,9 @@ const createCacheGroupSource = (options, key, defaultSizeTypes) => {
 
 /**
  * @param {GetCacheGroups | Record<string, false|string|RegExp|OptimizationSplitChunksGetCacheGroups|OptimizationSplitChunksCacheGroup>} cacheGroups the cache group options
- * @param {string[]} defaultSizeTypes the default size types
  * @returns {GetCacheGroups} a function to get the cache groups
  */
-const normalizeCacheGroups = (cacheGroups, defaultSizeTypes) => {
+const normalizeCacheGroups = (cacheGroups, defaultSizeTypes: string[]) => {
   if (typeof cacheGroups === 'function') {
     return cacheGroups
   }
@@ -291,6 +283,7 @@ const normalizeCacheGroups = (cacheGroups, defaultSizeTypes) => {
     }
     return fn
   }
+  // eslint-disable-next-line react/display-name
   return () => null
 }
 
@@ -487,12 +480,12 @@ export default class MiniSplitChunksPlugin extends SplitChunksPlugin {
             if (ext === FileExtsMap.JS || ext === FileExtsMap.STYLE) {
               const source = new ConcatSource()
               const chunkName = `${entryName}${ext}`
-              const chunkAbsulutePath = path.resolve(this.distPath, chunkName)
+              const chunkAbsolutePath = path.resolve(this.distPath, chunkName)
               const subVendorsPath = path.join(subRoot, `${SUB_VENDORS_NAME}${ext}`)
               // 将子包 vendors 插入到 entry 中
               if (this.assets[normalizePath(subVendorsPath)]) {
                 const subVendorsAbsolutePath = path.resolve(this.distPath, subVendorsPath)
-                const vendorsRelativePath = this.getRealRelativePath(chunkAbsulutePath, subVendorsAbsolutePath)
+                const vendorsRelativePath = this.getRealRelativePath(chunkAbsolutePath, subVendorsAbsolutePath)
                 if (ext === FileExtsMap.STYLE) {
                   source.add(`@import ${JSON.stringify(`${vendorsRelativePath}`)};`)
                 }
@@ -507,8 +500,8 @@ export default class MiniSplitChunksPlugin extends SplitChunksPlugin {
                 const subRootModuleFilePath = path.join(subRoot, moduleFilePath)
                 const assetSource = this.assets[normalizePath(moduleFilePath)]
                 if (assetSource) {
-                  const moduleAbsulutePath = path.resolve(this.distPath, subRootModuleFilePath)
-                  const chunkRelativePath = this.getRealRelativePath(path.resolve(this.distPath, chunkName), moduleAbsulutePath)
+                  const moduleAbsolutePath = path.resolve(this.distPath, subRootModuleFilePath)
+                  const chunkRelativePath = this.getRealRelativePath(path.resolve(this.distPath, chunkName), moduleAbsolutePath)
                   this.assets[normalizePath(subRootModuleFilePath)] = {
                     size: () => assetSource.size(),
                     source: () => assetSource.source(),

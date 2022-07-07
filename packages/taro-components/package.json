@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/components",
-  "version": "3.5.0-beta.4",
+  "version": "3.5.0-theta.1",
   "description": "",
   "browser": "dist/index.js",
   "main:h5": "dist/index.js",
@@ -24,7 +24,7 @@
   "collection:main": "dist/collection/index.js",
   "scripts": {
     "build-h5": "babel -d dist-h5 h5",
-    "build": "npm run build-h5 & stencil build --config stencil.config.ts",
+    "build": "pnpm run build-h5 & stencil build --config stencil.config.ts",
     "dev": "stencil build --config stencil.config.ts --watch",
     "test": "karmatic --files '__tests__/setup.js,__tests__/**.spec.js' --coverage false",
     "test:ci": "karmatic --files '__tests__/setup.js,__tests__/**.spec.js' --coverage false",
@@ -41,7 +41,7 @@
   "dependencies": {
     "@stencil/core": "~2.13.0",
     "@stencil/sass": "1.5.2",
-    "@tarojs/taro": "3.5.0-beta.4",
+    "@tarojs/taro": "workspace:*",
     "better-scroll": "^1.14.1",
     "classnames": "^2.2.5",
     "hls.js": "^1.1.5",
@@ -52,6 +52,7 @@
     "weui": "^1.1.2"
   },
   "devDependencies": {
+    "css-loader": "3.4.2",
     "jquery": "^3.4.1",
     "karmatic": "^2.1.0",
     "react": "^17.0.2",

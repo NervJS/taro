@@ -1,8 +1,8 @@
 import commonjs from '@rollup/plugin-commonjs'
 import resolve from '@rollup/plugin-node-resolve'
-import typescript from '@rollup/plugin-typescript'
 import * as path from 'path'
 import externals from 'rollup-plugin-node-externals'
+import ts from 'rollup-plugin-ts'
 
 const cwd = __dirname
 
@@ -24,15 +24,15 @@ const baseConfig = {
       preferBuiltins: false,
       mainFields: ['main:h5', 'browser', 'module', 'jsnext:main', 'main']
     }),
-    typescript({
-      tsconfig: './tsconfig.json',
+    ts({
+      declaration: false,
       sourceMap: true
     }),
     commonjs()
   ]
 }
 const esmConfig = Object.assign({}, baseConfig, {
-  output: Object.assign({}, baseConfig.output, {
+  output: Object.assign({}, baseConfig.output[0], {
     sourcemap: true,
     format: 'es',
     file: path.join(cwd, 'dist/index.esm.js')

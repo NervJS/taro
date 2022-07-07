@@ -1,12 +1,12 @@
 {
   "name": "@tarojs/components-rn",
-  "version": "3.5.0-beta.4",
+  "version": "3.5.0-theta.1",
   "description": "多端解决方案基础组件（RN）",
   "main": "./dist/index.js",
   "scripts": {
     "assets": "cpy 'src/**/*.png' '!src/__tests__/*' dist",
-    "build": "rimraf ./dist && tsc && yarn assets",
-    "dev": "yarn assets && tsc --watch",
+    "build": "rimraf ./dist && tsc && pnpm run assets",
+    "dev": "pnpm run assets && tsc --watch",
     "lint": "eslint .",
     "test": "jest --silent",
     "test:dev": "jest --watch",
@@ -32,14 +32,13 @@
     "expo-av": "~11.2.3",
     "expo-barcode-scanner": "~11.3.0",
     "expo-camera": "~12.2.0",
-    "prop-types": "^15.6.2",
+    "prop-types": "^15.7.2",
     "react-native-maps": "^0.25.0",
     "react-native-pager-view": "~5.4.9",
     "react-native-svg": "~12.1.1",
     "react-native-webview": "~11.14.3"
   },
   "devDependencies": {
-    "@tarojs/components": "3.5.0-beta.4",
     "@types/react": "^17.0.0",
     "@types/react-native": "^0.67.7",
     "@unimodules/core": "^7.1.2",

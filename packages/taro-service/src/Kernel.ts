@@ -160,6 +160,7 @@ export default class Kernel extends EventEmitter {
     if (typeof pluginCtx.optsSchema !== 'function') {
       return
     }
+    this.debugger('checkPluginOpts', pluginCtx)
     const joi = require('joi')
     const schema = pluginCtx.optsSchema(joi)
     if (!joi.isSchema(schema)) {
@@ -173,6 +174,7 @@ export default class Kernel extends EventEmitter {
   }
 
   registerPlugin (plugin: IPlugin) {
+    this.debugger('registerPlugin', plugin)
     if (this.plugins.has(plugin.id)) {
       throw new Error(`插件 ${plugin.id} 已被注册`)
     }

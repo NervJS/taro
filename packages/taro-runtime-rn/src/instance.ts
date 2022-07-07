@@ -1,4 +1,5 @@
 import type { Component } from 'react'
+
 import { PageConfig } from './types/index'
 
 interface Show {
@@ -13,7 +14,7 @@ export interface PageLifeCycle extends Show {
   onReachBottom?(): void
   onPageScroll?(obj: { scrollTop: number }): void
   onResize?(options: unknown): void
-  onTabItemTap?(obj: { index: string, pagePath: string, text: string }): void,
+  onTabItemTap?(obj: { index: string, pagePath: string, text: string }): void
   onReady?(): void
   onLoad?(options: Record<string, unknown>): void
   onUnload?(): void
@@ -27,9 +28,9 @@ export interface PageInstance extends PageLifeCycle {
   config: PageConfig
   route: string
   options: Record<string, any>
-  getOpenerEventChannel?(): Record<string, any>,
-  __safeExecute?(lifecycle: keyof Instance, ...args: unknown[]): void,
-  __isReactComponent: boolean,
+  getOpenerEventChannel?(): Record<string, any>
+  __safeExecute?(lifecycle: keyof Instance, ...args: unknown[]): void
+  __isReactComponent: boolean
 }
 
 export interface AppInstance extends Show {

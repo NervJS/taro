@@ -1,5 +1,6 @@
 import { allCSS2RNProps } from 'react-native-known-styling-properties'
 import { utils } from 'stylelint'
+
 import {
   isCustomProperty,
   isExportBlock,
@@ -14,7 +15,7 @@ import {
 export const ruleName = namespace('css-property-no-unknown')
 
 export const messages = utils.ruleMessages(ruleName, {
-  rejected: property => `无效的 React Native 样式属性 "${property}"`
+  rejected: (property) => `无效的 React Native 样式属性 "${property}"`
 })
 
 const props = allCSS2RNProps.map(kebabCase)
@@ -40,7 +41,7 @@ export default function (actual, options) {
       return
     }
 
-    root.walkDecls(decl => {
+    root.walkDecls((decl) => {
       const prop = decl.prop
 
       if (!isStandardSyntaxProperty(prop)) {

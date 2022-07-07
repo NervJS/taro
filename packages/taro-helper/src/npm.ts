@@ -1,5 +1,4 @@
-import * as chalk from 'chalk'
-
+import { chalk } from './terminal'
 import * as Util from './utils'
 
 const PEERS = /UNMET PEER DEPENDENCY ([a-z\-0-9.]+)@(.+)/gm
@@ -9,7 +8,7 @@ const erroneous: string[] = []
 
 type pluginFunction = (pluginName: string, content: string | null, file: string, config: Record<string, any>, root: string) => any
 export interface IInstallOptions {
-  dev: boolean,
+  dev: boolean
   peerDependencies?: boolean
 }
 

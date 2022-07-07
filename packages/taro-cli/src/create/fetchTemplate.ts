@@ -10,7 +10,7 @@ import { getTemplateSourceType, readDirWithFileTypes } from '../util'
 import { TEMPLATE_CREATOR } from './init'
 
 export interface ITemplates {
-  name: string,
+  name: string
   platforms?: string | string[]
   desc?: string
 }

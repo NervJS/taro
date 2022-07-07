@@ -1,8 +1,9 @@
 /* eslint-disable no-console */
-import * as shell from 'shelljs'
 import * as path from 'path'
-import generateQrCode from './QRCode'
+import * as shell from 'shelljs'
+
 import BaseCI from './BaseCi'
+import generateQrCode from './QRCode'
 
 export default class SwanCI extends BaseCI {
   private swanBin

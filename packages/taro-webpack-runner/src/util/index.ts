@@ -42,13 +42,12 @@ export const formatOpenHost = host => {
 
 export function parseHtmlScript (pxtransformOption: IPostcssOption['pxtransform'] = {}) {
   const options = pxtransformOption?.config || {}
-  const max = options?.max ?? 40
-  const min = options?.min ?? 20
-  const baseFontSize = options.baseFontSize ?? min > 1 ? min : 20
-  const designWidth = input => typeof options.designWidth === 'function'
+  const max = options?.maxRootSize ?? 40
+  const min = options?.minRootSize ?? 20
+  const baseFontSize = options?.baseFontSize ?? min > 1 ? min : 20
+  const designWidth = (input => typeof options.designWidth === 'function'
     ? options.designWidth(input)
-    : options.designWidth
-  const dw = designWidth(min)
-  const rv = Math.max(Math.min(1 / options.deviceRatio[dw] / baseFontSize, max), min) * 2
-  return `!function(n){function f(){var e=n.document.documentElement,w=e.getBoundingClientRect().width;e.style.fontSize=${rv}*w/${dw}+"px"}n.addEventListener("resize",(function(){f()})),f()}(window);`
+    : options.designWidth)(baseFontSize)
+  const rootValue = baseFontSize / options.deviceRatio[designWidth] * 2
+  return `!function(n){function f(){var e=n.document.documentElement,w=e.getBoundingClientRect().width,x=${rootValue}*w/${designWidth};e.style.fontSize=x>=${max}?"${max}px":x<=${min}?"${min}px":x+"px"}n.addEventListener("resize",(function(){f()})),f()}(window);`
 }

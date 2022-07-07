@@ -1,5 +1,5 @@
 export interface IErrorLine {
-  desc: string;
-  valid: boolean;
-  solution?: string;
+  desc: string
+  valid: boolean
+  solution?: string
 }

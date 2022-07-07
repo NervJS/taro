@@ -1,5 +1,6 @@
-import * as chalk from 'chalk'
 import * as os from 'os'
+
+import { chalk } from './terminal'
 
 // eslint-disable-next-line dot-notation
 export const PLATFORMS = global['PLATFORMS'] = global['PLATFORMS'] || {}

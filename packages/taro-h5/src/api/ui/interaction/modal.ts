@@ -182,6 +182,7 @@ export default class Modal {
         this.title.style.display = 'block'
         this.text.setAttribute('style', inlineStyle(textStyle))
       } else {
+        this.title.textContent = ''
         // block => none
         this.title.style.display = 'none'
         const textCSS = {

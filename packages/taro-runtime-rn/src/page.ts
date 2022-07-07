@@ -1,14 +1,15 @@
-import * as React from 'react'
-import { ScrollView, RefreshControl, AppState, View, Dimensions, EmitterSubscription, NativeEventSubscription } from 'react-native'
+import { getCurrentRoute, PageProvider } from '@tarojs/router-rn'
 import { camelCase } from 'lodash'
-import { PageProvider, getCurrentRoute } from '@tarojs/router-rn'
-import { isFunction, EMPTY_OBJ, isArray, incrementId, successHandler, errorHandler } from './utils'
+import * as React from 'react'
+import { AppState, Dimensions, EmitterSubscription, NativeEventSubscription, RefreshControl, ScrollView, View } from 'react-native'
+
 import { isClassComponent } from './app'
 import { Current } from './current'
-import { Instance, PageInstance } from './instance'
 import { eventCenter } from './emmiter'
 import EventChannel from './EventChannel'
-import { PageConfig, HooksMethods, ScrollOption, BaseOption, BackgroundOption, TextStyleOption, CallbackResult } from './types/index'
+import { Instance, PageInstance } from './instance'
+import { BackgroundOption, BaseOption, CallbackResult, HooksMethods, PageConfig, ScrollOption, TextStyleOption } from './types/index'
+import { EMPTY_OBJ, errorHandler, incrementId, isArray, isFunction, successHandler } from './utils'
 
 const compId = incrementId()
 

@@ -1,5 +1,4 @@
 /* eslint-disable dot-notation */
-import { MpaRouterConfig } from '@tarojs/router/types/router'
 import {
   AppInstance,
   createPageConfig,
@@ -7,6 +6,7 @@ import {
   stringify
 } from '@tarojs/runtime'
 
+import type { MpaRouterConfig } from '../../types/router'
 import { RouterConfig } from '.'
 import MultiPageHandler from './multi-page'
 

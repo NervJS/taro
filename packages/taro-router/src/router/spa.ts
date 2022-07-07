@@ -1,5 +1,4 @@
 /* eslint-disable dot-notation */
-import { SpaRouterConfig } from '@tarojs/router/types/router'
 import {
   AppInstance,
   createPageConfig, Current,
@@ -9,6 +8,7 @@ import {
 import { Action as LocationAction, Listener as LocationListener } from 'history'
 import UniversalRouter, { Routes } from 'universal-router'
 
+import type { SpaRouterConfig } from '../../types/router'
 import { history, prependBasename } from '../history'
 import { addLeadingSlash, routesAlias, stripBasename } from '../utils'
 import { RouterConfig } from '.'

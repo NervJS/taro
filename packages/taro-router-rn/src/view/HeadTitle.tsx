@@ -1,11 +1,12 @@
 import * as React from 'react'
-import { View, Text } from 'react-native'
-import Loading from './Loading'
+import { Text, View } from 'react-native'
+
 import { navigationRef } from '../rootNavigation'
+import Loading from './Loading'
 
 export interface HeadTitleProps {
-  label: string,
-  color: string,
+  label: string
+  color: string
   headerProps?: any
 }
 

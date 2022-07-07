@@ -1,4 +1,3 @@
-
 {
   "extends": "../../tsconfig.root.json",
   "compilerOptions": {
@@ -9,10 +8,8 @@
     "outDir": "dist",
     "preserveConstEnums": true,
     "rootDir": "./src",
-    "sourceMap": true,
+    "sourceMap": true
   },
-  "include": ["./src", "./types"],
-  "exclude": [
-    "./src/__tests__",
-  ],
+  "include": ["./src", "../../types"],
+  "exclude": ["./src/__tests__"]
 }

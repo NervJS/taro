@@ -1,5 +1,5 @@
-import parseFontFamily from './fontFamily'
 import { regExpToken, tokens } from '../tokenTypes'
+import parseFontFamily from './fontFamily'
 
 const { SPACE, LENGTH, UNSUPPORTED_LENGTH_UNIT, NUMBER, SLASH } = tokens
 const NORMAL = regExpToken(/^(normal)$/)
@@ -11,7 +11,7 @@ const defaultFontStyle = 'normal'
 const defaultFontWeight = 'normal'
 const defaultFontVariant = []
 
-export default tokenStream => {
+export default (tokenStream) => {
   let fontStyle
   let fontWeight
   let fontVariant
@@ -25,9 +25,15 @@ export default tokenStream => {
       /* pass */
     } else if (typeof fontStyle === 'undefined' && tokenStream.matches(STYLE)) {
       fontStyle = tokenStream.lastValue
-    } else if (typeof fontWeight === 'undefined' && tokenStream.matches(WEIGHT)) {
+    } else if (
+      typeof fontWeight === 'undefined' &&
+      tokenStream.matches(WEIGHT)
+    ) {
       fontWeight = tokenStream.lastValue
-    } else if (typeof fontVariant === 'undefined' && tokenStream.matches(VARIANT)) {
+    } else if (
+      typeof fontVariant === 'undefined' &&
+      tokenStream.matches(VARIANT)
+    ) {
       fontVariant = [tokenStream.lastValue]
     } else {
       break
@@ -41,7 +47,10 @@ export default tokenStream => {
 
   if (tokenStream.matches(SLASH)) {
     if (tokenStream.matches(NUMBER)) {
-      const size = typeof fontSize === 'string' ? fontSize.replace(/scalePx2dp\((\d+)\)/, '$1') : fontSize
+      const size =
+        typeof fontSize === 'string'
+          ? fontSize.replace(/scalePx2dp\((\d+)\)/, '$1')
+          : fontSize
       lineHeight = size * tokenStream.lastValue
     } else {
       lineHeight = tokenStream.expect(LENGTH, UNSUPPORTED_LENGTH_UNIT)

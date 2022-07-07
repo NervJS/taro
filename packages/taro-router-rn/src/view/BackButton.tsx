@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { View, Image, Platform } from 'react-native'
+import { Image, Platform, View } from 'react-native'
 
 interface BackButtonProps {
   tintColor: string

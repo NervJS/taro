@@ -628,14 +628,8 @@ describe('MutationObserver', () => {
         el.style.cssText = 'width: 10px; height: 12px'
 
         return Promise.resolve().then(() => {
-          expect(mutations.length).toBe(2)
+          expect(mutations.length).toBe(1)
           expect(mutations).toEqual([
-            {
-              target: el,
-              type: 'attributes',
-              attributeName: 'style',
-              oldValue: null
-            },
             {
               target: el,
               type: 'attributes',
@@ -821,31 +815,13 @@ describe('MutationObserver', () => {
         el.style.cssText = 'width: 12px; height: 14px'
 
         return Promise.resolve().then(() => {
-          expect(mutations.length).toBe(4)
+          expect(mutations.length).toBe(1)
           expect(mutations).toEqual([
             {
               target: el,
               type: 'attributes',
               attributeName: 'style',
               oldValue: 'width: 10px; height: 12px;'
-            },
-            {
-              target: el,
-              type: 'attributes',
-              attributeName: 'style',
-              oldValue: 'height: 12px;'
-            },
-            {
-              target: el,
-              type: 'attributes',
-              attributeName: 'style',
-              oldValue: ''
-            },
-            {
-              target: el,
-              type: 'attributes',
-              attributeName: 'style',
-              oldValue: 'width: 12px;'
             }
           ])
         })

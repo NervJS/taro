@@ -1,15 +1,15 @@
 import * as React from 'react'
-import { Animated, StyleSheet, StyleProp, TextStyle } from 'react-native'
+import { Animated, StyleProp, StyleSheet, TextStyle } from 'react-native'
 
 export interface BadgeProps {
-  visible: boolean,
-  children?: string | number,
-  size?: number,
+  visible: boolean
+  children?: string | number
+  size?: number
   style?: Animated.WithAnimatedValue<StyleProp<TextStyle>>
 }
 
 export interface BadgeState {
-  opacity: Animated.Value,
+  opacity: Animated.Value
   visible: boolean
 }
 

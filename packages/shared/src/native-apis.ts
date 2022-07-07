@@ -11,7 +11,7 @@ interface IProcessApisIOptions {
   noPromiseApis?: Set<string>
   needPromiseApis?: Set<string>
   handleSyncApis?: (key: string, global: IObject, args: any[]) => any
-  transformMeta?: (key: string, options: IObject) => { key: string, options: IObject },
+  transformMeta?: (key: string, options: IObject) => { key: string, options: IObject }
   modifyApis?: (apis: Set<string>) => void
   modifyAsyncResult?: (key: string, res) => void
   isOnlyPromisify?: boolean

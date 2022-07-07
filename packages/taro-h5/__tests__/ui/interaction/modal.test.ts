@@ -1,4 +1,4 @@
-import 'jest-dom/extend-expect'
+import '@testing-library/jest-dom/extend-expect'
 
 import * as Taro from '@tarojs/taro-h5'
 
@@ -303,8 +303,8 @@ describe('modal', () => {
     const title = modal.lastChild.firstChild
     const content = modal.lastChild.children[1]
 
-    expect(title).toHaveTextContent('')
-    expect(content).toHaveTextContent('')
+    expect(title).toBeEmptyDOMElement()
+    expect(content).toBeEmptyDOMElement()
 
     setTimeout(() => {
       expect(title).not.toBeVisible()

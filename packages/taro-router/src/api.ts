@@ -1,7 +1,7 @@
-import { NavigateBackOption, Option } from '@tarojs/router/types/api'
 import Taro from '@tarojs/taro'
 import { parsePath } from 'history'
 
+import type { NavigateBackOption, Option } from '../types/api'
 import { history, prependBasename } from './history'
 import { RouterConfig } from './router'
 import stacks from './router/stack'

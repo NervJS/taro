@@ -1,8 +1,8 @@
-import typescript from 'rollup-plugin-typescript2'
 import babel from '@rollup/plugin-babel'
 import commonjs from '@rollup/plugin-commonjs'
 import resolve from '@rollup/plugin-node-resolve'
 import * as path from 'path'
+import ts from 'rollup-plugin-ts'
 
 const cwd = __dirname
 
@@ -23,14 +23,29 @@ const baseConfig = {
       format: 'umd',
       name: 'TaroWithWeapp',
       sourcemap: true,
-      exports: 'named'
+      exports: 'named',
+      globals: {
+        '@babel/runtime/helpers/defineProperty': '_defineProperty',
+        '@babel/runtime/helpers/toConsumableArray': '_toConsumableArray',
+        '@babel/runtime/helpers/slicedToArray': '_slicedToArray',
+        '@babel/runtime/helpers/classCallCheck': '_classCallCheck',
+        '@babel/runtime/helpers/createClass': '_createClass',
+        '@babel/runtime/helpers/assertThisInitialized': '_assertThisInitialized',
+        '@babel/runtime/helpers/get': '_get',
+        '@babel/runtime/helpers/inherits': '_inherits',
+        '@babel/runtime/helpers/possibleConstructorReturn': '_possibleConstructorReturn',
+        '@babel/runtime/helpers/getPrototypeOf': '_getPrototypeOf',
+        '@babel/runtime/helpers/typeof': '_typeof',
+        '@tarojs/runtime': 'runtime',
+        '@tarojs/taro': 'taro'
+      }
     }
   ],
   plugins: [
-    typescript(),
     resolve({
       preferBuiltins: false
     }),
+    ts(),
     commonjs({
       include: 'node_modules/**'
     }),
@@ -41,7 +56,7 @@ const baseConfig = {
   ]
 }
 const esmConfig = Object.assign({}, baseConfig, {
-  output: Object.assign({}, baseConfig.output, {
+  output: Object.assign({}, baseConfig.output[0], {
     sourcemap: true,
     format: 'es',
     file: path.join(cwd, 'dist/index.esm.js')

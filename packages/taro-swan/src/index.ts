@@ -1,5 +1,6 @@
-import Swan from './program'
 import type { IPluginContext } from '@tarojs/service'
+
+import Swan from './program'
 
 // 让其它平台插件可以继承此平台
 export { Swan }

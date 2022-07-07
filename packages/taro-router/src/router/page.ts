@@ -1,15 +1,15 @@
 /* eslint-disable dot-notation */
-import { Route, SpaRouterConfig } from '@tarojs/router/types/router'
 import { Current, PageInstance, requestAnimationFrame } from '@tarojs/runtime'
 import { PageConfig, RouterAnimate } from '@tarojs/taro'
 import queryString from 'query-string'
 
+import type { Route, SpaRouterConfig } from '../../types/router'
 import { loadAnimateStyle } from '../animation'
 import { bindPageResize } from '../events/resize'
 import { bindPageScroll } from '../events/scroll'
 import { setHistoryMode } from '../history'
 import { initTabbar } from '../tabbar'
-import { addLeadingSlash, routesAlias, stripBasename } from '../utils'
+import { addLeadingSlash, routesAlias, stripBasename, stripTrailing } from '../utils'
 import stacks from './stack'
 
 function setDisplay (el?: HTMLElement | null, type = '') {
@@ -85,7 +85,7 @@ export default class PageHandler {
       }
     )?.[0] || routePath
 
-    return !!pagePath && this.tabBarList.some(t => t.pagePath === pagePath)
+    return !!pagePath && this.tabBarList.some(t => stripTrailing(t.pagePath) === pagePath)
   }
 
   isSamePage (page?: PageInstance | null) {

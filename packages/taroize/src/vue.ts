@@ -286,7 +286,7 @@ export function generateVueFile (children: AllKindNode[]): string {
 interface VueImport {
   name?: string
   template?: string
-  ast?: t.File,
+  ast?: t.File
   wxs?: boolean
 }
 

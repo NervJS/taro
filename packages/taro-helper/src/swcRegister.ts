@@ -16,7 +16,12 @@ export class InjectDefineConfigHeader extends Visitor {
   }
 }
 
-export default function createSwcRegister ({ only, plugin }) {
+interface ICreateSwcRegisterParam {
+  only
+  plugin?
+}
+
+export default function createSwcRegister ({ only, plugin }: ICreateSwcRegisterParam) {
   const config: Record<string, any> = {
     only: Array.from(new Set([...only])),
     jsc: {

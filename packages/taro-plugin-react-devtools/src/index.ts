@@ -18,7 +18,7 @@ export default function (ctx: IPluginContext, options: IOptions) {
   detectPort(port, (err, availablePort) => {
     if (err) {
       // eslint-disable-next-line no-console
-      console.log(`detectport 错误：${err}`)
+      console.log(`detectPort 错误：${err}`)
     }
 
     if (availablePort === port) {
