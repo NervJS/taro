@@ -6,6 +6,8 @@ export const hasBasename = (path = '', prefix = '') =>
 export const stripBasename = (path = '', prefix = '') =>
   hasBasename(path, prefix) ? path.substr(prefix.length) : path
 
+export const stripTrailing = (str = '') => str.replace(/[?#][\s\S]*$/, '')
+
 class RoutesAlias {
   conf: Array<string[]> = []
 
