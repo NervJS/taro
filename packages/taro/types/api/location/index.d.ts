@@ -190,7 +190,7 @@ declare module '../../index' {
 
   namespace getFuzzyLocation {
     interface Option {
-      /** wgs84 返回 gps 坐标，gcj02 返回可用于 wx.openLocation 的坐标 */
+      /** wgs84 返回 gps 坐标，gcj02 返回可用于 Taro.openLocation 的坐标 */
       type?: 'wgs84' | 'gcj02'
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
       complete?: (res: TaroGeneral.CallbackResult) => void
@@ -354,7 +354,7 @@ declare module '../../index' {
      * @supported weapp
      * @example
      * ```tsx
-     * wx.getFuzzyLocation({
+     * Taro.getFuzzyLocation({
      *   type: 'wgs84',
      *   success (res) {
      *     const latitude = res.latitude
