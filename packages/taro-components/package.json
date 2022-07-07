@@ -52,6 +52,7 @@
     "weui": "^1.1.2"
   },
   "devDependencies": {
+    "css-loader": "3.4.2",
     "jquery": "^3.4.1",
     "karmatic": "^2.1.0",
     "react": "^17.0.2",

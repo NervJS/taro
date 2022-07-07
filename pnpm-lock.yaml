@@ -536,6 +536,7 @@ importers:
       '@tarojs/taro': workspace:*
       better-scroll: ^1.14.1
       classnames: ^2.2.5
+      css-loader: 3.4.2
       hls.js: ^1.1.5
       intersection-observer: ^0.7.0
       jquery: ^3.4.1
@@ -563,6 +564,7 @@ importers:
       swiper: registry.npmjs.org/swiper/6.8.0
       weui: registry.npmjs.org/weui/1.1.3
     devDependencies:
+      css-loader: registry.npmjs.org/css-loader/3.4.2_webpack@4.46.0
       jquery: registry.npmjs.org/jquery/3.6.0
       karmatic: registry.npmjs.org/karmatic/2.1.0_webpack@4.46.0
       react: registry.npmjs.org/react/17.0.2
@@ -630,9 +632,6 @@ importers:
       metro-babel-register: registry.npmjs.org/metro-babel-register/0.67.0
       metro-react-native-babel-preset: registry.npmjs.org/metro-react-native-babel-preset/0.67.0
       react-native: registry.npmjs.org/react-native/0.68.2
-
-  packages/taro-components/loader:
-    specifiers: {}
 
   packages/taro-extend:
     specifiers: {}
@@ -16029,7 +16028,6 @@ packages:
       postcss-value-parser: registry.npmjs.org/postcss-value-parser/4.2.0
       schema-utils: registry.npmjs.org/schema-utils/2.7.1
       webpack: registry.npmjs.org/webpack/4.46.0
-    dev: false
 
   registry.npmjs.org/css-loader/6.5.1_webpack@5.69.0:
     resolution: {integrity: sha512-gEy2w9AnJNnD9Kuo4XAP9VflW/ujKoS9c/syO+uWMlm5igc7LysKzPXaDoR2vroROkSwsTS2tGr1yGGEbZOYZQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/css-loader/-/css-loader-6.5.1.tgz}
@@ -22148,7 +22146,6 @@ packages:
     engines: {node: '>= 6'}
     dependencies:
       postcss: registry.npmjs.org/postcss/7.0.39
-    dev: false
 
   registry.npmjs.org/icss-utils/5.1.0_postcss@8.3.5:
     resolution: {integrity: sha512-soFhflCVWLfRNOPU3iv5Z9VUdT44xFRbzjLsEzSr5AQmgqPMTHdU3PMT1Cf1ssx8fLNJDA1juftYl+PUcv3MqA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/icss-utils/-/icss-utils-5.1.0.tgz}
@@ -29522,7 +29519,6 @@ packages:
     engines: {node: '>= 6'}
     dependencies:
       postcss: registry.npmjs.org/postcss/7.0.39
-    dev: false
 
   registry.npmjs.org/postcss-modules-extract-imports/3.0.0_postcss@8.3.5:
     resolution: {integrity: sha512-bdHleFnP3kZ4NYDhuGlVK+CMrQ/pqUm8bx/oGL93K6gVwiclvX5x0n76fYMKuIGKzlABOy13zsvqjb0f92TEXw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/postcss-modules-extract-imports/-/postcss-modules-extract-imports-3.0.0.tgz}
@@ -29555,7 +29551,6 @@ packages:
       postcss: registry.npmjs.org/postcss/7.0.39
       postcss-selector-parser: registry.npmjs.org/postcss-selector-parser/6.0.10
       postcss-value-parser: registry.npmjs.org/postcss-value-parser/4.2.0
-    dev: false
 
   registry.npmjs.org/postcss-modules-local-by-default/4.0.0_postcss@8.3.5:
     resolution: {integrity: sha512-sT7ihtmGSF9yhm6ggikHdV0hlziDTX7oFoXtuVWeDd3hHObNkcHRo9V3yg7vCAY7cONyxJC/XXCmmiHHcvX7bQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/postcss-modules-local-by-default/-/postcss-modules-local-by-default-4.0.0.tgz}
@@ -29589,7 +29584,6 @@ packages:
     dependencies:
       postcss: registry.npmjs.org/postcss/7.0.39
       postcss-selector-parser: registry.npmjs.org/postcss-selector-parser/6.0.10
-    dev: false
 
   registry.npmjs.org/postcss-modules-scope/3.0.0_postcss@8.3.5:
     resolution: {integrity: sha512-hncihwFA2yPath8oZ15PZqvWGkWf+XUfQgUGamS4LqoP1anQLOsOJw0vr7J7IwLpoY9fatA2qiGUGmuZL0Iqlg==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/postcss-modules-scope/-/postcss-modules-scope-3.0.0.tgz}
@@ -29620,7 +29614,6 @@ packages:
     dependencies:
       icss-utils: registry.npmjs.org/icss-utils/4.1.1
       postcss: registry.npmjs.org/postcss/7.0.39
-    dev: false
 
   registry.npmjs.org/postcss-modules-values/4.0.0_postcss@8.3.5:
     resolution: {integrity: sha512-RDxHkAiEGI78gS2ofyvCsu7iycRv7oqw5xMWn9iMoR0N/7mf9D50ecQqUo5BZ9Zh2vH4bCUR/ktCqbB9m8vJjQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/postcss-modules-values/-/postcss-modules-values-4.0.0.tgz}
