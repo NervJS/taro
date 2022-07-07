@@ -18,5 +18,6 @@ export const offLocationChange = temporarilyNotSupport('offLocationChange')
 export { getLocation } from './getLocation'
 
 export const choosePoi = temporarilyNotSupport('choosePoi')
+export const getFuzzyLocation = temporarilyNotSupport('getFuzzyLocation')
 
 export { chooseLocation } from './chooseLocation'
