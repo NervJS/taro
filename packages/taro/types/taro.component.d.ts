@@ -15,13 +15,7 @@ declare module './index' {
     componentDidShow?(): void
     componentDidHide?(): void
     componentDidCatchError?(err: string): void
-    componentDidNotFound?(obj: PageNotFoundObject): void
-    onPullDownRefresh?(): void
-    onReachBottom?(): void
-    onPageScroll?(obj: PageScrollObject): void
-    onShareAppMessage?(obj: ShareAppMessageObject): ShareAppMessageReturn
-    onTabItemTap?(obj: TabItemTapObject): void
-    onResize?(obj: PageResizeObject): void
+    componentDidNotFound?(opt: PageNotFoundObject): void
   }
   interface ComponentOptions {
     addGlobalClass?: boolean
@@ -74,10 +68,10 @@ declare module './index' {
     onHide?(): void
   }
   interface AppInstance extends Show {
-    mount(component: React.Component | Vue.ComponentOptions<Vue>, id: string, cb: () => void): void
+    mount(component: React.Component | Vue.ComponentOptions<Vue>, id: string, cb: (...args: any[]) => void): void
     componentDidShow?(options?: Record<string, unknown>): void
     onShow?(options?: Record<string, unknown>): void
-    unmount(id: string, cb: () => void): void
+    unmount(id: string, cb?: () => void): void
   }
   type Target = Record<string, unknown> & { dataset: Record<string, unknown>; id: string }
   interface MpEvent {
@@ -87,18 +81,18 @@ declare module './index' {
     currentTarget: Target
   }
   interface PageLifeCycle extends Show {
-    onPullDownRefresh?(): void
-    onReachBottom?(): void
-    onPageScroll?(obj: { scrollTop: number }): void
-    onShareAppMessage?(obj: { from: string; target?: any; webViewUrl: string }): void
-    onResize?(options: unknown): void
-    onTabItemTap?(obj: { index: string; pagePath: string; text: string }): void
-    onTitleClick?(): void
-    onOptionMenuClick?(): void
-    onPopMenuClick?(): void
-    onPullIntercept?(): void
     eh?(event: MpEvent): void
     onLoad(options: Record<string, unknown>): void
+    onOptionMenuClick?(): void
+    onPageScroll?(opt: PageScrollObject): void
+    onPopMenuClick?(): void
+    onPullDownRefresh?(): void
+    onPullIntercept?(): void
+    onReachBottom?(): void
+    onResize?(opt: PageResizeObject): void
+    onShareAppMessage?(opt: ShareAppMessageObject): ShareAppMessageReturn
+    onTabItemTap?(opt: TabItemTapObject): void
+    onTitleClick?(): void
     onUnload(): void
   }
   interface ComponentInstance<

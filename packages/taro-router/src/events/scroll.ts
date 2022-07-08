@@ -10,7 +10,7 @@ export function bindPageScroll (page: PageInstance, pageEl: HTMLElement, distanc
   let isReachBottom = false
 
   pageScrollFn = function () {
-    page.onPageScroll && page.onPageScroll({
+    page.onPageScroll?.({
       scrollTop: pageDOM instanceof Window ? window.scrollY : pageDOM.scrollTop
     })
 

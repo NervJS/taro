@@ -78,6 +78,8 @@ class PullDownRefresh extends React.Component<IProps, IState> {
 
   get scrollContainer () {
     return (
+      this.contentRef?.parentElement ||
+      this.contentRef?.closest('.taro_page_stationed') ||
       document.querySelector('.taro_page_stationed') ||
       document.querySelector('.taro_page') ||
       document.querySelector('.taro_router') ||
@@ -134,10 +136,14 @@ class PullDownRefresh extends React.Component<IProps, IState> {
   }
 
   componentDidUpdate (_, prevState: IState) {
-    if (prevState.currSt !== this.state.currSt && this.state.currSt === PullDownState.release) {
-      const pageEl: any = this.contentRef?.closest('.taro_page')
-      if (pageEl?.__page) {
-        pageEl.__page?.onPullDownRefresh()
+    if (prevState.currSt !== this.state.currSt) {
+      const pageEl: any = this.scrollContainer
+      switch (this.state.currSt) {
+        case PullDownState.release:
+          pageEl?.__page?.onPullDownRefresh?.()
+          break
+        case PullDownState.deactivate:
+          pageEl?.__page?.onPullIntercept?.()
       }
     }
   }

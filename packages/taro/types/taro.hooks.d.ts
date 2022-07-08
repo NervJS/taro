@@ -54,7 +54,7 @@ declare module './index' {
 
     /**
      * 页面销毁前保留状态回调
-     * **仅微信小程序支持。**
+     * @supported weapp
      */
     useSaveExitState(callback: () => {
       data: Record<any, any>
@@ -99,19 +99,19 @@ declare module './index' {
 
     /**
      * 导航栏的标题被点击时的回调。
-     * **仅支付宝小程序支持。**
+     * @supported alipay
      */
     useTitleClick(callback: () => void): void
 
     /**
      * 导航栏的额外图标被点击时的回调。
-     * **仅支付宝小程序支持。**
+     * @supported alipay
      */
     useOptionMenuClick(callback: () => void): void
 
     /**
      * 下拉中断时的回调。
-     * **仅支付宝小程序支持。**
+     * @supported alipay, h5
      */
     usePullIntercept(callback: () => void): void
   }
