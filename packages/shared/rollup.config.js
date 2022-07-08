@@ -16,10 +16,7 @@ const baseConfig = {
   ],
   plugins: [
     ts({
-      tsconfig: config => ({
-        ...config,
-        preserveConstEnums: true
-      })
+      preserveConstEnums: true
     })
   ]
 }

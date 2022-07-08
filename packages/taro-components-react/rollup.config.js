@@ -26,10 +26,7 @@ export default {
       inject: { insertAt: 'top' }
     }),
     ts({
-      tsconfig: config => ({
-        ...config,
-        sourceMap: true
-      })
+      sourceMap: true
     }),
     commonjs({
       include: '../../node_modules/**'

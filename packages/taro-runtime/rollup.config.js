@@ -16,8 +16,10 @@ const baseConfig = {
     }
   ],
   plugins: [
-    ts(),
-    buble()
+    ts({
+      declaration: false,
+    }),
+    buble(),
   ]
 }
 const esmConfig = Object.assign({}, baseConfig, {

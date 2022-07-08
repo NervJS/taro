@@ -4,15 +4,15 @@
   "description": "taro runtime for mini apps.",
   "main": "dist/runtime.esm.js",
   "module": "dist/runtime.esm.js",
-  "types": "./dist/runtime.esm.d.ts",
+  "types": "./dist/index.d.ts",
   "files": [
     "dist"
   ],
   "scripts": {
+    "build": "rimraf ./dist && tsc -emitDeclarationOnly && rollup -c",
+    "dev": "rollup -c -w",
     "test": "jest",
-    "test:ci": "jest -i --coverage false",
-    "build": "rollup -c",
-    "dev": "rollup -c -w"
+    "test:ci": "jest -i --coverage false"
   },
   "repository": {
     "type": "git",

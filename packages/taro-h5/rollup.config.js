@@ -23,10 +23,7 @@ const baseConfig = {
       mainFields: ['main:h5', 'browser', 'module', 'jsnext:main', 'main']
     }),
     ts({
-      tsconfig: config => ({
-        ...config,
-        sourceMap: true
-      })
+      sourceMap: true
     }),
     commonjs(),
     postcss({
