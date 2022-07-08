@@ -1,58 +1,58 @@
 export default function (str) {
   return `import {
-  useDidShow,
-  useDidHide,
-  usePullDownRefresh,
-  useReachBottom,
-  usePageScroll,
-  useResize,
-  useShareAppMessage,
-  useTabItemTap,
-  useTitleClick,
-  useOptionMenuClick,
-  usePullIntercept,
-  useShareTimeline,
+  setGlobalDataPlugin,
   useAddToFavorites,
+  useDidHide,
+  useDidShow,
+  useOptionMenuClick,
+  usePageScroll,
+  usePullDownRefresh,
+  usePullIntercept,
+  useReachBottom,
   useReady,
+  useResize,
   useRouter,
-  setGlobalDataPlugin
+  useShareAppMessage,
+  useShareTimeline,
+  useTabItemTap,
+  useTitleClick
 } from '@tarojs/plugin-framework-vue3/dist/runtime'
 ${str}
 
-taro.useDidShow = useDidShow
+taro.useAddToFavorites = useAddToFavorites
 taro.useDidHide = useDidHide
-taro.usePullDownRefresh = usePullDownRefresh
-taro.useReachBottom = useReachBottom
+taro.useDidShow = useDidShow
+taro.useOptionMenuClick = useOptionMenuClick
 taro.usePageScroll = usePageScroll
+taro.usePullDownRefresh = usePullDownRefresh
+taro.usePullIntercept = usePullIntercept
+taro.useReachBottom = useReachBottom
+taro.useReady = useReady
 taro.useResize = useResize
+taro.useRouter = useRouter
 taro.useShareAppMessage = useShareAppMessage
+taro.useShareTimeline = useShareTimeline
 taro.useTabItemTap = useTabItemTap
 taro.useTitleClick = useTitleClick
-taro.useOptionMenuClick = useOptionMenuClick
-taro.usePullIntercept = usePullIntercept
-taro.useShareTimeline = useShareTimeline
-taro.useAddToFavorites = useAddToFavorites
-taro.useReady = useReady
-taro.useRouter = useRouter
 taro.setGlobalDataPlugin = setGlobalDataPlugin
 
 export {
-  useDidShow,
-  useDidHide,
-  usePullDownRefresh,
-  useReachBottom,
-  usePageScroll,
-  useResize,
-  useShareAppMessage,
-  useTabItemTap,
-  useTitleClick,
-  useOptionMenuClick,
-  usePullIntercept,
-  useShareTimeline,
+  setGlobalDataPlugin,
   useAddToFavorites,
+  useDidHide,
+  useDidShow,
+  useOptionMenuClick,
+  usePageScroll,
+  usePullDownRefresh,
+  usePullIntercept,
+  useReachBottom,
   useReady,
+  useResize,
   useRouter,
-  setGlobalDataPlugin
+  useShareAppMessage,
+  useShareTimeline,
+  useTabItemTap,
+  useTitleClick
 }
 `
 }

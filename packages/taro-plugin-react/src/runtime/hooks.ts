@@ -9,7 +9,7 @@ import { isArray, isFunction } from '@tarojs/shared'
 import { reactMeta } from './react-meta'
 import { HOOKS_APP_ID } from './utils'
 
-const taroHooks = (lifecycle: keyof PageLifeCycle | keyof AppInstance) => {
+const createTaroHook = (lifecycle: keyof PageLifeCycle | keyof AppInstance) => {
   return (fn: Func) => {
     const { R: React, PageContext } = reactMeta
     const id = React.useContext(PageContext) || HOOKS_APP_ID
@@ -56,49 +56,38 @@ const taroHooks = (lifecycle: keyof PageLifeCycle | keyof AppInstance) => {
   }
 }
 
-export const useDidShow = taroHooks('componentDidShow')
+/** LifeCycle */
+export const useDidHide = createTaroHook('componentDidHide')
+export const useDidShow = createTaroHook('componentDidShow')
 
-export const useDidHide = taroHooks('componentDidHide')
+/** App */
+export const useError = createTaroHook('onError')
+export const useLaunch = createTaroHook('onLaunch')
+export const usePageNotFound = createTaroHook('onPageNotFound')
 
-export const usePullDownRefresh = taroHooks('onPullDownRefresh')
+/** Page */
+export const useLoad = createTaroHook('onLoad')
+export const usePageScroll = createTaroHook('onPageScroll')
+export const usePullDownRefresh = createTaroHook('onPullDownRefresh')
+export const usePullIntercept = createTaroHook('onPullIntercept')
+export const useReachBottom = createTaroHook('onReachBottom')
+export const useResize = createTaroHook('onResize')
+export const useUnload = createTaroHook('onUnload')
 
-export const useReachBottom = taroHooks('onReachBottom')
+/** Mini-Program */
+export const useAddToFavorites = createTaroHook('onAddToFavorites')
+export const useOptionMenuClick = createTaroHook('onOptionMenuClick')
+export const useSaveExitState = createTaroHook('onSaveExitState')
+export const useShareAppMessage = createTaroHook('onShareAppMessage')
+export const useShareTimeline = createTaroHook('onShareTimeline')
+export const useTitleClick = createTaroHook('onTitleClick')
 
-export const usePageScroll = taroHooks('onPageScroll')
-
-export const useResize = taroHooks('onResize')
-
-export const useShareAppMessage = taroHooks('onShareAppMessage')
-
-export const useTabItemTap = taroHooks('onTabItemTap')
-
-export const useTitleClick = taroHooks('onTitleClick')
-
-export const useOptionMenuClick = taroHooks('onOptionMenuClick')
-
-export const usePullIntercept = taroHooks('onPullIntercept')
-
-export const useShareTimeline = taroHooks('onShareTimeline')
-
-export const useAddToFavorites = taroHooks('onAddToFavorites')
-
-export const useSaveExitState = taroHooks('onSaveExitState')
-
-export const useReady = taroHooks('onReady')
-
-export const useLaunch = taroHooks('onLaunch')
-
-export const useLoad = taroHooks('onLoad')
-
-export const useUnload = taroHooks('onUnload')
-
-export const useError = taroHooks('onError')
-
-export const usePageNotFound = taroHooks('onPageNotFound')
-
+/** Router */
+export const useReady = createTaroHook('onReady')
 export const useRouter = (dynamic = false) => {
   const React = reactMeta.R
   return dynamic ? Current.router : React.useMemo(() => Current.router, [])
 }
+export const useTabItemTap = createTaroHook('onTabItemTap')
 
 export const useScope = () => undefined

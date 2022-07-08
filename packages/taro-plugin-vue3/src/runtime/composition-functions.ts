@@ -11,7 +11,7 @@ import {
   ref
 } from 'vue'
 
-function createHook (lifecycle: keyof PageLifeCycle | keyof AppInstance) {
+function createTaroHook (lifecycle: keyof PageLifeCycle | keyof AppInstance) {
   return (fn: Func) => {
     const id = inject<string>('id')!
     const fnRef = ref(fn)
@@ -40,41 +40,36 @@ function createHook (lifecycle: keyof PageLifeCycle | keyof AppInstance) {
   }
 }
 
-export const useDidShow = createHook('onShow')
+/** LifeCycle */
+export const useDidShow = createTaroHook('onShow')
+export const useDidHide = createTaroHook('onHide')
 
-export const useDidHide = createHook('onHide')
+/** App */
+export const useError = createTaroHook('onError')
+export const useLaunch = createTaroHook('onLaunch')
+export const usePageNotFound = createTaroHook('onPageNotFound')
 
-export const useReady = createHook('onReady')
+/** Page */
+export const useLoad = createTaroHook('onLoad')
+export const usePageScroll = createTaroHook('onPageScroll')
+export const usePullDownRefresh = createTaroHook('onPullDownRefresh')
+export const usePullIntercept = createTaroHook('onPullIntercept')
+export const useReachBottom = createTaroHook('onReachBottom')
+export const useResize = createTaroHook('onResize')
+export const useUnload = createTaroHook('onUnload')
 
-export const useLoad = createHook('onLoad')
+/** Mini-Program */
+export const useAddToFavorites = createTaroHook('onAddToFavorites')
+export const useOptionMenuClick = createTaroHook('onOptionMenuClick')
+export const useSaveExitState = createTaroHook('onSaveExitState')
+export const useShareAppMessage = createTaroHook('onShareAppMessage')
+export const useShareTimeline = createTaroHook('onShareTimeline')
+export const useTitleClick = createTaroHook('onTitleClick')
 
-export const useUnload = createHook('onUnload')
-
-export const usePullDownRefresh = createHook('onPullDownRefresh')
-
-export const useReachBottom = createHook('onReachBottom')
-
-export const usePageScroll = createHook('onPageScroll')
-
-export const useResize = createHook('onResize')
-
-export const useShareAppMessage = createHook('onShareAppMessage')
-
-export const useTabItemTap = createHook('onTabItemTap')
-
-export const useTitleClick = createHook('onTitleClick')
-
-export const useOptionMenuClick = createHook('onOptionMenuClick')
-
-export const usePullIntercept = createHook('onPullIntercept')
-
-export const useShareTimeline = createHook('onShareTimeline')
-
-export const useAddToFavorites = createHook('onAddToFavorites')
-
-export const useSaveExitState = createHook('onSaveExitState')
-
+/** Router */
+export const useReady = createTaroHook('onReady')
 export const useRouter = () => {
   // return dynamic ? Current.router : React.useMemo(() => Current.router, [])
   return Current.router
 }
+export const useTabItemTap = createTaroHook('onTabItemTap')
