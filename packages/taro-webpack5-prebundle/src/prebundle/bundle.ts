@@ -1,4 +1,4 @@
-import * as swc from '@swc/core'
+import swc from '@swc/core'
 import { REG_SCRIPTS } from '@tarojs/helper'
 import { init, parse } from 'es-module-lexer'
 import esbuild, { Plugin } from 'esbuild'
