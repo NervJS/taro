@@ -50,7 +50,8 @@ export class Template extends RecursiveTemplate {
       } else if (attr.startsWith('bind')) {
         return str + `${attr}="eh" `
       } else if (attr.startsWith('on')) {
-        return str + `${attr}="eh" `
+        // 普通函数传递，使用页面上的函数实例
+        return str + `${attr}="{{ i.sid }}${toCamelCase(attr)}" `
       }
 
       return str + `${attr}="{{ i.${toCamelCase(attr)} }}" `

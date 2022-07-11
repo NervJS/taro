@@ -1,5 +1,5 @@
 import { FormElement, Style, TaroElement } from '@tarojs/runtime'
-import { capitalize, internalComponents, isFunction, isNumber, isObject, isString, toCamelCase } from '@tarojs/shared'
+import { capitalize, hooks, internalComponents, isFunction, isNumber, isObject, isString, toCamelCase } from '@tarojs/shared'
 
 export type Props = Record<string, unknown>
 
@@ -30,6 +30,7 @@ export function updateProps (dom: TaroElement, oldProps: Props, newProps: Props)
 //   const handlers = el!.__handlers[e.type]
 //   handlers[0](e)
 // }
+const isInternalComponents = (dom: TaroElement) => capitalize(toCamelCase(dom.tagName.toLowerCase())) in internalComponents
 
 function setEvent (dom: TaroElement, name: string, value: unknown, oldValue?: unknown) {
   const isCapture = name.endsWith('Capture')
@@ -38,9 +39,7 @@ function setEvent (dom: TaroElement, name: string, value: unknown, oldValue?: un
     eventName = eventName.slice(0, -7)
   }
 
-  const compName = capitalize(toCamelCase(dom.tagName.toLowerCase()))
-
-  if (eventName === 'click' && compName in internalComponents) {
+  if (eventName === 'click' && isInternalComponents(dom)) {
     eventName = 'tap'
   }
 
@@ -110,7 +109,11 @@ function setProperty (dom: TaroElement, name: string, value: unknown, oldValue?:
       }
     }
   } else if (isEventName(name)) {
-    setEvent(dom, name, value, oldValue)
+    if (hooks.isExist('onSetThirdPartyComponentsEvent') && !isInternalComponents(dom)) {
+      hooks.call('onSetThirdPartyComponentsEvent', dom, name, value)
+    } else {
+      setEvent(dom, name, value, oldValue)
+    }
   } else if (name === 'dangerouslySetInnerHTML') {
     const newHtml = (value as DangerouslySetInnerHTML)?.__html ?? ''
     const oldHtml = (oldValue as DangerouslySetInnerHTML)?.__html ?? ''

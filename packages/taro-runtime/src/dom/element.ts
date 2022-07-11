@@ -1,4 +1,4 @@
-import { EMPTY_OBJ, hooks, isArray, isFunction, isObject, isString, isUndefined, Shortcuts, toCamelCase, warn } from '@tarojs/shared'
+import { capitalize, EMPTY_OBJ, hooks, internalComponents, isArray, isFunction, isObject, isString, isUndefined, Shortcuts, toCamelCase, warn } from '@tarojs/shared'
 
 import {
   CATCH_VIEW,
@@ -12,6 +12,7 @@ import {
   STYLE,
   VIEW
 } from '../constants'
+import { Current } from '../current'
 import { MutationObserver, MutationRecordType } from '../dom-external/mutation-observer'
 import type { Attributes, Func } from '../interface'
 import { extend, getComponentsAlias, isElement, isHasExtractProp, shortcutAttr } from '../utils'
@@ -161,6 +162,13 @@ export class TaroElement extends TaroNode {
         eventSource.set(value, this)
         break
       default:
+        // eslint-disable-next-line no-case-declarations
+        const isInternalComponents = (dom: TaroElement) => capitalize(toCamelCase(dom.tagName.toLowerCase())) in internalComponents
+
+        if (isFunction(value) && !isInternalComponents(this) && hooks.isExist('bindFunctionPropertyToPage')) {
+          hooks.call('bindFunctionPropertyToPage', Current, this, qualifiedName, value)
+        }
+        
         this.props[qualifiedName] = value as string
 
         if (qualifiedName.startsWith('data-')) {
