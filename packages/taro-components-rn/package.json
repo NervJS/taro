@@ -41,7 +41,6 @@
   "devDependencies": {
     "@types/react": "^17.0.0",
     "@types/react-native": "^0.67.7",
-    "@unimodules/core": "^7.1.2",
     "expo": "~45.0.2",
     "metro-babel-register": "^0.67.0",
     "metro-react-native-babel-preset": "^0.67.0",
