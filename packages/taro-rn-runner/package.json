@@ -59,8 +59,6 @@
   "devDependencies": {
     "expo-file-system": "~14.0.0",
     "react-is": "^16.13.0",
-    "react-native-root-siblings": "^4.1.1",
-    "stylelint-config-taro-rn": "workspace:*",
-    "stylelint-taro-rn": "workspace:*"
+    "react-native-root-siblings": "^4.1.1"
   }
 }
