@@ -11,7 +11,7 @@ export default (ctx: IPluginContext) => {
     async fn ({ config }) {
       const { appPath, outputPath, sourcePath } = ctx.paths
       const { initialConfig } = ctx
-      const { port } = ctx.runOpts
+      const { port } = ctx.runOpts.options
       const { emptyDirectory, recursiveMerge, npm, ENTRY, SOURCE_DIR, OUTPUT_DIR } = ctx.helper
       emptyDirectory(outputPath)
       const entryFileName = `${ENTRY}.config`
@@ -27,7 +27,7 @@ export default (ctx: IPluginContext) => {
           FRAMEWORK: JSON.stringify(config.framework),
           TARO_VERSION: JSON.stringify(getPkgVersion())
         },
-        port,
+        devServer: { port },
         sourceRoot: config.sourceRoot || SOURCE_DIR,
         outputRoot: config.outputRoot || OUTPUT_DIR
       })

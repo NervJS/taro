@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/taro-loader",
-  "version": "3.5.0-theta.1",
+  "version": "3.5.0-beta4",
   "description": "> TODO: description",
   "author": "yuche <i@yuche.me>",
   "homepage": "https://github.com/nervjs/taro/tree/master/packages/taro-loader#readme",
