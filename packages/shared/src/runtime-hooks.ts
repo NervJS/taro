@@ -195,7 +195,7 @@ type ITaroHooks = {
    * @todo: multi
    * 修改 Taro DOM 序列化数据
    **/
-  modifyHydrateData:(data: Record<string, any>) => void
+  modifyHydrateData: (data: Record<string, any>) => void
   /**
     * @todo: multi
     * 修改 Taro DOM 序列化数据
@@ -220,6 +220,10 @@ type ITaroHooks = {
   modifyDispatchEvent: (event, element) => void
   initNativeApi: (taro: Record<string, any>) => void
   patchElement: (node) => void
+  /** 用于修改 支付宝小程序传递函数参数 */
+  onSetThirdPartyComponentsEvent: (elemet, name: string, value: any) => void
+  /** 用于支付宝三方组件函数参数绑定至页面 */
+  bindFunctionPropertyToPage: (Current: { page: any }, dom: any, name: string, value: any) => void
 }
 
 export const hooks = new TaroHooks<ITaroHooks>({
@@ -297,5 +301,10 @@ export const hooks = new TaroHooks<ITaroHooks>({
 
   initNativeApi: TaroHook(HOOK_TYPE.MULTI),
 
-  patchElement: TaroHook(HOOK_TYPE.MULTI)
+  patchElement: TaroHook(HOOK_TYPE.MULTI),
+
+  onSetThirdPartyComponentsEvent: TaroHook(HOOK_TYPE.SINGLE),
+
+  bindFunctionPropertyToPage: TaroHook(HOOK_TYPE.SINGLE),
+
 })
