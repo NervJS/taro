@@ -28,6 +28,7 @@ export async function createMultiRouter (
   const handler = new MultiPageHandler(config)
   const launchParam = handler.getQuery()
   app.onLaunch?.(launchParam)
+  app.onError && window.addEventListener('error', e => app.onError?.(e.message))
 
   const pathName = config.pageName
   const pageConfig = handler.pageConfig

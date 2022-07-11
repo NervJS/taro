@@ -36,6 +36,7 @@ export function createRouter (
   const router = new UniversalRouter(routes, { baseUrl: basename || '' })
   const launchParam = handler.getQuery(stacks.length)
   app.onLaunch?.(launchParam)
+  app.onError && window.addEventListener('error', e => app.onError?.(e.message))
 
   const render: LocationListener = async ({ location, action }) => {
     handler.pathname = decodeURI(location.pathname)
