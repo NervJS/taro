@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/service",
-  "version": "3.5.0-beta4",
+  "version": "3.5.0-beta.5",
   "description": "Taro Service",
   "main": "index.js",
   "types": "types/index.d.ts",
