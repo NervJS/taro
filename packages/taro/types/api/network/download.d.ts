@@ -26,6 +26,14 @@ declare module '../../index' {
       tempFilePath: string
       /** 调用结果 */
       errMsg: string
+      /** 开发者服务器返回的 HTTP Response Header */
+      header: TaroGeneral.IAnyObject
+      /** 数据长度，单位 Byte */
+      dataLength?: number
+      /** cookies */
+      cookies?: string[]
+      /** 网络请求过程中一些调试信息 */
+      profile?: TaroGeneral.IAnyObject
     }
   }
 
@@ -59,7 +67,7 @@ declare module '../../index' {
       totalBytesWritten: number
     }
 
-    type DownloadTaskPromise = Promise<DownloadTask> & {
+    type DownloadTaskPromise = Promise<downloadFile.FileSuccessCallbackResult> & DownloadTask & {
       headersReceive: DownloadTask['onHeadersReceived'],
       progress: DownloadTask['onProgressUpdate'],
       abort: DownloadTask['abort']

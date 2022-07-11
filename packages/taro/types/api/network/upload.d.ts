@@ -35,6 +35,12 @@ declare module '../../index' {
       statusCode: number
       /** 调用结果 */
       errMsg: string
+      /** 开发者服务器返回的 HTTP Response Header */
+      header: TaroGeneral.IAnyObject
+      /** cookies */
+      cookies?: string[]
+      /** 网络请求过程中一些调试信息 */
+      profile?: TaroGeneral.IAnyObject
     }
   }
 
@@ -68,7 +74,7 @@ declare module '../../index' {
       totalBytesSent: number
     }
 
-    type UploadTaskPromise = Promise<UploadTask> & {
+    type UploadTaskPromise = Promise<uploadFile.SuccessCallbackResult> & UploadTask & {
       headersReceive: UploadTask['onHeadersReceived'],
       progress: UploadTask['onProgressUpdate'],
       abort: UploadTask['abort']
