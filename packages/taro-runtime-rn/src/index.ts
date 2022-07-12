@@ -41,6 +41,5 @@ export {
 } from './compute'
 export {
   scalePx2dp,
-  scaleVu2dp,
-  createStyleSheet
+  scaleVu2dp
 } from './scale2dp'

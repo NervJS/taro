@@ -12,12 +12,13 @@ import { normalizeSourceMap } from '../utils'
 
 export function getWrapedCSS (css) {
   return `
-import { scalePx2dp, scaleVu2dp, createStyleSheet } from '@tarojs/runtime-rn'
+import { StyleSheet } from 'react-native'
+import { scalePx2dp, scaleVu2dp } from '@tarojs/runtime-rn'
 
 // 用来标识 rn-runner transformer 是否读写缓存
 function ignoreStyleFileCache() {}
 
-export default createStyleSheet(${css})
+export default StyleSheet.create(${css})
 `
 }
 
