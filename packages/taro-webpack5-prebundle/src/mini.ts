@@ -210,15 +210,9 @@ export class MiniPrebundle extends BasePrebundle<IMiniPrebundleConfig> {
     // plugin-platform 等插件的 runtime 文件入口
     const runtimePath = typeof this.config.runtimePath === 'string' ? [this.config.runtimePath] : this.config.runtimePath || []
     const { include = [], exclude = [] } = this.option
-    await this.setDeps(entries,
-      ['@tarojs/taro', '@tarojs/runtime'].concat(
-        ...runtimePath.map(item => item.replace(/^post:/, '')),
-        include
-      ),
-      [
-        '@tarojs/components' // 小程序编译 Host 时需要扫描 @tarojs/components 的 useExports，因此不能被 external
-      ].concat(exclude)
-    )
+    await this.setDeps(entries, include.concat(
+      ...runtimePath.map(item => item.replace(/^post:/, '')),
+    ), exclude)
 
     /** 使用 esbuild 对 node_modules 依赖进行 bundle */
     await this.bundle()

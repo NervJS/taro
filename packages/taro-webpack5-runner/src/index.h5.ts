@@ -193,10 +193,10 @@ async function getDevServerOptions (appPath: string, config: H5BuildConfig): Pro
         publicPath,
         writeToDisk: false
       },
-      static: {
+      static: [{
         directory: outputPath, // webpack4: devServerOptions.contentBase
         watch: true // webpack4: devServerOptions.watchContentBase
-      },
+      }],
       compress: true,
       // disableHostCheck: true, // the disableHostCheck and allowedHosts options were removed in favor of the firewall option
       host: '0.0.0.0',

@@ -1,4 +1,4 @@
-import swc from '@swc/core'
+import { Config, transformSync } from '@swc/core'
 import { REG_SCRIPTS } from '@tarojs/helper'
 import { init, parse } from 'es-module-lexer'
 import esbuild, { Plugin } from 'esbuild'
@@ -24,7 +24,7 @@ interface BundleConfig {
   chain: Chain
   prebundleOutputDir: string
   customEsbuildConfig?: Record<string, any>
-  customSwcConfig?: swc.Config
+  customSwcConfig?: Config
 }
 
 // esbuild generates nested directory output with lowest common ancestor base
@@ -107,7 +107,7 @@ function getEntryPlugin ({
   flattenDeps: CollectedDeps
   flatIdExports: Map<string, ExportsData>
   prebundleOutputDir: string
-  swcConfig?: swc.Config
+  swcConfig?: Config
 }): Plugin {
   const resolve = getResolve()
   return {
@@ -193,14 +193,14 @@ export function getSwcPlugin ({
 }: {
   appPath: string
   flatIdExports: Map<string, ExportsData>
-}, config?: swc.Config): Plugin {
+}, config?: Config): Plugin {
   return {
     name: 'swc-plugin',
     setup (build) {
       build.onEnd(async ({ outputFiles = [], metafile = {} }) => {
         await Promise.all(outputFiles.map(async ({ path, text }) => {
           if (!REG_SCRIPTS.test(path)) return
-          const { code } = swc.transformSync(text, defaults(config, { jsc: { target: 'es2015' } }))
+          const { code } = transformSync(text, defaults(config, { jsc: { target: 'es2015' } }))
           fs.writeFile(path, code)
         }))
 

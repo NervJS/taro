@@ -60,10 +60,12 @@ export function getCacheDir (appPath: string, env = '') {
 
 export function getDefines (chain: Chain) {
   let defines
-  chain.plugin('definePlugin').tap(args => {
-    defines = args[0]
-    return args
-  })
+  if (chain.plugins.has('definePlugin')) {
+    chain.plugin('definePlugin').tap(args => {
+      defines = args[0]
+      return args
+    })
+  }
   return defines
 }
 

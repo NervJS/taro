@@ -11,10 +11,10 @@ export * from './prebundle'
 export interface IPrebundleParam {
   env?: string
 
-  appPath: string
-  sourceRoot: string
+  appPath?: string
+  sourceRoot?: string
   chain: Chain
-  entry: EntryObject
+  entry?: EntryObject
   chunkDirectory?: string
   enableSourceMap?: boolean
   entryFileName?: string
@@ -35,31 +35,39 @@ export default class TaroPrebundle {
   get config (): IH5PrebundleConfig | IMiniPrebundleConfig {
     const env = this.env
     const {
-      appPath,
+      appPath = process.cwd(),
       chain,
       chunkDirectory = 'chunk',
-      devServer,
+      devServer = chain.devServer?.entries(),
       enableSourceMap = false,
       entryFileName = 'app',
-      entry = {},
-      publicPath,
+      entry = this.entry,
+      publicPath = chain.output.get('publicPath'),
       runtimePath,
-      sourceRoot
+      sourceRoot = 'src'
     } = this.params
+    const chunkFilename = chain.output.get('chunkFilename') ?? `${chunkDirectory}/[name].js`
 
     return {
       appPath,
       chain,
-      chunkDirectory,
+      chunkFilename,
       devServer,
       enableSourceMap,
       entryFileName,
-      entry,
+      entry: typeof entry === 'string' ? { [entryFileName]: entry } : entry,
       env,
       publicPath,
       runtimePath,
       sourceRoot
     }
+  }
+
+  get entry () {
+    return Object.entries(this.params.chain.entryPoints.entries()).reduce((entry, [key, value]) => {
+      entry[key] = value.values()
+      return entry
+    }, {} as EntryObject)
   }
 
   async run (options: IPrebundle) {

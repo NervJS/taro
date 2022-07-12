@@ -1,4 +1,4 @@
-import swc from '@swc/core'
+import { Config } from '@swc/core'
 import { chalk, fs, readConfig, resolveMainFilePath, terminalLink } from '@tarojs/helper'
 import { IProjectBaseConfig } from '@tarojs/taro/types/compile'
 import { Message } from 'esbuild'
@@ -18,7 +18,7 @@ export type IPrebundle = Exclude<IProjectBaseConfig['compiler'], string | undefi
 export interface IPrebundleConfig {
   appPath: string
   chain: Chain
-  chunkDirectory?: string
+  chunkFilename?: string
   enableSourceMap: boolean
   entry: EntryObject
   entryFileName?: string
@@ -32,7 +32,7 @@ export default class BasePrebundle<T extends IPrebundleConfig = IPrebundleConfig
   cacheDir: string
   chain: Chain
   customEsbuildConfig: IPrebundle['esbuild']
-  customSwcConfig?: swc.Config
+  customSwcConfig?: Config
   env: string
   prebundleCacheDir: string
   remoteCacheDir: string
@@ -84,22 +84,41 @@ export default class BasePrebundle<T extends IPrebundleConfig = IPrebundleConfig
 
   get entryPath () {
     const { entryFileName = 'app', entry = {} } = this.config
-    return entry[entryFileName][0]
+    const appJsPath = entry[entryFileName] || ''
+    if (typeof appJsPath === 'string') {
+      return appJsPath
+    } else if (appJsPath instanceof Array) {
+      return appJsPath[0]
+    } else if (typeof appJsPath.import === 'string') {
+      return appJsPath.import
+    }
+    return ''
   }
 
   /** 找出所有 webpack entry */
   getEntries (appJsPath: string) {
     const { appPath, sourceRoot } = this.config
     const entries: string[] = []
-    entries.push(appJsPath)
+    const { entry = {} } = this.config
+    Object.values(entry).forEach(e => {
+      if (typeof e === 'string') {
+        entries.push(e)
+      } else if (e instanceof Array) {
+        entries.push(...e)
+      } else if (typeof e.import === 'string') {
+        entries.push(e.import)
+      }
+    })
 
     const appConfigPath = resolveMainFilePath(`${appJsPath.replace(path.extname(appJsPath), '')}.config`)
-    const appConfig = readConfig(appConfigPath)
+    if (fs.existsSync(appConfigPath)) {
+      const appConfig = readConfig(appConfigPath)
 
-    appConfig.pages.forEach((page: string) => {
-      const pageJsPath = resolveMainFilePath(path.join(appPath, sourceRoot, page))
-      entries.push(pageJsPath)
-    })
+      appConfig.pages.forEach((page: string) => {
+        const pageJsPath = resolveMainFilePath(path.join(appPath, sourceRoot, page))
+        entries.push(pageJsPath)
+      })
+    }
     return entries
   }
 

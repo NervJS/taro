@@ -43,6 +43,7 @@ import TaroModuleFederationPlugin from './webpack/TaroModuleFederationPlugin'
 export const VirtualModule = new VirtualModulesPlugin()
 
 export interface IH5PrebundleConfig extends IPrebundleConfig {
+  chunkFilename?: string
   devServer?: webpackDevServer.Configuration
   publicPath?: string
 }
@@ -52,13 +53,12 @@ export class H5Prebundle extends BasePrebundle<IH5PrebundleConfig> {
     const BUILD_LIB_START = performance.now()
 
     const exposes: Record<string, string> = {}
-    const { chunkDirectory = 'chunk' } = this.config
     const mode = process.env.NODE_ENV === 'production' ? 'production' : 'development'
     const devtool = this.config.enableSourceMap && 'hidden-source-map'
     const mainBuildOutput = this.chain.output.entries()
     const publicPath = this.config.publicPath ? addLeadingSlash(addTrailingSlash(this.config.publicPath)) : '/'
     const output = {
-      chunkFilename: `${chunkDirectory}/[name].js`,
+      chunkFilename: this.config.chunkFilename,
       chunkLoadingGlobal: mainBuildOutput.chunkLoadingGlobal,
       globalObject: mainBuildOutput.globalObject,
       path: this.remoteCacheDir,
@@ -146,7 +146,10 @@ export class H5Prebundle extends BasePrebundle<IH5PrebundleConfig> {
       this.metadata.remoteAssets = this.preMetadata.remoteAssets
     }
 
-    fs.copy(this.remoteCacheDir, mainBuildOutput.path)
+    if (process.env.NODE_ENV === 'production' || this.config.devServer?.devMiddleware?.writeToDisk) {
+      fs.copy(this.remoteCacheDir, mainBuildOutput.path)
+    }
+    console.log('this.remoteCacheDir, mainBuildOutput.path', this.remoteCacheDir, mainBuildOutput.path)
 
     this.measure(`Build remote ${MF_NAME} duration`, BUILD_LIB_START)
   }
@@ -166,11 +169,7 @@ export class H5Prebundle extends BasePrebundle<IH5PrebundleConfig> {
     /** 扫描出所有的 node_modules 依赖 */
     const entries: string[] = this.getEntries(this.entryPath)
     const { include = [], exclude = [] } = this.option
-    await this.setDeps(
-      entries,
-      ['@tarojs/taro', '@tarojs/runtime', '@tarojs/router'].concat(include),
-      exclude
-    )
+    await this.setDeps(entries, include, exclude)
 
     /** 使用 esbuild 对 node_modules 依赖进行 bundle */
     await this.bundle()
@@ -186,11 +185,14 @@ export class H5Prebundle extends BasePrebundle<IH5PrebundleConfig> {
     script.exclude.add(/node_modules/)
 
     // Proxy
-    // this.chain.devServer.merge({
-    //   static: {
-    //     directory: path.join(appPath, 'node_modules/.taro/h5/remote')
-    //   }
-    // })
+    if (process.env.NODE_ENV !== 'production' || this.config.devServer) {
+      this.chain.devServer.merge({
+        static: [{
+          directory: this.remoteCacheDir,
+          watch: true
+        }]
+      })
+    }
 
     await super.run()
   }
