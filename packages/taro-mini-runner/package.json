@@ -49,6 +49,7 @@
     "@tarojs/taro": "workspace:*",
     "@tarojs/taro-loader": "workspace:*",
     "acorn-walk": "^8.0.0",
+    "autoprefixer": "^9.7.4",
     "babel-loader": "8.2.1",
     "babel-preset-taro": "workspace:*",
     "copy-webpack-plugin": "5.1.2",
@@ -89,7 +90,7 @@
     "vue-loader": "^15.9.3",
     "webpack": "4.46.0",
     "webpack-chain": "4.9.0",
-    "webpack-sources": "^3.2.3",
+    "webpack-sources": "^1.4.3",
     "webpack-format-messages": "^2.0.5"
   },
   "devDependencies": {

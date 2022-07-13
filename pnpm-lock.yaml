@@ -747,6 +747,7 @@ importers:
       '@tarojs/taro-loader': workspace:*
       '@types/webpack': '4'
       acorn-walk: ^8.0.0
+      autoprefixer: ^9.7.4
       babel-loader: 8.2.1
       babel-preset-taro: workspace:*
       copy-webpack-plugin: 5.1.2
@@ -789,7 +790,7 @@ importers:
       webpack-chain: 4.9.0
       webpack-format-messages: ^2.0.5
       webpack-merge: ^4.2.2
-      webpack-sources: ^3.2.3
+      webpack-sources: ^1.4.3
     dependencies:
       '@babel/core': registry.npmjs.org/@babel/core/7.18.5
       '@tarojs/components': link:../taro-components
@@ -807,6 +808,7 @@ importers:
       '@tarojs/taro': link:../taro
       '@tarojs/taro-loader': link:../taro-loader
       acorn-walk: registry.npmjs.org/acorn-walk/8.2.0
+      autoprefixer: registry.npmjs.org/autoprefixer/9.8.8
       babel-loader: registry.npmjs.org/babel-loader/8.2.1_p4a4vpdmvzvrx3lnpkqvj5nmla
       babel-preset-taro: link:../babel-preset-taro
       copy-webpack-plugin: registry.npmjs.org/copy-webpack-plugin/5.1.2_webpack@4.46.0
@@ -848,7 +850,7 @@ importers:
       webpack: registry.npmjs.org/webpack/4.46.0
       webpack-chain: registry.npmjs.org/webpack-chain/4.9.0
       webpack-format-messages: registry.npmjs.org/webpack-format-messages/2.0.6
-      webpack-sources: registry.npmjs.org/webpack-sources/3.2.3
+      webpack-sources: registry.npmjs.org/webpack-sources/1.4.3
     devDependencies:
       '@types/webpack': registry.npmjs.org/@types/webpack/4.41.32
       webpack-merge: registry.npmjs.org/webpack-merge/4.2.2
@@ -1333,6 +1335,7 @@ importers:
       postcss-loader: 4.3.0
       postcss-plugin-constparse: workspace:*
       postcss-pxtransform: workspace:*
+      postcss-url: 8.0.0
       resolve: ^1.22.0
       resolve-url-loader: 3.1.3
       sass: 1.50.0
@@ -1375,6 +1378,7 @@ importers:
       postcss-loader: registry.npmjs.org/postcss-loader/4.3.0_mmkiswgrgezhd2zweiqe7apfva
       postcss-plugin-constparse: link:../postcss-plugin-constparse
       postcss-pxtransform: link:../postcss-pxtransform
+      postcss-url: registry.npmjs.org/postcss-url/8.0.0
       resolve: registry.npmjs.org/resolve/1.22.1
       resolve-url-loader: registry.npmjs.org/resolve-url-loader/3.1.3
       sass: registry.npmjs.org/sass/1.50.0
