@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/cli",
-  "version": "3.5.0-beta.5",
+  "version": "3.5.0-beta.6",
   "description": "cli tool for taro",
   "main": "index.js",
   "scripts": {
