@@ -26,7 +26,7 @@
     "lint:style": "stylelint ./packages/**/*.{css,scss}",
     "test": "pnpm --parallel -r --filter @tarojs/cli --filter babel-preset-taro --filter @tarojs/components --filter @tarojs/taro-h5 --filter @tarojs/react --filter @tarojs/webpack-runner --filter @tarojs/taro-rn --filter @tarojs/components-rn run test:ci",
     "version": "run-s version:*",
-    "version:release": "pnpm -r --filter=./packages/* exec npm version ${npm_package_version}",
+    "version:release": "pnpm --parallel -r --filter=./packages/* exec npm version ${npm_package_version}",
     "version:git": "git add . && git commit -m \"chore(release): publish ${npm_package_version}\"",
     "version:changelog": "conventional-changelog -p angular"
   },
