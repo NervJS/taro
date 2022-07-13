@@ -7,5 +7,6 @@ export const needPromiseApis = new Set([
   'pay',
   'navigateToVideoView',
   'showInteractionBar',
-  'openEcGood'
+  'openEcGood',
+  'openAwemeUserProfile'
 ])

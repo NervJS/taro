@@ -158,10 +158,10 @@ export function createNativeComponentConfig (Component, react: typeof React, rea
       }
     },
     attached () {
-      setCurrent()
-      this.compId = getNativeCompId()
+      const compId = this.compId = getNativeCompId()
+      setCurrent(compId)
       this.config = componentConfig
-      Current.app!.mount!(Component, this.compId, () => this)
+      Current.app!.mount!(Component, compId, () => this)
     },
     ready () {
       safeExecute(this.compId, 'onReady')
@@ -182,7 +182,7 @@ export function createNativeComponentConfig (Component, react: typeof React, rea
     }
   }
 
-  function setCurrent () {
+  function setCurrent (compId: string) {
     const pages = getCurrentPages()
     const currentPage = pages[pages.length - 1]
     if (Current.page === currentPage) return
@@ -193,6 +193,7 @@ export function createNativeComponentConfig (Component, react: typeof React, rea
     const router = {
       params: currentPage.options || {},
       path: addLeadingSlash(route),
+      $taroPath: compId,
       onReady: '',
       onHide: '',
       onShow: ''

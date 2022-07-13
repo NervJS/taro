@@ -1050,6 +1050,41 @@ describe('border', () => {
       })
     })
 
+    it('should transform border-color with rgb(a) property', () => {
+      expect(
+        transform(`
+        .top {
+          border-color: rgba(65, 131, 196, 0.2);
+        }
+        .right {
+          border-color: RGBA(40, 42, 54, 75%);
+        }
+        .bottom {
+          border-color: rgba(65, 131, 196, 20%) yellow RGBA(40, 42, 54, .75);
+        }
+        .left {
+          border-color: rgb(65, 131, 196);
+        }
+      `, { scalable: false })
+      ).toEqual({
+        top: {
+          borderColor: 'rgba(65, 131, 196, 0.2)'
+        },
+        right: {
+          borderColor: 'RGBA(40, 42, 54, 75%)'
+        },
+        bottom: {
+          borderTopColor: 'rgba(65, 131, 196, 20%)',
+          borderLeftColor: 'yellow',
+          borderRightColor: 'yellow',
+          borderBottomColor: 'RGBA(40, 42, 54, .75)'
+        },
+        left: {
+          borderColor: 'rgb(65, 131, 196)'
+        }
+      })
+    })
+
     it('transforms border-width', () => {
       expect(
         transform(`
@@ -1254,7 +1289,7 @@ describe('line-height', () => {
     ).toEqual({
       __viewportUnits: true,
       test: {
-        lineHeight: '2vh'
+        lineHeight: "scaleVu2dp(2, 'vh')"
       }
     })
   })
@@ -2594,16 +2629,16 @@ describe('viewport units', () => {
     ).toEqual({
       __viewportUnits: true,
       test: {
-        fontSize: '1vw',
-        lineHeight: '2vh',
-        marginBottom: '1vmin',
-        marginLeft: '1vmin',
-        marginRight: '1vmin',
-        marginTop: '1vmin',
-        paddingBottom: '1vmax',
-        paddingLeft: '1vmax',
-        paddingRight: '1vmax',
-        paddingTop: '1vmax'
+        fontSize: "scaleVu2dp(1, 'vw')",
+        lineHeight: "scaleVu2dp(2, 'vh')",
+        marginBottom: "scaleVu2dp(1, 'vmin')",
+        marginLeft: "scaleVu2dp(1, 'vmin')",
+        marginRight: "scaleVu2dp(1, 'vmin')",
+        marginTop: "scaleVu2dp(1, 'vmin')",
+        paddingBottom: "scaleVu2dp(1, 'vmax')",
+        paddingLeft: "scaleVu2dp(1, 'vmax')",
+        paddingRight: "scaleVu2dp(1, 'vmax')",
+        paddingTop: "scaleVu2dp(1, 'vmax')"
       }
     })
   })
@@ -3507,6 +3542,20 @@ describe('ICSS :export pseudo-selector', () => {
         borderLeftWidth: 1,
         borderLeftStyle: 'solid',
         borderLeftColor: 'red'
+      }
+    })
+  })
+
+  it('should transform propertyValue remove !import key', () => {
+    expect(
+      transform(`
+      .foo {
+        color: red !import;
+      }
+    `, { scalable: false })
+    ).toEqual({
+      foo: {
+        color: 'red'
       }
     })
   })

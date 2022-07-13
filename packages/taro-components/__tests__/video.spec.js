@@ -119,7 +119,7 @@ describe('Video', () => {
       direction: 'vertical'
     }))
     assert(video.requestFullscreen.calledOnceWith({
-      navigationUI: 'show'
+      navigationUI: 'auto'
     }))
 
     fullscreenBtn.click()

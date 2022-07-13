@@ -3,6 +3,7 @@ import { directionFactory, anyOrderFactory } from './util'
 
 const {
   WORD,
+  FUNC,
   COLOR,
   LENGTH,
   UNSUPPORTED_LENGTH_UNIT
@@ -34,7 +35,7 @@ export const borderBottom = borderDirectionFactory('Bottom')
 export const borderLeft = borderDirectionFactory('Left')
 
 export const borderColor = directionFactory({
-  types: [WORD],
+  types: [WORD, FUNC],
   prefix: 'border',
   suffix: 'Color'
 })

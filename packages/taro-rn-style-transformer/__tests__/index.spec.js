@@ -41,6 +41,20 @@ describe('style transform', () => {
 }`))
   })
 
+  it('.css transform viewport unit', async () => {
+    const css = await run(`
+      .test {
+        height: 10vh;
+      }
+    `)
+    expect(css).toEqual(getWrapedCSS(`{
+  "test": {
+    "height": scaleVu2dp(10, 'vh')
+  },
+  "__viewportUnits": true
+}`))
+  })
+
   it('.css transform @import', async () => {
     const css = await run(`
       @import './b.css';

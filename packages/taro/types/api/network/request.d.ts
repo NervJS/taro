@@ -14,7 +14,7 @@ declare module '../../index' {
       header?: TaroGeneral.IAnyObject
       /** 超时时间，单位为毫秒
        * @default 2000
-       * @supported weapp, h5
+       * @supported weapp, h5, tt
        */
       timeout?: number
       /** HTTP 请求方法
@@ -37,7 +37,7 @@ declare module '../../index' {
       enableQuic?: boolean
       /** 开启 cache
        * @default false
-       * @supported weapp
+       * @supported weapp, tt
        */
       enableCache?: boolean
       /** 是否开启 HttpDNS 服务。如开启，需要同时填入 httpDNSServiceId 。 HttpDNS 用法详见 移动解析HttpDNS
@@ -254,7 +254,7 @@ declare module '../../index' {
    */
   interface RequestTask<T> extends Promise<request.SuccessCallbackResult<T>> {
     /** 中断请求任务
-     * @supported weapp
+     * @supported weapp, tt
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/network/request/RequestTask.abort.html
      */
     abort(): void

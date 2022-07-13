@@ -181,7 +181,7 @@ declare module '../../index' {
     updateShareMenu(option: updateShareMenu.Option): Promise<TaroGeneral.CallbackResult>
 
     /** 显示当前页面的转发按钮
-     * @supported weapp, qq
+     * @supported weapp, qq, tt
      * @example
      * ```tsx
      * Taro.showShareMenu({
@@ -273,7 +273,7 @@ declare module '../../index' {
     ): void
 
     /** 隐藏当前页面的转发按钮
-     * @supported weapp
+     * @supported weapp, tt
      * @example
      * ```tsx
      * Taro.hideShareMenu()

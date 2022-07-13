@@ -118,7 +118,7 @@ declare module '../../index' {
     /** 请求订阅消息
      *
      * 注意：[2.8.2](https://developers.weixin.qq.com/miniprogram/dev/framework/compatibility.html) 版本开始，用户发生点击行为或者发起支付回调后，才可以调起订阅消息界面。
-     * @supported weapp
+     * @supported weapp, tt
      * @example
      * ```tsx
      * Taro.requestSubscribeMessage({
@@ -133,7 +133,7 @@ declare module '../../index' {
     ): Promise<requestSubscribeMessage.SuccessCallbackResult | requestSubscribeMessage.FailCallbackResult>
 
     /** 订阅设备消息接口，调用后弹出授权框，用户同意后会允许开发者给用户发送订阅模版消息。当用户点击“允许”按钮时，模板消息会被添加到用户的小程序设置页，通过 wx.getSetting 接口可获取用户对相关模板消息的订阅状态。
-     * @supported weapp
+     * @supported weapp, tt
      * @example
      * ```tsx
      * Taro.requestSubscribeDeviceMessage({

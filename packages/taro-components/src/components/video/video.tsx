@@ -9,7 +9,8 @@ import {
   calcDist,
   normalizeNumber,
   screenFn,
-  isHls
+  isHls,
+  scene
 } from './utils'
 
 @Component({
@@ -199,6 +200,10 @@ export class Video implements ComponentInterface {
     if (document.addEventListener) {
       document.addEventListener(screenFn.fullscreenchange, this.handleFullScreenChange)
     }
+    if (this.videoRef && scene === 'iOS') {
+      // NOTE: iOS 场景下 fullscreenchange 并不会在退出全屏状态下触发，仅 webkitpresentationmodechanged 与 webkitendfullscreen 可替代
+      this.videoRef.addEventListener('webkitendfullscreen', this.handleFullScreenChange)
+    }
   }
 
   componentDidRender () {
@@ -207,6 +212,9 @@ export class Video implements ComponentInterface {
   disconnectedCallback () {
     if (document.removeEventListener) {
       document.removeEventListener(screenFn.fullscreenchange, this.handleFullScreenChange)
+    }
+    if (this.videoRef && scene === 'iOS') {
+      this.videoRef.removeEventListener('webkitendfullscreen', this.handleFullScreenChange)
     }
   }
 
@@ -489,7 +497,7 @@ export class Video implements ComponentInterface {
   }
 
   toggleFullScreen = (isFullScreen = !this.isFullScreen) => {
-    this.isFullScreen = isFullScreen
+    this.isFullScreen = isFullScreen // this.videoRef?.['webkitDisplayingFullscreen']
     this.controlsRef.toggleVisibility(true)
     this.fullScreenTimestamp = new Date().getTime()
     this.onFullScreenChange.emit({
@@ -498,7 +506,7 @@ export class Video implements ComponentInterface {
     })
     if (this.isFullScreen && !document[screenFn.fullscreenElement]) {
       setTimeout(() => {
-        this.videoRef[screenFn.requestFullscreen]({ navigationUI: 'show' })
+        this.videoRef[screenFn.requestFullscreen]({ navigationUI: 'auto' })
       }, 0)
     }
   }

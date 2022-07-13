@@ -76,21 +76,21 @@ interface VideoProps extends StandardProps {
 
   /** 若不设置，宽度大于240时才会显示
    * @default true
-   * @supported weapp, swan
+   * @supported weapp, swan, tt
    * @h5 待定
    */
   showProgress?: boolean
 
   /** 是否显示全屏按钮
    * @default true
-   * @supported weapp, swan, alipay
+   * @supported weapp, swan, alipay, tt
    * @h5 待定
    */
   showFullscreenBtn?: boolean
 
   /** 是否显示视频底部控制栏的播放按钮
    * @default true
-   * @supported weapp, swan, alipay
+   * @supported weapp, swan, alipay, tt
    * @h5 待定
    */
   showPlayBtn?: boolean
@@ -104,14 +104,14 @@ interface VideoProps extends StandardProps {
 
   /** 是否开启控制进度的手势
    * @default true
-   * @supported weapp, swan, alipay
+   * @supported weapp, swan, alipay, tt
    * @h5 待定
    */
   enableProgressGesture?: boolean
 
   /** 当视频大小与 video 容器大小不一致时，视频的表现形式
    * @default "contain"
-   * @supported weapp, swan, alipay
+   * @supported weapp, swan, alipay, tt
    * @h5 待定
    */
   objectFit?: keyof VideoProps.ObjectFit
@@ -123,7 +123,7 @@ interface VideoProps extends StandardProps {
 
   /** 是否显示静音按钮
    * @default false
-   * @supported weapp
+   * @supported weapp, tt
    * @h5 待定
    */
   showMuteBtn?: boolean
@@ -139,14 +139,14 @@ interface VideoProps extends StandardProps {
    * - `center`: 视频中间
    *
    * @default 'bottom'
-   * @supported weapp
+   * @supported weapp, tt
    * @h5 待定
    */
   playBtnPosition?: keyof VideoProps.PlayBtnPosition
 
   /** 是否开启播放手势，即双击切换播放/暂停
    * @default false
-   * @supported weapp
+   * @supported weapp, tt
    * @h5 待定
    */
   enablePlayGesture?: boolean
@@ -167,14 +167,14 @@ interface VideoProps extends StandardProps {
 
   /** 在非全屏模式下，是否开启亮度与音量调节手势（同 `page-gesture`）
    * @default false
-   * @supported weapp, swan
+   * @supported weapp, swan, tt
    * @h5 待定
    */
   vslideGesture?: boolean
 
   /** 在全屏模式下，是否开启亮度与音量调节手势
    * @default true
-   * @supported weapp
+   * @supported weapp, tt
    * @h5 待定
    */
   vslideGestureInFullscreen?: boolean
@@ -249,7 +249,7 @@ interface VideoProps extends StandardProps {
   /** 当视频进入和退出全屏时触发
    *
    * event.detail = {fullScreen, direction}，direction取为 vertical 或 horizontal
-   * @supported weapp, swan, alipay, rn
+   * @supported weapp, swan, alipay, rn, tt
    * @h5 待定
    */
   onFullscreenChange?: CommonEventFunction<VideoProps.onFullscreenChangeEventDetail>
@@ -257,7 +257,7 @@ interface VideoProps extends StandardProps {
   /** 当视频进入和退出全屏时触发
    *
    * event.detail = {fullScreen, direction}，direction 取为 vertical 或 horizontal
-   * @supported weapp, swan
+   * @supported weapp, swan, tt
    * @h5 待定
    */
   onWaiting?: CommonEventFunction<VideoProps.onWaitingEventDetail>
@@ -273,7 +273,7 @@ interface VideoProps extends StandardProps {
   onProgress?: CommonEventFunction<VideoProps.onProgressEventDetail>
 
   /** 视频元数据加载完成时触发。event.detail = {width, height, duration}
-   * @supported weapp, rn
+   * @supported weapp, rn, tt
    */
   onLoadedMetaData?: CommonEventFunction
 

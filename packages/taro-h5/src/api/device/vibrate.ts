@@ -1,11 +1,11 @@
 import Taro from '@tarojs/api'
 import { MethodHandler } from '../utils/handler'
 
-const vibrator = function vibrator (mm) {
+const vibrator = function vibrator (mm: number | number[]) {
   try {
     return window.navigator.vibrate(mm)
   } catch (e) {
-    console.warn('当前浏览器不支持vibrate')
+    console.warn('当前浏览器不支持 vibrate。')
   }
 }
 
@@ -14,11 +14,10 @@ const vibrator = function vibrator (mm) {
  */
 export const vibrateShort: typeof Taro.vibrateShort = ({ success, fail, complete } = {}) => {
   const handle = new MethodHandler({ name: 'vibrateShort', success, fail, complete })
-  if (vibrator) {
-    vibrator(15)
+  if (vibrator(15)) {
     return handle.success()
   } else {
-    return handle.fail()
+    return handle.fail({ errMsg: 'style is not support' })
   }
 }
 
@@ -27,10 +26,9 @@ export const vibrateShort: typeof Taro.vibrateShort = ({ success, fail, complete
  */
 export const vibrateLong: typeof Taro.vibrateLong = ({ success, fail, complete } = {}) => {
   const handle = new MethodHandler({ name: 'vibrateLong', success, fail, complete })
-  if (vibrator) {
-    vibrator(400)
+  if (vibrator(400)) {
     return handle.success()
   } else {
-    return handle.fail()
+    return handle.fail({ errMsg: 'style is not support' })
   }
 }

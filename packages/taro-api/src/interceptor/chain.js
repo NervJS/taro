@@ -1,5 +1,4 @@
 import { isFunction } from '../utils'
-
 export default class Chain {
   constructor (requestParams, interceptors, index) {
     this.index = index || 0
@@ -16,7 +15,7 @@ export default class Chain {
     const nextChain = this._getNextChain()
     const p = nextInterceptor(nextChain)
     const res = p.catch(err => Promise.reject(err))
-    if (isFunction(p.abort)) res.abort = p.abort
+    Object.keys(p).forEach(k => isFunction(p[k]) && (res[k] = p[k]))
     return res
   }
 

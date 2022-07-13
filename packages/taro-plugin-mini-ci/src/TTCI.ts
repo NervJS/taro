@@ -2,6 +2,8 @@
 import BaseCI from './BaseCi'
 import * as cp from 'child_process'
 import * as fs from 'fs'
+import * as path from 'path'
+import generateQrCode from './QRCode'
 
 export default class TTCI extends BaseCI {
   tt
@@ -18,7 +20,10 @@ export default class TTCI extends BaseCI {
   }
 
   async _beforeCheck () {
-    await this.tt.loginByEmail(this.pluginOpts.tt!.email, this.pluginOpts.tt!.password)
+    await this.tt.loginByEmail({
+      email: this.pluginOpts.tt!.email,
+      password: this.pluginOpts.tt!.password
+    })
     return await this.tt.checkSession()
   }
 
@@ -55,13 +60,29 @@ export default class TTCI extends BaseCI {
     if (!isLogin) return
     const { chalk, printLog, processTypeEnum } = this.ctx.helper
     const { outputPath } = this.ctx.paths
+    const appInfo = JSON.parse(
+      fs.readFileSync(path.join(outputPath, 'app.json'), {
+        encoding: 'utf8'
+      })
+    )
     try {
       printLog(processTypeEnum.START, '预览字节跳动小程序')
-      await this.tt.preview({
-        entry: outputPath,
-        force: true,
-        small: true
+      const previewResult = await this.tt.preview({
+        project: {
+          path: outputPath
+        },
+        page: {
+          path: appInfo.pages[0]
+        },
+        qrcode: {
+          format: 'imageSVG',
+          options: {
+            small: true
+          }
+        }
       })
+      generateQrCode(previewResult.shortUrl)
+      printLog(processTypeEnum.GENERATE, '二维码已生成，请扫码预览')
     } catch (error) {
       console.log(chalk.red(`上传失败 ${new Date().toLocaleString()} \n${error.message}`))
     }
@@ -76,10 +97,14 @@ export default class TTCI extends BaseCI {
       printLog(processTypeEnum.START, '上传代码到字节跳动后台')
       printLog(processTypeEnum.REMIND, `本次上传版本号为："${this.version}"，上传描述为：“${this.desc}”`)
       await this.tt.upload({
-        entry: outputPath,
+        project: {
+          path: outputPath
+        },
         version: this.version,
-        changeLog: this.desc
+        changeLog: this.desc,
+        needUploadSourcemap: true
       })
+      printLog(processTypeEnum.REMIND, '上传完成')
     } catch (error) {
       console.log(chalk.red(`上传失败 ${new Date().toLocaleString()} \n${error.message}`))
     }

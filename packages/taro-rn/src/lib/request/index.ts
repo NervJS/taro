@@ -33,7 +33,7 @@ function _request<T = any>(options: Taro.request.Option): Taro.RequestTask<T> {
     url = generateRequestUrlWithParams(url, data)
   } else {
     if (typeof data === 'object') {
-      const contentType = options.header && (options.header['content-type'] || options.header['Content-Type'])
+      const contentType = options.header && (options.header['content-type'] || options.header['Content-Type']) || 'application/json'
       if (contentType.startsWith('application/json')) {
         data = JSON.stringify(data)
       } else if (contentType.startsWith('application/x-www-form-urlencoded')) {
