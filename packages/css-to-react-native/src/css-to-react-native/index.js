@@ -6,7 +6,7 @@ import TokenStream from './TokenStream'
 import transforms from './transforms/index'
 
 // Note if this is wrong, you'll need to change tokenTypes.js too
-const numberOrLengthRe = /^([+-]?(?:\d*\.)?\d+(?:[Ee][+-]?\d+)?)(?:px)?$/i
+const numberOrLengthRe = /^([+-]?(?:\d*\.)?\d+(?:[Ee][+-]?\d+)?)((?:px)|(?:vw$)|(?:vh$)|(?:vmin$)|(?:vmax$))?$/i
 const boolRe = /^true|false$/i
 const nullRe = /^null$/i
 const undefinedRe = /^undefined$/i
@@ -18,7 +18,12 @@ export const transformRawValue = (input) => {
   const numberMatch = value.match(numberOrLengthRe)
   if (numberMatch !== null) {
     const num = Number(numberMatch[1])
-    if (/(\d+)px/.test(value)) {
+    const unit = numberMatch[2]
+    const isViewportUnit = ['vw', 'vh', 'vmin', 'vmax'].includes(unit)
+
+    if (isViewportUnit) {
+      return `scaleVu2dp(${num}, '${unit}')`
+    } else if (/(\d+)px/.test(value)) {
       return `scalePx2dp(${num})`
     } else {
       return num

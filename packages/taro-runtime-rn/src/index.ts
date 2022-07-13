@@ -21,6 +21,10 @@ export {
   stopPullDownRefresh
 } from './page'
 export {
+  scalePx2dp,
+  scaleVu2dp
+} from './scale2dp'
+export {
   hideNavigationBarLoading,
   hideTabBar,
   hideTabBarRedDot,
