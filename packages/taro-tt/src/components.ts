@@ -35,7 +35,12 @@ export const components = {
     scale: '100'
   },
   Textarea: {
-    'disable-default-padding': 'false'
+    'disable-default-padding': 'false',
+    'confirm-type': singleQuote('return'),
+    'confirm-hold': 'false',
+    'show-confirm-bar': 'true',
+    'adjust-position': 'true',
+    'hold-keyboard': 'false'
   },
   Canvas: {
     type: ''

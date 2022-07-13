@@ -1,16 +1,8 @@
 import { Current } from './current'
-import { getPath } from './dsl/common'
 import { TaroRootElement } from './dom/root'
 import { document } from './bom/document'
 
 import type { Func } from './interface'
-
-function removeLeadingSlash (path?: string) {
-  if (path == null) {
-    return ''
-  }
-  return path.charAt(0) === '/' ? path.slice(1) : path
-}
 
 export const nextTick = (cb: Func, ctx?: Record<string, any>) => {
   const router = Current.router
@@ -22,7 +14,7 @@ export const nextTick = (cb: Func, ctx?: Record<string, any>) => {
 
   if (router !== null) {
     let pageElement: TaroRootElement | null = null
-    const path = getPath(removeLeadingSlash(router.path), router.params)
+    const path = router.$taroPath
     pageElement = document.getElementById<TaroRootElement>(path)
     if (pageElement?.pendingUpdate) {
       if (process.env.TARO_ENV === 'h5') {

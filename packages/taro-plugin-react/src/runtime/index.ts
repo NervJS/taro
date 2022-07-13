@@ -36,6 +36,13 @@ if (__TARO_FRAMEWORK__ === 'preact') {
           i = i.toLowerCase()
         }
 
+        if (type === 'map' && i === 'onregionchange') {
+          // map 组件的 regionchange 事件非常特殊，详情：https://github.com/NervJS/taro/issues/5766
+          normalizedProps.onbegin = value
+          normalizedProps.onend = value
+          continue
+        }
+
         normalizedProps[i] = value
       }
 

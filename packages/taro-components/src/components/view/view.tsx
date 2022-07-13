@@ -64,7 +64,7 @@ export class View implements ComponentInterface {
   componentDidRender () {
     const el = this.el
     el.childNodes.forEach(item => {
-      if (item.nodeType === document.COMMENT_NODE) el.removeChild(item)
+      if (item.nodeType === document.COMMENT_NODE && item["s-cn"]) item["s-cn"] = false
     })
   }
 

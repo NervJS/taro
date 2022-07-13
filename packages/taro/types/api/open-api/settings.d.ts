@@ -135,7 +135,7 @@ declare module '../../index' {
     /** 调起客户端小程序设置界面，返回用户设置的操作结果。**设置界面只会出现小程序已经向用户请求过的[权限](https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/authorize.html)**。
      *
      * 注意：[2.3.0](https://developers.weixin.qq.com/miniprogram/dev/framework/compatibility.html) 版本开始，用户发生点击行为后，才可以跳转打开设置页，管理授权信息。[详情](https://developers.weixin.qq.com/community/develop/doc/000cea2305cc5047af5733de751008)
-     * @supported weapp
+     * @supported weapp, rn, tt
      * @example
      * ```tsx
      * Taro.openSetting({
@@ -153,7 +153,7 @@ declare module '../../index' {
     openSetting(option?: openSetting.Option): Promise<openSetting.SuccessCallbackResult>
 
     /** 获取用户的当前设置。**返回值中只会出现小程序已经向用户请求过的[权限](https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/authorize.html)**。
-     * @supported weapp
+     * @supported weapp, rn, tt
      * @example
      * ```tsx
      * Taro.getSetting({

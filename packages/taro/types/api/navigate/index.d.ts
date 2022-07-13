@@ -105,7 +105,7 @@ declare module '../../index' {
      * **关于调试**
      * - 在开发者工具上调用此 API 并不会真实的跳转到另外的小程序，但是开发者工具会校验本次调用跳转是否成功。[详情](https://developers.weixin.qq.com/miniprogram/dev/devtools/different.html#跳转小程序调试支持)
      * - 开发者工具上支持被跳转的小程序处理接收参数的调试。[详情](https://developers.weixin.qq.com/miniprogram/dev/devtools/different.html#跳转小程序调试支持)
-     * @supported weapp
+     * @supported weapp, tt
      * @example
      * ```tsx
      * Taro.navigateToMiniProgram({
@@ -127,7 +127,7 @@ declare module '../../index' {
     /** 返回到上一个小程序。只有在当前小程序是被其他小程序打开时可以调用成功
      *
      * 注意：**微信客户端 iOS 6.5.9，Android 6.5.10 及以上版本支持**
-     * @supported weapp
+     * @supported weapp, tt
      * @example
      * ```tsx
      * Taro.navigateBackMiniProgram({

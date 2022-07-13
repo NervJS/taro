@@ -17,7 +17,7 @@ export class VideoControl implements ComponentInterface {
     width: 0
   }
 
-  @Element() controlsRef: HTMLElement
+  @Element() el: HTMLElement
 
   @Prop() controls: boolean
   @Prop() currentTime: number
@@ -71,9 +71,9 @@ export class VideoControl implements ComponentInterface {
           this.toggleVisibility(false)
         }, 2000)
       }
-      this.controlsRef.style.visibility = 'visible'
+      this.el.style.visibility = 'visible'
     } else {
-      this.controlsRef.style.visibility = 'hidden'
+      this.el.style.visibility = 'hidden'
     }
     this.visible = !!visible
   }

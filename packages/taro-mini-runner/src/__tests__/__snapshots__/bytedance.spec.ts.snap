@@ -25,7 +25,7 @@ require(\\"./taro\\");
         function isArray() {}
         function processApis() {}
         var EMPTY_OBJ = {};
-        var needPromiseApis = new Set([ \\"checkFollowState\\", \\"exitMiniProgram\\", \\"followOfficialAccount\\", \\"getMenuButtonLayout\\", \\"hideInteractionBar\\", \\"pay\\", \\"navigateToVideoView\\", \\"showInteractionBar\\", \\"openEcGood\\" ]);
+        var needPromiseApis = new Set([ \\"checkFollowState\\", \\"exitMiniProgram\\", \\"followOfficialAccount\\", \\"getMenuButtonLayout\\", \\"hideInteractionBar\\", \\"pay\\", \\"navigateToVideoView\\", \\"showInteractionBar\\", \\"openEcGood\\", \\"openAwemeUserProfile\\" ]);
         function initNativeApi(taro) {
             processApis(taro, tt, {
                 needPromiseApis: needPromiseApis
@@ -65,7 +65,12 @@ require(\\"./taro\\");
                 scale: \\"100\\"
             },
             Textarea: {
-                \\"disable-default-padding\\": \\"false\\"
+                \\"disable-default-padding\\": \\"false\\",
+                \\"confirm-type\\": undefined(\\"return\\"),
+                \\"confirm-hold\\": \\"false\\",
+                \\"show-confirm-bar\\": \\"true\\",
+                \\"adjust-position\\": \\"true\\",
+                \\"hold-keyboard\\": \\"false\\"
             },
             Canvas: {
                 type: \\"\\"
@@ -647,10 +652,10 @@ require(\\"./taro\\");
                 },
                 attached: function attached() {
                     var _this6 = this;
-                    setCurrent();
-                    this.compId = getNativeCompId();
+                    var compId = this.compId = getNativeCompId();
+                    setCurrent(compId);
                     this.config = componentConfig;
-                    taro_runtime[\\"Current\\"].app.mount(Component, this.compId, (function() {
+                    taro_runtime[\\"Current\\"].app.mount(Component, compId, (function() {
                         return _this6;
                     }));
                 },
@@ -672,7 +677,7 @@ require(\\"./taro\\");
                     eh: taro_runtime[\\"eventHandler\\"]
                 }
             };
-            function setCurrent() {
+            function setCurrent(compId) {
                 var pages = getCurrentPages();
                 var currentPage = pages[pages.length - 1];
                 if (taro_runtime[\\"Current\\"].page === currentPage) return;
@@ -681,6 +686,7 @@ require(\\"./taro\\");
                 var router = {
                     params: currentPage.options || {},
                     path: Object(taro_runtime[\\"addLeadingSlash\\"])(route),
+                    $taroPath: compId,
                     onReady: \\"\\",
                     onHide: \\"\\",
                     onShow: \\"\\"

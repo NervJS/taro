@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/taro-loader",
-  "version": "3.4.8",
+  "version": "3.4.13",
   "description": "> TODO: description",
   "author": "yuche <i@yuche.me>",
   "homepage": "https://github.com/nervjs/taro/tree/master/packages/taro-loader#readme",
@@ -26,8 +26,8 @@
     "url": "https://github.com/NervJS/taro/issues"
   },
   "dependencies": {
-    "@tarojs/helper": "3.4.8",
-    "@tarojs/taro": "3.4.8",
+    "@tarojs/helper": "3.4.13",
+    "@tarojs/taro": "3.4.13",
     "loader-utils": "^1.2.3"
   },
   "publishConfig": {

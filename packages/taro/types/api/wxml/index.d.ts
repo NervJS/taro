@@ -18,12 +18,12 @@ declare module '../../index' {
    */
   interface IntersectionObserver {
     /** 停止监听。回调函数将不再触发
-     * @supported weapp
+     * @supported weapp, tt
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/wxml/IntersectionObserver.disconnect.html
      */
     disconnect(): void
     /** 指定目标节点并开始监听相交状态变化情况
-     * @supported weapp
+     * @supported weapp, tt
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/wxml/IntersectionObserver.observe.html
      */
     observe(
@@ -33,7 +33,7 @@ declare module '../../index' {
       callback: IntersectionObserver.ObserveCallback,
     ): void
     /** 使用选择器指定一个节点，作为参照区域之一。
-     * @supported weapp
+     * @supported weapp, tt
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/wxml/IntersectionObserver.relativeTo.html
      */
     relativeTo(
@@ -43,7 +43,7 @@ declare module '../../index' {
       margins?: IntersectionObserver.RelativeToMargins,
     ): IntersectionObserver
     /** 指定页面显示区域作为参照区域之一
-     * @supported weapp
+     * @supported weapp, tt
      * @example
      * 下面的示例代码中，如果目标节点（用选择器 .target-class 指定）进入显示区域以下 100px 时，就会触发回调函数。
      *
@@ -184,7 +184,7 @@ declare module '../../index' {
    */
   interface NodesRef {
     /** 添加节点的布局位置的查询请求。相对于显示区域，以像素为单位。其功能类似于 DOM 的 `getBoundingClientRect`。返回 `NodesRef` 对应的 `SelectorQuery`。
-     * @supported weapp, h5
+     * @supported weapp, h5, tt
      * @example
      * ```tsx
      * Taro.createSelectorQuery().select('#the-id').boundingClientRect(function(rect){
@@ -220,7 +220,7 @@ declare module '../../index' {
       callback?: NodesRef.BoundingClientRectCallback,
     ): SelectorQuery
     /** 添加节点的 Context 对象查询请求。目前支持 [VideoContext](/docs/apis/media/video/VideoContext)、[CanvasContext](/docs/apis/canvas/CanvasContext)、[LivePlayerContext](/docs/apis/media/live/LivePlayerContext)、[EditorContext](/docs/apis/media/editor/EditorContext)和 [MapContext](/docs/apis/media/map/MapContext) 的获取。
-     * @supported weapp, h5
+     * @supported weapp, h5, tt
      * @example
      * ```tsx
      * Taro.createSelectorQuery().select('.the-video-class').context(function (res) {
@@ -237,7 +237,7 @@ declare module '../../index' {
      *
      * **注意**
      * computedStyle 的优先级高于 size，当同时在 computedStyle 里指定了 width/height 和传入了 size: true，则优先返回 computedStyle 获取到的 width/height。
-     * @supported weapp, h5
+     * @supported weapp, h5, tt
      * @example
      * ```tsx
      * Taro.createSelectorQuery().select('#the-id').fields({
@@ -269,7 +269,7 @@ declare module '../../index' {
       callback?: NodesRef.FieldsCallback,
     ): SelectorQuery
     /** 获取 Node 节点实例。目前支持 [Canvas](/docs/components/canvas) 的获取。
-     * @supported weapp, h5
+     * @supported weapp, h5, tt
      * @example
      * ```tsx
      * Taro.createSelectorQuery().select('.canvas').node(function(res){
@@ -283,7 +283,7 @@ declare module '../../index' {
       callback?: NodesRef.NodeCallback,
     ): SelectorQuery
     /** 添加节点的滚动位置查询请求。以像素为单位。节点必须是 `scroll-view` 或者 `viewport`，返回 `NodesRef` 对应的 `SelectorQuery`。
-     * @supported weapp, h5
+     * @supported weapp, h5, tt
      * @example
      * ```tsx
      * Taro.createSelectorQuery().selectViewport().scrollOffset(function(res){
@@ -384,7 +384,7 @@ declare module '../../index' {
    */
   interface SelectorQuery {
     /** 执行所有的请求。请求结果按请求次序构成数组，在callback的第一个参数中返回。
-     * @supported weapp, h5
+     * @supported weapp, h5, tt
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/wxml/SelectorQuery.exec.html
      */
     exec(
@@ -392,7 +392,7 @@ declare module '../../index' {
       callback?: (...args: any[]) => any,
     ): NodesRef
     /** 将选择器的选取范围更改为自定义组件 `component` 内。（初始时，选择器仅选取页面范围的节点，不会选取任何自定义组件中的节点）。
-     * @supported weapp, h5
+     * @supported weapp, h5, tt
      * @example
      * ```tsx
      * Component({
@@ -423,7 +423,7 @@ declare module '../../index' {
      * - 后代选择器：.the-ancestor .the-descendant
      * - 跨自定义组件的后代选择器：.the-ancestor >>> .the-descendant
      * - 多选择器的并集：#a-node, .some-other-nodes
-     * @supported weapp, h5
+     * @supported weapp, h5, tt
      * @example
      * ```tsx
      * Taro.createSelectorQuery().select('#the-id').fields({
@@ -459,7 +459,7 @@ declare module '../../index' {
      * - 后代选择器：.the-ancestor .the-descendant
      * - 跨自定义组件的后代选择器：.the-ancestor >>> .the-descendant
      * - 多选择器的并集：#a-node, .some-other-nodes
-     * @supported weapp, h5
+     * @supported weapp, h5, tt
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/wxml/SelectorQuery.selectAll.html
      */
     selectAll(
@@ -467,7 +467,7 @@ declare module '../../index' {
       selector: string,
     ): NodesRef
     /** 选择显示区域。可用于获取显示区域的尺寸、滚动位置等信息。
-     * @supported weapp, h5
+     * @supported weapp, h5, tt
      * @example
      * ```tsx
      * Taro.createSelectorQuery().selectViewport().scrollOffset(function (res) {
@@ -484,7 +484,7 @@ declare module '../../index' {
 
   interface TaroStatic {
     /** 返回一个 SelectorQuery 对象实例。在自定义组件或包含自定义组件的页面中，应使用 `this.createSelectorQuery()` 来代替。
-     * @supported weapp, h5
+     * @supported weapp, h5, tt
      * @example
      * ```tsx
      * const query = Taro.createSelectorQuery()
@@ -500,7 +500,7 @@ declare module '../../index' {
     createSelectorQuery(): SelectorQuery
 
     /** 创建并返回一个 IntersectionObserver 对象实例。在自定义组件或包含自定义组件的页面中，应使用 `this.createIntersectionObserver([options])` 来代替。
-     * @supported weapp
+     * @supported weapp, tt
      * @example
      * ```tsx
      * const observer = Taro.createIntersectionObserver(this, { thresholds: [0], observeAll: true })

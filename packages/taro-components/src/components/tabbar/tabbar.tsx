@@ -188,16 +188,12 @@ export class Tabbar implements ComponentInterface {
   }
 
   routerChangeHandler = (options?) => {
-    let toLocation
+    const to = options?.toLocation?.path
     let currentPage
 
-    if (options) {
-      toLocation = options.toLocation
-    }
-
-    if (toLocation && toLocation.path) {
-      const tmpPath = addLeadingSlash(toLocation.path)
-      currentPage = stripBasename(tmpPath === '/' ? this.homePage : tmpPath, this.conf.basename || '/')
+    if (typeof to === 'string') {
+      const routerBasename = this.conf.basename || '/'
+      currentPage = stripBasename(addLeadingSlash(to || this.homePage), routerBasename) || '/'
     } else {
       currentPage = this.getCurrentUrl()
     }

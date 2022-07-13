@@ -10,7 +10,7 @@ interface SwitchProps extends StandardProps, FormItemProps {
 
   /** 是否禁用
    * @default false
-   * @supported weapp, rn
+   * @supported weapp, rn, tt
    */
   disabled?: boolean
 
@@ -27,7 +27,7 @@ interface SwitchProps extends StandardProps, FormItemProps {
   color?: string
 
   /** checked 改变时触发 change 事件
-   * @supported weapp, rn
+   * @supported weapp, rn, tt
    */
   onChange?: CommonEventFunction<SwitchProps.onChangeEventDetail>
 

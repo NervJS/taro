@@ -348,7 +348,7 @@ declare module '../../index' {
      * @example
      ```tsx
      * Taro.saveVideoToPhotosAlbum({
-     *   filePath: 'wxfile://xxx'
+     *   filePath: 'wxfile://xxx',
      *   success: function (res) {
      *     console.log(res.errMsg)
      *   }
@@ -462,7 +462,7 @@ declare module '../../index' {
     chooseVideo(option: chooseVideo.Option): Promise<chooseVideo.SuccessCallbackResult>
 
     /** 拍摄或从手机相册中选择图片或视频。
-     * @supported weapp, rn
+     * @supported weapp
      * @example
      * ```tsx
      * Taro.chooseMedia({

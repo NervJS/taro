@@ -102,7 +102,7 @@ declare module '../../index' {
      *
      * **接口调整说明**
      * 在用户未授权过的情况下调用此接口，将不再出现授权弹窗，会直接进入 fail 回调（详见[《公告》](https://developers.weixin.qq.com/community/develop/doc/0000a26e1aca6012e896a517556c01))。在用户已授权的情况下调用此接口，可成功获取用户信息。
-     * @supported weapp
+     * @supported weapp, tt
      * @example
      * ```tsx
      * // 必须是在用户已经授权的情况下调用
@@ -153,7 +153,7 @@ declare module '../../index' {
      * 开发者每次通过该接口获取用户个人信息均需用户确认，请开发者妥善保管用户快速填写的头像昵称，避免重复弹窗。
      *
      * [微信端调整背景和说明，请参考文档](https://developers.weixin.qq.com/community/develop/doc/000cacfa20ce88df04cb468bc52801)
-     * @supported weapp
+     * @supported weapp, tt
      * @example
      * 推荐使用 Taro.getUserProfile 获取用户信息，开发者每次通过该接口获取用户个人信息均需用户确认
      *

@@ -12,15 +12,8 @@ import { normalizeSourceMap } from '../utils'
 
 export function getWrapedCSS (css) {
   return `
-import { StyleSheet, Dimensions } from 'react-native'
-
-// 一般app 只有竖屏模式，所以可以只获取一次 width
-const deviceWidthDp = Dimensions.get('window').width
-const uiWidthPx = 375
-
-function scalePx2dp (uiElementPx) {
-  return uiElementPx * deviceWidthDp / uiWidthPx
-}
+import { StyleSheet } from 'react-native'
+import { scalePx2dp, scaleVu2dp } from '@tarojs/runtime-rn'
 
 // 用来标识 rn-runner transformer 是否读写缓存
 function ignoreStyleFileCache() {}
@@ -243,6 +236,7 @@ export default class StyleTransform {
     validateStyle({ styleObject, filename })
     const css = JSON.stringify(styleObject, null, 2)
       .replace(/"(scalePx2dp\(.*?\))"/g, '$1')
+      .replace(/"(scaleVu2dp\(.*?\))"/g, '$1')
 
     // 注入自适应方法 scalePx2dp
     return getWrapedCSS(css)
