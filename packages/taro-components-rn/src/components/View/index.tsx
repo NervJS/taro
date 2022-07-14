@@ -26,6 +26,7 @@ const _View: React.FC<_ViewProps> = (props: _ViewProps) => {
   const child = Array.isArray(props.children) ? props.children.map((c: any, i: number) => stringToText(c, { key: i, ...props, style: textStyle })) : stringToText(props.children, { ...props, style: textStyle })
   return (
     <View
+      ref={props._ref}
       style={props.style}
       {...props}
     >
