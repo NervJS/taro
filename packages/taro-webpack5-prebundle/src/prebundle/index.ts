@@ -95,20 +95,26 @@ export default class BasePrebundle<T extends IPrebundleConfig = IPrebundleConfig
     return ''
   }
 
-  /** 找出所有 webpack entry */
-  getEntries (appJsPath: string) {
-    const { appPath, sourceRoot } = this.config
+  parseEntries (entry: EntryObject = {}) {
     const entries: string[] = []
-    const { entry = {} } = this.config
     Object.values(entry).forEach(e => {
       if (typeof e === 'string') {
         entries.push(e)
       } else if (e instanceof Array) {
-        entries.push(...e)
+        entries.push(...this.parseEntries(e as any))
       } else if (typeof e.import === 'string') {
         entries.push(e.import)
+      } else if (e.import instanceof Array) {
+        entries.push(...this.parseEntries(e.import as any))
       }
     })
+    return entries
+  }
+
+  /** 找出所有 webpack entry */
+  getEntries (appJsPath: string) {
+    const { appPath, sourceRoot } = this.config
+    const entries: string[] = this.parseEntries(this.config.entry)
 
     const appConfigPath = resolveMainFilePath(`${appJsPath.replace(path.extname(appJsPath), '')}.config`)
     if (fs.existsSync(appConfigPath)) {
@@ -129,8 +135,8 @@ export default class BasePrebundle<T extends IPrebundleConfig = IPrebundleConfig
       appPath: this.appPath,
       customEsbuildConfig: this.customEsbuildConfig,
       entries,
+      include,
       exclude,
-      include
     }, this.deps)
 
     this.deps.size &&
@@ -158,7 +164,7 @@ export default class BasePrebundle<T extends IPrebundleConfig = IPrebundleConfig
           chain: this.chain,
           prebundleOutputDir: this.prebundleCacheDir,
           customEsbuildConfig: this.customEsbuildConfig,
-          customSwcConfig: this.customSwcConfig
+          customSwcConfig: this.customSwcConfig,
         })
       } catch (result) {
         return this.handleBundleError(result?.errors)
@@ -178,14 +184,18 @@ export default class BasePrebundle<T extends IPrebundleConfig = IPrebundleConfig
         return p
       }, [] as string[])
       deps.forEach(key => this.deps.delete(key))
-      console.log(
-        chalk.yellowBright(
-          `检测到依赖编译错误，已跳过`, deps.sort(sortDeps).map(e => chalk.bold(e)).join('、'),`依赖预编译。`,
-          `\n    > 可以通过手动配置 ${
-            terminalLink('compiler.prebundle.exclude', 'https://nervjs.github.io/taro-docs/docs/next/config-detail#compilerprebundleexclude')
-          } 忽略该提示`
-        ),
-      )
+      if (deps.length > 0) {
+        console.log(
+          chalk.yellowBright(
+            `检测到依赖编译错误，已跳过`, deps.sort(sortDeps).map(e => chalk.bold(e)).join('、'),`依赖预编译。`,
+            `\n    > 可以通过手动配置 ${
+              terminalLink('compiler.prebundle.exclude', 'https://nervjs.github.io/taro-docs/docs/next/config-detail#compilerprebundleexclude')
+            } 忽略该提示`
+          ),
+        )
+      } else {
+        console.log(chalk.yellowBright(...errors))
+      }
       return this.bundle()
     }
   }

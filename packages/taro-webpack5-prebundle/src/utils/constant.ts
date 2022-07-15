@@ -67,6 +67,8 @@ export const singlelineCommentsRE = /\/\/.*/g
 export const importsRE =
   /(?<!\/\/.*)(?<=^|;|\*\/)\s*import(?!\s+type)(?:[\w*{}\n\r\t, ]+from\s*)?\s*("[^"]+"|'[^']+')\s*(?=$|;|\/\/|\/\*)/gm
 
+export const moduleRE = /^[^./\\][^:]/
+
 export type CollectedDeps = Map<string, string>
 
 export const MF_NAME = 'taro_app_library'

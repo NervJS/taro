@@ -115,7 +115,11 @@ export async function getBundleHash (appPath: string, deps: CollectedDeps, chain
   )
 }
 
-export const sortDeps = (a, b) => a[0].localeCompare(b[0])
+export const sortDeps = (a: string | string[], b: string | string[]) => {
+  const x = typeof a === 'string' ? a : a[0]
+  const y = typeof b === 'string' ? b : b[0]
+  return x.localeCompare(y)
+}
 
 export function formatDepsString (deps: CollectedDeps) {
   const list = Array.from(deps.entries()).sort(sortDeps)

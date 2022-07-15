@@ -149,7 +149,6 @@ export class H5Prebundle extends BasePrebundle<IH5PrebundleConfig> {
     if (process.env.NODE_ENV === 'production' || this.config.devServer?.devMiddleware?.writeToDisk) {
       fs.copy(this.remoteCacheDir, mainBuildOutput.path)
     }
-    console.log('this.remoteCacheDir, mainBuildOutput.path', this.remoteCacheDir, mainBuildOutput.path)
 
     this.measure(`Build remote ${MF_NAME} duration`, BUILD_LIB_START)
   }

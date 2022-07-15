@@ -17,6 +17,7 @@ import {
   defaultEsbuildLoader,
   importsRE,
   langRE,
+  moduleRE,
   multilineCommentsRE,
   scriptRE,
   singlelineCommentsRE,
@@ -47,6 +48,7 @@ deps: CollectedDeps = new Map()
   await Promise.all(entries.map(async entry => {
     try {
       await esbuild.build({
+        ...customEsbuildConfig,
         absWorkingDir: appPath,
         bundle: true,
         entryPoints: [entry],
@@ -166,29 +168,33 @@ function getScanImportsPlugin (deps: CollectedDeps, includes: string[], excludes
       })
 
       // bare imports
-      build.onResolve({ filter: /^[\w@][^:]/ }, async ({ path: id, importer }) => {
+      build.onResolve({ filter: moduleRE }, async ({ path: id, importer }) => {
         if (isExclude(id, excludes)) return externalModule({ path: id })
 
         if (deps.has(id)) return externalModule({ path: id })
 
-        const resolvedPath = await resolve(path.dirname(importer), id)
+        try {
+          const resolvedPath = await resolve(path.dirname(importer), id)
 
-        if (resolvedPath.includes('node_modules') || includes.includes(id)) {
-          if (isOptimizeIncluded(resolvedPath)) {
-            deps.set(id, resolvedPath)
+          if (resolvedPath.includes('node_modules') || includes.includes(id)) {
+            if (isOptimizeIncluded(resolvedPath)) {
+              deps.set(id, resolvedPath)
+            }
+            return externalModule({ path: id })
+          } else if (isScanIncluded(resolvedPath)) {
+            return {
+              path: resolvedPath,
+              namespace: 'vue'
+            }
+          } else if (assetsRE.test(resolvedPath)) {
+            externalModule({ path: id })
+          } else {
+            return {
+              path: resolvedPath
+            }
           }
+        } catch (e) {
           return externalModule({ path: id })
-        } else if (isScanIncluded(resolvedPath)) {
-          return {
-            path: resolvedPath,
-            namespace: 'vue'
-          }
-        } else if (assetsRE.test(resolvedPath)) {
-          externalModule({ path: id })
-        } else {
-          return {
-            path: resolvedPath
-          }
         }
       })
 

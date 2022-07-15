@@ -14,7 +14,7 @@ import {
   getHash,
   getResolve
 } from '../utils'
-import { assetsRE, CollectedDeps, defaultEsbuildLoader } from '../utils/constant'
+import { assetsRE, CollectedDeps, defaultEsbuildLoader, moduleRE } from '../utils/constant'
 
 type ExportsData = ReturnType<typeof parse> & { hasReExports?: boolean, needInterop?: boolean }
 
@@ -68,6 +68,7 @@ export async function bundle ({
     : fs.ensureDirSync(prebundleOutputDir)
 
   return esbuild.build({
+    ...customEsbuildConfig,
     absWorkingDir: appPath,
     bundle: true,
     write: false,
@@ -90,8 +91,7 @@ export async function bundle ({
       getEntryPlugin({
         flattenDeps,
         flatIdExports,
-        prebundleOutputDir,
-        swcConfig: customSwcConfig || {}
+        prebundleOutputDir
       }),
       ...customEsbuildConfig.plugins || [],
       getSwcPlugin({ appPath, flatIdExports }, customSwcConfig)
@@ -107,15 +107,14 @@ function getEntryPlugin ({
   flattenDeps: CollectedDeps
   flatIdExports: Map<string, ExportsData>
   prebundleOutputDir: string
-  swcConfig?: Config
 }): Plugin {
   const resolve = getResolve()
   return {
     name: 'entry',
     setup (build) {
       // assets
-      build.onResolve({ filter: assetsRE }, async ({ path: id, resolveDir }) => {
-        const filePath = path.isAbsolute(id) ? id : path.join(resolveDir, id)
+      build.onResolve({ filter: assetsRE }, async ({ path: id, importer }) => {
+        const filePath = await resolve(path.dirname(importer), id)
         const fileExt = path.extname(filePath)
         const fileBasename = path.basename(filePath, fileExt)
         const fileContent = await fs.readFile(filePath)
@@ -125,7 +124,7 @@ function getEntryPlugin ({
         return externalModule({ path: `./${path.relative(prebundleOutputDir, outputFile)}` })
       })
 
-      build.onResolve({ filter: /^[\w@][^:]/ }, async ({ path: id, importer }) => {
+      build.onResolve({ filter: moduleRE }, async ({ path: id, importer }) => {
         // entry
         if (!importer && flattenDeps.has(id)) {
           return {
@@ -134,17 +133,19 @@ function getEntryPlugin ({
           }
         }
 
-        const resolvedPath = await resolve(path.dirname(importer), id)
-        if (assetsRE.test(resolvedPath)) {
-          return externalModule({ path: id })
-        } else {
-          return {
-            path: resolvedPath
+        try {
+          const resolvedPath = await resolve(path.dirname(importer), id)
+          if (typeof resolvedPath === 'string' && !assetsRE.test(resolvedPath)) {
+            return { path: resolvedPath }
+          } else {
+            return externalModule({ path: id })
           }
+        } catch (e) {
+          return externalModule({ path: id })
         }
       })
 
-      build.onLoad({ filter: /^[\w@][^:]/, namespace: 'entry' }, async ({ path: id }) => {
+      build.onLoad({ filter: moduleRE, namespace: 'entry' }, async ({ path: id }) => {
         let js = ''
         const filePath = flattenDeps.get(id)?.replace(/\\/g, '\\\\')
         const exportsData = flatIdExports.get(id)!
