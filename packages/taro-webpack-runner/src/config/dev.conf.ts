@@ -2,7 +2,7 @@ import { chalk, recursiveMerge } from '@tarojs/helper'
 import { get, mapValues, merge } from 'lodash'
 import * as path from 'path'
 
-import { addLeadingSlash, addTrailingSlash, parseHtmlScript } from '../util'
+import { addTrailingSlash, parseHtmlScript } from '../util'
 import {
   getCopyWebpackPlugin,
   getDefinePlugin,
@@ -144,7 +144,7 @@ export default function (appPath: string, config: Partial<BuildConfig>): any {
     entry,
     output: getOutput(appPath, [{
       outputRoot,
-      publicPath: addLeadingSlash(addTrailingSlash(publicPath)),
+      publicPath: ['', 'auto'].includes(publicPath) ? publicPath : addTrailingSlash(publicPath),
       chunkDirectory
     }, output]),
     resolve: { alias },

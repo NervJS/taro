@@ -165,7 +165,7 @@ export default function (appPath: string, config: Partial<BuildConfig>): any {
     entry,
     output: getOutput(appPath, [{
       outputRoot,
-      publicPath: addTrailingSlash(publicPath),
+      publicPath: ['', 'auto'].includes(publicPath) ? publicPath : addTrailingSlash(publicPath),
       chunkDirectory
     }, output]),
     resolve: { alias },
