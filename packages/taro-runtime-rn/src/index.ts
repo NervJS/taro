@@ -39,3 +39,7 @@ export {
 export {
   pxTransform
 } from './compute'
+export {
+  scalePx2dp,
+  scaleVu2dp
+} from './scale2dp'

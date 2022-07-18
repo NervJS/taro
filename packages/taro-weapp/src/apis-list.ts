@@ -16,5 +16,6 @@ export const needPromiseApis = new Set([
   'startFacialRecognitionVerify',
   'openCustomerServiceChat',
   'getLocalIPAddress',
-  'getUserProfile'
+  'getUserProfile',
+  'editImage'
 ])

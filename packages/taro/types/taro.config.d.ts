@@ -359,6 +359,22 @@ declare module './index' {
       /** 视频号直播打开的第一个页面的全屏状态使用自定义顶部，支持 */
       firstPageNavigationStyle?: 'default' | 'custom'
     }
+    /** 小程序调试相关配置项 */
+    debugOptions?: {
+      /** 是否开启 FPS 面板，默认false */
+      enableFPSPanel?: boolean
+    }
+    /** touch 事件监听是否为 passive，默认false */
+    enablePassiveEvent?: boolean | {
+      /** 是否设置 touchstart 事件为 passive，默认false */
+      touchstart?: boolean
+      /** 是否设置 touchmove 事件为 passive，默认false */
+      touchmove?: boolean
+      /** 是否设置 wheel 事件为 passive，默认false */
+      wheel?: boolean
+    }
+    /** 自定义模块映射规则 */
+    resolveAlias?: Record<string, string>
     /** 接受一个数组，每一项都是字符串，来指定编译为原生小程序组件的组件入口 */
     components?: string[]
     /** 渲染页面的容器 id

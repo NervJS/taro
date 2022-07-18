@@ -14,7 +14,7 @@ function getReactNativeBasePath (): string {
   const reactNativeModuleName = 'react-native'
   const rnBasePath = require.resolve(reactNativeModuleName)
   const splittings = rnBasePath.split(path.sep)
-  const index = splittings.indexOf(reactNativeModuleName)
+  const index = splittings.lastIndexOf(reactNativeModuleName)
   return splittings.slice(0, index + 1).join(path.sep)
 }
 

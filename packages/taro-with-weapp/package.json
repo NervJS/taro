@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/with-weapp",
-  "version": "3.4.11",
+  "version": "3.4.13",
   "description": "taroize 之后的运行时",
   "main": "index.js",
   "scripts": {
@@ -23,8 +23,8 @@
   "license": "MIT",
   "dependencies": {
     "@babel/runtime": "^7.14.5",
-    "@tarojs/runtime": "3.4.11",
-    "@tarojs/taro": "3.4.11",
+    "@tarojs/runtime": "3.4.13",
+    "@tarojs/taro": "3.4.13",
     "lodash": "^4.17.21"
   }
 }

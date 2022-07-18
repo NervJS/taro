@@ -150,7 +150,8 @@ export default class TaroMiniPlugin {
       minifyXML: {},
       hot: false
     }, options)
-
+    /** 将 preact 映射为 react */
+    if (this.options.framework === 'preact') this.options.framework = 'react'
     const { template, baseLevel } = this.options
     if (template.isSupportRecursive === false && baseLevel > 0) {
       (template as UnRecursiveTemplate).baseLevel = baseLevel
@@ -666,7 +667,10 @@ export default class TaroMiniPlugin {
     const filePath = file.path
     const fileConfigPath = file.isNative ? this.replaceExt(filePath, '.json') : this.getConfigFilePath(filePath)
     const fileConfig = readConfig(fileConfigPath)
-    const usingComponents = fileConfig.usingComponents
+    // 修复百度小程序内容服务组件使用新的引入方式"usingSwanComponents"导致的无法编译到页面配置json的问题
+    // 获取 fileConfig 里面的匹配 "/^using[A-Za-z]*Components$/"的字段，之后合并到 usingComponents 中
+    const usingArray = Object.keys(fileConfig).filter(item => /^using[A-Za-z]*Components$/.test(item)).map(item => fileConfig[item])
+    const usingComponents = usingArray.length < 1 ? undefined : Object.assign({}, ...usingArray)
 
     // 递归收集依赖的第三方组件
     if (usingComponents) {
@@ -949,15 +953,14 @@ export default class TaroMiniPlugin {
             [customWrapperName]: `./${customWrapperName}`
           }
         })
-        this.generateConfigFile(compilation, `${name}/${customWrapperName}`, {
-          component: true,
-          usingComponents: {
-            [baseCompName]: `./${baseCompName}`,
-            [customWrapperName]: `./${customWrapperName}`
-          }
-        })
         this.generateTemplateFile(compilation, `${name}/${baseCompName}`, template.buildBaseComponentTemplate, this.options.fileType.templ)
       }
+      this.generateConfigFile(compilation, `${name}/${customWrapperName}`, {
+        component: true,
+        usingComponents: {
+          [customWrapperName]: `./${customWrapperName}`
+        }
+      })
       this.generateTemplateFile(compilation, `${name}/${customWrapperName}`, template.buildCustomComponentTemplate, this.options.fileType.templ)
       this.generateXSFile(compilation, `${name}/utils`, isBuildPlugin)
     })
