@@ -37,7 +37,20 @@ function createApp (AppClass) {
       if (app.componentDidNotFound) {
         app.componentDidNotFound(obj)
       }
-    }
+    },
+
+    getThemeConfig () {
+      if (app.getThemeConfig) {
+        return app.getThemeConfig()
+      }
+      return {}
+    },
+
+    getPhoneNumber (obj) {
+      if (app.getPhoneNumber) {
+        app.getPhoneNumber(obj)
+      }
+    },
   }
   return Object.assign(weappAppConf, app)
 }
