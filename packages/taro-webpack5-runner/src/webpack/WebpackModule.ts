@@ -168,6 +168,8 @@ export class WebpackModule {
         }
       },
       generator: {
+        outputPath: options.outputPath,
+        publicPath: options.publicPath,
         filename ({ filename }) {
           if (isFunction(options.name)) return options.name(filename)
           return options.name || filename.replace(sourceRoot + '/', '')
@@ -186,6 +188,8 @@ export class WebpackModule {
         }
       },
       generator: {
+        outputPath: options.outputPath,
+        publicPath: options.publicPath,
         filename ({ filename }) {
           if (isFunction(options.name)) return options.name(filename)
           return options.name || filename.replace(sourceRoot + '/', '')
@@ -204,6 +208,8 @@ export class WebpackModule {
         }
       },
       generator: {
+        outputPath: options.outputPath,
+        publicPath: options.publicPath,
         filename ({ filename }) {
           if (isFunction(options.name)) return options.name(filename)
           return options.name || filename.replace(sourceRoot + '/', '')
