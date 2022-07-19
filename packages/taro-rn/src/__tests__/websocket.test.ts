@@ -5,6 +5,7 @@ const Taro = Object.assign({}, connectSocket)
 
 describe('websocket', () => {
   beforeEach(() => {
+    // @ts-ignore
     global.WebSocket = WebSocket
   })
 
@@ -16,6 +17,7 @@ describe('websocket', () => {
     expect.assertions(6)
 
     return Taro.connectSocket({
+      // @ts-ignore
       url: {},
       success,
       fail,
@@ -61,8 +63,8 @@ describe('websocket', () => {
       expect(err.errMsg).toMatch(expectErrMsg)
     })
 
-    socketTaskOne.close()
-    socketTaskTwo.close()
+    socketTaskOne.close({})
+    socketTaskTwo.close({})
   })
 
   test('connection关闭的时候会重置总的socketTask数量', async () => {
@@ -74,7 +76,7 @@ describe('websocket', () => {
 
     const socketTaskOne = await Taro.connectSocket({ url: 'wss://localhost:8080', success })
     expect(success.mock.calls.length).toBe(1)
-    socketTaskOne.close()
+    socketTaskOne.close({})
 
     const socketTaskTwo = await Taro.connectSocket({ url: 'wss://localhost:8090', success })
     expect(success.mock.calls.length).toBe(2)
@@ -99,10 +101,10 @@ describe('websocket', () => {
         errMsg: 'connectSocket:ok'
       }))
 
-    socketTaskTwo.close()
-    socketTaskThree.close()
+    socketTaskTwo.close({})
+    socketTaskThree.close({})
   })
-  // eslint-disable-next-line
+  // @ts-ignore
   test('should work basically', async (done) => {
     const fakeURL = 'wss://localhost:8080'
     const mockServer = new Server(fakeURL)

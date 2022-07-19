@@ -44,6 +44,7 @@ describe('clipboard', () => {
 
       // expect.assertions(6)
       return Taro.setClipboardData({
+        // @ts-ignore
         data,
         success,
         fail,

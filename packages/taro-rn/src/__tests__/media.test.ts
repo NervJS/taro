@@ -68,6 +68,7 @@ describe('media', () => {
         expect(fail.mock.calls.length).toBe(0)
         expect(complete.mock.calls.length).toBe(1)
         expect(complete.mock.calls[0][0]).toEqual({ errMsg: expectMsg, path })
+        // @ts-ignore
         expect(res.path).toEqual(path)
       })
     })
@@ -95,6 +96,7 @@ describe('media', () => {
         expect(fail.mock.calls.length).toBe(0)
         expect(complete.mock.calls.length).toBe(1)
         expect(complete.mock.calls[0][0]).toEqual({ errMsg: expectMsg, path })
+        // @ts-ignore
         expect(res.path).toEqual(path)
       })
     })

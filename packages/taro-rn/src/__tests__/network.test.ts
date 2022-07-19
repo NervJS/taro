@@ -1,6 +1,4 @@
 import * as network from '../lib/network'
-
-// react_native_1.NativeModules.RNCNetInfo setup mock
 const Taro = Object.assign({}, network)
 
 describe('network', () => {
