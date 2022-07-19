@@ -4,7 +4,7 @@ declare module '../../index' {
   namespace canvasToTempFilePath {
     interface Option {
       /** 画布标识，传入 [canvas](/docs/components/canvas) 组件实例 （canvas type="2d" 时使用该属性）。 */
-      canvas?: CanvasProps
+      canvas?: Canvas
       /** 画布标识，传入 [canvas](/docs/components/canvas) 组件的 canvas-id */
       canvasId?: string
       /** 图片的质量，目前仅对 jpg 有效。取值范围为 (0, 1]，不在范围内时当作 1.0 处理。 */
