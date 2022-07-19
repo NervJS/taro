@@ -20,6 +20,7 @@
   "main": "index.js",
   "scripts": {
     "preinstall": "npx only-allow pnpm",
+    "prepare": "husky install",
     "build": "pnpm -r --filter=./packages/* run build",
     "clear-all": "rimraf **/node_modules",
     "lint": "eslint packages/ --ext .js --ext .ts --ext .tsx",
