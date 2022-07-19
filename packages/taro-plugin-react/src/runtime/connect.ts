@@ -183,8 +183,12 @@ export function createReactApp (
       appId = config?.appId || appId
     }
     const container = document.getElementById(appId)
-    const root = ReactDOM.createRoot(container)
-    root.render?.(h(AppWrapper))
+    if((react.version || '').startsWith('18')){
+      const root = ReactDOM.createRoot(container)
+      root.render?.(h(AppWrapper))
+    } else {
+      ReactDOM.render?.(h(AppWrapper), container)
+    }
   }
 
   class AppWrapper extends react.Component {
