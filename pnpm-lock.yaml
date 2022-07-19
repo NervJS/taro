@@ -7,6 +7,7 @@ importers:
       '@babel/cli': ^7.14.5
       '@babel/core': ^7.14.5
       '@babel/generator': ^7.14.5
+      '@babel/helper-plugin-utils': ^7.14.5
       '@babel/parser': ^7.14.5
       '@babel/plugin-proposal-class-properties': ^7.14.5
       '@babel/plugin-proposal-decorators': ^7.14.5
@@ -162,6 +163,7 @@ importers:
       '@babel/cli': registry.npmjs.org/@babel/cli/7.17.10_@babel+core@7.18.5
       '@babel/core': registry.npmjs.org/@babel/core/7.18.5
       '@babel/generator': registry.npmjs.org/@babel/generator/7.18.2
+      '@babel/helper-plugin-utils': registry.npmjs.org/@babel/helper-plugin-utils/7.17.12
       '@babel/parser': registry.npmjs.org/@babel/parser/7.18.5
       '@babel/plugin-proposal-class-properties': registry.npmjs.org/@babel/plugin-proposal-class-properties/7.17.12_@babel+core@7.18.5
       '@babel/plugin-proposal-decorators': registry.npmjs.org/@babel/plugin-proposal-decorators/7.18.2_@babel+core@7.18.5
@@ -739,7 +741,6 @@ importers:
       '@tarojs/plugin-platform-swan': workspace:*
       '@tarojs/plugin-platform-tt': workspace:*
       '@tarojs/plugin-platform-weapp': workspace:*
-      '@tarojs/react': workspace:*
       '@tarojs/runner-utils': workspace:*
       '@tarojs/runtime': workspace:*
       '@tarojs/shared': workspace:*
@@ -801,7 +802,6 @@ importers:
       '@tarojs/plugin-platform-swan': link:../taro-swan
       '@tarojs/plugin-platform-tt': link:../taro-tt
       '@tarojs/plugin-platform-weapp': link:../taro-weapp
-      '@tarojs/react': link:../taro-react
       '@tarojs/runner-utils': link:../taro-runner-utils
       '@tarojs/runtime': link:../taro-runtime
       '@tarojs/shared': link:../shared
@@ -846,13 +846,13 @@ importers:
       terser-webpack-plugin: registry.npmjs.org/terser-webpack-plugin/3.1.0_webpack@4.46.0
       url-loader: registry.npmjs.org/url-loader/4.1.1_lit45vopotvaqup7lrvlnvtxwy
       vm2: registry.npmjs.org/vm2/3.9.9
-      vue-loader: registry.npmjs.org/vue-loader/15.9.8_mb4th6kmyx4ixjh6t2xkx624yu
       webpack: registry.npmjs.org/webpack/4.46.0
       webpack-chain: registry.npmjs.org/webpack-chain/4.9.0
       webpack-format-messages: registry.npmjs.org/webpack-format-messages/2.0.6
       webpack-sources: registry.npmjs.org/webpack-sources/1.4.3
     devDependencies:
       '@types/webpack': registry.npmjs.org/@types/webpack/4.41.32
+      vue-loader: registry.npmjs.org/vue-loader/15.9.8_mb4th6kmyx4ixjh6t2xkx624yu
       webpack-merge: registry.npmjs.org/webpack-merge/4.2.2
 
   packages/taro-plugin-html:
@@ -1388,7 +1388,6 @@ importers:
       stylus-loader: registry.npmjs.org/stylus-loader/3.0.2_stylus@0.55.0
       terser-webpack-plugin: registry.npmjs.org/terser-webpack-plugin/3.1.0_webpack@4.46.0
       url-loader: registry.npmjs.org/url-loader/4.1.1_lit45vopotvaqup7lrvlnvtxwy
-      vue-loader: registry.npmjs.org/vue-loader/15.9.8_mb4th6kmyx4ixjh6t2xkx624yu
       webpack: registry.npmjs.org/webpack/4.46.0
       webpack-chain: registry.npmjs.org/webpack-chain/4.9.0
       webpack-dev-server: registry.npmjs.org/webpack-dev-server/3.11.3_webpack@4.46.0
@@ -1396,6 +1395,7 @@ importers:
     devDependencies:
       '@types/webpack': registry.npmjs.org/@types/webpack/4.41.32
       '@types/webpack-dev-server': registry.npmjs.org/@types/webpack-dev-server/3.11.6
+      vue-loader: registry.npmjs.org/vue-loader/15.9.8_mb4th6kmyx4ixjh6t2xkx624yu
       webpack-merge: registry.npmjs.org/webpack-merge/4.2.2
 
   packages/taro-webpack5-prebundle:
@@ -10130,7 +10130,7 @@ packages:
       - velocityjs
       - walrus
       - whiskers
-    dev: false
+    dev: true
 
   registry.npmjs.org/@vue/devtools/6.0.0-beta.15:
     resolution: {integrity: sha512-zTo89V+ztGiEpjsRkJYOS0K/6mIqrb+Ia6HT+CXczrGRC297d7SqP5GBXn2HSbaJiSWNdoTLbQ2tm7uj+IBoqQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@vue/devtools/-/devtools-6.0.0-beta.15.tgz}
@@ -15182,7 +15182,7 @@ packages:
     dependencies:
       bluebird: registry.npmjs.org/bluebird/3.7.2
       lodash: registry.npmjs.org/lodash/4.17.21
-    dev: false
+    dev: true
 
   registry.npmjs.org/constant-case/3.0.4:
     resolution: {integrity: sha512-I2hSBi7Vvs7BEuJDr5dDHfzb/Ruj3FyvFyh7KLilAjNQw3Be+xgqUBA2W6scVEcL0hL1dwPRtIqEPVUCKkSsyQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/constant-case/-/constant-case-3.0.4.tgz}
@@ -21275,7 +21275,7 @@ packages:
     resolution: {integrity: sha512-fUs4B4L+mlt8/XAtSOGMUO1TXmAelItBPtJG7CyHJfYTdDjwisntGO2JQz7oUsatOY9o68+57eziUVNw/mRHmA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/hash-sum/-/hash-sum-1.0.2.tgz}
     name: hash-sum
     version: 1.0.2
-    dev: false
+    dev: true
 
   registry.npmjs.org/hash-sum/2.0.0:
     resolution: {integrity: sha512-WdZTbAByD+pHfl/g9QSsBIIwy8IT+EsPiKDs0KNX+zSHhdDLFKdZu0BQHljvO+0QI/BasbMSUa8wYNCZTvhslg==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/hash-sum/-/hash-sum-2.0.0.tgz}
@@ -25784,7 +25784,7 @@ packages:
     version: 1.1.0
     dependencies:
       source-map: registry.npmjs.org/source-map/0.6.1
-    dev: false
+    dev: true
 
   registry.npmjs.org/merge-stream/2.0.0:
     resolution: {integrity: sha512-abv/qOcuPfk3URPfDzmZU1LKmuw8kT+0nIHvKrKgFrwifol/doWcdA4ZqsWQ8ENrFKkd67Mfpo/LovbIUsbt3w==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/merge-stream/-/merge-stream-2.0.0.tgz}
@@ -30052,6 +30052,7 @@ packages:
     engines: {node: '>=10.13.0'}
     hasBin: true
     requiresBuild: true
+    dev: true
 
   registry.npmjs.org/pretty-bytes/5.6.0:
     resolution: {integrity: sha512-FFw039TmrBqFK8ma/7OL3sDz/VytdtJr044/QUJtH0wK9lb9jLq9tJyIxUwtQJHwar2BqtiA4iCWSwo9JLkzFg==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/pretty-bytes/-/pretty-bytes-5.6.0.tgz}
@@ -36072,7 +36073,7 @@ packages:
     resolution: {integrity: sha512-BXq3jwIagosjgNVae6tkHzzIk6a8MHFtzAdwhnV5VlvPTFxDCvIttgSiHWjdGoTJvXtmRu5HacExfdarRcFhog==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/vue-hot-reload-api/-/vue-hot-reload-api-2.3.4.tgz}
     name: vue-hot-reload-api
     version: 2.3.4
-    dev: false
+    dev: true
 
   registry.npmjs.org/vue-loader/15.9.8_mb4th6kmyx4ixjh6t2xkx624yu:
     resolution: {integrity: sha512-GwSkxPrihfLR69/dSV3+5CdMQ0D+jXg8Ma1S4nQXKJAznYFX14vHdc/NetQc34Dw+rBbIJyP7JOuVb9Fhprvog==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/vue-loader/-/vue-loader-15.9.8.tgz}
@@ -36154,7 +36155,7 @@ packages:
       - velocityjs
       - walrus
       - whiskers
-    dev: false
+    dev: true
 
   registry.npmjs.org/vue-loader/17.0.0_webpack@5.69.0:
     resolution: {integrity: sha512-OWSXjrzIvbF2LtOUmxT3HYgwwubbfFelN8PAP9R9dwpIkj48TVioHhWWSx7W7fk+iF5cgg3CBJRxwTdtLU4Ecg==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/vue-loader/-/vue-loader-17.0.0.tgz}
@@ -36177,7 +36178,7 @@ packages:
     dependencies:
       hash-sum: registry.npmjs.org/hash-sum/1.0.2
       loader-utils: registry.npmjs.org/loader-utils/1.4.0
-    dev: false
+    dev: true
 
   registry.npmjs.org/vue-template-compiler/2.6.14:
     resolution: {integrity: sha512-ODQS1SyMbjKoO1JBJZojSw6FE4qnh9rIpUZn2EUT86FKizx9uH5z6uXiIrm4/Nb/gwxTi/o17ZDEGWAXHvtC7g==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/vue-template-compiler/-/vue-template-compiler-2.6.14.tgz}
@@ -36191,7 +36192,7 @@ packages:
     resolution: {integrity: sha512-4gDntzrifFnCEvyoO8PqyJDmguXgVPxKiIxrBKjIowvL9l+N66196+72XVYR8BBf1Uv1Fgt3bGevJ+sEmxfZzw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/vue-template-es2015-compiler/-/vue-template-es2015-compiler-1.9.1.tgz}
     name: vue-template-es2015-compiler
     version: 1.9.1
-    dev: false
+    dev: true
 
   registry.npmjs.org/vue/2.6.14:
     resolution: {integrity: sha512-x2284lgYvjOMj3Za7kqzRcUSxBboHqtgRE2zlos1qWaOye5yUmHn42LB1250NJBLRwEcdrB0JRwyPTEPhfQjiQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/vue/-/vue-2.6.14.tgz}
