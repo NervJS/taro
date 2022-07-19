@@ -19,7 +19,7 @@ export default class MultiPageHandler {
   }
 
   get appId () { return 'app' }
-  get router () { return this.config.router }
+  get router () { return this.config.router || {} }
   get routerMode () { return this.router.mode || 'hash' }
   get customRoutes () { return this.router.customRoutes || {} }
   get tabBarList () { return this.config.tabBar?.list || [] }
