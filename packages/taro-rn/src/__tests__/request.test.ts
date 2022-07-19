@@ -19,6 +19,7 @@ describe('request', () => {
         })
       })
     })
+    // @ts-ignore
     global.fetch = fetch
   })
 
@@ -54,6 +55,7 @@ describe('request', () => {
         url,
         responseType: 'text'
       }
+      // @ts-ignore
       const res = await Taro.request(options)
       expect(res.data).toEqual(expectData)
     })
@@ -89,7 +91,7 @@ describe('request', () => {
           })
         })
       })
-
+      // @ts-ignore
       global.fetch = fetch
 
       const url = 'https://test.taro.com/v1'
@@ -102,6 +104,7 @@ describe('request', () => {
       }
 
       const expectUrl = `https://test.taro.com/v1?${encodeURIComponent('a')}=${encodeURIComponent(1)}`
+      // @ts-ignore
       const res = await Taro.request(optionsOne)
       expect(res.data.url).toMatch(expectUrl)
 
@@ -118,6 +121,7 @@ describe('request', () => {
       }
 
       const expectBodyOne = JSON.stringify({ a: 1 })
+      // @ts-ignore
       const resTwo = await Taro.request(optionsTwo)
       expect(resTwo.data.params.body).toMatch(expectBodyOne)
 
@@ -134,6 +138,7 @@ describe('request', () => {
       }
 
       const expectBodyTwo = `${encodeURIComponent('a')}=${encodeURIComponent(1)}`
+      // @ts-ignore
       const resThree = await Taro.request(optionsThree)
       expect(resThree.data.params.body).toMatch(expectBodyTwo)
     })

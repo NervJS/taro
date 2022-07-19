@@ -24,7 +24,7 @@ function setAlias (ctx: IPluginContext, framework: Frameworks, chain) {
       alias.set('react/jsx-runtime$', 'react/cjs/react-jsx-runtime.production.min.js')
 
       // 在React18中，使用了exports字段约定了模块暴露路径，其中并未暴露 ./cjs/ 。这将使上面的alias在编译时报错。相当的tricky。
-      // Why wiriteJson？ prebundle will load package.json via readFile to check exports property.
+      // Why writeJson？ prebundle will load package.json via readFile to check exports property.
       const reactPkgPath = require.resolve('react/package.json')
       if (reactPkgPath) {
         const reactPkg = require('react/package.json')

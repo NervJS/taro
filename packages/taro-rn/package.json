@@ -52,6 +52,7 @@
     "expo-modules-core": "~0.9.2",
     "expo-sensors": "~11.2.0",
     "nullthrows": "^1.1.1",
+    "prop-types": "^15.8.1",
     "react-native-device-info": "~8.4.8",
     "react-native-image-resizer": "~1.4.5",
     "react-native-image-zoom-viewer": "^3.0.1",
@@ -62,9 +63,11 @@
     "react-native-syan-image-picker": "0.5.3"
   },
   "devDependencies": {
+    "@types/jest": "^27.4.1",
     "@types/react": "^17.0.0",
     "@types/react-native": "^0.67.7",
     "fbjs-scripts": "^3.0.1",
+    "metro-react-native-babel-preset": "^0.67.0",
     "react-native": "^0.68.2"
   },
   "peerDependencies": {

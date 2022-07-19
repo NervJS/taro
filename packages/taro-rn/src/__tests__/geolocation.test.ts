@@ -38,22 +38,21 @@ describe('location', () => {
       const fail = jest.fn()
       const complete = jest.fn()
 
-      const expectData = {
-        latitude: expect.any(Number),
-        longitude: expect.any(Number),
-        speed: expect.any(Number),
-        accuracy: expect.any(Number),
-        altitude: expect.any(Number),
-        verticalAccuracy: expect.any(Number),
-        horizontalAccuracy: expect.any(Number),
-      }
+      // const expectData = {
+      //   latitude: expect.any(Number),
+      //   longitude: expect.any(Number),
+      //   speed: expect.any(Number),
+      //   accuracy: expect.any(Number),
+      //   altitude: expect.any(Number),
+      //   verticalAccuracy: expect.any(Number),
+      //   horizontalAccuracy: expect.any(Number),
+      // }
 
       Taro.getLocation({
         success,
         fail,
         complete
-      })
-      setTimeout(() => {
+      }).then(() => {
         expect(mockGetCurrentPosition.mock.calls.length).toBe(1)
       })
     })

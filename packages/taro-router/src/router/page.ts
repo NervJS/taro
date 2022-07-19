@@ -32,10 +32,10 @@ export default class PageHandler {
   }
 
   get appId () { return 'app' }
-  get router () { return this.config.router }
+  get router () { return this.config.router || {} }
   get routerMode () { return this.router.mode || 'hash' }
   get customRoutes () { return this.router.customRoutes || {} }
-  get routes () { return this.config.routes }
+  get routes () { return this.config.routes || [] }
   get tabBarList () { return this.config.tabBar?.list || [] }
   get PullDownRefresh () { return this.config.PullDownRefresh }
   get animation () { return this.config?.animation ?? this.defaultAnimation }

@@ -12,7 +12,6 @@ import { reactMeta } from './react-meta'
 import { ensureIsArray, HOOKS_APP_ID, isClassComponent, setDefaultDescriptor, setRouterParams } from './utils'
 
 type PageComponent = React.CElement<PageProps, React.Component<PageProps, any, any>>
-declare const __TARO_FRAMEWORK_REACT_MODE__: string
 
 let h: typeof React.createElement
 let ReactDOM
@@ -179,16 +178,12 @@ export function createReactApp (
   }
 
   function renderReactRoot () {
-    const reactMode = __TARO_FRAMEWORK_REACT_MODE__
     let appId = 'app'
     if (process.env.TARO_ENV === 'h5') {
       appId = config?.appId || appId
-    } else {
-      ReactDOM.version = react.version
     }
     const container = document.getElementById(appId)
-    const version = Number((ReactDOM.version || '').split('.')[0])
-    if (version >= 18 && reactMode === 'concurrent') {
+    if((react.version || '').startsWith('18')){
       const root = ReactDOM.createRoot(container)
       root.render?.(h(AppWrapper))
     } else {
@@ -340,7 +335,7 @@ export function createReactApp (
         const app = getAppInstance()
         app?.onError?.(error)
         triggerAppHook('onError', error)
-        if (process.env.NODE_ENV !== 'production' && error.includes('Minified React error')) {
+        if (process.env.NODE_ENV !== 'production' && error?.includes('Minified React error')) {
           console.warn('React 出现报错，请打开编译配置 mini.debugReact 查看报错详情：https://docs.taro.zone/docs/config-detail#minidebugreact')
         }
       }

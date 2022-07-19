@@ -5,6 +5,7 @@ import { scanCode } from '../lib/scanCode'
 
 describe('scanCode', () => {
   it('should render scanCode success', async () => {
+    // @ts-ignore
     const { toJSON, getByLabelText } = render(<RootSiblingParent />)
     scanCode()
     await waitFor(() => getByLabelText('Close'));

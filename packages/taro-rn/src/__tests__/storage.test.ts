@@ -42,7 +42,7 @@ describe('storage', () => {
       expect(complete.mock.calls[0][0]).toEqual({ errMsg: expectMsg })
       expect(res.errMsg).toMatch(expectMsg)
 
-      const getData = await AsyncStorage.getItem(key)
+      const getData = await AsyncStorage.getItem(key) || ''
       expect(JSON.parse(getData)).toBe(data)
     })
 
@@ -56,7 +56,7 @@ describe('storage', () => {
       const complete = jest.fn()
 
       expect.assertions(4)
-
+      // @ts-ignore
       return Taro.setStorage({
         data,
         success,
@@ -112,7 +112,7 @@ describe('storage', () => {
       const complete = jest.fn()
 
       await AsyncStorage.setItem(key, JSON.stringify(data))
-      const getData = await AsyncStorage.getItem(key)
+      const getData = await AsyncStorage.getItem(key) || ''
 
       expect(JSON.parse(getData)).toBe(data)
 
@@ -132,6 +132,7 @@ describe('storage', () => {
       expect(complete.mock.calls.length).toBe(1)
       expect(complete.mock.calls[0][0]).toEqual(res)
       expect(res.errMsg).toMatch(expectMsg)
+      // @ts-ignore
       expect(res.data).toBeUndefined()
     })
   })
@@ -164,8 +165,11 @@ describe('storage', () => {
       expect(complete.mock.calls.length).toBe(1)
       expect(complete.mock.calls[0][0]).toEqual(res)
       expect(res.errMsg).toMatch(expectMsg)
+      // @ts-ignore
       expect(res.keys).toEqual([key1, key2])
+      // @ts-ignore
       expect(res.currentSize).toBe(+(12 / 1024).toFixed(2))
+      // @ts-ignore
       expect(res.limitSize).toBe(Infinity)
     })
   })
@@ -180,8 +184,8 @@ describe('storage', () => {
       await AsyncStorage.setItem(key1, JSON.stringify(data))
       await AsyncStorage.setItem(key2, JSON.stringify(data))
 
-      const getData1 = await AsyncStorage.getItem(key1)
-      const getData2 = await AsyncStorage.getItem(key2)
+      const getData1 = await AsyncStorage.getItem(key1) || ''
+      const getData2 = await AsyncStorage.getItem(key2) || ''
 
       expect(JSON.parse(getData1)).toBe(data)
       expect(JSON.parse(getData2)).toBe(data)
