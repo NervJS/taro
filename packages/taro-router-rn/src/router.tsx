@@ -1,8 +1,9 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { NavigationContainer } from '@react-navigation/native'
+import {createNativeStackNavigator, NativeStackNavigationOptions} from '@react-navigation/native-stack'
 import { BackBehavior } from '@react-navigation/routers/src/TabRouter'
-import { CardStyleInterpolators, createStackNavigator } from '@react-navigation/stack'
-import { StackHeaderMode, StackHeaderOptions, StackNavigationOptions } from '@react-navigation/stack/src/types'
+import { CardStyleInterpolators, createStackNavigator, StackNavigationOptions } from '@react-navigation/stack'
+import { StackHeaderMode, StackHeaderOptions } from '@react-navigation/stack/src/types'
 import { camelCase } from 'lodash'
 import React from 'react'
 import { StyleProp, ViewStyle } from 'react-native'
@@ -53,7 +54,7 @@ interface PageItem {
 interface RNConfig {
   initialRouteName?: string
   linking?: string[]
-  screenOptions?: StackNavigationOptions
+  screenOptions?: StackNavigationOptions | NativeStackNavigationOptions
   tabOptions?: TabOptions
   tabBarOptions?: Record<string, any>
   tabProps?: {
@@ -67,6 +68,7 @@ interface RNConfig {
     headerMode?: StackHeaderMode
     detachInactiveScreens?:boolean
   }
+  useNativeStack?: boolean
 }
 
 export interface RouterConfig {
@@ -122,7 +124,7 @@ function getHeaderView (title: string, color: string, props: any) {
 }
 
 // screen配置的内容
-function getStackOptions (config: RouterConfig): StackNavigationOptions {
+function getStackOptions (config: RouterConfig) {
   const windowOptions = config.window || {}
   const title = ''
   const headColor = windowOptions.navigationBarTextStyle || 'white'
@@ -326,7 +328,7 @@ function getLinkingConfig (config: RouterConfig) {
 }
 
 function createTabNavigate (config: RouterConfig) {
-  const Stack = createStackNavigator()
+  const Stack = config.rnConfig?.useNativeStack ? createNativeStackNavigator() : createStackNavigator()
   const pageList = getPageList(config)
   const linking = getLinkingConfig(config)
   const stackProps = config.rnConfig?.stackProps
@@ -338,6 +340,7 @@ function createTabNavigate (config: RouterConfig) {
     <Stack.Navigator
       detachInactiveScreens={false}
       {...stackProps}
+      // @ts-ignore
       screenOptions={screenOptions}
       initialRouteName={getInitRouteName(config)}
     >
@@ -362,7 +365,7 @@ function createTabNavigate (config: RouterConfig) {
 }
 
 function createStackNavigate (config: RouterConfig) {
-  const Stack = createStackNavigator()
+  const Stack = config.rnConfig?.useNativeStack ? createNativeStackNavigator() : createStackNavigator()
   const pageList = getPageList(config)
   if (pageList.length <= 0) return null
   const linking = getLinkingConfig(config)
@@ -374,6 +377,7 @@ function createStackNavigate (config: RouterConfig) {
     <Stack.Navigator
       detachInactiveScreens={false}
       {...stackProps}
+      // @ts-ignore
       screenOptions={getStackOptions(config)}
       initialRouteName={getInitRouteName(config)}
     >{pageList.map(item => {
