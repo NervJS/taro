@@ -6,7 +6,8 @@ export const ENV_TYPE = {
   ALIPAY: 'ALIPAY',
   TT: 'TT',
   QQ: 'QQ',
-  JD: 'JD'
+  JD: 'JD',
+  QUICKAPP: 'QUICKAPP'
 }
 
 /** @type {keyof ENV_TYPE} */
@@ -30,6 +31,8 @@ export function getEnv () {
     _env = ENV_TYPE.WEB
   } else if (process.env.TARO_ENV === 'rn') {
     _env = ENV_TYPE.RN
+  } else if (process.env.TARO_ENV === 'quickapp') {
+    _env = ENV_TYPE.QUICKAPP
   } else {
     _env = process.env.TARO_ENV || 'Unknown'
   }
