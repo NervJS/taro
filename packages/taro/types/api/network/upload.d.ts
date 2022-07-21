@@ -35,6 +35,18 @@ declare module '../../index' {
       statusCode: number
       /** 调用结果 */
       errMsg: string
+      /**
+       * 开发者服务器返回的 HTTP Response Header
+       * @supported weapp
+       * @weapp 非官方文档标注属性
+       */
+      header?: TaroGeneral.IAnyObject
+      /**
+       * cookies
+       * @supported weapp
+       * @weapp 非官方文档标注属性
+       */
+      cookies?: string[]
     }
   }
 
@@ -68,10 +80,9 @@ declare module '../../index' {
       totalBytesSent: number
     }
 
-    type UploadTaskPromise = Promise<UploadTask> & {
+    type UploadTaskPromise = Promise<uploadFile.SuccessCallbackResult> & UploadTask & {
       headersReceive: UploadTask['onHeadersReceived'],
-      progress: UploadTask['onProgressUpdate'],
-      abort: UploadTask['abort']
+      progress: UploadTask['onProgressUpdate']
     }
   }
 
