@@ -72,6 +72,7 @@
     "webpack-format-messages": "^2.0.5"
   },
   "devDependencies": {
+    "@babel/core": "^7.14.5",
     "@types/webpack": "4",
     "@types/webpack-dev-server": "3",
     "vue-loader": "^15.9.3",

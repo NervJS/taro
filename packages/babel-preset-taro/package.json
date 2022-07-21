@@ -22,9 +22,6 @@
   "bugs": {
     "url": "https://github.com/NervJS/taro/issues"
   },
-  "peerDependencies": {
-    "@babel/core": "*"
-  },
   "dependencies": {
     "@babel/plugin-proposal-class-properties": "^7.14.5",
     "@babel/plugin-proposal-decorators": "^7.14.5",
@@ -46,5 +43,11 @@
     "babel-plugin-transform-taroapi": "workspace:*",
     "core-js": "^3.6.5",
     "metro-react-native-babel-preset": "^0.67.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.14.5"
+  },
+  "peerDependencies": {
+    "@babel/core": "*"
   }
 }

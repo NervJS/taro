@@ -98,5 +98,8 @@
     "webpack-format-messages": "^2.0.6",
     "webpack-sources": "^3.2.3",
     "webpackbar": "^5.0.2"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.14.5"
   }
 }

@@ -38,9 +38,11 @@
     "fs-extra": "^8.0.1",
     "lodash": "^4.17.21",
     "webpack-chain": "6.5.1",
-    "webpack-dev-server": "4.7.4",
     "webpack-sources": "^3.2.3",
     "webpack-virtual-modules": "^0.4.3"
+  },
+  "devDependencies": {
+    "webpack-dev-server": "4.7.4"
   },
   "peerDependencies": {
     "webpack": "5.69.0"
