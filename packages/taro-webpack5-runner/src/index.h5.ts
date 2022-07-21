@@ -204,7 +204,7 @@ async function getDevServerOptions (appPath: string, config: H5BuildConfig): Pro
       hot: true,
       https: false,
       // inline: true, // the inline option (iframe live mode) was removed
-      open: true,
+      open: [publicPath],
       client: {
         overlay: true
       },

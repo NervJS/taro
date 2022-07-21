@@ -29,6 +29,7 @@ import webpack, { Stats } from 'webpack'
 import webpackDevServer from 'webpack-dev-server'
 import VirtualModulesPlugin from 'webpack-virtual-modules'
 
+import type { IPrebundle } from './prebundle'
 import BasePrebundle, { IPrebundleConfig } from './prebundle'
 import {
   createResolve,
@@ -48,6 +49,12 @@ export interface IH5PrebundleConfig extends IPrebundleConfig {
 }
 
 export class H5Prebundle extends BasePrebundle<IH5PrebundleConfig> {
+  publicPath: string
+  constructor (protected config: IH5PrebundleConfig, protected option: IPrebundle) {
+    super(config, option)
+    this.publicPath = parsePublicPath(this.config.publicPath)
+  }
+
   async buildLib () {
     const BUILD_LIB_START = performance.now()
 
@@ -55,13 +62,12 @@ export class H5Prebundle extends BasePrebundle<IH5PrebundleConfig> {
     const mode = process.env.NODE_ENV === 'production' ? 'production' : 'development'
     const devtool = this.config.enableSourceMap && 'hidden-source-map'
     const mainBuildOutput = this.chain.output.entries()
-    const publicPath = parsePublicPath(this.config.publicPath)
     const output = {
       chunkFilename: this.config.chunkFilename,
       chunkLoadingGlobal: mainBuildOutput.chunkLoadingGlobal,
       globalObject: mainBuildOutput.globalObject,
       path: this.remoteCacheDir,
-      publicPath
+      publicPath: this.publicPath
     }
 
     this.metadata.mfHash = getMfHash({
@@ -187,6 +193,7 @@ export class H5Prebundle extends BasePrebundle<IH5PrebundleConfig> {
       this.chain.devServer.merge({
         static: [{
           directory: this.remoteCacheDir,
+          publicPath: this.publicPath,
           watch: true
         }]
       })
