@@ -9,24 +9,29 @@ export const ENV_TYPE = {
   JD: 'JD'
 }
 
+/** @type {keyof ENV_TYPE} */
+let _env
+
 export function getEnv () {
+  if (_env) return _env
   if (process.env.TARO_ENV === 'weapp') {
-    return ENV_TYPE.WEAPP
+    _env = ENV_TYPE.WEAPP
   } else if (process.env.TARO_ENV === 'alipay') {
-    return ENV_TYPE.ALIPAY
+    _env = ENV_TYPE.ALIPAY
   } else if (process.env.TARO_ENV === 'swan') {
-    return ENV_TYPE.SWAN
+    _env = ENV_TYPE.SWAN
   } else if (process.env.TARO_ENV === 'tt') {
-    return ENV_TYPE.TT
+    _env = ENV_TYPE.TT
   } else if (process.env.TARO_ENV === 'jd') {
-    return ENV_TYPE.JD
+    _env = ENV_TYPE.JD
   } else if (process.env.TARO_ENV === 'qq') {
-    return ENV_TYPE.QQ
+    _env = ENV_TYPE.QQ
   } else if (process.env.TARO_ENV === 'h5') {
-    return ENV_TYPE.WEB
+    _env = ENV_TYPE.WEB
   } else if (process.env.TARO_ENV === 'rn') {
-    return ENV_TYPE.RN
+    _env = ENV_TYPE.RN
   } else {
-    return process.env.TARO_ENV || 'Unknown'
+    _env = process.env.TARO_ENV || 'Unknown'
   }
+  return _env
 }
