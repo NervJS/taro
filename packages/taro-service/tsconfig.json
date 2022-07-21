@@ -7,8 +7,7 @@
     "module": "commonjs",
     "declaration": true,
     "preserveConstEnums": true,
+    "sourceMap": true
   },
-  "include": [
-    "./src"
-  ]
+  "include": ["./src"]
 }
