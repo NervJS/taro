@@ -188,7 +188,7 @@ export class BaseTemplate {
 
         if (compName === 'slot' || compName === 'slot-view') {
           result[compName] = {
-            slot: 'i.name',
+            slot: newComp?.name,
             ...styles
           }
         } else {
