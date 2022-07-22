@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/rn-transformer",
-  "version": "3.5.0-beta.7",
+  "version": "3.5.0-beta.8",
   "description": "Taro RN 入口文件处理",
   "main": "dist/index.js",
   "types": "./src/types/index.d.ts",
