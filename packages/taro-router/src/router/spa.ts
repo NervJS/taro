@@ -78,11 +78,14 @@ export function createRouter (
       // NOTE: 浏览器事件退后多次时，该事件只会被触发一次
       const prevIndex = stacks.getPrevIndex(pathname)
       const delta = stacks.getDelta(pathname)
-      handler.unload(currentPage, delta, prevIndex > -1)
-      if (prevIndex > -1) {
-        handler.show(stacks.getItem(prevIndex), pageConfig, prevIndex)
-      } else {
-        shouldLoad = true
+      // NOTE: Safari 内核浏览器在非应用页面返回上一页时，会触发额外的 POP 事件，此处需避免当前页面被错误卸载
+      if (currentPage !== stacks.getItem(prevIndex)) {
+        handler.unload(currentPage, delta, prevIndex > -1)
+        if (prevIndex > -1) {
+          handler.show(stacks.getItem(prevIndex), pageConfig, prevIndex)
+        } else {
+          shouldLoad = true
+        }
       }
     } else {
       if (handler.isTabBar) {
