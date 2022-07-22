@@ -125,7 +125,7 @@
     "html-webpack-plugin": "^3.0.6",
     "husky": "^1.2.0",
     "jest": "26.4.2",
-    "jest-dom": "^1.3.1",
+    "jest-dom": "^4.0.0",
     "jest-expo": "^42.0.0",
     "jest-fetch-mock": "^3.0.3",
     "jest-localstorage-mock": "^2.4.0",
