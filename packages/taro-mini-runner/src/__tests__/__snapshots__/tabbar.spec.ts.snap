@@ -630,6 +630,16 @@ require(\\"./taro\\");
                     icon: \\"\\",
                     \\"alipay-card-no\\": \\"\\",
                     \\"ext-info\\": \\"\\"
+                },
+                ArCamera: {
+                    devicePosition: Object(_tarojs_shared__WEBPACK_IMPORTED_MODULE_0__[\\"singleQuote\\"])(\\"back\\"),
+                    marker: \\"\\",
+                    mode: Object(_tarojs_shared__WEBPACK_IMPORTED_MODULE_0__[\\"singleQuote\\"])(\\"imageTracking\\"),
+                    useCapturedImage: \\"false\\",
+                    bindInit: \\"\\",
+                    bindStop: \\"\\",
+                    bindError: \\"\\",
+                    bindARFrame: \\"\\"
                 }
             };
             var BUBBLE_EVENTS = new Set([ \\"touchStart\\", \\"touchMove\\", \\"touchEnd\\", \\"touchCancel\\", \\"tap\\", \\"longTap\\" ]);

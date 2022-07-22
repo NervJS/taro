@@ -13,9 +13,8 @@
 
 import * as React from 'react'
 import {
-  PanResponder,
   GestureResponderEvent,
-  GestureResponderHandlers,
+  GestureResponderHandlers, PanResponder
 } from 'react-native'
 import { omit } from '../../utils'
 import { ClickableProps } from './PropsType'
@@ -47,6 +46,7 @@ export default function <P extends Record<string, any>>(WrappedComponent: React.
       isHover: false
     }
 
+    $ref = React.createRef<any>()
     startTimestamp = 0
     startTimer: any
     stayTimer: any
@@ -191,12 +191,13 @@ export default function <P extends Record<string, any>>(WrappedComponent: React.
         !onTouchEnd
       ) {
         return (
-          <WrappedComponent {...this.props} />
+          <WrappedComponent ref={this.$ref} {...this.props} />
         )
       }
 
       return (
         <WrappedComponent
+          ref={this.$ref}
           {...omit(this.props, [
             'style',
             'hoverStyle',

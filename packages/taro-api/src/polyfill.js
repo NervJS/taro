@@ -1,8 +1,6 @@
 import { isFunction, isObject, isUndefined } from './utils'
 
-function isBadObj (x) {
-  !isObject(x) || x === null
-}
+const isBadObj = (x) => !isObject(x)
 
 function throwTypeError (s) {
   throw new TypeError(s)
