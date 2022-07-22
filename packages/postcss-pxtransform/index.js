@@ -80,8 +80,6 @@ module.exports = (options = {}) => {
   return {
     postcssPlugin: 'postcss-pxtransform',
     Once (css) {
-      const pxReplace = createPxReplace(opts.rootValue, opts.unitPrecision, opts.minPixelValue, onePxTransform)(css.source.input)
-
       for (let i = 0; i < css.nodes.length; i++) {
         if (css.nodes[i].type === 'comment') {
           if (css.nodes[i].text === 'postcss-pxtransform disable') {
@@ -152,6 +150,8 @@ module.exports = (options = {}) => {
           }
         }
       })
+
+      const pxReplace = createPxReplace(opts.rootValue, opts.unitPrecision, opts.minPixelValue, onePxTransform)(css.source.input)
 
       css.walkDecls(function (decl, i) {
         // This should be the fastest test and will remove most declarations

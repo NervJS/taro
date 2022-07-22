@@ -19829,13 +19829,6 @@ postcss-filter-plugins@^2.0.0:
   dependencies:
     postcss "^5.0.4"
 
-postcss-html-transform@3.4.5:
-  version "3.4.5"
-  resolved "https://registry.yarnpkg.com/postcss-html-transform/-/postcss-html-transform-3.4.5.tgz#c4a542cfe3c11aa040acbf8246de7c52896c5837"
-  integrity sha512-RMOqUvLMBzizLpnx5iHCtXDwhG31Z1Kwur7pT3YZ3deGnQwRq3SERjekcP7Yks26WItP4mw6DI3pfkXkCcnRRQ==
-  dependencies:
-    postcss "^6.0.22"
-
 postcss-html@^0.36.0:
   version "0.36.0"
   resolved "https://registry.yarnpkg.com/postcss-html/-/postcss-html-0.36.0.tgz#b40913f94eaacc2453fd30a1327ad6ee1f88b204"
@@ -20332,20 +20325,6 @@ postcss-ordered-values@^5.1.1:
     cssnano-utils "^3.1.0"
     postcss-value-parser "^4.2.0"
 
-postcss-pxtransform@3.4.5:
-  version "3.4.5"
-  resolved "https://registry.yarnpkg.com/postcss-pxtransform/-/postcss-pxtransform-3.4.5.tgz#f769ab624c1d40ba2a2ed427a74161758cff53d0"
-  integrity sha512-07MOOzr7k2DLCIhomc5n6nTf2RhQZsa4emRy2iVsj8zLDMgbkl55Rh3XkXKVvoa66zlGQkw3rziXZ3CAi5ojdw==
-  dependencies:
-    postcss "^6.0.22"
-
-postcss-pxtransform@3.4.6:
-  version "3.4.6"
-  resolved "http://registry.m.jd.com/postcss-pxtransform/download/postcss-pxtransform-3.4.6.tgz#3f6ef11bb17aa581fc460c71e54b6a67cd225356"
-  integrity sha1-P27xG7F6pYH8Rgxx5UtqZ80iU1Y=
-  dependencies:
-    postcss "^6.0.22"
-
 postcss-reduce-idents@^2.2.2:
   version "2.4.0"
   resolved "https://registry.yarnpkg.com/postcss-reduce-idents/-/postcss-reduce-idents-2.4.0.tgz#c2c6d20cc958284f6abfbe63f7609bf409059ad3"
@@ -20619,7 +20598,7 @@ postcss@^5.0.10, postcss@^5.0.11, postcss@^5.0.12, postcss@^5.0.13, postcss@^5.0
     source-map "^0.5.6"
     supports-color "^3.2.3"
 
-postcss@^6.0.1, postcss@^6.0.21, postcss@^6.0.22:
+postcss@^6.0.1, postcss@^6.0.21:
   version "6.0.23"
   resolved "https://registry.yarnpkg.com/postcss/-/postcss-6.0.23.tgz#61c82cc328ac60e677645f979054eb98bc0e3324"
   integrity sha512-soOk1h6J3VMTZtVeVpv15/Hpdl2cBLX3CAw4TAbkpTJiNPk9YP/zWcD1ND+xEtvyuuvKzbxliTOIyvkSeSJ6ag==
@@ -25676,10 +25655,8 @@ watchpack@^1.7.4:
   resolved "https://registry.yarnpkg.com/watchpack/-/watchpack-1.7.5.tgz#1267e6c55e0b9b5be44c2023aed5437a2c26c453"
   integrity sha512-9P3MWk6SrKjHsGkLT2KHXdQ/9SNkyoJbabxnKOoJepsvJjJG8uYTR3yTPxPQvNDI3w4Nz1xnE0TLHK4RIVe/MQ==
   dependencies:
-    chokidar "^3.4.1"
     graceful-fs "^4.1.2"
     neo-async "^2.5.0"
-    watchpack-chokidar2 "^2.0.1"
   optionalDependencies:
     chokidar "^3.4.1"
     watchpack-chokidar2 "^2.0.1"
