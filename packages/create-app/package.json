@@ -30,7 +30,7 @@
     "node": ">=12"
   },
   "dependencies": {
-    "@tarojs/cli": "3.4.13",
+    "@tarojs/cli": "workspace:*",
     "minimist": "1.2.5"
   }
 }
