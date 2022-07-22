@@ -3,11 +3,12 @@
   "compilerOptions": {
     "baseUrl": ".",
     "outDir": "dist",
+    "rootDir": "./src",
     "module": "commonjs",
     "skipLibCheck": true,
     "resolveJsonModule": true
   },
-  "exclude": [
-    "./__tests__"
+  "include": [
+    "./src"
   ]
 }
