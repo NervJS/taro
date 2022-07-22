@@ -9,7 +9,7 @@
     "css": "^2.2.4",
     "css-color-keywords": "^1.0.0",
     "css-mediaquery": "^0.1.2",
-    "postcss-value-parser": "^3.3.0"
+    "postcss-value-parser": "^4.2.0"
   },
   "scripts": {
     "build": "babel src --ignore *.spec.js --out-dir ./dist",
