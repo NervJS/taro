@@ -50,7 +50,7 @@ interface ButtonProps extends StandardProps {
    */
   hoverClass?: string
 
-  /** 由于 RN 不支持 Class，故 RN 端的 Button 组件实现了 `hoverStyle`属性，写法和 style 类似，只不过 `hoverStyle` 的样式是指定按下去的样式。
+  /** 由于 RN 不支持 hoverClass，故 RN 端的 Button 组件实现了 `hoverStyle`属性，写法和 style 类似，只不过 `hoverStyle` 的样式是指定按下去的样式。
    * @default none
    * @supported rn
    */
