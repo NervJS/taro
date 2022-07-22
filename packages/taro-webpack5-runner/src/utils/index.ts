@@ -42,3 +42,7 @@ export const formatOpenHost = host => {
   }
   return result
 }
+
+export function parsePublicPath (publicPath = '/') {
+  return ['', 'auto'].includes(publicPath) ? publicPath :  addTrailingSlash(publicPath)
+}

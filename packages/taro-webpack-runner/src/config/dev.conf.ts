@@ -29,7 +29,7 @@ export default function (appPath: string, config: Partial<BuildConfig>): any {
     output = emptyObj,
     sourceRoot = 'src',
     outputRoot = 'dist',
-    publicPath = '',
+    publicPath = '/',
     staticDirectory = 'static',
     chunkDirectory = 'chunk',
     router = emptyObj,

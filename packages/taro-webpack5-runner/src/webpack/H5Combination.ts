@@ -2,7 +2,7 @@ import { resolveMainFilePath } from '@tarojs/helper'
 import path from 'path'
 import { Configuration, EntryNormalized } from 'webpack'
 
-import { addLeadingSlash, addTrailingSlash } from '../utils'
+import { parsePublicPath } from '../utils'
 import H5AppInstance from '../utils/H5AppInstance'
 import type { H5BuildConfig } from '../utils/types'
 import { Combination } from './Combination'
@@ -74,7 +74,7 @@ export class H5Combination extends Combination<H5BuildConfig> {
   }
 
   getOutput ({
-    mode, publicPath, chunkDirectory, customOutput = {}, entryFileName = 'app'
+    publicPath = '/', chunkDirectory, customOutput = {}, entryFileName = 'app'
   }: {
     mode: H5BuildConfig['mode']
     publicPath: string
@@ -82,16 +82,12 @@ export class H5Combination extends Combination<H5BuildConfig> {
     customOutput?: Output
     entryFileName?: string
   }): Output {
-    publicPath = addTrailingSlash(publicPath)
-    if (mode === 'development') {
-      publicPath = addLeadingSlash(publicPath)
-    }
     const filename: Output['filename'] = (chunk) => chunk.runtime === entryFileName ? 'js/[name].js' : '[name].js'
     return {
       path: this.outputDir,
       filename,
       chunkFilename: `${chunkDirectory}/[name].js`,
-      publicPath,
+      publicPath: parsePublicPath(publicPath),
       ...customOutput
     }
   }

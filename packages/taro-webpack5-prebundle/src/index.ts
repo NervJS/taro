@@ -42,7 +42,7 @@ export default class TaroPrebundle {
       enableSourceMap = false,
       entryFileName = 'app',
       entry = this.entry,
-      publicPath = chain.output.get('publicPath'),
+      publicPath = chain.output.get('publicPath') || '/',
       runtimePath,
       sourceRoot = 'src'
     } = this.params

@@ -31,11 +31,10 @@ import VirtualModulesPlugin from 'webpack-virtual-modules'
 
 import BasePrebundle, { IPrebundleConfig } from './prebundle'
 import {
-  addLeadingSlash,
-  addTrailingSlash,
   createResolve,
   flattenId,
-  getMfHash
+  getMfHash,
+  parsePublicPath
 } from './utils'
 import { assetsRE, MF_NAME } from './utils/constant'
 import TaroModuleFederationPlugin from './webpack/TaroModuleFederationPlugin'
@@ -56,7 +55,7 @@ export class H5Prebundle extends BasePrebundle<IH5PrebundleConfig> {
     const mode = process.env.NODE_ENV === 'production' ? 'production' : 'development'
     const devtool = this.config.enableSourceMap && 'hidden-source-map'
     const mainBuildOutput = this.chain.output.entries()
-    const publicPath = this.config.publicPath ? addLeadingSlash(addTrailingSlash(this.config.publicPath)) : '/'
+    const publicPath = parsePublicPath(this.config.publicPath)
     const output = {
       chunkFilename: this.config.chunkFilename,
       chunkLoadingGlobal: mainBuildOutput.chunkLoadingGlobal,

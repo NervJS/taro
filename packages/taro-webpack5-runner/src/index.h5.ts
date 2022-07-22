@@ -7,7 +7,7 @@ import { format as formatUrl } from 'url'
 import webpack, { EntryNormalized } from 'webpack'
 import WebpackDevServer from 'webpack-dev-server'
 
-import { addHtmlSuffix, addLeadingSlash, addTrailingSlash, formatOpenHost, stripBasename, stripTrailingSlash } from './utils'
+import { addHtmlSuffix, addLeadingSlash, formatOpenHost, parsePublicPath, stripBasename, stripTrailingSlash } from './utils'
 import H5AppInstance from './utils/H5AppInstance'
 import type { H5BuildConfig } from './utils/types'
 import { H5Combination } from './webpack/H5Combination'
@@ -134,7 +134,7 @@ export default async function build (appPath: string, rawConfig: H5BuildConfig):
 }
 
 async function getDevServerOptions (appPath: string, config: H5BuildConfig): Promise<WebpackDevServer.Configuration> {
-  const publicPath = config.publicPath ? addLeadingSlash(addTrailingSlash(config.publicPath)) : '/'
+  const publicPath = parsePublicPath(config.publicPath)
   const outputPath = path.join(appPath, config.outputRoot || 'dist')
   const customDevServerOption = config.devServer || {}
   const routerConfig = config.router || {}
