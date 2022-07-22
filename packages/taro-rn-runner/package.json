@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/rn-runner",
-  "version": "3.4.13",
+  "version": "3.4.14",
   "description": "ReactNative build tool for taro",
   "main": "index.js",
   "repository": {
@@ -32,10 +32,10 @@
   "dependencies": {
     "@react-native-community/cli-plugin-metro": "^6.0.0",
     "@react-native-community/cli-server-api": "^6.0.0",
-    "@tarojs/helper": "3.4.13",
-    "@tarojs/rn-style-transformer": "3.4.13",
-    "@tarojs/rn-supporter": "3.4.13",
-    "@tarojs/rn-transformer": "3.4.13",
+    "@tarojs/helper": "3.4.14",
+    "@tarojs/rn-style-transformer": "3.4.14",
+    "@tarojs/rn-supporter": "3.4.14",
+    "@tarojs/rn-transformer": "3.4.14",
     "fs-extra": "^8.0.1",
     "lodash": "^4.17.21",
     "metro": "^0.66.2",

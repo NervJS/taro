@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/cli",
-  "version": "3.4.13",
+  "version": "3.4.14",
   "description": "cli tool for taro",
   "main": "index.js",
   "scripts": {
@@ -46,10 +46,10 @@
     "@babel/template": "^7.14.5",
     "@babel/traverse": "^7.14.5",
     "@babel/types": "^7.14.5",
-    "@tarojs/helper": "3.4.13",
-    "@tarojs/service": "3.4.13",
-    "@tarojs/shared": "3.4.13",
-    "@tarojs/taroize": "3.4.13",
+    "@tarojs/helper": "3.4.14",
+    "@tarojs/service": "3.4.14",
+    "@tarojs/shared": "3.4.14",
+    "@tarojs/taroize": "3.4.14",
     "@tarojs/transformer-wx": "^2.0.4",
     "@types/request": "^2.48.1",
     "adm-zip": "^0.4.13",
@@ -83,6 +83,6 @@
     "xxhashjs": "^0.2.2"
   },
   "devDependencies": {
-    "@tarojs/taro": "3.4.13"
+    "@tarojs/taro": "3.4.14"
   }
 }
