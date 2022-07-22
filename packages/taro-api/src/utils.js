@@ -7,5 +7,5 @@ export function isUndefined (x) {
 }
 
 export function isObject (x) {
-  return typeof x === 'object'
+  return x && typeof x === 'object'
 }
