@@ -88,7 +88,7 @@
     "url-loader": "^4.1.0",
     "vm2": "^3.8.4",
     "webpack": "4.46.0",
-    "webpack-chain": "4.9.0",
+    "webpack-chain": "6.5.1",
     "webpack-format-messages": "^2.0.5"
   }
 }
