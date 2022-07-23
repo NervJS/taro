@@ -283,7 +283,7 @@ declare module './index' {
      * - chooseAddress: 获取用户地址信息
      *  @see https://developers.weixin.qq.com/miniprogram/dev/reference/configuration/app.html#requiredPrivateInfos
      */
-    requiredPrivateInfos?:('getFuzzyLocation'|'getLocation'|'onLocationChange'|'startLocationUpdate'|'startLocationUpdateBackground'|'chooseLocation'|'choosePoi'|'chooseAddress')[]
+    requiredPrivateInfos?: ('getFuzzyLocation' | 'getLocation' | 'onLocationChange' | 'startLocationUpdate' | 'startLocationUpdateBackground' | 'chooseLocation' | 'choosePoi' | 'chooseAddress')[] 
     /** 使用到的插件
      * @since 1.9.6
      */
