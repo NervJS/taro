@@ -376,6 +376,14 @@ importers:
     devDependencies:
       '@babel/core': registry.npmjs.org/@babel/core/7.18.5
 
+  packages/create-app:
+    specifiers:
+      '@tarojs/cli': workspace:*
+      minimist: 1.2.5
+    dependencies:
+      '@tarojs/cli': link:../taro-cli
+      minimist: registry.npmjs.org/minimist/1.2.5
+
   packages/css-to-react-native:
     specifiers:
       camelize: ^1.0.0
