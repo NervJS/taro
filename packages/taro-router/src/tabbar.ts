@@ -1,5 +1,5 @@
-import type { AppConfig } from '@tarojs/taro'
-import { initTabBarApis } from '@tarojs/taro-h5/dist/api/ui/tab-bar'
+// @ts-nocheck
+import { AppConfig, initTabBarApis } from '@tarojs/taro'
 
 import { history } from './history'
 

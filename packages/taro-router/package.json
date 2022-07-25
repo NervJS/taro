@@ -29,8 +29,9 @@
   "license": "MIT",
   "dependencies": {
     "@tarojs/runtime": "workspace:*",
-    "@tarojs/taro-h5": "workspace:*",
+    "@tarojs/taro": "workspace:*",
     "history": "^5.1.0",
+    "mobile-detect": "^1.4.2",
     "query-string": "^7.1.1",
     "universal-router": "^8.3.0"
   }

@@ -5,13 +5,13 @@ import {
   eventCenter, hooks,
   stringify
 } from '@tarojs/runtime'
-import { setTitle } from '@tarojs/taro-h5/dist/utils/navigate'
 import { Action as LocationAction, Listener as LocationListener } from 'history'
 import UniversalRouter, { Routes } from 'universal-router'
 
 import type { SpaRouterConfig } from '../../types/router'
 import { history, prependBasename } from '../history'
 import { addLeadingSlash, routesAlias, stripBasename } from '../utils'
+import { setTitle } from '../utils/navigate'
 import { RouterConfig } from '.'
 import PageHandler from './page'
 import stacks from './stack'

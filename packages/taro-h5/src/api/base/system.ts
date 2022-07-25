@@ -1,8 +1,8 @@
 import Taro from '@tarojs/api'
+import { getMobileDetect } from '@tarojs/router/dist/utils/navigate'
 
 import { temporarilyNotSupport } from '../../utils'
 import { MethodHandler } from '../../utils/handler'
-import { getMobileDetect } from '../../utils/navigate'
 
 /** 跳转系统蓝牙设置页 */
 export const openSystemBluetoothSetting = temporarilyNotSupport('openSystemBluetoothSetting')

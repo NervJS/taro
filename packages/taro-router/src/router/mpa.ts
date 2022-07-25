@@ -5,9 +5,9 @@ import {
   eventCenter, hooks,
   stringify
 } from '@tarojs/runtime'
-import { setTitle } from '@tarojs/taro-h5/dist/utils/navigate'
 
 import type { MpaRouterConfig } from '../../types/router'
+import { setTitle } from '../utils/navigate'
 import { RouterConfig } from '.'
 import MultiPageHandler from './multi-page'
 

@@ -39,7 +39,6 @@
     "base64-js": "^1.3.0",
     "dingtalk-jsapi": "~2.15.2",
     "jsonp-retry": "^1.0.3",
-    "mobile-detect": "^1.4.2",
     "query-string": "^7.1.1",
     "whatwg-fetch": "^3.4.0"
   }
