@@ -33,4 +33,5 @@ const _caf = typeof cancelAnimationFrame !== 'undefined' && cancelAnimationFrame
 
 export {
   _caf as caf,
-  _raf as raf}
+  _raf as raf
+}
