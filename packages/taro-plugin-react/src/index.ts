@@ -1,7 +1,7 @@
 import { fs } from '@tarojs/helper'
 import type { IPluginContext } from '@tarojs/service'
 import { isString } from '@tarojs/shared'
-import { Plugin } from 'esbuild'
+import type { Plugin } from 'esbuild'
 
 import { modifyH5WebpackChain } from './webpack.h5'
 import { modifyMiniWebpackChain } from './webpack.mini'
@@ -36,20 +36,21 @@ export default (ctx: IPluginContext) => {
   ctx.modifyRunnerOpts(({ opts }) => {
     if (!opts?.compiler) return
 
-    // 提供给 webpack5 依赖预编译收集器的第三方依赖
-    const deps = [
-      'react',
-      'react-dom',
-      'react/jsx-runtime',
-      '@tarojs/plugin-framework-react/dist/runtime'
-    ]
     if (isString(opts.compiler)) {
       opts.compiler = {
         type: opts.compiler
       }
     }
+
     const { compiler } = opts
     if (compiler.type === 'webpack5') {
+      // 提供给 webpack5 依赖预编译收集器的第三方依赖
+      const deps = [
+        'react',
+        'react-dom',
+        'react/jsx-runtime',
+        '@tarojs/plugin-framework-react/dist/runtime'
+      ]
       compiler.prebundle ||= {}
       const prebundleOptions = compiler.prebundle
       prebundleOptions.include ||= []

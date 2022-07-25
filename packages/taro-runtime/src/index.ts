@@ -6,7 +6,7 @@ export { hooks } from '@tarojs/shared'
 // bom
 export { document } from './bom/document'
 export { getComputedStyle } from './bom/getComputedStyle'
-export { navigator } from './bom/navigator'
+export { nav as navigator } from './bom/navigator'
 export { caf as cancelAnimationFrame, now, raf as requestAnimationFrame } from './bom/raf'
 export { window } from './bom/window'
 // dom
