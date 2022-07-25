@@ -1,10 +1,10 @@
 import { fs } from '@tarojs/helper'
+import type { IPluginContext } from '@tarojs/service'
 import { isString } from '@tarojs/shared'
+import type { Plugin } from 'esbuild'
+
 import { modifyH5WebpackChain } from './webpack.h5'
 import { modifyMiniWebpackChain } from './webpack.mini'
-
-import type { Plugin } from 'esbuild'
-import type { IPluginContext } from '@tarojs/service'
 
 export type Frameworks = 'react' | 'preact' | 'nerv'
 
