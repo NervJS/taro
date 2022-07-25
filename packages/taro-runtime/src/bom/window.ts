@@ -3,7 +3,7 @@ import { isString } from '@tarojs/shared'
 import { Events } from '../emitter/emitter'
 import env from '../env'
 import { getComputedStyle } from './getComputedStyle'
-import { navigator } from './navigator'
+import { nav as navigator } from './navigator'
 import { caf, raf } from './raf'
 
 let window

@@ -57,6 +57,8 @@ export default function (ctx: IPluginContext, options: IOptions) {
   })
 
   ctx.modifyRunnerOpts(({ opts }) => {
+    if (!opts?.compiler) return
+
     if (isString(opts.compiler)) {
       opts.compiler = {
         type: opts.compiler

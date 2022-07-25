@@ -6,7 +6,7 @@ const engine = 'AppleWebKit/534.36 (KHTML, like Gecko) NodeJS/v4.1.0 Chrome/76.0
 
 const msg = '(' + machine + '; ' + arch + ') ' + engine
 
-export const navigator = process.env.TARO_ENV === 'h5' ? env.window.navigator : {
+export const nav = process.env.TARO_ENV === 'h5' ? env.window.navigator : {
   appCodeName: 'Mozilla',
   appName: 'Netscape',
   appVersion: '5.0 ' + msg,

@@ -3,12 +3,9 @@ export default function (str) {
   useAddToFavorites,
   useDidHide,
   useDidShow,
-  useError,
   setGlobalDataPlugin,
-  useLaunch,
   useLoad,
   useOptionMenuClick,
-  usePageNotFound,
   usePageScroll,
   usePullDownRefresh,
   usePullIntercept,
@@ -28,12 +25,9 @@ ${str}
 taro.useAddToFavorites = useAddToFavorites
 taro.useDidHide = useDidHide
 taro.useDidShow = useDidShow
-taro.useError = useError
 taro.setGlobalDataPlugin = setGlobalDataPlugin
-taro.useLaunch = useLaunch
 taro.useLoad = useLoad
 taro.useOptionMenuClick = useOptionMenuClick
-taro.usePageNotFound = usePageNotFound
 taro.usePageScroll = usePageScroll
 taro.usePullDownRefresh = usePullDownRefresh
 taro.usePullIntercept = usePullIntercept
@@ -52,12 +46,9 @@ export {
   useAddToFavorites,
   useDidHide,
   useDidShow,
-  useError,
   setGlobalDataPlugin,
-  useLaunch,
   useLoad,
   useOptionMenuClick,
-  usePageNotFound,
   usePageScroll,
   usePullDownRefresh,
   usePullIntercept,
