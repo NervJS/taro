@@ -1,5 +1,6 @@
 // @ts-nocheck
 import { AppConfig, initTabBarApis } from '@tarojs/taro'
+
 import { history } from './history'
 
 export function initTabbar (config: AppConfig) {

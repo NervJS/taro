@@ -20,7 +20,7 @@ export class View implements ComponentInterface {
     eventName: 'longpress'
   }) onLongPress: EventEmitter
 
-  private timeoutEvent: NodeJS.Timeout
+  private timeoutEvent: ReturnType<typeof setTimeout>
   private startTime = 0
 
   @Listen('touchstart')

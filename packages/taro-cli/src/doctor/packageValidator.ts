@@ -1,6 +1,7 @@
+import { UPDATE_PACKAGE_LIST } from '@tarojs/helper'
 import * as _ from 'lodash/fp'
 import * as npmCheck from 'npm-check'
-import { UPDATE_PACKAGE_LIST } from '@tarojs/helper'
+
 import { getPkgVersion } from '../util'
 
 interface ErrorLine {

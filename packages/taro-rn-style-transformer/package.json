@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/rn-style-transformer",
-  "version": "3.4.13",
+  "version": "3.5.0-beta.8",
   "description": "提供Taro RN 统一处理样式文件能力",
   "main": "dist/index.js",
   "scripts": {
@@ -23,24 +23,20 @@
     "npm": ">=6.0.0"
   },
   "dependencies": {
-    "@tarojs/helper": "3.4.13",
+    "@tarojs/helper": "workspace:*",
     "fbjs": "^2.0.0",
     "less": "^3.12.2",
     "postcss": "8.3.5",
     "postcss-import": "^14.0.0",
-    "postcss-pxtransform": "3.4.13",
+    "postcss-pxtransform": "workspace:*",
     "postcss-reporter": "^7.0.5",
     "prop-types": "^15.7.2",
+    "resolve": "^1.22.0",
     "sass": "1.50.0",
-    "stylelint": "^13.8.0",
-    "stylelint-config-taro-rn": "3.4.13",
-    "stylelint-taro-rn": "3.4.13",
-    "stylus": "^0.54.8",
-    "taro-css-to-react-native": "3.4.13"
-  },
-  "devDependencies": {
-    "@types/less": "^3.0.2",
-    "@types/postcss-import": "^14.0.0",
-    "@types/sass": "^1.16.1"
+    "stylelint": "^14.9.1",
+    "stylelint-config-taro-rn": "workspace:*",
+    "stylelint-taro-rn": "workspace:*",
+    "stylus": "^0.55.0",
+    "taro-css-to-react-native": "workspace:*"
   }
 }

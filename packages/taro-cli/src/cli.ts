@@ -1,7 +1,8 @@
-import * as fs from 'fs-extra'
-import * as path from 'path'
-import * as minimist from 'minimist'
 import { Kernel } from '@tarojs/service'
+import * as fs from 'fs-extra'
+import * as minimist from 'minimist'
+import * as path from 'path'
+
 import customCommand from './commands/customCommand'
 import { getPkgVersion } from './util'
 

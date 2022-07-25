@@ -1,4 +1,5 @@
 import { merge } from 'lodash'
+
 import { Config, RNConfig } from '../types'
 
 const fs = require('fs')
@@ -66,4 +67,4 @@ const getRNConfigBabelPlugin = () => {
   }
 }
 
-export { getConfig, getRNConfig, getRNConfigEntry, getRNConfigOutput, getRNConfigTransformer, getRNConfigBabelPlugin }
+export { getConfig, getRNConfig, getRNConfigBabelPlugin, getRNConfigEntry, getRNConfigOutput, getRNConfigTransformer }

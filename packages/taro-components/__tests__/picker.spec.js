@@ -1,7 +1,8 @@
-import React from 'react'
 import * as assert from 'assert'
+import React from 'react'
 import simulant from 'simulant'
 import * as sinon from 'sinon'
+
 import { Picker } from '../h5/react'
 import { mount } from './test-tools'
 import { waitForChange } from './utils'

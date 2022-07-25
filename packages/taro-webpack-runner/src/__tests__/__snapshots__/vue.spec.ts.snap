@@ -31,8 +31,8 @@ exports[`vue should build vue app 2`] = `
     module.exports = content.locals || {};
 }, function(module, __webpack_exports__, __webpack_require__) {
     \\"use strict\\";
-    var _node_modules_style_loader_dist_cjs_js_node_modules_css_loader_dist_cjs_js_ref_2_oneOf_0_0_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_ref_3_0_node_modules_resolve_url_loader_index_js_node_modules_sass_loader_dist_cjs_js_ref_5_1_node_modules_vue_loader_lib_index_js_vue_loader_options_index_vue_vue_type_style_index_0_lang_scss___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(9);
-    var _node_modules_style_loader_dist_cjs_js_node_modules_css_loader_dist_cjs_js_ref_2_oneOf_0_0_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_ref_3_0_node_modules_resolve_url_loader_index_js_node_modules_sass_loader_dist_cjs_js_ref_5_1_node_modules_vue_loader_lib_index_js_vue_loader_options_index_vue_vue_type_style_index_0_lang_scss___WEBPACK_IMPORTED_MODULE_0___default = __webpack_require__.n(_node_modules_style_loader_dist_cjs_js_node_modules_css_loader_dist_cjs_js_ref_2_oneOf_0_0_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_ref_3_0_node_modules_resolve_url_loader_index_js_node_modules_sass_loader_dist_cjs_js_ref_5_1_node_modules_vue_loader_lib_index_js_vue_loader_options_index_vue_vue_type_style_index_0_lang_scss___WEBPACK_IMPORTED_MODULE_0__);
+    var _node_modules_pnpm_registry_npmjs_org_style_loader_1_3_0_webpack_4_46_0_node_modules_style_loader_dist_cjs_js_node_modules_pnpm_registry_npmjs_org_css_loader_3_4_2_webpack_4_46_0_node_modules_css_loader_dist_cjs_js_ref_2_oneOf_0_0_node_modules_pnpm_registry_npmjs_org_vue_loader_15_9_8_mb4th6kmyx4ixjh6t2xkx624yu_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_pnpm_registry_npmjs_org_postcss_loader_4_3_0_mmkiswgrgezhd2zweiqe7apfva_node_modules_postcss_loader_dist_cjs_js_ref_3_0_node_modules_pnpm_registry_npmjs_org_resolve_url_loader_3_1_3_node_modules_resolve_url_loader_index_js_node_modules_pnpm_registry_npmjs_org_sass_loader_10_2_0_sass_1_50_0_webpack_4_46_0_node_modules_sass_loader_dist_cjs_js_ref_5_1_node_modules_pnpm_registry_npmjs_org_vue_loader_15_9_8_mb4th6kmyx4ixjh6t2xkx624yu_node_modules_vue_loader_lib_index_js_vue_loader_options_index_vue_vue_type_style_index_0_lang_scss___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(9);
+    var _node_modules_pnpm_registry_npmjs_org_style_loader_1_3_0_webpack_4_46_0_node_modules_style_loader_dist_cjs_js_node_modules_pnpm_registry_npmjs_org_css_loader_3_4_2_webpack_4_46_0_node_modules_css_loader_dist_cjs_js_ref_2_oneOf_0_0_node_modules_pnpm_registry_npmjs_org_vue_loader_15_9_8_mb4th6kmyx4ixjh6t2xkx624yu_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_pnpm_registry_npmjs_org_postcss_loader_4_3_0_mmkiswgrgezhd2zweiqe7apfva_node_modules_postcss_loader_dist_cjs_js_ref_3_0_node_modules_pnpm_registry_npmjs_org_resolve_url_loader_3_1_3_node_modules_resolve_url_loader_index_js_node_modules_pnpm_registry_npmjs_org_sass_loader_10_2_0_sass_1_50_0_webpack_4_46_0_node_modules_sass_loader_dist_cjs_js_ref_5_1_node_modules_pnpm_registry_npmjs_org_vue_loader_15_9_8_mb4th6kmyx4ixjh6t2xkx624yu_node_modules_vue_loader_lib_index_js_vue_loader_options_index_vue_vue_type_style_index_0_lang_scss___WEBPACK_IMPORTED_MODULE_0___default = __webpack_require__.n(_node_modules_pnpm_registry_npmjs_org_style_loader_1_3_0_webpack_4_46_0_node_modules_style_loader_dist_cjs_js_node_modules_pnpm_registry_npmjs_org_css_loader_3_4_2_webpack_4_46_0_node_modules_css_loader_dist_cjs_js_ref_2_oneOf_0_0_node_modules_pnpm_registry_npmjs_org_vue_loader_15_9_8_mb4th6kmyx4ixjh6t2xkx624yu_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_pnpm_registry_npmjs_org_postcss_loader_4_3_0_mmkiswgrgezhd2zweiqe7apfva_node_modules_postcss_loader_dist_cjs_js_ref_3_0_node_modules_pnpm_registry_npmjs_org_resolve_url_loader_3_1_3_node_modules_resolve_url_loader_index_js_node_modules_pnpm_registry_npmjs_org_sass_loader_10_2_0_sass_1_50_0_webpack_4_46_0_node_modules_sass_loader_dist_cjs_js_ref_5_1_node_modules_pnpm_registry_npmjs_org_vue_loader_15_9_8_mb4th6kmyx4ixjh6t2xkx624yu_node_modules_vue_loader_lib_index_js_vue_loader_options_index_vue_vue_type_style_index_0_lang_scss___WEBPACK_IMPORTED_MODULE_0__);
 }, function(module, exports, __webpack_require__) {
     var ___CSS_LOADER_API_IMPORT___ = __webpack_require__(2);
     exports = ___CSS_LOADER_API_IMPORT___(false);
@@ -40,8 +40,8 @@ exports[`vue should build vue app 2`] = `
     module.exports = exports;
 }, function(module, __webpack_exports__, __webpack_require__) {
     \\"use strict\\";
-    var _node_modules_style_loader_dist_cjs_js_node_modules_css_loader_dist_cjs_js_ref_2_oneOf_0_0_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_ref_3_0_node_modules_resolve_url_loader_index_js_node_modules_sass_loader_dist_cjs_js_ref_4_1_node_modules_vue_loader_lib_index_js_vue_loader_options_index_vue_vue_type_style_index_1_lang_sass___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(10);
-    var _node_modules_style_loader_dist_cjs_js_node_modules_css_loader_dist_cjs_js_ref_2_oneOf_0_0_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_ref_3_0_node_modules_resolve_url_loader_index_js_node_modules_sass_loader_dist_cjs_js_ref_4_1_node_modules_vue_loader_lib_index_js_vue_loader_options_index_vue_vue_type_style_index_1_lang_sass___WEBPACK_IMPORTED_MODULE_0___default = __webpack_require__.n(_node_modules_style_loader_dist_cjs_js_node_modules_css_loader_dist_cjs_js_ref_2_oneOf_0_0_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_ref_3_0_node_modules_resolve_url_loader_index_js_node_modules_sass_loader_dist_cjs_js_ref_4_1_node_modules_vue_loader_lib_index_js_vue_loader_options_index_vue_vue_type_style_index_1_lang_sass___WEBPACK_IMPORTED_MODULE_0__);
+    var _node_modules_pnpm_registry_npmjs_org_style_loader_1_3_0_webpack_4_46_0_node_modules_style_loader_dist_cjs_js_node_modules_pnpm_registry_npmjs_org_css_loader_3_4_2_webpack_4_46_0_node_modules_css_loader_dist_cjs_js_ref_2_oneOf_0_0_node_modules_pnpm_registry_npmjs_org_vue_loader_15_9_8_mb4th6kmyx4ixjh6t2xkx624yu_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_pnpm_registry_npmjs_org_postcss_loader_4_3_0_mmkiswgrgezhd2zweiqe7apfva_node_modules_postcss_loader_dist_cjs_js_ref_3_0_node_modules_pnpm_registry_npmjs_org_resolve_url_loader_3_1_3_node_modules_resolve_url_loader_index_js_node_modules_pnpm_registry_npmjs_org_sass_loader_10_2_0_sass_1_50_0_webpack_4_46_0_node_modules_sass_loader_dist_cjs_js_ref_4_1_node_modules_pnpm_registry_npmjs_org_vue_loader_15_9_8_mb4th6kmyx4ixjh6t2xkx624yu_node_modules_vue_loader_lib_index_js_vue_loader_options_index_vue_vue_type_style_index_1_lang_sass___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(10);
+    var _node_modules_pnpm_registry_npmjs_org_style_loader_1_3_0_webpack_4_46_0_node_modules_style_loader_dist_cjs_js_node_modules_pnpm_registry_npmjs_org_css_loader_3_4_2_webpack_4_46_0_node_modules_css_loader_dist_cjs_js_ref_2_oneOf_0_0_node_modules_pnpm_registry_npmjs_org_vue_loader_15_9_8_mb4th6kmyx4ixjh6t2xkx624yu_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_pnpm_registry_npmjs_org_postcss_loader_4_3_0_mmkiswgrgezhd2zweiqe7apfva_node_modules_postcss_loader_dist_cjs_js_ref_3_0_node_modules_pnpm_registry_npmjs_org_resolve_url_loader_3_1_3_node_modules_resolve_url_loader_index_js_node_modules_pnpm_registry_npmjs_org_sass_loader_10_2_0_sass_1_50_0_webpack_4_46_0_node_modules_sass_loader_dist_cjs_js_ref_4_1_node_modules_pnpm_registry_npmjs_org_vue_loader_15_9_8_mb4th6kmyx4ixjh6t2xkx624yu_node_modules_vue_loader_lib_index_js_vue_loader_options_index_vue_vue_type_style_index_1_lang_sass___WEBPACK_IMPORTED_MODULE_0___default = __webpack_require__.n(_node_modules_pnpm_registry_npmjs_org_style_loader_1_3_0_webpack_4_46_0_node_modules_style_loader_dist_cjs_js_node_modules_pnpm_registry_npmjs_org_css_loader_3_4_2_webpack_4_46_0_node_modules_css_loader_dist_cjs_js_ref_2_oneOf_0_0_node_modules_pnpm_registry_npmjs_org_vue_loader_15_9_8_mb4th6kmyx4ixjh6t2xkx624yu_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_pnpm_registry_npmjs_org_postcss_loader_4_3_0_mmkiswgrgezhd2zweiqe7apfva_node_modules_postcss_loader_dist_cjs_js_ref_3_0_node_modules_pnpm_registry_npmjs_org_resolve_url_loader_3_1_3_node_modules_resolve_url_loader_index_js_node_modules_pnpm_registry_npmjs_org_sass_loader_10_2_0_sass_1_50_0_webpack_4_46_0_node_modules_sass_loader_dist_cjs_js_ref_4_1_node_modules_pnpm_registry_npmjs_org_vue_loader_15_9_8_mb4th6kmyx4ixjh6t2xkx624yu_node_modules_vue_loader_lib_index_js_vue_loader_options_index_vue_vue_type_style_index_1_lang_sass___WEBPACK_IMPORTED_MODULE_0__);
 }, function(module, exports, __webpack_require__) {
     var ___CSS_LOADER_API_IMPORT___ = __webpack_require__(2);
     exports = ___CSS_LOADER_API_IMPORT___(false);
@@ -130,26 +130,7 @@ exports[`vue should build vue app 2`] = `
 } ] ]);
 
 /** filePath: dist/index.html **/
-<!DOCTYPE html>
-<html>
-<head>
-  <meta content=\\"text/html; charset=utf-8\\" http-equiv=\\"Content-Type\\">
-  <meta content=\\"width=device-width,initial-scale=1,user-scalable=no\\" name=\\"viewport\\">
-  <meta name=\\"apple-mobile-web-app-capable\\" content=\\"yes\\">
-  <meta name=\\"apple-touch-fullscreen\\" content=\\"yes\\">
-  <meta name=\\"format-detection\\" content=\\"telephone=no,address=no\\">
-  <meta name=\\"apple-mobile-web-app-status-bar-style\\" content=\\"white\\">
-  <meta http-equiv=\\"X-UA-Compatible\\" content=\\"IE=edge,chrome=1\\" >
-  <title></title>
-  <script>
-    !function(x){function w(){var v,u,t,tes,s=x.document,r=s.documentElement,a=r.getBoundingClientRect().width;if(!v&&!u){var n=!!x.navigator.appVersion.match(/AppleWebKit.*Mobile.*/);v=x.devicePixelRatio;tes=x.devicePixelRatio;v=n?v:1,u=1/v}if(a>=640){r.style.fontSize=\\"40px\\"}else{if(a<=320){r.style.fontSize=\\"20px\\"}else{r.style.fontSize=a/320*20+\\"px\\"}}}x.addEventListener(\\"resize\\",function(){w()});w()}(window);
-  </script>
-</head>
-<body>
-  <div id=\\"app\\"></div>
-<script type=\\"text/javascript\\" src=\\"/js/app.js\\"></script></body>
-</html>
-
+<!doctype html><html><head><meta content=\\"text/html; charset=utf-8\\" http-equiv=\\"Content-Type\\"><meta content=\\"width=device-width,initial-scale=1,user-scalable=no\\" name=\\"viewport\\"><meta name=\\"apple-mobile-web-app-capable\\" content=\\"yes\\"><meta name=\\"apple-touch-fullscreen\\" content=\\"yes\\"><meta name=\\"format-detection\\" content=\\"telephone=no,address=no\\"><meta name=\\"apple-mobile-web-app-status-bar-style\\" content=\\"white\\"><meta http-equiv=\\"X-UA-Compatible\\" content=\\"IE=edge,chrome=1\\"><title></title><script>!function(x){function w(){var v,u,t,tes,s=x.document,r=s.documentElement,a=r.getBoundingClientRect().width;if(!v&&!u){var n=!!x.navigator.appVersion.match(/AppleWebKit.*Mobile.*/);v=x.devicePixelRatio;tes=x.devicePixelRatio;v=n?v:1,u=1/v}if(a>=640){r.style.fontSize=\\"40px\\"}else{if(a<=320){r.style.fontSize=\\"20px\\"}else{r.style.fontSize=a/320*20+\\"px\\"}}}x.addEventListener(\\"resize\\",function(){w()});w()}(window);</script></head><body><div id=\\"app\\"></div><script src=\\"/js/app.js\\"></script></body></html>
 
 /** filePath: dist/js/app.js **/
 (function(modules) {
@@ -634,8 +615,9 @@ exports[`vue should build vue app 2`] = `
 }, function(module, __webpack_exports__, __webpack_require__) {
     \\"use strict\\";
     __webpack_require__.r(__webpack_exports__);
-    function createRouter() {}
     function initPxTransform() {}
+    function createMultiRouter() {}
+    function createRouter() {}
     var vue = \\"vue-mock\\";
     var app = __webpack_require__(4);
     var App = new vue({
@@ -655,10 +637,6 @@ exports[`vue should build vue app 2`] = `
     function taro_framework_createVue3App() {}
     var taro_components = __webpack_require__(0);
     var mocks_taro_components = __webpack_require__(6);
-    __webpack_require__(0);
-    Object(taro_components[\\"applyPolyfills\\"])().then((function() {
-        Object(taro_components[\\"defineCustomElements\\"])(taro_runtime_window);
-    }));
     var config = {
         \\"router\\": {
             \\"mode\\": \\"hash\\",
@@ -673,6 +651,10 @@ exports[`vue should build vue app 2`] = `
             \\"navigationBarTextStyle\\": \\"black\\"
         }
     };
+    __webpack_require__(0);
+    Object(taro_components[\\"applyPolyfills\\"])().then((function() {
+        Object(taro_components[\\"defineCustomElements\\"])(taro_runtime_window);
+    }));
     taro_runtime_window.__taroAppConfig = config;
     if (config.tabBar) {
         var tabbarList = config.tabBar.list;
@@ -688,14 +670,15 @@ exports[`vue should build vue app 2`] = `
     }
     config.routes = [ Object.assign({
         \\"path\\": \\"pages/index/index\\",
-        \\"load\\": function load() {
-            return __webpack_require__.e(1).then(__webpack_require__.bind(null, 15));
+        \\"load\\": function load(context, params) {
+            var page = __webpack_require__.e(1).then(__webpack_require__.bind(null, 15));
+            return [ page, context, params ];
         }
     }, {
         \\"navigationBarTitleText\\": \\"首页\\"
     }) ];
     var inst = taro_framework_createVueApp(src_app, vue, config);
-    undefined.createRouter(inst, config, vue);
+    createRouter(inst, config, vue);
     undefined.initPxTransform({
         \\"designWidth\\": 750,
         \\"deviceRatio\\": {

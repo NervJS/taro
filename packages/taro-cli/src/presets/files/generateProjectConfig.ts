@@ -1,6 +1,5 @@
-import * as path from 'path'
-
 import { IPluginContext } from '@tarojs/service'
+import * as path from 'path'
 
 export default (ctx: IPluginContext) => {
   ctx.registerMethod('generateProjectConfig', ({ srcConfigName, distConfigName }) => {
@@ -29,6 +28,9 @@ export default (ctx: IPluginContext) => {
       filePath: distConfigName,
       content: JSON.stringify(distProjectConfig, null, 2)
     })
-    printLog(processTypeEnum.GENERATE, '工具配置', `${outputPath}/${distConfigName}`)
+
+    if (ctx.initialConfig.logger?.quiet === false) {
+      printLog(processTypeEnum.GENERATE, '工具配置', `${outputPath}/${distConfigName}`)
+    }
   })
 }

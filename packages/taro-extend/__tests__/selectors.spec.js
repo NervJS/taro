@@ -1,4 +1,5 @@
 import { document, options } from '@tarojs/runtime'
+
 import { Sizzle } from '../src/jquery/sizzle'
 
 describe('selector', () => {

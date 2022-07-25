@@ -1,4 +1,4 @@
-import { temporarilyNotSupport } from '../utils'
+import { temporarilyNotSupport } from '../../utils'
 
 // 视频号
 export const reserveChannelsLive = temporarilyNotSupport('reserveChannelsLive')

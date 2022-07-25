@@ -33,3 +33,5 @@ export const assetExts = [
   // Archives (virtual files)
   'zip'
 ]
+
+export const emptyModulePath = '@tarojs/rn-supporter/dist/empty-module'

@@ -1,6 +1,5 @@
-import { isArray, isFunction } from '@tarojs/shared'
 import { Current } from '@tarojs/runtime'
-
+import { isArray, isFunction } from '@tarojs/shared'
 import type * as React from 'react'
 
 export const HOOKS_APP_ID = 'taro-app'

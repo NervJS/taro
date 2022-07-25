@@ -1,5 +1,4 @@
 import { Audio } from 'expo-av'
-import * as Permissions from 'expo-permissions'
 import * as FileSystem from 'expo-file-system'
 
 class RecorderManager {
@@ -52,13 +51,10 @@ class RecorderManager {
    * @param {string} [opts.audioSource='auto'] - 指定录音的音频输入源，可通过 wx.getAvailableAudioSources() 获取当前可用的音频源 ❌
    */
   async start (opts = {}) {
-    const { status } = await Permissions.getAsync(Permissions.AUDIO_RECORDING)
-    if (status !== 'granted') {
-      const { status } = await Permissions.askAsync(Permissions.AUDIO_RECORDING)
-      if (status !== 'granted') {
-        const res = { errMsg: 'Permissions denied!' }
-        return Promise.reject(res)
-      }
+    const { granted } = await Audio.requestPermissionsAsync()
+    if (!granted) {
+      const res = { errMsg: 'Permissions denied!' }
+      return Promise.reject(res)
     }
 
     const {
@@ -72,16 +68,17 @@ class RecorderManager {
     }: any = opts
     const options = {
       android: Object.assign({}, RecorderManager.RecordingOptions.android, { sampleRate, numberOfChannels, bitRate: encodeBitRate }),
-      ios: Object.assign({}, RecorderManager.RecordingOptions.ios, { sampleRate, numberOfChannels, bitRate: encodeBitRate })
+      ios: Object.assign({}, RecorderManager.RecordingOptions.ios, { sampleRate, numberOfChannels, bitRate: encodeBitRate }),
+      web: {}
     }
     try {
       await Audio.setAudioModeAsync({
         allowsRecordingIOS: true,
-        interruptionModeIOS: Audio.INTERRUPTION_MODE_IOS_DO_NOT_MIX,
+        interruptionModeIOS: 1, // InterruptionModeIOS.DoNotMix
         playsInSilentModeIOS: true,
         staysActiveInBackground: false,
         shouldDuckAndroid: true,
-        interruptionModeAndroid: Audio.INTERRUPTION_MODE_ANDROID_DO_NOT_MIX,
+        interruptionModeAndroid: 1, //InterruptionModeAndroid.DoNotMix
         playThroughEarpieceAndroid: true
       } as any)
 

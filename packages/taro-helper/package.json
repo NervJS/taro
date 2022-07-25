@@ -1,15 +1,15 @@
 {
   "name": "@tarojs/helper",
-  "version": "3.4.13",
+  "version": "3.5.0-beta.8",
   "description": "Taro Helper",
   "main": "index.js",
-  "types": "types/index.d.ts",
+  "types": "dist/index.d.ts",
   "scripts": {
     "build": "run-s clean prod",
     "dev": "tsc -w",
     "prod": "tsc",
     "clean": "rimraf dist",
-    "prepack": "npm run build",
+    "prepack": "pnpm run build",
     "test": "jest",
     "test:dev": "jest --watch"
   },
@@ -40,7 +40,9 @@
     "@babel/preset-typescript": "^7.14.5",
     "@babel/register": "^7.14.5",
     "@babel/runtime": "^7.14.5",
-    "@tarojs/taro": "3.4.13",
+    "@swc/core": "^1.2.204",
+    "@swc/register": "^0.1.10",
+    "ansi-escapes": "^4.3.2",
     "chalk": "3.0.0",
     "chokidar": "^3.3.1",
     "cross-spawn": "^7.0.3",
@@ -48,7 +50,8 @@
     "find-yarn-workspace-root": "2.0.0",
     "fs-extra": "^8.0.1",
     "lodash": "^4.17.21",
-    "resolve": "^1.6.0",
+    "resolve": "^1.22.0",
+    "supports-hyperlinks": "^2.2.0",
     "yauzl": "2.10.0"
   }
 }

@@ -1,17 +1,16 @@
-import { injectable } from 'inversify'
 import { isFunction, isUndefined, Shortcuts } from '@tarojs/shared'
-import { TaroElement } from './element'
-import { customWrapperCache } from '../utils'
-import { perf } from '../perf'
-import { options } from '../options'
+
 import {
-  SET_DATA,
+  CUSTOM_WRAPPER,
   PAGE_INIT,
   ROOT_STR,
-  CUSTOM_WRAPPER
+  SET_DATA
 } from '../constants'
-
-import type { Func, UpdatePayload, UpdatePayloadValue, MpInstance, HydratedData } from '../interface'
+import type { Func, HydratedData, MpInstance, UpdatePayload, UpdatePayloadValue } from '../interface'
+import { options } from '../options'
+import { perf } from '../perf'
+import { customWrapperCache } from '../utils'
+import { TaroElement } from './element'
 
 function findCustomWrapper (root: TaroRootElement, dataPathArr: string[]) {
   // ['root', 'cn', '[0]'] remove 'root' => ['cn', '[0]']
@@ -48,7 +47,6 @@ function findCustomWrapper (root: TaroRootElement, dataPathArr: string[]) {
   }
 }
 
-@injectable()
 export class TaroRootElement extends TaroElement {
   private updatePayloads: UpdatePayload[] = []
 
@@ -61,13 +59,14 @@ export class TaroRootElement extends TaroElement {
   public constructor () {
     super()
     this.nodeName = ROOT_STR
+    this.tagName = ROOT_STR.toUpperCase()
   }
 
   public get _path (): string {
     return ROOT_STR
   }
 
-  protected get _root (): TaroRootElement {
+  public get _root (): TaroRootElement {
     return this
   }
 

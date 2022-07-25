@@ -12,6 +12,7 @@ export default function createComponent (name, classNames = []) {
         domProps: {
           nativeProps: this.nativeProps
         },
+        attrs: this.$attrs,
         on: this.listeners
       }, this.$slots.default)
     }

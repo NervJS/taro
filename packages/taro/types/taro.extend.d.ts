@@ -1,3 +1,5 @@
+import React from 'react'
+
 import Taro, { Component } from './index'
 
 declare module './index' {
@@ -9,7 +11,7 @@ declare module './index' {
     duration?: number
   }
 
-  interface RequestParams<T> extends request.Option<T, any> {
+  interface RequestParams<T=any> extends request.Option<T, any> {
     [propName: string]: any
   }
 

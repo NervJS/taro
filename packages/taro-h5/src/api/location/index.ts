@@ -1,4 +1,4 @@
-import { processOpenApi, temporarilyNotSupport } from '../utils/index'
+import { processOpenApi, temporarilyNotSupport } from '../../utils/index'
 
 // 位置
 export const stopLocationUpdate = temporarilyNotSupport('stopLocationUpdate')

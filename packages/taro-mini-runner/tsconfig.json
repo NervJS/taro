@@ -7,16 +7,18 @@
     "rootDir": "./src",
     "module": "commonjs",
     "sourceMap": true,
+    "paths": {
+      "webpack": ["./node_modules/@types/webpack", "../../node_modules/@types/webpack", "./node_modules/webpack"],
+      "webpack-dev-server": ["./types/slim.d.ts"],
+    },
     "preserveConstEnums": true,
-    "skipLibCheck": true
+    "typeRoots": ["./types", "./node_modules/@types", "../../node_modules/@types"],
   },
-  "include": [
-    "./src"
-  ],
+  "include": ["./src", "./types"],
   "exclude": [
     "./src/__tests__",
     "./src/template/comp.ts",
     "./src/quickapp",
-    "./src/loaders/quickappStyleLoader.ts"
-  ]
+    "./src/loaders/quickappStyleLoader.ts",
+  ],
 }

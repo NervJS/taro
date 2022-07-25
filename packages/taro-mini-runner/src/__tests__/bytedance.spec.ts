@@ -1,5 +1,6 @@
-import { TT } from '@tarojs/plugin-platform-tt'
 import * as helper from '@tarojs/helper'
+import { TT } from '@tarojs/plugin-platform-tt'
+
 import { compile, getOutput } from './utils/compiler'
 
 describe('bytedance', () => {

@@ -1,45 +1,43 @@
-import * as path from 'path'
+import {
+  FRAMEWORK_MAP,
+  isAliasPath,
+  isEmptyObject,
+  META_TYPE,
+  NODE_MODULES_REG,
+  printLog,
+  processTypeEnum,
+  promoteRelativePath,
+  readConfig,
+  REG_STYLE,
+  replaceAliasPath,
+  resolveMainFilePath,
+  SCRIPT_EXT
+} from '@tarojs/helper'
+import { RecursiveTemplate, UnRecursiveTemplate } from '@tarojs/shared/dist/template'
+import { AppConfig, Config } from '@tarojs/taro'
 import * as fs from 'fs-extra'
-
+import { minify } from 'html-minifier'
+import { urlToRequest } from 'loader-utils'
+import * as MiniCssExtractPlugin from 'mini-css-extract-plugin'
+import * as path from 'path'
 import * as webpack from 'webpack'
 import * as SingleEntryDependency from 'webpack/lib/dependencies/SingleEntryDependency'
 import * as FunctionModulePlugin from 'webpack/lib/FunctionModulePlugin'
-import * as JsonpTemplatePlugin from 'webpack/lib/web/JsonpTemplatePlugin'
-import * as NodeSourcePlugin from 'webpack/lib/node/NodeSourcePlugin'
 import * as LoaderTargetPlugin from 'webpack/lib/LoaderTargetPlugin'
+import * as NodeSourcePlugin from 'webpack/lib/node/NodeSourcePlugin'
 import * as NaturalChunkOrderPlugin from 'webpack/lib/optimize/NaturalChunkOrderPlugin'
-import * as SplitChunksPlugin from 'webpack/lib/optimize/SplitChunksPlugin'
 import * as RuntimeChunkPlugin from 'webpack/lib/optimize/RuntimeChunkPlugin'
-import * as MiniCssExtractPlugin from 'mini-css-extract-plugin'
+import * as SplitChunksPlugin from 'webpack/lib/optimize/SplitChunksPlugin'
+import * as JsonpTemplatePlugin from 'webpack/lib/web/JsonpTemplatePlugin'
 import { ConcatSource } from 'webpack-sources'
-import { urlToRequest } from 'loader-utils'
-import { minify } from 'html-minifier'
-import { AppConfig, Config } from '@tarojs/taro'
-import { RecursiveTemplate, UnRecursiveTemplate } from '@tarojs/shared/dist/template'
-import {
-  resolveMainFilePath,
-  readConfig,
-  isEmptyObject,
-  promoteRelativePath,
-  META_TYPE,
-  REG_STYLE,
-  NODE_MODULES_REG,
-  FRAMEWORK_EXT_MAP,
-  printLog,
-  processTypeEnum,
-  FRAMEWORK_MAP,
-  isAliasPath,
-  replaceAliasPath,
-  SCRIPT_EXT
-} from '@tarojs/helper'
 
-import TaroSingleEntryPlugin from './TaroSingleEntryPlugin'
 import TaroSingleEntryDependency from '../dependencies/TaroSingleEntryDependency'
-import TaroNormalModulesPlugin from './TaroNormalModulesPlugin'
-import TaroLoadChunksPlugin from './TaroLoadChunksPlugin'
+import { PrerenderConfig, validatePrerenderPages } from '../prerender/prerender'
 import { componentConfig } from '../template/component'
-import { validatePrerenderPages, PrerenderConfig } from '../prerender/prerender'
-import { AddPageChunks, IComponent, IFileType, Func } from '../utils/types'
+import { AddPageChunks, Func, IComponent, IFileType } from '../utils/types'
+import TaroLoadChunksPlugin from './TaroLoadChunksPlugin'
+import TaroNormalModulesPlugin from './TaroNormalModulesPlugin'
+import TaroSingleEntryPlugin from './TaroSingleEntryPlugin'
 
 const PLUGIN_NAME = 'TaroMiniPlugin'
 
@@ -54,6 +52,7 @@ interface ITaroMiniPluginOptions {
   pluginMainEntry?: string
   commonChunks: string[]
   framework: string
+  frameworkExts: string[]
   baseLevel: number
   prerender?: PrerenderConfig
   addChunkPages?: AddPageChunks
@@ -77,8 +76,8 @@ interface ITaroMiniPluginOptions {
 }
 
 export interface IComponentObj {
-  name?: string,
-  path: string | null,
+  name?: string
+  path: string | null
   type?: string
 }
 
@@ -150,8 +149,6 @@ export default class TaroMiniPlugin {
       minifyXML: {},
       hot: false
     }, options)
-    /** 将 preact 映射为 react */
-    if (this.options.framework === 'preact') this.options.framework = 'react'
     const { template, baseLevel } = this.options
     if (template.isSupportRecursive === false && baseLevel > 0) {
       (template as UnRecursiveTemplate).baseLevel = baseLevel
@@ -545,12 +542,12 @@ export default class TaroMiniPlugin {
     if (!this.isWatch) {
       printLog(processTypeEnum.COMPILE, '发现入口', this.getShowPath(this.appEntry))
     }
-    const { framework, prerender } = this.options
+    const { frameworkExts, prerender } = this.options
     this.prerenderPages = new Set(validatePrerenderPages(appPages, prerender).map(p => p.path))
     this.getTabBarFiles(this.appConfig)
     this.pages = new Set([
       ...appPages.map<IComponent>(item => {
-        const pagePath = resolveMainFilePath(path.join(this.options.sourceDir, item), FRAMEWORK_EXT_MAP[framework])
+        const pagePath = resolveMainFilePath(path.join(this.options.sourceDir, item), frameworkExts)
         const pageTemplatePath = this.getTemplatePath(pagePath)
         const isNative = this.isNativePageORComponent(pageTemplatePath)
         return {
@@ -724,7 +721,7 @@ export default class TaroMiniPlugin {
    */
   getSubPackages (appConfig: AppConfig) {
     const subPackages = appConfig.subPackages || appConfig.subpackages
-    const { framework } = this.options
+    const { frameworkExts } = this.options
     if (subPackages && subPackages.length) {
       subPackages.forEach(item => {
         if (item.pages && item.pages.length) {
@@ -743,7 +740,7 @@ export default class TaroMiniPlugin {
               }
             })
             if (!hasPageIn) {
-              const pagePath = resolveMainFilePath(path.join(this.options.sourceDir, pageItem), FRAMEWORK_EXT_MAP[framework])
+              const pagePath = resolveMainFilePath(path.join(this.options.sourceDir, pageItem), frameworkExts)
               const templatePath = this.getTemplatePath(pagePath)
               const isNative = this.isNativePageORComponent(templatePath)
               if (isIndependent) {
@@ -857,7 +854,7 @@ export default class TaroMiniPlugin {
    */
   getTabBarFiles (appConfig: AppConfig) {
     const tabBar = appConfig.tabBar
-    const { sourceDir, framework } = this.options
+    const { sourceDir, frameworkExts } = this.options
     if (tabBar && typeof tabBar === 'object' && !isEmptyObject(tabBar)) {
       // eslint-disable-next-line dot-notation
       const list = tabBar['list'] || []
@@ -869,7 +866,7 @@ export default class TaroMiniPlugin {
       })
       if (tabBar.custom) {
         const customTabBarPath = path.join(sourceDir, 'custom-tab-bar')
-        const customTabBarComponentPath = resolveMainFilePath(customTabBarPath, [...FRAMEWORK_EXT_MAP[framework], ...SCRIPT_EXT])
+        const customTabBarComponentPath = resolveMainFilePath(customTabBarPath, [...frameworkExts, ...SCRIPT_EXT])
         if (fs.existsSync(customTabBarComponentPath)) {
           const customTabBarComponentTemplPath = this.getTemplatePath(customTabBarComponentPath)
           const isNative = this.isNativePageORComponent(customTabBarComponentTemplPath)

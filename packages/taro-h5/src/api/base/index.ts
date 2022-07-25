@@ -1,6 +1,6 @@
 import { fromByteArray, toByteArray } from 'base64-js'
 
-import { temporarilyNotSupport } from '../utils'
+import { temporarilyNotSupport } from '../../utils'
 
 // TODO env 环境变量
 
@@ -14,10 +14,10 @@ export function base64ToArrayBuffer (base64) {
   return toByteArray(base64)
 }
 
-export * from './system'
-export * from './update'
-export * from './weapp/life-cycle'
-export * from './weapp/app-event'
+export * from './crypto'
 export * from './debug'
 export * from './performance'
-export * from './crypto'
+export * from './system'
+export * from './update'
+export * from './weapp/app-event'
+export * from './weapp/life-cycle'

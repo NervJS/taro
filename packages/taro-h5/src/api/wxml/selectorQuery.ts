@@ -1,6 +1,7 @@
 import Taro from '@tarojs/api'
+
+import { findDOM } from '../../utils'
 import { CanvasContext } from '../canvas/CanvasContext'
-import { findDOM } from '../utils'
 import { NodesRef } from './nodesRef'
 
 type TElement = Document | HTMLElement | Element
@@ -37,7 +38,7 @@ function filter (fields, dom?: HTMLElement, selector?: string) {
         res.node = null
       }
     } else {
-      // TODO https://developers.weixin.qq.com/miniprogram/dev/component/scroll-view.html
+      // TODO https://developers.weixin.qq.com/miniprogram/dev/api/ui/scroll/ScrollViewContext.html
       // if (/^taro-scroll-view-core/i.test(tagName))
       res.nodeCanvasType = ''
       res.node = dom

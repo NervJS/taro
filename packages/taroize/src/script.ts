@@ -1,8 +1,9 @@
-import * as t from 'babel-types'
 import traverse, { NodePath, Visitor } from 'babel-traverse'
-import { buildImportStatement, codeFrameError, buildRender, buildBlockElement, parseCode } from './utils'
-import { WXS } from './wxml'
+import * as t from 'babel-types'
+
 import { usedComponents } from './global'
+import { buildBlockElement, buildImportStatement, buildRender, codeFrameError, parseCode } from './utils'
+import { WXS } from './wxml'
 
 const defaultClassName = '_C'
 

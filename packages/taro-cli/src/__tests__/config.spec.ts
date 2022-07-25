@@ -1,10 +1,11 @@
-import * as path from 'path'
 import {
-  getUserHomeDir,
   fs,
-  TARO_CONFIG_FLODER,
-  TARO_BASE_CONFIG
+  getUserHomeDir,
+  TARO_BASE_CONFIG,
+  TARO_CONFIG_FOLDER
 } from '@tarojs/helper'
+import * as path from 'path'
+
 import { run } from './utils'
 
 jest.mock('@tarojs/helper', () => {
@@ -24,7 +25,7 @@ jest.mock('@tarojs/helper', () => {
   }
 })
 
-const runConfig = run('config')
+const runConfig = run('config', ['commands/config'])
 
 describe('config', () => {
   const getUserHomeDirMocked = getUserHomeDir as jest.Mock<any>
@@ -68,7 +69,7 @@ describe('config', () => {
   it('should get config', async () => {
     const key = 'k'
     const value = 'v'
-    const configPath = path.join('/', `${TARO_CONFIG_FLODER}/${TARO_BASE_CONFIG}`)
+    const configPath = path.join('/', `${TARO_CONFIG_FOLDER}/${TARO_BASE_CONFIG}`)
 
     const logSpy = jest.spyOn(console, 'log')
     logSpy.mockImplementation(() => {})
@@ -99,7 +100,7 @@ describe('config', () => {
   it('should set config', async () => {
     const key = 'k'
     const value = 'v'
-    const configPath = path.join('/', `${TARO_CONFIG_FLODER}/${TARO_BASE_CONFIG}`)
+    const configPath = path.join('/', `${TARO_CONFIG_FOLDER}/${TARO_BASE_CONFIG}`)
 
     const logSpy = jest.spyOn(console, 'log')
     logSpy.mockImplementation(() => {})
@@ -123,7 +124,7 @@ describe('config', () => {
   it('should set config with init', async () => {
     const key = 'k'
     const value = 'v'
-    const configPath = path.join('/', `${TARO_CONFIG_FLODER}/${TARO_BASE_CONFIG}`)
+    const configPath = path.join('/', `${TARO_CONFIG_FOLDER}/${TARO_BASE_CONFIG}`)
 
     const logSpy = jest.spyOn(console, 'log')
     logSpy.mockImplementation(() => {})
@@ -153,7 +154,7 @@ describe('config', () => {
 
   it('should delete config', async () => {
     const key = 'k'
-    const configPath = path.join('/', `${TARO_CONFIG_FLODER}/${TARO_BASE_CONFIG}`)
+    const configPath = path.join('/', `${TARO_CONFIG_FOLDER}/${TARO_BASE_CONFIG}`)
 
     const logSpy = jest.spyOn(console, 'log')
     logSpy.mockImplementation(() => {})
@@ -175,7 +176,7 @@ describe('config', () => {
   })
 
   it('should list config', async () => {
-    const configPath = path.join('/', `${TARO_CONFIG_FLODER}/${TARO_BASE_CONFIG}`)
+    const configPath = path.join('/', `${TARO_CONFIG_FOLDER}/${TARO_BASE_CONFIG}`)
     const logSpy = jest.spyOn(console, 'log')
     logSpy.mockImplementation(() => {})
     readJSONSyncMocked.mockReturnValue({
@@ -196,7 +197,7 @@ describe('config', () => {
   })
 
   it('should list config in json', async () => {
-    const configPath = path.join('/', `${TARO_CONFIG_FLODER}/${TARO_BASE_CONFIG}`)
+    const configPath = path.join('/', `${TARO_CONFIG_FOLDER}/${TARO_BASE_CONFIG}`)
     const logSpy = jest.spyOn(console, 'log')
     logSpy.mockImplementation(() => {})
     readJSONSyncMocked.mockReturnValue({

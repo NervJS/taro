@@ -1,5 +1,6 @@
 import { transform } from '@babel/core'
 import syntaxJSX from 'babel-plugin-syntax-jsx'
+
 import jSXStylePlugin from '../src/index'
 
 const mergeStylesFunctionTemplate = `function _mergeStyles() {

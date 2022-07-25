@@ -6,9 +6,10 @@
     "rootDir": "./src",
     "jsx": "react",
     "lib": ["ESNEXT"],
-    "types": ["react-native", "node"]
+    "paths": {
+      "react": ["./node_modules/@types/react", "./node_modules/react"],
+    },
+    "types": ["react-native", "node"],
   },
-  "include": [
-    "src"
-  ]
+  "include": ["src"],
 }

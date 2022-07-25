@@ -1,43 +1,67 @@
-import { noop } from '@tarojs/shared'
-import { navigator } from './navigator'
-import { document } from './document'
-import { win } from '../env'
-import { raf, caf } from './raf'
-import { getComputedStyle } from './getComputedStyle'
-import { DATE } from '../constants'
+import { isString } from '@tarojs/shared'
 
-export const window: any = process.env.TARO_ENV === 'h5' ? win : {
-  navigator,
-  document
-}
+import { Events } from '../emitter/emitter'
+import env from '../env'
+import { getComputedStyle } from './getComputedStyle'
+import { navigator } from './navigator'
+import { caf, raf } from './raf'
+
+let window
 
 if (process.env.TARO_ENV && process.env.TARO_ENV !== 'h5') {
-  const globalProperties = [
-    ...Object.getOwnPropertyNames(global || win),
-    ...Object.getOwnPropertySymbols(global || win)
-  ]
+  class Window extends Events {
+    navigator = navigator
+    requestAnimationFrame = raf
+    cancelAnimationFrame = caf
+    getComputedStyle = getComputedStyle
+    Date: DateConstructor
 
-  globalProperties.forEach(property => {
-    if (property === 'atob') return
-    if (!Object.prototype.hasOwnProperty.call(window, property)) {
-      window[property] = global[property]
+    constructor () {
+      super()
+
+      const globalProperties = [
+        ...Object.getOwnPropertyNames(global || {}),
+        ...Object.getOwnPropertySymbols(global || {})
+      ]
+
+      globalProperties.forEach(property => {
+        if (property === 'atob' || property === 'document') return
+        if (!Object.prototype.hasOwnProperty.call(this, property)) {
+          this[property] = global[property]
+        }
+      })
+
+      this.Date ||= Date
     }
-  })
 
-  window.requestAnimationFrame = raf
-  window.cancelAnimationFrame = caf
-  window.getComputedStyle = getComputedStyle
-  window.addEventListener = noop
-  window.removeEventListener = noop
-  if (!(DATE in window)) {
-    window.Date = Date
-  }
-  window.setTimeout = function (...args: Parameters<typeof setTimeout>) {
-    return setTimeout(...args)
-  }
-  window.clearTimeout = function (...args: Parameters<typeof clearTimeout>) {
-    return clearTimeout(...args)
+    get document () {
+      return env.document
+    }
+
+    addEventListener (event: string, callback: (arg: any) => void) {
+      if (!isString(event)) return
+      this.on(event, callback, null)
+    }
+
+    removeEventListener (event: string, callback: (arg: any) => void) {
+      if (!isString(event)) return
+      this.off(event, callback, null)
+    }
+
+    setTimeout (...args: Parameters<typeof setTimeout>) {
+      return setTimeout(...args)
+    }
+
+    clearTimeout (...args: Parameters<typeof clearTimeout>) {
+      return clearTimeout(...args)
+    }
   }
 
-  document.defaultView = window
+  window = env.window = new Window()
+} else {
+  window = env.window
+}
+
+export {
+  window
 }

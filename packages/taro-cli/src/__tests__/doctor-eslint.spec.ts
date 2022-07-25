@@ -1,4 +1,5 @@
 import * as path from 'path'
+
 import validator from '../doctor/eslintValidator'
 
 describe('eslint validator of doctor', () => {

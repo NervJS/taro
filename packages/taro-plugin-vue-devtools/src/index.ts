@@ -1,7 +1,6 @@
 import { chalk } from '@tarojs/helper'
-import { isArray, isString } from '@tarojs/shared'
-
 import type { IPluginContext, TaroPlatformBase } from '@tarojs/service'
+import { isArray, isString } from '@tarojs/shared'
 
 const spawn = require('cross-spawn')
 const detectPort = require('detect-port')
@@ -56,10 +55,31 @@ export default function (ctx: IPluginContext, options: IOptions) {
         return args
       })
   })
+
+  ctx.modifyRunnerOpts(({ opts }) => {
+    if (isString(opts.compiler)) {
+      opts.compiler = {
+        type: opts.compiler
+      }
+    }
+    if (opts.compiler.type === 'webpack5') {
+      opts.compiler.prebundle ||= {}
+      const prebundle = opts.compiler.prebundle
+      if (prebundle.enable === false) return
+
+      prebundle.webpack ||= {}
+      const webpackConfig = prebundle.webpack
+      webpackConfig.provide ||= []
+      webpackConfig.provide.push(function (obj, taroRuntimeBundlePath) {
+        obj.globalThis = [taroRuntimeBundlePath, 'window']
+        obj.HTMLElement = [taroRuntimeBundlePath, 'TaroElement']
+      })
+    }
+  })
 }
 
 function injectRuntimePath (platform: TaroPlatformBase) {
-  const injectedPath = '@tarojs/plugin-vue-devtools/dist/runtime'
+  const injectedPath = 'post:@tarojs/plugin-vue-devtools/dist/runtime'
 
   if (isArray(platform.runtimePath)) {
     platform.runtimePath.push(injectedPath)

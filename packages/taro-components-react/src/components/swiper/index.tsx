@@ -1,12 +1,13 @@
+import 'swiper/swiper-bundle.min.css'
 import 'weui'
-import React from 'react'
+import './style/index.css'
+
 import classNames from 'classnames'
+import React from 'react'
+import type ISwiper from 'swiper'
 import Swipers from 'swiper/swiper-bundle.esm.js'
 
-import type ISwiper from 'swiper'
-
-import 'swiper/swiper-bundle.min.css'
-import './style/index.css'
+import { debounce } from '../../utils'
 
 let INSTANCE_ID = 0
 
@@ -312,14 +313,3 @@ class Swiper extends React.Component<SwiperProps, Record<string, unknown>> {
 }
 
 export { Swiper, SwiperItem }
-
-function debounce (fn, delay: number) {
-  let timer: NodeJS.Timeout
-
-  return function (...arrs) {
-    clearTimeout(timer)
-    timer = setTimeout(function () {
-      fn(...arrs)
-    }, delay)
-  }
-}

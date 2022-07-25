@@ -1,4 +1,5 @@
 import * as Taro from '@tarojs/taro-h5'
+
 const mockConsole = require('jest-mock-console')
 
 describe('navigation', () => {

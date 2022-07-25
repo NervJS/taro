@@ -1,5 +1,6 @@
 import * as Taro from '@tarojs/taro-h5'
 import { Server } from 'mock-socket'
+
 const mockConsole = require('jest-mock-console')
 
 describe('websocket', () => {

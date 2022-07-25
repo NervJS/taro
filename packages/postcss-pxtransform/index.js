@@ -29,8 +29,6 @@ const deviceRatio = {
   828: 1.81 / 2
 }
 
-const baseFontSize = 40
-
 const DEFAULT_WEAPP_OPTIONS = {
   platform: 'weapp',
   designWidth: 750,
@@ -42,15 +40,16 @@ let targetUnit
 module.exports = (options = {}) => {
   options = Object.assign({}, DEFAULT_WEAPP_OPTIONS, options)
 
-  const isFunctionDw = typeof options.designWidth === 'function'
-  const designWidth = input => isFunctionDw
+  const transUnits = ['px']
+  const baseFontSize = options.baseFontSize ?? options.minRootSize >= 1 ? options.minRootSize : 20
+  const designWidth = input => typeof options.designWidth === 'function'
     ? options.designWidth(input)
     : options.designWidth
-
   switch (options.platform) {
     case 'h5': {
-      options.rootValue = input => baseFontSize * designWidth(input) / 640
+      options.rootValue = input => baseFontSize / options.deviceRatio[designWidth(input)] * 2
       targetUnit = 'rem'
+      transUnits.push('rpx')
       break
     }
     case 'rn': {
@@ -74,6 +73,7 @@ module.exports = (options = {}) => {
 
   const opts = Object.assign({}, defaults, options)
   const onePxTransform = typeof options.onePxTransform === 'undefined' ? true : options.onePxTransform
+  const pxRgx = pxRegex(transUnits)
 
   const satisfyPropList = createPropListMatcher(opts.propList)
 
@@ -159,8 +159,7 @@ module.exports = (options = {}) => {
 
         if (!satisfyPropList(decl.prop)) return
 
-        if (blacklistedSelector(opts.selectorBlackList,
-          decl.parent.selector)) return
+        if (blacklistedSelector(opts.selectorBlackList, decl.parent.selector)) return
 
         const value = decl.value.replace(pxRegex, pxReplace)
 
@@ -216,7 +215,7 @@ function createPxReplace (rootValue, unitPrecision, minPixelValue, onePxTransfor
       }
       const pixels = parseFloat($1)
       if (pixels < minPixelValue) return m
-      const fixedVal = toFixed((pixels / rootValue(input)), unitPrecision)
+      const fixedVal = toFixed((pixels / rootValue(input, m, $1)), unitPrecision)
       return (fixedVal === 0) ? '0' : fixedVal + targetUnit
     }
   }
