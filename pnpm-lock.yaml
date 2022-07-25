@@ -663,6 +663,7 @@ importers:
       '@tarojs/router': workspace:*
       '@tarojs/runtime': workspace:*
       base64-js: ^1.3.0
+      dingtalk-jsapi: ~2.15.2
       jsonp-retry: ^1.0.3
       mobile-detect: ^1.4.2
       query-string: ^7.1.1
@@ -672,6 +673,7 @@ importers:
       '@tarojs/router': link:../taro-router
       '@tarojs/runtime': link:../taro-runtime
       base64-js: registry.npmjs.org/base64-js/1.5.1
+      dingtalk-jsapi: registry.npmjs.org/dingtalk-jsapi/2.15.2
       jsonp-retry: registry.npmjs.org/jsonp-retry/1.0.3
       mobile-detect: registry.npmjs.org/mobile-detect/1.4.5
       query-string: registry.npmjs.org/query-string/7.1.1
@@ -16803,6 +16805,14 @@ packages:
       miller-rabin: registry.npmjs.org/miller-rabin/4.0.1
       randombytes: registry.npmjs.org/randombytes/2.1.0
 
+  registry.npmjs.org/dingtalk-jsapi/2.15.2:
+    resolution: {integrity: sha512-ZN1zSPAb3BdHQviz7xO0j865QyKbOT+/YhDC9aOa89dPgVKrAO7RGzw5v1CxZPtOaWXSRDy1R07GJTeBXkUNHA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/dingtalk-jsapi/-/dingtalk-jsapi-2.15.2.tgz}
+    name: dingtalk-jsapi
+    version: 2.15.2
+    dependencies:
+      promise-polyfill: registry.npmjs.org/promise-polyfill/7.1.2
+    dev: false
+
   registry.npmjs.org/dir-glob/2.2.2:
     resolution: {integrity: sha512-f9LBi5QWzIW3I6e//uxZoLBlUt9kcp66qo0sSCxL6YZKc75R1c4MFCoe/LaZiBGmgujvQdxc5Bn3QhfyvK5Hsw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/dir-glob/-/dir-glob-2.2.2.tgz}
     name: dir-glob
@@ -29747,6 +29757,12 @@ packages:
     peerDependenciesMeta:
       bluebird:
         optional: true
+
+  registry.npmjs.org/promise-polyfill/7.1.2:
+    resolution: {integrity: sha512-FuEc12/eKqqoRYIGBrUptCBRhobL19PS2U31vMNTfyck1FxPyMfgsXyW4Mav85y/ZN1hop3hOwRlUDok23oYfQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/promise-polyfill/-/promise-polyfill-7.1.2.tgz}
+    name: promise-polyfill
+    version: 7.1.2
+    dev: false
 
   registry.npmjs.org/promise-polyfill/8.2.3:
     resolution: {integrity: sha512-Og0+jCRQetV84U8wVjMNccfGCnMQ9mGs9Hv78QFe+pSDD3gWTpz0y+1QCuxy5d/vBFuZ3iwP2eycAkvqIMPmWg==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/promise-polyfill/-/promise-polyfill-8.2.3.tgz}

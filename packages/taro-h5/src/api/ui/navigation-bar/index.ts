@@ -2,6 +2,7 @@ import Taro from '@tarojs/api'
 
 import { getParameterError, shouldBeObject, temporarilyNotSupport } from '../../../utils'
 import { MethodHandler } from '../../../utils/handler'
+import { setTitle } from '../../../utils/navigate'
 
 // 导航栏
 export const showNavigationBarLoading = temporarilyNotSupport('showNavigationBarLoading')
@@ -28,9 +29,7 @@ export function setNavigationBarTitle (options) {
     })
   }
 
-  if (document.title !== title) {
-    document.title = title
-  }
+  setTitle(title)
 
   return handle.success()
 }

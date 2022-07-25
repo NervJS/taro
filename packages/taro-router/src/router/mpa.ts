@@ -5,6 +5,7 @@ import {
   eventCenter, hooks,
   stringify
 } from '@tarojs/runtime'
+import { setTitle } from '@tarojs/taro-h5/dist/utils/navigate'
 
 import type { MpaRouterConfig } from '../../types/router'
 import { RouterConfig } from '.'
@@ -48,7 +49,7 @@ export async function createMultiRouter (
   })
 
   if (pageConfig) {
-    document.title = pageConfig.navigationBarTitleText ?? document.title
+    setTitle(pageConfig.navigationBarTitleText ?? document.title)
     if (typeof pageConfig.enablePullDownRefresh === 'boolean') {
       enablePullDownRefresh = pageConfig.enablePullDownRefresh
     }
