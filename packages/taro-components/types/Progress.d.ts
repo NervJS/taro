@@ -84,7 +84,7 @@ interface ProgressProps extends StandardProps {
  *   constructor() {
  *     super(...arguments)
  *   }
- * 
+ *
  *   render() {
  *     return (
  *       <View className='components-page'>

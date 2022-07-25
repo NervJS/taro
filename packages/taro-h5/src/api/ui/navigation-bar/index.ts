@@ -1,7 +1,7 @@
 import Taro from '@tarojs/api'
 
-import { MethodHandler } from '../../utils/handler'
-import { getParameterError, shouldBeObject, temporarilyNotSupport } from '../../utils'
+import { getParameterError, shouldBeObject, temporarilyNotSupport } from '../../../utils'
+import { MethodHandler } from '../../../utils/handler'
 
 // 导航栏
 export const showNavigationBarLoading = temporarilyNotSupport('showNavigationBarLoading')

@@ -1,9 +1,10 @@
-import build from '../dist/index'
+import build from '../src/index'
 import { appPath, config, configNoWatch } from './mock/build_testdata'
-const Metro = require('metro')
+
+const outputBundle = require('metro/src/shared/output/bundle')
 
 describe('init', () => {
-  jest.spyOn(Metro, 'runBuild').mockImplementation(() => {
+  jest.spyOn(outputBundle, 'build').mockImplementation(() => {
     return 'ok'
   })
 

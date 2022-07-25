@@ -5,7 +5,6 @@
     "outDir": "dist",
     "rootDir": "./src",
     "module": "commonjs",
-    "skipLibCheck": true
   },
   "include": [
     "./src"

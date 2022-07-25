@@ -1,7 +1,7 @@
 import Taro from '@tarojs/api'
 
-import { shouldBeObject } from '../../utils'
-import { MethodHandler } from '../../utils/handler'
+import { shouldBeObject } from '../../../utils'
+import { MethodHandler } from '../../../utils/handler'
 
 /**
  * previewImage api基于开源的React组件[react-wx-images-viewer](https://github.com/react-ld/react-wx-images-viewer)开发，感谢！

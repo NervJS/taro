@@ -1,13 +1,14 @@
-import * as path from 'path'
 import * as fs from 'fs'
 import * as MetroResolver from 'metro-resolver'
-import * as ModuleResolution from 'metro/src/node-haste/DependencyGraph/ModuleResolution'
-import { resolvePathFromAlias, resolveExtFile } from './utils'
+import * as path from 'path'
+
+import { emptyModulePath } from './defaults'
+import { resolveExtFile, resolvePathFromAlias } from './utils'
 
 interface VersionInfo {
-  major: number;
-  minor: number;
-  patch: number;
+  major: number
+  minor: number
+  patch: number
 }
 
 function getReactNativeBasePath (): string {
@@ -61,7 +62,7 @@ function searchReactNativeModule (moduleName: string, platform: string): string 
 /**
  * resolveRequest 文件处理，alias，文件后缀加载等
  */
-function handleFile (context, realModuleName, platform, moduleName) {
+function handleFile (context, _realModuleName, platform, moduleName) {
   const savedOriginModulePath = context.originModulePath
   const savedAllowHaste = context.allowHaste
   if (moduleName.startsWith('@tarojs/')) {
@@ -101,7 +102,7 @@ function handleTaroFile (context, realModuleName, platform, moduleName) {
     }
   }
   const savedOriginModulePath = context.originModulePath
-  if ((savedOriginModulePath === ModuleResolution.ModuleResolver.EMPTY_MODULE) && moduleName.startsWith('./')) {
+  if ((savedOriginModulePath === require.resolve(emptyModulePath)) && moduleName.startsWith('./')) {
     context.originModulePath = path.join(context.projectRoot, './index')
   }
   const savedAllowHaste = context.allowHaste
@@ -133,8 +134,8 @@ function handleTaroFile (context, realModuleName, platform, moduleName) {
 }
 
 export {
+  getReactNativeVersion,
   handleFile,
   handleTaroFile,
-  searchReactNativeModule,
-  getReactNativeVersion
+  searchReactNativeModule
 }

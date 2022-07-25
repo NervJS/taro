@@ -1,4 +1,4 @@
-import { temporarilyNotSupport } from '../utils'
+import { temporarilyNotSupport } from '../../utils'
 
 // 第三方平台
 export const getExtConfigSync = temporarilyNotSupport('getExtConfigSync')

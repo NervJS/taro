@@ -1,4 +1,4 @@
-import { temporarilyNotSupport } from '../utils'
+import { temporarilyNotSupport } from '../../utils'
 
 // 蓝牙-通用
 export const stopBluetoothDevicesDiscovery = temporarilyNotSupport('stopBluetoothDevicesDiscovery')

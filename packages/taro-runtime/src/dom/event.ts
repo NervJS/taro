@@ -1,6 +1,5 @@
-import { EMPTY_OBJ, isFunction } from '@tarojs/shared'
-import { isParentBinded } from '../utils'
-import { getDocument, getHooks } from '../container/store'
+import { EMPTY_OBJ, hooks } from '@tarojs/shared'
+
 import {
   CONFIRM,
   CURRENT_TARGET,
@@ -8,12 +7,13 @@ import {
   KEY_CODE,
   TARGET,
   TIME_STAMP,
-  TYPE,
-  TOUCHMOVE
+  TOUCHMOVE,
+  TYPE
 } from '../constants'
-
-import type { TaroElement } from './element'
+import env from '../env'
 import type { EventOptions, MpEvent } from '../interface'
+import { isParentBinded } from '../utils'
+import type { TaroElement } from './element'
 
 // Taro 事件对象。以 Web 标准的事件对象为基础，加入小程序事件对象中携带的部分信息，并模拟实现事件冒泡。
 export class TaroEvent {
@@ -62,7 +62,7 @@ export class TaroEvent {
     if (!cacheTarget) {
       const target = Object.create(this.mpEvent?.target || null)
 
-      const element = getDocument().getElementById(target.id)
+      const element = env.document.getElementById(target.id)
       target.dataset = element !== null ? element.dataset : EMPTY_OBJ
 
       for (const key in this.mpEvent?.detail) {
@@ -80,7 +80,7 @@ export class TaroEvent {
   get currentTarget () {
     const cacheCurrentTarget = this.cacheCurrentTarget
     if (!cacheCurrentTarget) {
-      const doc = getDocument()
+      const doc = env.document
 
       const currentTarget = Object.create(this.mpEvent?.currentTarget || null)
 
@@ -135,32 +135,30 @@ const eventsBatch = {}
 
 // 小程序的事件代理回调函数
 export function eventHandler (event: MpEvent) {
-  const hooks = getHooks()
-
-  hooks.modifyMpEvent?.(event)
+  hooks.call('modifyMpEventImpl', event)
 
   event.currentTarget ||= event.target
 
   const currentTarget = event.currentTarget
   const id = currentTarget.dataset?.sid as string /** sid */ || currentTarget.id /** uid */ || ''
 
-  const node = getDocument().getElementById(id)
+  const node = env.document.getElementById(id)
   if (node) {
     const dispatch = () => {
       const e = createEvent(event, node)
-      hooks.modifyTaroEvent?.(e, node)
+      hooks.call('modifyTaroEvent', e, node)
       node.dispatchEvent(e)
     }
-    if (isFunction(hooks.batchedEventUpdates)) {
+    if (hooks.isExist('batchedEventUpdates')) {
       const type = event.type
 
       if (
-        !hooks.isBubbleEvents(type) ||
+        !hooks.call('isBubbleEvents', type) ||
         !isParentBinded(node, type) ||
         (type === TOUCHMOVE && !!node.props.catchMove)
       ) {
         // 最上层组件统一 batchUpdate
-        hooks.batchedEventUpdates(() => {
+        hooks.call('batchedEventUpdates', () => {
           if (eventsBatch[type]) {
             eventsBatch[type].forEach(fn => fn())
             delete eventsBatch[type]

@@ -1,7 +1,8 @@
+import { chalk } from '@tarojs/helper'
 import * as path from 'path'
-import chalk from 'chalk'
-import { run } from './utils'
+
 import { getPkgVersion } from '../util'
+import { run } from './utils'
 
 jest.mock('envinfo', () => {
   const envinfo = jest.requireActual('envinfo')
@@ -14,7 +15,7 @@ jest.mock('envinfo', () => {
   }
 })
 
-const runInfo = run('info')
+const runInfo = run('info', ['commands/info'])
 
 describe('info', () => {
   it('should exit because there isn\'t a Taro project', async () => {
@@ -37,7 +38,7 @@ describe('info', () => {
     logSpy.mockRestore()
   })
 
-  it('should log infomations', async () => {
+  it('should log information', async () => {
     const logSpy = jest.spyOn(console, 'log')
     logSpy.mockImplementation(() => {})
 

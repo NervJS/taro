@@ -1,5 +1,6 @@
 import { Component, Prop, h, ComponentInterface, Host, State, Event, EventEmitter, Element } from '@stencil/core'
 import Taro from '@tarojs/taro'
+import { IH5RouterConfig } from '@tarojs/taro/types/compile'
 import classNames from 'classnames'
 import resolvePathname from 'resolve-pathname'
 
@@ -8,13 +9,16 @@ import { TabbarItem } from './tabbar-item'
 
 // const removeLeadingSlash = str => str.replace(/^\.?\//, '')
 // const removeTrailingSearch = str => str.replace(/\?[\s\S]*$/, '')
-const addLeadingSlash = str => str[0] === '/' ? str : `/${str}`
+const addLeadingSlash = (str = '') => str[0] === '/' ? str : `/${str}`
 
-const hasBasename = (path, prefix) =>
+const hasBasename = (path = '', prefix = '') =>
   new RegExp('^' + prefix + '(\\/|\\?|#|$)', 'i').test(path)
 
-const stripBasename = (path, prefix) =>
+const stripBasename = (path = '', prefix = '') =>
   hasBasename(path, prefix) ? path.substr(prefix.length) : path
+
+const stripSuffix = (path = '', suffix = '') =>
+  path.includes(suffix) ? path.substring(0, path.length - suffix.length) : path
 
 const STATUS_SHOW = 0
 const STATUS_HIDE = 1
@@ -42,7 +46,7 @@ export interface Conf {
   position?: 'bottom' | 'top'
   custom: boolean
   customRoutes: Record<string, string | string[]>
-  mode: 'hash' | 'browser'
+  mode: IH5RouterConfig['mode']
   basename: string
   homePage: string
   currentPagename: string
@@ -139,7 +143,7 @@ export class Tabbar implements ComponentInterface {
       url = location.pathname
     }
     const processedUrl = addLeadingSlash(stripBasename(url, routerBasename))
-    return processedUrl === '/' ? this.homePage : processedUrl
+    return decodeURI(processedUrl === '/' ? this.homePage : processedUrl)
   }
 
   getOriginUrl = (url: string) => {
@@ -148,7 +152,7 @@ export class Tabbar implements ComponentInterface {
       const pathB = splitUrl(url).path
       return pathA === pathB
     })
-    return customRoute.length ? customRoute[0][0] : url
+    return stripSuffix(customRoute.length ? customRoute[0][0] : url, '.html')
   }
 
   getSelectedIndex = (url: string) => {

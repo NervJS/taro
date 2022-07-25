@@ -1,6 +1,6 @@
-import { Terminal } from 'metro-core'
+import { emptyModulePath } from '@tarojs/rn-supporter'
 import * as MetroTerminalReporter from 'metro/src/lib/TerminalReporter'
-import * as ModuleResolution from 'metro/src/node-haste/DependencyGraph/ModuleResolution'
+import { Terminal } from 'metro-core'
 
 export class TerminalReporter {
   _reporter: any
@@ -38,7 +38,7 @@ export class TerminalReporter {
         break
       case 'bundle_build_done': {
         this._reporter.update(args)
-        const realEntryPath = ModuleResolution.ModuleResolver.EMPTY_MODULE
+        const realEntryPath = require.resolve(emptyModulePath)
         if (this._initialized) {
           // 恢复入口页面的缓存
           this._reporter.ignoreEntryFileCache = false

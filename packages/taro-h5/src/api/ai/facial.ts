@@ -1,4 +1,4 @@
-import { temporarilyNotSupport } from '../utils'
+import { temporarilyNotSupport } from '../../utils'
 
 // 人脸识别
 export const stopFaceDetect = temporarilyNotSupport('stopFaceDetect')

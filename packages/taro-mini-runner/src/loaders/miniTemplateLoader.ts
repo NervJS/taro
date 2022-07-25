@@ -1,5 +1,5 @@
-import * as sax from 'sax'
 import { isUrlRequest, urlToRequest } from 'loader-utils'
+import * as sax from 'sax'
 
 export default function miniTemplateLoader (source) {
   this.cacheable && this.cacheable()

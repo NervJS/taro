@@ -1,6 +1,7 @@
 import Taro from '@tarojs/api'
-import { permanentlyNotSupport } from '../../utils'
-import { CallbackManager } from '../../utils/handler'
+
+import { permanentlyNotSupport } from '../../../utils'
+import { CallbackManager } from '../../../utils/handler'
 
 export class InnerAudioContext implements Taro.InnerAudioContext {
   Instance?: HTMLAudioElement

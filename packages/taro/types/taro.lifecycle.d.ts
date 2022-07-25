@@ -1,15 +1,15 @@
 import Taro from './index'
 
 type TaroGetDerivedStateFromProps<P, S> =
-/**
- * Returns an update to a component's state based on its new props and old state.
- *
- * Note: its presence prevents any of the deprecated lifecycle methods from being invoked
- */
-(nextProps: Readonly<P>, prevState: S) => Partial<S> | null;
+  /**
+   * Returns an update to a component's state based on its new props and old state.
+   *
+   * Note: its presence prevents any of the deprecated lifecycle methods from being invoked
+   */
+  (nextProps: Readonly<P>, prevState: S) => Partial<S> | null
 
 interface TaroStaticLifecycle<P, S> {
-  getDerivedStateFromProps?: TaroGetDerivedStateFromProps<P, S>;
+  getDerivedStateFromProps?: TaroGetDerivedStateFromProps<P, S>
 }
 
 interface TaroNewLifecycle<P, S, SS> {
@@ -21,13 +21,13 @@ interface TaroNewLifecycle<P, S, SS> {
    * Note: the presence of getSnapshotBeforeUpdate prevents any of the deprecated
    * lifecycle events from running.
    */
-  getSnapshotBeforeUpdate?(prevProps: Readonly<P>, prevState: Readonly<S>): SS | null;
+  getSnapshotBeforeUpdate?(prevProps: Readonly<P>, prevState: Readonly<S>): SS | null
   /**
    * Called immediately after updating occurs. Not called for the initial render.
    *
    * The snapshot is only present if getSnapshotBeforeUpdate is present and returns non-null.
    */
-  componentDidUpdate?(prevProps: Readonly<P>, prevState: Readonly<S>, snapshot?: SS): void;
+  componentDidUpdate?(prevProps: Readonly<P>, prevState: Readonly<S>, snapshot?: SS): void
 }
 
 declare module './index' {
@@ -165,11 +165,18 @@ declare module './index' {
     imageUrl?: string
   }
 
-  type GetDerivedStateFromProps<P, S> = TaroGetDerivedStateFromProps<P, S>
-
-  type StaticLifecycle<P, S> = TaroStaticLifecycle<P, S>
-
-  type NewLifecycle<P, S, SS> = TaroNewLifecycle<P, S, SS>
+  interface ComponentLifecycle<P, S, SS = any> extends TaroNewLifecycle<P, S, SS> {
+    componentWillMount?(): void
+    componentDidMount?(): void
+    componentWillReceiveProps?(nextProps: Readonly<P>, nextContext: any): void
+    shouldComponentUpdate?(nextProps: Readonly<P>, nextState: Readonly<S>, nextContext: any): boolean
+    componentWillUpdate?(nextProps: Readonly<P>, nextState: Readonly<S>, nextContext: any): void
+    componentWillUnmount?(): void
+    componentDidShow?(): void
+    componentDidHide?(): void
+    componentDidCatchError?(err: string): void
+    componentDidNotFound?(opt: PageNotFoundObject): void
+  }
 
   interface TaroStatic {
     PageNotFoundObject: PageNotFoundObject

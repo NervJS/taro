@@ -1,6 +1,8 @@
-import * as webpack from 'webpack'
-import * as webpackDevServer from 'webpack-dev-server'
+import swc from '@swc/core'
 export { Current } from '@tarojs/runtime'
+import webpack from 'webpack'
+import webpackDevServer from 'webpack-dev-server'
+import HtmlWebpackPlugin from 'html-webpack-plugin'
 
 export const enum TEMPLATE_TYPES {
   WEAPP = '.wxml',
@@ -119,7 +121,6 @@ interface Runtime {
 
 export interface IMiniAppConfig {
   appOutput?: boolean
-  enableSourceMap?: boolean
   sourceMapType?: string
   debugReact?: boolean
   minifyXML?: {
@@ -127,7 +128,6 @@ export interface IMiniAppConfig {
   }
 
   webpackChain?: (chain: any, webpack: any, PARSE_AST_TYPE: any) => void
-  entry?: webpack.Entry
   output?: webpack.Output
   postcss?: IPostcssOption
   cssLoaderOption?: IOption
@@ -177,11 +177,9 @@ export interface IH5Config {
 
   webpackChain?: (chain: any, webpack: any) => void
 
-  entry?: webpack.Entry
   output?: webpack.Output
   router?: IH5RouterConfig
   devServer?: webpackDevServer.Configuration
-  enableSourceMap?: boolean
   sourceMapType?: 'none' | 'eval' | 'cheap-eval-source-map' | 'cheap-module-eval-source-map' | 'eval-source-map' | 'cheap-source-map' | 'cheap-module-source-map' | 'inline-cheap-source-map' | 'inline-cheap-module-source-map' | 'source-map' | 'inline-source-map' | 'hidden-source-map' | 'nosources-source-map'
   enableExtract?: boolean
   transformOnly?: boolean
@@ -199,6 +197,7 @@ export interface IH5Config {
   useHtmlComponents?: boolean
 
   postcss?: IPostcssOption
+  htmlPluginOption?: HtmlWebpackPlugin.Options
 }
 
 type FeatureItem = {
@@ -357,7 +356,40 @@ export interface IManifestConfig extends ITaroManifestConfig {
 
 export type PluginItem = string | [string, object]
 
+interface ICache {
+  enable?: boolean
+  buildDependencies?: Record<string, any>
+  name?: string
+}
+
+type CompilerTypes = 'webpack4' | 'webpack5'
+interface IPrebundle {
+  enable?: boolean
+  timings?: boolean
+  cacheDir?: string
+  force?: boolean
+  include?: string[]
+  exclude?: string[]
+  esbuild?: Record<string, any>
+  swc?: swc.Config
+  webpack?: {
+    provide?: any[]
+  }
+}
+interface ICompiler {
+  type: CompilerTypes
+  prebundle: IPrebundle
+}
+type Compiler = CompilerTypes | ICompiler
+
+interface ILogger {
+  quiet: boolean
+  stats: boolean
+}
+
 export interface IProjectBaseConfig {
+  isWatch?: boolean
+  port?: number
   projectName?: string
   date?: string
   designWidth?: number
@@ -369,14 +401,28 @@ export interface IProjectBaseConfig {
   alias?: IOption
   defineConstants?: IOption
   copy?: ICopyOptions
+  jsMinimizer?: 'terser' | 'esbuild'
+  cssMinimizer?: 'csso' | 'esbuild' | 'parcelCss'
   csso?: TogglableOptions
   terser?: TogglableOptions
+  esbuild?: Record<'minify', TogglableOptions>
   uglify?: TogglableOptions
   sass?: ISassOptions
   plugins?: PluginItem[]
   presets?: PluginItem[]
   baseLevel?: number
   framework?: string
+  frameworkExts?: string[]
+  compiler?: Compiler
+  cache?: ICache
+  logger?: ILogger
+  enableSourceMap?: boolean
+  /** hooks */
+  modifyWebpackChain?: HookModifyWebpackChain
+  modifyMiniConfigs?: (configMap) => Promise<any>
+  modifyBuildAssets?: (assets, plugin?) => Promise<any>
+  onWebpackChainReady?: (webpackChain: Chain) => Promise<any>
+  onBuildFinish?: (res: { error, stats, isWatch }) => Promise<any>
 }
 
 export interface IProjectConfig extends IProjectBaseConfig {

@@ -1,4 +1,4 @@
-import { temporarilyNotSupport } from '../utils'
+import { temporarilyNotSupport } from '../../utils'
 
 export const setPageInfo = temporarilyNotSupport('setPageInfo')
 

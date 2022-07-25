@@ -1,44 +1,45 @@
-import * as React from 'react'
 import {
   Link
 } from '@react-navigation/native'
-import { withSafeAreaInsets } from 'react-native-safe-area-context'
+import * as React from 'react'
 import {
-  View,
-  TouchableWithoutFeedback,
   Animated,
-  StyleSheet,
-  Platform,
   Dimensions,
-  LayoutChangeEvent,
+  EmitterSubscription,
   Keyboard,
-  EmitterSubscription
+  LayoutChangeEvent,
+  Platform,
+  StyleSheet,
+  TouchableWithoutFeedback,
+  View
 } from 'react-native'
-import { getTabVisible, getTabConfig, getTabItemConfig, getDefalutTabItem, isUrl } from '../utils/index'
-import { getInitSafeAreaInsets } from './tabBarUtils'
+import { withSafeAreaInsets } from 'react-native-safe-area-context'
+
+import { getDefalutTabItem, getTabConfig, getTabItemConfig, getTabVisible, isUrl } from '../utils/index'
 import TabBarItem, { TabBarOptions, TabOptions } from './TabBarItem'
+import { getInitSafeAreaInsets } from './tabBarUtils'
 
 interface TabBarProps extends TabBarOptions {
-  state: Record<string, any>,
-  navigation: any,
-  descriptors: Record<string, any>,
+  state: Record<string, any>
+  navigation: any
+  descriptors: Record<string, any>
   tabOptions: TabOptions
 }
 
 interface TabBarState {
-  visible: Animated.Value,
-  isKeyboardShown: boolean,
-  tabVisible: boolean,
+  visible: Animated.Value
+  isKeyboardShown: boolean
+  tabVisible: boolean
   layout: {
-    height: number,
-    width: number,
-  },
+    height: number
+    width: number
+  }
   insets: Record<string, number>
 }
 interface TabBarStyle {
-  color?: string,
-  selectedColor?: string,
-  backgroundColor?: string,
+  color?: string
+  selectedColor?: string
+  backgroundColor?: string
   borderStyle?: string
 }
 

@@ -1,16 +1,17 @@
-import * as path from 'path'
-import { run } from './utils'
-import { getPkgVersion } from '../util'
-import { exec } from 'child_process'
 import {
   chalk,
   fs,
+  PROJECT_CONFIG,
   shouldUseCnpm,
-  shouldUseYarn,
-  PROJECT_CONFIG
+  shouldUseYarn
 } from '@tarojs/helper'
+import { exec } from 'child_process'
+import * as path from 'path'
 
-const runUpdate = run('update')
+import { getPkgVersion } from '../util'
+import { run } from './utils'
+
+const runUpdate = run('update', ['commands/update'])
 const lastestVersion = getPkgVersion()
 
 jest.mock('child_process', () => {
@@ -121,22 +122,54 @@ describe('update', () => {
   it('should log errors', async () => {
     const spy = jest.spyOn(console, 'log')
     spy.mockImplementation(() => {})
-    await runUpdate('')
+    await runUpdate('', {
+      options: {
+        npm: 'npm'
+      }
+    })
     expect(spy).toBeCalledTimes(3)
     spy.mockRestore()
   })
 
   it('should update self', async () => {
     await runUpdate('', {
-      args: ['self']
+      args: ['self'],
+      options: {
+        npm: 'npm'
+      }
     })
     expect(execMocked).toBeCalledWith(`npm i -g @tarojs/cli@${lastestVersion}`)
+  })
+
+  it('should update self using yarn', async () => {
+    shouldUseCnpmMocked.mockReturnValue(true)
+    await runUpdate('', {
+      args: ['self'],
+      options: {
+        npm: 'yarn'
+      }
+    })
+    expect(execMocked).toBeCalledWith(`yarn global add @tarojs/cli@${lastestVersion}`)
+  })
+
+  it('should update self using pnpm', async () => {
+    shouldUseCnpmMocked.mockReturnValue(true)
+    await runUpdate('', {
+      args: ['self'],
+      options: {
+        npm: 'pnpm'
+      }
+    })
+    expect(execMocked).toBeCalledWith(`pnpm add -g @tarojs/cli@${lastestVersion}`)
   })
 
   it('should update self using cnpm', async () => {
     shouldUseCnpmMocked.mockReturnValue(true)
     await runUpdate('', {
-      args: ['self']
+      args: ['self'],
+      options: {
+        npm: 'cnpm'
+      }
     })
     expect(execMocked).toBeCalledWith(`cnpm i -g @tarojs/cli@${lastestVersion}`)
   })
@@ -144,7 +177,10 @@ describe('update', () => {
   it('should update self to specific version', async () => {
     const version = '3.0.0-beta.0'
     await runUpdate('', {
-      args: ['self', version]
+      args: ['self', version],
+      options: {
+        npm: 'npm'
+      }
     })
     expect(execMocked).toBeCalledWith(`npm i -g @tarojs/cli@${version}`)
   })
@@ -159,11 +195,14 @@ describe('update', () => {
     logSpy.mockImplementation(() => {})
     try {
       await runUpdate('', {
-        args: ['project']
+        args: ['project'],
+        options: {
+          npm: 'npm'
+        }
       })
     } catch (error) {}
     expect(exitSpy).toBeCalledWith(1)
-    expect(chalkMocked).toBeCalledWith(`找不到项目配置文件${PROJECT_CONFIG}，请确定当前目录是Taro项目根目录!`)
+    expect(chalkMocked).toBeCalledWith(`找不到项目配置文件 ${PROJECT_CONFIG}，请确定当前目录是 Taro 项目根目录!`)
     exitSpy.mockRestore()
     logSpy.mockRestore()
   })
@@ -177,7 +216,10 @@ describe('update', () => {
     logSpy.mockImplementation(() => {})
 
     await runUpdate(appPath, {
-      args: ['project']
+      args: ['project'],
+      options: {
+        npm: 'npm'
+      }
     })
     expect(writeJson.mock.calls[0][0]).toEqual(pkgPath)
     expect(writeJson.mock.calls[0][1]).toEqual(packageMap)
@@ -196,7 +238,10 @@ describe('update', () => {
     logSpy.mockImplementation(() => {})
 
     await runUpdate(appPath, {
-      args: ['project', version]
+      args: ['project', version],
+      options: {
+        npm: 'npm'
+      }
     })
     expect(writeJson.mock.calls[0][0]).toEqual(pkgPath)
     expect(writeJson.mock.calls[0][1]).toEqual(packageMap)
@@ -213,9 +258,30 @@ describe('update', () => {
     shouldUseYarnMocked.mockReturnValue(true)
 
     await runUpdate(appPath, {
-      args: ['project']
+      args: ['project'],
+      options: {
+        npm: 'yarn'
+      }
     })
-    expect(execMocked).toBeCalledWith('yarn')
+    expect(execMocked).toBeCalledWith('yarn install')
+
+    logSpy.mockRestore()
+  })
+
+  it('should update project with pnpm', async () => {
+    const appPath = path.resolve(__dirname, 'fixtures/default')
+
+    const logSpy = jest.spyOn(console, 'log')
+    logSpy.mockImplementation(() => {})
+    shouldUseCnpmMocked.mockReturnValue(true)
+
+    await runUpdate(appPath, {
+      args: ['project'],
+      options: {
+        npm: 'pnpm'
+      }
+    })
+    expect(execMocked).toBeCalledWith('pnpm install')
 
     logSpy.mockRestore()
   })
@@ -228,7 +294,10 @@ describe('update', () => {
     shouldUseCnpmMocked.mockReturnValue(true)
 
     await runUpdate(appPath, {
-      args: ['project']
+      args: ['project'],
+      options: {
+        npm: 'cnpm'
+      }
     })
     expect(execMocked).toBeCalledWith('cnpm install')
 

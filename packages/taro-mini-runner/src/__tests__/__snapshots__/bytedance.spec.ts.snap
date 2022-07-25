@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`bytedance should build bytedance app 1`] = `15`;
+exports[`bytedance should build bytedance app 1`] = `16`;
 
 exports[`bytedance should build bytedance app 2`] = `
 "
@@ -14,7 +14,7 @@ require(\\"./vendors\\");
 require(\\"./taro\\");
 
 (tt[\\"webpackJsonp\\"] = tt[\\"webpackJsonp\\"] || []).push([ [ 4 ], {
-    11: function(module, exports, __webpack_require__) {},
+    12: function(module, exports, __webpack_require__) {},
     15: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_require__.r(__webpack_exports__);
@@ -25,6 +25,7 @@ require(\\"./taro\\");
         function isArray() {}
         function processApis() {}
         var EMPTY_OBJ = {};
+        var hooks = {};
         var needPromiseApis = new Set([ \\"checkFollowState\\", \\"exitMiniProgram\\", \\"followOfficialAccount\\", \\"getMenuButtonLayout\\", \\"hideInteractionBar\\", \\"pay\\", \\"navigateToVideoView\\", \\"showInteractionBar\\", \\"openEcGood\\", \\"openAwemeUserProfile\\" ]);
         function initNativeApi(taro) {
             processApis(taro, tt, {
@@ -149,6 +150,7 @@ require(\\"./taro\\");
         function _slicedToArray(arr, i) {
             return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest();
         }
+        var assertThisInitialized = __webpack_require__(7);
         var classCallCheck = __webpack_require__(3);
         var createClass = __webpack_require__(4);
         var inherits = __webpack_require__(6);
@@ -245,7 +247,13 @@ require(\\"./taro\\");
         var usePullIntercept = runtime_taroHooks(\\"onPullIntercept\\");
         var useShareTimeline = runtime_taroHooks(\\"onShareTimeline\\");
         var useAddToFavorites = runtime_taroHooks(\\"onAddToFavorites\\");
+        var useSaveExitState = runtime_taroHooks(\\"onSaveExitState\\");
         var useReady = runtime_taroHooks(\\"onReady\\");
+        var useLaunch = runtime_taroHooks(\\"onLaunch\\");
+        var useLoad = runtime_taroHooks(\\"onLoad\\");
+        var useUnload = runtime_taroHooks(\\"onUnload\\");
+        var useError = runtime_taroHooks(\\"onError\\");
+        var usePageNotFound = runtime_taroHooks(\\"onPageNotFound\\");
         var runtime_useRouter = function useRouter() {
             var dynamic = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
             var React = reactMeta.R;
@@ -271,27 +279,32 @@ require(\\"./taro\\");
             usePullIntercept: usePullIntercept,
             useShareTimeline: useShareTimeline,
             useAddToFavorites: useAddToFavorites,
+            useSaveExitState: useSaveExitState,
             useReady: useReady,
+            useLaunch: useLaunch,
+            useLoad: useLoad,
+            useUnload: useUnload,
+            useError: useError,
+            usePageNotFound: usePageNotFound,
             useRouter: runtime_useRouter,
             useScope: useScope
         });
         var h$1;
         var ReactDOM$1;
+        var Fragment;
         var pageKeyId = Object(taro_runtime[\\"incrementId\\"])();
-        var hooks$1 = taro_runtime[\\"container\\"].get(taro_runtime[\\"SERVICE_IDENTIFIER\\"].Hooks);
         function setReconciler(ReactDOM) {
-            var _a;
-            hooks$1.getLifecycle = function(instance, lifecycle) {
+            hooks.tap(\\"getLifecycle\\", (function(instance, lifecycle) {
                 lifecycle = lifecycle.replace(/^on(Show|Hide)$/, \\"componentDid$1\\");
                 return instance[lifecycle];
-            };
-            (_a = hooks$1.modifyMpEventImpls) === null || _a === void 0 ? void 0 : _a.push((function(event) {
+            }));
+            hooks.tap(\\"modifyMpEvent\\", (function(event) {
                 event.type = event.type.replace(/-/g, \\"\\");
             }));
-            hooks$1.batchedEventUpdates = function(cb) {
+            hooks.tap(\\"batchedEventUpdates\\", (function(cb) {
                 ReactDOM.unstable_batchedUpdates(cb);
-            };
-            hooks$1.mergePageInstance = function(prev, next) {
+            }));
+            hooks.tap(\\"mergePageInstance\\", (function(prev, next) {
                 if (!prev || !next) return;
                 if (\\"constructor\\" in prev) return;
                 Object.keys(prev).forEach((function(item) {
@@ -299,7 +312,7 @@ require(\\"./taro\\");
                     var nextList = ensureIsArray(next[item]);
                     next[item] = nextList.concat(prevList);
                 }));
-            };
+            }));
             if (false) {}
         }
         function connectReactPage(R, id) {
@@ -349,7 +362,8 @@ require(\\"./taro\\");
                     } ], [ {
                         key: \\"getDerivedStateFromError\\",
                         value: function getDerivedStateFromError(error) {
-                            false && false;
+                            var _a, _b;
+                            (_b = (_a = taro_runtime[\\"Current\\"].app) === null || _a === void 0 ? void 0 : _a.onError) === null || _b === void 0 ? void 0 : _b.call(_a, error.message + error.stack);
                             return {
                                 hasError: true
                             };
@@ -361,11 +375,11 @@ require(\\"./taro\\");
         }
         function createReactApp(App, react, dom, config) {
             var _Object$create;
-            var _a;
             if (false) {}
             reactMeta.R = react;
             h$1 = react.createElement;
             ReactDOM$1 = dom;
+            Fragment = react.Fragment;
             var appInstanceRef = react.createRef();
             var isReactComponent = isClassComponent(react, App);
             var appWrapper;
@@ -373,15 +387,32 @@ require(\\"./taro\\");
             function getAppInstance() {
                 return appInstanceRef.current;
             }
+            function renderReactRoot() {
+                var _a, _b;
+                var reactMode = \\"legacy\\";
+                var appId = \\"app\\";
+                if (false) {} else {
+                    ReactDOM$1.version = react.version;
+                }
+                var container = taro_runtime[\\"document\\"].getElementById(appId);
+                var version = Number((ReactDOM$1.version || \\"\\").split(\\".\\")[0]);
+                if (version >= 18 && reactMode === \\"concurrent\\") {
+                    var root = ReactDOM$1.createRoot(container);
+                    (_a = root.render) === null || _a === void 0 ? void 0 : _a.call(root, h$1(AppWrapper));
+                } else {
+                    (_b = ReactDOM$1.render) === null || _b === void 0 ? void 0 : _b.call(ReactDOM$1, h$1(AppWrapper), container);
+                }
+            }
             var AppWrapper = function(_react$Component) {
                 Object(inherits[\\"a\\"])(AppWrapper, _react$Component);
                 var _super2 = Object(createSuper[\\"a\\"])(AppWrapper);
-                function AppWrapper() {
+                function AppWrapper(props) {
                     var _this2;
                     Object(classCallCheck[\\"a\\"])(this, AppWrapper);
-                    _this2 = _super2.apply(this, arguments);
+                    _this2 = _super2.call(this, props);
                     _this2.pages = [];
                     _this2.elements = [];
+                    appWrapper = Object(assertThisInitialized[\\"a\\"])(_this2);
                     return _this2;
                 }
                 Object(createClass[\\"a\\"])(AppWrapper, [ {
@@ -428,9 +459,9 @@ require(\\"./taro\\");
                 return AppWrapper;
             }(react.Component);
             if (true) {
-                appWrapper = (_a = ReactDOM$1.render) === null || _a === void 0 ? void 0 : _a.call(ReactDOM$1, h$1(AppWrapper), taro_runtime[\\"document\\"].getElementById(\\"app\\"));
+                renderReactRoot();
             }
-            var _hooks$1$getMiniLifec = _slicedToArray(hooks$1.getMiniLifecycleImpl().app, 3), ONLAUNCH = _hooks$1$getMiniLifec[0], ONSHOW = _hooks$1$getMiniLifec[1], ONHIDE = _hooks$1$getMiniLifec[2];
+            var _hooks$call$app = _slicedToArray(hooks.call(\\"getMiniLifecycleImpl\\").app, 3), ONLAUNCH = _hooks$call$app[0], ONSHOW = _hooks$call$app[1], ONHIDE = _hooks$call$app[2];
             var appObj = Object.create({
                 render: function render(cb) {
                     appWrapper.forceUpdate(cb);
@@ -449,7 +480,7 @@ require(\\"./taro\\");
             }, _defineProperty(_Object$create, ONLAUNCH, setDefaultDescriptor({
                 value: function value(options) {
                     var _this3 = this;
-                    var _a, _b;
+                    var _a;
                     setRouterParams(options);
                     if (false) {}
                     var app = getAppInstance();
@@ -473,8 +504,9 @@ require(\\"./taro\\");
                             }));
                             Object.defineProperties(this, descriptors);
                         }
-                        (_b = app.onLaunch) === null || _b === void 0 ? void 0 : _b.call(app, options);
+                        (_a = app.onLaunch) === null || _a === void 0 ? void 0 : _a.call(app, options);
                     }
+                    triggerAppHook(\\"onLaunch\\", options);
                 }
             })), _defineProperty(_Object$create, ONSHOW, setDefaultDescriptor({
                 value: function value(options) {
@@ -491,11 +523,20 @@ require(\\"./taro\\");
                     (_a = app === null || app === void 0 ? void 0 : app.componentDidHide) === null || _a === void 0 ? void 0 : _a.call(app);
                     triggerAppHook(\\"onHide\\");
                 }
+            })), _defineProperty(_Object$create, \\"onError\\", setDefaultDescriptor({
+                value: function value(error) {
+                    var _a;
+                    var app = getAppInstance();
+                    (_a = app === null || app === void 0 ? void 0 : app.onError) === null || _a === void 0 ? void 0 : _a.call(app, error);
+                    triggerAppHook(\\"onError\\", error);
+                    if (false) {}
+                }
             })), _defineProperty(_Object$create, \\"onPageNotFound\\", setDefaultDescriptor({
                 value: function value(res) {
                     var _a;
                     var app = getAppInstance();
                     (_a = app === null || app === void 0 ? void 0 : app.onPageNotFound) === null || _a === void 0 ? void 0 : _a.call(app, res);
+                    triggerAppHook(\\"onPageNotFound\\", res);
                 }
             })), _Object$create));
             function triggerAppHook(lifecycle) {
@@ -505,7 +546,7 @@ require(\\"./taro\\");
                 var instance = Object(taro_runtime[\\"getPageInstance\\"])(HOOKS_APP_ID);
                 if (instance) {
                     var app = getAppInstance();
-                    var func = hooks$1.getLifecycle(instance, lifecycle);
+                    var func = hooks.call(\\"getLifecycle\\", instance, lifecycle);
                     if (Array.isArray(func)) {
                         func.forEach((function(cb) {
                             return cb.apply(app, option);
@@ -726,10 +767,7 @@ require(\\"./taro\\");
             }
             return componentObj;
         }
-        var runtime_a;
-        var hooks = taro_runtime[\\"container\\"].get(taro_runtime[\\"SERVICE_IDENTIFIER\\"].Hooks);
-        hooks.initNativeApiImpls || (hooks.initNativeApiImpls = []);
-        hooks.initNativeApiImpls.push((function(taro) {
+        hooks.tap(\\"initNativeApi\\", (function(taro) {
             for (var hook in taroHooks$1) {
                 taro[hook] = taroHooks$1[hook];
             }
@@ -738,7 +776,7 @@ require(\\"./taro\\");
             var oldDiffedHook, oldVNodeHook, runtime_options;
         }
         var mocks_react = __webpack_require__(1);
-        var src_app = __webpack_require__(11);
+        var src_app = __webpack_require__(12);
         var app_App = function(_Component) {
             Object(inherits[\\"a\\"])(App, _Component);
             var _super = Object(createSuper[\\"a\\"])(App);
@@ -767,7 +805,7 @@ require(\\"./taro\\");
             return App;
         }(mocks_react[\\"Component\\"]);
         var lib_src_app = app_App;
-        var taro_react = __webpack_require__(8);
+        var taro_react = __webpack_require__(9);
         var app_config = {
             pages: [ \\"pages/index/index\\" ],
             window: {
@@ -806,23 +844,23 @@ require(\\"./taro\\");
   </block>
 </template>
 
-<template name=\\"tmpl_0_catch-view\\">
-  <view hover-class=\\"{{i.hoverClass===undefined?'none':i.hoverClass}}\\" hover-stop-propagation=\\"{{i.hoverStopPropagation===undefined?false:i.hoverStopPropagation}}\\" hover-start-time=\\"{{i.hoverStartTime===undefined?50:i.hoverStartTime}}\\" hover-stay-time=\\"{{i.hoverStayTime===undefined?400:i.hoverStayTime}}\\" bindtouchstart=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" animation=\\"{{i.animation}}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\" catchtouchmove=\\"eh\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
+<template name=\\"tmpl_0_0\\">
+  <view hover-class=\\"{{i.p1===undefined?'none':i.p1}}\\" hover-stop-propagation=\\"{{i.p4===undefined?!1:i.p4}}\\" hover-start-time=\\"{{i.p2===undefined?50:i.p2}}\\" hover-stay-time=\\"{{i.p3===undefined?400:i.p3}}\\" bindtouchstart=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" animation=\\"{{i.p0}}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\" catchtouchmove=\\"eh\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
     <block tt:for=\\"{{i.cn}}\\" tt:key=\\"sid\\">
       <template is=\\"tmpl_0_container\\" data=\\"{{i:item}}\\" />
     </block>
   </view>
 </template>
 
-<template name=\\"tmpl_0_static-view\\">
-  <view hover-class=\\"{{i.hoverClass===undefined?'none':i.hoverClass}}\\" hover-stop-propagation=\\"{{i.hoverStopPropagation===undefined?false:i.hoverStopPropagation}}\\" hover-start-time=\\"{{i.hoverStartTime===undefined?50:i.hoverStartTime}}\\" hover-stay-time=\\"{{i.hoverStayTime===undefined?400:i.hoverStayTime}}\\" animation=\\"{{i.animation}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
+<template name=\\"tmpl_0_4\\">
+  <view hover-class=\\"{{i.p1===undefined?'none':i.p1}}\\" hover-stop-propagation=\\"{{i.p4===undefined?!1:i.p4}}\\" hover-start-time=\\"{{i.p2===undefined?50:i.p2}}\\" hover-stay-time=\\"{{i.p3===undefined?400:i.p3}}\\" animation=\\"{{i.p0}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
     <block tt:for=\\"{{i.cn}}\\" tt:key=\\"sid\\">
       <template is=\\"tmpl_0_container\\" data=\\"{{i:item}}\\" />
     </block>
   </view>
 </template>
 
-<template name=\\"tmpl_0_pure-view\\">
+<template name=\\"tmpl_0_1\\">
   <view style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
     <block tt:for=\\"{{i.cn}}\\" tt:key=\\"sid\\">
       <template is=\\"tmpl_0_container\\" data=\\"{{i:item}}\\" />
@@ -830,127 +868,127 @@ require(\\"./taro\\");
   </view>
 </template>
 
-<template name=\\"tmpl_0_view\\">
-  <view hover-class=\\"{{i.hoverClass===undefined?'none':i.hoverClass}}\\" hover-stop-propagation=\\"{{i.hoverStopPropagation===undefined?false:i.hoverStopPropagation}}\\" hover-start-time=\\"{{i.hoverStartTime===undefined?50:i.hoverStartTime}}\\" hover-stay-time=\\"{{i.hoverStayTime===undefined?400:i.hoverStayTime}}\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" animation=\\"{{i.animation}}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
+<template name=\\"tmpl_0_7\\">
+  <view hover-class=\\"{{i.p1===undefined?'none':i.p1}}\\" hover-stop-propagation=\\"{{i.p4===undefined?!1:i.p4}}\\" hover-start-time=\\"{{i.p2===undefined?50:i.p2}}\\" hover-stay-time=\\"{{i.p3===undefined?400:i.p3}}\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" animation=\\"{{i.p0}}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
     <block tt:for=\\"{{i.cn}}\\" tt:key=\\"sid\\">
       <template is=\\"tmpl_0_container\\" data=\\"{{i:item}}\\" />
     </block>
   </view>
 </template>
 
-<template name=\\"tmpl_0_static-text\\">
-  <text selectable=\\"{{i.selectable===undefined?false:i.selectable}}\\" space=\\"{{i.space}}\\" decode=\\"{{i.decode===undefined?false:i.decode}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
+<template name=\\"tmpl_0_2\\">
+  <text selectable=\\"{{i.p1===undefined?!1:i.p1}}\\" space=\\"{{i.p2}}\\" decode=\\"{{i.p0===undefined?!1:i.p0}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
     <block tt:for=\\"{{i.cn}}\\" tt:key=\\"sid\\">
       <template is=\\"tmpl_0_container\\" data=\\"{{i:item}}\\" />
     </block>
   </text>
 </template>
 
-<template name=\\"tmpl_0_text\\">
-  <text selectable=\\"{{i.selectable===undefined?false:i.selectable}}\\" space=\\"{{i.space}}\\" decode=\\"{{i.decode===undefined?false:i.decode}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
+<template name=\\"tmpl_0_6\\">
+  <text selectable=\\"{{i.p1===undefined?!1:i.p1}}\\" space=\\"{{i.p2}}\\" decode=\\"{{i.p0===undefined?!1:i.p0}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
     <block tt:for=\\"{{i.cn}}\\" tt:key=\\"sid\\">
       <template is=\\"tmpl_0_container\\" data=\\"{{i:item}}\\" />
     </block>
   </text>
 </template>
 
-<template name=\\"tmpl_0_input\\">
-  <template is=\\"{{i.focus ? 'tmpl_0_input_focus' : 'tmpl_0_input_blur'}}\\" data=\\"{{i:i}}\\" />
+<template name=\\"tmpl_0_21\\">
+  <template is=\\"{{i.focus ? 'tmpl_0_21_focus' : 'tmpl_0_21_blur'}}\\" data=\\"{{i:i}}\\" />
 </template>
 
-<template name=\\"tmpl_0_input_focus\\">
-  <input value=\\"{{i.value}}\\" type=\\"{{i.type===undefined?'':i.type}}\\" password=\\"{{i.password===undefined?false:i.password}}\\" placeholder=\\"{{i.placeholder}}\\" placeholder-style=\\"{{i.placeholderStyle}}\\" placeholder-class=\\"{{i.placeholderClass===undefined?'input-placeholder':i.placeholderClass}}\\" disabled=\\"{{i.disabled}}\\" maxlength=\\"{{i.maxlength===undefined?140:i.maxlength}}\\" cursor-spacing=\\"{{i.cursorSpacing===undefined?0:i.cursorSpacing}}\\" focus=\\"{{i.focus===undefined?false:i.focus}}\\" confirm-type=\\"{{i.confirmType===undefined?'done':i.confirmType}}\\" confirm-hold=\\"{{i.confirmHold===undefined?false:i.confirmHold}}\\" cursor=\\"{{i.cursor===undefined?i.value.length:i.cursor}}\\" selection-start=\\"{{i.selectionStart===undefined?-1:i.selectionStart}}\\" selection-end=\\"{{i.selectionEnd===undefined?-1:i.selectionEnd}}\\" bindinput=\\"eh\\" bindfocus=\\"eh\\" bindblur=\\"eh\\" bindconfirm=\\"eh\\" name=\\"{{i.name}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\"></input>
+<template name=\\"tmpl_0_21_focus\\">
+  <input value=\\"{{i.p14}}\\" type=\\"{{i.p13===undefined?'':i.p13}}\\" password=\\"{{i.p7===undefined?!1:i.p7}}\\" placeholder=\\"{{i.p8}}\\" placeholder-style=\\"{{i.p10}}\\" placeholder-class=\\"{{i.p9===undefined?'input-placeholder':i.p9}}\\" disabled=\\"{{i.p4}}\\" maxlength=\\"{{i.p5===undefined?140:i.p5}}\\" cursor-spacing=\\"{{i.p3===undefined?0:i.p3}}\\" focus=\\"{{i.focus===undefined?!1:i.focus}}\\" confirm-type=\\"{{i.p1===undefined?'done':i.p1}}\\" confirm-hold=\\"{{i.p0===undefined?!1:i.p0}}\\" cursor=\\"{{i.p2===undefined?i.value.length:i.p2}}\\" selection-start=\\"{{i.p12===undefined?-1:i.p12}}\\" selection-end=\\"{{i.p11===undefined?-1:i.p11}}\\" bindinput=\\"eh\\" bindfocus=\\"eh\\" bindblur=\\"eh\\" bindconfirm=\\"eh\\" name=\\"{{i.p6}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\"></input>
 </template>
 
-<template name=\\"tmpl_0_input_blur\\">
-  <input value=\\"{{i.value}}\\" type=\\"{{i.type===undefined?'':i.type}}\\" password=\\"{{i.password===undefined?false:i.password}}\\" placeholder=\\"{{i.placeholder}}\\" placeholder-style=\\"{{i.placeholderStyle}}\\" placeholder-class=\\"{{i.placeholderClass===undefined?'input-placeholder':i.placeholderClass}}\\" disabled=\\"{{i.disabled}}\\" maxlength=\\"{{i.maxlength===undefined?140:i.maxlength}}\\" cursor-spacing=\\"{{i.cursorSpacing===undefined?0:i.cursorSpacing}}\\" confirm-type=\\"{{i.confirmType===undefined?'done':i.confirmType}}\\" confirm-hold=\\"{{i.confirmHold===undefined?false:i.confirmHold}}\\" cursor=\\"{{i.cursor===undefined?i.value.length:i.cursor}}\\" selection-start=\\"{{i.selectionStart===undefined?-1:i.selectionStart}}\\" selection-end=\\"{{i.selectionEnd===undefined?-1:i.selectionEnd}}\\" bindinput=\\"eh\\" bindfocus=\\"eh\\" bindblur=\\"eh\\" bindconfirm=\\"eh\\" name=\\"{{i.name}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\"></input>
+<template name=\\"tmpl_0_21_blur\\">
+  <input value=\\"{{i.p14}}\\" type=\\"{{i.p13===undefined?'':i.p13}}\\" password=\\"{{i.p7===undefined?!1:i.p7}}\\" placeholder=\\"{{i.p8}}\\" placeholder-style=\\"{{i.p10}}\\" placeholder-class=\\"{{i.p9===undefined?'input-placeholder':i.p9}}\\" disabled=\\"{{i.p4}}\\" maxlength=\\"{{i.p5===undefined?140:i.p5}}\\" cursor-spacing=\\"{{i.p3===undefined?0:i.p3}}\\" confirm-type=\\"{{i.p1===undefined?'done':i.p1}}\\" confirm-hold=\\"{{i.p0===undefined?!1:i.p0}}\\" cursor=\\"{{i.p2===undefined?i.value.length:i.p2}}\\" selection-start=\\"{{i.p12===undefined?-1:i.p12}}\\" selection-end=\\"{{i.p11===undefined?-1:i.p11}}\\" bindinput=\\"eh\\" bindfocus=\\"eh\\" bindblur=\\"eh\\" bindconfirm=\\"eh\\" name=\\"{{i.p6}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\"></input>
 </template>
 
-<template name=\\"tmpl_0_cover-image\\">
-  <cover-image src=\\"{{i.src}}\\" bindload=\\"eh\\" binderror=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
+<template name=\\"tmpl_0_17\\">
+  <cover-image src=\\"{{i.p0}}\\" bindload=\\"eh\\" binderror=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
     <block tt:for=\\"{{i.cn}}\\" tt:key=\\"sid\\">
       <template is=\\"tmpl_0_container\\" data=\\"{{i:item}}\\" />
     </block>
   </cover-image>
 </template>
 
-<template name=\\"tmpl_0_textarea\\">
-  <template is=\\"{{i.focus ? 'tmpl_0_textarea_focus' : 'tmpl_0_textarea_blur'}}\\" data=\\"{{i:i}}\\" />
+<template name=\\"tmpl_0_42\\">
+  <template is=\\"{{i.focus ? 'tmpl_0_42_focus' : 'tmpl_0_42_blur'}}\\" data=\\"{{i:i}}\\" />
 </template>
 
-<template name=\\"tmpl_0_textarea_focus\\">
-  <textarea value=\\"{{i.value}}\\" placeholder=\\"{{i.placeholder}}\\" placeholder-style=\\"{{i.placeholderStyle}}\\" placeholder-class=\\"{{i.placeholderClass===undefined?'textarea-placeholder':i.placeholderClass}}\\" disabled=\\"{{i.disabled}}\\" maxlength=\\"{{i.maxlength===undefined?140:i.maxlength}}\\" auto-focus=\\"{{i.autoFocus===undefined?false:i.autoFocus}}\\" focus=\\"{{i.focus===undefined?false:i.focus}}\\" auto-height=\\"{{i.autoHeight===undefined?false:i.autoHeight}}\\" fixed=\\"{{i.fixed===undefined?false:i.fixed}}\\" cursor-spacing=\\"{{i.cursorSpacing===undefined?0:i.cursorSpacing}}\\" cursor=\\"{{i.cursor===undefined?-1:i.cursor}}\\" selection-start=\\"{{i.selectionStart===undefined?-1:i.selectionStart}}\\" selection-end=\\"{{i.selectionEnd===undefined?-1:i.selectionEnd}}\\" bindfocus=\\"eh\\" bindblur=\\"eh\\" bindlinechange=\\"eh\\" bindinput=\\"eh\\" bindconfirm=\\"eh\\" name=\\"{{i.name}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\"></textarea>
+<template name=\\"tmpl_0_42_focus\\">
+  <textarea value=\\"{{i.p13}}\\" placeholder=\\"{{i.p8}}\\" placeholder-style=\\"{{i.p10}}\\" placeholder-class=\\"{{i.p9===undefined?'textarea-placeholder':i.p9}}\\" disabled=\\"{{i.p4}}\\" maxlength=\\"{{i.p6===undefined?140:i.p6}}\\" auto-focus=\\"{{i.p0===undefined?!1:i.p0}}\\" focus=\\"{{i.focus===undefined?!1:i.focus}}\\" auto-height=\\"{{i.p1===undefined?!1:i.p1}}\\" fixed=\\"{{i.p5===undefined?!1:i.p5}}\\" cursor-spacing=\\"{{i.p3===undefined?0:i.p3}}\\" cursor=\\"{{i.p2===undefined?-1:i.p2}}\\" selection-start=\\"{{i.p12===undefined?-1:i.p12}}\\" selection-end=\\"{{i.p11===undefined?-1:i.p11}}\\" bindfocus=\\"eh\\" bindblur=\\"eh\\" bindlinechange=\\"eh\\" bindinput=\\"eh\\" bindconfirm=\\"eh\\" name=\\"{{i.p7}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\"></textarea>
 </template>
 
-<template name=\\"tmpl_0_textarea_blur\\">
-  <textarea value=\\"{{i.value}}\\" placeholder=\\"{{i.placeholder}}\\" placeholder-style=\\"{{i.placeholderStyle}}\\" placeholder-class=\\"{{i.placeholderClass===undefined?'textarea-placeholder':i.placeholderClass}}\\" disabled=\\"{{i.disabled}}\\" maxlength=\\"{{i.maxlength===undefined?140:i.maxlength}}\\" auto-focus=\\"{{i.autoFocus===undefined?false:i.autoFocus}}\\" auto-height=\\"{{i.autoHeight===undefined?false:i.autoHeight}}\\" fixed=\\"{{i.fixed===undefined?false:i.fixed}}\\" cursor-spacing=\\"{{i.cursorSpacing===undefined?0:i.cursorSpacing}}\\" cursor=\\"{{i.cursor===undefined?-1:i.cursor}}\\" selection-start=\\"{{i.selectionStart===undefined?-1:i.selectionStart}}\\" selection-end=\\"{{i.selectionEnd===undefined?-1:i.selectionEnd}}\\" bindfocus=\\"eh\\" bindblur=\\"eh\\" bindlinechange=\\"eh\\" bindinput=\\"eh\\" bindconfirm=\\"eh\\" name=\\"{{i.name}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\"></textarea>
+<template name=\\"tmpl_0_42_blur\\">
+  <textarea value=\\"{{i.p13}}\\" placeholder=\\"{{i.p8}}\\" placeholder-style=\\"{{i.p10}}\\" placeholder-class=\\"{{i.p9===undefined?'textarea-placeholder':i.p9}}\\" disabled=\\"{{i.p4}}\\" maxlength=\\"{{i.p6===undefined?140:i.p6}}\\" auto-focus=\\"{{i.p0===undefined?!1:i.p0}}\\" auto-height=\\"{{i.p1===undefined?!1:i.p1}}\\" fixed=\\"{{i.p5===undefined?!1:i.p5}}\\" cursor-spacing=\\"{{i.p3===undefined?0:i.p3}}\\" cursor=\\"{{i.p2===undefined?-1:i.p2}}\\" selection-start=\\"{{i.p12===undefined?-1:i.p12}}\\" selection-end=\\"{{i.p11===undefined?-1:i.p11}}\\" bindfocus=\\"eh\\" bindblur=\\"eh\\" bindlinechange=\\"eh\\" bindinput=\\"eh\\" bindconfirm=\\"eh\\" name=\\"{{i.p7}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\"></textarea>
 </template>
 
-<template name=\\"tmpl_0_cover-view\\">
-  <cover-view scroll-top=\\"{{i.scrollTop===undefined?false:i.scrollTop}}\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
+<template name=\\"tmpl_0_18\\">
+  <cover-view scroll-top=\\"{{i.p0===undefined?!1:i.p0}}\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
     <block tt:for=\\"{{i.cn}}\\" tt:key=\\"sid\\">
       <template is=\\"tmpl_0_container\\" data=\\"{{i:item}}\\" />
     </block>
   </cover-view>
 </template>
 
-<template name=\\"tmpl_0_scroll-view\\">
-  <scroll-view scroll-x=\\"{{i.scrollX===undefined?false:i.scrollX}}\\" scroll-y=\\"{{i.scrollY===undefined?false:i.scrollY}}\\" upper-threshold=\\"{{i.upperThreshold===undefined?50:i.upperThreshold}}\\" lower-threshold=\\"{{i.lowerThreshold===undefined?50:i.lowerThreshold}}\\" scroll-top=\\"{{i.scrollTop}}\\" scroll-left=\\"{{i.scrollLeft}}\\" scroll-into-view=\\"{{i.scrollIntoView}}\\" scroll-with-animation=\\"{{i.scrollWithAnimation===undefined?false:i.scrollWithAnimation}}\\" enable-back-to-top=\\"{{i.enableBackToTop===undefined?false:i.enableBackToTop}}\\" bindscrolltoupper=\\"eh\\" bindscrolltolower=\\"eh\\" bindscroll=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" animation=\\"{{i.animation}}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
+<template name=\\"tmpl_0_35\\">
+  <scroll-view scroll-x=\\"{{i.p7===undefined?!1:i.p7}}\\" scroll-y=\\"{{i.p8===undefined?!1:i.p8}}\\" upper-threshold=\\"{{i.p9===undefined?50:i.p9}}\\" lower-threshold=\\"{{i.p2===undefined?50:i.p2}}\\" scroll-top=\\"{{i.p5}}\\" scroll-left=\\"{{i.p4}}\\" scroll-into-view=\\"{{i.p3}}\\" scroll-with-animation=\\"{{i.p6===undefined?!1:i.p6}}\\" enable-back-to-top=\\"{{i.p1===undefined?!1:i.p1}}\\" bindscrolltoupper=\\"eh\\" bindscrolltolower=\\"eh\\" bindscroll=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" animation=\\"{{i.p0}}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
     <block tt:for=\\"{{i.cn}}\\" tt:key=\\"sid\\">
       <template is=\\"tmpl_0_container\\" data=\\"{{i:item}}\\" />
     </block>
   </scroll-view>
 </template>
 
-<template name=\\"tmpl_0_swiper\\">
-  <swiper indicator-dots=\\"{{i.indicatorDots===undefined?false:i.indicatorDots}}\\" indicator-color=\\"{{i.indicatorColor===undefined?'rgba(0, 0, 0, .3)':i.indicatorColor}}\\" indicator-active-color=\\"{{i.indicatorActiveColor===undefined?'#000000':i.indicatorActiveColor}}\\" autoplay=\\"{{i.autoplay===undefined?false:i.autoplay}}\\" current=\\"{{i.current===undefined?0:i.current}}\\" interval=\\"{{i.interval===undefined?5000:i.interval}}\\" duration=\\"{{i.duration===undefined?500:i.duration}}\\" circular=\\"{{i.circular===undefined?false:i.circular}}\\" vertical=\\"{{i.vertical===undefined?false:i.vertical}}\\" previous-margin=\\"{{i.previousMargin===undefined?'0px':i.previousMargin}}\\" next-margin=\\"{{i.nextMargin===undefined?'0px':i.nextMargin}}\\" display-multiple-items=\\"{{i.displayMultipleItems===undefined?1:i.displayMultipleItems}}\\" bindchange=\\"eh\\" bindtransition=\\"eh\\" bindanimationfinish=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
+<template name=\\"tmpl_0_39\\">
+  <swiper indicator-dots=\\"{{i.p7===undefined?!1:i.p7}}\\" indicator-color=\\"{{i.p6===undefined?'rgba(0, 0, 0, .3)':i.p6}}\\" indicator-active-color=\\"{{i.p5===undefined?'#000000':i.p5}}\\" autoplay=\\"{{i.p0===undefined?!1:i.p0}}\\" current=\\"{{i.p2===undefined?0:i.p2}}\\" interval=\\"{{i.p8===undefined?5000:i.p8}}\\" duration=\\"{{i.p4===undefined?500:i.p4}}\\" circular=\\"{{i.p1===undefined?!1:i.p1}}\\" vertical=\\"{{i.p11===undefined?!1:i.p11}}\\" previous-margin=\\"{{i.p10===undefined?'0px':i.p10}}\\" next-margin=\\"{{i.p9===undefined?'0px':i.p9}}\\" display-multiple-items=\\"{{i.p3===undefined?1:i.p3}}\\" bindchange=\\"eh\\" bindtransition=\\"eh\\" bindanimationfinish=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
     <block tt:for=\\"{{i.cn}}\\" tt:key=\\"sid\\">
       <template is=\\"tmpl_0_container\\" data=\\"{{i:item}}\\" />
     </block>
   </swiper>
 </template>
 
-<template name=\\"tmpl_0_swiper-item\\">
-  <swiper-item item-id=\\"{{i.itemId}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
+<template name=\\"tmpl_0_40\\">
+  <swiper-item item-id=\\"{{i.p0}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
     <block tt:for=\\"{{i.cn}}\\" tt:key=\\"sid\\">
       <template is=\\"tmpl_0_container\\" data=\\"{{i:item}}\\" />
     </block>
   </swiper-item>
 </template>
 
-<template name=\\"tmpl_0_static-image\\">
-  <image src=\\"{{i.src}}\\" mode=\\"{{i.mode===undefined?'scaleToFill':i.mode}}\\" lazy-load=\\"{{i.lazyLoad===undefined?false:i.lazyLoad}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
+<template name=\\"tmpl_0_3\\">
+  <image src=\\"{{i.p2}}\\" mode=\\"{{i.p1===undefined?'scaleToFill':i.p1}}\\" lazy-load=\\"{{i.p0===undefined?!1:i.p0}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
     <block tt:for=\\"{{i.cn}}\\" tt:key=\\"sid\\">
       <template is=\\"tmpl_0_container\\" data=\\"{{i:item}}\\" />
     </block>
   </image>
 </template>
 
-<template name=\\"tmpl_0_image\\">
-  <image src=\\"{{i.src}}\\" mode=\\"{{i.mode===undefined?'scaleToFill':i.mode}}\\" lazy-load=\\"{{i.lazyLoad===undefined?false:i.lazyLoad}}\\" binderror=\\"eh\\" bindload=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
+<template name=\\"tmpl_0_5\\">
+  <image src=\\"{{i.p2}}\\" mode=\\"{{i.p1===undefined?'scaleToFill':i.p1}}\\" lazy-load=\\"{{i.p0===undefined?!1:i.p0}}\\" binderror=\\"eh\\" bindload=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
     <block tt:for=\\"{{i.cn}}\\" tt:key=\\"sid\\">
       <template is=\\"tmpl_0_container\\" data=\\"{{i:item}}\\" />
     </block>
   </image>
 </template>
 
-<template name=\\"tmpl_0_video\\">
-  <video src=\\"{{i.src}}\\" duration=\\"{{i.duration}}\\" controls=\\"{{i.controls===undefined?true:i.controls}}\\" danmu-list=\\"{{i.danmuList}}\\" danmu-btn=\\"{{i.danmuBtn}}\\" enable-danmu=\\"{{i.enableDanmu}}\\" autoplay=\\"{{i.autoplay===undefined?false:i.autoplay}}\\" loop=\\"{{i.loop===undefined?false:i.loop}}\\" muted=\\"{{i.muted===undefined?false:i.muted}}\\" initial-time=\\"{{i.initialTime===undefined?0:i.initialTime}}\\" page-gesture=\\"{{i.pageGesture===undefined?false:i.pageGesture}}\\" direction=\\"{{i.direction}}\\" show-progress=\\"{{i.showProgress===undefined?true:i.showProgress}}\\" show-fullscreen-btn=\\"{{i.showFullscreenBtn===undefined?true:i.showFullscreenBtn}}\\" show-play-btn=\\"{{i.showPlayBtn===undefined?true:i.showPlayBtn}}\\" show-center-play-btn=\\"{{i.showCenterPlayBtn===undefined?true:i.showCenterPlayBtn}}\\" enable-progress-gesture=\\"{{i.enableProgressGesture===undefined?true:i.enableProgressGesture}}\\" object-fit=\\"{{i.objectFit===undefined?'contain':i.objectFit}}\\" poster=\\"{{i.poster}}\\" show-mute-btn=\\"{{i.showMuteBtn===undefined?false:i.showMuteBtn}}\\" bindplay=\\"eh\\" bindpause=\\"eh\\" bindended=\\"eh\\" bindtimeupdate=\\"eh\\" bindfullscreenchange=\\"eh\\" bindwaiting=\\"eh\\" binderror=\\"eh\\" animation=\\"{{i.animation}}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
+<template name=\\"tmpl_0_43\\">
+  <video src=\\"{{i.p20}}\\" duration=\\"{{i.p6}}\\" controls=\\"{{i.p2===undefined?!0:i.p2}}\\" danmu-list=\\"{{i.p4}}\\" danmu-btn=\\"{{i.p3}}\\" enable-danmu=\\"{{i.p7}}\\" autoplay=\\"{{i.p1===undefined?!1:i.p1}}\\" loop=\\"{{i.p10===undefined?!1:i.p10}}\\" muted=\\"{{i.p11===undefined?!1:i.p11}}\\" initial-time=\\"{{i.p9===undefined?0:i.p9}}\\" page-gesture=\\"{{i.p13===undefined?!1:i.p13}}\\" direction=\\"{{i.p5}}\\" show-progress=\\"{{i.p19===undefined?!0:i.p19}}\\" show-fullscreen-btn=\\"{{i.p16===undefined?!0:i.p16}}\\" show-play-btn=\\"{{i.p18===undefined?!0:i.p18}}\\" show-center-play-btn=\\"{{i.p15===undefined?!0:i.p15}}\\" enable-progress-gesture=\\"{{i.p8===undefined?!0:i.p8}}\\" object-fit=\\"{{i.p12===undefined?'contain':i.p12}}\\" poster=\\"{{i.p14}}\\" show-mute-btn=\\"{{i.p17===undefined?!1:i.p17}}\\" bindplay=\\"eh\\" bindpause=\\"eh\\" bindended=\\"eh\\" bindtimeupdate=\\"eh\\" bindfullscreenchange=\\"eh\\" bindwaiting=\\"eh\\" binderror=\\"eh\\" animation=\\"{{i.p0}}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
     <block tt:for=\\"{{i.cn}}\\" tt:key=\\"sid\\">
       <template is=\\"tmpl_0_container\\" data=\\"{{i:item}}\\" />
     </block>
   </video>
 </template>
 
-<template name=\\"tmpl_0_canvas\\">
-  <canvas canvas-id=\\"{{i.canvasId}}\\" disable-scroll=\\"{{i.disableScroll===undefined?false:i.disableScroll}}\\" binderror=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
+<template name=\\"tmpl_0_14\\">
+  <canvas canvas-id=\\"{{i.p0}}\\" disable-scroll=\\"{{i.p1===undefined?!1:i.p1}}\\" binderror=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
     <block tt:for=\\"{{i.cn}}\\" tt:key=\\"sid\\">
       <template is=\\"tmpl_0_container\\" data=\\"{{i:item}}\\" />
     </block>
   </canvas>
 </template>
 
-<template name=\\"tmpl_0_#text\\">
+<template name=\\"tmpl_0_8\\">
   <block>{{i.v}}</block>
 </template>
 
@@ -968,13 +1006,13 @@ require(\\"./taro\\");
 
 /** filePath: dist/custom-wrapper.js **/
 (tt[\\"webpackJsonp\\"] = tt[\\"webpackJsonp\\"] || []).push([ [ 6 ], {
-    12: function(module, __webpack_exports__, __webpack_require__) {
+    13: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_require__.r(__webpack_exports__);
         var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
         Component(Object(_tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__[\\"createRecursiveComponentConfig\\"])(\\"custom-wrapper\\"));
     }
-}, [ [ 12, 0, 1 ] ] ]);
+}, [ [ 13, 0, 1 ] ] ]);
 
 /** filePath: dist/custom-wrapper.json **/
 {\\"component\\":true,\\"usingComponents\\":{\\"custom-wrapper\\":\\"./custom-wrapper\\"}}
@@ -986,17 +1024,316 @@ require(\\"./taro\\");
   </block>
 
 /** filePath: dist/pages/index/index.js **/
+/*! For license information please see index.js.LICENSE.txt */
 (tt[\\"webpackJsonp\\"] = tt[\\"webpackJsonp\\"] || []).push([ [ 7 ], {
-    13: function(module, __webpack_exports__, __webpack_require__) {
-        \\"use strict\\";
-        __webpack_require__.r(__webpack_exports__);
-        __webpack_exports__[\\"default\\"] = \\"dependencies\\";
-    },
     14: function(module, exports, __webpack_require__) {},
     16: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_require__.r(__webpack_exports__);
         var taro_runtime = __webpack_require__(0);
+        var esm_typeof = __webpack_require__(8);
+        function _regeneratorRuntime() {
+            \\"use strict\\";
+            _regeneratorRuntime = function _regeneratorRuntime() {
+                return exports;
+            };
+            var exports = {}, Op = Object.prototype, hasOwn = Op.hasOwnProperty, $Symbol = \\"function\\" == typeof Symbol ? Symbol : {}, iteratorSymbol = $Symbol.iterator || \\"@@iterator\\", asyncIteratorSymbol = $Symbol.asyncIterator || \\"@@asyncIterator\\", toStringTagSymbol = $Symbol.toStringTag || \\"@@toStringTag\\";
+            function define(obj, key, value) {
+                return Object.defineProperty(obj, key, {
+                    value: value,
+                    enumerable: !0,
+                    configurable: !0,
+                    writable: !0
+                }), obj[key];
+            }
+            try {
+                define({}, \\"\\");
+            } catch (err) {
+                define = function define(obj, key, value) {
+                    return obj[key] = value;
+                };
+            }
+            function wrap(innerFn, outerFn, self, tryLocsList) {
+                var protoGenerator = outerFn && outerFn.prototype instanceof Generator ? outerFn : Generator, generator = Object.create(protoGenerator.prototype), context = new Context(tryLocsList || []);
+                return generator._invoke = function(innerFn, self, context) {
+                    var state = \\"suspendedStart\\";
+                    return function(method, arg) {
+                        if (\\"executing\\" === state) throw new Error(\\"Generator is already running\\");
+                        if (\\"completed\\" === state) {
+                            if (\\"throw\\" === method) throw arg;
+                            return doneResult();
+                        }
+                        for (context.method = method, context.arg = arg; ;) {
+                            var delegate = context.delegate;
+                            if (delegate) {
+                                var delegateResult = maybeInvokeDelegate(delegate, context);
+                                if (delegateResult) {
+                                    if (delegateResult === ContinueSentinel) continue;
+                                    return delegateResult;
+                                }
+                            }
+                            if (\\"next\\" === context.method) context.sent = context._sent = context.arg; else if (\\"throw\\" === context.method) {
+                                if (\\"suspendedStart\\" === state) throw state = \\"completed\\", context.arg;
+                                context.dispatchException(context.arg);
+                            } else \\"return\\" === context.method && context.abrupt(\\"return\\", context.arg);
+                            state = \\"executing\\";
+                            var record = tryCatch(innerFn, self, context);
+                            if (\\"normal\\" === record.type) {
+                                if (state = context.done ? \\"completed\\" : \\"suspendedYield\\", record.arg === ContinueSentinel) continue;
+                                return {
+                                    value: record.arg,
+                                    done: context.done
+                                };
+                            }
+                            \\"throw\\" === record.type && (state = \\"completed\\", context.method = \\"throw\\", context.arg = record.arg);
+                        }
+                    };
+                }(innerFn, self, context), generator;
+            }
+            function tryCatch(fn, obj, arg) {
+                try {
+                    return {
+                        type: \\"normal\\",
+                        arg: fn.call(obj, arg)
+                    };
+                } catch (err) {
+                    return {
+                        type: \\"throw\\",
+                        arg: err
+                    };
+                }
+            }
+            exports.wrap = wrap;
+            var ContinueSentinel = {};
+            function Generator() {}
+            function GeneratorFunction() {}
+            function GeneratorFunctionPrototype() {}
+            var IteratorPrototype = {};
+            define(IteratorPrototype, iteratorSymbol, (function() {
+                return this;
+            }));
+            var getProto = Object.getPrototypeOf, NativeIteratorPrototype = getProto && getProto(getProto(values([])));
+            NativeIteratorPrototype && NativeIteratorPrototype !== Op && hasOwn.call(NativeIteratorPrototype, iteratorSymbol) && (IteratorPrototype = NativeIteratorPrototype);
+            var Gp = GeneratorFunctionPrototype.prototype = Generator.prototype = Object.create(IteratorPrototype);
+            function defineIteratorMethods(prototype) {
+                [ \\"next\\", \\"throw\\", \\"return\\" ].forEach((function(method) {
+                    define(prototype, method, (function(arg) {
+                        return this._invoke(method, arg);
+                    }));
+                }));
+            }
+            function AsyncIterator(generator, PromiseImpl) {
+                function invoke(method, arg, resolve, reject) {
+                    var record = tryCatch(generator[method], generator, arg);
+                    if (\\"throw\\" !== record.type) {
+                        var result = record.arg, value = result.value;
+                        return value && \\"object\\" == Object(esm_typeof[\\"a\\"])(value) && hasOwn.call(value, \\"__await\\") ? PromiseImpl.resolve(value.__await).then((function(value) {
+                            invoke(\\"next\\", value, resolve, reject);
+                        }), (function(err) {
+                            invoke(\\"throw\\", err, resolve, reject);
+                        })) : PromiseImpl.resolve(value).then((function(unwrapped) {
+                            result.value = unwrapped, resolve(result);
+                        }), (function(error) {
+                            return invoke(\\"throw\\", error, resolve, reject);
+                        }));
+                    }
+                    reject(record.arg);
+                }
+                var previousPromise;
+                this._invoke = function(method, arg) {
+                    function callInvokeWithMethodAndArg() {
+                        return new PromiseImpl((function(resolve, reject) {
+                            invoke(method, arg, resolve, reject);
+                        }));
+                    }
+                    return previousPromise = previousPromise ? previousPromise.then(callInvokeWithMethodAndArg, callInvokeWithMethodAndArg) : callInvokeWithMethodAndArg();
+                };
+            }
+            function maybeInvokeDelegate(delegate, context) {
+                var method = delegate.iterator[context.method];
+                if (undefined === method) {
+                    if (context.delegate = null, \\"throw\\" === context.method) {
+                        if (delegate.iterator[\\"return\\"] && (context.method = \\"return\\", context.arg = undefined, 
+                        maybeInvokeDelegate(delegate, context), \\"throw\\" === context.method)) return ContinueSentinel;
+                        context.method = \\"throw\\", context.arg = new TypeError(\\"The iterator does not provide a 'throw' method\\");
+                    }
+                    return ContinueSentinel;
+                }
+                var record = tryCatch(method, delegate.iterator, context.arg);
+                if (\\"throw\\" === record.type) return context.method = \\"throw\\", context.arg = record.arg, 
+                context.delegate = null, ContinueSentinel;
+                var info = record.arg;
+                return info ? info.done ? (context[delegate.resultName] = info.value, context.next = delegate.nextLoc, 
+                \\"return\\" !== context.method && (context.method = \\"next\\", context.arg = undefined), 
+                context.delegate = null, ContinueSentinel) : info : (context.method = \\"throw\\", context.arg = new TypeError(\\"iterator result is not an object\\"), 
+                context.delegate = null, ContinueSentinel);
+            }
+            function pushTryEntry(locs) {
+                var entry = {
+                    tryLoc: locs[0]
+                };
+                1 in locs && (entry.catchLoc = locs[1]), 2 in locs && (entry.finallyLoc = locs[2], 
+                entry.afterLoc = locs[3]), this.tryEntries.push(entry);
+            }
+            function resetTryEntry(entry) {
+                var record = entry.completion || {};
+                record.type = \\"normal\\", delete record.arg, entry.completion = record;
+            }
+            function Context(tryLocsList) {
+                this.tryEntries = [ {
+                    tryLoc: \\"root\\"
+                } ], tryLocsList.forEach(pushTryEntry, this), this.reset(!0);
+            }
+            function values(iterable) {
+                if (iterable) {
+                    var iteratorMethod = iterable[iteratorSymbol];
+                    if (iteratorMethod) return iteratorMethod.call(iterable);
+                    if (\\"function\\" == typeof iterable.next) return iterable;
+                    if (!isNaN(iterable.length)) {
+                        var i = -1, next = function next() {
+                            for (;++i < iterable.length; ) {
+                                if (hasOwn.call(iterable, i)) return next.value = iterable[i], next.done = !1, next;
+                            }
+                            return next.value = undefined, next.done = !0, next;
+                        };
+                        return next.next = next;
+                    }
+                }
+                return {
+                    next: doneResult
+                };
+            }
+            function doneResult() {
+                return {
+                    value: undefined,
+                    done: !0
+                };
+            }
+            return GeneratorFunction.prototype = GeneratorFunctionPrototype, define(Gp, \\"constructor\\", GeneratorFunctionPrototype), 
+            define(GeneratorFunctionPrototype, \\"constructor\\", GeneratorFunction), GeneratorFunction.displayName = define(GeneratorFunctionPrototype, toStringTagSymbol, \\"GeneratorFunction\\"), 
+            exports.isGeneratorFunction = function(genFun) {
+                var ctor = \\"function\\" == typeof genFun && genFun.constructor;
+                return !!ctor && (ctor === GeneratorFunction || \\"GeneratorFunction\\" === (ctor.displayName || ctor.name));
+            }, exports.mark = function(genFun) {
+                return Object.setPrototypeOf ? Object.setPrototypeOf(genFun, GeneratorFunctionPrototype) : (genFun.__proto__ = GeneratorFunctionPrototype, 
+                define(genFun, toStringTagSymbol, \\"GeneratorFunction\\")), genFun.prototype = Object.create(Gp), 
+                genFun;
+            }, exports.awrap = function(arg) {
+                return {
+                    __await: arg
+                };
+            }, defineIteratorMethods(AsyncIterator.prototype), define(AsyncIterator.prototype, asyncIteratorSymbol, (function() {
+                return this;
+            })), exports.AsyncIterator = AsyncIterator, exports.async = function(innerFn, outerFn, self, tryLocsList, PromiseImpl) {
+                void 0 === PromiseImpl && (PromiseImpl = Promise);
+                var iter = new AsyncIterator(wrap(innerFn, outerFn, self, tryLocsList), PromiseImpl);
+                return exports.isGeneratorFunction(outerFn) ? iter : iter.next().then((function(result) {
+                    return result.done ? result.value : iter.next();
+                }));
+            }, defineIteratorMethods(Gp), define(Gp, toStringTagSymbol, \\"Generator\\"), define(Gp, iteratorSymbol, (function() {
+                return this;
+            })), define(Gp, \\"toString\\", (function() {
+                return \\"[object Generator]\\";
+            })), exports.keys = function(object) {
+                var keys = [];
+                for (var key in object) {
+                    keys.push(key);
+                }
+                return keys.reverse(), function next() {
+                    for (;keys.length; ) {
+                        var key = keys.pop();
+                        if (key in object) return next.value = key, next.done = !1, next;
+                    }
+                    return next.done = !0, next;
+                };
+            }, exports.values = values, Context.prototype = {
+                constructor: Context,
+                reset: function reset(skipTempReset) {
+                    if (this.prev = 0, this.next = 0, this.sent = this._sent = undefined, this.done = !1, 
+                    this.delegate = null, this.method = \\"next\\", this.arg = undefined, this.tryEntries.forEach(resetTryEntry), 
+                    !skipTempReset) for (var name in this) {
+                        \\"t\\" === name.charAt(0) && hasOwn.call(this, name) && !isNaN(+name.slice(1)) && (this[name] = undefined);
+                    }
+                },
+                stop: function stop() {
+                    this.done = !0;
+                    var rootRecord = this.tryEntries[0].completion;
+                    if (\\"throw\\" === rootRecord.type) throw rootRecord.arg;
+                    return this.rval;
+                },
+                dispatchException: function dispatchException(exception) {
+                    if (this.done) throw exception;
+                    var context = this;
+                    function handle(loc, caught) {
+                        return record.type = \\"throw\\", record.arg = exception, context.next = loc, caught && (context.method = \\"next\\", 
+                        context.arg = undefined), !!caught;
+                    }
+                    for (var i = this.tryEntries.length - 1; i >= 0; --i) {
+                        var entry = this.tryEntries[i], record = entry.completion;
+                        if (\\"root\\" === entry.tryLoc) return handle(\\"end\\");
+                        if (entry.tryLoc <= this.prev) {
+                            var hasCatch = hasOwn.call(entry, \\"catchLoc\\"), hasFinally = hasOwn.call(entry, \\"finallyLoc\\");
+                            if (hasCatch && hasFinally) {
+                                if (this.prev < entry.catchLoc) return handle(entry.catchLoc, !0);
+                                if (this.prev < entry.finallyLoc) return handle(entry.finallyLoc);
+                            } else if (hasCatch) {
+                                if (this.prev < entry.catchLoc) return handle(entry.catchLoc, !0);
+                            } else {
+                                if (!hasFinally) throw new Error(\\"try statement without catch or finally\\");
+                                if (this.prev < entry.finallyLoc) return handle(entry.finallyLoc);
+                            }
+                        }
+                    }
+                },
+                abrupt: function abrupt(type, arg) {
+                    for (var i = this.tryEntries.length - 1; i >= 0; --i) {
+                        var entry = this.tryEntries[i];
+                        if (entry.tryLoc <= this.prev && hasOwn.call(entry, \\"finallyLoc\\") && this.prev < entry.finallyLoc) {
+                            var finallyEntry = entry;
+                            break;
+                        }
+                    }
+                    finallyEntry && (\\"break\\" === type || \\"continue\\" === type) && finallyEntry.tryLoc <= arg && arg <= finallyEntry.finallyLoc && (finallyEntry = null);
+                    var record = finallyEntry ? finallyEntry.completion : {};
+                    return record.type = type, record.arg = arg, finallyEntry ? (this.method = \\"next\\", 
+                    this.next = finallyEntry.finallyLoc, ContinueSentinel) : this.complete(record);
+                },
+                complete: function complete(record, afterLoc) {
+                    if (\\"throw\\" === record.type) throw record.arg;
+                    return \\"break\\" === record.type || \\"continue\\" === record.type ? this.next = record.arg : \\"return\\" === record.type ? (this.rval = this.arg = record.arg, 
+                    this.method = \\"return\\", this.next = \\"end\\") : \\"normal\\" === record.type && afterLoc && (this.next = afterLoc), 
+                    ContinueSentinel;
+                },
+                finish: function finish(finallyLoc) {
+                    for (var i = this.tryEntries.length - 1; i >= 0; --i) {
+                        var entry = this.tryEntries[i];
+                        if (entry.finallyLoc === finallyLoc) return this.complete(entry.completion, entry.afterLoc), 
+                        resetTryEntry(entry), ContinueSentinel;
+                    }
+                },
+                catch: function _catch(tryLoc) {
+                    for (var i = this.tryEntries.length - 1; i >= 0; --i) {
+                        var entry = this.tryEntries[i];
+                        if (entry.tryLoc === tryLoc) {
+                            var record = entry.completion;
+                            if (\\"throw\\" === record.type) {
+                                var thrown = record.arg;
+                                resetTryEntry(entry);
+                            }
+                            return thrown;
+                        }
+                    }
+                    throw new Error(\\"illegal catch attempt\\");
+                },
+                delegateYield: function delegateYield(iterable, resultName, nextLoc) {
+                    return this.delegate = {
+                        iterator: values(iterable),
+                        resultName: resultName,
+                        nextLoc: nextLoc
+                    }, \\"next\\" === this.method && (this.arg = undefined), ContinueSentinel;
+                }
+            }, exports;
+        }
         function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {
             try {
                 var info = gen[key](arg);
@@ -1030,8 +1367,6 @@ require(\\"./taro\\");
         var createClass = __webpack_require__(4);
         var inherits = __webpack_require__(6);
         var createSuper = __webpack_require__(5);
-        var regenerator = __webpack_require__(7);
-        var regenerator_default = __webpack_require__.n(regenerator);
         var react = __webpack_require__(1);
         var taro_components = __webpack_require__(2);
         var index = __webpack_require__(14);
@@ -1045,8 +1380,8 @@ require(\\"./taro\\");
             Object(createClass[\\"a\\"])(Index, [ {
                 key: \\"componentWillMount\\",
                 value: function() {
-                    var _componentWillMount = _asyncToGenerator(regenerator_default.a.mark((function _callee() {
-                        return regenerator_default.a.wrap((function _callee$(_context) {
+                    var _componentWillMount = _asyncToGenerator(_regeneratorRuntime().mark((function _callee() {
+                        return _regeneratorRuntime().wrap((function _callee$(_context) {
                             while (1) {
                                 switch (_context.prev = _context.next) {
                                   case 0:
@@ -1100,11 +1435,12 @@ require(\\"./taro\\");
                 cn: []
             }
         }, config || {}));
-    },
-    7: function(module, exports, __webpack_require__) {
-        module.exports = __webpack_require__(13);
     }
 }, [ [ 16, 0, 1, 3, 2 ] ] ]);
+
+/** filePath: dist/pages/index/index.js.LICENSE.txt **/
+/*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/facebook/regenerator/blob/main/LICENSE */
+
 
 /** filePath: dist/pages/index/index.json **/
 {\\"navigationBarTitleText\\":\\"首页\\",\\"usingComponents\\":{\\"custom-wrapper\\":\\"../../custom-wrapper\\"}}
@@ -1129,7 +1465,7 @@ require(\\"./taro\\");
         \\"use strict\\";
         var _unused_webpack_default_export = \\"taro-components-mock\\";
     },
-    8: function(module, __webpack_exports__, __webpack_require__) {
+    9: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_exports__[\\"a\\"] = \\"taro-react-mock\\";
     }
@@ -1174,7 +1510,7 @@ require(\\"./taro\\");
         return _createSuper;
     }));
     function _getPrototypeOf(o) {
-        _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) {
+        _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function _getPrototypeOf(o) {
             return o.__proto__ || Object.getPrototypeOf(o);
         };
         return _getPrototypeOf(o);
@@ -1190,27 +1526,15 @@ require(\\"./taro\\");
             return false;
         }
     }
-    function _typeof(obj) {
-        \\"@babel/helpers - typeof\\";
-        return _typeof = \\"function\\" == typeof Symbol && \\"symbol\\" == typeof Symbol.iterator ? function(obj) {
-            return typeof obj;
-        } : function(obj) {
-            return obj && \\"function\\" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? \\"symbol\\" : typeof obj;
-        }, _typeof(obj);
-    }
-    function _assertThisInitialized(self) {
-        if (self === void 0) {
-            throw new ReferenceError(\\"this hasn't been initialised - super() hasn't been called\\");
-        }
-        return self;
-    }
+    var esm_typeof = __webpack_require__(8);
+    var assertThisInitialized = __webpack_require__(7);
     function _possibleConstructorReturn(self, call) {
-        if (call && (_typeof(call) === \\"object\\" || typeof call === \\"function\\")) {
+        if (call && (Object(esm_typeof[\\"a\\"])(call) === \\"object\\" || typeof call === \\"function\\")) {
             return call;
         } else if (call !== void 0) {
             throw new TypeError(\\"Derived constructors may only return object or undefined\\");
         }
-        return _assertThisInitialized(self);
+        return Object(assertThisInitialized[\\"a\\"])(self);
     }
     function _createSuper(Derived) {
         var hasNativeReflectConstruct = _isNativeReflectConstruct();
@@ -1231,7 +1555,7 @@ require(\\"./taro\\");
         return _inherits;
     }));
     function _setPrototypeOf(o, p) {
-        _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) {
+        _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function _setPrototypeOf(o, p) {
             o.__proto__ = p;
             return o;
         };
@@ -1252,6 +1576,30 @@ require(\\"./taro\\");
             writable: false
         });
         if (superClass) _setPrototypeOf(subClass, superClass);
+    }
+}, function(module, __webpack_exports__, __webpack_require__) {
+    \\"use strict\\";
+    __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
+        return _assertThisInitialized;
+    }));
+    function _assertThisInitialized(self) {
+        if (self === void 0) {
+            throw new ReferenceError(\\"this hasn't been initialised - super() hasn't been called\\");
+        }
+        return self;
+    }
+}, function(module, __webpack_exports__, __webpack_require__) {
+    \\"use strict\\";
+    __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
+        return _typeof;
+    }));
+    function _typeof(obj) {
+        \\"@babel/helpers - typeof\\";
+        return _typeof = \\"function\\" == typeof Symbol && \\"symbol\\" == typeof Symbol.iterator ? function(obj) {
+            return typeof obj;
+        } : function(obj) {
+            return obj && \\"function\\" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? \\"symbol\\" : typeof obj;
+        }, _typeof(obj);
     }
 } ] ]);
 "

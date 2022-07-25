@@ -1,8 +1,9 @@
 /* eslint-disable no-console */
-import BaseCI from './BaseCi'
 import * as cp from 'child_process'
 import * as fs from 'fs'
 import * as path from 'path'
+
+import BaseCI from './BaseCi'
 import generateQrCode from './QRCode'
 
 export default class TTCI extends BaseCI {

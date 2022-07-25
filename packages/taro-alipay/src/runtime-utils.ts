@@ -1,11 +1,11 @@
 
 import {
-  initNativeApi,
   handleSyncApis,
-  transformMeta,
+  initNativeApi,
   modifyApis,
   modifyAsyncResult,
-  request
+  request,
+  transformMeta
 } from './apis'
 
 declare const my: any
@@ -20,15 +20,15 @@ const BUBBLE_EVENTS = new Set([
 ])
 
 export {
-  initNativeApi,
   handleSyncApis,
-  transformMeta,
+  initNativeApi,
   modifyApis,
   modifyAsyncResult,
-  request
+  request,
+  transformMeta
 }
-export * from './components'
 export * from './apis-list'
+export * from './components'
 export const hostConfig = {
   initNativeApi,
   getEventCenter (Events) {

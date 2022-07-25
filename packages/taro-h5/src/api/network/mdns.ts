@@ -1,4 +1,4 @@
-import { temporarilyNotSupport } from '../utils'
+import { temporarilyNotSupport } from '../../utils'
 
 // mDNS
 export const stopLocalServiceDiscovery = temporarilyNotSupport('stopLocalServiceDiscovery')

@@ -45,26 +45,7 @@ exports[`sass should build app with sass 2`] = `
 .index{color:red}
 
 /** filePath: dist/index.html **/
-<!DOCTYPE html>
-<html>
-<head>
-  <meta content=\\"text/html; charset=utf-8\\" http-equiv=\\"Content-Type\\">
-  <meta content=\\"width=device-width,initial-scale=1,user-scalable=no\\" name=\\"viewport\\">
-  <meta name=\\"apple-mobile-web-app-capable\\" content=\\"yes\\">
-  <meta name=\\"apple-touch-fullscreen\\" content=\\"yes\\">
-  <meta name=\\"format-detection\\" content=\\"telephone=no,address=no\\">
-  <meta name=\\"apple-mobile-web-app-status-bar-style\\" content=\\"white\\">
-  <meta http-equiv=\\"X-UA-Compatible\\" content=\\"IE=edge,chrome=1\\" >
-  <title></title>
-  <script>
-    !function(x){function w(){var v,u,t,tes,s=x.document,r=s.documentElement,a=r.getBoundingClientRect().width;if(!v&&!u){var n=!!x.navigator.appVersion.match(/AppleWebKit.*Mobile.*/);v=x.devicePixelRatio;tes=x.devicePixelRatio;v=n?v:1,u=1/v}if(a>=640){r.style.fontSize=\\"40px\\"}else{if(a<=320){r.style.fontSize=\\"20px\\"}else{r.style.fontSize=a/320*20+\\"px\\"}}}x.addEventListener(\\"resize\\",function(){w()});w()}(window);
-  </script>
-</head>
-<body>
-  <div id=\\"app\\"></div>
-<script type=\\"text/javascript\\" src=\\"/js/app.js\\"></script></body>
-</html>
-
+<!doctype html><html><head><meta content=\\"text/html; charset=utf-8\\" http-equiv=\\"Content-Type\\"><meta content=\\"width=device-width,initial-scale=1,user-scalable=no\\" name=\\"viewport\\"><meta name=\\"apple-mobile-web-app-capable\\" content=\\"yes\\"><meta name=\\"apple-touch-fullscreen\\" content=\\"yes\\"><meta name=\\"format-detection\\" content=\\"telephone=no,address=no\\"><meta name=\\"apple-mobile-web-app-status-bar-style\\" content=\\"white\\"><meta http-equiv=\\"X-UA-Compatible\\" content=\\"IE=edge,chrome=1\\"><title></title><script>!function(x){function w(){var v,u,t,tes,s=x.document,r=s.documentElement,a=r.getBoundingClientRect().width;if(!v&&!u){var n=!!x.navigator.appVersion.match(/AppleWebKit.*Mobile.*/);v=x.devicePixelRatio;tes=x.devicePixelRatio;v=n?v:1,u=1/v}if(a>=640){r.style.fontSize=\\"40px\\"}else{if(a<=320){r.style.fontSize=\\"20px\\"}else{r.style.fontSize=a/320*20+\\"px\\"}}}x.addEventListener(\\"resize\\",function(){w()});w()}(window);</script></head><body><div id=\\"app\\"></div><script src=\\"/js/app.js\\"></script></body></html>
 
 /** filePath: dist/js/app.js **/
 (function(modules) {
@@ -313,7 +294,7 @@ exports[`sass should build app with sass 2`] = `
         return _createSuper;
     }));
     function _getPrototypeOf(o) {
-        _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) {
+        _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function _getPrototypeOf(o) {
             return o.__proto__ || Object.getPrototypeOf(o);
         };
         return _getPrototypeOf(o);
@@ -370,7 +351,7 @@ exports[`sass should build app with sass 2`] = `
         return _inherits;
     }));
     function _setPrototypeOf(o, p) {
-        _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) {
+        _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function _setPrototypeOf(o, p) {
             o.__proto__ = p;
             return o;
         };
@@ -691,8 +672,9 @@ exports[`sass should build app with sass 2`] = `
 }, function(module, __webpack_exports__, __webpack_require__) {
     \\"use strict\\";
     __webpack_require__.r(__webpack_exports__);
-    function createRouter() {}
     function initPxTransform() {}
+    function createMultiRouter() {}
+    function createRouter() {}
     var classCallCheck = __webpack_require__(2);
     var createClass = __webpack_require__(3);
     var inherits = __webpack_require__(5);
@@ -724,9 +706,6 @@ exports[`sass should build app with sass 2`] = `
     function taro_framework_createVue3App() {}
     var taro_components = __webpack_require__(1);
     var mocks_taro_components = __webpack_require__(7);
-    Object(taro_components[\\"c\\"])().then((function() {
-        Object(taro_components[\\"d\\"])(taro_runtime_window);
-    }));
     var config = {
         \\"router\\": {
             \\"mode\\": \\"hash\\",
@@ -741,6 +720,9 @@ exports[`sass should build app with sass 2`] = `
             \\"navigationBarTextStyle\\": \\"black\\"
         }
     };
+    Object(taro_components[\\"c\\"])().then((function() {
+        Object(taro_components[\\"d\\"])(taro_runtime_window);
+    }));
     taro_runtime_window.__taroAppConfig = config;
     if (config.tabBar) {
         var tabbarList = config.tabBar.list;
@@ -756,14 +738,15 @@ exports[`sass should build app with sass 2`] = `
     }
     config.routes = [ Object.assign({
         \\"path\\": \\"pages/index/index\\",
-        \\"load\\": function load() {
-            return __webpack_require__.e(1).then(__webpack_require__.bind(null, 13));
+        \\"load\\": function load(context, params) {
+            var page = __webpack_require__.e(1).then(__webpack_require__.bind(null, 13));
+            return [ page, context, params ];
         }
     }, {
         \\"navigationBarTitleText\\": \\"首页\\"
     }) ];
     var inst = taro_framework_createReactApp(app, react, react[\\"default\\"], config);
-    undefined.createRouter(inst, config, react);
+    createRouter(inst, config, react);
     undefined.initPxTransform({
         \\"designWidth\\": 750,
         \\"deviceRatio\\": {
@@ -830,32 +813,13 @@ exports[`sass should build app with scss 2`] = `
 } ]);
 
 /** filePath: dist/css/1.css **/
-.index{width:100%}.index .list{display:flex}.index .list .list-item{width:.42667rem}
+.index{width:100%}.index .list{display:flex}.index .list .list-item{width:.5rem}
 
 /** filePath: dist/css/app.css **/
 
 
 /** filePath: dist/index.html **/
-<!DOCTYPE html>
-<html>
-<head>
-  <meta content=\\"text/html; charset=utf-8\\" http-equiv=\\"Content-Type\\">
-  <meta content=\\"width=device-width,initial-scale=1,user-scalable=no\\" name=\\"viewport\\">
-  <meta name=\\"apple-mobile-web-app-capable\\" content=\\"yes\\">
-  <meta name=\\"apple-touch-fullscreen\\" content=\\"yes\\">
-  <meta name=\\"format-detection\\" content=\\"telephone=no,address=no\\">
-  <meta name=\\"apple-mobile-web-app-status-bar-style\\" content=\\"white\\">
-  <meta http-equiv=\\"X-UA-Compatible\\" content=\\"IE=edge,chrome=1\\" >
-  <title></title>
-  <script>
-    !function(x){function w(){var v,u,t,tes,s=x.document,r=s.documentElement,a=r.getBoundingClientRect().width;if(!v&&!u){var n=!!x.navigator.appVersion.match(/AppleWebKit.*Mobile.*/);v=x.devicePixelRatio;tes=x.devicePixelRatio;v=n?v:1,u=1/v}if(a>=640){r.style.fontSize=\\"40px\\"}else{if(a<=320){r.style.fontSize=\\"20px\\"}else{r.style.fontSize=a/320*20+\\"px\\"}}}x.addEventListener(\\"resize\\",function(){w()});w()}(window);
-  </script>
-<link href=\\"/css/app.css\\" rel=\\"stylesheet\\"></head>
-<body>
-  <div id=\\"app\\"></div>
-<script type=\\"text/javascript\\" src=\\"/js/app.js\\"></script></body>
-</html>
-
+<!doctype html><html><head><meta content=\\"text/html; charset=utf-8\\" http-equiv=\\"Content-Type\\"><meta content=\\"width=device-width,initial-scale=1,user-scalable=no\\" name=\\"viewport\\"><meta name=\\"apple-mobile-web-app-capable\\" content=\\"yes\\"><meta name=\\"apple-touch-fullscreen\\" content=\\"yes\\"><meta name=\\"format-detection\\" content=\\"telephone=no,address=no\\"><meta name=\\"apple-mobile-web-app-status-bar-style\\" content=\\"white\\"><meta http-equiv=\\"X-UA-Compatible\\" content=\\"IE=edge,chrome=1\\"><title></title><script>!function(x){function w(){var v,u,t,tes,s=x.document,r=s.documentElement,a=r.getBoundingClientRect().width;if(!v&&!u){var n=!!x.navigator.appVersion.match(/AppleWebKit.*Mobile.*/);v=x.devicePixelRatio;tes=x.devicePixelRatio;v=n?v:1,u=1/v}if(a>=640){r.style.fontSize=\\"40px\\"}else{if(a<=320){r.style.fontSize=\\"20px\\"}else{r.style.fontSize=a/320*20+\\"px\\"}}}x.addEventListener(\\"resize\\",function(){w()});w()}(window);</script><link href=\\"/css/app.css\\" rel=\\"stylesheet\\"></head><body><div id=\\"app\\"></div><script src=\\"/js/app.js\\"></script></body></html>
 
 /** filePath: dist/js/app.js **/
 (function(modules) {
@@ -1104,7 +1068,7 @@ exports[`sass should build app with scss 2`] = `
         return _createSuper;
     }));
     function _getPrototypeOf(o) {
-        _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) {
+        _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function _getPrototypeOf(o) {
             return o.__proto__ || Object.getPrototypeOf(o);
         };
         return _getPrototypeOf(o);
@@ -1161,7 +1125,7 @@ exports[`sass should build app with scss 2`] = `
         return _inherits;
     }));
     function _setPrototypeOf(o, p) {
-        _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) {
+        _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function _setPrototypeOf(o, p) {
             o.__proto__ = p;
             return o;
         };
@@ -1482,8 +1446,9 @@ exports[`sass should build app with scss 2`] = `
 }, function(module, __webpack_exports__, __webpack_require__) {
     \\"use strict\\";
     __webpack_require__.r(__webpack_exports__);
-    function createRouter() {}
     function initPxTransform() {}
+    function createMultiRouter() {}
+    function createRouter() {}
     var classCallCheck = __webpack_require__(2);
     var createClass = __webpack_require__(3);
     var inherits = __webpack_require__(5);
@@ -1528,9 +1493,6 @@ exports[`sass should build app with scss 2`] = `
     function taro_framework_createVue3App() {}
     var taro_components = __webpack_require__(1);
     var mocks_taro_components = __webpack_require__(8);
-    Object(taro_components[\\"c\\"])().then((function() {
-        Object(taro_components[\\"d\\"])(taro_runtime_window);
-    }));
     var config = {
         \\"router\\": {
             \\"mode\\": \\"hash\\",
@@ -1545,6 +1507,9 @@ exports[`sass should build app with scss 2`] = `
             \\"navigationBarTextStyle\\": \\"black\\"
         }
     };
+    Object(taro_components[\\"c\\"])().then((function() {
+        Object(taro_components[\\"d\\"])(taro_runtime_window);
+    }));
     taro_runtime_window.__taroAppConfig = config;
     if (config.tabBar) {
         var tabbarList = config.tabBar.list;
@@ -1560,14 +1525,15 @@ exports[`sass should build app with scss 2`] = `
     }
     config.routes = [ Object.assign({
         \\"path\\": \\"pages/index/index\\",
-        \\"load\\": function load() {
-            return __webpack_require__.e(1).then(__webpack_require__.bind(null, 14));
+        \\"load\\": function load(context, params) {
+            var page = __webpack_require__.e(1).then(__webpack_require__.bind(null, 14));
+            return [ page, context, params ];
         }
     }, {
         \\"navigationBarTitleText\\": \\"首页\\"
     }) ];
     var inst = taro_framework_createReactApp(src_app, react, react[\\"default\\"], config);
-    undefined.createRouter(inst, config, react);
+    createRouter(inst, config, react);
     undefined.initPxTransform({
         \\"designWidth\\": 750,
         \\"deviceRatio\\": {
@@ -1634,32 +1600,13 @@ exports[`sass should set global sass content with data 2`] = `
 } ]);
 
 /** filePath: dist/css/1.css **/
-.body{background-color:red}.index{width:100%}.index .list{display:flex}.index .list .list-item{width:.42667rem}
+.body{background-color:red}.index{width:100%}.index .list{display:flex}.index .list .list-item{width:.5rem}
 
 /** filePath: dist/css/app.css **/
 .body{background-color:red}
 
 /** filePath: dist/index.html **/
-<!DOCTYPE html>
-<html>
-<head>
-  <meta content=\\"text/html; charset=utf-8\\" http-equiv=\\"Content-Type\\">
-  <meta content=\\"width=device-width,initial-scale=1,user-scalable=no\\" name=\\"viewport\\">
-  <meta name=\\"apple-mobile-web-app-capable\\" content=\\"yes\\">
-  <meta name=\\"apple-touch-fullscreen\\" content=\\"yes\\">
-  <meta name=\\"format-detection\\" content=\\"telephone=no,address=no\\">
-  <meta name=\\"apple-mobile-web-app-status-bar-style\\" content=\\"white\\">
-  <meta http-equiv=\\"X-UA-Compatible\\" content=\\"IE=edge,chrome=1\\" >
-  <title></title>
-  <script>
-    !function(x){function w(){var v,u,t,tes,s=x.document,r=s.documentElement,a=r.getBoundingClientRect().width;if(!v&&!u){var n=!!x.navigator.appVersion.match(/AppleWebKit.*Mobile.*/);v=x.devicePixelRatio;tes=x.devicePixelRatio;v=n?v:1,u=1/v}if(a>=640){r.style.fontSize=\\"40px\\"}else{if(a<=320){r.style.fontSize=\\"20px\\"}else{r.style.fontSize=a/320*20+\\"px\\"}}}x.addEventListener(\\"resize\\",function(){w()});w()}(window);
-  </script>
-<link href=\\"/css/app.css\\" rel=\\"stylesheet\\"></head>
-<body>
-  <div id=\\"app\\"></div>
-<script type=\\"text/javascript\\" src=\\"/js/app.js\\"></script></body>
-</html>
-
+<!doctype html><html><head><meta content=\\"text/html; charset=utf-8\\" http-equiv=\\"Content-Type\\"><meta content=\\"width=device-width,initial-scale=1,user-scalable=no\\" name=\\"viewport\\"><meta name=\\"apple-mobile-web-app-capable\\" content=\\"yes\\"><meta name=\\"apple-touch-fullscreen\\" content=\\"yes\\"><meta name=\\"format-detection\\" content=\\"telephone=no,address=no\\"><meta name=\\"apple-mobile-web-app-status-bar-style\\" content=\\"white\\"><meta http-equiv=\\"X-UA-Compatible\\" content=\\"IE=edge,chrome=1\\"><title></title><script>!function(x){function w(){var v,u,t,tes,s=x.document,r=s.documentElement,a=r.getBoundingClientRect().width;if(!v&&!u){var n=!!x.navigator.appVersion.match(/AppleWebKit.*Mobile.*/);v=x.devicePixelRatio;tes=x.devicePixelRatio;v=n?v:1,u=1/v}if(a>=640){r.style.fontSize=\\"40px\\"}else{if(a<=320){r.style.fontSize=\\"20px\\"}else{r.style.fontSize=a/320*20+\\"px\\"}}}x.addEventListener(\\"resize\\",function(){w()});w()}(window);</script><link href=\\"/css/app.css\\" rel=\\"stylesheet\\"></head><body><div id=\\"app\\"></div><script src=\\"/js/app.js\\"></script></body></html>
 
 /** filePath: dist/js/app.js **/
 (function(modules) {
@@ -1908,7 +1855,7 @@ exports[`sass should set global sass content with data 2`] = `
         return _createSuper;
     }));
     function _getPrototypeOf(o) {
-        _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) {
+        _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function _getPrototypeOf(o) {
             return o.__proto__ || Object.getPrototypeOf(o);
         };
         return _getPrototypeOf(o);
@@ -1965,7 +1912,7 @@ exports[`sass should set global sass content with data 2`] = `
         return _inherits;
     }));
     function _setPrototypeOf(o, p) {
-        _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) {
+        _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function _setPrototypeOf(o, p) {
             o.__proto__ = p;
             return o;
         };
@@ -2286,8 +2233,9 @@ exports[`sass should set global sass content with data 2`] = `
 }, function(module, __webpack_exports__, __webpack_require__) {
     \\"use strict\\";
     __webpack_require__.r(__webpack_exports__);
-    function createRouter() {}
     function initPxTransform() {}
+    function createMultiRouter() {}
+    function createRouter() {}
     var classCallCheck = __webpack_require__(2);
     var createClass = __webpack_require__(3);
     var inherits = __webpack_require__(5);
@@ -2332,9 +2280,6 @@ exports[`sass should set global sass content with data 2`] = `
     function taro_framework_createVue3App() {}
     var taro_components = __webpack_require__(1);
     var mocks_taro_components = __webpack_require__(8);
-    Object(taro_components[\\"c\\"])().then((function() {
-        Object(taro_components[\\"d\\"])(taro_runtime_window);
-    }));
     var config = {
         \\"router\\": {
             \\"mode\\": \\"hash\\",
@@ -2349,6 +2294,9 @@ exports[`sass should set global sass content with data 2`] = `
             \\"navigationBarTextStyle\\": \\"black\\"
         }
     };
+    Object(taro_components[\\"c\\"])().then((function() {
+        Object(taro_components[\\"d\\"])(taro_runtime_window);
+    }));
     taro_runtime_window.__taroAppConfig = config;
     if (config.tabBar) {
         var tabbarList = config.tabBar.list;
@@ -2364,14 +2312,15 @@ exports[`sass should set global sass content with data 2`] = `
     }
     config.routes = [ Object.assign({
         \\"path\\": \\"pages/index/index\\",
-        \\"load\\": function load() {
-            return __webpack_require__.e(1).then(__webpack_require__.bind(null, 14));
+        \\"load\\": function load(context, params) {
+            var page = __webpack_require__.e(1).then(__webpack_require__.bind(null, 14));
+            return [ page, context, params ];
         }
     }, {
         \\"navigationBarTitleText\\": \\"首页\\"
     }) ];
     var inst = taro_framework_createReactApp(src_app, react, react[\\"default\\"], config);
-    undefined.createRouter(inst, config, react);
+    createRouter(inst, config, react);
     undefined.initPxTransform({
         \\"designWidth\\": 750,
         \\"deviceRatio\\": {
@@ -2438,32 +2387,13 @@ exports[`sass should set global sass content with source & dir 2`] = `
 } ]);
 
 /** filePath: dist/css/1.css **/
-.body{background-color:#00f}.index{width:100%}.index .list{display:flex}.index .list .list-item{width:.42667rem}
+.body{background-color:#00f}.index{width:100%}.index .list{display:flex}.index .list .list-item{width:.5rem}
 
 /** filePath: dist/css/app.css **/
 .body{background-color:#00f}
 
 /** filePath: dist/index.html **/
-<!DOCTYPE html>
-<html>
-<head>
-  <meta content=\\"text/html; charset=utf-8\\" http-equiv=\\"Content-Type\\">
-  <meta content=\\"width=device-width,initial-scale=1,user-scalable=no\\" name=\\"viewport\\">
-  <meta name=\\"apple-mobile-web-app-capable\\" content=\\"yes\\">
-  <meta name=\\"apple-touch-fullscreen\\" content=\\"yes\\">
-  <meta name=\\"format-detection\\" content=\\"telephone=no,address=no\\">
-  <meta name=\\"apple-mobile-web-app-status-bar-style\\" content=\\"white\\">
-  <meta http-equiv=\\"X-UA-Compatible\\" content=\\"IE=edge,chrome=1\\" >
-  <title></title>
-  <script>
-    !function(x){function w(){var v,u,t,tes,s=x.document,r=s.documentElement,a=r.getBoundingClientRect().width;if(!v&&!u){var n=!!x.navigator.appVersion.match(/AppleWebKit.*Mobile.*/);v=x.devicePixelRatio;tes=x.devicePixelRatio;v=n?v:1,u=1/v}if(a>=640){r.style.fontSize=\\"40px\\"}else{if(a<=320){r.style.fontSize=\\"20px\\"}else{r.style.fontSize=a/320*20+\\"px\\"}}}x.addEventListener(\\"resize\\",function(){w()});w()}(window);
-  </script>
-<link href=\\"/css/app.css\\" rel=\\"stylesheet\\"></head>
-<body>
-  <div id=\\"app\\"></div>
-<script type=\\"text/javascript\\" src=\\"/js/app.js\\"></script></body>
-</html>
-
+<!doctype html><html><head><meta content=\\"text/html; charset=utf-8\\" http-equiv=\\"Content-Type\\"><meta content=\\"width=device-width,initial-scale=1,user-scalable=no\\" name=\\"viewport\\"><meta name=\\"apple-mobile-web-app-capable\\" content=\\"yes\\"><meta name=\\"apple-touch-fullscreen\\" content=\\"yes\\"><meta name=\\"format-detection\\" content=\\"telephone=no,address=no\\"><meta name=\\"apple-mobile-web-app-status-bar-style\\" content=\\"white\\"><meta http-equiv=\\"X-UA-Compatible\\" content=\\"IE=edge,chrome=1\\"><title></title><script>!function(x){function w(){var v,u,t,tes,s=x.document,r=s.documentElement,a=r.getBoundingClientRect().width;if(!v&&!u){var n=!!x.navigator.appVersion.match(/AppleWebKit.*Mobile.*/);v=x.devicePixelRatio;tes=x.devicePixelRatio;v=n?v:1,u=1/v}if(a>=640){r.style.fontSize=\\"40px\\"}else{if(a<=320){r.style.fontSize=\\"20px\\"}else{r.style.fontSize=a/320*20+\\"px\\"}}}x.addEventListener(\\"resize\\",function(){w()});w()}(window);</script><link href=\\"/css/app.css\\" rel=\\"stylesheet\\"></head><body><div id=\\"app\\"></div><script src=\\"/js/app.js\\"></script></body></html>
 
 /** filePath: dist/js/app.js **/
 (function(modules) {
@@ -2712,7 +2642,7 @@ exports[`sass should set global sass content with source & dir 2`] = `
         return _createSuper;
     }));
     function _getPrototypeOf(o) {
-        _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) {
+        _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function _getPrototypeOf(o) {
             return o.__proto__ || Object.getPrototypeOf(o);
         };
         return _getPrototypeOf(o);
@@ -2769,7 +2699,7 @@ exports[`sass should set global sass content with source & dir 2`] = `
         return _inherits;
     }));
     function _setPrototypeOf(o, p) {
-        _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) {
+        _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function _setPrototypeOf(o, p) {
             o.__proto__ = p;
             return o;
         };
@@ -3090,8 +3020,9 @@ exports[`sass should set global sass content with source & dir 2`] = `
 }, function(module, __webpack_exports__, __webpack_require__) {
     \\"use strict\\";
     __webpack_require__.r(__webpack_exports__);
-    function createRouter() {}
     function initPxTransform() {}
+    function createMultiRouter() {}
+    function createRouter() {}
     var classCallCheck = __webpack_require__(2);
     var createClass = __webpack_require__(3);
     var inherits = __webpack_require__(5);
@@ -3136,9 +3067,6 @@ exports[`sass should set global sass content with source & dir 2`] = `
     function taro_framework_createVue3App() {}
     var taro_components = __webpack_require__(1);
     var mocks_taro_components = __webpack_require__(8);
-    Object(taro_components[\\"c\\"])().then((function() {
-        Object(taro_components[\\"d\\"])(taro_runtime_window);
-    }));
     var config = {
         \\"router\\": {
             \\"mode\\": \\"hash\\",
@@ -3153,6 +3081,9 @@ exports[`sass should set global sass content with source & dir 2`] = `
             \\"navigationBarTextStyle\\": \\"black\\"
         }
     };
+    Object(taro_components[\\"c\\"])().then((function() {
+        Object(taro_components[\\"d\\"])(taro_runtime_window);
+    }));
     taro_runtime_window.__taroAppConfig = config;
     if (config.tabBar) {
         var tabbarList = config.tabBar.list;
@@ -3168,14 +3099,15 @@ exports[`sass should set global sass content with source & dir 2`] = `
     }
     config.routes = [ Object.assign({
         \\"path\\": \\"pages/index/index\\",
-        \\"load\\": function load() {
-            return __webpack_require__.e(1).then(__webpack_require__.bind(null, 14));
+        \\"load\\": function load(context, params) {
+            var page = __webpack_require__.e(1).then(__webpack_require__.bind(null, 14));
+            return [ page, context, params ];
         }
     }, {
         \\"navigationBarTitleText\\": \\"首页\\"
     }) ];
     var inst = taro_framework_createReactApp(src_app, react, react[\\"default\\"], config);
-    undefined.createRouter(inst, config, react);
+    createRouter(inst, config, react);
     undefined.initPxTransform({
         \\"designWidth\\": 750,
         \\"deviceRatio\\": {
@@ -3242,32 +3174,13 @@ exports[`sass should set global sass content with source 2`] = `
 } ]);
 
 /** filePath: dist/css/1.css **/
-.body{background-color:#00f}.index{width:100%}.index .list{display:flex}.index .list .list-item{width:.42667rem}
+.body{background-color:#00f}.index{width:100%}.index .list{display:flex}.index .list .list-item{width:.5rem}
 
 /** filePath: dist/css/app.css **/
 .body{background-color:#00f}
 
 /** filePath: dist/index.html **/
-<!DOCTYPE html>
-<html>
-<head>
-  <meta content=\\"text/html; charset=utf-8\\" http-equiv=\\"Content-Type\\">
-  <meta content=\\"width=device-width,initial-scale=1,user-scalable=no\\" name=\\"viewport\\">
-  <meta name=\\"apple-mobile-web-app-capable\\" content=\\"yes\\">
-  <meta name=\\"apple-touch-fullscreen\\" content=\\"yes\\">
-  <meta name=\\"format-detection\\" content=\\"telephone=no,address=no\\">
-  <meta name=\\"apple-mobile-web-app-status-bar-style\\" content=\\"white\\">
-  <meta http-equiv=\\"X-UA-Compatible\\" content=\\"IE=edge,chrome=1\\" >
-  <title></title>
-  <script>
-    !function(x){function w(){var v,u,t,tes,s=x.document,r=s.documentElement,a=r.getBoundingClientRect().width;if(!v&&!u){var n=!!x.navigator.appVersion.match(/AppleWebKit.*Mobile.*/);v=x.devicePixelRatio;tes=x.devicePixelRatio;v=n?v:1,u=1/v}if(a>=640){r.style.fontSize=\\"40px\\"}else{if(a<=320){r.style.fontSize=\\"20px\\"}else{r.style.fontSize=a/320*20+\\"px\\"}}}x.addEventListener(\\"resize\\",function(){w()});w()}(window);
-  </script>
-<link href=\\"/css/app.css\\" rel=\\"stylesheet\\"></head>
-<body>
-  <div id=\\"app\\"></div>
-<script type=\\"text/javascript\\" src=\\"/js/app.js\\"></script></body>
-</html>
-
+<!doctype html><html><head><meta content=\\"text/html; charset=utf-8\\" http-equiv=\\"Content-Type\\"><meta content=\\"width=device-width,initial-scale=1,user-scalable=no\\" name=\\"viewport\\"><meta name=\\"apple-mobile-web-app-capable\\" content=\\"yes\\"><meta name=\\"apple-touch-fullscreen\\" content=\\"yes\\"><meta name=\\"format-detection\\" content=\\"telephone=no,address=no\\"><meta name=\\"apple-mobile-web-app-status-bar-style\\" content=\\"white\\"><meta http-equiv=\\"X-UA-Compatible\\" content=\\"IE=edge,chrome=1\\"><title></title><script>!function(x){function w(){var v,u,t,tes,s=x.document,r=s.documentElement,a=r.getBoundingClientRect().width;if(!v&&!u){var n=!!x.navigator.appVersion.match(/AppleWebKit.*Mobile.*/);v=x.devicePixelRatio;tes=x.devicePixelRatio;v=n?v:1,u=1/v}if(a>=640){r.style.fontSize=\\"40px\\"}else{if(a<=320){r.style.fontSize=\\"20px\\"}else{r.style.fontSize=a/320*20+\\"px\\"}}}x.addEventListener(\\"resize\\",function(){w()});w()}(window);</script><link href=\\"/css/app.css\\" rel=\\"stylesheet\\"></head><body><div id=\\"app\\"></div><script src=\\"/js/app.js\\"></script></body></html>
 
 /** filePath: dist/js/app.js **/
 (function(modules) {
@@ -3516,7 +3429,7 @@ exports[`sass should set global sass content with source 2`] = `
         return _createSuper;
     }));
     function _getPrototypeOf(o) {
-        _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) {
+        _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function _getPrototypeOf(o) {
             return o.__proto__ || Object.getPrototypeOf(o);
         };
         return _getPrototypeOf(o);
@@ -3573,7 +3486,7 @@ exports[`sass should set global sass content with source 2`] = `
         return _inherits;
     }));
     function _setPrototypeOf(o, p) {
-        _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) {
+        _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function _setPrototypeOf(o, p) {
             o.__proto__ = p;
             return o;
         };
@@ -3894,8 +3807,9 @@ exports[`sass should set global sass content with source 2`] = `
 }, function(module, __webpack_exports__, __webpack_require__) {
     \\"use strict\\";
     __webpack_require__.r(__webpack_exports__);
-    function createRouter() {}
     function initPxTransform() {}
+    function createMultiRouter() {}
+    function createRouter() {}
     var classCallCheck = __webpack_require__(2);
     var createClass = __webpack_require__(3);
     var inherits = __webpack_require__(5);
@@ -3940,9 +3854,6 @@ exports[`sass should set global sass content with source 2`] = `
     function taro_framework_createVue3App() {}
     var taro_components = __webpack_require__(1);
     var mocks_taro_components = __webpack_require__(8);
-    Object(taro_components[\\"c\\"])().then((function() {
-        Object(taro_components[\\"d\\"])(taro_runtime_window);
-    }));
     var config = {
         \\"router\\": {
             \\"mode\\": \\"hash\\",
@@ -3957,6 +3868,9 @@ exports[`sass should set global sass content with source 2`] = `
             \\"navigationBarTextStyle\\": \\"black\\"
         }
     };
+    Object(taro_components[\\"c\\"])().then((function() {
+        Object(taro_components[\\"d\\"])(taro_runtime_window);
+    }));
     taro_runtime_window.__taroAppConfig = config;
     if (config.tabBar) {
         var tabbarList = config.tabBar.list;
@@ -3972,14 +3886,15 @@ exports[`sass should set global sass content with source 2`] = `
     }
     config.routes = [ Object.assign({
         \\"path\\": \\"pages/index/index\\",
-        \\"load\\": function load() {
-            return __webpack_require__.e(1).then(__webpack_require__.bind(null, 14));
+        \\"load\\": function load(context, params) {
+            var page = __webpack_require__.e(1).then(__webpack_require__.bind(null, 14));
+            return [ page, context, params ];
         }
     }, {
         \\"navigationBarTitleText\\": \\"首页\\"
     }) ];
     var inst = taro_framework_createReactApp(src_app, react, react[\\"default\\"], config);
-    undefined.createRouter(inst, config, react);
+    createRouter(inst, config, react);
     undefined.initPxTransform({
         \\"designWidth\\": 750,
         \\"deviceRatio\\": {

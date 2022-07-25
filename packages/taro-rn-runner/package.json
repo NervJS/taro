@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/rn-runner",
-  "version": "3.4.13",
+  "version": "3.5.0-beta.8",
   "description": "ReactNative build tool for taro",
   "main": "index.js",
   "repository": {
@@ -30,21 +30,35 @@
     "npm": ">=6.0.0"
   },
   "dependencies": {
-    "@react-native-community/cli-plugin-metro": "^6.0.0",
-    "@react-native-community/cli-server-api": "^6.0.0",
-    "@tarojs/helper": "3.4.13",
-    "@tarojs/rn-style-transformer": "3.4.13",
-    "@tarojs/rn-supporter": "3.4.13",
-    "@tarojs/rn-transformer": "3.4.13",
+    "@react-native-community/cli": "^7.0.3",
+    "@react-native-community/cli-plugin-metro": "^7.0.0",
+    "@react-native-community/cli-server-api": "^7.0.0",
+    "@rollup/plugin-babel": "^5.3.1",
+    "@rollup/plugin-commonjs": "^20.0.0",
+    "@rollup/plugin-json": "^4.1.0",
+    "@rollup/plugin-node-resolve": "^13.3.0",
+    "@rollup/plugin-replace": "^4.0.0",
+    "@tarojs/helper": "workspace:*",
+    "@tarojs/rn-style-transformer": "workspace:*",
+    "@tarojs/rn-supporter": "workspace:*",
+    "@tarojs/rn-transformer": "workspace:*",
+    "acorn-jsx": "^5.3.2",
     "fs-extra": "^8.0.1",
     "lodash": "^4.17.21",
-    "metro": "^0.66.2",
-    "metro-cache": "^0.66.2",
-    "metro-config": "^0.66.2",
-    "metro-core": "^0.66.2",
-    "metro-react-native-babel-transformer": "^0.66.2",
-    "metro-resolver": "^0.66.2",
+    "metro": "^0.67.0",
+    "metro-cache": "^0.67.0",
+    "metro-config": "^0.67.0",
+    "metro-core": "^0.67.0",
+    "metro-react-native-babel-transformer": "^0.67.0",
+    "metro-resolver": "^0.67.0",
     "mime-types": "^2.1.27",
-    "qrcode-terminal": "^0.12.0"
+    "qrcode-terminal": "^0.12.0",
+    "rollup-plugin-clear": "^2.0.7",
+    "rollup-plugin-image-file": "^1.0.2"
+  },
+  "devDependencies": {
+    "expo-file-system": "~14.0.0",
+    "react-is": "^16.13.0",
+    "react-native-root-siblings": "^4.1.1"
   }
 }

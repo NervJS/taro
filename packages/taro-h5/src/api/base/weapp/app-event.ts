@@ -1,8 +1,8 @@
 import Taro from '@tarojs/api'
 import { parse } from 'query-string'
 
-import { temporarilyNotSupport } from '../../utils'
-import { CallbackManager } from '../../utils/handler'
+import { temporarilyNotSupport } from '../../../utils'
+import { CallbackManager } from '../../../utils/handler'
 
 const appShowCallbackManager = new CallbackManager()
 const appHideCallbackManager = new CallbackManager()

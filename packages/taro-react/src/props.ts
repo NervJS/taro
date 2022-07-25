@@ -1,5 +1,5 @@
-import { TaroElement, Style, FormElement } from '@tarojs/runtime'
-import { isFunction, isString, isObject, isNumber, internalComponents, capitalize, toCamelCase } from '@tarojs/shared'
+import { FormElement, Style, TaroElement } from '@tarojs/runtime'
+import { capitalize, internalComponents, isFunction, isNumber, isObject, isString, toCamelCase } from '@tarojs/shared'
 
 export type Props = Record<string, unknown>
 
@@ -45,14 +45,11 @@ function setEvent (dom: TaroElement, name: string, value: unknown, oldValue?: un
   }
 
   if (isFunction(value)) {
-    if (!oldValue) {
-      dom.addEventListener(eventName, value, isCapture)
-    }
-    if (eventName === 'regionchange') {
-      dom.__handlers.begin[0] = value
-      dom.__handlers.end[0] = value
+    if (oldValue) {
+      dom.removeEventListener(eventName, oldValue as any, false)
+      dom.addEventListener(eventName, value, { isCapture, sideEffect: false })
     } else {
-      dom.__handlers[eventName][0] = value
+      dom.addEventListener(eventName, value, isCapture)
     }
   } else {
     dom.removeEventListener(eventName, oldValue as any)

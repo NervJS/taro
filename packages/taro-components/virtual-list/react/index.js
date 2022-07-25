@@ -1,6 +1,7 @@
-import React from 'react'
-import FixedSizeList from './FixedSizeList'
 import { ScrollView, View } from '@tarojs/components'
+import React from 'react'
+
+import FixedSizeList from './FixedSizeList'
 
 function convertPxToInt (style) {
   if (typeof style === 'string') {

@@ -1,5 +1,4 @@
 import { EMPTY_OBJ } from '@tarojs/shared'
-
 import type * as React from 'react'
 
 interface ReactMeta {

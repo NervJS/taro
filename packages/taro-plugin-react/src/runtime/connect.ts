@@ -1,50 +1,39 @@
-import { ensure, EMPTY_OBJ } from '@tarojs/shared'
 import {
-  container,
-  SERVICE_IDENTIFIER,
-  Current,
-  document,
-  getPageInstance,
-  injectPageInstance,
-  incrementId
+  AppInstance, Current, document, getPageInstance,
+  incrementId, injectPageInstance, Instance,
+  PageLifeCycle, PageProps,
+  ReactAppInstance, ReactPageComponent
 } from '@tarojs/runtime'
-import { isClassComponent, ensureIsArray, setDefaultDescriptor, setRouterParams, HOOKS_APP_ID } from './utils'
-import { reactMeta } from './react-meta'
-
-import type * as React from 'react'
+import { EMPTY_OBJ, ensure, hooks } from '@tarojs/shared'
 import type { AppConfig } from '@tarojs/taro'
-import type {
-  IHooks,
-  AppInstance,
-  Instance,
-  ReactAppInstance,
-  ReactPageComponent,
-  PageProps
-} from '@tarojs/runtime'
+import type * as React from 'react'
+
+import { reactMeta } from './react-meta'
+import { ensureIsArray, HOOKS_APP_ID, isClassComponent, setDefaultDescriptor, setRouterParams } from './utils'
 
 type PageComponent = React.CElement<PageProps, React.Component<PageProps, any, any>>
 
 let h: typeof React.createElement
 let ReactDOM
+let Fragment: typeof React.Fragment
 
 const pageKeyId = incrementId()
-const hooks = container.get<IHooks>(SERVICE_IDENTIFIER.Hooks)
 
 export function setReconciler (ReactDOM) {
-  hooks.getLifecycle = function (instance, lifecycle: string) {
+  hooks.tap('getLifecycle', function (instance, lifecycle: string) {
     lifecycle = lifecycle.replace(/^on(Show|Hide)$/, 'componentDid$1')
     return instance[lifecycle]
-  }
+  })
 
-  hooks.modifyMpEventImpls?.push(function (event) {
+  hooks.tap('modifyMpEvent', function (event) {
     event.type = event.type.replace(/-/g, '')
   })
 
-  hooks.batchedEventUpdates = function (cb) {
+  hooks.tap('batchedEventUpdates', function (cb) {
     ReactDOM.unstable_batchedUpdates(cb)
-  }
+  })
 
-  hooks.mergePageInstance = function (prev, next) {
+  hooks.tap('mergePageInstance', function (prev, next) {
     if (!prev || !next) return
 
     // 子组件使用 lifecycle hooks 注册了生命周期后，会存在 prev，里面是注册的生命周期回调。
@@ -57,10 +46,10 @@ export function setReconciler (ReactDOM) {
       const nextList = ensureIsArray<() => any>(next[item])
       next[item] = nextList.concat(prevList)
     })
-  }
+  })
 
   if (process.env.TARO_ENV === 'h5') {
-    hooks.createPullDownComponent = (
+    hooks.tap('createPullDownComponent', (
       el: React.FunctionComponent<PageProps> | React.ComponentClass<PageProps>,
       _,
       R: typeof React,
@@ -69,7 +58,7 @@ export function setReconciler (ReactDOM) {
       const isReactComponent = isClassComponent(R, el)
 
       return R.forwardRef((props, ref) => {
-        const newProps: React.Props<any> = { ...props }
+        const newProps: React.ComponentProps<any> = { ...props }
         const refs = isReactComponent ? { ref: ref } : {
           forwardedRef: ref,
           // 兼容 react-redux 7.20.1+
@@ -85,11 +74,11 @@ export function setReconciler (ReactDOM) {
           })
         )
       })
-    }
+    })
 
-    hooks.getDOMNode = inst => {
+    hooks.tap('getDOMNode', inst => {
       return ReactDOM.findDOMNode(inst)
-    }
+    })
   }
 }
 
@@ -117,7 +106,7 @@ export function connectReactPage (
       }
 
       static getDerivedStateFromError (error: Error) {
-        process.env.NODE_ENV !== 'production' && console.warn(error)
+        Current.app?.onError?.(error.message + error.stack)
         return { hasError: true }
       }
 
@@ -177,6 +166,7 @@ export function createReactApp (
   reactMeta.R = react
   h = react.createElement
   ReactDOM = dom
+  Fragment = react.Fragment
   const appInstanceRef = react.createRef<ReactAppInstance>()
   const isReactComponent = isClassComponent(react, App)
   let appWrapper: AppWrapper
@@ -187,10 +177,29 @@ export function createReactApp (
     return appInstanceRef.current
   }
 
+  function renderReactRoot () {
+    let appId = 'app'
+    if (process.env.TARO_ENV === 'h5') {
+      appId = config?.appId || appId
+    }
+    const container = document.getElementById(appId)
+    if((react.version || '').startsWith('18')){
+      const root = ReactDOM.createRoot(container)
+      root.render?.(h(AppWrapper))
+    } else {
+      ReactDOM.render?.(h(AppWrapper), container)
+    }
+  }
+
   class AppWrapper extends react.Component {
     // run createElement() inside the render function to make sure that owner is right
     private pages: Array<() => PageComponent> = []
     private elements: Array<PageComponent> = []
+
+    constructor (props) {
+      super(props)
+      appWrapper = this
+    }
 
     public mount (pageComponent: ReactPageComponent, id: string, cb: () => void) {
       const pageWrapper = connectReactPage(react, id)(pageComponent)
@@ -215,7 +224,7 @@ export function createReactApp (
         elements.push(page())
       }
 
-      let props: React.Props<any> | null = null
+      let props: React.ComponentProps<any> | null = null
 
       if (isReactComponent) {
         props = { ref: appInstanceRef }
@@ -224,16 +233,16 @@ export function createReactApp (
       return h(
         App,
         props,
-        process.env.TARO_ENV === 'h5' ? h('div', null, elements.slice()) : elements.slice()
+        process.env.TARO_ENV === 'h5' ? h(Fragment ?? 'div', null, elements.slice()) : elements.slice()
       )
     }
   }
 
   if (process.env.TARO_ENV !== 'h5') {
-    appWrapper = ReactDOM.render?.(h(AppWrapper), document.getElementById('app'))
+    renderReactRoot()
   }
 
-  const [ONLAUNCH, ONSHOW, ONHIDE] = hooks.getMiniLifecycleImpl().app
+  const [ONLAUNCH, ONSHOW, ONHIDE] = hooks.call('getMiniLifecycleImpl')!.app
 
   const appObj: AppInstance = Object.create({
     render (cb: () => void) {
@@ -259,7 +268,7 @@ export function createReactApp (
 
         if (process.env.TARO_ENV === 'h5') {
           // 由于 H5 路由初始化的时候会清除 app 下的 dom 元素，所以需要在路由初始化后执行 render
-          appWrapper = ReactDOM.render?.(h(AppWrapper), document.getElementById(config?.appId || 'app'))
+          renderReactRoot()
         }
 
         // 用户编写的入口组件实例
@@ -289,6 +298,7 @@ export function createReactApp (
 
           app.onLaunch?.(options)
         }
+        triggerAppHook('onLaunch', options)
       }
     }),
 
@@ -320,19 +330,31 @@ export function createReactApp (
       }
     }),
 
+    onError: setDefaultDescriptor({
+      value (error: string) {
+        const app = getAppInstance()
+        app?.onError?.(error)
+        triggerAppHook('onError', error)
+        if (process.env.NODE_ENV !== 'production' && error?.includes('Minified React error')) {
+          console.warn('React 出现报错，请打开编译配置 mini.debugReact 查看报错详情：https://docs.taro.zone/docs/config-detail#minidebugreact')
+        }
+      }
+    }),
+
     onPageNotFound: setDefaultDescriptor({
       value (res: unknown) {
         const app = getAppInstance()
         app?.onPageNotFound?.(res)
+        triggerAppHook('onPageNotFound', res)
       }
     })
   })
 
-  function triggerAppHook (lifecycle, ...option) {
+  function triggerAppHook (lifecycle: keyof PageLifeCycle | keyof AppInstance, ...option) {
     const instance = getPageInstance(HOOKS_APP_ID)
     if (instance) {
       const app = getAppInstance()
-      const func = hooks.getLifecycle(instance, lifecycle)
+      const func = hooks.call('getLifecycle', instance, lifecycle)
       if (Array.isArray(func)) {
         func.forEach(cb => cb.apply(app, option))
       }

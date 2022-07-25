@@ -1,6 +1,7 @@
 import Taro from '@tarojs/api'
-import { MethodHandler } from '../utils/handler'
-import { findDOM } from '../utils'
+
+import { findDOM } from '../../utils'
+import { MethodHandler } from '../../utils/handler'
 
 /**
  * 获取 canvas 区域隐含的像素数据。

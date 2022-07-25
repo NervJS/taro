@@ -1,21 +1,22 @@
 import stylus from 'stylus'
-import { RenderResult, RenderAdditionalResult } from '../types'
+
+import { RenderAdditionalResult, RenderResult } from '../types'
 import { getAdditionalData, insertBefore } from '../utils'
 
 class Evaluator { }
 
 interface Dictionary<T> {
-  [key: string]: T;
+  [key: string]: T
 }
 
 // https://stylus-lang.com/docs/js.html
 interface RenderOptions {
-  globals?: Dictionary<any>;
-  functions?: Dictionary<any>;
-  imports?: string[];
-  paths?: string[];
-  filename?: string;
-  Evaluator?: typeof Evaluator;
+  globals?: Dictionary<any>
+  functions?: Dictionary<any>
+  imports?: string[]
+  paths?: string[]
+  filename?: string
+  Evaluator?: typeof Evaluator
   /**
    * Specify Stylus plugins to use. Plugins may be passed as
    * strings instead of importing them in your Webpack config.
@@ -23,21 +24,21 @@ interface RenderOptions {
    * @type {(string|Function)[]}
    * @default []
    */
-  use: (string | ((string) => string))[],
+  use: (string | ((string) => string))[]
   /**
    * Add path(s) to the import lookup paths.
    *
    * @type {string[]}
    * @default []
    */
-  include: string[],
+  include: string[]
   /**
    * Import the specified Stylus files/paths.
    *
    * @type {string[]}
    * @default []
    */
-  import: string[],
+  import: string[]
 
   /**
    * Define Stylus variables or functions.
@@ -46,7 +47,7 @@ interface RenderOptions {
    * @default {}
    */
   // Array is the recommended syntax: [key, value, raw]
-  define: Array<any> | Record<string, any>,
+  define: Array<any> | Record<string, any>
   // Object is deprecated syntax (there is no possibility to specify "raw')
   // define: {
   //   $development: process.env.NODE_ENV === 'development',
@@ -59,7 +60,7 @@ interface RenderOptions {
    * @type {boolean}
    * @default false
    */
-  includeCSS: boolean,
+  includeCSS: boolean
 
   /**
    * Resolve relative url()'s inside imported files.
@@ -80,12 +81,12 @@ interface RenderOptions {
    * @type {boolean}
    * @default false
    */
-  lineNumbers: boolean,
+  lineNumbers: boolean
   /**
    * @type {boolean}
    * @default false
    */
-  disableCache: boolean,
+  disableCache: boolean
 
   /**
    * Move @import and @charset to the top.
@@ -95,7 +96,7 @@ interface RenderOptions {
    * @type {boolean}
    * @default false
    */
-  hoistAtrules: boolean,
+  hoistAtrules: boolean
 }
 
 export interface Config {

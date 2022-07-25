@@ -1,16 +1,16 @@
 import { ComponentType } from 'react'
-import { StandardProps } from './common'
 import { StyleProp, ViewStyle } from 'react-native'
+import { StandardProps } from './common'
 
 interface ViewProps extends StandardProps {
   /** 指定按下去的样式类。当 `hover-class="none"` 时，没有点击态效果
    * @default none
    * @supported weapp, swan, alipay, tt, h5
-   * @rn 由于 RN 不支持 Class，故 RN 端的 View 组件实现了 `hoverStyle`属性，写法和 style 类似，只不过 `hoverStyle` 的样式是指定按下去的样式。
+   * @rn 由于 RN 不支持 hoverClass，故 RN 端的 View 组件实现了 `hoverStyle`属性，写法和 style 类似，只不过 `hoverStyle` 的样式是指定按下去的样式。
    */
   hoverClass?: string
 
-  /** 由于 RN 不支持 Class，故 RN 端的 View 组件实现了 `hoverStyle`属性，写法和 style 类似，只不过 `hoverStyle` 的样式是指定按下去的样式。
+  /** 由于 RN 不支持 hoverClass，故 RN 端的 View 组件实现了 `hoverStyle`属性，写法和 style 类似，只不过 `hoverStyle` 的样式是指定按下去的样式。
    * @default none
    * @supported rn
    */
@@ -86,7 +86,7 @@ interface ViewProps extends StandardProps {
  *     </view>
  *   </view>
  * </template>
- * 
+ *
  * <style>
  * .flex-wrp { display: flex; }
  * .flex-wrp-column{ flex-direction: column; }

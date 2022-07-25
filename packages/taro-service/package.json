@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/service",
-  "version": "3.4.13",
+  "version": "3.5.0-beta.8",
   "description": "Taro Service",
   "main": "index.js",
   "types": "types/index.d.ts",
@@ -9,7 +9,7 @@
     "dev": "tsc -w",
     "prod": "tsc",
     "clean": "rimraf dist",
-    "prepack": "npm run build",
+    "prepack": "pnpm run build",
     "test": "jest",
     "test:dev": "jest --watch"
   },
@@ -33,9 +33,9 @@
   },
   "homepage": "https://github.com/NervJS/taro#readme",
   "dependencies": {
-    "@tarojs/helper": "3.4.13",
-    "@tarojs/shared": "3.4.13",
-    "@tarojs/taro": "3.4.13",
+    "@tarojs/helper": "workspace:*",
+    "@tarojs/shared": "workspace:*",
+    "@tarojs/taro": "workspace:*",
     "fs-extra": "^8.1.0",
     "joi": "^17.6.0",
     "lodash": "^4.17.21",

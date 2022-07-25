@@ -1,4 +1,4 @@
-import { temporarilyNotSupport } from '../utils'
+import { temporarilyNotSupport } from '../../utils'
 
 export const reportMonitor = temporarilyNotSupport('reportMonitor')
 export const reportAnalytics = temporarilyNotSupport('reportAnalytics')

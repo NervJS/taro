@@ -1,13 +1,10 @@
 {
   "extends": "../../tsconfig.root.json",
-  "include": ["src/**/*"],
   "compilerOptions": {
-    "rootDir": "./src",
+    "jsx": "react",
     "outDir": "./dist",
     "sourceMap": true,
-    "skipLibCheck": true,
-    "types": ["node"],
-    "module": "commonjs",
-    "typeRoots": ["./node_modules/@types", "./src/types"]
-  }
+    "module": "commonjs"
+  },
+  "include": ["./src"]
 }

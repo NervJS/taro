@@ -1,11 +1,11 @@
-import * as path from 'path'
+import { normalizePath, promoteRelativePath, readConfig, resolveMainFilePath } from '@tarojs/helper'
+import { isArray, isFunction, isString } from '@tarojs/shared'
+import { AppConfig, SubPackage } from '@tarojs/taro'
 import * as md5 from 'md5'
+import * as path from 'path'
 import * as webpack from 'webpack'
 import * as SplitChunksPlugin from 'webpack/lib/optimize/SplitChunksPlugin'
 import { ConcatSource } from 'webpack-sources'
-import { AppConfig, SubPackage } from '@tarojs/taro'
-import { resolveMainFilePath, readConfig, promoteRelativePath, normalizePath } from '@tarojs/helper'
-import { isString, isFunction, isArray } from '@tarojs/shared'
 
 import { IFileType } from '../utils/types'
 
@@ -22,7 +22,7 @@ interface MiniSplitChunksPluginOption {
   exclude?: (string | ExcludeFunctionItem)[]
   fileType: IFileType
   /**
-   * 支持自定义目录及名称，减少requre消耗的体积
+   * 支持自定义目录及名称，减少 require 消耗的体积
    */
   subCommonDir?:string
   subVendorsName?:string

@@ -1,9 +1,12 @@
-import * as path from 'path'
-import { exec } from 'child_process'
-import * as getLatestVersion from 'latest-version'
-import * as semver from 'semver'
-import * as ora from 'ora'
 import { IPluginContext } from '@tarojs/service'
+import { exec } from 'child_process'
+import * as inquirer from 'inquirer'
+import * as getLatestVersion from 'latest-version'
+import * as ora from 'ora'
+import * as path from 'path'
+import * as semver from 'semver'
+
+import packagesManagement from '../../config/packagesManagement'
 import { getPkgItemByKey } from '../../util'
 
 export default (ctx: IPluginContext) => {
@@ -13,20 +16,27 @@ export default (ctx: IPluginContext) => {
       'taro update self [version]',
       'taro update project [version]'
     ],
-    async fn ({ _ }) {
-      const [, updateType, version] = _ as [string, ('self' | 'project')?, number?]
+    optionsMap: {
+      '--npm [npm]': '包管理工具',
+      '-h, --help': 'output usage information'
+    },
+    async fn ({ _, options }) {
+      const { npm } = options
+      const [, updateType, version] = _ as [string, ('self' | 'project')?, string?]
       const { appPath, configPath } = ctx.paths
       const {
         chalk,
         fs,
-        shouldUseCnpm,
-        shouldUseYarn,
         PROJECT_CONFIG,
         UPDATE_PACKAGE_LIST
       } = ctx.helper
 
       const pkgPath = path.join(appPath, 'package.json')
       const pkgName = getPkgItemByKey('name')
+      const conf = {
+        npm: null
+      }
+      const prompts: Record<string, unknown>[] = []
 
       async function getTargetVersion () {
         let targetTaroVersion
@@ -69,14 +79,16 @@ export default (ctx: IPluginContext) => {
       /** 更新全局的 Taro CLI */
       async function updateSelf () {
         const targetTaroVersion = await getTargetVersion()
-        let command
-        if (shouldUseYarn()) {
-          command = `yarn global add @tarojs/cli@${targetTaroVersion}`
-        } else if (shouldUseCnpm()) {
-          command = `cnpm i -g @tarojs/cli@${targetTaroVersion}`
-        } else {
-          command = `npm i -g @tarojs/cli@${targetTaroVersion}`
-        }
+        askNpm(conf, prompts)
+        const answers = npm ? { npm } : await inquirer.prompt(prompts)
+        const command = `${packagesManagement[answers.npm].globalCommand}@${targetTaroVersion}`
+        // if (shouldUseYarn()) {
+        //   command = `yarn global add @tarojs/cli@${targetTaroVersion}`
+        // } else if (shouldUseCnpm()) {
+        //   command = `cnpm i -g @tarojs/cli@${targetTaroVersion}`
+        // } else {
+        //   command = `npm i -g @tarojs/cli@${targetTaroVersion}`
+        // }
 
         execUpdate(command, targetTaroVersion, true)
       }
@@ -84,7 +96,7 @@ export default (ctx: IPluginContext) => {
       /** 更新当前项目中的 Taro 相关依赖 */
       async function updateProject () {
         if (!configPath || !fs.existsSync(configPath)) {
-          console.log(chalk.red(`找不到项目配置文件${PROJECT_CONFIG}，请确定当前目录是Taro项目根目录!`))
+          console.log(chalk.red(`找不到项目配置文件 ${PROJECT_CONFIG}，请确定当前目录是 Taro 项目根目录!`))
           process.exit(1)
         }
         const packageMap = require(pkgPath)
@@ -122,16 +134,49 @@ export default (ctx: IPluginContext) => {
           console.error(err)
         }
 
-        let command
-        if (shouldUseYarn()) {
-          command = 'yarn'
-        } else if (shouldUseCnpm()) {
-          command = 'cnpm install'
-        } else {
-          command = 'npm install'
-        }
+        askNpm(conf, prompts)
+        const answers = npm ? { npm } : await inquirer.prompt(prompts)
+
+        const command = packagesManagement[answers.npm].command
+        // if (shouldUseYarn()) {
+        //   command = 'yarn'
+        // } else if (shouldUseCnpm()) {
+        //   command = 'cnpm install'
+        // } else {
+        //   command = 'npm install'
+        // }
 
         execUpdate(command, version)
+      }
+
+      function askNpm (conf, prompts) {
+        const packages = [
+          {
+            name: 'yarn',
+            value: 'yarn'
+          },
+          {
+            name: 'pnpm',
+            value: 'pnpm'
+          },
+          {
+            name: 'npm',
+            value: 'npm'
+          },
+          {
+            name: 'cnpm',
+            value: 'cnpm'
+          }
+        ]
+
+        if ((typeof conf.npm as string | undefined) !== 'string') {
+          prompts.push({
+            type: 'list',
+            name: 'npm',
+            message: '请选择包管理工具',
+            choices: packages
+          })
+        }
       }
 
       if (updateType === 'self') return updateSelf()

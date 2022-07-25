@@ -1,5 +1,6 @@
 import * as os from 'os'
-import * as chalk from 'chalk'
+
+import { chalk } from './terminal'
 
 // eslint-disable-next-line dot-notation
 export const PLATFORMS = global['PLATFORMS'] = global['PLATFORMS'] || {}
@@ -21,7 +22,7 @@ export const enum processTypeEnum {
 
 export interface IProcessTypeMap {
   [key: string]: {
-    name: string,
+    name: string
     color: string | chalk.Chalk
   }
 }
@@ -183,9 +184,9 @@ export const taroJsMobxCommon = '@tarojs/mobx-common'
 export const DEVICE_RATIO_NAME = 'deviceRatio'
 export const isWindows = os.platform() === 'win32'
 
-export const DEFAULT_TEMPLATE_SRC = 'github:NervJS/taro-project-templates#v3.4'
-export const DEFAULT_TEMPLATE_SRC_GITEE = 'direct:https://gitee.com/o2team/taro-project-templates.git#v3.4'
-export const TARO_CONFIG_FLODER = '.taro3.4'
+export const DEFAULT_TEMPLATE_SRC = 'github:NervJS/taro-project-templates#v3.5'
+export const DEFAULT_TEMPLATE_SRC_GITEE = 'direct:https://gitee.com/o2team/taro-project-templates.git#v3.5'
+export const TARO_CONFIG_FOLDER = '.taro3.5'
 export const TARO_BASE_CONFIG = 'index.json'
 
 export const OUTPUT_DIR = 'dist'
@@ -199,11 +200,4 @@ export enum FRAMEWORK_MAP {
   VUE3 = 'vue3',
   REACT = 'react',
   NERV = 'nerv'
-}
-
-export const FRAMEWORK_EXT_MAP = {
-  vue: VUE_EXT,
-  vue3: VUE_EXT,
-  react: SCRIPT_EXT,
-  nerv: SCRIPT_EXT
 }

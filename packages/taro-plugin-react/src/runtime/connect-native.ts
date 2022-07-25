@@ -1,23 +1,15 @@
 import {
-  Current,
-  document,
-  injectPageInstance,
-  safeExecute,
-  addLeadingSlash,
-  incrementId,
-  eventHandler
+  addLeadingSlash, Current, document, eventHandler,
+  incrementId, injectPageInstance, Instance, safeExecute,
+  TaroRootElement
 } from '@tarojs/runtime'
 import { EMPTY_OBJ } from '@tarojs/shared'
-import { isClassComponent } from './utils'
+import type { PageInstance } from '@tarojs/taro'
+import type * as React from 'react'
+
 import { setReconciler } from './connect'
 import { reactMeta } from './react-meta'
-
-import type * as React from 'react'
-import type { PageInstance } from '@tarojs/taro'
-import type {
-  TaroRootElement,
-  Instance
-} from '@tarojs/runtime'
+import { isClassComponent } from './utils'
 
 declare const getCurrentPages: () => PageInstance[]
 

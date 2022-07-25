@@ -1,19 +1,20 @@
 import { getRouteEventChannel } from '@tarojs/router-rn'
+
 import { Events } from './emmiter'
 
 interface ExeListItem {
-  eventName: string,
+  eventName: string
   data: Record<string, any>
 }
 
 interface RouteEvt extends Events {
   addEvents: (events: any) => void
-  emit?: (events: any, data: any) => void,
+  emit?: (events: any, data: any) => void
 }
 
 interface PageEvt extends Events {
-  exeList: any[],
-  emit?: (events: any, data: any) => void,
+  exeList: any[]
+  emit?: (events: any, data: any) => void
 }
 
 class PageEvts extends Events {
