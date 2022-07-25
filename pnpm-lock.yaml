@@ -1202,13 +1202,13 @@ importers:
   packages/taro-router:
     specifiers:
       '@tarojs/runtime': workspace:*
-      '@tarojs/taro': workspace:*
+      '@tarojs/taro-h5': workspace:*
       history: ^5.1.0
       query-string: ^7.1.1
       universal-router: ^8.3.0
     dependencies:
       '@tarojs/runtime': link:../taro-runtime
-      '@tarojs/taro': link:../taro
+      '@tarojs/taro-h5': link:../taro-h5
       history: registry.npmjs.org/history/5.3.0
       query-string: registry.npmjs.org/query-string/7.1.1
       universal-router: registry.npmjs.org/universal-router/8.3.0

@@ -1,6 +1,6 @@
 /* eslint-disable dot-notation */
 import { Current, PageInstance } from '@tarojs/runtime'
-import { PageConfig } from '@tarojs/taro'
+import type { PageConfig } from '@tarojs/taro'
 import queryString from 'query-string'
 
 import type { MpaRouterConfig, Route } from '../../types/router'

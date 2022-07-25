@@ -29,7 +29,7 @@
   "license": "MIT",
   "dependencies": {
     "@tarojs/runtime": "workspace:*",
-    "@tarojs/taro": "workspace:*",
+    "@tarojs/taro-h5": "workspace:*",
     "history": "^5.1.0",
     "query-string": "^7.1.1",
     "universal-router": "^8.3.0"
