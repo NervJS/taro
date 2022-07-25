@@ -1,6 +1,6 @@
 import React from 'react'
 
-import Taro, { Component } from './index'
+import Taro from './index'
 
 declare module './index' {
   type MessageType = 'info' | 'success' | 'error' | 'warning'
@@ -49,36 +49,41 @@ declare module './index' {
       new (): TaroGeneral.Events
     }
 
-    // eventCenter
+    /** 事件中心
+     * @supported global
+     */
     eventCenter: TaroGeneral.Events
 
     ENV_TYPE: TARO_ENV_TYPE
 
+    /** 获取环境变量
+     * @supported global
+     */
     getEnv(): TaroGeneral.ENV_TYPE
 
-    render(component: Component | JSX.Element, element: Element | null): any
-
-    internal_safe_set(...arg: any[]): any
-    internal_safe_get(...arg: any[]): any
-
-    atMessage(options: AtMessageOptions): void
-
+    /** 尺寸转换
+     * @supported global
+     */
     pxTransform(size: number, designWidth?: number): string
+
+    /** 尺寸转换初始化
+     * @supported global
+     */
     initPxTransform(config: { designWidth: number; deviceRatio: TaroGeneral.TDeviceRatio }): void
 
-    /**
-     * 小程序引用插件 JS 接口
+    /** 小程序引用插件 JS 接口
+     * @supported weapp, alipay, h5, rn, jd, qq, swan, tt, quickapp
      */
     requirePlugin(pluginName: string): any
 
-    setIsUsingDiff (flag: boolean)
-
+    /** 获取当前页面实例
+     * @supported global
+     */
+    getCurrentInstance(): Current
     Current: Current
 
-    getCurrentInstance(): Current
-
-    /**
-     * @desc Vue3 插件，用于设置 `getApp()` 中的全局变量
+    /** Vue3 插件，用于设置 `getApp()` 中的全局变量
+     * @supported weapp, alipay, h5, rn, jd, qq, swan, tt, quickapp
      * @example
      * ```js
      * // 使用插件
@@ -92,9 +97,8 @@ declare module './index' {
      */
     setGlobalDataPlugin: SetGlobalDataPlugin
 
-    /**
+    /** 获取自定义 TabBar 对应的 React 或 Vue 组件实例
      * @supported weapp
-     * @desc 获取自定义 TabBar 对应的 React 或 Vue 组件实例
      * @param page 小程序页面对象，可以通过 Taro.getCurrentInstance().page 获取
      */
     getTabBar<T>(page: Current['page']): T | undefined
