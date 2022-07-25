@@ -30,6 +30,7 @@
   "dependencies": {
     "@tarojs/runtime": "workspace:*",
     "@tarojs/taro": "workspace:*",
+    "dingtalk-jsapi": "~2.15.2",
     "history": "^5.1.0",
     "mobile-detect": "^1.4.2",
     "query-string": "^7.1.1",

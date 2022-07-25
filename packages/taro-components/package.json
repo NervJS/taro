@@ -42,6 +42,7 @@
     "@stencil/core": "~2.13.0",
     "@stencil/sass": "1.5.2",
     "@tarojs/taro": "workspace:*",
+    "@tarojs/router": "workspace:*",
     "better-scroll": "^1.14.1",
     "classnames": "^2.2.5",
     "hls.js": "^1.1.5",
