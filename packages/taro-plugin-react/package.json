@@ -32,6 +32,9 @@
     "acorn": "^8.0.4",
     "acorn-walk": "^8.0.0"
   },
+  "peerDependencies": {
+    "react": ">=17"
+  },
   "peerDependenciesMeta": {
     "@pmmmwh/react-refresh-webpack-plugin": {
       "optional": true
