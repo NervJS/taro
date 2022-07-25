@@ -134,6 +134,7 @@ export default function (appPath: string, config: Partial<BuildConfig>): any {
       script: htmlScript
     }, htmlPluginOption)])
   }
+  env.SUPPORT_DINGTALK_NAVIGATE = env.SUPPORT_DINGTALK_NAVIGATE || '"disabled"'
   plugin.definePlugin = getDefinePlugin([processEnvOption(env), defineConstants])
 
   const mode = 'development'
