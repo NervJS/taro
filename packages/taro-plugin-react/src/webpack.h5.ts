@@ -1,5 +1,4 @@
 import type { IPluginContext } from '@tarojs/service'
-import react from 'react'
 
 import type { Frameworks } from './index'
 import { getLoaderMeta } from './loader-meta'
@@ -36,9 +35,13 @@ function setLoader (framework: Frameworks, chain) {
   chain.plugin('mainPlugin')
     .tap(args => {
       const loaderMeta = getLoaderMeta(framework)
-      // In react 18, should using react-dom/client
-      if(framework === 'react' && (react.version || '').startsWith('18')){
-        loaderMeta.importFrameworkStatement = loaderMeta.importFrameworkStatement.replace('react-dom', 'react-dom/client')
+      if(framework === 'react'){
+        // In react 18, should using react-dom/client
+        const react = require('react')
+        const majorVersion = Number((react.version || '18').split('.')[0])
+        if( majorVersion >= 18){
+          loaderMeta.importFrameworkStatement = loaderMeta.importFrameworkStatement.replace('react-dom', 'react-dom/client')
+        }
       }
       args[0].loaderMeta = loaderMeta
       return args
