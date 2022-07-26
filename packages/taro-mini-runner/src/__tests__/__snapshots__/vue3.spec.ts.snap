@@ -459,7 +459,7 @@ require(\\"./taro\\");
             return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread();
         }
         var vue = __webpack_require__(1);
-        function createHook(lifecycle) {
+        function createTaroHook(lifecycle) {
             return function(fn) {
                 var id = Object(vue[\\"inject\\"])(\\"id\\");
                 var fnRef = Object(vue[\\"ref\\"])(fn);
@@ -486,46 +486,46 @@ require(\\"./taro\\");
                 }));
             };
         }
-        var useDidShow = createHook(\\"onShow\\");
-        var useDidHide = createHook(\\"onHide\\");
-        var useReady = createHook(\\"onReady\\");
-        var useLoad = createHook(\\"onLoad\\");
-        var useUnload = createHook(\\"onUnload\\");
-        var usePullDownRefresh = createHook(\\"onPullDownRefresh\\");
-        var useReachBottom = createHook(\\"onReachBottom\\");
-        var usePageScroll = createHook(\\"onPageScroll\\");
-        var useResize = createHook(\\"onResize\\");
-        var useShareAppMessage = createHook(\\"onShareAppMessage\\");
-        var useTabItemTap = createHook(\\"onTabItemTap\\");
-        var useTitleClick = createHook(\\"onTitleClick\\");
-        var useOptionMenuClick = createHook(\\"onOptionMenuClick\\");
-        var usePullIntercept = createHook(\\"onPullIntercept\\");
-        var useShareTimeline = createHook(\\"onShareTimeline\\");
-        var useAddToFavorites = createHook(\\"onAddToFavorites\\");
-        var useSaveExitState = createHook(\\"onSaveExitState\\");
+        var useDidShow = createTaroHook(\\"onShow\\");
+        var useDidHide = createTaroHook(\\"onHide\\");
+        var useLoad = createTaroHook(\\"onLoad\\");
+        var usePageScroll = createTaroHook(\\"onPageScroll\\");
+        var usePullDownRefresh = createTaroHook(\\"onPullDownRefresh\\");
+        var usePullIntercept = createTaroHook(\\"onPullIntercept\\");
+        var useReachBottom = createTaroHook(\\"onReachBottom\\");
+        var useResize = createTaroHook(\\"onResize\\");
+        var useUnload = createTaroHook(\\"onUnload\\");
+        var useAddToFavorites = createTaroHook(\\"onAddToFavorites\\");
+        var useOptionMenuClick = createTaroHook(\\"onOptionMenuClick\\");
+        var useSaveExitState = createTaroHook(\\"onSaveExitState\\");
+        var useShareAppMessage = createTaroHook(\\"onShareAppMessage\\");
+        var useShareTimeline = createTaroHook(\\"onShareTimeline\\");
+        var useTitleClick = createTaroHook(\\"onTitleClick\\");
+        var useReady = createTaroHook(\\"onReady\\");
         var runtime_useRouter = function useRouter() {
             return taro_runtime[\\"Current\\"].router;
         };
+        var useTabItemTap = createTaroHook(\\"onTabItemTap\\");
         var taroHooks = Object.freeze({
             __proto__: null,
             useDidShow: useDidShow,
             useDidHide: useDidHide,
-            useReady: useReady,
             useLoad: useLoad,
-            useUnload: useUnload,
-            usePullDownRefresh: usePullDownRefresh,
-            useReachBottom: useReachBottom,
             usePageScroll: usePageScroll,
-            useResize: useResize,
-            useShareAppMessage: useShareAppMessage,
-            useTabItemTap: useTabItemTap,
-            useTitleClick: useTitleClick,
-            useOptionMenuClick: useOptionMenuClick,
+            usePullDownRefresh: usePullDownRefresh,
             usePullIntercept: usePullIntercept,
-            useShareTimeline: useShareTimeline,
+            useReachBottom: useReachBottom,
+            useResize: useResize,
+            useUnload: useUnload,
             useAddToFavorites: useAddToFavorites,
+            useOptionMenuClick: useOptionMenuClick,
             useSaveExitState: useSaveExitState,
-            useRouter: runtime_useRouter
+            useShareAppMessage: useShareAppMessage,
+            useShareTimeline: useShareTimeline,
+            useTitleClick: useTitleClick,
+            useReady: useReady,
+            useRouter: runtime_useRouter,
+            useTabItemTap: useTabItemTap
         });
         var setGlobalDataPlugin = {
             install: function install(app, data) {

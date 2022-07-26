@@ -521,7 +521,7 @@ require(\\"./taro\\");
                 params: options === null || options === void 0 ? void 0 : options.query
             }, options);
         }
-        var runtime_taroHooks = function taroHooks(lifecycle) {
+        var runtime_createTaroHook = function createTaroHook(lifecycle) {
             return function(fn) {
                 var React = reactMeta.R, PageContext = reactMeta.PageContext;
                 var id = React.useContext(PageContext) || HOOKS_APP_ID;
@@ -560,26 +560,25 @@ require(\\"./taro\\");
                 }), []);
             };
         };
-        var useDidShow = runtime_taroHooks(\\"componentDidShow\\");
-        var useDidHide = runtime_taroHooks(\\"componentDidHide\\");
-        var usePullDownRefresh = runtime_taroHooks(\\"onPullDownRefresh\\");
-        var useReachBottom = runtime_taroHooks(\\"onReachBottom\\");
-        var usePageScroll = runtime_taroHooks(\\"onPageScroll\\");
-        var useResize = runtime_taroHooks(\\"onResize\\");
-        var useShareAppMessage = runtime_taroHooks(\\"onShareAppMessage\\");
-        var useTabItemTap = runtime_taroHooks(\\"onTabItemTap\\");
-        var useTitleClick = runtime_taroHooks(\\"onTitleClick\\");
-        var useOptionMenuClick = runtime_taroHooks(\\"onOptionMenuClick\\");
-        var usePullIntercept = runtime_taroHooks(\\"onPullIntercept\\");
-        var useShareTimeline = runtime_taroHooks(\\"onShareTimeline\\");
-        var useAddToFavorites = runtime_taroHooks(\\"onAddToFavorites\\");
-        var useSaveExitState = runtime_taroHooks(\\"onSaveExitState\\");
-        var useReady = runtime_taroHooks(\\"onReady\\");
-        var useLaunch = runtime_taroHooks(\\"onLaunch\\");
-        var useLoad = runtime_taroHooks(\\"onLoad\\");
-        var useUnload = runtime_taroHooks(\\"onUnload\\");
-        var useError = runtime_taroHooks(\\"onError\\");
-        var usePageNotFound = runtime_taroHooks(\\"onPageNotFound\\");
+        var useDidHide = runtime_createTaroHook(\\"componentDidHide\\");
+        var useDidShow = runtime_createTaroHook(\\"componentDidShow\\");
+        var useError = runtime_createTaroHook(\\"onError\\");
+        var useLaunch = runtime_createTaroHook(\\"onLaunch\\");
+        var usePageNotFound = runtime_createTaroHook(\\"onPageNotFound\\");
+        var useLoad = runtime_createTaroHook(\\"onLoad\\");
+        var usePageScroll = runtime_createTaroHook(\\"onPageScroll\\");
+        var usePullDownRefresh = runtime_createTaroHook(\\"onPullDownRefresh\\");
+        var usePullIntercept = runtime_createTaroHook(\\"onPullIntercept\\");
+        var useReachBottom = runtime_createTaroHook(\\"onReachBottom\\");
+        var useResize = runtime_createTaroHook(\\"onResize\\");
+        var useUnload = runtime_createTaroHook(\\"onUnload\\");
+        var useAddToFavorites = runtime_createTaroHook(\\"onAddToFavorites\\");
+        var useOptionMenuClick = runtime_createTaroHook(\\"onOptionMenuClick\\");
+        var useSaveExitState = runtime_createTaroHook(\\"onSaveExitState\\");
+        var useShareAppMessage = runtime_createTaroHook(\\"onShareAppMessage\\");
+        var useShareTimeline = runtime_createTaroHook(\\"onShareTimeline\\");
+        var useTitleClick = runtime_createTaroHook(\\"onTitleClick\\");
+        var useReady = runtime_createTaroHook(\\"onReady\\");
         var runtime_useRouter = function useRouter() {
             var dynamic = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
             var React = reactMeta.R;
@@ -587,32 +586,33 @@ require(\\"./taro\\");
                 return taro_runtime[\\"Current\\"].router;
             }), []);
         };
+        var useTabItemTap = runtime_createTaroHook(\\"onTabItemTap\\");
         var useScope = function useScope() {
             return undefined;
         };
-        var taroHooks$1 = Object.freeze({
+        var taroHooks = Object.freeze({
             __proto__: null,
-            useDidShow: useDidShow,
             useDidHide: useDidHide,
-            usePullDownRefresh: usePullDownRefresh,
-            useReachBottom: useReachBottom,
-            usePageScroll: usePageScroll,
-            useResize: useResize,
-            useShareAppMessage: useShareAppMessage,
-            useTabItemTap: useTabItemTap,
-            useTitleClick: useTitleClick,
-            useOptionMenuClick: useOptionMenuClick,
-            usePullIntercept: usePullIntercept,
-            useShareTimeline: useShareTimeline,
-            useAddToFavorites: useAddToFavorites,
-            useSaveExitState: useSaveExitState,
-            useReady: useReady,
-            useLaunch: useLaunch,
-            useLoad: useLoad,
-            useUnload: useUnload,
+            useDidShow: useDidShow,
             useError: useError,
+            useLaunch: useLaunch,
             usePageNotFound: usePageNotFound,
+            useLoad: useLoad,
+            usePageScroll: usePageScroll,
+            usePullDownRefresh: usePullDownRefresh,
+            usePullIntercept: usePullIntercept,
+            useReachBottom: useReachBottom,
+            useResize: useResize,
+            useUnload: useUnload,
+            useAddToFavorites: useAddToFavorites,
+            useOptionMenuClick: useOptionMenuClick,
+            useSaveExitState: useSaveExitState,
+            useShareAppMessage: useShareAppMessage,
+            useShareTimeline: useShareTimeline,
+            useTitleClick: useTitleClick,
+            useReady: useReady,
             useRouter: runtime_useRouter,
+            useTabItemTap: useTabItemTap,
             useScope: useScope
         });
         var h$1;
@@ -715,14 +715,10 @@ require(\\"./taro\\");
             }
             function renderReactRoot() {
                 var _a, _b;
-                var reactMode = \\"legacy\\";
                 var appId = \\"app\\";
-                if (false) {} else {
-                    ReactDOM$1.version = react.version;
-                }
+                if (false) {}
                 var container = taro_runtime[\\"document\\"].getElementById(appId);
-                var version = Number((ReactDOM$1.version || \\"\\").split(\\".\\")[0]);
-                if (version >= 18 && reactMode === \\"concurrent\\") {
+                if ((react.version || \\"\\").startsWith(\\"18\\")) {
                     var root = ReactDOM$1.createRoot(container);
                     (_a = root.render) === null || _a === void 0 ? void 0 : _a.call(root, h$1(AppWrapper));
                 } else {
@@ -1094,8 +1090,8 @@ require(\\"./taro\\");
             return componentObj;
         }
         hooks.tap(\\"initNativeApi\\", (function(taro) {
-            for (var hook in taroHooks$1) {
-                taro[hook] = taroHooks$1[hook];
+            for (var hook in taroHooks) {
+                taro[hook] = taroHooks[hook];
             }
         }));
         if (false) {
@@ -3359,7 +3355,7 @@ require(\\"./taro\\");
                 params: options === null || options === void 0 ? void 0 : options.query
             }, options);
         }
-        var runtime_taroHooks = function taroHooks(lifecycle) {
+        var runtime_createTaroHook = function createTaroHook(lifecycle) {
             return function(fn) {
                 var React = reactMeta.R, PageContext = reactMeta.PageContext;
                 var id = React.useContext(PageContext) || HOOKS_APP_ID;
@@ -3398,26 +3394,25 @@ require(\\"./taro\\");
                 }), []);
             };
         };
-        var useDidShow = runtime_taroHooks(\\"componentDidShow\\");
-        var useDidHide = runtime_taroHooks(\\"componentDidHide\\");
-        var usePullDownRefresh = runtime_taroHooks(\\"onPullDownRefresh\\");
-        var useReachBottom = runtime_taroHooks(\\"onReachBottom\\");
-        var usePageScroll = runtime_taroHooks(\\"onPageScroll\\");
-        var useResize = runtime_taroHooks(\\"onResize\\");
-        var useShareAppMessage = runtime_taroHooks(\\"onShareAppMessage\\");
-        var useTabItemTap = runtime_taroHooks(\\"onTabItemTap\\");
-        var useTitleClick = runtime_taroHooks(\\"onTitleClick\\");
-        var useOptionMenuClick = runtime_taroHooks(\\"onOptionMenuClick\\");
-        var usePullIntercept = runtime_taroHooks(\\"onPullIntercept\\");
-        var useShareTimeline = runtime_taroHooks(\\"onShareTimeline\\");
-        var useAddToFavorites = runtime_taroHooks(\\"onAddToFavorites\\");
-        var useSaveExitState = runtime_taroHooks(\\"onSaveExitState\\");
-        var useReady = runtime_taroHooks(\\"onReady\\");
-        var useLaunch = runtime_taroHooks(\\"onLaunch\\");
-        var useLoad = runtime_taroHooks(\\"onLoad\\");
-        var useUnload = runtime_taroHooks(\\"onUnload\\");
-        var useError = runtime_taroHooks(\\"onError\\");
-        var usePageNotFound = runtime_taroHooks(\\"onPageNotFound\\");
+        var useDidHide = runtime_createTaroHook(\\"componentDidHide\\");
+        var useDidShow = runtime_createTaroHook(\\"componentDidShow\\");
+        var useError = runtime_createTaroHook(\\"onError\\");
+        var useLaunch = runtime_createTaroHook(\\"onLaunch\\");
+        var usePageNotFound = runtime_createTaroHook(\\"onPageNotFound\\");
+        var useLoad = runtime_createTaroHook(\\"onLoad\\");
+        var usePageScroll = runtime_createTaroHook(\\"onPageScroll\\");
+        var usePullDownRefresh = runtime_createTaroHook(\\"onPullDownRefresh\\");
+        var usePullIntercept = runtime_createTaroHook(\\"onPullIntercept\\");
+        var useReachBottom = runtime_createTaroHook(\\"onReachBottom\\");
+        var useResize = runtime_createTaroHook(\\"onResize\\");
+        var useUnload = runtime_createTaroHook(\\"onUnload\\");
+        var useAddToFavorites = runtime_createTaroHook(\\"onAddToFavorites\\");
+        var useOptionMenuClick = runtime_createTaroHook(\\"onOptionMenuClick\\");
+        var useSaveExitState = runtime_createTaroHook(\\"onSaveExitState\\");
+        var useShareAppMessage = runtime_createTaroHook(\\"onShareAppMessage\\");
+        var useShareTimeline = runtime_createTaroHook(\\"onShareTimeline\\");
+        var useTitleClick = runtime_createTaroHook(\\"onTitleClick\\");
+        var useReady = runtime_createTaroHook(\\"onReady\\");
         var runtime_useRouter = function useRouter() {
             var dynamic = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
             var React = reactMeta.R;
@@ -3425,32 +3420,33 @@ require(\\"./taro\\");
                 return taro_runtime[\\"Current\\"].router;
             }), []);
         };
+        var useTabItemTap = runtime_createTaroHook(\\"onTabItemTap\\");
         var useScope = function useScope() {
             return undefined;
         };
-        var taroHooks$1 = Object.freeze({
+        var taroHooks = Object.freeze({
             __proto__: null,
-            useDidShow: useDidShow,
             useDidHide: useDidHide,
-            usePullDownRefresh: usePullDownRefresh,
-            useReachBottom: useReachBottom,
-            usePageScroll: usePageScroll,
-            useResize: useResize,
-            useShareAppMessage: useShareAppMessage,
-            useTabItemTap: useTabItemTap,
-            useTitleClick: useTitleClick,
-            useOptionMenuClick: useOptionMenuClick,
-            usePullIntercept: usePullIntercept,
-            useShareTimeline: useShareTimeline,
-            useAddToFavorites: useAddToFavorites,
-            useSaveExitState: useSaveExitState,
-            useReady: useReady,
-            useLaunch: useLaunch,
-            useLoad: useLoad,
-            useUnload: useUnload,
+            useDidShow: useDidShow,
             useError: useError,
+            useLaunch: useLaunch,
             usePageNotFound: usePageNotFound,
+            useLoad: useLoad,
+            usePageScroll: usePageScroll,
+            usePullDownRefresh: usePullDownRefresh,
+            usePullIntercept: usePullIntercept,
+            useReachBottom: useReachBottom,
+            useResize: useResize,
+            useUnload: useUnload,
+            useAddToFavorites: useAddToFavorites,
+            useOptionMenuClick: useOptionMenuClick,
+            useSaveExitState: useSaveExitState,
+            useShareAppMessage: useShareAppMessage,
+            useShareTimeline: useShareTimeline,
+            useTitleClick: useTitleClick,
+            useReady: useReady,
             useRouter: runtime_useRouter,
+            useTabItemTap: useTabItemTap,
             useScope: useScope
         });
         var h$1;
@@ -3553,14 +3549,10 @@ require(\\"./taro\\");
             }
             function renderReactRoot() {
                 var _a, _b;
-                var reactMode = \\"legacy\\";
                 var appId = \\"app\\";
-                if (false) {} else {
-                    ReactDOM$1.version = react.version;
-                }
+                if (false) {}
                 var container = taro_runtime[\\"document\\"].getElementById(appId);
-                var version = Number((ReactDOM$1.version || \\"\\").split(\\".\\")[0]);
-                if (version >= 18 && reactMode === \\"concurrent\\") {
+                if ((react.version || \\"\\").startsWith(\\"18\\")) {
                     var root = ReactDOM$1.createRoot(container);
                     (_a = root.render) === null || _a === void 0 ? void 0 : _a.call(root, h$1(AppWrapper));
                 } else {
@@ -3932,8 +3924,8 @@ require(\\"./taro\\");
             return componentObj;
         }
         hooks.tap(\\"initNativeApi\\", (function(taro) {
-            for (var hook in taroHooks$1) {
-                taro[hook] = taroHooks$1[hook];
+            for (var hook in taroHooks) {
+                taro[hook] = taroHooks[hook];
             }
         }));
         if (false) {

@@ -408,7 +408,7 @@ require(\\"./taro\\");
                 params: options === null || options === void 0 ? void 0 : options.query
             }, options);
         }
-        const taroHooks = lifecycle => fn => {
+        const createTaroHook = lifecycle => fn => {
             const {R: React, PageContext: PageContext} = reactMeta;
             const id = React.useContext(PageContext) || HOOKS_APP_ID;
             const fnRef = React.useRef(fn);
@@ -441,54 +441,54 @@ require(\\"./taro\\");
                 };
             }, []);
         };
-        const useDidShow = taroHooks(\\"componentDidShow\\");
-        const useDidHide = taroHooks(\\"componentDidHide\\");
-        const usePullDownRefresh = taroHooks(\\"onPullDownRefresh\\");
-        const useReachBottom = taroHooks(\\"onReachBottom\\");
-        const usePageScroll = taroHooks(\\"onPageScroll\\");
-        const useResize = taroHooks(\\"onResize\\");
-        const useShareAppMessage = taroHooks(\\"onShareAppMessage\\");
-        const useTabItemTap = taroHooks(\\"onTabItemTap\\");
-        const useTitleClick = taroHooks(\\"onTitleClick\\");
-        const useOptionMenuClick = taroHooks(\\"onOptionMenuClick\\");
-        const usePullIntercept = taroHooks(\\"onPullIntercept\\");
-        const useShareTimeline = taroHooks(\\"onShareTimeline\\");
-        const useAddToFavorites = taroHooks(\\"onAddToFavorites\\");
-        const useSaveExitState = taroHooks(\\"onSaveExitState\\");
-        const useReady = taroHooks(\\"onReady\\");
-        const useLaunch = taroHooks(\\"onLaunch\\");
-        const useLoad = taroHooks(\\"onLoad\\");
-        const useUnload = taroHooks(\\"onUnload\\");
-        const useError = taroHooks(\\"onError\\");
-        const usePageNotFound = taroHooks(\\"onPageNotFound\\");
+        const useDidHide = createTaroHook(\\"componentDidHide\\");
+        const useDidShow = createTaroHook(\\"componentDidShow\\");
+        const useError = createTaroHook(\\"onError\\");
+        const useLaunch = createTaroHook(\\"onLaunch\\");
+        const usePageNotFound = createTaroHook(\\"onPageNotFound\\");
+        const useLoad = createTaroHook(\\"onLoad\\");
+        const usePageScroll = createTaroHook(\\"onPageScroll\\");
+        const usePullDownRefresh = createTaroHook(\\"onPullDownRefresh\\");
+        const usePullIntercept = createTaroHook(\\"onPullIntercept\\");
+        const useReachBottom = createTaroHook(\\"onReachBottom\\");
+        const useResize = createTaroHook(\\"onResize\\");
+        const useUnload = createTaroHook(\\"onUnload\\");
+        const useAddToFavorites = createTaroHook(\\"onAddToFavorites\\");
+        const useOptionMenuClick = createTaroHook(\\"onOptionMenuClick\\");
+        const useSaveExitState = createTaroHook(\\"onSaveExitState\\");
+        const useShareAppMessage = createTaroHook(\\"onShareAppMessage\\");
+        const useShareTimeline = createTaroHook(\\"onShareTimeline\\");
+        const useTitleClick = createTaroHook(\\"onTitleClick\\");
+        const useReady = createTaroHook(\\"onReady\\");
         const useRouter = (dynamic = false) => {
             const React = reactMeta.R;
             return dynamic ? taro_runtime[\\"Current\\"].router : React.useMemo(() => taro_runtime[\\"Current\\"].router, []);
         };
+        const useTabItemTap = createTaroHook(\\"onTabItemTap\\");
         const useScope = () => undefined;
-        var taroHooks$1 = Object.freeze({
+        var taroHooks = Object.freeze({
             __proto__: null,
-            useDidShow: useDidShow,
             useDidHide: useDidHide,
-            usePullDownRefresh: usePullDownRefresh,
-            useReachBottom: useReachBottom,
-            usePageScroll: usePageScroll,
-            useResize: useResize,
-            useShareAppMessage: useShareAppMessage,
-            useTabItemTap: useTabItemTap,
-            useTitleClick: useTitleClick,
-            useOptionMenuClick: useOptionMenuClick,
-            usePullIntercept: usePullIntercept,
-            useShareTimeline: useShareTimeline,
-            useAddToFavorites: useAddToFavorites,
-            useSaveExitState: useSaveExitState,
-            useReady: useReady,
-            useLaunch: useLaunch,
-            useLoad: useLoad,
-            useUnload: useUnload,
+            useDidShow: useDidShow,
             useError: useError,
+            useLaunch: useLaunch,
             usePageNotFound: usePageNotFound,
+            useLoad: useLoad,
+            usePageScroll: usePageScroll,
+            usePullDownRefresh: usePullDownRefresh,
+            usePullIntercept: usePullIntercept,
+            useReachBottom: useReachBottom,
+            useResize: useResize,
+            useUnload: useUnload,
+            useAddToFavorites: useAddToFavorites,
+            useOptionMenuClick: useOptionMenuClick,
+            useSaveExitState: useSaveExitState,
+            useShareAppMessage: useShareAppMessage,
+            useShareTimeline: useShareTimeline,
+            useTitleClick: useTitleClick,
+            useReady: useReady,
             useRouter: useRouter,
+            useTabItemTap: useTabItemTap,
             useScope: useScope
         });
         let h$1;
@@ -575,14 +575,10 @@ require(\\"./taro\\");
             }
             function renderReactRoot() {
                 var _a, _b;
-                const reactMode = \\"legacy\\";
                 let appId = \\"app\\";
-                if (false) {} else {
-                    ReactDOM$1.version = react.version;
-                }
+                if (false) {}
                 const container = taro_runtime[\\"document\\"].getElementById(appId);
-                const version = Number((ReactDOM$1.version || \\"\\").split(\\".\\")[0]);
-                if (version >= 18 && reactMode === \\"concurrent\\") {
+                if ((react.version || \\"\\").startsWith(\\"18\\")) {
                     const root = ReactDOM$1.createRoot(container);
                     (_a = root.render) === null || _a === void 0 ? void 0 : _a.call(root, h$1(AppWrapper));
                 } else {
@@ -900,8 +896,8 @@ require(\\"./taro\\");
             return componentObj;
         }
         mocks_taro[\\"c\\"].tap(\\"initNativeApi\\", (function(taro) {
-            for (const hook in taroHooks$1) {
-                taro[hook] = taroHooks$1[hook];
+            for (const hook in taroHooks) {
+                taro[hook] = taroHooks[hook];
             }
         }));
         if (false) {}
