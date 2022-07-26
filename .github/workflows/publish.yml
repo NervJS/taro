@@ -20,8 +20,8 @@ jobs:
       # Setup
       - name: Checkout
         uses: actions/checkout@v3
-        with :
-          ref : ${{ github.head_ref }}
+        with:
+          ref : ${{ github.ref }}
       - name: Setup Node ${{ matrix.node_version }}
         uses: actions/setup-node@v1
         with:
