@@ -113,3 +113,18 @@ export function getLoaderMeta (framework: Frameworks) {
   if (framework === 'preact') framework = 'react'
   return frameworkMeta[framework]
 }
+
+// In react 18 or above, should using react-dom/client
+export function getLoaderMetaForH5 (framework: Frameworks){
+  const loaderMeta = getLoaderMeta(framework)
+
+  if(framework === 'react'){
+    const react = require('react')
+    const majorVersion = Number((react.version || '18').split('.')[0])
+    if( majorVersion >= 18){
+      loaderMeta.importFrameworkStatement = loaderMeta.importFrameworkStatement.replace("'react-dom'", "'react-dom/client'")
+    }
+  }
+
+  return loaderMeta
+}

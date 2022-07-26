@@ -1,7 +1,7 @@
 import type { IPluginContext } from '@tarojs/service'
 
 import type { Frameworks } from './index'
-import { getLoaderMeta } from './loader-meta'
+import { getLoaderMetaForH5 } from './loader-meta'
 
 export function modifyH5WebpackChain (ctx: IPluginContext, framework: Frameworks, chain) {
   setAlias(ctx, chain)
@@ -34,16 +34,7 @@ function setAlias (ctx: IPluginContext, chain) {
 function setLoader (framework: Frameworks, chain) {
   chain.plugin('mainPlugin')
     .tap(args => {
-      const loaderMeta = getLoaderMeta(framework)
-      if(framework === 'react'){
-        // In react 18, should using react-dom/client
-        const react = require('react')
-        const majorVersion = Number((react.version || '18').split('.')[0])
-        if( majorVersion >= 18){
-          loaderMeta.importFrameworkStatement = loaderMeta.importFrameworkStatement.replace('react-dom', 'react-dom/client')
-        }
-      }
-      args[0].loaderMeta = loaderMeta
+      args[0].loaderMeta = getLoaderMetaForH5(framework)
       return args
     })
 }
