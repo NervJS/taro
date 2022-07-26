@@ -1,11 +1,11 @@
 
-import type { IPluginContext, TaroPlatformBase } from '@tarojs/service'
-import { isArray, isString } from '@tarojs/shared'
-import * as path from 'path'
+import generator from '@babel/generator'
 import * as parser from '@babel/parser'
 import traverse from '@babel/traverse'
 import * as t from '@babel/types'
-import generator from '@babel/generator'
+import type { IPluginContext, TaroPlatformBase } from '@tarojs/service'
+import { isArray, isString } from '@tarojs/shared'
+import * as path from 'path'
 
 interface IOptions {
   pxtransformBlackList?: any[]
@@ -23,7 +23,7 @@ interface OnParseCreateElementArgs {
 }
 
 interface ModifyComponentConfigArgs {
-  componentConfig: IComponentConfig,
+  componentConfig: IComponentConfig
   config: Record<string, any>
 }
 

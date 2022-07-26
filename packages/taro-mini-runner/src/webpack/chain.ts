@@ -1,41 +1,40 @@
-import * as fs from 'fs-extra'
-import * as path from 'path'
-import * as CopyWebpackPlugin from 'copy-webpack-plugin'
-import CssoWebpackPlugin from 'csso-webpack-plugin'
-import * as MiniCssExtractPlugin from 'mini-css-extract-plugin'
-import * as sass from 'sass'
-import { partial, cloneDeep } from 'lodash'
-import { mapKeys, pipe } from 'lodash/fp'
-import * as TerserPlugin from 'terser-webpack-plugin'
-import * as webpack from 'webpack'
-import { PostcssOption, ICopyOptions, IPostcssOption } from '@tarojs/taro/types/compile'
 import {
-  recursiveMerge,
+  chalk,
   isNodeModule,
-  resolveMainFilePath,
-  REG_SASS_SASS,
-  REG_SASS_SCSS,
-  REG_LESS,
-  REG_STYLUS,
-  REG_STYLE,
-  REG_MEDIA,
+  recursiveMerge,
+  REG_CSS,
   REG_FONT,
   REG_IMAGE,
+  REG_LESS,
+  REG_MEDIA,
+  REG_SASS_SASS,
+  REG_SASS_SCSS,
   REG_SCRIPTS,
-  REG_CSS,
+  REG_STYLE,
+  REG_STYLUS,
   REG_TEMPLATE,
-  chalk
+  resolveMainFilePath,
+  SCRIPT_EXT
 } from '@tarojs/helper'
 import { getSassLoaderOption } from '@tarojs/runner-utils'
+import { ICopyOptions, IPostcssOption, PostcssOption } from '@tarojs/taro/types/compile'
+import * as CopyWebpackPlugin from 'copy-webpack-plugin'
+import CssoWebpackPlugin from 'csso-webpack-plugin'
+import * as fs from 'fs-extra'
+import { cloneDeep, partial } from 'lodash'
+import { mapKeys, pipe } from 'lodash/fp'
+import * as MiniCssExtractPlugin from 'mini-css-extract-plugin'
+import * as path from 'path'
+import * as sass from 'sass'
+import * as TerserPlugin from 'terser-webpack-plugin'
+import * as webpack from 'webpack'
 
-import { getPostcssPlugins } from './postcss.conf'
-
-import MiniPlugin from '../plugins/MiniPlugin'
-import BuildNativePlugin from '../plugins/BuildNativePlugin'
-import { IOption, IBuildConfig } from '../utils/types'
 import defaultTerserOptions from '../config/terserOptions'
-
+import BuildNativePlugin from '../plugins/BuildNativePlugin'
+import MiniPlugin from '../plugins/MiniPlugin'
 import MiniSplitChunksPlugin from '../plugins/MiniSplitChunksPlugin'
+import { IBuildConfig, IOption } from '../utils/types'
+import { getPostcssPlugins } from './postcss.conf'
 
 interface IRule {
   test?: any
@@ -63,7 +62,8 @@ export const makeConfig = async (buildConfig: IBuildConfig) => {
   const sassLoaderOption = await getSassLoaderOption(buildConfig)
   return {
     ...buildConfig,
-    sassLoaderOption
+    sassLoaderOption,
+    frameworkExts: buildConfig.frameworkExts || SCRIPT_EXT
   }
 }
 
@@ -161,7 +161,7 @@ export const getCssoWebpackPlugin = ([cssoOption]) => {
   return pipe(listify, partial(getPlugin, CssoWebpackPlugin))([mergeOption([defaultCSSCompressOption, cssoOption]), REG_STYLE])
 }
 export const getCopyWebpackPlugin = ({ copy, appPath }: {
-  copy: ICopyOptions,
+  copy: ICopyOptions
   appPath: string
 }) => {
   const args = [

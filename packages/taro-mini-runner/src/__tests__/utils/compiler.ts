@@ -1,16 +1,16 @@
-import * as path from 'path'
-import * as merge from 'webpack-merge'
 import * as helper from '@tarojs/helper'
-import { IFs } from 'memfs'
-import { Weapp } from '@tarojs/plugin-platform-weapp'
 import ReactLikePlugin from '@tarojs/plugin-framework-react'
 import Vue2Plugin from '@tarojs/plugin-framework-vue2'
 import Vue3Plugin from '@tarojs/plugin-framework-vue3'
+import { Weapp } from '@tarojs/plugin-platform-weapp'
+import { IFs } from 'memfs'
+import * as path from 'path'
+import * as merge from 'webpack-merge'
 
-import baseConfig from './config'
+import build from '../../index'
 import { componentConfig } from '../../template/component'
 import { IBuildConfig } from '../../utils/types'
-import build from '../../index'
+import baseConfig from './config'
 
 // interface EnsuredFs extends IFs {
 //   join: () => string
@@ -130,20 +130,23 @@ export async function compile (app: string, customConfig: Partial<IBuildConfig> 
  * 处理不同框架的自定义逻辑
  * @param chain webpack-chain
  */
-function frameworkPatch (chain, webpack, config: Partial<IBuildConfig> = {}) {
+function frameworkPatch (chain, webpack, config) {
   const mockCtx = {
     initialConfig: {
       framework: config.framework || 'react'
     },
-    modifyWebpackChain: cb => cb({ chain, webpack, data: { componentConfig } })
+    modifyWebpackChain: cb => cb({ chain, webpack, data: { componentConfig } }),
+    modifyRunnerOpts: cb => cb(config)
   }
 
   let frameworkPlugin: any = ReactLikePlugin
   switch (config.framework) {
     case 'vue':
+      config.opts = {}
       frameworkPlugin = Vue2Plugin
       break
     case 'vue3':
+      config.opts = {}
       frameworkPlugin = Vue3Plugin
       break
   }

@@ -1,4 +1,5 @@
 import * as npmCheck from 'npm-check'
+
 import validator from '../doctor/packageValidator'
 
 jest.mock('npm-check', () => jest.fn())

@@ -1,4 +1,4 @@
-import { temporarilyNotSupport } from '../utils'
+import { temporarilyNotSupport } from '../../utils'
 
 // 日历
 export const addPhoneRepeatCalendar = temporarilyNotSupport('addPhoneRepeatCalendar')

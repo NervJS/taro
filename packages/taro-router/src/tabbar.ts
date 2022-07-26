@@ -1,5 +1,6 @@
 // @ts-nocheck
 import { AppConfig, initTabBarApis } from '@tarojs/taro'
+
 import { history } from './history'
 
 export function initTabbar (config: AppConfig) {
@@ -8,7 +9,7 @@ export function initTabbar (config: AppConfig) {
   }
 
   // TODO: custom-tab-bar
-  const tabbar = document.createElement('taro-tabbar') as HTMLDivElement
+  const tabbar: any = document.createElement('taro-tabbar') as HTMLDivElement
   const homePage = config.entryPagePath || (config.pages ? config.pages[0] : '')
   tabbar.conf = config.tabBar
   tabbar.conf.homePage = history.location.pathname === '/' ? homePage : history.location.pathname

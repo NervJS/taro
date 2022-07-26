@@ -1,4 +1,5 @@
 import * as Taro from '@tarojs/taro-h5'
+
 const fetch = require('jest-fetch-mock')
 
 // @ts-ignore

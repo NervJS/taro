@@ -6,7 +6,6 @@
     "rootDir": "./src",
     "module": "commonjs",
     "sourceMap": true,
-    "skipLibCheck": true
   },
   "include": [
     "./src"

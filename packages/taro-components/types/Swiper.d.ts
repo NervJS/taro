@@ -112,7 +112,7 @@ interface SwiperProps extends StandardProps {
    * @supported weapp, swan, h5, rn, tt
    */
   onAnimationFinish?: SwiperProps['onChange']
-  
+
   /** 是否禁止用户 touch 操作
    * @default false
    * @supported alipay
@@ -151,7 +151,7 @@ declare namespace SwiperProps {
     /** 导致变更的原因 */
     source: keyof SwiperProps.TChangeSource
     /** SwiperItem的itemId参数值 */
-    currentItemId?: string 
+    currentItemId?: string
   }
 
   interface onTransitionEventDetail {

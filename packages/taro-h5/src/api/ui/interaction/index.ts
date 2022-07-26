@@ -1,9 +1,10 @@
 import Taro from '@tarojs/api'
-import { getParameterError, temporarilyNotSupport } from '../../utils'
-import { MethodHandler } from '../../utils/handler'
-import Toast from './toast'
-import Modal from './modal'
+
+import { getParameterError, temporarilyNotSupport } from '../../../utils'
+import { MethodHandler } from '../../../utils/handler'
 import ActionSheet from './actionSheet'
+import Modal from './modal'
+import Toast from './toast'
 
 // 交互
 
@@ -298,4 +299,4 @@ Taro.eventCenter.on('__taroRouterChange', () => {
 const enableAlertBeforeUnload = temporarilyNotSupport('enableAlertBeforeUnload')
 const disableAlertBeforeUnload = temporarilyNotSupport('disableAlertBeforeUnload')
 
-export { showToast, showModal, showLoading, showActionSheet, hideToast, hideLoading, enableAlertBeforeUnload, disableAlertBeforeUnload }
+export { disableAlertBeforeUnload, enableAlertBeforeUnload, hideLoading, hideToast, showActionSheet, showLoading, showModal, showToast }

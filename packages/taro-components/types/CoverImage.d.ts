@@ -64,7 +64,7 @@ interface CoverImageProps extends StandardProps {
  *     </cover-view>
  *   </view>
  * </template>
- * 
+ *
  * <style>
  * .container {
  *   position: relative;

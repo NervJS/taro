@@ -1,4 +1,5 @@
 import { isFunction } from '../utils'
+
 export default class Chain {
   constructor (requestParams, interceptors, index) {
     this.index = index || 0

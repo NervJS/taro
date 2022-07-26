@@ -7,8 +7,6 @@
     "module": "commonjs",
     "declaration": true,
     "declarationDir": "types",
-    "skipLibCheck": true
-
   },
   "include": [
     "./src"

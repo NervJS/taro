@@ -1,64 +1,88 @@
 module.exports = {
-  'parser': '@typescript-eslint/parser',
-  'plugins': ['@typescript-eslint', 'jest', 'react'],
-  'extends': [
+  parser: '@typescript-eslint/parser',
+  plugins: [
+    '@typescript-eslint',
+    'import',
+    'jest',
+    'react',
+    'simple-import-sort',
+    'prettier'
+  ],
+  extends: [
+    'eslint:recommended',
     'standard',
     'plugin:@typescript-eslint/recommended',
-    'plugin:react/recommended'
+    'plugin:react/jsx-runtime',
+    'plugin:react/recommended',
+    'prettier'
   ],
-  'rules': {
-    'no-use-before-define': 0,
-    'no-unused-vars': 'off',
-    'camelcase': 0,
-    '@typescript-eslint/explicit-function-return-type': 0,
-    "indent": "off",
-    '@typescript-eslint/indent': ['error', 2],
-    '@typescript-eslint/explicit-module-boundary-types': 0,
-    '@typescript-eslint/no-unused-vars': ['error', { 'argsIgnorePattern': '^_', 'args': 'after-used', }],
-    '@typescript-eslint/no-empty-function': 0,
-    '@typescript-eslint/no-use-before-define': ['warn', { 'functions': false, 'classes': false }],
-    '@typescript-eslint/no-non-null-assertion': 0,
-    '@typescript-eslint/no-explicit-any': 0,
-    '@typescript-eslint/no-var-requires': 0,
-    '@typescript-eslint/interface-name-prefix': 0,
-    '@typescript-eslint/member-delimiter-style': 0,
-    '@typescript-eslint/camelcase': 0,
-    '@typescript-eslint/no-namespace': 0,
+  rules: {
     '@typescript-eslint/ban-ts-comment': 0,
-    'standard/no-callback-literal': 0,
-    'no-console': ['error', { allow: ['warn', 'error'] }],
+    '@typescript-eslint/camelcase': 0,
+    '@typescript-eslint/explicit-function-return-type': 0,
+    '@typescript-eslint/explicit-module-boundary-types': 0,
+    '@typescript-eslint/indent': [2, 2],
+    '@typescript-eslint/interface-name-prefix': 0,
+    '@typescript-eslint/member-delimiter-style': [1, { multiline: { delimiter: 'none' }, singleline: { delimiter: 'comma' } }],
+    '@typescript-eslint/no-empty-function': 0,
+    '@typescript-eslint/no-explicit-any': 0,
+    '@typescript-eslint/no-namespace': 0,
+    '@typescript-eslint/no-non-null-assertion': 0,
+    '@typescript-eslint/no-this-alias': 0,
+    '@typescript-eslint/no-unused-vars': [2, { argsIgnorePattern: '^_', args: 'after-used' }],
+    '@typescript-eslint/no-use-before-define': [1, { functions: false, classes: false }],
+    '@typescript-eslint/no-var-requires': 0,
+    camelcase: 0,
+    'import/first': 2,
+    'import/newline-after-import': 2,
+    'import/no-duplicates': 2,
+    indent: 'off',
+    'no-console': [2, { allow: ['warn', 'error'] }],
+    'no-prototype-builtins': 0,
+    'no-unused-expressions': 0,
+    'no-unused-vars': 'off',
+    'no-use-before-define': 0,
+    'no-empty': 1,
     'prefer-spread': 0,
     'prefer-rest-params': 0,
-    'no-prototype-builtins': 0,
-    'react/jsx-uses-vars': 'warn',
+    'react/jsx-uses-vars': 1,
     'react/prop-types': 0,
     'react/no-find-dom-node': 0,
-    'no-unused-expressions': 0,
-    // 'camelcase': ['error', {allow: ['^internal_', '^unstable_']}]
+    quotes: [2, 'single', { avoidEscape: true, allowTemplateLiterals: true }],
+    semi: [2, 'never'],
+    'simple-import-sort/imports': 2,
+    'simple-import-sort/exports': 2,
+    'space-before-function-paren': [2, 'always'],
+    'standard/no-callback-literal': 0
   },
-  'env': {
+  env: {
     'jest/globals': true,
-    'browser': true,
-    'node': true,
-    'es6': true,
+    browser: true,
+    node: true,
+    es6: true
   },
-  'globals': {
-    'testRule': 'readonly',
-    'wx': 'readonly',
-    'qq': 'readonly',
-    'tt': 'readonly',
-    'swan': 'readonly',
-    'my': 'readonly',
-    'getCurrentPages': 'readonly',
-    'getApp': 'readonly',
-    'requirePlugin': 'readonly',
-    'jd': 'readonly',
-    'ks': 'readonly',
-    'LOCATION_APIKEY': 'readonly'
+  globals: {
+    testRule: 'readonly',
+    wx: 'readonly',
+    qq: 'readonly',
+    tt: 'readonly',
+    swan: 'readonly',
+    my: 'readonly',
+    getCurrentPages: 'readonly',
+    getApp: 'readonly',
+    requirePlugin: 'readonly',
+    jd: 'readonly',
+    ks: 'readonly',
+    LOCATION_APIKEY: 'readonly'
   },
-  'parserOptions': {
-    'ecmaFeatures': {
-      'jsx': true
+  parserOptions: {
+    ecmaFeatures: {
+      jsx: true
+    }
+  },
+  settings: {
+    react: {
+      version: 'detect'
     }
   }
 }

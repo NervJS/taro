@@ -1,11 +1,11 @@
-import * as webpack from 'webpack'
+import { isFunction, isObject, isString, noop, Shortcuts } from '@tarojs/shared'
+import type { IAdapter } from '@tarojs/shared/dist/template'
 import * as fs from 'fs'
 import { join } from 'path'
-import { Shortcuts, noop, isString, isObject, isFunction } from '@tarojs/shared'
-import { printPrerenderSuccess, printPrerenderFail } from '../utils/logHelper'
-
 import type { NodeVM } from 'vm2'
-import type { IAdapter } from '@tarojs/shared/dist/template'
+import * as webpack from 'webpack'
+
+import { printPrerenderFail, printPrerenderSuccess } from '../utils/logHelper'
 import type { IBuildConfig } from '../utils/types'
 
 type Attributes = Record<string, string>

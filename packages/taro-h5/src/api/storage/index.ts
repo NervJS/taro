@@ -1,6 +1,7 @@
 import Taro from '@tarojs/api'
-import { shouldBeObject, getParameterError, temporarilyNotSupport } from '../utils'
-import { MethodHandler } from '../utils/handler'
+
+import { getParameterError, shouldBeObject, temporarilyNotSupport } from '../../utils'
+import { MethodHandler } from '../../utils/handler'
 
 function getItem (key) {
   let item

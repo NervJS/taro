@@ -1,9 +1,10 @@
+import { printLog, processTypeEnum } from '@tarojs/helper'
 import * as fs from 'fs'
 import * as path from 'path'
-import { printLog, processTypeEnum } from '@tarojs/helper'
-import { ResolveStyleOptions, LogLevelEnum } from '../types'
 import * as resolve from 'resolve'
 import nodeModulesPaths from 'resolve/lib/node-modules-paths'
+
+import { LogLevelEnum, ResolveStyleOptions } from '../types'
 
 export function insertBefore (source?: string, additional?: string) {
   if (!source && !additional) {

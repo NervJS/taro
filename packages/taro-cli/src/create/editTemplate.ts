@@ -1,11 +1,12 @@
-import * as path from 'path'
-import * as fs from 'fs-extra'
 import { chalk } from '@tarojs/helper'
+import * as fs from 'fs-extra'
+import * as path from 'path'
+
 import { validateProjectName } from './validate'
 
 interface PlaceholderConfig {
   projectName: string
-  templatePath: string,
+  templatePath: string
   projectPath: string
 }
 

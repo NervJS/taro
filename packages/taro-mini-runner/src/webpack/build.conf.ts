@@ -1,28 +1,28 @@
-import * as path from 'path'
 import { PLATFORMS, taroJsComponents } from '@tarojs/helper'
+import * as path from 'path'
 
-import { IBuildConfig } from '../utils/types'
-import {
-  getCopyWebpackPlugin,
-  getDefinePlugin,
-  processEnvOption,
-  getCssoWebpackPlugin,
-  getTerserPlugin,
-  getDevtool,
-  getOutput,
-  getModule,
-  mergeOption,
-  getMiniPlugin,
-  getMiniSplitChunksPlugin,
-  getBuildNativePlugin,
-  getProviderPlugin,
-  getMiniCssExtractPlugin,
-  getEntry,
-  getRuntimeConstants
-} from './chain'
-import getBaseConf from './base.conf'
 import { createTarget } from '../plugins/MiniPlugin'
 import { componentConfig } from '../template/component'
+import { IBuildConfig } from '../utils/types'
+import getBaseConf from './base.conf'
+import {
+  getBuildNativePlugin,
+  getCopyWebpackPlugin,
+  getCssoWebpackPlugin,
+  getDefinePlugin,
+  getDevtool,
+  getEntry,
+  getMiniCssExtractPlugin,
+  getMiniPlugin,
+  getMiniSplitChunksPlugin,
+  getModule,
+  getOutput,
+  getProviderPlugin,
+  getRuntimeConstants,
+  getTerserPlugin,
+  mergeOption,
+  processEnvOption
+} from './chain'
 
 export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
   const chain = getBaseConf(appPath)
@@ -50,6 +50,7 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
     sourceMapType,
     baseLevel = 16,
     framework = 'nerv',
+    frameworkExts,
     prerender,
     minifyXML = {},
     hot = false,
@@ -156,6 +157,7 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
     commonChunks: customCommonChunks,
     baseLevel,
     framework,
+    frameworkExts,
     prerender,
     addChunkPages,
     modifyMiniConfigs,

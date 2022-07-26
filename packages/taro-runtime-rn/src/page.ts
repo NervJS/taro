@@ -1,14 +1,15 @@
-import * as React from 'react'
-import { ScrollView, RefreshControl, AppState, View, Dimensions, EmitterSubscription, NativeEventSubscription } from 'react-native'
+import { getCurrentRoute, PageProvider } from '@tarojs/router-rn'
 import { camelCase } from 'lodash'
-import { PageProvider, getCurrentRoute } from '@tarojs/router-rn'
-import { isFunction, EMPTY_OBJ, isArray, incrementId, successHandler, errorHandler } from './utils'
+import * as React from 'react'
+import { AppState, Dimensions, EmitterSubscription, NativeEventSubscription, RefreshControl, ScrollView, View } from 'react-native'
+
 import { isClassComponent } from './app'
 import { Current } from './current'
-import { Instance, PageInstance } from './instance'
 import { eventCenter } from './emmiter'
 import EventChannel from './EventChannel'
-import { PageConfig, HooksMethods, ScrollOption, BaseOption, BackgroundOption, TextStyleOption, CallbackResult } from './types/index'
+import { Instance, PageInstance } from './instance'
+import { BackgroundOption, BaseOption, CallbackResult, HooksMethods, PageConfig, ScrollOption, TextStyleOption } from './types/index'
+import { EMPTY_OBJ, errorHandler, incrementId, isArray, isFunction, successHandler } from './utils'
 
 const compId = incrementId()
 
@@ -422,13 +423,14 @@ export function createPageConfig (Page: any, pageConfig: PageConfig): any {
       createScrollPage () {
         let bgColor = pageConfig.backgroundColor ? pageConfig.backgroundColor : ''
         const windowOptions = globalAny.__taroAppConfig?.appConfig?.window || {}
+        const useNativeStack =  globalAny.__taroAppConfig?.appConfig?.rn?.useNativeStack
         if (!bgColor && windowOptions?.backgroundColor) {
           bgColor = windowOptions?.backgroundColor
         }
         const refresh = this.isEnablePullDown() ? { refreshControl: this.refreshPullDown() } : {}
         return h(ScrollView, {
           style: [{ flex: 1 }, (bgColor ? { backgroundColor: bgColor } : {})],
-          contentContainerStyle: { minHeight: '100%' },
+          contentContainerStyle: useNativeStack ? {} : { minHeight: '100%' },
           ref: this.pageScrollView,
           scrollEventThrottle: 8,
           ...refresh,

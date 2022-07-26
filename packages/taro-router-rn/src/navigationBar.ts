@@ -1,12 +1,12 @@
-import { successHandler, errorHandler } from './utils/index'
-import { CallbackResult, BaseOption } from './utils/types'
 import { navigationRef } from './rootNavigation'
+import { errorHandler, successHandler } from './utils/index'
+import { BaseOption, CallbackResult } from './utils/types'
 
 interface NavigateBarTitleOption extends BaseOption {
   title: string
 }
 interface NavigateBarColorOption extends BaseOption {
-  backgroundColor: string,
+  backgroundColor: string
   frontColor: string
 }
 

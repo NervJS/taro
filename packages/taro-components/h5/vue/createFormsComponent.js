@@ -1,5 +1,6 @@
 import { listeners } from './mixins/listeners'
 import { refs } from './mixins/refs'
+
 export default function createFormsComponent (name, event, modelValue = 'value', classNames = []) {
   const props = {
     nativeProps: {
@@ -32,7 +33,7 @@ export default function createFormsComponent (name, event, modelValue = 'value',
       // eslint-disable-next-line
       const self = this;
 
-      const attrs = {}
+      const attrs = this.$attrs || {}
       if (name === 'taro-input') {
         attrs['auto-focus'] = self.focus
       }

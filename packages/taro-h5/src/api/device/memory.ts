@@ -1,4 +1,4 @@
-import { temporarilyNotSupport } from '../utils'
+import { temporarilyNotSupport } from '../../utils'
 
 // 内存
 export const onMemoryWarning = temporarilyNotSupport('onMemoryWarning')

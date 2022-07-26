@@ -120,7 +120,7 @@ interface RadioProps extends StandardProps {
  *     </view>
  *   </view>
  * </template>
- * 
+ *
  * <script>
  * export default {
  *   data() {

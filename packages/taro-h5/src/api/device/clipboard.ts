@@ -6,8 +6,9 @@
  */
 
 import Taro from '@tarojs/api'
-import { setStorage, setStorageSync, getStorageSync } from '../storage/index'
-import { MethodHandler } from '../utils/handler'
+
+import { MethodHandler } from '../../utils/handler'
+import { getStorageSync, setStorage, setStorageSync } from '../storage/index'
 
 const CLIPBOARD_STORAGE_NAME = 'taro_clipboard'
 

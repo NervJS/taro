@@ -1,8 +1,9 @@
 import * as React from 'react'
+
 import { Current } from './current'
 import { PageLifeCycle } from './instance'
-import { PageContext, getPageInstance, injectPageInstance } from './page'
-import { isFunction, isArray } from './utils'
+import { getPageInstance, injectPageInstance, PageContext } from './page'
+import { isArray, isFunction } from './utils'
 
 const taroHooks = (lifecycle: keyof PageLifeCycle) => {
   // eslint-disable-next-line @typescript-eslint/ban-types

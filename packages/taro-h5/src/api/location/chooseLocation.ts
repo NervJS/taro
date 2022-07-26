@@ -1,8 +1,9 @@
+import './style.css'
+
 import Taro from '@tarojs/api'
 import { stringify } from 'query-string'
 
-import { MethodHandler } from '../utils/handler'
-import './style.css'
+import { MethodHandler } from '../../utils/handler'
 
 function createLocationChooser (handler, key = LOCATION_APIKEY, mapOpt: Taro.chooseLocation.Option['mapOpts'] = {}) {
   const { latitude, longitude, ...opts } = mapOpt

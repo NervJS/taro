@@ -1,16 +1,18 @@
-import { StyleProp, ViewStyle } from 'react-native'
-import { camelCase } from 'lodash'
-import { NavigationContainer } from '@react-navigation/native'
-import { BackBehavior } from '@react-navigation/routers/src/TabRouter'
-import { createStackNavigator, CardStyleInterpolators } from '@react-navigation/stack'
-import { StackHeaderOptions, StackHeaderMode, StackNavigationOptions } from '@react-navigation/stack/src/types'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
-import { navigationRef } from './rootNavigation'
-import CustomTabBar from './view/TabBar'
-import HeadTitle from './view/HeadTitle'
-import BackButton from './view/BackButton'
-import { getTabItemConfig, getTabVisible, setTabConfig, getTabInitRoute, handleUrl } from './utils/index'
+import { NavigationContainer } from '@react-navigation/native'
+import {createNativeStackNavigator, NativeStackNavigationOptions} from '@react-navigation/native-stack'
+import { BackBehavior } from '@react-navigation/routers/src/TabRouter'
+import { CardStyleInterpolators, createStackNavigator, StackNavigationOptions } from '@react-navigation/stack'
+import { StackHeaderMode, StackHeaderOptions } from '@react-navigation/stack/src/types'
+import { camelCase } from 'lodash'
 import React from 'react'
+import { StyleProp, ViewStyle } from 'react-native'
+
+import { navigationRef } from './rootNavigation'
+import { getTabInitRoute, getTabItemConfig, getTabVisible, handleUrl, setTabConfig } from './utils/index'
+import BackButton from './view/BackButton'
+import HeadTitle from './view/HeadTitle'
+import CustomTabBar from './view/TabBar'
 import { TabOptions } from './view/TabBarItem'
 
 interface WindowConfig {
@@ -38,45 +40,46 @@ interface ITabBar {
   selectedColor?: string
   backgroundColor?: string
   borderStyle?: 'black' | 'white'
-  list: ITabBarItem[],
+  list: ITabBarItem[]
   position?: 'bottom' | 'top'
   custom?: boolean
 }
 
 interface PageItem {
-  name: string,
-  component: any,
+  name: string
+  component: any
   pagePath: string
 }
 
 interface RNConfig {
-  initialRouteName?: string,
-  linking?: string[],
-  screenOptions?: StackNavigationOptions,
-  tabOptions?: TabOptions,
-  tabBarOptions?: Record<string, any>,
+  initialRouteName?: string
+  linking?: string[]
+  screenOptions?: StackNavigationOptions | NativeStackNavigationOptions
+  tabOptions?: TabOptions
+  tabBarOptions?: Record<string, any>
   tabProps?: {
-    backBehavior?: BackBehavior;
-    lazy?: boolean,
-    detachInactiveScreens?:boolean,
+    backBehavior?: BackBehavior
+    lazy?: boolean
+    detachInactiveScreens?:boolean
     sceneContainerStyle?: StyleProp<ViewStyle>
-  },
-  stackProps?: {
-    keyboardHandlingEnabled?:boolean,
-    headerMode?: StackHeaderMode;
-    detachInactiveScreens?:boolean,
   }
+  stackProps?: {
+    keyboardHandlingEnabled?:boolean
+    headerMode?: StackHeaderMode
+    detachInactiveScreens?:boolean
+  }
+  useNativeStack?: boolean
 }
 
 export interface RouterConfig {
-  pages: PageItem[],
-  tabBar?: ITabBar,
-  window?: WindowConfig,
-  linkPrefix?: string[],
-  rnConfig?: RNConfig,
-  initParams?:Record<string, any>, // 原生启动传递的参数
-  initPath?: string, // 原生启动时传入的参数路径
-  entryPagePath?: string, // 默认启动路径
+  pages: PageItem[]
+  tabBar?: ITabBar
+  window?: WindowConfig
+  linkPrefix?: string[]
+  rnConfig?: RNConfig
+  initParams?:Record<string, any> // 原生启动传递的参数
+  initPath?: string // 原生启动时传入的参数路径
+  entryPagePath?: string // 默认启动路径
 }
 
 export function createRouter (config: RouterConfig) {
@@ -121,7 +124,7 @@ function getHeaderView (title: string, color: string, props: any) {
 }
 
 // screen配置的内容
-function getStackOptions (config: RouterConfig): StackNavigationOptions {
+function getStackOptions (config: RouterConfig) {
   const windowOptions = config.window || {}
   const title = ''
   const headColor = windowOptions.navigationBarTextStyle || 'white'
@@ -325,7 +328,7 @@ function getLinkingConfig (config: RouterConfig) {
 }
 
 function createTabNavigate (config: RouterConfig) {
-  const Stack = createStackNavigator()
+  const Stack = config.rnConfig?.useNativeStack ? createNativeStackNavigator() : createStackNavigator()
   const pageList = getPageList(config)
   const linking = getLinkingConfig(config)
   const stackProps = config.rnConfig?.stackProps
@@ -337,6 +340,7 @@ function createTabNavigate (config: RouterConfig) {
     <Stack.Navigator
       detachInactiveScreens={false}
       {...stackProps}
+      // @ts-ignore
       screenOptions={screenOptions}
       initialRouteName={getInitRouteName(config)}
     >
@@ -361,7 +365,7 @@ function createTabNavigate (config: RouterConfig) {
 }
 
 function createStackNavigate (config: RouterConfig) {
-  const Stack = createStackNavigator()
+  const Stack = config.rnConfig?.useNativeStack ? createNativeStackNavigator() : createStackNavigator()
   const pageList = getPageList(config)
   if (pageList.length <= 0) return null
   const linking = getLinkingConfig(config)
@@ -373,6 +377,7 @@ function createStackNavigate (config: RouterConfig) {
     <Stack.Navigator
       detachInactiveScreens={false}
       {...stackProps}
+      // @ts-ignore
       screenOptions={getStackOptions(config)}
       initialRouteName={getInitRouteName(config)}
     >{pageList.map(item => {
