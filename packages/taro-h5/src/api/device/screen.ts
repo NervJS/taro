@@ -1,4 +1,4 @@
-import { temporarilyNotSupport } from '../utils'
+import { temporarilyNotSupport } from '../../utils'
 
 // 屏幕
 export const setVisualEffectOnCapture = temporarilyNotSupport('setVisualEffectOnCapture')

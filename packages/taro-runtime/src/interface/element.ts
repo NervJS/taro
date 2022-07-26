@@ -1,4 +1,4 @@
 export interface Attributes {
-  name: string;
-  value: string;
+  name: string
+  value: string
 }

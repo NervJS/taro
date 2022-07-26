@@ -1,4 +1,4 @@
-import { temporarilyNotSupport } from '../utils'
+import { temporarilyNotSupport } from '../../utils'
 
 // 文件
 export const saveFileToDisk = temporarilyNotSupport('saveFileToDisk')

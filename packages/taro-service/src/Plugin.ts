@@ -1,7 +1,7 @@
 import { addPlatforms } from '@tarojs/helper'
 
 import Kernel from './Kernel'
-import { IHook, ICommand, IPlatform } from './utils/types'
+import { ICommand, IHook, IPlatform } from './utils/types'
 
 export default class Plugin {
   id: string

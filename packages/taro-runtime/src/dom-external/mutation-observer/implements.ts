@@ -1,7 +1,6 @@
-import { MutationRecordType } from './record'
-
 import type { TaroNode } from '../../dom/node'
 import type { MutationRecord } from './record'
+import { MutationRecordType } from './record'
 
 export type MutationCallback = (mutations: MutationRecord[]) => any
 

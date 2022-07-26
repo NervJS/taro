@@ -1,6 +1,7 @@
 import { camelCase } from 'lodash'
 import { parseUrl } from 'query-string'
-import { TaroTabBarConfig, CallbackResult, OptionsFunc } from './types'
+
+import { CallbackResult, OptionsFunc, TaroTabBarConfig } from './types'
 
 const globalAny: any = global
 

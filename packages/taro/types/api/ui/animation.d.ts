@@ -391,10 +391,8 @@ declare module '../../index' {
     [property: string]: any
   }
 
-  type ClearAnimationOptions = {
-    [p in keyof KeyFrame]: boolean
-  }
-
+  /** @ignore */
+  type ClearAnimationOptions = Record<keyof KeyFrame, boolean>
 
   /** @ignore */
   interface ScrollTimelineOption {

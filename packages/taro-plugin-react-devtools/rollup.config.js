@@ -1,26 +1,26 @@
-import copy from 'rollup-plugin-copy'
-import typescript from 'rollup-plugin-typescript2'
 import { join } from 'path'
+import copy from 'rollup-plugin-copy'
+import externals from 'rollup-plugin-node-externals'
+import ts from 'rollup-plugin-ts'
 
 const cwd = __dirname
 
 const base = {
   plugins: [
+    externals({
+      devDeps: false
+    }),
     copy({
       targets: [
         { src: 'src/backend/index.js', dest: 'dist/backend' }
       ]
     }),
-    typescript({
-      // fix https://github.com/vladshcherbin/rollup-plugin-copy/issues/16
-      typescript: require('typescript'),
-      objectHashIgnoreUnknownHack: true
-    })
+    ts()
   ]
 }
 
 // 供 CLI 编译时使用的 Taro 插件入口
-const comileConfig = {
+const compileConfig = {
   input: join(cwd, 'src/index.ts'),
   output: {
     file: join(cwd, 'dist/index.js'),
@@ -46,6 +46,7 @@ const runtimeConfig = {
 const loaderConfig = {
   input: join(cwd, 'src/loader.ts'),
   output: {
+    exports: 'auto',
     file: join(cwd, 'dist/loader.js'),
     format: 'cjs',
     sourcemap: true
@@ -53,4 +54,4 @@ const loaderConfig = {
   ...base
 }
 
-module.exports = [comileConfig, runtimeConfig, loaderConfig]
+module.exports = [compileConfig, runtimeConfig, loaderConfig]

@@ -1,4 +1,4 @@
-import { temporarilyNotSupport } from '../utils'
+import { temporarilyNotSupport } from '../../utils'
 
 // 蓝牙-低功耗中心设备
 export const writeBLECharacteristicValue = temporarilyNotSupport('writeBLECharacteristicValue')

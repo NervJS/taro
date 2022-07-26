@@ -1,7 +1,6 @@
-import { chalk } from '@tarojs/helper'
-import { isArray, isString } from '@tarojs/shared'
-
+import { chalk, fs } from '@tarojs/helper'
 import type { IPluginContext, TaroPlatformBase } from '@tarojs/service'
+import { isArray, isString } from '@tarojs/shared'
 
 const spawn = require('cross-spawn')
 const detectPort = require('detect-port')
@@ -19,7 +18,7 @@ export default function (ctx: IPluginContext, options: IOptions) {
   detectPort(port, (err, availablePort) => {
     if (err) {
       // eslint-disable-next-line no-console
-      console.log(`detectport 错误：${err}`)
+      console.log(`detectPort 错误：${err}`)
     }
 
     if (availablePort === port) {
@@ -59,10 +58,43 @@ export default function (ctx: IPluginContext, options: IOptions) {
       }
     })
   })
+
+  ctx.modifyRunnerOpts(({ opts }) => {
+    if (!opts?.compiler) return
+
+    if (isString(opts.compiler)) {
+      opts.compiler = {
+        type: opts.compiler
+      }
+    }
+    if (opts.compiler.type === 'webpack5') {
+      opts.compiler.prebundle ||= {}
+      const prebundle = opts.compiler.prebundle
+      if (prebundle.enable === false) return
+
+      // 代替 ./loader 里的功能
+      const taroReactDevtoolsPlugin = {
+        name: 'taroReactDevtoolsPlugin',
+        setup (build) {
+          build.onLoad({ filter: /react-reconciler\.(production|development)/ }, ({ path }) => {
+            const content = fs.readFileSync(path).toString()
+            return {
+              contents: content.replace(/__REACT_DEVTOOLS_GLOBAL_HOOK__/g, 'window.__REACT_DEVTOOLS_GLOBAL_HOOK__')
+            }
+          })
+        }
+      }
+
+      prebundle.esbuild ||= {}
+      const esbuildConfig = prebundle.esbuild
+      esbuildConfig.plugins ||= []
+      esbuildConfig.plugins.push(taroReactDevtoolsPlugin)
+    }
+  })
 }
 
 function injectRuntimePath (platform: TaroPlatformBase) {
-  const injectedPath = '@tarojs/plugin-react-devtools/dist/runtime'
+  const injectedPath = 'post:@tarojs/plugin-react-devtools/dist/runtime'
   if (isArray(platform.runtimePath)) {
     platform.runtimePath.push(injectedPath)
   } else if (isString(platform.runtimePath)) {

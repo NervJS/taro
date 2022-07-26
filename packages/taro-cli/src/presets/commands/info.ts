@@ -1,7 +1,6 @@
-import * as path from 'path'
-
-import * as envinfo from 'envinfo'
 import { IPluginContext } from '@tarojs/service'
+import * as envinfo from 'envinfo'
+import * as path from 'path'
 
 import { getPkgVersion } from '../../util'
 

@@ -1,19 +1,20 @@
-import React from 'react'
 import * as assert from 'assert'
+import React from 'react'
 import simulant from 'simulant'
 import * as sinon from 'sinon'
+
 import {
-  Form,
-  Switch,
-  Slider,
-  Input,
-  Textarea,
-  Radio,
-  RadioGroup,
+  Button,
   Checkbox,
   CheckboxGroup,
+  Form,
+  Input,
   Picker,
-  Button
+  Radio,
+  RadioGroup,
+  Slider,
+  Switch,
+  Textarea
 } from '../h5/react'
 import { mount } from './test-tools'
 

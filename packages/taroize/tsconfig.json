@@ -7,7 +7,6 @@
     "module": "commonjs",
     "sourceMap": true,
     "preserveConstEnums": true,
-    "skipLibCheck": true
   },
   "include": [
     "./src"

@@ -1,7 +1,7 @@
 import Taro from '@tarojs/api'
 
-import { throttle } from '../utils'
-import { CallbackManager, MethodHandler } from '../utils/handler'
+import { throttle } from '../../utils'
+import { CallbackManager, MethodHandler } from '../../utils/handler'
 
 const callbackManager = new CallbackManager()
 let deviceMotionListener

@@ -1,4 +1,4 @@
-import { temporarilyNotSupport } from '../utils'
+import { temporarilyNotSupport } from '../../utils'
 
 // 授权
 export const authorizeForMiniProgram = temporarilyNotSupport('authorizeForMiniProgram')

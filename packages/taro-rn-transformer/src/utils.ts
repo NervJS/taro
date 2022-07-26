@@ -1,12 +1,13 @@
-import * as nodePath from 'path'
-import * as fs from 'fs'
-import * as mimeType from 'mime-types'
+import { parseSync, transformFromAstSync, types } from '@babel/core'
 import * as parser from '@babel/parser'
-import * as mkdirp from 'mkdirp'
-import * as normalize from 'normalize-path'
-import { parseSync, types, transformFromAstSync } from '@babel/core'
 import traverse from '@babel/traverse'
 import { readConfig, resolveMainFilePath } from '@tarojs/helper'
+import * as fs from 'fs'
+import * as mimeType from 'mime-types'
+import * as mkdirp from 'mkdirp'
+import * as normalize from 'normalize-path'
+import * as nodePath from 'path'
+
 import { globalAny, TransformLinariaOption } from './types/index'
 
 const RN_CSS_EXT = ['.css', '.scss', '.sass', '.less', '.styl', '.stylus']

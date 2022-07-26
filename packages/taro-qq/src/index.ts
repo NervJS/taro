@@ -1,7 +1,7 @@
-import QQ from './program'
-
-import type { IPluginContext } from '@tarojs/service'
 import type { IOptions } from '@tarojs/plugin-platform-weapp'
+import type { IPluginContext } from '@tarojs/service'
+
+import QQ from './program'
 
 export { QQ }
 

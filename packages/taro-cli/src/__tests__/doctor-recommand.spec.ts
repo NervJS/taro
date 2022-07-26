@@ -1,6 +1,7 @@
-import * as path from 'path'
 import { chalk } from '@tarojs/helper'
 import * as fs from 'fs-extra'
+import * as path from 'path'
+
 import validator from '../doctor/recommandValidator'
 
 jest.mock('fs-extra', () => {

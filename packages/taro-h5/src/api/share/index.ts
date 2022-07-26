@@ -1,4 +1,4 @@
-import { temporarilyNotSupport } from '../utils'
+import { temporarilyNotSupport } from '../../utils'
 
 // 转发
 export const updateShareMenu = temporarilyNotSupport('updateShareMenu')

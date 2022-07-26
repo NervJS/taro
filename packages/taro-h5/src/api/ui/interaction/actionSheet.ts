@@ -1,4 +1,4 @@
-import { inlineStyle, setTransform } from '../../utils'
+import { inlineStyle, setTransform } from '../../../utils'
 
 const noop = function () {}
 
@@ -59,8 +59,8 @@ export default class ActionSheet {
   menu: HTMLDivElement
   cells: HTMLDivElement[]
   cancel: HTMLDivElement
-  hideOpacityTimer: any
-  hideDisplayTimer: any
+  hideOpacityTimer: ReturnType<typeof setTimeout>
+  hideDisplayTimer: ReturnType<typeof setTimeout>
 
   create (options = {}) {
     return new Promise<string | number>((resolve) => {

@@ -6,7 +6,7 @@ export class SocketTask {
   OPEN: number
   CLOSING: number
   CLOSED: number
-  closeDetail: { code: any; reason: any }
+  closeDetail: { code: any, reason: any }
   _destroyWhenClose?: () => void
 
   constructor (url, protocols) {

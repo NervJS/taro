@@ -1,4 +1,4 @@
-import rule, { ruleName, messages } from '..'
+import rule, { messages, ruleName } from '..'
 
 testRule(rule, {
   ruleName,

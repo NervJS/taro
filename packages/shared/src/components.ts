@@ -1,7 +1,7 @@
 const DEFAULT_EMPTY_ARRAY = '[]'
 const NO_DEFAULT_VALUE = ''
-const DEFAULT_TRUE = 'true'
-const DEFAULT_FALSE = 'false'
+const DEFAULT_TRUE = '!0'
+const DEFAULT_FALSE = '!1'
 
 export const touchEvents = {
   bindTouchStart: NO_DEFAULT_VALUE,
