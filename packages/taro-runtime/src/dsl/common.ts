@@ -216,13 +216,13 @@ export function createPageConfig (component: any, pageName?: string, data?: Reco
 
   // onShareAppMessage 和 onShareTimeline 一样，会影响小程序右上方按钮的选项，因此不能默认注册。
   if (component.onShareAppMessage ||
-      component.prototype?.onShareAppMessage ||
-      component.enableShareAppMessage) {
+    component.prototype?.onShareAppMessage ||
+    component.enableShareAppMessage) {
     config.onShareAppMessage = function (options) {
       const target = options?.target
       if (target) {
         const id = target.id
-        const element = document.getElementById(id)
+        const element = env.document.getElementById(id)
         if (element) {
           target!.dataset = element.dataset
         }
@@ -231,8 +231,8 @@ export function createPageConfig (component: any, pageName?: string, data?: Reco
     }
   }
   if (component.onShareTimeline ||
-      component.prototype?.onShareTimeline ||
-      component.enableShareTimeline) {
+    component.prototype?.onShareTimeline ||
+    component.enableShareTimeline) {
     config.onShareTimeline = function () {
       return safeExecute(this.$taroPath, 'onShareTimeline')
     }
