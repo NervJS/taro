@@ -18,7 +18,7 @@
     "lint": "eslint .",
     "test": "jest --silent",
     "test:dev": "jest --watch",
-    "test:ci": "jest -i --silent --coverage false",
+    "test:ci": "jest --ci -i --silent --coverage false",
     "test:coverage": "jest --coverage",
     "script": "node ./script"
   },

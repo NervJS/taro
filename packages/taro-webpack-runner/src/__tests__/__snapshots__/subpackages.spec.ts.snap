@@ -4738,9 +4738,6 @@ exports[`subpackages should process subpackages 2`] = `
             \\"key\\": \\"componentDidHide\\",
             \\"value\\": function componentDidHide() {}
         }, {
-            \\"key\\": \\"componentDidCatchError\\",
-            \\"value\\": function componentDidCatchError() {}
-        }, {
             \\"key\\": \\"render\\",
             \\"value\\": function render() {
                 return this.props.children;
