@@ -6,6 +6,8 @@ import generateQrCode from './QRCode'
 /** 文档地址： https://opendocs.alipay.com/mini/miniu/api */
 export default class AlipayCI extends BaseCI {
   miniu
+  minidev
+
   /** 小程序开发者工具安装路径 */
   private devToolsInstallPath: string
 
@@ -39,8 +41,12 @@ export default class AlipayCI extends BaseCI {
   open () {
     const { printLog, processTypeEnum } = this.ctx.helper
     const { outputPath: projectPath } = this.ctx.paths
-    const { minidev } = require('minidev')
-    minidev
+    try {
+      this.minidev = require('minidev').minidev
+    } catch (error) {
+      throw new Error('请安装依赖：minidev')
+    }
+    this.minidev
       .startIde(
         Object.assign(
           {
