@@ -195,13 +195,14 @@ async function getDevServerOptions (appPath: string, config: H5BuildConfig): Pro
       },
       static: [{
         directory: outputPath, // webpack4: devServerOptions.contentBase
+        publicPath,
         watch: true // webpack4: devServerOptions.watchContentBase
       }],
       compress: true,
       // disableHostCheck: true, // the disableHostCheck and allowedHosts options were removed in favor of the firewall option
       host: '0.0.0.0',
       // useLocalIp: true, @breaking: move in favor { host: 'local-ip' } (https://github.com/webpack/webpack-dev-server/releases?page=2)
-      hot: true,
+      hot: 'only',
       https: false,
       // inline: true, // the inline option (iframe live mode) was removed
       open: [publicPath],
