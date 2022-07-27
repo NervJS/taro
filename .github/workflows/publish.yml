@@ -11,7 +11,7 @@ on:
 
 env:
   CI: true
-  BRANCH_NAME: ${{ github.head_ref || github.ref_name }}
+  BRANCH_NAME: ${{ github.ref || github.head_ref || github.ref_name }}
 jobs:
   publish:
     name: Publish
@@ -20,8 +20,8 @@ jobs:
       # Setup
       - name: Checkout
         uses: actions/checkout@v3
-        with :
-          ref : ${{ github.head_ref }}
+        with:
+          ref : ${{ env.BRANCH_NAME }}
       - name: Setup Node ${{ matrix.node_version }}
         uses: actions/setup-node@v1
         with:
