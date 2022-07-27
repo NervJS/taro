@@ -8,11 +8,11 @@ https://github.com/NervJS/taro/blob/master/CONTRIBUTING.md
 
 **这个 PR 做了什么?** (简要描述所做更改)
 
-
+相关 issues: fix #
 
 **这个 PR 是什么类型?** (至少选择一个)
 
-- [ ] 错误修复(Bugfix) issue id #
+- [ ] 错误修复(Bugfix) 
 - [ ] 新功能(Feature)
 - [ ] 代码重构(Refactor)
 - [ ] TypeScript 类型定义修改(Typings)
