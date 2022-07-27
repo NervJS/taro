@@ -1,4 +1,5 @@
 import less from 'less'
+
 import { resolveStyle } from './index'
 
 class Importer extends less.FileManager {

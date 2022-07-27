@@ -1,14 +1,14 @@
+import { printLog, processTypeEnum, recursiveMerge } from '@tarojs/helper'
 import * as path from 'path'
 import transformCSS from 'taro-css-to-react-native'
-import { recursiveMerge, printLog, processTypeEnum } from '@tarojs/helper'
 
+import { RenderAdditionalResult, TransformOptions } from '../types'
+import { normalizeSourceMap } from '../utils'
+import lessTransform, { Config as LessConfig } from './less'
 import postcssTransform, { Config as PostcssConfig, makePostcssPlugins } from './postcss'
 import sassTransform, { Config as SassConfig, SassGlobalConfig } from './sass'
-import lessTransform, { Config as LessConfig } from './less'
-import stylusTransform, { Config as StylusConfig, defaultOptions as stylusDefaultOptions } from './stylus'
 import { StyleSheetValidation } from './StyleSheet'
-import { TransformOptions, RenderAdditionalResult } from '../types'
-import { normalizeSourceMap } from '../utils'
+import stylusTransform, { Config as StylusConfig, defaultOptions as stylusDefaultOptions } from './stylus'
 
 export function getWrapedCSS (css) {
   return `
@@ -38,18 +38,18 @@ function validateStyle ({ styleObject, filename }) {
 }
 
 interface RNConfig {
-  postcss?: PostcssConfig;
-  sass?: SassConfig;
-  less?: LessConfig;
-  stylus?: StylusConfig;
+  postcss?: PostcssConfig
+  sass?: SassConfig
+  less?: LessConfig
+  stylus?: StylusConfig
 }
 
 interface Config {
-  designWidth: number;
-  deviceRatio: { [key: number]: number };
-  sass: SassGlobalConfig;
-  alias: Record<string, string>;
-  rn: RNConfig;
+  designWidth: number
+  deviceRatio: { [key: number]: number }
+  sass: SassGlobalConfig
+  alias: Record<string, string>
+  rn: RNConfig
 }
 
 interface PostcssParam {

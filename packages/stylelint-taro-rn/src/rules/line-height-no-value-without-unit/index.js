@@ -1,4 +1,5 @@
 import { utils } from 'stylelint'
+
 import { namespace } from '../../utils'
 
 const declarationValueIndex = require('stylelint/lib/utils/declarationValueIndex')
@@ -6,7 +7,8 @@ const declarationValueIndex = require('stylelint/lib/utils/declarationValueIndex
 export const ruleName = namespace('line-height-no-value-without-unit')
 
 export const messages = utils.ruleMessages(ruleName, {
-  rejected: height => `Unexpected line-height "${height}", expect a value with units`
+  rejected: (height) =>
+    `Unexpected line-height "${height}", expect a value with units`
 })
 
 const lengthRe = /^(0$|(?:[+-]?(?:\d*\.)?\d+(?:[Ee][+-]?\d+)?)(?=px|PX|rem$))/
@@ -22,11 +24,8 @@ export default function (actual) {
       return
     }
 
-    root.walkDecls(/^line-height$/i, decl => {
-      if (
-        lengthRe.test(decl.value) ||
-        viewportUnitRe.test(decl.value)
-      ) {
+    root.walkDecls(/^line-height$/i, (decl) => {
+      if (lengthRe.test(decl.value) || viewportUnitRe.test(decl.value)) {
         return
       }
 

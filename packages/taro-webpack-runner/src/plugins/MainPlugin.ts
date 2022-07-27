@@ -1,23 +1,24 @@
-import * as path from 'path'
-import { defaults } from 'lodash'
-import { AppConfig } from '@tarojs/taro'
 import {
+  FRAMEWORK_MAP,
+  isEmptyObject,
   readConfig,
   resolveMainFilePath,
-  isEmptyObject,
-  FRAMEWORK_MAP,
-  FRAMEWORK_EXT_MAP
+  SCRIPT_EXT
 } from '@tarojs/helper'
+import { AppConfig } from '@tarojs/taro'
+import { defaults } from 'lodash'
+import * as path from 'path'
 
 const PLUGIN_NAME = 'MainPlugin'
 
 interface IMainPluginOptions {
-  sourceDir: string,
-  outputDir: string,
-  routerConfig: any,
-  entryFileName: string,
-  framework: FRAMEWORK_MAP,
-  useHtmlComponents: boolean,
+  sourceDir: string
+  outputDir: string
+  routerConfig: any
+  entryFileName: string
+  framework: FRAMEWORK_MAP
+  frameworkExts: string[]
+  useHtmlComponents: boolean
   deviceRatio: any
   designWidth: number
   loaderMeta?: Record<string, string>
@@ -39,6 +40,7 @@ export default class MainPlugin {
       entryFileName: 'app',
       routerConfig: {},
       framework: FRAMEWORK_MAP.NERV,
+      frameworkExts: SCRIPT_EXT,
       useHtmlComponents: false,
       deviceRatio: {},
       designWidth: 750
@@ -73,7 +75,7 @@ export default class MainPlugin {
 
     compiler.hooks.compilation.tap(PLUGIN_NAME, compilation => {
       compilation.hooks.normalModuleLoader.tap(PLUGIN_NAME, (_loaderContext, module: any) => {
-        const { framework, entryFileName, designWidth, deviceRatio, loaderMeta } = this.options
+        const { framework, entryFileName, sourceDir, designWidth, deviceRatio, loaderMeta } = this.options
         const { dir, name } = path.parse(module.resource)
         if (path.join(dir, name) === this.appEntry) {
           module.loaders.push({
@@ -81,6 +83,8 @@ export default class MainPlugin {
             options: {
               framework,
               loaderMeta,
+              entryFileName,
+              sourceDir,
               filename: entryFileName,
               pages: this.pagesConfigList,
               useHtmlComponents: this.options.useHtmlComponents,
@@ -124,12 +128,12 @@ export default class MainPlugin {
     if (!appPages || !appPages.length) {
       throw new Error('全局配置缺少 pages 字段，请检查！')
     }
-    const { framework } = this.options
+    const { frameworkExts } = this.options
 
     this.pages = new Set([
       ...appPages.map(item => ({
         name: item,
-        path: resolveMainFilePath(path.join(this.options.sourceDir, item), FRAMEWORK_EXT_MAP[framework])
+        path: resolveMainFilePath(path.join(this.options.sourceDir, item), frameworkExts)
       }))
     ])
     this.getSubPackages()
@@ -138,7 +142,7 @@ export default class MainPlugin {
   getSubPackages () {
     const appConfig = this.appConfig
     const subPackages = appConfig.subPackages || appConfig.subpackages
-    const { framework } = this.options
+    const { frameworkExts } = this.options
     if (subPackages && subPackages.length) {
       subPackages.forEach(item => {
         if (item.pages && item.pages.length) {
@@ -153,7 +157,7 @@ export default class MainPlugin {
               }
             })
             if (!hasPageIn) {
-              const pagePath = resolveMainFilePath(path.join(this.options.sourceDir, pageItem), FRAMEWORK_EXT_MAP[framework])
+              const pagePath = resolveMainFilePath(path.join(this.options.sourceDir, pageItem), frameworkExts)
               this.pages.add({
                 name: pageItem,
                 path: pagePath

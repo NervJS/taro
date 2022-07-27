@@ -1,4 +1,4 @@
-import { temporarilyNotSupport } from '../utils'
+import { temporarilyNotSupport } from '../../utils'
 
 // 实时音视频
 export const createLivePusherContext = temporarilyNotSupport('createLivePusherContext')

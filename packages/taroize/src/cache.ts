@@ -1,5 +1,7 @@
-import { Wxml } from './wxml'
 import { cloneDeep } from 'lodash'
+
+import { Wxml } from './wxml'
+
 const cacheMap = new Map<string, Wxml>()
 
 export function getCacheWxml (dirpath: string): Wxml | undefined {

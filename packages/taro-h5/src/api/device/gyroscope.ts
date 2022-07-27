@@ -1,4 +1,4 @@
-import { temporarilyNotSupport } from '../utils'
+import { temporarilyNotSupport } from '../../utils'
 
 // 陀螺仪
 export const stopGyroscope = temporarilyNotSupport('stopGyroscope')

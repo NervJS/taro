@@ -1,16 +1,15 @@
-import * as path from 'path'
-import * as fs from 'fs-extra'
-
-import * as merge from 'webpack-merge'
-import { IProjectConfig } from '@tarojs/taro/types/compile'
 import {
-  SOURCE_DIR,
-  OUTPUT_DIR,
+  createSwcRegister,
   ENTRY,
+  getModuleDefaultExport,
+  OUTPUT_DIR,
   resolveScriptPath,
-  createBabelRegister,
-  getModuleDefaultExport
+  SOURCE_DIR
 } from '@tarojs/helper'
+import { IProjectConfig } from '@tarojs/taro/types/compile'
+import * as fs from 'fs-extra'
+import * as path from 'path'
+import * as merge from 'webpack-merge'
 
 import {
   CONFIG_DIR_NAME,
@@ -18,7 +17,7 @@ import {
 } from './utils/constants'
 
 interface IConfigOptions {
-  appPath: string,
+  appPath: string
 }
 
 export default class Config {
@@ -37,7 +36,7 @@ export default class Config {
       this.initialConfig = {}
       this.isInitSuccess = false
     } else {
-      createBabelRegister({
+      createSwcRegister({
         only: [
           filePath => filePath.indexOf(path.join(this.appPath, CONFIG_DIR_NAME)) >= 0
         ]
@@ -73,6 +72,9 @@ export default class Config {
       outputRoot: outputDirName,
       platform,
       framework: initialConfig.framework,
+      compiler: initialConfig.compiler,
+      cache: initialConfig.cache,
+      logger: initialConfig.logger,
       baseLevel: initialConfig.baseLevel,
       csso: initialConfig.csso,
       sass: initialConfig.sass,
@@ -84,7 +86,10 @@ export default class Config {
       designWidth: initialConfig.designWidth,
       deviceRatio: initialConfig.deviceRatio,
       projectConfigName: initialConfig.projectConfigName,
+      jsMinimizer: initialConfig.jsMinimizer,
+      cssMinimizer: initialConfig.cssMinimizer,
       terser: initialConfig.terser,
+      esbuild: initialConfig.esbuild,
       ...initialConfig[useConfigName]
     }
   }

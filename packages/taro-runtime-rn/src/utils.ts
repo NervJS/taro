@@ -1,5 +1,5 @@
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-import { OptionsFunc, CallbackResult } from './types/index'
+import { CallbackResult, OptionsFunc } from './types/index'
 
 export const incrementId = () => {
   let id = 0

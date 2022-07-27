@@ -215,7 +215,7 @@ declare namespace TaroGeneral {
      * @illustrate 正常
      */
     0
-    /** unsupport
+    /** nonsupport
      * @illustrate 系统或设备不支持
      */
     11000

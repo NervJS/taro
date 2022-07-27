@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/create-app",
-  "version": "3.4.14",
+  "version": "3.5.0",
   "description": "create taro app with one command",
   "author": "VincentW <Vincent.Mr.W@gmail.com>",
   "homepage": "https://github.com/nervjs/taro/tree/master/packages/create-app#readme",
@@ -30,7 +30,7 @@
     "node": ">=12"
   },
   "dependencies": {
-    "@tarojs/cli": "3.4.14",
+    "@tarojs/cli": "workspace:*",
     "minimist": "1.2.5"
   }
 }

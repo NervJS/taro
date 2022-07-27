@@ -1,6 +1,6 @@
-import { successHandler, errorHandler, setTabConfig } from './utils/index'
-import { CallbackResult, TaroTabBarConfig, BaseOption } from './utils/types'
 import { navigationRef } from './rootNavigation'
+import { errorHandler, setTabConfig, successHandler } from './utils/index'
+import { BaseOption, CallbackResult, TaroTabBarConfig } from './utils/types'
 
 const globalAny: any = global
 const INIT_TABBAR_ICON_CONFIG: TaroTabBarConfig = {
@@ -11,19 +11,19 @@ const INIT_TABBAR_ICON_CONFIG: TaroTabBarConfig = {
 }
 globalAny.__taroTabBarIconConfig = INIT_TABBAR_ICON_CONFIG
 interface TabBarBadge extends BaseOption {
-  index: number,
+  index: number
   text?: number | string
 }
 
 interface TabBarRedDot extends BaseOption {
-  index: number,
+  index: number
 }
 
 interface TabBarItem extends BaseOption {
-  index: number,
-  text?: string,
-  iconPath?: string,
-  selectedIconPath?: string,
+  index: number
+  text?: string
+  iconPath?: string
+  selectedIconPath?: string
 }
 
 interface TabBarOptions extends BaseOption {
@@ -31,9 +31,9 @@ interface TabBarOptions extends BaseOption {
 }
 
 interface TabBarStyleOption extends BaseOption {
-  backgroundColor?: string,
-  borderStyle?: 'white' | 'black',
-  color?: string,
+  backgroundColor?: string
+  borderStyle?: 'white' | 'black'
+  color?: string
   selectedColor?: string
 }
 

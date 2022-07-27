@@ -1,4 +1,4 @@
-import { temporarilyNotSupport } from '../utils'
+import { temporarilyNotSupport } from '../../utils'
 
 // 卡券
 export const openCard = temporarilyNotSupport('openCard')

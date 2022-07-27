@@ -1,4 +1,5 @@
 import * as path from 'path'
+
 // import semver from 'semver'
 // import reactNativePKG from 'react-native/package.json'
 import StyleTransform from './transforms'
@@ -40,4 +41,18 @@ export async function transform (src: string, filename: string, options) {
     })
   }
   return upstreamTransformer.transform({ src, filename, options })
+}
+
+export function rollupTransform (options) {
+  return {
+    name: 'rn-style-transformer', // this name will show up in warnings and errors
+    async transform (src, filename) {
+      const ext = path.extname(filename)
+      if (RN_CSS_EXT.includes(ext)) {
+        const styleTransform = getSingleStyleTransform((options as any).config)
+        const code = await styleTransform.transform(src, filename, options)
+        return { code }
+      }
+    }
+  }
 }

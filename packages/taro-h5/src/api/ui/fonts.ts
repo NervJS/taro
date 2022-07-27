@@ -1,5 +1,6 @@
 import Taro from '@tarojs/api'
-import { MethodHandler } from '../utils/handler'
+
+import { MethodHandler } from '../../utils/handler'
 
 // 字体
 export const loadFontFace: typeof Taro.loadFontFace = async options => {

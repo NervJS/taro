@@ -1,7 +1,7 @@
 {
   "name": "@tarojs/shared",
-  "version": "3.4.14",
-  "description": "> TODO: description",
+  "version": "3.5.0",
+  "description": "Taro utils internal use.",
   "author": "yuche <i@yuche.me>",
   "homepage": "https://github.com/nervjs/taro/tree/master/packages/shared#readme",
   "license": "MIT",

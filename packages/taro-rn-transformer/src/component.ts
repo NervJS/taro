@@ -1,5 +1,6 @@
 import * as path from 'path'
-import { TransformPage, globalAny } from './types/index'
+
+import { globalAny, TransformPage } from './types/index'
 import { transformLinaria } from './utils'
 
 export default function componentLoader ({ sourceCode, filename, projectRoot, sourceDir }: TransformPage) {

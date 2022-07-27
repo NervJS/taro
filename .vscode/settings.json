@@ -20,5 +20,8 @@
   "jest.autoEnable": false,
   "typescript.tsdk": "node_modules/typescript/lib",
   "javascript.format.insertSpaceBeforeFunctionParenthesis": true,
-  "typescript.format.insertSpaceBeforeFunctionParenthesis": true
+  "typescript.format.insertSpaceBeforeFunctionParenthesis": true,
+  "files.associations": {
+    "*.json": "jsonc"
+  }
 }

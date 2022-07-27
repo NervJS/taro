@@ -1,7 +1,7 @@
 import Taro from '@tarojs/api'
 
-import { MethodHandler } from '../../utils/handler'
-import { shouldBeObject, getParameterError } from '../../utils'
+import { getParameterError, shouldBeObject } from '../../../utils'
+import { MethodHandler } from '../../../utils/handler'
 
 /**
  * 从本地相册选择图片或使用相机拍照。

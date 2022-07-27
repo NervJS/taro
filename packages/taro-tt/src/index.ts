@@ -1,5 +1,6 @@
-import TT from './program'
 import type { IPluginContext } from '@tarojs/service'
+
+import TT from './program'
 
 // 让其它平台插件可以继承此平台
 export { TT }

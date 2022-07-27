@@ -1,5 +1,6 @@
 import { listeners } from '../mixins/listeners'
 import { refs } from '../mixins/refs'
+
 export default {
   name: 'taro-scroll-view',
   mixins: [listeners, refs],

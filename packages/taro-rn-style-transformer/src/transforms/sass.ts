@@ -1,8 +1,9 @@
 import * as fs from 'fs'
 import * as path from 'path'
 import { Options } from 'sass'
-import { insertAfter, insertBefore, resolveStyle, getAdditionalData } from '../utils'
-import { TransformOptions, RenderResult, RenderAdditionalResult } from '../types'
+
+import { RenderAdditionalResult, RenderResult, TransformOptions } from '../types'
+import { getAdditionalData, insertAfter, insertBefore, resolveStyle } from '../utils'
 
 /**
  * 用过用户手动安装了 node-sass，启用node-sass，默认使用 sass
@@ -35,9 +36,9 @@ export interface Config {
 }
 
 export interface SassGlobalConfig {
-  resource?: string | string[];
-  projectDirectory?: string;
-  data?: string;
+  resource?: string | string[]
+  projectDirectory?: string
+  data?: string
 }
 
 function makeURL (resource: string, rootDir: string) {

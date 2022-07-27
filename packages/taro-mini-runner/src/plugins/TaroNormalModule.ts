@@ -1,5 +1,5 @@
-import * as NormalModule from 'webpack/lib/NormalModule'
 import { META_TYPE } from '@tarojs/helper'
+import * as NormalModule from 'webpack/lib/NormalModule'
 
 export default class TaroNormalModule extends NormalModule {
   name: string

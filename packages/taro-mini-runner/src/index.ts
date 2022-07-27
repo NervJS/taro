@@ -1,11 +1,12 @@
-import * as webpack from 'webpack'
 import { META_TYPE } from '@tarojs/helper'
-import { componentConfig } from './template/component'
-import { IBuildConfig, Func } from './utils/types'
-import { printBuildError, bindProdLogger, bindDevLogger } from './utils/logHelper'
-import buildConf from './webpack/build.conf'
-import { Prerender } from './prerender/prerender'
 import { isEmpty } from 'lodash'
+import * as webpack from 'webpack'
+
+import { Prerender } from './prerender/prerender'
+import { componentConfig } from './template/component'
+import { bindDevLogger, bindProdLogger, printBuildError } from './utils/logHelper'
+import { Func, IBuildConfig } from './utils/types'
+import buildConf from './webpack/build.conf'
 import { makeConfig } from './webpack/chain'
 
 const customizeChain = async (chain, modifyWebpackChainFunc: Func, customizeFunc?: Func) => {

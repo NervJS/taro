@@ -1,12 +1,12 @@
 {
   "name": "@tarojs/components-rn",
-  "version": "3.4.14",
+  "version": "3.5.0",
   "description": "多端解决方案基础组件（RN）",
   "main": "./dist/index.js",
   "scripts": {
-    "assets": "cpy \"**/*.png\" \"../dist/\" --cwd=src --parents",
-    "build": "rimraf ./dist && tsc && yarn assets",
-    "dev": "yarn assets && tsc --watch",
+    "assets": "cpy 'src/**/*.png' '!src/__tests__/*' dist",
+    "build": "rimraf ./dist && tsc && pnpm run assets",
+    "dev": "pnpm run assets && tsc --watch",
     "lint": "eslint .",
     "test": "jest --silent",
     "test:dev": "jest --watch",
@@ -29,38 +29,32 @@
     "@ant-design/react-native": "^4.2.0",
     "@react-native-community/slider": "~4.1.12",
     "@react-native-picker/picker": "~2.2.1",
-    "expo-asset": "~8.3.3",
-    "expo-av": "~9.2.3",
-    "expo-barcode-scanner": "~10.2.2",
-    "expo-camera": "~11.2.2",
-    "prop-types": "^15.6.2",
+    "expo-av": "~11.2.3",
+    "expo-barcode-scanner": "~11.3.0",
+    "expo-camera": "~12.2.0",
+    "prop-types": "^15.7.2",
     "react-native-maps": "^0.25.0",
     "react-native-pager-view": "~5.4.9",
     "react-native-svg": "~12.1.1",
     "react-native-webview": "~11.14.3"
   },
   "devDependencies": {
-    "@tarojs/components": "3.4.14",
-    "@types/react-native": "0.67.0",
-    "@unimodules/core": "^7.1.2",
-    "cpy-cli": "^3.1.1",
-    "expo-constants": "~9.2.0",
-    "expo-file-system": "~11.1.3",
-    "metro-react-native-babel-preset": "^0.66.2",
-    "react-native": "^0.67.3"
+    "@types/react": "^17.0.0",
+    "@types/react-native": "^0.67.7",
+    "expo": "~45.0.2",
+    "metro-babel-register": "^0.67.0",
+    "metro-react-native-babel-preset": "^0.67.0",
+    "react-native": "^0.68.2"
   },
   "peerDependencies": {
     "@react-native-community/slider": "~4.1.12",
     "@react-native-picker/picker": "~2.2.1",
-    "expo-av": "~9.2.3",
-    "expo-barcode-scanner": "~10.2.2",
-    "expo-camera": "~11.2.2",
+    "expo": "~45.0.2",
+    "expo-av": "~11.2.3",
+    "expo-barcode-scanner": "~11.3.0",
+    "expo-camera": "~12.2.0",
     "react-native-pager-view": "~5.4.9",
     "react-native-svg": "~12.1.1",
     "react-native-webview": "~11.14.3"
-  },
-  "resolutions": {
-    "@types/react": "17.0.11",
-    "@types/node": "^14.14.41"
   }
 }

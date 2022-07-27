@@ -1,5 +1,6 @@
+import '@testing-library/jest-dom/extend-expect'
+
 import * as Taro from '@tarojs/taro-h5'
-import 'jest-dom/extend-expect'
 
 describe('actionSheet', () => {
   test('options.itemList should be Array', () => {

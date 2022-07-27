@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/plugin-platform-tt",
-  "version": "3.4.14",
+  "version": "3.5.0",
   "description": "头条小程序平台插件",
   "author": "Chen-jj",
   "homepage": "https://github.com/nervjs/taro/tree/master/packages/taro-tt#readme",
@@ -27,8 +27,8 @@
     "url": "https://github.com/NervJS/taro/issues"
   },
   "dependencies": {
-    "@tarojs/components": "3.4.14",
-    "@tarojs/service": "3.4.14",
-    "@tarojs/shared": "3.4.14"
+    "@tarojs/components": "workspace:*",
+    "@tarojs/service": "workspace:*",
+    "@tarojs/shared": "workspace:*"
   }
 }

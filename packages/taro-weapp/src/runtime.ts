@@ -1,5 +1,6 @@
-import { mergeReconciler, mergeInternalComponents } from '@tarojs/shared'
-import { hostConfig, components } from './runtime-utils'
+import { mergeInternalComponents, mergeReconciler } from '@tarojs/shared'
+
+import { components, hostConfig } from './runtime-utils'
 
 mergeReconciler(hostConfig)
 mergeInternalComponents(components)

@@ -1,6 +1,7 @@
+import { assetExts, emptyModulePath } from './defaults'
+import { getReactNativeVersion, handleFile, handleTaroFile, searchReactNativeModule } from './taroResolver'
 import { getProjectConfig, getRNConfig } from './utils'
-import { handleFile, handleTaroFile, getReactNativeVersion, searchReactNativeModule } from './taroResolver'
-import { assetExts } from './defaults'
+
 interface Options{
   fromRunner: boolean // taro rn-runner内部调用
 }
@@ -38,7 +39,8 @@ export class Supporter {
     const resolver: any = {
       sourceExts: ['ts', 'tsx', 'js', 'jsx', 'scss', 'sass', 'less', 'css', 'pcss', 'json', 'styl', 'cjs', 'svgx'],
       resolveRequest: handleEntryFile,
-      resolverMainFields: ['react-native', 'browser', 'main']
+      resolverMainFields: ['react-native', 'browser', 'main'],
+      emptyModulePath
     }
     if (rnConfig.enableSvgTransform) {
       resolver.assetExts = assetExts.filter(ext => ext !== 'svg')
