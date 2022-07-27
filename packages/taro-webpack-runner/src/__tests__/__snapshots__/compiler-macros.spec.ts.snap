@@ -4663,9 +4663,6 @@ exports[`compiler-macros - defineAppConfig and definePageConfig should read app 
             \\"key\\": \\"componentDidHide\\",
             \\"value\\": function componentDidHide() {}
         }, {
-            \\"key\\": \\"componentDidCatchError\\",
-            \\"value\\": function componentDidCatchError() {}
-        }, {
             \\"key\\": \\"render\\",
             \\"value\\": function render() {
                 return this.props.children;
