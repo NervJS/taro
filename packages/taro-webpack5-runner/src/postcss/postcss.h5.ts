@@ -79,7 +79,7 @@ export const getDefaultPostcssConfig = function ({
 
 export const getPostcssPlugins = function (appPath: string, option = {} as IPostcssOption) {
   option.forEach(([pluginName, pluginOption, pluginPkg]) => {
-    if (!pluginOption) return
+    if (!pluginOption || ['cssModules'].includes(pluginName)) return
     if (Object.hasOwnProperty.call(pluginOption, 'enable') && !pluginOption.enable) return
 
     if (pluginPkg) {
