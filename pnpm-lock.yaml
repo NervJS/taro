@@ -631,7 +631,7 @@ importers:
       react-native: ^0.68.2
       react-native-maps: ^0.25.0
       react-native-pager-view: ~5.4.9
-      react-native-svg: ~12.1.1
+      react-native-svg: ~12.4.3
       react-native-webview: ~11.14.3
     dependencies:
       '@ant-design/react-native': registry.npmjs.org/@ant-design/react-native/4.2.0_kxnyaujlqc2xhzvd56jjwpdd6e
@@ -643,7 +643,7 @@ importers:
       prop-types: registry.npmjs.org/prop-types/15.8.1
       react-native-maps: registry.npmjs.org/react-native-maps/0.25.0_tqthsusprlm3osh4vhhhzlqmzu
       react-native-pager-view: registry.npmjs.org/react-native-pager-view/5.4.24_react-native@0.68.2
-      react-native-svg: registry.npmjs.org/react-native-svg/12.1.1_react-native@0.68.2
+      react-native-svg: registry.npmjs.org/react-native-svg/12.4.3_react-native@0.68.2
       react-native-webview: registry.npmjs.org/react-native-webview/11.14.4_react-native@0.68.2
     devDependencies:
       '@types/react': registry.npmjs.org/@types/react/17.0.47
@@ -15706,6 +15706,18 @@ packages:
       nth-check: registry.npmjs.org/nth-check/2.1.1
     dev: false
 
+  registry.npmjs.org/css-select/5.1.0:
+    resolution: {integrity: sha512-nwoRF1rvRRnnCqqY7updORDsuqKzqYJ28+oSMaJMMgOauh3fvwHqMS7EZpIPqK8GL+g9mKxF1vP/ZjSeNjEVHg==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/css-select/-/css-select-5.1.0.tgz}
+    name: css-select
+    version: 5.1.0
+    dependencies:
+      boolbase: registry.npmjs.org/boolbase/1.0.0
+      css-what: registry.npmjs.org/css-what/6.1.0
+      domhandler: registry.npmjs.org/domhandler/5.0.3
+      domutils: registry.npmjs.org/domutils/3.0.1
+      nth-check: registry.npmjs.org/nth-check/2.1.1
+    dev: false
+
   registry.npmjs.org/css-selector-tokenizer/0.7.3:
     resolution: {integrity: sha512-jWQv3oCEL5kMErj4wRnK/OPoBi0D+P1FR2cDCKYPaMeD2eW3/mttav8HT4hT1CKopiJI/psEULjkClhvJo4Lvg==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/css-selector-tokenizer/-/css-selector-tokenizer-0.7.3.tgz}
     name: css-selector-tokenizer
@@ -16917,6 +16929,16 @@ packages:
       entities: registry.npmjs.org/entities/2.2.0
     dev: false
 
+  registry.npmjs.org/dom-serializer/2.0.0:
+    resolution: {integrity: sha512-wIkAryiqt/nV5EQKqQpo3SToSOV9J0DnbJqwK7Wv/Trc92zIAYZ4FlMu+JPFW1DfGFt81ZTCGgDEabffXeLyJg==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/dom-serializer/-/dom-serializer-2.0.0.tgz}
+    name: dom-serializer
+    version: 2.0.0
+    dependencies:
+      domelementtype: registry.npmjs.org/domelementtype/2.3.0
+      domhandler: registry.npmjs.org/domhandler/5.0.3
+      entities: registry.npmjs.org/entities/4.3.1
+    dev: false
+
   registry.npmjs.org/dom-walk/0.1.2:
     resolution: {integrity: sha512-6QvTW9mrGeIegrFXdtQi9pk7O/nSK6lSdXW2eqUspN5LWD7UTji2Fqw5V2YLjBpHEoU9Xl/eUWNpDeZvoyOv2w==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/dom-walk/-/dom-walk-0.1.2.tgz}
     name: dom-walk
@@ -16972,6 +16994,15 @@ packages:
       domelementtype: registry.npmjs.org/domelementtype/2.3.0
     dev: false
 
+  registry.npmjs.org/domhandler/5.0.3:
+    resolution: {integrity: sha512-cgwlv/1iFQiFnU96XXgROh8xTeetsnJiDsTc7TYCLFd9+/WNkIqPTxiM/8pSd8VIrhXGTf1Ny1q1hquVqDJB5w==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/domhandler/-/domhandler-5.0.3.tgz}
+    name: domhandler
+    version: 5.0.3
+    engines: {node: '>= 4'}
+    dependencies:
+      domelementtype: registry.npmjs.org/domelementtype/2.3.0
+    dev: false
+
   registry.npmjs.org/domutils/1.7.0:
     resolution: {integrity: sha512-Lgd2XcJ/NjEw+7tFvfKxOzCYKZsdct5lczQ2ZaQY8Djz7pfAD3Gbp8ySJWtreII/vDlMVmxwa6pHmdxIYgttDg==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/domutils/-/domutils-1.7.0.tgz}
     name: domutils
@@ -16988,6 +17019,16 @@ packages:
       dom-serializer: registry.npmjs.org/dom-serializer/1.4.1
       domelementtype: registry.npmjs.org/domelementtype/2.3.0
       domhandler: registry.npmjs.org/domhandler/4.3.1
+    dev: false
+
+  registry.npmjs.org/domutils/3.0.1:
+    resolution: {integrity: sha512-z08c1l761iKhDFtfXO04C7kTdPBLi41zwOZl00WS8b5eiaebNpY00HKbztwBq+e3vyqWNwWF3mP9YLUeqIrF+Q==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/domutils/-/domutils-3.0.1.tgz}
+    name: domutils
+    version: 3.0.1
+    dependencies:
+      dom-serializer: registry.npmjs.org/dom-serializer/2.0.0
+      domelementtype: registry.npmjs.org/domelementtype/2.3.0
+      domhandler: registry.npmjs.org/domhandler/5.0.3
     dev: false
 
   registry.npmjs.org/dot-case/3.0.4:
@@ -17308,6 +17349,13 @@ packages:
     resolution: {integrity: sha512-p92if5Nz619I0w+akJrLZH0MX0Pb5DX39XOwQTtXSdQQOaYH03S1uIQp4mhOZtAXrxq4ViO67YTiLBo2638o9A==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/entities/-/entities-2.2.0.tgz}
     name: entities
     version: 2.2.0
+
+  registry.npmjs.org/entities/4.3.1:
+    resolution: {integrity: sha512-o4q/dYJlmyjP2zfnaWDUC6A3BQFmVTX+tZPezK7k0GLSU9QYCauscf5Y+qcEPzKL+EixVouYDgLQK5H9GrLpkg==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/entities/-/entities-4.3.1.tgz}
+    name: entities
+    version: 4.3.1
+    engines: {node: '>=0.12'}
+    dev: false
 
   registry.npmjs.org/env-editor/0.4.2:
     resolution: {integrity: sha512-ObFo8v4rQJAE59M69QzwloxPZtd33TpYEIjtKD1rrFDcM1Gd7IkDxEBU+HriziN6HSHQnBJi8Dmy+JWkav5HKA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/env-editor/-/env-editor-0.4.2.tgz}
@@ -30450,16 +30498,16 @@ packages:
       - supports-color
     dev: false
 
-  registry.npmjs.org/react-native-svg/12.1.1_react-native@0.68.2:
-    resolution: {integrity: sha512-NIAJ8jCnXGCqGWXkkJ1GTzO4a3Md5at5sagYV8Vh4MXYnL4z5Rh428Wahjhh+LIjx40EE5xM5YtwyJBqOIba2Q==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/react-native-svg/-/react-native-svg-12.1.1.tgz}
-    id: registry.npmjs.org/react-native-svg/12.1.1
+  registry.npmjs.org/react-native-svg/12.4.3_react-native@0.68.2:
+    resolution: {integrity: sha512-8OF+vvXsI854YlHBOQkanNcyio+7oQO0nQsS/Noji2VmPoMnLiJiMaxmOD9RHxGkbbo7lzbYWdxVdNibjN/8IA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/react-native-svg/-/react-native-svg-12.4.3.tgz}
+    id: registry.npmjs.org/react-native-svg/12.4.3
     name: react-native-svg
-    version: 12.1.1
+    version: 12.4.3
     peerDependencies:
       react: '*'
       react-native: '>=0.50.0'
     dependencies:
-      css-select: registry.npmjs.org/css-select/2.1.0
+      css-select: registry.npmjs.org/css-select/5.1.0
       css-tree: registry.npmjs.org/css-tree/1.1.3
       react-native: registry.npmjs.org/react-native/0.68.2
     dev: false

@@ -152,19 +152,19 @@ export class _Image extends React.Component<ImageProps, ImageState> {
       )
     }
 
+    // The parameter passed to require mpxTransformust be a string literal
+    const source: ImageSourcePropType = typeof src === 'string' ? { uri: src } : src
+
     // local svg image support, svg 图片暂不支持 mode
     if (svg) {
       return (
         <WithLocalSvg
-          asset={src}
+          asset={source}
           width={defaultWidth}
           height={defaultHeight}
         />
       )
     }
-
-    // The parameter passed to require mpxTransformust be a string literal
-    const source: ImageSourcePropType = typeof src === 'string' ? { uri: src } : src
 
     const isWidthFix = mode === 'widthFix'
     const rMode: ResizeMode = (resizeModeMap[mode] || (isWidthFix ? undefined : 'stretch'))
