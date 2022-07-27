@@ -35,7 +35,7 @@
     "prop-types": "^15.7.2",
     "react-native-maps": "^0.25.0",
     "react-native-pager-view": "~5.4.9",
-    "react-native-svg": "~12.1.1",
+    "react-native-svg": "~12.4.3",
     "react-native-webview": "~11.14.3"
   },
   "devDependencies": {
@@ -54,7 +54,7 @@
     "expo-barcode-scanner": "~11.3.0",
     "expo-camera": "~12.2.0",
     "react-native-pager-view": "~5.4.9",
-    "react-native-svg": "~12.1.1",
+    "react-native-svg": "~12.4.3",
     "react-native-webview": "~11.14.3"
   }
 }
