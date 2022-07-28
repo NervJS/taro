@@ -49,10 +49,8 @@ export interface IH5PrebundleConfig extends IPrebundleConfig {
 }
 
 export class H5Prebundle extends BasePrebundle<IH5PrebundleConfig> {
-  publicPath: string
   constructor (protected config: IH5PrebundleConfig, protected option: IPrebundle) {
     super(config, option)
-    this.publicPath = parsePublicPath(this.config.publicPath)
   }
 
   async buildLib () {
@@ -67,7 +65,6 @@ export class H5Prebundle extends BasePrebundle<IH5PrebundleConfig> {
       chunkLoadingGlobal: mainBuildOutput.chunkLoadingGlobal,
       globalObject: mainBuildOutput.globalObject,
       path: this.remoteCacheDir,
-      publicPath: this.publicPath
     }
 
     this.metadata.mfHash = getMfHash({
@@ -193,7 +190,7 @@ export class H5Prebundle extends BasePrebundle<IH5PrebundleConfig> {
       this.chain.devServer.merge({
         static: [{
           directory: this.remoteCacheDir,
-          publicPath: this.publicPath,
+          publicPath: parsePublicPath(this.config.publicPath),
           watch: true,
           staticOptions: {
             immutable: true
