@@ -36,7 +36,6 @@ exports[`RichText RichText render 1`] = `
       messagingEnabled={true}
       onContentProcessDidTerminate={[Function]}
       onHttpError={[Function]}
-      onLoadEnd={[Function]}
       onLoadingError={[Function]}
       onLoadingFinish={[Function]}
       onLoadingProgress={[Function]}
@@ -63,6 +62,7 @@ exports[`RichText RichText render 1`] = `
           },
         ]
       }
+      textInteractionEnabled={true}
       useSharedProcessPool={true}
     />
   </View>
