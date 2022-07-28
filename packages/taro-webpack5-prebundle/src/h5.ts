@@ -194,7 +194,10 @@ export class H5Prebundle extends BasePrebundle<IH5PrebundleConfig> {
         static: [{
           directory: this.remoteCacheDir,
           publicPath: this.publicPath,
-          watch: true
+          watch: true,
+          staticOptions: {
+            immutable: true
+          }
         }]
       })
     }
