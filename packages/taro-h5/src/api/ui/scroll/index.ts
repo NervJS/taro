@@ -10,7 +10,7 @@ const FRAME_DURATION = 17
 /**
  * 将页面滚动到目标位置
  */
-export const pageScrollTo: typeof Taro.pageScrollTo = ({ scrollTop, selector = '', duration = 300, success, fail, complete }) => {
+export const pageScrollTo: typeof Taro.pageScrollTo = ({ scrollTop, selector = '', offsetTop = 0, duration = 300, success, fail, complete }) => {
   let scrollFunc
   const handle = new MethodHandler({ name: 'pageScrollTo', success, fail, complete })
   return new Promise((resolve, reject) => {
@@ -56,7 +56,7 @@ export const pageScrollTo: typeof Taro.pageScrollTo = ({ scrollTop, selector = '
         to = scrollTop
       } else {
         const el = document.querySelector(selector) as HTMLElement
-        to = el?.offsetTop || 0
+        to = el?.offsetTop + offsetTop || 0
       }
       const delta = to - from
 
