@@ -278,34 +278,42 @@ export function createReactApp (
           renderReactRoot()
         }
 
-        // 用户编写的入口组件实例
-        const app = getAppInstance()
-        this.$app = app
+        const onLaunch = () => {
+          // 用户编写的入口组件实例
+          const app = getAppInstance()
+          this.$app = app
 
-        if (app) {
-          // 把 App Class 上挂载的额外属性同步到全局 app 对象中
-          if (app.taroGlobalData) {
-            const globalData = app.taroGlobalData
-            const keys = Object.keys(globalData)
-            const descriptors = Object.getOwnPropertyDescriptors(globalData)
-            keys.forEach(key => {
-              Object.defineProperty(this, key, {
-                configurable: true,
-                enumerable: true,
-                get () {
-                  return globalData[key]
-                },
-                set (value) {
-                  globalData[key] = value
-                }
+          if (app) {
+            // 把 App Class 上挂载的额外属性同步到全局 app 对象中
+            if (app.taroGlobalData) {
+              const globalData = app.taroGlobalData
+              const keys = Object.keys(globalData)
+              const descriptors = Object.getOwnPropertyDescriptors(globalData)
+              keys.forEach(key => {
+                Object.defineProperty(this, key, {
+                  configurable: true,
+                  enumerable: true,
+                  get () {
+                    return globalData[key]
+                  },
+                  set (value) {
+                    globalData[key] = value
+                  }
+                })
               })
-            })
-            Object.defineProperties(this, descriptors)
-          }
+              Object.defineProperties(this, descriptors)
+            }
 
-          app.onLaunch?.(options)
+            app.onLaunch?.(options)
+          }
+          triggerAppHook('onLaunch', options)
         }
-        triggerAppHook('onLaunch', options)
+
+        if (appWrapper) {
+          onLaunch()
+        } else {
+          appWrapperPromise.then(() => onLaunch())
+        }
       }
     }),
 
