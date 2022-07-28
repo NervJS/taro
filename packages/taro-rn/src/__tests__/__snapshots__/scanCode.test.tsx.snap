@@ -64,7 +64,16 @@ exports[`scanCode should render scanCode success 1`] = `
       }
     }
   >
-    <RNCSafeAreaView>
+    <RNCSafeAreaView
+      edges={
+        Array [
+          "bottom",
+          "left",
+          "right",
+          "top",
+        ]
+      }
+    >
       <Image
         source={1}
         style={
@@ -97,7 +106,16 @@ exports[`scanCode should render scanCode success 1`] = `
       }
     }
   >
-    <RNCSafeAreaView>
+    <RNCSafeAreaView
+      edges={
+        Array [
+          "bottom",
+          "left",
+          "right",
+          "top",
+        ]
+      }
+    >
       <Image
         source={1}
         style={
