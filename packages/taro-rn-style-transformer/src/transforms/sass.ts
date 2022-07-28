@@ -149,7 +149,7 @@ export default function transform (
     data,
     filename,
     {
-      file: filename,
+      // file: filename, // fix[issues/11983]: with file option，dart-sass importer donot execute。
       outFile: `${filename}.map`,
       sourceMap: true, // If no outFile is set, sourceMap parameter is ignored.
       alias: config.alias,
