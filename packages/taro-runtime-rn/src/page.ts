@@ -137,6 +137,7 @@ export function createPageConfig (Page: any, pageConfig: PageConfig): any {
       unSubscribleTabPress: any
       appStateSubscription: NativeEventSubscription | undefined
       dimensionsSubscription: EmitterSubscription | undefined
+      isPageReady: boolean
 
       constructor (props: any) {
         super(props)
@@ -304,6 +305,11 @@ export function createPageConfig (Page: any, pageConfig: PageConfig): any {
         this.setPageInstance()
         try {
           this.handleHooksEvent('componentDidShow')
+          // 实现 useReady hook，遵循小程序事件机制，在useDidShow之后触发
+          if(!this.isPageReady){
+            this.handleHooksEvent('onReady')
+            this.isPageReady = true
+          }
           if (this.screenRef?.current?.componentDidShow) {
             this.screenRef?.current?.componentDidShow()
           }
