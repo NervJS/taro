@@ -170,6 +170,8 @@ export function createReactApp (
   const appInstanceRef = react.createRef<ReactAppInstance>()
   const isReactComponent = isClassComponent(react, App)
   let appWrapper: AppWrapper
+  let appWrapperResolver: (value: AppWrapper) => void
+  const appWrapperPromise = new Promise<AppWrapper>(resolve => (appWrapperResolver = resolve))
 
   setReconciler(ReactDOM)
 
@@ -199,6 +201,7 @@ export function createReactApp (
     constructor (props) {
       super(props)
       appWrapper = this
+      appWrapperResolver(this)
     }
 
     public mount (pageComponent: ReactPageComponent, id: string, cb: () => void) {
@@ -250,7 +253,11 @@ export function createReactApp (
     },
 
     mount (component: ReactPageComponent, id: string, cb: () => void) {
-      appWrapper.mount(component, id, cb)
+      if (appWrapper) {
+        appWrapper.mount(component, id, cb)
+      } else {
+        appWrapperPromise.then(appWrapper => appWrapper.mount(component, id, cb))
+      }
     },
 
     unmount (id: string, cb: () => void) {
