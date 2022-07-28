@@ -372,7 +372,8 @@ require(\\"./taro\\");
                 duration: \\"300\\",
                 \\"easing-function\\": \\"'ease-out'\\"
             },
-            KeyboardAccessory: {}
+            KeyboardAccessory: {},
+            RootPortal: {}
         };
         var hostConfig = {
             initNativeApi: initNativeApi,
@@ -2577,7 +2578,8 @@ require(\\"./taro\\");
                 duration: \\"300\\",
                 \\"easing-function\\": \\"'ease-out'\\"
             },
-            KeyboardAccessory: {}
+            KeyboardAccessory: {},
+            RootPortal: {}
         };
         var hostConfig = {
             initNativeApi: initNativeApi,
@@ -4782,7 +4784,8 @@ require(\\"./taro\\");
                 duration: \\"300\\",
                 \\"easing-function\\": \\"'ease-out'\\"
             },
-            KeyboardAccessory: {}
+            KeyboardAccessory: {},
+            RootPortal: {}
         };
         var hostConfig = {
             initNativeApi: initNativeApi,
@@ -6987,7 +6990,8 @@ require(\\"./taro\\");
                 duration: \\"300\\",
                 \\"easing-function\\": \\"'ease-out'\\"
             },
-            KeyboardAccessory: {}
+            KeyboardAccessory: {},
+            RootPortal: {}
         };
         var hostConfig = {
             initNativeApi: initNativeApi,
