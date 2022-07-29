@@ -14,15 +14,18 @@ class RecorderManager {
   private static RecordingOptions = {
     android: {
       extension: '.m4a',
-      outputFormat: Audio.AndroidOutputFormat.MPEG_4,
-      audioEncoder: Audio.AndroidAudioEncoder.AAC,
+      // @ts-ignore 兼容 12.0.2 11.2.3
+      outputFormat: Audio.RECORDING_OPTION_ANDROID_OUTPUT_FORMAT_MPEG_4 || Audio.AndroidOutputFormat.MPEG_4,
+      // @ts-ignore 兼容 12.0.2 11.2.3
+      audioEncoder: Audio.RECORDING_OPTION_ANDROID_AUDIO_ENCODER_AAC || Audio.AndroidAudioEncoder.AAC,
       sampleRate: 8000,
       numberOfChannels: 2,
       bitRate: 48000
     },
     ios: {
       extension: '.caf',
-      audioQuality: Audio.IOSAudioQuality.MAX,
+      // @ts-ignore 兼容 12.0.2 11.2.3
+      audioQuality: Audio.RECORDING_OPTION_IOS_AUDIO_QUALITY_MAX || Audio.IOSAudioQuality.MAX,
       sampleRate: 8000,
       numberOfChannels: 2,
       bitRate: 48000,
