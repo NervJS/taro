@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/create-app",
-  "version": "3.5.0",
+  "version": "3.5.0-alpha.17",
   "description": "create taro app with one command",
   "author": "VincentW <Vincent.Mr.W@gmail.com>",
   "homepage": "https://github.com/nervjs/taro/tree/master/packages/create-app#readme",
