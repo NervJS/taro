@@ -49,10 +49,8 @@ export interface IH5PrebundleConfig extends IPrebundleConfig {
 }
 
 export class H5Prebundle extends BasePrebundle<IH5PrebundleConfig> {
-  publicPath: string
   constructor (protected config: IH5PrebundleConfig, protected option: IPrebundle) {
     super(config, option)
-    this.publicPath = parsePublicPath(this.config.publicPath)
   }
 
   async buildLib () {
@@ -62,12 +60,11 @@ export class H5Prebundle extends BasePrebundle<IH5PrebundleConfig> {
     const mode = process.env.NODE_ENV === 'production' ? 'production' : 'development'
     const devtool = this.config.enableSourceMap && 'hidden-source-map'
     const mainBuildOutput = this.chain.output.entries()
-    const output = {
+    const output: Exclude<webpack.Configuration['output'], undefined> = {
       chunkFilename: this.config.chunkFilename,
       chunkLoadingGlobal: mainBuildOutput.chunkLoadingGlobal,
       globalObject: mainBuildOutput.globalObject,
       path: this.remoteCacheDir,
-      publicPath: this.publicPath
     }
 
     this.metadata.mfHash = getMfHash({
@@ -164,6 +161,7 @@ export class H5Prebundle extends BasePrebundle<IH5PrebundleConfig> {
    * - [ ] 回归 react、vue 热更新状态
    */
   async run () {
+    const publicPath = parsePublicPath(this.config.publicPath)
     /** Note: 新增 web 虚拟入口，用于同步加载 webpack 动态依赖 */
     this.addPlugin('VirtualModule', VirtualModule)
 
@@ -182,7 +180,7 @@ export class H5Prebundle extends BasePrebundle<IH5PrebundleConfig> {
     await this.buildLib()
 
     /** 项目 Host 配置 Module Federation */
-    this.setHost()
+    this.setHost(['', 'auto'].includes(publicPath) ? '' : publicPath.replace(/^\.(\/)?/, '/'))
 
     /** node_modules 已预编译，不需要二次加载 (TODO: 修复 esbuild 加载 css 问题后，也应当移除对应规则对依赖的加载) */
     const script = this.chain.module.rule('script')
@@ -193,8 +191,11 @@ export class H5Prebundle extends BasePrebundle<IH5PrebundleConfig> {
       this.chain.devServer.merge({
         static: [{
           directory: this.remoteCacheDir,
-          publicPath: this.publicPath,
-          watch: true
+          publicPath,
+          watch: true,
+          staticOptions: {
+            immutable: true
+          }
         }]
       })
     }

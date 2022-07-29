@@ -42,6 +42,12 @@
     "@prefresh/webpack": {
       "optional": true
     },
+    "preact": {
+      "optional": true
+    },
+    "react": {
+      "optional": true
+    },
     "react-refresh": {
       "optional": true
     }

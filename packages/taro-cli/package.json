@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "cross-env NODE_ENV=test jest",
-    "test:ci": "cross-env NODE_ENV=test jest -i",
+    "test:ci": "cross-env NODE_ENV=test jest --ci -i",
     "test:dev": "cross-env NODE_ENV=test jest --watch",
     "test:coverage": "cross-env NODE_ENV=test jest --coverage",
     "updateSnapshot": "cross-env NODE_ENV=test jest --updateSnapshot",
@@ -67,7 +67,7 @@
     "mem-fs-editor": "7.1.0",
     "minimist": "1.2.5",
     "npm-check": "^5.9.0",
-    "ora": "^2.0.0",
+    "ora": "4.0.3",
     "postcss": "^6.0.22",
     "postcss-taro-unit-transform": "1.2.15",
     "prettier": "^1.16.4",

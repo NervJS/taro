@@ -12,7 +12,7 @@
     "build": "rimraf ./dist && tsc -emitDeclarationOnly && rollup -c",
     "dev": "rollup -c -w",
     "test": "jest",
-    "test:ci": "jest -i --coverage false"
+    "test:ci": "jest --ci -i --coverage false"
   },
   "repository": {
     "type": "git",

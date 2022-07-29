@@ -4510,7 +4510,7 @@ exports[`sass should build app with sass 2`] = `
                             _yield$Promise$all2 = _slicedToArray(_yield$Promise$all, 3);
                             element = _yield$Promise$all2[0];
                             params = _yield$Promise$all2[2];
-                            _context.next = 20;
+                            _context.next = 24;
                             break;
 
                           case 13:
@@ -4523,20 +4523,29 @@ exports[`sass should build app with sass 2`] = `
                             (_c = app.onPageNotFound) === null || _c === void 0 ? void 0 : _c.call(app, {
                                 \\"path\\": handler.pathname
                             });
-                            _context.next = 20;
+                            _context.next = 24;
                             break;
 
                           case 19:
+                            if (!/Loading hot update .* failed./.test(_context.t0.message)) {
+                                _context.next = 23;
+                                break;
+                            }
+                            window.location.reload();
+                            _context.next = 24;
+                            break;
+
+                          case 23:
                             throw new Error(_context.t0);
 
-                          case 20:
+                          case 24:
                             if (element) {
-                                _context.next = 22;
+                                _context.next = 26;
                                 break;
                             }
                             return _context.abrupt(\\"return\\");
 
-                          case 22:
+                          case 26:
                             pageConfig = handler.pageConfig;
                             enablePullDownRefresh = ((_d = config === null || config === void 0 ? void 0 : config.window) === null || _d === void 0 ? void 0 : _d.enablePullDownRefresh) || false;
                             undefined.trigger(\\"__taroRouterChange\\", {
@@ -4555,7 +4564,7 @@ exports[`sass should build app with sass 2`] = `
                             pathname = handler.pathname;
                             shouldLoad = false;
                             if (!(action === \\"POP\\")) {
-                                _context.next = 35;
+                                _context.next = 39;
                                 break;
                             }
                             prevIndex = stack.getPrevIndex(pathname);
@@ -4568,34 +4577,34 @@ exports[`sass should build app with sass 2`] = `
                                     shouldLoad = true;
                                 }
                             }
-                            _context.next = 46;
+                            _context.next = 50;
                             break;
 
-                          case 35:
+                          case 39:
                             if (!handler.isTabBar) {
-                                _context.next = 44;
+                                _context.next = 48;
                                 break;
                             }
                             if (!handler.isSamePage(currentPage)) {
-                                _context.next = 38;
+                                _context.next = 42;
                                 break;
                             }
                             return _context.abrupt(\\"return\\");
 
-                          case 38:
+                          case 42:
                             _prevIndex = stack.getPrevIndex(pathname, 0);
                             handler.hide(currentPage);
                             if (!(_prevIndex > -1)) {
-                                _context.next = 42;
+                                _context.next = 46;
                                 break;
                             }
                             return _context.abrupt(\\"return\\", handler.show(stack.getItem(_prevIndex), pageConfig, _prevIndex));
 
-                          case 42:
-                            _context.next = 45;
+                          case 46:
+                            _context.next = 49;
                             break;
 
-                          case 44:
+                          case 48:
                             if (action === \\"REPLACE\\") {
                                 _delta = stack.getDelta(pathname);
                                 handler.unload(currentPage, _delta);
@@ -4603,12 +4612,12 @@ exports[`sass should build app with sass 2`] = `
                                 handler.hide(currentPage);
                             }
 
-                          case 45:
+                          case 49:
                             shouldLoad = true;
 
-                          case 46:
+                          case 50:
                             if (!(shouldLoad || stack.length < 1)) {
-                                _context.next = 55;
+                                _context.next = 59;
                                 break;
                             }
                             el = (_g = element.default) !== null && _g !== void 0 ? _g : element;
@@ -4620,7 +4629,7 @@ exports[`sass should build app with sass 2`] = `
                             if (params) page.options = params;
                             return _context.abrupt(\\"return\\", handler.load(page, pageConfig, stacksIndex));
 
-                          case 55:
+                          case 59:
                           case \\"end\\":
                             return _context.stop();
                         }
@@ -9251,7 +9260,7 @@ exports[`sass should build app with scss 2`] = `
                             _yield$Promise$all2 = _slicedToArray(_yield$Promise$all, 3);
                             element = _yield$Promise$all2[0];
                             params = _yield$Promise$all2[2];
-                            _context.next = 20;
+                            _context.next = 24;
                             break;
 
                           case 13:
@@ -9264,20 +9273,29 @@ exports[`sass should build app with scss 2`] = `
                             (_c = app.onPageNotFound) === null || _c === void 0 ? void 0 : _c.call(app, {
                                 \\"path\\": handler.pathname
                             });
-                            _context.next = 20;
+                            _context.next = 24;
                             break;
 
                           case 19:
+                            if (!/Loading hot update .* failed./.test(_context.t0.message)) {
+                                _context.next = 23;
+                                break;
+                            }
+                            window.location.reload();
+                            _context.next = 24;
+                            break;
+
+                          case 23:
                             throw new Error(_context.t0);
 
-                          case 20:
+                          case 24:
                             if (element) {
-                                _context.next = 22;
+                                _context.next = 26;
                                 break;
                             }
                             return _context.abrupt(\\"return\\");
 
-                          case 22:
+                          case 26:
                             pageConfig = handler.pageConfig;
                             enablePullDownRefresh = ((_d = config === null || config === void 0 ? void 0 : config.window) === null || _d === void 0 ? void 0 : _d.enablePullDownRefresh) || false;
                             undefined.trigger(\\"__taroRouterChange\\", {
@@ -9296,7 +9314,7 @@ exports[`sass should build app with scss 2`] = `
                             pathname = handler.pathname;
                             shouldLoad = false;
                             if (!(action === \\"POP\\")) {
-                                _context.next = 35;
+                                _context.next = 39;
                                 break;
                             }
                             prevIndex = stack.getPrevIndex(pathname);
@@ -9309,34 +9327,34 @@ exports[`sass should build app with scss 2`] = `
                                     shouldLoad = true;
                                 }
                             }
-                            _context.next = 46;
+                            _context.next = 50;
                             break;
 
-                          case 35:
+                          case 39:
                             if (!handler.isTabBar) {
-                                _context.next = 44;
+                                _context.next = 48;
                                 break;
                             }
                             if (!handler.isSamePage(currentPage)) {
-                                _context.next = 38;
+                                _context.next = 42;
                                 break;
                             }
                             return _context.abrupt(\\"return\\");
 
-                          case 38:
+                          case 42:
                             _prevIndex = stack.getPrevIndex(pathname, 0);
                             handler.hide(currentPage);
                             if (!(_prevIndex > -1)) {
-                                _context.next = 42;
+                                _context.next = 46;
                                 break;
                             }
                             return _context.abrupt(\\"return\\", handler.show(stack.getItem(_prevIndex), pageConfig, _prevIndex));
 
-                          case 42:
-                            _context.next = 45;
+                          case 46:
+                            _context.next = 49;
                             break;
 
-                          case 44:
+                          case 48:
                             if (action === \\"REPLACE\\") {
                                 _delta = stack.getDelta(pathname);
                                 handler.unload(currentPage, _delta);
@@ -9344,12 +9362,12 @@ exports[`sass should build app with scss 2`] = `
                                 handler.hide(currentPage);
                             }
 
-                          case 45:
+                          case 49:
                             shouldLoad = true;
 
-                          case 46:
+                          case 50:
                             if (!(shouldLoad || stack.length < 1)) {
-                                _context.next = 55;
+                                _context.next = 59;
                                 break;
                             }
                             el = (_g = element.default) !== null && _g !== void 0 ? _g : element;
@@ -9361,7 +9379,7 @@ exports[`sass should build app with scss 2`] = `
                             if (params) page.options = params;
                             return _context.abrupt(\\"return\\", handler.load(page, pageConfig, stacksIndex));
 
-                          case 55:
+                          case 59:
                           case \\"end\\":
                             return _context.stop();
                         }
@@ -9400,9 +9418,6 @@ exports[`sass should build app with scss 2`] = `
         }, {
             \\"key\\": \\"componentDidHide\\",
             \\"value\\": function componentDidHide() {}
-        }, {
-            \\"key\\": \\"componentDidCatchError\\",
-            \\"value\\": function componentDidCatchError() {}
         }, {
             \\"key\\": \\"render\\",
             \\"value\\": function render() {
@@ -14005,7 +14020,7 @@ exports[`sass should set global sass content with data 2`] = `
                             _yield$Promise$all2 = _slicedToArray(_yield$Promise$all, 3);
                             element = _yield$Promise$all2[0];
                             params = _yield$Promise$all2[2];
-                            _context.next = 20;
+                            _context.next = 24;
                             break;
 
                           case 13:
@@ -14018,20 +14033,29 @@ exports[`sass should set global sass content with data 2`] = `
                             (_c = app.onPageNotFound) === null || _c === void 0 ? void 0 : _c.call(app, {
                                 \\"path\\": handler.pathname
                             });
-                            _context.next = 20;
+                            _context.next = 24;
                             break;
 
                           case 19:
+                            if (!/Loading hot update .* failed./.test(_context.t0.message)) {
+                                _context.next = 23;
+                                break;
+                            }
+                            window.location.reload();
+                            _context.next = 24;
+                            break;
+
+                          case 23:
                             throw new Error(_context.t0);
 
-                          case 20:
+                          case 24:
                             if (element) {
-                                _context.next = 22;
+                                _context.next = 26;
                                 break;
                             }
                             return _context.abrupt(\\"return\\");
 
-                          case 22:
+                          case 26:
                             pageConfig = handler.pageConfig;
                             enablePullDownRefresh = ((_d = config === null || config === void 0 ? void 0 : config.window) === null || _d === void 0 ? void 0 : _d.enablePullDownRefresh) || false;
                             undefined.trigger(\\"__taroRouterChange\\", {
@@ -14050,7 +14074,7 @@ exports[`sass should set global sass content with data 2`] = `
                             pathname = handler.pathname;
                             shouldLoad = false;
                             if (!(action === \\"POP\\")) {
-                                _context.next = 35;
+                                _context.next = 39;
                                 break;
                             }
                             prevIndex = stack.getPrevIndex(pathname);
@@ -14063,34 +14087,34 @@ exports[`sass should set global sass content with data 2`] = `
                                     shouldLoad = true;
                                 }
                             }
-                            _context.next = 46;
+                            _context.next = 50;
                             break;
 
-                          case 35:
+                          case 39:
                             if (!handler.isTabBar) {
-                                _context.next = 44;
+                                _context.next = 48;
                                 break;
                             }
                             if (!handler.isSamePage(currentPage)) {
-                                _context.next = 38;
+                                _context.next = 42;
                                 break;
                             }
                             return _context.abrupt(\\"return\\");
 
-                          case 38:
+                          case 42:
                             _prevIndex = stack.getPrevIndex(pathname, 0);
                             handler.hide(currentPage);
                             if (!(_prevIndex > -1)) {
-                                _context.next = 42;
+                                _context.next = 46;
                                 break;
                             }
                             return _context.abrupt(\\"return\\", handler.show(stack.getItem(_prevIndex), pageConfig, _prevIndex));
 
-                          case 42:
-                            _context.next = 45;
+                          case 46:
+                            _context.next = 49;
                             break;
 
-                          case 44:
+                          case 48:
                             if (action === \\"REPLACE\\") {
                                 _delta = stack.getDelta(pathname);
                                 handler.unload(currentPage, _delta);
@@ -14098,12 +14122,12 @@ exports[`sass should set global sass content with data 2`] = `
                                 handler.hide(currentPage);
                             }
 
-                          case 45:
+                          case 49:
                             shouldLoad = true;
 
-                          case 46:
+                          case 50:
                             if (!(shouldLoad || stack.length < 1)) {
-                                _context.next = 55;
+                                _context.next = 59;
                                 break;
                             }
                             el = (_g = element.default) !== null && _g !== void 0 ? _g : element;
@@ -14115,7 +14139,7 @@ exports[`sass should set global sass content with data 2`] = `
                             if (params) page.options = params;
                             return _context.abrupt(\\"return\\", handler.load(page, pageConfig, stacksIndex));
 
-                          case 55:
+                          case 59:
                           case \\"end\\":
                             return _context.stop();
                         }
@@ -14154,9 +14178,6 @@ exports[`sass should set global sass content with data 2`] = `
         }, {
             \\"key\\": \\"componentDidHide\\",
             \\"value\\": function componentDidHide() {}
-        }, {
-            \\"key\\": \\"componentDidCatchError\\",
-            \\"value\\": function componentDidCatchError() {}
         }, {
             \\"key\\": \\"render\\",
             \\"value\\": function render() {
@@ -18759,7 +18780,7 @@ exports[`sass should set global sass content with source & dir 2`] = `
                             _yield$Promise$all2 = _slicedToArray(_yield$Promise$all, 3);
                             element = _yield$Promise$all2[0];
                             params = _yield$Promise$all2[2];
-                            _context.next = 20;
+                            _context.next = 24;
                             break;
 
                           case 13:
@@ -18772,20 +18793,29 @@ exports[`sass should set global sass content with source & dir 2`] = `
                             (_c = app.onPageNotFound) === null || _c === void 0 ? void 0 : _c.call(app, {
                                 \\"path\\": handler.pathname
                             });
-                            _context.next = 20;
+                            _context.next = 24;
                             break;
 
                           case 19:
+                            if (!/Loading hot update .* failed./.test(_context.t0.message)) {
+                                _context.next = 23;
+                                break;
+                            }
+                            window.location.reload();
+                            _context.next = 24;
+                            break;
+
+                          case 23:
                             throw new Error(_context.t0);
 
-                          case 20:
+                          case 24:
                             if (element) {
-                                _context.next = 22;
+                                _context.next = 26;
                                 break;
                             }
                             return _context.abrupt(\\"return\\");
 
-                          case 22:
+                          case 26:
                             pageConfig = handler.pageConfig;
                             enablePullDownRefresh = ((_d = config === null || config === void 0 ? void 0 : config.window) === null || _d === void 0 ? void 0 : _d.enablePullDownRefresh) || false;
                             undefined.trigger(\\"__taroRouterChange\\", {
@@ -18804,7 +18834,7 @@ exports[`sass should set global sass content with source & dir 2`] = `
                             pathname = handler.pathname;
                             shouldLoad = false;
                             if (!(action === \\"POP\\")) {
-                                _context.next = 35;
+                                _context.next = 39;
                                 break;
                             }
                             prevIndex = stack.getPrevIndex(pathname);
@@ -18817,34 +18847,34 @@ exports[`sass should set global sass content with source & dir 2`] = `
                                     shouldLoad = true;
                                 }
                             }
-                            _context.next = 46;
+                            _context.next = 50;
                             break;
 
-                          case 35:
+                          case 39:
                             if (!handler.isTabBar) {
-                                _context.next = 44;
+                                _context.next = 48;
                                 break;
                             }
                             if (!handler.isSamePage(currentPage)) {
-                                _context.next = 38;
+                                _context.next = 42;
                                 break;
                             }
                             return _context.abrupt(\\"return\\");
 
-                          case 38:
+                          case 42:
                             _prevIndex = stack.getPrevIndex(pathname, 0);
                             handler.hide(currentPage);
                             if (!(_prevIndex > -1)) {
-                                _context.next = 42;
+                                _context.next = 46;
                                 break;
                             }
                             return _context.abrupt(\\"return\\", handler.show(stack.getItem(_prevIndex), pageConfig, _prevIndex));
 
-                          case 42:
-                            _context.next = 45;
+                          case 46:
+                            _context.next = 49;
                             break;
 
-                          case 44:
+                          case 48:
                             if (action === \\"REPLACE\\") {
                                 _delta = stack.getDelta(pathname);
                                 handler.unload(currentPage, _delta);
@@ -18852,12 +18882,12 @@ exports[`sass should set global sass content with source & dir 2`] = `
                                 handler.hide(currentPage);
                             }
 
-                          case 45:
+                          case 49:
                             shouldLoad = true;
 
-                          case 46:
+                          case 50:
                             if (!(shouldLoad || stack.length < 1)) {
-                                _context.next = 55;
+                                _context.next = 59;
                                 break;
                             }
                             el = (_g = element.default) !== null && _g !== void 0 ? _g : element;
@@ -18869,7 +18899,7 @@ exports[`sass should set global sass content with source & dir 2`] = `
                             if (params) page.options = params;
                             return _context.abrupt(\\"return\\", handler.load(page, pageConfig, stacksIndex));
 
-                          case 55:
+                          case 59:
                           case \\"end\\":
                             return _context.stop();
                         }
@@ -18908,9 +18938,6 @@ exports[`sass should set global sass content with source & dir 2`] = `
         }, {
             \\"key\\": \\"componentDidHide\\",
             \\"value\\": function componentDidHide() {}
-        }, {
-            \\"key\\": \\"componentDidCatchError\\",
-            \\"value\\": function componentDidCatchError() {}
         }, {
             \\"key\\": \\"render\\",
             \\"value\\": function render() {
@@ -23513,7 +23540,7 @@ exports[`sass should set global sass content with source 2`] = `
                             _yield$Promise$all2 = _slicedToArray(_yield$Promise$all, 3);
                             element = _yield$Promise$all2[0];
                             params = _yield$Promise$all2[2];
-                            _context.next = 20;
+                            _context.next = 24;
                             break;
 
                           case 13:
@@ -23526,20 +23553,29 @@ exports[`sass should set global sass content with source 2`] = `
                             (_c = app.onPageNotFound) === null || _c === void 0 ? void 0 : _c.call(app, {
                                 \\"path\\": handler.pathname
                             });
-                            _context.next = 20;
+                            _context.next = 24;
                             break;
 
                           case 19:
+                            if (!/Loading hot update .* failed./.test(_context.t0.message)) {
+                                _context.next = 23;
+                                break;
+                            }
+                            window.location.reload();
+                            _context.next = 24;
+                            break;
+
+                          case 23:
                             throw new Error(_context.t0);
 
-                          case 20:
+                          case 24:
                             if (element) {
-                                _context.next = 22;
+                                _context.next = 26;
                                 break;
                             }
                             return _context.abrupt(\\"return\\");
 
-                          case 22:
+                          case 26:
                             pageConfig = handler.pageConfig;
                             enablePullDownRefresh = ((_d = config === null || config === void 0 ? void 0 : config.window) === null || _d === void 0 ? void 0 : _d.enablePullDownRefresh) || false;
                             undefined.trigger(\\"__taroRouterChange\\", {
@@ -23558,7 +23594,7 @@ exports[`sass should set global sass content with source 2`] = `
                             pathname = handler.pathname;
                             shouldLoad = false;
                             if (!(action === \\"POP\\")) {
-                                _context.next = 35;
+                                _context.next = 39;
                                 break;
                             }
                             prevIndex = stack.getPrevIndex(pathname);
@@ -23571,34 +23607,34 @@ exports[`sass should set global sass content with source 2`] = `
                                     shouldLoad = true;
                                 }
                             }
-                            _context.next = 46;
+                            _context.next = 50;
                             break;
 
-                          case 35:
+                          case 39:
                             if (!handler.isTabBar) {
-                                _context.next = 44;
+                                _context.next = 48;
                                 break;
                             }
                             if (!handler.isSamePage(currentPage)) {
-                                _context.next = 38;
+                                _context.next = 42;
                                 break;
                             }
                             return _context.abrupt(\\"return\\");
 
-                          case 38:
+                          case 42:
                             _prevIndex = stack.getPrevIndex(pathname, 0);
                             handler.hide(currentPage);
                             if (!(_prevIndex > -1)) {
-                                _context.next = 42;
+                                _context.next = 46;
                                 break;
                             }
                             return _context.abrupt(\\"return\\", handler.show(stack.getItem(_prevIndex), pageConfig, _prevIndex));
 
-                          case 42:
-                            _context.next = 45;
+                          case 46:
+                            _context.next = 49;
                             break;
 
-                          case 44:
+                          case 48:
                             if (action === \\"REPLACE\\") {
                                 _delta = stack.getDelta(pathname);
                                 handler.unload(currentPage, _delta);
@@ -23606,12 +23642,12 @@ exports[`sass should set global sass content with source 2`] = `
                                 handler.hide(currentPage);
                             }
 
-                          case 45:
+                          case 49:
                             shouldLoad = true;
 
-                          case 46:
+                          case 50:
                             if (!(shouldLoad || stack.length < 1)) {
-                                _context.next = 55;
+                                _context.next = 59;
                                 break;
                             }
                             el = (_g = element.default) !== null && _g !== void 0 ? _g : element;
@@ -23623,7 +23659,7 @@ exports[`sass should set global sass content with source 2`] = `
                             if (params) page.options = params;
                             return _context.abrupt(\\"return\\", handler.load(page, pageConfig, stacksIndex));
 
-                          case 55:
+                          case 59:
                           case \\"end\\":
                             return _context.stop();
                         }
@@ -23662,9 +23698,6 @@ exports[`sass should set global sass content with source 2`] = `
         }, {
             \\"key\\": \\"componentDidHide\\",
             \\"value\\": function componentDidHide() {}
-        }, {
-            \\"key\\": \\"componentDidCatchError\\",
-            \\"value\\": function componentDidCatchError() {}
         }, {
             \\"key\\": \\"render\\",
             \\"value\\": function render() {

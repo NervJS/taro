@@ -441,9 +441,6 @@ require(\\"./taro\\");
                 key: \\"componentDidHide\\",
                 value: function componentDidHide() {}
             }, {
-                key: \\"componentDidCatchError\\",
-                value: function componentDidCatchError() {}
-            }, {
                 key: \\"render\\",
                 value: function render() {
                     return this.props.children;
@@ -1986,9 +1983,6 @@ require(\\"./taro\\");
             }, {
                 key: \\"componentDidHide\\",
                 value: function componentDidHide() {}
-            }, {
-                key: \\"componentDidCatchError\\",
-                value: function componentDidCatchError() {}
             }, {
                 key: \\"render\\",
                 value: function render() {
@@ -3533,9 +3527,6 @@ require(\\"./taro\\");
                 key: \\"componentDidHide\\",
                 value: function componentDidHide() {}
             }, {
-                key: \\"componentDidCatchError\\",
-                value: function componentDidCatchError() {}
-            }, {
                 key: \\"render\\",
                 value: function render() {
                     return this.props.children;
@@ -5078,9 +5069,6 @@ require(\\"./taro\\");
             }, {
                 key: \\"componentDidHide\\",
                 value: function componentDidHide() {}
-            }, {
-                key: \\"componentDidCatchError\\",
-                value: function componentDidCatchError() {}
             }, {
                 key: \\"render\\",
                 value: function render() {

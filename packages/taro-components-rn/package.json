@@ -10,7 +10,7 @@
     "lint": "eslint .",
     "test": "jest --silent",
     "test:dev": "jest --watch",
-    "test:ci": "jest --silent --coverage false",
+    "test:ci": "jest --ci --silent --coverage false",
     "test:coverage": "jest --coverage"
   },
   "files": [
