@@ -622,7 +622,7 @@ importers:
       '@types/react': ^17.0.0
       '@types/react-native': ^0.67.7
       expo: ~46.0.1
-      expo-av: ~12.0.2
+      expo-av: ~11.2.3
       expo-barcode-scanner: ~11.4.0
       expo-camera: ~12.3.0
       metro-babel-register: ^0.67.0
@@ -637,7 +637,7 @@ importers:
       '@ant-design/react-native': registry.npmjs.org/@ant-design/react-native/4.2.0_w3azbtgkyoktnd2wlmhnar4mji
       '@react-native-community/slider': registry.npmjs.org/@react-native-community/slider/4.2.4_react-native@0.68.2
       '@react-native-picker/picker': registry.npmjs.org/@react-native-picker/picker/2.4.2_react-native@0.68.2
-      expo-av: registry.npmjs.org/expo-av/12.0.3_expo@46.0.1
+      expo-av: registry.npmjs.org/expo-av/11.2.3_expo@46.0.1
       expo-barcode-scanner: registry.npmjs.org/expo-barcode-scanner/11.4.0_expo@46.0.1
       expo-camera: registry.npmjs.org/expo-camera/12.3.0_expo@46.0.1
       prop-types: registry.npmjs.org/prop-types/15.8.1
@@ -1030,7 +1030,7 @@ importers:
       babel-preset-expo: ~9.0.2
       base64-js: ^1.3.0
       deprecated-react-native-prop-types: ^2.3.0
-      expo-av: ~12.0.2
+      expo-av: ~11.2.3
       expo-barcode-scanner: ~11.4.0
       expo-brightness: ~10.3.0
       expo-camera: ~12.3.0
@@ -1063,7 +1063,7 @@ importers:
       babel-preset-expo: registry.npmjs.org/babel-preset-expo/9.0.2
       base64-js: registry.npmjs.org/base64-js/1.5.1
       deprecated-react-native-prop-types: registry.npmjs.org/deprecated-react-native-prop-types/2.3.0
-      expo-av: registry.npmjs.org/expo-av/12.0.3
+      expo-av: registry.npmjs.org/expo-av/11.2.3
       expo-barcode-scanner: registry.npmjs.org/expo-barcode-scanner/11.4.0
       expo-brightness: registry.npmjs.org/expo-brightness/10.3.0
       expo-camera: registry.npmjs.org/expo-camera/12.3.0
@@ -1242,7 +1242,7 @@ importers:
       '@types/react-native': ^0.67.7
       nanoid: ^3.1.12
       query-string: ^6.1.0
-      react-native-gesture-handler: ~2.5.0
+      react-native-gesture-handler: ~1.10.3
       react-native-safe-area-context: ~4.3.1
       react-native-screens: ^3.15.0
     dependencies:
@@ -1251,10 +1251,10 @@ importers:
       '@react-navigation/native': registry.npmjs.org/@react-navigation/native/6.0.10
       '@react-navigation/native-stack': registry.npmjs.org/@react-navigation/native-stack/6.7.0_hqimomweuqicegb4icvtl654tq
       '@react-navigation/routers': registry.npmjs.org/@react-navigation/routers/6.1.0
-      '@react-navigation/stack': registry.npmjs.org/@react-navigation/stack/6.2.1_ztrdvtx67j3z4fcgppg2rqk6km
+      '@react-navigation/stack': registry.npmjs.org/@react-navigation/stack/6.2.1_w2kboxnu2tbx34rjsgwhfzj4ma
       nanoid: registry.npmjs.org/nanoid/3.3.4
       query-string: registry.npmjs.org/query-string/6.14.1
-      react-native-gesture-handler: registry.npmjs.org/react-native-gesture-handler/2.5.0
+      react-native-gesture-handler: registry.npmjs.org/react-native-gesture-handler/1.10.3
       react-native-safe-area-context: registry.npmjs.org/react-native-safe-area-context/4.3.1
       react-native-screens: registry.npmjs.org/react-native-screens/3.15.0
     devDependencies:
@@ -8093,7 +8093,7 @@ packages:
       nanoid: registry.npmjs.org/nanoid/3.3.4
     dev: false
 
-  registry.npmjs.org/@react-navigation/stack/6.2.1_ztrdvtx67j3z4fcgppg2rqk6km:
+  registry.npmjs.org/@react-navigation/stack/6.2.1_w2kboxnu2tbx34rjsgwhfzj4ma:
     resolution: {integrity: sha512-JI7boxtPAMCBXi4VJHVEq61jLVHFW5f3npvbndS+XfOsv7Gf0f91HOVJ28DS5c2Fn4+CO4AByjUozzlN296X+A==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@react-navigation/stack/-/stack-6.2.1.tgz}
     id: registry.npmjs.org/@react-navigation/stack/6.2.1
     name: '@react-navigation/stack'
@@ -8109,7 +8109,7 @@ packages:
       '@react-navigation/elements': registry.npmjs.org/@react-navigation/elements/1.3.3_bfz4qyj33vr6n2jax7uzf26eze
       '@react-navigation/native': registry.npmjs.org/@react-navigation/native/6.0.10
       color: registry.npmjs.org/color/3.2.1
-      react-native-gesture-handler: registry.npmjs.org/react-native-gesture-handler/2.5.0
+      react-native-gesture-handler: registry.npmjs.org/react-native-gesture-handler/1.10.3
       react-native-safe-area-context: registry.npmjs.org/react-native-safe-area-context/4.3.1
       react-native-screens: registry.npmjs.org/react-native-screens/3.15.0
       warn-once: registry.npmjs.org/warn-once/0.1.0
@@ -18860,27 +18860,27 @@ packages:
       - expo
       - supports-color
 
-  registry.npmjs.org/expo-av/12.0.3:
-    resolution: {integrity: sha512-iY3AAJFJHBRtCrCziC9n6+Cb/uls3MzCB1Svs906BE8rxQ94yyOW2Nds7T+9CfCFNUAOlGvWjf/OXgHljzLXqQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/expo-av/-/expo-av-12.0.3.tgz}
+  registry.npmjs.org/expo-av/11.2.3:
+    resolution: {integrity: sha512-ptTe96s33Ct0eOsOmNTvtaWFx4B0SDkQmDfPbiuX/C2afqbLQf8geEopw7BRO8ZZl7Qe3qBMH6YLHXKTkZkTyQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/expo-av/-/expo-av-11.2.3.tgz}
     name: expo-av
-    version: 12.0.3
+    version: 11.2.3
     peerDependencies:
       expo: '*'
     dependencies:
-      '@expo/config-plugins': registry.npmjs.org/@expo/config-plugins/5.0.0
+      '@expo/config-plugins': registry.npmjs.org/@expo/config-plugins/4.1.5
     transitivePeerDependencies:
       - supports-color
     dev: false
 
-  registry.npmjs.org/expo-av/12.0.3_expo@46.0.1:
-    resolution: {integrity: sha512-iY3AAJFJHBRtCrCziC9n6+Cb/uls3MzCB1Svs906BE8rxQ94yyOW2Nds7T+9CfCFNUAOlGvWjf/OXgHljzLXqQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/expo-av/-/expo-av-12.0.3.tgz}
-    id: registry.npmjs.org/expo-av/12.0.3
+  registry.npmjs.org/expo-av/11.2.3_expo@46.0.1:
+    resolution: {integrity: sha512-ptTe96s33Ct0eOsOmNTvtaWFx4B0SDkQmDfPbiuX/C2afqbLQf8geEopw7BRO8ZZl7Qe3qBMH6YLHXKTkZkTyQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/expo-av/-/expo-av-11.2.3.tgz}
+    id: registry.npmjs.org/expo-av/11.2.3
     name: expo-av
-    version: 12.0.3
+    version: 11.2.3
     peerDependencies:
       expo: '*'
     dependencies:
-      '@expo/config-plugins': registry.npmjs.org/@expo/config-plugins/5.0.0
+      '@expo/config-plugins': registry.npmjs.org/@expo/config-plugins/4.1.5
       expo: registry.npmjs.org/expo/46.0.1
     transitivePeerDependencies:
       - supports-color
@@ -30494,19 +30494,18 @@ packages:
       react-native: registry.npmjs.org/react-native/0.68.2
     dev: false
 
-  registry.npmjs.org/react-native-gesture-handler/2.5.0:
-    resolution: {integrity: sha512-djZdcprFf08PZC332D+AeG5wcGeAPhzfCJtB3otUgOgTlvjVXmg/SLFdPJSpzLBqkRAmrC77tM79QgKbuLxkfw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/react-native-gesture-handler/-/react-native-gesture-handler-2.5.0.tgz}
+  registry.npmjs.org/react-native-gesture-handler/1.10.3:
+    resolution: {integrity: sha512-cBGMi1IEsIVMgoox4RvMx7V2r6bNKw0uR1Mu1o7NbuHS6BRSVLq0dP34l2ecnPlC+jpWd3le6Yg1nrdCjby2Mw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/react-native-gesture-handler/-/react-native-gesture-handler-1.10.3.tgz}
     name: react-native-gesture-handler
-    version: 2.5.0
-    peerDependencies:
-      react: '*'
-      react-native: '*'
+    version: 1.10.3
     dependencies:
       '@egjs/hammerjs': registry.npmjs.org/@egjs/hammerjs/2.0.17
+      fbjs: registry.npmjs.org/fbjs/3.0.4
       hoist-non-react-statics: registry.npmjs.org/hoist-non-react-statics/3.3.2
       invariant: registry.npmjs.org/invariant/2.2.4
-      lodash: registry.npmjs.org/lodash/4.17.21
       prop-types: registry.npmjs.org/prop-types/15.8.1
+    transitivePeerDependencies:
+      - encoding
     dev: false
 
   registry.npmjs.org/react-native-gradle-plugin/0.0.6:
