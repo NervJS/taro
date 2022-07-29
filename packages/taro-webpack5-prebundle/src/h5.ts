@@ -161,6 +161,7 @@ export class H5Prebundle extends BasePrebundle<IH5PrebundleConfig> {
    * - [ ] 回归 react、vue 热更新状态
    */
   async run () {
+    const publicPath = parsePublicPath(this.config.publicPath)
     /** Note: 新增 web 虚拟入口，用于同步加载 webpack 动态依赖 */
     this.addPlugin('VirtualModule', VirtualModule)
 
@@ -179,7 +180,7 @@ export class H5Prebundle extends BasePrebundle<IH5PrebundleConfig> {
     await this.buildLib()
 
     /** 项目 Host 配置 Module Federation */
-    this.setHost()
+    this.setHost(['', 'auto'].includes(publicPath) ? '' : publicPath.replace(/^\.(\/)?/, '/'))
 
     /** node_modules 已预编译，不需要二次加载 (TODO: 修复 esbuild 加载 css 问题后，也应当移除对应规则对依赖的加载) */
     const script = this.chain.module.rule('script')
@@ -190,7 +191,7 @@ export class H5Prebundle extends BasePrebundle<IH5PrebundleConfig> {
       this.chain.devServer.merge({
         static: [{
           directory: this.remoteCacheDir,
-          publicPath: parsePublicPath(this.config.publicPath),
+          publicPath,
           watch: true,
           staticOptions: {
             immutable: true
