@@ -101,6 +101,7 @@ export declare const MatchMedia: VueComponentType<MatchMediaProps>
 export declare const MovableArea: VueComponentType<MovableAreaProps>
 export declare const MovableView: VueComponentType<MovableViewProps>
 export declare const PageContainer: VueComponentType<PageContainerProps>
+export declare const RootPortal: VueComponentType
 export declare const ScrollView: VueComponentType<ScrollViewProps>
 export declare const ShareElement: VueComponentType<ShareElementProps>
 export declare const Swiper: VueComponentType<SwiperProps>

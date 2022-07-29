@@ -12,6 +12,7 @@ const components = [
   'taro-movable-area',
   'taro-movable-view',
   'taro-page-container',
+  'taro-root-portal',
   ['taro-scroll-view', { type: 'component', component: ScrollView }],
   'taro-share-element',
   'taro-swiper',
