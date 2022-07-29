@@ -100,7 +100,6 @@ export const getPostcssPlugins = function (appPath: string, option = {} as IPost
       console.log(msg)
     }
   })
-  console.log('plugins', option, plugins)
 
   return plugins
 }
