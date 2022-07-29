@@ -60,7 +60,7 @@ export class H5Prebundle extends BasePrebundle<IH5PrebundleConfig> {
     const mode = process.env.NODE_ENV === 'production' ? 'production' : 'development'
     const devtool = this.config.enableSourceMap && 'hidden-source-map'
     const mainBuildOutput = this.chain.output.entries()
-    const output = {
+    const output: Exclude<webpack.Configuration['output'], undefined> = {
       chunkFilename: this.config.chunkFilename,
       chunkLoadingGlobal: mainBuildOutput.chunkLoadingGlobal,
       globalObject: mainBuildOutput.globalObject,
