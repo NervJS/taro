@@ -40,7 +40,7 @@ const defaultHtmltransformOption: {
 const defaultUrlOption: {
   [key: string]: any
 } = {
-  enable: false,
+  enable: true,
   config: {
     url: 'inline'
   }
@@ -100,6 +100,7 @@ export const getPostcssPlugins = function (appPath: string, option = {} as IPost
       console.log(msg)
     }
   })
+  console.log('plugins', option, plugins)
 
   return plugins
 }
