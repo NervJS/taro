@@ -66,6 +66,9 @@ export async function compile (app: string, customConfig: Partial<IBuildConfig> 
           '@tarojs/taro': path.resolve(__dirname, '../mocks/taro'),
           '@tarojs/shared': path.resolve(__dirname, '../mocks/taro'),
           'regenerator-runtime': path.resolve(__dirname, '../mocks/deps'),
+          '@tarojs/plugin-framework-react/dist/runtime': path.resolve(__dirname, '../mocks/taro'),
+          '@tarojs/plugin-framework-vue2/dist/runtime': path.resolve(__dirname, '../mocks/taro'),
+          '@tarojs/plugin-framework-vue3/dist/runtime': path.resolve(__dirname, '../mocks/taro'),
           react$: path.resolve(__dirname, '../mocks/react'),
           vue: path.resolve(__dirname, '../mocks/vue'),
           nervjs: path.resolve(__dirname, '../mocks/nerv')

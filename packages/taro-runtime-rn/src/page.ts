@@ -310,9 +310,7 @@ export function createPageConfig (Page: any, pageConfig: PageConfig): any {
             this.handleHooksEvent('onReady')
             this.isPageReady = true
           }
-          if (this.screenRef?.current?.componentDidShow) {
-            this.screenRef?.current?.componentDidShow()
-          }
+          this.screenRef?.current?.componentDidShow?.()
         } catch (err) {
           throw new Error(err)
         }
