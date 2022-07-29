@@ -14,8 +14,8 @@ require(\\"./vendors\\");
 require(\\"./taro\\");
 
 (jd[\\"webpackJsonp\\"] = jd[\\"webpackJsonp\\"] || []).push([ [ 4 ], {
-    12: function(module, exports, __webpack_require__) {},
-    16: function(module, __webpack_exports__, __webpack_require__) {
+    11: function(module, exports, __webpack_require__) {},
+    15: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_require__.r(__webpack_exports__);
         var mocks_taro = \\"taro\\";
@@ -26,10 +26,40 @@ require(\\"./taro\\");
         function processApis() {}
         var EMPTY_OBJ = {};
         var hooks = {};
+        function setReconciler() {}
+        function connectReactPage() {}
+        function createReactApp() {}
+        function createNativeComponentConfig() {}
+        function connectVuePage() {}
+        function createVueApp() {}
+        function createVue3App() {}
+        var setGlobalDataPlugin = {};
+        function useDidHide() {}
+        function useDidShow() {}
+        function useError() {}
+        function useLaunch() {}
+        function usePageNotFound() {}
+        function useLoad() {}
+        function usePageScroll() {}
+        function usePullDownRefresh() {}
+        function usePullIntercept() {}
+        function useReachBottom() {}
+        function useResize() {}
+        function useUnload() {}
+        function useAddToFavorites() {}
+        function useOptionMenuClick() {}
+        function useSaveExitState() {}
+        function useShareAppMessage() {}
+        function useShareTimeline() {}
+        function useTitleClick() {}
+        function useReady() {}
+        function useRouter() {}
+        function useTabItemTap() {}
+        function useScope() {}
         function initNativeApi(taro) {
             processApis(taro, jd);
         }
-        var runtime_components = {
+        var components = {
             Swiper: {
                 \\"easing-function\\": undefined(\\"default\\")
             },
@@ -47,692 +77,14 @@ require(\\"./taro\\");
             initNativeApi: initNativeApi
         };
         mergeReconciler(hostConfig);
-        mergeInternalComponents(runtime_components);
-        var taro_runtime = __webpack_require__(0);
-        function _defineProperty(obj, key, value) {
-            if (key in obj) {
-                Object.defineProperty(obj, key, {
-                    value: value,
-                    enumerable: true,
-                    configurable: true,
-                    writable: true
-                });
-            } else {
-                obj[key] = value;
-            }
-            return obj;
-        }
-        function _arrayWithHoles(arr) {
-            if (Array.isArray(arr)) return arr;
-        }
-        function _iterableToArrayLimit(arr, i) {
-            var _i = arr == null ? null : typeof Symbol !== \\"undefined\\" && arr[Symbol.iterator] || arr[\\"@@iterator\\"];
-            if (_i == null) return;
-            var _arr = [];
-            var _n = true;
-            var _d = false;
-            var _s, _e;
-            try {
-                for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) {
-                    _arr.push(_s.value);
-                    if (i && _arr.length === i) break;
-                }
-            } catch (err) {
-                _d = true;
-                _e = err;
-            } finally {
-                try {
-                    if (!_n && _i[\\"return\\"] != null) _i[\\"return\\"]();
-                } finally {
-                    if (_d) throw _e;
-                }
-            }
-            return _arr;
-        }
-        function _arrayLikeToArray(arr, len) {
-            if (len == null || len > arr.length) len = arr.length;
-            for (var i = 0, arr2 = new Array(len); i < len; i++) {
-                arr2[i] = arr[i];
-            }
-            return arr2;
-        }
-        function _unsupportedIterableToArray(o, minLen) {
-            if (!o) return;
-            if (typeof o === \\"string\\") return _arrayLikeToArray(o, minLen);
-            var n = Object.prototype.toString.call(o).slice(8, -1);
-            if (n === \\"Object\\" && o.constructor) n = o.constructor.name;
-            if (n === \\"Map\\" || n === \\"Set\\") return Array.from(o);
-            if (n === \\"Arguments\\" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen);
-        }
-        function _nonIterableRest() {
-            throw new TypeError(\\"Invalid attempt to destructure non-iterable instance.\\\\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.\\");
-        }
-        function _slicedToArray(arr, i) {
-            return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest();
-        }
-        var assertThisInitialized = __webpack_require__(7);
+        mergeInternalComponents(components);
+        var taro_runtime = __webpack_require__(2);
         var classCallCheck = __webpack_require__(3);
         var createClass = __webpack_require__(4);
-        var inherits = __webpack_require__(6);
-        var createSuper = __webpack_require__(5);
-        function _arrayWithoutHoles(arr) {
-            if (Array.isArray(arr)) return _arrayLikeToArray(arr);
-        }
-        function _iterableToArray(iter) {
-            if (typeof Symbol !== \\"undefined\\" && iter[Symbol.iterator] != null || iter[\\"@@iterator\\"] != null) return Array.from(iter);
-        }
-        function _nonIterableSpread() {
-            throw new TypeError(\\"Invalid attempt to spread non-iterable instance.\\\\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.\\");
-        }
-        function _toConsumableArray(arr) {
-            return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread();
-        }
-        var reactMeta = {
-            PageContext: EMPTY_OBJ,
-            R: EMPTY_OBJ
-        };
-        var HOOKS_APP_ID = \\"taro-app\\";
-        function isClassComponent(R, component) {
-            var _a;
-            var prototype = component.prototype;
-            if ((_a = component.displayName) === null || _a === void 0 ? void 0 : _a.includes(\\"Connect\\")) return false;
-            return isFunction(component.render) || !!(prototype === null || prototype === void 0 ? void 0 : prototype.isReactComponent) || prototype instanceof R.Component;
-        }
-        function ensureIsArray(item) {
-            if (isArray(item)) {
-                return item;
-            } else {
-                return item ? [ item ] : [];
-            }
-        }
-        function setDefaultDescriptor(obj) {
-            obj.writable = true;
-            obj.enumerable = true;
-            return obj;
-        }
-        function setRouterParams(options) {
-            taro_runtime[\\"Current\\"].router = Object.assign({
-                params: options === null || options === void 0 ? void 0 : options.query
-            }, options);
-        }
-        var runtime_createTaroHook = function createTaroHook(lifecycle) {
-            return function(fn) {
-                var React = reactMeta.R, PageContext = reactMeta.PageContext;
-                var id = React.useContext(PageContext) || HOOKS_APP_ID;
-                var fnRef = React.useRef(fn);
-                if (fnRef.current !== fn) fnRef.current = fn;
-                React.useLayoutEffect((function() {
-                    var inst = Object(taro_runtime[\\"getPageInstance\\"])(id);
-                    var first = false;
-                    if (inst == null) {
-                        first = true;
-                        inst = Object.create(null);
-                    }
-                    inst = inst;
-                    var callback = function callback() {
-                        return fnRef.current.apply(fnRef, arguments);
-                    };
-                    if (isFunction(inst[lifecycle])) {
-                        inst[lifecycle] = [ inst[lifecycle], callback ];
-                    } else {
-                        inst[lifecycle] = [].concat(_toConsumableArray(inst[lifecycle] || []), [ callback ]);
-                    }
-                    if (first) {
-                        Object(taro_runtime[\\"injectPageInstance\\"])(inst, id);
-                    }
-                    return function() {
-                        var inst = Object(taro_runtime[\\"getPageInstance\\"])(id);
-                        var list = inst[lifecycle];
-                        if (list === callback) {
-                            inst[lifecycle] = undefined;
-                        } else if (isArray(list)) {
-                            inst[lifecycle] = list.filter((function(item) {
-                                return item !== callback;
-                            }));
-                        }
-                    };
-                }), []);
-            };
-        };
-        var useDidHide = runtime_createTaroHook(\\"componentDidHide\\");
-        var useDidShow = runtime_createTaroHook(\\"componentDidShow\\");
-        var useError = runtime_createTaroHook(\\"onError\\");
-        var useLaunch = runtime_createTaroHook(\\"onLaunch\\");
-        var usePageNotFound = runtime_createTaroHook(\\"onPageNotFound\\");
-        var useLoad = runtime_createTaroHook(\\"onLoad\\");
-        var usePageScroll = runtime_createTaroHook(\\"onPageScroll\\");
-        var usePullDownRefresh = runtime_createTaroHook(\\"onPullDownRefresh\\");
-        var usePullIntercept = runtime_createTaroHook(\\"onPullIntercept\\");
-        var useReachBottom = runtime_createTaroHook(\\"onReachBottom\\");
-        var useResize = runtime_createTaroHook(\\"onResize\\");
-        var useUnload = runtime_createTaroHook(\\"onUnload\\");
-        var useAddToFavorites = runtime_createTaroHook(\\"onAddToFavorites\\");
-        var useOptionMenuClick = runtime_createTaroHook(\\"onOptionMenuClick\\");
-        var useSaveExitState = runtime_createTaroHook(\\"onSaveExitState\\");
-        var useShareAppMessage = runtime_createTaroHook(\\"onShareAppMessage\\");
-        var useShareTimeline = runtime_createTaroHook(\\"onShareTimeline\\");
-        var useTitleClick = runtime_createTaroHook(\\"onTitleClick\\");
-        var useReady = runtime_createTaroHook(\\"onReady\\");
-        var runtime_useRouter = function useRouter() {
-            var dynamic = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
-            var React = reactMeta.R;
-            return dynamic ? taro_runtime[\\"Current\\"].router : React.useMemo((function() {
-                return taro_runtime[\\"Current\\"].router;
-            }), []);
-        };
-        var useTabItemTap = runtime_createTaroHook(\\"onTabItemTap\\");
-        var useScope = function useScope() {
-            return undefined;
-        };
-        var taroHooks = Object.freeze({
-            __proto__: null,
-            useDidHide: useDidHide,
-            useDidShow: useDidShow,
-            useError: useError,
-            useLaunch: useLaunch,
-            usePageNotFound: usePageNotFound,
-            useLoad: useLoad,
-            usePageScroll: usePageScroll,
-            usePullDownRefresh: usePullDownRefresh,
-            usePullIntercept: usePullIntercept,
-            useReachBottom: useReachBottom,
-            useResize: useResize,
-            useUnload: useUnload,
-            useAddToFavorites: useAddToFavorites,
-            useOptionMenuClick: useOptionMenuClick,
-            useSaveExitState: useSaveExitState,
-            useShareAppMessage: useShareAppMessage,
-            useShareTimeline: useShareTimeline,
-            useTitleClick: useTitleClick,
-            useReady: useReady,
-            useRouter: runtime_useRouter,
-            useTabItemTap: useTabItemTap,
-            useScope: useScope
-        });
-        var h$1;
-        var ReactDOM$1;
-        var Fragment;
-        var pageKeyId = Object(taro_runtime[\\"incrementId\\"])();
-        function setReconciler(ReactDOM) {
-            hooks.tap(\\"getLifecycle\\", (function(instance, lifecycle) {
-                lifecycle = lifecycle.replace(/^on(Show|Hide)$/, \\"componentDid$1\\");
-                return instance[lifecycle];
-            }));
-            hooks.tap(\\"modifyMpEvent\\", (function(event) {
-                event.type = event.type.replace(/-/g, \\"\\");
-            }));
-            hooks.tap(\\"batchedEventUpdates\\", (function(cb) {
-                ReactDOM.unstable_batchedUpdates(cb);
-            }));
-            hooks.tap(\\"mergePageInstance\\", (function(prev, next) {
-                if (!prev || !next) return;
-                if (\\"constructor\\" in prev) return;
-                Object.keys(prev).forEach((function(item) {
-                    var prevList = prev[item];
-                    var nextList = ensureIsArray(next[item]);
-                    next[item] = nextList.concat(prevList);
-                }));
-            }));
-            if (false) {}
-        }
-        function connectReactPage(R, id) {
-            return function(Page) {
-                var isReactComponent = isClassComponent(R, Page);
-                var inject = function inject(node) {
-                    return node && Object(taro_runtime[\\"injectPageInstance\\"])(node, id);
-                };
-                var refs = isReactComponent ? {
-                    ref: inject
-                } : {
-                    forwardedRef: inject,
-                    reactReduxForwardedRef: inject
-                };
-                if (reactMeta.PageContext === EMPTY_OBJ) {
-                    reactMeta.PageContext = R.createContext(\\"\\");
-                }
-                return function(_R$Component) {
-                    Object(inherits[\\"a\\"])(PageWrapper, _R$Component);
-                    var _super = Object(createSuper[\\"a\\"])(PageWrapper);
-                    function PageWrapper() {
-                        var _this;
-                        Object(classCallCheck[\\"a\\"])(this, PageWrapper);
-                        _this = _super.apply(this, arguments);
-                        _this.state = {
-                            hasError: false
-                        };
-                        return _this;
-                    }
-                    Object(createClass[\\"a\\"])(PageWrapper, [ {
-                        key: \\"componentDidCatch\\",
-                        value: function componentDidCatch(error, info) {
-                            if (false) {}
-                        }
-                    }, {
-                        key: \\"render\\",
-                        value: function render() {
-                            var children = this.state.hasError ? [] : h$1(reactMeta.PageContext.Provider, {
-                                value: id
-                            }, h$1(Page, Object.assign(Object.assign({}, this.props), refs)));
-                            if (false) {} else {
-                                return h$1(\\"root\\", {
-                                    id: id
-                                }, children);
-                            }
-                        }
-                    } ], [ {
-                        key: \\"getDerivedStateFromError\\",
-                        value: function getDerivedStateFromError(error) {
-                            var _a, _b;
-                            (_b = (_a = taro_runtime[\\"Current\\"].app) === null || _a === void 0 ? void 0 : _a.onError) === null || _b === void 0 ? void 0 : _b.call(_a, error.message + error.stack);
-                            return {
-                                hasError: true
-                            };
-                        }
-                    } ]);
-                    return PageWrapper;
-                }(R.Component);
-            };
-        }
-        function createReactApp(App, react, dom, config) {
-            var _Object$create;
-            if (false) {}
-            reactMeta.R = react;
-            h$1 = react.createElement;
-            ReactDOM$1 = dom;
-            Fragment = react.Fragment;
-            var appInstanceRef = react.createRef();
-            var isReactComponent = isClassComponent(react, App);
-            var appWrapper;
-            setReconciler(ReactDOM$1);
-            function getAppInstance() {
-                return appInstanceRef.current;
-            }
-            function renderReactRoot() {
-                var _a, _b;
-                var appId = \\"app\\";
-                if (false) {}
-                var container = taro_runtime[\\"document\\"].getElementById(appId);
-                if ((react.version || \\"\\").startsWith(\\"18\\")) {
-                    var root = ReactDOM$1.createRoot(container);
-                    (_a = root.render) === null || _a === void 0 ? void 0 : _a.call(root, h$1(AppWrapper));
-                } else {
-                    (_b = ReactDOM$1.render) === null || _b === void 0 ? void 0 : _b.call(ReactDOM$1, h$1(AppWrapper), container);
-                }
-            }
-            var AppWrapper = function(_react$Component) {
-                Object(inherits[\\"a\\"])(AppWrapper, _react$Component);
-                var _super2 = Object(createSuper[\\"a\\"])(AppWrapper);
-                function AppWrapper(props) {
-                    var _this2;
-                    Object(classCallCheck[\\"a\\"])(this, AppWrapper);
-                    _this2 = _super2.call(this, props);
-                    _this2.pages = [];
-                    _this2.elements = [];
-                    appWrapper = Object(assertThisInitialized[\\"a\\"])(_this2);
-                    return _this2;
-                }
-                Object(createClass[\\"a\\"])(AppWrapper, [ {
-                    key: \\"mount\\",
-                    value: function mount(pageComponent, id, cb) {
-                        var pageWrapper = connectReactPage(react, id)(pageComponent);
-                        var key = id + pageKeyId();
-                        var page = function page() {
-                            return h$1(pageWrapper, {
-                                key: key,
-                                tid: id
-                            });
-                        };
-                        this.pages.push(page);
-                        this.forceUpdate(cb);
-                    }
-                }, {
-                    key: \\"unmount\\",
-                    value: function unmount(id, cb) {
-                        var elements = this.elements;
-                        var idx = elements.findIndex((function(item) {
-                            return item.props.tid === id;
-                        }));
-                        elements.splice(idx, 1);
-                        this.forceUpdate(cb);
-                    }
-                }, {
-                    key: \\"render\\",
-                    value: function render() {
-                        var pages = this.pages, elements = this.elements;
-                        while (pages.length > 0) {
-                            var page = pages.pop();
-                            elements.push(page());
-                        }
-                        var props = null;
-                        if (isReactComponent) {
-                            props = {
-                                ref: appInstanceRef
-                            };
-                        }
-                        return h$1(App, props, false ? undefined : elements.slice());
-                    }
-                } ]);
-                return AppWrapper;
-            }(react.Component);
-            if (true) {
-                renderReactRoot();
-            }
-            var _hooks$call$app = _slicedToArray(hooks.call(\\"getMiniLifecycleImpl\\").app, 3), ONLAUNCH = _hooks$call$app[0], ONSHOW = _hooks$call$app[1], ONHIDE = _hooks$call$app[2];
-            var appObj = Object.create({
-                render: function render(cb) {
-                    appWrapper.forceUpdate(cb);
-                },
-                mount: function mount(component, id, cb) {
-                    appWrapper.mount(component, id, cb);
-                },
-                unmount: function unmount(id, cb) {
-                    appWrapper.unmount(id, cb);
-                }
-            }, (_Object$create = {
-                config: setDefaultDescriptor({
-                    configurable: true,
-                    value: config
-                })
-            }, _defineProperty(_Object$create, ONLAUNCH, setDefaultDescriptor({
-                value: function value(options) {
-                    var _this3 = this;
-                    var _a;
-                    setRouterParams(options);
-                    if (false) {}
-                    var app = getAppInstance();
-                    this.$app = app;
-                    if (app) {
-                        if (app.taroGlobalData) {
-                            var globalData = app.taroGlobalData;
-                            var keys = Object.keys(globalData);
-                            var descriptors = Object.getOwnPropertyDescriptors(globalData);
-                            keys.forEach((function(key) {
-                                Object.defineProperty(_this3, key, {
-                                    configurable: true,
-                                    enumerable: true,
-                                    get: function get() {
-                                        return globalData[key];
-                                    },
-                                    set: function set(value) {
-                                        globalData[key] = value;
-                                    }
-                                });
-                            }));
-                            Object.defineProperties(this, descriptors);
-                        }
-                        (_a = app.onLaunch) === null || _a === void 0 ? void 0 : _a.call(app, options);
-                    }
-                    triggerAppHook(\\"onLaunch\\", options);
-                }
-            })), _defineProperty(_Object$create, ONSHOW, setDefaultDescriptor({
-                value: function value(options) {
-                    var _a;
-                    setRouterParams(options);
-                    var app = getAppInstance();
-                    (_a = app === null || app === void 0 ? void 0 : app.componentDidShow) === null || _a === void 0 ? void 0 : _a.call(app, options);
-                    triggerAppHook(\\"onShow\\", options);
-                }
-            })), _defineProperty(_Object$create, ONHIDE, setDefaultDescriptor({
-                value: function value() {
-                    var _a;
-                    var app = getAppInstance();
-                    (_a = app === null || app === void 0 ? void 0 : app.componentDidHide) === null || _a === void 0 ? void 0 : _a.call(app);
-                    triggerAppHook(\\"onHide\\");
-                }
-            })), _defineProperty(_Object$create, \\"onError\\", setDefaultDescriptor({
-                value: function value(error) {
-                    var _a;
-                    var app = getAppInstance();
-                    (_a = app === null || app === void 0 ? void 0 : app.onError) === null || _a === void 0 ? void 0 : _a.call(app, error);
-                    triggerAppHook(\\"onError\\", error);
-                    if (false) {}
-                }
-            })), _defineProperty(_Object$create, \\"onPageNotFound\\", setDefaultDescriptor({
-                value: function value(res) {
-                    var _a;
-                    var app = getAppInstance();
-                    (_a = app === null || app === void 0 ? void 0 : app.onPageNotFound) === null || _a === void 0 ? void 0 : _a.call(app, res);
-                    triggerAppHook(\\"onPageNotFound\\", res);
-                }
-            })), _Object$create));
-            function triggerAppHook(lifecycle) {
-                for (var _len = arguments.length, option = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
-                    option[_key - 1] = arguments[_key];
-                }
-                var instance = Object(taro_runtime[\\"getPageInstance\\"])(HOOKS_APP_ID);
-                if (instance) {
-                    var app = getAppInstance();
-                    var func = hooks.call(\\"getLifecycle\\", instance, lifecycle);
-                    if (Array.isArray(func)) {
-                        func.forEach((function(cb) {
-                            return cb.apply(app, option);
-                        }));
-                    }
-                }
-            }
-            taro_runtime[\\"Current\\"].app = appObj;
-            return appObj;
-        }
-        var getNativeCompId = Object(taro_runtime[\\"incrementId\\"])();
-        var h;
-        var runtime_ReactDOM;
-        function initNativeComponentEntry(R, ReactDOM) {
-            var NativeComponentWrapper = function(_R$Component2) {
-                Object(inherits[\\"a\\"])(NativeComponentWrapper, _R$Component2);
-                var _super3 = Object(createSuper[\\"a\\"])(NativeComponentWrapper);
-                function NativeComponentWrapper() {
-                    var _this4;
-                    Object(classCallCheck[\\"a\\"])(this, NativeComponentWrapper);
-                    _this4 = _super3.apply(this, arguments);
-                    _this4.root = R.createRef();
-                    _this4.ctx = _this4.props.getCtx();
-                    return _this4;
-                }
-                Object(createClass[\\"a\\"])(NativeComponentWrapper, [ {
-                    key: \\"componentDidMount\\",
-                    value: function componentDidMount() {
-                        this.ctx.component = this;
-                        var rootElement = this.root.current;
-                        rootElement.ctx = this.ctx;
-                        rootElement.performUpdate(true);
-                    }
-                }, {
-                    key: \\"render\\",
-                    value: function render() {
-                        return h(\\"root\\", {
-                            ref: this.root
-                        }, this.props.renderComponent(this.ctx));
-                    }
-                } ]);
-                return NativeComponentWrapper;
-            }(R.Component);
-            var Entry = function(_R$Component3) {
-                Object(inherits[\\"a\\"])(Entry, _R$Component3);
-                var _super4 = Object(createSuper[\\"a\\"])(Entry);
-                function Entry() {
-                    var _this5;
-                    Object(classCallCheck[\\"a\\"])(this, Entry);
-                    _this5 = _super4.apply(this, arguments);
-                    _this5.state = {
-                        components: []
-                    };
-                    return _this5;
-                }
-                Object(createClass[\\"a\\"])(Entry, [ {
-                    key: \\"componentDidMount\\",
-                    value: function componentDidMount() {
-                        taro_runtime[\\"Current\\"].app = this;
-                    }
-                }, {
-                    key: \\"mount\\",
-                    value: function mount(Component, compId, getCtx) {
-                        var isReactComponent = isClassComponent(R, Component);
-                        var inject = function inject(node) {
-                            return node && Object(taro_runtime[\\"injectPageInstance\\"])(node, compId);
-                        };
-                        var refs = isReactComponent ? {
-                            ref: inject
-                        } : {
-                            forwardedRef: inject,
-                            reactReduxForwardedRef: inject
-                        };
-                        if (reactMeta.PageContext === EMPTY_OBJ) {
-                            reactMeta.PageContext = R.createContext(\\"\\");
-                        }
-                        var item = {
-                            compId: compId,
-                            element: h(NativeComponentWrapper, {
-                                key: compId,
-                                getCtx: getCtx,
-                                renderComponent: function renderComponent(ctx) {
-                                    return h(reactMeta.PageContext.Provider, {
-                                        value: compId
-                                    }, h(Component, Object.assign(Object.assign(Object.assign({}, (ctx.data || (ctx.data = {})).props), refs), {
-                                        $scope: ctx
-                                    })));
-                                }
-                            })
-                        };
-                        this.setState({
-                            components: [].concat(_toConsumableArray(this.state.components), [ item ])
-                        });
-                    }
-                }, {
-                    key: \\"unmount\\",
-                    value: function unmount(compId) {
-                        var components = this.state.components;
-                        var index = components.findIndex((function(item) {
-                            return item.compId === compId;
-                        }));
-                        var next = [].concat(_toConsumableArray(components.slice(0, index)), _toConsumableArray(components.slice(index + 1)));
-                        this.setState({
-                            components: next
-                        });
-                    }
-                }, {
-                    key: \\"render\\",
-                    value: function render() {
-                        var components = this.state.components;
-                        return components.map((function(_ref) {
-                            var element = _ref.element;
-                            return element;
-                        }));
-                    }
-                } ]);
-                return Entry;
-            }(R.Component);
-            setReconciler(ReactDOM);
-            var app = taro_runtime[\\"document\\"].getElementById(\\"app\\");
-            ReactDOM.render(h(Entry, {}), app);
-        }
-        function createNativeComponentConfig(Component, react, reactdom, componentConfig) {
-            var _a, _b;
-            reactMeta.R = react;
-            h = react.createElement;
-            runtime_ReactDOM = reactdom;
-            setReconciler(runtime_ReactDOM);
-            var componentObj = {
-                options: componentConfig,
-                properties: {
-                    props: {
-                        type: null,
-                        value: null,
-                        observer: function observer(_newVal, oldVal) {
-                            oldVal && this.component.forceUpdate();
-                        }
-                    }
-                },
-                created: function created() {
-                    if (!taro_runtime[\\"Current\\"].app) {
-                        initNativeComponentEntry(react, runtime_ReactDOM);
-                    }
-                },
-                attached: function attached() {
-                    var _this6 = this;
-                    var compId = this.compId = getNativeCompId();
-                    setCurrent(compId);
-                    this.config = componentConfig;
-                    taro_runtime[\\"Current\\"].app.mount(Component, compId, (function() {
-                        return _this6;
-                    }));
-                },
-                ready: function ready() {
-                    Object(taro_runtime[\\"safeExecute\\"])(this.compId, \\"onReady\\");
-                },
-                detached: function detached() {
-                    taro_runtime[\\"Current\\"].app.unmount(this.compId);
-                },
-                pageLifetimes: {
-                    show: function show(options) {
-                        Object(taro_runtime[\\"safeExecute\\"])(this.compId, \\"onShow\\", options);
-                    },
-                    hide: function hide() {
-                        Object(taro_runtime[\\"safeExecute\\"])(this.compId, \\"onHide\\");
-                    }
-                },
-                methods: {
-                    eh: taro_runtime[\\"eventHandler\\"]
-                }
-            };
-            function setCurrent(compId) {
-                var pages = getCurrentPages();
-                var currentPage = pages[pages.length - 1];
-                if (taro_runtime[\\"Current\\"].page === currentPage) return;
-                taro_runtime[\\"Current\\"].page = currentPage;
-                var route = currentPage.route || currentPage.__route__;
-                var router = {
-                    params: currentPage.options || {},
-                    path: Object(taro_runtime[\\"addLeadingSlash\\"])(route),
-                    $taroPath: compId,
-                    onReady: \\"\\",
-                    onHide: \\"\\",
-                    onShow: \\"\\"
-                };
-                taro_runtime[\\"Current\\"].router = router;
-                if (!currentPage.options) {
-                    Object.defineProperty(currentPage, \\"options\\", {
-                        enumerable: true,
-                        configurable: true,
-                        get: function get() {
-                            return this._optionsValue;
-                        },
-                        set: function set(value) {
-                            router.params = value;
-                            this._optionsValue = value;
-                        }
-                    });
-                }
-            }
-            if (Component.onShareAppMessage || ((_a = Component.prototype) === null || _a === void 0 ? void 0 : _a.onShareAppMessage) || Component.enableShareAppMessage) {
-                componentObj.methods.onShareAppMessage = function(options) {
-                    var target = options === null || options === void 0 ? void 0 : options.target;
-                    if (target) {
-                        var id = target.id;
-                        var element = taro_runtime[\\"document\\"].getElementById(id);
-                        if (element) {
-                            target.dataset = element.dataset;
-                        }
-                    }
-                    return Object(taro_runtime[\\"safeExecute\\"])(this.compId, \\"onShareAppMessage\\", options);
-                };
-            }
-            if (Component.onShareTimeline || ((_b = Component.prototype) === null || _b === void 0 ? void 0 : _b.onShareTimeline) || Component.enableShareTimeline) {
-                componentObj.methods.onShareTimeline = function() {
-                    return Object(taro_runtime[\\"safeExecute\\"])(this.compId, \\"onShareTimeline\\");
-                };
-            }
-            return componentObj;
-        }
-        hooks.tap(\\"initNativeApi\\", (function(taro) {
-            for (var hook in taroHooks) {
-                taro[hook] = taroHooks[hook];
-            }
-        }));
-        if (false) {
-            var oldDiffedHook, oldVNodeHook, runtime_options;
-        }
-        var mocks_react = __webpack_require__(1);
-        var src_app = __webpack_require__(12);
+        var inherits = __webpack_require__(7);
+        var createSuper = __webpack_require__(6);
+        var react = __webpack_require__(0);
+        var app = __webpack_require__(11);
         var app_App = function(_Component) {
             Object(inherits[\\"a\\"])(App, _Component);
             var _super = Object(createSuper[\\"a\\"])(App);
@@ -756,10 +108,10 @@ require(\\"./taro\\");
                 }
             } ]);
             return App;
-        }(mocks_react[\\"Component\\"]);
+        }(react[\\"Component\\"]);
         var lib_src_app = app_App;
-        var taro_react = __webpack_require__(9);
-        var app_config = {
+        var taro_react = __webpack_require__(8);
+        var config = {
             pages: [ \\"pages/index/index\\" ],
             window: {
                 backgroundTextStyle: \\"light\\",
@@ -768,8 +120,8 @@ require(\\"./taro\\");
                 navigationBarTextStyle: \\"black\\"
             }
         };
-        taro_runtime[\\"window\\"].__taroAppConfig = app_config;
-        var app_inst = App(createReactApp(lib_src_app, mocks_react, taro_react[\\"a\\"], app_config));
+        taro_runtime[\\"window\\"].__taroAppConfig = config;
+        var inst = App(createReactApp(lib_src_app, react, taro_react[\\"a\\"], config));
         undefined({
             designWidth: 750,
             deviceRatio: {
@@ -779,7 +131,7 @@ require(\\"./taro\\");
             }
         });
     }
-}, [ [ 16, 0, 1, 3, 2 ] ] ]);
+}, [ [ 15, 0, 1, 3, 2 ] ] ]);
 
 
 
@@ -3088,7 +2440,7 @@ require(\\"./taro\\");
 
 
 /** filePath: dist/common.js **/
-(jd[\\"webpackJsonp\\"] = jd[\\"webpackJsonp\\"] || []).push([ [ 2 ], [ , function(module, __webpack_exports__, __webpack_require__) {
+(jd[\\"webpackJsonp\\"] = jd[\\"webpackJsonp\\"] || []).push([ [ 2 ], [ function(module, __webpack_exports__, __webpack_require__) {
     \\"use strict\\";
     __webpack_require__.r(__webpack_exports__);
     __webpack_exports__[\\"default\\"] = \\"react-mock\\";
@@ -3096,13 +2448,13 @@ require(\\"./taro\\");
 
 /** filePath: dist/comp.js **/
 (jd[\\"webpackJsonp\\"] = jd[\\"webpackJsonp\\"] || []).push([ [ 6 ], {
-    13: function(module, __webpack_exports__, __webpack_require__) {
+    12: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_require__.r(__webpack_exports__);
-        var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
+        var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(2);
         Component(Object(_tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__[\\"createRecursiveComponentConfig\\"])());
     }
-}, [ [ 13, 0, 1 ] ] ]);
+}, [ [ 12, 0, 1 ] ] ]);
 
 /** filePath: dist/comp.json **/
 {\\"component\\":true,\\"usingComponents\\":{\\"comp\\":\\"./comp\\",\\"custom-wrapper\\":\\"./custom-wrapper\\"}}
@@ -3113,13 +2465,13 @@ require(\\"./taro\\");
 
 /** filePath: dist/custom-wrapper.js **/
 (jd[\\"webpackJsonp\\"] = jd[\\"webpackJsonp\\"] || []).push([ [ 7 ], {
-    14: function(module, __webpack_exports__, __webpack_require__) {
+    13: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_require__.r(__webpack_exports__);
-        var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
+        var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(2);
         Component(Object(_tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__[\\"createRecursiveComponentConfig\\"])(\\"custom-wrapper\\"));
     }
-}, [ [ 14, 0, 1 ] ] ]);
+}, [ [ 13, 0, 1 ] ] ]);
 
 /** filePath: dist/custom-wrapper.json **/
 {\\"component\\":true,\\"usingComponents\\":{\\"comp\\":\\"./comp\\",\\"custom-wrapper\\":\\"./custom-wrapper\\"}}
@@ -3133,12 +2485,12 @@ require(\\"./taro\\");
 /** filePath: dist/pages/index/index.js **/
 /*! For license information please see index.js.LICENSE.txt */
 (jd[\\"webpackJsonp\\"] = jd[\\"webpackJsonp\\"] || []).push([ [ 8 ], {
-    15: function(module, exports, __webpack_require__) {},
-    17: function(module, __webpack_exports__, __webpack_require__) {
+    14: function(module, exports, __webpack_require__) {},
+    16: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_require__.r(__webpack_exports__);
-        var taro_runtime = __webpack_require__(0);
-        var esm_typeof = __webpack_require__(8);
+        var taro_runtime = __webpack_require__(2);
+        var esm_typeof = __webpack_require__(5);
         function _regeneratorRuntime() {
             \\"use strict\\";
             _regeneratorRuntime = function _regeneratorRuntime() {
@@ -3472,11 +2824,11 @@ require(\\"./taro\\");
         }
         var classCallCheck = __webpack_require__(3);
         var createClass = __webpack_require__(4);
-        var inherits = __webpack_require__(6);
-        var createSuper = __webpack_require__(5);
-        var react = __webpack_require__(1);
-        var taro_components = __webpack_require__(2);
-        var index = __webpack_require__(15);
+        var inherits = __webpack_require__(7);
+        var createSuper = __webpack_require__(6);
+        var react = __webpack_require__(0);
+        var taro_components = __webpack_require__(1);
+        var index = __webpack_require__(14);
         var index_Index = function(_Component) {
             Object(inherits[\\"a\\"])(Index, _Component);
             var _super = Object(createSuper[\\"a\\"])(Index);
@@ -3543,7 +2895,7 @@ require(\\"./taro\\");
             }
         }, config || {}));
     }
-}, [ [ 17, 0, 1, 3, 2 ] ] ]);
+}, [ [ 16, 0, 1, 3, 2 ] ] ]);
 
 /** filePath: dist/pages/index/index.js.LICENSE.txt **/
 /*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/facebook/regenerator/blob/main/LICENSE */
@@ -3564,15 +2916,15 @@ require(\\"./taro\\");
 
 /** filePath: dist/taro.js **/
 (jd[\\"webpackJsonp\\"] = jd[\\"webpackJsonp\\"] || []).push([ [ 1 ], {
-    0: function(module, __webpack_exports__, __webpack_require__) {
-        \\"use strict\\";
-        var _unused_webpack_default_export = \\"taro-runtime-mock\\";
-    },
-    2: function(module, __webpack_exports__, __webpack_require__) {
+    1: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         var _unused_webpack_default_export = \\"taro-components-mock\\";
     },
-    9: function(module, __webpack_exports__, __webpack_require__) {
+    2: function(module, __webpack_exports__, __webpack_require__) {
+        \\"use strict\\";
+        var _unused_webpack_default_export = \\"taro-runtime-mock\\";
+    },
+    8: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_exports__[\\"a\\"] = \\"taro-react-mock\\";
     }
@@ -3614,6 +2966,19 @@ require(\\"./taro\\");
 }, function(module, __webpack_exports__, __webpack_require__) {
     \\"use strict\\";
     __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
+        return _typeof;
+    }));
+    function _typeof(obj) {
+        \\"@babel/helpers - typeof\\";
+        return _typeof = \\"function\\" == typeof Symbol && \\"symbol\\" == typeof Symbol.iterator ? function(obj) {
+            return typeof obj;
+        } : function(obj) {
+            return obj && \\"function\\" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? \\"symbol\\" : typeof obj;
+        }, _typeof(obj);
+    }
+}, function(module, __webpack_exports__, __webpack_require__) {
+    \\"use strict\\";
+    __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
         return _createSuper;
     }));
     function _getPrototypeOf(o) {
@@ -3633,15 +2998,20 @@ require(\\"./taro\\");
             return false;
         }
     }
-    var esm_typeof = __webpack_require__(8);
-    var assertThisInitialized = __webpack_require__(7);
+    var esm_typeof = __webpack_require__(5);
+    function _assertThisInitialized(self) {
+        if (self === void 0) {
+            throw new ReferenceError(\\"this hasn't been initialised - super() hasn't been called\\");
+        }
+        return self;
+    }
     function _possibleConstructorReturn(self, call) {
         if (call && (Object(esm_typeof[\\"a\\"])(call) === \\"object\\" || typeof call === \\"function\\")) {
             return call;
         } else if (call !== void 0) {
             throw new TypeError(\\"Derived constructors may only return object or undefined\\");
         }
-        return Object(assertThisInitialized[\\"a\\"])(self);
+        return _assertThisInitialized(self);
     }
     function _createSuper(Derived) {
         var hasNativeReflectConstruct = _isNativeReflectConstruct();
@@ -3683,30 +3053,6 @@ require(\\"./taro\\");
             writable: false
         });
         if (superClass) _setPrototypeOf(subClass, superClass);
-    }
-}, function(module, __webpack_exports__, __webpack_require__) {
-    \\"use strict\\";
-    __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
-        return _assertThisInitialized;
-    }));
-    function _assertThisInitialized(self) {
-        if (self === void 0) {
-            throw new ReferenceError(\\"this hasn't been initialised - super() hasn't been called\\");
-        }
-        return self;
-    }
-}, function(module, __webpack_exports__, __webpack_require__) {
-    \\"use strict\\";
-    __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
-        return _typeof;
-    }));
-    function _typeof(obj) {
-        \\"@babel/helpers - typeof\\";
-        return _typeof = \\"function\\" == typeof Symbol && \\"symbol\\" == typeof Symbol.iterator ? function(obj) {
-            return typeof obj;
-        } : function(obj) {
-            return obj && \\"function\\" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? \\"symbol\\" : typeof obj;
-        }, _typeof(obj);
     }
 } ] ]);
 "

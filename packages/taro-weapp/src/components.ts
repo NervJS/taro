@@ -336,5 +336,6 @@ export const components = {
     duration: '300',
     'easing-function': "'ease-out'"
   },
-  KeyboardAccessory: {}
+  KeyboardAccessory: {},
+  RootPortal: {},
 }
