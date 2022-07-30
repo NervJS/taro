@@ -31,7 +31,7 @@ const sassImplementation = getSassImplementation()
 export interface Config {
   sass?: SassGlobalConfig
   alias?: Record<string, string>
-  options?: Options<'sync'>
+  options?: Options
   additionalData?: string | ((key: string) => string)
 }
 
