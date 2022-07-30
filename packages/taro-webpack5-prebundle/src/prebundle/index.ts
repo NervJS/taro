@@ -200,13 +200,13 @@ export default class BasePrebundle<T extends IPrebundleConfig = IPrebundleConfig
     }
   }
 
-  setHost () {
+  setHost (publicPath = '') {
     this.chain
       .plugin('TaroModuleFederationPlugin')
       .use(TaroModuleFederationPlugin, [{
         name: 'taro-app',
         remotes: {
-          [MF_NAME]: `${MF_NAME}@remoteEntry.js`
+          [MF_NAME]: `${MF_NAME}@${publicPath}remoteEntry.js`
         }
       },
       {

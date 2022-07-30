@@ -67,12 +67,12 @@ export default (ctx: IPluginContext) => {
 
         child.stdout!.on('data', function (data) {
           spinner.stop()
-          console.log(data)
+          console.log(data.replace(/\n$/, ''))
+          spinner.start()
         })
-
         child.stderr!.on('data', function (data) {
-          spinner.stop()
-          console.log(data)
+          spinner.warn(data.replace(/\n$/, ''))
+          spinner.start()
         })
       }
 

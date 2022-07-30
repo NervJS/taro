@@ -40,7 +40,7 @@ const defaultHtmltransformOption: {
 const defaultUrlOption: {
   [key: string]: any
 } = {
-  enable: false,
+  enable: true,
   config: {
     url: 'inline'
   }
@@ -79,7 +79,7 @@ export const getDefaultPostcssConfig = function ({
 
 export const getPostcssPlugins = function (appPath: string, option = {} as IPostcssOption) {
   option.forEach(([pluginName, pluginOption, pluginPkg]) => {
-    if (!pluginOption) return
+    if (!pluginOption || ['cssModules'].includes(pluginName)) return
     if (Object.hasOwnProperty.call(pluginOption, 'enable') && !pluginOption.enable) return
 
     if (pluginPkg) {

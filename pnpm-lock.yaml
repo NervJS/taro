@@ -128,7 +128,7 @@ importers:
       nervjs: ^1.4.6
       node-sass: 6.0.1
       npm-run-all: ^4.1.2
-      ora: ^2.1.0
+      ora: 4.0.3
       postcss: ^8.4.12
       postcss-scss: ^4.0.3
       power-assert: ^1.6.1
@@ -285,7 +285,7 @@ importers:
       nervjs: registry.npmjs.org/nervjs/1.5.7
       node-sass: registry.npmjs.org/node-sass/6.0.1
       npm-run-all: registry.npmjs.org/npm-run-all/4.1.5
-      ora: registry.npmjs.org/ora/2.1.0
+      ora: registry.npmjs.org/ora/4.0.3
       postcss: registry.npmjs.org/postcss/8.4.14
       postcss-scss: registry.npmjs.org/postcss-scss/4.0.4_postcss@8.4.14
       power-assert: registry.npmjs.org/power-assert/1.6.1
@@ -497,7 +497,7 @@ importers:
       mem-fs-editor: 7.1.0
       minimist: 1.2.5
       npm-check: ^5.9.0
-      ora: ^2.0.0
+      ora: 4.0.3
       postcss: ^6.0.22
       postcss-taro-unit-transform: 1.2.15
       prettier: ^1.16.4
@@ -536,7 +536,7 @@ importers:
       mem-fs-editor: registry.npmjs.org/mem-fs-editor/7.1.0
       minimist: registry.npmjs.org/minimist/1.2.5
       npm-check: registry.npmjs.org/npm-check/5.9.2
-      ora: registry.npmjs.org/ora/2.1.0
+      ora: registry.npmjs.org/ora/4.0.3
       postcss: registry.npmjs.org/postcss/6.0.23
       postcss-taro-unit-transform: registry.npmjs.org/postcss-taro-unit-transform/1.2.15
       prettier: registry.npmjs.org/prettier/1.19.1
@@ -680,6 +680,7 @@ importers:
   packages/taro-helper:
     specifiers:
       '@babel/core': ^7.14.5
+      '@babel/parser': ^7.14.5
       '@babel/plugin-proposal-decorators': ^7.14.5
       '@babel/plugin-proposal-object-rest-spread': ^7.14.5
       '@babel/plugin-transform-runtime': ^7.14.5
@@ -702,6 +703,7 @@ importers:
       yauzl: 2.10.0
     dependencies:
       '@babel/core': registry.npmjs.org/@babel/core/7.18.5
+      '@babel/parser': registry.npmjs.org/@babel/parser/7.18.5
       '@babel/plugin-proposal-decorators': registry.npmjs.org/@babel/plugin-proposal-decorators/7.18.2_@babel+core@7.18.5
       '@babel/plugin-proposal-object-rest-spread': registry.npmjs.org/@babel/plugin-proposal-object-rest-spread/7.18.0_@babel+core@7.18.5
       '@babel/plugin-transform-runtime': registry.npmjs.org/@babel/plugin-transform-runtime/7.18.5_@babel+core@7.18.5
@@ -871,10 +873,12 @@ importers:
 
   packages/taro-plugin-html:
     specifiers:
+      '@babel/parser': ^7.14.5
       '@tarojs/runtime': workspace:*
       '@tarojs/service': workspace:*
       '@tarojs/shared': workspace:*
     dependencies:
+      '@babel/parser': registry.npmjs.org/@babel/parser/7.18.5
       '@tarojs/runtime': link:../taro-runtime
       '@tarojs/service': link:../taro-service
       '@tarojs/shared': link:../shared
@@ -10823,6 +10827,7 @@ packages:
     name: ansi-regex
     version: 3.0.1
     engines: {node: '>=4'}
+    dev: false
 
   registry.npmjs.org/ansi-regex/4.1.1:
     resolution: {integrity: sha512-ILlv4k/3f6vfQ4OoP2AGvirOktlQ98ZEL1k9FaQjxa3L1abBgbuTDAdPOpvbGncC0BTVQrl+OM8xZGK6tWXt7g==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/ansi-regex/-/ansi-regex-4.1.1.tgz}
@@ -14179,12 +14184,6 @@ packages:
     version: 0.1.2
     engines: {node: '>=0.10.0'}
     dev: false
-
-  registry.npmjs.org/cli-spinners/1.3.1:
-    resolution: {integrity: sha512-1QL4544moEsDVH9T/l6Cemov/37iv1RtoKf7NJ04A60+4MREXNfx/QvavbH6QoGdsD4N4Mwy49cmaINR/o2mdg==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/cli-spinners/-/cli-spinners-1.3.1.tgz}
-    name: cli-spinners
-    version: 1.3.1
-    engines: {node: '>=4'}
 
   registry.npmjs.org/cli-spinners/2.6.1:
     resolution: {integrity: sha512-x/5fWmGMnbKQAaNwN+UZlV79qBLM9JFnJuJ03gIi5whrob0xV0ofNVHy9DhwGdsMJQc2OKv0oGmLzvaqvAVv+g==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/cli-spinners/-/cli-spinners-2.6.1.tgz}
@@ -24900,7 +24899,6 @@ packages:
     engines: {node: '>=8'}
     dependencies:
       chalk: registry.npmjs.org/chalk/2.4.2
-    dev: false
 
   registry.npmjs.org/log-symbols/4.1.0:
     resolution: {integrity: sha512-8XPvpAA8uyhfteu8pIvQxpJZ7SYYdpUivZpGy6sFsBuKRY/7rQGavedeB8aK+Zkyq6upMFVL/9AW6vOYzfRyLg==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/log-symbols/-/log-symbols-4.1.0.tgz}
@@ -26324,7 +26322,6 @@ packages:
     resolution: {integrity: sha512-nnbWWOkoWyUsTjKrhgD0dcz22mdkSnpYqbEjIm2nhwhuxlSkpywJmBo8h0ZqJdkp73mb90SssHkN4rsRaBAfAA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/mute-stream/-/mute-stream-0.0.8.tgz}
     name: mute-stream
     version: 0.0.8
-    dev: false
 
   registry.npmjs.org/mv/2.1.1:
     resolution: {integrity: sha512-at/ZndSy3xEGJ8i0ygALh8ru9qy7gWW1cmkaqBN29JmMlIvM//MEO9y1sk/avxuwnPcfhkejkLsuPxH81BrkSg==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/mv/-/mv-2.1.1.tgz}
@@ -27226,19 +27223,6 @@ packages:
       object-assign: registry.npmjs.org/object-assign/4.1.1
     dev: false
 
-  registry.npmjs.org/ora/2.1.0:
-    resolution: {integrity: sha512-hNNlAd3gfv/iPmsNxYoAPLvxg7HuPozww7fFonMZvL84tP6Ox5igfk5j/+a9rtJJwqMgKK+JgWsAQik5o0HTLA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/ora/-/ora-2.1.0.tgz}
-    name: ora
-    version: 2.1.0
-    engines: {node: '>=4'}
-    dependencies:
-      chalk: registry.npmjs.org/chalk/2.4.2
-      cli-cursor: registry.npmjs.org/cli-cursor/2.1.0
-      cli-spinners: registry.npmjs.org/cli-spinners/1.3.1
-      log-symbols: registry.npmjs.org/log-symbols/2.2.0
-      strip-ansi: registry.npmjs.org/strip-ansi/4.0.0
-      wcwidth: registry.npmjs.org/wcwidth/1.0.1
-
   registry.npmjs.org/ora/3.4.0:
     resolution: {integrity: sha512-eNwHudNbO1folBP3JsZ19v9azXWtQZjICdr3Q0TDPIaeBQ3mXLrh54wM+er0+hSp+dWKf+Z8KM58CYzEyIYxYg==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/ora/-/ora-3.4.0.tgz}
     name: ora
@@ -27266,7 +27250,6 @@ packages:
       mute-stream: registry.npmjs.org/mute-stream/0.0.8
       strip-ansi: registry.npmjs.org/strip-ansi/6.0.1
       wcwidth: registry.npmjs.org/wcwidth/1.0.1
-    dev: false
 
   registry.npmjs.org/ora/5.4.1:
     resolution: {integrity: sha512-5b6Y85tPxZZ7QytO+BQzysW31HJku27cRIlkbAXaNx+BdcVi+LlRFmVXzeF6a7JCwJpyw5c4b+YSVImQIrBpuQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/ora/-/ora-5.4.1.tgz}
@@ -33399,6 +33382,7 @@ packages:
     engines: {node: '>=4'}
     dependencies:
       ansi-regex: registry.npmjs.org/ansi-regex/3.0.1
+    dev: false
 
   registry.npmjs.org/strip-ansi/5.2.0:
     resolution: {integrity: sha512-DuRs1gKbBqsMKIZlrffwlug8MHkcnpjs5VPmL1PAh+mA30U0DTotfDZ0d2UUsXpPmPmMMJ6W773MaA3J+lbiWA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/strip-ansi/-/strip-ansi-5.2.0.tgz}

@@ -7,7 +7,7 @@
     "build": "tsc",
     "dev": "tsc -w",
     "test": "jest",
-    "test:ci": "jest --silent --coverage false",
+    "test:ci": "jest --ci --silent --coverage false",
     "lint": "eslint ."
   },
   "author": "yechunxi",
