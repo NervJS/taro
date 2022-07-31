@@ -32,7 +32,7 @@
     "postcss-reporter": "^6.0.1",
     "prop-types": "^15.7.2",
     "resolve": "^1.22.0",
-    "sass": "1.50.0",
+    "sass": "1.37.5",
     "stylelint": "^14.9.1",
     "stylelint-config-taro-rn": "workspace:*",
     "stylelint-taro-rn": "workspace:*",
