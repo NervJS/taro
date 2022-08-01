@@ -180,6 +180,8 @@ export function createPageConfig (Page: any, pageConfig: PageConfig): any {
         if (route && route.key) {
           pagesObj.delete(route.key)
         }
+        // 实现 useUnload hook
+        this.handleHooksEvent('onUnload')
       }
 
       setPageInstance () {

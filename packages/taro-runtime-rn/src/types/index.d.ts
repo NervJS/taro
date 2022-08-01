@@ -171,7 +171,7 @@ export interface RNAppConfig {
   pageList: PageItem[]
 }
 
-export type HooksMethods = 'componentDidShow' | 'componentDidHide' | 'onReady' | 'onPullDownRefresh' | 'onReachBottom' | 'onPageScroll' | 'onResize' | 'onTabItemTap'
+export type HooksMethods = 'componentDidShow' | 'componentDidHide' | 'onReady' | 'onUnload' | 'onPullDownRefresh' | 'onReachBottom' | 'onPageScroll' | 'onResize' | 'onTabItemTap'
 
 export interface CallbackResult {
   errMsg: string
