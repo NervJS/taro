@@ -5,6 +5,7 @@ import webpack, { Stats } from 'webpack'
 import { Prerender } from './prerender/prerender'
 import type { MiniBuildConfig } from './utils/types'
 import { MiniCombination } from './webpack/MiniCombination'
+import MiniSyncSubpackage from './webpack/MiniSyncSubpackage'
 
 export default async function build (appPath: string, rawConfig: MiniBuildConfig): Promise<Stats> {
   const combination = new MiniCombination(appPath, rawConfig)
@@ -20,7 +21,13 @@ export default async function build (appPath: string, rawConfig: MiniBuildConfig
     runtimePath
   })
   await prebundle.run(combination.getPrebundleOptions())
-
+  const synxSubPackage = new MiniSyncSubpackage({
+    appPath,
+    sourceRoot: combination.sourceRoot,
+    entry,
+    chain: combination.chain
+  })
+  synxSubPackage.run()
   const webpackConfig = combination.chain.toConfig()
   const config = combination.config
 

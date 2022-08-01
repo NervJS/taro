@@ -23,6 +23,7 @@ import {
   mergeOption,
   processEnvOption
 } from './chain'
+import MiniSyncSubpackage from './MiniSyncSubpackage'
 
 export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
   const chain = getBaseConf(appPath)
@@ -91,6 +92,15 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
   } = config
 
   config.modifyComponentConfig?.(componentConfig, config)
+
+  const miniSyncSubpackage = new MiniSyncSubpackage({
+    entry,
+    appPath,
+    addChunkPages,
+    chain,
+    sourceRoot,
+  })
+  miniSyncSubpackage.run()
 
   let { copy } = config
 
