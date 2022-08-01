@@ -45,6 +45,27 @@ export const components = {
   Canvas: {
     type: ''
   },
+  Map: {
+    polygons: '[]',
+    rotate: '0',
+    skew: '0',
+    'max-scale': '19',
+    'min-scale': '3',
+    'enable-3D': 'false',
+    'show-compass': 'false',
+    'show-scale': 'false',
+    'enable-overlooking': 'false',
+    'enable-zoom': 'true',
+    'enable-scroll': 'true',
+    'enable-rotate': 'false',
+    'enable-satellite': 'false',
+    'enable-traffic': 'false',
+    'enable-poi': 'true',
+    'enable-building': 'true',
+    bindLabelTap: '',
+    bindRegionChange: '',
+    bindAnchorPointTap: ''
+  },
   // ======== 额外组件 ========
   RtcRoom: {
     'user-id': '',
