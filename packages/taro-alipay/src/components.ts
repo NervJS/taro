@@ -124,5 +124,15 @@ export const components = {
     icon: '',
     'alipay-card-no': '',
     'ext-info': ''
+  },
+  ArCamera: {
+    devicePosition: singleQuote('back'),
+    marker: '',
+    mode: singleQuote('imageTracking'),
+    useCapturedImage: 'false',
+    bindInit: '',
+    bindStop: '',
+    bindError: '',
+    bindARFrame: ''
   }
 }

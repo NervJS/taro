@@ -11,6 +11,7 @@ import UniversalRouter, { Routes } from 'universal-router'
 import type { SpaRouterConfig } from '../../types/router'
 import { history, prependBasename } from '../history'
 import { addLeadingSlash, routesAlias, stripBasename } from '../utils'
+import { setTitle } from '../utils/navigate'
 import { RouterConfig } from '.'
 import PageHandler from './page'
 import stacks from './stack'
@@ -49,6 +50,9 @@ export function createRouter (
         app.onPageNotFound?.({
           path: handler.pathname
         })
+      } else if (/Loading hot update .* failed./.test(error.message)) {
+        // NOTE: webpack5 与 prebundle 搭配使用时，开发环境下初次启动时偶发错误，由于 HMR 加载 chunk hash 错误，导致热更新失败
+        window.location.reload()
       } else {
         throw new Error(error)
       }
@@ -65,6 +69,7 @@ export function createRouter (
 
     if (pageConfig) {
       document.title = pageConfig.navigationBarTitleText ?? document.title
+      setTitle(pageConfig.navigationBarTitleText ?? document.title)
       if (typeof pageConfig.enablePullDownRefresh === 'boolean') {
         enablePullDownRefresh = pageConfig.enablePullDownRefresh
       }
@@ -78,11 +83,14 @@ export function createRouter (
       // NOTE: 浏览器事件退后多次时，该事件只会被触发一次
       const prevIndex = stacks.getPrevIndex(pathname)
       const delta = stacks.getDelta(pathname)
-      handler.unload(currentPage, delta, prevIndex > -1)
-      if (prevIndex > -1) {
-        handler.show(stacks.getItem(prevIndex), pageConfig, prevIndex)
-      } else {
-        shouldLoad = true
+      // NOTE: Safari 内核浏览器在非应用页面返回上一页时，会触发额外的 POP 事件，此处需避免当前页面被错误卸载
+      if (currentPage !== stacks.getItem(prevIndex)) {
+        handler.unload(currentPage, delta, prevIndex > -1)
+        if (prevIndex > -1) {
+          handler.show(stacks.getItem(prevIndex), pageConfig, prevIndex)
+        } else {
+          shouldLoad = true
+        }
       }
     } else {
       if (handler.isTabBar) {

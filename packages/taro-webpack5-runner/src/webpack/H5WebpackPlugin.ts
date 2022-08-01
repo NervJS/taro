@@ -47,6 +47,7 @@ export class H5WebpackPlugin {
       defineConstants = {}
     } = this.combination.config
 
+    env.SUPPORT_DINGTALK_NAVIGATE = env.SUPPORT_DINGTALK_NAVIGATE || '"disabled"'
     const envConstants = Object.keys(env).reduce((target, key) => {
       target[`process.env.${key}`] = env[key]
       return target

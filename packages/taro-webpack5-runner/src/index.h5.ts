@@ -7,7 +7,7 @@ import { format as formatUrl } from 'url'
 import webpack, { EntryNormalized } from 'webpack'
 import WebpackDevServer from 'webpack-dev-server'
 
-import { addHtmlSuffix, addLeadingSlash, addTrailingSlash, formatOpenHost, stripBasename, stripTrailingSlash } from './utils'
+import { addHtmlSuffix, addLeadingSlash, formatOpenHost, parsePublicPath, stripBasename, stripTrailingSlash } from './utils'
 import H5AppInstance from './utils/H5AppInstance'
 import type { H5BuildConfig } from './utils/types'
 import { H5Combination } from './webpack/H5Combination'
@@ -37,23 +37,21 @@ export default async function build (appPath: string, rawConfig: H5BuildConfig):
   const { isWatch } = config
 
   try {
-    const onBuildFinish = config.onBuildFinish
-    const compiler = webpack(webpackConfig)
-
     if (!isWatch) {
+      const compiler = webpack(webpackConfig)
       compiler.hooks.emit.tapAsync('taroBuildDone', async (compilation, callback) => {
         if (isFunction(config.modifyBuildAssets)) {
           await config.modifyBuildAssets(compilation.assets)
         }
         callback()
       })
-      return new Promise((resolve, reject) => {
+      return new Promise<void>((resolve, reject) => {
         compiler.run((error, stats) => {
           compiler.close(error2 => {
             const err = error || error2
 
-            if (isFunction(onBuildFinish)) {
-              onBuildFinish({
+            if (isFunction(config.onBuildFinish)) {
+              config.onBuildFinish({
                 error: err,
                 stats: err ? null : stats,
                 isWatch: false
@@ -65,27 +63,25 @@ export default async function build (appPath: string, rawConfig: H5BuildConfig):
         })
       })
     } else {
-      const routerConfig = config.router || {}
-      const routerMode = routerConfig.mode || 'hash'
-      const routerBasename = routerConfig.basename || '/'
-
       config.devServer = recursiveMerge(config.devServer || {}, webpackConfig.devServer)
-      const devServerOptions = await getDevServerOptions(appPath, config)
-      devServerOptions.host = formatOpenHost(devServerOptions.host)
-
-      const server = new WebpackDevServer(devServerOptions, compiler)
-
-      const pathname = routerMode === 'browser' ? routerBasename : '/'
-      const devUrl = formatUrl({
-        protocol: devServerOptions.https ? 'https' : 'http',
-        hostname: devServerOptions.host,
-        port: devServerOptions.port,
-        pathname
-      })
+      config.output = webpackConfig.output
+      webpackConfig.devServer = await getDevServerOptions(appPath, config)
+      const compiler = webpack(webpackConfig)
+      const server = new WebpackDevServer(webpackConfig.devServer, compiler)
 
       compiler.hooks.done.tap('taroDone', () => {
         if (isFirstBuild) {
           isFirstBuild = false
+          const routerConfig = config.router || {}
+          const routerMode = routerConfig.mode || 'hash'
+          const routerBasename = routerConfig.basename || '/'
+
+          const devUrl = formatUrl({
+            protocol: webpackConfig.devServer?.https ? 'https' : 'http',
+            hostname: formatOpenHost(webpackConfig.devServer?.host),
+            port: webpackConfig.devServer?.port,
+            pathname: routerMode === 'browser' ? routerBasename : '/'
+          })
           if (devUrl) {
             console.log(chalk.cyan(`ℹ Listening at ${devUrl}\n`))
           }
@@ -99,8 +95,8 @@ export default async function build (appPath: string, rawConfig: H5BuildConfig):
         callback()
       })
       compiler.hooks.done.tap('taroBuildDone', stats => {
-        if (isFunction(onBuildFinish)) {
-          onBuildFinish({
+        if (isFunction(config.onBuildFinish)) {
+          config.onBuildFinish({
             error: null,
             stats,
             isWatch: true
@@ -108,8 +104,8 @@ export default async function build (appPath: string, rawConfig: H5BuildConfig):
         }
       })
       compiler.hooks.failed.tap('taroBuildDone', error => {
-        if (isFunction(onBuildFinish)) {
-          onBuildFinish({
+        if (isFunction(config.onBuildFinish)) {
+          config.onBuildFinish({
             error,
             stats: null,
             isWatch: true
@@ -134,7 +130,7 @@ export default async function build (appPath: string, rawConfig: H5BuildConfig):
 }
 
 async function getDevServerOptions (appPath: string, config: H5BuildConfig): Promise<WebpackDevServer.Configuration> {
-  const publicPath = config.publicPath ? addLeadingSlash(addTrailingSlash(config.publicPath)) : '/'
+  const publicPath = parsePublicPath(config.publicPath)
   const outputPath = path.join(appPath, config.outputRoot || 'dist')
   const customDevServerOption = config.devServer || {}
   const routerConfig = config.router || {}
@@ -187,6 +183,7 @@ async function getDevServerOptions (appPath: string, config: H5BuildConfig): Pro
     proxy[routerBasename] = { bypass }
   }
 
+  const chunkFilename = config.output.chunkFilename ?? `${config.chunkDirectory || 'chunk'}/[name].js`
   const devServerOptions: WebpackDevServer.Configuration = recursiveMerge<any>(
     {
       devMiddleware: {
@@ -195,16 +192,17 @@ async function getDevServerOptions (appPath: string, config: H5BuildConfig): Pro
       },
       static: [{
         directory: outputPath, // webpack4: devServerOptions.contentBase
+        publicPath,
         watch: true // webpack4: devServerOptions.watchContentBase
       }],
       compress: true,
       // disableHostCheck: true, // the disableHostCheck and allowedHosts options were removed in favor of the firewall option
       host: '0.0.0.0',
       // useLocalIp: true, @breaking: move in favor { host: 'local-ip' } (https://github.com/webpack/webpack-dev-server/releases?page=2)
-      hot: true,
+      hot: 'only',
       https: false,
       // inline: true, // the inline option (iframe live mode) was removed
-      open: true,
+      open: [publicPath],
       client: {
         overlay: true
       },
@@ -213,6 +211,12 @@ async function getDevServerOptions (appPath: string, config: H5BuildConfig): Pro
       historyApiFallback: {
         disableDotRule: true,
         rewrites: [{
+          from: /\.hot-update\.(js|json)$/,
+          to: function (context) {
+            const pathname = chunkFilename.replace('[name]', path.basename(context.parsedUrl.pathname).replace(/\.[^.]*.hot-update\.(js|json)/, ''))
+            return (['', 'auto'].includes(publicPath) ? '' : publicPath) + pathname
+          }
+        }, {
           from: /./,
           to: publicPath
         }]
@@ -230,5 +234,6 @@ async function getDevServerOptions (appPath: string, config: H5BuildConfig): Pro
     devServerOptions.port = availablePort
   }
 
+  devServerOptions.host = formatOpenHost(devServerOptions.host)
   return devServerOptions
 }

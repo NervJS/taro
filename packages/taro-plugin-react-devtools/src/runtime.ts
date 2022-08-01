@@ -4,7 +4,7 @@ const { connectToDevTools } = require('./backend')
 
 declare const __REACT_DEVTOOLS_PORT__: number
 
-const ws = new WebSocket(`ws://127.0.0.1:${__REACT_DEVTOOLS_PORT__}`)
+const ws = new WebSocket(`ws://localhost:${__REACT_DEVTOOLS_PORT__}`)
 
 connectToDevTools({
   // host: string (defaults to "localhost") - Websocket will connect to this host.

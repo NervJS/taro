@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/rn-runner",
-  "version": "3.5.0-beta.7",
+  "version": "3.5.1",
   "description": "ReactNative build tool for taro",
   "main": "index.js",
   "repository": {
@@ -13,7 +13,7 @@
     "lint": "eslint .",
     "test": "jest --silent",
     "test:dev": "jest --watch",
-    "test:ci": "jest --silent --coverage false",
+    "test:ci": "jest --ci --silent --coverage false",
     "test:coverage": "jest --coverage"
   },
   "keywords": [

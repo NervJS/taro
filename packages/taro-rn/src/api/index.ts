@@ -3,6 +3,7 @@ export {
   getCurrentInstance,
   useDidShow,
   useDidHide,
+  useReady,
   useRouter,
   usePullDownRefresh,
   useReachBottom,

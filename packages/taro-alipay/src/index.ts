@@ -38,6 +38,8 @@ export default (ctx: IPluginContext) => {
       }
       prebundleOptions.exclude ||= []
       prebundleOptions.exclude.push('@tarojs/plugin-platform-alipay/dist/runtime')
+      prebundleOptions.include ||= []
+      prebundleOptions.include.push('@tarojs/shared')
     }
   })
 }

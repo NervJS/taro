@@ -18,13 +18,13 @@ let lastTime = 0
 
 // https://gist.github.com/paulirish/1579671
 // https://gist.github.com/jalbam/5fe05443270fa6d8136238ec72accbc0
-const raf = typeof requestAnimationFrame !== 'undefined' && requestAnimationFrame !== null ? requestAnimationFrame : function (callback) {
+const _raf = typeof requestAnimationFrame !== 'undefined' && requestAnimationFrame !== null ? requestAnimationFrame : function (callback) {
   const _now = now()
   const nextTime = Math.max(lastTime + 16, _now) // First time will execute it immediately but barely noticeable and performance is gained.
   return setTimeout(function () { callback(lastTime = nextTime) }, nextTime - _now)
 }
 
-const caf = typeof cancelAnimationFrame !== 'undefined' && cancelAnimationFrame !== null
+const _caf = typeof cancelAnimationFrame !== 'undefined' && cancelAnimationFrame !== null
   ? cancelAnimationFrame
   : function (seed) {
     // fix https://github.com/NervJS/taro/issues/7749
@@ -32,6 +32,6 @@ const caf = typeof cancelAnimationFrame !== 'undefined' && cancelAnimationFrame 
   }
 
 export {
-  caf,
-  raf
+  _caf as caf,
+  _raf as raf
 }

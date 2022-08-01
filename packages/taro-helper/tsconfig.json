@@ -7,7 +7,8 @@
     "outDir": "dist",
     "rootDir": "./src",
     "module": "commonjs",
-    "preserveConstEnums": true
+    "preserveConstEnums": true,
+    "sourceMap": true
   },
   "include": ["./src"]
 }

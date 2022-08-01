@@ -1,12 +1,18 @@
+// export const removeLeadingSlash = (str = '') => str.replace(/^\.?\//, '')
+// export const removeTrailingSearch = (str = '') => str.replace(/\?[\s\S]*$/, '')
+
 export const addLeadingSlash = (url = '') => (url.charAt(0) === '/' ? url : '/' + url)
 
 export const hasBasename = (path = '', prefix = '') =>
   new RegExp('^' + prefix + '(\\/|\\?|#|$)', 'i').test(path) || path === prefix
 
 export const stripBasename = (path = '', prefix = '') =>
-  hasBasename(path, prefix) ? path.substr(prefix.length) : path
+  hasBasename(path, prefix) ? path.substring(prefix.length) : path
 
 export const stripTrailing = (str = '') => str.replace(/[?#][\s\S]*$/, '')
+
+export const stripSuffix = (path = '', suffix = '') =>
+  path.includes(suffix) ? path.substring(0, path.length - suffix.length) : path
 
 class RoutesAlias {
   conf: Array<string[]> = []

@@ -4,29 +4,6 @@ import Vue from 'vue'
 import Taro, { Config } from './index'
 
 declare module './index' {
-  // Components
-  interface ComponentLifecycle<P, S, SS = any> extends NewLifecycle<P, S, SS> {
-    componentWillMount?(): void
-    componentDidMount?(): void
-    componentWillReceiveProps?(nextProps: Readonly<P>, nextContext: any): void
-    shouldComponentUpdate?(nextProps: Readonly<P>, nextState: Readonly<S>, nextContext: any): boolean
-    componentWillUpdate?(nextProps: Readonly<P>, nextState: Readonly<S>, nextContext: any): void
-    componentWillUnmount?(): void
-    componentDidShow?(): void
-    componentDidHide?(): void
-    componentDidCatchError?(err: string): void
-    componentDidNotFound?(opt: PageNotFoundObject): void
-  }
-  interface ComponentOptions {
-    addGlobalClass?: boolean
-    styleIsolation?: 'isolated' | 'apply-shared' | 'shared'
-  }
-  interface ComponentClass<P = {}, S = any> extends StaticLifecycle<P, S> {
-    new (...args: any[]): Component<P, {}>
-    propTypes?: any // TODO: Use prop-types type definition.
-    defaultProps?: Partial<P>
-    displayName?: string
-  }
   // ref: packages/taro-runtime/src/current.ts
   interface RouterInfo<TParams extends Partial<Record<string, string>> = Partial<Record<string, string>>> {
     /** 路由参数 */
@@ -43,23 +20,6 @@ declare module './index' {
     scene: number | undefined
     exitState?: any
   }
-  interface Component<P = {}, S = {}, SS = any> extends ComponentLifecycle<P, S, SS> {
-    $scope?: any
-  }
-  type PropsWithChildren<P> = P & { children?: React.ReactNode }
-  interface FunctionComponent<P = {}> {
-    (props: PropsWithChildren<P>, context?: any): React.ReactElement | null
-    propTypes?: any // TODO: Use prop-types type definition.
-    defaultProps?: Partial<P>
-    config?: Config
-    options?: ComponentOptions
-    externalClasses?: string[]
-  }
-  type FC<P = {}> = FunctionComponent<P>
-  interface StatelessFunctionComponent {
-    (): JSX.Element
-  }
-  type SFC = StatelessFunctionComponent
 
   interface Show {
     componentDidShow?(): void

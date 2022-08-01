@@ -29,7 +29,7 @@ export default function (appPath: string, config: Partial<BuildConfig>): any {
     output = emptyObj,
     sourceRoot = '',
     outputRoot = 'dist',
-    publicPath = '',
+    publicPath = '/',
     staticDirectory = 'static',
     chunkDirectory = 'chunk',
     router = emptyObj,
@@ -137,7 +137,7 @@ export default function (appPath: string, config: Partial<BuildConfig>): any {
       script: htmlScript
     }, htmlPluginOption)])
   }
-
+  env.SUPPORT_DINGTALK_NAVIGATE = env.SUPPORT_DINGTALK_NAVIGATE || '"disabled"'
   plugin.definePlugin = getDefinePlugin([processEnvOption(env), defineConstants])
 
   const isCssoEnabled = !(csso && csso.enable === false)

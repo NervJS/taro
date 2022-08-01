@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/plugin-framework-react",
-  "version": "3.5.0-beta.7",
+  "version": "3.5.1",
   "description": "React/Preact/Nerv 框架插件",
   "author": "drchan",
   "homepage": "https://github.com/nervjs/taro",
@@ -32,11 +32,20 @@
     "acorn": "^8.0.4",
     "acorn-walk": "^8.0.0"
   },
+  "peerDependencies": {
+    "react": ">=17"
+  },
   "peerDependenciesMeta": {
     "@pmmmwh/react-refresh-webpack-plugin": {
       "optional": true
     },
     "@prefresh/webpack": {
+      "optional": true
+    },
+    "preact": {
+      "optional": true
+    },
+    "react": {
       "optional": true
     },
     "react-refresh": {

@@ -50,6 +50,14 @@ export class Input implements ComponentInterface {
     }
   }
 
+  @Watch('value')
+  watchValue (newValue: string) {
+    const value = fixControlledValue(newValue)
+    if (this.inputRef && this.inputRef.value !== value) {
+      this.inputRef.value = value
+    }
+  }
+
   @Event({
     eventName: 'input'
   }) onInput: EventEmitter

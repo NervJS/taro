@@ -25,7 +25,7 @@ function setAlias (ctx: IPluginContext, framework: Frameworks, chain) {
 
       // 在React18中，使用了exports字段约定了模块暴露路径，其中并未暴露 ./cjs/ 。这将使上面的alias在编译时报错。相当的tricky。
       // Why writeJson？ prebundle will load package.json via readFile to check exports property.
-      const reactPkgPath = require.resolve('react/package.json')
+      const reactPkgPath = require.resolve('react/package.json', { paths: [process.cwd()] })
       if (reactPkgPath) {
         const reactPkg = require('react/package.json')
         const reactVersion = (reactPkg.version || '')

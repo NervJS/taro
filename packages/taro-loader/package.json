@@ -1,7 +1,7 @@
 {
   "name": "@tarojs/taro-loader",
-  "version": "3.5.0-beta.7",
-  "description": "> TODO: description",
+  "version": "3.5.1",
+  "description": "Taro runner use webpack loader",
   "author": "yuche <i@yuche.me>",
   "homepage": "https://github.com/nervjs/taro/tree/master/packages/taro-loader#readme",
   "license": "MIT",

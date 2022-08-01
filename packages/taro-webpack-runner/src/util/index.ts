@@ -40,6 +40,10 @@ export const formatOpenHost = host => {
   return result
 }
 
+export function parsePublicPath (publicPath = '/') {
+  return ['', 'auto'].includes(publicPath) ? publicPath :  addTrailingSlash(publicPath)
+}
+
 export function parseHtmlScript (pxtransformOption: IPostcssOption['pxtransform'] = {}) {
   const options = pxtransformOption?.config || {}
   const max = options?.maxRootSize ?? 40

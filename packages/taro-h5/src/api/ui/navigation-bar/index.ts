@@ -1,4 +1,5 @@
 import Taro from '@tarojs/api'
+import { setTitle } from '@tarojs/router/dist/utils/navigate'
 
 import { getParameterError, shouldBeObject, temporarilyNotSupport } from '../../../utils'
 import { MethodHandler } from '../../../utils/handler'
@@ -28,9 +29,7 @@ export function setNavigationBarTitle (options) {
     })
   }
 
-  if (document.title !== title) {
-    document.title = title
-  }
+  setTitle(title)
 
   return handle.success()
 }

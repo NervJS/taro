@@ -8,6 +8,7 @@ export const MatchMedia = createComponent('taro-match-media')
 export const MovableArea = createComponent('taro-movable-area')
 export const MovableView = createComponent('taro-movable-view')
 export const PageContainer = createComponent('taro-page-container')
+export const RootPortal = createComponent('taro-root-portal')
 export { default as ScrollView } from './scroll-view'
 export const ShareElement = createComponent('taro-share-element')
 export const Swiper = createComponent('taro-swiper')

@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/react",
-  "version": "3.5.0-beta.7",
+  "version": "3.5.1",
   "description": "like react-dom, but for mini apps.",
   "author": "yuche <i@yuche.me>",
   "homepage": "https://github.com/nervjs/taro/tree/master/packages/taro-react#readme",
@@ -16,7 +16,7 @@
   },
   "scripts": {
     "test": "jest --collectCoverage",
-    "test:ci": "jest -i --coverage false",
+    "test:ci": "jest --ci -i --coverage false",
     "build": "rollup -c",
     "dev": "rollup -c -w"
   },

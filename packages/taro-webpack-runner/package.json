@@ -1,13 +1,13 @@
 {
   "name": "@tarojs/webpack-runner",
-  "version": "3.5.0-beta.7",
+  "version": "3.5.1",
   "description": "webpack runner for taro",
   "main": "index.js",
   "scripts": {
     "build": "tsc",
     "dev": "tsc -w",
     "test": "cross-env NODE_ENV=jest jest",
-    "test:ci": "cross-env NODE_ENV=jest jest -i",
+    "test:ci": "cross-env NODE_ENV=jest jest --ci -i",
     "test:dev": "cross-env NODE_ENV=jest jest --watch",
     "test:coverage": "cross-env NODE_ENV=jest jest --coverage",
     "updateSnapshot": "cross-env NODE_ENV=jest jest --updateSnapshot"
@@ -72,6 +72,7 @@
     "webpack-format-messages": "^2.0.5"
   },
   "devDependencies": {
+    "@babel/core": "^7.14.5",
     "@types/webpack": "4",
     "@types/webpack-dev-server": "3",
     "vue-loader": "^15.9.3",

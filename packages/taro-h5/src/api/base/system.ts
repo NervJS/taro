@@ -1,5 +1,5 @@
 import Taro from '@tarojs/api'
-import MobileDetect from 'mobile-detect'
+import { getMobileDetect } from '@tarojs/router/dist/utils/navigate'
 
 import { temporarilyNotSupport } from '../../utils'
 import { MethodHandler } from '../../utils/handler'
@@ -58,7 +58,7 @@ export const getSystemSetting: typeof Taro.getSystemSetting = () => {
 
 /** 获取设备设置 */
 export const getDeviceInfo: typeof Taro.getDeviceInfo = () => {
-  const md = new MobileDetect(navigator.userAgent)
+  const md = getMobileDetect()
 
   const info: ReturnType<typeof Taro.getDeviceInfo> = {
     /** 应用二进制接口类型（仅 Android 支持） */

@@ -2,7 +2,7 @@ import { resolveMainFilePath } from '@tarojs/helper'
 import path from 'path'
 import { Configuration, EntryNormalized } from 'webpack'
 
-import { addLeadingSlash, addTrailingSlash } from '../utils'
+import { parsePublicPath } from '../utils'
 import H5AppInstance from '../utils/H5AppInstance'
 import type { H5BuildConfig } from '../utils/types'
 import { Combination } from './Combination'
@@ -11,6 +11,8 @@ import { H5WebpackModule } from './H5WebpackModule'
 import { H5WebpackPlugin } from './H5WebpackPlugin'
 
 type Output = Required<Configuration>['output']
+type Optimization = Required<Configuration>['optimization']
+type OptimizationSplitChunksOptions = Required<Optimization>['splitChunks']
 
 export class H5Combination extends Combination<H5BuildConfig> {
   inst: H5AppInstance
@@ -74,7 +76,7 @@ export class H5Combination extends Combination<H5BuildConfig> {
   }
 
   getOutput ({
-    mode, publicPath, chunkDirectory, customOutput = {}, entryFileName = 'app'
+    publicPath = '/', chunkDirectory, customOutput = {}, entryFileName = 'app'
   }: {
     mode: H5BuildConfig['mode']
     publicPath: string
@@ -82,24 +84,20 @@ export class H5Combination extends Combination<H5BuildConfig> {
     customOutput?: Output
     entryFileName?: string
   }): Output {
-    publicPath = addTrailingSlash(publicPath)
-    if (mode === 'development') {
-      publicPath = addLeadingSlash(publicPath)
-    }
     const filename: Output['filename'] = (chunk) => chunk.runtime === entryFileName ? 'js/[name].js' : '[name].js'
     return {
       path: this.outputDir,
       filename,
       chunkFilename: `${chunkDirectory}/[name].js`,
-      publicPath,
+      publicPath: parsePublicPath(publicPath),
       ...customOutput
     }
   }
 
-  getOptimization (mode: string) {
-    const isProd = mode === 'production'
+  getOptimization (nodeEnv: string) {
+    const isProd = nodeEnv === 'production'
 
-    const cacheGroups: Record<string, unknown> = {
+    const cacheGroups: Exclude<OptimizationSplitChunksOptions, false>['cacheGroups'] = {
       default: false,
       defaultVendors: false,
       common: {
@@ -112,18 +110,19 @@ export class H5Combination extends Combination<H5BuildConfig> {
         name: isProd ? false : 'vendors',
         filename: 'js/[name].js',
         minChunks: 2,
-        test: module => /[\\/]node_modules[\\/]/.test(module.resource),
+        test: (module: any) => /[\\/]node_modules[\\/]/.test(module.resource),
         priority: 10
       },
       taro: {
         name: isProd ? false : 'taro',
         filename: 'js/[name].js',
-        test: module => /@tarojs[\\/][a-z]+/.test(module.context),
+        test: (module: any) => /@tarojs[\\/][a-z]+/.test(module.context),
         priority: 100
       }
     }
-    if (!isProd) cacheGroups.name = false
-    return {
+    const optimization: Optimization = {
+      nodeEnv,
+      removeEmptyChunks: true,
       splitChunks: {
         chunks: 'initial',
         hidePathInfo: true,
@@ -131,6 +130,11 @@ export class H5Combination extends Combination<H5BuildConfig> {
         cacheGroups
       }
     }
+    if (!isProd) {
+      cacheGroups.name = false
+      optimization.runtimeChunk = 'single'
+    }
+    return optimization
   }
 
   getConfigFilePath (filePath = '') {

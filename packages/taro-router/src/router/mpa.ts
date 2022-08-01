@@ -7,6 +7,7 @@ import {
 } from '@tarojs/runtime'
 
 import type { MpaRouterConfig } from '../../types/router'
+import { setTitle } from '../utils/navigate'
 import { RouterConfig } from '.'
 import MultiPageHandler from './multi-page'
 
@@ -48,7 +49,7 @@ export async function createMultiRouter (
   })
 
   if (pageConfig) {
-    document.title = pageConfig.navigationBarTitleText ?? document.title
+    setTitle(pageConfig.navigationBarTitleText ?? document.title)
     if (typeof pageConfig.enablePullDownRefresh === 'boolean') {
       enablePullDownRefresh = pageConfig.enablePullDownRefresh
     }

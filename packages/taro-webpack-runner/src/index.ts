@@ -9,7 +9,7 @@ import buildConf from './config/build.conf'
 import devConf from './config/dev.conf'
 import baseDevServerOption from './config/devServer.conf'
 import prodConf from './config/prod.conf'
-import { addLeadingSlash, addTrailingSlash, formatOpenHost } from './util'
+import { formatOpenHost, parsePublicPath } from './util'
 import { makeConfig } from './util/chain'
 import { bindDevLogger, bindProdLogger, printBuildError } from './util/logHelper'
 import { BuildConfig, Func } from './util/types'
@@ -70,7 +70,7 @@ const buildDev = async (appPath: string, config: BuildConfig): Promise<any> => {
   const routerConfig = config.router || {}
   const routerMode = routerConfig.mode || 'hash'
   const routerBasename = routerConfig.basename || '/'
-  const publicPath = conf.publicPath ? addLeadingSlash(addTrailingSlash(conf.publicPath)) : '/'
+  const publicPath = parsePublicPath(conf.publicPath)
   const outputPath = path.join(appPath, conf.outputRoot as string)
   const customDevServerOption = (config.devServer || {}) as WebpackDevServer.Configuration
   const webpackChain = devConf(appPath, config)
