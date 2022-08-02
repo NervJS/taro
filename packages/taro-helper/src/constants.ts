@@ -160,6 +160,7 @@ export const UPDATE_PACKAGE_LIST = [
   '@tarojs/plugin-platform-qq',
   '@tarojs/plugin-platform-jd',
   '@tarojs/plugin-html',
+  '@tarojs/webpack5-runner',
   'nervjs',
   'nerv-devtools'
 ]
