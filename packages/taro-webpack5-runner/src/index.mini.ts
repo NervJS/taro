@@ -22,9 +22,8 @@ export default async function build (appPath: string, rawConfig: MiniBuildConfig
   })
   await prebundle.run(combination.getPrebundleOptions())
   const synxSubPackage = new MiniSyncSubpackage({
-    appPath,
-    sourceRoot: combination.sourceRoot,
     entry,
+    addChunkPages: rawConfig.addChunkPages,
     chain: combination.chain
   })
   synxSubPackage.run()

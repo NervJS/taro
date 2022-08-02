@@ -95,10 +95,8 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
 
   const miniSyncSubpackage = new MiniSyncSubpackage({
     entry,
-    appPath,
     addChunkPages,
     chain,
-    sourceRoot,
   })
   miniSyncSubpackage.run()
 

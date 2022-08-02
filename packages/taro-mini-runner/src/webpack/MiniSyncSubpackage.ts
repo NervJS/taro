@@ -9,47 +9,46 @@ import { AddPageChunks } from '../utils/types'
 interface IOptions {
   entry: webpack.Entry
   chain: Chain
-  appPath?: string
   addChunkPages?: AddPageChunks
-  sourceRoot?: string
   entryFileName?: string
 }
 
 export default class MiniSyncSubpackPlugin {
   context: string
   pages: string[]
-  webpackCacheGroups: unknown
+  addChunkPages?: AddPageChunks
   appEntry: string
   constructor (protected options: IOptions) {
-    this.webpackCacheGroups = {}
+    this.addChunkPages = options.addChunkPages
   }
 
   // 入口
   run () {
-    const { chain, addChunkPages } = this.options
+    const { chain } = this.options
+    const webpackCacheGroups = {}
     this.appEntry = this.getAppEntry()
     this.pages = this.getPages()
     const chunkPagesList = new Map<string, string[]>()
-    if (typeof addChunkPages === 'function') {
-      addChunkPages(chunkPagesList, Array.from(this.pages).map(item => item))
+    if (typeof this.addChunkPages === 'function') {
+      this.addChunkPages(chunkPagesList, Array.from(this.pages).map(item => item))
     }
     // 将addPages里面配置的页面全部整合到 webapack 中的 splitChunks 中
     chunkPagesList.forEach((chunkNames, filename) => {
       chunkNames.forEach(chunkName => {
-        if (!this.webpackCacheGroups[chunkName]) {
-          this.webpackCacheGroups[chunkName] = {
+        if (!webpackCacheGroups[chunkName]) {
+          webpackCacheGroups[chunkName] = {
             name: chunkName,
             priority: 1000,
             test: modl => {
               // 实现多个页面打包到一个文件中
               // slice(1)是去掉下面累加的文件名开头多余的 ‘|’
-              return new RegExp(this.webpackCacheGroups[chunkName].test?.testExpStr.slice(1)).test(modl.context)
+              return new RegExp(webpackCacheGroups[chunkName].test?.testExpStr.slice(1)).test(modl.context)
             }
           }
         }
         // 将多个页面判断整合到 test 方法中的属性中，以免 webpack 属性判断报错
-        this.webpackCacheGroups[chunkName].test.testExpStr =
-        (this.webpackCacheGroups[chunkName].test?.testExpStr || '') + `|${filename}`
+        webpackCacheGroups[chunkName].test.testExpStr =
+        (webpackCacheGroups[chunkName].test?.testExpStr || '') + `|${filename}`
       })
     })
 
@@ -59,7 +58,7 @@ export default class MiniSyncSubpackPlugin {
         ...config,
         cacheGroups: {
           ...config?.cacheGroups,
-          ...this.webpackCacheGroups
+          ...webpackCacheGroups
         }
       })
   }
