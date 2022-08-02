@@ -100,7 +100,8 @@ export const build = async (projectConfig, componentConfig: IComponentConfig) =>
       // @ts-ignore
       json(),
       taroResolver({
-        externalResolve
+        externalResolve,
+        platform: projectConfig.platform
       }),
       nodeResolve({
         extensions: ['.mjs', '.js', '.json', '.node', '.ts', '.tsx']
