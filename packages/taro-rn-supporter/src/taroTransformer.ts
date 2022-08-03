@@ -1,9 +1,12 @@
 import { injectDefineConfigHeader } from '@tarojs/helper'
 import { merge } from 'lodash'
 import { getCacheKey, transform as babelTransform } from 'metro-react-native-babel-transformer'
+import { sep } from 'path'
 
 import { emptyModulePath } from './defaults'
 import { getProjectConfig, getRNConfig } from './utils'
+
+const normalizeEmptyModulePath = emptyModulePath.replace(/\//g, sep)
 
 const configBabelTransform = ({ src, filename, options, plugins }) => {
   // 获取rn配置中的moodifyBabelConfig
@@ -47,7 +50,7 @@ const transform = ({ src, filename, options, plugins }) => {
         deviceRatio: rnConfig.designWidth ? rnConfig.deviceRatio : config.deviceRatio,
         nextTransformer: /\.config\.(t|j)sx?$/.test(filename) ? configBabelTransform : babelTransform,
         isEntryFile: filename_ => {
-          return filename_.includes(emptyModulePath)
+          return filename_.includes(normalizeEmptyModulePath)
         },
         rn: rnConfig
       }
