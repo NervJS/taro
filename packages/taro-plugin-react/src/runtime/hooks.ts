@@ -2,7 +2,9 @@ import {
   AppInstance, Current,
   Func, getPageInstance,
   injectPageInstance,
-  PageLifeCycle
+  Instance,
+  PageLifeCycle,
+  PageProps
 } from '@tarojs/runtime'
 import { isArray, isFunction } from '@tarojs/shared'
 
@@ -13,20 +15,21 @@ const createTaroHook = (lifecycle: keyof PageLifeCycle | keyof AppInstance) => {
   return (fn: Func) => {
     const { R: React, PageContext } = reactMeta
     const id = React.useContext(PageContext) || HOOKS_APP_ID
+    const instRef = React.useRef<Instance<PageProps> | null>(null)
 
     // hold fn ref and keep up to date
     const fnRef = React.useRef(fn)
     if (fnRef.current !== fn) fnRef.current = fn
 
     React.useLayoutEffect(() => {
-      let inst = getPageInstance(id)
+      let inst: typeof instRef.current = instRef.current
       let first = false
-      if (inst == null) {
+      if (!inst) {
         first = true
-        inst = Object.create(null)
+        instRef.current = Object.create(getPageInstance(id) || null)
+        inst = instRef.current!
       }
 
-      inst = inst!
 
       // callback is immutable but inner function is up to date
       const callback = (...args: any) => fnRef.current(...args)
@@ -44,13 +47,15 @@ const createTaroHook = (lifecycle: keyof PageLifeCycle | keyof AppInstance) => {
         injectPageInstance(inst!, id)
       }
       return () => {
-        const inst = getPageInstance(id)
+        const inst = instRef.current
+        if (!inst) return
         const list = inst![lifecycle]
         if (list === callback) {
-          (inst![lifecycle] as any) = undefined
+          (inst[lifecycle] as any) = undefined
         } else if (isArray(list)) {
-          (inst![lifecycle] as any) = list.filter(item => item !== callback)
+          (inst[lifecycle] as any) = list.filter(item => item !== callback)
         }
+        instRef.current = null
       }
     }, [])
   }
