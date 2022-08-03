@@ -10,7 +10,6 @@ import { getAppConfig } from '@tarojs/rn-transformer'
 import * as jsx from 'acorn-jsx'
 import * as path from 'path'
 import { rollup, RollupOptions } from 'rollup'
-import * as clear from 'rollup-plugin-clear'
 import image from 'rollup-plugin-image-file'
 
 type ExternalFn = (arr: Array<string | RegExp>) => Array<string | RegExp>
@@ -91,7 +90,6 @@ export const build = async (projectConfig, componentConfig: IComponentConfig) =>
     // @ts-ignore react native 相关的一些库中可能包含 jsx 语法
     acornInjectPlugins: [jsx()],
     plugins: [
-      clear({ targets: [output] }),
       // TODO: 使用 react-native-svg-transformer 处理
       // @ts-ignore
       image({
@@ -100,7 +98,8 @@ export const build = async (projectConfig, componentConfig: IComponentConfig) =>
       // @ts-ignore
       json(),
       taroResolver({
-        externalResolve
+        externalResolve,
+        platform: projectConfig.deviceType // ios|android
       }),
       nodeResolve({
         extensions: ['.mjs', '.js', '.json', '.node', '.ts', '.tsx']
@@ -154,7 +153,7 @@ function likeDependent (str: string) {
   return !str.match(/^\.?\.\//) && !path.isAbsolute(str)
 }
 
-export default async function (projectPath: string, config: any) {
+export default function (projectPath: string, config: any) {
   const { sourceRoot, entry, nativeComponents } = config
   const appPath = path.join(projectPath, sourceRoot, entry)
   const appConfig = getAppConfig(appPath)

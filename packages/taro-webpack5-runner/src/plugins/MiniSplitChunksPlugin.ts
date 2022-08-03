@@ -105,7 +105,7 @@ const normalizeChunksFilter = chunks => {
  * @returns {boolean} true, if the module should be selected
  */
 type TestFunc = (module, context) => boolean
-const checkTest = (test: undefined | boolean |string |RegExp | TestFunc, module, context): boolean => {
+const checkTest = (test: undefined | boolean | string | RegExp | TestFunc, module, context): boolean => {
   if (test === undefined) return true
   if (typeof test === 'function') {
     return test(module, context)
@@ -534,6 +534,8 @@ export default class MiniSplitChunksPlugin extends SplitChunksPlugin {
                     this.assets[chunkName] = new RawSource(`${source.source()}${originSource}`)
                   }
                 }
+              } else {
+                this.assets[chunkName] = new RawSource(`${source.source()}`)
               }
             }
           }
