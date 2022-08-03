@@ -692,7 +692,7 @@ importers:
       chalk: 3.0.0
       chokidar: ^3.3.1
       cross-spawn: ^7.0.3
-      debug: 4.1.1
+      debug: 4.3.4
       find-yarn-workspace-root: 2.0.0
       fs-extra: ^8.0.1
       lodash: ^4.17.21
@@ -715,7 +715,7 @@ importers:
       chalk: registry.npmjs.org/chalk/3.0.0
       chokidar: registry.npmjs.org/chokidar/3.5.3
       cross-spawn: registry.npmjs.org/cross-spawn/7.0.3
-      debug: registry.npmjs.org/debug/4.1.1
+      debug: registry.npmjs.org/debug/4.3.4
       find-yarn-workspace-root: registry.npmjs.org/find-yarn-workspace-root/2.0.0
       fs-extra: registry.npmjs.org/fs-extra/8.1.0
       lodash: registry.npmjs.org/lodash/4.17.21
