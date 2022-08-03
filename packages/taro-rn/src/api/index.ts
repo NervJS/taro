@@ -3,6 +3,7 @@ export {
   getCurrentInstance,
   useDidShow,
   useDidHide,
+  useLoad,
   useReady,
   useUnload,
   useRouter,
