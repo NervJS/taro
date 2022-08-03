@@ -3,12 +3,12 @@ import StyleTransform, { getWrapedCSS } from '../src/transforms'
 // 初始化config
 const styleTransform = new StyleTransform({})
 
-async function run (src, filename = './__tests__/styles/a.css', options = { platform: 'ios' }, debug) {
+async function run (src, filename = './__tests__/styles/a.css', options = { platform: 'android' }, debug) {
   if (typeof src === 'object') {
     ({
       src,
       filename = './__tests__/styles/a.css',
-      options = { platform: 'ios' },
+      options = { platform: 'android' },
       debug
     } = src || {})
   }

@@ -4,13 +4,13 @@ import StyleTransform, { getWrapedCSS } from '../src/transforms'
 const styleTransform = new StyleTransform({})
 
 async function run (src, filename = './__tests__/styles/a.css', debug) {
-  let options = { platform: 'ios' }
+  let options = { platform: 'android' }
 
   if (typeof src === 'object') {
     ({
       src,
       filename = './__tests__/styles/a.css',
-      options = { platform: 'ios' },
+      options = { platform: 'android' },
       debug
     } = src || {})
   }

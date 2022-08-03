@@ -35,14 +35,14 @@ const defaultConfig = {
 }
 
 async function run (src, filename = './__tests__/styles/a.css', debug) {
-  let options = { platform: 'ios' }
+  let options = { platform: 'android' }
   let config
 
   if (typeof src === 'object') {
     ({
       src,
       filename = './__tests__/styles/a.css',
-      options = { platform: 'ios' },
+      options = { platform: 'android' },
       debug,
       config
     } = src || {})
