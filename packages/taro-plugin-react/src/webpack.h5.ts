@@ -53,6 +53,9 @@ function setPlugin (ctx: IPluginContext, framework: Frameworks, chain) {
         .use(require('@pmmmwh/react-refresh-webpack-plugin'))
     } else if (framework === 'preact') {
       chain
+        .plugin('hotModuleReplacementPlugin')
+        .use(require('webpack').HotModuleReplacementPlugin)
+      chain
         .plugin('fastRefreshPlugin')
         .use(require('@prefresh/webpack'))
     }
