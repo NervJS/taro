@@ -4,6 +4,7 @@ export {
   useDidShow,
   useDidHide,
   useReady,
+  useUnload,
   useRouter,
   usePullDownRefresh,
   useReachBottom,
