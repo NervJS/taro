@@ -562,7 +562,6 @@ importers:
       intersection-observer: ^0.7.0
       jquery: ^3.4.1
       karmatic: ^2.1.0
-      omit.js: ^1.0.0
       react: ^17.0.2
       react-dom: ^17.0.2
       resolve-pathname: ^3.0.0
@@ -581,7 +580,6 @@ importers:
       classnames: registry.npmjs.org/classnames/2.3.1
       hls.js: registry.npmjs.org/hls.js/1.1.5
       intersection-observer: registry.npmjs.org/intersection-observer/0.7.0
-      omit.js: registry.npmjs.org/omit.js/1.0.2
       resolve-pathname: registry.npmjs.org/resolve-pathname/3.0.0
       swiper: registry.npmjs.org/swiper/6.8.0
       weui: registry.npmjs.org/weui/1.1.3
@@ -27075,14 +27073,6 @@ packages:
     resolution: {integrity: sha512-LMJTtvgc/nugXj0Vcrrs68Mn2D1r0zf630VNtqtpI1FEO7e+O9FP4gqs9AcnBaSEeoHIPm28u6qgPR0oyEpGSw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/omggif/-/omggif-1.0.10.tgz}
     name: omggif
     version: 1.0.10
-    dev: false
-
-  registry.npmjs.org/omit.js/1.0.2:
-    resolution: {integrity: sha512-/QPc6G2NS+8d4L/cQhbk6Yit1WTB6Us2g84A7A/1+w9d/eRGHyEqC5kkQtHVoHZ5NFWGG7tUGgrhVZwgZanKrQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/omit.js/-/omit.js-1.0.2.tgz}
-    name: omit.js
-    version: 1.0.2
-    dependencies:
-      babel-runtime: registry.npmjs.org/babel-runtime/6.26.0
     dev: false
 
   registry.npmjs.org/on-finished/2.3.0:

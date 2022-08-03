@@ -71,17 +71,17 @@ declare module '../../index' {
        */
       jsonpCache?: boolean
       /** 设置 H5 端是否允许跨域请求
-       * @default same-origin
+       * @default "same-origin"
        * @supported h5
        */
       mode?: keyof CorsMode
       /** 设置 H5 端是否携带 Cookie
-       * @default omit
+       * @default "omit"
        * @supported h5
        */
       credentials?: keyof Credentials
       /** 设置 H5 端缓存模式
-       * @default default
+       * @default "default"
        * @supported h5
        */
       cache?: keyof Cache
