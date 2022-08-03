@@ -83,7 +83,7 @@ export class H5WebpackPlugin {
     const options = this.pxtransformOption?.config || {}
     const max = options?.maxRootSize ?? 40
     const min = options?.minRootSize ?? 20
-    const baseFontSize = options?.baseFontSize ?? min > 1 ? min : 20
+    const baseFontSize = options?.baseFontSize || min > 1 ? min : 20
     const designWidth = (input => typeof options.designWidth === 'function'
       ? options.designWidth(input)
       : options.designWidth)(baseFontSize)
