@@ -769,7 +769,7 @@ export default class TaroMiniPlugin {
               common: {
                 name: `${name}/common`,
                 test: module => {
-                  return (module.resource && module.resource.indexOf(compPath) < 0);
+                  return (module.resource && module.resource.indexOf(compPath) < 0)
                 },
                 minChunks: 2,
                 priority: 1
