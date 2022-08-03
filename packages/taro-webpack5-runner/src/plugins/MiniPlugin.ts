@@ -766,6 +766,14 @@ export default class TaroMiniPlugin {
             maxInitialRequests: Infinity,
             minSize: 0,
             cacheGroups: {
+              common: {
+                name: `${name}/common`,
+                test: module => {
+                  return (module.resource && module.resource.indexOf(compPath) < 0);
+                },
+                minChunks: 2,
+                priority: 1
+              },
               vendors: {
                 name: `${name}/vendors`,
                 minChunks: 1,
