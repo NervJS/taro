@@ -98,7 +98,8 @@ export const build = async (projectConfig, componentConfig: IComponentConfig) =>
       // @ts-ignore
       json(),
       taroResolver({
-        externalResolve
+        externalResolve,
+        platform: projectConfig.deviceType // ios|android
       }),
       nodeResolve({
         extensions: ['.mjs', '.js', '.json', '.node', '.ts', '.tsx']
