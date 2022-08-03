@@ -2,13 +2,15 @@ import { printLog, processTypeEnum, recursiveMerge } from '@tarojs/helper'
 import * as path from 'path'
 import transformCSS from 'taro-css-to-react-native'
 
-import { RenderAdditionalResult, TransformOptions } from '../types'
+import { Config,PostcssConfig, RenderAdditionalResult, TransformOptions } from '../types'
 import { normalizeSourceMap } from '../utils'
-import lessTransform, { Config as LessConfig } from './less'
-import postcssTransform, { Config as PostcssConfig, makePostcssPlugins } from './postcss'
-import sassTransform, { Config as SassConfig, SassGlobalConfig } from './sass'
+import lessTransform from './less'
+import postcssTransform, { makePostcssPlugins } from './postcss'
+import sassTransform from './sass'
 import { StyleSheetValidation } from './StyleSheet'
-import stylusTransform, { Config as StylusConfig, defaultOptions as stylusDefaultOptions } from './stylus'
+import stylusTransform, { defaultOptions as stylusDefaultOptions } from './stylus'
+
+
 
 export function getWrapedCSS (css) {
   return `
@@ -36,22 +38,6 @@ function validateStyle ({ styleObject, filename }) {
     }
   }
 }
-
-interface RNConfig {
-  postcss?: PostcssConfig
-  sass?: SassConfig
-  less?: LessConfig
-  stylus?: StylusConfig
-}
-
-interface Config {
-  designWidth: number
-  deviceRatio: { [key: number]: number }
-  sass: SassGlobalConfig
-  alias: Record<string, string>
-  rn: RNConfig
-}
-
 interface PostcssParam {
   css: string
   map: any
@@ -97,11 +83,11 @@ export default class StyleTransform {
 
   processConfigMap = new Map()
 
-  constructor (config = {}) {
+  constructor (config: Config) {
     this.init(config)
   }
 
-  init = (config) => {
+  init = (config: Config) => {
     this.config = {
       designWidth: config.designWidth || designWidth,
       deviceRatio: config.deviceRatio || deviceRatio,
@@ -219,7 +205,7 @@ export default class StyleTransform {
    * @param {object} transform
    * @return {string} JSONString
    */
-  async transform (src: string, filename: string, options = {} as TransformOptions) {
+  async transform (src: string, filename: string, options: TransformOptions) {
     // printLog(processTypeEnum.START, '样式文件处理开始', filename)
     const result = await this.processStyle(src, filename, options)
 
