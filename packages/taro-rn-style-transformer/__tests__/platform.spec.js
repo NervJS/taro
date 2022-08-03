@@ -63,6 +63,7 @@ describe('style transform in cross platform', () => {
 
   it('nest sass import cross platform', async () => {
     const css = await run({
+      filename: './__tests__/styles/a.scss',
       src: "@import './c.scss';"
     })
     expect(css).toEqual(getWrapedCSS(`{

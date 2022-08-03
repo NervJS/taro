@@ -1152,7 +1152,7 @@ importers:
       postcss-reporter: ^6.0.1
       prop-types: ^15.7.2
       resolve: ^1.22.0
-      sass: 1.50.0
+      sass: 1.37.5
       stylelint: ^14.9.1
       stylelint-config-taro-rn: workspace:*
       stylelint-taro-rn: workspace:*
@@ -1168,7 +1168,7 @@ importers:
       postcss-reporter: registry.npmjs.org/postcss-reporter/6.0.1
       prop-types: registry.npmjs.org/prop-types/15.8.1
       resolve: registry.npmjs.org/resolve/1.22.1
-      sass: registry.npmjs.org/sass/1.50.0
+      sass: registry.npmjs.org/sass/1.37.5
       stylelint: registry.npmjs.org/stylelint/14.9.1
       stylelint-config-taro-rn: link:../stylelint-config-taro-rn
       stylelint-taro-rn: link:../stylelint-taro-rn
@@ -19781,6 +19781,21 @@ packages:
       debug:
         optional: true
 
+  registry.npmjs.org/follow-redirects/1.15.1_debug@4.3.4:
+    resolution: {integrity: sha512-yLAMQs+k0b2m7cVxpS1VKJVvoz7SS9Td1zss3XRwXj+ZDH00RJgnuLx7E44wx02kQLrdM3aOOy+FpzS7+8OizA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/follow-redirects/-/follow-redirects-1.15.1.tgz}
+    id: registry.npmjs.org/follow-redirects/1.15.1
+    name: follow-redirects
+    version: 1.15.1
+    engines: {node: '>=4.0'}
+    peerDependencies:
+      debug: '*'
+    peerDependenciesMeta:
+      debug:
+        optional: true
+    dependencies:
+      debug: registry.npmjs.org/debug/4.3.4_supports-color@6.1.0
+    dev: false
+
   registry.npmjs.org/fontfaceobserver/2.3.0:
     resolution: {integrity: sha512-6FPvD/IVyT4ZlNe7Wcn5Fb/4ChigpucKYSvD6a+0iMoLn2inpo711eyIcKjmDtE5XNcgAkSH9uN/nfAeZzHEfg==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/fontfaceobserver/-/fontfaceobserver-2.3.0.tgz}
     name: fontfaceobserver
@@ -21459,7 +21474,7 @@ packages:
     engines: {node: '>=8.0.0'}
     dependencies:
       eventemitter3: registry.npmjs.org/eventemitter3/4.0.7
-      follow-redirects: registry.npmjs.org/follow-redirects/1.15.1
+      follow-redirects: registry.npmjs.org/follow-redirects/1.15.1_debug@4.3.4
       requires-port: registry.npmjs.org/requires-port/1.0.0
     transitivePeerDependencies:
       - debug
@@ -31916,6 +31931,16 @@ packages:
       neo-async: registry.npmjs.org/neo-async/2.6.2
       sass: registry.npmjs.org/sass/1.50.0
       webpack: registry.npmjs.org/webpack/5.69.0_esbuild@0.14.47
+    dev: false
+
+  registry.npmjs.org/sass/1.37.5:
+    resolution: {integrity: sha512-Cx3ewxz9QB/ErnVIiWg2cH0kiYZ0FPvheDTVC6BsiEGBTZKKZJ1Gq5Kq6jy3PKtL6+EJ8NIoaBW/RSd2R6cZOA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/sass/-/sass-1.37.5.tgz}
+    name: sass
+    version: 1.37.5
+    engines: {node: '>=8.9.0'}
+    hasBin: true
+    dependencies:
+      chokidar: registry.npmjs.org/chokidar/3.5.3
     dev: false
 
   registry.npmjs.org/sass/1.50.0:

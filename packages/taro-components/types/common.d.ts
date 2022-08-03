@@ -1,4 +1,4 @@
-import { CSSProperties, LegacyRef } from 'react'
+import { CSSProperties, LegacyRef, ReactNode } from 'react'
 
 export interface StandardProps<T = any, TouchEvent extends BaseTouchEvent<any> = ITouchEvent> extends EventProps<TouchEvent> {
   /** 组件的唯一标示, 保持整个页面唯一 */

@@ -31,7 +31,7 @@ const sassImplementation = getSassImplementation()
 export interface Config {
   sass?: SassGlobalConfig
   alias?: Record<string, string>
-  options?: Options<'sync'>
+  options?: Options
   additionalData?: string | ((key: string) => string)
 }
 
@@ -149,7 +149,7 @@ export default function transform (
     data,
     filename,
     {
-      file: filename,
+      // file: filename, // fix[issues/11983]: with file option，dart-sass importer donot execute。
       outFile: `${filename}.map`,
       sourceMap: true, // If no outFile is set, sourceMap parameter is ignored.
       alias: config.alias,
