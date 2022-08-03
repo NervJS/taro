@@ -132,6 +132,7 @@ importers:
       postcss: ^8.4.12
       postcss-scss: ^4.0.3
       power-assert: ^1.6.1
+      preact: ^10.5.15
       prettier: ^2.7.1
       prop-types: ^15.7.2
       react: ^18
@@ -289,6 +290,7 @@ importers:
       postcss: registry.npmjs.org/postcss/8.4.14
       postcss-scss: registry.npmjs.org/postcss-scss/4.0.4_postcss@8.4.14
       power-assert: registry.npmjs.org/power-assert/1.6.1
+      preact: registry.npmjs.org/preact/10.10.0
       prettier: registry.npmjs.org/prettier/2.7.1
       prop-types: registry.npmjs.org/prop-types/15.8.1
       react: registry.npmjs.org/react/18.0.0
@@ -29570,6 +29572,12 @@ packages:
       power-assert-formatter: registry.npmjs.org/power-assert-formatter/1.4.1
       universal-deep-strict-equal: registry.npmjs.org/universal-deep-strict-equal/1.2.2
       xtend: registry.npmjs.org/xtend/4.0.2
+    dev: true
+
+  registry.npmjs.org/preact/10.10.0:
+    resolution: {integrity: sha512-fszkg1iJJjq68I4lI8ZsmBiaoQiQHbxf1lNq+72EmC/mZOsFF5zn3k1yv9QGoFgIXzgsdSKtYymLJsrJPoamjQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/preact/-/preact-10.10.0.tgz}
+    name: preact
+    version: 10.10.0
     dev: true
 
   registry.npmjs.org/preferred-pm/1.0.1:
