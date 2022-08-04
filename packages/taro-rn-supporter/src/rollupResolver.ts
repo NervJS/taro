@@ -3,6 +3,7 @@ import * as path from 'path'
 import { includes, isRelativePath, resolveExtFile, resolvePathFromAlias } from './utils'
 
 interface ResolverOption {
+  platform?: 'ios' | 'android'
   include?: (path: boolean) => boolean
   exclude?: (path: boolean) => boolean
   externalResolve: (importee: string, importer: string) => string | undefined | null
@@ -18,7 +19,7 @@ const isInclude = (_moduleName, originModulePath) => {
 }
 
 export default function resolver (options: ResolverOption) {
-  const { externalResolve } = options
+  const { externalResolve, platform } = options
 
   return {
     name: 'taro-resolver',
@@ -55,7 +56,7 @@ export default function resolver (options: ResolverOption) {
         return null
       }
 
-      moduleName = resolveExtFile({ originModulePath }, moduleName, undefined)
+      moduleName = resolveExtFile({ originModulePath }, moduleName, platform)
       return moduleName || null
     }
   }
