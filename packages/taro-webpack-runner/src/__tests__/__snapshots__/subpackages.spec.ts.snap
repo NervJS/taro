@@ -3768,7 +3768,7 @@ exports[`subpackages should process subpackages 2`] = `
             \\"key\\": \\"isTabBar\\",
             \\"get\\": function get() {
                 var _a;
-                var routePath = stripBasename(this.pathname, this.basename);
+                var routePath = addLeadingSlash(stripBasename(this.pathname, this.basename));
                 var pagePath = ((_a = Object.entries(this.customRoutes).find((function(_ref) {
                     var _ref2 = _slicedToArray(_ref, 2), target = _ref2[1];
                     if (typeof target === \\"string\\") {
@@ -4177,6 +4177,7 @@ exports[`subpackages should process subpackages 2`] = `
                 \\"delay\\": 50
             };
             this.config = config;
+            this.homePage = this.getHomePage();
             this.mount();
         }
         Object(createClass[\\"a\\"])(PageHandler, [ {
@@ -4247,15 +4248,10 @@ exports[`subpackages should process subpackages 2`] = `
                 return this.router.basename || \\"\\";
             }
         }, {
-            \\"key\\": \\"homePage\\",
-            \\"get\\": function get() {
-                return this.config.entryPagePath || this.routes[0].path || this.basename;
-            }
-        }, {
             \\"key\\": \\"pageConfig\\",
             \\"get\\": function get() {
-                var routePath = stripBasename(this.pathname, this.basename);
-                var homePage = this.homePage;
+                var routePath = addLeadingSlash(stripBasename(this.pathname, this.basename));
+                var homePage = addLeadingSlash(this.homePage);
                 return this.routes.find((function(r) {
                     var _a;
                     var pagePath = addLeadingSlash(r.path);
@@ -4266,7 +4262,7 @@ exports[`subpackages should process subpackages 2`] = `
             \\"key\\": \\"isTabBar\\",
             \\"get\\": function get() {
                 var _a;
-                var routePath = stripBasename(this.pathname, this.basename);
+                var routePath = addLeadingSlash(stripBasename(this.pathname, this.basename));
                 var pagePath = ((_a = Object.entries(this.customRoutes).find((function(_ref) {
                     var _ref2 = _slicedToArray(_ref, 2), target = _ref2[1];
                     if (typeof target === \\"string\\") {
@@ -4279,6 +4275,17 @@ exports[`subpackages should process subpackages 2`] = `
                 return !!pagePath && this.tabBarList.some((function(t) {
                     return stripTrailing(t.pagePath) === pagePath;
                 }));
+            }
+        }, {
+            \\"key\\": \\"getHomePage\\",
+            \\"value\\": function getHomePage() {
+                var _a;
+                var routePath = addLeadingSlash(stripBasename(this.routes[0].path, this.basename));
+                var alias = ((_a = Object.entries(this.customRoutes).find((function(_ref3) {
+                    var _ref4 = _slicedToArray(_ref3, 1), key = _ref4[0];
+                    return key === routePath;
+                }))) === null || _a === void 0 ? void 0 : _a[1]) || routePath;
+                return this.config.entryPagePath || (typeof alias === \\"string\\" ? alias : alias[0]) || this.basename;
             }
         }, {
             \\"key\\": \\"isSamePage\\",
@@ -4715,8 +4722,8 @@ exports[`subpackages should process subpackages 2`] = `
                 }), _callee, null, [ [ 1, 13 ] ]);
             })));
         };
-        var routePath = stripBasename(history_history.location.pathname, handler.basename);
-        if (routePath === \\"/\\" || routePath === \\"\\") {
+        var routePath = addLeadingSlash(stripBasename(history_history.location.pathname, handler.basename));
+        if (routePath === \\"/\\") {
             history_history.replace(prependBasename(handler.homePage + history_history.location.search));
         }
         render({
