@@ -125,7 +125,22 @@ export const build = async (projectConfig, componentConfig: IComponentConfig) =>
         ],
         extensions: ['js', 'ts', 'jsx', 'tsx']
       }),
-      styleTransformer({ config: projectConfig })
+      styleTransformer({
+        platform: projectConfig.deviceType,
+        config: {
+          designWidth: projectConfig.designWidth,
+          deviceRatio: projectConfig.deviceRatio,
+          // TODO: config.ass 和 rn.sass 命名重复，合并导致 global sass 丢失了，rn config sass 考虑更换字段，比如 sassOption.
+          // sass: projectConfig.sass,
+          alias: projectConfig.alias,
+          rn: {
+            postcss: projectConfig.postcss,
+            sass: projectConfig.sass,
+            less: projectConfig.less,
+            stylus: projectConfig.stylus
+          }
+        },
+      })
     ]
   }
 
