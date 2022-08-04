@@ -34,10 +34,10 @@ const createTaroHook = (lifecycle: keyof PageLifeCycle | keyof AppInstance) => {
       const callback = (...args: any) => fnRef.current(...args)
 
       if (isFunction(inst[lifecycle])) {
-        (inst[lifecycle] as any) = [inst[lifecycle], callback]
+        (inst[lifecycle]) = [inst[lifecycle], callback]
       } else {
-        (inst[lifecycle] as any) = [
-          ...((inst[lifecycle] as any) || []),
+        (inst[lifecycle]) = [
+          ...((inst[lifecycle]) || []),
           callback
         ]
       }
@@ -50,9 +50,9 @@ const createTaroHook = (lifecycle: keyof PageLifeCycle | keyof AppInstance) => {
         if (!inst) return
         const list = inst![lifecycle]
         if (list === callback) {
-          (inst[lifecycle] as any) = undefined
+          (inst[lifecycle]) = undefined
         } else if (isArray(list)) {
-          (inst[lifecycle] as any) = list.filter(item => item !== callback)
+          (inst[lifecycle]) = list.filter(item => item !== callback)
         }
         instRef.current = undefined
       }
