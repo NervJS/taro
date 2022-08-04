@@ -170,7 +170,7 @@ export class MiniPrebundle extends BasePrebundle<IMiniPrebundleConfig> {
           ),
           new ProvidePlugin(provideObject)
         ]
-      }))
+      }, customWebpackConfig))
       this.metadata.remoteAssets = await new Promise((resolve, reject) => {
         compiler.run((error: Error, stats: Stats) => {
           compiler.close(err => {

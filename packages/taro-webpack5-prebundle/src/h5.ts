@@ -57,6 +57,7 @@ export class H5Prebundle extends BasePrebundle<IH5PrebundleConfig> {
   async buildLib () {
     const BUILD_LIB_START = performance.now()
 
+    const customWebpackConfig = this.option.webpack
     const exposes: Record<string, string> = {}
     const mode = process.env.NODE_ENV === 'production' ? 'production' : 'development'
     const devtool = this.config.enableSourceMap && 'hidden-source-map'
@@ -127,7 +128,7 @@ export class H5Prebundle extends BasePrebundle<IH5PrebundleConfig> {
             }
           )
         ]
-      }))
+      }, customWebpackConfig))
       this.metadata.remoteAssets = await new Promise((resolve, reject) => {
         compiler.run((error: Error, stats: Stats) => {
           compiler.close(err => {
