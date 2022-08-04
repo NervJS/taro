@@ -15,21 +15,20 @@ const createTaroHook = (lifecycle: keyof PageLifeCycle | keyof AppInstance) => {
   return (fn: Func) => {
     const { R: React, PageContext } = reactMeta
     const id = React.useContext(PageContext) || HOOKS_APP_ID
-    const instRef = React.useRef<Instance<PageProps> | null>(null)
+    const instRef = React.useRef<Instance<PageProps>>()
 
     // hold fn ref and keep up to date
     const fnRef = React.useRef(fn)
     if (fnRef.current !== fn) fnRef.current = fn
 
     React.useLayoutEffect(() => {
-      let inst: typeof instRef.current = instRef.current
+      let inst = instRef.current = getPageInstance(id)
       let first = false
       if (!inst) {
         first = true
-        instRef.current = Object.create(getPageInstance(id) || null)
+        instRef.current = Object.create(null)
         inst = instRef.current!
       }
-
 
       // callback is immutable but inner function is up to date
       const callback = (...args: any) => fnRef.current(...args)
@@ -55,7 +54,7 @@ const createTaroHook = (lifecycle: keyof PageLifeCycle | keyof AppInstance) => {
         } else if (isArray(list)) {
           (inst[lifecycle] as any) = list.filter(item => item !== callback)
         }
-        instRef.current = null
+        instRef.current = undefined
       }
     }, [])
   }
