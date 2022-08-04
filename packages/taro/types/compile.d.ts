@@ -372,7 +372,7 @@ interface IPrebundle {
   exclude?: string[]
   esbuild?: Record<string, any>
   swc?: swc.Config
-  webpack?: {
+  webpack?: webpack.Configuration & {
     provide?: any[]
   }
 }
