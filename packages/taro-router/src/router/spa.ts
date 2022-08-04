@@ -129,8 +129,8 @@ export function createRouter (
     }
   }
 
-  const routePath = stripBasename(history.location.pathname, handler.basename)
-  if (routePath === '/' || routePath === '') {
+  const routePath = addLeadingSlash(stripBasename(history.location.pathname, handler.basename))
+  if (routePath === '/') {
     history.replace(prependBasename(handler.homePage + history.location.search))
   }
 

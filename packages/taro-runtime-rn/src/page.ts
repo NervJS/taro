@@ -155,7 +155,11 @@ export function createPageConfig (Page: any, pageConfig: PageConfig): any {
       }
 
       componentDidMount () {
-        const { navigation } = this.props
+        const { navigation, route } = this.props
+
+        // 实现 useLoad hook
+        // handleHooksEvent 在组件构造函数中调用不生效，只能在挂载之后进行调用
+        this.handleHooksEvent('onLoad', route?.params ?? {})
 
         if (navigation) {
           this.unSubscribleTabPress = navigation.addListener('tabPress', () => this.onTabItemTap())
@@ -180,6 +184,8 @@ export function createPageConfig (Page: any, pageConfig: PageConfig): any {
         if (route && route.key) {
           pagesObj.delete(route.key)
         }
+        // 实现 useUnload hook
+        this.handleHooksEvent('onUnload')
       }
 
       setPageInstance () {

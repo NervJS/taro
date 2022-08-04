@@ -1119,7 +1119,6 @@ importers:
       qrcode-terminal: ^0.12.0
       react-is: ^16.13.0
       react-native-root-siblings: ^4.1.1
-      rollup-plugin-clear: ^2.0.7
       rollup-plugin-image-file: ^1.0.2
     dependencies:
       '@react-native-community/cli': registry.npmjs.org/@react-native-community/cli/7.0.3
@@ -1145,7 +1144,6 @@ importers:
       metro-resolver: registry.npmjs.org/metro-resolver/0.67.0
       mime-types: registry.npmjs.org/mime-types/2.1.35
       qrcode-terminal: registry.npmjs.org/qrcode-terminal/0.12.0
-      rollup-plugin-clear: registry.npmjs.org/rollup-plugin-clear/2.0.7
       rollup-plugin-image-file: registry.npmjs.org/rollup-plugin-image-file/1.0.2
     devDependencies:
       expo-file-system: registry.npmjs.org/expo-file-system/14.0.0
@@ -31673,14 +31671,6 @@ packages:
       json-stringify-safe: registry.npmjs.org/json-stringify-safe/5.0.1
       semver-compare: registry.npmjs.org/semver-compare/1.0.0
       sprintf-js: registry.npmjs.org/sprintf-js/1.1.2
-
-  registry.npmjs.org/rollup-plugin-clear/2.0.7:
-    resolution: {integrity: sha512-Hg8NC3JcJBO1ofgyQC0IACpyKn/yhHPGZ3C7R3ubNGWUXy9JXHQrewk4J4hVcZznw6SOKayLsaNae596Rwt8Vg==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/rollup-plugin-clear/-/rollup-plugin-clear-2.0.7.tgz}
-    name: rollup-plugin-clear
-    version: 2.0.7
-    dependencies:
-      rimraf: registry.npmjs.org/rimraf/2.7.1
-    dev: false
 
   registry.npmjs.org/rollup-plugin-copy/3.4.0:
     resolution: {integrity: sha512-rGUmYYsYsceRJRqLVlE9FivJMxJ7X6jDlP79fmFkL8sJs7VVMSVyA2yfyL+PGyO/vJs4A87hwhgVfz61njI+uQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/rollup-plugin-copy/-/rollup-plugin-copy-3.4.0.tgz}
