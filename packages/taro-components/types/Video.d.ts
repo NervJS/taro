@@ -223,6 +223,24 @@ interface VideoProps extends StandardProps {
    * @supported weapp
    */
   showScreenLockButton?: boolean
+  
+  /**
+   * 是否显示截屏按钮，仅在全屏时显示
+   * @supported weapp
+   */
+  showSnapshotButton?: boolean
+  
+  /**
+   * 是否展示后台音频播放按钮
+   * @supported weapp
+   */
+  showBackgroundPlaybackButton?: boolean
+  
+  /**
+   * 进入后台音频播放后的通知栏图标（Android 独有）
+   * @supported weapp
+   */
+  backgroundPoster?: string
 
   /** 当开始/继续播放时触发 play 事件
    * @supported weapp, h5, swan, alipay, tt, rn
