@@ -22,6 +22,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
+import { recursiveMerge } from '@tarojs/helper'
 import fs from 'fs-extra'
 import path from 'path'
 import { performance } from 'perf_hooks'
@@ -86,7 +87,7 @@ export class H5Prebundle extends BasePrebundle<IH5PrebundleConfig> {
 
       this.metadata.runtimeRequirements = new Set<string>()
 
-      const compiler = webpack({
+      const compiler = webpack(recursiveMerge(this.chain.toConfig(), {
         cache: {
           type: 'filesystem',
           cacheDirectory: path.join(this.cacheDir, 'webpack-cache'),
@@ -126,7 +127,7 @@ export class H5Prebundle extends BasePrebundle<IH5PrebundleConfig> {
             }
           )
         ]
-      })
+      }))
       this.metadata.remoteAssets = await new Promise((resolve, reject) => {
         compiler.run((error: Error, stats: Stats) => {
           compiler.close(err => {
