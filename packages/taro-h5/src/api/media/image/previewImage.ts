@@ -19,6 +19,7 @@ export const previewImage: typeof Taro.previewImage = async (options) => {
       image.style.maxWidth = '100%'
       image.src = url
       const div = document.createElement('div')
+      div.classList.add('swiper-zoom-container')
       div.style.cssText = 'display:flex;align-items:center;justify-content:center;max-width:100%;min-height:100%;'
       div.appendChild(image)
       item.appendChild(div)
@@ -52,6 +53,8 @@ export const previewImage: typeof Taro.previewImage = async (options) => {
   const swiper = document.createElement('taro-swiper-core')
   // @ts-ignore
   swiper.full = true
+  // @ts-ignore
+  swiper.zoom = true
 
   let children: Node[] = []
   try {
