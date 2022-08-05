@@ -55,6 +55,8 @@ export default (ctx: IPluginContext) => {
       const prebundleOptions = compiler.prebundle
       prebundleOptions.include ||= []
       prebundleOptions.include = prebundleOptions.include.concat(deps)
+      prebundleOptions.exclude ||= []
+      prebundleOptions.exclude.push('mobx') // 依赖会对 webpack 修改，默认排除
       if (prebundleOptions.enable === false) return
 
       const taroReactPlugin: Plugin = {

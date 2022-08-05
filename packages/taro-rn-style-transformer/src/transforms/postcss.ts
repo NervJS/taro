@@ -1,6 +1,6 @@
 import { isNpmPkg, printLog, processTypeEnum, recursiveMerge } from '@tarojs/helper'
 import * as path from 'path'
-import postcss, { ProcessOptions } from 'postcss'
+import postcss from 'postcss'
 import postcssImport from 'postcss-import'
 import pxtransform from 'postcss-pxtransform'
 import { sync as resolveSync } from 'resolve'
@@ -8,15 +8,6 @@ import { sync as resolveSync } from 'resolve'
 import stylelintConfig from '../config/rn-stylelint.json'
 import { resolveStyle } from '../utils'
 import reporterSkip from '../utils/reporterSkip'
-
-export interface Config {
-  options: ProcessOptions // https://github.com/postcss/postcss#options
-  scalable: boolean // 控制是否对 css value 进行 scalePx2dp 转换
-  pxtransform: {
-    enable: boolean
-    config: any
-  }
-}
 
 const defaultPxtransformOption: {
   [key: string]: any

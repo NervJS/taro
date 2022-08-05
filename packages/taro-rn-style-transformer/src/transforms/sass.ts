@@ -1,8 +1,7 @@
 import * as fs from 'fs'
 import * as path from 'path'
-import { Options } from 'sass'
 
-import { RenderAdditionalResult, RenderResult, TransformOptions } from '../types'
+import { RenderAdditionalResult, RenderResult, SassConfig, SassGlobalConfig,TransformOptions } from '../types'
 import { getAdditionalData, insertAfter, insertBefore, resolveStyle } from '../utils'
 
 /**
@@ -26,20 +25,6 @@ function getSassImplementation () {
 }
 
 const sassImplementation = getSassImplementation()
-
-// https://github.com/sass/node-sass#options
-export interface Config {
-  sass?: SassGlobalConfig
-  alias?: Record<string, string>
-  options?: Options
-  additionalData?: string | ((key: string) => string)
-}
-
-export interface SassGlobalConfig {
-  resource?: string | string[]
-  projectDirectory?: string
-  data?: string
-}
 
 function makeURL (resource: string, rootDir: string) {
   const url = path.resolve(rootDir, resource)
@@ -70,7 +55,7 @@ function getGlobalResource (filename: string, config: SassGlobalConfig) {
   return insertAfter(resource, config?.data)
 }
 
-function combineResource (src: string, filename: string, config: Config) {
+function combineResource (src: string, filename: string, config: SassConfig) {
   // sass config
   const globalResource = getGlobalResource(filename, config.sass || {})
 
@@ -80,7 +65,7 @@ function combineResource (src: string, filename: string, config: Config) {
   return insertAfter(globalResource, additionalData)
 }
 
-function renderToCSS (src, filename, options, transformOptions) {
+function renderToCSS (src, filename, options, transformOptions: TransformOptions) {
   const defaultOpts = {
     importer: function (...params) { /* url, prev, done */
       let [url, prev] = params
@@ -135,7 +120,7 @@ function renderToCSS (src, filename, options, transformOptions) {
 export default function transform (
   src: string,
   filename: string,
-  config: Config,
+  config: SassConfig,
   transformOptions: TransformOptions
 ) {
   const additionalData = combineResource(src, filename, config)
