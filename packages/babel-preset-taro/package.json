@@ -1,6 +1,6 @@
 {
   "name": "babel-preset-taro",
-  "version": "3.5.1",
+  "version": "3.5.1-aplha.1",
   "description": "Taro babel preset",
   "author": "yuche <i@yuche.me>",
   "homepage": "https://github.com/nervjs/taro/tree/master/packages/babel-preset-taro#readme",
