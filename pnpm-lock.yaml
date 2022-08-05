@@ -899,7 +899,7 @@ importers:
 
   packages/taro-plugin-react:
     specifiers:
-      '@pmmmwh/react-refresh-webpack-plugin': 0.5.5
+      '@pmmmwh/react-refresh-webpack-plugin': ^0.5.5
       '@prefresh/babel-plugin': ^0.4.1
       '@prefresh/core': ^1.3.4
       '@prefresh/webpack': ^3.2.3
@@ -909,7 +909,7 @@ importers:
       '@tarojs/shared': workspace:*
       acorn: ^8.0.4
       acorn-walk: ^8.0.0
-      react-refresh: 0.11.0
+      react-refresh: ^0.11.0
     dependencies:
       '@tarojs/helper': link:../taro-helper
       '@tarojs/runtime': link:../taro-runtime
