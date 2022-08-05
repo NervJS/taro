@@ -170,6 +170,7 @@
     "postcss": "^8.4.12",
     "postcss-scss": "^4.0.3",
     "power-assert": "^1.6.1",
+    "preact": "^10.5.15",
     "prettier": "^2.7.1",
     "prop-types": "^15.7.2",
     "react": "^18",

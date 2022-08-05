@@ -45,6 +45,6 @@
     "webpack-dev-server": "4.7.4"
   },
   "peerDependencies": {
-    "webpack": "5.69.0"
+    "webpack": "^5.69.0"
   }
 }
