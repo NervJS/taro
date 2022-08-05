@@ -49,7 +49,6 @@ export class H5Combination extends Combination<H5BuildConfig> {
     }
 
     const webpackOutput = this.getOutput({
-      mode,
       publicPath,
       chunkDirectory,
       customOutput: output as Output,
@@ -78,7 +77,6 @@ export class H5Combination extends Combination<H5BuildConfig> {
   getOutput ({
     publicPath = '/', chunkDirectory, customOutput = {}, entryFileName = 'app'
   }: {
-    mode: H5BuildConfig['mode']
     publicPath: string
     chunkDirectory: H5BuildConfig['chunkDirectory']
     customOutput?: Output
@@ -122,6 +120,7 @@ export class H5Combination extends Combination<H5BuildConfig> {
     }
     const optimization: Optimization = {
       nodeEnv,
+      chunkIds: isProd ? 'natural' : 'named',
       removeEmptyChunks: true,
       splitChunks: {
         chunks: 'initial',
