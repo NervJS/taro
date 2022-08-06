@@ -102,8 +102,6 @@ export function createPageConfig (Page: any, pageConfig: PageConfig): any {
   const h = React.createElement
   const pagePath = pageConfig.pagePath.replace(/^\//, '') || ''
 
-  const pageId = camelCase(pagePath) ?? `taro_page_${compId}`
-
   const isReactComponent = isClassComponent(Page)
   if (PageContext === EMPTY_OBJ) {
     PageContext = React.createContext('')
@@ -124,13 +122,12 @@ export function createPageConfig (Page: any, pageConfig: PageConfig): any {
     })
   }
 
-  // 注入的页面实例
-  injectPageInstance(Page, pageId)
 
   const WrapScreen = (Screen: any) => {
     return class PageScreen extends React.Component<any, any> {
       // eslint-disable-next-line react/sort-comp
       screenRef: React.RefObject<any>
+      pageId: string
       pageScrollView: React.RefObject<any>
       unSubscribleBlur: any
       unSubscribleFocus: any
@@ -141,6 +138,9 @@ export function createPageConfig (Page: any, pageConfig: PageConfig): any {
 
       constructor (props: any) {
         super(props)
+        this.pageId = `${camelCase(pagePath) ?? 'taro_page_'}${compId()}`
+        // 注入的页面实例
+        injectPageInstance(this, this.pageId)
         const refreshStyle = globalAny?.__taroRefreshStyle ?? {}
         const backgroundTextStyle = pageConfig.backgroundTextStyle || globalAny.__taroAppConfig?.appConfig?.window?.backgroundTextStyle || 'dark'
         this.state = {
@@ -190,6 +190,7 @@ export function createPageConfig (Page: any, pageConfig: PageConfig): any {
 
       setPageInstance () {
         const pageRef = this.screenRef
+        const pageId = this.pageId
         const { params = {}, key = '' } = this.props.route
         // 和小程序的page实例保持一致
         const inst: PageInstance = {
@@ -382,7 +383,7 @@ export function createPageConfig (Page: any, pageConfig: PageConfig): any {
 
       handleHooksEvent (method: HooksMethods, options: Record<string, unknown> = {}) {
         if (!isReactComponent) {
-          return safeExecute(pageId, method, options)
+          return safeExecute(this.pageId, method, options)
         }
       }
 
@@ -424,7 +425,7 @@ export function createPageConfig (Page: any, pageConfig: PageConfig): any {
 
       createPage () {
         return h(PageProvider, { currentPath: pagePath, pageConfig, ...this.props },
-          h(PageContext.Provider, { value: pageId }, h(Screen,
+          h(PageContext.Provider, { value: this.pageId }, h(Screen,
             { ...this.props, ref: this.screenRef })
           )
         )
