@@ -740,4 +740,61 @@ class App extends Component {
 
 }`)
   })
+
+  it('enableMultipleClassName and transform template literal with css module', () => {
+    const result = getTransfromCode(`
+    import { createElement, Component } from 'rax';
+    import styles from './app.module.css';
+
+    class App extends Component {
+      render() {
+        return <StatusBar className={\`\${styles.bar} \${styles.custom}\`} />;
+      }
+    }`, false, { enableCSSModule: true, enableMultipleClassName: true })
+
+    expect(result).toBe(`import { createElement, Component } from 'rax';
+import styles from './app.module.css';
+
+${getClassNameFunctionTemplate}
+
+${getStyleFunctionTemplete}
+
+var _styleSheet = {};
+
+class App extends Component {
+  render() {
+    return <StatusBar style={_getStyle(\`\${"bar"} \${"custom"}\`)} />;
+  }
+
+}`)
+  })
+
+  it('enableMultipleClassName and transform binary expression with css module', () => {
+    const result = getTransfromCode(`
+    import { createElement, Component } from 'rax';
+    import styles from './app.module.css';
+
+    class App extends Component {
+      render() {
+        return <StatusBar className={styles.bar + ' ' + styles.custom} />;
+      }
+    }`, false, { enableCSSModule: true, enableMultipleClassName: true })
+
+    expect(result).toBe(`import { createElement, Component } from 'rax';
+import styles from './app.module.css';
+
+${getClassNameFunctionTemplate}
+
+${getStyleFunctionTemplete}
+
+var _styleSheet = {};
+
+class App extends Component {
+  render() {
+    return <StatusBar style={_getStyle("bar" + ' ' + "custom")} />;
+  }
+
+}`)
+  })
 })
+

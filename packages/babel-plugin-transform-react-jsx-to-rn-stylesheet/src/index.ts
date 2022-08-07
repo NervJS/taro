@@ -202,6 +202,41 @@ export default function (babel: {
     }
   }
 
+  function isStyleSheetMember (expression, cssModuleStylesheets) {
+    if (t.isMemberExpression(expression) && t.isIdentifier(expression.object) &&  t.isIdentifier(expression.property)) {
+      if (cssModuleStylesheets.includes(expression.object.name)) {
+        return true
+      }
+    }
+  }
+
+  // 先只处理简单场景，例如 <View className={`${style.a} ${styles.b}`} /> or <View className={style.a + ' ' + styles.b} />
+  function tranformIfCSSModuleStringExpression (expression, cssModuleStylesheets, astPath) {
+    if (t.isJSXExpressionContainer(expression)) {
+      return tranformIfCSSModuleStringExpression(expression.expression, cssModuleStylesheets, astPath)
+    }
+
+    if (t.isTemplateLiteral(expression)) {
+      for (const index in expression.expressions) {
+        // TODO: 模板字符串插件
+
+        if (isStyleSheetMember(expression.expressions[index], cssModuleStylesheets)) {
+          expression.expressions[index] = t.stringLiteral(((expression.expressions[index] as Types.MemberExpression)?.property as Types.Identifier)?.name)
+        }
+      }
+    }
+
+    if (t.isBinaryExpression(expression)) {
+      ['left', 'right'].forEach((side) => {
+        if (isStyleSheetMember(expression[side], cssModuleStylesheets)) {
+          expression[side] = t.stringLiteral(((expression[side] as Types.MemberExpression)?.property as Types.Identifier)?.name)
+        } else {
+          tranformIfCSSModuleStringExpression(expression[side], cssModuleStylesheets, astPath)
+        }
+      })
+    }
+  }
+
   function isJSXCSSModuleExpression (value, cssModuleStylesheets, astPath) {
     if (t.isJSXExpressionContainer(value)) {
       // 1. memberExpression a. 导入. b. 赋值. like `className="{style.red}"` or `const a = style; className="{a.red}"`
@@ -219,6 +254,8 @@ export default function (babel: {
     if (isJSXCSSModuleExpression(value, cssModuleStylesheets, astPath)) {
       return [value.expression]
     }
+
+    tranformIfCSSModuleStringExpression(value, cssModuleStylesheets, astPath)
 
     let str
 
