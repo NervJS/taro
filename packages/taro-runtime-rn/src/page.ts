@@ -1,6 +1,6 @@
 import { getCurrentRoute, PageProvider } from '@tarojs/router-rn'
 import { camelCase } from 'lodash'
-import * as React from 'react'
+import { Component, ComponentProps,Context, createContext, createElement, createRef, forwardRef, RefObject } from 'react'
 import { AppState, Dimensions, EmitterSubscription, NativeEventSubscription, RefreshControl, ScrollView, View } from 'react-native'
 
 import { isClassComponent } from './app'
@@ -60,7 +60,7 @@ function safeExecute (path: string, lifecycle: keyof Instance, ...args: unknown[
 
 const globalAny: any = global
 // eslint-disable-next-line import/no-mutable-exports
-export let PageContext: React.Context<string> = EMPTY_OBJ
+export let PageContext: Context<string> = EMPTY_OBJ
 
 // APP 前后台状态发生变化时调用对应的生命周期函数
 let appState = AppState.currentState
@@ -99,21 +99,20 @@ Dimensions.addEventListener('change', ({ window }) => {
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export function createPageConfig (Page: any, pageConfig: PageConfig): any {
-  const h = React.createElement
+  const h = createElement
   const pagePath = pageConfig.pagePath.replace(/^\//, '') || ''
 
   const pageId = camelCase(pagePath) ?? `taro_page_${compId}`
 
   const isReactComponent = isClassComponent(Page)
   if (PageContext === EMPTY_OBJ) {
-    PageContext = React.createContext('')
+    PageContext = createContext('')
   }
 
   let ScreenPage = Page
   if (!isReactComponent) {
-    // eslint-disable-next-line react/display-name
-    ScreenPage = React.forwardRef((props, ref) => {
-      const newProps: React.Props<any> = { ...props }
+    const PageComponent = (props, ref) => {
+      const newProps: ComponentProps<any> = { ...props }
       newProps.ref = ref
       return h(View, {
         style: {
@@ -121,17 +120,18 @@ export function createPageConfig (Page: any, pageConfig: PageConfig): any {
         },
         ...newProps
       }, h(Page, { ...props }, null))
-    })
+    }
+    ScreenPage = forwardRef(PageComponent)
   }
 
   // 注入的页面实例
   injectPageInstance(Page, pageId)
 
   const WrapScreen = (Screen: any) => {
-    return class PageScreen extends React.Component<any, any> {
-      // eslint-disable-next-line react/sort-comp
-      screenRef: React.RefObject<any>
-      pageScrollView: React.RefObject<any>
+    return class PageScreen extends Component<any, any> {
+      screenRef: RefObject<any>
+      pageId: string
+      pageScrollView: RefObject<any>
       unSubscribleBlur: any
       unSubscribleFocus: any
       unSubscribleTabPress: any
@@ -149,8 +149,8 @@ export function createPageConfig (Page: any, pageConfig: PageConfig): any {
           textColor: refreshStyle.textColor || (backgroundTextStyle === 'dark' ? '#000000' : '#ffffff'),
           backgroundColor: refreshStyle.backgroundColor || '#ffffff'
         }
-        this.screenRef = React.createRef<Instance>()
-        this.pageScrollView = React.createRef()
+        this.screenRef = createRef<Instance>()
+        this.pageScrollView = createRef()
         this.setPageInstance()
       }
 
@@ -412,7 +412,7 @@ export function createPageConfig (Page: any, pageConfig: PageConfig): any {
 
       refreshPullDown () {
         const { refreshing, textColor, backgroundColor } = this.state
-        return React.createElement(RefreshControl, {
+        return createElement(RefreshControl, {
           refreshing: refreshing,
           enabled: true,
           titleColor: textColor,
