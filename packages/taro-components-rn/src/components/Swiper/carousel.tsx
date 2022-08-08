@@ -122,7 +122,7 @@ class Carousel extends React.Component<CarouselProps, CarouselState> {
     }
 
     const count = this.count
-    let pages: React.ReactFragment
+    let pages: React.ReactNode
 
     if (count > 1) {
       const childrenArray = React.Children.toArray(children)

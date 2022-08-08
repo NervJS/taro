@@ -1,5 +1,5 @@
-import findProjectRoot from '@react-native-community/cli/build/tools/config/findProjectRoot'
-import resolveReactNativePath from '@react-native-community/cli/build/tools/config/resolveReactNativePath'
+import resolveReactNativePath from '@react-native-community/cli-config/build/resolveReactNativePath'
+import { findProjectRoot } from '@react-native-community/cli-tools'
 import { Supporter } from '@tarojs/rn-supporter'
 import * as Metro from 'metro'
 import * as os from 'os'
