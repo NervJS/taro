@@ -141,6 +141,7 @@ export default class MultiSelector extends React.Component<MultiSelectorProps, M
     const { cols, range, value } = this.state
 
     return (
+      // @ts-ignore
       <AntPicker
         data={range}
         value={value}
