@@ -218,8 +218,6 @@ export default function (babel: {
 
     if (t.isTemplateLiteral(expression)) {
       for (const index in expression.expressions) {
-        // TODO: 模板字符串插件
-
         if (isStyleSheetMember(expression.expressions[index], cssModuleStylesheets)) {
           expression.expressions[index] = t.stringLiteral(((expression.expressions[index] as Types.MemberExpression)?.property as Types.Identifier)?.name)
         }
