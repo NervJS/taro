@@ -26,7 +26,7 @@
   "author": "O2Team",
   "license": "MIT",
   "dependencies": {
-    "@ant-design/react-native": "^4.2.0",
+    "@ant-design/react-native": "^5.0.0",
     "@react-native-community/slider": "~4.2.4",
     "@react-native-picker/picker": "~2.4.2",
     "expo-av": "~11.2.3",

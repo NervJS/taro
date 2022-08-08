@@ -31,7 +31,9 @@
   },
   "dependencies": {
     "@react-native-community/cli": "^8.0.0",
+    "@react-native-community/cli-config": "^8.0.0",
     "@react-native-community/cli-plugin-metro": "^8.0.0",
+    "@react-native-community/cli-tools": "^8.0.0",
     "@react-native-community/cli-server-api": "^8.0.0",
     "@rollup/plugin-babel": "^5.3.1",
     "@rollup/plugin-commonjs": "^20.0.0",

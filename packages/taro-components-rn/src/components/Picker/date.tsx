@@ -67,16 +67,9 @@ export default class DateSelector extends React.Component<DateProps, DateState> 
     })
   }
 
-  onOk = (): void => {
-    this.dismissByOk = true
-  }
-
-  onVisibleChange = (visible: boolean): void => {
-    if (!visible && !this.dismissByOk) {
-      const { onCancel = noop } = this.props
-      onCancel()
-    }
-    this.dismissByOk = false
+  onDismiss = (): void => {
+    const { onCancel = noop } = this.props
+    onCancel()
   }
 
   render(): JSX.Element {
@@ -105,9 +98,7 @@ export default class DateSelector extends React.Component<DateProps, DateState> 
         maxDate={formatTimeStr(end)}
         onChange={this.onChange}
         onValueChange={this.onValueChange}
-        // @ts-ignore
-        onOk={this.onOk}
-        onVisibleChange={this.onVisibleChange}
+        onDismiss={this.onDismiss}
         disabled={disabled}
       >
         <TouchableWithoutFeedback><View>{children}</View></TouchableWithoutFeedback>
