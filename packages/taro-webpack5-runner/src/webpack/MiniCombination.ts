@@ -40,6 +40,7 @@ export class MiniCombination extends Combination<MiniBuildConfig> {
       modifyComponentConfig,
       optimizeMainPackage
     } = config
+
     this.enableSourceMap = enableSourceMap
     this.fileType = fileType
 
