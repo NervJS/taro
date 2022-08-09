@@ -54,6 +54,8 @@ export interface AlipayConfig {
   privateKeyPath: string
   /** 服务代理地址（可选） */
   proxy?: string
+  /** 目标项目目录, 默认为 outputPath（可选） */
+  project?: string
   /** 上传的终端, 默认alipay */
   clientType?: ClientType
 }
