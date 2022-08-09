@@ -25,7 +25,8 @@ interface MapProps extends StandardProps {
    */
   minScale?: number
   /** 最大缩放级别3-20
-   * @default 20
+   * (备注: 字节小程序最大缩放级别 3-19)
+   * @default 20 (字节小程序默认为19)
    * @supported weapp, tt
    */
   maxScale?: number
