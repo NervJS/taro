@@ -77,18 +77,15 @@ export default (ctx: IPluginContext) => {
 
       /** 更新全局的 Taro CLI */
       async function updateSelf () {
+        const spinner = ora('正在获取最新版本信息...').start()
         const targetTaroVersion = await getTargetVersion()
+        spinner.stop()
+        console.log(chalk.green(`Taro 最新版本：${targetTaroVersion}\n`))
+
         askNpm(conf, prompts)
         const answers = npm ? { npm } : await inquirer.prompt(prompts)
-        const command = `${packagesManagement[answers.npm].globalCommand}@${targetTaroVersion}`
-        // if (shouldUseYarn()) {
-        //   command = `yarn global add @tarojs/cli@${targetTaroVersion}`
-        // } else if (shouldUseCnpm()) {
-        //   command = `cnpm i -g @tarojs/cli@${targetTaroVersion}`
-        // } else {
-        //   command = `npm i -g @tarojs/cli@${targetTaroVersion}`
-        // }
 
+        const command = `${packagesManagement[answers.npm].globalCommand}@${targetTaroVersion}`
         execUpdate(command, targetTaroVersion, true)
       }
 
