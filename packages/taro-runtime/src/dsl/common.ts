@@ -94,7 +94,8 @@ export function createPageConfig (component: any, pageName?: string, data?: Reco
     ONREADY,
     ONSHOW,
     ONHIDE,
-    LIFECYCLES
+    LIFECYCLES,
+    SIDE_EFFECT_LIFECYCLES
   ] = hooks.call('getMiniLifecycleImpl')!.page
   let pageElement: TaroRootElement | null = null
   let unmounting = false
@@ -215,28 +216,24 @@ export function createPageConfig (component: any, pageName?: string, data?: Reco
   })
 
   // onShareAppMessage 和 onShareTimeline 一样，会影响小程序右上方按钮的选项，因此不能默认注册。
-  if (component.onShareAppMessage ||
-    component.prototype?.onShareAppMessage ||
-    component.enableShareAppMessage) {
-    config.onShareAppMessage = function (options) {
-      const target = options?.target
-      if (target) {
-        const id = target.id
-        const element = env.document.getElementById(id)
-        if (element) {
-          target!.dataset = element.dataset
+  SIDE_EFFECT_LIFECYCLES.forEach(lifecycle => {
+    if (component[lifecycle] ||
+      component.prototype?.[lifecycle] ||
+      component[lifecycle.replace(/^on/, 'enable')]
+    ) {
+      config[lifecycle] = function (...args) {
+        const target = args[0]?.target
+        if (target?.id) {
+          const id = target.id
+          const element = env.document.getElementById(id)
+          if (element) {
+            target.dataset = element.dataset
+          }
         }
+        return safeExecute(this.$taroPath, lifecycle, ...args)
       }
-      return safeExecute(this.$taroPath, 'onShareAppMessage', options)
     }
-  }
-  if (component.onShareTimeline ||
-    component.prototype?.onShareTimeline ||
-    component.enableShareTimeline) {
-    config.onShareTimeline = function () {
-      return safeExecute(this.$taroPath, 'onShareTimeline')
-    }
-  }
+  })
 
   config.eh = eventHandler
 
