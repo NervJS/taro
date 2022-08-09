@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/rn-runner",
-  "version": "3.5.1",
+  "version": "3.5.2",
   "description": "ReactNative build tool for taro",
   "main": "index.js",
   "repository": {
@@ -56,7 +56,7 @@
     "rollup-plugin-image-file": "^1.0.2"
   },
   "devDependencies": {
-    "expo-file-system": "~14.0.0",
+    "expo-file-system": "~14.1.0",
     "react-is": "^16.13.0",
     "react-native-root-siblings": "^4.1.1"
   }

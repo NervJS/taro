@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/components-rn",
-  "version": "3.5.1",
+  "version": "3.5.2",
   "description": "多端解决方案基础组件（RN）",
   "main": "./dist/index.js",
   "scripts": {
@@ -27,34 +27,34 @@
   "license": "MIT",
   "dependencies": {
     "@ant-design/react-native": "^4.2.0",
-    "@react-native-community/slider": "~4.1.12",
-    "@react-native-picker/picker": "~2.2.1",
+    "@react-native-community/slider": "~4.2.4",
+    "@react-native-picker/picker": "~2.4.2",
     "expo-av": "~11.2.3",
-    "expo-barcode-scanner": "~11.3.0",
-    "expo-camera": "~12.2.0",
+    "expo-barcode-scanner": "~11.4.0",
+    "expo-camera": "~12.3.0",
     "prop-types": "^15.7.2",
     "react-native-maps": "^0.25.0",
-    "react-native-pager-view": "~5.4.9",
-    "react-native-svg": "~12.1.1",
-    "react-native-webview": "~11.14.3"
+    "react-native-pager-view": "~5.4.25",
+    "react-native-svg": "~12.4.3",
+    "react-native-webview": "~11.23.0"
   },
   "devDependencies": {
     "@types/react": "^17.0.0",
     "@types/react-native": "^0.67.7",
-    "expo": "~45.0.2",
+    "expo": "~46.0.1",
     "metro-babel-register": "^0.67.0",
     "metro-react-native-babel-preset": "^0.67.0",
     "react-native": "^0.68.2"
   },
   "peerDependencies": {
-    "@react-native-community/slider": "~4.1.12",
-    "@react-native-picker/picker": "~2.2.1",
-    "expo": "~45.0.2",
+    "@react-native-community/slider": "~4.2.4",
+    "@react-native-picker/picker": "~2.4.2",
+    "expo": "~46.0.1",
     "expo-av": "~11.2.3",
-    "expo-barcode-scanner": "~11.3.0",
-    "expo-camera": "~12.2.0",
-    "react-native-pager-view": "~5.4.9",
-    "react-native-svg": "~12.1.1",
-    "react-native-webview": "~11.14.3"
+    "expo-barcode-scanner": "~11.4.0",
+    "expo-camera": "~12.3.0",
+    "react-native-pager-view": "~5.4.25",
+    "react-native-svg": "~12.4.3",
+    "react-native-webview": "~11.23.0"
   }
 }
