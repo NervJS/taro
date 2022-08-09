@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/components",
-  "version": "3.5.2",
+  "version": "3.5.2-aplha.2",
   "description": "",
   "browser": "dist/index.js",
   "main:h5": "dist/index.js",
