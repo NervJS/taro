@@ -13,7 +13,7 @@ import {
   TouchableWithoutFeedback,
   View
 } from 'react-native'
-import { EdgeInsets,withSafeAreaInsets, WithSafeAreaInsetsProps } from 'react-native-safe-area-context'
+import { EdgeInsets, withSafeAreaInsets, WithSafeAreaInsetsProps } from 'react-native-safe-area-context'
 
 import { getDefalutTabItem, getTabConfig, getTabItemConfig, getTabVisible, isUrl } from '../utils/index'
 import TabBarItem, { TabBarOptions, TabOptions } from './TabBarItem'
