@@ -9,7 +9,7 @@ import ConditionalFileStore from './conditional-file-store'
 
 const reactNativePath: string = resolveReactNativePath(findProjectRoot())
 
-type ResolveRequestFunc = (context, realModuleName, platform, moduleName) => any
+type ResolveRequestFunc = (context, moduleName, platform) => any
 type GetModulesRunBeforeMainModuleFunc = () => any
 type GetPolyfillsFunc = () => any
 interface MetroConfig {
