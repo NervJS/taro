@@ -124,7 +124,6 @@ export function createPageConfig (Page: any, pageConfig: PageConfig): any {
   const WrapScreen = (Screen: any) => {
     return class PageScreen extends Component<any, any> {
       screenRef: RefObject<any>
-      pageId: string
       pageScrollView: RefObject<any>
       unSubscribleBlur: any
       unSubscribleFocus: any
@@ -327,6 +326,7 @@ export function createPageConfig (Page: any, pageConfig: PageConfig): any {
       }
 
       onPageScroll (e) {
+        if(!e?.nativeEvent) return
         const { contentOffset } = e.nativeEvent
         const scrollTop = contentOffset.y
         if (scrollTop < 0) return
@@ -340,6 +340,7 @@ export function createPageConfig (Page: any, pageConfig: PageConfig): any {
 
       // 监听的onMomentumScrollEnd
       onReachBottom (e) {
+        if(!e?.nativeEvent) return
         const { onReachBottomDistance = 50 } = pageConfig
         const { layoutMeasurement, contentSize, contentOffset } = e.nativeEvent
         if (contentOffset?.y + layoutMeasurement?.height + onReachBottomDistance >= contentSize.height) {
