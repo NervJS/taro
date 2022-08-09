@@ -33,7 +33,11 @@ jest.mock('child_process', () => {
 jest.mock('ora', () => {
   const ora = jest.fn()
   ora.mockReturnValue({
-    start () {}
+    start () {
+      return {
+        stop () {}
+      }
+    }
   })
   return ora
 })
@@ -69,6 +73,7 @@ function updatePkg (pkgPath: string, version: string) {
       '@tarojs/taro': version,
       '@tarojs/cli': version,
       '@tarojs/components': version,
+      '@tarojs/api': version,
       '@tarojs/taro-h5': version,
       '@tarojs/helper': version,
       '@tarojs/taro-loader': version,
@@ -93,7 +98,6 @@ function updatePkg (pkgPath: string, version: string) {
       'babel-preset-taro': version,
       'eslint-config-taro': version,
       'babel-plugin-transform-taroapi': version,
-      'eslint-plugin-taro': version,
       'postcss-plugin-constparse': version,
       'postcss-pxtransform': version
     }
