@@ -22,18 +22,16 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-import { recursiveMerge } from '@tarojs/helper'
 import fs from 'fs-extra'
 import path from 'path'
 import { performance } from 'perf_hooks'
-import webpack, { Stats } from 'webpack'
+import { Configuration, Stats } from 'webpack'
 import webpackDevServer from 'webpack-dev-server'
 import VirtualModulesPlugin from 'webpack-virtual-modules'
 
 import type { IPrebundle } from './prebundle'
 import BasePrebundle, { IPrebundleConfig } from './prebundle'
 import {
-  createResolve,
   flattenId,
   getMfHash,
   parsePublicPath
@@ -62,7 +60,7 @@ export class H5Prebundle extends BasePrebundle<IH5PrebundleConfig> {
     const mode = process.env.NODE_ENV === 'production' ? 'production' : 'development'
     const devtool = this.config.enableSourceMap && 'hidden-source-map'
     const mainBuildOutput = this.chain.output.entries()
-    const output: Exclude<webpack.Configuration['output'], undefined> = {
+    const output: Exclude<Configuration['output'], undefined> = {
       chunkFilename: this.config.chunkFilename,
       chunkLoadingGlobal: mainBuildOutput.chunkLoadingGlobal,
       globalObject: mainBuildOutput.globalObject,
@@ -88,7 +86,7 @@ export class H5Prebundle extends BasePrebundle<IH5PrebundleConfig> {
 
       this.metadata.runtimeRequirements = new Set<string>()
 
-      const compiler = webpack(recursiveMerge(this.chain.toConfig(), {
+      const compiler = this.getRemoteWebpackCompiler({
         cache: {
           type: 'filesystem',
           cacheDirectory: path.join(this.cacheDir, 'webpack-cache'),
@@ -128,7 +126,7 @@ export class H5Prebundle extends BasePrebundle<IH5PrebundleConfig> {
             }
           )
         ]
-      }, customWebpackConfig))
+      }, customWebpackConfig)
       this.metadata.remoteAssets = await new Promise((resolve, reject) => {
         compiler.run((error: Error, stats: Stats) => {
           compiler.close(err => {
@@ -168,7 +166,6 @@ export class H5Prebundle extends BasePrebundle<IH5PrebundleConfig> {
     this.addPlugin('VirtualModule', VirtualModule)
 
     this.isUseCache = true
-    createResolve(this.appPath, this.chain.toConfig().resolve)
 
     /** 扫描出所有的 node_modules 依赖 */
     const entries: string[] = this.getEntries(this.entryPath)
