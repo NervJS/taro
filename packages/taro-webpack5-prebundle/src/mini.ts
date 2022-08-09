@@ -22,16 +22,14 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-import { recursiveMerge } from '@tarojs/helper'
 import fs from 'fs-extra'
 import path from 'path'
 import { performance } from 'perf_hooks'
-import webpack, { ProvidePlugin, Stats } from 'webpack'
+import { ProvidePlugin, Stats } from 'webpack'
 
 import BasePrebundle, { IPrebundleConfig } from './prebundle'
 import { bundle } from './prebundle/bundle'
 import {
-  createResolve,
   flattenId,
   getBundleHash,
   getMfHash
@@ -141,7 +139,7 @@ export class MiniPrebundle extends BasePrebundle<IMiniPrebundleConfig> {
 
       this.metadata.runtimeRequirements = new Set<string>()
 
-      const compiler = webpack(recursiveMerge(this.chain.toConfig(), {
+      const compiler = this.getRemoteWebpackCompiler({
         cache: {
           type: 'filesystem',
           cacheDirectory: path.join(this.cacheDir, 'webpack-cache'),
@@ -170,7 +168,7 @@ export class MiniPrebundle extends BasePrebundle<IMiniPrebundleConfig> {
           ),
           new ProvidePlugin(provideObject)
         ]
-      }, customWebpackConfig))
+      }, customWebpackConfig)
       this.metadata.remoteAssets = await new Promise((resolve, reject) => {
         compiler.run((error: Error, stats: Stats) => {
           compiler.close(err => {
@@ -199,7 +197,6 @@ export class MiniPrebundle extends BasePrebundle<IMiniPrebundleConfig> {
 
   async run () {
     this.isUseCache = true
-    createResolve(this.appPath, this.chain.toConfig().resolve)
 
     /** 扫描出所有的 node_modules 依赖 */
     /**
