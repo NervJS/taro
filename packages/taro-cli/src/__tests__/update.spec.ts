@@ -200,7 +200,7 @@ describe('update', () => {
           npm: 'npm'
         }
       })
-    } catch (error) {}
+    } catch (error) {} // eslint-disable-line no-empty
     expect(exitSpy).toBeCalledWith(1)
     expect(chalkMocked).toBeCalledWith(`找不到项目配置文件 ${PROJECT_CONFIG}，请确定当前目录是 Taro 项目根目录!`)
     exitSpy.mockRestore()
