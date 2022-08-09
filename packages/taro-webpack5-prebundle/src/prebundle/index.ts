@@ -1,13 +1,13 @@
 import { Config } from '@swc/core'
-import { chalk, fs, readConfig, resolveMainFilePath, terminalLink } from '@tarojs/helper'
+import { chalk, fs, readConfig, recursiveMerge, resolveMainFilePath, terminalLink } from '@tarojs/helper'
 import { IProjectBaseConfig } from '@tarojs/taro/types/compile'
 import { Message } from 'esbuild'
 import path from 'path'
 import { performance } from 'perf_hooks'
-import { EntryObject } from 'webpack'
+import webpack, { EntryObject } from 'webpack'
 import Chain from 'webpack-chain'
 
-import { commitMeta, getBundleHash, getCacheDir, getMeasure, Metadata, sortDeps } from '../utils'
+import { commitMeta, createResolve, getBundleHash, getCacheDir, getMeasure, Metadata, sortDeps } from '../utils'
 import { CollectedDeps, MF_NAME } from '../utils/constant'
 import TaroModuleFederationPlugin from '../webpack/TaroModuleFederationPlugin'
 import { bundle } from './bundle'
@@ -43,6 +43,7 @@ export default class BasePrebundle<T extends IPrebundleConfig = IPrebundleConfig
 
   deps: CollectedDeps = new Map()
   measure: ReturnType<typeof getMeasure>
+  webpackConfig: webpack.Configuration
 
   constructor (protected config: T, protected option: IPrebundle) {
     if (!option.enable) return
@@ -70,6 +71,9 @@ export default class BasePrebundle<T extends IPrebundleConfig = IPrebundleConfig
         Object.assign(this.preMetadata, fs.readJSONSync(this.metadataPath))
       }
     } catch (e) {}
+
+    this.webpackConfig = this.chain.toConfig()
+    createResolve(this.appPath, this.webpackConfig.resolve)
   }
 
   async run () {
@@ -215,5 +219,15 @@ export default class BasePrebundle<T extends IPrebundleConfig = IPrebundleConfig
         remoteAssets: this.metadata.remoteAssets,
         runtimeRequirements: this.metadata.runtimeRequirements || new Set()
       }])
+  }
+
+  getRemoteWebpackCompiler (standard: webpack.Configuration, custom: webpack.Configuration = {}) {
+    /** NOTE: 删除 Host 应用影响打包 Remote 应用的配置 */
+    const inherit = { ...this.webpackConfig }
+    delete inherit.devServer
+    delete inherit.module
+    delete inherit.plugins
+
+    return webpack(recursiveMerge(inherit, standard, custom))
   }
 }
