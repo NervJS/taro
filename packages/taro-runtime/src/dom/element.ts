@@ -192,7 +192,7 @@ export class TaroElement extends TaroNode {
     hooks.call('modifySetAttrPayload', this, qualifiedName, payload, componentsAlias)
 
     if (_alias) {
-      const qualifiedNameAlias = _alias[qualifiedName] || qualifiedName
+      const qualifiedNameAlias = _alias[toCamelCase(qualifiedName)] || qualifiedName
       payload.path = `${_path}.${toCamelCase(qualifiedNameAlias)}`
     }
 
@@ -262,7 +262,7 @@ export class TaroElement extends TaroNode {
     hooks.call('modifyRmAttrPayload', this, qualifiedName, payload, componentsAlias)
 
     if (_alias) {
-      const qualifiedNameAlias = _alias[qualifiedName] || qualifiedName
+      const qualifiedNameAlias = _alias[toCamelCase(qualifiedName)] || qualifiedName
       payload.path = `${_path}.${toCamelCase(qualifiedNameAlias)}`
     }
 
