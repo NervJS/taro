@@ -93,6 +93,7 @@ function createVue3Page (h: typeof createElement, id: string) {
     }
     const RootElement = process.env.TARO_ENV === 'h5' ? 'div' : 'root'
     const PageComponent = Object.assign({}, component)
+    const option = PageComponent.props?.option?.default?.() || {}
 
     return h(
       ProviderComponent,
@@ -109,7 +110,7 @@ function createVue3Page (h: typeof createElement, id: string) {
                 class: process.env.TARO_ENV === 'h5' ? 'taro_page' : ''
               },
               [
-                h(PageComponent, { tid: id })
+                h(PageComponent, { tid: id, option })
               ]
             )
           ]
