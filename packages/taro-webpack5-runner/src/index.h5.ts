@@ -221,7 +221,7 @@ async function getDevServerOptions (appPath: string, config: H5BuildConfig): Pro
           to: publicPath
         }]
       },
-      proxy
+      proxy: [proxy]
     },
     customDevServerOption
   )
