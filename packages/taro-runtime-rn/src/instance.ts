@@ -11,7 +11,7 @@ interface Show {
 
 export interface PageLifeCycle extends Show {
   onPullDownRefresh?(): void
-  onReachBottom?(event: { nativeEvent: any }): void
+  onReachBottom?(): void
   onPageScroll?(obj: { scrollTop: number }): void
   onResize?(options: unknown): void
   onTabItemTap?(obj: { index: string, pagePath: string, text: string }): void

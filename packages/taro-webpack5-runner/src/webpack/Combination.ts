@@ -83,7 +83,7 @@ export class Combination<T extends MiniBuildConfig | H5BuildConfig = CommonBuild
     }
 
     const defaultOptions: IPrebundle = {
-      enable: false,
+      enable: process.env.NODE_ENV !== 'production', // 因为使用了 esbuild 单独打包依赖，会使项目体积略微变大，所以生产模式下默认不开启
       timings: false,
       force: false,
       include,
