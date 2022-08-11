@@ -25,7 +25,6 @@ export class MiniCombination extends Combination<MiniBuildConfig> {
       output = {},
       mode = 'production',
       globalObject = 'wx',
-      enableSourceMap = process.env.NODE_ENV !== 'production',
       sourceMapType = 'cheap-module-source-map',
       fileType = {
         style: '.wxss',
@@ -41,7 +40,6 @@ export class MiniCombination extends Combination<MiniBuildConfig> {
       optimizeMainPackage
     } = config
 
-    this.enableSourceMap = enableSourceMap
     this.fileType = fileType
 
     modifyComponentConfig?.(componentConfig, config)

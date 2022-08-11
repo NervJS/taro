@@ -31,7 +31,7 @@ export class Combination<T extends MiniBuildConfig | H5BuildConfig = CommonBuild
     this.outputRoot = config.outputRoot || 'dist'
     this.sourceDir = path.join(appPath, this.sourceRoot)
     this.outputDir = path.join(appPath, this.outputRoot)
-    this.enableSourceMap = process.env.NODE_ENV !== 'production'
+    this.enableSourceMap = config.enableSourceMap ?? process.env.NODE_ENV !== 'production'
   }
 
   async make () {
