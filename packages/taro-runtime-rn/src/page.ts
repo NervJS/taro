@@ -1,5 +1,4 @@
 import { getCurrentRoute, PageProvider } from '@tarojs/router-rn'
-import { camelCase } from 'lodash'
 import * as React from 'react'
 import { AppState, Dimensions, EmitterSubscription, NativeEventSubscription, RefreshControl, ScrollView, View } from 'react-native'
 
@@ -102,8 +101,6 @@ export function createPageConfig (Page: any, pageConfig: PageConfig): any {
   const h = React.createElement
   const pagePath = pageConfig.pagePath.replace(/^\//, '') || ''
 
-  const pageId = camelCase(pagePath) ?? `taro_page_${compId}`
-
   const isReactComponent = isClassComponent(Page)
   if (PageContext === EMPTY_OBJ) {
     PageContext = React.createContext('')
@@ -124,9 +121,6 @@ export function createPageConfig (Page: any, pageConfig: PageConfig): any {
     })
   }
 
-  // 注入的页面实例
-  injectPageInstance(Page, pageId)
-
   const WrapScreen = (Screen: any) => {
     return class PageScreen extends React.Component<any, any> {
       // eslint-disable-next-line react/sort-comp
@@ -135,6 +129,7 @@ export function createPageConfig (Page: any, pageConfig: PageConfig): any {
       unSubscribleBlur: any
       unSubscribleFocus: any
       unSubscribleTabPress: any
+      pageId: string
       appStateSubscription: NativeEventSubscription | undefined
       dimensionsSubscription: EmitterSubscription | undefined
       isPageReady: boolean
@@ -152,15 +147,14 @@ export function createPageConfig (Page: any, pageConfig: PageConfig): any {
         this.screenRef = React.createRef<Instance>()
         this.pageScrollView = React.createRef()
         this.setPageInstance()
+        this.pageId = `taro_page_${compId()}`
       }
 
       componentDidMount () {
         const { navigation, route } = this.props
-
         // 实现 useLoad hook
         // handleHooksEvent 在组件构造函数中调用不生效，只能在挂载之后进行调用
         this.handleHooksEvent('onLoad', route?.params ?? {})
-
         if (navigation) {
           this.unSubscribleTabPress = navigation.addListener('tabPress', () => this.onTabItemTap())
           this.unSubscribleFocus = navigation.addListener('focus', () => this.onFocusChange())
@@ -190,6 +184,7 @@ export function createPageConfig (Page: any, pageConfig: PageConfig): any {
 
       setPageInstance () {
         const pageRef = this.screenRef
+        const pageId = this.pageId
         const { params = {}, key = '' } = this.props.route
         // 和小程序的page实例保持一致
         const inst: PageInstance = {
@@ -382,7 +377,7 @@ export function createPageConfig (Page: any, pageConfig: PageConfig): any {
 
       handleHooksEvent (method: HooksMethods, options: Record<string, unknown> = {}) {
         if (!isReactComponent) {
-          return safeExecute(pageId, method, options)
+          return safeExecute(this.pageId, method, options)
         }
       }
 
@@ -424,7 +419,7 @@ export function createPageConfig (Page: any, pageConfig: PageConfig): any {
 
       createPage () {
         return h(PageProvider, { currentPath: pagePath, pageConfig, ...this.props },
-          h(PageContext.Provider, { value: pageId }, h(Screen,
+          h(PageContext.Provider, { value: this.pageId }, h(Screen,
             { ...this.props, ref: this.screenRef })
           )
         )
