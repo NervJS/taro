@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/api",
-  "version": "3.5.3",
+  "version": "3.5.3-aplha.0",
   "description": "Taro common API",
   "author": "yuche <i@yuche.me>",
   "homepage": "https://github.com/nervjs/taro/tree/master/packages/api#readme",
