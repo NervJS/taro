@@ -51,5 +51,8 @@ export const components = {
     mode: 'camera',
     'device-position': 'front',
     bindError: ''
+  },
+  Map: {
+    bindRegionChange: ''
   }
 }

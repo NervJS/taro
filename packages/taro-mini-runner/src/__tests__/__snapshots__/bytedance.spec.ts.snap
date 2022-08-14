@@ -75,6 +75,9 @@ require(\\"./taro\\");
             Canvas: {
                 type: \\"\\"
             },
+            Map: {
+                bindRegionChange: \\"\\"
+            },
             RtcRoom: {
                 \\"user-id\\": \\"\\",
                 mode: \\"camera\\",
