@@ -1,42 +1,43 @@
 import * as React from 'react'
 import {
-  View,
-  Text,
   Image,
-  StyleSheet,
   ImageSourcePropType,
-  ViewStyle,
-  TextStyle
+  StyleSheet,
+  Text,
+  TextStyle,
+  View,
+  ViewStyle
 } from 'react-native'
+
 import Badge from './Badge'
 
 export interface TabBarOptions {
-  activeTintColor: string,
-  inactiveTintColor: string,
-  activeBackgroundColor: string,
-  inactiveBackgroundColor: string,
-  tabStyle?: ViewStyle,
-  labelStyle?: TextStyle,
-  showLabel?: boolean,
-  allowFontScaling?: boolean,
-  keyboardHidesTabBar?: boolean,
+  activeTintColor: string
+  inactiveTintColor: string
+  activeBackgroundColor: string
+  inactiveBackgroundColor: string
+  tabStyle?: ViewStyle
+  labelStyle?: TextStyle
+  showLabel?: boolean
+  allowFontScaling?: boolean
+  keyboardHidesTabBar?: boolean
   safeAreaInsets?: Record<string, number>
   style?: ViewStyle
 }
 
 export interface TabOptions {
-  tabBarVisible?: boolean,
-  tabBarBadge?: boolean,
-  tabBarBadgeStyle?: Record<string, any>,
+  tabBarVisible?: boolean
+  tabBarBadge?: boolean
+  tabBarBadgeStyle?: Record<string, any>
 }
 interface TabBarItemProps extends TabBarOptions{
-  badge: number | string,
-  showRedDot: boolean,
-  label: string,
-  horizontal: boolean,
-  labelColor: string,
+  badge: number | string
+  showRedDot: boolean
+  label: string
+  horizontal: boolean
+  labelColor: string
   iconSource: ImageSourcePropType
-  size?: number,
+  size?: number
   tabOptions?: TabOptions
 }
 

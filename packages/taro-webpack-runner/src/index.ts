@@ -1,19 +1,18 @@
+import { recursiveMerge } from '@tarojs/helper'
 import * as detectPort from 'detect-port'
 import * as path from 'path'
 import { format as formatUrl } from 'url'
 import * as webpack from 'webpack'
 import * as WebpackDevServer from 'webpack-dev-server'
-import { recursiveMerge } from '@tarojs/helper'
 
 import buildConf from './config/build.conf'
 import devConf from './config/dev.conf'
 import baseDevServerOption from './config/devServer.conf'
 import prodConf from './config/prod.conf'
-import { addLeadingSlash, addTrailingSlash, formatOpenHost } from './util'
+import { formatOpenHost, parsePublicPath } from './util'
+import { makeConfig } from './util/chain'
 import { bindDevLogger, bindProdLogger, printBuildError } from './util/logHelper'
 import { BuildConfig, Func } from './util/types'
-import { makeConfig } from './util/chain'
-import type { Compiler } from 'webpack'
 
 export const customizeChain = async (chain, modifyWebpackChainFunc: Func, customizeFunc?: Func) => {
   if (modifyWebpackChainFunc instanceof Function) {
@@ -71,9 +70,9 @@ const buildDev = async (appPath: string, config: BuildConfig): Promise<any> => {
   const routerConfig = config.router || {}
   const routerMode = routerConfig.mode || 'hash'
   const routerBasename = routerConfig.basename || '/'
-  const publicPath = conf.publicPath ? addLeadingSlash(addTrailingSlash(conf.publicPath)) : '/'
+  const publicPath = parsePublicPath(conf.publicPath)
   const outputPath = path.join(appPath, conf.outputRoot as string)
-  const customDevServerOption = config.devServer || {}
+  const customDevServerOption = (config.devServer || {}) as WebpackDevServer.Configuration
   const webpackChain = devConf(appPath, config)
   const onBuildFinish = config.onBuildFinish
   await customizeChain(webpackChain, config.modifyWebpackChain, config.webpackChain)
@@ -122,14 +121,14 @@ const buildDev = async (appPath: string, config: BuildConfig): Promise<any> => {
 
   const devUrl = formatUrl({
     protocol: devServerOptions.https ? 'https' : 'http',
-    hostname: devServerOptions.host,
+    hostname: formatOpenHost(devServerOptions.host),
     port: devServerOptions.port,
     pathname
   })
 
   const webpackConfig = webpackChain.toConfig()
   WebpackDevServer.addDevServerEntrypoints(webpackConfig, devServerOptions)
-  const compiler = webpack(webpackConfig) as Compiler
+  const compiler = webpack(webpackConfig) as webpack.Compiler
   bindDevLogger(devUrl, compiler)
   const server = new WebpackDevServer(compiler, devServerOptions)
   compiler.hooks.emit.tapAsync('taroBuildDone', async (compilation, callback) => {

@@ -1,4 +1,4 @@
-import { CSSProperties, LegacyRef } from 'react'
+import { CSSProperties, LegacyRef, ReactNode } from 'react'
 
 export interface StandardProps<T = any, TouchEvent extends BaseTouchEvent<any> = ITouchEvent> extends EventProps<TouchEvent> {
   /** 组件的唯一标示, 保持整个页面唯一 */
@@ -7,6 +7,8 @@ export interface StandardProps<T = any, TouchEvent extends BaseTouchEvent<any> =
   className?: string
   /** 组件的内联样式, 可以动态设置的内联样式 */
   style?: string | CSSProperties
+  /** 子节点 */
+  children?: ReactNode
   /** 如果列表中项目的位置会动态改变或者有新的项目添加到列表中，
    * 需要使用 `wx:key` 来指定列表中项目的唯一的标识符。
    */

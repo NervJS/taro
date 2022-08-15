@@ -1,5 +1,6 @@
 import Taro from '@tarojs/api'
-import { temporarilyNotSupport } from '../utils'
+
+import { temporarilyNotSupport } from '../../utils'
 
 // 富文本
 export class EditorContext implements Taro.EditorContext {

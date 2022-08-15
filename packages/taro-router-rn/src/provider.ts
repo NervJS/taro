@@ -1,7 +1,8 @@
-import * as React from 'react'
 import { camelCase } from 'lodash'
-import { getTabVisible, getTabBarPages } from './utils/index'
+import * as React from 'react'
+
 import { navigationRef } from './rootNavigation'
+import { getTabBarPages, getTabVisible } from './utils/index'
 
 interface PageProps {
   navigation: any

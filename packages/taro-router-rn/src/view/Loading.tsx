@@ -1,8 +1,8 @@
 import * as React from 'react'
-import { Animated, StyleSheet, Easing } from 'react-native'
+import { Animated, Easing, StyleSheet } from 'react-native'
 
 interface LoadingViewState {
-  rotateValue: Animated.Value,
+  rotateValue: Animated.Value
 }
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface

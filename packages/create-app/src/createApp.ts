@@ -1,5 +1,5 @@
-import * as minimist from 'minimist'
 import { Project } from '@tarojs/cli'
+import * as minimist from 'minimist'
 
 export function init () {
   const argv = minimist(process.argv.slice(2), {

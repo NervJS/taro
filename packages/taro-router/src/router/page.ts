@@ -1,16 +1,16 @@
 /* eslint-disable dot-notation */
-import { PageConfig, RouterAnimate } from '@tarojs/taro'
 import { Current, PageInstance, requestAnimationFrame } from '@tarojs/runtime'
+import type { PageConfig, RouterAnimate } from '@tarojs/taro'
 import queryString from 'query-string'
 
-import stacks from './stack'
-import { Route, RouterConfig } from './'
-import { setHistoryMode, stripBasename } from '../history'
+import type { Route, SpaRouterConfig } from '../../types/router'
 import { loadAnimateStyle } from '../animation'
-import { initTabbar } from '../tabbar'
-import { addLeadingSlash, routesAlias } from '../utils'
 import { bindPageResize } from '../events/resize'
 import { bindPageScroll } from '../events/scroll'
+import { setHistoryMode } from '../history'
+import { initTabbar } from '../tabbar'
+import { addLeadingSlash, routesAlias, stripBasename, stripTrailing } from '../utils'
+import stacks from './stack'
 
 function setDisplay (el?: HTMLElement | null, type = '') {
   if (el) {
@@ -19,23 +19,26 @@ function setDisplay (el?: HTMLElement | null, type = '') {
 }
 
 export default class PageHandler {
-  protected config: RouterConfig
+  protected config: SpaRouterConfig
   protected readonly defaultAnimation: RouterAnimate = { duration: 300, delay: 50 }
-  protected unloadTimer: NodeJS.Timeout | null
-  protected hideTimer: NodeJS.Timeout | null
+  protected unloadTimer: ReturnType<typeof setTimeout> | null
+  protected hideTimer: ReturnType<typeof setTimeout> | null
   protected lastHidePage: HTMLElement | null
   protected lastUnloadPage: PageInstance | null
 
-  constructor (config: RouterConfig) {
+  public homePage: string
+
+  constructor (config: SpaRouterConfig) {
     this.config = config
+    this.homePage = this.getHomePage()
     this.mount()
   }
 
   get appId () { return 'app' }
-  get router () { return this.config.router }
+  get router () { return this.config.router || {} }
   get routerMode () { return this.router.mode || 'hash' }
   get customRoutes () { return this.router.customRoutes || {} }
-  get routes () { return this.config.routes }
+  get routes () { return this.config.routes || [] }
   get tabBarList () { return this.config.tabBar?.list || [] }
   get PullDownRefresh () { return this.config.PullDownRefresh }
   get animation () { return this.config?.animation ?? this.defaultAnimation }
@@ -58,16 +61,18 @@ export default class PageHandler {
   set pathname (p) { this.router.pathname = p }
   get pathname () { return this.router.pathname }
   get basename () { return this.router.basename || '' }
+
   get pageConfig () {
+    const routePath = addLeadingSlash(stripBasename(this.pathname, this.basename))
+    const homePage = addLeadingSlash(this.homePage)
     return this.routes.find(r => {
-      const routePath = stripBasename(this.pathname, this.basename)
       const pagePath = addLeadingSlash(r.path)
-      return pagePath === routePath || routesAlias.getConfig(pagePath)?.includes(routePath)
+      return [pagePath, homePage].includes(routePath) || routesAlias.getConfig(pagePath)?.includes(routePath)
     })
   }
 
   get isTabBar () {
-    const routePath = stripBasename(this.pathname, this.basename)
+    const routePath = addLeadingSlash(stripBasename(this.pathname, this.basename))
     const pagePath = Object.entries(this.customRoutes).find(
       ([, target]) => {
         if (typeof target === 'string') {
@@ -79,7 +84,15 @@ export default class PageHandler {
       }
     )?.[0] || routePath
 
-    return !!pagePath && this.tabBarList.some(t => t.pagePath === pagePath)
+    return !!pagePath && this.tabBarList.some(t => stripTrailing(t.pagePath) === pagePath)
+  }
+
+  getHomePage () {
+    const routePath = addLeadingSlash(stripBasename(this.routes[0].path, this.basename))
+    const alias = Object.entries(this.customRoutes).find(
+      ([key]) => key === routePath
+    )?.[1] || routePath
+    return this.config.entryPagePath || (typeof alias === 'string' ? alias : alias[0]) || this.basename
   }
 
   isSamePage (page?: PageInstance | null) {

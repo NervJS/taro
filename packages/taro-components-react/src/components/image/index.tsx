@@ -1,19 +1,18 @@
 import 'weui'
-import React from 'react'
-import classNames from 'classnames'
 import './style/index.css'
+
+import classNames from 'classnames'
+import React from 'react'
 
 require('intersection-observer')
 
-interface IProps{
-  className?: string,
-  src: string,
-  style?: Record<string, string>,
-  mode: string,
-  onError: () => void,
-  onLoad: (e) => void,
-  lazyLoad?: boolean,
-  imgProps?: Record<string, any>,
+interface IProps extends React.HTMLAttributes<HTMLDivElement> {
+  src: string
+  mode: string
+  onError: () => void
+  onLoad: (e) => void
+  lazyLoad?: boolean
+  imgProps?: Record<string, any>
 }
 
 class Image extends React.Component<IProps> {
@@ -31,17 +30,20 @@ class Image extends React.Component<IProps> {
 
   componentDidMount () {
     if (this.props.lazyLoad) {
-      this.observer = new IntersectionObserver((entries) => {
-        // 异步 api 关系
-        if (entries[entries.length - 1].isIntersecting) {
-          this.setState({ isLoaded: true }, () => {
-            // findDOMNode(this).children[0].src = this.props.src
-            this.imgRef.src = this.props.src
-          })
+      this.observer = new IntersectionObserver(
+        entries => {
+          // 异步 api 关系
+          if (entries[entries.length - 1].isIntersecting) {
+            this.setState({ isLoaded: true }, () => {
+              // findDOMNode(this).children[0].src = this.props.src
+              this.imgRef.src = this.props.src
+            })
+          }
+        },
+        {
+          rootMargin: '300px 0px'
         }
-      }, {
-        rootMargin: '300px 0px'
-      })
+      )
       this.observer.observe(this.imgRef)
     }
   }
@@ -67,8 +69,8 @@ class Image extends React.Component<IProps> {
   render () {
     const {
       className,
-      src,
       style = {},
+      src,
       mode,
       onError,
       lazyLoad,

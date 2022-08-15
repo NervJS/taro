@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/runner-utils",
-  "version": "3.4.14",
+  "version": "3.5.3",
   "description": "Taro runner utilities.",
   "main": "dist/index.js",
   "types": "types/index.d.ts",
@@ -22,7 +22,7 @@
   "author": "garfield550",
   "license": "MIT",
   "dependencies": {
-    "@tarojs/helper": "3.4.14",
+    "@tarojs/helper": "workspace:*",
     "scss-bundle": "^3.0.2"
   }
 }

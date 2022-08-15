@@ -1,11 +1,16 @@
 /* eslint-disable no-console */
 import * as path from 'path'
+
 import BaseCI from './BaseCi'
 import generateQrCode from './QRCode'
 
 /** 文档地址： https://opendocs.alipay.com/mini/miniu/api */
 export default class AlipayCI extends BaseCI {
   miniu
+  minidev
+
+  /** 小程序开发者工具安装路径 */
+  private devToolsInstallPath: string
 
   protected _init (): void {
     if (this.pluginOpts.alipay == null) {
@@ -19,8 +24,10 @@ export default class AlipayCI extends BaseCI {
 
     const { appPath } = this.ctx.paths
     const { fs } = this.ctx.helper
-    const { toolId, privateKeyPath: _privateKeyPath, proxy } = this.pluginOpts.alipay
+    const { toolId, privateKeyPath: _privateKeyPath, proxy, devToolsInstallPath } = this.pluginOpts.alipay
     const privateKeyPath = path.isAbsolute(_privateKeyPath) ? _privateKeyPath : path.join(appPath, _privateKeyPath)
+
+    this.devToolsInstallPath = devToolsInstallPath || ''
     if (!fs.pathExistsSync(privateKeyPath)) {
       throw new Error(`"alipay.privateKeyPath"选项配置的路径不存在,本次上传终止:${privateKeyPath}`)
     }
@@ -33,18 +40,41 @@ export default class AlipayCI extends BaseCI {
   }
 
   open () {
+    const project = this.pluginOpts.alipay?.project
     const { printLog, processTypeEnum } = this.ctx.helper
-    printLog(processTypeEnum.WARNING, '阿里小程序不支持 "--open" 参数打开开发者工具')
+    const { outputPath: projectPath } = this.ctx.paths
+    try {
+      this.minidev = require('minidev').minidev
+    } catch (error) {
+      throw new Error('请安装依赖：minidev')
+    }
+    this.minidev
+      .startIde(
+        Object.assign(
+          {
+            project: project || projectPath,
+            projectType: 'alipay-mini'
+          },
+          this.devToolsInstallPath ? { appPath: this.devToolsInstallPath } : {}
+        )
+      )
+      .then(() => {
+        printLog(processTypeEnum.START, '打开 IDE 成功')
+      })
+      .catch(res => {
+        printLog(processTypeEnum.ERROR, res.message)
+      })
   }
 
   async upload () {
+    const project = this.pluginOpts.alipay?.project
     const { chalk, printLog, processTypeEnum } = this.ctx.helper
     const clientType = this.pluginOpts.alipay!.clientType || 'alipay'
     printLog(processTypeEnum.START, '上传代码到阿里小程序后台', clientType)
     // 上传结果CI库本身有提示，故此不做异常处理
     // TODO 阿里的CI库上传时不能设置“禁止压缩”，所以上传时被CI二次压缩代码，可能会造成报错，这块暂时无法处理; SDK上传不支持设置描述信息
     const result = await this.miniu.miniUpload({
-      project: this.ctx.paths.outputPath,
+      project: project || this.ctx.paths.outputPath,
       appId: this.pluginOpts.alipay!.appId,
       packageVersion: this.version,
       clientType,

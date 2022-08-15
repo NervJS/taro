@@ -1,7 +1,6 @@
 import CameraRoll from '@react-native-community/cameraroll'
-import * as Permissions from 'expo-permissions'
+import { requestCameraPermissionsAsync } from 'expo-camera'
 import * as ImagePicker from 'expo-image-picker'
-import { askAsyncPermissions } from '../utils/premissions'
 import { successHandler, errorHandler } from '../utils'
 
 export const MEDIA_TYPE = {
@@ -11,8 +10,8 @@ export const MEDIA_TYPE = {
 
 export async function saveMedia(opts: Taro.saveImageToPhotosAlbum.Option | Taro.saveVideoToPhotosAlbum.Option, type:string, API:string):Promise<TaroGeneral.CallbackResult> {
   const { filePath, success, fail, complete } = opts
-  const status = await askAsyncPermissions(Permissions.CAMERA_ROLL)
-  if (status !== 'granted') {
+  const { granted } = await ImagePicker.requestMediaLibraryPermissionsAsync()
+  if (!granted) {
     const res = { errMsg: 'Permissions denied!' }
     return errorHandler(fail, complete)(res)
   }
@@ -40,8 +39,8 @@ export async function chooseMedia(opts: Taro.chooseImage.Option | Taro.chooseVid
     videoMaxDuration: maxDuration
   }
   const isCamera = sourceType[0] === 'camera'
-  const status = isCamera ? await askAsyncPermissions(Permissions.CAMERA) : await askAsyncPermissions(Permissions.CAMERA_ROLL)
-  if (status !== 'granted') {
+  const { granted } = isCamera ? await requestCameraPermissionsAsync() : await ImagePicker.requestMediaLibraryPermissionsAsync()
+  if (!granted) {
     const res = { errMsg: 'Permissions denied!' }
     return errorHandler(fail, complete)(res)
   }

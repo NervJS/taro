@@ -1,6 +1,6 @@
 import { chalk } from '@tarojs/helper'
-import * as ora from 'ora'
 import { partial, pipe } from 'lodash/fp'
+import * as ora from 'ora'
 import * as formatMessages from 'webpack-format-messages'
 
 // const syntaxErrorLabel = 'Syntax error:';
@@ -157,4 +157,4 @@ const bindProdLogger = compiler => {
   return compiler
 }
 
-export { printBuildError, printCompiling, getServeSpinner, bindDevLogger, bindProdLogger }
+export { bindDevLogger, bindProdLogger, getServeSpinner, printBuildError, printCompiling }

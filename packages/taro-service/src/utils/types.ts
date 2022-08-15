@@ -46,10 +46,10 @@ export interface IHook {
 }
 
 export interface ICommand extends IHook {
-  alias?: string,
+  alias?: string
   optionsMap?: {
     [key: string]: string
-  },
+  }
   synopsisList?: string[]
 }
 

@@ -18,7 +18,7 @@ interface SlotProps {
  * @example
  * ```tsx
  * import { Slot, View, Text } from '@tarojs/components'
- * 
+ *
  * export default class SlotView extends Component {
  *   render () {
  *     return (

@@ -1,15 +1,17 @@
 /* eslint-disable camelcase */
-import { parse } from 'himalaya-wxml'
-import * as t from 'babel-types'
-import { camelCase, cloneDeep } from 'lodash'
 import traverse, { NodePath, Visitor } from 'babel-traverse'
-import { buildTemplate, DEFAULT_Component_SET, buildImportStatement, buildBlockElement, parseCode, codeFrameError, isValidVarName } from './utils'
-import { specialEvents } from './events'
-import { parseTemplate, parseModule } from './template'
-import { usedComponents, errors, globals, THIRD_PARTY_COMPONENTS } from './global'
-import { reserveKeyWords } from './constant'
+import * as t from 'babel-types'
 import { parse as parseFile } from 'babylon'
+import { parse } from 'himalaya-wxml'
+import { camelCase, cloneDeep } from 'lodash'
+
 import { getCacheWxml, saveCacheWxml } from './cache'
+import { reserveKeyWords } from './constant'
+import { specialEvents } from './events'
+import { errors, globals, THIRD_PARTY_COMPONENTS, usedComponents } from './global'
+import { parseModule, parseTemplate } from './template'
+import { buildBlockElement, buildImportStatement, buildTemplate, codeFrameError, DEFAULT_Component_SET, isValidVarName, parseCode } from './utils'
+
 const { prettyPrint } = require('html')
 
 const allCamelCase = (str: string) =>
@@ -67,8 +69,8 @@ export type AttrValue =
   | null
 
 export interface Imports {
-  ast: t.File,
-  name: string,
+  ast: t.File
+  name: string
   wxs?: boolean
 }
 
@@ -555,7 +557,6 @@ function transformIf (
     return
   }
   if (value === null || !t.isJSXExpressionContainer(value)) {
-    // tslint:disable-next-line
     console.error('wx:if 的值需要用双括号 `{{}}` 包裹它的值')
     if (value && t.isStringLiteral(value)) {
       value = t.jSXExpressionContainer(buildTemplate(value.value))
@@ -624,7 +625,6 @@ function handleConditions (conditions: Condition[]) {
       conditions[0].path.replaceWith(t.jSXExpressionContainer(node))
       conditions.slice(1).forEach(c => c.path.remove())
     } catch (error) {
-      // tslint:disable-next-line
       console.error('wx:elif 的值需要用双括号 `{{}}` 包裹它的值')
     }
   }
@@ -632,8 +632,8 @@ function handleConditions (conditions: Condition[]) {
 
 function findWXIfProps (
   jsx: NodePath<t.Node>
-): { reg: RegExpMatchArray; tester: AttrValue } | null {
-  let matches: { reg: RegExpMatchArray; tester: AttrValue } | null = null
+): { reg: RegExpMatchArray, tester: AttrValue } | null {
+  let matches: { reg: RegExpMatchArray, tester: AttrValue } | null = null
   jsx &&
     jsx.isJSXElement() &&
     jsx
@@ -766,7 +766,6 @@ export function parseContent (content: string, single = false): { type: 'raw' | 
   let match
   let index
   let tokenValue
-  // tslint:disable-next-line
   while ((match = handlebarsRE.exec(content))) {
     index = match.index
     // push text token
@@ -824,7 +823,6 @@ function parseAttribute (attr: Attribute) {
         }
       }
       if (t.isThisExpression(expr)) {
-        // tslint:disable-next-line
         console.error('在参数中使用 `this` 可能会造成意想不到的结果，已将此参数修改为 `__placeholder__`，你可以在转换后的代码查找这个关键字修改。')
         expr = t.stringLiteral('__placeholder__')
       }

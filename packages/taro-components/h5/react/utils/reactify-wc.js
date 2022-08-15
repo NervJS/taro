@@ -2,12 +2,14 @@
  * https://github.com/BBKolton/reactify-wc/
  * modified event naming
  **/
-import React, { createRef, createElement } from 'react'
+import React, { createElement, createRef } from 'react'
 
 // eslint-disable-next-line
 const h = React.createElement
 
 const SCROLL_VIEW = 'taro-scroll-view-core'
+
+const IS_NON_DIMENSIONAL = /acit|ex(?:s|g|n|p|$)|rph|grid|ows|mnc|ntw|ine[ch]|zoo|^ord|itera/i
 
 // 为了不要覆盖 wc 中 host 内置的 class 和 stencil 加入的 class
 function getClassName (wc, prevProps, props) {
@@ -34,8 +36,10 @@ function updateStyle (dom, key, val) {
   if (/^--/.test(key)) {
     // css variable
     dom.style.setProperty(key, val)
-  } else {
+  } else if (typeof val !== 'number' || IS_NON_DIMENSIONAL.test(key)) {
     dom.style[key] = val
+  } else {
+    dom.style[key] = val + 'px'
   }
 }
 

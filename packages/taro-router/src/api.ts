@@ -1,22 +1,13 @@
 import Taro from '@tarojs/taro'
 import { parsePath } from 'history'
-import stacks from './router/stack'
+
+import type { NavigateBackOption, Option } from '../types/api'
 import { history, prependBasename } from './history'
-import { routesAlias, addLeadingSlash } from './utils'
+import { RouterConfig } from './router'
+import stacks from './router/stack'
+import { addLeadingSlash, routesAlias } from './utils'
 
-interface Base {
-  success?: (...args: any[]) => void
-  fail?: (...args: any[]) => void
-  complete?: (...args: any[]) => void
-}
-
-interface Option extends Base {
-  url: string
-}
-
-interface NavigateBackOption extends Base {
-  delta: number
-}
+type MethodName = 'navigateTo' | 'navigateBack' | 'switchTab' | 'redirectTo' | 'reLaunch'
 
 function processNavigateUrl (option: Option) {
   const pathPieces = parsePath(option.url)
@@ -46,7 +37,7 @@ function processNavigateUrl (option: Option) {
   return pathPieces
 }
 
-async function navigate (option: Option | NavigateBackOption, method: 'navigateTo' | 'navigateBack' | 'switchTab' | 'redirectTo' | 'reLaunch') {
+async function navigate (option: Option | NavigateBackOption, method: MethodName) {
   return new Promise<TaroGeneral.CallbackResult>((resolve, reject) => {
     const { success, complete, fail } = option
     const unListen = history.listen(() => {
@@ -90,11 +81,11 @@ export function redirectTo (option: Taro.redirectTo.Option): ReturnType<typeof T
   return navigate(option, 'redirectTo')
 }
 
-export function navigateBack (options: Taro.navigateBack.Option = { delta: 1 }): ReturnType<typeof Taro.navigateBack> {
-  if (!options.delta || options.delta < 1) {
-    options.delta = 1
+export function navigateBack (option: Taro.navigateBack.Option = { delta: 1 }): ReturnType<typeof Taro.navigateBack> {
+  if (!option.delta || option.delta < 1) {
+    option.delta = 1
   }
-  return navigate(options as NavigateBackOption, 'navigateBack')
+  return navigate(option as NavigateBackOption, 'navigateBack')
 }
 
 export function switchTab (option: Taro.switchTab.Option): ReturnType<typeof Taro.switchTab> {
@@ -106,6 +97,9 @@ export function reLaunch (option: Taro.reLaunch.Option): ReturnType<typeof Taro.
 }
 
 export function getCurrentPages (): Taro.Page[] {
+  if (process.env.NODE_ENV === 'development' && RouterConfig.mode === 'multi') {
+    console.warn('多页面路由模式不支持使用 getCurrentPages 方法！')
+  }
   const pages = stacks.get()
   return pages.map(e => ({ ...e, route: e.path || '' }))
 }

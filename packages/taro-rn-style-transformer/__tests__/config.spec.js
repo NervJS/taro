@@ -1,5 +1,5 @@
-import * as path from 'path'
 import { recursiveMerge } from '@tarojs/helper'
+import * as path from 'path'
 
 import StyleTransform, { getWrapedCSS } from '../src/transforms'
 
@@ -35,14 +35,14 @@ const defaultConfig = {
 }
 
 async function run (src, filename = './__tests__/styles/a.css', debug) {
-  let options
+  let options = { platform: 'android' }
   let config
 
   if (typeof src === 'object') {
     ({
       src,
       filename = './__tests__/styles/a.css',
-      options,
+      options = { platform: 'android' },
       debug,
       config
     } = src || {})

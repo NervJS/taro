@@ -1,5 +1,9 @@
-import { mergeReconciler, mergeInternalComponents } from '@tarojs/shared'
-import { hostConfig, components } from './runtime-utils'
+import { mergeInternalComponents, mergeReconciler } from '@tarojs/shared'
+
+import { components, hostConfig } from './runtime-utils'
 
 mergeReconciler(hostConfig)
-mergeInternalComponents(components)
+const internalComponents = mergeInternalComponents(components)
+delete internalComponents.Input.cursor
+delete internalComponents.Input['selection-start']
+delete internalComponents.Input['selection-end']

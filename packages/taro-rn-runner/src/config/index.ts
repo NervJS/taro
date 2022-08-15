@@ -1,9 +1,10 @@
+import findProjectRoot from '@react-native-community/cli/build/tools/config/findProjectRoot'
+import resolveReactNativePath from '@react-native-community/cli/build/tools/config/resolveReactNativePath'
+import { Supporter } from '@tarojs/rn-supporter'
 import * as Metro from 'metro'
 import * as os from 'os'
 import * as path from 'path'
-import resolveReactNativePath from '@react-native-community/cli/build/tools/config/resolveReactNativePath'
-import findProjectRoot from '@react-native-community/cli/build/tools/config/findProjectRoot'
-import * as Supporter from '@tarojs/rn-supporter'
+
 import ConditionalFileStore from './conditional-file-store'
 
 const reactNativePath: string = resolveReactNativePath(findProjectRoot())
@@ -13,21 +14,21 @@ type GetModulesRunBeforeMainModuleFunc = () => any
 type GetPolyfillsFunc = () => any
 interface MetroConfig {
   transformer: {
-    dynamicDepsInPackages: string;
-    babelTransformerPath: string;
-    assetRegistryPath: string;
-  },
+    dynamicDepsInPackages: string
+    babelTransformerPath: string
+    assetRegistryPath: string
+  }
   resolver: {
-    sourceExts: string[];
-    resolveRequest?: ResolveRequestFunc;
-  },
+    sourceExts: string[]
+    resolveRequest?: ResolveRequestFunc
+  }
   serializer: {
-    getModulesRunBeforeMainModule: GetModulesRunBeforeMainModuleFunc,
+    getModulesRunBeforeMainModule: GetModulesRunBeforeMainModuleFunc
     getPolyfills: GetPolyfillsFunc
-  },
-  cacheStores: ConditionalFileStore<any>[],
+  }
+  cacheStores: ConditionalFileStore<any>[]
   server: {
-    port: number;
+    port: number
   }
 }
 

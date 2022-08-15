@@ -3,7 +3,7 @@ import { PageInstance } from '@tarojs/runtime'
 let pageResizeFn
 
 export function bindPageResize (page: PageInstance) {
-  window.removeEventListener('resize', pageResizeFn)
+  pageResizeFn && window.removeEventListener('resize', pageResizeFn)
 
   pageResizeFn = function () {
     page.onResize && page.onResize({

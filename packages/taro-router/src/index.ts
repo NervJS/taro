@@ -1,3 +1,4 @@
-export { history } from './history'
 export * from './api'
-export { createRouter } from './router'
+export { history } from './history'
+export { createMultiRouter } from './router/mpa'
+export { createRouter } from './router/spa'

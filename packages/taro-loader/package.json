@@ -1,7 +1,7 @@
 {
   "name": "@tarojs/taro-loader",
-  "version": "3.4.14",
-  "description": "> TODO: description",
+  "version": "3.5.3",
+  "description": "Taro runner use webpack loader",
   "author": "yuche <i@yuche.me>",
   "homepage": "https://github.com/nervjs/taro/tree/master/packages/taro-loader#readme",
   "license": "MIT",
@@ -26,11 +26,14 @@
     "url": "https://github.com/NervJS/taro/issues"
   },
   "dependencies": {
-    "@tarojs/helper": "3.4.14",
-    "@tarojs/taro": "3.4.14",
+    "@tarojs/helper": "workspace:*",
+    "@tarojs/taro": "workspace:*",
     "loader-utils": "^1.2.3"
   },
   "publishConfig": {
     "access": "public"
+  },
+  "devDependencies": {
+    "webpack": "5.69.0"
   }
 }

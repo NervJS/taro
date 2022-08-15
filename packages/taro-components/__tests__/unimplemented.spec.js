@@ -1,13 +1,12 @@
+import * as assert from 'assert'
 import React from 'react'
 import ReactDOM from 'react-dom'
-import {
-  MovableArea,
-  MovableView,
-  OpenData,
-  Camera
-} from '../h5/react'
-import * as assert from 'assert'
 import * as sinon from 'sinon'
+
+import {
+  Camera,
+  OpenData
+} from '../h5/react'
 import { waitForChange } from './utils'
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const h = React.createElement
@@ -75,14 +74,6 @@ describe('unimplemented', () => {
 
   afterAll(() => {
     console.error.restore()
-  })
-
-  it('MovableArea', async () => {
-    await testComponent(MovableArea)
-  })
-
-  it('MovableView', async () => {
-    await testComponent(MovableView)
   })
 
   it('OpenData', async () => {

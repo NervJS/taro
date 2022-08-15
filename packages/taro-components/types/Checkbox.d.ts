@@ -116,7 +116,7 @@ interface CheckboxProps extends StandardProps {
  *     </view>
  *   </view>
  * </template>
- * 
+ *
  * <script>
  * export default {
  *   data() {

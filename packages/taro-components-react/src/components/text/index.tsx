@@ -1,10 +1,10 @@
 import 'weui'
-import React from 'react'
-import classNames from 'classnames'
 import './style/index.css'
 
-interface IProps {
-  className?: string
+import classNames from 'classnames'
+import React from 'react'
+
+interface IProps extends React.HTMLAttributes<HTMLSpanElement> {
   selectable?: boolean
 }
 
