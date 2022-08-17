@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/rn-transformer",
-  "version": "3.5.3",
+  "version": "3.5.3-aplha.1",
   "description": "Taro RN 入口文件处理",
   "main": "dist/index.js",
   "types": "./src/types/index.d.ts",
