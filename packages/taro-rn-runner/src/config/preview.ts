@@ -5,7 +5,7 @@ import { extname, join } from 'path'
 import * as qr from 'qrcode-terminal'
 import { URL } from 'url'
 
-import { getOpenHost, isWin,PLAYGROUNDINFO } from '../utils'
+import { getOpenHost, isWin, PLAYGROUNDINFO } from '../utils'
 
 interface PreviewOption {
   out: string
