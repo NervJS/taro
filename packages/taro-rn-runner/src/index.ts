@@ -16,7 +16,7 @@ import buildComponent from './config/build-component'
 import { getRNConfigEntry } from './config/config-holder'
 import preview from './config/preview'
 import { TerminalReporter } from './config/terminal-reporter'
-import { getOpenHost, isWin,PLAYGROUNDINFO } from './utils'
+import { getOpenHost, isWin, PLAYGROUNDINFO } from './utils'
 
 function concatOutputFileName (config: any): string {
   // 优先级：--bundle-output > config.output > config.outputRoot
