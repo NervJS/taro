@@ -5,7 +5,7 @@ import { extname, join } from 'path'
 import * as qr from 'qrcode-terminal'
 import { URL } from 'url'
 
-import { getOpenHost, PLAYGROUNDINFO } from '../utils'
+import { getOpenHost, isWin,PLAYGROUNDINFO } from '../utils'
 
 interface PreviewOption {
   out: string
@@ -110,5 +110,5 @@ export default (opt: PreviewOption):void => {
   const url = `${host}/index.js`
   console.log(PLAYGROUNDINFO)
   console.log(`print qrcode of ${opt.platform} bundle '${url}':`)
-  qr.generate(url, { small: true })
+  qr.generate(url, { small: !isWin })
 }

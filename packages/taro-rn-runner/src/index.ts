@@ -16,7 +16,7 @@ import buildComponent from './config/build-component'
 import { getRNConfigEntry } from './config/config-holder'
 import preview from './config/preview'
 import { TerminalReporter } from './config/terminal-reporter'
-import { getOpenHost, PLAYGROUNDINFO } from './utils'
+import { getOpenHost, isWin,PLAYGROUNDINFO } from './utils'
 
 function concatOutputFileName (config: any): string {
   // 优先级：--bundle-output > config.output > config.outputRoot
@@ -181,7 +181,7 @@ export default async function build (_appPath: string, config: any): Promise<any
           const url = `taro://${host}:${metroConfig.server.port}`
           console.log(PLAYGROUNDINFO)
           console.log(`print qrcode of '${url}':`)
-          qr.generate(url, { small: true })
+          qr.generate(url, { small: !isWin })
         } else {
           console.log('print qrcode error: host not found.')
         }
