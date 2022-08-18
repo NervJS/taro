@@ -24,6 +24,8 @@ export class TaroEvent {
 
   public bubbles: boolean
 
+  public button: number
+
   public cancelable: boolean
 
   public _stop = false
@@ -43,6 +45,7 @@ export class TaroEvent {
     this.mpEvent = event
     this.bubbles = Boolean(opts && opts.bubbles)
     this.cancelable = Boolean(opts && opts.cancelable)
+    this.button = 0
   }
 
   public stopPropagation () {

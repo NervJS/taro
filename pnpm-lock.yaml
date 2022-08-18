@@ -1269,11 +1269,15 @@ importers:
 
   packages/taro-runtime:
     specifiers:
+      '@tarojs/runtime': ^3.5.3
       '@tarojs/shared': workspace:*
       lodash-es: 4.17.21
+      tslib: ^2.4.0
     dependencies:
       '@tarojs/shared': link:../shared
       lodash-es: registry.npmjs.org/lodash-es/4.17.21
+    devDependencies:
+      tslib: registry.npmjs.org/tslib/2.4.0
 
   packages/taro-runtime-rn:
     specifiers:

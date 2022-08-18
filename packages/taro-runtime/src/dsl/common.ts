@@ -3,7 +3,8 @@ import { EMPTY_OBJ, ensure, hooks, isArray, isFunction, isString, isUndefined, S
 import type { PageConfig } from '@tarojs/taro'
 
 import { raf } from '../bom/raf'
-import { BEHAVIORS, CUSTOM_WRAPPER, EXTERNAL_CLASSES, ON_HIDE, ON_LOAD, ON_READY, ON_SHOW, OPTIONS, PAGE_INIT, VIEW } from '../constants'
+import { window } from '../bom/window'
+import { BEHAVIORS, CONTEXT_ACTIONS,CUSTOM_WRAPPER, EXTERNAL_CLASSES, ON_HIDE, ON_LOAD, ON_READY, ON_SHOW, OPTIONS, PAGE_INIT, VIEW  } from '../constants'
 import { Current } from '../current'
 import { eventHandler } from '../dom/event'
 import type { TaroRootElement } from '../dom/root'
@@ -139,6 +140,12 @@ export function createPageConfig (component: any, pageName?: string, data?: Reco
 
       setCurrentRouter(this)
 
+      // TODO: H5 时没有trigger方法
+      // 初始化当前页面的上下文信息
+      if (process.env.TARO_ENV !== 'h5') {
+        window.trigger(CONTEXT_ACTIONS.INIT, this.$taroPath)
+      }
+
       const mount = () => {
         Current.app!.mount!(component, $taroPath, () => {
           pageElement = env.document.getElementById<TaroRootElement>($taroPath)
@@ -162,6 +169,10 @@ export function createPageConfig (component: any, pageName?: string, data?: Reco
     },
     [ONUNLOAD] () {
       const $taroPath = this.$taroPath
+      // 销毁当前页面的上下文信息
+      if (process.env.TARO_ENV !== 'h5') {
+        window.trigger(CONTEXT_ACTIONS.DESTORY, $taroPath)
+      }
       // 触发onUnload生命周期
       safeExecute($taroPath, ONUNLOAD)
       unmounting = true
@@ -190,6 +201,10 @@ export function createPageConfig (component: any, pageName?: string, data?: Reco
         // 设置 Current 的 page 和 router
         Current.page = this as any
         setCurrentRouter(this)
+        // 恢复上下文信息, TODO: 需要确认 onShow 是稳定触发的
+        if (process.env.TARO_ENV !== 'h5') {
+          window.trigger(CONTEXT_ACTIONS.RECOVER, this.$taroPath)
+        }
         // 触发生命周期
         safeExecute(this.$taroPath, ON_SHOW, options)
         // 通过事件触发子组件的生命周期
@@ -197,6 +212,10 @@ export function createPageConfig (component: any, pageName?: string, data?: Reco
       })
     },
     [ONHIDE] () {
+      // 缓存当前页面上下文信息
+      if (process.env.TARO_ENV !== 'h5') {
+        window.trigger(CONTEXT_ACTIONS.RESTORE, this.$taroPath)
+      }
       // 设置 Current 的 page 和 router
       if (Current.page === this) {
         Current.page = null
