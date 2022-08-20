@@ -1,4 +1,5 @@
 import { ComponentType } from 'react'
+import { StyleProp, TextStyle, ViewStyle } from 'react-native'
 import { StandardProps, CommonEventFunction, FormItemProps } from './common'
 
 /** 选择器通用参数 */
@@ -60,6 +61,18 @@ interface PickerSelectorProps extends PickerStandardProps {
    */
   value?: number
   /**
+   * mode为 multiSelector itemStyle 有效
+   * @supported rn
+   * @default {}
+   */
+  itemStyle?: StyleProp<TextStyle>
+  /**
+   * mode为 multiSelector indicatorStyle 有效
+   * @supported rn
+   * @default {}
+   */
+  indicatorStyle?: StyleProp<ViewStyle>
+  /**
    * value 改变时触发 change 事件，event.detail = {value}
    * @supported weapp, h5, rn
    */
@@ -94,6 +107,18 @@ interface PickerMultiSelectorProps extends PickerStandardProps {
    * @default []
    */
   value: number[] | string[] | Record<string, any>[]
+  /**
+   * mode为 multiSelector itemStyle 有效
+   * @supported rn
+   * @default {}
+   */
+  itemStyle?: StyleProp<TextStyle>
+  /**
+   * mode为 multiSelector indicatorStyle 有效
+   * @supported rn
+   * @default {}
+   */
+  indicatorStyle?: StyleProp<ViewStyle>
   /**
    * 当 value 改变时触发 change 事件，event.detail = {value}
    * @supported weapp, h5, rn
