@@ -137,7 +137,7 @@ export default class MultiSelector extends React.Component<MultiSelectorProps, M
   }
 
   render(): JSX.Element {
-    const { children, disabled } = this.props
+    const { children, disabled, itemStyle,indicatorStyle } = this.props
     const { cols, range, value } = this.state
 
     return (
@@ -145,6 +145,8 @@ export default class MultiSelector extends React.Component<MultiSelectorProps, M
         data={range}
         value={value}
         cols={cols}
+        itemStyle={itemStyle}
+        indicatorStyle={indicatorStyle}
         onChange={this.onChange}
         onPickerChange={this.onPickerChange}
         onOk={this.onOk}

@@ -84,6 +84,8 @@ export default class Selector extends React.Component<SelectorProps, SelectorSta
     const {
       children,
       disabled,
+      itemStyle,
+      indicatorStyle
     } = this.props
     const {
       range,
@@ -97,6 +99,8 @@ export default class Selector extends React.Component<SelectorProps, SelectorSta
         data={range}
         value={[selected && selected.value]}
         cols={1}
+        itemStyle={itemStyle}
+        indicatorStyle={indicatorStyle}
         onChange={this.onChange}
         onPickerChange={this.onPickerChange}
         onOk={this.onOk}

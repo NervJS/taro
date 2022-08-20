@@ -1,4 +1,5 @@
 import { PickerDateProps, PickerMultiSelectorProps, PickerSelectorProps, PickerTimeProps, PickerRegionProps } from '@tarojs/components/types/Picker'
+import { StyleProp, TextStyle, ViewStyle } from 'react-native'
 
 export interface BaseState<T> {
   /** 表示当前选中的值 */
@@ -33,7 +34,9 @@ export interface RegionObj {
 }
 
 export interface MultiSelectorProps extends Partial<PickerMultiSelectorProps> {
-  value: number[]
+  value: number[],
+  itemStyle?: StyleProp<TextStyle>
+  indicatorStyle?: StyleProp<ViewStyle>
 }
 export interface MultiSelectorState extends BaseState<any[]> {
   cols: number;
