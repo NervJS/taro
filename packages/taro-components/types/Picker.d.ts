@@ -1,4 +1,3 @@
-import { ComponentType,CSSProperties } from 'react'
 import { StyleProp, TextStyle, ViewStyle } from 'react-native'
 import { StandardProps, CommonEventFunction, FormItemProps } from './common'
 
