@@ -61,13 +61,13 @@ interface PickerSelectorProps extends PickerStandardProps {
    */
   value?: number
   /**
-   * mode为 multiSelector itemStyle 有效
+   * mode为 selector 或 multiSelector 时 itemStyle 有效
    * @supported rn
    * @default {}
    */
   itemStyle?: StyleProp<TextStyle>
   /**
-   * mode为 multiSelector indicatorStyle 有效
+   * mode为 selector 或 multiSelector 时 indicatorStyle 有效
    * @supported rn
    * @default {}
    */
@@ -108,13 +108,13 @@ interface PickerMultiSelectorProps extends PickerStandardProps {
    */
   value: number[] | string[] | Record<string, any>[]
   /**
-   * mode为 multiSelector itemStyle 有效
+   * mode为 selector 或 multiSelector 时 itemStyle 有效
    * @supported rn
    * @default {}
    */
   itemStyle?: StyleProp<TextStyle>
   /**
-   * mode为 multiSelector indicatorStyle 有效
+   * mode为 selector 或 multiSelector 时 indicatorStyle 有效
    * @supported rn
    * @default {}
    */
