@@ -120,7 +120,7 @@ export class H5Combination extends Combination<H5BuildConfig> {
     }
     const optimization: Optimization = {
       nodeEnv,
-      chunkIds: isProd ? 'natural' : 'named',
+      chunkIds: isProd ? 'deterministic' : 'named', // false 或导致编译错误，natural、size、total-size 与 prebundle 特性不兼容
       removeEmptyChunks: true,
       splitChunks: {
         chunks: 'initial',
