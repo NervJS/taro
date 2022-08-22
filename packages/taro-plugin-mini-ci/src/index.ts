@@ -8,44 +8,49 @@ import TTCI from './TTCI'
 import WeappCI from './WeappCI'
 
 export { CIOptions } from './BaseCi'
-export default (ctx: IPluginContext, pluginOpts: CIOptions) => {
+export default (ctx: IPluginContext, _pluginOpts: CIOptions | (() => CIOptions)) => {
   const onBuildDone = ctx.onBuildComplete || ctx.onBuildFinish
+  const pluginOpts = typeof _pluginOpts === 'function' ? _pluginOpts() : _pluginOpts
+
 
   ctx.addPluginOptsSchema((joi) => {
-    return joi
-      .object()
-      .keys({
+    return joi.alternatives().try(
+      joi.function().required(),
+      joi
+        .object()
+        .keys({
         /** 微信小程序上传配置 */
-        weapp: joi.object({
-          appid: joi.string().required(),
-          projectPath: joi.string(),
-          privateKeyPath: joi.string().required(),
-          type: joi.string().valid('miniProgram', 'miniProgramPlugin', 'miniGame', 'miniGamePlugin'),
-          ignores: joi.array().items(joi.string().required())
-        }),
-        /** 字节跳动小程序上传配置 */
-        tt: joi.object({
-          email: joi.string().required(),
-          password: joi.string().required()
-        }),
-        /** 阿里小程序上传配置 */
-        alipay: joi.object({
-          appId: joi.string().required(),
-          toolId: joi.string().required(),
-          privateKeyPath: joi.string().required(),
-          proxy: joi.string(),
-          project: joi.string(),
-          clientType: joi.string().valid('alipay', 'ampe', 'amap', 'genie', 'alios', 'uc', 'quark', 'taobao', 'koubei', 'alipayiot', 'cainiao', 'alihealth')
-        }),
-        /** 百度小程序上传配置 */
-        swan: joi.object({
-          token: joi.string().required(),
-          minSwanVersion: joi.string()
-        }),
-        version: joi.string(),
-        desc: joi.string()
-      })
-      .required()
+          weapp: joi.object({
+            appid: joi.string().required(),
+            projectPath: joi.string(),
+            privateKeyPath: joi.string().required(),
+            type: joi.string().valid('miniProgram', 'miniProgramPlugin', 'miniGame', 'miniGamePlugin'),
+            ignores: joi.array().items(joi.string().required())
+          }),
+          /** 字节跳动小程序上传配置 */
+          tt: joi.object({
+            email: joi.string().required(),
+            password: joi.string().required()
+          }),
+          /** 阿里小程序上传配置 */
+          alipay: joi.object({
+            appId: joi.string().required(),
+            toolId: joi.string().required(),
+            privateKeyPath: joi.string().required(),
+            proxy: joi.string(),
+            project: joi.string(),
+            clientType: joi.string().valid('alipay', 'ampe', 'amap', 'genie', 'alios', 'uc', 'quark', 'taobao', 'koubei', 'alipayiot', 'cainiao', 'alihealth')
+          }),
+          /** 百度小程序上传配置 */
+          swan: joi.object({
+            token: joi.string().required(),
+            minSwanVersion: joi.string()
+          }),
+          version: joi.string(),
+          desc: joi.string()
+        })
+        .required()
+    )
   })
 
   onBuildDone(async () => {

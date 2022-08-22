@@ -47,6 +47,44 @@ const config = {
 }
 ```
 
+除了给插件传入对象， 你也可以传入一个函数，在编译时动态返回相关配置
+```js
+const CIPluginFn = () => {
+  /**
+   * @typedef { import("@tarojs/plugin-mini-ci").CIOptions } CIOptions
+   * @type {CIOptions}
+   */
+  return {
+      weapp: {
+          appid: "微信小程序appid",
+          privateKeyPath: "密钥文件相对项目根目录的相对路径，例如 key/private.appid.key"
+      },
+      tt: {
+          email: "字节小程序邮箱",
+          password: "字节小程序密码"
+      },
+      alipay: {
+        appId: "支付宝小程序appId",
+        toolId: "工具id",
+        privateKeyPath: "密钥文件相对项目根目录的相对路径，例如 key/pkcs8-private-pem"
+      },
+      swan: {
+        token: "鉴权需要的token令牌"
+      },
+      // 版本号
+      version: "1.0.0",
+      // 版本发布描述
+      desc: "版本描述"
+  }
+}
+
+const config = {
+  plugins: [
+    [ "@tarojs/plugin-mini-ci", CIPluginFn ]
+  ]
+}
+```
+
 ### 配置命令
 
 `package.json` 的 `scripts` 字段使用命令参数
