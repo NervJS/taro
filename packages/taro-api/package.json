@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/api",
-  "version": "3.0.5",
+  "version": "3.5.3",
   "description": "Taro common API",
   "author": "yuche <i@yuche.me>",
   "homepage": "https://github.com/nervjs/taro/tree/master/packages/api#readme",
@@ -29,6 +29,7 @@
     "url": "https://github.com/NervJS/taro/issues"
   },
   "dependencies": {
-    "@tarojs/runtime": "3.0.5"
+    "@babel/runtime": "^7.14.5",
+    "@tarojs/runtime": "workspace:*"
   }
 }

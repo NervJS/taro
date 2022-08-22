@@ -1,23 +1,29 @@
 /* eslint-disable no-param-reassign */
-import parse from 'postcss-value-parser'
 import camelizeStyleName from 'camelize'
-import transforms from './transforms/index'
+import parse from 'postcss-value-parser'
+
 import TokenStream from './TokenStream'
+import transforms from './transforms/index'
 
 // Note if this is wrong, you'll need to change tokenTypes.js too
-const numberOrLengthRe = /^([+-]?(?:\d*\.)?\d+(?:[Ee][+-]?\d+)?)(?:px)?$/i
+const numberOrLengthRe = /^([+-]?(?:\d*\.)?\d+(?:[Ee][+-]?\d+)?)((?:px)|(?:vw$)|(?:vh$)|(?:vmin$)|(?:vmax$))?$/i
 const boolRe = /^true|false$/i
 const nullRe = /^null$/i
 const undefinedRe = /^undefined$/i
 
 // Undocumented export
-export const transformRawValue = input => {
+export const transformRawValue = (input) => {
   const value = input.trim()
 
   const numberMatch = value.match(numberOrLengthRe)
   if (numberMatch !== null) {
     const num = Number(numberMatch[1])
-    if (/px/.test(value)) {
+    const unit = numberMatch[2]
+    const isViewportUnit = ['vw', 'vh', 'vmin', 'vmax'].includes(unit)
+
+    if (isViewportUnit) {
+      return `scaleVu2dp(${num}, '${unit}')`
+    } else if (/(\d+)px/.test(value)) {
       return `scalePx2dp(${num})`
     } else {
       return num
@@ -43,24 +49,32 @@ const baseTransformShorthandValue = (propName, inputValue) => {
   return transforms[propName](tokenStream)
 }
 
+const checkBaseTransformShorthandValue = (propName, inputValue) => {
+  try {
+    return baseTransformShorthandValue(propName, inputValue)
+  } catch (e) {
+    throw new Error(
+      `${e.message} Failed to parse declaration "${propName}: ${inputValue}"`,
+    )
+  }
+}
+
 const transformShorthandValue =
   process.env.NODE_ENV === 'production'
     ? baseTransformShorthandValue
-    : (propName, inputValue) => {
-      try {
-        return baseTransformShorthandValue(propName, inputValue)
-      } catch (e) {
-        throw new Error(`${e.message} Failed to parse declaration "${propName}: ${inputValue}"`)
-      }
-    }
+    : checkBaseTransformShorthandValue
 
 export const getStylesForProperty = (propName, inputValue, allowShorthand) => {
   const isRawValue = allowShorthand === false || !(propName in transforms)
-  const propValue = isRawValue ? transformRawValue(inputValue) : transformShorthandValue(propName, inputValue.trim())
-  return propValue && propValue.$merge ? propValue.$merge : { [propName]: propValue }
+  const propValue = isRawValue
+    ? transformRawValue(inputValue)
+    : transformShorthandValue(propName, inputValue.trim())
+  return propValue && propValue.$merge
+    ? propValue.$merge
+    : { [propName]: propValue }
 }
 
-export const getPropertyName = propName => {
+export const getPropertyName = (propName) => {
   const isCustomProp = /^--\w+/.test(propName)
   if (isCustomProp) {
     return propName
@@ -73,5 +87,8 @@ export default (rules, shorthandBlacklist = []) =>
     const propertyName = getPropertyName(rule[0])
     const value = rule[1]
     const allowShorthand = shorthandBlacklist.indexOf(propertyName) === -1
-    return Object.assign(accum, getStylesForProperty(propertyName, value, allowShorthand))
+    return Object.assign(
+      accum,
+      getStylesForProperty(propertyName, value, allowShorthand),
+    )
   }, {})

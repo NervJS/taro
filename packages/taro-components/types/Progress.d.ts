@@ -78,13 +78,13 @@ interface ProgressProps extends StandardProps {
 /** 进度条。组件属性的长度单位默认为 px
  * @classification base
  * @supported weapp, swan, alipay, tt, h5, rn
- * @example
+ * @example_react
  * ```tsx
  * export default class PageView extends Component {
  *   constructor() {
  *     super(...arguments)
  *   }
- * 
+ *
  *   render() {
  *     return (
  *       <View className='components-page'>
@@ -96,6 +96,17 @@ interface ProgressProps extends StandardProps {
  *     )
  *   }
  * }
+ * ```
+ * @example_vue
+ * ```html
+ * <template>
+ *   <view class="components-page">
+ *     <progress percent="20" stroke-width="2" :show-info="true" />
+ *     <progress percent="40" stroke-width="2" :active="true" />
+ *     <progress percent="60" stroke-width="2" :active="true" />
+ *     <progress percent="80" stroke-width="2" :active="true" active-color="blue" />
+ *   </view>
+ * </template>
  * ```
  * @see https://developers.weixin.qq.com/miniprogram/dev/component/progress.html
  */

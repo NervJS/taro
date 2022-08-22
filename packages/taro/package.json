@@ -1,25 +1,18 @@
 {
   "name": "@tarojs/taro",
-  "version": "3.0.5",
+  "version": "3.5.3",
   "description": "Taro framework",
+  "homepage": "https://github.com/nervjs/taro/tree/master/packages/taro#readme",
   "main": "index.js",
-  "main:h5": "h5.js",
   "typings": "types/index.d.ts",
   "files": [
-    "dist",
-    "src",
     "index.js",
     "types",
-    "package.json",
-    "lib",
-    "h5.js",
     "html.css",
     "html5.css"
   ],
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "build:api": "babel apis --out-dir lib --presets=@babel/preset-env",
-    "build": "babel apis --out-dir lib --presets=@babel/preset-env"
+    "test": "echo \"Error: run tests from root\" && exit 1"
   },
   "repository": {
     "type": "git",
@@ -31,10 +24,21 @@
   "author": "O2Team",
   "license": "MIT",
   "dependencies": {
-    "@tarojs/api": "3.0.5",
-    "@tarojs/taro-h5": "3.0.5"
+    "@tarojs/api": "workspace:*",
+    "@tarojs/runtime": "workspace:*"
   },
-  "devDependencies": {
-    "@tarojs/runtime": "3.0.5"
+  "peerDependenciesMeta": {
+    "@types/react": {
+      "optional": true
+    },
+    "@types/webpack": {
+      "optional": true
+    },
+    "@types/webpack-dev-server": {
+      "optional": true
+    },
+    "vue": {
+      "optional": true
+    }
   }
 }

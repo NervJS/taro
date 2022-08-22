@@ -1,9 +1,9 @@
-import './polyfill'
-import React from 'react'
-import ReactDOM from 'react-dom'
-import { Audio } from '../h5/react'
-import { waitForChange } from './utils'
 import * as assert from 'assert'
+import React from 'react'
+
+import { Audio } from '../h5/react'
+import { mount } from './test-tools'
+import { delay, waitForChange } from './utils'
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const h = React.createElement
 
@@ -24,27 +24,18 @@ describe('Audio', () => {
   })
 
   it('props', async () => {
-    const ref = React.createRef()
-
     const src = 'http://storage.jd.com/cjj-pub-images/horse.ogv'
     const controls = true
     const loop = true
 
-    /**
-     * @type {import('react').ReactInstance}
-     */
-    let instance
-
     class App extends React.Component {
-      state = {
-        src,
-        controls,
-        loop
-      }
-
-      constructor (props) {
-        super(props)
-        instance = this
+      constructor () {
+        super(...arguments)
+        this.state = {
+          src,
+          controls,
+          loop
+        }
       }
 
       render () {
@@ -53,33 +44,30 @@ describe('Audio', () => {
           controls,
           loop
         } = this.state
-        return <Audio ref={ref} src={src} controls={controls} loop={loop} />
+        return (
+          <Audio src={src} controls={controls} loop={loop} />
+        )
       }
     }
 
-    ReactDOM.render(<App />, scratch)
-
-    /**
-     * @type {HTMLElement}
-     */
-    const node = ref.current
-
+    const wrapper = await mount(<App />, scratch)
+    const node = wrapper.node
     await waitForChange(node)
 
-    /**
-     * @type {HTMLAudioElement}
-     */
-    const audio = node.childNodes[0]
+    if (!node.firstElementChild) await delay(3000)
+
+    const audio = node.firstElementChild
+
     assert(audio instanceof HTMLAudioElement)
     assert(audio.src === src)
     assert(audio.controls === controls)
     assert(audio.loop === loop)
 
-    instance.setState({
+    await wrapper.setState({
       controls: false,
       loop: false
     })
-    await waitForChange(audio)
+
     assert(audio.controls === false)
     assert(audio.loop === false)
   })

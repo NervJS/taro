@@ -1,58 +1,54 @@
+import commonjs from '@rollup/plugin-commonjs'
+import resolve from '@rollup/plugin-node-resolve'
 import { mergeWith } from 'lodash'
-import { join } from 'path'
-import resolve from 'rollup-plugin-node-resolve'
-import babel from 'rollup-plugin-babel'
-import common from 'rollup-plugin-commonjs'
-import alias from 'rollup-plugin-alias'
+import externals from 'rollup-plugin-node-externals'
 import postcss from 'rollup-plugin-postcss'
+import ts from 'rollup-plugin-ts'
+
 import exportNameOnly from './build/rollup-plugin-export-name-only'
 
-const cwd = __dirname
 const baseConfig = {
-  external: ['nervjs', '@tarojs/runtime', 'react-dom'],
   output: {
     format: 'cjs',
-    sourcemap: false,
-    exports: 'auto'
+    sourcemap: true,
+    exports: 'named'
   },
+  treeshake: false,
   plugins: [
-    alias({
-      '@tarojs/taro': join(cwd, '../taro/src/index')
+    externals({
+      devDeps: false
     }),
     resolve({
       preferBuiltins: false,
-      mainFields: ['module', 'js-next', 'main']
+      mainFields: ['main:h5', 'browser', 'module', 'jsnext:main', 'main']
     }),
-    postcss(),
-    babel({
-      babelrc: false,
-      presets: [
-        ['@babel/preset-env', {
-          modules: false
-        }]
-      ],
-      plugins: [
-        '@babel/plugin-proposal-class-properties',
-        '@babel/plugin-proposal-object-rest-spread',
-        ['@babel/plugin-transform-react-jsx', {
-          pragma: 'Nerv.createElement'
-        }]
-      ]
+    ts({
+      declaration: false,
+      sourceMap: true,
     }),
-    common()
+    commonjs(),
+    postcss({
+      inject: { insertAt: 'top' }
+    })
   ]
 }
 
 const variesConfig = [{
-  input: 'src/api/index.js',
+  input: 'src/api/index.ts',
   output: {
     file: 'dist/taroApis.js'
   },
   plugins: exportNameOnly()
 }, {
-  input: 'src/index.cjs.js',
+  input: 'src/index.ts',
   output: {
     file: 'dist/index.cjs.js'
+  }
+}, {
+  input: 'src/index.ts',
+  output: {
+    format: 'es',
+    file: 'dist/index.esm.js'
   }
 }]
 

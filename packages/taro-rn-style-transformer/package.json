@@ -1,0 +1,42 @@
+{
+  "name": "@tarojs/rn-style-transformer",
+  "version": "3.5.3",
+  "description": "提供Taro RN 统一处理样式文件能力",
+  "main": "dist/index.js",
+  "scripts": {
+    "test": "jest",
+    "test:ci": "jest --ci --silent --coverage false",
+    "build": "tsc",
+    "dev": "tsc -w",
+    "lint": "eslint ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NervJS/taro.git"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/NervJS/taro/issues"
+  },
+  "engines": {
+    "node": ">=12.0.0",
+    "npm": ">=6.0.0"
+  },
+  "dependencies": {
+    "@tarojs/helper": "workspace:*",
+    "fbjs": "^2.0.0",
+    "less": "^3.12.2",
+    "postcss": "^8.4.12",
+    "postcss-import": "^12.0.1",
+    "postcss-pxtransform": "workspace:*",
+    "postcss-reporter": "^6.0.1",
+    "prop-types": "^15.7.2",
+    "resolve": "^1.22.0",
+    "sass": "1.37.5",
+    "stylelint": "^14.9.1",
+    "stylelint-config-taro-rn": "workspace:*",
+    "stylelint-taro-rn": "workspace:*",
+    "stylus": "^0.55.0",
+    "taro-css-to-react-native": "workspace:*"
+  }
+}

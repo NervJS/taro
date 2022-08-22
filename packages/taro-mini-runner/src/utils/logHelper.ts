@@ -1,7 +1,7 @@
-import * as ora from 'ora'
-import { partial, pipe } from 'lodash/fp'
-import * as formatMessages from 'webpack-format-messages'
 import { chalk } from '@tarojs/helper'
+import { partial, pipe } from 'lodash/fp'
+import * as ora from 'ora'
+import * as formatMessages from 'webpack-format-messages'
 
 const getServeSpinner = (() => {
   let spinner
@@ -43,35 +43,35 @@ const printBuildError = (err: Error): void => {
 const printSuccess = () => {
   getServeSpinner().stopAndPersist({
     symbol: '✅ ',
-    text: chalk.green('编译成功\n')
+    text: chalk.green(`编译成功 ${new Date().toLocaleString()}\n`)
   })
 }
 
 export const printPrerenderSuccess = (path: string) => {
   getServeSpinner().stopAndPersist({
     symbol: '🚀 ',
-    text: chalk.green(`页面 ${path} 预渲染成功`)
+    text: chalk.green(`页面 ${path} 预渲染成功 ${new Date().toLocaleString()}`)
   })
 }
 
 export const printPrerenderFail = (path: string) => {
   getServeSpinner().stopAndPersist({
     symbol: '⚠️ ',
-    text: chalk.yellow(`页面 ${path} 预渲染失败：`)
+    text: chalk.yellow(`${new Date().toLocaleString()} 页面 ${path} 预渲染失败：`)
   })
 }
 
 const printWarning = () => {
   getServeSpinner().stopAndPersist({
     symbol: '⚠️ ',
-    text: chalk.yellow('编译警告.\n')
+    text: chalk.yellow(`编译警告. ${new Date().toLocaleString()}\n`)
   })
 }
 
 const printFailed = () => {
   getServeSpinner().stopAndPersist({
     symbol: '🙅  ',
-    text: chalk.red('编译失败.\n')
+    text: chalk.red(`编译失败. ${new Date().toLocaleString()}\n`)
   })
 }
 
@@ -169,9 +169,9 @@ const bindProdLogger = compiler => {
 }
 
 export {
-  printBuildError,
-  printCompiling,
-  getServeSpinner,
   bindDevLogger,
-  bindProdLogger
+  bindProdLogger,
+  getServeSpinner,
+  printBuildError,
+  printCompiling
 }

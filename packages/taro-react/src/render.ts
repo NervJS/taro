@@ -1,7 +1,8 @@
 import { TaroElement } from '@tarojs/runtime'
 import { ReactNode } from 'react'
-import { TaroReconciler } from './reconciler'
 import { OpaqueRoot } from 'react-reconciler'
+
+import { TaroReconciler } from './reconciler'
 
 export const ContainerMap: WeakMap<TaroElement, Root> = new WeakMap()
 
@@ -13,15 +14,16 @@ class Root {
   private renderer: Renderer
   private internalRoot: OpaqueRoot
 
-  public constructor (renderer: Renderer, domContainer: TaroElement) {
+  public constructor (renderer: Renderer, domContainer: TaroElement, isConcurrentRoot = false) {
     this.renderer = renderer
-    this.internalRoot = renderer.createContainer(domContainer, false, false)
+    /** ConcurrentRoot & LegacyRoot: react-reconciler/src/ReactRootTags.js */
+    this.internalRoot = renderer.createContainer(domContainer, isConcurrentRoot ? 1 : 0, false, null)
   }
 
   public render (children: ReactNode, cb: Callback) {
-    this.renderer.updateContainer(children, this.internalRoot, null, cb)
-
-    return this.renderer.getPublicRootInstance(this.internalRoot)
+    const { renderer, internalRoot } = this
+    renderer.updateContainer(children, internalRoot, null, cb)
+    return renderer.getPublicRootInstance(internalRoot)
   }
 
   public unmount (cb: Callback) {
@@ -38,4 +40,14 @@ export function render (element: ReactNode, domContainer: TaroElement, cb: Callb
   const root = new Root(TaroReconciler, domContainer)
   ContainerMap.set(domContainer, root)
   return root.render(element, cb)
+}
+
+export function createRoot (domContainer: TaroElement) {
+  const oldRoot = ContainerMap.get(domContainer)
+  if (oldRoot != null) {
+    return oldRoot
+  }
+  const root = new Root(TaroReconciler, domContainer, true)
+  ContainerMap.set(domContainer, root)
+  return root
 }

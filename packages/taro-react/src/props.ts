@@ -1,6 +1,5 @@
-import { TaroElement, Style, document, FormElement } from '@tarojs/runtime'
-import { isFunction, isString, isObject, isNumber } from '@tarojs/shared'
-import { CommonEvent } from '@tarojs/components'
+import { FormElement, Style, TaroElement } from '@tarojs/runtime'
+import { capitalize, internalComponents, isFunction, isNumber, isObject, isString, toCamelCase } from '@tarojs/shared'
 
 export type Props = Record<string, unknown>
 
@@ -26,11 +25,11 @@ export function updateProps (dom: TaroElement, oldProps: Props, newProps: Props)
   }
 }
 
-function eventProxy (e: CommonEvent) {
-  const el = document.getElementById(e.currentTarget.id)
-  const handlers = el!.__handlers[e.type]
-  handlers[0](e)
-}
+// function eventProxy (e: CommonEvent) {
+//   const el = document.getElementById(e.currentTarget.id)
+//   const handlers = el!.__handlers[e.type]
+//   handlers[0](e)
+// }
 
 function setEvent (dom: TaroElement, name: string, value: unknown, oldValue?: unknown) {
   const isCapture = name.endsWith('Capture')
@@ -39,17 +38,21 @@ function setEvent (dom: TaroElement, name: string, value: unknown, oldValue?: un
     eventName = eventName.slice(0, -7)
   }
 
-  if (eventName === 'click') {
+  const compName = capitalize(toCamelCase(dom.tagName.toLowerCase()))
+
+  if (eventName === 'click' && compName in internalComponents) {
     eventName = 'tap'
   }
 
   if (isFunction(value)) {
-    if (!oldValue) {
-      dom.addEventListener(eventName, eventProxy, isCapture)
+    if (oldValue) {
+      dom.removeEventListener(eventName, oldValue as any, false)
+      dom.addEventListener(eventName, value, { isCapture, sideEffect: false })
+    } else {
+      dom.addEventListener(eventName, value, isCapture)
     }
-    dom.__handlers[eventName][0] = value
   } else {
-    dom.removeEventListener(eventName, eventProxy)
+    dom.removeEventListener(eventName, oldValue as any)
   }
 }
 

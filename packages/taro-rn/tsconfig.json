@@ -1,27 +1,17 @@
 {
-  "include": [
-    "src/**/*"
-  ],
+  "extends": "../../tsconfig.root.json",
   "compilerOptions": {
     "rootDir": "./src",
     "outDir": "./dist",
-    "strictNullChecks": true,
     "sourceMap": true,
-    "allowJs": true,
-    "noImplicitAny": false,
-    "allowSyntheticDefaultImports": true,
-    "downlevelIteration": true,
     "jsx": "react",
-    "moduleResolution": "node",
-    "target": "es2015",
-    "skipLibCheck": true,
-    "lib": [
-      "es2015",
-      "dom"
-    ],
-    "typeRoots": [
-      "./node_modules/@types",
-      "./src/types"
-    ]
-  }
+    "lib": ["ESNEXT"],
+    "paths": {
+      "react": ["./node_modules/@types/react", "./node_modules/react"],
+      "vue": ["./src/types/vue/index.d.ts"],
+    },
+    "typeRoots": ["./node_modules/@types"],
+  },
+  "include": ["./src", "./types"],
+  "exclude": ["./src/__tests__/**"],
 }

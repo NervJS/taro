@@ -12,3 +12,7 @@ export interface RichTextProps {
   style?: StyleProp<ViewStyle>;
   nodes: Node[] | string;
 }
+
+export interface RichTextState {
+  webViewHeight?: number,
+}

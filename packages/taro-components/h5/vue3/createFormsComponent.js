@@ -1,4 +1,6 @@
-import { h } from 'vue'
+import { computed, h, toRefs } from 'vue'
+
+import { useForwardRef } from './forwardRef'
 
 export default function createFormsComponent (name, eventName, modelValue = 'value', classNames = []) {
   const props = {
@@ -12,25 +14,33 @@ export default function createFormsComponent (name, eventName, modelValue = 'val
     emits: ['tap', 'update:modelValue'],
     props,
     setup (props, { slots, emit }) {
-      const attrs = {
-        [modelValue]: props.modelValue
-      }
+      const { modelValue: model, focus } = toRefs(props)
 
-      if (name === 'taro-input') {
-        attrs['auto-focus'] = props.focus
-      }
+      const attrs = computed(() => {
+        return name === 'taro-input'
+          ? {
+            [modelValue]: model.value,
+            'auto-focus': focus.value
+          }
+          : {
+            [modelValue]: model.value
+          }
+      })
+
+      const forwardRef = useForwardRef()
 
       return () => (
         h(
           `${name}-core`,
           {
+            ref: forwardRef,
             class: ['hydrated', ...classNames],
-            ...attrs,
+            ...attrs.value,
             onClick (e) {
               emit('tap', e)
             },
             [`on${eventName}`] (e) {
-              emit('update:modelValue', e.target.value)
+              emit('update:modelValue', e.detail.value)
             }
           },
           slots

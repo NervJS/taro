@@ -1,4 +1,4 @@
-<%if (framework === 'react') {-%>
+<%if (['react', 'preact'].includes(framework)) {-%>
 import { Component } from 'react'
 <%} else if (framework === 'nerv') { -%>
 import { Component } from 'nervjs'
@@ -9,7 +9,7 @@ import { createApp } from 'vue'
 <%}-%>
 import './app.<%= cssExt %>'
 
-<% if (framework === 'react' || framework === 'nerv') { -%>
+<% if (['react', 'preact', 'nerv'].includes(framework)) { -%>
 class App extends Component {
 
   componentDidMount () {}
@@ -18,8 +18,6 @@ class App extends Component {
 
   componentDidHide () {}
 
-  componentDidCatchError () {}
-
   // this.props.children 是将要会渲染的页面
   render () {
     return this.props.children
@@ -27,14 +25,14 @@ class App extends Component {
 }
 <%}-%>
 <% if (framework === 'vue') { -%>
-const App = new Vue({
+const App = {
   onShow (options) {
   },
   render(h) {
     // this.$slots.default 是将要会渲染的页面
     return h('block', this.$slots.default)
   }
-})
+}
 <%}-%>
 <% if (framework === 'vue3') { -%>
 const App = createApp({

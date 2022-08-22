@@ -1,11 +1,16 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { Component, h, ComponentInterface, Prop, State, Event, EventEmitter, Host, Watch, Listen, Element } from '@stencil/core'
+import { Component, h, ComponentInterface, Prop, State, Event, EventEmitter, Host, Watch, Listen, Element, Method } from '@stencil/core'
 import classNames from 'classnames'
+import Hls from 'hls.js'
+
+import { throttle } from '../../utils'
 import {
   formatTime,
   calcDist,
   normalizeNumber,
-  throttle
+  screenFn,
+  isHls,
+  scene
 } from './utils'
 
 @Component({
@@ -29,7 +34,7 @@ export class Video implements ComponentInterface {
   private lastPercentage
   private nextPercentage
   private gestureType = 'none'
-  private wrapperElement: HTMLElement
+  private hls: Hls
 
   @Element() el: HTMLTaroVideoCoreElement
 
@@ -78,6 +83,9 @@ export class Video implements ComponentInterface {
    */
   @Prop() objectFit: 'contain' | 'fill' | 'cover' = 'contain'
 
+  /**
+   * 若不设置，宽度大于 240 时才会显示
+   */
   @Prop() showProgress = true
 
   /**
@@ -135,11 +143,14 @@ export class Video implements ComponentInterface {
    */
   @Prop() vslideGestureInFullscreen = true
 
+  @Prop() nativeProps = {}
+
   @State() _duration: number
   @State() _enableDanmu = false
   @State() isPlaying = false
   @State() isFirst = true
   @State() isFullScreen = false
+  @State() fullScreenTimestamp = new Date().getTime()
   @State() isMute = false
 
   @Event({
@@ -179,35 +190,31 @@ export class Video implements ComponentInterface {
   }
 
   componentDidLoad () {
+    this.init()
     if (this.initialTime) {
       this.videoRef.currentTime = this.initialTime
     }
     // 目前只支持 danmuList 初始化弹幕列表，还未支持更新弹幕列表
     this.danmuRef.sendDanmu(this.danmuList)
+
+    if (document.addEventListener) {
+      document.addEventListener(screenFn.fullscreenchange, this.handleFullScreenChange)
+    }
+    if (this.videoRef && scene === 'iOS') {
+      // NOTE: iOS 场景下 fullscreenchange 并不会在退出全屏状态下触发，仅 webkitpresentationmodechanged 与 webkitendfullscreen 可替代
+      this.videoRef.addEventListener('webkitendfullscreen', this.handleFullScreenChange)
+    }
   }
 
   componentDidRender () {
-    const parentElement = this.el.parentElement as HTMLElement
-    const parentTagName = parentElement.tagName
-    if (this.isFullScreen) {
-      if (parentTagName !== 'BODY') {
-        parentElement.removeChild(this.el)
-        document.body.appendChild(this.el)
-      }
-    } else {
-      if (parentTagName !== 'DIV' || !parentElement.className.includes('taro-video')) {
-        if (!this.wrapperElement) {
-          const container = document.createElement('div')
-          container.className = 'taro-video'
-          parentElement.removeChild(this.el)
-          container.appendChild(this.el)
-          parentElement.appendChild(container)
-          this.wrapperElement = container
-        } else {
-          parentElement.removeChild(this.el)
-          this.wrapperElement.appendChild(this.el)
-        }
-      }
+  }
+
+  disconnectedCallback () {
+    if (document.removeEventListener) {
+      document.removeEventListener(screenFn.fullscreenchange, this.handleFullScreenChange)
+    }
+    if (this.videoRef && scene === 'iOS') {
+      this.videoRef.removeEventListener('webkitendfullscreen', this.handleFullScreenChange)
     }
   }
 
@@ -216,7 +223,12 @@ export class Video implements ComponentInterface {
     this._enableDanmu = newVal
   }
 
-  analyseGesture = (e: TouchEvent) => {
+  @Watch('src')
+  watchSrc () {
+    this.init()
+  }
+
+  analyzeGesture = (e: TouchEvent) => {
     const obj: {
       type: string
       dataX?: number
@@ -268,7 +280,7 @@ export class Video implements ComponentInterface {
     if (this.lastTouchScreenX === undefined || this.lastTouchScreenY === undefined) return
     if (await this.controlsRef.getIsDraggingProgressBall()) return
 
-    const gestureObj = this.analyseGesture(e)
+    const gestureObj = this.analyzeGesture(e)
     if (gestureObj.type === 'adjustVolume') {
       this.toastVolumeRef.style.visibility = 'visible'
       const nextVolume = Math.max(Math.min(this.lastVolume - gestureObj.dataY!, 1), 0)
@@ -308,6 +320,37 @@ export class Video implements ComponentInterface {
     this.gestureType = 'none'
     this.lastTouchScreenX = undefined
     this.lastTouchScreenY = undefined
+  }
+
+  loadNativePlayer = () => {
+    if (this.videoRef) {
+      this.videoRef.src = this.src
+      this.videoRef.load()
+    }
+  }
+
+  init = () => {
+    const { src, videoRef } = this
+
+    if (isHls(src)) {
+      if (Hls.isSupported()) {
+        if (this.hls) {
+          this.hls.destroy()
+        }
+        this.hls = new Hls()
+        this.hls.loadSource(src)
+        this.hls.attachMedia(videoRef)
+        this.hls.on(Hls.Events.MANIFEST_PARSED, () => {
+          this.autoplay && this.play()
+        })
+      } else if (videoRef.canPlayType('application/vnd.apple.mpegurl')) {
+        this.loadNativePlayer()
+      } else {
+        console.error('该浏览器不支持 HLS 播放')
+      }
+    } else {
+      this.loadNativePlayer()
+    }
   }
 
   handlePlay = () => {
@@ -380,21 +423,47 @@ export class Video implements ComponentInterface {
     })
   }
 
-  play = () => {
-    this.videoRef.play()
+  /** 播放视频 */
+  @Method() async play () {
+    this._play()
   }
 
-  pause = () => {
+  _play = () => this.videoRef.play()
+
+  /** 暂停视频 */
+  @Method() async pause () {
+    this._pause()
+  }
+
+  _pause = () => this.videoRef.pause()
+
+  /** 停止视频 */
+  @Method() async stop () {
+    this._stop()
+  }
+
+  _stop = () => {
     this.videoRef.pause()
+    this._seek(0)
   }
 
-  stop = () => {
-    this.videoRef.pause()
-    this.seek(0)
+  /** 跳转到指定位置 */
+  @Method() async seek (position: number) {
+    this._seek(position)
   }
 
-  seek = (position: number) => {
+  _seek = (position: number) => {
     this.videoRef.currentTime = position
+  }
+
+  /** 进入全屏。若有自定义内容需在全屏时展示，需将内容节点放置到 video 节点内。 */
+  @Method() async requestFullScreen () {
+    this.toggleFullScreen(true)
+  }
+
+  /** 退出全屏 */
+  @Method() async exitFullScreen () {
+    this.toggleFullScreen(false)
   }
 
   onTouchStartContainer = (e: TouchEvent) => {
@@ -419,14 +488,27 @@ export class Video implements ComponentInterface {
     this.toggleFullScreen()
   }
 
-  toggleFullScreen = (nextFullScreenState?) => {
-    const isFullScreen = nextFullScreenState === undefined ? !this.isFullScreen : nextFullScreenState
-    this.isFullScreen = isFullScreen
+  handleFullScreenChange = e => {
+    // 全屏后，"退出"走的是浏览器事件，在此同步状态
+    const timestamp = new Date().getTime()
+    if (!e.detail && this.isFullScreen && !document[screenFn.fullscreenElement] && timestamp - this.fullScreenTimestamp > 100) {
+      this.toggleFullScreen(false)
+    }
+  }
+
+  toggleFullScreen = (isFullScreen = !this.isFullScreen) => {
+    this.isFullScreen = isFullScreen // this.videoRef?.['webkitDisplayingFullscreen']
     this.controlsRef.toggleVisibility(true)
+    this.fullScreenTimestamp = new Date().getTime()
     this.onFullScreenChange.emit({
-      fullScreen: isFullScreen,
+      fullScreen: this.isFullScreen,
       direction: 'vertical'
     })
+    if (this.isFullScreen && !document[screenFn.fullscreenElement]) {
+      setTimeout(() => {
+        this.videoRef[screenFn.requestFullscreen]({ navigationUI: 'auto' })
+      }, 0)
+    }
   }
 
   toggleMute = (e: MouseEvent) => {
@@ -444,7 +526,6 @@ export class Video implements ComponentInterface {
 
   render () {
     const {
-      src,
       controls,
       autoplay,
       loop,
@@ -454,16 +535,16 @@ export class Video implements ComponentInterface {
       isFirst,
       isMute,
       isFullScreen,
-      duration,
-      _duration,
       showCenterPlayBtn,
       isPlaying,
       _enableDanmu,
       showMuteBtn,
       danmuBtn,
-      showFullscreenBtn
+      showFullscreenBtn,
+      nativeProps
     } = this
-    const durationTime = formatTime(duration || _duration || null)
+    const duration = this.duration || this._duration
+    const durationTime = formatTime(duration)
 
     return (
       <Host
@@ -478,8 +559,11 @@ export class Video implements ComponentInterface {
           style={{
             'object-fit': objectFit
           }}
-          ref={dom => (this.videoRef = dom as HTMLVideoElement)}
-          src={src}
+          ref={dom => {
+            if (dom) {
+              this.videoRef = dom as HTMLVideoElement
+            }
+          }}
           autoplay={autoplay}
           loop={loop}
           muted={muted}
@@ -494,9 +578,26 @@ export class Video implements ComponentInterface {
           onDurationChange={this.handleDurationChange}
           onProgress={this.handleProgress}
           onLoadedMetaData={this.handleLoadedMetaData}
+          {...nativeProps}
         >
           暂时不支持播放该视频
         </video>
+
+        <taro-video-danmu
+          ref={dom => {
+            if (dom) {
+              this.danmuRef = dom as HTMLTaroVideoDanmuElement
+            }
+          }}
+          enable={_enableDanmu}
+        />
+
+        {isFirst && showCenterPlayBtn && !isPlaying && (
+          <div class='taro-video-cover'>
+            <div class='taro-video-cover-play-button' onClick={() => this.play()} />
+            <p class='taro-video-cover-duration'>{durationTime}</p>
+          </div>
+        )}
 
         <taro-video-control
           ref={dom => {
@@ -506,11 +607,11 @@ export class Video implements ComponentInterface {
           }}
           controls={controls}
           currentTime={this.currentTime}
-          duration={this.duration || this._duration || undefined}
+          duration={duration}
           isPlaying={this.isPlaying}
-          pauseFunc={this.pause}
-          playFunc={this.play}
-          seekFunc={this.seek}
+          pauseFunc={this._pause}
+          playFunc={this._play}
+          seekFunc={this._seek}
           showPlayBtn={this.showPlayBtn}
           showProgress={this.showProgress}
         >
@@ -540,22 +641,6 @@ export class Video implements ComponentInterface {
             />
           )}
         </taro-video-control>
-
-        <taro-video-danmu
-          ref={dom => {
-            if (dom) {
-              this.danmuRef = dom as HTMLTaroVideoDanmuElement
-            }
-          }}
-          enable={_enableDanmu}
-        />
-
-        {isFirst && showCenterPlayBtn && !isPlaying && (
-          <div class='taro-video-cover'>
-            <div class='taro-video-cover-play-button' onClick={this.play} />
-            <p class='taro-video-cover-duration'>{durationTime}</p>
-          </div>
-        )}
 
         <div class='taro-video-toast taro-video-toast-volume' ref={dom => {
           if (dom) {

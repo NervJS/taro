@@ -1,0 +1,26 @@
+{
+  "name": "postcss-html-transform",
+  "version": "3.5.3",
+  "description": "transform html tag name selector",
+  "main": "index.js",
+  "author": "drchan",
+  "license": "MIT",
+  "files": [
+    "index.js",
+    "dist"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NervJS/taro.git"
+  },
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc -w"
+  },
+  "bugs": {
+    "url": "https://github.com/NervJS/taro/issues"
+  },
+  "dependencies": {
+    "postcss": "^6.0.22"
+  }
+}

@@ -1,14 +1,15 @@
 import * as React from 'react'
 import AntPicker from '@ant-design/react-native/lib/picker'
 import { noop } from '../../utils'
-import { MultiSelectorProps } from './PropsType'
+import { MultiSelectorProps, MultiSelectorState } from './PropsType'
+import { TouchableWithoutFeedback } from 'react-native'
 
 /**
  * 比较数组内每个数值
  *
  * @returns true = same, false = different
  */
-function shallowDiffValue (value: number[] = [], lastValue: number[] = []): boolean {
+function shallowDiffValue(value: number[] = [], lastValue: number[] = []): boolean {
   if (value.length !== lastValue.length) return false
   for (let i = 0; i < value.length; i++) {
     if (value[i] !== lastValue[i]) {
@@ -18,7 +19,7 @@ function shallowDiffValue (value: number[] = [], lastValue: number[] = []): bool
   return true
 }
 
-function convertToObj (item?: any, rangeKey: string = ''): any {
+function convertToObj(item?: any, rangeKey = ''): any {
   if (typeof item === 'object') {
     return { value: item[rangeKey], label: item[rangeKey] }
   } else {
@@ -26,16 +27,17 @@ function convertToObj (item?: any, rangeKey: string = ''): any {
   }
 }
 
-function formatRange (range: any[][] = [], rangeKey?: string): any[] {
-  const result = (range[0] || []).map((item) => {
+// eslint-disable-next-line default-param-last
+function formatRange(range: any[][] = [], rangeKey?: string): any[] {
+  const result = (range[0] || []).map(item => {
     return convertToObj(item, rangeKey)
   })
   let tmp = result
   for (let i = 1; i < range.length; i++) {
-    const nextColData = (range[i] || []).map((item) => {
+    const nextColData = (range[i] || []).map(item => {
       return convertToObj(item, rangeKey)
     })
-    tmp.forEach((item) => {
+    tmp.forEach(item => {
       item.children = nextColData
     })
     tmp = nextColData
@@ -43,9 +45,9 @@ function formatRange (range: any[][] = [], rangeKey?: string): any[] {
   return result
 }
 
-function getIndexByValues (range: any[] = [], value: any[] = []): number[] {
+function getIndexByValues(range: any[] = [], value: any[] = []): number[] {
   let tmp = range
-  return value.map((v) => {
+  return value.map(v => {
     for (let i = 0; i < tmp.length; i++) {
       if (tmp[i].value === v) {
         tmp = tmp[i].children || []
@@ -56,13 +58,13 @@ function getIndexByValues (range: any[] = [], value: any[] = []): number[] {
   })
 }
 
-export default class MultiSelector extends React.Component<MultiSelectorProps, any> {
+export default class MultiSelector extends React.Component<MultiSelectorProps, MultiSelectorState> {
   static defaultProps = {
     range: [],
-    value: [],
+    value: []
   }
 
-  state = {
+  state: MultiSelectorState = {
     cols: 3,
     pRange: [],
     pValue: [],
@@ -70,7 +72,9 @@ export default class MultiSelector extends React.Component<MultiSelectorProps, a
     value: []
   }
 
-  static getDerivedStateFromProps (nextProps: MultiSelectorProps, lastState: any) {
+  dismissByOk = false
+
+  static getDerivedStateFromProps(nextProps: MultiSelectorProps, lastState: MultiSelectorState): MultiSelectorState | null {
     let ret: any = null
 
     if (nextProps.range !== lastState.pRange) {
@@ -84,10 +88,11 @@ export default class MultiSelector extends React.Component<MultiSelectorProps, a
     }
 
     if (!shallowDiffValue(nextProps.value, lastState.pValue)) {
+      // 初始化的时候和点击确认时候，会走到里面
       ret = ret || {}
       ret.pValue = nextProps.value
       let tmp = (ret && ret.range) || lastState.range
-      ret.value = (nextProps.value || []).map((valIndex: number = 0) => {
+      ret.value = (nextProps.value || []).map((valIndex = 0) => {
         const v = tmp[valIndex] && tmp[valIndex].value
         tmp = (tmp[valIndex] && tmp[valIndex].children) || []
         return v
@@ -97,18 +102,18 @@ export default class MultiSelector extends React.Component<MultiSelectorProps, a
     return ret
   }
 
-  onChange = (value: any[]) => {
+  onChange = (value: any[]): void => {
     const { onChange = noop } = this.props
     const { range } = this.state
     onChange({ detail: { value: getIndexByValues(range, value) } })
   }
 
-  onPickerChange = (value: any[]) => {
+  onPickerChange = (value: any[]): void => {
     const { onColumnChange = noop } = this.props
     const { range, value: stateValue } = this.state
     const indexes = getIndexByValues(range, value)
     // 通过比对确定是哪一列数据变了
-    let changingColIndex: number = 0
+    let changingColIndex = 0
     for (let i = 0; i < stateValue.length; i++) {
       if (stateValue[i] !== value[i]) {
         changingColIndex = i
@@ -119,33 +124,36 @@ export default class MultiSelector extends React.Component<MultiSelectorProps, a
     this.setState({ value })
   }
 
-  onDismiss = () => {
-    const { onCancel = noop } = this.props
-    onCancel()
+  onOk = (): void => {
+    this.dismissByOk = true
   }
 
-  render () {
-    const {
-      children,
-      disabled,
-    } = this.props
-    const {
-      cols,
-      range,
-      value,
-    } = this.state
+  onVisibleChange = (visible: boolean): void => {
+    if (!visible && !this.dismissByOk) {
+      const { onCancel = noop } = this.props
+      onCancel()
+    }
+    this.dismissByOk = false
+  }
+
+  render(): JSX.Element {
+    const { children, disabled, itemStyle, indicatorStyle } = this.props
+    const { cols, range, value } = this.state
 
     return (
       <AntPicker
         data={range}
         value={value}
         cols={cols}
+        itemStyle={itemStyle}
+        indicatorStyle={indicatorStyle}
         onChange={this.onChange}
         onPickerChange={this.onPickerChange}
-        onDismiss={this.onDismiss}
+        onOk={this.onOk}
+        onVisibleChange={this.onVisibleChange}
         disabled={disabled}
       >
-        {children}
+        <TouchableWithoutFeedback>{children}</TouchableWithoutFeedback>
       </AntPicker>
     )
   }

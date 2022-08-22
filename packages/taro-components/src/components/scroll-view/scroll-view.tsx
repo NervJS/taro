@@ -2,6 +2,8 @@
 import { Component, h, ComponentInterface, Prop, Event, EventEmitter, Watch, Element, Host } from '@stencil/core'
 import classNames from 'classnames'
 
+import { debounce } from '../../utils'
+
 function easeOutScroll (from: number, to: number, callback) {
   if (from === to || typeof from !== 'number') {
     return
@@ -29,17 +31,6 @@ function easeOutScroll (from: number, to: number, callback) {
   step()
 }
 
-function debounce (fn, delay: number) {
-  let timer: NodeJS.Timeout
-
-  return function (...arrs) {
-    clearTimeout(timer)
-    timer = setTimeout(function () {
-      fn(...arrs)
-    }, delay)
-  }
-}
-
 @Component({
   tag: 'taro-scroll-view-core',
   styleUrl: './style/index.scss'
@@ -60,17 +51,20 @@ export class ScrollView implements ComponentInterface {
   @Prop() scrollWithAnimation = false
 
   @Event({
-    eventName: 'scroll'
+    eventName: 'scroll',
+    bubbles: false
   })
   onScroll: EventEmitter
 
   @Event({
-    eventName: 'scrolltoupper'
+    eventName: 'scrolltoupper',
+    bubbles: false
   })
   onScrollToUpper: EventEmitter
 
   @Event({
-    eventName: 'scrolltolower'
+    eventName: 'scrolltolower',
+    bubbles: false
   })
   onScrollToLower: EventEmitter
 
@@ -160,7 +154,7 @@ export class ScrollView implements ComponentInterface {
     this._scrollLeft = scrollLeft
     this._scrollTop = scrollTop
 
-    this.uperAndLower()
+    this.upperAndLower()
 
     this.onScroll.emit({
       scrollLeft,
@@ -170,7 +164,7 @@ export class ScrollView implements ComponentInterface {
     })
   }
 
-  uperAndLower = debounce(() => {
+  upperAndLower = debounce(() => {
     const {
       offsetWidth,
       offsetHeight,

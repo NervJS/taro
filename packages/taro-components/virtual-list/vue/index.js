@@ -1,6 +1,6 @@
+import { getRTLOffsetType } from '../domHelpers'
 import { memoizeOne } from '../memoize'
 import { cancelTimeout, requestTimeout } from '../timer'
-import { getRTLOffsetType } from '../domHelpers'
 
 const IS_SCROLLING_DEBOUNCE_INTERVAL = 150
 
@@ -443,8 +443,9 @@ function createListComponent ({
         this._instanceProps()
       )
 
+      const scrollViewName = process.env.TARO_ENV === 'h5' ? 'taro-scroll-view' : 'scroll-view'
       return h(
-        'scroll-view',
+        scrollViewName,
         {
           class: wclass,
           ref: this._outerRefSetter,

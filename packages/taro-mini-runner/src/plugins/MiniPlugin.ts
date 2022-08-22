@@ -1,59 +1,83 @@
-import * as path from 'path'
+import {
+  FRAMEWORK_MAP,
+  isAliasPath,
+  isEmptyObject,
+  META_TYPE,
+  NODE_MODULES_REG,
+  printLog,
+  processTypeEnum,
+  promoteRelativePath,
+  readConfig,
+  REG_STYLE,
+  replaceAliasPath,
+  resolveMainFilePath,
+  SCRIPT_EXT
+} from '@tarojs/helper'
+import { RecursiveTemplate, UnRecursiveTemplate } from '@tarojs/shared/dist/template'
+import { AppConfig, Config } from '@tarojs/taro'
 import * as fs from 'fs-extra'
-
+import { minify } from 'html-minifier'
+import { urlToRequest } from 'loader-utils'
+import * as MiniCssExtractPlugin from 'mini-css-extract-plugin'
+import * as path from 'path'
 import * as webpack from 'webpack'
 import * as SingleEntryDependency from 'webpack/lib/dependencies/SingleEntryDependency'
 import * as FunctionModulePlugin from 'webpack/lib/FunctionModulePlugin'
-import * as JsonpTemplatePlugin from 'webpack/lib/web/JsonpTemplatePlugin'
-import * as NodeSourcePlugin from 'webpack/lib/node/NodeSourcePlugin'
 import * as LoaderTargetPlugin from 'webpack/lib/LoaderTargetPlugin'
+import * as NodeSourcePlugin from 'webpack/lib/node/NodeSourcePlugin'
+import * as NaturalChunkOrderPlugin from 'webpack/lib/optimize/NaturalChunkOrderPlugin'
+import * as RuntimeChunkPlugin from 'webpack/lib/optimize/RuntimeChunkPlugin'
+import * as SplitChunksPlugin from 'webpack/lib/optimize/SplitChunksPlugin'
+import * as JsonpTemplatePlugin from 'webpack/lib/web/JsonpTemplatePlugin'
 import { ConcatSource } from 'webpack-sources'
-import { urlToRequest } from 'loader-utils'
-import { AppConfig, Config } from '@tarojs/taro'
-import {
-  resolveMainFilePath,
-  readConfig,
-  isEmptyObject,
-  promoteRelativePath,
-  META_TYPE,
-  REG_STYLE,
-  NODE_MODULES_REG,
-  FRAMEWORK_EXT_MAP,
-  printLog,
-  processTypeEnum
-} from '@tarojs/helper'
 
 import TaroSingleEntryDependency from '../dependencies/TaroSingleEntryDependency'
-import { buildBaseTemplate, buildPageTemplate, buildXScript, buildBaseComponentTemplate } from '../template'
-import TaroNormalModulesPlugin from './TaroNormalModulesPlugin'
-import TaroLoadChunksPlugin from './TaroLoadChunksPlugin'
-import { setAdapter, IAdapter, weixinAdapter } from '../template/adapters'
+import { PrerenderConfig, validatePrerenderPages } from '../prerender/prerender'
 import { componentConfig } from '../template/component'
-import { validatePrerenderPages, PrerenderConfig } from '../prerender/prerender'
-import { AddPageChunks, IComponent, IFileType } from '../utils/types'
+import { AddPageChunks, Func, IComponent, IFileType } from '../utils/types'
+import TaroLoadChunksPlugin from './TaroLoadChunksPlugin'
+import TaroNormalModulesPlugin from './TaroNormalModulesPlugin'
+import TaroSingleEntryPlugin from './TaroSingleEntryPlugin'
 
 const PLUGIN_NAME = 'TaroMiniPlugin'
 
 interface ITaroMiniPluginOptions {
-  buildAdapter: string
+  appEntry?: string
+  constantsReplaceList: {
+    [key: string]: any
+  }
   sourceDir: string
+  isBuildPlugin: boolean
+  pluginConfig?: Record<string, any>
+  pluginMainEntry?: string
   commonChunks: string[]
   framework: string
+  frameworkExts: string[]
   baseLevel: number
   prerender?: PrerenderConfig
   addChunkPages?: AddPageChunks
   isBuildQuickapp: boolean
-  isSupportRecursive: boolean
-  isSupportXS: boolean
+  minifyXML?: {
+    collapseWhitespace?: boolean
+  }
   fileType: IFileType
-  templateAdapter: IAdapter
-  modifyBuildAssets?: Function,
-  modifyMiniConfigs?: Function
+  template: RecursiveTemplate | UnRecursiveTemplate
+  modifyBuildAssets?: Func
+  modifyMiniConfigs?: Func
+  runtimePath?: string | string[]
+  onCompilerMake?: Func
+  onParseCreateElement?: Func
+  blended: boolean
+  alias: Record<string, string>
+  deviceRatio: any
+  designWidth: number
+  loaderMeta?: Record<string, string>
+  hot: boolean
 }
 
 export interface IComponentObj {
-  name?: string,
-  path: string | null,
+  name?: string
+  path: string | null
   type?: string
 }
 
@@ -64,14 +88,19 @@ interface FilesConfig {
   }
 }
 
-export const createTarget = function createTarget (_) {
+export const createTarget = function createTarget ({ framework }) {
   return (compiler: webpack.compiler.Compiler) => {
     const { options } = compiler
     new JsonpTemplatePlugin().apply(compiler)
     new FunctionModulePlugin(options.output).apply(compiler)
     new NodeSourcePlugin(options.node).apply(compiler)
     if (process.env.NODE_ENV !== 'jest') {
-      new LoaderTargetPlugin('node').apply(compiler)
+      // 暂时性修复 vue3 兼容问题，后续再改进写法
+      if (framework === FRAMEWORK_MAP.VUE3) {
+        new LoaderTargetPlugin('web').apply(compiler)
+      } else {
+        new LoaderTargetPlugin('node').apply(compiler)
+      }
     }
   }
 }
@@ -99,17 +128,17 @@ export default class TaroMiniPlugin {
   prerenderPages: Set<string>
   dependencies = new Map<string, TaroSingleEntryDependency>()
   loadChunksPlugin: TaroLoadChunksPlugin
+  themeLocation: string
+  pageLoaderName = '@tarojs/taro-loader/lib/page'
+  independentPackages = new Map<string, string[]>()
 
-  constructor (options = {}) {
+  constructor (options = {} as ITaroMiniPluginOptions) {
     this.options = Object.assign({
-      buildAdapter: 'weapp',
       sourceDir: '',
       framework: 'nerv',
       commonChunks: ['runtime', 'vendors'],
-      baseLevel: 16,
       isBuildQuickapp: false,
-      isSupportRecursive: false,
-      isSupportXS: true,
+      isBuildPlugin: false,
       fileType: {
         style: '.wxss',
         config: '.json',
@@ -117,9 +146,14 @@ export default class TaroMiniPlugin {
         templ: '.wxml',
         xs: '.wxs'
       },
-      templateAdapter: weixinAdapter
+      minifyXML: {},
+      hot: false
     }, options)
-    setAdapter(this.options.templateAdapter)
+    const { template, baseLevel } = this.options
+    if (template.isSupportRecursive === false && baseLevel > 0) {
+      (template as UnRecursiveTemplate).baseLevel = baseLevel
+    }
+    this.prerenderPages = new Set()
   }
 
   /**
@@ -145,6 +179,7 @@ export default class TaroMiniPlugin {
       addChunkPages,
       framework,
       isBuildQuickapp,
+      isBuildPlugin,
       fileType
     } = this.options
     /** build mode */
@@ -154,7 +189,7 @@ export default class TaroMiniPlugin {
         await this.run(compiler)
         new TaroLoadChunksPlugin({
           commonChunks: commonChunks,
-          isBuildPlugin: false,
+          isBuildPlugin,
           addChunkPages: addChunkPages,
           pages: this.pages,
           framework: framework,
@@ -175,7 +210,7 @@ export default class TaroMiniPlugin {
         if (!this.loadChunksPlugin) {
           this.loadChunksPlugin = new TaroLoadChunksPlugin({
             commonChunks: commonChunks,
-            isBuildPlugin: false,
+            isBuildPlugin,
             addChunkPages: addChunkPages,
             pages: this.pages,
             framework: framework,
@@ -192,12 +227,14 @@ export default class TaroMiniPlugin {
       this.tryAsync(async (compilation: webpack.compilation.Compilation) => {
         const dependencies = this.dependencies
         const promises: Promise<null>[] = []
+        this.compileIndependentPages(compiler, compilation, dependencies, promises)
         dependencies.forEach(dep => {
-          promises.push(new Promise((resolve, reject) => {
-            compilation.addEntry(this.options.sourceDir, dep, dep.name, err => err ? reject(err) : resolve())
+          promises.push(new Promise<null>((resolve, reject) => {
+            compilation.addEntry(this.options.sourceDir, dep, dep.name, err => err ? reject(err) : resolve(null))
           }))
         })
         await Promise.all(promises)
+        await this.options.onCompilerMake?.(compilation)
       })
     )
 
@@ -210,8 +247,8 @@ export default class TaroMiniPlugin {
        * webpack NormalModule 在 runLoaders 真正解析资源的前一刻，
        * 往 NormalModule.loaders 中插入对应的 Taro Loader
        */
-      compilation.hooks.normalModuleLoader.tap(PLUGIN_NAME, (loaderContext, module:/** TaroNormalModule */ any) => {
-        const { framework } = this.options
+      compilation.hooks.normalModuleLoader.tap(PLUGIN_NAME, (_loaderContext, module:/** TaroNormalModule */ any) => {
+        const { framework, loaderMeta, designWidth, deviceRatio } = this.options
         if (module.miniType === META_TYPE.ENTRY) {
           const loaderName = '@tarojs/taro-loader'
           if (!isLoaderExist(module.loaders, loaderName)) {
@@ -219,33 +256,54 @@ export default class TaroMiniPlugin {
               loader: loaderName,
               options: {
                 framework,
+                loaderMeta,
                 prerender: this.prerenderPages.size > 0,
-                config: this.appConfig
+                config: this.appConfig,
+                runtimePath: this.options.runtimePath,
+                blended: this.options.blended,
+                pxTransformConfig: {
+                  designWidth: designWidth || 750,
+                  deviceRatio: deviceRatio || {
+                    750: 1
+                  }
+                }
               }
             })
           }
         } else if (module.miniType === META_TYPE.PAGE) {
-          const loaderName = '@tarojs/taro-loader/lib/page'
+          let isIndependent = false
+          this.independentPackages.forEach(pages => {
+            if (pages.includes(module.resource)) {
+              isIndependent = true
+            }
+          })
+          const loaderName = isBuildPlugin ? '@tarojs/taro-loader/lib/native-component' : (isIndependent ? '@tarojs/taro-loader/lib/independentPage' : this.pageLoaderName)
           if (!isLoaderExist(module.loaders, loaderName)) {
             module.loaders.unshift({
               loader: loaderName,
               options: {
                 framework,
+                loaderMeta,
                 name: module.name,
                 prerender: this.prerenderPages.has(module.name),
-                config: this.filesConfig
+                config: this.filesConfig,
+                appConfig: this.appConfig,
+                runtimePath: this.options.runtimePath,
+                hot: this.options.hot
               }
             })
           }
         } else if (module.miniType === META_TYPE.COMPONENT) {
-          const loaderName = '@tarojs/taro-loader/lib/component'
+          const loaderName = isBuildPlugin ? '@tarojs/taro-loader/lib/native-component' : '@tarojs/taro-loader/lib/component'
           if (!isLoaderExist(module.loaders, loaderName)) {
             module.loaders.unshift({
               loader: loaderName,
               options: {
                 framework,
+                loaderMeta,
                 name: module.name,
-                prerender: this.prerenderPages.has(module.name)
+                prerender: this.prerenderPages.has(module.name),
+                runtimePath: this.options.runtimePath
               }
             })
           }
@@ -285,7 +343,7 @@ export default class TaroMiniPlugin {
       })
     )
 
-    new TaroNormalModulesPlugin().apply(compiler)
+    new TaroNormalModulesPlugin(this.options.onParseCreateElement).apply(compiler)
   }
 
   /**
@@ -293,9 +351,29 @@ export default class TaroMiniPlugin {
    * @returns app 入口文件路径
    */
   getAppEntry (compiler: webpack.Compiler) {
-    const originalEntry = compiler.options.entry as webpack.Entry
+    // const originalEntry = compiler.options.entry as webpack.Entry
+    // compiler.options.entry = {}
+    // return path.resolve(this.context, originalEntry.app[0])
+    const { entry } = compiler.options
+    if (this.options.isBuildPlugin) {
+      const entryCopy = Object.assign({}, entry)
+      compiler.options.entry = {}
+      return entryCopy
+    }
+    if (this.options.appEntry) {
+      compiler.options.entry = {}
+      return this.options.appEntry
+    }
+    function getEntryPath (entry) {
+      const app = entry.app
+      if (Array.isArray(app)) {
+        return app[0]
+      }
+      return app
+    }
+    const appEntryPath = getEntryPath(entry)
     compiler.options.entry = {}
-    return path.resolve(this.context, originalEntry.app[0])
+    return appEntryPath
   }
 
   getChangedFiles (compiler) {
@@ -310,11 +388,123 @@ export default class TaroMiniPlugin {
    * 往 this.dependencies 中添加资源模块
    */
   run (compiler: webpack.Compiler) {
-    this.appConfig = this.getAppConfig()
-    this.getPages()
-    this.getPagesConfig()
-    this.getConfigFiles(compiler)
-    this.addEntries()
+    if (this.options.isBuildPlugin) {
+      this.getPluginFiles()
+      this.getConfigFiles(compiler)
+    } else {
+      this.appConfig = this.getAppConfig()
+      this.getPages()
+      this.getPagesConfig()
+      this.getDarkMode()
+      this.getConfigFiles(compiler)
+      this.addEntries()
+    }
+  }
+
+  getPluginFiles () {
+    const fileList = new Set<IComponent>()
+    const { pluginConfig, template } = this.options
+    const normalFiles = new Set<IComponent>()
+    Object.keys(this.appEntry).forEach(key => {
+      const filePath = this.appEntry[key][0]
+      if (key === this.options.pluginMainEntry) {
+        this.addEntry(filePath, key, META_TYPE.EXPORTS)
+      }
+      if (pluginConfig) {
+        fileList.add({
+          name: key,
+          path: filePath,
+          isNative: false
+        })
+        let isPage = false
+        let isComponent = false
+        Object.keys(pluginConfig).forEach(pluginKey => {
+          if (pluginKey === 'pages') {
+            Object.keys(pluginConfig[pluginKey]).forEach(pageKey => {
+              if (`plugin/${pluginConfig[pluginKey][pageKey]}` === key) {
+                isPage = true
+              }
+            })
+          }
+          if (pluginKey === 'publicComponents') {
+            Object.keys(pluginConfig[pluginKey]).forEach(pageKey => {
+              if (`plugin/${pluginConfig[pluginKey][pageKey]}` === key) {
+                isComponent = true
+              }
+            })
+          }
+        })
+        if (isPage) {
+          this.pages.add({
+            name: key,
+            path: filePath,
+            isNative: false
+          })
+        } else if (isComponent) {
+          this.components.add({
+            name: key,
+            path: filePath,
+            isNative: false
+          })
+        } else {
+          normalFiles.add({
+            name: key,
+            path: filePath,
+            isNative: true
+          })
+        }
+      }
+    })
+    if (!template.isSupportRecursive) {
+      this.addEntry(path.resolve(__dirname, '..', 'template/comp'), this.getIsBuildPluginPath('comp', true), META_TYPE.STATIC)
+    }
+    this.addEntry(path.resolve(__dirname, '..', 'template/custom-wrapper'), this.getIsBuildPluginPath('custom-wrapper', true), META_TYPE.STATIC)
+    normalFiles.forEach(item => {
+      this.addEntry(item.path, item.name, META_TYPE.NORMAL)
+    })
+    this.pages.forEach(item => {
+      if (!this.isWatch) {
+        printLog(processTypeEnum.COMPILE, '发现页面', this.getShowPath(item.path))
+      }
+      this.compileFile(item)
+      if (item.isNative) {
+        this.addEntry(item.path, item.name, META_TYPE.NORMAL)
+        if (item.stylePath && fs.existsSync(item.stylePath)) {
+          this.addEntry(item.stylePath, this.getStylePath(item.name), META_TYPE.NORMAL)
+        }
+        if (item.templatePath && fs.existsSync(item.templatePath)) {
+          this.addEntry(item.templatePath, this.getTemplatePath(item.name), META_TYPE.NORMAL)
+        }
+      } else {
+        this.addEntry(item.path, item.name, META_TYPE.PAGE)
+      }
+    })
+    this.components.forEach(item => {
+      this.compileFile(item)
+      if (item.isNative) {
+        this.addEntry(item.path, item.name, META_TYPE.NORMAL)
+        if (item.stylePath && fs.existsSync(item.stylePath)) {
+          this.addEntry(item.stylePath, this.getStylePath(item.name), META_TYPE.NORMAL)
+        }
+        if (item.templatePath && fs.existsSync(item.templatePath)) {
+          this.addEntry(item.templatePath, this.getTemplatePath(item.name), META_TYPE.NORMAL)
+        }
+      } else {
+        this.addEntry(item.path, item.name, META_TYPE.COMPONENT)
+      }
+    })
+  }
+
+  modifyPluginJSON (pluginJSON) {
+    const { main, publicComponents } = pluginJSON
+    if (main) {
+      pluginJSON.main = this.getTargetFilePath(main, '.js')
+    }
+    if (publicComponents) {
+      pluginJSON.publicComponents = Object.assign({}, publicComponents, {
+        'custom-wrapper': 'custom-wrapper'
+      })
+    }
   }
 
   /**
@@ -322,17 +512,18 @@ export default class TaroMiniPlugin {
    * @returns app config 配置内容
    */
   getAppConfig (): AppConfig {
-    const appConfigPath = this.getConfigFilePath(this.appEntry)
-    const appConfig: AppConfig = readConfig(appConfigPath)
-    const appConfigName = path.basename(appConfigPath).replace(path.extname(appConfigPath), '')
-    this.filesConfig[appConfigName] = {
-      content: appConfig,
-      path: appConfigPath
-    }
+    const appName = path.basename(this.appEntry).replace(path.extname(this.appEntry), '')
+    this.compileFile({
+      name: appName,
+      path: this.appEntry,
+      isNative: false
+    })
+    const fileConfig = this.filesConfig[this.getConfigFilePath(appName)]
+    const appConfig = fileConfig ? fileConfig.content || {} : {}
     if (isEmptyObject(appConfig)) {
-      throw new Error('缺少 app 全局配置，请检查！')
+      throw new Error('缺少 app 全局配置文件，请检查！')
     }
-    return appConfig
+    return appConfig as AppConfig
   }
 
   /**
@@ -341,7 +532,7 @@ export default class TaroMiniPlugin {
    */
   getPages () {
     if (isEmptyObject(this.appConfig)) {
-      throw new Error('缺少 app 全局配置，请检查！')
+      throw new Error('缺少 app 全局配置文件，请检查！')
     }
     const appPages = this.appConfig.pages
     if (!appPages || !appPages.length) {
@@ -351,12 +542,12 @@ export default class TaroMiniPlugin {
     if (!this.isWatch) {
       printLog(processTypeEnum.COMPILE, '发现入口', this.getShowPath(this.appEntry))
     }
-    const { framework, prerender } = this.options
+    const { frameworkExts, prerender } = this.options
     this.prerenderPages = new Set(validatePrerenderPages(appPages, prerender).map(p => p.path))
     this.getTabBarFiles(this.appConfig)
     this.pages = new Set([
       ...appPages.map<IComponent>(item => {
-        const pagePath = resolveMainFilePath(path.join(this.options.sourceDir, item), FRAMEWORK_EXT_MAP[framework])
+        const pagePath = resolveMainFilePath(path.join(this.options.sourceDir, item), frameworkExts)
         const pageTemplatePath = this.getTemplatePath(pagePath)
         const isNative = this.isNativePageORComponent(pageTemplatePath)
         return {
@@ -428,8 +619,12 @@ export default class TaroMiniPlugin {
    * 在 this.dependencies 中新增或修改 app、模板组件、页面、组件等资源模块
    */
   addEntries () {
+    const { template } = this.options
     this.addEntry(this.appEntry, 'app', META_TYPE.ENTRY)
-    this.addEntry(path.resolve(__dirname, '..', 'template/comp'), 'comp', META_TYPE.STATIC)
+    if (!template.isSupportRecursive) {
+      this.addEntry(path.resolve(__dirname, '..', 'template/comp'), 'comp', META_TYPE.STATIC)
+    }
+    this.addEntry(path.resolve(__dirname, '..', 'template/custom-wrapper'), 'custom-wrapper', META_TYPE.STATIC)
     this.pages.forEach(item => {
       if (item.isNative) {
         this.addEntry(item.path, item.name, META_TYPE.NORMAL)
@@ -469,23 +664,30 @@ export default class TaroMiniPlugin {
     const filePath = file.path
     const fileConfigPath = file.isNative ? this.replaceExt(filePath, '.json') : this.getConfigFilePath(filePath)
     const fileConfig = readConfig(fileConfigPath)
-    const usingComponents = fileConfig.usingComponents
-    this.filesConfig[this.getConfigFilePath(file.name)] = {
-      content: fileConfig,
-      path: fileConfigPath
-    }
+    // 修复百度小程序内容服务组件使用新的引入方式"usingSwanComponents"导致的无法编译到页面配置json的问题
+    // 获取 fileConfig 里面的匹配 "/^using[A-Za-z]*Components$/"的字段，之后合并到 usingComponents 中
+    const usingArray = Object.keys(fileConfig).filter(item => /^using[A-Za-z]*Components$/.test(item)).map(item => fileConfig[item])
+    const usingComponents = usingArray.length < 1 ? undefined : Object.assign({}, ...usingArray)
 
     // 递归收集依赖的第三方组件
     if (usingComponents) {
       const componentNames = Object.keys(usingComponents)
       const depComponents: Array<{ name: string, path: string }> = []
+      const alias = this.options.alias
       for (const compName of componentNames) {
+        let compPath = usingComponents[compName]
+
+        if (isAliasPath(compPath, alias)) {
+          compPath = replaceAliasPath(filePath, compPath, alias)
+          fileConfig.usingComponents[compName] = compPath
+        }
+
         depComponents.push({
           name: compName,
-          path: usingComponents[compName]
+          path: compPath
         })
 
-        if (!componentConfig.thirdPartyComponents.has(compName)) {
+        if (!componentConfig.thirdPartyComponents.has(compName) && !file.isNative) {
           componentConfig.thirdPartyComponents.set(compName, new Set())
         }
       }
@@ -507,6 +709,11 @@ export default class TaroMiniPlugin {
         }
       })
     }
+
+    this.filesConfig[this.getConfigFilePath(file.name)] = {
+      content: fileConfig,
+      path: fileConfigPath
+    }
   }
 
   /**
@@ -514,11 +721,15 @@ export default class TaroMiniPlugin {
    */
   getSubPackages (appConfig: AppConfig) {
     const subPackages = appConfig.subPackages || appConfig.subpackages
-    const { framework } = this.options
+    const { frameworkExts } = this.options
     if (subPackages && subPackages.length) {
       subPackages.forEach(item => {
         if (item.pages && item.pages.length) {
           const root = item.root
+          const isIndependent = !!item.independent
+          if (isIndependent) {
+            this.independentPackages.set(root, [])
+          }
           item.pages.forEach(page => {
             let pageItem = `${root}/${page}`
             pageItem = pageItem.replace(/\/{2,}/g, '/')
@@ -529,9 +740,13 @@ export default class TaroMiniPlugin {
               }
             })
             if (!hasPageIn) {
-              const pagePath = resolveMainFilePath(path.join(this.options.sourceDir, pageItem), FRAMEWORK_EXT_MAP[framework])
+              const pagePath = resolveMainFilePath(path.join(this.options.sourceDir, pageItem), frameworkExts)
               const templatePath = this.getTemplatePath(pagePath)
               const isNative = this.isNativePageORComponent(templatePath)
+              if (isIndependent) {
+                const independentPages = this.independentPackages.get(root)
+                independentPages?.push(pagePath)
+              }
               this.pages.add({
                 name: pageItem,
                 path: pagePath,
@@ -547,12 +762,99 @@ export default class TaroMiniPlugin {
   }
 
   /**
+   * 收集 dark mode 配置中的文件
+   */
+  getDarkMode () {
+    const themeLocation = this.appConfig.themeLocation
+    const darkMode = this.appConfig.darkmode
+    if (darkMode && themeLocation && typeof themeLocation === 'string') {
+      this.themeLocation = themeLocation
+    }
+  }
+
+  compileIndependentPages (compiler, compilation, dependencies, promises) {
+    const independentPackages = this.independentPackages
+    if (independentPackages.size) {
+      independentPackages.forEach((pages, name) => {
+        const childCompiler = compilation.createChildCompiler(PLUGIN_NAME, {
+          path: `${compiler.options.output.path}/${name}`,
+          jsonpFunction: `${compiler.options.output.jsonpFunction}/${name}`
+        })
+        const compPath = path.resolve(__dirname, '..', 'template/comp')
+        childCompiler.inputFileSystem = compiler.inputFileSystem
+        childCompiler.outputFileSystem = compiler.outputFileSystem
+        childCompiler.context = compiler.context
+        new JsonpTemplatePlugin().apply(childCompiler)
+        new NaturalChunkOrderPlugin().apply(childCompiler)
+        new MiniCssExtractPlugin({
+          filename: `[name]${this.options.fileType.style}`,
+          chunkFilename: `[name]${this.options.fileType.style}`
+        }).apply(childCompiler)
+        new webpack.DefinePlugin(this.options.constantsReplaceList).apply(childCompiler)
+        if (compiler.options.optimization) {
+          new SplitChunksPlugin({
+            chunks: 'all',
+            maxInitialRequests: Infinity,
+            minSize: 0,
+            cacheGroups: {
+              vendors: {
+                name: `${name}/vendors`,
+                minChunks: 1,
+                test: module => {
+                  return (/[\\/]node_modules[\\/]/.test(module.resource) && module.resource.indexOf(compPath) < 0)
+                },
+                priority: 10
+              }
+            }
+          }).apply(childCompiler)
+          new RuntimeChunkPlugin({
+            name: `${name}/runtime`
+          }).apply(childCompiler)
+        }
+        const childPages = new Set<IComponent>()
+        pages.forEach(pagePath => {
+          if (dependencies.has(pagePath)) {
+            const dep = dependencies.get(pagePath)
+            new TaroSingleEntryPlugin(compiler.context, dep?.request, dep?.name, dep?.miniType).apply(childCompiler)
+          }
+          this.pages.forEach(item => {
+            if (item.path === pagePath) {
+              childPages.add(item)
+            }
+          })
+          dependencies.delete(pagePath)
+        })
+        new TaroLoadChunksPlugin({
+          commonChunks: [`${name}/runtime`, `${name}/vendors`],
+          isBuildPlugin: false,
+          addChunkPages: this.options.addChunkPages,
+          pages: childPages,
+          framework: this.options.framework,
+          isBuildQuickapp: true,
+          needAddCommon: [`${name}/comp`]
+        }).apply(childCompiler)
+        // 添加 comp 和 custom-wrapper 组件
+        new TaroSingleEntryPlugin(compiler.context, path.resolve(__dirname, '..', 'template/comp'), `${name}/comp`, META_TYPE.STATIC).apply(childCompiler)
+        new TaroSingleEntryPlugin(compiler.context, path.resolve(__dirname, '..', 'template/custom-wrapper'), `${name}/custom-wrapper`, META_TYPE.STATIC).apply(childCompiler)
+        promises.push(new Promise((resolve, reject) => {
+          childCompiler.runAsChild(err => {
+            if (err) {
+              return reject(err)
+            }
+            resolve(null)
+          })
+        }).catch(err => console.log(err)))
+      })
+    }
+  }
+
+  /**
    * 搜集 tabbar icon 图标路径
    * 收集自定义 tabbar 组件
    */
   getTabBarFiles (appConfig: AppConfig) {
     const tabBar = appConfig.tabBar
-    const { sourceDir } = this.options
+    const { sourceDir, frameworkExts } = this.options
     if (tabBar && typeof tabBar === 'object' && !isEmptyObject(tabBar)) {
       // eslint-disable-next-line dot-notation
       const list = tabBar['list'] || []
@@ -564,7 +866,7 @@ export default class TaroMiniPlugin {
       })
       if (tabBar.custom) {
         const customTabBarPath = path.join(sourceDir, 'custom-tab-bar')
-        const customTabBarComponentPath = resolveMainFilePath(customTabBarPath)
+        const customTabBarComponentPath = resolveMainFilePath(customTabBarPath, [...frameworkExts, ...SCRIPT_EXT])
         if (fs.existsSync(customTabBarComponentPath)) {
           const customTabBarComponentTemplPath = this.getTemplatePath(customTabBarComponentPath)
           const isNative = this.isNativePageORComponent(customTabBarComponentTemplPath)
@@ -596,64 +898,136 @@ export default class TaroMiniPlugin {
 
   /** 生成小程序相关文件 */
   async generateMiniFiles (compilation: webpack.compilation.Compilation) {
-    const baseTemplateName = 'base'
+    const { template, modifyBuildAssets, modifyMiniConfigs, isBuildPlugin, sourceDir } = this.options
+    const baseTemplateName = this.getIsBuildPluginPath('base', isBuildPlugin)
     const baseCompName = 'comp'
-    const { baseLevel, isSupportRecursive, modifyBuildAssets, modifyMiniConfigs } = this.options
+    const customWrapperName = 'custom-wrapper'
     if (typeof modifyMiniConfigs === 'function') {
       await modifyMiniConfigs(this.filesConfig)
     }
-    const appConfigPath = this.getConfigFilePath(this.appEntry)
-    const appConfigName = path.basename(appConfigPath).replace(path.extname(appConfigPath), '')
-    this.generateConfigFile(compilation, this.appEntry, this.filesConfig[appConfigName].content)
-    this.generateConfigFile(compilation, baseCompName, {
-      component: true,
-      usingComponents: {
-        [baseCompName]: `./${baseCompName}`
-      }
-    })
-    this.generateTemplateFile(compilation, baseTemplateName, buildBaseTemplate, baseLevel, isSupportRecursive)
-    if (!isSupportRecursive) {
-      // 如微信、QQ 不支持递归模版的小程序，需要使用自定义组件协助递归
-      this.generateTemplateFile(compilation, baseCompName, buildBaseComponentTemplate)
+    if (!this.options.blended && !isBuildPlugin) {
+      const appConfigPath = this.getConfigFilePath(this.appEntry)
+      const appConfigName = path.basename(appConfigPath).replace(path.extname(appConfigPath), '')
+      this.generateConfigFile(compilation, this.appEntry, this.filesConfig[appConfigName].content)
     }
-    this.generateXSFile(compilation)
+    if (!template.isSupportRecursive) {
+      // 如微信、QQ 不支持递归模版的小程序，需要使用自定义组件协助递归
+      this.generateTemplateFile(compilation, this.getIsBuildPluginPath(baseCompName, isBuildPlugin), template.buildBaseComponentTemplate, this.options.fileType.templ)
+      this.generateConfigFile(compilation, this.getIsBuildPluginPath(baseCompName, isBuildPlugin), {
+        component: true,
+        usingComponents: {
+          [baseCompName]: `./${baseCompName}`,
+          [customWrapperName]: `./${customWrapperName}`
+        }
+      })
+      this.generateConfigFile(compilation, this.getIsBuildPluginPath(customWrapperName, isBuildPlugin), {
+        component: true,
+        usingComponents: {
+          [baseCompName]: `./${baseCompName}`,
+          [customWrapperName]: `./${customWrapperName}`
+        }
+      })
+    } else {
+      this.generateConfigFile(compilation, this.getIsBuildPluginPath(customWrapperName, isBuildPlugin), {
+        component: true,
+        usingComponents: {
+          [customWrapperName]: `./${customWrapperName}`
+        }
+      })
+    }
+    this.generateTemplateFile(compilation, baseTemplateName, template.buildTemplate, componentConfig)
+    this.generateTemplateFile(compilation, this.getIsBuildPluginPath(customWrapperName, isBuildPlugin), template.buildCustomComponentTemplate, this.options.fileType.templ)
+    this.generateXSFile(compilation, 'utils', isBuildPlugin)
+    // 为独立分包生成 base/comp/custom-wrapper
+    this.independentPackages.forEach((_pages, name) => {
+      this.generateTemplateFile(compilation, `${name}/${baseTemplateName}`, template.buildTemplate, componentConfig)
+      if (!template.isSupportRecursive) {
+        // 如微信、QQ 不支持递归模版的小程序，需要使用自定义组件协助递归
+        this.generateConfigFile(compilation, `${name}/${baseCompName}`, {
+          component: true,
+          usingComponents: {
+            [baseCompName]: `./${baseCompName}`,
+            [customWrapperName]: `./${customWrapperName}`
+          }
+        })
+        this.generateTemplateFile(compilation, `${name}/${baseCompName}`, template.buildBaseComponentTemplate, this.options.fileType.templ)
+      }
+      this.generateConfigFile(compilation, `${name}/${customWrapperName}`, {
+        component: true,
+        usingComponents: {
+          [customWrapperName]: `./${customWrapperName}`
+        }
+      })
+      this.generateTemplateFile(compilation, `${name}/${customWrapperName}`, template.buildCustomComponentTemplate, this.options.fileType.templ)
+      this.generateXSFile(compilation, `${name}/utils`, isBuildPlugin)
+    })
     this.components.forEach(component => {
-      const importBaseTemplatePath = promoteRelativePath(path.relative(component.path, path.join(this.options.sourceDir, this.getTemplatePath(baseTemplateName))))
+      const importBaseTemplatePath = promoteRelativePath(path.relative(component.path, path.join(sourceDir, this.getTemplatePath(baseTemplateName))))
       const config = this.filesConfig[this.getConfigFilePath(component.name)]
       if (config) {
         this.generateConfigFile(compilation, component.path, config.content)
       }
       if (!component.isNative) {
-        this.generateTemplateFile(compilation, component.path, buildPageTemplate, importBaseTemplatePath)
+        this.generateTemplateFile(compilation, component.path, template.buildPageTemplate, importBaseTemplatePath)
       }
     })
     this.pages.forEach(page => {
-      const importBaseTemplatePath = promoteRelativePath(path.relative(page.path, path.join(this.options.sourceDir, this.getTemplatePath(baseTemplateName))))
+      let importBaseTemplatePath = promoteRelativePath(path.relative(page.path, path.join(sourceDir, this.getTemplatePath(baseTemplateName))))
       const config = this.filesConfig[this.getConfigFilePath(page.name)]
+      let isIndependent = false
+      let independentName = ''
+      this.independentPackages.forEach((pages, name) => {
+        if (pages.includes(page.path)) {
+          isIndependent = true
+          independentName = name
+          importBaseTemplatePath = promoteRelativePath(path.relative(page.path, path.join(sourceDir, name, this.getTemplatePath(baseTemplateName))))
+        }
+      })
       if (config) {
-        if (!isSupportRecursive) {
-          const importBaseCompPath = promoteRelativePath(path.relative(page.path, path.join(this.options.sourceDir, this.getTargetFilePath(baseCompName, ''))))
-          config.content.usingComponents = {
-            [baseCompName]: importBaseCompPath,
-            ...config.content.usingComponents
-          }
+        let importBaseCompPath = promoteRelativePath(path.relative(page.path, path.join(sourceDir, this.getTargetFilePath(this.getIsBuildPluginPath(baseCompName, isBuildPlugin), ''))))
+        let importCustomWrapperPath = promoteRelativePath(path.relative(page.path, path.join(sourceDir, this.getTargetFilePath(this.getIsBuildPluginPath(customWrapperName, isBuildPlugin), ''))))
+        if (isIndependent) {
+          importBaseCompPath = promoteRelativePath(path.relative(page.path, path.join(sourceDir, independentName, this.getTargetFilePath(this.getIsBuildPluginPath(baseCompName, isBuildPlugin), ''))))
+          importCustomWrapperPath = promoteRelativePath(path.relative(page.path, path.join(sourceDir, independentName, this.getTargetFilePath(this.getIsBuildPluginPath(customWrapperName, isBuildPlugin), ''))))
+        }
+        config.content.usingComponents = {
+          [customWrapperName]: importCustomWrapperPath,
+          ...config.content.usingComponents
+        }
+        if (!template.isSupportRecursive && !page.isNative) {
+          config.content.usingComponents[baseCompName] = importBaseCompPath
         }
         this.generateConfigFile(compilation, page.path, config.content)
       }
       if (!page.isNative) {
-        this.generateTemplateFile(compilation, page.path, buildPageTemplate, importBaseTemplatePath)
+        this.generateTemplateFile(compilation, page.path, template.buildPageTemplate, importBaseTemplatePath)
       }
     })
     this.generateTabBarFiles(compilation)
     this.injectCommonStyles(compilation)
+    if (this.themeLocation) {
+      this.generateDarkModeFile(compilation)
+    }
+    if (isBuildPlugin) {
+      const pluginJSONPath = path.join(sourceDir, 'plugin', 'plugin.json')
+      if (fs.existsSync(pluginJSONPath)) {
+        const pluginJSON = fs.readJSONSync(pluginJSONPath)
+        this.modifyPluginJSON(pluginJSON)
+        const relativePath = pluginJSONPath.replace(sourceDir, '').replace(/\\/g, '/')
+        compilation.assets[relativePath] = {
+          size: () => JSON.stringify(pluginJSON).length,
+          source: () => JSON.stringify(pluginJSON, null, 2)
+        }
+      }
+    }
     if (typeof modifyBuildAssets === 'function') {
-      await modifyBuildAssets(compilation.assets)
+      await modifyBuildAssets(compilation.assets, this)
     }
   }
 
   generateConfigFile (compilation: webpack.compilation.Compilation, filePath: string, config: Config & { component?: boolean }) {
     const fileConfigName = this.getConfigPath(this.getComponentName(filePath))
-    const unOfficalConfigs = ['enableShareAppMessage', 'enableShareTimeline']
+    const unOfficalConfigs = ['enableShareAppMessage', 'enableShareTimeline', 'components']
     unOfficalConfigs.forEach(item => {
       delete config[item]
     })
@@ -665,22 +1039,31 @@ export default class TaroMiniPlugin {
   }
 
   generateTemplateFile (compilation: webpack.compilation.Compilation, filePath: string, templateFn: (...args) => string, ...options) {
-    const templStr = templateFn(...options)
+    let templStr = templateFn(...options)
     const fileTemplName = this.getTemplatePath(this.getComponentName(filePath))
+
+    if (this.options.minifyXML?.collapseWhitespace) {
+      templStr = minify(templStr, {
+        collapseWhitespace: true,
+        keepClosingSlash: true
+      })
+    }
+
     compilation.assets[fileTemplName] = {
       size: () => templStr.length,
       source: () => templStr
     }
   }
 
-  generateXSFile (compilation: webpack.compilation.Compilation) {
+  generateXSFile (compilation: webpack.compilation.Compilation, xsPath, isBuildPlugin: boolean) {
     const ext = this.options.fileType.xs
     if (ext == null) {
       return
     }
 
-    const xs = buildXScript()
-    const filePath = this.getTargetFilePath('utils', ext)
+    const xs = this.options.template.buildXScript()
+    const fileXsName = this.getTargetFilePath(xsPath, ext)
+    const filePath = this.getIsBuildPluginPath(fileXsName, isBuildPlugin)
     compilation.assets[filePath] = {
       size: () => xs.length,
       source: () => xs
@@ -697,6 +1080,10 @@ export default class TaroMiniPlugin {
     }
 
     return componentName.replace(/^(\/|\\)/, '')
+  }
+
+  getIsBuildPluginPath (filePath, isBuildPlugin) {
+    return isBuildPlugin ? `plugin/${filePath}` : filePath
   }
 
   /**
@@ -732,6 +1119,22 @@ export default class TaroMiniPlugin {
   }
 
   /**
+   * 输出 themeLocation 文件
+   * @param compilation
+   */
+  generateDarkModeFile (compilation: webpack.compilation.Compilation) {
+    const themeLocationPath = path.resolve(this.options.sourceDir, this.themeLocation)
+    if (fs.existsSync(themeLocationPath)) {
+      const themeLocationStat = fs.statSync(themeLocationPath)
+      const themeLocationSource = fs.readFileSync(themeLocationPath)
+      compilation.assets[this.themeLocation] = {
+        size: () => themeLocationStat.size,
+        source: () => themeLocationSource
+      }
+    }
+  }
+
+  /**
    * 输出 tabbar icons 文件
    */
   generateTabBarFiles (compilation: webpack.compilation.Compilation) {
@@ -754,16 +1157,18 @@ export default class TaroMiniPlugin {
   injectCommonStyles ({ assets }: webpack.compilation.Compilation) {
     const styleExt = this.options.fileType.style
     const appStyle = `app${styleExt}`
+    const REG_STYLE_EXT = new RegExp(`\\.(${styleExt.replace('.', '')})(\\?.*)?$`)
 
     if (!assets[appStyle]) return
 
     const originSource: string = assets[appStyle].source()
     const source = new ConcatSource()
+    source.add(originSource)
 
+    // 组件公共样式需要放在 app 全局样式之后：https://github.com/NervJS/taro/pull/6125
     Object.keys(assets).forEach(assetName => {
       const fileName = path.basename(assetName, path.extname(assetName))
-      if (REG_STYLE.test(assetName) && this.options.commonChunks.includes(fileName)) {
-        source.add(originSource)
+      if ((REG_STYLE.test(assetName) || REG_STYLE_EXT.test(assetName)) && this.options.commonChunks.includes(fileName)) {
         source.add('\n')
         source.add(`@import ${JSON.stringify(urlToRequest(assetName))};`)
         assets[appStyle] = {

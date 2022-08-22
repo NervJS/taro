@@ -1,39 +1,16 @@
-declare namespace Taro {
-  /** 创建 camera 上下文 CameraContext 对象。
-   * @supported weapp
-   * @example
-   * ```tsx
-   * const cameraContext = Taro.createCameraContext()
-   * ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/camera/wx.createCameraContext.html
-   */
-  function createCameraContext(): CameraContext
+import Taro from '../../index'
 
-  /** 
+declare module '../../index' {
+  /**
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/camera/CameraContext.html
    */
   interface CameraContext {
-    /** 开始录像
-     * @supported weapp
-     * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/camera/CameraContext.startRecord.html
-     */
-    startRecord(option: CameraContext.StartRecordOption): void
-    /** 结束录像
-     * @supported weapp
-     * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/camera/CameraContext.stopRecord.html
-     */
-    stopRecord(option?: CameraContext.StopRecordOption): void
-    /** 拍摄照片
-     * @supported weapp
-     * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/camera/CameraContext.takePhoto.html
-     */
-    takePhoto(option: CameraContext.TakePhotoOption): void
     /** 获取 Camera 实时帧数据
      *
      * ****
      *
-     * 注： 使用该接口需同时在 [camera](https://developers.weixin.qq.com/miniprogram/dev/component/camera.html) 组件属性中指定 frame-size。
-     * @supported weapp
+     * 注： 使用该接口需同时在 [camera](/docs/components/media/camera) 组件属性中指定 frame-size。
+     * @supported weapp, tt
      * @example
      * ```tsx
      * const context = wx.createCameraContext()
@@ -48,16 +25,50 @@ declare namespace Taro {
       /** 回调函数 */
       callback: CameraContext.OnCameraFrameCallback,
     ): CameraFrameListener
+    /** 设置缩放级别
+     * @supported weapp, tt
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/camera/CameraContext.setZoom.html
+     */
+    setZoom(option: CameraContext.SetZoomOption): void
+    /** 开始录像
+     * @supported weapp, rn, tt
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/camera/CameraContext.startRecord.html
+     */
+    startRecord(option: CameraContext.StartRecordOption): void
+    /** 结束录像
+     * @supported weapp, rn, tt
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/camera/CameraContext.stopRecord.html
+     */
+    stopRecord(option?: CameraContext.StopRecordOption): void
+    /** 拍摄照片
+     * @supported weapp, rn, tt
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/camera/CameraContext.takePhoto.html
+     */
+    takePhoto(option: CameraContext.TakePhotoOption): void
   }
 
   namespace CameraContext {
+    interface SetZoomOption {
+      /** 接口调用结束的回调函数（调用成功、失败都会执行） */
+      complete?: (res: TaroGeneral.CallbackResult) => void
+      /** 接口调用失败的回调函数 */
+      fail?: (res: TaroGeneral.CallbackResult) => void
+      /** 接口调用成功的回调函数 */
+      success?: (res: StartRecordSuccessCallbackResult) => void
+      /** 缩放级别，范围[1, maxZoom]。zoom 可取小数，精确到小数后一位。maxZoom 可在 bindinitdone 返回值中获取。 */
+      zoom: number
+    }
+    interface StartRecordSuccessCallbackResult extends TaroGeneral.CallbackResult {
+      /** 实际设置的缩放级别。由于系统限制，某些机型可能无法设置成指定值，会改用最接近的可设值。 */
+      zoom: number
+    }
     interface StartRecordOption {
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
-      complete?: (res: General.CallbackResult) => void
+      complete?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用失败的回调函数 */
-      fail?: (res: General.CallbackResult) => void
+      fail?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用成功的回调函数 */
-      success?: (res: General.CallbackResult) => void
+      success?: (res: TaroGeneral.CallbackResult) => void
       /** 超过30s或页面 `onHide` 时会结束录像 */
       timeoutCallback?: StartRecordTimeoutCallback
     }
@@ -73,13 +84,13 @@ declare namespace Taro {
     }
     interface StopRecordOption {
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
-      complete?: (res: General.CallbackResult) => void
+      complete?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用失败的回调函数 */
-      fail?: (res: General.CallbackResult) => void
+      fail?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用成功的回调函数 */
       success?: (result: StopRecordSuccessCallbackResult) => void
     }
-    interface StopRecordSuccessCallbackResult extends General.CallbackResult {
+    interface StopRecordSuccessCallbackResult extends TaroGeneral.CallbackResult {
       /** 封面图片文件的临时路径 */
       tempThumbPath: string
       /** 视频的文件的临时路径 */
@@ -89,15 +100,15 @@ declare namespace Taro {
     }
     interface TakePhotoOption {
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
-      complete?: (res: General.CallbackResult) => void
+      complete?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用失败的回调函数 */
-      fail?: (res: General.CallbackResult) => void
+      fail?: (res: TaroGeneral.CallbackResult) => void
       /** 成像质量 */
-      quality?: keyof quality
+      quality?: keyof Quality
       /** 接口调用成功的回调函数 */
       success?: (result: TakePhotoSuccessCallbackResult) => void
     }
-    interface TakePhotoSuccessCallbackResult extends General.CallbackResult {
+    interface TakePhotoSuccessCallbackResult extends TaroGeneral.CallbackResult {
       /** 照片文件的临时路径，安卓是jpg图片格式，ios是png */
       tempImagePath: string
       /** 调用结果 */
@@ -113,7 +124,7 @@ declare namespace Taro {
       /** 图像数据矩形的宽度 */
       width: number
     }
-    interface quality {
+    interface Quality {
       /** 高质量 */
       high
       /** 普通质量 */
@@ -128,12 +139,12 @@ declare namespace Taro {
    */
   interface CameraFrameListener {
     /** 开始监听帧数据
-     * @supported weapp
+     * @supported weapp, tt
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/camera/CameraFrameListener.start.html
      */
     start(option?: CameraFrameListener.StartOption): void
     /** 停止监听帧数据
-     * @supported weapp
+     * @supported weapp, tt
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/camera/CameraFrameListener.stop.html
      */
     stop(option?: CameraFrameListener.StopOption): void
@@ -142,19 +153,31 @@ declare namespace Taro {
   namespace CameraFrameListener {
     interface StartOption {
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
-      complete?: (res: General.CallbackResult) => void
+      complete?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用失败的回调函数 */
-      fail?: (res: General.CallbackResult) => void
+      fail?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用成功的回调函数 */
-      success?: (res: General.CallbackResult) => void
+      success?: (res: TaroGeneral.CallbackResult) => void
     }
     interface StopOption {
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
-      complete?: (res: General.CallbackResult) => void
+      complete?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用失败的回调函数 */
-      fail?: (res: General.CallbackResult) => void
+      fail?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用成功的回调函数 */
-      success?: (res: General.CallbackResult) => void
+      success?: (res: TaroGeneral.CallbackResult) => void
     }
+  }
+
+  interface TaroStatic {
+    /** 创建 camera 上下文 CameraContext 对象。
+     * @supported weapp, rn, tt
+     * @example
+     * ```tsx
+     * const cameraContext = Taro.createCameraContext()
+     * ```
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/camera/wx.createCameraContext.html
+     */
+    createCameraContext(): CameraContext
   }
 }

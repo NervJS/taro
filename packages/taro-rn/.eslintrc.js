@@ -1,14 +1,32 @@
-const config = require('../../.eslintrc.js')
-
 module.exports = {
-  ...config,
-  rules: {
-    ...config.rules,
-    'no-console': 0
+  root: true,
+  extends: [
+    'standard',
+    'plugin:react/recommended',
+    'plugin:jest/recommended',
+    'plugin:@typescript-eslint/recommended'
+  ],
+  parser: '@typescript-eslint/parser',
+  plugins: ['@typescript-eslint'],
+  env: {
+    node: true,
+    jest: true,
   },
   settings: {
     react: {
-      pragma: 'React'
+      version: 'detect'
     }
+  },
+  rules: {
+    'comma-dangle': [2, 'only-multiline'],
+    '@typescript-eslint/class-name-casing': 0,
+    '@typescript-eslint/explicit-function-return-type': 0,
+    '@typescript-eslint/ban-ts-ignore': 0,
+    '@typescript-eslint/no-use-before-define': 2,
+    'no-use-before-define': 0,
+    'space-before-function-paren': 0,
+    'react/display-name': 0,
+    '@typescript-eslint/no-explicit-any': 0,
+    'no-unused-expressions': 0
   }
 }

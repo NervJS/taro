@@ -1,641 +1,433 @@
-import { Shortcuts } from './shortcuts'
-import { toDashed, hasOwn, toCamelCase } from './utils'
-import { isBooleanStringLiteral, isNumber } from './is'
+const DEFAULT_EMPTY_ARRAY = '[]'
+const NO_DEFAULT_VALUE = ''
+const DEFAULT_TRUE = '!0'
+const DEFAULT_FALSE = '!1'
 
-const styles = {
-  style: `i.${Shortcuts.Style}`,
-  class: `i.${Shortcuts.Class}`
+export const touchEvents = {
+  bindTouchStart: NO_DEFAULT_VALUE,
+  bindTouchMove: NO_DEFAULT_VALUE,
+  bindTouchEnd: NO_DEFAULT_VALUE,
+  bindTouchCancel: NO_DEFAULT_VALUE,
+  bindLongTap: NO_DEFAULT_VALUE
 }
 
-const events = {
-  bindtap: 'eh'
+export const animation = {
+  animation: NO_DEFAULT_VALUE,
+  bindAnimationStart: NO_DEFAULT_VALUE,
+  bindAnimationIteration: NO_DEFAULT_VALUE,
+  bindAnimationEnd: NO_DEFAULT_VALUE,
+  bindTransitionEnd: NO_DEFAULT_VALUE
 }
 
-const touchEvents = {
-  bindTouchStart: '',
-  bindTouchMove: '',
-  bindTouchEnd: '',
-  bindTouchCancel: '',
-  bindLongTap: ''
-}
-
-const alipayEvents = {
-  onTap: 'eh',
-  onTouchMove: 'eh',
-  onTouchEnd: 'eh',
-  onTouchCancel: 'eh',
-  onLongTap: 'eh'
+export function singleQuote (s: string) {
+  return `'${s}'`
 }
 
 const View = {
   'hover-class': singleQuote('none'),
-  'hover-stop-propagation': 'false',
+  'hover-stop-propagation': DEFAULT_FALSE,
   'hover-start-time': '50',
   'hover-stay-time': '400',
-  animation: '',
-  bindAnimationStart: '',
-  bindAnimationIteration: '',
-  bindAnimationEnd: '',
-  bindTransitionEnd: '',
-  ...touchEvents
+  ...touchEvents,
+  ...animation
 }
 
 const Icon = {
-  type: '',
+  type: NO_DEFAULT_VALUE,
   size: '23',
-  color: ''
+  color: NO_DEFAULT_VALUE
 }
 
-const Map = {
-  longitude: '',
-  latitude: '',
+const MapComp = {
+  longitude: NO_DEFAULT_VALUE,
+  latitude: NO_DEFAULT_VALUE,
   scale: '16',
-  markers: '',
-  covers: '',
-  polyline: '',
-  circles: '',
-  controls: '',
-  'include-point': 'false',
-  'show-location': '',
-  polygons: '',
-  subkey: '',
+  markers: DEFAULT_EMPTY_ARRAY,
+  covers: NO_DEFAULT_VALUE,
+  polyline: DEFAULT_EMPTY_ARRAY,
+  circles: DEFAULT_EMPTY_ARRAY,
+  controls: DEFAULT_EMPTY_ARRAY,
+  'include-points': DEFAULT_EMPTY_ARRAY,
+  'show-location': NO_DEFAULT_VALUE,
   'layer-style': '1',
-  rotate: '0',
-  skew: 'skew',
-  'enable-3D': 'false',
-  'show-compass': 'false',
-  'show-scale': 'false',
-  'enable-overlooking': 'false',
-  'enable-zoom': 'true',
-  'enable-scroll': 'true',
-  'enable-rotate': 'false',
-  'enable-satellite': 'false',
-  'enable-traffic': 'false',
-  setting: '[]',
-  bindMarkerTap: '',
-  bindLabelTap: '',
-  bindControlTap: '',
-  bindCalloutTap: '',
-  bindUpdated: '',
-  bindRegionChange: '',
-  bindPoiTap: '',
+  bindMarkerTap: NO_DEFAULT_VALUE,
+  bindControlTap: NO_DEFAULT_VALUE,
+  bindCalloutTap: NO_DEFAULT_VALUE,
+  bindUpdated: NO_DEFAULT_VALUE,
   ...touchEvents
 }
 
 const Progress = {
-  percent: '',
-  'show-info': 'false',
-  'border-radius': '0',
-  'font-size': '16',
+  percent: NO_DEFAULT_VALUE,
   'stroke-width': '6',
   color: singleQuote('#09BB07'),
   activeColor: singleQuote('#09BB07'),
   backgroundColor: singleQuote('#EBEBEB'),
-  active: 'false',
+  active: DEFAULT_FALSE,
   'active-mode': singleQuote('backwards'),
-  duration: '30',
-  bindActiveEnd: ''
+  'show-info': DEFAULT_FALSE
 }
 
 const RichText = {
-  nodes: '[]',
-  space: ''
+  nodes: DEFAULT_EMPTY_ARRAY
 }
 
 const Text = {
-  selectable: 'false',
-  space: '',
-  decode: 'false'
+  selectable: DEFAULT_FALSE,
+  space: NO_DEFAULT_VALUE,
+  decode: DEFAULT_FALSE
 }
 
 const Button = {
   size: singleQuote('default'),
-  type: '',
-  plain: 'false',
-  disabled: '',
-  loading: 'false',
-  'form-type': '',
-  'open-type': '',
+  type: NO_DEFAULT_VALUE,
+  plain: DEFAULT_FALSE,
+  disabled: NO_DEFAULT_VALUE,
+  loading: DEFAULT_FALSE,
+  'form-type': NO_DEFAULT_VALUE,
+  'open-type': NO_DEFAULT_VALUE,
   'hover-class': singleQuote('button-hover'),
-  'hover-stop-propagation': 'false',
+  'hover-stop-propagation': DEFAULT_FALSE,
   'hover-start-time': '20',
   'hover-stay-time': '70',
-  lang: 'en',
-  'session-from': '',
-  'send-message-title': '',
-  'send-message-path': '',
-  'send-message-img': '',
-  'app-parameter': '',
-  'show-message-card': 'false',
-  bindGetUserInfo: '',
-  bindGetAuthorize: '',
-  bindContact: '',
-  bindGetPhoneNumber: '',
-  bindError: '',
-  bindOpenSetting: '',
-  bindLaunchApp: '',
-  scope: '',
-  name: ''
-}
-
-if (process.env.TARO_ENV === 'qq') {
-  Button['app-packagename'] = ''
-  Button['app-bundleid'] = ''
-  Button['app-connect-id'] = ''
+  name: NO_DEFAULT_VALUE,
+  ...touchEvents
 }
 
 const Checkbox = {
-  value: '',
-  disabled: '',
-  checked: 'false',
+  value: NO_DEFAULT_VALUE,
+  disabled: NO_DEFAULT_VALUE,
+  checked: DEFAULT_FALSE,
   color: singleQuote('#09BB07'),
-  name: ''
+  name: NO_DEFAULT_VALUE
 }
 
 const CheckboxGroup = {
-  bindChange: '',
-  name: ''
-}
-
-const Editor = {
-  'read-only': 'false',
-  placeholder: '',
-  'show-img-size': 'false',
-  'show-img-toolbar': 'false',
-  'show-img-resize': 'false',
-  focus: 'false',
-  bindReady: '',
-  bindFocus: '',
-  bindBlur: '',
-  bindInput: '',
-  bindStatusChange: '',
-  name: ''
+  bindChange: NO_DEFAULT_VALUE,
+  name: NO_DEFAULT_VALUE
 }
 
 const Form = {
-  'report-submit': 'false',
-  'report-submit-timeout': '0',
-  bindSubmit: '',
-  bindReset: '',
-  name: ''
+  'report-submit': DEFAULT_FALSE,
+  bindSubmit: NO_DEFAULT_VALUE,
+  bindReset: NO_DEFAULT_VALUE,
+  name: NO_DEFAULT_VALUE
 }
 
 const Input = {
-  value: '',
-  type: singleQuote(''),
-  password: 'false',
-  placeholder: '',
-  'placeholder-style': '',
+  value: NO_DEFAULT_VALUE,
+  type: singleQuote(NO_DEFAULT_VALUE),
+  password: DEFAULT_FALSE,
+  placeholder: NO_DEFAULT_VALUE,
+  'placeholder-style': NO_DEFAULT_VALUE,
   'placeholder-class': singleQuote('input-placeholder'),
-  disabled: '',
+  disabled: NO_DEFAULT_VALUE,
   maxlength: '140',
   'cursor-spacing': '0',
-  'auto-focus': 'false',
-  focus: 'false',
+  focus: DEFAULT_FALSE,
   'confirm-type': singleQuote('done'),
-  'confirm-hold': 'false',
+  'confirm-hold': DEFAULT_FALSE,
   cursor: 'i.value.length',
   'selection-start': '-1',
   'selection-end': '-1',
-  'adjust-position': 'true',
-  'hold-keyboard': 'false',
-  bindInput: '',
-  bindFocus: '',
-  bindBlur: '',
-  bindConfirm: '',
-  bindKeyboardHeightChange: '',
-  name: ''
+  bindInput: NO_DEFAULT_VALUE,
+  bindFocus: NO_DEFAULT_VALUE,
+  bindBlur: NO_DEFAULT_VALUE,
+  bindConfirm: NO_DEFAULT_VALUE,
+  name: NO_DEFAULT_VALUE
 }
 
 const Label = {
-  for: '',
-  name: ''
+  for: NO_DEFAULT_VALUE,
+  name: NO_DEFAULT_VALUE
 }
 
 const Picker = {
   mode: singleQuote('selector'),
-  disabled: '',
-  bindCancel: '',
-  range: '',
-  'range-key': '',
-  value: '',
-  bindChange: '',
-  bindColumnChange: '',
-  start: '',
-  end: '',
+  disabled: NO_DEFAULT_VALUE,
+  range: NO_DEFAULT_VALUE,
+  'range-key': NO_DEFAULT_VALUE,
+  value: NO_DEFAULT_VALUE,
+  start: NO_DEFAULT_VALUE,
+  end: NO_DEFAULT_VALUE,
   fields: singleQuote('day'),
-  'custom-item': '',
-  name: ''
+  'custom-item': NO_DEFAULT_VALUE,
+  name: NO_DEFAULT_VALUE,
+  bindCancel: NO_DEFAULT_VALUE,
+  bindChange: NO_DEFAULT_VALUE,
+  bindColumnChange: NO_DEFAULT_VALUE
 }
 
 const PickerView = {
-  value: '',
-  'indicator-style': '',
-  'indicator-class': '',
-  'mask-style': '',
-  'mask-class': '',
-  bindChange: '',
-  bindPickStart: '',
-  bindPickEnd: '',
-  name: ''
+  value: NO_DEFAULT_VALUE,
+  'indicator-style': NO_DEFAULT_VALUE,
+  'indicator-class': NO_DEFAULT_VALUE,
+  'mask-style': NO_DEFAULT_VALUE,
+  'mask-class': NO_DEFAULT_VALUE,
+  bindChange: NO_DEFAULT_VALUE,
+  name: NO_DEFAULT_VALUE
 }
 
 const PickerViewColumn = {
-  name: ''
+  name: NO_DEFAULT_VALUE
 }
 
 const Radio = {
-  value: '',
-  checked: 'false',
-  disabled: '',
+  value: NO_DEFAULT_VALUE,
+  checked: DEFAULT_FALSE,
+  disabled: NO_DEFAULT_VALUE,
   color: singleQuote('#09BB07'),
-  name: ''
+  name: NO_DEFAULT_VALUE
 }
 
 const RadioGroup = {
-  bindChange: '',
-  name: ''
+  bindChange: NO_DEFAULT_VALUE,
+  name: NO_DEFAULT_VALUE
 }
 
 const Slider = {
   min: '0',
   max: '100',
   step: '1',
-  disabled: '',
+  disabled: NO_DEFAULT_VALUE,
   value: '0',
-  color: singleQuote('#e9e9e9'),
-  'selected-color': singleQuote('#1aad19'),
   activeColor: singleQuote('#1aad19'),
   backgroundColor: singleQuote('#e9e9e9'),
   'block-size': '28',
   'block-color': singleQuote('#ffffff'),
-  'show-value': 'false',
-  bindChange: '',
-  bindChanging: '',
-  name: ''
+  'show-value': DEFAULT_FALSE,
+  bindChange: NO_DEFAULT_VALUE,
+  bindChanging: NO_DEFAULT_VALUE,
+  name: NO_DEFAULT_VALUE
 }
 
 const Switch = {
-  checked: 'false',
-  disabled: '',
+  checked: DEFAULT_FALSE,
+  disabled: NO_DEFAULT_VALUE,
   type: singleQuote('switch'),
   color: singleQuote('#04BE02'),
-  bindChange: '',
-  name: ''
+  bindChange: NO_DEFAULT_VALUE,
+  name: NO_DEFAULT_VALUE
+}
+
+const Textarea = {
+  value: NO_DEFAULT_VALUE,
+  placeholder: NO_DEFAULT_VALUE,
+  'placeholder-style': NO_DEFAULT_VALUE,
+  'placeholder-class': singleQuote('textarea-placeholder'),
+  disabled: NO_DEFAULT_VALUE,
+  maxlength: '140',
+  'auto-focus': DEFAULT_FALSE,
+  focus: DEFAULT_FALSE,
+  'auto-height': DEFAULT_FALSE,
+  fixed: DEFAULT_FALSE,
+  'cursor-spacing': '0',
+  cursor: '-1',
+  'selection-start': '-1',
+  'selection-end': '-1',
+  bindFocus: NO_DEFAULT_VALUE,
+  bindBlur: NO_DEFAULT_VALUE,
+  bindLineChange: NO_DEFAULT_VALUE,
+  bindInput: NO_DEFAULT_VALUE,
+  bindConfirm: NO_DEFAULT_VALUE,
+  name: NO_DEFAULT_VALUE
 }
 
 const CoverImage = {
-  src: '',
+  src: NO_DEFAULT_VALUE,
   bindLoad: 'eh',
   bindError: 'eh'
 }
 
-const Textarea = {
-  value: '',
-  placeholder: '',
-  'placeholder-style': '',
-  'placeholder-class': singleQuote('textarea-placeholder'),
-  disabled: '',
-  maxlength: '140',
-  'auto-focus': 'false',
-  focus: 'false',
-  'auto-height': 'false',
-  fixed: 'false',
-  'cursor-spacing': '0',
-  cursor: '-1',
-  'show-confirm-bar': 'true',
-  'selection-start': '-1',
-  'selection-end': '-1',
-  'adjust-position': 'true',
-  'hold-keyboard': 'false',
-  bindFocus: '',
-  bindBlur: '',
-  bindLineChange: '',
-  bindInput: '',
-  bindConfirm: '',
-  bindKeyboardHeightChange: '',
-  name: ''
-}
-
 const CoverView = {
-  'scroll-top': 'false',
+  'scroll-top': DEFAULT_FALSE,
   ...touchEvents
 }
 
 const MovableArea = {
-  'scale-area': 'false'
+  'scale-area': DEFAULT_FALSE
 }
 
 const MovableView = {
   direction: 'none',
-  inertia: 'false',
-  'out-of-bounds': 'false',
-  x: '',
-  y: '',
+  inertia: DEFAULT_FALSE,
+  'out-of-bounds': DEFAULT_FALSE,
+  x: NO_DEFAULT_VALUE,
+  y: NO_DEFAULT_VALUE,
   damping: '20',
   friction: '2',
-  disabled: '',
-  scale: 'false',
+  disabled: NO_DEFAULT_VALUE,
+  scale: DEFAULT_FALSE,
   'scale-min': '0.5',
   'scale-max': '10',
   'scale-value': '1',
-  animation: 'true',
-  bindAnimationEnd: '',
-  bindChange: '',
-  bindScale: '',
-  htouchmove: '',
-  vtouchmove: '',
+  bindChange: NO_DEFAULT_VALUE,
+  bindScale: NO_DEFAULT_VALUE,
+  bindHTouchMove: NO_DEFAULT_VALUE,
+  bindVTouchMove: NO_DEFAULT_VALUE,
   width: singleQuote('10px'),
   height: singleQuote('10px'),
-  ...touchEvents
+  ...touchEvents,
+  ...animation
 }
 
 const ScrollView = {
-  'scroll-x': 'false',
-  'scroll-y': 'false',
+  'scroll-x': DEFAULT_FALSE,
+  'scroll-y': DEFAULT_FALSE,
   'upper-threshold': '50',
   'lower-threshold': '50',
-  'scroll-top': '',
-  'scroll-left': '',
-  'scroll-into-view': '',
-  'scroll-with-animation': 'false',
-  'enable-back-to-top': 'false',
-  'enable-flex': 'false',
-  'scroll-anchoring': 'false',
-  'refresher-enabled': 'false',
-  'refresher-threshold': '45',
-  'refresher-default-style': singleQuote('black'),
-  'refresher-background': singleQuote('#FFF'),
-  'refresher-triggered': 'false',
-  bindRefresherPulling: '',
-  bindRefresherRefresh: '',
-  bindRefresherRestore: '',
-  bindRefresherAbort: '',
-  bindScrolltoUpper: '',
-  bindScrolltoLower: '',
-  bindScroll: '',
-  ...touchEvents
-}
-
-function singleQuote (s: string) {
-  return `'${s}'`
+  'scroll-top': NO_DEFAULT_VALUE,
+  'scroll-left': NO_DEFAULT_VALUE,
+  'scroll-into-view': NO_DEFAULT_VALUE,
+  'scroll-with-animation': DEFAULT_FALSE,
+  'enable-back-to-top': DEFAULT_FALSE,
+  bindScrollToUpper: NO_DEFAULT_VALUE,
+  bindScrollToLower: NO_DEFAULT_VALUE,
+  bindScroll: NO_DEFAULT_VALUE,
+  ...touchEvents,
+  ...animation
 }
 
 const Swiper = {
-  'indicator-dots': 'false',
+  'indicator-dots': DEFAULT_FALSE,
   'indicator-color': singleQuote('rgba(0, 0, 0, .3)'),
   'indicator-active-color': singleQuote('#000000'),
-  autoplay: 'false',
+  autoplay: DEFAULT_FALSE,
   current: '0',
   interval: '5000',
   duration: '500',
-  circular: 'false',
-  vertical: 'false',
-  'previous-margin': '\'0px\'',
-  'next-margin': '\'0px\'',
+  circular: DEFAULT_FALSE,
+  vertical: DEFAULT_FALSE,
+  'previous-margin': singleQuote('0px'),
+  'next-margin': singleQuote('0px'),
   'display-multiple-items': '1',
-  'skip-hidden-item-layout': 'false',
-  'easing-function': singleQuote('default'),
-  bindChange: '',
-  bindTransition: '',
-  bindAnimationFinish: '',
+  bindChange: NO_DEFAULT_VALUE,
+  bindTransition: NO_DEFAULT_VALUE,
+  bindAnimationFinish: NO_DEFAULT_VALUE,
   ...touchEvents
 }
 
 const SwiperItem = {
-  'item-id': ''
-}
-
-const FunctionalPageNavigator = {
-  version: singleQuote('release'),
-  name: '',
-  args: '',
-  bindSuccess: '',
-  bindFail: '',
-  bindCancel: ''
+  'item-id': NO_DEFAULT_VALUE
 }
 
 const Navigator = {
-  target: singleQuote('self'),
-  url: '',
+  url: NO_DEFAULT_VALUE,
   'open-type': singleQuote('navigate'),
   delta: '1',
-  'app-id': '',
-  path: '',
-  'extra-data': '',
-  version: singleQuote('version'),
   'hover-class': singleQuote('navigator-hover'),
-  'hover-stop-propagation': 'false',
+  'hover-stop-propagation': DEFAULT_FALSE,
   'hover-start-time': '50',
   'hover-stay-time': '600',
-  bindSuccess: '',
-  bindFail: '',
-  bindComplete: ''
+  bindSuccess: NO_DEFAULT_VALUE,
+  bindFail: NO_DEFAULT_VALUE,
+  bindComplete: NO_DEFAULT_VALUE
 }
 
 const Audio = {
-  id: '',
-  src: '',
-  loop: 'false',
-  controls: 'false',
-  poster: '',
-  name: '',
-  author: '',
-  bindError: '',
-  bindPlay: '',
-  bindPause: '',
-  bindTimeUpdate: '',
-  bindEnded: ''
+  id: NO_DEFAULT_VALUE,
+  src: NO_DEFAULT_VALUE,
+  loop: DEFAULT_FALSE,
+  controls: DEFAULT_FALSE,
+  poster: NO_DEFAULT_VALUE,
+  name: NO_DEFAULT_VALUE,
+  author: NO_DEFAULT_VALUE,
+  bindError: NO_DEFAULT_VALUE,
+  bindPlay: NO_DEFAULT_VALUE,
+  bindPause: NO_DEFAULT_VALUE,
+  bindTimeUpdate: NO_DEFAULT_VALUE,
+  bindEnded: NO_DEFAULT_VALUE
 }
 
-const specialEvents = new Set([
-  'htouchmove',
-  'vtouchmove'
-])
-
 const Camera = {
-  mode: singleQuote('normal'),
   'device-position': singleQuote('back'),
   flash: singleQuote('auto'),
-  'frame-size': singleQuote('medium'),
-  bindStop: '',
-  bindError: '',
-  bindInitDone: '',
-  bindScanCode: ''
+  bindStop: NO_DEFAULT_VALUE,
+  bindError: NO_DEFAULT_VALUE
 }
 
 const Image = {
-  src: '',
+  src: NO_DEFAULT_VALUE,
   mode: singleQuote('scaleToFill'),
-  webp: 'false',
-  'lazy-load': 'false',
-  'show-menu-by-longpress': 'false',
-  bindError: '',
-  bindLoad: ''
+  'lazy-load': DEFAULT_FALSE,
+  bindError: NO_DEFAULT_VALUE,
+  bindLoad: NO_DEFAULT_VALUE,
+  ...touchEvents
 }
 
 const LivePlayer = {
-  src: '',
-  mode: singleQuote('live'),
-  autoplay: 'false',
-  muted: 'false',
+  src: NO_DEFAULT_VALUE,
+  autoplay: DEFAULT_FALSE,
+  muted: DEFAULT_FALSE,
   orientation: singleQuote('vertical'),
   'object-fit': singleQuote('contain'),
-  'background-mute': 'false',
+  'background-mute': DEFAULT_FALSE,
   'min-cache': '1',
   'max-cache': '3',
-  'sound-mode': singleQuote('speaker'),
-  'auto-pause-if-navigate': 'true',
-  'auto-pause-if-open-native': 'true',
-  bindStateChange: '',
-  bindFullScreenChange: '',
-  bindNetStatus: ''
-}
-
-const LivePusher = {
-  url: '',
-  mode: singleQuote('RTC'),
-  autopush: 'false',
-  muted: 'false',
-  'enable-camera': 'true',
-  'auto-focus': 'true',
-  orientation: singleQuote('vertical'),
-  beauty: '0',
-  whiteness: '0',
-  aspect: singleQuote('9:16'),
-  'min-bitrate': '200',
-  'max-bitrate': '1000',
-  'audio-quality': singleQuote('high'),
-  'waiting-image': '',
-  'waiting-image-hash': '',
-  zoom: 'false',
-  'device-position': singleQuote('front'),
-  'background-mute': 'false',
-  mirror: 'false',
-  'remote-mirror': 'false',
-  'local-mirror': 'false',
-  'audio-reverb-type': '0',
-  'enable-mic': 'true',
-  'enable-agc': 'false',
-  'enable-ans': 'false',
-  'audio-volume-type': singleQuote('voicecall'),
-  'video-width': '360',
-  'video-height': '640',
-  bindStateChange: '',
-  bindNetStatus: '',
-  bindBgmStart: '',
-  bindBgmProgress: '',
-  bindBgmComplete: ''
+  bindStateChange: NO_DEFAULT_VALUE,
+  bindFullScreenChange: NO_DEFAULT_VALUE,
+  bindNetStatus: NO_DEFAULT_VALUE,
+  ...animation
 }
 
 const Video = {
-  src: '',
-  duration: '',
-  controls: 'true',
-  'danmu-list': '',
-  'danmu-btn': '',
-  'enable-danmu': '',
-  autoplay: 'false',
-  loop: 'false',
-  muted: 'false',
+  src: NO_DEFAULT_VALUE,
+  duration: NO_DEFAULT_VALUE,
+  controls: DEFAULT_TRUE,
+  'danmu-list': NO_DEFAULT_VALUE,
+  'danmu-btn': NO_DEFAULT_VALUE,
+  'enable-danmu': NO_DEFAULT_VALUE,
+  autoplay: DEFAULT_FALSE,
+  loop: DEFAULT_FALSE,
+  muted: DEFAULT_FALSE,
   'initial-time': '0',
-  'page-gesture': 'false',
-  direction: '',
-  'show-progress': 'true',
-  'show-fullscreen-btn': 'true',
-  'show-play-btn': 'true',
-  'show-center-play-btn': 'true',
-  'enable-progress-gesture': 'true',
+  'page-gesture': DEFAULT_FALSE,
+  direction: NO_DEFAULT_VALUE,
+  'show-progress': DEFAULT_TRUE,
+  'show-fullscreen-btn': DEFAULT_TRUE,
+  'show-play-btn': DEFAULT_TRUE,
+  'show-center-play-btn': DEFAULT_TRUE,
+  'enable-progress-gesture': DEFAULT_TRUE,
   'object-fit': singleQuote('contain'),
-  poster: '',
-  'show-mute-btn': 'false',
-  title: '',
-  'play-btn-position': singleQuote('bottom'),
-  'enable-play-gesture': 'false',
-  'auto-pause-if-navigate': 'true',
-  'auto-pause-if-open-native': 'true',
-  'vslide-gesture': 'false',
-  'vslide-gesture-in-fullscreen': 'true',
-  'ad-unit-id': '',
-  bindPlay: '',
-  bindPause: '',
-  bindEnded: '',
-  bindTimeUpdate: '',
-  bindFullScreenChange: '',
-  bindWaiting: '',
-  bindError: '',
-  bindProgress: '',
-  bindLoadedMetadata: ''
+  poster: NO_DEFAULT_VALUE,
+  'show-mute-btn': DEFAULT_FALSE,
+  bindPlay: NO_DEFAULT_VALUE,
+  bindPause: NO_DEFAULT_VALUE,
+  bindEnded: NO_DEFAULT_VALUE,
+  bindTimeUpdate: NO_DEFAULT_VALUE,
+  bindFullScreenChange: NO_DEFAULT_VALUE,
+  bindWaiting: NO_DEFAULT_VALUE,
+  bindError: NO_DEFAULT_VALUE,
+  ...animation
 }
 
 const Canvas = {
-  type: '',
-  'canvas-id': '',
-  'disable-scroll': 'false',
-  bindTouchStart: '',
-  bindTouchMove: '',
-  bindTouchEnd: '',
-  bindTouchCancel: '',
-  bindLongtap: '',
-  bindError: ''
+  'canvas-id': NO_DEFAULT_VALUE,
+  'disable-scroll': DEFAULT_FALSE,
+  bindError: NO_DEFAULT_VALUE,
+  ...touchEvents
 }
 
 const Ad = {
-  'unit-id': '',
-  'ad-intervals': '',
-  bindLoad: '',
-  bindError: '',
-  bindClose: ''
-}
-
-const OfficialAccount = {
-  bindLoad: '',
-  bindError: ''
-}
-
-const OpenData = {
-  type: '',
-  'open-gid': '',
-  lang: singleQuote('en'),
-  'default-text': '',
-  'default-avatar': '',
-  bindError: ''
+  'unit-id': NO_DEFAULT_VALUE,
+  'ad-intervals': NO_DEFAULT_VALUE,
+  bindLoad: NO_DEFAULT_VALUE,
+  bindError: NO_DEFAULT_VALUE,
+  bindClose: NO_DEFAULT_VALUE
 }
 
 const WebView = {
-  src: '',
-  bindMessage: '',
-  bindLoad: ''
-}
-
-const NavigationBar = {
-  title: '',
-  loading: 'false',
-  'front-color': '',
-  'background-color': '',
-  'color-animation-duration': '0',
-  'color-animation-timing-func': singleQuote('linear')
-}
-
-const PageMeta = {
-  'background-text-style': '',
-  'background-color': '',
-  'background-color-top': '',
-  'background-color-bottom': '',
-  'scroll-top': singleQuote(''),
-  'scroll-duration': '300',
-  'page-style': singleQuote(''),
-  'root-font-size': singleQuote(''),
-  bindResize: '',
-  bindScroll: '',
-  bindScrollDone: ''
+  src: NO_DEFAULT_VALUE,
+  bindMessage: NO_DEFAULT_VALUE,
+  bindLoad: NO_DEFAULT_VALUE,
+  bindError: NO_DEFAULT_VALUE
 }
 
 const Block = {}
 
 // For Vue，因为 slot 标签被 vue 占用了
 const SlotView = {
-  name: ''
+  name: NO_DEFAULT_VALUE
 }
 
 // For React
@@ -643,60 +435,10 @@ const SlotView = {
 // 因为 <slot name="{{ i.name }}" /> 适用性没有前者高（无法添加类和样式）
 // 不给 View 直接加 slot 属性的原因是性能损耗
 const Slot = {
-  name: ''
+  name: NO_DEFAULT_VALUE
 }
 
-interface Components {
-  [key: string]: Record<string, string>;
-}
-
-export function createMiniComponents (components: Components, buildType: string) {
-  const result: Components = Object.create(null)
-  const isAlipay = buildType === 'alipay'
-
-  for (const key in components) {
-    if (hasOwn(components, key)) {
-      const component = components[key]
-      const compName = toDashed(key)
-      const newComp: Record<string, string> = Object.create(null)
-      for (let prop in component) {
-        if (hasOwn(component, prop)) {
-          let propValue = component[prop]
-          if (prop.startsWith('bind') || specialEvents.has(prop)) {
-            prop = isAlipay ? prop.replace('bind', 'on') : prop.toLowerCase()
-            if ((buildType === 'weapp' || buildType === 'qq') && prop === 'bindlongtap') {
-              prop = 'bindlongpress'
-            }
-            propValue = 'eh'
-          } else if (propValue === '') {
-            propValue = `i.${toCamelCase(prop)}`
-          } else if (isBooleanStringLiteral(propValue) || isNumber(+propValue)) {
-            propValue = `i.${toCamelCase(prop)} === undefined ? ${propValue} : i.${toCamelCase(prop)}`
-          } else {
-            propValue = `i.${toCamelCase(prop)} || ${propValue || singleQuote('')}`
-          }
-
-          newComp[prop] = propValue
-        }
-      }
-      if (compName !== 'block') {
-        Object.assign(newComp, styles, isAlipay ? alipayEvents : events)
-      }
-
-      if (compName === 'slot' || compName === 'slot-view') {
-        result[compName] = {
-          slot: 'i.name'
-        }
-      } else {
-        result[compName] = newComp
-      }
-    }
-  }
-
-  return result
-}
-
-export const internalComponents = {
+export const internalComponents: Record<string, Record<string, string>> = {
   View,
   Icon,
   Progress,
@@ -705,7 +447,6 @@ export const internalComponents = {
   Button,
   Checkbox,
   CheckboxGroup,
-  Editor,
   Form,
   Input,
   Label,
@@ -724,23 +465,17 @@ export const internalComponents = {
   ScrollView,
   Swiper,
   SwiperItem,
-  FunctionalPageNavigator,
   Navigator,
   Audio,
   Camera,
   Image,
   LivePlayer,
-  LivePusher,
   Video,
   Canvas,
   Ad,
-  OfficialAccount,
-  OpenData,
   WebView,
-  NavigationBar,
-  PageMeta,
   Block,
-  Map,
+  Map: MapComp,
   Slot,
   SlotView
 }
@@ -758,6 +493,38 @@ export const controlledComponent = new Set([
 
 export const focusComponents = new Set([
   'input',
+  'textarea'
+])
+
+export const voidElements = new Set([
+  'progress',
+  'icon',
+  'rich-text',
+  'input',
   'textarea',
-  'editor'
+  'slider',
+  'switch',
+  'audio',
+  'ad',
+  'official-account',
+  'open-data',
+  'navigation-bar'
+])
+
+export const nestElements = new Map([
+  ['view', -1],
+  ['catch-view', -1],
+  ['cover-view', -1],
+  ['static-view', -1],
+  ['pure-view', -1],
+  ['block', -1],
+  ['text', -1],
+  ['static-text', 6],
+  ['slot', 8],
+  ['slot-view', 8],
+  ['label', 6],
+  ['form', 4],
+  ['scroll-view', 4],
+  ['swiper', 4],
+  ['swiper-item', 4]
 ])

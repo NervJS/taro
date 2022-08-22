@@ -1,5 +1,5 @@
-import * as path from 'path'
 import { IPluginContext } from '@tarojs/service'
+import * as path from 'path'
 
 export default (ctx: IPluginContext) => {
   ctx.registerCommand({
@@ -16,9 +16,9 @@ export default (ctx: IPluginContext) => {
     fn ({ _, options }) {
       const [, cmd, key, value] = _
       const json = !!options.json
-      const { fs, getUserHomeDir, TARO_CONFIG_FLODER, TARO_BASE_CONFIG } = ctx.helper
+      const { fs, getUserHomeDir, TARO_CONFIG_FOLDER, TARO_BASE_CONFIG } = ctx.helper
       const homedir = getUserHomeDir()
-      const configPath = path.join(homedir, `${TARO_CONFIG_FLODER}/${TARO_BASE_CONFIG}`)
+      const configPath = path.join(homedir, `${TARO_CONFIG_FOLDER}/${TARO_BASE_CONFIG}`)
       if (!homedir) return console.log('找不到用户根目录')
 
       function displayConfigPath (configPath) {

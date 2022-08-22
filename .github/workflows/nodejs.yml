@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - next
+      - feat/**
   pull_request:
     branches:
       - next
@@ -14,45 +15,40 @@ jobs:
     runs-on: ubuntu-latest
 
     strategy:
-      fail-fast: false      
+      fail-fast: false
       matrix:
-        node-version: [12.x, 13.x, 14.x]
+        node-version: [14.x, 16.x]
 
     steps:
-    - uses: actions/checkout@v2
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v1
-      with:
-        node-version: ${{ matrix.node-version }}
-    # - name: restore lerna
-    #   uses: actions/cache@v2
-    #   with:
-    #     path: |
-    #       node_modules
-    #       */*/node_modules
-    #     key: ${{ runner.os }}-${{ hashFiles('**/yarn.lock') }}
-    - name: Get yarn cache directory path
-      id: yarn-cache-dir-path
-      run: echo "::set-output name=dir::$(yarn cache dir)"
+      - name: Checkout
+        uses: actions/checkout@v3
+        with :
+          ref : ${{ github.ref || github.head_ref || github.ref_name }}
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
 
-    - uses: actions/cache@v2
-      id: yarn-cache # use this to check for `cache-hit` (`steps.yarn-cache.outputs.cache-hit != 'true'`)
-      with:
-        path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
-        key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
-        restore-keys: |
-          ${{ runner.os }}-yarn-
-    - run: npm install -g yarn
-    - run: yarn config set registry https://registry.yarnpkg.com
-    - name: install
-      run: yarn
-    - name: bootstrap
-      run: yarn run bootstrap:lerna
-    - name: lint
-      run: yarn run lint
-    - name: build
-      run: yarn run build:parallel
-    - name: test
-      run: yarn test
-      env:
-        CI: true
+      # Bootstrap project
+      - name: Cache pnpm modules
+        uses: actions/cache@v2
+        with:
+          path: ~/.pnpm-store
+          key: ${{ runner.os }}-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-
+      - name: install
+        uses: pnpm/action-setup@v2.2.2
+        with:
+          version: 7
+          run_install: |
+            - recursive: true
+              args: [--frozen-lockfile]
+      - name: lint
+        run: pnpm run lint
+      - name: build
+        run: pnpm run build
+      - name: test
+        run: pnpm run test
+        env:
+          CI: true

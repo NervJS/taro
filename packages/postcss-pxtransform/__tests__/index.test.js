@@ -1,37 +1,31 @@
-// Jasmine unit tests
-// To run tests, run these commands from the project root:
-// 1. `npm install -g jasmine-node`
-// 2. `jasmine-node spec`
-
-/* global describe, it, expect */
-
 'use strict'
 const postcss = require('postcss')
-const pxtorem = require('../index')
+const px2rem = require('../index')
+
 const basicCSS = '.rule { font-size: 15px }'
 const filterPropList = require('../lib/filter-prop-list')
 
-describe('pxtorem', function () {
+describe('px2rem', function () {
   it('1 should work on the readme example', function () {
     const input = 'h1 { margin: 0 0 20px; font-size: 32px; line-height: 1.2; letter-spacing: 1px; }'
-    const output = 'h1 { margin: 0 0 0.5rem; font-size: 0.8rem; line-height: 1.2; letter-spacing: 0.025rem; }'
-    const processed = postcss(pxtorem({ platform: 'h5', designWidth: 640 }))
+    const output = 'h1 { margin: 0 0 0.585rem; font-size: 0.936rem; line-height: 1.2; letter-spacing: 0.02925rem; }'
+    const processed = postcss(px2rem({ platform: 'h5', designWidth: 640 }))
       .process(input).css
 
     expect(processed).toBe(output)
   })
 
   it('2 should replace the px unit with rem', function () {
-    const processed = postcss(pxtorem({ platform: 'h5', designWidth: 640 }))
+    const processed = postcss(px2rem({ platform: 'h5', designWidth: 640 }))
       .process(basicCSS).css
-    const expected = '.rule { font-size: 0.375rem }'
+    const expected = '.rule { font-size: 0.43875rem }'
 
     expect(processed).toBe(expected)
   })
 
   it('3 should ignore non px properties', function () {
     const expected = '.rule { font-size: 2em }'
-    const processed = postcss(pxtorem({ platform: 'h5', designWidth: 640 }))
+    const processed = postcss(px2rem({ platform: 'h5', designWidth: 640 }))
       .process(expected).css
 
     expect(processed).toBe(expected)
@@ -40,33 +34,33 @@ describe('pxtorem', function () {
   it('4 should handle < 1 values and values without a leading 0 - legacy',
     function () {
       const rules = '.rule { margin: 0.5rem .5px -0.2px -.2em }'
-      const expected = '.rule { margin: 0.5rem 0.0125rem -0.005rem -.2em }'
+      const expected = '.rule { margin: 0.5rem 0.01463rem -0.00585rem -.2em }'
       const options = {
         platform: 'h5',
         designWidth: 640,
         propWhiteList: ['margin']
       }
-      const processed = postcss(pxtorem(options)).process(rules).css
+      const processed = postcss(px2rem(options)).process(rules).css
 
       expect(processed).toBe(expected)
     })
 
   it('5 should handle < 1 values and values without a leading 0', function () {
     const rules = '.rule { margin: 0.5rem .5px -0.2px -.2em }'
-    const expected = '.rule { margin: 0.5rem 0.0125rem -0.005rem -.2em }'
+    const expected = '.rule { margin: 0.5rem 0.01463rem -0.00585rem -.2em }'
     const options = {
       platform: 'h5',
       designWidth: 640,
       propList: ['margin']
     }
-    const processed = postcss(pxtorem(options)).process(rules).css
+    const processed = postcss(px2rem(options)).process(rules).css
 
     expect(processed).toBe(expected)
   })
 
   it('6 should not add properties that already exist', function () {
     const expected = '.rule { font-size: 40px; font-size: 1rem; }'
-    const processed = postcss(pxtorem({ platform: 'h5', designWidth: 640 }))
+    const processed = postcss(px2rem({ platform: 'h5', designWidth: 750 }))
       .process(expected).css
 
     expect(processed).toBe(expected)
@@ -74,7 +68,7 @@ describe('pxtorem', function () {
 
   it('7 should remain unitless if 0', function () {
     const expected = '.rule { font-size: 0px; font-size: 0; }'
-    const processed = postcss(pxtorem()).process(expected).css
+    const processed = postcss(px2rem()).process(expected).css
 
     expect(processed).toBe(expected)
   })
@@ -89,8 +83,8 @@ describe('value parsing', function () {
         // propWhiteList: []
       }
       const rules = '.rule { content: \'16px\'; font-family: "16px"; font-size: 16px; }'
-      const expected = '.rule { content: \'16px\'; font-family: "16px"; font-size: 0.4rem; }'
-      const processed = postcss(pxtorem(options)).process(rules).css
+      const expected = '.rule { content: \'16px\'; font-family: "16px"; font-size: 0.468rem; }'
+      const processed = postcss(px2rem(options)).process(rules).css
 
       expect(processed).toBe(expected)
     })
@@ -103,8 +97,8 @@ describe('value parsing', function () {
         propList: ['*']
       }
       const rules = '.rule { content: \'16px\'; font-family: "16px"; font-size: 16px; }'
-      const expected = '.rule { content: \'16px\'; font-family: "16px"; font-size: 0.4rem; }'
-      const processed = postcss(pxtorem(options)).process(rules).css
+      const expected = '.rule { content: \'16px\'; font-family: "16px"; font-size: 0.468rem; }'
+      const processed = postcss(px2rem(options)).process(rules).css
 
       expect(processed).toBe(expected)
     })
@@ -116,8 +110,8 @@ describe('value parsing', function () {
       // propWhiteList: []
     }
     const rules = '.rule { background: url(16px.jpg); font-size: 16px; }'
-    const expected = '.rule { background: url(16px.jpg); font-size: 0.4rem; }'
-    const processed = postcss(pxtorem(options)).process(rules).css
+    const expected = '.rule { background: url(16px.jpg); font-size: 0.468rem; }'
+    const processed = postcss(px2rem(options)).process(rules).css
 
     expect(processed).toBe(expected)
   })
@@ -129,8 +123,8 @@ describe('value parsing', function () {
       propList: ['*']
     }
     const rules = '.rule { background: url(16px.jpg); font-size: 16px; }'
-    const expected = '.rule { background: url(16px.jpg); font-size: 0.4rem; }'
-    const processed = postcss(pxtorem(options)).process(rules).css
+    const expected = '.rule { background: url(16px.jpg); font-size: 0.468rem; }'
+    const processed = postcss(px2rem(options)).process(rules).css
 
     expect(processed).toBe(expected)
   })
@@ -142,8 +136,8 @@ describe('value parsing', function () {
       propList: ['*']
     }
     const rules = '.rule { margin: 12px calc(100% - 14PX); height: calc(100% - 20px); font-size: 12Px; line-height: 16px; }'
-    const expected = '.rule { margin: 0.3rem calc(100% - 14PX); height: calc(100% - 0.5rem); font-size: 12Px; line-height: 0.4rem; }'
-    const processed = postcss(pxtorem(options)).process(rules).css
+    const expected = '.rule { margin: 0.351rem calc(100% - 14PX); height: calc(100% - 0.585rem); font-size: 12Px; line-height: 0.468rem; }'
+    const processed = postcss(px2rem(options)).process(rules).css
 
     expect(processed).toBe(expected)
   })
@@ -152,25 +146,25 @@ describe('value parsing', function () {
 describe('unitPrecision', function () {
   // Deprecate
   it('1 should replace using a decimal of 2 places - legacy', function () {
-    const expected = '.rule { font-size: 0.38rem }'
+    const expected = '.rule { font-size: 0.44rem }'
     const options = {
       platform: 'h5',
       designWidth: 640,
       unit_precision: 2
     }
-    const processed = postcss(pxtorem(options)).process(basicCSS).css
+    const processed = postcss(px2rem(options)).process(basicCSS).css
 
     expect(processed).toBe(expected)
   })
 
   it('2 should replace using a decimal of 2 places', function () {
-    const expected = '.rule { font-size: 0.38rem }'
+    const expected = '.rule { font-size: 0.44rem }'
     const options = {
       platform: 'h5',
       designWidth: 640,
       unitPrecision: 2
     }
-    const processed = postcss(pxtorem(options)).process(basicCSS).css
+    const processed = postcss(px2rem(options)).process(basicCSS).css
 
     expect(processed).toBe(expected)
   })
@@ -186,7 +180,7 @@ describe('propWhiteList', function () {
         designWidth: 640,
         prop_white_list: ['font']
       }
-      const processed = postcss(pxtorem(options)).process(basicCSS).css
+      const processed = postcss(px2rem(options)).process(basicCSS).css
 
       expect(processed).toBe(expected)
     })
@@ -199,7 +193,7 @@ describe('propWhiteList', function () {
         designWidth: 640,
         propWhiteList: ['font']
       }
-      const processed = postcss(pxtorem(options)).process(basicCSS).css
+      const processed = postcss(px2rem(options)).process(basicCSS).css
 
       expect(processed).toBe(expected)
     })
@@ -207,26 +201,26 @@ describe('propWhiteList', function () {
   it('5 should only replace properties in the white list - legacy',
     function () {
       const css = '.rule { margin: 16px; margin-left: 10px }'
-      const expected = '.rule { margin: 0.4rem; margin-left: 10px }'
+      const expected = '.rule { margin: 0.468rem; margin-left: 10px }'
       const options = {
         platform: 'h5',
         designWidth: 640,
         propWhiteList: ['margin']
       }
-      const processed = postcss(pxtorem(options)).process(css).css
+      const processed = postcss(px2rem(options)).process(css).css
 
       expect(processed).toBe(expected)
     })
 
   it('6 should only replace properties in the prop list', function () {
     const css = '.rule { font-size: 16px; margin: 16px; margin-left: 5px; padding: 5px; padding-right: 16px }'
-    const expected = '.rule { font-size: 0.4rem; margin: 0.4rem; margin-left: 5px; padding: 5px; padding-right: 0.4rem }'
+    const expected = '.rule { font-size: 0.468rem; margin: 0.468rem; margin-left: 5px; padding: 5px; padding-right: 0.468rem }'
     const options = {
       platform: 'h5',
       designWidth: 640,
       propWhiteList: ['*font*', 'margin*', '!margin-left', '*-right', 'pad']
     }
-    const processed = postcss(pxtorem(options)).process(css).css
+    const processed = postcss(px2rem(options)).process(css).css
 
     expect(processed).toBe(expected)
   })
@@ -234,26 +228,26 @@ describe('propWhiteList', function () {
   it('7 should only replace properties in the prop list with wildcard',
     function () {
       const css = '.rule { font-size: 16px; margin: 16px; margin-left: 5px; padding: 5px; padding-right: 16px }'
-      const expected = '.rule { font-size: 16px; margin: 0.4rem; margin-left: 5px; padding: 5px; padding-right: 16px }'
+      const expected = '.rule { font-size: 16px; margin: 0.468rem; margin-left: 5px; padding: 5px; padding-right: 16px }'
       const options = {
         platform: 'h5',
         designWidth: 640,
         propWhiteList: ['*', '!margin-left', '!*padding*', '!font*']
       }
-      const processed = postcss(pxtorem(options)).process(css).css
+      const processed = postcss(px2rem(options)).process(css).css
 
       expect(processed).toBe(expected)
     })
 
   it('8 should replace all properties when white list is empty', function () {
     const rules = '.rule { margin: 16px; font-size: 15px }'
-    const expected = '.rule { margin: 0.4rem; font-size: 0.375rem }'
+    const expected = '.rule { margin: 0.468rem; font-size: 0.43875rem }'
     const options = {
       platform: 'h5',
       designWidth: 640
       // propWhiteList: []
     }
-    const processed = postcss(pxtorem(options)).process(rules).css
+    const processed = postcss(px2rem(options)).process(rules).css
 
     expect(processed).toBe(expected)
   })
@@ -264,52 +258,52 @@ describe('selectorBlackList', function () {
   it('1 should ignore selectors in the selector black list - legacy',
     function () {
       const rules = '.rule { font-size: 15px } .rule2 { font-size: 15px }'
-      const expected = '.rule { font-size: 0.375rem } .rule2 { font-size: 15px }'
+      const expected = '.rule { font-size: 0.43875rem } .rule2 { font-size: 15px }'
       const options = {
         platform: 'h5',
         designWidth: 640,
         selector_black_list: ['.rule2']
       }
-      const processed = postcss(pxtorem(options)).process(rules).css
+      const processed = postcss(px2rem(options)).process(rules).css
 
       expect(processed).toBe(expected)
     })
 
   it('2 should ignore selectors in the selector black list', function () {
     const rules = '.rule { font-size: 15px } .rule2 { font-size: 15px }'
-    const expected = '.rule { font-size: 0.375rem } .rule2 { font-size: 15px }'
+    const expected = '.rule { font-size: 0.43875rem } .rule2 { font-size: 15px }'
     const options = {
       platform: 'h5',
       designWidth: 640,
       selectorBlackList: ['.rule2']
     }
-    const processed = postcss(pxtorem(options)).process(rules).css
+    const processed = postcss(px2rem(options)).process(rules).css
 
     expect(processed).toBe(expected)
   })
 
   it('3 should ignore every selector with `body$`', function () {
     const rules = 'body { font-size: 16px; } .class-body$ { font-size: 16px; } .simple-class { font-size: 16px; }'
-    const expected = 'body { font-size: 0.4rem; } .class-body$ { font-size: 16px; } .simple-class { font-size: 0.4rem; }'
+    const expected = 'body { font-size: 0.468rem; } .class-body$ { font-size: 16px; } .simple-class { font-size: 0.468rem; }'
     const options = {
       platform: 'h5',
       designWidth: 640,
       selectorBlackList: ['body$']
     }
-    const processed = postcss(pxtorem(options)).process(rules).css
+    const processed = postcss(px2rem(options)).process(rules).css
 
     expect(processed).toBe(expected)
   })
 
   it('4 should only ignore exactly `body`', function () {
     const rules = 'body { font-size: 16px; } .class-body { font-size: 16px; } .simple-class { font-size: 16px; }'
-    const expected = 'body { font-size: 16px; } .class-body { font-size: 0.4rem; } .simple-class { font-size: 0.4rem; }'
+    const expected = 'body { font-size: 16px; } .class-body { font-size: 0.468rem; } .simple-class { font-size: 0.468rem; }'
     const options = {
       platform: 'h5',
       designWidth: 640,
       selectorBlackList: [/^body$/]
     }
-    const processed = postcss(pxtorem(options)).process(rules).css
+    const processed = postcss(px2rem(options)).process(rules).css
 
     expect(processed).toBe(expected)
   })
@@ -322,8 +316,8 @@ describe('replace', function () {
       designWidth: 640,
       replace: false
     }
-    const processed = postcss(pxtorem(options)).process(basicCSS).css
-    const expected = '.rule { font-size: 15px; font-size: 0.375rem }'
+    const processed = postcss(px2rem(options)).process(basicCSS).css
+    const expected = '.rule { font-size: 15px; font-size: 0.43875rem }'
 
     expect(processed).toBe(expected)
   })
@@ -337,9 +331,9 @@ describe('mediaQuery', function () {
       designWidth: 640,
       media_query: true
     }
-    const processed = postcss(pxtorem(options))
+    const processed = postcss(px2rem(options))
       .process('@media (min-width: 500px) { .rule { font-size: 16px } }').css
-    const expected = '@media (min-width: 12.5rem) { .rule { font-size: 0.4rem } }'
+    const expected = '@media (min-width: 14.625rem) { .rule { font-size: 0.468rem } }'
 
     expect(processed).toBe(expected)
   })
@@ -350,9 +344,9 @@ describe('mediaQuery', function () {
       designWidth: 640,
       mediaQuery: true
     }
-    const processed = postcss(pxtorem(options))
+    const processed = postcss(px2rem(options))
       .process('@media (min-width: 500px) { .rule { font-size: 16px } }').css
-    const expected = '@media (min-width: 12.5rem) { .rule { font-size: 0.4rem } }'
+    const expected = '@media (min-width: 14.625rem) { .rule { font-size: 0.468rem } }'
 
     expect(processed).toBe(expected)
   })
@@ -367,8 +361,8 @@ describe('minPixelValue', function () {
       minPixelValue: 2
     }
     const rules = '.rule { border: 1px solid #000; font-size: 16px; margin: 1px 10px; }'
-    const expected = '.rule { border: 1px solid #000; font-size: 0.4rem; margin: 1px 0.25rem; }'
-    const processed = postcss(pxtorem(options)).process(rules).css
+    const expected = '.rule { border: 1px solid #000; font-size: 0.468rem; margin: 1px 0.2925rem; }'
+    const processed = postcss(px2rem(options)).process(rules).css
 
     expect(processed).toBe(expected)
   })
@@ -493,7 +487,7 @@ describe('不传任何配置', () => {
   it('不传任何配置', function () {
     const rules = 'h1 {margin: 0 0 20px;font-size: 40px;line-height: 1.2;}'
     const expected = 'h1 {margin: 0 0 20rpx;font-size: 40rpx;line-height: 1.2;}'
-    const processed = postcss(pxtorem()).process(rules).css
+    const processed = postcss(px2rem()).process(rules).css
 
     expect(processed).toBe(expected)
   })
@@ -507,18 +501,18 @@ describe('platform 为 weapp', () => {
       platform: 'weapp',
       designWidth: 750
     }
-    const processed = postcss(pxtorem(options)).process(rules).css
+    const processed = postcss(px2rem(options)).process(rules).css
     expect(processed).toBe(expected)
   })
 
   it('{platform: \'weapp\', designWidth: 640} ', () => {
     const rules = 'h1 {margin: 0 0 20px;font-size: 40px;line-height: 1.2;}'
-    const expected = 'h1 {margin: 0 0 17.09402rpx;font-size: 34.18803rpx;line-height: 1.2;}'
+    const expected = 'h1 {margin: 0 0 23.4rpx;font-size: 46.8rpx;line-height: 1.2;}'
     const options = {
       platform: 'weapp',
       designWidth: 640
     }
-    const processed = postcss(pxtorem(options)).process(rules).css
+    const processed = postcss(px2rem(options)).process(rules).css
     expect(processed).toBe(expected)
   })
 })
@@ -526,23 +520,23 @@ describe('platform 为 weapp', () => {
 describe('platform 为 h5', () => {
   it('{platform: \'h5\', designWidth: 750} ', () => {
     const rules = 'h1 {margin: 0 0 20px;font-size: 40px;line-height: 1.2;}'
-    const expected = 'h1 {margin: 0 0 0.42667rem;font-size: 0.85333rem;line-height: 1.2;}'
+    const expected = 'h1 {margin: 0 0 0.5rem;font-size: 1rem;line-height: 1.2;}'
     const options = {
       platform: 'h5',
       designWidth: 750
     }
-    const processed = postcss(pxtorem(options)).process(rules).css
+    const processed = postcss(px2rem(options)).process(rules).css
     expect(processed).toBe(expected)
   })
 
   it('{platform: \'h5\', designWidth: 640} ', () => {
     const rules = 'h1 {margin: 0 0 20px;font-size: 40Px;line-height: 1.2;}'
-    const expected = 'h1 {margin: 0 0 0.5rem;font-size: 40Px;line-height: 1.2;}'
+    const expected = 'h1 {margin: 0 0 0.585rem;font-size: 40Px;line-height: 1.2;}'
     const options = {
       platform: 'h5',
       designWidth: 640
     }
-    const processed = postcss(pxtorem(options)).process(rules).css
+    const processed = postcss(px2rem(options)).process(rules).css
     expect(processed).toBe(expected)
   })
 })
@@ -554,7 +548,7 @@ describe('platform 为 h5，文件头部带注释的不转换', () => {
       platform: 'h5',
       designWidth: 640
     }
-    const processed = postcss(pxtorem(options)).process(rules).css
+    const processed = postcss(px2rem(options)).process(rules).css
     expect(processed).toBe(rules)
   })
 })
@@ -566,7 +560,7 @@ describe('platform 为 h5，指定 h5 平台保留', () => {
       platform: 'h5',
       designWidth: 640
     }
-    const processed = postcss(pxtorem(options)).process(rules).css
+    const processed = postcss(px2rem(options)).process(rules).css
     expect(processed).toBe(rules)
   })
 })
@@ -578,7 +572,7 @@ describe('platform 为 h5，指定平台 rn 平台保留', () => {
       platform: 'h5',
       designWidth: 640
     }
-    const processed = postcss(pxtorem(options)).process(rules).css
+    const processed = postcss(px2rem(options)).process(rules).css
     expect(processed).toBe('/*  #ifdef  rn  *//*  #endif  */ .test{}')
   })
 })
@@ -590,7 +584,7 @@ describe('platform 为 rn，指定平台 h5 rn 平台保留', () => {
       platform: 'rn',
       designWidth: 640
     }
-    const processed = postcss(pxtorem(options)).process(rules).css
+    const processed = postcss(px2rem(options)).process(rules).css
     expect(processed).toBe(rules)
   })
 })
@@ -602,7 +596,7 @@ describe('platform 为 h5，指定平台 rn 平台剔除', () => {
       platform: 'h5',
       designWidth: 640
     }
-    const processed = postcss(pxtorem(options)).process(rules).css
+    const processed = postcss(px2rem(options)).process(rules).css
     expect(processed).toBe(rules)
   })
 })
@@ -614,7 +608,28 @@ describe('platform 为 h5，指定平台 h5 平台剔除', () => {
       platform: 'h5',
       designWidth: 640
     }
-    const processed = postcss(pxtorem(options)).process(rules).css
+    const processed = postcss(px2rem(options)).process(rules).css
     expect(processed).toBe('/*  #ifndef  h5  *//*  #endif  */ .test{}')
+  })
+})
+
+describe('rpx 单位转换', () => {
+  it('{platform: \'weapp\', designWidth: 640} ', () => {
+    const rules = 'h1 {margin: 0 0 20rpx;font-size: 40Px;line-height: 1.2;} .test{}'
+    const options = {
+      platform: 'weapp',
+      designWidth: 640
+    }
+    const processed = postcss(px2rem(options)).process(rules).css
+    expect(processed).toBe('h1 {margin: 0 0 20rpx;font-size: 40Px;line-height: 1.2;} .test{}')
+  })
+  it('{platform: \'h5\', designWidth: 640} ', () => {
+    const rules = 'h1 {margin: 0 0 20rpx;font-size: 40Px;line-height: 1.2;} .test{}'
+    const options = {
+      platform: 'h5',
+      designWidth: 640
+    }
+    const processed = postcss(px2rem(options)).process(rules).css
+    expect(processed).toBe('h1 {margin: 0 0 0.585rem;font-size: 40Px;line-height: 1.2;} .test{}')
   })
 })

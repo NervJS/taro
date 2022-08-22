@@ -1,29 +1,24 @@
+
 {
+  "extends": "../../tsconfig.root.json",
   "compilerOptions": {
-    "allowSyntheticDefaultImports": true,
-    "allowJs": true,
     "baseUrl": ".",
-    "experimentalDecorators": true,
-    "lib": ["esnext", "dom"],
-    "module": "commonjs",
-    "moduleResolution": "node",
-    "noImplicitAny": false,
-    "noUnusedLocals": true,
-    "outDir": "dist/",
-    "preserveConstEnums": true,
-    "removeComments": false,
+    "outDir": "dist",
     "rootDir": "./src",
-    "skipLibCheck": true,
+    "module": "commonjs",
     "sourceMap": true,
-    "strictNullChecks": true,
-    "target": "es2015",
-    "traceResolution": false,
-    "types": ["jest"]
+    "paths": {
+      "webpack": ["./node_modules/@types/webpack", "../../node_modules/@types/webpack", "./node_modules/webpack"],
+      "webpack-dev-server": ["./types/slim.d.ts"],
+    },
+    "preserveConstEnums": true,
+    "typeRoots": ["./types", "./node_modules/@types", "../../node_modules/@types"],
   },
-  "include": [
-    "./src"
-  ],
+  "include": ["./src", "./types"],
   "exclude": [
-    "./src/__tests__"
-  ]
+    "./src/__tests__",
+    "./src/template/comp.ts",
+    "./src/quickapp",
+    "./src/loaders/quickappStyleLoader.ts",
+  ],
 }

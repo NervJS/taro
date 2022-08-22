@@ -1,4 +1,36 @@
-declare namespace Taro {
+import Taro from './index'
+
+type TaroGetDerivedStateFromProps<P, S> =
+  /**
+   * Returns an update to a component's state based on its new props and old state.
+   *
+   * Note: its presence prevents any of the deprecated lifecycle methods from being invoked
+   */
+  (nextProps: Readonly<P>, prevState: S) => Partial<S> | null
+
+interface TaroStaticLifecycle<P, S> {
+  getDerivedStateFromProps?: TaroGetDerivedStateFromProps<P, S>
+}
+
+interface TaroNewLifecycle<P, S, SS> {
+  /**
+   * Runs before React applies the result of `render` to the document, and
+   * returns an object to be given to componentDidUpdate. Useful for saving
+   * things such as scroll position before `render` causes changes to it.
+   *
+   * Note: the presence of getSnapshotBeforeUpdate prevents any of the deprecated
+   * lifecycle events from running.
+   */
+  getSnapshotBeforeUpdate?(prevProps: Readonly<P>, prevState: Readonly<S>): SS | null
+  /**
+   * Called immediately after updating occurs. Not called for the initial render.
+   *
+   * The snapshot is only present if getSnapshotBeforeUpdate is present and returns non-null.
+   */
+  componentDidUpdate?(prevProps: Readonly<P>, prevState: Readonly<S>, snapshot?: SS): void
+}
+
+declare module './index' {
   interface PageNotFoundObject {
     /**
      * 不存在页面的路径
@@ -8,7 +40,7 @@ declare namespace Taro {
     /**
      * 打开不存在页面的 query
      */
-    query: object
+    query: Record<string, unknown>
 
     /**
      * 是否本次启动的首个页面（例如从分享等入口进来，首个页面是开发者配置的分享页面）
@@ -21,6 +53,13 @@ declare namespace Taro {
      * 页面在垂直方向已滚动的距离（单位px）
      */
     scrollTop: number
+  }
+
+  interface PageResizeObject {
+    size: {
+      windowWidth: number
+      windowHeight: number
+    }
   }
 
   interface ShareAppMessageObject {
@@ -126,33 +165,27 @@ declare namespace Taro {
     imageUrl?: string
   }
 
-  type GetDerivedStateFromProps<P, S> =
-  /**
-   * Returns an update to a component's state based on its new props and old state.
-   *
-   * Note: its presence prevents any of the deprecated lifecycle methods from being invoked
-   */
-  (nextProps: Readonly<P>, prevState: S) => Partial<S> | null;
-
-  interface StaticLifecycle<P, S> {
-    getDerivedStateFromProps?: GetDerivedStateFromProps<P, S>;
+  interface ComponentLifecycle<P, S, SS = any> extends TaroNewLifecycle<P, S, SS> {
+    componentWillMount?(): void
+    componentDidMount?(): void
+    componentWillReceiveProps?(nextProps: Readonly<P>, nextContext: any): void
+    shouldComponentUpdate?(nextProps: Readonly<P>, nextState: Readonly<S>, nextContext: any): boolean
+    componentWillUpdate?(nextProps: Readonly<P>, nextState: Readonly<S>, nextContext: any): void
+    componentWillUnmount?(): void
+    componentDidCatch?(err: string): void
+    componentDidShow?(): void
+    componentDidHide?(): void
+    componentDidNotFound?(opt: PageNotFoundObject): void
   }
 
-  interface NewLifecycle<P, S, SS> {
-    /**
-     * Runs before React applies the result of `render` to the document, and
-     * returns an object to be given to componentDidUpdate. Useful for saving
-     * things such as scroll position before `render` causes changes to it.
-     *
-     * Note: the presence of getSnapshotBeforeUpdate prevents any of the deprecated
-     * lifecycle events from running.
-     */
-    getSnapshotBeforeUpdate?(prevProps: Readonly<P>, prevState: Readonly<S>): SS | null;
-    /**
-     * Called immediately after updating occurs. Not called for the initial render.
-     *
-     * The snapshot is only present if getSnapshotBeforeUpdate is present and returns non-null.
-     */
-    componentDidUpdate?(prevProps: Readonly<P>, prevState: Readonly<S>, snapshot?: SS): void;
+  interface TaroStatic {
+    PageNotFoundObject: PageNotFoundObject
+    PageScrollObject: PageScrollObject
+    ShareAppMessageObject: ShareAppMessageObject
+    ShareAppMessageReturn: ShareAppMessageReturn
+    TabItemTapObject: TabItemTapObject
+    AddToFavoritesObject: AddToFavoritesObject
+    AddToFavoritesReturnObject: AddToFavoritesReturnObject
+    ShareTimelineReturnObject: ShareTimelineReturnObject
   }
 }

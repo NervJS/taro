@@ -15,19 +15,16 @@
     "sourceMap": true,
     "baseUrl": ".",
     "rootDir": ".",
-    "jsx": "react",<% if (framework === 'react') {%>
-    "jsxFactory": "React.createElement",<%}%><% if (framework === 'nerv') {%>
+    "jsx": "<%= ['vue', 'vue3'].includes(framework) ? 'preserve' : 'react-jsx' %>",<% if (framework === 'preact') {%>
+    "skipLibCheck": true,<%}%><% if (framework === 'nerv') {%>
+    "jsx": "react",
     "jsxFactory": "Nerv.createElement",<%}%>
     "allowJs": true,
     "resolveJsonModule": true,
     "typeRoots": [
-      "node_modules/@types",
-      "global.d.ts"
+      "node_modules/@types"
     ]
   },
-  "exclude": [
-    "node_modules",
-    "dist"
-  ],
+  "include": ["./src", "./types"],
   "compileOnSave": false
 }

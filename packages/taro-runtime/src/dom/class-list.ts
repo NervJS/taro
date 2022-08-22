@@ -1,4 +1,4 @@
-import { TaroElement } from './element'
+import type { TaroElement } from './element'
 
 export class ClassList extends Set<string> {
   private el: TaroElement
@@ -10,7 +10,7 @@ export class ClassList extends Set<string> {
   }
 
   public get value () {
-    return [...this].join(' ')
+    return [...this].filter(v => v !== '').join(' ')
   }
 
   public add (s: string) {
@@ -18,6 +18,10 @@ export class ClassList extends Set<string> {
     this._update()
 
     return this
+  }
+
+  public get length (): number {
+    return this.size
   }
 
   public remove (s: string) {

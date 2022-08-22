@@ -3,15 +3,16 @@ import { StandardProps } from './common'
 
 interface SwiperItemProps extends StandardProps {
   /** 该 swiper-item 的标识符
-   * @supported weapp
+   * @supported weapp, swan, alipay, tt, h5, rn
    */
   itemId?: string
 }
 
 /** 仅可放置在 swiper 组件中，宽高自动设置为100%
+ * > 不要为 `SwiperItem` 设置 **style** 属性，可以通过 class 设置样式。[7147](https://github.com/NervJS/taro/issues/7147)
  * @classification viewContainer
- * @supported weapp
- * @example
+ * @supported weapp, swan, alipay, tt, h5, rn
+ * @example_react
  * ```tsx
  * class App extends Component {
  *   render () {
@@ -37,6 +38,30 @@ interface SwiperItemProps extends StandardProps {
  *     )
  *   }
  * }
+ * ```
+ * @example_vue
+ * ```html
+ * <template>
+ *   <swiper
+ *     class='test-h'
+ *     indicator-color='#999'
+ *     indicator-active-color='#333'
+ *     :vertical="true"
+ *     :circular="true"
+ *     :indicator-dots="true"
+ *     :autoplay="true"
+ *   >
+ *     <swiper-item>
+ *       <view class='demo-text-1'>1</view>
+ *     </swiper-item>
+ *     <swiper-item>
+ *       <view class='demo-text-2'>2</view>
+ *     </swiper-item>
+ *     <swiper-item>
+ *       <view class='demo-text-3'>3</view>
+ *     </swiper-item>
+ *   </swiper>
+ * </template>
  * ```
  * @see https://developers.weixin.qq.com/miniprogram/dev/component/swiper-item.html
  */

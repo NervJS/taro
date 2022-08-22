@@ -8,7 +8,7 @@ interface IconItem {
 /**
  * @see icon default color: https://github.com/Tencent/weui/blob/master/src/style/icon/weui-icon_font.less
  */
-export const VIEWBOX_SIZE: number = 1001
+export const VIEWBOX_SIZE = 1001
 export const CIRCLE: IconItem = {
   // path: new Path('M501 941q-120 0 -223 -60q-100 -59 -159 -159q-60 -103 -60 -223t60 -223q59 -99 159 -158q103 -60 223 -60t222 60q100 59 159 158q60 103 60 223t-60 223q-59 100 -159 159q-102 60 -222 60zM501 92q-110 0 -204 55q-91 53 -145 144q-55 94 -55 203.5t55 203.5 q54 92 145 145q94 55 203.5 55t203.5 -55q91 -53 145 -145q55 -94 55 -203.5t-55 -203.5q-54 -91 -145 -144q-94 -55 -203 -55z'),
   defaultColor: '#C9C9C9',

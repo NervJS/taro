@@ -13,6 +13,7 @@ export default function customCommand (
         options[key] = args[key]
       }
     })
+
     kernel.run({
       name: command,
       opts: {

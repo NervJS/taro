@@ -3,25 +3,36 @@ import { StandardProps, CommonEventFunction } from './common'
 
 interface MapProps extends StandardProps {
   /** 中心经度
-   * @supported weapp, swan, alipay
+   * @supported weapp, swan, alipay, tt
    */
   longitude: number
 
   /** 中心纬度
-   * @supported weapp, swan, alipay
+   * @supported weapp, swan, alipay, tt
    */
   latitude: number
 
   /** 缩放级别，取值范围为3-20
    * @default 16
-   * @supported weapp, swan, alipay
+   * @supported weapp, swan, alipay, tt
    * @swan 取值范围为4-21
    * @alipay 取值范围为5-18
    */
   scale?: number
+  /** 最小缩放级别3-20
+   * @default 3
+   * @supported weapp, tt
+   */
+  minScale?: number
+  /** 最大缩放级别3-20
+   * (备注: 字节小程序最大缩放级别 3-19)
+   * @default 20 (字节小程序默认为19)
+   * @supported weapp, tt
+   */
+  maxScale?: number
 
   /** 标记点
-   * @supported weapp, swan, alipay
+   * @supported weapp, swan, alipay, tt
    */
   markers?: MapProps.marker[]
 
@@ -32,12 +43,12 @@ interface MapProps extends StandardProps {
   covers?: any[]
 
   /** 路线
-   * @supported weapp, swan, alipay
+   * @supported weapp, swan, alipay, tt
    */
   polyline?: MapProps.polyline[]
 
   /** 圆
-   * @supported weapp, swan, alipay
+   * @supported weapp, swan, alipay, tt
    */
   circles?: MapProps.circle[]
 
@@ -48,18 +59,18 @@ interface MapProps extends StandardProps {
   controls?: MapProps.control[]
 
   /** 缩放视野以包含所有给定的坐标点
-   * @supported weapp, swan, alipay
+   * @supported weapp, swan, alipay, tt
    */
   includePoints?: MapProps.point[]
 
   /** 显示带有方向的当前定位点
    * @default false
-   * @supported weapp, swan, alipay
+   * @supported weapp, swan, alipay, tt
    */
   showLocation?: boolean
 
   /** 多边形
-   * @supported weapp, swan, alipay
+   * @supported weapp, swan, alipay, tt
    */
   polygons?: MapProps.polygon[]
 
@@ -76,89 +87,89 @@ interface MapProps extends StandardProps {
 
   /** 旋转角度，范围 0 ~ 360, 地图正北和设备 y 轴角度的夹角
    * @default 0
-   * @supported weapp
+   * @supported weapp, tt
    */
   rotate?: number
 
   /** 倾斜角度，范围 0 ~ 40 , 关于 z 轴的倾角
    * @default 0
-   * @supported weapp
+   * @supported weapp, tt
    */
   skew?: number
 
   /** 展示 3D 楼块
    * @default false
-   * @supported weapp, swan
+   * @supported weapp, swan, tt
    */
   enable3D?: boolean
 
   /** 显示指南针
    * @default false
-   * @supported weapp, swan
+   * @supported weapp, swan, tt
    */
   showCompass?: boolean
 
   /** 显示比例尺
    * @default false
-   * @supported weapp
+   * @supported weapp, tt
    */
   showScale?: boolean
 
   /** 开启俯视
    * @default false
-   * @supported weapp, swan
+   * @supported weapp, swan, tt
    */
   enableOverlooking?: boolean
 
   /** 是否支持缩放
    * @default true
-   * @supported weapp, swan
+   * @supported weapp, swan, tt
    */
   enableZoom?: boolean
 
   /** 是否支持拖动
    * @default true
-   * @supported weapp, swan
+   * @supported weapp, swan, tt
    */
   enableScroll?: boolean
 
   /** 是否支持旋转
    * @default false
-   * @supported weapp, swan
+   * @supported weapp, swan, tt
    */
   enableRotate?: boolean
 
   /** 是否开启卫星图
    * @default false
-   * @supported weapp
+   * @supported weapp, tt
    */
   enableSatellite?: boolean
 
   /** 是否开启实时路况
    * @default false
-   * @supported weapp
+   * @supported weapp, tt
    */
   enableTraffic?: boolean
 
   /** 配置项
-   * 
+   *
    * 提供 setting 对象统一设置地图配置。同时对于一些动画属性如 rotate 和 skew，通过 setData 分开设置时无法同时生效，需通过 settting 统一修改。
    * @supported weapp, alipay
    */
   setting?: MapProps | { [key: string]: number | string | any }
 
   /** 点击地图时触发
-   * @supported weapp, swan, alipay
+   * @supported weapp, swan, alipay, tt
    */
   onTap?: CommonEventFunction
 
   /** 点击标记点时触发，e.detail = {markerId}
-   * @supported weapp, swan, alipay
+   * @supported weapp, swan, alipay, tt
    */
   onMarkerTap?: CommonEventFunction<MapProps.onMarkerTapEventDetail>
 
   /** 点击label时触发，e.detail = {markerId}
-   * @supported weapp
+   * @supported weapp, tt
    */
   onLabelTap?: CommonEventFunction<MapProps.onLabelTapEventDetail>
 
@@ -168,19 +179,19 @@ interface MapProps extends StandardProps {
   onControlTap?: CommonEventFunction<MapProps.onControlTapEventDetail>
 
   /** 点击标记点对应的气泡时触发，e.detail = {markerId}
-   * @supported weapp, swan, alipay
+   * @supported weapp, swan, alipay, tt
    */
   onCalloutTap?: CommonEventFunction<MapProps.onCalloutTapEventDetail>
 
   /** 在地图渲染更新完成时触发
-   * @supported weapp, swan
+   * @supported weapp, swan, tt
    */
   onUpdated?: CommonEventFunction
 
   /** 视野发生变化时触发
-   * @supported weapp, swan, alipay
+   * @supported weapp, swan, alipay, tt
    */
-  onRegionChange?: CommonEventFunction<MapProps.onRegionChangeEventDetail>
+  onRegionChange?: CommonEventFunction<MapProps.onRegionEventDetail<'begin'> | MapProps.onRegionEventDetail<'end'>>
 
   /** 点击地图poi点时触发，e.detail = {name, longitude, latitude}
    * @supported weapp, swan
@@ -250,12 +261,16 @@ declare namespace MapProps {
      * @remarks 默认为图片实际高度
      */
     height?: number | string
-    /** 自定义标记点上方的气泡窗口
+    /** 标记点上方的气泡窗口
      * @remarks 支持的属性见下表，可识别换行符。
      */
     callout?: callout
-    /** 为标记点旁边增加标签
+    /** 自定义气泡窗口
      * @remarks 支持的属性见下表，可识别换行符。
+     */
+    customCallout?: customCallout
+    /** 为标记点旁边增加标签
+     * @remarks 支持的属性见下表
      */
     label?: label
     /** 经纬度在标注图标的锚点，默认底边中点
@@ -277,6 +292,10 @@ declare namespace MapProps {
     color: string
     /** 文字大小 */
     fontSize: number
+    /** 横向偏移量，向右为正数 */
+    anchorX: number
+    /** 纵向偏移量，向下为正数 */
+    anchorY: number
     /** 边框圆角 */
     borderRadius: number
     /** 边框宽度 */
@@ -291,6 +310,19 @@ declare namespace MapProps {
     display: 'BYCLICK' | 'ALWAYS'
     /** 文本对齐方式。有效值: left, right, center */
     textAlign: 'left' | 'right' | 'center'
+  }
+
+  /** marker 上的自定义气泡 customCallout
+   *
+   * `customCallout` 存在时将忽略 `callout` 与 `title` 属性。自定义气泡采用采用 `cover-view` 定制，灵活度更高。
+   */
+  interface customCallout {
+    /** 'BYCLICK':点击显示; 'ALWAYS':常显 */
+    display: 'BYCLICK' | 'ALWAYS' | string
+    /** 横向偏移量，向右为正数 */
+    anchorX: number
+    /** 纵向偏移量，向下为正数 */
+    anchorY: number
   }
 
   /** marker 上的气泡 label */
@@ -412,7 +444,7 @@ declare namespace MapProps {
     /** 控件在地图的位置
      * @remarks 控件相对地图位置
      */
-    position: point
+    position: position
     /** 显示的图标
      * @remarks 项目目录下的图片路径，支持本地路径、代码包路径
      */
@@ -461,23 +493,54 @@ declare namespace MapProps {
   interface onCalloutTapEventDetail {
     markerId: number | string
   }
-  interface onRegionChangeEventDetail {
+
+  namespace RegionChangeDetail {
+    interface type {
+      begin
+      end
+    }
+
+    interface CausedByBegin {
+      /** 手势触发 */
+      gesture
+      /** 接口触发 */
+      update
+    }
+
+    interface CausedByEnd {
+      /** 拖动导致 */
+      drag
+      /** 缩放导致 */
+      scale
+      /** 调用更新接口导致 */
+      update
+    }
+  }
+  interface onRegionEventDetail<T = keyof RegionChangeDetail.type> {
     /** 视野变化开始、结束时触发
      * @remarks 视野变化开始为begin，结束为end
      */
-    type: 'begin' | 'end' | string
+    type: T
     /** 导致视野变化的原因
-     * @remarks 拖动地图导致(drag)、缩放导致(scale)、调用接口导致(update)
+     * @remarks 有效值为 gesture（手势触发）、update（接口触发或调用更新接口导致）、drag（拖动导致）、scale（缩放导致）
      */
-    causedBy: 'drag' | 'scale' | 'update' | string
+    causedBy: keyof (T extends 'begin' ? RegionChangeDetail.CausedByBegin : RegionChangeDetail.CausedByEnd)
     /** 视野改变详情 */
-    detail: regionChangeDetail
+    detail: regionChangeDetail<RegionChangeDetail.type>
   }
-  interface regionChangeDetail {
+  interface regionChangeDetail<T = keyof RegionChangeDetail.type> {
     /** 旋转角度 */
     rotate: number
     /** 倾斜角度 */
     skew: number
+    causedBy: keyof (T extends 'begin' ? RegionChangeDetail.CausedByBegin : RegionChangeDetail.CausedByEnd)
+    type: T | string
+    scale: number
+    centerLocation: point
+    region: {
+      northeast: point
+      southeast: point
+    }
   }
   interface onPoiTapEventDetail {
     name: string
@@ -489,7 +552,7 @@ declare namespace MapProps {
 /** 地图。相关api Taro.createMapContext。
  * @classification maps
  * @supported weapp, alipay, swan
- * @example
+ * @example_react
  * ```tsx
  * class App extends Component {
  *   onTap () {}
@@ -499,6 +562,60 @@ declare namespace MapProps {
  *     )
  *   }
  * }
+ * ```
+ * @example_vue
+ * ```html
+ * <template>
+ *   <map
+ *     id="map"
+ *     style="width: 100%; height: 300px;"
+ *     longitude="113.324520"
+ *     latitude="23.099994"
+ *     scale="14"
+ *     :markers="markers"
+ *     :polyline="polyline"
+ *     :show-location="true"
+ *     `@regionchange="regionchange"
+ *     `@markertap="markertap"
+ *   />
+ * </template>
+ *
+ * <script>
+ * export default {
+ *   data() {
+ *     return {
+ *       markers: [{
+ *         iconPath: "https://avatars2.githubusercontent.com/u/1782542?s=460&u=d20514a52100ed1f82282bcfca6f49052793c889&v=4",
+ *         id: 0,
+ *         latitude: 23.099994,
+ *         longitude: 113.324520,
+ *         width: 50,
+ *         height: 50
+ *       }],
+ *       polyline: [{
+ *         points: [{
+ *           longitude: 113.3245211,
+ *           latitude: 23.10229
+ *         }, {
+ *           longitude: 113.324520,
+ *           latitude: 23.21229
+ *         }],
+ *         color:"#FF0000DD",
+ *         width: 2,
+ *         dottedLine: true
+ *       }]
+ *     }
+ *   },
+ *   methods: {
+ *     regionchange(e) {
+ *       console.log(e.type)
+ *     },
+ *     markertap(e) {
+ *       console.log("markertap:", e.detail.markerId)
+ *     }
+ *   }
+ * }
+ * </script>
  * ```
  * @see https://developers.weixin.qq.com/miniprogram/dev/component/map.html#map
  */

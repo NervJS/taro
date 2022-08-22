@@ -1,20 +1,22 @@
-import { recursiveMerge, REG_SCRIPTS, REG_SASS_SASS, REG_SASS_SCSS, REG_LESS, REG_STYLUS, REG_STYLE, REG_MEDIA, REG_FONT, REG_IMAGE } from '@tarojs/helper'
+import { recursiveMerge, REG_FONT, REG_IMAGE, REG_LESS, REG_MEDIA, REG_SASS_SASS, REG_SASS_SCSS, REG_SCRIPTS, REG_STYLE, REG_STYLUS } from '@tarojs/helper'
 import { getSassLoaderOption } from '@tarojs/runner-utils'
+import { ICopyOptions, IPostcssOption, PostcssOption } from '@tarojs/taro/types/compile'
 import * as CopyWebpackPlugin from 'copy-webpack-plugin'
 import CssoWebpackPlugin from 'csso-webpack-plugin'
-import * as sass from 'sass'
+import * as fs from 'fs-extra'
 import * as HtmlWebpackPlugin from 'html-webpack-plugin'
 import { partial } from 'lodash'
 import { mapKeys, pipe } from 'lodash/fp'
 import * as MiniCssExtractPlugin from 'mini-css-extract-plugin'
+import * as path from 'path'
 import { join, resolve } from 'path'
+import * as sass from 'sass'
 import * as TerserPlugin from 'terser-webpack-plugin'
 import * as webpack from 'webpack'
-import { PostcssOption, IPostcssOption, ICopyOptions } from '@tarojs/taro/types/compile'
 
+import { getDefaultPostcssConfig, getPostcssPlugins } from '../config/postcss.conf'
 import MainPlugin from '../plugins/MainPlugin'
-import { getPostcssPlugins } from '../config/postcss.conf'
-import { Option, BuildConfig } from './types'
+import { BuildConfig, Option } from './types'
 
 export const makeConfig = async (buildConfig: BuildConfig) => {
   const sassLoaderOption = await getSassLoaderOption(buildConfig)
@@ -42,13 +44,16 @@ const defaultCSSCompressOption = {
   minifySelectors: false
 }
 const defaultMediaUrlLoaderOption = {
-  limit: 10240
+  limit: 10240,
+  esModule: false
 }
 const defaultFontUrlLoaderOption = {
-  limit: 10240
+  limit: 10240,
+  esModule: false
 }
 const defaultImageUrlLoaderOption = {
-  limit: 10240
+  limit: 10240,
+  esModule: false
 }
 const defaultCssModuleOption: PostcssOption.cssModules = {
   enable: false,
@@ -205,13 +210,14 @@ export const getCssoWebpackPlugin = ([cssoOption]) => {
     partial(getPlugin, CssoWebpackPlugin)
   )([defaultCSSCompressOption, cssoOption])
 }
-export const getCopyWebpackPlugin = ({ copy, appPath }: { copy: ICopyOptions; appPath: string }) => {
+export const getCopyWebpackPlugin = ({ copy, appPath }: { copy: ICopyOptions, appPath: string }) => {
   const args = [
-    copy.patterns.map(({ from, to }) => {
+    copy.patterns.map(({ from, to, ...extra }) => {
       return {
         from,
         to: resolve(appPath, to),
-        context: appPath
+        context: appPath,
+        ...extra
       }
     }),
     copy.options
@@ -246,7 +252,7 @@ const getEsnextModuleRules = esnextModules => {
   return [...defaultEsnextModuleRegs, ...esnextModules]
 }
 
-export const getModule = (appPath: string, {
+export const parseModule = (appPath: string, {
   staticDirectory,
   designWidth,
   deviceRatio,
@@ -265,7 +271,7 @@ export const getModule = (appPath: string, {
 
   postcss
 }) => {
-  const postcssOption: IPostcssOption = postcss || {}
+  const customPostcssOption: IPostcssOption = postcss || {}
 
   const defaultStyleLoaderOption = {
     /**
@@ -277,7 +283,7 @@ export const getModule = (appPath: string, {
   const cssModuleOptions: PostcssOption.cssModules = recursiveMerge(
     {},
     defaultCssModuleOption,
-    postcssOption.cssModules
+    customPostcssOption.cssModules
   )
 
   const { namingPattern, generateScopedName } = cssModuleOptions.config!
@@ -327,9 +333,11 @@ export const getModule = (appPath: string, {
   const styleLoader = getStyleLoader([defaultStyleLoaderOption, styleLoaderOption])
   const topStyleLoader = getStyleLoader([defaultStyleLoaderOption, {
     insert: function insertAtTop (element) {
-      const parent = document.querySelector('head')
+      // eslint-disable-next-line no-var
+      var parent = document.querySelector('head')
       if (parent) {
-        const lastInsertedElement = (window as any)._lastElementInsertedByStyleLoader
+        // eslint-disable-next-line no-var
+        var lastInsertedElement = (window as any)._lastElementInsertedByStyleLoader
         if (!lastInsertedElement) {
           parent.insertBefore(element, parent.firstChild)
         } else if (lastInsertedElement.nextSibling) {
@@ -354,6 +362,7 @@ export const getModule = (appPath: string, {
   const cssLoader = getCssLoader(cssOptions)
   const cssLoaders: {
     include?
+    resourceQuery?
     use
   }[] = [
     {
@@ -368,6 +377,11 @@ export const getModule = (appPath: string, {
     if (cssModuleOptions.config!.namingPattern === 'module') {
       /* 不排除 node_modules 内的样式 */
       cssModuleCondition = styleModuleReg
+      // for vue
+      cssLoaders.unshift({
+        resourceQuery: /module=/,
+        use: [cssLoaderWithModule]
+      })
     } else {
       cssModuleCondition = {
         and: [{ exclude: styleGlobalReg }, { exclude: [isNodeModule] }]
@@ -379,37 +393,61 @@ export const getModule = (appPath: string, {
     })
   }
 
+  const postcssOption = getDefaultPostcssConfig({
+    designWidth,
+    deviceRatio,
+    option: customPostcssOption
+  })
   const postcssLoader = getPostcssLoader([
     { sourceMap: enableSourceMap },
     {
-      ident: 'postcss',
-      plugins: getPostcssPlugins(appPath, {
-        designWidth,
-        deviceRatio,
-        postcssOption
-      })
+      postcssOptions: {
+        plugins: getPostcssPlugins(appPath, postcssOption)
+      }
     }
   ])
 
   const resolveUrlLoader = getResolveUrlLoader([{}])
 
-  const sassLoader = getSassLoader([
-    {
-      sourceMap: true,
-      implementation: sass,
-      sassOptions: {
-        indentedSyntax: true
+  const baseSassOptions = {
+    sourceMap: true,
+    implementation: sass,
+    sassOptions: {
+      outputStyle: 'expanded',
+      fiber: false,
+      importer (url, prev, done) {
+        // 让 sass 文件里的 @import 能解析小程序原生样式文体，如 @import "a.wxss";
+        const extname = path.extname(url)
+        // fix: @import 文件可以不带scss/sass缀，如: @import "define";
+        if (extname === '.scss' || extname === '.sass' || extname === '.css' || !extname) {
+          return null
+        } else {
+          const filePath = path.resolve(path.dirname(prev), url)
+          fs.access(filePath, fs.constants.F_OK, (err) => {
+            if (err) {
+              console.log(err)
+              return null
+            } else {
+              fs.readFile(filePath)
+                .then(res => {
+                  done({ contents: res.toString() })
+                })
+                .catch(err => {
+                  console.log(err)
+                  return null
+                })
+            }
+          })
+        }
       }
-    },
-    sassLoaderOption
-  ])
-  const scssLoader = getSassLoader([
-    {
-      sourceMap: true,
-      implementation: sass
-    },
-    sassLoaderOption
-  ])
+    }
+  }
+  const sassLoader = getSassLoader([baseSassOptions, {
+    sassOptions: {
+      indentedSyntax: true
+    }
+  }, sassLoaderOption])
+  const scssLoader = getSassLoader([baseSassOptions, sassLoaderOption])
 
   const lessLoader = getLessLoader([{ sourceMap: enableSourceMap }, lessLoaderOption])
 
@@ -466,7 +504,25 @@ export const getModule = (appPath: string, {
   }
   rule.script = {
     test: REG_SCRIPTS,
-    exclude: [filename => /@tarojs\/components/.test(filename) || (/node_modules/.test(filename) && !(/taro/.test(filename)))],
+    exclude: [filename => {
+      /**
+       * 要优先处理 css-loader 问题
+       *
+       * https://github.com/webpack-contrib/mini-css-extract-plugin/issues/471#issuecomment-750266195
+       */
+      if (/css-loader/.test(filename)) return true
+      // 若包含 @tarojs/components，则跳过 babel-loader 处理
+      if (/@tarojs\/components/.test(filename)) return true
+
+      // 非 node_modules 下的文件直接走 babel-loader 逻辑
+      if (!(/node_modules/.test(filename))) return false
+
+      // 除了包含 taro 和 inversify 的第三方依赖均不经过 babel-loader 处理
+      if (/taro/.test(filename)) return false
+      if (/inversify/.test(filename)) return false
+
+      return true
+    }],
     use: {
       babelLoader: getBabelLoader([{
         compact: false
@@ -510,7 +566,7 @@ export const getModule = (appPath: string, {
     }
   }
 
-  return { rule }
+  return { rule, postcssOption }
 }
 
 export const getOutput = (appPath: string, [{ outputRoot, publicPath, chunkDirectory }, customOutput]) => {

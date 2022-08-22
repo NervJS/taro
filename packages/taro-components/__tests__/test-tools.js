@@ -1,5 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
+
 import { waitForChange } from './utils'
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -21,6 +22,14 @@ export async function mount (node, wrapper) {
       async componentDidMount () {
         const ref = this.ref.current
         const dom = ref instanceof HTMLElement ? ref : ReactDOM.findDOMNode(ref)
+        const { ref: forwardRef } = node
+        if (typeof forwardRef === 'function') {
+          forwardRef(ref)
+        } else if (forwardRef && typeof forwardRef === 'object' && forwardRef.hasOwnProperty('current')) {
+          forwardRef.current = ref
+        } else if (typeof forwardRef === 'string') {
+          console.warn('内置组件不支持字符串 ref')
+        }
 
         await waitForChange(dom)
 
@@ -46,7 +55,7 @@ export async function mount (node, wrapper) {
           }
         }))
 
-        await waitForChange(this.ref.current)
+        await waitForChange(ReactDOM.findDOMNode(this.ref.current))
       }
 
       find = (selector) => {

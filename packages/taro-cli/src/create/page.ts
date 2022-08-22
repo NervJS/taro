@@ -1,21 +1,23 @@
-import * as path from 'path'
+import { chalk, DEFAULT_TEMPLATE_SRC, getUserHomeDir, TARO_BASE_CONFIG, TARO_CONFIG_FOLDER } from '@tarojs/helper'
 import * as fs from 'fs-extra'
-import { DEFAULT_TEMPLATE_SRC, TARO_CONFIG_FLODER, TARO_BASE_CONFIG, getUserHomeDir, chalk } from '@tarojs/helper'
+import * as path from 'path'
 
 import Creator from './creator'
-import { createPage } from './init'
 import fetchTemplate from './fetchTemplate'
+import { createPage } from './init'
 
 export interface IPageConf {
-  projectDir: string;
-  projectName: string;
-  template: string;
-  description?: string;
-  pageName: string;
-  css: 'none' | 'sass' | 'stylus' | 'less';
-  typescript?: boolean;
-  date?: string;
-  framework: 'react' | 'nerv' | 'vue' | 'vue3'
+  projectDir: string
+  projectName: string
+  npm: string
+  template: string
+  description?: string
+  pageName: string
+  css: 'none' | 'sass' | 'stylus' | 'less'
+  typescript?: boolean
+  date?: string
+  framework: 'react' | 'preact' | 'nerv' | 'vue' | 'vue3'
+  compiler?: 'webpack4' | 'webpack5' | 'vite'
 }
 
 export default class Page extends Creator {
@@ -40,11 +42,16 @@ export default class Page extends Creator {
 
   getPkgPath () {
     const projectDir = this.conf.projectDir as string
-    const pkgPath = path.join(projectDir, 'package.json')
-    if (fs.existsSync(pkgPath)) {
-      return pkgPath
+    let pkgPath = path.join(projectDir, 'package.json')
+    if (!fs.existsSync(pkgPath)) {
+      // 适配 云开发 项目
+      pkgPath = path.join(projectDir, 'client', 'package.json')
+      if (!fs.existsSync(pkgPath)) {
+        console.log(chalk.yellow('请在项目根目录下执行 taro create 命令!'))
+        process.exit(0)
+      }
     }
-    return path.join(projectDir, 'client', 'package.json')
+    return pkgPath
   }
 
   getTemplateInfo () {
@@ -52,7 +59,8 @@ export default class Page extends Creator {
     const templateInfo = pkg.templateInfo || {
       name: 'default',
       css: 'none',
-      typescript: false
+      typescript: false,
+      compiler: 'webpack5'
     }
 
     // set template name
@@ -67,7 +75,7 @@ export default class Page extends Creator {
     let templateSource = DEFAULT_TEMPLATE_SRC
     if (!homedir) chalk.yellow('找不到用户根目录，使用默认模版源！')
 
-    const taroConfigPath = path.join(homedir, TARO_CONFIG_FLODER)
+    const taroConfigPath = path.join(homedir, TARO_CONFIG_FOLDER)
     const taroConfig = path.join(taroConfigPath, TARO_BASE_CONFIG)
 
     if (fs.existsSync(taroConfig)) {

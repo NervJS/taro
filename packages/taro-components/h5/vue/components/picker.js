@@ -1,5 +1,6 @@
 import { listeners } from '../mixins/listeners'
 import { refs } from '../mixins/refs'
+
 export default {
   name: 'taro-picker',
   mixins: [listeners, refs],
@@ -8,6 +9,7 @@ export default {
   },
   props: {
     range: Array,
+    rangeKey: String,
     value: [Number, String, Array]
   },
   mounted () {
@@ -25,7 +27,8 @@ export default {
     return createElement('taro-picker-core', {
       class: 'hydrated',
       domProps: {
-        range: self.range
+        range: self.range,
+        rangeKey: self.rangeKey
       },
       on: {
         ...self.listeners,

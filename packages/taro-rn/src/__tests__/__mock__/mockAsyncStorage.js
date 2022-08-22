@@ -13,6 +13,7 @@ export default class MockStorage {
 
   getItem = jest.fn((key) => {
     return new Promise((resolve) => {
+      // eslint-disable-next-line
       return this.storageCache.hasOwnProperty(key)
         ? resolve(this.storageCache[key])
         : resolve(null)

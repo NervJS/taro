@@ -21,7 +21,7 @@ const xyTransformFactory = tokenType => (
   if (functionStream.hasTokens()) {
     functionStream.expect(COMMA)
     y = functionStream.expect(tokenType)
-  } else if (valueIfOmitted !== undefined) {
+  } else if (typeof valueIfOmitted !== 'undefined') {
     y = valueIfOmitted
   } else {
     // Assumption, if x === y, then we can omit XY

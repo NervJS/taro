@@ -1,0 +1,19 @@
+{
+  "extends": "../../tsconfig.root.json",
+  "compilerOptions": {
+    "target": "ES5",
+    "module": "CommonJS",
+    "rootDir": "./src",
+    "outDir": "dist",
+    "sourceMap": true,
+    "esModuleInterop": true,
+    "baseUrl": ".",
+  },
+  "include": ["./src"],
+  "exclude": [
+    "**/*.test.ts",
+    "**/*.spec.ts"
+  ],
+  "compileOnSave": false
+}
+

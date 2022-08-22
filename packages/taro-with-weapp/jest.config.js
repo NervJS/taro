@@ -17,7 +17,7 @@ module.exports = {
   globals: {
     'ts-jest': {
       diagnostics: false,
-      tsConfig: {
+      tsconfig: {
         jsx: 'react',
         allowJs: true,
         target: 'ES6'

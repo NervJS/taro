@@ -1,30 +1,14 @@
 {
+  "extends": "../../tsconfig.root.json",
   "compilerOptions": {
-    "allowJs": false,
-    "allowSyntheticDefaultImports": true,
-    "alwaysStrict": true,
     "baseUrl": ".",
+    "outDir": "dist",
+    "rootDir": "./src",
+    "module": "commonjs",
     "declaration": true,
     "declarationDir": "types",
-    "experimentalDecorators": true,
-    "module": "CommonJS",
-    "moduleResolution": "node",
-    "noImplicitAny": false,
-    "noUnusedLocals": true,
-    "outDir": "dist",
-    "preserveConstEnums": true,
-    "removeComments": false,
-    "rootDir": "./src",
-    "skipLibCheck": true,
-    "sourceMap": false,
-    "strictNullChecks": true,
-    "target": "ES2015",
-    "traceResolution": false
   },
   "include": [
     "./src"
-  ],
-  "exclude": [
-    "./src/__tests__"
   ]
 }

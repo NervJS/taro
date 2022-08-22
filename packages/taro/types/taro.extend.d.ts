@@ -1,70 +1,8 @@
-/// <reference types="react" />
-/// <reference path="taro.component.d.ts" />
-/// <reference path="api/network/request.d.ts" />
+import React from 'react'
 
-declare namespace Taro {
-  // Events
-  class Events {
-    /**
-     * 监听一个事件，接受参数
-     */
-    on(eventName: string | symbol, listener: (...args: any[]) => void): this
+import Taro from './index'
 
-    /**
-     * 添加一个事件监听，并在事件触发完成之后移除Callbacks链
-     */
-    once(eventName: string | symbol, listener: (...args: any[]) => void): this
-
-    /**
-     * 取消监听一个事件
-     */
-    off(eventName: string | symbol, listener?: (...args: any[]) => void): this
-
-    /**
-     * 取消监听的所有事件
-     */
-    off(): this
-
-    /**
-     * 触发一个事件，传参
-     */
-    trigger(eventName: string | symbol, ...args: any[]): boolean
-  }
-
-  // eventCenter
-
-  namespace eventCenter {
-    function on(eventName: string | symbol, listener: (...args: any[]) => void): void
-
-    function once(eventName: string | symbol, listener: (...args: any[]) => void): void
-
-    function off(eventName: string | symbol, listener?: (...args: any[]) => void): void
-
-    function off(): void
-
-    function trigger(eventName: string | symbol, ...args: any[]): boolean
-  }
-
-  // ENV_TYPE
-
-  enum ENV_TYPE {
-    WEAPP = 'WEAPP',
-    WEB = 'WEB',
-    RN = 'RN',
-    SWAN = 'SWAN',
-    ALIPAY = 'ALIPAY',
-    TT = 'TT',
-    QQ = 'QQ',
-    JD = 'JD'
-  }
-
-  function getEnv(): ENV_TYPE.WEAPP | ENV_TYPE.WEB | ENV_TYPE.RN | ENV_TYPE.ALIPAY | ENV_TYPE.TT | ENV_TYPE.SWAN | ENV_TYPE.QQ | ENV_TYPE.JD
-
-  function render(component: Component | JSX.Element, element: Element | null): any
-
-  function internal_safe_set(...arg: any[]): any
-  function internal_safe_get(...arg: any[]): any
-
+declare module './index' {
   type MessageType = 'info' | 'success' | 'error' | 'warning'
 
   interface AtMessageOptions {
@@ -73,49 +11,96 @@ declare namespace Taro {
     duration?: number
   }
 
-  function atMessage(options: AtMessageOptions): void
-
-  function pxTransform(size: number): string
-  function initPxTransform(config: { designWidth: number; deviceRatio: object })
-
-  interface RequestParams extends request.Option<any> {
+  interface RequestParams<T=any> extends request.Option<T, any> {
     [propName: string]: any
   }
 
-  type interceptor = (chain: Chain) => any
-
-  interface Chain {
-    index: number
-    requestParams: RequestParams
-    interceptors: interceptor[]
-    proceed(requestParams: RequestParams): any
-  }
-
-  namespace interceptors {
-    function logInterceptor(chain: Chain): Promise<any>
-
-    function timeoutInterceptor(chain: Chain): Promise<any>
-  }
-
-  function addInterceptor(interceptor: interceptor): any
-
-  /**
-   * 小程序引用插件 JS 接口
-   */
-  function requirePlugin(pluginName: string): any
-
-  function setIsUsingDiff (flag: boolean)
-
   interface Current {
-    app: AppInstance | null,
-    router: RouterInfo | null,
-    page: PageInstance | null,
-    onReady: string,
-    onHide: string,
+    app: AppInstance | null
+    router: RouterInfo | null
+    page: PageInstance | null
+    onReady: string
+    onHide: string
     onShow: string
+    preloadData?: Record<any, any>
+    /**
+     * RN 私有对象navigationRef，用于使用底层接口控制路由
+     */
+    rnNavigationRef?: React.RefObject<any>
   }
 
-  const Current: Current
+  interface SetGlobalDataPlugin {
+    install (app: any, data: any): void
+  }
 
-  function getCurrentInstance(): Current
+  interface TARO_ENV_TYPE {
+    [TaroGeneral.ENV_TYPE.WEAPP]: TaroGeneral.ENV_TYPE.WEAPP
+    [TaroGeneral.ENV_TYPE.WEB]: TaroGeneral.ENV_TYPE.WEB
+    [TaroGeneral.ENV_TYPE.RN]: TaroGeneral.ENV_TYPE.RN
+    [TaroGeneral.ENV_TYPE.SWAN]: TaroGeneral.ENV_TYPE.SWAN
+    [TaroGeneral.ENV_TYPE.ALIPAY]: TaroGeneral.ENV_TYPE.ALIPAY
+    [TaroGeneral.ENV_TYPE.TT]: TaroGeneral.ENV_TYPE.TT
+    [TaroGeneral.ENV_TYPE.QQ]: TaroGeneral.ENV_TYPE.QQ
+    [TaroGeneral.ENV_TYPE.JD]: TaroGeneral.ENV_TYPE.JD
+  }
+
+  interface TaroStatic {
+    Events: {
+      new (): TaroGeneral.Events
+    }
+
+    /** 事件中心
+     * @supported global
+     */
+    eventCenter: TaroGeneral.Events
+
+    ENV_TYPE: TARO_ENV_TYPE
+
+    /** 获取环境变量
+     * @supported global
+     */
+    getEnv(): TaroGeneral.ENV_TYPE
+
+    /** 尺寸转换
+     * @supported global
+     */
+    pxTransform(size: number, designWidth?: number): string
+
+    /** 尺寸转换初始化
+     * @supported global
+     */
+    initPxTransform(config: { designWidth: number; deviceRatio: TaroGeneral.TDeviceRatio }): void
+
+    /** 小程序引用插件 JS 接口
+     * @supported weapp, alipay, h5, rn, jd, qq, swan, tt, quickapp
+     */
+    requirePlugin(pluginName: string): any
+
+    /** 获取当前页面实例
+     * @supported global
+     */
+    getCurrentInstance(): Current
+    Current: Current
+
+    /** Vue3 插件，用于设置 `getApp()` 中的全局变量
+     * @supported weapp, alipay, h5, rn, jd, qq, swan, tt, quickapp
+     * @example
+     * ```js
+     * // 使用插件
+     * const App = createApp(...)
+     * App.use(setGlobalDataPlugin, {
+     *   xxx: 999
+     * })
+     * // 获取全局变量
+     * Taro.getApp().xxx
+     * ```
+     */
+    setGlobalDataPlugin: SetGlobalDataPlugin
+
+    /** 获取自定义 TabBar 对应的 React 或 Vue 组件实例
+     * @supported weapp
+     * @param page 小程序页面对象，可以通过 Taro.getCurrentInstance().page 获取
+     */
+    getTabBar<T>(page: Current['page']): T | undefined
+  }
 }

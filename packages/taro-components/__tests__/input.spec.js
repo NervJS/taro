@@ -1,11 +1,12 @@
-import React from 'react'
-import ReactDOM from 'react-dom'
-import { Input } from '../h5/react'
-import { waitForChange } from './utils'
 import * as assert from 'assert'
 import $ from 'jquery'
-import * as sinon from 'sinon'
+import React from 'react'
+import ReactDOM from 'react-dom'
 import simulant from 'simulant'
+import * as sinon from 'sinon'
+
+import { Input } from '../h5/react'
+import { waitForChange } from './utils'
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const h = React.createElement
 
@@ -42,16 +43,18 @@ describe('Input', () => {
     let instance
 
     class App extends React.Component {
-      state ={
+      state = {
         maxLength,
         disabled,
         value,
         placeholder,
-        autoFocus
+        autoFocus,
+        type: 'text'
       }
 
       constructor (props) {
         super(props)
+        // eslint-disable-next-line @typescript-eslint/no-this-alias
         instance = this
       }
 

@@ -1,4 +1,4 @@
-.taro_chooselocation {
+.taro_choose_location {
   position: fixed;
   display: flex;
   flex-direction: column;
@@ -7,9 +7,10 @@
   top: 100%;
   background-color: #fff;
   transition: ease top .3s;
+  z-index: 1;
 }
 
-.taro_chooselocation_bar {
+.taro_choose_location_bar {
   display: flex;
   flex: 0 95px;
   height: 95px;
@@ -17,7 +18,7 @@
   color: #090909;
 }
 
-.taro_chooselocation_back {
+.taro_choose_location_back {
   flex: 0 45px;
   position: relative;
   width: 33px;
@@ -25,7 +26,7 @@
   margin-top: 30px;
 }
 
-.taro_chooselocation_back::before {
+.taro_choose_location_back::before {
   content: '';
   position: absolute;
   top: 0;
@@ -40,7 +41,7 @@
   border-left-color: transparent;
 }
 
-.taro_chooselocation_back::after {
+.taro_choose_location_back::after {
   content: '';
   position: absolute;
   display: block;
@@ -55,13 +56,13 @@
   border-left-color: transparent;
 }
 
-.taro_chooselocation_title {
+.taro_choose_location_title {
   flex: 1;
   line-height: 95px;
   padding-left: 30px;
 }
 
-.taro_chooselocation_submit {
+.taro_choose_location_submit {
   width: 110px;
   height: 60px;
   color: #fff;
@@ -73,6 +74,6 @@
   margin: 18px 30px 0 0;
 }
 
-.taro_chooselocation_frame {
+.taro_choose_location_frame {
   flex: 1;
 }

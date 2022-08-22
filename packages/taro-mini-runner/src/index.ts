@@ -1,16 +1,19 @@
-import * as webpack from 'webpack'
 import { META_TYPE } from '@tarojs/helper'
-
-import { IBuildConfig } from './utils/types'
-import { printBuildError, bindProdLogger, bindDevLogger } from './utils/logHelper'
-import buildConf from './webpack/build.conf'
-import { Prerender } from './prerender/prerender'
 import { isEmpty } from 'lodash'
+import * as webpack from 'webpack'
+
+import { Prerender } from './prerender/prerender'
+import { componentConfig } from './template/component'
+import { bindDevLogger, bindProdLogger, printBuildError } from './utils/logHelper'
+import { Func, IBuildConfig } from './utils/types'
+import buildConf from './webpack/build.conf'
 import { makeConfig } from './webpack/chain'
 
-const customizeChain = async (chain, modifyWebpackChainFunc: Function, customizeFunc?: Function) => {
+const customizeChain = async (chain, modifyWebpackChainFunc: Func, customizeFunc?: Func) => {
   if (modifyWebpackChainFunc instanceof Function) {
-    await modifyWebpackChainFunc(chain, webpack)
+    await modifyWebpackChainFunc(chain, webpack, {
+      componentConfig
+    })
   }
   if (customizeFunc instanceof Function) {
     customizeFunc(chain, webpack, META_TYPE)
@@ -60,7 +63,7 @@ export default async function build (appPath: string, config: IBuildConfig): Pro
       }
 
       if (!isEmpty(newConfig.prerender)) {
-        prerender = prerender ?? new Prerender(newConfig, webpackConfig, stats)
+        prerender = prerender ?? new Prerender(newConfig, webpackConfig, stats, config.template.Adapter)
         await prerender.render()
       }
       onFinish(null, stats)

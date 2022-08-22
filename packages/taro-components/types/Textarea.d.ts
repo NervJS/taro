@@ -3,35 +3,35 @@ import { StandardProps, CommonEventFunction, FormItemProps } from './common'
 
 interface TextareaProps extends StandardProps, FormItemProps {
   /** 输入框的内容
-   * @supported weapp, h5, rn
+   * @supported weapp, h5, rn, tt
    */
   value?: string
 
   /** 输入框为空时占位符
-   * @supported weapp, h5, rn
+   * @supported weapp, h5, rn, tt
    */
   placeholder?: string
 
   /** 指定 placeholder 的样式
-   * @supported weapp
+   * @supported weapp, tt
    */
   placeholderStyle?: string
 
   /** 指定 placeholder 的样式类
    * @default "textarea-placeholder"
-   * @supported weapp
+   * @supported weapp, tt
    */
   placeholderClass?: string
 
   /** 是否禁用
    * @default false
-   * @supported weapp, h5, rn
+   * @supported weapp, h5, rn, tt
    */
   disabled?: boolean
 
   /** 最大输入长度，设置为 -1 的时候不限制最大长度
    * @default 140
-   * @supported weapp, h5, rn
+   * @supported weapp, h5, rn, tt
    */
   maxlength?: number
 
@@ -43,13 +43,13 @@ interface TextareaProps extends StandardProps, FormItemProps {
 
   /** 获取焦点
    * @default false
-   * @supported weapp, rn
+   * @supported weapp, rn, tt
    */
   focus?: boolean
 
   /** 是否自动增高，设置 autoHeight 时，style.height不生效
    * @default false
-   * @supported weapp, rn
+   * @supported weapp, rn, tt
    */
   autoHeight?: boolean
 
@@ -61,76 +61,76 @@ interface TextareaProps extends StandardProps, FormItemProps {
 
   /** 指定光标与键盘的距离，单位 px 。取 Textarea 距离底部的距离和 cursorSpacing 指定的距离的最小值作为光标与键盘的距离
    * @default 0
-   * @supported weapp
+   * @supported weapp, tt
    */
   cursorSpacing?: number
 
   /** 指定 focus 时的光标位置
    * @default -1
-   * @supported weapp
+   * @supported weapp, tt
    */
   cursor?: number
 
   /** 是否显示键盘上方带有”完成“按钮那一栏
    * @default true
-   * @supported weapp
+   * @supported weapp, tt
    */
   showConfirmBar?: boolean
 
   /** 光标起始位置，自动聚集时有效，需与 selectionEnd 搭配使用
    * @default -1
-   * @supported weapp, rn
+   * @supported weapp, rn, tt
    */
   selectionStart?: number
 
   /** 光标结束位置，自动聚集时有效，需与 selectionStart 搭配使用
    * @default -1
-   * @supported weapp, rn
+   * @supported weapp, rn, tt
    */
   selectionEnd?: number
 
   /** 键盘弹起时，是否自动上推页面
    * @default true
-   * @supported weapp
+   * @supported weapp, tt
    */
   adjustPosition?: boolean
 
   /** focus 时，点击页面的时候不收起键盘
    * @default false
-   * @supported weapp
+   * @supported weapp, tt
    */
   holdKeyboard?: boolean
 
   /** 是否去掉 iOS 下的默认内边距
    * @default false
-   * @supported weapp
+   * @supported weapp, tt
    */
   disableDefaultPadding?: boolean
 
   /** 输入框聚焦时触发
-   * @supported weapp, h5, rn
+   * @supported weapp, h5, rn, tt
    */
   onFocus?: CommonEventFunction<TextareaProps.onFocusEventDetail>
 
   /** 输入框失去焦点时触发
-   * @supported weapp, h5, rn
+   * @supported weapp, h5, rn, tt
    */
   onBlur?: CommonEventFunction<TextareaProps.onBlurEventDetail>
 
   /** 输入框行数变化时调用，event.detail = {height: 0, heightRpx: 0, lineCount: 0}
-   * @supported weapp, rn
+   * @supported weapp, rn, tt
    */
   onLineChange?: CommonEventFunction<TextareaProps.onLineChangeEventDetail>
 
   /** 当键盘输入时，触发 input 事件，event.detail = {value, cursor, keyCode}
    *
    * **onInput 处理函数的返回值并不会反映到 textarea 上**
-   * @supported weapp, h5, rn
+   * @supported weapp, h5, rn, tt
    */
   onInput?: CommonEventFunction<TextareaProps.onInputEventDetail>
 
   /** 点击完成时， 触发 confirm 事件，event.detail = {value: value}
-   * @supported weapp, rn
+   * @supported weapp, rn, tt
    */
   onConfirm?: CommonEventFunction<TextareaProps.onConfirmEventDetail>
 
@@ -138,6 +138,11 @@ interface TextareaProps extends StandardProps, FormItemProps {
    * @supported weapp
    */
   onKeyboardHeightChange?: CommonEventFunction<TextareaProps.onKeyboardHeightChangeEventDetail>
+
+  /** 用于透传 `WebComponents` 上的属性到内部 H5 标签上
+   * @supported h5
+   */
+  nativeProps?: Record<string, unknown>
 }
 
 declare namespace TextareaProps {
@@ -181,7 +186,7 @@ declare namespace TextareaProps {
 /** 多行输入框。该组件是原生组件，使用时请注意相关限制
  * @classification forms
  * @supported weapp, h5, rn
- * @example
+ * @example_react
  * ```tsx
  * export default class PageView extends Component {
  *   constructor() {
@@ -199,6 +204,17 @@ declare namespace TextareaProps {
  *     )
  *   }
  * }
+ * ```
+ * @example_vue
+ * ```html
+ * <template>
+ *   <view class="components-page">
+ *     <text>输入区域高度自适应，不会出现滚动条</text>
+ *     <textarea style="background:#efefef;width:100%;min-height:80px;padding:0 30rpx;" :auto-height="true" />
+ *     <text>这是一个可以自动聚焦的 textarea</text>
+ *     <textarea style="background:#efefef;width:100%;height:80px;padding:0 30rpx;" :auto-focusd="true" />
+ *   </view>
+ * </template>
  * ```
  * @see https://developers.weixin.qq.com/miniprogram/dev/component/textarea.html
  */

@@ -13,27 +13,27 @@ import * as WEUI from '../../assets/weui'
 import { IconProps } from './PropsType'
 
 interface UIType {
-  [key: string]: any
+  [key: string]: any;
 }
 
 const iconTypeMap: { [key: string]: string } = {
-  'success': 'SUCCESS',
-  'success_no_circle': 'SUCCESS_NO_CIRCLE',
-  'info': 'INFO',
-  'warn': 'WARN',
-  'waiting': 'WAITING',
-  'cancel': 'CANCEL',
-  'download': 'DOWNLOAD',
-  'search': 'SEARCH',
-  'clear': 'CLEAR',
+  success: 'SUCCESS',
+  success_no_circle: 'SUCCESS_NO_CIRCLE',
+  info: 'INFO',
+  warn: 'WARN',
+  waiting: 'WAITING',
+  cancel: 'CANCEL',
+  download: 'DOWNLOAD',
+  search: 'SEARCH',
+  clear: 'CLEAR',
 }
 
-const _Icon: React.SFC<IconProps> = ({
+const _Icon: React.FC<IconProps> = ({
   style,
   type,
   size = 23,
   color
-}) => {
+}: IconProps) => {
   size = ~~size
 
   const iconObj: any = (WEUI as UIType)[iconTypeMap[type]]
@@ -49,8 +49,9 @@ const _Icon: React.SFC<IconProps> = ({
   const iconColor: string = color || iconObj.defaultColor
 
   return (
-    <View style={[style, { width: size, height: size }]}>
+    <View testID='icon' style={[style, { width: size, height: size }]}>
       <Image
+        testID='image'
         source={imageAsset}
         style={{
           width: size,

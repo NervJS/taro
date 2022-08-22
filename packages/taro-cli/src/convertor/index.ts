@@ -1,39 +1,36 @@
-import * as fs from 'fs-extra'
-import * as path from 'path'
-
-import { AppConfig, TabBar } from '@tarojs/taro'
-import * as prettier from 'prettier'
-import traverse, { NodePath } from 'babel-traverse'
-import * as t from 'babel-types'
-import * as taroize from '@tarojs/taroize'
-import wxTransformer from '@tarojs/transformer-wx'
-import * as postcss from 'postcss'
-import * as unitTransform from 'postcss-taro-unit-transform'
-import * as inquirer from 'inquirer'
-
+import template from '@babel/template'
+import traverse, { NodePath } from '@babel/traverse'
+import * as t from '@babel/types'
+// import * as inquirer from 'inquirer'
 import {
-  printLog,
-  promoteRelativePath,
-  resolveScriptPath,
+  chalk,
   CSS_IMPORT_REG,
-  pascalCase,
   emptyDirectory,
+  pascalCase,
+  printLog,
   processTypeEnum,
+  promoteRelativePath,
+  REG_IMAGE,
   REG_TYPESCRIPT,
   REG_URL,
-  REG_IMAGE,
-  chalk
+  resolveScriptPath
 } from '@tarojs/helper'
-import { generateMinimalEscapeCode } from '../util/astConvert'
-import Creator from '../create/creator'
+import { AppConfig, TabBar } from '@tarojs/taro'
+import * as taroize from '@tarojs/taroize'
+import wxTransformer from '@tarojs/transformer-wx'
+import * as fs from 'fs-extra'
+import * as path from 'path'
+import * as postcss from 'postcss'
+import * as unitTransform from 'postcss-taro-unit-transform'
+import * as prettier from 'prettier'
+
 import babylonConfig from '../config/babylon'
-import { IPrettierConfig } from '../util/types'
-import { analyzeImportUrl, incrementId } from './helper'
+import Creator from '../create/creator'
 import { getPkgVersion } from '../util'
+import { generateMinimalEscapeCode } from '../util/astConvert'
+import { analyzeImportUrl, incrementId } from './helper'
 
-const template = require('babel-template')
-
-const prettierJSConfig: IPrettierConfig = {
+const prettierJSConfig: prettier.Options = {
   semi: false,
   singleQuote: true,
   parser: 'babel'
@@ -41,34 +38,34 @@ const prettierJSConfig: IPrettierConfig = {
 
 const OUTPUT_STYLE_EXTNAME = '.scss'
 
-const WX_GLOBAL_FN = new Set<string>(['getApp', 'getCurrentPages', 'requirePlugin'])
+const WX_GLOBAL_FN = new Set<string>(['getApp', 'getCurrentPages', 'requirePlugin', 'Behavior'])
 
 interface IComponent {
-  name: string;
-  path: string;
+  name: string
+  path: string
 }
 
 interface IImport {
-  ast: t.File;
-  name: string;
-  wxs?: boolean;
+  ast: t.File
+  name: string
+  wxs?: boolean
 }
 
 interface IParseAstOptions {
-  ast: t.File;
-  sourceFilePath: string;
-  outputFilePath: string;
-  importStylePath?: string | null;
-  depComponents?: Set<IComponent>;
-  imports?: IImport[];
-  isApp?: boolean;
+  ast: t.File
+  sourceFilePath: string
+  outputFilePath: string
+  importStylePath?: string | null
+  depComponents?: Set<IComponent>
+  imports?: IImport[]
+  isApp?: boolean
 }
 
 interface ITaroizeOptions {
-  json?: string;
-  script?: string;
-  wxml?: string;
-  path?: string;
+  json?: string
+  script?: string
+  wxml?: string
+  path?: string
   rootPath?: string
 }
 
@@ -76,7 +73,7 @@ function processStyleImports (content: string, processFn: (a: string, b: string)
   const style: string[] = []
   const imports: string[] = []
   const styleReg = new RegExp('.wxss')
-  content = content.replace(CSS_IMPORT_REG, (m, $1, $2) => {
+  content = content.replace(CSS_IMPORT_REG, (m, _$1, $2) => {
     if (styleReg.test($2)) {
       style.push(m)
       imports.push($2)
@@ -111,8 +108,9 @@ export default class Convertor {
   entryJSPath: string
   entryJSONPath: string
   entryStylePath: string
-  entryJSON: AppConfig
+  entryJSON: AppConfig & {usingComponents?: Record<string, string>}
   entryStyle: string
+  entryUsingComponents: Record<string, string>
   framework: 'react' | 'vue'
 
   constructor (root) {
@@ -160,7 +158,7 @@ export default class Convertor {
     importStylePath,
     depComponents,
     imports = []
-  }: IParseAstOptions): { ast: t.File; scriptFiles: Set<string> } {
+  }: IParseAstOptions): { ast: t.File, scriptFiles: Set<string> } {
     const scriptFiles = new Set<string>()
     // eslint-disable-next-line @typescript-eslint/no-this-alias
     const self = this
@@ -213,7 +211,7 @@ export default class Convertor {
                       componentClassName = (parentNode.id as t.Identifier).name
                     }
                   } else {
-                    componentClassName = node.id.name
+                    componentClassName = node.id!.name
                   }
                 }
               }
@@ -237,7 +235,7 @@ export default class Convertor {
                     }
                   })
                   if (isTaroComponent) {
-                    componentClassName = declaration.id.name
+                    componentClassName = declaration.id!.name
                   }
                 }
               }
@@ -279,7 +277,7 @@ export default class Convertor {
           const lastImport = bodyNode.filter(p => p.isImportDeclaration()).pop()
           const hasTaroImport = bodyNode.some(p => p.isImportDeclaration() && p.node.source.value === '@tarojs/taro')
           if (needInsertImportTaro && !hasTaroImport) {
-            ;(astPath.node as t.Program).body.unshift(
+            (astPath.node as t.Program).body.unshift(
               t.importDeclaration([t.importDefaultSpecifier(t.identifier('Taro'))], t.stringLiteral('@tarojs/taro'))
             )
           }
@@ -371,6 +369,18 @@ export default class Convertor {
     this.entryStylePath = path.join(this.root, `app${this.fileTypes.STYLE}`)
     try {
       this.entryJSON = JSON.parse(String(fs.readFileSync(this.entryJSONPath)))
+
+      const using = this.entryJSON.usingComponents
+      if (using && Object.keys(using).length) {
+        for (const key in using) {
+          if (using[key].startsWith('plugin://')) continue
+          const componentPath = using[key]
+          using[key] = path.join(this.root, componentPath)
+        }
+        this.entryUsingComponents = using
+        delete this.entryJSON.usingComponents
+      }
+
       printLog(processTypeEnum.CONVERT, '入口文件', this.generateShowPath(this.entryJSPath))
       printLog(processTypeEnum.CONVERT, '入口配置', this.generateShowPath(this.entryJSONPath))
       if (fs.existsSync(this.entryStylePath)) {
@@ -522,7 +532,8 @@ ${code}
         script: entryJS,
         path: this.root,
         rootPath: this.root,
-        framework: this.framework
+        framework: this.framework,
+        isApp: true
       })
       const { ast, scriptFiles } = this.parseAst({
         ast: taroizeResult.ast,
@@ -543,6 +554,7 @@ ${code}
       this.generateScriptFiles(scriptFiles)
       if (this.entryJSON.tabBar) {
         this.generateTabBarIcon(this.entryJSON.tabBar)
+        this.generateCustomTabbar(this.entryJSON.tabBar)
       }
     } catch (err) {
       console.log(err)
@@ -569,6 +581,17 @@ ${code}
     }
   }
 
+  generateCustomTabbar (tabBar: TabBar) {
+    if (!tabBar.custom) return
+
+    const customTabbarPath = path.join(this.root, 'custom-tab-bar')
+    if (fs.existsSync(customTabbarPath)) {
+      const customTabbarDistPath = this.getDistFilePath(customTabbarPath)
+      this.copyFileToTaro(customTabbarPath, customTabbarDistPath)
+      printLog(processTypeEnum.COPY, '自定义 TabBar', this.generateShowPath(customTabbarDistPath))
+    }
+  }
+
   private getComponentDest (file: string) {
     if (this.framework === 'react') {
       return file
@@ -585,7 +608,6 @@ ${code}
       const pageConfigPath = pagePath + this.fileTypes.CONFIG
       const pageStylePath = pagePath + this.fileTypes.STYLE
       const pageTemplPath = pagePath + this.fileTypes.TEMPL
-      let pageConfigStr = '{}'
 
       try {
         const depComponents = new Set<IComponent>()
@@ -595,24 +617,40 @@ ${code}
         const param: ITaroizeOptions = {}
         printLog(processTypeEnum.CONVERT, '页面文件', this.generateShowPath(pageJSPath))
 
+        let pageConfig
         if (fs.existsSync(pageConfigPath)) {
           printLog(processTypeEnum.CONVERT, '页面配置', this.generateShowPath(pageConfigPath))
-          pageConfigStr = String(fs.readFileSync(pageConfigPath))
-          const pageConfig = JSON.parse(pageConfigStr)
-          const pageUsingComponnets = pageConfig.usingComponents
-          if (pageUsingComponnets) {
+          const pageConfigStr = String(fs.readFileSync(pageConfigPath))
+          pageConfig = JSON.parse(pageConfigStr)
+        } else if (this.entryUsingComponents) {
+          pageConfig = {}
+        }
+        if (pageConfig) {
+          if (this.entryUsingComponents) {
+            pageConfig.usingComponents = {
+              ...pageConfig.usingComponents,
+              ...this.entryUsingComponents
+            }
+          }
+          const pageUsingComponents = pageConfig.usingComponents
+          if (pageUsingComponents) {
             // 页面依赖组件
             const usingComponents = {}
-            Object.keys(pageUsingComponnets).forEach(component => {
-              let componentPath = path.resolve(pageConfigPath, '..', pageUsingComponnets[component])
-              if (!fs.existsSync(resolveScriptPath(componentPath))) {
-                componentPath = path.join(this.root, pageUsingComponnets[component])
-              }
-
-              if (pageUsingComponnets[component].startsWith('plugin://')) {
-                console.log(component)
-                usingComponents[component] = pageUsingComponnets[component]
+            Object.keys(pageUsingComponents).forEach(component => {
+              const unResolveComponentPath: string = pageUsingComponents[component]
+              if (unResolveComponentPath.startsWith('plugin://')) {
+                usingComponents[component] = unResolveComponentPath
               } else {
+                let componentPath
+                if (unResolveComponentPath.startsWith(this.root)) {
+                  componentPath = unResolveComponentPath
+                } else {
+                  componentPath = path.resolve(pageConfigPath, '..', pageUsingComponents[component])
+                  if (!fs.existsSync(resolveScriptPath(componentPath))) {
+                    componentPath = path.join(this.root, pageUsingComponents[component])
+                  }
+                }
+
                 depComponents.add({
                   name: component,
                   path: componentPath
@@ -627,6 +665,7 @@ ${code}
           }
           param.json = JSON.stringify(pageConfig)
         }
+
         param.script = String(fs.readFileSync(pageJSPath))
         if (fs.existsSync(pageTemplPath)) {
           printLog(processTypeEnum.CONVERT, '页面模板', this.generateShowPath(pageTemplPath))
@@ -653,7 +692,7 @@ ${code}
         })
         const jsCode = generateMinimalEscapeCode(ast)
         this.writeFileToTaro(this.getComponentDest(pageDistJSPath), this.formatFile(jsCode, taroizeResult.template))
-        this.writeFileToConfig(pageDistJSPath, pageConfigStr)
+        this.writeFileToConfig(pageDistJSPath, param.json)
         printLog(processTypeEnum.GENERATE, '页面文件', this.generateShowPath(pageDistJSPath))
         if (pageStyle) {
           this.traverseStyle(pageStylePath, pageStyle)
@@ -758,6 +797,43 @@ ${code}
     return postcssResult
   }
 
+  processStyleAssets (content: string, stylePath: string, styleDist: string) {
+    const reg = /url\(["'](.+?)["']\)/g
+    let token = reg.exec(content)
+    stylePath = path.dirname(stylePath)
+    styleDist = path.dirname(styleDist)
+
+    while (token?.length) {
+      let url = token[1]
+
+      if (
+        url &&
+        url.indexOf('data:') !== 0 &&
+        url.indexOf('#') !== 0 &&
+        !(/^[a-z]+:\/\//.test(url))
+      ) {
+        url = url.trim()
+        url.replace(/[/\\]/g, path.sep)
+        url = url.split('?')[0]
+        url = url.split('#')[0]
+
+        const originPath = path.resolve(stylePath, url)
+        const destPath = path.resolve(styleDist, url)
+        const destDir = path.dirname(destPath)
+
+        if (!fs.existsSync(originPath)) {
+          printLog(processTypeEnum.WARNING, '静态资源', `找不到资源：${originPath}`)
+        } else if (!fs.existsSync(destPath)) {
+          fs.ensureDirSync(destDir)
+          fs.copyFile(originPath, destPath)
+          printLog(processTypeEnum.COPY, '样式资源', this.generateShowPath(destPath))
+        }
+      }
+
+      token = reg.exec(content)
+    }
+  }
+
   async traverseStyle (filePath: string, style: string) {
     const { imports, content } = processStyleImports(style, (str, stylePath) => {
       let relativePath = stylePath
@@ -767,6 +843,7 @@ ${code}
       return str.replace(stylePath, relativePath).replace('.wxss', OUTPUT_STYLE_EXTNAME)
     })
     const styleDist = this.getDistFilePath(filePath, OUTPUT_STYLE_EXTNAME)
+    this.processStyleAssets(content, filePath, styleDist)
     const { css } = await this.styleUnitTransform(filePath, content)
     this.writeFileToTaro(styleDist, css)
     printLog(processTypeEnum.GENERATE, '样式文件', this.generateShowPath(styleDist))
@@ -863,17 +940,17 @@ ${code}
   }
 
   run () {
-    inquirer.prompt([{
-      type: 'list',
-      name: 'framework',
-      message: '你想转换为哪种框架？',
-      choices: ['react', 'vue'],
-      default: 'react'
-    }]).then(({ framework }) => {
-      this.framework = framework
-      this.generateEntry()
-      this.traversePages()
-      this.generateConfigFiles()
-    })
+    // inquirer.prompt([{
+    //   type: 'list',
+    //   name: 'framework',
+    //   message: '你想转换为哪种框架？',
+    //   choices: ['react', 'vue'],
+    //   default: 'react'
+    // }]).then(({ framework }) => {
+    this.framework = 'react'
+    this.generateEntry()
+    this.traversePages()
+    this.generateConfigFiles()
+    // })
   }
 }

@@ -3,19 +3,14 @@ import { StyleProp, ViewStyle } from 'react-native'
 
 export type EventOnChange = {
   detail: {
-    current: number
-  }
+    current: number;
+  };
 }
 
 export type EventOnAnimationFinish = {
   detail: {
-    current: number
-  }
-}
-
-export interface SwiperItemProps {
-  children?: React.ReactNode;
-  style?: StyleProp<ViewStyle>;
+    current: number;
+  };
 }
 
 export interface SwiperProps {
@@ -31,4 +26,28 @@ export interface SwiperProps {
   vertical?: boolean;
   onChange?: (evt: EventOnChange) => void;
   onAnimationFinish?: (evt: EventOnAnimationFinish) => void;
+}
+
+export interface PaginationProps {
+  vertical?: boolean;
+  current: number;
+  count: number;
+  styles: any;
+  dotStyle?: StyleProp<ViewStyle>;
+  dotActiveStyle?: StyleProp<ViewStyle>;
+}
+
+export interface CarouselProps {
+  selectedIndex?: number;
+  dots?: boolean;
+  vertical?: boolean;
+  autoplay?: boolean;
+  autoplayInterval?: number;
+  infinite?: boolean;
+  style?: StyleProp<ViewStyle>;
+  dotStyle?: StyleProp<ViewStyle>;
+  dotActiveStyle?: StyleProp<ViewStyle>;
+  pagination?: (props: PaginationProps) => React.ReactNode;
+  afterChange?: (index: number) => void;
+  children?: React.ReactNode;
 }

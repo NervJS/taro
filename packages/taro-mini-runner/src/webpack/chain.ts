@@ -1,39 +1,40 @@
-import * as fs from 'fs-extra'
-import * as path from 'path'
-
-import * as CopyWebpackPlugin from 'copy-webpack-plugin'
-import CssoWebpackPlugin from 'csso-webpack-plugin'
-import * as MiniCssExtractPlugin from 'mini-css-extract-plugin'
-import * as sass from 'node-sass'
-import { partial, cloneDeep } from 'lodash'
-import { mapKeys, pipe } from 'lodash/fp'
-import * as TerserPlugin from 'terser-webpack-plugin'
-import * as webpack from 'webpack'
-import { PostcssOption, ICopyOptions, IPostcssOption } from '@tarojs/taro/types/compile'
 import {
-  recursiveMerge,
+  chalk,
   isNodeModule,
-  resolveMainFilePath,
-  REG_SASS_SASS,
-  REG_SASS_SCSS,
-  REG_LESS,
-  REG_STYLUS,
-  REG_STYLE,
-  REG_MEDIA,
+  recursiveMerge,
+  REG_CSS,
   REG_FONT,
   REG_IMAGE,
+  REG_LESS,
+  REG_MEDIA,
+  REG_SASS_SASS,
+  REG_SASS_SCSS,
   REG_SCRIPTS,
-  REG_CSS,
+  REG_STYLE,
+  REG_STYLUS,
   REG_TEMPLATE,
-  chalk
+  resolveMainFilePath,
+  SCRIPT_EXT
 } from '@tarojs/helper'
 import { getSassLoaderOption } from '@tarojs/runner-utils'
+import { ICopyOptions, IPostcssOption, PostcssOption } from '@tarojs/taro/types/compile'
+import * as CopyWebpackPlugin from 'copy-webpack-plugin'
+import CssoWebpackPlugin from 'csso-webpack-plugin'
+import * as fs from 'fs-extra'
+import { cloneDeep, partial } from 'lodash'
+import { mapKeys, pipe } from 'lodash/fp'
+import * as MiniCssExtractPlugin from 'mini-css-extract-plugin'
+import * as path from 'path'
+import * as sass from 'sass'
+import * as TerserPlugin from 'terser-webpack-plugin'
+import * as webpack from 'webpack'
 
-import { getPostcssPlugins } from './postcss.conf'
-
-import MiniPlugin from '../plugins/MiniPlugin'
-import { IOption, IBuildConfig } from '../utils/types'
 import defaultTerserOptions from '../config/terserOptions'
+import BuildNativePlugin from '../plugins/BuildNativePlugin'
+import MiniPlugin from '../plugins/MiniPlugin'
+import MiniSplitChunksPlugin from '../plugins/MiniSplitChunksPlugin'
+import { IBuildConfig, IOption } from '../utils/types'
+import { getPostcssPlugins } from './postcss.conf'
 
 interface IRule {
   test?: any
@@ -61,7 +62,8 @@ export const makeConfig = async (buildConfig: IBuildConfig) => {
   const sassLoaderOption = await getSassLoaderOption(buildConfig)
   return {
     ...buildConfig,
-    sassLoaderOption
+    sassLoaderOption,
+    frameworkExts: buildConfig.frameworkExts || SCRIPT_EXT
   }
 }
 
@@ -74,13 +76,16 @@ const defaultCSSCompressOption = {
 }
 
 const defaultMediaUrlLoaderOption = {
-  limit: 10240
+  limit: 10240,
+  esModule: false
 }
 const defaultFontUrlLoaderOption = {
-  limit: 10240
+  limit: 10240,
+  esModule: false
 }
 const defaultImageUrlLoaderOption = {
-  limit: 2046
+  limit: 2046,
+  esModule: false
 }
 const defaultCssModuleOption: PostcssOption.cssModules = {
   enable: false,
@@ -134,17 +139,12 @@ export const getLessLoader = pipe(mergeOption, partial(getLoader, 'less-loader')
 export const getStylusLoader = pipe(mergeOption, partial(getLoader, 'stylus-loader'))
 export const getUrlLoader = pipe(mergeOption, partial(getLoader, 'url-loader'))
 export const getFileLoader = pipe(mergeOption, partial(getLoader, 'file-loader'))
-export const getBabelLoader = pipe(mergeOption, partial(getLoader, 'babel-loader'))
 export const getMiniTemplateLoader = pipe(mergeOption, partial(getLoader, path.resolve(__dirname, '../loaders/miniTemplateLoader')))
+export const getResolveUrlLoader = pipe(mergeOption, partial(getLoader, 'resolve-url-loader'))
 
 const getExtractCssLoader = () => {
   return {
     loader: MiniCssExtractPlugin.loader
-  }
-}
-const getQuickappStyleLoader = () => {
-  return {
-    loader: require.resolve(path.resolve(__dirname, '../loaders/quickappStyleLoader'))
   }
 }
 export const getMiniCssExtractPlugin = pipe(mergeOption, listify, partial(getPlugin, MiniCssExtractPlugin))
@@ -161,15 +161,16 @@ export const getCssoWebpackPlugin = ([cssoOption]) => {
   return pipe(listify, partial(getPlugin, CssoWebpackPlugin))([mergeOption([defaultCSSCompressOption, cssoOption]), REG_STYLE])
 }
 export const getCopyWebpackPlugin = ({ copy, appPath }: {
-  copy: ICopyOptions,
+  copy: ICopyOptions
   appPath: string
 }) => {
   const args = [
-    copy.patterns.map(({ from, to }) => {
+    copy.patterns.map(({ from, to, ...extra }) => {
       return {
         from,
         to: path.resolve(appPath, to),
-        context: appPath
+        context: appPath,
+        ...extra
       }
     }),
     copy.options
@@ -179,6 +180,14 @@ export const getCopyWebpackPlugin = ({ copy, appPath }: {
 
 export const getMiniPlugin = args => {
   return partial(getPlugin, MiniPlugin)([args])
+}
+
+export const getMiniSplitChunksPlugin = (args) => {
+  return partial(getPlugin, MiniSplitChunksPlugin)([args])
+}
+
+export const getBuildNativePlugin = args => {
+  return partial(getPlugin, BuildNativePlugin)([args])
 }
 
 export const getProviderPlugin = args => {
@@ -238,34 +247,66 @@ export const getModule = (appPath: string, {
     cssLoaderOption
   ]
   const extractCssLoader = getExtractCssLoader()
-  const quickappStyleLoader = getQuickappStyleLoader()
   const miniTemplateLoader = getMiniTemplateLoader([{
     buildAdapter
   }])
 
   const cssLoader = getCssLoader(cssOptions)
-  const sassLoader = getSassLoader([{
+
+  const baseSassOptions = {
     sourceMap: true,
     implementation: sass,
+    sassOptions: {
+      outputStyle: 'expanded',
+      fiber: false,
+      importer (url, prev, done) {
+        // 让 sass 文件里的 @import 能解析小程序原生样式文体，如 @import "a.wxss";
+        const extname = path.extname(url)
+        // fix: @import 文件可以不带scss/sass缀，如: @import "define";
+        if (extname === '.scss' || extname === '.sass' || extname === '.css' || !extname) {
+          return null
+        } else {
+          const filePath = path.resolve(path.dirname(prev), url)
+          fs.access(filePath, fs.constants.F_OK, (err) => {
+            if (err) {
+              console.log(err)
+              return null
+            } else {
+              fs.readFile(filePath)
+                .then(res => {
+                  done({ contents: res.toString() })
+                })
+                .catch(err => {
+                  console.log(err)
+                  return null
+                })
+            }
+          })
+        }
+      }
+    }
+  }
+
+  const sassLoader = getSassLoader([baseSassOptions, {
     sassOptions: {
       indentedSyntax: true
     }
   }, sassLoaderOption])
-  const scssLoader = getSassLoader([{
-    sourceMap: true,
-    implementation: sass
-  }, sassLoaderOption])
+  const scssLoader = getSassLoader([baseSassOptions, sassLoaderOption])
+
+  const resolveUrlLoader = getResolveUrlLoader([{}])
 
   const postcssLoader = getPostcssLoader([
     { sourceMap: enableSourceMap },
     {
-      ident: 'postcss',
-      plugins: getPostcssPlugins(appPath, {
-        isBuildQuickapp,
-        designWidth,
-        deviceRatio,
-        postcssOption
-      })
+      postcssOptions: {
+        plugins: getPostcssPlugins(appPath, {
+          isBuildQuickapp,
+          designWidth,
+          deviceRatio,
+          postcssOption
+        })
+      }
     }
   ])
 
@@ -274,15 +315,11 @@ export const getModule = (appPath: string, {
   const stylusLoader = getStylusLoader([{ sourceMap: enableSourceMap }, stylusLoaderOption])
 
   const cssLoaders: {
-    include?;
-    use;
+    include?
+    resourceQuery?
+    use
   }[] = [{
-    use: isBuildQuickapp ? [
-      extractCssLoader,
-      quickappStyleLoader,
-      cssLoader,
-      postcssLoader
-    ] : [
+    use: [
       extractCssLoader,
       cssLoader,
       postcssLoader
@@ -296,6 +333,15 @@ export const getModule = (appPath: string, {
     if (cssModuleOptions.config!.namingPattern === 'module') {
       /* 不排除 node_modules 内的样式 */
       cssModuleCondition = styleModuleReg
+      // for vue
+      cssLoaders.unshift({
+        resourceQuery: /module=/,
+        use: [
+          extractCssLoader,
+          cssLoaderWithModule,
+          postcssLoader
+        ]
+      })
     } else {
       cssModuleCondition = {
         and: [
@@ -320,10 +366,12 @@ export const getModule = (appPath: string, {
     postcssUrlOption = urlOptions.config
   }
 
-  function addCssLoader (cssLoaders, loader) {
+  function addCssLoader (cssLoaders, ...loader) {
     const cssLoadersCopy = cloneDeep(cssLoaders)
     cssLoadersCopy.forEach(item => {
-      item.use && item.use.push(loader)
+      if (item.use) {
+        item.use = [...item.use, ...loader]
+      }
     })
     return cssLoadersCopy
   }
@@ -331,14 +379,16 @@ export const getModule = (appPath: string, {
   const scriptRule: IRule = {
     test: REG_SCRIPTS,
     use: {
-      babelLoader: getBabelLoader([])
+      babelLoader: {
+        loader: require.resolve('babel-loader')
+      }
     }
   }
 
   if (compile.exclude && compile.exclude.length) {
     scriptRule.exclude = [
       ...compile.exclude,
-      filename => /node_modules/.test(filename) && !(/taro/.test(filename))
+      filename => /css-loader/.test(filename) || (/node_modules/.test(filename) && !(/taro/.test(filename)))
     ]
   } else if (compile.include && compile.include.length) {
     scriptRule.include = [
@@ -347,17 +397,17 @@ export const getModule = (appPath: string, {
       filename => /taro/.test(filename)
     ]
   } else {
-    scriptRule.exclude = [filename => /node_modules/.test(filename) && !(/taro/.test(filename))]
+    scriptRule.exclude = [filename => /css-loader/.test(filename) || (/node_modules/.test(filename) && !(/taro/.test(filename)))]
   }
 
   const rule: Record<string, IRule> = {
     sass: {
       test: REG_SASS_SASS,
-      oneOf: addCssLoader(cssLoaders, sassLoader)
+      oneOf: addCssLoader(cssLoaders, resolveUrlLoader, sassLoader)
     },
     scss: {
       test: REG_SASS_SCSS,
-      oneOf: addCssLoader(cssLoaders, scssLoader)
+      oneOf: addCssLoader(cssLoaders, resolveUrlLoader, scssLoader)
     },
     less: {
       test: REG_LESS,
@@ -443,11 +493,13 @@ export const getEntry = ({
   }
   const pluginConfig = fs.readJSONSync(pluginConfigPath)
   const entryObj = {}
+  let pluginMainEntry
   Object.keys(pluginConfig).forEach(key => {
     if (key === 'main') {
       const filePath = path.join(pluginDir, pluginConfig[key])
       const fileName = path.basename(filePath).replace(path.extname(filePath), '')
-      entryObj[`plugin/${fileName}`] = [resolveMainFilePath(filePath.replace(path.extname(filePath), ''))]
+      pluginMainEntry = `plugin/${fileName}`
+      entryObj[pluginMainEntry] = [resolveMainFilePath(filePath.replace(path.extname(filePath), ''))]
     } else if (key === 'publicComponents' || key === 'pages') {
       Object.keys(pluginConfig[key]).forEach(subKey => {
         const filePath = path.join(pluginDir, pluginConfig[key][subKey])
@@ -457,7 +509,8 @@ export const getEntry = ({
   })
   return {
     entry: entryObj,
-    pluginConfig
+    pluginConfig,
+    pluginMainEntry
   }
 }
 
@@ -472,6 +525,26 @@ export function getOutput (appPath: string, [{ outputRoot, publicPath, globalObj
   }
 }
 
-export function getDevtool (enableSourceMap) {
-  return enableSourceMap ? 'source-map' : 'none'
+export function getDevtool (enableSourceMap, sourceMapType = 'cheap-module-source-map') {
+  return enableSourceMap ? sourceMapType : 'none'
+}
+
+export function getRuntimeConstants (runtime) {
+  const constants: Record<string, boolean> = {}
+
+  constants.ENABLE_INNER_HTML = runtime.enableInnerHTML ?? true
+
+  constants.ENABLE_ADJACENT_HTML = runtime.enableAdjacentHTML ?? false
+
+  constants.ENABLE_SIZE_APIS = runtime.enableSizeAPIs ?? false
+
+  constants.ENABLE_TEMPLATE_CONTENT = runtime.enableTemplateContent ?? false
+
+  constants.ENABLE_CLONE_NODE = runtime.enableCloneNode ?? false
+
+  constants.ENABLE_CONTAINS = runtime.enableContains ?? false
+
+  constants.ENABLE_MUTATION_OBSERVER = runtime.enableMutationObserver ?? false
+
+  return constants
 }

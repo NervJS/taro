@@ -1,7 +1,7 @@
 import { ComponentType } from 'react'
-import { StandardProps, CommonEventFunction } from './common'
+import { StandardProps, CommonEventFunction, CanvasTouchEventFunction, CanvasTouchEvent } from './common'
 
-interface CanvasProps extends StandardProps {
+interface CanvasProps extends StandardProps<any, CanvasTouchEvent> {
   /** 指定 canvas 类型，支持 2d 和 webgl
    * @supported weapp
    */
@@ -21,22 +21,22 @@ interface CanvasProps extends StandardProps {
   /** 手指触摸动作开始
    * @supported weapp
    */
-  onTouchStart?: CommonEventFunction
+  onTouchStart?: CanvasTouchEventFunction
 
   /** 手指触摸后移动
    * @supported weapp
    */
-  onTouchMove?: CommonEventFunction
+  onTouchMove?: CanvasTouchEventFunction
 
   /** 手指触摸动作结束
    * @supported weapp
    */
-  onTouchEnd?: CommonEventFunction
+  onTouchEnd?: CanvasTouchEventFunction
 
   /** 手指触摸动作被打断，如来电提醒，弹窗
    * @supported weapp
    */
-  onTouchCancel?: CommonEventFunction
+  onTouchCancel?: CanvasTouchEventFunction
 
   /** 手指长按 500ms 之后触发，触发了长按事件后进行移动不会触发屏幕的滚动
    * @supported weapp
@@ -47,6 +47,11 @@ interface CanvasProps extends StandardProps {
    * @supported weapp
    */
   onError?: CommonEventFunction<CanvasProps.onErrorEventDetail>
+
+  /** 用于透传 `WebComponents` 上的属性到内部 H5 标签上
+   * @supported h5
+   */
+  nativeProps?: Record<string, unknown>
 }
 
 declare namespace CanvasProps {
@@ -56,19 +61,27 @@ declare namespace CanvasProps {
 }
 
 /** 画布
- * 
+ *
  * `<Canvas />` 组件的 RN 版本尚未实现。
  * @classification canvas
- * @supported weapp
- * @example
+ * @supported weapp, tt
+ * @example_react
  * ```tsx
  * class App extends Components {
  *   render () {
+ *     // 如果是支付宝小程序，则要加上 id 属性，值和canvasId一致
  *     return (
  *       <Canvas style='width: 300px; height: 200px;' canvasId='canvas' />
  *     )
  *   }
  * }
+ * ```
+ * @example_vue
+ * ```html
+ * <template>
+ *   <!-- 如果是支付宝小程序，则要加上 id 属性，值和canvasId一致 -->
+ *   <canvas style="width: 300px; height: 200px;" canvas-id="canvas" />
+ * </template>
  * ```
  * @see https://developers.weixin.qq.com/miniprogram/dev/component/canvas.html
  */

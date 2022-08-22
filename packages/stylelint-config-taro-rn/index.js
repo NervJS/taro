@@ -2,6 +2,7 @@ module.exports = {
   plugins: ['stylelint-taro-rn'],
   rules: {
     'taro-rn/css-property-no-unknown': true,
+    'taro-rn/line-height-no-value-without-unit': true,
     'taro-rn/font-weight-no-ignored-values': [
       true,
       {
@@ -14,7 +15,7 @@ module.exports = {
     'property-no-vendor-prefix': true,
     'at-rule-no-vendor-prefix': true,
     'media-feature-name-no-vendor-prefix': true,
-    'at-rule-blacklist': [
+    'at-rule-disallowed-list': [
       ['keyframes', 'font-face', 'supports', 'charset'],
       {
         severity: 'warning',
@@ -22,7 +23,7 @@ module.exports = {
           '@-rule 会被 React Native 忽略'
       }
     ],
-    'unit-whitelist': [
+    'unit-allowed-list': [
       ['px', 'rem', 'deg', '%', 'vh', 'vw', 'vmin', 'vmax'],
       {
         severity: 'warning',
@@ -30,7 +31,7 @@ module.exports = {
           '该单位会被 React Native 忽略'
       }
     ],
-    'selector-pseudo-class-whitelist': [
+    'selector-pseudo-class-allowed-list': [
       ['export', 'root'],
       {
         severity: 'warning',

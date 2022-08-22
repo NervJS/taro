@@ -7,12 +7,12 @@ export function waitForChange (dom) {
       timer = setTimeout(() => {
         observer.disconnect()
         resolve()
-      }, 500)
+      }, 1000)
     })
 
     setTimeout(() => {
       resolve()
-    }, 3000)
+    }, 5000)
 
     observer.observe(dom, { attributes: true, childList: true, subtree: true })
   })

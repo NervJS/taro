@@ -10,17 +10,17 @@
 import * as React from 'react'
 import {
   WebView
-} from 'react-native'
+} from 'react-native-webview'
 import { WebViewProps } from './PropsType'
 import utils from '../../utils'
 
-const _WebView: React.SFC<WebViewProps> = ({
+const _WebView: React.FC<WebViewProps> = ({
   style,
   src,
   onMessage = utils.noop,
   onLoad = utils.noop,
   onError = utils.noop,
-}) => {
+}: WebViewProps) => {
   return (
     <WebView
       source={{ uri: src }}
@@ -41,7 +41,7 @@ const _WebView: React.SFC<WebViewProps> = ({
           detail: { src }
         })
       }}
-      style={style}
+      style={style as Record<string, unknown>}
     />
   )
 }

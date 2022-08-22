@@ -1,0 +1,11 @@
+// For React.createElement's type
+export * from '@tarojs/components/mini'
+export const Tabs = 'tabs'
+export const TabItem = 'tab-item'
+export const AnimationVideo = 'animation-video'
+export const AnimationView = 'animation-view'
+export const ArCamera = 'ar-camera'
+export const RtcRoom = 'rtc-room'
+export const RtcRoomItem = 'rtc-room-item'
+export const OpenData = 'open-data'
+export const Login = 'login'

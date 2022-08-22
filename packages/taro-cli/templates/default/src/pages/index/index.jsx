@@ -1,5 +1,5 @@
-<%if (framework === 'react') {-%>
-import React, { Component } from 'react'
+<%if (['react', 'preact'].includes(framework)) {-%>
+import { Component } from 'react'
 <%} else if (framework === 'nerv') { -%>
 import Nerv, { Component } from 'nervjs'
 <%}-%>

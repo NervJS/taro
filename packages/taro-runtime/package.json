@@ -1,16 +1,18 @@
 {
   "name": "@tarojs/runtime",
-  "version": "3.0.5",
+  "version": "3.5.3",
   "description": "taro runtime for mini apps.",
   "main": "dist/runtime.esm.js",
   "module": "dist/runtime.esm.js",
+  "types": "./dist/index.d.ts",
   "files": [
     "dist"
   ],
   "scripts": {
+    "build": "rimraf ./dist && tsc -emitDeclarationOnly && rollup -c",
+    "dev": "rollup -c -w",
     "test": "jest",
-    "build": "rollup -c",
-    "dev": "rollup -c -w"
+    "test:ci": "jest --ci -i --coverage false"
   },
   "repository": {
     "type": "git",
@@ -20,5 +22,9 @@
   "license": "MIT",
   "publishConfig": {
     "access": "public"
+  },
+  "dependencies": {
+    "@tarojs/shared": "workspace:*",
+    "lodash-es": "4.17.21"
   }
 }

@@ -1,6 +1,6 @@
+import { chalk, isWindows } from '@tarojs/helper'
 import * as fs from 'fs-extra'
 import * as path from 'path'
-import { isWindows, chalk } from '@tarojs/helper'
 
 export function getRootPath (): string {
   return path.resolve(__dirname, '../../')
@@ -25,18 +25,18 @@ export function printPkgVersion () {
   console.log()
 }
 
-export const getAllFilesInFloder = async (
-  floder: string,
+export const getAllFilesInFolder = async (
+  folder: string,
   filter: string[] = []
 ): Promise<string[]> => {
   let files: string[] = []
-  const list = readDirWithFileTypes(floder)
+  const list = readDirWithFileTypes(folder)
 
   await Promise.all(
     list.map(async item => {
-      const itemPath = path.join(floder, item.name)
+      const itemPath = path.join(folder, item.name)
       if (item.isDirectory) {
-        const _files = await getAllFilesInFloder(itemPath, filter)
+        const _files = await getAllFilesInFolder(itemPath, filter)
         files = [...files, ..._files]
       } else if (item.isFile) {
         if (!filter.find(rule => rule === item.name)) files.push(itemPath)
@@ -63,10 +63,10 @@ interface FileStat {
   isFile: boolean
 }
 
-export function readDirWithFileTypes (floder: string): FileStat[] {
-  const list = fs.readdirSync(floder)
+export function readDirWithFileTypes (folder: string): FileStat[] {
+  const list = fs.readdirSync(folder)
   const res = list.map(name => {
-    const stat = fs.statSync(path.join(floder, name))
+    const stat = fs.statSync(path.join(folder, name))
     return {
       name,
       isDirectory: stat.isDirectory(),
@@ -74,22 +74,6 @@ export function readDirWithFileTypes (floder: string): FileStat[] {
     }
   })
   return res
-}
-
-export function recursiveReplaceObjectKeys (obj, keyMap) {
-  Object.keys(obj).forEach(key => {
-    if (keyMap[key]) {
-      obj[keyMap[key]] = obj[key]
-      if (typeof obj[key] === 'object') {
-        recursiveReplaceObjectKeys(obj[keyMap[key]], keyMap)
-      }
-      delete obj[key]
-    } else if (keyMap[key] === false) {
-      delete obj[key]
-    } else if (typeof obj[key] === 'object') {
-      recursiveReplaceObjectKeys(obj[key], keyMap)
-    }
-  })
 }
 
 export function printDevelopmentTip (platform: string) {
@@ -104,5 +88,15 @@ export function printDevelopmentTip (platform: string) {
 Example:
 ${exampleCommand}
 `))
+  }
+}
+
+export function clearConsole () {
+  const readline = require('readline')
+  if (process.stdout.isTTY) {
+    const blank = '\n'.repeat(process.stdout.rows)
+    console.log(blank)
+    readline.cursorTo(process.stdout, 0, 0)
+    readline.clearScreenDown(process.stdout)
   }
 }

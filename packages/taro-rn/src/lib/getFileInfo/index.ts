@@ -1,0 +1,1 @@
+export { getFileInfo } from '../file'

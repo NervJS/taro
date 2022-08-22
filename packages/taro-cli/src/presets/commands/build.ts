@@ -1,32 +1,54 @@
-import { IPluginContext } from '@tarojs/service'
+import type { IPluginContext } from '@tarojs/service'
 
 import configValidator from '../../doctor/configValidator'
+import * as hooks from '../constant'
 
 export default (ctx: IPluginContext) => {
-  registerBuildHooks(ctx)
   ctx.registerCommand({
     name: 'build',
     optionsMap: {
-      '--type [typeName]': 'Build type, weapp/swan/alipay/tt/h5/quickapp/rn/qq/jd',
+      '--type [typeName]': 'Build type, weapp/swan/alipay/tt/qq/jd/h5/rn',
       '--watch': 'Watch mode',
-      '--page [pagePath]': 'Build one page',
-      '--component [pagePath]': 'Build one component',
-      '--env [env]': 'Env type',
-      '--ui': 'Build Taro UI library',
-      '--ui-index [uiIndexPath]': 'Index file for build Taro UI library',
-      '--plugin [typeName]': 'Build Taro plugin project, weapp',
-      '--port [port]': 'Specified port',
-      '--release': 'Release quickapp'
+      '--env [env]': 'Value for process.env.NODE_ENV',
+      '-p, --port [port]': 'Specified port',
+      '--platform': '[rn] Specific React-Native build target: android / ios, android is default value',
+      '--reset-cache': '[rn] Clear transform cache',
+      '--public-path': '[rn] Assets public path',
+      '--bundle-output': '[rn] File name where to store the resulting bundle',
+      '--sourcemap-output': '[rn] File name where to store the sourcemap file for resulting bundle',
+      '--sourcemap-use-absolute-path': '[rn]  Report SourceMapURL using its full path',
+      '--sourcemap-sources-root': '[rn] Path to make sourcemaps sources entries relative to',
+      '--assets-dest': '[rn] Directory name where to store assets referenced in the bundle',
+      '--qr': '[rn] Print qrcode of React-Native bundle server',
+      '--blended': 'Blended Taro project in an original MiniApp project',
+      '--plugin [typeName]': 'Build Taro plugin project, weapp'
     },
+    synopsisList: [
+      'taro build --type weapp',
+      'taro build --type weapp --watch',
+      'taro build --type weapp --env production',
+      'taro build --type weapp --blended',
+      'taro build native-components --type weapp',
+      'taro build --plugin weapp --watch',
+      'taro build --plugin weapp'
+    ],
     async fn (opts) {
-      const { platform, config } = opts
+      const { options, config, _ } = opts
+      const { platform, isWatch, blended } = options
       const { fs, chalk, PROJECT_CONFIG } = ctx.helper
       const { outputPath, configPath } = ctx.paths
-      const { isWatch, envHasBeenSet } = ctx.runOpts
+
       if (!configPath || !fs.existsSync(configPath)) {
         console.log(chalk.red(`找不到项目配置文件${PROJECT_CONFIG}，请确定当前目录是 Taro 项目根目录!`))
         process.exit(1)
       }
+
+      if (typeof platform !== 'string') {
+        console.log(chalk.red('请传入正确的编译类型！'))
+        process.exit(0)
+      }
+
+      // 校验 Taro 项目配置
       const checkResult = await checkConfig({
         configPath,
         projectConfig: ctx.initialConfig
@@ -45,19 +67,18 @@ export default (ctx: IPluginContext) => {
             lineChalk(line.desc)
           )
         })
-      }
-      if (typeof platform !== 'string') {
-        console.log(chalk.red('请传入正确的编译类型！'))
         process.exit(0)
       }
-      process.env.TARO_ENV = platform
-      fs.ensureDirSync(outputPath)
-      let isProduction = false
-      if (!envHasBeenSet) {
-        isProduction = process.env.NODE_ENV === 'production' || !isWatch
-      }
 
-      await ctx.applyPlugins('onBuildStart')
+      const isProduction = process.env.NODE_ENV === 'production' || !isWatch
+
+      // dist folder
+      fs.ensureDirSync(outputPath)
+
+      // is build native components mode?
+      const isBuildNativeComp = _[1] === 'native-components'
+
+      await ctx.applyPlugins(hooks.ON_BUILD_START)
       await ctx.applyPlugins({
         name: platform,
         opts: {
@@ -65,37 +86,67 @@ export default (ctx: IPluginContext) => {
             ...config,
             isWatch,
             mode: isProduction ? 'production' : 'development',
-            async modifyWebpackChain (chain, webpack) {
+            blended,
+            isBuildNativeComp,
+            async modifyWebpackChain (chain, webpack, data) {
               await ctx.applyPlugins({
-                name: 'modifyWebpackChain',
+                name: hooks.MODIFY_WEBPACK_CHAIN,
                 initialVal: chain,
                 opts: {
                   chain,
-                  webpack
+                  webpack,
+                  data
                 }
               })
             },
-            async modifyBuildAssets (assets) {
+            async modifyBuildAssets (assets, miniPlugin) {
               await ctx.applyPlugins({
-                name: 'modifyBuildAssets',
+                name: hooks.MODIFY_BUILD_ASSETS,
                 initialVal: assets,
                 opts: {
-                  assets
+                  assets,
+                  miniPlugin
                 }
               })
             },
             async modifyMiniConfigs (configMap) {
               await ctx.applyPlugins({
-                name: 'modifyMiniConfigs',
+                name: hooks.MODIFY_MINI_CONFIGS,
                 initialVal: configMap,
                 opts: {
                   configMap
                 }
               })
             },
+            async modifyComponentConfig (componentConfig, config) {
+              await ctx.applyPlugins({
+                name: hooks.MODIFY_COMPONENT_CONFIG,
+                opts: {
+                  componentConfig,
+                  config
+                }
+              })
+            },
+            async onCompilerMake (compilation) {
+              await ctx.applyPlugins({
+                name: hooks.ON_COMPILER_MAKE,
+                opts: {
+                  compilation
+                }
+              })
+            },
+            async onParseCreateElement (nodeName, componentConfig) {
+              await ctx.applyPlugins({
+                name: hooks.ON_PARSE_CREATE_ELEMENT,
+                opts: {
+                  nodeName,
+                  componentConfig
+                }
+              })
+            },
             async onBuildFinish ({ error, stats, isWatch }) {
               await ctx.applyPlugins({
-                name: 'onBuildFinish',
+                name: hooks.ON_BUILD_FINISH,
                 opts: {
                   error,
                   stats,
@@ -106,19 +157,8 @@ export default (ctx: IPluginContext) => {
           }
         }
       })
+      await ctx.applyPlugins(hooks.ON_BUILD_COMPLETE)
     }
-  })
-}
-
-function registerBuildHooks (ctx) {
-  [
-    'modifyWebpackChain',
-    'modifyBuildAssets',
-    'modifyMiniConfigs',
-    'onBuildStart',
-    'onBuildFinish'
-  ].forEach(methodName => {
-    ctx.registerMethod(methodName)
   })
 }
 

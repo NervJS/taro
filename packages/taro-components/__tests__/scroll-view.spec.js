@@ -1,6 +1,7 @@
-import React from 'react'
 import * as assert from 'assert'
+import React from 'react'
 import * as sinon from 'sinon'
+
 import { ScrollView } from '../h5/react'
 import { mount } from './test-tools'
 
@@ -16,8 +17,10 @@ describe('ScrollView', () => {
   let originTimeout
 
   beforeAll(() => {
+    // eslint-disable-next-line no-undef
     originTimeout = jasmine.DEFAULT_TIMEOUT_INTERVAL
-    jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000
+    // eslint-disable-next-line no-undef
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 40000
   })
 
   beforeEach(() => {
@@ -31,6 +34,7 @@ describe('ScrollView', () => {
   })
 
   afterAll(() => {
+    // eslint-disable-next-line no-undef
     jasmine.DEFAULT_TIMEOUT_INTERVAL = originTimeout
   })
 

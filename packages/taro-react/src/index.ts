@@ -1,9 +1,10 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { render, ContainerMap } from './render'
-import { TaroReconciler } from './reconciler'
 import { TaroElement } from '@tarojs/runtime'
+import { ensure, isFunction } from '@tarojs/shared'
 import { ReactNode } from 'react'
-import { ensure } from '@tarojs/shared'
+
+import { TaroReconciler } from './reconciler'
+import { ContainerMap, createRoot, render } from './render'
 
 const unstable_batchedUpdates = TaroReconciler.batchedUpdates
 
@@ -18,7 +19,7 @@ function unmountComponentAtNode (dom: TaroElement) {
     root.unmount(() => {
       ContainerMap.delete(dom)
     })
-  })
+  }, null)
 
   return true
 }
@@ -33,10 +34,10 @@ function findDOMNode (comp?: TaroElement | ReactNode) {
     return comp
   }
 
-  return TaroReconciler.findHostInstance(comp as object)
+  return TaroReconciler.findHostInstance(comp as Record<string, any>)
 }
 
-const portalType = typeof Symbol === 'function' && Symbol.for
+const portalType = isFunction(Symbol) && Symbol.for
   ? Symbol.for('react.portal')
   : 0xeaca
 
@@ -55,15 +56,17 @@ function createPortal (
 }
 
 export {
-  render,
-  unstable_batchedUpdates,
-  unmountComponentAtNode,
+  createPortal,
+  createRoot,
   findDOMNode,
-  createPortal
+  render,
+  unmountComponentAtNode,
+  unstable_batchedUpdates
 }
 
 export default {
   render,
+  createRoot,
   unstable_batchedUpdates,
   unmountComponentAtNode,
   findDOMNode,

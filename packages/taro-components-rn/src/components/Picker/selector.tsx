@@ -6,9 +6,10 @@
 import * as React from 'react'
 import AntPicker from '@ant-design/react-native/lib/picker'
 import { noop } from '../../utils'
-import { SelectorProps } from './PropsType'
+import { SelectorProps, SelectorState } from './PropsType'
+import { TouchableWithoutFeedback } from 'react-native'
 
-function convertToObj (item?: any, rangeKey: string = ''): any {
+function convertToObj (item?: any, rangeKey = ''): any {
   if (typeof item === 'object') {
     return { value: item[rangeKey], label: item[rangeKey] }
   } else {
@@ -16,7 +17,7 @@ function convertToObj (item?: any, rangeKey: string = ''): any {
   }
 }
 
-export default class Selector extends React.Component<SelectorProps, any> {
+export default class Selector extends React.Component<SelectorProps, SelectorState> {
   static defaultProps = {
     range: [],
     value: 0,
@@ -26,9 +27,12 @@ export default class Selector extends React.Component<SelectorProps, any> {
     pRange: [],
     range: [],
     value: 0,
+    pValue: '',
   }
 
-  static getDerivedStateFromProps (nextProps: SelectorProps, lastState: any) {
+  dismissByOk = false
+
+  static getDerivedStateFromProps (nextProps: SelectorProps, lastState: SelectorState): SelectorState | null {
     let ret: any = null
     if (nextProps.range !== lastState.pRange) {
       ret = {
@@ -38,22 +42,23 @@ export default class Selector extends React.Component<SelectorProps, any> {
         })
       }
     }
-    if (nextProps.value !== lastState.value) {
+    if (nextProps.value !== lastState.pValue) {
       ret = ret || {}
       ret.value = nextProps.value
+      ret.pValue = nextProps.value
     }
     return ret
   }
 
-  onChange = () => {
+  onChange = (): void => {
     const { onChange = noop } = this.props
     const { value } = this.state
     onChange({ detail: { value } })
   }
 
-  onPickerChange = (value: any[]) => {
+  onPickerChange = (value: any[]): void => {
     const { range } = this.state
-    let selectedIndex: number = 0
+    let selectedIndex = 0
     for (let i = 0; i < range.length; i++) {
       if (range[i].value === value[0]) {
         selectedIndex = i
@@ -63,15 +68,24 @@ export default class Selector extends React.Component<SelectorProps, any> {
     this.setState({ value: selectedIndex })
   }
 
-  onDismiss = () => {
-    const { onCancel = noop } = this.props
-    onCancel()
+  onOk = (): void => {
+    this.dismissByOk = true
   }
 
-  render () {
+  onVisibleChange = (visible: boolean): void => {
+    if (!visible && !this.dismissByOk) {
+      const { onCancel = noop } = this.props
+      onCancel()
+    }
+    this.dismissByOk = false
+  }
+
+  render (): JSX.Element {
     const {
       children,
       disabled,
+      itemStyle,
+      indicatorStyle,
     } = this.props
     const {
       range,
@@ -85,12 +99,17 @@ export default class Selector extends React.Component<SelectorProps, any> {
         data={range}
         value={[selected && selected.value]}
         cols={1}
+        itemStyle={itemStyle}
+        indicatorStyle={indicatorStyle}
         onChange={this.onChange}
         onPickerChange={this.onPickerChange}
-        onDismiss={this.onDismiss}
+        onOk={this.onOk}
+        onVisibleChange={this.onVisibleChange}
         disabled={disabled}
       >
-        {children}
+        <TouchableWithoutFeedback>
+          {children}
+        </TouchableWithoutFeedback>
       </AntPicker>
     )
   }

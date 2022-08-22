@@ -24,6 +24,7 @@ export class TaroPickerGroup implements ComponentInterface {
   @State() preY: number
   @State() hadMove: boolean
   @State() touchEnd: boolean
+  @State() isMove: boolean
 
   getPosition () {
     const transition = this.touchEnd ? 0.3 : 0
@@ -55,19 +56,15 @@ export class TaroPickerGroup implements ComponentInterface {
     })
   }
 
-  @Listen('touchstart')
-  onTouchStart (e: TouchEvent) {
+  handleMoveStart (clientY: number) {
     // 记录第一次的点击位置
-    this.startY = e.changedTouches[0].clientY
-    this.preY = e.changedTouches[0].clientY
+    this.startY = clientY
+    this.preY = clientY
     this.hadMove = false
   }
 
-  @Listen('touchmove')
-  onTouchMove (e: TouchEvent) {
-    e.preventDefault()
-
-    const y = e.changedTouches[0].clientY
+  handleMoving (clientY: number) {
+    const y = clientY
     const deltaY = y - this.preY
     this.preY = y
     this.touchEnd = false
@@ -99,8 +96,7 @@ export class TaroPickerGroup implements ComponentInterface {
     this.updateHeight(newPos, this.columnId)
   }
 
-  @Listen('touchend')
-  onTouchEnd (e: TouchEvent) {
+  handleMoveEnd (clientY: number) {
     const {
       mode,
       range,
@@ -111,7 +107,7 @@ export class TaroPickerGroup implements ComponentInterface {
     } = this
     const max = 0
     const min = -LINE_HEIGHT * (range.length - 1)
-    const endY = e.changedTouches[0].clientY
+    const endY = clientY
 
     this.touchEnd = true
 
@@ -186,6 +182,47 @@ export class TaroPickerGroup implements ComponentInterface {
 
     updateHeight(relativeHeight, columnId, mode === 'time')
     onColumnChange && onColumnChange(relativeHeight, columnId)
+  }
+
+  @Listen('mousedown')
+  onMouseDown (e: MouseEvent) {
+    this.isMove = true
+    this.handleMoveStart(e.clientY)
+  }
+
+  @Listen('mousemove')
+  onMouseMove (e: MouseEvent) {
+    e.preventDefault()
+
+    if (!this.isMove) return
+
+    this.handleMoving(e.clientY)
+  }
+
+  @Listen('mouseup')
+  @Listen('mouseleave')
+  onMouseMoveEnd (e: MouseEvent) {
+    if (!this.isMove) return
+
+    this.isMove = false
+    this.handleMoveEnd(e.clientY)
+  }
+
+  @Listen('touchstart')
+  onTouchStart (e: TouchEvent) {
+    this.handleMoveStart(e.changedTouches[0].clientY)
+  }
+
+  @Listen('touchmove')
+  onTouchMove (e: TouchEvent) {
+    e.preventDefault()
+
+    this.handleMoving(e.changedTouches[0].clientY)
+  }
+
+  @Listen('touchend')
+  onTouchEnd (e: TouchEvent) {
+    this.handleMoveEnd(e.changedTouches[0].clientY)
   }
 
   render () {

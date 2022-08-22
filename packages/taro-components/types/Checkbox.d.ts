@@ -4,24 +4,24 @@ import { StandardProps, CommonEventFunction, FormItemProps } from './common'
 interface CheckboxProps extends StandardProps {
 
   /** `<Checkbox/>`标识，选中时触发`<CheckboxGroup/>`的 change 事件，并携带 `<Checkbox/>` 的 value
-   * @supported weapp, rn
+   * @supported weapp, rn, tt
    */
   value: string
 
   /** 是否禁用
-   * @supported weapp, h5, rn
+   * @supported weapp, h5, rn, tt
    * @default false
    */
   disabled?: boolean
 
   /** 当前是否选中，可用来设置默认选中
-   * @supported weapp, h5, rn
+   * @supported weapp, h5, rn, tt
    * @default false
    */
   checked?: boolean
 
   /** checkbox的颜色，同 css 的 color
-   * @supported weapp, h5, rn
+   * @supported weapp, h5, rn, tt
    */
   color?: string
 
@@ -29,12 +29,17 @@ interface CheckboxProps extends StandardProps {
    * @supported h5, rn
    */
   onChange?: CommonEventFunction<{ value: string[] }>
+
+  /** 用于透传 `WebComponents` 上的属性到内部 H5 标签上
+   * @supported h5
+   */
+  nativeProps?: Record<string, unknown>
 }
 
 /** 多选项目
  * @classification forms
  * @supported weapp, h5, rn
- * @example
+ * @example_react
  * ```tsx
  * export default class PageCheckbox extends Component {
  *   state = {
@@ -93,6 +98,65 @@ interface CheckboxProps extends StandardProps {
  *     )
  *   }
  * }
+ * ```
+ * @example_vue
+ * ```html
+ * <template>
+ *   <view class="container">
+ *     <view class="page-section">
+ *       <text>默认样式</text>
+ *       <checkbox value="选中" :checked="true">选中</checkbox>
+ *       <checkbox style="margin-left: 20rpx;" value="未选中">未选中</checkbox>
+ *     </view>
+ *     <view class="page-section">
+ *       <text>推荐展示样式(Taro 团队成员):</text>
+ *       <label v-for="item in list" class="checkbox-list__label">
+ *         <checkbox class="checkbox-list__checkbox" :value="item.value" :checked="item.checked">{{ item.text }}</checkbox>
+ *       </label>
+ *     </view>
+ *   </view>
+ * </template>
+ *
+ * <script>
+ * export default {
+ *   data() {
+ *     return {
+ *       list: [
+ *         {
+ *           value: '美国',
+ *           text: '美国',
+ *           checked: false
+ *         },
+ *         {
+ *           value: '中国',
+ *           text: '中国',
+ *           checked: true
+ *         },
+ *         {
+ *           value: '巴西',
+ *           text: '巴西',
+ *           checked: false
+ *         },
+ *         {
+ *           value: '日本',
+ *           text: '日本',
+ *           checked: false
+ *         },
+ *         {
+ *           value: '英国',
+ *           text: '英国',
+ *           checked: false
+ *         },
+ *         {
+ *           value: '法国',
+ *           text: '法国',
+ *           checked: false
+ *         }
+ *       ]
+ *     }
+ *   }
+ * }
+ * </script>
  * ```
  * @see https://developers.weixin.qq.com/miniprogram/dev/component/checkbox.html
  */

@@ -1,13 +1,19 @@
 import { Config } from '@stencil/core'
 import { sass } from '@stencil/sass'
+
 const { jsWithTs: tsjPreset } = require('ts-jest/presets')
 
 export const config: Config = {
   namespace: 'taro-components',
-  globalStyle: './node_modules/weui/dist/style/weui.min.css',
+  globalStyle: './src/global.css',
   plugins: [
     sass()
   ],
+  nodeResolve: {
+    preferBuiltins: false,
+    // @ts-ignore
+    mainFields: ['main:h5', 'browser', 'module', 'jsnext:main', 'main']
+  },
   outputTargets: [
     {
       type: 'dist',
@@ -21,7 +27,7 @@ export const config: Config = {
     { components: ['taro-swiper-core', 'taro-swiper-item-core'] },
     { components: ['taro-video-core', 'taro-video-control', 'taro-video-danmu'] }
   ],
-  excludeSrc: ['/test/', '**/.spec.', '/types/', '*.d.ts'],
+  buildEs5: 'prod',
   testing: {
     testRegex: '(/__tests__/.*|(\\.|/)(tt|spec))\\.[jt]sx?$',
     transform: {
@@ -30,7 +36,7 @@ export const config: Config = {
     globals: {
       'ts-jest': {
         diagnostics: false,
-        tsConfig: {
+        tsconfig: {
           jsx: 'react',
           allowJs: true,
           target: 'ES6'
@@ -39,6 +45,21 @@ export const config: Config = {
     },
     emulate: [{
       device: 'iPhone 8'
+    }]
+  },
+  rollupConfig: {
+    inputOptions: {
+      treeshake: true
+    }
+  },
+  rollupPlugins: {
+    after: [{
+      name: 'add-external',
+      options: opts => {
+        opts.external = ['@tarojs/taro']
+
+        return opts
+      }
     }]
   }
 }

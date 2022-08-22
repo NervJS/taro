@@ -1,7 +1,6 @@
-import { StyleProp, ViewStyle, Animated } from 'react-native';
+import { StyleProp, ViewStyle } from 'react-native'
 
 export interface ButtonState {
-  valve: Animated.Value;
   isHover: boolean;
 }
 

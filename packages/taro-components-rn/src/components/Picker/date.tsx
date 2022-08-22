@@ -1,17 +1,18 @@
 import * as React from 'react'
 import AntDatePicker from '@ant-design/react-native/lib/date-picker'
 import { noop } from '../../utils'
-import { DateProps } from './PropsType'
-
-function formatTimeStr (time: string = ''): Date {
+import { DateProps, DateState } from './PropsType'
+import { TouchableWithoutFeedback } from 'react-native'
+import View from '../View'
+function formatTimeStr(time = ''): Date {
   let [year, month, day]: any = time.split('-')
   year = ~~year || 2000
   month = ~~month || 1
   day = ~~day || 1
-  return new Date(`${year}/${month}/${day}`)
+  return new Date(year, month - 1, day)
 }
 
-export default class DateSelector extends React.Component<DateProps, any> {
+export default class DateSelector extends React.Component<DateProps, DateState> {
   static defaultProps = {
     value: new Date(),
     fields: 'day',
@@ -19,21 +20,29 @@ export default class DateSelector extends React.Component<DateProps, any> {
 
   state: any = {
     pValue: null,
-    value: 0,
+    value: new Date(),
   }
 
-  static getDerivedStateFromProps (nextProps: DateProps, lastState: any) {
-    if (nextProps.value !== lastState.pValue) {
+  dismissByOk = false
+
+  static getDerivedStateFromProps(nextProps: DateProps, lastState: DateState): DateState | null {
+    if (nextProps.value && nextProps.value !== lastState.pValue) {
       const now = new Date()
       if (!nextProps.value || typeof nextProps.value !== 'string') {
-        return { value: now }
+        return {
+          value: now,
+          pValue: now
+        }
       }
-      return { value: formatTimeStr(nextProps.value) }
+      return {
+        value: formatTimeStr(nextProps.value),
+        pValue: nextProps.value
+      }
     }
     return null
   }
 
-  onChange = (date: Date) => {
+  onChange = (date: Date): void => {
     const { fields = 'day', onChange = noop } = this.props
     const yyyy: string = date.getFullYear() + ''
     const MM: string = ('0' + (date.getMonth() + 1)).slice(-2)
@@ -52,20 +61,29 @@ export default class DateSelector extends React.Component<DateProps, any> {
     })
   }
 
-  onValueChange = (vals: any, index: number) => {
-    this.setState({ value: new Date(`${vals[0]}/${~~vals[1] + 1}/${vals[2] || 1}`) })
+  onValueChange = (vals: any[]): void => {
+    this.setState({
+      value: new Date(vals[0], ~~vals[1], vals[2] || 1)
+    })
   }
 
-  onDismiss = () => {
-    const { onCancel = noop } = this.props
-    onCancel()
+  onOk = (): void => {
+    this.dismissByOk = true
   }
 
-  render () {
+  onVisibleChange = (visible: boolean): void => {
+    if (!visible && !this.dismissByOk) {
+      const { onCancel = noop } = this.props
+      onCancel()
+    }
+    this.dismissByOk = false
+  }
+
+  render(): JSX.Element {
     const {
       children,
-      start,
-      end,
+      start = '1970-01-01',
+      end = '2999-01-01',
       fields,
       disabled,
     } = this.props
@@ -79,7 +97,6 @@ export default class DateSelector extends React.Component<DateProps, any> {
     } else if (fields === 'month') {
       mode = 'month'
     }
-
     return (
       <AntDatePicker
         mode={mode}
@@ -88,10 +105,12 @@ export default class DateSelector extends React.Component<DateProps, any> {
         maxDate={formatTimeStr(end)}
         onChange={this.onChange}
         onValueChange={this.onValueChange}
-        onDismiss={this.onDismiss}
+        // @ts-ignore
+        onOk={this.onOk}
+        onVisibleChange={this.onVisibleChange}
         disabled={disabled}
       >
-        {children}
+        <TouchableWithoutFeedback><View>{children}</View></TouchableWithoutFeedback>
       </AntDatePicker>
     )
   }

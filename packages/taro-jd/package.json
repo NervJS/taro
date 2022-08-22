@@ -1,0 +1,33 @@
+{
+  "name": "@tarojs/plugin-platform-jd",
+  "version": "3.5.3",
+  "description": "京东小程序平台插件",
+  "author": "Chen-jj",
+  "homepage": "https://github.com/nervjs/taro/tree/master/packages/taro-jd#readme",
+  "license": "MIT",
+  "main": "index.js",
+  "keywords": [
+    "taro"
+  ],
+  "files": [
+    "index.js",
+    "dist",
+    "types"
+  ],
+  "types": "types/index.d.ts",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NervJS/taro.git"
+  },
+  "scripts": {
+    "build": "rollup -c",
+    "dev": "rollup -c -w"
+  },
+  "bugs": {
+    "url": "https://github.com/NervJS/taro/issues"
+  },
+  "dependencies": {
+    "@tarojs/service": "workspace:*",
+    "@tarojs/shared": "workspace:*"
+  }
+}

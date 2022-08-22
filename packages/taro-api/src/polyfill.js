@@ -1,8 +1,16 @@
-if (typeof Object.assign !== 'function') {
+import { isFunction, isObject, isUndefined } from './utils'
+
+const isBadObj = (x) => !isObject(x)
+
+function throwTypeError (s) {
+  throw new TypeError(s)
+}
+
+if (!isFunction(Object.assign)) {
   // Must be writable: true, enumerable: false, configurable: true
   Object.assign = function (target) { // .length of function is 2
     if (target == null) { // TypeError if undefined or null
-      throw new TypeError('Cannot convert undefined or null to object')
+      throwTypeError('Cannot convert undefined or null to object')
     }
 
     const to = Object(target)
@@ -23,19 +31,14 @@ if (typeof Object.assign !== 'function') {
   }
 }
 
-if (typeof Object.defineProperties !== 'function') {
+if (!isFunction(Object.defineProperties)) {
   Object.defineProperties = function (obj, properties) {
     function convertToDescriptor (desc) {
       function hasProperty (obj, prop) {
         return Object.prototype.hasOwnProperty.call(obj, prop)
       }
 
-      function isCallable (v) {
-        // NB: modify as necessary if other values than functions are callable.
-        return typeof v === 'function'
-      }
-
-      if (typeof desc !== 'object' || desc === null) { throw new TypeError('bad desc') }
+      if (isBadObj(desc)) { throwTypeError('bad desc') }
 
       const d = {}
 
@@ -46,21 +49,21 @@ if (typeof Object.defineProperties !== 'function') {
       if (hasProperty(desc, 'get')) {
         const g = desc.get
 
-        if (!isCallable(g) && typeof g !== 'undefined') { throw new TypeError('bad get') }
+        if (!isFunction(g) && !isUndefined(g)) { throwTypeError('bad get') }
         d.get = g
       }
       if (hasProperty(desc, 'set')) {
         const s = desc.set
-        if (!isCallable(s) && typeof s !== 'undefined') { throw new TypeError('bad set') }
+        if (!isFunction(s) && !isUndefined(s)) { throwTypeError('bad set') }
         d.set = s
       }
 
-      if (('get' in d || 'set' in d) && ('value' in d || 'writable' in d)) { throw new TypeError('identity-confused descriptor') }
+      if (('get' in d || 'set' in d) && ('value' in d || 'writable' in d)) { throwTypeError('identity-confused descriptor') }
 
       return d
     }
 
-    if (typeof obj !== 'object' || obj === null) throw new TypeError('bad obj')
+    if (isBadObj(obj)) throwTypeError('bad obj')
 
     properties = Object(properties)
 

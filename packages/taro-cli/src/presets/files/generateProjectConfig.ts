@@ -1,9 +1,12 @@
-import * as path from 'path'
-
 import { IPluginContext } from '@tarojs/service'
+import * as path from 'path'
 
 export default (ctx: IPluginContext) => {
   ctx.registerMethod('generateProjectConfig', ({ srcConfigName, distConfigName }) => {
+    // 混合模式不需要生成项目配置
+    const { blended } = ctx.runOpts
+    if (blended) return
+
     const { appPath, sourcePath, outputPath } = ctx.paths
     const { printLog, processTypeEnum, fs } = ctx.helper
     // 生成 project.config.json
@@ -25,6 +28,9 @@ export default (ctx: IPluginContext) => {
       filePath: distConfigName,
       content: JSON.stringify(distProjectConfig, null, 2)
     })
-    printLog(processTypeEnum.GENERATE, '工具配置', `${outputPath}/${distConfigName}`)
+
+    if (ctx.initialConfig.logger?.quiet === false) {
+      printLog(processTypeEnum.GENERATE, '工具配置', `${outputPath}/${distConfigName}`)
+    }
   })
 }

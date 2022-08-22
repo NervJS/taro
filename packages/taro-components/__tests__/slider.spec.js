@@ -1,7 +1,8 @@
-import React from 'react'
 import * as assert from 'assert'
+import React from 'react'
 import simulant from 'simulant'
 import * as sinon from 'sinon'
+
 import { Slider } from '../h5/react'
 import { mount } from './test-tools'
 
@@ -71,18 +72,20 @@ describe('Slider', () => {
     assert(node.disabled === true)
   })
 
-  it('should be between min~max', async () => {
-    const min = 50
+  it('should be max', async () => {
     const max = 200
-    let value = 300
-    const wrapper = await mount(<Slider min={min} max={200} value={value} />, scratch)
+    const current = 300
+    const wrapper = await mount(<Slider max={max} value={current} />, scratch)
     const { node } = wrapper
 
-    value = 0
-
     assert(node.value === max)
+  })
 
-    await wrapper.setProps({ value })
+  it('should be min', async () => {
+    const min = 50
+    const current = 0
+    const wrapper = await mount(<Slider min={min} value={current} />, scratch)
+    const { node } = wrapper
 
     assert(node.value === min)
   })

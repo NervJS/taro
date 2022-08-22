@@ -1,4 +1,6 @@
-declare namespace Taro {
+import Taro from '../../index'
+
+declare module '../../index' {
   namespace setPageInfo {
     interface Option {
       /** 页面标题 */
@@ -51,45 +53,48 @@ declare namespace Taro {
       sessionDuration?: string
     }
   }
-  /**
-   * 百度智能小程序可接入百度搜索和百度 App，setPageInfo 负责为小程序设置各类页面基础信息，包括标题、关键字、页面描述以及图片信息、视频信息等。开发者为智能小程序设置完备的页面基础信息，有助于智能小程序在搜索引擎和信息流中得到更加有效的展示和分发。
-   * @supported swan
-   * @example
-   * ```tsx
-   * Taro.setPageInfo({
-   *   title: '晒元宵节活动红包，爱奇艺60张年卡、600张季卡等你拿！-百度贴吧',
-   *   keywords: '百度,百度贴吧,好运中国年,60,晒元,宵节',
-   *   description: '晒元宵节活动红包，爱..昨天的百度APP元宵节活动中，共发出2亿现金红包、含151万个手气现金大奖和240辆红旗轿车，谁是好运锦鲤，快来分享！马上惊喜升级~摇中红包的锦鲤们即刻晒出红包金额截图，我们将会抽取660位好运锦鲤',
-   *   articleTitle: '晒元宵节活动红包，爱奇艺60张年卡、600张季卡等你拿！',
-   *   releaseDate: '2019-01-02 12:01:30',
-   *   image: [
-   *       'http://c.hiphotos.baidu.com/forum/w%3D480/sign=73c62dda83b1cb133e693d1bed5456da/f33725109313b07e8dee163d02d7912396dd8cfe.jpg',
-   *       'https://hiphotos.baidu.com/fex/%70%69%63/item/43a7d933c895d143e7b745607ef082025baf07ab.jpg'
-   *   ],
-   *   video: [{
-   *       url: 'https://www.baidu.com/mx/v12.mp4',
-   *       duration: '100',
-   *       image: 'https://smartprogram.baidu.com/docs/img/image-scaleToFill.png'
-   *   }],
-   *   visit: {
-   *       pv: '1000',
-   *       uv: '100',
-   *       sessionDuration: '130'
-   *   },
-   *   likes: '75',
-   *   comments: '13',
-   *   collects: '23',
-   *   shares: '8',
-   *   followers: '35',
-   *   success: res => {
-   *       console.log('setPageInfo success');
-   *   },
-   *   fail: err => {
-   *       console.log('setPageInfo fail', err);
-   *   }
-   * })
-   * ```
-   * @see https://smartprogram.baidu.com/docs/develop/api/open/swan-setPageInfo/
-   */
-  function setPageInfo(option: setPageInfo.Option): void
+
+  interface TaroStatic {
+    /**
+     * 百度智能小程序可接入百度搜索和百度 App，setPageInfo 负责为小程序设置各类页面基础信息，包括标题、关键字、页面描述以及图片信息、视频信息等。开发者为智能小程序设置完备的页面基础信息，有助于智能小程序在搜索引擎和信息流中得到更加有效的展示和分发。
+     * @supported swan
+     * @example
+     * ```tsx
+     * Taro.setPageInfo({
+     *   title: '晒元宵节活动红包，爱奇艺60张年卡、600张季卡等你拿！-百度贴吧',
+     *   keywords: '百度,百度贴吧,好运中国年,60,晒元,宵节',
+     *   description: '晒元宵节活动红包，爱..昨天的百度APP元宵节活动中，共发出2亿现金红包、含151万个手气现金大奖和240辆红旗轿车，谁是好运锦鲤，快来分享！马上惊喜升级~摇中红包的锦鲤们即刻晒出红包金额截图，我们将会抽取660位好运锦鲤',
+     *   articleTitle: '晒元宵节活动红包，爱奇艺60张年卡、600张季卡等你拿！',
+     *   releaseDate: '2019-01-02 12:01:30',
+     *   image: [
+     *       'https://c.hiphotos.baidu.com/forum/w%3D480/sign=73c62dda83b1cb133e693d1bed5456da/f33725109313b07e8dee163d02d7912396dd8cfe.jpg',
+     *       'https://hiphotos.baidu.com/fex/%70%69%63/item/43a7d933c895d143e7b745607ef082025baf07ab.jpg'
+     *   ],
+     *   video: [{
+     *       url: 'https://www.baidu.com/mx/v12.mp4',
+     *       duration: '100',
+     *       image: 'https://smartprogram.baidu.com/docs/img/image-scaleToFill.png'
+     *   }],
+     *   visit: {
+     *       pv: '1000',
+     *       uv: '100',
+     *       sessionDuration: '130'
+     *   },
+     *   likes: '75',
+     *   comments: '13',
+     *   collects: '23',
+     *   shares: '8',
+     *   followers: '35',
+     *   success: res => {
+     *       console.log('setPageInfo success');
+     *   },
+     *   fail: err => {
+     *       console.log('setPageInfo fail', err);
+     *   }
+     * })
+     * ```
+     * @see https://smartprogram.baidu.com/docs/develop/api/open/swan-setPageInfo/
+     */
+    setPageInfo(option: setPageInfo.Option): void
+  }
 }

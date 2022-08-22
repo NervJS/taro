@@ -20,12 +20,12 @@ interface FormProps extends StandardProps {
 
   /** 携带 form 中的数据触发 submit 事件
    * event.detail = { value : {'name': 'value'} , formId: '' }
-   * @supported weapp
+   * @supported weapp, rn, tt
    */
   onSubmit?: CommonEventFunction<FormProps.onSubmitEventDetail>
 
   /** 表单重置时会触发 reset 事件
-   * @supported weapp, h5, rn
+   * @supported weapp, h5, rn, tt
    */
   onReset?: CommonEventFunction
 }
@@ -46,22 +46,22 @@ declare namespace FormProps {
 }
 
 /** 表单。将组件内的用户输入的 switch input checkbox slider radio picker 提交。
- * 
+ *
  * 当点击 form 表单中 form-type 为 submit 的 button 组件时，会将表单组件中的 value 值进行提交，需要在表单组件中加上 name 来作为 key。
  * @classification forms
  * @supported weapp, h5, rn
- * @example
+ * @example_react
  * ```tsx
  * class App extends Component {
- * 
+ *
  *   formSubmit = e => {
  *     console.log(e)
  *   }
- * 
+ *
  *   formReset = e => {
  *     console.log(e)
  *   }
- * 
+ *
  *   render () {
  *     return (
  *       <Form onSubmit={this.formSubmit} onReset={this.formReset} >
@@ -72,6 +72,37 @@ declare namespace FormProps {
  *     )
  *   }
  * }
+ * ```
+ * @example_vue
+ * ```html
+ * <template>
+ *   <form `@submit="formSubmit" `@reset="formReset" >
+ *       <view class="taro-example-body">
+ *         <switch name="switch" class="form-switch"></Switch>
+ *       </view>
+ *       <view class="taro-example-btns">
+ *         <button form-type="submit">Submit</button>
+ *         <button type="default" form-type="reset">Reset</button>
+ *     </view>
+ *   </form>
+ * </template>
+ *
+ * <script>
+ * export default {
+ *   data() {
+ *     return {}
+ *   },
+ *   methods: {
+ *     formSubmit (e) {
+ *       console.log(e)
+ *     },
+ *
+ *     formReset (e) {
+ *       console.log(e)
+ *     }
+ *   }
+ * }
+ * </script>
  * ```
  * @see https://developers.weixin.qq.com/miniprogram/dev/component/form.html
  */

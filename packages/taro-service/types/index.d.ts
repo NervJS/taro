@@ -1,10 +1,21 @@
 import helper from '@tarojs/helper'
 import { IProjectConfig } from '@tarojs/taro/types/compile'
-import joi from '@hapi/joi'
+import joi from 'joi'
 
 import { IPlugin, IPaths, IHook, ICommand, IPlatform } from '../src/utils/types'
 
 export { default as Kernel } from './Kernel'
+
+export { TaroPlatformBase } from './platform-plugin-base'
+
+interface IModifyWebpackChain {
+  componentConfig?: {
+    includes: Set<string>
+    exclude: Set<string>
+    thirdPartyComponents: Map<Tagname, Attrs>
+    includeAll: boolean
+  }
+}
 
 export declare interface IPluginContext {
   /**
@@ -38,7 +49,7 @@ export declare interface IPluginContext {
   /**
    * 向 ctx 上挂载一个方法可供其他插件直接调用
    */
-  registerMethod: (arg: (string | { name: string, fn?: Function }), fn?: Function) => void,
+  registerMethod: (arg: (string | { name: string, fn?: Function }), fn?: Function) => void
   /**
    * 注册一个自定义命令
    */
@@ -48,6 +59,10 @@ export declare interface IPluginContext {
    */
   registerPlatform: (platform: IPlatform) => void
   /**
+   * 触发注册的钩子（使用`ctx.register`方法注册的钩子），传入钩子名和钩子所需参数
+   */
+  applyPlugins:(args: string | { name: string; initialVal?: any; opts?: any; })=> Promise<any>
+  /**
    * 为插件添加入参校验
    */
   addPluginOptsSchema: (fn: (joi: joi.Root) => void) => void
@@ -56,17 +71,21 @@ export declare interface IPluginContext {
    */
   onBuildStart: (fn: Function) => void
   /**
-   * 编译结束
+   * 编译结束（保存代码每次编译结束后都会触发）
    */
   onBuildFinish: (fn: Function) => void
   /**
+   * 编译完成（启动项目后首次编译结束后会触发一次）
+   */
+  onBuildComplete: (fn: Function) => void
+  /**
    * 编译中修改 webpack 配置，在这个钩子中，你可以对 webpackChain 作出想要的调整，等同于配置 [`webpackChain`](./config-detail.md#miniwebpackchain)
    */
-  modifyWebpackChain: (fn: (args: { chain: any }) => void) => void
+  modifyWebpackChain: (fn: (args: { chain: any, webpack: any, data?: IModifyWebpackChain }) => void) => void
   /**
    * 修改编译后的结果
    */
-  modifyBuildAssets: (fn: (args: { assets: any }) => void) => void
+  modifyBuildAssets: (fn: (args: { assets: any, miniPlugin: any }) => void) => void
   /**
    * 修改编译过程中的页面组件配置
    */

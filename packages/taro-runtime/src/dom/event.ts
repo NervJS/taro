@@ -1,18 +1,25 @@
-import { TaroNode } from './node'
-import { EMPTY_OBJ } from '@tarojs/shared'
-import { document } from '../bom/document'
-import { TaroElement } from './element'
+import { EMPTY_OBJ, hooks } from '@tarojs/shared'
 
-interface EventOptions {
-  bubbles: boolean;
-  cancelable: boolean;
-}
+import {
+  CONFIRM,
+  CURRENT_TARGET,
+  INPUT,
+  KEY_CODE,
+  TARGET,
+  TIME_STAMP,
+  TOUCHMOVE,
+  TYPE
+} from '../constants'
+import env from '../env'
+import type { EventOptions, MpEvent } from '../interface'
+import { isParentBinded } from '../utils'
+import type { TaroElement } from './element'
 
-type Target = Record<string, unknown> & { dataset: Record<string, unknown>, id: string }
-
-export const eventSource = new Map<string | undefined | null, TaroNode>()
-
+// Taro 事件对象。以 Web 标准的事件对象为基础，加入小程序事件对象中携带的部分信息，并模拟实现事件冒泡。
 export class TaroEvent {
+  private cacheTarget
+  private cacheCurrentTarget
+
   public type: string
 
   public bubbles: boolean
@@ -51,52 +58,119 @@ export class TaroEvent {
   }
 
   get target () {
-    const element = document.getElementById(this.mpEvent?.target.id)
-    return { ...this.mpEvent?.target, ...this.mpEvent?.detail, dataset: element !== null ? element.dataset : EMPTY_OBJ }
+    const cacheTarget = this.cacheTarget
+    if (!cacheTarget) {
+      const target = Object.create(this.mpEvent?.target || null)
+
+      const element = env.document.getElementById(target.id)
+      target.dataset = element !== null ? element.dataset : EMPTY_OBJ
+
+      for (const key in this.mpEvent?.detail) {
+        target[key] = this.mpEvent!.detail[key]
+      }
+
+      this.cacheTarget = target
+
+      return target
+    } else {
+      return cacheTarget
+    }
   }
 
   get currentTarget () {
-    const element = document.getElementById(this.mpEvent?.currentTarget.id)
+    const cacheCurrentTarget = this.cacheCurrentTarget
+    if (!cacheCurrentTarget) {
+      const doc = env.document
 
-    if (element === null) {
-      return this.target
+      const currentTarget = Object.create(this.mpEvent?.currentTarget || null)
+
+      const element = doc.getElementById(currentTarget.id)
+      const targetElement = doc.getElementById(this.mpEvent?.target?.id || null)
+
+      if (element === null || (element && element === targetElement)) {
+        this.cacheCurrentTarget = this.target
+        return this.target
+      }
+
+      currentTarget.dataset = element.dataset
+
+      for (const key in this.mpEvent?.detail) {
+        currentTarget[key] = this.mpEvent!.detail[key]
+      }
+
+      this.cacheCurrentTarget = currentTarget
+
+      return currentTarget
+    } else {
+      return cacheCurrentTarget
     }
-
-    return { ...this.mpEvent?.currentTarget, ...this.mpEvent?.detail, dataset: element.dataset }
   }
 }
 
-export interface MpEvent {
-  type: string;
-  detail: Record<string, unknown>
-  target: Target
-  currentTarget: Target
-}
-
-export function createEvent (event: MpEvent | string, _?: TaroElement) {
+export function createEvent (event: MpEvent | string, node?: TaroElement) {
   if (typeof event === 'string') {
+    // For Vue3 using document.createEvent
     return new TaroEvent(event, { bubbles: true, cancelable: true })
   }
 
   const domEv = new TaroEvent(event.type, { bubbles: true, cancelable: true }, event)
+
   for (const key in event) {
-    if (key === 'currentTarget' || key === 'target' || key === 'type' || key === 'timeStamp') {
+    if (key === CURRENT_TARGET || key === TARGET || key === TYPE || key === TIME_STAMP) {
       continue
     } else {
       domEv[key] = event[key]
     }
   }
 
+  if (domEv.type === CONFIRM && node?.nodeName === INPUT) {
+    // eslint-disable-next-line dot-notation
+    domEv[KEY_CODE] = 13
+  }
+
   return domEv
 }
 
-export function eventHandler (event: MpEvent) {
-  if (event.currentTarget == null) {
-    event.currentTarget = event.target
-  }
+const eventsBatch = {}
 
-  const node = document.getElementById(event.currentTarget.id)
-  if (node != null) {
-    node.dispatchEvent(createEvent(event, node))
+// 小程序的事件代理回调函数
+export function eventHandler (event: MpEvent) {
+  hooks.call('modifyMpEventImpl', event)
+
+  event.currentTarget ||= event.target
+
+  const currentTarget = event.currentTarget
+  const id = currentTarget.dataset?.sid as string /** sid */ || currentTarget.id /** uid */ || ''
+
+  const node = env.document.getElementById(id)
+  if (node) {
+    const dispatch = () => {
+      const e = createEvent(event, node)
+      hooks.call('modifyTaroEvent', e, node)
+      node.dispatchEvent(e)
+    }
+    if (hooks.isExist('batchedEventUpdates')) {
+      const type = event.type
+
+      if (
+        !hooks.call('isBubbleEvents', type) ||
+        !isParentBinded(node, type) ||
+        (type === TOUCHMOVE && !!node.props.catchMove)
+      ) {
+        // 最上层组件统一 batchUpdate
+        hooks.call('batchedEventUpdates', () => {
+          if (eventsBatch[type]) {
+            eventsBatch[type].forEach(fn => fn())
+            delete eventsBatch[type]
+          }
+          dispatch()
+        })
+      } else {
+        // 如果上层组件也有绑定同类型的组件，委托给上层组件调用事件回调
+        (eventsBatch[type] ||= []).push(dispatch)
+      }
+    } else {
+      dispatch()
+    }
   }
 }

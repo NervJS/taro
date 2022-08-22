@@ -1,10 +1,11 @@
-import React from 'react'
 import * as assert from 'assert'
+import React from 'react'
 import simulant from 'simulant'
 import { spy } from 'sinon'
+
 import { View } from '../h5/react'
-import { delay } from './utils'
 import { mount } from './test-tools'
+import { delay } from './utils'
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const h = React.createElement
@@ -44,7 +45,7 @@ describe('View', () => {
 
     const { node } = await mount(app, scratch)
 
-    assert(node.childNodes.length === 3)
+    assert(node.textContent === 'i m div')
   })
 
   it('should update props successfully', async () => {

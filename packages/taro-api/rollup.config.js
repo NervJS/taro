@@ -1,66 +1,56 @@
-const { join } = require('path')
-const resolve = require('rollup-plugin-node-resolve')
-const cjs = require('rollup-plugin-commonjs')
-const babel = require('rollup-plugin-babel')
-const cwd = __dirname
+import babel from '@rollup/plugin-babel'
+import commonjs from '@rollup/plugin-commonjs'
+import resolve from '@rollup/plugin-node-resolve'
 
 const baseConfig = {
-  input: join(cwd, 'src/index.js'),
-  external: ['nervjs', '@tarojs/runtime'],
-  output: [
-    {
-      file: join(cwd, 'dist/index.js'),
-      format: 'cjs',
-      sourcemap: true,
-      exports: 'named'
-    },
-    {
-      file: join(cwd, 'dist/taro.js'),
-      format: 'umd',
-      name: 'Taro',
-      sourcemap: true,
-      exports: 'named'
-    }
-  ],
+  input: 'src/index.js',
+  external: d => {
+    return /^@tarojs\/runtime$/.test(d) || d.includes('@babel/runtime')
+  },
   plugins: [
     resolve({
       preferBuiltins: false
     }),
-    cjs(),
+    commonjs(),
     babel({
-      babelrc: false,
-      presets: [
-        ['@babel/preset-env', {
-          modules: false
-        }]
-      ],
-      plugins: [
-        '@babel/plugin-proposal-class-properties',
-        '@babel/plugin-proposal-object-rest-spread',
-        ['@babel/plugin-transform-react-jsx', {
-          pragma: 'Nerv.createElement'
-        }]
-      ]
+      babelHelpers: 'runtime'
     })
   ]
 }
-const esmConfig = Object.assign({}, baseConfig, {
-  output: Object.assign({}, baseConfig.output, {
+
+const common = Object.assign({}, baseConfig, {
+  output: {
+    file: 'dist/index.js',
+    format: 'cjs',
     sourcemap: true,
-    format: 'es',
-    file: join(cwd, 'dist/index.esm.js')
-  })
+    exports: 'named'
+  }
 })
 
-function rollup () {
-  const target = process.env.TARGET
-
-  if (target === 'umd') {
-    return baseConfig
-  } else if (target === 'esm') {
-    return esmConfig
-  } else {
-    return [baseConfig, esmConfig]
+const umd = Object.assign({}, baseConfig, {
+  output: {
+    file: 'dist/taro.js',
+    format: 'umd',
+    name: 'Taro',
+    sourcemap: true,
+    exports: 'named',
+    globals: {
+      '@babel/runtime/helpers/typeof': '_typeof',
+      '@babel/runtime/helpers/objectSpread2': '_objectSpread',
+      '@babel/runtime/helpers/classCallCheck': '_classCallCheck',
+      '@babel/runtime/helpers/createClass': '_createClass',
+      '@babel/runtime/helpers/defineProperty': '_defineProperty',
+      '@tarojs/runtime': 'runtime'
+    }
   }
-}
-module.exports = rollup()
+})
+
+const esm = Object.assign({}, baseConfig, {
+  output: {
+    sourcemap: true,
+    format: 'es',
+    file: 'dist/index.esm.js'
+  }
+})
+
+module.exports = [common, umd, esm]

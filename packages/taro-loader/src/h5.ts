@@ -1,34 +1,59 @@
-import * as webpack from 'webpack'
-import { getOptions, stringifyRequest } from 'loader-utils'
+import { readConfig } from '@tarojs/helper'
 import { AppConfig } from '@tarojs/taro'
-import { join, dirname } from 'path'
-import { frameworkMeta } from './utils'
+import { IH5Config } from '@tarojs/taro/types/compile'
+import { getOptions, stringifyRequest } from 'loader-utils'
+import { dirname, join } from 'path'
+import type * as webpack from 'webpack'
 
-function genResource (path: string, pages: Map<string, string>, loaderContext: webpack.loader.LoaderContext) {
+function genResource (path: string, pages: Map<string, string>, loaderContext: webpack.LoaderContext<any>, syncFileName: string | false = false) {
   const stringify = (s: string): string => stringifyRequest(loaderContext, s)
-  return `
-  Object.assign({
-      path: '${path}',
-      load: function() {
-          return import(${stringify(join(loaderContext.context, path))})
-      }
-  }, require(${stringify(pages.get(path)!)}).default || {}),
-`
+  const importDependent = syncFileName ? 'require' : 'import'
+  return `Object.assign({
+  path: '${path}',
+  load: function(context, params) {
+    const page = ${importDependent}(${stringify(join(loaderContext.context, syncFileName || path))})
+    return [page, context, params]
+  }
+}, ${JSON.stringify(readConfig(pages.get(path)!))})`
 }
 
-export default function (this: webpack.loader.LoaderContext) {
+export default function (this: webpack.LoaderContext<any>) {
   const options = getOptions(this)
   const stringify = (s: string): string => stringifyRequest(this, s)
   const {
     importFrameworkStatement,
     frameworkArgs,
     creator,
+    creatorLocation,
     importFrameworkName,
     extraImportForWeb,
-    execBeforeCreateWebApp
-  } = frameworkMeta[options.framework]
-  const config: AppConfig = options.config
+    execBeforeCreateWebApp,
+    compatComponentImport,
+    compatComponentExtra
+  } = options.loaderMeta
+  const config: AppConfig & IH5Config = options.config
   const pages: Map<string, string> = options.pages
+  const routerMode = config?.router?.mode || 'hash'
+  const isMultiRouterMode = routerMode === 'multi'
+  const pxTransformConfig = options.pxTransformConfig
+
+  const pathDirname = dirname(this.resourcePath)
+  const pageName = isMultiRouterMode ? join(pathDirname, options.name).replace(options.sourceDir + '/', '') : ''
+  if (options.bootstrap) {
+    /** NOTE: Webpack Virtual Module plugin doesn't support triggering a rebuild for webpack5,
+     * which can cause "module not found" error when webpack5 cache is enabled.
+     * Currently the only "non-hacky" workaround is to mark this module as non-cacheable.
+     *
+     * See also:
+     *   - https://github.com/sysgears/webpack-virtual-modules/issues/76
+     *   - https://github.com/sysgears/webpack-virtual-modules/issues/86
+     *   - https://github.com/windicss/windicss-webpack-plugin/blob/bbb91323a2a0c0f880eecdf49b831be092ccf511/src/loaders/virtual-module.ts
+     *   - https://github.com/sveltejs/svelte-loader/pull/151
+     */
+    this.cacheable?.(false)
+  }
+  if (options.bootstrap) return `import(${stringify(join(options.sourceDir, `${isMultiRouterMode ? pageName : options.entryFileName}.boot`))})`
+
   let tabBarCode = `var tabbarIconPath = []
 var tabbarSelectedIconPath = []
 `
@@ -37,33 +62,46 @@ var tabbarSelectedIconPath = []
     for (let i = 0; i < tabbarList.length; i++) {
       const t = tabbarList[i]
       if (t.iconPath) {
-        tabBarCode += `tabbarIconPath[${i}] = require(${stringify(join(dirname(this.resourcePath), t.iconPath))}).default\n`
+        const iconPath = stringify(join(pathDirname, t.iconPath))
+        tabBarCode += `tabbarIconPath[${i}] = typeof require(${iconPath}) === 'object' ? require(${iconPath}).default : require(${iconPath})\n`
       }
       if (t.selectedIconPath) {
-        tabBarCode += `tabbarSelectedIconPath[${i}] = require(${stringify(join(dirname(this.resourcePath), t.selectedIconPath))}).default\n`
+        const iconPath = stringify(join(pathDirname, t.selectedIconPath))
+        tabBarCode += `tabbarSelectedIconPath[${i}] = typeof require(${iconPath}) === 'object' ? require(${iconPath}).default : require(${iconPath})\n`
       }
     }
   }
 
-  const webComponents = `applyPolyfills().then(function () {
+  const webComponents = `
+import { defineCustomElements, applyPolyfills } from '@tarojs/components/loader'
+import '@tarojs/components/dist/taro-components/taro-components.css'
+${extraImportForWeb || ''}
+applyPolyfills().then(function () {
   defineCustomElements(window)
 })
 `
 
-  const code = `import { createRouter } from '@tarojs/taro'
-import component from ${stringify(join(dirname(this.resourcePath), options.filename))}
-import { ${creator}, window } from '@tarojs/runtime'
-import { defineCustomElements, applyPolyfills } from '@tarojs/components/loader'
-${importFrameworkStatement}
-import '@tarojs/components/dist/taro-components/taro-components.css'
-${extraImportForWeb || ''}
-${webComponents}
+  const components = options.useHtmlComponents ? compatComponentImport || '' : webComponents
+  const routesConfig = isMultiRouterMode ? `config.routes = []
+config.route = ${genResource(pageName, pages, this, options.name)}
+config.pageName = "${pageName}"` : `config.routes = [
+  ${config.pages?.map(path => genResource(path, pages, this)).join(',')}
+]`
+  const routerCreator = isMultiRouterMode ? 'createMultiRouter' : 'createRouter'
+
+  const code = `import { initPxTransform } from '@tarojs/taro'
+import { ${routerCreator} } from '@tarojs/router'
+import component from ${stringify(join(options.sourceDir, options.entryFileName))}
+import { window } from '@tarojs/runtime'
+import { ${creator} } from '${creatorLocation}'
 var config = ${JSON.stringify(config)}
+${importFrameworkStatement}
+${components}
 window.__taroAppConfig = config
 ${config.tabBar ? tabBarCode : ''}
 if (config.tabBar) {
   var tabbarList = config.tabBar.list
-  for (let i = 0; i < tabbarList.length; i++) {
+  for (var i = 0; i < tabbarList.length; i++) {
     var t = tabbarList[i]
     if (t.iconPath) {
       t.iconPath = tabbarIconPath[i]
@@ -73,13 +111,15 @@ if (config.tabBar) {
     }
   }
 }
-config.routes = [
-  ${config.pages?.map(path => genResource(path, pages, this)).join('')}
-]
+${routesConfig}
+${options.useHtmlComponents ? compatComponentExtra : ''}
 ${execBeforeCreateWebApp || ''}
 var inst = ${creator}(component, ${frameworkArgs})
-createRouter(inst, config, ${importFrameworkName})
+${routerCreator}(inst, config, ${importFrameworkName})
+initPxTransform({
+  designWidth: ${pxTransformConfig.designWidth},
+  deviceRatio: ${JSON.stringify(pxTransformConfig.deviceRatio)}
+})
 `
-
   return code
 }

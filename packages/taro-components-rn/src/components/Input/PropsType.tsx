@@ -1,15 +1,16 @@
+import { FormItemProps } from '@tarojs/components'
 import { ViewStyle, StyleProp } from 'react-native'
 
 export type Event = {
-  target: { value?: string; },
-  detail: { value?: string; }
+  target: { value?: string };
+  detail: { value?: string };
 }
 
 export type EventOnLineChange = {
   detail: {
     height: number;
     lineCount: number;
-  }
+  };
 }
 
 export interface InputState {
@@ -18,20 +19,23 @@ export interface InputState {
   value?: string;
 }
 
-export interface InputProps {
+export interface InputProps extends FormItemProps{
   style?: StyleProp<ViewStyle>;
   value?: string;
   type: 'text' | 'number' | 'idcard' | 'digit';
   password?: boolean;
   placeholder?: string;
   disabled?: boolean;
-  maxlength: number;
+  maxlength?: number;
+  autoFocus?: boolean;
   focus?: boolean;
   confirmType: 'done' | 'send' | 'search' | 'next' | 'go';
   confirmHold?: boolean;
   cursor?: number;
   selectionStart: number;
   selectionEnd: number;
+  placeholderStyle?: string;
+  placeholderTextColor?: string;
   onInput?: (evt: Event) => void;
   onChange?: (evt: Event) => void;
   onFocus?: (evt: Event) => void;

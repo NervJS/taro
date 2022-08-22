@@ -1,5 +1,5 @@
 import { ComponentType } from 'react'
-import { StandardProps, CommonEventFunction, netStatus } from './common'
+import { StandardProps, CommonEventFunction, NetStatus } from './common'
 
 /** 实时音视频录制。
  * 需要用户授权 scope.camera、scope.record
@@ -46,7 +46,7 @@ interface LivePusherProps extends StandardProps {
    * @default "vertical"
    * @supported weapp
    */
-  orientation?: keyof LivePusherProps.orientation
+  orientation?: keyof LivePusherProps.Orientation
 
   /** 美颜，取值范围 0-9 ，0 表示关闭
    * @default 0
@@ -120,7 +120,7 @@ interface LivePusherProps extends StandardProps {
   mirror?: boolean
 
   /** 设置推流画面是否镜像，产生的效果在 LivePlayer 反应到
-   * 
+   *
    * **Note:** 同 mirror 属性，后续 mirror 将废弃
    * @default false
    * @supported weapp
@@ -131,13 +131,13 @@ interface LivePusherProps extends StandardProps {
    * @default "auto"
    * @supported weapp
    */
-  localMirror?: keyof LivePusherProps.localMirror
+  localMirror?: keyof LivePusherProps.LocalMirror
 
   /** 音频混响类型
    * @default 0
    * @supported weapp
    */
-  audioReverbType?: keyof LivePusherProps.audioReverbType
+  audioReverbType?: keyof LivePusherProps.AudioReverbType
 
   /** 开启或关闭麦克风
    * @default true
@@ -161,7 +161,7 @@ interface LivePusherProps extends StandardProps {
    * @default "voicecall"
    * @supported weapp
    */
-  audioVolumeType?: keyof LivePusherProps.audioVolumeType
+  audioVolumeType?: keyof LivePusherProps.AudioVolumeType
 
   /** 上推的视频流的分辨率宽度
    * @default 360
@@ -174,6 +174,18 @@ interface LivePusherProps extends StandardProps {
    * @supported weapp
    */
   videoHeight?: number
+
+  /** 设置美颜类型
+   * @default smooth
+   * @supported weapp
+   */
+  beautyStyle?: keyof LivePusherProps.BeautyStyleType
+
+  /** 设置色彩滤镜
+   * @default standard
+   * @supported weapp
+   */
+  filter?: keyof LivePusherProps.FilterType
 
   /** 状态变化事件，detail = {code}
    * @supported weapp
@@ -204,18 +216,23 @@ interface LivePusherProps extends StandardProps {
    * @supported weapp
    */
   onBgmComplete?: CommonEventFunction
+
+  /** 返回麦克风采集的音量大小
+   * @supported weapp
+   */
+  onAudioVolumeNotify?: CommonEventFunction
 }
 
 declare namespace LivePusherProps {
   /** orientation 的合法值 */
-  interface orientation {
+  interface Orientation {
     /** 竖直 */
     vertical
     /** 水平 */
     horizontal
   }
   /** localMirror 的合法值 */
-  interface localMirror {
+  interface LocalMirror {
     /** 前置摄像头镜像，后置摄像头不镜像 */
     auto
     /** 前后置摄像头均镜像 */
@@ -224,9 +241,9 @@ declare namespace LivePusherProps {
     disable
   }
   /** audioReverbType 的合法值 */
-  interface audioReverbType {
+  interface AudioReverbType {
     /** 关闭 */
-    0		
+    0
     /** KTV */
     1
     /** 小房间 */
@@ -243,11 +260,43 @@ declare namespace LivePusherProps {
     7
   }
   /** audioVolumeType 的合法值 */
-  interface audioVolumeType {
+  interface AudioVolumeType {
     /** 媒体音量 */
     media
     /** 通话音量 */
     voicecall
+  }
+  /** beautyStyleType 的合法值 */
+  interface BeautyStyleType {
+    /** 光滑美颜 */
+    smooth
+    /** 自然美颜 */
+    nature
+  }
+  /** filterType 的合法值 */
+  interface FilterType {
+    /** 标准 */
+    standard
+    /** 粉嫩 */
+    pink
+    /** 怀旧 */
+    nostalgia
+    /** 蓝调 */
+    blues
+    /** 浪漫 */
+    romantic
+    /** 清凉 */
+    cool
+    /** 清新 */
+    fresher
+    /** 日系 */
+    solor
+    /** 唯美 */
+    aestheticism
+    /** 美白 */
+    whitening
+    /** 樱红 */
+    cerisered
   }
   interface onStateChangeEventDetail {
     /** 状态码 */
@@ -255,7 +304,7 @@ declare namespace LivePusherProps {
   }
   interface onNetstatusEventDetail {
     /** 网络状态 */
-    info: netStatus
+    info: NetStatus
   }
   interface onErrorEventDetail {
     /** 错误信息 */
@@ -272,11 +321,10 @@ declare namespace LivePusherProps {
 }
 
 /** 实时音视频录制。需要用户授权 scope.camera、scope.record
- * 
  * 需要先通过类目审核，再在小程序管理后台，「开发」-「接口设置」中自助开通该组件权限。
  * @classification media
  * @supported weapp
- * @example
+ * @example_react
  * ```tsx
  * class App extends Components {
  *   render () {
@@ -285,6 +333,12 @@ declare namespace LivePusherProps {
  *     )
  *   }
  * }
+ * ```
+ * @example_vue
+ * ```html
+ * <template>
+ *   <live-pusher url="url" mode="RTC" :autopush="true"  />
+ * </template>
  * ```
  * @see https://developers.weixin.qq.com/miniprogram/dev/component/live-pusher.html
  */

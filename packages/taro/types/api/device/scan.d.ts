@@ -1,10 +1,12 @@
-declare namespace Taro {
+import Taro from '../../index'
+
+declare module '../../index' {
   namespace scanCode {
     interface Option {
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
-      complete?: (res: General.CallbackResult) => void
+      complete?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用失败的回调函数 */
-      fail?: (res: General.CallbackResult) => void
+      fail?: (res: TaroGeneral.CallbackResult) => void
       /** 是否只能从相机扫码，不允许从相册选择图片 */
       onlyFromCamera?: boolean
       /** 扫码类型 */
@@ -12,7 +14,7 @@ declare namespace Taro {
       /** 接口调用成功的回调函数 */
       success?: (result: SuccessCallbackResult) => void
     }
-    interface SuccessCallbackResult extends General.CallbackResult {
+    interface SuccessCallbackResult extends TaroGeneral.CallbackResult {
         /** 所扫码的字符集 */
         charSet: string
         /** 当所扫的码为当前小程序二维码时，会返回此字段，内容为二维码携带的 path */
@@ -79,26 +81,29 @@ declare namespace Taro {
       CODE_25
     }
   }
-  /**
-   * 调起客户端扫码界面，扫码成功后返回对应的结果
-   * @supported weapp, h5
-   * @example
-   * ```tsx
-   * // 允许从相机和相册扫码
-   * Taro.scanCode({
-   *   success: (res) => {
-   *     console.log(res)
-   *   }
-   * })
-   *       // 只允许从相机扫码
-   * Taro.scanCode({
-   *   onlyFromCamera: true,
-   *   success: (res) => {
-   *     console.log(res)
-   *   }
-   * })
-   * ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/scan/wx.scanCode.html
-   */
-  function scanCode(option: scanCode.Option): Promise<scanCode.SuccessCallbackResult>
+
+  interface TaroStatic {
+    /**
+     * 调起客户端扫码界面，扫码成功后返回对应的结果
+     * @supported weapp, h5, rn, tt
+     * @example
+     * ```tsx
+     * // 允许从相机和相册扫码
+     * Taro.scanCode({
+     *   success: (res) => {
+     *     console.log(res)
+     *   }
+     * })
+     *       // 只允许从相机扫码
+     * Taro.scanCode({
+     *   onlyFromCamera: true,
+     *   success: (res) => {
+     *     console.log(res)
+     *   }
+     * })
+     * ```
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/scan/wx.scanCode.html
+     */
+    scanCode(option: scanCode.Option): Promise<scanCode.SuccessCallbackResult>
+  }
 }

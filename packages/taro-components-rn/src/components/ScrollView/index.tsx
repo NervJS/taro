@@ -43,16 +43,16 @@ class _ScrollView extends React.Component<ScrollViewProps<any>, ScrollViewState>
   static defaultProps = {
     upperThreshold: 50,
     lowerThreshold: 50,
-    scrollTop: 0,
-    scrollLeft: 0,
-    enableBackToTop: false,
+    enableBackToTop: false
   }
 
-  static getDerivedStateFromProps (props: ScrollViewProps<any>, state: ScrollViewState) {
-    return state.snapScrollTop !== props.scrollTop || state.snapScrollLeft !== props.scrollLeft ? {
-      snapScrollTop: props.scrollTop,
-      snapScrollLeft: props.scrollLeft
-    } : null
+  static getDerivedStateFromProps(props: ScrollViewProps<any>, state: ScrollViewState): ScrollViewState | null {
+    return state.snapScrollTop !== props.scrollTop || state.snapScrollLeft !== props.scrollLeft
+      ? {
+        snapScrollTop: props.scrollTop || 0,
+        snapScrollLeft: props.scrollLeft || 0
+      }
+      : null
   }
 
   state: ScrollViewState = {
@@ -69,28 +69,29 @@ class _ScrollView extends React.Component<ScrollViewProps<any>, ScrollViewState>
     offsetY: 0,
     timestamp: 0,
     velocity: 0,
-    visibleLength: 0,
+    visibleLength: 0
   }
+
   $scrollView = React.createRef<any>()
   _hasDataChangedSinceEndReached: boolean
-  _sentEndForContentLength: number = 0
-  _scrollEventThrottle: number = 50
-  _hasCallScrollToUpperInRange: boolean = false
-  _hasCallScrollToLowerInRange: boolean = false
+  _sentEndForContentLength = 0
+  _scrollEventThrottle = 50
+  _hasCallScrollToUpperInRange = true
+  _hasCallScrollToLowerInRange = false
   _initialScrollIndexTimeout: any
 
-  _selectLength = (metrics: { height: number, width: number }): number => {
+  _selectLength = (metrics: { height: number; width: number }): number => {
     return !this.props.scrollX ? metrics.height : metrics.width
   }
 
-  _selectOffset = (metrics: {x: number, y: number}): number => {
+  _selectOffset = (metrics: { x: number; y: number }): number => {
     return !this.props.scrollX ? metrics.y : metrics.x
   }
 
   _maybeCallOnStartReached = (): void => {
     const { onScrollToUpper, upperThreshold } = this.props
     const { offset } = this._scrollMetrics
-    if (onScrollToUpper && offset < upperThreshold) {
+    if (onScrollToUpper && offset <= upperThreshold) {
       if (!this._hasCallScrollToUpperInRange) {
         onScrollToUpper({ distanceFromTop: offset })
         this._hasCallScrollToUpperInRange = true
@@ -104,9 +105,11 @@ class _ScrollView extends React.Component<ScrollViewProps<any>, ScrollViewState>
     const { onScrollToLower, lowerThreshold } = this.props
     const { contentLength, visibleLength, offset } = this._scrollMetrics
     const distanceFromEnd = contentLength - visibleLength - offset
-    if (onScrollToLower &&
-        distanceFromEnd < lowerThreshold &&
-        (this._hasDataChangedSinceEndReached || contentLength !== this._sentEndForContentLength)) {
+    // _hasDataChangedSinceEndReached的用处是???
+    // if (onScrollToLower &&
+    //     distanceFromEnd < lowerThreshold &&
+    //     (this._hasDataChangedSinceEndReached || contentLength !== this._sentEndForContentLength)) {
+    if (onScrollToLower && distanceFromEnd < lowerThreshold) {
       if (!this._hasCallScrollToLowerInRange) {
         this._hasDataChangedSinceEndReached = false
         this._hasCallScrollToLowerInRange = true
@@ -154,7 +157,7 @@ class _ScrollView extends React.Component<ScrollViewProps<any>, ScrollViewState>
         scrollHeight,
         scrollWidth,
         deltaX: scrollLeft - this._scrollMetrics.offsetX,
-        deltaY: scrollTop - this._scrollMetrics.offsetY,
+        deltaY: scrollTop - this._scrollMetrics.offsetY
       }
     })
 
@@ -174,13 +177,13 @@ class _ScrollView extends React.Component<ScrollViewProps<any>, ScrollViewState>
       offsetY: scrollTop,
       timestamp,
       velocity,
-      visibleLength,
+      visibleLength
     }
     this._maybeCallOnStartReached()
     this._maybeCallOnEndReached()
   }
 
-  scrollToOffset = (x: number = 0, y: number = 0): void => {
+  scrollToOffset = (x = 0, y = 0): void => {
     const { scrollX, data, renderItem } = this.props
     const node = this.$scrollView.current
     if (node) {
@@ -192,7 +195,7 @@ class _ScrollView extends React.Component<ScrollViewProps<any>, ScrollViewState>
     }
   }
 
-  componentDidMount () {
+  componentDidMount(): void {
     if (this.state.snapScrollTop || this.state.snapScrollLeft) {
       this._initialScrollIndexTimeout = setTimeout(() => {
         this.scrollToOffset(this.state.snapScrollLeft, this.state.snapScrollTop)
@@ -200,36 +203,33 @@ class _ScrollView extends React.Component<ScrollViewProps<any>, ScrollViewState>
     }
   }
 
-  getSnapshotBeforeUpdate (prevProps: ScrollViewProps<any>, prevState: ScrollViewState) {
-    return prevState.snapScrollTop !== this.state.snapScrollTop || prevState.snapScrollLeft !== this.state.snapScrollLeft
+  getSnapshotBeforeUpdate(prevProps: ScrollViewProps<any>, prevState: ScrollViewState): boolean {
+    if (prevProps.scrollTop !== undefined) {
+      return (
+        this._scrollMetrics.offsetY !== this.state.snapScrollTop ||
+        this._scrollMetrics.offsetX !== this.state.snapScrollLeft
+      )
+    }
+    return (
+      prevState.snapScrollTop !== this.state.snapScrollTop || prevState.snapScrollLeft !== this.state.snapScrollLeft
+    )
   }
 
-  componentDidUpdate (prevProps: ScrollViewProps<any>, prevState: ScrollViewState, snapshot: boolean) {
+  componentDidUpdate(_prevProps: ScrollViewProps<any>, _prevState: ScrollViewState, snapshot: boolean): void {
     if (snapshot) {
       this.scrollToOffset(this.state.snapScrollLeft, this.state.snapScrollTop)
     }
   }
 
-  componentWillUnmount () {
+  componentWillUnmount(): void {
     this._initialScrollIndexTimeout && clearTimeout(this._initialScrollIndexTimeout)
   }
 
-  render () {
-    const {
-      children,
-      style,
-      scrollX,
-      enableBackToTop,
-      contentContainerStyle,
-      data,
-      renderItem,
-    } = this.props
+  render(): JSX.Element {
+    const { children, style, scrollX, enableBackToTop, contentContainerStyle, data, renderItem } = this.props
 
     const flattenStyle: ViewStyle & { [key: string]: any } = StyleSheet.flatten(style)
-    const wrapperStyle: ViewStyle = omit(flattenStyle, [
-      'alignItems',
-      'justifyContent'
-    ])
+    const wrapperStyle: ViewStyle = omit(flattenStyle, ['alignItems', 'justifyContent'])
     const _contentContainerStyle: ViewStyle & { [key: string]: any } = {}
     if (flattenStyle) {
       flattenStyle.alignItems && (_contentContainerStyle.alignItems = flattenStyle.alignItems)
@@ -274,24 +274,21 @@ class _ScrollView extends React.Component<ScrollViewProps<any>, ScrollViewState>
         'contentContainerStyle',
         'data',
         'renderItem',
-        'keyExtractor',
+        'keyExtractor'
       ]),
       ref: this.$scrollView
     }
 
+    // eslint-disable-next-line multiline-ternary
     return data && renderItem ? (
       <FlatList
         {...scrollElementProps}
         data={data}
         renderItem={renderItem}
-        keyExtractor={(item, index) => index + ''}
+        keyExtractor={(_item, index) => index + ''}
       />
     ) : (
-      <ScrollView
-        {...scrollElementProps}
-      >
-        {children}
-      </ScrollView>
+      <ScrollView {...scrollElementProps}>{children}</ScrollView>
     )
   }
 }

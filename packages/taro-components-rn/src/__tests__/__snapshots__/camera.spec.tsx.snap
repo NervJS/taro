@@ -1,0 +1,8 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Camera render Camera with default props 1`] = `
+<View
+  hoverStartTime={20}
+  hoverStayTime={70}
+/>
+`;

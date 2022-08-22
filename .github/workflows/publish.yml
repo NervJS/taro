@@ -1,6 +1,9 @@
 name: publish
 on:
   # When Release Pull Request is merged
+  push:
+    branches:
+      - 'feat/**'
   pull_request:
     branches:
       - next
@@ -13,21 +16,13 @@ jobs:
     name: Publish
     runs-on: ubuntu-18.04
     steps:
+      # Setup
       - name: Checkout
-        uses: actions/checkout@v2
-      - name : GITHUB CONTEXT
-        env:
-          GITHUB_CONTEXT: ${{ toJson(github) }}
-        run: echo "$GITHUB_CONTEXT"
-      - name: Get commit message
-        run: |
-           echo ::set-env name=commitmsg::$(git log --format=%B -n 1 ${{ github.event.after }})
-      - name: Show commit message
-        run : echo $commitmsg
+        uses: actions/checkout@v3
       - name: Setup Node ${{ matrix.node_version }}
         uses: actions/setup-node@v1
         with:
-          node_version: 12
+          node-version: 16
           registry-url: 'https://registry.npmjs.org'
       - name: Git Identity
         run: |
@@ -36,24 +31,51 @@ jobs:
           git remote set-url origin https://x-access-token:${GITHUB_TOKEN}@github.com/$GITHUB_REPOSITORY
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - name: install
-        if: startsWith( env.commitmsg , 'chore(release):' )
-        run: yarn
-      - name: bootstrap
-        if: startsWith( env.commitmsg , 'chore(release):' )
-        run: yarn run bootstrap:lerna
-      - name: build
-        if: startsWith( env.commitmsg , 'chore(release):' )
-        run: yarn build
+
+      # Log meta
+      - name : GITHUB CONTEXT
+        env:
+          GITHUB_CONTEXT: ${{ toJson(github) }}
+        run: echo "$GITHUB_CONTEXT"
+
+      # Get commit message
+      - name: Get commit message
+        run: |
+          COMMIT_MESSAGE=$(git log --format=%s -n 1)
+          echo "COMMIT_MESSAGE=${COMMIT_MESSAGE}" >> $GITHUB_ENV
+      - name: Show commit message
+        run : echo "$COMMIT_MESSAGE"
+
+      - name: Commit message compliance verification
+        if: startsWith( env.COMMIT_MESSAGE , 'chore(release):' ) != true
+        uses: andymckay/cancel-action@0.2
+
+      - name: Publish push tag verification
+        if: github.event_name == 'push' && contains( env.COMMIT_MESSAGE , '--tag=' ) != true
+        uses: andymckay/cancel-action@0.2
+
+      # ------------------ If event is push -------------
+
+      # Get & check npm publish
+      - name: Get publish params
+        if: github.event_name == 'push'
+        run: |
+          PUBLISH_PARAMS=`echo $COMMIT_MESSAGE | grep -oE "^chore\(release\): publish \S*\s(.*)" | cut -d " " -f 4-`
+          echo "PUBLISH_PARAMS=${PUBLISH_PARAMS}" >> $GITHUB_ENV
+
+      - name: Show publish params
+        if: github.event_name == 'push'
+        run: echo "Publish pushing provide parameter [$PUBLISH_PARAMS]."
+
       # Define ${CURRENT_VERSION}
       - name: Set Current Version
-        if: startsWith( env.commitmsg , 'chore(release):' )
         shell: bash -ex {0}
         run: |
-          CURRENT_VERSION=$(node -p 'require("./lerna.json").version')
-          echo "::set-env name=CURRENT_VERSION::${CURRENT_VERSION}"
+          CURRENT_VERSION=$(node -p 'require("./package.json").version')
+          echo "CURRENT_VERSION=${CURRENT_VERSION}" >> $GITHUB_ENV
+
+      # Check git tag
       - name: Tag Check
-        if: startsWith( env.commitmsg , 'chore(release):' )
         id: tag_check
         shell: bash -ex {0}
         run: |
@@ -67,8 +89,39 @@ jobs:
           fi
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      # ------------------ If git tag already exists, skip -------------
+
+      - name: Git tag verification
+        if: steps.tag_check.outputs.exists_tag == false
+        uses: andymckay/cancel-action@0.2
+
+      # Bootstrap project
+      - name: Cache pnpm modules
+        uses: actions/cache@v2
+        with:
+          path: ~/.pnpm-store
+          key: ${{ runner.os }}-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-
+      - name: install
+        uses: pnpm/action-setup@v2.2.2
+        with:
+          version: 7
+          run_install: |
+            - recursive: true
+              args: [--frozen-lockfile]
+      - name: build
+        run: pnpm run build
+
+      # Git stash
+      - name: Drop current changes
+        run: |
+          git add .
+          git stash
+
+      # Create git tag
       - name: Create Git Tag
-        if: startsWith( env.commitmsg , 'chore(release):' ) && steps.tag_check.outputs.exists_tag == 'false'
         uses: azu/action-package-version-to-git-tag@v1
         with:
           version: ${{ env.CURRENT_VERSION }}
@@ -76,9 +129,26 @@ jobs:
           github_repo: ${{ github.repository }}
           git_commit_sha: ${{ github.sha }}
           git_tag_prefix: "v"
+
+      # ------------------ publish -------------
+
+      - name: Publish
+        run: |
+          if [ '${{ github.event_name }}' == 'pull_request' ] ; then
+            pnpm publish --registry=https://registry.npmjs.org/ --publish-branch=${{ github.ref }} -r
+          elif [ '${{ github.event_name }}' == 'push' ] ; then
+            pnpm publish --registry=https://registry.npmjs.org/ --publish-branch=${{ github.ref_name }} -r ${{ env.PUBLISH_PARAMS }}
+          fi
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      # ------------------ After publish -------------
+
+      # Create release when event is PR
       - name: Create Release
         id: create_release
-        if: startsWith( env.commitmsg , 'chore(release):' ) && steps.tag_check.outputs.exists_tag == 'false' && github.event.pull_request.merged == true
+        if: github.event.pull_request.merged == true
         uses: actions/create-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -90,20 +160,10 @@ jobs:
             ${{ github.event.pull_request.body }}
           draft: false
           prerelease: false
-      - name: Drop current changes
-        if: startsWith( env.commitmsg , 'chore(release):' )
-        run: |
-          git add .
-          git stash
-      - name: Publish
-        if: steps.tag_check.outputs.exists_tag == 'false' && startsWith( env.commitmsg , 'chore(release):' )
-        run: |
-          yarn lerna publish from-package  --yes
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      # Create PR page comment when event is PR
       - uses: actions/github-script@0.8.0
-        if: startsWith( env.commitmsg , 'chore(release):' )
+        if: github.event.pull_request.merged == true
         with:
           github-token: ${{secrets.GITHUB_TOKEN}}
           script: |

@@ -1,24 +1,63 @@
 const path = require('path')
-const apis = require('@tarojs/taro-h5/dist/taroApis')
 
 module.exports = (_, options = {}) => {
+  if (process.env.TARO_ENV === 'rn') {
+    const presetForReactNative = require('./rn')
+    return presetForReactNative(_, options)
+  }
   const presets = []
   const plugins = []
-  const isReact = options.framework === 'react'
+  const overrides = []
+  const isReact = options.framework === 'react' || options.framework === 'preact'
   const isNerv = options.framework === 'nerv'
+  const isVue = options.framework === 'vue'
+  const isVue3 = options.framework === 'vue3'
   const moduleName = options.framework.charAt(0).toUpperCase() + options.framework.slice(1)
 
-  if (isNerv || isReact) {
+  if (isNerv) {
     presets.push([require('@babel/preset-react'), {
       pragma: `${moduleName}.createElement`,
       pragmaFrag: `${moduleName}.Fragment`
     }])
   }
 
+  if (isReact) {
+    presets.push([require('@babel/preset-react'), {
+      runtime: options.reactJsxRuntime || 'automatic'
+    }])
+    if (process.env.TARO_ENV === 'h5' && process.env.NODE_ENV !== 'production' && options.hot !== false) {
+      if (options.framework === 'react') {
+        plugins.push([require('react-refresh/babel'), { skipEnvCheck: true }])
+      } else if (options.framework === 'preact') {
+        overrides.push({
+          include: /\.[jt]sx$/,
+          plugins: [require('@prefresh/babel-plugin')]
+        })
+      }
+    }
+  }
+
+  if (isVue || isVue3) {
+    if (options.vueJsx !== false) {
+      const jsxOptions = typeof options.vueJsx === 'object' ? options.vueJsx : {}
+      if (isVue) {
+        presets.push([require('@vue/babel-preset-jsx'), jsxOptions])
+      } else {
+        plugins.push([require('@vue/babel-plugin-jsx'), jsxOptions])
+      }
+    }
+  }
+
   if (options.ts) {
     const config = {}
     if (isNerv || isReact) {
       config.jsxPragma = moduleName
+    }
+    if (isVue || isVue3) {
+      overrides.push({
+        include: /\.vue$/,
+        presets: [[require('@babel/preset-typescript'), { allExtensions: true, isTSX: true }]]
+      })
     }
     presets.push([require('@babel/preset-typescript'), config])
   }
@@ -75,7 +114,6 @@ module.exports = (_, options = {}) => {
     debug,
     modules,
     targets,
-    useBuiltIns,
     ignoreBrowserslistConfig,
     configPath,
     include,
@@ -84,8 +122,14 @@ module.exports = (_, options = {}) => {
     forceAllTransforms
   }
 
-  if (useBuiltIns) {
-    envOptions.corejs = 3
+  let transformRuntimeCorejs = false
+  if (useBuiltIns === 'usage') {
+    transformRuntimeCorejs = 3
+  } else {
+    envOptions.useBuiltIns = useBuiltIns
+    if (useBuiltIns === 'entry') {
+      envOptions.corejs = '3'
+    }
   }
 
   if (process.env.NODE_ENV === 'test') {
@@ -104,7 +148,7 @@ module.exports = (_, options = {}) => {
 
   plugins.push([require('@babel/plugin-transform-runtime'), {
     regenerator: true,
-    corejs: envOptions.corejs,
+    corejs: transformRuntimeCorejs,
     helpers: true,
     useESModules: process.env.NODE_ENV !== 'test',
     absoluteRuntime,
@@ -112,18 +156,24 @@ module.exports = (_, options = {}) => {
   }])
 
   if (process.env.TARO_ENV === 'h5') {
+    const apis = require('@tarojs/taro-h5/dist/taroApis')
     plugins.push([require('babel-plugin-transform-taroapi'), {
       packageName: '@tarojs/taro',
       apis
     }])
   }
+  if (typeof options['dynamic-import-node'] === 'boolean' ? options['dynamic-import-node'] : process.env.TARO_ENV !== 'h5') {
+    plugins.push([require('babel-plugin-dynamic-import-node')])
+  }
+
+  plugins.push(require('./remove-define-config'))
 
   return {
     sourceType: 'unambiguous',
     overrides: [{
-      exclude: [/@babel[/|\\\\]runtime/, /core-js/],
+      exclude: [/@babel[/|\\\\]runtime/, /core-js/, /\bwebpack\/buildin\b/],
       presets,
       plugins
-    }]
+    }, ...overrides]
   }
 }

@@ -1,70 +1,42 @@
 /* eslint-disable camelcase */
 import './polyfill'
-import { getEnv, ENV_TYPE } from './env'
-import render from './render'
+
+import {
+  Current,
+  eventCenter,
+  Events,
+  getCurrentInstance,
+  nextTick,
+  options
+} from '@tarojs/runtime'
+
+import { ENV_TYPE, getEnv } from './env'
 import Link from './interceptor'
 import * as interceptors from './interceptor/interceptors'
 import {
-  noPromiseApis,
-  onAndSyncApis,
-  otherApis,
-  initPxTransform
-} from './native-apis'
-import {
-  Current,
-  getCurrentInstance,
-  useDidShow,
-  useDidHide,
-  usePullDownRefresh,
-  useReachBottom,
-  usePageScroll,
-  useResize,
-  useShareAppMessage,
-  useTabItemTap,
-  useTitleClick,
-  useOptionMenuClick,
-  usePullIntercept,
-  useShareTimeline,
-  useAddToFavorites,
-  useReady,
-  useRouter,
-  options,
-  nextTick,
-  eventCenter,
-  Events
-} from '@tarojs/runtime'
+  Behavior,
+  getInitPxTransform,
+  getPreload,
+  getPxTransform
+} from './tools'
 
 const Taro = {
-  Events,
-  eventCenter,
+  Behavior,
   getEnv,
   ENV_TYPE,
-  render,
-  noPromiseApis,
-  onAndSyncApis,
-  otherApis,
-  initPxTransform,
   Link,
   interceptors,
   Current,
   getCurrentInstance,
-  useDidShow,
-  useDidHide,
-  usePullDownRefresh,
-  useReachBottom,
-  usePageScroll,
-  useResize,
-  useShareAppMessage,
-  useTabItemTap,
-  useTitleClick,
-  useOptionMenuClick,
-  usePullIntercept,
-  useShareTimeline,
-  useAddToFavorites,
-  useReady,
-  useRouter,
   options,
-  nextTick
+  nextTick,
+  eventCenter,
+  Events,
+  getInitPxTransform
 }
+
+Taro.initPxTransform = getInitPxTransform(Taro)
+Taro.preload = getPreload(Current)
+Taro.pxTransform = getPxTransform(Taro)
 
 export default Taro

@@ -1,25 +1,22 @@
-import * as fs from 'fs-extra'
-import * as path from 'path'
-import * as os from 'os'
-import { Transform } from 'stream'
 import * as child_process from 'child_process'
-
-import * as chalk from 'chalk'
-import * as findWorkspaceRoot from 'find-yarn-workspace-root'
-import { isPlainObject, camelCase, mergeWith, flatMap } from 'lodash'
-import * as yauzl from 'yauzl'
+import * as fs from 'fs-extra'
+import { camelCase, flatMap, isPlainObject, mergeWith } from 'lodash'
+import * as os from 'os'
+import * as path from 'path'
 
 import {
-  processTypeEnum,
-  processTypeMap,
-  TARO_CONFIG_FLODER,
-  SCRIPT_EXT,
+  CSS_EXT,
+  CSS_IMPORT_REG,
   NODE_MODULES_REG,
   PLATFORMS,
-  CSS_IMPORT_REG,
-  CSS_EXT
+  processTypeEnum,
+  processTypeMap,
+  REG_SCRIPTS,
+  SCRIPT_EXT,
+  TARO_CONFIG_FOLDER
 } from './constants'
-import createBabelRegister from './babelRegister'
+import createSwcRegister, { InjectDefineConfigHeader } from './swcRegister'
+import { chalk } from './terminal'
 
 const execSync = child_process.execSync
 
@@ -40,7 +37,7 @@ export function isQuickAppPkg (name: string): boolean {
   return /^@(system|service)\.[a-zA-Z]{1,}/.test(name)
 }
 
-export function isAliasPath (name: string, pathAlias: object = {}): boolean {
+export function isAliasPath (name: string, pathAlias: Record<string, any> = {}): boolean {
   const prefixs = Object.keys(pathAlias)
   if (prefixs.length === 0) {
     return false
@@ -48,7 +45,7 @@ export function isAliasPath (name: string, pathAlias: object = {}): boolean {
   return prefixs.includes(name) || (new RegExp(`^(${prefixs.join('|')})/`).test(name))
 }
 
-export function replaceAliasPath (filePath: string, name: string, pathAlias: object = {}) {
+export function replaceAliasPath (filePath: string, name: string, pathAlias: Record<string, any> = {}) {
   // 后续的 path.join 在遇到符号链接时将会解析为真实路径，如果
   // 这里的 filePath 没有做同样的处理，可能会导致 import 指向
   // 源代码文件，导致文件被意外修改
@@ -59,7 +56,7 @@ export function replaceAliasPath (filePath: string, name: string, pathAlias: obj
     return promoteRelativePath(path.relative(filePath, fs.realpathSync(resolveScriptPath(pathAlias[name]))))
   }
   const reg = new RegExp(`^(${prefixs.join('|')})/(.*)`)
-  name = name.replace(reg, function (m, $1, $2) {
+  name = name.replace(reg, function (_m, $1, $2) {
     return promoteRelativePath(path.relative(filePath, path.join(pathAlias[$1], $2)))
   })
   return name
@@ -120,6 +117,7 @@ export function printLog (type: processTypeEnum, tag: string, filePath?: string)
 }
 
 export function recursiveFindNodeModules (filePath: string, lastFindPath?: string): string {
+  const findWorkspaceRoot = require('find-yarn-workspace-root')
   if (lastFindPath && (normalizePath(filePath) === normalizePath(lastFindPath))) {
     return filePath
   }
@@ -160,14 +158,14 @@ export function getUserHomeDir (): string {
 }
 
 export function getTaroPath (): string {
-  const taroPath = path.join(getUserHomeDir(), TARO_CONFIG_FLODER)
+  const taroPath = path.join(getUserHomeDir(), TARO_CONFIG_FOLDER)
   if (!fs.existsSync(taroPath)) {
     fs.ensureDirSync(taroPath)
   }
   return taroPath
 }
 
-export function getConfig (): object {
+export function getConfig (): Record<string, any> {
   const configPath = path.join(getTaroPath(), 'config.json')
   if (fs.existsSync(configPath)) {
     return require(configPath)
@@ -241,7 +239,7 @@ export function resolveScriptPath (p: string): string {
   return resolveMainFilePath(p)
 }
 
-export function generateEnvList (env: object): object {
+export function generateEnvList (env: Record<string, any>): Record<string, any> {
   const res = { }
   if (env && !isEmptyObject(env)) {
     for (const key in env) {
@@ -255,7 +253,7 @@ export function generateEnvList (env: object): object {
   return res
 }
 
-export function generateConstantsList (constants: object): object {
+export function generateConstantsList (constants: Record<string, any>): Record<string, any> {
   const res = { }
   if (constants && !isEmptyObject(constants)) {
     for (const key in constants) {
@@ -390,9 +388,12 @@ export const applyArrayedVisitors = obj => {
 }
 
 export function unzip (zipPath) {
-  return new Promise((resolve, reject) => {
+  const Transform = require('stream').Transform
+  const yauzl = require('yauzl')
+
+  return new Promise<void>((resolve, reject) => {
     yauzl.open(zipPath, { lazyEntries: true }, (err, zipfile) => {
-      if (err) throw err
+      if (err || !zipfile) throw err
       zipfile.on('close', () => {
         fs.removeSync(zipPath)
         resolve()
@@ -410,9 +411,9 @@ export function unzip (zipPath) {
           zipfile.readEntry()
         } else {
           zipfile.openReadStream(entry, (err, readStream) => {
-            if (err) throw err
+            if (err || !readStream) throw err
             const filter = new Transform()
-            filter._transform = function (chunk, encoding, cb) {
+            filter._transform = function (chunk, _encoding, cb) {
               cb(undefined, chunk)
             }
             filter._flush = function (cb) {
@@ -434,18 +435,18 @@ export function unzip (zipPath) {
   })
 }
 
-export const getAllFilesInFloder = async (
-  floder: string,
+export const getAllFilesInFolder = async (
+  folder: string,
   filter: string[] = []
 ): Promise<string[]> => {
   let files: string[] = []
-  const list = readDirWithFileTypes(floder)
+  const list = readDirWithFileTypes(folder)
 
   await Promise.all(
     list.map(async item => {
-      const itemPath = path.join(floder, item.name)
+      const itemPath = path.join(folder, item.name)
       if (item.isDirectory) {
-        const _files = await getAllFilesInFloder(itemPath, filter)
+        const _files = await getAllFilesInFolder(itemPath, filter)
         files = [...files, ..._files]
       } else if (item.isFile) {
         if (!filter.find(rule => rule === item.name)) files.push(itemPath)
@@ -462,10 +463,10 @@ export interface FileStat {
   isFile: boolean
 }
 
-export function readDirWithFileTypes (floder: string): FileStat[] {
-  const list = fs.readdirSync(floder)
+export function readDirWithFileTypes (folder: string): FileStat[] {
+  const list = fs.readdirSync(folder)
   const res = list.map(name => {
-    const stat = fs.statSync(path.join(floder, name))
+    const stat = fs.statSync(path.join(folder, name))
     return {
       name,
       isDirectory: stat.isDirectory(),
@@ -491,14 +492,173 @@ export function removeHeadSlash (str: string) {
   return str.replace(/^(\/|\\)/, '')
 }
 
+function analyzeImport (filePath: string): string[] {
+  const parser = require('@babel/parser')
+  const traverse = require('@babel/traverse').default
+  const code = fs.readFileSync(filePath).toString()
+  let importPaths: string[] = []
+  filePath = path.dirname(filePath)
+
+  const ast = parser.parse(code, {
+    sourceType: 'module',
+    plugins: [
+      'typescript',
+      'classProperties',
+      'objectRestSpread',
+      'optionalChaining'
+    ]
+  })
+
+  traverse(ast, {
+    ImportDeclaration ({ node }) {
+      const list: string[] = []
+      const source = node.source.value
+
+      if (path.extname(source)) {
+        const importPath = path.resolve(filePath, source)
+        list.push(importPath)
+      } else {
+        ['.js', '.ts', '.json'].forEach(ext => {
+          const importPath = path.resolve(filePath, source + ext)
+          list.push(importPath)
+        })
+      }
+
+      const dep = list.find(importPath => fs.existsSync(importPath))
+      if (!dep) return
+
+      importPaths.push(dep)
+      if (path.extname(dep) !== '.json') {
+        importPaths = importPaths.concat(analyzeImport(dep))
+      }
+    }
+  })
+  return importPaths
+}
+
+// converts ast nodes to js object
+function exprToObject (node: any) {
+  const types = ['BooleanLiteral', 'StringLiteral', 'NumericLiteral']
+
+  if (types.includes(node.type)) {
+    return node.value
+  }
+
+  if (node.name === 'undefined' && !node.value) {
+    return undefined
+  }
+
+  if (node.type === 'NullLiteral') {
+    return null
+  }
+
+  if (node.type === 'ObjectExpression') {
+    return genProps(node.properties)
+  }
+
+  if (node.type === 'ArrayExpression') {
+    return node.elements.reduce((acc: any, el: any) => [
+      ...acc,
+      ...(
+        el!.type === 'SpreadElement'
+          ? exprToObject(el.argument)
+          : [exprToObject(el)]
+      )
+    ], [])
+  }
+}
+
+// converts ObjectExpressions to js object
+function genProps (props: any[]) {
+  return props.reduce((acc, prop) => {
+    if (prop.type === 'SpreadElement') {
+      return {
+        ...acc,
+        ...exprToObject(prop.argument)
+      }
+    } else if (prop.type !== 'ObjectMethod') {
+      const v = exprToObject(prop.value)
+      if (v !== undefined) {
+        return {
+          ...acc,
+          [prop.key.name || prop.key.value]: v
+        }
+      }
+    }
+    return acc
+  }, {})
+}
+
+// read page config from a sfc file instead of the regular config file
+function readSFCPageConfig (configPath: string) {
+  if (!fs.existsSync(configPath)) return {}
+
+  const sfcSource = fs.readFileSync(configPath, 'utf8')
+  const dpcReg = /definePageConfig\(\{[\w\W]+?\}\)/g
+  const matches = sfcSource.match(dpcReg)
+
+  let result: any = {}
+
+  if (matches && matches.length === 1) {
+    const callExprHandler = (p: any) => {
+      const { callee } = p.node
+      if (!callee.name) return
+      if (callee.name && callee.name !== 'definePageConfig') return
+
+      const configNode = p.node.arguments[0]
+      result = exprToObject(configNode)
+      p.stop()
+    }
+
+    const configSource = matches[0]
+    const babel = require('@babel/core')
+    const ast = babel.parse(configSource, { filename: '' })
+
+    babel.traverse(ast.program, { CallExpression: callExprHandler })
+  }
+
+  return result
+}
+
+export function readPageConfig (configPath: string) {
+  let result: any = {}
+  const extNames = ['.js', '.jsx', '.ts', '.tsx', '.vue']
+
+  // check source file extension
+  extNames.some(ext => {
+    const tempPath = configPath.replace('.config', ext)
+    if (fs.existsSync(tempPath)) {
+      try {
+        result = readSFCPageConfig(tempPath)
+      } catch (error) {
+        result = {}
+      }
+      return true
+    }
+  })
+  return result
+}
+
 export function readConfig (configPath: string) {
   let result: any = {}
   if (fs.existsSync(configPath)) {
-    createBabelRegister({
-      only: [configPath]
+    const importPaths = REG_SCRIPTS.test(configPath) ? analyzeImport(configPath) : []
+
+    createSwcRegister({
+      only: [
+        configPath,
+        filepath => importPaths.includes(filepath)
+      ],
+      plugin: m => new InjectDefineConfigHeader().visitProgram(m)
     })
-    delete require.cache[configPath]
+
+    importPaths.concat([configPath]).forEach(item => {
+      delete require.cache[item]
+    })
+
     result = getModuleDefaultExport(require(configPath))
+  } else {
+    result = readPageConfig(configPath)
   }
   return result
 }

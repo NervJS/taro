@@ -1,7 +1,6 @@
 'use strict'
 
 const postcss = require('postcss')
-const objectAssign = require('object-assign')
 const pxRegex = require('./lib/pixel-unit-regex')
 const filterPropList = require('./lib/filter-prop-list')
 
@@ -30,8 +29,6 @@ const deviceRatio = {
   828: 1.81 / 2
 }
 
-const baseFontSize = 40
-
 const DEFAULT_WEAPP_OPTIONS = {
   platform: 'weapp',
   designWidth: 750,
@@ -40,37 +37,49 @@ const DEFAULT_WEAPP_OPTIONS = {
 
 let targetUnit
 
-module.exports = postcss.plugin('postcss-pxtransform', function (options) {
-  options = Object.assign(DEFAULT_WEAPP_OPTIONS, options || {})
+module.exports = postcss.plugin('postcss-pxtransform', function (options = {}) {
+  options = Object.assign({}, DEFAULT_WEAPP_OPTIONS, options)
 
+  const transUnits = ['px']
+  const baseFontSize = options.baseFontSize || options.minRootSize >= 1 ? options.minRootSize : 20
+  const designWidth = input => typeof options.designWidth === 'function'
+    ? options.designWidth(input)
+    : options.designWidth
   switch (options.platform) {
-    case 'weapp': {
-      options.rootValue = options.deviceRatio[options.designWidth]
-      targetUnit = 'rpx'
-      break
-    }
     case 'h5': {
-      options.rootValue = baseFontSize * options.designWidth / 640
+      options.rootValue = input => baseFontSize / options.deviceRatio[designWidth(input)] * 2
       targetUnit = 'rem'
+      transUnits.push('rpx')
       break
     }
     case 'rn': {
-      options.rootValue = options.deviceRatio[options.designWidth] * 2
+      options.rootValue = input => 1 / options.deviceRatio[designWidth(input)] * 2
       targetUnit = 'px'
       break
+    }
+    case 'quickapp': {
+      options.rootValue = () => 1
+      targetUnit = 'px'
+      break
+    }
+    default: {
+      // mini-program
+      options.rootValue = input => 1 / options.deviceRatio[designWidth(input)]
+      targetUnit = 'rpx'
     }
   }
 
   convertLegacyOptions(options)
 
-  const opts = objectAssign({}, defaults, options)
+  const opts = Object.assign({}, defaults, options)
   const onePxTransform = typeof options.onePxTransform === 'undefined' ? true : options.onePxTransform
-  const pxReplace = createPxReplace(opts.rootValue, opts.unitPrecision,
-    opts.minPixelValue, onePxTransform)
+  const pxRgx = pxRegex(transUnits)
 
   const satisfyPropList = createPropListMatcher(opts.propList)
 
   return function (css) {
+    const pxReplace = createPxReplace(opts.rootValue, opts.unitPrecision, opts.minPixelValue, onePxTransform)(css.source.input)
+
     for (let i = 0; i < css.nodes.length; i++) {
       if (css.nodes[i].type === 'comment') {
         if (css.nodes[i].text === 'postcss-pxtransform disable') {
@@ -148,10 +157,9 @@ module.exports = postcss.plugin('postcss-pxtransform', function (options) {
 
       if (!satisfyPropList(decl.prop)) return
 
-      if (blacklistedSelector(opts.selectorBlackList,
-        decl.parent.selector)) return
+      if (blacklistedSelector(opts.selectorBlackList, decl.parent.selector)) return
 
-      const value = decl.value.replace(pxRegex, pxReplace)
+      const value = decl.value.replace(pxRgx, pxReplace)
 
       // if rem unit already exists, do not add or replace
       if (declarationExists(decl.parent, decl.prop, value)) return
@@ -166,7 +174,7 @@ module.exports = postcss.plugin('postcss-pxtransform', function (options) {
     if (opts.mediaQuery) {
       css.walkAtRules('media', function (rule) {
         if (rule.params.indexOf('px') === -1) return
-        rule.params = rule.params.replace(pxRegex, pxReplace)
+        rule.params = rule.params.replace(pxRgx, pxReplace)
       })
     }
   }
@@ -196,15 +204,17 @@ function convertLegacyOptions (options) {
 }
 
 function createPxReplace (rootValue, unitPrecision, minPixelValue, onePxTransform) {
-  return function (m, $1) {
-    if (!$1) return m
-    if (!onePxTransform && parseInt($1, 10) === 1) {
-      return m
+  return function (input) {
+    return function (m, $1) {
+      if (!$1) return m
+      if (!onePxTransform && parseInt($1, 10) === 1) {
+        return m
+      }
+      const pixels = parseFloat($1)
+      if (pixels < minPixelValue) return m
+      const fixedVal = toFixed((pixels / rootValue(input, m, $1)), unitPrecision)
+      return (fixedVal === 0) ? '0' : fixedVal + targetUnit
     }
-    const pixels = parseFloat($1)
-    if (pixels < minPixelValue) return m
-    const fixedVal = toFixed((pixels / rootValue), unitPrecision)
-    return (fixedVal === 0) ? '0' : fixedVal + targetUnit
   }
 }
 

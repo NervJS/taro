@@ -1,5 +1,6 @@
-import path from 'path'
-import { getBundleResult, getBundleContent, getSassLoaderOption } from '../dist/index'
+import * as path from 'path'
+
+import { getBundleContent, getBundleResult, getSassLoaderOption } from '../dist/index'
 
 describe('getBundleResult', () => {
   const filePath = path.resolve(__dirname, '.', 'styles/variables.scss')

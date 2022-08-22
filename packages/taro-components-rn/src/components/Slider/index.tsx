@@ -18,16 +18,14 @@
  */
 
 import * as React from 'react'
-import {
-  View,
-  Text,
-  Slider,
-} from 'react-native'
+import { View, Text } from 'react-native'
+import Slider from '@react-native-community/slider'
 import { noop } from '../../utils'
 import styles from './styles'
 import { SliderProps, SliderState } from './PropsType'
 
 class _Slider extends React.Component<SliderProps, SliderState> {
+  static displayName = '_Slider'
   static defaultProps = {
     min: 0,
     max: 100,
@@ -35,45 +33,35 @@ class _Slider extends React.Component<SliderProps, SliderState> {
     value: 0,
     activeColor: '#1aad19',
     backgroundColor: '#e9e9e9',
-    blockColor: '#fff',
-  }
-
-  static getDerivedStateFromProps (props: SliderProps, state: SliderState) {
-    return props.value !== state.currentValue ? {
-      currentValue: props.value
-    } : null
+    blockColor: '#fff'
   }
 
   state: SliderState = {
-    currentValue: 0
+    currentValue: this.props.value
   }
 
-  onSlidingComplete = (value: number) => {
+  componentDidUpdate(prevProps: SliderProps): void {
+    if (prevProps.value !== this.props.value) {
+      this.setState({
+        currentValue: this.props.value
+      })
+    }
+  }
+
+  onSlidingComplete = (value: number): void => {
     const { onChange = noop } = this.props
     onChange({ detail: { value } })
   }
 
-  onValueChange = (value: number) => {
+  onValueChange = (value: number): void => {
     const { onChanging = noop } = this.props
     onChanging({ detail: { value } })
     this.setState({ currentValue: value })
   }
 
-  render () {
-    const {
-      style,
-      min,
-      max,
-      step,
-      disabled,
-      activeColor,
-      backgroundColor,
-      blockColor,
-      showValue,
-    } = this.props
-
+  render(): JSX.Element {
+    const { style, min, max, step, disabled, activeColor, backgroundColor, blockColor, showValue } = this.props
     // @todo dismember style
-
     return (
       <View style={styles.wrapper}>
         <Slider
@@ -87,7 +75,7 @@ class _Slider extends React.Component<SliderProps, SliderState> {
           thumbTintColor={blockColor}
           onSlidingComplete={this.onSlidingComplete}
           onValueChange={this.onValueChange}
-          style={[styles.bar, style]}
+          style={[styles.bar, style as Record<string, unknown>]}
         />
         {showValue && <Text style={styles.info}>{this.state.currentValue}</Text>}
       </View>

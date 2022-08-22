@@ -1,5 +1,6 @@
-import React from 'react'
 import * as assert from 'assert'
+import React from 'react'
+
 import { Text } from '../h5/react'
 import { mount } from './test-tools'
 
@@ -43,6 +44,6 @@ describe('Text', () => {
   it('slot', async () => {
     const { node } = await mount(<Text>Taro Next</Text>, scratch)
 
-    assert(node.childNodes.length === 1)
+    assert(node.textContent === 'Taro Next')
   })
 })

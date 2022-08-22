@@ -20,6 +20,7 @@
  * - show-message-card
  * - bindcontact
  * - bindgetphonenumber
+ * - bindchooseavatar
  * - app-parameter
  * - binderror
  * - bindopensetting
@@ -41,38 +42,82 @@ import {
   GestureResponderEvent
 } from 'react-native'
 import styles from './styles'
-import { noop } from '../../utils'
+import { extracteTextStyle, noop } from '../../utils'
 import { ButtonProps, ButtonState } from './PropsType'
+import loadingWarnPng from '../../assets/loading-warn.png'
+import ladingPng from '../../assets/loading.png'
+
+const Loading = (props: { type: ButtonProps['type'], hasSibling: boolean }) => {
+  const { type = 'primary', hasSibling } = props
+  const rotate = React.useRef(new Animated.Value(0)).current
+
+  React.useEffect(() => {
+    const animation = Animated.loop(
+      Animated.timing(rotate, {
+        toValue: 1,
+        duration: 1000,
+        easing: Easing.linear,
+        useNativeDriver: true,
+        isInteraction: false,
+      })
+    )
+    animation.start()
+
+    return () => {
+      animation.stop()
+    }
+  }, [])
+
+  const rotateDeg: Animated.AnimatedInterpolation = rotate.interpolate({
+    inputRange: [0, 1],
+    outputRange: ['0deg', '360deg']
+  })
+
+  const loadingStyle = {
+    ...styles.loading,
+    transform: [{ rotate: rotateDeg }]
+  }
+  if (!hasSibling) {
+    loadingStyle.marginRight = 0
+  }
+
+  return (
+    <Animated.View testID='loading' style={loadingStyle}>
+      <Image
+        accessibilityLabel='loading image'
+        source={
+          type === 'warn' ? loadingWarnPng : ladingPng
+        }
+        style={styles.loadingImg}
+      />
+    </Animated.View>
+  )
+}
 
 class _Button extends React.Component<ButtonProps, ButtonState> {
+  static displayName = '_Button'
   static defaultProps = {
     size: 'default',
     type: 'default',
+    hoverStyle: { opacity: 0.8 },
     hoverStartTime: 20,
-    hoverStayTime: 70
+    hoverStayTime: 70,
+    disabled: false,
   }
 
   $touchable = React.createRef<TouchableWithoutFeedback>()
 
+  isTouchEnd = false
+  pressInTimer: number
+  pressOutTimer: number
+
   state: ButtonState = {
-    valve: new Animated.Value(0),
     isHover: false
   }
 
-  animate = (): void => {
-    if (!this.props.loading) return
-
-    Animated.sequence([
-      Animated.timing(this.state.valve, {
-        toValue: 1,
-        easing: Easing.linear,
-        duration: 1000
-      }),
-      Animated.timing(this.state.valve, {
-        toValue: 0,
-        duration: 0
-      })
-    ]).start(() => { this.animate() })
+  componentWillUnmount():void {
+    clearTimeout(this.pressOutTimer)
+    clearTimeout(this.pressInTimer)
   }
 
   onPress = (): void => {
@@ -81,29 +126,45 @@ class _Button extends React.Component<ButtonProps, ButtonState> {
   }
 
   onPressIn = (): void => {
-    this.setState({ isHover: true })
+    const { hoverStartTime, hoverStyle } = this.props
+    this.isTouchEnd = false
+    if (hoverStyle) {
+      this.pressInTimer = setTimeout(() => {
+        this.setState({ isHover: true }, () => {
+          if (this.isTouchEnd) {
+            // short press
+            this.stopHover()
+          }
+        })
+        clearTimeout(this.pressInTimer)
+      }, hoverStartTime)
+    }
+  }
+
+  stopHover = (): void => {
+    const { hoverStayTime } = this.props
+    this.pressOutTimer = setTimeout(() => {
+      this.setState({ isHover: false })
+      clearTimeout(this.pressOutTimer)
+    }, hoverStayTime)
   }
 
   onPressOut = (): void => {
-    this.setState({ isHover: false })
+    const { hoverStyle } = this.props
+    const { isHover } = this.state
+    this.isTouchEnd = true
+    if (hoverStyle && isHover) {
+      // long press or error boundary
+      this.stopHover()
+    }
   }
 
   _simulateNativePress = (evt: GestureResponderEvent): void => {
     const node = this.$touchable.current
-    node && node.touchableHandlePress(evt)
+    node && node.props.onPress && node.props.onPress(evt)
   }
 
-  componentDidMount () {
-    this.animate()
-  }
-
-  componentDidUpdate (prevProps: ButtonProps) {
-    if (!prevProps.loading && this.props.loading) {
-      this.animate()
-    }
-  }
-
-  render () {
+  render(): JSX.Element {
     const {
       style,
       children,
@@ -113,39 +174,36 @@ class _Button extends React.Component<ButtonProps, ButtonState> {
       disabled,
       loading,
       hoverStyle,
-      hoverStartTime,
-      hoverStayTime,
     } = this.props
 
     const isDefaultSize: boolean = size === 'default'
     const isDefaultType: boolean = type === 'default'
-    const themeColorMap: { default: string[], primary: string[], warn: string[] } = {
+    const themeColorMap: { default: string[]; primary: string[]; warn: string[] } = {
       default: ['#F8F8F8', '#f7f7f7'],
       primary: ['#1AAD19', '#9ED99D'],
-      warn: ['#E64340', '#EC8B89'],
+      warn: ['#E64340', '#EC8B89']
     }
     // Use themeColorMap normally as PLAIN is false (by default),
     // otherwise use rgb(53,53,53) for plain-default-type particularly.
-    const themeColor: string = plain && isDefaultType ? `rgba(53,53,53,${disabled ? 0.6 : 1})` : themeColorMap[type][disabled ? 1 : 0]
+    const themeColor: string =
+      plain && isDefaultType ? `rgba(53,53,53,${disabled ? 0.6 : 1})` : themeColorMap[type][disabled ? 1 : 0]
     const backgroundColor: string = plain ? 'transparent' : themeColor
     const borderStyle: StyleProp<ViewStyle> = plain && { borderWidth: 1, borderColor: themeColor }
     const textColor: string = plain
       ? themeColor
-      : (isDefaultType ? `rgba(0,0,0,${disabled ? 0.3 : 1})` : `rgba(255,255,255,${disabled ? 0.6 : 1})`)
-
-    const rotateDeg: Animated.AnimatedInterpolation = this.state.valve.interpolate({
-      inputRange: [0, 1],
-      outputRange: ['0deg', '360deg']
-    })
+      : isDefaultType
+        ? `rgba(0,0,0,${disabled ? 0.3 : 1})`
+        : `rgba(255,255,255,${disabled ? 0.6 : 1})`
+    const textHoverStyle = this.state.isHover ? extracteTextStyle(hoverStyle) : {}
 
     return (
       <TouchableWithoutFeedback
-        delayPressIn={hoverStartTime}
-        delayPressOut={hoverStayTime}
         onPress={this.onPress}
+        onLongPress={this.onPress}
         onPressIn={this.onPressIn}
         onPressOut={this.onPressOut}
         ref={this.$touchable}
+        disabled={disabled}
       >
         <View
           style={[
@@ -157,25 +215,19 @@ class _Button extends React.Component<ButtonProps, ButtonState> {
             this.state.isHover && hoverStyle
           ]}
         >
-          {loading && (
-            <Animated.View
-              style={[styles.loading, { transform: [{ rotate: rotateDeg }] }]}
-            >
-              <Image
-                source={type === 'warn' ? require('../../assets/loading-warn.png') : require('../../assets/loading.png')}
-                style={styles.loadingImg}
-              />
-            </Animated.View>)
-          }
-          {typeof children === 'string' ? <Text
-            style={[
-              styles.btnText,
-              !isDefaultSize && styles.btnTextMini,
-              { color: textColor }
-            ]}
-          >
-            {children}
-          </Text> : children}
+          {loading && <Loading hasSibling={!!React.Children.count(children)} type={type} />}
+          {
+            Array.isArray(children) ? (
+              children.map((c: never, i: number) => (
+                <Text key={i} style={[styles.btnText, !isDefaultSize && styles.btnTextMini, { color: textColor }, textHoverStyle]}>
+                  {c}
+                </Text>
+              ))
+            ) : (['string', 'number'].indexOf(typeof children) > -1) ? (
+              <Text style={[styles.btnText, !isDefaultSize && styles.btnTextMini, { color: textColor }, textHoverStyle]}>{children}</Text>
+            ) : (
+              children
+            )}
         </View>
       </TouchableWithoutFeedback>
     )

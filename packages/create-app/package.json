@@ -1,0 +1,36 @@
+{
+  "name": "@tarojs/create-app",
+  "version": "3.5.3",
+  "description": "create taro app with one command",
+  "author": "VincentW <Vincent.Mr.W@gmail.com>",
+  "homepage": "https://github.com/nervjs/taro/tree/master/packages/create-app#readme",
+  "license": "MIT",
+  "main": "./dist/index.js",
+  "scripts": {
+    "dev": "tsc -w",
+    "prod": "tsc",
+    "build": "npm run clean && npm run prod",
+    "clean": "rimraf dist"
+  },
+  "files": [
+    "dist"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NervJS/taro.git"
+  },
+  "bin": {
+    "create-app": "./dist/index.js"
+  },
+  "keywords": [
+    "taro",
+    "cli"
+  ],
+  "engines": {
+    "node": ">=12"
+  },
+  "dependencies": {
+    "@tarojs/cli": "workspace:*",
+    "minimist": "1.2.5"
+  }
+}

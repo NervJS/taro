@@ -6,10 +6,9 @@ export const globals = {
   hasCatchTrue: false
 }
 
+export const THIRD_PARTY_COMPONENTS = new Set<string>()
+
 export const resetGlobals = () => {
   globals.hasCatchTrue = false
-  // tslint:disable-next-line: no-use-before-declare
   THIRD_PARTY_COMPONENTS.clear()
 }
-
-export const THIRD_PARTY_COMPONENTS = new Set<string>()

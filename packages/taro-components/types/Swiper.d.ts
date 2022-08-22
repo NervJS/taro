@@ -63,15 +63,22 @@ interface SwiperProps extends StandardProps {
 
   /** 前边距，可用于露出前一项的一小部分，接受 px 和 rpx 值
    * @default "0px"
-   * @supported weapp, h5
+   * @supported weapp, h5, tt
    */
   previousMargin?: string
 
   /** 后边距，可用于露出后一项的一小部分，接受 px 和 rpx 值
    * @default "0px"
-   * @supported weapp, h5
+   * @supported weapp, h5, tt
    */
   nextMargin?: string
+
+  /**
+   * 当 swiper-item 的个数大于等于 2，关闭 circular 并且开启 previous-margin 或 next-margin 的时候，可以指定这个边距是否应用到第一个、最后一个元素
+   * @default false
+   * @supported weapp
+   */
+  snapToEdge?: boolean
 
   /** 同时显示的滑块数量
    * @default 1
@@ -87,24 +94,30 @@ interface SwiperProps extends StandardProps {
 
   /** 指定 swiper 切换缓动动画类型
    * @default "default"
-   * @supported weapp
+   * @supported weapp, tt
    */
   easingFunction?: keyof SwiperProps.TEasingFunction
 
   /** current 改变时会触发 change 事件
    * @supported weapp, swan, alipay, tt, h5, rn
    */
-  onChange?: CommonEventFunction<SwiperProps.onChangeEventDeatil>
+  onChange?: CommonEventFunction<SwiperProps.onChangeEventDetail>
 
   /** swiper-item 的位置发生改变时会触发 transition 事件
-   * @supported weapp
+   * @supported weapp, tt
    */
   onTransition?: CommonEventFunction<SwiperProps.onTransitionEventDetail>
 
   /** 动画结束时会触发 animationfinish 事件
-   * @supported weapp, swan, h5, rn
+   * @supported weapp, swan, h5, rn, tt
    */
   onAnimationFinish?: SwiperProps['onChange']
+
+  /** 是否禁止用户 touch 操作
+   * @default false
+   * @supported alipay
+   */
+  disableTouch?: boolean
 }
 
 declare namespace SwiperProps {
@@ -117,7 +130,7 @@ declare namespace SwiperProps {
     /** 其它原因 */
     ''
   }
-  
+
   /** 指定 swiper 切换缓动动画类型 */
   interface TEasingFunction {
     /** 默认缓动函数 */
@@ -132,11 +145,13 @@ declare namespace SwiperProps {
     easeInOutCubic
   }
 
-  interface onChangeEventDeatil {
+  interface onChangeEventDetail {
     /** 当前所在滑块的索引 */
     current: number
     /** 导致变更的原因 */
     source: keyof SwiperProps.TChangeSource
+    /** SwiperItem的itemId参数值 */
+    currentItemId?: string
   }
 
   interface onTransitionEventDetail {
@@ -148,9 +163,10 @@ declare namespace SwiperProps {
 }
 
 /** 滑块视图容器。其中只可放置 swiper-item 组件，否则会导致未定义的行为。
+ * > 不要为 `SwiperItem` 设置 **style** 属性，可以通过 class 设置样式。[7147](https://github.com/NervJS/taro/issues/7147)
  * @classification viewContainer
  * @supported weapp, swan, alipay, tt, h5, rn
- * @example
+ * @example_react
  * ```tsx
  * class App extends Component {
  *   render () {
@@ -176,6 +192,30 @@ declare namespace SwiperProps {
  *     )
  *   }
  * }
+ * ```
+ * @example_vue
+ * ```html
+ * <template>
+ *   <swiper
+ *     class='test-h'
+ *     indicator-color='#999'
+ *     indicator-active-color='#333'
+ *     :vertical="true"
+ *     :circular="true"
+ *     :indicator-dots="true"
+ *     :autoplay="true"
+ *   >
+ *     <swiper-item>
+ *       <view class='demo-text-1'>1</view>
+ *     </swiper-item>
+ *     <swiper-item>
+ *       <view class='demo-text-2'>2</view>
+ *     </swiper-item>
+ *     <swiper-item>
+ *       <view class='demo-text-3'>3</view>
+ *     </swiper-item>
+ *   </swiper>
+ * </template>
  * ```
  * @see https://developers.weixin.qq.com/miniprogram/dev/component/swiper.html
  */

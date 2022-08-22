@@ -9,10 +9,11 @@
 //     Zepto.js
 //     (c) 2010-2017 Thomas Fuchs
 //     Zepto.js may be freely distributed under the MIT license.
-import Taro from '@tarojs/taro'
 import { window } from '@tarojs/runtime'
-import { Sizzle } from './sizzle'
+import Taro from '@tarojs/taro'
+
 import { initEvent } from './event'
+import { Sizzle } from './sizzle'
 
 export const Zepto = (function () {
   let undefined; let key; let $; let classList; const emptyArray = []; const concat = emptyArray.concat; const filter = emptyArray.filter; const slice = emptyArray.slice
@@ -126,7 +127,7 @@ export const Zepto = (function () {
     if (!elementDisplay[nodeName]) {
       element = document.createElement(nodeName)
       document.body.appendChild(element)
-      display = getComputedStyle(element, '').getPropertyValue('display')
+      display = window.getComputedStyle(element, '').getPropertyValue('display')
       element.parentNode.removeChild(element)
       display == 'none' && (display = 'block')
       elementDisplay[nodeName] = display
@@ -566,7 +567,7 @@ export const Zepto = (function () {
     show: function () {
       return this.each(function () {
         this.style.display == 'none' && (this.style.display = '')
-        if (getComputedStyle(this, '').getPropertyValue('display') == 'none') { this.style.display = defaultDisplay(this.nodeName) }
+        if (window.getComputedStyle(this, '').getPropertyValue('display') == 'none') { this.style.display = defaultDisplay(this.nodeName) }
       })
     },
     replaceWith: function (newContent) {
@@ -711,14 +712,18 @@ export const Zepto = (function () {
       if (!this.length) return null
       if (document.documentElement !== this[0] && !$.contains(document.documentElement, this[0])) { return { top: 0, left: 0 } }
       if (!isBrowser) {
-        return new Promise((resolve) => {
-          Taro.createSelectorQuery().select('#' + this[0].uid).boundingClientRect(function (rect) {
-            resolve({
-              left: rect.left,
-              top: rect.top,
-              width: rect.height,
-              height: rect.height
-            })
+        return new Promise((resolve, reject) => {
+          Taro.createSelectorQuery().select('#' + this[0].uid).boundingClientRect(rect => {
+            if (!rect) {
+              reject(new Error('offset error: ' + '#' + this[0].uid + ' query fail'))
+            } else {
+              resolve({
+                left: rect.left,
+                top: rect.top,
+                width: rect.width,
+                height: rect.height
+              })
+            }
           }).exec()
         })
       }
@@ -738,11 +743,11 @@ export const Zepto = (function () {
         const element = this[0]
         if (typeof property === 'string') {
           if (!element) return
-          return element.style[camelize(property)] || getComputedStyle(element, '').getPropertyValue(property)
+          return element.style[camelize(property)] || window.getComputedStyle(element, '').getPropertyValue(property)
         } else if (isArray(property)) {
           if (!element) return
           const props = {}
-          const computedStyle = getComputedStyle(element, '')
+          const computedStyle = window.getComputedStyle(element, '')
           $.each(property, function (_, prop) {
             props[prop] = (element.style[camelize(prop)] || computedStyle.getPropertyValue(prop))
           })
@@ -847,22 +852,24 @@ export const Zepto = (function () {
       // Get correct offsets
       const offset = this.offset()
       const parentOffset = rootNodeRE.test(offsetParent[0].nodeName) ? { top: 0, left: 0 } : offsetParent.offset()
+      if (!offset) return
+      return offset.then(offsetValue => {
+        // Subtract element margins
+        // note: when an element has margin: auto the offsetLeft and marginLeft
+        // are the same in Safari causing offset.left to incorrectly be 0
+        offsetValue.top -= parseFloat($(elem).css('margin-top')) || 0
+        offsetValue.left -= parseFloat($(elem).css('margin-left')) || 0
 
-      // Subtract element margins
-      // note: when an element has margin: auto the offsetLeft and marginLeft
-      // are the same in Safari causing offset.left to incorrectly be 0
-      offset.top -= parseFloat($(elem).css('margin-top')) || 0
-      offset.left -= parseFloat($(elem).css('margin-left')) || 0
+        // Add offsetParent borders
+        parentOffset.top += parseFloat($(offsetParent[0]).css('border-top-width')) || 0
+        parentOffset.left += parseFloat($(offsetParent[0]).css('border-left-width')) || 0
 
-      // Add offsetParent borders
-      parentOffset.top += parseFloat($(offsetParent[0]).css('border-top-width')) || 0
-      parentOffset.left += parseFloat($(offsetParent[0]).css('border-left-width')) || 0
-
-      // Subtract the two offsets
-      return {
-        top: offset.top - parentOffset.top,
-        left: offset.left - parentOffset.left
-      }
+        // Subtract the two offsets
+        return {
+          top: offsetValue.top - parentOffset.top,
+          left: offsetValue.left - parentOffset.left
+        }
+      })
     },
     offsetParent: function () {
       return this.map(function () {
@@ -886,12 +893,14 @@ export const Zepto = (function () {
       if (value === undefined) {
         if (isBrowser) {
           let v
-          if (isWindow) {
+          if (isWindow(el)) {
             v = el['inner' + dimensionProperty]
-          } else if (isDocument) {
+          } else if (isDocument(el)) {
             v = el.documentElement['scroll' + dimensionProperty]
           }
-          return Promise.resolve(v)
+          if (typeof v !== 'undefined') {
+            return Promise.resolve(v)
+          }
         }
         return this.offset().then(rect => rect[dimension])
       } else {

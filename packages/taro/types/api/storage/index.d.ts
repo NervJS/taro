@@ -1,27 +1,17 @@
-declare namespace Taro {
-  /** Taro.setStorage 的同步版本
-   * @supported weapp, h5
-   * @example
-   * ```tsx
-   * Taro.setStorage({
-   *   key:"key",
-   *   data:"value"
-   * })
-   * ```
-   * @example
-   * ```tsx
-   * try {
-   *   Taro.setStorageSync('key', 'value')
-   * } catch (e) { }
-   * ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/storage/wx.setStorageSync.html
-   */
-  function setStorageSync(
-    /** 本地缓存中指定的 key */
-    key: string,
-    /** 需要存储的内容。只支持原生类型、Date、及能够通过`JSON.stringify`序列化的对象。 */
-    data: any,
-  ): void
+import Taro from '../../index'
+
+declare module '../../index' {
+  /** @ignore */
+  type TypedArray =
+    | Int8Array
+    | Uint8Array
+    | Uint8ClampedArray
+    | Int16Array
+    | Uint16Array
+    | Int32Array
+    | Uint32Array
+    | Float32Array
+    | Float64Array
 
   namespace setStorage {
     interface Option {
@@ -30,135 +20,26 @@ declare namespace Taro {
       /** 本地缓存中指定的 key */
       key: string
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
-      complete?: (res: General.CallbackResult) => void
+      complete?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用失败的回调函数 */
-      fail?: (res: General.CallbackResult) => void
+      fail?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用成功的回调函数 */
-      success?: (res: General.CallbackResult) => void
+      success?: (res: TaroGeneral.CallbackResult) => void
     }
   }
-
-  /** 将数据存储在本地缓存中指定的 key 中。会覆盖掉原来该 key 对应的内容。除非用户主动删除或因存储空间原因被系统清理，否则数据都一直可用。单个 key 允许存储的最大数据长度为 1MB，所有数据存储上限为 10MB。
-   * @supported weapp, h5, rn
-   * @example
-   * ```tsx
-   * Taro.setStorage({
-   *   key:"key",
-   *   data:"value"
-   * })
-   * ```
-   * ```tsx
-   * try {
-   *   Taro.setStorageSync('key', 'value')
-   * } catch (e) { }
-   * ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/storage/wx.setStorage.html
-   */
-  function setStorage(option: setStorage.Option): Promise<General.CallbackResult>
-
-  /**
-   * 从本地缓存中同步移除指定 key 。
-   * @supported weapp, h5
-   * @example
-   * ```tsx
-   * try {
-   *   Taro.removeStorageSync('key')
-   * } catch (e) {
-   *   // Do something when catch error
-   * }
-   * ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/storage/wx.removeStorageSync.html
-   */
-  function removeStorageSync(key: string): void
-
-  /** Taro.removeStorage 的同步版本
-   * @example
-   * ```tsx
-   * Taro.removeStorage({
-   *   key: 'key',
-   *   success: function (res) {
-   *     console.log(res)
-   *   }
-   * })
-   * ```
-   *
-   * ```tsx
-   * try {
-   *   Taro.removeStorageSync('key')
-   * } catch (e) {
-   *   // Do something when catch error
-   * }
-   * ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/storage/wx.removeStorageSync.html
-   */
-  function removeStorageSync(
-    /** 本地缓存中指定的 key */
-    key: string,
-  ): void
 
   namespace removeStorage {
     interface Option {
       /** 本地缓存中指定的 key */
       key: string
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
-      complete?: (res: General.CallbackResult) => void
+      complete?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用失败的回调函数 */
-      fail?: (res: General.CallbackResult) => void
+      fail?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用成功的回调函数 */
-      success?: (res: General.CallbackResult) => void
+      success?: (res: TaroGeneral.CallbackResult) => void
     }
   }
-  /** 从本地缓存中移除指定 key
-   * @supported weapp, h5, rn
-   * @example
-   * ```tsx
-   * Taro.removeStorage({
-   *   key: 'key',
-   *   success: function (res) {
-   *     console.log(res)
-   *   }
-   * })
-   * ```
-   *
-   * ```tsx
-   * try {
-   *   Taro.removeStorageSync('key')
-   * } catch (e) {
-   *   // Do something when catch error
-   * }
-   * ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/storage/wx.removeStorage.html
-   */
-  function removeStorage(option: removeStorage.Option): Promise<General.CallbackResult>
-
-  /** Taro.getStorage 的同步版本
-   * @supported weapp, h5
-   * @example
-   * ```tsx
-   * Taro.getStorage({
-   *   key: 'key',
-   *   success: function (res) {
-   *     console.log(res.data)
-   *   }
-   * })
-   * ```
-   *
-   * ```tsx
-   * try {
-   *   var value = Taro.getStorageSync('key')
-   *   if (value) {
-   *     // Do something with return value
-   *   }
-   * } catch (e) {
-   *   // Do something when catch error
-   * }
-   * ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/storage/wx.getStorageSync.html
-   */
-  function getStorageSync(
-    /** 本地缓存中指定的 key */
-    key: string,
-  ): any
 
   namespace getStorageInfoSync {
     interface Option {
@@ -171,39 +52,12 @@ declare namespace Taro {
     }
   }
 
-  /** Taro.getStorageInfo 的同步版本
-   * @supported weapp, h5
-   * @example
-   * ```tsx
-   * Taro.getStorageInfo({
-   *   success: function (res) {
-   *     console.log(res.keys)
-   *     console.log(res.currentSize)
-   *     console.log(res.limitSize)
-   *   }
-   * })
-   * ```
-   *
-   * ```tsx
-   * try {
-   *   const res = Taro.getStorageInfoSync()
-   *   console.log(res.keys)
-   *   console.log(res.currentSize)
-   *   console.log(res.limitSize)
-   * } catch (e) {
-   *   // Do something when catch error
-   * }
-   * ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/storage/wx.getStorageInfoSync.html
-   */
-  function getStorageInfoSync(): getStorageInfoSync.Option
-
   namespace getStorageInfo {
     interface Option {
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
-      complete?: (res: General.CallbackResult) => void
+      complete?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用失败的回调函数 */
-      fail?: (res: General.CallbackResult) => void
+      fail?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用成功的回调函数 */
       success?: (option: SuccessCallbackOption) => void
     }
@@ -218,122 +72,219 @@ declare namespace Taro {
     }
   }
 
-  /** 异步获取当前storage的相关信息
-   * @supported weapp, h5, rn
-   * @example
-   * ```tsx
-   * Taro.getStorageInfo({
-   *   success: function (res) {
-   *     console.log(res.keys)
-   *     console.log(res.currentSize)
-   *     console.log(res.limitSize)
-   *   }
-   * })
-   * ```
-   *
-   * ```tsx
-   * try {
-   *   const res = Taro.getStorageInfoSync()
-   *   console.log(res.keys)
-   *   console.log(res.currentSize)
-   *   console.log(res.limitSize)
-   * } catch (e) {
-   *   // Do something when catch error
-   * }
-   * ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/storage/wx.getStorageInfo.html
-   */
-  function getStorageInfo(option?: getStorageInfo.Option): Promise<General.CallbackResult>
-
   namespace getStorage {
-    interface Option {
+    interface Option<T> {
       /** 本地缓存中指定的 key */
       key: string
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
-      complete?: (res: General.CallbackResult) => void
+      complete?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用失败的回调函数 */
-      fail?: (res: General.CallbackResult) => void
+      fail?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用成功的回调函数 */
-      success?: (result: SuccessCallbackResult) => void
+      success?: (result: SuccessCallbackResult<T>) => void
     }
-    interface SuccessCallbackResult extends General.CallbackResult {
+    interface SuccessCallbackResult<T> extends TaroGeneral.CallbackResult {
       /** key对应的内容 */
-      data: any
+      data: T
       /** 调用结果 */
       errMsg: string
     }
   }
 
-  /** 从本地缓存中异步获取指定 key 的内容
-   * @supported weapp, h5, rn
-   * @example
-   * ```tsx
-   * Taro.getStorage({
-   *   key: 'key',
-   *   success: function (res) {
-   *     console.log(res.data)
-   *   }
-   * })
-   * ```
-   *
-   * ```tsx
-   * try {
-   *   var value = Taro.getStorageSync('key')
-   *   if (value) {
-   *     // Do something with return value
-   *   }
-   * } catch (e) {
-   *   // Do something when catch error
-   * }
-   * ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/storage/wx.getStorage.html
-   */
-  function getStorage(option: getStorage.Option): Promise<getStorage.SuccessCallbackResult>
-
-  /** Taro.clearStorage 的同步版本
-   * @supported weapp, h5
-   * @example
-   * ```tsx
-   * Taro.clearStorage()
-   * ```
-   *
-   * ```tsx
-   * try {
-   *   Taro.clearStorageSync()
-   * } catch(e) {
-   * // Do something when catch error
-   * }
-   * ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/storage/wx.clearStorageSync.html
-   */
-  function clearStorageSync(): void
-
   namespace clearStorage {
     interface Option {
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
-      complete?: (res: General.CallbackResult) => void
+      complete?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用失败的回调函数 */
-      fail?: (res: General.CallbackResult) => void
+      fail?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用成功的回调函数 */
-      success?: (res: General.CallbackResult) => void
+      success?: (res: TaroGeneral.CallbackResult) => void
     }
   }
 
-  /** 清理本地数据缓存
-   * @supported weapp, h5, rn
-   * @example
-   * ```tsx
-   * Taro.clearStorage()
-   * ```
-   *
-   * ```tsx
-   * try {
-   *   Taro.clearStorageSync()
-   * } catch(e) {
-   *   // Do something when catch error
-   * }
-   * ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/storage/wx.clearStorage.html
-   */
-  function clearStorage(option?: clearStorage.Option): Promise<General.CallbackResult>
+  interface TaroStatic {
+    /** Taro.setStorage 的同步版本
+     * @supported weapp, h5, tt
+     * @example
+     * ```tsx
+     * Taro.setStorage({
+     *   key:"key",
+     *   data:"value"
+     * })
+     * ```
+     * @example
+     * ```tsx
+     * try {
+     *   Taro.setStorageSync('key', 'value')
+     * } catch (e) { }
+     * ```
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/storage/wx.setStorageSync.html
+     */
+    setStorageSync(
+      /** 本地缓存中指定的 key */
+      key: string,
+      /** 需要存储的内容。只支持原生类型、Date、及能够通过`JSON.stringify`序列化的对象。 */
+      data: any,
+    ): void
+
+    /** 将数据存储在本地缓存中指定的 key 中。会覆盖掉原来该 key 对应的内容。除非用户主动删除或因存储空间原因被系统清理，否则数据都一直可用。单个 key 允许存储的最大数据长度为 1MB，所有数据存储上限为 10MB。
+     * @supported weapp, h5, rn, tt
+     * @example
+     * ```tsx
+     * Taro.setStorage({
+     *   key:"key",
+     *   data:"value"
+     * })
+     * ```
+     * ```tsx
+     * try {
+     *   Taro.setStorageSync('key', 'value')
+     * } catch (e) { }
+     * ```
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/storage/wx.setStorage.html
+     */
+    setStorage(option: setStorage.Option): Promise<TaroGeneral.CallbackResult>
+
+    /** 根据 URL 销毁存在内存中的数据
+     * @supported weapp
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/storage/wx.revokeBufferURL.html
+     */
+    revokeBufferURL(
+      /** 需要销毁的二进制数据 URL */
+      url: string
+    ): void
+
+    /** Taro.removeStorage 的同步版本
+     * @supported weapp, h5, tt
+     * @example
+     * ```tsx
+     * try {
+     *   Taro.removeStorageSync('key')
+     * } catch (e) {
+     *   // Do something when catch error
+     * }
+     * ```
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/storage/wx.removeStorageSync.html
+     */
+    removeStorageSync(
+      /** 本地缓存中指定的 key */
+      key: string,
+    ): void
+
+    /** 从本地缓存中移除指定 key
+     * @supported weapp, h5, rn, tt
+     * @example
+     * ```tsx
+     * Taro.removeStorage({
+     *   key: 'key',
+     *   success: function (res) {
+     *     console.log(res)
+     *   }
+     * })
+     * ```
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/storage/wx.removeStorage.html
+     */
+    removeStorage(option: removeStorage.Option): Promise<TaroGeneral.CallbackResult>
+
+    /** Taro.getStorage 的同步版本
+     * @supported weapp, h5, tt
+     * @example
+     * ```tsx
+     * try {
+     *   var value = Taro.getStorageSync('key')
+     *   if (value) {
+     *     // Do something with return value
+     *   }
+     * } catch (e) {
+     *   // Do something when catch error
+     * }
+     * ```
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/storage/wx.getStorageSync.html
+     */
+    getStorageSync<T = any>(
+      /** 本地缓存中指定的 key */
+      key: string,
+    ): T
+
+    /** Taro.getStorageInfo 的同步版本
+     * @supported weapp, h5, rn, tt
+     * @example
+     * ```tsx
+     * try {
+     *   const res = Taro.getStorageInfoSync()
+     *   console.log(res.keys)
+     *   console.log(res.currentSize)
+     *   console.log(res.limitSize)
+     * } catch (e) {
+     *   // Do something when catch error
+     * }
+     * ```
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/storage/wx.getStorageInfoSync.html
+     */
+    getStorageInfoSync(): getStorageInfoSync.Option
+
+    /** 异步获取当前storage的相关信息
+     * @supported weapp, h5, rn, tt
+     * @example
+     * ```tsx
+     * Taro.getStorageInfo({
+     *   success: function (res) {
+     *     console.log(res.keys)
+     *     console.log(res.currentSize)
+     *     console.log(res.limitSize)
+     *   }
+     * })
+     * ```
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/storage/wx.getStorageInfo.html
+     */
+    getStorageInfo(option?: getStorageInfo.Option): Promise<TaroGeneral.CallbackResult>
+
+    /** 从本地缓存中异步获取指定 key 的内容
+     * @supported weapp, h5, rn, tt
+     * @example
+     * ```tsx
+     * Taro.getStorage({
+     *   key: 'key',
+     *   success: function (res) {
+     *     console.log(res.data)
+     *   }
+     * })
+     * ```
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/storage/wx.getStorage.html
+     */
+    getStorage<T = any>(option: getStorage.Option<T>): Promise<getStorage.SuccessCallbackResult<T>>
+
+    /** 根据传入的 buffer 创建一个唯一的 URL 存在内存中
+     * @supported weapp
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/storage/wx.createBufferURL.html
+     */
+    createBufferURL(
+      /** 需要存入内存的二进制数据 */
+      buffer: ArrayBuffer | TypedArray
+    ): void
+
+    /** Taro.clearStorage 的同步版本
+     * @supported weapp, h5, tt
+     * @example
+     * ```tsx
+     * try {
+     *   Taro.clearStorageSync()
+     * } catch(e) {
+     * // Do something when catch error
+     * }
+     * ```
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/storage/wx.clearStorageSync.html
+     */
+    clearStorageSync(): void
+
+    /** 清理本地数据缓存
+     * @supported weapp, h5, rn, tt
+     * @example
+     * ```tsx
+     * Taro.clearStorage()
+     * ```
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/storage/wx.clearStorage.html
+     */
+    clearStorage(option?: clearStorage.Option): Promise<TaroGeneral.CallbackResult>
+  }
 }

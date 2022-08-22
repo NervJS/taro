@@ -1,18 +1,14 @@
-import { Shortcuts, noop, isString, isObject, isFunction } from '@tarojs/shared'
-
-import { NodeVM } from 'vm2'
-import { omitBy } from 'lodash'
-import * as webpack from 'webpack'
+import { isFunction, isObject, isString, noop, Shortcuts } from '@tarojs/shared'
+import type { IAdapter } from '@tarojs/shared/dist/template'
 import * as fs from 'fs'
 import { join } from 'path'
-import { IBuildConfig } from '../utils/types'
-import { Adapter } from '../template/adapters'
-import { printPrerenderSuccess, printPrerenderFail } from '../utils/logHelper'
-import { Attributes } from '../template'
+import type { NodeVM } from 'vm2'
+import * as webpack from 'webpack'
 
-const { JSDOM } = require('jsdom')
-const wx = require('miniprogram-simulate/src/api')
-const micromatch = require('micromatch')
+import { printPrerenderFail, printPrerenderSuccess } from '../utils/logHelper'
+import type { IBuildConfig } from '../utils/types'
+
+type Attributes = Record<string, string>
 
 function unquote (str: string) {
   const car = str.charAt(0)
@@ -45,7 +41,8 @@ interface MiniData {
   [Shortcuts.Class]?: string
   [Shortcuts.Style]?: string
   [Shortcuts.Text]?: string
-  uid: string
+  sid: string
+  uid?: string
 }
 
 interface PageConfig {
@@ -73,6 +70,7 @@ export function validatePrerenderPages (pages: string[], config?: PrerenderConfi
   const { include = [], exclude = [], match } = config
 
   if (match) {
+    const micromatch = require('micromatch')
     pageConfigs = micromatch(pages, match)
       .filter((p: string) => !p.includes('.config'))
       .map((p: string) => ({ path: p, params: {} }))
@@ -111,14 +109,17 @@ export class Prerender {
   private stat: webpack.Stats.ToJsonOutput
   private vm: NodeVM
   private appLoaded = false
+  private adapter: IAdapter
 
-  public constructor (buildConfig: IBuildConfig, webpackConfig: webpack.Configuration, stat: webpack.Stats) {
+  public constructor (buildConfig: IBuildConfig, webpackConfig: webpack.Configuration, stat: webpack.Stats, adapter) {
+    const VM = require('vm2').NodeVM
     this.buildConfig = buildConfig
     this.outputPath = webpackConfig.output!.path!
     this.globalObject = webpackConfig.output!.globalObject!
     this.prerenderConfig = buildConfig.prerender!
     this.stat = stat.toJson()
-    this.vm = new NodeVM({
+    this.adapter = adapter
+    this.vm = new VM({
       console: this.prerenderConfig.console ? 'inherit' : 'off',
       require: {
         external: true,
@@ -169,6 +170,8 @@ export class Prerender {
   }
 
   private buildSandbox () {
+    const { JSDOM } = require('jsdom')
+    const wx = require('miniprogram-simulate/src/api')
     const Page = (config: unknown) => config
     const App = (config: unknown) => config
     const dom = new JSDOM()
@@ -196,10 +199,18 @@ export class Prerender {
   }
 
   private renderToXML = (data: MiniData) => {
-    const nodeName = data[Shortcuts.NodeName]
+    let nodeName = data[Shortcuts.NodeName]
 
     if (nodeName === '#text') {
       return data[Shortcuts.Text]
+    }
+
+    if (nodeName === 'static-view' || nodeName === 'pure-view') {
+      nodeName = 'view'
+    } else if (nodeName === 'static-text') {
+      nodeName = 'text'
+    } else if (nodeName === 'static-image') {
+      nodeName = 'image'
     }
 
     // eslint-disable-next-line dot-notation
@@ -209,14 +220,16 @@ export class Prerender {
 
     const style = data[Shortcuts.Style]
     const klass = data[Shortcuts.Class]
+    const id = data.uid || data.sid
     const children = data[Shortcuts.Childnodes] ?? []
 
+    const omitBy = require('lodash').omitBy
     const attrs = omitBy(data, (_, key) => {
-      const internal = [Shortcuts.NodeName, Shortcuts.Childnodes, Shortcuts.Class, Shortcuts.Style, Shortcuts.Text, 'uid']
+      const internal = [Shortcuts.NodeName, Shortcuts.Childnodes, Shortcuts.Class, Shortcuts.Style, Shortcuts.Text, 'uid', 'sid']
       return internal.includes(key) || key.startsWith('data-')
     })
 
-    return `<${nodeName}${style ? ` style="${style}"` : ''}${klass ? ` class="${klass}"` : ''} ${this.buildAttributes(attrs as Attributes)}>${children.map(this.renderToXML).join('')}</${nodeName}>`
+    return `<${nodeName}${style ? ` style="${style}"` : ''}${klass ? ` class="${klass}"` : ''}${id ? ` id="${id}"` : ''} ${this.buildAttributes(attrs as Attributes)}>${children.map(this.renderToXML).join('')}</${nodeName}>`
   }
 
   private async writeXML (config: PageConfig): Promise<void> {
@@ -236,10 +249,10 @@ export class Prerender {
     const [importTemplate, template] = fs.readFileSync(templatePath, 'utf-8').split('\n')
 
     let str = `${importTemplate}\n`
-    str += `<block ${Adapter.if}="{{root.uid}}">\n`
+    str += `<block ${this.adapter.if}="{{root.uid}}">\n`
     str += `  ${template}\n`
     str += '</block>\n'
-    str += `<block ${Adapter.else}>\n`
+    str += `<block ${this.adapter.else}>\n`
     str += `${xml}\n`
     str += '</block>'
     fs.writeFileSync(templatePath, str, 'utf-8')
@@ -250,7 +263,7 @@ export class Prerender {
     return new Promise((resolve) => {
       const s = `
       if (typeof PRERENDER !== 'undefined') {
-        module.exports = global._prerender
+        module.exports = ${this.globalObject}._prerender
       }`
       fs.appendFile(path, s, 'utf8', () => {
         resolve()

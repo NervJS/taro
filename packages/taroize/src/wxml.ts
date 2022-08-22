@@ -1,15 +1,17 @@
 /* eslint-disable camelcase */
-import { parse } from 'himalaya-wxml'
-import * as t from 'babel-types'
-import { camelCase, cloneDeep } from 'lodash'
 import traverse, { NodePath, Visitor } from 'babel-traverse'
-import { buildTemplate, DEFAULT_Component_SET, buildImportStatement, buildBlockElement, parseCode, codeFrameError, isValidVarName } from './utils'
-import { specialEvents } from './events'
-import { parseTemplate, parseModule } from './template'
-import { usedComponents, errors, globals, THIRD_PARTY_COMPONENTS } from './global'
-import { reserveKeyWords } from './constant'
+import * as t from 'babel-types'
 import { parse as parseFile } from 'babylon'
+import { parse } from 'himalaya-wxml'
+import { camelCase, cloneDeep } from 'lodash'
+
 import { getCacheWxml, saveCacheWxml } from './cache'
+import { reserveKeyWords } from './constant'
+import { specialEvents } from './events'
+import { errors, globals, THIRD_PARTY_COMPONENTS, usedComponents } from './global'
+import { parseModule, parseTemplate } from './template'
+import { buildBlockElement, buildImportStatement, buildTemplate, codeFrameError, DEFAULT_Component_SET, isValidVarName, parseCode } from './utils'
+
 const { prettyPrint } = require('html')
 
 const allCamelCase = (str: string) =>
@@ -67,8 +69,8 @@ export type AttrValue =
   | null
 
 export interface Imports {
-  ast: t.File,
-  name: string,
+  ast: t.File
+  name: string
   wxs?: boolean
 }
 
@@ -122,14 +124,25 @@ export const createWxmlVistor = (
     const jsx = path.findParent(p => p.isJSXElement()) as NodePath<
     t.JSXElement
     >
+
+    // 把 hidden 转换为 wxif
+    if (name.name === 'hidden') {
+      const value = path.get('value') as NodePath<t.JSXExpressionContainer>
+      if (t.isJSXExpressionContainer(value)) {
+        const exclamation = t.unaryExpression('!', value.node.expression)
+        path.set('value', t.jSXExpressionContainer(exclamation))
+        path.set('name', t.jSXIdentifier(WX_IF))
+      }
+    }
+
     const valueCopy = cloneDeep(path.get('value').node)
     transformIf(name.name, path, jsx, valueCopy)
     const loopItem = transformLoop(name.name, path, jsx, valueCopy)
     if (loopItem) {
-      if (loopItem.index) {
+      if (loopItem.index && !refIds.has(loopItem.index)) {
         loopIds.add(loopItem.index)
       }
-      if (loopItem.item) {
+      if (loopItem.item && !refIds.has(loopItem.item)) {
         loopIds.add(loopItem.item)
       }
     }
@@ -176,7 +189,7 @@ export const createWxmlVistor = (
           JSXAttribute: jsxAttrVisitor,
           JSXIdentifier: renameJSXKey
         })
-        const slotAttr = attrs.find(a => a.node.name.name === 'slot')
+        const slotAttr = attrs.find(a => a.node?.name.name === 'slot')
         if (slotAttr) {
           const slotValue = slotAttr.node.value
           if (slotValue && t.isStringLiteral(slotValue)) {
@@ -483,6 +496,20 @@ function transformLoop (
         }
       })
 
+    jsx
+      .get('openingElement')
+      .get('attributes')
+      .forEach(p => {
+        const node = p.node
+        if (node.name.name === WX_KEY && t.isStringLiteral(node.value)) {
+          if (node.value.value === '*this') {
+            node.value = t.jSXExpressionContainer(t.identifier(item.value))
+          } else {
+            node.value = t.jSXExpressionContainer(t.memberExpression(t.identifier(item.value), t.identifier(node.value.value)))
+          }
+        }
+      })
+
     const replacement = t.jSXExpressionContainer(
       t.callExpression(
         t.memberExpression(value.expression, t.identifier('map')),
@@ -530,7 +557,6 @@ function transformIf (
     return
   }
   if (value === null || !t.isJSXExpressionContainer(value)) {
-    // tslint:disable-next-line
     console.error('wx:if 的值需要用双括号 `{{}}` 包裹它的值')
     if (value && t.isStringLiteral(value)) {
       value = t.jSXExpressionContainer(buildTemplate(value.value))
@@ -599,7 +625,6 @@ function handleConditions (conditions: Condition[]) {
       conditions[0].path.replaceWith(t.jSXExpressionContainer(node))
       conditions.slice(1).forEach(c => c.path.remove())
     } catch (error) {
-      // tslint:disable-next-line
       console.error('wx:elif 的值需要用双括号 `{{}}` 包裹它的值')
     }
   }
@@ -607,8 +632,8 @@ function handleConditions (conditions: Condition[]) {
 
 function findWXIfProps (
   jsx: NodePath<t.Node>
-): { reg: RegExpMatchArray; tester: AttrValue } | null {
-  let matches: { reg: RegExpMatchArray; tester: AttrValue } | null = null
+): { reg: RegExpMatchArray, tester: AttrValue } | null {
+  let matches: { reg: RegExpMatchArray, tester: AttrValue } | null = null
   jsx &&
     jsx.isJSXElement() &&
     jsx
@@ -666,10 +691,20 @@ function parseElement (element: Element): t.JSXElement {
         if (content.type === 'expression') {
           isSpread = true
           const str = content.content
+          const strLastIndex = str.length - 1
           if (str.includes('...') && str.includes(',')) {
-            attr.value = `{{${str.slice(1, str.length - 1)}}}`
+            attr.value = `{{${str.slice(1, strLastIndex)}}}`
           } else {
-            attr.value = `{{${str.slice(str.includes('...') ? 4 : 1, str.length - 1)}}}`
+            if (str.includes('...')) {
+              // (...a) => {{a}}
+              attr.value = `{{${str.slice(4, strLastIndex)}}}`
+            } else if (/^\(([A-Za-z]+)\)$/.test(str)) {
+              // (a) => {{a:a}}
+              attr.value = `{{${str.replace(/^\(([A-Za-z]+)\)$/, '$1:$1')}}}`
+            } else {
+              // (a:'a') => {{a:'a'}}
+              attr.value = `{{${str.slice(1, strLastIndex)}}}`
+            }
           }
         } else {
           attr.value = content.content
@@ -731,7 +766,6 @@ export function parseContent (content: string, single = false): { type: 'raw' | 
   let match
   let index
   let tokenValue
-  // tslint:disable-next-line
   while ((match = handlebarsRE.exec(content))) {
     index = match.index
     // push text token
@@ -789,7 +823,6 @@ function parseAttribute (attr: Attribute) {
         }
       }
       if (t.isThisExpression(expr)) {
-        // tslint:disable-next-line
         console.error('在参数中使用 `this` 可能会造成意想不到的结果，已将此参数修改为 `__placeholder__`，你可以在转换后的代码查找这个关键字修改。')
         expr = t.stringLiteral('__placeholder__')
       }
@@ -798,17 +831,26 @@ function parseAttribute (attr: Attribute) {
   }
 
   const jsxKey = handleAttrKey(key)
-  if (/^on[A-Z]/.test(jsxKey) && jsxValue && t.isStringLiteral(jsxValue)) {
+  if (/^on[A-Z]/.test(jsxKey) && !(/^catch/.test(key)) && jsxValue && t.isStringLiteral(jsxValue)) {
     jsxValue = t.jSXExpressionContainer(
       t.memberExpression(t.thisExpression(), t.identifier(jsxValue.value))
     )
   }
 
-  if (key.startsWith('catch') && value && (value === 'true' || value.trim() === '')) {
-    jsxValue = t.jSXExpressionContainer(
-      t.memberExpression(t.thisExpression(), t.identifier('privateStopNoop'))
-    )
-    globals.hasCatchTrue = true
+  if (key.startsWith('catch') && value) {
+    if (value === 'true' || value.trim() === '') {
+      jsxValue = t.jSXExpressionContainer(
+        t.memberExpression(t.thisExpression(), t.identifier('privateStopNoop'))
+      )
+      globals.hasCatchTrue = true
+    } else if (t.isStringLiteral(jsxValue)) {
+      jsxValue = t.jSXExpressionContainer(
+        t.callExpression(
+          t.memberExpression(t.memberExpression(t.thisExpression(), t.identifier('privateStopNoop')), t.identifier('bind')),
+          [t.thisExpression(), t.memberExpression(t.thisExpression(), t.identifier(jsxValue.value))]
+        )
+      )
+    }
   }
   return t.jSXAttribute(t.jSXIdentifier(jsxKey), jsxValue)
 }

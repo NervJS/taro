@@ -32,19 +32,21 @@ import {
 import styles from './styles'
 import { ProgressProps, ProgressState } from './PropsType'
 
-class _Progress extends React.Component<ProgressProps, ProgressState> {
+export default class _Progress extends React.Component<ProgressProps, ProgressState> {
   static defaultProps = {
     percent: 0,
     strokeWidth: 6,
     activeColor: '#09BB07',
     backgroundColor: '#EBEBEB',
     activeMode: 'backwards',
+    borderRadius: 0,
   }
 
-  static getDerivedStateFromProps (props: ProgressProps, state: ProgressState) {
+  static getDerivedStateFromProps(props: ProgressProps, state: ProgressState): ProgressState | null {
     return props.percent !== state.percent ? {
       percent: props.percent,
-      prevPercent: state.percent
+      prevPercent: state.percent,
+      valve: state.valve
     } : null
   }
 
@@ -56,54 +58,58 @@ class _Progress extends React.Component<ProgressProps, ProgressState> {
 
   animate = (): void => {
     const { active, activeMode } = this.props
-    const { percent, prevPercent } = this.state
+    const { percent, prevPercent, valve } = this.state
     const toValve = percent / 100
 
     if (!active || (activeMode !== 'backwards' && activeMode !== 'forwards')) {
-      Animated.timing(this.state.valve, {
+      Animated.timing(valve, {
         toValue: toValve,
-        duration: 0
+        duration: 0,
+        useNativeDriver: false
       }).start()
       return
     }
 
-    const sequence = []
+    const sequence: Animated.CompositeAnimation[] = []
     const duration = (activeMode === 'forwards' ? Math.abs(percent - prevPercent) : percent) / 100 * 1000
 
     if (activeMode === 'backwards') {
-      sequence.push(Animated.timing(this.state.valve, {
+      sequence.push(Animated.timing(valve, {
         toValue: 0,
-        duration: 0
+        duration: 0,
+        useNativeDriver: false
       }))
     }
-    sequence.push(Animated.timing(this.state.valve, {
+    sequence.push(Animated.timing(valve, {
       toValue: toValve,
       easing: Easing.linear,
-      duration
+      duration,
+      useNativeDriver: false
     }))
 
     Animated.sequence(sequence).start()
   }
 
-  componentDidMount () {
+  componentDidMount(): void {
     this.animate()
   }
 
-  getSnapshotBeforeUpdate (prevProps: ProgressProps, prevState: ProgressState) {
+  getSnapshotBeforeUpdate(_prevProps: ProgressProps, prevState: ProgressState): boolean {
     return prevState.percent !== this.state.percent
   }
 
-  componentDidUpdate (prevProps: ProgressProps, prevState: ProgressState, snapshot: boolean) {
+  componentDidUpdate(_prevProps: ProgressProps, _prevState: ProgressState, snapshot: boolean): void {
     if (snapshot) {
       this.animate()
     }
   }
 
-  render () {
+  render(): JSX.Element {
     const {
       style,
       percent,
       showInfo,
+      borderRadius,
       strokeWidth,
       activeColor,
       backgroundColor,
@@ -128,7 +134,9 @@ class _Progress extends React.Component<ProgressProps, ProgressState> {
             styles.barThumb, {
               width,
               height: '100%',
-              backgroundColor: activeColor
+              backgroundColor: activeColor,
+              borderBottomRightRadius: Number(borderRadius),
+              borderTopRightRadius: Number(borderRadius),
             }
           ]} />
         </View>
@@ -137,5 +145,3 @@ class _Progress extends React.Component<ProgressProps, ProgressState> {
     )
   }
 }
-
-export default _Progress

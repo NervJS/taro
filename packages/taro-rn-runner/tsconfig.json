@@ -1,0 +1,10 @@
+{
+  "extends": "../../tsconfig.root.json",
+  "compilerOptions": {
+    "jsx": "react",
+    "outDir": "./dist",
+    "sourceMap": true,
+    "module": "commonjs"
+  },
+  "include": ["./src"]
+}

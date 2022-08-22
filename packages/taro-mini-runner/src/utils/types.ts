@@ -1,7 +1,8 @@
+import type { RecursiveTemplate, UnRecursiveTemplate } from '@tarojs/shared/dist/template'
+import { IMiniAppConfig, IProjectBaseConfig } from '@tarojs/taro/types/compile'
 import * as webpack from 'webpack'
-import { IProjectBaseConfig, IMiniAppConfig } from '@tarojs/taro/types/compile'
+
 import { PrerenderConfig } from '../prerender/prerender'
-import { IAdapter } from 'src/template/adapters'
 
 type FunctionLikeCustomWebpackConfig = (webpackConfig: webpack.Configuration, webpack) => webpack.Configuration
 
@@ -11,16 +12,16 @@ export interface IOption {
 }
 
 export interface IComponent {
-  name: string,
-  path: string,
-  isNative: boolean,
-  stylePath?: string,
+  name: string
+  path: string
+  isNative: boolean
+  stylePath?: string
   templatePath?: string
 }
 
 export interface IComponentObj {
-  name?: string,
-  path: string | null,
+  name?: string
+  path: string | null
   type?: string
 }
 
@@ -29,36 +30,37 @@ export interface IChain {
 }
 
 export interface IFileType {
-  style: string,
-  script: string,
-  templ: string,
-  config: string,
+  style: string
+  script: string
+  templ: string
+  config: string
   xs?: string
 }
 
+export type Func = (...args: any[]) => any
+
 export interface IBuildConfig extends IProjectBaseConfig, IMiniAppConfig {
-  isWatch: boolean,
-  mode: 'production' | 'development',
-  port?: number,
-  buildAdapter: string,
-  nodeModulesPath: string,
-  quickappJSON: any,
-  isBuildPlugin: boolean,
-  isBuildQuickapp: boolean,
-  isSupportRecursive: boolean,
-  fileType: IFileType,
-  templateAdapter: IAdapter,
-  isSupportXS: boolean,
-  globalObject: string,
-  isUseComponentBuildPage: boolean,
-  modifyWebpackChain: Function,
-  modifyBuildAssets: Function,
-  modifyMiniConfigs: Function,
-  onWebpackChainReady: Function,
-  onBuildFinish: Function
-  framework: string,
-  baseLevel: number,
+  blended?: boolean
+  buildAdapter: string
+  entry?: webpack.Entry
+  hot?: boolean
+  fileType: IFileType
+  globalObject: string
+  isBuildNativeComp?: boolean
+  isBuildPlugin: boolean
+  isBuildQuickapp: boolean
+  isSupportRecursive: boolean
+  isSupportXS: boolean
+  mode: 'production' | 'development'
+  modifyComponentConfig: Func
+  nodeModulesPath: string
+  onCompilerMake: Func
+  onParseCreateElement: Func
   prerender?: PrerenderConfig
+  quickappJSON: any
+  runtimePath?: string | string[]
+  taroComponentsPath?: string
+  template: RecursiveTemplate | UnRecursiveTemplate
 }
 
 export type AddPageChunks = ((pages: Map<string, string[]>, pagesNames?: string[]) => void)

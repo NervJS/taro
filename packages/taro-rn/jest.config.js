@@ -1,19 +1,9 @@
 module.exports = {
+  preset: 'jest-expo',
   verbose: true,
-  preset: 'jest-react-native',
-  rootDir: __dirname,
-  transform: {
-    '^.+\\.js$': 'babel-jest'
-  },
-  testURL: 'http://localhost/',
-  moduleNameMapper: {
-    '^@/(.*)$': '<rootDir>/src/$1'
-  },
-  testMatch: ['<rootDir>/src/__tests__/**/*.test.js'],
-  transformIgnorePatterns: ['node_modules/(?!(react-native|static-container|react-native-root-siblings|react-native-image-zoom-viewer|react-native-image-pan-zoom|react-native-root-toast)/)'],
-  setupTestFrameworkScriptFile: 'jest-enzyme',
-  testEnvironment: 'enzyme',
-  testEnvironmentOptions: {
-    enzymeAdapter: 'react16'
-  }
+  setupFilesAfterEnv: ['./src/setup.ts'],
+  testMatch: ['<rootDir>/src/__tests__/**/**.test.[jt]s?(x)'],
+  transformIgnorePatterns: [
+    'node_modules/(?!(.*(jest-)?react-native|.*@react-native(-community)?)|.*expo|.*@react-navigation/.*|.*react-native-svg)'
+  ]
 }

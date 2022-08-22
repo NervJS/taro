@@ -10,7 +10,7 @@ interface SwitchProps extends StandardProps, FormItemProps {
 
   /** 是否禁用
    * @default false
-   * @supported weapp
+   * @supported weapp, rn, tt
    */
   disabled?: boolean
 
@@ -27,9 +27,14 @@ interface SwitchProps extends StandardProps, FormItemProps {
   color?: string
 
   /** checked 改变时触发 change 事件
-   * @supported weapp
+   * @supported weapp, rn, tt
    */
   onChange?: CommonEventFunction<SwitchProps.onChangeEventDetail>
+
+  /** 用于透传 `WebComponents` 上的属性到内部 H5 标签上
+   * @supported h5
+   */
+  nativeProps?: Record<string, unknown>
 }
 
 declare namespace SwitchProps {
@@ -40,13 +45,13 @@ declare namespace SwitchProps {
 
 /** 开关选择器
  * @classification forms
- * @example
+ * @example_react
  * ```tsx
  * export default class PageView extends Component {
  *   constructor() {
  *     super(...arguments)
  *   }
- * 
+ *
  *   render() {
  *     return (
  *       <View className='components-page'>
@@ -60,6 +65,19 @@ declare namespace SwitchProps {
  *     )
  *   }
  * }
+ * ```
+ * @example_vue
+ * ```html
+ * <template>
+ *   <view class='components-page'>
+ *     <text>默认样式</text>
+ *     <switch :checked="true" />
+ *     <switch />
+ *     <text>推荐展示样式</text>
+ *     <switch :checked="true" />
+ *     <switch />
+ *   </view>
+ * </template>
  * ```
  * @supported weapp, h5, rn, swan, alipay, tt
  * @see https://developers.weixin.qq.com/miniprogram/dev/component/switch.html

@@ -797,7 +797,7 @@ describe('transform', () => {
       }
     `)
     ).toEqual({
-      test: { transform: [{ translateY: 3 }, { translateX: 2 }] }
+      test: { transform: [{ translateY: 'scalePx2dp(3)' }, { translateX: 'scalePx2dp(2)' }] }
     })
   })
 
@@ -809,7 +809,7 @@ describe('transform', () => {
       }
     `)
     ).toEqual({
-      test: { transform: [{ translateY: 0 }, { translateX: 5 }] }
+      test: { transform: [{ translateY: 0 }, { translateX: 'scalePx2dp(5)' }] }
     })
   })
 
@@ -847,7 +847,7 @@ describe('border', () => {
       }
     `)
     ).toEqual({
-      test: { borderWidth: 2, borderColor: '#f00', borderStyle: 'dashed' }
+      test: { borderWidth: 'scalePx2dp(2)', borderColor: '#f00', borderStyle: 'dashed' }
     })
   })
 
@@ -859,7 +859,7 @@ describe('border', () => {
       }
     `)
     ).toEqual({
-      test: { borderWidth: 2, borderColor: '#f00', borderStyle: 'dashed' }
+      test: { borderWidth: 'scalePx2dp(2)', borderColor: '#f00', borderStyle: 'dashed' }
     })
   })
 
@@ -871,7 +871,7 @@ describe('border', () => {
       }
     `)
     ).toEqual({
-      test: { borderWidth: 2, borderColor: 'black', borderStyle: 'dashed' }
+      test: { borderWidth: 'scalePx2dp(2)', borderColor: 'black', borderStyle: 'dashed' }
     })
   })
 
@@ -883,7 +883,7 @@ describe('border', () => {
       }
     `)
     ).toEqual({
-      test: { borderWidth: 2, borderColor: '#f00', borderStyle: 'solid' }
+      test: { borderWidth: 'scalePx2dp(2)', borderColor: '#f00', borderStyle: 'solid' }
     })
   })
 
@@ -931,7 +931,7 @@ describe('border', () => {
       }
     `)
     ).toEqual({
-      test: { borderWidth: 2, borderColor: 'black', borderStyle: 'solid' }
+      test: { borderWidth: 'scalePx2dp(2)', borderColor: 'black', borderStyle: 'solid' }
     })
   })
 
@@ -944,7 +944,7 @@ describe('border', () => {
         }
       `)
       ).toEqual({
-        test: { borderRadius: 6 }
+        test: { borderRadius: 'scalePx2dp(6)' }
       })
     })
 
@@ -958,8 +958,8 @@ describe('border', () => {
       ).toEqual({
         test: {
           borderBottomLeftRadius: '5%',
-          borderBottomRightRadius: 10,
-          borderTopLeftRadius: 10,
+          borderBottomRightRadius: 'scalePx2dp(10)',
+          borderTopLeftRadius: 'scalePx2dp(10)',
           borderTopRightRadius: '5%'
         }
       })
@@ -971,10 +971,10 @@ describe('border', () => {
       `)
       ).toEqual({
         test: {
-          borderBottomLeftRadius: 4,
-          borderBottomRightRadius: 2,
-          borderTopLeftRadius: 2,
-          borderTopRightRadius: 4
+          borderBottomLeftRadius: 'scalePx2dp(4)',
+          borderBottomRightRadius: 'scalePx2dp(2)',
+          borderTopLeftRadius: 'scalePx2dp(2)',
+          borderTopRightRadius: 'scalePx2dp(4)'
         }
       })
       expect(
@@ -985,9 +985,9 @@ describe('border', () => {
       `)
       ).toEqual({
         test: {
-          borderBottomLeftRadius: 4,
-          borderBottomRightRadius: 3,
-          borderTopLeftRadius: 1,
+          borderBottomLeftRadius: 'scalePx2dp(4)',
+          borderBottomRightRadius: 'scalePx2dp(3)',
+          borderTopLeftRadius: 'scalePx2dp(1)',
           borderTopRightRadius: 0
         }
       })
@@ -1050,6 +1050,41 @@ describe('border', () => {
       })
     })
 
+    it('should transform border-color with rgb(a) property', () => {
+      expect(
+        transform(`
+        .top {
+          border-color: rgba(65, 131, 196, 0.2);
+        }
+        .right {
+          border-color: RGBA(40, 42, 54, 75%);
+        }
+        .bottom {
+          border-color: rgba(65, 131, 196, 20%) yellow RGBA(40, 42, 54, .75);
+        }
+        .left {
+          border-color: rgb(65, 131, 196);
+        }
+      `, { scalable: false })
+      ).toEqual({
+        top: {
+          borderColor: 'rgba(65, 131, 196, 0.2)'
+        },
+        right: {
+          borderColor: 'RGBA(40, 42, 54, 75%)'
+        },
+        bottom: {
+          borderTopColor: 'rgba(65, 131, 196, 20%)',
+          borderLeftColor: 'yellow',
+          borderRightColor: 'yellow',
+          borderBottomColor: 'RGBA(40, 42, 54, .75)'
+        },
+        left: {
+          borderColor: 'rgb(65, 131, 196)'
+        }
+      })
+    })
+
     it('transforms border-width', () => {
       expect(
         transform(`
@@ -1058,7 +1093,7 @@ describe('border', () => {
         }
       `)
       ).toEqual({
-        test: { borderWidth: 4 }
+        test: { borderWidth: 'scalePx2dp(4)' }
       })
     })
 
@@ -1071,10 +1106,10 @@ describe('border', () => {
       `)
       ).toEqual({
         test: {
-          borderTopWidth: 2,
-          borderRightWidth: 24,
-          borderBottomWidth: 2,
-          borderLeftWidth: 24
+          borderTopWidth: 'scalePx2dp(2)',
+          borderRightWidth: 'scalePx2dp(24)',
+          borderBottomWidth: 'scalePx2dp(2)',
+          borderLeftWidth: 'scalePx2dp(24)'
         }
       })
       expect(
@@ -1085,10 +1120,10 @@ describe('border', () => {
       `)
       ).toEqual({
         test: {
-          borderTopWidth: 1,
-          borderRightWidth: 32,
-          borderBottomWidth: 24,
-          borderLeftWidth: 32
+          borderTopWidth: 'scalePx2dp(1)',
+          borderRightWidth: 'scalePx2dp(32)',
+          borderBottomWidth: 'scalePx2dp(24)',
+          borderLeftWidth: 'scalePx2dp(32)'
         }
       })
       expect(
@@ -1099,10 +1134,10 @@ describe('border', () => {
       `)
       ).toEqual({
         test: {
-          borderTopWidth: 1,
-          borderRightWidth: 32,
+          borderTopWidth: 'scalePx2dp(1)',
+          borderRightWidth: 'scalePx2dp(32)',
           borderBottomWidth: 0,
-          borderLeftWidth: 64
+          borderLeftWidth: 'scalePx2dp(64)'
         }
       })
     })
@@ -1201,7 +1236,7 @@ describe('line-height', () => {
     `)
     ).toEqual({
       test: {
-        lineHeight: 1.5
+        lineHeight: 'scalePx2dp(1.5)'
       }
     })
   })
@@ -1214,7 +1249,7 @@ describe('line-height', () => {
     `)
     ).toEqual({
       test: {
-        lineHeight: 32
+        lineHeight: 'scalePx2dp(32)'
       }
     })
   })
@@ -1254,18 +1289,20 @@ describe('line-height', () => {
     ).toEqual({
       __viewportUnits: true,
       test: {
-        lineHeight: '2vh'
+        lineHeight: "scaleVu2dp(2, 'vh')"
       }
     })
   })
-  it('throws for line-height with multiplier', () => {
-    expect(() =>
+  it('ignore line-height value with a multiplier', () => {
+    expect(
       transform(`
       .test {
         line-height: 1.5;
       }
     `)
-    ).toThrow('Failed to parse declaration "line-height: 1.5"')
+    ).toEqual({
+      test: {}
+    })
   })
 })
 
@@ -1279,10 +1316,10 @@ describe('margin', () => {
     `)
     ).toEqual({
       test: {
-        marginTop: 10,
-        marginRight: 20,
-        marginBottom: 30,
-        marginLeft: 40
+        marginTop: 'scalePx2dp(10)',
+        marginRight: 'scalePx2dp(20)',
+        marginBottom: 'scalePx2dp(30)',
+        marginLeft: 'scalePx2dp(40)'
       }
     })
   })
@@ -1296,10 +1333,10 @@ describe('margin', () => {
     `)
     ).toEqual({
       test: {
-        marginTop: 10,
-        marginRight: 20,
-        marginBottom: 30,
-        marginLeft: 20
+        marginTop: 'scalePx2dp(10)',
+        marginRight: 'scalePx2dp(20)',
+        marginBottom: 'scalePx2dp(30)',
+        marginLeft: 'scalePx2dp(20)'
       }
     })
   })
@@ -1313,10 +1350,10 @@ describe('margin', () => {
     `)
     ).toEqual({
       test: {
-        marginTop: 10,
-        marginRight: 20,
-        marginBottom: 10,
-        marginLeft: 20
+        marginTop: 'scalePx2dp(10)',
+        marginRight: 'scalePx2dp(20)',
+        marginBottom: 'scalePx2dp(10)',
+        marginLeft: 'scalePx2dp(20)'
       }
     })
   })
@@ -1330,10 +1367,10 @@ describe('margin', () => {
     `)
     ).toEqual({
       test: {
-        marginTop: 10,
-        marginRight: 10,
-        marginBottom: 10,
-        marginLeft: 10
+        marginTop: 'scalePx2dp(10)',
+        marginRight: 'scalePx2dp(10)',
+        marginBottom: 'scalePx2dp(10)',
+        marginLeft: 'scalePx2dp(10)'
       }
     })
   })
@@ -1347,7 +1384,7 @@ describe('margin', () => {
       }
     `)
     ).toEqual({
-      test: { marginTop: 1, marginRight: 1, marginBottom: 1, marginLeft: 1 }
+      test: { marginTop: 'scalePx2dp(1)', marginRight: 'scalePx2dp(1)', marginBottom: 'scalePx2dp(1)', marginLeft: 'scalePx2dp(1)' }
     })
   })
 
@@ -1402,10 +1439,10 @@ describe('margin', () => {
     `)
     ).toEqual({
       test: {
-        marginTop: 2,
-        marginRight: 3,
+        marginTop: 'scalePx2dp(2)',
+        marginRight: 'scalePx2dp(3)',
         marginBottom: 'auto',
-        marginLeft: 3
+        marginLeft: 'scalePx2dp(3)'
       }
     })
     expect(
@@ -1416,9 +1453,9 @@ describe('margin', () => {
     `)
     ).toEqual({
       test: {
-        marginTop: 10,
+        marginTop: 'scalePx2dp(10)',
         marginRight: 'auto',
-        marginBottom: 4,
+        marginBottom: 'scalePx2dp(4)',
         marginLeft: 'auto'
       }
     })
@@ -1668,7 +1705,7 @@ describe('flex-box', () => {
       }
     `)
     ).toEqual({
-      test: { flexGrow: 1, flexShrink: 2, flexBasis: 3 }
+      test: { flexGrow: 1, flexShrink: 2, flexBasis: 'scalePx2dp(3)' }
     })
   })
 
@@ -1680,7 +1717,7 @@ describe('flex-box', () => {
       }
     `)
     ).toEqual({
-      test: { flexGrow: 1, flexShrink: 2, flexBasis: 3 }
+      test: { flexGrow: 1, flexShrink: 2, flexBasis: 'scalePx2dp(3)' }
     })
   })
 
@@ -1704,7 +1741,7 @@ describe('flex-box', () => {
       }
     `)
     ).toEqual({
-      test: { flexGrow: 2, flexShrink: 1, flexBasis: 2 }
+      test: { flexGrow: 2, flexShrink: 1, flexBasis: 'scalePx2dp(2)' }
     })
   })
 
@@ -1716,7 +1753,7 @@ describe('flex-box', () => {
       }
     `)
     ).toEqual({
-      test: { flexGrow: 2, flexShrink: 1, flexBasis: 2 }
+      test: { flexGrow: 2, flexShrink: 1, flexBasis: 'scalePx2dp(2)' }
     })
   })
 
@@ -1740,7 +1777,7 @@ describe('flex-box', () => {
       }
     `)
     ).toEqual({
-      test: { flexGrow: 1, flexShrink: 1, flexBasis: 10 }
+      test: { flexGrow: 1, flexShrink: 1, flexBasis: 'scalePx2dp(10)' }
     })
   })
 
@@ -1867,11 +1904,11 @@ describe('font', () => {
     ).toEqual({
       test: {
         fontFamily: 'Helvetica',
-        fontSize: 16,
+        fontSize: 'scalePx2dp(16)',
         fontWeight: 'bold',
         fontStyle: 'italic',
         fontVariant: ['small-caps'],
-        lineHeight: 18
+        lineHeight: 'scalePx2dp(18)'
       }
     })
   })
@@ -1886,11 +1923,11 @@ describe('font', () => {
     ).toEqual({
       test: {
         fontFamily: 'Helvetica',
-        fontSize: 16,
+        fontSize: 'scalePx2dp(16)',
         fontWeight: 'bold',
         fontStyle: 'italic',
         fontVariant: [],
-        lineHeight: 18
+        lineHeight: 'scalePx2dp(18)'
       }
     })
   })
@@ -1905,11 +1942,11 @@ describe('font', () => {
     ).toEqual({
       test: {
         fontFamily: 'Helvetica',
-        fontSize: 16,
+        fontSize: 'scalePx2dp(16)',
         fontWeight: 'bold',
         fontStyle: 'normal',
         fontVariant: ['small-caps'],
-        lineHeight: 18
+        lineHeight: 'scalePx2dp(18)'
       }
     })
   })
@@ -1924,11 +1961,11 @@ describe('font', () => {
     ).toEqual({
       test: {
         fontFamily: 'Helvetica',
-        fontSize: 16,
+        fontSize: 'scalePx2dp(16)',
         fontWeight: 'normal',
         fontStyle: 'italic',
         fontVariant: ['small-caps'],
-        lineHeight: 18
+        lineHeight: 'scalePx2dp(18)'
       }
     })
   })
@@ -1943,11 +1980,11 @@ describe('font', () => {
     ).toEqual({
       test: {
         fontFamily: 'Helvetica',
-        fontSize: 16,
+        fontSize: 'scalePx2dp(16)',
         fontWeight: 'normal',
         fontStyle: 'normal',
         fontVariant: [],
-        lineHeight: 18
+        lineHeight: 'scalePx2dp(18)'
       }
     })
   })
@@ -1962,11 +1999,11 @@ describe('font', () => {
     ).toEqual({
       test: {
         fontFamily: 'Helvetica',
-        fontSize: 16,
+        fontSize: 'scalePx2dp(16)',
         fontWeight: 'normal',
         fontStyle: 'normal',
         fontVariant: [],
-        lineHeight: 18
+        lineHeight: 'scalePx2dp(18)'
       }
     })
   })
@@ -1981,11 +2018,11 @@ describe('font', () => {
     ).toEqual({
       test: {
         fontFamily: 'Helvetica',
-        fontSize: 16,
+        fontSize: 'scalePx2dp(16)',
         fontWeight: 'normal',
         fontStyle: 'normal',
         fontVariant: [],
-        lineHeight: 18
+        lineHeight: 'scalePx2dp(18)'
       }
     })
   })
@@ -2000,7 +2037,7 @@ describe('font', () => {
     ).toEqual({
       test: {
         fontFamily: 'Helvetica',
-        fontSize: 16,
+        fontSize: 'scalePx2dp(16)',
         fontWeight: 'normal',
         fontStyle: 'normal',
         fontVariant: []
@@ -2018,7 +2055,7 @@ describe('font', () => {
     ).toEqual({
       test: {
         fontFamily: 'Helvetica',
-        fontSize: 16,
+        fontSize: 'scalePx2dp(16)',
         fontWeight: 'normal',
         fontStyle: 'normal',
         fontVariant: [],
@@ -2037,11 +2074,11 @@ describe('font', () => {
     ).toEqual({
       test: {
         fontFamily: 'Helvetica Neue',
-        fontSize: 16,
+        fontSize: 'scalePx2dp(16)',
         fontWeight: 'bold',
         fontStyle: 'italic',
         fontVariant: ['small-caps'],
-        lineHeight: 18
+        lineHeight: 'scalePx2dp(18)'
       }
     })
   })
@@ -2153,8 +2190,8 @@ describe('box-shadow', () => {
     `)
     ).toEqual({
       test: {
-        shadowOffset: { width: 10, height: 20 },
-        shadowRadius: 30,
+        shadowOffset: { width: 'scalePx2dp(10)', height: 'scalePx2dp(20)' },
+        shadowRadius: 'scalePx2dp(30)',
         shadowColor: 'red',
         shadowOpacity: 1
       }
@@ -2167,8 +2204,22 @@ describe('box-shadow', () => {
     `)
     ).toEqual({
       test: {
-        shadowOffset: { width: 10, height: 20 },
-        shadowRadius: 30,
+        shadowOffset: { width: 'scalePx2dp(10)', height: 'scalePx2dp(20)' },
+        shadowRadius: 'scalePx2dp(30)',
+        shadowColor: '#f00',
+        shadowOpacity: 1
+      }
+    })
+    expect(
+      transform(`
+      .test {
+        box-shadow: 10px 20px 30px 30px #f00;
+      }
+    `)
+    ).toEqual({
+      test: {
+        shadowOffset: { width: 'scalePx2dp(10)', height: 'scalePx2dp(20)' },
+        shadowRadius: 'scalePx2dp(30)',
         shadowColor: '#f00',
         shadowOpacity: 1
       }
@@ -2184,8 +2235,8 @@ describe('box-shadow', () => {
     `)
     ).toEqual({
       test: {
-        shadowOffset: { width: 10, height: 20 },
-        shadowRadius: 30,
+        shadowOffset: { width: 'scalePx2dp(10)', height: 'scalePx2dp(20)' },
+        shadowRadius: 'scalePx2dp(30)',
         shadowColor: 'rgb(100, 100, 100)',
         shadowOpacity: 1
       }
@@ -2201,8 +2252,8 @@ describe('box-shadow', () => {
     `)
     ).toEqual({
       test: {
-        shadowOffset: { width: 10, height: 20 },
-        shadowRadius: 30,
+        shadowOffset: { width: 'scalePx2dp(10)', height: 'scalePx2dp(20)' },
+        shadowRadius: 'scalePx2dp(30)',
         shadowColor: 'rgba(100, 100, 100, 0.5)',
         shadowOpacity: 1
       }
@@ -2218,8 +2269,8 @@ describe('box-shadow', () => {
     `)
     ).toEqual({
       test: {
-        shadowOffset: { width: 10, height: 20 },
-        shadowRadius: 30,
+        shadowOffset: { width: 'scalePx2dp(10)', height: 'scalePx2dp(20)' },
+        shadowRadius: 'scalePx2dp(30)',
         shadowColor: 'hsl(120, 100%, 50%)',
         shadowOpacity: 1
       }
@@ -2235,8 +2286,8 @@ describe('box-shadow', () => {
     `)
     ).toEqual({
       test: {
-        shadowOffset: { width: 10, height: 20 },
-        shadowRadius: 30,
+        shadowOffset: { width: 'scalePx2dp(10)', height: 'scalePx2dp(20)' },
+        shadowRadius: 'scalePx2dp(30)',
         shadowColor: 'hsla(120, 100%, 50%, 0.7)',
         shadowOpacity: 1
       }
@@ -2252,8 +2303,8 @@ describe('box-shadow', () => {
     `)
     ).toEqual({
       test: {
-        shadowOffset: { width: 10, height: 20 },
-        shadowRadius: 30,
+        shadowOffset: { width: 'scalePx2dp(10)', height: 'scalePx2dp(20)' },
+        shadowRadius: 'scalePx2dp(30)',
         shadowColor: '#f00',
         shadowOpacity: 1
       }
@@ -2270,7 +2321,7 @@ describe('box-shadow', () => {
     ).toEqual({
       test: {
         shadowOffset: { width: 0, height: 0 },
-        shadowRadius: 1,
+        shadowRadius: 'scalePx2dp(1)',
         shadowColor: 'red',
         shadowOpacity: 1
       }
@@ -2297,7 +2348,7 @@ describe('box-shadow', () => {
     `)
     ).toEqual({
       test: {
-        shadowOffset: { width: 1, height: 1 },
+        shadowOffset: { width: 'scalePx2dp(1)', height: 'scalePx2dp(1)' },
         shadowRadius: 0,
         shadowColor: '#00f',
         shadowOpacity: 1
@@ -2314,7 +2365,7 @@ describe('box-shadow', () => {
     `)
     ).toEqual({
       test: {
-        shadowOffset: { width: 10, height: 20 },
+        shadowOffset: { width: 'scalePx2dp(10)', height: 'scalePx2dp(20)' },
         shadowRadius: 0,
         shadowColor: 'red',
         shadowOpacity: 1
@@ -2331,8 +2382,8 @@ describe('box-shadow', () => {
     `)
     ).toEqual({
       test: {
-        shadowOffset: { width: 10, height: 20 },
-        shadowRadius: 30,
+        shadowOffset: { width: 'scalePx2dp(10)', height: 'scalePx2dp(20)' },
+        shadowRadius: 'scalePx2dp(30)',
         shadowColor: 'black',
         shadowOpacity: 1
       }
@@ -2348,7 +2399,7 @@ describe('box-shadow', () => {
     `)
     ).toEqual({
       test: {
-        shadowOffset: { width: 10, height: 20 },
+        shadowOffset: { width: 'scalePx2dp(10)', height: 'scalePx2dp(20)' },
         shadowRadius: 0,
         shadowColor: 'black',
         shadowOpacity: 1
@@ -2425,8 +2476,8 @@ describe('text-shadow', () => {
     `)
     ).toEqual({
       test: {
-        textShadowOffset: { width: 10, height: 20 },
-        textShadowRadius: 30,
+        textShadowOffset: { width: 'scalePx2dp(10)', height: 'scalePx2dp(20)' },
+        textShadowRadius: 'scalePx2dp(30)',
         textShadowColor: 'red'
       }
     })
@@ -2441,7 +2492,7 @@ describe('text-shadow', () => {
     `)
     ).toEqual({
       test: {
-        textShadowOffset: { width: 10, height: 20 },
+        textShadowOffset: { width: 'scalePx2dp(10)', height: 'scalePx2dp(20)' },
         textShadowRadius: 0,
         textShadowColor: 'red'
       }
@@ -2457,7 +2508,7 @@ describe('text-shadow', () => {
     `)
     ).toEqual({
       test: {
-        textShadowOffset: { width: 10, height: 20 },
+        textShadowOffset: { width: 'scalePx2dp(10)', height: 'scalePx2dp(20)' },
         textShadowRadius: 0,
         textShadowColor: 'black'
       }
@@ -2495,13 +2546,13 @@ describe('rem unit', () => {
     `)
     ).toEqual({
       test1: {
-        paddingBottom: 32,
-        paddingLeft: 32,
-        paddingRight: 32,
-        paddingTop: 32
+        paddingBottom: 'scalePx2dp(32)',
+        paddingLeft: 'scalePx2dp(32)',
+        paddingRight: 'scalePx2dp(32)',
+        paddingTop: 'scalePx2dp(32)'
       },
       test2: {
-        fontSize: 16
+        fontSize: 'scalePx2dp(16)'
       }
     })
   })
@@ -2518,12 +2569,12 @@ describe('rem unit', () => {
     `)
     ).toEqual({
       test1: {
-        transform: [{ translateY: 32 }, { translateX: 16 }]
+        transform: [{ translateY: 'scalePx2dp(32)' }, { translateX: 'scalePx2dp(16)' }]
       },
       test2: {
         shadowColor: '#fff',
-        shadowOffset: { height: 32, width: 16 },
-        shadowRadius: 48,
+        shadowOffset: { height: 'scalePx2dp(32)', width: 'scalePx2dp(16)' },
+        shadowRadius: 'scalePx2dp(48)',
         shadowOpacity: 1
       }
     })
@@ -2540,9 +2591,9 @@ describe('rem unit', () => {
       }
     `)
     ).toEqual({
-      test1: { transform: [{ translateY: 26 }, { translateX: 15 }] },
+      test1: { transform: [{ translateY: 'scalePx2dp(26)' }, { translateX: 'scalePx2dp(15)' }] },
       test2: {
-        borderRadius: 9
+        borderRadius: 'scalePx2dp(9)'
       }
     })
 
@@ -2556,9 +2607,9 @@ describe('rem unit', () => {
       }
     `)
     ).toEqual({
-      test1: { transform: [{ translateY: 26 }, { translateX: 15 }] },
+      test1: { transform: [{ translateY: 'scalePx2dp(26)' }, { translateX: 'scalePx2dp(15)' }] },
       test2: {
-        borderRadius: 9
+        borderRadius: 'scalePx2dp(9)'
       }
     })
   })
@@ -2578,16 +2629,16 @@ describe('viewport units', () => {
     ).toEqual({
       __viewportUnits: true,
       test: {
-        fontSize: '1vw',
-        lineHeight: '2vh',
-        marginBottom: '1vmin',
-        marginLeft: '1vmin',
-        marginRight: '1vmin',
-        marginTop: '1vmin',
-        paddingBottom: '1vmax',
-        paddingLeft: '1vmax',
-        paddingRight: '1vmax',
-        paddingTop: '1vmax'
+        fontSize: "scaleVu2dp(1, 'vw')",
+        lineHeight: "scaleVu2dp(2, 'vh')",
+        marginBottom: "scaleVu2dp(1, 'vmin')",
+        marginLeft: "scaleVu2dp(1, 'vmin')",
+        marginRight: "scaleVu2dp(1, 'vmin')",
+        marginTop: "scaleVu2dp(1, 'vmin')",
+        paddingBottom: "scaleVu2dp(1, 'vmax')",
+        paddingLeft: "scaleVu2dp(1, 'vmax')",
+        paddingRight: "scaleVu2dp(1, 'vmax')",
+        paddingTop: "scaleVu2dp(1, 'vmax')"
       }
     })
   })
@@ -3435,6 +3486,77 @@ describe('ICSS :export pseudo-selector', () => {
       },
       baz: '1',
       bar: '2'
+    })
+  })
+
+  it('does not transform value to scalePx2dp when option scalable false', () => {
+    expect(
+      transform(`
+      .foo {
+        padding: 10px 20px;
+      }
+    `, { scalable: false })
+    ).toEqual({
+      foo: {
+        paddingTop: 10,
+        paddingRight: 20,
+        paddingBottom: 10,
+        paddingLeft: 20
+      }
+    })
+  })
+
+  it('should transform border-[direction] property', () => {
+    expect(
+      transform(`
+      .left {
+        border-left: red 1px solid;
+      }
+      .right {
+        border-right: solid 1px red;
+      }
+      .bottom {
+        border-bottom: solid red 1px;
+      }
+      .top {
+        border-top: 1px red solid;
+      }
+    `, { scalable: false })
+    ).toEqual({
+      top: {
+        borderTopWidth: 1,
+        borderTopStyle: 'solid',
+        borderTopColor: 'red'
+      },
+      right: {
+        borderRightWidth: 1,
+        borderRightStyle: 'solid',
+        borderRightColor: 'red'
+      },
+      bottom: {
+        borderBottomWidth: 1,
+        borderBottomStyle: 'solid',
+        borderBottomColor: 'red'
+      },
+      left: {
+        borderLeftWidth: 1,
+        borderLeftStyle: 'solid',
+        borderLeftColor: 'red'
+      }
+    })
+  })
+
+  it('should transform propertyValue remove !import key', () => {
+    expect(
+      transform(`
+      .foo {
+        color: red !import;
+      }
+    `, { scalable: false })
+    ).toEqual({
+      foo: {
+        color: 'red'
+      }
     })
   })
 

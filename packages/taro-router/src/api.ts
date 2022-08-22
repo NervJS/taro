@@ -1,70 +1,105 @@
-import { stacks } from './stack'
-import { history } from './history'
+import Taro from '@tarojs/taro'
+import { parsePath } from 'history'
 
-interface Base {
-  success?: Function
-  fail?: Function
-  complete?: Function
-}
+import type { NavigateBackOption, Option } from '../types/api'
+import { history, prependBasename } from './history'
+import { RouterConfig } from './router'
+import stacks from './router/stack'
+import { addLeadingSlash, routesAlias } from './utils'
 
-interface Option extends Base {
-  url: string
-}
+type MethodName = 'navigateTo' | 'navigateBack' | 'switchTab' | 'redirectTo' | 'reLaunch'
 
-interface NavigateBackOption extends Base {
-  delta: number
-}
+function processNavigateUrl (option: Option) {
+  const pathPieces = parsePath(option.url)
 
-function navigate (option: Option | NavigateBackOption, method: 'navigateTo' | 'redirectTo' | 'navigateBack') {
-  const { success, complete, fail } = option
-  let failReason
-  try {
-    if (method === 'navigateTo') {
-      history.push((option as Option).url)
-    } else if (method === 'redirectTo') {
-      history.replace((option as Option).url)
-    } else if (method === 'navigateBack') {
-      history.go(-(option as NavigateBackOption).delta)
-    }
-  } catch (error) {
-    failReason = error
+  // 处理相对路径
+  if (pathPieces.pathname?.includes('./')) {
+    const parts = routesAlias.getOrigin(history.location.pathname).split('/')
+    parts.pop()
+    pathPieces.pathname.split('/').forEach((item) => {
+      if (item === '.') {
+        return
+      }
+      item === '..' ? parts.pop() : parts.push(item)
+    })
+    pathPieces.pathname = parts.join('/')
   }
-  return new Promise((resolve, reject) => {
-    if (failReason) {
-      fail && fail(failReason)
-      complete && complete()
-      reject(failReason)
-    } else {
-      success && success()
-      complete && complete()
-      resolve()
+
+  // 处理自定义路由
+  pathPieces.pathname = routesAlias.getAlias(addLeadingSlash(pathPieces.pathname))
+
+  // 处理 basename
+  pathPieces.pathname = prependBasename(pathPieces.pathname)
+
+  // hack fix history v5 bug: https://github.com/remix-run/history/issues/814
+  if (!pathPieces.search) pathPieces.search = ''
+
+  return pathPieces
+}
+
+async function navigate (option: Option | NavigateBackOption, method: MethodName) {
+  return new Promise<TaroGeneral.CallbackResult>((resolve, reject) => {
+    const { success, complete, fail } = option
+    const unListen = history.listen(() => {
+      const res = { errMsg: `${method}:ok` }
+      success?.(res)
+      complete?.(res)
+      resolve(res)
+      unListen()
+    })
+
+    try {
+      if ('url' in option) {
+        const pathPieces = processNavigateUrl(option)
+        const state = { timestamp: Date.now() }
+        if (method === 'navigateTo') {
+          history.push(pathPieces, state)
+        } else if (method === 'redirectTo' || method === 'switchTab') {
+          history.replace(pathPieces, state)
+        } else if (method === 'reLaunch') {
+          stacks.delta = stacks.length
+          history.replace(pathPieces, state)
+        }
+      } else if (method === 'navigateBack') {
+        stacks.delta = option.delta
+        history.go(-option.delta)
+      }
+    } catch (error) {
+      const res = { errMsg: `${method}:fail ${error.message || error}` }
+      fail?.(res)
+      complete?.(res)
+      reject(res)
     }
   })
 }
 
-export function navigateTo (option: Option) {
+export function navigateTo (option: Taro.navigateTo.Option): ReturnType<typeof Taro.navigateTo> {
   return navigate(option, 'navigateTo')
 }
 
-export function redirectTo (option: Option) {
+export function redirectTo (option: Taro.redirectTo.Option): ReturnType<typeof Taro.redirectTo> {
   return navigate(option, 'redirectTo')
 }
 
-export function navigateBack (options: NavigateBackOption = { delta: 1 }) {
-  if (!options.delta || options.delta < 1) {
-    options.delta = 1
+export function navigateBack (option: Taro.navigateBack.Option = { delta: 1 }): ReturnType<typeof Taro.navigateBack> {
+  if (!option.delta || option.delta < 1) {
+    option.delta = 1
   }
-  return navigate(options, 'navigateBack')
+  return navigate(option as NavigateBackOption, 'navigateBack')
 }
 
-export function switchTab (option: Option) {
-  return navigateTo(option)
+export function switchTab (option: Taro.switchTab.Option): ReturnType<typeof Taro.switchTab> {
+  return navigate(option, 'switchTab')
 }
 
-export function reLaunch (option: Option) {
-  return redirectTo(option)
+export function reLaunch (option: Taro.reLaunch.Option): ReturnType<typeof Taro.reLaunch> {
+  return navigate(option, 'reLaunch')
 }
 
-export function getCurrentPages () {
-  return stacks
+export function getCurrentPages (): Taro.Page[] {
+  if (process.env.NODE_ENV === 'development' && RouterConfig.mode === 'multi') {
+    console.warn('多页面路由模式不支持使用 getCurrentPages 方法！')
+  }
+  const pages = stacks.get()
+  return pages.map(e => ({ ...e, route: e.path || '' }))
 }

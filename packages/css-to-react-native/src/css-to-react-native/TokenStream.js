@@ -9,14 +9,22 @@ export default class TokenStream {
     this.rewindIndex = -1
   }
 
+  get node () {
+    return this.nodes[this.index]
+  }
+
+  get length () {
+    return this.nodes.length
+  }
+
   hasTokens () {
-    return this.index <= this.nodes.length - 1
+    return this.index <= this.length - 1
   }
 
   [SYMBOL_MATCH] (...tokenDescriptors) {
     if (!this.hasTokens()) return null
 
-    const node = this.nodes[this.index]
+    const node = this.node
 
     for (let i = 0; i < tokenDescriptors.length; i += 1) {
       const tokenDescriptor = tokenDescriptors[i]
@@ -41,7 +49,7 @@ export default class TokenStream {
   }
 
   matchesFunction () {
-    const node = this.nodes[this.index]
+    const node = this.node
     if (node.type !== 'function') return null
     const value = new TokenStream(node.nodes, node)
     this.index += 1
@@ -59,7 +67,7 @@ export default class TokenStream {
   }
 
   throw () {
-    throw new Error(`Unexpected token type: ${this.nodes[this.index].type}`)
+    throw new Error(`Unexpected token type: ${this.node?.type}`)
   }
 
   saveRewindPoint () {

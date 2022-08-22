@@ -1,9 +1,9 @@
 import { ComponentType } from 'react'
-import { StandardProps, CommonEventFunction, netStatus } from './common'
+import { StandardProps, CommonEventFunction, NetStatus } from './common'
 
 interface LivePlayerProps extends StandardProps {
   /** 音视频地址。目前仅支持 flv, rtmp 格式
-   * @supported weapp
+   * @supported weapp, tt
    */
   src?: string
 
@@ -11,29 +11,29 @@ interface LivePlayerProps extends StandardProps {
    * @default "live"
    * @supported weapp
    */
-  mode?: keyof LivePlayerProps.mode
+  mode?: keyof LivePlayerProps.Mode
 
   /** 自动播放
    * @default false
-   * @supported weapp
+   * @supported weapp, tt
    */
   autoplay?: boolean
 
   /** 是否静音
    * @default false
-   * @supported weapp
+   * @supported weapp, tt
    */
   muted?: boolean
 
   /** 画面方向
    * @default "vertical"
-   * @supported weapp
+   * @supported weapp, tt
    */
-  orientation?: keyof LivePlayerProps.orientation
+  orientation?: keyof LivePlayerProps.Orientation
 
   /** 填充模式
    * @default "contain"
-   * @supported weapp
+   * @supported weapp, tt
    */
   objectFit?: keyof LivePlayerProps.objectFit
 
@@ -44,13 +44,13 @@ interface LivePlayerProps extends StandardProps {
    */
   backgroundMute?: boolean
 
-  /** 进最小缓冲区，单位s
+  /** 最小缓冲区，单位s
    * @default 1
    * @supported weapp
    */
   minCache?: number
 
-  /** 进最小缓冲区，单位s
+  /** 最大缓冲区，单位s
    * @default 3
    * @supported weapp
    */
@@ -74,37 +74,52 @@ interface LivePlayerProps extends StandardProps {
    */
   autoPauseIfOpenNavigate?: boolean
 
-  /** 播放状态变化事件，detail = {code}
+  /** 设置小窗模式： push, pop，空字符串或通过数组形式设置多种模式（如： ["push", "pop"]）
    * @supported weapp
+   */
+  pictureInPictureMode?: ('push' | 'pop')[] | 'push' | 'pop' | ''
+
+  /** 播放状态变化事件，detail = {code}
+   * @supported weapp, tt
    */
   onStateChange?: CommonEventFunction<LivePlayerProps.onStateChangeEventDetail>
 
   /** 全屏变化事件，detail = {direction, fullScreen}
-   * @supported weapp
+   * @supported weapp, tt
    */
   onFullScreenChange?: CommonEventFunction<LivePlayerProps.onFullScreenChangeEventDetail>
 
   /** 网络状态通知，detail = {info}
    * @supported weapp
    */
-  onNetstatus?: CommonEventFunction<LivePlayerProps.onNetStatusEventDetail>
+  onNetStatus?: CommonEventFunction<LivePlayerProps.onNetStatusEventDetail>
 
   /** 播放音量大小通知，detail = {}
    * @supported weapp
    */
-  onAudioVolumenotify?: CommonEventFunction<{}>
+  onAudioVolumeNotify?: CommonEventFunction<{}>
+
+  /** 播放器进入小窗
+   * @supported weapp
+   */
+  onEnterPictureInPicture?: CommonEventFunction
+
+  /** 播放器退出小窗
+   * @supported weapp
+   */
+  onLeavePictureInPicture?: CommonEventFunction
 }
 
 declare namespace LivePlayerProps {
   /** mode 的合法值 */
-  interface mode {
+  interface Mode {
     /** 直播 */
     live
     /** 实时通话，该模式时延更低 */
     RTC
   }
   /** orientation 的合法值 */
-  interface orientation {
+  interface Orientation {
     /** 竖直 */
     vertical
     /** 水平 */
@@ -136,10 +151,10 @@ declare namespace LivePlayerProps {
     fullScreen: number | boolean
   }
   interface onNetStatusEventDetail {
-    info: netStatus
+    info: NetStatus
   }
   /** 状态码 */
-  interface status {
+  interface Status {
     /** 已经连接服务器 */
     2001
     /** 已经连接 RTMP 服务器,开始拉流 */
@@ -190,11 +205,11 @@ declare namespace LivePlayerProps {
 }
 
 /** 实时音视频播放。相关api：Taro.createLivePlayerContext
- * 
+ *
  * 需要先通过类目审核，再在小程序管理后台，“设置”-“接口设置”中自助开通该组件权限。
  * @classification media
- * @supported weapp
- * @example
+ * @supported weapp, tt
+ * @example_react
  * ```tsx
  * class App extends Components {
  *   render () {
@@ -203,6 +218,12 @@ declare namespace LivePlayerProps {
  *     )
  *   }
  * }
+ * ```
+ * @example_vue
+ * ```html
+ * <template>
+ *   <live-player src="url" mode="live" :autoplay="true"  />
+ * </template>
  * ```
  * @see https://developers.weixin.qq.com/miniprogram/dev/component/live-player.html
  */

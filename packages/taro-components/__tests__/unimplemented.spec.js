@@ -1,17 +1,12 @@
+import * as assert from 'assert'
 import React from 'react'
 import ReactDOM from 'react-dom'
-import {
-  CoverImage,
-  CoverView,
-  MoveableArea,
-  MoveableView,
-  PickerView,
-  PickerViewColumn,
-  OpenData,
-  Camera
-} from '../h5/react'
-import * as assert from 'assert'
 import * as sinon from 'sinon'
+
+import {
+  Camera,
+  OpenData
+} from '../h5/react'
 import { waitForChange } from './utils'
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const h = React.createElement
@@ -79,30 +74,6 @@ describe('unimplemented', () => {
 
   afterAll(() => {
     console.error.restore()
-  })
-
-  it('CoverView', async () => {
-    await testComponent(CoverView)
-  })
-
-  it('CoverImage', async () => {
-    await testComponent(CoverImage)
-  })
-
-  it('MoveableArea', async () => {
-    await testComponent(MoveableArea)
-  })
-
-  it('MoveableView', async () => {
-    await testComponent(MoveableView)
-  })
-
-  it('PickerViewColumn', async () => {
-    await testComponent(PickerViewColumn)
-  })
-
-  it('PickerView', async () => {
-    await testComponent(PickerView)
   })
 
   it('OpenData', async () => {

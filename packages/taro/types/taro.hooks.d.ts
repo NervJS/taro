@@ -1,83 +1,136 @@
-/// <reference path="taro.lifecycle.d.ts" />
-/// <reference path="taro.component.d.ts" />
+import Taro from './index'
 
-declare namespace Taro {
-  /**
-   * 页面展示时的回调。
-   */
-  function useDidShow(callback: () => any): void
+declare module './index' {
+  interface TaroStatic {
+    /**
+     * 页面展示时的回调。
+     * @supported global
+     */
+    useDidShow(callback: () => void): void
 
-  /**
-   * 页面隐藏时的回调。
-   */
-  function useDidHide(callback: () => any): void
+    /**
+     * 页面隐藏时的回调。
+     * @supported global
+     */
+    useDidHide(callback: () => void): void
 
-  /**
-   * 下拉刷新时的回调。
-   */
-  function usePullDownRefresh(callback: () => any): void
+    /**
+     * 下拉刷新时的回调。
+     * @supported global
+     */
+    usePullDownRefresh(callback: () => void): void
 
-  /**
-   * 上拉触底时的回调。
-   */
-  function useReachBottom(callback: () => any): void
+    /**
+     * 上拉触底时的回调。
+     * @supported global
+     */
+    useReachBottom(callback: () => void): void
 
-  /**
-   * 页面滚动时的回调。
-   */
-  function usePageScroll(callback: (payload: PageScrollObject) => any): void
+    /**
+     * 页面滚动时的回调。
+     * @supported global
+     */
+    usePageScroll(callback: (payload: PageScrollObject) => void): void
 
-  /**
-   * 页面尺寸改变时的回调。
-   */
-  function useResize(callback: () => any): void
+    /**
+     * 页面尺寸改变时的回调。
+     * @supported global
+     */
+    useResize(callback: (payload: PageResizeObject) => void): void
 
-  /**
-   * 页面转发时的回调。
-   */
-  function useShareAppMessage(callback: (payload: ShareAppMessageObject) => ShareAppMessageReturn): void
+    /**
+     * 页面转发时的回调。
+     * @supported weapp
+     */
+    useShareAppMessage(callback: (payload: ShareAppMessageObject) => ShareAppMessageReturn): void
 
-  /**
-   * 当前是 tab 页时，tab 被点击时的回调。
-   */
-  function useTabItemTap(callback: (payload: TabItemTapObject) => any): void
+    /**
+     * 当前是 tab 页时，tab 被点击时的回调。
+     * @supported weapp, rn
+     */
+    useTabItemTap(callback: (payload: TabItemTapObject) => void): void
 
-  /**
-   * 用户点击右上角菜单“收藏”按钮时的回调。
-   */
-  function useAddToFavorites(callback: (paload: AddToFavoritesObject) => AddToFavoritesReturnObject): void
+    /**
+     * 用户点击右上角菜单“收藏”按钮时的回调。
+     * @supported weapp
+     */
+    useAddToFavorites(callback: (payload: AddToFavoritesObject) => AddToFavoritesReturnObject): void
 
-  /**
-   * 用户点击右上角菜单“分享到朋友圈”按钮时的回调。
-   */
-  function useShareTimeline(callback: () => ShareTimelineReturnObject): void
+    /**
+     * 用户点击右上角菜单“分享到朋友圈”按钮时的回调。
+     * @supported weapp
+     */
+    useShareTimeline(callback: () => ShareTimelineReturnObject): void
 
-  /**
-   * 页面初次渲染完成的回调。
-   * 此时页面已经准备妥当，可以和视图层进行交互。
-   */
-  function useReady(callback: () => any): void
+    /**
+     * 页面销毁前保留状态回调
+     * @supported weapp
+     */
+    useSaveExitState(callback: () => {
+      data: Record<any, any>
+      expireTimeStamp?: number
+    }): void
 
-  /**
-   * 获取当前路由参数。
-   */
-  function useRouter<TParams extends Record<string, string> = Record<string, string>>(): RouterInfo<TParams>
+    /**
+     * 小程序初始化完成时的回调。
+     * @supported weapp, h5
+     */
+    useLaunch(callback: (options: getLaunchOptionsSync.LaunchOptions) => void): void
 
-  /**
-   * 导航栏的标题被点击时的回调。
-   * **仅支付宝小程序支持。**
-   */
-  function useTitleClick(callback: () => any): void
+    /**
+     * 小程序发生脚本错误或 API 调用报错时触发的回调。
+     * @supported weapp, h5
+     */
+    useError(callback: (error: string) => void): void
 
-  /**
-   * 导航栏的额外图标被点击时的回调。
-   * **仅支付宝小程序支持。**
-   */
-  function useOptionMenuClick(callback: () => any): void
+    /**
+     * 小程序要打开的页面不存在时触发的回调。
+     * @supported weapp, h5
+     * @h5 多页面模式不支持该方法
+     */
+    usePageNotFound(callback: (res: { path: string, query: Record<any, any>, isEntryPage: boolean, [key: string]: any }) => void): void
 
-  /**
-   * 下拉中断时的回调。
-   * **仅支付宝小程序支持。**
-   */
-  function usePullIntercept(callback: () => any): void
+    /**
+     * 页面加载完成时的回调。
+     * @supported weapp, h5
+     */
+    useLoad(callback: () => void): void
+
+    /**
+     * 页面卸载时的回调。
+     * @supported weapp, h5
+     */
+    useUnload(callback: () => void): void
+
+    /**
+     * 页面初次渲染完成的回调。
+     * 此时页面已经准备妥当，可以和视图层进行交互。
+     * @supported weapp, h5
+     */
+    useReady(callback: () => void): void
+
+    /**
+     * 获取当前路由参数。
+     * @supported global
+     */
+    useRouter<TParams extends Partial<Record<string, string>> = Partial<Record<string, string>>>(dynamic?: boolean): RouterInfo<TParams>
+
+    /**
+     * 导航栏的标题被点击时的回调。
+     * @supported alipay
+     */
+    useTitleClick(callback: () => void): void
+
+    /**
+     * 导航栏的额外图标被点击时的回调。
+     * @supported alipay
+     */
+    useOptionMenuClick(callback: () => void): void
+
+    /**
+     * 下拉中断时的回调。
+     * @supported alipay, h5
+     */
+    usePullIntercept(callback: () => void): void
+  }
 }

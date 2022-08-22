@@ -1,9 +1,8 @@
-import * as t from 'babel-types'
+import template from '@babel/template'
+import * as t from '@babel/types'
 import generate from 'better-babel-generator'
 
 import babylonConfig from '../config/babylon'
-
-const template = require('babel-template')
 
 export function convertObjectToAstExpression (obj: Record<string, any>): t.ObjectProperty[] {
   const objArr = Object.keys(obj).map(key => {
@@ -61,7 +60,7 @@ export function convertArrayToAstExpression (arr: any[]): any[] {
   })
 }
 
-export function convertSourceStringToAstExpression (str: string, opts: object = {}) {
+export function convertSourceStringToAstExpression (str: string, opts: Record<string, any> = {}) {
   return template(str, Object.assign({}, babylonConfig, opts))()
 }
 
@@ -72,7 +71,7 @@ export function convertAstExpressionToVariable<T = any> (node): T {
     properties.forEach(property => {
       if (property.type === 'ObjectProperty' || property.type === 'ObjectMethod') {
         const key = convertAstExpressionToVariable(property.key)
-        const value = convertAstExpressionToVariable(property.value)
+        const value = convertAstExpressionToVariable((property as t.ObjectProperty).value)
         obj[key] = value
       }
     })

@@ -1,9 +1,11 @@
-import { getBundleResult, getBundleContent, getSassLoaderOption } from './scss'
+import { DEFAULT_Components } from './constant'
 import { MultiPlatformPlugin } from './resolve/MultiPlatformPlugin'
+import { getBundleContent, getBundleResult, getSassLoaderOption } from './scss'
 
 export {
-  getBundleResult,
+  DEFAULT_Components,
   getBundleContent,
+  getBundleResult,
   getSassLoaderOption,
   MultiPlatformPlugin
 }

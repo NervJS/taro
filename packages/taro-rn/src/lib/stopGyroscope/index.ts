@@ -1,0 +1,1 @@
+export { stopGyroscope } from '../gyroscope'

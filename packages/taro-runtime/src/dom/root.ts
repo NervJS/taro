@@ -1,47 +1,86 @@
-import { TaroElement } from './element'
-import { NodeType } from './node_types'
-import { MpInstance, HydratedData } from '../hydrate'
-import { UpdatePayload, UpdatePayloadValue } from './node'
-import { isFunction, Shortcuts } from '@tarojs/shared'
+import { isFunction, isUndefined, Shortcuts } from '@tarojs/shared'
+
+import {
+  CUSTOM_WRAPPER,
+  PAGE_INIT,
+  ROOT_STR,
+  SET_DATA
+} from '../constants'
+import type { Func, HydratedData, MpInstance, UpdatePayload, UpdatePayloadValue } from '../interface'
+import { options } from '../options'
 import { perf } from '../perf'
-import { SET_DATA, PAGE_INIT } from '../constants'
-import { CurrentReconciler } from '../reconciler'
+import { customWrapperCache } from '../utils'
+import { TaroElement } from './element'
+
+function findCustomWrapper (root: TaroRootElement, dataPathArr: string[]) {
+  // ['root', 'cn', '[0]'] remove 'root' => ['cn', '[0]']
+  const list = dataPathArr.slice(1)
+  let currentData: any = root
+  let customWrapper: Record<string, any> | undefined
+  let splitedPath = ''
+
+  list.some((item, i) => {
+    const key = item
+      // '[0]' => '0'
+      .replace(/^\[(.+)\]$/, '$1')
+      // 'cn' => 'childNodes'
+      .replace(/\bcn\b/g, 'childNodes')
+
+    currentData = currentData[key]
+
+    if (isUndefined(currentData)) return true
+
+    if (currentData.nodeName === CUSTOM_WRAPPER) {
+      const res = customWrapperCache.get(currentData.sid)
+      if (res) {
+        customWrapper = res
+        splitedPath = dataPathArr.slice(i + 2).join('.')
+      }
+    }
+  })
+
+  if (customWrapper) {
+    return {
+      customWrapper,
+      splitedPath
+    }
+  }
+}
 
 export class TaroRootElement extends TaroElement {
-  private pendingUpdate = false
-
   private updatePayloads: UpdatePayload[] = []
 
-  private pendingFlush = false
+  private updateCallbacks: Func[] = []
 
-  private updateCallbacks: Function[]= []
+  public pendingUpdate = false
 
   public ctx: null | MpInstance = null
 
   public constructor () {
-    super(NodeType.ELEMENT_NODE, 'root')
+    super()
+    this.nodeName = ROOT_STR
+    this.tagName = ROOT_STR.toUpperCase()
   }
 
-  public get _path () {
-    return 'root'
+  public get _path (): string {
+    return ROOT_STR
   }
 
-  protected get _root () {
+  public get _root (): TaroRootElement {
     return this
   }
 
-  public enqueueUpdate (payload: UpdatePayload) {
+  public enqueueUpdate (payload: UpdatePayload): void {
     this.updatePayloads.push(payload)
 
-    if (this.pendingUpdate || this.ctx === null) {
-      return
+    if (!this.pendingUpdate && this.ctx) {
+      this.performUpdate()
     }
-
-    this.performUpdate()
   }
 
-  public performUpdate (initRender = false, prerender?: Function) {
+  public performUpdate (initRender = false, prerender?: Func) {
     this.pendingUpdate = true
+
     const ctx = this.ctx!
 
     setTimeout(() => {
@@ -75,38 +114,83 @@ export class TaroRootElement extends TaroElement {
         }
       }
 
-      CurrentReconciler.prepareUpdateData?.(data, this)
+      // 预渲染
+      if (isFunction(prerender)) return prerender(data)
+
+      // 正常渲染
+      this.pendingUpdate = false
+      let normalUpdate = {}
+      const customWrapperMap: Map<Record<any, any>, Record<string, any>> = new Map()
 
       if (initRender) {
-        CurrentReconciler.appendInitialPage?.(data, this)
+        // 初次渲染，使用页面级别的 setData
+        normalUpdate = data
+      } else {
+        // 更新渲染，区分 CustomWrapper 与页面级别的 setData
+        for (const p in data) {
+          const dataPathArr = p.split('.')
+          const found = findCustomWrapper(this, dataPathArr)
+          if (found) {
+            // 此项数据使用 CustomWrapper 去更新
+            const { customWrapper, splitedPath } = found
+            // 合并同一个 customWrapper 的相关更新到一次 setData 中
+            customWrapperMap.set(customWrapper, {
+              ...(customWrapperMap.get(customWrapper) || {}),
+              [`i.${splitedPath}`]: data[p]
+            })
+          } else {
+            // 此项数据使用页面去更新
+            normalUpdate[p] = data[p]
+          }
+        }
       }
 
-      if (isFunction(prerender)) {
-        prerender(data)
-      } else {
-        this.pendingUpdate = false
-        ctx.setData(data, () => {
+      const customWrpperCount = customWrapperMap.size
+      const isNeedNormalUpdate = Object.keys(normalUpdate).length > 0
+      const updateArrLen = customWrpperCount + (isNeedNormalUpdate ? 1 : 0)
+      let executeTime = 0
+
+      const cb = () => {
+        if (++executeTime === updateArrLen) {
           perf.stop(SET_DATA)
-          if (!this.pendingFlush) {
-            this.flushUpdateCallback()
+          this.flushUpdateCallback()
+          initRender && perf.stop(PAGE_INIT)
+        }
+      }
+
+      // custom-wrapper setData
+      if (customWrpperCount) {
+        customWrapperMap.forEach((data, ctx) => {
+          if (process.env.NODE_ENV !== 'production' && options.debug) {
+            // eslint-disable-next-line no-console
+            console.log('custom wrapper setData: ', data)
           }
-          if (initRender) {
-            perf.stop(PAGE_INIT)
-          }
+          ctx.setData(data, cb)
         })
+      }
+
+      // page setData
+      if (isNeedNormalUpdate) {
+        if (process.env.NODE_ENV !== 'production' && options.debug) {
+          // eslint-disable-next-line no-console
+          console.log('page setData:', normalUpdate)
+        }
+        ctx.setData(normalUpdate, cb)
       }
     }, 0)
   }
 
-  public enqueueUpdateCallbak (cb: Function, ctx?: Record<string, any>) {
+  public enqueueUpdateCallback (cb: Func, ctx?: Record<string, any>) {
     this.updateCallbacks.push(() => {
       ctx ? cb.call(ctx) : cb()
     })
   }
 
   public flushUpdateCallback () {
-    this.pendingFlush = false
-    const copies = this.updateCallbacks.slice(0)
+    const updateCallbacks = this.updateCallbacks
+    if (!updateCallbacks.length) return
+
+    const copies = updateCallbacks.slice(0)
     this.updateCallbacks.length = 0
     for (let i = 0; i < copies.length; i++) {
       copies[i]()

@@ -1,6 +1,7 @@
-import React from 'react'
 import * as assert from 'assert'
+import React from 'react'
 import * as sinon from 'sinon'
+
 import { Swiper, SwiperItem } from '../h5/react'
 import { mount } from './test-tools'
 import { delay } from './utils'
@@ -178,10 +179,10 @@ describe('Swiper', () => {
     )
 
     const wrapper = await mount(app, scratch)
-    const swiper = wrapper.find('.swiper-wrapper')
+    const swiper = wrapper.find('.swiper-container')
     const swiperStyles = window.getComputedStyle(swiper)
 
-    assert(swiperStyles.transform === `matrix(1, 0, 0, 1, ${previousMargin}, 0)`)
+    assert(swiperStyles.marginLeft === `${previousMargin}px`)
   })
 
   it('should display multi items within screen width', async () => {

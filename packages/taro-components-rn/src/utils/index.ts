@@ -1,14 +1,31 @@
 import {
-  StyleSheet
+  StyleSheet,
+  StyleProp,
+  ViewStyle,
+  TextStyle
 } from 'react-native'
 
 // @see https://facebook.github.io/react-native/docs/layout-props.html
 // @see https://facebook.github.io/react-native/docs/view-style-props.html
 // @todo According to the source code of ScrollView, ['alignItems','justifyContent'] should be set to contentContainerStyle
 
-const WRAPPER_TYPE_STYLE_REGEX: RegExp = /alignSelf|aspectRatio|border.*|bottom|direction|display|end|left|margin.*|position|right|start|top|zIndex|opacity|elevation/
+const WRAPPER_TYPE_STYLE_REGEX = /alignSelf|aspectRatio|border.*|bottom|direction|display|end|left|margin.*|position|right|start|top|zIndex|opacity|elevation/
 // const INNER_TYPE_STYLE_REGEX: RegExp = /alignContent|alignItems|flexDirection|flexWrap|height|justifyContent|.*[wW]idth|.*[hH]eight|overflow|padding.*/
-const SYNC_TYPE_STYLE_REGEX: RegExp = /flex|flexBasis|flexGrow|flexShrink/
+const SYNC_TYPE_STYLE_REGEX = /flex|flexBasis|flexGrow|flexShrink/
+const TEXT_STYLE_REGEX = /color|font.*|text.*|letterSpacing|lineHeight|includeFontPadding|writingDirection/
+
+export const extracteTextStyle = (style?: StyleProp<ViewStyle>) : StyleProp<TextStyle> => {
+  const flattenStyle = StyleSheet.flatten(style)
+  const textStyle: TextStyle & { [key: string]: any } = {}
+  if (flattenStyle) {
+    Object.keys(flattenStyle).forEach((key: string) => {
+      if (TEXT_STYLE_REGEX.test(key)) {
+        textStyle[key] = flattenStyle[key]
+      }
+    })
+  }
+  return textStyle
+}
 
 export const omit = (obj: any = {}, fields: string[] = []): { [key: string]: any } => {
   const shallowCopy = { ...obj }
@@ -18,7 +35,7 @@ export const omit = (obj: any = {}, fields: string[] = []): { [key: string]: any
   return shallowCopy
 }
 
-export const dismemberStyle = (style?: StyleProp<ViewStyle>): { wrapperStyle: ViewStyle; innerStyle: ViewStyle; } => {
+export const dismemberStyle = (style?: StyleProp<ViewStyle>): { wrapperStyle: ViewStyle; innerStyle: ViewStyle } => {
   const flattenStyle: ViewStyle & { [key: string]: any } = StyleSheet.flatten(style)
   const wrapperStyle: ViewStyle & { [key: string]: any } = {}
   const innerStyle: ViewStyle & { [key: string]: any } = {}
@@ -46,7 +63,7 @@ export const dismemberStyle = (style?: StyleProp<ViewStyle>): { wrapperStyle: Vi
  * @param {string} styles
  * @returns {Object}
  */
-export const parseStyles = (styles: string = ''): { [key: string]: string } => {
+export const parseStyles = (styles = ''): { [key: string]: string } => {
   return styles
     .split(';')
     .filter((style) => style.split(':').length === 2)
@@ -60,7 +77,8 @@ export const parseStyles = (styles: string = ''): { [key: string]: string } => {
     }), {})
 }
 
-export const noop = (...args: any[]): void => {}
+// eslint-disable-next-line
+export const noop = (..._args: any[]): void => {}
 
 export default {
   omit,

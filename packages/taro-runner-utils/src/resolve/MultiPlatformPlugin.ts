@@ -1,8 +1,9 @@
-import * as path from 'path'
 import helper from '@tarojs/helper'
+import * as path from 'path'
 
 interface IOptions {
   include?: string[]
+  chain?: any
 }
 
 /**
@@ -37,8 +38,7 @@ export class MultiPlatformPlugin {
       .getHook(this.source)
       .tapAsync('MultiPlatformPlugin', (request, resolveContext, callback) => {
         const innerRequest: string = request.request || request.path
-        // request.directory will be true when is using require.context
-        if (!innerRequest || request.directory) return callback()
+        if (!innerRequest || !request.context.issuer) return callback()
 
         if (!path.extname(innerRequest)) {
           let srcRequest: string
@@ -56,7 +56,9 @@ export class MultiPlatformPlugin {
             return callback()
           }
 
-          const newRequestStr = helper.resolveMainFilePath(srcRequest)
+          const extensions = this.options.chain?.resolve?.extensions?.values()
+
+          const newRequestStr = helper.resolveMainFilePath(srcRequest, extensions)
           if (newRequestStr === innerRequest) return callback()
           const obj = Object.assign({}, request, {
             request: newRequestStr

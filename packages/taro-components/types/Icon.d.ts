@@ -38,21 +38,25 @@ declare namespace IconProps {
     download
     /** 搜索图标 */
     search
-    /** 清楚图标 */
+    /** 清除图标 */
     clear
+    /** 圆环图标(多选控件图标未选择)「微信文档未标注属性」 */
+    circle
+    /** 带圆环的信息图标「微信文档未标注属性」 */
+    info_circle
   }
 }
 
 /** 图标。组件属性的长度单位默认为 px
  * @classification base
  * @supported weapp, swan, alipay, tt, h5, rn
- * @example
+ * @example_react
  * ```tsx
  * export default class PageView extends Component {
  *   constructor() {
  *     super(...arguments)
  *   }
- * 
+ *
  *   render() {
  *     return (
  *       <View className='components-page'>
@@ -72,6 +76,22 @@ declare namespace IconProps {
  *   }
  * }
  * ```
+ * @example_vue
+ * <template>
+ *   <view class="components-page">
+ *     <icon size="60" type="success" />
+ *     <icon size="60" type="info" />
+ *     <icon size="60" type="warn" color="#ccc" />
+ *     <icon size="60" type="warn" />
+ *     <icon size="60" type="waiting" />
+ *     <icon size="20" type="success_no_circle" />
+ *     <icon size="20" type="warn" />
+ *     <icon size="20" type="success" />
+ *     <icon size="20" type="download" />
+ *     <icon size="20" type="clear" color="red" />
+ *     <icon size="20" type="search" />
+ *   </view>
+ * </template>
  * @see https://developers.weixin.qq.com/miniprogram/dev/component/icon.html
  */
 declare const Icon: ComponentType<IconProps>

@@ -1,27 +1,70 @@
-# Taro
+<div align="center">
+  <h1>Taro</h1>
+  <p>开放式跨端跨框架解决方案，轻松构建可以运行在 小程序/Web/APP 上的应用</p>
+  <a href="http://makeapullrequest.com">
+    <img src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square" alt="PRs Welcome">
+  </a>
+  <a href="https://www.npmjs.com/package/@tarojs/cli">
+    <img src="https://img.shields.io/node/v/@tarojs/cli.svg?style=flat-square">
+  </a>
+  <a href="https://www.npmjs.com/package/@tarojs/taro">
+    <img src="https://img.shields.io/npm/v/@tarojs/taro.svg?style=flat-square">
+  </a>
+  <a href="https://www.npmjs.com/package/@tarojs/taro">
+    <img src="https://img.shields.io/npm/l/@tarojs/taro.svg?style=flat-square">
+  </a>
+  <a href="https://www.npmjs.com/package/@tarojs/taro">
+    <img src="https://img.shields.io/npm/dt/@tarojs/taro.svg?style=flat-square">
+  </a>
+  <a href="https://travis-ci.org/NervJS/taro">
+    <img src="https://img.shields.io/travis/NervJS/taro.svg?style=flat-square">
+  </a>
+  <a href="https://github.com/NervJS/taro">
+    <img src="https://img.shields.io/github/contributors/NervJS/taro" alt="GitHub contributors">
+  </a>
+  <a href="https://github.com/NervJS/taro">
+    <img src="https://img.shields.io/github/commit-activity/w/NervJS/taro" alt="GitHub commit activity">
+  </a>
+  <a href="https://github.com/NervJS/taro">
+    <img src="https://img.shields.io/github/issues-closed/NervJS/taro" alt="GitHub closed issues">
+  </a>
+  <a href="https://github.com/NervJS/taro">
+    <img src="https://img.shields.io/github/commits-since/NervJS/taro/latest/next" alt="GitHub commits since latest release (by date)">
+  </a>
+  <a href="https://github.com/NervJS/taro">
+    <img src="https://img.shields.io/github/release-date/NervJS/taro" alt="GitHub Release Date">
+  </a>
+</div>
 
-[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com)
-[![](https://img.shields.io/node/v/@tarojs/cli.svg?style=flat-square)](https://www.npmjs.com/package/@tarojs/cli)
-[![](https://img.shields.io/npm/v/@tarojs/taro.svg?style=flat-square)](https://www.npmjs.com/package/@tarojs/taro)
-[![](https://img.shields.io/npm/l/@tarojs/taro.svg?style=flat-square)](https://www.npmjs.com/package/@tarojs/taro)
-[![](https://img.shields.io/npm/dt/@tarojs/taro.svg?style=flat-square)](https://www.npmjs.com/package/@tarojs/taro)
-[![](https://img.shields.io/travis/NervJS/taro.svg?style=flat-square)](https://travis-ci.org/NervJS/taro)
+[简体中文](./README.md) | [English](./README_EN.md)
 
 > 👽 Taro['tɑ:roʊ]，泰罗·奥特曼，宇宙警备队总教官，实力最强的奥特曼。
 
+## 目录
+
+1. [简介](#简介)
+2. [学习资源](#学习资源)
+3. [社区共享](#社区共享)
+4. [使用案例](#使用案例)
+5. [特性介绍](#特性介绍)
+6. [加入共建](#加入共建)
+7. [问题反馈与建议](#问题反馈与建议)
+8. [特别鸣谢](#特别鸣谢)
+9. [贡献者们](#贡献者们)
+10. [开发计划](#开发计划)
+11. [更新日志](#更新日志)
+12. [开发交流](#开发交流)
 ## 简介
 
-**Taro** 是一个开放式跨端跨框架解决方案，支持使用 React/Vue/Nerv 等框架来开发微信/京东/百度/支付宝/字节跳动/ QQ 小程序/H5 等应用。现如今市面上端的形态多种多样，Web、React Native、微信小程序等各种端大行其道，当业务要求同时在不同的端都要求有所表现的时候，针对不同的端去编写多套代码的成本显然非常高，这时候只编写一套代码就能够适配到多端的能力就显得极为需要。
+开放式跨端跨框架解决方案，支持使用 React/Vue/Nerv 等框架来开发微信/京东/百度/支付宝/字节跳动/ QQ 小程序/H5/React Native 等应用。现如今市面上端的形态多种多样，Web、React Native、微信小程序等各种端大行其道，当业务要求同时在不同的端都要求有所表现的时候，针对不同的端去编写多套代码的成本显然非常高，这时候只编写一套代码就能够适配到多端的能力就显得极为需要
 
-### 版本说明
+### 版本迁移
 
-当前 Taro 已进入 3.x 时代，相较于 Taro 1/2 采用了重运行时的架构，让开发者可以获得完整的 React/Vue 等框架的开发体验，具体请参考[《小程序跨框架开发的探索与实践》](https://mp.weixin.qq.com/s?__biz=MzU3NDkzMTI3MA==&mid=2247483770&idx=1&sn=ba2cdea5256e1c4e7bb513aa4c837834)。
-
-如果你想使用 Taro 1/2，可以访问[文档版本](https://nervjs.github.io/taro/versions)获得帮助。
+Taro 1/2 迁移至 Taro 3，请阅读[《Taro 版本升级权威指南》](https://docs.taro.zone/blog/2020-09-01-taro-versions)
 
 ## 学习资源
 
-[5 分钟上手 Taro 开发](https://taro-docs.jd.com/taro/docs/guide)
+[5 分钟上手 Taro 开发](https://docs.taro.zone/docs/guide)
 
 [awesome-taro](https://github.com/NervJS/awesome-taro)
 
@@ -29,9 +72,17 @@
 
 ## 社区共享
 
-[Taro 交流社区——让每一次交流都被沉淀](http://taro-club.jd.com/)
-
 [Taro 物料市场——让每一个轮子产生价值](http://taro-ext.jd.com/)
+
+### UI 库
+
+|  名称   | 地址  | 介绍 | 支持的框架  | 支持的 Taro 版本 |
+|  ----  | ----  | ----  | ----  | ----  |
+| [taro-ui](https://github.com/NervJS/taro-ui)  | https://taro-ui.jd.com/#/ | 一套基于 Taro 框架开发的多端 UI 组件库 | React | Taro 1/2/3 （Taro 3 需要安装 alpha 版本） |
+| [NutUI](https://github.com/jdf2e/nutui)  | https://nutui.jd.com/#/ | 京东风格的轻量级移动端 Vue 组件库 | Vue3 | Taro 3 |
+| [taroify](https://github.com/mallfoundry/taroify)  | https://taroify.gitee.io/taroify.com/introduce/ | 轻量、可靠的小程序端 Taro 组件库（Vant 的 Taro 版本） | React | Taro 3 |
+| [@antmjs/vantui](https://github.com/AntmJS/vantui)  | https://antmjs.github.io/vantui/#/home | 基于有赞 VantWeapp 开发的同时支持 Taro 和 React 的 UI 库 | React | Taro 3 |
+| [Tard](https://github.com/jd-antelope/tard)  | https://tard-ui.selling.cn/ | 一套基于Taro框架开发的多端React UI组件库 | React | Taro 3 |
 
 ## 使用案例
 
@@ -41,13 +92,13 @@ Taro 已经投入了我们的生产环境中使用，业界也在广泛地使用
 
 [征集更多优秀案例](https://github.com/NervJS/taro/issues/244)
 
-## Taro 特性
+## 特性介绍
 
-### 框架支持
+### 跨框架支持
 
 #### React/Nerv 支持
 
-在 Taro 3 中可以使用完整的 React/Nerv 开发体验，具体请参考[基础教程——React](https://nervjs.github.io/taro/docs/react)
+在 Taro 3 中可以使用完整的 React/Nerv 开发体验，具体请参考[基础教程——React](https://docs.taro.zone/docs/react-overall)
 
 代码示例
 
@@ -57,8 +108,9 @@ import { View, Text } from '@tarojs/components'
 
 export default class Index extends Component {
   state = {
-    msg: 'Hello World！'
+    msg: 'Hello World！ '
   }
+  
   componentWillUnmount () { }
 
   componentDidShow () { }
@@ -77,7 +129,7 @@ export default class Index extends Component {
 
 #### Vue 支持
 
-在 Taro 3 中可以使用完整的 Vue 开发体验，具体请参考[基础教程——Vue](https://nervjs.github.io/taro/docs/vue)
+在 Taro 3 中可以使用完整的 Vue 开发体验，具体请参考[基础教程——Vue](https://docs.taro.zone/docs/vue-overall)
 
 代码示例
 
@@ -92,7 +144,7 @@ export default class Index extends Component {
 export default {
   data () {
     return {
-      msg: 'Hello World！'
+      msg: 'Hello World!'
     }
   },
   created () {},
@@ -106,7 +158,7 @@ export default {
 
 Taro 方案的初心就是为了打造一个多端开发的解决方案。
 
-目前 Taro 3 可以支持转换到 **微信/京东/百度/支付宝/字节跳动/QQ 小程序** 以及  **H5 端**。
+目前 Taro 3 可以支持转换到`微信/京东/百度/支付宝/字节跳动/ QQ 小程序/H5/React Native` 等端。
 
 ## 加入共建
 
@@ -130,7 +182,7 @@ Taro 非常欢迎社区开发者为 Taro 贡献代码，在贡献之前请先阅
 
 ## 特别鸣谢
 
-[![nanjingboy](https://avatars1.githubusercontent.com/u/1390888?s=100&v=4)](https://github.com/nanjingboy/) | [![jsNewbee](https://avatars3.githubusercontent.com/u/20449400?s=100&v=4)](https://github.com/js-newbee/) | [![Qiyu8](https://avatars2.githubusercontent.com/u/15245051?s=100&v=4)](https://github.com/Qiyu8/) | [![Garfield550](https://avatars2.githubusercontent.com/u/3471836?s=100&v=4)](https://github.com/Qiyu8/)
+[![nanjingboy](https://avatars1.githubusercontent.com/u/1390888?s=100&v=4)](https://github.com/nanjingboy/) | [![jsNewbee](https://avatars3.githubusercontent.com/u/20449400?s=100&v=4)](https://github.com/js-newbee/) | [![Qiyu8](https://avatars2.githubusercontent.com/u/15245051?s=100&v=4)](https://github.com/Qiyu8/) | [![Garfield550](https://avatars2.githubusercontent.com/u/3471836?s=100&v=4)](https://github.com/Garfield550/)
 :---:|:---:|:---:|:---:
 [nanjingboy](https://github.com/nanjingboy/) | [jsNewbee](https://github.com/js-newbee/) |  [Qiyu8](https://github.com/Qiyu8/) |  [Garfield Lee](https://github.com/Garfield550/)
 

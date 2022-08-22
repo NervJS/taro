@@ -94,13 +94,13 @@ declare namespace SliderProps {
 /** 滑动选择器
  * @classification forms
  * @supported weapp, h5, rn, swan, alipay, tt
- * @example
+ * @example_react
  * ```tsx
  * export default class PageView extends Component {
  *   constructor() {
  *     super(...arguments)
  *   }
- * 
+ *
  *   render() {
  *     return (
  *       <View className='components-page'>
@@ -114,6 +114,19 @@ declare namespace SliderProps {
  *     )
  *   }
  * }
+ * ```
+ * @example_vue
+ * ```html
+ * <template>
+ *   <view class="components-page">
+ *     <text>设置 step</text>
+ *     <slider step="1" value="50"/>
+ *     <text>显示当前 value</text>
+ *     <slider step="1" value="50" :show-value="true" />
+ *     <text>设置最小/最大值</text>
+ *     <slider step="1" value="100" :show-value="true" min="50" max="200"/>
+ *   </view>
+ * </template>
  * ```
  * @see https://developers.weixin.qq.com/miniprogram/dev/component/slider.html
  */

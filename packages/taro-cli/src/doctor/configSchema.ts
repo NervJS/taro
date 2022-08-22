@@ -1,9 +1,9 @@
-import * as Joi from '@hapi/joi'
+import * as Joi from 'joi'
 
 const schema = Joi.object().keys({
   projectName: Joi.string().required(),
   date: Joi.date(),
-  designWidth: Joi.number().integer().positive(),
+  designWidth: Joi.alternatives(Joi.number().integer().positive(), Joi.function()),
   deviceRatio: Joi.object().pattern(Joi.number(), Joi.number()),
   sourceRoot: Joi.string().required(),
   outputRoot: Joi.string().required(),
@@ -31,7 +31,8 @@ const schema = Joi.object().keys({
       Joi.object().keys({
         from: Joi.string().required(),
         to: Joi.string().required(),
-        ignore: Joi.string()
+        ignore: Joi.array().items(Joi.string()),
+        transform: Joi.func()
       })
     ),
 
@@ -40,9 +41,43 @@ const schema = Joi.object().keys({
     })
   }),
 
-  framework: Joi.any().valid('nerv', 'react', 'vue', 'vue3'),
+  framework: Joi.any().valid('nerv', 'react', 'preact', 'vue', 'vue3').required(),
+
+  compiler: Joi.alternatives(
+    Joi.string().valid('webpack4', 'webpack5'),
+    Joi.object().keys({
+      type: Joi.string().valid('webpack4', 'webpack5'),
+      prebundle: Joi.object().keys({
+        enable: Joi.boolean(),
+        timings: Joi.boolean(),
+        cacheDir: Joi.string(),
+        force: Joi.boolean(),
+        include: Joi.array(),
+        exclude: Joi.array(),
+        esbuild: Joi.object().unknown(),
+        swc: Joi.object().unknown(),
+        webpack: Joi.object().keys({
+          provide: Joi.array().items(Joi.function())
+        })
+      })
+    })
+  ),
+
+  jsMinimizer: Joi.string().valid('terser', 'esbuild'),
+
+  cssMinimizer: Joi.string().valid('csso', 'esbuild', 'parcelCss'),
+
+  cache: Joi.object().keys({
+    enable: Joi.bool()
+  }).unknown(),
+
+  logger: Joi.object().keys({
+    quiet: Joi.bool(),
+    stats: Joi.bool()
+  }).unknown(),
 
   mini: Joi.object().keys({
+    baseLevel: Joi.number().integer().positive(),
     compile: Joi.object().keys({
       exclude: Joi.array().items(Joi.string(), Joi.function()),
       include: Joi.array().items(Joi.string(), Joi.function())
@@ -51,6 +86,12 @@ const schema = Joi.object().keys({
     commonChunks: Joi.alternatives(Joi.func(), Joi.array().items(Joi.string())),
     addChunkPages: Joi.func(),
     output: Joi.object(),
+    enableSourceMap: Joi.bool(),
+    sourceMapType: Joi.string(),
+    debugReact: Joi.bool(),
+    minifyXML: Joi.object().keys({
+      collapseWhitespace: Joi.bool()
+    }),
     postcss: Joi.object().pattern(
       Joi.string(),
       Joi.object().keys({
@@ -83,6 +124,12 @@ const schema = Joi.object().keys({
     enable: Joi.bool(),
     config: Joi.object()
   }),
+  esbuild: Joi.object().keys({
+    minify: Joi.object().keys({
+      enable: Joi.bool(),
+      config: Joi.object()
+    })
+  }),
   sass: Joi.object().keys({
     resource: Joi.alternatives(Joi.array(), Joi.string()),
     projectDirectory: Joi.string(),
@@ -98,7 +145,10 @@ const schema = Joi.object().keys({
     output: Joi.object(),
     router: Joi.object(),
 
-    esnextModules: Joi.array().items(Joi.string()),
+    esnextModules: Joi.array().items(Joi.alternatives(
+      Joi.string(),
+      Joi.object().instance(RegExp)
+    )),
 
     // DEPRECATED: https://nervjs.github.io/taro/docs/config-detail.html#deprecated-h5webpack
     webpack: Joi.forbidden(),
@@ -114,6 +164,7 @@ const schema = Joi.object().keys({
       Joi.func()
     ),
     enableSourceMap: Joi.bool(),
+    sourceMapType: Joi.string(),
     enableExtract: Joi.bool(),
     cssLoaderOption: Joi.object(), // 第三方配置
     styleLoaderOption: Joi.object(), // 第三方配置
