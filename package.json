@@ -60,7 +60,7 @@
     "@babel/runtime": "^7.14.5",
     "@babel/traverse": "^7.14.5",
     "@babel/types": "^7.14.5",
-    "@commitlint/cli": "^16.2.1",
+    "@commitlint/cli": "^17.0.3",
     "@commitlint/config-conventional": "^16.2.1",
     "@jest/globals": "^26.6.2",
     "@rollup/plugin-babel": "^5.2.1",
