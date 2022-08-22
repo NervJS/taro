@@ -227,6 +227,7 @@ export default class BasePrebundle<T extends IPrebundleConfig = IPrebundleConfig
     delete inherit.devServer
     delete inherit.module
     delete inherit.plugins
+    delete inherit.optimization?.splitChunks
 
     return webpack(recursiveMerge(inherit, standard, custom))
   }
