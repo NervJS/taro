@@ -223,19 +223,19 @@ interface VideoProps extends StandardProps {
    * @supported weapp
    */
   showScreenLockButton?: boolean
-  
+
   /**
    * 是否显示截屏按钮，仅在全屏时显示
    * @supported weapp
    */
   showSnapshotButton?: boolean
-  
+
   /**
    * 是否展示后台音频播放按钮
    * @supported weapp
    */
   showBackgroundPlaybackButton?: boolean
-  
+
   /**
    * 进入后台音频播放后的通知栏图标（Android 独有）
    * @supported weapp
@@ -272,9 +272,8 @@ interface VideoProps extends StandardProps {
    */
   onFullscreenChange?: CommonEventFunction<VideoProps.onFullscreenChangeEventDetail>
 
-  /** 当视频进入和退出全屏时触发
+  /** 视频出现缓冲时触发
    *
-   * event.detail = {fullScreen, direction}，direction 取为 vertical 或 horizontal
    * @supported weapp, swan, tt
    * @h5 待定
    */
