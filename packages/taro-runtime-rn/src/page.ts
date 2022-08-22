@@ -109,10 +109,8 @@ export function createPageConfig (Page: any, pageConfig: PageConfig): any {
   let ScreenPage = Page
   if (!isReactComponent) {
     // eslint-disable-next-line react/display-name
-    ScreenPage = React.forwardRef((props, ref) => {
-      const newProps: React.Props<any> = { ...props }
-      newProps.ref = ref
-      return h(Page, { ...newProps }, null)
+    ScreenPage = React.forwardRef((props) => {
+      return h(Page, { ...props }, null)
     })
   }
 
