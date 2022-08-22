@@ -8,8 +8,7 @@ interface VideoProps extends StandardProps {
   src: string
 
   /** 指定视频时长
-   * @supported weapp, swan, alipay, rn
-   * @h5 待定
+   * @supported weapp, h5, swan, alipay, rn
    */
   duration?: number
 
@@ -20,22 +19,19 @@ interface VideoProps extends StandardProps {
   controls?: boolean
 
   /** 弹幕列表
-   * @supported weapp, swan
-   * @h5 待定
+   * @supported weapp, h5, swan
    */
   danmuList?: any[]
 
   /** 是否显示弹幕按钮，只在初始化时有效，不能动态变更
    * @default false
-   * @supported weapp, swan
-   * @h5 待定
+   * @supported weapp, h5, swan
    */
   danmuBtn?: boolean
 
   /** 是否展示弹幕，只在初始化时有效，不能动态变更
    * @default false
-   * @supported weapp, swan
-   * @h5 待定
+   * @supported weapp, h5, swan
    */
   enableDanmu?: boolean
 
@@ -64,55 +60,47 @@ interface VideoProps extends StandardProps {
 
   /** 在非全屏模式下，是否开启亮度与音量调节手势
    * @default false
-   * @h5 待定
    */
   pageGesture?: boolean
 
   /** 设置全屏时视频的方向，不指定则根据宽高比自动判断。有效值为 0（正常竖向）, 90（屏幕逆时针90度）, -90（屏幕顺时针90度）
    * @supported weapp, swan, alipay
-   * @h5 待定
    */
   direction?: number
 
   /** 若不设置，宽度大于240时才会显示
    * @default true
-   * @supported weapp, swan, tt
-   * @h5 待定
+   * @supported weapp, h5, swan, tt
    */
   showProgress?: boolean
 
   /** 是否显示全屏按钮
    * @default true
-   * @supported weapp, swan, alipay, tt
-   * @h5 待定
+   * @supported weapp, h5, swan, alipay, tt
    */
   showFullscreenBtn?: boolean
 
   /** 是否显示视频底部控制栏的播放按钮
    * @default true
-   * @supported weapp, swan, alipay, tt
-   * @h5 待定
+   * @supported weapp, h5, swan, alipay, tt
    */
   showPlayBtn?: boolean
 
   /** 是否显示视频中间的播放按钮
    * @default true
-   * @supported weapp, swan, alipay, rn
-   * @h5 待定
+   * @supported weapp, h5, swan, alipay, rn
    */
   showCenterPlayBtn?: boolean
 
   /** 是否开启控制进度的手势
    * @default true
-   * @supported weapp, swan, alipay, tt
-   * @h5 待定
+   * @supported weapp, h5, swan, alipay, tt
    */
   enableProgressGesture?: boolean
 
   /** 当视频大小与 video 容器大小不一致时，视频的表现形式
    * @default "contain"
-   * @supported weapp, swan, alipay, tt
-   * @h5 待定
+   * @supported weapp, h5, swan, alipay, tt
    */
   objectFit?: keyof VideoProps.ObjectFit
 
@@ -123,14 +111,12 @@ interface VideoProps extends StandardProps {
 
   /** 是否显示静音按钮
    * @default false
-   * @supported weapp, tt
-   * @h5 待定
+   * @supported weapp, h5, tt
    */
   showMuteBtn?: boolean
 
   /** 视频的标题，全屏时在顶部展示
    * @supported weapp
-   * @h5 待定
    */
   title?: string
 
@@ -140,42 +126,36 @@ interface VideoProps extends StandardProps {
    *
    * @default 'bottom'
    * @supported weapp, tt
-   * @h5 待定
    */
   playBtnPosition?: keyof VideoProps.PlayBtnPosition
 
   /** 是否开启播放手势，即双击切换播放/暂停
    * @default false
-   * @supported weapp, tt
-   * @h5 待定
+   * @supported weapp, h5, tt
    */
   enablePlayGesture?: boolean
 
   /** 当跳转到其它小程序页面时，是否自动暂停本页面的视频
    * @default true
    * @supported weapp
-   * @h5 待定
    */
   autoPauseIfNavigate?: boolean
 
   /** 当跳转到其它微信原生页面时，是否自动暂停本页面的视频
    * @default true
    * @supported weapp
-   * @h5 待定
    */
   autoPauseIfOpenNative?: boolean
 
   /** 在非全屏模式下，是否开启亮度与音量调节手势（同 `page-gesture`）
    * @default false
-   * @supported weapp, swan, tt
-   * @h5 待定
+   * @supported weapp, h5, swan, tt
    */
   vslideGesture?: boolean
 
   /** 在全屏模式下，是否开启亮度与音量调节手势
    * @default true
-   * @supported weapp, tt
-   * @h5 待定
+   * @supported weapp, h5, tt
    */
   vslideGestureInFullscreen?: boolean
 
@@ -266,16 +246,13 @@ interface VideoProps extends StandardProps {
 
   /** 当视频进入和退出全屏时触发
    *
-   * event.detail = {fullScreen, direction}，direction取为 vertical 或 horizontal
-   * @supported weapp, swan, alipay, rn, tt
-   * @h5 待定
+   * @supported weapp, h5, swan, alipay, rn, tt
    */
   onFullscreenChange?: CommonEventFunction<VideoProps.onFullscreenChangeEventDetail>
 
   /** 视频出现缓冲时触发
    *
    * @supported weapp, swan, tt
-   * @h5 待定
    */
   onWaiting?: CommonEventFunction<VideoProps.onWaitingEventDetail>
 
@@ -283,9 +260,9 @@ interface VideoProps extends StandardProps {
    * @supported weapp, h5, swan, alipay, tt, rn
    */
   onError?: CommonEventFunction
+
   /** 加载进度变化时触发，只支持一段加载
-   * @supported weapp, alipay
-   * @h5 待定
+   * @supported weapp, h5, alipay
    */
   onProgress?: CommonEventFunction<VideoProps.onProgressEventDetail>
 
@@ -359,13 +336,13 @@ declare namespace VideoProps {
   }
   interface onFullscreenChangeEventDetail {
     /** 方向 */
-    direction: number
+    direction: 'vertical' | 'horizontal'
     /** 全屏 */
     fullScreen: number | boolean
   }
   interface onWaitingEventDetail {
     /** 方向 */
-    direction: number
+    direction: 'vertical' | 'horizontal'
     /** 全屏 */
     fullScreen: number | boolean
   }
