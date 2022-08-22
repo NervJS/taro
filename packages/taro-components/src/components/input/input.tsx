@@ -144,6 +144,7 @@ export class Input implements ComponentInterface {
         value,
         cursor: value.length
       })
+      this.onInputExcuted = false
     }
   }
 
