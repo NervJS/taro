@@ -290,7 +290,7 @@ class _Video extends Component<Props, any> {
     const detail: onFullscreenChangeEventDetail = {
       fullScreen: fullscreenUpdate === PLAYER_WILL_PRESENT || fullscreenUpdate === PLAYER_DID_PRESENT,
       fullscreenUpdate,
-      direction: 1,
+      direction: 'vertical',
       ...status,
     }
     if (this.state.isFullScreen !== fullScreen) {
