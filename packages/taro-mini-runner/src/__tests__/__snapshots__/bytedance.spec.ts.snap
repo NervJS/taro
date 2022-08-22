@@ -236,7 +236,7 @@ require(\\"./taro\\");
   </view>
 </template>
 
-<template name=\\"tmpl_0_4\\">
+<template name=\\"tmpl_0_5\\">
   <view hover-class=\\"{{i.p1===undefined?'none':i.p1}}\\" hover-stop-propagation=\\"{{i.p4===undefined?!1:i.p4}}\\" hover-start-time=\\"{{i.p2===undefined?50:i.p2}}\\" hover-stay-time=\\"{{i.p3===undefined?400:i.p3}}\\" animation=\\"{{i.p0}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
     <block tt:for=\\"{{i.cn}}\\" tt:key=\\"sid\\">
       <template is=\\"tmpl_0_container\\" data=\\"{{i:item}}\\" />
@@ -244,7 +244,7 @@ require(\\"./taro\\");
   </view>
 </template>
 
-<template name=\\"tmpl_0_1\\">
+<template name=\\"tmpl_0_2\\">
   <view style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
     <block tt:for=\\"{{i.cn}}\\" tt:key=\\"sid\\">
       <template is=\\"tmpl_0_container\\" data=\\"{{i:item}}\\" />
@@ -260,7 +260,7 @@ require(\\"./taro\\");
   </view>
 </template>
 
-<template name=\\"tmpl_0_2\\">
+<template name=\\"tmpl_0_4\\">
   <text selectable=\\"{{i.p1===undefined?!1:i.p1}}\\" space=\\"{{i.p2}}\\" decode=\\"{{i.p0===undefined?!1:i.p0}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
     <block tt:for=\\"{{i.cn}}\\" tt:key=\\"sid\\">
       <template is=\\"tmpl_0_container\\" data=\\"{{i:item}}\\" />
@@ -348,7 +348,7 @@ require(\\"./taro\\");
   </image>
 </template>
 
-<template name=\\"tmpl_0_5\\">
+<template name=\\"tmpl_0_1\\">
   <image src=\\"{{i.p2}}\\" mode=\\"{{i.p1===undefined?'scaleToFill':i.p1}}\\" lazy-load=\\"{{i.p0===undefined?!1:i.p0}}\\" binderror=\\"eh\\" bindload=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
     <block tt:for=\\"{{i.cn}}\\" tt:key=\\"sid\\">
       <template is=\\"tmpl_0_container\\" data=\\"{{i:item}}\\" />
