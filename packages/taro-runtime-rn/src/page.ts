@@ -1,6 +1,6 @@
 import { getCurrentRoute, PageProvider } from '@tarojs/router-rn'
 import * as React from 'react'
-import { AppState, Dimensions, EmitterSubscription, NativeEventSubscription, RefreshControl, ScrollView, View } from 'react-native'
+import { AppState, Dimensions, EmitterSubscription, NativeEventSubscription, RefreshControl, ScrollView } from 'react-native'
 
 import { isClassComponent } from './app'
 import { Current } from './current'
@@ -110,14 +110,7 @@ export function createPageConfig (Page: any, pageConfig: PageConfig): any {
   if (!isReactComponent) {
     // eslint-disable-next-line react/display-name
     ScreenPage = React.forwardRef((props, ref) => {
-      const newProps: React.Props<any> = { ...props }
-      newProps.ref = ref
-      return h(View, {
-        style: {
-          minHeight: '100%'
-        },
-        ...newProps
-      }, h(Page, { ...props }, null))
+      return h(Page, { forwardRef: ref, ...props }, null)
     })
   }
 
