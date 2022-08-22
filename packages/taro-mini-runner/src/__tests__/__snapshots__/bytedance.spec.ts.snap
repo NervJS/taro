@@ -62,6 +62,9 @@ require(\\"./taro\\");
                 needPromiseApis: needPromiseApis
             });
         }
+        var _true = \\"true\\";
+        var _false = \\"false\\";
+        var _empty = \\"\\";
         var components = {
             Icon: {
                 size: \\"24\\"
@@ -82,13 +85,28 @@ require(\\"./taro\\");
             },
             Video: {
                 \\"play-btn-position\\": undefined(\\"center\\"),
-                \\"pre-roll-unit-id\\": \\"\\",
-                \\"post-roll-unit-id\\": \\"\\",
-                bindAdStart: \\"\\",
-                bindAdEnded: \\"\\",
-                bindAdLoad: \\"\\",
-                bindAdClose: \\"\\",
-                bindAdError: \\"\\"
+                \\"pre-roll-unit-id\\": _empty,
+                \\"post-roll-unit-id\\": _empty,
+                \\"vslide-gesture\\": _false,
+                \\"vslide-gesture-in-fullscreen\\": _true,
+                \\"enable-play-gesture\\": _false,
+                \\"show-playback-rate-btn\\": _false,
+                \\"enable-play-in-background\\": _false,
+                signature: _empty,
+                bindProgress: _empty,
+                bindSeekComplete: _empty,
+                bindAdLoad: _empty,
+                bindAdStart: _empty,
+                bindAdEnded: _empty,
+                bindAdError: _empty,
+                bindAdClose: _empty,
+                bindLoadedMetadata: _empty,
+                bindPlaybackRateChange: _empty,
+                bindMuteChange: _empty,
+                bindControlTap: _empty,
+                bindEnterBackground: _empty,
+                bindCloseBackground: _empty,
+                bindLeaveBackground: _empty
             },
             Ad: {
                 fixed: \\"\\",
