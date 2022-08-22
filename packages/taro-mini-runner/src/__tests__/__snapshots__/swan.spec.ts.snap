@@ -381,7 +381,7 @@ require(\\"./taro\\");
                                       <block>{{item.v}}</block>
                                     </block>
                                   </text>
-                                  <text s-elif=\\"{{item.nn==='2'&&(item.st||item.cl)}}\\" id=\\"{{item.uid||item.sid}}\\" data-sid=\\"{{item.sid}}\\" selectable=\\"{{xs.b(item.p1,!1)}}\\" space=\\"{{item.p2}}\\" decode=\\"{{xs.b(item.p0,!1)}}\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\">
+                                  <text s-elif=\\"{{item.nn==='4'&&(item.st||item.cl)}}\\" id=\\"{{item.uid||item.sid}}\\" data-sid=\\"{{item.sid}}\\" selectable=\\"{{xs.b(item.p1,!1)}}\\" space=\\"{{item.p2}}\\" decode=\\"{{xs.b(item.p0,!1)}}\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\">
                                     <block s-for=\\"{{item.cn}}\\" s-key=\\"sid\\">
                                       <block>{{item.v}}</block>
                                     </block>
@@ -407,7 +407,7 @@ require(\\"./taro\\");
                                   <block>{{item.v}}</block>
                                 </block>
                               </text>
-                              <text s-elif=\\"{{item.nn==='2'&&(item.st||item.cl)}}\\" id=\\"{{item.uid||item.sid}}\\" data-sid=\\"{{item.sid}}\\" selectable=\\"{{xs.b(item.p1,!1)}}\\" space=\\"{{item.p2}}\\" decode=\\"{{xs.b(item.p0,!1)}}\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\">
+                              <text s-elif=\\"{{item.nn==='4'&&(item.st||item.cl)}}\\" id=\\"{{item.uid||item.sid}}\\" data-sid=\\"{{item.sid}}\\" selectable=\\"{{xs.b(item.p1,!1)}}\\" space=\\"{{item.p2}}\\" decode=\\"{{xs.b(item.p0,!1)}}\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\">
                                 <block s-for=\\"{{item.cn}}\\" s-key=\\"sid\\">
                                   <block>{{item.v}}</block>
                                 </block>
@@ -433,7 +433,7 @@ require(\\"./taro\\");
                               <block>{{item.v}}</block>
                             </block>
                           </text>
-                          <text s-elif=\\"{{item.nn==='2'&&(item.st||item.cl)}}\\" id=\\"{{item.uid||item.sid}}\\" data-sid=\\"{{item.sid}}\\" selectable=\\"{{xs.b(item.p1,!1)}}\\" space=\\"{{item.p2}}\\" decode=\\"{{xs.b(item.p0,!1)}}\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\">
+                          <text s-elif=\\"{{item.nn==='4'&&(item.st||item.cl)}}\\" id=\\"{{item.uid||item.sid}}\\" data-sid=\\"{{item.sid}}\\" selectable=\\"{{xs.b(item.p1,!1)}}\\" space=\\"{{item.p2}}\\" decode=\\"{{xs.b(item.p0,!1)}}\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\">
                             <block s-for=\\"{{item.cn}}\\" s-key=\\"sid\\">
                               <block>{{item.v}}</block>
                             </block>
@@ -459,7 +459,7 @@ require(\\"./taro\\");
                           <block>{{item.v}}</block>
                         </block>
                       </text>
-                      <text s-elif=\\"{{item.nn==='2'&&(item.st||item.cl)}}\\" id=\\"{{item.uid||item.sid}}\\" data-sid=\\"{{item.sid}}\\" selectable=\\"{{xs.b(item.p1,!1)}}\\" space=\\"{{item.p2}}\\" decode=\\"{{xs.b(item.p0,!1)}}\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\">
+                      <text s-elif=\\"{{item.nn==='4'&&(item.st||item.cl)}}\\" id=\\"{{item.uid||item.sid}}\\" data-sid=\\"{{item.sid}}\\" selectable=\\"{{xs.b(item.p1,!1)}}\\" space=\\"{{item.p2}}\\" decode=\\"{{xs.b(item.p0,!1)}}\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\">
                         <block s-for=\\"{{item.cn}}\\" s-key=\\"sid\\">
                           <block>{{item.v}}</block>
                         </block>
@@ -485,7 +485,7 @@ require(\\"./taro\\");
                       <block>{{item.v}}</block>
                     </block>
                   </text>
-                  <text s-elif=\\"{{item.nn==='2'&&(item.st||item.cl)}}\\" id=\\"{{item.uid||item.sid}}\\" data-sid=\\"{{item.sid}}\\" selectable=\\"{{xs.b(item.p1,!1)}}\\" space=\\"{{item.p2}}\\" decode=\\"{{xs.b(item.p0,!1)}}\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\">
+                  <text s-elif=\\"{{item.nn==='4'&&(item.st||item.cl)}}\\" id=\\"{{item.uid||item.sid}}\\" data-sid=\\"{{item.sid}}\\" selectable=\\"{{xs.b(item.p1,!1)}}\\" space=\\"{{item.p2}}\\" decode=\\"{{xs.b(item.p0,!1)}}\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\">
                     <block s-for=\\"{{item.cn}}\\" s-key=\\"sid\\">
                       <block>{{item.v}}</block>
                     </block>
@@ -511,7 +511,7 @@ require(\\"./taro\\");
                   <block>{{item.v}}</block>
                 </block>
               </text>
-              <text s-elif=\\"{{item.nn==='2'&&(item.st||item.cl)}}\\" id=\\"{{item.uid||item.sid}}\\" data-sid=\\"{{item.sid}}\\" selectable=\\"{{xs.b(item.p1,!1)}}\\" space=\\"{{item.p2}}\\" decode=\\"{{xs.b(item.p0,!1)}}\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\">
+              <text s-elif=\\"{{item.nn==='4'&&(item.st||item.cl)}}\\" id=\\"{{item.uid||item.sid}}\\" data-sid=\\"{{item.sid}}\\" selectable=\\"{{xs.b(item.p1,!1)}}\\" space=\\"{{item.p2}}\\" decode=\\"{{xs.b(item.p0,!1)}}\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\">
                 <block s-for=\\"{{item.cn}}\\" s-key=\\"sid\\">
                   <block>{{item.v}}</block>
                 </block>
@@ -537,7 +537,7 @@ require(\\"./taro\\");
               <block>{{item.v}}</block>
             </block>
           </text>
-          <text s-elif=\\"{{item.nn==='2'&&(item.st||item.cl)}}\\" id=\\"{{item.uid||item.sid}}\\" data-sid=\\"{{item.sid}}\\" selectable=\\"{{xs.b(item.p1,!1)}}\\" space=\\"{{item.p2}}\\" decode=\\"{{xs.b(item.p0,!1)}}\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\">
+          <text s-elif=\\"{{item.nn==='4'&&(item.st||item.cl)}}\\" id=\\"{{item.uid||item.sid}}\\" data-sid=\\"{{item.sid}}\\" selectable=\\"{{xs.b(item.p1,!1)}}\\" space=\\"{{item.p2}}\\" decode=\\"{{xs.b(item.p0,!1)}}\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\">
             <block s-for=\\"{{item.cn}}\\" s-key=\\"sid\\">
               <block>{{item.v}}</block>
             </block>
@@ -563,7 +563,7 @@ require(\\"./taro\\");
           <block>{{item.v}}</block>
         </block>
       </text>
-      <text s-elif=\\"{{item.nn==='2'&&(item.st||item.cl)}}\\" id=\\"{{item.uid||item.sid}}\\" data-sid=\\"{{item.sid}}\\" selectable=\\"{{xs.b(item.p1,!1)}}\\" space=\\"{{item.p2}}\\" decode=\\"{{xs.b(item.p0,!1)}}\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\">
+      <text s-elif=\\"{{item.nn==='4'&&(item.st||item.cl)}}\\" id=\\"{{item.uid||item.sid}}\\" data-sid=\\"{{item.sid}}\\" selectable=\\"{{xs.b(item.p1,!1)}}\\" space=\\"{{item.p2}}\\" decode=\\"{{xs.b(item.p0,!1)}}\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\">
         <block s-for=\\"{{item.cn}}\\" s-key=\\"sid\\">
           <block>{{item.v}}</block>
         </block>
@@ -586,7 +586,7 @@ require(\\"./taro\\");
   </view>
 </template>
 
-<template name=\\"tmpl_0_2\\">
+<template name=\\"tmpl_0_4\\">
   <text selectable=\\"{{xs.b(i.p1,!1)}}\\" space=\\"{{i.p2}}\\" decode=\\"{{xs.b(i.p0,!1)}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
     <block s-for=\\"{{i.cn}}\\" s-key=\\"sid\\">
       <block s-if=\\"item.nn === '8'\\">{{item.v}}</block>
@@ -731,7 +731,7 @@ require(\\"./taro\\");
   </image>
 </template>
 
-<template name=\\"tmpl_0_5\\">
+<template name=\\"tmpl_0_1\\">
   <image src=\\"{{i.p2}}\\" mode=\\"{{xs.b(i.p1,'scaleToFill')}}\\" lazy-load=\\"{{xs.b(i.p0,!1)}}\\" binderror=\\"eh\\" bindload=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongtap=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
     <block s-for=\\"{{i.cn}}\\" s-key=\\"sid\\">
       <template is=\\"{{xs.e(0)}}\\" data=\\"{{{ i:item }}}\\" />
