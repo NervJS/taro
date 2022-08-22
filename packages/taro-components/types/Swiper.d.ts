@@ -150,6 +150,10 @@ declare namespace SwiperProps {
     current: number
     /** 导致变更的原因 */
     source: keyof SwiperProps.TChangeSource
+    /** 是否为动画开始时 */
+    start?: boolean
+    /** 是否为动画结束时 */
+    end?: boolean
     /** SwiperItem的itemId参数值 */
     currentItemId?: string
   }
