@@ -124,7 +124,7 @@
     "@vue/babel-plugin-jsx": "^1.0.6",
     "@vue/babel-preset-jsx": "^1.2.4",
     "@vue/compiler-core": "3.0.0",
-    "@vue/runtime-core": "3.0.0",
+    "@vue/runtime-core": "3.2.37",
     "@vue/runtime-dom": "3.0.0",
     "babel-jest": "24.9.0",
     "babel-plugin-syntax-jsx": "6.18.0",
