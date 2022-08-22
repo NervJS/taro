@@ -238,13 +238,6 @@ describe('Swiper', () => {
 
     assert(onChange.calledOnceWith({
       current: 1,
-      start: true,
-      source: ''
-    }))
-
-    assert(onChange.calledOnceWith({
-      current: 1,
-      end: true,
       source: ''
     }))
 
