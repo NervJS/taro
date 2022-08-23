@@ -9,9 +9,10 @@ import WeappCI from './WeappCI'
 
 export { CIOptions } from './BaseCi'
 export default (ctx: IPluginContext, _pluginOpts: CIOptions | (() => CIOptions)) => {
-  const onBuildDone = ctx.onBuildComplete || ctx.onBuildFinish
-  const pluginOpts = typeof _pluginOpts === 'function' ? _pluginOpts() : _pluginOpts
-
+  const args = minimist(process.argv.slice(2), {
+    boolean: ['open', 'upload', 'preview']
+  })
+  const command = args._[0]
 
   ctx.addPluginOptsSchema((joi) => {
     return joi.alternatives().try(
@@ -53,46 +54,49 @@ export default (ctx: IPluginContext, _pluginOpts: CIOptions | (() => CIOptions))
     )
   })
 
-  onBuildDone(async () => {
-    const args = minimist(process.argv.slice(2), {
-      boolean: ['open', 'upload', 'preview']
+  if (command === 'build') {
+    const onBuildDone = ctx.onBuildComplete || ctx.onBuildFinish
+    onBuildDone(async () => {
+      const { printLog, processTypeEnum } = ctx.helper
+      const platform = ctx.runOpts.options.platform
+      // 可通过移步函数获取插件选项
+      const pluginOpts = typeof _pluginOpts === 'function' ? await _pluginOpts() : _pluginOpts
+      let ci
+      switch (platform) {
+        case 'weapp':
+          ci = new WeappCI(ctx, pluginOpts)
+          break
+        case 'tt':
+          ci = new TTCI(ctx, pluginOpts)
+          break
+        case 'alipay':
+        case 'iot':
+          ci = new AlipayCI(ctx, pluginOpts)
+          break
+        case 'swan':
+          ci = new SwanCI(ctx, pluginOpts)
+          break
+        default:
+          break
+      }
+      if (!ci) {
+        printLog(processTypeEnum.WARNING, `"@tarojs/plugin-mini-ci" 插件暂时不支持 "${platform}" 平台`)
+        return
+      }
+      switch (true) {
+        case args.open:
+          ci.open()
+          break
+        case args.upload:
+          ci.upload()
+          break
+        case args.preview:
+          ci.preview()
+          break
+        default:
+          break
+      }
     })
-    const { printLog, processTypeEnum } = ctx.helper
-    const platform = ctx.runOpts.options.platform
-    let ci
-    switch (platform) {
-      case 'weapp':
-        ci = new WeappCI(ctx, pluginOpts)
-        break
-      case 'tt':
-        ci = new TTCI(ctx, pluginOpts)
-        break
-      case 'alipay':
-      case 'iot':
-        ci = new AlipayCI(ctx, pluginOpts)
-        break
-      case 'swan':
-        ci = new SwanCI(ctx, pluginOpts)
-        break
-      default:
-        break
-    }
-    if (!ci) {
-      printLog(processTypeEnum.WARNING, `"@tarojs/plugin-mini-ci" 插件暂时不支持 "${platform}" 平台`)
-      return
-    }
-    switch (true) {
-      case args.open:
-        ci.open()
-        break
-      case args.upload:
-        ci.upload()
-        break
-      case args.preview:
-        ci.preview()
-        break
-      default:
-        break
-    }
-  })
+  }
+  
 }
