@@ -233,8 +233,8 @@ declare module '../../index' {
      * @supported weapp
      * @example
      * ```tsx
-     * if (wx.openBusinessView) {
-     *   wx.openBusinessView({
+     * if (Taro.openBusinessView) {
+     *   Taro.openBusinessView({
      *     businessType: 'wxpayScoreDetail',
      *     extraData: {
      *       mch_id: '1230000109',
