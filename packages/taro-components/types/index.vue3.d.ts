@@ -11,7 +11,7 @@
  * ```
  */
 import * as CSS from 'csstype'
-import { Component } from 'vue'
+import { DefineComponent } from 'vue'
 
 import { StandardProps } from './common'
 /** 视图容器 */
@@ -87,7 +87,7 @@ interface SlimProps {
 /** 转换 react 的类型到 vue */
 type RemoveReactAttribute = 'className' | 'style' | 'key' | 'ref' | 'dangerouslySetInnerHTML'
 type TransformReact2VueType<P extends StandardProps = Record<string, never>> = DistributiveOmit<P, RemoveReactAttribute> & SlimProps
-export type VueComponentType<P = Record<string, never>> = Component<TransformReact2VueType<P>>
+export type VueComponentType<P = Record<string, never>> = DefineComponent<TransformReact2VueType<P>>
 
 export * from './common'
 export * from './event'
