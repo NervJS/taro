@@ -14,7 +14,7 @@ env:
 jobs:
   publish:
     name: Publish
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-latest
     steps:
       # Setup
       - name: Checkout
