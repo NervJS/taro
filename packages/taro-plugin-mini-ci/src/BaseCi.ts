@@ -17,6 +17,8 @@ export interface WeappConfig {
   type?: ProjectType
   /** 上传需要排除的目录 */
   ignores?: Array<string>
+  /** 指定使用哪一个 ci 机器人，可选值：1 ~ 30 */
+  robot?: number
 }
 
 /** 头条小程序配置 */

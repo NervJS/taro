@@ -1,7 +1,9 @@
 /* eslint-disable no-console */
 import * as cp from 'child_process'
+import * as crypto from 'crypto'
 import * as ci from 'miniprogram-ci'
 import { Project } from 'miniprogram-ci'
+import { ICreateProjectOptions } from 'miniprogram-ci/dist/@types/ci/project'
 import * as os from 'os'
 import * as path from 'path'
 
@@ -21,13 +23,14 @@ export default class WeappCI extends BaseCI {
     this.devToolsInstallPath = this.pluginOpts.weapp.devToolsInstallPath || (process.platform === 'darwin' ? '/Applications/wechatwebdevtools.app' : 'C:\\Program Files (x86)\\Tencent\\微信web开发者工具')
     delete this.pluginOpts.weapp.devToolsInstallPath
 
-    const weappConfig: any = {
+    const weappConfig: ICreateProjectOptions = {
       type: 'miniProgram',
       projectPath: outputPath,
-      ignores: ['node_modules/**/*'],
-      ...this.pluginOpts.weapp!
+      appid: this.pluginOpts.weapp!.appid,
+      privateKeyPath: this.pluginOpts.weapp!.privateKeyPath,
+      ignores: this.pluginOpts.weapp!.ignores,
     }
-    const privateKeyPath = path.isAbsolute(weappConfig.privateKeyPath) ? weappConfig.privateKeyPath : path.join(appPath, weappConfig.privateKeyPath)
+    const privateKeyPath = path.isAbsolute(weappConfig.privateKeyPath!) ? weappConfig.privateKeyPath : path.join(appPath, weappConfig.privateKeyPath!)
     if (!fs.pathExistsSync(privateKeyPath)) {
       throw new Error(`"weapp.privateKeyPath"选项配置的路径不存在,本次上传终止:${privateKeyPath}`)
     }
@@ -49,7 +52,7 @@ export default class WeappCI extends BaseCI {
     // 检查是否开启了命令行
     const errMesg = '工具的服务端口已关闭。要使用命令行调用工具，请打开工具 -> 设置 -> 安全设置，将服务端口开启。详细信息: https://developers.weixin.qq.com/miniprogram/dev/devtools/cli.html'
     const installPath = isWindows ? this.devToolsInstallPath : `${this.devToolsInstallPath}/Contents/MacOS`
-    const md5 = require('crypto').createHash('md5').update(installPath).digest('hex')
+    const md5 = crypto.createHash('md5').update(installPath).digest('hex')
     const ideStatusFile = path.join(
       getUserHomeDir(),
       isWindows
@@ -85,7 +88,8 @@ export default class WeappCI extends BaseCI {
         project: this.instance,
         version: this.version,
         desc: this.desc,
-        onProgressUpdate: undefined
+        onProgressUpdate: undefined,
+        robot: this.pluginOpts.weapp!.robot
       })
 
       if (uploadResult.subPackageInfo) {
@@ -108,7 +112,8 @@ export default class WeappCI extends BaseCI {
         project: this.instance,
         version: this.version,
         desc: this.desc,
-        onProgressUpdate: undefined
+        onProgressUpdate: undefined,
+        robot: this.pluginOpts.weapp!.robot
       })
 
       if (uploadResult.subPackageInfo) {

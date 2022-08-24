@@ -30,7 +30,7 @@
   "dependencies": {
     "@tarojs/service": "workspace:*",
     "minimist": "^1.2.5",
-    "miniprogram-ci": "^1.6.1",
+    "miniprogram-ci": "^1.8.35",
     "qrcode-terminal": "^0.12.0",
     "shelljs": "^0.8.4"
   },

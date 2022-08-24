@@ -33,10 +33,11 @@ export default (ctx: IPluginContext, _pluginOpts: CIOptions | (() => CIOptions))
           /** 微信小程序上传配置 */
           weapp: joi.object({
             appid: joi.string().required(),
-            projectPath: joi.string(),
             privateKeyPath: joi.string().required(),
+            projectPath: joi.string(),
             type: joi.string().valid('miniProgram', 'miniProgramPlugin', 'miniGame', 'miniGamePlugin'),
-            ignores: joi.array().items(joi.string().required())
+            ignores: joi.array().items(joi.string().required()),
+            robot: joi.number()
           }),
           /** 字节跳动小程序上传配置 */
           tt: joi.object({
