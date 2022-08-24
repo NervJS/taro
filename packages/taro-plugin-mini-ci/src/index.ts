@@ -2,25 +2,35 @@ import { IPluginContext } from '@tarojs/service'
 import * as minimist from 'minimist'
 
 import AlipayCI from './AlipayCI'
-import { CIOptions } from './BaseCi'
+import BaseCI, { CIOptions } from './BaseCi'
 import SwanCI from './SwanCI'
 import TTCI from './TTCI'
 import WeappCI from './WeappCI'
 
+const enum EnumAction  {
+  /** 自动打开预览工具 */
+  'open' = 'open' ,
+  /** 预览小程序（上传代码，作为“开发版”小程序） */
+  'preview' = 'preview',
+  /** 上传小程序（上传代码，可设置为“体验版”小程序） */
+  'upload' = 'upload' ,
+}
+
 export { CIOptions } from './BaseCi'
 export default (ctx: IPluginContext, _pluginOpts: CIOptions | (() => CIOptions)) => {
   const args = minimist(process.argv.slice(2), {
-    boolean: ['open', 'upload', 'preview']
+    boolean: [EnumAction.open,EnumAction.preview, EnumAction.upload]
   })
   const command = args._[0]
 
+  // 参数验证，支持传入配置对象、返回配置对象的异步函数
   ctx.addPluginOptsSchema((joi) => {
     return joi.alternatives().try(
       joi.function().required(),
       joi
         .object()
         .keys({
-        /** 微信小程序上传配置 */
+          /** 微信小程序上传配置 */
           weapp: joi.object({
             appid: joi.string().required(),
             projectPath: joi.string(),
@@ -54,49 +64,84 @@ export default (ctx: IPluginContext, _pluginOpts: CIOptions | (() => CIOptions))
     )
   })
 
+  const doAction = async (platform: string, action: EnumAction) => {
+    const { printLog, processTypeEnum } = ctx.helper
+    if (typeof platform !== 'string') {
+      printLog(processTypeEnum.ERROR, '请传入正确的编译类型！')
+      process.exit(0)
+    }
+    // 可通过异步函数获取插件选项
+    const pluginOpts = typeof _pluginOpts === 'function' ? await _pluginOpts() : _pluginOpts
+    let ci: BaseCI | null = null
+    switch (platform) {
+      case 'weapp':
+        ci = new WeappCI(ctx, pluginOpts)
+        break
+      case 'tt':
+        ci = new TTCI(ctx, pluginOpts)
+        break
+      case 'alipay':
+      case 'iot':
+        ci = new AlipayCI(ctx, pluginOpts)
+        break
+      case 'swan':
+        ci = new SwanCI(ctx, pluginOpts)
+        break
+    }
+    if (!ci) {
+      printLog(processTypeEnum.WARNING, `"@tarojs/plugin-mini-ci" 插件暂时不支持 "${platform}" 平台`)
+      return
+    }
+    switch (action) {
+      case EnumAction.open:
+        ci.open()
+        break
+      case EnumAction.upload:
+        ci.upload()
+        break
+      case EnumAction.preview:
+        ci.preview()
+        break
+    }
+  }
+
+  // 构建小程序后执行
   if (command === 'build') {
     const onBuildDone = ctx.onBuildComplete || ctx.onBuildFinish
     onBuildDone(async () => {
-      const { printLog, processTypeEnum } = ctx.helper
-      const platform = ctx.runOpts.options.platform
-      // 可通过移步函数获取插件选项
-      const pluginOpts = typeof _pluginOpts === 'function' ? await _pluginOpts() : _pluginOpts
-      let ci
-      switch (platform) {
-        case 'weapp':
-          ci = new WeappCI(ctx, pluginOpts)
-          break
-        case 'tt':
-          ci = new TTCI(ctx, pluginOpts)
-          break
-        case 'alipay':
-        case 'iot':
-          ci = new AlipayCI(ctx, pluginOpts)
-          break
-        case 'swan':
-          ci = new SwanCI(ctx, pluginOpts)
-          break
-        default:
-          break
-      }
-      if (!ci) {
-        printLog(processTypeEnum.WARNING, `"@tarojs/plugin-mini-ci" 插件暂时不支持 "${platform}" 平台`)
-        return
-      }
+      let action: EnumAction | null = null
       switch (true) {
-        case args.open:
-          ci.open()
+        case args[EnumAction.open]:
+          action = EnumAction.open
           break
-        case args.upload:
-          ci.upload()
+        case args[EnumAction.preview]:
+          action = EnumAction.preview
           break
-        case args.preview:
-          ci.preview()
+        case args[EnumAction.upload]:
+          action = EnumAction.upload
           break
-        default:
-          break
+      }
+      if (action) {
+        await doAction(ctx.runOpts.options.platform, action)
       }
     })
   }
-  
+
+  // 注册独立的命令，可直接上传构建后的代码
+  [EnumAction.open, EnumAction.preview, EnumAction.upload].forEach(action => {
+    ctx.registerCommand({
+      name: action,
+      optionsMap: {
+        '--type [typeName]': `${action} type, weapp/swan/alipay/iot/tt`,
+      },
+      synopsisList: [
+        `taro ${action} --type weapp`,
+        `taro ${action} --type alipay`
+      ],
+      async fn ({options}) {
+        doAction(options.type, action)
+      }
+    })
+  })
+
 }
