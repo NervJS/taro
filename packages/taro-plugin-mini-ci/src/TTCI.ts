@@ -1,113 +1,104 @@
 /* eslint-disable no-console */
-import * as cp from 'child_process'
-import * as fs from 'fs'
 import * as path from 'path'
 
 import BaseCI from './BaseCi'
-import generateQrCode from './QRCode'
+import {TTInstance} from './types'
+import { printQrcode2Terminal } from './utils/qrcode'
 
 export default class TTCI extends BaseCI {
-  tt
+  tt: TTInstance
 
-  async _init () {
+  _init () {
+    const { chalk, printLog, processTypeEnum } = this.ctx.helper
     if (this.pluginOpts.tt == null) {
       throw new Error('请为"@tarojs/plugin-mini-ci"插件配置 "tt" 选项')
     }
     try {
+      // 调试使用版本是： tt-ide-cli@0.1.13
       this.tt = require('tt-ide-cli')
     } catch (error) {
-      throw new Error('请安装依赖：tt-ide-cli')
+      printLog(processTypeEnum.ERROR, chalk.red('请安装依赖：tt-ide-cli'))
+      process.exit(1)
     }
   }
 
   async _beforeCheck () {
     await this.tt.loginByEmail({
       email: this.pluginOpts.tt!.email,
-      password: this.pluginOpts.tt!.password
+      password: this.pluginOpts.tt!.password,
+      dontSaveCookie: false
     })
-    return await this.tt.checkSession()
   }
 
-  open () {
+  async open () {
     const { outputPath: projectPath } = this.ctx.paths
-    const { chalk } = this.ctx.helper
-    const isMac = process.platform === 'darwin'
-    const IDE_SCHEMA = 'bytedanceide:'
-    const openCmd = isMac ? `open ${IDE_SCHEMA}` : `explorer ${IDE_SCHEMA}`
-    if (fs.existsSync(projectPath)) {
-      console.log(chalk.green(`open projectPath: ${projectPath}`))
-      const openPath = `${openCmd}?path=${projectPath}`
-      cp.exec(openPath, (error) => {
-        if (!error) {
-          console.log('打开IDE成功', openPath)
-        } else {
-          console.log(chalk.red('打开IDE失败', error))
+    const { chalk, printLog, processTypeEnum } = this.ctx.helper
+    printLog(processTypeEnum.START, '字节跳动开发者工具...')
+    try {
+      await this.tt.open({
+        project: {
+          path: projectPath
         }
       })
-    } else {
-      console.log(chalk.green('open IDE'))
-      cp.exec(openCmd, (error) => {
-        if (!error) {
-          console.log('打开IDE成功')
-        } else {
-          console.log(chalk.red('打开IDE失败', error))
-        }
-      })
+      console.log(chalk.green('打开IDE成功'))
+    } catch (error) {
+      printLog(processTypeEnum.ERROR, chalk.red('打开IDE失败', error))
     }
   }
 
   async preview () {
-    const isLogin = await this._beforeCheck()
-    if (!isLogin) return
+    await this._beforeCheck()
     const { chalk, printLog, processTypeEnum } = this.ctx.helper
     const { outputPath } = this.ctx.paths
-    const appInfo = JSON.parse(
-      fs.readFileSync(path.join(outputPath, 'app.json'), {
-        encoding: 'utf8'
-      })
-    )
     try {
       printLog(processTypeEnum.START, '预览字节跳动小程序')
+      const previewQrcodePath = path.join(outputPath, 'preview.png')
       const previewResult = await this.tt.preview({
         project: {
           path: outputPath
         },
         page: {
-          path: appInfo.pages[0]
+          path: ''
         },
         qrcode: {
-          format: 'imageSVG',
-          options: {
-            small: true
-          }
-        }
+          format: 'imageFile',
+          output: previewQrcodePath,
+        },
+        copyToClipboard: true,
+        cache: true
       })
-      generateQrCode(previewResult.shortUrl)
-      printLog(processTypeEnum.GENERATE, '二维码已生成，请扫码预览')
+      console.log(chalk.green(`开发版上传成功 ${new Date().toLocaleString()}\n`))
+      printQrcode2Terminal(previewResult.shortUrl)
+      printLog(processTypeEnum.REMIND, `预览二维码已生成，存储在:"${previewQrcodePath}",二维码内容是：${previewResult.shortUrl},过期时间：${new Date(previewResult.expireTime * 1000).toLocaleString()}`)
     } catch (error) {
-      console.log(chalk.red(`上传失败 ${new Date().toLocaleString()} \n${error.message}`))
+      printLog(processTypeEnum.ERROR, chalk.red(`上传失败 ${new Date().toLocaleString()} \n${error.message}`))
     }
   }
 
   async upload () {
-    const isLogin = await this._beforeCheck()
-    if (!isLogin) return
+    await this._beforeCheck()
     const { chalk, printLog, processTypeEnum } = this.ctx.helper
     const { outputPath } = this.ctx.paths
     try {
       printLog(processTypeEnum.START, '上传代码到字节跳动后台')
       printLog(processTypeEnum.REMIND, `本次上传版本号为："${this.version}"，上传描述为：“${this.desc}”`)
-      await this.tt.upload({
+      const uploadQrcodePath = path.join(outputPath, 'upload.png')
+      const uploadResult = await this.tt.upload({
         project: {
           path: outputPath
+        },
+        qrcode: {
+          format: 'imageFile',
+          output: uploadQrcodePath,
         },
         version: this.version,
         changeLog: this.desc,
         needUploadSourcemap: true
       })
-      printLog(processTypeEnum.REMIND, '上传完成')
+      console.log(chalk.green(`体验版版上传成功 ${new Date().toLocaleString()}\n`))
+      printLog(processTypeEnum.REMIND, `体验版二维码已生成，存储在:"${uploadQrcodePath}",二维码内容是："${uploadResult.shortUrl}", 过期时间：${new Date(uploadResult.expireTime * 1000).toLocaleString()}`)
     } catch (error) {
-      console.log(chalk.red(`上传失败 ${new Date().toLocaleString()} \n${error.message}`))
+      printLog(processTypeEnum.ERROR, chalk.red(`上传失败 ${new Date().toLocaleString()} \n${error.message}`))
     }
   }
 }
