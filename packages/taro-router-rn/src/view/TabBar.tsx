@@ -114,14 +114,19 @@ export class TabBar extends React.PureComponent<TabBarProps & WithSafeAreaInsets
     }
   }
 
-  UNSAFE_componentWillReceiveProps (): void {
+  UNSAFE_componentWillReceiveProps (nextProps): void {
     const curVisible = getTabVisible()
-    const { tabVisible } = this.state
+    const { tabVisible, insets } = this.state
     if (curVisible !== tabVisible) {
       this.setState({
         tabVisible: curVisible
       })
       this.setTabBarHidden(!curVisible)
+    }
+    if(nextProps.insets && insets !== nextProps.insets) {
+      this.setState({
+        insets: nextProps.insets
+      })
     }
   }
 
