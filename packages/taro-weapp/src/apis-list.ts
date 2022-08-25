@@ -17,5 +17,6 @@ export const needPromiseApis = new Set([
   'openCustomerServiceChat',
   'getLocalIPAddress',
   'getUserProfile',
-  'editImage'
+  'editImage',
+  'getFuzzyLocation'
 ])
