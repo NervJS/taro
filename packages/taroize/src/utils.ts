@@ -1,9 +1,9 @@
-import * as template from 'babel-template'
-import * as t from 'babel-types'
-import { transform } from 'babel-core'
 import { codeFrameColumns } from '@babel/code-frame'
-import { camelCase, capitalize } from 'lodash'
+import { transform } from 'babel-core'
+import * as template from 'babel-template'
 import { NodePath } from 'babel-traverse'
+import * as t from 'babel-types'
+import { camelCase, capitalize } from 'lodash'
 
 export function isAliasThis (p: NodePath<t.Node>, name: string) {
   const binding = p.scope.getBinding(name)
@@ -150,7 +150,6 @@ export function codeFrameError (node, msg: string) {
   ${errMsg}`)
 }
 
-// tslint:disable-next-line
 // eslint-disable-next-line camelcase
 export const DEFAULT_Component_SET = new Set<string>([
   'View',

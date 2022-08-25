@@ -1,5 +1,6 @@
 import { transform } from '@babel/core'
 import syntaxJSX from 'babel-plugin-syntax-jsx'
+
 import jSXStylePlugin from '../src/index'
 
 const mergeStylesFunctionTemplate = `function _mergeStyles() {
@@ -594,6 +595,30 @@ class App extends Component {
   render() {
     const a = 1 ? styleSheet.red : styleSheet.blue;
     return <div style={a} />;
+  }\n
+}`)
+  })
+
+  it('Processing module style through call expression When css module enable', () => {
+    expect(getTransfromCode(`
+import { createElement, Component } from 'rax';
+import styleSheet from './app.module.scss';
+
+class App extends Component {
+  render() {
+    const a = Object.assign({}, styleSheet.red);
+    const b = Object.assign({}, a);
+    return <div className={a}><span className={b} /><span className={Object.assign({}, b)} /></div>;
+  }
+}`, false, { enableCSSModule: true })).toBe(`import { createElement, Component } from 'rax';
+import styleSheet from './app.module.scss';
+var _styleSheet = {};
+
+class App extends Component {
+  render() {
+    const a = Object.assign({}, styleSheet.red);
+    const b = Object.assign({}, a);
+    return <div style={a}><span style={b} /><span style={Object.assign({}, b)} /></div>;
   }\n
 }`)
   })

@@ -14,12 +14,6 @@ export default function customCommand (
       }
     })
 
-    // 设置环境变量
-    process.env.NODE_ENV = process.env.NODE_ENV || options.env || (options.isWatch ? 'development' : 'production')
-    if (options.platform) {
-      process.env.TARO_ENV = options.platform
-    }
-
     kernel.run({
       name: command,
       opts: {

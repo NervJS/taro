@@ -87,16 +87,22 @@ declare module '../../index' {
 
   namespace chooseLocation {
     interface Option {
-      /** 接口调用结束的回调函数（调用成功、失败都会执行） */
-      complete?: (res: TaroGeneral.CallbackResult) => void
-      /** 接口调用失败的回调函数 */
-      fail?: (res: TaroGeneral.CallbackResult) => void
       /** 目标地纬度 */
       latitude?: number
       /** 目标地经度 */
       longitude?: number
+      /** 地图选点组件参数
+       * @supported h5
+       * @h5 仅支持 H5 使用
+       * @see https://lbs.qq.com/webApi/component/componentGuide/componentPicker
+       */
+      mapOpts?: Record<string, unknown>
       /** 接口调用成功的回调函数 */
       success?: (result: SuccessCallbackResult) => void
+      /** 接口调用失败的回调函数 */
+      fail?: (res: TaroGeneral.CallbackResult) => void
+      /** 接口调用结束的回调函数（调用成功、失败都会执行） */
+      complete?: (res: TaroGeneral.CallbackResult) => void
     }
 
     interface SuccessCallbackResult extends TaroGeneral.CallbackResult {
@@ -182,9 +188,29 @@ declare module '../../index' {
     }
   }
 
+  namespace getFuzzyLocation {
+    interface Option {
+      /** wgs84 返回 gps 坐标，gcj02 返回可用于 Taro.openLocation 的坐标 */
+      type?: 'wgs84' | 'gcj02'
+      /** 接口调用结束的回调函数（调用成功、失败都会执行） */
+      complete?: (res: TaroGeneral.CallbackResult) => void
+      /** 接口调用失败的回调函数 */
+      fail?: (res: TaroGeneral.CallbackResult) => void
+      /** 接口调用成功的回调函数 */
+      success?: (result: SuccessCallbackResult) => void
+    }
+
+    interface SuccessCallbackResult extends TaroGeneral.CallbackResult {
+      /** 纬度，范围为 -90~90，负数表示南纬 */
+      latitude: string
+      /** 经度，范围为 -180~180，负数表示西经 */
+      longitude: string
+    }
+  }
+
   interface TaroStatic {
     /** 关闭监听实时位置变化，前后台都停止消息接收
-     * @supported weapp
+     * @supported weapp, rn, tt
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/location/wx.stopLocationUpdate.html
      */
     stopLocationUpdate(option?: stopLocationUpdate.Option): void
@@ -206,13 +232,13 @@ declare module '../../index' {
      *
      * **注意**
      * - 获取位置信息需配置[地理位置用途说明](https://developers.weixin.qq.com/miniprogram/dev/reference/configuration/app.html#permission)。
-     * @supported weapp
+     * @supported weapp, rn, tt
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/location/wx.startLocationUpdate.html
      */
     startLocationUpdate(option?: startLocationUpdate.Option): void
 
     /** 使用微信内置地图查看位置
-     * @supported weapp, h5
+     * @supported weapp, h5, tt
      * @example
      * ```tsx
      * Taro.getLocation({
@@ -233,7 +259,7 @@ declare module '../../index' {
     openLocation(option: openLocation.Option): Promise<TaroGeneral.CallbackResult>
 
     /** 监听持续定位接口返回失败时触发
-     * @supported weapp
+     * @supported weapp, tt
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/location/wx.onLocationChangeError.html
      */
     onLocationChangeError(
@@ -242,7 +268,7 @@ declare module '../../index' {
     ): void
 
     /** 监听实时地理位置变化事件，需结合 Taro.startLocationUpdateBackground、Taro.startLocationUpdate 使用。
-     * @supported weapp
+     * @supported weapp, rn, tt
      * @example
      * ```tsx
      * const _locationChangeFn = function (res) {
@@ -259,7 +285,7 @@ declare module '../../index' {
     ): void
 
     /** 取消监听持续定位接口返回失败时触发
-     * @supported weapp
+     * @supported weapp, tt
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/location/wx.offLocationChangeError.html
      */
     offLocationChangeError(
@@ -268,7 +294,7 @@ declare module '../../index' {
     ): void
 
     /** 取消监听实时地理位置变化事件
-     * @supported weapp
+     * @supported weapp, rn, tt
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/location/wx.offLocationChange.html
      */
     offLocationChange(
@@ -281,7 +307,7 @@ declare module '../../index' {
      * **注意**
      * - 工具中定位模拟使用IP定位，可能会有一定误差。且工具目前仅支持 gcj02 坐标。
      * - 使用第三方服务进行逆地址解析时，请确认第三方服务默认的坐标系，正确进行坐标转换。
-     * @supported weapp
+     * @supported weapp, rn, tt
      * @example
      *  ```tsx
      * Taro.getLocation({
@@ -307,7 +333,7 @@ declare module '../../index' {
     /** 打开地图选择位置。
      *
      * `chooseLocation` api功能是依赖于腾讯位置服务，所以需要使用 api 密钥。如果您没有，可以前往腾讯位置服务[开发者控制台](https://lbs.qq.com/console/mykey.html?console=mykey)进行申请。
-     * @supported weapp, h5
+     * @supported weapp, h5, tt
      * @example
      * ```tsx
      * // config/index.js
@@ -323,5 +349,21 @@ declare module '../../index' {
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/location/wx.chooseLocation.html
      */
     chooseLocation(option: chooseLocation.Option): Promise<chooseLocation.SuccessCallbackResult>
+
+    /** 获取当前的模糊地理位置
+     * @supported weapp
+     * @example
+     * ```tsx
+     * Taro.getFuzzyLocation({
+     *   type: 'wgs84',
+     *   success (res) {
+     *     const latitude = res.latitude
+     *     const longitude = res.longitude
+     *   },
+     * })
+     * ```
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/location/wx.getFuzzyLocation.html
+     */
+    getFuzzyLocation(option: getFuzzyLocation.Option): Promise<getFuzzyLocation.SuccessCallbackResult>
   }
 }

@@ -1,7 +1,9 @@
 import * as React from 'react'
 import { View } from 'react-native'
 import { fireEvent, render } from '@testing-library/react-native'
-import { Label, Checkbox, CheckboxGroup } from '..'
+import Label from '../components/Label'
+import Checkbox from '../components/Checkbox'
+import CheckboxGroup from '../components/CheckboxGroup'
 
 describe('<Checkbox />', () => {
   describe('<Checkbox />', () => {

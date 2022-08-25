@@ -8,6 +8,7 @@ export type Mode =
   | 'aspectFit'
   | 'aspectFill'
   | 'widthFix'
+  | 'heightFix'
   | 'top'
   | 'bottom'
   | 'center'

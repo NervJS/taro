@@ -1,5 +1,7 @@
+import '@testing-library/jest-dom/extend-expect'
+
 import * as Taro from '@tarojs/taro-h5'
-import 'jest-dom/extend-expect'
+
 import { delay } from '../../utils'
 
 describe('toast', () => {
@@ -10,7 +12,6 @@ describe('toast', () => {
 
     expect.assertions(4)
     Taro.showToast({
-      // @ts-ignore
       title: 123,
       success,
       fail,
@@ -32,7 +33,6 @@ describe('toast', () => {
 
     expect.assertions(4)
     Taro.showToast({
-      // @ts-ignore
       duration: null,
       success,
       fail,

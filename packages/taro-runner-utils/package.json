@@ -22,7 +22,7 @@
   "author": "garfield550",
   "license": "MIT",
   "dependencies": {
-    "@tarojs/helper": "3.5.0-canary.1",
+    "@tarojs/helper": "workspace:*",
     "scss-bundle": "^3.0.2"
   }
 }

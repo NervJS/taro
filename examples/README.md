@@ -9,3 +9,4 @@
 - weapp-independent-subpackages: 微信小程序独立分包功能演示
 - custom-tabbar-react: 微信小程序自定义 TabBar（React）
 - custom-tabbar-vue3: 微信小程序自定义 TabBar（Vue3）
+- mini-split-chunks-plugin: 智能提取分包依赖

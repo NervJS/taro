@@ -1,6 +1,7 @@
 import { TaroPlatformBase } from '@tarojs/service'
-import { Template } from './template'
+
 import { components } from './components'
+import { Template } from './template'
 
 const PACKAGE_NAME = '@tarojs/plugin-platform-swan'
 const PROJECT_JSON = 'project.swan.json'

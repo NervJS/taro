@@ -1,44 +1,45 @@
-import * as React from 'react'
 import {
   Link
 } from '@react-navigation/native'
-import { withSafeAreaInsets } from 'react-native-safe-area-context'
+import * as React from 'react'
 import {
-  View,
-  TouchableWithoutFeedback,
   Animated,
-  StyleSheet,
-  Platform,
   Dimensions,
-  LayoutChangeEvent,
+  EmitterSubscription,
   Keyboard,
-  EmitterSubscription
+  LayoutChangeEvent,
+  Platform,
+  StyleSheet,
+  TouchableWithoutFeedback,
+  View
 } from 'react-native'
-import { getTabVisible, getTabConfig, getTabItemConfig, getDefalutTabItem, isUrl } from '../utils/index'
-import { getInitSafeAreaInsets } from './tabBarUtils'
+import { EdgeInsets, withSafeAreaInsets, WithSafeAreaInsetsProps } from 'react-native-safe-area-context'
+
+import { getDefalutTabItem, getTabConfig, getTabItemConfig, getTabVisible, isUrl } from '../utils/index'
 import TabBarItem, { TabBarOptions, TabOptions } from './TabBarItem'
+import { getInitSafeAreaInsets } from './tabBarUtils'
 
 interface TabBarProps extends TabBarOptions {
-  state: Record<string, any>,
-  navigation: any,
-  descriptors: Record<string, any>,
+  state: Record<string, any>
+  navigation: any
+  descriptors: Record<string, any>
   tabOptions: TabOptions
 }
 
 interface TabBarState {
-  visible: Animated.Value,
-  isKeyboardShown: boolean,
-  tabVisible: boolean,
+  visible: Animated.Value
+  isKeyboardShown: boolean
+  tabVisible: boolean
   layout: {
-    height: number,
-    width: number,
-  },
-  insets: Record<string, number>
+    height: number
+    width: number
+  }
+  insets: EdgeInsets
 }
 interface TabBarStyle {
-  color?: string,
-  selectedColor?: string,
-  backgroundColor?: string,
+  color?: string
+  selectedColor?: string
+  backgroundColor?: string
   borderStyle?: string
 }
 
@@ -70,13 +71,13 @@ const styles = StyleSheet.create({
   }
 })
 
-export class TabBar extends React.PureComponent<TabBarProps, TabBarState> {
+export class TabBar extends React.PureComponent<TabBarProps & WithSafeAreaInsetsProps, TabBarState> {
   handleKeyboardShowEvent: EmitterSubscription
   handleKeyboardHideEvent: EmitterSubscription
-  constructor (props: TabBarProps) {
+  constructor (props: TabBarProps & WithSafeAreaInsetsProps) {
     super(props)
     const { height = 0, width = 0 } = Dimensions.get('window')
-    const { safeAreaInsets, tabOptions = {} } = this.props
+    const { insets, safeAreaInsets, tabOptions = {} } = this.props
     const { tabBarVisible = true } = tabOptions
     const tabVisible = tabBarVisible === false ? false : getTabVisible()
     this.state = {
@@ -87,7 +88,8 @@ export class TabBar extends React.PureComponent<TabBarProps, TabBarState> {
         width,
         height
       },
-      insets: safeAreaInsets || getInitSafeAreaInsets()
+      // todo: remove safeAreaInsets
+      insets: insets || safeAreaInsets || getInitSafeAreaInsets()
     }
   }
 
@@ -112,14 +114,19 @@ export class TabBar extends React.PureComponent<TabBarProps, TabBarState> {
     }
   }
 
-  UNSAFE_componentWillReceiveProps (): void {
+  UNSAFE_componentWillReceiveProps (nextProps): void {
     const curVisible = getTabVisible()
-    const { tabVisible } = this.state
+    const { tabVisible, insets } = this.state
     if (curVisible !== tabVisible) {
       this.setState({
         tabVisible: curVisible
       })
       this.setTabBarHidden(!curVisible)
+    }
+    if(nextProps.insets && insets !== nextProps.insets) {
+      this.setState({
+        insets: nextProps.insets
+      })
     }
   }
 

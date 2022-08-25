@@ -13,6 +13,7 @@ import { noop } from '../../utils'
 import { RadioGroupProps, RadioGroupState, EventOnChange } from './PropsType'
 
 class _RadioGroup extends React.Component<RadioGroupProps, RadioGroupState> {
+  static displayName = '_RadioGroup'
   state: RadioGroupState = {
     checkedValue: undefined
   }

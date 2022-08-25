@@ -1,14 +1,15 @@
 /* eslint-disable camelcase */
-import { parse, stringify } from 'himalaya-wxml'
-import * as t from 'babel-types'
 import traverse, { Visitor } from 'babel-traverse'
-import { AllKindNode, Attribute, WX_IF, WX_ELSE_IF, WX_ELSE, WX_FOR, parseContent, WX_KEY, Element, WX_FOR_ITEM, WX_FOR_INDEX, NodeType, Text } from './wxml'
-import { buildTemplateName, getWXMLsource } from './template'
+import * as t from 'babel-types'
 import * as fs from 'fs'
-import { relative, resolve } from 'path'
-import { setting, parseCode, buildImportStatement, codeFrameError } from './utils'
-import { replaceIdentifier, replaceMemberExpression } from './script'
+import { parse, stringify } from 'himalaya-wxml'
 import { kebabCase } from 'lodash'
+import { relative, resolve } from 'path'
+
+import { replaceIdentifier, replaceMemberExpression } from './script'
+import { buildTemplateName, getWXMLsource } from './template'
+import { buildImportStatement, codeFrameError, parseCode, setting } from './utils'
+import { AllKindNode, Attribute, Element, NodeType, parseContent, Text, WX_ELSE, WX_ELSE_IF, WX_FOR, WX_FOR_INDEX, WX_FOR_ITEM, WX_IF, WX_KEY } from './wxml'
 
 const { prettyPrint } = require('html')
 
@@ -285,7 +286,7 @@ export function generateVueFile (children: AllKindNode[]): string {
 interface VueImport {
   name?: string
   template?: string
-  ast?: t.File,
+  ast?: t.File
   wxs?: boolean
 }
 

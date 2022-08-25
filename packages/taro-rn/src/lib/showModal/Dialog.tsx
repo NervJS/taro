@@ -6,9 +6,9 @@ import {
   TouchableHighlight,
   Dimensions,
   StyleSheet,
-  Platform,
-  ViewPropTypes
+  Platform
 } from 'react-native'
+import { ViewPropTypes, TextPropTypes } from 'deprecated-react-native-prop-types'
 import { Mask } from '../Mask'
 import { create } from '../StyleSheet'
 import V from '../variable'
@@ -223,9 +223,9 @@ Index.propTypes = {
   style: ViewPropTypes.style,
   maskStyle: ViewPropTypes.style,
   headerStyle: ViewPropTypes.style,
-  titleStyle: (Text as any).propTypes.style,
+  titleStyle: TextPropTypes.style,
   bodyStyle: ViewPropTypes.style,
-  bodyTextStyle: (Text as any).propTypes.style,
+  bodyTextStyle: TextPropTypes.style,
   footerStyle: ViewPropTypes.style,
   children: PropTypes.node
 }

@@ -94,7 +94,7 @@ declare namespace TextProps {
  *     <button class="btn-max-w button_style" :plain="true" type="default" `@tap="add">add line</button>
  *     <button class="btn-max-w button_style" :plain="true" type="default" :disabled="contentsLen ? false : true" `@tap="remove">remove line</button>
  * </template>
- * 
+ *
  * <script>
  * export default {
  *   data() {
@@ -110,7 +110,7 @@ declare namespace TextProps {
  *       this.contents = cot
  *       this.contentsLen = cot.length
  *     },
- * 
+ *
  *     remove () {
  *       const cot = this.contents.slice()
  *       cot.pop()

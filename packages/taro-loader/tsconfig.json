@@ -5,10 +5,7 @@
     "outDir": "lib",
     "rootDir": "./src",
     "module": "commonjs",
-    "sourceMap": true,
-    "skipLibCheck": true
+    "sourceMap": true
   },
-  "include": [
-    "./src"
-  ]
+  "include": ["./src"]
 }

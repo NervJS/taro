@@ -5,7 +5,7 @@ describe('vue3', () => {
     const { stats, config } = await compile('vue3', {
       framework: 'vue3'
     })
-    const assets = stats.toJson().assets || []
+    const assets = stats?.toJson().assets || []
 
     expect(assets.length).toMatchSnapshot()
 

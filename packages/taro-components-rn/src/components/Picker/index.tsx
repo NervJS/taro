@@ -37,6 +37,7 @@ import DateSelector from './date'
 import RegionSelector from './region'
 
 export default class _Picker extends React.Component<any> {
+  static displayName = '_Picker'
   static defaultProps = {
     mode: 'selector',
   }

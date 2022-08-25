@@ -1,16 +1,17 @@
 import * as t from 'babel-types'
-import { parseWXML } from './wxml'
-import { parseScript } from './script'
+
 import { errors, resetGlobals, THIRD_PARTY_COMPONENTS } from './global'
+import { parseScript } from './script'
 import { setting } from './utils'
 import { parseVue } from './vue'
+import { parseWXML } from './wxml'
 
 interface Option {
-  json?: string,
-  script?: string,
-  wxml?: string,
+  json?: string
+  script?: string
+  wxml?: string
   path: string
-  rootPath: string,
+  rootPath: string
   framework: 'react' | 'vue'
   isApp?: boolean
 }

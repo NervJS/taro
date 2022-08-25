@@ -1,9 +1,10 @@
+import { printLog, processTypeEnum } from '@tarojs/helper'
 import * as fs from 'fs'
 import * as path from 'path'
-import { printLog, processTypeEnum } from '@tarojs/helper'
-import { ResolveStyleOptions, LogLevelEnum } from '../types'
 import * as resolve from 'resolve'
 import nodeModulesPaths from 'resolve/lib/node-modules-paths'
+
+import { ResolveLogLevelEnum, ResolveStyleOptions } from '../types'
 
 export function insertBefore (source?: string, additional?: string) {
   if (!source && !additional) {
@@ -62,7 +63,7 @@ export function resolveStyle (id: string, opts: ResolveStyleOptions) {
     paths = [],
     alias = {},
     defaultExt = '',
-    logLevel = LogLevelEnum.ERROR
+    logLevel = ResolveLogLevelEnum.ERROR
   } = opts
   id = id.trim()
   Object.keys(alias).forEach(key => {
@@ -107,10 +108,10 @@ export function resolveStyle (id: string, opts: ResolveStyleOptions) {
         ${includePaths.join(',\n       ')}
       ]
     `
-    if (logLevel === LogLevelEnum.ERROR) {
+    if (logLevel === ResolveLogLevelEnum.ERROR) {
       throw new Error(levelMessage)
     }
-    if (logLevel === LogLevelEnum.WARNING) {
+    if (logLevel === ResolveLogLevelEnum.WARNING) {
       printLog(processTypeEnum.WARNING, levelMessage)
       return id
     }

@@ -6,13 +6,17 @@
     "rootDir": "./src",
     "module": "commonjs",
     "sourceMap": true,
+    "paths": {
+      "webpack": ["./node_modules/@types/webpack", "../../node_modules/@types/webpack", "./node_modules/webpack"],
+      "webpack-dev-server": [
+        "./node_modules/@types/webpack-dev-server",
+        "../../node_modules/@types/webpack-dev-server",
+        "./node_modules/webpack-dev-server"
+      ]
+    },
     "preserveConstEnums": true,
-    "skipLibCheck": true
+    "typeRoots": ["./node_modules/@types", "../../node_modules/@types"]
   },
-  "include": [
-    "./src"
-  ],
-  "exclude": [
-    "./src/__tests__"
-  ]
+  "include": ["./src"],
+  "exclude": ["./src/__tests__"]
 }

@@ -1,9 +1,8 @@
 const path = require('path')
-const apis = require('@tarojs/taro-h5/dist/taroApis')
-const presetForReactNative = require('./rn')
 
 module.exports = (_, options = {}) => {
   if (process.env.TARO_ENV === 'rn') {
+    const presetForReactNative = require('./rn')
     return presetForReactNative(_, options)
   }
   const presets = []
@@ -157,12 +156,13 @@ module.exports = (_, options = {}) => {
   }])
 
   if (process.env.TARO_ENV === 'h5') {
+    const apis = require('@tarojs/taro-h5/dist/taroApis')
     plugins.push([require('babel-plugin-transform-taroapi'), {
       packageName: '@tarojs/taro',
       apis
     }])
   }
-  if (options['dynamic-import-node'] || process.env.TARO_ENV !== 'h5') {
+  if (typeof options['dynamic-import-node'] === 'boolean' ? options['dynamic-import-node'] : process.env.TARO_ENV !== 'h5') {
     plugins.push([require('babel-plugin-dynamic-import-node')])
   }
 

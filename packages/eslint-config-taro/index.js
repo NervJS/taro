@@ -5,7 +5,7 @@ module.exports = {
     './rules/imports',
     './rules/variables'
   ].map(require.resolve),
-  parser: 'babel-eslint',
+  parser: '@babel/eslint-parser',
   parserOptions: {
     ecmaVersion: 2018,
     ecmaFeatures: {

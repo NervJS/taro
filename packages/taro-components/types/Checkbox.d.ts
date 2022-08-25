@@ -4,24 +4,24 @@ import { StandardProps, CommonEventFunction, FormItemProps } from './common'
 interface CheckboxProps extends StandardProps {
 
   /** `<Checkbox/>`标识，选中时触发`<CheckboxGroup/>`的 change 事件，并携带 `<Checkbox/>` 的 value
-   * @supported weapp, rn
+   * @supported weapp, rn, tt
    */
   value: string
 
   /** 是否禁用
-   * @supported weapp, h5, rn
+   * @supported weapp, h5, rn, tt
    * @default false
    */
   disabled?: boolean
 
   /** 当前是否选中，可用来设置默认选中
-   * @supported weapp, h5, rn
+   * @supported weapp, h5, rn, tt
    * @default false
    */
   checked?: boolean
 
   /** checkbox的颜色，同 css 的 color
-   * @supported weapp, h5, rn
+   * @supported weapp, h5, rn, tt
    */
   color?: string
 
@@ -116,7 +116,7 @@ interface CheckboxProps extends StandardProps {
  *     </view>
  *   </view>
  * </template>
- * 
+ *
  * <script>
  * export default {
  *   data() {

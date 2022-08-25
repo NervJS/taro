@@ -1,4 +1,4 @@
-import { temporarilyNotSupport } from '../utils'
+import { temporarilyNotSupport } from '../../utils'
 
 // 微信运动
 export const shareToWeRun = temporarilyNotSupport('shareToWeRun')

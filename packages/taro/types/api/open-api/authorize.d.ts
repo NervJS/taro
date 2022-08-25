@@ -37,7 +37,7 @@ declare module '../../index' {
   }
 
   interface TaroStatic {
-    /** **仅小程序插件中能调用该接口**，用法同 [Taro.authorize](./authorize)。目前仅支持三种 scope
+    /** **仅小程序插件中能调用该接口**，用法同 [Taro.authorize](../authorize)。目前仅支持三种 scope
      * @supported weapp
      * @example
      * ```tsx
@@ -55,7 +55,7 @@ declare module '../../index' {
      authorizeForMiniProgram(option: authorizeForMiniProgram.Option): Promise<TaroGeneral.CallbackResult>
 
     /** 提前向用户发起授权请求。调用后会立刻弹窗询问用户是否同意授权小程序使用某项功能或获取用户的某些数据，但不会实际调用对应接口。如果用户之前已经同意授权，则不会出现弹窗，直接返回成功。更多用法详见 [用户授权](https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/authorize.html)。
-     * @supported weapp
+     * @supported weapp, rn, tt
      * @example
      * ```tsx
      * // 可以通过 Taro.getSetting 先查询一下用户是否授权了 "scope.record" 这个 scope

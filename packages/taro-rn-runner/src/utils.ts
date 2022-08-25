@@ -6,7 +6,7 @@ export function getOpenHost () {
   for (const devName in interfaces) {
     const isEnd = interfaces[devName]?.some(item => {
       // 取IPv4, 不为127.0.0.1的内网ip
-      if (item.family === 'IPv4' && item.address !== '127.0.0.1' && !item.internal) {
+      if (['IPv4', 4, '4'].includes(item.family) && item.address !== '127.0.0.1' && !item.internal) {
         result = item.address
         return true
       }
@@ -23,3 +23,5 @@ export function getOpenHost () {
 export const PLAYGROUNDREPO = 'https://github.com/wuba/taro-playground'
 
 export const PLAYGROUNDINFO = `use [Taro Playground App](${PLAYGROUNDREPO}) to scan`
+
+export const isWin = /^win/.test(process.platform)

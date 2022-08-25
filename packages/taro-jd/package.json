@@ -27,7 +27,7 @@
     "url": "https://github.com/NervJS/taro/issues"
   },
   "dependencies": {
-    "@tarojs/service": "3.5.0-canary.1",
-    "@tarojs/shared": "3.5.0-canary.1"
+    "@tarojs/service": "workspace:*",
+    "@tarojs/shared": "workspace:*"
   }
 }

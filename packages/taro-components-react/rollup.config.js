@@ -1,8 +1,8 @@
 import babel from '@rollup/plugin-babel'
 import commonjs from '@rollup/plugin-commonjs'
 import resolve from '@rollup/plugin-node-resolve'
-import typescript from 'rollup-plugin-typescript2'
 import postcss from 'rollup-plugin-postcss'
+import ts from 'rollup-plugin-ts'
 
 // 供 Loader 使用的运行时入口
 export default {
@@ -18,13 +18,15 @@ export default {
     'swiper/index': 'src/components/swiper/index.tsx'
   },
   plugins: [
-    typescript(),
     resolve({
       preferBuiltins: false,
       mainFields: ['main:h5', 'browser', 'module', 'jsnext:main', 'main']
     }),
     postcss({
       inject: { insertAt: 'top' }
+    }),
+    ts({
+      sourceMap: true
     }),
     commonjs({
       include: '../../node_modules/**'

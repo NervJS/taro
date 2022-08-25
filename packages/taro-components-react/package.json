@@ -24,8 +24,6 @@
   "license": "MIT",
   "dependencies": {
     "@babel/runtime": "^7.14.5",
-    "@tarojs/taro": "3.5.0-canary.1",
-    "@tarojs/taro-h5": "3.5.0-canary.1",
     "better-scroll": "^1.14.1",
     "classnames": "^2.2.5",
     "intersection-observer": "^0.7.0",

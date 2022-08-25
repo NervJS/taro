@@ -1,9 +1,8 @@
+import { Kernel } from '@tarojs/service'
+import * as fs from 'fs-extra'
+import * as minimist from 'minimist'
 import * as path from 'path'
 
-import * as minimist from 'minimist'
-import { Kernel } from '@tarojs/service'
-
-import init from './commands/init'
 import customCommand from './commands/customCommand'
 import { getPkgVersion } from './util'
 
@@ -36,23 +35,100 @@ export default class CLI {
     const _ = args._
     const command = _[0]
     if (command) {
+      const appPath = this.appPath
+      const presetsPath = path.resolve(__dirname, 'presets')
+      const commandsPath = path.resolve(presetsPath, 'commands')
+      const platformsPath = path.resolve(presetsPath, 'platforms')
+      const commandPlugins = fs.readdirSync(commandsPath)
+      const targetPlugin = `${command}.js`
+
+      // 设置环境变量
+      process.env.NODE_ENV ||= args.env
+      if (process.env.NODE_ENV === 'undefined' && (command === 'build' || command === 'inspect')) {
+        process.env.NODE_ENV = (args.watch ? 'development' : 'production')
+      }
+      args.type ||= args.t
+      if (args.type) {
+        process.env.TARO_ENV = args.type
+      }
+      if (typeof args.plugin === 'string') {
+        process.env.TARO_ENV = 'plugin'
+      }
+
       const kernel = new Kernel({
-        appPath: this.appPath,
+        appPath,
         presets: [
           path.resolve(__dirname, '.', 'presets', 'index.js')
-        ]
+        ],
+        plugins: []
       })
+      kernel.optsPlugins ||= []
+
+      // 针对不同的内置命令注册对应的命令插件
+      if (commandPlugins.includes(targetPlugin)) {
+        kernel.optsPlugins.push(path.resolve(commandsPath, targetPlugin))
+      }
+
       switch (command) {
+        case 'inspect':
         case 'build': {
           let plugin
           let platform = args.type
           const { publicPath, bundleOutput, sourcemapOutput, sourceMapUrl, sourcemapSourcesRoot, assetsDest } = args
+
+          // 针对不同的内置平台注册对应的端平台插件
+          switch (platform) {
+            case 'weapp':
+            case 'alipay':
+            case 'swan':
+            case 'tt':
+            case 'qq':
+            case 'jd':
+              kernel.optsPlugins.push(`@tarojs/plugin-platform-${platform}`)
+              break
+            default: {
+              // h5, rn
+              const platformPlugins = fs.readdirSync(platformsPath)
+              const targetPlugin = `${platform}.js`
+              if (platformPlugins.includes(targetPlugin)) {
+                kernel.optsPlugins.push(path.resolve(platformsPath, targetPlugin))
+              }
+              break
+            }
+          }
+
+          // 根据 framework 启用插件
+          const framework = kernel.config?.initialConfig.framework
+          switch (framework) {
+            case 'vue':
+              kernel.optsPlugins.push('@tarojs/plugin-framework-vue2')
+              break
+            case 'vue3':
+              kernel.optsPlugins.push('@tarojs/plugin-framework-vue3')
+              break
+            default:
+              kernel.optsPlugins.push('@tarojs/plugin-framework-react')
+              break
+          }
+
+          // 编译小程序插件
           if (typeof args.plugin === 'string') {
             plugin = args.plugin
             platform = 'plugin'
+            kernel.optsPlugins.push(path.resolve(platformsPath, 'plugin.js'))
+            if (plugin === 'weapp' || plugin === 'alipay') {
+              kernel.optsPlugins.push(`@tarojs/plugin-platform-${plugin}`)
+            }
           }
-          customCommand('build', kernel, {
-            _: args._,
+
+          // 传递 inspect 参数即可
+          if (command === 'inspect') {
+            customCommand(command, kernel, args)
+            break
+          }
+
+          customCommand(command, kernel, {
+            _,
             platform,
             plugin,
             isWatch: Boolean(args.watch),
@@ -73,17 +149,17 @@ export default class CLI {
           break
         }
         case 'init': {
-          const projectName = _[1] || args.name
-          init(kernel, {
-            appPath: this.appPath,
-            projectName,
+          customCommand(command, kernel, {
+            _,
+            appPath,
+            projectName: _[1] || args.name,
             description: args.description,
             typescript: args.typescript,
             templateSource: args['template-source'],
             clone: !!args.clone,
             template: args.template,
             css: args.css,
-            isHelp: args.h
+            h: args.h
           })
           break
         }

@@ -10,7 +10,7 @@
   },
   "scripts": {
     "test": "jest",
-    "test:ci": "jest --silent --coverage false",
+    "test:ci": "jest --ci --silent --coverage false",
     "dev": "tsc -w",
     "build": "tsc"
   },
@@ -24,9 +24,6 @@
   },
   "dependencies": {
     "camelize": "^1.0.0",
-    "taro-css-to-react-native": "3.5.0-canary.1"
-  },
-  "devDependencies": {
-    "@types/babel__core": "^7.1.14"
+    "taro-css-to-react-native": "workspace:*"
   }
 }

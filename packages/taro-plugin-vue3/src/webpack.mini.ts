@@ -1,23 +1,21 @@
 import { REG_VUE } from '@tarojs/helper'
-import { internalComponents, toCamelCase, capitalize } from '@tarojs/shared/dist/template'
-import { getLoaderMeta } from './loader-meta'
-import { getVueLoaderPath } from './index'
-
 import type { IPluginContext } from '@tarojs/service'
-import type { RootNode, TemplateChildNode, ElementNode, AttributeNode, DirectiveNode, SimpleExpressionNode } from '@vue/compiler-core'
+import { capitalize, internalComponents, toCamelCase } from '@tarojs/shared/dist/template'
+import type { AttributeNode, DirectiveNode, ElementNode, RootNode, SimpleExpressionNode, TemplateChildNode } from '@vue/compiler-core'
+
 import type { IConfig } from './index'
+import { getLoaderMeta } from './loader-meta'
+import { getVueLoaderPath } from './utils'
 
 const CUSTOM_WRAPPER = 'custom-wrapper'
 
-type MiniConfig = IConfig['mini']
-
-export function modifyMiniWebpackChain (_ctx: IPluginContext, chain, data, config: MiniConfig) {
+export function modifyMiniWebpackChain (_ctx: IPluginContext, chain, data, config: IConfig) {
   setVueLoader(chain, data, config)
   setLoader(chain)
   setDefinePlugin(chain)
 }
 
-function setVueLoader (chain, data, config: MiniConfig) {
+function setVueLoader (chain, data, config: IConfig) {
   const vueLoaderPath = getVueLoaderPath()
 
   // plugin
@@ -26,6 +24,7 @@ function setVueLoader (chain, data, config: MiniConfig) {
     .plugin('vueLoaderPlugin')
     .use(VueLoaderPlugin)
 
+  const compilerOptions = config.vueLoaderOption?.compilerOptions || config.mini?.compilerOptions || {}
   // loader
   const vueLoaderOption: any = {
     optimizeSSR: false,
@@ -37,11 +36,8 @@ function setVueLoader (chain, data, config: MiniConfig) {
       image: 'src',
       'cover-image': 'src'
     },
-    compilerOptions: {}
-  }
-
-  if (config?.compilerOptions) {
-    vueLoaderOption.compilerOptions = Object.assign({}, config.compilerOptions)
+    ...(config.vueLoaderOption ?? {}),
+    compilerOptions
   }
 
   vueLoaderOption.compilerOptions.nodeTransforms ||= []

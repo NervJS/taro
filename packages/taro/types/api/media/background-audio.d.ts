@@ -274,7 +274,7 @@ declare module '../../index' {
      * 小程序切入后台，如果音频处于播放状态，可以继续播放。但是后台状态不能通过调用API操纵音频的播放状态。
      *
      * 从微信客户端6.7.2版本开始，若需要在小程序切后台后继续播放音频，需要在 [app.json](https://developers.weixin.qq.com/miniprogram/dev/reference/configuration/app.html) 中配置 `requiredBackgroundModes` 属性。开发版和体验版上可以直接生效，正式版还需通过审核。
-     * @supported weapp
+     * @supported weapp, tt
      * @example
      * ```tsx
      * const backgroundAudioManager = Taro.getBackgroundAudioManager()

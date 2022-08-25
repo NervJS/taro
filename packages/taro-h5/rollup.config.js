@@ -1,36 +1,34 @@
-import { mergeWith } from 'lodash'
-import babel from '@rollup/plugin-babel'
 import commonjs from '@rollup/plugin-commonjs'
 import resolve from '@rollup/plugin-node-resolve'
-import typescript from 'rollup-plugin-typescript2'
+import { mergeWith } from 'lodash'
+import externals from 'rollup-plugin-node-externals'
 import postcss from 'rollup-plugin-postcss'
+import ts from 'rollup-plugin-ts'
 
 import exportNameOnly from './build/rollup-plugin-export-name-only'
 
 const baseConfig = {
-  external: d => {
-    return /^@tarojs\/(api|router|runtime|taro)$/.test(d) || d.includes('@babel/runtime')
-  },
   output: {
     format: 'cjs',
-    sourcemap: false,
-    exports: 'auto'
+    sourcemap: true,
+    exports: 'named'
   },
   treeshake: false,
   plugins: [
+    externals({
+      devDeps: false
+    }),
     resolve({
       preferBuiltins: false,
       mainFields: ['main:h5', 'browser', 'module', 'jsnext:main', 'main']
     }),
-    postcss({
-      inject: { insertAt: 'top' }
-    }),
-    babel({
-      babelHelpers: 'bundled'
+    ts({
+      declaration: false,
+      sourceMap: true,
     }),
     commonjs(),
-    typescript({
-      useTsconfigDeclarationDir: true
+    postcss({
+      inject: { insertAt: 'top' }
     })
   ]
 }
@@ -45,6 +43,12 @@ const variesConfig = [{
   input: 'src/index.ts',
   output: {
     file: 'dist/index.cjs.js'
+  }
+}, {
+  input: 'src/index.ts',
+  output: {
+    format: 'es',
+    file: 'dist/index.esm.js'
   }
 }]
 

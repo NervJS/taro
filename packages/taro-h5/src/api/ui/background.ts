@@ -1,4 +1,4 @@
-import { temporarilyNotSupport } from '../utils'
+import { temporarilyNotSupport } from '../../utils'
 
 // 背景
 export const setBackgroundTextStyle = temporarilyNotSupport('setBackgroundTextStyle')

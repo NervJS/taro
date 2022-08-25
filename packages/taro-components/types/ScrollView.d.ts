@@ -225,15 +225,15 @@ declare namespace ScrollViewProps {
  *     const Threshold = 20
  *     const vStyleA = {
  *       height: '150px',
- *       'background-color': 'rgb(26, 173, 25)'
+ *       'backgroundColor': 'rgb(26, 173, 25)'
  *     }
  *     const vStyleB = {
  *        height: '150px',
- *       'background-color': 'rgb(39,130,215)'
+ *       'backgroundColor': 'rgb(39,130,215)'
  *     }
  *     const vStyleC = {
  *       height: '150px',
- *       'background-color': 'rgb(241,241,241)',
+ *       'backgroundColor': 'rgb(241,241,241)',
  *       color: '#333'
  *     }
  *     return (
@@ -288,7 +288,7 @@ declare namespace ScrollViewProps {
  *     </view>
  *   </view>
  * </template>
- * 
+ *
  * <script>
  * const order = ['demo1', 'demo2', 'demo3']
  * export default {
@@ -299,23 +299,23 @@ declare namespace ScrollViewProps {
  *       toView: 'demo2'
  *     }
  *   },
- * 
+ *
  *   methods: {
  *     upper(e) {
  *       console.log('upper:', e)
  *     },
- * 
+ *
  *     lower(e) {
  *       console.log('lower:', e)
  *     },
- * 
+ *
  *     scroll(e) {
  *       console.log('scroll:', e)
  *     }
  *   }
  * }
  * </script>
- * 
+ *
  * <style>
  * .page-section-spacing{
  *   margin-top: 60rpx;
@@ -331,7 +331,7 @@ declare namespace ScrollViewProps {
  *   width: 100%;
  *   height: 300rpx;
  * }
- * 
+ *
  * .demo-text-1 { background: #ccc; }
  * .demo-text-2 { background: #999; }
  * .demo-text-3 { background: #666; }

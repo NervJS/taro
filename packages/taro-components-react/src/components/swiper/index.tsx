@@ -1,24 +1,21 @@
+import 'swiper/swiper-bundle.min.css'
 import 'weui'
-import React from 'react'
+import './style/index.css'
+
 import classNames from 'classnames'
+import React from 'react'
+import type ISwiper from 'swiper'
 import Swipers from 'swiper/swiper-bundle.esm.js'
 
-import type ISwiper from 'swiper'
-
-import 'swiper/swiper-bundle.min.css'
-import './style/index.css'
+import { debounce } from '../../utils'
 
 let INSTANCE_ID = 0
 
-interface SwiperItemProps {
-  className: string
-  style: Record<string, string>
+interface SwiperItemProps extends React.HTMLAttributes<HTMLDivElement> {
   itemId: string
 }
 
-interface SwiperProps {
-  className?: string
-  style?: Record<string, string>
+interface SwiperProps extends React.HTMLAttributes<HTMLDivElement> {
   autoplay?: boolean
   interval?: number
   duration?: number
@@ -32,7 +29,6 @@ interface SwiperProps {
   indicatorColor?: string
   indicatorActiveColor?: string
   indicatorDots?: boolean
-  onChange?: (e: Event) => void
   onAnimationFinish?: (e: TouchEvent) => void
 }
 
@@ -78,12 +74,13 @@ class Swiper extends React.Component<SwiperProps, Record<string, unknown>> {
   componentDidMount () {
     const {
       autoplay = false,
-      interval = 5000,
-      duration = 500,
+      circular = true,
       current = 0,
       displayMultipleItems = 1,
-      vertical,
-      spaceBetween
+      duration = 500,
+      interval = 5000,
+      spaceBetween,
+      vertical
     } = this.props
 
     // eslint-disable-next-line @typescript-eslint/no-this-alias
@@ -92,7 +89,7 @@ class Swiper extends React.Component<SwiperProps, Record<string, unknown>> {
       // 指示器
       pagination: { el: `.taro-swiper-${this._id} > .swiper-container > .swiper-pagination` },
       direction: vertical ? 'vertical' : 'horizontal',
-      loop: true,
+      loop: circular,
       slidesPerView: parseFloat(String(displayMultipleItems)),
       initialSlide: parseInt(String(current), 10),
       speed: parseInt(String(duration), 10),
@@ -134,7 +131,11 @@ class Swiper extends React.Component<SwiperProps, Record<string, unknown>> {
           const className = target && typeof target.className === 'string' ? target.className : ''
           if (className.includes('taro_page') && target.style.display !== 'none') {
             if (that.props.autoplay && target.contains(_swiper.$el[0])) {
-              _swiper.slideTo(that._$current)
+              if (that.props.circular) {
+                _swiper.slideToLoop(this.realIndex, 0) // 更新下标
+              } else {
+                _swiper.slideTo(this.realIndex)
+              }
             }
           }
         }
@@ -224,7 +225,7 @@ class Swiper extends React.Component<SwiperProps, Record<string, unknown>> {
     this.observerLast?.disconnect?.()
   }
 
-  handleOnChange (e: Event) {
+  handleOnChange (e: React.FormEvent<HTMLDivElement>) {
     const func = this.props.onChange
     typeof func === 'function' && func(e)
   }
@@ -312,14 +313,3 @@ class Swiper extends React.Component<SwiperProps, Record<string, unknown>> {
 }
 
 export { Swiper, SwiperItem }
-
-function debounce (fn, delay: number) {
-  let timer: NodeJS.Timeout
-
-  return function (...arrs) {
-    clearTimeout(timer)
-    timer = setTimeout(function () {
-      fn(...arrs)
-    }, delay)
-  }
-}

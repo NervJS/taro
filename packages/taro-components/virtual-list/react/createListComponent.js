@@ -2,10 +2,11 @@
 /* eslint-disable no-case-declarations */
 /* eslint-disable no-void */
 /* eslint-disable no-return-assign */
-import Taro from '@tarojs/taro'
+import { createSelectorQuery } from '@tarojs/taro'
+import { createElement, PureComponent } from 'react'
+
 import { getRTLOffsetType } from '../domHelpers'
 import { memoizeOne } from '../memoize'
-import { createElement, PureComponent } from 'react'
 import { cancelTimeout, requestTimeout } from '../timer'
 
 const IS_SCROLLING_DEBOUNCE_INTERVAL = 200
@@ -22,7 +23,7 @@ export function isRtlFunc ({ direction }) {
   return direction === 'rtl'
 }
 export function getRectSize (id, success = () => {}, fail = () => {}) {
-  const query = Taro.createSelectorQuery()
+  const query = createSelectorQuery()
   query.select(id).boundingClientRect((res) => {
     if (res) {
       success(res)

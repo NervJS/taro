@@ -1,14 +1,14 @@
+import { getCurrentRoute, PageProvider } from '@tarojs/router-rn'
 import * as React from 'react'
-import { ScrollView, RefreshControl, AppState, View, Dimensions, EmitterSubscription, NativeEventSubscription } from 'react-native'
-import { camelCase } from 'lodash'
-import { PageProvider, getCurrentRoute } from '@tarojs/router-rn'
-import { isFunction, EMPTY_OBJ, isArray, incrementId, successHandler, errorHandler } from './utils'
+import { AppState, Dimensions, EmitterSubscription, NativeEventSubscription, RefreshControl, ScrollView } from 'react-native'
+
 import { isClassComponent } from './app'
 import { Current } from './current'
-import { Instance, PageInstance } from './instance'
 import { eventCenter } from './emmiter'
 import EventChannel from './EventChannel'
-import { PageConfig, HooksMethods, ScrollOption, BaseOption, BackgroundOption, TextStyleOption, CallbackResult } from './types/index'
+import { Instance, PageInstance } from './instance'
+import { BackgroundOption, BaseOption, CallbackResult, HooksMethods, PageConfig, ScrollOption, TextStyleOption } from './types/index'
+import { EMPTY_OBJ, errorHandler, incrementId, isArray, isFunction, successHandler } from './utils'
 
 const compId = incrementId()
 
@@ -101,8 +101,6 @@ export function createPageConfig (Page: any, pageConfig: PageConfig): any {
   const h = React.createElement
   const pagePath = pageConfig.pagePath.replace(/^\//, '') || ''
 
-  const pageId = camelCase(pagePath) ?? `taro_page_${compId}`
-
   const isReactComponent = isClassComponent(Page)
   if (PageContext === EMPTY_OBJ) {
     PageContext = React.createContext('')
@@ -112,19 +110,9 @@ export function createPageConfig (Page: any, pageConfig: PageConfig): any {
   if (!isReactComponent) {
     // eslint-disable-next-line react/display-name
     ScreenPage = React.forwardRef((props, ref) => {
-      const newProps: React.Props<any> = { ...props }
-      newProps.ref = ref
-      return h(View, {
-        style: {
-          minHeight: '100%'
-        },
-        ...newProps
-      }, h(Page, { ...props }, null))
+      return h(Page, { forwardRef: ref, ...props }, null)
     })
   }
-
-  // 注入的页面实例
-  injectPageInstance(Page, pageId)
 
   const WrapScreen = (Screen: any) => {
     return class PageScreen extends React.Component<any, any> {
@@ -134,8 +122,10 @@ export function createPageConfig (Page: any, pageConfig: PageConfig): any {
       unSubscribleBlur: any
       unSubscribleFocus: any
       unSubscribleTabPress: any
+      pageId: string
       appStateSubscription: NativeEventSubscription | undefined
       dimensionsSubscription: EmitterSubscription | undefined
+      isPageReady: boolean
 
       constructor (props: any) {
         super(props)
@@ -150,11 +140,14 @@ export function createPageConfig (Page: any, pageConfig: PageConfig): any {
         this.screenRef = React.createRef<Instance>()
         this.pageScrollView = React.createRef()
         this.setPageInstance()
+        this.pageId = `taro_page_${compId()}`
       }
 
       componentDidMount () {
-        const { navigation } = this.props
-
+        const { navigation, route } = this.props
+        // 实现 useLoad hook
+        // handleHooksEvent 在组件构造函数中调用不生效，只能在挂载之后进行调用
+        this.handleHooksEvent('onLoad', route?.params ?? {})
         if (navigation) {
           this.unSubscribleTabPress = navigation.addListener('tabPress', () => this.onTabItemTap())
           this.unSubscribleFocus = navigation.addListener('focus', () => this.onFocusChange())
@@ -178,10 +171,13 @@ export function createPageConfig (Page: any, pageConfig: PageConfig): any {
         if (route && route.key) {
           pagesObj.delete(route.key)
         }
+        // 实现 useUnload hook
+        this.handleHooksEvent('onUnload')
       }
 
       setPageInstance () {
         const pageRef = this.screenRef
+        const pageId = this.pageId
         const { params = {}, key = '' } = this.props.route
         // 和小程序的page实例保持一致
         const inst: PageInstance = {
@@ -303,9 +299,12 @@ export function createPageConfig (Page: any, pageConfig: PageConfig): any {
         this.setPageInstance()
         try {
           this.handleHooksEvent('componentDidShow')
-          if (this.screenRef?.current?.componentDidShow) {
-            this.screenRef?.current?.componentDidShow()
+          // 实现 useReady hook，遵循小程序事件机制，在useDidShow之后触发
+          if(!this.isPageReady){
+            this.handleHooksEvent('onReady')
+            this.isPageReady = true
           }
+          this.screenRef?.current?.componentDidShow?.()
         } catch (err) {
           throw new Error(err)
         }
@@ -371,7 +370,7 @@ export function createPageConfig (Page: any, pageConfig: PageConfig): any {
 
       handleHooksEvent (method: HooksMethods, options: Record<string, unknown> = {}) {
         if (!isReactComponent) {
-          return safeExecute(pageId, method, options)
+          return safeExecute(this.pageId, method, options)
         }
       }
 
@@ -413,7 +412,7 @@ export function createPageConfig (Page: any, pageConfig: PageConfig): any {
 
       createPage () {
         return h(PageProvider, { currentPath: pagePath, pageConfig, ...this.props },
-          h(PageContext.Provider, { value: pageId }, h(Screen,
+          h(PageContext.Provider, { value: this.pageId }, h(Screen,
             { ...this.props, ref: this.screenRef })
           )
         )
@@ -422,13 +421,14 @@ export function createPageConfig (Page: any, pageConfig: PageConfig): any {
       createScrollPage () {
         let bgColor = pageConfig.backgroundColor ? pageConfig.backgroundColor : ''
         const windowOptions = globalAny.__taroAppConfig?.appConfig?.window || {}
+        const useNativeStack =  globalAny.__taroAppConfig?.appConfig?.rn?.useNativeStack
         if (!bgColor && windowOptions?.backgroundColor) {
           bgColor = windowOptions?.backgroundColor
         }
         const refresh = this.isEnablePullDown() ? { refreshControl: this.refreshPullDown() } : {}
         return h(ScrollView, {
           style: [{ flex: 1 }, (bgColor ? { backgroundColor: bgColor } : {})],
-          contentContainerStyle: { minHeight: '100%' },
+          contentContainerStyle: useNativeStack ? {} : { minHeight: '100%' },
           ref: this.pageScrollView,
           scrollEventThrottle: 8,
           ...refresh,

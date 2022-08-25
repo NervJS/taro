@@ -1,0 +1,12 @@
+{
+  "extends": "../../tsconfig.root.json",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "outDir": "dist",
+    "rootDir": "./src",
+    "module": "commonjs",
+    "skipLibCheck": true,
+    "resolveJsonModule": true
+  },
+  "include": ["./src"]
+}

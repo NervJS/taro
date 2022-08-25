@@ -1,5 +1,6 @@
 import * as os from 'os'
-import * as chalk from 'chalk'
+
+import { chalk } from './terminal'
 
 // eslint-disable-next-line dot-notation
 export const PLATFORMS = global['PLATFORMS'] = global['PLATFORMS'] || {}
@@ -21,7 +22,7 @@ export const enum processTypeEnum {
 
 export interface IProcessTypeMap {
   [key: string]: {
-    name: string,
+    name: string
     color: string | chalk.Chalk
   }
 }
@@ -127,27 +128,44 @@ export const FILE_PROCESSOR_MAP = {
 }
 
 export const UPDATE_PACKAGE_LIST = [
+  'babel-plugin-transform-react-jsx-to-rn-stylesheet',
+  'taro-css-to-react-native',
+  'stylelint-config-taro-rn',
+  'stylelint-taro-rn',
   'babel-plugin-transform-taroapi',
   'babel-preset-taro',
   'eslint-config-taro',
-  'eslint-plugin-taro',
+  'postcss-html-transform',
   'postcss-plugin-constparse',
   'postcss-pxtransform',
   '@tarojs/shared',
   '@tarojs/taro',
   '@tarojs/cli',
+  '@tarojs/api',
   '@tarojs/components',
+  '@tarojs/components-react',
+  '@tarojs/components-rn',
+  '@tarojs/extend',
   '@tarojs/taro-h5',
   '@tarojs/taro-rn',
   '@tarojs/rn-runner',
+  '@tarojs/rn-style-transformer',
+  '@tarojs/rn-supporter',
+  '@tarojs/rn-transformer',
   '@tarojs/helper',
   '@tarojs/taro-loader',
   '@tarojs/mini-runner',
   '@tarojs/react',
   '@tarojs/plugin-framework-react',
+  '@tarojs/plugin-framework-vue2',
+  '@tarojs/plugin-framework-vue3',
+  '@tarojs/plugin-react-devtools',
+  '@tarojs/plugin-vue-devtools',
   '@tarojs/router',
+  '@tarojs/router-rn',
   '@tarojs/runner-utils',
   '@tarojs/runtime',
+  '@tarojs/runtime-rn',
   '@tarojs/service',
   '@tarojs/webpack-runner',
   '@tarojs/with-weapp',
@@ -159,6 +177,9 @@ export const UPDATE_PACKAGE_LIST = [
   '@tarojs/plugin-platform-qq',
   '@tarojs/plugin-platform-jd',
   '@tarojs/plugin-html',
+  '@tarojs/plugin-mini-ci',
+  '@tarojs/webpack5-runner',
+  '@tarojs/webpack5-prebundle',
   'nervjs',
   'nerv-devtools'
 ]
@@ -183,9 +204,9 @@ export const taroJsMobxCommon = '@tarojs/mobx-common'
 export const DEVICE_RATIO_NAME = 'deviceRatio'
 export const isWindows = os.platform() === 'win32'
 
-export const DEFAULT_TEMPLATE_SRC = 'github:NervJS/taro-project-templates#v3.4'
-export const DEFAULT_TEMPLATE_SRC_GITEE = 'direct:https://gitee.com/o2team/taro-project-templates.git#v3.4'
-export const TARO_CONFIG_FLODER = '.taro3.4'
+export const DEFAULT_TEMPLATE_SRC = 'github:NervJS/taro-project-templates#v3.5'
+export const DEFAULT_TEMPLATE_SRC_GITEE = 'direct:https://gitee.com/o2team/taro-project-templates.git#v3.5'
+export const TARO_CONFIG_FOLDER = '.taro3.5'
 export const TARO_BASE_CONFIG = 'index.json'
 
 export const OUTPUT_DIR = 'dist'
@@ -199,11 +220,4 @@ export enum FRAMEWORK_MAP {
   VUE3 = 'vue3',
   REACT = 'react',
   NERV = 'nerv'
-}
-
-export const FRAMEWORK_EXT_MAP = {
-  vue: VUE_EXT,
-  vue3: VUE_EXT,
-  react: SCRIPT_EXT,
-  nerv: SCRIPT_EXT
 }

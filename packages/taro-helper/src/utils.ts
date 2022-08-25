@@ -1,28 +1,22 @@
-import * as fs from 'fs-extra'
-import * as path from 'path'
-import * as os from 'os'
-import { Transform } from 'stream'
 import * as child_process from 'child_process'
-import * as parser from '@babel/parser'
-import traverse from '@babel/traverse'
-
-import * as chalk from 'chalk'
-import * as findWorkspaceRoot from 'find-yarn-workspace-root'
-import { isPlainObject, camelCase, mergeWith, flatMap } from 'lodash'
-import * as yauzl from 'yauzl'
+import * as fs from 'fs-extra'
+import { camelCase, flatMap, isPlainObject, mergeWith } from 'lodash'
+import * as os from 'os'
+import * as path from 'path'
 
 import {
-  processTypeEnum,
-  processTypeMap,
-  TARO_CONFIG_FLODER,
-  SCRIPT_EXT,
+  CSS_EXT,
+  CSS_IMPORT_REG,
   NODE_MODULES_REG,
   PLATFORMS,
-  CSS_IMPORT_REG,
-  CSS_EXT,
-  REG_SCRIPTS
+  processTypeEnum,
+  processTypeMap,
+  REG_SCRIPTS,
+  SCRIPT_EXT,
+  TARO_CONFIG_FOLDER
 } from './constants'
-import createBabelRegister from './babelRegister'
+import createSwcRegister, { InjectDefineConfigHeader } from './swcRegister'
+import { chalk } from './terminal'
 
 const execSync = child_process.execSync
 
@@ -123,6 +117,7 @@ export function printLog (type: processTypeEnum, tag: string, filePath?: string)
 }
 
 export function recursiveFindNodeModules (filePath: string, lastFindPath?: string): string {
+  const findWorkspaceRoot = require('find-yarn-workspace-root')
   if (lastFindPath && (normalizePath(filePath) === normalizePath(lastFindPath))) {
     return filePath
   }
@@ -163,7 +158,7 @@ export function getUserHomeDir (): string {
 }
 
 export function getTaroPath (): string {
-  const taroPath = path.join(getUserHomeDir(), TARO_CONFIG_FLODER)
+  const taroPath = path.join(getUserHomeDir(), TARO_CONFIG_FOLDER)
   if (!fs.existsSync(taroPath)) {
     fs.ensureDirSync(taroPath)
   }
@@ -393,6 +388,9 @@ export const applyArrayedVisitors = obj => {
 }
 
 export function unzip (zipPath) {
+  const Transform = require('stream').Transform
+  const yauzl = require('yauzl')
+
   return new Promise<void>((resolve, reject) => {
     yauzl.open(zipPath, { lazyEntries: true }, (err, zipfile) => {
       if (err || !zipfile) throw err
@@ -437,18 +435,18 @@ export function unzip (zipPath) {
   })
 }
 
-export const getAllFilesInFloder = async (
-  floder: string,
+export const getAllFilesInFolder = async (
+  folder: string,
   filter: string[] = []
 ): Promise<string[]> => {
   let files: string[] = []
-  const list = readDirWithFileTypes(floder)
+  const list = readDirWithFileTypes(folder)
 
   await Promise.all(
     list.map(async item => {
-      const itemPath = path.join(floder, item.name)
+      const itemPath = path.join(folder, item.name)
       if (item.isDirectory) {
-        const _files = await getAllFilesInFloder(itemPath, filter)
+        const _files = await getAllFilesInFolder(itemPath, filter)
         files = [...files, ..._files]
       } else if (item.isFile) {
         if (!filter.find(rule => rule === item.name)) files.push(itemPath)
@@ -465,10 +463,10 @@ export interface FileStat {
   isFile: boolean
 }
 
-export function readDirWithFileTypes (floder: string): FileStat[] {
-  const list = fs.readdirSync(floder)
+export function readDirWithFileTypes (folder: string): FileStat[] {
+  const list = fs.readdirSync(folder)
   const res = list.map(name => {
-    const stat = fs.statSync(path.join(floder, name))
+    const stat = fs.statSync(path.join(folder, name))
     return {
       name,
       isDirectory: stat.isDirectory(),
@@ -495,6 +493,8 @@ export function removeHeadSlash (str: string) {
 }
 
 function analyzeImport (filePath: string): string[] {
+  const parser = require('@babel/parser')
+  const traverse = require('@babel/traverse').default
   const code = fs.readFileSync(filePath).toString()
   let importPaths: string[] = []
   filePath = path.dirname(filePath)
@@ -528,7 +528,9 @@ function analyzeImport (filePath: string): string[] {
       if (!dep) return
 
       importPaths.push(dep)
-      importPaths = importPaths.concat(analyzeImport(dep))
+      if (path.extname(dep) !== '.json') {
+        importPaths = importPaths.concat(analyzeImport(dep))
+      }
     }
   })
   return importPaths
@@ -642,11 +644,12 @@ export function readConfig (configPath: string) {
   if (fs.existsSync(configPath)) {
     const importPaths = REG_SCRIPTS.test(configPath) ? analyzeImport(configPath) : []
 
-    createBabelRegister({
+    createSwcRegister({
       only: [
         configPath,
         filepath => importPaths.includes(filepath)
-      ]
+      ],
+      plugin: m => new InjectDefineConfigHeader().visitProgram(m)
     })
 
     importPaths.concat([configPath]).forEach(item => {

@@ -23,8 +23,8 @@
   "license": "MIT",
   "dependencies": {
     "@babel/runtime": "^7.14.5",
-    "@tarojs/runtime": "3.5.0-canary.1",
-    "@tarojs/taro": "3.5.0-canary.1",
+    "@tarojs/runtime": "workspace:*",
+    "@tarojs/taro": "workspace:*",
     "lodash": "^4.17.21"
   }
 }

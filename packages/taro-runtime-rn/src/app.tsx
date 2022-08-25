@@ -1,10 +1,11 @@
-import * as React from 'react'
-import { createRouter, RouterConfig } from '@tarojs/router-rn'
 import { Provider as TCNProvider } from '@tarojs/components-rn'
+import { createRouter, RouterConfig } from '@tarojs/router-rn'
+import * as React from 'react'
 import { RootSiblingParent } from 'react-native-root-siblings'
+
 import { Current } from './current'
-import { RNAppConfig } from './types/index'
 import { AppInstance } from './instance'
+import { RNAppConfig } from './types/index'
 import { isFunction } from './utils'
 
 export function isClassComponent (component): boolean {

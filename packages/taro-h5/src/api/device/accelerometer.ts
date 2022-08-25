@@ -1,5 +1,7 @@
 import Taro from '@tarojs/api'
-import { CallbackManager, MethodHandler } from '../utils/handler'
+
+import { throttle } from '../../utils'
+import { CallbackManager, MethodHandler } from '../../utils/handler'
 
 const callbackManager = new CallbackManager()
 let devicemotionListener
@@ -34,22 +36,6 @@ const INTERVAL_MAP = {
   }
 }
 
-const getDevicemotionListener = interval => {
-  let lock
-  let timer
-  return evt => {
-    if (lock) return
-    lock = true
-    timer && clearTimeout(timer)
-    callbackManager.trigger({
-      x: evt.acceleration.x || 0,
-      y: evt.acceleration.y || 0,
-      z: evt.acceleration.z || 0
-    })
-    timer = setTimeout(() => { lock = false }, interval)
-  }
-}
-
 /**
  * 开始监听加速度数据。
  */
@@ -61,7 +47,13 @@ export const startAccelerometer: typeof Taro.startAccelerometer = ({ interval = 
       if (devicemotionListener) {
         stopAccelerometer()
       }
-      devicemotionListener = getDevicemotionListener(intervalObj.interval)
+      devicemotionListener = throttle((evt: DeviceMotionEvent) => {
+        callbackManager.trigger({
+          x: evt.acceleration?.x || 0,
+          y: evt.acceleration?.y || 0,
+          z: evt.acceleration?.z || 0
+        })
+      }, intervalObj.interval)
       window.addEventListener('devicemotion', devicemotionListener, true)
     } else {
       throw new Error('accelerometer is not supported')

@@ -101,7 +101,7 @@ declare module '../../index' {
     ): void
 
     /** 监听网络状态变化。
-     * @supported weapp, h5, rn
+     * @supported weapp, h5, rn, tt
      * @example
      * ```tsx
      * Taro.onNetworkStatusChange(function (res) {
@@ -135,11 +135,11 @@ declare module '../../index' {
     ): void
 
     /** 获取网络类型。
-     * @supported weapp, h5, rn
+     * @supported weapp, h5, rn, tt
      * @example
      * ```tsx
      * Taro.getNetworkType({
-     *   success: function (res)) {
+     *   success: function (res) {
      *     // 返回网络类型, 有效值：
      *     // wifi/2g/3g/4g/unknown(Android下不常见的网络类型)/none(无网络)
      *     var networkType = res.networkType

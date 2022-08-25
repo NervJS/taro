@@ -1,10 +1,11 @@
 // import { Scaner } from '../src/html/scaner'
 // import { parser } from '../src/html/oparser'
 import '../dom-external/inner-html/html'
+
 import { parser } from '../dom-external/inner-html/parser'
 import { Scaner } from '../dom-external/inner-html/scaner'
-import { isElement } from '../utils'
 import { options } from '../options'
+import { isElement } from '../utils'
 
 const runtime = require('../../dist/runtime.esm')
 

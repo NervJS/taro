@@ -1,4 +1,6 @@
-import { h, toRefs, computed } from 'vue'
+import { computed, h, toRefs } from 'vue'
+
+import { useForwardRef } from './forwardRef'
 
 export default function createFormsComponent (name, eventName, modelValue = 'value', classNames = []) {
   const props = {
@@ -25,10 +27,13 @@ export default function createFormsComponent (name, eventName, modelValue = 'val
           }
       })
 
+      const forwardRef = useForwardRef()
+
       return () => (
         h(
           `${name}-core`,
           {
+            ref: forwardRef,
             class: ['hydrated', ...classNames],
             ...attrs.value,
             onClick (e) {

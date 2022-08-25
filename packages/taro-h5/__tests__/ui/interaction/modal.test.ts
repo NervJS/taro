@@ -1,5 +1,6 @@
+import '@testing-library/jest-dom/extend-expect'
+
 import * as Taro from '@tarojs/taro-h5'
-import 'jest-dom/extend-expect'
 
 describe('modal', () => {
   test('options.title should be String', () => {
@@ -9,7 +10,6 @@ describe('modal', () => {
 
     expect.assertions(4)
     Taro.showModal({
-      // @ts-ignore
       title: null,
       success,
       fail,
@@ -52,7 +52,6 @@ describe('modal', () => {
 
     expect.assertions(4)
     Taro.showModal({
-      // @ts-ignore
       cancelText: 1,
       success,
       fail,
@@ -95,7 +94,6 @@ describe('modal', () => {
 
     expect.assertions(4)
     Taro.showModal({
-      // @ts-ignore
       confirmText: 1,
       success,
       fail,
@@ -159,7 +157,6 @@ describe('modal', () => {
 
     expect.assertions(4)
     Taro.showModal({
-      // @ts-ignore
       confirmColor: 1,
       success,
       fail,
@@ -306,8 +303,8 @@ describe('modal', () => {
     const title = modal.lastChild.firstChild
     const content = modal.lastChild.children[1]
 
-    expect(title).toHaveTextContent('')
-    expect(content).toHaveTextContent('')
+    expect(title).toBeEmptyDOMElement()
+    expect(content).toBeEmptyDOMElement()
 
     setTimeout(() => {
       expect(title).not.toBeVisible()

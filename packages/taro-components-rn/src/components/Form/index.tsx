@@ -30,7 +30,7 @@ class _Form extends React.Component<FormProps> {
     // onChange: _CheckboxGroup _RadioGroup _Switch _Slider _Picker
     // onBlur: _Input _Textarea
     // @ts-ignore
-    const childTypeName = child.type && child.type.name
+    const childTypeName = child.type && child.type.displayName
     const childPropsName = child.props.name
     const valueChangeCbName = childTypeName === '_Input' || childTypeName === '_Textarea' ? 'onBlur' : 'onChange'
     const tmpProps = { ...child.props }
@@ -61,7 +61,7 @@ class _Form extends React.Component<FormProps> {
 
   deppDiveIntoChildren = (children: React.ReactNode): React.ReactNode => {
     const result = React.Children.toArray(children).map((child: any) => {
-      const childTypeName = child.type && child.type.name
+      const childTypeName = child.type && child.type.displayName
       if (!child.type) return child
       if (childTypeName === '_Button' && ['submit', 'reset'].indexOf(child.props.formType) >= 0) {
         const onClick = child.props.onClick || noop

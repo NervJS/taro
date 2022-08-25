@@ -1,25 +1,24 @@
 /* eslint-disable dot-notation */
-import { isFunction, EMPTY_OBJ, ensure, Shortcuts, isUndefined, isArray, isString } from '@tarojs/shared'
-import { getHooks } from '../container/store'
-import { eventHandler } from '../dom/event'
-import { Current } from '../current'
-import { document } from '../bom/document'
-import { incrementId, customWrapperCache } from '../utils'
-import { perf } from '../perf'
-import { eventCenter } from '../emitter/emitter'
-import { raf } from '../bom/raf'
-import { PAGE_INIT, CUSTOM_WRAPPER, VIEW, ON_READY, ON_SHOW, ON_HIDE, ON_LOAD, OPTIONS, EXTERNAL_CLASSES, BEHAVIORS } from '../constants'
-
+import { EMPTY_OBJ, ensure, hooks, isArray, isFunction, isString, isUndefined, Shortcuts } from '@tarojs/shared'
 import type { PageConfig } from '@tarojs/taro'
-import type { Instance, PageInstance, PageProps } from './instance'
-import type { Func, MpInstance } from '../interface'
+
+import { raf } from '../bom/raf'
+import { BEHAVIORS, CUSTOM_WRAPPER, EXTERNAL_CLASSES, ON_HIDE, ON_LOAD, ON_READY, ON_SHOW, OPTIONS, PAGE_INIT, VIEW } from '../constants'
+import { Current } from '../current'
+import { eventHandler } from '../dom/event'
 import type { TaroRootElement } from '../dom/root'
+import { eventCenter } from '../emitter/emitter'
+import env from '../env'
+import type { Func, MpInstance } from '../interface'
+import { perf } from '../perf'
+import { customWrapperCache, incrementId } from '../utils'
+import type { Instance, PageInstance, PageProps } from './instance'
 
 const instances = new Map<string, Instance>()
 const pageId = incrementId()
 
 export function injectPageInstance (inst: Instance<PageProps>, id: string) {
-  getHooks().mergePageInstance?.(instances.get(id), inst)
+  hooks.call('mergePageInstance', instances.get(id), inst)
   instances.set(id, inst)
 }
 
@@ -41,7 +40,7 @@ export function safeExecute (path: string, lifecycle: string, ...args: unknown[]
     return
   }
 
-  const func = getHooks().getLifecycle(instance, lifecycle as keyof PageInstance)
+  const func = hooks.call('getLifecycle', instance, lifecycle as keyof PageInstance)
 
   if (isArray(func)) {
     const res = func.map(fn => fn.apply(instance, args))
@@ -67,7 +66,11 @@ export function stringify (obj?: Record<string, unknown>) {
 
 export function getPath (id: string, options?: Record<string, unknown>): string {
   const idx = id.indexOf('?')
-  return `${idx > -1 ? id.substring(0, idx) : id}${stringify(process.env.TARO_ENV === 'h5' ? { stamp: options?.stamp || '' } : options)}`
+  if (process.env.TARO_ENV === 'h5') {
+    return `${idx > -1 ? id.substring(0, idx) : id}${stringify(options?.stamp ? { stamp: options.stamp } : {})}`
+  } else {
+    return `${idx > -1 ? id.substring(0, idx) : id}${stringify(options)}`
+  }
 }
 
 export function getOnReadyEventKey (path: string) {
@@ -85,15 +88,15 @@ export function getOnHideEventKey (path: string) {
 export function createPageConfig (component: any, pageName?: string, data?: Record<string, unknown>, pageConfig?: PageConfig) {
   // 小程序 Page 构造器是一个傲娇小公主，不能把复杂的对象挂载到参数上
   const id = pageName ?? `taro_page_${pageId()}`
-  const hooks = getHooks()
   const [
     ONLOAD,
     ONUNLOAD,
     ONREADY,
     ONSHOW,
     ONHIDE,
-    LIFECYCLES
-  ] = hooks.getMiniLifecycleImpl().page
+    LIFECYCLES,
+    SIDE_EFFECT_LIFECYCLES
+  ] = hooks.call('getMiniLifecycleImpl')!.page
   let pageElement: TaroRootElement | null = null
   let unmounting = false
   let prepareMountList: (() => void)[] = []
@@ -103,39 +106,42 @@ export function createPageConfig (component: any, pageName?: string, data?: Reco
     Current.router = {
       params: page.$taroParams!,
       path: addLeadingSlash(router),
+      $taroPath: page.$taroPath,
       onReady: getOnReadyEventKey(id),
       onShow: getOnShowEventKey(id),
       onHide: getOnHideEventKey(id)
+    }
+    if (!isUndefined(page.exitState)) {
+      Current.router.exitState = page.exitState
     }
   }
   let loadResolver: (...args: unknown[]) => void
   let hasLoaded: Promise<void>
   const config: PageInstance = {
-    [ONLOAD] (this: MpInstance, options: Record<string, unknown> = {}, cb?: Func) {
+    [ONLOAD] (this: MpInstance, options: Readonly<Record<string, unknown>> = {}, cb?: Func) {
       hasLoaded = new Promise(resolve => { loadResolver = resolve })
 
       perf.start(PAGE_INIT)
 
       Current.page = this as any
       this.config = pageConfig || {}
-      options.$taroTimestamp = Date.now()
 
-      // this.$taroPath 是页面唯一标识，不可变，因此页面参数 options 也不可变
-      this.$taroPath = getPath(id, options)
-      const $taroPath = this.$taroPath
+      // this.$taroPath 是页面唯一标识
+      const uniqueOptions = Object.assign({}, options, { $taroTimestamp: Date.now() })
+      const $taroPath = this.$taroPath = getPath(id, uniqueOptions)
       if (process.env.TARO_ENV === 'h5') {
-        config.path = this.$taroPath
+        config.path = $taroPath
       }
       // this.$taroParams 作为暴露给开发者的页面参数对象，可以被随意修改
       if (this.$taroParams == null) {
-        this.$taroParams = Object.assign({}, options)
+        this.$taroParams = uniqueOptions
       }
 
       setCurrentRouter(this)
 
       const mount = () => {
         Current.app!.mount!(component, $taroPath, () => {
-          pageElement = document.getElementById<TaroRootElement>($taroPath)
+          pageElement = env.document.getElementById<TaroRootElement>($taroPath)
 
           ensure(pageElement !== null, '没有找到页面实例。')
           safeExecute($taroPath, ON_LOAD, this.$taroParams)
@@ -156,6 +162,8 @@ export function createPageConfig (component: any, pageName?: string, data?: Reco
     },
     [ONUNLOAD] () {
       const $taroPath = this.$taroPath
+      // 触发onUnload生命周期
+      safeExecute($taroPath, ONUNLOAD)
       unmounting = true
       Current.app!.unmount!($taroPath, () => {
         unmounting = false
@@ -208,28 +216,24 @@ export function createPageConfig (component: any, pageName?: string, data?: Reco
   })
 
   // onShareAppMessage 和 onShareTimeline 一样，会影响小程序右上方按钮的选项，因此不能默认注册。
-  if (component.onShareAppMessage ||
-      component.prototype?.onShareAppMessage ||
-      component.enableShareAppMessage) {
-    config.onShareAppMessage = function (options) {
-      const target = options?.target
-      if (target) {
-        const id = target.id
-        const element = document.getElementById(id)
-        if (element) {
-          target!.dataset = element.dataset
+  SIDE_EFFECT_LIFECYCLES.forEach(lifecycle => {
+    if (component[lifecycle] ||
+      component.prototype?.[lifecycle] ||
+      component[lifecycle.replace(/^on/, 'enable')]
+    ) {
+      config[lifecycle] = function (...args) {
+        const target = args[0]?.target
+        if (target?.id) {
+          const id = target.id
+          const element = env.document.getElementById(id)
+          if (element) {
+            target.dataset = element.dataset
+          }
         }
+        return safeExecute(this.$taroPath, lifecycle, ...args)
       }
-      return safeExecute(this.$taroPath, 'onShareAppMessage', options)
     }
-  }
-  if (component.onShareTimeline ||
-      component.prototype?.onShareTimeline ||
-      component.enableShareTimeline) {
-    config.onShareTimeline = function () {
-      return safeExecute(this.$taroPath, 'onShareTimeline')
-    }
-  }
+  })
 
   config.eh = eventHandler
 
@@ -237,7 +241,7 @@ export function createPageConfig (component: any, pageName?: string, data?: Reco
     config.data = data
   }
 
-  hooks.modifyPageObject?.(config)
+  hooks.call('modifyPageObject', config)
 
   return config
 }
@@ -251,7 +255,7 @@ export function createComponentConfig (component: React.ComponentClass, componen
       perf.start(PAGE_INIT)
       const path = getPath(id, { id: this.getPageId?.() || pageId() })
       Current.app!.mount!(component, path, () => {
-        componentElement = document.getElementById<TaroRootElement>(path)
+        componentElement = env.document.getElementById<TaroRootElement>(path)
         ensure(componentElement !== null, '没有找到组件实例。')
         this.$taroInstances = instances.get(path)
         safeExecute(path, ON_LOAD)

@@ -1,15 +1,16 @@
 /* eslint-disable no-console */
-import * as ci from 'miniprogram-ci'
-import * as path from 'path'
-import * as os from 'os'
 import * as cp from 'child_process'
+import * as ci from 'miniprogram-ci'
 import { Project } from 'miniprogram-ci'
+import * as os from 'os'
+import * as path from 'path'
+
 import BaseCI from './BaseCi'
 
 export default class WeappCI extends BaseCI {
-  private instance: Project;
+  private instance: Project
   /** 微信开发者安装路径 */
-  private devToolsInstallPath: string;
+  private devToolsInstallPath: string
 
   _init () {
     const { outputPath, appPath } = this.ctx.paths

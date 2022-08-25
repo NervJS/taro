@@ -1,7 +1,4 @@
-import * as resolvePath from 'resolve'
-import * as spawn from 'cross-spawn'
-import * as chalk from 'chalk'
-
+import { chalk } from './terminal'
 import * as Util from './utils'
 
 const PEERS = /UNMET PEER DEPENDENCY ([a-z\-0-9.]+)@(.+)/gm
@@ -11,7 +8,7 @@ const erroneous: string[] = []
 
 type pluginFunction = (pluginName: string, content: string | null, file: string, config: Record<string, any>, root: string) => any
 export interface IInstallOptions {
-  dev: boolean,
+  dev: boolean
   peerDependencies?: boolean
 }
 
@@ -23,6 +20,7 @@ const defaultInstallOptions: IInstallOptions = {
 export const taroPluginPrefix = '@tarojs/plugin-'
 
 export function resolveNpm (pluginName: string, root): Promise<string> {
+  const resolvePath = require('resolve')
   if (!npmCached[pluginName]) {
     return new Promise((resolve, reject) => {
       resolvePath(`${pluginName}`, { basedir: root }, (err, res) => {
@@ -38,6 +36,7 @@ export function resolveNpm (pluginName: string, root): Promise<string> {
 }
 
 export function resolveNpmSync (pluginName: string, root): string {
+  const resolvePath = require('resolve')
   try {
     if (!npmCached[pluginName]) {
       const res = resolvePath.sync(pluginName, { basedir: root })
@@ -101,6 +100,7 @@ export function installNpmPkg (pkgList: string[] | string, options: IInstallOpti
       args.push('--save')
     }
   }
+  const spawn = require('cross-spawn')
   const output = spawn.sync(installer, args, {
     stdio: ['ignore', 'pipe', 'inherit']
   })

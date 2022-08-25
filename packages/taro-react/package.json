@@ -16,7 +16,7 @@
   },
   "scripts": {
     "test": "jest --collectCoverage",
-    "test:ci": "jest -i --coverage false",
+    "test:ci": "jest --ci -i --coverage false",
     "build": "rollup -c",
     "dev": "rollup -c -w"
   },
@@ -24,9 +24,9 @@
     "url": "https://github.com/NervJS/taro/issues"
   },
   "dependencies": {
-    "@tarojs/runtime": "3.5.0-canary.1",
-    "@tarojs/shared": "3.5.0-canary.1",
-    "react-reconciler": "0.26.1",
+    "@tarojs/runtime": "workspace:*",
+    "@tarojs/shared": "workspace:*",
+    "react-reconciler": "0.27.0",
     "scheduler": "^0.20.1"
   },
   "publishConfig": {

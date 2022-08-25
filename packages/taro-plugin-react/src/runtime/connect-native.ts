@@ -1,23 +1,15 @@
 import {
-  Current,
-  document,
-  injectPageInstance,
-  safeExecute,
-  addLeadingSlash,
-  incrementId,
-  eventHandler
+  addLeadingSlash, Current, document, eventHandler,
+  incrementId, injectPageInstance, Instance, safeExecute,
+  TaroRootElement
 } from '@tarojs/runtime'
 import { EMPTY_OBJ } from '@tarojs/shared'
-import { isClassComponent } from './utils'
+import type { PageInstance } from '@tarojs/taro'
+import type * as React from 'react'
+
 import { setReconciler } from './connect'
 import { reactMeta } from './react-meta'
-
-import type * as React from 'react'
-import type { PageInstance } from '@tarojs/taro'
-import type {
-  TaroRootElement,
-  Instance
-} from '@tarojs/runtime'
+import { isClassComponent } from './utils'
 
 declare const getCurrentPages: () => PageInstance[]
 
@@ -158,10 +150,10 @@ export function createNativeComponentConfig (Component, react: typeof React, rea
       }
     },
     attached () {
-      setCurrent()
-      this.compId = getNativeCompId()
+      const compId = this.compId = getNativeCompId()
+      setCurrent(compId)
       this.config = componentConfig
-      Current.app!.mount!(Component, this.compId, () => this)
+      Current.app!.mount!(Component, compId, () => this)
     },
     ready () {
       safeExecute(this.compId, 'onReady')
@@ -182,7 +174,7 @@ export function createNativeComponentConfig (Component, react: typeof React, rea
     }
   }
 
-  function setCurrent () {
+  function setCurrent (compId: string) {
     const pages = getCurrentPages()
     const currentPage = pages[pages.length - 1]
     if (Current.page === currentPage) return
@@ -193,6 +185,7 @@ export function createNativeComponentConfig (Component, react: typeof React, rea
     const router = {
       params: currentPage.options || {},
       path: addLeadingSlash(route),
+      $taroPath: compId,
       onReady: '',
       onHide: '',
       onShow: ''

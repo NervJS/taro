@@ -1,5 +1,5 @@
-import React from 'react'
 import * as assert from 'assert'
+import React from 'react'
 
 import { Audio } from '../h5/react'
 import { mount } from './test-tools'

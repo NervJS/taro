@@ -15,9 +15,9 @@ class _MovableView extends React.Component<MovableViewProps, any> {
   }
 
   panResponder: any
-  $ref: any = React.createRef();
-  W: any;
-  H: any;
+  $ref: any = React.createRef()
+  W: any
+  H: any
   constructor(props: MovableViewProps) {
     super(props)
     this.state = {

@@ -6,6 +6,7 @@ export const components = {
     'app-connect-id': '',
     'group-id': '',
     'public-id': '',
+    'guild-id': '',
     'share-type': '27',
     'share-mode': '[\'qq\', \'qzone\']',
     'aria-label': '',

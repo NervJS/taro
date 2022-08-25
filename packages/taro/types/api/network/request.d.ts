@@ -14,7 +14,7 @@ declare module '../../index' {
       header?: TaroGeneral.IAnyObject
       /** 超时时间，单位为毫秒
        * @default 2000
-       * @supported weapp, h5
+       * @supported weapp, h5, tt
        */
       timeout?: number
       /** HTTP 请求方法
@@ -37,7 +37,7 @@ declare module '../../index' {
       enableQuic?: boolean
       /** 开启 cache
        * @default false
-       * @supported weapp
+       * @supported weapp, tt
        */
       enableCache?: boolean
       /** 是否开启 HttpDNS 服务。如开启，需要同时填入 httpDNSServiceId 。 HttpDNS 用法详见 移动解析HttpDNS
@@ -71,17 +71,17 @@ declare module '../../index' {
        */
       jsonpCache?: boolean
       /** 设置 H5 端是否允许跨域请求
-       * @default same-origin
+       * @default "same-origin"
        * @supported h5
        */
       mode?: keyof CorsMode
       /** 设置 H5 端是否携带 Cookie
-       * @default omit
+       * @default "omit"
        * @supported h5
        */
       credentials?: keyof Credentials
       /** 设置 H5 端缓存模式
-       * @default default
+       * @default "default"
        * @supported h5
        */
       cache?: keyof Cache
@@ -254,7 +254,7 @@ declare module '../../index' {
    */
   interface RequestTask<T> extends Promise<request.SuccessCallbackResult<T>> {
     /** 中断请求任务
-     * @supported weapp
+     * @supported weapp, tt
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/network/request/RequestTask.abort.html
      */
     abort(): void
@@ -367,7 +367,7 @@ declare module '../../index' {
      * ```
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/network/request/wx.request.html
      */
-    request<T = any, U = any>(option: request.Option<T,U>): RequestTask<T>
+    request<T = any, U = any>(option: request.Option<T, U>): RequestTask<T>
 
     /** 可以使用拦截器在请求发出前或发出后做一些额外操作。
      *

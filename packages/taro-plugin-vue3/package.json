@@ -25,18 +25,16 @@
     "url": "https://github.com/NervJS/taro/issues"
   },
   "dependencies": {
-    "@tarojs/helper": "3.5.0-canary.1",
-    "@tarojs/runner-utils": "3.5.0-canary.1",
-    "@tarojs/runtime": "3.5.0-canary.1",
-    "@tarojs/shared": "3.5.0-canary.1",
-    "webpack": "4.46.0"
-  },
-  "peerDependencies": {
-    "vue": "^3.0.0"
+    "@tarojs/helper": "workspace:*",
+    "@tarojs/runner-utils": "workspace:*",
+    "@tarojs/runtime": "workspace:*",
+    "@tarojs/service": "workspace:*",
+    "@tarojs/shared": "workspace:*"
   },
   "devDependencies": {
-    "@tarojs/service": "3.5.0-canary.1",
-    "@tarojs/taro": "3.5.0-canary.1",
+    "vue": "^3.0.0"
+  },
+  "peerDependencies": {
     "vue": "^3.0.0"
   }
 }

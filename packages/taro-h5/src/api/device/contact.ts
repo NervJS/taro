@@ -1,4 +1,4 @@
-import { temporarilyNotSupport } from '../utils'
+import { temporarilyNotSupport } from '../../utils'
 
 // 联系人
 export const chooseContact = temporarilyNotSupport('chooseContact')
