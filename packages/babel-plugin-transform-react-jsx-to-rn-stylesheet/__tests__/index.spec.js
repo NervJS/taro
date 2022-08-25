@@ -418,6 +418,20 @@ class App extends Component {
 }`, false, { enableCSSModule: true })).toMatchSnapshot()
   })
 
+  it('Processing multiple module style When css module enable', () => {
+    expect(getTransfromCode(`
+import { createElement, Component } from 'rax';
+import styleSheet from './app.module.scss';
+import styleSheet2 from './app2.module.scss';
+
+class App extends Component {
+  render() {
+    const a = styleSheet.red
+    return <div className={\`\${a} \${styleSheet2.b}\`} />;
+  }
+}`, false, { enableCSSModule: true })).toMatchSnapshot()
+  })
+
   it('Processing module style spread and assign When css module enable', () => {
     expect(getTransfromCode(`
 import { createElement, Component } from 'rax';

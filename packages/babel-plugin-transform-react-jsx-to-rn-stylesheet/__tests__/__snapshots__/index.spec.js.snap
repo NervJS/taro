@@ -303,6 +303,83 @@ class App extends Component {
 }"
 `;
 
+exports[`jsx style plugin Processing multiple module style When css module enable 1`] = `
+"import { createElement, Component } from 'rax';
+import _styleSheetModuleStyle from './app.module.scss';
+import _styleSheet2ModuleStyle from './app2.module.scss';
+
+function _getClassName() {
+  var className = [];
+  var args = arguments[0];
+  var type = Object.prototype.toString.call(args).slice(8, -1).toLowerCase();
+
+  if (type === 'string') {
+    args = args.trim();
+    args && className.push(args);
+  } else if (type === 'array') {
+    args.forEach(function (cls) {
+      cls = _getClassName(cls).trim();
+      cls && className.push(cls);
+    });
+  } else if (type === 'object') {
+    for (var k in args) {
+      k = k.trim();
+
+      if (k && args.hasOwnProperty(k) && args[k]) {
+        className.push(k);
+      }
+    }
+  }
+
+  return className.join(' ').trim();
+}
+
+function _getStyle(classNameExpression) {
+  var className = _getClassName(classNameExpression);
+
+  var classNameArr = className.split(/\\\\s+/);
+  var style = {};
+  classNameArr.reduce((sty, cls) => Object.assign(sty, _styleSheet[cls.trim()]), style);
+  return style;
+}
+
+function _getModuleClassName(moduleStyle, styleId) {
+  return Object.keys(moduleStyle).reduce((pre, cur) => Object.assign(pre, {
+    [cur]: styleId + '-' + cur
+  }), {});
+}
+
+var styleSheet = _getModuleClassName(_styleSheetModuleStyle, 'styleSheet');
+
+var styleSheet2 = _getModuleClassName(_styleSheet2ModuleStyle, 'styleSheet2');
+
+function _mergeStyles() {
+  var newTarget = {};
+
+  for (var index = 0; index < arguments.length; index++) {
+    var [styleSheet, rawStyleName] = arguments[index];
+
+    for (var key in styleSheet) {
+      const _key = rawStyleName ? rawStyleName + '-' + key : key;
+
+      newTarget[_key] = Object.assign(newTarget[_key] || {}, styleSheet[key]);
+    }
+  }
+
+  return newTarget;
+}
+
+var _styleSheet = _mergeStyles([_styleSheetModuleStyle, \\"styleSheet\\"], [_styleSheet2ModuleStyle, \\"styleSheet2\\"]);
+
+class App extends Component {
+  render() {
+    const a = styleSheet.red;
+    return <div style={_getStyle(\`\${a} \${styleSheet2.b}\`)} />;
+  }
+
+}"
+`;
+
 exports[`jsx style plugin Provide a default stylesheet object when css module enable and import css module sheet only 1`] = `
 "import { createElement, Component } from 'rax';
 import _styleSheetModuleStyle from './app.module.scss';
