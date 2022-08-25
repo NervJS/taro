@@ -14,7 +14,8 @@ function borderDirectionFactory (direction = '') {
       tokens: [COLOR],
       default: 'black',
     },
-    [`${prefix}Style`]: {
+    // RN 不支持 borderTopStyle，解析成 borderStyle
+    [`borderStyle`]: {
       tokens: [regExpToken(/^(solid|dashed|dotted)$/)],
       default: 'solid',
     },
