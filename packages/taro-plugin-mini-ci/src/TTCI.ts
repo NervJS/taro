@@ -2,7 +2,8 @@
 import * as path from 'path'
 
 import BaseCI from './BaseCi'
-import {TTInstance} from './types'
+import { TTInstance } from './types'
+import { getNpmPkgSync } from './utils/npm'
 import { printQrcode2Terminal } from './utils/qrcode'
 
 export default class TTCI extends BaseCI {
@@ -11,11 +12,12 @@ export default class TTCI extends BaseCI {
   _init () {
     const { chalk, printLog, processTypeEnum } = this.ctx.helper
     if (this.pluginOpts.tt == null) {
-      throw new Error('请为"@tarojs/plugin-mini-ci"插件配置 "tt" 选项')
+      printLog(processTypeEnum.ERROR, chalk.red(('请为"@tarojs/plugin-mini-ci"插件配置 "tt" 选项')))
+      process.exit(1)
     }
     try {
       // 调试使用版本是： tt-ide-cli@0.1.13
-      this.tt = require('tt-ide-cli')
+      this.tt = getNpmPkgSync('tt-ide-cli',process.cwd())
     } catch (error) {
       printLog(processTypeEnum.ERROR, chalk.red('请安装依赖：tt-ide-cli'))
       process.exit(1)
@@ -67,11 +69,14 @@ export default class TTCI extends BaseCI {
         copyToClipboard: true,
         cache: true
       })
-      console.log(chalk.green(`开发版上传成功 ${new Date().toLocaleString()}\n`))
+      console.log(chalk.green(`开发版上传成功 ${ new Date().toLocaleString() }\n`))
       printQrcode2Terminal(previewResult.shortUrl)
-      printLog(processTypeEnum.REMIND, `预览二维码已生成，存储在:"${previewQrcodePath}",二维码内容是：${previewResult.shortUrl},过期时间：${new Date(previewResult.expireTime * 1000).toLocaleString()}`)
+      printLog(
+        processTypeEnum.REMIND,
+        `预览二维码已生成，存储在:"${ previewQrcodePath }",二维码内容是：${ previewResult.shortUrl },过期时间：${ new Date(previewResult.expireTime * 1000).toLocaleString() }`
+      )
     } catch (error) {
-      printLog(processTypeEnum.ERROR, chalk.red(`上传失败 ${new Date().toLocaleString()} \n${error.message}`))
+      printLog(processTypeEnum.ERROR, chalk.red(`上传失败 ${ new Date().toLocaleString() } \n${ error.message }`))
     }
   }
 
@@ -81,7 +86,7 @@ export default class TTCI extends BaseCI {
     const { outputPath } = this.ctx.paths
     try {
       printLog(processTypeEnum.START, '上传代码到字节跳动后台')
-      printLog(processTypeEnum.REMIND, `本次上传版本号为："${this.version}"，上传描述为：“${this.desc}”`)
+      printLog(processTypeEnum.REMIND, `本次上传版本号为："${ this.version }"，上传描述为：“${ this.desc }”`)
       const uploadQrcodePath = path.join(outputPath, 'upload.png')
       const uploadResult = await this.tt.upload({
         project: {
@@ -95,10 +100,13 @@ export default class TTCI extends BaseCI {
         changeLog: this.desc,
         needUploadSourcemap: true
       })
-      console.log(chalk.green(`体验版版上传成功 ${new Date().toLocaleString()}\n`))
-      printLog(processTypeEnum.REMIND, `体验版二维码已生成，存储在:"${uploadQrcodePath}",二维码内容是："${uploadResult.shortUrl}", 过期时间：${new Date(uploadResult.expireTime * 1000).toLocaleString()}`)
+      console.log(chalk.green(`体验版版上传成功 ${ new Date().toLocaleString() }\n`))
+      printLog(
+        processTypeEnum.REMIND,
+        `体验版二维码已生成，存储在:"${ uploadQrcodePath }",二维码内容是："${ uploadResult.shortUrl }", 过期时间：${ new Date(uploadResult.expireTime * 1000).toLocaleString() }`
+      )
     } catch (error) {
-      printLog(processTypeEnum.ERROR, chalk.red(`上传失败 ${new Date().toLocaleString()} \n${error.message}`))
+      printLog(processTypeEnum.ERROR, chalk.red(`上传失败 ${ new Date().toLocaleString() } \n${ error.message }`))
     }
   }
 }
