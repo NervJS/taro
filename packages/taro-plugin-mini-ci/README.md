@@ -1,6 +1,6 @@
 # @tarojs/plugin-mini-ci
 
-> Taro 小程序端构建后支持CI（持续集成）的插件， 支持构建完毕后自动打开小程序开发这个工具、上传作为体验版、生成预览二维码. 目前暂时仅支持微信、字节、支付宝、百度小程序
+> Taro 小程序端构建后支持CI（持续集成）的插件， 支持构建完毕后自动打开小程序开发这个工具、上传作为体验版、生成预览二维码. 目前支持微信、字节、支付宝、钉钉、百度小程序
 
 ## 使用
 
@@ -32,6 +32,10 @@ const CIPluginOpt = {
       toolId: "工具id",
       privateKeyPath: "密钥文件相对项目根目录的相对路径，例如 key/pkcs8-private-pem"
     },
+    dd: {
+        appid: "小程序ID，"
+        token: "令牌，从钉钉后台获取"
+    },
     swan: {
       token: "鉴权需要的token令牌"
     },
@@ -47,9 +51,10 @@ const config = {
 }
 ```
 
-除了给插件传入对象， 你也可以传入一个函数，在编译时动态返回相关配置
+除了给插件传入对象， 你也可以传入一个异步函数，在编译时动态返回相关配置。
 ```js
-const CIPluginFn = () => {
+const CIPluginFn = async () => {
+  // 可以在这里做一些异步事情， 比如请求接口获取配置
   /**
    * @typedef { import("@tarojs/plugin-mini-ci").CIOptions } CIOptions
    * @type {CIOptions}
@@ -68,6 +73,10 @@ const CIPluginFn = () => {
         toolId: "工具id",
         privateKeyPath: "密钥文件相对项目根目录的相对路径，例如 key/pkcs8-private-pem"
       },
+      dd: {
+        appid: "小程序ID，"
+        token: "令牌，从钉钉后台获取"
+      },
       swan: {
         token: "鉴权需要的token令牌"
       },
@@ -85,7 +94,7 @@ const config = {
 }
 ```
 
-### 配置命令
+### 作为选项配合 build 命令使用
 
 `package.json` 的 `scripts` 字段使用命令参数
 
@@ -94,10 +103,10 @@ const config = {
     "scripts": {
             //  构建完后自动 “打开开发者工具”
            "build:weapp": "taro build --type weapp --open",
-            //  构建完后自动“上传代码作为体验版”
-           "build:weapp:upload": "taro build --type weapp --upload",
             //  构建完后自动 “上传代码作为开发版并生成预览二维码”     
-           "build:weapp:preview": "taro build --type weapp --preview"
+           "build:weapp:preview": "taro build --type weapp --preview",
+            //  构建完后自动“上传代码作为体验版”
+           "build:weapp:upload": "taro build --type weapp --upload"
     },
     "taroConfig": {
         "version": "1.0.0",
@@ -109,12 +118,61 @@ const config = {
 
 - --open
 打开开发者工具，类似于网页开发中自动打开谷歌浏览器
-- --upload
-上传代码作为体验版
 - --preview
 上传代码作为开发版并生成预览二维码
+- --upload
+上传代码作为体验版
 
 此3个选项在一条命令里不能同时使用
+
+
+### 作为命令单独使用
+```json
+{
+    "scripts": {
+            //  直接 “打开开发者工具”
+           "build:weapp": "taro open --type weapp --open",
+            //  直接 “上传代码作为开发版并生成预览二维码”     
+           "build:weapp:preview": "taro preview --type weapp",
+            //  直接“上传代码作为体验版”
+           "build:weapp:upload": "taro upload --type weapp",
+    },
+    "taroConfig": {
+        "version": "1.0.0",
+        "desc": "上传描述"
+    }
+}
+```
+
+由上面的示例可知，插件额外新增了3个独立命令，让你可以直接操作指定目录。适用于把 `taro` 作为项目一部分的使用场景。 
+
+### Hooks
+在插件执行完  `预览`、`上传` 操作后， 插件会触发2个钩子事件：
+
+| 事件名 | 传递参数对象 | 说明 |
+| :--- | :--- | :--- |
+| onPreviewComplete | `{platform: '当前构建的小程序平台', qrCodeLocalPath: '预览码本地路径', qrCodeContent: '预览码内容', version: '插件传递的预览版本号', desc: '插件传递的描述文本'}` | CI 执行预览后触发 |
+| onUploadComplete | 同上 | CI 执行上传后触发 |
+
+你可以写一个自定义插件，来接收上述2个事件传递的值：
+
+```js
+module.exports = function(ctx) {
+    ctx.register({
+        name: 'onPreviewComplete',
+        fn: (opt) => {
+            console.log('接收预览后数据', opt)
+        }
+    })
+    ctx.register({
+        name: 'onUploadComplete',
+        fn: (opt) => {
+            console.log('接收上传后数据', opt)
+        }
+    })
+}
+```
+
 
 ## API
 
