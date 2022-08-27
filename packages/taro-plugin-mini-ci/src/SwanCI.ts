@@ -43,6 +43,13 @@ export default class SwanCI extends BaseCI {
           processTypeEnum.REMIND,
           `预览二维码已生成，存储在:"${ previewQrcodePath }",二维码内容是：${ qrContent }`
         )
+
+        this.triggerPreviewHooks({
+          platform: 'swan',
+          qrCodeContent: qrContent,
+          qrCodeLocalPath: previewQrcodePath
+        })
+
       }
     })
   }
@@ -57,6 +64,12 @@ export default class SwanCI extends BaseCI {
         // TODO 没有百度小程序账号， 不知道它的上传码规则
         // stdout = JSON.parse(stdout)
         console.log(chalk.green(`上传成功 ${new Date().toLocaleString()}`))
+        
+        this.triggerUploadHooks({
+          platform: 'swan',
+          qrCodeContent: '',
+          qrCodeLocalPath: ''
+        })
       }
     })
   }

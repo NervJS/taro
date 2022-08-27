@@ -92,6 +92,11 @@ export default class AlipayCI extends BaseCI {
       await generateQrcodeImageFile(previewQrcodePath, qrcodeContent)
       printLog(processTypeEnum.REMIND, `预览版二维码已生成，存储在:"${ previewQrcodePath }",二维码内容是："${ qrcodeContent }"`)
 
+      this.triggerPreviewHooks({
+        platform: 'alipay',
+        qrCodeContent: qrcodeContent,
+        qrCodeLocalPath: previewQrcodePath
+      })
     } catch (error) {
       printLog(processTypeEnum.ERROR, chalk.red(`预览上传失败 ${ new Date().toLocaleString() } \n${ error.message }`))
     }
@@ -127,6 +132,12 @@ export default class AlipayCI extends BaseCI {
       await printQrcode2Terminal(qrcodeContent)
       await generateQrcodeImageFile(uploadQrcodePath, qrcodeContent)
       printLog(processTypeEnum.REMIND, `体验版二维码已生成，存储在:"${uploadQrcodePath}",二维码内容是："${qrcodeContent}"`)
+
+      this.triggerUploadHooks({
+        platform: 'alipay',
+        qrCodeContent: qrcodeContent,
+        qrCodeLocalPath: uploadQrcodePath
+      })
     } catch (error) {
       printLog(processTypeEnum.ERROR, chalk.red(`体验版上传失败 ${ new Date().toLocaleString() } \n${ error }`))
     }

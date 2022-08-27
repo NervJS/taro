@@ -71,11 +71,18 @@ export default class TTCI extends BaseCI {
         cache: true
       })
       console.log(chalk.green(`开发版上传成功 ${ new Date().toLocaleString() }\n`))
-      await printQrcode2Terminal(previewResult.shortUrl)
+      const qrContent = previewResult.shortUrl
+      await printQrcode2Terminal(qrContent)
       printLog(
         processTypeEnum.REMIND,
-        `预览二维码已生成，存储在:"${ previewQrcodePath }",二维码内容是：${ previewResult.shortUrl },过期时间：${ new Date(previewResult.expireTime * 1000).toLocaleString() }`
+        `预览二维码已生成，存储在:"${ previewQrcodePath }",二维码内容是：${ qrContent },过期时间：${ new Date(previewResult.expireTime * 1000).toLocaleString() }`
       )
+
+      this.triggerPreviewHooks({
+        platform: 'tt',
+        qrCodeContent: qrContent,
+        qrCodeLocalPath: previewQrcodePath
+      })
     } catch (error) {
       printLog(processTypeEnum.ERROR, chalk.red(`上传失败 ${ new Date().toLocaleString() } \n${ error }`))
     }
@@ -103,11 +110,18 @@ export default class TTCI extends BaseCI {
         copyToClipboard: false
       })
       console.log(chalk.green(`体验版版上传成功 ${ new Date().toLocaleString() }\n`))
-      await printQrcode2Terminal(uploadResult.shortUrl)
+      const qrContent = uploadResult.shortUrl
+      await printQrcode2Terminal(qrContent)
       printLog(
         processTypeEnum.REMIND,
-        `体验版二维码已生成，存储在:"${ uploadQrcodePath }",二维码内容是："${ uploadResult.shortUrl }", 过期时间：${ new Date(uploadResult.expireTime * 1000).toLocaleString() }`
+        `体验版二维码已生成，存储在:"${ uploadQrcodePath }",二维码内容是："${ qrContent}", 过期时间：${ new Date(uploadResult.expireTime * 1000).toLocaleString() }`
       )
+
+      this.triggerUploadHooks({
+        platform: 'tt',
+        qrCodeContent: qrContent,
+        qrCodeLocalPath: uploadQrcodePath
+      })
     } catch (error) {
       printLog(processTypeEnum.ERROR, chalk.red(`上传失败 ${ new Date().toLocaleString() } \n${ error }`))
     }

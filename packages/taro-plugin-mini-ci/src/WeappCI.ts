@@ -101,13 +101,20 @@ export default class WeappCI extends BaseCI {
         const extInfo = `本次上传${allPackageInfo!.size / 1024}kb ${mainPackageInfo ? ',其中主包' + mainPackageInfo.size + 'kb' : ''}`
         console.log(chalk.green(`开发版上传成功 ${new Date().toLocaleString()} ${extInfo}\n`))
       }
+      let qrContent
       try {
-        const qrContent = await readQrcodeImageContent(previewQrcodePath)
+        qrContent = await readQrcodeImageContent(previewQrcodePath)
         await printQrcode2Terminal(qrContent)
         printLog(processTypeEnum.REMIND, `预览二维码已生成，存储在:"${previewQrcodePath}",二维码内容是：${qrContent}`)
       } catch (error) {
         printLog(processTypeEnum.ERROR, chalk.red(`获取预览二维码失败：${error.message}`))
       }
+      
+      this.triggerPreviewHooks({
+        platform: 'weapp',
+        qrCodeContent: qrContent,
+        qrCodeLocalPath: previewQrcodePath
+      })
     } catch (error) {
       printLog(processTypeEnum.ERROR, chalk.red(`上传失败 ${new Date().toLocaleString()} \n${error.message}`))
     }
@@ -143,6 +150,12 @@ export default class WeappCI extends BaseCI {
         printLog(processTypeEnum.REMIND, `体验版二维码已生成，存储在:"${uploadQrcodePath}",二维码内容是："${qrContent}"`)
         printLog(processTypeEnum.REMIND, `可能需要您前往微信后台，将当前上传版本设置为“体验版”`)
         printLog(processTypeEnum.REMIND, `若本次上传的robot机器人和上次一致，并且之前已经在微信后台设置其为“体验版”，则本次无需再次设置`)
+
+        this.triggerUploadHooks({
+          platform: 'weapp',
+          qrCodeContent: qrContent,
+          qrCodeLocalPath: uploadQrcodePath
+        })
       } catch (error) {
         printLog(processTypeEnum.ERROR, chalk.red(`体验二维码生成失败：${error.message}`))
       }

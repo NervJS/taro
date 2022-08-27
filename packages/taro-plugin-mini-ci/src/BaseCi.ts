@@ -1,6 +1,8 @@
 import { IPluginContext } from '@tarojs/service'
 import * as path from 'path'
 
+import { ON_PREVIEW_COMPLETE, ON_UPLOAD_COMPLETE } from './hooks'
+
 export type ProjectType = 'miniProgram' | 'miniGame' | 'miniProgramPlugin' | 'miniGamePlugin';
 
 /** 微信小程序配置 */
@@ -139,6 +141,28 @@ export default abstract class BaseCI {
     this.desc = pluginOpts.desc || packageInfo.taroConfig?.desc || `CI构建自动构建于${new Date().toLocaleTimeString()}`
 
     this._init()
+  }
+
+  async triggerPreviewHooks (content: { platform: string, qrCodeLocalPath: string, qrCodeContent: string }) {
+    await this.ctx.applyPlugins({
+      name: ON_PREVIEW_COMPLETE,
+      opts: {
+        version: this.version,
+        desc: this.desc,
+        ...content
+      }
+    })
+  }
+
+  async triggerUploadHooks (content: { platform: string, qrCodeLocalPath: string, qrCodeContent: string }) {
+    await this.ctx.applyPlugins({
+      name: ON_UPLOAD_COMPLETE,
+      opts: {
+        version: this.version,
+        desc: this.desc,
+        ...content
+      }
+    })
   }
 
   /** 初始化函数，会被构造函数调用 */
