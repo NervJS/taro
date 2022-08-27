@@ -50,6 +50,8 @@
     }
   },
   "devDependencies": {
-    "@types/qrcode": "^1.5.0"
+    "@types/qrcode": "^1.5.0",
+    "minidev": "^1.5.1",
+    "tt-ide-cli": "^0.1.13"
   }
 }

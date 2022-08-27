@@ -45,14 +45,23 @@ export default (ctx: IPluginContext, _pluginOpts: CIOptions | (() => CIOptions))
             password: joi.string().required()
           }),
           /** 阿里小程序上传配置 */
-          alipay: joi.object({
-            appId: joi.string().required(),
-            toolId: joi.string().required(),
-            privateKeyPath: joi.string().required(),
-            proxy: joi.string(),
-            project: joi.string(),
-            clientType: joi.string().valid('alipay', 'ampe', 'amap', 'genie', 'alios', 'uc', 'quark', 'taobao', 'koubei', 'alipayiot', 'cainiao', 'alihealth')
-          }),
+          alipay:joi.alternatives().try(
+            joi.object({
+              appId: joi.string().required(),
+              toolId: joi.string().required(),
+              privateKeyPath: joi.string().required(),
+              project: joi.string(),
+              clientType: joi.string().valid('alipay', 'ampe', 'amap', 'genie', 'alios', 'uc', 'quark', 'taobao', 'koubei', 'alipayiot', 'cainiao', 'alihealth')
+            }),
+            joi.object({
+              appId: joi.string().required(),
+              toolId: joi.string().required(),
+              privateKey: joi.string().required(),
+              project: joi.string(),
+              clientType: joi.string().valid('alipay', 'ampe', 'amap', 'genie', 'alios', 'uc', 'quark', 'taobao', 'koubei', 'alipayiot', 'cainiao', 'alihealth')
+            }),
+
+          ),
           /** 百度小程序上传配置 */
           swan: joi.object({
             token: joi.string().required(),

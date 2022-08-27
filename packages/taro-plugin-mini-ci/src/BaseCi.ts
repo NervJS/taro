@@ -7,7 +7,7 @@ export type ProjectType = 'miniProgram' | 'miniGame' | 'miniProgramPlugin' | 'mi
 export interface WeappConfig {
   /** 小程序/小游戏项目的 appid */
   appid: string
-  /** 私钥，在获取项目属性和上传时用于鉴权使用(必填) */
+  /** 私钥文件路径，在获取项目属性和上传时用于鉴权使用 */
   privateKeyPath: string
   /** 微信开发者工具安装路径 */
   devToolsInstallPath?: string
@@ -38,11 +38,11 @@ export type ClientType =
 /** ALIOS */ 'alios'|
 /** UC */'uc'|
 /** 夸克 */ 'quark'|
-/** 淘宝 */ 'taobao'|
 /** 口碑 */'koubei' |
 /** loT */'alipayiot'|
 /** 菜鸟 */'cainiao' |
-/** 阿里健康 */ 'alihealth'
+/** 阿里健康(医蝶谷) */ 'alihealth'|
+/** 阿里医院 */ 'health'
 
 /** 支付宝系列小程序配置 */
 export interface AlipayConfig {
@@ -50,12 +50,12 @@ export interface AlipayConfig {
   appId: string
   /** 工具id */
   toolId: string
+  /** 私钥文件路径，在获取项目属性和上传时用于鉴权使用(privateKeyPath和privateKey之间必须要填写其中一个) */
+  privateKeyPath: string
+  /** 私钥文本内容，在获取项目属性和上传时用于鉴权使用(privateKeyPath和privateKey之间必须要填写其中一个) */
+  privateKey: string
   /** 小程序开发者工具安装路径 */
   devToolsInstallPath?: string
-  /** 私钥相对路径 */
-  privateKeyPath: string
-  /** 服务代理地址（可选） */
-  proxy?: string
   /** 目标项目目录, 默认为 outputPath（可选） */
   project?: string
   /** 上传的终端, 默认alipay */

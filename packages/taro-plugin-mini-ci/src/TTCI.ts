@@ -59,6 +59,7 @@ export default class TTCI extends BaseCI {
         project: {
           path: outputPath
         },
+        // @ts-ignore
         page: {
           path: ''
         },
@@ -70,13 +71,13 @@ export default class TTCI extends BaseCI {
         cache: true
       })
       console.log(chalk.green(`开发版上传成功 ${ new Date().toLocaleString() }\n`))
-      printQrcode2Terminal(previewResult.shortUrl)
+      await printQrcode2Terminal(previewResult.shortUrl)
       printLog(
         processTypeEnum.REMIND,
         `预览二维码已生成，存储在:"${ previewQrcodePath }",二维码内容是：${ previewResult.shortUrl },过期时间：${ new Date(previewResult.expireTime * 1000).toLocaleString() }`
       )
     } catch (error) {
-      printLog(processTypeEnum.ERROR, chalk.red(`上传失败 ${ new Date().toLocaleString() } \n${ error.message }`))
+      printLog(processTypeEnum.ERROR, chalk.red(`上传失败 ${ new Date().toLocaleString() } \n${ error }`))
     }
   }
 
@@ -98,15 +99,17 @@ export default class TTCI extends BaseCI {
         },
         version: this.version,
         changeLog: this.desc,
-        needUploadSourcemap: true
+        needUploadSourcemap: true,
+        copyToClipboard: false
       })
       console.log(chalk.green(`体验版版上传成功 ${ new Date().toLocaleString() }\n`))
+      await printQrcode2Terminal(uploadResult.shortUrl)
       printLog(
         processTypeEnum.REMIND,
         `体验版二维码已生成，存储在:"${ uploadQrcodePath }",二维码内容是："${ uploadResult.shortUrl }", 过期时间：${ new Date(uploadResult.expireTime * 1000).toLocaleString() }`
       )
     } catch (error) {
-      printLog(processTypeEnum.ERROR, chalk.red(`上传失败 ${ new Date().toLocaleString() } \n${ error.message }`))
+      printLog(processTypeEnum.ERROR, chalk.red(`上传失败 ${ new Date().toLocaleString() } \n${ error }`))
     }
   }
 }

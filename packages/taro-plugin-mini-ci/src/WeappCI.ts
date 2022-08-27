@@ -1,8 +1,7 @@
 /* eslint-disable no-console */
 import * as cp from 'child_process'
 import * as crypto from 'crypto'
-import * as ci from 'miniprogram-ci'
-import { Project } from 'miniprogram-ci'
+import ci, { Project }from 'miniprogram-ci'
 import { ICreateProjectOptions } from 'miniprogram-ci/dist/@types/ci/project'
 import * as os from 'os'
 import * as path from 'path'
