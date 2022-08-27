@@ -3,6 +3,7 @@ import * as minimist from 'minimist'
 
 import AlipayCI from './AlipayCI'
 import BaseCI, { CIOptions } from './BaseCi'
+import DingtalkCI from './DingtalkCI'
 import SwanCI from './SwanCI'
 import TTCI from './TTCI'
 import WeappCI from './WeappCI'
@@ -62,6 +63,19 @@ export default (ctx: IPluginContext, _pluginOpts: CIOptions | (() => CIOptions))
             }),
 
           ),
+          /** 钉钉小程序配置 */
+          dd: joi.object({
+            token: joi.string().required(),
+            appid: joi.string().required(),
+            projectPath: joi.string(),
+            devToolsInstallPath: joi.string(),
+            projectType: joi.string().valid(
+              'dingtalk-personal',
+              'dingtalk-biz-isv',
+              'dingtalk-biz',
+              'dingtalk-biz-custom',
+              'dingtalk-biz-worktab-plugin')
+          }),
           /** 百度小程序上传配置 */
           swan: joi.object({
             token: joi.string().required(),
@@ -93,6 +107,9 @@ export default (ctx: IPluginContext, _pluginOpts: CIOptions | (() => CIOptions))
       case 'alipay':
       case 'iot':
         ci = new AlipayCI(ctx, pluginOpts)
+        break
+      case 'dd':
+        ci = new DingtalkCI(ctx, pluginOpts)
         break
       case 'swan':
         ci = new SwanCI(ctx, pluginOpts)

@@ -37,20 +37,9 @@
     "qrcode-terminal": "^0.12.0",
     "shelljs": "^0.8.4"
   },
-  "peerDependencies": {
-    "minidev": "^1.5.1",
-    "tt-ide-cli": "^0.1.13"
-  },
-  "peerDependenciesMeta": {
-    "minidev": {
-      "optional": true
-    },
-    "tt-ide-cli": {
-      "optional": true
-    }
-  },
   "devDependencies": {
     "@types/qrcode": "^1.5.0",
+    "dingtalk-miniapp-opensdk": "^1.0.7",
     "minidev": "^1.5.1",
     "tt-ide-cli": "^0.1.13"
   }

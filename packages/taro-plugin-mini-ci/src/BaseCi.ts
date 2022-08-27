@@ -30,7 +30,7 @@ export interface TTConfig {
 }
 
 /** 终端类型 */
-export type ClientType =
+export type AlipayClientType =
 /** 支付宝 */'alipay' |
 /** AMPE */'ampe' |
 /** 高德 */'amap' |
@@ -59,7 +59,31 @@ export interface AlipayConfig {
   /** 目标项目目录, 默认为 outputPath（可选） */
   project?: string
   /** 上传的终端, 默认alipay */
-  clientType?: ClientType
+  clientType?: AlipayClientType
+}
+
+export type DingtalkProjectType =
+/** 第三方个人应用 */
+'dingtalk-personal'|
+/** 第三方企业应用 */
+'dingtalk-biz-isv'|
+/** 企业内部应用 */
+'dingtalk-biz'|
+/** 企业定制应用 */
+'dingtalk-biz-custom'|
+/** 工作台组件 */
+'dingtalk-biz-worktab-plugin'
+export interface DingtalkConfig {
+  /** 小程序ID， 必填 */
+  appid: string
+  /** 令牌，从钉钉后台获取 */
+  token: string
+  /** 上传的小程序的路径（默认 outputPath ） */
+  projectPath?: string
+  /** 小程序开发者工具安装路径 */
+  devToolsInstallPath?: string
+  /** 钉钉应用类型， 默认为:'dingtalk-biz' (企业内部应用) */
+  projectType?: DingtalkProjectType
 }
 
 /** 百度小程序配置 */
@@ -81,6 +105,8 @@ export interface CIOptions {
   tt?: TTConfig
   /** 支付宝系列小程序配置，官方文档地址： https://opendocs.alipay.com/mini/miniu/api */
   alipay?: AlipayConfig
+  /** 钉钉小程序配置 */
+  dd?: DingtalkConfig
   /** 百度小程序配置, 官方文档地址：https://smartprogram.baidu.com/docs/develop/devtools/commandtool/ */
   swan?: SwanConfig
 }
