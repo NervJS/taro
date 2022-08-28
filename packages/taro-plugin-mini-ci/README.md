@@ -146,30 +146,77 @@ const config = {
 
 由上面的示例可知，插件额外新增了3个独立命令，让你可以直接操作指定目录。适用于把 `taro` 作为项目一部分的使用场景。 
 
-### Hooks
+### Hooks 使用
 在插件执行完  `预览`、`上传` 操作后， 插件会触发2个钩子事件：
 
 | 事件名 | 传递参数对象 | 说明 |
 | :--- | :--- | :--- |
-| onPreviewComplete | `{platform: '当前构建的小程序平台', qrCodeLocalPath: '预览码本地路径', qrCodeContent: '预览码内容', version: '插件传递的预览版本号', desc: '插件传递的描述文本'}` | CI 执行预览后触发 |
-| onUploadComplete | 同上 | CI 执行上传后触发 |
+| onPreviewComplete | 详细见下文 | CI 执行预览后触发 |
+| onUploadComplete | 详细见下文| CI 执行上传后触发 |
+
+两个钩子被触发时传入的数据对象描述如下
+
+```ts
+interface HooksData {
+  /** 是否预览、构建成功 */
+  success: boolean;
+  data: {
+    /** 当前构建的小程序平台 */
+    platform: string;
+    /** 预览码本地路径 */
+    qrCodeLocalPath: string;
+    /** 预览码内容 */
+    qrCodeContent: string;
+    /** 插件传递的预览版本号 */
+    version: string;
+    /** 插件传递的描述文本 */
+    desc: string;
+  },
+  /** 错误对象 */
+  error?: Error;
+}
+```
 
 你可以写一个自定义插件，来接收上述2个事件传递的值：
 
 ```js
+// config/test.js
 module.exports = function(ctx) {
     ctx.register({
         name: 'onPreviewComplete',
-        fn: (opt) => {
-            console.log('接收预览后数据', opt)
+        fn: ({success, data, error}) => {
+            console.log('接收预览后数据', success, data, error)
+            // 你可以在这里发送钉钉或者飞书消息
         }
     })
     ctx.register({
         name: 'onUploadComplete',
-        fn: (opt) => {
-            console.log('接收上传后数据', opt)
+        fn: ({success, data, error}) => {
+            console.log('接收上传后数据', success, data, error)
+            // 你可以在这里发送钉钉或者飞书消息
         }
     })
+}
+```
+然后把自己写的插件配置应用起来：
+```js
+// config/index.js
+const config = {
+  
+  plugins: [
+    ["@tarojs/plugin-mini-ci", CI插件参数],
+    // 应用自己写的插件
+    require('path').join(__dirname, './test' )
+  ],
+  ... 其他配置省略
+ 
+}
+
+module.exports = function (merge) {
+  if (process.env.NODE_ENV === 'development') {
+    return merge({}, config, require('./dev'))
+  }
+  return merge({}, config, require('./prod'))
 }
 ```
 
