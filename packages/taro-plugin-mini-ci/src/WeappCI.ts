@@ -111,12 +111,25 @@ export default class WeappCI extends BaseCI {
       }
       
       this.triggerPreviewHooks({
-        platform: 'weapp',
-        qrCodeContent: qrContent,
-        qrCodeLocalPath: previewQrcodePath
+        success: true,
+        data: {
+          platform: 'weapp',
+          qrCodeContent: qrContent,
+          qrCodeLocalPath: previewQrcodePath
+        }
       })
     } catch (error) {
       printLog(processTypeEnum.ERROR, chalk.red(`上传失败 ${new Date().toLocaleString()} \n${error.message}`))
+
+      this.triggerPreviewHooks({
+        success: false,
+        data: {
+          platform: 'weapp',
+          qrCodeContent: '',
+          qrCodeLocalPath: ''
+        },
+        error
+      })
     }
   }
 
@@ -141,8 +154,8 @@ export default class WeappCI extends BaseCI {
         console.log(chalk.green(`上传成功 ${new Date().toLocaleString()} ${extInfo}\n`))
       }
 
+      const uploadQrcodePath = path.join(outputPath, 'upload.png')
       try {
-        const uploadQrcodePath = path.join(outputPath, 'upload.png')
         // 体验码规则： https://open.weixin.qq.com/sns/getexpappinfo?appid=xxx&path=入口路径.html#wechat-redirect
         const qrContent = `https://open.weixin.qq.com/sns/getexpappinfo?appid=${this.pluginOpts.weapp!.appid}#wechat-redirect`
         await printQrcode2Terminal(qrContent)
@@ -152,15 +165,39 @@ export default class WeappCI extends BaseCI {
         printLog(processTypeEnum.REMIND, `若本次上传的robot机器人和上次一致，并且之前已经在微信后台设置其为“体验版”，则本次无需再次设置`)
 
         this.triggerUploadHooks({
-          platform: 'weapp',
-          qrCodeContent: qrContent,
-          qrCodeLocalPath: uploadQrcodePath
+          success: true,
+          data: {
+            platform: 'weapp',
+            qrCodeContent: qrContent,
+            qrCodeLocalPath: uploadQrcodePath
+          }
         })
       } catch (error) {
+        // 实际读取二维码时有极小概率会读取失败，待观察
         printLog(processTypeEnum.ERROR, chalk.red(`体验二维码生成失败：${error.message}`))
+
+        this.triggerUploadHooks({
+          success: true,
+          data: {
+            platform: 'weapp',
+            qrCodeContent: '',
+            qrCodeLocalPath: uploadQrcodePath
+          },
+          error
+        })
       }
     } catch (error) {
       printLog(processTypeEnum.ERROR, chalk.red(`上传失败 ${new Date().toLocaleString()} \n${error.message}`))
+
+      this.triggerUploadHooks({
+        success: false,
+        data: {
+          platform: 'weapp',
+          qrCodeContent: '',
+          qrCodeLocalPath: ''
+        },
+        error
+      })
     }
   }
 }

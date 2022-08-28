@@ -79,12 +79,26 @@ export default class TTCI extends BaseCI {
       )
 
       this.triggerPreviewHooks({
-        platform: 'tt',
-        qrCodeContent: qrContent,
-        qrCodeLocalPath: previewQrcodePath
+        success: true,
+        data: {
+          platform: 'tt',
+          qrCodeContent: qrContent,
+          qrCodeLocalPath: previewQrcodePath
+        }
       })
+
     } catch (error) {
       printLog(processTypeEnum.ERROR, chalk.red(`上传失败 ${ new Date().toLocaleString() } \n${ error }`))
+
+      this.triggerPreviewHooks({
+        success: false,
+        data: {
+          platform: 'tt',
+          qrCodeContent: '',
+          qrCodeLocalPath: ''
+        },
+        error
+      })
     }
   }
 
@@ -118,12 +132,25 @@ export default class TTCI extends BaseCI {
       )
 
       this.triggerUploadHooks({
-        platform: 'tt',
-        qrCodeContent: qrContent,
-        qrCodeLocalPath: uploadQrcodePath
+        success: true,
+        data: {
+          platform: 'tt',
+          qrCodeContent: qrContent,
+          qrCodeLocalPath: uploadQrcodePath
+        }
       })
     } catch (error) {
       printLog(processTypeEnum.ERROR, chalk.red(`上传失败 ${ new Date().toLocaleString() } \n${ error }`))
+
+      this.triggerUploadHooks({
+        success: false,
+        data: {
+          platform: 'tt',
+          qrCodeContent: '',
+          qrCodeLocalPath: ''
+        },
+        error
+      })
     }
   }
 }

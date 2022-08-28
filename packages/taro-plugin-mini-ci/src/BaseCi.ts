@@ -143,37 +143,57 @@ export default abstract class BaseCI {
     this._init()
   }
 
-  async triggerPreviewHooks (content: { platform: string, qrCodeLocalPath: string, qrCodeContent: string }) {
+  /** 执行预览命令后触发 */
+  async triggerPreviewHooks (content: {
+    success: boolean
+    data: { platform: string, qrCodeLocalPath: string, qrCodeContent: string }
+    error?: Error
+  }) {
+    const { success, data, error } = content
     await this.ctx.applyPlugins({
       name: ON_PREVIEW_COMPLETE,
       opts: {
-        version: this.version,
-        desc: this.desc,
-        ...content
-      }
+        success,
+        data: {
+          version: this.version,
+          desc: this.desc,
+          ...data
+        },
+        error
+      },
     })
   }
 
-  async triggerUploadHooks (content: { platform: string, qrCodeLocalPath: string, qrCodeContent: string }) {
+  /** 执行上传命令后触发 */
+  async triggerUploadHooks (content: {
+    success: boolean
+    data: { platform: string, qrCodeLocalPath: string, qrCodeContent: string }
+    error?: Error
+  }) {
+    const { success, data, error } = content
     await this.ctx.applyPlugins({
       name: ON_UPLOAD_COMPLETE,
       opts: {
-        version: this.version,
-        desc: this.desc,
-        ...content
-      }
+        success,
+        data: {
+          version: this.version,
+          desc: this.desc,
+          ...data
+        },
+        error
+      },
     })
   }
 
   /** 初始化函数，会被构造函数调用 */
-  protected abstract _init():void;
+  protected abstract _init(): void
 
   /** 打开小程序项目 */
-  abstract open();
+  abstract open()
 
   /** 上传小程序 */
-  abstract upload();
+  abstract upload()
 
   /** 预览小程序 */
-  abstract preview();
+  abstract preview()
 }

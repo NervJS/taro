@@ -45,11 +45,24 @@ export default class SwanCI extends BaseCI {
         )
 
         this.triggerPreviewHooks({
-          platform: 'swan',
-          qrCodeContent: qrContent,
-          qrCodeLocalPath: previewQrcodePath
+          success: true,
+          data: {
+            platform: 'swan',
+            qrCodeContent: qrContent,
+            qrCodeLocalPath: previewQrcodePath
+          }
         })
 
+      } else {
+        this.triggerPreviewHooks({
+          success: false,
+          data: {
+            platform: 'swan',
+            qrCodeContent: '',
+            qrCodeLocalPath: ''
+          },
+          error: stderr
+        })
       }
     })
   }
@@ -66,9 +79,22 @@ export default class SwanCI extends BaseCI {
         console.log(chalk.green(`上传成功 ${new Date().toLocaleString()}`))
         
         this.triggerUploadHooks({
-          platform: 'swan',
-          qrCodeContent: '',
-          qrCodeLocalPath: ''
+          success: true,
+          data: {
+            platform: 'swan',
+            qrCodeContent: '',
+            qrCodeLocalPath: ''
+          }
+        })
+      } else {
+        this.triggerUploadHooks({
+          success: false,
+          data: {
+            platform: 'swan',
+            qrCodeContent: '',
+            qrCodeLocalPath: ''
+          },
+          error: stderr
         })
       }
     })
