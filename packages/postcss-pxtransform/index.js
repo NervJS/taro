@@ -64,7 +64,7 @@ module.exports = postcss.plugin('postcss-pxtransform', function (options = {}) {
       break
     }
     case 'harmony': {
-      options.rootValue = 1 / options.deviceRatio[options.designWidth]
+      options.rootValue = input => 1 / options.deviceRatio[designWidth(input)]
       targetUnit = 'px'
       break
     }
