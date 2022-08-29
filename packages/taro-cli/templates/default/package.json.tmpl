@@ -48,13 +48,12 @@
     "@tarojs/runtime": "<%= version %>",
     "@tarojs/shared": "<%= version %>",
     "@tarojs/taro": "<%= version %>",
-    "@tarojs/taro-h5": "<%= version %>",<% if (['react', 'preact', 'nerv'].includes(framework)) {%>
+    "@tarojs/taro-h5": "<%= version %>",<% if (['react', 'preact'].includes(framework)) {%>
     "@tarojs/plugin-framework-react": "<%= version %>",<%}%><% if (framework === 'react') {%>
     "@tarojs/react": "<%= version %>",
     "react-dom": "^18.0.0",
     "react": "^18.0.0"<%}%><% if (framework === 'preact') {%>
-    "preact": "^10.5.15"<%}%><% if (framework === 'nerv') {%>
-    "nervjs": "^1.5.0"<%}%><% if (framework === 'vue') {%>
+    "preact": "^10.5.15"<%}%><% if (framework === 'vue') {%>
     "@tarojs/plugin-framework-vue2": "<%= version %>",
     "vue-template-compiler": "^2.5.0",
     "vue": "^2.5.0"<%}%><% if (framework === 'vue3') {%>
@@ -64,7 +63,7 @@
   "devDependencies": {
     "@babel/core": "^7.8.0",
     "@tarojs/cli": "<%= version %>",
-    "@types/webpack-env": "^1.13.6",<% if (['react', 'preact', 'nerv'].includes(framework)) {%>
+    "@types/webpack-env": "^1.13.6",<% if (['react', 'preact'].includes(framework)) {%>
     "@types/react": "^18.0.0",<%}%><% if (compiler === 'webpack4') {%>
     "@tarojs/mini-runner": "<%= version %>",
     "@tarojs/webpack-runner": "<%= version %>",
@@ -87,7 +86,7 @@
     "react-refresh": "^0.11.0",<%}%><% if (framework === 'preact') {%>
     "@prefresh/webpack": "^3.2.3",
     "@prefresh/core": "^1.3.4",
-    "@prefresh/babel-plugin": "^0.4.1",<%}%><% if (['react', 'preact', 'nerv'].includes(framework)) {%>
+    "@prefresh/babel-plugin": "^0.4.1",<%}%><% if (['react', 'preact'].includes(framework)) {%>
     "eslint-plugin-react": "^7.8.2",
     "eslint-plugin-import": "^2.12.0",
     "eslint-plugin-react-hooks": "^4.2.0",<%}%>
