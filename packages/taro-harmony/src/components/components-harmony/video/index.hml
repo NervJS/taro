@@ -1,7 +1,0 @@
-<div>
-  <video id="{{id}}" style="object-fit:{{objectFit}};" src="{{src}}" muted="{{muted}}"
-    autoplay="{{autoplay}}" poster="{{poster}}" controls="{{controls}}" direction="{{videoDirection}}" loop="{{loop}}" starttime="{{initialTime}}"
-    speed="{{speed}}" @prepared="preparedCallback" @start="startCallback" @pause="pauseCallback"
-    @finish="finishCallback" @stop="stopCallback" @error="errorCallback" @seeked="seekedCallback"
-    @timeupdate="timeupdateCallback" @fullscreenchange="fullscreenChangeCallback" @click="clickCallback"></video>
-</div>

@@ -1,9 +1,0 @@
-<div class="navbar" style="background-color: {{bg}}">>
-  <div class="navbar__route {{isShowReturn ? 'navbar__route--show' : ''}}" onclick="goBack"></div>
-  <text class="navbar__title" style="color: {{textStyle}}">{{title}}</text>
-  <div class="navbar__options">
-    <div class="navbar__options--more"></div>
-    <div class="navbar__options--divider"></div>
-    <div class="navbar__options--close"></div>
-  </div>
-</div>
