@@ -8,7 +8,7 @@
     "build": "run-s clean prod",
     "dev": "tsc -w",
     "prod": "tsc",
-    "clean": "rimraf dist",
+    "clean": "rimraf dist types",
     "prepack": "pnpm run build",
     "test": "jest",
     "test:dev": "jest --watch"
