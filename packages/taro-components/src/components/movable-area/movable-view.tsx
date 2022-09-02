@@ -288,7 +288,7 @@ export class MovableView {
       })
     }
 
-    const transform = `translateX(${x}px) translateY(${y}) translateZ(0px) scale(${scale})`
+    const transform = `translateX(${x}px) translateY(${y}px) translateZ(0px) scale(${scale})`
     this.element.style.transform = transform
     this.element.style.webkitTransform = transform
     this.translateX = x
