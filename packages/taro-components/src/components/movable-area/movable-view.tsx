@@ -445,15 +445,11 @@ export class MovableView {
 
   render () {
     return (
-      <Host>
-        <div
-          onTouchStart={this.handleTouchStart}
-          onTouchMove={this.handleTouchMove}
-          onTouchEnd={this.handleTouchEnd}
-        >
-          <slot />
-        </div>
-      </Host>
+      <Host
+        onTouchStart={this.handleTouchStart}
+        onTouchMove={this.handleTouchMove}
+        onTouchEnd={this.handleTouchEnd}
+      />
     )
   }
 }
