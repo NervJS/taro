@@ -1,5 +1,6 @@
 import { IPluginContext } from '@tarojs/service'
 import * as minimist from 'minimist'
+import * as path from 'path'
 
 import AlipayCI from './AlipayCI'
 import BaseCI, { CIOptions } from './BaseCi'
@@ -35,7 +36,6 @@ export default (ctx: IPluginContext, _pluginOpts: CIOptions | (() => CIOptions))
           weapp: joi.object({
             appid: joi.string().required(),
             privateKeyPath: joi.string().required(),
-            projectPath: joi.string(),
             type: joi.string().valid('miniProgram', 'miniProgramPlugin', 'miniGame', 'miniGamePlugin'),
             ignores: joi.array().items(joi.string().required()),
             robot: joi.number()
@@ -51,14 +51,12 @@ export default (ctx: IPluginContext, _pluginOpts: CIOptions | (() => CIOptions))
               appId: joi.string().required(),
               toolId: joi.string().required(),
               privateKeyPath: joi.string().required(),
-              project: joi.string(),
               clientType: joi.string().valid('alipay', 'ampe', 'amap', 'genie', 'alios', 'uc', 'quark', 'taobao', 'koubei', 'alipayiot', 'cainiao', 'alihealth')
             }),
             joi.object({
               appId: joi.string().required(),
               toolId: joi.string().required(),
               privateKey: joi.string().required(),
-              project: joi.string(),
               clientType: joi.string().valid('alipay', 'ampe', 'amap', 'genie', 'alios', 'uc', 'quark', 'taobao', 'koubei', 'alipayiot', 'cainiao', 'alihealth')
             }),
 
@@ -67,7 +65,6 @@ export default (ctx: IPluginContext, _pluginOpts: CIOptions | (() => CIOptions))
           dd: joi.object({
             token: joi.string().required(),
             appid: joi.string().required(),
-            projectPath: joi.string(),
             devToolsInstallPath: joi.string(),
             projectType: joi.string().valid(
               'dingtalk-personal',
@@ -82,14 +79,15 @@ export default (ctx: IPluginContext, _pluginOpts: CIOptions | (() => CIOptions))
             minSwanVersion: joi.string()
           }),
           version: joi.string(),
-          desc: joi.string()
+          desc: joi.string(),
+          projectPath: joi.string()
         })
         .required()
     )
   })
 
-  const doAction = async (platform: string, action: EnumAction) => {
-    const { printLog, processTypeEnum } = ctx.helper
+  const doAction = async (platform: string, action: EnumAction, projectPath?: string) => {
+    const { printLog, processTypeEnum, fs } = ctx.helper
     if (typeof platform !== 'string') {
       printLog(processTypeEnum.ERROR, '请传入正确的编译类型！')
       process.exit(0)
@@ -119,6 +117,18 @@ export default (ctx: IPluginContext, _pluginOpts: CIOptions | (() => CIOptions))
       printLog(processTypeEnum.WARNING, `"@tarojs/plugin-mini-ci" 插件暂时不支持 "${platform}" 平台`)
       return
     }
+    
+    projectPath = projectPath || pluginOpts.projectPath || ctx.paths.outputPath
+    projectPath = path.isAbsolute(projectPath) ? projectPath : path.join(ctx.paths.appPath, projectPath)
+
+    if (!fs.pathExistsSync(projectPath)) {
+      printLog(processTypeEnum.ERROR, `"projectPath"选项配置的路径不存在:${projectPath}`)
+      process.exit(0)
+    }
+    ci.setProjectPath(projectPath)
+
+    ci.init()
+
     switch (action) {
       case EnumAction.open:
         ci.open()
@@ -159,14 +169,15 @@ export default (ctx: IPluginContext, _pluginOpts: CIOptions | (() => CIOptions))
     ctx.registerCommand({
       name: action,
       optionsMap: {
-        '--type [typeName]': `${action} type, weapp/swan/alipay/iot/tt`,
+        '--type [typeName]': `${action} type, 支持 weapp/swan/alipay/iot/tt/dd`,
+        '--projectPath': `${action} 目录, 不传默认为配置项 'outputRoot' 配置目录`
       },
       synopsisList: [
         `taro ${action} --type weapp`,
         `taro ${action} --type alipay`
       ],
       async fn ({options}) {
-        doAction(options.type, action)
+        doAction(options.type, action, options.projectPath)
       }
     })
   })

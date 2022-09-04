@@ -13,7 +13,7 @@ import { generateQrcodeImageFile, printQrcode2Terminal, readQrcodeImageContent }
 export default class AlipayCI extends BaseCI {
   protected minidev: AlipayInstance
 
-  protected _init (): void {
+  init (): void {
     if (this.pluginOpts.alipay == null) {
       throw new Error('请为"@tarojs/plugin-mini-ci"插件配置 "alipay" 选项')
     }
@@ -50,40 +50,37 @@ export default class AlipayCI extends BaseCI {
 
   }
 
-  open () {
-    const {project, devToolsInstallPath} = this.pluginOpts.alipay!
+  async open () {
+    const { devToolsInstallPath} = this.pluginOpts.alipay!
     const { chalk, printLog, processTypeEnum } = this.ctx.helper
-    const { outputPath: projectPath } = this.ctx.paths
-    this.minidev.minidev
-      .startIde(
-        Object.assign(
-          {
-            project: project || projectPath
-          },
-          devToolsInstallPath ? { appPath: devToolsInstallPath } : {}
+    try {
+      printLog(processTypeEnum.START, '小程序开发者工具...', this.projectPath)
+      await this.minidev.minidev
+        .startIde(
+          Object.assign(
+            {
+              project: this.projectPath
+            },
+            devToolsInstallPath ? { appPath: devToolsInstallPath } : {}
+          )
         )
-      )
-      .then(() => {
-        printLog(processTypeEnum.START, '打开 IDE 成功')
-      })
-      .catch(res => {
-        printLog(processTypeEnum.ERROR, chalk.red(res.message))
-      })
+    } catch (error) {
+      printLog(processTypeEnum.ERROR, chalk.red(error.message))
+    }
   }
 
   async preview () {
     const { chalk, printLog, processTypeEnum } = this.ctx.helper
-    const { outputPath } = this.ctx.paths
-    const { appId, clientType = 'alipay', project } = this.pluginOpts.alipay!
+    const { appId, clientType = 'alipay' } = this.pluginOpts.alipay!
     try {
       const previewResult = await this.minidev.minidev.preview({
-        project: project || outputPath,
+        project: this.projectPath,
         appId,
         clientType,
         autoPush: false
       })
 
-      const previewQrcodePath = path.join(outputPath, 'preview.png')
+      const previewQrcodePath = path.join(this.projectPath, 'preview.png')
       // schema url规则 alipays://platformapi/startapp?appId=xxxx&nbsource=debug&nbsv=返回的临时版本号&nbsn=DEBUG&nboffline=sync&nbtoken=ide_qr&nbprefer=YES
       /** 注意： 这是二维码的线上图片地址， 不是二维码中的内容 */
       const qrcodeUrl = previewResult.qrcodeUrl
@@ -117,8 +114,7 @@ export default class AlipayCI extends BaseCI {
 
   async upload () {
     const { chalk, printLog, processTypeEnum } = this.ctx.helper
-    const { outputPath } = this.ctx.paths
-    const { clientType = 'alipay', appId, project } = this.pluginOpts.alipay!
+    const { clientType = 'alipay', appId } = this.pluginOpts.alipay!
     printLog(processTypeEnum.START, '上传代码到阿里小程序后台', clientType)
 
     //  SDK上传不支持设置描述信息; 版本号必须大于现有版本号
@@ -131,7 +127,7 @@ export default class AlipayCI extends BaseCI {
         printLog(processTypeEnum.ERROR, chalk.red(`上传版本号 "${ this.version }" 必须大于最新上传版本 "${ lasterVersion }"`))
       }
       const result = await this.minidev.minidev.upload({
-        project: project || outputPath,
+        project: this.projectPath,
         appId,
         version: this.version,
         clientType,
@@ -141,7 +137,7 @@ export default class AlipayCI extends BaseCI {
       const qrcodeUrl = result.experienceQrCodeUrl!
       const qrcodeContent = await readQrcodeImageContent(qrcodeUrl)
   
-      const uploadQrcodePath = path.join(outputPath, 'upload.png')
+      const uploadQrcodePath = path.join(this.projectPath, 'upload.png')
       await printQrcode2Terminal(qrcodeContent)
       await generateQrcodeImageFile(uploadQrcodePath, qrcodeContent)
       printLog(processTypeEnum.REMIND, `体验版二维码已生成，存储在:"${uploadQrcodePath}",二维码内容是："${qrcodeContent}"`)

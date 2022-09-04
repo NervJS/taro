@@ -9,7 +9,7 @@ import { printQrcode2Terminal } from './utils/qrcode'
 export default class TTCI extends BaseCI {
   tt: TTInstance
 
-  _init () {
+  init () {
     const { chalk, printLog, processTypeEnum } = this.ctx.helper
     if (this.pluginOpts.tt == null) {
       printLog(processTypeEnum.ERROR, chalk.red(('请为"@tarojs/plugin-mini-ci"插件配置 "tt" 选项')))
@@ -33,16 +33,15 @@ export default class TTCI extends BaseCI {
   }
 
   async open () {
-    const { outputPath: projectPath } = this.ctx.paths
     const { chalk, printLog, processTypeEnum } = this.ctx.helper
-    printLog(processTypeEnum.START, '字节跳动开发者工具...')
+    printLog(processTypeEnum.START, '启动字节跳动开发者工具...', this.projectPath)
     try {
       await this.tt.open({
         project: {
-          path: projectPath
+          path: this.projectPath
         }
       })
-      console.log(chalk.green('打开IDE成功'))
+      console.log(chalk.green(`打开IDE成功`))
     } catch (error) {
       printLog(processTypeEnum.ERROR, chalk.red('打开IDE失败', error))
     }
@@ -51,13 +50,12 @@ export default class TTCI extends BaseCI {
   async preview () {
     await this._beforeCheck()
     const { chalk, printLog, processTypeEnum } = this.ctx.helper
-    const { outputPath } = this.ctx.paths
     try {
       printLog(processTypeEnum.START, '预览字节跳动小程序')
-      const previewQrcodePath = path.join(outputPath, 'preview.png')
+      const previewQrcodePath = path.join(this.projectPath, 'preview.png')
       const previewResult = await this.tt.preview({
         project: {
-          path: outputPath
+          path: this.projectPath
         },
         // @ts-ignore
         page: {
@@ -105,14 +103,13 @@ export default class TTCI extends BaseCI {
   async upload () {
     await this._beforeCheck()
     const { chalk, printLog, processTypeEnum } = this.ctx.helper
-    const { outputPath } = this.ctx.paths
     try {
       printLog(processTypeEnum.START, '上传代码到字节跳动后台')
       printLog(processTypeEnum.REMIND, `本次上传版本号为："${ this.version }"，上传描述为：“${ this.desc }”`)
-      const uploadQrcodePath = path.join(outputPath, 'upload.png')
+      const uploadQrcodePath = path.join(this.projectPath, 'upload.png')
       const uploadResult = await this.tt.upload({
         project: {
-          path: outputPath
+          path: this.projectPath
         },
         qrcode: {
           format: 'imageFile',

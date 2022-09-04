@@ -39,6 +39,7 @@
   },
   "devDependencies": {
     "@types/qrcode": "^1.5.0",
+    "@types/shelljs": "^0.8.11",
     "dingtalk-miniapp-opensdk": "^1.0.7",
     "minidev": "^1.5.1",
     "tt-ide-cli": "^0.1.13"

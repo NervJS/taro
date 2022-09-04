@@ -1,10 +1,11 @@
 /* eslint-disable no-console */
-import * as cp from 'child_process'
 import * as crypto from 'crypto'
-import ci, { Project }from 'miniprogram-ci'
+import * as ci from 'miniprogram-ci'
+import  { Project }from 'miniprogram-ci'
 import { ICreateProjectOptions } from 'miniprogram-ci/dist/@types/ci/project'
 import * as os from 'os'
 import * as path from 'path'
+import * as shell from 'shelljs'
 
 import BaseCI from './BaseCi'
 import { generateQrcodeImageFile, printQrcode2Terminal, readQrcodeImageContent } from './utils/qrcode'
@@ -14,8 +15,8 @@ export default class WeappCI extends BaseCI {
   /** 微信开发者安装路径 */
   private devToolsInstallPath: string
 
-  _init () {
-    const { outputPath, appPath } = this.ctx.paths
+  init () {
+    const { appPath } = this.ctx.paths
     const { fs } = this.ctx.helper
     if (this.pluginOpts.weapp == null) {
       throw new Error('请为"@tarojs/plugin-mini-ci"插件配置 "weapp" 选项')
@@ -25,7 +26,7 @@ export default class WeappCI extends BaseCI {
 
     const weappConfig: ICreateProjectOptions = {
       type: 'miniProgram',
-      projectPath: outputPath,
+      projectPath: this.projectPath,
       appid: this.pluginOpts.weapp!.appid,
       privateKeyPath: this.pluginOpts.weapp!.privateKeyPath,
       ignores: this.pluginOpts.weapp!.ignores,
@@ -39,7 +40,6 @@ export default class WeappCI extends BaseCI {
 
   async open () {
     const { fs, printLog, processTypeEnum, getUserHomeDir } = this.ctx.helper
-    const { appPath } = this.ctx.paths
     // 检查安装路径是否存在
     if (!(await fs.pathExists(this.devToolsInstallPath))) {
       printLog(processTypeEnum.ERROR, '微信开发者工具安装路径不存在', this.devToolsInstallPath)
@@ -50,7 +50,7 @@ export default class WeappCI extends BaseCI {
     const isWindows = os.platform() === 'win32'
 
     // 检查是否开启了命令行
-    const errMesg = '工具的服务端口已关闭。要使用命令行调用工具，请打开工具 -> 设置 -> 安全设置，将服务端口开启。详细信息: https://developers.weixin.qq.com/miniprogram/dev/devtools/cli.html'
+    const errMesg = '工具的服务端口已关闭。要使用命令行调用工具，请打开工具 -> 设置 -> 安全设置，将服务端口开启。详细信息: https://developers.weixin.qq.com/miniprogram/dev/devtools/cli.html '
     const installPath = isWindows ? this.devToolsInstallPath : `${this.devToolsInstallPath}/Contents/MacOS`
     const md5 = crypto.createHash('md5').update(installPath).digest('hex')
     const ideStatusFile = path.join(
@@ -72,20 +72,16 @@ export default class WeappCI extends BaseCI {
     if (!(await fs.pathExists(cliPath))) {
       printLog(processTypeEnum.ERROR, '命令行工具路径不存在', cliPath)
     }
-    printLog(processTypeEnum.START, '微信开发者工具...')
-    cp.exec(`${cliPath} open --project ${appPath}`, (err) => {
-      if (err) {
-        printLog(processTypeEnum.ERROR, err.message)
-      }
-    })
+    printLog(processTypeEnum.START, '微信开发者工具...', this.projectPath)
+    
+    shell.exec(`${cliPath} open --project ${this.projectPath}`)
   }
 
   async preview () {
     const { chalk, printLog, processTypeEnum } = this.ctx.helper
-    const { outputPath } = this.ctx.paths
     try {
       printLog(processTypeEnum.START, '上传开发版代码到微信后台并预览')
-      const previewQrcodePath = path.join(outputPath, 'preview.jpg')
+      const previewQrcodePath = path.join(this.projectPath, 'preview.jpg')
       const uploadResult = await ci.preview({
         project: this.instance,
         version: this.version,
@@ -135,7 +131,6 @@ export default class WeappCI extends BaseCI {
 
   async upload () {
     const { chalk, printLog, processTypeEnum } = this.ctx.helper
-    const { outputPath } = this.ctx.paths
     try {
       printLog(processTypeEnum.START, '上传体验版代码到微信后台')
       printLog(processTypeEnum.REMIND, `本次上传版本号为："${this.version}"，上传描述为：“${this.desc}”`)
@@ -154,7 +149,7 @@ export default class WeappCI extends BaseCI {
         console.log(chalk.green(`上传成功 ${new Date().toLocaleString()} ${extInfo}\n`))
       }
 
-      const uploadQrcodePath = path.join(outputPath, 'upload.png')
+      const uploadQrcodePath = path.join(this.projectPath, 'upload.png')
       try {
         // 体验码规则： https://open.weixin.qq.com/sns/getexpappinfo?appid=xxx&path=入口路径.html#wechat-redirect
         const qrContent = `https://open.weixin.qq.com/sns/getexpappinfo?appid=${this.pluginOpts.weapp!.appid}#wechat-redirect`

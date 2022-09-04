@@ -9,7 +9,7 @@ import { generateQrcodeImageFile, printQrcode2Terminal } from './utils/qrcode'
 export default class SwanCI extends BaseCI {
   private swanBin
 
-  protected _init (): void {
+  init (): void {
     if (this.pluginOpts.swan == null) {
       throw new Error('请为"@tarojs/plugin-mini-ci"插件配置 "swan" 选项')
     }
@@ -28,11 +28,10 @@ export default class SwanCI extends BaseCI {
   }
 
   async preview () {
-    const { outputPath } = this.ctx.paths
     const { printLog, processTypeEnum } = this.ctx.helper
-    const previewQrcodePath = path.join(outputPath, 'preview.png')
+    const previewQrcodePath = path.join(this.projectPath, 'preview.png')
     printLog(processTypeEnum.START, '预览百度小程序')
-    shell.exec(`${this.swanBin} preview --project-path ${outputPath} --token ${this.pluginOpts.swan!.token} --min-swan-version ${this.pluginOpts.swan!.minSwanVersion || '3.350.6'} --json`, async (_code, stdout, stderr) => {
+    shell.exec(`${this.swanBin} preview --project-path ${this.projectPath} --token ${this.pluginOpts.swan!.token} --min-swan-version ${this.pluginOpts.swan!.minSwanVersion || '3.350.6'} --json`, async (_code, stdout, stderr) => {
       if (!stderr) {
         stdout = JSON.parse(stdout)
         const qrContent = stdout.list[0].url
@@ -68,11 +67,10 @@ export default class SwanCI extends BaseCI {
   }
 
   async upload () {
-    const { outputPath } = this.ctx.paths
     const { chalk, printLog, processTypeEnum } = this.ctx.helper
     printLog(processTypeEnum.START, '上传体验版代码到百度后台')
     printLog(processTypeEnum.REMIND, `本次上传版本号为："${this.version}"，上传描述为：“${this.desc}”`)
-    shell.exec(`${this.swanBin} upload --project-path ${outputPath} --token ${this.pluginOpts.swan!.token} --release-version ${this.version} --min-swan-version ${this.pluginOpts.swan!.minSwanVersion || '3.350.6'} --desc ${this.desc} --json`, (_code, _stdout, stderr) => {
+    shell.exec(`${this.swanBin} upload --project-path ${this.projectPath} --token ${this.pluginOpts.swan!.token} --release-version ${this.version} --min-swan-version ${this.pluginOpts.swan!.minSwanVersion || '3.350.6'} --desc ${this.desc} --json`, (_code, _stdout, stderr) => {
       if (!stderr) {
         // TODO 没有百度小程序账号， 不知道它的上传码规则
         // stdout = JSON.parse(stdout)

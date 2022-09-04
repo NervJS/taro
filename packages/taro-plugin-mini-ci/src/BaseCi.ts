@@ -13,8 +13,6 @@ export interface WeappConfig {
   privateKeyPath: string
   /** 微信开发者工具安装路径 */
   devToolsInstallPath?: string
-  /** 上传的小程序的路径（默认 outputPath ） */
-  projectPath?: string
   /** 类型，默认miniProgram 小程序 */
   type?: ProjectType
   /** 上传需要排除的目录 */
@@ -58,8 +56,6 @@ export interface AlipayConfig {
   privateKey: string
   /** 小程序开发者工具安装路径 */
   devToolsInstallPath?: string
-  /** 目标项目目录, 默认为 outputPath（可选） */
-  project?: string
   /** 上传的终端, 默认alipay */
   clientType?: AlipayClientType
 }
@@ -80,8 +76,6 @@ export interface DingtalkConfig {
   appid: string
   /** 令牌，从钉钉后台获取 */
   token: string
-  /** 上传的小程序的路径（默认 outputPath ） */
-  projectPath?: string
   /** 小程序开发者工具安装路径 */
   devToolsInstallPath?: string
   /** 钉钉应用类型， 默认为:'dingtalk-biz' (企业内部应用) */
@@ -98,9 +92,11 @@ export interface SwanConfig {
 
 export interface CIOptions {
   /** 发布版本号，默认取 package.json 文件的 taroConfig.version 字段 */
-  version: string
+  version?: string
   /** 版本发布描述， 默认取 package.json 文件的 taroConfig.desc 字段 */
-  desc: string
+  desc?: string
+  /** 目标项目目录，对所有小程序生效（不传默认取 outputRoot 字段 ） */
+  projectPath?: string
   /** 微信小程序CI配置, 官方文档地址：https://developers.weixin.qq.com/miniprogram/dev/devtools/ci.html */
   weapp?: WeappConfig
   /** 头条小程序配置, 官方文档地址：https://microapp.bytedance.com/docs/zh-CN/mini-app/develop/developer-instrument/development-assistance/ide-order-instrument */
@@ -126,6 +122,9 @@ export default abstract class BaseCI {
   /** 当前发布内容的描述 */
   protected desc: string
 
+  /** 命令要操作的项目目录 */
+  protected projectPath: string
+
   constructor (ctx: IPluginContext, pluginOpts: CIOptions) {
     this.ctx = ctx
     this.pluginOpts = pluginOpts
@@ -140,7 +139,10 @@ export default abstract class BaseCI {
     this.version = pluginOpts.version || packageInfo.taroConfig?.version || '1.0.0'
     this.desc = pluginOpts.desc || packageInfo.taroConfig?.desc || `CI构建自动构建于${new Date().toLocaleTimeString()}`
 
-    this._init()
+  }
+
+  setProjectPath (path: string) {
+    this.projectPath = path
   }
 
   /** 执行预览命令后触发 */
@@ -185,8 +187,8 @@ export default abstract class BaseCI {
     })
   }
 
-  /** 初始化函数，会被构造函数调用 */
-  protected abstract _init(): void
+  /** 初始化函数，new实例化后会被立即调用一次 */
+  abstract init(): void
 
   /** 打开小程序项目 */
   abstract open()
