@@ -159,6 +159,7 @@ export default abstract class BaseCI {
         data: {
           version: this.version,
           desc: this.desc,
+          projectPath: this.projectPath,
           ...data
         },
         error
@@ -180,6 +181,7 @@ export default abstract class BaseCI {
         data: {
           version: this.version,
           desc: this.desc,
+          projectPath: this.projectPath,
           ...data
         },
         error
