@@ -17,7 +17,7 @@ import { provide } from 'vue'
 
 import { setDefaultDescriptor, setRouterParams } from './utils'
 
-function setReconciler () {
+export function setReconciler () {
   hooks.tap('getLifecycle', function (instance, lifecycle) {
     return instance.$options[lifecycle]
   })
@@ -229,6 +229,6 @@ export function createVue3App (app: App<TaroElement>, h: typeof createElement, c
   return appConfig
 }
 
-function isClassComponent (value: unknown) {
+export function isClassComponent (value: unknown) {
   return isFunction(value) && '__vccOpts' in value
 }
