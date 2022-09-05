@@ -35,7 +35,7 @@ export default (ctx: IPluginContext) => {
     // 提供给 webpack5 依赖预编译收集器的第三方依赖
     const deps = [
       'vue',
-      '@tarojs/plugin-framework-vue3/dist/runtime'
+      '@tarojs/plugin-framework-vue2/dist/runtime'
     ]
     if (isString(opts.compiler)) {
       opts.compiler = {
