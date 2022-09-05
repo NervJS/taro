@@ -71,7 +71,7 @@ export default class AlipayCI extends BaseCI {
 
   async preview () {
     const { chalk, printLog, processTypeEnum } = this.ctx.helper
-    const { appId, clientType = 'alipay' } = this.pluginOpts.alipay!
+    const { appid: appId, clientType = 'alipay' } = this.pluginOpts.alipay!
     try {
       const previewResult = await this.minidev.minidev.preview({
         project: this.projectPath,
@@ -114,7 +114,7 @@ export default class AlipayCI extends BaseCI {
 
   async upload () {
     const { chalk, printLog, processTypeEnum } = this.ctx.helper
-    const { clientType = 'alipay', appId } = this.pluginOpts.alipay!
+    const { clientType = 'alipay', appid: appId } = this.pluginOpts.alipay!
     printLog(processTypeEnum.START, '上传代码到阿里小程序后台', clientType)
 
     //  SDK上传不支持设置描述信息; 版本号必须大于现有版本号

@@ -46,8 +46,8 @@ export type AlipayClientType =
 
 /** 支付宝系列小程序配置 */
 export interface AlipayConfig {
-  /** 小程序appId */
-  appId: string
+  /** 小程序appid */
+  appid: string
   /** 工具id */
   toolId: string
   /** 私钥文件路径，在获取项目属性和上传时用于鉴权使用(privateKeyPath和privateKey之间必须要填写其中一个) */

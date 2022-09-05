@@ -48,16 +48,16 @@ export default (ctx: IPluginContext, _pluginOpts: CIOptions | (() => CIOptions))
           /** 阿里小程序上传配置 */
           alipay:joi.alternatives().try(
             joi.object({
-              appId: joi.string().required(),
+              appid: joi.string().required(),
               toolId: joi.string().required(),
               privateKeyPath: joi.string().required(),
-              clientType: joi.string().valid('alipay', 'ampe', 'amap', 'genie', 'alios', 'uc', 'quark', 'taobao', 'koubei', 'alipayiot', 'cainiao', 'alihealth')
+              clientType: joi.string().valid('alipay', 'ampe', 'amap', 'genie', 'alios', 'uc', 'quark', 'health', 'koubei', 'alipayiot', 'cainiao', 'alihealth')
             }),
             joi.object({
-              appId: joi.string().required(),
+              appid: joi.string().required(),
               toolId: joi.string().required(),
               privateKey: joi.string().required(),
-              clientType: joi.string().valid('alipay', 'ampe', 'amap', 'genie', 'alios', 'uc', 'quark', 'taobao', 'koubei', 'alipayiot', 'cainiao', 'alihealth')
+              clientType: joi.string().valid('alipay', 'ampe', 'amap', 'genie', 'alios', 'uc', 'quark', 'health', 'koubei', 'alipayiot', 'cainiao', 'alihealth')
             }),
 
           ),
