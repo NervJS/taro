@@ -136,6 +136,8 @@ const config = {
            "build:weapp:preview": "taro preview --type weapp",
             //  直接“上传代码作为体验版”
            "build:weapp:upload": "taro upload --type weapp",
+            //  上传指定目录代码作为体验版
+           "build:weapp:upload2": "taro upload --type weapp --projectPath dist/xxx",
     },
     "taroConfig": {
         "version": "1.0.0",
@@ -145,6 +147,12 @@ const config = {
 ```
 
 由上面的示例可知，插件额外新增了3个独立命令，让你可以直接操作指定目录。适用于把 `taro` 作为项目一部分的使用场景。 
+
+当直接作为命令使用时，有两个选项：
+- --type
+传入平台名称
+- --projectPath
+传入路径。 此选项优先级为： 终端传入的`--projectPath` > CI配置的`projectPath` 选项 > [outputRoot选项](https://taro-docs.jd.com/taro/docs/next/config-detail#outputroot)
 
 ### Hooks 使用
 在插件执行完  `预览`、`上传` 操作后， 插件会触发2个钩子事件：
@@ -171,6 +179,8 @@ interface HooksData {
     version: string;
     /** 插件传递的描述文本 */
     desc: string;
+    /** 预览或上传的目录路径 */
+    projectPath: string;
   },
   /** 错误对象 */
   error?: Error;
@@ -231,18 +241,21 @@ module.exports = function (merge) {
 | weapp | Object | 微信小程序CI配置 |
 | tt | Object | 头条小程序配置 |
 | alipay | Object | 支付宝小程序配置 |
+| dd | Object | 钉钉小程序配置（3.6.0 版本开始支持） |
 | swan | Object | 百度小程序配置 |
 | version | string | 上传版本号，不传时默认读取package.json下的taroConfig下的version字段 |
 | desc | string | 上传时的描述信息，不传时默认读取package.json下的taroConfig下的desc字段 |
+| projectPath | string | 目标项目目录，对所有小程序生效（不传默认取 outputRoot 字段 ）（3.6.0 版本开始支持） |
 
 ### 微信小程序CI配置
 | 参数 | 类型 | 说明 |
 | :--- | :--- | :--- |
 | appid | string | 小程序/小游戏项目的 appid |
 | privateKeyPath | string | 私钥文件在项目中的相对路径，在获取项目属性和上传时用于鉴权使用|
-| devToolsInstallPath | string | 微信开发者工具安装路径，如果你安装微信开发者工具时选的默认路径，则不需要传入此参数 |
-| projectPath | string | 上传的小程序的路径（默认取的 outputPath ） |
+| devToolsInstallPath | string | 微信开发者工具安装路径，如果你安装微信开发者工具时选的默认路径，则不需要传入此参数(选填) |
+| projectPath | string | 上传的小程序的路径（默认取的 outputRoot ）（3.6.0 版本已废弃） |
 | ignores | string[] | 上传需要排除的目录(选填) |
+| robot | number | 指定使用哪一个 ci 机器人，可选值：1 ~ 30(选填, 3.6.0 版本开始支持) |
 
 官方CI文档[点这里](https://developers.weixin.qq.com/miniprogram/dev/devtools/ci.html)
 
@@ -259,10 +272,12 @@ module.exports = function (merge) {
 
 | 参数 | 类型 | 说明 |
 | :--- | :--- | :--- |
-| appId | string | 小程序appId |
-| toolId | string | 工具id，生成方式[查看这里](https://opendocs.alipay.com/mini/miniu/api#%E5%88%9D%E5%A7%8B%E5%8C%96%E9%85%8D%E7%BD%AE%EF%BC%88%E4%B9%8B%E5%89%8D%E7%9A%84%E6%96%B9%E5%BC%8F%EF%BC%8C%E6%8E%A8%E8%8D%90%E4%BD%BF%E7%94%A8%20miniu%20login%EF%BC%89) |
-| privateKeyPath | string | 密钥文件相对项目根目录的相对路径, 支付宝生产的私钥文件名一般是 pkcs8-private-pem |
-| clientType | string | 上传的终端,终端类型见下表（默认值alipay） |
+| appid | string | 小程序appid(`3.6.0` 之前参数名是 `appId` ， `3.6.0` 开始统一成`appid`) |
+| toolId | string | 工具id，[查看这里复制](https://open.alipay.com/dev/workspace/key-manage/tool) |
+| privateKeyPath | string | 密钥文件相对项目根目录的相对路径, 私钥可通过[支付宝开放平台开发助手](https://opendocs.alipay.com/common/02kipl)生成 |
+| privateKey | string | 私钥文本内容, 生成方式同上(privateKeyPath和privateKey之间必须要填写其中一个； 3.6.0 版本开始支持) |
+| devToolsInstallPath | string | 小程序开发者工具安装路径(选填, 3.6.0 版本开始支持) |
+| clientType | string | 上传的终端,终端类型见下表（选填，默认值alipay） |
 
 ```
 终端类型值及其含义：
@@ -281,8 +296,6 @@ uc：UC
 
 quark：夸克
 
-taobao：淘宝
-
 koubei：口碑
 
 alipayiot：IoT
@@ -290,9 +303,20 @@ alipayiot：IoT
 cainiao：菜鸟
 
 alihealth：阿里健康
+
+health:  阿里医院
 ```
 
-官方CI文档[点这里](https://opendocs.alipay.com/mini/miniu/api)
+官方CI文档[点这里](https://opendocs.alipay.com/mini/02q29z)
+
+
+### 钉钉小程序CI配置（3.6.0 版本开始支持）
+
+| 参数 | 类型 | 说明 |
+| :--- | :--- | :--- |
+| appid | string | 小程序ID（必填） |
+| token | string | 令牌，从钉钉后台获取 （必填） |
+| devToolsInstallPath | string | 小程序开发者工具安装路径（选填）  |
 
 ### 百度小程序CI配置
 
@@ -303,41 +327,55 @@ alihealth：阿里健康
 
 官方CI文档[点这里](https://smartprogram.baidu.com/docs/develop/devtools/commandtool/)
 
-### ts 接口描述
+### 完整 ts 接口描述
 ```ts
-export interface IOptions {
-  version?: string;
-  desc?: string;
-  weapp?: WeappConfig;
-  tt?: TTConfig;
-  alipay?: AlipayConfig;
-  swan?: SwanConfig;
+export interface CIOptions {
+  /** 发布版本号，默认取 package.json 文件的 taroConfig.version 字段 */
+  version?: string
+  /** 版本发布描述， 默认取 package.json 文件的 taroConfig.desc 字段 */
+  desc?: string
+  /** 目标项目目录，对所有小程序生效（不传默认取 outputRoot 字段 ） */
+  projectPath?: string
+  /** 微信小程序CI配置, 官方文档地址：https://developers.weixin.qq.com/miniprogram/dev/devtools/ci.html */
+  weapp?: WeappConfig
+  /** 头条小程序配置, 官方文档地址：https://microapp.bytedance.com/docs/zh-CN/mini-app/develop/developer-instrument/development-assistance/ide-order-instrument */
+  tt?: TTConfig
+  /** 支付宝系列小程序配置，官方文档地址： https://opendocs.alipay.com/mini/miniu/api */
+  alipay?: AlipayConfig
+  /** 钉钉小程序配置 */
+  dd?: DingtalkConfig
+  /** 百度小程序配置, 官方文档地址：https://smartprogram.baidu.com/docs/develop/devtools/commandtool/ */
+  swan?: SwanConfig
 }
+
+export type ProjectType = 'miniProgram' | 'miniGame' | 'miniProgramPlugin' | 'miniGamePlugin';
 
 /** 微信小程序配置 */
 export interface WeappConfig {
   /** 小程序/小游戏项目的 appid */
-  appid: string;
-  /** 私钥，在获取项目属性和上传时用于鉴权使用(必填) */
-  privateKeyPath: string;
+  appid: string
+  /** 私钥文件路径，在获取项目属性和上传时用于鉴权使用 */
+  privateKeyPath: string
   /** 微信开发者工具安装路径 */
-  devToolsInstallPath?: string;
-  /** 上传的小程序的路径（默认 outputPath ） */
-  projectPath?: string;
+  devToolsInstallPath?: string
   /** 类型，默认miniProgram 小程序 */
-  type?: ProjectType;
+  type?: ProjectType
   /** 上传需要排除的目录 */
-  ignores?: Array<string>;
+  ignores?: Array<string>
+  /** 指定使用哪一个 ci 机器人，可选值：1 ~ 30 */
+  robot?: number
 }
 
 /** 头条小程序配置 */
 export interface TTConfig {
-  email: string;
-  password: string;
+  /** 绑定的邮箱账号 */
+  email: string
+  /** 密码 */
+  password: string
 }
 
 /** 终端类型 */
-export type ClientType =
+export type AlipayClientType =
 /** 支付宝 */'alipay' |
 /** AMPE */'ampe' |
 /** 高德 */'amap' |
@@ -345,31 +383,56 @@ export type ClientType =
 /** ALIOS */ 'alios'|
 /** UC */'uc'|
 /** 夸克 */ 'quark'|
-/** 淘宝 */ 'taobao'|
 /** 口碑 */'koubei' |
 /** loT */'alipayiot'|
 /** 菜鸟 */'cainiao' |
-/** 阿里健康 */ 'alihealth'
+/** 阿里健康(医蝶谷) */ 'alihealth'|
+/** 阿里医院 */ 'health'
 
 /** 支付宝系列小程序配置 */
 export interface AlipayConfig {
   /** 小程序appId */
-  appId: string;
+  appId: string
   /** 工具id */
-  toolId: string;
-  /** 工具私钥 */
-  privateKey: string;
-  /** 服务代理地址（可选） */
-  proxy?: string;
+  toolId: string
+  /** 私钥文件路径，在获取项目属性和上传时用于鉴权使用(privateKeyPath和privateKey之间必须要填写其中一个) */
+  privateKeyPath: string
+  /** 私钥文本内容，在获取项目属性和上传时用于鉴权使用(privateKeyPath和privateKey之间必须要填写其中一个) */
+  privateKey: string
+  /** 小程序开发者工具安装路径 */
+  devToolsInstallPath?: string
   /** 上传的终端, 默认alipay */
-  clientType?: ClientType;
+  clientType?: AlipayClientType
+}
+
+export type DingtalkProjectType =
+/** 第三方个人应用 */
+'dingtalk-personal'|
+/** 第三方企业应用 */
+'dingtalk-biz-isv'|
+/** 企业内部应用 */
+'dingtalk-biz'|
+/** 企业定制应用 */
+'dingtalk-biz-custom'|
+/** 工作台组件 */
+'dingtalk-biz-worktab-plugin'
+export interface DingtalkConfig {
+  /** 小程序ID， 必填 */
+  appid: string
+  /** 令牌，从钉钉后台获取 */
+  token: string
+  /** 小程序开发者工具安装路径 */
+  devToolsInstallPath?: string
+  /** 钉钉应用类型， 默认为:'dingtalk-biz' (企业内部应用) */
+  projectType?: DingtalkProjectType
 }
 
 /** 百度小程序配置 */
 export interface SwanConfig {
   /** 有该小程序发布权限的登录密钥 */
-  token: string;
+  token: string
   /** 最低基础库版本, 不传默认为 3.350.6 */
-  minSwanVersion?: string;
+  minSwanVersion?: string
 }
+
 ```
