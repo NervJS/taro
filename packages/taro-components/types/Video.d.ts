@@ -238,8 +238,6 @@ interface VideoProps extends StandardProps {
   onEnded?: CommonEventFunction
 
   /** 播放进度变化时触发, 触发频率 250ms 一次
-   *
-   * event.detail = {currentTime, duration}
    * @supported weapp, h5, swan, alipay, tt, rn
    */
   onTimeUpdate?: CommonEventFunction<VideoProps.onTimeUpdateEventDetail>
@@ -266,13 +264,13 @@ interface VideoProps extends StandardProps {
    */
   onProgress?: CommonEventFunction<VideoProps.onProgressEventDetail>
 
-  /** 视频元数据加载完成时触发。event.detail = {width, height, duration}
+  /** 视频元数据加载完成时触发
    * @supported weapp, rn, tt
    */
-  onLoadedMetaData?: CommonEventFunction
+  onLoadedMetaData?: CommonEventFunction<VideoProps.onLoadedMetaDataEventDetail>
 
   /**
-   * 切换 controls 显示隐藏时触发。event.detail = {show}
+   * 切换 controls 显示隐藏时触发
    * @supported weapp
    */
   onControlsToggle?: CommonEventFunction<VideoProps.onControlsToggleEventDetail>
@@ -349,6 +347,15 @@ declare namespace VideoProps {
   interface onProgressEventDetail {
     /** 百分比 */
     buffered: number
+  }
+
+  interface onLoadedMetaDataEventDetail {
+    /** 视频宽度 */
+    width: number
+    /** 视频高度 */
+    height: number
+    /** 持续时间 */
+    duration: number
   }
 
   interface onControlsToggleEventDetail {
