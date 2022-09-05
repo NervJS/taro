@@ -142,15 +142,28 @@ declare module '../../index' {
       sign: string
     }
 
+    /**
+     * 业务参数：需要传递给支付分的业务数据
+     * @interface ScoreEnableExtraData
+     */
+    interface ScoreEnableExtraData{
+      /**
+       * 用于跳转到微信侧小程序授权数据,跳转到微信侧小程序传入，有效期为1小时；apply_permissions_token可以从[《商户预授权API》](https://pay.weixin.qq.com/wiki/doc/apiv3/apis/chapter6_1_2.shtml)接口的返回参数中获取。
+       * 示例值：1230000109
+       * @type {string[1,2048]}
+       */
+      apply_permissions_token: string;
+    }
+
     interface Option {
       /**
-       * 跳转类型：固定配置：wxpayScoreDetail
+       * 跳转类型：固定配置：wxpayScoreDetail or wxpayScoreEnable
        * 示例值：wxpayScoreDetail
        * @type {string[1,16]}
        * @memberof Option
        */
       businessType: string
-      extraData: ExtraData
+      extraData: ExtraData | ScoreEnableExtraData
       /** 接口调用成功的回调函数 */
       success?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用失败的回调函数 */
