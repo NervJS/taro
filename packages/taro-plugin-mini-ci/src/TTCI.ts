@@ -95,7 +95,7 @@ export default class TTCI extends BaseCI {
           qrCodeContent: '',
           qrCodeLocalPath: ''
         },
-        error
+        error: new Error(error)
       })
     }
   }
@@ -146,7 +146,7 @@ export default class TTCI extends BaseCI {
           qrCodeContent: '',
           qrCodeLocalPath: ''
         },
-        error
+        error: new Error(error)
       })
     }
   }

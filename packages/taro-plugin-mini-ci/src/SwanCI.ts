@@ -34,6 +34,7 @@ export default class SwanCI extends BaseCI {
     shell.exec(`${this.swanBin} preview --project-path ${this.projectPath} --token ${this.pluginOpts.swan!.token} --min-swan-version ${this.pluginOpts.swan!.minSwanVersion || '3.350.6'} --json`, async (_code, stdout, stderr) => {
       if (!stderr) {
         stdout = JSON.parse(stdout)
+        // @ts-ignore
         const qrContent = stdout.list[0].url
         // console.log('预览图片：', stdout.list[0].urlBase64)
         await printQrcode2Terminal(qrContent)
@@ -60,7 +61,7 @@ export default class SwanCI extends BaseCI {
             qrCodeContent: '',
             qrCodeLocalPath: ''
           },
-          error: stderr
+          error: new Error(stderr.split('\n')[0])
         })
       }
     })
@@ -92,7 +93,7 @@ export default class SwanCI extends BaseCI {
             qrCodeContent: '',
             qrCodeLocalPath: ''
           },
-          error: stderr
+          error: new Error(stderr.split('\n')[0])
         })
       }
     })
