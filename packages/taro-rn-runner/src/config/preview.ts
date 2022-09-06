@@ -2,7 +2,7 @@ import { readFile } from 'fs'
 import { createServer } from 'http'
 import * as mime from 'mime-types'
 import { extname, join } from 'path'
-import * as qr from 'qrcode-terminal'
+import * as QRCode from 'qrcode'
 import { URL } from 'url'
 
 import { getOpenHost, isWin, PLAYGROUNDINFO } from '../utils'
@@ -110,5 +110,5 @@ export default (opt: PreviewOption):void => {
   const url = `${host}/index.js`
   console.log(PLAYGROUNDINFO)
   console.log(`print qrcode of ${opt.platform} bundle '${url}':`)
-  qr.generate(url, { small: !isWin })
+  QRCode.toString(url, { type: 'terminal', small: !isWin }).then(console.log)
 }

@@ -54,7 +54,7 @@
     "metro-react-native-babel-transformer": "^0.70.3",
     "metro-resolver": "^0.70.3",
     "mime-types": "^2.1.27",
-    "qrcode-terminal": "^0.12.0",
+    "qrcode": "^1.5.1",
     "rollup-plugin-image-file": "^1.0.2"
   },
   "devDependencies": {
