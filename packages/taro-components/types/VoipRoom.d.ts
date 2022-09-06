@@ -1,13 +1,6 @@
 import { ComponentType } from 'react'
 import { CommonEventFunction, StandardProps } from './common'
-
 interface VoipRoomProps extends StandardProps {
-  /** 进入房间用户的 openid
-   * @default none
-   * @supported weapp
-   */
-  openId?: string
-
   /** 对话窗口类型，自身传入 camera，其它用户传入 video
    * @default camera
    * @supported weapp
@@ -25,7 +18,6 @@ interface VoipRoomProps extends StandardProps {
    */
   onError?: CommonEventFunction
 }
-
 declare namespace VoipRoomProps {
   /** 对话窗口类型 */
   interface Mode {
@@ -66,5 +58,4 @@ declare namespace VoipRoomProps {
  * @see https://developers.weixin.qq.com/miniprogram/dev/component/voip-room.html
  */
 declare const VoipRoom: ComponentType<VoipRoomProps>
-
 export { VoipRoom, VoipRoomProps }

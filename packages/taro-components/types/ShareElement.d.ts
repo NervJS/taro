@@ -1,12 +1,6 @@
 import { ComponentType } from 'react'
 import { StandardProps, CommonEventFunction } from './common'
-
 interface ShareElementProps extends StandardProps {
-  /** 映射标记
-   * @supported weapp
-   */
-  mapkey: string
-
   /** 是否进行动画
    * @default false
    * @supported weapp
@@ -228,5 +222,4 @@ interface ShareElementProps extends StandardProps {
  * @see https://developers.weixin.qq.com/miniprogram/dev/component/share-element.html
  */
 declare const ShareElement: ComponentType<ShareElementProps>
-
 export { ShareElement, ShareElementProps }

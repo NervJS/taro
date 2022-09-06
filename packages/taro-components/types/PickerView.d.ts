@@ -1,55 +1,62 @@
 import { ComponentType } from 'react'
 import { StandardProps, CommonEventFunction } from './common'
-
 interface PickerViewProps extends StandardProps {
-
   /** 数组中的数字依次表示 picker-view 内的 picker-view-column 选择的第几项（下标从 0 开始），数字大于 picker-view-column 可选项长度时，选择最后一项。
-   * @supported weapp, swan, alipay, tt, rn
+   * @supported weapp, alipay, swan, tt, qq, jd, rn
    */
   value?: number[]
 
   /** 设置选择器中间选中框的样式
-   * @supported weapp, swan, alipay, tt, rn
+   * @supported weapp, alipay, swan, tt, qq, jd, rn
    */
   indicatorStyle?: string
 
   /** 设置选择器中间选中框的类名
-   * @supported weapp, swan, alipay
+   * @supported weapp, alipay, swan, tt, qq, jd
    */
   indicatorClass?: string
 
   /** 设置蒙层的样式
-   * @supported weapp, swan, alipay, tt
+   * @supported weapp, alipay, swan, tt, qq, jd
    */
   maskStyle?: string
 
   /** 设置蒙层的类名
-   * @supported weapp, swan, alipay
+   * @supported weapp, alipay, swan, tt, qq, jd
    */
   maskClass?: string
 
   /** 是否在手指松开时立即触发 change 事件。若不开启则会在滚动动画结束后触发 change 事件。
-   * @supported weapp
+   * @supported weapp, tt
    * @default false
    */
   immediateChange?: boolean
 
   /** 当滚动选择，value 改变时触发 change 事件，event.detail = {value: value}；value为数组，表示 picker-view 内的 picker-view-column 当前选择的是第几项（下标从 0 开始）
-   * @supported weapp, swan, alipay, tt, rn
+   * @supported weapp, alipay, swan, tt, qq, jd, rn
    */
   onChange?: CommonEventFunction<PickerViewProps.onChangeEventDetail>
 
   /** 当滚动选择开始时候触发事件
-   * @supported weapp
+   * @supported weapp, tt, qq
    */
   onPickStart?: CommonEventFunction
 
   /** 当滚动选择结束时候触发事件
-   * @supported weapp
+   * @supported weapp, tt, qq
    */
   onPickEnd?: CommonEventFunction
-}
 
+  /** 选择器标题，建议标题控制在 12 个中文汉字长度内，避免出现截断现象, 截断部分将以 ... 形式展示
+   * @supported swan
+   */
+  title?: string
+
+  /** 无障碍访问，（属性）元素的额外描述
+   * @supported qq
+   */
+  ariaLabel?: string
+}
 declare namespace PickerViewProps {
   interface onChangeEventDetail {
     value: number[]
@@ -194,5 +201,4 @@ declare namespace PickerViewProps {
  * @see https://developers.weixin.qq.com/miniprogram/dev/component/picker-view.html
  */
 declare const PickerView: ComponentType<PickerViewProps>
-
 export { PickerView, PickerViewProps }
