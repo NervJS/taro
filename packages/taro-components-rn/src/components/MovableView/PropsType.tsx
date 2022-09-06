@@ -23,4 +23,5 @@ export interface MovableViewProps {
     width: number;
     height: number;
   };
+  children?: React.ReactNode;
 }
