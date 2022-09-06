@@ -1162,7 +1162,7 @@ importers:
       metro-react-native-babel-transformer: ^0.70.3
       metro-resolver: ^0.70.3
       mime-types: ^2.1.27
-      qrcode-terminal: ^0.12.0
+      qrcode: ^1.5.1
       react: 18.0.0
       react-is: ^16.13.0
       react-native: ^0.69.3
@@ -1195,7 +1195,7 @@ importers:
       metro-react-native-babel-transformer: registry.npmjs.org/metro-react-native-babel-transformer/0.70.3_@babel+core@7.18.5
       metro-resolver: registry.npmjs.org/metro-resolver/0.70.3
       mime-types: registry.npmjs.org/mime-types/2.1.35
-      qrcode-terminal: registry.npmjs.org/qrcode-terminal/0.12.0
+      qrcode: registry.npmjs.org/qrcode/1.5.1
       rollup-plugin-image-file: registry.npmjs.org/rollup-plugin-image-file/1.0.2
     devDependencies:
       '@babel/core': registry.npmjs.org/@babel/core/7.18.5
@@ -16204,6 +16204,12 @@ packages:
       miller-rabin: registry.npmjs.org/miller-rabin/4.0.1
       randombytes: registry.npmjs.org/randombytes/2.1.0
 
+  registry.npmjs.org/dijkstrajs/1.0.2:
+    resolution: {integrity: sha512-QV6PMaHTCNmKSeP6QoXhVTw9snc9VD8MulTT0Bd99Pacp4SS1cjcrYPgBPmibqKVtMJJfqC6XvOXgPMEEPH/fg==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/dijkstrajs/-/dijkstrajs-1.0.2.tgz}
+    name: dijkstrajs
+    version: 1.0.2
+    dev: false
+
   registry.npmjs.org/dingtalk-jsapi/2.15.2:
     resolution: {integrity: sha512-ZN1zSPAb3BdHQviz7xO0j865QyKbOT+/YhDC9aOa89dPgVKrAO7RGzw5v1CxZPtOaWXSRDy1R07GJTeBXkUNHA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/dingtalk-jsapi/-/dingtalk-jsapi-2.15.2.tgz}
     name: dingtalk-jsapi
@@ -16639,6 +16645,12 @@ packages:
       core-js: registry.npmjs.org/core-js/2.6.12
       empower-core: registry.npmjs.org/empower-core/1.2.0
     dev: true
+
+  registry.npmjs.org/encode-utf8/1.0.3:
+    resolution: {integrity: sha512-ucAnuBEhUK4boH2HjVYG5Q2mQyPorvv0u/ocS+zhdw0S8AlHYY+GOFhP1Gio5z4icpP2ivFSvhtFjQi8+T9ppw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/encode-utf8/-/encode-utf8-1.0.3.tgz}
+    name: encode-utf8
+    version: 1.0.3
+    dev: false
 
   registry.npmjs.org/encodeurl/1.0.2:
     resolution: {integrity: sha512-TPJXq8JqFaVYm2CWmPvnP2Iyo4ZSM7/QKcSmuMLDObfpH5fi7RUGmd/rTDf+rut/saiDiQEeVTNgAmJEdAOx0w==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/encodeurl/-/encodeurl-1.0.2.tgz}
@@ -27642,6 +27654,13 @@ packages:
     version: 3.4.0
     engines: {node: '>=4.0.0'}
 
+  registry.npmjs.org/pngjs/5.0.0:
+    resolution: {integrity: sha512-40QW5YalBNfQo5yRYmiw7Yz6TKKVr3h6970B2YE+3fQpsWcrbj1PzJgxeJ19DRQjhMbKPIuMY8rFaXc8moolVw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/pngjs/-/pngjs-5.0.0.tgz}
+    name: pngjs
+    version: 5.0.0
+    engines: {node: '>=10.13.0'}
+    dev: false
+
   registry.npmjs.org/portfinder/1.0.28:
     resolution: {integrity: sha512-Se+2isanIcEqf2XMHjyUKskczxbPH7dQnlMjXX6+dybayyHvAf/TCgyMRlzf/B6QDhAEFOGes0pzRo3by4AbMA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/portfinder/-/portfinder-1.0.28.tgz}
     name: portfinder
@@ -29567,6 +29586,19 @@ packages:
     name: qrcode-terminal
     version: 0.12.0
     hasBin: true
+    dev: false
+
+  registry.npmjs.org/qrcode/1.5.1:
+    resolution: {integrity: sha512-nS8NJ1Z3md8uTjKtP+SGGhfqmTCs5flU/xR623oI0JX+Wepz9R8UrRVCTBTJm3qGw3rH6jJ6MUHjkDx15cxSSg==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/qrcode/-/qrcode-1.5.1.tgz}
+    name: qrcode
+    version: 1.5.1
+    engines: {node: '>=10.13.0'}
+    hasBin: true
+    dependencies:
+      dijkstrajs: registry.npmjs.org/dijkstrajs/1.0.2
+      encode-utf8: registry.npmjs.org/encode-utf8/1.0.3
+      pngjs: registry.npmjs.org/pngjs/5.0.0
+      yargs: registry.npmjs.org/yargs/15.4.1
     dev: false
 
   registry.npmjs.org/qs/6.10.3:
