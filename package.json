@@ -164,7 +164,7 @@
     "memory-fs": "^0.5.0",
     "mock-socket": "^7.1.0",
     "nervjs": "^1.4.6",
-    "node-sass": "6.0.1",
+    "node-sass": "7.0.1",
     "npm-run-all": "^4.1.2",
     "ora": "4.0.3",
     "postcss": "^8.4.12",
