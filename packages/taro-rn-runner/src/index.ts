@@ -7,7 +7,7 @@ import { getResolveDependencyFn } from 'metro/src/lib/transformHelpers'
 import * as Server from 'metro/src/Server'
 import * as outputBundle from 'metro/src/shared/output/bundle'
 import * as path from 'path'
-import * as qr from 'qrcode-terminal'
+import * as QRCode from 'qrcode'
 import * as readline from 'readline'
 import * as url from 'url'
 
@@ -181,7 +181,7 @@ export default async function build (_appPath: string, config: any): Promise<any
           const url = `taro://${host}:${metroConfig.server.port}`
           console.log(PLAYGROUNDINFO)
           console.log(`print qrcode of '${url}':`)
-          qr.generate(url, { small: !isWin })
+          QRCode.toString(url, { type: 'terminal', small: !isWin }).then(console.log)
         } else {
           console.log('print qrcode error: host not found.')
         }
