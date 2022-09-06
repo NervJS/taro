@@ -28,12 +28,12 @@ const CIPluginOpt = {
         password: "字节小程序密码"
     },
     alipay: {
-      appId: "支付宝小程序appId",
+      appid: "支付宝小程序appid",
       toolId: "工具id",
       privateKeyPath: "密钥文件相对项目根目录的相对路径，例如 key/pkcs8-private-pem"
     },
     dd: {
-        appid: "小程序ID，"
+        appid: "钉钉小程序appid,即钉钉开放平台后台应用管理的 MiniAppId 选项"
         token: "令牌，从钉钉后台获取"
     },
     swan: {
@@ -69,12 +69,12 @@ const CIPluginFn = async () => {
           password: "字节小程序密码"
       },
       alipay: {
-        appId: "支付宝小程序appId",
+        appid: "支付宝小程序appid",
         toolId: "工具id",
         privateKeyPath: "密钥文件相对项目根目录的相对路径，例如 key/pkcs8-private-pem"
       },
       dd: {
-        appid: "小程序ID，"
+        appid: "钉钉小程序appid,即钉钉开放平台后台应用管理的 MiniAppId 选项"
         token: "令牌，从钉钉后台获取"
       },
       swan: {
@@ -130,8 +130,8 @@ const config = {
 ```json
 {
     "scripts": {
-            //  直接 “打开开发者工具”
-           "build:weapp": "taro open --type weapp --open",
+            //  直接 “打开开发者工具并载入项目”
+           "build:weapp": "taro open --type weapp  --projectPath dist/xxx",
             //  直接 “上传代码作为开发版并生成预览二维码”     
            "build:weapp:preview": "taro preview --type weapp",
             //  直接“上传代码作为体验版”
@@ -314,7 +314,7 @@ health:  阿里医院
 
 | 参数 | 类型 | 说明 |
 | :--- | :--- | :--- |
-| appid | string | 小程序ID（必填） |
+| appid | string | 钉钉小程序appid,即钉钉开放平台后台应用管理的 MiniAppId 选项（必填） |
 | token | string | 令牌，从钉钉后台获取 （必填） |
 | devToolsInstallPath | string | 小程序开发者工具安装路径（选填）  |
 
@@ -391,8 +391,8 @@ export type AlipayClientType =
 
 /** 支付宝系列小程序配置 */
 export interface AlipayConfig {
-  /** 小程序appId */
-  appId: string
+  /** 小程序appid */
+  appid: string
   /** 工具id */
   toolId: string
   /** 私钥文件路径，在获取项目属性和上传时用于鉴权使用(privateKeyPath和privateKey之间必须要填写其中一个) */
