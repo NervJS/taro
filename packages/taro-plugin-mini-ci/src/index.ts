@@ -18,13 +18,27 @@ const enum EnumAction  {
   'upload' = 'upload' ,
 }
 
+interface MinimistArgs {
+  /** 自定义要处理的项目目录 */
+  projectPath: string
+  /** 自动打开预览工具 */
+  open: boolean
+  /** 预览小程序 */
+  preview: boolean
+  /** 上传小程序 */
+  upload: boolean
+}
+
 export { CIOptions } from './BaseCi'
 export default (ctx: IPluginContext, _pluginOpts: CIOptions | (() => CIOptions)) => {
-  const args = minimist(process.argv.slice(2), {
-    boolean: [EnumAction.open,EnumAction.preview, EnumAction.upload]
+  const args = minimist<MinimistArgs>(process.argv.slice(2), {
+    boolean: [EnumAction.open,EnumAction.preview, EnumAction.upload],
+    string: ['projectPath'],
+    default: {
+      projectPath: ''
+    }
   })
   const command = args._[0]
-
   // 参数验证，支持传入配置对象、返回配置对象的异步函数
   ctx.addPluginOptsSchema((joi) => {
     return joi.alternatives().try(
@@ -86,7 +100,7 @@ export default (ctx: IPluginContext, _pluginOpts: CIOptions | (() => CIOptions))
     )
   })
 
-  const doAction = async (platform: string, action: EnumAction, projectPath?: string) => {
+  const doAction = async (platform: string, action: EnumAction, projectPath: string) => {
     const { printLog, processTypeEnum, fs } = ctx.helper
     if (typeof platform !== 'string') {
       printLog(processTypeEnum.ERROR, '请传入正确的编译类型！')
@@ -159,7 +173,7 @@ export default (ctx: IPluginContext, _pluginOpts: CIOptions | (() => CIOptions))
           break
       }
       if (action) {
-        await doAction(ctx.runOpts.options.platform, action)
+        await doAction(ctx.runOpts.options.platform, action, args.projectPath)
       }
     })
   }

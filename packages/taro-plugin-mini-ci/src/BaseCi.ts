@@ -72,7 +72,7 @@ export type DingtalkProjectType =
 /** 工作台组件 */
 'dingtalk-biz-worktab-plugin'
 export interface DingtalkConfig {
-  /** 小程序ID， 必填 */
+  /** 钉钉小程序appid,即钉钉开放平台后台应用管理的 MiniAppId 选项（必填） */
   appid: string
   /** 令牌，从钉钉后台获取 */
   token: string

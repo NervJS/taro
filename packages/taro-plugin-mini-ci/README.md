@@ -106,7 +106,9 @@ const config = {
             //  构建完后自动 “上传代码作为开发版并生成预览二维码”     
            "build:weapp:preview": "taro build --type weapp --preview",
             //  构建完后自动“上传代码作为体验版”
-           "build:weapp:upload": "taro build --type weapp --upload"
+           "build:weapp:upload": "taro build --type weapp --upload",
+            //  构建完后自动“上传 dist/xxx 目录的代码作为体验版”， `--projectPath` 参数 适用于 taro 和 原生混合的场景
+           "build:weapp:upload": "taro build --type weapp --upload --projectPath dist/xxx"
     },
     "taroConfig": {
         "version": "1.0.0",
@@ -114,7 +116,7 @@ const config = {
     }
 }
 ```
-由上面的示例可知，插件为taro cli命令扩展了3个选项：
+由上面的示例可知，插件为taro cli命令扩展了4个选项：
 
 - --open
 打开开发者工具，类似于网页开发中自动打开谷歌浏览器
@@ -123,7 +125,14 @@ const config = {
 - --upload
 上传代码作为体验版
 
-此3个选项在一条命令里不能同时使用
+此3个选项在一条命令里不能同时使用（互斥）
+
+- --projectPath
+指定要操作（打开、预览、上传）的目录路径， 默认情况下是操作构建后目录路径，即 [outputRoot选项](https://taro-docs.jd.com/taro/docs/next/config-detail#outputroot)；
+
+此选项必须搭配上述三个选项之一一起使用；
+
+此选项优先级为： 终端传入的`--projectPath` > CI配置的`projectPath` 选项 > [outputRoot选项](https://taro-docs.jd.com/taro/docs/next/config-detail#outputroot)。
 
 
 ### 作为命令单独使用
@@ -417,7 +426,7 @@ export type DingtalkProjectType =
 /** 工作台组件 */
 'dingtalk-biz-worktab-plugin'
 export interface DingtalkConfig {
-  /** 小程序ID， 必填 */
+  /** 钉钉小程序appid,即钉钉开放平台后台应用管理的 MiniAppId 选项（必填） */
   appid: string
   /** 令牌，从钉钉后台获取 */
   token: string
