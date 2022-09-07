@@ -1,6 +1,7 @@
 import type helper from '@tarojs/helper'
 import { IProjectConfig } from '@tarojs/taro/types/compile'
 import joi from 'joi'
+import { Compilation, Compiler } from 'webpack'
 
 import { PluginType } from './constants'
 
@@ -152,6 +153,10 @@ export declare interface IPluginContext {
    * 修改编译过程中的页面组件配置
    */
   modifyMiniConfigs: (fn: (args: { configMap: any }) => void) => void
+  /**
+   * 修改编译过程中的页面组件配置
+   */
+  onCompilerMake: (fn: (args: { compilation: Compilation, compiler: Compiler, plugin: any }) => void) => void
 
   [key: string]: any
 }

@@ -4,7 +4,7 @@
  * Author Tobias Koppers @sokra and Zackary Jackson @ScriptedAlchemy
  */
 import { META_TYPE } from '@tarojs/helper'
-import webpack, { Compiler, NormalModule, RuntimeGlobals } from 'webpack'
+import { Compiler, NormalModule, RuntimeGlobals } from 'webpack'
 import ContainerReferencePlugin from 'webpack/lib/container/ContainerReferencePlugin'
 import RemoteModule from 'webpack/lib/container/RemoteModule'
 import type { ContainerReferencePluginOptions, RemotesConfig } from 'webpack/types'
@@ -188,7 +188,7 @@ export default class TaroContainerReferencePlugin extends ContainerReferencePlug
          * 在 dist/app.js 头部注入 require，
          * 依赖所有的预编译 chunk 和 remoteEntry
          */
-        const hooks = webpack.javascript.JavascriptModulesPlugin.getCompilationHooks(compilation)
+        const hooks = compiler.webpack.javascript.JavascriptModulesPlugin.getCompilationHooks(compilation)
         hooks.render.tap(
           PLUGIN_NAME,
           (modules: ConcatSource, { chunk }) => {
