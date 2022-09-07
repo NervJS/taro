@@ -1706,7 +1706,16 @@ declare module '../../index' {
      * @supported weapp
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/canvas/wx.createOffscreenCanvas.html
      */
-    createOffscreenCanvas(): OffscreenCanvas
+    createOffscreenCanvas(offsetCanvasOption?: {
+      /** 创建的离屏 canvas 类型，分为webgl类型上下文和2d类型上下文，默认值为`webgl` */
+      type: 'webgl' | '2d'
+      /** 画布宽度 */
+      width: number
+      /** 画布高度 */
+      height: number
+      /** 在自定义组件下，当前组件实例的this，以操作组件内 [canvas](/docs/components/canvas) 组件 */
+      compInst: TaroGeneral.IAnyObject
+    }): OffscreenCanvas
 
     /** 创建 canvas 的绘图上下文 [CanvasContext](/docs/apis/canvas/CanvasContext) 对象
      *
