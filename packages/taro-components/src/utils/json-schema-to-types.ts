@@ -165,10 +165,7 @@ class GenerateType {
               supportedPlatforms.push('rn')
             }
             if (isEmpty(supportedPlatforms)) {
-              astPath.node.leadingComments[0].value = value.replace(
-                /@supported .*?\n/,
-                value.indexOf('@deprecated') === -1 ? '@deprecated\n' : '\n'
-              )
+              astPath.remove()
             } else {
               astPath.node.leadingComments[0].value = value.replace(
                 /@supported .*?\n/,
