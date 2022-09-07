@@ -52,7 +52,7 @@ interface MapProps extends StandardProps {
   circles?: MapProps.circle[]
 
   /** 控件（即将废弃，建议使用 cover-view 代替）
-   * @supported weapp, swan, alipay
+   * @supported weapp, alipay, swan, jd
    */
   controls?: MapProps.control[]
 
@@ -213,11 +213,6 @@ interface MapProps extends StandardProps {
    */
   tileOverlay?: any[]
 
-  /** 展示3D楼块
-   * @supported weapp, swan, tt, qq
-   */
-  enable3D?: string
-
   /** 是否展示 POI 点
    * @supported weapp, alipay, tt
    */
@@ -298,6 +293,11 @@ interface MapProps extends StandardProps {
    * @supported jd
    */
   theme?: string
+
+  /** 展示3D楼块
+   * @supported weapp, swan, tt, qq
+   */
+  enable3D?: string
 }
 declare namespace MapProps {
   /** 标记点用于在地图上显示标记的位置 */

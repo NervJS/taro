@@ -18,6 +18,11 @@ interface ShareElementProps extends StandardProps {
    * @supported weapp
    */
   easingFunction?: number
+
+  /** 映射标记
+   * @supported weapp
+   */
+  key?: string
 }
 
 /** 共享元素

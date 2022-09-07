@@ -25,7 +25,7 @@ interface LivePusherProps extends StandardProps {
 
   /** 是否静音。即将废弃，可用 enable-mic 替代
    * @default false
-   * @supported weapp
+   * @supported weapp, qq
    */
   muted?: boolean
 
@@ -113,7 +113,7 @@ interface LivePusherProps extends StandardProps {
 
   /** 设置推流画面是否镜像，产生的效果在 LivePlayer 反应到
    * @default false
-   * @supported weapp
+   * @supported weapp, qq
    */
   mirror?: boolean
 

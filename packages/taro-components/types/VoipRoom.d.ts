@@ -17,6 +17,11 @@ interface VoipRoomProps extends StandardProps {
    * @supported weapp
    */
   onError?: CommonEventFunction
+
+  /** 进入房间用户的 openid
+   * @supported weapp
+   */
+  openid?: string
 }
 declare namespace VoipRoomProps {
   /** 对话窗口类型 */

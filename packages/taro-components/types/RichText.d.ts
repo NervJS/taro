@@ -45,7 +45,7 @@ interface RichTextProps extends StandardProps {
    */
   onLongtap?: CommonEventFunction
 
-  /** 富文本是否可以长按选中，可用于复制，粘贴，长按搜索等场景 
+  /** 富文本是否可以长按选中，可用于复制，粘贴，长按搜索等场景
    * @default false（基础库 3.150.1 以前版本）true（基础库 3.150.1 及以后版本）
    * @supported swan
    */
