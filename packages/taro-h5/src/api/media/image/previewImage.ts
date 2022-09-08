@@ -1,4 +1,5 @@
 import Taro from '@tarojs/api'
+import { SwiperProps } from '@tarojs/components'
 
 import { shouldBeObject } from '../../../utils'
 import { MethodHandler } from '../../../utils/handler'
@@ -50,7 +51,7 @@ export const previewImage: typeof Taro.previewImage = async (options) => {
     container.remove()
   })
 
-  const swiper = document.createElement('taro-swiper-core')
+  const swiper: HTMLElement & Omit<SwiperProps, 'style' | 'children'> = document.createElement('taro-swiper-core')
   // @ts-ignore
   swiper.full = true
   // @ts-ignore
