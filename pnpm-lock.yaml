@@ -651,9 +651,6 @@ importers:
       metro-react-native-babel-preset: registry.npmjs.org/metro-react-native-babel-preset/0.70.3
       react-native: registry.npmjs.org/react-native/0.69.5
 
-  packages/taro-components/loader:
-    specifiers: {}
-
   packages/taro-extend:
     specifiers: {}
 
