@@ -90,7 +90,7 @@ declare module '../../index' {
      * wxpayScoreEnable 业务参数
      * @see https://pay.weixin.qq.com/wiki/doc/apiv3/apis/chapter6_1_9.shtml
      */
-     interface ScoreEnableExtraData {
+    interface ScoreEnableExtraData {
       /**
        * 用于跳转到微信侧小程序授权数据,跳转到微信侧小程序传入，有效期为1小时；apply_permissions_token可以从[《商户预授权API》](https://pay.weixin.qq.com/wiki/doc/apiv3/apis/chapter6_1_2.shtml)接口的返回参数中获取。
        * 示例值：1230000109
@@ -102,7 +102,7 @@ declare module '../../index' {
      * wxpayScoreUse 业务参数
      * @see https://pay.weixin.qq.com/wiki/doc/apiv3/apis/chapter6_1_13.shtml
      */
-     interface ScoreUsedExtraData {
+    interface ScoreUsedExtraData {
       /**
        * 商户号：微信支付分配的商户号。
        * 示例值：1230000109
