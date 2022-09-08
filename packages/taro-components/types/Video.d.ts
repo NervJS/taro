@@ -329,7 +329,7 @@ interface VideoProps extends StandardProps {
   /** 视频进入和退出全屏时触发，event.detail = {fullScreen, direction}，direction 有效值为 vertical 或 horizontal
    * @supported weapp, alipay, swan, tt, qq, jd
    */
-   onFullScreenChange?: CommonEventFunction<VideoProps.onFullscreenChangeEventDetail>
+  onFullScreenChange?: CommonEventFunction<VideoProps.onFullscreenChangeEventDetail>
 
   /** 切换 controls 显示隐藏时触发。event.detail = {show}
    * @supported weapp

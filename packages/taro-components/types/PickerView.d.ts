@@ -56,6 +56,18 @@ interface PickerViewProps extends StandardProps {
    * @supported qq
    */
   ariaLabel?: string
+
+  /** 当滚动选择开始时候触发事件。
+   * 版本要求： 基础库 2.7.23 及以上
+   * @supported alipay
+   */
+  onPickerStart?: CommonEventFunction
+
+  /** 当滚动选择结束时候触发事件。
+   * 版本要求： 基础库 2.7.23 及以上
+   * @supported alipay
+   */
+  onPickerEnd?: CommonEventFunction
 }
 declare namespace PickerViewProps {
   interface onChangeEventDetail {

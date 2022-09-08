@@ -298,6 +298,11 @@ interface MapProps extends StandardProps {
    * @supported weapp, swan, tt, qq
    */
   enable3D?: string
+
+  /** 内联样式。
+   * @supported alipay
+   */
+  optimize?: string
 }
 declare namespace MapProps {
   /** 标记点用于在地图上显示标记的位置 */

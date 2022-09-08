@@ -144,7 +144,7 @@ interface TextareaProps extends StandardProps, FormItemProps {
   nativeProps?: Record<string, unknown>
 
   /** 设置键盘右下角按钮的文字
-   * @supported weapp, swan, tt
+   * @supported weapp, alipay, swan, tt
    */
   confirmType?: 'send' | 'search' | 'next' | 'go' | 'done' | 'return'
 

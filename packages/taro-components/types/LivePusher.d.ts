@@ -220,11 +220,6 @@ interface LivePusherProps extends StandardProps {
    */
   onNetStatus?: CommonEventFunction
 
-  /** 背景音开始播放时触发
-   * @supported weapp, qq
-   */
-  onGgmStart?: CommonEventFunction
-
   /** 进入小窗
    * @supported weapp
    */
@@ -234,6 +229,11 @@ interface LivePusherProps extends StandardProps {
    * @supported weapp
    */
   onLeavePictureInPicture?: string
+
+  /** 背景音开始播放时触发
+   * @supported weapp, qq
+   */
+  onBgmStart?: CommonEventFunction
 }
 declare namespace LivePusherProps {
   /** orientation 的合法值 */
