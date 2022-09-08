@@ -567,7 +567,7 @@ importers:
       jquery: ^3.4.1
       karmatic: ^2.1.0
       lodash: ^4.17.21
-      miniapp-types: ^1.1.3
+      miniapp-types: 1.1.5
       react: ^17.0.2
       react-dom: ^17.0.2
       resolve-pathname: ^3.0.0
@@ -586,8 +586,6 @@ importers:
       classnames: registry.npmjs.org/classnames/2.3.1
       hls.js: registry.npmjs.org/hls.js/1.1.5
       intersection-observer: registry.npmjs.org/intersection-observer/0.7.0
-      lodash: registry.npmjs.org/lodash/4.17.21
-      miniapp-types: registry.npmjs.org/miniapp-types/1.1.3
       resolve-pathname: registry.npmjs.org/resolve-pathname/3.0.0
       swiper: registry.npmjs.org/swiper/6.8.0
       weui: registry.npmjs.org/weui/1.1.3
@@ -597,6 +595,8 @@ importers:
       humps: registry.npmjs.org/humps/2.0.1
       jquery: registry.npmjs.org/jquery/3.6.0
       karmatic: registry.npmjs.org/karmatic/2.1.0_webpack@4.46.0
+      lodash: registry.npmjs.org/lodash/4.17.21
+      miniapp-types: registry.npmjs.org/miniapp-types/1.1.5
       react: registry.npmjs.org/react/17.0.2
       react-dom: registry.npmjs.org/react-dom/17.0.2_react@17.0.2
       simulant: registry.npmjs.org/simulant/0.2.2
@@ -26246,11 +26246,11 @@ packages:
       webpack: registry.npmjs.org/webpack/5.69.0_esbuild@0.14.47
     dev: false
 
-  registry.npmjs.org/miniapp-types/1.1.3:
-    resolution: {integrity: sha512-1Vq1n//vBa4lNQNXnBTnCY5v9TEVeeanFWJGv7sHOFOksQvV/MYJCxTnmH6zITpdTs2Ds6F5pUxlzfsJmRGQ3g==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/miniapp-types/-/miniapp-types-1.1.3.tgz}
+  registry.npmjs.org/miniapp-types/1.1.5:
+    resolution: {integrity: sha512-B7DZYaaqvEHhlQ4f/uLlSg8wRJGO+bIy2e630ge5TOjeBiSOxQZLDUb9T3x9NufVbOpSZMD5yzjLWSBXfH6Kew==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/miniapp-types/-/miniapp-types-1.1.5.tgz}
     name: miniapp-types
-    version: 1.1.3
-    dev: false
+    version: 1.1.5
+    dev: true
 
   registry.npmjs.org/minimalistic-assert/1.0.1:
     resolution: {integrity: sha512-UtJcAD4yEaGtjPezWuO9wC4nwUnVH/8/Im3yEHQP4b67cXlD/Qr9hdITCU1xDbSEXg2XKNaP8jsReV7vQd00/A==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/minimalistic-assert/-/minimalistic-assert-1.0.1.tgz}
