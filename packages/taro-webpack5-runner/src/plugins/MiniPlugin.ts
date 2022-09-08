@@ -368,6 +368,7 @@ export default class TaroMiniPlugin {
       this.getConfigFiles(compiler)
     } else {
       this.appConfig = this.getAppConfig()
+      this.getAppPluginEntries()
       this.getPages()
       this.getPagesConfig()
       this.getDarkMode()
@@ -654,6 +655,9 @@ export default class TaroMiniPlugin {
       } else {
         this.addEntry(item.path, item.name, META_TYPE.COMPONENT)
       }
+    })
+    this.pluginExportEntries.forEach((filePath, entryName) => {
+      this.addEntry(filePath, entryName, META_TYPE.EXPORTS)
     })
   }
 
