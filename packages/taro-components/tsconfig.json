@@ -5,8 +5,8 @@
     "jsx": "react",
     "jsxFactory": "h",
     "module": "ESNext",
-    "sourceMap": false,
-    "typeRoots": ["./node_modules/@types"],
+    "sourceMap": true,
+    "typeRoots": ["./node_modules/@types"]
   },
-  "include": ["./src", "./types"],
+  "include": ["./src", "./types"]
 }
