@@ -123,7 +123,7 @@
     "@vue/compiler-core": "3.0.0",
     "@vue/runtime-core": "3.0.0",
     "@vue/runtime-dom": "3.0.0",
-    "babel-jest": "24.9.0",
+    "babel-jest": "26.6.3",
     "babel-plugin-syntax-jsx": "6.18.0",
     "babel-preset-power-assert": "3.0.0",
     "babel-preset-taro": "workspace:*",

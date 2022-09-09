@@ -1,9 +1,9 @@
 import saveAssets from '@react-native-community/cli-plugin-metro/build/commands/bundle/saveAssets'
 import { createDevServerMiddleware } from '@react-native-community/cli-server-api'
 import { PLATFORMS } from '@tarojs/helper'
+import { emptyModulePath } from '@tarojs/rn-supporter'
 import * as fse from 'fs-extra'
 import * as Metro from 'metro'
-import { getResolveDependencyFn } from 'metro/src/lib/transformHelpers'
 import * as Server from 'metro/src/Server'
 import * as outputBundle from 'metro/src/shared/output/bundle'
 import * as path from 'path'
@@ -199,10 +199,9 @@ export default async function build (_appPath: string, config: any): Promise<any
     }
     const savedBuildFunc = outputBundle.build
     outputBundle.build = async (packagerClient, requestOptions) => {
-      const resolutionFn = await getResolveDependencyFn(packagerClient.getBundler().getBundler(), requestOptions.platform)
       // try for test case build_noWatch
       try {
-        requestOptions.entryFile = resolutionFn(metroConfig.projectRoot, requestOptions.entryFile)
+        requestOptions.entryFile = require.resolve(emptyModulePath)
       } catch (e) {} // eslint-disable-line no-empty
       return savedBuildFunc(packagerClient, requestOptions)
     }
