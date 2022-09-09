@@ -39,11 +39,11 @@
     "react-native-webview": "~11.23.0"
   },
   "devDependencies": {
-    "@types/react-native": "^0.69.5",
+    "@types/react-native": "^0.69.8",
     "expo": "~46.0.10",
-    "metro-babel-register": "^0.70.3",
-    "metro-react-native-babel-preset": "^0.70.3",
-    "react-native": "^0.69.3"
+    "metro-babel-register": "^0.72.1",
+    "metro-react-native-babel-preset": "^0.72.1",
+    "react-native": "^0.70.0"
   },
   "peerDependencies": {
     "@react-native-community/slider": "~4.2.4",
