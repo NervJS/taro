@@ -47,6 +47,6 @@
     "react-native-screens": "^3.15.0"
   },
   "devDependencies": {
-    "@types/react-native": "^0.69.5"
+    "@types/react-native": "^0.69.8"
   }
 }

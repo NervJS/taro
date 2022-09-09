@@ -88,7 +88,7 @@ importers:
       '@vue/compiler-core': 3.0.0
       '@vue/runtime-core': 3.0.0
       '@vue/runtime-dom': 3.0.0
-      babel-jest: 24.9.0
+      babel-jest: 26.6.3
       babel-plugin-syntax-jsx: 6.18.0
       babel-preset-power-assert: 3.0.0
       babel-preset-taro: workspace:*
@@ -246,7 +246,7 @@ importers:
       '@vue/compiler-core': registry.npmjs.org/@vue/compiler-core/3.0.0
       '@vue/runtime-core': registry.npmjs.org/@vue/runtime-core/3.0.0
       '@vue/runtime-dom': registry.npmjs.org/@vue/runtime-dom/3.0.0
-      babel-jest: registry.npmjs.org/babel-jest/24.9.0_@babel+core@7.18.5
+      babel-jest: registry.npmjs.org/babel-jest/26.6.3_@babel+core@7.18.5
       babel-plugin-syntax-jsx: registry.npmjs.org/babel-plugin-syntax-jsx/6.18.0
       babel-preset-power-assert: registry.npmjs.org/babel-preset-power-assert/3.0.0_power-assert@1.6.1
       babel-preset-taro: link:packages/babel-preset-taro
@@ -353,7 +353,7 @@ importers:
       babel-plugin-transform-react-jsx-to-rn-stylesheet: workspace:*
       babel-plugin-transform-taroapi: workspace:*
       core-js: ^3.6.5
-      metro-react-native-babel-preset: ^0.70.3
+      metro-react-native-babel-preset: ^0.72.1
     dependencies:
       '@babel/plugin-proposal-class-properties': registry.npmjs.org/@babel/plugin-proposal-class-properties/7.17.12_@babel+core@7.18.5
       '@babel/plugin-proposal-decorators': registry.npmjs.org/@babel/plugin-proposal-decorators/7.18.2_@babel+core@7.18.5
@@ -374,7 +374,7 @@ importers:
       babel-plugin-transform-react-jsx-to-rn-stylesheet: link:../babel-plugin-transform-react-jsx-to-rn-stylesheet
       babel-plugin-transform-taroapi: link:../babel-plugin-transform-taroapi
       core-js: registry.npmjs.org/core-js/3.23.3
-      metro-react-native-babel-preset: registry.npmjs.org/metro-react-native-babel-preset/0.70.3_@babel+core@7.18.5
+      metro-react-native-babel-preset: registry.npmjs.org/metro-react-native-babel-preset/0.72.2_@babel+core@7.18.5
     devDependencies:
       '@babel/core': registry.npmjs.org/@babel/core/7.18.5
 
@@ -619,37 +619,37 @@ importers:
       '@ant-design/react-native': ^5.0.0
       '@react-native-community/slider': ~4.2.4
       '@react-native-picker/picker': ~2.4.2
-      '@types/react-native': ^0.69.5
+      '@types/react-native': ^0.69.8
       expo: ~46.0.10
       expo-av: ~12.0.3
       expo-barcode-scanner: ~11.4.0
       expo-camera: ~12.3.0
-      metro-babel-register: ^0.70.3
-      metro-react-native-babel-preset: ^0.70.3
+      metro-babel-register: ^0.72.1
+      metro-react-native-babel-preset: ^0.72.1
       prop-types: ^15.7.2
-      react-native: ^0.69.3
+      react-native: ^0.70.0
       react-native-maps: ^0.25.0
       react-native-pager-view: ~5.4.25
       react-native-svg: ~12.4.3
       react-native-webview: ~11.23.0
     dependencies:
-      '@ant-design/react-native': registry.npmjs.org/@ant-design/react-native/5.0.1_epyjazvllm44scmzbm3ystju3a
-      '@react-native-community/slider': registry.npmjs.org/@react-native-community/slider/4.2.4_react-native@0.69.5
-      '@react-native-picker/picker': registry.npmjs.org/@react-native-picker/picker/2.4.2_react-native@0.69.5
+      '@ant-design/react-native': registry.npmjs.org/@ant-design/react-native/5.0.1_gwkop36jlm4tyxed5rnfts7bre
+      '@react-native-community/slider': registry.npmjs.org/@react-native-community/slider/4.2.4_react-native@0.70.0
+      '@react-native-picker/picker': registry.npmjs.org/@react-native-picker/picker/2.4.2_react-native@0.70.0
       expo-av: registry.npmjs.org/expo-av/12.0.4_expo@46.0.10
       expo-barcode-scanner: registry.npmjs.org/expo-barcode-scanner/11.4.0_expo@46.0.10
       expo-camera: registry.npmjs.org/expo-camera/12.3.0_expo@46.0.10
       prop-types: registry.npmjs.org/prop-types/15.8.1
-      react-native-maps: registry.npmjs.org/react-native-maps/0.25.0_a3m4qk22sttdsiro4x4v2nfoki
-      react-native-pager-view: registry.npmjs.org/react-native-pager-view/5.4.25_react-native@0.69.5
-      react-native-svg: registry.npmjs.org/react-native-svg/12.4.3_react-native@0.69.5
-      react-native-webview: registry.npmjs.org/react-native-webview/11.23.0_react-native@0.69.5
+      react-native-maps: registry.npmjs.org/react-native-maps/0.25.0_j4ncoeqzkrfqw6w3zy7nsq7m4i
+      react-native-pager-view: registry.npmjs.org/react-native-pager-view/5.4.25_react-native@0.70.0
+      react-native-svg: registry.npmjs.org/react-native-svg/12.4.3_react-native@0.70.0
+      react-native-webview: registry.npmjs.org/react-native-webview/11.23.0_react-native@0.70.0
     devDependencies:
-      '@types/react-native': registry.npmjs.org/@types/react-native/0.69.6
+      '@types/react-native': registry.npmjs.org/@types/react-native/0.69.8
       expo: registry.npmjs.org/expo/46.0.10
-      metro-babel-register: registry.npmjs.org/metro-babel-register/0.70.3
-      metro-react-native-babel-preset: registry.npmjs.org/metro-react-native-babel-preset/0.70.3
-      react-native: registry.npmjs.org/react-native/0.69.5
+      metro-babel-register: registry.npmjs.org/metro-babel-register/0.72.2
+      metro-react-native-babel-preset: registry.npmjs.org/metro-react-native-babel-preset/0.72.2
+      react-native: registry.npmjs.org/react-native/0.70.0
 
   packages/taro-components/loader:
     specifiers: {}
@@ -1023,7 +1023,7 @@ importers:
       '@react-native-community/netinfo': ~9.3.0
       '@tarojs/runtime-rn': workspace:*
       '@types/jest': ^27.4.1
-      '@types/react-native': ^0.69.5
+      '@types/react-native': ^0.69.8
       babel-preset-expo: ~9.2.0
       base64-js: ^1.3.0
       deprecated-react-native-prop-types: ^2.3.0
@@ -1038,10 +1038,10 @@ importers:
       expo-modules-core: ~0.11.5
       expo-sensors: ~11.4.0
       fbjs-scripts: ^3.0.1
-      metro-react-native-babel-preset: ^0.70.3
+      metro-react-native-babel-preset: ^0.72.1
       nullthrows: ^1.1.1
       prop-types: ^15.8.1
-      react-native: ^0.69.3
+      react-native: ^0.70.0
       react-native-device-info: ~10.0.2
       react-native-image-resizer: ~1.4.5
       react-native-image-zoom-viewer: ^3.0.1
@@ -1051,11 +1051,11 @@ importers:
       react-native-stylekit: ^1.0.0
       react-native-syan-image-picker: 0.5.3
     dependencies:
-      '@react-native-async-storage/async-storage': registry.npmjs.org/@react-native-async-storage/async-storage/1.17.7_react-native@0.69.5
-      '@react-native-community/cameraroll': registry.npmjs.org/@react-native-community/cameraroll/4.1.2_react-native@0.69.5
-      '@react-native-community/clipboard': registry.npmjs.org/@react-native-community/clipboard/1.5.1_react-native@0.69.5
-      '@react-native-community/geolocation': registry.npmjs.org/@react-native-community/geolocation/2.1.0_react-native@0.69.5
-      '@react-native-community/netinfo': registry.npmjs.org/@react-native-community/netinfo/9.3.0_react-native@0.69.5
+      '@react-native-async-storage/async-storage': registry.npmjs.org/@react-native-async-storage/async-storage/1.17.7_react-native@0.70.0
+      '@react-native-community/cameraroll': registry.npmjs.org/@react-native-community/cameraroll/4.1.2_react-native@0.70.0
+      '@react-native-community/clipboard': registry.npmjs.org/@react-native-community/clipboard/1.5.1_react-native@0.70.0
+      '@react-native-community/geolocation': registry.npmjs.org/@react-native-community/geolocation/2.1.0_react-native@0.70.0
+      '@react-native-community/netinfo': registry.npmjs.org/@react-native-community/netinfo/9.3.0_react-native@0.70.0
       '@tarojs/runtime-rn': link:../taro-runtime-rn
       babel-preset-expo: registry.npmjs.org/babel-preset-expo/9.2.0
       base64-js: registry.npmjs.org/base64-js/1.5.1
@@ -1072,28 +1072,28 @@ importers:
       expo-sensors: registry.npmjs.org/expo-sensors/11.4.0
       nullthrows: registry.npmjs.org/nullthrows/1.1.1
       prop-types: registry.npmjs.org/prop-types/15.8.1
-      react-native-device-info: registry.npmjs.org/react-native-device-info/10.0.2_react-native@0.69.5
-      react-native-image-resizer: registry.npmjs.org/react-native-image-resizer/1.4.5_react-native@0.69.5
-      react-native-image-zoom-viewer: registry.npmjs.org/react-native-image-zoom-viewer/3.0.1_react-native@0.69.5
+      react-native-device-info: registry.npmjs.org/react-native-device-info/10.0.2_react-native@0.70.0
+      react-native-image-resizer: registry.npmjs.org/react-native-image-resizer/1.4.5_react-native@0.70.0
+      react-native-image-zoom-viewer: registry.npmjs.org/react-native-image-zoom-viewer/3.0.1_react-native@0.70.0
       react-native-root-siblings: registry.npmjs.org/react-native-root-siblings/4.1.1
-      react-native-root-toast: registry.npmjs.org/react-native-root-toast/3.4.0_react-native@0.69.5
-      react-native-safe-area-context: registry.npmjs.org/react-native-safe-area-context/4.3.1_react-native@0.69.5
+      react-native-root-toast: registry.npmjs.org/react-native-root-toast/3.4.0_react-native@0.70.0
+      react-native-safe-area-context: registry.npmjs.org/react-native-safe-area-context/4.3.1_react-native@0.70.0
       react-native-stylekit: registry.npmjs.org/react-native-stylekit/1.0.0
       react-native-syan-image-picker: registry.npmjs.org/react-native-syan-image-picker/0.5.3
     devDependencies:
       '@types/jest': registry.npmjs.org/@types/jest/27.5.2
-      '@types/react-native': registry.npmjs.org/@types/react-native/0.69.6
+      '@types/react-native': registry.npmjs.org/@types/react-native/0.69.8
       fbjs-scripts: registry.npmjs.org/fbjs-scripts/3.0.1
-      metro-react-native-babel-preset: registry.npmjs.org/metro-react-native-babel-preset/0.70.3
-      react-native: registry.npmjs.org/react-native/0.69.5
+      metro-react-native-babel-preset: registry.npmjs.org/metro-react-native-babel-preset/0.72.2
+      react-native: registry.npmjs.org/react-native/0.70.0
 
   packages/taro-rn-runner:
     specifiers:
-      '@react-native-community/cli': ^8.0.0
-      '@react-native-community/cli-config': ^8.0.0
-      '@react-native-community/cli-plugin-metro': ^8.0.0
-      '@react-native-community/cli-server-api': ^8.0.0
-      '@react-native-community/cli-tools': ^8.0.0
+      '@react-native-community/cli': ^9.1.0
+      '@react-native-community/cli-config': ^9.1.0
+      '@react-native-community/cli-plugin-metro': ^9.1.0
+      '@react-native-community/cli-server-api': ^9.1.0
+      '@react-native-community/cli-tools': ^9.1.0
       '@rollup/plugin-babel': ^5.3.1
       '@rollup/plugin-commonjs': ^20.0.0
       '@rollup/plugin-json': ^4.1.0
@@ -1107,23 +1107,23 @@ importers:
       expo-file-system: ~14.1.0
       fs-extra: ^8.0.1
       lodash: ^4.17.21
-      metro: ^0.70.3
-      metro-cache: ^0.70.3
-      metro-config: ^0.70.3
-      metro-core: ^0.70.3
-      metro-react-native-babel-transformer: ^0.70.3
-      metro-resolver: ^0.70.3
+      metro: ^0.72.1
+      metro-cache: ^0.72.1
+      metro-config: ^0.72.1
+      metro-core: ^0.72.1
+      metro-react-native-babel-transformer: ^0.72.1
+      metro-resolver: ^0.72.1
       mime-types: ^2.1.27
       qrcode: ^1.5.1
       react-is: ^16.13.0
       react-native-root-siblings: ^4.1.1
       rollup-plugin-image-file: ^1.0.2
     dependencies:
-      '@react-native-community/cli': registry.npmjs.org/@react-native-community/cli/8.0.6
-      '@react-native-community/cli-config': registry.npmjs.org/@react-native-community/cli-config/8.0.6
-      '@react-native-community/cli-plugin-metro': registry.npmjs.org/@react-native-community/cli-plugin-metro/8.0.4
-      '@react-native-community/cli-server-api': registry.npmjs.org/@react-native-community/cli-server-api/8.0.4
-      '@react-native-community/cli-tools': registry.npmjs.org/@react-native-community/cli-tools/8.0.4
+      '@react-native-community/cli': registry.npmjs.org/@react-native-community/cli/9.1.0
+      '@react-native-community/cli-config': registry.npmjs.org/@react-native-community/cli-config/9.1.0
+      '@react-native-community/cli-plugin-metro': registry.npmjs.org/@react-native-community/cli-plugin-metro/9.1.0
+      '@react-native-community/cli-server-api': registry.npmjs.org/@react-native-community/cli-server-api/9.1.0
+      '@react-native-community/cli-tools': registry.npmjs.org/@react-native-community/cli-tools/9.1.0
       '@rollup/plugin-babel': registry.npmjs.org/@rollup/plugin-babel/5.3.1
       '@rollup/plugin-commonjs': registry.npmjs.org/@rollup/plugin-commonjs/20.0.0
       '@rollup/plugin-json': registry.npmjs.org/@rollup/plugin-json/4.1.0
@@ -1136,12 +1136,12 @@ importers:
       acorn-jsx: registry.npmjs.org/acorn-jsx/5.3.2
       fs-extra: registry.npmjs.org/fs-extra/8.1.0
       lodash: registry.npmjs.org/lodash/4.17.21
-      metro: registry.npmjs.org/metro/0.70.3
-      metro-cache: registry.npmjs.org/metro-cache/0.70.3
-      metro-config: registry.npmjs.org/metro-config/0.70.3
-      metro-core: registry.npmjs.org/metro-core/0.70.3
-      metro-react-native-babel-transformer: registry.npmjs.org/metro-react-native-babel-transformer/0.70.3
-      metro-resolver: registry.npmjs.org/metro-resolver/0.70.3
+      metro: registry.npmjs.org/metro/0.72.2
+      metro-cache: registry.npmjs.org/metro-cache/0.72.2
+      metro-config: registry.npmjs.org/metro-config/0.72.2
+      metro-core: registry.npmjs.org/metro-core/0.72.2
+      metro-react-native-babel-transformer: registry.npmjs.org/metro-react-native-babel-transformer/0.72.2
+      metro-resolver: registry.npmjs.org/metro-resolver/0.72.2
       mime-types: registry.npmjs.org/mime-types/2.1.35
       qrcode: registry.npmjs.org/qrcode/1.5.1
       rollup-plugin-image-file: registry.npmjs.org/rollup-plugin-image-file/1.0.2
@@ -1189,15 +1189,15 @@ importers:
       '@tarojs/helper': workspace:*
       '@tarojs/rn-style-transformer': workspace:*
       lodash: ^4.17.21
-      metro-react-native-babel-transformer: ^0.70.3
-      metro-resolver: ^0.70.3
+      metro-react-native-babel-transformer: ^0.72.1
+      metro-resolver: ^0.72.1
       react-native-svg-transformer: ^0.14.3
     dependencies:
       '@tarojs/helper': link:../taro-helper
       '@tarojs/rn-style-transformer': link:../taro-rn-style-transformer
       lodash: registry.npmjs.org/lodash/4.17.21
-      metro-react-native-babel-transformer: registry.npmjs.org/metro-react-native-babel-transformer/0.70.3
-      metro-resolver: registry.npmjs.org/metro-resolver/0.70.3
+      metro-react-native-babel-transformer: registry.npmjs.org/metro-react-native-babel-transformer/0.72.2
+      metro-resolver: registry.npmjs.org/metro-resolver/0.72.2
       react-native-svg-transformer: registry.npmjs.org/react-native-svg-transformer/0.14.3
 
   packages/taro-rn-transformer:
@@ -1238,7 +1238,7 @@ importers:
       '@react-navigation/native-stack': ^6.7.0
       '@react-navigation/routers': ^6.1.0
       '@react-navigation/stack': ^6.1.1
-      '@types/react-native': ^0.69.5
+      '@types/react-native': ^0.69.8
       nanoid: ^3.1.12
       query-string: ^6.1.0
       react-native-gesture-handler: ~2.5.0
@@ -1257,7 +1257,7 @@ importers:
       react-native-safe-area-context: registry.npmjs.org/react-native-safe-area-context/4.3.1
       react-native-screens: registry.npmjs.org/react-native-screens/3.15.0
     devDependencies:
-      '@types/react-native': registry.npmjs.org/@types/react-native/0.69.6
+      '@types/react-native': registry.npmjs.org/@types/react-native/0.69.8
 
   packages/taro-runner-utils:
     specifiers:
@@ -1279,14 +1279,14 @@ importers:
     specifiers:
       '@tarojs/components-rn': workspace:*
       '@tarojs/router-rn': workspace:*
-      '@types/react-native': ^0.69.5
+      '@types/react-native': ^0.69.8
       react-native-root-siblings: ^4.1.1
     dependencies:
       '@tarojs/components-rn': link:../taro-components-rn
       '@tarojs/router-rn': link:../taro-router-rn
       react-native-root-siblings: registry.npmjs.org/react-native-root-siblings/4.1.1
     devDependencies:
-      '@types/react-native': registry.npmjs.org/@types/react-native/0.69.6
+      '@types/react-native': registry.npmjs.org/@types/react-native/0.69.8
 
   packages/taro-service:
     specifiers:
@@ -1661,7 +1661,7 @@ packages:
       react: '>=16.0.0'
     dev: false
 
-  registry.npmjs.org/@ant-design/react-native/5.0.1_epyjazvllm44scmzbm3ystju3a:
+  registry.npmjs.org/@ant-design/react-native/5.0.1_gwkop36jlm4tyxed5rnfts7bre:
     resolution: {integrity: sha512-smwIhSy2Cz9n3J+dusO+0B5NnQ2Rq8Y8dZxlospdzlTqQgnKdDuxbC3VEvhcDp/uSp6JEgULV13OvX+Zb5ydMA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@ant-design/react-native/-/react-native-5.0.1.tgz}
     id: registry.npmjs.org/@ant-design/react-native/5.0.1
     name: '@ant-design/react-native'
@@ -1675,8 +1675,8 @@ packages:
     dependencies:
       '@ant-design/icons-react-native': registry.npmjs.org/@ant-design/icons-react-native/2.3.2
       '@bang88/react-native-ultimate-listview': registry.npmjs.org/@bang88/react-native-ultimate-listview/4.1.0
-      '@react-native-community/slider': registry.npmjs.org/@react-native-community/slider/4.2.4_react-native@0.69.5
-      '@react-native-picker/picker': registry.npmjs.org/@react-native-picker/picker/2.4.2_react-native@0.69.5
+      '@react-native-community/slider': registry.npmjs.org/@react-native-community/slider/4.2.4_react-native@0.70.0
+      '@react-native-picker/picker': registry.npmjs.org/@react-native-picker/picker/2.4.2_react-native@0.70.0
       '@types/shallowequal': registry.npmjs.org/@types/shallowequal/1.1.1
       array-tree-filter: registry.npmjs.org/array-tree-filter/2.1.0
       babel-runtime: registry.npmjs.org/babel-runtime/6.26.0
@@ -1684,8 +1684,8 @@ packages:
       normalize-css-color: registry.npmjs.org/normalize-css-color/1.0.2
       rc-util: registry.npmjs.org/rc-util/4.21.1
       react-native-codegen: registry.npmjs.org/react-native-codegen/0.0.7
-      react-native-collapsible: registry.npmjs.org/react-native-collapsible/1.6.0_react-native@0.69.5
-      react-native-modal-popover: registry.npmjs.org/react-native-modal-popover/2.1.0_react-native@0.69.5
+      react-native-collapsible: registry.npmjs.org/react-native-collapsible/1.6.0_react-native@0.70.0
+      react-native-modal-popover: registry.npmjs.org/react-native-modal-popover/2.1.0_react-native@0.70.0
       shallowequal: registry.npmjs.org/shallowequal/1.1.0
       utility-types: registry.npmjs.org/utility-types/3.10.0
     transitivePeerDependencies:
@@ -2601,6 +2601,7 @@ packages:
     dependencies:
       '@babel/helper-plugin-utils': registry.npmjs.org/@babel/helper-plugin-utils/7.17.12
       '@babel/plugin-syntax-export-default-from': registry.npmjs.org/@babel/plugin-syntax-export-default-from/7.16.7
+    dev: true
 
   registry.npmjs.org/@babel/plugin-proposal-export-default-from/7.17.12_@babel+core@7.18.5:
     resolution: {integrity: sha512-LpsTRw725eBAXXKUOnJJct+SEaOzwR78zahcLuripD2+dKc2Sj+8Q2DzA+GC/jOpOu/KlDXuxrzG214o1zTauQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@babel/plugin-proposal-export-default-from/-/plugin-proposal-export-default-from-7.17.12.tgz}
@@ -3299,6 +3300,7 @@ packages:
       '@babel/core': ^7.0.0-0
     dependencies:
       '@babel/helper-plugin-utils': registry.npmjs.org/@babel/helper-plugin-utils/7.17.12
+    dev: true
 
   registry.npmjs.org/@babel/plugin-syntax-export-default-from/7.16.7_@babel+core@7.12.3:
     resolution: {integrity: sha512-4C3E4NsrLOgftKaTYTULhHsuQrGv3FHrBzOMDiS7UYKIpgGBkAdawg4h+EI8zPeK9M0fiIIh72hIwsI24K7MbA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@babel/plugin-syntax-export-default-from/-/plugin-syntax-export-default-from-7.16.7.tgz}
@@ -3366,6 +3368,7 @@ packages:
       '@babel/core': ^7.0.0-0
     dependencies:
       '@babel/helper-plugin-utils': registry.npmjs.org/@babel/helper-plugin-utils/7.17.12
+    dev: true
 
   registry.npmjs.org/@babel/plugin-syntax-flow/7.17.12_@babel+core@7.18.5:
     resolution: {integrity: sha512-B8QIgBvkIG6G2jgsOHQUist7Sm0EBLDCx8sen072IwqNuzMegZNXrYnSv77cYzA8mLDZAfQYqsLIhimiP1s2HQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@babel/plugin-syntax-flow/-/plugin-syntax-flow-7.17.12.tgz}
@@ -3777,6 +3780,7 @@ packages:
       '@babel/core': ^7.0.0-0
     dependencies:
       '@babel/helper-plugin-utils': registry.npmjs.org/@babel/helper-plugin-utils/7.17.12
+    dev: true
 
   registry.npmjs.org/@babel/plugin-syntax-typescript/7.17.12_@babel+core@7.12.3:
     resolution: {integrity: sha512-TYY0SXFiO31YXtNg3HtFwNJHjLsAyIIhAhNWkQ5whPPS7HWUFlg9z0Ta4qAQNjQbP1wsSt/oKkmZ/4/WWdMUpw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@babel/plugin-syntax-typescript/-/plugin-syntax-typescript-7.17.12.tgz}
@@ -4208,6 +4212,7 @@ packages:
     dependencies:
       '@babel/helper-plugin-utils': registry.npmjs.org/@babel/helper-plugin-utils/7.17.12
       '@babel/plugin-syntax-flow': registry.npmjs.org/@babel/plugin-syntax-flow/7.17.12
+    dev: true
 
   registry.npmjs.org/@babel/plugin-transform-flow-strip-types/7.17.12_@babel+core@7.18.5:
     resolution: {integrity: sha512-g8cSNt+cHCpG/uunPQELdq/TeV3eg1OLJYwxypwHtAWo9+nErH3lQx9CSO2uI9lF74A0mR0t4KoMjs1snSgnTw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@babel/plugin-transform-flow-strip-types/-/plugin-transform-flow-strip-types-7.17.12.tgz}
@@ -4758,6 +4763,7 @@ packages:
       '@babel/core': ^7.0.0-0
     dependencies:
       '@babel/helper-plugin-utils': registry.npmjs.org/@babel/helper-plugin-utils/7.17.12
+    dev: true
 
   registry.npmjs.org/@babel/plugin-transform-react-display-name/7.16.7_@babel+core@7.18.5:
     resolution: {integrity: sha512-qgIg8BcZgd0G/Cz916D5+9kqX0c7nPZyXaP8R2tLNN5tkyIZdG5fEwBrxwplzSnjC1jvQmyMNVwUCZPcbGY7Pg==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@babel/plugin-transform-react-display-name/-/plugin-transform-react-display-name-7.16.7.tgz}
@@ -4792,6 +4798,7 @@ packages:
       '@babel/core': ^7.0.0-0
     dependencies:
       '@babel/helper-plugin-utils': registry.npmjs.org/@babel/helper-plugin-utils/7.17.12
+    dev: true
 
   registry.npmjs.org/@babel/plugin-transform-react-jsx-self/7.17.12_@babel+core@7.18.5:
     resolution: {integrity: sha512-7S9G2B44EnYOx74mue02t1uD8ckWZ/ee6Uz/qfdzc35uWHX5NgRy9i+iJSb2LFRgMd+QV9zNcStQaazzzZ3n3Q==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@babel/plugin-transform-react-jsx-self/-/plugin-transform-react-jsx-self-7.17.12.tgz}
@@ -4814,6 +4821,7 @@ packages:
       '@babel/core': ^7.0.0-0
     dependencies:
       '@babel/helper-plugin-utils': registry.npmjs.org/@babel/helper-plugin-utils/7.17.12
+    dev: true
 
   registry.npmjs.org/@babel/plugin-transform-react-jsx-source/7.16.7_@babel+core@7.18.5:
     resolution: {integrity: sha512-rONFiQz9vgbsnaMtQlZCjIRwhJvlrPET8TabIUK2hzlXw9B9s2Ieaxte1SCOOXMbWRHodbKixNf3BLcWVOQ8Bw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@babel/plugin-transform-react-jsx-source/-/plugin-transform-react-jsx-source-7.16.7.tgz}
@@ -4974,6 +4982,7 @@ packages:
       semver: registry.npmjs.org/semver/6.3.0
     transitivePeerDependencies:
       - supports-color
+    dev: true
 
   registry.npmjs.org/@babel/plugin-transform-runtime/7.18.5_@babel+core@7.18.5:
     resolution: {integrity: sha512-Q17hHxXr2fplrE+5BSC1j1Fo5cOA8YeP8XW3/1paI8MzF/faZGh0MaH1KC4jLAvqLPamQWHB5/B7KqSLY1kuHA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@babel/plugin-transform-runtime/-/plugin-transform-runtime-7.18.5.tgz}
@@ -5185,6 +5194,7 @@ packages:
       '@babel/plugin-syntax-typescript': registry.npmjs.org/@babel/plugin-syntax-typescript/7.17.12
     transitivePeerDependencies:
       - supports-color
+    dev: true
 
   registry.npmjs.org/@babel/plugin-transform-typescript/7.18.4_@babel+core@7.12.3:
     resolution: {integrity: sha512-l4vHuSLUajptpHNEOUDEGsnpl9pfRLsN1XUoDQDD/YBuXTM+v37SHGS+c6n4jdcZy96QtuUuSvZYMLSSsjH8Mw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@babel/plugin-transform-typescript/-/plugin-transform-typescript-7.18.4.tgz}
@@ -6267,25 +6277,6 @@ packages:
     transitivePeerDependencies:
       - supports-color
 
-  registry.npmjs.org/@expo/config/7.0.0:
-    resolution: {integrity: sha512-4807iau5gTcCAMUDWxsXfBX4E3embZJREO9c098GiRgAvCBc7PCqdGs9jEAKakCxmPbMGBURL17rKYAsHtZuQw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@expo/config/-/config-7.0.0.tgz}
-    name: '@expo/config'
-    version: 7.0.0
-    dependencies:
-      '@babel/code-frame': registry.npmjs.org/@babel/code-frame/7.10.4
-      '@expo/config-plugins': registry.npmjs.org/@expo/config-plugins/5.0.0
-      '@expo/config-types': registry.npmjs.org/@expo/config-types/46.0.1
-      '@expo/json-file': registry.npmjs.org/@expo/json-file/8.2.36
-      getenv: registry.npmjs.org/getenv/1.0.0
-      glob: registry.npmjs.org/glob/7.1.6
-      require-from-string: registry.npmjs.org/require-from-string/2.0.2
-      resolve-from: registry.npmjs.org/resolve-from/5.0.0
-      semver: registry.npmjs.org/semver/7.3.2
-      slugify: registry.npmjs.org/slugify/1.6.5
-      sucrase: registry.npmjs.org/sucrase/3.21.1
-    transitivePeerDependencies:
-      - supports-color
-
   registry.npmjs.org/@expo/config/7.0.1:
     resolution: {integrity: sha512-4lu0wr45XXJ2MXiLAm2+fmOyy/jjqF3NuDm92fO6nuulRzEEvTP4w3vsibJ690rT81ohtvhpruKhkRs0wSjKWA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@expo/config/-/config-7.0.1.tgz}
     name: '@expo/config'
@@ -6708,19 +6699,6 @@ packages:
       jest-mock: registry.npmjs.org/jest-mock/26.6.2
     dev: true
 
-  registry.npmjs.org/@jest/fake-timers/24.9.0:
-    resolution: {integrity: sha512-eWQcNa2YSwzXWIMC5KufBh3oWRIijrQFROsIqt6v/NS9Io/gknw1jsAC9c+ih/RQX4A3O7SeWAhQeN0goKhT9A==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@jest/fake-timers/-/fake-timers-24.9.0.tgz}
-    name: '@jest/fake-timers'
-    version: 24.9.0
-    engines: {node: '>= 6'}
-    dependencies:
-      '@jest/types': registry.npmjs.org/@jest/types/24.9.0
-      jest-message-util: registry.npmjs.org/jest-message-util/24.9.0
-      jest-mock: registry.npmjs.org/jest-mock/24.9.0
-    transitivePeerDependencies:
-      - supports-color
-    dev: true
-
   registry.npmjs.org/@jest/fake-timers/26.6.2:
     resolution: {integrity: sha512-14Uleatt7jdzefLPYM3KLcnUl1ZNikaKq34enpb5XG9i81JpppDb5muZvonvKyrl7ftEHkKS5L5/eB/kxJ+bvA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@jest/fake-timers/-/fake-timers-26.6.2.tgz}
     name: '@jest/fake-timers'
@@ -6865,32 +6843,6 @@ packages:
       - supports-color
       - ts-node
       - utf-8-validate
-    dev: true
-
-  registry.npmjs.org/@jest/transform/24.9.0:
-    resolution: {integrity: sha512-TcQUmyNRxV94S0QpMOnZl0++6RMiqpbH/ZMccFB/amku6Uwvyb1cjYX7xkp5nGNkbX4QPH/FcB6q1HBTHynLmQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@jest/transform/-/transform-24.9.0.tgz}
-    name: '@jest/transform'
-    version: 24.9.0
-    engines: {node: '>= 6'}
-    dependencies:
-      '@babel/core': registry.npmjs.org/@babel/core/7.18.5
-      '@jest/types': registry.npmjs.org/@jest/types/24.9.0
-      babel-plugin-istanbul: registry.npmjs.org/babel-plugin-istanbul/5.2.0
-      chalk: registry.npmjs.org/chalk/2.4.2
-      convert-source-map: registry.npmjs.org/convert-source-map/1.8.0
-      fast-json-stable-stringify: registry.npmjs.org/fast-json-stable-stringify/2.1.0
-      graceful-fs: registry.npmjs.org/graceful-fs/4.2.10
-      jest-haste-map: registry.npmjs.org/jest-haste-map/24.9.0
-      jest-regex-util: registry.npmjs.org/jest-regex-util/24.9.0
-      jest-util: registry.npmjs.org/jest-util/24.9.0
-      micromatch: registry.npmjs.org/micromatch/3.1.10
-      pirates: registry.npmjs.org/pirates/4.0.5
-      realpath-native: registry.npmjs.org/realpath-native/1.1.0
-      slash: registry.npmjs.org/slash/2.0.0
-      source-map: registry.npmjs.org/source-map/0.6.1
-      write-file-atomic: registry.npmjs.org/write-file-atomic/2.4.1
-    transitivePeerDependencies:
-      - supports-color
     dev: true
 
   registry.npmjs.org/@jest/transform/26.6.2:
@@ -7778,7 +7730,7 @@ packages:
       '@prefresh/utils': registry.npmjs.org/@prefresh/utils/1.1.3
     dev: true
 
-  registry.npmjs.org/@react-native-async-storage/async-storage/1.17.7_react-native@0.69.5:
+  registry.npmjs.org/@react-native-async-storage/async-storage/1.17.7_react-native@0.70.0:
     resolution: {integrity: sha512-mDtWhCcpxzrZhA95f6zi0pnBsjBEZW1LKZWfxVXG0UfaWpPxDBCKowNk2xjRTytckZeVhjmPJPtBU+8QNQcR0A==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@react-native-async-storage/async-storage/-/async-storage-1.17.7.tgz}
     id: registry.npmjs.org/@react-native-async-storage/async-storage/1.17.7
     name: '@react-native-async-storage/async-storage'
@@ -7787,10 +7739,10 @@ packages:
       react-native: ^0.0.0-0 || 0.60 - 0.69 || 1000.0.0
     dependencies:
       merge-options: registry.npmjs.org/merge-options/3.0.4
-      react-native: registry.npmjs.org/react-native/0.69.5
+      react-native: registry.npmjs.org/react-native/0.70.0
     dev: false
 
-  registry.npmjs.org/@react-native-community/cameraroll/4.1.2_react-native@0.69.5:
+  registry.npmjs.org/@react-native-community/cameraroll/4.1.2_react-native@0.70.0:
     resolution: {integrity: sha512-jkdhMByMKD2CZ/5MPeBieYn8vkCfC4MOTouPpBpps3I8N6HUYJk+1JnDdktVYl2WINnqXpQptDA2YptVyifYAg==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@react-native-community/cameraroll/-/cameraroll-4.1.2.tgz}
     id: registry.npmjs.org/@react-native-community/cameraroll/4.1.2
     name: '@react-native-community/cameraroll'
@@ -7799,27 +7751,27 @@ packages:
       react: 16 || 17
       react-native: '>=0.60'
     dependencies:
-      react-native: registry.npmjs.org/react-native/0.69.5
+      react-native: registry.npmjs.org/react-native/0.70.0
     dev: false
 
-  registry.npmjs.org/@react-native-community/cli-clean/8.0.4:
-    resolution: {integrity: sha512-IwS1M1NHg6+qL8PThZYMSIMYbZ6Zbx+lIck9PLBskbosFo24M3lCOflOl++Bggjakp6mR+sRXxLMexid/GeOsQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@react-native-community/cli-clean/-/cli-clean-8.0.4.tgz}
+  registry.npmjs.org/@react-native-community/cli-clean/9.1.0:
+    resolution: {integrity: sha512-3HznNw8EBQtLsVyV8b8+h76M9EeJcJgYn5wZVGQ5mghAOhqnSWVbwRvpDdb8ITXaiTIXFGNOxXnGKMXsu0CYTw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@react-native-community/cli-clean/-/cli-clean-9.1.0.tgz}
     name: '@react-native-community/cli-clean'
-    version: 8.0.4
+    version: 9.1.0
     dependencies:
-      '@react-native-community/cli-tools': registry.npmjs.org/@react-native-community/cli-tools/8.0.4
+      '@react-native-community/cli-tools': registry.npmjs.org/@react-native-community/cli-tools/9.1.0
       chalk: registry.npmjs.org/chalk/4.1.2
       execa: registry.npmjs.org/execa/1.0.0
       prompts: registry.npmjs.org/prompts/2.4.2
     transitivePeerDependencies:
       - encoding
 
-  registry.npmjs.org/@react-native-community/cli-config/8.0.6:
-    resolution: {integrity: sha512-mjVpVvdh8AviiO8xtqeX+BkjqE//NMDnISwsLWSJUfNCwTAPmdR8PGbhgP5O4hWHyJ3WkepTopl0ya7Tfi3ifw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@react-native-community/cli-config/-/cli-config-8.0.6.tgz}
+  registry.npmjs.org/@react-native-community/cli-config/9.1.0:
+    resolution: {integrity: sha512-6G9d5weedQ6EMz37ZYXrFHCU2DG3yqvdLs4Jo2383cSxal+oO+kggaTgqLBKoMETz/S80KsMeC/l+MoRjc1pzw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@react-native-community/cli-config/-/cli-config-9.1.0.tgz}
     name: '@react-native-community/cli-config'
-    version: 8.0.6
+    version: 9.1.0
     dependencies:
-      '@react-native-community/cli-tools': registry.npmjs.org/@react-native-community/cli-tools/8.0.4
+      '@react-native-community/cli-tools': registry.npmjs.org/@react-native-community/cli-tools/9.1.0
       cosmiconfig: registry.npmjs.org/cosmiconfig/5.2.1
       deepmerge: registry.npmjs.org/deepmerge/3.3.0
       glob: registry.npmjs.org/glob/7.2.3
@@ -7827,23 +7779,23 @@ packages:
     transitivePeerDependencies:
       - encoding
 
-  registry.npmjs.org/@react-native-community/cli-debugger-ui/8.0.0:
-    resolution: {integrity: sha512-u2jq06GZwZ9sRERzd9FIgpW6yv4YOW4zz7Ym/B8eSzviLmy3yI/8mxJtvlGW+J8lBsfMcQoqJpqI6Rl1nZy9yQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@react-native-community/cli-debugger-ui/-/cli-debugger-ui-8.0.0.tgz}
+  registry.npmjs.org/@react-native-community/cli-debugger-ui/9.0.0:
+    resolution: {integrity: sha512-7hH05ZwU9Tp0yS6xJW0bqcZPVt0YCK7gwj7gnRu1jDNN2kughf6Lg0Ys29rAvtZ7VO1PK5c1O+zs7yFnylQDUA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@react-native-community/cli-debugger-ui/-/cli-debugger-ui-9.0.0.tgz}
     name: '@react-native-community/cli-debugger-ui'
-    version: 8.0.0
+    version: 9.0.0
     dependencies:
       serve-static: registry.npmjs.org/serve-static/1.15.0
     transitivePeerDependencies:
       - supports-color
 
-  registry.npmjs.org/@react-native-community/cli-doctor/8.0.6:
-    resolution: {integrity: sha512-ZQqyT9mJMVeFEVIwj8rbDYGCA2xXjJfsQjWk2iTRZ1CFHfhPSUuUiG8r6mJmTinAP9t+wYcbbIYzNgdSUKnDMw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@react-native-community/cli-doctor/-/cli-doctor-8.0.6.tgz}
+  registry.npmjs.org/@react-native-community/cli-doctor/9.1.0:
+    resolution: {integrity: sha512-H4d3BezMjgA49rP6saFS7P6Q86n2kNUlxltuTx9VDl2nx44HjFPs+srnNCE0asrOJcI2TBqwDIMTsX5ltVaCig==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@react-native-community/cli-doctor/-/cli-doctor-9.1.0.tgz}
     name: '@react-native-community/cli-doctor'
-    version: 8.0.6
+    version: 9.1.0
     dependencies:
-      '@react-native-community/cli-config': registry.npmjs.org/@react-native-community/cli-config/8.0.6
-      '@react-native-community/cli-platform-ios': registry.npmjs.org/@react-native-community/cli-platform-ios/8.0.6
-      '@react-native-community/cli-tools': registry.npmjs.org/@react-native-community/cli-tools/8.0.4
+      '@react-native-community/cli-config': registry.npmjs.org/@react-native-community/cli-config/9.1.0
+      '@react-native-community/cli-platform-ios': registry.npmjs.org/@react-native-community/cli-platform-ios/9.1.0
+      '@react-native-community/cli-tools': registry.npmjs.org/@react-native-community/cli-tools/9.1.0
       chalk: registry.npmjs.org/chalk/4.1.2
       command-exists: registry.npmjs.org/command-exists/1.2.9
       envinfo: registry.npmjs.org/envinfo/7.8.1
@@ -7860,66 +7812,61 @@ packages:
     transitivePeerDependencies:
       - encoding
 
-  registry.npmjs.org/@react-native-community/cli-hermes/8.0.5:
-    resolution: {integrity: sha512-Zm0wM6SfgYAEX1kfJ1QBvTayabvh79GzmjHyuSnEROVNPbl4PeCG4WFbwy489tGwOP9Qx9fMT5tRIFCD8bp6/g==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@react-native-community/cli-hermes/-/cli-hermes-8.0.5.tgz}
+  registry.npmjs.org/@react-native-community/cli-hermes/9.1.0:
+    resolution: {integrity: sha512-Ly4dnlRZZ7FckFfSWnaD5BxszuEe9/WcJ6A7srW5UobqnnmEznDv1IY0oBTq1ggnmzIquM9dJQZ0UbcZeQjkoA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@react-native-community/cli-hermes/-/cli-hermes-9.1.0.tgz}
     name: '@react-native-community/cli-hermes'
-    version: 8.0.5
+    version: 9.1.0
     dependencies:
-      '@react-native-community/cli-platform-android': registry.npmjs.org/@react-native-community/cli-platform-android/8.0.5
-      '@react-native-community/cli-tools': registry.npmjs.org/@react-native-community/cli-tools/8.0.4
+      '@react-native-community/cli-platform-android': registry.npmjs.org/@react-native-community/cli-platform-android/9.1.0
+      '@react-native-community/cli-tools': registry.npmjs.org/@react-native-community/cli-tools/9.1.0
       chalk: registry.npmjs.org/chalk/4.1.2
       hermes-profile-transformer: registry.npmjs.org/hermes-profile-transformer/0.0.6
       ip: registry.npmjs.org/ip/1.1.8
     transitivePeerDependencies:
       - encoding
 
-  registry.npmjs.org/@react-native-community/cli-platform-android/8.0.5:
-    resolution: {integrity: sha512-z1YNE4T1lG5o9acoQR1GBvf7mq6Tzayqo/za5sHVSOJAC9SZOuVN/gg/nkBa9a8n5U7qOMFXfwhTMNqA474gXA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@react-native-community/cli-platform-android/-/cli-platform-android-8.0.5.tgz}
+  registry.npmjs.org/@react-native-community/cli-platform-android/9.1.0:
+    resolution: {integrity: sha512-OZ/Krq0wH6T7LuAvwFdJYe47RrHG8IOcoab47H4QQdYGTmJgTS3SlVkr6gn79pZyBGyp7xVizD30QJrIIyDjnw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@react-native-community/cli-platform-android/-/cli-platform-android-9.1.0.tgz}
     name: '@react-native-community/cli-platform-android'
-    version: 8.0.5
+    version: 9.1.0
     dependencies:
-      '@react-native-community/cli-tools': registry.npmjs.org/@react-native-community/cli-tools/8.0.4
+      '@react-native-community/cli-tools': registry.npmjs.org/@react-native-community/cli-tools/9.1.0
       chalk: registry.npmjs.org/chalk/4.1.2
       execa: registry.npmjs.org/execa/1.0.0
       fs-extra: registry.npmjs.org/fs-extra/8.1.0
       glob: registry.npmjs.org/glob/7.2.3
-      jetifier: registry.npmjs.org/jetifier/1.6.8
-      lodash: registry.npmjs.org/lodash/4.17.21
       logkitty: registry.npmjs.org/logkitty/0.7.1
       slash: registry.npmjs.org/slash/3.0.0
     transitivePeerDependencies:
       - encoding
 
-  registry.npmjs.org/@react-native-community/cli-platform-ios/8.0.6:
-    resolution: {integrity: sha512-CMR6mu/LVx6JVfQRDL9uULsMirJT633bODn+IrYmrwSz250pnhON16We8eLPzxOZHyDjm7JPuSgHG3a/BPiRuQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@react-native-community/cli-platform-ios/-/cli-platform-ios-8.0.6.tgz}
+  registry.npmjs.org/@react-native-community/cli-platform-ios/9.1.0:
+    resolution: {integrity: sha512-NtZ9j+VXLj8pxsk/trxbS779uXp/ge4fSwDWNwOM9APRoTcClJ/Xp8cp1koXwfULSn152Czo0u5b291DG2WRfQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@react-native-community/cli-platform-ios/-/cli-platform-ios-9.1.0.tgz}
     name: '@react-native-community/cli-platform-ios'
-    version: 8.0.6
+    version: 9.1.0
     dependencies:
-      '@react-native-community/cli-tools': registry.npmjs.org/@react-native-community/cli-tools/8.0.4
+      '@react-native-community/cli-tools': registry.npmjs.org/@react-native-community/cli-tools/9.1.0
       chalk: registry.npmjs.org/chalk/4.1.2
       execa: registry.npmjs.org/execa/1.0.0
       glob: registry.npmjs.org/glob/7.2.3
-      js-yaml: registry.npmjs.org/js-yaml/3.14.1
-      lodash: registry.npmjs.org/lodash/4.17.21
       ora: registry.npmjs.org/ora/5.4.1
-      plist: registry.npmjs.org/plist/3.0.5
     transitivePeerDependencies:
       - encoding
 
-  registry.npmjs.org/@react-native-community/cli-plugin-metro/8.0.4:
-    resolution: {integrity: sha512-UWzY1eMcEr/6262R2+d0Is5M3L/7Y/xXSDIFMoc5Rv5Wucl3hJM/TxHXmByvHpuJf6fJAfqOskyt4bZCvbI+wQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@react-native-community/cli-plugin-metro/-/cli-plugin-metro-8.0.4.tgz}
+  registry.npmjs.org/@react-native-community/cli-plugin-metro/9.1.0:
+    resolution: {integrity: sha512-Y1eJIfYz6lucStFt5GpIR3ErnDDK85eLY8C7zTPA0vexcztDCnjBBkBXkrhGdElrR/Iz2xepuewgOFW616YA9Q==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@react-native-community/cli-plugin-metro/-/cli-plugin-metro-9.1.0.tgz}
     name: '@react-native-community/cli-plugin-metro'
-    version: 8.0.4
+    version: 9.1.0
     dependencies:
-      '@react-native-community/cli-server-api': registry.npmjs.org/@react-native-community/cli-server-api/8.0.4
-      '@react-native-community/cli-tools': registry.npmjs.org/@react-native-community/cli-tools/8.0.4
+      '@react-native-community/cli-server-api': registry.npmjs.org/@react-native-community/cli-server-api/9.1.0
+      '@react-native-community/cli-tools': registry.npmjs.org/@react-native-community/cli-tools/9.1.0
       chalk: registry.npmjs.org/chalk/4.1.2
-      metro: registry.npmjs.org/metro/0.70.3
-      metro-config: registry.npmjs.org/metro-config/0.70.3
-      metro-core: registry.npmjs.org/metro-core/0.70.3
-      metro-react-native-babel-transformer: registry.npmjs.org/metro-react-native-babel-transformer/0.70.3
-      metro-resolver: registry.npmjs.org/metro-resolver/0.70.3
-      metro-runtime: registry.npmjs.org/metro-runtime/0.70.3
+      metro: registry.npmjs.org/metro/0.72.2
+      metro-config: registry.npmjs.org/metro-config/0.72.2
+      metro-core: registry.npmjs.org/metro-core/0.72.2
+      metro-react-native-babel-transformer: registry.npmjs.org/metro-react-native-babel-transformer/0.72.2
+      metro-resolver: registry.npmjs.org/metro-resolver/0.72.2
+      metro-runtime: registry.npmjs.org/metro-runtime/0.72.2
       readline: registry.npmjs.org/readline/1.3.0
     transitivePeerDependencies:
       - bufferutil
@@ -7927,13 +7874,13 @@ packages:
       - supports-color
       - utf-8-validate
 
-  registry.npmjs.org/@react-native-community/cli-server-api/8.0.4:
-    resolution: {integrity: sha512-Orr14njx1E70CVrUA8bFdl+mrnbuXUjf1Rhhm0RxUadFpvkHuOi5dh8Bryj2MKtf8eZrpEwZ7tuQPhJEULW16A==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@react-native-community/cli-server-api/-/cli-server-api-8.0.4.tgz}
+  registry.npmjs.org/@react-native-community/cli-server-api/9.1.0:
+    resolution: {integrity: sha512-Xf3hUqUc99hVmWOsmfNqUQ+sxhut9MIHlINzlo7Azxlmg9v9U/vtwJVJSIPD6iwPzvaPH1qeshzwy/r0GUR7fg==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@react-native-community/cli-server-api/-/cli-server-api-9.1.0.tgz}
     name: '@react-native-community/cli-server-api'
-    version: 8.0.4
+    version: 9.1.0
     dependencies:
-      '@react-native-community/cli-debugger-ui': registry.npmjs.org/@react-native-community/cli-debugger-ui/8.0.0
-      '@react-native-community/cli-tools': registry.npmjs.org/@react-native-community/cli-tools/8.0.4
+      '@react-native-community/cli-debugger-ui': registry.npmjs.org/@react-native-community/cli-debugger-ui/9.0.0
+      '@react-native-community/cli-tools': registry.npmjs.org/@react-native-community/cli-tools/9.1.0
       compression: registry.npmjs.org/compression/1.7.4
       connect: registry.npmjs.org/connect/3.7.0
       errorhandler: registry.npmjs.org/errorhandler/1.5.1
@@ -7947,15 +7894,14 @@ packages:
       - supports-color
       - utf-8-validate
 
-  registry.npmjs.org/@react-native-community/cli-tools/8.0.4:
-    resolution: {integrity: sha512-ePN9lGxh6LRFiotyddEkSmuqpQhnq2iw9oiXYr4EFWpIEy0yCigTuSTiDF68+c8M9B+7bTwkRpz/rMPC4ViO5Q==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@react-native-community/cli-tools/-/cli-tools-8.0.4.tgz}
+  registry.npmjs.org/@react-native-community/cli-tools/9.1.0:
+    resolution: {integrity: sha512-07Z1hyy4cYty84P9cGq+Xf8Vb0S/0ffxLVdVQEMmLjU71sC9YTUv1anJdZyt6f9uUPvA9+e/YIXw5Bu0rvuXIw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@react-native-community/cli-tools/-/cli-tools-9.1.0.tgz}
     name: '@react-native-community/cli-tools'
-    version: 8.0.4
+    version: 9.1.0
     dependencies:
       appdirsjs: registry.npmjs.org/appdirsjs/1.2.6
       chalk: registry.npmjs.org/chalk/4.1.2
       find-up: registry.npmjs.org/find-up/5.0.0
-      lodash: registry.npmjs.org/lodash/4.17.21
       mime: registry.npmjs.org/mime/2.6.0
       node-fetch: registry.npmjs.org/node-fetch/2.6.7
       open: registry.npmjs.org/open/6.4.0
@@ -7965,40 +7911,35 @@ packages:
     transitivePeerDependencies:
       - encoding
 
-  registry.npmjs.org/@react-native-community/cli-types/8.0.0:
-    resolution: {integrity: sha512-1lZS1PEvMlFaN3Se1ksyoFWzMjk+YfKi490GgsqKJln9gvFm8tqVPdnXttI5Uf2DQf3BMse8Bk8dNH4oV6Ewow==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@react-native-community/cli-types/-/cli-types-8.0.0.tgz}
+  registry.npmjs.org/@react-native-community/cli-types/9.1.0:
+    resolution: {integrity: sha512-KDybF9XHvafLEILsbiKwz5Iobd+gxRaPyn4zSaAerBxedug4er5VUWa8Szy+2GeYKZzMh/gsb1o9lCToUwdT/g==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@react-native-community/cli-types/-/cli-types-9.1.0.tgz}
     name: '@react-native-community/cli-types'
-    version: 8.0.0
+    version: 9.1.0
     dependencies:
       joi: registry.npmjs.org/joi/17.6.0
 
-  registry.npmjs.org/@react-native-community/cli/8.0.6:
-    resolution: {integrity: sha512-E36hU/if3quQCfJHGWVkpsCnwtByRCwORuAX0r6yr1ebKktpKeEO49zY9PAu/Z1gfyxCtgluXY0HfRxjKRFXTg==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@react-native-community/cli/-/cli-8.0.6.tgz}
+  registry.npmjs.org/@react-native-community/cli/9.1.0:
+    resolution: {integrity: sha512-ShgepA5gSoZjyBauoiFPKtyvqovp6kbH5frOH3n3iI0Qg1CtjhcbKYAoORYGkUA9LusVPvmD7T4ur5yrgNv3IA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@react-native-community/cli/-/cli-9.1.0.tgz}
     name: '@react-native-community/cli'
-    version: 8.0.6
-    engines: {node: '>=12'}
+    version: 9.1.0
+    engines: {node: '>=14'}
     hasBin: true
-    peerDependencies:
-      react-native: '*'
     dependencies:
-      '@react-native-community/cli-clean': registry.npmjs.org/@react-native-community/cli-clean/8.0.4
-      '@react-native-community/cli-config': registry.npmjs.org/@react-native-community/cli-config/8.0.6
-      '@react-native-community/cli-debugger-ui': registry.npmjs.org/@react-native-community/cli-debugger-ui/8.0.0
-      '@react-native-community/cli-doctor': registry.npmjs.org/@react-native-community/cli-doctor/8.0.6
-      '@react-native-community/cli-hermes': registry.npmjs.org/@react-native-community/cli-hermes/8.0.5
-      '@react-native-community/cli-plugin-metro': registry.npmjs.org/@react-native-community/cli-plugin-metro/8.0.4
-      '@react-native-community/cli-server-api': registry.npmjs.org/@react-native-community/cli-server-api/8.0.4
-      '@react-native-community/cli-tools': registry.npmjs.org/@react-native-community/cli-tools/8.0.4
-      '@react-native-community/cli-types': registry.npmjs.org/@react-native-community/cli-types/8.0.0
+      '@react-native-community/cli-clean': registry.npmjs.org/@react-native-community/cli-clean/9.1.0
+      '@react-native-community/cli-config': registry.npmjs.org/@react-native-community/cli-config/9.1.0
+      '@react-native-community/cli-debugger-ui': registry.npmjs.org/@react-native-community/cli-debugger-ui/9.0.0
+      '@react-native-community/cli-doctor': registry.npmjs.org/@react-native-community/cli-doctor/9.1.0
+      '@react-native-community/cli-hermes': registry.npmjs.org/@react-native-community/cli-hermes/9.1.0
+      '@react-native-community/cli-plugin-metro': registry.npmjs.org/@react-native-community/cli-plugin-metro/9.1.0
+      '@react-native-community/cli-server-api': registry.npmjs.org/@react-native-community/cli-server-api/9.1.0
+      '@react-native-community/cli-tools': registry.npmjs.org/@react-native-community/cli-tools/9.1.0
+      '@react-native-community/cli-types': registry.npmjs.org/@react-native-community/cli-types/9.1.0
       chalk: registry.npmjs.org/chalk/4.1.2
-      commander: registry.npmjs.org/commander/2.20.3
+      commander: registry.npmjs.org/commander/9.4.0
       execa: registry.npmjs.org/execa/1.0.0
       find-up: registry.npmjs.org/find-up/4.1.0
       fs-extra: registry.npmjs.org/fs-extra/8.1.0
       graceful-fs: registry.npmjs.org/graceful-fs/4.2.10
-      leven: registry.npmjs.org/leven/3.1.0
-      lodash: registry.npmjs.org/lodash/4.17.21
-      minimist: registry.npmjs.org/minimist/1.2.6
       prompts: registry.npmjs.org/prompts/2.4.2
       semver: registry.npmjs.org/semver/6.3.0
     transitivePeerDependencies:
@@ -8006,46 +7947,8 @@ packages:
       - encoding
       - supports-color
       - utf-8-validate
-    dev: false
 
-  registry.npmjs.org/@react-native-community/cli/8.0.6_react-native@0.69.5:
-    resolution: {integrity: sha512-E36hU/if3quQCfJHGWVkpsCnwtByRCwORuAX0r6yr1ebKktpKeEO49zY9PAu/Z1gfyxCtgluXY0HfRxjKRFXTg==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@react-native-community/cli/-/cli-8.0.6.tgz}
-    id: registry.npmjs.org/@react-native-community/cli/8.0.6
-    name: '@react-native-community/cli'
-    version: 8.0.6
-    engines: {node: '>=12'}
-    hasBin: true
-    peerDependencies:
-      react-native: '*'
-    dependencies:
-      '@react-native-community/cli-clean': registry.npmjs.org/@react-native-community/cli-clean/8.0.4
-      '@react-native-community/cli-config': registry.npmjs.org/@react-native-community/cli-config/8.0.6
-      '@react-native-community/cli-debugger-ui': registry.npmjs.org/@react-native-community/cli-debugger-ui/8.0.0
-      '@react-native-community/cli-doctor': registry.npmjs.org/@react-native-community/cli-doctor/8.0.6
-      '@react-native-community/cli-hermes': registry.npmjs.org/@react-native-community/cli-hermes/8.0.5
-      '@react-native-community/cli-plugin-metro': registry.npmjs.org/@react-native-community/cli-plugin-metro/8.0.4
-      '@react-native-community/cli-server-api': registry.npmjs.org/@react-native-community/cli-server-api/8.0.4
-      '@react-native-community/cli-tools': registry.npmjs.org/@react-native-community/cli-tools/8.0.4
-      '@react-native-community/cli-types': registry.npmjs.org/@react-native-community/cli-types/8.0.0
-      chalk: registry.npmjs.org/chalk/4.1.2
-      commander: registry.npmjs.org/commander/2.20.3
-      execa: registry.npmjs.org/execa/1.0.0
-      find-up: registry.npmjs.org/find-up/4.1.0
-      fs-extra: registry.npmjs.org/fs-extra/8.1.0
-      graceful-fs: registry.npmjs.org/graceful-fs/4.2.10
-      leven: registry.npmjs.org/leven/3.1.0
-      lodash: registry.npmjs.org/lodash/4.17.21
-      minimist: registry.npmjs.org/minimist/1.2.6
-      prompts: registry.npmjs.org/prompts/2.4.2
-      react-native: registry.npmjs.org/react-native/0.69.5
-      semver: registry.npmjs.org/semver/6.3.0
-    transitivePeerDependencies:
-      - bufferutil
-      - encoding
-      - supports-color
-      - utf-8-validate
-
-  registry.npmjs.org/@react-native-community/clipboard/1.5.1_react-native@0.69.5:
+  registry.npmjs.org/@react-native-community/clipboard/1.5.1_react-native@0.70.0:
     resolution: {integrity: sha512-AHAmrkLEH5UtPaDiRqoULERHh3oNv7Dgs0bTC0hO5Z2GdNokAMPT5w8ci8aMcRemcwbtdHjxChgtjbeA38GBdA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@react-native-community/clipboard/-/clipboard-1.5.1.tgz}
     id: registry.npmjs.org/@react-native-community/clipboard/1.5.1
     name: '@react-native-community/clipboard'
@@ -8054,10 +7957,10 @@ packages:
       react: '>=16.0'
       react-native: '>=0.57.0'
     dependencies:
-      react-native: registry.npmjs.org/react-native/0.69.5
+      react-native: registry.npmjs.org/react-native/0.70.0
     dev: false
 
-  registry.npmjs.org/@react-native-community/geolocation/2.1.0_react-native@0.69.5:
+  registry.npmjs.org/@react-native-community/geolocation/2.1.0_react-native@0.70.0:
     resolution: {integrity: sha512-xDAl5S85cRVGeUxpjX/+5lyVFNHHArXN18NQnfzCLxxiVxtC2sKENuLE4J0kjAlD5lEp+IXVqfd3iGQfo99tkA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@react-native-community/geolocation/-/geolocation-2.1.0.tgz}
     id: registry.npmjs.org/@react-native-community/geolocation/2.1.0
     name: '@react-native-community/geolocation'
@@ -8066,10 +7969,10 @@ packages:
       react: '*'
       react-native: '*'
     dependencies:
-      react-native: registry.npmjs.org/react-native/0.69.5
+      react-native: registry.npmjs.org/react-native/0.70.0
     dev: false
 
-  registry.npmjs.org/@react-native-community/netinfo/9.3.0_react-native@0.69.5:
+  registry.npmjs.org/@react-native-community/netinfo/9.3.0_react-native@0.70.0:
     resolution: {integrity: sha512-NNdMeIXXqmPCbXrWxVqRzZ1gEZ6L1ykotWnCZLVjQBUgjyGWdL5LiDM/bcIa5DLzqZY7Km08rMgB7BoHUuEmnQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@react-native-community/netinfo/-/netinfo-9.3.0.tgz}
     id: registry.npmjs.org/@react-native-community/netinfo/9.3.0
     name: '@react-native-community/netinfo'
@@ -8077,10 +7980,10 @@ packages:
     peerDependencies:
       react-native: '>=0.59'
     dependencies:
-      react-native: registry.npmjs.org/react-native/0.69.5
+      react-native: registry.npmjs.org/react-native/0.70.0
     dev: false
 
-  registry.npmjs.org/@react-native-community/slider/4.2.4_react-native@0.69.5:
+  registry.npmjs.org/@react-native-community/slider/4.2.4_react-native@0.70.0:
     resolution: {integrity: sha512-uY51UoipQW4ELnFWMU6rTHRc4EUYaW+Z1O9Teijej6NYVYdUcUKq+t7WeBGjMAEc1ipyooMeBqRXToWO5zAU2Q==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@react-native-community/slider/-/slider-4.2.4.tgz}
     id: registry.npmjs.org/@react-native-community/slider/4.2.4
     name: '@react-native-community/slider'
@@ -8089,7 +7992,7 @@ packages:
       react: '*'
       react-native: '*'
     dependencies:
-      react-native: registry.npmjs.org/react-native/0.69.5
+      react-native: registry.npmjs.org/react-native/0.70.0
     dev: false
 
   registry.npmjs.org/@react-native-masked-view/masked-view/0.2.7:
@@ -8101,7 +8004,7 @@ packages:
       react-native: '>=0.57'
     dev: false
 
-  registry.npmjs.org/@react-native-picker/picker/2.4.2_react-native@0.69.5:
+  registry.npmjs.org/@react-native-picker/picker/2.4.2_react-native@0.70.0:
     resolution: {integrity: sha512-0nY8638h1J3wKz6P3IJMpOoxJDdOj7Dk/K2hP/xpqP3KnIY0lmoqYlhyNihuyVPocDGajf6SA7LFFsFepQ56ag==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@react-native-picker/picker/-/picker-2.4.2.tgz}
     id: registry.npmjs.org/@react-native-picker/picker/2.4.2
     name: '@react-native-picker/picker'
@@ -8110,7 +8013,7 @@ packages:
       react: 16 || 17
       react-native: '>=0.57'
     dependencies:
-      react-native: registry.npmjs.org/react-native/0.69.5
+      react-native: registry.npmjs.org/react-native/0.70.0
     dev: false
 
   registry.npmjs.org/@react-native/assets/1.0.0:
@@ -9215,6 +9118,7 @@ packages:
     version: 4.1.5
     dependencies:
       '@types/node': registry.npmjs.org/@types/node/18.0.0
+    dev: true
 
   registry.npmjs.org/@types/hammerjs/2.0.41:
     resolution: {integrity: sha512-ewXv/ceBaJprikMcxCmWU1FKyMAQ2X7a9Gtmzw8fcg2kIePI1crERDM818W+XYrxqdBBOdlf2rm137bU+BltCA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@types/hammerjs/-/hammerjs-2.0.41.tgz}
@@ -9465,10 +9369,10 @@ packages:
     name: '@types/range-parser'
     version: 1.2.4
 
-  registry.npmjs.org/@types/react-native/0.69.6:
-    resolution: {integrity: sha512-jx1QdJT3CdQc42EpoIGu22F1wrPZjmC/CNkfR5sRs5GxloJzthuICK7CKqAGEo2SekPs+YYzhbzrJGi1IrG5Lg==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@types/react-native/-/react-native-0.69.6.tgz}
+  registry.npmjs.org/@types/react-native/0.69.8:
+    resolution: {integrity: sha512-KW5KQdg4vjG7Mo2muCTRSe3CwVNEROa4Hlh7wIkfv+be92jdFwq6tf+i1q7dD3wDnUinc/cVi/6/PJbGpbshEA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@types/react-native/-/react-native-0.69.8.tgz}
     name: '@types/react-native'
-    version: 0.69.6
+    version: 0.69.8
     dependencies:
       '@types/react': registry.npmjs.org/@types/react/18.0.14
     dev: true
@@ -12028,27 +11932,6 @@ packages:
       - supports-color
     dev: false
 
-  registry.npmjs.org/babel-jest/24.9.0_@babel+core@7.18.5:
-    resolution: {integrity: sha512-ntuddfyiN+EhMw58PTNL1ph4C9rECiQXjI4nMMBKBaNjXvqLdkXpPRcMSr4iyBrJg/+wz9brFUD6RhOAT6r4Iw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/babel-jest/-/babel-jest-24.9.0.tgz}
-    id: registry.npmjs.org/babel-jest/24.9.0
-    name: babel-jest
-    version: 24.9.0
-    engines: {node: '>= 6'}
-    peerDependencies:
-      '@babel/core': ^7.0.0
-    dependencies:
-      '@babel/core': registry.npmjs.org/@babel/core/7.18.5
-      '@jest/transform': registry.npmjs.org/@jest/transform/24.9.0
-      '@jest/types': registry.npmjs.org/@jest/types/24.9.0
-      '@types/babel__core': registry.npmjs.org/@types/babel__core/7.1.19
-      babel-plugin-istanbul: registry.npmjs.org/babel-plugin-istanbul/5.2.0
-      babel-preset-jest: registry.npmjs.org/babel-preset-jest/24.9.0_@babel+core@7.18.5
-      chalk: registry.npmjs.org/chalk/2.4.2
-      slash: registry.npmjs.org/slash/2.0.0
-    transitivePeerDependencies:
-      - supports-color
-    dev: true
-
   registry.npmjs.org/babel-jest/26.6.3_@babel+core@7.18.5:
     resolution: {integrity: sha512-pl4Q+GAVOHwvjrck6jKjvmGhnO3jHX/xuB9d27f+EJZ/6k+6nMuPjorrYp7s++bKKdANwzElBWnLWaObvTnaZA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/babel-jest/-/babel-jest-26.6.3.tgz}
     id: registry.npmjs.org/babel-jest/26.6.3
@@ -12195,20 +12078,6 @@ packages:
     engines: {node: '>= 6.x.x'}
     dev: false
 
-  registry.npmjs.org/babel-plugin-istanbul/5.2.0:
-    resolution: {integrity: sha512-5LphC0USA8t4i1zCtjbbNb6jJj/9+X6P37Qfirc/70EQ34xKlMW+a1RHGwxGI+SwWpNwZ27HqvzAobeqaXwiZw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/babel-plugin-istanbul/-/babel-plugin-istanbul-5.2.0.tgz}
-    name: babel-plugin-istanbul
-    version: 5.2.0
-    engines: {node: '>=6'}
-    dependencies:
-      '@babel/helper-plugin-utils': registry.npmjs.org/@babel/helper-plugin-utils/7.17.12
-      find-up: registry.npmjs.org/find-up/3.0.0
-      istanbul-lib-instrument: registry.npmjs.org/istanbul-lib-instrument/3.3.0
-      test-exclude: registry.npmjs.org/test-exclude/5.2.3
-    transitivePeerDependencies:
-      - supports-color
-    dev: true
-
   registry.npmjs.org/babel-plugin-istanbul/6.1.1:
     resolution: {integrity: sha512-Y1IQok9821cC9onCx5otgFfRm7Lm+I+wwxOx738M/WLPZ9Q42m4IG5W0FNX8WLL2gYMZo3JkuXIH2DOpWM+qwA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/babel-plugin-istanbul/-/babel-plugin-istanbul-6.1.1.tgz}
     name: babel-plugin-istanbul
@@ -12222,15 +12091,6 @@ packages:
       test-exclude: registry.npmjs.org/test-exclude/6.0.0
     transitivePeerDependencies:
       - supports-color
-    dev: true
-
-  registry.npmjs.org/babel-plugin-jest-hoist/24.9.0:
-    resolution: {integrity: sha512-2EMA2P8Vp7lG0RAzr4HXqtYwacfMErOuv1U3wrvxHX6rD1sV6xS3WXG3r8TRQ2r6w8OhvSdWt+z41hQNwNm3Xw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/babel-plugin-jest-hoist/-/babel-plugin-jest-hoist-24.9.0.tgz}
-    name: babel-plugin-jest-hoist
-    version: 24.9.0
-    engines: {node: '>= 6'}
-    dependencies:
-      '@types/babel__traverse': registry.npmjs.org/@types/babel__traverse/7.17.1
     dev: true
 
   registry.npmjs.org/babel-plugin-jest-hoist/26.6.2:
@@ -12971,20 +12831,6 @@ packages:
       babel-plugin-syntax-trailing-function-commas: registry.npmjs.org/babel-plugin-syntax-trailing-function-commas/7.0.0-beta.0
     transitivePeerDependencies:
       - supports-color
-
-  registry.npmjs.org/babel-preset-jest/24.9.0_@babel+core@7.18.5:
-    resolution: {integrity: sha512-izTUuhE4TMfTRPF92fFwD2QfdXaZW08qvWTFCI51V8rW5x00UuPgc3ajRoWofXOuxjfcOM5zzSYsQS3H8KGCAg==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/babel-preset-jest/-/babel-preset-jest-24.9.0.tgz}
-    id: registry.npmjs.org/babel-preset-jest/24.9.0
-    name: babel-preset-jest
-    version: 24.9.0
-    engines: {node: '>= 6'}
-    peerDependencies:
-      '@babel/core': ^7.0.0
-    dependencies:
-      '@babel/core': registry.npmjs.org/@babel/core/7.18.5
-      '@babel/plugin-syntax-object-rest-spread': registry.npmjs.org/@babel/plugin-syntax-object-rest-spread/7.8.3_@babel+core@7.18.5
-      babel-plugin-jest-hoist: registry.npmjs.org/babel-plugin-jest-hoist/24.9.0
-    dev: true
 
   registry.npmjs.org/babel-preset-jest/26.6.2_@babel+core@7.18.5:
     resolution: {integrity: sha512-YvdtlVm9t3k777c5NPQIv6cxFFFapys25HiUmuSgHwIZhfifweR5c5Sf5nwE3MAbfu327CYSvps8Yx6ANLyleQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/babel-preset-jest/-/babel-preset-jest-26.6.2.tgz}
@@ -14730,6 +14576,12 @@ packages:
     version: 9.3.0
     engines: {node: ^12.20.0 || >=14}
     dev: true
+
+  registry.npmjs.org/commander/9.4.0:
+    resolution: {integrity: sha512-sRPT+umqkz90UA8M1yqYfnHlZA7fF6nSphDtxeywPZ49ysjxDQybzk13CL+mXekDRG92skbcqCLVovuCusNmFw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/commander/-/commander-9.4.0.tgz}
+    name: commander
+    version: 9.4.0
+    engines: {node: ^12.20.0 || >=14}
 
   registry.npmjs.org/common-path-prefix/3.0.0:
     resolution: {integrity: sha512-QE33hToZseCH3jS0qN96O/bSh3kaw/h+Tq7ngyY9eWDUnTlTNUyqfqvCXioLe5Na5jFsL78ra/wuBU4iuEgd4w==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/common-path-prefix/-/common-path-prefix-3.0.0.tgz}
@@ -19081,7 +18933,7 @@ packages:
     peerDependencies:
       expo: '*'
     dependencies:
-      '@expo/config': registry.npmjs.org/@expo/config/7.0.0
+      '@expo/config': registry.npmjs.org/@expo/config/7.0.1
       expo: registry.npmjs.org/expo/46.0.10
       uuid: registry.npmjs.org/uuid/3.4.0
     transitivePeerDependencies:
@@ -20107,14 +19959,6 @@ packages:
     name: fontfaceobserver
     version: 2.3.0
 
-  registry.npmjs.org/for-each/0.3.3:
-    resolution: {integrity: sha512-jqYfLp7mo9vIyQf8ykW2v7A+2N4QjeCeI5+Dz9XraiO1ign81wjiH7Fb9vSOWvQfNtmSa4H2RoQTrrXivdUZmw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/for-each/-/for-each-0.3.3.tgz}
-    name: for-each
-    version: 0.3.3
-    dependencies:
-      is-callable: registry.npmjs.org/is-callable/1.2.4
-    dev: true
-
   registry.npmjs.org/for-in/0.1.8:
     resolution: {integrity: sha512-F0to7vbBSHP8E3l6dCjxNOLuSFAACIxFy3UehTUlG7svlXi37HHsDkyVcHo0Pq8QwrE+pXvWSVX3ZT1T9wAZ9g==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/for-in/-/for-in-0.1.8.tgz}
     name: for-in
@@ -20707,7 +20551,7 @@ packages:
       fs.realpath: registry.npmjs.org/fs.realpath/1.0.0
       inflight: registry.npmjs.org/inflight/1.0.6
       inherits: registry.npmjs.org/inherits/2.0.4
-      minimatch: registry.npmjs.org/minimatch/3.0.8
+      minimatch: registry.npmjs.org/minimatch/3.1.2
       once: registry.npmjs.org/once/1.4.0
       path-is-absolute: registry.npmjs.org/path-is-absolute/1.0.1
     dev: true
@@ -21344,22 +21188,17 @@ packages:
     engines: {node: '>=10.0.0'}
     dev: true
 
-  registry.npmjs.org/hermes-engine/0.11.0:
-    resolution: {integrity: sha512-7aMUlZja2IyLYAcZ69NBnwJAR5ZOYlSllj0oMpx08a8HzxHOys0eKCzfphrf6D0vX1JGO1QQvVsQKe6TkYherw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/hermes-engine/-/hermes-engine-0.11.0.tgz}
-    name: hermes-engine
-    version: 0.11.0
-
-  registry.npmjs.org/hermes-estree/0.6.0:
-    resolution: {integrity: sha512-2YTGzJCkhdmT6VuNprWjXnvTvw/3iPNw804oc7yknvQpNKo+vJGZmtvLLCghOZf0OwzKaNAzeIMp71zQbNl09w==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/hermes-estree/-/hermes-estree-0.6.0.tgz}
+  registry.npmjs.org/hermes-estree/0.8.0:
+    resolution: {integrity: sha512-W6JDAOLZ5pMPMjEiQGLCXSSV7pIBEgRR5zGkxgmzGSXHOxqV5dC/M1Zevqpbm9TZDE5tu358qZf8Vkzmsc+u7Q==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/hermes-estree/-/hermes-estree-0.8.0.tgz}
     name: hermes-estree
-    version: 0.6.0
+    version: 0.8.0
 
-  registry.npmjs.org/hermes-parser/0.6.0:
-    resolution: {integrity: sha512-Vf58jBZca2+QBLR9h7B7mdg8oFz2g5ILz1iVouZ5DOrOrAfBmPfJjdjDT8jrO0f+iJ4/hSRrQHqHIjSnTaLUDQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/hermes-parser/-/hermes-parser-0.6.0.tgz}
+  registry.npmjs.org/hermes-parser/0.8.0:
+    resolution: {integrity: sha512-yZKalg1fTYG5eOiToLUaw69rQfZq/fi+/NtEXRU7N87K/XobNRhRWorh80oSge2lWUiZfTgUvRJH+XgZWrhoqA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/hermes-parser/-/hermes-parser-0.8.0.tgz}
     name: hermes-parser
-    version: 0.6.0
+    version: 0.8.0
     dependencies:
-      hermes-estree: registry.npmjs.org/hermes-estree/0.6.0
+      hermes-estree: registry.npmjs.org/hermes-estree/0.8.0
 
   registry.npmjs.org/hermes-profile-transformer/0.0.6:
     resolution: {integrity: sha512-cnN7bQUm65UWOy6cbGcCcZ3rpwW8Q/j4OP5aWRhEry4Z2t2aR1cjrbp0BS+KiBN0smvP1caBgAuxutvyvJILzQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/hermes-profile-transformer/-/hermes-profile-transformer-0.0.6.tgz}
@@ -23002,13 +22841,6 @@ packages:
     version: 1.2.1
     dev: true
 
-  registry.npmjs.org/istanbul-lib-coverage/2.0.5:
-    resolution: {integrity: sha512-8aXznuEPCJvGnMSRft4udDRDtb1V3pkQkMMI5LI+6HuQz5oQ4J2UFn1H82raA3qJtyOLkkwVqICBQkjnGtn5mA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/istanbul-lib-coverage/-/istanbul-lib-coverage-2.0.5.tgz}
-    name: istanbul-lib-coverage
-    version: 2.0.5
-    engines: {node: '>=6'}
-    dev: true
-
   registry.npmjs.org/istanbul-lib-coverage/3.2.0:
     resolution: {integrity: sha512-eOeJ5BHCmHYvQK7xt9GkdHuzuCGS1Y6g9Gvnx3Ym33fz/HpLRYxiS0wHNr+m/MBC8B647Xt608vCDEvhl9c6Mw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/istanbul-lib-coverage/-/istanbul-lib-coverage-3.2.0.tgz}
     name: istanbul-lib-coverage
@@ -23028,23 +22860,6 @@ packages:
       babylon: registry.npmjs.org/babylon/6.18.0
       istanbul-lib-coverage: registry.npmjs.org/istanbul-lib-coverage/1.2.1
       semver: registry.npmjs.org/semver/5.7.1
-    transitivePeerDependencies:
-      - supports-color
-    dev: true
-
-  registry.npmjs.org/istanbul-lib-instrument/3.3.0:
-    resolution: {integrity: sha512-5nnIN4vo5xQZHdXno/YDXJ0G+I3dAm4XgzfSVTPLQpj/zAV2dV6Juy0yaf10/zrJOJeHoN3fraFe+XRq2bFVZA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/istanbul-lib-instrument/-/istanbul-lib-instrument-3.3.0.tgz}
-    name: istanbul-lib-instrument
-    version: 3.3.0
-    engines: {node: '>=6'}
-    dependencies:
-      '@babel/generator': registry.npmjs.org/@babel/generator/7.18.2
-      '@babel/parser': registry.npmjs.org/@babel/parser/7.18.5
-      '@babel/template': registry.npmjs.org/@babel/template/7.16.7
-      '@babel/traverse': registry.npmjs.org/@babel/traverse/7.18.5
-      '@babel/types': registry.npmjs.org/@babel/types/7.18.4
-      istanbul-lib-coverage: registry.npmjs.org/istanbul-lib-coverage/2.0.5
-      semver: registry.npmjs.org/semver/6.3.0
     transitivePeerDependencies:
       - supports-color
     dev: true
@@ -23335,7 +23150,7 @@ packages:
     version: 46.0.1
     hasBin: true
     dependencies:
-      '@expo/config': registry.npmjs.org/@expo/config/7.0.0
+      '@expo/config': registry.npmjs.org/@expo/config/7.0.1
       '@jest/create-cache-key-function': registry.npmjs.org/@jest/create-cache-key-function/27.5.1
       babel-jest: registry.npmjs.org/babel-jest/26.6.3_@babel+core@7.18.5
       find-up: registry.npmjs.org/find-up/5.0.0
@@ -23382,29 +23197,6 @@ packages:
     engines: {node: ^10.13.0 || ^12.13.0 || ^14.15.0 || >=15.0.0}
     dev: true
 
-  registry.npmjs.org/jest-haste-map/24.9.0:
-    resolution: {integrity: sha512-kfVFmsuWui2Sj1Rp1AJ4D9HqJwE4uwTlS/vO+eRUaMmd54BFpli2XhMQnPC2k4cHFVbB2Q2C+jtI1AGLgEnCjQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/jest-haste-map/-/jest-haste-map-24.9.0.tgz}
-    name: jest-haste-map
-    version: 24.9.0
-    engines: {node: '>= 6'}
-    dependencies:
-      '@jest/types': registry.npmjs.org/@jest/types/24.9.0
-      anymatch: registry.npmjs.org/anymatch/2.0.0
-      fb-watchman: registry.npmjs.org/fb-watchman/2.0.1
-      graceful-fs: registry.npmjs.org/graceful-fs/4.2.10
-      invariant: registry.npmjs.org/invariant/2.2.4
-      jest-serializer: registry.npmjs.org/jest-serializer/24.9.0
-      jest-util: registry.npmjs.org/jest-util/24.9.0
-      jest-worker: registry.npmjs.org/jest-worker/24.9.0
-      micromatch: registry.npmjs.org/micromatch/3.1.10
-      sane: registry.npmjs.org/sane/4.1.0
-      walker: registry.npmjs.org/walker/1.0.8
-    optionalDependencies:
-      fsevents: registry.npmjs.org/fsevents/1.2.13
-    transitivePeerDependencies:
-      - supports-color
-    dev: true
-
   registry.npmjs.org/jest-haste-map/26.6.2:
     resolution: {integrity: sha512-easWIJXIw71B2RdR8kgqpjQrbMRWQBgiBwXYEhtGUTaX+doCjBheluShdDMeR8IMfJiTqH4+zfhtg29apJf/8w==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/jest-haste-map/-/jest-haste-map-26.6.2.tgz}
     name: jest-haste-map
@@ -23429,27 +23221,6 @@ packages:
     transitivePeerDependencies:
       - supports-color
     dev: true
-
-  registry.npmjs.org/jest-haste-map/27.5.1:
-    resolution: {integrity: sha512-7GgkZ4Fw4NFbMSDSpZwXeBiIbx+t/46nJ2QitkOjvwPYyZmqttu2TDSimMHP1EkPOi4xUZAN1doE5Vd25H4Jng==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/jest-haste-map/-/jest-haste-map-27.5.1.tgz}
-    name: jest-haste-map
-    version: 27.5.1
-    engines: {node: ^10.13.0 || ^12.13.0 || ^14.15.0 || >=15.0.0}
-    dependencies:
-      '@jest/types': registry.npmjs.org/@jest/types/27.5.1
-      '@types/graceful-fs': registry.npmjs.org/@types/graceful-fs/4.1.5
-      '@types/node': registry.npmjs.org/@types/node/18.0.0
-      anymatch: registry.npmjs.org/anymatch/3.1.2
-      fb-watchman: registry.npmjs.org/fb-watchman/2.0.1
-      graceful-fs: registry.npmjs.org/graceful-fs/4.2.10
-      jest-regex-util: registry.npmjs.org/jest-regex-util/27.5.1
-      jest-serializer: registry.npmjs.org/jest-serializer/27.5.1
-      jest-util: registry.npmjs.org/jest-util/27.5.1
-      jest-worker: registry.npmjs.org/jest-worker/27.5.1
-      micromatch: registry.npmjs.org/micromatch/4.0.5
-      walker: registry.npmjs.org/walker/1.0.8
-    optionalDependencies:
-      fsevents: registry.npmjs.org/fsevents/2.3.2
 
   registry.npmjs.org/jest-jasmine2/26.6.3:
     resolution: {integrity: sha512-kPKUrQtc8aYwBV7CqBg5pu+tmYXlvFlSFYn18ev4gPFtrRzB15N2gW/Roew3187q2w2eHuu0MU9TJz6w0/nPEg==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/jest-jasmine2/-/jest-jasmine2-26.6.3.tgz}
@@ -23597,15 +23368,6 @@ packages:
       jest: '>= 22.4.2'
     dependencies:
       jest: registry.npmjs.org/jest/26.4.2
-    dev: true
-
-  registry.npmjs.org/jest-mock/24.9.0:
-    resolution: {integrity: sha512-3BEYN5WbSq9wd+SyLDES7AHnjH9A/ROBwmz7l2y+ol+NtSFO8DYiEBzoO1CeFc9a8DYy10EO4dDFVv/wN3zl1w==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/jest-mock/-/jest-mock-24.9.0.tgz}
-    name: jest-mock
-    version: 24.9.0
-    engines: {node: '>= 6'}
-    dependencies:
-      '@jest/types': registry.npmjs.org/@jest/types/24.9.0
     dev: true
 
   registry.npmjs.org/jest-mock/26.6.2:
@@ -23758,13 +23520,6 @@ packages:
       - utf-8-validate
     dev: true
 
-  registry.npmjs.org/jest-serializer/24.9.0:
-    resolution: {integrity: sha512-DxYipDr8OvfrKH3Kel6NdED3OXxjvxXZ1uIY2I9OFbGg+vUkkg7AGvi65qbhbWNPvDckXmzMPbK3u3HaDO49bQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/jest-serializer/-/jest-serializer-24.9.0.tgz}
-    name: jest-serializer
-    version: 24.9.0
-    engines: {node: '>= 6'}
-    dev: true
-
   registry.npmjs.org/jest-serializer/26.6.2:
     resolution: {integrity: sha512-S5wqyz0DXnNJPd/xfIzZ5Xnp1HrJWBczg8mMfMpN78OJ5eDxXyf+Ygld9wX1DnUWbIbhM1YDY95NjR4CBXkb2g==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/jest-serializer/-/jest-serializer-26.6.2.tgz}
     name: jest-serializer
@@ -23806,28 +23561,6 @@ packages:
       natural-compare: registry.npmjs.org/natural-compare/1.4.0
       pretty-format: registry.npmjs.org/pretty-format/26.6.2
       semver: registry.npmjs.org/semver/7.3.7
-    transitivePeerDependencies:
-      - supports-color
-    dev: true
-
-  registry.npmjs.org/jest-util/24.9.0:
-    resolution: {integrity: sha512-x+cZU8VRmOJxbA1K5oDBdxQmdq0OIdADarLxk0Mq+3XS4jgvhG/oKGWcIDCtPG0HgjxOYvF+ilPJQsAyXfbNOg==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/jest-util/-/jest-util-24.9.0.tgz}
-    name: jest-util
-    version: 24.9.0
-    engines: {node: '>= 6'}
-    dependencies:
-      '@jest/console': registry.npmjs.org/@jest/console/24.9.0
-      '@jest/fake-timers': registry.npmjs.org/@jest/fake-timers/24.9.0
-      '@jest/source-map': registry.npmjs.org/@jest/source-map/24.9.0
-      '@jest/test-result': registry.npmjs.org/@jest/test-result/24.9.0
-      '@jest/types': registry.npmjs.org/@jest/types/24.9.0
-      callsites: registry.npmjs.org/callsites/3.1.0
-      chalk: registry.npmjs.org/chalk/2.4.2
-      graceful-fs: registry.npmjs.org/graceful-fs/4.2.10
-      is-ci: registry.npmjs.org/is-ci/2.0.0
-      mkdirp: registry.npmjs.org/mkdirp/0.5.6
-      slash: registry.npmjs.org/slash/2.0.0
-      source-map: registry.npmjs.org/source-map/0.6.1
     transitivePeerDependencies:
       - supports-color
     dev: true
@@ -23931,16 +23664,6 @@ packages:
       string-length: registry.npmjs.org/string-length/4.0.2
     dev: true
 
-  registry.npmjs.org/jest-worker/24.9.0:
-    resolution: {integrity: sha512-51PE4haMSXcHohnSMdM42anbvZANYTqMrr52tVKPqqsPJMzoP6FYYDVqahX/HrAoKEKz3uUPzSvKs9A3qR4iVw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/jest-worker/-/jest-worker-24.9.0.tgz}
-    name: jest-worker
-    version: 24.9.0
-    engines: {node: '>= 6'}
-    dependencies:
-      merge-stream: registry.npmjs.org/merge-stream/2.0.0
-      supports-color: registry.npmjs.org/supports-color/6.1.0
-    dev: true
-
   registry.npmjs.org/jest-worker/26.6.2:
     resolution: {integrity: sha512-KWYVV1c4i+jbMpaBC+U++4Va0cp8OisU185o73T1vo99hqi7w8tSJfUXYswwqqrjzwxa6KpRK54WhPvwf5w6PQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/jest-worker/-/jest-worker-26.6.2.tgz}
     name: jest-worker
@@ -23978,12 +23701,6 @@ packages:
       - ts-node
       - utf-8-validate
     dev: true
-
-  registry.npmjs.org/jetifier/1.6.8:
-    resolution: {integrity: sha512-3Zi16h6L5tXDRQJTb221cnRoVG9/9OvreLdLU2/ZjRv/GILL+2Cemt0IKvkowwkDpvouAU1DQPOJ7qaiHeIdrw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/jetifier/-/jetifier-1.6.8.tgz}
-    name: jetifier
-    version: 1.6.8
-    hasBin: true
 
   registry.npmjs.org/jimp-compact/0.16.1:
     resolution: {integrity: sha512-dZ6Ra7u1G8c4Letq/B5EzAxj4tLFHL+cGtdpR+PVm4yzPDj+lCk+AbivWt1eOM+ikzkowtyV7qSqX6qr3t71Ww==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/jimp-compact/-/jimp-compact-0.16.1.tgz}
@@ -25759,10 +25476,10 @@ packages:
     version: 1.1.2
     engines: {node: '>= 0.6'}
 
-  registry.npmjs.org/metro-babel-register/0.70.3:
-    resolution: {integrity: sha512-ZrADEuqshCPxjPv6olM/5Hx5cOI7vnJ7DEvAIUaWRwdlonYt5lRA9hgXw8hYwwBYrclgPWW7waPdyICm70szzA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/metro-babel-register/-/metro-babel-register-0.70.3.tgz}
+  registry.npmjs.org/metro-babel-register/0.72.2:
+    resolution: {integrity: sha512-SIs4F1l1w/AKLG0DeJoD6l7ShZYMrakyjrM7Gf2nBqDpo27i64DCsagQrSTe7X7MYSt0N5cFxDBxhJiTfYQv+A==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/metro-babel-register/-/metro-babel-register-0.72.2.tgz}
     name: metro-babel-register
-    version: 0.70.3
+    version: 0.72.2
     dependencies:
       '@babel/core': registry.npmjs.org/@babel/core/7.18.5
       '@babel/plugin-proposal-nullish-coalescing-operator': registry.npmjs.org/@babel/plugin-proposal-nullish-coalescing-operator/7.17.12_@babel+core@7.18.5
@@ -25778,66 +25495,99 @@ packages:
       - supports-color
     dev: true
 
-  registry.npmjs.org/metro-babel-transformer/0.70.3:
-    resolution: {integrity: sha512-bWhZRMn+mIOR/s3BDpFevWScz9sV8FGktVfMlF1eJBLoX24itHDbXvTktKBYi38PWIKcHedh6THSFpJogfuwNA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/metro-babel-transformer/-/metro-babel-transformer-0.70.3.tgz}
+  registry.npmjs.org/metro-babel-transformer/0.72.1:
+    resolution: {integrity: sha512-VK7A9gepnhrKC0DMoxtPjYYHjkkfNwzLMYJgeL6Il6IaX/K/VHTILSEqgpxfNDos2jrXazuR5+rXDLE/RCzqmw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/metro-babel-transformer/-/metro-babel-transformer-0.72.1.tgz}
     name: metro-babel-transformer
-    version: 0.70.3
+    version: 0.72.1
     dependencies:
       '@babel/core': registry.npmjs.org/@babel/core/7.18.5
-      hermes-parser: registry.npmjs.org/hermes-parser/0.6.0
-      metro-source-map: registry.npmjs.org/metro-source-map/0.70.3
+      hermes-parser: registry.npmjs.org/hermes-parser/0.8.0
+      metro-source-map: registry.npmjs.org/metro-source-map/0.72.1
       nullthrows: registry.npmjs.org/nullthrows/1.1.1
     transitivePeerDependencies:
       - supports-color
 
-  registry.npmjs.org/metro-cache-key/0.70.3:
-    resolution: {integrity: sha512-0zpw+IcpM3hmGd5sKMdxNv3sbOIUYnMUvx1/yaM6vNRReSPmOLX0bP8fYf3CGgk8NEreZ1OHbVsuw7bdKt40Mw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/metro-cache-key/-/metro-cache-key-0.70.3.tgz}
-    name: metro-cache-key
-    version: 0.70.3
-
-  registry.npmjs.org/metro-cache/0.70.3:
-    resolution: {integrity: sha512-iCix/+z812fUqa6KlOxaTkY6LQQDoXIe/VljXkGIvpygSCmYyhjQpfQVZEVVPezFmUBYXNdabdQ6cYx6JX3yMg==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/metro-cache/-/metro-cache-0.70.3.tgz}
-    name: metro-cache
-    version: 0.70.3
+  registry.npmjs.org/metro-babel-transformer/0.72.2:
+    resolution: {integrity: sha512-3Bxk/MoXHn/ysmsH7ov6inDHrSWz5eowYRGzilOSSXe9y3DJ/ceTHfT+DWsPr9IgTJLQfKVN/F0pZ+1Ndqh52A==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/metro-babel-transformer/-/metro-babel-transformer-0.72.2.tgz}
+    name: metro-babel-transformer
+    version: 0.72.2
     dependencies:
-      metro-core: registry.npmjs.org/metro-core/0.70.3
+      '@babel/core': registry.npmjs.org/@babel/core/7.18.5
+      hermes-parser: registry.npmjs.org/hermes-parser/0.8.0
+      metro-source-map: registry.npmjs.org/metro-source-map/0.72.2
+      nullthrows: registry.npmjs.org/nullthrows/1.1.1
+    transitivePeerDependencies:
+      - supports-color
+
+  registry.npmjs.org/metro-cache-key/0.72.2:
+    resolution: {integrity: sha512-P8p4QQzbEFMuk81xklc62qdE+CGBjP9u+ECP3iYNXIAW0+apS6Dntyvx/xCLy0a4MIryXqg2EJ2Z8XrmKmNeGQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/metro-cache-key/-/metro-cache-key-0.72.2.tgz}
+    name: metro-cache-key
+    version: 0.72.2
+
+  registry.npmjs.org/metro-cache/0.72.2:
+    resolution: {integrity: sha512-0Yw3J32eYTp7x7bAAg+a9ScBG/mpib6Wq4WPSYvhoNilPFHzh7knLDMil3WGVCQlI1r+5xtpw/FDhNVKuypQqg==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/metro-cache/-/metro-cache-0.72.2.tgz}
+    name: metro-cache
+    version: 0.72.2
+    dependencies:
+      metro-core: registry.npmjs.org/metro-core/0.72.2
       rimraf: registry.npmjs.org/rimraf/2.7.1
 
-  registry.npmjs.org/metro-config/0.70.3:
-    resolution: {integrity: sha512-SSCDjSTygoCgzoj61DdrBeJzZDRwQxUEfcgc6t6coxWSExXNR4mOngz0q4SAam49Bmjq9J2Jft6qUKnUTPrRgA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/metro-config/-/metro-config-0.70.3.tgz}
+  registry.npmjs.org/metro-config/0.72.2:
+    resolution: {integrity: sha512-rvX4fBctPYEIPtTEcgun7Q+3IwuR5+gMPQrwDhE8hHDHPmFkfrW9UsEqD7VArJFRr0AwXSd7GD+eapFPjXr43Q==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/metro-config/-/metro-config-0.72.2.tgz}
     name: metro-config
-    version: 0.70.3
+    version: 0.72.2
     dependencies:
       cosmiconfig: registry.npmjs.org/cosmiconfig/5.2.1
       jest-validate: registry.npmjs.org/jest-validate/26.6.2
-      metro: registry.npmjs.org/metro/0.70.3
-      metro-cache: registry.npmjs.org/metro-cache/0.70.3
-      metro-core: registry.npmjs.org/metro-core/0.70.3
-      metro-runtime: registry.npmjs.org/metro-runtime/0.70.3
+      metro: registry.npmjs.org/metro/0.72.2
+      metro-cache: registry.npmjs.org/metro-cache/0.72.2
+      metro-core: registry.npmjs.org/metro-core/0.72.2
+      metro-runtime: registry.npmjs.org/metro-runtime/0.72.2
     transitivePeerDependencies:
       - bufferutil
       - encoding
       - supports-color
       - utf-8-validate
 
-  registry.npmjs.org/metro-core/0.70.3:
-    resolution: {integrity: sha512-NzfHB/w5R7yLaOeU1tzPTbBzCRsYSvpKJkLMP0yudszKZzIAZqNdjoEJ9GZ688Wi0ynZxcU0BxukXh4my80ZBw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/metro-core/-/metro-core-0.70.3.tgz}
+  registry.npmjs.org/metro-core/0.72.2:
+    resolution: {integrity: sha512-OXNH8UbKIhvpyHGJrdQYnPUmyPHSuVY4OO6pQxODdTW+uiO68PPPgIIVN67vlCAirZolxRFpma70N7m0sGCZyg==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/metro-core/-/metro-core-0.72.2.tgz}
     name: metro-core
-    version: 0.70.3
+    version: 0.72.2
     dependencies:
-      jest-haste-map: registry.npmjs.org/jest-haste-map/27.5.1
       lodash.throttle: registry.npmjs.org/lodash.throttle/4.1.1
-      metro-resolver: registry.npmjs.org/metro-resolver/0.70.3
+      metro-resolver: registry.npmjs.org/metro-resolver/0.72.2
 
-  registry.npmjs.org/metro-hermes-compiler/0.70.3:
-    resolution: {integrity: sha512-W6WttLi4E72JL/NyteQ84uxYOFMibe0PUr9aBKuJxxfCq6QRnJKOVcNY0NLW0He2tneXGk+8ZsNz8c0flEvYqg==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/metro-hermes-compiler/-/metro-hermes-compiler-0.70.3.tgz}
+  registry.npmjs.org/metro-file-map/0.72.2:
+    resolution: {integrity: sha512-6LMgsVT2/Ik6sKtzG1T13pwxJYrSX/JtbF5HwOU7Q/L79Mopy9NQnw9hQoXPcnVXA12gbWfp6Va/NnycaTxX+w==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/metro-file-map/-/metro-file-map-0.72.2.tgz}
+    name: metro-file-map
+    version: 0.72.2
+    dependencies:
+      abort-controller: registry.npmjs.org/abort-controller/3.0.0
+      anymatch: registry.npmjs.org/anymatch/3.1.2
+      debug: registry.npmjs.org/debug/2.6.9
+      fb-watchman: registry.npmjs.org/fb-watchman/2.0.1
+      graceful-fs: registry.npmjs.org/graceful-fs/4.2.10
+      invariant: registry.npmjs.org/invariant/2.2.4
+      jest-regex-util: registry.npmjs.org/jest-regex-util/27.5.1
+      jest-serializer: registry.npmjs.org/jest-serializer/27.5.1
+      jest-util: registry.npmjs.org/jest-util/27.5.1
+      jest-worker: registry.npmjs.org/jest-worker/27.5.1
+      micromatch: registry.npmjs.org/micromatch/4.0.5
+      walker: registry.npmjs.org/walker/1.0.8
+    optionalDependencies:
+      fsevents: registry.npmjs.org/fsevents/2.3.2
+    transitivePeerDependencies:
+      - supports-color
+
+  registry.npmjs.org/metro-hermes-compiler/0.72.2:
+    resolution: {integrity: sha512-X8fjDBGNwjHxYAlMtrsr8x/JI/Gep7uzLDuHOMuRU5iAIVt+gH0Z+zjbJTsX++yLZ41i755zw5akvpQnyjVl/w==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/metro-hermes-compiler/-/metro-hermes-compiler-0.72.2.tgz}
     name: metro-hermes-compiler
-    version: 0.70.3
+    version: 0.72.2
 
-  registry.npmjs.org/metro-inspector-proxy/0.70.3:
-    resolution: {integrity: sha512-qQoNdPGrmyoJSWYkxSDpTaAI8xyqVdNDVVj9KRm1PG8niSuYmrCCFGLLFsMvkVYwsCWUGHoGBx0UoAzVp14ejw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/metro-inspector-proxy/-/metro-inspector-proxy-0.70.3.tgz}
+  registry.npmjs.org/metro-inspector-proxy/0.72.2:
+    resolution: {integrity: sha512-VEJU3J+0qrU33o+5tHemVuRWMXswtSrRI1lTE9yFiU8GAxoKrSy2kfJ5cOPLfv/8Nf6M6zRayjUs/Q46kjvfow==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/metro-inspector-proxy/-/metro-inspector-proxy-0.72.2.tgz}
     name: metro-inspector-proxy
-    version: 0.70.3
+    version: 0.72.2
     hasBin: true
     dependencies:
       connect: registry.npmjs.org/connect/3.7.0
@@ -25849,10 +25599,10 @@ packages:
       - supports-color
       - utf-8-validate
 
-  registry.npmjs.org/metro-minify-uglify/0.70.3:
-    resolution: {integrity: sha512-oHyjV9WDqOlDE1FPtvs6tIjjeY/oP1PNUPYL1wqyYtqvjN+zzAOrcbsAAL1sv+WARaeiMsWkF2bwtNo+Hghoog==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/metro-minify-uglify/-/metro-minify-uglify-0.70.3.tgz}
+  registry.npmjs.org/metro-minify-uglify/0.72.2:
+    resolution: {integrity: sha512-b9KH4vMd1yvBYfcA3xvc1HZmPWIpOhiNyiEjh7pw7il1TONAR0+Rj8TS0yG57eSYM8IB86UIwB7Y5PVCNfUNXQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/metro-minify-uglify/-/metro-minify-uglify-0.72.2.tgz}
     name: metro-minify-uglify
-    version: 0.70.3
+    version: 0.72.2
     dependencies:
       uglify-es: registry.npmjs.org/uglify-es/3.3.9
 
@@ -25862,6 +25612,99 @@ packages:
     version: 0.70.3
     dependencies:
       '@babel/core': registry.npmjs.org/@babel/core/7.18.5
+      '@babel/plugin-proposal-async-generator-functions': registry.npmjs.org/@babel/plugin-proposal-async-generator-functions/7.17.12_@babel+core@7.18.5
+      '@babel/plugin-proposal-class-properties': registry.npmjs.org/@babel/plugin-proposal-class-properties/7.17.12_@babel+core@7.18.5
+      '@babel/plugin-proposal-export-default-from': registry.npmjs.org/@babel/plugin-proposal-export-default-from/7.17.12_@babel+core@7.18.5
+      '@babel/plugin-proposal-nullish-coalescing-operator': registry.npmjs.org/@babel/plugin-proposal-nullish-coalescing-operator/7.17.12_@babel+core@7.18.5
+      '@babel/plugin-proposal-object-rest-spread': registry.npmjs.org/@babel/plugin-proposal-object-rest-spread/7.18.0_@babel+core@7.18.5
+      '@babel/plugin-proposal-optional-catch-binding': registry.npmjs.org/@babel/plugin-proposal-optional-catch-binding/7.16.7_@babel+core@7.18.5
+      '@babel/plugin-proposal-optional-chaining': registry.npmjs.org/@babel/plugin-proposal-optional-chaining/7.17.12_@babel+core@7.18.5
+      '@babel/plugin-syntax-dynamic-import': registry.npmjs.org/@babel/plugin-syntax-dynamic-import/7.8.3_@babel+core@7.18.5
+      '@babel/plugin-syntax-export-default-from': registry.npmjs.org/@babel/plugin-syntax-export-default-from/7.16.7_@babel+core@7.18.5
+      '@babel/plugin-syntax-flow': registry.npmjs.org/@babel/plugin-syntax-flow/7.17.12_@babel+core@7.18.5
+      '@babel/plugin-syntax-nullish-coalescing-operator': registry.npmjs.org/@babel/plugin-syntax-nullish-coalescing-operator/7.8.3_@babel+core@7.18.5
+      '@babel/plugin-syntax-optional-chaining': registry.npmjs.org/@babel/plugin-syntax-optional-chaining/7.8.3_@babel+core@7.18.5
+      '@babel/plugin-transform-arrow-functions': registry.npmjs.org/@babel/plugin-transform-arrow-functions/7.17.12_@babel+core@7.18.5
+      '@babel/plugin-transform-async-to-generator': registry.npmjs.org/@babel/plugin-transform-async-to-generator/7.17.12_@babel+core@7.18.5
+      '@babel/plugin-transform-block-scoping': registry.npmjs.org/@babel/plugin-transform-block-scoping/7.18.4_@babel+core@7.18.5
+      '@babel/plugin-transform-classes': registry.npmjs.org/@babel/plugin-transform-classes/7.18.4_@babel+core@7.18.5
+      '@babel/plugin-transform-computed-properties': registry.npmjs.org/@babel/plugin-transform-computed-properties/7.17.12_@babel+core@7.18.5
+      '@babel/plugin-transform-destructuring': registry.npmjs.org/@babel/plugin-transform-destructuring/7.18.0_@babel+core@7.18.5
+      '@babel/plugin-transform-exponentiation-operator': registry.npmjs.org/@babel/plugin-transform-exponentiation-operator/7.16.7_@babel+core@7.18.5
+      '@babel/plugin-transform-flow-strip-types': registry.npmjs.org/@babel/plugin-transform-flow-strip-types/7.17.12_@babel+core@7.18.5
+      '@babel/plugin-transform-function-name': registry.npmjs.org/@babel/plugin-transform-function-name/7.16.7_@babel+core@7.18.5
+      '@babel/plugin-transform-literals': registry.npmjs.org/@babel/plugin-transform-literals/7.17.12_@babel+core@7.18.5
+      '@babel/plugin-transform-modules-commonjs': registry.npmjs.org/@babel/plugin-transform-modules-commonjs/7.18.2_@babel+core@7.18.5
+      '@babel/plugin-transform-named-capturing-groups-regex': registry.npmjs.org/@babel/plugin-transform-named-capturing-groups-regex/7.17.12_@babel+core@7.18.5
+      '@babel/plugin-transform-parameters': registry.npmjs.org/@babel/plugin-transform-parameters/7.17.12_@babel+core@7.18.5
+      '@babel/plugin-transform-react-display-name': registry.npmjs.org/@babel/plugin-transform-react-display-name/7.16.7_@babel+core@7.18.5
+      '@babel/plugin-transform-react-jsx': registry.npmjs.org/@babel/plugin-transform-react-jsx/7.17.12_@babel+core@7.18.5
+      '@babel/plugin-transform-react-jsx-self': registry.npmjs.org/@babel/plugin-transform-react-jsx-self/7.17.12_@babel+core@7.18.5
+      '@babel/plugin-transform-react-jsx-source': registry.npmjs.org/@babel/plugin-transform-react-jsx-source/7.16.7_@babel+core@7.18.5
+      '@babel/plugin-transform-runtime': registry.npmjs.org/@babel/plugin-transform-runtime/7.18.5_@babel+core@7.18.5
+      '@babel/plugin-transform-shorthand-properties': registry.npmjs.org/@babel/plugin-transform-shorthand-properties/7.16.7_@babel+core@7.18.5
+      '@babel/plugin-transform-spread': registry.npmjs.org/@babel/plugin-transform-spread/7.17.12_@babel+core@7.18.5
+      '@babel/plugin-transform-sticky-regex': registry.npmjs.org/@babel/plugin-transform-sticky-regex/7.16.7_@babel+core@7.18.5
+      '@babel/plugin-transform-template-literals': registry.npmjs.org/@babel/plugin-transform-template-literals/7.18.2_@babel+core@7.18.5
+      '@babel/plugin-transform-typescript': registry.npmjs.org/@babel/plugin-transform-typescript/7.18.4_@babel+core@7.18.5
+      '@babel/plugin-transform-unicode-regex': registry.npmjs.org/@babel/plugin-transform-unicode-regex/7.16.7_@babel+core@7.18.5
+      '@babel/template': registry.npmjs.org/@babel/template/7.16.7
+      react-refresh: registry.npmjs.org/react-refresh/0.4.3
+    transitivePeerDependencies:
+      - supports-color
+
+  registry.npmjs.org/metro-react-native-babel-preset/0.72.1:
+    resolution: {integrity: sha512-DlvMw2tFrCqD9OXBoN11fPM09kHC22FZpnkTmG4Pr4kecV+aDmEGxwakjUcjELrX1JCXz2MLPvqeJkbiP1f5CA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/metro-react-native-babel-preset/-/metro-react-native-babel-preset-0.72.1.tgz}
+    name: metro-react-native-babel-preset
+    version: 0.72.1
+    dependencies:
+      '@babel/core': registry.npmjs.org/@babel/core/7.18.5
+      '@babel/plugin-proposal-async-generator-functions': registry.npmjs.org/@babel/plugin-proposal-async-generator-functions/7.17.12_@babel+core@7.18.5
+      '@babel/plugin-proposal-class-properties': registry.npmjs.org/@babel/plugin-proposal-class-properties/7.17.12_@babel+core@7.18.5
+      '@babel/plugin-proposal-export-default-from': registry.npmjs.org/@babel/plugin-proposal-export-default-from/7.17.12_@babel+core@7.18.5
+      '@babel/plugin-proposal-nullish-coalescing-operator': registry.npmjs.org/@babel/plugin-proposal-nullish-coalescing-operator/7.17.12_@babel+core@7.18.5
+      '@babel/plugin-proposal-object-rest-spread': registry.npmjs.org/@babel/plugin-proposal-object-rest-spread/7.18.0_@babel+core@7.18.5
+      '@babel/plugin-proposal-optional-catch-binding': registry.npmjs.org/@babel/plugin-proposal-optional-catch-binding/7.16.7_@babel+core@7.18.5
+      '@babel/plugin-proposal-optional-chaining': registry.npmjs.org/@babel/plugin-proposal-optional-chaining/7.17.12_@babel+core@7.18.5
+      '@babel/plugin-syntax-dynamic-import': registry.npmjs.org/@babel/plugin-syntax-dynamic-import/7.8.3_@babel+core@7.18.5
+      '@babel/plugin-syntax-export-default-from': registry.npmjs.org/@babel/plugin-syntax-export-default-from/7.16.7_@babel+core@7.18.5
+      '@babel/plugin-syntax-flow': registry.npmjs.org/@babel/plugin-syntax-flow/7.17.12_@babel+core@7.18.5
+      '@babel/plugin-syntax-nullish-coalescing-operator': registry.npmjs.org/@babel/plugin-syntax-nullish-coalescing-operator/7.8.3_@babel+core@7.18.5
+      '@babel/plugin-syntax-optional-chaining': registry.npmjs.org/@babel/plugin-syntax-optional-chaining/7.8.3_@babel+core@7.18.5
+      '@babel/plugin-transform-arrow-functions': registry.npmjs.org/@babel/plugin-transform-arrow-functions/7.17.12_@babel+core@7.18.5
+      '@babel/plugin-transform-async-to-generator': registry.npmjs.org/@babel/plugin-transform-async-to-generator/7.17.12_@babel+core@7.18.5
+      '@babel/plugin-transform-block-scoping': registry.npmjs.org/@babel/plugin-transform-block-scoping/7.18.4_@babel+core@7.18.5
+      '@babel/plugin-transform-classes': registry.npmjs.org/@babel/plugin-transform-classes/7.18.4_@babel+core@7.18.5
+      '@babel/plugin-transform-computed-properties': registry.npmjs.org/@babel/plugin-transform-computed-properties/7.17.12_@babel+core@7.18.5
+      '@babel/plugin-transform-destructuring': registry.npmjs.org/@babel/plugin-transform-destructuring/7.18.0_@babel+core@7.18.5
+      '@babel/plugin-transform-exponentiation-operator': registry.npmjs.org/@babel/plugin-transform-exponentiation-operator/7.16.7_@babel+core@7.18.5
+      '@babel/plugin-transform-flow-strip-types': registry.npmjs.org/@babel/plugin-transform-flow-strip-types/7.17.12_@babel+core@7.18.5
+      '@babel/plugin-transform-function-name': registry.npmjs.org/@babel/plugin-transform-function-name/7.16.7_@babel+core@7.18.5
+      '@babel/plugin-transform-literals': registry.npmjs.org/@babel/plugin-transform-literals/7.17.12_@babel+core@7.18.5
+      '@babel/plugin-transform-modules-commonjs': registry.npmjs.org/@babel/plugin-transform-modules-commonjs/7.18.2_@babel+core@7.18.5
+      '@babel/plugin-transform-named-capturing-groups-regex': registry.npmjs.org/@babel/plugin-transform-named-capturing-groups-regex/7.17.12_@babel+core@7.18.5
+      '@babel/plugin-transform-parameters': registry.npmjs.org/@babel/plugin-transform-parameters/7.17.12_@babel+core@7.18.5
+      '@babel/plugin-transform-react-display-name': registry.npmjs.org/@babel/plugin-transform-react-display-name/7.16.7_@babel+core@7.18.5
+      '@babel/plugin-transform-react-jsx': registry.npmjs.org/@babel/plugin-transform-react-jsx/7.17.12_@babel+core@7.18.5
+      '@babel/plugin-transform-react-jsx-self': registry.npmjs.org/@babel/plugin-transform-react-jsx-self/7.17.12_@babel+core@7.18.5
+      '@babel/plugin-transform-react-jsx-source': registry.npmjs.org/@babel/plugin-transform-react-jsx-source/7.16.7_@babel+core@7.18.5
+      '@babel/plugin-transform-runtime': registry.npmjs.org/@babel/plugin-transform-runtime/7.18.5_@babel+core@7.18.5
+      '@babel/plugin-transform-shorthand-properties': registry.npmjs.org/@babel/plugin-transform-shorthand-properties/7.16.7_@babel+core@7.18.5
+      '@babel/plugin-transform-spread': registry.npmjs.org/@babel/plugin-transform-spread/7.17.12_@babel+core@7.18.5
+      '@babel/plugin-transform-sticky-regex': registry.npmjs.org/@babel/plugin-transform-sticky-regex/7.16.7_@babel+core@7.18.5
+      '@babel/plugin-transform-template-literals': registry.npmjs.org/@babel/plugin-transform-template-literals/7.18.2_@babel+core@7.18.5
+      '@babel/plugin-transform-typescript': registry.npmjs.org/@babel/plugin-transform-typescript/7.18.4_@babel+core@7.18.5
+      '@babel/plugin-transform-unicode-regex': registry.npmjs.org/@babel/plugin-transform-unicode-regex/7.16.7_@babel+core@7.18.5
+      '@babel/template': registry.npmjs.org/@babel/template/7.16.7
+      react-refresh: registry.npmjs.org/react-refresh/0.4.3
+    transitivePeerDependencies:
+      - supports-color
+
+  registry.npmjs.org/metro-react-native-babel-preset/0.72.2:
+    resolution: {integrity: sha512-OMp77TUUZAoiuUv5uKNc08AnJNQxD28k92eQvo8tPcA8Wx6OZlEUvL7M7SFkef2mEYJ0vnrRjOamSnbBuq/+1w==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/metro-react-native-babel-preset/-/metro-react-native-babel-preset-0.72.2.tgz}
+    name: metro-react-native-babel-preset
+    version: 0.72.2
+    dependencies:
       '@babel/plugin-proposal-async-generator-functions': registry.npmjs.org/@babel/plugin-proposal-async-generator-functions/7.17.12
       '@babel/plugin-proposal-class-properties': registry.npmjs.org/@babel/plugin-proposal-class-properties/7.17.12
       '@babel/plugin-proposal-export-default-from': registry.npmjs.org/@babel/plugin-proposal-export-default-from/7.17.12
@@ -25903,12 +25746,13 @@ packages:
     transitivePeerDependencies:
       - '@babel/core'
       - supports-color
+    dev: true
 
-  registry.npmjs.org/metro-react-native-babel-preset/0.70.3_@babel+core@7.18.5:
-    resolution: {integrity: sha512-4Nxc1zEiHEu+GTdEMEsHnRgfaBkg8f/Td3+FcQ8NTSvs+xL3LBrQy6N07idWSQZHIdGFf+tTHvRfSIWLD8u8Tg==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/metro-react-native-babel-preset/-/metro-react-native-babel-preset-0.70.3.tgz}
-    id: registry.npmjs.org/metro-react-native-babel-preset/0.70.3
+  registry.npmjs.org/metro-react-native-babel-preset/0.72.2_@babel+core@7.18.5:
+    resolution: {integrity: sha512-OMp77TUUZAoiuUv5uKNc08AnJNQxD28k92eQvo8tPcA8Wx6OZlEUvL7M7SFkef2mEYJ0vnrRjOamSnbBuq/+1w==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/metro-react-native-babel-preset/-/metro-react-native-babel-preset-0.72.2.tgz}
+    id: registry.npmjs.org/metro-react-native-babel-preset/0.72.2
     name: metro-react-native-babel-preset
-    version: 0.70.3
+    version: 0.72.2
     dependencies:
       '@babel/plugin-proposal-async-generator-functions': registry.npmjs.org/@babel/plugin-proposal-async-generator-functions/7.17.12_@babel+core@7.18.5
       '@babel/plugin-proposal-class-properties': registry.npmjs.org/@babel/plugin-proposal-class-properties/7.17.12_@babel+core@7.18.5
@@ -25952,60 +25796,100 @@ packages:
       - '@babel/core'
       - supports-color
 
-  registry.npmjs.org/metro-react-native-babel-transformer/0.70.3:
-    resolution: {integrity: sha512-WKBU6S/G50j9cfmFM4k4oRYprd8u3qjleD4so1E2zbTNILg+gYla7ZFGCAvi2G0ZcqS2XuGCR375c2hF6VVvwg==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/metro-react-native-babel-transformer/-/metro-react-native-babel-transformer-0.70.3.tgz}
+  registry.npmjs.org/metro-react-native-babel-transformer/0.72.1:
+    resolution: {integrity: sha512-hMnN0MOgVloAk94YuXN7sLeDaZ51Y6xIcJXxIU1s/KaygAGXk6o7VAdwf2MY/IV1SIct5lkW4Gn71u/9/EvfXA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/metro-react-native-babel-transformer/-/metro-react-native-babel-transformer-0.72.1.tgz}
     name: metro-react-native-babel-transformer
-    version: 0.70.3
+    version: 0.72.1
     dependencies:
       '@babel/core': registry.npmjs.org/@babel/core/7.18.5
       babel-preset-fbjs: registry.npmjs.org/babel-preset-fbjs/3.4.0_@babel+core@7.18.5
-      hermes-parser: registry.npmjs.org/hermes-parser/0.6.0
-      metro-babel-transformer: registry.npmjs.org/metro-babel-transformer/0.70.3
-      metro-react-native-babel-preset: registry.npmjs.org/metro-react-native-babel-preset/0.70.3_@babel+core@7.18.5
-      metro-source-map: registry.npmjs.org/metro-source-map/0.70.3
+      hermes-parser: registry.npmjs.org/hermes-parser/0.8.0
+      metro-babel-transformer: registry.npmjs.org/metro-babel-transformer/0.72.1
+      metro-react-native-babel-preset: registry.npmjs.org/metro-react-native-babel-preset/0.72.1
+      metro-source-map: registry.npmjs.org/metro-source-map/0.72.1
       nullthrows: registry.npmjs.org/nullthrows/1.1.1
     transitivePeerDependencies:
       - supports-color
 
-  registry.npmjs.org/metro-resolver/0.70.3:
-    resolution: {integrity: sha512-5Pc5S/Gs4RlLbziuIWtvtFd9GRoILlaRC8RZDVq5JZWcWHywKy/PjNmOBNhpyvtRlzpJfy/ssIfLhu8zINt1Mw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/metro-resolver/-/metro-resolver-0.70.3.tgz}
+  registry.npmjs.org/metro-react-native-babel-transformer/0.72.2:
+    resolution: {integrity: sha512-bSSusTW748XpfVmD484pJCcrvo655qkGIVJUQG+bNW3T84qhwWTxqPBrLDBcu4EcSF3EIZo9vHpXI1DsNlnsPw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/metro-react-native-babel-transformer/-/metro-react-native-babel-transformer-0.72.2.tgz}
+    name: metro-react-native-babel-transformer
+    version: 0.72.2
+    dependencies:
+      '@babel/core': registry.npmjs.org/@babel/core/7.18.5
+      babel-preset-fbjs: registry.npmjs.org/babel-preset-fbjs/3.4.0_@babel+core@7.18.5
+      hermes-parser: registry.npmjs.org/hermes-parser/0.8.0
+      metro-babel-transformer: registry.npmjs.org/metro-babel-transformer/0.72.2
+      metro-react-native-babel-preset: registry.npmjs.org/metro-react-native-babel-preset/0.72.2_@babel+core@7.18.5
+      metro-source-map: registry.npmjs.org/metro-source-map/0.72.2
+      nullthrows: registry.npmjs.org/nullthrows/1.1.1
+    transitivePeerDependencies:
+      - supports-color
+
+  registry.npmjs.org/metro-resolver/0.72.2:
+    resolution: {integrity: sha512-5KTWolUgA6ivLkg3DmFS2WltphBPQW7GT7An+6Izk/NU+y/6crmsoaLmNxjpZo4Fv+i/FxDSXqpbpQ6KrRWvlQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/metro-resolver/-/metro-resolver-0.72.2.tgz}
     name: metro-resolver
-    version: 0.70.3
+    version: 0.72.2
     dependencies:
       absolute-path: registry.npmjs.org/absolute-path/0.0.0
 
-  registry.npmjs.org/metro-runtime/0.70.3:
-    resolution: {integrity: sha512-22xU7UdXZacniTIDZgN2EYtmfau2pPyh97Dcs+cWrLcJYgfMKjWBtesnDcUAQy3PHekDYvBdJZkoQUeskYTM+w==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/metro-runtime/-/metro-runtime-0.70.3.tgz}
+  registry.npmjs.org/metro-runtime/0.72.1:
+    resolution: {integrity: sha512-CO+fvJKYHKuR2vo7kjsegQ2oF3FMwa4YhnUInQ+xPVxWoy8DbOpmruKBoTsQVgHwyIziXzvJa+mze/6CFvT+3A==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/metro-runtime/-/metro-runtime-0.72.1.tgz}
     name: metro-runtime
-    version: 0.70.3
+    version: 0.72.1
     dependencies:
       '@babel/runtime': registry.npmjs.org/@babel/runtime/7.18.3
+      react-refresh: registry.npmjs.org/react-refresh/0.4.3
 
-  registry.npmjs.org/metro-source-map/0.70.3:
-    resolution: {integrity: sha512-zsYtZGrwRbbGEFHtmMqqeCH9K9aTGNVPsurMOWCUeQA3VGyVGXPGtLMC+CdAM9jLpUyg6jw2xh0esxi+tYH7Uw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/metro-source-map/-/metro-source-map-0.70.3.tgz}
+  registry.npmjs.org/metro-runtime/0.72.2:
+    resolution: {integrity: sha512-jIHH6ILSWJtINHA0+KgnH1T5RO5mkf46sQahgC+GYjZjGoshs8+tBdjviYD/xy5s4olCJ1hmycV+XvauQmJdkQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/metro-runtime/-/metro-runtime-0.72.2.tgz}
+    name: metro-runtime
+    version: 0.72.2
+    dependencies:
+      '@babel/runtime': registry.npmjs.org/@babel/runtime/7.18.3
+      react-refresh: registry.npmjs.org/react-refresh/0.4.3
+
+  registry.npmjs.org/metro-source-map/0.72.1:
+    resolution: {integrity: sha512-77TZuf10Ru+USo97HwDT8UceSzOGBZB8EYTObOsR0n1sjQHjvKsMflLA9Pco13o9NsIYAG6c6P/0vIpiHKqaKA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/metro-source-map/-/metro-source-map-0.72.1.tgz}
     name: metro-source-map
-    version: 0.70.3
+    version: 0.72.1
     dependencies:
       '@babel/traverse': registry.npmjs.org/@babel/traverse/7.18.5
       '@babel/types': registry.npmjs.org/@babel/types/7.18.4
       invariant: registry.npmjs.org/invariant/2.2.4
-      metro-symbolicate: registry.npmjs.org/metro-symbolicate/0.70.3
+      metro-symbolicate: registry.npmjs.org/metro-symbolicate/0.72.1
       nullthrows: registry.npmjs.org/nullthrows/1.1.1
-      ob1: registry.npmjs.org/ob1/0.70.3
+      ob1: registry.npmjs.org/ob1/0.72.1
       source-map: registry.npmjs.org/source-map/0.5.7
       vlq: registry.npmjs.org/vlq/1.0.1
     transitivePeerDependencies:
       - supports-color
 
-  registry.npmjs.org/metro-symbolicate/0.70.3:
-    resolution: {integrity: sha512-JTYkF1dpeDUssQ84juE1ycnhHki2ylJBBdJE1JHtfu5oC+z1ElDbBdPHq90Uvt8HbRov/ZAnxvv7Zy6asS+WCA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/metro-symbolicate/-/metro-symbolicate-0.70.3.tgz}
+  registry.npmjs.org/metro-source-map/0.72.2:
+    resolution: {integrity: sha512-dqYK8DZ4NzGkhik0IkKRBLuPplXqF6GoKrFQ/XMw0FYGy3+dFJ9nIDxsCyg3GcjCt6Mg8FEqGrXlpMG7MrtC9Q==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/metro-source-map/-/metro-source-map-0.72.2.tgz}
+    name: metro-source-map
+    version: 0.72.2
+    dependencies:
+      '@babel/traverse': registry.npmjs.org/@babel/traverse/7.18.5
+      '@babel/types': registry.npmjs.org/@babel/types/7.18.4
+      invariant: registry.npmjs.org/invariant/2.2.4
+      metro-symbolicate: registry.npmjs.org/metro-symbolicate/0.72.2
+      nullthrows: registry.npmjs.org/nullthrows/1.1.1
+      ob1: registry.npmjs.org/ob1/0.72.2
+      source-map: registry.npmjs.org/source-map/0.5.7
+      vlq: registry.npmjs.org/vlq/1.0.1
+    transitivePeerDependencies:
+      - supports-color
+
+  registry.npmjs.org/metro-symbolicate/0.72.1:
+    resolution: {integrity: sha512-ScC3dVd2XrfZSd6kubOw7EJNp2oHdjrqOjGpFohtcXGjhqkzDosp7Fg84VgwQGN8g720xvUyEBfSMmUCXcicOQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/metro-symbolicate/-/metro-symbolicate-0.72.1.tgz}
     name: metro-symbolicate
-    version: 0.70.3
+    version: 0.72.1
     engines: {node: '>=8.3'}
     hasBin: true
     dependencies:
       invariant: registry.npmjs.org/invariant/2.2.4
-      metro-source-map: registry.npmjs.org/metro-source-map/0.70.3
+      metro-source-map: registry.npmjs.org/metro-source-map/0.72.1
       nullthrows: registry.npmjs.org/nullthrows/1.1.1
       source-map: registry.npmjs.org/source-map/0.5.7
       through2: registry.npmjs.org/through2/2.0.5
@@ -26013,10 +25897,26 @@ packages:
     transitivePeerDependencies:
       - supports-color
 
-  registry.npmjs.org/metro-transform-plugins/0.70.3:
-    resolution: {integrity: sha512-dQRIJoTkWZN2IVS2KzgS1hs7ZdHDX3fS3esfifPkqFAEwHiLctCf0EsPgIknp0AjMLvmGWfSLJigdRB/dc0ASw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/metro-transform-plugins/-/metro-transform-plugins-0.70.3.tgz}
+  registry.npmjs.org/metro-symbolicate/0.72.2:
+    resolution: {integrity: sha512-Rn47dSggFU9jf+fpUE6/gkNQU7PQPTIbh2iUu7jI8cJFBODs0PWlI5h0W9XlQ56lcBtjLQz6fvZSloKdDcI2fQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/metro-symbolicate/-/metro-symbolicate-0.72.2.tgz}
+    name: metro-symbolicate
+    version: 0.72.2
+    engines: {node: '>=8.3'}
+    hasBin: true
+    dependencies:
+      invariant: registry.npmjs.org/invariant/2.2.4
+      metro-source-map: registry.npmjs.org/metro-source-map/0.72.2
+      nullthrows: registry.npmjs.org/nullthrows/1.1.1
+      source-map: registry.npmjs.org/source-map/0.5.7
+      through2: registry.npmjs.org/through2/2.0.5
+      vlq: registry.npmjs.org/vlq/1.0.1
+    transitivePeerDependencies:
+      - supports-color
+
+  registry.npmjs.org/metro-transform-plugins/0.72.2:
+    resolution: {integrity: sha512-f2Zt6ti156TWFrnCRg7vxBIHBJcERBX8nwKmRKGFCbU+rk4YOxwONY4Y0Gn9Kocfu313P1xNqWYH5rCqvEWMaQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/metro-transform-plugins/-/metro-transform-plugins-0.72.2.tgz}
     name: metro-transform-plugins
-    version: 0.70.3
+    version: 0.72.2
     dependencies:
       '@babel/core': registry.npmjs.org/@babel/core/7.18.5
       '@babel/generator': registry.npmjs.org/@babel/generator/7.18.2
@@ -26026,23 +25926,23 @@ packages:
     transitivePeerDependencies:
       - supports-color
 
-  registry.npmjs.org/metro-transform-worker/0.70.3:
-    resolution: {integrity: sha512-MtVVsnHhhBOp9GRLCdAb2mD1dTCsIzT4+m34KMRdBDCEbDIb90YafT5prpU8qbj5uKd0o2FOQdrJ5iy5zQilHw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/metro-transform-worker/-/metro-transform-worker-0.70.3.tgz}
+  registry.npmjs.org/metro-transform-worker/0.72.2:
+    resolution: {integrity: sha512-z5OOnEO3NV6PgI8ORIBvJ5m+u9THFpy+6WIg/MUjP9k1oqasWaP1Rfhv7K/a+MD6uho1rgXj6nwWDqybsqHY/w==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/metro-transform-worker/-/metro-transform-worker-0.72.2.tgz}
     name: metro-transform-worker
-    version: 0.70.3
+    version: 0.72.2
     dependencies:
       '@babel/core': registry.npmjs.org/@babel/core/7.18.5
       '@babel/generator': registry.npmjs.org/@babel/generator/7.18.2
       '@babel/parser': registry.npmjs.org/@babel/parser/7.18.5
       '@babel/types': registry.npmjs.org/@babel/types/7.18.4
       babel-preset-fbjs: registry.npmjs.org/babel-preset-fbjs/3.4.0_@babel+core@7.18.5
-      metro: registry.npmjs.org/metro/0.70.3
-      metro-babel-transformer: registry.npmjs.org/metro-babel-transformer/0.70.3
-      metro-cache: registry.npmjs.org/metro-cache/0.70.3
-      metro-cache-key: registry.npmjs.org/metro-cache-key/0.70.3
-      metro-hermes-compiler: registry.npmjs.org/metro-hermes-compiler/0.70.3
-      metro-source-map: registry.npmjs.org/metro-source-map/0.70.3
-      metro-transform-plugins: registry.npmjs.org/metro-transform-plugins/0.70.3
+      metro: registry.npmjs.org/metro/0.72.2
+      metro-babel-transformer: registry.npmjs.org/metro-babel-transformer/0.72.2
+      metro-cache: registry.npmjs.org/metro-cache/0.72.2
+      metro-cache-key: registry.npmjs.org/metro-cache-key/0.72.2
+      metro-hermes-compiler: registry.npmjs.org/metro-hermes-compiler/0.72.2
+      metro-source-map: registry.npmjs.org/metro-source-map/0.72.2
+      metro-transform-plugins: registry.npmjs.org/metro-transform-plugins/0.72.2
       nullthrows: registry.npmjs.org/nullthrows/1.1.1
     transitivePeerDependencies:
       - bufferutil
@@ -26050,10 +25950,10 @@ packages:
       - supports-color
       - utf-8-validate
 
-  registry.npmjs.org/metro/0.70.3:
-    resolution: {integrity: sha512-uEWS7xg8oTetQDABYNtsyeUjdLhH3KAvLFpaFFoJqUpOk2A3iygszdqmjobFl6W4zrvKDJS+XxdMR1roYvUhTw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/metro/-/metro-0.70.3.tgz}
+  registry.npmjs.org/metro/0.72.2:
+    resolution: {integrity: sha512-TWqKnPMu4OX7ew7HJwsD4LBzhtn7Iqeu2OAqjlMCJtqMKqi/YWoxFf1VGZxH/mJVLhbe/5SWU5St/tqsST8swg==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/metro/-/metro-0.72.2.tgz}
     name: metro
-    version: 0.70.3
+    version: 0.72.2
     hasBin: true
     dependencies:
       '@babel/code-frame': registry.npmjs.org/@babel/code-frame/7.16.7
@@ -26074,27 +25974,27 @@ packages:
       error-stack-parser: registry.npmjs.org/error-stack-parser/2.1.4
       fs-extra: registry.npmjs.org/fs-extra/1.0.0
       graceful-fs: registry.npmjs.org/graceful-fs/4.2.10
-      hermes-parser: registry.npmjs.org/hermes-parser/0.6.0
+      hermes-parser: registry.npmjs.org/hermes-parser/0.8.0
       image-size: registry.npmjs.org/image-size/0.6.3
       invariant: registry.npmjs.org/invariant/2.2.4
-      jest-haste-map: registry.npmjs.org/jest-haste-map/27.5.1
       jest-worker: registry.npmjs.org/jest-worker/27.5.1
       lodash.throttle: registry.npmjs.org/lodash.throttle/4.1.1
-      metro-babel-transformer: registry.npmjs.org/metro-babel-transformer/0.70.3
-      metro-cache: registry.npmjs.org/metro-cache/0.70.3
-      metro-cache-key: registry.npmjs.org/metro-cache-key/0.70.3
-      metro-config: registry.npmjs.org/metro-config/0.70.3
-      metro-core: registry.npmjs.org/metro-core/0.70.3
-      metro-hermes-compiler: registry.npmjs.org/metro-hermes-compiler/0.70.3
-      metro-inspector-proxy: registry.npmjs.org/metro-inspector-proxy/0.70.3
-      metro-minify-uglify: registry.npmjs.org/metro-minify-uglify/0.70.3
-      metro-react-native-babel-preset: registry.npmjs.org/metro-react-native-babel-preset/0.70.3_@babel+core@7.18.5
-      metro-resolver: registry.npmjs.org/metro-resolver/0.70.3
-      metro-runtime: registry.npmjs.org/metro-runtime/0.70.3
-      metro-source-map: registry.npmjs.org/metro-source-map/0.70.3
-      metro-symbolicate: registry.npmjs.org/metro-symbolicate/0.70.3
-      metro-transform-plugins: registry.npmjs.org/metro-transform-plugins/0.70.3
-      metro-transform-worker: registry.npmjs.org/metro-transform-worker/0.70.3
+      metro-babel-transformer: registry.npmjs.org/metro-babel-transformer/0.72.2
+      metro-cache: registry.npmjs.org/metro-cache/0.72.2
+      metro-cache-key: registry.npmjs.org/metro-cache-key/0.72.2
+      metro-config: registry.npmjs.org/metro-config/0.72.2
+      metro-core: registry.npmjs.org/metro-core/0.72.2
+      metro-file-map: registry.npmjs.org/metro-file-map/0.72.2
+      metro-hermes-compiler: registry.npmjs.org/metro-hermes-compiler/0.72.2
+      metro-inspector-proxy: registry.npmjs.org/metro-inspector-proxy/0.72.2
+      metro-minify-uglify: registry.npmjs.org/metro-minify-uglify/0.72.2
+      metro-react-native-babel-preset: registry.npmjs.org/metro-react-native-babel-preset/0.72.2_@babel+core@7.18.5
+      metro-resolver: registry.npmjs.org/metro-resolver/0.72.2
+      metro-runtime: registry.npmjs.org/metro-runtime/0.72.2
+      metro-source-map: registry.npmjs.org/metro-source-map/0.72.2
+      metro-symbolicate: registry.npmjs.org/metro-symbolicate/0.72.2
+      metro-transform-plugins: registry.npmjs.org/metro-transform-plugins/0.72.2
+      metro-transform-worker: registry.npmjs.org/metro-transform-worker/0.72.2
       mime-types: registry.npmjs.org/mime-types/2.1.35
       node-fetch: registry.npmjs.org/node-fetch/2.6.7
       nullthrows: registry.npmjs.org/nullthrows/1.1.1
@@ -27293,10 +27193,15 @@ packages:
     name: oauth-sign
     version: 0.9.0
 
-  registry.npmjs.org/ob1/0.70.3:
-    resolution: {integrity: sha512-Vy9GGhuXgDRY01QA6kdhToPd8AkLdLpX9GjH5kpqluVqTu70mgOm7tpGoJDZGaNbr9nJlJgnipqHJQRPORixIQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/ob1/-/ob1-0.70.3.tgz}
+  registry.npmjs.org/ob1/0.72.1:
+    resolution: {integrity: sha512-TyQX2gO08klGTMuzD+xm3iVrzXiIygCB7t+NWeicOR05hkzgeWOiAZ8q40uMfIDRfEAc6hd66sJdIEhU/yUZZA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/ob1/-/ob1-0.72.1.tgz}
     name: ob1
-    version: 0.70.3
+    version: 0.72.1
+
+  registry.npmjs.org/ob1/0.72.2:
+    resolution: {integrity: sha512-P4zh/5GzyXPIzz+2eq2Hjd1wTZAfpwTIBWKhYx8X/DD2wCuFVprBEZp1FerWyTMwOA6AnVxiX1h0JE1v/s+PAQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/ob1/-/ob1-0.72.2.tgz}
+    name: ob1
+    version: 0.72.2
 
   registry.npmjs.org/object-assign/4.1.1:
     resolution: {integrity: sha512-rJgTQnkUnH1sFw8yT6VSU3zD3sWmu6sZhIseY8VX+GRu3P6F7Fu+JNDoXfklElbLJSnc3FUQHVe4cU5hj+BcUg==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/object-assign/-/object-assign-4.1.1.tgz}
@@ -30634,10 +30539,10 @@ packages:
       - supports-color
     dev: false
 
-  registry.npmjs.org/react-native-codegen/0.69.2:
-    resolution: {integrity: sha512-yPcgMHD4mqLbckqnWjFBaxomDnBREfRjDi2G/WxNyPBQLD+PXUEmZTkDx6QoOXN+Bl2SkpnNOSsLE2+/RUHoPw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/react-native-codegen/-/react-native-codegen-0.69.2.tgz}
+  registry.npmjs.org/react-native-codegen/0.70.4:
+    resolution: {integrity: sha512-bPyd5jm840omfx24VRyMP+KPzAefpRDwE18w5ywMWHCWZBSqLn1qI9WgBPnavlIrjTEuzxznWQNcaA26lw8AMQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/react-native-codegen/-/react-native-codegen-0.70.4.tgz}
     name: react-native-codegen
-    version: 0.69.2
+    version: 0.70.4
     dependencies:
       '@babel/parser': registry.npmjs.org/@babel/parser/7.18.5
       flow-parser: registry.npmjs.org/flow-parser/0.121.0
@@ -30647,7 +30552,7 @@ packages:
       - '@babel/preset-env'
       - supports-color
 
-  registry.npmjs.org/react-native-collapsible/1.6.0_react-native@0.69.5:
+  registry.npmjs.org/react-native-collapsible/1.6.0_react-native@0.70.0:
     resolution: {integrity: sha512-beZjdgbT9Y/Pg591Xy5XkKG20HffJiVad4n9bfcUF/f783A+tvOVXnqvbS58Lkaym93mi4jcDPMuW9Vc1t6rqg==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/react-native-collapsible/-/react-native-collapsible-1.6.0.tgz}
     id: registry.npmjs.org/react-native-collapsible/1.6.0
     name: react-native-collapsible
@@ -30656,10 +30561,10 @@ packages:
       react: '*'
       react-native: '*'
     dependencies:
-      react-native: registry.npmjs.org/react-native/0.69.5
+      react-native: registry.npmjs.org/react-native/0.70.0
     dev: false
 
-  registry.npmjs.org/react-native-device-info/10.0.2_react-native@0.69.5:
+  registry.npmjs.org/react-native-device-info/10.0.2_react-native@0.70.0:
     resolution: {integrity: sha512-6XY8EctYqNEX6EHDoHxz3yONOYxCHKrgEdStP7HZDYzFXb1JB5BFt7UbXDWrmihXUZDv06sBsjN26+Tp0EajXw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/react-native-device-info/-/react-native-device-info-10.0.2.tgz}
     id: registry.npmjs.org/react-native-device-info/10.0.2
     name: react-native-device-info
@@ -30667,7 +30572,7 @@ packages:
     peerDependencies:
       react-native: '*'
     dependencies:
-      react-native: registry.npmjs.org/react-native/0.69.5
+      react-native: registry.npmjs.org/react-native/0.70.0
     dev: false
 
   registry.npmjs.org/react-native-gesture-handler/2.5.0:
@@ -30685,12 +30590,12 @@ packages:
       prop-types: registry.npmjs.org/prop-types/15.8.1
     dev: false
 
-  registry.npmjs.org/react-native-gradle-plugin/0.0.7:
-    resolution: {integrity: sha512-+4JpbIx42zGTONhBTIXSyfyHICHC29VTvhkkoUOJAh/XHPEixpuBduYgf6Y4y9wsN1ARlQhBBoptTvXvAFQf5g==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/react-native-gradle-plugin/-/react-native-gradle-plugin-0.0.7.tgz}
+  registry.npmjs.org/react-native-gradle-plugin/0.70.2:
+    resolution: {integrity: sha512-k7d+CVh0fs/VntA2WaKD58cFB2rtiSLBHYlciH18ncaT4N/B3A4qOGv9pSCEHfQikELm6vAf98KMbE3c8KnH1A==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/react-native-gradle-plugin/-/react-native-gradle-plugin-0.70.2.tgz}
     name: react-native-gradle-plugin
-    version: 0.0.7
+    version: 0.70.2
 
-  registry.npmjs.org/react-native-image-pan-zoom/2.1.12_react-native@0.69.5:
+  registry.npmjs.org/react-native-image-pan-zoom/2.1.12_react-native@0.70.0:
     resolution: {integrity: sha512-BF66XeP6dzuANsPmmFsJshM2Jyh/Mo1t8FsGc1L9Q9/sVP8MJULDabB1hms+eAoqgtyhMr5BuXV3E1hJ5U5H6Q==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/react-native-image-pan-zoom/-/react-native-image-pan-zoom-2.1.12.tgz}
     id: registry.npmjs.org/react-native-image-pan-zoom/2.1.12
     name: react-native-image-pan-zoom
@@ -30699,10 +30604,10 @@ packages:
       react: '*'
       react-native: '*'
     dependencies:
-      react-native: registry.npmjs.org/react-native/0.69.5
+      react-native: registry.npmjs.org/react-native/0.70.0
     dev: false
 
-  registry.npmjs.org/react-native-image-resizer/1.4.5_react-native@0.69.5:
+  registry.npmjs.org/react-native-image-resizer/1.4.5_react-native@0.70.0:
     resolution: {integrity: sha512-33EgL3C9pyvjKpullAB6fWyD5QhoYEpNNB9rxNvUsrpAnL2mHBW7PTrUCCZudJeB6Weg7nbweKrSw1nnto5aqg==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/react-native-image-resizer/-/react-native-image-resizer-1.4.5.tgz}
     id: registry.npmjs.org/react-native-image-resizer/1.4.5
     name: react-native-image-resizer
@@ -30710,10 +30615,10 @@ packages:
     peerDependencies:
       react-native: '>=v0.40.0'
     dependencies:
-      react-native: registry.npmjs.org/react-native/0.69.5
+      react-native: registry.npmjs.org/react-native/0.70.0
     dev: false
 
-  registry.npmjs.org/react-native-image-zoom-viewer/3.0.1_react-native@0.69.5:
+  registry.npmjs.org/react-native-image-zoom-viewer/3.0.1_react-native@0.70.0:
     resolution: {integrity: sha512-la6s5DNSuq4GCRLsi5CZ29FPjgTpdCuGIRdO5T9rUrAtxrlpBPhhSnHrbmPVxsdtOUvxHacTh2Gfa9+RraMZQA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/react-native-image-zoom-viewer/-/react-native-image-zoom-viewer-3.0.1.tgz}
     id: registry.npmjs.org/react-native-image-zoom-viewer/3.0.1
     name: react-native-image-zoom-viewer
@@ -30722,8 +30627,8 @@ packages:
       react: '*'
       react-native: '*'
     dependencies:
-      react-native: registry.npmjs.org/react-native/0.69.5
-      react-native-image-pan-zoom: registry.npmjs.org/react-native-image-pan-zoom/2.1.12_react-native@0.69.5
+      react-native: registry.npmjs.org/react-native/0.70.0
+      react-native-image-pan-zoom: registry.npmjs.org/react-native-image-pan-zoom/2.1.12_react-native@0.70.0
     dev: false
 
   registry.npmjs.org/react-native-known-styling-properties/1.1.0:
@@ -30732,7 +30637,7 @@ packages:
     version: 1.1.0
     dev: false
 
-  registry.npmjs.org/react-native-maps/0.25.0_a3m4qk22sttdsiro4x4v2nfoki:
+  registry.npmjs.org/react-native-maps/0.25.0_j4ncoeqzkrfqw6w3zy7nsq7m4i:
     resolution: {integrity: sha512-PFJuW1pt+HnnnN0m0OGk29RSvICFVkK/DScX6cUk0SuCSN2DAHx0y6y57lZyYXcYqU4J4usNpfxgp/ccjASDiw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/react-native-maps/-/react-native-maps-0.25.0.tgz}
     id: registry.npmjs.org/react-native-maps/0.25.0
     name: react-native-maps
@@ -30743,10 +30648,10 @@ packages:
       react-native: '>= 0.51'
     dependencies:
       prop-types: registry.npmjs.org/prop-types/15.8.1
-      react-native: registry.npmjs.org/react-native/0.69.5
+      react-native: registry.npmjs.org/react-native/0.70.0
     dev: false
 
-  registry.npmjs.org/react-native-modal-popover/2.1.0_react-native@0.69.5:
+  registry.npmjs.org/react-native-modal-popover/2.1.0_react-native@0.70.0:
     resolution: {integrity: sha512-t7KMk1q5Hi3jkk3/0fpa3mA7E3TJLL/Uz48Fa07AlocjMbG3okim9fNPLf5dJGw4JlcYWxLMYeswEcTjKr0M1g==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/react-native-modal-popover/-/react-native-modal-popover-2.1.0.tgz}
     id: registry.npmjs.org/react-native-modal-popover/2.1.0
     name: react-native-modal-popover
@@ -30757,10 +30662,10 @@ packages:
     dependencies:
       lodash: registry.npmjs.org/lodash/4.17.21
       prop-types: registry.npmjs.org/prop-types/15.8.1
-      react-native: registry.npmjs.org/react-native/0.69.5
+      react-native: registry.npmjs.org/react-native/0.70.0
     dev: false
 
-  registry.npmjs.org/react-native-pager-view/5.4.25_react-native@0.69.5:
+  registry.npmjs.org/react-native-pager-view/5.4.25_react-native@0.70.0:
     resolution: {integrity: sha512-3drrYwaLat2fYszymZe3nHMPASJ4aJMaxiejfA1V5SK3OygYmdtmV2u5prX7TnjueJzGSyyaCYEr2JlrRt4YPg==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/react-native-pager-view/-/react-native-pager-view-5.4.25.tgz}
     id: registry.npmjs.org/react-native-pager-view/5.4.25
     name: react-native-pager-view
@@ -30769,7 +30674,7 @@ packages:
       react: '*'
       react-native: '*'
     dependencies:
-      react-native: registry.npmjs.org/react-native/0.69.5
+      react-native: registry.npmjs.org/react-native/0.70.0
     dev: false
 
   registry.npmjs.org/react-native-root-siblings/4.1.1:
@@ -30777,7 +30682,7 @@ packages:
     name: react-native-root-siblings
     version: 4.1.1
 
-  registry.npmjs.org/react-native-root-toast/3.4.0_react-native@0.69.5:
+  registry.npmjs.org/react-native-root-toast/3.4.0_react-native@0.70.0:
     resolution: {integrity: sha512-2jv9XG9tK0rbXkD3IaO/clSJJQYXRnOCnGliZnYP/Z6I3u2QtdOp5xQ/ni8BbLqpPwSeKfCuO7R9H6iHuAN+Ig==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/react-native-root-toast/-/react-native-root-toast-3.4.0.tgz}
     id: registry.npmjs.org/react-native-root-toast/3.4.0
     name: react-native-root-toast
@@ -30787,7 +30692,7 @@ packages:
     dependencies:
       deprecated-react-native-prop-types: registry.npmjs.org/deprecated-react-native-prop-types/2.3.0
       prop-types: registry.npmjs.org/prop-types/15.8.1
-      react-native: registry.npmjs.org/react-native/0.69.5
+      react-native: registry.npmjs.org/react-native/0.70.0
       react-native-root-siblings: registry.npmjs.org/react-native-root-siblings/4.1.1
     dev: false
 
@@ -30800,7 +30705,7 @@ packages:
       react-native: '*'
     dev: false
 
-  registry.npmjs.org/react-native-safe-area-context/4.3.1_react-native@0.69.5:
+  registry.npmjs.org/react-native-safe-area-context/4.3.1_react-native@0.70.0:
     resolution: {integrity: sha512-cEr7fknJCToTrSyDCVNg0GRdRMhyLeQa2NZwVCuzEQcWedOw/59ExomjmzCE4rxrKXs6OJbyfNtFRNyewDaHuA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/react-native-safe-area-context/-/react-native-safe-area-context-4.3.1.tgz}
     id: registry.npmjs.org/react-native-safe-area-context/4.3.1
     name: react-native-safe-area-context
@@ -30809,7 +30714,7 @@ packages:
       react: '*'
       react-native: '*'
     dependencies:
-      react-native: registry.npmjs.org/react-native/0.69.5
+      react-native: registry.npmjs.org/react-native/0.70.0
     dev: false
 
   registry.npmjs.org/react-native-screens/3.15.0:
@@ -30846,7 +30751,7 @@ packages:
       - supports-color
     dev: false
 
-  registry.npmjs.org/react-native-svg/12.4.3_react-native@0.69.5:
+  registry.npmjs.org/react-native-svg/12.4.3_react-native@0.70.0:
     resolution: {integrity: sha512-8OF+vvXsI854YlHBOQkanNcyio+7oQO0nQsS/Noji2VmPoMnLiJiMaxmOD9RHxGkbbo7lzbYWdxVdNibjN/8IA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/react-native-svg/-/react-native-svg-12.4.3.tgz}
     id: registry.npmjs.org/react-native-svg/12.4.3
     name: react-native-svg
@@ -30857,7 +30762,7 @@ packages:
     dependencies:
       css-select: registry.npmjs.org/css-select/5.1.0
       css-tree: registry.npmjs.org/css-tree/1.1.3
-      react-native: registry.npmjs.org/react-native/0.69.5
+      react-native: registry.npmjs.org/react-native/0.70.0
     dev: false
 
   registry.npmjs.org/react-native-syan-image-picker/0.5.3:
@@ -30866,7 +30771,7 @@ packages:
     version: 0.5.3
     dev: false
 
-  registry.npmjs.org/react-native-webview/11.23.0_react-native@0.69.5:
+  registry.npmjs.org/react-native-webview/11.23.0_react-native@0.70.0:
     resolution: {integrity: sha512-mGrgsMnYcQONvQy59xpBn87sKqkCsSkqIDRo+c2Ov4ISYl1j90wFBs+qViVJRWdoNHVuoCAZ4nZkJ65mhDpHhA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/react-native-webview/-/react-native-webview-11.23.0.tgz}
     id: registry.npmjs.org/react-native-webview/11.23.0
     name: react-native-webview
@@ -30877,22 +30782,22 @@ packages:
     dependencies:
       escape-string-regexp: registry.npmjs.org/escape-string-regexp/2.0.0
       invariant: registry.npmjs.org/invariant/2.2.4
-      react-native: registry.npmjs.org/react-native/0.69.5
+      react-native: registry.npmjs.org/react-native/0.70.0
     dev: false
 
-  registry.npmjs.org/react-native/0.69.5:
-    resolution: {integrity: sha512-4Psrj1nDMLQjBXVH8n3UikzOHQc8+sa6NbxZQR0XKtpx8uC3HiJBgX+/FIum/RWxfi5J/Dt/+A2gLGmq2Hps8g==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/react-native/-/react-native-0.69.5.tgz}
+  registry.npmjs.org/react-native/0.70.0:
+    resolution: {integrity: sha512-QjXLbrK9f+/B2eCzn6kAvglLV/8nwPuFGaFv7ggPpAzFRyx5bVN1dwQLHL3MrP7iXR/M7Jc6Nnid7tmRSic6vA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/react-native/-/react-native-0.70.0.tgz}
     name: react-native
-    version: 0.69.5
+    version: 0.70.0
     engines: {node: '>=14'}
     hasBin: true
     peerDependencies:
-      react: 18.0.0
+      react: 18.1.0
     dependencies:
       '@jest/create-cache-key-function': registry.npmjs.org/@jest/create-cache-key-function/27.5.1
-      '@react-native-community/cli': registry.npmjs.org/@react-native-community/cli/8.0.6_react-native@0.69.5
-      '@react-native-community/cli-platform-android': registry.npmjs.org/@react-native-community/cli-platform-android/8.0.5
-      '@react-native-community/cli-platform-ios': registry.npmjs.org/@react-native-community/cli-platform-ios/8.0.6
+      '@react-native-community/cli': registry.npmjs.org/@react-native-community/cli/9.1.0
+      '@react-native-community/cli-platform-android': registry.npmjs.org/@react-native-community/cli-platform-android/9.1.0
+      '@react-native-community/cli-platform-ios': registry.npmjs.org/@react-native-community/cli-platform-ios/9.1.0
       '@react-native/assets': registry.npmjs.org/@react-native/assets/1.0.0
       '@react-native/normalize-color': registry.npmjs.org/@react-native/normalize-color/2.0.0
       '@react-native/polyfills': registry.npmjs.org/@react-native/polyfills/2.0.0
@@ -30900,24 +30805,23 @@ packages:
       anser: registry.npmjs.org/anser/1.4.10
       base64-js: registry.npmjs.org/base64-js/1.5.1
       event-target-shim: registry.npmjs.org/event-target-shim/5.0.1
-      hermes-engine: registry.npmjs.org/hermes-engine/0.11.0
       invariant: registry.npmjs.org/invariant/2.2.4
       jsc-android: registry.npmjs.org/jsc-android/250230.2.1
       memoize-one: registry.npmjs.org/memoize-one/5.2.1
-      metro-react-native-babel-transformer: registry.npmjs.org/metro-react-native-babel-transformer/0.70.3
-      metro-runtime: registry.npmjs.org/metro-runtime/0.70.3
-      metro-source-map: registry.npmjs.org/metro-source-map/0.70.3
+      metro-react-native-babel-transformer: registry.npmjs.org/metro-react-native-babel-transformer/0.72.1
+      metro-runtime: registry.npmjs.org/metro-runtime/0.72.1
+      metro-source-map: registry.npmjs.org/metro-source-map/0.72.1
       mkdirp: registry.npmjs.org/mkdirp/0.5.6
       nullthrows: registry.npmjs.org/nullthrows/1.1.1
       pretty-format: registry.npmjs.org/pretty-format/26.6.2
       promise: registry.npmjs.org/promise/8.1.0
       react-devtools-core: registry.npmjs.org/react-devtools-core/4.24.0
-      react-native-codegen: registry.npmjs.org/react-native-codegen/0.69.2
-      react-native-gradle-plugin: registry.npmjs.org/react-native-gradle-plugin/0.0.7
+      react-native-codegen: registry.npmjs.org/react-native-codegen/0.70.4
+      react-native-gradle-plugin: registry.npmjs.org/react-native-gradle-plugin/0.70.2
       react-refresh: registry.npmjs.org/react-refresh/0.4.3
       react-shallow-renderer: registry.npmjs.org/react-shallow-renderer/16.15.0
       regenerator-runtime: registry.npmjs.org/regenerator-runtime/0.13.9
-      scheduler: registry.npmjs.org/scheduler/0.21.0
+      scheduler: registry.npmjs.org/scheduler/0.22.0
       stacktrace-parser: registry.npmjs.org/stacktrace-parser/0.1.10
       use-sync-external-store: registry.npmjs.org/use-sync-external-store/1.2.0
       whatwg-fetch: registry.npmjs.org/whatwg-fetch/3.6.2
@@ -31059,16 +30963,6 @@ packages:
     engines: {node: '>=4'}
     dependencies:
       find-up: registry.npmjs.org/find-up/2.1.0
-      read-pkg: registry.npmjs.org/read-pkg/3.0.0
-    dev: true
-
-  registry.npmjs.org/read-pkg-up/4.0.0:
-    resolution: {integrity: sha512-6etQSH7nJGsK0RbG/2TeDzZFa8shjQ1um+SwQQ5cwKy0dhSXdOncEhb1CPpvQG4h7FyOV6EB6YlV0yJvZQNAkA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/read-pkg-up/-/read-pkg-up-4.0.0.tgz}
-    name: read-pkg-up
-    version: 4.0.0
-    engines: {node: '>=6'}
-    dependencies:
-      find-up: registry.npmjs.org/find-up/3.0.0
       read-pkg: registry.npmjs.org/read-pkg/3.0.0
     dev: true
 
@@ -31229,15 +31123,6 @@ packages:
       is-fullwidth-code-point: registry.npmjs.org/is-fullwidth-code-point/1.0.0
       mute-stream: registry.npmjs.org/mute-stream/0.0.5
     dev: false
-
-  registry.npmjs.org/realpath-native/1.1.0:
-    resolution: {integrity: sha512-wlgPA6cCIIg9gKz0fgAPjnzh4yR/LnXovwuo9hvyGvx3h8nX4+/iLZplfUWasXpqD8BdnGnP5njOFjkUwPzvjA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/realpath-native/-/realpath-native-1.1.0.tgz}
-    name: realpath-native
-    version: 1.1.0
-    engines: {node: '>=4'}
-    dependencies:
-      util.promisify: registry.npmjs.org/util.promisify/1.1.1
-    dev: true
 
   registry.npmjs.org/recast/0.20.5:
     resolution: {integrity: sha512-E5qICoPoNL4yU0H0NoBDntNB0Q5oMSNh9usFctYniLBluTthi3RsQVBXIJNbApOlvSwW/RGxIuokPcAc59J5fQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/recast/-/recast-0.20.5.tgz}
@@ -32399,6 +32284,13 @@ packages:
     resolution: {integrity: sha512-1r87x5fz9MXqswA2ERLo0EbOAU74DpIUO090gIasYTqlVoJeMcl+Z1Rg7WHz+qtPujhS/hGIt9kxZOYBV3faRQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/scheduler/-/scheduler-0.21.0.tgz}
     name: scheduler
     version: 0.21.0
+    dependencies:
+      loose-envify: registry.npmjs.org/loose-envify/1.4.0
+
+  registry.npmjs.org/scheduler/0.22.0:
+    resolution: {integrity: sha512-6QAm1BgQI88NPYymgGQLCZgvep4FyePDWFpXVK+zNSUgHwlqpJy8VEh8Et0KxTACS4VWwMousBElAZOH9nkkoQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/scheduler/-/scheduler-0.22.0.tgz}
+    name: scheduler
+    version: 0.22.0
     dependencies:
       loose-envify: registry.npmjs.org/loose-envify/1.4.0
 
@@ -34266,6 +34158,7 @@ packages:
     engines: {node: '>=6'}
     dependencies:
       has-flag: registry.npmjs.org/has-flag/3.0.0
+    dev: false
 
   registry.npmjs.org/supports-color/7.2.0:
     resolution: {integrity: sha512-qpCAvRl9stuOHveKsn7HncJRvv501qIacKzQlO/+Lwxc9+0q2wLyv4Dfvt80/DPn2pqOBsJdDiogXGR9+OvwRw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/supports-color/-/supports-color-7.2.0.tgz}
@@ -34656,18 +34549,6 @@ packages:
       acorn: registry.npmjs.org/acorn/8.7.1
       commander: registry.npmjs.org/commander/2.20.3
       source-map-support: registry.npmjs.org/source-map-support/0.5.21
-
-  registry.npmjs.org/test-exclude/5.2.3:
-    resolution: {integrity: sha512-M+oxtseCFO3EDtAaGH7iiej3CBkzXqFMbzqYAACdzKui4eZA+pq3tZEwChvOdNfa7xxy8BfbmgJSIr43cC/+2g==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/test-exclude/-/test-exclude-5.2.3.tgz}
-    name: test-exclude
-    version: 5.2.3
-    engines: {node: '>=6'}
-    dependencies:
-      glob: registry.npmjs.org/glob/7.2.3
-      minimatch: registry.npmjs.org/minimatch/3.1.2
-      read-pkg-up: registry.npmjs.org/read-pkg-up/4.0.0
-      require-main-filename: registry.npmjs.org/require-main-filename/2.0.0
-    dev: true
 
   registry.npmjs.org/test-exclude/6.0.0:
     resolution: {integrity: sha512-cAGWPIyOHU6zlmg88jwm7VRyXnMN7iV68OGAbYDk/Mh/xC/pzVPlQtY6ngoIH/5/tciuhGfvESU8GrHrcxD56w==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/test-exclude/-/test-exclude-6.0.0.tgz}
@@ -35724,18 +35605,6 @@ packages:
       es-abstract: registry.npmjs.org/es-abstract/1.20.1
       has-symbols: registry.npmjs.org/has-symbols/1.0.3
       object.getownpropertydescriptors: registry.npmjs.org/object.getownpropertydescriptors/2.1.4
-
-  registry.npmjs.org/util.promisify/1.1.1:
-    resolution: {integrity: sha512-/s3UsZUrIfa6xDhr7zZhnE9SLQ5RIXyYfiVnMMyMDzOc8WhWN4Nbh36H842OyurKbCDAesZOJaVyvmSl6fhGQw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/util.promisify/-/util.promisify-1.1.1.tgz}
-    name: util.promisify
-    version: 1.1.1
-    dependencies:
-      call-bind: registry.npmjs.org/call-bind/1.0.2
-      define-properties: registry.npmjs.org/define-properties/1.1.4
-      for-each: registry.npmjs.org/for-each/0.3.3
-      has-symbols: registry.npmjs.org/has-symbols/1.0.3
-      object.getownpropertydescriptors: registry.npmjs.org/object.getownpropertydescriptors/2.1.4
-    dev: true
 
   registry.npmjs.org/util/0.10.3:
     resolution: {integrity: sha512-5KiHfsmkqacuKjkRkdV7SsfDJ2EGiPsK92s2MhNSY0craxjTdKTtqKsJaCWp4LW33ZZ0OPUv1WO/TFvNQRiQxQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/util/-/util-0.10.3.tgz}
@@ -36992,16 +36861,6 @@ packages:
     resolution: {integrity: sha512-l4Sp/DRseor9wL6EvV2+TuQn63dMkPjZ/sp9XkghTEbV9KlPS1xUsZ3u7/IQO4wxtcFB4bgpQPRcR3QCvezPcQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/wrappy/-/wrappy-1.0.2.tgz}
     name: wrappy
     version: 1.0.2
-
-  registry.npmjs.org/write-file-atomic/2.4.1:
-    resolution: {integrity: sha512-TGHFeZEZMnv+gBFRfjAcxL5bPHrsGKtnb4qsFAws7/vlh+QfwAaySIw4AXP9ZskTTh5GWu3FLuJhsWVdiJPGvg==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/write-file-atomic/-/write-file-atomic-2.4.1.tgz}
-    name: write-file-atomic
-    version: 2.4.1
-    dependencies:
-      graceful-fs: registry.npmjs.org/graceful-fs/4.2.10
-      imurmurhash: registry.npmjs.org/imurmurhash/0.1.4
-      signal-exit: registry.npmjs.org/signal-exit/3.0.7
-    dev: true
 
   registry.npmjs.org/write-file-atomic/2.4.3:
     resolution: {integrity: sha512-GaETH5wwsX+GcnzhPgKcKjJ6M2Cq3/iZp1WyY/X1CSqrW+jVNM9Y7D8EC2sM4ZG/V8wZlSniJnCKWPmBYAucRQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/write-file-atomic/-/write-file-atomic-2.4.3.tgz}
