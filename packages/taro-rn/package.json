@@ -41,7 +41,7 @@
     "babel-preset-expo": "~9.2.0",
     "base64-js": "^1.3.0",
     "deprecated-react-native-prop-types": "^2.3.0",
-    "expo-av": "~12.0.3",
+    "expo-av": "~12.0.4",
     "expo-barcode-scanner": "~11.4.0",
     "expo-brightness": "~10.3.0",
     "expo-camera": "~12.3.0",
@@ -64,10 +64,10 @@
   },
   "devDependencies": {
     "@types/jest": "^27.4.1",
-    "@types/react-native": "^0.69.5",
+    "@types/react-native": "^0.69.8",
     "fbjs-scripts": "^3.0.1",
-    "metro-react-native-babel-preset": "^0.70.3",
-    "react-native": "^0.69.3"
+    "metro-react-native-babel-preset": "^0.72.1",
+    "react-native": "^0.70.1"
   },
   "peerDependencies": {
     "@react-native-async-storage/async-storage": "~1.17.7",
@@ -75,7 +75,7 @@
     "@react-native-community/clipboard": "~1.5.1",
     "@react-native-community/geolocation": "~2.1.0",
     "@react-native-community/netinfo": "~9.3.0",
-    "expo-av": "~12.0.3",
+    "expo-av": "~12.0.4",
     "expo-barcode-scanner": "~11.4.0",
     "expo-brightness": "~10.3.0",
     "expo-camera": "~12.3.0",
