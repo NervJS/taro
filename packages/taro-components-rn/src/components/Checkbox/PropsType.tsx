@@ -16,4 +16,5 @@ export interface CheckboxProps {
   checked?: boolean;
   color?: string;
   onChange?: (evt: EventOnChange) => void;
+  children?: React.ReactNode;
 }
