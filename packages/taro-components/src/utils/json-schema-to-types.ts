@@ -58,7 +58,7 @@ const COMPONENTS_LIST = [
   'Video',
   'View',
   'VoipRoom',
-  'WebView'
+  'WebView',
 ]
 console.log(COMPONENTS_LIST)
 const OMIT_PROPS = ['generic:simple-component']
@@ -68,9 +68,11 @@ class GenerateType {
   component
   constructor (component) {
     this.component = component
-    MINI_APP_TYPES.forEach(type => {
+    MINI_APP_TYPES.forEach((type) => {
       try {
-        const json = require(`miniapp-types/dist/schema/${type}/${component === 'AD' ? 'ad' : humps.decamelize(component, { separator: '-' })}.json`)
+        const json = require(`miniapp-types/dist/schema/${type}/${
+          component === 'AD' ? 'ad' : humps.decamelize(component, { separator: '-' })
+        }.json`)
 
         if (!json) {
           return
@@ -92,10 +94,12 @@ class GenerateType {
     if (!jsonSchema) {
       return obj
     }
-    Object.keys(this.jsonSchemas[this.component]).forEach(key => {
+    Object.keys(this.jsonSchemas[this.component]).forEach((key) => {
       const filteredList = xorWith(props[key], Object.keys(this.jsonSchemas[this.component][key].properties))
       if (filteredList.length > 0) {
-        obj[key] = filteredList.map(item => item.match(/^bind/) ? humps.camelize(item.replace(/^bind/, 'on')) : item)
+        obj[key] = filteredList.map((item) =>
+          item.match(/^bind/) ? humps.camelize(item.replace(/^bind/, 'on')) : item
+        )
       }
     })
 
@@ -106,8 +110,8 @@ class GenerateType {
   convertProps (props) {
     const array = [...new Set(flattenDeep(toArray(props)))]
     const reverseProps = {}
-    array.forEach(prop => {
-      reverseProps[prop] = Object.keys(props).filter(key => props[key].includes(prop))
+    array.forEach((prop) => {
+      reverseProps[prop] = Object.keys(props).filter((key) => props[key].includes(prop))
     })
     return reverseProps
   }
@@ -133,7 +137,7 @@ class GenerateType {
             const covertedName = name.match(/^on/)
               ? name.replace(/^on/, 'bind')
               : humps.decamelize(name, { separator: '-' })
-            MINI_APP_TYPES.forEach(type => {
+            MINI_APP_TYPES.forEach((type) => {
               if (jsonSchemas[type]?.properties[name]) {
                 if (isEmpty(existProps[type])) {
                   existProps[type] = [name]
@@ -172,19 +176,16 @@ class GenerateType {
                 `@supported ${supportedPlatforms.join(', ')}\n`
               )
               if (value.match(/@deprecated/)) {
-                astPath.node.leadingComments[0].value = value.replace(
-                  /\* @deprecated.*?\n/,
-                  ''
-                )
+                astPath.node.leadingComments[0].value = value.replace(/\* @deprecated.*?\n/, '')
               }
             }
-          }
+          },
         })
-      }
+      },
     })
     return {
       existProps,
-      ast
+      ast,
     }
   }
 
@@ -200,7 +201,7 @@ class GenerateType {
         const addedProps: string[] = []
         astPath.traverse({
           TSInterfaceBody (astPath) {
-            Object.keys(props).forEach(prop => {
+            Object.keys(props).forEach((prop) => {
               if (OMIT_PROPS.includes(prop)) {
                 return
               }
@@ -215,7 +216,7 @@ class GenerateType {
                 if (!enumArray) {
                   value = t.tsTypeReference(t.identifier(type))
                 } else {
-                  value = t.tsUnionType(enumArray.map(item => t.tsLiteralType(t.stringLiteral(item))))
+                  value = t.tsUnionType(enumArray.map((item) => t.tsLiteralType(t.stringLiteral(item))))
                 }
               } else if (type instanceof Array) {
                 value = t.tsTypeReference(t.identifier(type.join('|')))
@@ -228,40 +229,24 @@ class GenerateType {
               node.optional = !json.required?.[prop] || !json.required?.[prop.replace(/^on/, 'bind')]
 
               if (node.leadingComments) {
-                let commentValue = node.leadingComments[0].value
-                commentValue = commentValue.replace(/^\*+? .*?\n/, `* ${propSchema.description?.replace(/\n/g, '\n * ')} \n`)
-                commentValue = commentValue.replace(
-                  /@supported .*?\n/,
-                  `@supported ${props[prop].join(', ')}\n`
-                )
+                let commentValue = `* ${propSchema.description?.replace(/\n/g, '\n * ')} \n`
+                commentValue += `* @supported ${props[prop].join(', ')}\n`
                 const defaultValue = propSchema.defaultValue
                 if (defaultValue) {
                   if (defaultValue instanceof Array) {
-                    commentValue = commentValue.replace(
-                      /@default .*?\n/,
-                      `@default ${propSchema.defaultValue.join(',')}\n`
-                    )
+                    commentValue += `* @default ${propSchema.defaultValue.join(',')}\n`
                   } else {
-                    commentValue = commentValue.replace(
-                      /@default .*?\n/,
-                      `@default ${propSchema.defaultValue}\n`
-                    )
+                    commentValue += `* @default ${propSchema.defaultValue}\n`
                   }
-                } else {
-                  commentValue = commentValue.replace(
-                    /\* @default .*?\n/,
-                    ''
-                  )
                 }
-
                 node.leadingComments[0].value = commentValue
               }
               astPath.node.body.push(node)
               addedProps.push(prop)
             })
-          }
+          },
         })
-      }
+      },
     })
   }
 
@@ -271,7 +256,7 @@ class GenerateType {
         if (astPath.node.trailingComments) {
           astPath.node.trailingComments = []
         }
-      }
+      },
     })
   }
 
@@ -281,7 +266,7 @@ class GenerateType {
     const ast = parser.parse(codeStr, {
       sourceType: 'module',
       strictMode: false,
-      plugins: ['typescript']
+      plugins: ['typescript'],
     })
     const { existProps } = this.updateComment(ast)
     const missingProps = this.getMissingProps(existProps)
@@ -289,11 +274,11 @@ class GenerateType {
     this.addProps(ast, props)
     this.formatJSDoc(ast)
     const result = generator(ast)
-    const code = prettify(result.code, { parser: 'typescript', singleQuote: true, semi: false, })
+    const code = prettify(result.code, { parser: 'typescript', singleQuote: true, semi: false })
     fs.writeFileSync(filePath, code)
   }
 }
-COMPONENTS_LIST.forEach(component => {
+COMPONENTS_LIST.forEach((component) => {
   const generateTypes = new GenerateType(component)
   generateTypes.exec()
 })
