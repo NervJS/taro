@@ -87,8 +87,8 @@ interface PageContainerProps extends StandardProps {
   onClickOverlay?: CommonEventFunction
 
   /** 是否在下滑一段距离后关闭
-   * @default false
    * @supported weapp
+   * @default false
    */
   closeOnSlideDown?: string
 }

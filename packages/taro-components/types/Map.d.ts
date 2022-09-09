@@ -294,15 +294,16 @@ interface MapProps extends StandardProps {
    */
   theme?: string
 
-  /** 展示3D楼块
-   * @supported weapp, swan, tt, qq
-   */
-  enable3D?: string
-
   /** 内联样式。
    * @supported alipay
    */
   optimize?: string
+
+  /** 展示3D楼块
+   * @supported weapp, swan, tt, qq
+   * @default false
+   */
+  enable3D?: string
 }
 declare namespace MapProps {
   /** 标记点用于在地图上显示标记的位置 */

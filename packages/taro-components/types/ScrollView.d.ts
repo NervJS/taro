@@ -1,9 +1,5 @@
 import { ComponentType } from 'react'
-import {
-  StandardProps,
-  CommonEventFunction,
-  BaseEventOrigFunction,
-} from './common'
+import { StandardProps, CommonEventFunction, BaseEventOrigFunction } from './common'
 interface ScrollViewProps extends StandardProps {
   /** 允许横向滚动
    * @default false
@@ -177,83 +173,71 @@ interface ScrollViewProps extends StandardProps {
   onDragging?: CommonEventFunction
 
   /** 滑动结束事件 (同时开启 enhanced 属性后生效) detail { scrollTop, scrollLeft, velocity }
-   * @supported weapp, rn
-   * @rn 二选一
+   * @supported weapp
    */
   onDragend?: CommonEventFunction
 
   /** 外部样式名。
-   * @supported alipay, rn
-   * @rn 二选一
+   * @supported alipay
    */
   class?: string
 
   /** 内联样式名。
-   * @supported alipay, rn
-   * @rn 二选一
+   * @supported alipay
    */
   style?: string
 
   /** 当 scroll-with-animation设置为 true 时，可以设置 scroll-animation-duration 来控制动画的执行时间，单位 ms。
    * 版本要求： 基础库 1.9.0 及以上
-   * @supported alipay, rn
-   * @rn 二选一
+   * @supported alipay
    */
   scrollAnimationDuration?: string
 
   /** 纵向滚动时，当滚动到顶部或底部时，强制禁止触发页面滚动，仍然只触发 scroll-view 自身的滚动。
+   * 默认值： false
    * 版本要求： 基础库 1.11.2 及以上
-   * @default false
-   * @supported alipay, rn
-   * @rn 二选一
+   * @supported alipay
    */
   trapScroll?: string
 
   /** 触摸动作开始。
    * 版本要求： 基础库 1.15.0 及以上
-   * @supported alipay, rn
-   * @rn 二选一
+   * @supported alipay
    */
   onTouchStart?: CommonEventFunction
 
   /** 触摸后移动。
    * 版本要求： 基础库 1.15.0 及以上
-   * @supported alipay, rn
-   * @rn 二选一
+   * @supported alipay
    */
   onTouchMove?: CommonEventFunction
 
   /** 触摸动作结束。
    * 版本要求： 基础库 1.15.0 及以上
-   * @supported alipay, rn
-   * @rn 二选一
+   * @supported alipay
    */
   onTouchEnd?: CommonEventFunction
 
   /** 触摸动作被打断，如来电提醒、弹窗。
    * 版本要求： 基础库 1.15.0 及以上
-   * @supported alipay, rn
-   * @rn 二选一
+   * @supported alipay
    */
   onTouchCancel?: CommonEventFunction
 
   /** 发生滚动前，对滚动方向进行判断，当方向是顶部/左边时，如果值为 always 将始终禁止滚动，如果值为 out-of-bounds 且当前已经滚动到顶部/左边，禁止滚动。
    * 版本要求：基础库 2.6.2 及以上
-   * @supported alipay, rn
-   * @rn 二选一
+   * @supported alipay
    */
   disableLowerScroll?: string
 
   /** 发生滚动前，对滚动方向进行判断，当方向是底部/右边时，如果值为 always 将始终禁止滚动，如果值为 out-of-bounds 且当前已经滚动到底部/右边，禁止滚动。
    * 版本要求：基础库 2.6.2 及以上
-   * @supported alipay, rn
-   * @rn 二选一
+   * @supported alipay
    */
   disableUpperScroll?: string
 
   /** 无障碍访问，（属性）元素的额外描述
-   * @supported qq, rn
-   * @rn 二选一
+   * @supported qq
    */
   ariaLabel?: string
 }
