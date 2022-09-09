@@ -44,7 +44,7 @@
     "@react-native-community/segmented-control": "^2.2.2",
     "@testing-library/react-native": "^11.0.0",
     "@types/react-native": "^0.69.5",
-    "expo": "~46.0.1",
+    "expo": "~46.0.10",
     "metro-babel-register": "^0.70.3",
     "metro-react-native-babel-preset": "^0.70.3",
     "react": "18.0.0",
@@ -56,7 +56,7 @@
   "peerDependencies": {
     "@react-native-community/slider": "~4.2.4",
     "@react-native-picker/picker": "~2.4.2",
-    "expo": "~46.0.1",
+    "expo": "~46.0.10",
     "expo-av": "~12.0.3",
     "expo-barcode-scanner": "~11.4.0",
     "expo-camera": "~12.3.0",
