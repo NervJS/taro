@@ -39,6 +39,7 @@ interface LivePlayerProps extends StandardProps {
   /** 进入后台时是否静音（已废弃，默认退台静音）
    * @default false
    * @supported weapp
+   * @deprecated
    */
   backgroundMute?: boolean
 
