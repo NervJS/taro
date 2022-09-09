@@ -42,7 +42,7 @@
     "babel-plugin-transform-react-jsx-to-rn-stylesheet": "workspace:*",
     "babel-plugin-transform-taroapi": "workspace:*",
     "core-js": "^3.6.5",
-    "metro-react-native-babel-preset": "^0.67.0"
+    "metro-react-native-babel-preset": "^0.70.3"
   },
   "devDependencies": {
     "@babel/core": "^7.14.5"

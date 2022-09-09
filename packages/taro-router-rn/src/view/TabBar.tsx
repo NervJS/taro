@@ -393,7 +393,7 @@ export class TabBar extends React.PureComponent<TabBarProps & WithSafeAreaInsets
                   })
                 }
               ],
-              position: showTabBar ? 'absolute' : (null as any)
+              position: showTabBar ? 'relative' : (null as any)
             },
             style,
             {

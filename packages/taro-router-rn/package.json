@@ -29,7 +29,7 @@
   "license": "MIT",
   "peerDependencies": {
     "@react-native-masked-view/masked-view": "~0.2.7",
-    "react-native-gesture-handler": "~1.10.3",
+    "react-native-gesture-handler": "~2.5.0",
     "react-native-safe-area-context": "~4.3.1",
     "react-native-screens": "^3.15.0"
   },
@@ -42,12 +42,11 @@
     "@react-navigation/stack": "^6.1.1",
     "nanoid": "^3.1.12",
     "query-string": "^6.1.0",
-    "react-native-gesture-handler": "~1.10.3",
+    "react-native-gesture-handler": "~2.5.0",
     "react-native-safe-area-context": "~4.3.1",
     "react-native-screens": "^3.15.0"
   },
   "devDependencies": {
-    "@types/react": "^17.0.0",
-    "@types/react-native": "^0.67.7"
+    "@types/react-native": "^0.69.5"
   }
 }
