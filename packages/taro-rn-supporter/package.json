@@ -34,8 +34,8 @@
     "@tarojs/helper": "workspace:*",
     "@tarojs/rn-style-transformer": "workspace:*",
     "lodash": "^4.17.21",
-    "metro-react-native-babel-transformer": "^0.70.3",
-    "metro-resolver": "^0.70.3",
+    "metro-react-native-babel-transformer": "^0.72.1",
+    "metro-resolver": "^0.72.1",
     "react-native-svg-transformer": "^0.14.3"
   }
 }
