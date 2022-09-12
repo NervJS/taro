@@ -9,80 +9,26 @@ import * as path from 'path'
 import { format as prettify } from 'prettier'
 
 const MINI_APP_TYPES = ['weapp', 'alipay', 'swan', 'tt', 'qq', 'jd'] as const
-const COMPONENTS_LIST = [
-  'AD',
-  'AdCustom',
-  'Audio',
-  'Block',
-  'Button',
-  'Camera',
-  'Canvas',
-  'Checkbox',
-  'CheckboxGroup',
-  'CoverImage',
-  'CoverView',
-  'Editor',
-  'Form',
-  'FunctionalPageNavigator',
-  'Icon',
-  'Image',
-  'Input',
-  'Label',
-  'LivePlayer',
-  'LivePusher',
-  'Map',
-  'MatchMedia',
-  'MovableArea',
-  'MovableView',
-  'NavigationBar',
-  'Navigator',
-  'OfficialAccount',
-  'OpenData',
-  'PageContainer',
-  'PageMeta',
-  'Picker',
-  'PickerView',
-  'PickerViewColumn',
-  'Progress',
-  'Radio',
-  'RadioGroup',
-  'RichText',
-  'ScrollView',
-  'ShareElement',
-  'Slider',
-  'Swiper',
-  'SwiperItem',
-  'Switch',
-  'Text',
-  'Textarea',
-  'Video',
-  'View',
-  'VoipRoom',
-  'WebView',
-]
-console.log(COMPONENTS_LIST)
+
 const OMIT_PROPS = ['generic:simple-component']
-class GenerateType {
-  typesFilePath: string[] = fs.readdirSync(path.join(process.cwd(), 'types'))
+class GenerateTypes {
   jsonSchemas: any = {}
-  component
-  constructor (component) {
-    this.component = component
+  componentName
+  constructor (componentName) {
+    this.componentName = componentName
     MINI_APP_TYPES.forEach((type) => {
       try {
-        const json = require(`miniapp-types/dist/schema/${type}/${
-          component === 'AD' ? 'ad' : humps.decamelize(component, { separator: '-' })
-        }.json`)
+        const json = require(`miniapp-types/dist/schema/${type}/${componentName === 'AD' ? 'ad' : humps.decamelize(componentName, { separator: '-' })}.json`)
 
         if (!json) {
           return
         }
-        if (!this.jsonSchemas[component]) {
-          this.jsonSchemas[component] = {}
+        if (!this.jsonSchemas[componentName]) {
+          this.jsonSchemas[componentName] = {}
         }
-        this.jsonSchemas[component][type] = json
+        this.jsonSchemas[componentName][type] = json
       } catch (error) {
-        console.log(error)
+        // console.log(error)
       }
     })
   }
@@ -90,12 +36,12 @@ class GenerateType {
   // 获取不存在的属性
   getMissingProps (props: { [key in typeof MINI_APP_TYPES[number]]?: string[] }) {
     const obj = {}
-    const jsonSchema = this.jsonSchemas[this.component]
+    const jsonSchema = this.jsonSchemas[this.componentName]
     if (!jsonSchema) {
       return obj
     }
-    Object.keys(this.jsonSchemas[this.component]).forEach((key) => {
-      const filteredList = xorWith(props[key], Object.keys(this.jsonSchemas[this.component][key].properties))
+    Object.keys(this.jsonSchemas[this.componentName]).forEach((key) => {
+      const filteredList = xorWith(props[key], Object.keys(this.jsonSchemas[this.componentName][key].properties))
       if (filteredList.length > 0) {
         obj[key] = filteredList.map((item) =>
           item.match(/^bind/) ? humps.camelize(item.replace(/^bind/, 'on')) : item
@@ -117,13 +63,13 @@ class GenerateType {
   }
 
   updateComment (ast) {
-    const component = this.component
-    const jsonSchemas = this.jsonSchemas[this.component]
+    const componentName = this.componentName
+    const jsonSchemas = this.jsonSchemas[this.componentName]
     const existProps: { [key in typeof MINI_APP_TYPES[number]]?: string[] } = {}
 
     traverse(ast, {
       TSInterfaceDeclaration (astPath) {
-        if (astPath.node.id.name !== `${component}Props`) {
+        if (astPath.node.id.name !== `${componentName}Props`) {
           return
         }
         astPath.traverse({
@@ -191,11 +137,11 @@ class GenerateType {
 
   // 添加不存在的属性
   addProps (ast, props) {
-    const component = this.component
-    const jsonSchemas = this.jsonSchemas[this.component]
+    const componentName = this.componentName
+    const jsonSchemas = this.jsonSchemas[this.componentName]
     traverse(ast, {
       TSInterfaceDeclaration (astPath) {
-        if (astPath.node.id.name !== `${component}Props`) {
+        if (astPath.node.id.name !== `${componentName}Props`) {
           return
         }
         const addedProps: string[] = []
@@ -261,7 +207,7 @@ class GenerateType {
   }
 
   exec () {
-    const filePath = path.join(process.cwd(), 'types', `${this.component}.d.ts`)
+    const filePath = path.join(process.cwd(), 'types', `${this.componentName}.d.ts`)
     const codeStr = fs.readFileSync(filePath, 'utf8')
     const ast = parser.parse(codeStr, {
       sourceType: 'module',
@@ -278,9 +224,12 @@ class GenerateType {
     fs.writeFileSync(filePath, code)
   }
 }
-COMPONENTS_LIST.forEach((component) => {
-  const generateTypes = new GenerateType(component)
+const typesFiles: string[] = fs.readdirSync(path.join(process.cwd(), 'types'))
+
+typesFiles.forEach((file) => {
+  const componentName = file.replace(/\.d\.ts$/, '')
+  const generateTypes = new GenerateTypes(componentName)
   generateTypes.exec()
 })
 
-export default GenerateType
+export default GenerateTypes
