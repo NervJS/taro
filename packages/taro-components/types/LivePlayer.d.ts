@@ -2,7 +2,7 @@ import { ComponentType } from 'react'
 import { StandardProps, CommonEventFunction, NetStatus } from './common'
 interface LivePlayerProps extends StandardProps {
   /** 音视频地址。目前仅支持 flv, rtmp 格式
-   * @supported weapp, tt, qq, jd
+   * @supported weapp, swan, tt, qq, jd
    */
   src?: string
 
@@ -14,44 +14,43 @@ interface LivePlayerProps extends StandardProps {
 
   /** 自动播放
    * @default false
-   * @supported weapp, tt, qq, jd
+   * @supported weapp, swan, tt, qq, jd
    */
   autoplay?: boolean
 
   /** 是否静音
    * @default false
-   * @supported weapp, tt, qq, jd
+   * @supported weapp, swan, tt, qq, jd
    */
   muted?: boolean
 
   /** 画面方向
    * @default "vertical"
-   * @supported weapp, tt, qq, jd
+   * @supported weapp, swan, tt, qq, jd
    */
   orientation?: keyof LivePlayerProps.Orientation
 
   /** 填充模式
    * @default "contain"
-   * @supported weapp, tt, qq, jd
+   * @supported weapp, swan, tt, qq, jd
    */
   objectFit?: keyof LivePlayerProps.objectFit
 
   /** 进入后台时是否静音（已废弃，默认退台静音）
    * @default false
    * @supported weapp
-   * @deprecated
    */
   backgroundMute?: boolean
 
   /** 最小缓冲区，单位s
    * @default 1
-   * @supported weapp, qq
+   * @supported weapp, swan, qq
    */
   minCache?: number
 
   /** 最大缓冲区，单位s
    * @default 3
-   * @supported weapp, qq
+   * @supported weapp, swan, qq
    */
   maxCache?: number
 
@@ -73,17 +72,17 @@ interface LivePlayerProps extends StandardProps {
   pictureInPictureMode?: ('push' | 'pop')[] | 'push' | 'pop' | ''
 
   /** 播放状态变化事件，detail = {code}
-   * @supported weapp, tt, qq, jd
+   * @supported weapp, swan, tt, qq, jd
    */
   onStateChange?: CommonEventFunction<LivePlayerProps.onStateChangeEventDetail>
 
   /** 全屏变化事件，detail = {direction, fullScreen}
-   * @supported weapp, tt, qq, jd
+   * @supported weapp, swan, tt, qq, jd
    */
   onFullScreenChange?: CommonEventFunction<LivePlayerProps.onFullScreenChangeEventDetail>
 
   /** 网络状态通知，detail = {info}
-   * @supported weapp, qq
+   * @supported weapp, swan, qq
    */
   onNetStatus?: CommonEventFunction<LivePlayerProps.onNetStatusEventDetail>
 
@@ -112,11 +111,6 @@ interface LivePlayerProps extends StandardProps {
    */
   referrerPolicy?: 'origin' | 'no-referrer'
 
-  /** undefined
-   * @supported swan
-   */
-  娱乐?: string
-
   /** 设置署名水印
    * @supported tt
    */
@@ -136,6 +130,11 @@ interface LivePlayerProps extends StandardProps {
    * @supported qq
    */
   onMetaDataChange?: CommonEventFunction
+
+  /** live-player 属性的唯一标志符
+   * @supported swan
+   */
+  id?: string
 }
 declare namespace LivePlayerProps {
   /** mode 的合法值 */
