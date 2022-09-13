@@ -399,7 +399,7 @@ function importDeclaration (astPath, state, t) {
         styleSheetIdentifierName = styleSheetName
       } else {
         styleSheetName = camelize(`${cssFileBaseName}${ext}_${NAME_SUFFIX}`)
-        const repeatName = styleSheetIdentifiers.find(identifier => identifier.name === styleSheetName)
+        const repeatName = styleSheetIdentifiers.find(identifier => identifier.styleSheetName === styleSheetName)
         styleSheetIdentifierName = repeatName ? styleSheetName + '1' : styleSheetName // fix repeat name
         // styleSheetIdentifierName = camelize(`${cssFileBaseName}${ext}_${NAME_SUFFIX}`)
       }
