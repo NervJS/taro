@@ -118,7 +118,8 @@ var inst = ${creator}(component, ${frameworkArgs})
 ${routerCreator}(inst, config, ${importFrameworkName})
 initPxTransform({
   designWidth: ${pxTransformConfig.designWidth},
-  deviceRatio: ${JSON.stringify(pxTransformConfig.deviceRatio)}
+  deviceRatio: ${JSON.stringify(pxTransformConfig.deviceRatio)},
+  baseFontSize: ${pxTransformConfig.baseFontSize || (pxTransformConfig.minRootSize >= 1 ? pxTransformConfig.minRootSize : 20)}
 })
 `
   return code
