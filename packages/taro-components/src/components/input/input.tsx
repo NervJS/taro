@@ -123,7 +123,7 @@ export class Input implements ComponentInterface {
       const inputType = getTrueType(type, confirmType, password)
       this.onInputExcuted = true
       /* 修复 number 类型 maxlength 无效 */
-      if (inputType === 'number' && value && maxlength <= value.length) {
+      if (inputType === 'number' && value && maxlength > -1 && maxlength <= value.length) {
         value = value.substring(0, maxlength)
         e.target.value = value
       }
