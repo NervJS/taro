@@ -592,7 +592,7 @@ class App extends Component {
 exports[`jsx style plugin combine the same filename style source 1`] = `
 "import { createElement, Component } from 'rax';
 import appCssStyleSheet from \\"./app.css\\";
-import appCssStyleSheet from \\"../app.css\\";
+import appCssStyleSheet1 from \\"../app.css\\";
 
 function _mergeEleStyles() {
   return [].concat.apply([], arguments).reduce((pre, cur) => Object.assign(pre, cur), {});
@@ -614,7 +614,7 @@ function _mergeStyles() {
   return newTarget;
 }
 
-var _styleSheet = _mergeStyles([appCssStyleSheet, \\"\\"], [appCssStyleSheet, \\"\\"]);
+var _styleSheet = _mergeStyles([appCssStyleSheet, \\"\\"], [appCssStyleSheet1, \\"\\"]);
 
 class App extends Component {
   render() {
