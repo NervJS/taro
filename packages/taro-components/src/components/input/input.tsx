@@ -95,6 +95,8 @@ export class Input implements ComponentInterface {
     } else {
       this.inputRef?.addEventListener('compositionstart', this.handleComposition)
       this.inputRef?.addEventListener('compositionend', this.handleComposition)
+      this.inputRef?.addEventListener('beforeinput', this.handleBeforeinput)
+      this.inputRef?.addEventListener('textInput', this.handleBeforeinput)
     }
 
     Object.defineProperty(this.el, 'value', {
@@ -107,6 +109,11 @@ export class Input implements ComponentInterface {
   disconnectedCallback () {
     if (this.type === 'file') {
       this.inputRef?.removeEventListener('change', this.fileListener)
+    } else {
+      this.inputRef?.removeEventListener('compositionstart', this.handleComposition)
+      this.inputRef?.removeEventListener('compositionend', this.handleComposition)
+      this.inputRef?.removeEventListener('beforeinput', this.handleBeforeinput)
+      this.inputRef?.removeEventListener('textInput', this.handleBeforeinput)
     }
   }
 
@@ -211,6 +218,19 @@ export class Input implements ComponentInterface {
       })
     } else {
       this.isOnComposition = true
+    }
+  }
+
+  handleBeforeinput = (e) => {
+    if (!e.data) return
+    const isNumber = e.data && /[0-9]/.test(e.data)
+    if (this.type === 'number' && !isNumber) {
+      e.preventDefault()
+    }
+    if (this.type === 'digit' && !isNumber) {
+      if (e.data !== '.' || (e.data === '.' && e.target.value.indexOf('.') > -1)) {
+        e.preventDefault()
+      }
     }
   }
 
