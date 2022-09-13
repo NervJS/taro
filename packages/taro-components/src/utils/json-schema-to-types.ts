@@ -16,9 +16,12 @@ class GenerateTypes {
   componentName
   constructor (componentName) {
     this.componentName = componentName
+
     MINI_APP_TYPES.forEach((type) => {
       try {
-        const json = require(`miniapp-types/dist/schema/${type}/${componentName === 'AD' ? 'ad' : humps.decamelize(componentName, { separator: '-' })}.json`)
+        const json = require(`miniapp-types/dist/schema/${type}/${
+          componentName === 'AD' ? 'ad' : humps.decamelize(componentName, { separator: '-' })
+        }.json`)
 
         if (!json) {
           return
@@ -29,6 +32,9 @@ class GenerateTypes {
         this.jsonSchemas[componentName][type] = json
       } catch (error) {
         // console.log(error)
+        if (!this.jsonSchemas[componentName]) {
+          this.jsonSchemas[componentName] = {}
+        }
       }
     })
   }
@@ -226,8 +232,8 @@ class GenerateTypes {
 }
 const typesFiles: string[] = fs.readdirSync(path.join(process.cwd(), 'types'))
 
-typesFiles.forEach((file) => {
-  const componentName = file.replace(/\.d\.ts$/, '')
+typesFiles.forEach((fileName) => {
+  const componentName = fileName.replace(/\.d\.ts$/, '')
   const generateTypes = new GenerateTypes(componentName)
   generateTypes.exec()
 })
