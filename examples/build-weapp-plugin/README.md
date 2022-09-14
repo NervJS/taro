@@ -1,6 +1,6 @@
 ## Demo - 开发微信小程序插件
 
-Taro 微信小程序插件开发文档：https://docs.taro.zone/docs/miniprogram-plugin
+Taro 微信小程序插件开发文档：https://taro-docs.jd.com/taro/docs/miniprogram-plugin
 微信小程序插件开发文档：https://developers.weixin.qq.com/miniprogram/dev/framework/plugin/development.html
 
 ### 快速开始

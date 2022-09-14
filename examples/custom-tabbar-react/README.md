@@ -1,6 +1,6 @@
 ## Demo - 微信小程序自定义 TabBar（React）
 
-Taro 微信小程序自定义 TabBar 开发文档：https://docs.taro.zone/docs/miniprogram-plugin
+Taro 微信小程序自定义 TabBar 开发文档：https://taro-docs.jd.com/taro/docs/miniprogram-plugin
 微信小程序自定义 TabBar 文档：https://developers.weixin.qq.com/miniprogram/dev/framework/ability/custom-tabbar.html
 
 ### 介绍

@@ -351,7 +351,7 @@ export function createReactApp (
         app?.onError?.(error)
         triggerAppHook('onError', error)
         if (process.env.NODE_ENV !== 'production' && error?.includes('Minified React error')) {
-          console.warn('React 出现报错，请打开编译配置 mini.debugReact 查看报错详情：https://docs.taro.zone/docs/config-detail#minidebugreact')
+          console.warn('React 出现报错，请打开编译配置 mini.debugReact 查看报错详情：https://taro-docs.jd.com/taro/docs/config-detail#minidebugreact')
         }
       }
     }),

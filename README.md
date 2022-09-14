@@ -60,11 +60,11 @@
 
 ### 版本迁移
 
-Taro 1/2 迁移至 Taro 3，请阅读[《Taro 版本升级权威指南》](https://docs.taro.zone/blog/2020-09-01-taro-versions)
+Taro 1/2 迁移至 Taro 3，请阅读[《Taro 版本升级权威指南》](https://taro-docs.jd.com/taro/blog/2020-09-01-taro-versions)
 
 ## 学习资源
 
-[5 分钟上手 Taro 开发](https://docs.taro.zone/docs/guide)
+[5 分钟上手 Taro 开发](https://taro-docs.jd.com/taro/docs/guide)
 
 [awesome-taro](https://github.com/NervJS/awesome-taro)
 
@@ -98,7 +98,7 @@ Taro 已经投入了我们的生产环境中使用，业界也在广泛地使用
 
 #### React/Nerv 支持
 
-在 Taro 3 中可以使用完整的 React/Nerv 开发体验，具体请参考[基础教程——React](https://docs.taro.zone/docs/react-overall)
+在 Taro 3 中可以使用完整的 React/Nerv 开发体验，具体请参考[基础教程——React](https://taro-docs.jd.com/taro/docs/react-overall)
 
 代码示例
 
@@ -129,7 +129,7 @@ export default class Index extends Component {
 
 #### Vue 支持
 
-在 Taro 3 中可以使用完整的 Vue 开发体验，具体请参考[基础教程——Vue](https://docs.taro.zone/docs/vue-overall)
+在 Taro 3 中可以使用完整的 Vue 开发体验，具体请参考[基础教程——Vue](https://taro-docs.jd.com/taro/docs/vue-overall)
 
 代码示例
 

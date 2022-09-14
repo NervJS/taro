@@ -2,7 +2,7 @@
 
 本示例展示了如何在原生小程序的主包和分包中使用 Taro 生成的页面。
 
-[详细文档](https://docs.taro.zone/docs/taro-in-miniapp)
+[详细文档](https://taro-docs.jd.com/taro/docs/taro-in-miniapp)
 
 ### 开发环境
 

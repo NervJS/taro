@@ -61,7 +61,7 @@
 
 ### Version
 
-To migrate from Taro 1/2 to Taro 3, please refer to [The definitive guide to Taro version upgrades](https://docs.taro.zone/blog/2020-09-01-taro-versions).
+To migrate from Taro 1/2 to Taro 3, please refer to [The definitive guide to Taro version upgrades](https://taro-docs.jd.com/taro/blog/2020-09-01-taro-versions).
 
 ## Resources
 

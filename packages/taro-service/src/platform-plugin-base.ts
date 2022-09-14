@@ -111,7 +111,7 @@ ${exampleCommand}`))
     }
 
     if (this.compiler === 'webpack5' && !config.cache?.enable) {
-      tips.push(chalk.yellowBright('建议开启持久化缓存功能，能有效提升二次编译速度，详情请参考: https://docs.taro.zone/docs/config-detail#cache。'))
+      tips.push(chalk.yellowBright('建议开启持久化缓存功能，能有效提升二次编译速度，详情请参考: https://taro-docs.jd.com/taro/docs/config-detail#cache。'))
     }
 
     if (tips.length) {
