@@ -68,7 +68,6 @@
     "miniprogram-simulate": "^1.1.5",
     "mkdirp": "^1.0.4",
     "ora": "4.0.3",
-    "postcss": "8.3.5",
     "postcss-html-transform": "workspace:*",
     "postcss-import": "^14.0.0",
     "postcss-loader": "^7.0.1",
@@ -94,6 +93,10 @@
   "devDependencies": {
     "@types/webpack": "4",
     "webpack-merge": "^4.2.2",
-    "vue-loader": "^15.9.3"
+    "vue-loader": "^15.9.3",
+    "postcss": "^8.4.12"
+  },
+  "peerDependencies": {
+    "postcss": "^8.4.12"
   }
 }

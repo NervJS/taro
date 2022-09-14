@@ -72,7 +72,6 @@
     "miniprogram-simulate": "^1.1.5",
     "mkdirp": "^1.0.4",
     "ora": "4.0.3",
-    "postcss": "8.3.5",
     "postcss-html-transform": "workspace:*",
     "postcss-import": "12.0.1",
     "postcss-loader": "6.2.1",
@@ -100,6 +99,10 @@
     "webpackbar": "^5.0.2"
   },
   "devDependencies": {
-    "@babel/core": "^7.14.5"
+    "@babel/core": "^7.14.5",
+    "postcss": "^8.4.12"
+  },
+  "peerDependencies": {
+    "postcss": "^8.4.12"
   }
 }

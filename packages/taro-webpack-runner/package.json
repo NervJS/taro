@@ -50,7 +50,6 @@
     "mini-css-extract-plugin": "0.9.0",
     "open": "7.0.2",
     "ora": "4.0.3",
-    "postcss": "8.3.5",
     "postcss-html-transform": "workspace:*",
     "postcss-import": "12.0.1",
     "postcss-loader": "^7.0.1",
@@ -76,6 +75,10 @@
     "@types/webpack": "4",
     "@types/webpack-dev-server": "3",
     "vue-loader": "^15.9.3",
-    "webpack-merge": "^4.2.2"
+    "webpack-merge": "^4.2.2",
+    "postcss": "^8.4.12"
+  },
+  "peerDependencies": {
+    "postcss": "^8.4.12"
   }
 }
