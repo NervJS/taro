@@ -56,9 +56,9 @@ importers:
       '@testing-library/jest-native': ^4.0.4
       '@testing-library/react-native': ^11.0.0
       '@types/autoprefixer': 9.7.0
-      '@types/babel-types': ^7.0.7
       '@types/babel__core': ^7.1.14
       '@types/babel__traverse': ^7.0.7
+      '@types/babel-types': ^7.0.7
       '@types/debug': ^4.1.5
       '@types/detect-port': 1.3.0
       '@types/fs-extra': ^8.0.1
@@ -214,9 +214,9 @@ importers:
       '@testing-library/jest-native': registry.npmjs.org/@testing-library/jest-native/4.0.5
       '@testing-library/react-native': registry.npmjs.org/@testing-library/react-native/11.0.0_hu3ahtgtujq76vsul4i4hbebdu
       '@types/autoprefixer': registry.npmjs.org/@types/autoprefixer/9.7.0
-      '@types/babel-types': registry.npmjs.org/@types/babel-types/7.0.11
       '@types/babel__core': registry.npmjs.org/@types/babel__core/7.1.19
       '@types/babel__traverse': registry.npmjs.org/@types/babel__traverse/7.17.1
+      '@types/babel-types': registry.npmjs.org/@types/babel-types/7.0.11
       '@types/debug': registry.npmjs.org/@types/debug/4.1.7
       '@types/detect-port': registry.npmjs.org/@types/detect-port/1.3.0
       '@types/fs-extra': registry.npmjs.org/@types/fs-extra/8.1.2
@@ -557,13 +557,17 @@ importers:
       '@stencil/sass': 1.5.2
       '@tarojs/router': workspace:*
       '@tarojs/taro': workspace:*
+      '@types/node': ^14.14.31
       better-scroll: ^1.14.1
       classnames: ^2.2.5
       css-loader: 3.4.2
       hls.js: ^1.1.5
+      humps: ^2.0.1
       intersection-observer: ^0.7.0
       jquery: ^3.4.1
       karmatic: ^2.1.0
+      lodash: ^4.17.21
+      miniapp-types: 1.1.6
       react: ^17.0.2
       react-dom: ^17.0.2
       resolve-pathname: ^3.0.0
@@ -586,9 +590,13 @@ importers:
       swiper: registry.npmjs.org/swiper/6.8.0
       weui: registry.npmjs.org/weui/1.1.3
     devDependencies:
+      '@types/node': registry.npmjs.org/@types/node/14.18.21
       css-loader: registry.npmjs.org/css-loader/3.4.2_webpack@4.46.0
+      humps: registry.npmjs.org/humps/2.0.1
       jquery: registry.npmjs.org/jquery/3.6.0
       karmatic: registry.npmjs.org/karmatic/2.1.0_webpack@4.46.0
+      lodash: registry.npmjs.org/lodash/4.17.21
+      miniapp-types: registry.npmjs.org/miniapp-types/1.1.6
       react: registry.npmjs.org/react/17.0.2
       react-dom: registry.npmjs.org/react-dom/17.0.2_react@17.0.2
       simulant: registry.npmjs.org/simulant/0.2.2
@@ -13757,7 +13765,7 @@ packages:
       mississippi: registry.npmjs.org/mississippi/3.0.0
       mkdirp: registry.npmjs.org/mkdirp/0.5.6
       move-concurrently: registry.npmjs.org/move-concurrently/1.0.1
-      promise-inflight: registry.npmjs.org/promise-inflight/1.0.1
+      promise-inflight: registry.npmjs.org/promise-inflight/1.0.1_bluebird@3.7.2
       rimraf: registry.npmjs.org/rimraf/2.7.1
       ssri: registry.npmjs.org/ssri/6.0.2
       unique-filename: registry.npmjs.org/unique-filename/1.1.1
@@ -15315,8 +15323,8 @@ packages:
     engines: {node: '>=10'}
     hasBin: true
     dependencies:
-      JSONStream: registry.npmjs.org/JSONStream/1.3.5
       is-text-path: registry.npmjs.org/is-text-path/1.0.1
+      JSONStream: registry.npmjs.org/JSONStream/1.3.5
       lodash: registry.npmjs.org/lodash/4.17.21
       meow: registry.npmjs.org/meow/8.1.2
       split2: registry.npmjs.org/split2/3.2.2
@@ -21810,6 +21818,12 @@ packages:
       strip-url-auth: registry.npmjs.org/strip-url-auth/1.0.1
     dev: true
 
+  registry.npmjs.org/humps/2.0.1:
+    resolution: {integrity: sha512-E0eIbrFWUhwfXJmsbdjRQFQPrl5pTEoKlz163j1mTqqUnU9PgR4AgB8AIITzuB3vLBdxZXyZ9TDIrwB2OASz4g==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/humps/-/humps-2.0.1.tgz}
+    name: humps
+    version: 2.0.1
+    dev: true
+
   registry.npmjs.org/husky/8.0.1:
     resolution: {integrity: sha512-xs7/chUH/CKdOCs7Zy0Aev9e/dKOMZf3K1Az1nar3tzlv0jfqnYtu235bstsWTmXOR0EfINrPa97yy4Lz6RiKw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/husky/-/husky-8.0.1.tgz}
     name: husky
@@ -26232,6 +26246,12 @@ packages:
       webpack: registry.npmjs.org/webpack/5.69.0_esbuild@0.14.47
     dev: false
 
+  registry.npmjs.org/miniapp-types/1.1.6:
+    resolution: {integrity: sha512-H2Z2DfHT07X8cG9DBfvbRpExMinme8dCDGouDBsnmIH7jtarBQ6iF4O/AOXfpuncGIWPu1BkG1EYf/Gq8coMOw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/miniapp-types/-/miniapp-types-1.1.6.tgz}
+    name: miniapp-types
+    version: 1.1.6
+    dev: true
+
   registry.npmjs.org/minimalistic-assert/1.0.1:
     resolution: {integrity: sha512-UtJcAD4yEaGtjPezWuO9wC4nwUnVH/8/Im3yEHQP4b67cXlD/Qr9hdITCU1xDbSEXg2XKNaP8jsReV7vQd00/A==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/minimalistic-assert/-/minimalistic-assert-1.0.1.tgz}
     name: minimalistic-assert
@@ -30050,6 +30070,19 @@ packages:
     peerDependenciesMeta:
       bluebird:
         optional: true
+
+  registry.npmjs.org/promise-inflight/1.0.1_bluebird@3.7.2:
+    resolution: {integrity: sha512-6zWPyEOFaQBJYcGMHBKTKJ3u6TBsnMFOIZSa6ce1e/ZrrsOlnHRHbabMjLiBYKp+n44X9eUI6VUPaukCXHuG4g==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/promise-inflight/-/promise-inflight-1.0.1.tgz}
+    id: registry.npmjs.org/promise-inflight/1.0.1
+    name: promise-inflight
+    version: 1.0.1
+    peerDependencies:
+      bluebird: '*'
+    peerDependenciesMeta:
+      bluebird:
+        optional: true
+    dependencies:
+      bluebird: registry.npmjs.org/bluebird/3.7.2
 
   registry.npmjs.org/promise-polyfill/7.1.2:
     resolution: {integrity: sha512-FuEc12/eKqqoRYIGBrUptCBRhobL19PS2U31vMNTfyck1FxPyMfgsXyW4Mav85y/ZN1hop3hOwRlUDok23oYfQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/promise-polyfill/-/promise-polyfill-7.1.2.tgz}

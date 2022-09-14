@@ -1,6 +1,5 @@
 import { ComponentType } from 'react'
 import { StandardProps, CommonEventFunction } from './common'
-
 interface EditorProps extends StandardProps {
   /** 设置编辑器为只读
    * @default false
@@ -57,12 +56,13 @@ interface EditorProps extends StandardProps {
   /** 通过 Context 方法改变编辑器内样式时触发，返回选区已设置的样式
    * @supported weapp
    */
-  onStatuschange?: CommonEventFunction
+  onStatusChange?: CommonEventFunction
 }
-
 declare namespace EditorProps {
   interface editorEventDetail {
-    html, text, delta
+    html
+    text
+    delta
   }
 }
 
@@ -139,5 +139,4 @@ declare namespace EditorProps {
  * @see https://developers.weixin.qq.com/miniprogram/dev/component/editor.html
  */
 declare const Editor: ComponentType<EditorProps>
-
 export { Editor, EditorProps }
