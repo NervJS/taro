@@ -24,8 +24,8 @@
   "collection:main": "dist/collection/index.js",
   "scripts": {
     "build-h5": "babel -d dist-h5 h5",
-    "build": "pnpm run build-h5 & stencil build --config stencil.config.ts",
-    "dev": "stencil build --config stencil.config.ts --watch",
+    "build": "pnpm run build-h5 & cross-env NODE_ENV=production stencil build --config stencil.config.ts",
+    "dev": "cross-env NODE_ENV=development stencil build --config stencil.config.ts --watch",
     "test": "karmatic --files '__tests__/setup.js,__tests__/**.spec.js' --coverage false",
     "test:ci": "karmatic --files '__tests__/setup.js,__tests__/**.spec.js' --coverage false",
     "test:debug": "karmatic debug --files '__tests__/setup.js,__tests__/**.spec.js' --coverage false",
