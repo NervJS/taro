@@ -24,7 +24,6 @@
     "access": "public"
   },
   "dependencies": {
-    "@tarojs/runtime": "^3.5.3",
     "@tarojs/shared": "workspace:*",
     "lodash-es": "4.17.21"
   },

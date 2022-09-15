@@ -1269,7 +1269,6 @@ importers:
 
   packages/taro-runtime:
     specifiers:
-      '@tarojs/runtime': ^3.5.3
       '@tarojs/shared': workspace:*
       lodash-es: 4.17.21
       tslib: ^2.4.0

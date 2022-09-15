@@ -140,7 +140,6 @@ export function createPageConfig (component: any, pageName?: string, data?: Reco
 
       setCurrentRouter(this)
 
-      // TODO: H5 时没有trigger方法
       // 初始化当前页面的上下文信息
       if (process.env.TARO_ENV !== 'h5') {
         window.trigger(CONTEXT_ACTIONS.INIT, this.$taroPath)
@@ -201,7 +200,7 @@ export function createPageConfig (component: any, pageName?: string, data?: Reco
         // 设置 Current 的 page 和 router
         Current.page = this as any
         setCurrentRouter(this)
-        // 恢复上下文信息, TODO: 需要确认 onShow 是稳定触发的
+        // 恢复上下文信息
         if (process.env.TARO_ENV !== 'h5') {
           window.trigger(CONTEXT_ACTIONS.RECOVER, this.$taroPath)
         }
