@@ -72,6 +72,13 @@ describe('px2rem', function () {
 
     expect(processed).toBe(expected)
   })
+  
+  it('8 should work on custom baseFontSize', function () {
+    const processed = postcss(px2rem({ platform: 'h5', baseFontSize: 15 })).process(basicCSS).css
+    const expected = '.rule { font-size: 0.5rem }'
+
+    expect(processed).toBe(expected)
+  })
 })
 
 describe('value parsing', function () {

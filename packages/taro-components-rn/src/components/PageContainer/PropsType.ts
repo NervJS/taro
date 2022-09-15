@@ -16,4 +16,5 @@ export interface PageContainerProps {
     onAfterLeave?: () => void;
     overlayStyle?: StyleProp<ViewStyle>,
     customStyle?: StyleProp<ViewStyle>,
+    children?: React.ReactNode,
 }

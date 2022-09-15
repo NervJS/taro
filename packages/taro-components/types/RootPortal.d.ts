@@ -3,8 +3,9 @@ import { ComponentType } from 'react'
 /** root-portal
  * 使整个子树从页面中脱离出来，类似于在 CSS 中使用 fixed position 的效果。主要用于制作弹窗、弹出层等。
  * @see https://developers.weixin.qq.com/miniprogram/dev/component/root-portal.html
+ * @classification viewContainer
  * @supported weapp
- * @example
+ * @example_react
  * ```tsx
  * import { useState } from 'react'
  * import { RootPortal, View, Button } from '@tarojs/components'

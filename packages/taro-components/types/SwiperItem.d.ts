@@ -1,11 +1,15 @@
 import { ComponentType } from 'react'
 import { StandardProps } from './common'
-
 interface SwiperItemProps extends StandardProps {
   /** 该 swiper-item 的标识符
-   * @supported weapp, swan, alipay, tt, h5, rn
+   * @supported weapp, swan, tt, jd, h5, rn
    */
   itemId?: string
+
+  /** 是否跳过未显示的滑块布局，设为 true 可优化复杂情况下的滑动性能，但会丢失隐藏状态滑块的布局信息
+   * @supported weapp
+   */
+  skipHiddenItemLayout?: string
 }
 
 /** 仅可放置在 swiper 组件中，宽高自动设置为100%
@@ -66,5 +70,4 @@ interface SwiperItemProps extends StandardProps {
  * @see https://developers.weixin.qq.com/miniprogram/dev/component/swiper-item.html
  */
 declare const SwiperItem: ComponentType<SwiperItemProps>
-
 export { SwiperItem, SwiperItemProps }

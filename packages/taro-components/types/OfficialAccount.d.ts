@@ -1,6 +1,5 @@
 import { ComponentType } from 'react'
 import { StandardProps, CommonEventFunction } from './common'
-
 interface OfficialAccountProps extends StandardProps {
   /** 组件加载成功时触发
    * @supported weapp
@@ -12,33 +11,42 @@ interface OfficialAccountProps extends StandardProps {
    */
   onError?: CommonEventFunction<OfficialAccountProps.Detail>
 }
-
 declare namespace OfficialAccountProps {
   /** detail 对象 */
   interface Detail {
     /** 状态码 */
     status: number
+
     /** 错误信息 */
     errMsg: string
   }
+
   /** status 有效值 */
   interface Status {
     /** 网络错误 */
     '-2'
+
     /** 数据解析错误 */
     '-1'
+
     /** 加载成功 */
     0
+
     /** 小程序关注公众号功能被封禁 */
     1
+
     /** 关联公众号被封禁 */
     2
+
     /** 关联关系解除或未选中关联公众号 */
     3
+
     /** 未开启关注公众号功能 */
     4
+
     /** 场景值错误 */
     5
+
     /** 重复创建 */
     6
   }
@@ -59,5 +67,4 @@ declare namespace OfficialAccountProps {
  * @see https://developers.weixin.qq.com/miniprogram/dev/component/official-account.html
  */
 declare const OfficialAccount: ComponentType<OfficialAccountProps>
-
 export { OfficialAccount, OfficialAccountProps }
