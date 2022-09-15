@@ -7,8 +7,6 @@ interface CheckboxGroupProps extends StandardProps, FormItemProps {
   name?: string
 
   /** `<CheckboxGroup/>` 中选中项发生改变是触发 change 事件
-   *
-   * event.detail = { value: [选中的checkbox的 value 的数组] }
    * @supported weapp, alipay, swan, tt, qq, jd, h5, rn
    */
   onChange?: CommonEventFunction<{

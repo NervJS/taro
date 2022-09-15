@@ -37,7 +37,9 @@ interface RadioProps extends StandardProps {
   /** <radio-group/> 中的选中项发生变化时触发 change 事件，event.detail = {value: 选中项radio的value}
    * @supported jd
    */
-  onChange?: CommonEventFunction
+  onChange?: CommonEventFunction<{
+    value?: string
+  }>
 }
 
 /** 单选项目

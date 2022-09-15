@@ -170,29 +170,23 @@ interface InputProps extends StandardProps, FormItemProps {
    */
   onInput?: CommonEventFunction<InputProps.inputEventDetail>
 
-  /** 输入框聚焦时触发，event.detail = { value, height }，height 为键盘高度
+  /** 输入框聚焦时触发
    * @supported weapp, alipay, swan, tt, qq, jd, h5, rn
    */
   onFocus?: CommonEventFunction<InputProps.inputForceEventDetail>
 
   /** 输入框失去焦点时触发
-   *
-   * event.detail = {value: value}
    * @supported weapp, alipay, swan, tt, qq, jd, h5, rn
    */
   onBlur?: CommonEventFunction<InputProps.inputValueEventDetail>
 
   /** 点击完成按钮时触发
-   *
-   * event.detail = {value: value}
    * @supported weapp, alipay, swan, tt, qq, jd, h5, rn
    * @h5 借用[Form 组件](./form)的`onSubmit`事件来替代
    */
   onConfirm?: CommonEventFunction<InputProps.inputValueEventDetail>
 
   /** 键盘高度发生变化的时候触发此事件
-   *
-   * event.detail = {height: height, duration: duration}
    * @supported weapp, qq
    */
   onKeyboardHeightChange?: CommonEventFunction<InputProps.onKeyboardHeightChangeEventDetail>
