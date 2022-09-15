@@ -33,7 +33,7 @@ const CIPluginOpt = {
       privateKeyPath: "密钥文件相对项目根目录的相对路径，例如 key/pkcs8-private-pem"
     },
     dd: {
-        appid: "钉钉小程序appid,即钉钉开放平台后台应用管理的 MiniAppId 选项"
+        appid: "钉钉小程序appid,即钉钉开放平台后台应用管理的 MiniAppId 选项",
         token: "令牌，从钉钉后台获取"
     },
     swan: {
