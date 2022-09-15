@@ -5,3 +5,4 @@ export const openEmbeddedMiniProgram = temporarilyNotSupport('openEmbeddedMiniPr
 export const navigateToMiniProgram = temporarilyNotSupport('navigateToMiniProgram')
 export const navigateBackMiniProgram = temporarilyNotSupport('navigateBackMiniProgram')
 export const exitMiniProgram = temporarilyNotSupport('exitMiniProgram')
+export const openBusinessView = temporarilyNotSupport('openBusinessView')

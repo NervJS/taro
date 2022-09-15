@@ -33,7 +33,8 @@ interface MiniLifecycle {
     string, /** onReady */
     string, /** onShow */
     string, /** onHide */
-    string[] /** others */
+    string[], /** others */
+    string[] /** side-effects */
   ]
 }
 
@@ -91,6 +92,10 @@ const defaultMiniLifecycle: MiniLifecycle = {
       'onPopMenuClick',
       'onPullIntercept',
       'onAddToFavorites'
+    ],
+    [
+      'onShareAppMessage',
+      'onShareTimeline'
     ]
   ]
 }
@@ -287,7 +292,7 @@ export const hooks = new TaroHooks<ITaroHooks>({
       // 有些小程序的事件对象的某些属性只读
       this.call('modifyMpEvent', e)
     } catch (error) {
-      console.warn('[Taro modifyMpEvent hook Error]: ', error)
+      console.warn('[Taro modifyMpEvent hook Error]: ' + error?.message)
     }
   }),
 

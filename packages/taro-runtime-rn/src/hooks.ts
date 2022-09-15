@@ -54,6 +54,12 @@ export const useDidShow = taroHooks('componentDidShow')
 
 export const useDidHide = taroHooks('componentDidHide')
 
+export const useLoad = taroHooks('onLoad')
+
+export const useReady = taroHooks('onReady')
+
+export const useUnload = taroHooks('onUnload')
+
 export const usePullDownRefresh = taroHooks('onPullDownRefresh')
 
 export const useReachBottom = taroHooks('onReachBottom')

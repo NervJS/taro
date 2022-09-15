@@ -14,8 +14,8 @@ require(\\"./vendors\\");
 require(\\"./taro\\");
 
 (wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 4 ], {
-    12: function(module, exports, __webpack_require__) {},
-    16: function(module, __webpack_exports__, __webpack_require__) {
+    11: function(module, exports, __webpack_require__) {},
+    15: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_require__.r(__webpack_exports__);
         var mocks_taro = \\"taro\\";
@@ -26,12 +26,54 @@ require(\\"./taro\\");
         function processApis() {}
         var EMPTY_OBJ = {};
         var hooks = {};
-        var needPromiseApis = new Set([ \\"authPrivateMessage\\", \\"disableAlertBeforeUnload\\", \\"enableAlertBeforeUnload\\", \\"getBackgroundFetchData\\", \\"getGroupEnterInfo\\", \\"getShareInfo\\", \\"getWeRunData\\", \\"join1v1Chat\\", \\"openVideoEditor\\", \\"saveFileToDisk\\", \\"scanItem\\", \\"setEnable1v1Chat\\", \\"setWindowSize\\", \\"sendBizRedPacket\\", \\"startFacialRecognitionVerify\\", \\"openCustomerServiceChat\\", \\"getLocalIPAddress\\", \\"getUserProfile\\", \\"editImage\\" ]);
+        function setReconciler() {}
+        function connectReactPage() {}
+        function createReactApp() {}
+        function createNativeComponentConfig() {}
+        function connectVuePage() {}
+        function createVueApp() {}
+        function createVue3App() {}
+        var setGlobalDataPlugin = {};
+        function useDidHide() {}
+        function useDidShow() {}
+        function useError() {}
+        function useLaunch() {}
+        function usePageNotFound() {}
+        function useLoad() {}
+        function usePageScroll() {}
+        function usePullDownRefresh() {}
+        function usePullIntercept() {}
+        function useReachBottom() {}
+        function useResize() {}
+        function useUnload() {}
+        function useAddToFavorites() {}
+        function useOptionMenuClick() {}
+        function useSaveExitState() {}
+        function useShareAppMessage() {}
+        function useShareTimeline() {}
+        function useTitleClick() {}
+        function useReady() {}
+        function useRouter() {}
+        function useTabItemTap() {}
+        function useScope() {}
+        var needPromiseApis = new Set([ \\"authPrivateMessage\\", \\"disableAlertBeforeUnload\\", \\"enableAlertBeforeUnload\\", \\"getBackgroundFetchData\\", \\"getGroupEnterInfo\\", \\"getShareInfo\\", \\"getWeRunData\\", \\"join1v1Chat\\", \\"openVideoEditor\\", \\"saveFileToDisk\\", \\"scanItem\\", \\"setEnable1v1Chat\\", \\"setWindowSize\\", \\"sendBizRedPacket\\", \\"startFacialRecognitionVerify\\", \\"openCustomerServiceChat\\", \\"getLocalIPAddress\\", \\"getUserProfile\\", \\"editImage\\", \\"getFuzzyLocation\\" ]);
         function initNativeApi(taro) {
             processApis(taro, wx, {
                 needPromiseApis: needPromiseApis,
                 modifyApis: function modifyApis(apis) {
                     apis.delete(\\"lanDebug\\");
+                },
+                transformMeta: function transformMeta(api, options) {
+                    var _a;
+                    if (api === \\"showShareMenu\\") {
+                        options.menus = (_a = options.showShareItems) === null || _a === void 0 ? void 0 : _a.map((function(item) {
+                            return item === \\"wechatFriends\\" ? \\"shareAppMessage\\" : item === \\"wechatMoment\\" ? \\"shareTimeline\\" : item;
+                        }));
+                    }
+                    return {
+                        key: api,
+                        options: options
+                    };
                 }
             });
             taro.cloud = wx.cloud;
@@ -46,7 +88,7 @@ require(\\"./taro\\");
         var _false = \\"false\\";
         var _empty = \\"\\";
         var _zero = \\"0\\";
-        var runtime_components = {
+        var components = {
             Progress: {
                 \\"border-radius\\": _zero,
                 \\"font-size\\": \\"16\\",
@@ -76,10 +118,13 @@ require(\\"./taro\\");
                 \\"enable-rotate\\": _false,
                 \\"enable-satellite\\": _false,
                 \\"enable-traffic\\": _false,
+                \\"enable-poi\\": _true,
+                \\"enable-building\\": _true,
                 setting: \\"[]\\",
                 bindLabelTap: _empty,
                 bindRegionChange: _empty,
-                bindPoiTap: _empty
+                bindPoiTap: _empty,
+                bindAnchorPointTap: _empty
             },
             Button: {
                 lang: \\"en\\",
@@ -372,7 +417,8 @@ require(\\"./taro\\");
                 duration: \\"300\\",
                 \\"easing-function\\": \\"'ease-out'\\"
             },
-            KeyboardAccessory: {}
+            KeyboardAccessory: {},
+            RootPortal: {}
         };
         var hostConfig = {
             initNativeApi: initNativeApi,
@@ -385,696 +431,14 @@ require(\\"./taro\\");
             }
         };
         mergeReconciler(hostConfig);
-        mergeInternalComponents(runtime_components);
-        var taro_runtime = __webpack_require__(0);
-        function _defineProperty(obj, key, value) {
-            if (key in obj) {
-                Object.defineProperty(obj, key, {
-                    value: value,
-                    enumerable: true,
-                    configurable: true,
-                    writable: true
-                });
-            } else {
-                obj[key] = value;
-            }
-            return obj;
-        }
-        function _arrayWithHoles(arr) {
-            if (Array.isArray(arr)) return arr;
-        }
-        function _iterableToArrayLimit(arr, i) {
-            var _i = arr == null ? null : typeof Symbol !== \\"undefined\\" && arr[Symbol.iterator] || arr[\\"@@iterator\\"];
-            if (_i == null) return;
-            var _arr = [];
-            var _n = true;
-            var _d = false;
-            var _s, _e;
-            try {
-                for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) {
-                    _arr.push(_s.value);
-                    if (i && _arr.length === i) break;
-                }
-            } catch (err) {
-                _d = true;
-                _e = err;
-            } finally {
-                try {
-                    if (!_n && _i[\\"return\\"] != null) _i[\\"return\\"]();
-                } finally {
-                    if (_d) throw _e;
-                }
-            }
-            return _arr;
-        }
-        function _arrayLikeToArray(arr, len) {
-            if (len == null || len > arr.length) len = arr.length;
-            for (var i = 0, arr2 = new Array(len); i < len; i++) {
-                arr2[i] = arr[i];
-            }
-            return arr2;
-        }
-        function _unsupportedIterableToArray(o, minLen) {
-            if (!o) return;
-            if (typeof o === \\"string\\") return _arrayLikeToArray(o, minLen);
-            var n = Object.prototype.toString.call(o).slice(8, -1);
-            if (n === \\"Object\\" && o.constructor) n = o.constructor.name;
-            if (n === \\"Map\\" || n === \\"Set\\") return Array.from(o);
-            if (n === \\"Arguments\\" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen);
-        }
-        function _nonIterableRest() {
-            throw new TypeError(\\"Invalid attempt to destructure non-iterable instance.\\\\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.\\");
-        }
-        function _slicedToArray(arr, i) {
-            return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest();
-        }
-        var assertThisInitialized = __webpack_require__(7);
+        mergeInternalComponents(components);
+        var taro_runtime = __webpack_require__(2);
         var classCallCheck = __webpack_require__(3);
         var createClass = __webpack_require__(4);
-        var inherits = __webpack_require__(6);
-        var createSuper = __webpack_require__(5);
-        function _arrayWithoutHoles(arr) {
-            if (Array.isArray(arr)) return _arrayLikeToArray(arr);
-        }
-        function _iterableToArray(iter) {
-            if (typeof Symbol !== \\"undefined\\" && iter[Symbol.iterator] != null || iter[\\"@@iterator\\"] != null) return Array.from(iter);
-        }
-        function _nonIterableSpread() {
-            throw new TypeError(\\"Invalid attempt to spread non-iterable instance.\\\\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.\\");
-        }
-        function _toConsumableArray(arr) {
-            return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread();
-        }
-        var reactMeta = {
-            PageContext: EMPTY_OBJ,
-            R: EMPTY_OBJ
-        };
-        var HOOKS_APP_ID = \\"taro-app\\";
-        function isClassComponent(R, component) {
-            var _a;
-            var prototype = component.prototype;
-            if ((_a = component.displayName) === null || _a === void 0 ? void 0 : _a.includes(\\"Connect\\")) return false;
-            return isFunction(component.render) || !!(prototype === null || prototype === void 0 ? void 0 : prototype.isReactComponent) || prototype instanceof R.Component;
-        }
-        function ensureIsArray(item) {
-            if (isArray(item)) {
-                return item;
-            } else {
-                return item ? [ item ] : [];
-            }
-        }
-        function setDefaultDescriptor(obj) {
-            obj.writable = true;
-            obj.enumerable = true;
-            return obj;
-        }
-        function setRouterParams(options) {
-            taro_runtime[\\"Current\\"].router = Object.assign({
-                params: options === null || options === void 0 ? void 0 : options.query
-            }, options);
-        }
-        var runtime_taroHooks = function taroHooks(lifecycle) {
-            return function(fn) {
-                var React = reactMeta.R, PageContext = reactMeta.PageContext;
-                var id = React.useContext(PageContext) || HOOKS_APP_ID;
-                var fnRef = React.useRef(fn);
-                if (fnRef.current !== fn) fnRef.current = fn;
-                React.useLayoutEffect((function() {
-                    var inst = Object(taro_runtime[\\"getPageInstance\\"])(id);
-                    var first = false;
-                    if (inst == null) {
-                        first = true;
-                        inst = Object.create(null);
-                    }
-                    inst = inst;
-                    var callback = function callback() {
-                        return fnRef.current.apply(fnRef, arguments);
-                    };
-                    if (isFunction(inst[lifecycle])) {
-                        inst[lifecycle] = [ inst[lifecycle], callback ];
-                    } else {
-                        inst[lifecycle] = [].concat(_toConsumableArray(inst[lifecycle] || []), [ callback ]);
-                    }
-                    if (first) {
-                        Object(taro_runtime[\\"injectPageInstance\\"])(inst, id);
-                    }
-                    return function() {
-                        var inst = Object(taro_runtime[\\"getPageInstance\\"])(id);
-                        var list = inst[lifecycle];
-                        if (list === callback) {
-                            inst[lifecycle] = undefined;
-                        } else if (isArray(list)) {
-                            inst[lifecycle] = list.filter((function(item) {
-                                return item !== callback;
-                            }));
-                        }
-                    };
-                }), []);
-            };
-        };
-        var useDidShow = runtime_taroHooks(\\"componentDidShow\\");
-        var useDidHide = runtime_taroHooks(\\"componentDidHide\\");
-        var usePullDownRefresh = runtime_taroHooks(\\"onPullDownRefresh\\");
-        var useReachBottom = runtime_taroHooks(\\"onReachBottom\\");
-        var usePageScroll = runtime_taroHooks(\\"onPageScroll\\");
-        var useResize = runtime_taroHooks(\\"onResize\\");
-        var useShareAppMessage = runtime_taroHooks(\\"onShareAppMessage\\");
-        var useTabItemTap = runtime_taroHooks(\\"onTabItemTap\\");
-        var useTitleClick = runtime_taroHooks(\\"onTitleClick\\");
-        var useOptionMenuClick = runtime_taroHooks(\\"onOptionMenuClick\\");
-        var usePullIntercept = runtime_taroHooks(\\"onPullIntercept\\");
-        var useShareTimeline = runtime_taroHooks(\\"onShareTimeline\\");
-        var useAddToFavorites = runtime_taroHooks(\\"onAddToFavorites\\");
-        var useSaveExitState = runtime_taroHooks(\\"onSaveExitState\\");
-        var useReady = runtime_taroHooks(\\"onReady\\");
-        var useLaunch = runtime_taroHooks(\\"onLaunch\\");
-        var useLoad = runtime_taroHooks(\\"onLoad\\");
-        var useUnload = runtime_taroHooks(\\"onUnload\\");
-        var useError = runtime_taroHooks(\\"onError\\");
-        var usePageNotFound = runtime_taroHooks(\\"onPageNotFound\\");
-        var runtime_useRouter = function useRouter() {
-            var dynamic = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
-            var React = reactMeta.R;
-            return dynamic ? taro_runtime[\\"Current\\"].router : React.useMemo((function() {
-                return taro_runtime[\\"Current\\"].router;
-            }), []);
-        };
-        var useScope = function useScope() {
-            return undefined;
-        };
-        var taroHooks$1 = Object.freeze({
-            __proto__: null,
-            useDidShow: useDidShow,
-            useDidHide: useDidHide,
-            usePullDownRefresh: usePullDownRefresh,
-            useReachBottom: useReachBottom,
-            usePageScroll: usePageScroll,
-            useResize: useResize,
-            useShareAppMessage: useShareAppMessage,
-            useTabItemTap: useTabItemTap,
-            useTitleClick: useTitleClick,
-            useOptionMenuClick: useOptionMenuClick,
-            usePullIntercept: usePullIntercept,
-            useShareTimeline: useShareTimeline,
-            useAddToFavorites: useAddToFavorites,
-            useSaveExitState: useSaveExitState,
-            useReady: useReady,
-            useLaunch: useLaunch,
-            useLoad: useLoad,
-            useUnload: useUnload,
-            useError: useError,
-            usePageNotFound: usePageNotFound,
-            useRouter: runtime_useRouter,
-            useScope: useScope
-        });
-        var h$1;
-        var ReactDOM$1;
-        var Fragment;
-        var pageKeyId = Object(taro_runtime[\\"incrementId\\"])();
-        function setReconciler(ReactDOM) {
-            hooks.tap(\\"getLifecycle\\", (function(instance, lifecycle) {
-                lifecycle = lifecycle.replace(/^on(Show|Hide)$/, \\"componentDid$1\\");
-                return instance[lifecycle];
-            }));
-            hooks.tap(\\"modifyMpEvent\\", (function(event) {
-                event.type = event.type.replace(/-/g, \\"\\");
-            }));
-            hooks.tap(\\"batchedEventUpdates\\", (function(cb) {
-                ReactDOM.unstable_batchedUpdates(cb);
-            }));
-            hooks.tap(\\"mergePageInstance\\", (function(prev, next) {
-                if (!prev || !next) return;
-                if (\\"constructor\\" in prev) return;
-                Object.keys(prev).forEach((function(item) {
-                    var prevList = prev[item];
-                    var nextList = ensureIsArray(next[item]);
-                    next[item] = nextList.concat(prevList);
-                }));
-            }));
-            if (false) {}
-        }
-        function connectReactPage(R, id) {
-            return function(Page) {
-                var isReactComponent = isClassComponent(R, Page);
-                var inject = function inject(node) {
-                    return node && Object(taro_runtime[\\"injectPageInstance\\"])(node, id);
-                };
-                var refs = isReactComponent ? {
-                    ref: inject
-                } : {
-                    forwardedRef: inject,
-                    reactReduxForwardedRef: inject
-                };
-                if (reactMeta.PageContext === EMPTY_OBJ) {
-                    reactMeta.PageContext = R.createContext(\\"\\");
-                }
-                return function(_R$Component) {
-                    Object(inherits[\\"a\\"])(PageWrapper, _R$Component);
-                    var _super = Object(createSuper[\\"a\\"])(PageWrapper);
-                    function PageWrapper() {
-                        var _this;
-                        Object(classCallCheck[\\"a\\"])(this, PageWrapper);
-                        _this = _super.apply(this, arguments);
-                        _this.state = {
-                            hasError: false
-                        };
-                        return _this;
-                    }
-                    Object(createClass[\\"a\\"])(PageWrapper, [ {
-                        key: \\"componentDidCatch\\",
-                        value: function componentDidCatch(error, info) {
-                            if (false) {}
-                        }
-                    }, {
-                        key: \\"render\\",
-                        value: function render() {
-                            var children = this.state.hasError ? [] : h$1(reactMeta.PageContext.Provider, {
-                                value: id
-                            }, h$1(Page, Object.assign(Object.assign({}, this.props), refs)));
-                            if (false) {} else {
-                                return h$1(\\"root\\", {
-                                    id: id
-                                }, children);
-                            }
-                        }
-                    } ], [ {
-                        key: \\"getDerivedStateFromError\\",
-                        value: function getDerivedStateFromError(error) {
-                            var _a, _b;
-                            (_b = (_a = taro_runtime[\\"Current\\"].app) === null || _a === void 0 ? void 0 : _a.onError) === null || _b === void 0 ? void 0 : _b.call(_a, error.message + error.stack);
-                            return {
-                                hasError: true
-                            };
-                        }
-                    } ]);
-                    return PageWrapper;
-                }(R.Component);
-            };
-        }
-        function createReactApp(App, react, dom, config) {
-            var _Object$create;
-            if (false) {}
-            reactMeta.R = react;
-            h$1 = react.createElement;
-            ReactDOM$1 = dom;
-            Fragment = react.Fragment;
-            var appInstanceRef = react.createRef();
-            var isReactComponent = isClassComponent(react, App);
-            var appWrapper;
-            setReconciler(ReactDOM$1);
-            function getAppInstance() {
-                return appInstanceRef.current;
-            }
-            function renderReactRoot() {
-                var _a, _b;
-                var reactMode = \\"legacy\\";
-                var appId = \\"app\\";
-                if (false) {} else {
-                    ReactDOM$1.version = react.version;
-                }
-                var container = taro_runtime[\\"document\\"].getElementById(appId);
-                var version = Number((ReactDOM$1.version || \\"\\").split(\\".\\")[0]);
-                if (version >= 18 && reactMode === \\"concurrent\\") {
-                    var root = ReactDOM$1.createRoot(container);
-                    (_a = root.render) === null || _a === void 0 ? void 0 : _a.call(root, h$1(AppWrapper));
-                } else {
-                    (_b = ReactDOM$1.render) === null || _b === void 0 ? void 0 : _b.call(ReactDOM$1, h$1(AppWrapper), container);
-                }
-            }
-            var AppWrapper = function(_react$Component) {
-                Object(inherits[\\"a\\"])(AppWrapper, _react$Component);
-                var _super2 = Object(createSuper[\\"a\\"])(AppWrapper);
-                function AppWrapper(props) {
-                    var _this2;
-                    Object(classCallCheck[\\"a\\"])(this, AppWrapper);
-                    _this2 = _super2.call(this, props);
-                    _this2.pages = [];
-                    _this2.elements = [];
-                    appWrapper = Object(assertThisInitialized[\\"a\\"])(_this2);
-                    return _this2;
-                }
-                Object(createClass[\\"a\\"])(AppWrapper, [ {
-                    key: \\"mount\\",
-                    value: function mount(pageComponent, id, cb) {
-                        var pageWrapper = connectReactPage(react, id)(pageComponent);
-                        var key = id + pageKeyId();
-                        var page = function page() {
-                            return h$1(pageWrapper, {
-                                key: key,
-                                tid: id
-                            });
-                        };
-                        this.pages.push(page);
-                        this.forceUpdate(cb);
-                    }
-                }, {
-                    key: \\"unmount\\",
-                    value: function unmount(id, cb) {
-                        var elements = this.elements;
-                        var idx = elements.findIndex((function(item) {
-                            return item.props.tid === id;
-                        }));
-                        elements.splice(idx, 1);
-                        this.forceUpdate(cb);
-                    }
-                }, {
-                    key: \\"render\\",
-                    value: function render() {
-                        var pages = this.pages, elements = this.elements;
-                        while (pages.length > 0) {
-                            var page = pages.pop();
-                            elements.push(page());
-                        }
-                        var props = null;
-                        if (isReactComponent) {
-                            props = {
-                                ref: appInstanceRef
-                            };
-                        }
-                        return h$1(App, props, false ? undefined : elements.slice());
-                    }
-                } ]);
-                return AppWrapper;
-            }(react.Component);
-            if (true) {
-                renderReactRoot();
-            }
-            var _hooks$call$app = _slicedToArray(hooks.call(\\"getMiniLifecycleImpl\\").app, 3), ONLAUNCH = _hooks$call$app[0], ONSHOW = _hooks$call$app[1], ONHIDE = _hooks$call$app[2];
-            var appObj = Object.create({
-                render: function render(cb) {
-                    appWrapper.forceUpdate(cb);
-                },
-                mount: function mount(component, id, cb) {
-                    appWrapper.mount(component, id, cb);
-                },
-                unmount: function unmount(id, cb) {
-                    appWrapper.unmount(id, cb);
-                }
-            }, (_Object$create = {
-                config: setDefaultDescriptor({
-                    configurable: true,
-                    value: config
-                })
-            }, _defineProperty(_Object$create, ONLAUNCH, setDefaultDescriptor({
-                value: function value(options) {
-                    var _this3 = this;
-                    var _a;
-                    setRouterParams(options);
-                    if (false) {}
-                    var app = getAppInstance();
-                    this.$app = app;
-                    if (app) {
-                        if (app.taroGlobalData) {
-                            var globalData = app.taroGlobalData;
-                            var keys = Object.keys(globalData);
-                            var descriptors = Object.getOwnPropertyDescriptors(globalData);
-                            keys.forEach((function(key) {
-                                Object.defineProperty(_this3, key, {
-                                    configurable: true,
-                                    enumerable: true,
-                                    get: function get() {
-                                        return globalData[key];
-                                    },
-                                    set: function set(value) {
-                                        globalData[key] = value;
-                                    }
-                                });
-                            }));
-                            Object.defineProperties(this, descriptors);
-                        }
-                        (_a = app.onLaunch) === null || _a === void 0 ? void 0 : _a.call(app, options);
-                    }
-                    triggerAppHook(\\"onLaunch\\", options);
-                }
-            })), _defineProperty(_Object$create, ONSHOW, setDefaultDescriptor({
-                value: function value(options) {
-                    var _a;
-                    setRouterParams(options);
-                    var app = getAppInstance();
-                    (_a = app === null || app === void 0 ? void 0 : app.componentDidShow) === null || _a === void 0 ? void 0 : _a.call(app, options);
-                    triggerAppHook(\\"onShow\\", options);
-                }
-            })), _defineProperty(_Object$create, ONHIDE, setDefaultDescriptor({
-                value: function value() {
-                    var _a;
-                    var app = getAppInstance();
-                    (_a = app === null || app === void 0 ? void 0 : app.componentDidHide) === null || _a === void 0 ? void 0 : _a.call(app);
-                    triggerAppHook(\\"onHide\\");
-                }
-            })), _defineProperty(_Object$create, \\"onError\\", setDefaultDescriptor({
-                value: function value(error) {
-                    var _a;
-                    var app = getAppInstance();
-                    (_a = app === null || app === void 0 ? void 0 : app.onError) === null || _a === void 0 ? void 0 : _a.call(app, error);
-                    triggerAppHook(\\"onError\\", error);
-                    if (false) {}
-                }
-            })), _defineProperty(_Object$create, \\"onPageNotFound\\", setDefaultDescriptor({
-                value: function value(res) {
-                    var _a;
-                    var app = getAppInstance();
-                    (_a = app === null || app === void 0 ? void 0 : app.onPageNotFound) === null || _a === void 0 ? void 0 : _a.call(app, res);
-                    triggerAppHook(\\"onPageNotFound\\", res);
-                }
-            })), _Object$create));
-            function triggerAppHook(lifecycle) {
-                for (var _len = arguments.length, option = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
-                    option[_key - 1] = arguments[_key];
-                }
-                var instance = Object(taro_runtime[\\"getPageInstance\\"])(HOOKS_APP_ID);
-                if (instance) {
-                    var app = getAppInstance();
-                    var func = hooks.call(\\"getLifecycle\\", instance, lifecycle);
-                    if (Array.isArray(func)) {
-                        func.forEach((function(cb) {
-                            return cb.apply(app, option);
-                        }));
-                    }
-                }
-            }
-            taro_runtime[\\"Current\\"].app = appObj;
-            return appObj;
-        }
-        var getNativeCompId = Object(taro_runtime[\\"incrementId\\"])();
-        var h;
-        var runtime_ReactDOM;
-        function initNativeComponentEntry(R, ReactDOM) {
-            var NativeComponentWrapper = function(_R$Component2) {
-                Object(inherits[\\"a\\"])(NativeComponentWrapper, _R$Component2);
-                var _super3 = Object(createSuper[\\"a\\"])(NativeComponentWrapper);
-                function NativeComponentWrapper() {
-                    var _this4;
-                    Object(classCallCheck[\\"a\\"])(this, NativeComponentWrapper);
-                    _this4 = _super3.apply(this, arguments);
-                    _this4.root = R.createRef();
-                    _this4.ctx = _this4.props.getCtx();
-                    return _this4;
-                }
-                Object(createClass[\\"a\\"])(NativeComponentWrapper, [ {
-                    key: \\"componentDidMount\\",
-                    value: function componentDidMount() {
-                        this.ctx.component = this;
-                        var rootElement = this.root.current;
-                        rootElement.ctx = this.ctx;
-                        rootElement.performUpdate(true);
-                    }
-                }, {
-                    key: \\"render\\",
-                    value: function render() {
-                        return h(\\"root\\", {
-                            ref: this.root
-                        }, this.props.renderComponent(this.ctx));
-                    }
-                } ]);
-                return NativeComponentWrapper;
-            }(R.Component);
-            var Entry = function(_R$Component3) {
-                Object(inherits[\\"a\\"])(Entry, _R$Component3);
-                var _super4 = Object(createSuper[\\"a\\"])(Entry);
-                function Entry() {
-                    var _this5;
-                    Object(classCallCheck[\\"a\\"])(this, Entry);
-                    _this5 = _super4.apply(this, arguments);
-                    _this5.state = {
-                        components: []
-                    };
-                    return _this5;
-                }
-                Object(createClass[\\"a\\"])(Entry, [ {
-                    key: \\"componentDidMount\\",
-                    value: function componentDidMount() {
-                        taro_runtime[\\"Current\\"].app = this;
-                    }
-                }, {
-                    key: \\"mount\\",
-                    value: function mount(Component, compId, getCtx) {
-                        var isReactComponent = isClassComponent(R, Component);
-                        var inject = function inject(node) {
-                            return node && Object(taro_runtime[\\"injectPageInstance\\"])(node, compId);
-                        };
-                        var refs = isReactComponent ? {
-                            ref: inject
-                        } : {
-                            forwardedRef: inject,
-                            reactReduxForwardedRef: inject
-                        };
-                        if (reactMeta.PageContext === EMPTY_OBJ) {
-                            reactMeta.PageContext = R.createContext(\\"\\");
-                        }
-                        var item = {
-                            compId: compId,
-                            element: h(NativeComponentWrapper, {
-                                key: compId,
-                                getCtx: getCtx,
-                                renderComponent: function renderComponent(ctx) {
-                                    return h(reactMeta.PageContext.Provider, {
-                                        value: compId
-                                    }, h(Component, Object.assign(Object.assign(Object.assign({}, (ctx.data || (ctx.data = {})).props), refs), {
-                                        $scope: ctx
-                                    })));
-                                }
-                            })
-                        };
-                        this.setState({
-                            components: [].concat(_toConsumableArray(this.state.components), [ item ])
-                        });
-                    }
-                }, {
-                    key: \\"unmount\\",
-                    value: function unmount(compId) {
-                        var components = this.state.components;
-                        var index = components.findIndex((function(item) {
-                            return item.compId === compId;
-                        }));
-                        var next = [].concat(_toConsumableArray(components.slice(0, index)), _toConsumableArray(components.slice(index + 1)));
-                        this.setState({
-                            components: next
-                        });
-                    }
-                }, {
-                    key: \\"render\\",
-                    value: function render() {
-                        var components = this.state.components;
-                        return components.map((function(_ref) {
-                            var element = _ref.element;
-                            return element;
-                        }));
-                    }
-                } ]);
-                return Entry;
-            }(R.Component);
-            setReconciler(ReactDOM);
-            var app = taro_runtime[\\"document\\"].getElementById(\\"app\\");
-            ReactDOM.render(h(Entry, {}), app);
-        }
-        function createNativeComponentConfig(Component, react, reactdom, componentConfig) {
-            var _a, _b;
-            reactMeta.R = react;
-            h = react.createElement;
-            runtime_ReactDOM = reactdom;
-            setReconciler(runtime_ReactDOM);
-            var componentObj = {
-                options: componentConfig,
-                properties: {
-                    props: {
-                        type: null,
-                        value: null,
-                        observer: function observer(_newVal, oldVal) {
-                            oldVal && this.component.forceUpdate();
-                        }
-                    }
-                },
-                created: function created() {
-                    if (!taro_runtime[\\"Current\\"].app) {
-                        initNativeComponentEntry(react, runtime_ReactDOM);
-                    }
-                },
-                attached: function attached() {
-                    var _this6 = this;
-                    var compId = this.compId = getNativeCompId();
-                    setCurrent(compId);
-                    this.config = componentConfig;
-                    taro_runtime[\\"Current\\"].app.mount(Component, compId, (function() {
-                        return _this6;
-                    }));
-                },
-                ready: function ready() {
-                    Object(taro_runtime[\\"safeExecute\\"])(this.compId, \\"onReady\\");
-                },
-                detached: function detached() {
-                    taro_runtime[\\"Current\\"].app.unmount(this.compId);
-                },
-                pageLifetimes: {
-                    show: function show(options) {
-                        Object(taro_runtime[\\"safeExecute\\"])(this.compId, \\"onShow\\", options);
-                    },
-                    hide: function hide() {
-                        Object(taro_runtime[\\"safeExecute\\"])(this.compId, \\"onHide\\");
-                    }
-                },
-                methods: {
-                    eh: taro_runtime[\\"eventHandler\\"]
-                }
-            };
-            function setCurrent(compId) {
-                var pages = getCurrentPages();
-                var currentPage = pages[pages.length - 1];
-                if (taro_runtime[\\"Current\\"].page === currentPage) return;
-                taro_runtime[\\"Current\\"].page = currentPage;
-                var route = currentPage.route || currentPage.__route__;
-                var router = {
-                    params: currentPage.options || {},
-                    path: Object(taro_runtime[\\"addLeadingSlash\\"])(route),
-                    $taroPath: compId,
-                    onReady: \\"\\",
-                    onHide: \\"\\",
-                    onShow: \\"\\"
-                };
-                taro_runtime[\\"Current\\"].router = router;
-                if (!currentPage.options) {
-                    Object.defineProperty(currentPage, \\"options\\", {
-                        enumerable: true,
-                        configurable: true,
-                        get: function get() {
-                            return this._optionsValue;
-                        },
-                        set: function set(value) {
-                            router.params = value;
-                            this._optionsValue = value;
-                        }
-                    });
-                }
-            }
-            if (Component.onShareAppMessage || ((_a = Component.prototype) === null || _a === void 0 ? void 0 : _a.onShareAppMessage) || Component.enableShareAppMessage) {
-                componentObj.methods.onShareAppMessage = function(options) {
-                    var target = options === null || options === void 0 ? void 0 : options.target;
-                    if (target) {
-                        var id = target.id;
-                        var element = taro_runtime[\\"document\\"].getElementById(id);
-                        if (element) {
-                            target.dataset = element.dataset;
-                        }
-                    }
-                    return Object(taro_runtime[\\"safeExecute\\"])(this.compId, \\"onShareAppMessage\\", options);
-                };
-            }
-            if (Component.onShareTimeline || ((_b = Component.prototype) === null || _b === void 0 ? void 0 : _b.onShareTimeline) || Component.enableShareTimeline) {
-                componentObj.methods.onShareTimeline = function() {
-                    return Object(taro_runtime[\\"safeExecute\\"])(this.compId, \\"onShareTimeline\\");
-                };
-            }
-            return componentObj;
-        }
-        hooks.tap(\\"initNativeApi\\", (function(taro) {
-            for (var hook in taroHooks$1) {
-                taro[hook] = taroHooks$1[hook];
-            }
-        }));
-        if (false) {
-            var oldDiffedHook, oldVNodeHook, runtime_options;
-        }
-        var mocks_react = __webpack_require__(1);
-        var src_app = __webpack_require__(12);
+        var inherits = __webpack_require__(7);
+        var createSuper = __webpack_require__(6);
+        var react = __webpack_require__(0);
+        var app = __webpack_require__(11);
         var app_App = function(_Component) {
             Object(inherits[\\"a\\"])(App, _Component);
             var _super = Object(createSuper[\\"a\\"])(App);
@@ -1092,19 +456,16 @@ require(\\"./taro\\");
                 key: \\"componentDidHide\\",
                 value: function componentDidHide() {}
             }, {
-                key: \\"componentDidCatchError\\",
-                value: function componentDidCatchError() {}
-            }, {
                 key: \\"render\\",
                 value: function render() {
                     return this.props.children;
                 }
             } ]);
             return App;
-        }(mocks_react[\\"Component\\"]);
+        }(react[\\"Component\\"]);
         var lib_src_app = app_App;
-        var taro_react = __webpack_require__(9);
-        var app_config = {
+        var taro_react = __webpack_require__(8);
+        var config = {
             pages: [ \\"pages/index/index\\" ],
             window: {
                 backgroundTextStyle: \\"light\\",
@@ -1113,8 +474,8 @@ require(\\"./taro\\");
                 navigationBarTextStyle: \\"black\\"
             }
         };
-        taro_runtime[\\"window\\"].__taroAppConfig = app_config;
-        var app_inst = App(createReactApp(lib_src_app, mocks_react, taro_react[\\"a\\"], app_config));
+        taro_runtime[\\"window\\"].__taroAppConfig = config;
+        var inst = App(createReactApp(lib_src_app, react, taro_react[\\"a\\"], config));
         undefined({
             designWidth: 750,
             deviceRatio: {
@@ -1124,7 +485,7 @@ require(\\"./taro\\");
             }
         });
     }
-}, [ [ 16, 0, 1, 3, 2 ] ] ]);
+}, [ [ 15, 0, 1, 3, 2 ] ] ]);
 
 
 
@@ -1150,7 +511,7 @@ require(\\"./taro\\");
   </view>
 </template>
 
-<template name=\\"tmpl_0_4\\">
+<template name=\\"tmpl_0_5\\">
   <view hover-class=\\"{{xs.b(i.p1,'none')}}\\" hover-stop-propagation=\\"{{xs.b(i.p4,!1)}}\\" hover-start-time=\\"{{xs.b(i.p2,50)}}\\" hover-stay-time=\\"{{xs.b(i.p3,400)}}\\" animation=\\"{{i.p0}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"sid\\">
       <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
@@ -1158,7 +519,7 @@ require(\\"./taro\\");
   </view>
 </template>
 
-<template name=\\"tmpl_0_1\\">
+<template name=\\"tmpl_0_2\\">
   <view style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"sid\\">
       <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
@@ -1174,7 +535,7 @@ require(\\"./taro\\");
   </view>
 </template>
 
-<template name=\\"tmpl_0_2\\">
+<template name=\\"tmpl_0_4\\">
   <text selectable=\\"{{xs.b(i.p1,!1)}}\\" space=\\"{{i.p2}}\\" decode=\\"{{xs.b(i.p0,!1)}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"sid\\">
       <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
@@ -1262,7 +623,7 @@ require(\\"./taro\\");
   </image>
 </template>
 
-<template name=\\"tmpl_0_5\\">
+<template name=\\"tmpl_0_1\\">
   <image src=\\"{{i.p2}}\\" mode=\\"{{xs.b(i.p1,'scaleToFill')}}\\" lazy-load=\\"{{xs.b(i.p0,!1)}}\\" binderror=\\"eh\\" bindload=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"sid\\">
       <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
@@ -1302,7 +663,7 @@ require(\\"./taro\\");
   </view>
 </template>
 
-<template name=\\"tmpl_1_4\\">
+<template name=\\"tmpl_1_5\\">
   <view hover-class=\\"{{xs.b(i.p1,'none')}}\\" hover-stop-propagation=\\"{{xs.b(i.p4,!1)}}\\" hover-start-time=\\"{{xs.b(i.p2,50)}}\\" hover-stay-time=\\"{{xs.b(i.p3,400)}}\\" animation=\\"{{i.p0}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"sid\\">
       <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
@@ -1310,7 +671,7 @@ require(\\"./taro\\");
   </view>
 </template>
 
-<template name=\\"tmpl_1_1\\">
+<template name=\\"tmpl_1_2\\">
   <view style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"sid\\">
       <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
@@ -1326,7 +687,7 @@ require(\\"./taro\\");
   </view>
 </template>
 
-<template name=\\"tmpl_1_2\\">
+<template name=\\"tmpl_1_4\\">
   <text selectable=\\"{{xs.b(i.p1,!1)}}\\" space=\\"{{i.p2}}\\" decode=\\"{{xs.b(i.p0,!1)}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"sid\\">
       <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
@@ -1386,7 +747,7 @@ require(\\"./taro\\");
   </view>
 </template>
 
-<template name=\\"tmpl_2_4\\">
+<template name=\\"tmpl_2_5\\">
   <view hover-class=\\"{{xs.b(i.p1,'none')}}\\" hover-stop-propagation=\\"{{xs.b(i.p4,!1)}}\\" hover-start-time=\\"{{xs.b(i.p2,50)}}\\" hover-stay-time=\\"{{xs.b(i.p3,400)}}\\" animation=\\"{{i.p0}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"sid\\">
       <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
@@ -1394,7 +755,7 @@ require(\\"./taro\\");
   </view>
 </template>
 
-<template name=\\"tmpl_2_1\\">
+<template name=\\"tmpl_2_2\\">
   <view style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"sid\\">
       <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
@@ -1410,7 +771,7 @@ require(\\"./taro\\");
   </view>
 </template>
 
-<template name=\\"tmpl_2_2\\">
+<template name=\\"tmpl_2_4\\">
   <text selectable=\\"{{xs.b(i.p1,!1)}}\\" space=\\"{{i.p2}}\\" decode=\\"{{xs.b(i.p0,!1)}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"sid\\">
       <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
@@ -1470,7 +831,7 @@ require(\\"./taro\\");
   </view>
 </template>
 
-<template name=\\"tmpl_3_4\\">
+<template name=\\"tmpl_3_5\\">
   <view hover-class=\\"{{xs.b(i.p1,'none')}}\\" hover-stop-propagation=\\"{{xs.b(i.p4,!1)}}\\" hover-start-time=\\"{{xs.b(i.p2,50)}}\\" hover-stay-time=\\"{{xs.b(i.p3,400)}}\\" animation=\\"{{i.p0}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"sid\\">
       <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
@@ -1478,7 +839,7 @@ require(\\"./taro\\");
   </view>
 </template>
 
-<template name=\\"tmpl_3_1\\">
+<template name=\\"tmpl_3_2\\">
   <view style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"sid\\">
       <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
@@ -1494,7 +855,7 @@ require(\\"./taro\\");
   </view>
 </template>
 
-<template name=\\"tmpl_3_2\\">
+<template name=\\"tmpl_3_4\\">
   <text selectable=\\"{{xs.b(i.p1,!1)}}\\" space=\\"{{i.p2}}\\" decode=\\"{{xs.b(i.p0,!1)}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"sid\\">
       <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
@@ -1554,7 +915,7 @@ require(\\"./taro\\");
   </view>
 </template>
 
-<template name=\\"tmpl_4_4\\">
+<template name=\\"tmpl_4_5\\">
   <view hover-class=\\"{{xs.b(i.p1,'none')}}\\" hover-stop-propagation=\\"{{xs.b(i.p4,!1)}}\\" hover-start-time=\\"{{xs.b(i.p2,50)}}\\" hover-stay-time=\\"{{xs.b(i.p3,400)}}\\" animation=\\"{{i.p0}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"sid\\">
       <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
@@ -1562,7 +923,7 @@ require(\\"./taro\\");
   </view>
 </template>
 
-<template name=\\"tmpl_4_1\\">
+<template name=\\"tmpl_4_2\\">
   <view style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"sid\\">
       <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
@@ -1578,7 +939,7 @@ require(\\"./taro\\");
   </view>
 </template>
 
-<template name=\\"tmpl_4_2\\">
+<template name=\\"tmpl_4_4\\">
   <text selectable=\\"{{xs.b(i.p1,!1)}}\\" space=\\"{{i.p2}}\\" decode=\\"{{xs.b(i.p0,!1)}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"sid\\">
       <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
@@ -1614,7 +975,7 @@ require(\\"./taro\\");
   </view>
 </template>
 
-<template name=\\"tmpl_5_4\\">
+<template name=\\"tmpl_5_5\\">
   <view hover-class=\\"{{xs.b(i.p1,'none')}}\\" hover-stop-propagation=\\"{{xs.b(i.p4,!1)}}\\" hover-start-time=\\"{{xs.b(i.p2,50)}}\\" hover-stay-time=\\"{{xs.b(i.p3,400)}}\\" animation=\\"{{i.p0}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"sid\\">
       <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
@@ -1622,7 +983,7 @@ require(\\"./taro\\");
   </view>
 </template>
 
-<template name=\\"tmpl_5_1\\">
+<template name=\\"tmpl_5_2\\">
   <view style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"sid\\">
       <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
@@ -1638,7 +999,7 @@ require(\\"./taro\\");
   </view>
 </template>
 
-<template name=\\"tmpl_5_2\\">
+<template name=\\"tmpl_5_4\\">
   <text selectable=\\"{{xs.b(i.p1,!1)}}\\" space=\\"{{i.p2}}\\" decode=\\"{{xs.b(i.p0,!1)}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"sid\\">
       <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
@@ -1674,7 +1035,7 @@ require(\\"./taro\\");
   </view>
 </template>
 
-<template name=\\"tmpl_6_4\\">
+<template name=\\"tmpl_6_5\\">
   <view hover-class=\\"{{xs.b(i.p1,'none')}}\\" hover-stop-propagation=\\"{{xs.b(i.p4,!1)}}\\" hover-start-time=\\"{{xs.b(i.p2,50)}}\\" hover-stay-time=\\"{{xs.b(i.p3,400)}}\\" animation=\\"{{i.p0}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"sid\\">
       <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
@@ -1682,7 +1043,7 @@ require(\\"./taro\\");
   </view>
 </template>
 
-<template name=\\"tmpl_6_1\\">
+<template name=\\"tmpl_6_2\\">
   <view style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"sid\\">
       <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
@@ -1726,7 +1087,7 @@ require(\\"./taro\\");
   </view>
 </template>
 
-<template name=\\"tmpl_7_4\\">
+<template name=\\"tmpl_7_5\\">
   <view hover-class=\\"{{xs.b(i.p1,'none')}}\\" hover-stop-propagation=\\"{{xs.b(i.p4,!1)}}\\" hover-start-time=\\"{{xs.b(i.p2,50)}}\\" hover-stay-time=\\"{{xs.b(i.p3,400)}}\\" animation=\\"{{i.p0}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"sid\\">
       <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
@@ -1734,7 +1095,7 @@ require(\\"./taro\\");
   </view>
 </template>
 
-<template name=\\"tmpl_7_1\\">
+<template name=\\"tmpl_7_2\\">
   <view style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"sid\\">
       <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
@@ -1778,7 +1139,7 @@ require(\\"./taro\\");
   </view>
 </template>
 
-<template name=\\"tmpl_8_4\\">
+<template name=\\"tmpl_8_5\\">
   <view hover-class=\\"{{xs.b(i.p1,'none')}}\\" hover-stop-propagation=\\"{{xs.b(i.p4,!1)}}\\" hover-start-time=\\"{{xs.b(i.p2,50)}}\\" hover-stay-time=\\"{{xs.b(i.p3,400)}}\\" animation=\\"{{i.p0}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"sid\\">
       <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
@@ -1786,7 +1147,7 @@ require(\\"./taro\\");
   </view>
 </template>
 
-<template name=\\"tmpl_8_1\\">
+<template name=\\"tmpl_8_2\\">
   <view style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"sid\\">
       <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
@@ -1830,7 +1191,7 @@ require(\\"./taro\\");
   </view>
 </template>
 
-<template name=\\"tmpl_9_4\\">
+<template name=\\"tmpl_9_5\\">
   <view hover-class=\\"{{xs.b(i.p1,'none')}}\\" hover-stop-propagation=\\"{{xs.b(i.p4,!1)}}\\" hover-start-time=\\"{{xs.b(i.p2,50)}}\\" hover-stay-time=\\"{{xs.b(i.p3,400)}}\\" animation=\\"{{i.p0}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"sid\\">
       <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
@@ -1838,7 +1199,7 @@ require(\\"./taro\\");
   </view>
 </template>
 
-<template name=\\"tmpl_9_1\\">
+<template name=\\"tmpl_9_2\\">
   <view style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"sid\\">
       <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
@@ -1882,7 +1243,7 @@ require(\\"./taro\\");
   </view>
 </template>
 
-<template name=\\"tmpl_10_4\\">
+<template name=\\"tmpl_10_5\\">
   <view hover-class=\\"{{xs.b(i.p1,'none')}}\\" hover-stop-propagation=\\"{{xs.b(i.p4,!1)}}\\" hover-start-time=\\"{{xs.b(i.p2,50)}}\\" hover-stay-time=\\"{{xs.b(i.p3,400)}}\\" animation=\\"{{i.p0}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"sid\\">
       <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
@@ -1890,7 +1251,7 @@ require(\\"./taro\\");
   </view>
 </template>
 
-<template name=\\"tmpl_10_1\\">
+<template name=\\"tmpl_10_2\\">
   <view style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"sid\\">
       <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
@@ -1934,7 +1295,7 @@ require(\\"./taro\\");
   </view>
 </template>
 
-<template name=\\"tmpl_11_4\\">
+<template name=\\"tmpl_11_5\\">
   <view hover-class=\\"{{xs.b(i.p1,'none')}}\\" hover-stop-propagation=\\"{{xs.b(i.p4,!1)}}\\" hover-start-time=\\"{{xs.b(i.p2,50)}}\\" hover-stay-time=\\"{{xs.b(i.p3,400)}}\\" animation=\\"{{i.p0}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"sid\\">
       <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
@@ -1942,7 +1303,7 @@ require(\\"./taro\\");
   </view>
 </template>
 
-<template name=\\"tmpl_11_1\\">
+<template name=\\"tmpl_11_2\\">
   <view style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"sid\\">
       <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
@@ -1986,7 +1347,7 @@ require(\\"./taro\\");
   </view>
 </template>
 
-<template name=\\"tmpl_12_4\\">
+<template name=\\"tmpl_12_5\\">
   <view hover-class=\\"{{xs.b(i.p1,'none')}}\\" hover-stop-propagation=\\"{{xs.b(i.p4,!1)}}\\" hover-start-time=\\"{{xs.b(i.p2,50)}}\\" hover-stay-time=\\"{{xs.b(i.p3,400)}}\\" animation=\\"{{i.p0}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"sid\\">
       <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
@@ -1994,7 +1355,7 @@ require(\\"./taro\\");
   </view>
 </template>
 
-<template name=\\"tmpl_12_1\\">
+<template name=\\"tmpl_12_2\\">
   <view style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"sid\\">
       <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
@@ -2038,7 +1399,7 @@ require(\\"./taro\\");
   </view>
 </template>
 
-<template name=\\"tmpl_13_4\\">
+<template name=\\"tmpl_13_5\\">
   <view hover-class=\\"{{xs.b(i.p1,'none')}}\\" hover-stop-propagation=\\"{{xs.b(i.p4,!1)}}\\" hover-start-time=\\"{{xs.b(i.p2,50)}}\\" hover-stay-time=\\"{{xs.b(i.p3,400)}}\\" animation=\\"{{i.p0}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"sid\\">
       <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
@@ -2046,7 +1407,7 @@ require(\\"./taro\\");
   </view>
 </template>
 
-<template name=\\"tmpl_13_1\\">
+<template name=\\"tmpl_13_2\\">
   <view style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"sid\\">
       <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
@@ -2090,7 +1451,7 @@ require(\\"./taro\\");
   </view>
 </template>
 
-<template name=\\"tmpl_14_4\\">
+<template name=\\"tmpl_14_5\\">
   <view hover-class=\\"{{xs.b(i.p1,'none')}}\\" hover-stop-propagation=\\"{{xs.b(i.p4,!1)}}\\" hover-start-time=\\"{{xs.b(i.p2,50)}}\\" hover-stay-time=\\"{{xs.b(i.p3,400)}}\\" animation=\\"{{i.p0}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"sid\\">
       <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
@@ -2098,7 +1459,7 @@ require(\\"./taro\\");
   </view>
 </template>
 
-<template name=\\"tmpl_14_1\\">
+<template name=\\"tmpl_14_2\\">
   <view style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"sid\\">
       <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
@@ -2145,7 +1506,7 @@ require(\\"./taro\\");
 
 
 /** filePath: dist/common.js **/
-(wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 2 ], [ , function(module, __webpack_exports__, __webpack_require__) {
+(wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 2 ], [ function(module, __webpack_exports__, __webpack_require__) {
     \\"use strict\\";
     __webpack_require__.r(__webpack_exports__);
     __webpack_exports__[\\"default\\"] = \\"react-mock\\";
@@ -2153,13 +1514,13 @@ require(\\"./taro\\");
 
 /** filePath: dist/comp.js **/
 (wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 6 ], {
-    13: function(module, __webpack_exports__, __webpack_require__) {
+    12: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_require__.r(__webpack_exports__);
-        var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
+        var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(2);
         Component(Object(_tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__[\\"createRecursiveComponentConfig\\"])());
     }
-}, [ [ 13, 0, 1 ] ] ]);
+}, [ [ 12, 0, 1 ] ] ]);
 
 /** filePath: dist/comp.json **/
 {\\"component\\":true,\\"usingComponents\\":{\\"comp\\":\\"./comp\\",\\"custom-wrapper\\":\\"./custom-wrapper\\"}}
@@ -2170,13 +1531,13 @@ require(\\"./taro\\");
 
 /** filePath: dist/custom-wrapper.js **/
 (wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 7 ], {
-    14: function(module, __webpack_exports__, __webpack_require__) {
+    13: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_require__.r(__webpack_exports__);
-        var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
+        var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(2);
         Component(Object(_tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__[\\"createRecursiveComponentConfig\\"])(\\"custom-wrapper\\"));
     }
-}, [ [ 14, 0, 1 ] ] ]);
+}, [ [ 13, 0, 1 ] ] ]);
 
 /** filePath: dist/custom-wrapper.json **/
 {\\"component\\":true,\\"usingComponents\\":{\\"comp\\":\\"./comp\\",\\"custom-wrapper\\":\\"./custom-wrapper\\"}}
@@ -2190,12 +1551,12 @@ require(\\"./taro\\");
 /** filePath: dist/pages/index/index.js **/
 /*! For license information please see index.js.LICENSE.txt */
 (wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 8 ], {
-    15: function(module, exports, __webpack_require__) {},
-    17: function(module, __webpack_exports__, __webpack_require__) {
+    14: function(module, exports, __webpack_require__) {},
+    16: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_require__.r(__webpack_exports__);
-        var taro_runtime = __webpack_require__(0);
-        var esm_typeof = __webpack_require__(8);
+        var taro_runtime = __webpack_require__(2);
+        var esm_typeof = __webpack_require__(5);
         function _regeneratorRuntime() {
             \\"use strict\\";
             _regeneratorRuntime = function _regeneratorRuntime() {
@@ -2529,11 +1890,11 @@ require(\\"./taro\\");
         }
         var classCallCheck = __webpack_require__(3);
         var createClass = __webpack_require__(4);
-        var inherits = __webpack_require__(6);
-        var createSuper = __webpack_require__(5);
-        var react = __webpack_require__(1);
-        var taro_components = __webpack_require__(2);
-        var index = __webpack_require__(15);
+        var inherits = __webpack_require__(7);
+        var createSuper = __webpack_require__(6);
+        var react = __webpack_require__(0);
+        var taro_components = __webpack_require__(1);
+        var index = __webpack_require__(14);
         var index_Index = function(_Component) {
             Object(inherits[\\"a\\"])(Index, _Component);
             var _super = Object(createSuper[\\"a\\"])(Index);
@@ -2600,7 +1961,7 @@ require(\\"./taro\\");
             }
         }, config || {}));
     }
-}, [ [ 17, 0, 1, 3, 2 ] ] ]);
+}, [ [ 16, 0, 1, 3, 2 ] ] ]);
 
 /** filePath: dist/pages/index/index.js.LICENSE.txt **/
 /*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/facebook/regenerator/blob/main/LICENSE */
@@ -2621,15 +1982,15 @@ require(\\"./taro\\");
 
 /** filePath: dist/taro.js **/
 (wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 1 ], {
-    0: function(module, __webpack_exports__, __webpack_require__) {
-        \\"use strict\\";
-        var _unused_webpack_default_export = \\"taro-runtime-mock\\";
-    },
-    2: function(module, __webpack_exports__, __webpack_require__) {
+    1: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         var _unused_webpack_default_export = \\"taro-components-mock\\";
     },
-    9: function(module, __webpack_exports__, __webpack_require__) {
+    2: function(module, __webpack_exports__, __webpack_require__) {
+        \\"use strict\\";
+        var _unused_webpack_default_export = \\"taro-runtime-mock\\";
+    },
+    8: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_exports__[\\"a\\"] = \\"taro-react-mock\\";
     }
@@ -2638,8 +1999,8 @@ require(\\"./taro\\");
 /** filePath: dist/utils.wxs **/
 module.exports = {
   a: function (l, n, s) {
-    var a = [\\"7\\",\\"0\\",\\"18\\",\\"4\\",\\"1\\",\\"11\\",\\"6\\",\\"2\\",\\"37\\",\\"38\\",\\"22\\",\\"19\\",\\"35\\",\\"39\\",\\"40\\"]
-    var b = [\\"2\\",\\"37\\",\\"38\\",\\"22\\",\\"19\\",\\"35\\",\\"39\\",\\"40\\"]
+    var a = [\\"7\\",\\"0\\",\\"18\\",\\"5\\",\\"2\\",\\"11\\",\\"6\\",\\"4\\",\\"37\\",\\"38\\",\\"22\\",\\"19\\",\\"35\\",\\"39\\",\\"40\\"]
+    var b = [\\"4\\",\\"37\\",\\"38\\",\\"22\\",\\"19\\",\\"35\\",\\"39\\",\\"40\\"]
     if (a.indexOf(n) === -1) {
       l = 0
     }
@@ -2667,7 +2028,7 @@ module.exports = {
     return 'tmpl_' + n + '_container'
   },
   f: function (l, n) {
-    var b = [\\"2\\",\\"37\\",\\"38\\",\\"22\\",\\"19\\",\\"35\\",\\"39\\",\\"40\\"]
+    var b = [\\"4\\",\\"37\\",\\"38\\",\\"22\\",\\"19\\",\\"35\\",\\"39\\",\\"40\\"]
     if (b.indexOf(n) > -1) {
       if (l) l += ','
       l += n
@@ -2712,6 +2073,19 @@ module.exports = {
 }, function(module, __webpack_exports__, __webpack_require__) {
     \\"use strict\\";
     __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
+        return _typeof;
+    }));
+    function _typeof(obj) {
+        \\"@babel/helpers - typeof\\";
+        return _typeof = \\"function\\" == typeof Symbol && \\"symbol\\" == typeof Symbol.iterator ? function(obj) {
+            return typeof obj;
+        } : function(obj) {
+            return obj && \\"function\\" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? \\"symbol\\" : typeof obj;
+        }, _typeof(obj);
+    }
+}, function(module, __webpack_exports__, __webpack_require__) {
+    \\"use strict\\";
+    __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
         return _createSuper;
     }));
     function _getPrototypeOf(o) {
@@ -2731,15 +2105,20 @@ module.exports = {
             return false;
         }
     }
-    var esm_typeof = __webpack_require__(8);
-    var assertThisInitialized = __webpack_require__(7);
+    var esm_typeof = __webpack_require__(5);
+    function _assertThisInitialized(self) {
+        if (self === void 0) {
+            throw new ReferenceError(\\"this hasn't been initialised - super() hasn't been called\\");
+        }
+        return self;
+    }
     function _possibleConstructorReturn(self, call) {
         if (call && (Object(esm_typeof[\\"a\\"])(call) === \\"object\\" || typeof call === \\"function\\")) {
             return call;
         } else if (call !== void 0) {
             throw new TypeError(\\"Derived constructors may only return object or undefined\\");
         }
-        return Object(assertThisInitialized[\\"a\\"])(self);
+        return _assertThisInitialized(self);
     }
     function _createSuper(Derived) {
         var hasNativeReflectConstruct = _isNativeReflectConstruct();
@@ -2781,30 +2160,6 @@ module.exports = {
             writable: false
         });
         if (superClass) _setPrototypeOf(subClass, superClass);
-    }
-}, function(module, __webpack_exports__, __webpack_require__) {
-    \\"use strict\\";
-    __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
-        return _assertThisInitialized;
-    }));
-    function _assertThisInitialized(self) {
-        if (self === void 0) {
-            throw new ReferenceError(\\"this hasn't been initialised - super() hasn't been called\\");
-        }
-        return self;
-    }
-}, function(module, __webpack_exports__, __webpack_require__) {
-    \\"use strict\\";
-    __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
-        return _typeof;
-    }));
-    function _typeof(obj) {
-        \\"@babel/helpers - typeof\\";
-        return _typeof = \\"function\\" == typeof Symbol && \\"symbol\\" == typeof Symbol.iterator ? function(obj) {
-            return typeof obj;
-        } : function(obj) {
-            return obj && \\"function\\" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? \\"symbol\\" : typeof obj;
-        }, _typeof(obj);
     }
 } ] ]);
 "

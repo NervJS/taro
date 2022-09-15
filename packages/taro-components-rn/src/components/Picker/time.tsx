@@ -25,9 +25,6 @@ export default class TimeSelector extends React.Component<TimeProps, TimeState> 
     value: new Date()
   }
 
-  dismissByOk = false
-
-  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   static getDerivedStateFromProps(nextProps: TimeProps, lastState: any) {
     if (nextProps.value && nextProps.value !== lastState.pValue) {
       const now = new Date()
@@ -59,16 +56,9 @@ export default class TimeSelector extends React.Component<TimeProps, TimeState> 
     this.setState({ value: now })
   }
 
-  onOk = (): void => {
-    this.dismissByOk = true
-  }
-
-  onVisibleChange = (visible: boolean): void => {
-    if (!visible && !this.dismissByOk) {
-      const { onCancel = noop } = this.props
-      onCancel()
-    }
-    this.dismissByOk = false
+  onDismiss = (): void => {
+    const { onCancel = noop } = this.props
+    onCancel()
   }
 
   render(): JSX.Element {
@@ -83,9 +73,7 @@ export default class TimeSelector extends React.Component<TimeProps, TimeState> 
         maxDate={formatTimeStr(end)}
         onChange={this.onChange}
         onValueChange={this.onValueChange}
-        // @ts-ignore
-        onOk={this.onOk}
-        onVisibleChange={this.onVisibleChange}
+        onDismiss={this.onDismiss}
         disabled={disabled}
       >
         <TouchableWithoutFeedback>{children}</TouchableWithoutFeedback>

@@ -232,16 +232,9 @@ export async function createApp (creator: Creator, params: IProjectConf, cb) {
     if (autoInstall) {
       // packages install
       const command: string = packagesManagement[npm].command
-      // if (isShouldUseYarn) {
-      //   command = 'yarn install'
-      // } else if (shouldUseCnpm()) {
-      //   command = 'cnpm install'
-      // } else {
-      //   command = 'npm install'
-      // }
 
       const installSpinner = ora(`执行安装项目依赖 ${chalk.cyan.bold(command)}, 需要一会儿...`).start()
-      exec(command, (error, stdout, stderr) => {
+      const child = exec(command, (error) => {
         if (error) {
           installSpinner.color = 'red'
           installSpinner.fail(chalk.red('安装项目依赖失败，请自行重新安装！'))
@@ -249,9 +242,18 @@ export async function createApp (creator: Creator, params: IProjectConf, cb) {
         } else {
           installSpinner.color = 'green'
           installSpinner.succeed('安装成功')
-          console.log(`${stderr}${stdout}`)
         }
         callSuccess()
+      })
+
+      child.stdout!.on('data', function (data) {
+        installSpinner.stop()
+        console.log(data.replace(/\n$/, ''))
+        installSpinner.start()
+      })
+      child.stderr!.on('data', function (data) {
+        installSpinner.warn(data.replace(/\n$/, ''))
+        installSpinner.start()
       })
     } else {
       callSuccess()

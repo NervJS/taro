@@ -13,7 +13,7 @@ export const canvasToTempFilePath: typeof Taro.canvasToTempFilePath = ({ canvasI
   const canvas = el?.querySelector(`canvas[canvas-id="${canvasId}"]`) as HTMLCanvasElement
 
   try {
-    const dataURL = canvas?.toDataURL(`image/${fileType || 'png'}`, quality)
+    const dataURL = canvas?.toDataURL(`image/${(fileType === 'jpg' ? 'jpeg' : fileType) || 'png'}`, quality)
     return handle.success({
       tempFilePath: dataURL
     })

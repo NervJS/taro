@@ -3,7 +3,7 @@ import { AppConfig } from '@tarojs/taro'
 import { VirtualModule } from '@tarojs/webpack5-prebundle/dist/h5'
 import { defaults } from 'lodash'
 import path from 'path'
-import webpack, { Compiler, LoaderContext } from 'webpack'
+import { Compiler, LoaderContext, NormalModule } from 'webpack'
 
 import H5AppInstance from '../utils/H5AppInstance'
 
@@ -72,7 +72,7 @@ export default class H5Plugin {
     )
 
     compiler.hooks.compilation.tap(PLUGIN_NAME, compilation => {
-      webpack.NormalModule.getCompilationHooks(compilation).loader.tap(PLUGIN_NAME, (_loaderContext: LoaderContext<any>, module: webpack.NormalModule) => {
+      compiler.webpack.NormalModule.getCompilationHooks(compilation).loader.tap(PLUGIN_NAME, (_loaderContext: LoaderContext<any>, module: NormalModule) => {
         const { framework, entryFileName, appPath, sourceDir, designWidth, deviceRatio, loaderMeta, prebundle, routerConfig } = this.options
         const { dir, name } = path.parse(module.resource)
         const suffixRgx = /\.(boot|config)/

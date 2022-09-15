@@ -48,10 +48,14 @@ export interface AlipayConfig {
   appId: string
   /** 工具id */
   toolId: string
+  /** 小程序开发者工具安装路径 */
+  devToolsInstallPath?: string
   /** 私钥相对路径 */
   privateKeyPath: string
   /** 服务代理地址（可选） */
   proxy?: string
+  /** 目标项目目录, 默认为 outputPath（可选） */
+  project?: string
   /** 上传的终端, 默认alipay */
   clientType?: ClientType
 }

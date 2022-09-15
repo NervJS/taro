@@ -77,7 +77,7 @@ $ npm run clear-all
 ### 运行子包的 `npm script`
 
 ```bash
-$ lerna run <script-name> --scope=<workspace> --stream
+$ pnpm --filter <workspace> run <script-name>
 ```
 
 ### 提交发布

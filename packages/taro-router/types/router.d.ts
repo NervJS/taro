@@ -1,5 +1,5 @@
-import { AppConfig, PageConfig } from '@tarojs/taro'
-import { IH5RouterConfig } from '@tarojs/taro/types/compile'
+import type { AppConfig, PageConfig } from '@tarojs/taro'
+import type { IH5RouterConfig } from '@tarojs/taro/types/compile'
 
 export interface Route extends PageConfig {
   path?: string

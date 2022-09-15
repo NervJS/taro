@@ -1,7 +1,7 @@
 import type { IPluginContext } from '@tarojs/service'
 
 import type { Frameworks } from './index'
-import { getLoaderMeta } from './loader-meta'
+import { getLoaderMetaForH5 } from './loader-meta'
 
 export function modifyH5WebpackChain (ctx: IPluginContext, framework: Frameworks, chain) {
   setAlias(ctx, chain)
@@ -34,7 +34,7 @@ function setAlias (ctx: IPluginContext, chain) {
 function setLoader (framework: Frameworks, chain) {
   chain.plugin('mainPlugin')
     .tap(args => {
-      args[0].loaderMeta = getLoaderMeta(framework)
+      args[0].loaderMeta = getLoaderMetaForH5(framework)
       return args
     })
 }
@@ -52,6 +52,9 @@ function setPlugin (ctx: IPluginContext, framework: Frameworks, chain) {
         .plugin('fastRefreshPlugin')
         .use(require('@pmmmwh/react-refresh-webpack-plugin'))
     } else if (framework === 'preact') {
+      chain
+        .plugin('hotModuleReplacementPlugin')
+        .use(require('webpack').HotModuleReplacementPlugin)
       chain
         .plugin('fastRefreshPlugin')
         .use(require('@prefresh/webpack'))

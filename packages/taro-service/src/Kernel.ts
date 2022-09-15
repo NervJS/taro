@@ -87,7 +87,7 @@ export default class Kernel extends EventEmitter {
       Object.assign(this.paths, {
         configPath: this.config.configPath,
         sourcePath: path.join(this.appPath, this.initialConfig.sourceRoot as string),
-        outputPath: path.join(this.appPath, this.initialConfig.outputRoot as string)
+        outputPath: path.resolve(this.appPath, this.initialConfig.outputRoot as string)
       })
     }
     this.debugger(`initPaths:${JSON.stringify(this.paths, null, 2)}`)

@@ -172,9 +172,9 @@ declare module './index' {
     shouldComponentUpdate?(nextProps: Readonly<P>, nextState: Readonly<S>, nextContext: any): boolean
     componentWillUpdate?(nextProps: Readonly<P>, nextState: Readonly<S>, nextContext: any): void
     componentWillUnmount?(): void
+    componentDidCatch?(err: string): void
     componentDidShow?(): void
     componentDidHide?(): void
-    componentDidCatchError?(err: string): void
     componentDidNotFound?(opt: PageNotFoundObject): void
   }
 

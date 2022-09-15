@@ -6,11 +6,6 @@
 //   }
 // }
 
-declare module 'react-dom/server.browser' {
-  import { ReactElement } from 'react'
-
-  export const renderToStaticMarkup: (element: ReactElement) => string
-}
 
 // 修复第三方库的类型定义依赖DOM，但是DOM与react-native类型冲突
 // begin

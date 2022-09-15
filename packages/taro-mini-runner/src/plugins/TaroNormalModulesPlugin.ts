@@ -60,7 +60,7 @@ export default class TaroNormalModulesPlugin {
               }
 
               prop.properties
-                .filter(p => p.type === 'Property' && p.key.type === 'Identifier' && p.key.name !== 'children')
+                .filter(p => p.type === 'Property' && p.key.type === 'Identifier' && p.key.name !== 'children' && p.key.name !== 'id')
                 .forEach(p => attrs.add(p.key.name))
             }
           }, {

@@ -1,6 +1,6 @@
 {
   "name": "taro",
-  "version": "3.5.0-beta.8",
+  "version": "3.5.4-canary.1",
   "description": "开放式跨端跨框架开发解决方案",
   "homepage": "https://github.com/NervJS/taro#readme",
   "author": "O2Team",
@@ -25,7 +25,7 @@
     "clear-all": "rimraf **/node_modules",
     "lint": "eslint packages/ --ext .js --ext .ts --ext .tsx",
     "lint:style": "stylelint ./packages/**/*.{css,scss}",
-    "test": "pnpm --parallel -r --filter @tarojs/cli --filter babel-preset-taro --filter @tarojs/components --filter @tarojs/taro-h5 --filter @tarojs/react --filter @tarojs/webpack-runner --filter @tarojs/taro-rn --filter @tarojs/components-rn run test:ci",
+    "test": "pnpm --parallel -r --filter @tarojs/cli --filter babel-preset-taro --filter @tarojs/components --filter @tarojs/taro-h5 --filter @tarojs/react --filter @tarojs/webpack-runner --filter @tarojs/mini-runner --filter @tarojs/taro-rn --filter @tarojs/components-rn run test:ci",
     "version": "run-s version:*",
     "version:release": "pnpm --parallel -r --filter=./packages/* exec npm version ${npm_package_version}",
     "version:git": "git add . && git commit -m \"chore(release): publish ${npm_package_version}\"",
@@ -33,12 +33,10 @@
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": [
-      "eslint --fix",
-      "git add"
+      "eslint --fix"
     ],
     "*.json": [
-      "prettier --write",
-      "git add -f"
+      "prettier --write"
     ]
   },
   "devDependencies": {
@@ -92,7 +90,7 @@
     "@tarojs/webpack5-runner": "workspace:*",
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/jest-native": "^4.0.4",
-    "@testing-library/react-native": "^9.0.0",
+    "@testing-library/react-native": "^11.0.0",
     "@types/autoprefixer": "9.7.0",
     "@types/babel-types": "^7.0.7",
     "@types/babel__core": "^7.1.14",
@@ -155,7 +153,7 @@
     "gh-pages": "^1.1.0",
     "husky": "^8.0.1",
     "jest": "26.4.2",
-    "jest-expo": "^45.0.1",
+    "jest-expo": "^46.0.1",
     "jest-fetch-mock": "^3.0.3",
     "jest-localstorage-mock": "^2.4.0",
     "jest-mock-console": "^1.0.0",
@@ -166,10 +164,11 @@
     "nervjs": "^1.4.6",
     "node-sass": "6.0.1",
     "npm-run-all": "^4.1.2",
-    "ora": "^2.1.0",
+    "ora": "4.0.3",
     "postcss": "^8.4.12",
     "postcss-scss": "^4.0.3",
     "power-assert": "^1.6.1",
+    "preact": "^10.5.15",
     "prettier": "^2.7.1",
     "prop-types": "^15.7.2",
     "react": "^18",
@@ -186,8 +185,8 @@
     "stylelint": "^14.6.1",
     "stylelint-config-standard-scss": "^3.0.0",
     "stylelint-config-taro-rn": "workspace:*",
-    "stylelint-taro-rn": "workspace:*",
     "stylelint-order": "^5.0.0",
+    "stylelint-taro-rn": "workspace:*",
     "ts-jest": "26.5.5",
     "tslib": "^1.9.3",
     "typescript": "^4.7.4",

@@ -13,7 +13,7 @@ require(\\"./taro\\");
 
 (wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 3 ], {
     4: function(module, exports, __webpack_require__) {},
-    7: function(module, __webpack_exports__, __webpack_require__) {
+    8: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_require__.r(__webpack_exports__);
         var mocks_taro = \\"taro\\";
@@ -24,12 +24,54 @@ require(\\"./taro\\");
         function processApis() {}
         var EMPTY_OBJ = {};
         var hooks = {};
-        var needPromiseApis = new Set([ \\"authPrivateMessage\\", \\"disableAlertBeforeUnload\\", \\"enableAlertBeforeUnload\\", \\"getBackgroundFetchData\\", \\"getGroupEnterInfo\\", \\"getShareInfo\\", \\"getWeRunData\\", \\"join1v1Chat\\", \\"openVideoEditor\\", \\"saveFileToDisk\\", \\"scanItem\\", \\"setEnable1v1Chat\\", \\"setWindowSize\\", \\"sendBizRedPacket\\", \\"startFacialRecognitionVerify\\", \\"openCustomerServiceChat\\", \\"getLocalIPAddress\\", \\"getUserProfile\\", \\"editImage\\" ]);
+        function setReconciler() {}
+        function connectReactPage() {}
+        function createReactApp() {}
+        function createNativeComponentConfig() {}
+        function connectVuePage() {}
+        function createVueApp() {}
+        function createVue3App() {}
+        var setGlobalDataPlugin = {};
+        function useDidHide() {}
+        function useDidShow() {}
+        function useError() {}
+        function useLaunch() {}
+        function usePageNotFound() {}
+        function useLoad() {}
+        function usePageScroll() {}
+        function usePullDownRefresh() {}
+        function usePullIntercept() {}
+        function useReachBottom() {}
+        function useResize() {}
+        function useUnload() {}
+        function useAddToFavorites() {}
+        function useOptionMenuClick() {}
+        function useSaveExitState() {}
+        function useShareAppMessage() {}
+        function useShareTimeline() {}
+        function useTitleClick() {}
+        function useReady() {}
+        function useRouter() {}
+        function useTabItemTap() {}
+        function useScope() {}
+        var needPromiseApis = new Set([ \\"authPrivateMessage\\", \\"disableAlertBeforeUnload\\", \\"enableAlertBeforeUnload\\", \\"getBackgroundFetchData\\", \\"getGroupEnterInfo\\", \\"getShareInfo\\", \\"getWeRunData\\", \\"join1v1Chat\\", \\"openVideoEditor\\", \\"saveFileToDisk\\", \\"scanItem\\", \\"setEnable1v1Chat\\", \\"setWindowSize\\", \\"sendBizRedPacket\\", \\"startFacialRecognitionVerify\\", \\"openCustomerServiceChat\\", \\"getLocalIPAddress\\", \\"getUserProfile\\", \\"editImage\\", \\"getFuzzyLocation\\" ]);
         function initNativeApi(taro) {
             processApis(taro, wx, {
                 needPromiseApis: needPromiseApis,
                 modifyApis: function modifyApis(apis) {
                     apis.delete(\\"lanDebug\\");
+                },
+                transformMeta: function transformMeta(api, options) {
+                    var _a;
+                    if (api === \\"showShareMenu\\") {
+                        options.menus = (_a = options.showShareItems) === null || _a === void 0 ? void 0 : _a.map((function(item) {
+                            return item === \\"wechatFriends\\" ? \\"shareAppMessage\\" : item === \\"wechatMoment\\" ? \\"shareTimeline\\" : item;
+                        }));
+                    }
+                    return {
+                        key: api,
+                        options: options
+                    };
                 }
             });
             taro.cloud = wx.cloud;
@@ -74,10 +116,13 @@ require(\\"./taro\\");
                 \\"enable-rotate\\": _false,
                 \\"enable-satellite\\": _false,
                 \\"enable-traffic\\": _false,
+                \\"enable-poi\\": _true,
+                \\"enable-building\\": _true,
                 setting: \\"[]\\",
                 bindLabelTap: _empty,
                 bindRegionChange: _empty,
-                bindPoiTap: _empty
+                bindPoiTap: _empty,
+                bindAnchorPointTap: _empty
             },
             Button: {
                 lang: \\"en\\",
@@ -370,7 +415,8 @@ require(\\"./taro\\");
                 duration: \\"300\\",
                 \\"easing-function\\": \\"'ease-out'\\"
             },
-            KeyboardAccessory: {}
+            KeyboardAccessory: {},
+            RootPortal: {}
         };
         var hostConfig = {
             initNativeApi: initNativeApi,
@@ -385,321 +431,13 @@ require(\\"./taro\\");
         mergeReconciler(hostConfig);
         mergeInternalComponents(components);
         var taro_runtime = __webpack_require__(0);
-        function _defineProperty(obj, key, value) {
-            if (key in obj) {
-                Object.defineProperty(obj, key, {
-                    value: value,
-                    enumerable: true,
-                    configurable: true,
-                    writable: true
-                });
-            } else {
-                obj[key] = value;
-            }
-            return obj;
-        }
-        function _arrayWithHoles(arr) {
-            if (Array.isArray(arr)) return arr;
-        }
-        function _iterableToArrayLimit(arr, i) {
-            var _i = arr == null ? null : typeof Symbol !== \\"undefined\\" && arr[Symbol.iterator] || arr[\\"@@iterator\\"];
-            if (_i == null) return;
-            var _arr = [];
-            var _n = true;
-            var _d = false;
-            var _s, _e;
-            try {
-                for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) {
-                    _arr.push(_s.value);
-                    if (i && _arr.length === i) break;
-                }
-            } catch (err) {
-                _d = true;
-                _e = err;
-            } finally {
-                try {
-                    if (!_n && _i[\\"return\\"] != null) _i[\\"return\\"]();
-                } finally {
-                    if (_d) throw _e;
-                }
-            }
-            return _arr;
-        }
-        function _arrayLikeToArray(arr, len) {
-            if (len == null || len > arr.length) len = arr.length;
-            for (var i = 0, arr2 = new Array(len); i < len; i++) {
-                arr2[i] = arr[i];
-            }
-            return arr2;
-        }
-        function _unsupportedIterableToArray(o, minLen) {
-            if (!o) return;
-            if (typeof o === \\"string\\") return _arrayLikeToArray(o, minLen);
-            var n = Object.prototype.toString.call(o).slice(8, -1);
-            if (n === \\"Object\\" && o.constructor) n = o.constructor.name;
-            if (n === \\"Map\\" || n === \\"Set\\") return Array.from(o);
-            if (n === \\"Arguments\\" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen);
-        }
-        function _nonIterableRest() {
-            throw new TypeError(\\"Invalid attempt to destructure non-iterable instance.\\\\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.\\");
-        }
-        function _slicedToArray(arr, i) {
-            return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest();
-        }
-        function _arrayWithoutHoles(arr) {
-            if (Array.isArray(arr)) return _arrayLikeToArray(arr);
-        }
-        function _iterableToArray(iter) {
-            if (typeof Symbol !== \\"undefined\\" && iter[Symbol.iterator] != null || iter[\\"@@iterator\\"] != null) return Array.from(iter);
-        }
-        function _nonIterableSpread() {
-            throw new TypeError(\\"Invalid attempt to spread non-iterable instance.\\\\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.\\");
-        }
-        function _toConsumableArray(arr) {
-            return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread();
-        }
         var vue = __webpack_require__(1);
-        function createHook(lifecycle) {
-            return function(fn) {
-                var id = Object(vue[\\"inject\\"])(\\"id\\");
-                var fnRef = Object(vue[\\"ref\\"])(fn);
-                Object(vue[\\"onMounted\\"])((function() {
-                    var inst = Object(taro_runtime[\\"getPageInstance\\"])(id);
-                    if (inst === undefined) {
-                        inst = Object.create({
-                            $options: {}
-                        });
-                        Object(taro_runtime[\\"injectPageInstance\\"])(inst, id);
-                    }
-                    inst = inst.$options;
-                    var callback = function callback() {
-                        return fnRef.value.apply(fnRef, arguments);
-                    };
-                    var currentCallback = inst[lifecycle];
-                    if (undefined(currentCallback)) {
-                        inst[lifecycle] = callback;
-                    } else if (isFunction(currentCallback)) {
-                        inst[lifecycle] = [ inst[lifecycle], callback ];
-                    } else if (isArray(currentCallback)) {
-                        inst[lifecycle] = [].concat(_toConsumableArray(currentCallback), [ callback ]);
-                    }
-                }));
-            };
-        }
-        var useDidShow = createHook(\\"onShow\\");
-        var useDidHide = createHook(\\"onHide\\");
-        var useReady = createHook(\\"onReady\\");
-        var useLoad = createHook(\\"onLoad\\");
-        var useUnload = createHook(\\"onUnload\\");
-        var usePullDownRefresh = createHook(\\"onPullDownRefresh\\");
-        var useReachBottom = createHook(\\"onReachBottom\\");
-        var usePageScroll = createHook(\\"onPageScroll\\");
-        var useResize = createHook(\\"onResize\\");
-        var useShareAppMessage = createHook(\\"onShareAppMessage\\");
-        var useTabItemTap = createHook(\\"onTabItemTap\\");
-        var useTitleClick = createHook(\\"onTitleClick\\");
-        var useOptionMenuClick = createHook(\\"onOptionMenuClick\\");
-        var usePullIntercept = createHook(\\"onPullIntercept\\");
-        var useShareTimeline = createHook(\\"onShareTimeline\\");
-        var useAddToFavorites = createHook(\\"onAddToFavorites\\");
-        var useSaveExitState = createHook(\\"onSaveExitState\\");
-        var runtime_useRouter = function useRouter() {
-            return taro_runtime[\\"Current\\"].router;
-        };
-        var taroHooks = Object.freeze({
-            __proto__: null,
-            useDidShow: useDidShow,
-            useDidHide: useDidHide,
-            useReady: useReady,
-            useLoad: useLoad,
-            useUnload: useUnload,
-            usePullDownRefresh: usePullDownRefresh,
-            useReachBottom: useReachBottom,
-            usePageScroll: usePageScroll,
-            useResize: useResize,
-            useShareAppMessage: useShareAppMessage,
-            useTabItemTap: useTabItemTap,
-            useTitleClick: useTitleClick,
-            useOptionMenuClick: useOptionMenuClick,
-            usePullIntercept: usePullIntercept,
-            useShareTimeline: useShareTimeline,
-            useAddToFavorites: useAddToFavorites,
-            useSaveExitState: useSaveExitState,
-            useRouter: runtime_useRouter
-        });
-        var setGlobalDataPlugin = {
-            install: function install(app, data) {
-                app.taroGlobalData = data;
-            }
-        };
-        function setDefaultDescriptor(obj) {
-            obj.writable = true;
-            obj.enumerable = true;
-            return obj;
-        }
-        function setRouterParams(options) {
-            taro_runtime[\\"Current\\"].router = Object.assign({
-                params: options === null || options === void 0 ? void 0 : options.query
-            }, options);
-        }
-        function setReconciler() {
-            hooks.tap(\\"getLifecycle\\", (function(instance, lifecycle) {
-                return instance.$options[lifecycle];
-            }));
-            if (false) {}
-        }
-        function createVue3Page(h, id) {
-            return function(component) {
-                var _a;
-                component = isClassComponent(component) ? component.__vccOpts : component;
-                var inject = {
-                    props: {
-                        tid: String
-                    },
-                    created: function created() {
-                        Object(taro_runtime[\\"injectPageInstance\\"])(this, id);
-                    }
-                };
-                if (isArray(component.mixins)) {
-                    var mixins = component.mixins;
-                    var idx = mixins.length - 1;
-                    if (!((_a = mixins[idx].props) === null || _a === void 0 ? void 0 : _a.tid)) {
-                        component.mixins.push(inject);
-                    } else {
-                        component.mixins[idx] = inject;
-                    }
-                } else {
-                    component.mixins = [ inject ];
-                }
-                var ProviderComponent = {
-                    setup: function setup() {
-                        Object(vue[\\"provide\\"])(\\"id\\", id);
-                    },
-                    render: function render() {
-                        return this.$slots.default();
-                    }
-                };
-                var RootElement = false ? undefined : \\"root\\";
-                var PageComponent = Object.assign({}, component);
-                return h(ProviderComponent, {
-                    key: id
-                }, {
-                    default: function _default() {
-                        return [ h(RootElement, {
-                            id: id,
-                            class: false ? undefined : \\"\\"
-                        }, [ h(PageComponent, {
-                            tid: id
-                        }) ]) ];
-                    }
-                });
-            };
-        }
-        function createVue3App(app, h, config) {
-            var _Object$create;
-            var pages = [];
-            var appInstance;
-            undefined(!(isFunction(app._component) && !isClassComponent(app._component)), \\"\\\\u5165\\\\u53e3\\\\u7ec4\\\\u4ef6\\\\u4e0d\\\\u652f\\\\u6301\\\\u4f7f\\\\u7528\\\\u51fd\\\\u6570\\\\u5f0f\\\\u7ec4\\\\u4ef6\\");
-            setReconciler();
-            app._component.render = function() {
-                return pages.slice();
-            };
-            if (true) {
-                appInstance = app.mount(\\"#app\\");
-            }
-            var _hooks$call$app = _slicedToArray(hooks.call(\\"getMiniLifecycleImpl\\").app, 3), ONLAUNCH = _hooks$call$app[0], ONSHOW = _hooks$call$app[1], ONHIDE = _hooks$call$app[2];
-            var appConfig = Object.create({
-                mount: function mount(component, id, cb) {
-                    var page = createVue3Page(h, id)(component);
-                    pages.push(page);
-                    this.updateAppInstance(cb);
-                },
-                unmount: function unmount(id, cb) {
-                    pages = pages.filter((function(page) {
-                        return page.key !== id;
-                    }));
-                    this.updateAppInstance(cb);
-                },
-                updateAppInstance: function updateAppInstance(cb) {
-                    appInstance.$forceUpdate();
-                    appInstance.$nextTick(cb);
-                }
-            }, (_Object$create = {
-                config: setDefaultDescriptor({
-                    configurable: true,
-                    value: config
-                })
-            }, _defineProperty(_Object$create, ONLAUNCH, setDefaultDescriptor({
-                value: function value(options) {
-                    var _this = this;
-                    var _a;
-                    setRouterParams(options);
-                    if (false) {}
-                    if (app[\\"taroGlobalData\\"]) {
-                        var globalData = app[\\"taroGlobalData\\"];
-                        var keys = Object.keys(globalData);
-                        var descriptors = Object.getOwnPropertyDescriptors(globalData);
-                        keys.forEach((function(key) {
-                            Object.defineProperty(_this, key, {
-                                configurable: true,
-                                enumerable: true,
-                                get: function get() {
-                                    return globalData[key];
-                                },
-                                set: function set(value) {
-                                    globalData[key] = value;
-                                }
-                            });
-                        }));
-                        Object.defineProperties(this, descriptors);
-                    }
-                    var onLaunch = (_a = appInstance === null || appInstance === void 0 ? void 0 : appInstance.$options) === null || _a === void 0 ? void 0 : _a.onLaunch;
-                    isFunction(onLaunch) && onLaunch.call(appInstance, options);
-                }
-            })), _defineProperty(_Object$create, ONSHOW, setDefaultDescriptor({
-                value: function value(options) {
-                    var _a;
-                    setRouterParams(options);
-                    var onShow = (_a = appInstance === null || appInstance === void 0 ? void 0 : appInstance.$options) === null || _a === void 0 ? void 0 : _a.onShow;
-                    isFunction(onShow) && onShow.call(appInstance, options);
-                }
-            })), _defineProperty(_Object$create, ONHIDE, setDefaultDescriptor({
-                value: function value(options) {
-                    var _a;
-                    var onHide = (_a = appInstance === null || appInstance === void 0 ? void 0 : appInstance.$options) === null || _a === void 0 ? void 0 : _a.onHide;
-                    isFunction(onHide) && onHide.call(appInstance, options);
-                }
-            })), _defineProperty(_Object$create, \\"onError\\", setDefaultDescriptor({
-                value: function value(error) {
-                    var _a;
-                    var onError = (_a = appInstance === null || appInstance === void 0 ? void 0 : appInstance.$options) === null || _a === void 0 ? void 0 : _a.onError;
-                    isFunction(onError) && onError.call(appInstance, error);
-                }
-            })), _defineProperty(_Object$create, \\"onPageNotFound\\", setDefaultDescriptor({
-                value: function value(res) {
-                    var _a;
-                    var onPageNotFound = (_a = appInstance === null || appInstance === void 0 ? void 0 : appInstance.$options) === null || _a === void 0 ? void 0 : _a.onPageNotFound;
-                    isFunction(onPageNotFound) && onPageNotFound.call(appInstance, res);
-                }
-            })), _Object$create));
-            taro_runtime[\\"Current\\"].app = appConfig;
-            return appConfig;
-        }
-        function isClassComponent(value) {
-            return isFunction(value) && \\"__vccOpts\\" in value;
-        }
-        hooks.tap(\\"initNativeApi\\", (function(taro) {
-            for (var hook in taroHooks) {
-                taro[hook] = taroHooks[hook];
-            }
-            taro.setGlobalDataPlugin = setGlobalDataPlugin;
-        }));
-        var src_app = __webpack_require__(4);
+        var app = __webpack_require__(4);
         var app_App = Object(vue[\\"createApp\\"])({
             onShow: function onShow(options) {}
         });
         var lib_src_app = app_App;
-        var app_config = {
+        var config = {
             pages: [ \\"pages/index/index\\" ],
             window: {
                 backgroundTextStyle: \\"light\\",
@@ -708,8 +446,8 @@ require(\\"./taro\\");
                 navigationBarTextStyle: \\"black\\"
             }
         };
-        taro_runtime[\\"window\\"].__taroAppConfig = app_config;
-        var app_inst = App(createVue3App(lib_src_app, vue[\\"h\\"], app_config));
+        taro_runtime[\\"window\\"].__taroAppConfig = config;
+        var inst = App(createVue3App(lib_src_app, vue[\\"h\\"], config));
         undefined({
             designWidth: 750,
             deviceRatio: {
@@ -719,7 +457,7 @@ require(\\"./taro\\");
             }
         });
     }
-}, [ [ 7, 0, 1, 2 ] ] ]);
+}, [ [ 8, 0, 1, 2 ] ] ]);
 
 
 
@@ -745,7 +483,7 @@ require(\\"./taro\\");
   </view>
 </template>
 
-<template name=\\"tmpl_0_4\\">
+<template name=\\"tmpl_0_5\\">
   <view hover-class=\\"{{xs.b(i.p1,'none')}}\\" hover-stop-propagation=\\"{{xs.b(i.p4,!1)}}\\" hover-start-time=\\"{{xs.b(i.p2,50)}}\\" hover-stay-time=\\"{{xs.b(i.p3,400)}}\\" animation=\\"{{i.p0}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"sid\\">
       <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
@@ -753,7 +491,7 @@ require(\\"./taro\\");
   </view>
 </template>
 
-<template name=\\"tmpl_0_1\\">
+<template name=\\"tmpl_0_2\\">
   <view style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"sid\\">
       <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
@@ -769,7 +507,7 @@ require(\\"./taro\\");
   </view>
 </template>
 
-<template name=\\"tmpl_0_2\\">
+<template name=\\"tmpl_0_4\\">
   <text selectable=\\"{{xs.b(i.p1,!1)}}\\" space=\\"{{i.p2}}\\" decode=\\"{{xs.b(i.p0,!1)}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"sid\\">
       <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
@@ -801,7 +539,7 @@ require(\\"./taro\\");
   </image>
 </template>
 
-<template name=\\"tmpl_0_5\\">
+<template name=\\"tmpl_0_1\\">
   <image src=\\"{{i.p2}}\\" mode=\\"{{xs.b(i.p1,'scaleToFill')}}\\" lazy-load=\\"{{xs.b(i.p0,!1)}}\\" binderror=\\"eh\\" bindload=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"sid\\">
       <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
@@ -825,7 +563,7 @@ require(\\"./taro\\");
   </view>
 </template>
 
-<template name=\\"tmpl_1_4\\">
+<template name=\\"tmpl_1_5\\">
   <view hover-class=\\"{{xs.b(i.p1,'none')}}\\" hover-stop-propagation=\\"{{xs.b(i.p4,!1)}}\\" hover-start-time=\\"{{xs.b(i.p2,50)}}\\" hover-stay-time=\\"{{xs.b(i.p3,400)}}\\" animation=\\"{{i.p0}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"sid\\">
       <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
@@ -833,7 +571,7 @@ require(\\"./taro\\");
   </view>
 </template>
 
-<template name=\\"tmpl_1_1\\">
+<template name=\\"tmpl_1_2\\">
   <view style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"sid\\">
       <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
@@ -849,7 +587,7 @@ require(\\"./taro\\");
   </view>
 </template>
 
-<template name=\\"tmpl_1_2\\">
+<template name=\\"tmpl_1_4\\">
   <text selectable=\\"{{xs.b(i.p1,!1)}}\\" space=\\"{{i.p2}}\\" decode=\\"{{xs.b(i.p0,!1)}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"sid\\">
       <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
@@ -885,7 +623,7 @@ require(\\"./taro\\");
   </view>
 </template>
 
-<template name=\\"tmpl_2_4\\">
+<template name=\\"tmpl_2_5\\">
   <view hover-class=\\"{{xs.b(i.p1,'none')}}\\" hover-stop-propagation=\\"{{xs.b(i.p4,!1)}}\\" hover-start-time=\\"{{xs.b(i.p2,50)}}\\" hover-stay-time=\\"{{xs.b(i.p3,400)}}\\" animation=\\"{{i.p0}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"sid\\">
       <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
@@ -893,7 +631,7 @@ require(\\"./taro\\");
   </view>
 </template>
 
-<template name=\\"tmpl_2_1\\">
+<template name=\\"tmpl_2_2\\">
   <view style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"sid\\">
       <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
@@ -909,7 +647,7 @@ require(\\"./taro\\");
   </view>
 </template>
 
-<template name=\\"tmpl_2_2\\">
+<template name=\\"tmpl_2_4\\">
   <text selectable=\\"{{xs.b(i.p1,!1)}}\\" space=\\"{{i.p2}}\\" decode=\\"{{xs.b(i.p0,!1)}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"sid\\">
       <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
@@ -945,7 +683,7 @@ require(\\"./taro\\");
   </view>
 </template>
 
-<template name=\\"tmpl_3_4\\">
+<template name=\\"tmpl_3_5\\">
   <view hover-class=\\"{{xs.b(i.p1,'none')}}\\" hover-stop-propagation=\\"{{xs.b(i.p4,!1)}}\\" hover-start-time=\\"{{xs.b(i.p2,50)}}\\" hover-stay-time=\\"{{xs.b(i.p3,400)}}\\" animation=\\"{{i.p0}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"sid\\">
       <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
@@ -953,7 +691,7 @@ require(\\"./taro\\");
   </view>
 </template>
 
-<template name=\\"tmpl_3_1\\">
+<template name=\\"tmpl_3_2\\">
   <view style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"sid\\">
       <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
@@ -969,7 +707,7 @@ require(\\"./taro\\");
   </view>
 </template>
 
-<template name=\\"tmpl_3_2\\">
+<template name=\\"tmpl_3_4\\">
   <text selectable=\\"{{xs.b(i.p1,!1)}}\\" space=\\"{{i.p2}}\\" decode=\\"{{xs.b(i.p0,!1)}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"sid\\">
       <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
@@ -1005,7 +743,7 @@ require(\\"./taro\\");
   </view>
 </template>
 
-<template name=\\"tmpl_4_4\\">
+<template name=\\"tmpl_4_5\\">
   <view hover-class=\\"{{xs.b(i.p1,'none')}}\\" hover-stop-propagation=\\"{{xs.b(i.p4,!1)}}\\" hover-start-time=\\"{{xs.b(i.p2,50)}}\\" hover-stay-time=\\"{{xs.b(i.p3,400)}}\\" animation=\\"{{i.p0}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"sid\\">
       <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
@@ -1013,7 +751,7 @@ require(\\"./taro\\");
   </view>
 </template>
 
-<template name=\\"tmpl_4_1\\">
+<template name=\\"tmpl_4_2\\">
   <view style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"sid\\">
       <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
@@ -1029,7 +767,7 @@ require(\\"./taro\\");
   </view>
 </template>
 
-<template name=\\"tmpl_4_2\\">
+<template name=\\"tmpl_4_4\\">
   <text selectable=\\"{{xs.b(i.p1,!1)}}\\" space=\\"{{i.p2}}\\" decode=\\"{{xs.b(i.p0,!1)}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"sid\\">
       <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
@@ -1057,7 +795,7 @@ require(\\"./taro\\");
   </view>
 </template>
 
-<template name=\\"tmpl_5_4\\">
+<template name=\\"tmpl_5_5\\">
   <view hover-class=\\"{{xs.b(i.p1,'none')}}\\" hover-stop-propagation=\\"{{xs.b(i.p4,!1)}}\\" hover-start-time=\\"{{xs.b(i.p2,50)}}\\" hover-stay-time=\\"{{xs.b(i.p3,400)}}\\" animation=\\"{{i.p0}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"sid\\">
       <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
@@ -1065,7 +803,7 @@ require(\\"./taro\\");
   </view>
 </template>
 
-<template name=\\"tmpl_5_1\\">
+<template name=\\"tmpl_5_2\\">
   <view style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"sid\\">
       <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
@@ -1081,7 +819,7 @@ require(\\"./taro\\");
   </view>
 </template>
 
-<template name=\\"tmpl_5_2\\">
+<template name=\\"tmpl_5_4\\">
   <text selectable=\\"{{xs.b(i.p1,!1)}}\\" space=\\"{{i.p2}}\\" decode=\\"{{xs.b(i.p0,!1)}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"sid\\">
       <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
@@ -1109,7 +847,7 @@ require(\\"./taro\\");
   </view>
 </template>
 
-<template name=\\"tmpl_6_4\\">
+<template name=\\"tmpl_6_5\\">
   <view hover-class=\\"{{xs.b(i.p1,'none')}}\\" hover-stop-propagation=\\"{{xs.b(i.p4,!1)}}\\" hover-start-time=\\"{{xs.b(i.p2,50)}}\\" hover-stay-time=\\"{{xs.b(i.p3,400)}}\\" animation=\\"{{i.p0}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"sid\\">
       <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
@@ -1117,7 +855,7 @@ require(\\"./taro\\");
   </view>
 </template>
 
-<template name=\\"tmpl_6_1\\">
+<template name=\\"tmpl_6_2\\">
   <view style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"sid\\">
       <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
@@ -1153,7 +891,7 @@ require(\\"./taro\\");
   </view>
 </template>
 
-<template name=\\"tmpl_7_4\\">
+<template name=\\"tmpl_7_5\\">
   <view hover-class=\\"{{xs.b(i.p1,'none')}}\\" hover-stop-propagation=\\"{{xs.b(i.p4,!1)}}\\" hover-start-time=\\"{{xs.b(i.p2,50)}}\\" hover-stay-time=\\"{{xs.b(i.p3,400)}}\\" animation=\\"{{i.p0}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"sid\\">
       <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
@@ -1161,7 +899,7 @@ require(\\"./taro\\");
   </view>
 </template>
 
-<template name=\\"tmpl_7_1\\">
+<template name=\\"tmpl_7_2\\">
   <view style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"sid\\">
       <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
@@ -1197,7 +935,7 @@ require(\\"./taro\\");
   </view>
 </template>
 
-<template name=\\"tmpl_8_4\\">
+<template name=\\"tmpl_8_5\\">
   <view hover-class=\\"{{xs.b(i.p1,'none')}}\\" hover-stop-propagation=\\"{{xs.b(i.p4,!1)}}\\" hover-start-time=\\"{{xs.b(i.p2,50)}}\\" hover-stay-time=\\"{{xs.b(i.p3,400)}}\\" animation=\\"{{i.p0}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"sid\\">
       <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
@@ -1205,7 +943,7 @@ require(\\"./taro\\");
   </view>
 </template>
 
-<template name=\\"tmpl_8_1\\">
+<template name=\\"tmpl_8_2\\">
   <view style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"sid\\">
       <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
@@ -1241,7 +979,7 @@ require(\\"./taro\\");
   </view>
 </template>
 
-<template name=\\"tmpl_9_4\\">
+<template name=\\"tmpl_9_5\\">
   <view hover-class=\\"{{xs.b(i.p1,'none')}}\\" hover-stop-propagation=\\"{{xs.b(i.p4,!1)}}\\" hover-start-time=\\"{{xs.b(i.p2,50)}}\\" hover-stay-time=\\"{{xs.b(i.p3,400)}}\\" animation=\\"{{i.p0}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"sid\\">
       <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
@@ -1249,7 +987,7 @@ require(\\"./taro\\");
   </view>
 </template>
 
-<template name=\\"tmpl_9_1\\">
+<template name=\\"tmpl_9_2\\">
   <view style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"sid\\">
       <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
@@ -1285,7 +1023,7 @@ require(\\"./taro\\");
   </view>
 </template>
 
-<template name=\\"tmpl_10_4\\">
+<template name=\\"tmpl_10_5\\">
   <view hover-class=\\"{{xs.b(i.p1,'none')}}\\" hover-stop-propagation=\\"{{xs.b(i.p4,!1)}}\\" hover-start-time=\\"{{xs.b(i.p2,50)}}\\" hover-stay-time=\\"{{xs.b(i.p3,400)}}\\" animation=\\"{{i.p0}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"sid\\">
       <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
@@ -1293,7 +1031,7 @@ require(\\"./taro\\");
   </view>
 </template>
 
-<template name=\\"tmpl_10_1\\">
+<template name=\\"tmpl_10_2\\">
   <view style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"sid\\">
       <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
@@ -1329,7 +1067,7 @@ require(\\"./taro\\");
   </view>
 </template>
 
-<template name=\\"tmpl_11_4\\">
+<template name=\\"tmpl_11_5\\">
   <view hover-class=\\"{{xs.b(i.p1,'none')}}\\" hover-stop-propagation=\\"{{xs.b(i.p4,!1)}}\\" hover-start-time=\\"{{xs.b(i.p2,50)}}\\" hover-stay-time=\\"{{xs.b(i.p3,400)}}\\" animation=\\"{{i.p0}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"sid\\">
       <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
@@ -1337,7 +1075,7 @@ require(\\"./taro\\");
   </view>
 </template>
 
-<template name=\\"tmpl_11_1\\">
+<template name=\\"tmpl_11_2\\">
   <view style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"sid\\">
       <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
@@ -1373,7 +1111,7 @@ require(\\"./taro\\");
   </view>
 </template>
 
-<template name=\\"tmpl_12_4\\">
+<template name=\\"tmpl_12_5\\">
   <view hover-class=\\"{{xs.b(i.p1,'none')}}\\" hover-stop-propagation=\\"{{xs.b(i.p4,!1)}}\\" hover-start-time=\\"{{xs.b(i.p2,50)}}\\" hover-stay-time=\\"{{xs.b(i.p3,400)}}\\" animation=\\"{{i.p0}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"sid\\">
       <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
@@ -1381,7 +1119,7 @@ require(\\"./taro\\");
   </view>
 </template>
 
-<template name=\\"tmpl_12_1\\">
+<template name=\\"tmpl_12_2\\">
   <view style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"sid\\">
       <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
@@ -1417,7 +1155,7 @@ require(\\"./taro\\");
   </view>
 </template>
 
-<template name=\\"tmpl_13_4\\">
+<template name=\\"tmpl_13_5\\">
   <view hover-class=\\"{{xs.b(i.p1,'none')}}\\" hover-stop-propagation=\\"{{xs.b(i.p4,!1)}}\\" hover-start-time=\\"{{xs.b(i.p2,50)}}\\" hover-stay-time=\\"{{xs.b(i.p3,400)}}\\" animation=\\"{{i.p0}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"sid\\">
       <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
@@ -1425,7 +1163,7 @@ require(\\"./taro\\");
   </view>
 </template>
 
-<template name=\\"tmpl_13_1\\">
+<template name=\\"tmpl_13_2\\">
   <view style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"sid\\">
       <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
@@ -1461,7 +1199,7 @@ require(\\"./taro\\");
   </view>
 </template>
 
-<template name=\\"tmpl_14_4\\">
+<template name=\\"tmpl_14_5\\">
   <view hover-class=\\"{{xs.b(i.p1,'none')}}\\" hover-stop-propagation=\\"{{xs.b(i.p4,!1)}}\\" hover-start-time=\\"{{xs.b(i.p2,50)}}\\" hover-stay-time=\\"{{xs.b(i.p3,400)}}\\" animation=\\"{{i.p0}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"sid\\">
       <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
@@ -1469,7 +1207,7 @@ require(\\"./taro\\");
   </view>
 </template>
 
-<template name=\\"tmpl_14_1\\">
+<template name=\\"tmpl_14_2\\">
   <view style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"sid\\">
       <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
@@ -1551,7 +1289,7 @@ require(\\"./taro\\");
 
 /** filePath: dist/pages/index/index.js **/
 (wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 7 ], {
-    8: function(module, __webpack_exports__, __webpack_require__) {
+    7: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_require__.r(__webpack_exports__);
         var taro_runtime = __webpack_require__(0);
@@ -1641,7 +1379,7 @@ require(\\"./taro\\");
             }
         }, config || {}));
     }
-}, [ [ 8, 0, 1, 2 ] ] ]);
+}, [ [ 7, 0, 1, 2 ] ] ]);
 
 /** filePath: dist/pages/index/index.json **/
 {\\"navigationBarTitleText\\":\\"首页\\",\\"usingComponents\\":{\\"custom-wrapper\\":\\"../../custom-wrapper\\",\\"comp\\":\\"../../comp\\"}}
@@ -1662,8 +1400,8 @@ require(\\"./taro\\");
 /** filePath: dist/utils.wxs **/
 module.exports = {
   a: function (l, n, s) {
-    var a = [\\"7\\",\\"0\\",\\"18\\",\\"4\\",\\"1\\",\\"11\\",\\"6\\",\\"2\\",\\"37\\",\\"38\\",\\"22\\",\\"19\\",\\"35\\",\\"39\\",\\"40\\"]
-    var b = [\\"2\\",\\"37\\",\\"38\\",\\"22\\",\\"19\\",\\"35\\",\\"39\\",\\"40\\"]
+    var a = [\\"7\\",\\"0\\",\\"18\\",\\"5\\",\\"2\\",\\"11\\",\\"6\\",\\"4\\",\\"37\\",\\"38\\",\\"22\\",\\"19\\",\\"35\\",\\"39\\",\\"40\\"]
+    var b = [\\"4\\",\\"37\\",\\"38\\",\\"22\\",\\"19\\",\\"35\\",\\"39\\",\\"40\\"]
     if (a.indexOf(n) === -1) {
       l = 0
     }
@@ -1691,7 +1429,7 @@ module.exports = {
     return 'tmpl_' + n + '_container'
   },
   f: function (l, n) {
-    var b = [\\"2\\",\\"37\\",\\"38\\",\\"22\\",\\"19\\",\\"35\\",\\"39\\",\\"40\\"]
+    var b = [\\"4\\",\\"37\\",\\"38\\",\\"22\\",\\"19\\",\\"35\\",\\"39\\",\\"40\\"]
     if (b.indexOf(n) > -1) {
       if (l) l += ','
       l += n

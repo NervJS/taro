@@ -12,19 +12,19 @@ interface MapProps extends StandardProps {
    */
   latitude: number
 
-  /** 缩放级别，取值范围为3-20
+  /** 缩放级别，取值范围为 3-20
    * @default 16
    * @supported weapp, swan, alipay, tt
    * @swan 取值范围为4-21
    * @alipay 取值范围为5-18
    */
   scale?: number
-  /** 最小缩放级别3-20
+  /** 最小缩放级别 3-20
    * @default 3
    * @supported weapp, tt
    */
   minScale?: number
-  /** 最大缩放级别3-20
+  /** 最大缩放级别 3-20
    * @default 20
    * @supported weapp, tt
    */

@@ -2,6 +2,7 @@
 
 // const postcss = require('postcss')
 const pxRegex = require('./lib/pixel-unit-regex')
+const PXRegex = require('./lib/pixel-upper-unit-regex')
 const filterPropList = require('./lib/filter-prop-list')
 
 const defaults = {
@@ -41,7 +42,7 @@ module.exports = (options = {}) => {
   options = Object.assign({}, DEFAULT_WEAPP_OPTIONS, options)
 
   const transUnits = ['px']
-  const baseFontSize = options.baseFontSize ?? options.minRootSize >= 1 ? options.minRootSize : 20
+  const baseFontSize = options.baseFontSize || (options.minRootSize >= 1 ? options.minRootSize : 20)
   const designWidth = input => typeof options.designWidth === 'function'
     ? options.designWidth(input)
     : options.designWidth
@@ -59,6 +60,11 @@ module.exports = (options = {}) => {
     }
     case 'quickapp': {
       options.rootValue = () => 1
+      targetUnit = 'px'
+      break
+    }
+    case 'harmony': {
+      options.rootValue = input => 1 / options.deviceRatio[designWidth(input)]
       targetUnit = 'px'
       break
     }
@@ -169,6 +175,29 @@ module.exports = (options = {}) => {
           rule.params = rule.params.replace(pxRgx, pxReplace)
         })
       }
+
+      // TODO: 待修改
+      // PX -> vp in harmony
+      if (options.platform === 'harmony') {
+        root.walkDecls(function (decl) {
+          if (decl.value.indexOf('PX') === -1) return
+          const value = decl.value.replace(PXRegex, function (m, _$1, $2) {
+            return m.replace($2, 'vp')
+          })
+          decl.value = value
+        })
+
+        if (opts.mediaQuery) {
+          root.walkAtRules('media', function (rule) {
+            if (rule.params.indexOf('PX') === -1) return
+            const value = rule.params.replace(PXRegex, function (m, _$1, $2) {
+              return m.replace($2, 'vp')
+            })
+            rule.params = value
+          })
+        }
+      }
+
     }
 
   }

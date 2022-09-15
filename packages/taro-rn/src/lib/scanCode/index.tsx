@@ -1,4 +1,4 @@
-import { SafeAreaView } from 'react-native-safe-area-context'
+import { initialWindowMetrics } from 'react-native-safe-area-context'
 import { Camera } from 'expo-camera'
 import { BarCodeScanner, requestPermissionsAsync } from 'expo-barcode-scanner'
 import { BackHandler, Image, TouchableOpacity, StyleSheet, View, Dimensions, Platform, StatusBar } from 'react-native'
@@ -63,7 +63,9 @@ function formatCodeType(type:string):keyof Taro.scanCode.QRType {
 
 function safeViewWrapper(element:any) {
   if (Platform.OS === 'ios') {
-    return <SafeAreaView>{element}</SafeAreaView>
+    return <View style={{
+      paddingTop: Math.max(initialWindowMetrics?.insets.top || 0, 20),
+    }}>{element}</View>
   }
   return element
 }

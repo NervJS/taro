@@ -1,7 +1,6 @@
 import { getCurrentRoute, PageProvider } from '@tarojs/router-rn'
-import { camelCase } from 'lodash'
-import * as React from 'react'
-import { AppState, Dimensions, EmitterSubscription, NativeEventSubscription, RefreshControl, ScrollView, View } from 'react-native'
+import { Component, Context, createContext, createElement, createRef, forwardRef, RefObject } from 'react'
+import { AppState, Dimensions, EmitterSubscription, NativeEventSubscription, RefreshControl, ScrollView } from 'react-native'
 
 import { isClassComponent } from './app'
 import { Current } from './current'
@@ -60,7 +59,7 @@ function safeExecute (path: string, lifecycle: keyof Instance, ...args: unknown[
 
 const globalAny: any = global
 // eslint-disable-next-line import/no-mutable-exports
-export let PageContext: React.Context<string> = EMPTY_OBJ
+export let PageContext: Context<string> = EMPTY_OBJ
 
 // APP 前后台状态发生变化时调用对应的生命周期函数
 let appState = AppState.currentState
@@ -99,44 +98,33 @@ Dimensions.addEventListener('change', ({ window }) => {
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export function createPageConfig (Page: any, pageConfig: PageConfig): any {
-  const h = React.createElement
+  const h = createElement
   const pagePath = pageConfig.pagePath.replace(/^\//, '') || ''
-
-  const pageId = camelCase(pagePath) ?? `taro_page_${compId}`
 
   const isReactComponent = isClassComponent(Page)
   if (PageContext === EMPTY_OBJ) {
-    PageContext = React.createContext('')
+    PageContext = createContext('')
   }
 
   let ScreenPage = Page
   if (!isReactComponent) {
     // eslint-disable-next-line react/display-name
-    ScreenPage = React.forwardRef((props, ref) => {
-      const newProps: React.Props<any> = { ...props }
-      newProps.ref = ref
-      return h(View, {
-        style: {
-          minHeight: '100%'
-        },
-        ...newProps
-      }, h(Page, { ...props }, null))
+    ScreenPage = forwardRef((props, ref) => {
+      return h(Page, { forwardRef: ref, ...props }, null)
     })
   }
 
-  // 注入的页面实例
-  injectPageInstance(Page, pageId)
-
   const WrapScreen = (Screen: any) => {
-    return class PageScreen extends React.Component<any, any> {
-      // eslint-disable-next-line react/sort-comp
-      screenRef: React.RefObject<any>
-      pageScrollView: React.RefObject<any>
+    return class PageScreen extends Component<any, any> {
+      screenRef: RefObject<any>
+      pageScrollView: RefObject<any>
       unSubscribleBlur: any
       unSubscribleFocus: any
       unSubscribleTabPress: any
+      pageId: string
       appStateSubscription: NativeEventSubscription | undefined
       dimensionsSubscription: EmitterSubscription | undefined
+      isPageReady: boolean
 
       constructor (props: any) {
         super(props)
@@ -148,14 +136,17 @@ export function createPageConfig (Page: any, pageConfig: PageConfig): any {
           textColor: refreshStyle.textColor || (backgroundTextStyle === 'dark' ? '#000000' : '#ffffff'),
           backgroundColor: refreshStyle.backgroundColor || '#ffffff'
         }
-        this.screenRef = React.createRef<Instance>()
-        this.pageScrollView = React.createRef()
+        this.screenRef = createRef<Instance>()
+        this.pageScrollView = createRef()
         this.setPageInstance()
+        this.pageId = `taro_page_${compId()}`
       }
 
       componentDidMount () {
-        const { navigation } = this.props
-
+        const { navigation, route } = this.props
+        // 实现 useLoad hook
+        // handleHooksEvent 在组件构造函数中调用不生效，只能在挂载之后进行调用
+        this.handleHooksEvent('onLoad', route?.params ?? {})
         if (navigation) {
           this.unSubscribleTabPress = navigation.addListener('tabPress', () => this.onTabItemTap())
           this.unSubscribleFocus = navigation.addListener('focus', () => this.onFocusChange())
@@ -179,10 +170,13 @@ export function createPageConfig (Page: any, pageConfig: PageConfig): any {
         if (route && route.key) {
           pagesObj.delete(route.key)
         }
+        // 实现 useUnload hook
+        this.handleHooksEvent('onUnload')
       }
 
       setPageInstance () {
         const pageRef = this.screenRef
+        const pageId = this.pageId
         const { params = {}, key = '' } = this.props.route
         // 和小程序的page实例保持一致
         const inst: PageInstance = {
@@ -304,9 +298,12 @@ export function createPageConfig (Page: any, pageConfig: PageConfig): any {
         this.setPageInstance()
         try {
           this.handleHooksEvent('componentDidShow')
-          if (this.screenRef?.current?.componentDidShow) {
-            this.screenRef?.current?.componentDidShow()
+          // 实现 useReady hook，遵循小程序事件机制，在useDidShow之后触发
+          if(!this.isPageReady){
+            this.handleHooksEvent('onReady')
+            this.isPageReady = true
           }
+          this.screenRef?.current?.componentDidShow?.()
         } catch (err) {
           throw new Error(err)
         }
@@ -322,6 +319,7 @@ export function createPageConfig (Page: any, pageConfig: PageConfig): any {
       }
 
       onPageScroll (e) {
+        if(!e?.nativeEvent) return
         const { contentOffset } = e.nativeEvent
         const scrollTop = contentOffset.y
         if (scrollTop < 0) return
@@ -335,6 +333,7 @@ export function createPageConfig (Page: any, pageConfig: PageConfig): any {
 
       // 监听的onMomentumScrollEnd
       onReachBottom (e) {
+        if(!e?.nativeEvent) return
         const { onReachBottomDistance = 50 } = pageConfig
         const { layoutMeasurement, contentSize, contentOffset } = e.nativeEvent
         if (contentOffset?.y + layoutMeasurement?.height + onReachBottomDistance >= contentSize.height) {
@@ -372,7 +371,7 @@ export function createPageConfig (Page: any, pageConfig: PageConfig): any {
 
       handleHooksEvent (method: HooksMethods, options: Record<string, unknown> = {}) {
         if (!isReactComponent) {
-          return safeExecute(pageId, method, options)
+          return safeExecute(this.pageId, method, options)
         }
       }
 
@@ -402,7 +401,7 @@ export function createPageConfig (Page: any, pageConfig: PageConfig): any {
 
       refreshPullDown () {
         const { refreshing, textColor, backgroundColor } = this.state
-        return React.createElement(RefreshControl, {
+        return createElement(RefreshControl, {
           refreshing: refreshing,
           enabled: true,
           titleColor: textColor,
@@ -414,7 +413,7 @@ export function createPageConfig (Page: any, pageConfig: PageConfig): any {
 
       createPage () {
         return h(PageProvider, { currentPath: pagePath, pageConfig, ...this.props },
-          h(PageContext.Provider, { value: pageId }, h(Screen,
+          h(PageContext.Provider, { value: this.pageId }, h(Screen,
             { ...this.props, ref: this.screenRef })
           )
         )
