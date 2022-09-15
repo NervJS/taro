@@ -7,7 +7,7 @@ import {
 } from './common'
 interface CanvasProps extends StandardProps<any, CanvasTouchEvent> {
   /** 指定 canvas 类型，支持 2d 和 webgl
-   * @supported weapp, alipay, tt, jd
+   * @supported weapp, alipay, tt
    */
   type?: string
 
