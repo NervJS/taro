@@ -5,11 +5,13 @@
 ## 使用
 
 ### 安装
-```
+
+```sh
 npm i @tarojs/plugin-mini-ci -D
 ```
 
 ### 使用插件
+
 `/config/index.js`
 
 ```js
@@ -52,6 +54,7 @@ const config = {
 ```
 
 除了给插件传入对象， 你也可以传入一个异步函数，在编译时动态返回相关配置。
+
 ```js
 const CIPluginFn = async () => {
   // 可以在这里做一些异步事情， 比如请求接口获取配置
@@ -116,6 +119,7 @@ const config = {
     }
 }
 ```
+
 由上面的示例可知，插件为taro cli命令扩展了4个选项：
 
 - --open
@@ -134,8 +138,8 @@ const config = {
 
 此选项优先级为： 终端传入的`--projectPath` > CI配置的`projectPath` 选项 > [outputRoot选项](https://taro-docs.jd.com/taro/docs/next/config-detail#outputroot)。
 
-
 ### 作为命令单独使用
+
 ```json
 {
     "scripts": {
@@ -155,15 +159,17 @@ const config = {
 }
 ```
 
-由上面的示例可知，插件额外新增了3个独立命令，让你可以直接操作指定目录。适用于把 `taro` 作为项目一部分的使用场景。 
+由上面的示例可知，插件额外新增了3个独立命令，让你可以直接操作指定目录。适用于把 `taro` 作为项目一部分的使用场景。
 
 当直接作为命令使用时，有两个选项：
+
 - --type
 传入平台名称
 - --projectPath
 传入路径。 此选项优先级为： 终端传入的`--projectPath` > CI配置的`projectPath` 选项 > [outputRoot选项](https://taro-docs.jd.com/taro/docs/next/config-detail#outputroot)
 
 ### Hooks 使用
+
 在插件执行完  `预览`、`上传` 操作后， 插件会触发2个钩子事件：
 
 | 事件名 | 传递参数对象 | 说明 |
@@ -217,7 +223,9 @@ module.exports = function(ctx) {
     })
 }
 ```
+
 然后把自己写的插件配置应用起来：
+
 ```js
 // config/index.js
 const config = {
@@ -239,9 +247,19 @@ module.exports = function (merge) {
 }
 ```
 
+### 各平台 支持的功能情况对比
+
+| 平台/功能 | 自动打开IDE  | 输出预览二维码 | 输出体验二维码  |
+| :---     | :---       | :---         | :---          |
+| weapp    | ✅         | ✅            |✅             |
+| tt       | ✅         | ✅            |✅             |
+| alipay   | ✅         | ✅            |✅             |
+| dd       | ✅         | ✅            |❌             |
+| swan     | ❌         | ✅            |✅             |
+
+> ps: 各平台上传都是支持的，只是不一定会输出二维码
 
 ## API
-
 
 ### 插件配置
 
@@ -257,6 +275,7 @@ module.exports = function (merge) {
 | projectPath | string | 目标项目目录，对所有小程序生效（不传默认取 outputRoot 字段 ）（3.6.0 版本开始支持） |
 
 ### 微信小程序CI配置
+
 | 参数 | 类型 | 说明 |
 | :--- | :--- | :--- |
 | appid | string | 小程序/小游戏项目的 appid |
@@ -318,7 +337,6 @@ health:  阿里医院
 
 官方CI文档[点这里](https://opendocs.alipay.com/mini/02q29z)
 
-
 ### 钉钉小程序CI配置（3.6.0 版本开始支持）
 
 | 参数 | 类型 | 说明 |
@@ -326,6 +344,8 @@ health:  阿里医院
 | appid | string | 钉钉小程序appid,即钉钉开放平台后台应用管理的 MiniAppId 选项（必填） |
 | token | string | 令牌，从钉钉后台获取 （必填） |
 | devToolsInstallPath | string | 小程序开发者工具安装路径（选填）  |
+
+`taro` 集成的钉钉CI使用了[钉钉官方仓库](https://github.com/open-dingtalk/dingtalk-design-cli)中的 `dingtalk-miniapp-opensdk` 包，查阅源码封装而成
 
 ### 百度小程序CI配置
 
@@ -337,6 +357,7 @@ health:  阿里医院
 官方CI文档[点这里](https://smartprogram.baidu.com/docs/develop/devtools/commandtool/)
 
 ### 完整 ts 接口描述
+
 ```ts
 export interface CIOptions {
   /** 发布版本号，默认取 package.json 文件的 taroConfig.version 字段 */
