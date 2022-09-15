@@ -1,90 +1,115 @@
 import { ComponentType } from 'react'
 import { StandardProps, CommonEventFunction, FormItemProps } from './common'
-
 interface SliderProps extends StandardProps, FormItemProps {
   /** 最小值
    * @default 0
-   * @supported weapp, h5, rn, swan, alipay, tt
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn
    */
   min?: number
 
   /** 最大值
    * @default 100
-   * @supported weapp, h5, rn, swan, alipay, tt
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn
    */
   max?: number
 
   /** 步长，取值必须大于 0，并且可被(max - min)整除
    * @default 1
-   * @supported weapp, h5, rn, swan, alipay, tt
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn
    */
   step?: number
 
   /** 是否禁用
    * @default false
-   * @supported weapp, h5, rn, swan, alipay, tt
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn
    */
   disabled?: boolean
 
   /** 当前取值
    * @default 0
-   * @supported weapp, h5, rn, swan, alipay, tt
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn
    */
   value?: number
 
   /** 背景条的颜色（请使用 backgroundColor）
    * @default "#e9e9e9"
-   * @supported weapp, tt
+   * @supported weapp, tt, qq, jd
    */
   color?: string
 
   /** 已选择的颜色（请使用 activeColor）
    * @default "#1aad19"
-   * @supported weapp, tt
+   * @supported weapp, tt, qq, jd
    */
   selectedColor?: string
 
   /** 已选择的颜色
    * @default "#1aad19"
-   * @supported weapp, h5, rn, swan, alipay, tt
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn
    */
   activeColor?: string
 
   /** 背景条的颜色
    * @default "#e9e9e9"
-   * @supported weapp, h5, rn, swan, alipay, tt
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn
    */
   backgroundColor?: string
 
   /** 滑块的大小，取值范围为 12 - 28
    * @default 28
-   *  @supported weapp, h5, swan, alipay, tt
+   *  @supported weapp, swan, tt, qq, jd, h5
    */
   blockSize?: number
 
   /** 滑块的颜色
    * @default "#ffffff"
-   * @supported weapp, h5, rn, swan, alipay, tt
+   * @supported weapp, swan, tt, qq, jd, h5, rn
    */
   blockColor?: string
 
   /** 是否显示当前 value
    * @default false
-   * @supported weapp, h5, rn, swan, alipay, tt
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn
    */
   showValue?: boolean
 
   /** 完成一次拖动后触发的事件
-   * @supported weapp, h5, rn, swan, alipay, tt
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn
    */
   onChange?: CommonEventFunction<SliderProps.onChangeEventDetail>
 
   /** 拖动过程中触发的事件
-   * @supported weapp, h5, rn, swan, alipay, tt
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn
    */
   onChanging?: CommonEventFunction<SliderProps.onChangeEventDetail>
-}
 
+  /** 组件名字，用于表单提交获取数据。
+   * @supported alipay
+   */
+  name?: string
+
+  /** 轨道线条高度。
+   * @default 4
+   * @supported alipay
+   */
+  trackSize?: string
+
+  /** 滑块大小。
+   * @default 22
+   * @supported alipay
+   */
+  handleSize?: string
+
+  /** 滑块填充色，同 CSS 色值。
+   * @supported alipay
+   */
+  handleColor?: string
+
+  /** 无障碍访问，（属性）元素的额外描述
+   * @supported qq
+   */
+  ariaLabel?: string
+}
 declare namespace SliderProps {
   interface onChangeEventDetail {
     value
@@ -131,5 +156,4 @@ declare namespace SliderProps {
  * @see https://developers.weixin.qq.com/miniprogram/dev/component/slider.html
  */
 declare const Slider: ComponentType<SliderProps>
-
 export { Slider, SliderProps }

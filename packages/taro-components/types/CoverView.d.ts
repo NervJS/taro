@@ -1,22 +1,46 @@
 import { ComponentType } from 'react'
 import { ViewProps } from './View'
-
 interface CoverViewProps extends ViewProps {
   /** 设置顶部滚动偏移量，仅在设置了 overflow-y: scroll 成为滚动元素后生效
-   * @supported weapp
+   * @supported weapp, swan, qq
    */
   scrollTop?: number
 
-  /**
-   * 适用于地图组件 map 的自定义气泡 customCallout
-   * @supported weapp
+  /** 点击事件回调。
+   * 版本要求：基础库 1.9.0 及以上
+   * @supported alipay
    */
-  markerId?: string
+  onTap?: CommonEventFunction
 
-  /**
-   * @supported weapp
+  /** 设置与容器顶部的固定距离，效果相当于在 CSS 中设置 position: fixed 和 top 值，该属性优先级高于 fixed-bottom，CSS 设置的 position、top、bottom 值
+   * @supported swan
    */
-  slot?: string
+  fixedTop?: string
+
+  /** 设置与容器右侧的固定距离，效果相当于在 CSS 中设置 position: fixed 和 right 值，该属性优先级高于 CSS 设置的 position、left、right 值
+   * @supported swan
+   */
+  fixedRight?: string
+
+  /** 设置与容器底部的固定距离，效果相当于在 CSS 中设置 position: fixed 和 bottom 值，该属性优先级高于 CSS 设置的 position、top、bottom 值
+   * @supported swan
+   */
+  fixedBottom?: string
+
+  /** 设置与容器左侧的固定距离，效果相当于在 CSS 中设置 position: fixed 和 left 值，该属性优先级高于 fixed-right，CSS 设置的 position、left、right 值
+   * @supported swan
+   */
+  fixedLeft?: string
+
+  /** 无障碍访问，（角色）标识元素的作用
+   * @supported qq
+   */
+  ariaRole?: string
+
+  /** 无障碍访问，（属性）元素的额外描述
+   * @supported qq
+   */
+  ariaLabel?: string
 }
 
 /** 覆盖在原生组件之上的文本视图。可覆盖的原生组件包括 map、video、canvas、camera、live-player、live-pusher 只支持嵌套 cover-view、cover-image，可在 cover-view 中使用 button。
@@ -84,5 +108,4 @@ interface CoverViewProps extends ViewProps {
  * @see https://developers.weixin.qq.com/miniprogram/dev/component/cover-view.html
  */
 declare const CoverView: ComponentType<CoverViewProps>
-
 export { CoverView, CoverViewProps }
