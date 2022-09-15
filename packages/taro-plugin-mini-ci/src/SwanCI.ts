@@ -71,18 +71,27 @@ export default class SwanCI extends BaseCI {
     const { chalk, printLog, processTypeEnum } = this.ctx.helper
     printLog(processTypeEnum.START, '上传体验版代码到百度后台')
     printLog(processTypeEnum.REMIND, `本次上传版本号为："${this.version}"，上传描述为：“${this.desc}”`)
-    shell.exec(`${this.swanBin} upload --project-path ${this.projectPath} --token ${this.pluginOpts.swan!.token} --release-version ${this.version} --min-swan-version ${this.pluginOpts.swan!.minSwanVersion || '3.350.6'} --desc ${this.desc} --json`, (_code, _stdout, stderr) => {
+    shell.exec(`${this.swanBin} upload --project-path ${this.projectPath} --token ${this.pluginOpts.swan!.token} --release-version ${this.version} --min-swan-version ${this.pluginOpts.swan!.minSwanVersion || '3.350.6'} --desc ${this.desc} --json`, async (_code, stdout, stderr) => {
       if (!stderr) {
-        // TODO 没有百度小程序账号， 不知道它的上传码规则
-        // stdout = JSON.parse(stdout)
         console.log(chalk.green(`上传成功 ${new Date().toLocaleString()}`))
+        
+        const stdoutRes = JSON.parse(stdout) as UploadResponse
+        const qrContent = stdoutRes.schemeUrl
+        const uploadQrcodePath = path.join(this.projectPath, 'upload.png')
+
+        await printQrcode2Terminal(qrContent)
+        await generateQrcodeImageFile(uploadQrcodePath, qrContent)
+        printLog(
+          processTypeEnum.REMIND,
+          `体验版二维码已生成，存储在:"${ uploadQrcodePath }",二维码内容是：${ qrContent }`
+        )
         
         this.triggerUploadHooks({
           success: true,
           data: {
             platform: 'swan',
-            qrCodeContent: '',
-            qrCodeLocalPath: ''
+            qrCodeContent: qrContent,
+            qrCodeLocalPath: uploadQrcodePath
           }
         })
       } else {
@@ -99,4 +108,18 @@ export default class SwanCI extends BaseCI {
     })
   }
   
+}
+
+interface UploadResponse {
+  fileSize: {
+    main: number
+    sub: {
+      [k : string]: number
+    }
+  }
+  /** 体验码内容 */
+  schemeUrl: string
+  schemeUrlOpti: unknown
+  /** 警告信息 */
+  warningList: string[]
 }
