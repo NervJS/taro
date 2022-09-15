@@ -26,7 +26,10 @@ export function setReconciler (ReactDOM) {
   })
 
   hooks.tap('modifyMpEvent', function (event) {
-    event.type = event.type.replace(/-/g, '')
+    // Note: ohos 上事件没有设置 type 类型 setter 方法导致报错
+    Object.defineProperty(event, 'type', {
+      value: event.type.replace(/-/g, '')
+    })
   })
 
   hooks.tap('batchedEventUpdates', function (cb) {
@@ -170,6 +173,8 @@ export function createReactApp (
   const appInstanceRef = react.createRef<ReactAppInstance>()
   const isReactComponent = isClassComponent(react, App)
   let appWrapper: AppWrapper
+  let appWrapperResolver: (value: AppWrapper) => void
+  const appWrapperPromise = new Promise<AppWrapper>(resolve => (appWrapperResolver = resolve))
 
   setReconciler(ReactDOM)
 
@@ -199,6 +204,7 @@ export function createReactApp (
     constructor (props) {
       super(props)
       appWrapper = this
+      appWrapperResolver(this)
     }
 
     public mount (pageComponent: ReactPageComponent, id: string, cb: () => void) {
@@ -250,7 +256,11 @@ export function createReactApp (
     },
 
     mount (component: ReactPageComponent, id: string, cb: () => void) {
-      appWrapper.mount(component, id, cb)
+      if (appWrapper) {
+        appWrapper.mount(component, id, cb)
+      } else {
+        appWrapperPromise.then(appWrapper => appWrapper.mount(component, id, cb))
+      }
     },
 
     unmount (id: string, cb: () => void) {
@@ -271,34 +281,42 @@ export function createReactApp (
           renderReactRoot()
         }
 
-        // 用户编写的入口组件实例
-        const app = getAppInstance()
-        this.$app = app
+        const onLaunch = () => {
+          // 用户编写的入口组件实例
+          const app = getAppInstance()
+          this.$app = app
 
-        if (app) {
-          // 把 App Class 上挂载的额外属性同步到全局 app 对象中
-          if (app.taroGlobalData) {
-            const globalData = app.taroGlobalData
-            const keys = Object.keys(globalData)
-            const descriptors = Object.getOwnPropertyDescriptors(globalData)
-            keys.forEach(key => {
-              Object.defineProperty(this, key, {
-                configurable: true,
-                enumerable: true,
-                get () {
-                  return globalData[key]
-                },
-                set (value) {
-                  globalData[key] = value
-                }
+          if (app) {
+            // 把 App Class 上挂载的额外属性同步到全局 app 对象中
+            if (app.taroGlobalData) {
+              const globalData = app.taroGlobalData
+              const keys = Object.keys(globalData)
+              const descriptors = Object.getOwnPropertyDescriptors(globalData)
+              keys.forEach(key => {
+                Object.defineProperty(this, key, {
+                  configurable: true,
+                  enumerable: true,
+                  get () {
+                    return globalData[key]
+                  },
+                  set (value) {
+                    globalData[key] = value
+                  }
+                })
               })
-            })
-            Object.defineProperties(this, descriptors)
-          }
+              Object.defineProperties(this, descriptors)
+            }
 
-          app.onLaunch?.(options)
+            app.onLaunch?.(options)
+          }
+          triggerAppHook('onLaunch', options)
         }
-        triggerAppHook('onLaunch', options)
+
+        if (appWrapper) {
+          onLaunch()
+        } else {
+          appWrapperPromise.then(() => onLaunch())
+        }
       }
     }),
 

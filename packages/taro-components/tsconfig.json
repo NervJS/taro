@@ -6,7 +6,7 @@
     "jsxFactory": "h",
     "module": "ESNext",
     "sourceMap": false,
-    "typeRoots": ["./node_modules/@types"],
+    "typeRoots": ["./node_modules/@types"]
   },
-  "include": ["./src", "./types"],
+  "include": ["./src", "./types"]
 }

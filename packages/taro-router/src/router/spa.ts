@@ -11,6 +11,7 @@ import UniversalRouter, { Routes } from 'universal-router'
 import type { SpaRouterConfig } from '../../types/router'
 import { history, prependBasename } from '../history'
 import { addLeadingSlash, routesAlias, stripBasename } from '../utils'
+import { setTitle } from '../utils/navigate'
 import { RouterConfig } from '.'
 import PageHandler from './page'
 import stacks from './stack'
@@ -49,6 +50,9 @@ export function createRouter (
         app.onPageNotFound?.({
           path: handler.pathname
         })
+      } else if (/Loading hot update .* failed./.test(error.message)) {
+        // NOTE: webpack5 与 prebundle 搭配使用时，开发环境下初次启动时偶发错误，由于 HMR 加载 chunk hash 错误，导致热更新失败
+        window.location.reload()
       } else {
         throw new Error(error)
       }
@@ -65,6 +69,7 @@ export function createRouter (
 
     if (pageConfig) {
       document.title = pageConfig.navigationBarTitleText ?? document.title
+      setTitle(pageConfig.navigationBarTitleText ?? document.title)
       if (typeof pageConfig.enablePullDownRefresh === 'boolean') {
         enablePullDownRefresh = pageConfig.enablePullDownRefresh
       }
@@ -124,8 +129,8 @@ export function createRouter (
     }
   }
 
-  const routePath = stripBasename(history.location.pathname, handler.basename)
-  if (routePath === '/' || routePath === '') {
+  const routePath = addLeadingSlash(stripBasename(history.location.pathname, handler.basename))
+  if (routePath === '/') {
     history.replace(prependBasename(handler.homePage + history.location.search))
   }
 

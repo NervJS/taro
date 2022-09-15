@@ -63,7 +63,7 @@ export default function (appPath: string, config: Partial<BuildConfig>): any {
     terser
   } = config
   const sourceDir = path.join(appPath, sourceRoot)
-  const outputDir = path.join(appPath, outputRoot)
+  const outputDir = path.resolve(appPath, outputRoot)
   const isMultiRouterMode = get(router, 'mode') === 'multi'
 
   const { rule, postcssOption } = parseModule(appPath, {
@@ -137,7 +137,7 @@ export default function (appPath: string, config: Partial<BuildConfig>): any {
       script: htmlScript
     }, htmlPluginOption)])
   }
-
+  env.SUPPORT_DINGTALK_NAVIGATE = env.SUPPORT_DINGTALK_NAVIGATE || '"disabled"'
   plugin.definePlugin = getDefinePlugin([processEnvOption(env), defineConstants])
 
   const isCssoEnabled = !(csso && csso.enable === false)

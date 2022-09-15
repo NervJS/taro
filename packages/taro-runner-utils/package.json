@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/runner-utils",
-  "version": "3.5.0-beta.8",
+  "version": "3.5.4-canary.1",
   "description": "Taro runner utilities.",
   "main": "dist/index.js",
   "types": "types/index.d.ts",

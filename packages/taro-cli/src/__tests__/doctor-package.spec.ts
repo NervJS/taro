@@ -138,14 +138,9 @@ describe('package validator of doctor', () => {
   })
 
   it('should report outdate taro modules', async () => {
-    const moduleA = '@tarojs/components-rn'
     const moduleB = '@tarojs/components-qa'
     getMocked.mockReturnValue([
       ...baseModules,
-      {
-        moduleName: moduleA,
-        isInstalled: true
-      },
       {
         moduleName: moduleB,
         isInstalled: false
@@ -154,15 +149,12 @@ describe('package validator of doctor', () => {
 
     const { lines } = await validator({ appPath: '' })
 
-    expect(lines.length).toBe(3)
+    expect(lines.length).toBe(2)
 
     expect(lines[0].desc).toBe(`使用到的依赖 ${moduleB} 还没有安装`)
     expect(lines[0].valid).toBe(false)
 
-    expect(lines[1].desc).toBe(`Taro 3 不再依赖 ${moduleA}，可以卸载`)
+    expect(lines[1].desc).toBe(`Taro 3 不再依赖 ${moduleB}，可以从 package.json 移除`)
     expect(lines[1].valid).toBe(true)
-
-    expect(lines[2].desc).toBe(`Taro 3 不再依赖 ${moduleB}，可以从 package.json 移除`)
-    expect(lines[2].valid).toBe(true)
   })
 })

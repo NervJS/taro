@@ -1,24 +1,12 @@
 import { Component, Prop, h, ComponentInterface, Host, State, Event, EventEmitter, Element } from '@stencil/core'
 import Taro from '@tarojs/taro'
+import { addLeadingSlash, stripBasename, stripSuffix } from '@tarojs/router/dist/utils'
 import { IH5RouterConfig } from '@tarojs/taro/types/compile'
 import classNames from 'classnames'
 import resolvePathname from 'resolve-pathname'
 
 import { splitUrl } from '../../utils'
 import { TabbarItem } from './tabbar-item'
-
-// const removeLeadingSlash = str => str.replace(/^\.?\//, '')
-// const removeTrailingSearch = str => str.replace(/\?[\s\S]*$/, '')
-const addLeadingSlash = (str = '') => str[0] === '/' ? str : `/${str}`
-
-const hasBasename = (path = '', prefix = '') =>
-  new RegExp('^' + prefix + '(\\/|\\?|#|$)', 'i').test(path)
-
-const stripBasename = (path = '', prefix = '') =>
-  hasBasename(path, prefix) ? path.substr(prefix.length) : path
-
-const stripSuffix = (path = '', suffix = '') =>
-  path.includes(suffix) ? path.substring(0, path.length - suffix.length) : path
 
 const STATUS_SHOW = 0
 const STATUS_HIDE = 1

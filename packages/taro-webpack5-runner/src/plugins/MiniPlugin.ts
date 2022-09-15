@@ -17,7 +17,7 @@ import { AppConfig, Config } from '@tarojs/taro'
 import fs from 'fs-extra'
 import { urlToRequest } from 'loader-utils'
 import path from 'path'
-import webpack, { Compilation, Compiler } from 'webpack'
+import { Compilation, Compiler, DefinePlugin } from 'webpack'
 import EntryDependency from 'webpack/lib/dependencies/EntryDependency'
 import { ConcatSource, RawSource } from 'webpack-sources'
 
@@ -210,7 +210,7 @@ export default class TaroMiniPlugin {
           }))
         })
         await Promise.all(promises)
-        await this.options.onCompilerMake?.(compilation)
+        await this.options.onCompilerMake?.(compilation, compiler, this)
       })
     )
 
@@ -223,7 +223,7 @@ export default class TaroMiniPlugin {
        * webpack NormalModule 在 runLoaders 真正解析资源的前一刻，
        * 往 NormalModule.loaders 中插入对应的 Taro Loader
        */
-      webpack.NormalModule.getCompilationHooks(compilation).loader.tap(PLUGIN_NAME, (_loaderContext, module:/** TaroNormalModule */ any) => {
+      compiler.webpack.NormalModule.getCompilationHooks(compilation).loader.tap(PLUGIN_NAME, (_loaderContext, module:/** TaroNormalModule */ any) => {
         const { framework, loaderMeta, designWidth, deviceRatio } = this.options
         if (module.miniType === META_TYPE.ENTRY) {
           const loaderName = '@tarojs/taro-loader'
@@ -759,7 +759,7 @@ export default class TaroMiniPlugin {
           filename: `[name]${this.options.fileType.style}`,
           chunkFilename: `[name]${this.options.fileType.style}`
         }).apply(childCompiler)
-        new webpack.DefinePlugin(this.options.constantsReplaceList).apply(childCompiler)
+        new DefinePlugin(this.options.constantsReplaceList).apply(childCompiler)
         if (compiler.options.optimization) {
           new SplitChunksPlugin({
             chunks: 'all',
@@ -1010,8 +1010,8 @@ export default class TaroMiniPlugin {
 
   generateConfigFile (compilation: Compilation, filePath: string, config: Config & { component?: boolean }) {
     const fileConfigName = this.getConfigPath(this.getComponentName(filePath))
-    const unOfficalConfigs = ['enableShareAppMessage', 'enableShareTimeline', 'components']
-    unOfficalConfigs.forEach(item => {
+    const unofficialConfigs = ['enableShareAppMessage', 'enableShareTimeline', 'components']
+    unofficialConfigs.forEach(item => {
       delete config[item]
     })
     const fileConfigStr = JSON.stringify(config)

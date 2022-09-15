@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/plugin-mini-ci",
-  "version": "3.5.0-beta.8",
+  "version": "3.5.4-canary.1",
   "description": "Taro 小程序端构建后支持CI（持续集成）的插件",
   "keywords": [
     "Taro",
@@ -33,5 +33,13 @@
     "miniprogram-ci": "^1.6.1",
     "qrcode-terminal": "^0.12.0",
     "shelljs": "^0.8.4"
+  },
+  "peerDependencies": {
+    "minidev": "^1.5.1"
+  },
+  "peerDependenciesMeta": {
+    "minidev": {
+      "optional": true
+    }
   }
 }

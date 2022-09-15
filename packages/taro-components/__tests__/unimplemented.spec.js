@@ -5,8 +5,6 @@ import * as sinon from 'sinon'
 
 import {
   Camera,
-  MovableArea,
-  MovableView,
   OpenData
 } from '../h5/react'
 import { waitForChange } from './utils'
@@ -76,14 +74,6 @@ describe('unimplemented', () => {
 
   afterAll(() => {
     console.error.restore()
-  })
-
-  it('MovableArea', async () => {
-    await testComponent(MovableArea)
-  })
-
-  it('MovableView', async () => {
-    await testComponent(MovableView)
   })
 
   it('OpenData', async () => {

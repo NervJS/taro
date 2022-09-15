@@ -47,6 +47,7 @@ export class H5WebpackPlugin {
       defineConstants = {}
     } = this.combination.config
 
+    env.SUPPORT_DINGTALK_NAVIGATE = env.SUPPORT_DINGTALK_NAVIGATE || '"disabled"'
     const envConstants = Object.keys(env).reduce((target, key) => {
       target[`process.env.${key}`] = env[key]
       return target
@@ -82,7 +83,7 @@ export class H5WebpackPlugin {
     const options = this.pxtransformOption?.config || {}
     const max = options?.maxRootSize ?? 40
     const min = options?.minRootSize ?? 20
-    const baseFontSize = options?.baseFontSize ?? min > 1 ? min : 20
+    const baseFontSize = options?.baseFontSize || (min > 1 ? min : 20)
     const designWidth = (input => typeof options.designWidth === 'function'
       ? options.designWidth(input)
       : options.designWidth)(baseFontSize)

@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/rn-transformer",
-  "version": "3.5.0-beta.8",
+  "version": "3.5.4-canary.1",
   "description": "Taro RN 入口文件处理",
   "main": "dist/index.js",
   "types": "./src/types/index.d.ts",
@@ -8,7 +8,7 @@
     "build": "tsc",
     "dev": "tsc -w",
     "test": "jest",
-    "test:ci": "jest --silent --coverage false",
+    "test:ci": "jest --ci --silent --coverage false",
     "lint": "eslint ."
   },
   "author": "yechunxi",

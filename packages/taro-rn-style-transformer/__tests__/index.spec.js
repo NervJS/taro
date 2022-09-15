@@ -1,16 +1,16 @@
 import StyleTransform, { getWrapedCSS } from '../src/transforms'
 
 // 初始化
-const styleTransform = new StyleTransform()
+const styleTransform = new StyleTransform({})
 
 async function run (src, filename = './__tests__/styles/a.css', debug) {
-  let options
+  let options = { platform: 'android' }
 
   if (typeof src === 'object') {
     ({
       src,
       filename = './__tests__/styles/a.css',
-      options,
+      options = { platform: 'android' },
       debug
     } = src || {})
   }

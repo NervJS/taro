@@ -81,7 +81,7 @@ class _Switch extends React.Component<SwitchProps, SwitchState> {
     return (
       <Switch
         value={this.state.checked}
-        onValueChange={this.onCheckedChange}
+        onValueChange={disabled ? undefined : this.onCheckedChange}
         trackColor={{ false: '#FFFFFF', true: color }}
         ios_backgroundColor="#FFFFFF"
         style={style}

@@ -131,7 +131,8 @@ export async function compile (app: string, customConfig: Partial<BuildConfig> =
         '@tarojs/components/dist-h5/vue3': path.resolve(__dirname, '../mocks/taro-components'),
         '@tarojs/components/loader': path.resolve(__dirname, '../mocks/taro-components'),
         '@tarojs/components/dist/taro-components/taro-components.css': path.resolve(__dirname, '../mocks/taro-components.css'),
-        'react-dom': path.resolve(__dirname, '../mocks/react'),
+        'react-dom$': path.resolve(__dirname, '../mocks/react'),
+        'react-dom/client$': path.resolve(__dirname, '../mocks/react'),
         react: path.resolve(__dirname, '../mocks/react'),
         vue: path.resolve(__dirname, '../mocks/vue'),
         nervjs: path.resolve(__dirname, '../mocks/nerv')

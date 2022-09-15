@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/runtime",
-  "version": "3.5.0-beta.8",
+  "version": "3.5.4-canary.1",
   "description": "taro runtime for mini apps.",
   "main": "dist/runtime.esm.js",
   "module": "dist/runtime.esm.js",
@@ -12,7 +12,7 @@
     "build": "rimraf ./dist && tsc -emitDeclarationOnly && rollup -c",
     "dev": "rollup -c -w",
     "test": "jest",
-    "test:ci": "jest -i --coverage false"
+    "test:ci": "jest --ci -i --coverage false"
   },
   "repository": {
     "type": "git",

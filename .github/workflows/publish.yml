@@ -11,17 +11,14 @@ on:
 
 env:
   CI: true
-  BRANCH_NAME: ${{ github.head_ref || github.ref_name }}
 jobs:
   publish:
     name: Publish
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-latest
     steps:
       # Setup
       - name: Checkout
         uses: actions/checkout@v3
-        with :
-          ref : ${{ github.head_ref }}
       - name: Setup Node ${{ matrix.node_version }}
         uses: actions/setup-node@v1
         with:
@@ -138,9 +135,9 @@ jobs:
       - name: Publish
         run: |
           if [ '${{ github.event_name }}' == 'pull_request' ] ; then
-            pnpm publish --registry=https://registry.npmjs.org/ --publish-branch=${{ env.BRANCH_NAME }} -r
+            pnpm publish --registry=https://registry.npmjs.org/ --publish-branch=${{ github.ref }} -r
           elif [ '${{ github.event_name }}' == 'push' ] ; then
-            pnpm publish --registry=https://registry.npmjs.org/ --publish-branch=${{ env.BRANCH_NAME }} -r ${{ env.PUBLISH_PARAMS }}
+            pnpm publish --registry=https://registry.npmjs.org/ --publish-branch=${{ github.ref_name }} -r ${{ env.PUBLISH_PARAMS }}
           fi
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

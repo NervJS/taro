@@ -13,7 +13,7 @@ import {
   TouchableWithoutFeedback,
   View
 } from 'react-native'
-import { withSafeAreaInsets } from 'react-native-safe-area-context'
+import { EdgeInsets, withSafeAreaInsets, WithSafeAreaInsetsProps } from 'react-native-safe-area-context'
 
 import { getDefalutTabItem, getTabConfig, getTabItemConfig, getTabVisible, isUrl } from '../utils/index'
 import TabBarItem, { TabBarOptions, TabOptions } from './TabBarItem'
@@ -34,7 +34,7 @@ interface TabBarState {
     height: number
     width: number
   }
-  insets: Record<string, number>
+  insets: EdgeInsets
 }
 interface TabBarStyle {
   color?: string
@@ -71,13 +71,13 @@ const styles = StyleSheet.create({
   }
 })
 
-export class TabBar extends React.PureComponent<TabBarProps, TabBarState> {
+export class TabBar extends React.PureComponent<TabBarProps & WithSafeAreaInsetsProps, TabBarState> {
   handleKeyboardShowEvent: EmitterSubscription
   handleKeyboardHideEvent: EmitterSubscription
-  constructor (props: TabBarProps) {
+  constructor (props: TabBarProps & WithSafeAreaInsetsProps) {
     super(props)
     const { height = 0, width = 0 } = Dimensions.get('window')
-    const { safeAreaInsets, tabOptions = {} } = this.props
+    const { insets, safeAreaInsets, tabOptions = {} } = this.props
     const { tabBarVisible = true } = tabOptions
     const tabVisible = tabBarVisible === false ? false : getTabVisible()
     this.state = {
@@ -88,7 +88,8 @@ export class TabBar extends React.PureComponent<TabBarProps, TabBarState> {
         width,
         height
       },
-      insets: safeAreaInsets || getInitSafeAreaInsets()
+      // todo: remove safeAreaInsets
+      insets: insets || safeAreaInsets || getInitSafeAreaInsets()
     }
   }
 
@@ -113,14 +114,19 @@ export class TabBar extends React.PureComponent<TabBarProps, TabBarState> {
     }
   }
 
-  UNSAFE_componentWillReceiveProps (): void {
+  UNSAFE_componentWillReceiveProps (nextProps): void {
     const curVisible = getTabVisible()
-    const { tabVisible } = this.state
+    const { tabVisible, insets } = this.state
     if (curVisible !== tabVisible) {
       this.setState({
         tabVisible: curVisible
       })
       this.setTabBarHidden(!curVisible)
+    }
+    if(nextProps.insets && insets !== nextProps.insets) {
+      this.setState({
+        insets: nextProps.insets
+      })
     }
   }
 
@@ -387,7 +393,7 @@ export class TabBar extends React.PureComponent<TabBarProps, TabBarState> {
                   })
                 }
               ],
-              position: showTabBar ? 'absolute' : (null as any)
+              position: showTabBar ? 'relative' : (null as any)
             },
             style,
             {

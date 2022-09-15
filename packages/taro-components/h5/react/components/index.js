@@ -9,6 +9,7 @@ export const MatchMedia = reactifyWc('taro-match-media-core')
 export const MovableArea = reactifyWc('taro-movable-area-core')
 export const MovableView = reactifyWc('taro-movable-view-core')
 export const PageContainer = reactifyWc('taro-page-container-core')
+export const RootPortal = reactifyWc('taro-root-portal-core')
 export const ScrollView = reactifyWc('taro-scroll-view-core')
 export const ShareElement = reactifyWc('taro-share-element-core')
 export const Swiper = reactifyWc('taro-swiper-core')
@@ -42,12 +43,14 @@ export const Textarea = reactifyWc('taro-textarea-core')
 // 导航
 export const FunctionalPageNavigator = reactifyWc('taro-functional-page-navigator-core')
 export const Navigator = reactifyWc('taro-navigator-core')
+export const NavigationBar = reactifyWc('taro-navigation-bar-core')
 
 // 媒体组件
 export const Audio = reactifyWc('taro-audio-core')
 export const Camera = reactifyWc('taro-camera-core')
 export const Image = reactifyWc('taro-image-core')
 export const LivePlayer = reactifyWc('taro-live-player-core')
+export const LivePusher = reactifyWc('taro-live-pusher-core')
 export const Video = reactifyWc('taro-video-core')
 export const VoipRoom = reactifyWc('taro-voip-room-core')
 
@@ -58,14 +61,11 @@ export const Map = reactifyWc('taro-map-core')
 export const Canvas = reactifyWc('taro-canvas-core')
 
 // 开放能力
-export const WebView = reactifyWc('taro-web-view-core')
 export const Ad = reactifyWc('taro-ad-core')
 export const AdCustom = reactifyWc('taro-ad-custom-core')
 export const OfficialAccount = reactifyWc('taro-official-account-core')
 export const OpenData = reactifyWc('taro-open-data-core')
-
-// 导航栏
-export const NavigationBar = reactifyWc('taro-navigation-bar-core')
+export const WebView = reactifyWc('taro-web-view-core')
 
 // 页面属性配置节点
 export const PageMeta = reactifyWc('taro-page-meta-core')

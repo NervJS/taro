@@ -25,12 +25,11 @@
 import fs from 'fs-extra'
 import path from 'path'
 import { performance } from 'perf_hooks'
-import webpack, { ProvidePlugin, Stats } from 'webpack'
+import { ProvidePlugin, Stats } from 'webpack'
 
 import BasePrebundle, { IPrebundleConfig } from './prebundle'
 import { bundle } from './prebundle/bundle'
 import {
-  createResolve,
   flattenId,
   getBundleHash,
   getMfHash
@@ -106,9 +105,9 @@ export class MiniPrebundle extends BasePrebundle<IMiniPrebundleConfig> {
     const provideObject = {
       window: [taroRuntimeBundlePath, 'window$1'],
       document: [taroRuntimeBundlePath, 'document$1'],
-      navigator: [taroRuntimeBundlePath, 'navigator'],
-      requestAnimationFrame: [taroRuntimeBundlePath, 'raf'],
-      cancelAnimationFrame: [taroRuntimeBundlePath, 'caf'],
+      navigator: [taroRuntimeBundlePath, 'nav'],
+      requestAnimationFrame: [taroRuntimeBundlePath, '_raf'],
+      cancelAnimationFrame: [taroRuntimeBundlePath, '_caf'],
       Element: [taroRuntimeBundlePath, 'TaroElement'],
       SVGElement: [taroRuntimeBundlePath, 'SVGElement'],
       MutationObserver: [taroRuntimeBundlePath, 'MutationObserver']
@@ -140,7 +139,7 @@ export class MiniPrebundle extends BasePrebundle<IMiniPrebundleConfig> {
 
       this.metadata.runtimeRequirements = new Set<string>()
 
-      const compiler = webpack({
+      const compiler = this.getRemoteWebpackCompiler({
         cache: {
           type: 'filesystem',
           cacheDirectory: path.join(this.cacheDir, 'webpack-cache'),
@@ -169,7 +168,7 @@ export class MiniPrebundle extends BasePrebundle<IMiniPrebundleConfig> {
           ),
           new ProvidePlugin(provideObject)
         ]
-      })
+      }, customWebpackConfig)
       this.metadata.remoteAssets = await new Promise((resolve, reject) => {
         compiler.run((error: Error, stats: Stats) => {
           compiler.close(err => {
@@ -198,7 +197,6 @@ export class MiniPrebundle extends BasePrebundle<IMiniPrebundleConfig> {
 
   async run () {
     this.isUseCache = true
-    createResolve(this.appPath, this.chain.toConfig().resolve)
 
     /** 扫描出所有的 node_modules 依赖 */
     /**

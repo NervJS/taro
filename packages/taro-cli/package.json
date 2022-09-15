@@ -1,11 +1,11 @@
 {
   "name": "@tarojs/cli",
-  "version": "3.5.0-beta.8",
+  "version": "3.5.4-canary.1",
   "description": "cli tool for taro",
   "main": "index.js",
   "scripts": {
     "test": "cross-env NODE_ENV=test jest",
-    "test:ci": "cross-env NODE_ENV=test jest -i",
+    "test:ci": "cross-env NODE_ENV=test jest --ci -i",
     "test:dev": "cross-env NODE_ENV=test jest --watch",
     "test:coverage": "cross-env NODE_ENV=test jest --coverage",
     "updateSnapshot": "cross-env NODE_ENV=test jest --updateSnapshot",
