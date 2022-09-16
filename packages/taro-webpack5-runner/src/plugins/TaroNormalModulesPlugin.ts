@@ -39,8 +39,19 @@ export default class TaroNormalModulesPlugin {
                   return
                 }
               } else {
-                // 兼容 react17 new jsx transtrom
-                if (callee.name !== '_jsx' && callee.name !== '_jsxs') {
+                const nameOfCallee = callee.name
+                if (
+                  // 兼容 react17 new jsx transtrom
+                  nameOfCallee !== '_jsx' && nameOfCallee !== '_jsxs' &&
+                  // 兼容 Vue 3.0 渲染函数及 JSX
+                  !(nameOfCallee && nameOfCallee.includes('createVNode')) &&
+                  !(nameOfCallee && nameOfCallee.includes('createBlock')) &&
+                  !(nameOfCallee && nameOfCallee.includes('createElementVNode')) &&
+                  !(nameOfCallee && nameOfCallee.includes('createElementBlock')) &&
+                  !(nameOfCallee && nameOfCallee.includes('resolveComponent')) && // 收集使用解析函数的组件名称
+                  // 兼容 vue 2.0 渲染函数及 JSX
+                  nameOfCallee !== 'h' && nameOfCallee !== '_c'
+                ) {
                   return
                 }
               }
@@ -48,7 +59,7 @@ export default class TaroNormalModulesPlugin {
               const [type, prop] = node.arguments
               const componentName = type.name
 
-              this.onParseCreateElement?.(type.value, componentConfig)
+              type.value && this.onParseCreateElement?.(type.value, componentConfig)
 
               if (componentName === 'CustomWrapper' && !componentConfig.thirdPartyComponents.get('custom-wrapper')) {
                 componentConfig.thirdPartyComponents.set('custom-wrapper', new Set())
