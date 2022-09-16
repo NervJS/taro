@@ -1,6 +1,7 @@
 import { chalk, fs, VUE_EXT } from '@tarojs/helper'
 import type { IPluginContext } from '@tarojs/service'
 import { isString } from '@tarojs/shared'
+import { capitalize, internalComponents, toCamelCase } from '@tarojs/shared/dist/template'
 
 import { modifyH5WebpackChain } from './webpack.h5'
 import { modifyMiniWebpackChain } from './webpack.mini'
@@ -12,6 +13,16 @@ type CompilerOptions = {
   comments: boolean
   nodeTransforms: ((...args: any) => void)[]
 }
+
+interface IComponentConfig {
+  includes: Set<string>
+}
+
+interface OnParseCreateElementArgs {
+  nodeName: string
+  componentConfig: IComponentConfig
+}
+
 export interface IConfig {
   mini?: {
     compilerOptions: CompilerOptions
@@ -80,6 +91,12 @@ export default (ctx: IPluginContext, config: IConfig = {}) => {
       const esbuildConfig = prebundleOptions.esbuild
       esbuildConfig.plugins ||= []
       esbuildConfig.plugins.push(taroVue3Plugin)
+    }
+  })
+
+  ctx.onParseCreateElement(({ nodeName, componentConfig }: OnParseCreateElementArgs) => {
+    if (capitalize(toCamelCase(nodeName)) in internalComponents) {
+      componentConfig.includes.add(nodeName)
     }
   })
 }

@@ -9,13 +9,13 @@ import { getVueLoaderPath } from './utils'
 
 const CUSTOM_WRAPPER = 'custom-wrapper'
 
-export function modifyMiniWebpackChain (_ctx: IPluginContext, chain, data, config: IConfig) {
-  setVueLoader(chain, data, config)
+export function modifyMiniWebpackChain (ctx: IPluginContext, chain, data, config: IConfig) {
+  setVueLoader(ctx, chain, data, config)
   setLoader(chain)
   setDefinePlugin(chain)
 }
 
-function setVueLoader (chain, data, config: IConfig) {
+function setVueLoader (ctx: IPluginContext, chain, data, config: IConfig) {
   const vueLoaderPath = getVueLoaderPath()
 
   // plugin
@@ -45,6 +45,14 @@ function setVueLoader (chain, data, config: IConfig) {
     if (node.type === 1 /* ELEMENT */) {
       node = node as ElementNode
       const nodeName = node.tag
+
+      nodeName && ctx.applyPlugins({
+        name: 'onParseCreateElement',
+        opts: {
+          nodeName,
+          componentConfig: data.componentConfig
+        }
+      })
 
       if (capitalize(toCamelCase(nodeName)) in internalComponents) {
         // change only ElementTypes.COMPONENT to ElementTypes.ELEMENT
