@@ -36,6 +36,10 @@ interface MiniLifecycle {
     string[], /** others */
     string[] /** side-effects */
   ]
+  component: [
+    string, /** attached */
+    string, /** detached */
+  ]
 }
 
 interface MiniElementData {
@@ -97,6 +101,10 @@ const defaultMiniLifecycle: MiniLifecycle = {
       'onShareAppMessage',
       'onShareTimeline'
     ]
+  ],
+  component: [
+    'attached',
+    'detached'
   ]
 }
 
