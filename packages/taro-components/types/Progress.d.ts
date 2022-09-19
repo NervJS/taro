@@ -69,14 +69,9 @@ interface ProgressProps extends StandardProps {
   duration?: number
 
   /** 动画完成事件
-   * @supported h5
+   * @supported weapp, qq, jd, h5
    */
   onActiveEnd?: CommonEventFunction
-
-  /** 动画完成事件
-   * @supported weapp, qq, jd
-   */
-  onActivEend?: CommonEventFunction
 
   /** 无障碍访问，（属性）元素的额外描述
    * @supported qq
