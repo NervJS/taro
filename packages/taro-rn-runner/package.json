@@ -30,11 +30,6 @@
     "npm": ">=6.0.0"
   },
   "dependencies": {
-    "@react-native-community/cli": "^9.1.0",
-    "@react-native-community/cli-config": "^9.1.0",
-    "@react-native-community/cli-plugin-metro": "^9.1.0",
-    "@react-native-community/cli-tools": "^9.1.0",
-    "@react-native-community/cli-server-api": "^9.1.0",
     "@rollup/plugin-babel": "^5.3.1",
     "@rollup/plugin-commonjs": "^20.0.0",
     "@rollup/plugin-json": "^4.1.0",
@@ -45,20 +40,10 @@
     "@tarojs/rn-supporter": "workspace:*",
     "@tarojs/rn-transformer": "workspace:*",
     "acorn-jsx": "^5.3.2",
-    "fs-extra": "^8.0.1",
     "lodash": "^4.17.21",
-    "metro": "^0.72.1",
-    "metro-cache": "^0.72.1",
-    "metro-config": "^0.72.1",
-    "metro-core": "^0.72.1",
-    "metro-react-native-babel-transformer": "^0.72.1",
-    "metro-resolver": "^0.72.1",
-    "mime-types": "^2.1.27",
-    "qrcode": "^1.5.1",
     "rollup-plugin-image-file": "^1.0.2"
   },
   "devDependencies": {
-    "expo-file-system": "~14.1.0",
     "react-is": "^16.13.0",
     "react-native-root-siblings": "^4.1.1"
   }
