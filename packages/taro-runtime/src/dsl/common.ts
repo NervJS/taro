@@ -250,9 +250,10 @@ export function createPageConfig (component: any, pageName?: string, data?: Reco
 export function createComponentConfig (component: React.ComponentClass, componentName?: string, data?: Record<string, unknown>) {
   const id = componentName ?? `taro_component_${pageId()}`
   let componentElement: TaroRootElement | null = null
+  const [ ATTACHED, DETACHED ] = hooks.call('getMiniLifecycleImpl')!.component
 
   const config: any = {
-    attached () {
+    [ATTACHED] () {
       perf.start(PAGE_INIT)
       const path = getPath(id, { id: this.getPageId?.() || pageId() })
       Current.app!.mount!(component, path, () => {
@@ -266,7 +267,7 @@ export function createComponentConfig (component: React.ComponentClass, componen
         }
       })
     },
-    detached () {
+    [DETACHED] () {
       const path = getPath(id, { id: this.getPageId() })
       Current.app!.unmount!(path, () => {
         instances.delete(path)
@@ -293,16 +294,18 @@ export function createComponentConfig (component: React.ComponentClass, componen
 
 export function createRecursiveComponentConfig (componentName?: string) {
   const isCustomWrapper = componentName === CUSTOM_WRAPPER
+  const [ ATTACHED, DETACHED ] = hooks.call('getMiniLifecycleImpl')!.component
+
   const lifeCycles = isCustomWrapper
     ? {
-      attached () {
-        const componentId = this.data.i?.sid
+      [ATTACHED] () {
+        const componentId = this.data.i?.sid || this.props.i?.sid
         if (isString(componentId)) {
           customWrapperCache.set(componentId, this)
         }
       },
-      detached () {
-        const componentId = this.data.i?.sid
+      [DETACHED] () {
+        const componentId = this.data.i?.sid || this.props.i?.sid
         if (isString(componentId)) {
           customWrapperCache.delete(componentId)
         }
