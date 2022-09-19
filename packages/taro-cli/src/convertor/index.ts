@@ -108,12 +108,12 @@ export default class Convertor {
   entryJSPath: string
   entryJSONPath: string
   entryStylePath: string
-  entryJSON: AppConfig & {usingComponents?: Record<string, string>}
+  entryJSON: AppConfig & { usingComponents?: Record<string, string> }
   entryStyle: string
   entryUsingComponents: Record<string, string>
   framework: 'react' | 'vue'
 
-  constructor (root) {
+  constructor(root) {
     this.root = root
     this.convertRoot = path.join(this.root, 'taroConvert')
     this.convertDir = path.join(this.convertRoot, 'src')
@@ -877,12 +877,14 @@ ${code}
       css: 'sass',
       typescript: false,
       template: templateName,
-      framework: this.framework
+      framework: this.framework,
+      compiler: 'webpack5'
     })
     creator.template(templateName, path.join('config', 'index.js'), path.join(configDir, 'index.js'), {
       date,
       projectName,
-      framework: this.framework
+      framework: this.framework,
+      compiler: 'webpack5'
     })
     creator.template(templateName, path.join('config', 'dev.js'), path.join(configDir, 'dev.js'), {
       framework: this.framework
@@ -905,7 +907,9 @@ ${code}
       typescript: false,
       framework: this.framework
     })
-    creator.template(templateName, path.join('src', 'index.html'), path.join(this.convertDir, 'index.html'))
+    creator.template(templateName, path.join('src', 'index.html'), path.join(this.convertDir, 'index.html'), {
+      projectName
+    })
     creator.fs.commit(() => {
       const pkgObj = JSON.parse(fs.readFileSync(pkgPath).toString())
       pkgObj.dependencies['@tarojs/with-weapp'] = `^${version}`
