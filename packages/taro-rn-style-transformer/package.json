@@ -26,6 +26,7 @@
     "@tarojs/helper": "workspace:*",
     "fbjs": "^2.0.0",
     "less": "^3.12.2",
+    "metro-react-native-babel-transformer": "^0.72.1",
     "postcss": "^8.4.12",
     "postcss-import": "^12.0.1",
     "postcss-pxtransform": "workspace:*",

@@ -1097,11 +1097,6 @@ importers:
 
   packages/taro-rn-runner:
     specifiers:
-      '@react-native-community/cli': ^9.1.0
-      '@react-native-community/cli-config': ^9.1.0
-      '@react-native-community/cli-plugin-metro': ^9.1.0
-      '@react-native-community/cli-server-api': ^9.1.0
-      '@react-native-community/cli-tools': ^9.1.0
       '@rollup/plugin-babel': ^5.3.1
       '@rollup/plugin-commonjs': ^20.0.0
       '@rollup/plugin-json': ^4.1.0
@@ -1112,26 +1107,11 @@ importers:
       '@tarojs/rn-supporter': workspace:*
       '@tarojs/rn-transformer': workspace:*
       acorn-jsx: ^5.3.2
-      expo-file-system: ~14.1.0
-      fs-extra: ^8.0.1
       lodash: ^4.17.21
-      metro: ^0.72.1
-      metro-cache: ^0.72.1
-      metro-config: ^0.72.1
-      metro-core: ^0.72.1
-      metro-react-native-babel-transformer: ^0.72.1
-      metro-resolver: ^0.72.1
-      mime-types: ^2.1.27
-      qrcode: ^1.5.1
       react-is: ^16.13.0
       react-native-root-siblings: ^4.1.1
       rollup-plugin-image-file: ^1.0.2
     dependencies:
-      '@react-native-community/cli': registry.npmjs.org/@react-native-community/cli/9.1.0
-      '@react-native-community/cli-config': registry.npmjs.org/@react-native-community/cli-config/9.1.0
-      '@react-native-community/cli-plugin-metro': registry.npmjs.org/@react-native-community/cli-plugin-metro/9.1.0
-      '@react-native-community/cli-server-api': registry.npmjs.org/@react-native-community/cli-server-api/9.1.0
-      '@react-native-community/cli-tools': registry.npmjs.org/@react-native-community/cli-tools/9.1.0
       '@rollup/plugin-babel': registry.npmjs.org/@rollup/plugin-babel/5.3.1
       '@rollup/plugin-commonjs': registry.npmjs.org/@rollup/plugin-commonjs/20.0.0
       '@rollup/plugin-json': registry.npmjs.org/@rollup/plugin-json/4.1.0
@@ -1142,19 +1122,9 @@ importers:
       '@tarojs/rn-supporter': link:../taro-rn-supporter
       '@tarojs/rn-transformer': link:../taro-rn-transformer
       acorn-jsx: registry.npmjs.org/acorn-jsx/5.3.2
-      fs-extra: registry.npmjs.org/fs-extra/8.1.0
       lodash: registry.npmjs.org/lodash/4.17.21
-      metro: registry.npmjs.org/metro/0.72.2
-      metro-cache: registry.npmjs.org/metro-cache/0.72.2
-      metro-config: registry.npmjs.org/metro-config/0.72.2
-      metro-core: registry.npmjs.org/metro-core/0.72.2
-      metro-react-native-babel-transformer: registry.npmjs.org/metro-react-native-babel-transformer/0.72.2
-      metro-resolver: registry.npmjs.org/metro-resolver/0.72.2
-      mime-types: registry.npmjs.org/mime-types/2.1.35
-      qrcode: registry.npmjs.org/qrcode/1.5.1
       rollup-plugin-image-file: registry.npmjs.org/rollup-plugin-image-file/1.0.2
     devDependencies:
-      expo-file-system: registry.npmjs.org/expo-file-system/14.1.0
       react-is: registry.npmjs.org/react-is/16.13.1
       react-native-root-siblings: registry.npmjs.org/react-native-root-siblings/4.1.1
 
@@ -1163,6 +1133,7 @@ importers:
       '@tarojs/helper': workspace:*
       fbjs: ^2.0.0
       less: ^3.12.2
+      metro-react-native-babel-transformer: ^0.72.1
       postcss: ^8.4.12
       postcss-import: ^12.0.1
       postcss-pxtransform: workspace:*
@@ -1179,6 +1150,7 @@ importers:
       '@tarojs/helper': link:../taro-helper
       fbjs: registry.npmjs.org/fbjs/2.0.0
       less: registry.npmjs.org/less/3.13.1
+      metro-react-native-babel-transformer: registry.npmjs.org/metro-react-native-babel-transformer/0.72.2
       postcss: registry.npmjs.org/postcss/8.4.14
       postcss-import: registry.npmjs.org/postcss-import/12.0.1
       postcss-pxtransform: link:../postcss-pxtransform
@@ -1194,19 +1166,37 @@ importers:
 
   packages/taro-rn-supporter:
     specifiers:
+      '@react-native-community/cli-config': ^9.1.0
+      '@react-native-community/cli-tools': ^9.1.0
       '@tarojs/helper': workspace:*
       '@tarojs/rn-style-transformer': workspace:*
+      '@tarojs/rn-transformer': workspace:*
       lodash: ^4.17.21
+      metro: ^0.72.1
+      metro-cache: ^0.72.1
+      metro-core: ^0.72.1
       metro-react-native-babel-transformer: ^0.72.1
       metro-resolver: ^0.72.1
+      mime-types: ^2.1.27
+      qrcode: ^1.5.1
       react-native-svg-transformer: ^0.14.3
+      yargs: ^15.3.1
     dependencies:
+      '@react-native-community/cli-config': registry.npmjs.org/@react-native-community/cli-config/9.1.0
+      '@react-native-community/cli-tools': registry.npmjs.org/@react-native-community/cli-tools/9.1.0
       '@tarojs/helper': link:../taro-helper
       '@tarojs/rn-style-transformer': link:../taro-rn-style-transformer
+      '@tarojs/rn-transformer': link:../taro-rn-transformer
       lodash: registry.npmjs.org/lodash/4.17.21
+      metro: registry.npmjs.org/metro/0.72.2
+      metro-cache: registry.npmjs.org/metro-cache/0.72.2
+      metro-core: registry.npmjs.org/metro-core/0.72.2
       metro-react-native-babel-transformer: registry.npmjs.org/metro-react-native-babel-transformer/0.72.2
       metro-resolver: registry.npmjs.org/metro-resolver/0.72.2
+      mime-types: registry.npmjs.org/mime-types/2.1.35
+      qrcode: registry.npmjs.org/qrcode/1.5.1
       react-native-svg-transformer: registry.npmjs.org/react-native-svg-transformer/0.14.3
+      yargs: registry.npmjs.org/yargs/15.4.1
 
   packages/taro-rn-transformer:
     specifiers:
@@ -18970,6 +18960,7 @@ packages:
       uuid: registry.npmjs.org/uuid/3.4.0
     transitivePeerDependencies:
       - supports-color
+    dev: false
 
   registry.npmjs.org/expo-file-system/14.1.0_expo@46.0.10:
     resolution: {integrity: sha512-lJcPGQ8yKXVknVkD5TmcJnR/TpQbEL0JP8hknLejfq3FIqPqI/LBFn31YiP37grxW8lITz1al8pq5T6CSUjAzQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/expo-file-system/-/expo-file-system-14.1.0.tgz}
