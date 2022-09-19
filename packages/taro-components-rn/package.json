@@ -47,11 +47,11 @@
     "expo": "~46.0.10",
     "metro-babel-register": "^0.72.1",
     "metro-react-native-babel-preset": "^0.72.1",
-    "react": "18.0.0",
+    "react": "18.1.0",
     "react-native": "^0.70.1",
     "react-native-gesture-handler": "~2.5.0",
     "react-native-svg": "~12.4.3",
-    "react-test-renderer": "18.0.0"
+    "react-test-renderer": "18.1.0"
   },
   "peerDependencies": {
     "@react-native-community/slider": "~4.2.4",
