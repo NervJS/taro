@@ -255,7 +255,7 @@ module.exports = function (merge) {
 | tt       | ✅         | ✅            |✅             |
 | alipay   | ✅         | ✅            |✅             |
 | dd       | ✅         | ✅            |❌             |
-| swan     | ❌         | ✅            |✅             |
+| swan     | ✅         | ✅            |✅             |
 
 > ps: 各平台上传都是支持的，只是不一定会输出二维码
 

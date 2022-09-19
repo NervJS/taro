@@ -88,6 +88,8 @@ export interface SwanConfig {
   token: string
   /** 最低基础库版本, 不传默认为 3.350.6 */
   minSwanVersion?: string
+  /** 小程序开发者工具安装路径 */
+  devToolsInstallPath?: string
 }
 
 export interface CIOptions {
