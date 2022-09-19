@@ -1,22 +1,48 @@
-import { emptyModulePath } from '@tarojs/rn-supporter'
 import * as MetroTerminalReporter from 'metro/src/lib/TerminalReporter'
 import { Terminal } from 'metro-core'
+import { toString } from 'qrcode'
+import yargs from 'yargs'
+
+import { emptyModulePath } from './defaults'
+import preview from './preview'
+import { getOpenHost, isWin,PLAYGROUNDINFO } from './utils'
 
 export class TerminalReporter {
   _reporter: any
   _conditionalFileStore: any
   metroServerInstance: any
   _initialized: boolean
-  _entry: string
   _sourceRoot: string
+  qr: boolean
 
-  constructor (entry: string, sourceRoot: string, conditionalFileStore: any, metroServerInstance?: any) {
+  constructor (sourceRoot: string, conditionalFileStore: any, qr?: boolean) {
     this._reporter = new MetroTerminalReporter(new Terminal(process.stdout))
     this._conditionalFileStore = conditionalFileStore
-    this.metroServerInstance = metroServerInstance
     this._initialized = false
-    this._entry = entry
     this._sourceRoot = sourceRoot
+    this.qr = qr ?? true
+    const argvs = yargs(process.argv).argv
+    if(this.qr && argvs._.includes('bundle')) {
+      process.on('beforeExit', () => {
+        preview({
+          out: argvs.bundleOutput as string,
+          platform: argvs.platform as string,
+          assetsDest: argvs.assetsDest as string,
+        })
+      })
+    }
+  }
+
+  print (args) {
+    const host = getOpenHost()
+    if (host) {
+      const url = `taro://${host}:${args.port}`
+      console.log(PLAYGROUNDINFO)
+      console.log(`print qrcode of '${url}':`)
+      toString(url, { type: 'terminal', small: !isWin }).then(console.log)
+    } else {
+      console.log('print qrcode error: host not found.')
+    }
   }
 
   async update (args) {
@@ -31,6 +57,18 @@ export class TerminalReporter {
     #   #    # #   #  #    #    #   #  #      #    # #    #   #      #   ## #    #   #   #  #  #  #
     #   #    # #    #  ####     #    # ###### #    #  ####    #      #    # #    #   #   #   ##   ######
 `)
+        break
+      case 'initialize_done':
+        process.stdin.on('keypress', (_key, data) => {
+          const { name } = data
+          if(name === 'q') {
+            this.print(args)
+          }
+        })
+        console.log('To print qrcode press "q"')
+        if (this.qr) {
+          this.print(args)
+        }
         break
       case 'bundle_build_started':
         args.bundleDetails.entryFile = './index'
