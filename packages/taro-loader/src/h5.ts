@@ -38,7 +38,7 @@ export default function (this: webpack.LoaderContext<any>) {
   const pxTransformConfig = options.pxTransformConfig
 
   const pathDirname = dirname(this.resourcePath)
-  const pageName = isMultiRouterMode ? join(pathDirname, options.name).replace(options.sourceDir + '/', '') : ''
+  const pageName = isMultiRouterMode ? join(pathDirname, options.filename).replace(options.sourceDir + '/', '') : ''
   if (options.bootstrap) {
     /** NOTE: Webpack Virtual Module plugin doesn't support triggering a rebuild for webpack5,
      * which can cause "module not found" error when webpack5 cache is enabled.
@@ -83,7 +83,7 @@ applyPolyfills().then(function () {
 
   const components = options.useHtmlComponents ? compatComponentImport || '' : webComponents
   const routesConfig = isMultiRouterMode ? `config.routes = []
-config.route = ${genResource(pageName, pages, this, options.name)}
+config.route = ${genResource(pageName, pages, this, options.filename)}
 config.pageName = "${pageName}"` : `config.routes = [
   ${config.pages?.map(path => genResource(path, pages, this)).join(',')}
 ]`

@@ -1,8 +1,9 @@
-import { chalk, recursiveMerge } from '@tarojs/helper'
+import { chalk, recursiveMerge, SCRIPT_EXT } from '@tarojs/helper'
+import { AppConfig } from '@tarojs/taro'
 import { get, mapValues, merge } from 'lodash'
 import * as path from 'path'
 
-import { addTrailingSlash, emptyObj, parseHtmlScript } from '../util'
+import { addTrailingSlash, emptyObj, getConfigFilePath, getPages, parseHtmlScript } from '../util'
 import {
   getCopyWebpackPlugin,
   getCssoWebpackPlugin,
@@ -19,7 +20,7 @@ import {
 import { BuildConfig } from '../util/types'
 import getBaseChain from './base.conf'
 
-export default function (appPath: string, config: Partial<BuildConfig>): any {
+export default function (appPath: string, config: Partial<BuildConfig>, appConfig: AppConfig): any {
   const chain = getBaseChain(appPath, config)
   const {
     alias = emptyObj,
@@ -122,6 +123,12 @@ export default function (appPath: string, config: Partial<BuildConfig>): any {
     )
   }
   if (isMultiRouterMode) {
+    const frameworkExts = config.frameworkExts || SCRIPT_EXT
+    const pages = getPages(appConfig.pages, sourceDir, frameworkExts)
+    delete entry[entryFileName]
+    pages.forEach(({ name, path }) => {
+      entry[name] = [getConfigFilePath(path)]
+    })
     merge(plugin, mapValues(entry, (_filePath, entryName) => {
       return getHtmlWebpackPlugin([recursiveMerge({
         filename: `${entryName}.html`,
