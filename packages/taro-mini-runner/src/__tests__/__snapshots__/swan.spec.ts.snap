@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`swan should build swan app 1`] = `17`;
+exports[`swan should build swan app 1`] = `14`;
 
 exports[`swan should build swan app 2`] = `
 "
@@ -828,25 +828,6 @@ require(\\"./taro\\");
     __webpack_exports__[\\"default\\"] = \\"react-mock\\";
 } ] ]);
 
-/** filePath: dist/custom-wrapper.js **/
-(swan[\\"webpackJsonp\\"] = swan[\\"webpackJsonp\\"] || []).push([ [ 6 ], {
-    12: function(module, __webpack_exports__, __webpack_require__) {
-        \\"use strict\\";
-        __webpack_require__.r(__webpack_exports__);
-        var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(2);
-        Component(Object(_tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__[\\"createRecursiveComponentConfig\\"])(\\"custom-wrapper\\"));
-    }
-}, [ [ 12, 0, 1 ] ] ]);
-
-/** filePath: dist/custom-wrapper.json **/
-{\\"component\\":true,\\"usingComponents\\":{\\"custom-wrapper\\":\\"./custom-wrapper\\"}}
-
-/** filePath: dist/custom-wrapper.swan **/
-<import src=\\"./base.swan\\" />
-  <block s-for=\\"{{i.cn}}\\" s-key=\\"sid\\">
-    <template is=\\"tmpl_0_container\\" data=\\"{{{ i:item }}}\\" />
-  </block>
-
 /** filePath: dist/pages/index/index.css **/
 
 
@@ -1270,7 +1251,7 @@ require(\\"./taro\\");
 
 
 /** filePath: dist/pages/index/index.json **/
-{\\"navigationBarTitleText\\":\\"首页\\",\\"usingComponents\\":{\\"custom-wrapper\\":\\"../../custom-wrapper\\"}}
+{\\"navigationBarTitleText\\":\\"首页\\",\\"usingComponents\\":{}}
 
 /** filePath: dist/pages/index/index.swan **/
 <import src=\\"../../base.swan\\"/>
