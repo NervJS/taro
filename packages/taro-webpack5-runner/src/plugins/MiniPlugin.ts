@@ -17,9 +17,8 @@ import { AppConfig, Config } from '@tarojs/taro'
 import fs from 'fs-extra'
 import { urlToRequest } from 'loader-utils'
 import path from 'path'
-import webpack, { Compilation, Compiler } from 'webpack'
+import webpack, { Compilation, Compiler, sources } from 'webpack'
 import EntryDependency from 'webpack/lib/dependencies/EntryDependency'
-import { ConcatSource, RawSource } from 'webpack-sources'
 
 import TaroSingleEntryDependency from '../dependencies/TaroSingleEntryDependency'
 import { PrerenderConfig, validatePrerenderPages } from '../prerender/prerender'
@@ -30,6 +29,7 @@ import TaroNormalModulesPlugin from './TaroNormalModulesPlugin'
 import TaroSingleEntryPlugin from './TaroSingleEntryPlugin'
 
 const PLUGIN_NAME = 'TaroMiniPlugin'
+const { ConcatSource, RawSource } = sources
 
 interface ITaroMiniPluginOptions {
   appEntry?: string

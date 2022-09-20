@@ -197,7 +197,6 @@
     "vue-template-compiler": "^2.6.11",
     "webpack": "5.69.0",
     "webpack-chain": "6.5.1",
-    "webpack-dev-server": "4.7.4",
-    "webpack-sources": "^3.2.3"
+    "webpack-dev-server": "4.7.4"
   }
 }
