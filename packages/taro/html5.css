@@ -60,7 +60,7 @@
 
 .h5-marquee {
   display: inline-block;
-  width: fill-available;
+  width: stretch;
 }
 
 .h5-address {
