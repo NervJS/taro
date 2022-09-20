@@ -52,6 +52,7 @@ interface MapProps extends StandardProps {
   circles?: MapProps.circle[]
 
   /** 控件（即将废弃，建议使用 cover-view 代替）
+   * @deprecated
    * @supported weapp, alipay, swan, jd
    */
   controls?: MapProps.control[]
