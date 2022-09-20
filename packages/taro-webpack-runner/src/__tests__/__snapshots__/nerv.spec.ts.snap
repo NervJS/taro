@@ -4755,7 +4755,8 @@ exports[`nerv should build nerv app 2`] = `
             \\"640\\": 1.17,
             \\"750\\": 1,
             \\"828\\": .905
-        }
+        },
+        \\"baseFontSize\\": 20
     });
 } ]);
 
