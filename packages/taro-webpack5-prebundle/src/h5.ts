@@ -22,17 +22,17 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
+import { chalk } from '@tarojs/helper'
 import fs from 'fs-extra'
 import path from 'path'
 import { performance } from 'perf_hooks'
-import webpack, { Stats } from 'webpack'
+import { Configuration, Stats } from 'webpack'
 import webpackDevServer from 'webpack-dev-server'
 import VirtualModulesPlugin from 'webpack-virtual-modules'
 
 import type { IPrebundle } from './prebundle'
 import BasePrebundle, { IPrebundleConfig } from './prebundle'
 import {
-  createResolve,
   flattenId,
   getMfHash,
   parsePublicPath
@@ -49,25 +49,23 @@ export interface IH5PrebundleConfig extends IPrebundleConfig {
 }
 
 export class H5Prebundle extends BasePrebundle<IH5PrebundleConfig> {
-  publicPath: string
   constructor (protected config: IH5PrebundleConfig, protected option: IPrebundle) {
     super(config, option)
-    this.publicPath = parsePublicPath(this.config.publicPath)
   }
 
   async buildLib () {
     const BUILD_LIB_START = performance.now()
 
+    const customWebpackConfig = this.option.webpack
     const exposes: Record<string, string> = {}
     const mode = process.env.NODE_ENV === 'production' ? 'production' : 'development'
     const devtool = this.config.enableSourceMap && 'hidden-source-map'
     const mainBuildOutput = this.chain.output.entries()
-    const output = {
+    const output: Exclude<Configuration['output'], undefined> = {
       chunkFilename: this.config.chunkFilename,
       chunkLoadingGlobal: mainBuildOutput.chunkLoadingGlobal,
       globalObject: mainBuildOutput.globalObject,
       path: this.remoteCacheDir,
-      publicPath: this.publicPath
     }
 
     this.metadata.mfHash = getMfHash({
@@ -89,7 +87,7 @@ export class H5Prebundle extends BasePrebundle<IH5PrebundleConfig> {
 
       this.metadata.runtimeRequirements = new Set<string>()
 
-      const compiler = webpack({
+      const compiler = this.getRemoteWebpackCompiler({
         cache: {
           type: 'filesystem',
           cacheDirectory: path.join(this.cacheDir, 'webpack-cache'),
@@ -129,7 +127,7 @@ export class H5Prebundle extends BasePrebundle<IH5PrebundleConfig> {
             }
           )
         ]
-      })
+      }, customWebpackConfig)
       this.metadata.remoteAssets = await new Promise((resolve, reject) => {
         compiler.run((error: Error, stats: Stats) => {
           compiler.close(err => {
@@ -164,15 +162,24 @@ export class H5Prebundle extends BasePrebundle<IH5PrebundleConfig> {
    * - [ ] 回归 react、vue 热更新状态
    */
   async run () {
+    const publicPath = parsePublicPath(this.config.publicPath)
     /** Note: 新增 web 虚拟入口，用于同步加载 webpack 动态依赖 */
     this.addPlugin('VirtualModule', VirtualModule)
 
     this.isUseCache = true
-    createResolve(this.appPath, this.chain.toConfig().resolve)
 
     /** 扫描出所有的 node_modules 依赖 */
     const entries: string[] = this.getEntries(this.entryPath)
     const { include = [], exclude = [] } = this.option
+    const idx = exclude.findIndex(e => e === '@tarojs/runtime')
+    if (idx >= 0) {
+      exclude.splice(idx, 1)
+      console.log(
+        chalk.yellowBright(
+          `依赖预编译排除 @tarojs/runtime 依赖会导致应用实例错误, 已为您忽略该配置！`
+        ),
+      )
+    }
     await this.setDeps(entries, include, exclude)
 
     /** 使用 esbuild 对 node_modules 依赖进行 bundle */
@@ -182,19 +189,24 @@ export class H5Prebundle extends BasePrebundle<IH5PrebundleConfig> {
     await this.buildLib()
 
     /** 项目 Host 配置 Module Federation */
-    this.setHost()
+    this.setHost(['', 'auto'].includes(publicPath) ? '' : publicPath.replace(/^\.(\/)?/, '/'))
 
-    /** node_modules 已预编译，不需要二次加载 (TODO: 修复 esbuild 加载 css 问题后，也应当移除对应规则对依赖的加载) */
     const script = this.chain.module.rule('script')
-    script.exclude.add(/node_modules/)
+    Array.from(this.deps.keys()).map(dep => {
+      /** node_modules 已预编译，不需要二次加载 (TODO: 修复 esbuild 加载 css 问题后，也应当移除对应规则对依赖的加载) */
+      script.exclude.add(new RegExp(`node_modules[/\\\\]${dep.replace(/\//g, '\\/')}`))
+    })
 
     // Proxy
     if (process.env.NODE_ENV !== 'production' || this.config.devServer) {
       this.chain.devServer.merge({
         static: [{
           directory: this.remoteCacheDir,
-          publicPath: this.publicPath,
-          watch: true
+          publicPath,
+          watch: true,
+          staticOptions: {
+            immutable: true
+          }
         }]
       })
     }

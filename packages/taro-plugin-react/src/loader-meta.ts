@@ -59,6 +59,11 @@ function addConfig (source) {
           check(callee.property.value)
         }
       }
+      node.arguments.forEach(item => {
+        if (item.type === 'Literal' && item.value) {
+          check(item.value)
+        }
+      })
     }
   })
 

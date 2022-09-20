@@ -34,6 +34,7 @@ export default (ctx: IPluginContext, pluginOpts: CIOptions) => {
           toolId: joi.string().required(),
           privateKeyPath: joi.string().required(),
           proxy: joi.string(),
+          project: joi.string(),
           clientType: joi.string().valid('alipay', 'ampe', 'amap', 'genie', 'alios', 'uc', 'quark', 'taobao', 'koubei', 'alipayiot', 'cainiao', 'alihealth')
         }),
         /** 百度小程序上传配置 */

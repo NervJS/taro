@@ -46,7 +46,9 @@ export default class TaroPrebundle {
       runtimePath,
       sourceRoot = 'src'
     } = this.params
-    const chunkFilename = chain.output.get('chunkFilename') ?? `${chunkDirectory}/[name].js`
+    let chunkFilename = chain.output.get('chunkFilename') ?? `${chunkDirectory}/[name].js`
+    chunkFilename = chunkFilename.replace(/\[([a-z]*hash)[^[\]\s]*\]/ig, '_$1_')
+    chain.output.set('chunkFilename', chunkFilename)
 
     return {
       appPath,

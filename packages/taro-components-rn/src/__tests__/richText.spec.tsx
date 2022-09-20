@@ -10,11 +10,7 @@ describe('RichText', () => {
         type: 'node',
         attrs: {
           class: 'div_class',
-          style: `
-            line-height: 60px;
-            color: white;
-            font-size: 60px;
-          `
+          style: 'line-height:60px;color:white;font-size:60px;'
         },
         children: [
           {

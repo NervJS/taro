@@ -3610,14 +3610,16 @@ exports[`css modules should use css modules with global mode 2`] = `
         };
         window.addEventListener(\\"resize\\", pageResizeFn, false);
     }
-    var pageScrollFn;
+    var pageScrollFn = {};
     var pageDOM = window;
     function bindPageScroll(page, pageEl) {
         var distance = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 50;
-        pageScrollFn && pageEl.removeEventListener(\\"scroll\\", pageScrollFn);
+        var _a;
+        var pagePath = page ? page === null || page === void 0 ? void 0 : page.path : (_a = undefined.router) === null || _a === void 0 ? void 0 : _a.path;
+        pageScrollFn[pagePath] && pageEl.removeEventListener(\\"scroll\\", pageScrollFn[pagePath]);
         pageDOM = pageEl;
         var isReachBottom = false;
-        pageScrollFn = function pageScrollFn() {
+        pageScrollFn[pagePath] = function() {
             var _a;
             (_a = page.onPageScroll) === null || _a === void 0 ? void 0 : _a.call(page, {
                 \\"scrollTop\\": pageDOM instanceof Window ? window.scrollY : pageDOM.scrollTop
@@ -3630,7 +3632,7 @@ exports[`css modules should use css modules with global mode 2`] = `
                 page.onReachBottom();
             }
         };
-        pageDOM.addEventListener(\\"scroll\\", pageScrollFn, false);
+        pageDOM.addEventListener(\\"scroll\\", pageScrollFn[pagePath], false);
     }
     function getOffset() {
         if (pageDOM instanceof Window) {
@@ -3722,7 +3724,7 @@ exports[`css modules should use css modules with global mode 2`] = `
             \\"key\\": \\"isTabBar\\",
             \\"get\\": function get() {
                 var _a;
-                var routePath = stripBasename(this.pathname, this.basename);
+                var routePath = addLeadingSlash(stripBasename(this.pathname, this.basename));
                 var pagePath = ((_a = Object.entries(this.customRoutes).find((function(_ref) {
                     var _ref2 = _slicedToArray(_ref, 2), target = _ref2[1];
                     if (typeof target === \\"string\\") {
@@ -4131,6 +4133,7 @@ exports[`css modules should use css modules with global mode 2`] = `
                 \\"delay\\": 50
             };
             this.config = config;
+            this.homePage = this.getHomePage();
             this.mount();
         }
         Object(createClass[\\"a\\"])(PageHandler, [ {
@@ -4201,15 +4204,10 @@ exports[`css modules should use css modules with global mode 2`] = `
                 return this.router.basename || \\"\\";
             }
         }, {
-            \\"key\\": \\"homePage\\",
-            \\"get\\": function get() {
-                return this.config.entryPagePath || this.routes[0].path || this.basename;
-            }
-        }, {
             \\"key\\": \\"pageConfig\\",
             \\"get\\": function get() {
-                var routePath = stripBasename(this.pathname, this.basename);
-                var homePage = this.homePage;
+                var routePath = addLeadingSlash(stripBasename(this.pathname, this.basename));
+                var homePage = addLeadingSlash(this.homePage);
                 return this.routes.find((function(r) {
                     var _a;
                     var pagePath = addLeadingSlash(r.path);
@@ -4220,7 +4218,7 @@ exports[`css modules should use css modules with global mode 2`] = `
             \\"key\\": \\"isTabBar\\",
             \\"get\\": function get() {
                 var _a;
-                var routePath = stripBasename(this.pathname, this.basename);
+                var routePath = addLeadingSlash(stripBasename(this.pathname, this.basename));
                 var pagePath = ((_a = Object.entries(this.customRoutes).find((function(_ref) {
                     var _ref2 = _slicedToArray(_ref, 2), target = _ref2[1];
                     if (typeof target === \\"string\\") {
@@ -4233,6 +4231,17 @@ exports[`css modules should use css modules with global mode 2`] = `
                 return !!pagePath && this.tabBarList.some((function(t) {
                     return stripTrailing(t.pagePath) === pagePath;
                 }));
+            }
+        }, {
+            \\"key\\": \\"getHomePage\\",
+            \\"value\\": function getHomePage() {
+                var _a;
+                var routePath = addLeadingSlash(stripBasename(this.routes[0].path, this.basename));
+                var alias = ((_a = Object.entries(this.customRoutes).find((function(_ref3) {
+                    var _ref4 = _slicedToArray(_ref3, 1), key = _ref4[0];
+                    return key === routePath;
+                }))) === null || _a === void 0 ? void 0 : _a[1]) || routePath;
+                return this.config.entryPagePath || (typeof alias === \\"string\\" ? alias : alias[0]) || this.basename;
             }
         }, {
             \\"key\\": \\"isSamePage\\",
@@ -4542,7 +4551,7 @@ exports[`css modules should use css modules with global mode 2`] = `
                             _yield$Promise$all2 = _slicedToArray(_yield$Promise$all, 3);
                             element = _yield$Promise$all2[0];
                             params = _yield$Promise$all2[2];
-                            _context.next = 20;
+                            _context.next = 24;
                             break;
 
                           case 13:
@@ -4555,20 +4564,29 @@ exports[`css modules should use css modules with global mode 2`] = `
                             (_c = app.onPageNotFound) === null || _c === void 0 ? void 0 : _c.call(app, {
                                 \\"path\\": handler.pathname
                             });
-                            _context.next = 20;
+                            _context.next = 24;
                             break;
 
                           case 19:
+                            if (!/Loading hot update .* failed./.test(_context.t0.message)) {
+                                _context.next = 23;
+                                break;
+                            }
+                            window.location.reload();
+                            _context.next = 24;
+                            break;
+
+                          case 23:
                             throw new Error(_context.t0);
 
-                          case 20:
+                          case 24:
                             if (element) {
-                                _context.next = 22;
+                                _context.next = 26;
                                 break;
                             }
                             return _context.abrupt(\\"return\\");
 
-                          case 22:
+                          case 26:
                             pageConfig = handler.pageConfig;
                             enablePullDownRefresh = ((_d = config === null || config === void 0 ? void 0 : config.window) === null || _d === void 0 ? void 0 : _d.enablePullDownRefresh) || false;
                             undefined.trigger(\\"__taroRouterChange\\", {
@@ -4587,7 +4605,7 @@ exports[`css modules should use css modules with global mode 2`] = `
                             pathname = handler.pathname;
                             shouldLoad = false;
                             if (!(action === \\"POP\\")) {
-                                _context.next = 35;
+                                _context.next = 39;
                                 break;
                             }
                             prevIndex = stack.getPrevIndex(pathname);
@@ -4600,34 +4618,34 @@ exports[`css modules should use css modules with global mode 2`] = `
                                     shouldLoad = true;
                                 }
                             }
-                            _context.next = 46;
+                            _context.next = 50;
                             break;
 
-                          case 35:
+                          case 39:
                             if (!handler.isTabBar) {
-                                _context.next = 44;
+                                _context.next = 48;
                                 break;
                             }
                             if (!handler.isSamePage(currentPage)) {
-                                _context.next = 38;
+                                _context.next = 42;
                                 break;
                             }
                             return _context.abrupt(\\"return\\");
 
-                          case 38:
+                          case 42:
                             _prevIndex = stack.getPrevIndex(pathname, 0);
                             handler.hide(currentPage);
                             if (!(_prevIndex > -1)) {
-                                _context.next = 42;
+                                _context.next = 46;
                                 break;
                             }
                             return _context.abrupt(\\"return\\", handler.show(stack.getItem(_prevIndex), pageConfig, _prevIndex));
 
-                          case 42:
-                            _context.next = 45;
+                          case 46:
+                            _context.next = 49;
                             break;
 
-                          case 44:
+                          case 48:
                             if (action === \\"REPLACE\\") {
                                 _delta = stack.getDelta(pathname);
                                 handler.unload(currentPage, _delta);
@@ -4635,12 +4653,12 @@ exports[`css modules should use css modules with global mode 2`] = `
                                 handler.hide(currentPage);
                             }
 
-                          case 45:
+                          case 49:
                             shouldLoad = true;
 
-                          case 46:
+                          case 50:
                             if (!(shouldLoad || stack.length < 1)) {
-                                _context.next = 55;
+                                _context.next = 59;
                                 break;
                             }
                             el = (_g = element.default) !== null && _g !== void 0 ? _g : element;
@@ -4652,7 +4670,7 @@ exports[`css modules should use css modules with global mode 2`] = `
                             if (params) page.options = params;
                             return _context.abrupt(\\"return\\", handler.load(page, pageConfig, stacksIndex));
 
-                          case 55:
+                          case 59:
                           case \\"end\\":
                             return _context.stop();
                         }
@@ -4660,8 +4678,8 @@ exports[`css modules should use css modules with global mode 2`] = `
                 }), _callee, null, [ [ 1, 13 ] ]);
             })));
         };
-        var routePath = stripBasename(history_history.location.pathname, handler.basename);
-        if (routePath === \\"/\\" || routePath === \\"\\") {
+        var routePath = addLeadingSlash(stripBasename(history_history.location.pathname, handler.basename));
+        if (routePath === \\"/\\") {
             history_history.replace(prependBasename(handler.homePage + history_history.location.search));
         }
         render({
@@ -4691,9 +4709,6 @@ exports[`css modules should use css modules with global mode 2`] = `
         }, {
             \\"key\\": \\"componentDidHide\\",
             \\"value\\": function componentDidHide() {}
-        }, {
-            \\"key\\": \\"componentDidCatchError\\",
-            \\"value\\": function componentDidCatchError() {}
         }, {
             \\"key\\": \\"render\\",
             \\"value\\": function render() {
@@ -8377,14 +8392,16 @@ exports[`css modules should use css modules with module mode 2`] = `
         };
         window.addEventListener(\\"resize\\", pageResizeFn, false);
     }
-    var pageScrollFn;
+    var pageScrollFn = {};
     var pageDOM = window;
     function bindPageScroll(page, pageEl) {
         var distance = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 50;
-        pageScrollFn && pageEl.removeEventListener(\\"scroll\\", pageScrollFn);
+        var _a;
+        var pagePath = page ? page === null || page === void 0 ? void 0 : page.path : (_a = undefined.router) === null || _a === void 0 ? void 0 : _a.path;
+        pageScrollFn[pagePath] && pageEl.removeEventListener(\\"scroll\\", pageScrollFn[pagePath]);
         pageDOM = pageEl;
         var isReachBottom = false;
-        pageScrollFn = function pageScrollFn() {
+        pageScrollFn[pagePath] = function() {
             var _a;
             (_a = page.onPageScroll) === null || _a === void 0 ? void 0 : _a.call(page, {
                 \\"scrollTop\\": pageDOM instanceof Window ? window.scrollY : pageDOM.scrollTop
@@ -8397,7 +8414,7 @@ exports[`css modules should use css modules with module mode 2`] = `
                 page.onReachBottom();
             }
         };
-        pageDOM.addEventListener(\\"scroll\\", pageScrollFn, false);
+        pageDOM.addEventListener(\\"scroll\\", pageScrollFn[pagePath], false);
     }
     function getOffset() {
         if (pageDOM instanceof Window) {
@@ -8489,7 +8506,7 @@ exports[`css modules should use css modules with module mode 2`] = `
             \\"key\\": \\"isTabBar\\",
             \\"get\\": function get() {
                 var _a;
-                var routePath = stripBasename(this.pathname, this.basename);
+                var routePath = addLeadingSlash(stripBasename(this.pathname, this.basename));
                 var pagePath = ((_a = Object.entries(this.customRoutes).find((function(_ref) {
                     var _ref2 = _slicedToArray(_ref, 2), target = _ref2[1];
                     if (typeof target === \\"string\\") {
@@ -8898,6 +8915,7 @@ exports[`css modules should use css modules with module mode 2`] = `
                 \\"delay\\": 50
             };
             this.config = config;
+            this.homePage = this.getHomePage();
             this.mount();
         }
         Object(createClass[\\"a\\"])(PageHandler, [ {
@@ -8968,15 +8986,10 @@ exports[`css modules should use css modules with module mode 2`] = `
                 return this.router.basename || \\"\\";
             }
         }, {
-            \\"key\\": \\"homePage\\",
-            \\"get\\": function get() {
-                return this.config.entryPagePath || this.routes[0].path || this.basename;
-            }
-        }, {
             \\"key\\": \\"pageConfig\\",
             \\"get\\": function get() {
-                var routePath = stripBasename(this.pathname, this.basename);
-                var homePage = this.homePage;
+                var routePath = addLeadingSlash(stripBasename(this.pathname, this.basename));
+                var homePage = addLeadingSlash(this.homePage);
                 return this.routes.find((function(r) {
                     var _a;
                     var pagePath = addLeadingSlash(r.path);
@@ -8987,7 +9000,7 @@ exports[`css modules should use css modules with module mode 2`] = `
             \\"key\\": \\"isTabBar\\",
             \\"get\\": function get() {
                 var _a;
-                var routePath = stripBasename(this.pathname, this.basename);
+                var routePath = addLeadingSlash(stripBasename(this.pathname, this.basename));
                 var pagePath = ((_a = Object.entries(this.customRoutes).find((function(_ref) {
                     var _ref2 = _slicedToArray(_ref, 2), target = _ref2[1];
                     if (typeof target === \\"string\\") {
@@ -9000,6 +9013,17 @@ exports[`css modules should use css modules with module mode 2`] = `
                 return !!pagePath && this.tabBarList.some((function(t) {
                     return stripTrailing(t.pagePath) === pagePath;
                 }));
+            }
+        }, {
+            \\"key\\": \\"getHomePage\\",
+            \\"value\\": function getHomePage() {
+                var _a;
+                var routePath = addLeadingSlash(stripBasename(this.routes[0].path, this.basename));
+                var alias = ((_a = Object.entries(this.customRoutes).find((function(_ref3) {
+                    var _ref4 = _slicedToArray(_ref3, 1), key = _ref4[0];
+                    return key === routePath;
+                }))) === null || _a === void 0 ? void 0 : _a[1]) || routePath;
+                return this.config.entryPagePath || (typeof alias === \\"string\\" ? alias : alias[0]) || this.basename;
             }
         }, {
             \\"key\\": \\"isSamePage\\",
@@ -9309,7 +9333,7 @@ exports[`css modules should use css modules with module mode 2`] = `
                             _yield$Promise$all2 = _slicedToArray(_yield$Promise$all, 3);
                             element = _yield$Promise$all2[0];
                             params = _yield$Promise$all2[2];
-                            _context.next = 20;
+                            _context.next = 24;
                             break;
 
                           case 13:
@@ -9322,20 +9346,29 @@ exports[`css modules should use css modules with module mode 2`] = `
                             (_c = app.onPageNotFound) === null || _c === void 0 ? void 0 : _c.call(app, {
                                 \\"path\\": handler.pathname
                             });
-                            _context.next = 20;
+                            _context.next = 24;
                             break;
 
                           case 19:
+                            if (!/Loading hot update .* failed./.test(_context.t0.message)) {
+                                _context.next = 23;
+                                break;
+                            }
+                            window.location.reload();
+                            _context.next = 24;
+                            break;
+
+                          case 23:
                             throw new Error(_context.t0);
 
-                          case 20:
+                          case 24:
                             if (element) {
-                                _context.next = 22;
+                                _context.next = 26;
                                 break;
                             }
                             return _context.abrupt(\\"return\\");
 
-                          case 22:
+                          case 26:
                             pageConfig = handler.pageConfig;
                             enablePullDownRefresh = ((_d = config === null || config === void 0 ? void 0 : config.window) === null || _d === void 0 ? void 0 : _d.enablePullDownRefresh) || false;
                             undefined.trigger(\\"__taroRouterChange\\", {
@@ -9354,7 +9387,7 @@ exports[`css modules should use css modules with module mode 2`] = `
                             pathname = handler.pathname;
                             shouldLoad = false;
                             if (!(action === \\"POP\\")) {
-                                _context.next = 35;
+                                _context.next = 39;
                                 break;
                             }
                             prevIndex = stack.getPrevIndex(pathname);
@@ -9367,34 +9400,34 @@ exports[`css modules should use css modules with module mode 2`] = `
                                     shouldLoad = true;
                                 }
                             }
-                            _context.next = 46;
+                            _context.next = 50;
                             break;
 
-                          case 35:
+                          case 39:
                             if (!handler.isTabBar) {
-                                _context.next = 44;
+                                _context.next = 48;
                                 break;
                             }
                             if (!handler.isSamePage(currentPage)) {
-                                _context.next = 38;
+                                _context.next = 42;
                                 break;
                             }
                             return _context.abrupt(\\"return\\");
 
-                          case 38:
+                          case 42:
                             _prevIndex = stack.getPrevIndex(pathname, 0);
                             handler.hide(currentPage);
                             if (!(_prevIndex > -1)) {
-                                _context.next = 42;
+                                _context.next = 46;
                                 break;
                             }
                             return _context.abrupt(\\"return\\", handler.show(stack.getItem(_prevIndex), pageConfig, _prevIndex));
 
-                          case 42:
-                            _context.next = 45;
+                          case 46:
+                            _context.next = 49;
                             break;
 
-                          case 44:
+                          case 48:
                             if (action === \\"REPLACE\\") {
                                 _delta = stack.getDelta(pathname);
                                 handler.unload(currentPage, _delta);
@@ -9402,12 +9435,12 @@ exports[`css modules should use css modules with module mode 2`] = `
                                 handler.hide(currentPage);
                             }
 
-                          case 45:
+                          case 49:
                             shouldLoad = true;
 
-                          case 46:
+                          case 50:
                             if (!(shouldLoad || stack.length < 1)) {
-                                _context.next = 55;
+                                _context.next = 59;
                                 break;
                             }
                             el = (_g = element.default) !== null && _g !== void 0 ? _g : element;
@@ -9419,7 +9452,7 @@ exports[`css modules should use css modules with module mode 2`] = `
                             if (params) page.options = params;
                             return _context.abrupt(\\"return\\", handler.load(page, pageConfig, stacksIndex));
 
-                          case 55:
+                          case 59:
                           case \\"end\\":
                             return _context.stop();
                         }
@@ -9427,8 +9460,8 @@ exports[`css modules should use css modules with module mode 2`] = `
                 }), _callee, null, [ [ 1, 13 ] ]);
             })));
         };
-        var routePath = stripBasename(history_history.location.pathname, handler.basename);
-        if (routePath === \\"/\\" || routePath === \\"\\") {
+        var routePath = addLeadingSlash(stripBasename(history_history.location.pathname, handler.basename));
+        if (routePath === \\"/\\") {
             history_history.replace(prependBasename(handler.homePage + history_history.location.search));
         }
         render({
@@ -9458,9 +9491,6 @@ exports[`css modules should use css modules with module mode 2`] = `
         }, {
             \\"key\\": \\"componentDidHide\\",
             \\"value\\": function componentDidHide() {}
-        }, {
-            \\"key\\": \\"componentDidCatchError\\",
-            \\"value\\": function componentDidCatchError() {}
         }, {
             \\"key\\": \\"render\\",
             \\"value\\": function render() {

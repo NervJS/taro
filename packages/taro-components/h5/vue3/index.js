@@ -5,7 +5,7 @@ export function initVue3Components (app) {
 
   Object.entries(components).forEach(([name, component]) => {
     if (component) {
-      const tagName = 'taro-' + name.replace(/(?<=[a-z])([A-Z])/g, '-$1').toLowerCase()
+      const tagName = 'taro' + name.replace(new RegExp('([A-Z])', 'g'), '-$1').toLowerCase()
       app.component(tagName, component)
     }
   })

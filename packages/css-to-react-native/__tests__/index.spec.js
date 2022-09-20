@@ -3525,22 +3525,22 @@ describe('ICSS :export pseudo-selector', () => {
     ).toEqual({
       top: {
         borderTopWidth: 1,
-        borderTopStyle: 'solid',
+        borderStyle: 'solid',
         borderTopColor: 'red'
       },
       right: {
         borderRightWidth: 1,
-        borderRightStyle: 'solid',
+        borderStyle: 'solid',
         borderRightColor: 'red'
       },
       bottom: {
         borderBottomWidth: 1,
-        borderBottomStyle: 'solid',
+        borderStyle: 'solid',
         borderBottomColor: 'red'
       },
       left: {
         borderLeftWidth: 1,
-        borderLeftStyle: 'solid',
+        borderStyle: 'solid',
         borderLeftColor: 'red'
       }
     })

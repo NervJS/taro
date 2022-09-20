@@ -272,8 +272,8 @@ export class Swiper implements ComponentInterface {
         slideTo () {
           that.current = this.realIndex
         },
-        // slideChange 事件在 swiper.slideTo 改写 current 时不触发，因此用 slideChangeTransitionEnd 事件代替
-        slideChangeTransitionEnd (_swiper: ISwiper) {
+         // slideChange 事件在 swiper.slideTo 改写 current 时不触发，因此用 slideChangeTransitionStart 事件代替
+         slideChangeTransitionStart (_swiper: ISwiper) {
           if (that.circular) {
             if (_swiper.isBeginning || _swiper.isEnd) {
               _swiper.slideToLoop(this.realIndex, 0) // 更新下标

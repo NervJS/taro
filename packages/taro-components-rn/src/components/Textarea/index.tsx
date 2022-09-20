@@ -16,25 +16,28 @@ import { omit } from '../../utils'
 import { TextareaProps } from './PropsType'
 
 const _Textarea: React.FC<TextareaProps> = (props: TextareaProps) => {
-  const { autoHeight, onLineChange, autoFocus, maxlength } = props
+  const { autoHeight, autoFocus, focus, maxlength, onLineChange } = props
+  const textearaProps = omit(props, [
+    'type',
+    'password',
+    'confirmType',
+    'confirmHold',
+    // props
+    'autoHeight',
+    'onLineChange',
+    'maxlength'
+  ])
+
   return (
     <Input
       _multiline={true}
       _autoHeight={autoHeight}
       _onLineChange={onLineChange}
+      focus={!!focus}
       autoFocus={!!autoFocus}
       confirmType="next"
       onBlur={() => Keyboard.dismiss()}
-      {...omit(props, [
-        'type',
-        'password',
-        'confirmType',
-        'confirmHold',
-        // props
-        'autoHeight',
-        'onLineChange',
-        'maxlength'
-      ])}
+      {...textearaProps}
       maxlength={maxlength}
     />
   )

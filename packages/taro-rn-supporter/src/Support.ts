@@ -19,6 +19,8 @@ export class Supporter {
   getTransformer () {
     const transformerPath = this.fromRunner ? './taroTransformer' : './transformer'
     return {
+      allowOptionalDependencies: true,
+      asyncRequireModulePath: require.resolve('metro-runtime/src/modules/asyncRequire'),
       dynamicDepsInPackages: 'reject',
       babelTransformerPath: require.resolve(transformerPath),
       assetRegistryPath: require.resolve('react-native/Libraries/Image/AssetRegistry', {
@@ -49,8 +51,8 @@ export class Supporter {
     // 兼容0.60
     const rnVersion = getReactNativeVersion()
     if (rnVersion && (rnVersion.major === 0) && (rnVersion.minor === 60)) {
-      resolver.resolveRequest = (context, realModuleName, platform, moduleName) => {
-        const res = handleEntryFile(context, realModuleName, platform, moduleName)
+      resolver.resolveRequest = (context, moduleName, platform) => {
+        const res = handleEntryFile(context, moduleName, platform)
         if (res) {
           return res
         }

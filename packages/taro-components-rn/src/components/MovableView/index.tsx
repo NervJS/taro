@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-empty-function */
 import * as React from 'react'
 import { PanResponder, Animated, LayoutChangeEvent } from 'react-native'
 import View from '../View'
@@ -7,9 +6,6 @@ import { AnimatedValueProps, MovableViewProps } from './PropsType'
 class _MovableView extends React.Component<MovableViewProps, any> {
   static defaultProps = {
     direction: 'none',
-    onDragStart: (): void => { },
-    onDragEnd: (): void => { },
-    onChange: (): void => { },
     disabled: false,
     animation: true
   }
@@ -39,7 +35,7 @@ class _MovableView extends React.Component<MovableViewProps, any> {
           x: direction === 'all' || direction === 'horizontal' ? pan.x._value : 0,
           y: direction === 'all' || direction === 'vertical' ? pan.y._value : 0
         })
-        this.props.onDragStart && this.props.onDragStart()
+        this.props.onDragStart?.()
       },
       onPanResponderMove: (e, gestureState) => {
         const { direction } = this.props
@@ -55,7 +51,7 @@ class _MovableView extends React.Component<MovableViewProps, any> {
             useNativeDriver: false
           }
         )(e, gestureState)
-        this.props.onChange && this.props.onChange(e)
+        this.props.onChange?.(e)
       },
       onPanResponderRelease: () => {
         const { pan } = this.state
@@ -67,7 +63,7 @@ class _MovableView extends React.Component<MovableViewProps, any> {
           toValue: { x: x, y: y },
           useNativeDriver: false
         }).start()
-        this.props.onDragEnd && this.props.onDragEnd()
+        this.props.onDragEnd?.()
       }
     })
   }

@@ -18,7 +18,7 @@ export const stripBasename = (path = '', prefix = '') => hasBasename(path, prefi
 export const stripTrailingSlash = (path = '') => (path.charAt(path.length - 1) === '/' ? path.substring(0, path.length - 1) : path)
 export const addHtmlSuffix = (path = '') => `${path}.html`
 
-export const formatOpenHost = host => {
+export const formatOpenHost = (host?: string) => {
   let result = host
   // 配置host为0.0.0.0时,可以转换为ip打开, 其他以配置host默认打开
   if (!result || result === '0.0.0.0' || result.startsWith('local-ip')) {
