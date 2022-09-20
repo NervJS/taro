@@ -117,6 +117,7 @@ export class MiniPrebundle extends BasePrebundle<IMiniPrebundleConfig> {
       customWebpackConfig.provide.forEach(cb => {
         cb(provideObject, taroRuntimeBundlePath)
       })
+      delete customWebpackConfig.provide
     }
 
     this.metadata.mfHash = getMfHash({
