@@ -3863,22 +3863,25 @@ exports[`nerv should build nerv app 2`] = `
 
                       case 10:
                         element = _context.sent;
-                        _context.next = 16;
+                        if (element instanceof Array) {
+                            element = element[0];
+                        }
+                        _context.next = 17;
                         break;
 
-                      case 13:
-                        _context.prev = 13;
+                      case 14:
+                        _context.prev = 14;
                         _context.t0 = _context[\\"catch\\"](7);
                         throw new Error(_context.t0);
 
-                      case 16:
+                      case 17:
                         if (element) {
-                            _context.next = 18;
+                            _context.next = 19;
                             break;
                         }
                         return _context.abrupt(\\"return\\");
 
-                      case 18:
+                      case 19:
                         enablePullDownRefresh = ((_c = config === null || config === void 0 ? void 0 : config.window) === null || _c === void 0 ? void 0 : _c.enablePullDownRefresh) || false;
                         undefined.trigger(\\"__taroRouterChange\\", {
                             \\"toLocation\\": {
@@ -3899,12 +3902,12 @@ exports[`nerv should build nerv app 2`] = `
                         handler.load(page, pageConfig);
                         (_f = app.onShow) === null || _f === void 0 ? void 0 : _f.call(app, launchParam);
 
-                      case 28:
+                      case 29:
                       case \\"end\\":
                         return _context.stop();
                     }
                 }
-            }), _callee, null, [ [ 7, 13 ] ]);
+            }), _callee, null, [ [ 7, 14 ] ]);
         })));
     }
     var path_to_regexp = __webpack_require__(8);
