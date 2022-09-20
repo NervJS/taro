@@ -125,6 +125,25 @@ declare module '../../index' {
     }
   }
 
+  namespace cropImage {
+    interface Option {
+      /** 图片路径，图片的路径，支持本地路径、代码包路径 */
+      src: string
+      /** 裁剪比例 */
+      cropScale: '16:9' | '9:16' | '4:3' | '3:4' | '5:4' | '4:5' | '1:1'
+      /** 接口调用结束的回调函数（调用成功、失败都会执行） */
+      complete?: (res: TaroGeneral.CallbackResult) => void
+      /** 接口调用失败的回调函数 */
+      fail?: (res: TaroGeneral.CallbackResult) => void
+      /** 接口调用成功的回调函数 */
+      success?: (result: SuccessCallbackResult) => void
+    }
+    interface SuccessCallbackResult extends TaroGeneral.CallbackResult {
+      /** 编辑后图片的临时文件路径 (本地路径) */
+      tempFilePath: string
+    }
+  }
+
   namespace chooseImage {
     interface Option {
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
@@ -336,6 +355,19 @@ declare module '../../index' {
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/image/wx.editImage.html
      */
     editImage(option: editImage.Option): Promise<editImage.SuccessCallbackResult>
+
+    /** 裁剪图片接口
+     * @supported weapp
+     * @example
+     * ```tsx
+     * Taro.cropImage({
+     *    src: '', // 图片路径
+     *    cropScale: '16:9', // 裁剪比例
+     * })
+     * ```
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/image/wx.cropImage.html
+     */
+    cropImage(option: cropImage.Option): Promise<cropImage.SuccessCallbackResult>
 
     /** 压缩图片接口，可选压缩质量
      * @supported weapp, rn, tt
