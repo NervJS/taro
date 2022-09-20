@@ -3578,14 +3578,16 @@ exports[`sass should build app with sass 2`] = `
         };
         window.addEventListener(\\"resize\\", pageResizeFn, false);
     }
-    var pageScrollFn;
+    var pageScrollFn = {};
     var pageDOM = window;
     function bindPageScroll(page, pageEl) {
         var distance = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 50;
-        pageScrollFn && pageEl.removeEventListener(\\"scroll\\", pageScrollFn);
+        var _a;
+        var pagePath = page ? page === null || page === void 0 ? void 0 : page.path : (_a = undefined.router) === null || _a === void 0 ? void 0 : _a.path;
+        pageScrollFn[pagePath] && pageEl.removeEventListener(\\"scroll\\", pageScrollFn[pagePath]);
         pageDOM = pageEl;
         var isReachBottom = false;
-        pageScrollFn = function pageScrollFn() {
+        pageScrollFn[pagePath] = function() {
             var _a;
             (_a = page.onPageScroll) === null || _a === void 0 ? void 0 : _a.call(page, {
                 \\"scrollTop\\": pageDOM instanceof Window ? window.scrollY : pageDOM.scrollTop
@@ -3598,7 +3600,7 @@ exports[`sass should build app with sass 2`] = `
                 page.onReachBottom();
             }
         };
-        pageDOM.addEventListener(\\"scroll\\", pageScrollFn, false);
+        pageDOM.addEventListener(\\"scroll\\", pageScrollFn[pagePath], false);
     }
     function getOffset() {
         if (pageDOM instanceof Window) {
@@ -8335,14 +8337,16 @@ exports[`sass should build app with scss 2`] = `
         };
         window.addEventListener(\\"resize\\", pageResizeFn, false);
     }
-    var pageScrollFn;
+    var pageScrollFn = {};
     var pageDOM = window;
     function bindPageScroll(page, pageEl) {
         var distance = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 50;
-        pageScrollFn && pageEl.removeEventListener(\\"scroll\\", pageScrollFn);
+        var _a;
+        var pagePath = page ? page === null || page === void 0 ? void 0 : page.path : (_a = undefined.router) === null || _a === void 0 ? void 0 : _a.path;
+        pageScrollFn[pagePath] && pageEl.removeEventListener(\\"scroll\\", pageScrollFn[pagePath]);
         pageDOM = pageEl;
         var isReachBottom = false;
-        pageScrollFn = function pageScrollFn() {
+        pageScrollFn[pagePath] = function() {
             var _a;
             (_a = page.onPageScroll) === null || _a === void 0 ? void 0 : _a.call(page, {
                 \\"scrollTop\\": pageDOM instanceof Window ? window.scrollY : pageDOM.scrollTop
@@ -8355,7 +8359,7 @@ exports[`sass should build app with scss 2`] = `
                 page.onReachBottom();
             }
         };
-        pageDOM.addEventListener(\\"scroll\\", pageScrollFn, false);
+        pageDOM.addEventListener(\\"scroll\\", pageScrollFn[pagePath], false);
     }
     function getOffset() {
         if (pageDOM instanceof Window) {
@@ -13102,14 +13106,16 @@ exports[`sass should set global sass content with data 2`] = `
         };
         window.addEventListener(\\"resize\\", pageResizeFn, false);
     }
-    var pageScrollFn;
+    var pageScrollFn = {};
     var pageDOM = window;
     function bindPageScroll(page, pageEl) {
         var distance = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 50;
-        pageScrollFn && pageEl.removeEventListener(\\"scroll\\", pageScrollFn);
+        var _a;
+        var pagePath = page ? page === null || page === void 0 ? void 0 : page.path : (_a = undefined.router) === null || _a === void 0 ? void 0 : _a.path;
+        pageScrollFn[pagePath] && pageEl.removeEventListener(\\"scroll\\", pageScrollFn[pagePath]);
         pageDOM = pageEl;
         var isReachBottom = false;
-        pageScrollFn = function pageScrollFn() {
+        pageScrollFn[pagePath] = function() {
             var _a;
             (_a = page.onPageScroll) === null || _a === void 0 ? void 0 : _a.call(page, {
                 \\"scrollTop\\": pageDOM instanceof Window ? window.scrollY : pageDOM.scrollTop
@@ -13122,7 +13128,7 @@ exports[`sass should set global sass content with data 2`] = `
                 page.onReachBottom();
             }
         };
-        pageDOM.addEventListener(\\"scroll\\", pageScrollFn, false);
+        pageDOM.addEventListener(\\"scroll\\", pageScrollFn[pagePath], false);
     }
     function getOffset() {
         if (pageDOM instanceof Window) {
@@ -17869,14 +17875,16 @@ exports[`sass should set global sass content with source & dir 2`] = `
         };
         window.addEventListener(\\"resize\\", pageResizeFn, false);
     }
-    var pageScrollFn;
+    var pageScrollFn = {};
     var pageDOM = window;
     function bindPageScroll(page, pageEl) {
         var distance = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 50;
-        pageScrollFn && pageEl.removeEventListener(\\"scroll\\", pageScrollFn);
+        var _a;
+        var pagePath = page ? page === null || page === void 0 ? void 0 : page.path : (_a = undefined.router) === null || _a === void 0 ? void 0 : _a.path;
+        pageScrollFn[pagePath] && pageEl.removeEventListener(\\"scroll\\", pageScrollFn[pagePath]);
         pageDOM = pageEl;
         var isReachBottom = false;
-        pageScrollFn = function pageScrollFn() {
+        pageScrollFn[pagePath] = function() {
             var _a;
             (_a = page.onPageScroll) === null || _a === void 0 ? void 0 : _a.call(page, {
                 \\"scrollTop\\": pageDOM instanceof Window ? window.scrollY : pageDOM.scrollTop
@@ -17889,7 +17897,7 @@ exports[`sass should set global sass content with source & dir 2`] = `
                 page.onReachBottom();
             }
         };
-        pageDOM.addEventListener(\\"scroll\\", pageScrollFn, false);
+        pageDOM.addEventListener(\\"scroll\\", pageScrollFn[pagePath], false);
     }
     function getOffset() {
         if (pageDOM instanceof Window) {
@@ -22636,14 +22644,16 @@ exports[`sass should set global sass content with source 2`] = `
         };
         window.addEventListener(\\"resize\\", pageResizeFn, false);
     }
-    var pageScrollFn;
+    var pageScrollFn = {};
     var pageDOM = window;
     function bindPageScroll(page, pageEl) {
         var distance = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 50;
-        pageScrollFn && pageEl.removeEventListener(\\"scroll\\", pageScrollFn);
+        var _a;
+        var pagePath = page ? page === null || page === void 0 ? void 0 : page.path : (_a = undefined.router) === null || _a === void 0 ? void 0 : _a.path;
+        pageScrollFn[pagePath] && pageEl.removeEventListener(\\"scroll\\", pageScrollFn[pagePath]);
         pageDOM = pageEl;
         var isReachBottom = false;
-        pageScrollFn = function pageScrollFn() {
+        pageScrollFn[pagePath] = function() {
             var _a;
             (_a = page.onPageScroll) === null || _a === void 0 ? void 0 : _a.call(page, {
                 \\"scrollTop\\": pageDOM instanceof Window ? window.scrollY : pageDOM.scrollTop
@@ -22656,7 +22666,7 @@ exports[`sass should set global sass content with source 2`] = `
                 page.onReachBottom();
             }
         };
-        pageDOM.addEventListener(\\"scroll\\", pageScrollFn, false);
+        pageDOM.addEventListener(\\"scroll\\", pageScrollFn[pagePath], false);
     }
     function getOffset() {
         if (pageDOM instanceof Window) {
