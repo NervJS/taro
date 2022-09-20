@@ -1,6 +1,7 @@
-import type { TaroNode } from '../../dom/node'
 import { options } from '../../options'
 import { parser } from './parser'
+
+import type { TaroNode } from '../../dom/node'
 
 options.html = {
   skipElements: new Set(['style', 'script']),

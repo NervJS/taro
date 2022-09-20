@@ -72,7 +72,7 @@ export default class BasePrebundle<T extends IPrebundleConfig = IPrebundleConfig
       if (force !== true) {
         Object.assign(this.preMetadata, fs.readJSONSync(this.metadataPath))
       }
-    } catch (e) {}
+    } catch (e) {} // eslint-disable-line no-empty
 
     this.webpackConfig = this.chain.toConfig()
     createResolve(this.appPath, this.webpackConfig.resolve)

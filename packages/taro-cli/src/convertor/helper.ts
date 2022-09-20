@@ -1,4 +1,3 @@
-import type * as t from '@babel/types'
 import {
   printLog,
   processTypeEnum,
@@ -9,6 +8,8 @@ import {
 } from '@tarojs/helper'
 import * as fs from 'fs-extra'
 import * as path from 'path'
+
+import type * as t from '@babel/types'
 
 function getRelativePath (
   rootPath: string,
