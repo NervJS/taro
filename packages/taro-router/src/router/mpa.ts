@@ -36,6 +36,9 @@ export async function createMultiRouter (
   let element
   try {
     element = await pageConfig.load?.()
+    if (element instanceof Array) {
+      element = element[0]
+    }
   } catch (error) {
     throw new Error(error)
   }
