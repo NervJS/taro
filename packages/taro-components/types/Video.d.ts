@@ -326,12 +326,12 @@ interface VideoProps extends StandardProps {
    */
   licenseUrl?: string
 
-  /** 视频进入和退出全屏时触发，event.detail = {fullScreen, direction}，direction 有效值为 vertical 或 horizontal
+  /** 视频进入和退出全屏时触发
    * @supported weapp, alipay, swan, tt, qq, jd
    */
   onFullScreenChange?: CommonEventFunction<VideoProps.onFullscreenChangeEventDetail>
 
-  /** 切换 controls 显示隐藏时触发。event.detail = {show}
+  /** 切换 controls 显示隐藏时触发。
    * @supported weapp
    */
   onControlsToggle?: CommonEventFunction<VideoProps.onControlsToggleEventDetail>
@@ -374,15 +374,15 @@ interface VideoProps extends StandardProps {
    */
   onLoading?: CommonEventFunction
 
-  /** 点击视频 view 时触发，event.detail = {ptInView:{x:0,y:0}}。
+  /** 点击视频 view 时触发
    * @supported alipay
    */
-  onTap?: CommonEventFunction
+  onTap?: CommonEventFunction<VideoProps.onTapEventDetail>
 
-  /** 用户操作事件，event.detail = {tag:"mute", value:0}，tag 为用户操作的元素，目前支持的 tag 有：play（底部播放按钮）、centerplay（中心播放按钮）、mute（静音按钮）、fullscreen（全屏按钮）、retry（重试按钮）、mobilenetplay（网络提醒的播放按钮）。
+  /** 用户操作事件
    * @supported alipay
    */
-  onUserAction?: CommonEventFunction
+  onUserAction?: CommonEventFunction<VideoProps.onUserActionEventDetail>
 
   /** 视频播放终止。
    * 版本要求： 基础库 1.9.0 及以上
@@ -456,40 +456,40 @@ interface VideoProps extends StandardProps {
    */
   signature?: string
 
-  /** 贴片广告开始播放时触发，event.detail = { adType: 'preRollAd' | 'postRollAd' }
+  /** 贴片广告开始播放时触发
    * @supported tt
    */
-  onAdStart?: CommonEventFunction
+  onAdStart?: CommonEventFunction<VideoProps.onAdTypeCommonEventDetail>
 
-  /** 贴片广告播放结束时触发，event.detail = { adType: 'preRollAd' | 'postRollAd' }
+  /** 贴片广告播放结束时触发
    * @supported tt
    */
-  onAdEnded?: CommonEventFunction
+  onAdEnded?: CommonEventFunction<VideoProps.onAdTypeCommonEventDetail>
 
-  /** 贴片广告非自然结束时触发，如：用户关闭广告或广告播放过程中 video 组件被销毁，event.detail = { adType: 'preRollAd' | 'postRollAd' }
+  /** 贴片广告非自然结束时触发，如：用户关闭广告或广告播放过程中 video 组件被销毁
    * @supported tt
    */
-  onAdClose?: CommonEventFunction
+  onAdClose?: CommonEventFunction<VideoProps.onAdTypeCommonEventDetail>
 
-  /** 贴片广告加载失败时触发，event.detail = { adType: 'preRollAd' | 'postRollAd' }
+  /** 贴片广告加载失败时触发
    * @supported tt
    */
-  onAdError?: CommonEventFunction
+  onAdError?: CommonEventFunction<VideoProps.onAdTypeCommonEventDetail>
 
-  /** 视频倍速改变完成时触发。返回改变后的倍速值。event.detail={playbackRate}
+  /** 视频倍速改变完成时触发。返回改变后的倍速值
    * @supported tt
    */
-  onPlayBackRateChange?: CommonEventFunction
+  onPlayBackRateChange?: CommonEventFunction<{ playbackRate: string }>
 
-  /** 静音状态改变完成时触发。返回当前是否静音。event.detail={isMuted}
+  /** 静音状态改变完成时触发。返回当前是否静音
    * @supported tt
    */
-  onMuteChange?: CommonEventFunction
+  onMuteChange?: CommonEventFunction<{ isMuted: boolean }>
 
-  /** 点击控件时触发。返回当前点击的控件类型。event.detail={controlType}，取值见表 controlType 的合法值
+  /** 点击控件时触发。返回当前点击的控件类型
    * @supported tt
    */
-  onControlTap?: CommonEventFunction
+  onControlTap?: CommonEventFunction<{ controlType }>
 
   /** 进入小窗播放时触发
    * @supported tt
@@ -607,6 +607,35 @@ declare namespace VideoProps {
   interface onControlsToggleEventDetail {
     /** 是否显示 */
     show: boolean
+  }
+  interface onTapEventDetail {
+    ptInView: {
+      x: number
+      y: number
+    }
+  }
+  interface onUserActionEventDetail {
+    /** 用户操作的元素 */
+    tag: keyof UserActionTag | string
+    value: number
+  }
+  interface UserActionTag {
+    /** 底部播放按钮 */
+    play
+    /** 中心播放按钮 */
+    centerplay
+    /** 静音按钮 */
+    mute
+    /** 全屏按钮 */
+    fullscreen
+    /** 重试按钮 */
+    retry
+    /** 网络提醒的播放按钮 */
+    mobilenetplay
+  }
+  interface onAdTypeCommonEventDetail {
+    /** 广告类型 */
+    adType: 'preRollAd' | 'postRollAd'
   }
 }
 

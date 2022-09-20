@@ -3,9 +3,10 @@ import generator from '@babel/generator'
 import * as parser from '@babel/parser'
 import traverse from '@babel/traverse'
 import * as t from '@babel/types'
-import type { IPluginContext, TaroPlatformBase } from '@tarojs/service'
 import { isArray, isString } from '@tarojs/shared'
 import * as path from 'path'
+
+import type { IPluginContext, TaroPlatformBase } from '@tarojs/service'
 
 interface IOptions {
   pxtransformBlackList?: any[]

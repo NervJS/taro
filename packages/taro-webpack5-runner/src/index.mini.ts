@@ -3,8 +3,9 @@ import { isEmpty } from 'lodash'
 import webpack, { Stats } from 'webpack'
 
 import { Prerender } from './prerender/prerender'
-import type { MiniBuildConfig } from './utils/types'
 import { MiniCombination } from './webpack/MiniCombination'
+
+import type { MiniBuildConfig } from './utils/types'
 
 export default async function build (appPath: string, rawConfig: MiniBuildConfig): Promise<Stats> {
   const combination = new MiniCombination(appPath, rawConfig)

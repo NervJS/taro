@@ -1,10 +1,11 @@
 import { chalk, fs, VUE_EXT } from '@tarojs/helper'
-import type { IPluginContext } from '@tarojs/service'
 import { isString } from '@tarojs/shared'
 import { capitalize, internalComponents, toCamelCase } from '@tarojs/shared/dist/template'
 
 import { modifyH5WebpackChain } from './webpack.h5'
 import { modifyMiniWebpackChain } from './webpack.mini'
+
+import type { IPluginContext } from '@tarojs/service'
 
 type CompilerOptions = {
   isCustomElement: (tag: string) => boolean

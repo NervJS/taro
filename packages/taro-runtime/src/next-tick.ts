@@ -1,6 +1,7 @@
 import { Current } from './current'
 import { TaroRootElement } from './dom/root'
 import env from './env'
+
 import type { Func } from './interface'
 
 export const nextTick = (cb: Func, ctx?: Record<string, any>) => {

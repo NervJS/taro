@@ -1,11 +1,12 @@
 import { REG_VUE } from '@tarojs/helper'
-import type { IPluginContext } from '@tarojs/service'
 import { capitalize, internalComponents, toCamelCase } from '@tarojs/shared/dist/template'
-import type { AttributeNode, DirectiveNode, ElementNode, RootNode, SimpleExpressionNode, TemplateChildNode } from '@vue/compiler-core'
 
-import type { IConfig } from './index'
 import { getLoaderMeta } from './loader-meta'
 import { getVueLoaderPath } from './utils'
+
+import type { IPluginContext } from '@tarojs/service'
+import type { AttributeNode, DirectiveNode, ElementNode, RootNode, SimpleExpressionNode, TemplateChildNode } from '@vue/compiler-core'
+import type { IConfig } from './index'
 
 const CUSTOM_WRAPPER = 'custom-wrapper'
 
