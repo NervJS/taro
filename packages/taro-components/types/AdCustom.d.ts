@@ -1,7 +1,6 @@
 import { ComponentType } from 'react'
 import { StandardProps, CommonEventFunction } from './common'
 import { AdProps } from './Ad'
-
 interface AdCustomProps extends StandardProps {
   /** 广告单元id，可在[小程序管理后台](https://mp.weixin.qq.com/)的流量主模块新建
    * @supported weapp
@@ -46,5 +45,4 @@ interface AdCustomProps extends StandardProps {
  * @see https://developers.weixin.qq.com/miniprogram/dev/component/ad.html
  */
 declare const AdCustom: ComponentType<AdCustomProps>
-
 export { AdCustom, AdCustomProps }

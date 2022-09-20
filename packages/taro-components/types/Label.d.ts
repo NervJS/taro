@@ -1,8 +1,6 @@
 import { ComponentType } from 'react'
 import { StandardProps } from './common'
-
 interface LabelProps extends StandardProps {
-
   /** 绑定控件的 id */
   for?: string
 }
@@ -50,5 +48,4 @@ interface LabelProps extends StandardProps {
  * @see https://developers.weixin.qq.com/miniprogram/dev/component/label.html
  */
 declare const Label: ComponentType<LabelProps>
-
 export { Label, LabelProps }
