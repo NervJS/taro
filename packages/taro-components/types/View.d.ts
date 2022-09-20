@@ -1,6 +1,6 @@
 import { ComponentType } from 'react'
 import { StyleProp, ViewStyle } from 'react-native'
-import { StandardProps } from './common'
+import { CommonEventFunction, StandardProps } from './common'
 interface ViewProps extends StandardProps {
   /** 指定按下去的样式类。当 `hover-class="none"` 时，没有点击态效果
    * @default none
@@ -46,7 +46,7 @@ interface ViewProps extends StandardProps {
    * @supported alipay
    * @default false
    */
-  hidden?: string
+  hidden?: boolean
 
   /** 自定义样式名。
    * @supported alipay
@@ -62,7 +62,7 @@ interface ViewProps extends StandardProps {
    * 默认值：{}
    * @supported alipay
    */
-  animation?: string
+  animation?: TaroGeneral.IAnyObject
 
   /** 点击。
    * @supported alipay
