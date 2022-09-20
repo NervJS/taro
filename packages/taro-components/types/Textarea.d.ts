@@ -116,19 +116,19 @@ interface TextareaProps extends StandardProps, FormItemProps {
    */
   onBlur?: CommonEventFunction<TextareaProps.onBlurEventDetail>
 
-  /** 输入框行数变化时调用，event.detail = {height: 0, heightRpx: 0, lineCount: 0}
+  /** 输入框行数变化时调用
    * @supported weapp, swan, tt, qq, rn
    */
   onLineChange?: CommonEventFunction<TextareaProps.onLineChangeEventDetail>
 
-  /** 当键盘输入时，触发 input 事件，event.detail = {value, cursor, keyCode}
+  /** 当键盘输入时，触发 input 事件
    *
    * **onInput 处理函数的返回值并不会反映到 textarea 上**
    * @supported weapp, alipay, swan, tt, qq, h5, rn
    */
   onInput?: CommonEventFunction<TextareaProps.onInputEventDetail>
 
-  /** 点击完成时， 触发 confirm 事件，event.detail = {value: value}
+  /** 点击完成时， 触发 confirm 事件
    * @supported weapp, alipay, swan, tt, qq, rn
    */
   onConfirm?: CommonEventFunction<TextareaProps.onConfirmEventDetail>

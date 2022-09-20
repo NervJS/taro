@@ -44,10 +44,10 @@ declare module '../../index' {
       /** 是否使用带 shareTicket 的转发[详情](https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/share.html) */
       withShareTicket?: boolean
       /** QQ小程序分享功能，支持分享到QQ、QQ空间、微信好友、微信朋友圈
-      * QQ支持的值： ['qq', 'qzone', 'wechatFriends', 'wechatMoment']
-      * 微信支持：['wechatFriends', 'wechatMoment'] / ['shareAppMessage', 'shareTimeline']
-      * @supported qq/weapp
-      */
+       * @supported weapp, qq
+       * @qq QQ支持的值： ['qq', 'qzone', 'wechatFriends', 'wechatMoment']
+       * @weapp 微信支持：['wechatFriends', 'wechatMoment'] / ['shareAppMessage', 'shareTimeline']
+       */
       showShareItems?: string[]
     }
   }

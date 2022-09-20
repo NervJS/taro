@@ -144,11 +144,10 @@ interface SwiperProps extends StandardProps {
    */
   disableProgrammaticAnimation?: string
 
-  /** 动画结束时会触发 animationEnd 事件，event.detail = {current, source}，其中 source 的值有 autoplay 和  touch。
-   * 版本要求： 基础库 1.15.0 及以上
+  /** 动画结束时会触发 animationEnd 事件
    * @supported alipay
    */
-  onAnimationEnd?: CommonEventFunction
+  onAnimationEnd?: CommonEventFunction<SwiperProps.onCommonEventDetail>
 
   /** 滑动距离阈值，当滑动距离超过阈值时进行 swiper-item 切换。
    * 版本要求：基础库 1.24.11 及以上
@@ -215,6 +214,13 @@ declare namespace SwiperProps {
 
     /** 缓入缓出动画 */
     easeInOutCubic
+  }
+  interface onCommonEventDetail {
+    /** 当前所在滑块的索引 */
+    current: number
+
+    /** 导致变更的原因 */
+    source: keyof SwiperProps.TChangeSource
   }
   interface onChangeEventDetail {
     /** 当前所在滑块的索引 */
