@@ -1,8 +1,9 @@
-import type { RecursiveTemplate, UnRecursiveTemplate } from '@tarojs/shared/dist/template'
 import { IMiniAppConfig, IProjectBaseConfig } from '@tarojs/taro/types/compile'
 import * as webpack from 'webpack'
 
 import { PrerenderConfig } from '../prerender/prerender'
+
+import type { RecursiveTemplate, UnRecursiveTemplate } from '@tarojs/shared/dist/template'
 
 type FunctionLikeCustomWebpackConfig = (webpackConfig: webpack.Configuration, webpack) => webpack.Configuration
 

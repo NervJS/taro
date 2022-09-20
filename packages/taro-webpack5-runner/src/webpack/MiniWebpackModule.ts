@@ -8,14 +8,15 @@ import {
   REG_STYLUS,
   REG_TEMPLATE
 } from '@tarojs/helper'
-import type { IPostcssOption, PostcssOption } from '@tarojs/taro/types/compile'
 import { cloneDeep } from 'lodash'
 import path from 'path'
 
 import { getPostcssPlugins } from '../postcss/postcss.mini'
+import { WebpackModule } from './WebpackModule'
+
+import type { IPostcssOption, PostcssOption } from '@tarojs/taro/types/compile'
 import type { MiniCombination } from './MiniCombination'
 import type { CssModuleOptionConfig, IRule } from './WebpackModule'
-import { WebpackModule } from './WebpackModule'
 
 type PostcssUrlConfig = PostcssOption.url['config']
 type CSSLoaders = {

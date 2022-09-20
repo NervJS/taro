@@ -1,39 +1,44 @@
 import { ComponentType } from 'react'
 import { StandardProps, CommonEventFunction, FormItemProps } from './common'
-
 interface CheckboxProps extends StandardProps {
-
   /** `<Checkbox/>`标识，选中时触发`<CheckboxGroup/>`的 change 事件，并携带 `<Checkbox/>` 的 value
-   * @supported weapp, rn, tt
+   * @supported weapp, alipay, swan, tt, qq, jd, rn
    */
   value: string
 
   /** 是否禁用
-   * @supported weapp, h5, rn, tt
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn
    * @default false
    */
   disabled?: boolean
 
   /** 当前是否选中，可用来设置默认选中
-   * @supported weapp, h5, rn, tt
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn
    * @default false
    */
   checked?: boolean
 
   /** checkbox的颜色，同 css 的 color
-   * @supported weapp, h5, rn, tt
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn
    */
   color?: string
 
   /** 选中项发生变化时触发 change 事件，小程序无此 API
-   * @supported h5, rn
+   * @supported alipay, h5, rn
    */
-  onChange?: CommonEventFunction<{ value: string[] }>
+  onChange?: CommonEventFunction<{
+    value: string[]
+  }>
 
   /** 用于透传 `WebComponents` 上的属性到内部 H5 标签上
    * @supported h5
    */
   nativeProps?: Record<string, unknown>
+
+  /** 无障碍访问，（属性）元素的额外描述
+   * @supported qq
+   */
+  ariaLabel?: string
 }
 
 /** 多选项目
@@ -161,6 +166,4 @@ interface CheckboxProps extends StandardProps {
  * @see https://developers.weixin.qq.com/miniprogram/dev/component/checkbox.html
  */
 declare const Checkbox: ComponentType<CheckboxProps>
-
-
 export { Checkbox, CheckboxProps }

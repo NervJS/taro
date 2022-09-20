@@ -1,5 +1,6 @@
-import type { TaroElement } from './element'
 import { NodeType } from './node_types'
+
+import type { TaroElement } from './element'
 
 type Filter = (element: TaroElement) => boolean
 

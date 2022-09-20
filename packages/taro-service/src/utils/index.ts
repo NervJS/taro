@@ -1,11 +1,12 @@
 import { chalk, getModuleDefaultExport } from '@tarojs/helper'
-import type { PluginItem } from '@tarojs/taro/types/compile'
 import { merge } from 'lodash'
 import * as path from 'path'
 import * as resolve from 'resolve'
 
 import { PluginType } from './constants'
 import { IPlugin, IPluginsObject } from './types'
+
+import type { PluginItem } from '@tarojs/taro/types/compile'
 
 export const isNpmPkg: (name: string) => boolean = name => !(/^(\.|\/)/.test(name))
 

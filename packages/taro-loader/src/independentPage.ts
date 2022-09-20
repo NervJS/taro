@@ -1,8 +1,9 @@
 import { getOptions, stringifyRequest } from 'loader-utils'
 import * as path from 'path'
-import type * as webpack from 'webpack'
 
 import { REG_POST } from './constants'
+
+import type * as webpack from 'webpack'
 
 interface PageConfig {
   content: any

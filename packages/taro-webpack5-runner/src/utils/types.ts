@@ -1,9 +1,10 @@
-import type { RecursiveTemplate, UnRecursiveTemplate } from '@tarojs/shared/dist/template'
 import { IH5Config, IMiniAppConfig, IProjectBaseConfig } from '@tarojs/taro/types/compile'
-import type Webpack from 'webpack'
-import type Chain from 'webpack-chain'
 
 import { PrerenderConfig } from '../prerender/prerender'
+
+import type { RecursiveTemplate, UnRecursiveTemplate } from '@tarojs/shared/dist/template'
+import type Webpack from 'webpack'
+import type Chain from 'webpack-chain'
 import type { IComponentConfig } from '../template/component'
 
 export interface IOption {

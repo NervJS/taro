@@ -1,7 +1,7 @@
-import type { IPluginContext } from '@tarojs/service'
-
 import configValidator from '../../doctor/configValidator'
 import * as hooks from '../constant'
+
+import type { IPluginContext } from '@tarojs/service'
 
 export default (ctx: IPluginContext) => {
   ctx.registerCommand({

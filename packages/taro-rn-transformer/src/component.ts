@@ -34,7 +34,7 @@ export default function componentLoader ({ sourceCode, filename, projectRoot, so
   let linaria
   try {
     linaria = require('linaria')
-  } catch (e) { }
+  } catch (e) {} // eslint-disable-line no-empty
 
   if (linaria) {
     let transformResult

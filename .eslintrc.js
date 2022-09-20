@@ -50,7 +50,25 @@ module.exports = {
     'react/no-find-dom-node': 0,
     quotes: [2, 'single', { avoidEscape: true, allowTemplateLiterals: true }],
     semi: [2, 'never'],
-    'simple-import-sort/imports': 2,
+    'simple-import-sort/imports': [2, {
+      groups: [
+        // Side effect imports.
+        ['^\\u0000'],
+        // Node.js builtins prefixed with `node:`.
+        ['^node:'],
+        // Packages.
+        // Things that start with a letter (or digit or underscore), or `@` followed by a letter.
+        ['^@?\\w'],
+        // Absolute imports and other imports such as Vue-style `@/foo`.
+        // Anything not matched in another group.
+        ['^'],
+        // Relative imports.
+        // Anything that starts with a dot.
+        ['^\\.'],
+        // Types Group
+        ['^node:.*\\u0000$', '^@?\\w.*\\u0000$', '(?<=\\u0000)$', '^\\..*\\u0000$'],
+      ]
+    }],
     'simple-import-sort/exports': 2,
     'space-before-function-paren': [2, 'always'],
     'standard/no-callback-literal': 0

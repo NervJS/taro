@@ -26,11 +26,9 @@ import { chalk } from '@tarojs/helper'
 import fs from 'fs-extra'
 import path from 'path'
 import { performance } from 'perf_hooks'
-import { Configuration, Stats } from 'webpack'
 import webpackDevServer from 'webpack-dev-server'
 import VirtualModulesPlugin from 'webpack-virtual-modules'
 
-import type { IPrebundle } from './prebundle'
 import BasePrebundle, { IPrebundleConfig } from './prebundle'
 import {
   flattenId,
@@ -39,6 +37,9 @@ import {
 } from './utils'
 import { assetsRE, MF_NAME } from './utils/constant'
 import TaroModuleFederationPlugin from './webpack/TaroModuleFederationPlugin'
+
+import type { Configuration, Stats } from 'webpack'
+import type { IPrebundle } from './prebundle'
 
 export const VirtualModule = new VirtualModulesPlugin()
 
