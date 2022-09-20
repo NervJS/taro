@@ -509,22 +509,32 @@ interface VideoProps extends StandardProps {
   /** 否
    * @supported jd
    */
-  onLoadedData?: string
+  onLoadedData?: CommonEventFunction
 
   /** 否
    * @supported jd
    */
-  onLoadStart?: string
+  onLoadStart?: CommonEventFunction
 
   /** 否
    * @supported jd
    */
-  onSeeked?: string
+  onSeeked?: CommonEventFunction
 
   /** 否
    * @supported jd
    */
-  onSeeking?: string
+  onSeeking?: CommonEventFunction
+
+  /** 指定码率上界，单位为比特每秒
+   * @supported weapp
+   */
+  preferredPeakBitRate?: number
+
+  /** 贴片广告加载成功时触发，event.detail = { adType: 'preRollAd' | 'postRollAd' }
+   * @supported tt
+   */
+  onAdLoad?: CommonEventFunction
 }
 declare namespace VideoProps {
   /** direction 的合法值 */
