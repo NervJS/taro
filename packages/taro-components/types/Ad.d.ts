@@ -26,7 +26,7 @@ interface AdProps extends StandardProps {
    */
   onLoad?: CommonEventFunction
 
-  /** 当广告发生错误时，触发的事件，可以通过该事件获取错误码及原因，事件对象event.detail = {errCode: 1002}
+  /** 当广告发生错误时，触发的事件，可以通过该事件获取错误码及原因，事件对象 event.detail = {errCode: 1002}
    * @supported weapp, swan, tt, qq
    */
   onError?: CommonEventFunction<AdProps.onErrorEventDetail>
@@ -111,10 +111,10 @@ interface AdProps extends StandardProps {
    */
   testBannerType?: 'one' | 'three'
 
-  /** type 为 feeds 时广告实际宽高回调，event.detail = {width:296,height:150}
+  /** type 为 feeds 时广告实际宽高回调
    * @supported qq
    */
-  onSize?: CommonEventFunction
+  onSize?: CommonEventFunction<AdProps.onSizeEventDetail>
 }
 declare namespace AdProps {
   interface onErrorEventDetail {
@@ -190,6 +190,11 @@ declare namespace AdProps {
      * @solution 请前往 mp.weixin.qq.com 重新打开对应广告位的展现。
      */
     1008
+  }
+
+  interface onSizeEventDetail {
+    width: number
+    height: number
   }
 }
 
