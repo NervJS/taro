@@ -1,6 +1,8 @@
 import { promoteRelativePath } from '@tarojs/helper'
 import path from 'path'
-import { Chunk, Compilation, sources } from 'webpack'
+import { sources } from 'webpack'
+
+import type { Chunk, Compilation } from 'webpack'
 
 const { ConcatSource } = sources
 

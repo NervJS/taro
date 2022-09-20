@@ -4773,7 +4773,8 @@ exports[`css modules should use css modules with global mode 2`] = `
             \\"640\\": 1.17,
             \\"750\\": 1,
             \\"828\\": .905
-        }
+        },
+        \\"baseFontSize\\": 20
     });
 } ]);
 
@@ -9558,7 +9559,8 @@ exports[`css modules should use css modules with module mode 2`] = `
             \\"640\\": 1.17,
             \\"750\\": 1,
             \\"828\\": .905
-        }
+        },
+        \\"baseFontSize\\": 20
     });
 } ]);
 

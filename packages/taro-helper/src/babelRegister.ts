@@ -1,5 +1,6 @@
-import type { NodePath, PluginItem } from '@babel/core'
 import * as path from 'path'
+
+import type { NodePath, PluginItem } from '@babel/core'
 
 /**
  * Inject `defineAppConfig` and `definePageConfig`

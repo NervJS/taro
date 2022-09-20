@@ -1,9 +1,13 @@
-import type { AppInstance, TaroElement } from '@tarojs/runtime'
 import {
   Current,
   injectPageInstance
 } from '@tarojs/runtime'
 import { ensure, hooks, isArray, isFunction } from '@tarojs/shared'
+import { provide } from 'vue'
+
+import { setDefaultDescriptor, setRouterParams } from './utils'
+
+import type { AppInstance, TaroElement } from '@tarojs/runtime'
 import type { AppConfig as Config } from '@tarojs/taro'
 import type {
   App,
@@ -13,9 +17,6 @@ import type {
   h as createElement,
   VNode
 } from '@vue/runtime-core'
-import { provide } from 'vue'
-
-import { setDefaultDescriptor, setRouterParams } from './utils'
 
 function setReconciler () {
   hooks.tap('getLifecycle', function (instance, lifecycle) {

@@ -1,9 +1,7 @@
 /* eslint-disable dot-notation */
 import { Current, PageInstance, requestAnimationFrame } from '@tarojs/runtime'
-import type { PageConfig, RouterAnimate } from '@tarojs/taro'
 import queryString from 'query-string'
 
-import type { Route, SpaRouterConfig } from '../../types/router'
 import { loadAnimateStyle } from '../animation'
 import { bindPageResize } from '../events/resize'
 import { bindPageScroll } from '../events/scroll'
@@ -11,6 +9,9 @@ import { setHistoryMode } from '../history'
 import { initTabbar } from '../tabbar'
 import { addLeadingSlash, routesAlias, stripBasename, stripTrailing } from '../utils'
 import stacks from './stack'
+
+import type { PageConfig, RouterAnimate } from '@tarojs/taro'
+import type { Route, SpaRouterConfig } from '../../types/router'
 
 function setDisplay (el?: HTMLElement | null, type = '') {
   if (el) {

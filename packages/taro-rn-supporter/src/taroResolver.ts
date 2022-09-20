@@ -1,9 +1,10 @@
 import * as fs from 'fs'
-import type { ResolutionContext } from 'metro-resolver'
 import * as path from 'path'
 
 import { emptyModulePath } from './defaults'
 import { resolveExtFile, resolvePathFromAlias } from './utils'
+
+import type { ResolutionContext } from 'metro-resolver'
 
 interface VersionInfo {
   major: number
