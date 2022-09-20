@@ -170,7 +170,7 @@ interface InputProps extends StandardProps, FormItemProps {
    */
   onInput?: CommonEventFunction<InputProps.inputEventDetail>
 
-  /** 输入框聚焦时触发
+  /** 输入框聚焦时触发，event.detail = { value, height }，height 为键盘高度
    * @supported weapp, alipay, swan, tt, qq, jd, h5, rn
    */
   onFocus?: CommonEventFunction<InputProps.inputForceEventDetail>
