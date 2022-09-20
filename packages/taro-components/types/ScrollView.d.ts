@@ -137,7 +137,6 @@ interface ScrollViewProps extends StandardProps {
   onScrollToLower?: CommonEventFunction
 
   /** 滚动时触发
-   * `event.detail = {scrollLeft, scrollTop, scrollHeight, scrollWidth, deltaX, deltaY}`
    * @supported weapp, alipay, swan, tt, qq, jd, h5, rn
    */
   onScroll?: BaseEventOrigFunction<ScrollViewProps.onScrollDetail>
