@@ -9,6 +9,7 @@ import * as merge from 'webpack-merge'
 
 import prodConf from '../../config/prod.conf'
 import { customizeChain } from '../../index'
+import { getAppConfig, getAppEntry } from '../../util'
 import { makeConfig } from '../../util/chain'
 import { BuildConfig } from '../../util/types'
 import baseConfig from './config'
@@ -112,7 +113,8 @@ export async function compile (app: string, customConfig: Partial<BuildConfig> =
   }, customConfig)
 
   const newConfig: BuildConfig = await makeConfig(config)
-  const webpackChain = prodConf(appPath, newConfig)
+  const entry = await getAppEntry(newConfig.entry)
+  const webpackChain = prodConf(appPath, newConfig, getAppConfig(entry))
 
   await customizeChain(webpackChain, () => {}, newConfig.webpackChain)
 
