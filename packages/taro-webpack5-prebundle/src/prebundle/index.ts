@@ -1,17 +1,19 @@
-import { Config } from '@swc/core'
 import { chalk, fs, readConfig, recursiveMerge, resolveMainFilePath, terminalLink } from '@tarojs/helper'
-import { IProjectBaseConfig } from '@tarojs/taro/types/compile'
 import { Message } from 'esbuild'
 import path from 'path'
 import { performance } from 'perf_hooks'
-import webpack, { EntryObject } from 'webpack'
-import Chain from 'webpack-chain'
+import webpack from 'webpack'
 
 import { commitMeta, createResolve, getBundleHash, getCacheDir, getMeasure, Metadata, sortDeps } from '../utils'
 import { CollectedDeps, MF_NAME } from '../utils/constant'
 import TaroModuleFederationPlugin from '../webpack/TaroModuleFederationPlugin'
 import { bundle } from './bundle'
 import { scanImports } from './scanImports'
+
+import type { Config } from '@swc/core'
+import type { IProjectBaseConfig } from '@tarojs/taro/types/compile'
+import type { Configuration, EntryObject } from 'webpack'
+import type Chain from 'webpack-chain'
 
 export type IPrebundle = Exclude<IProjectBaseConfig['compiler'], string | undefined>['prebundle']
 
@@ -43,7 +45,7 @@ export default class BasePrebundle<T extends IPrebundleConfig = IPrebundleConfig
 
   deps: CollectedDeps = new Map()
   measure: ReturnType<typeof getMeasure>
-  webpackConfig: webpack.Configuration
+  webpackConfig: Configuration
 
   constructor (protected config: T, protected option: IPrebundle) {
     if (!option.enable) return
@@ -222,7 +224,7 @@ export default class BasePrebundle<T extends IPrebundleConfig = IPrebundleConfig
       }])
   }
 
-  getRemoteWebpackCompiler (standard: webpack.Configuration, custom: webpack.Configuration = {}) {
+  getRemoteWebpackCompiler (standard: Configuration, custom: Configuration = {}) {
     /** NOTE: 删除 Host 应用影响打包 Remote 应用的配置 */
     const inherit = { ...this.webpackConfig }
     delete inherit.devServer
