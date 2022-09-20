@@ -137,6 +137,7 @@ export default class BasePrebundle<T extends IPrebundleConfig = IPrebundleConfig
 
     await scanImports({
       appPath: this.appPath,
+      chain: this.chain,
       customEsbuildConfig: this.customEsbuildConfig,
       entries,
       include,
