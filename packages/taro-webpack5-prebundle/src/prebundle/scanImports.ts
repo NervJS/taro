@@ -1,9 +1,11 @@
 import esbuild, { Loader } from 'esbuild'
 import fs from 'fs'
 import path from 'path'
+import Chain from 'webpack-chain'
 
 import {
   externalModule,
+  getDefines,
   getResolve,
   isExclude,
   isOptimizeIncluded,
@@ -26,6 +28,7 @@ import {
 
 interface ScanImportsConfig {
   appPath: string
+  chain: Chain
   entries: string[]
   include: string[]
   exclude: string[]
@@ -34,6 +37,7 @@ interface ScanImportsConfig {
 
 export async function scanImports ({
   appPath,
+  chain,
   entries,
   include = [],
   exclude = [],
@@ -55,6 +59,10 @@ deps: CollectedDeps = new Map()
         format: 'esm',
         loader: defaultEsbuildLoader,
         write: false,
+        define: {
+          ...getDefines(chain),
+          define: 'false'
+        },
         plugins: [
           scanImportsPlugin,
           ...customPlugins

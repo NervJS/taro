@@ -45,12 +45,12 @@ interface PageMetaProps extends StandardProps {
    */
   rootFontSize?: string
 
-  /** 页面尺寸变化时会触发 resize 事件，event.detail = { size: { windowWidth, windowHeight } }
+  /** 页面尺寸变化时会触发 resize 事件
    * @supported weapp
    */
   onResize?: CommonEventFunction<PageMetaProps.onResizeEventDetail>
 
-  /** 页面滚动时会触发 scroll 事件，event.detail = { scrollTop }
+  /** 页面滚动时会触发 scroll 事件
    * @supported weapp, alipay
    */
   onScroll?: CommonEventFunction<PageMetaProps.onScrollEventDetail>
