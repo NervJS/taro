@@ -18,7 +18,6 @@ interface FormProps extends StandardProps {
   reportSubmitTimeout?: number
 
   /** 携带 form 中的数据触发 submit 事件
-   * event.detail = { value : {'name': 'value'} , formId: '' }
    * @supported weapp, alipay, swan, tt, qq, jd, rn
    */
   onSubmit?: CommonEventFunction<FormProps.onSubmitEventDetail>

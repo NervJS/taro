@@ -36,7 +36,6 @@ interface EditorProps extends StandardProps {
   onReady?: CommonEventFunction
 
   /** 编辑器聚焦时触发
-   * event.detail = { html, text, delta }
    * @supported weapp
    */
   onFocus?: CommonEventFunction<EditorProps.editorEventDetail>

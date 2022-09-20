@@ -56,9 +56,9 @@ importers:
       '@testing-library/jest-native': ^4.0.4
       '@testing-library/react-native': ^11.0.0
       '@types/autoprefixer': 9.7.0
+      '@types/babel-types': ^7.0.7
       '@types/babel__core': ^7.1.14
       '@types/babel__traverse': ^7.0.7
-      '@types/babel-types': ^7.0.7
       '@types/debug': ^4.1.5
       '@types/detect-port': 1.3.0
       '@types/fs-extra': ^8.0.1
@@ -160,7 +160,6 @@ importers:
       webpack: 5.69.0
       webpack-chain: 6.5.1
       webpack-dev-server: 4.7.4
-      webpack-sources: ^3.2.3
     devDependencies:
       '@babel/cli': registry.npmjs.org/@babel/cli/7.17.10_@babel+core@7.18.5
       '@babel/core': registry.npmjs.org/@babel/core/7.18.5
@@ -214,9 +213,9 @@ importers:
       '@testing-library/jest-native': registry.npmjs.org/@testing-library/jest-native/4.0.5
       '@testing-library/react-native': registry.npmjs.org/@testing-library/react-native/11.0.0_hu3ahtgtujq76vsul4i4hbebdu
       '@types/autoprefixer': registry.npmjs.org/@types/autoprefixer/9.7.0
+      '@types/babel-types': registry.npmjs.org/@types/babel-types/7.0.11
       '@types/babel__core': registry.npmjs.org/@types/babel__core/7.1.19
       '@types/babel__traverse': registry.npmjs.org/@types/babel__traverse/7.17.1
-      '@types/babel-types': registry.npmjs.org/@types/babel-types/7.0.11
       '@types/debug': registry.npmjs.org/@types/debug/4.1.7
       '@types/detect-port': registry.npmjs.org/@types/detect-port/1.3.0
       '@types/fs-extra': registry.npmjs.org/@types/fs-extra/8.1.2
@@ -318,7 +317,6 @@ importers:
       webpack: registry.npmjs.org/webpack/5.69.0_esbuild@0.14.47
       webpack-chain: registry.npmjs.org/webpack-chain/6.5.1
       webpack-dev-server: registry.npmjs.org/webpack-dev-server/4.7.4_webpack@5.69.0
-      webpack-sources: registry.npmjs.org/webpack-sources/3.2.3
 
   packages/babel-plugin-transform-react-jsx-to-rn-stylesheet:
     specifiers:
@@ -567,7 +565,7 @@ importers:
       jquery: ^3.4.1
       karmatic: ^2.1.0
       lodash: ^4.17.21
-      miniapp-types: 1.1.6
+      miniapp-types: 1.1.8
       react: ^17.0.2
       react-dom: ^17.0.2
       resolve-pathname: ^3.0.0
@@ -596,7 +594,7 @@ importers:
       jquery: registry.npmjs.org/jquery/3.6.0
       karmatic: registry.npmjs.org/karmatic/2.1.0_webpack@4.46.0
       lodash: registry.npmjs.org/lodash/4.17.21
-      miniapp-types: registry.npmjs.org/miniapp-types/1.1.6
+      miniapp-types: registry.npmjs.org/miniapp-types/1.1.8
       react: registry.npmjs.org/react/17.0.2
       react-dom: registry.npmjs.org/react-dom/17.0.2_react@17.0.2
       simulant: registry.npmjs.org/simulant/0.2.2
@@ -1455,7 +1453,6 @@ importers:
       lodash: ^4.17.21
       webpack-chain: 6.5.1
       webpack-dev-server: 4.7.4
-      webpack-sources: ^3.2.3
       webpack-virtual-modules: ^0.4.3
     dependencies:
       '@swc/core': registry.npmjs.org/@swc/core/1.2.205
@@ -1467,7 +1464,6 @@ importers:
       fs-extra: registry.npmjs.org/fs-extra/8.1.0
       lodash: registry.npmjs.org/lodash/4.17.21
       webpack-chain: registry.npmjs.org/webpack-chain/6.5.1
-      webpack-sources: registry.npmjs.org/webpack-sources/3.2.3
       webpack-virtual-modules: registry.npmjs.org/webpack-virtual-modules/0.4.4
     devDependencies:
       webpack-dev-server: registry.npmjs.org/webpack-dev-server/4.7.4
@@ -1538,7 +1534,6 @@ importers:
       webpack-chain: 6.5.1
       webpack-dev-server: 4.7.4
       webpack-format-messages: ^2.0.6
-      webpack-sources: ^3.2.3
       webpackbar: ^5.0.2
     dependencies:
       '@parcel/css': registry.npmjs.org/@parcel/css/1.10.1
@@ -1603,7 +1598,6 @@ importers:
       webpack-chain: registry.npmjs.org/webpack-chain/6.5.1
       webpack-dev-server: registry.npmjs.org/webpack-dev-server/4.7.4_webpack@5.69.0
       webpack-format-messages: registry.npmjs.org/webpack-format-messages/2.0.6
-      webpack-sources: registry.npmjs.org/webpack-sources/3.2.3
       webpackbar: registry.npmjs.org/webpackbar/5.0.2_webpack@5.69.0
     devDependencies:
       '@babel/core': registry.npmjs.org/@babel/core/7.18.5
@@ -13765,7 +13759,7 @@ packages:
       mississippi: registry.npmjs.org/mississippi/3.0.0
       mkdirp: registry.npmjs.org/mkdirp/0.5.6
       move-concurrently: registry.npmjs.org/move-concurrently/1.0.1
-      promise-inflight: registry.npmjs.org/promise-inflight/1.0.1_bluebird@3.7.2
+      promise-inflight: registry.npmjs.org/promise-inflight/1.0.1
       rimraf: registry.npmjs.org/rimraf/2.7.1
       ssri: registry.npmjs.org/ssri/6.0.2
       unique-filename: registry.npmjs.org/unique-filename/1.1.1
@@ -15323,8 +15317,8 @@ packages:
     engines: {node: '>=10'}
     hasBin: true
     dependencies:
-      is-text-path: registry.npmjs.org/is-text-path/1.0.1
       JSONStream: registry.npmjs.org/JSONStream/1.3.5
+      is-text-path: registry.npmjs.org/is-text-path/1.0.1
       lodash: registry.npmjs.org/lodash/4.17.21
       meow: registry.npmjs.org/meow/8.1.2
       split2: registry.npmjs.org/split2/3.2.2
@@ -26246,10 +26240,10 @@ packages:
       webpack: registry.npmjs.org/webpack/5.69.0_esbuild@0.14.47
     dev: false
 
-  registry.npmjs.org/miniapp-types/1.1.6:
-    resolution: {integrity: sha512-H2Z2DfHT07X8cG9DBfvbRpExMinme8dCDGouDBsnmIH7jtarBQ6iF4O/AOXfpuncGIWPu1BkG1EYf/Gq8coMOw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/miniapp-types/-/miniapp-types-1.1.6.tgz}
+  registry.npmjs.org/miniapp-types/1.1.8:
+    resolution: {integrity: sha512-4KcK4h8ascnnB4pocp1AlEK6nqeX9TzRoPL81s37p6J3LYUZedDGYFwAmSjVDD6/1qTNV7Nf4lFlrqsnmGWJNA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/miniapp-types/-/miniapp-types-1.1.8.tgz}
     name: miniapp-types
-    version: 1.1.6
+    version: 1.1.8
     dev: true
 
   registry.npmjs.org/minimalistic-assert/1.0.1:
@@ -30070,19 +30064,6 @@ packages:
     peerDependenciesMeta:
       bluebird:
         optional: true
-
-  registry.npmjs.org/promise-inflight/1.0.1_bluebird@3.7.2:
-    resolution: {integrity: sha512-6zWPyEOFaQBJYcGMHBKTKJ3u6TBsnMFOIZSa6ce1e/ZrrsOlnHRHbabMjLiBYKp+n44X9eUI6VUPaukCXHuG4g==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/promise-inflight/-/promise-inflight-1.0.1.tgz}
-    id: registry.npmjs.org/promise-inflight/1.0.1
-    name: promise-inflight
-    version: 1.0.1
-    peerDependencies:
-      bluebird: '*'
-    peerDependenciesMeta:
-      bluebird:
-        optional: true
-    dependencies:
-      bluebird: registry.npmjs.org/bluebird/3.7.2
 
   registry.npmjs.org/promise-polyfill/7.1.2:
     resolution: {integrity: sha512-FuEc12/eKqqoRYIGBrUptCBRhobL19PS2U31vMNTfyck1FxPyMfgsXyW4Mav85y/ZN1hop3hOwRlUDok23oYfQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/promise-polyfill/-/promise-polyfill-7.1.2.tgz}
