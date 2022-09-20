@@ -25,7 +25,7 @@
 import fs from 'fs-extra'
 import path from 'path'
 import { performance } from 'perf_hooks'
-import { ProvidePlugin, Stats } from 'webpack'
+import { ProvidePlugin } from 'webpack'
 
 import BasePrebundle, { IPrebundleConfig } from './prebundle'
 import { bundle } from './prebundle/bundle'
@@ -36,6 +36,8 @@ import {
 } from './utils'
 import { MF_NAME } from './utils/constant'
 import TaroModuleFederationPlugin from './webpack/TaroModuleFederationPlugin'
+
+import type { Stats } from 'webpack'
 
 export interface IMiniPrebundleConfig extends IPrebundleConfig {
   runtimePath?: string | string[]
