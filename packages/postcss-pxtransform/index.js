@@ -163,7 +163,6 @@ module.exports = (options = {}) => {
       }
     },
 
-    // TODO: 待处理优化
     Once (root) {
       const pxReplace = createPxReplace(opts.rootValue, opts.unitPrecision, opts.minPixelValue, onePxTransform)(root.source.input)
 
@@ -193,28 +192,6 @@ module.exports = (options = {}) => {
           rule.params = rule.params.replace(pxRgx, pxReplace)
         })
       }
-
-      // TODO: 待修改
-      // PX -> vp in harmony
-      // if (options.platform === 'harmony') {
-      //   root.walkDecls(function (decl) {
-      //     if (decl.value.indexOf('PX') === -1) return
-      //     const value = decl.value.replace(PXRegex, function (m, _$1, $2) {
-      //       return m.replace($2, 'vp')
-      //     })
-      //     decl.value = value
-      //   })
-
-      //   if (opts.mediaQuery) {
-      //     root.walkAtRules('media', function (rule) {
-      //       if (rule.params.indexOf('PX') === -1) return
-      //       const value = rule.params.replace(PXRegex, function (m, _$1, $2) {
-      //         return m.replace($2, 'vp')
-      //       })
-      //       rule.params = value
-      //     })
-      //   }
-      // }
     }
   }
 }
