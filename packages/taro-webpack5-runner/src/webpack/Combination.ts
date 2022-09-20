@@ -7,6 +7,7 @@ import webpack from 'webpack'
 import Chain from 'webpack-chain'
 
 import { componentConfig } from '../template/component'
+
 import type { CommonBuildConfig, H5BuildConfig, MiniBuildConfig } from '../utils/types'
 
 type ICompiler = Exclude<CommonBuildConfig['compiler'], string | undefined>

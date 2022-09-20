@@ -6,9 +6,10 @@ import { toDashed } from '@tarojs/shared'
 import webpack, { Chunk, ChunkGraph, Compilation, Compiler, sources } from 'webpack'
 
 import { componentConfig } from '../template/component'
-import type { AddPageChunks, IComponent } from '../utils/types'
 import { addRequireToSource, getChunkEntryModule, getChunkIdOrName } from '../utils/webpack'
 import TaroNormalModule from './TaroNormalModule'
+
+import type { AddPageChunks, IComponent } from '../utils/types'
 
 const PLUGIN_NAME = 'TaroLoadChunksPlugin'
 const { ConcatSource } = sources

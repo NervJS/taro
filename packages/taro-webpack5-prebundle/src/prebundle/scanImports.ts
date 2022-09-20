@@ -68,7 +68,7 @@ deps: CollectedDeps = new Map()
           ...customPlugins
         ]
       })
-    } catch (e) {}
+    } catch (e) {} // eslint-disable-line no-empty
   }))
 
   // 有一些 Webpack loaders 添加的依赖没有办法提前分析出来
