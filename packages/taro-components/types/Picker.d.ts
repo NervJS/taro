@@ -84,7 +84,7 @@ interface PickerSelectorProps extends PickerStandardProps {
   indicatorStyle?: StyleProp<ViewStyle>
 
   /**
-   * value 改变时触发 change 事件，event.detail = {value}
+   * value 改变时触发 change 事件
    * @supported weapp, h5, rn
    */
   onChange: CommonEventFunction<PickerSelectorProps.ChangeEventDetail>
@@ -136,7 +136,7 @@ interface PickerMultiSelectorProps extends PickerStandardProps {
   indicatorStyle?: StyleProp<ViewStyle>
 
   /**
-   * 当 value 改变时触发 change 事件，event.detail = {value}
+   * 当 value 改变时触发 change 事件
    * @supported weapp, h5, rn
    */
   onChange: CommonEventFunction<PickerMultiSelectorProps.ChangeEventDetail>
@@ -185,7 +185,7 @@ interface PickerTimeProps extends PickerStandardProps {
   end?: string
 
   /**
-   * value 改变时触发 change 事件，event.detail = {value}
+   * value 改变时触发 change 事件
    * @supported weapp, h5, rn
    */
   onChange: CommonEventFunction<PickerTimeProps.ChangeEventDetail>
@@ -229,7 +229,7 @@ interface PickerDateProps extends PickerStandardProps {
   fields?: keyof PickerDateProps.Fields
 
   /**
-   * value 改变时触发 change 事件，event.detail = {value}
+   * value 改变时触发 change 事件
    * @supported weapp, h5, rn
    */
   onChange: CommonEventFunction<PickerDateProps.ChangeEventDetail>
@@ -276,7 +276,7 @@ interface PickerRegionProps extends PickerStandardProps {
   regionData?: PickerRegionProps.RegionData[]
 
   /**
-   * value 改变时触发 change 事件，event.detail = {value, code, postcode}，其中字段 code 是统计用区划代码，postcode 是邮政编码
+   * value 改变时触发 change 事件
    * @supported weapp, h5, rn
    */
   onChange: CommonEventFunction<PickerRegionProps.ChangeEventDetail>
