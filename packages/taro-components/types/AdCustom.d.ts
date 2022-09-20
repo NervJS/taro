@@ -17,7 +17,7 @@ interface AdCustomProps extends StandardProps {
    */
   onLoad?: CommonEventFunction
 
-  /** 当广告发生错误时，触发的事件，可以通过该事件获取错误码及原因，事件对象event.detail = {errCode: 1002}
+  /** 当广告发生错误时，触发的事件，可以通过该事件获取错误码及原因
    * @supported weapp
    */
   onError?: CommonEventFunction<AdProps.onErrorEventDetail>

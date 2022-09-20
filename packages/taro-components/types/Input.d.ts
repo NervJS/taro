@@ -30,7 +30,7 @@ interface InputProps extends StandardProps, FormItemProps {
 
   /** 指定 placeholder 的样式类
    * @default "input-placeholder"
-   * @supported weapp, alipay, swan, qq, jd
+   * @supported weapp, alipay, swan, tt, qq, jd
    */
   placeholderClass?: string
 
@@ -75,7 +75,7 @@ interface InputProps extends StandardProps, FormItemProps {
 
   /** 点击键盘右下角按钮时是否保持键盘不收起
    * @default false
-   * @supported weapp, alipay, swan, qq, jd
+   * @supported weapp, alipay, swan, tt, qq, jd
    */
   confirmHold?: boolean
 
@@ -104,7 +104,7 @@ interface InputProps extends StandardProps, FormItemProps {
 
   /** focus 时，点击页面的时候不收起键盘
    * @default false
-   * @supported weapp
+   * @supported weapp, tt
    */
   holdKeyboard?: boolean
 
@@ -176,23 +176,17 @@ interface InputProps extends StandardProps, FormItemProps {
   onFocus?: CommonEventFunction<InputProps.inputForceEventDetail>
 
   /** 输入框失去焦点时触发
-   *
-   * event.detail = {value: value}
    * @supported weapp, alipay, swan, tt, qq, jd, h5, rn
    */
   onBlur?: CommonEventFunction<InputProps.inputValueEventDetail>
 
   /** 点击完成按钮时触发
-   *
-   * event.detail = {value: value}
    * @supported weapp, alipay, swan, tt, qq, jd, h5, rn
    * @h5 借用[Form 组件](./form)的`onSubmit`事件来替代
    */
   onConfirm?: CommonEventFunction<InputProps.inputValueEventDetail>
 
   /** 键盘高度发生变化的时候触发此事件
-   *
-   * event.detail = {height: height, duration: duration}
    * @supported weapp, qq
    */
   onKeyboardHeightChange?: CommonEventFunction<InputProps.onKeyboardHeightChangeEventDetail>

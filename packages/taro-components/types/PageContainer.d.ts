@@ -2,7 +2,6 @@ import { ComponentType } from 'react'
 import {
   StandardProps,
   CommonEventFunction,
-  BaseEventOrigFunction,
 } from './common'
 interface PageContainerProps extends StandardProps {
   /** 是否显示容器组件
