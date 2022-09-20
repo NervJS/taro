@@ -6,7 +6,7 @@ import { capitalize, internalComponents, toCamelCase } from '@tarojs/shared/dist
 
 import { getLoaderMeta } from './loader-meta'
 
-const CUSTOM_WRAPPER = 'custom-wrapper'
+export const CUSTOM_WRAPPER = 'custom-wrapper'
 let isBuildH5
 
 export default (ctx: IPluginContext) => {
@@ -32,18 +32,19 @@ export default (ctx: IPluginContext) => {
 
     if (!opts?.compiler) return
 
-    // 提供给 webpack5 依赖预编译收集器的第三方依赖
-    const deps = [
-      'vue',
-      '@tarojs/plugin-framework-vue2/dist/runtime'
-    ]
     if (isString(opts.compiler)) {
       opts.compiler = {
         type: opts.compiler
       }
     }
+
     const { compiler } = opts
     if (compiler.type === 'webpack5') {
+      // 提供给 webpack5 依赖预编译收集器的第三方依赖
+      const deps = [
+        'vue',
+        '@tarojs/plugin-framework-vue2/dist/runtime'
+      ]
       compiler.prebundle ||= {}
       const prebundleOptions = compiler.prebundle
       prebundleOptions.include ||= []

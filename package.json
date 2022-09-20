@@ -177,7 +177,7 @@
     "react-dom": "^18",
     "react-test-renderer": "^18",
     "rimraf": "^3.0.0",
-    "rollup": "^2.56.2",
+    "rollup": "^2.79.0",
     "rollup-plugin-copy": "^3.4.0",
     "rollup-plugin-node-externals": "^4.0.0",
     "rollup-plugin-postcss": "^3.1.8",
