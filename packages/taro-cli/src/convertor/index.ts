@@ -108,12 +108,12 @@ export default class Convertor {
   entryJSPath: string
   entryJSONPath: string
   entryStylePath: string
-  entryJSON: AppConfig & { usingComponents?: Record<string, string> }
+  entryJSON: AppConfig & {usingComponents?: Record<string, string>}
   entryStyle: string
   entryUsingComponents: Record<string, string>
   framework: 'react' | 'vue'
 
-  constructor(root) {
+  constructor (root) {
     this.root = root
     this.convertRoot = path.join(this.root, 'taroConvert')
     this.convertDir = path.join(this.convertRoot, 'src')
@@ -907,7 +907,7 @@ ${code}
       typescript: false,
       framework: this.framework
     })
-    creator.template(templateName, path.join('src', 'index.html'), path.join(this.convertDir, 'index.html'), {
+    creator.template(templateName, path.join('src', 'index.html'), path.join(this.convertDir, 'index.html'),{
       projectName
     })
     creator.fs.commit(() => {
