@@ -130,7 +130,7 @@
     "babel-preset-taro": "workspace:*",
     "cli-highlight": "^2.1.4",
     "conventional-changelog-cli": "^2.0.1",
-    "core-js": "^2.6.5",
+    "core-js": "^3.25.2",
     "cpy-cli": "^4.1.0",
     "cross-env": "^7.0.2",
     "esbuild": "^0.14.27",
