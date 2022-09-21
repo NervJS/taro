@@ -4694,7 +4694,8 @@ exports[`vue should build vue app 2`] = `
             \\"640\\": 1.17,
             \\"750\\": 1,
             \\"828\\": .905
-        }
+        },
+        \\"baseFontSize\\": 20
     });
 } ]);
 

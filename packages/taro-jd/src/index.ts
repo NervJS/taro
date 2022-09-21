@@ -1,7 +1,8 @@
-import type { IPluginContext } from '@tarojs/service'
 import { isString } from '@tarojs/shared'
 
 import JD from './program'
+
+import type { IPluginContext } from '@tarojs/service'
 
 // 让其它平台插件可以继承此平台
 export { JD }

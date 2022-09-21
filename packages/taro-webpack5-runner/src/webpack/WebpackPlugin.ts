@@ -1,9 +1,10 @@
 import { REG_STYLE } from '@tarojs/helper'
-import type { ICopyOptions } from '@tarojs/taro/types/compile'
 import path from 'path'
 import webpack from 'webpack'
 
 import { TaroWebpackBarPlugin } from '../plugins/WebpackBarPlugin'
+
+import type { ICopyOptions } from '@tarojs/taro/types/compile'
 
 export type PluginArgs = Record<string, any>[]
 

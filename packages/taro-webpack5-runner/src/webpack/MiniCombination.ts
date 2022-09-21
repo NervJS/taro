@@ -1,12 +1,13 @@
 import { taroJsComponents } from '@tarojs/helper'
 
 import { componentConfig } from '../template/component'
-import type { IFileType, MiniBuildConfig } from '../utils/types'
 import { BuildNativePlugin } from './BuildNativePlugin'
 import { Combination } from './Combination'
 import { MiniBaseConfig } from './MiniBaseConfig'
 import { MiniWebpackModule } from './MiniWebpackModule'
 import { MiniWebpackPlugin } from './MiniWebpackPlugin'
+
+import type { IFileType, MiniBuildConfig } from '../utils/types'
 
 export class MiniCombination extends Combination<MiniBuildConfig> {
   buildNativePlugin: BuildNativePlugin

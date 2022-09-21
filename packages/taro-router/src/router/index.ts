@@ -1,5 +1,6 @@
-import type { MpaRouterConfig, SpaRouterConfig } from '../../types/router'
 import { addLeadingSlash } from '../utils'
+
+import type { MpaRouterConfig, SpaRouterConfig } from '../../types/router'
 
 export class RouterConfig {
   private static __config: SpaRouterConfig | MpaRouterConfig

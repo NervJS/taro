@@ -7,11 +7,12 @@ import { META_TYPE } from '@tarojs/helper'
 import webpack, { Compiler, NormalModule, RuntimeGlobals, sources } from 'webpack'
 import ContainerReferencePlugin from 'webpack/lib/container/ContainerReferencePlugin'
 import RemoteModule from 'webpack/lib/container/RemoteModule'
-import type { ContainerReferencePluginOptions, RemotesConfig } from 'webpack/types'
 
 import { addRequireToSource, getChunkEntryModule, getChunkIdOrName } from '../utils'
 import { CollectedDeps, MF_NAME } from '../utils/constant'
 import TaroRemoteRuntimeModule from './TaroRemoteRuntimeModule'
+
+import type { ContainerReferencePluginOptions, RemotesConfig } from 'webpack/types'
 
 const ExternalsPlugin = require('webpack/lib/ExternalsPlugin')
 const FallbackDependency = require('webpack/lib/container/FallbackDependency')
