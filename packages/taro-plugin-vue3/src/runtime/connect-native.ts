@@ -1,4 +1,3 @@
-import type { TaroRootElement } from '@tarojs/runtime'
 import {
   addLeadingSlash,
   Current,
@@ -8,11 +7,13 @@ import {
   removePageInstance,
   safeExecute} from '@tarojs/runtime'
 import { isArray } from '@tarojs/shared'
-import type { PageInstance } from '@tarojs/taro'
-import type { ComponentOptions, h as createElement } from '@vue/runtime-core'
 import { createApp, defineComponent, onMounted, provide, ref, shallowReactive, toRaw } from 'vue'
 
 import { isClassComponent, setReconciler } from './connect'
+
+import type { TaroRootElement } from '@tarojs/runtime'
+import type { PageInstance } from '@tarojs/taro'
+import type { ComponentOptions, h as createElement } from '@vue/runtime-core'
 
 declare const getCurrentPages: () => PageInstance[]
 
