@@ -4,9 +4,10 @@ import HtmlWebpackPlugin from 'html-webpack-plugin'
 import path from 'path'
 
 import H5Plugin from '../plugins/H5Plugin'
+import WebpackPlugin from './WebpackPlugin'
+
 import type { H5Combination } from './H5Combination'
 import type { PluginArgs } from './WebpackPlugin'
-import WebpackPlugin from './WebpackPlugin'
 
 export class H5WebpackPlugin {
   combination: H5Combination

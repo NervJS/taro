@@ -6,11 +6,12 @@ import {
   ROOT_STR,
   SET_DATA
 } from '../constants'
-import type { Func, HydratedData, MpInstance, UpdatePayload, UpdatePayloadValue } from '../interface'
 import { options } from '../options'
 import { perf } from '../perf'
 import { customWrapperCache } from '../utils'
 import { TaroElement } from './element'
+
+import type { Func, HydratedData, MpInstance, UpdatePayload, UpdatePayloadValue } from '../interface'
 
 function findCustomWrapper (root: TaroRootElement, dataPathArr: string[]) {
   // ['root', 'cn', '[0]'] remove 'root' => ['cn', '[0]']

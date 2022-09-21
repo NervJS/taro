@@ -1,16 +1,17 @@
-import type { AppInstance, VueAppInstance, VueInstance } from '@tarojs/runtime'
 import {
   Current,
   document,
   injectPageInstance
 } from '@tarojs/runtime'
 import { ensure, hooks, isBoolean, isFunction, noop } from '@tarojs/shared'
+
+import { setDefaultDescriptor, setRouterParams } from './utils'
+
+import type { AppInstance, VueAppInstance, VueInstance } from '@tarojs/runtime'
 import type { AppConfig } from '@tarojs/taro'
 /* eslint-disable import/no-duplicates */
 import type VueCtor from 'vue'
 import type { ComponentOptions, VNode, VueConstructor } from 'vue'
-
-import { setDefaultDescriptor, setRouterParams } from './utils'
 
 export type V = typeof VueCtor
 

@@ -4,10 +4,11 @@ import './style/index.css'
 
 import classNames from 'classnames'
 import React from 'react'
-import type ISwiper from 'swiper'
 import Swipers from 'swiper/swiper-bundle.esm.js'
 
 import { debounce } from '../../utils'
+
+import type ISwiper from 'swiper'
 
 let INSTANCE_ID = 0
 
@@ -105,7 +106,7 @@ class Swiper extends React.Component<SwiperProps, Record<string, unknown>> {
                 current: this.realIndex
               }
             })
-          } catch (err) {}
+          } catch (err) {} // eslint-disable-line no-empty
           that._$current = this.realIndex
           that.handleOnChange(e)
         },
@@ -123,7 +124,7 @@ class Swiper extends React.Component<SwiperProps, Record<string, unknown>> {
             } else if (this.mySwiper.isEnd) {
               this.mySwiper.slideToLoop(0, 0)
             }
-          } catch (err) {}
+          } catch (err) {} // eslint-disable-line no-empty
           that.handleOnAnimationFinish(e)
         },
         observerUpdate (_swiper: ISwiper, e) {

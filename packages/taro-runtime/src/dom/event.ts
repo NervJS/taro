@@ -11,8 +11,9 @@ import {
   TYPE
 } from '../constants'
 import env from '../env'
-import type { EventOptions, MpEvent } from '../interface'
 import { isParentBinded } from '../utils'
+
+import type { EventOptions, MpEvent } from '../interface'
 import type { TaroElement } from './element'
 
 // Taro 事件对象。以 Web 标准的事件对象为基础，加入小程序事件对象中携带的部分信息，并模拟实现事件冒泡。

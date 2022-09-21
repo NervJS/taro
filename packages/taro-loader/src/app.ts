@@ -1,8 +1,9 @@
 import { normalizePath } from '@tarojs/helper'
 import { getOptions, stringifyRequest } from 'loader-utils'
-import type * as webpack from 'webpack'
 
 import { REG_POST } from './constants'
+
+import type * as webpack from 'webpack'
 
 export default function (this: webpack.LoaderContext<any>) {
   const stringify = (s: string): string => stringifyRequest(this, s)

@@ -35,7 +35,7 @@ try {
     }
   })
   window.addEventListener('cancel', () => ({}), opts)
-} catch (e) {}
+} catch (e) {} // eslint-disable-line no-empty
 
 const willPreventDefault = supportsPassive ? { passive: false } : false
 

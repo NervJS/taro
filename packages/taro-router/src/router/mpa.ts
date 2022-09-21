@@ -6,10 +6,11 @@ import {
   stringify
 } from '@tarojs/runtime'
 
-import type { MpaRouterConfig } from '../../types/router'
 import { setTitle } from '../utils/navigate'
 import { RouterConfig } from '.'
 import MultiPageHandler from './multi-page'
+
+import type { MpaRouterConfig } from '../../types/router'
 
 // TODO 支持多路由 (APP 生命周期仅触发一次)
 /** Note: 关于多页面应用
@@ -36,6 +37,9 @@ export async function createMultiRouter (
   let element
   try {
     element = await pageConfig.load?.()
+    if (element instanceof Array) {
+      element = element[0]
+    }
   } catch (error) {
     throw new Error(error)
   }

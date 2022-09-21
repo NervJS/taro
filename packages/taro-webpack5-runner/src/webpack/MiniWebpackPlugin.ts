@@ -5,8 +5,9 @@ import { ICopyOptions } from '@tarojs/taro/types/compile'
 import BuildNativePlugin from '../plugins/BuildNativePlugin'
 import MiniPlugin from '../plugins/MiniPlugin'
 import MiniSplitChunksPlugin from '../plugins/MiniSplitChunksPlugin'
-import type { MiniCombination } from './MiniCombination'
 import WebpackPlugin, { PluginArgs } from './WebpackPlugin'
+
+import type { MiniCombination } from './MiniCombination'
 
 export class MiniWebpackPlugin {
   combination: MiniCombination

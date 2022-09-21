@@ -3,15 +3,17 @@ import {
   taroJsComponents
 } from '@tarojs/helper'
 import { toDashed } from '@tarojs/shared'
-import { Chunk, ChunkGraph, Compilation, Compiler, util } from 'webpack'
-import { ConcatSource } from 'webpack-sources'
+import { sources, util } from 'webpack'
 
 import { componentConfig } from '../template/component'
-import type { AddPageChunks, IComponent } from '../utils/types'
 import { addRequireToSource, getChunkEntryModule, getChunkIdOrName } from '../utils/webpack'
-import TaroNormalModule from './TaroNormalModule'
+
+import type { Chunk, ChunkGraph, Compilation, Compiler } from 'webpack'
+import type { AddPageChunks, IComponent } from '../utils/types'
+import type TaroNormalModule from './TaroNormalModule'
 
 const PLUGIN_NAME = 'TaroLoadChunksPlugin'
+const { ConcatSource } = sources
 
 interface IOptions {
   commonChunks: string[]
@@ -88,7 +90,7 @@ export default class TaroLoadChunksPlugin {
         }
       })
 
-      compiler.webpack.javascript.JavascriptModulesPlugin.getCompilationHooks(compilation).render.tap(PLUGIN_NAME, (modules: ConcatSource, { chunk }) => {
+      compiler.webpack.javascript.JavascriptModulesPlugin.getCompilationHooks(compilation).render.tap(PLUGIN_NAME, (modules: sources.ConcatSource, { chunk }) => {
         const chunkEntryModule = getChunkEntryModule(compilation, chunk) as any
         if (chunkEntryModule) {
           const entryModule: TaroNormalModule = chunkEntryModule.rootModule ?? chunkEntryModule
@@ -108,7 +110,7 @@ export default class TaroLoadChunksPlugin {
       /**
        * 在每个 chunk 文本刚生成后，按判断条件在文本头部插入 require 语句
        */
-      compiler.webpack.javascript.JavascriptModulesPlugin.getCompilationHooks(compilation).render.tap(PLUGIN_NAME, (modules: ConcatSource, { chunk }) => {
+      compiler.webpack.javascript.JavascriptModulesPlugin.getCompilationHooks(compilation).render.tap(PLUGIN_NAME, (modules: sources.ConcatSource, { chunk }) => {
         const chunkEntryModule = getChunkEntryModule(compilation, chunk) as any
         if (chunkEntryModule) {
           if (this.isBuildPlugin) {

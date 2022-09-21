@@ -1,10 +1,11 @@
 import { chalk, REG_VUE, VUE_EXT } from '@tarojs/helper'
 import { DEFAULT_Components } from '@tarojs/runner-utils'
-import type { IPluginContext } from '@tarojs/service'
 import { isString } from '@tarojs/shared'
 import { capitalize, internalComponents, toCamelCase } from '@tarojs/shared/dist/template'
 
 import { getLoaderMeta } from './loader-meta'
+
+import type { IPluginContext } from '@tarojs/service'
 
 const CUSTOM_WRAPPER = 'custom-wrapper'
 let isBuildH5

@@ -1,18 +1,19 @@
 /* eslint-disable dot-notation */
 import { EMPTY_OBJ, ensure, hooks, isArray, isFunction, isString, isUndefined, Shortcuts } from '@tarojs/shared'
-import type { PageConfig } from '@tarojs/taro'
 
 import { raf } from '../bom/raf'
 import { window } from '../bom/window'
 import { BEHAVIORS, CONTEXT_ACTIONS,CUSTOM_WRAPPER, EXTERNAL_CLASSES, ON_HIDE, ON_LOAD, ON_READY, ON_SHOW, OPTIONS, PAGE_INIT, VIEW  } from '../constants'
 import { Current } from '../current'
 import { eventHandler } from '../dom/event'
-import type { TaroRootElement } from '../dom/root'
 import { eventCenter } from '../emitter/emitter'
 import env from '../env'
-import type { Func, MpInstance } from '../interface'
 import { perf } from '../perf'
 import { customWrapperCache, incrementId } from '../utils'
+
+import type { PageConfig } from '@tarojs/taro'
+import type { TaroRootElement } from '../dom/root'
+import type { Func, MpInstance } from '../interface'
 import type { Instance, PageInstance, PageProps } from './instance'
 
 const instances = new Map<string, Instance>()

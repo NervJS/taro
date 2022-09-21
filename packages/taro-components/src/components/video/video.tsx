@@ -343,6 +343,9 @@ export class Video implements ComponentInterface {
         this.hls.on(Hls.Events.MANIFEST_PARSED, () => {
           this.autoplay && this.play()
         })
+        this.hls.on(Hls.Events.ERROR, (_, data) => {
+          this.handleError(data)
+        })
       } else if (videoRef.canPlayType('application/vnd.apple.mpegurl')) {
         this.loadNativePlayer()
       } else {
@@ -401,9 +404,25 @@ export class Video implements ComponentInterface {
   }, 250)
 
   handleError = e => {
-    this.onError.emit({
-      errMsg: e.target?.error?.message
-    })
+    if (this.hls) {
+      switch (e.type) {
+        case Hls.ErrorTypes.NETWORK_ERROR:
+          // try to recover network error
+          this.onError.emit({ errMsg: e.response })
+          this.hls.startLoad()
+          break
+        case Hls.ErrorTypes.MEDIA_ERROR:
+          this.onError.emit({ errMsg: e.reason || '媒体错误,请重试' })
+          this.hls.recoverMediaError()
+          break
+        default:
+          break
+      }
+    } else {
+      this.onError.emit({
+        errMsg: e.target?.error?.message,
+      })
+    }
   }
 
   handleDurationChange = () => {

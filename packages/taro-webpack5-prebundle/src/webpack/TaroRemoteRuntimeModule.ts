@@ -1,4 +1,6 @@
-import { ChunkGraph, Compilation, RuntimeGlobals, RuntimeModule, Template } from 'webpack'
+import { RuntimeGlobals, RuntimeModule, Template } from 'webpack'
+
+import type { ChunkGraph, Compilation } from 'webpack'
 import type RemoteModule from 'webpack/lib/container/RemoteModule'
 
 export default class TaroRemoteRuntimeModule extends RuntimeModule {
