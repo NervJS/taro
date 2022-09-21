@@ -36,7 +36,10 @@ export function createRouter (
     }
   })
   const router = new UniversalRouter(routes, { baseUrl: basename || '' })
-  const launchParam = handler.getQuery(stacks.length)
+  const launchParam = {
+    // 其他参数, 需要再抹平
+    query: handler.getQuery(stacks.length)
+  }
   app.onLaunch?.(launchParam)
   app.onError && window.addEventListener('error', e => app.onError?.(e.message))
 

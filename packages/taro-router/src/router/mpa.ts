@@ -28,7 +28,10 @@ export async function createMultiRouter (
 ) {
   RouterConfig.config = config
   const handler = new MultiPageHandler(config)
-  const launchParam = handler.getQuery()
+  const launchParam = {
+    // 其他参数, 需要再抹平
+    query: handler.getQuery()
+  }
   app.onLaunch?.(launchParam)
   app.onError && window.addEventListener('error', e => app.onError?.(e.message))
 
