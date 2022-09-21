@@ -29,6 +29,7 @@ export {
   createRecursiveComponentConfig,
   getPageInstance,
   injectPageInstance,
+  removePageInstance,
   safeExecute,
   stringify
 } from './dsl/common'

@@ -27,6 +27,10 @@ export function getPageInstance (id: string): Instance | undefined {
   return instances.get(id)
 }
 
+export function removePageInstance (id: string) {
+  instances.delete(id)
+}
+
 export function addLeadingSlash (path?: string): string {
   if (path == null) {
     return ''
