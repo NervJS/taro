@@ -1,7 +1,7 @@
-import type { IPluginContext } from '@tarojs/service'
-
-import type { Frameworks } from './index'
 import { getLoaderMetaForH5 } from './loader-meta'
+
+import type { IPluginContext } from '@tarojs/service'
+import type { Frameworks } from './index'
 
 export function modifyH5WebpackChain (ctx: IPluginContext, framework: Frameworks, chain) {
   setAlias(ctx, chain)

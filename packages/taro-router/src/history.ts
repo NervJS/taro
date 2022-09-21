@@ -1,8 +1,10 @@
-import { IH5RouterConfig } from '@tarojs/taro/types/compile'
-import { Action, Blocker, BrowserHistoryOptions, createBrowserHistory, createHashHistory, History, Listener, Location, Path, To } from 'history'
+import { Action, createBrowserHistory, createHashHistory } from 'history'
 
-import type { StateEvent } from '../types/history'
 import { RouterConfig } from './router'
+
+import type { IH5RouterConfig } from '@tarojs/taro/types/compile'
+import type { Blocker, BrowserHistoryOptions, History, Listener, Location, Path, To } from 'history'
+import type { StateEvent } from '../types/history'
 
 export let history: History
 

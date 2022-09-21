@@ -3,12 +3,11 @@
  * MIT License http://www.opensource.org/licenses/mit-license.php
  * Author Tobias Koppers @sokra, Zackary Jackson @ScriptedAlchemy, Marais Rossouw @maraisr
  */
-import webpack, { sources } from 'webpack'
+import webpack, { RuntimeGlobals, sources, Template } from 'webpack'
 import ContainerPlugin from 'webpack/lib/container/ContainerPlugin'
 
 const { ConcatSource } = sources
 
-const { Template, RuntimeGlobals } = webpack
 const ContainerEntryModule = require('webpack/lib/container/ContainerEntryModule')
 
 type Exposes = ConstructorParameters<typeof ContainerPlugin>[0]['exposes']

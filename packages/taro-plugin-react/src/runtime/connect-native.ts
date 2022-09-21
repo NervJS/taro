@@ -4,12 +4,13 @@ import {
   TaroRootElement
 } from '@tarojs/runtime'
 import { EMPTY_OBJ } from '@tarojs/shared'
-import type { PageInstance } from '@tarojs/taro'
-import type * as React from 'react'
 
 import { setReconciler } from './connect'
 import { reactMeta } from './react-meta'
 import { isClassComponent } from './utils'
+
+import type { PageInstance } from '@tarojs/taro'
+import type * as React from 'react'
 
 declare const getCurrentPages: () => PageInstance[]
 

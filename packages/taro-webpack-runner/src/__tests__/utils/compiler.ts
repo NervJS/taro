@@ -158,7 +158,8 @@ function frameworkPatch (chain, webpack, config) {
       framework: config.framework || 'react'
     },
     modifyWebpackChain: cb => cb({ chain, webpack, data: {} }),
-    modifyRunnerOpts: cb => cb(config)
+    modifyRunnerOpts: cb => cb(config),
+    onParseCreateElement: () => {}
   }
 
   let frameworkPlugin: any = ReactLikePlugin

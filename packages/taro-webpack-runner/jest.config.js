@@ -16,7 +16,7 @@ module.exports = {
   setupFilesAfterEnv: ['./src/__tests__/setup/index.ts'],
   testEnvironment: 'node',
   testMatch: ['**/__tests__/?(*.)+(spec|test).[jt]s?(x)'],
-  testTimeout: 60000,
+  testTimeout: 120000,
   transform: {
     '^.+\\.jsx?$': 'babel-jest',
     '^.+\\.tsx?$': 'ts-jest',

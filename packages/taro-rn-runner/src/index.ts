@@ -203,7 +203,7 @@ export default async function build (_appPath: string, config: any): Promise<any
       // try for test case build_noWatch
       try {
         requestOptions.entryFile = resolutionFn(metroConfig.projectRoot, requestOptions.entryFile)
-      } catch (e) {}
+      } catch (e) {} // eslint-disable-line no-empty
       return savedBuildFunc(packagerClient, requestOptions)
     }
 

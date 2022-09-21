@@ -1,8 +1,9 @@
 import { TaroPlatformBase } from '@tarojs/service'
 
 import { components } from './components'
-import type { IOptions } from './index'
 import { Template } from './template'
+
+import type { IOptions } from './index'
 
 const PACKAGE_NAME = '@tarojs/plugin-platform-weapp'
 

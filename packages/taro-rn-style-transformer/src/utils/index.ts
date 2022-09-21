@@ -94,8 +94,7 @@ export function resolveStyle (id: string, opts: ResolveStyleOptions) {
       // like `@import 'taro-ui/dist/base.css';` or `@import '~taro-ui/dist/base.css';`
       file = resolve.sync(path.join(dir, name).replace(/^~/, ''), { basedir, extensions })
     }
-  } catch (error) {
-  }
+  } catch (error) {} // eslint-disable-line no-empty
 
   if (!file) {
     let includePaths = incPaths

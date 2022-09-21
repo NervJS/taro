@@ -1,6 +1,7 @@
 import { chalk, fs } from '@tarojs/helper'
-import type { IPluginContext, TaroPlatformBase } from '@tarojs/service'
 import { isArray, isString } from '@tarojs/shared'
+
+import type { IPluginContext, TaroPlatformBase } from '@tarojs/service'
 
 const spawn = require('cross-spawn')
 const detectPort = require('detect-port')
