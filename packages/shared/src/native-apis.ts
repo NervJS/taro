@@ -37,7 +37,6 @@ const needPromiseApis = new Set<string>([
   'compressImage',
   'connectSocket',
   'createBLEConnection',
-  'cropImage',
   'downloadFile',
   'exitMiniProgram',
   'getAvailableAudioSources',
