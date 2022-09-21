@@ -4407,6 +4407,7 @@ exports[`vue3 should build vue3 app 2`] = `
             \\"baseUrl\\": basename || \\"\\"
         });
         var launchParam = {
+            \\"path\\": handler.homePage,
             \\"query\\": handler.getQuery(stack.length)
         };
         (_a = app.onLaunch) === null || _a === void 0 ? void 0 : _a.call(app, launchParam);
