@@ -4528,6 +4528,7 @@ exports[`css modules should use css modules with global mode 2`] = `
             \\"baseUrl\\": basename || \\"\\"
         });
         var launchParam = {
+            \\"path\\": handler.homePage,
             \\"query\\": handler.getQuery(stack.length)
         };
         (_a = app.onLaunch) === null || _a === void 0 ? void 0 : _a.call(app, launchParam);
@@ -9318,6 +9319,7 @@ exports[`css modules should use css modules with module mode 2`] = `
             \\"baseUrl\\": basename || \\"\\"
         });
         var launchParam = {
+            \\"path\\": handler.homePage,
             \\"query\\": handler.getQuery(stack.length)
         };
         (_a = app.onLaunch) === null || _a === void 0 ? void 0 : _a.call(app, launchParam);

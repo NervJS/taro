@@ -38,6 +38,7 @@ export function createRouter (
   const router = new UniversalRouter(routes, { baseUrl: basename || '' })
   const launchParam = {
     // 其他参数, 需要再抹平
+    path: handler.homePage,
     query: handler.getQuery(stacks.length)
   }
   app.onLaunch?.(launchParam)
