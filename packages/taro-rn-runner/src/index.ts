@@ -1,10 +1,31 @@
 import { PLATFORMS } from '@tarojs/helper'
 import { emptyModulePath } from '@tarojs/rn-supporter'
 import { spawn } from 'child_process'
+import { constants,copyFile } from 'fs'
+import { join } from 'path'
 
 import buildComponent from './config/build-component'
 
+// 确认根目录下 metro.config.js index.js 是否存在
+const files = ['metro.config.js', 'index.js']
+function confirmFiles () {
+  files.forEach(file => {
+    const filePath = join(process.cwd(), file)
+    copyFile(join(__dirname, '..', 'templates', file), filePath, constants.COPYFILE_EXCL, err => {
+      if (err) {
+        if (err.code !== 'EEXIST') {
+          // 不重复生成配置文件
+          console.log(err)
+        }
+      } else {
+        console.log(`${file} created`)
+      }
+    })
+  })
+}
+
 export default async function build (_appPath: string, config: any): Promise<any> {
+  confirmFiles()
   process.env.TARO_ENV = PLATFORMS.RN
   const isIos = config.deviceType === 'ios'
   const cliParams:string[] = []
