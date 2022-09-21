@@ -3913,7 +3913,9 @@ exports[`subpackages should process subpackages 2`] = `
                       case 0:
                         router_RouterConfig.config = config;
                         handler = new multi_page_MultiPageHandler(config);
-                        launchParam = handler.getQuery();
+                        launchParam = {
+                            \\"query\\": handler.getQuery()
+                        };
                         (_a = app.onLaunch) === null || _a === void 0 ? void 0 : _a.call(app, launchParam);
                         app.onError && window.addEventListener(\\"error\\", (function(e) {
                             var _a;
@@ -4571,7 +4573,9 @@ exports[`subpackages should process subpackages 2`] = `
         var router = new universal_router_module(routes, {
             \\"baseUrl\\": basename || \\"\\"
         });
-        var launchParam = handler.getQuery(stack.length);
+        var launchParam = {
+            \\"query\\": handler.getQuery(stack.length)
+        };
         (_a = app.onLaunch) === null || _a === void 0 ? void 0 : _a.call(app, launchParam);
         app.onError && window.addEventListener(\\"error\\", (function(e) {
             var _a;
