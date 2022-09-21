@@ -1,0 +1,63 @@
+{
+  "name": "blended-taro-component-vue3",
+  "version": "1.0.0",
+  "private": true,
+  "description": "",
+  "templateInfo": {
+    "name": "default",
+    "typescript": true,
+    "css": "sass"
+  },
+  "scripts": {
+    "build": "taro build native-components --type weapp --watch",
+    "dev": "taro build --type weapp --watch"
+  },
+  "browserslist": [
+    "last 3 versions",
+    "Android >= 4.1",
+    "ios >= 8"
+  ],
+  "author": "",
+  "dependencies": {
+    "@babel/runtime": "^7.7.7",
+    "@nutui/nutui-taro": "^3.2.1",
+    "@tarojs/components": "3.5.5",
+    "@tarojs/helper": "3.5.5",
+    "@tarojs/plugin-framework-vue3": "3.5.5",
+    "@tarojs/plugin-platform-alipay": "3.5.5",
+    "@tarojs/plugin-platform-jd": "3.5.5",
+    "@tarojs/plugin-platform-qq": "3.5.5",
+    "@tarojs/plugin-platform-swan": "3.5.5",
+    "@tarojs/plugin-platform-tt": "3.5.5",
+    "@tarojs/plugin-platform-weapp": "3.5.5",
+    "@tarojs/router": "3.5.5",
+    "@tarojs/runtime": "3.5.5",
+    "@tarojs/shared": "3.5.5",
+    "@tarojs/taro": "3.5.5",
+    "@tarojs/taro-h5": "3.5.5",
+    "vue": "^3.0.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.8.0",
+    "@tarojs/cli": "3.5.5",
+    "@tarojs/mini-runner": "3.5.5",
+    "@tarojs/plugin-html": "^3.5.5",
+    "@tarojs/webpack-runner": "3.5.5",
+    "@types/webpack-env": "^1.13.6",
+    "@typescript-eslint/eslint-plugin": "^5.20.0",
+    "@typescript-eslint/parser": "^5.20.0",
+    "@vue/babel-plugin-jsx": "^1.0.6",
+    "@vue/compiler-sfc": "^3.0.0",
+    "babel-plugin-import": "^1.13.5",
+    "babel-preset-taro": "3.5.5",
+    "css-loader": "3.4.2",
+    "eslint": "^8.12.0",
+    "eslint-config-taro": "3.5.5",
+    "eslint-plugin-vue": "^8.0.0",
+    "style-loader": "1.3.0",
+    "stylelint": "^14.4.0",
+    "typescript": "^4.1.0",
+    "vue-loader": "^16.0.0-beta.8",
+    "webpack": "4.46.0"
+  }
+}
