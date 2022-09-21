@@ -12,4 +12,5 @@ hooks.tap('initNativeApi', function (taro) {
 
 export * from './composition-functions'
 export * from './connect'
+export * from './connect-native'
 export * from './plugins'
