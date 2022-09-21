@@ -666,6 +666,11 @@ require(\\"./taro\\");
             var BUBBLE_EVENTS = new Set([ \\"touchStart\\", \\"touchMove\\", \\"touchEnd\\", \\"touchCancel\\", \\"tap\\", \\"longTap\\" ]);
             var hostConfig = {
                 initNativeApi: initNativeApi,
+                getMiniLifecycle: function getMiniLifecycle(config) {
+                    config.component[0] = \\"didMount\\";
+                    config.component[1] = \\"didUnmount\\";
+                    return config;
+                },
                 getEventCenter: function getEventCenter(Events) {
                     if (!my.taroEventCenter) {
                         my.taroEventCenter = new Events;

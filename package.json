@@ -33,12 +33,10 @@
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": [
-      "eslint --fix",
-      "git add"
+      "eslint --fix"
     ],
     "*.json": [
-      "prettier --write",
-      "git add -f"
+      "prettier --write"
     ]
   },
   "devDependencies": {

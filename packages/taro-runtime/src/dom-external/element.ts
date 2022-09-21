@@ -1,7 +1,7 @@
-import type { TaroElement } from 'src/dom/element'
-
 import { DOCUMENT_FRAGMENT } from '../constants'
 import { options } from '../options'
+
+import type { TaroElement } from 'src/dom/element'
 
 export function getBoundingClientRectImpl (this: TaroElement): Promise<null> {
   if (!options.miniGlobal) return Promise.resolve(null)

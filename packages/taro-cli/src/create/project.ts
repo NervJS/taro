@@ -17,9 +17,10 @@ import * as semver from 'semver'
 
 import { clearConsole } from '../util'
 import Creator from './creator'
-import type { ITemplates } from './fetchTemplate'
 import fetchTemplate from './fetchTemplate'
 import { createApp } from './init'
+
+import type { ITemplates } from './fetchTemplate'
 
 export interface IProjectConf {
   projectName: string

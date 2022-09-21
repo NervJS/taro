@@ -6,9 +6,10 @@ import {
   REG_SCRIPTS
 } from '@tarojs/helper'
 import { isFunction } from '@tarojs/shared'
-import type { PostcssOption } from '@tarojs/taro/types/compile'
 import fs from 'fs-extra'
 import path from 'path'
+
+import type { PostcssOption } from '@tarojs/taro/types/compile'
 
 export interface IRule {
   test?: any
