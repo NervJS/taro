@@ -4,7 +4,7 @@ import * as os from 'os'
 import * as path from 'path'
 
 import { ConditionalFileStore } from './conditional-file-store'
-import { assetExts, emptyModulePath } from './defaults'
+import { assetExts } from './defaults'
 import { getReactNativeVersion, handleFile, handleTaroFile, searchReactNativeModule } from './taroResolver'
 import { TerminalReporter } from './terminal-reporter'
 import { getProjectConfig, getRNConfig } from './utils'
@@ -44,7 +44,6 @@ export function getResolver (opt: Options = {}) {
     sourceExts: ['ts', 'tsx', 'js', 'jsx', 'scss', 'sass', 'less', 'css', 'pcss', 'json', 'styl', 'cjs', 'svgx'],
     resolveRequest: handleEntryFile,
     resolverMainFields: ['react-native', 'browser', 'main'],
-    emptyModulePath
   }
   if (rnConfig.enableSvgTransform) {
     resolver.assetExts = assetExts.filter(ext => ext !== 'svg')
