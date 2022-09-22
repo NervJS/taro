@@ -1,5 +1,4 @@
 import { PLATFORMS } from '@tarojs/helper'
-import { emptyModulePath } from '@tarojs/rn-supporter'
 import { spawn } from 'child_process'
 import { constants,copyFile } from 'fs'
 import { join } from 'path'
@@ -91,7 +90,7 @@ export default async function build (_appPath: string, config: any): Promise<any
         '--platform',
         config.deviceType,
         '--entry-file',
-        require.resolve(emptyModulePath)
+        'index.js'
       ].concat(cliParams), {
         stdio: 'inherit'
       })
