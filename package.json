@@ -199,6 +199,7 @@
     "webpack-sources": "^3.2.3"
   },
   "peerDependencies": {
-    "postcss": "^8.4.12"
+    "postcss": "^8.4.12",
+    "webpack-dev-server": "4.7.4"
   }
 }
