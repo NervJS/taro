@@ -1,5 +1,5 @@
 export { ConditionalFileStore } from './conditional-file-store'
-export { emptyModulePath } from './defaults'
+export { entryFilePath } from './defaults'
 export { default as rollupResolver } from './rollupResolver'
 export { getMetroConfig } from './Support'
 export { resolveExtFile } from './utils'
