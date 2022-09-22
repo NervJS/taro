@@ -19,7 +19,8 @@
   },
   "files": [
     "dist/",
-    "src/types/"
+    "src/types/",
+    "entry-file.js"
   ],
   "repository": {
     "type": "git",
