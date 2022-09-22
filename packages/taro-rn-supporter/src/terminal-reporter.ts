@@ -3,7 +3,7 @@ import { Terminal } from 'metro-core'
 import { toString } from 'qrcode'
 import yargs from 'yargs'
 
-import { emptyModulePath } from './defaults'
+import { entryFilePath } from './defaults'
 import preview from './preview'
 import { getOpenHost, isWin,PLAYGROUNDINFO } from './utils'
 
@@ -76,7 +76,7 @@ export class TerminalReporter {
         break
       case 'bundle_build_done': {
         this._reporter.update(args)
-        const realEntryPath = require.resolve(emptyModulePath)
+        const realEntryPath = require.resolve(entryFilePath)
         if (this._initialized) {
           // 恢复入口页面的缓存
           this._reporter.ignoreEntryFileCache = false
@@ -91,9 +91,9 @@ export class TerminalReporter {
         const bundler = incrementalBundler.getBundler()
         const findEntryGraphId = keys => {
           for (const k of keys) {
-            if (JSON.parse(k).entryFile === realEntryPath) {
-              return k
-            }
+            // if (JSON.parse(k).entryFile === realEntryPath) {
+            return k
+            // }
           }
           return null
         }
