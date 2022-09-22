@@ -107,19 +107,16 @@ interface MovableViewProps extends Omit<StandardProps, 'animation'> {
   catchTouchmove?: CommonEventFunction
 
   /** 触摸动作开始，事件会向父节点传递。
-   * 版本要求： 基础库 1.11.5 及以上
    * @supported alipay
    */
   onTouchStart?: CommonEventFunction
 
   /** 触摸动作开始，事件仅作用于组件，不向父节点传递。
-   * 版本要求： 基础库 1.11.5 及以上
    * @supported alipay
    */
   catchTouchStart?: CommonEventFunction
 
   /** 触摸移动事件，事件会向父节点传递。
-   * 版本要求： 基础库 1.11.5 及以上
    * @supported alipay
    */
   onTouchMove?: CommonEventFunction
@@ -135,7 +132,6 @@ interface MovableViewProps extends Omit<StandardProps, 'animation'> {
   onVTouchMove?: TouchEventFunction
 
   /** 触摸移动事件，事件仅作用于组件，不向父节点传递。
-   * 版本要求： 基础库 1.11.5 及以上
    * @supported alipay
    */
   catchTouchMove?: CommonEventFunction
