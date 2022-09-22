@@ -75,11 +75,9 @@
     "@types/webpack-dev-server": "3",
     "vue-loader": "^15.9.3",
     "webpack": "4.46.0",
-    "webpack-merge": "^4.2.2",
-    "postcss": "^8.4.12"
+    "webpack-merge": "^4.2.2"
   },
   "peerDependencies": {
-    "webpack": "^4.46.0",
-    "postcss": "^8.4.12"
+    "webpack": "^4.46.0"
   }
 }

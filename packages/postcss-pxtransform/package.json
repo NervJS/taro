@@ -18,12 +18,6 @@
     "url": "https://github.com/NervJS/taro/issues"
   },
   "homepage": "https://github.com/NervJS/taro#readme",
-  "devDependencies": {
-    "postcss": "^8.4.12"
-  },
-  "peerDependencies": {
-    "postcss": "^8.4.12"
-  },
   "scripts": {
     "test": "jest"
   },

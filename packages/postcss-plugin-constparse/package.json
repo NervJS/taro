@@ -4,11 +4,5 @@
   "description": "parse constants defined in config",
   "main": "index.js",
   "author": "Simba",
-  "license": "MIT",
-  "devDependencies": {
-    "postcss": "^8.4.12"
-  },
-  "peerDependencies": {
-    "postcss": "^8.4.12"
-  }
+  "license": "MIT"
 }
