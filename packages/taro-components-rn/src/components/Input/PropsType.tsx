@@ -22,7 +22,7 @@ export interface InputState {
 export interface InputProps extends FormItemProps{
   style?: StyleProp<ViewStyle>;
   value?: string;
-  type: 'text' | 'number' | 'idcard' | 'digit';
+  type?: 'text' | 'number' | 'idcard' | 'digit';
   password?: boolean;
   placeholder?: string;
   disabled?: boolean;
@@ -32,8 +32,8 @@ export interface InputProps extends FormItemProps{
   confirmType: 'done' | 'send' | 'search' | 'next' | 'go';
   confirmHold?: boolean;
   cursor?: number;
-  selectionStart: number;
-  selectionEnd: number;
+  selectionStart?: number;
+  selectionEnd?: number;
   placeholderStyle?: string;
   placeholderTextColor?: string;
   onInput?: (evt: Event) => void;

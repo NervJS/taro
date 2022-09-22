@@ -1,6 +1,6 @@
-import type { Component } from 'react'
-
 import { PageConfig } from './types/index'
+
+import type { Component } from 'react'
 
 interface Show {
   onShow?(options?: unknown): void

@@ -3,10 +3,11 @@
  * MIT License http://www.opensource.org/licenses/mit-license.php
  * Author Tobias Koppers @sokra, Zackary Jackson @ScriptedAlchemy, Marais Rossouw @maraisr
  */
-import { Compiler } from 'webpack'
 import ContainerPlugin from 'webpack/lib/container/ContainerPlugin'
 
 import TaroContainerEntryModuleFactory from './TaroContainerEntryModuleFactory'
+
+import type { Compiler } from 'webpack'
 
 const ContainerEntryDependency = require('webpack/lib/container/ContainerEntryDependency')
 

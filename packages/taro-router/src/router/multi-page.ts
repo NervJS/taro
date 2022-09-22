@@ -1,14 +1,15 @@
 /* eslint-disable dot-notation */
 import { Current, PageInstance } from '@tarojs/runtime'
-import type { PageConfig } from '@tarojs/taro'
 import queryString from 'query-string'
 
-import type { MpaRouterConfig, Route } from '../../types/router'
 import { bindPageResize } from '../events/resize'
 import { bindPageScroll } from '../events/scroll'
 import { setHistoryMode } from '../history'
 import { initTabbar } from '../tabbar'
 import { addLeadingSlash, stripBasename } from '../utils'
+
+import type { PageConfig } from '@tarojs/taro'
+import type { MpaRouterConfig, Route } from '../../types/router'
 
 export default class MultiPageHandler {
   protected config: MpaRouterConfig

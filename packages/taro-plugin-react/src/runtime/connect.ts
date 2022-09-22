@@ -5,11 +5,12 @@ import {
   ReactAppInstance, ReactPageComponent
 } from '@tarojs/runtime'
 import { EMPTY_OBJ, ensure, hooks } from '@tarojs/shared'
-import type { AppConfig } from '@tarojs/taro'
-import type * as React from 'react'
 
 import { reactMeta } from './react-meta'
 import { ensureIsArray, HOOKS_APP_ID, isClassComponent, setDefaultDescriptor, setRouterParams } from './utils'
+
+import type { AppConfig } from '@tarojs/taro'
+import type * as React from 'react'
 
 type PageComponent = React.CElement<PageProps, React.Component<PageProps, any, any>>
 

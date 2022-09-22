@@ -215,7 +215,7 @@ declare module '../../index' {
      */
     stopLocationUpdate(option?: stopLocationUpdate.Option): void
 
-    /** 开启小程序进入前后台时均接收位置消息，需引导用户开启[授权](./apis/open-api/authorize/authorize.md#后台定位)。授权以后，小程序在运行中或进入后台均可接受位置消息变化。
+    /** 开启小程序进入前后台时均接收位置消息，需引导用户开启[授权](../open-api/authorize/authorize.md#后台定位)。授权以后，小程序在运行中或进入后台均可接受位置消息变化。
      *
      * **注意**
      * - 安卓微信7.0.6版本，iOS 7.0.5版本起支持该接口

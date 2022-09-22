@@ -26,7 +26,7 @@ function getPagesResource (appPath: string, basePath: string, pathPrefix: string
       let result = {}
       try {
         result = readPageConfig(configFile)
-      } catch (err) {}
+      } catch (err) {} // eslint-disable-line no-empty
       importConfigs.push(`const ${screenConfigName} = ${JSON.stringify(result)}`)
     }
   })

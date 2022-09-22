@@ -94,7 +94,6 @@
     "webpack-chain": "6.5.1",
     "webpack-dev-server": "4.7.4",
     "webpack-format-messages": "^2.0.6",
-    "webpack-sources": "^3.2.3",
     "webpackbar": "^5.0.2"
   },
   "devDependencies": {

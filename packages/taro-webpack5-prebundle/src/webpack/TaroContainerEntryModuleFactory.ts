@@ -1,6 +1,6 @@
-import { Compilation } from 'webpack'
-
 import TaroContainerEntryModule from './TaroContainerEntryModule'
+
+import type { Compilation } from 'webpack'
 
 const ContainerEntryModuleFactory = require('webpack/lib/container/ContainerEntryModuleFactory')
 
