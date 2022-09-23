@@ -31,7 +31,7 @@ export function getTransformer (opt: Options = {}) {
     getTransformOptions: async () => ({
       transform: {
         experimentalImportSupport: false,
-        inlineRequires: false
+        inlineRequires: true
       }
     })
   }
@@ -76,7 +76,7 @@ export function getMetroConfig (opt: Options = {}) {
   const cacheStore = new ConditionalFileStore<any>({
     root: path.join(os.tmpdir(), 'metro-cache')
   })
-  const reporter = new TerminalReporter(config.sourceRoot || 'src', cacheStore, opt.qr ?? process.env.NODE_ENV !== 'production')
+  const reporter = new TerminalReporter(config.sourceRoot || 'src', cacheStore, opt.qr)
   return {
     transformer: getTransformer(opt),
     resolver: getResolver(opt),
@@ -94,7 +94,6 @@ export function getMetroConfig (opt: Options = {}) {
     cacheStores: [cacheStore],
     reporter,
     server: {
-      port: 8081,
       enhanceMiddleware: (Middleware, Server) => {
         reporter.metroServerInstance = Server
         return Middleware
