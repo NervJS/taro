@@ -35,6 +35,8 @@ export async function createMultiRouter (
     shareTicket: '',
     referrerInfo: {}
   }
+
+  eventCenter.trigger('__taroRouterLaunch', launchParam)
   app.onLaunch?.(launchParam as Record<string, any>)
   app.onError && window.addEventListener('error', e => app.onError?.(e.message))
 
