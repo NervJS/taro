@@ -50,7 +50,7 @@ function getEnv () {
     })
   }
   if (!config.env || !config.env.NODE_ENV) {
-    if (config.isWatch) {
+    if (process.env.NODE_ENV === 'development') {
       envConst['process.env.NODE_ENV'] = 'development'
     } else {
       envConst['process.env.NODE_ENV'] = 'production'
@@ -104,6 +104,9 @@ function getCSSModule () {
 }
 
 module.exports = (_, options = {}) => {
+  if(!process.env.NODE_ENV) {
+    process.env.NODE_ENV = 'development'
+  }
   const {
     decoratorsBeforeExport,
     decoratorsLegacy
