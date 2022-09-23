@@ -28,11 +28,14 @@ export async function createMultiRouter (
 ) {
   RouterConfig.config = config
   const handler = new MultiPageHandler(config)
-  const launchParam = {
-    // 其他参数, 需要再抹平
-    query: handler.getQuery()
+  const launchParam: Taro.getLaunchOptionsSync.LaunchOptions = {
+    path: config.pageName, // 多页面模式没新开一个页面相当于重启，所以直接使用当前页面路径
+    query: handler.getQuery(),
+    scene: 0,
+    shareTicket: '',
+    referrerInfo: {}
   }
-  app.onLaunch?.(launchParam)
+  app.onLaunch?.(launchParam as Record<string, any>)
   app.onError && window.addEventListener('error', e => app.onError?.(e.message))
 
   const pathName = config.pageName
@@ -68,11 +71,11 @@ export async function createMultiRouter (
   delete loadConfig['load']
   const page = createPageConfig(
     enablePullDownRefresh ? hooks.call('createPullDownComponent', el, location.pathname, framework, config.PullDownRefresh) : el,
-    pathName + stringify(launchParam),
+    pathName + stringify(launchParam as Record<string, any>),
     {},
     loadConfig
   )
   handler.load(page, pageConfig)
 
-  app.onShow?.(launchParam)
+  app.onShow?.(launchParam as Record<string, any>)
 }
