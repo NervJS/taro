@@ -1,13 +1,19 @@
 import Taro from '@tarojs/api'
 
-import taro, { eventCenter } from '../../taro'
-
-function initLaunchOptions (options = {}) {
-  (taro as any).launchOptions = options
+const launchOptions: Taro.getLaunchOptionsSync.LaunchOptions = {
+  path: '',
+  query: {},
+  scene: 0,
+  shareTicket: '',
+  referrerInfo: {}
 }
 
-eventCenter.once('__taroRouterLaunch', initLaunchOptions)
+function initLaunchOptions (options = {}) {
+  Object.assign(launchOptions, options)
+}
+
+Taro.eventCenter.once('__taroRouterLaunch', initLaunchOptions)
 
 // 生命周期
-export const getLaunchOptionsSync: typeof Taro.getLaunchOptionsSync = () => (taro as any).launchOptions
-export const getEnterOptionsSync: typeof Taro.getEnterOptionsSync = () => (taro as any).launchOptions
+export const getLaunchOptionsSync: typeof Taro.getLaunchOptionsSync = () => launchOptions
+export const getEnterOptionsSync: typeof Taro.getEnterOptionsSync = () => launchOptions
