@@ -3747,8 +3747,13 @@ exports[`vue3 should build vue3 app 2`] = `
                         router_RouterConfig.config = config;
                         handler = new multi_page_MultiPageHandler(config);
                         launchParam = {
-                            \\"query\\": handler.getQuery()
+                            \\"path\\": config.pageName,
+                            \\"query\\": handler.getQuery(),
+                            \\"scene\\": 0,
+                            \\"shareTicket\\": \\"\\",
+                            \\"referrerInfo\\": {}
                         };
+                        undefined.trigger(\\"__taroRouterLaunch\\", launchParam);
                         (_a = app.onLaunch) === null || _a === void 0 ? void 0 : _a.call(app, launchParam);
                         app.onError && window.addEventListener(\\"error\\", (function(e) {
                             var _a;
@@ -3756,31 +3761,31 @@ exports[`vue3 should build vue3 app 2`] = `
                         }));
                         pathName = config.pageName;
                         pageConfig = handler.pageConfig;
-                        _context.prev = 7;
-                        _context.next = 10;
+                        _context.prev = 8;
+                        _context.next = 11;
                         return (_b = pageConfig.load) === null || _b === void 0 ? void 0 : _b.call(pageConfig);
 
-                      case 10:
+                      case 11:
                         element = _context.sent;
                         if (element instanceof Array) {
                             element = element[0];
                         }
-                        _context.next = 17;
+                        _context.next = 18;
                         break;
 
-                      case 14:
-                        _context.prev = 14;
-                        _context.t0 = _context[\\"catch\\"](7);
+                      case 15:
+                        _context.prev = 15;
+                        _context.t0 = _context[\\"catch\\"](8);
                         throw new Error(_context.t0);
 
-                      case 17:
+                      case 18:
                         if (element) {
-                            _context.next = 19;
+                            _context.next = 20;
                             break;
                         }
                         return _context.abrupt(\\"return\\");
 
-                      case 19:
+                      case 20:
                         enablePullDownRefresh = ((_c = config === null || config === void 0 ? void 0 : config.window) === null || _c === void 0 ? void 0 : _c.enablePullDownRefresh) || false;
                         undefined.trigger(\\"__taroRouterChange\\", {
                             \\"toLocation\\": {
@@ -3801,12 +3806,12 @@ exports[`vue3 should build vue3 app 2`] = `
                         handler.load(page, pageConfig);
                         (_f = app.onShow) === null || _f === void 0 ? void 0 : _f.call(app, launchParam);
 
-                      case 29:
+                      case 30:
                       case \\"end\\":
                         return _context.stop();
                     }
                 }
-            }), _callee, null, [ [ 7, 14 ] ]);
+            }), _callee, null, [ [ 8, 15 ] ]);
         })));
     }
     var path_to_regexp = __webpack_require__(4);
@@ -4408,8 +4413,12 @@ exports[`vue3 should build vue3 app 2`] = `
         });
         var launchParam = {
             \\"path\\": handler.homePage,
-            \\"query\\": handler.getQuery(stack.length)
+            \\"query\\": handler.getQuery(stack.length),
+            \\"scene\\": 0,
+            \\"shareTicket\\": \\"\\",
+            \\"referrerInfo\\": {}
         };
+        undefined.trigger(\\"__taroRouterLaunch\\", launchParam);
         (_a = app.onLaunch) === null || _a === void 0 ? void 0 : _a.call(app, launchParam);
         app.onError && window.addEventListener(\\"error\\", (function(e) {
             var _a;
