@@ -1,4 +1,5 @@
 import { PLATFORMS } from '@tarojs/helper'
+import { previewDev,previewProd } from '@tarojs/rn-supporter'
 import { spawn } from 'child_process'
 import { constants,copyFile } from 'fs'
 import { join } from 'path'
@@ -58,6 +59,11 @@ export default async function build (_appPath: string, config: any): Promise<any
       spawn('react-native', ['start'].concat(cliParams), {
         stdio: 'inherit'
       })
+      if(config.qr) {
+        previewDev({
+          port: parseInt(config.port) || 8081,
+        })
+      }
       onFinish(null)
     } catch(e) {
       onFinish(e)
@@ -89,11 +95,22 @@ export default async function build (_appPath: string, config: any): Promise<any
         'bundle',
         '--platform',
         config.deviceType,
+        '--dev',
+        'false',
         '--entry-file',
         'index.js'
       ].concat(cliParams), {
         stdio: 'inherit'
       })
+      if(config.qr) {
+        process.on('beforeExit', () => {
+          previewProd({
+            out: bundleOutput,
+            platform: config.deviceType,
+            assetsDest: assetsDest,
+          })
+        })
+      }
       onFinish(null)
     } catch(e) {
       onFinish(e)

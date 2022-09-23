@@ -1,11 +1,9 @@
 import * as MetroTerminalReporter from 'metro/src/lib/TerminalReporter'
 import { Terminal } from 'metro-core'
-import { toString } from 'qrcode'
 import yargs from 'yargs'
 
 import { entryFilePath } from './defaults'
-import preview from './preview'
-import { getOpenHost, isWin,PLAYGROUNDINFO } from './utils'
+import { previewDev, previewProd } from './preview'
 
 export class TerminalReporter {
   _reporter: any
@@ -20,28 +18,16 @@ export class TerminalReporter {
     this._conditionalFileStore = conditionalFileStore
     this._initialized = false
     this._sourceRoot = sourceRoot
-    this.qr = qr ?? true
+    this.qr = qr ?? false
     const argvs = yargs(process.argv).argv
     if(this.qr && argvs._.includes('bundle')) {
       process.on('beforeExit', () => {
-        preview({
+        previewProd({
           out: argvs.bundleOutput as string,
           platform: argvs.platform as string,
           assetsDest: argvs.assetsDest as string,
         })
       })
-    }
-  }
-
-  print (args) {
-    const host = getOpenHost()
-    if (host) {
-      const url = `taro://${host}:${args.port}`
-      console.log(PLAYGROUNDINFO)
-      console.log(`print qrcode of '${url}':`)
-      toString(url, { type: 'terminal', small: !isWin }).then(console.log)
-    } else {
-      console.log('print qrcode error: host not found.')
     }
   }
 
@@ -62,12 +48,12 @@ export class TerminalReporter {
         process.stdin.on('keypress', (_key, data) => {
           const { name } = data
           if(name === 'q') {
-            this.print(args)
+            previewDev(args)
           }
         })
         console.log('To print qrcode press "q"')
         if (this.qr) {
-          this.print(args)
+          previewDev(args)
         }
         break
       case 'bundle_build_started':
