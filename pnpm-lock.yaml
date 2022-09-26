@@ -498,6 +498,7 @@ importers:
       minimist: 1.2.5
       npm-check: ^5.9.0
       ora: 4.0.3
+      package-json: 6.3.0
       postcss: ^6.0.22
       postcss-taro-unit-transform: 1.2.15
       prettier: ^1.16.4
@@ -537,6 +538,7 @@ importers:
       minimist: registry.npmjs.org/minimist/1.2.5
       npm-check: registry.npmjs.org/npm-check/5.9.2
       ora: registry.npmjs.org/ora/4.0.3
+      package-json: registry.npmjs.org/package-json/6.3.0
       postcss: registry.npmjs.org/postcss/6.0.23
       postcss-taro-unit-transform: registry.npmjs.org/postcss-taro-unit-transform/1.2.15
       prettier: registry.npmjs.org/prettier/1.19.1
@@ -27825,6 +27827,18 @@ packages:
       got: registry.npmjs.org/got/6.7.1
       registry-auth-token: registry.npmjs.org/registry-auth-token/3.4.0
       registry-url: registry.npmjs.org/registry-url/3.1.0
+      semver: registry.npmjs.org/semver/5.7.1
+    dev: false
+
+  registry.npmjs.org/package-json/6.3.0:
+    resolution: {integrity: sha512-XO7WS3EEXd48vmW633Y97Mh9xuENFiOevI9G+ExfTG/k6xuY9cBd3fxkAoDMSEsNZXasaVJIJ1rD/n7GMf18bA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/package-json/-/package-json-6.3.0.tgz}
+    name: package-json
+    version: 6.3.0
+    engines: {node: '>=8'}
+    dependencies:
+      got: registry.npmjs.org/got/9.6.0
+      registry-auth-token: registry.npmjs.org/registry-auth-token/3.4.0
+      registry-url: registry.npmjs.org/registry-url/5.1.0
       semver: registry.npmjs.org/semver/5.7.1
     dev: false
 

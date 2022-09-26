@@ -68,6 +68,7 @@
     "minimist": "1.2.5",
     "npm-check": "^5.9.0",
     "ora": "4.0.3",
+    "package-json": "6.3.0",
     "postcss": "^6.0.22",
     "postcss-taro-unit-transform": "1.2.15",
     "prettier": "^1.16.4",
