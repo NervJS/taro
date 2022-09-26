@@ -297,7 +297,7 @@ exports[`vue should build vue app 2`] = `
     var _defineProperty = __webpack_require__(11).default;
     var _slicedToArray = __webpack_require__(12).default;
     var _createForOfIteratorHelper = __webpack_require__(16).default;
-    var _typeof = __webpack_require__(3).default;
+    var _typeof = __webpack_require__(2).default;
     var _toConsumableArray = __webpack_require__(17).default;
     var strictUriEncode = __webpack_require__(21);
     var decodeComponent = __webpack_require__(22);
@@ -689,22 +689,6 @@ exports[`vue should build vue app 2`] = `
         };
         return exports.pick(input, exclusionFilter, options);
     };
-}, function(module, __webpack_exports__, __webpack_require__) {
-    \\"use strict\\";
-    __webpack_require__.r(__webpack_exports__);
-    __webpack_require__.d(__webpack_exports__, \\"defineCustomElements\\", (function() {
-        return defineCustomElements;
-    }));
-    __webpack_require__.d(__webpack_exports__, \\"applyPolyfills\\", (function() {
-        return applyPolyfills;
-    }));
-    __webpack_require__.d(__webpack_exports__, \\"initVue3Components\\", (function() {
-        return initVue3Components;
-    }));
-    __webpack_exports__[\\"default\\"] = \\"taro-components-mock\\";
-    function defineCustomElements() {}
-    function applyPolyfills() {}
-    function initVue3Components() {}
 }, function(module, exports, __webpack_require__) {
     var arrayLikeToArray = __webpack_require__(7);
     function _unsupportedIterableToArray(o, minLen) {
@@ -729,7 +713,7 @@ exports[`vue should build vue app 2`] = `
     }
     module.exports = _typeof, module.exports.__esModule = true, module.exports[\\"default\\"] = module.exports;
 }, function(module, exports, __webpack_require__) {
-    var _typeof = __webpack_require__(3).default;
+    var _typeof = __webpack_require__(2).default;
     module.exports = pathToRegexp;
     module.exports.match = match;
     module.exports.regexpToFunction = regexpToFunction;
@@ -962,6 +946,22 @@ exports[`vue should build vue app 2`] = `
         }
         return stringToRegexp(path, keys, options);
     }
+}, function(module, __webpack_exports__, __webpack_require__) {
+    \\"use strict\\";
+    __webpack_require__.r(__webpack_exports__);
+    __webpack_require__.d(__webpack_exports__, \\"defineCustomElements\\", (function() {
+        return defineCustomElements;
+    }));
+    __webpack_require__.d(__webpack_exports__, \\"applyPolyfills\\", (function() {
+        return applyPolyfills;
+    }));
+    __webpack_require__.d(__webpack_exports__, \\"initVue3Components\\", (function() {
+        return initVue3Components;
+    }));
+    __webpack_exports__[\\"default\\"] = \\"taro-components-mock\\";
+    function defineCustomElements() {}
+    function applyPolyfills() {}
+    function initVue3Components() {}
 }, function(module, exports, __webpack_require__) {
     \\"use strict\\";
     var isOldIE = function isOldIE() {
@@ -1779,7 +1779,7 @@ exports[`vue should build vue app 2`] = `
 }, function(module, exports, __webpack_require__) {
     var arrayWithHoles = __webpack_require__(13);
     var iterableToArrayLimit = __webpack_require__(14);
-    var unsupportedIterableToArray = __webpack_require__(2);
+    var unsupportedIterableToArray = __webpack_require__(1);
     var nonIterableRest = __webpack_require__(15);
     function _slicedToArray(arr, i) {
         return arrayWithHoles(arr) || iterableToArrayLimit(arr, i) || unsupportedIterableToArray(arr, i) || nonIterableRest();
@@ -1822,7 +1822,7 @@ exports[`vue should build vue app 2`] = `
     }
     module.exports = _nonIterableRest, module.exports.__esModule = true, module.exports[\\"default\\"] = module.exports;
 }, function(module, exports, __webpack_require__) {
-    var unsupportedIterableToArray = __webpack_require__(2);
+    var unsupportedIterableToArray = __webpack_require__(1);
     function _createForOfIteratorHelper(o, allowArrayLike) {
         var it = typeof Symbol !== \\"undefined\\" && o[Symbol.iterator] || o[\\"@@iterator\\"];
         if (!it) {
@@ -1876,7 +1876,7 @@ exports[`vue should build vue app 2`] = `
 }, function(module, exports, __webpack_require__) {
     var arrayWithoutHoles = __webpack_require__(18);
     var iterableToArray = __webpack_require__(19);
-    var unsupportedIterableToArray = __webpack_require__(2);
+    var unsupportedIterableToArray = __webpack_require__(1);
     var nonIterableSpread = __webpack_require__(20);
     function _toConsumableArray(arr) {
         return arrayWithoutHoles(arr) || iterableToArray(arr) || unsupportedIterableToArray(arr) || nonIterableSpread();
@@ -1907,7 +1907,7 @@ exports[`vue should build vue app 2`] = `
     };
 }, function(module, exports, __webpack_require__) {
     \\"use strict\\";
-    var _typeof = __webpack_require__(3).default;
+    var _typeof = __webpack_require__(2).default;
     var token = \\"%[a-f0-9]{2}\\";
     var singleMatcher = new RegExp(token, \\"gi\\");
     var multiMatcher = new RegExp(\\"(\\" + token + \\")+\\", \\"gi\\");
@@ -3807,7 +3807,14 @@ exports[`vue should build vue app 2`] = `
                       case 0:
                         router_RouterConfig.config = config;
                         handler = new multi_page_MultiPageHandler(config);
-                        launchParam = handler.getQuery();
+                        launchParam = {
+                            \\"path\\": config.pageName,
+                            \\"query\\": handler.getQuery(),
+                            \\"scene\\": 0,
+                            \\"shareTicket\\": \\"\\",
+                            \\"referrerInfo\\": {}
+                        };
+                        undefined.trigger(\\"__taroRouterLaunch\\", launchParam);
                         (_a = app.onLaunch) === null || _a === void 0 ? void 0 : _a.call(app, launchParam);
                         app.onError && window.addEventListener(\\"error\\", (function(e) {
                             var _a;
@@ -3815,31 +3822,31 @@ exports[`vue should build vue app 2`] = `
                         }));
                         pathName = config.pageName;
                         pageConfig = handler.pageConfig;
-                        _context.prev = 7;
-                        _context.next = 10;
+                        _context.prev = 8;
+                        _context.next = 11;
                         return (_b = pageConfig.load) === null || _b === void 0 ? void 0 : _b.call(pageConfig);
 
-                      case 10:
+                      case 11:
                         element = _context.sent;
                         if (element instanceof Array) {
                             element = element[0];
                         }
-                        _context.next = 17;
+                        _context.next = 18;
                         break;
 
-                      case 14:
-                        _context.prev = 14;
-                        _context.t0 = _context[\\"catch\\"](7);
+                      case 15:
+                        _context.prev = 15;
+                        _context.t0 = _context[\\"catch\\"](8);
                         throw new Error(_context.t0);
 
-                      case 17:
+                      case 18:
                         if (element) {
-                            _context.next = 19;
+                            _context.next = 20;
                             break;
                         }
                         return _context.abrupt(\\"return\\");
 
-                      case 19:
+                      case 20:
                         enablePullDownRefresh = ((_c = config === null || config === void 0 ? void 0 : config.window) === null || _c === void 0 ? void 0 : _c.enablePullDownRefresh) || false;
                         undefined.trigger(\\"__taroRouterChange\\", {
                             \\"toLocation\\": {
@@ -3860,15 +3867,15 @@ exports[`vue should build vue app 2`] = `
                         handler.load(page, pageConfig);
                         (_f = app.onShow) === null || _f === void 0 ? void 0 : _f.call(app, launchParam);
 
-                      case 29:
+                      case 30:
                       case \\"end\\":
                         return _context.stop();
                     }
                 }
-            }), _callee, null, [ [ 7, 14 ] ]);
+            }), _callee, null, [ [ 8, 15 ] ]);
         })));
     }
-    var path_to_regexp = __webpack_require__(4);
+    var path_to_regexp = __webpack_require__(3);
     var path_to_regexp_default = __webpack_require__.n(path_to_regexp);
     var module_hasOwnProperty = Object.prototype.hasOwnProperty;
     var cache = new Map;
@@ -4465,7 +4472,14 @@ exports[`vue should build vue app 2`] = `
         var router = new universal_router_module(routes, {
             \\"baseUrl\\": basename || \\"\\"
         });
-        var launchParam = handler.getQuery(stack.length);
+        var launchParam = {
+            \\"path\\": handler.homePage,
+            \\"query\\": handler.getQuery(stack.length),
+            \\"scene\\": 0,
+            \\"shareTicket\\": \\"\\",
+            \\"referrerInfo\\": {}
+        };
+        undefined.trigger(\\"__taroRouterLaunch\\", launchParam);
         (_a = app.onLaunch) === null || _a === void 0 ? void 0 : _a.call(app, launchParam);
         app.onError && window.addEventListener(\\"error\\", (function(e) {
             var _a;
@@ -4644,7 +4658,7 @@ exports[`vue should build vue app 2`] = `
     function taro_framework_createReactApp() {}
     function taro_framework_createVueApp() {}
     function taro_framework_createVue3App() {}
-    var taro_components = __webpack_require__(1);
+    var taro_components = __webpack_require__(4);
     var mocks_taro_components = __webpack_require__(27);
     var app_config_config = {
         \\"router\\": {
@@ -4660,7 +4674,7 @@ exports[`vue should build vue app 2`] = `
             \\"navigationBarTextStyle\\": \\"black\\"
         }
     };
-    __webpack_require__(1);
+    Promise.resolve().then(__webpack_require__.bind(null, 4));
     Object(taro_components[\\"applyPolyfills\\"])().then((function() {
         Object(taro_components[\\"defineCustomElements\\"])(taro_runtime_window);
     }));

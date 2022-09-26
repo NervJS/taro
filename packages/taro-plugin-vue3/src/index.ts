@@ -1,5 +1,6 @@
 import { chalk, fs, VUE_EXT } from '@tarojs/helper'
 import { isString } from '@tarojs/shared'
+import { capitalize, internalComponents, toCamelCase } from '@tarojs/shared/dist/template'
 
 import { modifyH5WebpackChain } from './webpack.h5'
 import { modifyMiniWebpackChain } from './webpack.mini'
@@ -13,6 +14,16 @@ type CompilerOptions = {
   comments: boolean
   nodeTransforms: ((...args: any) => void)[]
 }
+
+interface IComponentConfig {
+  includes: Set<string>
+}
+
+interface OnParseCreateElementArgs {
+  nodeName: string
+  componentConfig: IComponentConfig
+}
+
 export interface IConfig {
   mini?: {
     compilerOptions: CompilerOptions
@@ -48,18 +59,19 @@ export default (ctx: IPluginContext, config: IConfig = {}) => {
 
     if (!opts?.compiler) return
 
-    // 提供给 webpack5 依赖预编译收集器的第三方依赖
-    const deps = [
-      'vue',
-      '@tarojs/plugin-framework-vue3/dist/runtime'
-    ]
     if (isString(opts.compiler)) {
       opts.compiler = {
         type: opts.compiler
       }
     }
+
     const { compiler } = opts
     if (compiler.type === 'webpack5') {
+      // 提供给 webpack5 依赖预编译收集器的第三方依赖
+      const deps = [
+        'vue',
+        '@tarojs/plugin-framework-vue3/dist/runtime'
+      ]
       compiler.prebundle ||= {}
       const prebundleOptions = compiler.prebundle
       prebundleOptions.include ||= []
@@ -81,6 +93,12 @@ export default (ctx: IPluginContext, config: IConfig = {}) => {
       const esbuildConfig = prebundleOptions.esbuild
       esbuildConfig.plugins ||= []
       esbuildConfig.plugins.push(taroVue3Plugin)
+    }
+  })
+
+  ctx.onParseCreateElement(({ nodeName, componentConfig }: OnParseCreateElementArgs) => {
+    if (capitalize(toCamelCase(nodeName)) in internalComponents) {
+      componentConfig.includes.add(nodeName)
     }
   })
 }

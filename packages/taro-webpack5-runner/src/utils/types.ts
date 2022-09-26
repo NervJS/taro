@@ -1,10 +1,8 @@
-import { IH5Config, IMiniAppConfig, IProjectBaseConfig } from '@tarojs/taro/types/compile'
-
-import { PrerenderConfig } from '../prerender/prerender'
-
 import type { RecursiveTemplate, UnRecursiveTemplate } from '@tarojs/shared/dist/template'
+import type { IH5Config, IMiniAppConfig, IProjectBaseConfig } from '@tarojs/taro/types/compile'
 import type Webpack from 'webpack'
 import type Chain from 'webpack-chain'
+import type { PrerenderConfig } from '../prerender/prerender'
 import type { IComponentConfig } from '../template/component'
 
 export interface IOption {
@@ -45,7 +43,7 @@ export interface HookModifyWebpackChain {
 
 export interface CommonBuildConfig extends IProjectBaseConfig {
   entry?: Webpack.EntryObject
-  mode: 'production' | 'development'
+  mode: 'production' | 'development' | 'none'
 }
 
 export interface MiniBuildConfig extends CommonBuildConfig, IMiniAppConfig {
@@ -73,4 +71,4 @@ export interface H5BuildConfig extends CommonBuildConfig, IH5Config {
   entryFileName?: string
 }
 
-export type AddPageChunks = ((pages: Map<string, string[]>, pagesNames?: string[]) => void)
+export type AddPageChunks = (pages: Map<string, string[]>, pagesNames?: string[]) => void
