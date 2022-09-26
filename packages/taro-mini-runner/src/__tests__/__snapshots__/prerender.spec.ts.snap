@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`prerender should prerender selected pages 1`] = `25`;
+exports[`prerender should prerender selected pages 1`] = `22`;
 
 exports[`prerender should prerender selected pages 2`] = `
 "
@@ -56,7 +56,7 @@ require(\\"./taro\\");
         function useRouter() {}
         function useTabItemTap() {}
         function useScope() {}
-        var needPromiseApis = new Set([ \\"authPrivateMessage\\", \\"disableAlertBeforeUnload\\", \\"enableAlertBeforeUnload\\", \\"getBackgroundFetchData\\", \\"getGroupEnterInfo\\", \\"getShareInfo\\", \\"getWeRunData\\", \\"join1v1Chat\\", \\"openVideoEditor\\", \\"saveFileToDisk\\", \\"scanItem\\", \\"setEnable1v1Chat\\", \\"setWindowSize\\", \\"sendBizRedPacket\\", \\"startFacialRecognitionVerify\\", \\"openCustomerServiceChat\\", \\"getLocalIPAddress\\", \\"getUserProfile\\", \\"editImage\\", \\"getFuzzyLocation\\" ]);
+        var needPromiseApis = new Set([ \\"authPrivateMessage\\", \\"disableAlertBeforeUnload\\", \\"enableAlertBeforeUnload\\", \\"getBackgroundFetchData\\", \\"getGroupEnterInfo\\", \\"getShareInfo\\", \\"getWeRunData\\", \\"join1v1Chat\\", \\"openVideoEditor\\", \\"saveFileToDisk\\", \\"scanItem\\", \\"setEnable1v1Chat\\", \\"setWindowSize\\", \\"sendBizRedPacket\\", \\"startFacialRecognitionVerify\\", \\"openCustomerServiceChat\\", \\"getLocalIPAddress\\", \\"getUserProfile\\", \\"editImage\\", \\"getFuzzyLocation\\", \\"cropImage\\" ]);
         function initNativeApi(taro) {
             processApis(taro, wx, {
                 needPromiseApis: needPromiseApis,
@@ -1305,30 +1305,11 @@ require(\\"./taro\\");
 }, [ [ 13, 0, 1 ] ] ]);
 
 /** filePath: dist/comp.json **/
-{\\"component\\":true,\\"usingComponents\\":{\\"comp\\":\\"./comp\\",\\"custom-wrapper\\":\\"./custom-wrapper\\"}}
+{\\"component\\":true,\\"usingComponents\\":{\\"comp\\":\\"./comp\\"}}
 
 /** filePath: dist/comp.wxml **/
 <import src=\\"./base.wxml\\" />
 <template is=\\"tmpl_0_container\\" data=\\"{{i:i,l:l}}\\" />
-
-/** filePath: dist/custom-wrapper.js **/
-(wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 7 ], {
-    14: function(module, __webpack_exports__, __webpack_require__) {
-        \\"use strict\\";
-        __webpack_require__.r(__webpack_exports__);
-        var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(2);
-        Component(Object(_tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__[\\"createRecursiveComponentConfig\\"])(\\"custom-wrapper\\"));
-    }
-}, [ [ 14, 0, 1 ] ] ]);
-
-/** filePath: dist/custom-wrapper.json **/
-{\\"component\\":true,\\"usingComponents\\":{\\"comp\\":\\"./comp\\",\\"custom-wrapper\\":\\"./custom-wrapper\\"}}
-
-/** filePath: dist/custom-wrapper.wxml **/
-<import src=\\"./base.wxml\\" />
-  <block wx:for=\\"{{i.cn}}\\" wx:key=\\"sid\\">
-    <template is=\\"tmpl_0_container\\" data=\\"{{i:item,l:''}}\\" />
-  </block>
 
 /** filePath: dist/others/detail/index.js **/
 (wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 8 ], {
@@ -2610,7 +2591,7 @@ require(\\"./taro\\");
       }
 
 /** filePath: dist/others/detail/index.json **/
-{\\"usingComponents\\":{\\"custom-wrapper\\":\\"../../custom-wrapper\\",\\"comp\\":\\"../../comp\\"}}
+{\\"usingComponents\\":{\\"comp\\":\\"../../comp\\"}}
 
 /** filePath: dist/others/detail/index.wxml **/
 <import src=\\"../../base.wxml\\"/>
@@ -2668,7 +2649,7 @@ require(\\"./taro\\");
 }, [ [ 19, 0, 1, 3, 2 ] ] ]);
 
 /** filePath: dist/others/normal/index.json **/
-{\\"usingComponents\\":{\\"custom-wrapper\\":\\"../../custom-wrapper\\",\\"comp\\":\\"../../comp\\"}}
+{\\"usingComponents\\":{\\"comp\\":\\"../../comp\\"}}
 
 /** filePath: dist/others/normal/index.wxml **/
 <import src=\\"../../base.wxml\\"/>
@@ -2723,7 +2704,7 @@ require(\\"./taro\\");
       }
 
 /** filePath: dist/pages/index/index.json **/
-{\\"navigationBarTitleText\\":\\"首页\\",\\"usingComponents\\":{\\"custom-wrapper\\":\\"../../custom-wrapper\\",\\"comp\\":\\"../../comp\\"}}
+{\\"navigationBarTitleText\\":\\"首页\\",\\"usingComponents\\":{\\"comp\\":\\"../../comp\\"}}
 
 /** filePath: dist/pages/index/index.wxml **/
 <import src=\\"../../base.wxml\\"/>
@@ -2943,7 +2924,7 @@ module.exports = {
 "
 `;
 
-exports[`prerender should transform dom tree 1`] = `25`;
+exports[`prerender should transform dom tree 1`] = `22`;
 
 exports[`prerender should transform dom tree 2`] = `
 "
@@ -2999,7 +2980,7 @@ require(\\"./taro\\");
         function useRouter() {}
         function useTabItemTap() {}
         function useScope() {}
-        var needPromiseApis = new Set([ \\"authPrivateMessage\\", \\"disableAlertBeforeUnload\\", \\"enableAlertBeforeUnload\\", \\"getBackgroundFetchData\\", \\"getGroupEnterInfo\\", \\"getShareInfo\\", \\"getWeRunData\\", \\"join1v1Chat\\", \\"openVideoEditor\\", \\"saveFileToDisk\\", \\"scanItem\\", \\"setEnable1v1Chat\\", \\"setWindowSize\\", \\"sendBizRedPacket\\", \\"startFacialRecognitionVerify\\", \\"openCustomerServiceChat\\", \\"getLocalIPAddress\\", \\"getUserProfile\\", \\"editImage\\", \\"getFuzzyLocation\\" ]);
+        var needPromiseApis = new Set([ \\"authPrivateMessage\\", \\"disableAlertBeforeUnload\\", \\"enableAlertBeforeUnload\\", \\"getBackgroundFetchData\\", \\"getGroupEnterInfo\\", \\"getShareInfo\\", \\"getWeRunData\\", \\"join1v1Chat\\", \\"openVideoEditor\\", \\"saveFileToDisk\\", \\"scanItem\\", \\"setEnable1v1Chat\\", \\"setWindowSize\\", \\"sendBizRedPacket\\", \\"startFacialRecognitionVerify\\", \\"openCustomerServiceChat\\", \\"getLocalIPAddress\\", \\"getUserProfile\\", \\"editImage\\", \\"getFuzzyLocation\\", \\"cropImage\\" ]);
         function initNativeApi(taro) {
             processApis(taro, wx, {
                 needPromiseApis: needPromiseApis,
@@ -4248,30 +4229,11 @@ require(\\"./taro\\");
 }, [ [ 13, 0, 1 ] ] ]);
 
 /** filePath: dist/comp.json **/
-{\\"component\\":true,\\"usingComponents\\":{\\"comp\\":\\"./comp\\",\\"custom-wrapper\\":\\"./custom-wrapper\\"}}
+{\\"component\\":true,\\"usingComponents\\":{\\"comp\\":\\"./comp\\"}}
 
 /** filePath: dist/comp.wxml **/
 <import src=\\"./base.wxml\\" />
 <template is=\\"tmpl_0_container\\" data=\\"{{i:i,l:l}}\\" />
-
-/** filePath: dist/custom-wrapper.js **/
-(wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 7 ], {
-    14: function(module, __webpack_exports__, __webpack_require__) {
-        \\"use strict\\";
-        __webpack_require__.r(__webpack_exports__);
-        var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(2);
-        Component(Object(_tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__[\\"createRecursiveComponentConfig\\"])(\\"custom-wrapper\\"));
-    }
-}, [ [ 14, 0, 1 ] ] ]);
-
-/** filePath: dist/custom-wrapper.json **/
-{\\"component\\":true,\\"usingComponents\\":{\\"comp\\":\\"./comp\\",\\"custom-wrapper\\":\\"./custom-wrapper\\"}}
-
-/** filePath: dist/custom-wrapper.wxml **/
-<import src=\\"./base.wxml\\" />
-  <block wx:for=\\"{{i.cn}}\\" wx:key=\\"sid\\">
-    <template is=\\"tmpl_0_container\\" data=\\"{{i:item,l:''}}\\" />
-  </block>
 
 /** filePath: dist/others/detail/index.js **/
 (wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 8 ], {
@@ -5553,7 +5515,7 @@ require(\\"./taro\\");
       }
 
 /** filePath: dist/others/detail/index.json **/
-{\\"usingComponents\\":{\\"custom-wrapper\\":\\"../../custom-wrapper\\",\\"comp\\":\\"../../comp\\"}}
+{\\"usingComponents\\":{\\"comp\\":\\"../../comp\\"}}
 
 /** filePath: dist/others/detail/index.wxml **/
 <import src=\\"../../base.wxml\\"/>
@@ -5611,7 +5573,7 @@ require(\\"./taro\\");
 }, [ [ 19, 0, 1, 3, 2 ] ] ]);
 
 /** filePath: dist/others/normal/index.json **/
-{\\"usingComponents\\":{\\"custom-wrapper\\":\\"../../custom-wrapper\\",\\"comp\\":\\"../../comp\\"}}
+{\\"usingComponents\\":{\\"comp\\":\\"../../comp\\"}}
 
 /** filePath: dist/others/normal/index.wxml **/
 <import src=\\"../../base.wxml\\"/>
@@ -5666,7 +5628,7 @@ require(\\"./taro\\");
       }
 
 /** filePath: dist/pages/index/index.json **/
-{\\"navigationBarTitleText\\":\\"首页\\",\\"usingComponents\\":{\\"custom-wrapper\\":\\"../../custom-wrapper\\",\\"comp\\":\\"../../comp\\"}}
+{\\"navigationBarTitleText\\":\\"首页\\",\\"usingComponents\\":{\\"comp\\":\\"../../comp\\"}}
 
 /** filePath: dist/pages/index/index.wxml **/
 <import src=\\"../../base.wxml\\"/>
@@ -5886,7 +5848,7 @@ module.exports = {
 "
 `;
 
-exports[`prerender should transform result xml 1`] = `25`;
+exports[`prerender should transform result xml 1`] = `22`;
 
 exports[`prerender should transform result xml 2`] = `
 "
@@ -5942,7 +5904,7 @@ require(\\"./taro\\");
         function useRouter() {}
         function useTabItemTap() {}
         function useScope() {}
-        var needPromiseApis = new Set([ \\"authPrivateMessage\\", \\"disableAlertBeforeUnload\\", \\"enableAlertBeforeUnload\\", \\"getBackgroundFetchData\\", \\"getGroupEnterInfo\\", \\"getShareInfo\\", \\"getWeRunData\\", \\"join1v1Chat\\", \\"openVideoEditor\\", \\"saveFileToDisk\\", \\"scanItem\\", \\"setEnable1v1Chat\\", \\"setWindowSize\\", \\"sendBizRedPacket\\", \\"startFacialRecognitionVerify\\", \\"openCustomerServiceChat\\", \\"getLocalIPAddress\\", \\"getUserProfile\\", \\"editImage\\", \\"getFuzzyLocation\\" ]);
+        var needPromiseApis = new Set([ \\"authPrivateMessage\\", \\"disableAlertBeforeUnload\\", \\"enableAlertBeforeUnload\\", \\"getBackgroundFetchData\\", \\"getGroupEnterInfo\\", \\"getShareInfo\\", \\"getWeRunData\\", \\"join1v1Chat\\", \\"openVideoEditor\\", \\"saveFileToDisk\\", \\"scanItem\\", \\"setEnable1v1Chat\\", \\"setWindowSize\\", \\"sendBizRedPacket\\", \\"startFacialRecognitionVerify\\", \\"openCustomerServiceChat\\", \\"getLocalIPAddress\\", \\"getUserProfile\\", \\"editImage\\", \\"getFuzzyLocation\\", \\"cropImage\\" ]);
         function initNativeApi(taro) {
             processApis(taro, wx, {
                 needPromiseApis: needPromiseApis,
@@ -7191,30 +7153,11 @@ require(\\"./taro\\");
 }, [ [ 13, 0, 1 ] ] ]);
 
 /** filePath: dist/comp.json **/
-{\\"component\\":true,\\"usingComponents\\":{\\"comp\\":\\"./comp\\",\\"custom-wrapper\\":\\"./custom-wrapper\\"}}
+{\\"component\\":true,\\"usingComponents\\":{\\"comp\\":\\"./comp\\"}}
 
 /** filePath: dist/comp.wxml **/
 <import src=\\"./base.wxml\\" />
 <template is=\\"tmpl_0_container\\" data=\\"{{i:i,l:l}}\\" />
-
-/** filePath: dist/custom-wrapper.js **/
-(wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 7 ], {
-    14: function(module, __webpack_exports__, __webpack_require__) {
-        \\"use strict\\";
-        __webpack_require__.r(__webpack_exports__);
-        var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(2);
-        Component(Object(_tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__[\\"createRecursiveComponentConfig\\"])(\\"custom-wrapper\\"));
-    }
-}, [ [ 14, 0, 1 ] ] ]);
-
-/** filePath: dist/custom-wrapper.json **/
-{\\"component\\":true,\\"usingComponents\\":{\\"comp\\":\\"./comp\\",\\"custom-wrapper\\":\\"./custom-wrapper\\"}}
-
-/** filePath: dist/custom-wrapper.wxml **/
-<import src=\\"./base.wxml\\" />
-  <block wx:for=\\"{{i.cn}}\\" wx:key=\\"sid\\">
-    <template is=\\"tmpl_0_container\\" data=\\"{{i:item,l:''}}\\" />
-  </block>
 
 /** filePath: dist/others/detail/index.js **/
 (wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 8 ], {
@@ -8496,7 +8439,7 @@ require(\\"./taro\\");
       }
 
 /** filePath: dist/others/detail/index.json **/
-{\\"usingComponents\\":{\\"custom-wrapper\\":\\"../../custom-wrapper\\",\\"comp\\":\\"../../comp\\"}}
+{\\"usingComponents\\":{\\"comp\\":\\"../../comp\\"}}
 
 /** filePath: dist/others/detail/index.wxml **/
 <import src=\\"../../base.wxml\\"/>
@@ -8554,7 +8497,7 @@ require(\\"./taro\\");
 }, [ [ 19, 0, 1, 3, 2 ] ] ]);
 
 /** filePath: dist/others/normal/index.json **/
-{\\"usingComponents\\":{\\"custom-wrapper\\":\\"../../custom-wrapper\\",\\"comp\\":\\"../../comp\\"}}
+{\\"usingComponents\\":{\\"comp\\":\\"../../comp\\"}}
 
 /** filePath: dist/others/normal/index.wxml **/
 <import src=\\"../../base.wxml\\"/>
@@ -8609,7 +8552,7 @@ require(\\"./taro\\");
       }
 
 /** filePath: dist/pages/index/index.json **/
-{\\"navigationBarTitleText\\":\\"首页\\",\\"usingComponents\\":{\\"custom-wrapper\\":\\"../../custom-wrapper\\",\\"comp\\":\\"../../comp\\"}}
+{\\"navigationBarTitleText\\":\\"首页\\",\\"usingComponents\\":{\\"comp\\":\\"../../comp\\"}}
 
 /** filePath: dist/pages/index/index.wxml **/
 <import src=\\"../../base.wxml\\"/>
