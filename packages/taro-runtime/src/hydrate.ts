@@ -9,10 +9,11 @@ import {
   STYLE,
   VIEW
 } from './constants'
+import { getComponentsAlias, isComment, isHasExtractProp, isText } from './utils'
+
 import type { TaroElement } from './dom/element'
 import type { TaroText } from './dom/text'
 import type { MiniData, MiniElementData } from './interface'
-import { getComponentsAlias, isComment, isHasExtractProp, isText } from './utils'
 
 let SPECIAL_NODES
 let componentsAlias

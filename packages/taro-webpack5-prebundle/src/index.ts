@@ -1,10 +1,11 @@
-import { EntryObject } from 'webpack'
-import Chain from 'webpack-chain'
 import webpackDevServer from 'webpack-dev-server'
 
-import { IH5PrebundleConfig } from './h5'
-import { IMiniPrebundleConfig } from './mini'
 import BasePrebundle, { IPrebundle } from './prebundle'
+
+import type { EntryObject } from 'webpack'
+import type Chain from 'webpack-chain'
+import type { IH5PrebundleConfig } from './h5'
+import type { IMiniPrebundleConfig } from './mini'
 
 export * from './prebundle'
 

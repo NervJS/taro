@@ -13,15 +13,16 @@ import {
   VIEW
 } from '../constants'
 import { MutationObserver, MutationRecordType } from '../dom-external/mutation-observer'
-import type { Attributes, Func } from '../interface'
 import { extend, getComponentsAlias, isElement, isHasExtractProp, shortcutAttr } from '../utils'
 import { ClassList } from './class-list'
-import type { TaroEvent } from './event'
 import { eventSource } from './event-source'
 import { TaroNode } from './node'
 import { NodeType } from './node_types'
 import { Style } from './style'
 import { treeToArray } from './tree'
+
+import type { Attributes, Func } from '../interface'
+import type { TaroEvent } from './event'
 
 export class TaroElement extends TaroNode {
   public tagName: string
@@ -184,22 +185,23 @@ export class TaroElement extends TaroNode {
 
     qualifiedName = shortcutAttr(qualifiedName)
 
+    const qualifiedNameInCamelCase = toCamelCase(qualifiedName)
     const payload = {
-      path: `${_path}.${toCamelCase(qualifiedName)}`,
+      path: `${_path}.${qualifiedNameInCamelCase}`,
       value: isFunction(value) ? () => value : value
     }
 
     hooks.call('modifySetAttrPayload', this, qualifiedName, payload, componentsAlias)
 
     if (_alias) {
-      const qualifiedNameAlias = _alias[qualifiedName] || qualifiedName
+      const qualifiedNameAlias = _alias[qualifiedNameInCamelCase] || qualifiedName
       payload.path = `${_path}.${toCamelCase(qualifiedNameAlias)}`
     }
 
     this.enqueueUpdate(payload)
 
     if (this.nodeName === VIEW) {
-      if (toCamelCase(qualifiedName) === CATCHMOVE) {
+      if (qualifiedNameInCamelCase === CATCHMOVE) {
         // catchMove = true: catch-view
         // catchMove = false: view or static-view
         this.enqueueUpdate({
@@ -254,22 +256,23 @@ export class TaroElement extends TaroNode {
 
     qualifiedName = shortcutAttr(qualifiedName)
 
+    const qualifiedNameInCamelCase = toCamelCase(qualifiedName)
     const payload = {
-      path: `${_path}.${toCamelCase(qualifiedName)}`,
+      path: `${_path}.${qualifiedNameInCamelCase}`,
       value: ''
     }
 
     hooks.call('modifyRmAttrPayload', this, qualifiedName, payload, componentsAlias)
 
     if (_alias) {
-      const qualifiedNameAlias = _alias[qualifiedName] || qualifiedName
+      const qualifiedNameAlias = _alias[qualifiedNameInCamelCase] || qualifiedName
       payload.path = `${_path}.${toCamelCase(qualifiedNameAlias)}`
     }
 
     this.enqueueUpdate(payload)
 
     if (this.nodeName === VIEW) {
-      if (toCamelCase(qualifiedName) === CATCHMOVE) {
+      if (qualifiedNameInCamelCase === CATCHMOVE) {
         // catch-view => view or static-view or pure-view
         this.enqueueUpdate({
           path: `${_path}.${Shortcuts.NodeName}`,

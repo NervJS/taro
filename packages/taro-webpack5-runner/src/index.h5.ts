@@ -9,8 +9,9 @@ import WebpackDevServer from 'webpack-dev-server'
 
 import { addHtmlSuffix, addLeadingSlash, formatOpenHost, parsePublicPath, stripBasename, stripTrailingSlash } from './utils'
 import H5AppInstance from './utils/H5AppInstance'
-import type { H5BuildConfig } from './utils/types'
 import { H5Combination } from './webpack/H5Combination'
+
+import type { H5BuildConfig } from './utils/types'
 
 let isFirstBuild = true
 
@@ -132,11 +133,11 @@ export default async function build (appPath: string, rawConfig: H5BuildConfig):
 async function getDevServerOptions (appPath: string, config: H5BuildConfig): Promise<WebpackDevServer.Configuration> {
   const publicPath = parsePublicPath(config.publicPath)
   const outputPath = path.join(appPath, config.outputRoot || 'dist')
-  const customDevServerOption = config.devServer || {}
+  const { proxy: customProxy = [], ...customDevServerOption } = config.devServer || {}
   const routerConfig = config.router || {}
   const routerMode = routerConfig.mode || 'hash'
   const isMultiRouterMode = routerMode === 'multi'
-  const proxy = {}
+  const proxy: WebpackDevServer.Configuration['proxy'] = []
   if (isMultiRouterMode) {
     const app = new H5AppInstance(config.entry as EntryNormalized, {
       sourceDir: path.join(appPath, config.sourceRoot || SOURCE_DIR),
@@ -180,7 +181,24 @@ async function getDevServerOptions (appPath: string, config: H5BuildConfig): Pro
         }
       }
     }
-    proxy[routerBasename] = { bypass }
+    proxy.push({
+      context: [routerBasename],
+      bypass
+    })
+  }
+
+  if (!(customProxy instanceof Array)) {
+    proxy.push(...Object.entries(customProxy).map(([url, options = {}]) => {
+      const item: WebpackDevServer.ProxyConfigArrayItem = {
+        context: [url]
+      }
+      if (typeof options === 'string') {
+        item.target = options
+      } else {
+        Object.assign(item, options)
+      }
+      return item
+    }))
   }
 
   const chunkFilename = config.output.chunkFilename ?? `${config.chunkDirectory || 'chunk'}/[name].js`

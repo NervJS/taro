@@ -36,7 +36,6 @@ exports[`RichText RichText render 1`] = `
       messagingEnabled={true}
       onContentProcessDidTerminate={[Function]}
       onHttpError={[Function]}
-      onLoadEnd={[Function]}
       onLoadingError={[Function]}
       onLoadingFinish={[Function]}
       onLoadingProgress={[Function]}
@@ -46,7 +45,7 @@ exports[`RichText RichText render 1`] = `
       scalesPageToFit={false}
       source={
         Object {
-          "html": "<meta name=\\"viewport\\" content=\\"width=device-width, initial-scale=1, maximum-scale=1\\"/><div class=\\"div_class\\" style=\\"line-height:60px;color:white;font-size:60px\\"><span>Hello World!</span></div>",
+          "html": "<meta name=\\"viewport\\" content=\\"width=device-width, initial-scale=1, maximum-scale=1\\"/><div class=\\"div_class\\" style=\\"line-height:60px;color:white;font-size:60px;\\">Hello World!</div>",
         }
       }
       style={
@@ -63,6 +62,7 @@ exports[`RichText RichText render 1`] = `
           },
         ]
       }
+      textInteractionEnabled={true}
       useSharedProcessPool={true}
     />
   </View>

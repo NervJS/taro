@@ -4,11 +4,12 @@ import { Configuration, EntryNormalized } from 'webpack'
 
 import { parsePublicPath } from '../utils'
 import H5AppInstance from '../utils/H5AppInstance'
-import type { H5BuildConfig } from '../utils/types'
 import { Combination } from './Combination'
 import { H5BaseConfig } from './H5BaseConfig'
 import { H5WebpackModule } from './H5WebpackModule'
 import { H5WebpackPlugin } from './H5WebpackPlugin'
+
+import type { H5BuildConfig } from '../utils/types'
 
 type Output = Required<Configuration>['output']
 type Optimization = Required<Configuration>['optimization']
@@ -49,7 +50,6 @@ export class H5Combination extends Combination<H5BuildConfig> {
     }
 
     const webpackOutput = this.getOutput({
-      mode,
       publicPath,
       chunkDirectory,
       customOutput: output as Output,
@@ -78,7 +78,6 @@ export class H5Combination extends Combination<H5BuildConfig> {
   getOutput ({
     publicPath = '/', chunkDirectory, customOutput = {}, entryFileName = 'app'
   }: {
-    mode: H5BuildConfig['mode']
     publicPath: string
     chunkDirectory: H5BuildConfig['chunkDirectory']
     customOutput?: Output
@@ -122,6 +121,7 @@ export class H5Combination extends Combination<H5BuildConfig> {
     }
     const optimization: Optimization = {
       nodeEnv,
+      chunkIds: isProd ? 'deterministic' : 'named', // false 或导致编译错误，natural、size、total-size 与 prebundle 特性不兼容
       removeEmptyChunks: true,
       splitChunks: {
         chunks: 'initial',

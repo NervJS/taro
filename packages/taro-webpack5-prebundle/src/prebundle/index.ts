@@ -1,17 +1,19 @@
-import { Config } from '@swc/core'
-import { chalk, fs, readConfig, resolveMainFilePath, terminalLink } from '@tarojs/helper'
-import { IProjectBaseConfig } from '@tarojs/taro/types/compile'
+import { chalk, fs, readConfig, recursiveMerge, resolveMainFilePath, terminalLink } from '@tarojs/helper'
 import { Message } from 'esbuild'
 import path from 'path'
 import { performance } from 'perf_hooks'
-import { EntryObject } from 'webpack'
-import Chain from 'webpack-chain'
+import webpack from 'webpack'
 
-import { commitMeta, getBundleHash, getCacheDir, getMeasure, Metadata, sortDeps } from '../utils'
+import { commitMeta, createResolve, getBundleHash, getCacheDir, getMeasure, Metadata, sortDeps } from '../utils'
 import { CollectedDeps, MF_NAME } from '../utils/constant'
 import TaroModuleFederationPlugin from '../webpack/TaroModuleFederationPlugin'
 import { bundle } from './bundle'
 import { scanImports } from './scanImports'
+
+import type { Config } from '@swc/core'
+import type { IProjectBaseConfig } from '@tarojs/taro/types/compile'
+import type { Configuration, EntryObject } from 'webpack'
+import type Chain from 'webpack-chain'
 
 export type IPrebundle = Exclude<IProjectBaseConfig['compiler'], string | undefined>['prebundle']
 
@@ -43,6 +45,7 @@ export default class BasePrebundle<T extends IPrebundleConfig = IPrebundleConfig
 
   deps: CollectedDeps = new Map()
   measure: ReturnType<typeof getMeasure>
+  webpackConfig: Configuration
 
   constructor (protected config: T, protected option: IPrebundle) {
     if (!option.enable) return
@@ -69,7 +72,10 @@ export default class BasePrebundle<T extends IPrebundleConfig = IPrebundleConfig
       if (force !== true) {
         Object.assign(this.preMetadata, fs.readJSONSync(this.metadataPath))
       }
-    } catch (e) {}
+    } catch (e) {} // eslint-disable-line no-empty
+
+    this.webpackConfig = this.chain.toConfig()
+    createResolve(this.appPath, this.webpackConfig.resolve)
   }
 
   async run () {
@@ -133,6 +139,7 @@ export default class BasePrebundle<T extends IPrebundleConfig = IPrebundleConfig
 
     await scanImports({
       appPath: this.appPath,
+      chain: this.chain,
       customEsbuildConfig: this.customEsbuildConfig,
       entries,
       include,
@@ -215,5 +222,16 @@ export default class BasePrebundle<T extends IPrebundleConfig = IPrebundleConfig
         remoteAssets: this.metadata.remoteAssets,
         runtimeRequirements: this.metadata.runtimeRequirements || new Set()
       }])
+  }
+
+  getRemoteWebpackCompiler (standard: Configuration, custom: Configuration = {}) {
+    /** NOTE: 删除 Host 应用影响打包 Remote 应用的配置 */
+    const inherit = { ...this.webpackConfig }
+    delete inherit.devServer
+    delete inherit.module
+    delete inherit.plugins
+    delete inherit.optimization?.splitChunks
+
+    return webpack(recursiveMerge(inherit, standard, custom))
   }
 }

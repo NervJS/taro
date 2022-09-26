@@ -1,14 +1,15 @@
 /* eslint-disable dot-notation */
 import { Current, PageInstance } from '@tarojs/runtime'
-import type { PageConfig } from '@tarojs/taro'
 import queryString from 'query-string'
 
-import type { MpaRouterConfig, Route } from '../../types/router'
 import { bindPageResize } from '../events/resize'
 import { bindPageScroll } from '../events/scroll'
 import { setHistoryMode } from '../history'
 import { initTabbar } from '../tabbar'
-import { stripBasename } from '../utils'
+import { addLeadingSlash, stripBasename } from '../utils'
+
+import type { PageConfig } from '@tarojs/taro'
+import type { MpaRouterConfig, Route } from '../../types/router'
 
 export default class MultiPageHandler {
   protected config: MpaRouterConfig
@@ -31,7 +32,7 @@ export default class MultiPageHandler {
   get pageConfig () { return this.config.route }
 
   get isTabBar () {
-    const routePath = stripBasename(this.pathname, this.basename)
+    const routePath = addLeadingSlash(stripBasename(this.pathname, this.basename))
     const pagePath = Object.entries(this.customRoutes).find(
       ([, target]) => {
         if (typeof target === 'string') {

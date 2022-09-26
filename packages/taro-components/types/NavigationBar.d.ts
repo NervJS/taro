@@ -1,6 +1,5 @@
 import { ComponentType } from 'react'
 import { StandardProps, CommonEventFunction } from './common'
-
 interface NavigationBarProps extends StandardProps {
   /** 导航条标题
    * @supported weapp
@@ -41,5 +40,4 @@ interface NavigationBarProps extends StandardProps {
  * @see https://developers.weixin.qq.com/miniprogram/dev/component/open-data.html
  */
 declare const NavigationBar: ComponentType<NavigationBarProps>
-
 export { NavigationBar, NavigationBarProps }

@@ -1,7 +1,8 @@
 import { isNpmPkg, recursiveMerge } from '@tarojs/helper'
-import type { IPostcssOption } from '@tarojs/taro/types/compile'
 import path from 'path'
 import { sync as resolveSync } from 'resolve'
+
+import type { IPostcssOption } from '@tarojs/taro/types/compile'
 
 const platform = process.env.TARO_ENV
 const defaultAutoprefixerOption = {

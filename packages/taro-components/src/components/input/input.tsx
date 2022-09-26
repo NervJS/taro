@@ -95,6 +95,8 @@ export class Input implements ComponentInterface {
     } else {
       this.inputRef?.addEventListener('compositionstart', this.handleComposition)
       this.inputRef?.addEventListener('compositionend', this.handleComposition)
+      this.inputRef?.addEventListener('beforeinput', this.handleBeforeinput)
+      this.inputRef?.addEventListener('textInput', this.handleBeforeinput)
     }
 
     Object.defineProperty(this.el, 'value', {
@@ -107,6 +109,11 @@ export class Input implements ComponentInterface {
   disconnectedCallback () {
     if (this.type === 'file') {
       this.inputRef?.removeEventListener('change', this.fileListener)
+    } else {
+      this.inputRef?.removeEventListener('compositionstart', this.handleComposition)
+      this.inputRef?.removeEventListener('compositionend', this.handleComposition)
+      this.inputRef?.removeEventListener('beforeinput', this.handleBeforeinput)
+      this.inputRef?.removeEventListener('textInput', this.handleBeforeinput)
     }
   }
 
@@ -123,7 +130,7 @@ export class Input implements ComponentInterface {
       const inputType = getTrueType(type, confirmType, password)
       this.onInputExcuted = true
       /* 修复 number 类型 maxlength 无效 */
-      if (inputType === 'number' && value && maxlength <= value.length) {
+      if (inputType === 'number' && value && maxlength > -1 && maxlength <= value.length) {
         value = value.substring(0, maxlength)
         e.target.value = value
       }
@@ -144,6 +151,7 @@ export class Input implements ComponentInterface {
         value,
         cursor: value.length
       })
+      this.onInputExcuted = false
     }
   }
 
@@ -210,6 +218,19 @@ export class Input implements ComponentInterface {
       })
     } else {
       this.isOnComposition = true
+    }
+  }
+
+  handleBeforeinput = (e) => {
+    if (!e.data) return
+    const isNumber = e.data && /[0-9]/.test(e.data)
+    if (this.type === 'number' && !isNumber) {
+      e.preventDefault()
+    }
+    if (this.type === 'digit' && !isNumber) {
+      if (e.data !== '.' || (e.data === '.' && e.target.value.indexOf('.') > -1)) {
+        e.preventDefault()
+      }
     }
   }
 

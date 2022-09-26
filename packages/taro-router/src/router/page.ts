@@ -1,9 +1,7 @@
 /* eslint-disable dot-notation */
 import { Current, PageInstance, requestAnimationFrame } from '@tarojs/runtime'
-import type { PageConfig, RouterAnimate } from '@tarojs/taro'
 import queryString from 'query-string'
 
-import type { Route, SpaRouterConfig } from '../../types/router'
 import { loadAnimateStyle } from '../animation'
 import { bindPageResize } from '../events/resize'
 import { bindPageScroll } from '../events/scroll'
@@ -11,6 +9,9 @@ import { setHistoryMode } from '../history'
 import { initTabbar } from '../tabbar'
 import { addLeadingSlash, routesAlias, stripBasename, stripTrailing } from '../utils'
 import stacks from './stack'
+
+import type { PageConfig, RouterAnimate } from '@tarojs/taro'
+import type { Route, SpaRouterConfig } from '../../types/router'
 
 function setDisplay (el?: HTMLElement | null, type = '') {
   if (el) {
@@ -26,8 +27,11 @@ export default class PageHandler {
   protected lastHidePage: HTMLElement | null
   protected lastUnloadPage: PageInstance | null
 
+  public homePage: string
+
   constructor (config: SpaRouterConfig) {
     this.config = config
+    this.homePage = this.getHomePage()
     this.mount()
   }
 
@@ -59,13 +63,9 @@ export default class PageHandler {
   get pathname () { return this.router.pathname }
   get basename () { return this.router.basename || '' }
 
-  get homePage () {
-    return this.config.entryPagePath || this.routes[0].path || this.basename
-  }
-
   get pageConfig () {
-    const routePath = stripBasename(this.pathname, this.basename)
-    const homePage = this.homePage
+    const routePath = addLeadingSlash(stripBasename(this.pathname, this.basename))
+    const homePage = addLeadingSlash(this.homePage)
     return this.routes.find(r => {
       const pagePath = addLeadingSlash(r.path)
       return [pagePath, homePage].includes(routePath) || routesAlias.getConfig(pagePath)?.includes(routePath)
@@ -73,7 +73,7 @@ export default class PageHandler {
   }
 
   get isTabBar () {
-    const routePath = stripBasename(this.pathname, this.basename)
+    const routePath = addLeadingSlash(stripBasename(this.pathname, this.basename))
     const pagePath = Object.entries(this.customRoutes).find(
       ([, target]) => {
         if (typeof target === 'string') {
@@ -86,6 +86,14 @@ export default class PageHandler {
     )?.[0] || routePath
 
     return !!pagePath && this.tabBarList.some(t => stripTrailing(t.pagePath) === pagePath)
+  }
+
+  getHomePage () {
+    const routePath = addLeadingSlash(stripBasename(this.routes[0].path, this.basename))
+    const alias = Object.entries(this.customRoutes).find(
+      ([key]) => key === routePath
+    )?.[1] || routePath
+    return this.config.entryPagePath || (typeof alias === 'string' ? alias : alias[0]) || this.basename
   }
 
   isSamePage (page?: PageInstance | null) {

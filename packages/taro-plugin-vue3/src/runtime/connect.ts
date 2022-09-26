@@ -1,9 +1,13 @@
-import type { AppInstance, TaroElement } from '@tarojs/runtime'
 import {
   Current,
   injectPageInstance
 } from '@tarojs/runtime'
 import { ensure, hooks, isArray, isFunction } from '@tarojs/shared'
+import { provide } from 'vue'
+
+import { setDefaultDescriptor, setRouterParams } from './utils'
+
+import type { AppInstance, TaroElement } from '@tarojs/runtime'
 import type { AppConfig as Config } from '@tarojs/taro'
 import type {
   App,
@@ -13,11 +17,8 @@ import type {
   h as createElement,
   VNode
 } from '@vue/runtime-core'
-import { provide } from 'vue'
 
-import { setDefaultDescriptor, setRouterParams } from './utils'
-
-function setReconciler () {
+export function setReconciler () {
   hooks.tap('getLifecycle', function (instance, lifecycle) {
     return instance.$options[lifecycle]
   })
@@ -93,6 +94,7 @@ function createVue3Page (h: typeof createElement, id: string) {
     }
     const RootElement = process.env.TARO_ENV === 'h5' ? 'div' : 'root'
     const PageComponent = Object.assign({}, component)
+    const option = PageComponent.props?.option?.default?.() || {}
 
     return h(
       ProviderComponent,
@@ -109,7 +111,7 @@ function createVue3Page (h: typeof createElement, id: string) {
                 class: process.env.TARO_ENV === 'h5' ? 'taro_page' : ''
               },
               [
-                h(PageComponent, { tid: id })
+                h(PageComponent, { tid: id, option })
               ]
             )
           ]
@@ -228,6 +230,6 @@ export function createVue3App (app: App<TaroElement>, h: typeof createElement, c
   return appConfig
 }
 
-function isClassComponent (value: unknown) {
+export function isClassComponent (value: unknown) {
   return isFunction(value) && '__vccOpts' in value
 }

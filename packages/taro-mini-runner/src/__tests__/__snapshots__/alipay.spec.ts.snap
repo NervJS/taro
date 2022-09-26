@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`alipay should build alipay app 1`] = `17`;
+exports[`alipay should build alipay app 1`] = `14`;
 
 exports[`alipay should build alipay app 2`] = `
 "
@@ -666,6 +666,11 @@ require(\\"./taro\\");
             var BUBBLE_EVENTS = new Set([ \\"touchStart\\", \\"touchMove\\", \\"touchEnd\\", \\"touchCancel\\", \\"tap\\", \\"longTap\\" ]);
             var hostConfig = {
                 initNativeApi: initNativeApi,
+                getMiniLifecycle: function getMiniLifecycle(config) {
+                    config.component[0] = \\"didMount\\";
+                    config.component[1] = \\"didUnmount\\";
+                    return config;
+                },
                 getEventCenter: function getEventCenter(Events) {
                     if (!my.taroEventCenter) {
                         my.taroEventCenter = new Events;
@@ -775,7 +780,7 @@ require(\\"./taro\\");
   </view>
 </template>
 
-<template name=\\"tmpl_0_4\\">
+<template name=\\"tmpl_0_5\\">
   <view hover-class=\\"{{xs.b(i.p1,'none')}}\\" hover-stop-propagation=\\"{{xs.b(i.p4,!1)}}\\" hover-start-time=\\"{{xs.b(i.p2,50)}}\\" hover-stay-time=\\"{{xs.b(i.p3,400)}}\\" animation=\\"{{i.p0}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
     <block a:for=\\"{{i.cn}}\\" a:key=\\"sid\\">
       <template is=\\"{{xs.e(0)}}\\" data=\\"{{i:item}}\\" />
@@ -783,7 +788,7 @@ require(\\"./taro\\");
   </view>
 </template>
 
-<template name=\\"tmpl_0_1\\">
+<template name=\\"tmpl_0_2\\">
   <view style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
     <block a:for=\\"{{i.cn}}\\" a:key=\\"sid\\">
       <template is=\\"{{xs.e(0)}}\\" data=\\"{{i:item}}\\" />
@@ -799,7 +804,7 @@ require(\\"./taro\\");
   </view>
 </template>
 
-<template name=\\"tmpl_0_2\\">
+<template name=\\"tmpl_0_4\\">
   <text selectable=\\"{{xs.b(i.p1,!1)}}\\" space=\\"{{i.p2}}\\" decode=\\"{{xs.b(i.p0,!1)}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
     <block a:for=\\"{{i.cn}}\\" a:key=\\"sid\\">
       <template is=\\"{{xs.e(0)}}\\" data=\\"{{i:item}}\\" />
@@ -883,7 +888,7 @@ require(\\"./taro\\");
   </image>
 </template>
 
-<template name=\\"tmpl_0_5\\">
+<template name=\\"tmpl_0_1\\">
   <image src=\\"{{i.p2}}\\" mode=\\"{{xs.b(i.p1,'scaleToFill')}}\\" lazy-load=\\"{{xs.b(i.p0,!1)}}\\" onError=\\"eh\\" onLoad=\\"eh\\" onTouchStart=\\"eh\\" onTouchMove=\\"eh\\" onTouchEnd=\\"eh\\" onTouchCancel=\\"eh\\" onLongTap=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" onTap=\\"eh\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
     <block a:for=\\"{{i.cn}}\\" a:key=\\"sid\\">
       <template is=\\"{{xs.e(0)}}\\" data=\\"{{i:item}}\\" />
@@ -922,25 +927,6 @@ require(\\"./taro\\");
     __webpack_require__.r(__webpack_exports__);
     __webpack_exports__[\\"default\\"] = \\"react-mock\\";
 } ] ]);
-
-/** filePath: dist/custom-wrapper.axml **/
-<import src=\\"./base.axml\\" />
-  <block a:for=\\"{{i.cn}}\\" a:key=\\"sid\\">
-    <template is=\\"tmpl_0_container\\" data=\\"{{i:item}}\\" />
-  </block>
-
-/** filePath: dist/custom-wrapper.js **/
-(my[\\"webpackJsonp\\"] = my[\\"webpackJsonp\\"] || []).push([ [ 6 ], {
-    14: function(module, __webpack_exports__, __webpack_require__) {
-        \\"use strict\\";
-        __webpack_require__.r(__webpack_exports__);
-        var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(3);
-        Component(Object(_tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__[\\"createRecursiveComponentConfig\\"])(\\"custom-wrapper\\"));
-    }
-}, [ [ 14, 0, 1 ] ] ]);
-
-/** filePath: dist/custom-wrapper.json **/
-{\\"component\\":true,\\"usingComponents\\":{\\"custom-wrapper\\":\\"./custom-wrapper\\"}}
 
 /** filePath: dist/pages/index/index.acss **/
 
@@ -1369,7 +1355,7 @@ require(\\"./taro\\");
 
 
 /** filePath: dist/pages/index/index.json **/
-{\\"navigationBarTitleText\\":\\"首页\\",\\"usingComponents\\":{\\"custom-wrapper\\":\\"../../custom-wrapper\\"}}
+{\\"navigationBarTitleText\\":\\"首页\\",\\"usingComponents\\":{}}
 
 /** filePath: dist/runtime.js **/
 

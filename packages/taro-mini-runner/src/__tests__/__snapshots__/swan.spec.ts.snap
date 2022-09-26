@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`swan should build swan app 1`] = `17`;
+exports[`swan should build swan app 1`] = `14`;
 
 exports[`swan should build swan app 2`] = `
 "
@@ -381,7 +381,7 @@ require(\\"./taro\\");
                                       <block>{{item.v}}</block>
                                     </block>
                                   </text>
-                                  <text s-elif=\\"{{item.nn==='2'&&(item.st||item.cl)}}\\" id=\\"{{item.uid||item.sid}}\\" data-sid=\\"{{item.sid}}\\" selectable=\\"{{xs.b(item.p1,!1)}}\\" space=\\"{{item.p2}}\\" decode=\\"{{xs.b(item.p0,!1)}}\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\">
+                                  <text s-elif=\\"{{item.nn==='4'&&(item.st||item.cl)}}\\" id=\\"{{item.uid||item.sid}}\\" data-sid=\\"{{item.sid}}\\" selectable=\\"{{xs.b(item.p1,!1)}}\\" space=\\"{{item.p2}}\\" decode=\\"{{xs.b(item.p0,!1)}}\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\">
                                     <block s-for=\\"{{item.cn}}\\" s-key=\\"sid\\">
                                       <block>{{item.v}}</block>
                                     </block>
@@ -407,7 +407,7 @@ require(\\"./taro\\");
                                   <block>{{item.v}}</block>
                                 </block>
                               </text>
-                              <text s-elif=\\"{{item.nn==='2'&&(item.st||item.cl)}}\\" id=\\"{{item.uid||item.sid}}\\" data-sid=\\"{{item.sid}}\\" selectable=\\"{{xs.b(item.p1,!1)}}\\" space=\\"{{item.p2}}\\" decode=\\"{{xs.b(item.p0,!1)}}\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\">
+                              <text s-elif=\\"{{item.nn==='4'&&(item.st||item.cl)}}\\" id=\\"{{item.uid||item.sid}}\\" data-sid=\\"{{item.sid}}\\" selectable=\\"{{xs.b(item.p1,!1)}}\\" space=\\"{{item.p2}}\\" decode=\\"{{xs.b(item.p0,!1)}}\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\">
                                 <block s-for=\\"{{item.cn}}\\" s-key=\\"sid\\">
                                   <block>{{item.v}}</block>
                                 </block>
@@ -433,7 +433,7 @@ require(\\"./taro\\");
                               <block>{{item.v}}</block>
                             </block>
                           </text>
-                          <text s-elif=\\"{{item.nn==='2'&&(item.st||item.cl)}}\\" id=\\"{{item.uid||item.sid}}\\" data-sid=\\"{{item.sid}}\\" selectable=\\"{{xs.b(item.p1,!1)}}\\" space=\\"{{item.p2}}\\" decode=\\"{{xs.b(item.p0,!1)}}\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\">
+                          <text s-elif=\\"{{item.nn==='4'&&(item.st||item.cl)}}\\" id=\\"{{item.uid||item.sid}}\\" data-sid=\\"{{item.sid}}\\" selectable=\\"{{xs.b(item.p1,!1)}}\\" space=\\"{{item.p2}}\\" decode=\\"{{xs.b(item.p0,!1)}}\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\">
                             <block s-for=\\"{{item.cn}}\\" s-key=\\"sid\\">
                               <block>{{item.v}}</block>
                             </block>
@@ -459,7 +459,7 @@ require(\\"./taro\\");
                           <block>{{item.v}}</block>
                         </block>
                       </text>
-                      <text s-elif=\\"{{item.nn==='2'&&(item.st||item.cl)}}\\" id=\\"{{item.uid||item.sid}}\\" data-sid=\\"{{item.sid}}\\" selectable=\\"{{xs.b(item.p1,!1)}}\\" space=\\"{{item.p2}}\\" decode=\\"{{xs.b(item.p0,!1)}}\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\">
+                      <text s-elif=\\"{{item.nn==='4'&&(item.st||item.cl)}}\\" id=\\"{{item.uid||item.sid}}\\" data-sid=\\"{{item.sid}}\\" selectable=\\"{{xs.b(item.p1,!1)}}\\" space=\\"{{item.p2}}\\" decode=\\"{{xs.b(item.p0,!1)}}\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\">
                         <block s-for=\\"{{item.cn}}\\" s-key=\\"sid\\">
                           <block>{{item.v}}</block>
                         </block>
@@ -485,7 +485,7 @@ require(\\"./taro\\");
                       <block>{{item.v}}</block>
                     </block>
                   </text>
-                  <text s-elif=\\"{{item.nn==='2'&&(item.st||item.cl)}}\\" id=\\"{{item.uid||item.sid}}\\" data-sid=\\"{{item.sid}}\\" selectable=\\"{{xs.b(item.p1,!1)}}\\" space=\\"{{item.p2}}\\" decode=\\"{{xs.b(item.p0,!1)}}\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\">
+                  <text s-elif=\\"{{item.nn==='4'&&(item.st||item.cl)}}\\" id=\\"{{item.uid||item.sid}}\\" data-sid=\\"{{item.sid}}\\" selectable=\\"{{xs.b(item.p1,!1)}}\\" space=\\"{{item.p2}}\\" decode=\\"{{xs.b(item.p0,!1)}}\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\">
                     <block s-for=\\"{{item.cn}}\\" s-key=\\"sid\\">
                       <block>{{item.v}}</block>
                     </block>
@@ -511,7 +511,7 @@ require(\\"./taro\\");
                   <block>{{item.v}}</block>
                 </block>
               </text>
-              <text s-elif=\\"{{item.nn==='2'&&(item.st||item.cl)}}\\" id=\\"{{item.uid||item.sid}}\\" data-sid=\\"{{item.sid}}\\" selectable=\\"{{xs.b(item.p1,!1)}}\\" space=\\"{{item.p2}}\\" decode=\\"{{xs.b(item.p0,!1)}}\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\">
+              <text s-elif=\\"{{item.nn==='4'&&(item.st||item.cl)}}\\" id=\\"{{item.uid||item.sid}}\\" data-sid=\\"{{item.sid}}\\" selectable=\\"{{xs.b(item.p1,!1)}}\\" space=\\"{{item.p2}}\\" decode=\\"{{xs.b(item.p0,!1)}}\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\">
                 <block s-for=\\"{{item.cn}}\\" s-key=\\"sid\\">
                   <block>{{item.v}}</block>
                 </block>
@@ -537,7 +537,7 @@ require(\\"./taro\\");
               <block>{{item.v}}</block>
             </block>
           </text>
-          <text s-elif=\\"{{item.nn==='2'&&(item.st||item.cl)}}\\" id=\\"{{item.uid||item.sid}}\\" data-sid=\\"{{item.sid}}\\" selectable=\\"{{xs.b(item.p1,!1)}}\\" space=\\"{{item.p2}}\\" decode=\\"{{xs.b(item.p0,!1)}}\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\">
+          <text s-elif=\\"{{item.nn==='4'&&(item.st||item.cl)}}\\" id=\\"{{item.uid||item.sid}}\\" data-sid=\\"{{item.sid}}\\" selectable=\\"{{xs.b(item.p1,!1)}}\\" space=\\"{{item.p2}}\\" decode=\\"{{xs.b(item.p0,!1)}}\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\">
             <block s-for=\\"{{item.cn}}\\" s-key=\\"sid\\">
               <block>{{item.v}}</block>
             </block>
@@ -563,7 +563,7 @@ require(\\"./taro\\");
           <block>{{item.v}}</block>
         </block>
       </text>
-      <text s-elif=\\"{{item.nn==='2'&&(item.st||item.cl)}}\\" id=\\"{{item.uid||item.sid}}\\" data-sid=\\"{{item.sid}}\\" selectable=\\"{{xs.b(item.p1,!1)}}\\" space=\\"{{item.p2}}\\" decode=\\"{{xs.b(item.p0,!1)}}\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\">
+      <text s-elif=\\"{{item.nn==='4'&&(item.st||item.cl)}}\\" id=\\"{{item.uid||item.sid}}\\" data-sid=\\"{{item.sid}}\\" selectable=\\"{{xs.b(item.p1,!1)}}\\" space=\\"{{item.p2}}\\" decode=\\"{{xs.b(item.p0,!1)}}\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\">
         <block s-for=\\"{{item.cn}}\\" s-key=\\"sid\\">
           <block>{{item.v}}</block>
         </block>
@@ -586,7 +586,7 @@ require(\\"./taro\\");
   </view>
 </template>
 
-<template name=\\"tmpl_0_2\\">
+<template name=\\"tmpl_0_4\\">
   <text selectable=\\"{{xs.b(i.p1,!1)}}\\" space=\\"{{i.p2}}\\" decode=\\"{{xs.b(i.p0,!1)}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
     <block s-for=\\"{{i.cn}}\\" s-key=\\"sid\\">
       <block s-if=\\"item.nn === '8'\\">{{item.v}}</block>
@@ -731,7 +731,7 @@ require(\\"./taro\\");
   </image>
 </template>
 
-<template name=\\"tmpl_0_5\\">
+<template name=\\"tmpl_0_1\\">
   <image src=\\"{{i.p2}}\\" mode=\\"{{xs.b(i.p1,'scaleToFill')}}\\" lazy-load=\\"{{xs.b(i.p0,!1)}}\\" binderror=\\"eh\\" bindload=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongtap=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
     <block s-for=\\"{{i.cn}}\\" s-key=\\"sid\\">
       <template is=\\"{{xs.e(0)}}\\" data=\\"{{{ i:item }}}\\" />
@@ -827,25 +827,6 @@ require(\\"./taro\\");
     __webpack_require__.r(__webpack_exports__);
     __webpack_exports__[\\"default\\"] = \\"react-mock\\";
 } ] ]);
-
-/** filePath: dist/custom-wrapper.js **/
-(swan[\\"webpackJsonp\\"] = swan[\\"webpackJsonp\\"] || []).push([ [ 6 ], {
-    12: function(module, __webpack_exports__, __webpack_require__) {
-        \\"use strict\\";
-        __webpack_require__.r(__webpack_exports__);
-        var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(2);
-        Component(Object(_tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__[\\"createRecursiveComponentConfig\\"])(\\"custom-wrapper\\"));
-    }
-}, [ [ 12, 0, 1 ] ] ]);
-
-/** filePath: dist/custom-wrapper.json **/
-{\\"component\\":true,\\"usingComponents\\":{\\"custom-wrapper\\":\\"./custom-wrapper\\"}}
-
-/** filePath: dist/custom-wrapper.swan **/
-<import src=\\"./base.swan\\" />
-  <block s-for=\\"{{i.cn}}\\" s-key=\\"sid\\">
-    <template is=\\"tmpl_0_container\\" data=\\"{{{ i:item }}}\\" />
-  </block>
 
 /** filePath: dist/pages/index/index.css **/
 
@@ -1270,7 +1251,7 @@ require(\\"./taro\\");
 
 
 /** filePath: dist/pages/index/index.json **/
-{\\"navigationBarTitleText\\":\\"首页\\",\\"usingComponents\\":{\\"custom-wrapper\\":\\"../../custom-wrapper\\"}}
+{\\"navigationBarTitleText\\":\\"首页\\",\\"usingComponents\\":{}}
 
 /** filePath: dist/pages/index/index.swan **/
 <import src=\\"../../base.swan\\"/>

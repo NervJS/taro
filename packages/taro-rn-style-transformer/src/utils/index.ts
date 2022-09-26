@@ -4,7 +4,7 @@ import * as path from 'path'
 import * as resolve from 'resolve'
 import nodeModulesPaths from 'resolve/lib/node-modules-paths'
 
-import { LogLevelEnum, ResolveStyleOptions } from '../types'
+import { ResolveLogLevelEnum, ResolveStyleOptions } from '../types'
 
 export function insertBefore (source?: string, additional?: string) {
   if (!source && !additional) {
@@ -63,7 +63,7 @@ export function resolveStyle (id: string, opts: ResolveStyleOptions) {
     paths = [],
     alias = {},
     defaultExt = '',
-    logLevel = LogLevelEnum.ERROR
+    logLevel = ResolveLogLevelEnum.ERROR
   } = opts
   id = id.trim()
   Object.keys(alias).forEach(key => {
@@ -94,8 +94,7 @@ export function resolveStyle (id: string, opts: ResolveStyleOptions) {
       // like `@import 'taro-ui/dist/base.css';` or `@import '~taro-ui/dist/base.css';`
       file = resolve.sync(path.join(dir, name).replace(/^~/, ''), { basedir, extensions })
     }
-  } catch (error) {
-  }
+  } catch (error) {} // eslint-disable-line no-empty
 
   if (!file) {
     let includePaths = incPaths
@@ -108,10 +107,10 @@ export function resolveStyle (id: string, opts: ResolveStyleOptions) {
         ${includePaths.join(',\n       ')}
       ]
     `
-    if (logLevel === LogLevelEnum.ERROR) {
+    if (logLevel === ResolveLogLevelEnum.ERROR) {
       throw new Error(levelMessage)
     }
-    if (logLevel === LogLevelEnum.WARNING) {
+    if (logLevel === ResolveLogLevelEnum.WARNING) {
       printLog(processTypeEnum.WARNING, levelMessage)
       return id
     }
