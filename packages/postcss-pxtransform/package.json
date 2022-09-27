@@ -1,6 +1,6 @@
 {
   "name": "postcss-pxtransform",
-  "version": "3.5.6",
+  "version": "3.5.6-alpha.2",
   "description": "PostCSS plugin px 转小程序 rpx及h5 rem 单位",
   "keywords": [
     "postcss",
