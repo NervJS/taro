@@ -73,10 +73,12 @@ export function getResolver (opt: Options = {}) {
 
 export function getMetroConfig (opt: Options = {}) {
   const config = getProjectConfig()
+  const rnConfig = getRNConfig()
+  const entry = rnConfig?.entry || 'app'
   const cacheStore = new ConditionalFileStore<any>({
     root: path.join(os.tmpdir(), 'metro-cache')
-  })
-  const reporter = new TerminalReporter(config.sourceRoot || 'src', cacheStore, opt.qr)
+  }, entry)
+  const reporter = new TerminalReporter(config.sourceRoot || 'src', cacheStore, opt.qr, entry)
   return {
     transformer: getTransformer(opt),
     resolver: getResolver(opt),

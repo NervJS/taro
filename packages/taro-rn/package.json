@@ -68,7 +68,7 @@
     "@testing-library/react-native": "^11.0.0",
     "@types/jest": "^27.4.1",
     "@types/react-native": "^0.69.8",
-    "expo": "~46.0.1",
+    "expo": "~46.0.10",
     "fbjs-scripts": "^3.0.1",
     "metro-react-native-babel-preset": "^0.72.1",
     "react": "18.1.0",
