@@ -69,7 +69,6 @@ interface ImageProps extends StandardProps {
   style?: string
 
   /** 默认图片地址，若设置默认图片地址，会先显示默认图片，等 src 对应的图片加载成功后，再渲染对应的图片。
-   * 版本要求： 基础库 1.19.0 及以上
    * @supported alipay
    */
   defaultSource?: string

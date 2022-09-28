@@ -135,7 +135,7 @@ interface ButtonProps extends StandardProps {
   /** 用户点击该按钮时，会返回获取到的用户信息，回调的detail数据与 Taro.getUserInfo 返回的一致
    *
    * 生效时机: `open-type="getUserInfo"`
-   * @supported weapp, swan, qq, jd
+   * @supported weapp, alipay, swan, qq, jd
    */
   onGetUserInfo?: CommonEventFunction<ButtonProps.onGetUserInfoEventDetail>
 
@@ -156,7 +156,7 @@ interface ButtonProps extends StandardProps {
   /** 获取用户手机号回调
    *
    * 生效时机：`open-type="getphonenumber"`
-   * @supported weapp, swan, tt, jd
+   * @supported weapp, alipay, swan, tt, jd
    */
   onGetPhoneNumber?: CommonEventFunction<ButtonProps.onGetPhoneNumberEventDetail>
 
@@ -203,7 +203,6 @@ interface ButtonProps extends StandardProps {
    * 当点击按钮时触发。
    * event.detail = { followStatus }，followStatus 合法值有 1、2、3，其中 1 表示已关注。2 表示用户不允许关注。3 表示发生未知错误；
    * 已知问题：基础库 1.0，当用户在点击按钮前已关注生活号，event.detail.followStatus 的值为 true。
-   * 版本要求：基础库 1.11.0 及以上
    * @supported alipay
    */
   onFollowLifestyle?: CommonEventFunction<{

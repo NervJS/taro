@@ -95,43 +95,36 @@ interface ViewProps extends StandardProps {
   onLongTap?: CommonEventFunction
 
   /** 过渡（Transition）结束时触发。
-   * 版本要求： 基础库 1.8.0 及以上
    * @supported alipay
    */
   onTransitionEnd?: CommonEventFunction
 
   /** 每开启一次新的动画过程时触发。（第一次不触发）
-   * 版本要求： 基础库 1.8.0 及以上
    * @supported alipay
    */
   onAnimationIteration?: CommonEventFunction
 
   /** 动画开始时触发。
-   * 版本要求： 基础库 1.8.0 及以上
    * @supported alipay
    */
   onAnimationStart?: CommonEventFunction
 
   /** 动画结束时触发。
-   * 版本要求： 基础库 1.8.0 及以上
    * @supported alipay
    */
   onAnimationEnd?: CommonEventFunction
 
   /** 当前元素可见面积超过50%时触发。
-   * 版本要求： 基础库 1.9.0 及以上
    * @supported alipay
    */
   onAppear?: CommonEventFunction
 
   /** 当前元素不可见面积超过50%时触发。
-   * 版本要求： 基础库 1.9.0 及以上
    * @supported alipay
    */
   onDisappear?: CommonEventFunction
 
   /** 当前元素首次可见面积达到50%时触发。
-   * 版本要求： 基础库 1.9.4 及以上
    * @supported alipay
    */
   onFirstAppear?: CommonEventFunction

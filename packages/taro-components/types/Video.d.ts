@@ -352,7 +352,6 @@ interface VideoProps extends StandardProps {
   posterSize?: string
 
   /** 当底部工具条隐藏时，是否显示细进度条（controls=false 时设置无效）。
-   * 版本要求： 基础库 1.15.0 及以上
    * @supported alipay
    */
   showThinProgressBar?: string
@@ -363,8 +362,6 @@ interface VideoProps extends StandardProps {
    * 1 - tip 提醒
    * 2 - 阻塞提醒(无消耗流量大小)
    * 3 - 阻塞提醒(有消耗流量大小提醒)
-   *
-   * 版本要求： 基础库 1.13.0 及以上
    * @supported alipay, jd
    */
   mobilenetHintType?: string
@@ -385,13 +382,11 @@ interface VideoProps extends StandardProps {
   onUserAction?: CommonEventFunction<VideoProps.onUserActionEventDetail>
 
   /** 视频播放终止。
-   * 版本要求： 基础库 1.9.0 及以上
    * @supported alipay
    */
   onStop?: CommonEventFunction
 
   /** 当视频加载完真正开始播放时触发。
-   * 版本要求： 基础库 1.13.6 及以上
    * @supported alipay
    */
   onRenderStart?: CommonEventFunction
@@ -401,7 +396,6 @@ interface VideoProps extends StandardProps {
    *
    * none：无浮窗。
    * page：页面内浮窗。
-   * 版本要求：基础库 1.24.6 及以上
    * @supported alipay
    */
   floatingMode?: string
@@ -479,17 +473,23 @@ interface VideoProps extends StandardProps {
   /** 视频倍速改变完成时触发。返回改变后的倍速值
    * @supported tt
    */
-  onPlayBackRateChange?: CommonEventFunction<{ playbackRate: string }>
+  onPlayBackRateChange?: CommonEventFunction<{
+    playbackRate: string
+  }>
 
   /** 静音状态改变完成时触发。返回当前是否静音
    * @supported tt
    */
-  onMuteChange?: CommonEventFunction<{ isMuted: boolean }>
+  onMuteChange?: CommonEventFunction<{
+    isMuted: boolean
+  }>
 
   /** 点击控件时触发。返回当前点击的控件类型
    * @supported tt
    */
-  onControlTap?: CommonEventFunction<{ controlType }>
+  onControlTap?: CommonEventFunction<{
+    controlType
+  }>
 
   /** 进入小窗播放时触发
    * @supported tt
@@ -622,14 +622,19 @@ declare namespace VideoProps {
   interface UserActionTag {
     /** 底部播放按钮 */
     play
+
     /** 中心播放按钮 */
     centerplay
+
     /** 静音按钮 */
     mute
+
     /** 全屏按钮 */
     fullscreen
+
     /** 重试按钮 */
     retry
+
     /** 网络提醒的播放按钮 */
     mobilenetplay
   }
