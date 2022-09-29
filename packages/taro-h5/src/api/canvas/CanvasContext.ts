@@ -228,6 +228,6 @@ export class CanvasContext implements Taro.CanvasContext {
   }
 
   createLinearGradient (x0: number, y0: number, x1: number, y1: number): CanvasGradient {
-    return this.createLinearGradient(x0, y0, x1, y1)
+    return this.ctx.createLinearGradient(x0, y0, x1, y1)
   }
 }
