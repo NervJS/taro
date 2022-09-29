@@ -18,7 +18,7 @@
     "build:docs-api": "ts-node --project ./scripts/tsconfig.json ./scripts/docs-api.ts --verbose",
     "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s -r 0",
     "release:only": "lerna exec -- npm publish",
-    "release:lerna": "lerna version --exact --no-git-tag-version",
+    "release:lerna": "lerna version --exact --no-git-tag-version --force-publish=*",
     "release:beta": "lerna publish --force-publish=* --exact --skip-temp-tag  --preid=beta --npm-tag=beta",
     "release": "npm-run-all build release:lerna && npm run changelog && node ./build/docs-version.js",
     "test": "lerna run --scope eslint-plugin-taro  --scope @tarojs/transformer-wx --scope @tarojs/with-weapp test"

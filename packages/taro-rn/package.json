@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/taro-rn",
-  "version": "2.2.18",
+  "version": "2.2.19",
   "description": "Taro RN framework",
   "main": "./index.js",
   "files": [
@@ -27,7 +27,7 @@
   "author": "O2Team",
   "license": "MIT",
   "dependencies": {
-    "@tarojs/taro": "2.2.18",
+    "@tarojs/taro": "2.2.19",
     "babel-preset-expo": "^5.2.0",
     "base64-js": "^1.3.0",
     "expo-av": "^6.0.0",

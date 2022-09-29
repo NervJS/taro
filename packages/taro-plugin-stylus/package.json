@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/plugin-stylus",
-  "version": "2.2.18",
+  "version": "2.2.19",
   "description": "Taro webpack stylus config plugin",
   "main": "index.js",
   "scripts": {
@@ -27,8 +27,8 @@
   "author": "luckyadam",
   "license": "MIT",
   "dependencies": {
-    "@tarojs/runner-utils": "2.2.18",
-    "@tarojs/service": "2.2.18",
+    "@tarojs/runner-utils": "2.2.19",
+    "@tarojs/service": "2.2.19",
     "stylus": "0.54.7",
     "stylus-loader": "3.0.2"
   },

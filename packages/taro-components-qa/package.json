@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/components-qa",
-  "version": "2.2.18",
+  "version": "2.2.19",
   "description": "多端解决方案基础组件（快应用）",
   "main": "./index.js",
   "files": [
