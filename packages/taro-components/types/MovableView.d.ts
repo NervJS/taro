@@ -105,11 +105,10 @@ interface MovableViewProps extends Omit<StandardProps, 'animation'> {
    * @supported rn
    */
   onDragEnd?: CommonEventFunction
-  /** 手指触摸动作结束 
-   * 
-   * **注意**
-   *  - 在h5中此事件的触发顺序会因为当前事件机制引起组件内外注册的事件执行顺序不正常，外部注册的事件可能会优先于内部执行，如需保证执行顺序一致，需要在回调函数中包裹setTimeout临时处理
-  */
+  /** 手指触摸动作结束
+   * @supported h5
+   * @h5 此事件的触发顺序会因为当前事件机制引起组件内外注册的事件执行顺序不正常，外部注册的事件可能会优先于内部执行，如需保证执行顺序一致，需要在回调函数中包裹 setTimeout 临时处理
+   */
   onTouchEnd?: TouchEventFunction
 }
 
