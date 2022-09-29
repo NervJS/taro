@@ -4,8 +4,8 @@ const fs = require('fs')
 function hasBrowserslist () {
   const root = process.cwd()
   try {
-    const package = require(path.resolve(root, 'package.json'))
-    if (package.browserslist) {
+    const pkg = require(path.resolve(root, 'package.json'))
+    if (pkg.browserslist) {
       return true
     }
   } catch {
