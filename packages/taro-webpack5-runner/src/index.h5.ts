@@ -164,7 +164,7 @@ async function getDevServerOptions (appPath: string, config: H5BuildConfig): Pro
       if (req.headers.accept?.indexOf('html') !== -1) {
         const pagePath = stripTrailingSlash(stripBasename(req.path, routerBasename))
         // console.log('bypass:' + req.path, pagePath)
-        const getBypassUrl = (url = '') => addHtmlSuffix(url.startsWith('/') ? url : `/${url}`)
+        const getBypassUrl = url => addHtmlSuffix(addLeadingSlash(url))
         if (pagePath === '') {
           return getBypassUrl(appConfig.entryPagePath || appConfig.pages?.[0])
         }
