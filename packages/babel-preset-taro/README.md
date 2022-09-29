@@ -102,7 +102,7 @@ module.exports = {
 }
 ```
 
-`@babel/preset-env` 的 [targets](https://babeljs.io/docs/en/babel-preset-env#targets) 配置项。
+`@babel/preset-env` 的 [targets](https://babeljs.io/docs/en/babel-preset-env#targets) 配置项。如果存在 [browserslist](https://github.com/browserslist/browserslist#config-file) 配置, 则优先。
 
 ### useBuiltIns
 
