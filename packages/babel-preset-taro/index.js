@@ -1,4 +1,24 @@
 const path = require('path')
+const fs = require('fs')
+
+function hasBrowserslist () {
+  const root = process.cwd()
+  try {
+    const package = require(path.resolve(root, 'package.json'))
+    if (package.browserslist) {
+      return true
+    }
+  } catch {
+    //
+  }
+  if (fs.existsSync(path.resolve(root, '.browserslistrc'))) {
+    return true
+  }
+  if (process.env.BROWSERSLIST) {
+    return true
+  }
+  return false
+}
 
 module.exports = (_, options = {}) => {
   if (process.env.TARO_ENV === 'rn') {
@@ -97,14 +117,16 @@ module.exports = (_, options = {}) => {
 
   // resolve targets
   let targets
-  if (rawTargets) {
-    targets = rawTargets
-  } else if (ignoreBrowserslistConfig) {
-    targets = { node: 'current' }
-  } else {
-    targets = {
-      ios: '9',
-      android: '5'
+  if (!hasBrowserslist()) {
+    if (rawTargets) {
+      targets = rawTargets
+    } else if (ignoreBrowserslistConfig) {
+      targets = { node: 'current' }
+    } else {
+      targets = {
+        ios: '9',
+        android: '5'
+      }
     }
   }
 
