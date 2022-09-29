@@ -9,8 +9,9 @@ import WebpackDevServer from 'webpack-dev-server'
 
 import { addHtmlSuffix, addLeadingSlash, formatOpenHost, parsePublicPath, stripBasename, stripTrailingSlash } from './utils'
 import H5AppInstance from './utils/H5AppInstance'
-import type { H5BuildConfig } from './utils/types'
 import { H5Combination } from './webpack/H5Combination'
+
+import type { H5BuildConfig } from './utils/types'
 
 let isFirstBuild = true
 

@@ -1,39 +1,38 @@
 import { ComponentType } from 'react'
 import { StandardProps } from './common'
-
 interface MatchMediaProps extends StandardProps {
   /** 页面最小宽度（ px 为单位）
-   * @supported weapp
+   * @supported weapp, alipay
    */
-  minWidth?:	number
+  minWidth?: number
 
   /** 页面最大宽度（ px 为单位）
-   * @supported weapp
+   * @supported weapp, alipay
    */
   maxWidth?: number
 
   /** 页面宽度（ px 为单位）
-   * @supported weapp
+   * @supported weapp, alipay
    */
   width?: number
 
   /** 页面最小高度（ px 为单位）
-   * @supported weapp
+   * @supported weapp, alipay
    */
   minHeight?: number
 
   /** 页面最大高度（ px 为单位）
-   * @supported weapp
+   * @supported weapp, alipay
    */
   maxHeight?: number
 
   /** 页面高度（ px 为单位）
-   * @supported weapp
+   * @supported weapp, alipay
    */
   height?: number
 
   /** 屏幕方向（ landscape 或 portrait ）
-   * @supported weapp
+   * @supported weapp, alipay
    */
   orientation?: string
 }
@@ -75,5 +74,4 @@ interface MatchMediaProps extends StandardProps {
  * @see https://developers.weixin.qq.com/miniprogram/dev/component/match-media.html
  */
 declare const MatchMedia: ComponentType<MatchMediaProps>
-
 export { MatchMedia, MatchMediaProps }

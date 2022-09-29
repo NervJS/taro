@@ -3578,14 +3578,16 @@ exports[`sass should build app with sass 2`] = `
         };
         window.addEventListener(\\"resize\\", pageResizeFn, false);
     }
-    var pageScrollFn;
+    var pageScrollFn = {};
     var pageDOM = window;
     function bindPageScroll(page, pageEl) {
         var distance = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 50;
-        pageScrollFn && pageEl.removeEventListener(\\"scroll\\", pageScrollFn);
+        var _a;
+        var pagePath = page ? page === null || page === void 0 ? void 0 : page.path : (_a = undefined.router) === null || _a === void 0 ? void 0 : _a.path;
+        pageScrollFn[pagePath] && pageEl.removeEventListener(\\"scroll\\", pageScrollFn[pagePath]);
         pageDOM = pageEl;
         var isReachBottom = false;
-        pageScrollFn = function pageScrollFn() {
+        pageScrollFn[pagePath] = function() {
             var _a;
             (_a = page.onPageScroll) === null || _a === void 0 ? void 0 : _a.call(page, {
                 \\"scrollTop\\": pageDOM instanceof Window ? window.scrollY : pageDOM.scrollTop
@@ -3598,7 +3600,7 @@ exports[`sass should build app with sass 2`] = `
                 page.onReachBottom();
             }
         };
-        pageDOM.addEventListener(\\"scroll\\", pageScrollFn, false);
+        pageDOM.addEventListener(\\"scroll\\", pageScrollFn[pagePath], false);
     }
     function getOffset() {
         if (pageDOM instanceof Window) {
@@ -3833,7 +3835,14 @@ exports[`sass should build app with sass 2`] = `
                       case 0:
                         router_RouterConfig.config = config;
                         handler = new multi_page_MultiPageHandler(config);
-                        launchParam = handler.getQuery();
+                        launchParam = {
+                            \\"path\\": config.pageName,
+                            \\"query\\": handler.getQuery(),
+                            \\"scene\\": 0,
+                            \\"shareTicket\\": \\"\\",
+                            \\"referrerInfo\\": {}
+                        };
+                        undefined.trigger(\\"__taroRouterLaunch\\", launchParam);
                         (_a = app.onLaunch) === null || _a === void 0 ? void 0 : _a.call(app, launchParam);
                         app.onError && window.addEventListener(\\"error\\", (function(e) {
                             var _a;
@@ -3841,28 +3850,31 @@ exports[`sass should build app with sass 2`] = `
                         }));
                         pathName = config.pageName;
                         pageConfig = handler.pageConfig;
-                        _context.prev = 7;
-                        _context.next = 10;
+                        _context.prev = 8;
+                        _context.next = 11;
                         return (_b = pageConfig.load) === null || _b === void 0 ? void 0 : _b.call(pageConfig);
 
-                      case 10:
+                      case 11:
                         element = _context.sent;
-                        _context.next = 16;
+                        if (element instanceof Array) {
+                            element = element[0];
+                        }
+                        _context.next = 18;
                         break;
 
-                      case 13:
-                        _context.prev = 13;
-                        _context.t0 = _context[\\"catch\\"](7);
+                      case 15:
+                        _context.prev = 15;
+                        _context.t0 = _context[\\"catch\\"](8);
                         throw new Error(_context.t0);
 
-                      case 16:
+                      case 18:
                         if (element) {
-                            _context.next = 18;
+                            _context.next = 20;
                             break;
                         }
                         return _context.abrupt(\\"return\\");
 
-                      case 18:
+                      case 20:
                         enablePullDownRefresh = ((_c = config === null || config === void 0 ? void 0 : config.window) === null || _c === void 0 ? void 0 : _c.enablePullDownRefresh) || false;
                         undefined.trigger(\\"__taroRouterChange\\", {
                             \\"toLocation\\": {
@@ -3883,12 +3895,12 @@ exports[`sass should build app with sass 2`] = `
                         handler.load(page, pageConfig);
                         (_f = app.onShow) === null || _f === void 0 ? void 0 : _f.call(app, launchParam);
 
-                      case 28:
+                      case 30:
                       case \\"end\\":
                         return _context.stop();
                     }
                 }
-            }), _callee, null, [ [ 7, 13 ] ]);
+            }), _callee, null, [ [ 8, 15 ] ]);
         })));
     }
     var path_to_regexp = __webpack_require__(8);
@@ -4488,7 +4500,14 @@ exports[`sass should build app with sass 2`] = `
         var router = new universal_router_module(routes, {
             \\"baseUrl\\": basename || \\"\\"
         });
-        var launchParam = handler.getQuery(stack.length);
+        var launchParam = {
+            \\"path\\": handler.homePage,
+            \\"query\\": handler.getQuery(stack.length),
+            \\"scene\\": 0,
+            \\"shareTicket\\": \\"\\",
+            \\"referrerInfo\\": {}
+        };
+        undefined.trigger(\\"__taroRouterLaunch\\", launchParam);
         (_a = app.onLaunch) === null || _a === void 0 ? void 0 : _a.call(app, launchParam);
         app.onError && window.addEventListener(\\"error\\", (function(e) {
             var _a;
@@ -4726,7 +4745,8 @@ exports[`sass should build app with sass 2`] = `
             \\"640\\": 1.17,
             \\"750\\": 1,
             \\"828\\": .905
-        }
+        },
+        \\"baseFontSize\\": 20
     });
 } ]);
 
@@ -8335,14 +8355,16 @@ exports[`sass should build app with scss 2`] = `
         };
         window.addEventListener(\\"resize\\", pageResizeFn, false);
     }
-    var pageScrollFn;
+    var pageScrollFn = {};
     var pageDOM = window;
     function bindPageScroll(page, pageEl) {
         var distance = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 50;
-        pageScrollFn && pageEl.removeEventListener(\\"scroll\\", pageScrollFn);
+        var _a;
+        var pagePath = page ? page === null || page === void 0 ? void 0 : page.path : (_a = undefined.router) === null || _a === void 0 ? void 0 : _a.path;
+        pageScrollFn[pagePath] && pageEl.removeEventListener(\\"scroll\\", pageScrollFn[pagePath]);
         pageDOM = pageEl;
         var isReachBottom = false;
-        pageScrollFn = function pageScrollFn() {
+        pageScrollFn[pagePath] = function() {
             var _a;
             (_a = page.onPageScroll) === null || _a === void 0 ? void 0 : _a.call(page, {
                 \\"scrollTop\\": pageDOM instanceof Window ? window.scrollY : pageDOM.scrollTop
@@ -8355,7 +8377,7 @@ exports[`sass should build app with scss 2`] = `
                 page.onReachBottom();
             }
         };
-        pageDOM.addEventListener(\\"scroll\\", pageScrollFn, false);
+        pageDOM.addEventListener(\\"scroll\\", pageScrollFn[pagePath], false);
     }
     function getOffset() {
         if (pageDOM instanceof Window) {
@@ -8590,7 +8612,14 @@ exports[`sass should build app with scss 2`] = `
                       case 0:
                         router_RouterConfig.config = config;
                         handler = new multi_page_MultiPageHandler(config);
-                        launchParam = handler.getQuery();
+                        launchParam = {
+                            \\"path\\": config.pageName,
+                            \\"query\\": handler.getQuery(),
+                            \\"scene\\": 0,
+                            \\"shareTicket\\": \\"\\",
+                            \\"referrerInfo\\": {}
+                        };
+                        undefined.trigger(\\"__taroRouterLaunch\\", launchParam);
                         (_a = app.onLaunch) === null || _a === void 0 ? void 0 : _a.call(app, launchParam);
                         app.onError && window.addEventListener(\\"error\\", (function(e) {
                             var _a;
@@ -8598,28 +8627,31 @@ exports[`sass should build app with scss 2`] = `
                         }));
                         pathName = config.pageName;
                         pageConfig = handler.pageConfig;
-                        _context.prev = 7;
-                        _context.next = 10;
+                        _context.prev = 8;
+                        _context.next = 11;
                         return (_b = pageConfig.load) === null || _b === void 0 ? void 0 : _b.call(pageConfig);
 
-                      case 10:
+                      case 11:
                         element = _context.sent;
-                        _context.next = 16;
+                        if (element instanceof Array) {
+                            element = element[0];
+                        }
+                        _context.next = 18;
                         break;
 
-                      case 13:
-                        _context.prev = 13;
-                        _context.t0 = _context[\\"catch\\"](7);
+                      case 15:
+                        _context.prev = 15;
+                        _context.t0 = _context[\\"catch\\"](8);
                         throw new Error(_context.t0);
 
-                      case 16:
+                      case 18:
                         if (element) {
-                            _context.next = 18;
+                            _context.next = 20;
                             break;
                         }
                         return _context.abrupt(\\"return\\");
 
-                      case 18:
+                      case 20:
                         enablePullDownRefresh = ((_c = config === null || config === void 0 ? void 0 : config.window) === null || _c === void 0 ? void 0 : _c.enablePullDownRefresh) || false;
                         undefined.trigger(\\"__taroRouterChange\\", {
                             \\"toLocation\\": {
@@ -8640,12 +8672,12 @@ exports[`sass should build app with scss 2`] = `
                         handler.load(page, pageConfig);
                         (_f = app.onShow) === null || _f === void 0 ? void 0 : _f.call(app, launchParam);
 
-                      case 28:
+                      case 30:
                       case \\"end\\":
                         return _context.stop();
                     }
                 }
-            }), _callee, null, [ [ 7, 13 ] ]);
+            }), _callee, null, [ [ 8, 15 ] ]);
         })));
     }
     var path_to_regexp = __webpack_require__(8);
@@ -9245,7 +9277,14 @@ exports[`sass should build app with scss 2`] = `
         var router = new universal_router_module(routes, {
             \\"baseUrl\\": basename || \\"\\"
         });
-        var launchParam = handler.getQuery(stack.length);
+        var launchParam = {
+            \\"path\\": handler.homePage,
+            \\"query\\": handler.getQuery(stack.length),
+            \\"scene\\": 0,
+            \\"shareTicket\\": \\"\\",
+            \\"referrerInfo\\": {}
+        };
+        undefined.trigger(\\"__taroRouterLaunch\\", launchParam);
         (_a = app.onLaunch) === null || _a === void 0 ? void 0 : _a.call(app, launchParam);
         app.onError && window.addEventListener(\\"error\\", (function(e) {
             var _a;
@@ -9493,7 +9532,8 @@ exports[`sass should build app with scss 2`] = `
             \\"640\\": 1.17,
             \\"750\\": 1,
             \\"828\\": .905
-        }
+        },
+        \\"baseFontSize\\": 20
     });
 } ]);
 
@@ -13102,14 +13142,16 @@ exports[`sass should set global sass content with data 2`] = `
         };
         window.addEventListener(\\"resize\\", pageResizeFn, false);
     }
-    var pageScrollFn;
+    var pageScrollFn = {};
     var pageDOM = window;
     function bindPageScroll(page, pageEl) {
         var distance = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 50;
-        pageScrollFn && pageEl.removeEventListener(\\"scroll\\", pageScrollFn);
+        var _a;
+        var pagePath = page ? page === null || page === void 0 ? void 0 : page.path : (_a = undefined.router) === null || _a === void 0 ? void 0 : _a.path;
+        pageScrollFn[pagePath] && pageEl.removeEventListener(\\"scroll\\", pageScrollFn[pagePath]);
         pageDOM = pageEl;
         var isReachBottom = false;
-        pageScrollFn = function pageScrollFn() {
+        pageScrollFn[pagePath] = function() {
             var _a;
             (_a = page.onPageScroll) === null || _a === void 0 ? void 0 : _a.call(page, {
                 \\"scrollTop\\": pageDOM instanceof Window ? window.scrollY : pageDOM.scrollTop
@@ -13122,7 +13164,7 @@ exports[`sass should set global sass content with data 2`] = `
                 page.onReachBottom();
             }
         };
-        pageDOM.addEventListener(\\"scroll\\", pageScrollFn, false);
+        pageDOM.addEventListener(\\"scroll\\", pageScrollFn[pagePath], false);
     }
     function getOffset() {
         if (pageDOM instanceof Window) {
@@ -13357,7 +13399,14 @@ exports[`sass should set global sass content with data 2`] = `
                       case 0:
                         router_RouterConfig.config = config;
                         handler = new multi_page_MultiPageHandler(config);
-                        launchParam = handler.getQuery();
+                        launchParam = {
+                            \\"path\\": config.pageName,
+                            \\"query\\": handler.getQuery(),
+                            \\"scene\\": 0,
+                            \\"shareTicket\\": \\"\\",
+                            \\"referrerInfo\\": {}
+                        };
+                        undefined.trigger(\\"__taroRouterLaunch\\", launchParam);
                         (_a = app.onLaunch) === null || _a === void 0 ? void 0 : _a.call(app, launchParam);
                         app.onError && window.addEventListener(\\"error\\", (function(e) {
                             var _a;
@@ -13365,28 +13414,31 @@ exports[`sass should set global sass content with data 2`] = `
                         }));
                         pathName = config.pageName;
                         pageConfig = handler.pageConfig;
-                        _context.prev = 7;
-                        _context.next = 10;
+                        _context.prev = 8;
+                        _context.next = 11;
                         return (_b = pageConfig.load) === null || _b === void 0 ? void 0 : _b.call(pageConfig);
 
-                      case 10:
+                      case 11:
                         element = _context.sent;
-                        _context.next = 16;
+                        if (element instanceof Array) {
+                            element = element[0];
+                        }
+                        _context.next = 18;
                         break;
 
-                      case 13:
-                        _context.prev = 13;
-                        _context.t0 = _context[\\"catch\\"](7);
+                      case 15:
+                        _context.prev = 15;
+                        _context.t0 = _context[\\"catch\\"](8);
                         throw new Error(_context.t0);
 
-                      case 16:
+                      case 18:
                         if (element) {
-                            _context.next = 18;
+                            _context.next = 20;
                             break;
                         }
                         return _context.abrupt(\\"return\\");
 
-                      case 18:
+                      case 20:
                         enablePullDownRefresh = ((_c = config === null || config === void 0 ? void 0 : config.window) === null || _c === void 0 ? void 0 : _c.enablePullDownRefresh) || false;
                         undefined.trigger(\\"__taroRouterChange\\", {
                             \\"toLocation\\": {
@@ -13407,12 +13459,12 @@ exports[`sass should set global sass content with data 2`] = `
                         handler.load(page, pageConfig);
                         (_f = app.onShow) === null || _f === void 0 ? void 0 : _f.call(app, launchParam);
 
-                      case 28:
+                      case 30:
                       case \\"end\\":
                         return _context.stop();
                     }
                 }
-            }), _callee, null, [ [ 7, 13 ] ]);
+            }), _callee, null, [ [ 8, 15 ] ]);
         })));
     }
     var path_to_regexp = __webpack_require__(8);
@@ -14012,7 +14064,14 @@ exports[`sass should set global sass content with data 2`] = `
         var router = new universal_router_module(routes, {
             \\"baseUrl\\": basename || \\"\\"
         });
-        var launchParam = handler.getQuery(stack.length);
+        var launchParam = {
+            \\"path\\": handler.homePage,
+            \\"query\\": handler.getQuery(stack.length),
+            \\"scene\\": 0,
+            \\"shareTicket\\": \\"\\",
+            \\"referrerInfo\\": {}
+        };
+        undefined.trigger(\\"__taroRouterLaunch\\", launchParam);
         (_a = app.onLaunch) === null || _a === void 0 ? void 0 : _a.call(app, launchParam);
         app.onError && window.addEventListener(\\"error\\", (function(e) {
             var _a;
@@ -14260,7 +14319,8 @@ exports[`sass should set global sass content with data 2`] = `
             \\"640\\": 1.17,
             \\"750\\": 1,
             \\"828\\": .905
-        }
+        },
+        \\"baseFontSize\\": 20
     });
 } ]);
 
@@ -17869,14 +17929,16 @@ exports[`sass should set global sass content with source & dir 2`] = `
         };
         window.addEventListener(\\"resize\\", pageResizeFn, false);
     }
-    var pageScrollFn;
+    var pageScrollFn = {};
     var pageDOM = window;
     function bindPageScroll(page, pageEl) {
         var distance = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 50;
-        pageScrollFn && pageEl.removeEventListener(\\"scroll\\", pageScrollFn);
+        var _a;
+        var pagePath = page ? page === null || page === void 0 ? void 0 : page.path : (_a = undefined.router) === null || _a === void 0 ? void 0 : _a.path;
+        pageScrollFn[pagePath] && pageEl.removeEventListener(\\"scroll\\", pageScrollFn[pagePath]);
         pageDOM = pageEl;
         var isReachBottom = false;
-        pageScrollFn = function pageScrollFn() {
+        pageScrollFn[pagePath] = function() {
             var _a;
             (_a = page.onPageScroll) === null || _a === void 0 ? void 0 : _a.call(page, {
                 \\"scrollTop\\": pageDOM instanceof Window ? window.scrollY : pageDOM.scrollTop
@@ -17889,7 +17951,7 @@ exports[`sass should set global sass content with source & dir 2`] = `
                 page.onReachBottom();
             }
         };
-        pageDOM.addEventListener(\\"scroll\\", pageScrollFn, false);
+        pageDOM.addEventListener(\\"scroll\\", pageScrollFn[pagePath], false);
     }
     function getOffset() {
         if (pageDOM instanceof Window) {
@@ -18124,7 +18186,14 @@ exports[`sass should set global sass content with source & dir 2`] = `
                       case 0:
                         router_RouterConfig.config = config;
                         handler = new multi_page_MultiPageHandler(config);
-                        launchParam = handler.getQuery();
+                        launchParam = {
+                            \\"path\\": config.pageName,
+                            \\"query\\": handler.getQuery(),
+                            \\"scene\\": 0,
+                            \\"shareTicket\\": \\"\\",
+                            \\"referrerInfo\\": {}
+                        };
+                        undefined.trigger(\\"__taroRouterLaunch\\", launchParam);
                         (_a = app.onLaunch) === null || _a === void 0 ? void 0 : _a.call(app, launchParam);
                         app.onError && window.addEventListener(\\"error\\", (function(e) {
                             var _a;
@@ -18132,28 +18201,31 @@ exports[`sass should set global sass content with source & dir 2`] = `
                         }));
                         pathName = config.pageName;
                         pageConfig = handler.pageConfig;
-                        _context.prev = 7;
-                        _context.next = 10;
+                        _context.prev = 8;
+                        _context.next = 11;
                         return (_b = pageConfig.load) === null || _b === void 0 ? void 0 : _b.call(pageConfig);
 
-                      case 10:
+                      case 11:
                         element = _context.sent;
-                        _context.next = 16;
+                        if (element instanceof Array) {
+                            element = element[0];
+                        }
+                        _context.next = 18;
                         break;
 
-                      case 13:
-                        _context.prev = 13;
-                        _context.t0 = _context[\\"catch\\"](7);
+                      case 15:
+                        _context.prev = 15;
+                        _context.t0 = _context[\\"catch\\"](8);
                         throw new Error(_context.t0);
 
-                      case 16:
+                      case 18:
                         if (element) {
-                            _context.next = 18;
+                            _context.next = 20;
                             break;
                         }
                         return _context.abrupt(\\"return\\");
 
-                      case 18:
+                      case 20:
                         enablePullDownRefresh = ((_c = config === null || config === void 0 ? void 0 : config.window) === null || _c === void 0 ? void 0 : _c.enablePullDownRefresh) || false;
                         undefined.trigger(\\"__taroRouterChange\\", {
                             \\"toLocation\\": {
@@ -18174,12 +18246,12 @@ exports[`sass should set global sass content with source & dir 2`] = `
                         handler.load(page, pageConfig);
                         (_f = app.onShow) === null || _f === void 0 ? void 0 : _f.call(app, launchParam);
 
-                      case 28:
+                      case 30:
                       case \\"end\\":
                         return _context.stop();
                     }
                 }
-            }), _callee, null, [ [ 7, 13 ] ]);
+            }), _callee, null, [ [ 8, 15 ] ]);
         })));
     }
     var path_to_regexp = __webpack_require__(8);
@@ -18779,7 +18851,14 @@ exports[`sass should set global sass content with source & dir 2`] = `
         var router = new universal_router_module(routes, {
             \\"baseUrl\\": basename || \\"\\"
         });
-        var launchParam = handler.getQuery(stack.length);
+        var launchParam = {
+            \\"path\\": handler.homePage,
+            \\"query\\": handler.getQuery(stack.length),
+            \\"scene\\": 0,
+            \\"shareTicket\\": \\"\\",
+            \\"referrerInfo\\": {}
+        };
+        undefined.trigger(\\"__taroRouterLaunch\\", launchParam);
         (_a = app.onLaunch) === null || _a === void 0 ? void 0 : _a.call(app, launchParam);
         app.onError && window.addEventListener(\\"error\\", (function(e) {
             var _a;
@@ -19027,7 +19106,8 @@ exports[`sass should set global sass content with source & dir 2`] = `
             \\"640\\": 1.17,
             \\"750\\": 1,
             \\"828\\": .905
-        }
+        },
+        \\"baseFontSize\\": 20
     });
 } ]);
 
@@ -22636,14 +22716,16 @@ exports[`sass should set global sass content with source 2`] = `
         };
         window.addEventListener(\\"resize\\", pageResizeFn, false);
     }
-    var pageScrollFn;
+    var pageScrollFn = {};
     var pageDOM = window;
     function bindPageScroll(page, pageEl) {
         var distance = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 50;
-        pageScrollFn && pageEl.removeEventListener(\\"scroll\\", pageScrollFn);
+        var _a;
+        var pagePath = page ? page === null || page === void 0 ? void 0 : page.path : (_a = undefined.router) === null || _a === void 0 ? void 0 : _a.path;
+        pageScrollFn[pagePath] && pageEl.removeEventListener(\\"scroll\\", pageScrollFn[pagePath]);
         pageDOM = pageEl;
         var isReachBottom = false;
-        pageScrollFn = function pageScrollFn() {
+        pageScrollFn[pagePath] = function() {
             var _a;
             (_a = page.onPageScroll) === null || _a === void 0 ? void 0 : _a.call(page, {
                 \\"scrollTop\\": pageDOM instanceof Window ? window.scrollY : pageDOM.scrollTop
@@ -22656,7 +22738,7 @@ exports[`sass should set global sass content with source 2`] = `
                 page.onReachBottom();
             }
         };
-        pageDOM.addEventListener(\\"scroll\\", pageScrollFn, false);
+        pageDOM.addEventListener(\\"scroll\\", pageScrollFn[pagePath], false);
     }
     function getOffset() {
         if (pageDOM instanceof Window) {
@@ -22891,7 +22973,14 @@ exports[`sass should set global sass content with source 2`] = `
                       case 0:
                         router_RouterConfig.config = config;
                         handler = new multi_page_MultiPageHandler(config);
-                        launchParam = handler.getQuery();
+                        launchParam = {
+                            \\"path\\": config.pageName,
+                            \\"query\\": handler.getQuery(),
+                            \\"scene\\": 0,
+                            \\"shareTicket\\": \\"\\",
+                            \\"referrerInfo\\": {}
+                        };
+                        undefined.trigger(\\"__taroRouterLaunch\\", launchParam);
                         (_a = app.onLaunch) === null || _a === void 0 ? void 0 : _a.call(app, launchParam);
                         app.onError && window.addEventListener(\\"error\\", (function(e) {
                             var _a;
@@ -22899,28 +22988,31 @@ exports[`sass should set global sass content with source 2`] = `
                         }));
                         pathName = config.pageName;
                         pageConfig = handler.pageConfig;
-                        _context.prev = 7;
-                        _context.next = 10;
+                        _context.prev = 8;
+                        _context.next = 11;
                         return (_b = pageConfig.load) === null || _b === void 0 ? void 0 : _b.call(pageConfig);
 
-                      case 10:
+                      case 11:
                         element = _context.sent;
-                        _context.next = 16;
+                        if (element instanceof Array) {
+                            element = element[0];
+                        }
+                        _context.next = 18;
                         break;
 
-                      case 13:
-                        _context.prev = 13;
-                        _context.t0 = _context[\\"catch\\"](7);
+                      case 15:
+                        _context.prev = 15;
+                        _context.t0 = _context[\\"catch\\"](8);
                         throw new Error(_context.t0);
 
-                      case 16:
+                      case 18:
                         if (element) {
-                            _context.next = 18;
+                            _context.next = 20;
                             break;
                         }
                         return _context.abrupt(\\"return\\");
 
-                      case 18:
+                      case 20:
                         enablePullDownRefresh = ((_c = config === null || config === void 0 ? void 0 : config.window) === null || _c === void 0 ? void 0 : _c.enablePullDownRefresh) || false;
                         undefined.trigger(\\"__taroRouterChange\\", {
                             \\"toLocation\\": {
@@ -22941,12 +23033,12 @@ exports[`sass should set global sass content with source 2`] = `
                         handler.load(page, pageConfig);
                         (_f = app.onShow) === null || _f === void 0 ? void 0 : _f.call(app, launchParam);
 
-                      case 28:
+                      case 30:
                       case \\"end\\":
                         return _context.stop();
                     }
                 }
-            }), _callee, null, [ [ 7, 13 ] ]);
+            }), _callee, null, [ [ 8, 15 ] ]);
         })));
     }
     var path_to_regexp = __webpack_require__(8);
@@ -23546,7 +23638,14 @@ exports[`sass should set global sass content with source 2`] = `
         var router = new universal_router_module(routes, {
             \\"baseUrl\\": basename || \\"\\"
         });
-        var launchParam = handler.getQuery(stack.length);
+        var launchParam = {
+            \\"path\\": handler.homePage,
+            \\"query\\": handler.getQuery(stack.length),
+            \\"scene\\": 0,
+            \\"shareTicket\\": \\"\\",
+            \\"referrerInfo\\": {}
+        };
+        undefined.trigger(\\"__taroRouterLaunch\\", launchParam);
         (_a = app.onLaunch) === null || _a === void 0 ? void 0 : _a.call(app, launchParam);
         app.onError && window.addEventListener(\\"error\\", (function(e) {
             var _a;
@@ -23794,7 +23893,8 @@ exports[`sass should set global sass content with source 2`] = `
             \\"640\\": 1.17,
             \\"750\\": 1,
             \\"828\\": .905
-        }
+        },
+        \\"baseFontSize\\": 20
     });
 } ]);
 

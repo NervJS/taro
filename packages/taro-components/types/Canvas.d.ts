@@ -1,50 +1,54 @@
 import { ComponentType } from 'react'
-import { StandardProps, CommonEventFunction, CanvasTouchEventFunction, CanvasTouchEvent } from './common'
-
+import {
+  StandardProps,
+  CommonEventFunction,
+  CanvasTouchEventFunction,
+  CanvasTouchEvent,
+} from './common'
 interface CanvasProps extends StandardProps<any, CanvasTouchEvent> {
   /** 指定 canvas 类型，支持 2d 和 webgl
-   * @supported weapp
+   * @supported weapp, alipay, tt
    */
   type?: string
 
   /** canvas 组件的唯一标识符，若指定了 type 则无需再指定该属性
-   * @supported weapp
+   * @supported weapp, swan, tt, qq, jd
    */
   canvasId?: string
 
   /** 当在 canvas 中移动时且有绑定手势事件时，禁止屏幕滚动以及下拉刷新
    * @default false
-   * @supported weapp
+   * @supported weapp, alipay, swan, qq, jd
    */
   disableScroll?: boolean
 
   /** 手指触摸动作开始
-   * @supported weapp
+   * @supported weapp, alipay, swan, tt, qq, jd
    */
   onTouchStart?: CanvasTouchEventFunction
 
   /** 手指触摸后移动
-   * @supported weapp
+   * @supported weapp, alipay, swan, tt, qq, jd
    */
   onTouchMove?: CanvasTouchEventFunction
 
   /** 手指触摸动作结束
-   * @supported weapp
+   * @supported weapp, alipay, swan, tt, qq, jd
    */
   onTouchEnd?: CanvasTouchEventFunction
 
   /** 手指触摸动作被打断，如来电提醒，弹窗
-   * @supported weapp
+   * @supported weapp, alipay, swan, tt, qq, jd
    */
   onTouchCancel?: CanvasTouchEventFunction
 
   /** 手指长按 500ms 之后触发，触发了长按事件后进行移动不会触发屏幕的滚动
-   * @supported weapp
+   * @supported weapp, alipay, swan, qq, jd
    */
   onLongTap?: CommonEventFunction
 
   /** 当发生错误时触发 error 事件，detail = {errMsg: 'something wrong'}
-   * @supported weapp
+   * @supported weapp, swan, qq, jd
    */
   onError?: CommonEventFunction<CanvasProps.onErrorEventDetail>
 
@@ -52,8 +56,44 @@ interface CanvasProps extends StandardProps<any, CanvasTouchEvent> {
    * @supported h5
    */
   nativeProps?: Record<string, unknown>
-}
 
+  /** 组件唯一标识符。
+   * 注意：同一页面中的 id 不可重复。
+   * @supported alipay
+   */
+  id?: string
+
+  /** -
+   * @supported alipay
+   */
+  style?: string
+
+  /** -
+   * @supported alipay
+   */
+  class?: string
+
+  /**
+   * @supported alipay
+   */
+  width?: string
+
+  /**
+   * @supported alipay
+   */
+  height?: string
+
+  /** 点击。
+   * @supported alipay
+   */
+  onTap?: CommonEventFunction
+
+  /** canvas 组件初始化成功触发。
+   * 版本要求：基础库 2.7.0 及以上
+   * @supported alipay
+   */
+  onReady?: CommonEventFunction
+}
 declare namespace CanvasProps {
   interface onErrorEventDetail {
     errMsg: string
@@ -86,5 +126,4 @@ declare namespace CanvasProps {
  * @see https://developers.weixin.qq.com/miniprogram/dev/component/canvas.html
  */
 declare const Canvas: ComponentType<CanvasProps>
-
 export { Canvas, CanvasProps }

@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`vue3 should build vue3 app 1`] = `17`;
+exports[`vue3 should build vue3 app 1`] = `14`;
 
 exports[`vue3 should build vue3 app 2`] = `
 "
@@ -54,12 +54,24 @@ require(\\"./taro\\");
         function useRouter() {}
         function useTabItemTap() {}
         function useScope() {}
-        var needPromiseApis = new Set([ \\"authPrivateMessage\\", \\"disableAlertBeforeUnload\\", \\"enableAlertBeforeUnload\\", \\"getBackgroundFetchData\\", \\"getGroupEnterInfo\\", \\"getShareInfo\\", \\"getWeRunData\\", \\"join1v1Chat\\", \\"openVideoEditor\\", \\"saveFileToDisk\\", \\"scanItem\\", \\"setEnable1v1Chat\\", \\"setWindowSize\\", \\"sendBizRedPacket\\", \\"startFacialRecognitionVerify\\", \\"openCustomerServiceChat\\", \\"getLocalIPAddress\\", \\"getUserProfile\\", \\"editImage\\", \\"getFuzzyLocation\\" ]);
+        var needPromiseApis = new Set([ \\"authPrivateMessage\\", \\"disableAlertBeforeUnload\\", \\"enableAlertBeforeUnload\\", \\"getBackgroundFetchData\\", \\"getGroupEnterInfo\\", \\"getShareInfo\\", \\"getWeRunData\\", \\"join1v1Chat\\", \\"openVideoEditor\\", \\"saveFileToDisk\\", \\"scanItem\\", \\"setEnable1v1Chat\\", \\"setWindowSize\\", \\"sendBizRedPacket\\", \\"startFacialRecognitionVerify\\", \\"openCustomerServiceChat\\", \\"getLocalIPAddress\\", \\"getUserProfile\\", \\"editImage\\", \\"getFuzzyLocation\\", \\"cropImage\\" ]);
         function initNativeApi(taro) {
             processApis(taro, wx, {
                 needPromiseApis: needPromiseApis,
                 modifyApis: function modifyApis(apis) {
                     apis.delete(\\"lanDebug\\");
+                },
+                transformMeta: function transformMeta(api, options) {
+                    var _a;
+                    if (api === \\"showShareMenu\\") {
+                        options.menus = (_a = options.showShareItems) === null || _a === void 0 ? void 0 : _a.map((function(item) {
+                            return item === \\"wechatFriends\\" ? \\"shareAppMessage\\" : item === \\"wechatMoment\\" ? \\"shareTimeline\\" : item;
+                        }));
+                    }
+                    return {
+                        key: api,
+                        options: options
+                    };
                 }
             });
             taro.cloud = wx.cloud;
@@ -1250,30 +1262,11 @@ require(\\"./taro\\");
 }, [ [ 5, 0, 1 ] ] ]);
 
 /** filePath: dist/comp.json **/
-{\\"component\\":true,\\"usingComponents\\":{\\"comp\\":\\"./comp\\",\\"custom-wrapper\\":\\"./custom-wrapper\\"}}
+{\\"component\\":true,\\"usingComponents\\":{\\"comp\\":\\"./comp\\"}}
 
 /** filePath: dist/comp.wxml **/
 <import src=\\"./base.wxml\\" />
 <template is=\\"tmpl_0_container\\" data=\\"{{i:i,l:l}}\\" />
-
-/** filePath: dist/custom-wrapper.js **/
-(wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 6 ], {
-    6: function(module, __webpack_exports__, __webpack_require__) {
-        \\"use strict\\";
-        __webpack_require__.r(__webpack_exports__);
-        var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
-        Component(Object(_tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__[\\"createRecursiveComponentConfig\\"])(\\"custom-wrapper\\"));
-    }
-}, [ [ 6, 0, 1 ] ] ]);
-
-/** filePath: dist/custom-wrapper.json **/
-{\\"component\\":true,\\"usingComponents\\":{\\"comp\\":\\"./comp\\",\\"custom-wrapper\\":\\"./custom-wrapper\\"}}
-
-/** filePath: dist/custom-wrapper.wxml **/
-<import src=\\"./base.wxml\\" />
-  <block wx:for=\\"{{i.cn}}\\" wx:key=\\"sid\\">
-    <template is=\\"tmpl_0_container\\" data=\\"{{i:item,l:''}}\\" />
-  </block>
 
 /** filePath: dist/pages/index/index.js **/
 (wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 7 ], {
@@ -1370,7 +1363,7 @@ require(\\"./taro\\");
 }, [ [ 7, 0, 1, 2 ] ] ]);
 
 /** filePath: dist/pages/index/index.json **/
-{\\"navigationBarTitleText\\":\\"首页\\",\\"usingComponents\\":{\\"custom-wrapper\\":\\"../../custom-wrapper\\",\\"comp\\":\\"../../comp\\"}}
+{\\"navigationBarTitleText\\":\\"首页\\",\\"usingComponents\\":{\\"comp\\":\\"../../comp\\"}}
 
 /** filePath: dist/pages/index/index.wxml **/
 <import src=\\"../../base.wxml\\"/>

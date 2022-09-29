@@ -1,11 +1,12 @@
 import Taro from '@tarojs/taro'
 import { parsePath } from 'history'
 
-import type { NavigateBackOption, Option } from '../types/api'
 import { history, prependBasename } from './history'
 import { RouterConfig } from './router'
 import stacks from './router/stack'
 import { addLeadingSlash, routesAlias } from './utils'
+
+import type { NavigateBackOption, Option } from '../types/api'
 
 type MethodName = 'navigateTo' | 'navigateBack' | 'switchTab' | 'redirectTo' | 'reLaunch'
 

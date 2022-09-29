@@ -17,9 +17,8 @@ import { AppConfig, Config } from '@tarojs/taro'
 import fs from 'fs-extra'
 import { urlToRequest } from 'loader-utils'
 import path from 'path'
-import webpack, { Compilation, Compiler } from 'webpack'
+import webpack, { Compilation, Compiler, sources } from 'webpack'
 import EntryDependency from 'webpack/lib/dependencies/EntryDependency'
-import { ConcatSource, RawSource } from 'webpack-sources'
 
 import TaroSingleEntryDependency from '../dependencies/TaroSingleEntryDependency'
 import { PrerenderConfig, validatePrerenderPages } from '../prerender/prerender'
@@ -30,6 +29,7 @@ import TaroNormalModulesPlugin from './TaroNormalModulesPlugin'
 import TaroSingleEntryPlugin from './TaroSingleEntryPlugin'
 
 const PLUGIN_NAME = 'TaroMiniPlugin'
+const { ConcatSource, RawSource } = sources
 
 interface ITaroMiniPluginOptions {
   appEntry?: string
@@ -871,6 +871,7 @@ export default class TaroMiniPlugin {
     const baseTemplateName = this.getIsBuildPluginPath('base', isBuildPlugin)
     const baseCompName = 'comp'
     const customWrapperName = 'custom-wrapper'
+    const isUsingCustomWrapper = componentConfig.thirdPartyComponents.has('custom-wrapper')
 
     /**
      * 与原生小程序混写时解析模板与样式
@@ -886,6 +887,9 @@ export default class TaroMiniPlugin {
         compilation.assets[newAssetPath] = assetObj
         delete compilation.assets[assetPath]
       }
+      if (!isUsingCustomWrapper && assetPath === 'custom-wrapper.js') {
+        delete compilation.assets[assetPath]
+      }
     })
 
     if (typeof modifyMiniConfigs === 'function') {
@@ -899,30 +903,35 @@ export default class TaroMiniPlugin {
     if (!template.isSupportRecursive) {
       // 如微信、QQ 不支持递归模版的小程序，需要使用自定义组件协助递归
       this.generateTemplateFile(compilation, this.getIsBuildPluginPath(baseCompName, isBuildPlugin), template.buildBaseComponentTemplate, this.options.fileType.templ)
-      this.generateConfigFile(compilation, this.getIsBuildPluginPath(baseCompName, isBuildPlugin), {
+      const baseCompConfig = {
         component: true,
         usingComponents: {
-          [baseCompName]: `./${baseCompName}`,
-          [customWrapperName]: `./${customWrapperName}`
+          [baseCompName]: `./${baseCompName}`
         }
-      })
-      this.generateConfigFile(compilation, this.getIsBuildPluginPath(customWrapperName, isBuildPlugin), {
-        component: true,
-        usingComponents: {
-          [baseCompName]: `./${baseCompName}`,
-          [customWrapperName]: `./${customWrapperName}`
-        }
-      })
+      }
+      if (isUsingCustomWrapper) {
+        baseCompConfig[customWrapperName] = `./${customWrapperName}`
+        this.generateConfigFile(compilation, this.getIsBuildPluginPath(customWrapperName, isBuildPlugin), {
+          component: true,
+          usingComponents: {
+            [baseCompName]: `./${baseCompName}`,
+            [customWrapperName]: `./${customWrapperName}`
+          }
+        })
+      }
+      this.generateConfigFile(compilation, this.getIsBuildPluginPath(baseCompName, isBuildPlugin), baseCompConfig)
     } else {
-      this.generateConfigFile(compilation, this.getIsBuildPluginPath(customWrapperName, isBuildPlugin), {
-        component: true,
-        usingComponents: {
-          [customWrapperName]: `./${customWrapperName}`
-        }
-      })
+      if (isUsingCustomWrapper) {
+        this.generateConfigFile(compilation, this.getIsBuildPluginPath(customWrapperName, isBuildPlugin), {
+          component: true,
+          usingComponents: {
+            [customWrapperName]: `./${customWrapperName}`
+          }
+        })
+      }
     }
     this.generateTemplateFile(compilation, baseTemplateName, template.buildTemplate, componentConfig)
-    this.generateTemplateFile(compilation, this.getIsBuildPluginPath(customWrapperName, isBuildPlugin), template.buildCustomComponentTemplate, this.options.fileType.templ)
+    isUsingCustomWrapper && this.generateTemplateFile(compilation, this.getIsBuildPluginPath(customWrapperName, isBuildPlugin), template.buildCustomComponentTemplate, this.options.fileType.templ)
     this.generateXSFile(compilation, 'utils', isBuildPlugin)
     // 为独立分包生成 base/comp/custom-wrapper
     this.independentPackages.forEach((_pages, name) => {
@@ -977,8 +986,10 @@ export default class TaroMiniPlugin {
           importCustomWrapperPath = promoteRelativePath(path.relative(page.path, path.join(sourceDir, independentName, this.getTargetFilePath(this.getIsBuildPluginPath(customWrapperName, isBuildPlugin), ''))))
         }
         config.content.usingComponents = {
-          [customWrapperName]: importCustomWrapperPath,
           ...config.content.usingComponents
+        }
+        if(isUsingCustomWrapper) {
+          config.content.usingComponents[customWrapperName] = importCustomWrapperPath
         }
         if (!template.isSupportRecursive && !page.isNative) {
           config.content.usingComponents[baseCompName] = importBaseCompPath

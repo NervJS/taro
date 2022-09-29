@@ -4,9 +4,10 @@ import HtmlWebpackPlugin from 'html-webpack-plugin'
 import path from 'path'
 
 import H5Plugin from '../plugins/H5Plugin'
+import WebpackPlugin from './WebpackPlugin'
+
 import type { H5Combination } from './H5Combination'
 import type { PluginArgs } from './WebpackPlugin'
-import WebpackPlugin from './WebpackPlugin'
 
 export class H5WebpackPlugin {
   combination: H5Combination
@@ -83,7 +84,7 @@ export class H5WebpackPlugin {
     const options = this.pxtransformOption?.config || {}
     const max = options?.maxRootSize ?? 40
     const min = options?.minRootSize ?? 20
-    const baseFontSize = options?.baseFontSize || min > 1 ? min : 20
+    const baseFontSize = options?.baseFontSize || (min > 1 ? min : 20)
     const designWidth = (input => typeof options.designWidth === 'function'
       ? options.designWidth(input)
       : options.designWidth)(baseFontSize)

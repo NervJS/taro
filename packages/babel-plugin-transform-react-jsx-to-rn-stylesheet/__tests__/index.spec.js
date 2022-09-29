@@ -3,44 +3,6 @@ import syntaxJSX from 'babel-plugin-syntax-jsx'
 
 import jSXStylePlugin from '../src/index'
 
-const getClassNameFunctionTemplate = `function _getClassName() {
-  var className = [];
-  var args = arguments[0];
-  var type = Object.prototype.toString.call(args).slice(8, -1).toLowerCase();
-
-  if (type === 'string') {
-    args = args.trim();
-    args && className.push(args);
-  } else if (type === 'array') {
-    args.forEach(function (cls) {
-      cls = _getClassName(cls).trim();
-      cls && className.push(cls);
-    });
-  } else if (type === 'object') {
-    for (var k in args) {
-      k = k.trim();
-
-      if (k && args.hasOwnProperty(k) && args[k]) {
-        className.push(k);
-      }
-    }
-  }
-
-  return className.join(' ').trim();
-}`
-
-const getStyleFunctionTemplete = `function _getStyle(classNameExpression) {
-  var className = _getClassName(classNameExpression);\n
-  var classNameArr = className.split(/\\s+/);
-  var style = {};
-  classNameArr.reduce((sty, cls) => Object.assign(sty, _styleSheet[cls.trim()]), style);
-  return style;
-}`
-
-const mergeEleStylesFunctionTemplate = `function _mergeEleStyles() {
-  return [].concat.apply([], arguments).reduce((pre, cur) => Object.assign(pre, cur), {});
-}`
-
 describe('jsx style plugin', () => {
   function getTransfromCode (source, debug = false, options = {}) {
     const { enableCSSModule, enableMultipleClassName = false } = options
@@ -84,16 +46,7 @@ class App extends Component {
   render() {
     return <div className="header" />;
   }
-}`)).toBe(`import { createElement, Component } from 'rax';
-import appCssStyleSheet from "./app.css";
-var _styleSheet = appCssStyleSheet;
-
-class App extends Component {
-  render() {
-    return <div style={_styleSheet["header"]} />;
-  }
-
-}`)
+}`)).toMatchSnapshot()
   })
 
   it('transform multiple classNames to style as array', () => {
@@ -105,19 +58,7 @@ class App extends Component {
   render() {
     return <div className="header1 header2" />;
   }
-}`)).toBe(`import { createElement, Component } from 'rax';
-import appCssStyleSheet from "./app.css";
-
-${mergeEleStylesFunctionTemplate}
-
-var _styleSheet = appCssStyleSheet;
-
-class App extends Component {
-  render() {
-    return <div style={_mergeEleStyles(_styleSheet["header1"], _styleSheet["header2"])} />;
-  }
-
-}`)
+}`)).toMatchSnapshot()
   })
 
   it('transform array, object and expressions', () => {
@@ -134,30 +75,7 @@ class App extends Component {
       <div className={getClassName()} />
     </div>;
   }
-}`)).toBe(`import { createElement, Component } from 'rax';
-import appCssStyleSheet from "./app.css";
-
-${getClassNameFunctionTemplate}
-
-${getStyleFunctionTemplete}
-
-var _styleSheet = appCssStyleSheet;
-
-class App extends Component {
-  render() {
-    return <div style={_styleSheet["header"]}>
-      <div style={_getStyle({
-        active: props.isActive
-      })} />
-      <div style={_getStyle(['header1 header2', 'header3', {
-        active: props.isActive
-      }])} />
-      <div style={_getStyle(props.visible ? 'show' : 'hide')} />
-      <div style={_getStyle(getClassName())} />
-    </div>;
-  }
-
-}`)
+}`)).toMatchSnapshot()
   })
 
   it('combine multiple anonymous css file', () => {
@@ -175,7 +93,8 @@ class App extends Component {
   it('combine the same filename style source', () => {
     expect(getTransfromCode(`import { createElement, Component } from 'rax';
 import './app.css';
-import '../app.css';
+import '../a/app.css';
+import '../b/app.css';
 
 class App extends Component {
   render() {
@@ -207,20 +126,7 @@ class App extends Component {
       height: 100
     }} />;
   }
-}`)).toBe(`import { createElement, Component } from 'rax';
-import appCssStyleSheet from "./app.css";
-
-${mergeEleStylesFunctionTemplate}
-
-var _styleSheet = appCssStyleSheet;
-
-class App extends Component {
-  render() {
-    return <div style={_mergeEleStyles(_styleSheet["header"], {
-      height: 100
-    })} />;
-  }\n
-}`)
+}`)).toMatchSnapshot()
   })
 
   it('combine multiple styles and className', () => {
@@ -257,15 +163,7 @@ class App extends Component {
   render() {
     return <div className="header" />;
   }
-}`)).toBe(`import { createElement, Component } from 'rax';
-import appScssStyleSheet from "./app.scss";
-var _styleSheet = appScssStyleSheet;
-
-class App extends Component {
-  render() {
-    return <div style={_styleSheet["header"]} />;
-  }\n
-}`)
+}`)).toMatchSnapshot()
   })
 
   it('transform scss file with hyphen(-) in the filename', () => {
@@ -277,15 +175,7 @@ class App extends Component {
   render() {
     return <div className="header" />;
   }
-}`)).toBe(`import { createElement, Component } from 'rax';
-import appStyleScssStyleSheet from "./app-style.scss";
-var _styleSheet = appStyleScssStyleSheet;
-
-class App extends Component {
-  render() {
-    return <div style={_styleSheet["header"]} />;
-  }\n
-}`)
+}`)).toMatchSnapshot()
   })
 
   it('transform constant elements in render', () => {
@@ -294,10 +184,7 @@ import { createElement, render } from 'rax';
 import './app.css';
 
 render(<div className="header" />);
-`)).toBe(`import { createElement, render } from 'rax';
-import appCssStyleSheet from "./app.css";
-var _styleSheet = appCssStyleSheet;
-render(<div style={_styleSheet["header"]} />);`)
+`)).toMatchSnapshot()
   })
 
   it('transform stylus in render', () => {
@@ -306,10 +193,7 @@ import { createElement, render } from 'rax';
 import './app.styl';
 
 render(<div className="header" />);
-`)).toBe(`import { createElement, render } from 'rax';
-import appStylStyleSheet from "./app.styl";
-var _styleSheet = appStylStyleSheet;
-render(<div style={_styleSheet["header"]} />);`)
+`)).toMatchSnapshot()
   })
 
   it('transform less in render', () => {
@@ -318,10 +202,7 @@ import { createElement, render } from 'rax';
 import './app.less';
 
 render(<div className="header" />);
-`)).toBe(`import { createElement, render } from 'rax';
-import appLessStyleSheet from "./app.less";
-var _styleSheet = appLessStyleSheet;
-render(<div style={_styleSheet["header"]} />);`)
+`)).toMatchSnapshot()
   })
 
   it('combine multiple different extension style sources', () => {
@@ -341,16 +222,7 @@ import { createElement, render } from 'rax';
 import './app.less';
 
 render(<div className="header" style={{width: 100, height: 100}} />);
-`)).toBe(`import { createElement, render } from 'rax';
-import appLessStyleSheet from "./app.less";
-
-${mergeEleStylesFunctionTemplate}
-
-var _styleSheet = appLessStyleSheet;
-render(<div style={_mergeEleStyles(_styleSheet["header"], {
-  width: 100,
-  height: 100
-})} />);`)
+`)).toMatchSnapshot()
   })
   it('transform styleAttribute inline string', () => {
     expect(getTransfromCode(`
@@ -373,20 +245,7 @@ render(<div style={{
 import { createElement, render } from 'rax';
 import './app.less';
 render(<div className="header" style="width:100px;height:100px;background-color:rgba(0, 0, 0, 0.5);border: 1px solid;" />);
-`)).toBe(`import { createElement, render } from 'rax';
-import appLessStyleSheet from "./app.less";
-
-${mergeEleStylesFunctionTemplate}
-
-var _styleSheet = appLessStyleSheet;
-render(<div style={_mergeEleStyles(_styleSheet["header"], {
-  "width": 100,
-  "height": 100,
-  "backgroundColor": "rgba(0, 0, 0, 0.5)",
-  "borderWidth": 1,
-  "borderStyle": "solid",
-  "borderColor": "black"
-})} />);`)
+`)).toMatchSnapshot()
   })
 
   it('Provide a default stylesheet object when css module enable and import css module sheet only', () => {
@@ -497,16 +356,7 @@ class App extends Component {
   render() {
     return <div className="container" headerClassName="header" />;
   }
-}`, false, { enableMultipleClassName: false })).toBe(`import { createElement, Component } from 'rax';
-import appCssStyleSheet from "./app.css";
-var _styleSheet = appCssStyleSheet;
-
-class App extends Component {
-  render() {
-    return <div headerClassName="header" style={_styleSheet["container"]} />;
-  }
-
-}`)
+}`, false, { enableMultipleClassName: false })).toMatchSnapshot()
   })
 
   it('enableMultipleClassName and transform multiple className to multiple style', () => {
@@ -518,16 +368,7 @@ class App extends Component {
   render() {
     return <div className="container" headerClassName="header" />;
   }
-}`, false, { enableMultipleClassName: true })).toBe(`import { createElement, Component } from 'rax';
-import appCssStyleSheet from "./app.css";
-var _styleSheet = appCssStyleSheet;
-
-class App extends Component {
-  render() {
-    return <div style={_styleSheet["container"]} headerStyle={_styleSheet["header"]} />;
-  }
-
-}`)
+}`, false, { enableMultipleClassName: true })).toMatchSnapshot()
   })
 
   it('enableMultipleClassName and transform multiple className to multiple style as array', () => {
@@ -539,23 +380,7 @@ class App extends Component {
   render() {
     return <div className="container" headerClassName="header" style={{ color: "red" }} headerStyle={{ color: "green" }} />;
   }
-}`, false, { enableMultipleClassName: true })).toBe(`import { createElement, Component } from 'rax';
-import appCssStyleSheet from "./app.css";
-
-${mergeEleStylesFunctionTemplate}
-
-var _styleSheet = appCssStyleSheet;
-
-class App extends Component {
-  render() {
-    return <div style={_mergeEleStyles(_styleSheet["container"], {
-      color: "red"
-    })} headerStyle={_mergeEleStyles(_styleSheet["header"], {
-      color: "green"
-    })} />;
-  }
-
-}`)
+}`, false, { enableMultipleClassName: true })).toMatchSnapshot()
   })
 
   it('enableMultipleClassName and transform error css value', () => {
@@ -567,15 +392,6 @@ class App extends Component {
   render() {
     return <StatusBar barStyle="dark-content" />;
   }
-}`, false, { enableMultipleClassName: true })).toBe(`import { createElement, Component } from 'rax';
-import appCssStyleSheet from "./app.css";
-var _styleSheet = appCssStyleSheet;
-
-class App extends Component {
-  render() {
-    return <StatusBar barStyle={"dark-content"} />;
-  }
-
-}`)
+}`, false, { enableMultipleClassName: true })).toMatchSnapshot()
   })
 })

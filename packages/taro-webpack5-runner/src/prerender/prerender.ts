@@ -1,11 +1,12 @@
 import { isFunction, isObject, isString, noop, Shortcuts } from '@tarojs/shared'
-import type { IAdapter } from '@tarojs/shared/dist/template'
 import fs from 'fs'
 import { join } from 'path'
-import type { NodeVM } from 'vm2'
 import { Configuration, Stats, StatsCompilation } from 'webpack'
 
 import { printPrerenderFail, printPrerenderSuccess } from '../utils/logHelper'
+
+import type { IAdapter } from '@tarojs/shared/dist/template'
+import type { NodeVM } from 'vm2'
 import type { MiniBuildConfig } from '../utils/types'
 
 type Attributes = Record<string, string>
@@ -25,7 +26,7 @@ function getAttrValue (value) {
     try {
       const res = JSON.stringify(value)
       return `'${res}'`
-    } catch (error) {}
+    } catch (error) {} // eslint-disable-line no-empty
   }
 
   if (value === 'true' || value === 'false' || !isString(value)) {

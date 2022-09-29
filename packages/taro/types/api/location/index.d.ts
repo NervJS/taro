@@ -79,9 +79,9 @@ declare module '../../index' {
       /** 详细地址 */
       address: string
       /** 纬度，浮点数，范围为-90~90，负数表示南纬。使用 gcj02 国测局坐标系 */
-      latitude: string
+      latitude: number
       /** 经度，浮点数，范围为-180~180，负数表示西经。使用 gcj02 国测局坐标系 */
-      longitude: string
+      longitude: number
     }
   }
 
@@ -109,9 +109,9 @@ declare module '../../index' {
       /** 详细地址 */
       address: string
       /** 纬度，浮点数，范围为-90~90，负数表示南纬。使用 gcj02 国测局坐标系 */
-      latitude: string
+      latitude: number
       /** 经度，浮点数，范围为-180~180，负数表示西经。使用 gcj02 国测局坐标系 */
-      longitude: string
+      longitude: number
       /** 位置名称 */
       name: string
       /** 调用结果 */
@@ -202,9 +202,9 @@ declare module '../../index' {
 
     interface SuccessCallbackResult extends TaroGeneral.CallbackResult {
       /** 纬度，范围为 -90~90，负数表示南纬 */
-      latitude: string
+      latitude: number
       /** 经度，范围为 -180~180，负数表示西经 */
-      longitude: string
+      longitude: number
     }
   }
 
@@ -215,7 +215,7 @@ declare module '../../index' {
      */
     stopLocationUpdate(option?: stopLocationUpdate.Option): void
 
-    /** 开启小程序进入前后台时均接收位置消息，需引导用户开启[授权](./apis/open-api/authorize/authorize.md#后台定位)。授权以后，小程序在运行中或进入后台均可接受位置消息变化。
+    /** 开启小程序进入前后台时均接收位置消息，需引导用户开启[授权](../open-api/authorize/authorize.md#后台定位)。授权以后，小程序在运行中或进入后台均可接受位置消息变化。
      *
      * **注意**
      * - 安卓微信7.0.6版本，iOS 7.0.5版本起支持该接口

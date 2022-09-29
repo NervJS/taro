@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`wx-hybrid should compatible with weapp native pages and components 1`] = `26`;
+exports[`wx-hybrid should compatible with weapp native pages and components 1`] = `23`;
 
 exports[`wx-hybrid should compatible with weapp native pages and components 2`] = `
 "
@@ -19,12 +19,22 @@ require(\\"./taro\\");
         \\"use strict\\";
         __webpack_require__.r(__webpack_exports__);
         var mocks_taro = __webpack_require__(0);
-        const needPromiseApis = new Set([ \\"authPrivateMessage\\", \\"disableAlertBeforeUnload\\", \\"enableAlertBeforeUnload\\", \\"getBackgroundFetchData\\", \\"getGroupEnterInfo\\", \\"getShareInfo\\", \\"getWeRunData\\", \\"join1v1Chat\\", \\"openVideoEditor\\", \\"saveFileToDisk\\", \\"scanItem\\", \\"setEnable1v1Chat\\", \\"setWindowSize\\", \\"sendBizRedPacket\\", \\"startFacialRecognitionVerify\\", \\"openCustomerServiceChat\\", \\"getLocalIPAddress\\", \\"getUserProfile\\", \\"editImage\\", \\"getFuzzyLocation\\" ]);
+        const needPromiseApis = new Set([ \\"authPrivateMessage\\", \\"disableAlertBeforeUnload\\", \\"enableAlertBeforeUnload\\", \\"getBackgroundFetchData\\", \\"getGroupEnterInfo\\", \\"getShareInfo\\", \\"getWeRunData\\", \\"join1v1Chat\\", \\"openVideoEditor\\", \\"saveFileToDisk\\", \\"scanItem\\", \\"setEnable1v1Chat\\", \\"setWindowSize\\", \\"sendBizRedPacket\\", \\"startFacialRecognitionVerify\\", \\"openCustomerServiceChat\\", \\"getLocalIPAddress\\", \\"getUserProfile\\", \\"editImage\\", \\"getFuzzyLocation\\", \\"cropImage\\" ]);
         function initNativeApi(taro) {
             Object(mocks_taro[\\"f\\"])(taro, wx, {
                 needPromiseApis: needPromiseApis,
                 modifyApis(apis) {
                     apis.delete(\\"lanDebug\\");
+                },
+                transformMeta(api, options) {
+                    var _a;
+                    if (api === \\"showShareMenu\\") {
+                        options.menus = (_a = options.showShareItems) === null || _a === void 0 ? void 0 : _a.map(item => item === \\"wechatFriends\\" ? \\"shareAppMessage\\" : item === \\"wechatMoment\\" ? \\"shareTimeline\\" : item);
+                    }
+                    return {
+                        key: api,
+                        options: options
+                    };
                 }
             });
             taro.cloud = wx.cloud;
@@ -1425,7 +1435,7 @@ require(\\"./taro\\");
 }, [ [ 14, 0, 1 ] ] ]);
 
 /** filePath: dist/comp.json **/
-{\\"component\\":true,\\"usingComponents\\":{\\"comp\\":\\"./comp\\",\\"custom-wrapper\\":\\"./custom-wrapper\\"}}
+{\\"component\\":true,\\"usingComponents\\":{\\"comp\\":\\"./comp\\"}}
 
 /** filePath: dist/comp.wxml **/
 <import src=\\"./base.wxml\\" />
@@ -1477,25 +1487,6 @@ require(\\"./taro\\");
   {{myProperty}}
 </view>
 
-
-/** filePath: dist/custom-wrapper.js **/
-(wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 10 ], {
-    15: function(module, __webpack_exports__, __webpack_require__) {
-        \\"use strict\\";
-        __webpack_require__.r(__webpack_exports__);
-        var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(2);
-        Component(Object(_tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__[\\"createRecursiveComponentConfig\\"])(\\"custom-wrapper\\"));
-    }
-}, [ [ 15, 0, 1 ] ] ]);
-
-/** filePath: dist/custom-wrapper.json **/
-{\\"component\\":true,\\"usingComponents\\":{\\"comp\\":\\"./comp\\",\\"custom-wrapper\\":\\"./custom-wrapper\\"}}
-
-/** filePath: dist/custom-wrapper.wxml **/
-<import src=\\"./base.wxml\\" />
-  <block wx:for=\\"{{i.cn}}\\" wx:key=\\"sid\\">
-    <template is=\\"tmpl_0_container\\" data=\\"{{i:item,l:''}}\\" />
-  </block>
 
 /** filePath: dist/pages/index/index.js **/
 (wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 11 ], {
@@ -1584,7 +1575,7 @@ require(\\"./taro\\");
 }, [ [ 24, 0, 1, 3, 2 ] ] ]);
 
 /** filePath: dist/pages/index/index.json **/
-{\\"navigationBarTitleText\\":\\"首页\\",\\"usingComponents\\":{\\"custom-wrapper\\":\\"../../custom-wrapper\\",\\"tab\\":\\"../../components/tab/tab\\",\\"comp\\":\\"../../comp\\"}}
+{\\"navigationBarTitleText\\":\\"首页\\",\\"usingComponents\\":{\\"tab\\":\\"../../components/tab/tab\\",\\"comp\\":\\"../../comp\\"}}
 
 /** filePath: dist/pages/index/index.wxml **/
 <import src=\\"../../base.wxml\\"/>
@@ -1632,7 +1623,7 @@ require(\\"./taro\\");
 }, [ [ 17, 0 ] ] ]);
 
 /** filePath: dist/pages/native/native.json **/
-{\\"navigationBarBackgroundColor\\":\\"#ffffff\\",\\"navigationBarTextStyle\\":\\"black\\",\\"navigationBarTitleText\\":\\"混写页面示例\\",\\"backgroundColor\\":\\"#eeeeee\\",\\"backgroundTextStyle\\":\\"light\\",\\"usingComponents\\":{\\"custom-wrapper\\":\\"../../custom-wrapper\\",\\"tab\\":\\"../../components/tab/tab\\"}}
+{\\"navigationBarBackgroundColor\\":\\"#ffffff\\",\\"navigationBarTextStyle\\":\\"black\\",\\"navigationBarTitleText\\":\\"混写页面示例\\",\\"backgroundColor\\":\\"#eeeeee\\",\\"backgroundTextStyle\\":\\"light\\",\\"usingComponents\\":{\\"tab\\":\\"../../components/tab/tab\\"}}
 
 /** filePath: dist/pages/native/native.wxml **/
 <view class=\\"native\\" bindtap=\\"viewTap\\">

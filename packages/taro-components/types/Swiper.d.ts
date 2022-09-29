@@ -1,34 +1,33 @@
 import { ComponentType } from 'react'
 import { StandardProps, CommonEventFunction } from './common'
-
 interface SwiperProps extends StandardProps {
   /** 是否显示面板指示点
    * @default false
-   * @supported weapp, swan, alipay, tt, h5, rn
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn
    */
   indicatorDots?: boolean
 
   /** 指示点颜色
    * @default "rgba(0, 0, 0, .3)"
-   * @supported weapp, swan, alipay, tt, h5, rn
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn
    */
   indicatorColor?: string
 
   /** 当前选中的指示点颜色
    * @default "#000000"
-   * @supported weapp, swan, alipay, tt, h5, rn
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn
    */
   indicatorActiveColor?: string
 
   /** 是否自动切换
    * @default false
-   * @supported weapp, swan, alipay, tt, h5, rn
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn
    */
   autoplay?: boolean
 
   /** 当前所在滑块的 index
    * @default 0
-   * @supported weapp, swan, alipay, tt, h5, rn
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn
    */
   current?: number
 
@@ -39,77 +38,77 @@ interface SwiperProps extends StandardProps {
 
   /** 自动切换时间间隔
    * @default 5000
-   * @supported weapp, swan, alipay, tt, h5, rn
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn
    */
   interval?: number
 
   /** 滑动动画时长
    * @default 500
-   * @supported weapp, swan, alipay, tt, h5
+   * @supported weapp, alipay, swan, tt, qq, jd, h5
    */
   duration?: number
 
   /** 是否采用衔接滑动
    * @default false
-   * @supported weapp, swan, alipay, tt, h5, rn
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn
    */
   circular?: boolean
 
   /** 滑动方向是否为纵向
    * @default false
-   * @supported weapp, swan, alipay, tt, h5, rn
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn
    */
   vertical?: boolean
 
   /** 前边距，可用于露出前一项的一小部分，接受 px 和 rpx 值
    * @default "0px"
-   * @supported weapp, h5, tt
+   * @supported weapp, alipay, swan, tt, qq, jd, h5
    */
   previousMargin?: string
 
   /** 后边距，可用于露出后一项的一小部分，接受 px 和 rpx 值
    * @default "0px"
-   * @supported weapp, h5, tt
+   * @supported weapp, alipay, swan, tt, qq, jd, h5
    */
   nextMargin?: string
 
   /**
    * 当 swiper-item 的个数大于等于 2，关闭 circular 并且开启 previous-margin 或 next-margin 的时候，可以指定这个边距是否应用到第一个、最后一个元素
    * @default false
-   * @supported weapp
+   * @supported weapp, alipay, jd
    */
   snapToEdge?: boolean
 
   /** 同时显示的滑块数量
    * @default 1
-   * @supported weapp, swan, tt, h5
+   * @supported weapp, alipay, swan, tt, qq, jd, h5
    */
   displayMultipleItems?: number
 
   /** 是否跳过未显示的滑块布局，设为 true 可优化复杂情况下的滑动性能，但会丢失隐藏状态滑块的布局信息
    * @default false
-   * @supported weapp, swan
+   * @supported qq, jd
    */
   skipHiddenItemLayout?: boolean
 
   /** 指定 swiper 切换缓动动画类型
    * @default "default"
-   * @supported weapp, tt
+   * @supported weapp, alipay, tt, jd
    */
   easingFunction?: keyof SwiperProps.TEasingFunction
 
   /** current 改变时会触发 change 事件
-   * @supported weapp, swan, alipay, tt, h5, rn
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn
    */
   onChange?: CommonEventFunction<SwiperProps.onChangeEventDetail>
 
   /** swiper-item 的位置发生改变时会触发 transition 事件
-   * @supported weapp, tt
+   * @supported weapp, alipay, tt, qq, jd
    */
   onTransition?: CommonEventFunction<SwiperProps.onTransitionEventDetail>
 
   /** 动画结束时会触发 animationfinish 事件
-   * @supported weapp, swan, h5, rn, tt
+   * @supported weapp, swan, tt, qq, jd, h5, rn
    */
   onAnimationFinish?: SwiperProps['onChange']
 
@@ -118,15 +117,83 @@ interface SwiperProps extends StandardProps {
    * @supported alipay
    */
   disableTouch?: boolean
-}
 
+  /** swiper-item 可见时的 class。
+   * 版本要求： 基础库 1.13.7 以及上。
+   * @supported alipay
+   */
+  activeClass?: string
+
+  /** acceleration 设置为 {{true}} 时且处于滑动过程中，中间若干屏处于可见时的 class。
+   * 版本要求： 基础库 1.13.7 以及上。
+   * @supported alipay
+   */
+  changingClass?: string
+
+  /** 当开启时，会根据滑动速度，连续滑动多屏。
+   * 版本要求： 基础库 1.13.7 及以上
+   * @default false
+   * @supported alipay
+   */
+  acceleration?: string
+
+  /** 是否禁用代码变动触发 swiper 切换时使用动画。
+   * 版本要求： 基础库 1.13.7 及以上
+   * @default false
+   * @supported alipay
+   */
+  disableProgrammaticAnimation?: string
+
+  /** 动画结束时会触发 animationEnd 事件
+   * @supported alipay
+   */
+  onAnimationEnd?: CommonEventFunction<SwiperProps.onCommonEventDetail>
+
+  /** 滑动距离阈值，当滑动距离超过阈值时进行 swiper-item 切换。
+   * 版本要求：基础库 1.24.11 及以上
+   * @supported alipay
+   */
+  swipeRatio?: string
+
+  /** 滑动综合速度阈值，当超过阈值时进行 swiper-item 切换，数值越小越敏感。
+   * 版本要求：基础库 1.24.11 及以上
+   * @supported alipay
+   */
+  swipeSpeed?: string
+
+  /** 计算用户手势时所依赖的滑动角度。角度根据 touchstart 事件和首次 touchmove 事件的坐标计算得出。数值越小越对用户的滑动方向准确度要求越高。
+   * 版本要求：基础库 1.24.11 及以上
+   * @supported alipay
+   */
+  touchAngle?: string
+
+  /** 自动以指定滑块的高度为整个容器的高度。当 vertical 为 true 时，默认不调整。可选值为：
+   * 版本要求：基础库 2.6.4 及以上
+   * @supported alipay
+   */
+  adjustHeight?: 'first' | 'current' | 'highest' | 'none'
+
+  /** vertical 为 true 时强制使 adjust-height 生效。
+   * 版本要求：基础库 2.6.4 及以上
+   * @supported alipay
+   */
+  adjustVerticalHeight?: string
+
+  /** 是否停止响应用户 touchmove 操作
+   * @default false
+   * @supported swan
+   */
+  disableTouchmove?: string
+}
 declare namespace SwiperProps {
   /** 导致变更的原因 */
   interface TChangeSource {
     /** 自动播放 */
     autoplay
+
     /** 用户划动 */
     touch
+
     /** 其它原因 */
     ''
   }
@@ -135,28 +202,40 @@ declare namespace SwiperProps {
   interface TEasingFunction {
     /** 默认缓动函数 */
     default
+
     /** 线性动画 */
     linear
+
     /** 缓入动画 */
     easeInCubic
+
     /** 缓出动画 */
     easeOutCubic
+
     /** 缓入缓出动画 */
     easeInOutCubic
   }
+  interface onCommonEventDetail {
+    /** 当前所在滑块的索引 */
+    current: number
 
+    /** 导致变更的原因 */
+    source: keyof SwiperProps.TChangeSource
+  }
   interface onChangeEventDetail {
     /** 当前所在滑块的索引 */
     current: number
+
     /** 导致变更的原因 */
     source: keyof SwiperProps.TChangeSource
+
     /** SwiperItem的itemId参数值 */
     currentItemId?: string
   }
-
   interface onTransitionEventDetail {
     /** X 坐标 */
     dx: number
+
     /** Y 坐标 */
     dy: number
   }
@@ -220,5 +299,4 @@ declare namespace SwiperProps {
  * @see https://developers.weixin.qq.com/miniprogram/dev/component/swiper.html
  */
 declare const Swiper: ComponentType<SwiperProps>
-
 export { Swiper, SwiperProps }
