@@ -1,6 +1,6 @@
-import { hooks } from '@tarojs/shared'
-
 import * as taroHooks from './hooks'
+
+import { hooks } from '@tarojs/shared'
 
 declare const __TARO_FRAMEWORK__: string
 
@@ -45,7 +45,8 @@ if (__TARO_FRAMEWORK__ === 'preact') {
     if (oldVNodeHook) oldVNodeHook(vnode)
   }
   options.diffed = function (newVNode) {
-    const dom = newVNode._dom
+    const domProp = Object.keys(newVNode).find(k => (newVNode[k]?.setAttribute))
+    const dom = domProp ? newVNode[domProp] : null
     const newVNodeProps = newVNode.props
     if (dom) { /** ElementNode */
       for (const propName in newVNodeProps) {
