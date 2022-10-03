@@ -96,9 +96,6 @@ function _request (options) {
       for (const key of response.headers.keys()) {
         res.header[key] = response.headers.get(key)
       }
-      if (!response.ok) {
-        throw response
-      }
       if (options.responseType === 'arraybuffer') {
         return response.arrayBuffer()
       }
@@ -119,9 +116,15 @@ function _request (options) {
       return res
     })
     .catch(err => {
-      typeof fail === 'function' && fail(err)
+      const { status, statusText, ...rest} = err
+      const errRes = {
+        ...rest,
+        statusCode: status,
+        errMsg: statusText
+      }
+      typeof fail === 'function' && fail(errRes)
       typeof complete === 'function' && complete(res)
-      return Promise.reject(err)
+      return Promise.reject(errRes)
     })
 }
 
