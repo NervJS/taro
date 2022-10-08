@@ -15,6 +15,10 @@ declare module '../../index' {
       header?: TaroGeneral.IAnyObject
       /** 接口调用成功的回调函数 */
       success?: (result: FileSuccessCallbackResult) => void
+      /** Whether this request should be sent with outgoing credentials (cookies).
+       * @supported h5
+       */
+      withCredentials?: boolean
     }
 
     interface FileSuccessCallbackResult extends TaroGeneral.CallbackResult {
