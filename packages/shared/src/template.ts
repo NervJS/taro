@@ -191,7 +191,11 @@ export class BaseTemplate {
             slot: newComp?.name,
             ...styles
           }
-        } else {
+        } else if (compName === 'native-slot') {
+          result[compName] = {
+            name: newComp?.name,
+          }
+        }  else {
           result[compName] = newComp
         }
       }
@@ -337,6 +341,9 @@ export class BaseTemplate {
         break
       case 'static-image':
         nodeName = 'image'
+        break
+      case 'native-slot':
+        nodeName = 'slot'
         break
       default:
         nodeName = comp.nodeName

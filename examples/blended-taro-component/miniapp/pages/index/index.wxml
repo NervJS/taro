@@ -16,4 +16,12 @@
     <text class="user-motto">Picker</text>
     <picker props="{{pickerProps}}"></picker>
   </view>
+
+  <view class="usermotto">
+    <text class="user-motto">Article</text>
+    <article>
+      <view slot='header'>Content Header</view>
+      <view slot='footer'>Content Footer</view>
+    </article>
+  </view>
 </view>
