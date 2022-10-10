@@ -164,20 +164,21 @@ async function getDevServerOptions (appPath: string, config: H5BuildConfig): Pro
       if (req.headers.accept?.indexOf('html') !== -1) {
         const pagePath = stripTrailingSlash(stripBasename(req.path, routerBasename))
         // console.log('bypass:' + req.path, pagePath)
+        const getBypassUrl = url => addHtmlSuffix(addLeadingSlash(url))
         if (pagePath === '') {
-          return addHtmlSuffix(appConfig.entryPagePath || appConfig.pages?.[0])
+          return getBypassUrl(appConfig.entryPagePath || appConfig.pages?.[0])
         }
 
         const pageIdx = (appConfig.pages ?? []).findIndex(e => addLeadingSlash(e) === pagePath)
         if (pageIdx > -1) {
-          return addHtmlSuffix(appConfig.pages?.[pageIdx])
+          return getBypassUrl(appConfig.pages?.[pageIdx])
         }
 
         const customRoutesConf = getEntriesRoutes(customRoutes)
         const idx = getEntriesRoutes(customRoutes).findIndex(list => list[1] === pagePath)
         if (idx > -1) {
           // NOTE: 自定义路由
-          return addHtmlSuffix(customRoutesConf[idx][0])
+          return getBypassUrl(customRoutesConf[idx][0])
         }
       }
     }
