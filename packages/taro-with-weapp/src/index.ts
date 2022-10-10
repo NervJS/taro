@@ -527,6 +527,13 @@ export default function withWeapp (weappConf: WxOptions, isApp = false) {
           report('triggerEvent 不支持事件选项。')
         }
 
+        // eventName support kebab case
+        if (eventName.match(/[a-z]+-[a-z]+/g)) {
+          eventName = eventName.replace(/-[a-z]/g, function (match) {
+            return match[1].toUpperCase()
+          })
+        }
+
         const props = this.props
         const dataset = {}
         for (const key in props) {
