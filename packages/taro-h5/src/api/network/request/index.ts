@@ -101,7 +101,9 @@ function _request (options) {
       }
       if (res.statusCode !== 204) {
         if (options.dataType === 'json' || typeof options.dataType === 'undefined') {
-          return response.json()
+          return response.json().catch(() => {
+            return null
+          })
         }
       }
       if (options.responseType === 'text' || options.dataType === 'text') {
@@ -116,15 +118,11 @@ function _request (options) {
       return res
     })
     .catch(err => {
-      const { status, statusText, ...rest} = err
-      const errRes = {
-        ...rest,
-        statusCode: status,
-        errMsg: statusText
-      }
-      typeof fail === 'function' && fail(errRes)
+      typeof fail === 'function' && fail(err)
       typeof complete === 'function' && complete(res)
-      return Promise.reject(errRes)
+      err.statusCode = res.statusCode
+      err.errMsg = err.message
+      return Promise.reject(err)
     })
 }
 
