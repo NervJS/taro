@@ -41,7 +41,6 @@ interface SwitchProps extends StandardProps, FormItemProps {
   name?: string
 
   /** 是否为受控组件，为 true 时，checked 会完全受 setData 控制。
-   * 版本要求： 基础库 1.8.0 及以上
    * @default false
    * @supported alipay
    */
