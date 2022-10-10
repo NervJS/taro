@@ -7,12 +7,11 @@ import {
   REG_STYLE,
   REG_STYLUS
 } from '@tarojs/helper'
-import { Func } from '@tarojs/runtime'
 
 import { getDefaultPostcssConfig, getPostcssPlugins } from '../postcss/postcss.h5'
 import { WebpackModule } from './WebpackModule'
 
-import type { PostcssOption } from '@tarojs/taro/types/compile'
+import type { Func, PostcssOption } from '@tarojs/taro/types/compile'
 import type { H5Combination } from './H5Combination'
 import type { CssModuleOptionConfig, IRule } from './WebpackModule'
 
