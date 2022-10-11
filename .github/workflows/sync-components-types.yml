@@ -25,6 +25,14 @@ jobs:
           cp .taro-docs/packages/taro-components/types/* packages/taro-components/types
           rm -rf .taro-docs
 
+      - name: Cache pnpm modules
+        uses: actions/cache@v3
+        with:
+          path: ~/.pnpm-store
+          key: ${{ runner.os }}-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-
+
       - name: install
         uses: pnpm/action-setup@v2.2.2
         with:
@@ -35,7 +43,7 @@ jobs:
 
       - name: execute sync script
         run: |
-          npx ts-node packages/taro-components/scripts/json-schema-to-types.ts  
+          pnpm run sync:types
 
       - name: Commit changes
         uses: stefanzweifel/git-auto-commit-action@v4
