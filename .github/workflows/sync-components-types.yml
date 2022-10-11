@@ -35,7 +35,7 @@ jobs:
 
       - name: execute sync script
         run: |
-          ts-node packages/taro-components/scripts/json-schema-to-types.ts  
+          npx ts-node packages/taro-components/scripts/json-schema-to-types.ts  
 
       - name: Commit changes
         uses: stefanzweifel/git-auto-commit-action@v4
