@@ -572,6 +572,7 @@ importers:
       simulant: ^0.2.2
       style-loader: 1.3.0
       swiper: 6.8.0
+      ts-node: ^10.9.1
       webpack: 4.46.0
       weui: ^1.1.2
       workbox-build: 4.3.1
@@ -599,6 +600,7 @@ importers:
       react-dom: registry.npmjs.org/react-dom/17.0.2_react@17.0.2
       simulant: registry.npmjs.org/simulant/0.2.2
       style-loader: registry.npmjs.org/style-loader/1.3.0_webpack@4.46.0
+      ts-node: registry.npmjs.org/ts-node/10.9.1_@types+node@14.18.21
       webpack: registry.npmjs.org/webpack/4.46.0
       workbox-build: registry.npmjs.org/workbox-build/4.3.1
 
@@ -13762,7 +13764,7 @@ packages:
       mississippi: registry.npmjs.org/mississippi/3.0.0
       mkdirp: registry.npmjs.org/mkdirp/0.5.6
       move-concurrently: registry.npmjs.org/move-concurrently/1.0.1
-      promise-inflight: registry.npmjs.org/promise-inflight/1.0.1
+      promise-inflight: registry.npmjs.org/promise-inflight/1.0.1_bluebird@3.7.2
       rimraf: registry.npmjs.org/rimraf/2.7.1
       ssri: registry.npmjs.org/ssri/6.0.2
       unique-filename: registry.npmjs.org/unique-filename/1.1.1
@@ -30070,6 +30072,19 @@ packages:
       bluebird:
         optional: true
 
+  registry.npmjs.org/promise-inflight/1.0.1_bluebird@3.7.2:
+    resolution: {integrity: sha512-6zWPyEOFaQBJYcGMHBKTKJ3u6TBsnMFOIZSa6ce1e/ZrrsOlnHRHbabMjLiBYKp+n44X9eUI6VUPaukCXHuG4g==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/promise-inflight/-/promise-inflight-1.0.1.tgz}
+    id: registry.npmjs.org/promise-inflight/1.0.1
+    name: promise-inflight
+    version: 1.0.1
+    peerDependencies:
+      bluebird: '*'
+    peerDependenciesMeta:
+      bluebird:
+        optional: true
+    dependencies:
+      bluebird: registry.npmjs.org/bluebird/3.7.2
+
   registry.npmjs.org/promise-polyfill/7.1.2:
     resolution: {integrity: sha512-FuEc12/eKqqoRYIGBrUptCBRhobL19PS2U31vMNTfyck1FxPyMfgsXyW4Mav85y/ZN1hop3hOwRlUDok23oYfQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/promise-polyfill/-/promise-polyfill-7.1.2.tgz}
     name: promise-polyfill
@@ -35012,6 +35027,39 @@ packages:
       diff: registry.npmjs.org/diff/4.0.2
       make-error: registry.npmjs.org/make-error/1.3.6
       typescript: registry.npmjs.org/typescript/4.7.4
+      v8-compile-cache-lib: registry.npmjs.org/v8-compile-cache-lib/3.0.1
+      yn: registry.npmjs.org/yn/3.1.1
+    dev: true
+
+  registry.npmjs.org/ts-node/10.9.1_@types+node@14.18.21:
+    resolution: {integrity: sha512-NtVysVPkxxrwFGUUxGYhfux8k78pQB3JqYBXlLRZgdGUqTO5wU/UyHop5p70iEbGhB7q5KmiZiU0Y3KlJrScEw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/ts-node/-/ts-node-10.9.1.tgz}
+    id: registry.npmjs.org/ts-node/10.9.1
+    name: ts-node
+    version: 10.9.1
+    hasBin: true
+    peerDependencies:
+      '@swc/core': '>=1.2.50'
+      '@swc/wasm': '>=1.2.50'
+      '@types/node': '*'
+      typescript: '>=2.7'
+    peerDependenciesMeta:
+      '@swc/core':
+        optional: true
+      '@swc/wasm':
+        optional: true
+    dependencies:
+      '@cspotcode/source-map-support': registry.npmjs.org/@cspotcode/source-map-support/0.8.1
+      '@tsconfig/node10': registry.npmjs.org/@tsconfig/node10/1.0.9
+      '@tsconfig/node12': registry.npmjs.org/@tsconfig/node12/1.0.11
+      '@tsconfig/node14': registry.npmjs.org/@tsconfig/node14/1.0.3
+      '@tsconfig/node16': registry.npmjs.org/@tsconfig/node16/1.0.3
+      '@types/node': registry.npmjs.org/@types/node/14.18.21
+      acorn: registry.npmjs.org/acorn/8.7.1
+      acorn-walk: registry.npmjs.org/acorn-walk/8.2.0
+      arg: registry.npmjs.org/arg/4.1.3
+      create-require: registry.npmjs.org/create-require/1.1.1
+      diff: registry.npmjs.org/diff/4.0.2
+      make-error: registry.npmjs.org/make-error/1.3.6
       v8-compile-cache-lib: registry.npmjs.org/v8-compile-cache-lib/3.0.1
       yn: registry.npmjs.org/yn/3.1.1
     dev: true
