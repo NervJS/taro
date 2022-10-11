@@ -50,6 +50,6 @@ jobs:
         uses: stefanzweifel/git-auto-commit-action@v4
         with:
           commit_message: "refactor(types): sync components types"
+          branch: bot-sync-types
           commit_options: "--no-verify"
-          push_options: '--force'
           
