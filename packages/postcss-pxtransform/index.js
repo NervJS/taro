@@ -240,7 +240,9 @@ function createPxReplace (rootValue, unitPrecision, minPixelValue, onePxTransfor
       const pixels = parseFloat($1)
       if (pixels < minPixelValue) return m
       const fixedVal = toFixed((pixels / rootValue(input, m, $1)), unitPrecision)
-      return (fixedVal === 0) ? '0' : fixedVal + targetUnit
+      // return (fixedVal === 0) ? '0' : fixedVal + targetUnit
+      // 不带单位不支持在calc表达式中参与计算
+      return fixedVal + targetUnit
     }
   }
 }

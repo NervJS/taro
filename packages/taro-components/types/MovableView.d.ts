@@ -86,10 +86,10 @@ interface MovableViewProps extends Omit<StandardProps, 'animation'> {
    */
   onChange?: CommonEventFunction<MovableViewProps.onChangeEventDetail>
 
-  /** 缩放过程中触发的事件
-   * @supported weapp, alipay, swan, tt, qq
+  /** 拖动结束触发的事件
+   * @supported alipay
    */
-  onScale?: CommonEventFunction<MovableViewProps.onScaleEventDetail>
+  onChangeEnd?: CommonEventFunction<MovableViewProps.onChangeEventDetail>
 
   /** 开始拖动时触发
    * @supported rn
@@ -101,28 +101,36 @@ interface MovableViewProps extends Omit<StandardProps, 'animation'> {
    */
   onDragEnd?: CommonEventFunction
 
-  /** 初次手指触摸后移动为横向的移动时触发，如果 catch 此事件，则意味着 touchmove 事件也被catch
-   * @supported weapp, tt
+  /** 触摸动作结束，事件会向父节点传递。
+   * @supported alipay
    */
-  catchTouchmove?: CommonEventFunction
+  onDragEnd?: CommonEventFunction
+
+  /** 缩放过程中触发的事件
+   * @supported weapp, alipay, swan, tt, qq
+   */
+  onScale?: CommonEventFunction<MovableViewProps.onScaleEventDetail>
 
   /** 触摸动作开始，事件会向父节点传递。
-   * 版本要求： 基础库 1.11.5 及以上
    * @supported alipay
    */
   onTouchStart?: CommonEventFunction
 
   /** 触摸动作开始，事件仅作用于组件，不向父节点传递。
-   * 版本要求： 基础库 1.11.5 及以上
-   * @supported alipay
-   */
-  catchTouchStart?: CommonEventFunction
-
-  /** 触摸移动事件，事件会向父节点传递。
-   * 版本要求： 基础库 1.11.5 及以上
    * @supported alipay
    */
   onTouchMove?: CommonEventFunction
+
+  /** 手指触摸动作结束
+   * @supported h5
+   * @h5 此事件的触发顺序会因为当前事件机制引起组件内外注册的事件执行顺序不正常，外部注册的事件可能会优先于内部执行，如需保证执行顺序一致，需要在回调函数中包裹 setTimeout 临时处理
+   */
+  onTouchEnd?: TouchEventFunction
+
+  /** 触摸动作被打断，如来电提醒、弹窗。
+   * @supported alipay
+   */
+  onTouchCancel?: CommonEventFunction
 
   /** 初次手指触摸后移动为横向的移动，如果 catch 此事件，则意味着 touchmove 事件也被 catch
    * @supported swan
@@ -135,30 +143,19 @@ interface MovableViewProps extends Omit<StandardProps, 'animation'> {
   onVTouchMove?: TouchEventFunction
 
   /** 触摸移动事件，事件仅作用于组件，不向父节点传递。
-   * 版本要求： 基础库 1.11.5 及以上
    * @supported alipay
+   */
+  catchTouchStart?: CommonEventFunction
+
+  /** 触摸移动事件，事件仅作用于组件，不向父节点传递。
+   * @supported weapp, tt, alipay
    */
   catchTouchMove?: CommonEventFunction
-
-  /** 触摸动作结束，事件会向父节点传递。
-   * @supported alipay
-   */
-  onTouchEnd?: CommonEventFunction
 
   /** 触摸动作结束，事件仅作用于组件，不向父节点传递。
    * @supported alipay
    */
   catchTouchEnd?: CommonEventFunction
-
-  /** 触摸动作被打断，如来电提醒、弹窗。
-   * @supported alipay
-   */
-  onTouchCancel?: CommonEventFunction
-
-  /** 拖动结束触发的事件
-   * @supported alipay
-   */
-  onChangeEnd?: CommonEventFunction<MovableViewProps.onChangeEventDetail>
 }
 declare namespace MovableViewProps {
   /** 拖动过程中触发的事件 */

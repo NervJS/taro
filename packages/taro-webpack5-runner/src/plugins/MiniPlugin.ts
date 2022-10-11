@@ -27,9 +27,10 @@ import TaroSingleEntryPlugin from './TaroSingleEntryPlugin'
 
 import type { RecursiveTemplate, UnRecursiveTemplate } from '@tarojs/shared/dist/template'
 import type { AppConfig, Config } from '@tarojs/taro'
+import type { Func } from '@tarojs/taro/types/compile'
 import type { Compiler } from 'webpack'
 import type { PrerenderConfig } from '../prerender/prerender'
-import type { AddPageChunks, Func, IComponent, IFileType } from '../utils/types'
+import type { AddPageChunks, IComponent, IFileType } from '../utils/types'
 
 const PLUGIN_NAME = 'TaroMiniPlugin'
 const { ConcatSource, RawSource } = sources

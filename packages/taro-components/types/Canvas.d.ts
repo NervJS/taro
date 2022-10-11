@@ -63,16 +63,6 @@ interface CanvasProps extends StandardProps<any, CanvasTouchEvent> {
    */
   id?: string
 
-  /** -
-   * @supported alipay
-   */
-  style?: string
-
-  /** -
-   * @supported alipay
-   */
-  class?: string
-
   /**
    * @supported alipay
    */
@@ -89,7 +79,6 @@ interface CanvasProps extends StandardProps<any, CanvasTouchEvent> {
   onTap?: CommonEventFunction
 
   /** canvas 组件初始化成功触发。
-   * 版本要求：基础库 2.7.0 及以上
    * @supported alipay
    */
   onReady?: CommonEventFunction
