@@ -30,7 +30,7 @@
     "test:ci": "karmatic --files '__tests__/setup.js,__tests__/**.spec.js' --coverage false",
     "test:debug": "karmatic debug --files '__tests__/setup.js,__tests__/**.spec.js' --coverage false",
     "test:coverage": "karmatic --files '__tests__/setup.js,__tests__/**.spec.js'",
-    "sync-types": "ts-node scripts/json-schema-to-types.ts"
+    "sync:types": "ts-node scripts/json-schema-to-types.ts"
   },
   "repository": {
     "type": "git",
