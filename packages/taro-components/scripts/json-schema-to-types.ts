@@ -209,7 +209,7 @@ class GenerateTypes {
   }
 
   exec () {
-    const filePath = path.join(process.cwd(), 'packages/taro-components/types', `${this.componentName}.d.ts`)
+    const filePath = path.join(process.cwd(), 'types', `${this.componentName}.d.ts`)
     const codeStr = fs.readFileSync(filePath, 'utf8')
     const ast = parser.parse(codeStr, {
       sourceType: 'module',
@@ -230,7 +230,7 @@ class GenerateTypes {
     fs.writeFileSync(filePath, code)
   }
 }
-const typesFiles: string[] = fs.readdirSync(path.join(process.cwd(), 'packages/taro-components/types'))
+const typesFiles: string[] = fs.readdirSync(path.join(process.cwd(), 'types'))
 
 typesFiles.forEach((fileName) => {
   const componentName = fileName.replace(/\.d\.ts$/, '')
