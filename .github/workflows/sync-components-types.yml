@@ -10,11 +10,7 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
-      
-      - name: Create bot-sync-types branch
-        run: |
-          git checkout -b bot-sync-types
-
+        
       - name: Checkout taro-docs
         uses: actions/checkout@v3
         with:
