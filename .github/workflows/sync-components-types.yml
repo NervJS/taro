@@ -10,7 +10,7 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
-        
+
       - name: Checkout taro-docs
         uses: actions/checkout@v3
         with:
@@ -42,11 +42,12 @@ jobs:
           cd packages/taro-components
           pnpm run sync:types
 
-      - name: Commit changes
+      - name: Commit changes 
         uses: stefanzweifel/git-auto-commit-action@v4
         with:
           commit_message: "refactor(types): sync components types"
           branch: bot-sync-types
+          create_branch: true
           commit_options: "--no-verify"
 
       - name: Create Pull Request
