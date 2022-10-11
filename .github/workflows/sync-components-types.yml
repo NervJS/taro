@@ -43,6 +43,7 @@ jobs:
 
       - name: execute sync script
         run: |
+          cd packages/taro-components
           pnpm run sync:types
 
       - name: Commit changes
