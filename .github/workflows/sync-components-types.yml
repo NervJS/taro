@@ -52,4 +52,17 @@ jobs:
           commit_message: "refactor(types): sync components types"
           branch: bot-sync-types
           commit_options: "--no-verify"
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v3
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: "refactor(types): sync components types"
+          title: "refactor(types): sync components types"
+          body: "refactor(types): sync components types"
+          branch: bot-sync-types
+          base: next
+          labels: |
+            bot
+            sync-types
           
