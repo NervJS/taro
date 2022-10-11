@@ -19,7 +19,8 @@ declare module '../../index' {
        * @supported h5
        */
       fileName?: string
-      /** Whether this request should be sent with outgoing credentials (cookies).
+      /** 是否应使用传出凭据 (cookie) 发送此请求
+       * @default true
        * @supported h5
        */
       withCredentials?: boolean
