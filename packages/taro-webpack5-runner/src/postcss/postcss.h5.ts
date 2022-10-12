@@ -1,9 +1,8 @@
 import { isNpmPkg, recursiveMerge } from '@tarojs/helper'
-import { Func } from '@tarojs/runtime'
 import path from 'path'
 import { sync as resolveSync } from 'resolve'
 
-import type { IPostcssOption, TogglableOptions } from '@tarojs/taro/types/compile'
+import type { Func, IPostcssOption, TogglableOptions } from '@tarojs/taro/types/compile'
 
 const platform = 'h5'
 const defaultAutoprefixerOption = {

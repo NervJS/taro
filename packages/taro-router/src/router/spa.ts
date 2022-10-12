@@ -36,8 +36,16 @@ export function createRouter (
     }
   })
   const router = new UniversalRouter(routes, { baseUrl: basename || '' })
-  const launchParam = handler.getQuery(stacks.length)
-  app.onLaunch?.(launchParam)
+  const launchParam: Taro.getLaunchOptionsSync.LaunchOptions = {
+    path: handler.homePage,
+    query: handler.getQuery(stacks.length),
+    scene: 0,
+    shareTicket: '',
+    referrerInfo: {}
+  }
+
+  eventCenter.trigger('__taroRouterLaunch', launchParam)
+  app.onLaunch?.(launchParam as Record<string, any>)
   app.onError && window.addEventListener('error', e => app.onError?.(e.message))
 
   const render: LocationListener = async ({ location, action }) => {
@@ -137,7 +145,7 @@ export function createRouter (
 
   render({ location: history.location, action: LocationAction.Push })
 
-  app.onShow?.(launchParam)
+  app.onShow?.(launchParam as Record<string, any>)
 
   return history.listen(render)
 }
