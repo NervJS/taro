@@ -117,16 +117,14 @@ module.exports = (_, options = {}) => {
 
   // resolve targets
   let targets
-  if (!hasBrowserslist()) {
-    if (rawTargets) {
-      targets = rawTargets
-    } else if (ignoreBrowserslistConfig) {
-      targets = { node: 'current' }
-    } else {
-      targets = {
-        ios: '9',
-        android: '5'
-      }
+  if (rawTargets) {
+    targets = rawTargets
+  } else if (ignoreBrowserslistConfig) {
+    targets = { node: 'current' }
+  } else if (!hasBrowserslist()) {
+    targets = {
+      ios: '9',
+      android: '5'
     }
   }
 
