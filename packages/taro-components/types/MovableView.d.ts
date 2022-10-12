@@ -1,9 +1,5 @@
 import { ComponentType } from 'react'
-import {
-  StandardProps,
-  CommonEventFunction,
-  TouchEventFunction,
-} from './common'
+import { StandardProps, CommonEventFunction, TouchEventFunction } from './common'
 interface MovableViewProps extends Omit<StandardProps, 'animation'> {
   /** movable-view 的移动方向，属性值有`all`、`vertical`、`horizontal`、`none`
    * @default none
@@ -101,11 +97,6 @@ interface MovableViewProps extends Omit<StandardProps, 'animation'> {
    */
   onDragEnd?: CommonEventFunction
 
-  /** 触摸动作结束，事件会向父节点传递。
-   * @supported alipay
-   */
-  onDragEnd?: CommonEventFunction
-
   /** 缩放过程中触发的事件
    * @supported weapp, alipay, swan, tt, qq
    */
@@ -122,7 +113,7 @@ interface MovableViewProps extends Omit<StandardProps, 'animation'> {
   onTouchMove?: CommonEventFunction
 
   /** 手指触摸动作结束
-   * @supported h5
+   * @supported alipay, h5
    * @h5 此事件的触发顺序会因为当前事件机制引起组件内外注册的事件执行顺序不正常，外部注册的事件可能会优先于内部执行，如需保证执行顺序一致，需要在回调函数中包裹 setTimeout 临时处理
    */
   onTouchEnd?: TouchEventFunction
@@ -148,7 +139,7 @@ interface MovableViewProps extends Omit<StandardProps, 'animation'> {
   catchTouchStart?: CommonEventFunction
 
   /** 触摸移动事件，事件仅作用于组件，不向父节点传递。
-   * @supported weapp, tt, alipay
+   * @supported alipay
    */
   catchTouchMove?: CommonEventFunction
 
@@ -156,6 +147,16 @@ interface MovableViewProps extends Omit<StandardProps, 'animation'> {
    * @supported alipay
    */
   catchTouchEnd?: CommonEventFunction
+
+  /** 初次手指触摸后移动为横向的移动时触发，如果 catch 此事件，则意味着 touchmove 事件也被catch
+   * @supported weapp, tt
+   */
+  htouchmove?: CommonEventFunction
+
+  /** 初次手指触摸后移动为纵向的移动时触发，如果 catch 此事件，则意味着 touchmove 事件也被catch
+   * @supported weapp, tt
+   */
+  vtouchmove?: CommonEventFunction
 }
 declare namespace MovableViewProps {
   /** 拖动过程中触发的事件 */

@@ -1,8 +1,5 @@
 import { ComponentType } from 'react'
-import {
-  StandardProps,
-  CommonEventFunction,
-} from './common'
+import { StandardProps, CommonEventFunction } from './common'
 interface PageContainerProps extends StandardProps {
   /** 是否显示容器组件
    * @default false

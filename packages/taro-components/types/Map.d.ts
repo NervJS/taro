@@ -188,9 +188,7 @@ interface MapProps extends StandardProps {
   /** 视野发生变化时触发
    * @supported weapp, alipay, swan, tt, qq, jd
    */
-  onRegionChange?: CommonEventFunction<
-    MapProps.onRegionEventDetail<'begin'> | MapProps.onRegionEventDetail<'end'>
-  >
+  onRegionChange?: CommonEventFunction<MapProps.onRegionEventDetail<'begin'> | MapProps.onRegionEventDetail<'end'>>
 
   /** 点击地图poi点时触发，e.detail = {name, longitude, latitude}
    * @supported weapp, swan, qq
@@ -200,9 +198,7 @@ interface MapProps extends StandardProps {
   /** 视野在地图 padding 范围内展示
    * @supported alipay
    */
-  includePadding?: {
-    [key in 'left' | 'right' | 'top' | 'bottom']: number | string
-  }
+  includePadding?: { [key in 'left' | 'right' | 'top' | 'bottom']: number | string }
 
   /** 覆盖物，自定义贴图
    * @supported alipay
@@ -255,7 +251,10 @@ interface MapProps extends StandardProps {
   /** 点击 panel 时触发。
    * @supported alipay
    */
-  onPanelTap?: CommonEventFunction<{ panelId, layoutId }>
+  onPanelTap?: CommonEventFunction<{
+    panelId
+    layoutId
+  }>
 
   /** 地图初始化完成即将开始渲染第一帧时触发。
    * @supported alipay
@@ -633,9 +632,7 @@ declare namespace MapProps {
     /** 导致视野变化的原因
      * @remarks 有效值为 gesture（手势触发）、update（接口触发或调用更新接口导致）、drag（拖动导致）、scale（缩放导致）
      */
-    causedBy: keyof (T extends 'begin'
-      ? RegionChangeDetail.CausedByBegin
-      : RegionChangeDetail.CausedByEnd)
+    causedBy: keyof (T extends 'begin' ? RegionChangeDetail.CausedByBegin : RegionChangeDetail.CausedByEnd)
 
     /** 视野改变详情 */
     detail: regionChangeDetail<RegionChangeDetail.type>
@@ -646,9 +643,7 @@ declare namespace MapProps {
 
     /** 倾斜角度 */
     skew: number
-    causedBy: keyof (T extends 'begin'
-      ? RegionChangeDetail.CausedByBegin
-      : RegionChangeDetail.CausedByEnd)
+    causedBy: keyof (T extends 'begin' ? RegionChangeDetail.CausedByBegin : RegionChangeDetail.CausedByEnd)
     type: T | string
     scale: number
     centerLocation: point

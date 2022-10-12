@@ -330,10 +330,7 @@ declare namespace ButtonProps {
   }
 
   /** open-type 的合法值 */
-  type OpenType =
-    | keyof openTypeKeys['weapp']
-    | keyof openTypeKeys['alipay']
-    | keyof openTypeKeys['qq']
+  type OpenType = keyof openTypeKeys['weapp'] | keyof openTypeKeys['alipay'] | keyof openTypeKeys['qq']
 
   /** open-type 的合法值 */
   interface openTypeKeys {

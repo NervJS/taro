@@ -464,17 +464,23 @@ interface VideoProps extends StandardProps {
   /** 视频倍速改变完成时触发。返回改变后的倍速值
    * @supported tt
    */
-  onPlayBackRateChange?: CommonEventFunction<{ playbackRate: string }>
+  onPlayBackRateChange?: CommonEventFunction<{
+    playbackRate: string
+  }>
 
   /** 静音状态改变完成时触发。返回当前是否静音
    * @supported tt
    */
-  onMuteChange?: CommonEventFunction<{ isMuted: boolean }>
+  onMuteChange?: CommonEventFunction<{
+    isMuted: boolean
+  }>
 
   /** 点击控件时触发。返回当前点击的控件类型
    * @supported tt
    */
-  onControlTap?: CommonEventFunction<{ controlType }>
+  onControlTap?: CommonEventFunction<{
+    controlType
+  }>
 
   /** 进入小窗播放时触发
    * @supported tt
@@ -518,8 +524,9 @@ interface VideoProps extends StandardProps {
 
   /** 贴片广告加载成功时触发，event.detail = { adType: 'preRollAd' | 'postRollAd' }
    * @supported tt
+   * @default
    */
-  onAdLoad?: CommonEventFunction
+  onAdload?: CommonEventFunction
 }
 declare namespace VideoProps {
   /** direction 的合法值 */
@@ -607,14 +614,19 @@ declare namespace VideoProps {
   interface UserActionTag {
     /** 底部播放按钮 */
     play
+
     /** 中心播放按钮 */
     centerplay
+
     /** 静音按钮 */
     mute
+
     /** 全屏按钮 */
     fullscreen
+
     /** 重试按钮 */
     retry
+
     /** 网络提醒的播放按钮 */
     mobilenetplay
   }
