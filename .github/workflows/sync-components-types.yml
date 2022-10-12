@@ -1,8 +1,8 @@
 name: Sync Components types
 on:
-  push:
-    branches:
-      - sync-types
+  schedule:
+    - cron: '0 0 * * 6'
+    
 
 jobs:
   sync-components-types:
@@ -48,6 +48,7 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           commit-message: "refactor(types): sync components types"
           title: "refactor(types): sync components types"
+          body: "sync components types"
           labels: |
             bot
             sync-types
