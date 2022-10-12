@@ -32,8 +32,10 @@ export * from './components'
 export const hostConfig = {
   initNativeApi,
   getMiniLifecycle (config) {
-    config.component[0] = 'didMount'
-    config.component[1] = 'didUnmount'
+    if (Array.isArray(config.component)) {
+      config.component[0] = 'didMount'
+      config.component[1] = 'didUnmount'
+    }
     return config
   },
   getEventCenter (Events) {
