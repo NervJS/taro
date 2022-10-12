@@ -41,6 +41,7 @@
     "webpack-virtual-modules": "^0.4.3"
   },
   "devDependencies": {
+    "webpack": "5.69.0",
     "webpack-dev-server": "4.7.4"
   },
   "peerDependencies": {
