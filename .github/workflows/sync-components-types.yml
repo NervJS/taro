@@ -56,7 +56,6 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           commit-message: "refactor(types): sync components types"
           title: "refactor(types): sync components types"
-          base: next
           labels: |
             bot
             sync-types
