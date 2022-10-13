@@ -50,6 +50,6 @@ jobs:
           title: "refactor(types): sync components types"
           body: "sync components types"
           labels: |
-            bot
-            sync-types
+            A-typings
+            A-components
           
