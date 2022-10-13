@@ -234,19 +234,7 @@ interface MapProps extends StandardProps {
    */
   onAnchorPointTap?: CommonEventFunction
 
-  /** 内联样式。
-   * @supported alipay
-   */
-  style?: string
-
-  /** 样式名。
-   * @supported alipay
-   */
-  class?: string
-
   /** 覆盖物，多边形。
-   *
-   * 版本要求：基础库 1.10.0 及以上
    * @supported alipay
    */
   polygon?: string
@@ -255,37 +243,21 @@ interface MapProps extends StandardProps {
    *
    * default：默认样式
    * light：精简样式
-   *
-   * 版本要求：基础库 1.20.0 及以上
    * @supported alipay
    */
   customMapStyle?: string
 
   /** 基于 map 高级定制渲染，设置覆盖在地图上的 view。
-   *
-   * 版本要求：基础库 1.23.0 及以上
    * @supported alipay
    */
   panels?: string
 
   /** 点击 panel 时触发。
-   *
-   * {
-   *
-   *    panelId,
-   *
-   *    layoutId,
-   *
-   * }
-   *
-   * 版本要求：基础库 1.23.0 及以上
    * @supported alipay
    */
-  onPanelTap?: CommonEventFunction
+  onPanelTap?: CommonEventFunction<{ panelId, layoutId }>
 
   /** 地图初始化完成即将开始渲染第一帧时触发。
-   *
-   * 版本要求：基础库 2.7.2 及以上
    * @supported alipay
    */
   onInitComplete?: CommonEventFunction

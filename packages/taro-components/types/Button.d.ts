@@ -203,7 +203,6 @@ interface ButtonProps extends StandardProps {
    * 当点击按钮时触发。
    * event.detail = { followStatus }，followStatus 合法值有 1、2、3，其中 1 表示已关注。2 表示用户不允许关注。3 表示发生未知错误；
    * 已知问题：基础库 1.0，当用户在点击按钮前已关注生活号，event.detail.followStatus 的值为 true。
-   * 版本要求：基础库 1.11.0 及以上
    * @supported alipay
    */
   onFollowLifestyle?: CommonEventFunction<{

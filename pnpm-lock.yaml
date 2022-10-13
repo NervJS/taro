@@ -501,7 +501,7 @@ importers:
       package-json: 6.3.0
       postcss: ^6.0.22
       postcss-taro-unit-transform: 1.2.15
-      prettier: ^1.16.4
+      prettier: ^2.7.1
       regenerator-runtime: '0.11'
       request: ^2.88.0
       resolve: ^1.22.0
@@ -541,7 +541,7 @@ importers:
       package-json: registry.npmjs.org/package-json/6.3.0
       postcss: registry.npmjs.org/postcss/6.0.23
       postcss-taro-unit-transform: registry.npmjs.org/postcss-taro-unit-transform/1.2.15
-      prettier: registry.npmjs.org/prettier/1.19.1
+      prettier: registry.npmjs.org/prettier/2.7.1
       regenerator-runtime: registry.npmjs.org/regenerator-runtime/0.11.1
       request: registry.npmjs.org/request/2.88.2
       resolve: registry.npmjs.org/resolve/1.22.1
@@ -658,9 +658,6 @@ importers:
       metro-babel-register: registry.npmjs.org/metro-babel-register/0.70.3
       metro-react-native-babel-preset: registry.npmjs.org/metro-react-native-babel-preset/0.70.3
       react-native: registry.npmjs.org/react-native/0.69.5
-
-  packages/taro-components/loader:
-    specifiers: {}
 
   packages/taro-extend:
     specifiers: {}
@@ -25822,6 +25819,8 @@ packages:
     resolution: {integrity: sha512-4Nxc1zEiHEu+GTdEMEsHnRgfaBkg8f/Td3+FcQ8NTSvs+xL3LBrQy6N07idWSQZHIdGFf+tTHvRfSIWLD8u8Tg==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/metro-react-native-babel-preset/-/metro-react-native-babel-preset-0.70.3.tgz}
     name: metro-react-native-babel-preset
     version: 0.70.3
+    peerDependencies:
+      '@babel/core': '*'
     dependencies:
       '@babel/core': registry.npmjs.org/@babel/core/7.18.5
       '@babel/plugin-proposal-async-generator-functions': registry.npmjs.org/@babel/plugin-proposal-async-generator-functions/7.17.12
@@ -25863,7 +25862,6 @@ packages:
       '@babel/template': registry.npmjs.org/@babel/template/7.16.7
       react-refresh: registry.npmjs.org/react-refresh/0.4.3
     transitivePeerDependencies:
-      - '@babel/core'
       - supports-color
 
   registry.npmjs.org/metro-react-native-babel-preset/0.70.3_@babel+core@7.18.5:
@@ -25871,7 +25869,10 @@ packages:
     id: registry.npmjs.org/metro-react-native-babel-preset/0.70.3
     name: metro-react-native-babel-preset
     version: 0.70.3
+    peerDependencies:
+      '@babel/core': '*'
     dependencies:
+      '@babel/core': registry.npmjs.org/@babel/core/7.18.5
       '@babel/plugin-proposal-async-generator-functions': registry.npmjs.org/@babel/plugin-proposal-async-generator-functions/7.17.12_@babel+core@7.18.5
       '@babel/plugin-proposal-class-properties': registry.npmjs.org/@babel/plugin-proposal-class-properties/7.17.12_@babel+core@7.18.5
       '@babel/plugin-proposal-export-default-from': registry.npmjs.org/@babel/plugin-proposal-export-default-from/7.17.12_@babel+core@7.18.5
@@ -25911,7 +25912,6 @@ packages:
       '@babel/template': registry.npmjs.org/@babel/template/7.16.7
       react-refresh: registry.npmjs.org/react-refresh/0.4.3
     transitivePeerDependencies:
-      - '@babel/core'
       - supports-color
 
   registry.npmjs.org/metro-react-native-babel-transformer/0.70.3:
@@ -29972,7 +29972,6 @@ packages:
     engines: {node: '>=10.13.0'}
     hasBin: true
     requiresBuild: true
-    dev: true
 
   registry.npmjs.org/pretty-bytes/5.6.0:
     resolution: {integrity: sha512-FFw039TmrBqFK8ma/7OL3sDz/VytdtJr044/QUJtH0wK9lb9jLq9tJyIxUwtQJHwar2BqtiA4iCWSwo9JLkzFg==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/pretty-bytes/-/pretty-bytes-5.6.0.tgz}
@@ -30983,7 +30982,7 @@ packages:
     name: read-package-json
     version: 2.1.2
     dependencies:
-      glob: registry.npmjs.org/glob/7.1.2
+      glob: registry.npmjs.org/glob/7.2.3
       json-parse-even-better-errors: registry.npmjs.org/json-parse-even-better-errors/2.3.1
       normalize-package-data: registry.npmjs.org/normalize-package-data/2.5.0
       npm-normalize-package-bin: registry.npmjs.org/npm-normalize-package-bin/1.0.1

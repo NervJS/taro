@@ -441,6 +441,6 @@ declare module '../../index' {
      * ```
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/image/wx.cropImage.html
      */
-     cropImage(option: cropImage.Option): Promise<cropImage.SuccessCallbackResult>
+    cropImage(option: cropImage.Option): Promise<cropImage.SuccessCallbackResult>
   }
 }
