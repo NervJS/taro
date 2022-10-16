@@ -1,6 +1,7 @@
+import { hooks } from '@tarojs/shared'
+
 import * as taroHooks from './hooks'
 
-import { hooks } from '@tarojs/shared'
 
 declare const __TARO_FRAMEWORK__: string
 
