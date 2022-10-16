@@ -202,7 +202,7 @@ async function getDevServerOptions (appPath: string, config: H5BuildConfig): Pro
     }))
   }
 
-  const chunkFilename = config.output.chunkFilename ?? `${config.chunkDirectory || 'chunk'}/[name].js`
+  const chunkFilename = config.output?.chunkFilename as string ?? `${config.chunkDirectory || 'chunk'}/[name].js`
   const devServerOptions: WebpackDevServer.Configuration = recursiveMerge<any>(
     {
       devMiddleware: {
