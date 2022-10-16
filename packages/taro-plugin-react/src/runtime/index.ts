@@ -2,7 +2,6 @@ import { hooks } from '@tarojs/shared'
 
 import * as taroHooks from './hooks'
 
-
 declare const __TARO_FRAMEWORK__: string
 
 hooks.tap('initNativeApi', function (taro) {
