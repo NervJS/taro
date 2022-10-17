@@ -10,7 +10,7 @@ declare module '../../index' {
      * ****
      *
      * 注： 使用该接口需同时在 [camera](/docs/components/media/camera) 组件属性中指定 frame-size。
-     * @supported weapp, tt
+     * @supported weapp, tt, alipay
      * @example
      * ```tsx
      * const context = wx.createCameraContext()
@@ -26,22 +26,22 @@ declare module '../../index' {
       callback: CameraContext.OnCameraFrameCallback,
     ): CameraFrameListener
     /** 设置缩放级别
-     * @supported weapp, tt
+     * @supported weapp, tt, alipay
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/camera/CameraContext.setZoom.html
      */
     setZoom(option: CameraContext.SetZoomOption): void
     /** 开始录像
-     * @supported weapp, rn, tt
+     * @supported weapp, rn, tt, alipay
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/camera/CameraContext.startRecord.html
      */
     startRecord(option: CameraContext.StartRecordOption): void
     /** 结束录像
-     * @supported weapp, rn, tt
+     * @supported weapp, rn, tt, alipay
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/camera/CameraContext.stopRecord.html
      */
     stopRecord(option?: CameraContext.StopRecordOption): void
     /** 拍摄照片
-     * @supported weapp, rn, tt
+     * @supported weapp, rn, tt, alipay
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/camera/CameraContext.takePhoto.html
      */
     takePhoto(option: CameraContext.TakePhotoOption): void
@@ -61,6 +61,10 @@ declare module '../../index' {
     interface StartRecordSuccessCallbackResult extends TaroGeneral.CallbackResult {
       /** 实际设置的缩放级别。由于系统限制，某些机型可能无法设置成指定值，会改用最接近的可设值。 */
       zoom: number
+      /**
+       * @supported alipay on android
+       */
+      setZoom:number
     }
     interface StartRecordOption {
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
@@ -81,6 +85,22 @@ declare module '../../index' {
       tempThumbPath: string
       /** 视频的文件的临时路径 */
       tempVideoPath: string
+      /** 视频文件的高度。
+       * @supported alipay 
+       */
+      height: string
+       /** 视频文件的宽度。
+       * @supported alipay 
+       */
+      width: string
+       /** 视频文件的尺寸。
+       * @supported alipay 
+       */
+      size: string
+       /** 录制的持续时间。
+       * @supported alipay 
+       */
+      duration: string
     }
     interface StopRecordOption {
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
@@ -171,7 +191,7 @@ declare module '../../index' {
 
   interface TaroStatic {
     /** 创建 camera 上下文 CameraContext 对象。
-     * @supported weapp, rn, tt
+     * @supported weapp, rn, tt, alipay
      * @example
      * ```tsx
      * const cameraContext = Taro.createCameraContext()
@@ -179,5 +199,6 @@ declare module '../../index' {
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/camera/wx.createCameraContext.html
      */
     createCameraContext(): CameraContext
+    createCameraContext(id: string): CameraContext
   }
 }
