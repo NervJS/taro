@@ -44,4 +44,11 @@ describe('style', () => {
     assert(node.style.cssText === '--taro:100px;')
     assert(node.style.getPropertyValue('--taro') === '100px')
   })
+
+  it('should not add "px" suffix for custom properties for numeric types', async () => {
+    const { node } = await mount(<View style={{ '--taro': 100 }} />, scratch)
+
+    assert(node.style.cssText === '--taro:100;')
+    assert(node.style.getPropertyValue('--taro') === '100')
+  })
 })
