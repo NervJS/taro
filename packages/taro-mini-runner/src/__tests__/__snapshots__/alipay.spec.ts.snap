@@ -17,7 +17,7 @@ require(\\"./vendors\\");
 require(\\"./taro\\");
 
 (my[\\"webpackJsonp\\"] = my[\\"webpackJsonp\\"] || []).push([ [ 4 ], {
-    1: function(module, __webpack_exports__, __webpack_require__) {
+    0: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_require__.d(__webpack_exports__, \\"d\\", (function() {
             return mergeReconciler;
@@ -73,7 +73,7 @@ require(\\"./taro\\");
     12: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         (function(navigator) {
-            var _tarojs_shared__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(1);
+            var _tarojs_shared__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
             var needPromiseApis = new Set([ \\"addCardAuth\\", \\"getOpenUserInfo\\", \\"chooseAlipayContact\\", \\"chooseCity\\", \\"chooseContact\\", \\"choosePhoneContact\\", \\"datePicker\\", \\"getAddress\\", \\"getAuthCode\\", \\"getPhoneNumber\\", \\"getRunData\\", \\"getRunScene\\", \\"getServerTime\\", \\"getTitleColor\\", \\"rsa\\", \\"paySignCenter\\", \\"tradePay\\", \\"isCollected\\", \\"multiLevelSelect\\", \\"onLocatedComplete\\", \\"optionsSelect\\", \\"prompt\\", \\"regionPicker\\", \\"setLocatedCity\\", \\"showAuthGuide\\", \\"textRiskIdentification\\", \\"vibrate\\", \\"watchShake\\", \\"connectBLEDevice\\", \\"disconnectBLEDevice\\", \\"makeBluetoothPair\\", \\"writeBLECharacteristicValue\\", \\"readBLECharacteristicValue\\", \\"notifyBLECharacteristicValueChange\\", \\"getBLEDeviceServices\\", \\"getBLEDeviceCharacteristics\\", \\"openBluetoothAdapter\\", \\"closeBluetoothAdapter\\", \\"getBluetoothAdapterState\\", \\"startBluetoothDevicesDiscovery\\", \\"stopBluetoothDevicesDiscovery\\", \\"getBluetoothDevices\\", \\"getConnectedBluetoothDevices\\" ]);
             var apiDiff = {
                 login: {
@@ -598,6 +598,13 @@ require(\\"./taro\\");
                 Image: {
                     \\"default-source\\": \\"\\"
                 },
+                Camera: {
+                    mode: Object(_tarojs_shared__WEBPACK_IMPORTED_MODULE_0__[\\"singleQuote\\"])(\\"normal\\"),
+                    \\"output-dimension\\": Object(_tarojs_shared__WEBPACK_IMPORTED_MODULE_0__[\\"singleQuote\\"])(\\"720P\\"),
+                    \\"frame-size\\": Object(_tarojs_shared__WEBPACK_IMPORTED_MODULE_0__[\\"singleQuote\\"])(\\"medium\\"),
+                    bindScanCode: \\"\\",
+                    bindReady: \\"\\"
+                },
                 Canvas: {
                     type: \\"\\",
                     width: Object(_tarojs_shared__WEBPACK_IMPORTED_MODULE_0__[\\"singleQuote\\"])(\\"300px\\"),
@@ -607,7 +614,6 @@ require(\\"./taro\\");
                 Video: {
                     \\"poster-size\\": Object(_tarojs_shared__WEBPACK_IMPORTED_MODULE_0__[\\"singleQuote\\"])(\\"contain\\"),
                     \\"mobilenet-hint-type\\": \\"1\\",
-                    enableNative: \\"false\\",
                     bindLoading: \\"\\",
                     bindUserAction: \\"\\",
                     bindStop: \\"\\",
@@ -704,12 +710,12 @@ require(\\"./taro\\");
         __webpack_require__.r(__webpack_exports__);
         var runtime = __webpack_require__(12);
         var taro_runtime = __webpack_require__(3);
-        var taro = __webpack_require__(1);
+        var taro = __webpack_require__(0);
         var classCallCheck = __webpack_require__(4);
         var createClass = __webpack_require__(5);
         var inherits = __webpack_require__(8);
         var createSuper = __webpack_require__(7);
-        var react = __webpack_require__(0);
+        var react = __webpack_require__(1);
         var app = __webpack_require__(13);
         var app_App = function(_Component) {
             Object(inherits[\\"a\\"])(App, _Component);
@@ -922,7 +928,7 @@ require(\\"./taro\\");
 
 
 /** filePath: dist/common.js **/
-(my[\\"webpackJsonp\\"] = my[\\"webpackJsonp\\"] || []).push([ [ 2 ], [ function(module, __webpack_exports__, __webpack_require__) {
+(my[\\"webpackJsonp\\"] = my[\\"webpackJsonp\\"] || []).push([ [ 2 ], [ , function(module, __webpack_exports__, __webpack_require__) {
     \\"use strict\\";
     __webpack_require__.r(__webpack_exports__);
     __webpack_exports__[\\"default\\"] = \\"react-mock\\";
@@ -1279,7 +1285,7 @@ require(\\"./taro\\");
         var createClass = __webpack_require__(5);
         var inherits = __webpack_require__(8);
         var createSuper = __webpack_require__(7);
-        var react = __webpack_require__(0);
+        var react = __webpack_require__(1);
         var taro_components = __webpack_require__(2);
         var index = __webpack_require__(15);
         var index_Index = function(_Component) {

@@ -202,7 +202,6 @@ interface InputProps extends StandardProps, FormItemProps {
   name?: string
 
   /** 是否强制使用系统键盘和 Web-view 创建的 input 元素。为 true 时，confirm-type、confirm-hold 可能失效。
-   * 版本要求：基础库 2.7.3 及以上
    * @supported alipay
    */
   alwaysSystem?: string
