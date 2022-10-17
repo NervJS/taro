@@ -48,7 +48,7 @@ export default async function build (appPath: string, rawConfig: MiniBuildConfig
       }
 
       if (!isEmpty(config.prerender)) {
-        prerender = prerender ?? new Prerender(config, webpackConfig, stats, config.template.Adapter)
+        prerender = prerender ?? new Prerender(config, webpackConfig, stats, config.template)
         await prerender.render()
       }
 
