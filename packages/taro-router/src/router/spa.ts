@@ -50,6 +50,12 @@ export function createRouter (
 
   const render: LocationListener = async ({ location, action }) => {
     handler.pathname = decodeURI(location.pathname)
+    eventCenter.trigger('__taroRouterChange', {
+      toLocation: {
+        path: handler.pathname
+      }
+    })
+
     let element, params
     try {
       const result = await router.resolve(handler.router.forcePath || handler.pathname)
@@ -69,12 +75,6 @@ export function createRouter (
     if (!element) return
     const pageConfig = handler.pageConfig
     let enablePullDownRefresh = config?.window?.enablePullDownRefresh || false
-
-    eventCenter.trigger('__taroRouterChange', {
-      toLocation: {
-        path: handler.pathname
-      }
-    })
 
     if (pageConfig) {
       document.title = pageConfig.navigationBarTitleText ?? document.title
