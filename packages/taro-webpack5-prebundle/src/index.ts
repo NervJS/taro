@@ -60,7 +60,7 @@ export default class TaroPrebundle {
       devServer,
       enableSourceMap,
       entryFileName,
-      entry: typeof entry === 'string' ? { [entryFileName]: entry } : entry,
+      entry,
       env,
       isWatch,
       publicPath,
@@ -70,6 +70,7 @@ export default class TaroPrebundle {
   }
 
   get entry () {
+    // NOTE: 如果传入 entry 为字符串， webpack-chain 会识别为 EntryObject，导致报错
     return Object.entries(this.params.chain.entryPoints.entries()).reduce((entry, [key, value]) => {
       entry[key] = value.values()
       return entry

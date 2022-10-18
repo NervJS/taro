@@ -17,6 +17,9 @@ require('../config/env');
 const fs = require('fs');
 const chalk = require('react-dev-utils/chalk');
 const webpack = require('webpack');
+const Chain = require('webpack-chain');
+const Prebundle = require('@tarojs/webpack5-prebundle').default;
+const recursiveMerge = require('@tarojs/helper').recursiveMerge;
 const WebpackDevServer = require('webpack-dev-server');
 const clearConsole = require('react-dev-utils/clearConsole');
 const checkRequiredFiles = require('react-dev-utils/checkRequiredFiles');
@@ -73,13 +76,26 @@ checkBrowsers(paths.appPath, isInteractive)
     // run on a different port. `choosePort()` Promise resolves to the next free port.
     return choosePort(HOST, DEFAULT_PORT);
   })
-  .then(port => {
+  .then(async port => {
     if (port == null) {
       // We have not found a port.
       return;
     }
 
     const config = configFactory('development');
+    const chain = new Chain()
+    const entryFileName = 'root'
+    const { module, optimization, plugins, ...c } = config
+    chain.merge(c)
+    const prebundle = new Prebundle({
+      entryFileName,
+      entry: { [entryFileName]: config.entry },
+      chain,
+    })
+    await prebundle.run({
+      enable: true,
+    })
+
     const protocol = process.env.HTTPS === 'true' ? 'https' : 'http';
     const appName = require(paths.appPackageJson).name;
 
@@ -90,10 +106,18 @@ checkBrowsers(paths.appPath, isInteractive)
       port,
       paths.publicUrlOrPath.slice(0, -1)
     );
+
+    const webpackConfig = chain.toConfig()
+    webpackConfig.entry = c.entry
+    webpackConfig.resolve = c.resolve
+    webpackConfig.module = module
+    webpackConfig.optimization = optimization
+    webpackConfig.plugins = webpackConfig.plugins ? [...webpackConfig.plugins, ...plugins] : plugins
+
     // Create a webpack compiler that is configured with custom messages.
     const compiler = createCompiler({
       appName,
-      config,
+      config: webpackConfig,
       urls,
       useYarn,
       useTypeScript,
@@ -112,6 +136,7 @@ checkBrowsers(paths.appPath, isInteractive)
       host: HOST,
       port,
     };
+    recursiveMerge(serverConfig, webpackConfig.devServer)
     const devServer = new WebpackDevServer(serverConfig, compiler);
     // Launch WebpackDevServer.
     devServer.startCallback(() => {
