@@ -173,7 +173,13 @@ export function createNativeComponentConfig (Component, react: typeof React, rea
       }
     },
     methods: {
-      eh: eventHandler
+      eh: eventHandler,
+      onLoad (options) {
+        safeExecute(this.compId, 'onLoad', options)
+      },
+      onUnload () {
+        safeExecute(this.compId, 'onUnload')
+      }
     }
   }
 
