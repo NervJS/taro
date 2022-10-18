@@ -464,10 +464,11 @@ export default class TaroMiniPlugin {
 
   modifyPluginJSON (pluginJSON) {
     const { main, publicComponents } = pluginJSON
+    const isUsingCustomWrapper = componentConfig.thirdPartyComponents.has('custom-wrapper')
     if (main) {
       pluginJSON.main = this.getTargetFilePath(main, '.js')
     }
-    if (publicComponents) {
+    if (publicComponents && isUsingCustomWrapper) {
       pluginJSON.publicComponents = Object.assign({}, publicComponents, {
         'custom-wrapper': 'custom-wrapper'
       })

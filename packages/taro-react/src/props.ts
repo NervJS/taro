@@ -7,7 +7,7 @@ function isEventName (s: string) {
   return s[0] === 'o' && s[1] === 'n'
 }
 
-const IS_NON_DIMENSIONAL = /acit|ex(?:s|g|n|p|$)|rph|grid|ows|mnc|ntw|ine[ch]|zoo|^ord/i
+const IS_NON_DIMENSIONAL = /acit|ex(?:s|g|n|p|$)|rph|grid|ows|mnc|ntw|ine[ch]|zoo|^ord|itera/i
 
 export function updateProps (dom: TaroElement, oldProps: Props, newProps: Props) {
   let i: string
@@ -59,6 +59,8 @@ function setEvent (dom: TaroElement, name: string, value: unknown, oldValue?: un
 function setStyle (style: Style, key: string, value: string | number) {
   if (key[0] === '-') {
     style.setProperty(key, value.toString())
+    // css variables need not further judgment
+    return
   }
 
   style[key] =

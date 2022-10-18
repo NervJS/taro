@@ -17,7 +17,7 @@ require(\\"./vendors\\");
 require(\\"./taro\\");
 
 (my[\\"webpackJsonp\\"] = my[\\"webpackJsonp\\"] || []).push([ [ 4 ], {
-    1: function(module, __webpack_exports__, __webpack_require__) {
+    0: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_require__.d(__webpack_exports__, \\"d\\", (function() {
             return mergeReconciler;
@@ -73,7 +73,7 @@ require(\\"./taro\\");
     12: function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         (function(navigator) {
-            var _tarojs_shared__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(1);
+            var _tarojs_shared__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
             var needPromiseApis = new Set([ \\"addCardAuth\\", \\"getOpenUserInfo\\", \\"chooseAlipayContact\\", \\"chooseCity\\", \\"chooseContact\\", \\"choosePhoneContact\\", \\"datePicker\\", \\"getAddress\\", \\"getAuthCode\\", \\"getPhoneNumber\\", \\"getRunData\\", \\"getRunScene\\", \\"getServerTime\\", \\"getTitleColor\\", \\"rsa\\", \\"paySignCenter\\", \\"tradePay\\", \\"isCollected\\", \\"multiLevelSelect\\", \\"onLocatedComplete\\", \\"optionsSelect\\", \\"prompt\\", \\"regionPicker\\", \\"setLocatedCity\\", \\"showAuthGuide\\", \\"textRiskIdentification\\", \\"vibrate\\", \\"watchShake\\", \\"connectBLEDevice\\", \\"disconnectBLEDevice\\", \\"makeBluetoothPair\\", \\"writeBLECharacteristicValue\\", \\"readBLECharacteristicValue\\", \\"notifyBLECharacteristicValueChange\\", \\"getBLEDeviceServices\\", \\"getBLEDeviceCharacteristics\\", \\"openBluetoothAdapter\\", \\"closeBluetoothAdapter\\", \\"getBluetoothAdapterState\\", \\"startBluetoothDevicesDiscovery\\", \\"stopBluetoothDevicesDiscovery\\", \\"getBluetoothDevices\\", \\"getConnectedBluetoothDevices\\" ]);
             var apiDiff = {
                 login: {
@@ -598,6 +598,13 @@ require(\\"./taro\\");
                 Image: {
                     \\"default-source\\": \\"\\"
                 },
+                Camera: {
+                    mode: Object(_tarojs_shared__WEBPACK_IMPORTED_MODULE_0__[\\"singleQuote\\"])(\\"normal\\"),
+                    \\"output-dimension\\": Object(_tarojs_shared__WEBPACK_IMPORTED_MODULE_0__[\\"singleQuote\\"])(\\"720P\\"),
+                    \\"frame-size\\": Object(_tarojs_shared__WEBPACK_IMPORTED_MODULE_0__[\\"singleQuote\\"])(\\"medium\\"),
+                    bindScanCode: \\"\\",
+                    bindReady: \\"\\"
+                },
                 Canvas: {
                     type: \\"\\",
                     width: Object(_tarojs_shared__WEBPACK_IMPORTED_MODULE_0__[\\"singleQuote\\"])(\\"300px\\"),
@@ -607,7 +614,6 @@ require(\\"./taro\\");
                 Video: {
                     \\"poster-size\\": Object(_tarojs_shared__WEBPACK_IMPORTED_MODULE_0__[\\"singleQuote\\"])(\\"contain\\"),
                     \\"mobilenet-hint-type\\": \\"1\\",
-                    enableNative: \\"false\\",
                     bindLoading: \\"\\",
                     bindUserAction: \\"\\",
                     bindStop: \\"\\",
@@ -704,12 +710,12 @@ require(\\"./taro\\");
         __webpack_require__.r(__webpack_exports__);
         var runtime = __webpack_require__(12);
         var taro_runtime = __webpack_require__(3);
-        var taro = __webpack_require__(1);
+        var taro = __webpack_require__(0);
         var classCallCheck = __webpack_require__(4);
         var createClass = __webpack_require__(5);
         var inherits = __webpack_require__(8);
         var createSuper = __webpack_require__(7);
-        var react = __webpack_require__(0);
+        var react = __webpack_require__(1);
         var app = __webpack_require__(13);
         var app_App = function(_Component) {
             Object(inherits[\\"a\\"])(App, _Component);
@@ -840,15 +846,15 @@ require(\\"./taro\\");
   </cover-image>
 </template>
 
-<template name=\\"tmpl_0_42\\">
+<template name=\\"tmpl_0_43\\">
   <template is=\\"{{xs.c(i, 'tmpl_0_')}}\\" data=\\"{{i:i}}\\" />
 </template>
 
-<template name=\\"tmpl_0_42_focus\\">
+<template name=\\"tmpl_0_43_focus\\">
   <textarea value=\\"{{i.p13}}\\" placeholder=\\"{{i.p8}}\\" placeholder-style=\\"{{i.p10}}\\" placeholder-class=\\"{{xs.b(i.p9,'textarea-placeholder')}}\\" disabled=\\"{{i.p4}}\\" maxlength=\\"{{xs.b(i.p6,140)}}\\" auto-focus=\\"{{xs.b(i.p0,!1)}}\\" focus=\\"{{xs.b(i.focus,!1)}}\\" auto-height=\\"{{xs.b(i.p1,!1)}}\\" fixed=\\"{{xs.b(i.p5,!1)}}\\" cursor-spacing=\\"{{xs.b(i.p3,0)}}\\" cursor=\\"{{xs.b(i.p2,-1)}}\\" selection-start=\\"{{xs.b(i.p12,-1)}}\\" selection-end=\\"{{xs.b(i.p11,-1)}}\\" onFocus=\\"eh\\" onBlur=\\"eh\\" onLineChange=\\"eh\\" onInput=\\"eh\\" onConfirm=\\"eh\\" name=\\"{{i.p7}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" onTap=\\"eh\\" onTouchMove=\\"eh\\" onTouchEnd=\\"eh\\" onTouchCancel=\\"eh\\" onLongTap=\\"eh\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\"></textarea>
 </template>
 
-<template name=\\"tmpl_0_42_blur\\">
+<template name=\\"tmpl_0_43_blur\\">
   <textarea value=\\"{{i.p13}}\\" placeholder=\\"{{i.p8}}\\" placeholder-style=\\"{{i.p10}}\\" placeholder-class=\\"{{xs.b(i.p9,'textarea-placeholder')}}\\" disabled=\\"{{i.p4}}\\" maxlength=\\"{{xs.b(i.p6,140)}}\\" auto-focus=\\"{{xs.b(i.p0,!1)}}\\" auto-height=\\"{{xs.b(i.p1,!1)}}\\" fixed=\\"{{xs.b(i.p5,!1)}}\\" cursor-spacing=\\"{{xs.b(i.p3,0)}}\\" cursor=\\"{{xs.b(i.p2,-1)}}\\" selection-start=\\"{{xs.b(i.p12,-1)}}\\" selection-end=\\"{{xs.b(i.p11,-1)}}\\" onFocus=\\"eh\\" onBlur=\\"eh\\" onLineChange=\\"eh\\" onInput=\\"eh\\" onConfirm=\\"eh\\" name=\\"{{i.p7}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" onTap=\\"eh\\" onTouchMove=\\"eh\\" onTouchEnd=\\"eh\\" onTouchCancel=\\"eh\\" onLongTap=\\"eh\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\"></textarea>
 </template>
 
@@ -860,7 +866,7 @@ require(\\"./taro\\");
   </cover-view>
 </template>
 
-<template name=\\"tmpl_0_35\\">
+<template name=\\"tmpl_0_36\\">
   <scroll-view scroll-x=\\"{{xs.b(i.p7,!1)}}\\" scroll-y=\\"{{xs.b(i.p8,!1)}}\\" upper-threshold=\\"{{xs.b(i.p9,50)}}\\" lower-threshold=\\"{{xs.b(i.p2,50)}}\\" scroll-top=\\"{{i.p5}}\\" scroll-left=\\"{{i.p4}}\\" scroll-into-view=\\"{{i.p3}}\\" scroll-with-animation=\\"{{xs.b(i.p6,!1)}}\\" enable-back-to-top=\\"{{xs.b(i.p1,!1)}}\\" onScrollToUpper=\\"eh\\" onScrollToLower=\\"eh\\" onScroll=\\"eh\\" onTouchStart=\\"eh\\" onTouchMove=\\"eh\\" onTouchEnd=\\"eh\\" onTouchCancel=\\"eh\\" onLongTap=\\"eh\\" animation=\\"{{i.p0}}\\" onAnimationStart=\\"eh\\" onAnimationIteration=\\"eh\\" onAnimationEnd=\\"eh\\" onTransitionEnd=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" onTap=\\"eh\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
     <block a:for=\\"{{i.cn}}\\" a:key=\\"sid\\">
       <template is=\\"{{xs.e(0)}}\\" data=\\"{{i:item}}\\" />
@@ -868,7 +874,7 @@ require(\\"./taro\\");
   </scroll-view>
 </template>
 
-<template name=\\"tmpl_0_39\\">
+<template name=\\"tmpl_0_40\\">
   <swiper indicator-dots=\\"{{xs.b(i.p7,!1)}}\\" indicator-color=\\"{{xs.b(i.p6,'rgba(0, 0, 0, .3)')}}\\" indicator-active-color=\\"{{xs.b(i.p5,'#000000')}}\\" autoplay=\\"{{xs.b(i.p0,!1)}}\\" current=\\"{{xs.b(i.p2,0)}}\\" interval=\\"{{xs.b(i.p8,5000)}}\\" duration=\\"{{xs.b(i.p4,500)}}\\" circular=\\"{{xs.b(i.p1,!1)}}\\" vertical=\\"{{xs.b(i.p11,!1)}}\\" previous-margin=\\"{{xs.b(i.p10,'0px')}}\\" next-margin=\\"{{xs.b(i.p9,'0px')}}\\" display-multiple-items=\\"{{xs.b(i.p3,1)}}\\" onChange=\\"eh\\" onTransition=\\"eh\\" onAnimationFinish=\\"eh\\" onTouchStart=\\"eh\\" onTouchMove=\\"eh\\" onTouchEnd=\\"eh\\" onTouchCancel=\\"eh\\" onLongTap=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" onTap=\\"eh\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
     <block a:for=\\"{{xs.f(i.cn)}}\\" a:key=\\"sid\\">
       <swiper-item class=\\"{{item.cl}}\\" style=\\"{{item.st}}\\" id=\\"{{item.uid||item.sid}}\\" data-sid=\\"{{item.sid}}\\">
@@ -896,7 +902,7 @@ require(\\"./taro\\");
   </image>
 </template>
 
-<template name=\\"tmpl_0_43\\">
+<template name=\\"tmpl_0_44\\">
   <video src=\\"{{i.p20}}\\" duration=\\"{{i.p6}}\\" controls=\\"{{xs.b(i.p2,!0)}}\\" danmu-list=\\"{{i.p4}}\\" danmu-btn=\\"{{i.p3}}\\" enable-danmu=\\"{{i.p7}}\\" autoplay=\\"{{xs.b(i.p1,!1)}}\\" loop=\\"{{xs.b(i.p10,!1)}}\\" muted=\\"{{xs.b(i.p11,!1)}}\\" initial-time=\\"{{xs.b(i.p9,0)}}\\" page-gesture=\\"{{xs.b(i.p13,!1)}}\\" direction=\\"{{i.p5}}\\" show-progress=\\"{{xs.b(i.p19,!0)}}\\" show-fullscreen-btn=\\"{{xs.b(i.p16,!0)}}\\" show-play-btn=\\"{{xs.b(i.p18,!0)}}\\" show-center-play-btn=\\"{{xs.b(i.p15,!0)}}\\" enable-progress-gesture=\\"{{xs.b(i.p8,!0)}}\\" object-fit=\\"{{xs.b(i.p12,'contain')}}\\" poster=\\"{{i.p14}}\\" show-mute-btn=\\"{{xs.b(i.p17,!1)}}\\" onPlay=\\"eh\\" onPause=\\"eh\\" onEnded=\\"eh\\" onTimeUpdate=\\"eh\\" onFullScreenChange=\\"eh\\" onWaiting=\\"eh\\" onError=\\"eh\\" animation=\\"{{i.p0}}\\" onAnimationStart=\\"eh\\" onAnimationIteration=\\"eh\\" onAnimationEnd=\\"eh\\" onTransitionEnd=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" onTap=\\"eh\\" onTouchMove=\\"eh\\" onTouchEnd=\\"eh\\" onTouchCancel=\\"eh\\" onLongTap=\\"eh\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
     <block a:for=\\"{{i.cn}}\\" a:key=\\"sid\\">
       <template is=\\"{{xs.e(0)}}\\" data=\\"{{i:item}}\\" />
@@ -922,7 +928,7 @@ require(\\"./taro\\");
 
 
 /** filePath: dist/common.js **/
-(my[\\"webpackJsonp\\"] = my[\\"webpackJsonp\\"] || []).push([ [ 2 ], [ function(module, __webpack_exports__, __webpack_require__) {
+(my[\\"webpackJsonp\\"] = my[\\"webpackJsonp\\"] || []).push([ [ 2 ], [ , function(module, __webpack_exports__, __webpack_require__) {
     \\"use strict\\";
     __webpack_require__.r(__webpack_exports__);
     __webpack_exports__[\\"default\\"] = \\"react-mock\\";
@@ -1279,7 +1285,7 @@ require(\\"./taro\\");
         var createClass = __webpack_require__(5);
         var inherits = __webpack_require__(8);
         var createSuper = __webpack_require__(7);
-        var react = __webpack_require__(0);
+        var react = __webpack_require__(1);
         var taro_components = __webpack_require__(2);
         var index = __webpack_require__(15);
         var index_Index = function(_Component) {
@@ -1396,7 +1402,7 @@ export default {
     return 'tmpl_' + n + '_container'
   },
   f: function (l) {
-    return l.filter(function (i) {return i.nn === '40'})
+    return l.filter(function (i) {return i.nn === '41'})
   }
 }
 
