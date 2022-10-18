@@ -56,22 +56,22 @@ require(\\"./taro\\");
         function useRouter() {}
         function useTabItemTap() {}
         function useScope() {}
-        var needPromiseApis = new Set([ \\"checkFollowState\\", \\"exitMiniProgram\\", \\"followOfficialAccount\\", \\"getMenuButtonLayout\\", \\"hideInteractionBar\\", \\"pay\\", \\"navigateToVideoView\\", \\"showInteractionBar\\", \\"openEcGood\\", \\"openAwemeUserProfile\\" ]);
+        var needPromiseApis = new Set([ \\"checkFollowState\\", \\"exitMiniProgram\\", \\"followOfficialAccount\\", \\"getMenuButtonLayout\\", \\"getUserProfile\\", \\"hideInteractionBar\\", \\"navigateToVideoView\\", \\"openAwemeUserProfile\\", \\"openEcGood\\", \\"pay\\", \\"showInteractionBar\\" ]);
         function initNativeApi(taro) {
             processApis(taro, tt, {
                 needPromiseApis: needPromiseApis
             });
         }
-        var _true = \\"true\\";
-        var _false = \\"false\\";
+        var _true = \\"!0\\";
+        var _false = \\"!1\\";
         var _empty = \\"\\";
         var components = {
             Icon: {
                 size: \\"24\\"
             },
             Button: {
-                bindGetPhoneNumber: \\"\\",
-                \\"data-channel\\": \\"\\"
+                bindGetPhoneNumber: _empty,
+                \\"data-channel\\": _empty
             },
             Form: {
                 \\"report-submit-timeout\\": \\"0\\"
@@ -109,20 +109,20 @@ require(\\"./taro\\");
                 bindLeaveBackground: _empty
             },
             Ad: {
-                fixed: \\"\\",
+                fixed: _empty,
                 type: undefined(\\"banner\\"),
                 scale: \\"100\\"
             },
             Textarea: {
-                \\"disable-default-padding\\": \\"false\\",
+                \\"disable-default-padding\\": _false,
                 \\"confirm-type\\": undefined(\\"return\\"),
-                \\"confirm-hold\\": \\"false\\",
-                \\"show-confirm-bar\\": \\"true\\",
-                \\"adjust-position\\": \\"true\\",
-                \\"hold-keyboard\\": \\"false\\"
+                \\"confirm-hold\\": _false,
+                \\"show-confirm-bar\\": _true,
+                \\"adjust-position\\": _true,
+                \\"hold-keyboard\\": _false
             },
             Canvas: {
-                type: \\"\\"
+                type: _empty
             },
             Map: {
                 polygons: \\"[]\\",
@@ -130,26 +130,50 @@ require(\\"./taro\\");
                 skew: \\"0\\",
                 \\"max-scale\\": \\"19\\",
                 \\"min-scale\\": \\"3\\",
-                \\"enable-3D\\": \\"false\\",
-                \\"show-compass\\": \\"false\\",
-                \\"show-scale\\": \\"false\\",
-                \\"enable-overlooking\\": \\"false\\",
-                \\"enable-zoom\\": \\"true\\",
-                \\"enable-scroll\\": \\"true\\",
-                \\"enable-rotate\\": \\"false\\",
-                \\"enable-satellite\\": \\"false\\",
-                \\"enable-traffic\\": \\"false\\",
-                \\"enable-poi\\": \\"true\\",
-                \\"enable-building\\": \\"true\\",
-                bindLabelTap: \\"\\",
-                bindRegionChange: \\"\\",
-                bindAnchorPointTap: \\"\\"
+                \\"enable-3D\\": _false,
+                \\"show-compass\\": _false,
+                \\"show-scale\\": _false,
+                \\"enable-overlooking\\": _false,
+                \\"enable-zoom\\": _true,
+                \\"enable-scroll\\": _true,
+                \\"enable-rotate\\": _false,
+                \\"enable-satellite\\": _false,
+                \\"enable-traffic\\": _false,
+                \\"enable-poi\\": _true,
+                \\"enable-building\\": _true,
+                bindLabelTap: _empty,
+                bindRegionChange: _empty,
+                bindAnchorPointTap: _empty
             },
             RtcRoom: {
-                \\"user-id\\": \\"\\",
+                \\"user-id\\": _empty,
                 mode: \\"camera\\",
                 \\"device-position\\": \\"front\\",
-                bindError: \\"\\"
+                bindError: _empty
+            },
+            PayButton: {
+                mode: \\"1\\",
+                \\"goods-id\\": _empty,
+                \\"goods-type\\": _empty,
+                \\"order-status\\": \\"0\\",
+                \\"order-id\\": _empty,
+                \\"refund-id\\": _empty,
+                \\"refund-total-amount\\": _empty,
+                \\"biz-line\\": \\"1\\",
+                \\"marketing-ready\\": _false,
+                bindGetGoodsInfo: _empty,
+                bindPlaceOrder: _empty,
+                bindError: _empty,
+                bindApplyRefund: _empty,
+                bindRefund: _empty,
+                bindPay: _empty
+            },
+            ConsumeCard: {
+                \\"order-id\\": _empty,
+                bindConsume: _empty,
+                bindRefund: _empty,
+                bindApplyRefund: _empty,
+                bindError: _empty
             }
         };
         var hostConfig = {

@@ -1,7 +1,6 @@
 import type { RecursiveTemplate, UnRecursiveTemplate } from '@tarojs/shared/dist/template'
 import type { IH5Config, IMiniAppConfig, IProjectBaseConfig } from '@tarojs/taro/types/compile'
 import type Webpack from 'webpack'
-import type Chain from 'webpack-chain'
 import type { PrerenderConfig } from '../prerender/prerender'
 import type { IComponentConfig } from '../template/component'
 
@@ -33,12 +32,6 @@ export interface IFileType {
   templ: string
   config: string
   xs?: string
-}
-
-export type Func = (...args: any[]) => any
-
-export interface HookModifyWebpackChain {
-  (chain: Chain, webpack: typeof Webpack, data: { componentConfig: IComponentConfig }): Promise<any>
 }
 
 export interface CommonBuildConfig extends IProjectBaseConfig {

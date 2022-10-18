@@ -598,6 +598,13 @@ require(\\"./taro\\");
                 Image: {
                     \\"default-source\\": \\"\\"
                 },
+                Camera: {
+                    mode: Object(_tarojs_shared__WEBPACK_IMPORTED_MODULE_0__[\\"singleQuote\\"])(\\"normal\\"),
+                    \\"output-dimension\\": Object(_tarojs_shared__WEBPACK_IMPORTED_MODULE_0__[\\"singleQuote\\"])(\\"720P\\"),
+                    \\"frame-size\\": Object(_tarojs_shared__WEBPACK_IMPORTED_MODULE_0__[\\"singleQuote\\"])(\\"medium\\"),
+                    bindScanCode: \\"\\",
+                    bindReady: \\"\\"
+                },
                 Canvas: {
                     type: \\"\\",
                     width: Object(_tarojs_shared__WEBPACK_IMPORTED_MODULE_0__[\\"singleQuote\\"])(\\"300px\\"),
@@ -607,7 +614,6 @@ require(\\"./taro\\");
                 Video: {
                     \\"poster-size\\": Object(_tarojs_shared__WEBPACK_IMPORTED_MODULE_0__[\\"singleQuote\\"])(\\"contain\\"),
                     \\"mobilenet-hint-type\\": \\"1\\",
-                    enableNative: \\"false\\",
                     bindLoading: \\"\\",
                     bindUserAction: \\"\\",
                     bindStop: \\"\\",
