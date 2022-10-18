@@ -5,7 +5,8 @@ export default defineAppConfig({
   ],
   components: [
     'pages/detail/index',
-    'components/picker/index'
+    'components/picker/index',
+    'components/article/index'
   ],
   window: {
     backgroundTextStyle: 'light',
