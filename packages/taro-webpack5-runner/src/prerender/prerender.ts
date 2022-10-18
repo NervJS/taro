@@ -5,7 +5,7 @@ import { Configuration, Stats, StatsCompilation } from 'webpack'
 
 import { printPrerenderFail, printPrerenderSuccess } from '../utils/logHelper'
 
-import type { IAdapter,RecursiveTemplate, UnRecursiveTemplate } from '@tarojs/shared/dist/template'
+import type { IAdapter, RecursiveTemplate, UnRecursiveTemplate } from '@tarojs/shared/dist/template'
 import type { NodeVM } from 'vm2'
 import type { MiniBuildConfig } from '../utils/types'
 
