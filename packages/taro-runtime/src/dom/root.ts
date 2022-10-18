@@ -85,8 +85,8 @@ export class TaroRootElement extends TaroElement {
     const ctx = this.ctx!
 
     setTimeout(() => {
-      const timeStamp: number = Date.now()
-      perf.start(SET_DATA + ' 开始时间戳' +  timeStamp)
+      const setDataMark = `${SET_DATA} 开始时间戳 ${Date.now()}`
+      perf.start(setDataMark)
       const data: Record<string, UpdatePayloadValue | ReturnType<HydratedData>> = Object.create(null)
       const resetPaths = new Set<string>(
         initRender
@@ -154,7 +154,7 @@ export class TaroRootElement extends TaroElement {
 
       const cb = () => {
         if (++executeTime === updateArrLen) {
-          perf.stop(SET_DATA + ' 开始时间戳' +  timeStamp)
+          perf.stop(setDataMark)
           this.flushUpdateCallback()
           initRender && perf.stop(PAGE_INIT)
         }
