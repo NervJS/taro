@@ -8,7 +8,7 @@ import { eventHandler } from '../dom/event'
 import { eventCenter } from '../emitter/emitter'
 import env from '../env'
 import { perf } from '../perf'
-import { customWrapperCache, getComponentsAlias,incrementId } from '../utils'
+import { customWrapperCache, getComponentsAlias, incrementId } from '../utils'
 
 import type { PageConfig } from '@tarojs/taro'
 import type { TaroRootElement } from '../dom/root'
