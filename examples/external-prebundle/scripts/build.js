@@ -19,6 +19,8 @@ const chalk = require('react-dev-utils/chalk');
 const fs = require('fs-extra');
 const bfj = require('bfj');
 const webpack = require('webpack');
+const Chain = require('webpack-chain');
+const Prebundle = require('@tarojs/webpack5-prebundle').default;
 const configFactory = require('../config/webpack.config');
 const paths = require('../config/paths');
 const checkRequiredFiles = require('react-dev-utils/checkRequiredFiles');
@@ -53,6 +55,28 @@ const config = configFactory('production');
 // browserslist defaults.
 const { checkBrowsers } = require('react-dev-utils/browsersHelper');
 checkBrowsers(paths.appPath, isInteractive)
+  .then(async () => {
+    const chain = new Chain()
+    const entryFileName = 'root'
+    const { module, optimization, plugins, ...c } = config
+    chain.merge(c)
+    const prebundle = new Prebundle({
+      entryFileName,
+      entry: { [entryFileName]: config.entry },
+      chain,
+    })
+    await prebundle.run({
+      enable: true,
+    })
+
+    const webpackConfig = chain.toConfig()
+    webpackConfig.entry = c.entry
+    webpackConfig.resolve = c.resolve
+    webpackConfig.module = module
+    webpackConfig.optimization = optimization
+    webpackConfig.plugins = webpackConfig.plugins ? [...webpackConfig.plugins, ...plugins] : plugins
+    Object.assign(config, webpackConfig)
+  })
   .then(() => {
     // First, read the current file sizes in build directory.
     // This lets us display how much they changed later.

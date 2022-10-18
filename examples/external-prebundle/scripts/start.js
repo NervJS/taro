@@ -137,6 +137,7 @@ checkBrowsers(paths.appPath, isInteractive)
       port,
     };
     recursiveMerge(serverConfig, webpackConfig.devServer)
+
     const devServer = new WebpackDevServer(serverConfig, compiler);
     // Launch WebpackDevServer.
     devServer.startCallback(() => {
