@@ -1,6 +1,6 @@
 <div align="center">
   <h1>Taro</h1>
-  <p>An cross-platform and -framework solution for easily developing applications across mini-programs, Web, APP, etc.</p>
+  <p>A cross-platform and -framework solution for easily developing applications across mini-programs, Web, APP, etc.</p>
   <a href="http://makeapullrequest.com">
     <img src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square" alt="PRs Welcome">
   </a>
