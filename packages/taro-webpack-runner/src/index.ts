@@ -1,5 +1,4 @@
 import { recursiveMerge } from '@tarojs/helper'
-import { AppConfig } from '@tarojs/taro'
 import * as detectPort from 'detect-port'
 import * as path from 'path'
 import { format as formatUrl } from 'url'
@@ -13,7 +12,10 @@ import prodConf from './config/prod.conf'
 import { addHtmlSuffix, addLeadingSlash, formatOpenHost, getAppConfig, getAppEntry, parsePublicPath, stripBasename, stripTrailingSlash } from './util'
 import { makeConfig } from './util/chain'
 import { bindDevLogger, bindProdLogger, printBuildError } from './util/logHelper'
-import { BuildConfig, Func } from './util/types'
+
+import type { AppConfig } from '@tarojs/taro'
+import type { Func } from '@tarojs/taro/types/compile'
+import type { BuildConfig } from './util/types'
 
 export const customizeChain = async (chain, modifyWebpackChainFunc: Func, customizeFunc?: Func) => {
   if (modifyWebpackChainFunc instanceof Function) {
@@ -26,7 +28,7 @@ export const customizeChain = async (chain, modifyWebpackChainFunc: Func, custom
 
 const buildProd = async (appPath: string, config: BuildConfig, appConfig: AppConfig): Promise<void> => {
   const webpackChain = prodConf(appPath, config, appConfig)
-  await customizeChain(webpackChain, config.modifyWebpackChain, config.webpackChain)
+  await customizeChain(webpackChain, config.modifyWebpackChain!, config.webpackChain)
   if (typeof config.onWebpackChainReady === 'function') {
     config.onWebpackChainReady(webpackChain)
   }
@@ -76,7 +78,7 @@ const buildDev = async (appPath: string, config: BuildConfig, appConfig: AppConf
   const { proxy: customProxy = [], ...customDevServerOption } = config.devServer || {}
   const webpackChain = devConf(appPath, config, appConfig)
   const onBuildFinish = config.onBuildFinish
-  await customizeChain(webpackChain, config.modifyWebpackChain, config.webpackChain)
+  await customizeChain(webpackChain, config.modifyWebpackChain!, config.webpackChain)
 
   const isMultiRouterMode = routerMode === 'multi'
   const proxy: WebpackDevServer.Configuration['proxy'] = []

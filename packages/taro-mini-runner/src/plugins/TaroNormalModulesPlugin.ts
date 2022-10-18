@@ -2,8 +2,9 @@ import webpack from 'webpack'
 
 import TaroSingleEntryDependency from '../dependencies/TaroSingleEntryDependency'
 import { componentConfig } from '../template/component'
-import { Func } from '../utils/types'
 import TaroNormalModule from './TaroNormalModule'
+
+import type { Func } from '@tarojs/taro/types/compile'
 
 const walk = require('acorn-walk')
 

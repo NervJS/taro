@@ -500,7 +500,7 @@ importers:
       ora: 4.0.3
       postcss: ^6.0.22
       postcss-taro-unit-transform: 1.2.15
-      prettier: ^1.16.4
+      prettier: ^2.7.1
       regenerator-runtime: '0.11'
       request: ^2.88.0
       resolve: ^1.22.0
@@ -539,7 +539,7 @@ importers:
       ora: registry.npmjs.org/ora/4.0.3
       postcss: registry.npmjs.org/postcss/6.0.23
       postcss-taro-unit-transform: registry.npmjs.org/postcss-taro-unit-transform/1.2.15
-      prettier: registry.npmjs.org/prettier/1.19.1
+      prettier: registry.npmjs.org/prettier/2.7.1
       regenerator-runtime: registry.npmjs.org/regenerator-runtime/0.11.1
       request: registry.npmjs.org/request/2.88.2
       resolve: registry.npmjs.org/resolve/1.22.1
@@ -648,7 +648,6 @@ importers:
       prop-types: registry.npmjs.org/prop-types/15.8.1
       react-native-maps: registry.npmjs.org/react-native-maps/0.25.0_a3m4qk22sttdsiro4x4v2nfoki
       react-native-pager-view: registry.npmjs.org/react-native-pager-view/5.4.25_react-native@0.69.5
-      react-native-svg: registry.npmjs.org/react-native-svg/12.4.3_react-native@0.69.5
       react-native-webview: registry.npmjs.org/react-native-webview/11.23.0_react-native@0.69.5
     devDependencies:
       '@types/react-native': registry.npmjs.org/@types/react-native/0.69.8
@@ -656,9 +655,7 @@ importers:
       metro-babel-register: registry.npmjs.org/metro-babel-register/0.70.3
       metro-react-native-babel-preset: registry.npmjs.org/metro-react-native-babel-preset/0.70.3
       react-native: registry.npmjs.org/react-native/0.69.5
-
-  packages/taro-components/loader:
-    specifiers: {}
+      react-native-svg: registry.npmjs.org/react-native-svg/12.4.3_react-native@0.69.5
 
   packages/taro-extend:
     specifiers: {}
@@ -15822,7 +15819,7 @@ packages:
       domhandler: registry.npmjs.org/domhandler/5.0.3
       domutils: registry.npmjs.org/domutils/3.0.1
       nth-check: registry.npmjs.org/nth-check/2.1.1
-    dev: false
+    dev: true
 
   registry.npmjs.org/css-selector-tokenizer/0.7.3:
     resolution: {integrity: sha512-jWQv3oCEL5kMErj4wRnK/OPoBi0D+P1FR2cDCKYPaMeD2eW3/mttav8HT4hT1CKopiJI/psEULjkClhvJo4Lvg==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/css-selector-tokenizer/-/css-selector-tokenizer-0.7.3.tgz}
@@ -15894,7 +15891,6 @@ packages:
     name: css-what
     version: 6.1.0
     engines: {node: '>= 6'}
-    dev: false
 
   registry.npmjs.org/css.escape/1.5.1:
     resolution: {integrity: sha512-YUifsXXuknHlUsmlgyY0PKzgPOr7/FjCePfHNt0jxm83wHZi44VDMQ7/fGNkjY3/jV1MC+1CmZbaHzugyeRtpg==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/css.escape/-/css.escape-1.5.1.tgz}
@@ -17045,7 +17041,7 @@ packages:
       domelementtype: registry.npmjs.org/domelementtype/2.3.0
       domhandler: registry.npmjs.org/domhandler/5.0.3
       entities: registry.npmjs.org/entities/4.3.1
-    dev: false
+    dev: true
 
   registry.npmjs.org/dom-walk/0.1.2:
     resolution: {integrity: sha512-6QvTW9mrGeIegrFXdtQi9pk7O/nSK6lSdXW2eqUspN5LWD7UTji2Fqw5V2YLjBpHEoU9Xl/eUWNpDeZvoyOv2w==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/dom-walk/-/dom-walk-0.1.2.tgz}
@@ -17109,7 +17105,7 @@ packages:
     engines: {node: '>= 4'}
     dependencies:
       domelementtype: registry.npmjs.org/domelementtype/2.3.0
-    dev: false
+    dev: true
 
   registry.npmjs.org/domutils/1.7.0:
     resolution: {integrity: sha512-Lgd2XcJ/NjEw+7tFvfKxOzCYKZsdct5lczQ2ZaQY8Djz7pfAD3Gbp8ySJWtreII/vDlMVmxwa6pHmdxIYgttDg==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/domutils/-/domutils-1.7.0.tgz}
@@ -17137,7 +17133,7 @@ packages:
       dom-serializer: registry.npmjs.org/dom-serializer/2.0.0
       domelementtype: registry.npmjs.org/domelementtype/2.3.0
       domhandler: registry.npmjs.org/domhandler/5.0.3
-    dev: false
+    dev: true
 
   registry.npmjs.org/dot-case/3.0.4:
     resolution: {integrity: sha512-Kv5nKlh6yRrdrGvxeJ2e5y2eRUpkUosIW4A2AS38zwSz27zu7ufDwQPi5Jhs3XAlGNetl3bmnGhQsMtkKJnj3w==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/dot-case/-/dot-case-3.0.4.tgz}
@@ -17463,7 +17459,7 @@ packages:
     name: entities
     version: 4.3.1
     engines: {node: '>=0.12'}
-    dev: false
+    dev: true
 
   registry.npmjs.org/env-editor/0.4.2:
     resolution: {integrity: sha512-ObFo8v4rQJAE59M69QzwloxPZtd33TpYEIjtKD1rrFDcM1Gd7IkDxEBU+HriziN6HSHQnBJi8Dmy+JWkav5HKA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/env-editor/-/env-editor-0.4.2.tgz}
@@ -29799,7 +29795,6 @@ packages:
     engines: {node: '>=10.13.0'}
     hasBin: true
     requiresBuild: true
-    dev: true
 
   registry.npmjs.org/pretty-bytes/5.6.0:
     resolution: {integrity: sha512-FFw039TmrBqFK8ma/7OL3sDz/VytdtJr044/QUJtH0wK9lb9jLq9tJyIxUwtQJHwar2BqtiA4iCWSwo9JLkzFg==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/pretty-bytes/-/pretty-bytes-5.6.0.tgz}
@@ -30645,7 +30640,7 @@ packages:
       css-select: registry.npmjs.org/css-select/5.1.0
       css-tree: registry.npmjs.org/css-tree/1.1.3
       react-native: registry.npmjs.org/react-native/0.69.5
-    dev: false
+    dev: true
 
   registry.npmjs.org/react-native-syan-image-picker/0.5.3:
     resolution: {integrity: sha512-jDHKiv6jPrC3Dslhq2tDjqYC27HE0sNRzpthOY1//THgQpJ0Ht7B6EHvllWVaMw0V41kFVMixLxVQTMu/V7RSw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/react-native-syan-image-picker/-/react-native-syan-image-picker-0.5.3.tgz}
@@ -30810,7 +30805,7 @@ packages:
     name: read-package-json
     version: 2.1.2
     dependencies:
-      glob: registry.npmjs.org/glob/7.1.2
+      glob: registry.npmjs.org/glob/7.2.3
       json-parse-even-better-errors: registry.npmjs.org/json-parse-even-better-errors/2.3.1
       normalize-package-data: registry.npmjs.org/normalize-package-data/2.5.0
       npm-normalize-package-bin: registry.npmjs.org/npm-normalize-package-bin/1.0.1
