@@ -42,10 +42,7 @@ function setLoader (framework: Frameworks, chain) {
 function setPlugin (ctx: IPluginContext, framework: Frameworks, chain) {
   const config = ctx.initialConfig
 
-  if (
-    process.env.NODE_ENV !== 'production' &&
-    config.h5?.devServer?.hot !== false
-  ) {
+  if (config.isWatch && config.h5?.devServer?.hot !== false) {
     // 默认开启 fast-refresh
     if (framework === 'react') {
       chain

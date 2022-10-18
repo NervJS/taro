@@ -18,6 +18,7 @@ export default async function build (appPath: string, rawConfig: MiniBuildConfig
     chain: combination.chain,
     enableSourceMap,
     entry,
+    isWatch: combination.config.isWatch,
     runtimePath
   })
   await prebundle.run(combination.getPrebundleOptions())
