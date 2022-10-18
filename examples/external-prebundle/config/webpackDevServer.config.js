@@ -43,7 +43,7 @@ module.exports = function (proxy, allowedHost) {
     },
     // Enable gzip compression of generated files.
     compress: true,
-    static: {
+    static: [{
       // By default WebpackDevServer serves physical files from current directory
       // in addition to all the virtual build products that it serves from memory.
       // This is confusing because those files won’t automatically be available in
@@ -68,7 +68,7 @@ module.exports = function (proxy, allowedHost) {
         // https://github.com/facebook/create-react-app/issues/1065
         ignored: ignoredFiles(paths.appSrc),
       },
-    },
+    }],
     client: {
       webSocketURL: {
         // Enable custom sockjs pathname for websocket connection to hot reloading server.
