@@ -98,7 +98,7 @@ export function reLaunch (option: Taro.reLaunch.Option): ReturnType<typeof Taro.
 }
 
 export function getCurrentPages (): Taro.Page[] {
-  if (process.env.NODE_ENV === 'development' && RouterConfig.mode === 'multi') {
+  if (process.env.NODE_ENV !== 'production' && RouterConfig.mode === 'multi') {
     console.warn('多页面路由模式不支持使用 getCurrentPages 方法！')
   }
   const pages = stacks.get()

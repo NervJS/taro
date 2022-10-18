@@ -20,6 +20,7 @@ export interface IPrebundleParam {
   enableSourceMap?: boolean
   entryFileName?: string
 
+  isWatch?: boolean
   devServer?: webpackDevServer.Configuration
   publicPath?: string
   runtimePath?: string | string[]
@@ -43,6 +44,7 @@ export default class TaroPrebundle {
       enableSourceMap = false,
       entryFileName = 'app',
       entry = this.entry,
+      isWatch = false,
       publicPath = chain.output.get('publicPath') || '/',
       runtimePath,
       sourceRoot = 'src'
@@ -60,6 +62,7 @@ export default class TaroPrebundle {
       entryFileName,
       entry: typeof entry === 'string' ? { [entryFileName]: entry } : entry,
       env,
+      isWatch,
       publicPath,
       runtimePath,
       sourceRoot
