@@ -16,6 +16,7 @@ class Performance {
     }
     const now = Date.now()
     const prev = this.recorder.get(id)!
+    this.recorder.delete(id)
     const time = now - prev
     // eslint-disable-next-line no-console
     console.log(`${id} 时长： ${time}ms`)

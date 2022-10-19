@@ -1,5 +1,10 @@
 /* eslint-disable prefer-promise-reject-errors */
+import Taro from '@tarojs/api'
 import { Current, hooks, TaroElement } from '@tarojs/runtime'
+
+import { MethodHandler } from './handler'
+
+export const isProd = process.env.NODE_ENV === 'production'
 
 export function shouldBeObject (target: unknown) {
   if (target && typeof target === 'object') return { flag: true }
@@ -80,53 +85,62 @@ export function serializeParams (params) {
     .join('&')
 }
 
-export function temporarilyNotSupport (apiName) {
-  return () => {
-    const errMsg = `暂时不支持 API ${apiName}`
-    if (process.env.NODE_ENV !== 'production') {
-      console.error(errMsg)
-      return Promise.reject({
-        errMsg
-      })
-    } else {
+export function temporarilyNotSupport (name = '') {
+  return (option = {}, ...args) => {
+    const { success, fail, complete } = option as any
+    const handle = new MethodHandler({ name, success, fail, complete })
+    const errMsg = '暂时不支持 API'
+    Taro.eventCenter.trigger('__taroNotSupport', {
+      name,
+      args: [option, ...args],
+      type: 'method',
+      category: 'temporarily',
+    })
+    if (isProd) {
       console.warn(errMsg)
-      return Promise.resolve({
-        errMsg
-      })
+      return handle.success({ errMsg })
+    } else {
+      return handle.fail({ errMsg })
     }
   }
 }
 
-export function weixinCorpSupport (apiName) {
-  return () => {
-    const errMsg = `h5端当前仅在微信公众号JS-SDK环境下支持此 API ${apiName}`
-    if (process.env.NODE_ENV !== 'production') {
-      console.error(errMsg)
-      return Promise.reject({
-        errMsg
-      })
-    } else {
+export function weixinCorpSupport (name) {
+  return (option = {}, ...args) => {
+    const { success, fail, complete } = option as any
+    const handle = new MethodHandler({ name, success, fail, complete })
+    const errMsg = 'h5 端当前仅在微信公众号 JS-SDK 环境下支持此 API'
+    Taro.eventCenter.trigger('__taroNotSupport', {
+      name,
+      args: [option, ...args],
+      type: 'method',
+      category: 'weixin_corp',
+    })
+    if (isProd) {
       console.warn(errMsg)
-      return Promise.resolve({
-        errMsg
-      })
+      return handle.success({ errMsg })
+    } else {
+      return handle.fail({ errMsg })
     }
   }
 }
 
-export function permanentlyNotSupport (apiName) {
-  return () => {
-    const errMsg = `不支持 API ${apiName}`
-    if (process.env.NODE_ENV !== 'production') {
-      console.error(errMsg)
-      return Promise.reject({
-        errMsg
-      })
-    } else {
+export function permanentlyNotSupport (name = '') {
+  return (option = {}, ...args) => {
+    const { success, fail, complete } = option as any
+    const handle = new MethodHandler({ name, success, fail, complete })
+    const errMsg = '不支持 API'
+    Taro.eventCenter.trigger('__taroNotSupport', {
+      name,
+      args: [option, ...args],
+      type: 'method',
+      category: 'permanently',
+    })
+    if (isProd) {
       console.warn(errMsg)
-      return Promise.resolve({
-        errMsg
-      })
+      return handle.success({ errMsg })
+    } else {
+      return handle.fail({ errMsg })
     }
   }
 }
