@@ -116,7 +116,6 @@ importers:
       gh-pages: ^1.1.0
       husky: ^8.0.1
       jest: 26.4.2
-      jest-expo: ^46.0.1
       jest-fetch-mock: ^3.0.3
       jest-localstorage-mock: ^2.4.0
       jest-mock-console: ^1.0.0
@@ -134,8 +133,6 @@ importers:
       preact: ^10.5.15
       prettier: ^2.7.1
       prop-types: ^15.7.2
-      react: ^18.2.0
-      react-dom: ^18.2.0
       rimraf: ^3.0.0
       rollup: ^2.79.0
       rollup-plugin-copy: ^3.4.0
@@ -271,7 +268,6 @@ importers:
       gh-pages: registry.npmjs.org/gh-pages/1.2.0
       husky: registry.npmjs.org/husky/8.0.1
       jest: registry.npmjs.org/jest/26.4.2
-      jest-expo: registry.npmjs.org/jest-expo/46.0.1_5lq256k3y7umejhe4krwum74li
       jest-fetch-mock: registry.npmjs.org/jest-fetch-mock/3.0.3
       jest-localstorage-mock: registry.npmjs.org/jest-localstorage-mock/2.4.21
       jest-mock-console: registry.npmjs.org/jest-mock-console/1.3.0_jest@26.4.2
@@ -289,8 +285,6 @@ importers:
       preact: registry.npmjs.org/preact/10.10.0
       prettier: registry.npmjs.org/prettier/2.7.1
       prop-types: registry.npmjs.org/prop-types/15.8.1
-      react: registry.npmjs.org/react/18.2.0
-      react-dom: registry.npmjs.org/react-dom/18.2.0_react@18.2.0
       rimraf: registry.npmjs.org/rimraf/3.0.2
       rollup: registry.npmjs.org/rollup/2.79.0
       rollup-plugin-copy: registry.npmjs.org/rollup-plugin-copy/3.4.0
@@ -631,6 +625,8 @@ importers:
       expo-av: ~12.0.3
       expo-barcode-scanner: ~11.4.0
       expo-camera: ~12.3.0
+      jest: 26.4.2
+      jest-expo: ^46.0.1
       metro-babel-register: ^0.70.3
       metro-react-native-babel-preset: ^0.70.3
       prop-types: ^15.7.2
@@ -661,6 +657,8 @@ importers:
       '@testing-library/react-native': registry.npmjs.org/@testing-library/react-native/11.0.0_i6ebym77wdpfmpyb6l642r5h7u
       '@types/react-native': registry.npmjs.org/@types/react-native/0.69.6
       expo: registry.npmjs.org/expo/46.0.1_@babel+core@7.18.5
+      jest: registry.npmjs.org/jest/26.4.2
+      jest-expo: registry.npmjs.org/jest-expo/46.0.1_jjjottrgczsepz5a4pvitltx5m
       metro-babel-register: registry.npmjs.org/metro-babel-register/0.70.3
       metro-react-native-babel-preset: registry.npmjs.org/metro-react-native-babel-preset/0.70.3_@babel+core@7.18.5
       react: registry.npmjs.org/react/18.0.0
@@ -1072,6 +1070,8 @@ importers:
       expo-modules-core: ~0.11.3
       expo-sensors: ~11.4.0
       fbjs-scripts: ^3.0.1
+      jest: 26.4.2
+      jest-expo: ^46.0.1
       metro-react-native-babel-preset: ^0.70.3
       nullthrows: ^1.1.1
       prop-types: ^15.8.1
@@ -1124,6 +1124,8 @@ importers:
       '@types/react-native': registry.npmjs.org/@types/react-native/0.69.6
       expo: registry.npmjs.org/expo/46.0.1_@babel+core@7.18.5
       fbjs-scripts: registry.npmjs.org/fbjs-scripts/3.0.1
+      jest: registry.npmjs.org/jest/26.4.2
+      jest-expo: registry.npmjs.org/jest-expo/46.0.1_jjjottrgczsepz5a4pvitltx5m
       metro-react-native-babel-preset: registry.npmjs.org/metro-react-native-babel-preset/0.70.3_@babel+core@7.18.5
       react: registry.npmjs.org/react/18.0.0
       react-native: registry.npmjs.org/react-native/0.69.5_7p7aajqsukubgfkh3c4mopdsom
@@ -1312,6 +1314,8 @@ importers:
       '@react-navigation/routers': ^6.1.0
       '@react-navigation/stack': ^6.1.1
       '@types/react-native': ^0.69.5
+      jest: 26.4.2
+      jest-expo: ^46.0.1
       nanoid: ^3.1.12
       query-string: ^6.1.0
       react: 18.0.0
@@ -1335,6 +1339,8 @@ importers:
       '@babel/core': registry.npmjs.org/@babel/core/7.18.5
       '@babel/preset-env': registry.npmjs.org/@babel/preset-env/7.18.2_@babel+core@7.18.5
       '@types/react-native': registry.npmjs.org/@types/react-native/0.69.6
+      jest: registry.npmjs.org/jest/26.4.2
+      jest-expo: registry.npmjs.org/jest-expo/46.0.1_jjjottrgczsepz5a4pvitltx5m
       react: registry.npmjs.org/react/18.0.0
       react-native: registry.npmjs.org/react-native/0.69.5_7p7aajqsukubgfkh3c4mopdsom
 
@@ -22213,7 +22219,7 @@ packages:
       jest-util: registry.npmjs.org/jest-util/26.6.2
     dev: true
 
-  registry.npmjs.org/jest-expo/46.0.1_5lq256k3y7umejhe4krwum74li:
+  registry.npmjs.org/jest-expo/46.0.1_jjjottrgczsepz5a4pvitltx5m:
     resolution: {integrity: sha512-wKC/WfA4xAOWqXQwS3WyIWqNeVdKA5RjUqvYaWCM/M8lNbuYoMuixlbxEG+ielKV3LaLaxA/aCvfgouPBISxYA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/jest-expo/-/jest-expo-46.0.1.tgz}
     id: registry.npmjs.org/jest-expo/46.0.1
     name: jest-expo
@@ -22228,7 +22234,7 @@ packages:
       jest-watch-typeahead: registry.npmjs.org/jest-watch-typeahead/0.6.4_jest@26.4.2
       json5: registry.npmjs.org/json5/2.2.1
       lodash: registry.npmjs.org/lodash/4.17.21
-      react-test-renderer: registry.npmjs.org/react-test-renderer/18.0.0_react@18.2.0
+      react-test-renderer: registry.npmjs.org/react-test-renderer/18.0.0_react@18.0.0
     transitivePeerDependencies:
       - '@babel/core'
       - jest
@@ -29395,19 +29401,6 @@ packages:
       - utf-8-validate
     dev: false
 
-  registry.npmjs.org/react-dom/18.2.0_react@18.2.0:
-    resolution: {integrity: sha512-6IMTriUmvsjHUjNtEDudZfuDQUoWXVxKHhlEGSk81n4YFS+r/Kl99wXiwlVXtPBtJenozv2P+hxDsw9eA7Xo6g==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/react-dom/-/react-dom-18.2.0.tgz}
-    id: registry.npmjs.org/react-dom/18.2.0
-    name: react-dom
-    version: 18.2.0
-    peerDependencies:
-      react: ^18.2.0
-    dependencies:
-      loose-envify: registry.npmjs.org/loose-envify/1.4.0
-      react: registry.npmjs.org/react/18.2.0
-      scheduler: registry.npmjs.org/scheduler/0.23.0
-    dev: true
-
   registry.npmjs.org/react-freeze/1.0.0_react@18.0.0:
     resolution: {integrity: sha512-yQaiOqDmoKqks56LN9MTgY06O0qQHgV4FUrikH357DydArSZHQhl0BJFqGKIZoTqi8JizF9Dxhuk1FIZD6qCaw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/react-freeze/-/react-freeze-1.0.0.tgz}
     id: registry.npmjs.org/react-freeze/1.0.0
@@ -29824,20 +29817,6 @@ packages:
       react: registry.npmjs.org/react/18.0.0
       react-is: registry.npmjs.org/react-is/18.2.0
       react-shallow-renderer: registry.npmjs.org/react-shallow-renderer/16.15.0_react@18.0.0
-      scheduler: registry.npmjs.org/scheduler/0.21.0
-    dev: true
-
-  registry.npmjs.org/react-test-renderer/18.0.0_react@18.2.0:
-    resolution: {integrity: sha512-SyZTP/FSkwfiKOZuTZiISzsrC8A80KNlQ8PyyoGoOq+VzMAab6Em1POK/CiX3+XyXG6oiJa1C53zYDbdrJu9fw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/react-test-renderer/-/react-test-renderer-18.0.0.tgz}
-    id: registry.npmjs.org/react-test-renderer/18.0.0
-    name: react-test-renderer
-    version: 18.0.0
-    peerDependencies:
-      react: ^18.0.0
-    dependencies:
-      react: registry.npmjs.org/react/18.2.0
-      react-is: registry.npmjs.org/react-is/18.2.0
-      react-shallow-renderer: registry.npmjs.org/react-shallow-renderer/16.15.0_react@18.2.0
       scheduler: registry.npmjs.org/scheduler/0.21.0
     dev: true
 

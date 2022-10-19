@@ -44,6 +44,8 @@
     "@babel/core": "^7.14.5",
     "@babel/preset-env": "^7.14.5",
     "@types/react-native": "^0.69.5",
+    "jest": "26.4.2",
+    "jest-expo": "^46.0.1",
     "react": "18.0.0",
     "react-native": "^0.69.3"
   },

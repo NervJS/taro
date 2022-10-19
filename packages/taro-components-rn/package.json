@@ -45,6 +45,8 @@
     "@testing-library/react-native": "^11.0.0",
     "@types/react-native": "^0.69.5",
     "expo": "~46.0.1",
+    "jest": "26.4.2",
+    "jest-expo": "^46.0.1",
     "metro-babel-register": "^0.70.3",
     "metro-react-native-babel-preset": "^0.70.3",
     "react": "18.0.0",
