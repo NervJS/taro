@@ -29,6 +29,7 @@ export default async function build (appPath: string, rawConfig: H5BuildConfig):
     enableSourceMap,
     entryFileName,
     entry,
+    isWatch: combination.config.isWatch,
     publicPath
   })
   await prebundle.run(combination.getPrebundleOptions())

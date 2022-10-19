@@ -68,7 +68,8 @@ export class H5WebpackPlugin {
 
   getMiniCssExtractPlugin () {
     const {
-      enableExtract = process.env.NODE_ENV === 'production',
+      mode,
+      enableExtract = mode === 'production',
       miniCssExtractPluginOption = {}
     } = this.combination.config
     if (!enableExtract) return
@@ -81,6 +82,7 @@ export class H5WebpackPlugin {
   }
 
   getHtmlWebpackPlugin (entry = '', chunks: string[] = []) {
+    const config = this.combination.config || {}
     const options = this.pxtransformOption?.config || {}
     const max = options?.maxRootSize ?? 40
     const min = options?.minRootSize ?? 20
@@ -98,8 +100,8 @@ export class H5WebpackPlugin {
     if (entry && entry !== 'index') {
       args.chunks = [...chunks, entry]
     }
-    const htmlPluginOption = this.combination.config?.htmlPluginOption ?? {}
-    if (process.env.NODE_ENV !== 'production' && Object.hasOwnProperty.call(htmlPluginOption, 'script')) {
+    const htmlPluginOption = config.htmlPluginOption ?? {}
+    if (config.mode !== 'production' && Object.hasOwnProperty.call(htmlPluginOption, 'script')) {
       console.warn(
         chalk.yellowBright('配置文件覆盖 htmlPluginOption.script 参数会导致 pxtransform 脚本失效，请慎重使用！')
       )
@@ -117,10 +119,9 @@ export class H5WebpackPlugin {
     const {
       entryFileName = 'app',
       router = {},
-      useHtmlComponents = false,
-      designWidth = 750,
-      deviceRatio
+      useHtmlComponents = false
     } = config
+    const pxTransformConfig = this.pxtransformOption?.config || {}
     const prebundleOptions = this.combination.getPrebundleOptions()
     const options = {
       appPath,
@@ -131,8 +132,7 @@ export class H5WebpackPlugin {
       entryFileName,
       routerConfig: router,
       useHtmlComponents,
-      designWidth,
-      deviceRatio,
+      pxTransformConfig,
       prebundle: prebundleOptions.enable
     }
 
