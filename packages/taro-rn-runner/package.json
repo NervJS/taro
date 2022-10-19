@@ -63,11 +63,11 @@
     "acorn": "^8.0.4",
     "expo": "~46.0.1",
     "expo-file-system": "~14.1.0",
-    "react": "^17.0.2",
+    "react": "18.0.0",
     "react-is": "^16.13.0",
     "react-native": "^0.69.3",
     "react-native-root-siblings": "^4.1.1",
-    "react-test-renderer": "^18.2.0",
+    "react-test-renderer": "18.0.0",
     "rollup": "^2.79.0"
   }
 }
