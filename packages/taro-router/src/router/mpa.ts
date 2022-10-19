@@ -42,6 +42,12 @@ export async function createMultiRouter (
 
   const pathName = config.pageName
   const pageConfig = handler.pageConfig
+  eventCenter.trigger('__taroRouterChange', {
+    toLocation: {
+      path: pathName
+    }
+  })
+
   let element
   try {
     element = await pageConfig.load?.()
@@ -53,12 +59,6 @@ export async function createMultiRouter (
   }
   if (!element) return
   let enablePullDownRefresh = config?.window?.enablePullDownRefresh || false
-
-  eventCenter.trigger('__taroRouterChange', {
-    toLocation: {
-      path: pathName
-    }
-  })
 
   if (pageConfig) {
     setTitle(pageConfig.navigationBarTitleText ?? document.title)
