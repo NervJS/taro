@@ -562,8 +562,6 @@ importers:
       karmatic: ^2.1.0
       lodash: ^4.17.21
       miniapp-types: latest
-      react: ^17.0.2
-      react-dom: ^17.0.2
       resolve-pathname: ^3.0.0
       simulant: ^0.2.2
       style-loader: 1.3.0
@@ -593,8 +591,6 @@ importers:
       karmatic: registry.npmjs.org/karmatic/2.1.0_webpack@4.46.0
       lodash: registry.npmjs.org/lodash/4.17.21
       miniapp-types: registry.npmjs.org/miniapp-types/1.1.12
-      react: registry.npmjs.org/react/17.0.2
-      react-dom: registry.npmjs.org/react-dom/17.0.2_react@17.0.2
       simulant: registry.npmjs.org/simulant/0.2.2
       style-loader: registry.npmjs.org/style-loader/1.3.0_webpack@4.46.0
       ts-node: registry.npmjs.org/ts-node/10.9.1_ah2igguqgj6e7ik4ubgohitm4e
@@ -29399,20 +29395,6 @@ packages:
       - utf-8-validate
     dev: false
 
-  registry.npmjs.org/react-dom/17.0.2_react@17.0.2:
-    resolution: {integrity: sha512-s4h96KtLDUQlsENhMn1ar8t2bEa+q/YAtj8pPPdIjPDGBDIVNsrD9aXNWqspUe6AzKCIG0C1HZZLqLV7qpOBGA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/react-dom/-/react-dom-17.0.2.tgz}
-    id: registry.npmjs.org/react-dom/17.0.2
-    name: react-dom
-    version: 17.0.2
-    peerDependencies:
-      react: 17.0.2
-    dependencies:
-      loose-envify: registry.npmjs.org/loose-envify/1.4.0
-      object-assign: registry.npmjs.org/object-assign/4.1.1
-      react: registry.npmjs.org/react/17.0.2
-      scheduler: registry.npmjs.org/scheduler/0.20.2
-    dev: true
-
   registry.npmjs.org/react-dom/18.2.0_react@18.2.0:
     resolution: {integrity: sha512-6IMTriUmvsjHUjNtEDudZfuDQUoWXVxKHhlEGSk81n4YFS+r/Kl99wXiwlVXtPBtJenozv2P+hxDsw9eA7Xo6g==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/react-dom/-/react-dom-18.2.0.tgz}
     id: registry.npmjs.org/react-dom/18.2.0
@@ -29871,16 +29853,6 @@ packages:
       react-is: registry.npmjs.org/react-is/18.2.0
       react-shallow-renderer: registry.npmjs.org/react-shallow-renderer/16.15.0_react@18.2.0
       scheduler: registry.npmjs.org/scheduler/0.23.0
-    dev: true
-
-  registry.npmjs.org/react/17.0.2:
-    resolution: {integrity: sha512-gnhPt75i/dq/z3/6q/0asP78D0u592D5L1pd7M8P+dck6Fu/jJeL6iVVK23fptSUZj8Vjf++7wXA8UNclGQcbA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/react/-/react-17.0.2.tgz}
-    name: react
-    version: 17.0.2
-    engines: {node: '>=0.10.0'}
-    dependencies:
-      loose-envify: registry.npmjs.org/loose-envify/1.4.0
-      object-assign: registry.npmjs.org/object-assign/4.1.1
     dev: true
 
   registry.npmjs.org/react/18.0.0:
@@ -31282,6 +31254,7 @@ packages:
     dependencies:
       loose-envify: registry.npmjs.org/loose-envify/1.4.0
       object-assign: registry.npmjs.org/object-assign/4.1.1
+    dev: false
 
   registry.npmjs.org/scheduler/0.21.0:
     resolution: {integrity: sha512-1r87x5fz9MXqswA2ERLo0EbOAU74DpIUO090gIasYTqlVoJeMcl+Z1Rg7WHz+qtPujhS/hGIt9kxZOYBV3faRQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/scheduler/-/scheduler-0.21.0.tgz}
