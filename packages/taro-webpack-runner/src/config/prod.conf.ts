@@ -98,8 +98,7 @@ export default function (appPath: string, config: Partial<BuildConfig>, appConfi
     outputDir,
     routerConfig: router,
     useHtmlComponents,
-    designWidth,
-    deviceRatio
+    pxTransformConfig: pxtransformOption?.config || {}
   })
 
   if (enableExtract) {

@@ -89,7 +89,7 @@ export const getAppBaseInfo: typeof Taro.getAppBaseInfo = () => {
     /** 客户端基础库版本 */
     SDKVersion: '',
     /** 是否已打开调试。可通过右上角菜单或 [Taro.setEnableDebug](/docs/apis/base/debug/setEnableDebug) 打开调试。 */
-    enableDebug: process.env.NODE_ENV === 'development',
+    enableDebug: process.env.NODE_ENV !== 'production',
     /** 当前小程序运行的宿主环境 */
     // host: { appId: '' },
     /** 微信设置的语言 */

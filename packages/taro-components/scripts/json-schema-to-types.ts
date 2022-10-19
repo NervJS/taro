@@ -10,7 +10,7 @@ import { format as prettify } from 'prettier'
 
 const MINI_APP_TYPES = ['weapp', 'alipay', 'swan', 'tt', 'qq', 'jd'] as const
 
-const OMIT_PROPS = ['generic:simple-component']
+const OMIT_PROPS = ['generic:simple-component', 'style', 'class']
 class GenerateTypes {
   jsonSchemas: any = {}
   componentName
@@ -19,8 +19,7 @@ class GenerateTypes {
 
     MINI_APP_TYPES.forEach((type) => {
       try {
-        const json = require(`miniapp-types/dist/schema/${type}/${
-          componentName === 'AD' ? 'ad' : humps.decamelize(componentName, { separator: '-' })
+        const json = require(`miniapp-types/dist/schema/${type}/${componentName === 'AD' ? 'ad' : humps.decamelize(componentName, { separator: '-' })
         }.json`)
 
         if (!json) {
@@ -60,7 +59,7 @@ class GenerateTypes {
 
   // 转换不存在的属性，便于添加到已有的类型声明中
   convertProps (props) {
-    const array = [...new Set(flattenDeep(toArray(props)))]
+    const array = Array.from(new Set(flattenDeep(toArray(props))))
     const reverseProps = {}
     array.forEach((prop) => {
       reverseProps[prop] = Object.keys(props).filter((key) => props[key].includes(prop))
@@ -127,9 +126,6 @@ class GenerateTypes {
                 /@supported .*?\n/,
                 `@supported ${supportedPlatforms.join(', ')}\n`
               )
-              if (value.match(/@deprecated/)) {
-                astPath.node.leadingComments[0].value = value.replace(/\* @deprecated.*?\n/, '')
-              }
             }
           },
         })
@@ -226,7 +222,11 @@ class GenerateTypes {
     this.addProps(ast, props)
     this.formatJSDoc(ast)
     const result = generator(ast)
-    const code = prettify(result.code, { parser: 'typescript', singleQuote: true, semi: false })
+    const code = prettify(result.code, {
+      parser: 'typescript', semi: false,
+      singleQuote: true,
+      printWidth: 120
+    })
     fs.writeFileSync(filePath, code)
   }
 }
@@ -235,6 +235,9 @@ const typesFiles: string[] = fs.readdirSync(path.join(process.cwd(), 'types'))
 typesFiles.forEach((fileName) => {
   const componentName = fileName.replace(/\.d\.ts$/, '')
   const generateTypes = new GenerateTypes(componentName)
+  if (isEmpty(generateTypes.jsonSchemas[componentName])) {
+    return
+  }
   generateTypes.exec()
 })
 
