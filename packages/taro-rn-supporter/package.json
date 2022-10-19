@@ -41,9 +41,9 @@
   "devDependencies": {
     "@babel/core": "^7.14.5",
     "@babel/preset-env": "^7.14.5",
-    "react": "^17.0.2",
+    "react": "18.0.0",
     "react-native": "^0.69.3",
     "react-native-svg": "~12.4.3",
-    "react-test-renderer": "^18.2.0"
+    "react-test-renderer": "18.0.0"
   }
 }
