@@ -2,6 +2,7 @@
   "name": "postcss-pxtransform",
   "version": "3.5.4-canary.1",
   "description": "PostCSS plugin px 转小程序 rpx及h5 rem 单位",
+  "main": "index.js",
   "keywords": [
     "postcss",
     "css",
@@ -24,5 +25,10 @@
   "jest": {
     "testEnvironment": "node"
   },
-  "main": "index.js"
+  "devDependencies": {
+    "postcss": "^8.4.18"
+  },
+  "peerDependencies": {
+    "postcss": "^8.4.18"
+  }
 }
