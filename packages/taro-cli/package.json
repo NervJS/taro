@@ -67,7 +67,7 @@
     "mem-fs-editor": "7.1.0",
     "minimist": "1.2.5",
     "npm-check": "^5.9.0",
-    "ora": "^2.0.0",
+    "ora": "4.0.3",
     "postcss-taro-unit-transform": "2.2.10",
     "prettier": "^1.16.4",
     "regenerator-runtime": "0.11",
