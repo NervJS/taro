@@ -98,9 +98,11 @@
   },
   "devDependencies": {
     "@babel/core": "^7.14.5",
-    "webpack": "5.69.0"
+    "webpack": "5.69.0",
+    "postcss": "^8.4.18"
   },
   "peerDependencies": {
-    "webpack": "^5.69.0"
+    "webpack": "^5.69.0",
+    "postcss": "^8.4.18"
   }
 }
