@@ -6,7 +6,8 @@
     "jsxFactory": "h",
     "module": "ESNext",
     "sourceMap": true,
+    "target": "ES2017",
     "typeRoots": ["./node_modules/@types"]
   },
-  "include": ["./src", "./types"]
+  "include": ["src", "types"]
 }

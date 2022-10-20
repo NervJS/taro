@@ -1,5 +1,7 @@
 import { Config } from '@stencil/core'
+import { reactOutputTarget } from '@stencil/react-output-target'
 import { sass } from '@stencil/sass'
+import { vueOutputTarget } from '@stencil/vue-output-target'
 
 const { jsWithTs: tsjPreset } = require('ts-jest/presets')
 
@@ -16,10 +18,19 @@ export const config: Config = {
     mainFields: ['main:h5', 'browser', 'module', 'jsnext:main', 'main']
   },
   outputTargets: [
+    reactOutputTarget({
+      componentCorePackage: '@tarojs/components/react',
+      proxiesFile: './h5/react/components.ts'
+    }),
+    vueOutputTarget({
+      componentCorePackage: '@tarojs/components/vue', // i.e.: stencil-library
+      proxiesFile: './h5/vue/components.ts'
+    }),
     {
       type: 'dist',
       esmLoaderPath: '../loader'
-    }
+    },
+    { type: 'docs-readme' }
   ],
   bundles: [
     { components: ['taro-picker-core', 'taro-picker-group'] },
@@ -38,8 +49,8 @@ export const config: Config = {
       'ts-jest': {
         diagnostics: false,
         tsconfig: {
-          jsx: 'react',
           allowJs: true,
+          jsx: 'react',
           target: 'ES6'
         }
       }
