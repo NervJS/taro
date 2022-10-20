@@ -7,11 +7,14 @@
 
 ## Properties
 
-| Property   | Attribute  | Description | Type      | Default     |
-| ---------- | ---------- | ----------- | --------- | ----------- |
-| `controls` | `controls` |             | `boolean` | `undefined` |
-| `loop`     | `loop`     |             | `boolean` | `undefined` |
-| `src`      | `src`      |             | `string`  | `undefined` |
+| Property      | Attribute  | Description | Type      | Default     |
+| ------------- | ---------- | ----------- | --------- | ----------- |
+| `autoplay`    | `autoplay` |             | `boolean` | `false`     |
+| `controls`    | `controls` |             | `boolean` | `true`      |
+| `loop`        | `loop`     |             | `boolean` | `false`     |
+| `muted`       | `muted`    |             | `boolean` | `false`     |
+| `nativeProps` | --         |             | `{}`      | `{}`        |
+| `src`         | `src`      |             | `string`  | `undefined` |
 
 
 ## Events

@@ -9,12 +9,15 @@
 
 | Property      | Attribute      | Description | Type      | Default     |
 | ------------- | -------------- | ----------- | --------- | ----------- |
-| `confirmType` | `confirm-type` |             | `string`  | `undefined` |
+| `autoFocus`   | `auto-focus`   |             | `boolean` | `false`     |
+| `confirmType` | `confirm-type` |             | `string`  | `'done'`    |
 | `disabled`    | `disabled`     |             | `boolean` | `false`     |
-| `maxlength`   | `max-length`   |             | `number`  | `undefined` |
-| `password`    | `password`     |             | `string`  | `undefined` |
+| `maxlength`   | `maxlength`    |             | `number`  | `140`       |
+| `name`        | `name`         |             | `string`  | `undefined` |
+| `nativeProps` | --             |             | `{}`      | `{}`        |
+| `password`    | `password`     |             | `boolean` | `false`     |
 | `placeholder` | `placeholder`  |             | `string`  | `undefined` |
-| `type`        | `type`         |             | `string`  | `'text'`    |
+| `type`        | `type`         |             | `string`  | `undefined` |
 | `value`       | `value`        |             | `string`  | `undefined` |
 
 
@@ -28,6 +31,7 @@
 | `focus`   |             | `CustomEvent<any>` |
 | `input`   |             | `CustomEvent<any>` |
 | `keydown` |             | `CustomEvent<any>` |
+| `paste`   |             | `CustomEvent<any>` |
 
 
 ----------------------------------------------
