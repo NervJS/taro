@@ -1,5 +1,7 @@
 lockfileVersion: 5.4
 
+packageExtensionsChecksum: 4572213dfa39cf9a1b6e24916fa0d1b8
+
 importers:
 
   .:
@@ -1111,8 +1113,8 @@ importers:
       react-native-device-info: registry.npmjs.org/react-native-device-info/10.0.2_react-native@0.69.5
       react-native-image-resizer: registry.npmjs.org/react-native-image-resizer/1.4.5_react-native@0.69.5
       react-native-image-zoom-viewer: registry.npmjs.org/react-native-image-zoom-viewer/3.0.1_ws5w265lwlgfx6ddpl3mdiooma
-      react-native-root-siblings: registry.npmjs.org/react-native-root-siblings/4.1.1
-      react-native-root-toast: registry.npmjs.org/react-native-root-toast/3.4.0_react-native@0.69.5
+      react-native-root-siblings: registry.npmjs.org/react-native-root-siblings/4.1.1_react@18.0.0
+      react-native-root-toast: registry.npmjs.org/react-native-root-toast/3.4.0_ws5w265lwlgfx6ddpl3mdiooma
       react-native-safe-area-context: registry.npmjs.org/react-native-safe-area-context/4.3.1_ws5w265lwlgfx6ddpl3mdiooma
       react-native-stylekit: registry.npmjs.org/react-native-stylekit/1.0.0
       react-native-syan-image-picker: registry.npmjs.org/react-native-syan-image-picker/0.5.3
@@ -1204,7 +1206,7 @@ importers:
       react: registry.npmjs.org/react/18.0.0
       react-is: registry.npmjs.org/react-is/16.13.1
       react-native: registry.npmjs.org/react-native/0.69.5_7p7aajqsukubgfkh3c4mopdsom
-      react-native-root-siblings: registry.npmjs.org/react-native-root-siblings/4.1.1
+      react-native-root-siblings: registry.npmjs.org/react-native-root-siblings/4.1.1_react@18.0.0
       react-test-renderer: registry.npmjs.org/react-test-renderer/18.0.0_react@18.0.0
       rollup: registry.npmjs.org/rollup/2.79.0
 
@@ -29395,6 +29397,19 @@ packages:
       - utf-8-validate
     dev: false
 
+  registry.npmjs.org/react-dom/18.2.0_react@18.2.0:
+    resolution: {integrity: sha512-6IMTriUmvsjHUjNtEDudZfuDQUoWXVxKHhlEGSk81n4YFS+r/Kl99wXiwlVXtPBtJenozv2P+hxDsw9eA7Xo6g==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/react-dom/-/react-dom-18.2.0.tgz}
+    id: registry.npmjs.org/react-dom/18.2.0
+    name: react-dom
+    version: 18.2.0
+    peerDependencies:
+      react: ^18.2.0
+    dependencies:
+      loose-envify: registry.npmjs.org/loose-envify/1.4.0
+      react: registry.npmjs.org/react/18.2.0
+      scheduler: registry.npmjs.org/scheduler/0.23.0
+    dev: true
+
   registry.npmjs.org/react-freeze/1.0.0_react@18.0.0:
     resolution: {integrity: sha512-yQaiOqDmoKqks56LN9MTgY06O0qQHgV4FUrikH357DydArSZHQhl0BJFqGKIZoTqi8JizF9Dxhuk1FIZD6qCaw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/react-freeze/-/react-freeze-1.0.0.tgz}
     id: registry.npmjs.org/react-freeze/1.0.0
@@ -29593,8 +29608,27 @@ packages:
     resolution: {integrity: sha512-sdmLElNs5PDWqmZmj4/aNH4anyxreaPm61c4ZkRiR8SO/GzLg6KjAbb0e17RmMdnBdD0AIQbS38h/l55YKN4ZA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/react-native-root-siblings/-/react-native-root-siblings-4.1.1.tgz}
     name: react-native-root-siblings
     version: 4.1.1
+    peerDependencies:
+      react: 18.0.0
+    peerDependenciesMeta:
+      react:
+        optional: true
+    dev: false
 
-  registry.npmjs.org/react-native-root-toast/3.4.0_react-native@0.69.5:
+  registry.npmjs.org/react-native-root-siblings/4.1.1_react@18.0.0:
+    resolution: {integrity: sha512-sdmLElNs5PDWqmZmj4/aNH4anyxreaPm61c4ZkRiR8SO/GzLg6KjAbb0e17RmMdnBdD0AIQbS38h/l55YKN4ZA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/react-native-root-siblings/-/react-native-root-siblings-4.1.1.tgz}
+    id: registry.npmjs.org/react-native-root-siblings/4.1.1
+    name: react-native-root-siblings
+    version: 4.1.1
+    peerDependencies:
+      react: 18.0.0
+    peerDependenciesMeta:
+      react:
+        optional: true
+    dependencies:
+      react: registry.npmjs.org/react/18.0.0
+
+  registry.npmjs.org/react-native-root-toast/3.4.0_ws5w265lwlgfx6ddpl3mdiooma:
     resolution: {integrity: sha512-2jv9XG9tK0rbXkD3IaO/clSJJQYXRnOCnGliZnYP/Z6I3u2QtdOp5xQ/ni8BbLqpPwSeKfCuO7R9H6iHuAN+Ig==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/react-native-root-toast/-/react-native-root-toast-3.4.0.tgz}
     id: registry.npmjs.org/react-native-root-toast/3.4.0
     name: react-native-root-toast
@@ -29605,7 +29639,9 @@ packages:
       deprecated-react-native-prop-types: registry.npmjs.org/deprecated-react-native-prop-types/2.3.0
       prop-types: registry.npmjs.org/prop-types/15.8.1
       react-native: registry.npmjs.org/react-native/0.69.5_7p7aajqsukubgfkh3c4mopdsom
-      react-native-root-siblings: registry.npmjs.org/react-native-root-siblings/4.1.1
+      react-native-root-siblings: registry.npmjs.org/react-native-root-siblings/4.1.1_react@18.0.0
+    transitivePeerDependencies:
+      - react
     dev: false
 
   registry.npmjs.org/react-native-safe-area-context/4.3.1_ws5w265lwlgfx6ddpl3mdiooma:

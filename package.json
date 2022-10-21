@@ -194,5 +194,19 @@
     "webpack": "5.69.0",
     "webpack-chain": "6.5.1",
     "webpack-dev-server": "4.7.4"
+  },
+  "pnpm": {
+    "packageExtensions": {
+      "react-native-root-siblings": {
+        "peerDependencies": {
+          "react": "18.0.0"
+        },
+        "peerDependenciesMeta": {
+          "react": {
+            "optional": true
+          }
+        }
+      }
+    }
   }
 }
