@@ -562,8 +562,6 @@ importers:
       karmatic: ^2.1.0
       lodash: ^4.17.21
       miniapp-types: latest
-      react: ^18.2.0
-      react-dom: ^18.2.0
       resolve-pathname: ^3.0.0
       simulant: ^0.2.2
       style-loader: 1.3.0
@@ -593,8 +591,6 @@ importers:
       karmatic: registry.npmjs.org/karmatic/2.1.0_webpack@4.46.0
       lodash: registry.npmjs.org/lodash/4.17.21
       miniapp-types: registry.npmjs.org/miniapp-types/1.1.12
-      react: registry.npmjs.org/react/18.2.0
-      react-dom: registry.npmjs.org/react-dom/18.2.0_react@18.2.0
       simulant: registry.npmjs.org/simulant/0.2.2
       style-loader: registry.npmjs.org/style-loader/1.3.0_webpack@4.46.0
       ts-node: registry.npmjs.org/ts-node/10.9.1_ah2igguqgj6e7ik4ubgohitm4e
@@ -29398,19 +29394,6 @@ packages:
       - supports-color
       - utf-8-validate
     dev: false
-
-  registry.npmjs.org/react-dom/18.2.0_react@18.2.0:
-    resolution: {integrity: sha512-6IMTriUmvsjHUjNtEDudZfuDQUoWXVxKHhlEGSk81n4YFS+r/Kl99wXiwlVXtPBtJenozv2P+hxDsw9eA7Xo6g==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/react-dom/-/react-dom-18.2.0.tgz}
-    id: registry.npmjs.org/react-dom/18.2.0
-    name: react-dom
-    version: 18.2.0
-    peerDependencies:
-      react: ^18.2.0
-    dependencies:
-      loose-envify: registry.npmjs.org/loose-envify/1.4.0
-      react: registry.npmjs.org/react/18.2.0
-      scheduler: registry.npmjs.org/scheduler/0.23.0
-    dev: true
 
   registry.npmjs.org/react-freeze/1.0.0_react@18.0.0:
     resolution: {integrity: sha512-yQaiOqDmoKqks56LN9MTgY06O0qQHgV4FUrikH357DydArSZHQhl0BJFqGKIZoTqi8JizF9Dxhuk1FIZD6qCaw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/react-freeze/-/react-freeze-1.0.0.tgz}
