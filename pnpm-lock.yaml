@@ -138,6 +138,7 @@ importers:
       prop-types: ^15.7.2
       react: ^18.2.0
       react-dom: ^18.2.0
+      react-test-renderer: ^18.2.0
       rimraf: ^3.0.0
       rollup: ^2.79.0
       rollup-plugin-copy: ^3.4.0
@@ -293,6 +294,7 @@ importers:
       prop-types: registry.npmjs.org/prop-types/15.8.1
       react: registry.npmjs.org/react/18.2.0
       react-dom: registry.npmjs.org/react-dom/18.2.0_react@18.2.0
+      react-test-renderer: registry.npmjs.org/react-test-renderer/18.2.0_react@18.2.0
       rimraf: registry.npmjs.org/rimraf/3.0.2
       rollup: registry.npmjs.org/rollup/2.79.0
       rollup-plugin-copy: registry.npmjs.org/rollup-plugin-copy/3.4.0
@@ -599,6 +601,34 @@ importers:
       ts-node: registry.npmjs.org/ts-node/10.9.1_ah2igguqgj6e7ik4ubgohitm4e
       typescript: registry.npmjs.org/typescript/4.7.4
       webpack: registry.npmjs.org/webpack/4.46.0
+
+  packages/taro-components-library-react:
+    specifiers:
+      '@tarojs/components': workspace:*
+      '@types/node': ^14.14.31
+      react: ^18.2.0
+      react-dom: ^18.2.0
+      typescript: ^4.7.4
+    dependencies:
+      '@tarojs/components': link:../taro-components
+    devDependencies:
+      '@types/node': registry.npmjs.org/@types/node/14.18.21
+      react: registry.npmjs.org/react/18.2.0
+      react-dom: registry.npmjs.org/react-dom/18.2.0_react@18.2.0
+      typescript: registry.npmjs.org/typescript/4.7.4
+
+  packages/taro-components-library-vue3:
+    specifiers:
+      '@tarojs/components': workspace:*
+      '@types/node': ^14.14.31
+      typescript: ^4.7.4
+      vue: ^3.0.0
+    dependencies:
+      '@tarojs/components': link:../taro-components
+    devDependencies:
+      '@types/node': registry.npmjs.org/@types/node/14.18.21
+      typescript: registry.npmjs.org/typescript/4.7.4
+      vue: registry.npmjs.org/vue/3.2.37
 
   packages/taro-components-react:
     specifiers:

@@ -1,0 +1,15 @@
+{
+  "extends": "../../tsconfig.root.json",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "declaration": false,
+    "module": "ESNext",
+    "outDir": "../taro-components/dist/vue3",
+    "skipLibCheck": true,
+    "skipDefaultLibCheck": true,
+    "sourceMap": true,
+    "target": "ES2017",
+    "typeRoots": ["./node_modules/@types"]
+  },
+  "include": ["src"]
+}

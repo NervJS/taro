@@ -19,12 +19,12 @@ export const config: Config = {
   },
   outputTargets: [
     reactOutputTarget({
-      componentCorePackage: '@tarojs/components/react',
-      proxiesFile: './h5/react/components.ts'
+      componentCorePackage: '@tarojs/components/dist/types/components',
+      proxiesFile: '../taro-components-library-react/src/components.ts'
     }),
     vueOutputTarget({
-      componentCorePackage: '@tarojs/components/vue', // i.e.: stencil-library
-      proxiesFile: './h5/vue/components.ts'
+      componentCorePackage: '@tarojs/components/dist/types/components',
+      proxiesFile: '../taro-components-library-vue3/src/components.ts'
     }),
     {
       type: 'dist',
@@ -46,6 +46,14 @@ export const config: Config = {
       ...tsjPreset.transform
     },
     globals: {
+      window: true,
+      ENABLE_INNER_HTML: true,
+      ENABLE_ADJACENT_HTML: true,
+      ENABLE_SIZE_APIS: true,
+      ENABLE_TEMPLATE_CONTENT: true,
+      ENABLE_MUTATION_OBSERVER: true,
+      ENABLE_CLONE_NODE: true,
+      ENABLE_CONTAINS: true,
       'ts-jest': {
         diagnostics: false,
         tsconfig: {

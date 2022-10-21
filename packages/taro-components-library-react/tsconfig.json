@@ -1,0 +1,17 @@
+{
+  "extends": "../../tsconfig.root.json",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "declaration": false,
+    "jsx": "react",
+    "jsxFactory": "React.createElement",
+    "module": "ESNext",
+    "outDir": "../taro-components/dist/react",
+    "skipLibCheck": true,
+    "skipDefaultLibCheck": true,
+    "sourceMap": true,
+    "target": "ES2017",
+    "typeRoots": ["./node_modules/@types"]
+  },
+  "include": ["src"]
+}

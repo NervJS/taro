@@ -1,7 +1,7 @@
 {
   "name": "@tarojs/components",
   "version": "3.5.4-canary.1",
-  "description": "",
+  "description": "Taro 组件库",
   "browser": "dist/index.js",
   "main:h5": "dist/index.js",
   "main": "dist/index.js",
@@ -13,23 +13,26 @@
   ],
   "files": [
     "dist",
+    "dist-h5",
     "loader",
     "mini",
     "types",
-    "dist-h5",
     "virtual-list",
     "vue3.d.ts"
   ],
   "collection": "dist/collection/collection-manifest.json",
   "collection:main": "dist/collection/index.js",
   "scripts": {
+    "build:prod": "stencil build --config stencil.config.ts",
+    "build:dev": "pnpm run build:prod -- --dev --watch",
+    "postbuild:prod": "pnpm --filter @tarojs/components-library-react --filter @tarojs/components-library-vue3 run build:ci",
     "build-h5": "babel -d dist-h5 h5",
     "build": "pnpm run build-h5 & cross-env NODE_ENV=production stencil build --config stencil.config.ts",
     "dev": "cross-env NODE_ENV=development stencil build --config stencil.config.ts --watch",
-    "test": "karmatic --files '__tests__/setup.js,__tests__/**.spec.js' --coverage false",
-    "test:ci": "karmatic --files '__tests__/setup.js,__tests__/**.spec.js' --coverage false",
-    "test:debug": "karmatic debug --files '__tests__/setup.js,__tests__/**.spec.js' --coverage false",
-    "test:coverage": "karmatic --files '__tests__/setup.js,__tests__/**.spec.js'",
+    "test": "stencil test --spec --e2e",
+    "test.watch": "stencil test --spec --e2e --watchAll",
+    "test:ci": "stencil test --spec --e2e --no-build",
+    "test:coverage": "stencil test --spec --e2e --coverage",
     "sync:types": "ts-node scripts/json-schema-to-types.ts"
   },
   "repository": {
