@@ -72,7 +72,7 @@ importers:
       '@types/node': ^14.14.31
       '@types/postcss-import': ^12.0.0
       '@types/react': ^18.0.0
-      '@types/react-reconciler': 0.26.1
+      '@types/react-reconciler': 0.28.0
       '@types/request': ^2.48.1
       '@types/resolve': 1.19.0
       '@types/sass': ^1.16.1
@@ -227,7 +227,7 @@ importers:
       '@types/node': registry.npmjs.org/@types/node/14.18.21
       '@types/postcss-import': registry.npmjs.org/@types/postcss-import/12.0.1
       '@types/react': registry.npmjs.org/@types/react/18.0.14
-      '@types/react-reconciler': registry.npmjs.org/@types/react-reconciler/0.26.1
+      '@types/react-reconciler': registry.npmjs.org/@types/react-reconciler/0.28.0
       '@types/request': registry.npmjs.org/@types/request/2.48.8
       '@types/resolve': registry.npmjs.org/@types/resolve/1.19.0
       '@types/sass': registry.npmjs.org/@types/sass/1.43.1
@@ -670,9 +670,6 @@ importers:
       react-native-gesture-handler: registry.npmjs.org/react-native-gesture-handler/2.5.0_ws5w265lwlgfx6ddpl3mdiooma
       react-native-svg: registry.npmjs.org/react-native-svg/12.4.3_ws5w265lwlgfx6ddpl3mdiooma
       react-test-renderer: registry.npmjs.org/react-test-renderer/18.0.0_react@18.0.0
-
-  packages/taro-components/loader:
-    specifiers: {}
 
   packages/taro-extend:
     specifiers: {}
@@ -8475,10 +8472,10 @@ packages:
       '@types/react': registry.npmjs.org/@types/react/18.0.14
     dev: true
 
-  registry.npmjs.org/@types/react-reconciler/0.26.1:
-    resolution: {integrity: sha512-jeizEH5o/k6tv42RYNbaulR9KvoSM4RAUq1Q2SXd2HZ7dqgTxN9OIf+GU/sErT7CohB/mUxy9hSjaRLiCPGF5w==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@types/react-reconciler/-/react-reconciler-0.26.1.tgz}
+  registry.npmjs.org/@types/react-reconciler/0.28.0:
+    resolution: {integrity: sha512-5cjk9ottZAj7eaTsqzPUIlrVbh3hBAO2YaEL1rkjHKB3xNAId7oU8GhzvAX+gfmlfoxTwJnBjPxEHyxkEA1Ffg==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@types/react-reconciler/-/react-reconciler-0.28.0.tgz}
     name: '@types/react-reconciler'
-    version: 0.26.1
+    version: 0.28.0
     dependencies:
       '@types/react': registry.npmjs.org/@types/react/18.0.14
     dev: true
@@ -12262,6 +12259,7 @@ packages:
     resolution: {integrity: sha512-p2q/t/mhvuOj/UeLlV6566GD/guowlr0hHxClI0W9m7MWYkL1F0hLo+0Aexs9HSPCtR1SXQ0TD3MMKrXZajbiQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/bindings/-/bindings-1.5.0.tgz}
     name: bindings
     version: 1.5.0
+    requiresBuild: true
     dependencies:
       file-uri-to-path: registry.npmjs.org/file-uri-to-path/1.0.0
     optional: true
@@ -18678,6 +18676,7 @@ packages:
     resolution: {integrity: sha512-0Zt+s3L7Vf1biwWZ29aARiVYLx7iMGnEUl9x33fbB/j3jR81u/O2LbqK+Bm1CDSNDKVtJ/YjwY7TUd5SkeLQLw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/file-uri-to-path/-/file-uri-to-path-1.0.0.tgz}
     name: file-uri-to-path
     version: 1.0.0
+    requiresBuild: true
     optional: true
 
   registry.npmjs.org/filelist/1.0.4:
