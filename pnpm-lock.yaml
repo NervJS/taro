@@ -87,7 +87,7 @@ importers:
       '@vue/babel-plugin-jsx': ^1.0.6
       '@vue/babel-preset-jsx': ^1.2.4
       '@vue/compiler-core': 3.0.0
-      '@vue/runtime-core': 3.0.0
+      '@vue/runtime-core': 3.2.41
       '@vue/runtime-dom': 3.0.0
       babel-jest: 24.9.0
       babel-plugin-syntax-jsx: 6.18.0
@@ -242,7 +242,7 @@ importers:
       '@vue/babel-plugin-jsx': registry.npmjs.org/@vue/babel-plugin-jsx/1.1.1_@babel+core@7.18.5
       '@vue/babel-preset-jsx': registry.npmjs.org/@vue/babel-preset-jsx/1.2.4_@babel+core@7.18.5
       '@vue/compiler-core': registry.npmjs.org/@vue/compiler-core/3.0.0
-      '@vue/runtime-core': registry.npmjs.org/@vue/runtime-core/3.0.0
+      '@vue/runtime-core': registry.npmjs.org/@vue/runtime-core/3.2.41
       '@vue/runtime-dom': registry.npmjs.org/@vue/runtime-dom/3.0.0
       babel-jest: registry.npmjs.org/babel-jest/24.9.0_@babel+core@7.18.5
       babel-plugin-syntax-jsx: registry.npmjs.org/babel-plugin-syntax-jsx/6.18.0
@@ -670,9 +670,6 @@ importers:
       react-native-gesture-handler: registry.npmjs.org/react-native-gesture-handler/2.5.0_ws5w265lwlgfx6ddpl3mdiooma
       react-native-svg: registry.npmjs.org/react-native-svg/12.4.3_ws5w265lwlgfx6ddpl3mdiooma
       react-test-renderer: registry.npmjs.org/react-test-renderer/18.0.0_react@18.0.0
-
-  packages/taro-components/loader:
-    specifiers: {}
 
   packages/taro-extend:
     specifiers: {}
@@ -9239,6 +9236,14 @@ packages:
       '@vue/shared': registry.npmjs.org/@vue/shared/3.2.37
     dev: true
 
+  registry.npmjs.org/@vue/reactivity/3.2.41:
+    resolution: {integrity: sha512-9JvCnlj8uc5xRiQGZ28MKGjuCoPhhTwcoAdv3o31+cfGgonwdPNuvqAXLhlzu4zwqavFEG5tvaoINQEfxz+l6g==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@vue/reactivity/-/reactivity-3.2.41.tgz}
+    name: '@vue/reactivity'
+    version: 3.2.41
+    dependencies:
+      '@vue/shared': registry.npmjs.org/@vue/shared/3.2.41
+    dev: true
+
   registry.npmjs.org/@vue/runtime-core/3.0.0:
     resolution: {integrity: sha512-3ABMLeA0ZbeVNLbGGLXr+pNUwqXILOqz8WCVGfDWwQb+jW114Cm8djOHVVDoqdvRETQvDf8yHSUmpKHZpQuTkA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@vue/runtime-core/-/runtime-core-3.0.0.tgz}
     name: '@vue/runtime-core'
@@ -9255,6 +9260,15 @@ packages:
     dependencies:
       '@vue/reactivity': registry.npmjs.org/@vue/reactivity/3.2.37
       '@vue/shared': registry.npmjs.org/@vue/shared/3.2.37
+    dev: true
+
+  registry.npmjs.org/@vue/runtime-core/3.2.41:
+    resolution: {integrity: sha512-0LBBRwqnI0p4FgIkO9q2aJBBTKDSjzhnxrxHYengkAF6dMOjeAIZFDADAlcf2h3GDALWnblbeprYYpItiulSVQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@vue/runtime-core/-/runtime-core-3.2.41.tgz}
+    name: '@vue/runtime-core'
+    version: 3.2.41
+    dependencies:
+      '@vue/reactivity': registry.npmjs.org/@vue/reactivity/3.2.41
+      '@vue/shared': registry.npmjs.org/@vue/shared/3.2.41
     dev: true
 
   registry.npmjs.org/@vue/runtime-dom/3.0.0:
@@ -9306,6 +9320,12 @@ packages:
     resolution: {integrity: sha512-4rSJemR2NQIo9Klm1vabqWjD8rs/ZaJSzMxkMNeJS6lHiUjjUeYFbooN19NgFjztubEKh3WlZUeOLVdbbUWHsw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@vue/shared/-/shared-3.2.37.tgz}
     name: '@vue/shared'
     version: 3.2.37
+    dev: true
+
+  registry.npmjs.org/@vue/shared/3.2.41:
+    resolution: {integrity: sha512-W9mfWLHmJhkfAmV+7gDjcHeAWALQtgGT3JErxULl0oz6R6+3ug91I7IErs93eCFhPCZPHBs4QJS7YWEV7A3sxw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@vue/shared/-/shared-3.2.41.tgz}
+    name: '@vue/shared'
+    version: 3.2.41
     dev: true
 
   registry.npmjs.org/@wdio/config/6.12.1:
@@ -12262,6 +12282,7 @@ packages:
     resolution: {integrity: sha512-p2q/t/mhvuOj/UeLlV6566GD/guowlr0hHxClI0W9m7MWYkL1F0hLo+0Aexs9HSPCtR1SXQ0TD3MMKrXZajbiQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/bindings/-/bindings-1.5.0.tgz}
     name: bindings
     version: 1.5.0
+    requiresBuild: true
     dependencies:
       file-uri-to-path: registry.npmjs.org/file-uri-to-path/1.0.0
     optional: true
@@ -18678,6 +18699,7 @@ packages:
     resolution: {integrity: sha512-0Zt+s3L7Vf1biwWZ29aARiVYLx7iMGnEUl9x33fbB/j3jR81u/O2LbqK+Bm1CDSNDKVtJ/YjwY7TUd5SkeLQLw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/file-uri-to-path/-/file-uri-to-path-1.0.0.tgz}
     name: file-uri-to-path
     version: 1.0.0
+    requiresBuild: true
     optional: true
 
   registry.npmjs.org/filelist/1.0.4:
