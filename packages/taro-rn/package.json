@@ -95,14 +95,5 @@
     "react-native-image-resizer": "~1.4.5",
     "react-native-safe-area-context": "~4.3.1",
     "react-native-syan-image-picker": "0.5.3"
-  },
-  "pnpm": {
-    "packageExtensions": {
-      "react-native-root-siblings": {
-        "peerDependencies": {
-          "react": "*"
-        }
-      }
-    }
   }
 }
