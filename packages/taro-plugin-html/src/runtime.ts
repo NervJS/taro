@@ -1,5 +1,5 @@
 import { TaroElement } from '@tarojs/runtime'
-import { hooks, Shortcuts, warn } from '@tarojs/shared'
+import { hooks, Shortcuts, toCamelCase, warn } from '@tarojs/shared'
 
 import {
   defineMappedProp,
@@ -70,6 +70,8 @@ hooks.tap('modifySetAttrPayload', (element, key, payload, componentsAlias) => {
   } else if (key === Shortcuts.Style || key === 'width' || key === 'height') {
     payload.path = `${_path}.${Shortcuts.Style}`
     payload.value = ensureRect(props, element.style.cssText)
+  } else if (alias[key] && alias[key] !== key) {
+    payload.path = `${_path}.${toCamelCase(alias[key])}`
   }
 })
 
@@ -96,6 +98,8 @@ hooks.tap('modifyRmAttrPayload', (element, key, payload, componentsAlias) => {
   } else if (key === Shortcuts.Style || key === 'width' || key === 'height') {
     payload.path = `${_path}.${Shortcuts.Style}`
     payload.value = ensureRect(props, element.style.cssText)
+  } else if (alias[key] && alias[key] !== key) {
+    payload.path = `${_path}.${toCamelCase(alias[key])}`
   }
 })
 
