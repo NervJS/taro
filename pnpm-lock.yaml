@@ -121,7 +121,7 @@ importers:
       jest-expo: ^46.0.1
       jest-fetch-mock: ^3.0.3
       jest-localstorage-mock: ^2.4.0
-      jest-mock-console: ^1.0.0
+      jest-mock-console: ^2.0.0
       lint-staged: ^13.0.2
       memfs: ^3.1.2
       memory-fs: ^0.5.0
@@ -276,7 +276,7 @@ importers:
       jest-expo: registry.npmjs.org/jest-expo/46.0.1_5lq256k3y7umejhe4krwum74li
       jest-fetch-mock: registry.npmjs.org/jest-fetch-mock/3.0.3
       jest-localstorage-mock: registry.npmjs.org/jest-localstorage-mock/2.4.21
-      jest-mock-console: registry.npmjs.org/jest-mock-console/1.3.0_jest@26.4.2
+      jest-mock-console: registry.npmjs.org/jest-mock-console/2.0.0_jest@26.4.2
       lint-staged: registry.npmjs.org/lint-staged/13.0.3
       memfs: registry.npmjs.org/memfs/3.4.7
       memory-fs: registry.npmjs.org/memory-fs/0.5.0
@@ -670,9 +670,6 @@ importers:
       react-native-gesture-handler: registry.npmjs.org/react-native-gesture-handler/2.5.0_ws5w265lwlgfx6ddpl3mdiooma
       react-native-svg: registry.npmjs.org/react-native-svg/12.4.3_ws5w265lwlgfx6ddpl3mdiooma
       react-test-renderer: registry.npmjs.org/react-test-renderer/18.0.0_react@18.0.0
-
-  packages/taro-components/loader:
-    specifiers: {}
 
   packages/taro-extend:
     specifiers: {}
@@ -12262,6 +12259,7 @@ packages:
     resolution: {integrity: sha512-p2q/t/mhvuOj/UeLlV6566GD/guowlr0hHxClI0W9m7MWYkL1F0hLo+0Aexs9HSPCtR1SXQ0TD3MMKrXZajbiQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/bindings/-/bindings-1.5.0.tgz}
     name: bindings
     version: 1.5.0
+    requiresBuild: true
     dependencies:
       file-uri-to-path: registry.npmjs.org/file-uri-to-path/1.0.0
     optional: true
@@ -18678,6 +18676,7 @@ packages:
     resolution: {integrity: sha512-0Zt+s3L7Vf1biwWZ29aARiVYLx7iMGnEUl9x33fbB/j3jR81u/O2LbqK+Bm1CDSNDKVtJ/YjwY7TUd5SkeLQLw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/file-uri-to-path/-/file-uri-to-path-1.0.0.tgz}
     name: file-uri-to-path
     version: 1.0.0
+    requiresBuild: true
     optional: true
 
   registry.npmjs.org/filelist/1.0.4:
@@ -22475,11 +22474,11 @@ packages:
       stack-utils: registry.npmjs.org/stack-utils/2.0.5
     dev: true
 
-  registry.npmjs.org/jest-mock-console/1.3.0_jest@26.4.2:
-    resolution: {integrity: sha512-7JXZK153sADxq/LaEXvx5AQs7kBshdBofdVb2C4X+dmdgJrOPI3BvgxZAj7uvYnjmahKzNAECu8Rjo4Lf2bghQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/jest-mock-console/-/jest-mock-console-1.3.0.tgz}
-    id: registry.npmjs.org/jest-mock-console/1.3.0
+  registry.npmjs.org/jest-mock-console/2.0.0_jest@26.4.2:
+    resolution: {integrity: sha512-7zrKtXVut+6doalosFxw/2O9spLepQJ9VukODtyLIub2fFkWKe1TyQrxr/GyQogTQcdkHfhvFJdx1OEzLqf/mw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/jest-mock-console/-/jest-mock-console-2.0.0.tgz}
+    id: registry.npmjs.org/jest-mock-console/2.0.0
     name: jest-mock-console
-    version: 1.3.0
+    version: 2.0.0
     peerDependencies:
       jest: '>= 22.4.2'
     dependencies:
