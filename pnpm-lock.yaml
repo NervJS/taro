@@ -145,7 +145,7 @@ importers:
       rollup-plugin-postcss: ^3.1.8
       rollup-plugin-ts: ^3.0.2
       shelljs: ^0.8.1
-      sinon: ^7.5.0
+      sinon: ^14.0.1
       stylelint: ^14.6.1
       stylelint-config-standard-scss: ^3.0.0
       stylelint-config-taro-rn: workspace:*
@@ -300,7 +300,7 @@ importers:
       rollup-plugin-postcss: registry.npmjs.org/rollup-plugin-postcss/3.1.8
       rollup-plugin-ts: registry.npmjs.org/rollup-plugin-ts/3.0.2_22p3bbacs4vvwboov4adfmanjy
       shelljs: registry.npmjs.org/shelljs/0.8.5
-      sinon: registry.npmjs.org/sinon/7.5.0
+      sinon: registry.npmjs.org/sinon/14.0.1
       stylelint: registry.npmjs.org/stylelint/14.9.1
       stylelint-config-standard-scss: registry.npmjs.org/stylelint-config-standard-scss/3.0.0_uyk3cwxn3favstz4untq233szu
       stylelint-config-taro-rn: link:packages/stylelint-config-taro-rn
@@ -670,9 +670,6 @@ importers:
       react-native-gesture-handler: registry.npmjs.org/react-native-gesture-handler/2.5.0_ws5w265lwlgfx6ddpl3mdiooma
       react-native-svg: registry.npmjs.org/react-native-svg/12.4.3_ws5w265lwlgfx6ddpl3mdiooma
       react-test-renderer: registry.npmjs.org/react-test-renderer/18.0.0_react@18.0.0
-
-  packages/taro-components/loader:
-    specifiers: {}
 
   packages/taro-extend:
     specifiers: {}
@@ -7534,23 +7531,22 @@ packages:
       '@sinonjs/commons': registry.npmjs.org/@sinonjs/commons/1.8.3
     dev: true
 
-  registry.npmjs.org/@sinonjs/formatio/3.2.2:
-    resolution: {integrity: sha512-B8SEsgd8gArBLMD6zpRw3juQ2FVSsmdd7qlevyDqzS9WTCtvF55/gAL+h6gue8ZvPYcdiPdvueM/qm//9XzyTQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@sinonjs/formatio/-/formatio-3.2.2.tgz}
-    name: '@sinonjs/formatio'
-    version: 3.2.2
+  registry.npmjs.org/@sinonjs/fake-timers/9.1.2:
+    resolution: {integrity: sha512-BPS4ynJW/o92PUR4wgriz2Ud5gpST5vz6GQfMixEDK0Z8ZCUv2M7SkBLykH56T++Xs+8ln9zTGbOvNGIe02/jw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@sinonjs/fake-timers/-/fake-timers-9.1.2.tgz}
+    name: '@sinonjs/fake-timers'
+    version: 9.1.2
     dependencies:
       '@sinonjs/commons': registry.npmjs.org/@sinonjs/commons/1.8.3
-      '@sinonjs/samsam': registry.npmjs.org/@sinonjs/samsam/3.3.3
     dev: true
 
-  registry.npmjs.org/@sinonjs/samsam/3.3.3:
-    resolution: {integrity: sha512-bKCMKZvWIjYD0BLGnNrxVuw4dkWCYsLqFOUWw8VgKF/+5Y+mE7LfHWPIYoDXowH+3a9LsWDMo0uAP8YDosPvHQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@sinonjs/samsam/-/samsam-3.3.3.tgz}
+  registry.npmjs.org/@sinonjs/samsam/6.1.1:
+    resolution: {integrity: sha512-cZ7rKJTLiE7u7Wi/v9Hc2fs3Ucc3jrWeMgPHbbTCeVAB2S0wOBbYlkJVeNSL04i7fdhT8wIbDq1zhC/PXTD2SA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@sinonjs/samsam/-/samsam-6.1.1.tgz}
     name: '@sinonjs/samsam'
-    version: 3.3.3
+    version: 6.1.1
     dependencies:
       '@sinonjs/commons': registry.npmjs.org/@sinonjs/commons/1.8.3
-      array-from: registry.npmjs.org/array-from/2.1.1
-      lodash: registry.npmjs.org/lodash/4.17.21
+      lodash.get: registry.npmjs.org/lodash.get/4.4.2
+      type-detect: registry.npmjs.org/type-detect/4.0.8
     dev: true
 
   registry.npmjs.org/@sinonjs/text-encoding/0.7.1:
@@ -10395,12 +10391,6 @@ packages:
     name: array-flatten
     version: 2.1.2
 
-  registry.npmjs.org/array-from/2.1.1:
-    resolution: {integrity: sha512-GQTc6Uupx1FCavi5mPzBvVT7nEOeWMmUA9P95wpfpW1XwMSKs+KaymD5C2Up7KAUKg/mYwbsUYzdZWcoajlNZg==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/array-from/-/array-from-2.1.1.tgz}
-    name: array-from
-    version: 2.1.1
-    dev: true
-
   registry.npmjs.org/array-ify/1.0.0:
     resolution: {integrity: sha512-c5AMf34bKdvPhQ7tBGhqkgKNUzMr4WUs+WDtC2ZUGOUncbxKMTvqxYctiseW3+L4bA8ec+GcZ6/A/FW4m8ukng==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/array-ify/-/array-ify-1.0.0.tgz}
     name: array-ify
@@ -12262,6 +12252,7 @@ packages:
     resolution: {integrity: sha512-p2q/t/mhvuOj/UeLlV6566GD/guowlr0hHxClI0W9m7MWYkL1F0hLo+0Aexs9HSPCtR1SXQ0TD3MMKrXZajbiQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/bindings/-/bindings-1.5.0.tgz}
     name: bindings
     version: 1.5.0
+    requiresBuild: true
     dependencies:
       file-uri-to-path: registry.npmjs.org/file-uri-to-path/1.0.0
     optional: true
@@ -16005,17 +15996,17 @@ packages:
     engines: {node: ^10.13.0 || ^12.13.0 || ^14.15.0 || >=15.0.0}
     dev: true
 
-  registry.npmjs.org/diff/3.5.0:
-    resolution: {integrity: sha512-A46qtFgd+g7pDZinpnwiRJtxbC1hpgf0uzP3iG89scHk0AUC7A1TGxf5OiiOUv/JMZR8GOt8hL900hV0bOy5xA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/diff/-/diff-3.5.0.tgz}
-    name: diff
-    version: 3.5.0
-    engines: {node: '>=0.3.1'}
-    dev: true
-
   registry.npmjs.org/diff/4.0.2:
     resolution: {integrity: sha512-58lmxKSA4BNyLz+HHMUzlOEpg09FV+ev6ZMe3vJihgdxzgcwZ8VoEEPmALCZG9LmqfVoNMMKpttIYTVG6uDY7A==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/diff/-/diff-4.0.2.tgz}
     name: diff
     version: 4.0.2
+    engines: {node: '>=0.3.1'}
+    dev: true
+
+  registry.npmjs.org/diff/5.1.0:
+    resolution: {integrity: sha512-D+mk+qE8VC/PAUrlAU34N+VfXev0ghe5ywmpqrawphmVZc1bEfn56uo9qpyGp1p4xpzOHkSW4ztBd6L7Xx4ACw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/diff/-/diff-5.1.0.tgz}
+    name: diff
+    version: 5.1.0
     engines: {node: '>=0.3.1'}
     dev: true
 
@@ -18678,6 +18669,7 @@ packages:
     resolution: {integrity: sha512-0Zt+s3L7Vf1biwWZ29aARiVYLx7iMGnEUl9x33fbB/j3jR81u/O2LbqK+Bm1CDSNDKVtJ/YjwY7TUd5SkeLQLw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/file-uri-to-path/-/file-uri-to-path-1.0.0.tgz}
     name: file-uri-to-path
     version: 1.0.0
+    requiresBuild: true
     optional: true
 
   registry.npmjs.org/filelist/1.0.4:
@@ -24033,6 +24025,12 @@ packages:
     version: 4.4.0
     dev: true
 
+  registry.npmjs.org/lodash.get/4.4.2:
+    resolution: {integrity: sha512-z+Uw/vLuy6gQe8cfaFWD7p0wVv8fJl3mbzXh33RS+0oW2wvUqiRXiQ69gLWSLpgB5/6sU+r6BlQR0MBILadqTQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/lodash.get/-/lodash.get-4.4.2.tgz}
+    name: lodash.get
+    version: 4.4.2
+    dev: true
+
   registry.npmjs.org/lodash.ismatch/4.4.0:
     resolution: {integrity: sha512-fPMfXjGQEV9Xsq/8MTSgUf255gawYRbjwMyDbcvDhXgV7enSZA0hynz6vMPnpAb5iONEzBHBPsT+0zes5Z301g==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/lodash.ismatch/-/lodash.ismatch-4.4.0.tgz}
     name: lodash.ismatch
@@ -24194,20 +24192,6 @@ packages:
     name: loglevel
     version: 1.8.0
     engines: {node: '>= 0.6.0'}
-
-  registry.npmjs.org/lolex/4.2.0:
-    resolution: {integrity: sha512-gKO5uExCXvSm6zbF562EvM+rd1kQDnB9AZBbiQVzf1ZmdDpxUSvpnAaVOP83N/31mRK8Ml8/VE8DMvsAZQ+7wg==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/lolex/-/lolex-4.2.0.tgz}
-    name: lolex
-    version: 4.2.0
-    dev: true
-
-  registry.npmjs.org/lolex/5.1.2:
-    resolution: {integrity: sha512-h4hmjAvHTmd+25JSwrtTIuwbKdwg5NzZVRMLn9saij4SZaepCrTCxPr35H/3bjwfMJtN+t3CX8672UIkglz28A==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/lolex/-/lolex-5.1.2.tgz}
-    name: lolex
-    version: 5.1.2
-    dependencies:
-      '@sinonjs/commons': registry.npmjs.org/@sinonjs/commons/1.8.3
-    dev: true
 
   registry.npmjs.org/loose-envify/1.4.0:
     resolution: {integrity: sha512-lyuxPGr/Wfhrlem2CL/UcnUc1zcqKAImBDzukY7Y5F/yQiNdko6+fRLevlw1HgMySw7f611UIY408EtxRSoK3Q==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/loose-envify/-/loose-envify-1.4.0.tgz}
@@ -25694,15 +25678,15 @@ packages:
     name: nice-try
     version: 1.0.5
 
-  registry.npmjs.org/nise/1.5.3:
-    resolution: {integrity: sha512-Ymbac/94xeIrMf59REBPOv0thr+CJVFMhrlAkW/gjCIE58BGQdCj0x7KRCb3yz+Ga2Rz3E9XXSvUyyxqqhjQAQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/nise/-/nise-1.5.3.tgz}
+  registry.npmjs.org/nise/5.1.1:
+    resolution: {integrity: sha512-yr5kW2THW1AkxVmCnKEh4nbYkJdB3I7LUkiUgOvEkOp414mc2UMaHMA7pjq1nYowhdoJZGwEKGaQVbxfpWj10A==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/nise/-/nise-5.1.1.tgz}
     name: nise
-    version: 1.5.3
+    version: 5.1.1
     dependencies:
-      '@sinonjs/formatio': registry.npmjs.org/@sinonjs/formatio/3.2.2
+      '@sinonjs/commons': registry.npmjs.org/@sinonjs/commons/1.8.3
+      '@sinonjs/fake-timers': registry.npmjs.org/@sinonjs/fake-timers/9.1.2
       '@sinonjs/text-encoding': registry.npmjs.org/@sinonjs/text-encoding/0.7.1
       just-extend: registry.npmjs.org/just-extend/4.2.1
-      lolex: registry.npmjs.org/lolex/5.1.2
       path-to-regexp: registry.npmjs.org/path-to-regexp/1.8.0
     dev: true
 
@@ -31809,18 +31793,17 @@ packages:
     version: 0.2.2
     dev: true
 
-  registry.npmjs.org/sinon/7.5.0:
-    resolution: {integrity: sha512-AoD0oJWerp0/rY9czP/D6hDTTUYGpObhZjMpd7Cl/A6+j0xBE+ayL/ldfggkBXUs0IkvIiM1ljM8+WkOc5k78Q==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/sinon/-/sinon-7.5.0.tgz}
+  registry.npmjs.org/sinon/14.0.1:
+    resolution: {integrity: sha512-JhJ0jCiyBWVAHDS+YSjgEbDn7Wgz9iIjA1/RK+eseJN0vAAWIWiXBdrnb92ELPyjsfreCYntD1ORtLSfIrlvSQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/sinon/-/sinon-14.0.1.tgz}
     name: sinon
-    version: 7.5.0
+    version: 14.0.1
     dependencies:
       '@sinonjs/commons': registry.npmjs.org/@sinonjs/commons/1.8.3
-      '@sinonjs/formatio': registry.npmjs.org/@sinonjs/formatio/3.2.2
-      '@sinonjs/samsam': registry.npmjs.org/@sinonjs/samsam/3.3.3
-      diff: registry.npmjs.org/diff/3.5.0
-      lolex: registry.npmjs.org/lolex/4.2.0
-      nise: registry.npmjs.org/nise/1.5.3
-      supports-color: registry.npmjs.org/supports-color/5.5.0
+      '@sinonjs/fake-timers': registry.npmjs.org/@sinonjs/fake-timers/9.1.2
+      '@sinonjs/samsam': registry.npmjs.org/@sinonjs/samsam/6.1.1
+      diff: registry.npmjs.org/diff/5.1.0
+      nise: registry.npmjs.org/nise/5.1.1
+      supports-color: registry.npmjs.org/supports-color/7.2.0
     dev: true
 
   registry.npmjs.org/sisteransi/1.0.5:
