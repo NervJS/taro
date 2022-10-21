@@ -114,7 +114,7 @@
     "@types/sinon": "^7.5.0",
     "@types/tapable": "^1",
     "@types/testing-library__jest-dom": "^5.14.3",
-    "@types/webpack": "4",
+    "@types/webpack": "5",
     "@types/webpack-dev-server": "3",
     "@typescript-eslint/eslint-plugin": "^5.17.0",
     "@typescript-eslint/parser": "^5.17.0",
