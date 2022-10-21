@@ -129,7 +129,7 @@ importers:
       nervjs: ^1.4.6
       node-sass: 6.0.1
       npm-run-all: ^4.1.2
-      ora: 4.0.3
+      ora: 6.1.2
       postcss: ^8.4.12
       postcss-scss: ^4.0.3
       power-assert: ^1.6.1
@@ -284,7 +284,7 @@ importers:
       nervjs: registry.npmjs.org/nervjs/1.5.7
       node-sass: registry.npmjs.org/node-sass/6.0.1
       npm-run-all: registry.npmjs.org/npm-run-all/4.1.5
-      ora: registry.npmjs.org/ora/4.0.3
+      ora: registry.npmjs.org/ora/6.1.2
       postcss: registry.npmjs.org/postcss/8.4.14
       postcss-scss: registry.npmjs.org/postcss-scss/4.0.4_postcss@8.4.14
       power-assert: registry.npmjs.org/power-assert/1.6.1
@@ -670,9 +670,6 @@ importers:
       react-native-gesture-handler: registry.npmjs.org/react-native-gesture-handler/2.5.0_ws5w265lwlgfx6ddpl3mdiooma
       react-native-svg: registry.npmjs.org/react-native-svg/12.4.3_ws5w265lwlgfx6ddpl3mdiooma
       react-test-renderer: registry.npmjs.org/react-test-renderer/18.0.0_react@18.0.0
-
-  packages/taro-components/loader:
-    specifiers: {}
 
   packages/taro-extend:
     specifiers: {}
@@ -12262,6 +12259,7 @@ packages:
     resolution: {integrity: sha512-p2q/t/mhvuOj/UeLlV6566GD/guowlr0hHxClI0W9m7MWYkL1F0hLo+0Aexs9HSPCtR1SXQ0TD3MMKrXZajbiQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/bindings/-/bindings-1.5.0.tgz}
     name: bindings
     version: 1.5.0
+    requiresBuild: true
     dependencies:
       file-uri-to-path: registry.npmjs.org/file-uri-to-path/1.0.0
     optional: true
@@ -12282,6 +12280,16 @@ packages:
       buffer: registry.npmjs.org/buffer/5.7.1
       inherits: registry.npmjs.org/inherits/2.0.4
       readable-stream: registry.npmjs.org/readable-stream/3.6.0
+
+  registry.npmjs.org/bl/5.1.0:
+    resolution: {integrity: sha512-tv1ZJHLfTDnXE6tMHv73YgSJaWR2AFuPwMntBe7XL/GBFHnT0CLnsHMogfk5+GzCDC5ZWarSCYaIGATZt9dNsQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/bl/-/bl-5.1.0.tgz}
+    name: bl
+    version: 5.1.0
+    dependencies:
+      buffer: registry.npmjs.org/buffer/6.0.3
+      inherits: registry.npmjs.org/inherits/2.0.4
+      readable-stream: registry.npmjs.org/readable-stream/3.6.0
+    dev: true
 
   registry.npmjs.org/blob/0.0.5:
     resolution: {integrity: sha512-gaqbzQPqOoamawKg0LGVd7SzLgXS+JH61oWprSLH+P+abTczqJbhTR8CmJ2u9/bUYNmHTGJx/UEmn6doAvvuig==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/blob/-/blob-0.0.5.tgz}
@@ -12709,6 +12717,15 @@ packages:
       base64-js: registry.npmjs.org/base64-js/1.5.1
       ieee754: registry.npmjs.org/ieee754/1.2.1
 
+  registry.npmjs.org/buffer/6.0.3:
+    resolution: {integrity: sha512-FTiCpNxtwiZZHEZbcbTIcZjERVICn9yq/pDFkTl95/AxzD1naBctN7YO68riM/gLSDY7sdrMby8hofADYuuqOA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/buffer/-/buffer-6.0.3.tgz}
+    name: buffer
+    version: 6.0.3
+    dependencies:
+      base64-js: registry.npmjs.org/base64-js/1.5.1
+      ieee754: registry.npmjs.org/ieee754/1.2.1
+    dev: true
+
   registry.npmjs.org/builtin-modules/3.3.0:
     resolution: {integrity: sha512-zhaCDicdLuWN5UbN5IMnFqNMhNfo919sH85y2/ea+5Yg9TsTkeZxpL+JLbp6cgYFS4sRLp3YV4S6yDuqVWHYOw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/builtin-modules/-/builtin-modules-3.3.0.tgz}
     name: builtin-modules
@@ -13114,6 +13131,13 @@ packages:
       ansi-styles: registry.npmjs.org/ansi-styles/4.3.0
       supports-color: registry.npmjs.org/supports-color/7.2.0
 
+  registry.npmjs.org/chalk/5.1.2:
+    resolution: {integrity: sha512-E5CkT4jWURs1Vy5qGJye+XwCkNj7Od3Af7CP6SujMetSMkLs8Do2RWJK5yx1wamHV/op8Rz+9rltjaTQWDnEFQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/chalk/-/chalk-5.1.2.tgz}
+    name: chalk
+    version: 5.1.2
+    engines: {node: ^12.17.0 || ^14.13 || >=16.0.0}
+    dev: true
+
   registry.npmjs.org/change-case/4.1.2:
     resolution: {integrity: sha512-bSxY2ws9OtviILG1EiY5K7NNxkqg/JnRnFxLtKQ96JaviiIxi7djMrSd0ECT9AC+lttClmYwKw53BWpOMblo7A==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/change-case/-/change-case-4.1.2.tgz}
     name: change-case
@@ -13369,6 +13393,15 @@ packages:
     engines: {node: '>=8'}
     dependencies:
       restore-cursor: registry.npmjs.org/restore-cursor/3.1.0
+
+  registry.npmjs.org/cli-cursor/4.0.0:
+    resolution: {integrity: sha512-VGtlMu3x/4DOtIUwEkRezxUZ2lBacNJCHash0N0WeZDBS+7Ux1dm3XWAgWYxLJFMMdOeXMHXorshEFhbMSGelg==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/cli-cursor/-/cli-cursor-4.0.0.tgz}
+    name: cli-cursor
+    version: 4.0.0
+    engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
+    dependencies:
+      restore-cursor: registry.npmjs.org/restore-cursor/4.0.0
+    dev: true
 
   registry.npmjs.org/cli-highlight/2.1.11:
     resolution: {integrity: sha512-9KDcoEVwyUXrjcJNvHD0NFc/hiwe/WPVYIleQh2O1N2Zro5gWJZ/K+3DGn8w8P/F6FxOgzyC5bxDyHIgCSPhGg==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/cli-highlight/-/cli-highlight-2.1.11.tgz}
@@ -18678,6 +18711,7 @@ packages:
     resolution: {integrity: sha512-0Zt+s3L7Vf1biwWZ29aARiVYLx7iMGnEUl9x33fbB/j3jR81u/O2LbqK+Bm1CDSNDKVtJ/YjwY7TUd5SkeLQLw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/file-uri-to-path/-/file-uri-to-path-1.0.0.tgz}
     name: file-uri-to-path
     version: 1.0.0
+    requiresBuild: true
     optional: true
 
   registry.npmjs.org/filelist/1.0.4:
@@ -21482,6 +21516,13 @@ packages:
     version: 1.0.0
     engines: {node: '>=8'}
 
+  registry.npmjs.org/is-interactive/2.0.0:
+    resolution: {integrity: sha512-qP1vozQRI+BMOPcjFzrjXuQvdak2pHNUMZoeG2eRbiSqyvbEf/wQtEOTOX1guk6E3t36RkaqiSt8A/6YElNxLQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/is-interactive/-/is-interactive-2.0.0.tgz}
+    name: is-interactive
+    version: 2.0.0
+    engines: {node: '>=12'}
+    dev: true
+
   registry.npmjs.org/is-invalid-path/0.1.0:
     resolution: {integrity: sha512-aZMG0T3F34mTg4eTdszcGXx54oiZ4NtHSft3hWNJMGJXUUqdIj3cOZuHcU0nCWWcY3jd7yRe/3AEm3vSNTpBGQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/is-invalid-path/-/is-invalid-path-0.1.0.tgz}
     name: is-invalid-path
@@ -21758,6 +21799,13 @@ packages:
     name: is-unicode-supported
     version: 0.1.0
     engines: {node: '>=10'}
+
+  registry.npmjs.org/is-unicode-supported/1.3.0:
+    resolution: {integrity: sha512-43r2mRvz+8JRIKnWJ+3j8JtjRKZ6GmjzfaE/qiBJnikNnYv/6bagRJ1kUhNk8R5EX/GkobD+r+sfxCPJsiKBLQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/is-unicode-supported/-/is-unicode-supported-1.3.0.tgz}
+    name: is-unicode-supported
+    version: 1.3.0
+    engines: {node: '>=12'}
+    dev: true
 
   registry.npmjs.org/is-url/1.2.4:
     resolution: {integrity: sha512-ITvGim8FhRiYe4IQ5uHSkj7pVaPDrCTkNd3yq3cV7iZAcJdHTUMPMEHcqSOy9xZ9qFenQCvi+2wjH9a1nXqHww==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/is-url/-/is-url-1.2.4.tgz}
@@ -24137,6 +24185,7 @@ packages:
     engines: {node: '>=8'}
     dependencies:
       chalk: registry.npmjs.org/chalk/2.4.2
+    dev: false
 
   registry.npmjs.org/log-symbols/4.1.0:
     resolution: {integrity: sha512-8XPvpAA8uyhfteu8pIvQxpJZ7SYYdpUivZpGy6sFsBuKRY/7rQGavedeB8aK+Zkyq6upMFVL/9AW6vOYzfRyLg==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/log-symbols/-/log-symbols-4.1.0.tgz}
@@ -24146,6 +24195,16 @@ packages:
     dependencies:
       chalk: registry.npmjs.org/chalk/4.1.2
       is-unicode-supported: registry.npmjs.org/is-unicode-supported/0.1.0
+
+  registry.npmjs.org/log-symbols/5.1.0:
+    resolution: {integrity: sha512-l0x2DvrW294C9uDCoQe1VSU4gf529FkSZ6leBl4TiqZH/e+0R7hSfHQBNut2mNygDgHwvYHfFLn6Oxb3VWj2rA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/log-symbols/-/log-symbols-5.1.0.tgz}
+    name: log-symbols
+    version: 5.1.0
+    engines: {node: '>=12'}
+    dependencies:
+      chalk: registry.npmjs.org/chalk/5.1.2
+      is-unicode-supported: registry.npmjs.org/is-unicode-supported/1.3.0
+    dev: true
 
   registry.npmjs.org/log-update/4.0.0:
     resolution: {integrity: sha512-9fkkDevMefjg0mmzWFBW8YkFP91OrizzkW3diF7CpG+S2EYdy4+TVfGwz1zeF8x7hCx1ovSPTOE9Ngib74qqUg==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/log-update/-/log-update-4.0.0.tgz}
@@ -25528,6 +25587,7 @@ packages:
     resolution: {integrity: sha512-nnbWWOkoWyUsTjKrhgD0dcz22mdkSnpYqbEjIm2nhwhuxlSkpywJmBo8h0ZqJdkp73mb90SssHkN4rsRaBAfAA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/mute-stream/-/mute-stream-0.0.8.tgz}
     name: mute-stream
     version: 0.0.8
+    dev: false
 
   registry.npmjs.org/mv/2.1.1:
     resolution: {integrity: sha512-at/ZndSy3xEGJ8i0ygALh8ru9qy7gWW1cmkaqBN29JmMlIvM//MEO9y1sk/avxuwnPcfhkejkLsuPxH81BrkSg==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/mv/-/mv-2.1.1.tgz}
@@ -26448,6 +26508,7 @@ packages:
       mute-stream: registry.npmjs.org/mute-stream/0.0.8
       strip-ansi: registry.npmjs.org/strip-ansi/6.0.1
       wcwidth: registry.npmjs.org/wcwidth/1.0.1
+    dev: false
 
   registry.npmjs.org/ora/5.4.1:
     resolution: {integrity: sha512-5b6Y85tPxZZ7QytO+BQzysW31HJku27cRIlkbAXaNx+BdcVi+LlRFmVXzeF6a7JCwJpyw5c4b+YSVImQIrBpuQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/ora/-/ora-5.4.1.tgz}
@@ -26464,6 +26525,23 @@ packages:
       log-symbols: registry.npmjs.org/log-symbols/4.1.0
       strip-ansi: registry.npmjs.org/strip-ansi/6.0.1
       wcwidth: registry.npmjs.org/wcwidth/1.0.1
+
+  registry.npmjs.org/ora/6.1.2:
+    resolution: {integrity: sha512-EJQ3NiP5Xo94wJXIzAyOtSb0QEIAUu7m8t6UZ9krbz0vAJqr92JpcK/lEXg91q6B9pEGqrykkd2EQplnifDSBw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/ora/-/ora-6.1.2.tgz}
+    name: ora
+    version: 6.1.2
+    engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
+    dependencies:
+      bl: registry.npmjs.org/bl/5.1.0
+      chalk: registry.npmjs.org/chalk/5.1.2
+      cli-cursor: registry.npmjs.org/cli-cursor/4.0.0
+      cli-spinners: registry.npmjs.org/cli-spinners/2.6.1
+      is-interactive: registry.npmjs.org/is-interactive/2.0.0
+      is-unicode-supported: registry.npmjs.org/is-unicode-supported/1.3.0
+      log-symbols: registry.npmjs.org/log-symbols/5.1.0
+      strip-ansi: registry.npmjs.org/strip-ansi/7.0.1
+      wcwidth: registry.npmjs.org/wcwidth/1.0.1
+    dev: true
 
   registry.npmjs.org/os-browserify/0.3.0:
     resolution: {integrity: sha512-gjcpUc3clBf9+210TRaDWbf+rZZZEshZ+DlXMRCeAjp0xhTrnQsKHypIy1J3d5hKdUzj69t708EHtU8P6bUn0A==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/os-browserify/-/os-browserify-0.3.0.tgz}
@@ -30742,6 +30820,16 @@ packages:
     dependencies:
       onetime: registry.npmjs.org/onetime/5.1.2
       signal-exit: registry.npmjs.org/signal-exit/3.0.7
+
+  registry.npmjs.org/restore-cursor/4.0.0:
+    resolution: {integrity: sha512-I9fPXU9geO9bHOt9pHHOhOkYerIMsmVaWB0rA2AI9ERh/+x/i7MV5HKBNrg+ljO5eoPVgCcnFuRjJ9uH6I/3eg==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/restore-cursor/-/restore-cursor-4.0.0.tgz}
+    name: restore-cursor
+    version: 4.0.0
+    engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
+    dependencies:
+      onetime: registry.npmjs.org/onetime/5.1.2
+      signal-exit: registry.npmjs.org/signal-exit/3.0.7
+    dev: true
 
   registry.npmjs.org/ret/0.1.15:
     resolution: {integrity: sha512-TTlYpa+OL+vMMNG24xSlQGEJ3B/RzEfUlLct7b5G/ytav+wPrplCpVMFuwzXbkecJrb6IYo1iFb0S9v37754mg==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/ret/-/ret-0.1.15.tgz}
