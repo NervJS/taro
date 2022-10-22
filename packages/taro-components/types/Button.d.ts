@@ -135,7 +135,7 @@ interface ButtonProps extends StandardProps {
   /** 用户点击该按钮时，会返回获取到的用户信息，回调的detail数据与 Taro.getUserInfo 返回的一致
    *
    * 生效时机: `open-type="getUserInfo"`
-   * @supported weapp, swan, qq, jd
+   * @supported weapp, alipay, swan, qq, jd
    */
   onGetUserInfo?: CommonEventFunction<ButtonProps.onGetUserInfoEventDetail>
 
@@ -156,7 +156,7 @@ interface ButtonProps extends StandardProps {
   /** 获取用户手机号回调
    *
    * 生效时机：`open-type="getphonenumber"`
-   * @supported weapp, swan, tt, jd
+   * @supported weapp, alipay, swan, tt, jd
    */
   onGetPhoneNumber?: CommonEventFunction<ButtonProps.onGetPhoneNumberEventDetail>
 
@@ -330,10 +330,7 @@ declare namespace ButtonProps {
   }
 
   /** open-type 的合法值 */
-  type OpenType =
-    | keyof openTypeKeys['weapp']
-    | keyof openTypeKeys['alipay']
-    | keyof openTypeKeys['qq']
+  type OpenType = keyof openTypeKeys['weapp'] | keyof openTypeKeys['alipay'] | keyof openTypeKeys['qq']
 
   /** open-type 的合法值 */
   interface openTypeKeys {
