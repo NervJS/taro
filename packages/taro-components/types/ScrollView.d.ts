@@ -171,11 +171,6 @@ interface ScrollViewProps extends StandardProps {
    */
   onDragging?: CommonEventFunction
 
-  /** 滑动结束事件 (同时开启 enhanced 属性后生效) detail { scrollTop, scrollLeft, velocity }
-   * @supported weapp
-   */
-  onDragend?: CommonEventFunction
-
   /** 当 scroll-with-animation设置为 true 时，可以设置 scroll-animation-duration 来控制动画的执行时间，单位 ms。
    * @supported alipay
    */
@@ -221,6 +216,17 @@ interface ScrollViewProps extends StandardProps {
    * @supported qq
    */
   ariaLabel?: string
+
+  /** 开启 passive 特性，能优化一定的滚动性能
+   * @supported weapp
+   * @default false
+   */
+  enablePassive?: string
+
+  /** 滑动结束事件 (同时开启 enhanced 属性后生效) detail { scrollTop, scrollLeft, velocity }
+   * @supported weapp
+   */
+  onDragEnd?: CommonEventFunction
 }
 declare namespace ScrollViewProps {
   interface onScrollDetail {

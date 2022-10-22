@@ -25,6 +25,12 @@ interface WebViewProps extends StandardProps {
    * @supported tt
    */
   progressbarColor?: string
+
+  /** 若使用web-view组件引入第三方客服，必须填写type="im"
+   * @supported tt
+   * @default default
+   */
+  type?: string
 }
 declare namespace WebViewProps {
   interface onMessageEventDetail {
