@@ -3,7 +3,7 @@ import { StandardProps, CommonEventFunction } from './common'
 interface CameraProps extends StandardProps {
   /** 模式，有效值为normal, scanCode
    * @default "normal"
-   * @supported weapp, tt, qq, jd, rn
+   * @supported weapp, alipay, tt, qq, jd, rn
    */
   mode?: keyof CameraProps.Mode
 
@@ -15,30 +15,30 @@ interface CameraProps extends StandardProps {
 
   /** 摄像头朝向
    * @default "back"
-   * @supported weapp, swan, tt, qq, jd, rn
+   * @supported weapp, alipay, swan, tt, qq, jd, rn
    */
   devicePosition?: keyof CameraProps.DevicePosition
 
   /** 闪光灯
    * @default "auto"
-   * @supported weapp, swan, tt, qq, jd, rn
+   * @supported weapp, alipay, swan, tt, qq, jd, rn
    */
   flash?: keyof CameraProps.Flash
 
   /** 指定期望的相机帧数据尺寸
    * @default "medium"
-   * @supported weapp, tt
+   * @supported weapp, alipay, tt
    */
   frameSize?: keyof CameraProps.FrameSize
 
   /** 摄像头在非正常终止时触发，
    * 如退出后台等情况
-   * @supported weapp, swan, tt, qq, jd, rn
+   * @supported weapp, alipay, swan, tt, qq, jd, rn
    */
   onStop?: CommonEventFunction
 
   /** 用户不允许使用摄像头时触发
-   * @supported weapp, swan, tt, qq, jd, rn
+   * @supported weapp, alipay, swan, tt, qq, jd, rn
    */
   onError?: CommonEventFunction
 
@@ -49,9 +49,20 @@ interface CameraProps extends StandardProps {
 
   /** 在成功识别到一维码时触发，
    * 仅在 mode="scanCode" 时生效
-   * @supported weapp, tt, qq, rn
+   * @supported weapp, alipay, tt, qq, rn
    */
   onScanCode?: CommonEventFunction
+
+  /** 相机拍照，录制的分辨率。
+   * @supported alipay
+   * @default 720P
+   */
+  outputDimension?: '360P' | '540P' | '720P' | '1080P' | 'max'
+
+  /** 相机初始化成功时触发。
+   * @supported alipay
+   */
+  onReady?: CommonEventFunction
 }
 declare namespace CameraProps {
   /** mode 的合法值 */
