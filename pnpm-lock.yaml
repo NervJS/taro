@@ -592,7 +592,7 @@ importers:
       jquery: registry.npmjs.org/jquery/3.6.0
       karmatic: registry.npmjs.org/karmatic/2.1.0_webpack@4.46.0
       lodash: registry.npmjs.org/lodash/4.17.21
-      miniapp-types: registry.npmjs.org/miniapp-types/1.1.12
+      miniapp-types: registry.npmjs.org/miniapp-types/1.1.13
       simulant: registry.npmjs.org/simulant/0.2.2
       style-loader: registry.npmjs.org/style-loader/1.3.0_webpack@4.46.0
       ts-node: registry.npmjs.org/ts-node/10.9.1_ah2igguqgj6e7ik4ubgohitm4e
@@ -670,9 +670,6 @@ importers:
       react-native-gesture-handler: registry.npmjs.org/react-native-gesture-handler/2.5.0_ws5w265lwlgfx6ddpl3mdiooma
       react-native-svg: registry.npmjs.org/react-native-svg/12.4.3_ws5w265lwlgfx6ddpl3mdiooma
       react-test-renderer: registry.npmjs.org/react-test-renderer/18.0.0_react@18.0.0
-
-  packages/taro-components/loader:
-    specifiers: {}
 
   packages/taro-extend:
     specifiers: {}
@@ -25134,10 +25131,10 @@ packages:
       webpack: registry.npmjs.org/webpack/5.69.0_esbuild@0.14.47
     dev: false
 
-  registry.npmjs.org/miniapp-types/1.1.12:
-    resolution: {integrity: sha512-MsHeWnw4Y3QHfA46hxG8ECpl7pOfKZCNOpqYRKK6LT54AnhHtjrJJww42BGJKiNC7StodlUl7mHATjh5PLSlfg==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/miniapp-types/-/miniapp-types-1.1.12.tgz}
+  registry.npmjs.org/miniapp-types/1.1.13:
+    resolution: {integrity: sha512-OcdC7U3ih8Sdfu3jDqDSzX9dU8Lf7TIpqPRrdxBaLdcReqPm86c48E84xkqm5caOnAooWdHPriIv2rx7/saBQQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/miniapp-types/-/miniapp-types-1.1.13.tgz}
     name: miniapp-types
-    version: 1.1.12
+    version: 1.1.13
     dev: true
 
   registry.npmjs.org/minimalistic-assert/1.0.1:
