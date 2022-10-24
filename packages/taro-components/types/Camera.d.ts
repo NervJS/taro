@@ -31,6 +31,12 @@ interface CameraProps extends StandardProps {
    */
   frameSize?: keyof CameraProps.FrameSize
 
+  /** 相机拍照，录制的分辨率。
+   * @supported alipay
+   * @default "720P"
+   */
+  outputDimension?: '360P' | '540P' | '720P' | '1080P' | 'max'
+
   /** 摄像头在非正常终止时触发，
    * 如退出后台等情况
    * @supported weapp, alipay, swan, tt, qq, jd, rn
@@ -47,22 +53,16 @@ interface CameraProps extends StandardProps {
    */
   onInitDone?: CommonEventFunction<CameraProps.onInitDoneEventDetail>
 
+  /** 相机初始化成功时触发。
+   * @supported alipay
+   */
+  onReady?: CommonEventFunction<CameraProps.onInitDoneEventDetail>
+
   /** 在成功识别到一维码时触发，
    * 仅在 mode="scanCode" 时生效
    * @supported weapp, alipay, tt, qq, rn
    */
-  onScanCode?: CommonEventFunction
-
-  /** 相机拍照，录制的分辨率。
-   * @supported alipay
-   * @default 720P
-   */
-  outputDimension?: '360P' | '540P' | '720P' | '1080P' | 'max'
-
-  /** 相机初始化成功时触发。
-   * @supported alipay
-   */
-  onReady?: CommonEventFunction
+  onScanCode?: CommonEventFunction<CameraProps.onScanCodeEventDetail>
 }
 declare namespace CameraProps {
   /** mode 的合法值 */
@@ -124,6 +124,27 @@ declare namespace CameraProps {
   interface onInitDoneEventDetail {
     /** 最大变焦 */
     maxZoom: number
+  }
+
+  interface onScanCodeEventDetail {
+    /** 字符集 */
+    charSet: string
+
+    /** 原始数据
+     * @supported weapp
+     */
+    rawData: string
+
+    /** 码类型 */
+    type: string
+
+    /** 识别结果 */
+    result: string
+
+    /** 识别结果(完整)
+     * @supported alipay
+     */
+    fullResult: string
   }
 }
 
