@@ -625,7 +625,7 @@ importers:
       '@babel/preset-env': ^7.14.5
       '@react-native-community/cameraroll': ~4.1.2
       '@react-native-community/segmented-control': ^2.2.2
-      '@react-native-community/slider': ~4.2.4
+      '@react-native-community/slider': ~4.3.2
       '@react-native-picker/picker': ~2.4.2
       '@testing-library/react-native': ^11.0.0
       '@types/react-native': ^0.69.8
@@ -638,22 +638,22 @@ importers:
       prop-types: ^15.7.2
       react: 18.1.0
       react-native: ^0.70.1
-      react-native-gesture-handler: ~2.5.0
+      react-native-gesture-handler: ~2.8.0
       react-native-maps: ^0.25.0
-      react-native-pager-view: ~5.4.25
-      react-native-svg: ~12.4.3
+      react-native-pager-view: ~6.0.1
+      react-native-svg: ~13.4.0
       react-native-webview: ~11.23.0
       react-test-renderer: 18.1.0
     dependencies:
-      '@ant-design/react-native': registry.npmjs.org/@ant-design/react-native/5.0.1_32usradfepd2h5ajzsfysb5mbq
-      '@react-native-community/slider': registry.npmjs.org/@react-native-community/slider/4.2.4_li67rxuecrv4t7nknbczgycq3a
+      '@ant-design/react-native': registry.npmjs.org/@ant-design/react-native/5.0.1_7r6g3llmic365g3u7jm7ptbv2y
+      '@react-native-community/slider': registry.npmjs.org/@react-native-community/slider/4.3.2
       '@react-native-picker/picker': registry.npmjs.org/@react-native-picker/picker/2.4.2_li67rxuecrv4t7nknbczgycq3a
       expo-av: registry.npmjs.org/expo-av/12.0.4_expo@46.0.16
       expo-barcode-scanner: registry.npmjs.org/expo-barcode-scanner/11.4.0_expo@46.0.16
       expo-camera: registry.npmjs.org/expo-camera/12.3.0_expo@46.0.16+react@18.1.0
       prop-types: registry.npmjs.org/prop-types/15.8.1
       react-native-maps: registry.npmjs.org/react-native-maps/0.25.0_ozpsexdbx3qrs4vxqvnra33yjq
-      react-native-pager-view: registry.npmjs.org/react-native-pager-view/5.4.25_li67rxuecrv4t7nknbczgycq3a
+      react-native-pager-view: registry.npmjs.org/react-native-pager-view/6.0.1_li67rxuecrv4t7nknbczgycq3a
       react-native-webview: registry.npmjs.org/react-native-webview/11.23.0_li67rxuecrv4t7nknbczgycq3a
     devDependencies:
       '@babel/core': registry.npmjs.org/@babel/core/7.18.5
@@ -667,8 +667,8 @@ importers:
       metro-react-native-babel-preset: registry.npmjs.org/metro-react-native-babel-preset/0.72.3_@babel+core@7.18.5
       react: registry.npmjs.org/react/18.1.0
       react-native: registry.npmjs.org/react-native/0.70.3_j7e373p77i2v54hdygqxp3cfya
-      react-native-gesture-handler: registry.npmjs.org/react-native-gesture-handler/2.5.0_li67rxuecrv4t7nknbczgycq3a
-      react-native-svg: registry.npmjs.org/react-native-svg/12.4.3_li67rxuecrv4t7nknbczgycq3a
+      react-native-gesture-handler: registry.npmjs.org/react-native-gesture-handler/2.8.0_li67rxuecrv4t7nknbczgycq3a
+      react-native-svg: registry.npmjs.org/react-native-svg/13.4.0_li67rxuecrv4t7nknbczgycq3a
       react-test-renderer: registry.npmjs.org/react-test-renderer/18.1.0_react@18.1.0
 
   packages/taro-components/loader:
@@ -1053,7 +1053,7 @@ importers:
       '@react-native-async-storage/async-storage': ~1.17.7
       '@react-native-community/cameraroll': ~4.1.2
       '@react-native-community/clipboard': ~1.5.1
-      '@react-native-community/geolocation': ~2.1.0
+      '@react-native-community/geolocation': ~3.0.2
       '@react-native-community/netinfo': ~9.3.0
       '@tarojs/runtime-rn': workspace:*
       '@testing-library/react-native': ^11.0.0
@@ -1079,12 +1079,12 @@ importers:
       prop-types: ^15.8.1
       react: 18.1.0
       react-native: ^0.70.1
-      react-native-device-info: ~10.0.2
+      react-native-device-info: ~10.3.0
       react-native-image-resizer: ~1.4.5
       react-native-image-zoom-viewer: ^3.0.1
       react-native-root-siblings: ^4.1.1
       react-native-root-toast: ^3.0.1
-      react-native-safe-area-context: ~4.3.1
+      react-native-safe-area-context: ~4.4.1
       react-native-stylekit: ^1.0.0
       react-native-syan-image-picker: 0.5.3
       react-test-renderer: 18.1.0
@@ -1092,7 +1092,7 @@ importers:
       '@react-native-async-storage/async-storage': registry.npmjs.org/@react-native-async-storage/async-storage/1.17.7_react-native@0.70.3
       '@react-native-community/cameraroll': registry.npmjs.org/@react-native-community/cameraroll/4.1.2_li67rxuecrv4t7nknbczgycq3a
       '@react-native-community/clipboard': registry.npmjs.org/@react-native-community/clipboard/1.5.1_li67rxuecrv4t7nknbczgycq3a
-      '@react-native-community/geolocation': registry.npmjs.org/@react-native-community/geolocation/2.1.0_li67rxuecrv4t7nknbczgycq3a
+      '@react-native-community/geolocation': registry.npmjs.org/@react-native-community/geolocation/3.0.2_li67rxuecrv4t7nknbczgycq3a
       '@react-native-community/netinfo': registry.npmjs.org/@react-native-community/netinfo/9.3.0_react-native@0.70.3
       '@tarojs/runtime-rn': link:../taro-runtime-rn
       babel-preset-expo: registry.npmjs.org/babel-preset-expo/9.2.0_@babel+core@7.18.5
@@ -1110,12 +1110,12 @@ importers:
       expo-sensors: registry.npmjs.org/expo-sensors/11.4.0_expo@46.0.16
       nullthrows: registry.npmjs.org/nullthrows/1.1.1
       prop-types: registry.npmjs.org/prop-types/15.8.1
-      react-native-device-info: registry.npmjs.org/react-native-device-info/10.0.2_react-native@0.70.3
+      react-native-device-info: registry.npmjs.org/react-native-device-info/10.3.0_react-native@0.70.3
       react-native-image-resizer: registry.npmjs.org/react-native-image-resizer/1.4.5_react-native@0.70.3
       react-native-image-zoom-viewer: registry.npmjs.org/react-native-image-zoom-viewer/3.0.1_li67rxuecrv4t7nknbczgycq3a
       react-native-root-siblings: registry.npmjs.org/react-native-root-siblings/4.1.1_react@18.1.0
       react-native-root-toast: registry.npmjs.org/react-native-root-toast/3.4.0_li67rxuecrv4t7nknbczgycq3a
-      react-native-safe-area-context: registry.npmjs.org/react-native-safe-area-context/4.3.1_li67rxuecrv4t7nknbczgycq3a
+      react-native-safe-area-context: registry.npmjs.org/react-native-safe-area-context/4.4.1_li67rxuecrv4t7nknbczgycq3a
       react-native-stylekit: registry.npmjs.org/react-native-stylekit/1.0.0
       react-native-syan-image-picker: registry.npmjs.org/react-native-syan-image-picker/0.5.3
     devDependencies:
@@ -1239,7 +1239,7 @@ importers:
       qrcode: ^1.5.1
       react: 18.1.0
       react-native: ^0.70.1
-      react-native-svg: ~12.4.3
+      react-native-svg: ~13.4.0
       react-native-svg-transformer: ^0.14.3
       react-test-renderer: 18.1.0
       yargs: ^15.3.1
@@ -1257,14 +1257,14 @@ importers:
       metro-resolver: registry.npmjs.org/metro-resolver/0.72.3
       mime-types: registry.npmjs.org/mime-types/2.1.35
       qrcode: registry.npmjs.org/qrcode/1.5.1
-      react-native-svg-transformer: registry.npmjs.org/react-native-svg-transformer/0.14.3_hl7qie37snnj6grvkgax4z65ma
+      react-native-svg-transformer: registry.npmjs.org/react-native-svg-transformer/0.14.3_moslbcew6tggi4gpmtks6kwd5m
       yargs: registry.npmjs.org/yargs/15.4.1
     devDependencies:
       '@babel/core': registry.npmjs.org/@babel/core/7.18.5
       '@babel/preset-env': registry.npmjs.org/@babel/preset-env/7.18.2_@babel+core@7.18.5
       react: registry.npmjs.org/react/18.1.0
       react-native: registry.npmjs.org/react-native/0.70.3_j7e373p77i2v54hdygqxp3cfya
-      react-native-svg: registry.npmjs.org/react-native-svg/12.4.3_li67rxuecrv4t7nknbczgycq3a
+      react-native-svg: registry.npmjs.org/react-native-svg/13.4.0_li67rxuecrv4t7nknbczgycq3a
       react-test-renderer: registry.npmjs.org/react-test-renderer/18.1.0_react@18.1.0
 
   packages/taro-rn-transformer:
@@ -1312,21 +1312,21 @@ importers:
       query-string: ^6.1.0
       react: 18.1.0
       react-native: ^0.70.1
-      react-native-gesture-handler: ~2.5.0
-      react-native-safe-area-context: ~4.3.1
-      react-native-screens: ^3.15.0
+      react-native-gesture-handler: ~2.8.0
+      react-native-safe-area-context: ~4.4.1
+      react-native-screens: ^3.18.2
     dependencies:
       '@react-native-masked-view/masked-view': registry.npmjs.org/@react-native-masked-view/masked-view/0.2.7_li67rxuecrv4t7nknbczgycq3a
-      '@react-navigation/bottom-tabs': registry.npmjs.org/@react-navigation/bottom-tabs/6.3.1_vioieaotmhjaqzmf4jrt6khquu
+      '@react-navigation/bottom-tabs': registry.npmjs.org/@react-navigation/bottom-tabs/6.3.1_ohefg6at3xsl4zhq7o7lw5dkey
       '@react-navigation/native': registry.npmjs.org/@react-navigation/native/6.0.10_li67rxuecrv4t7nknbczgycq3a
-      '@react-navigation/native-stack': registry.npmjs.org/@react-navigation/native-stack/6.7.0_vioieaotmhjaqzmf4jrt6khquu
+      '@react-navigation/native-stack': registry.npmjs.org/@react-navigation/native-stack/6.7.0_ohefg6at3xsl4zhq7o7lw5dkey
       '@react-navigation/routers': registry.npmjs.org/@react-navigation/routers/6.1.0
-      '@react-navigation/stack': registry.npmjs.org/@react-navigation/stack/6.2.1_yiwaogdnzlr7i2gjpxkyabpxjq
+      '@react-navigation/stack': registry.npmjs.org/@react-navigation/stack/6.2.1_f6j5obffrttltuivk6astpb4xm
       nanoid: registry.npmjs.org/nanoid/3.3.4
       query-string: registry.npmjs.org/query-string/6.14.1
-      react-native-gesture-handler: registry.npmjs.org/react-native-gesture-handler/2.5.0_li67rxuecrv4t7nknbczgycq3a
-      react-native-safe-area-context: registry.npmjs.org/react-native-safe-area-context/4.3.1_li67rxuecrv4t7nknbczgycq3a
-      react-native-screens: registry.npmjs.org/react-native-screens/3.15.0_li67rxuecrv4t7nknbczgycq3a
+      react-native-gesture-handler: registry.npmjs.org/react-native-gesture-handler/2.8.0_li67rxuecrv4t7nknbczgycq3a
+      react-native-safe-area-context: registry.npmjs.org/react-native-safe-area-context/4.4.1_li67rxuecrv4t7nknbczgycq3a
+      react-native-screens: registry.npmjs.org/react-native-screens/3.18.2_li67rxuecrv4t7nknbczgycq3a
     devDependencies:
       '@babel/core': registry.npmjs.org/@babel/core/7.18.5
       '@babel/preset-env': registry.npmjs.org/@babel/preset-env/7.18.2_@babel+core@7.18.5
@@ -1737,7 +1737,7 @@ packages:
       react: registry.npmjs.org/react/18.1.0
     dev: false
 
-  registry.npmjs.org/@ant-design/react-native/5.0.1_32usradfepd2h5ajzsfysb5mbq:
+  registry.npmjs.org/@ant-design/react-native/5.0.1_7r6g3llmic365g3u7jm7ptbv2y:
     resolution: {integrity: sha512-smwIhSy2Cz9n3J+dusO+0B5NnQ2Rq8Y8dZxlospdzlTqQgnKdDuxbC3VEvhcDp/uSp6JEgULV13OvX+Zb5ydMA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@ant-design/react-native/-/react-native-5.0.1.tgz}
     id: registry.npmjs.org/@ant-design/react-native/5.0.1
     name: '@ant-design/react-native'
@@ -1753,7 +1753,7 @@ packages:
       '@bang88/react-native-ultimate-listview': registry.npmjs.org/@bang88/react-native-ultimate-listview/4.1.0
       '@react-native-community/cameraroll': registry.npmjs.org/@react-native-community/cameraroll/4.1.2_li67rxuecrv4t7nknbczgycq3a
       '@react-native-community/segmented-control': registry.npmjs.org/@react-native-community/segmented-control/2.2.2_li67rxuecrv4t7nknbczgycq3a
-      '@react-native-community/slider': registry.npmjs.org/@react-native-community/slider/4.2.4_li67rxuecrv4t7nknbczgycq3a
+      '@react-native-community/slider': registry.npmjs.org/@react-native-community/slider/4.3.2
       '@react-native-picker/picker': registry.npmjs.org/@react-native-picker/picker/2.4.2_li67rxuecrv4t7nknbczgycq3a
       '@types/shallowequal': registry.npmjs.org/@types/shallowequal/1.1.1
       array-tree-filter: registry.npmjs.org/array-tree-filter/2.1.0
@@ -1763,7 +1763,7 @@ packages:
       rc-util: registry.npmjs.org/rc-util/4.21.1
       react-native-codegen: registry.npmjs.org/react-native-codegen/0.0.7_@babel+preset-env@7.18.2
       react-native-collapsible: registry.npmjs.org/react-native-collapsible/1.6.0_li67rxuecrv4t7nknbczgycq3a
-      react-native-gesture-handler: registry.npmjs.org/react-native-gesture-handler/2.5.0_li67rxuecrv4t7nknbczgycq3a
+      react-native-gesture-handler: registry.npmjs.org/react-native-gesture-handler/2.8.0_li67rxuecrv4t7nknbczgycq3a
       react-native-modal-popover: registry.npmjs.org/react-native-modal-popover/2.1.0_li67rxuecrv4t7nknbczgycq3a
       shallowequal: registry.npmjs.org/shallowequal/1.1.0
       utility-types: registry.npmjs.org/utility-types/3.10.0
@@ -7028,11 +7028,11 @@ packages:
       react-native: registry.npmjs.org/react-native/0.70.3_j7e373p77i2v54hdygqxp3cfya
     dev: false
 
-  registry.npmjs.org/@react-native-community/geolocation/2.1.0_li67rxuecrv4t7nknbczgycq3a:
-    resolution: {integrity: sha512-xDAl5S85cRVGeUxpjX/+5lyVFNHHArXN18NQnfzCLxxiVxtC2sKENuLE4J0kjAlD5lEp+IXVqfd3iGQfo99tkA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@react-native-community/geolocation/-/geolocation-2.1.0.tgz}
-    id: registry.npmjs.org/@react-native-community/geolocation/2.1.0
+  registry.npmjs.org/@react-native-community/geolocation/3.0.2_li67rxuecrv4t7nknbczgycq3a:
+    resolution: {integrity: sha512-eEvX8U0V0WYszO734aUqq8OGriZEsQMlTaykt9cORCfFemlHqAOQe97Don4wsbLy9igb6xeHBttozLWTxq/hCA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@react-native-community/geolocation/-/geolocation-3.0.2.tgz}
+    id: registry.npmjs.org/@react-native-community/geolocation/3.0.2
     name: '@react-native-community/geolocation'
-    version: 2.1.0
+    version: 3.0.2
     peerDependencies:
       react: '*'
       react-native: '*'
@@ -7064,17 +7064,12 @@ packages:
       react: registry.npmjs.org/react/18.1.0
       react-native: registry.npmjs.org/react-native/0.70.3_j7e373p77i2v54hdygqxp3cfya
 
-  registry.npmjs.org/@react-native-community/slider/4.2.4_li67rxuecrv4t7nknbczgycq3a:
-    resolution: {integrity: sha512-uY51UoipQW4ELnFWMU6rTHRc4EUYaW+Z1O9Teijej6NYVYdUcUKq+t7WeBGjMAEc1ipyooMeBqRXToWO5zAU2Q==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@react-native-community/slider/-/slider-4.2.4.tgz}
-    id: registry.npmjs.org/@react-native-community/slider/4.2.4
+  registry.npmjs.org/@react-native-community/slider/4.3.2:
+    resolution: {integrity: sha512-pKIx+l3yFQAVMcqGsnRcJAqZbVeR69CRbW85nZHhLuR/mOT0NbKWJIAEy7MC+e84DMTw0RJnEflRQO2/j8wcxQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@react-native-community/slider/-/slider-4.3.2.tgz}
     name: '@react-native-community/slider'
-    version: 4.2.4
-    peerDependencies:
-      react: '*'
-      react-native: '*'
+    version: 4.3.2
     dependencies:
-      react: registry.npmjs.org/react/18.1.0
-      react-native: registry.npmjs.org/react-native/0.70.3_j7e373p77i2v54hdygqxp3cfya
+      '@types/react-test-renderer': registry.npmjs.org/@types/react-test-renderer/18.0.0
     dev: false
 
   registry.npmjs.org/@react-native-masked-view/masked-view/0.2.7_li67rxuecrv4t7nknbczgycq3a:
@@ -7118,7 +7113,7 @@ packages:
     name: '@react-native/polyfills'
     version: 2.0.0
 
-  registry.npmjs.org/@react-navigation/bottom-tabs/6.3.1_vioieaotmhjaqzmf4jrt6khquu:
+  registry.npmjs.org/@react-navigation/bottom-tabs/6.3.1_ohefg6at3xsl4zhq7o7lw5dkey:
     resolution: {integrity: sha512-sL9F4WMhhR6I9bE7bpsPVHnK1cN9doaFHAuy5YmD+Sw6OyO0TAmNgQFx4xZWqboA5ZwSkN0tWcRCr6wGXaRRag==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@react-navigation/bottom-tabs/-/bottom-tabs-6.3.1.tgz}
     id: registry.npmjs.org/@react-navigation/bottom-tabs/6.3.1
     name: '@react-navigation/bottom-tabs'
@@ -7130,13 +7125,13 @@ packages:
       react-native-safe-area-context: '>= 3.0.0'
       react-native-screens: '>= 3.0.0'
     dependencies:
-      '@react-navigation/elements': registry.npmjs.org/@react-navigation/elements/1.3.3_hlu4fl6wzkujaevwhb2cz3odai
+      '@react-navigation/elements': registry.npmjs.org/@react-navigation/elements/1.3.3_bshk7hrfq7dto4shoryv23dana
       '@react-navigation/native': registry.npmjs.org/@react-navigation/native/6.0.10_li67rxuecrv4t7nknbczgycq3a
       color: registry.npmjs.org/color/3.2.1
       react: registry.npmjs.org/react/18.1.0
       react-native: registry.npmjs.org/react-native/0.70.3_j7e373p77i2v54hdygqxp3cfya
-      react-native-safe-area-context: registry.npmjs.org/react-native-safe-area-context/4.3.1_li67rxuecrv4t7nknbczgycq3a
-      react-native-screens: registry.npmjs.org/react-native-screens/3.15.0_li67rxuecrv4t7nknbczgycq3a
+      react-native-safe-area-context: registry.npmjs.org/react-native-safe-area-context/4.4.1_li67rxuecrv4t7nknbczgycq3a
+      react-native-screens: registry.npmjs.org/react-native-screens/3.18.2_li67rxuecrv4t7nknbczgycq3a
       warn-once: registry.npmjs.org/warn-once/0.1.0
     dev: false
 
@@ -7156,7 +7151,7 @@ packages:
       react-is: registry.npmjs.org/react-is/16.13.1
     dev: false
 
-  registry.npmjs.org/@react-navigation/elements/1.3.3_hlu4fl6wzkujaevwhb2cz3odai:
+  registry.npmjs.org/@react-navigation/elements/1.3.3_bshk7hrfq7dto4shoryv23dana:
     resolution: {integrity: sha512-Lv2lR7si5gNME8dRsqz57d54m4FJtrwHRjNQLOyQO546ZxO+g864cSvoLC6hQedQU0+IJnPTsZiEI2hHqfpEpw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@react-navigation/elements/-/elements-1.3.3.tgz}
     id: registry.npmjs.org/@react-navigation/elements/1.3.3
     name: '@react-navigation/elements'
@@ -7170,10 +7165,10 @@ packages:
       '@react-navigation/native': registry.npmjs.org/@react-navigation/native/6.0.10_li67rxuecrv4t7nknbczgycq3a
       react: registry.npmjs.org/react/18.1.0
       react-native: registry.npmjs.org/react-native/0.70.3_j7e373p77i2v54hdygqxp3cfya
-      react-native-safe-area-context: registry.npmjs.org/react-native-safe-area-context/4.3.1_li67rxuecrv4t7nknbczgycq3a
+      react-native-safe-area-context: registry.npmjs.org/react-native-safe-area-context/4.4.1_li67rxuecrv4t7nknbczgycq3a
     dev: false
 
-  registry.npmjs.org/@react-navigation/elements/1.3.4_hlu4fl6wzkujaevwhb2cz3odai:
+  registry.npmjs.org/@react-navigation/elements/1.3.4_bshk7hrfq7dto4shoryv23dana:
     resolution: {integrity: sha512-O0jICpjn3jskVo4yiWzZozmj7DZy1ZBbn3O7dbenuUjZSj/cscjwaapmZZFGcI/IMmjmx8UTKsybhCFEIbGf3g==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@react-navigation/elements/-/elements-1.3.4.tgz}
     id: registry.npmjs.org/@react-navigation/elements/1.3.4
     name: '@react-navigation/elements'
@@ -7187,10 +7182,10 @@ packages:
       '@react-navigation/native': registry.npmjs.org/@react-navigation/native/6.0.10_li67rxuecrv4t7nknbczgycq3a
       react: registry.npmjs.org/react/18.1.0
       react-native: registry.npmjs.org/react-native/0.70.3_j7e373p77i2v54hdygqxp3cfya
-      react-native-safe-area-context: registry.npmjs.org/react-native-safe-area-context/4.3.1_li67rxuecrv4t7nknbczgycq3a
+      react-native-safe-area-context: registry.npmjs.org/react-native-safe-area-context/4.4.1_li67rxuecrv4t7nknbczgycq3a
     dev: false
 
-  registry.npmjs.org/@react-navigation/native-stack/6.7.0_vioieaotmhjaqzmf4jrt6khquu:
+  registry.npmjs.org/@react-navigation/native-stack/6.7.0_ohefg6at3xsl4zhq7o7lw5dkey:
     resolution: {integrity: sha512-03CuSwbBvP9+iXgjrTRRw+aog+KZXbhPzqCWVExzIWNOzf5/PJEcdtlm9KDrx2aHHDtDA6LRLKQA4UIlJOmNzA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@react-navigation/native-stack/-/native-stack-6.7.0.tgz}
     id: registry.npmjs.org/@react-navigation/native-stack/6.7.0
     name: '@react-navigation/native-stack'
@@ -7202,12 +7197,12 @@ packages:
       react-native-safe-area-context: '>= 3.0.0'
       react-native-screens: '>= 3.0.0'
     dependencies:
-      '@react-navigation/elements': registry.npmjs.org/@react-navigation/elements/1.3.4_hlu4fl6wzkujaevwhb2cz3odai
+      '@react-navigation/elements': registry.npmjs.org/@react-navigation/elements/1.3.4_bshk7hrfq7dto4shoryv23dana
       '@react-navigation/native': registry.npmjs.org/@react-navigation/native/6.0.10_li67rxuecrv4t7nknbczgycq3a
       react: registry.npmjs.org/react/18.1.0
       react-native: registry.npmjs.org/react-native/0.70.3_j7e373p77i2v54hdygqxp3cfya
-      react-native-safe-area-context: registry.npmjs.org/react-native-safe-area-context/4.3.1_li67rxuecrv4t7nknbczgycq3a
-      react-native-screens: registry.npmjs.org/react-native-screens/3.15.0_li67rxuecrv4t7nknbczgycq3a
+      react-native-safe-area-context: registry.npmjs.org/react-native-safe-area-context/4.4.1_li67rxuecrv4t7nknbczgycq3a
+      react-native-screens: registry.npmjs.org/react-native-screens/3.18.2_li67rxuecrv4t7nknbczgycq3a
       warn-once: registry.npmjs.org/warn-once/0.1.0
     dev: false
 
@@ -7236,7 +7231,7 @@ packages:
       nanoid: registry.npmjs.org/nanoid/3.3.4
     dev: false
 
-  registry.npmjs.org/@react-navigation/stack/6.2.1_yiwaogdnzlr7i2gjpxkyabpxjq:
+  registry.npmjs.org/@react-navigation/stack/6.2.1_f6j5obffrttltuivk6astpb4xm:
     resolution: {integrity: sha512-JI7boxtPAMCBXi4VJHVEq61jLVHFW5f3npvbndS+XfOsv7Gf0f91HOVJ28DS5c2Fn4+CO4AByjUozzlN296X+A==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@react-navigation/stack/-/stack-6.2.1.tgz}
     id: registry.npmjs.org/@react-navigation/stack/6.2.1
     name: '@react-navigation/stack'
@@ -7249,14 +7244,14 @@ packages:
       react-native-safe-area-context: '>= 3.0.0'
       react-native-screens: '>= 3.0.0'
     dependencies:
-      '@react-navigation/elements': registry.npmjs.org/@react-navigation/elements/1.3.3_hlu4fl6wzkujaevwhb2cz3odai
+      '@react-navigation/elements': registry.npmjs.org/@react-navigation/elements/1.3.3_bshk7hrfq7dto4shoryv23dana
       '@react-navigation/native': registry.npmjs.org/@react-navigation/native/6.0.10_li67rxuecrv4t7nknbczgycq3a
       color: registry.npmjs.org/color/3.2.1
       react: registry.npmjs.org/react/18.1.0
       react-native: registry.npmjs.org/react-native/0.70.3_j7e373p77i2v54hdygqxp3cfya
-      react-native-gesture-handler: registry.npmjs.org/react-native-gesture-handler/2.5.0_li67rxuecrv4t7nknbczgycq3a
-      react-native-safe-area-context: registry.npmjs.org/react-native-safe-area-context/4.3.1_li67rxuecrv4t7nknbczgycq3a
-      react-native-screens: registry.npmjs.org/react-native-screens/3.15.0_li67rxuecrv4t7nknbczgycq3a
+      react-native-gesture-handler: registry.npmjs.org/react-native-gesture-handler/2.8.0_li67rxuecrv4t7nknbczgycq3a
+      react-native-safe-area-context: registry.npmjs.org/react-native-safe-area-context/4.4.1_li67rxuecrv4t7nknbczgycq3a
+      react-native-screens: registry.npmjs.org/react-native-screens/3.18.2_li67rxuecrv4t7nknbczgycq3a
       warn-once: registry.npmjs.org/warn-once/0.1.0
     dev: false
 
@@ -8401,7 +8396,6 @@ packages:
     resolution: {integrity: sha512-JCB8C6SnDoQf0cNycqd/35A7MjcnK+ZTqE7judS6o7utxUCg6imJg3QK2qzHKszlTjcj2cn+NwMB2i96ubpj7w==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@types/prop-types/-/prop-types-15.7.5.tgz}
     name: '@types/prop-types'
     version: 15.7.5
-    dev: true
 
   registry.npmjs.org/@types/puppeteer-core/5.4.0:
     resolution: {integrity: sha512-yqRPuv4EFcSkTyin6Yy17pN6Qz2vwVwTCJIDYMXbE3j8vTPhv0nCQlZOl5xfi0WHUkqvQsjAR8hAfjeMCoetwg==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@types/puppeteer-core/-/puppeteer-core-5.4.0.tgz}
@@ -8450,6 +8444,14 @@ packages:
       '@types/react': registry.npmjs.org/@types/react/18.0.14
     dev: true
 
+  registry.npmjs.org/@types/react-test-renderer/18.0.0:
+    resolution: {integrity: sha512-C7/5FBJ3g3sqUahguGi03O79b8afNeSD6T8/GU50oQrJCU0bVCCGQHaGKUbg2Ce8VQEEqTw8/HiS6lXHHdgkdQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@types/react-test-renderer/-/react-test-renderer-18.0.0.tgz}
+    name: '@types/react-test-renderer'
+    version: 18.0.0
+    dependencies:
+      '@types/react': registry.npmjs.org/@types/react/18.0.14
+    dev: false
+
   registry.npmjs.org/@types/react/18.0.14:
     resolution: {integrity: sha512-x4gGuASSiWmo0xjDLpm5mPb52syZHJx02VKbqUKdLmKtAwIh63XClGsiTI1K6DO5q7ox4xAsQrU+Gl3+gGXF9Q==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@types/react/-/react-18.0.14.tgz}
     name: '@types/react'
@@ -8458,7 +8460,6 @@ packages:
       '@types/prop-types': registry.npmjs.org/@types/prop-types/15.7.5
       '@types/scheduler': registry.npmjs.org/@types/scheduler/0.16.2
       csstype: registry.npmjs.org/csstype/3.1.0
-    dev: true
 
   registry.npmjs.org/@types/request/2.48.8:
     resolution: {integrity: sha512-whjk1EDJPcAR2kYHRbFl/lKeeKYTi05A15K9bnLInCVroNDCtXce57xKdI0/rQaA3K+6q0eFyUBPmqfSndUZdQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@types/request/-/request-2.48.8.tgz}
@@ -8517,7 +8518,6 @@ packages:
     resolution: {integrity: sha512-hppQEBDmlwhFAXKJX2KnWLYu5yMfi91yazPb2l+lbJiwW+wdo1gNeRA+3RgNSO39WYX2euey41KEwnqesU2Jew==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@types/scheduler/-/scheduler-0.16.2.tgz}
     name: '@types/scheduler'
     version: 0.16.2
-    dev: true
 
   registry.npmjs.org/@types/semver/7.3.10:
     resolution: {integrity: sha512-zsv3fsC7S84NN6nPK06u79oWgrPVd0NvOyqgghV1haPaFcVxIrP4DLomRwGAXk0ui4HZA7mOcSFL98sMVW9viw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@types/semver/-/semver-7.3.10.tgz}
@@ -15226,7 +15226,6 @@ packages:
     resolution: {integrity: sha512-uX1KG+x9h5hIJsaKR9xHUeUraxf8IODOwq9JLNPq6BwB04a/xgpq3rcx47l5BZu5zBPlgD342tdke3Hom/nJRA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/csstype/-/csstype-3.1.0.tgz}
     name: csstype
     version: 3.1.0
-    dev: true
 
   registry.npmjs.org/cuint/0.2.2:
     resolution: {integrity: sha512-d4ZVpCW31eWwCMe1YT3ur7mUDnTXbgwyzaL320DrcRT45rfjYxkt5QWLrmOJ+/UEAI2+fQgKe/fCjR8l4TpRgw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/cuint/-/cuint-0.2.2.tgz}
@@ -29382,22 +29381,22 @@ packages:
       react-native: registry.npmjs.org/react-native/0.70.3_j7e373p77i2v54hdygqxp3cfya
     dev: false
 
-  registry.npmjs.org/react-native-device-info/10.0.2_react-native@0.70.3:
-    resolution: {integrity: sha512-6XY8EctYqNEX6EHDoHxz3yONOYxCHKrgEdStP7HZDYzFXb1JB5BFt7UbXDWrmihXUZDv06sBsjN26+Tp0EajXw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/react-native-device-info/-/react-native-device-info-10.0.2.tgz}
-    id: registry.npmjs.org/react-native-device-info/10.0.2
+  registry.npmjs.org/react-native-device-info/10.3.0_react-native@0.70.3:
+    resolution: {integrity: sha512-/ziZN1sA1REbJTv5mQZ4tXggcTvSbct+u5kCaze8BmN//lbxcTvWsU6NQd4IihLt89VkbX+14IGc9sVApSxd/w==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/react-native-device-info/-/react-native-device-info-10.3.0.tgz}
+    id: registry.npmjs.org/react-native-device-info/10.3.0
     name: react-native-device-info
-    version: 10.0.2
+    version: 10.3.0
     peerDependencies:
       react-native: '*'
     dependencies:
       react-native: registry.npmjs.org/react-native/0.70.3_j7e373p77i2v54hdygqxp3cfya
     dev: false
 
-  registry.npmjs.org/react-native-gesture-handler/2.5.0_li67rxuecrv4t7nknbczgycq3a:
-    resolution: {integrity: sha512-djZdcprFf08PZC332D+AeG5wcGeAPhzfCJtB3otUgOgTlvjVXmg/SLFdPJSpzLBqkRAmrC77tM79QgKbuLxkfw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/react-native-gesture-handler/-/react-native-gesture-handler-2.5.0.tgz}
-    id: registry.npmjs.org/react-native-gesture-handler/2.5.0
+  registry.npmjs.org/react-native-gesture-handler/2.8.0_li67rxuecrv4t7nknbczgycq3a:
+    resolution: {integrity: sha512-poOSfz/w0IyD6Qwq7aaIRRfEaVTl1ecQFoyiIbpOpfNTjm2B1niY2FLrdVQIOtIOe+K9nH55Qal04nr4jGkHdQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/react-native-gesture-handler/-/react-native-gesture-handler-2.8.0.tgz}
+    id: registry.npmjs.org/react-native-gesture-handler/2.8.0
     name: react-native-gesture-handler
-    version: 2.5.0
+    version: 2.8.0
     peerDependencies:
       react: '*'
       react-native: '*'
@@ -29489,11 +29488,11 @@ packages:
       react-native: registry.npmjs.org/react-native/0.70.3_j7e373p77i2v54hdygqxp3cfya
     dev: false
 
-  registry.npmjs.org/react-native-pager-view/5.4.25_li67rxuecrv4t7nknbczgycq3a:
-    resolution: {integrity: sha512-3drrYwaLat2fYszymZe3nHMPASJ4aJMaxiejfA1V5SK3OygYmdtmV2u5prX7TnjueJzGSyyaCYEr2JlrRt4YPg==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/react-native-pager-view/-/react-native-pager-view-5.4.25.tgz}
-    id: registry.npmjs.org/react-native-pager-view/5.4.25
+  registry.npmjs.org/react-native-pager-view/6.0.1_li67rxuecrv4t7nknbczgycq3a:
+    resolution: {integrity: sha512-kOVNu+4JnR3Gpykviy4WbOAnQz8TgP6O2pRvne221oPUDQLYrvEE/FINR0P85TxbMgvKTPlLejGw0ZHQbezK/g==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/react-native-pager-view/-/react-native-pager-view-6.0.1.tgz}
+    id: registry.npmjs.org/react-native-pager-view/6.0.1
     name: react-native-pager-view
-    version: 5.4.25
+    version: 6.0.1
     peerDependencies:
       react: '*'
       react-native: '*'
@@ -29542,11 +29541,11 @@ packages:
       - react
     dev: false
 
-  registry.npmjs.org/react-native-safe-area-context/4.3.1_li67rxuecrv4t7nknbczgycq3a:
-    resolution: {integrity: sha512-cEr7fknJCToTrSyDCVNg0GRdRMhyLeQa2NZwVCuzEQcWedOw/59ExomjmzCE4rxrKXs6OJbyfNtFRNyewDaHuA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/react-native-safe-area-context/-/react-native-safe-area-context-4.3.1.tgz}
-    id: registry.npmjs.org/react-native-safe-area-context/4.3.1
+  registry.npmjs.org/react-native-safe-area-context/4.4.1_li67rxuecrv4t7nknbczgycq3a:
+    resolution: {integrity: sha512-N9XTjiuD73ZpVlejHrUWIFZc+6Z14co1K/p1IFMkImU7+avD69F3y+lhkqA2hN/+vljdZrBSiOwXPkuo43nFQA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/react-native-safe-area-context/-/react-native-safe-area-context-4.4.1.tgz}
+    id: registry.npmjs.org/react-native-safe-area-context/4.4.1
     name: react-native-safe-area-context
-    version: 4.3.1
+    version: 4.4.1
     peerDependencies:
       react: '*'
       react-native: '*'
@@ -29555,11 +29554,11 @@ packages:
       react-native: registry.npmjs.org/react-native/0.70.3_j7e373p77i2v54hdygqxp3cfya
     dev: false
 
-  registry.npmjs.org/react-native-screens/3.15.0_li67rxuecrv4t7nknbczgycq3a:
-    resolution: {integrity: sha512-ezC5TibsUYyqPuuHpZoM3iEl6bRzCVBMJeGaFkn7xznuOt1VwkZVub0BvafIEYR/+AQC/RjxzMSQPs1qal0+wA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/react-native-screens/-/react-native-screens-3.15.0.tgz}
-    id: registry.npmjs.org/react-native-screens/3.15.0
+  registry.npmjs.org/react-native-screens/3.18.2_li67rxuecrv4t7nknbczgycq3a:
+    resolution: {integrity: sha512-ANUEuvMUlsYJ1QKukEhzhfrvOUO9BVH9Nzg+6eWxpn3cfD/O83yPBOF8Mx6x5H/2+sMy+VS5x/chWOOo/U7QJw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/react-native-screens/-/react-native-screens-3.18.2.tgz}
+    id: registry.npmjs.org/react-native-screens/3.18.2
     name: react-native-screens
-    version: 3.15.0
+    version: 3.18.2
     peerDependencies:
       react: '*'
       react-native: '*'
@@ -29576,7 +29575,7 @@ packages:
     version: 1.0.0
     dev: false
 
-  registry.npmjs.org/react-native-svg-transformer/0.14.3_hl7qie37snnj6grvkgax4z65ma:
+  registry.npmjs.org/react-native-svg-transformer/0.14.3_moslbcew6tggi4gpmtks6kwd5m:
     resolution: {integrity: sha512-agDGdMeeBAsWEgg/u7mjtR2Z3c8smGCLep/n3svwifut9dpswZCP+bSIrU8ekg6RNtxAJL+eGJbWjJ38vWxw6g==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/react-native-svg-transformer/-/react-native-svg-transformer-0.14.3.tgz}
     id: registry.npmjs.org/react-native-svg-transformer/0.14.3
     name: react-native-svg-transformer
@@ -29589,20 +29588,20 @@ packages:
       '@svgr/plugin-svgo': registry.npmjs.org/@svgr/plugin-svgo/4.3.1
       path-dirname: registry.npmjs.org/path-dirname/1.0.2
       react-native: registry.npmjs.org/react-native/0.70.3_j7e373p77i2v54hdygqxp3cfya
-      react-native-svg: registry.npmjs.org/react-native-svg/12.4.3_li67rxuecrv4t7nknbczgycq3a
+      react-native-svg: registry.npmjs.org/react-native-svg/13.4.0_li67rxuecrv4t7nknbczgycq3a
       semver: registry.npmjs.org/semver/5.7.1
     transitivePeerDependencies:
       - supports-color
     dev: false
 
-  registry.npmjs.org/react-native-svg/12.4.3_li67rxuecrv4t7nknbczgycq3a:
-    resolution: {integrity: sha512-8OF+vvXsI854YlHBOQkanNcyio+7oQO0nQsS/Noji2VmPoMnLiJiMaxmOD9RHxGkbbo7lzbYWdxVdNibjN/8IA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/react-native-svg/-/react-native-svg-12.4.3.tgz}
-    id: registry.npmjs.org/react-native-svg/12.4.3
+  registry.npmjs.org/react-native-svg/13.4.0_li67rxuecrv4t7nknbczgycq3a:
+    resolution: {integrity: sha512-B3TwK+H0+JuRhYPzF21AgqMt4fjhCwDZ9QUtwNstT5XcslJBXC0FoTkdZo8IEb1Sv4suSqhZwlAY6lwOv3tHag==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/react-native-svg/-/react-native-svg-13.4.0.tgz}
+    id: registry.npmjs.org/react-native-svg/13.4.0
     name: react-native-svg
-    version: 12.4.3
+    version: 13.4.0
     peerDependencies:
       react: '*'
-      react-native: '>=0.50.0'
+      react-native: '*'
     dependencies:
       css-select: registry.npmjs.org/css-select/5.1.0
       css-tree: registry.npmjs.org/css-tree/1.1.3
