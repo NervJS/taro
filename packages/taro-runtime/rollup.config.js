@@ -6,7 +6,7 @@ const cwd = __dirname
 
 const baseConfig = {
   input: path.join(cwd, 'src/index.ts'),
-  external: ['react', 'nervjs', 'react-dom', 'vue', '@tarojs/shared', 'inversify', 'tslib'],
+  external: ['react', 'nervjs', 'react-dom', 'vue', '@tarojs/shared', 'inversify'],
   output: [
     {
       file: path.join(cwd, 'dist/index.js'),

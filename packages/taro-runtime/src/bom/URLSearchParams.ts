@@ -1,7 +1,5 @@
-// Inspired by https://github.com/ungap/url-search-params
-// And rewrite it with typescript
+import { isArray } from '@tarojs/shared'
 
-const isArray = Array.isArray
 const findReg = /[!'()~]|%20|%00/g
 const plusReg = /\+/g
 const replaceCharMap = {

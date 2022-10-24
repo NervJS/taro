@@ -47,27 +47,29 @@ if (process.env.TARO_ENV && process.env.TARO_ENV !== 'h5') {
     }
 
     initEvent () {
+      const _location = this.location; const _history = this.history
+
       this.on(CONTEXT_ACTIONS.INIT, (pageId: string) => {
         // 页面onload，为该页面建立新的上下文信息
-        this.location.trigger(CONTEXT_ACTIONS.INIT, pageId)
+        _location.trigger(CONTEXT_ACTIONS.INIT, pageId)
       }, null)
 
       this.on(CONTEXT_ACTIONS.RECOVER, (pageId: string) => {
         // 页面onshow，恢复当前页面的上下文信息
-        this.location.trigger(CONTEXT_ACTIONS.RECOVER, pageId)
-        this.history.trigger(CONTEXT_ACTIONS.RECOVER, pageId)
+        _location.trigger(CONTEXT_ACTIONS.RECOVER, pageId)
+        _history.trigger(CONTEXT_ACTIONS.RECOVER, pageId)
       }, null)
 
       this.on(CONTEXT_ACTIONS.RESTORE, (pageId: string) => {
         // 页面onhide，缓存当前页面的上下文信息
-        this.location.trigger(CONTEXT_ACTIONS.RESTORE, pageId)
-        this.history.trigger(CONTEXT_ACTIONS.RESTORE, pageId)
+        _location.trigger(CONTEXT_ACTIONS.RESTORE, pageId)
+        _history.trigger(CONTEXT_ACTIONS.RESTORE, pageId)
       }, null)
 
       this.on(CONTEXT_ACTIONS.DESTORY, (pageId: string) => {
         // 页面onunload，清除当前页面的上下文信息
-        this.location.trigger(CONTEXT_ACTIONS.DESTORY, pageId)
-        this.history.trigger(CONTEXT_ACTIONS.DESTORY, pageId)
+        _location.trigger(CONTEXT_ACTIONS.DESTORY, pageId)
+        _history.trigger(CONTEXT_ACTIONS.DESTORY, pageId)
       }, null)
     }
 

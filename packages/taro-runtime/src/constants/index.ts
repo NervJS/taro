@@ -50,8 +50,8 @@ export const BEHAVIORS = 'behaviors'
  * 页面上下文切换时的行为
  */
 export enum CONTEXT_ACTIONS {
-  INIT = '__init__',
-  RECOVER = '__recover__',
-  RESTORE = '__restore__',
-  DESTORY = '__destory__'
+  INIT = '0',
+  RECOVER = '1',
+  RESTORE = '2',
+  DESTORY = '3'
 }

@@ -3,7 +3,7 @@ import { EMPTY_OBJ, ensure, hooks, isArray, isFunction, isString, isUndefined, S
 
 import { raf } from '../bom/raf'
 import { window } from '../bom/window'
-import { BEHAVIORS, CONTEXT_ACTIONS,CUSTOM_WRAPPER, EXTERNAL_CLASSES, ON_HIDE, ON_LOAD, ON_READY, ON_SHOW, OPTIONS, PAGE_INIT, VIEW  } from '../constants'
+import { BEHAVIORS, CONTEXT_ACTIONS, CUSTOM_WRAPPER, EXTERNAL_CLASSES, ON_HIDE, ON_LOAD, ON_READY, ON_SHOW, OPTIONS, PAGE_INIT, VIEW  } from '../constants'
 import { Current } from '../current'
 import { eventHandler } from '../dom/event'
 import { eventCenter } from '../emitter/emitter'
