@@ -1,4 +1,3 @@
-import { PLATFORMS } from '@tarojs/helper'
 import { previewDev,previewProd } from '@tarojs/rn-supporter'
 import { spawn } from 'child_process'
 import { constants,copyFile } from 'fs'
@@ -25,8 +24,7 @@ function confirmFiles () {
 }
 
 export default async function build (_appPath: string, config: any): Promise<any> {
-  confirmFiles()
-  process.env.TARO_ENV = PLATFORMS.RN
+  process.env.TARO_ENV = 'rn'
   const isIos = config.deviceType === 'ios'
   const cliParams:string[] = []
   config.output = config.output || {}
@@ -51,7 +49,9 @@ export default async function build (_appPath: string, config: any): Promise<any
       _appPath,
       config
     )
-  } else if (config.isWatch) {
+  }
+  confirmFiles()
+  if (config.isWatch) {
     if (config.port) {
       cliParams.push('--port', config.port)
     }
