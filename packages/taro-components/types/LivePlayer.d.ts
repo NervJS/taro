@@ -136,6 +136,12 @@ interface LivePlayerProps extends StandardProps {
    * @supported swan
    */
   id?: string
+
+  /** 是否开启手机横屏时自动全屏，当系统设置开启自动旋转时生效
+   * @supported weapp
+   * @default false
+   */
+  enableAutoRotation?: string
 }
 declare namespace LivePlayerProps {
   /** mode 的合法值 */

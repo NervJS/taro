@@ -38,12 +38,12 @@ interface PickerViewProps extends StandardProps {
   onChange?: CommonEventFunction<PickerViewProps.onChangeEventDetail>
 
   /** 当滚动选择开始时候触发事件
-   * @supported weapp, tt, qq
+   * @supported weapp, alipay, tt, qq
    */
   onPickStart?: CommonEventFunction
 
   /** 当滚动选择结束时候触发事件
-   * @supported weapp, tt, qq
+   * @supported weapp, alipay, tt, qq
    */
   onPickEnd?: CommonEventFunction
 
@@ -56,16 +56,6 @@ interface PickerViewProps extends StandardProps {
    * @supported qq
    */
   ariaLabel?: string
-
-  /** 当滚动选择开始时候触发事件。
-   * @supported alipay
-   */
-  onPickerStart?: CommonEventFunction
-
-  /** 当滚动选择结束时候触发事件。
-   * @supported alipay
-   */
-  onPickerEnd?: CommonEventFunction
 }
 declare namespace PickerViewProps {
   interface onChangeEventDetail {
