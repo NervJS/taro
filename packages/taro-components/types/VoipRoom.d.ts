@@ -22,7 +22,7 @@ interface VoipRoomProps extends StandardProps {
    * @default none
    * @supported weapp
    */
-  openid?: string
+  openId?: string
 }
 declare namespace VoipRoomProps {
   /** 对话窗口类型 */

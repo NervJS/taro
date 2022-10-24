@@ -147,7 +147,10 @@ export class H5WebpackModule {
 
   /** 开发者的样式在尾部注入 */
   getCustomStyleRule (styleLoaderOption) {
-    const { enableExtract = process.env.NODE_ENV === 'production' } = this.combination.config
+    const {
+      mode,
+      enableExtract = mode === 'production'
+    } = this.combination.config
     const extractCssLoader = WebpackModule.getExtractCSSLoader()
     const styleLoader = WebpackModule.getStyleLoader(styleLoaderOption)
     const lastStyleLoader = enableExtract ? extractCssLoader : styleLoader

@@ -9,7 +9,7 @@ import { eventHandler } from '../dom/event'
 import { eventCenter } from '../emitter/emitter'
 import env from '../env'
 import { perf } from '../perf'
-import { customWrapperCache, incrementId } from '../utils'
+import { customWrapperCache, getComponentsAlias, incrementId } from '../utils'
 
 import type { PageConfig } from '@tarojs/taro'
 import type { TaroRootElement } from '../dom/root'
@@ -340,7 +340,7 @@ export function createRecursiveComponentConfig (componentName?: string) {
       i: {
         type: Object,
         value: {
-          [Shortcuts.NodeName]: VIEW
+          [Shortcuts.NodeName]: getComponentsAlias()[VIEW]._num
         }
       },
       l: {

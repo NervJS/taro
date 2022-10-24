@@ -38,7 +38,8 @@
     "@prefresh/core": "^1.3.4",
     "@prefresh/webpack": "^3.2.3",
     "preact": "^10.10.0",
-    "react-refresh": "^0.11.0"
+    "react-refresh": "^0.11.0",
+    "webpack": "5.69.0"
   },
   "peerDependencies": {
     "react": ">=17"

@@ -32,7 +32,7 @@ export class Combination<T extends MiniBuildConfig | H5BuildConfig = CommonBuild
     this.outputRoot = config.outputRoot || 'dist'
     this.sourceDir = path.resolve(appPath, this.sourceRoot)
     this.outputDir = path.resolve(appPath, this.outputRoot)
-    this.enableSourceMap = config.enableSourceMap ?? process.env.NODE_ENV !== 'production'
+    this.enableSourceMap = config.enableSourceMap ?? config.isWatch ?? process.env.NODE_ENV !== 'production'
   }
 
   async make () {
@@ -46,7 +46,7 @@ export class Combination<T extends MiniBuildConfig | H5BuildConfig = CommonBuild
   async pre (rawConfig: T) {
     const preMode = rawConfig.mode || process.env.NODE_ENV
     const mode = ['production', 'development', 'none'].find(e => e === preMode)
-      || (process.env.NODE_ENV === 'production' ? 'production' : 'development')
+      || (!rawConfig.isWatch || process.env.NODE_ENV === 'production' ? 'production' : 'development')
     /** process config.sass options */
     const sassLoaderOption = await getSassLoaderOption(rawConfig)
     this.config = {
@@ -87,7 +87,7 @@ export class Combination<T extends MiniBuildConfig | H5BuildConfig = CommonBuild
     }
 
     const defaultOptions: IPrebundle = {
-      enable: process.env.NODE_ENV !== 'production', // 因为使用了 esbuild 单独打包依赖，会使项目体积略微变大，所以生产模式下默认不开启
+      enable: this.config.mode !== 'production', // 因为使用了 esbuild 单独打包依赖，会使项目体积略微变大，所以生产模式下默认不开启
       timings: false,
       force: false,
       include,
