@@ -19,6 +19,7 @@ interface VoipRoomProps extends StandardProps {
   onError?: CommonEventFunction
 
   /** 进入房间用户的 openid
+   * @default none
    * @supported weapp
    */
   openId?: string
