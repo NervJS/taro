@@ -30,6 +30,6 @@
     "scheduler": "^0.20.1"
   },
   "devDependencies": {
-    "react": "^18"
+    "react": "^18.2.0"
   }
 }
