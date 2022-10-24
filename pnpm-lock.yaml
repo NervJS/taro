@@ -129,7 +129,7 @@ importers:
       node-sass: 6.0.1
       npm-run-all: ^4.1.2
       ora: 4.0.3
-      postcss: ^8.4.12
+      postcss: ^8.4.18
       postcss-scss: ^4.0.3
       power-assert: ^1.6.1
       preact: ^10.5.15
@@ -160,6 +160,7 @@ importers:
       webpack: 5.69.0
       webpack-chain: 6.5.1
       webpack-dev-server: 4.7.4
+      webpack-sources: ^3.2.3
     devDependencies:
       '@babel/cli': registry.npmjs.org/@babel/cli/7.17.10_@babel+core@7.18.5
       '@babel/core': registry.npmjs.org/@babel/core/7.18.5
@@ -286,8 +287,8 @@ importers:
       node-sass: registry.npmjs.org/node-sass/6.0.1
       npm-run-all: registry.npmjs.org/npm-run-all/4.1.5
       ora: registry.npmjs.org/ora/4.0.3
-      postcss: registry.npmjs.org/postcss/8.4.14
-      postcss-scss: registry.npmjs.org/postcss-scss/4.0.4_postcss@8.4.14
+      postcss: registry.npmjs.org/postcss/8.4.18
+      postcss-scss: registry.npmjs.org/postcss-scss/4.0.4_postcss@8.4.18
       power-assert: registry.npmjs.org/power-assert/1.6.1
       preact: registry.npmjs.org/preact/10.11.0
       prettier: registry.npmjs.org/prettier/2.7.1
@@ -304,7 +305,7 @@ importers:
       shelljs: registry.npmjs.org/shelljs/0.8.5
       sinon: registry.npmjs.org/sinon/7.5.0
       stylelint: registry.npmjs.org/stylelint/14.9.1
-      stylelint-config-standard-scss: registry.npmjs.org/stylelint-config-standard-scss/3.0.0_uyk3cwxn3favstz4untq233szu
+      stylelint-config-standard-scss: registry.npmjs.org/stylelint-config-standard-scss/3.0.0_tbxkegwovyw2ffmso5mcdjcnyu
       stylelint-config-taro-rn: link:packages/stylelint-config-taro-rn
       stylelint-order: registry.npmjs.org/stylelint-order/5.0.0_stylelint@14.9.1
       stylelint-taro-rn: link:packages/stylelint-taro-rn
@@ -317,6 +318,7 @@ importers:
       webpack: registry.npmjs.org/webpack/5.69.0_esbuild@0.14.47
       webpack-chain: registry.npmjs.org/webpack-chain/6.5.1
       webpack-dev-server: registry.npmjs.org/webpack-dev-server/4.7.4_webpack@5.69.0
+      webpack-sources: registry.npmjs.org/webpack-sources/3.2.3
 
   packages/babel-plugin-transform-react-jsx-to-rn-stylesheet:
     specifiers:
@@ -414,13 +416,22 @@ importers:
       typescript: registry.npmjs.org/typescript/4.7.4
 
   packages/postcss-html-transform:
-    specifiers: {}
+    specifiers:
+      postcss: ^8.4.18
+    devDependencies:
+      postcss: registry.npmjs.org/postcss/8.4.18
 
   packages/postcss-plugin-constparse:
-    specifiers: {}
+    specifiers:
+      postcss: ^8.4.18
+    devDependencies:
+      postcss: registry.npmjs.org/postcss/8.4.18
 
   packages/postcss-pxtransform:
-    specifiers: {}
+    specifiers:
+      postcss: ^8.4.18
+    devDependencies:
+      postcss: registry.npmjs.org/postcss/8.4.18
 
   packages/shared:
     specifiers: {}
@@ -488,7 +499,8 @@ importers:
       mem-fs-editor: 7.1.0
       minimist: 1.2.5
       npm-check: ^5.9.0
-      ora: ^2.0.0
+      ora: 4.0.3
+      postcss: ^8.4.18
       postcss-taro-unit-transform: 2.2.10
       prettier: ^1.16.4
       regenerator-runtime: '0.11'
@@ -526,7 +538,8 @@ importers:
       mem-fs-editor: registry.npmjs.org/mem-fs-editor/7.1.0
       minimist: registry.npmjs.org/minimist/1.2.5
       npm-check: registry.npmjs.org/npm-check/5.9.2
-      ora: registry.npmjs.org/ora/2.1.0
+      ora: registry.npmjs.org/ora/4.0.3
+      postcss: registry.npmjs.org/postcss/8.4.18
       postcss-taro-unit-transform: registry.npmjs.org/postcss-taro-unit-transform/2.2.10
       prettier: registry.npmjs.org/prettier/1.19.1
       regenerator-runtime: registry.npmjs.org/regenerator-runtime/0.11.1
@@ -777,6 +790,7 @@ importers:
       miniprogram-simulate: ^1.1.5
       mkdirp: ^1.0.4
       ora: 4.0.3
+      postcss: ^8.4.18
       postcss-html-transform: workspace:*
       postcss-import: ^14.0.0
       postcss-loader: ^7.0.1
@@ -837,10 +851,10 @@ importers:
       mkdirp: registry.npmjs.org/mkdirp/1.0.4
       ora: registry.npmjs.org/ora/4.0.3
       postcss-html-transform: link:../postcss-html-transform
-      postcss-import: registry.npmjs.org/postcss-import/14.1.0
-      postcss-loader: registry.npmjs.org/postcss-loader/7.0.1_webpack@4.46.0
+      postcss-import: registry.npmjs.org/postcss-import/14.1.0_postcss@8.4.18
+      postcss-loader: registry.npmjs.org/postcss-loader/7.0.1_dhonik3q6ff6ozbzdscnovq2ka
       postcss-pxtransform: link:../postcss-pxtransform
-      postcss-url: registry.npmjs.org/postcss-url/10.1.3
+      postcss-url: registry.npmjs.org/postcss-url/10.1.3_postcss@8.4.18
       regenerator-runtime: registry.npmjs.org/regenerator-runtime/0.11.1
       resolve: registry.npmjs.org/resolve/1.22.1
       resolve-url-loader: registry.npmjs.org/resolve-url-loader/4.0.0
@@ -859,6 +873,7 @@ importers:
       webpack-sources: registry.npmjs.org/webpack-sources/1.4.3
     devDependencies:
       '@types/webpack': registry.npmjs.org/@types/webpack/4.41.32
+      postcss: registry.npmjs.org/postcss/8.4.18
       vue-loader: registry.npmjs.org/vue-loader/15.9.8_wp7nvls7fysseamnft7sdne2jm
       webpack-merge: registry.npmjs.org/webpack-merge/4.2.2
 
@@ -1148,6 +1163,7 @@ importers:
       '@tarojs/helper': workspace:*
       fbjs: ^2.0.0
       less: ^3.12.2
+      postcss: ^8.4.18
       postcss-import: ^14.0.0
       postcss-pxtransform: workspace:*
       postcss-reporter: ^7.0.5
@@ -1163,9 +1179,9 @@ importers:
       '@tarojs/helper': link:../taro-helper
       fbjs: registry.npmjs.org/fbjs/2.0.0
       less: registry.npmjs.org/less/3.13.1
-      postcss-import: registry.npmjs.org/postcss-import/14.1.0
+      postcss-import: registry.npmjs.org/postcss-import/14.1.0_postcss@8.4.18
       postcss-pxtransform: link:../postcss-pxtransform
-      postcss-reporter: registry.npmjs.org/postcss-reporter/7.0.5
+      postcss-reporter: registry.npmjs.org/postcss-reporter/7.0.5_postcss@8.4.18
       prop-types: registry.npmjs.org/prop-types/15.8.1
       resolve: registry.npmjs.org/resolve/1.22.1
       sass: registry.npmjs.org/sass/1.37.5
@@ -1174,6 +1190,8 @@ importers:
       stylelint-taro-rn: link:../stylelint-taro-rn
       stylus: registry.npmjs.org/stylus/0.55.0
       taro-css-to-react-native: link:../css-to-react-native
+    devDependencies:
+      postcss: registry.npmjs.org/postcss/8.4.18
 
   packages/taro-rn-supporter:
     specifiers:
@@ -1356,12 +1374,13 @@ importers:
       mini-css-extract-plugin: 0.9.0
       open: 7.0.2
       ora: 4.0.3
+      postcss: ^8.4.18
       postcss-html-transform: workspace:*
-      postcss-import: 12.0.1
+      postcss-import: ^14.0.0
       postcss-loader: ^7.0.1
       postcss-plugin-constparse: workspace:*
       postcss-pxtransform: workspace:*
-      postcss-url: 8.0.0
+      postcss-url: ^10.1.3
       resolve: ^1.22.0
       resolve-url-loader: 3.1.3
       sass: 1.50.0
@@ -1399,11 +1418,11 @@ importers:
       open: registry.npmjs.org/open/7.0.2
       ora: registry.npmjs.org/ora/4.0.3
       postcss-html-transform: link:../postcss-html-transform
-      postcss-import: registry.npmjs.org/postcss-import/12.0.1
-      postcss-loader: registry.npmjs.org/postcss-loader/7.0.1_webpack@4.46.0
+      postcss-import: registry.npmjs.org/postcss-import/14.1.0_postcss@8.4.18
+      postcss-loader: registry.npmjs.org/postcss-loader/7.0.1_dhonik3q6ff6ozbzdscnovq2ka
       postcss-plugin-constparse: link:../postcss-plugin-constparse
       postcss-pxtransform: link:../postcss-pxtransform
-      postcss-url: registry.npmjs.org/postcss-url/8.0.0
+      postcss-url: registry.npmjs.org/postcss-url/10.1.3_postcss@8.4.18
       resolve: registry.npmjs.org/resolve/1.22.1
       resolve-url-loader: registry.npmjs.org/resolve-url-loader/3.1.3
       sass: registry.npmjs.org/sass/1.50.0
@@ -1420,6 +1439,7 @@ importers:
       '@babel/core': registry.npmjs.org/@babel/core/7.18.5
       '@types/webpack': registry.npmjs.org/@types/webpack/4.41.32
       '@types/webpack-dev-server': registry.npmjs.org/@types/webpack-dev-server/3.11.6
+      postcss: registry.npmjs.org/postcss/8.4.18
       vue-loader: registry.npmjs.org/vue-loader/15.9.8_wp7nvls7fysseamnft7sdne2jm
       webpack: registry.npmjs.org/webpack/4.46.0
       webpack-merge: registry.npmjs.org/webpack-merge/4.2.2
@@ -1472,7 +1492,7 @@ importers:
       autoprefixer: ^9.7.4
       babel-loader: 8.2.1
       copy-webpack-plugin: 10.2.0
-      css-loader: 6.5.1
+      css-loader: ^6.7.1
       css-minimizer-webpack-plugin: 3.4.1
       csso: ^5.0.2
       detect-port: ^1.3.0
@@ -1493,13 +1513,13 @@ importers:
       miniprogram-simulate: ^1.1.5
       mkdirp: ^1.0.4
       ora: 4.0.3
-      postcss: ^8.4.12
+      postcss: ^8.4.18
       postcss-html-transform: workspace:*
-      postcss-import: 12.0.1
-      postcss-loader: 6.2.1
+      postcss-import: ^14.0.0
+      postcss-loader: ^7.0.1
       postcss-plugin-constparse: workspace:*
       postcss-pxtransform: workspace:*
-      postcss-url: 8.0.0
+      postcss-url: ^10.1.3
       regenerator-runtime: '0.11'
       resolve: ^1.22.0
       resolve-url-loader: 4.0.0
@@ -1537,7 +1557,7 @@ importers:
       autoprefixer: registry.npmjs.org/autoprefixer/9.8.8
       babel-loader: registry.npmjs.org/babel-loader/8.2.1_5vwatve7lqucxdrsxeecksmxbe
       copy-webpack-plugin: registry.npmjs.org/copy-webpack-plugin/10.2.0_webpack@5.69.0
-      css-loader: registry.npmjs.org/css-loader/6.5.1_webpack@5.69.0
+      css-loader: registry.npmjs.org/css-loader/6.7.1_webpack@5.69.0
       css-minimizer-webpack-plugin: registry.npmjs.org/css-minimizer-webpack-plugin/3.4.1_q3b3fgo4jmo5x2y3skthpzirge
       csso: registry.npmjs.org/csso/5.0.3
       detect-port: registry.npmjs.org/detect-port/1.3.0
@@ -1559,11 +1579,11 @@ importers:
       mkdirp: registry.npmjs.org/mkdirp/1.0.4
       ora: registry.npmjs.org/ora/4.0.3
       postcss-html-transform: link:../postcss-html-transform
-      postcss-import: registry.npmjs.org/postcss-import/12.0.1
-      postcss-loader: registry.npmjs.org/postcss-loader/6.2.1_jznxqvmnpew7yz6tc54mzzo5fy
+      postcss-import: registry.npmjs.org/postcss-import/14.1.0_postcss@8.4.18
+      postcss-loader: registry.npmjs.org/postcss-loader/7.0.1_n6vbysopnob6kdrnrpz57qmfbq
       postcss-plugin-constparse: link:../postcss-plugin-constparse
       postcss-pxtransform: link:../postcss-pxtransform
-      postcss-url: registry.npmjs.org/postcss-url/8.0.0
+      postcss-url: registry.npmjs.org/postcss-url/10.1.3_postcss@8.4.18
       regenerator-runtime: registry.npmjs.org/regenerator-runtime/0.11.1
       resolve: registry.npmjs.org/resolve/1.22.1
       resolve-url-loader: registry.npmjs.org/resolve-url-loader/4.0.0
@@ -1583,7 +1603,7 @@ importers:
       webpackbar: registry.npmjs.org/webpackbar/5.0.2_webpack@5.69.0
     devDependencies:
       '@babel/core': registry.npmjs.org/@babel/core/7.18.5
-      postcss: registry.npmjs.org/postcss/8.4.14
+      postcss: registry.npmjs.org/postcss/8.4.18
       webpack: registry.npmjs.org/webpack/5.69.0_esbuild@0.14.47
 
   packages/taro-with-weapp:
@@ -5889,7 +5909,7 @@ packages:
       '@jridgewell/trace-mapping': registry.npmjs.org/@jridgewell/trace-mapping/0.3.9
     dev: true
 
-  registry.npmjs.org/@csstools/selector-specificity/2.0.1_444rcjjorr3kpoqtvoodsr46pu:
+  registry.npmjs.org/@csstools/selector-specificity/2.0.1_dvkg4kkb622mvceygg47xxdz3a:
     resolution: {integrity: sha512-aG20vknL4/YjQF9BSV7ts4EWm/yrjagAN7OWBNmlbEOUiu0llj4OGrFoOKK3g2vey4/p2omKCoHrWtPxSwV3HA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@csstools/selector-specificity/-/selector-specificity-2.0.1.tgz}
     id: registry.npmjs.org/@csstools/selector-specificity/2.0.1
     name: '@csstools/selector-specificity'
@@ -5899,7 +5919,7 @@ packages:
       postcss: ^8.3
       postcss-selector-parser: ^6.0.10
     dependencies:
-      postcss: registry.npmjs.org/postcss/8.4.14
+      postcss: registry.npmjs.org/postcss/8.4.18
       postcss-selector-parser: registry.npmjs.org/postcss-selector-parser/6.0.10
 
   registry.npmjs.org/@egjs/hammerjs/2.0.17:
@@ -14260,13 +14280,6 @@ packages:
     engines: {node: '>=0.10.0'}
     dev: false
 
-  registry.npmjs.org/cli-spinners/1.3.1:
-    resolution: {integrity: sha512-1QL4544moEsDVH9T/l6Cemov/37iv1RtoKf7NJ04A60+4MREXNfx/QvavbH6QoGdsD4N4Mwy49cmaINR/o2mdg==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/cli-spinners/-/cli-spinners-1.3.1.tgz}
-    name: cli-spinners
-    version: 1.3.1
-    engines: {node: '>=4'}
-    dev: false
-
   registry.npmjs.org/cli-spinners/2.6.1:
     resolution: {integrity: sha512-x/5fWmGMnbKQAaNwN+UZlV79qBLM9JFnJuJ03gIi5whrob0xV0ofNVHy9DhwGdsMJQc2OKv0oGmLzvaqvAVv+g==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/cli-spinners/-/cli-spinners-2.6.1.tgz}
     name: cli-spinners
@@ -15650,6 +15663,18 @@ packages:
       postcss: registry.npmjs.org/postcss/8.4.14
     dev: false
 
+  registry.npmjs.org/css-declaration-sorter/6.3.0_postcss@8.4.18:
+    resolution: {integrity: sha512-OGT677UGHJTAVMRhPO+HJ4oKln3wkBTwtDFH0ojbqm+MJm6xuDMHp2nkhh/ThaBqq20IbraBQSWKfSLNHQO9Og==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/css-declaration-sorter/-/css-declaration-sorter-6.3.0.tgz}
+    id: registry.npmjs.org/css-declaration-sorter/6.3.0
+    name: css-declaration-sorter
+    version: 6.3.0
+    engines: {node: ^10 || ^12 || >=14}
+    peerDependencies:
+      postcss: ^8.0.9
+    dependencies:
+      postcss: registry.npmjs.org/postcss/8.4.18
+    dev: false
+
   registry.npmjs.org/css-functions-list/3.1.0:
     resolution: {integrity: sha512-/9lCvYZaUbBGvYUgYGFJ4dcYiyqdhSjG7IPVluoV8A1ILjkF7ilmhp1OGUz8n+nmBcu0RNrQAzgD8B6FJbrt2w==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/css-functions-list/-/css-functions-list-3.1.0.tgz}
     name: css-functions-list
@@ -15680,26 +15705,6 @@ packages:
       webpack: registry.npmjs.org/webpack/4.46.0
     dev: true
 
-  registry.npmjs.org/css-loader/6.5.1_webpack@5.69.0:
-    resolution: {integrity: sha512-gEy2w9AnJNnD9Kuo4XAP9VflW/ujKoS9c/syO+uWMlm5igc7LysKzPXaDoR2vroROkSwsTS2tGr1yGGEbZOYZQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/css-loader/-/css-loader-6.5.1.tgz}
-    id: registry.npmjs.org/css-loader/6.5.1
-    name: css-loader
-    version: 6.5.1
-    engines: {node: '>= 12.13.0'}
-    peerDependencies:
-      webpack: ^5.0.0
-    dependencies:
-      icss-utils: registry.npmjs.org/icss-utils/5.1.0_postcss@8.4.14
-      postcss: registry.npmjs.org/postcss/8.4.14
-      postcss-modules-extract-imports: registry.npmjs.org/postcss-modules-extract-imports/3.0.0_postcss@8.4.14
-      postcss-modules-local-by-default: registry.npmjs.org/postcss-modules-local-by-default/4.0.0_postcss@8.4.14
-      postcss-modules-scope: registry.npmjs.org/postcss-modules-scope/3.0.0_postcss@8.4.14
-      postcss-modules-values: registry.npmjs.org/postcss-modules-values/4.0.0_postcss@8.4.14
-      postcss-value-parser: registry.npmjs.org/postcss-value-parser/4.2.0
-      semver: registry.npmjs.org/semver/7.3.7
-      webpack: registry.npmjs.org/webpack/5.69.0_esbuild@0.14.47
-    dev: false
-
   registry.npmjs.org/css-loader/6.7.1_webpack@4.46.0:
     resolution: {integrity: sha512-yB5CNFa14MbPJcomwNh3wLThtkZgcNyI2bNMRt8iE5Z8Vwl7f8vQXFAzn2HDOJvtDq2NTZBUGMSUNNyrv3/+cw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/css-loader/-/css-loader-6.7.1.tgz}
     id: registry.npmjs.org/css-loader/6.7.1
@@ -15709,15 +15714,35 @@ packages:
     peerDependencies:
       webpack: ^5.0.0
     dependencies:
-      icss-utils: registry.npmjs.org/icss-utils/5.1.0_postcss@8.4.14
-      postcss: registry.npmjs.org/postcss/8.4.14
-      postcss-modules-extract-imports: registry.npmjs.org/postcss-modules-extract-imports/3.0.0_postcss@8.4.14
-      postcss-modules-local-by-default: registry.npmjs.org/postcss-modules-local-by-default/4.0.0_postcss@8.4.14
-      postcss-modules-scope: registry.npmjs.org/postcss-modules-scope/3.0.0_postcss@8.4.14
-      postcss-modules-values: registry.npmjs.org/postcss-modules-values/4.0.0_postcss@8.4.14
+      icss-utils: registry.npmjs.org/icss-utils/5.1.0_postcss@8.4.18
+      postcss: registry.npmjs.org/postcss/8.4.18
+      postcss-modules-extract-imports: registry.npmjs.org/postcss-modules-extract-imports/3.0.0_postcss@8.4.18
+      postcss-modules-local-by-default: registry.npmjs.org/postcss-modules-local-by-default/4.0.0_postcss@8.4.18
+      postcss-modules-scope: registry.npmjs.org/postcss-modules-scope/3.0.0_postcss@8.4.18
+      postcss-modules-values: registry.npmjs.org/postcss-modules-values/4.0.0_postcss@8.4.18
       postcss-value-parser: registry.npmjs.org/postcss-value-parser/4.2.0
       semver: registry.npmjs.org/semver/7.3.7
       webpack: registry.npmjs.org/webpack/4.46.0
+
+  registry.npmjs.org/css-loader/6.7.1_webpack@5.69.0:
+    resolution: {integrity: sha512-yB5CNFa14MbPJcomwNh3wLThtkZgcNyI2bNMRt8iE5Z8Vwl7f8vQXFAzn2HDOJvtDq2NTZBUGMSUNNyrv3/+cw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/css-loader/-/css-loader-6.7.1.tgz}
+    id: registry.npmjs.org/css-loader/6.7.1
+    name: css-loader
+    version: 6.7.1
+    engines: {node: '>= 12.13.0'}
+    peerDependencies:
+      webpack: ^5.0.0
+    dependencies:
+      icss-utils: registry.npmjs.org/icss-utils/5.1.0_postcss@8.4.18
+      postcss: registry.npmjs.org/postcss/8.4.18
+      postcss-modules-extract-imports: registry.npmjs.org/postcss-modules-extract-imports/3.0.0_postcss@8.4.18
+      postcss-modules-local-by-default: registry.npmjs.org/postcss-modules-local-by-default/4.0.0_postcss@8.4.18
+      postcss-modules-scope: registry.npmjs.org/postcss-modules-scope/3.0.0_postcss@8.4.18
+      postcss-modules-values: registry.npmjs.org/postcss-modules-values/4.0.0_postcss@8.4.18
+      postcss-value-parser: registry.npmjs.org/postcss-value-parser/4.2.0
+      semver: registry.npmjs.org/semver/7.3.7
+      webpack: registry.npmjs.org/webpack/5.69.0_esbuild@0.14.47
+    dev: false
 
   registry.npmjs.org/css-mediaquery/0.1.2:
     resolution: {integrity: sha512-COtn4EROW5dBGlE/4PiKnh6rZpAPxDeFLaEEwt4i10jpDMFt2EhQGS79QmmrO+iKCHv0PU/HrOWEhijFd1x99Q==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/css-mediaquery/-/css-mediaquery-0.1.2.tgz}
@@ -15748,11 +15773,11 @@ packages:
         optional: true
     dependencies:
       '@parcel/css': registry.npmjs.org/@parcel/css/1.10.1
-      cssnano: registry.npmjs.org/cssnano/5.1.12_postcss@8.4.14
+      cssnano: registry.npmjs.org/cssnano/5.1.12_postcss@8.4.18
       csso: registry.npmjs.org/csso/5.0.3
       esbuild: registry.npmjs.org/esbuild/0.14.47
       jest-worker: registry.npmjs.org/jest-worker/27.5.1
-      postcss: registry.npmjs.org/postcss/8.4.14
+      postcss: registry.npmjs.org/postcss/8.4.18
       schema-utils: registry.npmjs.org/schema-utils/4.0.0
       serialize-javascript: registry.npmjs.org/serialize-javascript/6.0.0
       source-map: registry.npmjs.org/source-map/0.6.1
@@ -15995,6 +16020,47 @@ packages:
       postcss-unique-selectors: registry.npmjs.org/postcss-unique-selectors/5.1.1_postcss@8.4.14
     dev: false
 
+  registry.npmjs.org/cssnano-preset-default/5.2.12_postcss@8.4.18:
+    resolution: {integrity: sha512-OyCBTZi+PXgylz9HAA5kHyoYhfGcYdwFmyaJzWnzxuGRtnMw/kR6ilW9XzlzlRAtB6PLT/r+prYgkef7hngFew==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/cssnano-preset-default/-/cssnano-preset-default-5.2.12.tgz}
+    id: registry.npmjs.org/cssnano-preset-default/5.2.12
+    name: cssnano-preset-default
+    version: 5.2.12
+    engines: {node: ^10 || ^12 || >=14.0}
+    peerDependencies:
+      postcss: ^8.2.15
+    dependencies:
+      css-declaration-sorter: registry.npmjs.org/css-declaration-sorter/6.3.0_postcss@8.4.18
+      cssnano-utils: registry.npmjs.org/cssnano-utils/3.1.0_postcss@8.4.18
+      postcss: registry.npmjs.org/postcss/8.4.18
+      postcss-calc: registry.npmjs.org/postcss-calc/8.2.4_postcss@8.4.18
+      postcss-colormin: registry.npmjs.org/postcss-colormin/5.3.0_postcss@8.4.18
+      postcss-convert-values: registry.npmjs.org/postcss-convert-values/5.1.2_postcss@8.4.18
+      postcss-discard-comments: registry.npmjs.org/postcss-discard-comments/5.1.2_postcss@8.4.18
+      postcss-discard-duplicates: registry.npmjs.org/postcss-discard-duplicates/5.1.0_postcss@8.4.18
+      postcss-discard-empty: registry.npmjs.org/postcss-discard-empty/5.1.1_postcss@8.4.18
+      postcss-discard-overridden: registry.npmjs.org/postcss-discard-overridden/5.1.0_postcss@8.4.18
+      postcss-merge-longhand: registry.npmjs.org/postcss-merge-longhand/5.1.6_postcss@8.4.18
+      postcss-merge-rules: registry.npmjs.org/postcss-merge-rules/5.1.2_postcss@8.4.18
+      postcss-minify-font-values: registry.npmjs.org/postcss-minify-font-values/5.1.0_postcss@8.4.18
+      postcss-minify-gradients: registry.npmjs.org/postcss-minify-gradients/5.1.1_postcss@8.4.18
+      postcss-minify-params: registry.npmjs.org/postcss-minify-params/5.1.3_postcss@8.4.18
+      postcss-minify-selectors: registry.npmjs.org/postcss-minify-selectors/5.2.1_postcss@8.4.18
+      postcss-normalize-charset: registry.npmjs.org/postcss-normalize-charset/5.1.0_postcss@8.4.18
+      postcss-normalize-display-values: registry.npmjs.org/postcss-normalize-display-values/5.1.0_postcss@8.4.18
+      postcss-normalize-positions: registry.npmjs.org/postcss-normalize-positions/5.1.1_postcss@8.4.18
+      postcss-normalize-repeat-style: registry.npmjs.org/postcss-normalize-repeat-style/5.1.1_postcss@8.4.18
+      postcss-normalize-string: registry.npmjs.org/postcss-normalize-string/5.1.0_postcss@8.4.18
+      postcss-normalize-timing-functions: registry.npmjs.org/postcss-normalize-timing-functions/5.1.0_postcss@8.4.18
+      postcss-normalize-unicode: registry.npmjs.org/postcss-normalize-unicode/5.1.0_postcss@8.4.18
+      postcss-normalize-url: registry.npmjs.org/postcss-normalize-url/5.1.0_postcss@8.4.18
+      postcss-normalize-whitespace: registry.npmjs.org/postcss-normalize-whitespace/5.1.1_postcss@8.4.18
+      postcss-ordered-values: registry.npmjs.org/postcss-ordered-values/5.1.3_postcss@8.4.18
+      postcss-reduce-initial: registry.npmjs.org/postcss-reduce-initial/5.1.0_postcss@8.4.18
+      postcss-reduce-transforms: registry.npmjs.org/postcss-reduce-transforms/5.1.0_postcss@8.4.18
+      postcss-svgo: registry.npmjs.org/postcss-svgo/5.1.0_postcss@8.4.18
+      postcss-unique-selectors: registry.npmjs.org/postcss-unique-selectors/5.1.1_postcss@8.4.18
+    dev: false
+
   registry.npmjs.org/cssnano-util-get-arguments/4.0.0:
     resolution: {integrity: sha512-6RIcwmV3/cBMG8Aj5gucQRsJb4vv4I4rn6YjPbVWd5+Pn/fuG+YseGvXGk00XLkoZkaj31QOD7vMUpNPC4FIuw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/cssnano-util-get-arguments/-/cssnano-util-get-arguments-4.0.0.tgz}
     name: cssnano-util-get-arguments
@@ -16037,6 +16103,18 @@ packages:
       postcss: registry.npmjs.org/postcss/8.4.14
     dev: false
 
+  registry.npmjs.org/cssnano-utils/3.1.0_postcss@8.4.18:
+    resolution: {integrity: sha512-JQNR19/YZhz4psLX/rQ9M83e3z2Wf/HdJbryzte4a3NSuafyp9w/I4U+hx5C2S9g41qlstH7DEWnZaaj83OuEA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/cssnano-utils/-/cssnano-utils-3.1.0.tgz}
+    id: registry.npmjs.org/cssnano-utils/3.1.0
+    name: cssnano-utils
+    version: 3.1.0
+    engines: {node: ^10 || ^12 || >=14.0}
+    peerDependencies:
+      postcss: ^8.2.15
+    dependencies:
+      postcss: registry.npmjs.org/postcss/8.4.18
+    dev: false
+
   registry.npmjs.org/cssnano/4.1.11:
     resolution: {integrity: sha512-6gZm2htn7xIPJOHY824ERgj8cNPgPxyCSnkXc4v7YvNW+TdVfzgngHcEhy/8D11kUWRUMbke+tC+AUcUsnMz2g==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/cssnano/-/cssnano-4.1.11.tgz}
     name: cssnano
@@ -16061,6 +16139,21 @@ packages:
       cssnano-preset-default: registry.npmjs.org/cssnano-preset-default/5.2.12_postcss@8.4.14
       lilconfig: registry.npmjs.org/lilconfig/2.0.5
       postcss: registry.npmjs.org/postcss/8.4.14
+      yaml: registry.npmjs.org/yaml/1.10.2
+    dev: false
+
+  registry.npmjs.org/cssnano/5.1.12_postcss@8.4.18:
+    resolution: {integrity: sha512-TgvArbEZu0lk/dvg2ja+B7kYoD7BBCmn3+k58xD0qjrGHsFzXY/wKTo9M5egcUCabPol05e/PVoIu79s2JN4WQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/cssnano/-/cssnano-5.1.12.tgz}
+    id: registry.npmjs.org/cssnano/5.1.12
+    name: cssnano
+    version: 5.1.12
+    engines: {node: ^10 || ^12 || >=14.0}
+    peerDependencies:
+      postcss: ^8.2.15
+    dependencies:
+      cssnano-preset-default: registry.npmjs.org/cssnano-preset-default/5.2.12_postcss@8.4.18
+      lilconfig: registry.npmjs.org/lilconfig/2.0.5
+      postcss: registry.npmjs.org/postcss/8.4.18
       yaml: registry.npmjs.org/yaml/1.10.2
     dev: false
 
@@ -21659,7 +21752,7 @@ packages:
       postcss: registry.npmjs.org/postcss/7.0.39
     dev: true
 
-  registry.npmjs.org/icss-utils/5.1.0_postcss@8.4.14:
+  registry.npmjs.org/icss-utils/5.1.0_postcss@8.4.18:
     resolution: {integrity: sha512-soFhflCVWLfRNOPU3iv5Z9VUdT44xFRbzjLsEzSr5AQmgqPMTHdU3PMT1Cf1ssx8fLNJDA1juftYl+PUcv3MqA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/icss-utils/-/icss-utils-5.1.0.tgz}
     id: registry.npmjs.org/icss-utils/5.1.0
     name: icss-utils
@@ -21668,7 +21761,7 @@ packages:
     peerDependencies:
       postcss: ^8.1.0
     dependencies:
-      postcss: registry.npmjs.org/postcss/8.4.14
+      postcss: registry.npmjs.org/postcss/8.4.18
 
   registry.npmjs.org/ieee754/1.2.1:
     resolution: {integrity: sha512-dcyqhDvX1C46lXZcVqCpK+FtMRQVdIMN6/Df5js2zouUsqG7I6sFxitIC+7KYK29KdXOLHdu9zL4sFnoVQnqaA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/ieee754/-/ieee754-1.2.1.tgz}
@@ -27285,20 +27378,6 @@ packages:
       object-assign: registry.npmjs.org/object-assign/4.1.1
     dev: false
 
-  registry.npmjs.org/ora/2.1.0:
-    resolution: {integrity: sha512-hNNlAd3gfv/iPmsNxYoAPLvxg7HuPozww7fFonMZvL84tP6Ox5igfk5j/+a9rtJJwqMgKK+JgWsAQik5o0HTLA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/ora/-/ora-2.1.0.tgz}
-    name: ora
-    version: 2.1.0
-    engines: {node: '>=4'}
-    dependencies:
-      chalk: registry.npmjs.org/chalk/2.4.2
-      cli-cursor: registry.npmjs.org/cli-cursor/2.1.0
-      cli-spinners: registry.npmjs.org/cli-spinners/1.3.1
-      log-symbols: registry.npmjs.org/log-symbols/2.2.0
-      strip-ansi: registry.npmjs.org/strip-ansi/4.0.0
-      wcwidth: registry.npmjs.org/wcwidth/1.0.1
-    dev: false
-
   registry.npmjs.org/ora/3.4.0:
     resolution: {integrity: sha512-eNwHudNbO1folBP3JsZ19v9azXWtQZjICdr3Q0TDPIaeBQ3mXLrh54wM+er0+hSp+dWKf+Z8KM58CYzEyIYxYg==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/ora/-/ora-3.4.0.tgz}
     name: ora
@@ -28185,6 +28264,19 @@ packages:
       postcss-value-parser: registry.npmjs.org/postcss-value-parser/4.2.0
     dev: false
 
+  registry.npmjs.org/postcss-calc/8.2.4_postcss@8.4.18:
+    resolution: {integrity: sha512-SmWMSJmB8MRnnULldx0lQIyhSNvuDl9HfrZkaqqE/WHAhToYsAvDq+yAsA/kIyINDszOp3Rh0GFoNuH5Ypsm3Q==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/postcss-calc/-/postcss-calc-8.2.4.tgz}
+    id: registry.npmjs.org/postcss-calc/8.2.4
+    name: postcss-calc
+    version: 8.2.4
+    peerDependencies:
+      postcss: ^8.2.2
+    dependencies:
+      postcss: registry.npmjs.org/postcss/8.4.18
+      postcss-selector-parser: registry.npmjs.org/postcss-selector-parser/6.0.10
+      postcss-value-parser: registry.npmjs.org/postcss-value-parser/4.2.0
+    dev: false
+
   registry.npmjs.org/postcss-colormin/4.0.3:
     resolution: {integrity: sha512-WyQFAdDZpExQh32j0U0feWisZ0dmOtPl44qYmJKkq9xFWY3p+4qnRzCHeNrkeRhwPHz9bQ3mo0/yVkaply0MNw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/postcss-colormin/-/postcss-colormin-4.0.3.tgz}
     name: postcss-colormin
@@ -28214,6 +28306,22 @@ packages:
       postcss-value-parser: registry.npmjs.org/postcss-value-parser/4.2.0
     dev: false
 
+  registry.npmjs.org/postcss-colormin/5.3.0_postcss@8.4.18:
+    resolution: {integrity: sha512-WdDO4gOFG2Z8n4P8TWBpshnL3JpmNmJwdnfP2gbk2qBA8PWwOYcmjmI/t3CmMeL72a7Hkd+x/Mg9O2/0rD54Pg==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/postcss-colormin/-/postcss-colormin-5.3.0.tgz}
+    id: registry.npmjs.org/postcss-colormin/5.3.0
+    name: postcss-colormin
+    version: 5.3.0
+    engines: {node: ^10 || ^12 || >=14.0}
+    peerDependencies:
+      postcss: ^8.2.15
+    dependencies:
+      browserslist: registry.npmjs.org/browserslist/4.21.0
+      caniuse-api: registry.npmjs.org/caniuse-api/3.0.0
+      colord: registry.npmjs.org/colord/2.9.2
+      postcss: registry.npmjs.org/postcss/8.4.18
+      postcss-value-parser: registry.npmjs.org/postcss-value-parser/4.2.0
+    dev: false
+
   registry.npmjs.org/postcss-convert-values/4.0.1:
     resolution: {integrity: sha512-Kisdo1y77KUC0Jmn0OXU/COOJbzM8cImvw1ZFsBgBgMgb1iL23Zs/LXRe3r+EZqM3vGYKdQ2YJVQ5VkJI+zEJQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/postcss-convert-values/-/postcss-convert-values-4.0.1.tgz}
     name: postcss-convert-values
@@ -28238,6 +28346,20 @@ packages:
       postcss-value-parser: registry.npmjs.org/postcss-value-parser/4.2.0
     dev: false
 
+  registry.npmjs.org/postcss-convert-values/5.1.2_postcss@8.4.18:
+    resolution: {integrity: sha512-c6Hzc4GAv95B7suy4udszX9Zy4ETyMCgFPUDtWjdFTKH1SE9eFY/jEpHSwTH1QPuwxHpWslhckUQWbNRM4ho5g==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/postcss-convert-values/-/postcss-convert-values-5.1.2.tgz}
+    id: registry.npmjs.org/postcss-convert-values/5.1.2
+    name: postcss-convert-values
+    version: 5.1.2
+    engines: {node: ^10 || ^12 || >=14.0}
+    peerDependencies:
+      postcss: ^8.2.15
+    dependencies:
+      browserslist: registry.npmjs.org/browserslist/4.21.0
+      postcss: registry.npmjs.org/postcss/8.4.18
+      postcss-value-parser: registry.npmjs.org/postcss-value-parser/4.2.0
+    dev: false
+
   registry.npmjs.org/postcss-discard-comments/4.0.2:
     resolution: {integrity: sha512-RJutN259iuRf3IW7GZyLM5Sw4GLTOH8FmsXBnv8Ab/Tc2k4SR4qbV4DNbyyY4+Sjo362SyDmW2DQ7lBSChrpkg==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/postcss-discard-comments/-/postcss-discard-comments-4.0.2.tgz}
     name: postcss-discard-comments
@@ -28257,6 +28379,18 @@ packages:
       postcss: ^8.2.15
     dependencies:
       postcss: registry.npmjs.org/postcss/8.4.14
+    dev: false
+
+  registry.npmjs.org/postcss-discard-comments/5.1.2_postcss@8.4.18:
+    resolution: {integrity: sha512-+L8208OVbHVF2UQf1iDmRcbdjJkuBF6IS29yBDSiWUIzpYaAhtNl6JYnYm12FnkeCwQqF5LeklOu6rAqgfBZqQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/postcss-discard-comments/-/postcss-discard-comments-5.1.2.tgz}
+    id: registry.npmjs.org/postcss-discard-comments/5.1.2
+    name: postcss-discard-comments
+    version: 5.1.2
+    engines: {node: ^10 || ^12 || >=14.0}
+    peerDependencies:
+      postcss: ^8.2.15
+    dependencies:
+      postcss: registry.npmjs.org/postcss/8.4.18
     dev: false
 
   registry.npmjs.org/postcss-discard-duplicates/4.0.2:
@@ -28280,6 +28414,18 @@ packages:
       postcss: registry.npmjs.org/postcss/8.4.14
     dev: false
 
+  registry.npmjs.org/postcss-discard-duplicates/5.1.0_postcss@8.4.18:
+    resolution: {integrity: sha512-zmX3IoSI2aoenxHV6C7plngHWWhUOV3sP1T8y2ifzxzbtnuhk1EdPwm0S1bIUNaJ2eNbWeGLEwzw8huPD67aQw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/postcss-discard-duplicates/-/postcss-discard-duplicates-5.1.0.tgz}
+    id: registry.npmjs.org/postcss-discard-duplicates/5.1.0
+    name: postcss-discard-duplicates
+    version: 5.1.0
+    engines: {node: ^10 || ^12 || >=14.0}
+    peerDependencies:
+      postcss: ^8.2.15
+    dependencies:
+      postcss: registry.npmjs.org/postcss/8.4.18
+    dev: false
+
   registry.npmjs.org/postcss-discard-empty/4.0.1:
     resolution: {integrity: sha512-B9miTzbznhDjTfjvipfHoqbWKwd0Mj+/fL5s1QOz06wufguil+Xheo4XpOnc4NqKYBCNqqEzgPv2aPBIJLox0w==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/postcss-discard-empty/-/postcss-discard-empty-4.0.1.tgz}
     name: postcss-discard-empty
@@ -28299,6 +28445,18 @@ packages:
       postcss: ^8.2.15
     dependencies:
       postcss: registry.npmjs.org/postcss/8.4.14
+    dev: false
+
+  registry.npmjs.org/postcss-discard-empty/5.1.1_postcss@8.4.18:
+    resolution: {integrity: sha512-zPz4WljiSuLWsI0ir4Mcnr4qQQ5e1Ukc3i7UfE2XcrwKK2LIPIqE5jxMRxO6GbI3cv//ztXDsXwEWT3BHOGh3A==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/postcss-discard-empty/-/postcss-discard-empty-5.1.1.tgz}
+    id: registry.npmjs.org/postcss-discard-empty/5.1.1
+    name: postcss-discard-empty
+    version: 5.1.1
+    engines: {node: ^10 || ^12 || >=14.0}
+    peerDependencies:
+      postcss: ^8.2.15
+    dependencies:
+      postcss: registry.npmjs.org/postcss/8.4.18
     dev: false
 
   registry.npmjs.org/postcss-discard-overridden/4.0.1:
@@ -28322,26 +28480,28 @@ packages:
       postcss: registry.npmjs.org/postcss/8.4.14
     dev: false
 
-  registry.npmjs.org/postcss-import/12.0.1:
-    resolution: {integrity: sha512-3Gti33dmCjyKBgimqGxL3vcV8w9+bsHwO5UrBawp796+jdardbcFl4RP5w/76BwNL7aGzpKstIfF9I+kdE8pTw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/postcss-import/-/postcss-import-12.0.1.tgz}
-    name: postcss-import
-    version: 12.0.1
-    engines: {node: '>=6.0.0'}
+  registry.npmjs.org/postcss-discard-overridden/5.1.0_postcss@8.4.18:
+    resolution: {integrity: sha512-21nOL7RqWR1kasIVdKs8HNqQJhFxLsyRfAnUDm4Fe4t4mCWL9OJiHvlHPjcd8zc5Myu89b/7wZDnOSjFgeWRtw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/postcss-discard-overridden/-/postcss-discard-overridden-5.1.0.tgz}
+    id: registry.npmjs.org/postcss-discard-overridden/5.1.0
+    name: postcss-discard-overridden
+    version: 5.1.0
+    engines: {node: ^10 || ^12 || >=14.0}
+    peerDependencies:
+      postcss: ^8.2.15
     dependencies:
-      postcss: registry.npmjs.org/postcss/7.0.39
-      postcss-value-parser: registry.npmjs.org/postcss-value-parser/3.3.1
-      read-cache: registry.npmjs.org/read-cache/1.0.0
-      resolve: registry.npmjs.org/resolve/1.22.1
+      postcss: registry.npmjs.org/postcss/8.4.18
     dev: false
 
-  registry.npmjs.org/postcss-import/14.1.0:
+  registry.npmjs.org/postcss-import/14.1.0_postcss@8.4.18:
     resolution: {integrity: sha512-flwI+Vgm4SElObFVPpTIT7SU7R3qk2L7PyduMcokiaVKuWv9d/U+Gm/QAd8NDLuykTWTkcrjOeD2Pp1rMeBTGw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/postcss-import/-/postcss-import-14.1.0.tgz}
+    id: registry.npmjs.org/postcss-import/14.1.0
     name: postcss-import
     version: 14.1.0
     engines: {node: '>=10.0.0'}
     peerDependencies:
       postcss: ^8.0.0
     dependencies:
+      postcss: registry.npmjs.org/postcss/8.4.18
       postcss-value-parser: registry.npmjs.org/postcss-value-parser/4.2.0
       read-cache: registry.npmjs.org/read-cache/1.0.0
       resolve: registry.npmjs.org/resolve/1.22.1
@@ -28357,24 +28517,7 @@ packages:
       import-cwd: registry.npmjs.org/import-cwd/2.1.0
     dev: true
 
-  registry.npmjs.org/postcss-loader/6.2.1_jznxqvmnpew7yz6tc54mzzo5fy:
-    resolution: {integrity: sha512-WbbYpmAaKcux/P66bZ40bpWsBucjx/TTgVVzRZ9yUO8yQfVBlameJ0ZGVaPfH64hNSBh63a+ICP5nqOpBA0w+Q==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/postcss-loader/-/postcss-loader-6.2.1.tgz}
-    id: registry.npmjs.org/postcss-loader/6.2.1
-    name: postcss-loader
-    version: 6.2.1
-    engines: {node: '>= 12.13.0'}
-    peerDependencies:
-      postcss: ^7.0.0 || ^8.0.1
-      webpack: ^5.0.0
-    dependencies:
-      cosmiconfig: registry.npmjs.org/cosmiconfig/7.0.1
-      klona: registry.npmjs.org/klona/2.0.5
-      postcss: registry.npmjs.org/postcss/8.4.14
-      semver: registry.npmjs.org/semver/7.3.7
-      webpack: registry.npmjs.org/webpack/5.69.0_esbuild@0.14.47
-    dev: false
-
-  registry.npmjs.org/postcss-loader/7.0.1_webpack@4.46.0:
+  registry.npmjs.org/postcss-loader/7.0.1_dhonik3q6ff6ozbzdscnovq2ka:
     resolution: {integrity: sha512-VRviFEyYlLjctSM93gAZtcJJ/iSkPZ79zWbN/1fSH+NisBByEiVLqpdVDrPLVSi8DX0oJo12kL/GppTBdKVXiQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/postcss-loader/-/postcss-loader-7.0.1.tgz}
     id: registry.npmjs.org/postcss-loader/7.0.1
     name: postcss-loader
@@ -28386,8 +28529,26 @@ packages:
     dependencies:
       cosmiconfig: registry.npmjs.org/cosmiconfig/7.0.1
       klona: registry.npmjs.org/klona/2.0.5
+      postcss: registry.npmjs.org/postcss/8.4.18
       semver: registry.npmjs.org/semver/7.3.7
       webpack: registry.npmjs.org/webpack/4.46.0
+    dev: false
+
+  registry.npmjs.org/postcss-loader/7.0.1_n6vbysopnob6kdrnrpz57qmfbq:
+    resolution: {integrity: sha512-VRviFEyYlLjctSM93gAZtcJJ/iSkPZ79zWbN/1fSH+NisBByEiVLqpdVDrPLVSi8DX0oJo12kL/GppTBdKVXiQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/postcss-loader/-/postcss-loader-7.0.1.tgz}
+    id: registry.npmjs.org/postcss-loader/7.0.1
+    name: postcss-loader
+    version: 7.0.1
+    engines: {node: '>= 14.15.0'}
+    peerDependencies:
+      postcss: ^7.0.0 || ^8.0.1
+      webpack: ^5.0.0
+    dependencies:
+      cosmiconfig: registry.npmjs.org/cosmiconfig/7.0.1
+      klona: registry.npmjs.org/klona/2.0.5
+      postcss: registry.npmjs.org/postcss/8.4.18
+      semver: registry.npmjs.org/semver/7.3.7
+      webpack: registry.npmjs.org/webpack/5.69.0_esbuild@0.14.47
     dev: false
 
   registry.npmjs.org/postcss-media-query-parser/0.2.3:
@@ -28421,6 +28582,20 @@ packages:
       stylehacks: registry.npmjs.org/stylehacks/5.1.0_postcss@8.4.14
     dev: false
 
+  registry.npmjs.org/postcss-merge-longhand/5.1.6_postcss@8.4.18:
+    resolution: {integrity: sha512-6C/UGF/3T5OE2CEbOuX7iNO63dnvqhGZeUnKkDeifebY0XqkkvrctYSZurpNE902LDf2yKwwPFgotnfSoPhQiw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/postcss-merge-longhand/-/postcss-merge-longhand-5.1.6.tgz}
+    id: registry.npmjs.org/postcss-merge-longhand/5.1.6
+    name: postcss-merge-longhand
+    version: 5.1.6
+    engines: {node: ^10 || ^12 || >=14.0}
+    peerDependencies:
+      postcss: ^8.2.15
+    dependencies:
+      postcss: registry.npmjs.org/postcss/8.4.18
+      postcss-value-parser: registry.npmjs.org/postcss-value-parser/4.2.0
+      stylehacks: registry.npmjs.org/stylehacks/5.1.0_postcss@8.4.18
+    dev: false
+
   registry.npmjs.org/postcss-merge-rules/4.0.3:
     resolution: {integrity: sha512-U7e3r1SbvYzO0Jr3UT/zKBVgYYyhAz0aitvGIYOYK5CPmkNih+WDSsS5tvPrJ8YMQYlEMvsZIiqmn7HdFUaeEQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/postcss-merge-rules/-/postcss-merge-rules-4.0.3.tgz}
     name: postcss-merge-rules
@@ -28451,6 +28626,22 @@ packages:
       postcss-selector-parser: registry.npmjs.org/postcss-selector-parser/6.0.10
     dev: false
 
+  registry.npmjs.org/postcss-merge-rules/5.1.2_postcss@8.4.18:
+    resolution: {integrity: sha512-zKMUlnw+zYCWoPN6yhPjtcEdlJaMUZ0WyVcxTAmw3lkkN/NDMRkOkiuctQEoWAOvH7twaxUUdvBWl0d4+hifRQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/postcss-merge-rules/-/postcss-merge-rules-5.1.2.tgz}
+    id: registry.npmjs.org/postcss-merge-rules/5.1.2
+    name: postcss-merge-rules
+    version: 5.1.2
+    engines: {node: ^10 || ^12 || >=14.0}
+    peerDependencies:
+      postcss: ^8.2.15
+    dependencies:
+      browserslist: registry.npmjs.org/browserslist/4.21.0
+      caniuse-api: registry.npmjs.org/caniuse-api/3.0.0
+      cssnano-utils: registry.npmjs.org/cssnano-utils/3.1.0_postcss@8.4.18
+      postcss: registry.npmjs.org/postcss/8.4.18
+      postcss-selector-parser: registry.npmjs.org/postcss-selector-parser/6.0.10
+    dev: false
+
   registry.npmjs.org/postcss-minify-font-values/4.0.2:
     resolution: {integrity: sha512-j85oO6OnRU9zPf04+PZv1LYIYOprWm6IA6zkXkrJXyRveDEuQggG6tvoy8ir8ZwjLxLuGfNkCZEQG7zan+Hbtg==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/postcss-minify-font-values/-/postcss-minify-font-values-4.0.2.tgz}
     name: postcss-minify-font-values
@@ -28471,6 +28662,19 @@ packages:
       postcss: ^8.2.15
     dependencies:
       postcss: registry.npmjs.org/postcss/8.4.14
+      postcss-value-parser: registry.npmjs.org/postcss-value-parser/4.2.0
+    dev: false
+
+  registry.npmjs.org/postcss-minify-font-values/5.1.0_postcss@8.4.18:
+    resolution: {integrity: sha512-el3mYTgx13ZAPPirSVsHqFzl+BBBDrXvbySvPGFnQcTI4iNslrPaFq4muTkLZmKlGk4gyFAYUBMH30+HurREyA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/postcss-minify-font-values/-/postcss-minify-font-values-5.1.0.tgz}
+    id: registry.npmjs.org/postcss-minify-font-values/5.1.0
+    name: postcss-minify-font-values
+    version: 5.1.0
+    engines: {node: ^10 || ^12 || >=14.0}
+    peerDependencies:
+      postcss: ^8.2.15
+    dependencies:
+      postcss: registry.npmjs.org/postcss/8.4.18
       postcss-value-parser: registry.npmjs.org/postcss-value-parser/4.2.0
     dev: false
 
@@ -28498,6 +28702,21 @@ packages:
       colord: registry.npmjs.org/colord/2.9.2
       cssnano-utils: registry.npmjs.org/cssnano-utils/3.1.0_postcss@8.4.14
       postcss: registry.npmjs.org/postcss/8.4.14
+      postcss-value-parser: registry.npmjs.org/postcss-value-parser/4.2.0
+    dev: false
+
+  registry.npmjs.org/postcss-minify-gradients/5.1.1_postcss@8.4.18:
+    resolution: {integrity: sha512-VGvXMTpCEo4qHTNSa9A0a3D+dxGFZCYwR6Jokk+/3oB6flu2/PnPXAh2x7x52EkY5xlIHLm+Le8tJxe/7TNhzw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/postcss-minify-gradients/-/postcss-minify-gradients-5.1.1.tgz}
+    id: registry.npmjs.org/postcss-minify-gradients/5.1.1
+    name: postcss-minify-gradients
+    version: 5.1.1
+    engines: {node: ^10 || ^12 || >=14.0}
+    peerDependencies:
+      postcss: ^8.2.15
+    dependencies:
+      colord: registry.npmjs.org/colord/2.9.2
+      cssnano-utils: registry.npmjs.org/cssnano-utils/3.1.0_postcss@8.4.18
+      postcss: registry.npmjs.org/postcss/8.4.18
       postcss-value-parser: registry.npmjs.org/postcss-value-parser/4.2.0
     dev: false
 
@@ -28530,6 +28749,21 @@ packages:
       postcss-value-parser: registry.npmjs.org/postcss-value-parser/4.2.0
     dev: false
 
+  registry.npmjs.org/postcss-minify-params/5.1.3_postcss@8.4.18:
+    resolution: {integrity: sha512-bkzpWcjykkqIujNL+EVEPOlLYi/eZ050oImVtHU7b4lFS82jPnsCb44gvC6pxaNt38Els3jWYDHTjHKf0koTgg==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/postcss-minify-params/-/postcss-minify-params-5.1.3.tgz}
+    id: registry.npmjs.org/postcss-minify-params/5.1.3
+    name: postcss-minify-params
+    version: 5.1.3
+    engines: {node: ^10 || ^12 || >=14.0}
+    peerDependencies:
+      postcss: ^8.2.15
+    dependencies:
+      browserslist: registry.npmjs.org/browserslist/4.21.0
+      cssnano-utils: registry.npmjs.org/cssnano-utils/3.1.0_postcss@8.4.18
+      postcss: registry.npmjs.org/postcss/8.4.18
+      postcss-value-parser: registry.npmjs.org/postcss-value-parser/4.2.0
+    dev: false
+
   registry.npmjs.org/postcss-minify-selectors/4.0.2:
     resolution: {integrity: sha512-D5S1iViljXBj9kflQo4YutWnJmwm8VvIsU1GeXJGiG9j8CIg9zs4voPMdQDUmIxetUOh60VilsNzCiAFTOqu3g==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/postcss-minify-selectors/-/postcss-minify-selectors-4.0.2.tgz}
     name: postcss-minify-selectors
@@ -28555,6 +28789,19 @@ packages:
       postcss-selector-parser: registry.npmjs.org/postcss-selector-parser/6.0.10
     dev: false
 
+  registry.npmjs.org/postcss-minify-selectors/5.2.1_postcss@8.4.18:
+    resolution: {integrity: sha512-nPJu7OjZJTsVUmPdm2TcaiohIwxP+v8ha9NehQ2ye9szv4orirRU3SDdtUmKH+10nzn0bAyOXZ0UEr7OpvLehg==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/postcss-minify-selectors/-/postcss-minify-selectors-5.2.1.tgz}
+    id: registry.npmjs.org/postcss-minify-selectors/5.2.1
+    name: postcss-minify-selectors
+    version: 5.2.1
+    engines: {node: ^10 || ^12 || >=14.0}
+    peerDependencies:
+      postcss: ^8.2.15
+    dependencies:
+      postcss: registry.npmjs.org/postcss/8.4.18
+      postcss-selector-parser: registry.npmjs.org/postcss-selector-parser/6.0.10
+    dev: false
+
   registry.npmjs.org/postcss-modules-extract-imports/1.1.0:
     resolution: {integrity: sha512-zF9+UIEvtpeqMGxhpeT9XaIevQSrBBCz9fi7SwfkmjVacsSj8DY5eFVgn+wY8I9vvdDDwK5xC8Myq4UkoLFIkA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/postcss-modules-extract-imports/-/postcss-modules-extract-imports-1.1.0.tgz}
     name: postcss-modules-extract-imports
@@ -28572,7 +28819,7 @@ packages:
       postcss: registry.npmjs.org/postcss/7.0.39
     dev: true
 
-  registry.npmjs.org/postcss-modules-extract-imports/3.0.0_postcss@8.4.14:
+  registry.npmjs.org/postcss-modules-extract-imports/3.0.0_postcss@8.4.18:
     resolution: {integrity: sha512-bdHleFnP3kZ4NYDhuGlVK+CMrQ/pqUm8bx/oGL93K6gVwiclvX5x0n76fYMKuIGKzlABOy13zsvqjb0f92TEXw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/postcss-modules-extract-imports/-/postcss-modules-extract-imports-3.0.0.tgz}
     id: registry.npmjs.org/postcss-modules-extract-imports/3.0.0
     name: postcss-modules-extract-imports
@@ -28581,7 +28828,7 @@ packages:
     peerDependencies:
       postcss: ^8.1.0
     dependencies:
-      postcss: registry.npmjs.org/postcss/8.4.14
+      postcss: registry.npmjs.org/postcss/8.4.18
 
   registry.npmjs.org/postcss-modules-local-by-default/1.2.0:
     resolution: {integrity: sha512-X4cquUPIaAd86raVrBwO8fwRfkIdbwFu7CTfEOjiZQHVQwlHRSkTgH5NLDmMm5+1hQO8u6dZ+TOOJDbay1hYpA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/postcss-modules-local-by-default/-/postcss-modules-local-by-default-1.2.0.tgz}
@@ -28604,7 +28851,7 @@ packages:
       postcss-value-parser: registry.npmjs.org/postcss-value-parser/4.2.0
     dev: true
 
-  registry.npmjs.org/postcss-modules-local-by-default/4.0.0_postcss@8.4.14:
+  registry.npmjs.org/postcss-modules-local-by-default/4.0.0_postcss@8.4.18:
     resolution: {integrity: sha512-sT7ihtmGSF9yhm6ggikHdV0hlziDTX7oFoXtuVWeDd3hHObNkcHRo9V3yg7vCAY7cONyxJC/XXCmmiHHcvX7bQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/postcss-modules-local-by-default/-/postcss-modules-local-by-default-4.0.0.tgz}
     id: registry.npmjs.org/postcss-modules-local-by-default/4.0.0
     name: postcss-modules-local-by-default
@@ -28613,8 +28860,8 @@ packages:
     peerDependencies:
       postcss: ^8.1.0
     dependencies:
-      icss-utils: registry.npmjs.org/icss-utils/5.1.0_postcss@8.4.14
-      postcss: registry.npmjs.org/postcss/8.4.14
+      icss-utils: registry.npmjs.org/icss-utils/5.1.0_postcss@8.4.18
+      postcss: registry.npmjs.org/postcss/8.4.18
       postcss-selector-parser: registry.npmjs.org/postcss-selector-parser/6.0.10
       postcss-value-parser: registry.npmjs.org/postcss-value-parser/4.2.0
 
@@ -28637,7 +28884,7 @@ packages:
       postcss-selector-parser: registry.npmjs.org/postcss-selector-parser/6.0.10
     dev: true
 
-  registry.npmjs.org/postcss-modules-scope/3.0.0_postcss@8.4.14:
+  registry.npmjs.org/postcss-modules-scope/3.0.0_postcss@8.4.18:
     resolution: {integrity: sha512-hncihwFA2yPath8oZ15PZqvWGkWf+XUfQgUGamS4LqoP1anQLOsOJw0vr7J7IwLpoY9fatA2qiGUGmuZL0Iqlg==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/postcss-modules-scope/-/postcss-modules-scope-3.0.0.tgz}
     id: registry.npmjs.org/postcss-modules-scope/3.0.0
     name: postcss-modules-scope
@@ -28646,7 +28893,7 @@ packages:
     peerDependencies:
       postcss: ^8.1.0
     dependencies:
-      postcss: registry.npmjs.org/postcss/8.4.14
+      postcss: registry.npmjs.org/postcss/8.4.18
       postcss-selector-parser: registry.npmjs.org/postcss-selector-parser/6.0.10
 
   registry.npmjs.org/postcss-modules-values/1.3.0:
@@ -28667,7 +28914,7 @@ packages:
       postcss: registry.npmjs.org/postcss/7.0.39
     dev: true
 
-  registry.npmjs.org/postcss-modules-values/4.0.0_postcss@8.4.14:
+  registry.npmjs.org/postcss-modules-values/4.0.0_postcss@8.4.18:
     resolution: {integrity: sha512-RDxHkAiEGI78gS2ofyvCsu7iycRv7oqw5xMWn9iMoR0N/7mf9D50ecQqUo5BZ9Zh2vH4bCUR/ktCqbB9m8vJjQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/postcss-modules-values/-/postcss-modules-values-4.0.0.tgz}
     id: registry.npmjs.org/postcss-modules-values/4.0.0
     name: postcss-modules-values
@@ -28676,8 +28923,8 @@ packages:
     peerDependencies:
       postcss: ^8.1.0
     dependencies:
-      icss-utils: registry.npmjs.org/icss-utils/5.1.0_postcss@8.4.14
-      postcss: registry.npmjs.org/postcss/8.4.14
+      icss-utils: registry.npmjs.org/icss-utils/5.1.0_postcss@8.4.18
+      postcss: registry.npmjs.org/postcss/8.4.18
 
   registry.npmjs.org/postcss-modules/2.0.0:
     resolution: {integrity: sha512-eqp+Bva+U2cwQO7dECJ8/V+X+uH1HduNeITB0CPPFAu6d/8LKQ32/j+p9rQ2YL1QytVcrNU0X+fBqgGmQIA1Rw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/postcss-modules/-/postcss-modules-2.0.0.tgz}
@@ -28712,6 +28959,18 @@ packages:
       postcss: registry.npmjs.org/postcss/8.4.14
     dev: false
 
+  registry.npmjs.org/postcss-normalize-charset/5.1.0_postcss@8.4.18:
+    resolution: {integrity: sha512-mSgUJ+pd/ldRGVx26p2wz9dNZ7ji6Pn8VWBajMXFf8jk7vUoSrZ2lt/wZR7DtlZYKesmZI680qjr2CeFF2fbUg==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/postcss-normalize-charset/-/postcss-normalize-charset-5.1.0.tgz}
+    id: registry.npmjs.org/postcss-normalize-charset/5.1.0
+    name: postcss-normalize-charset
+    version: 5.1.0
+    engines: {node: ^10 || ^12 || >=14.0}
+    peerDependencies:
+      postcss: ^8.2.15
+    dependencies:
+      postcss: registry.npmjs.org/postcss/8.4.18
+    dev: false
+
   registry.npmjs.org/postcss-normalize-display-values/4.0.2:
     resolution: {integrity: sha512-3F2jcsaMW7+VtRMAqf/3m4cPFhPD3EFRgNs18u+k3lTJJlVe7d0YPO+bnwqo2xg8YiRpDXJI2u8A0wqJxMsQuQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/postcss-normalize-display-values/-/postcss-normalize-display-values-4.0.2.tgz}
     name: postcss-normalize-display-values
@@ -28733,6 +28992,19 @@ packages:
       postcss: ^8.2.15
     dependencies:
       postcss: registry.npmjs.org/postcss/8.4.14
+      postcss-value-parser: registry.npmjs.org/postcss-value-parser/4.2.0
+    dev: false
+
+  registry.npmjs.org/postcss-normalize-display-values/5.1.0_postcss@8.4.18:
+    resolution: {integrity: sha512-WP4KIM4o2dazQXWmFaqMmcvsKmhdINFblgSeRgn8BJ6vxaMyaJkwAzpPpuvSIoG/rmX3M+IrRZEz2H0glrQNEA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/postcss-normalize-display-values/-/postcss-normalize-display-values-5.1.0.tgz}
+    id: registry.npmjs.org/postcss-normalize-display-values/5.1.0
+    name: postcss-normalize-display-values
+    version: 5.1.0
+    engines: {node: ^10 || ^12 || >=14.0}
+    peerDependencies:
+      postcss: ^8.2.15
+    dependencies:
+      postcss: registry.npmjs.org/postcss/8.4.18
       postcss-value-parser: registry.npmjs.org/postcss-value-parser/4.2.0
     dev: false
 
@@ -28761,6 +29033,19 @@ packages:
       postcss-value-parser: registry.npmjs.org/postcss-value-parser/4.2.0
     dev: false
 
+  registry.npmjs.org/postcss-normalize-positions/5.1.1_postcss@8.4.18:
+    resolution: {integrity: sha512-6UpCb0G4eofTCQLFVuI3EVNZzBNPiIKcA1AKVka+31fTVySphr3VUgAIULBhxZkKgwLImhzMR2Bw1ORK+37INg==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/postcss-normalize-positions/-/postcss-normalize-positions-5.1.1.tgz}
+    id: registry.npmjs.org/postcss-normalize-positions/5.1.1
+    name: postcss-normalize-positions
+    version: 5.1.1
+    engines: {node: ^10 || ^12 || >=14.0}
+    peerDependencies:
+      postcss: ^8.2.15
+    dependencies:
+      postcss: registry.npmjs.org/postcss/8.4.18
+      postcss-value-parser: registry.npmjs.org/postcss-value-parser/4.2.0
+    dev: false
+
   registry.npmjs.org/postcss-normalize-repeat-style/4.0.2:
     resolution: {integrity: sha512-qvigdYYMpSuoFs3Is/f5nHdRLJN/ITA7huIoCyqqENJe9PvPmLhNLMu7QTjPdtnVf6OcYYO5SHonx4+fbJE1+Q==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/postcss-normalize-repeat-style/-/postcss-normalize-repeat-style-4.0.2.tgz}
     name: postcss-normalize-repeat-style
@@ -28783,6 +29068,19 @@ packages:
       postcss: ^8.2.15
     dependencies:
       postcss: registry.npmjs.org/postcss/8.4.14
+      postcss-value-parser: registry.npmjs.org/postcss-value-parser/4.2.0
+    dev: false
+
+  registry.npmjs.org/postcss-normalize-repeat-style/5.1.1_postcss@8.4.18:
+    resolution: {integrity: sha512-mFpLspGWkQtBcWIRFLmewo8aC3ImN2i/J3v8YCFUwDnPu3Xz4rLohDO26lGjwNsQxB3YF0KKRwspGzE2JEuS0g==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/postcss-normalize-repeat-style/-/postcss-normalize-repeat-style-5.1.1.tgz}
+    id: registry.npmjs.org/postcss-normalize-repeat-style/5.1.1
+    name: postcss-normalize-repeat-style
+    version: 5.1.1
+    engines: {node: ^10 || ^12 || >=14.0}
+    peerDependencies:
+      postcss: ^8.2.15
+    dependencies:
+      postcss: registry.npmjs.org/postcss/8.4.18
       postcss-value-parser: registry.npmjs.org/postcss-value-parser/4.2.0
     dev: false
 
@@ -28810,6 +29108,19 @@ packages:
       postcss-value-parser: registry.npmjs.org/postcss-value-parser/4.2.0
     dev: false
 
+  registry.npmjs.org/postcss-normalize-string/5.1.0_postcss@8.4.18:
+    resolution: {integrity: sha512-oYiIJOf4T9T1N4i+abeIc7Vgm/xPCGih4bZz5Nm0/ARVJ7K6xrDlLwvwqOydvyL3RHNf8qZk6vo3aatiw/go3w==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/postcss-normalize-string/-/postcss-normalize-string-5.1.0.tgz}
+    id: registry.npmjs.org/postcss-normalize-string/5.1.0
+    name: postcss-normalize-string
+    version: 5.1.0
+    engines: {node: ^10 || ^12 || >=14.0}
+    peerDependencies:
+      postcss: ^8.2.15
+    dependencies:
+      postcss: registry.npmjs.org/postcss/8.4.18
+      postcss-value-parser: registry.npmjs.org/postcss-value-parser/4.2.0
+    dev: false
+
   registry.npmjs.org/postcss-normalize-timing-functions/4.0.2:
     resolution: {integrity: sha512-acwJY95edP762e++00Ehq9L4sZCEcOPyaHwoaFOhIwWCDfik6YvqsYNxckee65JHLKzuNSSmAdxwD2Cud1Z54A==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/postcss-normalize-timing-functions/-/postcss-normalize-timing-functions-4.0.2.tgz}
     name: postcss-normalize-timing-functions
@@ -28831,6 +29142,19 @@ packages:
       postcss: ^8.2.15
     dependencies:
       postcss: registry.npmjs.org/postcss/8.4.14
+      postcss-value-parser: registry.npmjs.org/postcss-value-parser/4.2.0
+    dev: false
+
+  registry.npmjs.org/postcss-normalize-timing-functions/5.1.0_postcss@8.4.18:
+    resolution: {integrity: sha512-DOEkzJ4SAXv5xkHl0Wa9cZLF3WCBhF3o1SKVxKQAa+0pYKlueTpCgvkFAHfk+Y64ezX9+nITGrDZeVGgITJXjg==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/postcss-normalize-timing-functions/-/postcss-normalize-timing-functions-5.1.0.tgz}
+    id: registry.npmjs.org/postcss-normalize-timing-functions/5.1.0
+    name: postcss-normalize-timing-functions
+    version: 5.1.0
+    engines: {node: ^10 || ^12 || >=14.0}
+    peerDependencies:
+      postcss: ^8.2.15
+    dependencies:
+      postcss: registry.npmjs.org/postcss/8.4.18
       postcss-value-parser: registry.npmjs.org/postcss-value-parser/4.2.0
     dev: false
 
@@ -28856,6 +29180,20 @@ packages:
     dependencies:
       browserslist: registry.npmjs.org/browserslist/4.21.0
       postcss: registry.npmjs.org/postcss/8.4.14
+      postcss-value-parser: registry.npmjs.org/postcss-value-parser/4.2.0
+    dev: false
+
+  registry.npmjs.org/postcss-normalize-unicode/5.1.0_postcss@8.4.18:
+    resolution: {integrity: sha512-J6M3MizAAZ2dOdSjy2caayJLQT8E8K9XjLce8AUQMwOrCvjCHv24aLC/Lps1R1ylOfol5VIDMaM/Lo9NGlk1SQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/postcss-normalize-unicode/-/postcss-normalize-unicode-5.1.0.tgz}
+    id: registry.npmjs.org/postcss-normalize-unicode/5.1.0
+    name: postcss-normalize-unicode
+    version: 5.1.0
+    engines: {node: ^10 || ^12 || >=14.0}
+    peerDependencies:
+      postcss: ^8.2.15
+    dependencies:
+      browserslist: registry.npmjs.org/browserslist/4.21.0
+      postcss: registry.npmjs.org/postcss/8.4.18
       postcss-value-parser: registry.npmjs.org/postcss-value-parser/4.2.0
     dev: false
 
@@ -28885,6 +29223,20 @@ packages:
       postcss-value-parser: registry.npmjs.org/postcss-value-parser/4.2.0
     dev: false
 
+  registry.npmjs.org/postcss-normalize-url/5.1.0_postcss@8.4.18:
+    resolution: {integrity: sha512-5upGeDO+PVthOxSmds43ZeMeZfKH+/DKgGRD7TElkkyS46JXAUhMzIKiCa7BabPeIy3AQcTkXwVVN7DbqsiCew==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/postcss-normalize-url/-/postcss-normalize-url-5.1.0.tgz}
+    id: registry.npmjs.org/postcss-normalize-url/5.1.0
+    name: postcss-normalize-url
+    version: 5.1.0
+    engines: {node: ^10 || ^12 || >=14.0}
+    peerDependencies:
+      postcss: ^8.2.15
+    dependencies:
+      normalize-url: registry.npmjs.org/normalize-url/6.1.0
+      postcss: registry.npmjs.org/postcss/8.4.18
+      postcss-value-parser: registry.npmjs.org/postcss-value-parser/4.2.0
+    dev: false
+
   registry.npmjs.org/postcss-normalize-whitespace/4.0.2:
     resolution: {integrity: sha512-tO8QIgrsI3p95r8fyqKV+ufKlSHh9hMJqACqbv2XknufqEDhDvbguXGBBqxw9nsQoXWf0qOqppziKJKHMD4GtA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/postcss-normalize-whitespace/-/postcss-normalize-whitespace-4.0.2.tgz}
     name: postcss-normalize-whitespace
@@ -28905,6 +29257,19 @@ packages:
       postcss: ^8.2.15
     dependencies:
       postcss: registry.npmjs.org/postcss/8.4.14
+      postcss-value-parser: registry.npmjs.org/postcss-value-parser/4.2.0
+    dev: false
+
+  registry.npmjs.org/postcss-normalize-whitespace/5.1.1_postcss@8.4.18:
+    resolution: {integrity: sha512-83ZJ4t3NUDETIHTa3uEg6asWjSBYL5EdkVB0sDncx9ERzOKBVJIUeDO9RyA9Zwtig8El1d79HBp0JEi8wvGQnA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/postcss-normalize-whitespace/-/postcss-normalize-whitespace-5.1.1.tgz}
+    id: registry.npmjs.org/postcss-normalize-whitespace/5.1.1
+    name: postcss-normalize-whitespace
+    version: 5.1.1
+    engines: {node: ^10 || ^12 || >=14.0}
+    peerDependencies:
+      postcss: ^8.2.15
+    dependencies:
+      postcss: registry.npmjs.org/postcss/8.4.18
       postcss-value-parser: registry.npmjs.org/postcss-value-parser/4.2.0
     dev: false
 
@@ -28930,6 +29295,20 @@ packages:
     dependencies:
       cssnano-utils: registry.npmjs.org/cssnano-utils/3.1.0_postcss@8.4.14
       postcss: registry.npmjs.org/postcss/8.4.14
+      postcss-value-parser: registry.npmjs.org/postcss-value-parser/4.2.0
+    dev: false
+
+  registry.npmjs.org/postcss-ordered-values/5.1.3_postcss@8.4.18:
+    resolution: {integrity: sha512-9UO79VUhPwEkzbb3RNpqqghc6lcYej1aveQteWY+4POIwlqkYE21HKWaLDF6lWNuqCobEAyTovVhtI32Rbv2RQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/postcss-ordered-values/-/postcss-ordered-values-5.1.3.tgz}
+    id: registry.npmjs.org/postcss-ordered-values/5.1.3
+    name: postcss-ordered-values
+    version: 5.1.3
+    engines: {node: ^10 || ^12 || >=14.0}
+    peerDependencies:
+      postcss: ^8.2.15
+    dependencies:
+      cssnano-utils: registry.npmjs.org/cssnano-utils/3.1.0_postcss@8.4.18
+      postcss: registry.npmjs.org/postcss/8.4.18
       postcss-value-parser: registry.npmjs.org/postcss-value-parser/4.2.0
     dev: false
 
@@ -28959,6 +29338,20 @@ packages:
       postcss: registry.npmjs.org/postcss/8.4.14
     dev: false
 
+  registry.npmjs.org/postcss-reduce-initial/5.1.0_postcss@8.4.18:
+    resolution: {integrity: sha512-5OgTUviz0aeH6MtBjHfbr57tml13PuedK/Ecg8szzd4XRMbYxH4572JFG067z+FqBIf6Zp/d+0581glkvvWMFw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/postcss-reduce-initial/-/postcss-reduce-initial-5.1.0.tgz}
+    id: registry.npmjs.org/postcss-reduce-initial/5.1.0
+    name: postcss-reduce-initial
+    version: 5.1.0
+    engines: {node: ^10 || ^12 || >=14.0}
+    peerDependencies:
+      postcss: ^8.2.15
+    dependencies:
+      browserslist: registry.npmjs.org/browserslist/4.21.0
+      caniuse-api: registry.npmjs.org/caniuse-api/3.0.0
+      postcss: registry.npmjs.org/postcss/8.4.18
+    dev: false
+
   registry.npmjs.org/postcss-reduce-transforms/4.0.2:
     resolution: {integrity: sha512-EEVig1Q2QJ4ELpJXMZR8Vt5DQx8/mo+dGWSR7vWXqcob2gQLyQGsionYcGKATXvQzMPn6DSN1vTN7yFximdIAg==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/postcss-reduce-transforms/-/postcss-reduce-transforms-4.0.2.tgz}
     name: postcss-reduce-transforms
@@ -28984,8 +29377,22 @@ packages:
       postcss-value-parser: registry.npmjs.org/postcss-value-parser/4.2.0
     dev: false
 
-  registry.npmjs.org/postcss-reporter/7.0.5:
+  registry.npmjs.org/postcss-reduce-transforms/5.1.0_postcss@8.4.18:
+    resolution: {integrity: sha512-2fbdbmgir5AvpW9RLtdONx1QoYG2/EtqpNQbFASDlixBbAYuTcJ0dECwlqNqH7VbaUnEnh8SrxOe2sRIn24XyQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/postcss-reduce-transforms/-/postcss-reduce-transforms-5.1.0.tgz}
+    id: registry.npmjs.org/postcss-reduce-transforms/5.1.0
+    name: postcss-reduce-transforms
+    version: 5.1.0
+    engines: {node: ^10 || ^12 || >=14.0}
+    peerDependencies:
+      postcss: ^8.2.15
+    dependencies:
+      postcss: registry.npmjs.org/postcss/8.4.18
+      postcss-value-parser: registry.npmjs.org/postcss-value-parser/4.2.0
+    dev: false
+
+  registry.npmjs.org/postcss-reporter/7.0.5_postcss@8.4.18:
     resolution: {integrity: sha512-glWg7VZBilooZGOFPhN9msJ3FQs19Hie7l5a/eE6WglzYqVeH3ong3ShFcp9kDWJT1g2Y/wd59cocf9XxBtkWA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/postcss-reporter/-/postcss-reporter-7.0.5.tgz}
+    id: registry.npmjs.org/postcss-reporter/7.0.5
     name: postcss-reporter
     version: 7.0.5
     engines: {node: '>=10'}
@@ -28993,6 +29400,7 @@ packages:
       postcss: ^8.1.0
     dependencies:
       picocolors: registry.npmjs.org/picocolors/1.0.0
+      postcss: registry.npmjs.org/postcss/8.4.18
       thenby: registry.npmjs.org/thenby/1.3.4
     dev: false
 
@@ -29001,7 +29409,7 @@ packages:
     name: postcss-resolve-nested-selector
     version: 0.1.1
 
-  registry.npmjs.org/postcss-safe-parser/6.0.0_postcss@8.4.14:
+  registry.npmjs.org/postcss-safe-parser/6.0.0_postcss@8.4.18:
     resolution: {integrity: sha512-FARHN8pwH+WiS2OPCxJI8FuRJpTVnn6ZNFiqAM2aeW2LwTHWWmWgIyKC6cUo0L8aeKiF/14MNvnpls6R2PBeMQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/postcss-safe-parser/-/postcss-safe-parser-6.0.0.tgz}
     id: registry.npmjs.org/postcss-safe-parser/6.0.0
     name: postcss-safe-parser
@@ -29010,9 +29418,9 @@ packages:
     peerDependencies:
       postcss: ^8.3.3
     dependencies:
-      postcss: registry.npmjs.org/postcss/8.4.14
+      postcss: registry.npmjs.org/postcss/8.4.18
 
-  registry.npmjs.org/postcss-scss/4.0.4_postcss@8.4.14:
+  registry.npmjs.org/postcss-scss/4.0.4_postcss@8.4.18:
     resolution: {integrity: sha512-aBBbVyzA8b3hUL0MGrpydxxXKXFZc5Eqva0Q3V9qsBOLEMsjb6w49WfpsoWzpEgcqJGW4t7Rio8WXVU9Gd8vWg==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/postcss-scss/-/postcss-scss-4.0.4.tgz}
     id: registry.npmjs.org/postcss-scss/4.0.4
     name: postcss-scss
@@ -29021,7 +29429,7 @@ packages:
     peerDependencies:
       postcss: ^8.3.3
     dependencies:
-      postcss: registry.npmjs.org/postcss/8.4.14
+      postcss: registry.npmjs.org/postcss/8.4.18
     dev: true
 
   registry.npmjs.org/postcss-selector-parser/3.1.2:
@@ -29044,7 +29452,7 @@ packages:
       cssesc: registry.npmjs.org/cssesc/3.0.0
       util-deprecate: registry.npmjs.org/util-deprecate/1.0.2
 
-  registry.npmjs.org/postcss-sorting/7.0.1_postcss@8.4.14:
+  registry.npmjs.org/postcss-sorting/7.0.1_postcss@8.4.18:
     resolution: {integrity: sha512-iLBFYz6VRYyLJEJsBJ8M3TCqNcckVzz4wFounSc5Oez35ogE/X+aoC5fFu103Ot7NyvjU3/xqIXn93Gp3kJk4g==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/postcss-sorting/-/postcss-sorting-7.0.1.tgz}
     id: registry.npmjs.org/postcss-sorting/7.0.1
     name: postcss-sorting
@@ -29052,7 +29460,7 @@ packages:
     peerDependencies:
       postcss: ^8.3.9
     dependencies:
-      postcss: registry.npmjs.org/postcss/8.4.14
+      postcss: registry.npmjs.org/postcss/8.4.18
     dev: true
 
   registry.npmjs.org/postcss-svgo/4.0.3:
@@ -29076,6 +29484,20 @@ packages:
       postcss: ^8.2.15
     dependencies:
       postcss: registry.npmjs.org/postcss/8.4.14
+      postcss-value-parser: registry.npmjs.org/postcss-value-parser/4.2.0
+      svgo: registry.npmjs.org/svgo/2.8.0
+    dev: false
+
+  registry.npmjs.org/postcss-svgo/5.1.0_postcss@8.4.18:
+    resolution: {integrity: sha512-D75KsH1zm5ZrHyxPakAxJWtkyXew5qwS70v56exwvw542d9CRtTo78K0WeFxZB4G7JXKKMbEZtZayTGdIky/eA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/postcss-svgo/-/postcss-svgo-5.1.0.tgz}
+    id: registry.npmjs.org/postcss-svgo/5.1.0
+    name: postcss-svgo
+    version: 5.1.0
+    engines: {node: ^10 || ^12 || >=14.0}
+    peerDependencies:
+      postcss: ^8.2.15
+    dependencies:
+      postcss: registry.npmjs.org/postcss/8.4.18
       postcss-value-parser: registry.npmjs.org/postcss-value-parser/4.2.0
       svgo: registry.npmjs.org/svgo/2.8.0
     dev: false
@@ -29112,8 +29534,22 @@ packages:
       postcss-selector-parser: registry.npmjs.org/postcss-selector-parser/6.0.10
     dev: false
 
-  registry.npmjs.org/postcss-url/10.1.3:
+  registry.npmjs.org/postcss-unique-selectors/5.1.1_postcss@8.4.18:
+    resolution: {integrity: sha512-5JiODlELrz8L2HwxfPnhOWZYWDxVHWL83ufOv84NrcgipI7TaeRsatAhK4Tr2/ZiYldpK/wBvw5BD3qfaK96GA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/postcss-unique-selectors/-/postcss-unique-selectors-5.1.1.tgz}
+    id: registry.npmjs.org/postcss-unique-selectors/5.1.1
+    name: postcss-unique-selectors
+    version: 5.1.1
+    engines: {node: ^10 || ^12 || >=14.0}
+    peerDependencies:
+      postcss: ^8.2.15
+    dependencies:
+      postcss: registry.npmjs.org/postcss/8.4.18
+      postcss-selector-parser: registry.npmjs.org/postcss-selector-parser/6.0.10
+    dev: false
+
+  registry.npmjs.org/postcss-url/10.1.3_postcss@8.4.18:
     resolution: {integrity: sha512-FUzyxfI5l2tKmXdYc6VTu3TWZsInayEKPbiyW+P6vmmIrrb4I6CGX0BFoewgYHLK+oIL5FECEK02REYRpBvUCw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/postcss-url/-/postcss-url-10.1.3.tgz}
+    id: registry.npmjs.org/postcss-url/10.1.3
     name: postcss-url
     version: 10.1.3
     engines: {node: '>=10'}
@@ -29123,19 +29559,7 @@ packages:
       make-dir: registry.npmjs.org/make-dir/3.1.0
       mime: registry.npmjs.org/mime/2.5.2
       minimatch: registry.npmjs.org/minimatch/3.0.8
-      xxhashjs: registry.npmjs.org/xxhashjs/0.2.2
-    dev: false
-
-  registry.npmjs.org/postcss-url/8.0.0:
-    resolution: {integrity: sha512-E2cbOQ5aii2zNHh8F6fk1cxls7QVFZjLPSrqvmiza8OuXLzIpErij8BDS5Y3STPfJgpIMNCPEr8JlKQWEoozUw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/postcss-url/-/postcss-url-8.0.0.tgz}
-    name: postcss-url
-    version: 8.0.0
-    engines: {node: '>=6.0.0'}
-    dependencies:
-      mime: registry.npmjs.org/mime/2.6.0
-      minimatch: registry.npmjs.org/minimatch/3.1.2
-      mkdirp: registry.npmjs.org/mkdirp/0.5.6
-      postcss: registry.npmjs.org/postcss/7.0.39
+      postcss: registry.npmjs.org/postcss/8.4.18
       xxhashjs: registry.npmjs.org/xxhashjs/0.2.2
     dev: false
 
@@ -29194,6 +29618,16 @@ packages:
     resolution: {integrity: sha512-E398TUmfAYFPBSdzgeieK2Y1+1cpdxJx8yXbK/m57nRhKSmk1GB2tO4lbLBtlkfPQTDKfe4Xqv1ASWPpayPEig==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/postcss/-/postcss-8.4.14.tgz}
     name: postcss
     version: 8.4.14
+    engines: {node: ^10 || ^12 || >=14}
+    dependencies:
+      nanoid: registry.npmjs.org/nanoid/3.3.4
+      picocolors: registry.npmjs.org/picocolors/1.0.0
+      source-map-js: registry.npmjs.org/source-map-js/1.0.2
+
+  registry.npmjs.org/postcss/8.4.18:
+    resolution: {integrity: sha512-Wi8mWhncLJm11GATDaQKobXSNEYGUHeQLiQqDFG1qQ5UTDPTEvKw0Xt5NsTpktGTwLps3ByrWsBrG0rB8YQ9oA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/postcss/-/postcss-8.4.18.tgz}
+    name: postcss
+    version: 8.4.18
     engines: {node: ^10 || ^12 || >=14}
     dependencies:
       nanoid: registry.npmjs.org/nanoid/3.3.4
@@ -33355,7 +33789,21 @@ packages:
       postcss-selector-parser: registry.npmjs.org/postcss-selector-parser/6.0.10
     dev: false
 
-  registry.npmjs.org/stylelint-config-recommended-scss/5.0.2_uyk3cwxn3favstz4untq233szu:
+  registry.npmjs.org/stylehacks/5.1.0_postcss@8.4.18:
+    resolution: {integrity: sha512-SzLmvHQTrIWfSgljkQCw2++C9+Ne91d/6Sp92I8c5uHTcy/PgeHamwITIbBW9wnFTY/3ZfSXR9HIL6Ikqmcu6Q==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/stylehacks/-/stylehacks-5.1.0.tgz}
+    id: registry.npmjs.org/stylehacks/5.1.0
+    name: stylehacks
+    version: 5.1.0
+    engines: {node: ^10 || ^12 || >=14.0}
+    peerDependencies:
+      postcss: ^8.2.15
+    dependencies:
+      browserslist: registry.npmjs.org/browserslist/4.21.0
+      postcss: registry.npmjs.org/postcss/8.4.18
+      postcss-selector-parser: registry.npmjs.org/postcss-selector-parser/6.0.10
+    dev: false
+
+  registry.npmjs.org/stylelint-config-recommended-scss/5.0.2_tbxkegwovyw2ffmso5mcdjcnyu:
     resolution: {integrity: sha512-b14BSZjcwW0hqbzm9b0S/ScN2+3CO3O4vcMNOw2KGf8lfVSwJ4p5TbNEXKwKl1+0FMtgRXZj6DqVUe/7nGnuBg==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/stylelint-config-recommended-scss/-/stylelint-config-recommended-scss-5.0.2.tgz}
     id: registry.npmjs.org/stylelint-config-recommended-scss/5.0.2
     name: stylelint-config-recommended-scss
@@ -33363,7 +33811,7 @@ packages:
     peerDependencies:
       stylelint: ^14.0.0
     dependencies:
-      postcss-scss: registry.npmjs.org/postcss-scss/4.0.4_postcss@8.4.14
+      postcss-scss: registry.npmjs.org/postcss-scss/4.0.4_postcss@8.4.18
       stylelint: registry.npmjs.org/stylelint/14.9.1
       stylelint-config-recommended: registry.npmjs.org/stylelint-config-recommended/6.0.0_stylelint@14.9.1
       stylelint-scss: registry.npmjs.org/stylelint-scss/4.2.0_stylelint@14.9.1
@@ -33382,7 +33830,7 @@ packages:
       stylelint: registry.npmjs.org/stylelint/14.9.1
     dev: true
 
-  registry.npmjs.org/stylelint-config-standard-scss/3.0.0_uyk3cwxn3favstz4untq233szu:
+  registry.npmjs.org/stylelint-config-standard-scss/3.0.0_tbxkegwovyw2ffmso5mcdjcnyu:
     resolution: {integrity: sha512-zt3ZbzIbllN1iCmc94e4pDxqpkzeR6CJo5DDXzltshuXr+82B8ylHyMMARNnUYrZH80B7wgY7UkKTYCFM0UUyw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/stylelint-config-standard-scss/-/stylelint-config-standard-scss-3.0.0.tgz}
     id: registry.npmjs.org/stylelint-config-standard-scss/3.0.0
     name: stylelint-config-standard-scss
@@ -33391,7 +33839,7 @@ packages:
       stylelint: ^14.0.0
     dependencies:
       stylelint: registry.npmjs.org/stylelint/14.9.1
-      stylelint-config-recommended-scss: registry.npmjs.org/stylelint-config-recommended-scss/5.0.2_uyk3cwxn3favstz4untq233szu
+      stylelint-config-recommended-scss: registry.npmjs.org/stylelint-config-recommended-scss/5.0.2_tbxkegwovyw2ffmso5mcdjcnyu
       stylelint-config-standard: registry.npmjs.org/stylelint-config-standard/24.0.0_stylelint@14.9.1
     transitivePeerDependencies:
       - postcss
@@ -33417,8 +33865,8 @@ packages:
     peerDependencies:
       stylelint: ^14.0.0
     dependencies:
-      postcss: registry.npmjs.org/postcss/8.4.14
-      postcss-sorting: registry.npmjs.org/postcss-sorting/7.0.1_postcss@8.4.14
+      postcss: registry.npmjs.org/postcss/8.4.18
+      postcss-sorting: registry.npmjs.org/postcss-sorting/7.0.1_postcss@8.4.18
       stylelint: registry.npmjs.org/stylelint/14.9.1
     dev: true
 
@@ -33445,7 +33893,7 @@ packages:
     engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
     hasBin: true
     dependencies:
-      '@csstools/selector-specificity': registry.npmjs.org/@csstools/selector-specificity/2.0.1_444rcjjorr3kpoqtvoodsr46pu
+      '@csstools/selector-specificity': registry.npmjs.org/@csstools/selector-specificity/2.0.1_dvkg4kkb622mvceygg47xxdz3a
       balanced-match: registry.npmjs.org/balanced-match/2.0.0
       colord: registry.npmjs.org/colord/2.9.2
       cosmiconfig: registry.npmjs.org/cosmiconfig/7.0.1
@@ -33470,10 +33918,10 @@ packages:
       micromatch: registry.npmjs.org/micromatch/4.0.5
       normalize-path: registry.npmjs.org/normalize-path/3.0.0
       picocolors: registry.npmjs.org/picocolors/1.0.0
-      postcss: registry.npmjs.org/postcss/8.4.14
+      postcss: registry.npmjs.org/postcss/8.4.18
       postcss-media-query-parser: registry.npmjs.org/postcss-media-query-parser/0.2.3
       postcss-resolve-nested-selector: registry.npmjs.org/postcss-resolve-nested-selector/0.1.1
-      postcss-safe-parser: registry.npmjs.org/postcss-safe-parser/6.0.0_postcss@8.4.14
+      postcss-safe-parser: registry.npmjs.org/postcss-safe-parser/6.0.0_postcss@8.4.18
       postcss-selector-parser: registry.npmjs.org/postcss-selector-parser/6.0.10
       postcss-value-parser: registry.npmjs.org/postcss-value-parser/4.2.0
       resolve-from: registry.npmjs.org/resolve-from/5.0.0
