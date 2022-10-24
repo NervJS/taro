@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/taro",
-  "version": "3.5.7",
+  "version": "3.5.7-alpha.0",
   "description": "Taro framework",
   "homepage": "https://github.com/nervjs/taro/tree/master/packages/taro#readme",
   "main": "index.js",
