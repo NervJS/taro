@@ -2,7 +2,7 @@ import { listeners } from './mixins/listeners'
 import { refs } from './mixins/refs'
 
 export default function createFormsComponent (name, event, modelValue = 'value', classNames = []) {
-  const props = {
+  const props: Record<string, any> = {
     nativeProps: {
       type: Object
     }

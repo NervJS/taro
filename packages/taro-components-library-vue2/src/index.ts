@@ -8,7 +8,7 @@ components.forEach(params => {
   if (typeof params === 'string') {
     Vue.component(params, createComponent(params))
   } else if (params instanceof Array) {
-    const [name, props] = params
+    const [name, props] = params as [string, Record<string, any>]
     const { classNames, type = 'simple' } = props
 
     if (type === 'simple') {
