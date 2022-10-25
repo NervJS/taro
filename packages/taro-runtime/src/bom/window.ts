@@ -47,7 +47,8 @@ if (process.env.TARO_ENV && process.env.TARO_ENV !== 'h5') {
     }
 
     initEvent () {
-      const _location = this.location; const _history = this.history
+      const _location = this.location
+      const _history = this.history
 
       this.on(CONTEXT_ACTIONS.INIT, (pageId: string) => {
         // 页面onload，为该页面建立新的上下文信息
