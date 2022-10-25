@@ -167,7 +167,6 @@ const getBabelLoader = pipe(
   mergeOption,
   partial(getLoader, 'babel-loader')
 )
-
 const getUrlLoader = pipe(
   mergeOption,
   partial(getLoader, 'url-loader')
@@ -177,6 +176,10 @@ const getExtractCssLoader = () => {
     loader: MiniCssExtractPlugin.loader
   }
 }
+const getImportMetaLoader = pipe(
+  mergeOption,
+  partial(getLoader, '@open-wc/webpack-import-meta-loader')
+)
 
 export const getMiniCssExtractPlugin = pipe(
   mergeOption,
@@ -510,8 +513,6 @@ export const parseModule = (appPath: string, {
        * https://github.com/webpack-contrib/mini-css-extract-plugin/issues/471#issuecomment-750266195
        */
       if (/css-loader/.test(filename)) return true
-      // 若包含 @tarojs/components，则跳过 babel-loader 处理
-      if (/@tarojs\/components/.test(filename)) return true
 
       // 非 node_modules 下的文件直接走 babel-loader 逻辑
       if (!(/node_modules/.test(filename))) return false
@@ -525,7 +526,11 @@ export const parseModule = (appPath: string, {
     use: {
       babelLoader: getBabelLoader([{
         compact: false
-      }])
+      }]),
+      /** stencil 2.14 开始使用了 import.meta.url 需要额外处理
+       * https://github.com/webpack/webpack/issues/6719
+       */
+      importMeta: getImportMetaLoader([]),
     }
   }
   rule.media = {

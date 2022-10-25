@@ -1,11 +1,12 @@
 import { FRAMEWORK_MAP, SCRIPT_EXT } from '@tarojs/helper'
-import { AppConfig } from '@tarojs/taro'
 import { VirtualModule } from '@tarojs/webpack5-prebundle/dist/h5'
 import { defaults } from 'lodash'
 import path from 'path'
-import { Compiler, LoaderContext, NormalModule } from 'webpack'
 
 import H5AppInstance from '../utils/H5AppInstance'
+
+import type { AppConfig } from '@tarojs/taro'
+import type { Compiler, LoaderContext, NormalModule } from 'webpack'
 
 const PLUGIN_NAME = 'H5Plugin'
 
@@ -80,7 +81,7 @@ export default class H5Plugin {
     )
 
     compiler.hooks.compilation.tap(PLUGIN_NAME, compilation => {
-      NormalModule.getCompilationHooks(compilation).loader.tap(PLUGIN_NAME, (_loaderContext: LoaderContext<any>, module: NormalModule) => {
+      compiler.webpack.NormalModule.getCompilationHooks(compilation).loader.tap(PLUGIN_NAME, (_loaderContext: LoaderContext<any>, module: NormalModule) => {
         const { framework, entryFileName, appPath, sourceDir, pxTransformConfig, loaderMeta, prebundle, routerConfig } = this.options
         const { dir, name } = path.parse(module.resource)
         const suffixRgx = /\.(boot|config)/

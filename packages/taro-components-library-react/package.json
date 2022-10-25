@@ -5,6 +5,7 @@
   "private": true,
   "main": "index.js",
   "scripts": {
+    "prebuild:ci": "node ./scripts/fix.js",
     "build:ci": "tsc -p tsconfig.json"
   },
   "keywords": [],

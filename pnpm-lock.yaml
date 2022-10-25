@@ -80,8 +80,8 @@ importers:
       '@types/sinon': ^7.5.0
       '@types/tapable': ^1
       '@types/testing-library__jest-dom': ^5.14.3
-      '@types/webpack': '4'
-      '@types/webpack-dev-server': '3'
+      '@types/webpack': ^4.41.26
+      '@types/webpack-dev-server': ^3.11.3
       '@typescript-eslint/eslint-plugin': ^5.17.0
       '@typescript-eslint/parser': ^5.17.0
       '@vue/babel-plugin-jsx': ^1.0.6
@@ -352,6 +352,7 @@ importers:
       babel-plugin-transform-taroapi: workspace:*
       core-js: ^3.6.5
       metro-react-native-babel-preset: ^0.70.3
+      react-refresh: ^0.11.0
     dependencies:
       '@babel/plugin-proposal-class-properties': registry.npmjs.org/@babel/plugin-proposal-class-properties/7.17.12_@babel+core@7.18.5
       '@babel/plugin-proposal-decorators': registry.npmjs.org/@babel/plugin-proposal-decorators/7.18.2_@babel+core@7.18.5
@@ -373,6 +374,7 @@ importers:
       babel-plugin-transform-taroapi: link:../babel-plugin-transform-taroapi
       core-js: registry.npmjs.org/core-js/3.23.3
       metro-react-native-babel-preset: registry.npmjs.org/metro-react-native-babel-preset/0.70.3_@babel+core@7.18.5
+      react-refresh: registry.npmjs.org/react-refresh/0.11.0
     devDependencies:
       '@babel/core': registry.npmjs.org/@babel/core/7.18.5
 
@@ -1461,13 +1463,14 @@ importers:
   packages/taro-webpack-runner:
     specifiers:
       '@babel/core': ^7.14.5
+      '@open-wc/webpack-import-meta-loader': ^0.4.7
       '@tarojs/helper': workspace:*
       '@tarojs/runner-utils': workspace:*
       '@tarojs/runtime': workspace:*
       '@tarojs/taro': workspace:*
       '@tarojs/taro-loader': workspace:*
-      '@types/webpack': '4'
-      '@types/webpack-dev-server': '3'
+      '@types/webpack': ^4.41.26
+      '@types/webpack-dev-server': ^3.11.3
       autoprefixer: ^9.7.4
       babel-loader: 8.2.1
       copy-webpack-plugin: 5.1.2
@@ -1506,6 +1509,7 @@ importers:
       webpack-format-messages: ^2.0.5
       webpack-merge: ^4.2.2
     dependencies:
+      '@open-wc/webpack-import-meta-loader': registry.npmjs.org/@open-wc/webpack-import-meta-loader/0.4.7
       '@tarojs/helper': link:../taro-helper
       '@tarojs/runner-utils': link:../taro-runner-utils
       '@tarojs/runtime': link:../taro-runtime
@@ -7102,6 +7106,12 @@ packages:
     dependencies:
       mkdirp: registry.npmjs.org/mkdirp/1.0.4
       rimraf: registry.npmjs.org/rimraf/3.0.2
+
+  registry.npmjs.org/@open-wc/webpack-import-meta-loader/0.4.7:
+    resolution: {integrity: sha512-F3d1EHRckk2+ZpgEEAgVITp8BU9DYLBhKOhNMREeQ1BwILRIhrt+V1bebpnd0Mz595jzd7Yh1wSibLsXibkCpg==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@open-wc/webpack-import-meta-loader/-/webpack-import-meta-loader-0.4.7.tgz}
+    name: '@open-wc/webpack-import-meta-loader'
+    version: 0.4.7
+    dev: false
 
   registry.npmjs.org/@parcel/css-darwin-arm64/1.10.1:
     resolution: {integrity: sha512-0ukr4/hSrM24ef8bcZ5b/o8iJrPVAxXOKCPGpmKFd+R/31SYjvFfMJzS2XAYUy0W0FunMW2fte3iTPNMDigyww==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@parcel/css-darwin-arm64/-/css-darwin-arm64-1.10.1.tgz}
@@ -30324,7 +30334,6 @@ packages:
     name: react-refresh
     version: 0.11.0
     engines: {node: '>=0.10.0'}
-    dev: true
 
   registry.npmjs.org/react-refresh/0.4.3:
     resolution: {integrity: sha512-Hwln1VNuGl/6bVwnd0Xdn1e84gT/8T9aYNL+HAKDArLCS7LWjwr7StE30IEYbIkx0Vi3vs+coQxe+SQDbGbbpA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/react-refresh/-/react-refresh-0.4.3.tgz}

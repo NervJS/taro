@@ -9,7 +9,8 @@
     "outDir": "../taro-components/dist/react",
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
-    "sourceMap": true,
+    "sourceMap": false,
+    "strictNullChecks": false,
     "target": "ES2017",
     "typeRoots": ["./node_modules/@types"]
   },

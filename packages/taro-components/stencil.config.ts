@@ -41,7 +41,7 @@ export const config: Config = {
   ],
   buildEs5: 'prod',
   testing: {
-    testRegex: '(/__tests__/.*|(\\.|/)(tt|spec))\\.[jt]sx?$',
+    testRegex: '(/__tests__/.*|(\\.|/)(spec|test|tt))\\.[jt]sx?$',
     transform: {
       ...tsjPreset.transform
     },

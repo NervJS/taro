@@ -13,7 +13,6 @@
   ],
   "files": [
     "dist",
-    "dist-h5",
     "loader",
     "mini",
     "types",
