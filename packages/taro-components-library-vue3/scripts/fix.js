@@ -1,10 +1,10 @@
 const fs = require('@tarojs/helper').fs
 const path = require('path')
 
-const fixUtilPath = path.resolve(__dirname, '..', 'src/vue-component-lib/utils.ts')
+const fixUtilPath = path.resolve(__dirname, '..', 'src/components.ts')
 
 if (fs.existsSync(fixUtilPath)) {
-  const codeBuffer = fs.readFileSync('./src/vue-component-lib/utils.ts')
+  const codeBuffer = fs.readFileSync(fixUtilPath)
 
-  fs.writeFileSync(fixUtilPath, codeBuffer.toString().replace('modelProp?: string', 'modelProp = \'\''))
+  fs.writeFileSync(fixUtilPath, codeBuffer.toString().replace(/const Taro([A-Za-z]+)Core =/g, 'const $1 ='))
 }
