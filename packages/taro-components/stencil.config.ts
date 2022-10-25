@@ -22,6 +22,10 @@ export const config: Config = {
       componentCorePackage: '@tarojs/components/dist/types/components',
       proxiesFile: '../taro-components-library-react/src/components.ts'
     }),
+    // vueOutputTarget({
+    //   componentCorePackage: '@tarojs/components/dist/types/components',
+    //   proxiesFile: '../taro-components-library-vue2/src/components.ts'
+    // }),
     vueOutputTarget({
       componentCorePackage: '@tarojs/components/dist/types/components',
       proxiesFile: '../taro-components-library-vue3/src/components.ts'

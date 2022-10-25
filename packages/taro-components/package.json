@@ -24,7 +24,7 @@
   "scripts": {
     "build:prod": "stencil build --config stencil.config.ts",
     "build:dev": "pnpm run build:prod -- --dev --watch",
-    "postbuild:prod": "pnpm --filter @tarojs/components-library-react --filter @tarojs/components-library-vue3 run build:ci",
+    "postbuild:prod": "pnpm --filter @tarojs/components-library-react --filter @tarojs/components-library-vue2 --filter @tarojs/components-library-vue3 run build:ci",
     "build-h5": "babel -d dist-h5 h5",
     "build": "pnpm run build-h5 & cross-env NODE_ENV=production stencil build --config stencil.config.ts",
     "dev": "cross-env NODE_ENV=development stencil build --config stencil.config.ts --watch",

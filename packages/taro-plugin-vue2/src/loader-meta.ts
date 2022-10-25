@@ -32,7 +32,7 @@ const App = {
     importFrameworkName: 'Vue',
     isNeedRawLoader: true,
     extraImportForWeb: `
-import('@tarojs/components/dist-h5/vue')
+import('@tarojs/components/dist/vue2')
 `
   }
 }
