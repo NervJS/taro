@@ -16,6 +16,6 @@ export default React.forwardRef((props, ref) => {
   }
 
   return (
-    h(Input, { ...args, ref: ref })
+    h(Input, { ...args, ref })
   )
 })

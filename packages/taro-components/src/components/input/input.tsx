@@ -37,6 +37,7 @@ export class Input implements ComponentInterface {
   @Prop() disabled = false
   @Prop() maxlength = 140
   @Prop() autoFocus = false
+  @Prop() focus = this.autoFocus
   @Prop() confirmType = 'done'
   @Prop() name: string
   @Prop() nativeProps = {}
@@ -44,9 +45,16 @@ export class Input implements ComponentInterface {
   @Element() el: HTMLElement
 
   @Watch('autoFocus')
-  watchFocus (newValue: boolean, oldValue: boolean) {
+  watchAutoFocus (newValue: boolean, oldValue: boolean) {
     if (!oldValue && newValue) {
       this.inputRef?.focus()
+    }
+  }
+
+  @Watch('focus')
+  watchFocus (newValue: boolean, oldValue: boolean) {
+    if (!oldValue && newValue) {
+      this.autoFocus = newValue
     }
   }
 
@@ -85,6 +93,10 @@ export class Input implements ComponentInterface {
   @Event({
     eventName: 'keydown'
   }) onKeyDown: EventEmitter
+
+  componentWillLoad () {
+    this.autoFocus = this.autoFocus || this.focus
+  }
 
   componentDidLoad () {
     if (this.type === 'file') {
@@ -252,6 +264,7 @@ export class Input implements ComponentInterface {
       <input
         ref={input => {
           this.inputRef = input!
+          if (autoFocus && input) input.focus()
         }}
         class='weui-input'
         value={fixControlledValue(value)}
