@@ -10,5 +10,14 @@ if (fs.existsSync(componentsPath)) {
   // NOTE: HTMLStencilElement 与 HTMLTaroInputCoreElement 在 force 参数上冲突
   code = code.replace('createReactComponent<JSX.TaroInputCore, HTMLTaroInputCoreElement>', 'createReactComponent<JSX.TaroInputCore, any>')
 
+  /**
+   * 当前不支持配置通用的 manipulatePropsFunction 方法，因此需要手动添加
+   * https://github.com/ionic-team/stencil-ds-output-targets/issues/243
+   */
+  if (!code.includes('./helper')) {
+    code = code.replace('/* auto-generated react proxies */', `/* auto-generated react proxies */\nimport { manipulatePropsFunction } from './helper'`)
+    code = code.replace(/\(([^,)]+)[^;]*/ig, '($1, undefined, manipulatePropsFunction)')
+  }
+
   fs.writeFileSync(componentsPath, code)
 }
