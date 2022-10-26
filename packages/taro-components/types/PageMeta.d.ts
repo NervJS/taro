@@ -45,21 +45,6 @@ interface PageMetaProps extends StandardProps {
    */
   rootFontSize?: string
 
-  /** 页面尺寸变化时会触发 resize 事件
-   * @supported weapp
-   */
-  onResize?: CommonEventFunction<PageMetaProps.onResizeEventDetail>
-
-  /** 页面滚动时会触发 scroll 事件
-   * @supported weapp, alipay
-   */
-  onScroll?: CommonEventFunction<PageMetaProps.onScrollEventDetail>
-
-  /** 如果通过改变 scroll-top 属性来使页面滚动，页面滚动结束后会触发 scrolldone 事件
-   * @supported weapp
-   */
-  onScrollDone?: CommonEventFunction
-
   /** 页面内容的背景色，用于页面中的空白部分和页面大小变化 resize 动画期间的临时空闲区域
    * @supported weapp, alipay
    */
@@ -74,6 +59,21 @@ interface PageMetaProps extends StandardProps {
    * @supported weapp
    */
   pageOrientation?: string
+
+  /** 页面尺寸变化时会触发 resize 事件
+   * @supported weapp
+   */
+  onResize?: CommonEventFunction<PageMetaProps.onResizeEventDetail>
+
+  /** 页面滚动时会触发 scroll 事件
+   * @supported weapp, alipay
+   */
+  onScroll?: CommonEventFunction<PageMetaProps.onScrollEventDetail>
+
+  /** 如果通过改变 scroll-top 属性来使页面滚动，页面滚动结束后会触发 scrolldone 事件
+   * @supported weapp
+   */
+  onScrollDone?: CommonEventFunction
 }
 declare namespace PageMetaProps {
   interface onResizeEventDetail {

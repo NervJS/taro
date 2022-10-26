@@ -186,6 +186,11 @@ interface LivePusherProps extends StandardProps {
    */
   filter?: keyof LivePusherProps.FilterType
 
+  /** 设置小窗模式： push, pop，空字符串或通过数组形式设置多种模式（如： ["push", "pop"]）
+   * @supported weapp
+   */
+  pictureInPictureMode?: string | any[]
+
   /** 状态变化事件，detail = {code}
    * @supported weapp, qq
    */
@@ -210,11 +215,6 @@ interface LivePusherProps extends StandardProps {
    * @supported weapp
    */
   onAudioVolumeNotify?: CommonEventFunction
-
-  /** 设置小窗模式： push, pop，空字符串或通过数组形式设置多种模式（如： ["push", "pop"]）
-   * @supported weapp
-   */
-  pictureInPictureMode?: string | any[]
 
   /** 网络状态通知，detail = {info}
    * @supported weapp, qq
