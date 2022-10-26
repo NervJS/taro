@@ -12,10 +12,6 @@ const outputTargets: OutputTarget[] = [
     componentCorePackage: '@tarojs/components/dist/types/components',
     proxiesFile: '../taro-components-library-react/src/components.ts'
   }),
-  // vueOutputTarget({
-  //   componentCorePackage: '@tarojs/components/dist/types/components',
-  //   proxiesFile: '../taro-components-library-vue2/src/components.ts'
-  // }),
   vueOutputTarget({
     componentCorePackage: '@tarojs/components/dist/types/components',
     proxiesFile: '../taro-components-library-vue3/src/components.ts'
@@ -36,7 +32,7 @@ export const config: Config = {
   plugins: [
     sass()
   ],
-  sourceMap: !isProd,
+  sourceMap: isProd,
   nodeResolve: {
     preferBuiltins: false,
     // @ts-ignore
@@ -44,13 +40,15 @@ export const config: Config = {
   },
   outputTargets,
   bundles: [
-    { components: ['taro-picker-core', 'taro-picker-group'] },
     { components: ['taro-checkbox-core', 'taro-checkbox-group-core'] },
+    { components: ['taro-movable-area-core', 'taro-movable-view-core'] },
+    { components: ['taro-picker-core', 'taro-picker-group'] },
+    { components: ['taro-picker-view-core', 'taro-picker-view-column-core'] },
     { components: ['taro-radio-core', 'taro-radio-group-core'] },
     { components: ['taro-swiper-core', 'taro-swiper-item-core'] },
     { components: ['taro-video-core', 'taro-video-control', 'taro-video-danmu'] }
   ],
-  buildEs5: 'prod',
+  buildEs5: true,
   testing: {
     testRegex: '(/__tests__/.*|(\\.|/)(spec|test|tt))\\.[jt]sx?$',
     transform: {
