@@ -35,7 +35,6 @@ const DEFAULT_WEAPP_OPTIONS = {
 
 let targetUnit
 
-// module.exports = (options = {}) => {
 const postcssPxTransForm = (options = {}) => {
   options = Object.assign({}, DEFAULT_WEAPP_OPTIONS, options)
 
