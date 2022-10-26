@@ -1,10 +1,10 @@
-import { processApis } from '@tarojs/shared'
+import { IApiDiff,processApis } from '@tarojs/shared'
 
 import { needPromiseApis } from './apis-list'
 
 declare const my: any
 
-const apiDiff = {
+const apiDiff: IApiDiff = {
   login: {
     alias: 'getAuthCode',
     options: {
