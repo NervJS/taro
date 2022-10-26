@@ -1,9 +1,34 @@
 import { Config } from '@stencil/core'
+import { OutputTarget } from '@stencil/core/internal'
 import { reactOutputTarget } from '@stencil/react-output-target'
 import { sass } from '@stencil/sass'
 import { vueOutputTarget } from '@stencil/vue-output-target'
 
 const { jsWithTs: tsjPreset } = require('ts-jest/presets')
+
+const isProd = process.env.NODE_ENV === 'production'
+const outputTargets: OutputTarget[] = [
+  reactOutputTarget({
+    componentCorePackage: '@tarojs/components/dist/types/components',
+    proxiesFile: '../taro-components-library-react/src/components.ts'
+  }),
+  // vueOutputTarget({
+  //   componentCorePackage: '@tarojs/components/dist/types/components',
+  //   proxiesFile: '../taro-components-library-vue2/src/components.ts'
+  // }),
+  vueOutputTarget({
+    componentCorePackage: '@tarojs/components/dist/types/components',
+    proxiesFile: '../taro-components-library-vue3/src/components.ts'
+  }),
+  {
+    type: 'dist',
+    esmLoaderPath: '../loader'
+  }
+]
+
+if (!isProd) {
+  outputTargets.push({ type: 'docs-readme' })
+}
 
 export const config: Config = {
   namespace: 'taro-components',
@@ -11,31 +36,13 @@ export const config: Config = {
   plugins: [
     sass()
   ],
-  sourceMap: process.env.NODE_ENV !== 'production',
+  sourceMap: !isProd,
   nodeResolve: {
     preferBuiltins: false,
     // @ts-ignore
     mainFields: ['main:h5', 'browser', 'module', 'jsnext:main', 'main']
   },
-  outputTargets: [
-    reactOutputTarget({
-      componentCorePackage: '@tarojs/components/dist/types/components',
-      proxiesFile: '../taro-components-library-react/src/components.ts'
-    }),
-    // vueOutputTarget({
-    //   componentCorePackage: '@tarojs/components/dist/types/components',
-    //   proxiesFile: '../taro-components-library-vue2/src/components.ts'
-    // }),
-    vueOutputTarget({
-      componentCorePackage: '@tarojs/components/dist/types/components',
-      proxiesFile: '../taro-components-library-vue3/src/components.ts'
-    }),
-    {
-      type: 'dist',
-      esmLoaderPath: '../loader'
-    },
-    { type: 'docs-readme' }
-  ],
+  outputTargets,
   bundles: [
     { components: ['taro-picker-core', 'taro-picker-group'] },
     { components: ['taro-checkbox-core', 'taro-checkbox-group-core'] },

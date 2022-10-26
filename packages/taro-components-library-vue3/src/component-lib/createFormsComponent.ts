@@ -3,7 +3,7 @@ import { computed, h, toRefs } from 'vue'
 import { useForwardRef } from './forwardRef'
 
 export default function createFormsComponent (name, eventName, modelValue = 'value', classNames = []) {
-  const props = {
+  const props: Record<string, any> = {
     modelValue: null
   }
   if (name === 'taro-input') {

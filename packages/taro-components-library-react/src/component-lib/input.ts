@@ -1,14 +1,14 @@
 import React from 'react'
 
-import reactifyWc from '../utils/reactify-wc'
+import reactifyWc from './reactify-wc'
 
 const Input = reactifyWc('taro-input-core')
 
-// eslint-disable-next-line
 const h = React.createElement
 
+// eslint-disable-next-line react/display-name
 export default React.forwardRef((props, ref) => {
-  const args = { ...props }
+  const args: Record<string, unknown> = { ...props }
 
   if (args.hasOwnProperty('focus')) {
     args.autoFocus = Boolean(args.focus)
@@ -16,6 +16,6 @@ export default React.forwardRef((props, ref) => {
   }
 
   return (
-    React.createElement(Input, { ...args, ref: ref })
+    h(Input, { ...args, ref: ref })
   )
 })

@@ -4,7 +4,6 @@
  **/
 import React, { createElement, createRef } from 'react'
 
-// eslint-disable-next-line
 const h = React.createElement
 
 const SCROLL_VIEW = 'taro-scroll-view-core'
@@ -136,7 +135,10 @@ function updateProp (ctx, comp, propKey, prevProps, props) {
 }
 
 const reactifyWebComponent = WC => {
-  class Index extends React.Component {
+  class Index extends React.Component<Record<string, any>> {
+    eventHandlers: any[]
+    ref: React.RefObject<HTMLElement>
+
     constructor (props) {
       super(props)
       this.eventHandlers = []
@@ -171,7 +173,7 @@ const reactifyWebComponent = WC => {
       } else if (typeof forwardRef === 'string') {
         console.warn('内置组件不支持字符串 ref')
       }
-      this.update()
+      this.update(undefined)
     }
 
     componentWillUnmount () {
@@ -188,15 +190,17 @@ const reactifyWebComponent = WC => {
 
     render () {
       const { children, dangerouslySetInnerHTML } = this.props
-      const props = {
+      const props: Record<string, any> = {
         ref: this.ref
       }
       if (dangerouslySetInnerHTML) props.dangerouslySetInnerHTML = dangerouslySetInnerHTML
       return createElement(WC, props, children)
     }
   }
+
+  // eslint-disable-next-line react/display-name
   return React.forwardRef((props, ref) => (
-    React.createElement(Index, { ...props, forwardRef: ref })
+    h(Index, { ...props, forwardRef: ref })
   ))
 }
 

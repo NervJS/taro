@@ -1,10 +1,10 @@
 import { h } from 'vue'
 
-import { useForwardRef } from '../forwardRef'
+import { useForwardRef } from './forwardRef'
 
 export default {
   emits: ['tap', 'scroll'],
-  setup (props, { slots, emit, attrs }) {
+  setup (__props, { slots, emit, attrs }) {
     const forwardRef = useForwardRef()
     return () => (
       h(

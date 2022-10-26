@@ -1,19 +1,20 @@
 import { h } from 'vue'
 
-import { useForwardRef } from '../forwardRef'
+import { useForwardRef } from './forwardRef'
 
 export default {
   emits: ['tap'],
-  setup (props, { slots, emit, attrs }) {
+  setup (__props, { slots, emit, attrs }) {
+    const iconType = attrs.type.replace(/_/g, '-')
+
     const forwardRef = useForwardRef()
+
     return () => (
       h(
-        'taro-text-core',
+        'taro-icon-core',
         {
           ref: forwardRef,
-          class: ['hydrated', {
-            'taro-text_selectable': attrs.selectable
-          }],
+          class: ['hydrated', `weui-icon-${iconType}`],
           onClick (e) {
             emit('tap', e)
           }

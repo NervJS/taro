@@ -5,7 +5,7 @@ import { useForwardRef } from './forwardRef'
 export default function createComponent (name, classNames = []) {
   return {
     emits: ['tap'],
-    setup (props, { slots, emit }) {
+    setup (__props, { slots, emit }) {
       const forwardRef = useForwardRef()
       return () => (
         h(

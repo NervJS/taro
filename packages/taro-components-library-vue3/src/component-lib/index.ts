@@ -1,5 +1,5 @@
-import createComponent from '../createComponent'
-import createFormsComponent from '../createFormsComponent'
+import createComponent from './createComponent'
+import createFormsComponent from './createFormsComponent'
 
 // 视图容器
 export const CoverImage = createComponent('taro-cover-image')

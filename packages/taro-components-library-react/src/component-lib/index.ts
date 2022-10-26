@@ -1,6 +1,6 @@
 import { Fragment } from 'react'
 
-import reactifyWc from '../utils/reactify-wc'
+import reactifyWc from './reactify-wc'
 
 // 视图容器
 export const CoverImage = reactifyWc('taro-cover-image-core')
