@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`tabbar should alipay tabbar work 1`] = `22`;
+exports[`tabbar should alipay tabbar work 1`] = `19`;
 
 exports[`tabbar should alipay tabbar work 2`] = `
 "
@@ -598,6 +598,13 @@ require(\\"./taro\\");
                 Image: {
                     \\"default-source\\": \\"\\"
                 },
+                Camera: {
+                    mode: Object(_tarojs_shared__WEBPACK_IMPORTED_MODULE_0__[\\"singleQuote\\"])(\\"normal\\"),
+                    \\"output-dimension\\": Object(_tarojs_shared__WEBPACK_IMPORTED_MODULE_0__[\\"singleQuote\\"])(\\"720P\\"),
+                    \\"frame-size\\": Object(_tarojs_shared__WEBPACK_IMPORTED_MODULE_0__[\\"singleQuote\\"])(\\"medium\\"),
+                    bindScanCode: \\"\\",
+                    bindReady: \\"\\"
+                },
                 Canvas: {
                     type: \\"\\",
                     width: Object(_tarojs_shared__WEBPACK_IMPORTED_MODULE_0__[\\"singleQuote\\"])(\\"300px\\"),
@@ -607,7 +614,6 @@ require(\\"./taro\\");
                 Video: {
                     \\"poster-size\\": Object(_tarojs_shared__WEBPACK_IMPORTED_MODULE_0__[\\"singleQuote\\"])(\\"contain\\"),
                     \\"mobilenet-hint-type\\": \\"1\\",
-                    enableNative: \\"false\\",
                     bindLoading: \\"\\",
                     bindUserAction: \\"\\",
                     bindStop: \\"\\",
@@ -666,6 +672,11 @@ require(\\"./taro\\");
             var BUBBLE_EVENTS = new Set([ \\"touchStart\\", \\"touchMove\\", \\"touchEnd\\", \\"touchCancel\\", \\"tap\\", \\"longTap\\" ]);
             var hostConfig = {
                 initNativeApi: initNativeApi,
+                getMiniLifecycle: function getMiniLifecycle(config) {
+                    config.component[0] = \\"didMount\\";
+                    config.component[1] = \\"didUnmount\\";
+                    return config;
+                },
                 getEventCenter: function getEventCenter(Events) {
                     if (!my.taroEventCenter) {
                         my.taroEventCenter = new Events;
@@ -864,7 +875,7 @@ h�hځ� �r������Nb2��х��K~��>;;ːL�1�
   </text>
 </template>
 
-<template name=\\"tmpl_0_35\\">
+<template name=\\"tmpl_0_36\\">
   <scroll-view scroll-x=\\"{{xs.b(i.p7,!1)}}\\" scroll-y=\\"{{xs.b(i.p8,!1)}}\\" upper-threshold=\\"{{xs.b(i.p9,50)}}\\" lower-threshold=\\"{{xs.b(i.p2,50)}}\\" scroll-top=\\"{{i.p5}}\\" scroll-left=\\"{{i.p4}}\\" scroll-into-view=\\"{{i.p3}}\\" scroll-with-animation=\\"{{xs.b(i.p6,!1)}}\\" enable-back-to-top=\\"{{xs.b(i.p1,!1)}}\\" onScrollToUpper=\\"eh\\" onScrollToLower=\\"eh\\" onScroll=\\"eh\\" onTouchStart=\\"eh\\" onTouchMove=\\"eh\\" onTouchEnd=\\"eh\\" onTouchCancel=\\"eh\\" onLongTap=\\"eh\\" animation=\\"{{i.p0}}\\" onAnimationStart=\\"eh\\" onAnimationIteration=\\"eh\\" onAnimationEnd=\\"eh\\" onTransitionEnd=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" onTap=\\"eh\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
     <block a:for=\\"{{i.cn}}\\" a:key=\\"sid\\">
       <template is=\\"{{xs.e(0)}}\\" data=\\"{{i:item}}\\" />
@@ -903,25 +914,6 @@ h�hځ� �r������Nb2��х��K~��>;;ːL�1�
     __webpack_require__.r(__webpack_exports__);
     __webpack_exports__[\\"default\\"] = \\"react-mock\\";
 } ] ]);
-
-/** filePath: dist/custom-wrapper.axml **/
-<import src=\\"./base.axml\\" />
-  <block a:for=\\"{{i.cn}}\\" a:key=\\"sid\\">
-    <template is=\\"tmpl_0_container\\" data=\\"{{i:item}}\\" />
-  </block>
-
-/** filePath: dist/custom-wrapper.js **/
-(my[\\"webpackJsonp\\"] = my[\\"webpackJsonp\\"] || []).push([ [ 6 ], {
-    14: function(module, __webpack_exports__, __webpack_require__) {
-        \\"use strict\\";
-        __webpack_require__.r(__webpack_exports__);
-        var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(2);
-        Component(Object(_tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__[\\"createRecursiveComponentConfig\\"])(\\"custom-wrapper\\"));
-    }
-}, [ [ 14, 0, 1 ] ] ]);
-
-/** filePath: dist/custom-wrapper.json **/
-{\\"component\\":true,\\"usingComponents\\":{\\"custom-wrapper\\":\\"./custom-wrapper\\"}}
 
 /** filePath: dist/pages/about/index.axml **/
 <import src=\\"../../base.axml\\"/>
@@ -968,7 +960,7 @@ h�hځ� �r������Nb2��х��K~��>;;ːL�1�
 }, [ [ 17, 0, 1, 3, 2 ] ] ]);
 
 /** filePath: dist/pages/about/index.json **/
-{\\"navigationBarTitleText\\":\\"关于\\",\\"usingComponents\\":{\\"custom-wrapper\\":\\"../../custom-wrapper\\"}}
+{\\"navigationBarTitleText\\":\\"关于\\",\\"usingComponents\\":{}}
 
 /** filePath: dist/pages/index/index.axml **/
 <import src=\\"../../base.axml\\"/>
@@ -1015,7 +1007,7 @@ h�hځ� �r������Nb2��х��K~��>;;ːL�1�
 }, [ [ 16, 0, 1, 3, 2 ] ] ]);
 
 /** filePath: dist/pages/index/index.json **/
-{\\"navigationBarTitleText\\":\\"首页\\",\\"usingComponents\\":{\\"custom-wrapper\\":\\"../../custom-wrapper\\"}}
+{\\"navigationBarTitleText\\":\\"首页\\",\\"usingComponents\\":{}}
 
 /** filePath: dist/runtime.js **/
 
@@ -1056,7 +1048,7 @@ export default {
     return 'tmpl_' + n + '_container'
   },
   f: function (l) {
-    return l.filter(function (i) {return i.nn === '40'})
+    return l.filter(function (i) {return i.nn === '41'})
   }
 }
 
@@ -1182,7 +1174,7 @@ export default {
 "
 `;
 
-exports[`tabbar should weapp tabbar work 1`] = `25`;
+exports[`tabbar should weapp tabbar work 1`] = `22`;
 
 exports[`tabbar should weapp tabbar work 2`] = `
 "
@@ -1238,7 +1230,7 @@ require(\\"./taro\\");
         function useRouter() {}
         function useTabItemTap() {}
         function useScope() {}
-        var needPromiseApis = new Set([ \\"authPrivateMessage\\", \\"disableAlertBeforeUnload\\", \\"enableAlertBeforeUnload\\", \\"getBackgroundFetchData\\", \\"getGroupEnterInfo\\", \\"getShareInfo\\", \\"getWeRunData\\", \\"join1v1Chat\\", \\"openVideoEditor\\", \\"saveFileToDisk\\", \\"scanItem\\", \\"setEnable1v1Chat\\", \\"setWindowSize\\", \\"sendBizRedPacket\\", \\"startFacialRecognitionVerify\\", \\"openCustomerServiceChat\\", \\"getLocalIPAddress\\", \\"getUserProfile\\", \\"editImage\\", \\"getFuzzyLocation\\" ]);
+        var needPromiseApis = new Set([ \\"authPrivateMessage\\", \\"disableAlertBeforeUnload\\", \\"enableAlertBeforeUnload\\", \\"getBackgroundFetchData\\", \\"getGroupEnterInfo\\", \\"getShareInfo\\", \\"getWeRunData\\", \\"join1v1Chat\\", \\"openVideoEditor\\", \\"saveFileToDisk\\", \\"scanItem\\", \\"setEnable1v1Chat\\", \\"setWindowSize\\", \\"sendBizRedPacket\\", \\"startFacialRecognitionVerify\\", \\"openCustomerServiceChat\\", \\"getLocalIPAddress\\", \\"getUserProfile\\", \\"editImage\\", \\"getFuzzyLocation\\", \\"cropImage\\" ]);
         function initNativeApi(taro) {
             processApis(taro, wx, {
                 needPromiseApis: needPromiseApis,
@@ -1782,7 +1774,7 @@ h�hځ� �r������Nb2��х��K~��>;;ːL�1�
   </text>
 </template>
 
-<template name=\\"tmpl_0_35\\">
+<template name=\\"tmpl_0_36\\">
   <scroll-view scroll-x=\\"{{xs.b(i.p7,!1)}}\\" scroll-y=\\"{{xs.b(i.p8,!1)}}\\" upper-threshold=\\"{{xs.b(i.p9,50)}}\\" lower-threshold=\\"{{xs.b(i.p2,50)}}\\" scroll-top=\\"{{i.p5}}\\" scroll-left=\\"{{i.p4}}\\" scroll-into-view=\\"{{i.p3}}\\" scroll-with-animation=\\"{{xs.b(i.p6,!1)}}\\" enable-back-to-top=\\"{{xs.b(i.p1,!1)}}\\" bindscrolltoupper=\\"eh\\" bindscrolltolower=\\"eh\\" bindscroll=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" animation=\\"{{i.p0}}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"sid\\">
       <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
@@ -1862,7 +1854,7 @@ h�hځ� �r������Nb2��х��K~��>;;ːL�1�
   </text>
 </template>
 
-<template name=\\"tmpl_1_35\\">
+<template name=\\"tmpl_1_36\\">
   <scroll-view scroll-x=\\"{{xs.b(i.p7,!1)}}\\" scroll-y=\\"{{xs.b(i.p8,!1)}}\\" upper-threshold=\\"{{xs.b(i.p9,50)}}\\" lower-threshold=\\"{{xs.b(i.p2,50)}}\\" scroll-top=\\"{{i.p5}}\\" scroll-left=\\"{{i.p4}}\\" scroll-into-view=\\"{{i.p3}}\\" scroll-with-animation=\\"{{xs.b(i.p6,!1)}}\\" enable-back-to-top=\\"{{xs.b(i.p1,!1)}}\\" bindscrolltoupper=\\"eh\\" bindscrolltolower=\\"eh\\" bindscroll=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" animation=\\"{{i.p0}}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"sid\\">
       <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
@@ -1922,7 +1914,7 @@ h�hځ� �r������Nb2��х��K~��>;;ːL�1�
   </text>
 </template>
 
-<template name=\\"tmpl_2_35\\">
+<template name=\\"tmpl_2_36\\">
   <scroll-view scroll-x=\\"{{xs.b(i.p7,!1)}}\\" scroll-y=\\"{{xs.b(i.p8,!1)}}\\" upper-threshold=\\"{{xs.b(i.p9,50)}}\\" lower-threshold=\\"{{xs.b(i.p2,50)}}\\" scroll-top=\\"{{i.p5}}\\" scroll-left=\\"{{i.p4}}\\" scroll-into-view=\\"{{i.p3}}\\" scroll-with-animation=\\"{{xs.b(i.p6,!1)}}\\" enable-back-to-top=\\"{{xs.b(i.p1,!1)}}\\" bindscrolltoupper=\\"eh\\" bindscrolltolower=\\"eh\\" bindscroll=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" animation=\\"{{i.p0}}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"sid\\">
       <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
@@ -1982,7 +1974,7 @@ h�hځ� �r������Nb2��х��K~��>;;ːL�1�
   </text>
 </template>
 
-<template name=\\"tmpl_3_35\\">
+<template name=\\"tmpl_3_36\\">
   <scroll-view scroll-x=\\"{{xs.b(i.p7,!1)}}\\" scroll-y=\\"{{xs.b(i.p8,!1)}}\\" upper-threshold=\\"{{xs.b(i.p9,50)}}\\" lower-threshold=\\"{{xs.b(i.p2,50)}}\\" scroll-top=\\"{{i.p5}}\\" scroll-left=\\"{{i.p4}}\\" scroll-into-view=\\"{{i.p3}}\\" scroll-with-animation=\\"{{xs.b(i.p6,!1)}}\\" enable-back-to-top=\\"{{xs.b(i.p1,!1)}}\\" bindscrolltoupper=\\"eh\\" bindscrolltolower=\\"eh\\" bindscroll=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" animation=\\"{{i.p0}}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"sid\\">
       <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
@@ -2522,30 +2514,11 @@ h�hځ� �r������Nb2��х��K~��>;;ːL�1�
 }, [ [ 12, 0, 1 ] ] ]);
 
 /** filePath: dist/comp.json **/
-{\\"component\\":true,\\"usingComponents\\":{\\"comp\\":\\"./comp\\",\\"custom-wrapper\\":\\"./custom-wrapper\\"}}
+{\\"component\\":true,\\"usingComponents\\":{\\"comp\\":\\"./comp\\"}}
 
 /** filePath: dist/comp.wxml **/
 <import src=\\"./base.wxml\\" />
 <template is=\\"tmpl_0_container\\" data=\\"{{i:i,l:l}}\\" />
-
-/** filePath: dist/custom-wrapper.js **/
-(wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 7 ], {
-    13: function(module, __webpack_exports__, __webpack_require__) {
-        \\"use strict\\";
-        __webpack_require__.r(__webpack_exports__);
-        var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(1);
-        Component(Object(_tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__[\\"createRecursiveComponentConfig\\"])(\\"custom-wrapper\\"));
-    }
-}, [ [ 13, 0, 1 ] ] ]);
-
-/** filePath: dist/custom-wrapper.json **/
-{\\"component\\":true,\\"usingComponents\\":{\\"comp\\":\\"./comp\\",\\"custom-wrapper\\":\\"./custom-wrapper\\"}}
-
-/** filePath: dist/custom-wrapper.wxml **/
-<import src=\\"./base.wxml\\" />
-  <block wx:for=\\"{{i.cn}}\\" wx:key=\\"sid\\">
-    <template is=\\"tmpl_0_container\\" data=\\"{{i:item,l:''}}\\" />
-  </block>
 
 /** filePath: dist/pages/about/index.js **/
 (wx[\\"webpackJsonp\\"] = wx[\\"webpackJsonp\\"] || []).push([ [ 8 ], {
@@ -2588,7 +2561,7 @@ h�hځ� �r������Nb2��х��K~��>;;ːL�1�
 }, [ [ 16, 0, 1, 3, 2 ] ] ]);
 
 /** filePath: dist/pages/about/index.json **/
-{\\"navigationBarTitleText\\":\\"关于\\",\\"usingComponents\\":{\\"custom-wrapper\\":\\"../../custom-wrapper\\",\\"comp\\":\\"../../comp\\"}}
+{\\"navigationBarTitleText\\":\\"关于\\",\\"usingComponents\\":{\\"comp\\":\\"../../comp\\"}}
 
 /** filePath: dist/pages/about/index.wxml **/
 <import src=\\"../../base.wxml\\"/>
@@ -2635,7 +2608,7 @@ h�hځ� �r������Nb2��х��K~��>;;ːL�1�
 }, [ [ 15, 0, 1, 3, 2 ] ] ]);
 
 /** filePath: dist/pages/index/index.json **/
-{\\"navigationBarTitleText\\":\\"首页\\",\\"usingComponents\\":{\\"custom-wrapper\\":\\"../../custom-wrapper\\",\\"comp\\":\\"../../comp\\"}}
+{\\"navigationBarTitleText\\":\\"首页\\",\\"usingComponents\\":{\\"comp\\":\\"../../comp\\"}}
 
 /** filePath: dist/pages/index/index.wxml **/
 <import src=\\"../../base.wxml\\"/>
@@ -2659,8 +2632,8 @@ h�hځ� �r������Nb2��х��K~��>;;ːL�1�
 /** filePath: dist/utils.wxs **/
 module.exports = {
   a: function (l, n, s) {
-    var a = [\\"7\\",\\"0\\",\\"18\\",\\"5\\",\\"2\\",\\"11\\",\\"6\\",\\"4\\",\\"37\\",\\"38\\",\\"22\\",\\"19\\",\\"35\\",\\"39\\",\\"40\\"]
-    var b = [\\"4\\",\\"37\\",\\"38\\",\\"22\\",\\"19\\",\\"35\\",\\"39\\",\\"40\\"]
+    var a = [\\"7\\",\\"0\\",\\"18\\",\\"5\\",\\"2\\",\\"11\\",\\"6\\",\\"4\\",\\"38\\",\\"39\\",\\"22\\",\\"19\\",\\"36\\",\\"40\\",\\"41\\"]
+    var b = [\\"4\\",\\"38\\",\\"39\\",\\"22\\",\\"19\\",\\"36\\",\\"40\\",\\"41\\"]
     if (a.indexOf(n) === -1) {
       l = 0
     }
@@ -2688,7 +2661,7 @@ module.exports = {
     return 'tmpl_' + n + '_container'
   },
   f: function (l, n) {
-    var b = [\\"4\\",\\"37\\",\\"38\\",\\"22\\",\\"19\\",\\"35\\",\\"39\\",\\"40\\"]
+    var b = [\\"4\\",\\"38\\",\\"39\\",\\"22\\",\\"19\\",\\"36\\",\\"40\\",\\"41\\"]
     if (b.indexOf(n) > -1) {
       if (l) l += ','
       l += n

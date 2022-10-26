@@ -436,11 +436,7 @@ declare namespace PickerRegionProps {
  * @see https://developers.weixin.qq.com/miniprogram/dev/component/picker.html
  */
 declare const Picker: ComponentType<
-  | PickerMultiSelectorProps
-  | PickerTimeProps
-  | PickerDateProps
-  | PickerRegionProps
-  | PickerSelectorProps
+  PickerMultiSelectorProps | PickerTimeProps | PickerDateProps | PickerRegionProps | PickerSelectorProps
 >
 export {
   Picker,

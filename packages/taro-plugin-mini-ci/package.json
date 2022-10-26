@@ -29,16 +29,30 @@
   },
   "dependencies": {
     "@tarojs/service": "workspace:*",
+    "jimp": "^0.16.1",
     "minimist": "^1.2.5",
-    "miniprogram-ci": "^1.6.1",
-    "qrcode-terminal": "^0.12.0",
+    "miniprogram-ci": "^1.8.35",
+    "qrcode": "^1.5.1",
+    "qrcode-reader": "^1.0.4",
     "shelljs": "^0.8.4"
   },
+  "devDependencies": {
+    "@types/qrcode": "^1.5.0",
+    "@types/shelljs": "^0.8.11"
+  },
   "peerDependencies": {
-    "minidev": "^1.5.1"
+    "dingtalk-miniapp-opensdk": "^1.0.7",
+    "minidev": "^1.5.1",
+    "tt-ide-cli": "^0.1.13"
   },
   "peerDependenciesMeta": {
+    "dingtalk-miniapp-opensdk": {
+      "optional": true
+    },
     "minidev": {
+      "optional": true
+    },
+    "tt-ide-cli": {
       "optional": true
     }
   }

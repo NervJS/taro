@@ -96,15 +96,14 @@ function _request (options) {
       for (const key of response.headers.keys()) {
         res.header[key] = response.headers.get(key)
       }
-      if (!response.ok) {
-        throw response
-      }
       if (options.responseType === 'arraybuffer') {
         return response.arrayBuffer()
       }
       if (res.statusCode !== 204) {
         if (options.dataType === 'json' || typeof options.dataType === 'undefined') {
-          return response.json()
+          return response.json().catch(() => {
+            return null
+          })
         }
       }
       if (options.responseType === 'text' || options.dataType === 'text') {
@@ -121,6 +120,8 @@ function _request (options) {
     .catch(err => {
       typeof fail === 'function' && fail(err)
       typeof complete === 'function' && complete(res)
+      err.statusCode = res.statusCode
+      err.errMsg = err.message
       return Promise.reject(err)
     })
 }

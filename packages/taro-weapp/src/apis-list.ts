@@ -18,5 +18,6 @@ export const needPromiseApis = new Set([
   'getLocalIPAddress',
   'getUserProfile',
   'editImage',
-  'getFuzzyLocation'
+  'getFuzzyLocation',
+  'cropImage'
 ])

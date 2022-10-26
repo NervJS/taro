@@ -19,8 +19,12 @@ interface IMainPluginOptions {
   framework: FRAMEWORK_MAP
   frameworkExts: string[]
   useHtmlComponents: boolean
-  deviceRatio: any
-  designWidth: number
+  pxTransformConfig: {
+    baseFontSize: number
+    deviceRatio: any
+    designWidth: number
+    minRootSize: number
+  }
   loaderMeta?: Record<string, string>
 }
 
@@ -42,8 +46,12 @@ export default class MainPlugin {
       framework: FRAMEWORK_MAP.NERV,
       frameworkExts: SCRIPT_EXT,
       useHtmlComponents: false,
-      deviceRatio: {},
-      designWidth: 750
+      pxTransformConfig: {
+        baseFontSize: 20,
+        deviceRatio: {},
+        designWidth: 750,
+        minRootSize: 20
+      }
     })
     this.sourceDir = this.options.sourceDir
     this.outputDir = this.options.outputDir
@@ -75,7 +83,7 @@ export default class MainPlugin {
 
     compiler.hooks.compilation.tap(PLUGIN_NAME, compilation => {
       compilation.hooks.normalModuleLoader.tap(PLUGIN_NAME, (_loaderContext, module: any) => {
-        const { framework, entryFileName, sourceDir, designWidth, deviceRatio, loaderMeta, routerConfig } = this.options
+        const { framework, entryFileName, sourceDir, pxTransformConfig, loaderMeta, routerConfig } = this.options
         const { dir, name } = path.parse(module.resource)
         const suffixRgx = /\.(boot|config)/
         if (!suffixRgx.test(name)) return
@@ -98,10 +106,7 @@ export default class MainPlugin {
               framework,
               loaderMeta,
               pages: this.pagesConfigList,
-              pxTransformConfig: {
-                designWidth,
-                deviceRatio
-              },
+              pxTransformConfig,
               sourceDir,
               useHtmlComponents: this.options.useHtmlComponents
             }

@@ -438,6 +438,10 @@ const Slot = {
   name: NO_DEFAULT_VALUE
 }
 
+const NativeSlot = {
+  name: NO_DEFAULT_VALUE
+}
+
 export const internalComponents: Record<string, Record<string, string>> = {
   View,
   Icon,
@@ -477,7 +481,8 @@ export const internalComponents: Record<string, Record<string, string>> = {
   Block,
   Map: MapComp,
   Slot,
-  SlotView
+  SlotView,
+  NativeSlot,
 }
 
 export const controlledComponent = new Set([

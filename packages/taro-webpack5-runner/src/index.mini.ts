@@ -18,6 +18,7 @@ export default async function build (appPath: string, rawConfig: MiniBuildConfig
     chain: combination.chain,
     enableSourceMap,
     entry,
+    isWatch: combination.config.isWatch,
     runtimePath
   })
   await prebundle.run(combination.getPrebundleOptions())
@@ -48,7 +49,7 @@ export default async function build (appPath: string, rawConfig: MiniBuildConfig
       }
 
       if (!isEmpty(config.prerender)) {
-        prerender = prerender ?? new Prerender(config, webpackConfig, stats, config.template.Adapter)
+        prerender = prerender ?? new Prerender(config, webpackConfig, stats, config.template)
         await prerender.render()
       }
 

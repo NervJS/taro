@@ -1,13 +1,13 @@
 import { META_TYPE, recursiveMerge, SCRIPT_EXT } from '@tarojs/helper'
 import { getSassLoaderOption } from '@tarojs/runner-utils'
 import { isFunction, isObject } from '@tarojs/shared'
-import { IPrebundle } from '@tarojs/webpack5-prebundle'
 import path from 'path'
 import webpack from 'webpack'
-import Chain from 'webpack-chain'
 
 import { componentConfig } from '../template/component'
 
+import type { IPrebundle } from '@tarojs/webpack5-prebundle'
+import type Chain from 'webpack-chain'
 import type { CommonBuildConfig, H5BuildConfig, MiniBuildConfig } from '../utils/types'
 
 type ICompiler = Exclude<CommonBuildConfig['compiler'], string | undefined>
@@ -32,7 +32,7 @@ export class Combination<T extends MiniBuildConfig | H5BuildConfig = CommonBuild
     this.outputRoot = config.outputRoot || 'dist'
     this.sourceDir = path.resolve(appPath, this.sourceRoot)
     this.outputDir = path.resolve(appPath, this.outputRoot)
-    this.enableSourceMap = config.enableSourceMap ?? process.env.NODE_ENV !== 'production'
+    this.enableSourceMap = config.enableSourceMap ?? config.isWatch ?? process.env.NODE_ENV !== 'production'
   }
 
   async make () {
@@ -44,12 +44,15 @@ export class Combination<T extends MiniBuildConfig | H5BuildConfig = CommonBuild
   process (_config: T, _appPath: string) {}
 
   async pre (rawConfig: T) {
+    const preMode = rawConfig.mode || process.env.NODE_ENV
+    const mode = ['production', 'development', 'none'].find(e => e === preMode)
+      || (!rawConfig.isWatch || process.env.NODE_ENV === 'production' ? 'production' : 'development')
     /** process config.sass options */
     const sassLoaderOption = await getSassLoaderOption(rawConfig)
     this.config = {
       ...rawConfig,
       sassLoaderOption,
-      mode: process.env.NODE_ENV || rawConfig.mode,
+      mode,
       frameworkExts: rawConfig.frameworkExts || SCRIPT_EXT
     }
   }
@@ -84,7 +87,7 @@ export class Combination<T extends MiniBuildConfig | H5BuildConfig = CommonBuild
     }
 
     const defaultOptions: IPrebundle = {
-      enable: process.env.NODE_ENV !== 'production', // 因为使用了 esbuild 单独打包依赖，会使项目体积略微变大，所以生产模式下默认不开启
+      enable: this.config.mode !== 'production', // 因为使用了 esbuild 单独打包依赖，会使项目体积略微变大，所以生产模式下默认不开启
       timings: false,
       force: false,
       include,

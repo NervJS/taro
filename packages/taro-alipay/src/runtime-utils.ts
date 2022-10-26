@@ -31,6 +31,11 @@ export * from './apis-list'
 export * from './components'
 export const hostConfig = {
   initNativeApi,
+  getMiniLifecycle (config) {
+    config.component[0] = 'didMount'
+    config.component[1] = 'didUnmount'
+    return config
+  },
   getEventCenter (Events) {
     if (!my.taroEventCenter) {
       my.taroEventCenter = new Events()

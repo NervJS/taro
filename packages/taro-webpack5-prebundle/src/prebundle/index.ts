@@ -25,8 +25,11 @@ export interface IPrebundleConfig {
   entry: EntryObject
   entryFileName?: string
   env: string
+  isWatch?: boolean
   sourceRoot: string
 }
+
+type TMode = 'production' | 'development' | 'none'
 
 export default class BasePrebundle<T extends IPrebundleConfig = IPrebundleConfig> {
   sourceRoot: string
@@ -36,6 +39,7 @@ export default class BasePrebundle<T extends IPrebundleConfig = IPrebundleConfig
   customEsbuildConfig: IPrebundle['esbuild']
   customSwcConfig?: Config
   env: string
+  mode: TMode
   prebundleCacheDir: string
   remoteCacheDir: string
   metadataPath: string
@@ -50,7 +54,7 @@ export default class BasePrebundle<T extends IPrebundleConfig = IPrebundleConfig
   constructor (protected config: T, protected option: IPrebundle) {
     if (!option.enable) return
 
-    const { appPath, env, chain, sourceRoot } = this.config
+    const { appPath, env, chain, sourceRoot, isWatch } = this.config
     const { cacheDir = getCacheDir(appPath, env), esbuild = {}, force, swc } = this.option
 
     this.chain = chain
@@ -60,6 +64,8 @@ export default class BasePrebundle<T extends IPrebundleConfig = IPrebundleConfig
     this.customEsbuildConfig = esbuild
     this.customSwcConfig = swc
     this.env = env
+    this.mode = ['production', 'development', 'none'].find(e => e === env) as TMode
+      || (!isWatch || process.env.NODE_ENV === 'production' ? 'production' : 'development')
     this.prebundleCacheDir = path.resolve(cacheDir, './prebundle')
     this.remoteCacheDir = path.resolve(cacheDir, './remote')
     this.metadataPath = path.join(cacheDir, 'metadata.json')
