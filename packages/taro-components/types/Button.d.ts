@@ -132,6 +132,70 @@ interface ButtonProps extends StandardProps {
    */
   showMessageCard?: boolean
 
+  /** 生活号 id，必须是当前小程序同主体且已关联的生活号，open-type="lifestyle" 时有效。
+   * @supported alipay, qq
+   */
+  publicId?: string
+
+  /** 发送订阅类模板消息所用的模板库标题 ID ，可通过 getTemplateLibraryList 获取
+   * 当参数类型为 Array 时，可传递 1~3 个模板库标题 ID
+   * @supported swan
+   */
+  templateId?: string | Array<string>
+
+  /** 发送订阅类模板消息时所使用的唯一标识符，内容由开发者自定义，用来标识订阅场景
+   * 注意：同一用户在同一 subscribe-id 下的多次授权不累积下发权限，只能下发一条。若要订阅多条，需要不同 subscribe-id
+   * @supported swan
+   */
+  subscribeId?: string
+
+  /** 打开群资料卡时，传递的群号
+   * @supported qq
+   */
+  groupId?: string
+
+  /** 打开频道页面时，传递的频道号
+   * @supported qq
+   */
+  guildId?: string
+
+  /** 分享类型集合，请参考下面share-type有效值说明。share-type后续将不再维护，请更新为share-mode
+   * @supported qq
+   * @default 27
+   */
+  shareType?: string
+
+  /** 分享类型集合，请参考下面share-mode有效值说明
+   * @supported qq
+   * @default ['qq', 'qzone']
+   */
+  shareMode?: string
+
+  /** 无障碍访问，（属性）元素的额外描述
+   * @supported qq
+   */
+  ariaLabel?: string
+
+  /** 添加好友时，对方的 openid
+   * @supported qq
+   */
+  openId?: string
+
+  /** 发送对象的 FriendInfo
+   * @supported qq
+   */
+  shareMessageFriendInfo?: string
+
+  /** 转发标题，不传则默认使用当前小程序的昵称。 FriendInfo
+   * @supported qq
+   */
+  shareMessageTitle?: string
+
+  /** 转发显示图片的链接，可以是网络图片路径（仅 QQ CDN 域名路径）或本地图片文件路径或相对代码包根目录的图片文件路径。显示图片长宽比是 5:4FriendInfo
+   * @supported qq
+   */
+  shareMessageImg?: string
+
   /** 用户点击该按钮时，会返回获取到的用户信息，回调的detail数据与 Taro.getUserInfo 返回的一致
    *
    * 生效时机: `open-type="getUserInfo"`
@@ -194,11 +258,6 @@ interface ButtonProps extends StandardProps {
    */
   onTap?: CommonEventFunction
 
-  /** 生活号 id，必须是当前小程序同主体且已关联的生活号，open-type="lifestyle" 时有效。
-   * @supported alipay, qq
-   */
-  publicId?: string
-
   /** 当 open-type 为 lifestyle 时有效。
    * 当点击按钮时触发。
    * event.detail = { followStatus }，followStatus 合法值有 1、2、3，其中 1 表示已关注。2 表示用户不允许关注。3 表示发生未知错误；
@@ -208,18 +267,6 @@ interface ButtonProps extends StandardProps {
   onFollowLifestyle?: CommonEventFunction<{
     followStatus: 1 | 2 | 3 | true
   }>
-
-  /** 发送订阅类模板消息所用的模板库标题 ID ，可通过 getTemplateLibraryList 获取
-   * 当参数类型为 Array 时，可传递 1~3 个模板库标题 ID
-   * @supported swan
-   */
-  templateId?: string | Array<string>
-
-  /** 发送订阅类模板消息时所使用的唯一标识符，内容由开发者自定义，用来标识订阅场景
-   * 注意：同一用户在同一 subscribe-id 下的多次授权不累积下发权限，只能下发一条。若要订阅多条，需要不同 subscribe-id
-   * @supported swan
-   */
-  subscribeId?: string
 
   /** 用户点击该按钮时，调起用户编辑收货地址原生界面，并在编辑完成后返回用户选择的地址，从返回参数的 detail 中获取，和 swan.chooseAddress 一样的。和 open-type 搭配使用，使用时机：open-type="chooseAddress"
    * @supported swan
@@ -240,53 +287,6 @@ interface ButtonProps extends StandardProps {
    * @supported swan
    */
   onSubscribe?: CommonEventFunction
-
-  /** 打开群资料卡时，传递的群号
-   * @supported qq
-   */
-  groupId?: string
-
-  /** 打开频道页面时，传递的频道号
-   * @supported qq
-   */
-  guildId?: string
-
-  /** 分享类型集合，请参考下面share-type有效值说明。share-type后续将不再维护，请更新为share-mode
-   * @supported qq
-   * @default 27
-   */
-  shareType?: string
-
-  /** 分享类型集合，请参考下面share-mode有效值说明
-   * @supported qq
-   * @default ['qq', 'qzone']
-   */
-  shareMode?: string
-
-  /** 无障碍访问，（属性）元素的额外描述
-   * @supported qq
-   */
-  ariaLabel?: string
-
-  /** 添加好友时，对方的 openid
-   * @supported qq
-   */
-  openId?: string
-
-  /** 发送对象的 FriendInfo
-   * @supported qq
-   */
-  shareMessageFriendInfo?: string
-
-  /** 转发标题，不传则默认使用当前小程序的昵称。 FriendInfo
-   * @supported qq
-   */
-  shareMessageTitle?: string
-
-  /** 转发显示图片的链接，可以是网络图片路径（仅 QQ CDN 域名路径）或本地图片文件路径或相对代码包根目录的图片文件路径。显示图片长宽比是 5:4FriendInfo
-   * @supported qq
-   */
-  shareMessageImg?: string
 
   /** 添加好友的回调
    * @supported qq
