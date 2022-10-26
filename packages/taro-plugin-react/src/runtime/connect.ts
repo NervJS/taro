@@ -325,14 +325,22 @@ export function createReactApp (
       value (options) {
         setRouterParams(options)
 
-        /**
-         * trigger lifecycle
-         */
-        const app = getAppInstance()
-        // class component, componentDidShow
-        app?.componentDidShow?.(options)
-        // functional component, useDidShow
-        triggerAppHook('onShow', options)
+        const onShow = () => {
+          /**
+          * trigger lifecycle
+          */
+          const app = getAppInstance()
+          // class component, componentDidShow
+          app?.componentDidShow?.(options)
+          // functional component, useDidShow
+          triggerAppHook('onShow', options)
+        }
+
+        if (appWrapper) {
+          onShow()
+        } else {
+          appWrapperPromise.then(onShow)
+        }
       }
     }),
 

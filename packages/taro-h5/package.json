@@ -40,5 +40,9 @@
     "jsonp-retry": "^1.0.3",
     "query-string": "^7.1.1",
     "whatwg-fetch": "^3.4.0"
+  },
+  "devDependencies": {
+    "react": "^18.2.0",
+    "react-test-renderer": "^18.2.0"
   }
 }

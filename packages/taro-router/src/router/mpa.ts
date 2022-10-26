@@ -28,12 +28,26 @@ export async function createMultiRouter (
 ) {
   RouterConfig.config = config
   const handler = new MultiPageHandler(config)
-  const launchParam = handler.getQuery()
-  app.onLaunch?.(launchParam)
+  const launchParam: Taro.getLaunchOptionsSync.LaunchOptions = {
+    path: config.pageName, // 多页面模式没新开一个页面相当于重启，所以直接使用当前页面路径
+    query: handler.getQuery(),
+    scene: 0,
+    shareTicket: '',
+    referrerInfo: {}
+  }
+
+  eventCenter.trigger('__taroRouterLaunch', launchParam)
+  app.onLaunch?.(launchParam as Record<string, any>)
   app.onError && window.addEventListener('error', e => app.onError?.(e.message))
 
   const pathName = config.pageName
   const pageConfig = handler.pageConfig
+  eventCenter.trigger('__taroRouterChange', {
+    toLocation: {
+      path: pathName
+    }
+  })
+
   let element
   try {
     element = await pageConfig.load?.()
@@ -45,12 +59,6 @@ export async function createMultiRouter (
   }
   if (!element) return
   let enablePullDownRefresh = config?.window?.enablePullDownRefresh || false
-
-  eventCenter.trigger('__taroRouterChange', {
-    toLocation: {
-      path: pathName
-    }
-  })
 
   if (pageConfig) {
     setTitle(pageConfig.navigationBarTitleText ?? document.title)
@@ -65,11 +73,11 @@ export async function createMultiRouter (
   delete loadConfig['load']
   const page = createPageConfig(
     enablePullDownRefresh ? hooks.call('createPullDownComponent', el, location.pathname, framework, config.PullDownRefresh) : el,
-    pathName + stringify(launchParam),
+    pathName + stringify(launchParam as Record<string, any>),
     {},
     loadConfig
   )
   handler.load(page, pageConfig)
 
-  app.onShow?.(launchParam)
+  app.onShow?.(launchParam as Record<string, any>)
 }

@@ -36,12 +36,26 @@ export function createRouter (
     }
   })
   const router = new UniversalRouter(routes, { baseUrl: basename || '' })
-  const launchParam = handler.getQuery(stacks.length)
-  app.onLaunch?.(launchParam)
+  const launchParam: Taro.getLaunchOptionsSync.LaunchOptions = {
+    path: handler.homePage,
+    query: handler.getQuery(stacks.length),
+    scene: 0,
+    shareTicket: '',
+    referrerInfo: {}
+  }
+
+  eventCenter.trigger('__taroRouterLaunch', launchParam)
+  app.onLaunch?.(launchParam as Record<string, any>)
   app.onError && window.addEventListener('error', e => app.onError?.(e.message))
 
   const render: LocationListener = async ({ location, action }) => {
     handler.pathname = decodeURI(location.pathname)
+    eventCenter.trigger('__taroRouterChange', {
+      toLocation: {
+        path: handler.pathname
+      }
+    })
+
     let element, params
     try {
       const result = await router.resolve(handler.router.forcePath || handler.pathname)
@@ -61,12 +75,6 @@ export function createRouter (
     if (!element) return
     const pageConfig = handler.pageConfig
     let enablePullDownRefresh = config?.window?.enablePullDownRefresh || false
-
-    eventCenter.trigger('__taroRouterChange', {
-      toLocation: {
-        path: handler.pathname
-      }
-    })
 
     if (pageConfig) {
       document.title = pageConfig.navigationBarTitleText ?? document.title
@@ -137,7 +145,7 @@ export function createRouter (
 
   render({ location: history.location, action: LocationAction.Push })
 
-  app.onShow?.(launchParam)
+  app.onShow?.(launchParam as Record<string, any>)
 
   return history.listen(render)
 }

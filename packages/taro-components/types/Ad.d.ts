@@ -191,7 +191,6 @@ declare namespace AdProps {
      */
     1008
   }
-
   interface onSizeEventDetail {
     width: number
     height: number

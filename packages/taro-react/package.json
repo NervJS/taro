@@ -29,7 +29,7 @@
     "react-reconciler": "0.27.0",
     "scheduler": "^0.20.1"
   },
-  "publishConfig": {
-    "access": "public"
+  "devDependencies": {
+    "react": "^18.2.0"
   }
 }

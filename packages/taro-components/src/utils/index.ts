@@ -29,5 +29,6 @@ export function debounce (fn, ms = 250, scope?) {
   }
 }
 
+export * from './helper'
 export * from './style'
 export * from './url'

@@ -1,10 +1,5 @@
 import { ComponentType } from 'react'
-import {
-  StandardProps,
-  CommonEventFunction,
-  CanvasTouchEventFunction,
-  CanvasTouchEvent,
-} from './common'
+import { StandardProps, CommonEventFunction, CanvasTouchEventFunction, CanvasTouchEvent } from './common'
 interface CanvasProps extends StandardProps<any, CanvasTouchEvent> {
   /** 指定 canvas 类型，支持 2d 和 webgl
    * @supported weapp, alipay, tt
@@ -63,16 +58,6 @@ interface CanvasProps extends StandardProps<any, CanvasTouchEvent> {
    */
   id?: string
 
-  /** -
-   * @supported alipay
-   */
-  style?: string
-
-  /** -
-   * @supported alipay
-   */
-  class?: string
-
   /**
    * @supported alipay
    */
@@ -89,7 +74,6 @@ interface CanvasProps extends StandardProps<any, CanvasTouchEvent> {
   onTap?: CommonEventFunction
 
   /** canvas 组件初始化成功触发。
-   * 版本要求：基础库 2.7.0 及以上
    * @supported alipay
    */
   onReady?: CommonEventFunction
