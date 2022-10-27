@@ -1,15 +1,16 @@
-import { PageInstance } from '@tarojs/runtime'
+import { Current, PageInstance } from '@tarojs/runtime'
 
-let pageScrollFn
+const pageScrollFn = {}
 let pageDOM: Element | Window = window
 
 export function bindPageScroll (page: PageInstance, pageEl: HTMLElement, distance = 50) {
-  pageScrollFn && pageEl.removeEventListener('scroll', pageScrollFn)
+  const pagePath = (page ? page?.path : Current.router?.path) as string
+  pageScrollFn[pagePath] && pageEl.removeEventListener('scroll', pageScrollFn[pagePath])
   pageDOM = pageEl
 
   let isReachBottom = false
 
-  pageScrollFn = function () {
+  pageScrollFn[pagePath] = function () {
     page.onPageScroll?.({
       scrollTop: pageDOM instanceof Window ? window.scrollY : pageDOM.scrollTop
     })
@@ -28,7 +29,7 @@ export function bindPageScroll (page: PageInstance, pageEl: HTMLElement, distanc
     }
   }
 
-  pageDOM.addEventListener('scroll', pageScrollFn, false)
+  pageDOM.addEventListener('scroll', pageScrollFn[pagePath], false)
 }
 
 function getOffset () {

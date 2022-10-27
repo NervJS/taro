@@ -1,7 +1,7 @@
-import type { IPluginContext } from '@tarojs/service'
-
 import configValidator from '../../doctor/configValidator'
 import * as hooks from '../constant'
+
+import type { IPluginContext } from '@tarojs/service'
 
 export default (ctx: IPluginContext) => {
   ctx.registerCommand({
@@ -127,11 +127,13 @@ export default (ctx: IPluginContext) => {
                 }
               })
             },
-            async onCompilerMake (compilation) {
+            async onCompilerMake (compilation, compiler, plugin) {
               await ctx.applyPlugins({
                 name: hooks.ON_COMPILER_MAKE,
                 opts: {
-                  compilation
+                  compilation,
+                  compiler,
+                  plugin
                 }
               })
             },

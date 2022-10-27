@@ -1,9 +1,10 @@
 import { noop } from '@tarojs/shared'
 
-import type { TaroNode } from '../../dom/node'
-import type { MutationCallback, MutationObserverInit } from './implements'
 import { MutationObserverImpl, recordMutation } from './implements'
 import { MutationRecord, MutationRecordType } from './record'
+
+import type { TaroNode } from '../../dom/node'
+import type { MutationCallback, MutationObserverInit } from './implements'
 
 declare const ENABLE_MUTATION_OBSERVER: boolean
 

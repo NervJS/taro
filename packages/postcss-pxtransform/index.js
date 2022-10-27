@@ -2,6 +2,7 @@
 
 const postcss = require('postcss')
 const pxRegex = require('./lib/pixel-unit-regex')
+const PXRegex = require('./lib/pixel-upper-unit-regex')
 const filterPropList = require('./lib/filter-prop-list')
 
 const defaults = {
@@ -41,7 +42,7 @@ module.exports = postcss.plugin('postcss-pxtransform', function (options = {}) {
   options = Object.assign({}, DEFAULT_WEAPP_OPTIONS, options)
 
   const transUnits = ['px']
-  const baseFontSize = options.baseFontSize || options.minRootSize >= 1 ? options.minRootSize : 20
+  const baseFontSize = options.baseFontSize || (options.minRootSize >= 1 ? options.minRootSize : 20)
   const designWidth = input => typeof options.designWidth === 'function'
     ? options.designWidth(input)
     : options.designWidth
@@ -59,6 +60,11 @@ module.exports = postcss.plugin('postcss-pxtransform', function (options = {}) {
     }
     case 'quickapp': {
       options.rootValue = () => 1
+      targetUnit = 'px'
+      break
+    }
+    case 'harmony': {
+      options.rootValue = input => 1 / options.deviceRatio[designWidth(input)]
       targetUnit = 'px'
       break
     }
@@ -105,6 +111,27 @@ module.exports = postcss.plugin('postcss-pxtransform', function (options = {}) {
           }
         }
       })
+    }
+
+    // PX -> vp in harmony
+    if (options.platform === 'harmony') {
+      css.walkDecls(function (decl) {
+        if (decl.value.indexOf('PX') === -1) return
+        const value = decl.value.replace(PXRegex, function (m, _$1, $2) {
+          return m.replace($2, 'vp')
+        })
+        decl.value = value
+      })
+
+      if (opts.mediaQuery) {
+        css.walkAtRules('media', function (rule) {
+          if (rule.params.indexOf('PX') === -1) return
+          const value = rule.params.replace(PXRegex, function (m, _$1, $2) {
+            return m.replace($2, 'vp')
+          })
+          rule.params = value
+        })
+      }
     }
 
     /*  #ifdef  %PLATFORM%  */
@@ -213,7 +240,9 @@ function createPxReplace (rootValue, unitPrecision, minPixelValue, onePxTransfor
       const pixels = parseFloat($1)
       if (pixels < minPixelValue) return m
       const fixedVal = toFixed((pixels / rootValue(input, m, $1)), unitPrecision)
-      return (fixedVal === 0) ? '0' : fixedVal + targetUnit
+      // return (fixedVal === 0) ? '0' : fixedVal + targetUnit
+      // 不带单位不支持在calc表达式中参与计算
+      return fixedVal + targetUnit
     }
   }
 }

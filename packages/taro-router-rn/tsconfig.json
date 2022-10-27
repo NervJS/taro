@@ -7,9 +7,9 @@
     "jsx": "react",
     "lib": ["ESNEXT"],
     "paths": {
-      "react": ["./node_modules/@types/react", "./node_modules/react"],
+      "react": ["./node_modules/@types/react", "./node_modules/react"]
     },
-    "types": ["react-native", "node"],
+    "types": ["react-native", "node"]
   },
-  "include": ["src"],
+  "include": ["src"]
 }

@@ -1,7 +1,7 @@
-import type { IPluginContext } from '@tarojs/service'
-
-import type { Frameworks } from './index'
 import { getLoaderMetaForH5 } from './loader-meta'
+
+import type { IPluginContext } from '@tarojs/service'
+import type { Frameworks } from './index'
 
 export function modifyH5WebpackChain (ctx: IPluginContext, framework: Frameworks, chain) {
   setAlias(ctx, chain)
@@ -42,10 +42,7 @@ function setLoader (framework: Frameworks, chain) {
 function setPlugin (ctx: IPluginContext, framework: Frameworks, chain) {
   const config = ctx.initialConfig
 
-  if (
-    process.env.NODE_ENV !== 'production' &&
-    config.h5?.devServer?.hot !== false
-  ) {
+  if (config.isWatch && config.h5?.devServer?.hot !== false) {
     // 默认开启 fast-refresh
     if (framework === 'react') {
       chain

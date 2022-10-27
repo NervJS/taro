@@ -22,14 +22,13 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
+import { chalk } from '@tarojs/helper'
 import fs from 'fs-extra'
 import path from 'path'
 import { performance } from 'perf_hooks'
-import { Configuration, Stats } from 'webpack'
 import webpackDevServer from 'webpack-dev-server'
 import VirtualModulesPlugin from 'webpack-virtual-modules'
 
-import type { IPrebundle } from './prebundle'
 import BasePrebundle, { IPrebundleConfig } from './prebundle'
 import {
   flattenId,
@@ -38,6 +37,9 @@ import {
 } from './utils'
 import { assetsRE, MF_NAME } from './utils/constant'
 import TaroModuleFederationPlugin from './webpack/TaroModuleFederationPlugin'
+
+import type { Configuration, Stats } from 'webpack'
+import type { IPrebundle } from './prebundle'
 
 export const VirtualModule = new VirtualModulesPlugin()
 
@@ -57,7 +59,6 @@ export class H5Prebundle extends BasePrebundle<IH5PrebundleConfig> {
 
     const customWebpackConfig = this.option.webpack
     const exposes: Record<string, string> = {}
-    const mode = process.env.NODE_ENV === 'production' ? 'production' : 'development'
     const devtool = this.config.enableSourceMap && 'hidden-source-map'
     const mainBuildOutput = this.chain.output.entries()
     const output: Exclude<Configuration['output'], undefined> = {
@@ -69,7 +70,7 @@ export class H5Prebundle extends BasePrebundle<IH5PrebundleConfig> {
 
     this.metadata.mfHash = getMfHash({
       bundleHash: this.metadata.bundleHash,
-      mode,
+      mode: this.mode,
       devtool,
       output
     })
@@ -96,7 +97,7 @@ export class H5Prebundle extends BasePrebundle<IH5PrebundleConfig> {
         },
         devtool,
         entry: path.resolve(__dirname, './webpack/index.js'),
-        mode,
+        mode: this.mode,
         module: {
           // TODO 同步普通打包文件配置
           rules: [
@@ -148,7 +149,7 @@ export class H5Prebundle extends BasePrebundle<IH5PrebundleConfig> {
       this.metadata.remoteAssets = this.preMetadata.remoteAssets
     }
 
-    if (process.env.NODE_ENV === 'production' || this.config.devServer?.devMiddleware?.writeToDisk) {
+    if (this.mode === 'production' || this.config.devServer?.devMiddleware?.writeToDisk) {
       fs.copy(this.remoteCacheDir, mainBuildOutput.path)
     }
 
@@ -170,6 +171,15 @@ export class H5Prebundle extends BasePrebundle<IH5PrebundleConfig> {
     /** 扫描出所有的 node_modules 依赖 */
     const entries: string[] = this.getEntries(this.entryPath)
     const { include = [], exclude = [] } = this.option
+    const idx = exclude.findIndex(e => e === '@tarojs/runtime')
+    if (idx >= 0) {
+      exclude.splice(idx, 1)
+      console.log(
+        chalk.yellowBright(
+          `依赖预编译排除 @tarojs/runtime 依赖会导致应用实例错误, 已为您忽略该配置！`
+        ),
+      )
+    }
     await this.setDeps(entries, include, exclude)
 
     /** 使用 esbuild 对 node_modules 依赖进行 bundle */
@@ -181,12 +191,14 @@ export class H5Prebundle extends BasePrebundle<IH5PrebundleConfig> {
     /** 项目 Host 配置 Module Federation */
     this.setHost(['', 'auto'].includes(publicPath) ? '' : publicPath.replace(/^\.(\/)?/, '/'))
 
-    /** node_modules 已预编译，不需要二次加载 (TODO: 修复 esbuild 加载 css 问题后，也应当移除对应规则对依赖的加载) */
     const script = this.chain.module.rule('script')
-    script.exclude.add(/node_modules/)
+    Array.from(this.deps.keys()).map(dep => {
+      /** node_modules 已预编译，不需要二次加载 (TODO: 修复 esbuild 加载 css 问题后，也应当移除对应规则对依赖的加载) */
+      script.exclude.add(new RegExp(`node_modules[/\\\\]${dep.replace(/\//g, '\\/')}`))
+    })
 
     // Proxy
-    if (process.env.NODE_ENV !== 'production' || this.config.devServer) {
+    if (this.mode !== 'production' || this.config.devServer) {
       this.chain.devServer.merge({
         static: [{
           directory: this.remoteCacheDir,

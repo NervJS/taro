@@ -13,11 +13,12 @@ import {
   STYLE,
   UID
 } from '../constants'
+import { NodeType } from '../dom/node_types'
+import { Func } from '../interface'
+
 import type { TaroElement } from '../dom/element'
 import type { TaroNode } from '../dom/node'
-import { NodeType } from '../dom/node_types'
 import type { TaroText } from '../dom/text'
-import { Func } from '../interface'
 
 export const incrementId = () => {
   const chatCodes: number[] = []

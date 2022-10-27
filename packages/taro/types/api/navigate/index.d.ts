@@ -87,57 +87,104 @@ declare module '../../index' {
 
   namespace openBusinessView {
     /**
-     * 业务参数：需要传递给支付分的业务数据
-     * @interface ExtraData
+     * wxpayScoreEnable 业务参数
+     * @see https://pay.weixin.qq.com/wiki/doc/apiv3/apis/chapter6_1_9.shtml
      */
-    interface ExtraData {
+    interface ScoreEnableExtraData {
+      /**
+       * 用于跳转到微信侧小程序授权数据,跳转到微信侧小程序传入，有效期为1小时；apply_permissions_token可以从[《商户预授权API》](https://pay.weixin.qq.com/wiki/doc/apiv3/apis/chapter6_1_2.shtml)接口的返回参数中获取。
+       * 示例值：1230000109
+       * @type {string[1,2048]}
+       */
+      apply_permissions_token: string
+    }
+    /**
+     * wxpayScoreUse 业务参数
+     * @see https://pay.weixin.qq.com/wiki/doc/apiv3/apis/chapter6_1_13.shtml
+     */
+    interface ScoreUsedExtraData {
       /**
        * 商户号：微信支付分配的商户号。
        * 示例值：1230000109
        * @type {string[1,32]}
-       * @memberof ExtraData
        */
       mch_id: string
       /**
-       * 服务ID
-       * 示例值：88888888000011
-       * @type {string[1,32]}
-       * @memberof ExtraData
+       * 可在【创建订单】接口的返回字段package中获取。
+       * 示例值：XXXXXXXX
+       * @type {string[1,128]}
        */
-      service_id: string
-      /**
-       * 商户服务订单号：商户系统内部服务订单号（不是交易单号）。
-       * 示例值：234323JKHDFE1243252
-       * @type {string[1,32]}
-       * @memberof ExtraData
-       */
-      out_order_no: string
+      package: string
       /**
        * 时间戳：生成签名时间戳，单位秒。
        * 示例值：1530097563
        * @type {string[1,32]}
-       * @memberof ExtraData
        */
       timestamp: string
       /**
        * 随机字符串：生成签名随机串。由数字、大小写字母组成，长度不超过32位。
        * 示例值：zyx53Nkey8o4bHpxTQvd8m7e92nG5mG2
        * @type {string[1,32]}
-       * @memberof ExtraData
        */
       nonce_str: string
       /**
        * 签名方式：签名类型，仅支持HMAC-SHA256。
        * 示例值：HMAC-SHA256
        * @type {string[1,32]}
-       * @memberof ExtraData
        */
       sign_type: string
       /**
        * 签名：使用字段mch_id、service_id、out_order_no、timestamp、nonce_str、sign_type按照签名生成算法计算得出的签名值。
        * 示例值：029B52F67573D7E3BE74904BF9AEA
        * @type {string[1,64]}
-       * @memberof ExtraData
+       */
+      sign: string
+    }
+    /**
+     * wxpayScoreDetail 业务参数
+     * @see https://pay.weixin.qq.com/wiki/doc/apiv3/apis/chapter6_1_25.shtml
+     */
+    interface ScoreDetailExtraData {
+      /**
+       * 商户号：微信支付分配的商户号。
+       * 示例值：1230000109
+       * @type {string[1,32]}
+       */
+      mch_id: string
+      /**
+       * 服务ID
+       * 示例值：88888888000011
+       * @type {string[1,32]}
+       */
+      service_id: string
+      /**
+       * 商户服务订单号：商户系统内部服务订单号（不是交易单号）。
+       * 示例值：234323JKHDFE1243252
+       * @type {string[1,32]}
+       */
+      out_order_no: string
+      /**
+       * 时间戳：生成签名时间戳，单位秒。
+       * 示例值：1530097563
+       * @type {string[1,32]}
+       */
+      timestamp: string
+      /**
+       * 随机字符串：生成签名随机串。由数字、大小写字母组成，长度不超过32位。
+       * 示例值：zyx53Nkey8o4bHpxTQvd8m7e92nG5mG2
+       * @type {string[1,32]}
+       */
+      nonce_str: string
+      /**
+       * 签名方式：签名类型，仅支持HMAC-SHA256。
+       * 示例值：HMAC-SHA256
+       * @type {string[1,32]}
+       */
+      sign_type: string
+      /**
+       * 签名：使用字段mch_id、service_id、out_order_no、timestamp、nonce_str、sign_type按照签名生成算法计算得出的签名值。
+       * 示例值：029B52F67573D7E3BE74904BF9AEA
+       * @type {string[1,64]}
        */
       sign: string
     }
@@ -149,8 +196,9 @@ declare module '../../index' {
        * @type {string[1,16]}
        * @memberof Option
        */
-      businessType: string
-      extraData: ExtraData
+      businessType: 'wxpayScoreEnable' | 'wxpayScoreUse' | 'wxpayScoreDetail' | string
+      /** 业务参数：需要传递给支付分的业务数据 */
+      extraData: ScoreEnableExtraData | ScoreUsedExtraData | ScoreDetailExtraData
       /** 接口调用成功的回调函数 */
       success?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用失败的回调函数 */
@@ -259,7 +307,6 @@ declare module '../../index' {
      *   //引导用户升级微信版本
      * }
      * ```
-     *
      * @see https://pay.weixin.qq.com/wiki/doc/apiv3/apis/chapter6_1_25.shtml
      */
     openBusinessView(option: openBusinessView.Option): Promise<TaroGeneral.CallbackResult>

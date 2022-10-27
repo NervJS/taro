@@ -46,9 +46,13 @@ const initPxTransform = getInitPxTransform(taro)
 const requirePlugin = permanentlyNotSupport('requirePlugin')
 
 const pxTransform = function (size) {
-  // @ts-ignore
-  const { designWidth } = taro.config
-  return Math.ceil((((parseInt(size, 10) / 40) * 640) / designWidth) * 10000) / 10000 + 'rem'
+  const options = (taro as any).config
+  const baseFontSize = options.baseFontSize || 20
+  const designWidth = ((input = 0) => typeof options.designWidth === 'function'
+    ? options.designWidth(input)
+    : options.designWidth)
+  const rootValue = (input = 0) => baseFontSize / options.deviceRatio[designWidth(input)] * 2
+  return Math.ceil((parseInt(size, 10) / rootValue(size)) * 10000) / 10000 + 'rem'
 }
 
 const canIUseWebp = function () {

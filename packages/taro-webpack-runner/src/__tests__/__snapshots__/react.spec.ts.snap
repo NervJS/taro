@@ -3593,14 +3593,16 @@ exports[`react should build react app 2`] = `
         };
         window.addEventListener(\\"resize\\", pageResizeFn, false);
     }
-    var pageScrollFn;
+    var pageScrollFn = {};
     var pageDOM = window;
     function bindPageScroll(page, pageEl) {
         var distance = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 50;
-        pageScrollFn && pageEl.removeEventListener(\\"scroll\\", pageScrollFn);
+        var _a;
+        var pagePath = page ? page === null || page === void 0 ? void 0 : page.path : (_a = undefined.router) === null || _a === void 0 ? void 0 : _a.path;
+        pageScrollFn[pagePath] && pageEl.removeEventListener(\\"scroll\\", pageScrollFn[pagePath]);
         pageDOM = pageEl;
         var isReachBottom = false;
-        pageScrollFn = function pageScrollFn() {
+        pageScrollFn[pagePath] = function() {
             var _a;
             (_a = page.onPageScroll) === null || _a === void 0 ? void 0 : _a.call(page, {
                 \\"scrollTop\\": pageDOM instanceof Window ? window.scrollY : pageDOM.scrollTop
@@ -3613,7 +3615,7 @@ exports[`react should build react app 2`] = `
                 page.onReachBottom();
             }
         };
-        pageDOM.addEventListener(\\"scroll\\", pageScrollFn, false);
+        pageDOM.addEventListener(\\"scroll\\", pageScrollFn[pagePath], false);
     }
     function getOffset() {
         if (pageDOM instanceof Window) {
@@ -3848,7 +3850,14 @@ exports[`react should build react app 2`] = `
                       case 0:
                         router_RouterConfig.config = config;
                         handler = new multi_page_MultiPageHandler(config);
-                        launchParam = handler.getQuery();
+                        launchParam = {
+                            \\"path\\": config.pageName,
+                            \\"query\\": handler.getQuery(),
+                            \\"scene\\": 0,
+                            \\"shareTicket\\": \\"\\",
+                            \\"referrerInfo\\": {}
+                        };
+                        undefined.trigger(\\"__taroRouterLaunch\\", launchParam);
                         (_a = app.onLaunch) === null || _a === void 0 ? void 0 : _a.call(app, launchParam);
                         app.onError && window.addEventListener(\\"error\\", (function(e) {
                             var _a;
@@ -3856,34 +3865,37 @@ exports[`react should build react app 2`] = `
                         }));
                         pathName = config.pageName;
                         pageConfig = handler.pageConfig;
-                        _context.prev = 7;
-                        _context.next = 10;
-                        return (_b = pageConfig.load) === null || _b === void 0 ? void 0 : _b.call(pageConfig);
-
-                      case 10:
-                        element = _context.sent;
-                        _context.next = 16;
-                        break;
-
-                      case 13:
-                        _context.prev = 13;
-                        _context.t0 = _context[\\"catch\\"](7);
-                        throw new Error(_context.t0);
-
-                      case 16:
-                        if (element) {
-                            _context.next = 18;
-                            break;
-                        }
-                        return _context.abrupt(\\"return\\");
-
-                      case 18:
-                        enablePullDownRefresh = ((_c = config === null || config === void 0 ? void 0 : config.window) === null || _c === void 0 ? void 0 : _c.enablePullDownRefresh) || false;
                         undefined.trigger(\\"__taroRouterChange\\", {
                             \\"toLocation\\": {
                                 \\"path\\": pathName
                             }
                         });
+                        _context.prev = 9;
+                        _context.next = 12;
+                        return (_b = pageConfig.load) === null || _b === void 0 ? void 0 : _b.call(pageConfig);
+
+                      case 12:
+                        element = _context.sent;
+                        if (element instanceof Array) {
+                            element = element[0];
+                        }
+                        _context.next = 19;
+                        break;
+
+                      case 16:
+                        _context.prev = 16;
+                        _context.t0 = _context[\\"catch\\"](9);
+                        throw new Error(_context.t0);
+
+                      case 19:
+                        if (element) {
+                            _context.next = 21;
+                            break;
+                        }
+                        return _context.abrupt(\\"return\\");
+
+                      case 21:
+                        enablePullDownRefresh = ((_c = config === null || config === void 0 ? void 0 : config.window) === null || _c === void 0 ? void 0 : _c.enablePullDownRefresh) || false;
                         if (pageConfig) {
                             setTitle((_d = pageConfig.navigationBarTitleText) !== null && _d !== void 0 ? _d : document.title);
                             if (typeof pageConfig.enablePullDownRefresh === \\"boolean\\") {
@@ -3898,12 +3910,12 @@ exports[`react should build react app 2`] = `
                         handler.load(page, pageConfig);
                         (_f = app.onShow) === null || _f === void 0 ? void 0 : _f.call(app, launchParam);
 
-                      case 28:
+                      case 30:
                       case \\"end\\":
                         return _context.stop();
                     }
                 }
-            }), _callee, null, [ [ 7, 13 ] ]);
+            }), _callee, null, [ [ 9, 16 ] ]);
         })));
     }
     var path_to_regexp = __webpack_require__(8);
@@ -4503,7 +4515,14 @@ exports[`react should build react app 2`] = `
         var router = new universal_router_module(routes, {
             \\"baseUrl\\": basename || \\"\\"
         });
-        var launchParam = handler.getQuery(stack.length);
+        var launchParam = {
+            \\"path\\": handler.homePage,
+            \\"query\\": handler.getQuery(stack.length),
+            \\"scene\\": 0,
+            \\"shareTicket\\": \\"\\",
+            \\"referrerInfo\\": {}
+        };
+        undefined.trigger(\\"__taroRouterLaunch\\", launchParam);
         (_a = app.onLaunch) === null || _a === void 0 ? void 0 : _a.call(app, launchParam);
         app.onError && window.addEventListener(\\"error\\", (function(e) {
             var _a;
@@ -4518,63 +4537,63 @@ exports[`react should build react app 2`] = `
                         switch (_context.prev = _context.next) {
                           case 0:
                             handler.pathname = decodeURI(location.pathname);
-                            _context.prev = 1;
-                            _context.next = 4;
-                            return router.resolve(handler.router.forcePath || handler.pathname);
-
-                          case 4:
-                            result = _context.sent;
-                            _context.next = 7;
-                            return Promise.all(result);
-
-                          case 7:
-                            _yield$Promise$all = _context.sent;
-                            _yield$Promise$all2 = _slicedToArray(_yield$Promise$all, 3);
-                            element = _yield$Promise$all2[0];
-                            params = _yield$Promise$all2[2];
-                            _context.next = 24;
-                            break;
-
-                          case 13:
-                            _context.prev = 13;
-                            _context.t0 = _context[\\"catch\\"](1);
-                            if (!(_context.t0.status === 404)) {
-                                _context.next = 19;
-                                break;
-                            }
-                            (_c = app.onPageNotFound) === null || _c === void 0 ? void 0 : _c.call(app, {
-                                \\"path\\": handler.pathname
-                            });
-                            _context.next = 24;
-                            break;
-
-                          case 19:
-                            if (!/Loading hot update .* failed./.test(_context.t0.message)) {
-                                _context.next = 23;
-                                break;
-                            }
-                            window.location.reload();
-                            _context.next = 24;
-                            break;
-
-                          case 23:
-                            throw new Error(_context.t0);
-
-                          case 24:
-                            if (element) {
-                                _context.next = 26;
-                                break;
-                            }
-                            return _context.abrupt(\\"return\\");
-
-                          case 26:
-                            pageConfig = handler.pageConfig;
-                            enablePullDownRefresh = ((_d = config === null || config === void 0 ? void 0 : config.window) === null || _d === void 0 ? void 0 : _d.enablePullDownRefresh) || false;
                             undefined.trigger(\\"__taroRouterChange\\", {
                                 \\"toLocation\\": {
                                     \\"path\\": handler.pathname
                                 }
                             });
+                            _context.prev = 2;
+                            _context.next = 5;
+                            return router.resolve(handler.router.forcePath || handler.pathname);
+
+                          case 5:
+                            result = _context.sent;
+                            _context.next = 8;
+                            return Promise.all(result);
+
+                          case 8:
+                            _yield$Promise$all = _context.sent;
+                            _yield$Promise$all2 = _slicedToArray(_yield$Promise$all, 3);
+                            element = _yield$Promise$all2[0];
+                            params = _yield$Promise$all2[2];
+                            _context.next = 25;
+                            break;
+
+                          case 14:
+                            _context.prev = 14;
+                            _context.t0 = _context[\\"catch\\"](2);
+                            if (!(_context.t0.status === 404)) {
+                                _context.next = 20;
+                                break;
+                            }
+                            (_c = app.onPageNotFound) === null || _c === void 0 ? void 0 : _c.call(app, {
+                                \\"path\\": handler.pathname
+                            });
+                            _context.next = 25;
+                            break;
+
+                          case 20:
+                            if (!/Loading hot update .* failed./.test(_context.t0.message)) {
+                                _context.next = 24;
+                                break;
+                            }
+                            window.location.reload();
+                            _context.next = 25;
+                            break;
+
+                          case 24:
+                            throw new Error(_context.t0);
+
+                          case 25:
+                            if (element) {
+                                _context.next = 27;
+                                break;
+                            }
+                            return _context.abrupt(\\"return\\");
+
+                          case 27:
+                            pageConfig = handler.pageConfig;
+                            enablePullDownRefresh = ((_d = config === null || config === void 0 ? void 0 : config.window) === null || _d === void 0 ? void 0 : _d.enablePullDownRefresh) || false;
                             if (pageConfig) {
                                 document.title = (_e = pageConfig.navigationBarTitleText) !== null && _e !== void 0 ? _e : document.title;
                                 setTitle((_f = pageConfig.navigationBarTitleText) !== null && _f !== void 0 ? _f : document.title);
@@ -4656,7 +4675,7 @@ exports[`react should build react app 2`] = `
                             return _context.stop();
                         }
                     }
-                }), _callee, null, [ [ 1, 13 ] ]);
+                }), _callee, null, [ [ 2, 14 ] ]);
             })));
         };
         var routePath = addLeadingSlash(stripBasename(history_history.location.pathname, handler.basename));
@@ -4751,7 +4770,8 @@ exports[`react should build react app 2`] = `
             \\"640\\": 1.17,
             \\"750\\": 1,
             \\"828\\": .905
-        }
+        },
+        \\"baseFontSize\\": 20
     });
 } ]);
 

@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`swan should build swan app 1`] = `17`;
+exports[`swan should build swan app 1`] = `14`;
 
 exports[`swan should build swan app 2`] = `
 "
@@ -392,7 +392,7 @@ require(\\"./taro\\");
                                     </block>
                                   </button>
                                   <input s-elif=\\"{{item.nn==='21'&&(item.st||item.cl)}}\\" id=\\"{{item.uid||item.sid}}\\" data-sid=\\"{{item.sid}}\\" value=\\"{{item.p14}}\\" type=\\"{{xs.b(item.p13,'')}}\\" password=\\"{{xs.b(item.p7,!1)}}\\" placeholder=\\"{{item.p8}}\\" placeholder-style=\\"{{item.p10}}\\" placeholder-class=\\"{{xs.b(item.p9,'input-placeholder')}}\\" disabled=\\"{{item.p4}}\\" maxlength=\\"{{xs.b(item.p5,140)}}\\" cursor-spacing=\\"{{xs.b(item.p3,0)}}\\" focus=\\"{{xs.b(item.focus,!1)}}\\" confirm-type=\\"{{xs.b(item.p1,'done')}}\\" confirm-hold=\\"{{xs.b(item.p0,!1)}}\\" cursor=\\"{{xs.b(item.p2,i.value.length)}}\\" selection-start=\\"{{xs.b(item.p12,-1)}}\\" selection-end=\\"{{xs.b(item.p11,-1)}}\\" bindinput=\\"eh\\" bindfocus=\\"eh\\" bindblur=\\"eh\\" bindconfirm=\\"eh\\" name=\\"{{item.p6}}\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\" bindtap=\\"eh\\" />
-                                  <swiper s-elif=\\"{{item.nn==='39'&&(item.st||item.cl)}}\\" id=\\"{{item.uid||item.sid}}\\" data-sid=\\"{{item.sid}}\\" indicator-dots=\\"{{xs.b(item.p7,!1)}}\\" indicator-color=\\"{{xs.b(item.p6,'rgba(0, 0, 0, .3)')}}\\" indicator-active-color=\\"{{xs.b(item.p5,'#000000')}}\\" autoplay=\\"{{xs.b(item.p0,!1)}}\\" current=\\"{{xs.b(item.p2,0)}}\\" interval=\\"{{xs.b(item.p8,5000)}}\\" duration=\\"{{xs.b(item.p4,500)}}\\" circular=\\"{{xs.b(item.p1,!1)}}\\" vertical=\\"{{xs.b(item.p11,!1)}}\\" previous-margin=\\"{{xs.b(item.p10,'0px')}}\\" next-margin=\\"{{xs.b(item.p9,'0px')}}\\" display-multiple-items=\\"{{xs.b(item.p3,1)}}\\" bindchange=\\"eh\\" bindtransition=\\"eh\\" bindanimationfinish=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongtap=\\"eh\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\" bindtap=\\"eh\\">
+                                  <swiper s-elif=\\"{{item.nn==='40'&&(item.st||item.cl)}}\\" id=\\"{{item.uid||item.sid}}\\" data-sid=\\"{{item.sid}}\\" indicator-dots=\\"{{xs.b(item.p7,!1)}}\\" indicator-color=\\"{{xs.b(item.p6,'rgba(0, 0, 0, .3)')}}\\" indicator-active-color=\\"{{xs.b(item.p5,'#000000')}}\\" autoplay=\\"{{xs.b(item.p0,!1)}}\\" current=\\"{{xs.b(item.p2,0)}}\\" interval=\\"{{xs.b(item.p8,5000)}}\\" duration=\\"{{xs.b(item.p4,500)}}\\" circular=\\"{{xs.b(item.p1,!1)}}\\" vertical=\\"{{xs.b(item.p11,!1)}}\\" previous-margin=\\"{{xs.b(item.p10,'0px')}}\\" next-margin=\\"{{xs.b(item.p9,'0px')}}\\" display-multiple-items=\\"{{xs.b(item.p3,1)}}\\" bindchange=\\"eh\\" bindtransition=\\"eh\\" bindanimationfinish=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongtap=\\"eh\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\" bindtap=\\"eh\\">
                                     <block s-for=\\"{{xs.f(item.cn)}}\\" s-key=\\"sid\\">
                                       <template is=\\"{{xs.e(0)}}\\" data=\\"{{{ i:item }}}\\" />
                                     </block>
@@ -418,7 +418,7 @@ require(\\"./taro\\");
                                 </block>
                               </button>
                               <input s-elif=\\"{{item.nn==='21'&&(item.st||item.cl)}}\\" id=\\"{{item.uid||item.sid}}\\" data-sid=\\"{{item.sid}}\\" value=\\"{{item.p14}}\\" type=\\"{{xs.b(item.p13,'')}}\\" password=\\"{{xs.b(item.p7,!1)}}\\" placeholder=\\"{{item.p8}}\\" placeholder-style=\\"{{item.p10}}\\" placeholder-class=\\"{{xs.b(item.p9,'input-placeholder')}}\\" disabled=\\"{{item.p4}}\\" maxlength=\\"{{xs.b(item.p5,140)}}\\" cursor-spacing=\\"{{xs.b(item.p3,0)}}\\" focus=\\"{{xs.b(item.focus,!1)}}\\" confirm-type=\\"{{xs.b(item.p1,'done')}}\\" confirm-hold=\\"{{xs.b(item.p0,!1)}}\\" cursor=\\"{{xs.b(item.p2,i.value.length)}}\\" selection-start=\\"{{xs.b(item.p12,-1)}}\\" selection-end=\\"{{xs.b(item.p11,-1)}}\\" bindinput=\\"eh\\" bindfocus=\\"eh\\" bindblur=\\"eh\\" bindconfirm=\\"eh\\" name=\\"{{item.p6}}\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\" bindtap=\\"eh\\" />
-                              <swiper s-elif=\\"{{item.nn==='39'&&(item.st||item.cl)}}\\" id=\\"{{item.uid||item.sid}}\\" data-sid=\\"{{item.sid}}\\" indicator-dots=\\"{{xs.b(item.p7,!1)}}\\" indicator-color=\\"{{xs.b(item.p6,'rgba(0, 0, 0, .3)')}}\\" indicator-active-color=\\"{{xs.b(item.p5,'#000000')}}\\" autoplay=\\"{{xs.b(item.p0,!1)}}\\" current=\\"{{xs.b(item.p2,0)}}\\" interval=\\"{{xs.b(item.p8,5000)}}\\" duration=\\"{{xs.b(item.p4,500)}}\\" circular=\\"{{xs.b(item.p1,!1)}}\\" vertical=\\"{{xs.b(item.p11,!1)}}\\" previous-margin=\\"{{xs.b(item.p10,'0px')}}\\" next-margin=\\"{{xs.b(item.p9,'0px')}}\\" display-multiple-items=\\"{{xs.b(item.p3,1)}}\\" bindchange=\\"eh\\" bindtransition=\\"eh\\" bindanimationfinish=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongtap=\\"eh\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\" bindtap=\\"eh\\">
+                              <swiper s-elif=\\"{{item.nn==='40'&&(item.st||item.cl)}}\\" id=\\"{{item.uid||item.sid}}\\" data-sid=\\"{{item.sid}}\\" indicator-dots=\\"{{xs.b(item.p7,!1)}}\\" indicator-color=\\"{{xs.b(item.p6,'rgba(0, 0, 0, .3)')}}\\" indicator-active-color=\\"{{xs.b(item.p5,'#000000')}}\\" autoplay=\\"{{xs.b(item.p0,!1)}}\\" current=\\"{{xs.b(item.p2,0)}}\\" interval=\\"{{xs.b(item.p8,5000)}}\\" duration=\\"{{xs.b(item.p4,500)}}\\" circular=\\"{{xs.b(item.p1,!1)}}\\" vertical=\\"{{xs.b(item.p11,!1)}}\\" previous-margin=\\"{{xs.b(item.p10,'0px')}}\\" next-margin=\\"{{xs.b(item.p9,'0px')}}\\" display-multiple-items=\\"{{xs.b(item.p3,1)}}\\" bindchange=\\"eh\\" bindtransition=\\"eh\\" bindanimationfinish=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongtap=\\"eh\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\" bindtap=\\"eh\\">
                                 <block s-for=\\"{{xs.f(item.cn)}}\\" s-key=\\"sid\\">
                                   <template is=\\"{{xs.e(0)}}\\" data=\\"{{{ i:item }}}\\" />
                                 </block>
@@ -444,7 +444,7 @@ require(\\"./taro\\");
                             </block>
                           </button>
                           <input s-elif=\\"{{item.nn==='21'&&(item.st||item.cl)}}\\" id=\\"{{item.uid||item.sid}}\\" data-sid=\\"{{item.sid}}\\" value=\\"{{item.p14}}\\" type=\\"{{xs.b(item.p13,'')}}\\" password=\\"{{xs.b(item.p7,!1)}}\\" placeholder=\\"{{item.p8}}\\" placeholder-style=\\"{{item.p10}}\\" placeholder-class=\\"{{xs.b(item.p9,'input-placeholder')}}\\" disabled=\\"{{item.p4}}\\" maxlength=\\"{{xs.b(item.p5,140)}}\\" cursor-spacing=\\"{{xs.b(item.p3,0)}}\\" focus=\\"{{xs.b(item.focus,!1)}}\\" confirm-type=\\"{{xs.b(item.p1,'done')}}\\" confirm-hold=\\"{{xs.b(item.p0,!1)}}\\" cursor=\\"{{xs.b(item.p2,i.value.length)}}\\" selection-start=\\"{{xs.b(item.p12,-1)}}\\" selection-end=\\"{{xs.b(item.p11,-1)}}\\" bindinput=\\"eh\\" bindfocus=\\"eh\\" bindblur=\\"eh\\" bindconfirm=\\"eh\\" name=\\"{{item.p6}}\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\" bindtap=\\"eh\\" />
-                          <swiper s-elif=\\"{{item.nn==='39'&&(item.st||item.cl)}}\\" id=\\"{{item.uid||item.sid}}\\" data-sid=\\"{{item.sid}}\\" indicator-dots=\\"{{xs.b(item.p7,!1)}}\\" indicator-color=\\"{{xs.b(item.p6,'rgba(0, 0, 0, .3)')}}\\" indicator-active-color=\\"{{xs.b(item.p5,'#000000')}}\\" autoplay=\\"{{xs.b(item.p0,!1)}}\\" current=\\"{{xs.b(item.p2,0)}}\\" interval=\\"{{xs.b(item.p8,5000)}}\\" duration=\\"{{xs.b(item.p4,500)}}\\" circular=\\"{{xs.b(item.p1,!1)}}\\" vertical=\\"{{xs.b(item.p11,!1)}}\\" previous-margin=\\"{{xs.b(item.p10,'0px')}}\\" next-margin=\\"{{xs.b(item.p9,'0px')}}\\" display-multiple-items=\\"{{xs.b(item.p3,1)}}\\" bindchange=\\"eh\\" bindtransition=\\"eh\\" bindanimationfinish=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongtap=\\"eh\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\" bindtap=\\"eh\\">
+                          <swiper s-elif=\\"{{item.nn==='40'&&(item.st||item.cl)}}\\" id=\\"{{item.uid||item.sid}}\\" data-sid=\\"{{item.sid}}\\" indicator-dots=\\"{{xs.b(item.p7,!1)}}\\" indicator-color=\\"{{xs.b(item.p6,'rgba(0, 0, 0, .3)')}}\\" indicator-active-color=\\"{{xs.b(item.p5,'#000000')}}\\" autoplay=\\"{{xs.b(item.p0,!1)}}\\" current=\\"{{xs.b(item.p2,0)}}\\" interval=\\"{{xs.b(item.p8,5000)}}\\" duration=\\"{{xs.b(item.p4,500)}}\\" circular=\\"{{xs.b(item.p1,!1)}}\\" vertical=\\"{{xs.b(item.p11,!1)}}\\" previous-margin=\\"{{xs.b(item.p10,'0px')}}\\" next-margin=\\"{{xs.b(item.p9,'0px')}}\\" display-multiple-items=\\"{{xs.b(item.p3,1)}}\\" bindchange=\\"eh\\" bindtransition=\\"eh\\" bindanimationfinish=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongtap=\\"eh\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\" bindtap=\\"eh\\">
                             <block s-for=\\"{{xs.f(item.cn)}}\\" s-key=\\"sid\\">
                               <template is=\\"{{xs.e(0)}}\\" data=\\"{{{ i:item }}}\\" />
                             </block>
@@ -470,7 +470,7 @@ require(\\"./taro\\");
                         </block>
                       </button>
                       <input s-elif=\\"{{item.nn==='21'&&(item.st||item.cl)}}\\" id=\\"{{item.uid||item.sid}}\\" data-sid=\\"{{item.sid}}\\" value=\\"{{item.p14}}\\" type=\\"{{xs.b(item.p13,'')}}\\" password=\\"{{xs.b(item.p7,!1)}}\\" placeholder=\\"{{item.p8}}\\" placeholder-style=\\"{{item.p10}}\\" placeholder-class=\\"{{xs.b(item.p9,'input-placeholder')}}\\" disabled=\\"{{item.p4}}\\" maxlength=\\"{{xs.b(item.p5,140)}}\\" cursor-spacing=\\"{{xs.b(item.p3,0)}}\\" focus=\\"{{xs.b(item.focus,!1)}}\\" confirm-type=\\"{{xs.b(item.p1,'done')}}\\" confirm-hold=\\"{{xs.b(item.p0,!1)}}\\" cursor=\\"{{xs.b(item.p2,i.value.length)}}\\" selection-start=\\"{{xs.b(item.p12,-1)}}\\" selection-end=\\"{{xs.b(item.p11,-1)}}\\" bindinput=\\"eh\\" bindfocus=\\"eh\\" bindblur=\\"eh\\" bindconfirm=\\"eh\\" name=\\"{{item.p6}}\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\" bindtap=\\"eh\\" />
-                      <swiper s-elif=\\"{{item.nn==='39'&&(item.st||item.cl)}}\\" id=\\"{{item.uid||item.sid}}\\" data-sid=\\"{{item.sid}}\\" indicator-dots=\\"{{xs.b(item.p7,!1)}}\\" indicator-color=\\"{{xs.b(item.p6,'rgba(0, 0, 0, .3)')}}\\" indicator-active-color=\\"{{xs.b(item.p5,'#000000')}}\\" autoplay=\\"{{xs.b(item.p0,!1)}}\\" current=\\"{{xs.b(item.p2,0)}}\\" interval=\\"{{xs.b(item.p8,5000)}}\\" duration=\\"{{xs.b(item.p4,500)}}\\" circular=\\"{{xs.b(item.p1,!1)}}\\" vertical=\\"{{xs.b(item.p11,!1)}}\\" previous-margin=\\"{{xs.b(item.p10,'0px')}}\\" next-margin=\\"{{xs.b(item.p9,'0px')}}\\" display-multiple-items=\\"{{xs.b(item.p3,1)}}\\" bindchange=\\"eh\\" bindtransition=\\"eh\\" bindanimationfinish=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongtap=\\"eh\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\" bindtap=\\"eh\\">
+                      <swiper s-elif=\\"{{item.nn==='40'&&(item.st||item.cl)}}\\" id=\\"{{item.uid||item.sid}}\\" data-sid=\\"{{item.sid}}\\" indicator-dots=\\"{{xs.b(item.p7,!1)}}\\" indicator-color=\\"{{xs.b(item.p6,'rgba(0, 0, 0, .3)')}}\\" indicator-active-color=\\"{{xs.b(item.p5,'#000000')}}\\" autoplay=\\"{{xs.b(item.p0,!1)}}\\" current=\\"{{xs.b(item.p2,0)}}\\" interval=\\"{{xs.b(item.p8,5000)}}\\" duration=\\"{{xs.b(item.p4,500)}}\\" circular=\\"{{xs.b(item.p1,!1)}}\\" vertical=\\"{{xs.b(item.p11,!1)}}\\" previous-margin=\\"{{xs.b(item.p10,'0px')}}\\" next-margin=\\"{{xs.b(item.p9,'0px')}}\\" display-multiple-items=\\"{{xs.b(item.p3,1)}}\\" bindchange=\\"eh\\" bindtransition=\\"eh\\" bindanimationfinish=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongtap=\\"eh\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\" bindtap=\\"eh\\">
                         <block s-for=\\"{{xs.f(item.cn)}}\\" s-key=\\"sid\\">
                           <template is=\\"{{xs.e(0)}}\\" data=\\"{{{ i:item }}}\\" />
                         </block>
@@ -496,7 +496,7 @@ require(\\"./taro\\");
                     </block>
                   </button>
                   <input s-elif=\\"{{item.nn==='21'&&(item.st||item.cl)}}\\" id=\\"{{item.uid||item.sid}}\\" data-sid=\\"{{item.sid}}\\" value=\\"{{item.p14}}\\" type=\\"{{xs.b(item.p13,'')}}\\" password=\\"{{xs.b(item.p7,!1)}}\\" placeholder=\\"{{item.p8}}\\" placeholder-style=\\"{{item.p10}}\\" placeholder-class=\\"{{xs.b(item.p9,'input-placeholder')}}\\" disabled=\\"{{item.p4}}\\" maxlength=\\"{{xs.b(item.p5,140)}}\\" cursor-spacing=\\"{{xs.b(item.p3,0)}}\\" focus=\\"{{xs.b(item.focus,!1)}}\\" confirm-type=\\"{{xs.b(item.p1,'done')}}\\" confirm-hold=\\"{{xs.b(item.p0,!1)}}\\" cursor=\\"{{xs.b(item.p2,i.value.length)}}\\" selection-start=\\"{{xs.b(item.p12,-1)}}\\" selection-end=\\"{{xs.b(item.p11,-1)}}\\" bindinput=\\"eh\\" bindfocus=\\"eh\\" bindblur=\\"eh\\" bindconfirm=\\"eh\\" name=\\"{{item.p6}}\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\" bindtap=\\"eh\\" />
-                  <swiper s-elif=\\"{{item.nn==='39'&&(item.st||item.cl)}}\\" id=\\"{{item.uid||item.sid}}\\" data-sid=\\"{{item.sid}}\\" indicator-dots=\\"{{xs.b(item.p7,!1)}}\\" indicator-color=\\"{{xs.b(item.p6,'rgba(0, 0, 0, .3)')}}\\" indicator-active-color=\\"{{xs.b(item.p5,'#000000')}}\\" autoplay=\\"{{xs.b(item.p0,!1)}}\\" current=\\"{{xs.b(item.p2,0)}}\\" interval=\\"{{xs.b(item.p8,5000)}}\\" duration=\\"{{xs.b(item.p4,500)}}\\" circular=\\"{{xs.b(item.p1,!1)}}\\" vertical=\\"{{xs.b(item.p11,!1)}}\\" previous-margin=\\"{{xs.b(item.p10,'0px')}}\\" next-margin=\\"{{xs.b(item.p9,'0px')}}\\" display-multiple-items=\\"{{xs.b(item.p3,1)}}\\" bindchange=\\"eh\\" bindtransition=\\"eh\\" bindanimationfinish=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongtap=\\"eh\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\" bindtap=\\"eh\\">
+                  <swiper s-elif=\\"{{item.nn==='40'&&(item.st||item.cl)}}\\" id=\\"{{item.uid||item.sid}}\\" data-sid=\\"{{item.sid}}\\" indicator-dots=\\"{{xs.b(item.p7,!1)}}\\" indicator-color=\\"{{xs.b(item.p6,'rgba(0, 0, 0, .3)')}}\\" indicator-active-color=\\"{{xs.b(item.p5,'#000000')}}\\" autoplay=\\"{{xs.b(item.p0,!1)}}\\" current=\\"{{xs.b(item.p2,0)}}\\" interval=\\"{{xs.b(item.p8,5000)}}\\" duration=\\"{{xs.b(item.p4,500)}}\\" circular=\\"{{xs.b(item.p1,!1)}}\\" vertical=\\"{{xs.b(item.p11,!1)}}\\" previous-margin=\\"{{xs.b(item.p10,'0px')}}\\" next-margin=\\"{{xs.b(item.p9,'0px')}}\\" display-multiple-items=\\"{{xs.b(item.p3,1)}}\\" bindchange=\\"eh\\" bindtransition=\\"eh\\" bindanimationfinish=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongtap=\\"eh\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\" bindtap=\\"eh\\">
                     <block s-for=\\"{{xs.f(item.cn)}}\\" s-key=\\"sid\\">
                       <template is=\\"{{xs.e(0)}}\\" data=\\"{{{ i:item }}}\\" />
                     </block>
@@ -522,7 +522,7 @@ require(\\"./taro\\");
                 </block>
               </button>
               <input s-elif=\\"{{item.nn==='21'&&(item.st||item.cl)}}\\" id=\\"{{item.uid||item.sid}}\\" data-sid=\\"{{item.sid}}\\" value=\\"{{item.p14}}\\" type=\\"{{xs.b(item.p13,'')}}\\" password=\\"{{xs.b(item.p7,!1)}}\\" placeholder=\\"{{item.p8}}\\" placeholder-style=\\"{{item.p10}}\\" placeholder-class=\\"{{xs.b(item.p9,'input-placeholder')}}\\" disabled=\\"{{item.p4}}\\" maxlength=\\"{{xs.b(item.p5,140)}}\\" cursor-spacing=\\"{{xs.b(item.p3,0)}}\\" focus=\\"{{xs.b(item.focus,!1)}}\\" confirm-type=\\"{{xs.b(item.p1,'done')}}\\" confirm-hold=\\"{{xs.b(item.p0,!1)}}\\" cursor=\\"{{xs.b(item.p2,i.value.length)}}\\" selection-start=\\"{{xs.b(item.p12,-1)}}\\" selection-end=\\"{{xs.b(item.p11,-1)}}\\" bindinput=\\"eh\\" bindfocus=\\"eh\\" bindblur=\\"eh\\" bindconfirm=\\"eh\\" name=\\"{{item.p6}}\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\" bindtap=\\"eh\\" />
-              <swiper s-elif=\\"{{item.nn==='39'&&(item.st||item.cl)}}\\" id=\\"{{item.uid||item.sid}}\\" data-sid=\\"{{item.sid}}\\" indicator-dots=\\"{{xs.b(item.p7,!1)}}\\" indicator-color=\\"{{xs.b(item.p6,'rgba(0, 0, 0, .3)')}}\\" indicator-active-color=\\"{{xs.b(item.p5,'#000000')}}\\" autoplay=\\"{{xs.b(item.p0,!1)}}\\" current=\\"{{xs.b(item.p2,0)}}\\" interval=\\"{{xs.b(item.p8,5000)}}\\" duration=\\"{{xs.b(item.p4,500)}}\\" circular=\\"{{xs.b(item.p1,!1)}}\\" vertical=\\"{{xs.b(item.p11,!1)}}\\" previous-margin=\\"{{xs.b(item.p10,'0px')}}\\" next-margin=\\"{{xs.b(item.p9,'0px')}}\\" display-multiple-items=\\"{{xs.b(item.p3,1)}}\\" bindchange=\\"eh\\" bindtransition=\\"eh\\" bindanimationfinish=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongtap=\\"eh\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\" bindtap=\\"eh\\">
+              <swiper s-elif=\\"{{item.nn==='40'&&(item.st||item.cl)}}\\" id=\\"{{item.uid||item.sid}}\\" data-sid=\\"{{item.sid}}\\" indicator-dots=\\"{{xs.b(item.p7,!1)}}\\" indicator-color=\\"{{xs.b(item.p6,'rgba(0, 0, 0, .3)')}}\\" indicator-active-color=\\"{{xs.b(item.p5,'#000000')}}\\" autoplay=\\"{{xs.b(item.p0,!1)}}\\" current=\\"{{xs.b(item.p2,0)}}\\" interval=\\"{{xs.b(item.p8,5000)}}\\" duration=\\"{{xs.b(item.p4,500)}}\\" circular=\\"{{xs.b(item.p1,!1)}}\\" vertical=\\"{{xs.b(item.p11,!1)}}\\" previous-margin=\\"{{xs.b(item.p10,'0px')}}\\" next-margin=\\"{{xs.b(item.p9,'0px')}}\\" display-multiple-items=\\"{{xs.b(item.p3,1)}}\\" bindchange=\\"eh\\" bindtransition=\\"eh\\" bindanimationfinish=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongtap=\\"eh\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\" bindtap=\\"eh\\">
                 <block s-for=\\"{{xs.f(item.cn)}}\\" s-key=\\"sid\\">
                   <template is=\\"{{xs.e(0)}}\\" data=\\"{{{ i:item }}}\\" />
                 </block>
@@ -548,7 +548,7 @@ require(\\"./taro\\");
             </block>
           </button>
           <input s-elif=\\"{{item.nn==='21'&&(item.st||item.cl)}}\\" id=\\"{{item.uid||item.sid}}\\" data-sid=\\"{{item.sid}}\\" value=\\"{{item.p14}}\\" type=\\"{{xs.b(item.p13,'')}}\\" password=\\"{{xs.b(item.p7,!1)}}\\" placeholder=\\"{{item.p8}}\\" placeholder-style=\\"{{item.p10}}\\" placeholder-class=\\"{{xs.b(item.p9,'input-placeholder')}}\\" disabled=\\"{{item.p4}}\\" maxlength=\\"{{xs.b(item.p5,140)}}\\" cursor-spacing=\\"{{xs.b(item.p3,0)}}\\" focus=\\"{{xs.b(item.focus,!1)}}\\" confirm-type=\\"{{xs.b(item.p1,'done')}}\\" confirm-hold=\\"{{xs.b(item.p0,!1)}}\\" cursor=\\"{{xs.b(item.p2,i.value.length)}}\\" selection-start=\\"{{xs.b(item.p12,-1)}}\\" selection-end=\\"{{xs.b(item.p11,-1)}}\\" bindinput=\\"eh\\" bindfocus=\\"eh\\" bindblur=\\"eh\\" bindconfirm=\\"eh\\" name=\\"{{item.p6}}\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\" bindtap=\\"eh\\" />
-          <swiper s-elif=\\"{{item.nn==='39'&&(item.st||item.cl)}}\\" id=\\"{{item.uid||item.sid}}\\" data-sid=\\"{{item.sid}}\\" indicator-dots=\\"{{xs.b(item.p7,!1)}}\\" indicator-color=\\"{{xs.b(item.p6,'rgba(0, 0, 0, .3)')}}\\" indicator-active-color=\\"{{xs.b(item.p5,'#000000')}}\\" autoplay=\\"{{xs.b(item.p0,!1)}}\\" current=\\"{{xs.b(item.p2,0)}}\\" interval=\\"{{xs.b(item.p8,5000)}}\\" duration=\\"{{xs.b(item.p4,500)}}\\" circular=\\"{{xs.b(item.p1,!1)}}\\" vertical=\\"{{xs.b(item.p11,!1)}}\\" previous-margin=\\"{{xs.b(item.p10,'0px')}}\\" next-margin=\\"{{xs.b(item.p9,'0px')}}\\" display-multiple-items=\\"{{xs.b(item.p3,1)}}\\" bindchange=\\"eh\\" bindtransition=\\"eh\\" bindanimationfinish=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongtap=\\"eh\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\" bindtap=\\"eh\\">
+          <swiper s-elif=\\"{{item.nn==='40'&&(item.st||item.cl)}}\\" id=\\"{{item.uid||item.sid}}\\" data-sid=\\"{{item.sid}}\\" indicator-dots=\\"{{xs.b(item.p7,!1)}}\\" indicator-color=\\"{{xs.b(item.p6,'rgba(0, 0, 0, .3)')}}\\" indicator-active-color=\\"{{xs.b(item.p5,'#000000')}}\\" autoplay=\\"{{xs.b(item.p0,!1)}}\\" current=\\"{{xs.b(item.p2,0)}}\\" interval=\\"{{xs.b(item.p8,5000)}}\\" duration=\\"{{xs.b(item.p4,500)}}\\" circular=\\"{{xs.b(item.p1,!1)}}\\" vertical=\\"{{xs.b(item.p11,!1)}}\\" previous-margin=\\"{{xs.b(item.p10,'0px')}}\\" next-margin=\\"{{xs.b(item.p9,'0px')}}\\" display-multiple-items=\\"{{xs.b(item.p3,1)}}\\" bindchange=\\"eh\\" bindtransition=\\"eh\\" bindanimationfinish=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongtap=\\"eh\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\" bindtap=\\"eh\\">
             <block s-for=\\"{{xs.f(item.cn)}}\\" s-key=\\"sid\\">
               <template is=\\"{{xs.e(0)}}\\" data=\\"{{{ i:item }}}\\" />
             </block>
@@ -574,7 +574,7 @@ require(\\"./taro\\");
         </block>
       </button>
       <input s-elif=\\"{{item.nn==='21'&&(item.st||item.cl)}}\\" id=\\"{{item.uid||item.sid}}\\" data-sid=\\"{{item.sid}}\\" value=\\"{{item.p14}}\\" type=\\"{{xs.b(item.p13,'')}}\\" password=\\"{{xs.b(item.p7,!1)}}\\" placeholder=\\"{{item.p8}}\\" placeholder-style=\\"{{item.p10}}\\" placeholder-class=\\"{{xs.b(item.p9,'input-placeholder')}}\\" disabled=\\"{{item.p4}}\\" maxlength=\\"{{xs.b(item.p5,140)}}\\" cursor-spacing=\\"{{xs.b(item.p3,0)}}\\" focus=\\"{{xs.b(item.focus,!1)}}\\" confirm-type=\\"{{xs.b(item.p1,'done')}}\\" confirm-hold=\\"{{xs.b(item.p0,!1)}}\\" cursor=\\"{{xs.b(item.p2,i.value.length)}}\\" selection-start=\\"{{xs.b(item.p12,-1)}}\\" selection-end=\\"{{xs.b(item.p11,-1)}}\\" bindinput=\\"eh\\" bindfocus=\\"eh\\" bindblur=\\"eh\\" bindconfirm=\\"eh\\" name=\\"{{item.p6}}\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\" bindtap=\\"eh\\" />
-      <swiper s-elif=\\"{{item.nn==='39'&&(item.st||item.cl)}}\\" id=\\"{{item.uid||item.sid}}\\" data-sid=\\"{{item.sid}}\\" indicator-dots=\\"{{xs.b(item.p7,!1)}}\\" indicator-color=\\"{{xs.b(item.p6,'rgba(0, 0, 0, .3)')}}\\" indicator-active-color=\\"{{xs.b(item.p5,'#000000')}}\\" autoplay=\\"{{xs.b(item.p0,!1)}}\\" current=\\"{{xs.b(item.p2,0)}}\\" interval=\\"{{xs.b(item.p8,5000)}}\\" duration=\\"{{xs.b(item.p4,500)}}\\" circular=\\"{{xs.b(item.p1,!1)}}\\" vertical=\\"{{xs.b(item.p11,!1)}}\\" previous-margin=\\"{{xs.b(item.p10,'0px')}}\\" next-margin=\\"{{xs.b(item.p9,'0px')}}\\" display-multiple-items=\\"{{xs.b(item.p3,1)}}\\" bindchange=\\"eh\\" bindtransition=\\"eh\\" bindanimationfinish=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongtap=\\"eh\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\" bindtap=\\"eh\\">
+      <swiper s-elif=\\"{{item.nn==='40'&&(item.st||item.cl)}}\\" id=\\"{{item.uid||item.sid}}\\" data-sid=\\"{{item.sid}}\\" indicator-dots=\\"{{xs.b(item.p7,!1)}}\\" indicator-color=\\"{{xs.b(item.p6,'rgba(0, 0, 0, .3)')}}\\" indicator-active-color=\\"{{xs.b(item.p5,'#000000')}}\\" autoplay=\\"{{xs.b(item.p0,!1)}}\\" current=\\"{{xs.b(item.p2,0)}}\\" interval=\\"{{xs.b(item.p8,5000)}}\\" duration=\\"{{xs.b(item.p4,500)}}\\" circular=\\"{{xs.b(item.p1,!1)}}\\" vertical=\\"{{xs.b(item.p11,!1)}}\\" previous-margin=\\"{{xs.b(item.p10,'0px')}}\\" next-margin=\\"{{xs.b(item.p9,'0px')}}\\" display-multiple-items=\\"{{xs.b(item.p3,1)}}\\" bindchange=\\"eh\\" bindtransition=\\"eh\\" bindanimationfinish=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongtap=\\"eh\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\" bindtap=\\"eh\\">
         <block s-for=\\"{{xs.f(item.cn)}}\\" s-key=\\"sid\\">
           <template is=\\"{{xs.e(0)}}\\" data=\\"{{{ i:item }}}\\" />
         </block>
@@ -652,15 +652,15 @@ require(\\"./taro\\");
   </cover-image>
 </template>
 
-<template name=\\"tmpl_0_42\\">
+<template name=\\"tmpl_0_43\\">
   <template is=\\"{{xs.c(i, 'tmpl_0_')}}\\" data=\\"{{{ i:i }}}\\" />
 </template>
 
-<template name=\\"tmpl_0_42_focus\\">
+<template name=\\"tmpl_0_43_focus\\">
   <textarea value=\\"{= i.p13 =}\\" placeholder=\\"{{i.p8}}\\" placeholder-style=\\"{{i.p10}}\\" placeholder-class=\\"{{xs.b(i.p9,'textarea-placeholder')}}\\" disabled=\\"{{i.p4}}\\" maxlength=\\"{{xs.b(i.p6,140)}}\\" auto-focus=\\"{{xs.b(i.p0,!1)}}\\" focus=\\"{{xs.b(i.focus,!1)}}\\" auto-height=\\"{{xs.b(i.p1,!1)}}\\" fixed=\\"{{xs.b(i.p5,!1)}}\\" cursor-spacing=\\"{{xs.b(i.p3,0)}}\\" cursor=\\"{{xs.b(i.p2,-1)}}\\" selection-start=\\"{{xs.b(i.p12,-1)}}\\" selection-end=\\"{{xs.b(i.p11,-1)}}\\" bindfocus=\\"eh\\" bindblur=\\"eh\\" bindlinechange=\\"eh\\" bindinput=\\"eh\\" bindconfirm=\\"eh\\" name=\\"{{i.p7}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\"></textarea>
 </template>
 
-<template name=\\"tmpl_0_42_blur\\">
+<template name=\\"tmpl_0_43_blur\\">
   <textarea value=\\"{= i.p13 =}\\" placeholder=\\"{{i.p8}}\\" placeholder-style=\\"{{i.p10}}\\" placeholder-class=\\"{{xs.b(i.p9,'textarea-placeholder')}}\\" disabled=\\"{{i.p4}}\\" maxlength=\\"{{xs.b(i.p6,140)}}\\" auto-focus=\\"{{xs.b(i.p0,!1)}}\\" auto-height=\\"{{xs.b(i.p1,!1)}}\\" fixed=\\"{{xs.b(i.p5,!1)}}\\" cursor-spacing=\\"{{xs.b(i.p3,0)}}\\" cursor=\\"{{xs.b(i.p2,-1)}}\\" selection-start=\\"{{xs.b(i.p12,-1)}}\\" selection-end=\\"{{xs.b(i.p11,-1)}}\\" bindfocus=\\"eh\\" bindblur=\\"eh\\" bindlinechange=\\"eh\\" bindinput=\\"eh\\" bindconfirm=\\"eh\\" name=\\"{{i.p7}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\"></textarea>
 </template>
 
@@ -699,7 +699,7 @@ require(\\"./taro\\");
   </cover-view>
 </template>
 
-<template name=\\"tmpl_0_35\\">
+<template name=\\"tmpl_0_36\\">
   <scroll-view scroll-x=\\"{{xs.b(i.p7,!1)}}\\" scroll-y=\\"{{xs.b(i.p8,!1)}}\\" upper-threshold=\\"{{xs.b(i.p9,50)}}\\" lower-threshold=\\"{{xs.b(i.p2,50)}}\\" scroll-top=\\"{= i.p5 =}\\" scroll-left=\\"{= i.p4 =}\\" scroll-into-view=\\"{= i.p3 =}\\" scroll-with-animation=\\"{{xs.b(i.p6,!1)}}\\" enable-back-to-top=\\"{{xs.b(i.p1,!1)}}\\" bindscrolltoupper=\\"eh\\" bindscrolltolower=\\"eh\\" bindscroll=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongtap=\\"eh\\" animation=\\"{{i.p0}}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
     <block s-for=\\"{{i.cn}}\\" s-key=\\"sid\\">
       <template is=\\"{{xs.e(0)}}\\" data=\\"{{{ i:item }}}\\" />
@@ -707,7 +707,7 @@ require(\\"./taro\\");
   </scroll-view>
 </template>
 
-<template name=\\"tmpl_0_39\\">
+<template name=\\"tmpl_0_40\\">
   <swiper indicator-dots=\\"{{xs.b(i.p7,!1)}}\\" indicator-color=\\"{{xs.b(i.p6,'rgba(0, 0, 0, .3)')}}\\" indicator-active-color=\\"{{xs.b(i.p5,'#000000')}}\\" autoplay=\\"{{xs.b(i.p0,!1)}}\\" current=\\"{{xs.b(i.p2,0)}}\\" interval=\\"{{xs.b(i.p8,5000)}}\\" duration=\\"{{xs.b(i.p4,500)}}\\" circular=\\"{{xs.b(i.p1,!1)}}\\" vertical=\\"{{xs.b(i.p11,!1)}}\\" previous-margin=\\"{{xs.b(i.p10,'0px')}}\\" next-margin=\\"{{xs.b(i.p9,'0px')}}\\" display-multiple-items=\\"{{xs.b(i.p3,1)}}\\" bindchange=\\"eh\\" bindtransition=\\"eh\\" bindanimationfinish=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongtap=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
     <block s-for=\\"{{xs.f(i.cn)}}\\" s-key=\\"sid\\">
       <template is=\\"{{xs.e(0)}}\\" data=\\"{{{ i:item }}}\\" />
@@ -715,7 +715,7 @@ require(\\"./taro\\");
   </swiper>
 </template>
 
-<template name=\\"tmpl_0_40\\">
+<template name=\\"tmpl_0_41\\">
   <swiper-item item-id=\\"{{i.p0}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
     <block s-for=\\"{{i.cn}}\\" s-key=\\"sid\\">
       <template is=\\"{{xs.e(0)}}\\" data=\\"{{{ i:item }}}\\" />
@@ -739,7 +739,7 @@ require(\\"./taro\\");
   </image>
 </template>
 
-<template name=\\"tmpl_0_43\\">
+<template name=\\"tmpl_0_44\\">
   <video src=\\"{{i.p20}}\\" duration=\\"{{i.p6}}\\" controls=\\"{{xs.b(i.p2,!0)}}\\" danmu-list=\\"{{i.p4}}\\" danmu-btn=\\"{{i.p3}}\\" enable-danmu=\\"{{i.p7}}\\" autoplay=\\"{{xs.b(i.p1,!1)}}\\" loop=\\"{{xs.b(i.p10,!1)}}\\" muted=\\"{{xs.b(i.p11,!1)}}\\" initial-time=\\"{{xs.b(i.p9,0)}}\\" page-gesture=\\"{{xs.b(i.p13,!1)}}\\" direction=\\"{{i.p5}}\\" show-progress=\\"{{xs.b(i.p19,!0)}}\\" show-fullscreen-btn=\\"{{xs.b(i.p16,!0)}}\\" show-play-btn=\\"{{xs.b(i.p18,!0)}}\\" show-center-play-btn=\\"{{xs.b(i.p15,!0)}}\\" enable-progress-gesture=\\"{{xs.b(i.p8,!0)}}\\" object-fit=\\"{{xs.b(i.p12,'contain')}}\\" poster=\\"{{i.p14}}\\" show-mute-btn=\\"{{xs.b(i.p17,!1)}}\\" bindplay=\\"eh\\" bindpause=\\"eh\\" bindended=\\"eh\\" bindtimeupdate=\\"eh\\" bindfullscreenchange=\\"eh\\" bindwaiting=\\"eh\\" binderror=\\"eh\\" animation=\\"{{i.p0}}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
     <block s-for=\\"{{i.cn}}\\" s-key=\\"sid\\">
       <ad s-if={{item.nn==='9'}} id=\\"{{item.uid||item.sid}}\\" data-sid=\\"{{item.sid}}\\" unit-id=\\"{{item.p1}}\\" ad-intervals=\\"{{item.p0}}\\" bindload=\\"eh\\" binderror=\\"eh\\" bindclose=\\"eh\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\" bindtap=\\"eh\\"></ad>
@@ -827,25 +827,6 @@ require(\\"./taro\\");
     __webpack_require__.r(__webpack_exports__);
     __webpack_exports__[\\"default\\"] = \\"react-mock\\";
 } ] ]);
-
-/** filePath: dist/custom-wrapper.js **/
-(swan[\\"webpackJsonp\\"] = swan[\\"webpackJsonp\\"] || []).push([ [ 6 ], {
-    12: function(module, __webpack_exports__, __webpack_require__) {
-        \\"use strict\\";
-        __webpack_require__.r(__webpack_exports__);
-        var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(2);
-        Component(Object(_tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__[\\"createRecursiveComponentConfig\\"])(\\"custom-wrapper\\"));
-    }
-}, [ [ 12, 0, 1 ] ] ]);
-
-/** filePath: dist/custom-wrapper.json **/
-{\\"component\\":true,\\"usingComponents\\":{\\"custom-wrapper\\":\\"./custom-wrapper\\"}}
-
-/** filePath: dist/custom-wrapper.swan **/
-<import src=\\"./base.swan\\" />
-  <block s-for=\\"{{i.cn}}\\" s-key=\\"sid\\">
-    <template is=\\"tmpl_0_container\\" data=\\"{{{ i:item }}}\\" />
-  </block>
 
 /** filePath: dist/pages/index/index.css **/
 
@@ -1270,7 +1251,7 @@ require(\\"./taro\\");
 
 
 /** filePath: dist/pages/index/index.json **/
-{\\"navigationBarTitleText\\":\\"首页\\",\\"usingComponents\\":{\\"custom-wrapper\\":\\"../../custom-wrapper\\"}}
+{\\"navigationBarTitleText\\":\\"首页\\",\\"usingComponents\\":{}}
 
 /** filePath: dist/pages/index/index.swan **/
 <import src=\\"../../base.swan\\"/>
@@ -1314,7 +1295,7 @@ module.exports = {
     return 'tmpl_' + n + '_container'
   },
   f: function (l) {
-    return l.filter(function (i) {return i.nn === '40'})
+    return l.filter(function (i) {return i.nn === '41'})
   }
 }
 

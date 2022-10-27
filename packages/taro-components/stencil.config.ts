@@ -9,6 +9,7 @@ export const config: Config = {
   plugins: [
     sass()
   ],
+  sourceMap: process.env.NODE_ENV !== 'production',
   nodeResolve: {
     preferBuiltins: false,
     // @ts-ignore

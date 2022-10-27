@@ -5,13 +5,13 @@ import md5 from 'md5'
 import path from 'path'
 import { Chunk, ChunkGraph, Compilation, Compiler, Module, sources } from 'webpack'
 import SplitChunksPlugin from 'webpack/lib/optimize/SplitChunksPlugin'
-import { ConcatSource, RawSource } from 'webpack-sources'
 
 import type { IFileType } from '../utils/types'
 
 const PLUGIN_NAME = 'MiniSplitChunkPlugin' // 插件名
 const SUB_COMMON_DIR = 'sub-common' // 分包公共依赖目录
 const SUB_VENDORS_NAME = 'sub-vendors' // 分包 vendors 文件名
+const { ConcatSource, RawSource } = sources
 
 const FileExtsMap = {
   JS: '.js',

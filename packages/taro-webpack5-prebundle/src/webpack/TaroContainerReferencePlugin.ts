@@ -4,15 +4,16 @@
  * Author Tobias Koppers @sokra and Zackary Jackson @ScriptedAlchemy
  */
 import { META_TYPE } from '@tarojs/helper'
-import webpack, { Compiler, NormalModule, RuntimeGlobals } from 'webpack'
+import { RuntimeGlobals, sources } from 'webpack'
 import ContainerReferencePlugin from 'webpack/lib/container/ContainerReferencePlugin'
 import RemoteModule from 'webpack/lib/container/RemoteModule'
-import type { ContainerReferencePluginOptions, RemotesConfig } from 'webpack/types'
-import { ConcatSource, RawSource } from 'webpack-sources'
 
 import { addRequireToSource, getChunkEntryModule, getChunkIdOrName } from '../utils'
 import { CollectedDeps, MF_NAME } from '../utils/constant'
 import TaroRemoteRuntimeModule from './TaroRemoteRuntimeModule'
+
+import type { Compiler, NormalModule } from 'webpack'
+import type { ContainerReferencePluginOptions, RemotesConfig } from 'webpack/types'
 
 const ExternalsPlugin = require('webpack/lib/ExternalsPlugin')
 const FallbackDependency = require('webpack/lib/container/FallbackDependency')
@@ -22,6 +23,8 @@ const RemoteToExternalDependency = require('webpack/lib/container/RemoteToExtern
 
 const PLUGIN_NAME = 'TaroContainerReferencePlugin'
 const slashCode = '/'.charCodeAt(0)
+
+const { RawSource } = sources
 
 type MFOptions = Partial<ContainerReferencePluginOptions>
 
@@ -188,10 +191,10 @@ export default class TaroContainerReferencePlugin extends ContainerReferencePlug
          * 在 dist/app.js 头部注入 require，
          * 依赖所有的预编译 chunk 和 remoteEntry
          */
-        const hooks = webpack.javascript.JavascriptModulesPlugin.getCompilationHooks(compilation)
+        const hooks = compiler.webpack.javascript.JavascriptModulesPlugin.getCompilationHooks(compilation)
         hooks.render.tap(
           PLUGIN_NAME,
-          (modules: ConcatSource, { chunk }) => {
+          (modules: sources.ConcatSource, { chunk }) => {
             const chunkEntryModule = getChunkEntryModule(compilation, chunk) as any
             if (chunkEntryModule) {
               const entryModule = chunkEntryModule.rootModule ?? chunkEntryModule

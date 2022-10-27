@@ -4,13 +4,14 @@ import { DOCUMENT_FRAGMENT } from '../constants'
 import { MutationObserver, MutationRecordType } from '../dom-external/mutation-observer'
 import env from '../env'
 import { hydrate } from '../hydrate'
-import type { Func, UpdatePayload } from '../interface'
 import { extend, incrementId, isComment } from '../utils'
-import type { TaroDocument } from './document'
-import type { TaroElement } from './element'
 import { eventSource } from './event-source'
 import { TaroEventTarget } from './event-target'
 import { NodeType } from './node_types'
+
+import type { Func, UpdatePayload } from '../interface'
+import type { TaroDocument } from './document'
+import type { TaroElement } from './element'
 import type { TaroRootElement } from './root'
 
 interface RemoveChildOptions {

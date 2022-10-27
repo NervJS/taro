@@ -1,8 +1,7 @@
 import type { RecursiveTemplate, UnRecursiveTemplate } from '@tarojs/shared/dist/template'
-import { IMiniAppConfig, IProjectBaseConfig } from '@tarojs/taro/types/compile'
-import * as webpack from 'webpack'
-
-import { PrerenderConfig } from '../prerender/prerender'
+import type { Func, IMiniAppConfig, IProjectBaseConfig } from '@tarojs/taro/types/compile'
+import type * as webpack from 'webpack'
+import type { PrerenderConfig } from '../prerender/prerender'
 
 type FunctionLikeCustomWebpackConfig = (webpackConfig: webpack.Configuration, webpack) => webpack.Configuration
 
@@ -36,8 +35,6 @@ export interface IFileType {
   config: string
   xs?: string
 }
-
-export type Func = (...args: any[]) => any
 
 export interface IBuildConfig extends IProjectBaseConfig, IMiniAppConfig {
   blended?: boolean

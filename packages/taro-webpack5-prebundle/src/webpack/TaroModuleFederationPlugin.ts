@@ -4,16 +4,15 @@
  * Author Tobias Koppers @sokra and Zackary Jackson @ScriptedAlchemy
 */
 import _ from 'lodash'
-import { Compiler, sharing } from 'webpack'
 import ModuleFederationPlugin from 'webpack/lib/container/ModuleFederationPlugin'
 import isValidExternalsType from 'webpack/schemas/plugins/container/ExternalsType.check.js'
-import type { ContainerReferencePluginOptions, ModuleFederationPluginOptions } from 'webpack/types'
 
 import { CollectedDeps } from '../utils/constant'
 import TaroContainerPlugin from './TaroContainerPlugin'
 import TaroContainerReferencePlugin from './TaroContainerReferencePlugin'
 
-const { SharePlugin } = sharing
+import type { Compiler } from 'webpack'
+import type { ContainerReferencePluginOptions, ModuleFederationPluginOptions } from 'webpack/types'
 
 const PLUGIN_NAME = 'TaroModuleFederationPlugin'
 
@@ -41,6 +40,7 @@ export default class TaroModuleFederationPlugin extends ModuleFederationPlugin {
 
   /** Apply the plugin */
   apply (compiler: Compiler) {
+    const { SharePlugin } = compiler.webpack.sharing
     const { _options: options } = this
     const library = options.library || { type: 'var', name: options.name }
     const remoteType = options.remoteType ||

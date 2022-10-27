@@ -5,11 +5,12 @@ import {
   ReactAppInstance, ReactPageComponent
 } from '@tarojs/runtime'
 import { EMPTY_OBJ, ensure, hooks } from '@tarojs/shared'
-import type { AppConfig } from '@tarojs/taro'
-import type * as React from 'react'
 
 import { reactMeta } from './react-meta'
 import { ensureIsArray, HOOKS_APP_ID, isClassComponent, setDefaultDescriptor, setRouterParams } from './utils'
+
+import type { AppConfig } from '@tarojs/taro'
+import type * as React from 'react'
 
 type PageComponent = React.CElement<PageProps, React.Component<PageProps, any, any>>
 
@@ -26,7 +27,10 @@ export function setReconciler (ReactDOM) {
   })
 
   hooks.tap('modifyMpEvent', function (event) {
-    event.type = event.type.replace(/-/g, '')
+    // Note: ohos 上事件没有设置 type 类型 setter 方法导致报错
+    Object.defineProperty(event, 'type', {
+      value: event.type.replace(/-/g, '')
+    })
   })
 
   hooks.tap('batchedEventUpdates', function (cb) {
@@ -321,14 +325,22 @@ export function createReactApp (
       value (options) {
         setRouterParams(options)
 
-        /**
-         * trigger lifecycle
-         */
-        const app = getAppInstance()
-        // class component, componentDidShow
-        app?.componentDidShow?.(options)
-        // functional component, useDidShow
-        triggerAppHook('onShow', options)
+        const onShow = () => {
+          /**
+          * trigger lifecycle
+          */
+          const app = getAppInstance()
+          // class component, componentDidShow
+          app?.componentDidShow?.(options)
+          // functional component, useDidShow
+          triggerAppHook('onShow', options)
+        }
+
+        if (appWrapper) {
+          onShow()
+        } else {
+          appWrapperPromise.then(onShow)
+        }
       }
     }),
 

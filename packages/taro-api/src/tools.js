@@ -20,16 +20,19 @@ const defaultDesignRatio = {
   750: 1,
   828: 1.81 / 2
 }
+const defaultBaseFontSize = 20
 
 export function getInitPxTransform (taro) {
   return function (config) {
     const {
       designWidth = defaultDesignWidth,
-      deviceRatio = defaultDesignRatio
+      deviceRatio = defaultDesignRatio,
+      baseFontSize = defaultBaseFontSize
     } = config
     taro.config = taro.config || {}
     taro.config.designWidth = designWidth
     taro.config.deviceRatio = deviceRatio
+    taro.config.baseFontSize = baseFontSize
   }
 }
 

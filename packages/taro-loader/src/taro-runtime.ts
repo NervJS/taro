@@ -1,4 +1,5 @@
 import { getOptions } from 'loader-utils'
+
 import type * as webpack from 'webpack'
 
 export default function (this: webpack.LoaderContext<any>, source: string) {

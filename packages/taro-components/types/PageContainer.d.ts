@@ -1,6 +1,5 @@
 import { ComponentType } from 'react'
-import { StandardProps, CommonEventFunction, BaseEventOrigFunction } from './common'
-
+import { StandardProps, CommonEventFunction } from './common'
 interface PageContainerProps extends StandardProps {
   /** 是否显示容器组件
    * @default false
@@ -37,12 +36,6 @@ interface PageContainerProps extends StandardProps {
    * @supported weapp, rn
    */
   round?: boolean
-
-  /** 是否在下滑一段距离后关闭
-   * @default false
-   * @supported weapp
-   */
-  closeOnSlideDown?: boolean
 
   /** 自定义遮罩层样式
    * @supported weapp, rn
@@ -88,17 +81,25 @@ interface PageContainerProps extends StandardProps {
    * @supported weapp
    */
   onClickOverlay?: CommonEventFunction
-}
 
+  /** 是否在下滑一段距离后关闭
+   * @supported weapp
+   * @default false
+   */
+  closeOnSlideDown?: string
+}
 declare namespace PageContainerProps {
   /** 弹出位置 */
   interface Position {
     /** 上方弹出 */
     top
+
     /** 下方弹出 */
     bottom
+
     /** 右边弹出 */
     right
+
     /** 中央弹出 */
     center
   }
@@ -117,5 +118,4 @@ declare namespace PageContainerProps {
  * @see https://developers.weixin.qq.com/miniprogram/dev/component/page-container.html
  */
 declare const PageContainer: ComponentType<PageContainerProps>
-
 export { PageContainer, PageContainerProps }

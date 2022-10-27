@@ -4,11 +4,12 @@ import { Configuration, EntryNormalized } from 'webpack'
 
 import { parsePublicPath } from '../utils'
 import H5AppInstance from '../utils/H5AppInstance'
-import type { H5BuildConfig } from '../utils/types'
 import { Combination } from './Combination'
 import { H5BaseConfig } from './H5BaseConfig'
 import { H5WebpackModule } from './H5WebpackModule'
 import { H5WebpackPlugin } from './H5WebpackPlugin'
+
+import type { H5BuildConfig } from '../utils/types'
 
 type Output = Required<Configuration>['output']
 type Optimization = Required<Configuration>['optimization']

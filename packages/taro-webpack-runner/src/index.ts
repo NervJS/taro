@@ -9,10 +9,13 @@ import buildConf from './config/build.conf'
 import devConf from './config/dev.conf'
 import baseDevServerOption from './config/devServer.conf'
 import prodConf from './config/prod.conf'
-import { formatOpenHost, parsePublicPath } from './util'
+import { addHtmlSuffix, addLeadingSlash, formatOpenHost, getAppConfig, getAppEntry, parsePublicPath, stripBasename, stripTrailingSlash } from './util'
 import { makeConfig } from './util/chain'
 import { bindDevLogger, bindProdLogger, printBuildError } from './util/logHelper'
-import { BuildConfig, Func } from './util/types'
+
+import type { AppConfig } from '@tarojs/taro'
+import type { Func } from '@tarojs/taro/types/compile'
+import type { BuildConfig } from './util/types'
 
 export const customizeChain = async (chain, modifyWebpackChainFunc: Func, customizeFunc?: Func) => {
   if (modifyWebpackChainFunc instanceof Function) {
@@ -23,9 +26,9 @@ export const customizeChain = async (chain, modifyWebpackChainFunc: Func, custom
   }
 }
 
-const buildProd = async (appPath: string, config: BuildConfig): Promise<void> => {
-  const webpackChain = prodConf(appPath, config)
-  await customizeChain(webpackChain, config.modifyWebpackChain, config.webpackChain)
+const buildProd = async (appPath: string, config: BuildConfig, appConfig: AppConfig): Promise<void> => {
+  const webpackChain = prodConf(appPath, config, appConfig)
+  await customizeChain(webpackChain, config.modifyWebpackChain!, config.webpackChain)
   if (typeof config.onWebpackChainReady === 'function') {
     config.onWebpackChainReady(webpackChain)
   }
@@ -65,17 +68,75 @@ const buildProd = async (appPath: string, config: BuildConfig): Promise<void> =>
   })
 }
 
-const buildDev = async (appPath: string, config: BuildConfig): Promise<any> => {
+const buildDev = async (appPath: string, config: BuildConfig, appConfig: AppConfig): Promise<any> => {
   const conf = buildConf(config)
   const routerConfig = config.router || {}
   const routerMode = routerConfig.mode || 'hash'
   const routerBasename = routerConfig.basename || '/'
   const publicPath = parsePublicPath(conf.publicPath)
   const outputPath = path.join(appPath, conf.outputRoot as string)
-  const customDevServerOption = (config.devServer || {}) as WebpackDevServer.Configuration
-  const webpackChain = devConf(appPath, config)
+  const { proxy: customProxy = [], ...customDevServerOption } = config.devServer || {}
+  const webpackChain = devConf(appPath, config, appConfig)
   const onBuildFinish = config.onBuildFinish
-  await customizeChain(webpackChain, config.modifyWebpackChain, config.webpackChain)
+  await customizeChain(webpackChain, config.modifyWebpackChain!, config.webpackChain)
+
+  const isMultiRouterMode = routerMode === 'multi'
+  const proxy: WebpackDevServer.Configuration['proxy'] = []
+  if (isMultiRouterMode) {
+    const customRoutes = routerConfig?.customRoutes || {}
+    const routerBasename = routerConfig.basename || '/'
+    const getEntriesRoutes = (customRoutes: Record<string, string | string[]> = {}) => {
+      const conf: string[][] = []
+      for (let key in customRoutes) {
+        const path = customRoutes[key]
+        key = addLeadingSlash(key)
+        if (typeof path === 'string') {
+          conf.push([key, addLeadingSlash(path)])
+        } else if (path?.length > 0) {
+          conf.push(...path.map(p => [key, addLeadingSlash(p)]))
+        }
+      }
+      return conf
+    }
+    const bypass = req => {
+      if (req.headers.accept?.indexOf('html') !== -1) {
+        const pagePath = stripTrailingSlash(stripBasename(req.path, routerBasename))
+        if (pagePath === '') {
+          return addHtmlSuffix(appConfig.entryPagePath || appConfig.pages?.[0])
+        }
+
+        const pageIdx = (appConfig.pages ?? []).findIndex(e => addLeadingSlash(e) === pagePath)
+        if (pageIdx > -1) {
+          return addHtmlSuffix(appConfig.pages?.[pageIdx])
+        }
+
+        const customRoutesConf = getEntriesRoutes(customRoutes)
+        const idx = getEntriesRoutes(customRoutes).findIndex(list => list[1] === pagePath)
+        if (idx > -1) {
+          // NOTE: 自定义路由
+          return addHtmlSuffix(customRoutesConf[idx][0])
+        }
+      }
+    }
+    proxy.push({
+      context: [routerBasename],
+      bypass
+    })
+  }
+
+  if (!(customProxy instanceof Array)) {
+    proxy.push(...Object.entries(customProxy).map(([url, options = {}]) => {
+      const item: WebpackDevServer.ProxyConfigArrayItem = {
+        context: [url]
+      }
+      if (typeof options === 'string') {
+        item.target = options
+      } else {
+        Object.assign(item, options)
+      }
+      return item
+    }))
+  }
 
   if (typeof config.onWebpackChainReady === 'function') {
     config.onWebpackChainReady(webpackChain)
@@ -90,11 +151,16 @@ const buildDev = async (appPath: string, config: BuildConfig): Promise<any> => {
           from: /./,
           to: publicPath
         }]
-      }
+      },
+      proxy,
     },
     baseDevServerOption,
     customDevServerOption
   )
+  if (devServerOptions.proxy.length < 1) {
+    // Note: proxy 不可以为空数组
+    delete devServerOptions.proxy
+  }
 
   if (devServerOptions.host === 'localhost') {
     devServerOptions.useLocalIp = false
@@ -179,15 +245,17 @@ const buildDev = async (appPath: string, config: BuildConfig): Promise<any> => {
 
 export default async (appPath: string, config: BuildConfig): Promise<void> => {
   const newConfig: BuildConfig = await makeConfig(config)
+  const appEntry = await getAppEntry(newConfig.entry, newConfig.entryFileName)
+  const appConfig = getAppConfig(appEntry)
   if (newConfig.isWatch) {
     try {
-      await buildDev(appPath, newConfig)
+      await buildDev(appPath, newConfig, appConfig)
     } catch (e) {
       console.error(e)
     }
   } else {
     try {
-      await buildProd(appPath, newConfig)
+      await buildProd(appPath, newConfig, appConfig)
     } catch (e) {
       console.error(e)
       process.exit(1)

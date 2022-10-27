@@ -7,13 +7,13 @@ import {
   REG_STYLE,
   REG_STYLUS
 } from '@tarojs/helper'
-import { Func } from '@tarojs/runtime'
-import type { PostcssOption } from '@tarojs/taro/types/compile'
 
 import { getDefaultPostcssConfig, getPostcssPlugins } from '../postcss/postcss.h5'
+import { WebpackModule } from './WebpackModule'
+
+import type { Func, PostcssOption } from '@tarojs/taro/types/compile'
 import type { H5Combination } from './H5Combination'
 import type { CssModuleOptionConfig, IRule } from './WebpackModule'
-import { WebpackModule } from './WebpackModule'
 
 type CSSLoaders = {
   include?
@@ -147,7 +147,10 @@ export class H5WebpackModule {
 
   /** 开发者的样式在尾部注入 */
   getCustomStyleRule (styleLoaderOption) {
-    const { enableExtract = process.env.NODE_ENV === 'production' } = this.combination.config
+    const {
+      mode,
+      enableExtract = mode === 'production'
+    } = this.combination.config
     const extractCssLoader = WebpackModule.getExtractCSSLoader()
     const styleLoader = WebpackModule.getStyleLoader(styleLoaderOption)
     const lastStyleLoader = enableExtract ? extractCssLoader : styleLoader

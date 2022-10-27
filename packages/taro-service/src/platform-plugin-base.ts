@@ -1,6 +1,5 @@
 import type { RecursiveTemplate, UnRecursiveTemplate } from '@tarojs/shared/dist/template'
-
-import type { IPluginContext } from '../types/index'
+import type { IPluginContext } from './utils/types'
 
 interface IFileType {
   templ: string

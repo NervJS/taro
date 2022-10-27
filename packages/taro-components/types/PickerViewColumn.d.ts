@@ -1,6 +1,5 @@
 import { ComponentType } from 'react'
 import { StandardProps } from './common'
-
 type PickerViewColumnProps = StandardProps
 
 /** 滚动选择器子项
@@ -10,5 +9,4 @@ type PickerViewColumnProps = StandardProps
  * @see https://developers.weixin.qq.com/miniprogram/dev/component/picker-view-column.html
  */
 declare const PickerViewColumn: ComponentType<StandardProps>
-
 export { PickerViewColumn, PickerViewColumnProps }

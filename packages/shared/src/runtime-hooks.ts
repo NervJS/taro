@@ -1,5 +1,6 @@
 import { Events } from './event-emitter'
 import { isFunction } from './is'
+
 import type { Shortcuts } from './template'
 
 type Func = (...args: any[]) => any
@@ -35,6 +36,10 @@ interface MiniLifecycle {
     string, /** onHide */
     string[], /** others */
     string[] /** side-effects */
+  ]
+  component: [
+    string, /** attached */
+    string, /** detached */
   ]
 }
 
@@ -97,6 +102,10 @@ const defaultMiniLifecycle: MiniLifecycle = {
       'onShareAppMessage',
       'onShareTimeline'
     ]
+  ],
+  component: [
+    'attached',
+    'detached'
   ]
 }
 
@@ -292,7 +301,7 @@ export const hooks = new TaroHooks<ITaroHooks>({
       // 有些小程序的事件对象的某些属性只读
       this.call('modifyMpEvent', e)
     } catch (error) {
-      console.warn('[Taro modifyMpEvent hook Error]: ', error)
+      console.warn('[Taro modifyMpEvent hook Error]: ' + error?.message)
     }
   }),
 

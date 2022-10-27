@@ -1,10 +1,11 @@
-import { EntryObject } from 'webpack'
-import Chain from 'webpack-chain'
 import webpackDevServer from 'webpack-dev-server'
 
-import { IH5PrebundleConfig } from './h5'
-import { IMiniPrebundleConfig } from './mini'
 import BasePrebundle, { IPrebundle } from './prebundle'
+
+import type { EntryObject } from 'webpack'
+import type Chain from 'webpack-chain'
+import type { IH5PrebundleConfig } from './h5'
+import type { IMiniPrebundleConfig } from './mini'
 
 export * from './prebundle'
 
@@ -19,6 +20,7 @@ export interface IPrebundleParam {
   enableSourceMap?: boolean
   entryFileName?: string
 
+  isWatch?: boolean
   devServer?: webpackDevServer.Configuration
   publicPath?: string
   runtimePath?: string | string[]
@@ -42,6 +44,7 @@ export default class TaroPrebundle {
       enableSourceMap = false,
       entryFileName = 'app',
       entry = this.entry,
+      isWatch = false,
       publicPath = chain.output.get('publicPath') || '/',
       runtimePath,
       sourceRoot = 'src'
@@ -57,8 +60,9 @@ export default class TaroPrebundle {
       devServer,
       enableSourceMap,
       entryFileName,
-      entry: typeof entry === 'string' ? { [entryFileName]: entry } : entry,
+      entry,
       env,
+      isWatch,
       publicPath,
       runtimePath,
       sourceRoot
@@ -66,6 +70,7 @@ export default class TaroPrebundle {
   }
 
   get entry () {
+    // NOTE: 如果传入 entry 为字符串， webpack-chain 会识别为 EntryObject，导致报错
     return Object.entries(this.params.chain.entryPoints.entries()).reduce((entry, [key, value]) => {
       entry[key] = value.values()
       return entry

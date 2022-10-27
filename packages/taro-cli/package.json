@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/cli",
-  "version": "3.5.4",
+  "version": "3.5.4-canary.1",
   "description": "cli tool for taro",
   "main": "index.js",
   "scripts": {
@@ -70,7 +70,7 @@
     "ora": "4.0.3",
     "postcss": "^6.0.22",
     "postcss-taro-unit-transform": "1.2.15",
-    "prettier": "^1.16.4",
+    "prettier": "^2.7.1",
     "regenerator-runtime": "0.11",
     "request": "^2.88.0",
     "resolve": "^1.22.0",
