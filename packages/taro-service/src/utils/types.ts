@@ -1,9 +1,10 @@
-import type helper from '@tarojs/helper'
 import { IProjectConfig } from '@tarojs/taro/types/compile'
 import joi from 'joi'
 import { Compilation, Compiler } from 'webpack'
 
 import { PluginType } from './constants'
+
+import type helper from '@tarojs/helper'
 
 export interface IPaths {
   /**
