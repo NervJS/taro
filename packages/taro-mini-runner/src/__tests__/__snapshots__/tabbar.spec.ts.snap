@@ -598,6 +598,13 @@ require(\\"./taro\\");
                 Image: {
                     \\"default-source\\": \\"\\"
                 },
+                Camera: {
+                    mode: Object(_tarojs_shared__WEBPACK_IMPORTED_MODULE_0__[\\"singleQuote\\"])(\\"normal\\"),
+                    \\"output-dimension\\": Object(_tarojs_shared__WEBPACK_IMPORTED_MODULE_0__[\\"singleQuote\\"])(\\"720P\\"),
+                    \\"frame-size\\": Object(_tarojs_shared__WEBPACK_IMPORTED_MODULE_0__[\\"singleQuote\\"])(\\"medium\\"),
+                    bindScanCode: \\"\\",
+                    bindReady: \\"\\"
+                },
                 Canvas: {
                     type: \\"\\",
                     width: Object(_tarojs_shared__WEBPACK_IMPORTED_MODULE_0__[\\"singleQuote\\"])(\\"300px\\"),
@@ -607,7 +614,6 @@ require(\\"./taro\\");
                 Video: {
                     \\"poster-size\\": Object(_tarojs_shared__WEBPACK_IMPORTED_MODULE_0__[\\"singleQuote\\"])(\\"contain\\"),
                     \\"mobilenet-hint-type\\": \\"1\\",
-                    enableNative: \\"false\\",
                     bindLoading: \\"\\",
                     bindUserAction: \\"\\",
                     bindStop: \\"\\",
@@ -869,7 +875,7 @@ h�hځ� �r������Nb2��х��K~��>;;ːL�1�
   </text>
 </template>
 
-<template name=\\"tmpl_0_35\\">
+<template name=\\"tmpl_0_36\\">
   <scroll-view scroll-x=\\"{{xs.b(i.p7,!1)}}\\" scroll-y=\\"{{xs.b(i.p8,!1)}}\\" upper-threshold=\\"{{xs.b(i.p9,50)}}\\" lower-threshold=\\"{{xs.b(i.p2,50)}}\\" scroll-top=\\"{{i.p5}}\\" scroll-left=\\"{{i.p4}}\\" scroll-into-view=\\"{{i.p3}}\\" scroll-with-animation=\\"{{xs.b(i.p6,!1)}}\\" enable-back-to-top=\\"{{xs.b(i.p1,!1)}}\\" onScrollToUpper=\\"eh\\" onScrollToLower=\\"eh\\" onScroll=\\"eh\\" onTouchStart=\\"eh\\" onTouchMove=\\"eh\\" onTouchEnd=\\"eh\\" onTouchCancel=\\"eh\\" onLongTap=\\"eh\\" animation=\\"{{i.p0}}\\" onAnimationStart=\\"eh\\" onAnimationIteration=\\"eh\\" onAnimationEnd=\\"eh\\" onTransitionEnd=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" onTap=\\"eh\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
     <block a:for=\\"{{i.cn}}\\" a:key=\\"sid\\">
       <template is=\\"{{xs.e(0)}}\\" data=\\"{{i:item}}\\" />
@@ -1042,7 +1048,7 @@ export default {
     return 'tmpl_' + n + '_container'
   },
   f: function (l) {
-    return l.filter(function (i) {return i.nn === '40'})
+    return l.filter(function (i) {return i.nn === '41'})
   }
 }
 
@@ -1768,7 +1774,7 @@ h�hځ� �r������Nb2��х��K~��>;;ːL�1�
   </text>
 </template>
 
-<template name=\\"tmpl_0_35\\">
+<template name=\\"tmpl_0_36\\">
   <scroll-view scroll-x=\\"{{xs.b(i.p7,!1)}}\\" scroll-y=\\"{{xs.b(i.p8,!1)}}\\" upper-threshold=\\"{{xs.b(i.p9,50)}}\\" lower-threshold=\\"{{xs.b(i.p2,50)}}\\" scroll-top=\\"{{i.p5}}\\" scroll-left=\\"{{i.p4}}\\" scroll-into-view=\\"{{i.p3}}\\" scroll-with-animation=\\"{{xs.b(i.p6,!1)}}\\" enable-back-to-top=\\"{{xs.b(i.p1,!1)}}\\" bindscrolltoupper=\\"eh\\" bindscrolltolower=\\"eh\\" bindscroll=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" animation=\\"{{i.p0}}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"sid\\">
       <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
@@ -1848,7 +1854,7 @@ h�hځ� �r������Nb2��х��K~��>;;ːL�1�
   </text>
 </template>
 
-<template name=\\"tmpl_1_35\\">
+<template name=\\"tmpl_1_36\\">
   <scroll-view scroll-x=\\"{{xs.b(i.p7,!1)}}\\" scroll-y=\\"{{xs.b(i.p8,!1)}}\\" upper-threshold=\\"{{xs.b(i.p9,50)}}\\" lower-threshold=\\"{{xs.b(i.p2,50)}}\\" scroll-top=\\"{{i.p5}}\\" scroll-left=\\"{{i.p4}}\\" scroll-into-view=\\"{{i.p3}}\\" scroll-with-animation=\\"{{xs.b(i.p6,!1)}}\\" enable-back-to-top=\\"{{xs.b(i.p1,!1)}}\\" bindscrolltoupper=\\"eh\\" bindscrolltolower=\\"eh\\" bindscroll=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" animation=\\"{{i.p0}}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"sid\\">
       <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
@@ -1908,7 +1914,7 @@ h�hځ� �r������Nb2��х��K~��>;;ːL�1�
   </text>
 </template>
 
-<template name=\\"tmpl_2_35\\">
+<template name=\\"tmpl_2_36\\">
   <scroll-view scroll-x=\\"{{xs.b(i.p7,!1)}}\\" scroll-y=\\"{{xs.b(i.p8,!1)}}\\" upper-threshold=\\"{{xs.b(i.p9,50)}}\\" lower-threshold=\\"{{xs.b(i.p2,50)}}\\" scroll-top=\\"{{i.p5}}\\" scroll-left=\\"{{i.p4}}\\" scroll-into-view=\\"{{i.p3}}\\" scroll-with-animation=\\"{{xs.b(i.p6,!1)}}\\" enable-back-to-top=\\"{{xs.b(i.p1,!1)}}\\" bindscrolltoupper=\\"eh\\" bindscrolltolower=\\"eh\\" bindscroll=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" animation=\\"{{i.p0}}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"sid\\">
       <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
@@ -1968,7 +1974,7 @@ h�hځ� �r������Nb2��х��K~��>;;ːL�1�
   </text>
 </template>
 
-<template name=\\"tmpl_3_35\\">
+<template name=\\"tmpl_3_36\\">
   <scroll-view scroll-x=\\"{{xs.b(i.p7,!1)}}\\" scroll-y=\\"{{xs.b(i.p8,!1)}}\\" upper-threshold=\\"{{xs.b(i.p9,50)}}\\" lower-threshold=\\"{{xs.b(i.p2,50)}}\\" scroll-top=\\"{{i.p5}}\\" scroll-left=\\"{{i.p4}}\\" scroll-into-view=\\"{{i.p3}}\\" scroll-with-animation=\\"{{xs.b(i.p6,!1)}}\\" enable-back-to-top=\\"{{xs.b(i.p1,!1)}}\\" bindscrolltoupper=\\"eh\\" bindscrolltolower=\\"eh\\" bindscroll=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" animation=\\"{{i.p0}}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
     <block wx:for=\\"{{i.cn}}\\" wx:key=\\"sid\\">
       <template is=\\"{{xs.e(cid+1)}}\\" data=\\"{{i:item,l:l}}\\" />
@@ -2626,8 +2632,8 @@ h�hځ� �r������Nb2��х��K~��>;;ːL�1�
 /** filePath: dist/utils.wxs **/
 module.exports = {
   a: function (l, n, s) {
-    var a = [\\"7\\",\\"0\\",\\"18\\",\\"5\\",\\"2\\",\\"11\\",\\"6\\",\\"4\\",\\"37\\",\\"38\\",\\"22\\",\\"19\\",\\"35\\",\\"39\\",\\"40\\"]
-    var b = [\\"4\\",\\"37\\",\\"38\\",\\"22\\",\\"19\\",\\"35\\",\\"39\\",\\"40\\"]
+    var a = [\\"7\\",\\"0\\",\\"18\\",\\"5\\",\\"2\\",\\"11\\",\\"6\\",\\"4\\",\\"38\\",\\"39\\",\\"22\\",\\"19\\",\\"36\\",\\"40\\",\\"41\\"]
+    var b = [\\"4\\",\\"38\\",\\"39\\",\\"22\\",\\"19\\",\\"36\\",\\"40\\",\\"41\\"]
     if (a.indexOf(n) === -1) {
       l = 0
     }
@@ -2655,7 +2661,7 @@ module.exports = {
     return 'tmpl_' + n + '_container'
   },
   f: function (l, n) {
-    var b = [\\"4\\",\\"37\\",\\"38\\",\\"22\\",\\"19\\",\\"35\\",\\"39\\",\\"40\\"]
+    var b = [\\"4\\",\\"38\\",\\"39\\",\\"22\\",\\"19\\",\\"36\\",\\"40\\",\\"41\\"]
     if (b.indexOf(n) > -1) {
       if (l) l += ','
       l += n

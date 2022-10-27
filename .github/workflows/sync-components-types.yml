@@ -1,0 +1,55 @@
+name: Sync Components types
+on:
+  schedule:
+    - cron: '0 0 * * 6'
+    
+
+jobs:
+  sync-components-types:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Checkout taro-docs
+        uses: actions/checkout@v3
+        with:
+          repository: NervJS/taro-docs
+          fetch-depth: 1
+          path: .taro-docs
+      - run : |
+          cp .taro-docs/packages/taro-components/types/* packages/taro-components/types
+          rm -rf .taro-docs
+
+      - name: Cache pnpm modules
+        uses: actions/cache@v3
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-
+
+      - name: install
+        uses: pnpm/action-setup@v2.2.2
+        with:
+          version: 7
+          run_install: |
+            - recursive: true
+              args: [--frozen-lockfile, --strict-peer-dependencies]
+
+      - name: execute sync script
+        run: |
+          cd packages/taro-components
+          pnpm run sync:types
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: "refactor(types): sync components types"
+          title: "refactor(types): sync components types"
+          body: "sync components types"
+          labels: |
+            A-typings
+            A-components
+          
