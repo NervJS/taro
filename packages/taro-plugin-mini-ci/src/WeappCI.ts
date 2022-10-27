@@ -2,12 +2,11 @@
 import * as crypto from 'crypto'
 import * as ci from 'miniprogram-ci'
 import  { Project }from 'miniprogram-ci'
-import { ICreateProjectOptions } from 'miniprogram-ci/dist/@types/ci/project'
 import * as os from 'os'
 import * as path from 'path'
 import * as shell from 'shelljs'
 
-import BaseCI from './BaseCi'
+import BaseCI, { ProjectType } from './BaseCi'
 import { generateQrcodeImageFile, printQrcode2Terminal, readQrcodeImageContent } from './utils/qrcode'
 
 export default class WeappCI extends BaseCI {
@@ -24,14 +23,14 @@ export default class WeappCI extends BaseCI {
     this.devToolsInstallPath = this.pluginOpts.weapp.devToolsInstallPath || (process.platform === 'darwin' ? '/Applications/wechatwebdevtools.app' : 'C:\\Program Files (x86)\\Tencent\\微信web开发者工具')
     delete this.pluginOpts.weapp.devToolsInstallPath
 
-    const weappConfig: ICreateProjectOptions = {
-      type: 'miniProgram',
+    const weappConfig = {
+      type: 'miniProgram' as ProjectType,
       projectPath: this.projectPath,
       appid: this.pluginOpts.weapp!.appid,
       privateKeyPath: this.pluginOpts.weapp!.privateKeyPath,
       ignores: this.pluginOpts.weapp!.ignores,
     }
-    const privateKeyPath = path.isAbsolute(weappConfig.privateKeyPath!) ? weappConfig.privateKeyPath : path.join(appPath, weappConfig.privateKeyPath!)
+    const privateKeyPath = path.isAbsolute(weappConfig.privateKeyPath) ? weappConfig.privateKeyPath : path.join(appPath, weappConfig.privateKeyPath)
     if (!fs.pathExistsSync(privateKeyPath)) {
       throw new Error(`"weapp.privateKeyPath"选项配置的路径不存在,本次上传终止:${privateKeyPath}`)
     }
