@@ -26,7 +26,7 @@ export default class SwanCI extends BaseCI {
     // 官方CI包不支持CLI打开IDE，吾通过查看百度开发者工具安装包下的cli文件、以及类比微信开发者工具的调用方式，再加上一点“推理”，发现了调用协议，从而实现了此功能
     const { printLog, processTypeEnum, fs } = this.ctx.helper
     const isMac = process.platform === 'darwin'
-    const devToolsInstallPath = this.pluginOpts.swan!.devToolsInstallPath || (isMac ? '/Applications/百度开发者工具.app' : 'C:\\Program Files (x86)\\百度开发者工具')
+    const devToolsInstallPath = this.pluginOpts.swan!.devToolsInstallPath || (isMac ? '/Applications/百度开发者工具.app' : 'C:\\Program Files\\swan-ide-gui')
     const cliPath = path.join(devToolsInstallPath, isMac ? '/Contents/MacOS/cli' : '/cli.bat')
 
     if (!(await fs.pathExists(cliPath))) {
