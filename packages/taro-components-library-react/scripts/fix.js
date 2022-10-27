@@ -2,6 +2,7 @@ const fs = require('@tarojs/helper').fs
 const path = require('path')
 
 const componentsPath = path.resolve(__dirname, '..', 'src/components.ts')
+const attachPropsPath = path.resolve(__dirname, '..', 'src/react-component-lib/utils/attachProps.ts')
 const avoidErrorType = ['Input', 'ScrollView']
 
 if (fs.existsSync(componentsPath)) {
@@ -25,4 +26,11 @@ if (fs.existsSync(componentsPath)) {
   }
 
   fs.writeFileSync(componentsPath, code)
+}
+
+if (fs.existsSync(attachPropsPath)) {
+  const codeBuffer = fs.readFileSync(attachPropsPath)
+  const code = codeBuffer.toString().replace(/const\seventNameLc\s=.+;/g, 'const eventNameLc = eventName.toLowerCase();')
+
+  fs.writeFileSync(attachPropsPath, code)
 }
