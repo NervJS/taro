@@ -208,6 +208,44 @@ class GenerateTypes {
     })
   }
 
+  // 属性排序
+  sortProps (ast) {
+    const componentName = this.componentName
+    traverse(ast, {
+      TSInterfaceDeclaration (astPath) {
+        if (astPath.node.id.name !== `${componentName}Props`) {
+          return
+        }
+        astPath.traverse({
+          TSInterfaceBody (astPath) {
+            astPath.node.body.sort((a: any, b: any) => {
+              const aName = a.key.name
+              const bName = b.key.name
+
+              if (aName.startsWith('catch') && !bName.startsWith('catch')) {
+                return 1
+              }
+              if (!aName.startsWith('catch') && bName.startsWith('catch')) {
+                return -1
+              }
+              
+              if (aName.startsWith('on') && !bName.startsWith('on')) {
+                return 1
+              }
+              if (!aName.startsWith('on') && bName.startsWith('on')) {
+                return -1
+              }
+              
+    
+              return 1
+            })
+          },
+        })
+      },
+    })
+
+  }
+
   exec () {
     const filePath = path.join(process.cwd(), 'types', `${this.componentName}.d.ts`)
     const codeStr = fs.readFileSync(filePath, 'utf8')
@@ -220,6 +258,7 @@ class GenerateTypes {
     const missingProps = this.getMissingProps(existProps)
     const props = this.convertProps(missingProps)
     this.addProps(ast, props)
+    this.sortProps(ast)
     this.formatJSDoc(ast)
     const result = generator(ast)
     const code = prettify(result.code, {

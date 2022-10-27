@@ -165,6 +165,26 @@ interface InputProps extends StandardProps, FormItemProps {
    */
   controlled?: boolean
 
+  /** 用于透传 `WebComponents` 上的属性到内部 H5 标签上
+   * @supported h5
+   */
+  nativeProps?: Record<string, unknown>
+
+  /** 组件名字，用于表单提交获取数据。
+   * @supported alipay
+   */
+  name?: string
+
+  /** 是否强制使用系统键盘和 Web-view 创建的 input 元素。为 true 时，confirm-type、confirm-hold 可能失效。
+   * @supported alipay
+   */
+  alwaysSystem?: string
+
+  /** 无障碍访问，（属性）元素的额外描述
+   * @supported qq
+   */
+  ariaLabel?: string
+
   /** 当键盘输入时，触发input事件，event.detail = {value, cursor, keyCode}，处理函数可以直接 return 一个字符串，将替换输入框的内容。
    * @supported weapp, alipay, swan, tt, qq, jd, h5, rn
    */
@@ -190,26 +210,6 @@ interface InputProps extends StandardProps, FormItemProps {
    * @supported weapp, qq
    */
   onKeyboardHeightChange?: CommonEventFunction<InputProps.onKeyboardHeightChangeEventDetail>
-
-  /** 用于透传 `WebComponents` 上的属性到内部 H5 标签上
-   * @supported h5
-   */
-  nativeProps?: Record<string, unknown>
-
-  /** 组件名字，用于表单提交获取数据。
-   * @supported alipay
-   */
-  name?: string
-
-  /** 是否强制使用系统键盘和 Web-view 创建的 input 元素。为 true 时，confirm-type、confirm-hold 可能失效。
-   * @supported alipay
-   */
-  alwaysSystem?: string
-
-  /** 无障碍访问，（属性）元素的额外描述
-   * @supported qq
-   */
-  ariaLabel?: string
 }
 declare namespace InputProps {
   /** > 注意：React-Native 端 `inputEventDetail` 仅实现参数 `value`，若需实时获取光标位置则可通过 [`onSelectionChange`](https://reactnative.dev/docs/textinput#onselectionchange) 实现。 */
