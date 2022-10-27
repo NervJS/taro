@@ -100,19 +100,9 @@ function updateProp (ctx, comp, propKey, prevProps, props) {
   }
   if (typeof val === 'function' && propKey.match(/^on[A-Z]/)) {
     const event = propKey.substr(2).toLowerCase()
-    let fn = val
 
-    // 解决用户监听 ScrollView 的 onScroll 会监听到原生 onScroll 的问题
-    if (comp === SCROLL_VIEW && event === 'scroll') {
-      fn = function (e) {
-        if (e instanceof CustomEvent) {
-          val.apply(null, Array.from(arguments))
-        }
-      }
-    }
-
-    ctx.eventHandlers.push([event, fn])
-    return dom.addEventListener(event, fn)
+    ctx.eventHandlers.push([event, val])
+    return dom.addEventListener(event, val)
   }
 
   if (typeof val === 'string' || typeof val === 'number') {

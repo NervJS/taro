@@ -5,7 +5,7 @@ interface StencilReactInternalProps<ElementType> extends React.HTMLAttributes<El
 
 export const manipulatePropsFunction = <ElementType>(
   originalProps: StencilReactInternalProps<ElementType>,
-  propsToPass = {}
+  propsToPass: Record<string, unknown> = {}
 ) => {
   const { dangerouslySetInnerHTML } = originalProps
   return {
