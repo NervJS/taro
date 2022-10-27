@@ -1,6 +1,10 @@
 # taro-rich-text-core
 
+## API
 
+|     | 属性  | 类型           | 默认值 | 说明                   |
+| --- | ----- | -------------- | ------ | ---------------------- |
+| √   | nodes | Array / String | [ ]     | 节点列表 / HTML String |
 
 <!-- Auto Generated Below -->
 
