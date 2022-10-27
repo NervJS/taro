@@ -33,6 +33,11 @@ interface ViewProps extends StandardProps {
    */
   hoverStayTime?: number
 
+  /**
+   * 是否以 catch 的形式绑定 touchmove 事件
+   */
+  catchMove?: boolean
+
   /** 是否阻止区域内滚动页面。
    * 说明： 如果 view 中嵌套 view，外层 view 设置 disable-scroll 为 true 时禁止内部的滚动。
    * @supported alipay
