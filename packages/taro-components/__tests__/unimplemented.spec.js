@@ -1,6 +1,5 @@
 import * as assert from 'assert'
 import React from 'react'
-import ReactDOM from 'react-dom'
 import * as sinon from 'sinon'
 
 import {
@@ -23,7 +22,7 @@ import {
   ShareElement,
   VoipRoom
 } from '../h5/react'
-import { waitForChange } from './utils'
+import { mount } from './test-tools'
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const h = React.createElement
@@ -60,15 +59,10 @@ describe('unimplemented', () => {
 
   async function testComponent (Comp) {
     const ref = React.createRef()
-    class App extends React.Component {
-      render () {
-        return <Comp ref={ref} />
-      }
-    }
-
-    ReactDOM.render(<App />, scratch)
-
-    await waitForChange(ref.current)
+    const app = (
+      <Comp ref={ref} />
+    )
+    await mount(app, scratch)
 
     assert(warning === buildWarning(ref))
   }

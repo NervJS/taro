@@ -81,6 +81,7 @@ describe('Button', () => {
     wrapper.setState({
       plain: false
     })
+    await waitForChange(node)
     assert(node.plain === false)
 
     wrapper.setState({
@@ -93,11 +94,13 @@ describe('Button', () => {
     wrapper.setState({
       disabled: true
     })
+    await waitForChange(node)
     assert(node.disabled === true)
 
     wrapper.setState({
       size: 'big'
     })
+    await waitForChange(node)
     assert(node.size === 'big')
   })
 

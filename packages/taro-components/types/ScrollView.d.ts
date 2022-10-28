@@ -126,6 +126,38 @@ interface ScrollViewProps extends StandardProps {
    */
   fastDeceleration?: boolean
 
+  /** 当 scroll-with-animation设置为 true 时，可以设置 scroll-animation-duration 来控制动画的执行时间，单位 ms。
+   * @supported alipay
+   */
+  scrollAnimationDuration?: string
+
+  /** 纵向滚动时，当滚动到顶部或底部时，强制禁止触发页面滚动，仍然只触发 scroll-view 自身的滚动。
+   * @supported alipay
+   * @default false
+   */
+  trapScroll?: string
+
+  /** 发生滚动前，对滚动方向进行判断，当方向是顶部/左边时，如果值为 always 将始终禁止滚动，如果值为 out-of-bounds 且当前已经滚动到顶部/左边，禁止滚动。
+   * @supported alipay
+   */
+  disableLowerScroll?: string
+
+  /** 发生滚动前，对滚动方向进行判断，当方向是底部/右边时，如果值为 always 将始终禁止滚动，如果值为 out-of-bounds 且当前已经滚动到底部/右边，禁止滚动。
+   * @supported alipay
+   */
+  disableUpperScroll?: string
+
+  /** 无障碍访问，（属性）元素的额外描述
+   * @supported qq
+   */
+  ariaLabel?: string
+
+  /** 开启 passive 特性，能优化一定的滚动性能
+   * @supported weapp
+   * @default false
+   */
+  enablePassive?: string
+
   /** 滚动到顶部/左边，会触发 scrolltoupper 事件
    * @supported weapp, alipay, swan, tt, qq, jd, h5, rn
    */
@@ -164,28 +196,17 @@ interface ScrollViewProps extends StandardProps {
   /** 滑动开始事件 (同时开启 enhanced 属性后生效)
    * @supported weapp
    */
-  onDragStart?: CommonEventFunction
+  onDragStart?: CommonEventFunction<ScrollViewProps.onDragDetail>
 
   /** 滑动事件 (同时开启 enhanced 属性后生效)
    * @supported weapp
    */
-  onDragging?: CommonEventFunction
+  onDragging?: CommonEventFunction<ScrollViewProps.onDragDetail>
 
-  /** 滑动结束事件 (同时开启 enhanced 属性后生效) detail { scrollTop, scrollLeft, velocity }
+  /** 滑动结束事件 (同时开启 enhanced 属性后生效)
    * @supported weapp
    */
-  onDragend?: CommonEventFunction
-
-  /** 当 scroll-with-animation设置为 true 时，可以设置 scroll-animation-duration 来控制动画的执行时间，单位 ms。
-   * @supported alipay
-   */
-  scrollAnimationDuration?: string
-
-  /** 纵向滚动时，当滚动到顶部或底部时，强制禁止触发页面滚动，仍然只触发 scroll-view 自身的滚动。
-   * @supported alipay
-   * @default false
-   */
-  trapScroll?: string
+  onDragEnd?: CommonEventFunction<ScrollViewProps.onDragDetail>
 
   /** 触摸动作开始。
    * @supported alipay
@@ -206,21 +227,6 @@ interface ScrollViewProps extends StandardProps {
    * @supported alipay
    */
   onTouchCancel?: CommonEventFunction
-
-  /** 发生滚动前，对滚动方向进行判断，当方向是顶部/左边时，如果值为 always 将始终禁止滚动，如果值为 out-of-bounds 且当前已经滚动到顶部/左边，禁止滚动。
-   * @supported alipay
-   */
-  disableLowerScroll?: string
-
-  /** 发生滚动前，对滚动方向进行判断，当方向是底部/右边时，如果值为 always 将始终禁止滚动，如果值为 out-of-bounds 且当前已经滚动到底部/右边，禁止滚动。
-   * @supported alipay
-   */
-  disableUpperScroll?: string
-
-  /** 无障碍访问，（属性）元素的额外描述
-   * @supported qq
-   */
-  ariaLabel?: string
 }
 declare namespace ScrollViewProps {
   interface onScrollDetail {
@@ -237,6 +243,16 @@ declare namespace ScrollViewProps {
     scrollWidth: number
     deltaX: number
     deltaY: number
+  }
+  interface onDragDetail {
+    /** 横向滚动条位置 */
+    scrollLeft: number
+
+    /** 竖向滚动条位置 */
+    scrollTop: number
+
+    /** 滚动速度 */
+    velocity: number
   }
 }
 

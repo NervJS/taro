@@ -21,21 +21,6 @@ interface AdProps extends StandardProps {
    */
   adTheme?: 'white' | 'black'
 
-  /** 广告加载成功的回调
-   * @supported weapp, swan, tt, qq
-   */
-  onLoad?: CommonEventFunction
-
-  /** 当广告发生错误时，触发的事件，可以通过该事件获取错误码及原因，事件对象 event.detail = {errCode: 1002}
-   * @supported weapp, swan, tt, qq
-   */
-  onError?: CommonEventFunction<AdProps.onErrorEventDetail>
-
-  /** 广告关闭的回调
-   * @supported weapp, swan, tt
-   */
-  onClose?: CommonEventFunction
-
   /** 小程序应用 ID
    * @supported swan
    */
@@ -56,11 +41,6 @@ interface AdProps extends StandardProps {
    * @supported swan
    */
   updatetime?: string
-
-  /** 贴片类型广告播放期间触发
-   * @supported swan
-   */
-  onStatus?: CommonEventFunction
 
   /** 广告是否在屏幕中固定展示
    * @supported tt
@@ -110,6 +90,26 @@ interface AdProps extends StandardProps {
    * @default three
    */
   testBannerType?: 'one' | 'three'
+
+  /** 广告加载成功的回调
+   * @supported weapp, swan, tt, qq
+   */
+  onLoad?: CommonEventFunction
+
+  /** 当广告发生错误时，触发的事件，可以通过该事件获取错误码及原因，事件对象 event.detail = {errCode: 1002}
+   * @supported weapp, swan, tt, qq
+   */
+  onError?: CommonEventFunction<AdProps.onErrorEventDetail>
+
+  /** 广告关闭的回调
+   * @supported weapp, swan, tt
+   */
+  onClose?: CommonEventFunction
+
+  /** 贴片类型广告播放期间触发
+   * @supported swan
+   */
+  onStatus?: CommonEventFunction
 
   /** type 为 feeds 时广告实际宽高回调
    * @supported qq
@@ -191,7 +191,6 @@ declare namespace AdProps {
      */
     1008
   }
-
   interface onSizeEventDetail {
     width: number
     height: number
