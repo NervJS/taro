@@ -33,7 +33,7 @@
 
 | Property      | Attribute      | Description | Type      | Default     |
 | ------------- | -------------- | ----------- | --------- | ----------- |
-| `autoFocus`   | `auto-focus`   |             | `boolean` | `false`     |
+| `autoFocus`   | `focus`        |             | `boolean` | `false`     |
 | `confirmType` | `confirm-type` |             | `string`  | `'done'`    |
 | `disabled`    | `disabled`     |             | `boolean` | `false`     |
 | `maxlength`   | `maxlength`    |             | `number`  | `140`       |
