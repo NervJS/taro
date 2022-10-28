@@ -47,6 +47,12 @@ interface PageContainerProps extends StandardProps {
    */
   customStyle?: string
 
+  /** 是否在下滑一段距离后关闭
+   * @supported weapp
+   * @default false
+   */
+  closeOnSlideDown?: string
+
   /** 进入前触发
    * @supported weapp, rn
    */
@@ -81,12 +87,6 @@ interface PageContainerProps extends StandardProps {
    * @supported weapp
    */
   onClickOverlay?: CommonEventFunction
-
-  /** 是否在下滑一段距离后关闭
-   * @supported weapp
-   * @default false
-   */
-  closeOnSlideDown?: string
 }
 declare namespace PageContainerProps {
   /** 弹出位置 */

@@ -7,11 +7,6 @@ interface CoverViewProps extends ViewProps {
    */
   scrollTop?: number
 
-  /** 点击事件回调。
-   * @supported alipay
-   */
-  onTap?: CommonEventFunction
-
   /** 设置与容器顶部的固定距离，效果相当于在 CSS 中设置 position: fixed 和 top 值，该属性优先级高于 fixed-bottom，CSS 设置的 position、top、bottom 值
    * @supported swan
    */
@@ -41,6 +36,11 @@ interface CoverViewProps extends ViewProps {
    * @supported qq
    */
   ariaLabel?: string
+
+  /** 点击事件回调。
+   * @supported alipay
+   */
+  onTap?: CommonEventFunction
 }
 
 /** 覆盖在原生组件之上的文本视图。可覆盖的原生组件包括 map、video、canvas、camera、live-player、live-pusher 只支持嵌套 cover-view、cover-image，可在 cover-view 中使用 button。
