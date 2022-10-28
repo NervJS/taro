@@ -46,6 +46,11 @@ interface AudioProps extends StandardProps {
    */
   author?: string
 
+  /** 用于透传 `WebComponents` 上的属性到内部 H5 标签上
+   * @supported h5
+   */
+  nativeProps?: Record<string, unknown>
+
   /** 当发生错误时触发 error 事件，detail = {errMsg: MediaError.code}
    * @supported weapp, swan, qq, h5
    */
@@ -70,11 +75,6 @@ interface AudioProps extends StandardProps {
    * @supported weapp, swan, qq, h5
    */
   onEnded?: CommonEventFunction
-
-  /** 用于透传 `WebComponents` 上的属性到内部 H5 标签上
-   * @supported h5
-   */
-  nativeProps?: Record<string, unknown>
 }
 declare namespace AudioProps {
   interface onErrorEventDetail {
