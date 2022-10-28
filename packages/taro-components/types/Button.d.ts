@@ -42,12 +42,6 @@ interface ButtonProps extends StandardProps {
    */
   openType?: ButtonProps.OpenType
 
-  /** 是否以 catch 的形式绑定 touchmove 事件
-   * @supported weapp, alipay, swan, tt, qq, jd
-   * @version 3.1.0+
-   */
-  catchMove?: boolean
-
   /** 指定按下去的样式类。当 `hover-class="none"` 时，没有点击态效果
    * @default button-hover
    * @supported weapp, alipay, swan, tt, qq, jd, h5, rn
