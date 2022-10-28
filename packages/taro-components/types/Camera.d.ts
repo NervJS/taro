@@ -125,7 +125,6 @@ declare namespace CameraProps {
     /** 最大变焦 */
     maxZoom: number
   }
-
   interface onScanCodeEventDetail {
     /** 字符集 */
     charSet: string
