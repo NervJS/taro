@@ -182,6 +182,7 @@ declare module './index' {
     [key: string]: {
       version: string
       provider: string
+      export?: string
     }
   }
 
@@ -283,7 +284,16 @@ declare module './index' {
      * - chooseAddress: 获取用户地址信息
      *  @see https://developers.weixin.qq.com/miniprogram/dev/reference/configuration/app.html#requiredPrivateInfos
      */
-    requiredPrivateInfos?: ('getFuzzyLocation' | 'getLocation' | 'onLocationChange' | 'startLocationUpdate' | 'startLocationUpdateBackground' | 'chooseLocation' | 'choosePoi' | 'chooseAddress')[] 
+    requiredPrivateInfos?: (
+      | 'getFuzzyLocation'
+      | 'getLocation'
+      | 'onLocationChange'
+      | 'startLocationUpdate'
+      | 'startLocationUpdateBackground'
+      | 'chooseLocation'
+      | 'choosePoi'
+      | 'chooseAddress'
+    )[]
     /** 使用到的插件
      * @since 1.9.6
      */
@@ -378,14 +388,16 @@ declare module './index' {
       enableFPSPanel?: boolean
     }
     /** touch 事件监听是否为 passive，默认false */
-    enablePassiveEvent?: boolean | {
-      /** 是否设置 touchstart 事件为 passive，默认false */
-      touchstart?: boolean
-      /** 是否设置 touchmove 事件为 passive，默认false */
-      touchmove?: boolean
-      /** 是否设置 wheel 事件为 passive，默认false */
-      wheel?: boolean
-    }
+    enablePassiveEvent?:
+      | boolean
+      | {
+          /** 是否设置 touchstart 事件为 passive，默认false */
+          touchstart?: boolean
+          /** 是否设置 touchmove 事件为 passive，默认false */
+          touchmove?: boolean
+          /** 是否设置 wheel 事件为 passive，默认false */
+          wheel?: boolean
+        }
     /** 自定义模块映射规则 */
     resolveAlias?: Record<string, string>
     /** 接受一个数组，每一项都是字符串，来指定编译为原生小程序组件的组件入口 */
@@ -422,4 +434,3 @@ declare module './index' {
     Config: Config
   }
 }
-

@@ -17,8 +17,8 @@ export default {
           'mp-comp': 'component/comp'
         }
       },
-      // 需要配置 copy，复制 my-export.js 到 miniprogram/miniprogram
-      export: 'my-export.js'
+      // 自动编译输出
+      export: 'plugin-export'
     }
   }
 }
