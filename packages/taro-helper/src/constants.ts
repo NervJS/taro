@@ -206,7 +206,7 @@ export const isWindows = os.platform() === 'win32'
 
 export const DEFAULT_TEMPLATE_SRC = 'github:NervJS/taro-project-templates#v3.6'
 export const DEFAULT_TEMPLATE_SRC_GITEE = 'direct:https://gitee.com/o2team/taro-project-templates.git#v3.6'
-export const TARO_CONFIG_FOLDER = '.taro3.5'
+export const TARO_CONFIG_FOLDER = '.taro3.6'
 export const TARO_BASE_CONFIG = 'index.json'
 
 export const OUTPUT_DIR = 'dist'
