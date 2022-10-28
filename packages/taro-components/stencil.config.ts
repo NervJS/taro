@@ -48,7 +48,7 @@ export const config: Config = {
     { components: ['taro-swiper-core', 'taro-swiper-item-core'] },
     { components: ['taro-video-core', 'taro-video-control', 'taro-video-danmu'] }
   ],
-  buildEs5: true,
+  buildEs5: 'prod',
   testing: {
     testRegex: '(/__tests__/.*|(\\.|/)(spec|test|tt))\\.[jt]sx?$',
     transform: {

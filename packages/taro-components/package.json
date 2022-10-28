@@ -25,7 +25,7 @@
     "build": "cross-env NODE_ENV=production run-s build:components build:library",
     "build:components": "stencil build --config stencil.config.ts",
     "build:library": "pnpm --filter @tarojs/components-library-react --filter @tarojs/components-library-vue2 --filter @tarojs/components-library-vue3 run build:ci",
-    "dev:components": "cross-env NODE_ENV=development pnpm run build:components --dev --watch",
+    "dev:components": "cross-env NODE_ENV=development pnpm run build:components --watch",
     "dev:library-react": "cross-env NODE_ENV=development pnpm --filter @tarojs/components-library-react run build:ci --watch",
     "dev:library-vue2": "cross-env NODE_ENV=development pnpm --filter @tarojs/components-library-vue2 run build:ci --watch",
     "dev:library-vue3": "cross-env NODE_ENV=development pnpm --filter @tarojs/components-library-vue3 run build:ci --watch",
