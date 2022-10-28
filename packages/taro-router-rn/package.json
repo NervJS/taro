@@ -45,7 +45,7 @@
     "@babel/preset-env": "^7.14.5",
     "@types/react-native": "^0.69.8",
     "react": "18.1.0",
-    "react-native": "^0.70.1"
+    "react-native": "^0.70.4"
   },
   "peerDependencies": {
     "@react-native-masked-view/masked-view": "~0.2.7",
