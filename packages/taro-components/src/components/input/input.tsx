@@ -132,7 +132,8 @@ export class Input implements ComponentInterface {
       // }
 
       this.value = value
-      this.onInput.emit({
+      // return 一个字符串，将替换输入框的内容。
+      return this.onInput.emit({
         value,
         cursor: value.length
       })
