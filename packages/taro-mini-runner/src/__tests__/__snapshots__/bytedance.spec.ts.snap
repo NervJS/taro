@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`bytedance should build bytedance app 1`] = `16`;
+exports[`bytedance should build bytedance app 1`] = `13`;
 
 exports[`bytedance should build bytedance app 2`] = `
 "
@@ -56,22 +56,22 @@ require(\\"./taro\\");
         function useRouter() {}
         function useTabItemTap() {}
         function useScope() {}
-        var needPromiseApis = new Set([ \\"checkFollowState\\", \\"exitMiniProgram\\", \\"followOfficialAccount\\", \\"getMenuButtonLayout\\", \\"hideInteractionBar\\", \\"pay\\", \\"navigateToVideoView\\", \\"showInteractionBar\\", \\"openEcGood\\", \\"openAwemeUserProfile\\" ]);
+        var needPromiseApis = new Set([ \\"checkFollowState\\", \\"exitMiniProgram\\", \\"followOfficialAccount\\", \\"getMenuButtonLayout\\", \\"getUserProfile\\", \\"hideInteractionBar\\", \\"navigateToVideoView\\", \\"openAwemeUserProfile\\", \\"openEcGood\\", \\"pay\\", \\"showInteractionBar\\" ]);
         function initNativeApi(taro) {
             processApis(taro, tt, {
                 needPromiseApis: needPromiseApis
             });
         }
-        var _true = \\"true\\";
-        var _false = \\"false\\";
+        var _true = \\"!0\\";
+        var _false = \\"!1\\";
         var _empty = \\"\\";
         var components = {
             Icon: {
                 size: \\"24\\"
             },
             Button: {
-                bindGetPhoneNumber: \\"\\",
-                \\"data-channel\\": \\"\\"
+                bindGetPhoneNumber: _empty,
+                \\"data-channel\\": _empty
             },
             Form: {
                 \\"report-submit-timeout\\": \\"0\\"
@@ -109,20 +109,20 @@ require(\\"./taro\\");
                 bindLeaveBackground: _empty
             },
             Ad: {
-                fixed: \\"\\",
+                fixed: _empty,
                 type: undefined(\\"banner\\"),
                 scale: \\"100\\"
             },
             Textarea: {
-                \\"disable-default-padding\\": \\"false\\",
+                \\"disable-default-padding\\": _false,
                 \\"confirm-type\\": undefined(\\"return\\"),
-                \\"confirm-hold\\": \\"false\\",
-                \\"show-confirm-bar\\": \\"true\\",
-                \\"adjust-position\\": \\"true\\",
-                \\"hold-keyboard\\": \\"false\\"
+                \\"confirm-hold\\": _false,
+                \\"show-confirm-bar\\": _true,
+                \\"adjust-position\\": _true,
+                \\"hold-keyboard\\": _false
             },
             Canvas: {
-                type: \\"\\"
+                type: _empty
             },
             Map: {
                 polygons: \\"[]\\",
@@ -130,26 +130,50 @@ require(\\"./taro\\");
                 skew: \\"0\\",
                 \\"max-scale\\": \\"19\\",
                 \\"min-scale\\": \\"3\\",
-                \\"enable-3D\\": \\"false\\",
-                \\"show-compass\\": \\"false\\",
-                \\"show-scale\\": \\"false\\",
-                \\"enable-overlooking\\": \\"false\\",
-                \\"enable-zoom\\": \\"true\\",
-                \\"enable-scroll\\": \\"true\\",
-                \\"enable-rotate\\": \\"false\\",
-                \\"enable-satellite\\": \\"false\\",
-                \\"enable-traffic\\": \\"false\\",
-                \\"enable-poi\\": \\"true\\",
-                \\"enable-building\\": \\"true\\",
-                bindLabelTap: \\"\\",
-                bindRegionChange: \\"\\",
-                bindAnchorPointTap: \\"\\"
+                \\"enable-3D\\": _false,
+                \\"show-compass\\": _false,
+                \\"show-scale\\": _false,
+                \\"enable-overlooking\\": _false,
+                \\"enable-zoom\\": _true,
+                \\"enable-scroll\\": _true,
+                \\"enable-rotate\\": _false,
+                \\"enable-satellite\\": _false,
+                \\"enable-traffic\\": _false,
+                \\"enable-poi\\": _true,
+                \\"enable-building\\": _true,
+                bindLabelTap: _empty,
+                bindRegionChange: _empty,
+                bindAnchorPointTap: _empty
             },
             RtcRoom: {
-                \\"user-id\\": \\"\\",
+                \\"user-id\\": _empty,
                 mode: \\"camera\\",
                 \\"device-position\\": \\"front\\",
-                bindError: \\"\\"
+                bindError: _empty
+            },
+            PayButton: {
+                mode: \\"1\\",
+                \\"goods-id\\": _empty,
+                \\"goods-type\\": _empty,
+                \\"order-status\\": \\"0\\",
+                \\"order-id\\": _empty,
+                \\"refund-id\\": _empty,
+                \\"refund-total-amount\\": _empty,
+                \\"biz-line\\": \\"1\\",
+                \\"marketing-ready\\": _false,
+                bindGetGoodsInfo: _empty,
+                bindPlaceOrder: _empty,
+                bindError: _empty,
+                bindApplyRefund: _empty,
+                bindRefund: _empty,
+                bindPay: _empty
+            },
+            ConsumeCard: {
+                \\"order-id\\": _empty,
+                bindConsume: _empty,
+                bindRefund: _empty,
+                bindApplyRefund: _empty,
+                bindError: _empty
             }
         };
         var hostConfig = {
@@ -296,15 +320,15 @@ require(\\"./taro\\");
   </cover-image>
 </template>
 
-<template name=\\"tmpl_0_42\\">
-  <template is=\\"{{i.focus ? 'tmpl_0_42_focus' : 'tmpl_0_42_blur'}}\\" data=\\"{{i:i}}\\" />
+<template name=\\"tmpl_0_43\\">
+  <template is=\\"{{i.focus ? 'tmpl_0_43_focus' : 'tmpl_0_43_blur'}}\\" data=\\"{{i:i}}\\" />
 </template>
 
-<template name=\\"tmpl_0_42_focus\\">
+<template name=\\"tmpl_0_43_focus\\">
   <textarea value=\\"{{i.p13}}\\" placeholder=\\"{{i.p8}}\\" placeholder-style=\\"{{i.p10}}\\" placeholder-class=\\"{{i.p9===undefined?'textarea-placeholder':i.p9}}\\" disabled=\\"{{i.p4}}\\" maxlength=\\"{{i.p6===undefined?140:i.p6}}\\" auto-focus=\\"{{i.p0===undefined?!1:i.p0}}\\" focus=\\"{{i.focus===undefined?!1:i.focus}}\\" auto-height=\\"{{i.p1===undefined?!1:i.p1}}\\" fixed=\\"{{i.p5===undefined?!1:i.p5}}\\" cursor-spacing=\\"{{i.p3===undefined?0:i.p3}}\\" cursor=\\"{{i.p2===undefined?-1:i.p2}}\\" selection-start=\\"{{i.p12===undefined?-1:i.p12}}\\" selection-end=\\"{{i.p11===undefined?-1:i.p11}}\\" bindfocus=\\"eh\\" bindblur=\\"eh\\" bindlinechange=\\"eh\\" bindinput=\\"eh\\" bindconfirm=\\"eh\\" name=\\"{{i.p7}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\"></textarea>
 </template>
 
-<template name=\\"tmpl_0_42_blur\\">
+<template name=\\"tmpl_0_43_blur\\">
   <textarea value=\\"{{i.p13}}\\" placeholder=\\"{{i.p8}}\\" placeholder-style=\\"{{i.p10}}\\" placeholder-class=\\"{{i.p9===undefined?'textarea-placeholder':i.p9}}\\" disabled=\\"{{i.p4}}\\" maxlength=\\"{{i.p6===undefined?140:i.p6}}\\" auto-focus=\\"{{i.p0===undefined?!1:i.p0}}\\" auto-height=\\"{{i.p1===undefined?!1:i.p1}}\\" fixed=\\"{{i.p5===undefined?!1:i.p5}}\\" cursor-spacing=\\"{{i.p3===undefined?0:i.p3}}\\" cursor=\\"{{i.p2===undefined?-1:i.p2}}\\" selection-start=\\"{{i.p12===undefined?-1:i.p12}}\\" selection-end=\\"{{i.p11===undefined?-1:i.p11}}\\" bindfocus=\\"eh\\" bindblur=\\"eh\\" bindlinechange=\\"eh\\" bindinput=\\"eh\\" bindconfirm=\\"eh\\" name=\\"{{i.p7}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\"></textarea>
 </template>
 
@@ -316,7 +340,7 @@ require(\\"./taro\\");
   </cover-view>
 </template>
 
-<template name=\\"tmpl_0_35\\">
+<template name=\\"tmpl_0_36\\">
   <scroll-view scroll-x=\\"{{i.p7===undefined?!1:i.p7}}\\" scroll-y=\\"{{i.p8===undefined?!1:i.p8}}\\" upper-threshold=\\"{{i.p9===undefined?50:i.p9}}\\" lower-threshold=\\"{{i.p2===undefined?50:i.p2}}\\" scroll-top=\\"{{i.p5}}\\" scroll-left=\\"{{i.p4}}\\" scroll-into-view=\\"{{i.p3}}\\" scroll-with-animation=\\"{{i.p6===undefined?!1:i.p6}}\\" enable-back-to-top=\\"{{i.p1===undefined?!1:i.p1}}\\" bindscrolltoupper=\\"eh\\" bindscrolltolower=\\"eh\\" bindscroll=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" animation=\\"{{i.p0}}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
     <block tt:for=\\"{{i.cn}}\\" tt:key=\\"sid\\">
       <template is=\\"tmpl_0_container\\" data=\\"{{i:item}}\\" />
@@ -324,7 +348,7 @@ require(\\"./taro\\");
   </scroll-view>
 </template>
 
-<template name=\\"tmpl_0_39\\">
+<template name=\\"tmpl_0_40\\">
   <swiper indicator-dots=\\"{{i.p7===undefined?!1:i.p7}}\\" indicator-color=\\"{{i.p6===undefined?'rgba(0, 0, 0, .3)':i.p6}}\\" indicator-active-color=\\"{{i.p5===undefined?'#000000':i.p5}}\\" autoplay=\\"{{i.p0===undefined?!1:i.p0}}\\" current=\\"{{i.p2===undefined?0:i.p2}}\\" interval=\\"{{i.p8===undefined?5000:i.p8}}\\" duration=\\"{{i.p4===undefined?500:i.p4}}\\" circular=\\"{{i.p1===undefined?!1:i.p1}}\\" vertical=\\"{{i.p11===undefined?!1:i.p11}}\\" previous-margin=\\"{{i.p10===undefined?'0px':i.p10}}\\" next-margin=\\"{{i.p9===undefined?'0px':i.p9}}\\" display-multiple-items=\\"{{i.p3===undefined?1:i.p3}}\\" bindchange=\\"eh\\" bindtransition=\\"eh\\" bindanimationfinish=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongpress=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
     <block tt:for=\\"{{i.cn}}\\" tt:key=\\"sid\\">
       <template is=\\"tmpl_0_container\\" data=\\"{{i:item}}\\" />
@@ -332,7 +356,7 @@ require(\\"./taro\\");
   </swiper>
 </template>
 
-<template name=\\"tmpl_0_40\\">
+<template name=\\"tmpl_0_41\\">
   <swiper-item item-id=\\"{{i.p0}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
     <block tt:for=\\"{{i.cn}}\\" tt:key=\\"sid\\">
       <template is=\\"tmpl_0_container\\" data=\\"{{i:item}}\\" />
@@ -356,7 +380,7 @@ require(\\"./taro\\");
   </image>
 </template>
 
-<template name=\\"tmpl_0_43\\">
+<template name=\\"tmpl_0_44\\">
   <video src=\\"{{i.p20}}\\" duration=\\"{{i.p6}}\\" controls=\\"{{i.p2===undefined?!0:i.p2}}\\" danmu-list=\\"{{i.p4}}\\" danmu-btn=\\"{{i.p3}}\\" enable-danmu=\\"{{i.p7}}\\" autoplay=\\"{{i.p1===undefined?!1:i.p1}}\\" loop=\\"{{i.p10===undefined?!1:i.p10}}\\" muted=\\"{{i.p11===undefined?!1:i.p11}}\\" initial-time=\\"{{i.p9===undefined?0:i.p9}}\\" page-gesture=\\"{{i.p13===undefined?!1:i.p13}}\\" direction=\\"{{i.p5}}\\" show-progress=\\"{{i.p19===undefined?!0:i.p19}}\\" show-fullscreen-btn=\\"{{i.p16===undefined?!0:i.p16}}\\" show-play-btn=\\"{{i.p18===undefined?!0:i.p18}}\\" show-center-play-btn=\\"{{i.p15===undefined?!0:i.p15}}\\" enable-progress-gesture=\\"{{i.p8===undefined?!0:i.p8}}\\" object-fit=\\"{{i.p12===undefined?'contain':i.p12}}\\" poster=\\"{{i.p14}}\\" show-mute-btn=\\"{{i.p17===undefined?!1:i.p17}}\\" bindplay=\\"eh\\" bindpause=\\"eh\\" bindended=\\"eh\\" bindtimeupdate=\\"eh\\" bindfullscreenchange=\\"eh\\" bindwaiting=\\"eh\\" binderror=\\"eh\\" animation=\\"{{i.p0}}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
     <block tt:for=\\"{{i.cn}}\\" tt:key=\\"sid\\">
       <template is=\\"tmpl_0_container\\" data=\\"{{i:item}}\\" />
@@ -387,25 +411,6 @@ require(\\"./taro\\");
     __webpack_require__.r(__webpack_exports__);
     __webpack_exports__[\\"default\\"] = \\"react-mock\\";
 } ] ]);
-
-/** filePath: dist/custom-wrapper.js **/
-(tt[\\"webpackJsonp\\"] = tt[\\"webpackJsonp\\"] || []).push([ [ 6 ], {
-    12: function(module, __webpack_exports__, __webpack_require__) {
-        \\"use strict\\";
-        __webpack_require__.r(__webpack_exports__);
-        var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(2);
-        Component(Object(_tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__[\\"createRecursiveComponentConfig\\"])(\\"custom-wrapper\\"));
-    }
-}, [ [ 12, 0, 1 ] ] ]);
-
-/** filePath: dist/custom-wrapper.json **/
-{\\"component\\":true,\\"usingComponents\\":{\\"custom-wrapper\\":\\"./custom-wrapper\\"}}
-
-/** filePath: dist/custom-wrapper.ttml **/
-<import src=\\"./base.ttml\\" />
-  <block tt:for=\\"{{i.cn}}\\" tt:key=\\"sid\\">
-    <template is=\\"tmpl_0_container\\" data=\\"{{i:item}}\\" />
-  </block>
 
 /** filePath: dist/pages/index/index.js **/
 /*! For license information please see index.js.LICENSE.txt */
@@ -827,7 +832,7 @@ require(\\"./taro\\");
 
 
 /** filePath: dist/pages/index/index.json **/
-{\\"navigationBarTitleText\\":\\"首页\\",\\"usingComponents\\":{\\"custom-wrapper\\":\\"../../custom-wrapper\\"}}
+{\\"navigationBarTitleText\\":\\"首页\\",\\"usingComponents\\":{}}
 
 /** filePath: dist/pages/index/index.ttml **/
 <import src=\\"../../base.ttml\\"/>

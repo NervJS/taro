@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/rn-supporter",
-  "version": "3.5.5",
+  "version": "3.5.7",
   "description": "Taro rn supporter",
   "main": "dist/index.js",
   "scripts": {
@@ -37,5 +37,13 @@
     "metro-react-native-babel-transformer": "^0.70.3",
     "metro-resolver": "^0.70.3",
     "react-native-svg-transformer": "^0.14.3"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.14.5",
+    "@babel/preset-env": "^7.14.5",
+    "react": "18.0.0",
+    "react-native": "^0.69.3",
+    "react-native-svg": "~12.4.3",
+    "react-test-renderer": "18.0.0"
   }
 }

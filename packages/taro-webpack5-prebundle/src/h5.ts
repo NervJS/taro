@@ -59,7 +59,6 @@ export class H5Prebundle extends BasePrebundle<IH5PrebundleConfig> {
 
     const customWebpackConfig = this.option.webpack
     const exposes: Record<string, string> = {}
-    const mode = process.env.NODE_ENV === 'production' ? 'production' : 'development'
     const devtool = this.config.enableSourceMap && 'hidden-source-map'
     const mainBuildOutput = this.chain.output.entries()
     const output: Exclude<Configuration['output'], undefined> = {
@@ -71,7 +70,7 @@ export class H5Prebundle extends BasePrebundle<IH5PrebundleConfig> {
 
     this.metadata.mfHash = getMfHash({
       bundleHash: this.metadata.bundleHash,
-      mode,
+      mode: this.mode,
       devtool,
       output
     })
@@ -98,7 +97,7 @@ export class H5Prebundle extends BasePrebundle<IH5PrebundleConfig> {
         },
         devtool,
         entry: path.resolve(__dirname, './webpack/index.js'),
-        mode,
+        mode: this.mode,
         module: {
           // TODO 同步普通打包文件配置
           rules: [
@@ -150,7 +149,7 @@ export class H5Prebundle extends BasePrebundle<IH5PrebundleConfig> {
       this.metadata.remoteAssets = this.preMetadata.remoteAssets
     }
 
-    if (process.env.NODE_ENV === 'production' || this.config.devServer?.devMiddleware?.writeToDisk) {
+    if (this.mode === 'production' || this.config.devServer?.devMiddleware?.writeToDisk) {
       fs.copy(this.remoteCacheDir, mainBuildOutput.path)
     }
 
@@ -199,7 +198,7 @@ export class H5Prebundle extends BasePrebundle<IH5PrebundleConfig> {
     })
 
     // Proxy
-    if (process.env.NODE_ENV !== 'production' || this.config.devServer) {
+    if (this.mode !== 'production' || this.config.devServer) {
       this.chain.devServer.merge({
         static: [{
           directory: this.remoteCacheDir,

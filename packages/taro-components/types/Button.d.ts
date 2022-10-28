@@ -132,83 +132,10 @@ interface ButtonProps extends StandardProps {
    */
   showMessageCard?: boolean
 
-  /** 用户点击该按钮时，会返回获取到的用户信息，回调的detail数据与 Taro.getUserInfo 返回的一致
-   *
-   * 生效时机: `open-type="getUserInfo"`
-   * @supported weapp, swan, qq, jd
-   */
-  onGetUserInfo?: CommonEventFunction<ButtonProps.onGetUserInfoEventDetail>
-
-  /** 支付宝获取会员基础信息授权回调
-   *
-   * 生效时机：`open-type="getAuthorize"`
-   * @supported alipay
-   */
-  onGetAuthorize?: CommonEventFunction
-
-  /** 客服消息回调
-   *
-   * 生效时机：`open-type="contact"`
-   * @supported weapp, swan, qq
-   */
-  onContact?: CommonEventFunction<ButtonProps.onContactEventDetail>
-
-  /** 获取用户手机号回调
-   *
-   * 生效时机：`open-type="getphonenumber"`
-   * @supported weapp, swan, tt, jd
-   */
-  onGetPhoneNumber?: CommonEventFunction<ButtonProps.onGetPhoneNumberEventDetail>
-
-  /** 当使用开放能力时，发生错误的回调
-   *
-   * 生效时机：`open-type="launchApp"`
-   * @supported weapp, alipay, qq, jd
-   */
-  onError?: CommonEventFunction
-
-  /** 在打开授权设置页后回调
-   *
-   * 生效时机：`open-type="openSetting"`
-   * @supported weapp, swan, qq, jd
-   */
-  onOpenSetting?: CommonEventFunction<ButtonProps.onOpenSettingEventDetail>
-
-  /** 打开 APP 成功的回调
-   *
-   * 生效时机：`open-type="launchApp"`
-   * @supported weapp, qq
-   */
-  onLaunchApp?: CommonEventFunction
-
-  /** 获取用户头像回调
-   *
-   * 生效时机：`open-type="chooseAvatar"`
-   * @supported weapp
-   */
-  onChooseAvatar?: CommonEventFunction
-
-  /** 点击。
-   * 说明： 每点击一次会触发一次事件，建议自行使用代码防止重复点击,可以使用 js 防抖和节流实现。
-   * @supported alipay
-   */
-  onTap?: CommonEventFunction
-
   /** 生活号 id，必须是当前小程序同主体且已关联的生活号，open-type="lifestyle" 时有效。
    * @supported alipay, qq
    */
   publicId?: string
-
-  /** 当 open-type 为 lifestyle 时有效。
-   * 当点击按钮时触发。
-   * event.detail = { followStatus }，followStatus 合法值有 1、2、3，其中 1 表示已关注。2 表示用户不允许关注。3 表示发生未知错误；
-   * 已知问题：基础库 1.0，当用户在点击按钮前已关注生活号，event.detail.followStatus 的值为 true。
-   * 版本要求：基础库 1.11.0 及以上
-   * @supported alipay
-   */
-  onFollowLifestyle?: CommonEventFunction<{
-    followStatus: 1 | 2 | 3 | true
-  }>
 
   /** 发送订阅类模板消息所用的模板库标题 ID ，可通过 getTemplateLibraryList 获取
    * 当参数类型为 Array 时，可传递 1~3 个模板库标题 ID
@@ -221,26 +148,6 @@ interface ButtonProps extends StandardProps {
    * @supported swan
    */
   subscribeId?: string
-
-  /** 用户点击该按钮时，调起用户编辑收货地址原生界面，并在编辑完成后返回用户选择的地址，从返回参数的 detail 中获取，和 swan.chooseAddress 一样的。和 open-type 搭配使用，使用时机：open-type="chooseAddress"
-   * @supported swan
-   */
-  onChooseAddress?: CommonEventFunction
-
-  /** 用户点击该按钮时，选择用户的发票抬头，和 swan.chooseInvoiceTitle 一样的。和 open-type 搭配使用，使用时机：open-type="chooseInvoiceTitle"
-   * @supported swan
-   */
-  onChooseInvoiceTitle?: CommonEventFunction
-
-  /** 登录回调，和 open-type 搭配使用，使用时机：open-type="login"。可以通过返回参数的 detail 判断是否登录成功，当 errMsg 为'login:ok'时即为成功。如想获取登录凭证请使用 swan.getLoginCode
-   * @supported swan
-   */
-  onLogin?: CommonEventFunction
-
-  /** 订阅消息授权回调，和 open-type 搭配使用，使用时机：open-type="subscribe"
-   * @supported swan
-   */
-  onSubscribe?: CommonEventFunction
 
   /** 打开群资料卡时，传递的群号
    * @supported qq
@@ -289,6 +196,98 @@ interface ButtonProps extends StandardProps {
    */
   shareMessageImg?: string
 
+  /** 用户点击该按钮时，会返回获取到的用户信息，回调的detail数据与 Taro.getUserInfo 返回的一致
+   *
+   * 生效时机: `open-type="getUserInfo"`
+   * @supported weapp, alipay, swan, qq, jd
+   */
+  onGetUserInfo?: CommonEventFunction<ButtonProps.onGetUserInfoEventDetail>
+
+  /** 支付宝获取会员基础信息授权回调
+   *
+   * 生效时机：`open-type="getAuthorize"`
+   * @supported alipay
+   */
+  onGetAuthorize?: CommonEventFunction
+
+  /** 客服消息回调
+   *
+   * 生效时机：`open-type="contact"`
+   * @supported weapp, swan, qq
+   */
+  onContact?: CommonEventFunction<ButtonProps.onContactEventDetail>
+
+  /** 获取用户手机号回调
+   *
+   * 生效时机：`open-type="getphonenumber"`
+   * @supported weapp, alipay, swan, tt, jd
+   */
+  onGetPhoneNumber?: CommonEventFunction<ButtonProps.onGetPhoneNumberEventDetail>
+
+  /** 当使用开放能力时，发生错误的回调
+   *
+   * 生效时机：`open-type="launchApp"`
+   * @supported weapp, alipay, qq, jd
+   */
+  onError?: CommonEventFunction
+
+  /** 在打开授权设置页后回调
+   *
+   * 生效时机：`open-type="openSetting"`
+   * @supported weapp, swan, qq, jd
+   */
+  onOpenSetting?: CommonEventFunction<ButtonProps.onOpenSettingEventDetail>
+
+  /** 打开 APP 成功的回调
+   *
+   * 生效时机：`open-type="launchApp"`
+   * @supported weapp, qq
+   */
+  onLaunchApp?: CommonEventFunction
+
+  /** 获取用户头像回调
+   *
+   * 生效时机：`open-type="chooseAvatar"`
+   * @supported weapp
+   */
+  onChooseAvatar?: CommonEventFunction
+
+  /** 点击。
+   * 说明： 每点击一次会触发一次事件，建议自行使用代码防止重复点击,可以使用 js 防抖和节流实现。
+   * @supported alipay
+   */
+  onTap?: CommonEventFunction
+
+  /** 当 open-type 为 lifestyle 时有效。
+   * 当点击按钮时触发。
+   * event.detail = { followStatus }，followStatus 合法值有 1、2、3，其中 1 表示已关注。2 表示用户不允许关注。3 表示发生未知错误；
+   * 已知问题：基础库 1.0，当用户在点击按钮前已关注生活号，event.detail.followStatus 的值为 true。
+   * @supported alipay
+   */
+  onFollowLifestyle?: CommonEventFunction<{
+    followStatus: 1 | 2 | 3 | true
+  }>
+
+  /** 用户点击该按钮时，调起用户编辑收货地址原生界面，并在编辑完成后返回用户选择的地址，从返回参数的 detail 中获取，和 swan.chooseAddress 一样的。和 open-type 搭配使用，使用时机：open-type="chooseAddress"
+   * @supported swan
+   */
+  onChooseAddress?: CommonEventFunction
+
+  /** 用户点击该按钮时，选择用户的发票抬头，和 swan.chooseInvoiceTitle 一样的。和 open-type 搭配使用，使用时机：open-type="chooseInvoiceTitle"
+   * @supported swan
+   */
+  onChooseInvoiceTitle?: CommonEventFunction
+
+  /** 登录回调，和 open-type 搭配使用，使用时机：open-type="login"。可以通过返回参数的 detail 判断是否登录成功，当 errMsg 为'login:ok'时即为成功。如想获取登录凭证请使用 swan.getLoginCode
+   * @supported swan
+   */
+  onLogin?: CommonEventFunction
+
+  /** 订阅消息授权回调，和 open-type 搭配使用，使用时机：open-type="subscribe"
+   * @supported swan
+   */
+  onSubscribe?: CommonEventFunction
+
   /** 添加好友的回调
    * @supported qq
    */
@@ -331,10 +330,7 @@ declare namespace ButtonProps {
   }
 
   /** open-type 的合法值 */
-  type OpenType =
-    | keyof openTypeKeys['weapp']
-    | keyof openTypeKeys['alipay']
-    | keyof openTypeKeys['qq']
+  type OpenType = keyof openTypeKeys['weapp'] | keyof openTypeKeys['alipay'] | keyof openTypeKeys['qq']
 
   /** open-type 的合法值 */
   interface openTypeKeys {

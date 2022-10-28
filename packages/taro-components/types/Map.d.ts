@@ -155,6 +155,65 @@ interface MapProps extends StandardProps {
         [key: string]: number | string | any
       }
 
+  /** 视野在地图 padding 范围内展示
+   * @supported alipay
+   */
+  includePadding?: { [key in 'left' | 'right' | 'top' | 'bottom']: number | string }
+
+  /** 覆盖物，自定义贴图
+   * @supported alipay
+   */
+  groundOverlays?: any[]
+
+  /** 覆盖物，网格贴图
+   * @supported alipay
+   */
+  tileOverlay?: any[]
+
+  /** 是否展示 POI 点
+   * @supported weapp, alipay, tt
+   */
+  enablePoi?: string
+
+  /** 是否展示建筑物
+   * @supported weapp, alipay, tt
+   */
+  enableBuilding?: string
+
+  /** 覆盖物，多边形。
+   * @supported alipay
+   */
+  polygon?: string
+
+  /** 设置地图样式。
+   *
+   * default：默认样式
+   * light：精简样式
+   * @supported alipay
+   */
+  customMapStyle?: string
+
+  /** 基于 map 高级定制渲染，设置覆盖在地图上的 view。
+   * @supported alipay
+   */
+  panels?: string
+
+  /** 否
+   * @supported jd
+   */
+  theme?: string
+
+  /** 内联样式。
+   * @supported alipay
+   */
+  optimize?: string
+
+  /** 展示3D楼块
+   * @supported weapp, swan, tt, qq
+   * @default false
+   */
+  enable3D?: string
+
   /** 点击地图时触发
    * @supported weapp, alipay, swan, tt, qq, jd
    */
@@ -188,41 +247,12 @@ interface MapProps extends StandardProps {
   /** 视野发生变化时触发
    * @supported weapp, alipay, swan, tt, qq, jd
    */
-  onRegionChange?: CommonEventFunction<
-    MapProps.onRegionEventDetail<'begin'> | MapProps.onRegionEventDetail<'end'>
-  >
+  onRegionChange?: CommonEventFunction<MapProps.onRegionEventDetail<'begin'> | MapProps.onRegionEventDetail<'end'>>
 
   /** 点击地图poi点时触发，e.detail = {name, longitude, latitude}
    * @supported weapp, swan, qq
    */
   onPoiTap?: CommonEventFunction<MapProps.onPoiTapEventDetail>
-
-  /** 视野在地图 padding 范围内展示
-   * @supported alipay
-   */
-  includePadding?: {
-    [key in 'left' | 'right' | 'top' | 'bottom']: number | string
-  }
-
-  /** 覆盖物，自定义贴图
-   * @supported alipay
-   */
-  groundOverlays?: any[]
-
-  /** 覆盖物，网格贴图
-   * @supported alipay
-   */
-  tileOverlay?: any[]
-
-  /** 是否展示 POI 点
-   * @supported weapp, alipay, tt
-   */
-  enablePoi?: string
-
-  /** 是否展示建筑物
-   * @supported weapp, alipay, tt
-   */
-  enableBuilding?: string
 
   /** 点击标记点对应的气泡时触发e.detail = {markerId}
    * @supported weapp, swan, tt, jd
@@ -234,77 +264,18 @@ interface MapProps extends StandardProps {
    */
   onAnchorPointTap?: CommonEventFunction
 
-  /** 内联样式。
-   * @supported alipay
-   */
-  style?: string
-
-  /** 样式名。
-   * @supported alipay
-   */
-  class?: string
-
-  /** 覆盖物，多边形。
-   *
-   * 版本要求：基础库 1.10.0 及以上
-   * @supported alipay
-   */
-  polygon?: string
-
-  /** 设置地图样式。
-   *
-   * default：默认样式
-   * light：精简样式
-   *
-   * 版本要求：基础库 1.20.0 及以上
-   * @supported alipay
-   */
-  customMapStyle?: string
-
-  /** 基于 map 高级定制渲染，设置覆盖在地图上的 view。
-   *
-   * 版本要求：基础库 1.23.0 及以上
-   * @supported alipay
-   */
-  panels?: string
-
   /** 点击 panel 时触发。
-   *
-   * {
-   *
-   *    panelId,
-   *
-   *    layoutId,
-   *
-   * }
-   *
-   * 版本要求：基础库 1.23.0 及以上
    * @supported alipay
    */
-  onPanelTap?: CommonEventFunction
+  onPanelTap?: CommonEventFunction<{
+    panelId
+    layoutId
+  }>
 
   /** 地图初始化完成即将开始渲染第一帧时触发。
-   *
-   * 版本要求：基础库 2.7.2 及以上
    * @supported alipay
    */
   onInitComplete?: CommonEventFunction
-
-  /** 否
-   * @supported jd
-   */
-  theme?: string
-
-  /** 内联样式。
-   * @supported alipay
-   */
-  optimize?: string
-
-  /** 展示3D楼块
-   * @supported weapp, swan, tt, qq
-   * @default false
-   */
-  enable3D?: string
 }
 declare namespace MapProps {
   /** 标记点用于在地图上显示标记的位置 */
@@ -661,9 +632,7 @@ declare namespace MapProps {
     /** 导致视野变化的原因
      * @remarks 有效值为 gesture（手势触发）、update（接口触发或调用更新接口导致）、drag（拖动导致）、scale（缩放导致）
      */
-    causedBy: keyof (T extends 'begin'
-      ? RegionChangeDetail.CausedByBegin
-      : RegionChangeDetail.CausedByEnd)
+    causedBy: keyof (T extends 'begin' ? RegionChangeDetail.CausedByBegin : RegionChangeDetail.CausedByEnd)
 
     /** 视野改变详情 */
     detail: regionChangeDetail<RegionChangeDetail.type>
@@ -674,9 +643,7 @@ declare namespace MapProps {
 
     /** 倾斜角度 */
     skew: number
-    causedBy: keyof (T extends 'begin'
-      ? RegionChangeDetail.CausedByBegin
-      : RegionChangeDetail.CausedByEnd)
+    causedBy: keyof (T extends 'begin' ? RegionChangeDetail.CausedByBegin : RegionChangeDetail.CausedByEnd)
     type: T | string
     scale: number
     centerLocation: point

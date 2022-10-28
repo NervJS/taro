@@ -106,6 +106,41 @@ interface TextareaProps extends StandardProps, FormItemProps {
    */
   disableDefaultPadding?: boolean
 
+  /** 用于透传 `WebComponents` 上的属性到内部 H5 标签上
+   * @supported h5
+   */
+  nativeProps?: Record<string, unknown>
+
+  /** 设置键盘右下角按钮的文字
+   * @supported weapp, alipay, swan, tt
+   */
+  confirmType?: 'send' | 'search' | 'next' | 'go' | 'done' | 'return'
+
+  /** 点击键盘右下角按钮时是否保持键盘不收起
+   * @supported weapp, swan, tt
+   */
+  confirmHold?: string
+
+  /** 组件名字，用于表单提交获取数据。
+   * @supported alipay
+   */
+  name?: string
+
+  /** 是否渲染字数统计功能（是否删除默认计数器/是否显示字数统计）。
+   * @supported alipay
+   */
+  showCount?: string
+
+  /** 是否为受控组件。为 true 时，value 内容会完全受 setData 控制。
+   * @supported alipay
+   */
+  controlled?: string
+
+  /** 无障碍访问，（属性）元素的额外描述
+   * @supported qq
+   */
+  ariaLabel?: string
+
   /** 输入框聚焦时触发
    * @supported weapp, alipay, swan, tt, qq, h5, rn
    */
@@ -137,43 +172,6 @@ interface TextareaProps extends StandardProps, FormItemProps {
    * @supported weapp
    */
   onKeyboardHeightChange?: CommonEventFunction<TextareaProps.onKeyboardHeightChangeEventDetail>
-
-  /** 用于透传 `WebComponents` 上的属性到内部 H5 标签上
-   * @supported h5
-   */
-  nativeProps?: Record<string, unknown>
-
-  /** 设置键盘右下角按钮的文字
-   * @supported weapp, alipay, swan, tt
-   */
-  confirmType?: 'send' | 'search' | 'next' | 'go' | 'done' | 'return'
-
-  /** 点击键盘右下角按钮时是否保持键盘不收起
-   * @supported weapp, swan, tt
-   */
-  confirmHold?: string
-
-  /** 组件名字，用于表单提交获取数据。
-   * @supported alipay
-   */
-  name?: string
-
-  /** 是否渲染字数统计功能（是否删除默认计数器/是否显示字数统计）。
-   * 版本要求： 基础库 1.8.0 及以上
-   * @supported alipay
-   */
-  showCount?: string
-
-  /** 是否为受控组件。为 true 时，value 内容会完全受 setData 控制。
-   * 版本要求： 基础库 1.8.0 及以上
-   * @supported alipay
-   */
-  controlled?: string
-
-  /** 无障碍访问，（属性）元素的额外描述
-   * @supported qq
-   */
-  ariaLabel?: string
 }
 declare namespace TextareaProps {
   interface onFocusEventDetail {

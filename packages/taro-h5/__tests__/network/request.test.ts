@@ -98,7 +98,7 @@ describe('request', () => {
 
     fetch.mockReject(new Error('fake error message'))
 
-    expect.assertions(4)
+    expect.assertions(5)
     return Taro.request({
       url: 'https://github.com',
       success,
@@ -107,8 +107,36 @@ describe('request', () => {
     })
       .catch(err => {
         expect(err.message).toBe('fake error message')
+        expect(err.errMsg).toBe('fake error message')
         expect(success.mock.calls.length).toBe(0)
         expect(fail.mock.calls.length).toBe(1)
+        expect(complete.mock.calls.length).toBe(1)
+      })
+  })
+
+  test('should no error by status 400', () => {
+    const success = jest.fn()
+    const fail = jest.fn()
+    const complete = jest.fn()
+
+    fetch.mockResponse(null, {
+      counter: 1,
+      status: 400,
+      statusText: 'missing parameter',
+    })
+
+    expect.assertions(5)
+    return Taro.request({
+      url: 'https://github.com',
+      success,
+      fail,
+      complete
+    })
+      .then(res => {
+        expect(res.statusCode).toBe(400)
+        expect(res.data).toBe(null)
+        expect(success.mock.calls.length).toBe(1)
+        expect(fail.mock.calls.length).toBe(0)
         expect(complete.mock.calls.length).toBe(1)
       })
   })

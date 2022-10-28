@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/router-rn",
-  "version": "3.5.5",
+  "version": "3.5.7",
   "description": "Taro-router-rn",
   "main": "dist/index.js",
   "typings": "src/index.ts",
@@ -27,12 +27,6 @@
   ],
   "author": "yechunxi",
   "license": "MIT",
-  "peerDependencies": {
-    "@react-native-masked-view/masked-view": "~0.2.7",
-    "react-native-gesture-handler": "~2.5.0",
-    "react-native-safe-area-context": "~4.3.1",
-    "react-native-screens": "^3.15.0"
-  },
   "dependencies": {
     "@react-native-masked-view/masked-view": "~0.2.7",
     "@react-navigation/bottom-tabs": "^6.2.0",
@@ -47,6 +41,16 @@
     "react-native-screens": "^3.15.0"
   },
   "devDependencies": {
-    "@types/react-native": "^0.69.5"
+    "@babel/core": "^7.14.5",
+    "@babel/preset-env": "^7.14.5",
+    "@types/react-native": "^0.69.5",
+    "react": "18.0.0",
+    "react-native": "^0.69.3"
+  },
+  "peerDependencies": {
+    "@react-native-masked-view/masked-view": "~0.2.7",
+    "react-native-gesture-handler": "~2.5.0",
+    "react-native-safe-area-context": "~4.3.1",
+    "react-native-screens": "^3.15.0"
   }
 }

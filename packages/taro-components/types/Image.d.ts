@@ -37,16 +37,6 @@ interface ImageProps extends StandardProps {
    */
   showMenuByLongpress?: boolean
 
-  /** 当错误发生时，发布到 AppService 的事件名，事件对象
-   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn
-   */
-  onError?: CommonEventFunction<ImageProps.onErrorEventDetail>
-
-  /** 当图片载入完毕时，发布到 AppService 的事件名，事件对象
-   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn
-   */
-  onLoad?: CommonEventFunction<ImageProps.onLoadEventDetail>
-
   /**
    * 为 img 标签额外增加的属性
    * @supported h5
@@ -58,31 +48,10 @@ interface ImageProps extends StandardProps {
    */
   nativeProps?: Record<string, unknown>
 
-  /** 外部样式。
-   * @supported alipay
-   */
-  class?: string
-
-  /** 内联样式。
-   * @supported alipay
-   */
-  style?: string
-
   /** 默认图片地址，若设置默认图片地址，会先显示默认图片，等 src 对应的图片加载成功后，再渲染对应的图片。
-   * 版本要求： 基础库 1.19.0 及以上
    * @supported alipay
    */
   defaultSource?: string
-
-  /** 点击图片时触发。
-   * @supported alipay
-   */
-  onTap?: CommonEventFunction
-
-  /** 点击图片时触发，阻止事件冒泡。
-   * @supported alipay
-   */
-  catchTap?: CommonEventFunction
 
   /** 阻止长按图片时弹起默认菜单（即将该属性设置为image-menu-prevent="true"或image-menu-prevent），只在初始化时有效，不能动态变更；若不想阻止弹起默认菜单，则不需要设置此属性。注：长按菜单后的操作暂不支持 svg 格式
    * @supported swan
@@ -103,6 +72,26 @@ interface ImageProps extends StandardProps {
    * @supported qq
    */
   ariaLabel?: string
+
+  /** 当错误发生时，发布到 AppService 的事件名，事件对象
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn
+   */
+  onError?: CommonEventFunction<ImageProps.onErrorEventDetail>
+
+  /** 当图片载入完毕时，发布到 AppService 的事件名，事件对象
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn
+   */
+  onLoad?: CommonEventFunction<ImageProps.onLoadEventDetail>
+
+  /** 点击图片时触发。
+   * @supported alipay
+   */
+  onTap?: CommonEventFunction
+
+  /** 点击图片时触发，阻止事件冒泡。
+   * @supported alipay
+   */
+  catchTap?: CommonEventFunction
 }
 declare namespace ImageProps {
   /** mode 的合法值 */

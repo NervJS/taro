@@ -32,21 +32,6 @@ interface PickerViewProps extends StandardProps {
    */
   immediateChange?: boolean
 
-  /** 当滚动选择，value 改变时触发 change 事件，event.detail = {value: value}；value为数组，表示 picker-view 内的 picker-view-column 当前选择的是第几项（下标从 0 开始）
-   * @supported weapp, alipay, swan, tt, qq, jd, rn
-   */
-  onChange?: CommonEventFunction<PickerViewProps.onChangeEventDetail>
-
-  /** 当滚动选择开始时候触发事件
-   * @supported weapp, tt, qq
-   */
-  onPickStart?: CommonEventFunction
-
-  /** 当滚动选择结束时候触发事件
-   * @supported weapp, tt, qq
-   */
-  onPickEnd?: CommonEventFunction
-
   /** 选择器标题，建议标题控制在 12 个中文汉字长度内，避免出现截断现象, 截断部分将以 ... 形式展示
    * @supported swan
    */
@@ -57,17 +42,20 @@ interface PickerViewProps extends StandardProps {
    */
   ariaLabel?: string
 
-  /** 当滚动选择开始时候触发事件。
-   * 版本要求： 基础库 2.7.23 及以上
-   * @supported alipay
+  /** 当滚动选择，value 改变时触发 change 事件，event.detail = {value: value}；value为数组，表示 picker-view 内的 picker-view-column 当前选择的是第几项（下标从 0 开始）
+   * @supported weapp, alipay, swan, tt, qq, jd, rn
    */
-  onPickerStart?: CommonEventFunction
+  onChange?: CommonEventFunction<PickerViewProps.onChangeEventDetail>
 
-  /** 当滚动选择结束时候触发事件。
-   * 版本要求： 基础库 2.7.23 及以上
-   * @supported alipay
+  /** 当滚动选择开始时候触发事件
+   * @supported weapp, alipay, tt, qq
    */
-  onPickerEnd?: CommonEventFunction
+  onPickStart?: CommonEventFunction
+
+  /** 当滚动选择结束时候触发事件
+   * @supported weapp, alipay, tt, qq
+   */
+  onPickEnd?: CommonEventFunction
 }
 declare namespace PickerViewProps {
   interface onChangeEventDetail {

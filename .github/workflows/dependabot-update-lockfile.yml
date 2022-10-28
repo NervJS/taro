@@ -27,6 +27,7 @@ jobs:
           version: 7
           run_install: |
             - recursive: true
+              args: [--no-frozen-lockfile]
       - run: |
           git add pnpm-lock.yaml
           git commit -m "build(deps-dev): update pnpm-lock.yaml"

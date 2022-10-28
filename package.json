@@ -1,6 +1,6 @@
 {
   "name": "taro",
-  "version": "3.5.5",
+  "version": "3.5.7",
   "description": "开放式跨端跨框架开发解决方案",
   "homepage": "https://github.com/NervJS/taro#readme",
   "author": "O2Team",
@@ -90,7 +90,6 @@
     "@tarojs/webpack5-runner": "workspace:*",
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/jest-native": "^4.0.4",
-    "@testing-library/react-native": "^11.0.0",
     "@types/autoprefixer": "9.7.0",
     "@types/babel-types": "^7.0.7",
     "@types/babel__core": "^7.1.14",
@@ -171,11 +170,10 @@
     "preact": "^10.5.15",
     "prettier": "^2.7.1",
     "prop-types": "^15.7.2",
-    "react": "^18",
-    "react-dom": "^18",
-    "react-test-renderer": "^18",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
     "rimraf": "^3.0.0",
-    "rollup": "^2.56.2",
+    "rollup": "^2.79.0",
     "rollup-plugin-copy": "^3.4.0",
     "rollup-plugin-node-externals": "^4.0.0",
     "rollup-plugin-postcss": "^3.1.8",
@@ -196,5 +194,19 @@
     "webpack": "5.69.0",
     "webpack-chain": "6.5.1",
     "webpack-dev-server": "4.7.4"
+  },
+  "pnpm": {
+    "packageExtensions": {
+      "react-native-root-siblings": {
+        "peerDependencies": {
+          "react": "18.0.0"
+        },
+        "peerDependenciesMeta": {
+          "react": {
+            "optional": true
+          }
+        }
+      }
+    }
   }
 }
