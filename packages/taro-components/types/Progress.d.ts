@@ -68,15 +68,15 @@ interface ProgressProps extends StandardProps {
    */
   duration?: number
 
-  /** 动画完成事件
-   * @supported weapp, qq, jd, h5
-   */
-  onActiveEnd?: CommonEventFunction
-
   /** 无障碍访问，（属性）元素的额外描述
    * @supported qq
    */
   ariaLabel?: string
+
+  /** 动画完成事件
+   * @supported weapp, qq, jd, h5
+   */
+  onActiveEnd?: CommonEventFunction
 }
 
 /** 进度条。组件属性的长度单位默认为 px
