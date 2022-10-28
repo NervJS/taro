@@ -1,5 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
+import ReactDOMClient from 'react-dom/client'
 
 import { waitForChange } from './utils'
 
@@ -72,6 +73,6 @@ export async function mount (node, wrapper) {
       }
     }
 
-    ReactDOM.render(<App />, wrapper)
+    ReactDOMClient.createRoot(wrapper).render(<App />)
   })
 }

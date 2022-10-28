@@ -25,11 +25,6 @@ interface SwitchProps extends StandardProps, FormItemProps {
    */
   color?: string
 
-  /** checked 改变时触发 change 事件
-   * @supported weapp, alipay, swan, tt, qq, jd, rn
-   */
-  onChange?: CommonEventFunction<SwitchProps.onChangeEventDetail>
-
   /** 用于透传 `WebComponents` 上的属性到内部 H5 标签上
    * @supported h5
    */
@@ -50,6 +45,11 @@ interface SwitchProps extends StandardProps, FormItemProps {
    * @supported qq
    */
   ariaLabel?: string
+
+  /** checked 改变时触发 change 事件
+   * @supported weapp, alipay, swan, tt, qq, jd, rn
+   */
+  onChange?: CommonEventFunction<SwitchProps.onChangeEventDetail>
 }
 declare namespace SwitchProps {
   interface onChangeEventDetail {
