@@ -4,6 +4,7 @@ import webpack, { Stats } from 'webpack'
 
 import { Prerender } from './prerender/prerender'
 import { MiniCombination } from './webpack/MiniCombination'
+import MiniSyncSubpackage from './webpack/MiniSyncSubpackage'
 
 import type { MiniBuildConfig } from './utils/types'
 
@@ -22,7 +23,12 @@ export default async function build (appPath: string, rawConfig: MiniBuildConfig
     runtimePath
   })
   await prebundle.run(combination.getPrebundleOptions())
-
+  const synxSubPackage = new MiniSyncSubpackage({
+    entry,
+    addChunkPages: rawConfig.addChunkPages,
+    chain: combination.chain
+  })
+  synxSubPackage.run()
   const webpackConfig = combination.chain.toConfig()
   const config = combination.config
 
