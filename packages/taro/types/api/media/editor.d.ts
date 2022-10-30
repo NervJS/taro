@@ -170,6 +170,8 @@ declare module '../../index' {
     interface InsertImageOption {
       /** 图片地址，仅支持 http(s)、base64、云图片(2.8.0)、临时文件(2.8.3)。 */
       src: string
+      /** 插入图片后是否自动换行，默认换行 */
+      nowrap?: boolean
       /** 图像无法显示时的替代文本 */
       alt?: string
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
