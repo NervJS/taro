@@ -1,6 +1,8 @@
-import { IApiDiff, processApis } from '@tarojs/shared'
+import { processApis } from '@tarojs/shared'
 
 import { needPromiseApis } from './apis-list'
+
+import type { IApiDiff } from '@tarojs/shared'
 
 declare const tt: any
 
