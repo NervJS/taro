@@ -100,8 +100,6 @@ export default (ctx: IPluginContext) => {
         const spinner = ora('正在获取最新版本信息...').start()
 
         const version = await getTargetVersion()
-        // 获取 NervJS 版本
-        const nervJSVersion = `^${await getLatestVersion('nervjs')}`
 
         spinner.stop()
 
@@ -109,20 +107,12 @@ export default (ctx: IPluginContext) => {
         // 更新 @tarojs/* 版本和 NervJS 版本
         Object.keys(packageMap.dependencies || {}).forEach((key) => {
           if (UPDATE_PACKAGE_LIST.indexOf(key) !== -1) {
-            if (key.includes('nerv')) {
-              packageMap.dependencies[key] = nervJSVersion
-            } else {
-              packageMap.dependencies[key] = version
-            }
+            packageMap.dependencies[key] = version
           }
         })
         Object.keys(packageMap.devDependencies || {}).forEach((key) => {
           if (UPDATE_PACKAGE_LIST.indexOf(key) !== -1) {
-            if (key.includes('nerv')) {
-              packageMap.devDependencies[key] = nervJSVersion
-            } else {
-              packageMap.devDependencies[key] = version
-            }
+            packageMap.devDependencies[key] = version
           }
         })
 
