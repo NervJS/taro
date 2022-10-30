@@ -26,5 +26,8 @@
   "dependencies": {
     "@tarojs/shared": "workspace:*",
     "lodash-es": "4.17.21"
+  },
+  "devDependencies": {
+    "tslib": "^2.4.0"
   }
 }
