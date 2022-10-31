@@ -571,6 +571,7 @@ importers:
       miniapp-types: latest
       resolve-pathname: ^3.0.0
       simulant: ^0.2.2
+      stencil-vue2-output-target: 0.0.4
       style-loader: 1.3.0
       swiper: 6.8.0
       ts-node: ^10.9.1
@@ -599,6 +600,7 @@ importers:
       lodash: registry.npmjs.org/lodash/4.17.21
       miniapp-types: registry.npmjs.org/miniapp-types/1.1.13
       simulant: registry.npmjs.org/simulant/0.2.2
+      stencil-vue2-output-target: registry.npmjs.org/stencil-vue2-output-target/0.0.4_@stencil+core@2.19.2
       style-loader: registry.npmjs.org/style-loader/1.3.0_webpack@4.46.0
       ts-node: registry.npmjs.org/ts-node/10.9.1_ah2igguqgj6e7ik4ubgohitm4e
       typescript: registry.npmjs.org/typescript/4.7.4
@@ -27629,6 +27631,15 @@ packages:
     version: 4.0.0
     engines: {node: '>=8'}
 
+  registry.npmjs.org/path/0.12.7:
+    resolution: {integrity: sha512-aXXC6s+1w7otVF9UletFkFcDsJeO7lSZBPUQhtb5O0xJe8LtYhj/GxldoL09bBj9+ZmE2hNoHqQSFMN5fikh4Q==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/path/-/path-0.12.7.tgz}
+    name: path
+    version: 0.12.7
+    dependencies:
+      process: registry.npmjs.org/process/0.11.10
+      util: registry.npmjs.org/util/0.10.3
+    dev: true
+
   registry.npmjs.org/pbkdf2/3.1.2:
     resolution: {integrity: sha512-iuh7L6jA7JEGu2WxDwtQP1ddOpaJNC4KlDEFfdQajSGgGPNi4OyDc2R7QnbY2bR9QjBVGwgvTdNJZoE7RaxUMA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/pbkdf2/-/pbkdf2-3.1.2.tgz}
     name: pbkdf2
@@ -33002,6 +33013,18 @@ packages:
     version: 1.1.1
     engines: {node: '>=0.10.0'}
     dev: false
+
+  registry.npmjs.org/stencil-vue2-output-target/0.0.4_@stencil+core@2.19.2:
+    resolution: {integrity: sha512-57E0J3Wc8hs3Is2AnZWbxEHhUMrPoJtR8rSPpacYVudd4n+n6LJwT5Ubm3jQv8TF3QZ33ry5lRPkLk9yN+xUuQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/stencil-vue2-output-target/-/stencil-vue2-output-target-0.0.4.tgz}
+    id: registry.npmjs.org/stencil-vue2-output-target/0.0.4
+    name: stencil-vue2-output-target
+    version: 0.0.4
+    peerDependencies:
+      '@stencil/core': '>=1.8.0'
+    dependencies:
+      '@stencil/core': registry.npmjs.org/@stencil/core/2.19.2
+      path: registry.npmjs.org/path/0.12.7
+    dev: true
 
   registry.npmjs.org/stream-browserify/2.0.2:
     resolution: {integrity: sha512-nX6hmklHs/gr2FuxYDltq8fJA1GDlxKQCz8O/IM4atRqBH8OORmBNgfvW5gG10GT/qQ9u0CzIvr2X5Pkt6ntqg==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/stream-browserify/-/stream-browserify-2.0.2.tgz}

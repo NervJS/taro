@@ -2,7 +2,8 @@ import { Config } from '@stencil/core'
 import { OutputTarget } from '@stencil/core/internal'
 import { reactOutputTarget } from '@stencil/react-output-target'
 import { sass } from '@stencil/sass'
-import { vueOutputTarget } from '@stencil/vue-output-target'
+import { vueOutputTarget as vue3OutputTarget } from '@stencil/vue-output-target'
+import { vueOutputTarget as vue2OutputTarget } from 'stencil-vue2-output-target'
 
 const { jsWithTs: tsjPreset } = require('ts-jest/presets')
 
@@ -12,7 +13,11 @@ const outputTargets: OutputTarget[] = [
     componentCorePackage: '@tarojs/components/dist/types/components',
     proxiesFile: '../taro-components-library-react/src/components.ts'
   }),
-  vueOutputTarget({
+  vue2OutputTarget({
+    componentCorePackage: '@tarojs/components/dist/types/components',
+    proxiesFile: '../taro-components-library-vue2/src/components.ts'
+  }),
+  vue3OutputTarget({
     componentCorePackage: '@tarojs/components/dist/types/components',
     proxiesFile: '../taro-components-library-vue3/src/components.ts'
   }),

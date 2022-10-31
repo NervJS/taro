@@ -5,6 +5,7 @@
   "private": true,
   "main": "index.js",
   "scripts": {
+    "prebuild:ci": "node ./scripts/fix.js",
     "build:ci": "babel src --extensions=.ts --out-dir ../taro-components/dist/vue2"
   },
   "keywords": [],

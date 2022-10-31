@@ -1,29 +1,20 @@
 import Vue from 'vue'
+import { ExtendedVue } from 'vue/types/vue'
 
-import components from './component-lib'
-import createComponent from './component-lib/createComponent'
-import createFormsComponent from './component-lib/createFormsComponent'
+import * as components from './components'
 
-components.forEach(params => {
-  if (typeof params === 'string') {
-    Vue.component(params, createComponent(params))
-  } else if (params instanceof Array) {
-    const [name, props] = params as [string, Record<string, any>]
-    const { classNames, type = 'simple' } = props
-
-    if (type === 'simple') {
-      Vue.component(name, createComponent(name, classNames))
-    } else if (type === 'forms') {
-      const { event, modelValue } = props
-      Vue.component(name, createFormsComponent(name, event, modelValue, classNames))
-    } else if (type === 'component') {
-      Vue.component(name, props.component)
-    }
+export function initVue2Components () {
+  const ignoredElements = [/^taro-/, 'root', 'block']
+  if (!Vue.config.ignoredElements?.includes(ignoredElements[0])) {
+    Vue.config.ignoredElements = [...Vue.config.ignoredElements, ...ignoredElements]
   }
-})
+  Object.entries(components).forEach(params => {
+    const [name, definition] = params as [string, ExtendedVue<Vue, unknown, unknown, unknown, Record<string, unknown>>]
+    if (definition) {
+      const tagName = 'taro' + name.replace(new RegExp('([A-Z])', 'g'), '-$1').toLowerCase()
+      Vue.component(tagName, definition)
+    }
+  })
+}
 
-Vue.config.ignoredElements = [
-  'root',
-  'block',
-  /^taro-/
-]
+export * from './components'
