@@ -1,3 +1,3 @@
-export function someCommon (text) {
+export function someCommon(text) {
   console.log('log something: ', text)
 }
