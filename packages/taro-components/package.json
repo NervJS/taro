@@ -54,9 +54,9 @@
   },
   "devDependencies": {
     "@stencil/core": "^2.18.1",
-    "@stencil/react-output-target": "^0.3.1",
+    "@stencil/react-output-target": "0.3.1",
     "@stencil/sass": "^2.0.0",
-    "@stencil/vue-output-target": "^0.6.2",
+    "@stencil/vue-output-target": "0.6.2",
     "@types/node": "^14.14.31",
     "css-loader": "3.4.2",
     "humps": "^2.0.1",

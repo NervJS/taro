@@ -506,13 +506,15 @@ export const parseModule = (appPath: string, {
   }
   rule.script = {
     test: REG_SCRIPTS,
-    exclude: [filename => {
+    exclude: [(filename: string) => {
       /**
        * 要优先处理 css-loader 问题
        *
        * https://github.com/webpack-contrib/mini-css-extract-plugin/issues/471#issuecomment-750266195
        */
       if (/css-loader/.test(filename)) return true
+      // 若包含 @tarojs/components，则跳过 babel-loader 处理
+      if (/@tarojs[\\/]components/.test(filename)) return true
 
       // 非 node_modules 下的文件直接走 babel-loader 逻辑
       if (!(/node_modules/.test(filename))) return false

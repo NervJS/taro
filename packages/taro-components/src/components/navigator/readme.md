@@ -5,6 +5,12 @@
 <!-- Auto Generated Below -->
 
 
+## Overview
+
+TODO: 参数还需要进一步细化对齐
+Navigator组件
+https://developers.weixin.qq.com/miniprogram/dev/component/navigator.html
+
 ## Properties
 
 | Property     | Attribute     | Description | Type      | Default      |
