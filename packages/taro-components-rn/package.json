@@ -40,7 +40,7 @@
   "devDependencies": {
     "@babel/core": "^7.14.5",
     "@babel/preset-env": "^7.14.5",
-    "@react-native-community/cameraroll": "~4.1.2",
+    "@react-native-camera-roll/camera-roll": "~5.0.4",
     "@react-native-community/segmented-control": "^2.2.2",
     "@testing-library/react-native": "^11.0.0",
     "@types/react-native": "^0.69.8",

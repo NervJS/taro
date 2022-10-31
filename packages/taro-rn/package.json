@@ -33,8 +33,8 @@
   "license": "MIT",
   "dependencies": {
     "@react-native-async-storage/async-storage": "~1.17.7",
-    "@react-native-community/cameraroll": "~4.1.2",
-    "@react-native-community/clipboard": "~1.5.1",
+    "@react-native-camera-roll/camera-roll": "~5.0.4",
+    "@react-native-clipboard/clipboard": "~1.11.1",
     "@react-native-community/geolocation": "~3.0.2",
     "@react-native-community/netinfo": "~9.3.0",
     "@tarojs/runtime-rn": "workspace:*",
@@ -77,8 +77,8 @@
   },
   "peerDependencies": {
     "@react-native-async-storage/async-storage": "~1.17.7",
-    "@react-native-community/cameraroll": "~4.1.2",
-    "@react-native-community/clipboard": "~1.5.1",
+    "@react-native-camera-roll/camera-roll": "~5.0.4",
+    "@react-native-clipboard/clipboard": "~1.11.1",
     "@react-native-community/geolocation": "~3.0.2",
     "@react-native-community/netinfo": "~9.3.0",
     "expo-av": "~13.0.0",
