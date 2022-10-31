@@ -233,10 +233,10 @@ export default class BasePrebundle<T extends IPrebundleConfig = IPrebundleConfig
   getRemoteWebpackCompiler (standard: Configuration, custom: Configuration = {}) {
     /** NOTE: 删除 Host 应用影响打包 Remote 应用的配置 */
     const inherit = { ...this.webpackConfig }
+    const skipPlugins = ['MiniSplitChunksPlugin', 'TaroMiniPlugin', 'TaroH5Plugin']
     delete inherit.devServer
-    delete inherit.module
-    delete inherit.plugins
     delete inherit.optimization?.splitChunks
+    inherit.plugins = inherit.plugins?.filter(p => !skipPlugins.includes(p?.constructor?.name))
 
     return webpack(recursiveMerge(inherit, standard, custom))
   }
