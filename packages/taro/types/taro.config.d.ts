@@ -178,11 +178,16 @@ declare module './index' {
     plugins?: Plugins
   }
 
+  interface GenericsImplementation {
+    [name: string]: Record<string, string>
+  }
+
   interface Plugins {
     [key: string]: {
       version: string
       provider: string
       export?: string
+      genericsImplementation?: GenericsImplementation
     }
   }
 
