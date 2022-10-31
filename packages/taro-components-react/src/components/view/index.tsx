@@ -1,17 +1,17 @@
 import 'weui'
-import React from 'react'
-import classNames from 'classnames'
 import './style/index.css'
 
-interface IProps {
+import classNames from 'classnames'
+import React from 'react'
+
+interface IProps extends React.HTMLAttributes<HTMLDivElement> {
   hoverClass?: string
-  className?: string
   hoverStartTime?: number
   hoverStayTime?: number
-  onTouchStart? (e: React.TouchEvent<HTMLDivElement>): void
-  onTouchEnd? (e: React.TouchEvent<HTMLDivElement>): void
-  onTouchMove? (e: React.TouchEvent<HTMLDivElement>): void
-  onLongPress? (): void
+  onTouchStart?(e: React.TouchEvent<HTMLDivElement>): void
+  onTouchEnd?(e: React.TouchEvent<HTMLDivElement>): void
+  onTouchMove?(e: React.TouchEvent<HTMLDivElement>): void
+  onLongPress?(): void
 }
 
 interface IState {
@@ -25,16 +25,16 @@ class View extends React.Component<IProps, IState> {
     touch: false
   }
 
-  timeoutEvent: NodeJS.Timeout;
-  startTime = 0;
+  timeoutEvent: ReturnType<typeof setTimeout>
+  startTime = 0
 
   render () {
     const {
+      className,
       hoverClass,
       onTouchStart,
       onTouchEnd,
       onTouchMove,
-      className,
       hoverStartTime = 50,
       hoverStayTime = 400,
       ...other
@@ -66,7 +66,7 @@ class View extends React.Component<IProps, IState> {
         this.timeoutEvent = setTimeout(() => {
           this.props.onLongPress!()
         }, 350)
-        this.startTime = (new Date()).getTime()
+        this.startTime = new Date().getTime()
       }
     }
 
@@ -76,7 +76,7 @@ class View extends React.Component<IProps, IState> {
     }
 
     const _onTouchEnd = e => {
-      const spanTime = (new Date().getTime()) - this.startTime
+      const spanTime = new Date().getTime() - this.startTime
       if (spanTime < 350) {
         clearTimeout(this.timeoutEvent)
       }
@@ -97,11 +97,11 @@ class View extends React.Component<IProps, IState> {
 
     return (
       <div
-        {...other}
         className={cls}
         onTouchStart={_onTouchStart}
         onTouchEnd={_onTouchEnd}
         onTouchMove={_onTouchMove}
+        {...other}
       >
         {this.props.children}
       </div>

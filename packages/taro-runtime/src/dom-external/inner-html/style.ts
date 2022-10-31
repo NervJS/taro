@@ -32,7 +32,7 @@ interface IStyle {
 }
 
 export default class StyleTagParser {
-  styles: IStyle[]= []
+  styles: IStyle[] = []
 
   extractStyle (src: string) {
     const REG_STYLE = /<style\s?[^>]*>((.|\n|\s)+?)<\/style>/g

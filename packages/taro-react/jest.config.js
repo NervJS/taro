@@ -1,5 +1,6 @@
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const { jsWithTs: tsjPreset } = require('ts-jest/presets')
+const path = require('path')
 
 module.exports = {
   testEnvironment: 'node',
@@ -25,7 +26,7 @@ module.exports = {
     ENABLE_CONTAINS: true,
     'ts-jest': {
       diagnostics: false,
-      tsConfig: {
+      tsconfig: {
         jsx: 'react',
         allowJs: true,
         target: 'ES6'
@@ -36,5 +37,6 @@ module.exports = {
     'node_modules',
     'utils'
   ],
+  setupFiles: [path.resolve(__dirname, './__tests__/setup.js')],
   testMatch: ['**/__tests__/?(*.)+(spec|test).[jt]s?(x)']
 }

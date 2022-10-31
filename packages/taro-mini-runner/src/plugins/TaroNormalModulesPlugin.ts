@@ -1,9 +1,10 @@
 import webpack from 'webpack'
 
-import TaroNormalModule from './TaroNormalModule'
 import TaroSingleEntryDependency from '../dependencies/TaroSingleEntryDependency'
 import { componentConfig } from '../template/component'
-import { Func } from '../utils/types'
+import TaroNormalModule from './TaroNormalModule'
+
+import type { Func } from '@tarojs/taro/types/compile'
 
 const walk = require('acorn-walk')
 
@@ -36,8 +37,19 @@ export default class TaroNormalModulesPlugin {
                   return
                 }
               } else {
-                // 兼容 react17 new jsx transtrom
-                if (callee.name !== '_jsx' && callee.name !== '_jsxs') {
+                const nameOfCallee = callee.name
+                if (
+                  // 兼容 react17 new jsx transtrom
+                  nameOfCallee !== '_jsx' && nameOfCallee !== '_jsxs' &&
+                  // 兼容 Vue 3.0 渲染函数及 JSX
+                  !(nameOfCallee && nameOfCallee.includes('createVNode')) &&
+                  !(nameOfCallee && nameOfCallee.includes('createBlock')) &&
+                  !(nameOfCallee && nameOfCallee.includes('createElementVNode')) &&
+                  !(nameOfCallee && nameOfCallee.includes('createElementBlock')) &&
+                  !(nameOfCallee && nameOfCallee.includes('resolveComponent')) // 收集使用解析函数的组件名称
+                  // TODO: 兼容 vue 2.0 渲染函数及 JSX，函数名 h 与 _c 在压缩后太常见，需要做更多限制后才能兼容
+                  // nameOfCallee !== 'h' && nameOfCallee !== '_c'
+                ) {
                   return
                 }
               }
@@ -45,7 +57,7 @@ export default class TaroNormalModulesPlugin {
               const [type, prop] = node.arguments
               const componentName = type.name
 
-              this.onParseCreateElement?.(type.value, componentConfig)
+              type.value && this.onParseCreateElement?.(type.value, componentConfig)
 
               if (componentName === 'CustomWrapper' && !componentConfig.thirdPartyComponents.get('custom-wrapper')) {
                 componentConfig.thirdPartyComponents.set('custom-wrapper', new Set())
@@ -60,9 +72,11 @@ export default class TaroNormalModulesPlugin {
               }
 
               prop.properties
-                .filter(p => p.type === 'Property' && p.key.type === 'Identifier' && p.key.name !== 'children')
+                .filter(p => p.type === 'Property' && p.key.type === 'Identifier' && p.key.name !== 'children' && p.key.name !== 'id')
                 .forEach(p => attrs.add(p.key.name))
             }
+          }, {
+            ...walk.base, Import: walk.base.Import || (() => {})
           })
         })
       })

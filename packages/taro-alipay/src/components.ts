@@ -70,6 +70,13 @@ export const components = {
   Image: {
     'default-source': ''
   },
+  Camera: {
+    mode: singleQuote('normal'),
+    'output-dimension': singleQuote('720P'),
+    'frame-size': singleQuote('medium'),
+    bindScanCode: '',
+    bindReady: '',
+  },
   Canvas: {
     type: '',
     width: singleQuote('300px'),
@@ -79,7 +86,7 @@ export const components = {
   Video: {
     'poster-size': singleQuote('contain'),
     'mobilenet-hint-type': '1',
-    enableNative: 'false',
+    // enableNative: 'false',
     bindLoading: '',
     bindUserAction: '',
     bindStop: '',
@@ -124,5 +131,15 @@ export const components = {
     icon: '',
     'alipay-card-no': '',
     'ext-info': ''
+  },
+  ArCamera: {
+    devicePosition: singleQuote('back'),
+    marker: '',
+    mode: singleQuote('imageTracking'),
+    useCapturedImage: 'false',
+    bindInit: '',
+    bindStop: '',
+    bindError: '',
+    bindARFrame: ''
   }
 }

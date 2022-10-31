@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import { View, Text, Image, StyleSheet, ActivityIndicator } from 'react-native'
 import RootSiblings from 'react-native-root-siblings'
 import successPng from './success.png'
+import errorPng from './error.png'
 import { errorHandler, shouldBeObject, successHandler } from '../../utils'
 
 const globalAny: any = global
@@ -148,7 +149,7 @@ function showToast (options: Taro.showToast.Option): Promise<TaroGeneral.Callbac
     ToastView = <View style={maskStyle}>
       <View style={styles.grayBlock}>
         <View style={styles.toastView}>
-          <Image source={successPng} style={styles.toastIcon} />
+          <Image source={icon === 'error' ? errorPng : successPng} style={styles.toastIcon} />
           <Text style={styles.toastContent}>{title || ''}</Text>
         </View>
       </View>

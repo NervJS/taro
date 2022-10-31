@@ -1,9 +1,12 @@
-html, body {
+html,
+body {
   height: 100%;
 }
+
 #app {
   height: 100%;
 }
+
 .taro-tabbar {
   &__border {
     &-white {
@@ -12,34 +15,41 @@ html, body {
       }
     }
   }
+
   &__container {
     display: flex;
-    height: 100%;
-    flex-direction: column;
     overflow: hidden;
+    flex-direction: column;
+    height: 100%;
   }
+
   &__panel {
-    flex: 1;
-    position: relative;
     overflow: auto;
+    position: relative;
+    flex: 1;
     -webkit-overflow-scrolling: auto;
   }
+
   &__tabbar {
     position: relative;
-    height: 50px;
     width: 100%;
-    transition: bottom .2s, top .2s;
+    height: 50px;
+    transition: bottom 0.2s, top 0.2s;
+
     &-top {
       top: 0;
     }
+
     &-bottom {
       bottom: 0;
-      margin-bottom: constant(safe-area-inset-bottom); 
+      margin-bottom: constant(safe-area-inset-bottom);
       margin-bottom: env(safe-area-inset-bottom);
     }
+
     &-hide {
       display: none;
     }
+
     &-slideout {
       top: -52px;
       flex: 0 0;

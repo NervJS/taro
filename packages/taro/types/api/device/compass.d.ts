@@ -59,7 +59,7 @@ declare module '../../index' {
 
   interface TaroStatic {
     /** 停止监听罗盘数据
-     * @supported weapp, h5
+     * @supported weapp, h5, tt
      * @example
      * ```tsx
      * Taro.stopCompass()
@@ -69,7 +69,7 @@ declare module '../../index' {
     stopCompass(option?: stopCompass.Option): Promise<TaroGeneral.CallbackResult>
 
     /** 开始监听罗盘数据
-     * @supported weapp, h5
+     * @supported weapp, h5, tt
      * @example
      * ```js
      * Taro.startCompass()
@@ -79,7 +79,7 @@ declare module '../../index' {
     startCompass(option?: startCompass.Option): Promise<TaroGeneral.CallbackResult>
 
     /** 监听罗盘数据变化事件。频率：5 次/秒，接口调用后会自动开始监听，可使用 Taro.stopCompass 停止监听。
-     * @supported weapp, h5
+     * @supported weapp, h5, tt
      * @example
      * ```tsx
      * Taro.onCompassChange(function (res) {

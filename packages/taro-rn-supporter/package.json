@@ -1,13 +1,13 @@
 {
   "name": "@tarojs/rn-supporter",
-  "version": "3.4.4",
+  "version": "3.5.7",
   "description": "Taro rn supporter",
   "main": "dist/index.js",
   "scripts": {
     "build": "tsc",
     "dev": "tsc -w",
     "test": "jest",
-    "test:ci": "jest --silent --coverage false",
+    "test:ci": "jest --ci --silent --coverage false",
     "lint": "eslint ."
   },
   "author": "yechunxi",
@@ -31,12 +31,19 @@
     "npm": ">=6.0.0"
   },
   "dependencies": {
-    "@tarojs/helper": "3.4.4",
-    "@tarojs/rn-style-transformer": "3.4.4",
+    "@tarojs/helper": "workspace:*",
+    "@tarojs/rn-style-transformer": "workspace:*",
     "lodash": "^4.17.21",
-    "metro": "^0.66.2",
-    "metro-react-native-babel-transformer": "^0.66.2",
-    "metro-resolver": "^0.66.2",
+    "metro-react-native-babel-transformer": "^0.70.3",
+    "metro-resolver": "^0.70.3",
     "react-native-svg-transformer": "^0.14.3"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.14.5",
+    "@babel/preset-env": "^7.14.5",
+    "react": "18.0.0",
+    "react-native": "^0.69.3",
+    "react-native-svg": "~12.4.3",
+    "react-test-renderer": "18.0.0"
   }
 }

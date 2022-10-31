@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/plugin-mini-ci",
-  "version": "3.4.4",
+  "version": "3.5.7",
   "description": "Taro 小程序端构建后支持CI（持续集成）的插件",
   "keywords": [
     "Taro",
@@ -28,15 +28,18 @@
     "url": "https://github.com/NervJS/taro/issues"
   },
   "dependencies": {
+    "@tarojs/service": "workspace:*",
     "minimist": "^1.2.5",
     "miniprogram-ci": "^1.6.1",
-    "miniu": "^1.20.1",
     "qrcode-terminal": "^0.12.0",
-    "shelljs": "^0.8.4",
-    "swan-toolkit": "^3.5.58",
-    "tt-ide-cli": "^0.0.24"
+    "shelljs": "^0.8.4"
   },
-  "devDependencies": {
-    "@tarojs/service": "3.4.4"
+  "peerDependencies": {
+    "minidev": "^1.5.1"
+  },
+  "peerDependenciesMeta": {
+    "minidev": {
+      "optional": true
+    }
   }
 }

@@ -21,7 +21,7 @@ declare module '../../index' {
     ): void
 
     /** 自定义分析数据上报接口。使用前，需要在小程序管理后台自定义分析中新建事件，配置好事件名与字段。
-     * @supported weapp
+     * @supported weapp, tt
      * @example
      * ```tsx
      * Taro.reportAnalytics('purchase', {

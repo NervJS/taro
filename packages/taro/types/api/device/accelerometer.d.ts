@@ -56,7 +56,7 @@ declare module '../../index' {
      * ```tsx
      * Taro.startAccelerometer({ interval: 'game' })
      * ```
-     * @supported weapp, h5, rn
+     * @supported weapp, h5, rn, tt
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/accelerometer/wx.startAccelerometer.html
      */
     startAccelerometer (res?: startAccelerometer.Option): Promise<TaroGeneral.CallbackResult>
@@ -67,14 +67,14 @@ declare module '../../index' {
      * ```tsx
      * Taro.stopAccelerometer()
      * ```
-     * @supported weapp, h5, rn
+     * @supported weapp, h5, rn, tt
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/accelerometer/wx.stopAccelerometer.html
      */
     stopAccelerometer (res?: stopAccelerometer.Option): Promise<TaroGeneral.CallbackResult>
 
     /**
      * 监听加速度数据，频率：5次/秒，接口调用后会自动开始监听，可使用 `Taro.stopAccelerometer` 停止监听。
-     * @supported weapp, h5, rn
+     * @supported weapp, h5, rn, tt
      * @example
      * ```tsx
      * Taro.onAccelerometerChange(res => {

@@ -24,7 +24,7 @@ declare module '../../index' {
   }
 
   /** Performance 对象，用于获取性能数据及创建性能监听器
-   * @supported weapp
+   * @supported weapp, tt
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/base/performance/Performance.html
    */
   interface Performance {
@@ -34,17 +34,17 @@ declare module '../../index' {
      */
     createObserver(callback: Function): PerformanceObserver
     /** 该方法返回当前缓冲区中的所有性能数据
-     * @supported weapp
+     * @supported weapp, tt
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/base/performance/Performance.getEntries.html
      */
     getEntries(): PerformanceEntry[]
     /** 获取当前缓冲区中所有名称为 [name] 且类型为 [entryType] 的性能数据
-     * @supported weapp
+     * @supported weapp, tt
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/base/performance/Performance.getEntriesByName.html
      */
     getEntriesByName(name: string, entryType: string): PerformanceEntry[]
     /** 获取当前缓冲区中所有类型为 [entryType] 的性能数据
-     * @supported weapp
+     * @supported weapp, tt
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/base/performance/Performance.getEntriesByType.html
      */
     getEntriesByType(entryType: string): PerformanceEntry[]
@@ -179,7 +179,7 @@ declare module '../../index' {
      * **注意**
      *  - 目前，当开启代码 [按需注入](https://developers.weixin.qq.com/miniprogram/dev/framework/ability/lazyload.html) `时，evaluateScript` 将仅包含公有部分代码，页面和组件的代码注入的时间会包含在 `firstRender` 中（因为页面和组件的代码注入过程成为了首次渲染过程的一部分）。因此开启按需注入后，脚本耗时降低，渲染时间提高属于正常现象，优化效果可以关注整体启动耗时（`appLaunch`）来评估。
      *  - `firstPaint` 和 `firstContentfulPaint` 指标在开启 `vconsole` 的情况下，由于绘制 `vconsoel` 的面板，会导致数据提前。
-     * @supported weapp
+     * @supported weapp, tt
      * @example
      * ```tsx
      * const performance = Taro.getPerformance()

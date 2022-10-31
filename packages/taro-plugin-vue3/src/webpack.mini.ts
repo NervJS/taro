@@ -1,23 +1,22 @@
 import { REG_VUE } from '@tarojs/helper'
-import { internalComponents, toCamelCase, capitalize } from '@tarojs/shared/dist/template'
+import { capitalize, internalComponents, toCamelCase } from '@tarojs/shared/dist/template'
+
 import { getLoaderMeta } from './loader-meta'
-import { getVueLoaderPath } from './index'
+import { getVueLoaderPath } from './utils'
 
 import type { IPluginContext } from '@tarojs/service'
-import type { RootNode, TemplateChildNode, ElementNode, AttributeNode, DirectiveNode, SimpleExpressionNode } from '@vue/compiler-core'
+import type { AttributeNode, DirectiveNode, ElementNode, RootNode, SimpleExpressionNode, TemplateChildNode } from '@vue/compiler-core'
 import type { IConfig } from './index'
 
 const CUSTOM_WRAPPER = 'custom-wrapper'
 
-type MiniConfig = IConfig['mini']
-
-export function modifyMiniWebpackChain (_ctx: IPluginContext, chain, data, config: MiniConfig) {
-  setVueLoader(chain, data, config)
+export function modifyMiniWebpackChain (ctx: IPluginContext, chain, data, config: IConfig) {
+  setVueLoader(ctx, chain, data, config)
   setLoader(chain)
   setDefinePlugin(chain)
 }
 
-function setVueLoader (chain, data, config: MiniConfig) {
+function setVueLoader (ctx: IPluginContext, chain, data, config: IConfig) {
   const vueLoaderPath = getVueLoaderPath()
 
   // plugin
@@ -26,6 +25,7 @@ function setVueLoader (chain, data, config: MiniConfig) {
     .plugin('vueLoaderPlugin')
     .use(VueLoaderPlugin)
 
+  const compilerOptions = config.vueLoaderOption?.compilerOptions || config.mini?.compilerOptions || {}
   // loader
   const vueLoaderOption: any = {
     optimizeSSR: false,
@@ -37,11 +37,8 @@ function setVueLoader (chain, data, config: MiniConfig) {
       image: 'src',
       'cover-image': 'src'
     },
-    compilerOptions: {}
-  }
-
-  if (config?.compilerOptions) {
-    vueLoaderOption.compilerOptions = Object.assign({}, config.compilerOptions)
+    ...(config.vueLoaderOption ?? {}),
+    compilerOptions
   }
 
   vueLoaderOption.compilerOptions.nodeTransforms ||= []
@@ -49,6 +46,14 @@ function setVueLoader (chain, data, config: MiniConfig) {
     if (node.type === 1 /* ELEMENT */) {
       node = node as ElementNode
       const nodeName = node.tag
+
+      nodeName && ctx.applyPlugins({
+        name: 'onParseCreateElement',
+        opts: {
+          nodeName,
+          componentConfig: data.componentConfig
+        }
+      })
 
       if (capitalize(toCamelCase(nodeName)) in internalComponents) {
         // change only ElementTypes.COMPONENT to ElementTypes.ELEMENT

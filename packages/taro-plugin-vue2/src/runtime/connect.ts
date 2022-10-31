@@ -1,41 +1,39 @@
-import { isFunction, noop, ensure, isBoolean } from '@tarojs/shared'
 import {
-  container,
-  SERVICE_IDENTIFIER,
   Current,
   document,
   injectPageInstance
 } from '@tarojs/runtime'
+import { ensure, hooks, isBoolean, isFunction, noop } from '@tarojs/shared'
+
 import { setDefaultDescriptor, setRouterParams } from './utils'
 
+import type { AppInstance, VueAppInstance, VueInstance } from '@tarojs/runtime'
+import type { AppConfig } from '@tarojs/taro'
 /* eslint-disable import/no-duplicates */
 import type VueCtor from 'vue'
-import type { ComponentOptions, VueConstructor, VNode } from 'vue'
-import type { AppConfig } from '@tarojs/taro'
-import type { IHooks, AppInstance, VueAppInstance, VueInstance } from '@tarojs/runtime'
+import type { ComponentOptions, VNode, VueConstructor } from 'vue'
 
 export type V = typeof VueCtor
 
 let Vue
 
 function setReconciler () {
-  const hooks = container.get<IHooks>(SERVICE_IDENTIFIER.Hooks)
-
-  hooks.onRemoveAttribute = function (dom, qualifiedName) {
+  hooks.tap('onRemoveAttribute', function (dom, qualifiedName) {
     // 处理原因: https://github.com/NervJS/taro/pull/5990
     const props = dom.props
     if (!props.hasOwnProperty(qualifiedName) || isBoolean(props[qualifiedName])) {
       dom.setAttribute(qualifiedName, false)
       return true
     }
-  }
+    return false
+  })
 
-  hooks.getLifecycle = function (instance, lifecycle) {
+  hooks.tap('getLifecycle', function (instance, lifecycle) {
     return instance.$options[lifecycle]
-  }
+  })
 
   if (process.env.TARO_ENV === 'h5') {
-    hooks.createPullDownComponent = (el, path, vue: VueConstructor) => {
+    hooks.tap('createPullDownComponent', (el, path, vue: VueConstructor) => {
       const injectedPage = vue.extend({
         props: {
           tid: String
@@ -61,11 +59,11 @@ function setReconciler () {
       }
 
       return options
-    }
+    })
 
-    hooks.getDOMNode = (el) => {
+    hooks.tap('getDOMNode', el => {
       return el.$el as any
-    }
+    })
   }
 }
 
@@ -152,8 +150,7 @@ export function createVueApp (App: ComponentOptions<VueCtor>, vue: V, config: Ap
     wrapper.$mount(document.getElementById('app') as any)
   }
 
-  const hooks = container.get<IHooks>(SERVICE_IDENTIFIER.Hooks)
-  const [ONLAUNCH, ONSHOW, ONHIDE] = hooks.getMiniLifecycleImpl().app
+  const [ONLAUNCH, ONSHOW, ONHIDE] = hooks.call('getMiniLifecycleImpl')!.app
 
   const appObj: AppInstance = Object.create({
     mount (component: ComponentOptions<VueCtor>, id: string, cb: () => void) {
@@ -200,6 +197,22 @@ export function createVueApp (App: ComponentOptions<VueCtor>, vue: V, config: Ap
       value (options) {
         if (appInstance != null && isFunction(appInstance.$options.onHide)) {
           appInstance.$options.onHide.call(appInstance, options)
+        }
+      }
+    }),
+
+    onError: setDefaultDescriptor({
+      value (error) {
+        if (appInstance != null && isFunction(appInstance.$options.onError)) {
+          appInstance.$options.onError.call(appInstance, error)
+        }
+      }
+    }),
+
+    onPageNotFound: setDefaultDescriptor({
+      value (res) {
+        if (appInstance != null && isFunction(appInstance.$options.onPageNotFound)) {
+          appInstance.$options.onPageNotFound.call(appInstance, res)
         }
       }
     })

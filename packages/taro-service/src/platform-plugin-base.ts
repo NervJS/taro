@@ -1,5 +1,5 @@
 import type { RecursiveTemplate, UnRecursiveTemplate } from '@tarojs/shared/dist/template'
-import type { IPluginContext } from '../types/index'
+import type { Func, IPluginContext } from './utils/types'
 
 interface IFileType {
   templ: string
@@ -17,7 +17,7 @@ interface IWrapper {
 class Transaction {
   wrappers: IWrapper[] = []
 
-  async perform (fn: (...args: any[]) => void, scope: TaroPlatformBase, ...args) {
+  async perform (fn: Func, scope: TaroPlatformBase, ...args) {
     this.initAll(scope)
     await fn.call(scope, ...args)
     this.closeAll(scope)
@@ -42,6 +42,7 @@ export abstract class TaroPlatformBase {
   ctx: IPluginContext
   helper: IPluginContext['helper']
   config: any
+  compiler: string
 
   abstract platform: string
   abstract globalObject: string
@@ -58,6 +59,8 @@ export abstract class TaroPlatformBase {
     this.ctx = ctx
     this.helper = ctx.helper
     this.config = config
+    const _compiler = config.compiler
+    this.compiler = typeof _compiler === 'object' ? _compiler.type : _compiler
   }
 
   /**
@@ -76,10 +79,12 @@ export abstract class TaroPlatformBase {
       this.emptyOutputDir()
     }
     this.printDevelopmentTip(this.platform)
-    const { printLog, processTypeEnum } = this.ctx.helper
-    printLog(processTypeEnum.START, '开发者工具-项目目录', `${this.ctx.paths.outputPath}`)
     if (this.projectConfigJson) {
       this.generateProjectConfig(this.projectConfigJson)
+    }
+    if (this.ctx.initialConfig.logger?.quiet === false) {
+      const { printLog, processTypeEnum } = this.ctx.helper
+      printLog(processTypeEnum.START, '开发者工具-项目目录', `${this.ctx.paths.outputPath}`)
     }
   }
 
@@ -89,21 +94,30 @@ export abstract class TaroPlatformBase {
   }
 
   protected printDevelopmentTip (platform: string) {
-    if (process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'test') return
+    const tips: string[] = []
+    const config = this.config
+    const { chalk } = this.helper
 
-    const { isWindows, chalk } = this.helper
-    let exampleCommand
+    if (process.env.NODE_ENV !== 'production' && process.env.NODE_ENV !== 'test') {
+      const { isWindows } = this.helper
+      const exampleCommand = isWindows
+        ? `$ set NODE_ENV=production && taro build --type ${platform} --watch`
+        : `$ NODE_ENV=production taro build --type ${platform} --watch`
 
-    if (isWindows) {
-      exampleCommand = `$ set NODE_ENV=production && taro build --type ${platform} --watch`
-    } else {
-      exampleCommand = `$ NODE_ENV=production taro build --type ${platform} --watch`
+      tips.push(chalk.yellowBright(`预览模式生成的文件较大，设置 NODE_ENV 为 production 可以开启压缩。
+Example:
+${exampleCommand}`))
     }
 
-    console.log(chalk.yellowBright(`Tips: 预览模式生成的文件较大，设置 NODE_ENV 为 production 可以开启压缩。
-Example:
-${exampleCommand}
-`))
+    if (this.compiler === 'webpack5' && !config.cache?.enable) {
+      tips.push(chalk.yellowBright('建议开启持久化缓存功能，能有效提升二次编译速度，详情请参考: https://docs.taro.zone/docs/config-detail#cache。'))
+    }
+
+    if (tips.length) {
+      console.log(chalk.yellowBright('Tips:'))
+      tips.forEach((item, index) => console.log(`${chalk.yellowBright(index + 1)}. ${item}`))
+      console.log('\n')
+    }
   }
 
   /**
@@ -112,7 +126,18 @@ ${exampleCommand}
   protected async getRunner () {
     const { appPath } = this.ctx.paths
     const { npm } = this.helper
-    const runner = await npm.getNpmPkg('@tarojs/mini-runner', appPath)
+
+    let runnerPkg: string
+    switch (this.compiler) {
+      case 'webpack5':
+        runnerPkg = '@tarojs/webpack5-runner'
+        break
+      default:
+        runnerPkg = '@tarojs/mini-runner'
+    }
+
+    const runner = await npm.getNpmPkg(runnerPkg, appPath)
+
     return runner.bind(null, appPath)
   }
 

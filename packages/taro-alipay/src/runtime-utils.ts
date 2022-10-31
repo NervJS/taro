@@ -1,11 +1,11 @@
 
 import {
-  initNativeApi,
   handleSyncApis,
-  transformMeta,
+  initNativeApi,
   modifyApis,
   modifyAsyncResult,
-  request
+  request,
+  transformMeta
 } from './apis'
 
 declare const my: any
@@ -20,17 +20,22 @@ const BUBBLE_EVENTS = new Set([
 ])
 
 export {
-  initNativeApi,
   handleSyncApis,
-  transformMeta,
+  initNativeApi,
   modifyApis,
   modifyAsyncResult,
-  request
+  request,
+  transformMeta
 }
-export * from './components'
 export * from './apis-list'
+export * from './components'
 export const hostConfig = {
   initNativeApi,
+  getMiniLifecycle (config) {
+    config.component[0] = 'didMount'
+    config.component[1] = 'didUnmount'
+    return config
+  },
   getEventCenter (Events) {
     if (!my.taroEventCenter) {
       my.taroEventCenter = new Events()

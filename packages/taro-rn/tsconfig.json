@@ -1,20 +1,16 @@
 {
   "extends": "../../tsconfig.root.json",
-  "include": [
-    "src/**/*",
-    "./types"
-  ],
-  "exclude": ["src/__tests__/**"],
   "compilerOptions": {
     "rootDir": "./src",
     "outDir": "./dist",
-    "skipLibCheck": true,
     "sourceMap": true,
     "jsx": "react",
     "lib": ["ESNEXT"],
-    "typeRoots": [
-      "./node_modules/@types",
-      "./src/types"
-    ]
-  }
+    "paths": {
+      "vue": ["./src/types/vue/index.d.ts"]
+    },
+    "typeRoots": ["./node_modules/@types"]
+  },
+  "include": ["./src", "./types"],
+  "exclude": ["./src/__tests__/**"]
 }

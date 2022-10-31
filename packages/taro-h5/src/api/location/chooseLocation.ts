@@ -1,8 +1,19 @@
-import Taro from '@tarojs/api'
-import { MethodHandler } from '../utils/handler'
 import './style.css'
 
-function createLocationChooser (handler, key = LOCATION_APIKEY) {
+import Taro from '@tarojs/api'
+import { stringify } from 'query-string'
+
+import { MethodHandler } from '../../utils/handler'
+
+function createLocationChooser (handler, key = LOCATION_APIKEY, mapOpt: Taro.chooseLocation.Option['mapOpts'] = {}) {
+  const { latitude, longitude, ...opts } = mapOpt
+  const query = {
+    key,
+    type: 1,
+    coord: mapOpt.coord ?? [latitude, longitude].every(e => Number(e) >= 0) ? `${latitude},${longitude}` : undefined,
+    referer: 'myapp',
+    ...opts
+  }
   const html = `
 <div class='taro_choose_location'>
   <div class='taro_choose_location_bar'>
@@ -10,7 +21,7 @@ function createLocationChooser (handler, key = LOCATION_APIKEY) {
     <p class='taro_choose_location_title'>位置</p>
     <button class='taro_choose_location_submit'>完成</button>
   </div>
-  <iframe class='taro_choose_location_frame' frameborder='0' src='https://apis.map.qq.com/tools/locpicker?search=1&type=1&key=${key}&referer=myapp'></iframe>
+  <iframe class='taro_choose_location_frame' frameborder='0' src="https://apis.map.qq.com/tools/locpicker?${stringify(query, { arrayFormat: 'comma', skipNull: true })}" />
 </div>
 `
   const container = document.createElement('div')
@@ -57,7 +68,7 @@ function createLocationChooser (handler, key = LOCATION_APIKEY) {
 /**
  * 打开地图选择位置。
  */
-export const chooseLocation: typeof Taro.chooseLocation = ({ success, fail, complete } = {}) => {
+export const chooseLocation: typeof Taro.chooseLocation = ({ success, fail, complete, mapOpts } = {}) => {
   const key = LOCATION_APIKEY
   const handle = new MethodHandler({ name: 'chooseLocation', success, fail, complete })
   return new Promise((resolve, reject) => {
@@ -96,7 +107,7 @@ export const chooseLocation: typeof Taro.chooseLocation = ({ success, fail, comp
           return handle.fail({}, reject)
         }
       }
-    }, key)
+    }, key, mapOpts)
 
     document.body.appendChild(chooser.container)
 

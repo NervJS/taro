@@ -1,19 +1,20 @@
-import * as React from 'react'
-import { createRouter, RouterConfig } from '@tarojs/router-rn'
 import { Provider as TCNProvider } from '@tarojs/components-rn'
+import { createRouter, RouterConfig } from '@tarojs/router-rn'
+import React, { Component, ComponentClass,ComponentProps, createRef } from 'react'
 import { RootSiblingParent } from 'react-native-root-siblings'
+
 import { Current } from './current'
-import { RNAppConfig } from './types/index'
 import { AppInstance } from './instance'
+import { RNAppConfig } from './types/index'
 import { isFunction } from './utils'
 
 export function isClassComponent (component): boolean {
   return isFunction(component.render) ||
     !!component.prototype?.isReactComponent ||
-    component.prototype instanceof React.Component
+    component.prototype instanceof Component
 }
-// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-export function createReactNativeApp (component: React.ComponentClass, config: RNAppConfig) {
+
+export function createReactNativeApp (component: ComponentClass, config: RNAppConfig) {
   const routerConfig: RouterConfig = {
     tabBar: config.appConfig.tabBar,
     pages: config.pageList,
@@ -23,14 +24,14 @@ export function createReactNativeApp (component: React.ComponentClass, config: R
     rnConfig: config.appConfig.rn || {}
   }
 
-  const ref = React.createRef<AppInstance>()
+  const ref = createRef<AppInstance>()
 
   const isReactComponent = isClassComponent(component)
 
   const NewAppComponent = (AppCompoent) => {
-    return class Entry extends React.Component <any, any> {
+    return class Entry extends Component <any, any> {
       render () {
-        let props: React.Props<any> | null = null
+        let props: ComponentProps<any> | null = null
 
         if (isReactComponent) {
           props = { ref }

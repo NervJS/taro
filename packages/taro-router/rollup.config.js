@@ -1,42 +1,41 @@
-import babel from '@rollup/plugin-babel'
 import commonjs from '@rollup/plugin-commonjs'
-import typescript from 'rollup-plugin-typescript2'
 import resolve from '@rollup/plugin-node-resolve'
 import * as path from 'path'
+import externals from 'rollup-plugin-node-externals'
+import ts from 'rollup-plugin-ts'
 
 const cwd = __dirname
 
 const baseConfig = {
   input: path.join(cwd, 'src/index.ts'),
-  external: d => {
-    return /^@tarojs\/(runtime|taro)$/.test(d) || d.includes('@babel/runtime')
-  },
   output: [
     {
-      file: path.join(cwd, 'dist/index.js'),
+      file: path.join(cwd, 'dist/index.cjs.js'),
       format: 'cjs',
       sourcemap: true,
       exports: 'named'
     }
   ],
   plugins: [
-    typescript(),
+    externals({
+      devDeps: false
+    }),
     resolve({
       preferBuiltins: false,
       mainFields: ['main:h5', 'browser', 'module', 'jsnext:main', 'main']
     }),
-    commonjs(),
-    babel({
-      extensions: ['.js', '.jsx', '.es6', '.es', '.mjs', 'ts', 'tsx'],
-      babelHelpers: 'runtime'
-    })
+    ts({
+      declaration: false,
+      sourceMap: true
+    }),
+    commonjs()
   ]
 }
 const esmConfig = Object.assign({}, baseConfig, {
-  output: Object.assign({}, baseConfig.output, {
+  output: Object.assign({}, baseConfig.output[0], {
     sourcemap: true,
     format: 'es',
-    file: path.join(cwd, 'dist/router.esm.js')
+    file: path.join(cwd, 'dist/index.esm.js')
   })
 })
 

@@ -1,8 +1,8 @@
 import Taro from '@tarojs/api'
-import MobileDetect from 'mobile-detect'
+import { getMobileDetect } from '@tarojs/router/dist/utils/navigate'
 
-import { temporarilyNotSupport } from '../utils'
-import { MethodHandler } from '../utils/handler'
+import { temporarilyNotSupport } from '../../utils'
+import { MethodHandler } from '../../utils/handler'
 
 /** 跳转系统蓝牙设置页 */
 export const openSystemBluetoothSetting = temporarilyNotSupport('openSystemBluetoothSetting')
@@ -58,7 +58,7 @@ export const getSystemSetting: typeof Taro.getSystemSetting = () => {
 
 /** 获取设备设置 */
 export const getDeviceInfo: typeof Taro.getDeviceInfo = () => {
-  const md = new MobileDetect(navigator.userAgent)
+  const md = getMobileDetect()
 
   const info: ReturnType<typeof Taro.getDeviceInfo> = {
     /** 应用二进制接口类型（仅 Android 支持） */
@@ -89,7 +89,7 @@ export const getAppBaseInfo: typeof Taro.getAppBaseInfo = () => {
     /** 客户端基础库版本 */
     SDKVersion: '',
     /** 是否已打开调试。可通过右上角菜单或 [Taro.setEnableDebug](/docs/apis/base/debug/setEnableDebug) 打开调试。 */
-    enableDebug: process.env.NODE_ENV === 'development',
+    enableDebug: process.env.NODE_ENV !== 'production',
     /** 当前小程序运行的宿主环境 */
     // host: { appId: '' },
     /** 微信设置的语言 */

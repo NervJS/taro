@@ -1,4 +1,4 @@
-import { temporarilyNotSupport } from '../utils'
+import { temporarilyNotSupport } from '../../utils'
 
 // 画面录制器
 export const createMediaRecorder = temporarilyNotSupport('createMediaRecorder')

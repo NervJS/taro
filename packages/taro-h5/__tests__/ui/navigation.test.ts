@@ -1,21 +1,22 @@
 import * as Taro from '@tarojs/taro-h5'
+
 const mockConsole = require('jest-mock-console')
 
 describe('navigation', () => {
   describe('setNavigationBarTitle', () => {
-    test('options should be object', () => {
+    beforeEach(() => {
       mockConsole()
+    })
 
+    test('options should be object', () => {
       expect.assertions(4)
       return Promise.all([
-        // @ts-ignore
         Taro.setNavigationBarTitle()
           .catch(err => {
             const expectErrMsg = 'setNavigationBarTitle:fail parameter error: parameter should be Object instead of Undefined'
             expect(console.error).toHaveBeenNthCalledWith(1, expectErrMsg)
             expect(err.errMsg).toMatch(expectErrMsg)
           }),
-        // @ts-ignore
         Taro.setNavigationBarTitle(null)
           .catch(err => {
             const expectErrMsg = 'setNavigationBarTitle:fail parameter error: parameter should be Object instead of Null'
@@ -26,13 +27,11 @@ describe('navigation', () => {
     })
 
     test('options.title should be string', () => {
-      mockConsole()
       const success = jest.fn()
       const fail = jest.fn()
       const complete = jest.fn()
 
       expect.assertions(7)
-      // @ts-ignore
       return Taro.setNavigationBarTitle({
         success,
         fail,

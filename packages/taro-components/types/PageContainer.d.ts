@@ -1,16 +1,15 @@
 import { ComponentType } from 'react'
-import { StandardProps, CommonEventFunction, BaseEventOrigFunction } from './common'
-
+import { StandardProps, CommonEventFunction } from './common'
 interface PageContainerProps extends StandardProps {
   /** 是否显示容器组件
    * @default false
-   * @supported weapp
+   * @supported weapp, rn
    */
   show?: boolean
 
   /** 动画时长，单位毫秒
    * @default 300
-   * @supported weapp
+   * @supported weapp, rn
    */
   duration?: number
 
@@ -22,65 +21,65 @@ interface PageContainerProps extends StandardProps {
 
   /** 是否显示遮罩层
    * @default true
-   * @supported weapp
+   * @supported weapp, rn
    */
   overlay?: boolean
 
   /** 弹出位置，可选值为 top bottom right center
    * @default bottom
-   * @supported weapp
+   * @supported weapp, rn
    */
   position?: keyof PageContainerProps.Position
 
   /** 是否显示圆角
    * @default false
-   * @supported weapp
+   * @supported weapp, rn
    */
   round?: boolean
 
-  /** 是否在下滑一段距离后关闭
-   * @default false
-   * @supported weapp
-   */
-  closeOnSlideDown?: boolean
-
   /** 自定义遮罩层样式
-   * @supported weapp
+   * @supported weapp, rn
    */
   overlayStyle?: string
 
   /** 自定义弹出层样式
-   * @supported weapp
+   * @supported weapp, rn
    */
   customStyle?: string
 
-  /** 进入前触发
+  /** 是否在下滑一段距离后关闭
    * @supported weapp
+   * @default false
+   */
+  closeOnSlideDown?: string
+
+  /** 进入前触发
+   * @supported weapp, rn
    */
   onBeforeEnter?: CommonEventFunction
 
   /** 进入中触发
-   * @supported weapp
+   * @supported weapp, rn
    */
   onEnter?: CommonEventFunction
 
   /** 进入后触发
-   * @supported weapp
+   * @supported weapp, rn
    */
   onAfterEnter?: CommonEventFunction
 
   /** 离开前触发
-   * @supported weapp
+   * @supported weapp, rn
    */
   onBeforeLeave?: CommonEventFunction
 
   /** 离开中触发
-   * @supported weapp
+   * @supported weapp, rn
    */
   onLeave?: CommonEventFunction
 
   /** 离开后触发
-   * @supported weapp
+   * @supported weapp, rn
    */
   onAfterLeave?: CommonEventFunction
 
@@ -89,16 +88,18 @@ interface PageContainerProps extends StandardProps {
    */
   onClickOverlay?: CommonEventFunction
 }
-
 declare namespace PageContainerProps {
   /** 弹出位置 */
   interface Position {
     /** 上方弹出 */
     top
+
     /** 下方弹出 */
     bottom
+
     /** 右边弹出 */
     right
+
     /** 中央弹出 */
     center
   }
@@ -113,9 +114,8 @@ declare namespace PageContainerProps {
  *   1. tip: 当前页面最多只有 1 个容器，若已存在容器的情况下，无法增加新的容器
  *   2. tip: wx.navigateBack 无法在页面栈顶调用，此时没有上一级页面
  * @classification viewContainer
- * @supported weapp
+ * @supported weapp, rn
  * @see https://developers.weixin.qq.com/miniprogram/dev/component/page-container.html
  */
 declare const PageContainer: ComponentType<PageContainerProps>
-
 export { PageContainer, PageContainerProps }

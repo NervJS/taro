@@ -3,6 +3,8 @@
  * https://www.w3.org/Style/CSS/all-properties.en.html
  */
 
+const WEBKIT = 'webkit'
+
 const styleProperties = [
   'all',
   'appearance',
@@ -84,6 +86,9 @@ function combine (prefix: string, list: string[], excludeSelf?: boolean) {
   !excludeSelf && styleProperties.push(prefix)
   list.forEach(item => {
     styleProperties.push(prefix + item)
+    if (prefix === WEBKIT) {
+      styleProperties.push('Webkit' + item)
+    }
   })
 }
 
@@ -140,7 +145,6 @@ combine('mask', ['Clip', 'Composite', image, 'Mode', 'Origin', 'Position', 'Repe
 combine('borderImage', ['Outset', 'Repeat', 'Slice', 'Source', 'Transform', width])
 combine('maskBorder', ['Mode', 'Outset', 'Repeat', 'Slice', 'Source', width])
 combine('font', ['Family', 'FeatureSettings', 'Kerning', 'LanguageOverride', 'MaxSize', 'MinSize', 'OpticalSizing', 'Palette', size, 'SizeAdjust', 'Stretch', style, 'Weight', 'VariationSettings'])
-combine('fontSynthesis', ['SmallCaps', style, 'Weight'])
 combine('transform', ['Box', 'Origin', style])
 combine('background', [color, image, 'Attachment', 'BlendMode', 'Clip', 'Origin', 'Position', 'Repeat', size])
 combine('listStyle', [image, 'Position', 'Type'])
@@ -149,23 +153,18 @@ combine('grid', ['Area', 'AutoColumns', 'AutoFlow', 'AutoRows'])
 combine('gridTemplate', ['Areas', 'Columns', 'Rows'])
 combine('overflow', ['Block', 'Inline', 'Wrap', 'X', 'Y'])
 combine('transition', ['Delay', 'Duration', 'Property', 'TimingFunction'])
-combine('lineStacking', ['Ruby', 'Shift', 'Strategy'])
 combine('color', ['Adjust', 'InterpolationFilters', 'Scheme'])
 combine('textAlign', ['All', 'Last'])
 combine('page', ['BreakAfter', 'BreakBefore', 'BreakInside'])
-combine('speak', ['Header', 'Numeral', 'Punctuation'])
 combine('animation', ['Delay', 'Direction', 'Duration', 'FillMode', 'IterationCount', 'Name', 'PlayState', 'TimingFunction'])
 combine('flex', ['Basis', 'Direction', 'Flow', 'Grow', 'Shrink', 'Wrap'])
 combine('offset', [...after_before, ...end_start, 'Anchor', 'Distance', 'Path', 'Position', 'Rotate'])
-combine('fontVariant', ['Alternates', 'Caps', 'EastAsian', 'Emoji', 'Ligatures', 'Numeric', 'Position'])
 combine('perspective', ['Origin'])
-combine('pitch', ['Range'])
 combine('clip', ['Path', 'Rule'])
 combine('flow', ['From', 'Into'])
 
 combine('align', ['Content', 'Items', 'Self'], true)
 combine('alignment', ['Adjust', 'Baseline'], true)
-combine('bookmark', ['Label', 'Level', 'State'], true)
 combine('borderStart', endRadius_startRadius, true)
 combine('borderEnd', endRadius_startRadius, true)
 combine('borderCorner', ['Fit', image, 'ImageTransform'], true)
@@ -185,9 +184,10 @@ combine('inline', ['BoxAlign', size, 'Sizing'], true)
 combine('text', ['CombineUpright', 'GroupAlign', 'Height', 'Indent', 'Justify', 'Orientation', 'Overflow', 'Shadow', 'SpaceCollapse', 'SpaceTrim', 'Spacing', 'Transform', 'UnderlinePosition', 'Wrap'], true)
 combine('shape', ['ImageThreshold', 'Inside', 'Margin', 'Outside'], true)
 combine('word', ['Break', 'Spacing', 'Wrap'], true)
-combine('nav', ['Down', 'Left', 'Right', 'Up'], true)
 combine('object', ['Fit', 'Position'], true)
 combine('box', ['DecorationBreak', 'Shadow', 'Sizing', 'Snap'], true)
+
+combine(WEBKIT, ['LineClamp', 'BoxOrient', 'TextFillColor', 'TextStroke', 'TextStrokeColor', 'TextStrokeWidth'], true)
 
 /** 非常用 style */
 // combine('caret', [color, 'Shape'])
@@ -198,5 +198,12 @@ combine('box', ['DecorationBreak', 'Shadow', 'Sizing', 'Snap'], true)
 // combine('hyphenateLimit', ['Chars', 'Last', 'Lines', 'Zone'], true)
 // combine('initialLetters', ['Align', 'Wrap'])
 // combine('ruby', ['Align', 'Merge', 'Position'], true)
+// combine('lineStacking', ['Ruby', 'Shift', 'Strategy'])
+// combine('bookmark', ['Label', 'Level', 'State'], true)
+// combine('speak', ['Header', 'Numeral', 'Punctuation'])
+// combine('pitch', ['Range'])
+// combine('nav', ['Down', 'Left', 'Right', 'Up'], true)
+// combine('fontSynthesis', ['SmallCaps', style, 'Weight'])
+// combine('fontVariant', ['Alternates', 'Caps', 'EastAsian', 'Emoji', 'Ligatures', 'Numeric', 'Position'])
 
 export { styleProperties }

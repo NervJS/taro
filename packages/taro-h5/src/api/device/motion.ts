@@ -1,5 +1,7 @@
 import Taro from '@tarojs/api'
-import { CallbackManager, MethodHandler } from '../utils/handler'
+
+import { throttle } from '../../utils'
+import { CallbackManager, MethodHandler } from '../../utils/handler'
 
 const callbackManager = new CallbackManager()
 let deviceMotionListener
@@ -32,22 +34,6 @@ export const stopDeviceMotionListening: typeof Taro.stopDeviceMotionListening = 
   }
 }
 
-const getDeviceOrientationListener = interval => {
-  let lock
-  let timer
-  return evt => {
-    if (lock) return
-    lock = true
-    timer && clearTimeout(timer)
-    callbackManager.trigger({
-      alpha: evt.alpha,
-      beta: evt.beta,
-      gamma: evt.gamma
-    })
-    timer = setTimeout(() => { lock = false }, interval)
-  }
-}
-
 /**
  * 开始监听设备方向的变化。
  */
@@ -59,7 +45,13 @@ export const startDeviceMotionListening: typeof Taro.startDeviceMotionListening 
       if (deviceMotionListener) {
         stopDeviceMotionListening()
       }
-      deviceMotionListener = getDeviceOrientationListener(intervalObj.interval)
+      deviceMotionListener = throttle((evt: DeviceOrientationEvent) => {
+        callbackManager.trigger({
+          alpha: evt.alpha,
+          beta: evt.beta,
+          gamma: evt.gamma
+        })
+      }, intervalObj.interval)
       window.addEventListener('deviceorientation', deviceMotionListener, true)
     } else {
       throw new Error('deviceMotion is not supported')

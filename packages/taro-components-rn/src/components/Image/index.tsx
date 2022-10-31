@@ -16,8 +16,6 @@
 
 import * as React from 'react'
 import { Image, StyleSheet, ImageSourcePropType, LayoutChangeEvent, ImageResolvedAssetSource } from 'react-native'
-// @ts-ignore
-import { SvgCssUri, WithLocalSvg } from 'react-native-svg'
 import { noop, omit } from '../../utils'
 import ClickableSimplified from '../ClickableSimplified'
 import { ImageProps, ImageState, ResizeModeMap, ResizeMode } from './PropsType'
@@ -30,6 +28,15 @@ const resizeModeMap: ResizeModeMap = {
   // And widthFix
   // Not supported value...
 }
+
+let SvgCssUri, WithLocalSvg
+// react-native-svg is optional
+try {
+  // eslint-disable-next-line @typescript-eslint/no-var-requires
+  const svg = require('react-native-svg')
+  SvgCssUri = svg.SvgCssUri
+  WithLocalSvg = svg.WithLocalSvg
+} catch (e) {}
 
 export class _Image extends React.Component<ImageProps, ImageState> {
   static defaultProps: ImageProps = {
@@ -142,7 +149,7 @@ export class _Image extends React.Component<ImageProps, ImageState> {
 
     // remote svg image support, svg 图片暂不支持 mode
     const remoteSvgReg = /(https?:\/\/.*\.(?:svg|svgx))/i
-    if (typeof src === 'string' && remoteSvgReg.test(src)) {
+    if (SvgCssUri && typeof src === 'string' && remoteSvgReg.test(src)) {
       return (
         <SvgCssUri
           uri={src}
@@ -152,19 +159,19 @@ export class _Image extends React.Component<ImageProps, ImageState> {
       )
     }
 
+    // The parameter passed to require mpxTransformust be a string literal
+    const source: ImageSourcePropType = typeof src === 'string' ? { uri: src } : src
+
     // local svg image support, svg 图片暂不支持 mode
-    if (svg) {
+    if (WithLocalSvg && svg) {
       return (
         <WithLocalSvg
-          asset={src}
+          asset={source}
           width={defaultWidth}
           height={defaultHeight}
         />
       )
     }
-
-    // The parameter passed to require mpxTransformust be a string literal
-    const source: ImageSourcePropType = typeof src === 'string' ? { uri: src } : src
 
     const isWidthFix = mode === 'widthFix'
     const rMode: ResizeMode = (resizeModeMap[mode] || (isWidthFix ? undefined : 'stretch'))

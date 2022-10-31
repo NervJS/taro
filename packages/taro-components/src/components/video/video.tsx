@@ -1,12 +1,16 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { Component, h, ComponentInterface, Prop, State, Event, EventEmitter, Host, Watch, Listen, Element, Method } from '@stencil/core'
 import classNames from 'classnames'
+import Hls from 'hls.js'
+
+import { throttle } from '../../utils'
 import {
   formatTime,
   calcDist,
   normalizeNumber,
-  throttle,
-  screenFn
+  screenFn,
+  isHls,
+  scene
 } from './utils'
 
 @Component({
@@ -30,6 +34,7 @@ export class Video implements ComponentInterface {
   private lastPercentage
   private nextPercentage
   private gestureType = 'none'
+  private hls: Hls
 
   @Element() el: HTMLTaroVideoCoreElement
 
@@ -185,6 +190,7 @@ export class Video implements ComponentInterface {
   }
 
   componentDidLoad () {
+    this.init()
     if (this.initialTime) {
       this.videoRef.currentTime = this.initialTime
     }
@@ -193,6 +199,10 @@ export class Video implements ComponentInterface {
 
     if (document.addEventListener) {
       document.addEventListener(screenFn.fullscreenchange, this.handleFullScreenChange)
+    }
+    if (this.videoRef && scene === 'iOS') {
+      // NOTE: iOS 场景下 fullscreenchange 并不会在退出全屏状态下触发，仅 webkitpresentationmodechanged 与 webkitendfullscreen 可替代
+      this.videoRef.addEventListener('webkitendfullscreen', this.handleFullScreenChange)
     }
   }
 
@@ -203,6 +213,9 @@ export class Video implements ComponentInterface {
     if (document.removeEventListener) {
       document.removeEventListener(screenFn.fullscreenchange, this.handleFullScreenChange)
     }
+    if (this.videoRef && scene === 'iOS') {
+      this.videoRef.removeEventListener('webkitendfullscreen', this.handleFullScreenChange)
+    }
   }
 
   @Watch('enableDanmu')
@@ -210,7 +223,12 @@ export class Video implements ComponentInterface {
     this._enableDanmu = newVal
   }
 
-  analyseGesture = (e: TouchEvent) => {
+  @Watch('src')
+  watchSrc () {
+    this.init()
+  }
+
+  analyzeGesture = (e: TouchEvent) => {
     const obj: {
       type: string
       dataX?: number
@@ -262,7 +280,7 @@ export class Video implements ComponentInterface {
     if (this.lastTouchScreenX === undefined || this.lastTouchScreenY === undefined) return
     if (await this.controlsRef.getIsDraggingProgressBall()) return
 
-    const gestureObj = this.analyseGesture(e)
+    const gestureObj = this.analyzeGesture(e)
     if (gestureObj.type === 'adjustVolume') {
       this.toastVolumeRef.style.visibility = 'visible'
       const nextVolume = Math.max(Math.min(this.lastVolume - gestureObj.dataY!, 1), 0)
@@ -302,6 +320,40 @@ export class Video implements ComponentInterface {
     this.gestureType = 'none'
     this.lastTouchScreenX = undefined
     this.lastTouchScreenY = undefined
+  }
+
+  loadNativePlayer = () => {
+    if (this.videoRef) {
+      this.videoRef.src = this.src
+      this.videoRef.load()
+    }
+  }
+
+  init = () => {
+    const { src, videoRef } = this
+
+    if (isHls(src)) {
+      if (Hls.isSupported()) {
+        if (this.hls) {
+          this.hls.destroy()
+        }
+        this.hls = new Hls()
+        this.hls.loadSource(src)
+        this.hls.attachMedia(videoRef)
+        this.hls.on(Hls.Events.MANIFEST_PARSED, () => {
+          this.autoplay && this.play()
+        })
+        this.hls.on(Hls.Events.ERROR, (_, data) => {
+          this.handleError(data)
+        })
+      } else if (videoRef.canPlayType('application/vnd.apple.mpegurl')) {
+        this.loadNativePlayer()
+      } else {
+        console.error('该浏览器不支持 HLS 播放')
+      }
+    } else {
+      this.loadNativePlayer()
+    }
   }
 
   handlePlay = () => {
@@ -352,9 +404,25 @@ export class Video implements ComponentInterface {
   }, 250)
 
   handleError = e => {
-    this.onError.emit({
-      errMsg: e.target?.error?.message
-    })
+    if (this.hls) {
+      switch (e.type) {
+        case Hls.ErrorTypes.NETWORK_ERROR:
+          // try to recover network error
+          this.onError.emit({ errMsg: e.response })
+          this.hls.startLoad()
+          break
+        case Hls.ErrorTypes.MEDIA_ERROR:
+          this.onError.emit({ errMsg: e.reason || '媒体错误,请重试' })
+          this.hls.recoverMediaError()
+          break
+        default:
+          break
+      }
+    } else {
+      this.onError.emit({
+        errMsg: e.target?.error?.message,
+      })
+    }
   }
 
   handleDurationChange = () => {
@@ -448,7 +516,7 @@ export class Video implements ComponentInterface {
   }
 
   toggleFullScreen = (isFullScreen = !this.isFullScreen) => {
-    this.isFullScreen = isFullScreen
+    this.isFullScreen = isFullScreen // this.videoRef?.['webkitDisplayingFullscreen']
     this.controlsRef.toggleVisibility(true)
     this.fullScreenTimestamp = new Date().getTime()
     this.onFullScreenChange.emit({
@@ -457,7 +525,7 @@ export class Video implements ComponentInterface {
     })
     if (this.isFullScreen && !document[screenFn.fullscreenElement]) {
       setTimeout(() => {
-        this.videoRef[screenFn.requestFullscreen]({ navigationUI: 'show' })
+        this.videoRef[screenFn.requestFullscreen]({ navigationUI: 'auto' })
       }, 0)
     }
   }
@@ -477,7 +545,6 @@ export class Video implements ComponentInterface {
 
   render () {
     const {
-      src,
       controls,
       autoplay,
       loop,
@@ -487,8 +554,6 @@ export class Video implements ComponentInterface {
       isFirst,
       isMute,
       isFullScreen,
-      duration,
-      _duration,
       showCenterPlayBtn,
       isPlaying,
       _enableDanmu,
@@ -497,7 +562,8 @@ export class Video implements ComponentInterface {
       showFullscreenBtn,
       nativeProps
     } = this
-    const durationTime = formatTime(duration || _duration || null)
+    const duration = this.duration || this._duration
+    const durationTime = formatTime(duration)
 
     return (
       <Host
@@ -517,7 +583,6 @@ export class Video implements ComponentInterface {
               this.videoRef = dom as HTMLVideoElement
             }
           }}
-          src={src}
           autoplay={autoplay}
           loop={loop}
           muted={muted}
@@ -561,7 +626,7 @@ export class Video implements ComponentInterface {
           }}
           controls={controls}
           currentTime={this.currentTime}
-          duration={this.duration || this._duration || undefined}
+          duration={duration}
           isPlaying={this.isPlaying}
           pauseFunc={this._pause}
           playFunc={this._play}

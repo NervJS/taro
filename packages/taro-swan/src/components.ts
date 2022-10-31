@@ -33,7 +33,8 @@ export const components = {
     bindOpenSetting: '',
     bindContact: '',
     bindChooseAddress: '',
-    bindChooseInvoiceTitle: ''
+    bindChooseInvoiceTitle: '',
+    bindLogin: ''
   },
   Form: {
     'report-type': 'default',

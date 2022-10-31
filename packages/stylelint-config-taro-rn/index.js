@@ -2,6 +2,7 @@ module.exports = {
   plugins: ['stylelint-taro-rn'],
   rules: {
     'taro-rn/css-property-no-unknown': true,
+    'taro-rn/line-height-no-value-without-unit': true,
     'taro-rn/font-weight-no-ignored-values': [
       true,
       {

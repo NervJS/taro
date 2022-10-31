@@ -14,7 +14,7 @@ describe('css modules', () => {
         }
       }
     })
-    const assets = stats.toJson().assets || []
+    const assets = stats?.toJson().assets || []
 
     expect(assets.length).toMatchSnapshot()
 
@@ -35,7 +35,7 @@ describe('css modules', () => {
         }
       }
     })
-    const assets = stats.toJson().assets || []
+    const assets = stats?.toJson().assets || []
 
     expect(assets.length).toMatchSnapshot()
 

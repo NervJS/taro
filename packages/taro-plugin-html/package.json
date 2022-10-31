@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/plugin-html",
-  "version": "3.4.4",
+  "version": "3.5.7",
   "description": "Taro 小程序端支持使用 HTML 标签的插件",
   "main": "index.js",
   "scripts": {
@@ -28,9 +28,10 @@
     "url": "https://github.com/NervJS/taro/issues"
   },
   "homepage": "https://github.com/NervJS/taro#readme",
-  "devDependencies": {
-    "@tarojs/runtime": "3.4.4",
-    "@tarojs/service": "3.4.4",
-    "@tarojs/shared": "3.4.4"
+  "dependencies": {
+    "@babel/parser": "^7.14.5",
+    "@tarojs/runtime": "workspace:*",
+    "@tarojs/service": "workspace:*",
+    "@tarojs/shared": "workspace:*"
   }
 }

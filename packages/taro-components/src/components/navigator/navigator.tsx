@@ -27,7 +27,7 @@ import classNames from 'classnames'
 
 @Component({
   tag: 'taro-navigator-core',
-  styleUrl: 'navigator.css'
+  styleUrl: './style/index.scss'
 })
 export class Navigator implements ComponentInterface {
   @Prop() hoverClass: string

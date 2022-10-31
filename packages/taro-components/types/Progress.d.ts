@@ -1,57 +1,56 @@
 import { ComponentType } from 'react'
 import { StandardProps, CommonEventFunction } from './common'
-
 interface ProgressProps extends StandardProps {
   /** 百分比 0~100
-   * @supported weapp, swan, alipay, tt, h5, rn
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn
    */
   percent?: number
 
   /** 在进度条右侧显示百分比
    * @default false
-   * @supported weapp, swan, alipay, h5, rn
+   * @supported weapp, alipay, swan, qq, jd, h5, rn
    */
   showInfo?: boolean
 
   /** 圆角大小
    * @default 0
-   * @supported weapp, h5
+   * @supported weapp, swan, qq, jd, h5
    */
   borderRadius?: number | string
 
   /** 右侧百分比字体大小
    * @default 16
-   * @supported weapp, h5
+   * @supported weapp, swan, qq, jd, h5
    */
   fontSize?: number | string
 
   /** 进度条线的宽度
    * @default 6
-   * @supported weapp, swan, alipay, tt, h5, rn
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn
    */
   strokeWidth?: number | string
 
   /** 进度条颜色 (请使用 activeColor)
    * @default "#09BB07"
-   * @supported weapp, swan, alipay, h5, tt
+   * @supported weapp, swan, qq, jd, h5
    */
   color?: string
 
   /** 已选择的进度条的颜色
    * @default "#09BB07"
-   * @supported weapp, swan, alipay, tt, h5, rn
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn
    */
   activeColor?: string
 
   /** 未选择的进度条的颜色
    * @default "#EBEBEB"
-   * @supported weapp, swan, alipay, tt, h5, rn
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn
    */
   backgroundColor?: string
 
   /** 进度条从左往右的动画
    * @default false
-   * @supported weapp, swan, alipay, tt, h5, rn
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn
    */
   active?: boolean
 
@@ -59,18 +58,23 @@ interface ProgressProps extends StandardProps {
    *
    * forwards: 动画从上次结束点接着播
    * @default backwards
-   * @supported weapp, swan, tt, rn, h5
+   * @supported weapp, swan, tt, qq, jd, h5, rn
    */
   activeMode?: 'backwards' | 'forwards'
 
   /** 进度增加 1% 所需毫秒数
    * @default 30
-   * @supported weapp, h5
+   * @supported weapp, swan, jd, h5
    */
   duration?: number
 
+  /** 无障碍访问，（属性）元素的额外描述
+   * @supported qq
+   */
+  ariaLabel?: string
+
   /** 动画完成事件
-   * @supported weapp, h5
+   * @supported weapp, qq, jd, h5
    */
   onActiveEnd?: CommonEventFunction
 }
@@ -84,7 +88,7 @@ interface ProgressProps extends StandardProps {
  *   constructor() {
  *     super(...arguments)
  *   }
- * 
+ *
  *   render() {
  *     return (
  *       <View className='components-page'>
@@ -111,5 +115,4 @@ interface ProgressProps extends StandardProps {
  * @see https://developers.weixin.qq.com/miniprogram/dev/component/progress.html
  */
 declare const Progress: ComponentType<ProgressProps>
-
 export { Progress, ProgressProps }

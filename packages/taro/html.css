@@ -33,62 +33,78 @@
   display: block;
   unicode-bidi: embed;
 }
+
 .h5-li {
   display: list-item;
 }
+
 .h5-head {
   display: none;
 }
+
 .h5-table {
   display: table;
+  border-spacing: 2px;
 }
+
 .h5-tr {
   display: table-row;
 }
+
 .h5-thead {
   display: table-header-group;
 }
+
 .h5-tbody {
   display: table-row-group;
 }
+
 .h5-tfoot {
   display: table-footer-group;
 }
+
 .h5-col {
   display: table-column;
 }
+
 .h5-colgroup {
   display: table-column-group;
 }
+
 .h5-td,
 .h5-th {
   display: table-cell;
 }
+
 .h5-caption {
   display: table-caption;
+  text-align: center;
 }
+
 .h5-th {
+  text-align: center;
   font-weight: bolder;
-  text-align: center;
 }
-.h5-caption {
-  text-align: center;
-}
+
 .h5-body {
   margin: 8px;
 }
+
 .h5-h1 {
-  font-size: 2em;
   margin: 0.67em 0;
+  font-size: 2em;
 }
+
 .h5-h2 {
-  font-size: 1.5em;
   margin: 0.75em 0;
+  font-size: 1.5em;
 }
+
 .h5-h3 {
-  font-size: 1.17em;
   margin: 0.83em 0;
+  font-size: 1.17em;
 }
+
 .h5-h4,
 .h5-p,
 .h5-blockquote,
@@ -101,14 +117,17 @@
 .h5-menu {
   margin: 1.12em 0;
 }
+
 .h5-h5 {
-  font-size: 0.83em;
   margin: 1.5em 0;
+  font-size: 0.83em;
 }
+
 .h5-h6 {
-  font-size: 0.75em;
   margin: 1.67em 0;
+  font-size: 0.75em;
 }
+
 .h5-h1,
 .h5-h2,
 .h5-h3,
@@ -119,10 +138,12 @@
 .h5-strong {
   font-weight: bolder;
 }
+
 .h5-blockquote {
   margin-left: 40px;
   margin-right: 40px;
 }
+
 .h5-i,
 .h5-cite,
 .h5-em,
@@ -130,6 +151,7 @@
 .h5-address {
   font-style: italic;
 }
+
 .h5-pre,
 .h5-tt,
 .h5-code,
@@ -137,50 +159,58 @@
 .h5-samp {
   font-family: monospace;
 }
+
 .h5-pre {
   white-space: pre;
 }
+
 .h5-button,
 .h5-textarea,
 .h5-input,
 .h5-select {
   display: inline-block;
 }
+
 .h5-big {
   font-size: 1.17em;
 }
+
 .h5-small,
 .h5-sub,
 .h5-sup {
   font-size: 0.83em;
 }
+
 .h5-sub {
   vertical-align: sub;
 }
+
 .h5-sup {
   vertical-align: super;
 }
-.h5-table {
-  border-spacing: 2px;
-}
+
 .h5-thead,
 .h5-tbody,
 .h5-tfoot {
   vertical-align: middle;
 }
+
 .h5-td,
 .h5-th,
 .h5-tr {
   vertical-align: inherit;
 }
+
 .h5-s,
 .h5-strike,
 .h5-del {
   text-decoration: line-through;
 }
+
 .h5-hr {
   border: 1px inset;
 }
+
 .h5-ol,
 .h5-ul,
 .h5-dir,
@@ -188,9 +218,11 @@
 .h5-dd {
   margin-left: 40px;
 }
+
 .h5-ol {
   list-style-type: decimal;
 }
+
 .h5-ol .h5-ul,
 .h5-ul .h5-ol,
 .h5-ul .h5-ul,
@@ -198,17 +230,21 @@
   margin-top: 0;
   margin-bottom: 0;
 }
+
 .h5-u,
 .h5-ins {
   text-decoration: underline;
 }
-.h5-br:before {
-  content: "\A";
+
+.h5-br::before {
   white-space: pre-line;
+  content: "\A";
 }
+
 .h5-center {
   text-align: center;
 }
+
 input[type="hidden"] {
   display: none !important;
 }

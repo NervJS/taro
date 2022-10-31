@@ -1,23 +1,15 @@
 {
+  "extends": "../../tsconfig.root.json",
   "compilerOptions": {
     "target": "ES5",
     "module": "CommonJS",
     "rootDir": "./src",
     "outDir": "dist",
     "sourceMap": true,
+    "esModuleInterop": true,
     "baseUrl": ".",
-    "noImplicitAny": false,
-    "noUnusedLocals": true,
-    "removeComments": false,
-    "strictNullChecks": true,
-    "allowSyntheticDefaultImports": true,
-    "experimentalDecorators": true,
-    "skipLibCheck": true,
-    "moduleResolution": "node"
   },
-  "include": [
-    "./src"
-  ],
+  "include": ["./src"],
   "exclude": [
     "**/*.test.ts",
     "**/*.spec.ts"

@@ -1,10 +1,12 @@
-import * as webpack from 'webpack'
-import { getOptions, stringifyRequest } from 'loader-utils'
 import { normalizePath } from '@tarojs/helper'
+import { getOptions, stringifyRequest } from 'loader-utils'
 import * as path from 'path'
+
 import { getPageConfig } from './page'
 
-export default function (this: webpack.loader.LoaderContext) {
+import type * as webpack from 'webpack'
+
+export default function (this: webpack.LoaderContext<any>) {
   const options = getOptions(this)
   const { importFrameworkStatement, frameworkArgs, isNeedRawLoader, creatorLocation } = options.loaderMeta
   const { config: loaderConfig } = options
@@ -23,7 +25,7 @@ export default function (this: webpack.loader.LoaderContext) {
     if (/^@tarojs\/plugin-(react|vue)-devtools/.test(item)) return res
     return res + `import '${item}'\n`
   }, '')
-  const { globalObject } = this._compilation.outputOptions
+  const { globalObject } = this._compilation?.outputOptions || { globalObject: 'wx' }
 
   const prerender = `
 if (typeof PRERENDER !== 'undefined') {
@@ -31,12 +33,8 @@ if (typeof PRERENDER !== 'undefined') {
 }`
 
   return `${setReconciler}
-import { defaultReconciler } from '@tarojs/shared'
-import { container, SERVICE_IDENTIFIER } from '@tarojs/runtime'
 import { createNativeComponentConfig } from '${creatorLocation}'
 ${importFrameworkStatement}
-var hooks = container.get(SERVICE_IDENTIFIER.Hooks)
-hooks.initNativeApiImpls = (hooks.initNativeApiImpls || []).concat(defaultReconciler.initNativeApi)
 var component = require(${stringify(componentPath)}).default
 var config = ${configString};
 var inst = Component(createNativeComponentConfig(component, ${frameworkArgs}))

@@ -1,17 +1,14 @@
 {
   "extends": "../../tsconfig.root.json",
-  "include": ["src"],
-  "exclude": [
-    "src/__tests__/**",
-  ],
   "compilerOptions": {
     "rootDir": "./src",
     "outDir": "./dist",
-    "skipLibCheck": true,
     "sourceMap": true,
     "esModuleInterop": true,
     "jsx": "react",
     "types": ["react-native", "jest"],
-    "typeRoots": ["./node_modules/@types", "./src/types", "../../node_modules/@types"]
-  }
+    "typeRoots": ["./node_modules/@types", "../../node_modules/@types"]
+  },
+  "include": ["./src"],
+  "exclude": ["./src/__tests__/**"]
 }

@@ -1,15 +1,25 @@
-@import './swiper.min.css';
+@import "~swiper/swiper.min.css";
+@import "~swiper/swiper-bundle.min.css";
 
 taro-swiper-core {
   display: block;
   height: 150px;
-}
-.swiper-container {
-  height: 100%;
-}
-.swiper-pagination {
-  font-size: 0;
-}
-.swiper-pagination-bullet {
-  opacity: 1
+
+  .swiper {
+    &-container {
+      height: 100%;
+    }
+
+    &-pagination {
+      font-size: 0;
+
+      &.swiper-pagination-bullet {
+        opacity: 1;
+      }
+
+      &.swiper-pagination-hidden {
+        display: none;
+      }
+    }
+  }
 }

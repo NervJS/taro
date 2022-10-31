@@ -1,11 +1,14 @@
-import { REG_VUE, chalk } from '@tarojs/helper'
+import { chalk, REG_VUE, VUE_EXT } from '@tarojs/helper'
 import { DEFAULT_Components } from '@tarojs/runner-utils'
-import { internalComponents, toCamelCase, capitalize } from '@tarojs/shared/dist/template'
+import { isString } from '@tarojs/shared'
+import { capitalize, internalComponents, toCamelCase } from '@tarojs/shared/dist/template'
+
 import { getLoaderMeta } from './loader-meta'
 
 import type { IPluginContext } from '@tarojs/service'
 
-const CUSTOM_WRAPPER = 'custom-wrapper'
+export const CUSTOM_WRAPPER = 'custom-wrapper'
+
 let isBuildH5
 
 export default (ctx: IPluginContext) => {
@@ -15,11 +18,39 @@ export default (ctx: IPluginContext) => {
   isBuildH5 = process.env.TARO_ENV === 'h5'
 
   ctx.modifyWebpackChain(({ chain, data }) => {
+    if (process.env.NODE_ENV !== 'production') {
+      setAlias(chain)
+    }
     customVueChain(chain, data)
     setLoader(chain)
 
     if (isBuildH5) {
       setStyleLoader(ctx, chain)
+    }
+  })
+
+  ctx.modifyRunnerOpts(({ opts }) => {
+    opts.frameworkExts = VUE_EXT
+
+    if (!opts?.compiler) return
+
+    if (isString(opts.compiler)) {
+      opts.compiler = {
+        type: opts.compiler
+      }
+    }
+
+    const { compiler } = opts
+    if (compiler.type === 'webpack5') {
+      // 提供给 webpack5 依赖预编译收集器的第三方依赖
+      const deps = [
+        'vue',
+        '@tarojs/plugin-framework-vue2/dist/runtime'
+      ]
+      compiler.prebundle ||= {}
+      const prebundleOptions = compiler.prebundle
+      prebundleOptions.include ||= []
+      prebundleOptions.include = prebundleOptions.include.concat(deps)
     }
   })
 }
@@ -154,4 +185,10 @@ function setLoader (chain) {
         return args
       })
   }
+}
+
+function setAlias (chain) {
+  // 避免 npm link 时，taro composition apis 使用的 vue 和项目使用的 vue 实例不一致。
+  chain.resolve.alias
+    .set('vue', require.resolve('vue'))
 }

@@ -97,7 +97,7 @@ declare module '../../index' {
     type OnLoadCallback = (res: TaroGeneral.CallbackResult) => void
     interface OnErrorCallbackResult extends TaroGeneral.CallbackResult {
       /** 错误码
-       * @see https://nervjs.github.io/taro/docs/apis/General#AdErrCode
+       * @see /docs/apis/General#aderrcode
        */
       errCode: keyof TaroGeneral.AdErrCode
       /** 错误信息 */
@@ -160,7 +160,7 @@ declare module '../../index' {
   namespace RewardedVideoAd {
     interface OnErrorCallbackResult extends TaroGeneral.CallbackResult {
       /** 错误码
-       * @see https://nervjs.github.io/taro/docs/apis/General#AdErrCode
+       * @see /docs/apis/General#aderrcode
        */
       errCode: keyof TaroGeneral.AdErrCode
       /** 错误信息 */

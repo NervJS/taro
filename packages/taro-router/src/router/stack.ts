@@ -15,6 +15,10 @@ class Stacks {
     }
   }
 
+  get delta () {
+    return this.backDelta
+  }
+
   get length () {
     return this.stacks.length
   }

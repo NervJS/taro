@@ -1,13 +1,14 @@
 import * as Taro from '@tarojs/taro-h5'
 import { Server } from 'mock-socket'
+
 const mockConsole = require('jest-mock-console')
 
 describe('websocket', () => {
-  test('options should be object', () => {
+  beforeEach(() => {
     mockConsole()
-
+  })
+  test('options should be object', () => {
     expect.assertions(2)
-    // @ts-ignore
     return Taro.connectSocket()
       .catch(err => {
         const expectErrMsg = 'connectSocket:fail parameter error: parameter should be Object instead of Undefined'
@@ -17,7 +18,6 @@ describe('websocket', () => {
   })
 
   test('options.url should be string', () => {
-    mockConsole()
     const success = jest.fn()
     const fail = jest.fn()
     const complete = jest.fn()
@@ -42,7 +42,6 @@ describe('websocket', () => {
   })
 
   test('options.url should be starts with ws:// or wss://', () => {
-    mockConsole()
     const url = 'http://localhost:8080'
     const success = jest.fn()
     const fail = jest.fn()
@@ -68,7 +67,6 @@ describe('websocket', () => {
   })
 
   test('should not keep more than 2 connection', () => {
-    mockConsole()
     const success = jest.fn()
     const fail = jest.fn()
     const complete = jest.fn()
@@ -168,7 +166,6 @@ describe('websocket', () => {
           expect(task.ws.protocol).toMatch('foo')
           task.close()
         }),
-      // @ts-ignore
       Taro.connectSocket({ url: 'ws://not-real-too', protocols: 'bar' })
         .then((task: any) => {
           expect(task.ws.protocol).toMatch('')
@@ -197,7 +194,6 @@ describe('websocket', () => {
   })
 
   test('that sending when the socket is closed throws an expection', () => {
-    mockConsole()
     const success = jest.fn()
     const fail = jest.fn()
     const complete = jest.fn()

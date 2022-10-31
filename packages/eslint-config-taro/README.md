@@ -7,7 +7,7 @@ Taro ESLint config，只有当 ESLint 规则全部都通过时，Taro 小程序�
 通过 NPM 安装：
 
 ```bash
-$ npm install eslint babel-eslint eslint-config-taro eslint-plugin-taro eslint-plugin-react eslint-plugin-import --save-dev
+$ npm install eslint @babel/eslint-parser eslint-config-taro eslint-plugin-taro eslint-plugin-react eslint-plugin-import --save-dev
 ```
 
 在 `.eslintrc` 中设置：
@@ -30,4 +30,3 @@ $ npm install eslint babel-eslint eslint-config-taro eslint-plugin-taro eslint-p
 2. 变量定义规则
 3. import 规则 (via [eslint-plugin-import](https://www.npmjs.com/package/eslint-plugin-import))
 4. JSX 规则 (via [eslint-plugin-react](https://www.npmjs.com/package/eslint-plugin-react))
-

@@ -1,27 +1,26 @@
 import { ComponentType } from 'react'
 import { StandardProps, CommonEventFunction, FormItemProps } from './common'
-
 interface RadioProps extends StandardProps {
   /** `<Radio/>` 标识。当该`<Radio/>` 选中时，`<RadioGroup/>`的 change 事件会携带`<Radio/>`的 value
-   * @supported weapp, rn
+   * @supported weapp, alipay, swan, tt, qq, rn
    */
   value?: string
 
   /** 当前是否选中
    * @default false
-   * @supported weapp, h5, rn
+   * @supported weapp, alipay, swan, tt, qq, h5, rn
    */
   checked?: boolean
 
   /** 是否禁用
    * @default false
-   * @supported weapp, h5, rn
+   * @supported weapp, alipay, swan, tt, qq, h5, rn
    */
   disabled?: boolean
 
   /** Radio 的颜色，同 css 的 color
    * @default "#09BB07"
-   * @supported weapp, rn
+   * @supported weapp, alipay, swan, tt, qq, rn
    */
   color?: string
 
@@ -29,11 +28,23 @@ interface RadioProps extends StandardProps {
    * @supported h5
    */
   nativeProps?: Record<string, unknown>
+
+  /** 无障碍访问，（属性）元素的额外描述
+   * @supported qq
+   */
+  ariaLabel?: string
+
+  /** <radio-group/> 中的选中项发生变化时触发 change 事件，event.detail = {value: 选中项radio的value}
+   * @supported jd
+   */
+  onChange?: CommonEventFunction<{
+    value?: string
+  }>
 }
 
 /** 单选项目
  * @classification forms
- * @supported weapp, h5, rn
+ * @supported weapp, h5, rn, tt
  * @example_react
  * ```tsx
  * export default class PageRadio extends Component {
@@ -120,7 +131,7 @@ interface RadioProps extends StandardProps {
  *     </view>
  *   </view>
  * </template>
- * 
+ *
  * <script>
  * export default {
  *   data() {
@@ -175,5 +186,4 @@ interface RadioProps extends StandardProps {
  * @see https://developers.weixin.qq.com/miniprogram/dev/component/radio.html
  */
 declare const Radio: ComponentType<RadioProps>
-
 export { Radio, RadioProps }

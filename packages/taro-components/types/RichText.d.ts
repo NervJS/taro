@@ -1,27 +1,81 @@
 import { ComponentType } from 'react'
-import { StandardProps } from './common'
-
+import { CommonEventFunction, StandardProps } from './common'
 interface RichTextProps extends StandardProps {
-  /** 节点列表/ HTML String */
-  nodes?: Nodes
-  /** 显示连续空格
+  /** 文本是否可选，该属性会使节点显示为 block
+   * @default false
    * @supported weapp
    */
+  userSelect?: boolean
+
+  /** 节点列表/ HTML String */
+  nodes?: Nodes
+
+  /** 显示连续空格
+   * @supported weapp, qq, rn
+   */
   space?: keyof RichTextProps.TSpace
+
+  /** 富文本是否可以长按选中，可用于复制，粘贴，长按搜索等场景
+   * @default false（基础库 3.150.1 以前版本）true（基础库 3.150.1 及以后版本）
+   * @supported swan
+   */
+  selectable?: string
+
+  /** 阻止长按图片时弹起默认菜单（将该属性设置为image-menu-prevent或image-menu-prevent="true"），只在初始化时有效，不能动态变更；若不想阻止弹起默认菜单，则不需要设置此属性
+   * @default false
+   * @supported swan
+   */
+  imageMenuPrevent?: string
+
+  /** 富文本中的图片是否可点击预览。在不设置的情况下，若 rich-text 未监听点击事件，则默认开启。未显示设置 preview 时会进行点击默认预览判断，建议显示设置 preview
+   * @supported swan
+   */
+  preview?: string
+
+  /** 触摸。
+   * @supported alipay
+   */
+  onTap?: CommonEventFunction
+
+  /** 触摸动作开始。
+   * @supported alipay
+   */
+  onTouchstart?: CommonEventFunction
+
+  /** 触摸移动事件。
+   * @supported alipay
+   */
+  onTouchmove?: CommonEventFunction
+
+  /** 触摸动作被打断。
+   * @supported alipay
+   */
+  onTouchcancel?: CommonEventFunction
+
+  /** 触摸动作结束。
+   * @supported alipay
+   */
+  onTouchend?: CommonEventFunction
+
+  /** 触摸后，超过 500ms 再离开。
+   * @supported alipay
+   */
+  onLongtap?: CommonEventFunction
 }
 
 /** 节点类型
  * > 现支持两种节点，通过type来区分，分别是元素节点和文本节点，默认是元素节点，在富文本区域里显示的HTML节点 元素节点：type = node*
  */
 type Nodes = Array<RichTextProps.Text | RichTextProps.HTMLElement> | string
-
 declare namespace RichTextProps {
   /** space 的合法值 */
   interface TSpace {
     /** 中文字符空格一半大小 */
     ensp
+
     /** 中文字符空格大小 */
     emsp
+
     /** 根据字体设置的空格大小 */
     nbsp
   }
@@ -95,7 +149,7 @@ declare namespace RichTextProps {
  *     <rich-text :nodes="nodes"></rich-text>
  *   </view>
  * </template>
- * 
+ *
  * <script>
  * export default {
  *   name: 'Index',
@@ -123,5 +177,4 @@ declare namespace RichTextProps {
  * @see https://developers.weixin.qq.com/miniprogram/dev/component/rich-text.html
  */
 declare const RichText: ComponentType<RichTextProps>
-
 export { RichText, RichTextProps }

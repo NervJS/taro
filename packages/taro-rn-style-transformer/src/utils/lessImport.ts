@@ -1,7 +1,8 @@
-import less from 'less'
+import Less from 'less'
+
 import { resolveStyle } from './index'
 
-class Importer extends less.FileManager {
+class LessImporter extends Less.FileManager {
   platform: 'android' | 'ios'
   alias: Record<string, string> = {}
 
@@ -40,7 +41,7 @@ class Importer extends less.FileManager {
 function makeLessImport (options) {
   return {
     install: (_, pluginManager) => {
-      pluginManager.addFileManager(new Importer(options))
+      pluginManager.addFileManager(new LessImporter(options))
     },
     minVersion: [2, 7, 1]
   }

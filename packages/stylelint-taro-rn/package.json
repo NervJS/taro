@@ -1,7 +1,7 @@
 {
   "name": "stylelint-taro-rn",
   "description": "A collection of React Native specific rules for stylelint",
-  "version": "3.4.4",
+  "version": "3.5.7",
   "main": "dist/index.js",
   "files": [
     "dist",
@@ -58,17 +58,6 @@
       "src"
     ],
     "testRegex": ".*\\.test\\.js$|src/.*/__tests__/.*\\.js$"
-  },
-  "lint-staged": {
-    "**/*.{js,json,md}": [
-      "prettier --write",
-      "git add"
-    ]
-  },
-  "prettier": {
-    "semi": true,
-    "singleQuote": false,
-    "trailingComma": "none"
   },
   "dependencies": {
     "react-native-known-styling-properties": "^1.0.4"

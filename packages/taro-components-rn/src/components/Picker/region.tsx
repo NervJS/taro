@@ -110,6 +110,7 @@ export default class RegionSelector extends React.Component<RegionProps, RegionS
     } = this.state
 
     return (
+      // @ts-ignore
       <AntPicker
         data={this.regionData}
         value={value}

@@ -8,7 +8,5 @@
     "lib": ["ESNEXT"],
     "types": ["react-native", "node"]
   },
-  "include": [
-    "src"
-  ]
+  "include": ["src"]
 }

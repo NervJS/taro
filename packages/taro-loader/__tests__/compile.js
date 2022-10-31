@@ -1,7 +1,7 @@
-import * as path from 'path'
-import * as webpack from 'webpack'
 import * as Memoryfs from 'memory-fs'
+import * as path from 'path'
 import * as prettier from 'prettier'
+import * as webpack from 'webpack'
 
 function run (compiler) {
   return new Promise((resolve, reject) => {

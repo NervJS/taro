@@ -1,7 +1,8 @@
-import React from 'react'
 import * as assert from 'assert'
+import React from 'react'
 // import simulant from 'simulant'
 import * as sinon from 'sinon'
+
 import { Video } from '../h5/react'
 import { mount } from './test-tools'
 import { waitForChange } from './utils'
@@ -119,7 +120,7 @@ describe('Video', () => {
       direction: 'vertical'
     }))
     assert(video.requestFullscreen.calledOnceWith({
-      navigationUI: 'show'
+      navigationUI: 'auto'
     }))
 
     fullscreenBtn.click()

@@ -3,9 +3,11 @@ export const needPromiseApis = new Set([
   'exitMiniProgram',
   'followOfficialAccount',
   'getMenuButtonLayout',
+  'getUserProfile',
   'hideInteractionBar',
-  'pay',
   'navigateToVideoView',
+  'openAwemeUserProfile',
+  'openEcGood',
+  'pay',
   'showInteractionBar',
-  'openEcGood'
 ])

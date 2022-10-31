@@ -1,11 +1,12 @@
 
-import type { IPluginContext, TaroPlatformBase } from '@tarojs/service'
-import { isArray, isString } from '@tarojs/shared'
-import * as path from 'path'
+import generator from '@babel/generator'
 import * as parser from '@babel/parser'
 import traverse from '@babel/traverse'
 import * as t from '@babel/types'
-import generator from '@babel/generator'
+import { isArray, isString } from '@tarojs/shared'
+import * as path from 'path'
+
+import type { IPluginContext, TaroPlatformBase } from '@tarojs/service'
 
 interface IOptions {
   pxtransformBlackList?: any[]
@@ -20,11 +21,6 @@ interface IComponentConfig {
 interface OnParseCreateElementArgs {
   nodeName: string
   componentConfig: IComponentConfig
-}
-
-interface ModifyComponentConfigArgs {
-  componentConfig: IComponentConfig,
-  config: Record<string, any>
 }
 
 export default (ctx: IPluginContext, options: IOptions) => {
@@ -49,7 +45,7 @@ export default (ctx: IPluginContext, options: IOptions) => {
       injectRuntimePath(platform)
     }
   })
-  // React 收集使用到的小程序组件
+  // 映射、收集使用到的小程序组件
   ctx.onParseCreateElement(({ nodeName, componentConfig }: OnParseCreateElementArgs) => {
     if (!(
       inlineElements.includes(nodeName) ||
@@ -72,14 +68,6 @@ export default (ctx: IPluginContext, options: IOptions) => {
       const maps = special[nodeName]
       maps.forEach(item => {
         !includes.has(item) && includes.add(item)
-      })
-    }
-  })
-  // 如果组件使用渲染函数而不是模板，我们分析不了使用到的内置组件，所以只能默认加上所有 HTML 对应的小程序组件模板
-  ctx.modifyComponentConfig(({ componentConfig, config }: ModifyComponentConfigArgs) => {
-    if (config.framework === 'vue' || config.framework === 'vue3') {
-      ['audio', 'button', 'canvas', 'form', 'label', 'progress', 'textarea', 'video', 'navigator', 'web-view', 'image', 'input', 'checkbox', 'radio'].forEach(item => {
-        componentConfig.includes.add(item)
       })
     }
   })

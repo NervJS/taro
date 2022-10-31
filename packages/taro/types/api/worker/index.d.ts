@@ -60,7 +60,7 @@ declare module '../../index' {
   }
 
   interface TaroStatic {
-    /** 创建一个 Worker 线程。目前限制最多只能创建一个 Worker，创建下一个 Worker 前请先调用 [Worker.terminate](/docs/apis/worker/Worker#terminate)
+    /** 创建一个 Worker 线程。目前限制最多只能创建一个 Worker，创建下一个 Worker 前请先调用 [Worker.terminate](/docs/apis/worker/#terminate)
      * @supported weapp
      * @example
      * ```tsx

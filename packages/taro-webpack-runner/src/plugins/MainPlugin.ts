@@ -1,25 +1,30 @@
-import * as path from 'path'
-import { defaults } from 'lodash'
-import { AppConfig } from '@tarojs/taro'
 import {
-  readConfig,
-  resolveMainFilePath,
-  isEmptyObject,
   FRAMEWORK_MAP,
-  FRAMEWORK_EXT_MAP
+  resolveMainFilePath,
+  SCRIPT_EXT
 } from '@tarojs/helper'
+import { AppConfig } from '@tarojs/taro'
+import { defaults } from 'lodash'
+import * as path from 'path'
+
+import { getAppConfig, getConfigFilePath, getPages } from '../util'
 
 const PLUGIN_NAME = 'MainPlugin'
 
 interface IMainPluginOptions {
-  sourceDir: string,
-  outputDir: string,
-  routerConfig: any,
-  entryFileName: string,
-  framework: FRAMEWORK_MAP,
-  useHtmlComponents: boolean,
-  deviceRatio: any
-  designWidth: number
+  sourceDir: string
+  outputDir: string
+  routerConfig: any
+  entryFileName: string
+  framework: FRAMEWORK_MAP
+  frameworkExts: string[]
+  useHtmlComponents: boolean
+  pxTransformConfig: {
+    baseFontSize: number
+    deviceRatio: any
+    designWidth: number
+    minRootSize: number
+  }
   loaderMeta?: Record<string, string>
 }
 
@@ -39,9 +44,14 @@ export default class MainPlugin {
       entryFileName: 'app',
       routerConfig: {},
       framework: FRAMEWORK_MAP.NERV,
+      frameworkExts: SCRIPT_EXT,
       useHtmlComponents: false,
-      deviceRatio: {},
-      designWidth: 750
+      pxTransformConfig: {
+        baseFontSize: 20,
+        deviceRatio: {},
+        designWidth: 750,
+        minRootSize: 20
+      }
     })
     this.sourceDir = this.options.sourceDir
     this.outputDir = this.options.outputDir
@@ -73,25 +83,32 @@ export default class MainPlugin {
 
     compiler.hooks.compilation.tap(PLUGIN_NAME, compilation => {
       compilation.hooks.normalModuleLoader.tap(PLUGIN_NAME, (_loaderContext, module: any) => {
-        const { framework, entryFileName, designWidth, deviceRatio, loaderMeta } = this.options
+        const { framework, entryFileName, sourceDir, pxTransformConfig, loaderMeta, routerConfig } = this.options
         const { dir, name } = path.parse(module.resource)
-        if (path.join(dir, name) === this.appEntry) {
+        const suffixRgx = /\.(boot|config)/
+        if (!suffixRgx.test(name)) return
+
+        const filePath = path.join(dir, name).replace(sourceDir + (process.platform === 'win32' ? '\\' : '/'), '')
+        const pageName = filePath.replace(suffixRgx, '')
+        const routerMode = routerConfig?.mode || 'hash'
+        const isMultiRouterMode = routerMode === 'multi'
+        const isApp = !isMultiRouterMode && pageName === entryFileName
+        if (isApp || this.pagesConfigList.has(pageName)) {
           module.loaders.push({
             loader: '@tarojs/taro-loader/lib/h5',
             options: {
-              framework,
-              loaderMeta,
-              filename: entryFileName,
-              pages: this.pagesConfigList,
-              useHtmlComponents: this.options.useHtmlComponents,
               config: {
                 router: this.options.routerConfig,
                 ...this.appConfig
               },
-              pxTransformConfig: {
-                designWidth,
-                deviceRatio
-              }
+              entryFileName,
+              filename: name.replace(suffixRgx, ''),
+              framework,
+              loaderMeta,
+              pages: this.pagesConfigList,
+              pxTransformConfig,
+              sourceDir,
+              useHtmlComponents: this.options.useHtmlComponents
             }
           })
         }
@@ -109,8 +126,7 @@ export default class MainPlugin {
       }
       return app
     }
-    const appEntryPath = getEntryPath(entry)
-    return appEntryPath
+    return getEntryPath(entry)
   }
 
   run () {
@@ -120,25 +136,16 @@ export default class MainPlugin {
   }
 
   getPages () {
-    const appPages = this.appConfig.pages
-    if (!appPages || !appPages.length) {
-      throw new Error('全局配置缺少 pages 字段，请检查！')
-    }
-    const { framework } = this.options
+    const { frameworkExts, sourceDir } = this.options
 
-    this.pages = new Set([
-      ...appPages.map(item => ({
-        name: item,
-        path: resolveMainFilePath(path.join(this.options.sourceDir, item), FRAMEWORK_EXT_MAP[framework])
-      }))
-    ])
+    this.pages = getPages(this.appConfig.pages, sourceDir, frameworkExts)
     this.getSubPackages()
   }
 
   getSubPackages () {
     const appConfig = this.appConfig
     const subPackages = appConfig.subPackages || appConfig.subpackages
-    const { framework } = this.options
+    const { frameworkExts } = this.options
     if (subPackages && subPackages.length) {
       subPackages.forEach(item => {
         if (item.pages && item.pages.length) {
@@ -153,7 +160,7 @@ export default class MainPlugin {
               }
             })
             if (!hasPageIn) {
-              const pagePath = resolveMainFilePath(path.join(this.options.sourceDir, pageItem), FRAMEWORK_EXT_MAP[framework])
+              const pagePath = resolveMainFilePath(path.join(this.options.sourceDir, pageItem), frameworkExts)
               this.pages.add({
                 name: pageItem,
                 path: pagePath
@@ -170,21 +177,12 @@ export default class MainPlugin {
   getPagesConfigList () {
     const pages = this.pages
     pages.forEach(({ name, path }) => {
-      const pageConfigPath = this.getConfigFilePath(path)
+      const pageConfigPath = getConfigFilePath(path)
       this.pagesConfigList.set(name, pageConfigPath)
     })
   }
 
   getAppConfig () {
-    const appConfigPath = this.getConfigFilePath(this.appEntry)
-    const appConfig = readConfig(appConfigPath)
-    if (isEmptyObject(appConfig)) {
-      throw new Error('缺少 app 全局配置，请检查！')
-    }
-    this.appConfig = appConfig
-  }
-
-  getConfigFilePath (filePath) {
-    return resolveMainFilePath(`${filePath.replace(path.extname(filePath), '')}.config`)
+    this.appConfig = getAppConfig(this.appEntry)
   }
 }

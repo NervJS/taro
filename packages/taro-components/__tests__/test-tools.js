@@ -1,5 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
+import ReactDOMClient from 'react-dom/client'
+
 import { waitForChange } from './utils'
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -71,6 +73,6 @@ export async function mount (node, wrapper) {
       }
     }
 
-    ReactDOM.render(<App />, wrapper)
+    ReactDOMClient.createRoot(wrapper).render(<App />)
   })
 }

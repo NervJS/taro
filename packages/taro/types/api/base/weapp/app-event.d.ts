@@ -28,19 +28,58 @@ declare module '../../../index' {
       path: string
       /** 小程序切前台的 query 参数 */
       query: TaroGeneral.IAnyObject
-      /** 来源信息。从另一个小程序、公众号或 App 进入小程序时返回。否则返回 `{}`。(参见后文注意) */
-      referrerInfo: ResultReferrerInfo
-      /** 小程序切前台的[场景值](https://developers.weixin.qq.com/miniprogram/dev/framework/app-service/scene.html) */
-      scene: number
       /** shareTicket，详见[获取更多转发信息](https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/share.html) */
       shareTicket: string
+      /** 小程序切前台的[场景值](https://developers.weixin.qq.com/miniprogram/dev/framework/app-service/scene.html) */
+      scene: number
+      /** 来源信息。从另一个小程序、公众号或 App 进入小程序时返回。否则返回 `{}`。(参见后文注意) */
+      referrerInfo: ResultReferrerInfo
+      /** 打开的文件信息数组，只有从聊天素材场景打开（scene为1173）才会携带该参数 */
+      forwardMaterials?: ForwardMaterial[]
+      /** 从微信群聊/单聊打开小程序时，chatType 表示具体微信群聊/单聊类型 */
+      chatType?: keyof ChatType
+      /** API 类别 */
+      apiCategory?: keyof ApiCategory
     }
     /** 来源信息。从另一个小程序、公众号或 App 进入小程序时返回。否则返回 `{}`。(参见后文注意) */
     interface ResultReferrerInfo {
       /** 来源小程序、公众号或 App 的 appId */
-      appId: string
+      appId?: string
       /** 来源小程序传过来的数据，scene=1037或1038时支持 */
-      extraData: TaroGeneral.IAnyObject
+      extraData?: TaroGeneral.IAnyObject
+    }
+    /** ChatType 类型合法值 */
+    interface ForwardMaterial {
+      /** 文件的mimetype类型 */
+      type: string
+      /** 文件名 */
+      name: string
+      /** 文件路径（如果是webview则是url） */
+      path: string
+      /** 文件大小 */
+      size: number
+    }
+    /** ChatType 类型合法值 */
+    interface ChatType {
+      /** 微信联系人单聊 */
+      1
+      /** 企业微信联系人单聊 */
+      2
+      /** 普通微信群聊 */
+      3
+      /** 企业微信互通群聊 */
+      4
+    }
+    /** API 类别合法值 */
+    interface ApiCategory {
+      /** 默认类别 */
+      default
+      /** 原生功能化，视频号直播商品、商品橱窗等场景打开的小程序 */
+      nativeFunctionalized
+      /** 仅浏览，朋友圈快照页等场景打开的小程序 */
+      browseOnly
+      /** 内嵌，通过打开半屏小程序能力打开的小程序 */
+      embedded
     }
   }
 
@@ -71,10 +110,10 @@ declare module '../../../index' {
 
   interface TaroStatic {
     /** 监听未处理的 Promise 拒绝事件。该事件与 [`App.onUnhandledRejection`](https://developers.weixin.qq.com/miniprogram/dev/reference/api/App.html#onUnhandledRejection-Object-object) 的回调时机与参数一致。
-     * 
+     *
      * **注意**
      *  - 所有的 unhandledRejection 都可以被这一监听捕获，但只有 Error 类型的才会在小程序后台触发报警。
-     * @supported weapp
+     * @supported weapp, tt
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/base/app/app-event/wx.onUnhandledRejection.html
      */
     onUnhandledRejection<T = any>(callback: onUnhandledRejection.Callback<T>): void
@@ -92,13 +131,13 @@ declare module '../../../index' {
      * - 开发者可以在回调中进行页面重定向，但必须在回调中**同步**处理，异步处理（例如 `setTimeout` 异步执行）无效。
      * - 若开发者没有调用 [Taro.onPageNotFound](/docs/apis/base/weapp/app-event/onPageNotFound) 绑定监听，也没有声明 `App.onPageNotFound`，当跳转页面不存在时，将推入微信客户端原生的页面不存在提示页面。
      * - 如果回调中又重定向到另一个不存在的页面，将推入微信客户端原生的页面不存在提示页面，并且不再第二次回调。
-     * @supported weapp, h5
+     * @supported weapp, h5, tt
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/base/app/app-event/wx.onPageNotFound.html
      */
     onPageNotFound(callback: onPageNotFound.Callback): void
 
     /** 监听小程序错误事件。如脚本错误或 API 调用报错等。该事件与 [`App.onError`](https://developers.weixin.qq.com/miniprogram/dev/reference/api/App.html#onerrorstring-error) 的回调时机与参数一致。
-     * @supported weapp
+     * @supported weapp, tt
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/base/app/app-event/wx.onError.html
      */
     onError(callback: onError.Callback): void
@@ -139,7 +178,7 @@ declare module '../../../index' {
      * **注意**
      *
      * 部分版本在无`referrerInfo`的时候会返回 `undefined`，建议使用 `options.referrerInfo && options.referrerInfo.appId` 进行判断。
-     * @supported weapp
+     * @supported weapp, h5, tt
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/base/app/app-event/wx.onAppShow.html
      */
     onAppShow(
@@ -148,7 +187,7 @@ declare module '../../../index' {
     ): void
 
     /** 监听小程序切后台事件。该事件与 [`App.onHide`](https://developers.weixin.qq.com/miniprogram/dev/reference/api/App.html#onhide) 的回调时机一致。
-     * @supported weapp
+     * @supported weapp, h5, tt
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/base/app/app-event/wx.onAppHide.html
      */
     onAppHide(
@@ -157,7 +196,7 @@ declare module '../../../index' {
     ): void
 
     /** 取消监听未处理的 Promise 拒绝事件
-     * @supported weapp
+     * @supported weapp, tt
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/base/app/app-event/wx.offUnhandledRejection.html
      */
     offUnhandledRejection<T = any>(callback: onUnhandledRejection.Callback<T>): void
@@ -169,7 +208,7 @@ declare module '../../../index' {
     offThemeChange(callback: onThemeChange.Callback): void
 
     /** 取消监听小程序要打开的页面不存在事件
-     * @supported weapp
+     * @supported weapp, tt
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/base/app/app-event/wx.offPageNotFound.html
      */
     offPageNotFound(
@@ -178,7 +217,7 @@ declare module '../../../index' {
     ): void
 
     /** 取消监听音频播放错误事件
-     * @supported weapp
+     * @supported weapp, tt
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/audio/InnerAudioContext.offError.html
      */
 
@@ -206,7 +245,7 @@ declare module '../../../index' {
     ): void
 
     /** 取消监听小程序切前台事件
-     * @supported weapp
+     * @supported weapp, h5, tt
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/base/app/app-event/wx.offAppShow.html
      */
     offAppShow(
@@ -215,7 +254,7 @@ declare module '../../../index' {
     ): void
 
     /** 取消监听小程序切后台事件
-     * @supported weapp
+     * @supported weapp, h5, tt
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/base/app/app-event/wx.offAppHide.html
      */
     offAppHide(

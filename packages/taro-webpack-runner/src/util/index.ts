@@ -1,8 +1,8 @@
+import { IOption, IPostcssOption } from '@tarojs/taro/types/compile'
+import { networkInterfaces } from 'os'
 import * as path from 'path'
 
-import { networkInterfaces } from 'os'
-
-export const emptyObj = {}
+export const emptyObj: IOption = {}
 export const emptyTogglableObj = {
   enable: false,
   config: {}
@@ -12,8 +12,12 @@ export const getRootPath = function () {
   return path.resolve(__dirname, '../../')
 }
 
-export const addLeadingSlash = (url: string) => (url.charAt(0) === '/' ? url : '/' + url)
-export const addTrailingSlash = (url: string) => (url.charAt(url.length - 1) === '/' ? url : url + '/')
+export const addLeadingSlash = (url = '') => (url.charAt(0) === '/' ? url : '/' + url)
+export const addTrailingSlash = (url = '') => (url.charAt(url.length - 1) === '/' ? url : url + '/')
+export const hasBasename = (path = '', prefix = '') => new RegExp('^' + prefix + '(\\/|\\?|#|$)', 'i').test(path) || path === prefix
+export const stripBasename = (path = '', prefix = '') => hasBasename(path, prefix) ? path.substr(prefix.length) : path
+export const stripTrailingSlash = (path = '') => (path.charAt(path.length - 1) === '/' ? path.substring(0, path.length - 1) : path)
+export const addHtmlSuffix = (path = '') => `${path}.html`
 
 export const formatOpenHost = host => {
   let result = host
@@ -25,7 +29,7 @@ export const formatOpenHost = host => {
     for (const devName in interfaces) {
       const isEnd = interfaces[devName]?.some(item => {
         // 取IPv4, 不为127.0.0.1的内网ip
-        if (item.family === 'IPv4' && item.address !== '127.0.0.1' && !item.internal) {
+        if (['IPv4', 4, '4'].includes(item.family) && item.address !== '127.0.0.1' && !item.internal) {
           result = item.address
           return true
         }
@@ -39,3 +43,21 @@ export const formatOpenHost = host => {
   }
   return result
 }
+
+export function parsePublicPath (publicPath = '/') {
+  return ['', 'auto'].includes(publicPath) ? publicPath :  addTrailingSlash(publicPath)
+}
+
+export function parseHtmlScript (pxtransformOption: IPostcssOption['pxtransform'] = {}) {
+  const options = pxtransformOption?.config || {}
+  const max = options?.maxRootSize ?? 40
+  const min = options?.minRootSize ?? 20
+  const baseFontSize = options?.baseFontSize || (min > 1 ? min : 20)
+  const designWidth = (input => typeof options.designWidth === 'function'
+    ? options.designWidth(input)
+    : options.designWidth)(baseFontSize)
+  const rootValue = baseFontSize / options.deviceRatio[designWidth] * 2
+  return `!function(n){function f(){var e=n.document.documentElement,w=e.getBoundingClientRect().width,x=${rootValue}*w/${designWidth};e.style.fontSize=x>=${max}?"${max}px":x<=${min}?"${min}px":x+"px"}n.addEventListener("resize",(function(){f()})),f()}(window);`
+}
+
+export * from './app'

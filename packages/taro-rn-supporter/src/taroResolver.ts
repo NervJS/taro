@@ -1,20 +1,22 @@
-import * as path from 'path'
 import * as fs from 'fs'
-import * as MetroResolver from 'metro-resolver'
-import * as ModuleResolution from 'metro/src/node-haste/DependencyGraph/ModuleResolution'
-import { resolvePathFromAlias, resolveExtFile } from './utils'
+import * as path from 'path'
+
+import { emptyModulePath } from './defaults'
+import { resolveExtFile, resolvePathFromAlias } from './utils'
+
+import type { ResolutionContext } from 'metro-resolver'
 
 interface VersionInfo {
-  major: number;
-  minor: number;
-  patch: number;
+  major: number
+  minor: number
+  patch: number
 }
 
 function getReactNativeBasePath (): string {
   const reactNativeModuleName = 'react-native'
   const rnBasePath = require.resolve(reactNativeModuleName)
   const splittings = rnBasePath.split(path.sep)
-  const index = splittings.indexOf(reactNativeModuleName)
+  const index = splittings.lastIndexOf(reactNativeModuleName)
   return splittings.slice(0, index + 1).join(path.sep)
 }
 
@@ -60,81 +62,35 @@ function searchReactNativeModule (moduleName: string, platform: string): string 
 
 /**
  * resolveRequest 文件处理，alias，文件后缀加载等
+ * metro 0.70 type ResolveRequestFunc = (context, moduleName, platform) => any
  */
-function handleFile (context, realModuleName, platform, moduleName) {
-  const savedOriginModulePath = context.originModulePath
-  const savedAllowHaste = context.allowHaste
-  if (moduleName.startsWith('@tarojs/')) {
-    // 通过Haste去查找软链接模块
-    context.allowHaste = true
-  }
-
+function handleFile (context: ResolutionContext, moduleName, platform) {
   // 处理 alias
   moduleName = resolvePathFromAlias(moduleName)
 
   // 处理后缀 .rn.ts
   moduleName = resolveExtFile(context, moduleName, platform)
-
-  let res = null
-  const savedResolveRequest = context.resolveRequest
-  context.resolveRequest = null
-
-  try {
-    res = MetroResolver.resolve(context, moduleName, platform)
-  } catch (ex) {
-    // console.log(ex)
-    // nothing to do
-  } finally {
-    context.originModulePath = savedOriginModulePath
-    context.allowHaste = savedAllowHaste
-    context.resolveRequest = savedResolveRequest
-  }
-  return res
+  return context.resolveRequest(context, moduleName, platform)
 }
 
 // rn runner调用
-function handleTaroFile (context, realModuleName, platform, moduleName) {
+function handleTaroFile (context: ResolutionContext, moduleName, platform) {
   if (moduleName === './index') {
     return {
-      filePath: realModuleName,
+      filePath: moduleName,
       type: 'empty'
     }
   }
-  const savedOriginModulePath = context.originModulePath
-  if ((savedOriginModulePath === ModuleResolution.ModuleResolver.EMPTY_MODULE) && moduleName.startsWith('./')) {
-    context.originModulePath = path.join(context.projectRoot, './index')
+  const newContext = {...context}
+  if(context.originModulePath === require.resolve(emptyModulePath)) {
+    newContext.originModulePath = path.join(context.projectRoot, './index.js')
   }
-  const savedAllowHaste = context.allowHaste
-  if (moduleName.startsWith('@tarojs/')) {
-    // 通过Haste去查找软链接模块
-    context.allowHaste = true
-  }
-
-  // 处理 alias
-  moduleName = resolvePathFromAlias(moduleName)
-
-  // 处理后缀 .rn.ts
-  moduleName = resolveExtFile(context, moduleName, platform)
-
-  let res = null
-  const savedResolveRequest = context.resolveRequest
-  context.resolveRequest = null
-
-  try {
-    res = MetroResolver.resolve(context, moduleName, platform)
-  } catch (ex) {
-    // nothing to do
-  } finally {
-    context.originModulePath = savedOriginModulePath
-    context.allowHaste = savedAllowHaste
-    context.resolveRequest = savedResolveRequest
-  }
-  return res
+  return handleFile(newContext, moduleName, platform)
 }
 
 export {
+  getReactNativeVersion,
   handleFile,
   handleTaroFile,
-  searchReactNativeModule,
-  getReactNativeVersion
+  searchReactNativeModule
 }

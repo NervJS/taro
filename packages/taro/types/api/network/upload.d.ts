@@ -19,6 +19,11 @@ declare module '../../index' {
        * @supported h5
        */
       fileName?: string
+      /** 是否应使用传出凭据 (cookie) 发送此请求
+       * @default true
+       * @supported h5
+       */
+      withCredentials?: boolean
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
       complete?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用失败的回调函数 */
@@ -35,6 +40,18 @@ declare module '../../index' {
       statusCode: number
       /** 调用结果 */
       errMsg: string
+      /**
+       * 开发者服务器返回的 HTTP Response Header
+       * @supported weapp
+       * @weapp 非官方文档标注属性
+       */
+      header?: TaroGeneral.IAnyObject
+      /**
+       * cookies
+       * @supported weapp
+       * @weapp 非官方文档标注属性
+       */
+      cookies?: string[]
     }
   }
 
@@ -68,15 +85,14 @@ declare module '../../index' {
       totalBytesSent: number
     }
 
-    type UploadTaskPromise = Promise<UploadTask> & {
+    type UploadTaskPromise = Promise<uploadFile.SuccessCallbackResult> & UploadTask & {
       headersReceive: UploadTask['onHeadersReceived'],
-      progress: UploadTask['onProgressUpdate'],
-      abort: UploadTask['abort']
+      progress: UploadTask['onProgressUpdate']
     }
   }
 
   /** 一个可以监听上传进度变化事件，以及取消上传任务的对象
-   * @supported weapp, swan, alipay, h5, rn
+   * @supported weapp, swan, alipay, h5, rn, tt
    * @example
    * ```tsx
    * const uploadTask = Taro.uploadFile({
@@ -104,12 +120,12 @@ declare module '../../index' {
    */
   interface UploadTask {
     /** 中断上传任务
-     * @supported weapp, h5
+     * @supported weapp, h5, tt
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/network/upload/UploadTask.abort.html
      */
     abort(): void
     /** 监听上传进度变化事件
-     * @supported weapp, h5
+     * @supported weapp, h5, tt
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/network/upload/UploadTask.onProgressUpdate.html
      */
     onProgressUpdate(
@@ -117,7 +133,7 @@ declare module '../../index' {
       callback: UploadTask.OnProgressUpdateCallback,
     ): void
     /** 取消监听上传进度变化事件
-     * @supported weapp, h5
+     * @supported weapp, h5, tt
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/network/upload/UploadTask.offProgressUpdate.html
      */
     offProgressUpdate(
@@ -144,7 +160,7 @@ declare module '../../index' {
 
   interface TaroStatic {
     /** 将本地资源上传到服务器。客户端发起一个 HTTPS POST 请求，其中 `content-type` 为 `multipart/form-data`。使用前请注意阅读[相关说明](https://developers.weixin.qq.com/miniprogram/dev/framework/ability/network.html)。
-     * @supported weapp, swan, alipay, h5, rn
+     * @supported weapp, swan, alipay, h5, rn, tt
      * @example
      * ```tsx
      * Taro.chooseImage({

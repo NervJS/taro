@@ -1,26 +1,21 @@
+import { printLog, processTypeEnum, recursiveMerge } from '@tarojs/helper'
 import * as path from 'path'
 import transformCSS from 'taro-css-to-react-native'
-import { recursiveMerge, printLog, processTypeEnum } from '@tarojs/helper'
 
-import postcssTransform, { Config as PostcssConfig, makePostcssPlugins } from './postcss'
-import sassTransform, { Config as SassConfig, SassGlobalConfig } from './sass'
-import lessTransform, { Config as LessConfig } from './less'
-import stylusTransform, { Config as StylusConfig, defaultOptions as stylusDefaultOptions } from './stylus'
-import { StyleSheetValidation } from './StyleSheet'
-import { TransformOptions, RenderAdditionalResult } from '../types'
+import { Config, PostcssConfig, RenderAdditionalResult, TransformOptions } from '../types'
 import { normalizeSourceMap } from '../utils'
+import lessTransform from './less'
+import postcssTransform, { makePostcssPlugins } from './postcss'
+import sassTransform from './sass'
+import { StyleSheetValidation } from './StyleSheet'
+import stylusTransform, { defaultOptions as stylusDefaultOptions } from './stylus'
+
+
 
 export function getWrapedCSS (css) {
   return `
-import { StyleSheet, Dimensions } from 'react-native'
-
-// 一般app 只有竖屏模式，所以可以只获取一次 width
-const deviceWidthDp = Dimensions.get('window').width
-const uiWidthPx = 375
-
-function scalePx2dp (uiElementPx) {
-  return uiElementPx * deviceWidthDp / uiWidthPx
-}
+import { StyleSheet } from 'react-native'
+import { scalePx2dp, scaleVu2dp } from '@tarojs/runtime-rn'
 
 // 用来标识 rn-runner transformer 是否读写缓存
 function ignoreStyleFileCache() {}
@@ -43,22 +38,6 @@ function validateStyle ({ styleObject, filename }) {
     }
   }
 }
-
-interface RNConfig {
-  postcss?: PostcssConfig;
-  sass?: SassConfig;
-  less?: LessConfig;
-  stylus?: StylusConfig;
-}
-
-interface Config {
-  designWidth: number;
-  deviceRatio: { [key: number]: number };
-  sass: SassGlobalConfig;
-  alias: Record<string, string>;
-  rn: RNConfig;
-}
-
 interface PostcssParam {
   css: string
   map: any
@@ -104,11 +83,11 @@ export default class StyleTransform {
 
   processConfigMap = new Map()
 
-  constructor (config = {}) {
+  constructor (config: Config) {
     this.init(config)
   }
 
-  init = (config) => {
+  init = (config: Config) => {
     this.config = {
       designWidth: config.designWidth || designWidth,
       deviceRatio: config.deviceRatio || deviceRatio,
@@ -226,7 +205,7 @@ export default class StyleTransform {
    * @param {object} transform
    * @return {string} JSONString
    */
-  async transform (src: string, filename: string, options = {} as TransformOptions) {
+  async transform (src: string, filename: string, options: TransformOptions) {
     // printLog(processTypeEnum.START, '样式文件处理开始', filename)
     const result = await this.processStyle(src, filename, options)
 
@@ -243,6 +222,7 @@ export default class StyleTransform {
     validateStyle({ styleObject, filename })
     const css = JSON.stringify(styleObject, null, 2)
       .replace(/"(scalePx2dp\(.*?\))"/g, '$1')
+      .replace(/"(scaleVu2dp\(.*?\))"/g, '$1')
 
     // 注入自适应方法 scalePx2dp
     return getWrapedCSS(css)

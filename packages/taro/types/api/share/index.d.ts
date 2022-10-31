@@ -44,9 +44,10 @@ declare module '../../index' {
       /** 是否使用带 shareTicket 的转发[详情](https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/share.html) */
       withShareTicket?: boolean
       /** QQ小程序分享功能，支持分享到QQ、QQ空间、微信好友、微信朋友圈
-      * 支持的值： ['qq', 'qzone', 'wechatFriends', 'wechatMoment']
-      * @supported qq
-      */
+       * @supported weapp, qq
+       * @qq QQ支持的值： ['qq', 'qzone', 'wechatFriends', 'wechatMoment']
+       * @weapp 微信支持：['wechatFriends', 'wechatMoment'] / ['shareAppMessage', 'shareTimeline']
+       */
       showShareItems?: string[]
     }
   }
@@ -178,10 +179,10 @@ declare module '../../index' {
      * ```
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/share/wx.updateShareMenu.html
      */
-    updateShareMenu(option: updateShareMenu.Option): Promise<TaroGeneral.CallbackResult>
+    updateShareMenu (option: updateShareMenu.Option): Promise<TaroGeneral.CallbackResult>
 
     /** 显示当前页面的转发按钮
-     * @supported weapp, qq
+     * @supported weapp, qq, tt
      * @example
      * ```tsx
      * Taro.showShareMenu({
@@ -190,7 +191,7 @@ declare module '../../index' {
      * ```
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/share/wx.showShareMenu.html
      */
-    showShareMenu(option: showShareMenu.Option): Promise<TaroGeneral.CallbackResult>
+    showShareMenu (option: showShareMenu.Option): Promise<TaroGeneral.CallbackResult>
 
     /** 打开分享图片弹窗，可以将图片发送给朋友、收藏或下载
      * @supported weapp
@@ -207,7 +208,7 @@ declare module '../../index' {
      * ```
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/share/wx.showShareImageMenu.html
      */
-    showShareImageMenu(option: showShareImageMenu.Option): Promise<TaroGeneral.CallbackResult>
+    showShareImageMenu (option: showShareImageMenu.Option): Promise<TaroGeneral.CallbackResult>
 
     /** 转发视频到聊天
      * @supported weapp
@@ -242,13 +243,13 @@ declare module '../../index' {
      * ```
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/share/wx.shareVideoMessage.html
      */
-    shareVideoMessage(option: shareVideoMessage.Option): Promise<TaroGeneral.CallbackResult>
+    shareVideoMessage (option: shareVideoMessage.Option): Promise<TaroGeneral.CallbackResult>
 
     /** 转发文件到聊天
      * @supported weapp
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/share/wx.shareFileMessage.html
      */
-    shareFileMessage(option: shareFileMessage.Option): Promise<TaroGeneral.CallbackResult>
+    shareFileMessage (option: shareFileMessage.Option): Promise<TaroGeneral.CallbackResult>
 
     /** 监听用户点击右上角菜单的「复制链接」按钮时触发的事件
      *
@@ -256,7 +257,7 @@ declare module '../../index' {
      * @supported weapp
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/share/wx.onCopyUrl.html
      */
-    onCopyUrl(
+    onCopyUrl (
       /** 用户点击右上角菜单的「复制链接」按钮时触发的事件的回调函数 */
       callback: onCopyUrl.Callback,
     ): void
@@ -267,20 +268,20 @@ declare module '../../index' {
      * @supported weapp
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/share/wx.offCopyUrl.html
      */
-    offCopyUrl(
+    offCopyUrl (
       /** 用户点击右上角菜单的「复制链接」按钮时触发的事件的回调函数 */
       callback: onCopyUrl.Callback,
     ): void
 
     /** 隐藏当前页面的转发按钮
-     * @supported weapp
+     * @supported weapp, tt
      * @example
      * ```tsx
      * Taro.hideShareMenu()
      * ```
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/share/wx.hideShareMenu.html
      */
-    hideShareMenu(option?: hideShareMenu.Option): Promise<TaroGeneral.CallbackResult>
+    hideShareMenu (option?: hideShareMenu.Option): Promise<TaroGeneral.CallbackResult>
 
     /** 获取转发详细信息
      *
@@ -297,7 +298,7 @@ declare module '../../index' {
      * ```
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/share/wx.getShareInfo.html
      */
-    getShareInfo(option: getShareInfo.Option): Promise<getShareInfo.SuccessCallbackResult>
+    getShareInfo (option: getShareInfo.Option): Promise<getShareInfo.SuccessCallbackResult>
 
     /** 验证私密消息
      * @supported weapp
@@ -322,6 +323,6 @@ declare module '../../index' {
      * ```
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/share/wx.authPrivateMessage.html
      */
-    authPrivateMessage(option: authPrivateMessage.Option): Promise<authPrivateMessage.SuccessCallbackResult>
+    authPrivateMessage (option: authPrivateMessage.Option): Promise<authPrivateMessage.SuccessCallbackResult>
   }
 }

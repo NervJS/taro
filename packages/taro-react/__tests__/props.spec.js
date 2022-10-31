@@ -1,5 +1,6 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import * as React from 'react'
+
 let document
 let render
 let runtime
@@ -59,6 +60,18 @@ describe('Context', () => {
       const container = document.createElement('div')
       render(<input type="button" style={{ fontSize: 14 }} />, container)
       expect(container.firstChild.getAttribute('style')).toBe('font-size: 14px;')
+    })
+
+    it('set css var as number should not add "px" suffix', () => {
+      const container = document.createElement('div')
+      render(<input type="button" style={{ '--taro': 14 }} />, container)
+      expect(container.firstChild.getAttribute('style')).toBe('--taro: 14;')
+    })
+
+    it('set animation-iteration-count of style as number should not add "px" suffix', async () => {
+      const container = document.createElement('div')
+      render(<view style={{ animationIterationCount: 1 }} />, container)
+      expect(container.firstChild.getAttribute('style')).toBe('animation-iteration-count: 1;')
     })
 
     it('onClick should work like onTap', () => {

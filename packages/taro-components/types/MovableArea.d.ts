@@ -1,10 +1,9 @@
 import { ComponentType } from 'react'
 import { StandardProps } from './common'
-
 interface MovableAreaProps extends StandardProps {
   /** 当里面的 movable-view 设置为支持双指缩放时，设置此值可将缩放手势生效区域修改为整个 movable-area
    * @default false
-   * @supported weapp
+   * @supported weapp, alipay, swan, tt, qq
    */
   scaleArea?: boolean
 }
@@ -33,5 +32,4 @@ interface MovableAreaProps extends StandardProps {
  * @see https://developers.weixin.qq.com/miniprogram/dev/component/movable-area.html
  */
 declare const MovableArea: ComponentType<MovableAreaProps>
-
 export { MovableArea, MovableAreaProps }

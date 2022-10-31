@@ -16,7 +16,7 @@ declare module '../../index' {
 
   interface TaroStatic {
     /** 拨打电话
-     * @supported weapp, h5, rn
+     * @supported weapp, h5, rn, tt
      * @example
      * ```tsx
      * Taro.makePhoneCall({

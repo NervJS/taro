@@ -5,14 +5,19 @@ declare module '../../index' {
     interface Option {
       /** 下载资源的 url */
       url: string
-      /** 接口调用结束的回调函数（调用成功、失败都会执行） */
-      complete?: (res: TaroGeneral.CallbackResult) => void
-      /** 接口调用失败的回调函数 */
-      fail?: (res: TaroGeneral.CallbackResult) => void
       /** 指定文件下载后存储的路径 */
       filePath?: string
       /** HTTP 请求的 Header，Header 中不能设置 Referer */
       header?: TaroGeneral.IAnyObject
+      /** 是否应使用传出凭据 (cookie) 发送此请求
+       * @default true
+       * @supported h5
+       */
+      withCredentials?: boolean
+      /** 接口调用结束的回调函数（调用成功、失败都会执行） */
+      complete?: (res: TaroGeneral.CallbackResult) => void
+      /** 接口调用失败的回调函数 */
+      fail?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用成功的回调函数 */
       success?: (result: FileSuccessCallbackResult) => void
     }
@@ -26,6 +31,26 @@ declare module '../../index' {
       tempFilePath: string
       /** 调用结果 */
       errMsg: string
+      /**
+       * 开发者服务器返回的 HTTP Response Header
+       * @supported weapp
+       * @weapp 非官方文档标注属性
+       */
+      header?: TaroGeneral.IAnyObject
+      /**
+       * 数据长度，单位 Byte
+       * @supported weapp
+       * @weapp 非官方文档标注属性
+       */
+      dataLength?: number
+      /**
+       * cookies
+       * @supported weapp
+       * @weapp 非官方文档标注属性
+       */
+      cookies?: string[]
+      /** 网络请求过程中一些调试信息 */
+      profile?: TaroGeneral.IAnyObject
     }
   }
 
@@ -59,15 +84,14 @@ declare module '../../index' {
       totalBytesWritten: number
     }
 
-    type DownloadTaskPromise = Promise<DownloadTask> & {
+    type DownloadTaskPromise = Promise<downloadFile.FileSuccessCallbackResult> & DownloadTask & {
       headersReceive: DownloadTask['onHeadersReceived'],
-      progress: DownloadTask['onProgressUpdate'],
-      abort: DownloadTask['abort']
+      progress: DownloadTask['onProgressUpdate']
     }
   }
 
   /** 一个可以监听下载进度变化事件，以及取消下载任务的对象
-   * @supported weapp, swan, alipay, h5, rn
+   * @supported weapp, swan, alipay, h5, rn, tt
    * @example
    * ```tsx
    * const downloadTask = Taro.downloadFile({
@@ -91,12 +115,12 @@ declare module '../../index' {
    */
   interface DownloadTask {
     /** 中断下载任务
-     * @supported weapp, h5, rn
+     * @supported weapp, h5, tt
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/network/download/DownloadTask.abort.html
      */
     abort(): void
     /** 监听下载进度变化事件
-     * @supported weapp, h5, rn
+     * @supported weapp, h5, tt
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/network/download/DownloadTask.onProgressUpdate.html
      */
     onProgressUpdate(
@@ -104,7 +128,7 @@ declare module '../../index' {
       callback: DownloadTask.OnProgressUpdateCallback,
     ): void
     /** 取消监听下载进度变化事件
-     * @supported weapp, h5, rn
+     * @supported weapp, h5, tt
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/network/download/DownloadTask.offProgressUpdate.html
      */
     offProgressUpdate(
@@ -133,7 +157,7 @@ declare module '../../index' {
     /** 下载文件资源到本地。客户端直接发起一个 HTTPS GET 请求，返回文件的本地临时路径，单次下载允许的最大文件为 50MB。使用前请注意阅读[相关说明](https://developers.weixin.qq.com/miniprogram/dev/framework/ability/network.html)。
      *
      * 注意：请在服务端响应的 header 中指定合理的 `Content-Type` 字段，以保证客户端正确处理文件类型。
-     * @supported weapp, h5, alipay, swan, rn
+     * @supported weapp, h5, alipay, swan, rn, tt
      * @example
      * ```tsx
      * Taro.downloadFile({

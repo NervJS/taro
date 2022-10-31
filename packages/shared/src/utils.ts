@@ -1,5 +1,5 @@
 import { internalComponents } from './components'
-import { isArray } from './is'
+import { hooks } from './runtime-hooks'
 
 export const EMPTY_OBJ: any = {}
 
@@ -7,15 +7,13 @@ export const EMPTY_ARR = []
 
 export const noop = (..._: unknown[]) => {}
 
-export const defaultReconciler = Object.create(null)
-
 /**
  * Boxed value.
  *
  * @typeparam T Value type.
  */
 export interface Box<T> {
-  v: T;
+  v: T
 }
 
 /**
@@ -156,24 +154,61 @@ export function mergeInternalComponents (components) {
       internalComponents[name] = components[name]
     }
   })
+  return internalComponents
 }
 
-export function mergeReconciler (hostConfig) {
-  Object.keys(hostConfig).forEach(key => {
-    const value = hostConfig[key]
-    const raw = defaultReconciler[key]
+export function getComponentsAlias (origin: typeof internalComponents) {
+  const mapping = {}
+  const viewAttrs = origin.View
+  const extraList = {
+    '#text': {},
+    StaticView: viewAttrs,
+    StaticImage: origin.Image,
+    StaticText: origin.Text,
+    PureView: viewAttrs,
+    CatchView: viewAttrs
+  }
+  origin = { ...origin, ...extraList }
+  Object.keys(origin)
+    .sort((a, b) => {
+      const reg = /^(Static|Pure|Catch)*(View|Image|Text)$/
+      const isACommonly = reg.test(a)
+      const isBCommonly = reg.test(b)
+      if (isACommonly && isBCommonly) {
+        return a > b ? 1 : -1
+      } else if (isACommonly) {
+        return -1
+      } else if (isBCommonly) {
+        return 1
+      } else {
+        return a >= b ? 1 : -1
+      }
+    })
+    .forEach((key, num) => {
+      const obj = {
+        _num: String(num)
+      }
+      Object.keys(origin[key])
+        .filter(attr => !(/^bind/.test(attr)) && !['focus', 'blur'].includes(attr))
+        .sort()
+        .forEach((attr, index) => {
+          obj[toCamelCase(attr)] = 'p' + index
+        })
+      mapping[toDashed(key)] = obj
+    })
 
-    defaultReconciler[key] = !raw
-      ? value
-      : (
-        isArray(raw)
-          ? raw.concat(value)
-          : [raw, value]
-      )
+  return mapping
+}
+
+export function mergeReconciler (hostConfig, hooksForTest?) {
+  const obj = hooksForTest || hooks
+  const keys = Object.keys(hostConfig)
+  keys.forEach(key => {
+    obj.tap(key, hostConfig[key])
   })
 }
 
-export function unsupport (api) {
+export function nonsupport (api) {
   return function () {
     console.warn(`小程序暂不支持 ${api}`)
   }

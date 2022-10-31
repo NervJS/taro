@@ -1,12 +1,15 @@
-import * as webpack from 'webpack'
 import { META_TYPE } from '@tarojs/helper'
-import { componentConfig } from './template/component'
-import { IBuildConfig, Func } from './utils/types'
-import { printBuildError, bindProdLogger, bindDevLogger } from './utils/logHelper'
-import buildConf from './webpack/build.conf'
-import { Prerender } from './prerender/prerender'
 import { isEmpty } from 'lodash'
+import * as webpack from 'webpack'
+
+import { Prerender } from './prerender/prerender'
+import { componentConfig } from './template/component'
+import { bindDevLogger, bindProdLogger, printBuildError } from './utils/logHelper'
+import buildConf from './webpack/build.conf'
 import { makeConfig } from './webpack/chain'
+
+import type { Func } from '@tarojs/taro/types/compile'
+import type { IBuildConfig } from './utils/types'
 
 const customizeChain = async (chain, modifyWebpackChainFunc: Func, customizeFunc?: Func) => {
   if (modifyWebpackChainFunc instanceof Function) {
@@ -29,7 +32,7 @@ export default async function build (appPath: string, config: IBuildConfig): Pro
   const webpackChain = buildConf(appPath, mode, newConfig)
 
   /** customized chain */
-  await customizeChain(webpackChain, newConfig.modifyWebpackChain, newConfig.webpackChain)
+  await customizeChain(webpackChain, newConfig.modifyWebpackChain!, newConfig.webpackChain)
 
   if (typeof newConfig.onWebpackChainReady === 'function') {
     newConfig.onWebpackChainReady(webpackChain)

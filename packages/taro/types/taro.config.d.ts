@@ -174,6 +174,8 @@ declare module './index' {
     name?: string
     /** 分包是否是独立分包 */
     independent?: boolean
+    /** 分包支持引用独立的插件 */
+    plugins?: Plugins
   }
 
   interface Plugins {
@@ -269,6 +271,19 @@ declare module './index' {
      * @since 微信客户端 6.7.2 及以上版本支持
      */
     requiredBackgroundModes?: ('audio' | 'location')[]
+    /** 申明需要使用的地理位置相关接口，类型为数组。目前支持以下项目：
+     * 自 2022 年 7 月 14 日后发布的小程序，使用以下8个地理位置相关接口时，需要声明该字段，否则将无法正常使用。2022 年 7 月 14 日前发布的小程序不受影响。
+     * - getFuzzyLocation: 获取模糊地理位置
+     * - getLocation: 获取精确地理位置
+     * - onLocationChange: 监听试试地理位置变化事件
+     * - startLocationUpdate: 接收位置消息（前台）
+     * - startLocationUpdateBackground: 接收位置消息（前后台）
+     * - chooseLocation: 打开地图选择位置
+     * - choosePoi: 打开 POI 列表选择位置
+     * - chooseAddress: 获取用户地址信息
+     *  @see https://developers.weixin.qq.com/miniprogram/dev/reference/configuration/app.html#requiredPrivateInfos
+     */
+    requiredPrivateInfos?: ('getFuzzyLocation' | 'getLocation' | 'onLocationChange' | 'startLocationUpdate' | 'startLocationUpdateBackground' | 'chooseLocation' | 'choosePoi' | 'chooseAddress')[] 
     /** 使用到的插件
      * @since 1.9.6
      */
@@ -357,6 +372,22 @@ declare module './index' {
       /** 视频号直播打开的第一个页面的全屏状态使用自定义顶部，支持 */
       firstPageNavigationStyle?: 'default' | 'custom'
     }
+    /** 小程序调试相关配置项 */
+    debugOptions?: {
+      /** 是否开启 FPS 面板，默认false */
+      enableFPSPanel?: boolean
+    }
+    /** touch 事件监听是否为 passive，默认false */
+    enablePassiveEvent?: boolean | {
+      /** 是否设置 touchstart 事件为 passive，默认false */
+      touchstart?: boolean
+      /** 是否设置 touchmove 事件为 passive，默认false */
+      touchmove?: boolean
+      /** 是否设置 wheel 事件为 passive，默认false */
+      wheel?: boolean
+    }
+    /** 自定义模块映射规则 */
+    resolveAlias?: Record<string, string>
     /** 接受一个数组，每一项都是字符串，来指定编译为原生小程序组件的组件入口 */
     components?: string[]
     /** 渲染页面的容器 id

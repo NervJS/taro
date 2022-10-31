@@ -1,19 +1,31 @@
 /* eslint-disable no-console */
-import * as tt from 'tt-ide-cli'
-import BaseCI from './BaseCi'
 import * as cp from 'child_process'
 import * as fs from 'fs'
+import * as path from 'path'
+
+import BaseCI from './BaseCi'
+import generateQrCode from './QRCode'
 
 export default class TTCI extends BaseCI {
+  tt
+
   async _init () {
     if (this.pluginOpts.tt == null) {
       throw new Error('请为"@tarojs/plugin-mini-ci"插件配置 "tt" 选项')
     }
+    try {
+      this.tt = require('tt-ide-cli')
+    } catch (error) {
+      throw new Error('请安装依赖：tt-ide-cli')
+    }
   }
 
   async _beforeCheck () {
-    await tt.loginByEmail(this.pluginOpts.tt!.email, this.pluginOpts.tt!.password)
-    return await tt.checkSession()
+    await this.tt.loginByEmail({
+      email: this.pluginOpts.tt!.email,
+      password: this.pluginOpts.tt!.password
+    })
+    return await this.tt.checkSession()
   }
 
   open () {
@@ -49,13 +61,29 @@ export default class TTCI extends BaseCI {
     if (!isLogin) return
     const { chalk, printLog, processTypeEnum } = this.ctx.helper
     const { outputPath } = this.ctx.paths
+    const appInfo = JSON.parse(
+      fs.readFileSync(path.join(outputPath, 'app.json'), {
+        encoding: 'utf8'
+      })
+    )
     try {
       printLog(processTypeEnum.START, '预览字节跳动小程序')
-      await tt.preview({
-        entry: outputPath,
-        force: true,
-        small: true
+      const previewResult = await this.tt.preview({
+        project: {
+          path: outputPath
+        },
+        page: {
+          path: appInfo.pages[0]
+        },
+        qrcode: {
+          format: 'imageSVG',
+          options: {
+            small: true
+          }
+        }
       })
+      generateQrCode(previewResult.shortUrl)
+      printLog(processTypeEnum.GENERATE, '二维码已生成，请扫码预览')
     } catch (error) {
       console.log(chalk.red(`上传失败 ${new Date().toLocaleString()} \n${error.message}`))
     }
@@ -69,11 +97,15 @@ export default class TTCI extends BaseCI {
     try {
       printLog(processTypeEnum.START, '上传代码到字节跳动后台')
       printLog(processTypeEnum.REMIND, `本次上传版本号为："${this.version}"，上传描述为：“${this.desc}”`)
-      await tt.upload({
-        entry: outputPath,
+      await this.tt.upload({
+        project: {
+          path: outputPath
+        },
         version: this.version,
-        changeLog: this.desc
+        changeLog: this.desc,
+        needUploadSourcemap: true
       })
+      printLog(processTypeEnum.REMIND, '上传完成')
     } catch (error) {
       console.log(chalk.red(`上传失败 ${new Date().toLocaleString()} \n${error.message}`))
     }

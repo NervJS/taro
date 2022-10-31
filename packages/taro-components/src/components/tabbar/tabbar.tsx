@@ -1,20 +1,12 @@
 import { Component, Prop, h, ComponentInterface, Host, State, Event, EventEmitter, Element } from '@stencil/core'
 import Taro from '@tarojs/taro'
+import { addLeadingSlash, stripBasename, stripSuffix } from '@tarojs/router/dist/utils'
+import { IH5RouterConfig } from '@tarojs/taro/types/compile'
 import classNames from 'classnames'
 import resolvePathname from 'resolve-pathname'
 
 import { splitUrl } from '../../utils'
 import { TabbarItem } from './tabbar-item'
-
-// const removeLeadingSlash = str => str.replace(/^\.?\//, '')
-// const removeTrailingSearch = str => str.replace(/\?[\s\S]*$/, '')
-const addLeadingSlash = str => str[0] === '/' ? str : `/${str}`
-
-const hasBasename = (path, prefix) =>
-  new RegExp('^' + prefix + '(\\/|\\?|#|$)', 'i').test(path)
-
-const stripBasename = (path, prefix) =>
-  hasBasename(path, prefix) ? path.substr(prefix.length) : path
 
 const STATUS_SHOW = 0
 const STATUS_HIDE = 1
@@ -42,7 +34,7 @@ export interface Conf {
   position?: 'bottom' | 'top'
   custom: boolean
   customRoutes: Record<string, string | string[]>
-  mode: 'hash' | 'browser'
+  mode: IH5RouterConfig['mode']
   basename: string
   homePage: string
   currentPagename: string
@@ -139,7 +131,7 @@ export class Tabbar implements ComponentInterface {
       url = location.pathname
     }
     const processedUrl = addLeadingSlash(stripBasename(url, routerBasename))
-    return processedUrl === '/' ? this.homePage : processedUrl
+    return decodeURI(processedUrl === '/' ? this.homePage : processedUrl)
   }
 
   getOriginUrl = (url: string) => {
@@ -148,7 +140,7 @@ export class Tabbar implements ComponentInterface {
       const pathB = splitUrl(url).path
       return pathA === pathB
     })
-    return customRoute.length ? customRoute[0][0] : url
+    return stripSuffix(customRoute.length ? customRoute[0][0] : url, '.html')
   }
 
   getSelectedIndex = (url: string) => {
@@ -188,16 +180,12 @@ export class Tabbar implements ComponentInterface {
   }
 
   routerChangeHandler = (options?) => {
-    let toLocation
+    const to = options?.toLocation?.path
     let currentPage
 
-    if (options) {
-      toLocation = options.toLocation
-    }
-
-    if (toLocation && toLocation.path) {
-      const tmpPath = addLeadingSlash(toLocation.path)
-      currentPage = stripBasename(tmpPath === '/' ? this.homePage : tmpPath, this.conf.basename || '/')
+    if (typeof to === 'string') {
+      const routerBasename = this.conf.basename || '/'
+      currentPage = stripBasename(addLeadingSlash(to || this.homePage), routerBasename) || '/'
     } else {
       currentPage = this.getCurrentUrl()
     }

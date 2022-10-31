@@ -1,35 +1,36 @@
-import * as path from 'path'
-import { EventEmitter } from 'events'
-import { merge } from 'lodash'
-import { AsyncSeriesWaterfallHook } from 'tapable'
-import { IProjectConfig, PluginItem } from '@tarojs/taro/types/compile'
 import {
+  createDebug,
+  createSwcRegister,
   NODE_MODULES,
-  recursiveFindNodeModules,
-  createBabelRegister,
-  createDebug
+  recursiveFindNodeModules
 } from '@tarojs/helper'
 import * as helper from '@tarojs/helper'
-import * as joi from '@hapi/joi'
+import { EventEmitter } from 'events'
+import { merge } from 'lodash'
+import * as path from 'path'
+import { AsyncSeriesWaterfallHook } from 'tapable'
 
-import {
-  IPreset,
-  IPluginsObject,
-  IPlugin,
-  IPaths,
-  IHook,
-  ICommand,
-  IPlatform
-} from './utils/types'
-import {
-  PluginType,
-  IS_MODIFY_HOOK,
-  IS_ADD_HOOK,
-  IS_EVENT_HOOK
-} from './utils/constants'
-import { mergePlugins, resolvePresetsOrPlugins, convertPluginsToObject, printHelpLog } from './utils'
-import Plugin from './Plugin'
 import Config from './Config'
+import Plugin from './Plugin'
+import { convertPluginsToObject, mergePlugins, printHelpLog, resolvePresetsOrPlugins } from './utils'
+import {
+  IS_ADD_HOOK,
+  IS_EVENT_HOOK,
+  IS_MODIFY_HOOK,
+  PluginType
+} from './utils/constants'
+
+import type { IProjectConfig, PluginItem } from '@tarojs/taro/types/compile'
+import type {
+  Func,
+  ICommand,
+  IHook,
+  IPaths,
+  IPlatform,
+  IPlugin,
+  IPluginsObject,
+  IPreset
+} from './utils/types'
 
 interface IKernelOptions {
   appPath: string
@@ -49,7 +50,7 @@ export default class Kernel extends EventEmitter {
   config: Config
   initialConfig: IProjectConfig
   hooks: Map<string, IHook[]>
-  methods: Map<string, ((...args: any[]) => void)[]>
+  methods: Map<string, Func[]>
   commands: Map<string, ICommand>
   platforms: Map<string, IPlatform>
   helper: any
@@ -58,7 +59,7 @@ export default class Kernel extends EventEmitter {
 
   constructor (options: IKernelOptions) {
     super()
-    this.debugger = createDebug('Taro:Kernel')
+    this.debugger = process.env.DEBUG === 'Taro:Kernel' ? createDebug('Taro:Kernel') : function () {}
     this.appPath = options.appPath || process.cwd()
     this.optsPresets = options.presets
     this.optsPlugins = options.plugins
@@ -67,14 +68,8 @@ export default class Kernel extends EventEmitter {
     this.commands = new Map()
     this.platforms = new Map()
     this.initHelper()
-  }
-
-  async init () {
-    this.debugger('init')
     this.initConfig()
     this.initPaths()
-    this.initPresetsAndPlugins()
-    await this.applyPlugins('onReady')
   }
 
   initConfig () {
@@ -111,7 +106,7 @@ export default class Kernel extends EventEmitter {
     const allConfigPlugins = mergePlugins(this.optsPlugins || [], initialConfig.plugins || [])()
     this.debugger('initPresetsAndPlugins', allConfigPresets, allConfigPlugins)
     process.env.NODE_ENV !== 'test' &&
-    createBabelRegister({
+    createSwcRegister({
       only: [...Object.keys(allConfigPresets), ...Object.keys(allConfigPlugins)]
     })
     this.plugins = new Map()
@@ -167,6 +162,8 @@ export default class Kernel extends EventEmitter {
     if (typeof pluginCtx.optsSchema !== 'function') {
       return
     }
+    this.debugger('checkPluginOpts', pluginCtx)
+    const joi = require('joi')
     const schema = pluginCtx.optsSchema(joi)
     if (!joi.isSchema(schema)) {
       throw new Error(`插件${pluginCtx.id}中设置参数检查 schema 有误，请检查！`)
@@ -179,6 +176,7 @@ export default class Kernel extends EventEmitter {
   }
 
   registerPlugin (plugin: IPlugin) {
+    this.debugger('registerPlugin', plugin)
     if (this.plugins.has(plugin.id)) {
       throw new Error(`插件 ${plugin.id} 已被注册`)
     }
@@ -243,6 +241,9 @@ export default class Kernel extends EventEmitter {
       throw new Error('调用失败，未传入正确的名称！')
     }
     const hooks = this.hooks.get(name) || []
+    if (!hooks.length) {
+      return await initialVal
+    }
     const waterfall = new AsyncSeriesWaterfallHook(['arg'])
     if (hooks.length) {
       const resArr: any[] = []
@@ -306,24 +307,33 @@ export default class Kernel extends EventEmitter {
     this.debugger('command:runOpts')
     this.debugger(`command:runOpts:${JSON.stringify(opts, null, 2)}`)
     this.setRunOpts(opts)
-    await this.init()
+
+    this.debugger('initPresetsAndPlugins')
+    this.initPresetsAndPlugins()
+
+    await this.applyPlugins('onReady')
+
     this.debugger('command:onStart')
     await this.applyPlugins('onStart')
+
     if (!this.commands.has(name)) {
       throw new Error(`${name} 命令不存在`)
     }
+
     if (opts?.isHelp) {
       return this.runHelp(name)
     }
+
     if (opts?.options?.platform) {
       opts.config = this.runWithPlatform(opts.options.platform)
+      await this.applyPlugins({
+        name: 'modifyRunnerOpts',
+        opts: {
+          opts: opts?.config
+        }
+      })
     }
-    await this.applyPlugins({
-      name: 'modifyRunnerOpts',
-      opts: {
-        opts: opts?.config
-      }
-    })
+
     await this.applyPlugins({
       name,
       opts

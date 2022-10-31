@@ -33,8 +33,8 @@ import {
   TextInputContentSizeChangeEventData,
   KeyboardTypeOptions
 } from 'react-native'
-import { noop, omit } from '../../utils'
-import { InputProps, InputState } from './PropsType'
+import { noop, omit, parseStyles, useUpdateEffect } from '../../utils'
+import { InputProps } from './PropsType'
 
 const keyboardTypeMap: { [key: string]: string } = {
   text: 'default',
@@ -47,47 +47,69 @@ const keyboardTypeMap: { [key: string]: string } = {
     }) || ''
 }
 
-// const confirmTypeMap = {
-//   done: '完成',
-//   send: '发送',
-//   search: '搜索',
-//   next: '下一个',
-//   go: '前往',
-// }
+const defaultProps = {
+  type: 'text',
+  maxlength: 140,
+  confirmType: 'done',
+  selectionStart: -1,
+  selectionEnd: -1
+}
 
-class _Input extends React.Component<InputProps, InputState> {
-  static displayName = '_Input'
-  static defaultProps = {
-    type: 'text',
-    maxlength: 140,
-    confirmType: 'done',
-    selectionStart: -1,
-    selectionEnd: -1
-  }
+const _Input = (props: InputProps) => {
+  const {
+    style,
+    value,
+    type = defaultProps.type,
+    password,
+    placeholder,
+    disabled,
+    maxlength = defaultProps.maxlength,
+    confirmType,
+    confirmHold,
+    cursor,
+    selectionStart = defaultProps.selectionStart,
+    selectionEnd = defaultProps.selectionEnd,
+    _multiline,
+    _autoHeight,
+    autoFocus,
+    focus,
+    placeholderStyle
+  } = props
 
-  static getDerivedStateFromProps(props: InputProps, state: InputState): InputState | null {
-    return props.value !== state.value
-      ? {
-        ...state,
-        returnValue: props.value
+  const [returnValue, setReturnValue] = React.useState<string>()
+  /** 用于保存输入框值 */
+  const tmpValue = React.useRef<string>()
+  const [_height, setHeight] = React.useState(0)
+  const lineCount = React.useRef(0)
+  const inputRef = React.useRef<any>()
+
+  React.useEffect(() => {
+    tmpValue.current = value
+    setReturnValue(val => {
+      if (val !== value) {
+        return value
       }
-      : null
-  }
+      return val
+    })
+  }, [returnValue, value])
 
-  state: InputState = {
-    returnValue: undefined,
-    height: 0,
-    value: undefined
-  }
+  // fix: https://github.com/NervJS/taro/issues/11350
+  useUpdateEffect(() => {
+    if (!inputRef.current) {
+      return
+    }
+    if (focus) {
+      inputRef.current.focus()
+    } else {
+      inputRef.current.blur()
+    }
+  }, [focus])
 
-  tmpValue?: string
-  lineCount = 0
-
-  onChangeText = (text: string): void => {
-    const { onInput, onChange } = this.props
-    const { returnValue } = this.state
+  const onChangeText = React.useCallback((text: string): void => {
+    const { onInput, onChange } = props
     const onEvent = onInput || onChange
-    this.tmpValue = text || ''
+    tmpValue.current = text || ''
+
     if (onEvent) {
       const result: unknown = onEvent({
         target: { value: text },
@@ -96,33 +118,32 @@ class _Input extends React.Component<InputProps, InputState> {
       // Be care of flickering
       // @see https://facebook.github.io/react-native/docs/textinput.html#value
       if (typeof result === 'string') {
-        this.tmpValue = result
-        this.setState({ returnValue: result })
+        tmpValue.current = result
+        setReturnValue(result)
       } else if (returnValue) {
-        this.setState({ returnValue: undefined })
+        // 为了处理输入不合法，setState 相同值时，状态不更新，UI 也得不到更新，重置状态进而更新
+        setReturnValue(undefined)
       }
     }
-  }
+  }, [returnValue])
 
-  onFocus = (): void => {
-    const { onFocus = noop } = this.props
-    // event.detail = { value, height }
-    const { returnValue } = this.state
-    this.tmpValue = returnValue || ''
+  const onFocus = React.useCallback((): void => {
+    const { onFocus = noop } = props
 
     onFocus({
-      target: { value: this.tmpValue || '' },
-      detail: { value: this.tmpValue || '' }
+      target: { value: tmpValue.current || '' },
+      detail: { value: tmpValue.current || '' }
     })
-  }
+  }, [returnValue])
 
-  onBlur = (): void => {
-    const { onBlur = noop } = this.props
+  const onBlur = React.useCallback((): void => {
+    const { onBlur = noop } = props
+
     onBlur({
-      target: { value: this.tmpValue || '' },
-      detail: { value: this.tmpValue || '' }
+      target: { value: tmpValue.current || '' },
+      detail: { value: tmpValue.current || '' }
     })
-  }
+  }, [])
 
   /**
    * Callback that is called when a key is pressed.
@@ -131,136 +152,129 @@ class _Input extends React.Component<InputProps, InputState> {
    * the typed-in character otherwise including `' '` for space.
    * Fires before `onChange` callbacks.
    */
-  onKeyPress = (event: NativeSyntheticEvent<TextInputKeyPressEventData>): void => {
-    const { onKeyDown = noop, onConfirm = noop } = this.props
+  const onKeyPress = React.useCallback((event: NativeSyntheticEvent<TextInputKeyPressEventData>): void => {
+    const { onKeyDown = noop, onConfirm = noop } = props
     const keyValue = event.nativeEvent.key
     let which
     keyValue === 'Enter' && (which = 13)
     keyValue === 'Backspace' && (which = 8)
     onKeyDown({
       which,
-      target: { value: this.tmpValue || '' },
-      detail: { value: this.tmpValue || '' }
+      target: { value: tmpValue.current || '' },
+      detail: { value: tmpValue.current || '' }
     })
     if (keyValue !== 'Enter') return
     onConfirm({
-      target: { value: this.tmpValue || '' },
-      detail: { value: this.tmpValue || '' }
+      target: { value: tmpValue.current || '' },
+      detail: { value: tmpValue.current || '' }
     })
-  }
+  }, [])
 
-  onSubmitEditing = (): void => {
-    const { onKeyDown = noop, onConfirm = noop, _multiline } = this.props
+  const onSubmitEditing = React.useCallback((): void => {
+    const { onKeyDown = noop, onConfirm = noop } = props
     if (_multiline) return
     onKeyDown({
       which: 13,
-      target: { value: this.tmpValue || '' },
-      detail: { value: this.tmpValue || '' }
+      target: { value: tmpValue.current || '' },
+      detail: { value: tmpValue.current || '' }
     })
     onConfirm({
-      target: { value: this.tmpValue || '' },
-      detail: { value: this.tmpValue || '' }
+      target: { value: tmpValue.current || '' },
+      detail: { value: tmpValue.current || '' }
     })
-  }
+  }, [_multiline])
 
-  onContentSizeChange = (event: NativeSyntheticEvent<TextInputContentSizeChangeEventData>): void => {
+  const onContentSizeChange = React.useCallback((event: NativeSyntheticEvent<TextInputContentSizeChangeEventData>): void => {
     const { width, height } = event.nativeEvent.contentSize
     // One of width and height may be 0.
     if (width && height) {
-      const { _multiline, _autoHeight, _onLineChange = noop } = this.props
-      if (!_multiline || !_autoHeight || height === this.state.height) return
-      this.lineCount += height > this.state.height ? 1 : -1
-      _onLineChange({ detail: { height, lineCount: this.lineCount } })
-      this.setState({ height })
+      const { _onLineChange = noop } = props
+      if (!_multiline || !_autoHeight || height === _height) return
+      lineCount.current += height > _height ? 1 : -1
+      _onLineChange({ detail: { height, lineCount: lineCount.current } })
+      setHeight(height)
     }
-  }
+  }, [_height, _multiline, _autoHeight])
 
-  render(): JSX.Element {
-    let {
-      style,
-      value,
-      type,
-      password,
-      placeholder,
-      disabled,
-      maxlength,
-      confirmType,
-      confirmHold,
-      cursor,
-      selectionStart,
-      selectionEnd,
-      _multiline,
-      _autoHeight,
-      autoFocus,
-      focus,
-    } = this.props
+  const keyboardType: KeyboardTypeOptions = keyboardTypeMap[type] as KeyboardTypeOptions
+  const selection = (() => {
+    if (selectionStart >= 0 && selectionEnd >= 0) {
+      return { start: selectionStart, end: selectionEnd }
+    } else if (typeof cursor === 'number') {
+      return { start: cursor, end: cursor }
+    }
+  })()
 
-    const keyboardType: KeyboardTypeOptions = keyboardTypeMap[type] as KeyboardTypeOptions
+  const defaultValue = type === 'number' && value ? value + '' : value
 
-    const selection = (() => {
-      if (selectionStart >= 0 && selectionEnd >= 0) {
-        return { start: selectionStart, end: selectionEnd }
-      } else if (typeof cursor === 'number') {
-        return { start: cursor, end: cursor }
-      }
-    })()
+  // fix: https://reactnative.dev/docs/textinput#multiline
+  const textAlignVertical = _multiline ? 'top' : 'auto'
+  const placeholderTextColor = props.placeholderTextColor || parseStyles(placeholderStyle)?.color
 
-    value = type === 'number' && value ? value + '' : value
+  const inputProps = omit(props, [
+    'style',
+    'value',
+    'type',
+    'password',
+    'placeholder',
+    'disabled',
+    'maxlength',
+    'confirmType',
+    'confirmHold',
+    'cursor',
+    'selectionStart',
+    'selectionEnd',
+    'onInput',
+    'onFocus',
+    'onBlur',
+    'onKeyDown',
+    'onConfirm',
+    '_multiline',
+    '_autoHeight',
+    '_onLineChange',
+    'placeholderStyle',
+    'placeholderTextColor',
+  ])
 
-    // fix: https://reactnative.dev/docs/textinput#multiline
-    const textAlignVertical = _multiline ? 'top' : 'auto'
-
-    return (
-      <TextInput
-        {...omit(this.props, [
-          'style',
-          'value',
-          'type',
-          'password',
-          'placeholder',
-          'disabled',
-          'maxlength',
-          'confirmType',
-          'confirmHold',
-          'cursor',
-          'selectionStart',
-          'selectionEnd',
-          'onInput',
-          'onFocus',
-          'onBlur',
-          'onKeyDown',
-          'onConfirm',
-          '_multiline',
-          '_autoHeight',
-          '_onLineChange'
-        ])}
-        defaultValue={value}
-        keyboardType={keyboardType}
-        secureTextEntry={!!password}
-        placeholder={placeholder}
-        editable={!disabled}
-        maxLength={maxlength === -1 ? undefined : maxlength}
-        // returnKeyLabel={confirmType}
-        returnKeyType={confirmType}
-        blurOnSubmit={!_multiline && !confirmHold}
-        autoFocus={!!autoFocus || !!focus}
-        selection={selection}
-        onChangeText={this.onChangeText}
-        value={this.state.returnValue}
-        onFocus={this.onFocus}
-        onBlur={this.onBlur}
-        onKeyPress={this.onKeyPress}
-        onSubmitEditing={this.onSubmitEditing}
-        multiline={!!_multiline}
-        textAlignVertical={textAlignVertical}
-        onContentSizeChange={this.onContentSizeChange}
-        underlineColorAndroid="rgba(0,0,0,0)"
-        style={[{
-          padding: 0,
-        }, style, _multiline && _autoHeight && { height: Math.max(35, this.state.height) }]}
-      />
-    )
-  }
+  return (
+    <TextInput
+      {...inputProps}
+      ref={inputRef}
+      defaultValue={defaultValue}
+      keyboardType={keyboardType}
+      secureTextEntry={!!password}
+      placeholder={placeholder}
+      editable={!disabled}
+      maxLength={maxlength === -1 ? undefined : maxlength}
+      // returnKeyLabel={confirmType}
+      returnKeyType={confirmType}
+      blurOnSubmit={!_multiline && !confirmHold}
+      autoFocus={!!autoFocus || !!focus}
+      selection={selection}
+      onChangeText={onChangeText}
+      value={returnValue}
+      onFocus={onFocus}
+      onBlur={onBlur}
+      onKeyPress={onKeyPress}
+      onSubmitEditing={onSubmitEditing}
+      multiline={!!_multiline}
+      textAlignVertical={textAlignVertical}
+      onContentSizeChange={onContentSizeChange}
+      underlineColorAndroid="rgba(0,0,0,0)"
+      placeholderTextColor={placeholderTextColor}
+      style={[
+        {
+          padding: 0
+        },
+        style,
+        _multiline && _autoHeight && { height: Math.max(35, _height) }
+      ]}
+    />
+  )
 }
+
+_Input.defaultProps = defaultProps as InputProps
+
+_Input.displayName = '_Input'
 
 export default _Input

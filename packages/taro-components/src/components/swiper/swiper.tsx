@@ -1,9 +1,10 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { Component, h, ComponentInterface, Prop, Event, EventEmitter, Watch, Host, Element, State } from '@stencil/core'
-import SwiperJS from 'swiper/swiper-bundle.esm.js'
 import classNames from 'classnames'
-
 import type ISwiper from 'swiper'
+import SwiperJS from 'swiper/swiper-bundle.esm.js'
+
+import { debounce } from '../../utils'
 
 let INSTANCE_ID = 0
 
@@ -247,12 +248,12 @@ export class Swiper implements ComponentInterface {
   handleInit () {
     const {
       autoplay,
-      current,
-      interval,
-      duration,
       circular,
-      vertical,
-      displayMultipleItems
+      current,
+      displayMultipleItems,
+      duration,
+      interval,
+      vertical
     } = this
 
     // eslint-disable-next-line @typescript-eslint/no-this-alias
@@ -271,9 +272,9 @@ export class Swiper implements ComponentInterface {
         slideTo () {
           that.current = this.realIndex
         },
-        // slideChange 事件在 swiper.slideTo 改写 current 时不触发，因此用 slideChangeTransitionEnd 事件代替
-        slideChangeTransitionEnd (_swiper: ISwiper) {
-          if (circular) {
+         // slideChange 事件在 swiper.slideTo 改写 current 时不触发，因此用 slideChangeTransitionStart 事件代替
+         slideChangeTransitionStart (_swiper: ISwiper) {
+          if (that.circular) {
             if (_swiper.isBeginning || _swiper.isEnd) {
               _swiper.slideToLoop(this.realIndex, 0) // 更新下标
               return
@@ -295,7 +296,11 @@ export class Swiper implements ComponentInterface {
           const className = target && typeof target.className === 'string' ? target.className : ''
           if (className.includes('taro_page') && target.style.display !== 'none') {
             if (that.autoplay && target.contains(_swiper.$el[0])) {
-              _swiper.slideTo(that.current)
+              if (that.circular) {
+                _swiper.slideToLoop(this.realIndex, 0) // 更新下标
+              } else {
+                _swiper.slideTo(this.realIndex)
+              }
             }
           }
         }
@@ -362,16 +367,5 @@ export class Swiper implements ComponentInterface {
         </div>
       </Host>
     )
-  }
-}
-
-function debounce (fn, delay: number) {
-  let timer: NodeJS.Timeout
-
-  return function (...arrs) {
-    clearTimeout(timer)
-    timer = setTimeout(function () {
-      fn(...arrs)
-    }, delay)
   }
 }

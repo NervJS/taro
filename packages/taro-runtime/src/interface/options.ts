@@ -1,6 +1,6 @@
-import type { TaroText } from '../dom/text'
 import type { TaroElement } from '../dom/element'
-import type { Text, Element } from '../dom-external/inner-html/parser'
+import type { TaroText } from '../dom/text'
+import type { Element, Text } from '../dom-external/inner-html/parser'
 
 export interface Options {
   prerender: boolean

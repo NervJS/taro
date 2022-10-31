@@ -1,6 +1,9 @@
 import React from 'react'
-import ReactDOM from 'react-dom'
+import ReactDOMClient from 'react-dom/client'
+
 import { Block } from '../h5/react'
+import { waitForChange } from './utils'
+
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const h = React.createElement
 
@@ -30,7 +33,9 @@ describe('Block', () => {
       }
     }
 
-    ReactDOM.render(<App />, scratch)
+    ReactDOMClient.createRoot(scratch).render(<App />)
+
+    await waitForChange(scratch)
 
     expect(scratch.childNodes.length).toBe(2)
   })

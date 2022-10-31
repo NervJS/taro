@@ -1,5 +1,6 @@
-import { Alipay } from '@tarojs/plugin-platform-alipay'
 import * as helper from '@tarojs/helper'
+import { Alipay } from '@tarojs/plugin-platform-alipay'
+
 import { compile, getOutput } from './utils/compiler'
 
 describe('alipay', () => {

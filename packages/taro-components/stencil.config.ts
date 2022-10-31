@@ -9,6 +9,7 @@ export const config: Config = {
   plugins: [
     sass()
   ],
+  sourceMap: process.env.NODE_ENV !== 'production',
   nodeResolve: {
     preferBuiltins: false,
     // @ts-ignore
@@ -36,7 +37,7 @@ export const config: Config = {
     globals: {
       'ts-jest': {
         diagnostics: false,
-        tsConfig: {
+        tsconfig: {
           jsx: 'react',
           allowJs: true,
           target: 'ES6'
