@@ -206,6 +206,13 @@
             "optional": true
           }
         }
+      },
+      "@ant-design/react-native": {
+        "peerDependenciesMeta": {
+          "@react-native-community/cameraroll": {
+            "optional": true
+          }
+        }
       }
     }
   }
