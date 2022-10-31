@@ -4,13 +4,14 @@ import {
   processTypeEnum,
   resolveMainFilePath
 } from '@tarojs/helper'
-import { Config } from '@tarojs/taro'
 import path from 'path'
-import { Compilation, Compiler } from 'webpack'
 
-import { IComponent } from '../utils/types'
 import { addRequireToSource, getChunkEntryModule, getChunkIdOrName } from '../utils/webpack'
 import MiniPlugin from './MiniPlugin'
+
+import type { Config } from '@tarojs/taro'
+import type { Compilation, Compiler } from 'webpack'
+import type { IComponent } from '../utils/types'
 
 const PLUGIN_NAME = 'BuildNativePlugin'
 

@@ -578,10 +578,6 @@ importers:
       webpack: 4.46.0
       weui: ^1.1.2
     dependencies:
-      '@stencil/core': registry.npmjs.org/@stencil/core/2.18.1
-      '@stencil/react-output-target': registry.npmjs.org/@stencil/react-output-target/0.3.1_@stencil+core@2.18.1
-      '@stencil/sass': registry.npmjs.org/@stencil/sass/2.0.0_@stencil+core@2.18.1
-      '@stencil/vue-output-target': registry.npmjs.org/@stencil/vue-output-target/0.6.2_@stencil+core@2.18.1
       '@tarojs/router': link:../taro-router
       '@tarojs/taro': link:../taro
       classnames: registry.npmjs.org/classnames/2.3.1
@@ -591,6 +587,10 @@ importers:
       swiper: registry.npmjs.org/swiper/6.8.0
       weui: registry.npmjs.org/weui/1.1.3
     devDependencies:
+      '@stencil/core': registry.npmjs.org/@stencil/core/2.19.2
+      '@stencil/react-output-target': registry.npmjs.org/@stencil/react-output-target/0.3.1_@stencil+core@2.19.2
+      '@stencil/sass': registry.npmjs.org/@stencil/sass/2.0.0_@stencil+core@2.19.2
+      '@stencil/vue-output-target': registry.npmjs.org/@stencil/vue-output-target/0.6.2_@stencil+core@2.19.2
       '@types/node': registry.npmjs.org/@types/node/14.18.21
       css-loader: registry.npmjs.org/css-loader/3.4.2_webpack@4.46.0
       humps: registry.npmjs.org/humps/2.0.1
@@ -1404,9 +1404,12 @@ importers:
     specifiers:
       '@tarojs/shared': workspace:*
       lodash-es: 4.17.21
+      tslib: ^2.4.0
     dependencies:
       '@tarojs/shared': link:../shared
       lodash-es: registry.npmjs.org/lodash-es/4.17.21
+    devDependencies:
+      tslib: registry.npmjs.org/tslib/2.4.0
 
   packages/taro-runtime-rn:
     specifiers:
@@ -1431,6 +1434,7 @@ importers:
       lodash: ^4.17.21
       resolve: ^1.22.0
       tapable: ^1.1.3
+      webpack: 5.69.0
       webpack-merge: ^4.2.2
     dependencies:
       '@tarojs/helper': link:../taro-helper
@@ -1442,6 +1446,8 @@ importers:
       resolve: registry.npmjs.org/resolve/1.22.1
       tapable: registry.npmjs.org/tapable/1.1.3
       webpack-merge: registry.npmjs.org/webpack-merge/4.2.2
+    devDependencies:
+      webpack: registry.npmjs.org/webpack/5.69.0
 
   packages/taro-swan:
     specifiers:
@@ -8058,15 +8064,15 @@ packages:
     version: 0.7.1
     dev: true
 
-  registry.npmjs.org/@stencil/core/2.18.1:
-    resolution: {integrity: sha512-/fXkh1lwZ+X9JQCw50mPjhBogzEHOBvVC5pLoDLZqodVYK0DGWILM2YLV4dcIUBNEK8/HMDpO/Rq81/rS3mNOw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@stencil/core/-/core-2.18.1.tgz}
+  registry.npmjs.org/@stencil/core/2.19.2:
+    resolution: {integrity: sha512-TK3sHqyQAACwcac4fWntypFtN9c/y+y9ioZojeCnNDY3dxF33Ax70lL9ZLDyQnWWR+aTh1WFoqB5sYOnZIUKMA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@stencil/core/-/core-2.19.2.tgz}
     name: '@stencil/core'
-    version: 2.18.1
+    version: 2.19.2
     engines: {node: '>=12.10.0', npm: '>=6.0.0'}
     hasBin: true
-    dev: false
+    dev: true
 
-  registry.npmjs.org/@stencil/react-output-target/0.3.1_@stencil+core@2.18.1:
+  registry.npmjs.org/@stencil/react-output-target/0.3.1_@stencil+core@2.19.2:
     resolution: {integrity: sha512-6d9pPhyajFfdxkqU/pPP2SzI7wn+EklySQc4KXlI/xcdvC2H9BzLmhmR40fR1q2TQoJbJui/nvSWhbYqkE3OBQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@stencil/react-output-target/-/react-output-target-0.3.1.tgz}
     id: registry.npmjs.org/@stencil/react-output-target/0.3.1
     name: '@stencil/react-output-target'
@@ -8074,10 +8080,10 @@ packages:
     peerDependencies:
       '@stencil/core': ^2.9.0
     dependencies:
-      '@stencil/core': registry.npmjs.org/@stencil/core/2.18.1
-    dev: false
+      '@stencil/core': registry.npmjs.org/@stencil/core/2.19.2
+    dev: true
 
-  registry.npmjs.org/@stencil/sass/2.0.0_@stencil+core@2.18.1:
+  registry.npmjs.org/@stencil/sass/2.0.0_@stencil+core@2.19.2:
     resolution: {integrity: sha512-Be7Tz7YJnMzloot0aG3m2wTVt9Dg0rjOU+ZVx49ts9+hyeW+NEmvSWPv6bhypblRXbSGik2Cc3AYboTma4Qpgg==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@stencil/sass/-/sass-2.0.0.tgz}
     id: registry.npmjs.org/@stencil/sass/2.0.0
     name: '@stencil/sass'
@@ -8085,10 +8091,10 @@ packages:
     peerDependencies:
       '@stencil/core': '>=2.0.0'
     dependencies:
-      '@stencil/core': registry.npmjs.org/@stencil/core/2.18.1
-    dev: false
+      '@stencil/core': registry.npmjs.org/@stencil/core/2.19.2
+    dev: true
 
-  registry.npmjs.org/@stencil/vue-output-target/0.6.2_@stencil+core@2.18.1:
+  registry.npmjs.org/@stencil/vue-output-target/0.6.2_@stencil+core@2.19.2:
     resolution: {integrity: sha512-Oh7SLFbOUchCSCbGe/Dqal2xSYPKCFQiVKnvzvS0dsHP/XS7rfHqp3qptW6JCp9lBoo3wmmBurHfldqxhLlnag==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@stencil/vue-output-target/-/vue-output-target-0.6.2.tgz}
     id: registry.npmjs.org/@stencil/vue-output-target/0.6.2
     name: '@stencil/vue-output-target'
@@ -8096,8 +8102,8 @@ packages:
     peerDependencies:
       '@stencil/core': ^2.9.0
     dependencies:
-      '@stencil/core': registry.npmjs.org/@stencil/core/2.18.1
-    dev: false
+      '@stencil/core': registry.npmjs.org/@stencil/core/2.19.2
+    dev: true
 
   registry.npmjs.org/@svgr/babel-plugin-add-jsx-attribute/4.2.0:
     resolution: {integrity: sha512-j7KnilGyZzYr/jhcrSYS3FGWMZVaqyCG0vzMCwzvei0coIkczuYMcniK07nI0aHJINciujjH11T72ICW5eL5Ig==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@svgr/babel-plugin-add-jsx-attribute/-/babel-plugin-add-jsx-attribute-4.2.0.tgz}
@@ -13112,7 +13118,7 @@ packages:
       '@types/semver': registry.npmjs.org/@types/semver/7.3.10
       '@types/ua-parser-js': registry.npmjs.org/@types/ua-parser-js/0.7.36
       browserslist: registry.npmjs.org/browserslist/4.20.2
-      caniuse-lite: registry.npmjs.org/caniuse-lite/1.0.30001426
+      caniuse-lite: registry.npmjs.org/caniuse-lite/1.0.30001427
       isbot: registry.npmjs.org/isbot/3.4.5
       object-path: registry.npmjs.org/object-path/0.11.8
       semver: registry.npmjs.org/semver/7.3.7
@@ -13126,7 +13132,7 @@ packages:
     engines: {node: ^6 || ^7 || ^8 || ^9 || ^10 || ^11 || ^12 || >=13.7}
     hasBin: true
     dependencies:
-      caniuse-lite: registry.npmjs.org/caniuse-lite/1.0.30001426
+      caniuse-lite: registry.npmjs.org/caniuse-lite/1.0.30001427
       electron-to-chromium: registry.npmjs.org/electron-to-chromium/1.4.170
       escalade: registry.npmjs.org/escalade/3.1.1
       node-releases: registry.npmjs.org/node-releases/2.0.5
@@ -13140,7 +13146,7 @@ packages:
     engines: {node: ^6 || ^7 || ^8 || ^9 || ^10 || ^11 || ^12 || >=13.7}
     hasBin: true
     dependencies:
-      caniuse-lite: registry.npmjs.org/caniuse-lite/1.0.30001426
+      caniuse-lite: registry.npmjs.org/caniuse-lite/1.0.30001427
       electron-to-chromium: registry.npmjs.org/electron-to-chromium/1.4.170
       node-releases: registry.npmjs.org/node-releases/2.0.5
       update-browserslist-db: registry.npmjs.org/update-browserslist-db/1.0.4_browserslist@4.21.0
@@ -13552,7 +13558,7 @@ packages:
     version: 3.0.0
     dependencies:
       browserslist: registry.npmjs.org/browserslist/4.21.0
-      caniuse-lite: registry.npmjs.org/caniuse-lite/1.0.30001426
+      caniuse-lite: registry.npmjs.org/caniuse-lite/1.0.30001427
       lodash.memoize: registry.npmjs.org/lodash.memoize/4.1.2
       lodash.uniq: registry.npmjs.org/lodash.uniq/4.5.0
 
@@ -13562,10 +13568,10 @@ packages:
     version: 1.0.30001359
     dev: false
 
-  registry.npmjs.org/caniuse-lite/1.0.30001426:
-    resolution: {integrity: sha512-n7cosrHLl8AWt0wwZw/PJZgUg3lV0gk9LMI7ikGJwhyhgsd2Nb65vKvmSexCqq/J7rbH3mFG6yZZiPR5dLPW5A==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/caniuse-lite/-/caniuse-lite-1.0.30001426.tgz}
+  registry.npmjs.org/caniuse-lite/1.0.30001427:
+    resolution: {integrity: sha512-lfXQ73oB9c8DP5Suxaszm+Ta2sr/4tf8+381GkIm1MLj/YdLf+rEDyDSRCzeltuyTVGm+/s18gdZ0q+Wmp8VsQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/caniuse-lite/-/caniuse-lite-1.0.30001427.tgz}
     name: caniuse-lite
-    version: 1.0.30001426
+    version: 1.0.30001427
 
   registry.npmjs.org/capital-case/1.0.4:
     resolution: {integrity: sha512-ds37W8CytHgwnhGGTi88pcPyR15qoNkOpYwmMMfnWqqWgESapLqvDx6huFjQ5vqWSn2Z06173XNA7LtMOeUh1A==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/capital-case/-/capital-case-1.0.4.tgz}
@@ -34814,7 +34820,6 @@ packages:
     version: 3.17.4
     engines: {node: '>=0.8.0'}
     hasBin: true
-    requiresBuild: true
     dev: true
     optional: true
 

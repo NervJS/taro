@@ -8,9 +8,9 @@ import H5AppInstance from '../utils/H5AppInstance'
 import type { AppConfig } from '@tarojs/taro'
 import type { Compiler, LoaderContext, NormalModule } from 'webpack'
 
-const PLUGIN_NAME = 'H5Plugin'
+const PLUGIN_NAME = 'TaroH5Plugin'
 
-interface IH5PluginOptions {
+interface ITaroH5PluginOptions {
   appPath: string
   sourceDir: string
   routerConfig: any
@@ -28,8 +28,8 @@ interface IH5PluginOptions {
   loaderMeta?: Record<string, string>
 }
 
-export default class H5Plugin {
-  options: IH5PluginOptions
+export default class TaroH5Plugin {
+  options: ITaroH5PluginOptions
   appEntry: string
   appConfig: AppConfig
   pagesConfigList = new Map<string, string>()

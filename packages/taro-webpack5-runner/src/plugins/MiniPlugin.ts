@@ -15,7 +15,7 @@ import {
 import fs from 'fs-extra'
 import { urlToRequest } from 'loader-utils'
 import path from 'path'
-import { Compilation, DefinePlugin, sources } from 'webpack'
+import { Compilation, sources } from 'webpack'
 import EntryDependency from 'webpack/lib/dependencies/EntryDependency'
 
 import TaroSingleEntryDependency from '../dependencies/TaroSingleEntryDependency'
@@ -764,7 +764,7 @@ export default class TaroMiniPlugin {
           filename: `[name]${this.options.fileType.style}`,
           chunkFilename: `[name]${this.options.fileType.style}`
         }).apply(childCompiler)
-        new DefinePlugin(this.options.constantsReplaceList).apply(childCompiler)
+        new compiler.webpack.DefinePlugin(this.options.constantsReplaceList).apply(childCompiler)
         if (compiler.options.optimization) {
           new SplitChunksPlugin({
             chunks: 'all',

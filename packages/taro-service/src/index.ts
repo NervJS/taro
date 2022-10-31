@@ -5,3 +5,5 @@ export * from './utils/types'
 export { Kernel }
 export { TaroPlatformBase }
 export default { Kernel, TaroPlatformBase }
+
+export type { IPluginContext } from './utils/types'
