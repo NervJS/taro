@@ -623,7 +623,7 @@ importers:
       '@ant-design/react-native': ^5.0.0
       '@babel/core': ^7.14.5
       '@babel/preset-env': ^7.14.5
-      '@react-native-community/cameraroll': ~4.1.2
+      '@react-native-camera-roll/camera-roll': ~5.0.4
       '@react-native-community/segmented-control': ^2.2.2
       '@react-native-community/slider': ~4.3.2
       '@react-native-picker/picker': ~2.4.2
@@ -645,7 +645,7 @@ importers:
       react-native-webview: ~11.23.0
       react-test-renderer: 18.1.0
     dependencies:
-      '@ant-design/react-native': registry.npmjs.org/@ant-design/react-native/5.0.1_fail3vadyeiuqwjfgrz5cghrnm
+      '@ant-design/react-native': registry.npmjs.org/@ant-design/react-native/5.0.1_p7q7o3msfgkcg7r4fq57eworna
       '@react-native-community/slider': registry.npmjs.org/@react-native-community/slider/4.3.2
       '@react-native-picker/picker': registry.npmjs.org/@react-native-picker/picker/2.4.2_kyj2qbmf4qosm56jtallnwp6xq
       expo-av: registry.npmjs.org/expo-av/13.0.0_expo@47.0.0-beta.7
@@ -658,7 +658,7 @@ importers:
     devDependencies:
       '@babel/core': registry.npmjs.org/@babel/core/7.18.5
       '@babel/preset-env': registry.npmjs.org/@babel/preset-env/7.18.2_@babel+core@7.18.5
-      '@react-native-community/cameraroll': registry.npmjs.org/@react-native-community/cameraroll/4.1.2_kyj2qbmf4qosm56jtallnwp6xq
+      '@react-native-camera-roll/camera-roll': registry.npmjs.org/@react-native-camera-roll/camera-roll/5.0.4_react-native@0.70.4
       '@react-native-community/segmented-control': registry.npmjs.org/@react-native-community/segmented-control/2.2.2_kyj2qbmf4qosm56jtallnwp6xq
       '@testing-library/react-native': registry.npmjs.org/@testing-library/react-native/11.0.0_xp7qcsltgn37gsrhqcmduxymaa
       '@types/react-native': registry.npmjs.org/@types/react-native/0.69.15
@@ -1051,7 +1051,7 @@ importers:
       '@babel/core': ^7.14.5
       '@babel/preset-env': ^7.14.5
       '@react-native-async-storage/async-storage': ~1.17.7
-      '@react-native-community/cameraroll': ~4.1.2
+      '@react-native-camera-roll/camera-roll': ~5.0.4
       '@react-native-community/clipboard': ~1.5.1
       '@react-native-community/geolocation': ~3.0.2
       '@react-native-community/netinfo': ~9.3.0
@@ -1090,7 +1090,7 @@ importers:
       react-test-renderer: 18.1.0
     dependencies:
       '@react-native-async-storage/async-storage': registry.npmjs.org/@react-native-async-storage/async-storage/1.17.7_react-native@0.70.4
-      '@react-native-community/cameraroll': registry.npmjs.org/@react-native-community/cameraroll/4.1.2_kyj2qbmf4qosm56jtallnwp6xq
+      '@react-native-camera-roll/camera-roll': registry.npmjs.org/@react-native-camera-roll/camera-roll/5.0.4_react-native@0.70.4
       '@react-native-community/clipboard': registry.npmjs.org/@react-native-community/clipboard/1.5.1_kyj2qbmf4qosm56jtallnwp6xq
       '@react-native-community/geolocation': registry.npmjs.org/@react-native-community/geolocation/3.0.2_kyj2qbmf4qosm56jtallnwp6xq
       '@react-native-community/netinfo': registry.npmjs.org/@react-native-community/netinfo/9.3.0_react-native@0.70.4
@@ -1737,7 +1737,7 @@ packages:
       react: registry.npmjs.org/react/18.1.0
     dev: false
 
-  registry.npmjs.org/@ant-design/react-native/5.0.1_fail3vadyeiuqwjfgrz5cghrnm:
+  registry.npmjs.org/@ant-design/react-native/5.0.1_p7q7o3msfgkcg7r4fq57eworna:
     resolution: {integrity: sha512-smwIhSy2Cz9n3J+dusO+0B5NnQ2Rq8Y8dZxlospdzlTqQgnKdDuxbC3VEvhcDp/uSp6JEgULV13OvX+Zb5ydMA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@ant-design/react-native/-/react-native-5.0.1.tgz}
     id: registry.npmjs.org/@ant-design/react-native/5.0.1
     name: '@ant-design/react-native'
@@ -1751,7 +1751,6 @@ packages:
     dependencies:
       '@ant-design/icons-react-native': registry.npmjs.org/@ant-design/icons-react-native/2.3.2_react@18.1.0
       '@bang88/react-native-ultimate-listview': registry.npmjs.org/@bang88/react-native-ultimate-listview/4.1.0
-      '@react-native-community/cameraroll': registry.npmjs.org/@react-native-community/cameraroll/4.1.2_kyj2qbmf4qosm56jtallnwp6xq
       '@react-native-community/segmented-control': registry.npmjs.org/@react-native-community/segmented-control/2.2.2_kyj2qbmf4qosm56jtallnwp6xq
       '@react-native-community/slider': registry.npmjs.org/@react-native-community/slider/4.3.2
       '@react-native-picker/picker': registry.npmjs.org/@react-native-picker/picker/2.4.2_kyj2qbmf4qosm56jtallnwp6xq
@@ -6849,16 +6848,14 @@ packages:
       react-native: registry.npmjs.org/react-native/0.70.4_j7e373p77i2v54hdygqxp3cfya
     dev: false
 
-  registry.npmjs.org/@react-native-community/cameraroll/4.1.2_kyj2qbmf4qosm56jtallnwp6xq:
-    resolution: {integrity: sha512-jkdhMByMKD2CZ/5MPeBieYn8vkCfC4MOTouPpBpps3I8N6HUYJk+1JnDdktVYl2WINnqXpQptDA2YptVyifYAg==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@react-native-community/cameraroll/-/cameraroll-4.1.2.tgz}
-    id: registry.npmjs.org/@react-native-community/cameraroll/4.1.2
-    name: '@react-native-community/cameraroll'
-    version: 4.1.2
+  registry.npmjs.org/@react-native-camera-roll/camera-roll/5.0.4_react-native@0.70.4:
+    resolution: {integrity: sha512-3kBRgW3VfmLQmQm70gPUVDu8rPSZymoPc9vmeiPLMKBqtWaqPNuPX0jQ6mZ8AEtYbBdoWC360Q4YYPalXv37zA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@react-native-camera-roll/camera-roll/-/camera-roll-5.0.4.tgz}
+    id: registry.npmjs.org/@react-native-camera-roll/camera-roll/5.0.4
+    name: '@react-native-camera-roll/camera-roll'
+    version: 5.0.4
     peerDependencies:
-      react: 16 || 17
-      react-native: '>=0.60'
+      react-native: '>=0.59'
     dependencies:
-      react: registry.npmjs.org/react/18.1.0
       react-native: registry.npmjs.org/react-native/0.70.4_j7e373p77i2v54hdygqxp3cfya
 
   registry.npmjs.org/@react-native-community/cli-clean/9.2.1:
