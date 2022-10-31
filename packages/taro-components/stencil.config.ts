@@ -5,8 +5,6 @@ import { sass } from '@stencil/sass'
 import { vueOutputTarget as vue3OutputTarget } from '@stencil/vue-output-target'
 import { vueOutputTarget as vue2OutputTarget } from 'stencil-vue2-output-target'
 
-const { jsWithTs: tsjPreset } = require('ts-jest/presets')
-
 const isProd = process.env.NODE_ENV === 'production'
 const outputTargets: OutputTarget[] = [
   reactOutputTarget({
@@ -55,12 +53,14 @@ export const config: Config = {
   ],
   buildEs5: 'prod',
   testing: {
+    // @ts-ignore
+    maxWorkers: '50%',
     testRegex: '(/__tests__/.*|(\\.|/)(spec|test|tt))\\.[jt]sx?$',
     transform: {
-      ...tsjPreset.transform
+      '^.+\\.(ts|tsx|js|jsx|css)$': '<rootDir>/node_modules/@stencil/core/testing/jest-preprocessor.js',
     },
+    transformIgnorePatterns: ['<rootDir>/node_modules/'],
     globals: {
-      window: true,
       ENABLE_INNER_HTML: true,
       ENABLE_ADJACENT_HTML: true,
       ENABLE_SIZE_APIS: true,

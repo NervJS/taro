@@ -559,6 +559,7 @@ importers:
       '@stencil/vue-output-target': 0.6.2
       '@tarojs/router': workspace:*
       '@tarojs/taro': workspace:*
+      '@types/jest': ^27.4.1
       '@types/node': ^14.14.31
       classnames: ^2.2.5
       css-loader: 3.4.2
@@ -592,6 +593,7 @@ importers:
       '@stencil/react-output-target': registry.npmjs.org/@stencil/react-output-target/0.3.1_@stencil+core@2.19.2
       '@stencil/sass': registry.npmjs.org/@stencil/sass/2.0.0_@stencil+core@2.19.2
       '@stencil/vue-output-target': registry.npmjs.org/@stencil/vue-output-target/0.6.2_@stencil+core@2.19.2
+      '@types/jest': registry.npmjs.org/@types/jest/27.5.2
       '@types/node': registry.npmjs.org/@types/node/14.18.21
       css-loader: registry.npmjs.org/css-loader/3.4.2_webpack@4.46.0
       humps: registry.npmjs.org/humps/2.0.1

@@ -30,9 +30,9 @@
     "dev:library-vue2": "cross-env NODE_ENV=development pnpm --filter @tarojs/components-library-vue2 run build:ci --watch",
     "dev:library-vue3": "cross-env NODE_ENV=development pnpm --filter @tarojs/components-library-vue3 run build:ci --watch",
     "test": "cross-env NODE_ENV=test stencil test --spec --e2e",
-    "test.watch": "cross-env NODE_ENV=test stencil test --spec --e2e --watchAll",
     "test:ci": "cross-env NODE_ENV=test stencil test --spec --e2e --no-build",
     "test:coverage": "cross-env NODE_ENV=test stencil test --spec --e2e --coverage",
+    "test:watch": "cross-env NODE_ENV=test stencil test --spec --e2e --watchAll",
     "sync:types": "ts-node scripts/json-schema-to-types.ts"
   },
   "repository": {
@@ -57,6 +57,7 @@
     "@stencil/react-output-target": "0.3.1",
     "@stencil/sass": "^2.0.0",
     "@stencil/vue-output-target": "0.6.2",
+    "@types/jest": "^27.4.1",
     "@types/node": "^14.14.31",
     "css-loader": "3.4.2",
     "humps": "^2.0.1",
