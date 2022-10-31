@@ -4,46 +4,53 @@ import { View, Button } from '@tarojs/components'
 import ListItem from '../../components/listItem/listItem'
 import './list.scss'
 
-declare const requireMiniProgram: () => { whoami: string }
+declare const requireMiniProgram: () => { default: { whoami: string } }
 
 export default class Index extends Component<any, any> {
   state = {
-    list: [{
-      name: 'A',
-      value: '1'
-    }, {
-      name: 'B',
-      value: '2'
-    }, {
-      name: 'C',
-      value: '3'
-    }]
+    list: [
+      {
+        name: 'A',
+        value: '1',
+      },
+      {
+        name: 'B',
+        value: '2',
+      },
+      {
+        name: 'C',
+        value: '3',
+      },
+    ],
   }
 
-  componentDidMount () {
+  componentDidMount() {
     // 测试 export
-    console.log(requireMiniProgram().whoami)
+    console.log(requireMiniProgram().default.whoami)
   }
 
   onShareAppMessage() {
     return {
       title: '测试分享',
-      path: '/pages/index/index'
+      path: '/pages/index/index',
     }
   }
 
   getElement = () => {
     const query = Taro.createSelectorQuery().in(this.props.$scope)
-    query.select('.page').boundingClientRect().exec(res => {
-      console.log(res)
-    })
+    query
+      .select('.page')
+      .boundingClientRect()
+      .exec((res) => {
+        console.log(res)
+      })
   }
 
-  render () {
+  render() {
     return (
-      <View className='page'>
+      <View className="page">
         <View>
-          {this.state.list.map(item => {
+          {this.state.list.map((item) => {
             return <ListItem name={item.name} value={item.value} key={item.name} />
           })}
         </View>
