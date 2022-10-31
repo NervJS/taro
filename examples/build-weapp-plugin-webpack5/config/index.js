@@ -10,10 +10,16 @@ const config = {
   sourceRoot: 'src',
   outputRoot: 'miniprogram',
   plugins: [],
-  copy: {
-    patterns: [],
-  },
+  copy: {},
   framework: 'react',
+  // 自定义编译工具，可选 'Webpack4' 或 'Webpack5'
+  compiler: {
+    type: 'webpack5',
+    // 依赖预编译配置
+    prebundle: {
+      enable: false,
+    },
+  },
   defineConstants: {},
   mini: {
     postcss: {
