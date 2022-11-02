@@ -63,6 +63,8 @@ hooks.tap('modifySetAttrPayload', (element, key, payload, componentsAlias) => {
     const [mapKey, mapValue] = attrMapFn(key, value, props)
     payload.path = `${_path}.${alias[mapKey] || mapKey}`
     payload.value = mapValue
+  } else if (alias[key] && alias[key] !== key) {
+    payload.path = `${_path}.${toCamelCase(alias[key])}`
   }
 
   if (key === Shortcuts.Class) {
@@ -70,8 +72,6 @@ hooks.tap('modifySetAttrPayload', (element, key, payload, componentsAlias) => {
   } else if (key === Shortcuts.Style || key === 'width' || key === 'height') {
     payload.path = `${_path}.${Shortcuts.Style}`
     payload.value = ensureRect(props, element.style.cssText)
-  } else if (alias[key] && alias[key] !== key) {
-    payload.path = `${_path}.${toCamelCase(alias[key])}`
   }
 })
 
@@ -91,6 +91,8 @@ hooks.tap('modifyRmAttrPayload', (element, key, payload, componentsAlias) => {
     const value = payload[key]
     const [mapKey] = attrMapFn(key, value, props)
     payload.path = `${_path}.${alias[mapKey] || mapKey}`
+  } else if (alias[key] && alias[key] !== key) {
+    payload.path = `${_path}.${toCamelCase(alias[key])}`
   }
 
   if (key === Shortcuts.Class) {
@@ -98,8 +100,6 @@ hooks.tap('modifyRmAttrPayload', (element, key, payload, componentsAlias) => {
   } else if (key === Shortcuts.Style || key === 'width' || key === 'height') {
     payload.path = `${_path}.${Shortcuts.Style}`
     payload.value = ensureRect(props, element.style.cssText)
-  } else if (alias[key] && alias[key] !== key) {
-    payload.path = `${_path}.${toCamelCase(alias[key])}`
   }
 })
 
