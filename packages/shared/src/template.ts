@@ -81,7 +81,6 @@ export class BaseTemplate {
   protected supportXS = false
   protected miniComponents: Components
   protected thirdPartyPatcher: Record<string, Record<string, string>> = {}
-  protected componentsAlias
   protected modifyCompProps?: (compName: string, target: Record<string, string>) => Record<string, string>
   protected modifyLoopBody?: (child: string, nodeName: string) => string
   protected modifyLoopContainer?: (children: string, nodeName: string) => string
@@ -97,6 +96,7 @@ export class BaseTemplate {
   public voidElements: Set<string> = voidElements
   /** 可以递归调用自身的组件 */
   public nestElements: Map<string, number> = nestElements
+  public componentsAlias
 
   private buildAttribute (attrs: Attributes, nodeName: string): string {
     return Object.keys(attrs)
@@ -191,7 +191,11 @@ export class BaseTemplate {
             slot: newComp?.name,
             ...styles
           }
-        } else {
+        } else if (compName === 'native-slot') {
+          result[compName] = {
+            name: newComp?.name,
+          }
+        }  else {
           result[compName] = newComp
         }
       }
@@ -337,6 +341,9 @@ export class BaseTemplate {
         break
       case 'static-image':
         nodeName = 'image'
+        break
+      case 'native-slot':
+        nodeName = 'slot'
         break
       default:
         nodeName = comp.nodeName

@@ -15,7 +15,7 @@ import {
 import fs from 'fs-extra'
 import { urlToRequest } from 'loader-utils'
 import path from 'path'
-import webpack, { Compilation, sources } from 'webpack'
+import { Compilation, sources } from 'webpack'
 import EntryDependency from 'webpack/lib/dependencies/EntryDependency'
 
 import TaroSingleEntryDependency from '../dependencies/TaroSingleEntryDependency'
@@ -226,7 +226,7 @@ export default class TaroMiniPlugin {
        * webpack NormalModule 在 runLoaders 真正解析资源的前一刻，
        * 往 NormalModule.loaders 中插入对应的 Taro Loader
        */
-      webpack.NormalModule.getCompilationHooks(compilation).loader.tap(PLUGIN_NAME, (_loaderContext, module:/** TaroNormalModule */ any) => {
+      compiler.webpack.NormalModule.getCompilationHooks(compilation).loader.tap(PLUGIN_NAME, (_loaderContext, module:/** TaroNormalModule */ any) => {
         const { framework, loaderMeta, designWidth, deviceRatio } = this.options
         if (module.miniType === META_TYPE.ENTRY) {
           const loaderName = '@tarojs/taro-loader'
@@ -464,10 +464,11 @@ export default class TaroMiniPlugin {
 
   modifyPluginJSON (pluginJSON) {
     const { main, publicComponents } = pluginJSON
+    const isUsingCustomWrapper = componentConfig.thirdPartyComponents.has('custom-wrapper')
     if (main) {
       pluginJSON.main = this.getTargetFilePath(main, '.js')
     }
-    if (publicComponents) {
+    if (publicComponents && isUsingCustomWrapper) {
       pluginJSON.publicComponents = Object.assign({}, publicComponents, {
         'custom-wrapper': 'custom-wrapper'
       })
@@ -762,7 +763,7 @@ export default class TaroMiniPlugin {
           filename: `[name]${this.options.fileType.style}`,
           chunkFilename: `[name]${this.options.fileType.style}`
         }).apply(childCompiler)
-        new webpack.DefinePlugin(this.options.constantsReplaceList).apply(childCompiler)
+        new compiler.webpack.DefinePlugin(this.options.constantsReplaceList).apply(childCompiler)
         if (compiler.options.optimization) {
           new SplitChunksPlugin({
             chunks: 'all',
