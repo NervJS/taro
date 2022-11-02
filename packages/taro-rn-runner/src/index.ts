@@ -56,7 +56,7 @@ export default async function build (_appPath: string, config: any): Promise<any
       cliParams.push('--port', config.port)
     }
     try {
-      spawn('react-native', ['start'].concat(cliParams), {
+      spawn('npx', ['react-native', 'start'].concat(cliParams), {
         stdio: 'inherit'
       })
       if(config.qr) {
@@ -69,8 +69,10 @@ export default async function build (_appPath: string, config: any): Promise<any
       onFinish(e)
     }
   } else {
+    const defaultOutputDir = join(process.cwd(), config.outputRoot || 'dist')
+    const defaultBundleOutput = join(defaultOutputDir, 'index.bundle')
     const bundleOutput = config.bundleOutput ? config.bundleOutput : (isIos ? config.output.ios : config.output.android)
-    cliParams.push('--bundle-output', bundleOutput)
+    cliParams.push('--bundle-output', bundleOutput || defaultBundleOutput)
 
     const sourcemapOutput = config.sourcemapOutput ? config.sourcemapOutput : (isIos ? config.output.iosSourcemapOutput : config.output.androidSourcemapOutput)
     if (sourcemapOutput) {
@@ -88,10 +90,11 @@ export default async function build (_appPath: string, config: any): Promise<any
     }
 
     const assetsDest = config.assetsDest ? config.assetsDest : (isIos ? config.output.iosAssetsDest : config.output.androidAssetsDest)
-    cliParams.push('--assets-dest', assetsDest)
+    cliParams.push('--assets-dest', assetsDest || defaultOutputDir)
 
     try {
-      spawn('react-native', [
+      spawn('npx', [
+        'react-native',
         'bundle',
         '--platform',
         config.deviceType,
