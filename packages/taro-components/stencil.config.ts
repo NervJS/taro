@@ -53,13 +53,6 @@ export const config: Config = {
   ],
   buildEs5: 'prod',
   testing: {
-    // @ts-ignore
-    maxWorkers: '50%',
-    testRegex: '(/__tests__/.*|(\\.|/)(spec|test|tt))\\.[jt]sx?$',
-    transform: {
-      '^.+\\.(ts|tsx|js|jsx|css)$': '<rootDir>/node_modules/@stencil/core/testing/jest-preprocessor.js',
-    },
-    transformIgnorePatterns: ['<rootDir>/node_modules/'],
     globals: {
       ENABLE_INNER_HTML: true,
       ENABLE_ADJACENT_HTML: true,
@@ -77,9 +70,15 @@ export const config: Config = {
         }
       }
     },
-    emulate: [{
-      device: 'iPhone 8'
-    }]
+    moduleNameMapper: {
+      '(\\.(css|less|sass|scss))|weui': '<rootDir>/__mocks__/styleMock.js',
+      '\\.(gif|ttf|eot|svg)$': '<rootDir>/__mocks__/fileMock.js'
+    },
+    testRegex: '(/__tests__/.*|(\\.|/)(e2e|spec|test|tt))\\.[jt]sx?$',
+    transform: {
+      '^.+\\.(ts|tsx|js|jsx|css)$': '<rootDir>/node_modules/@stencil/core/testing/jest-preprocessor.js',
+    },
+    transformIgnorePatterns: ['<rootDir>/node_modules/'],
   },
   rollupConfig: {
     inputOptions: {

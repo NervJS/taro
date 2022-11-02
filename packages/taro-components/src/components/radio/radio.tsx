@@ -9,7 +9,7 @@ export class Radio implements ComponentInterface {
   @Prop() name: string
   @Prop() value = ''
   @Prop({ mutable: true }) id: string
-  @Prop({ mutable: true }) checked = false
+  @Prop({ mutable: true, reflect: true }) checked = false
   @Prop() disabled: boolean = false
   @Prop() nativeProps = {}
 
@@ -42,7 +42,8 @@ export class Radio implements ComponentInterface {
     this.isWillLoadCalled = true
   }
 
-  handleClick = () => {
+  handleClick = (e: Event) => {
+    e.stopPropagation()
     if (this.disabled) return
     if (!this.checked) this.checked = true
   }
