@@ -1,5 +1,4 @@
-import { Dimensions } from 'react-native'
-import { callbackManager, resizeListener } from '../window'
+import { callbackManager, addListener } from '../window'
 
 /**
  * @typedef {Object} WindowResizeParam
@@ -14,6 +13,6 @@ import { callbackManager, resizeListener } from '../window'
 export const onWindowResize = (callback: Taro.onWindowResize.Callback): void => {
   callbackManager.add(callback)
   if (callbackManager.count() === 1) {
-    Dimensions.addEventListener('change', resizeListener)
+    addListener()
   }
 }
