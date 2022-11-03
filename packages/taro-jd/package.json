@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/taro-jd",
-  "version": "2.2.18",
+  "version": "2.2.19",
   "description": "Taro jd framework",
   "main": "index.js",
   "files": [
@@ -24,8 +24,8 @@
   "author": "O2Team",
   "license": "MIT",
   "dependencies": {
-    "@tarojs/taro": "2.2.18",
-    "@tarojs/utils": "2.2.18",
+    "@tarojs/taro": "2.2.19",
+    "@tarojs/utils": "2.2.19",
     "lodash": "^4.17.10",
     "prop-types": "^15.6.1"
   }

@@ -1,6 +1,6 @@
 {
   "name": "stylelint-config-taro-rn",
-  "version": "2.2.18",
+  "version": "2.2.19",
   "description": "Shareable stylelint config for React Native CSS modules",
   "main": "index.js",
   "files": [
@@ -28,6 +28,6 @@
     "jest": "^23.6.0",
     "npmpub": "^4.1.0",
     "stylelint": "9.3.0",
-    "stylelint-taro-rn": "2.2.18"
+    "stylelint-taro-rn": "2.2.19"
   }
 }

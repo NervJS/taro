@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/plugin-csso",
-  "version": "2.2.18",
+  "version": "2.2.19",
   "description": "Taro压缩CSS文件",
   "main": "index.js",
   "scripts": {
