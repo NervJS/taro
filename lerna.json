@@ -59,6 +59,6 @@
       "message": "chore(release): publish %s"
     }
   },
-  "version": "2.2.18",
+  "version": "2.2.19",
   "npmClient": "yarn"
 }
