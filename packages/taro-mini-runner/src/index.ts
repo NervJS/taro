@@ -6,7 +6,7 @@ import { printBuildError, bindProdLogger, bindDevLogger } from './utils/logHelpe
 import baseConf from './webpack/base.conf'
 import buildConf from './webpack/build.conf'
 
-const customizeChain = async (chain, modifyWebpackChainFunc: Function, customizeFunc?: Function) => {
+const customizeChain = async (chain, modifyWebpackChainFunc: Function | null, customizeFunc?: Function) => {
   if (modifyWebpackChainFunc instanceof Function) {
     await modifyWebpackChainFunc(chain, webpack)
   }
