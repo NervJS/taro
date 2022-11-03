@@ -1,6 +1,6 @@
 import { E2EPage, newE2EPage } from '@stencil/core/testing'
 
-describe('Switch e2e', async () => {
+describe('Switch e2e', () => {
   let page: E2EPage
 
   it('props', async () => {

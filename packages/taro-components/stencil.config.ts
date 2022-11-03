@@ -74,7 +74,7 @@ export const config: Config = {
       '(\\.(css|less|sass|scss))|weui': '<rootDir>/__mocks__/styleMock.js',
       '\\.(gif|ttf|eot|svg)$': '<rootDir>/__mocks__/fileMock.js'
     },
-    testRegex: '(/__tests__/.*|(\\.|/)(e2e|spec|test|tt))\\.[jt]sx?$',
+    testRegex: '(\\.|/)(e2e|spec|test|tt)\\.[jt]sx?$',
     transform: {
       '^.+\\.(ts|tsx|js|jsx|css)$': '<rootDir>/node_modules/@stencil/core/testing/jest-preprocessor.js',
     },

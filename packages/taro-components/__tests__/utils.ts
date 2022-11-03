@@ -1,23 +1,3 @@
-export function waitForChange (dom: Node) {
-  return new Promise<void>((resolve) => {
-    let timer: ReturnType<typeof setTimeout>
-
-    const observer = new MutationObserver(() => {
-      timer && clearTimeout(timer)
-      timer = setTimeout(() => {
-        observer.disconnect()
-        resolve()
-      }, 1000)
-    })
-
-    setTimeout(() => {
-      resolve()
-    }, 5000)
-
-    observer.observe(dom, { attributes: true, childList: true, subtree: true })
-  })
-}
-
 export const delay = (ms = 500) => {
   return new Promise<void>((resolve) => {
     setTimeout(() => {

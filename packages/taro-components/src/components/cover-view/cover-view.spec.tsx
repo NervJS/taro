@@ -1,28 +1,35 @@
 import { h } from '@stencil/core'
+import { newSpecPage, SpecPage } from '@stencil/core/testing'
+
+import { CoverView } from './cover-view'
 
 describe('CoverView', () => {
+  let page: SpecPage
+
   it('default props', async () => {
     // TODO
-    // const { node } = await mount(<CoverView />, scratch)
+    // page = await newSpecPage({
+    //   components: [CoverView],
+    //   template: () => (<taro-cover-view-core />),
+    // })
 
-    // assert(node.hoverClass === undefined)
-    // assert(node.hoverStartTime === 50)
-    // assert(node.hoverStayTime === 400)
+    // expect(page.root?.getAttribute('hover-class')).toBeUndefined()
+    // expect(page.root?.getAttribute('hover-start-time')).toEqual(50)
+    // expect(page.root?.getAttribute('hover-stay-time')).toEqual(400)
   })
 
   it('slot', async () => {
-    // TODO
-    // const app = (
-    //   <CoverView>
-    //     <div />
-    //     <div />
-    //     i m div
-    //   </CoverView>
-    // )
+    const text = 'i m div'
+    page = await newSpecPage({
+      components: [CoverView],
+      template: () => (<taro-cover-view-core>
+        <div />
+        <div />
+        {text}
+      </taro-cover-view-core>),
+    })
 
-    // const { node } = await mount(app, scratch)
-
-    // assert(node.textContent === 'i m div')
+    expect(page.root?.textContent).toEqual(text)
   })
 
   it('should update props successfully', async () => {

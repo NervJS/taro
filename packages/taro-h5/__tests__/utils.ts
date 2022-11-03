@@ -53,7 +53,7 @@ export function waitForChange (dom) {
   })
 }
 
-export const delay = (ms) => {
+export const delay = (ms = 500) => {
   return new Promise<void>((resolve) => {
     setTimeout(() => {
       resolve()
