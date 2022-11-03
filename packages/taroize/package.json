@@ -41,7 +41,7 @@
     "better-babel-generator": "^6.26.1",
     "jest": "^23.0.1",
     "jest-cli": "^22.1.4",
-    "prettier": "^1.14.2",
+    "prettier": "^2.7.1",
     "ts-jest": "^22.4.6",
     "tslint": "^5.10.0",
     "tslint-config-prettier": "^1.10.0",
