@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/plugin-terser",
-  "version": "2.2.18",
+  "version": "2.2.19",
   "description": "Taro webpack terser config plugin",
   "main": "index.js",
   "scripts": {
@@ -27,8 +27,8 @@
   "author": "luckyadam",
   "license": "MIT",
   "dependencies": {
-    "@tarojs/runner-utils": "2.2.18",
-    "@tarojs/service": "2.2.18",
+    "@tarojs/runner-utils": "2.2.19",
+    "@tarojs/service": "2.2.19",
     "terser-webpack-plugin": "3.0.2"
   },
   "devDependencies": {

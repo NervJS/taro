@@ -1,6 +1,6 @@
 {
   "name": "eslint-config-taro",
-  "version": "2.2.18",
+  "version": "2.2.19",
   "description": "Taro specific linting rules for ESLint",
   "main": "index.js",
   "files": [
@@ -28,6 +28,6 @@
   "author": "O2Team",
   "license": "MIT",
   "dependencies": {
-    "eslint-plugin-taro": "2.2.18"
+    "eslint-plugin-taro": "2.2.19"
   }
 }
