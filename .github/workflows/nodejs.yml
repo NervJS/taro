@@ -43,6 +43,7 @@ jobs:
           ${{ runner.os }}-yarn-
     - run: npm install -g yarn
     - run: yarn config set registry https://registry.yarnpkg.com
+    - run: git config --global url."https://".insteadOf git://
     - name: install
       run: yarn
     - name: bootstrap

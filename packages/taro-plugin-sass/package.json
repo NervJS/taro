@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/plugin-sass",
-  "version": "2.2.18",
+  "version": "2.2.19",
   "description": "Taro webpack sass config plugin",
   "main": "index.js",
   "scripts": {
@@ -27,8 +27,8 @@
   "author": "luckyadam",
   "license": "MIT",
   "dependencies": {
-    "@tarojs/runner-utils": "2.2.18",
-    "@tarojs/service": "2.2.18",
+    "@tarojs/runner-utils": "2.2.19",
+    "@tarojs/service": "2.2.19",
     "node-sass": "4.14.1",
     "resolve-url-loader": "3.1.1",
     "sass-loader": "8.0.2"

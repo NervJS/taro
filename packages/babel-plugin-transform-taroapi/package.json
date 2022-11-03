@@ -1,6 +1,6 @@
 {
   "name": "babel-plugin-transform-taroapi",
-  "version": "2.2.18",
+  "version": "2.2.19",
   "main": "dist/index.js",
   "license": "MIT",
   "scripts": {
@@ -10,7 +10,7 @@
     "test": "jest"
   },
   "devDependencies": {
-    "@tarojs/taro-h5": "2.2.18",
+    "@tarojs/taro-h5": "2.2.19",
     "@types/babel-core": "^6.25.5",
     "@types/babel-traverse": "^6.25.4",
     "@types/babel-types": "^7.0.4",
