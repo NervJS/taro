@@ -26,10 +26,9 @@
     "@tarojs/helper": "workspace:*",
     "fbjs": "^2.0.0",
     "less": "^3.12.2",
-    "postcss": "^8.4.12",
-    "postcss-import": "^12.0.1",
+    "postcss-import": "^14.0.0",
     "postcss-pxtransform": "workspace:*",
-    "postcss-reporter": "^6.0.1",
+    "postcss-reporter": "^7.0.5",
     "prop-types": "^15.7.2",
     "resolve": "^1.22.0",
     "sass": "1.37.5",
@@ -38,5 +37,11 @@
     "stylelint-taro-rn": "workspace:*",
     "stylus": "^0.55.0",
     "taro-css-to-react-native": "workspace:*"
+  },
+  "devDependencies": {
+    "postcss": "^8.4.18"
+  },
+  "peerDependencies": {
+    "postcss": "^8.4.18"
   }
 }

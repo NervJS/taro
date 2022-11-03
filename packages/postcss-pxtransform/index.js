@@ -1,6 +1,3 @@
-'use strict'
-
-const postcss = require('postcss')
 const pxRegex = require('./lib/pixel-unit-regex')
 const PXRegex = require('./lib/pixel-upper-unit-regex')
 const filterPropList = require('./lib/filter-prop-list')
@@ -38,7 +35,7 @@ const DEFAULT_WEAPP_OPTIONS = {
 
 let targetUnit
 
-module.exports = postcss.plugin('postcss-pxtransform', function (options = {}) {
+const postcssPxTransForm = (options = {}) => {
   options = Object.assign({}, DEFAULT_WEAPP_OPTIONS, options)
 
   const transUnits = ['px']
@@ -83,26 +80,20 @@ module.exports = postcss.plugin('postcss-pxtransform', function (options = {}) {
 
   const satisfyPropList = createPropListMatcher(opts.propList)
 
-  return function (css) {
-    const pxReplace = createPxReplace(opts.rootValue, opts.unitPrecision, opts.minPixelValue, onePxTransform)(css.source.input)
-
-    for (let i = 0; i < css.nodes.length; i++) {
-      if (css.nodes[i].type === 'comment') {
-        if (css.nodes[i].text === 'postcss-pxtransform disable') {
-          return
-        } else {
-          break
-        }
+  return {
+    postcssPlugin: 'postcss-pxtransform',
+    Comment (comment) {
+      if (comment.text === 'postcss-pxtransform disable') {
+        return
       }
-    }
 
-    // delete code between comment in RN
-    if (options.platform === 'rn') {
-      css.walkComments(comment => {
+      // delete code between comment in RN
+      // 有死循环的问题
+      if (options.platform === 'rn') {
         if (comment.text === 'postcss-pxtransform rn eject enable') {
           let next = comment.next()
           while (next) {
-            if (next.type === 'comment' && next.text === 'postcss-pxtransform rn eject disable') {
+            if (next.text === 'postcss-pxtransform rn eject disable') {
               break
             }
             const temp = next.next()
@@ -110,34 +101,11 @@ module.exports = postcss.plugin('postcss-pxtransform', function (options = {}) {
             next = temp
           }
         }
-      })
-    }
-
-    // PX -> vp in harmony
-    if (options.platform === 'harmony') {
-      css.walkDecls(function (decl) {
-        if (decl.value.indexOf('PX') === -1) return
-        const value = decl.value.replace(PXRegex, function (m, _$1, $2) {
-          return m.replace($2, 'vp')
-        })
-        decl.value = value
-      })
-
-      if (opts.mediaQuery) {
-        css.walkAtRules('media', function (rule) {
-          if (rule.params.indexOf('PX') === -1) return
-          const value = rule.params.replace(PXRegex, function (m, _$1, $2) {
-            return m.replace($2, 'vp')
-          })
-          rule.params = value
-        })
       }
-    }
 
-    /*  #ifdef  %PLATFORM%  */
-    // 平台特有样式
-    /*  #endif  */
-    css.walkComments(comment => {
+      /*  #ifdef  %PLATFORM%
+       *  平台特有样式
+       *  #endif  */
       const wordList = comment.text.split(' ')
       // 指定平台保留
       if (wordList.indexOf('#ifdef') > -1) {
@@ -154,13 +122,10 @@ module.exports = postcss.plugin('postcss-pxtransform', function (options = {}) {
           }
         }
       }
-    })
 
-    /*  #ifndef  %PLATFORM%  */
-    // 平台特有样式
-    /*  #endif  */
-    css.walkComments(comment => {
-      const wordList = comment.text.split(' ')
+      /*  #ifdef  %PLATFORM%
+       *  平台特有样式
+       *  #endif  */
       // 指定平台剔除
       if (wordList.indexOf('#ifndef') > -1) {
         // 指定平台
@@ -176,36 +141,60 @@ module.exports = postcss.plugin('postcss-pxtransform', function (options = {}) {
           }
         }
       }
-    })
+    },
 
-    css.walkDecls(function (decl, i) {
-      // This should be the fastest test and will remove most declarations
-      if (decl.value.indexOf('px') === -1) return
-
-      if (!satisfyPropList(decl.prop)) return
-
-      if (blacklistedSelector(opts.selectorBlackList, decl.parent.selector)) return
-
-      const value = decl.value.replace(pxRgx, pxReplace)
-
-      // if rem unit already exists, do not add or replace
-      if (declarationExists(decl.parent, decl.prop, value)) return
-
-      if (opts.replace) {
+    Declaration (decl) {
+      if (options.platform === 'harmony') {
+        if (decl.value.indexOf('PX') === -1) return
+        const value = decl.value.replace(PXRegex, function (m, _$1, $2) {
+          return m.replace($2, 'vp')
+        })
         decl.value = value
-      } else {
-        decl.parent.insertAfter(i, decl.clone({ value: value }))
       }
-    })
+    },
 
-    if (opts.mediaQuery) {
-      css.walkAtRules('media', function (rule) {
-        if (rule.params.indexOf('px') === -1) return
-        rule.params = rule.params.replace(pxRgx, pxReplace)
+    AtRules (rule) {
+      if (options.platform === 'harmony' && rule.name === 'media') {
+        if (rule.params.indexOf('PX') === -1) return
+        const value = rule.params.replace(PXRegex, function (m, _$1, $2) {
+          return m.replace($2, 'vp')
+        })
+        rule.params = value
+      }
+    },
+
+    Once (root) {
+      const pxReplace = createPxReplace(opts.rootValue, opts.unitPrecision, opts.minPixelValue, onePxTransform)(root.source.input)
+
+      root.walkDecls(function (decl, i) {
+        // This should be the fastest test and will remove most declarations
+        if (decl.value.indexOf('px') === -1) return
+
+        if (!satisfyPropList(decl.prop)) return
+
+        if (blacklistedSelector(opts.selectorBlackList, decl.parent.selector)) return
+
+        const value = decl.value.replace(pxRgx, pxReplace)
+
+        // if rem unit already exists, do not add or replace
+        if (declarationExists(decl.parent, decl.prop, value)) return
+
+        if (opts.replace) {
+          decl.value = value
+        } else {
+          decl.parent.insertAfter(i, decl.clone({ value: value }))
+        }
       })
+
+      if (opts.mediaQuery) {
+        root.walkAtRules('media', function (rule) {
+          if (rule.params.indexOf('px') === -1) return
+          rule.params = rule.params.replace(pxRgx, pxReplace)
+        })
+      }
     }
   }
-})
+}
 
 function convertLegacyOptions (options) {
   if (typeof options !== 'object') return
@@ -311,3 +300,6 @@ function createPropListMatcher (propList) {
     )
   }
 }
+
+postcssPxTransForm.postcss = true
+export default postcssPxTransForm

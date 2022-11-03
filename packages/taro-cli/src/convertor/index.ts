@@ -20,7 +20,7 @@ import * as taroize from '@tarojs/taroize'
 import wxTransformer from '@tarojs/transformer-wx'
 import * as fs from 'fs-extra'
 import * as path from 'path'
-import * as postcss from 'postcss'
+import Processors from 'postcss'
 import * as unitTransform from 'postcss-taro-unit-transform'
 import * as prettier from 'prettier'
 
@@ -791,7 +791,7 @@ ${code}
   }
 
   async styleUnitTransform (filePath: string, content: string) {
-    const postcssResult = await postcss([unitTransform()]).process(content, {
+    const postcssResult = await Processors([unitTransform()]).process(content, {
       from: filePath
     })
     return postcssResult
