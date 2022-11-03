@@ -1,8 +1,8 @@
-import { previewDev,previewProd } from '@tarojs/rn-supporter'
+import { previewDev, previewProd } from '@tarojs/rn-supporter'
 import { spawn } from 'child_process'
-import { constants,copyFile } from 'fs'
+import { constants, copyFile } from 'fs'
 import * as fse from 'fs-extra'
-import { dirname,join } from 'path'
+import { dirname, join } from 'path'
 
 import buildComponent from './config/build-component'
 
