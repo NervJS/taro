@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/plugin-babel",
-  "version": "2.2.18",
+  "version": "2.2.19",
   "description": "Taro babel编译",
   "main": "index.js",
   "scripts": {
