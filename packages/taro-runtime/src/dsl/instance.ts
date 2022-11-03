@@ -86,4 +86,5 @@ export interface AppInstance extends Show {
   onShow?(options?: Record<string, unknown>): void
   unmount? (id: string, cb?: () => void): void
   taroGlobalData?: Record<any, any>
+  config?: Record<any, any>
 }

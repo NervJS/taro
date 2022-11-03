@@ -3,7 +3,7 @@ import {
   taroJsComponents
 } from '@tarojs/helper'
 import { toDashed } from '@tarojs/shared'
-import { sources, util } from 'webpack'
+import { sources } from 'webpack'
 
 import { componentConfig } from '../template/component'
 import { addRequireToSource, getChunkEntryModule, getChunkIdOrName } from '../utils/webpack'
@@ -61,14 +61,14 @@ export default class TaroLoadChunksPlugin {
 
         this.isCompDepsFound = false
         for (const chunk of commonChunks) {
-          this.collectComponents(compilation, chunk)
+          this.collectComponents(compiler, compilation, chunk)
         }
         if (!this.isCompDepsFound) {
           // common chunks 找不到再去别的 chunk 中找
           chunksArray
             .filter(chunk => !this.commonChunks.includes(chunk.name))
             .some(chunk => {
-              this.collectComponents(compilation, chunk)
+              this.collectComponents(compiler, compilation, chunk)
               return this.isCompDepsFound
             })
         }
@@ -157,9 +157,10 @@ export default class TaroLoadChunksPlugin {
     })
   }
 
-  collectComponents (compilation: Compilation, chunk: Chunk) {
-    const { chunkGraph, moduleGraph } = compilation
-    const modulesIterable: Iterable<TaroNormalModule> = chunkGraph.getOrderedChunkModulesIterable(chunk, util.comparators.compareModulesByIdentifier) as any
+  collectComponents (compiler: Compiler, compilation: Compilation, chunk: Chunk) {
+    const chunkGraph = compilation.chunkGraph
+    const moduleGraph = compilation.moduleGraph
+    const modulesIterable: Iterable<TaroNormalModule> = chunkGraph.getOrderedChunkModulesIterable(chunk, compiler.webpack.util.comparators.compareModulesByIdentifier) as any
     for (const module of modulesIterable) {
       if (module.rawRequest === taroJsComponents) {
         this.isCompDepsFound = true

@@ -1,5 +1,5 @@
 import type { RecursiveTemplate, UnRecursiveTemplate } from '@tarojs/shared/dist/template'
-import type { IPluginContext } from './utils/types'
+import type { Func, IPluginContext } from './utils/types'
 
 interface IFileType {
   templ: string
@@ -17,7 +17,7 @@ interface IWrapper {
 class Transaction {
   wrappers: IWrapper[] = []
 
-  async perform (fn: (...args: any[]) => void, scope: TaroPlatformBase, ...args) {
+  async perform (fn: Func, scope: TaroPlatformBase, ...args) {
     this.initAll(scope)
     await fn.call(scope, ...args)
     this.closeAll(scope)

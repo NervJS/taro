@@ -27,7 +27,7 @@ const App = createApp({})
     importFrameworkName: 'h',
     isNeedRawLoader: true,
     extraImportForWeb: `
-import { initVue3Components } from '@tarojs/components/dist-h5/vue3'
+import { initVue3Components } from '@tarojs/components/dist/vue3'
 `,
     execBeforeCreateWebApp: `
 initVue3Components(component)

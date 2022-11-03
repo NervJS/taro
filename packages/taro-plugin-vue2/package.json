@@ -32,9 +32,9 @@
     "@tarojs/shared": "workspace:*"
   },
   "devDependencies": {
-    "vue": "^2.0.0"
+    "vue": "^2.6.11"
   },
   "peerDependencies": {
-    "vue": "^2.0.0"
+    "vue": "^2.6.11"
   }
 }

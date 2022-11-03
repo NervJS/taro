@@ -27,7 +27,7 @@ function setAlias (ctx: IPluginContext, chain) {
   if (config.h5?.useHtmlComponents) {
     alias.set('@tarojs/components$', '@tarojs/components-react/index')
   } else {
-    alias.set('@tarojs/components$', '@tarojs/components/dist-h5/react')
+    alias.set('@tarojs/components$', '@tarojs/components/dist/react')
   }
 }
 
@@ -41,8 +41,9 @@ function setLoader (framework: Frameworks, chain) {
 
 function setPlugin (ctx: IPluginContext, framework: Frameworks, chain) {
   const config = ctx.initialConfig
-
-  if (config.isWatch && config.h5?.devServer?.hot !== false) {
+  const webpackConfig = chain.toConfig()
+  const isProd = webpackConfig.mode === 'production'
+  if (!isProd && config.h5?.devServer?.hot !== false) {
     // 默认开启 fast-refresh
     if (framework === 'react') {
       chain

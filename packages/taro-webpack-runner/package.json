@@ -30,6 +30,7 @@
   },
   "homepage": "https://github.com/NervJS/taro#readme",
   "dependencies": {
+    "@open-wc/webpack-import-meta-loader": "^0.4.7",
     "@tarojs/helper": "workspace:*",
     "@tarojs/runner-utils": "workspace:*",
     "@tarojs/runtime": "workspace:*",
@@ -71,8 +72,8 @@
   },
   "devDependencies": {
     "@babel/core": "^7.14.5",
-    "@types/webpack": "4",
-    "@types/webpack-dev-server": "3",
+    "@types/webpack": "^4.41.26",
+    "@types/webpack-dev-server": "^3.11.3",
     "vue-loader": "^15.9.3",
     "webpack": "4.46.0",
     "webpack-merge": "^4.2.2",
