@@ -1148,6 +1148,7 @@ importers:
       acorn-jsx: ^5.3.2
       expo: ~47.0.0-beta.7
       expo-file-system: ~15.1.1
+      fs-extra: ^8.0.1
       lodash: ^4.17.21
       react: 18.1.0
       react-is: ^16.13.0
@@ -1167,6 +1168,7 @@ importers:
       '@tarojs/rn-supporter': link:../taro-rn-supporter
       '@tarojs/rn-transformer': link:../taro-rn-transformer
       acorn-jsx: registry.npmjs.org/acorn-jsx/5.3.2_acorn@8.7.1
+      fs-extra: registry.npmjs.org/fs-extra/8.1.0
       lodash: registry.npmjs.org/lodash/4.17.21
       rollup-plugin-image-file: registry.npmjs.org/rollup-plugin-image-file/1.0.2
     devDependencies:

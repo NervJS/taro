@@ -1,7 +1,8 @@
 import { previewDev,previewProd } from '@tarojs/rn-supporter'
 import { spawn } from 'child_process'
 import { constants,copyFile } from 'fs'
-import { join } from 'path'
+import * as fse from 'fs-extra'
+import { dirname,join } from 'path'
 
 import buildComponent from './config/build-component'
 
@@ -72,13 +73,13 @@ export default async function build (_appPath: string, config: any): Promise<any
     const defaultOutputDir = join(process.cwd(), config.outputRoot || 'dist')
     const defaultBundleOutput = join(defaultOutputDir, 'index.bundle')
     const bundleOutput = config.bundleOutput ? config.bundleOutput : (isIos ? config.output.ios : config.output.android)
+    fse.ensureDirSync(dirname(bundleOutput))
     cliParams.push('--bundle-output', bundleOutput || defaultBundleOutput)
 
     const sourcemapOutput = config.sourcemapOutput ? config.sourcemapOutput : (isIos ? config.output.iosSourcemapOutput : config.output.androidSourcemapOutput)
     if (sourcemapOutput) {
       cliParams.push('--sourcemap-output', sourcemapOutput)
     }
-
     const sourceMapUrl = config.sourceMapUrl ? config.sourceMapUrl : (isIos ? config.output.iosSourceMapUrl : config.output.androidSourceMapUrl)
     if (sourceMapUrl) {
       cliParams.push('--sourcemap-use-absolute-path', sourceMapUrl)
