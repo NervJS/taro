@@ -3,7 +3,7 @@ const PLATFORM = {
   H5: 'h5'
 }
 
-const postcssPluginConstparse = (opts = {}) => {
+module.exports = (opts = {}) => {
   opts = Object.assign({
     constants: [{
       key: 'taro-tabbar-height',
@@ -24,5 +24,4 @@ const postcssPluginConstparse = (opts = {}) => {
   }
 }
 
-postcssPluginConstparse.postcss = true
-export default postcssPluginConstparse
+module.exports.postcss = true
