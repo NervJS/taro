@@ -27,7 +27,7 @@ function setAlias (ctx: IPluginContext, chain) {
   if (config.h5?.useHtmlComponents) {
     alias.set('@tarojs/components$', '@tarojs/components-react/index')
   } else {
-    alias.set('@tarojs/components$', '@tarojs/components/dist-h5/react')
+    alias.set('@tarojs/components$', '@tarojs/components/dist/react')
   }
 }
 

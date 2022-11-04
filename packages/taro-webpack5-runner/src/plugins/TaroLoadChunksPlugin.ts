@@ -165,7 +165,7 @@ export default class TaroLoadChunksPlugin {
       if (module.rawRequest === taroJsComponents) {
         this.isCompDepsFound = true
         const includes = componentConfig.includes
-        const moduleUsedExports = moduleGraph.getUsedExports(module, undefined)
+        const moduleUsedExports = moduleGraph.getUsedExports(module, chunk.runtime)
         if (moduleUsedExports === null || typeof moduleUsedExports === 'boolean') {
           componentConfig.includeAll = true
         } else {

@@ -19,7 +19,7 @@ import { Compilation, sources } from 'webpack'
 import EntryDependency from 'webpack/lib/dependencies/EntryDependency'
 
 import TaroSingleEntryDependency from '../dependencies/TaroSingleEntryDependency'
-import { PrerenderConfig, validatePrerenderPages } from '../prerender/prerender'
+import { validatePrerenderPages } from '../prerender/prerender'
 import { componentConfig } from '../template/component'
 import TaroLoadChunksPlugin from './TaroLoadChunksPlugin'
 import TaroNormalModulesPlugin from './TaroNormalModulesPlugin'
@@ -29,6 +29,7 @@ import type { RecursiveTemplate, UnRecursiveTemplate } from '@tarojs/shared/dist
 import type { AppConfig, Config } from '@tarojs/taro'
 import type { Func } from '@tarojs/taro/types/compile'
 import type { Compiler } from 'webpack'
+import type { PrerenderConfig } from '../prerender/prerender'
 import type { AddPageChunks, IComponent, IFileType } from '../utils/types'
 
 const PLUGIN_NAME = 'TaroMiniPlugin'
@@ -213,7 +214,7 @@ export default class TaroMiniPlugin {
           }))
         })
         await Promise.all(promises)
-        await this.options.onCompilerMake?.(compilation)
+        await this.options.onCompilerMake?.(compilation, compiler, this)
       })
     )
 
@@ -1025,8 +1026,8 @@ export default class TaroMiniPlugin {
 
   generateConfigFile (compilation: Compilation, filePath: string, config: Config & { component?: boolean }) {
     const fileConfigName = this.getConfigPath(this.getComponentName(filePath))
-    const unOfficalConfigs = ['enableShareAppMessage', 'enableShareTimeline', 'components']
-    unOfficalConfigs.forEach(item => {
+    const unofficialConfigs = ['enableShareAppMessage', 'enableShareTimeline', 'components']
+    unofficialConfigs.forEach(item => {
       delete config[item]
     })
     const fileConfigStr = JSON.stringify(config)

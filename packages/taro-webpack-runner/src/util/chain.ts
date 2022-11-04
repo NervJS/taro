@@ -9,7 +9,6 @@ import { partial } from 'lodash'
 import { mapKeys, pipe } from 'lodash/fp'
 import * as MiniCssExtractPlugin from 'mini-css-extract-plugin'
 import * as path from 'path'
-import { join, resolve } from 'path'
 import * as sass from 'sass'
 import * as TerserPlugin from 'terser-webpack-plugin'
 import * as webpack from 'webpack'
@@ -168,7 +167,6 @@ const getBabelLoader = pipe(
   mergeOption,
   partial(getLoader, 'babel-loader')
 )
-
 const getUrlLoader = pipe(
   mergeOption,
   partial(getLoader, 'url-loader')
@@ -178,6 +176,10 @@ const getExtractCssLoader = () => {
     loader: MiniCssExtractPlugin.loader
   }
 }
+const getImportMetaLoader = pipe(
+  mergeOption,
+  partial(getLoader, '@open-wc/webpack-import-meta-loader')
+)
 
 export const getMiniCssExtractPlugin = pipe(
   mergeOption,
@@ -215,7 +217,7 @@ export const getCopyWebpackPlugin = ({ copy, appPath }: { copy: ICopyOptions, ap
     copy.patterns.map(({ from, to, ...extra }) => {
       return {
         from,
-        to: resolve(appPath, to),
+        to: path.resolve(appPath, to),
         context: appPath,
         ...extra
       }
@@ -504,7 +506,7 @@ export const parseModule = (appPath: string, {
   }
   rule.script = {
     test: REG_SCRIPTS,
-    exclude: [filename => {
+    exclude: [(filename: string) => {
       /**
        * 要优先处理 css-loader 问题
        *
@@ -526,7 +528,11 @@ export const parseModule = (appPath: string, {
     use: {
       babelLoader: getBabelLoader([{
         compact: false
-      }])
+      }]),
+      /** stencil 2.14 开始使用了 import.meta.url 需要额外处理
+       * https://github.com/webpack/webpack/issues/6719
+       */
+      importMeta: getImportMetaLoader([]),
     }
   }
   rule.media = {
@@ -571,7 +577,7 @@ export const parseModule = (appPath: string, {
 
 export const getOutput = (appPath: string, [{ outputRoot, publicPath, chunkDirectory }, customOutput]) => {
   return {
-    path: join(appPath, outputRoot),
+    path: path.resolve(appPath, outputRoot),
     filename: 'js/[name].js',
     chunkFilename: `${chunkDirectory}/[name].js`,
     publicPath,

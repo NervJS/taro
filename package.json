@@ -1,6 +1,6 @@
 {
   "name": "taro",
-  "version": "3.5.7",
+  "version": "3.6.0-canary.0",
   "description": "开放式跨端跨框架开发解决方案",
   "homepage": "https://github.com/NervJS/taro#readme",
   "author": "O2Team",
@@ -114,8 +114,8 @@
     "@types/sinon": "^7.5.0",
     "@types/tapable": "^1",
     "@types/testing-library__jest-dom": "^5.14.3",
-    "@types/webpack": "4",
-    "@types/webpack-dev-server": "3",
+    "@types/webpack": "^4.41.26",
+    "@types/webpack-dev-server": "^3.11.3",
     "@typescript-eslint/eslint-plugin": "^5.17.0",
     "@typescript-eslint/parser": "^5.17.0",
     "@vue/babel-plugin-jsx": "^1.0.6",
@@ -164,7 +164,7 @@
     "node-sass": "6.0.1",
     "npm-run-all": "^4.1.2",
     "ora": "4.0.3",
-    "postcss": "^8.4.12",
+    "postcss": "^8.4.18",
     "postcss-scss": "^4.0.3",
     "power-assert": "^1.6.1",
     "preact": "^10.5.15",
@@ -172,6 +172,7 @@
     "prop-types": "^15.7.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-test-renderer": "^18.2.0",
     "rimraf": "^3.0.0",
     "rollup": "^2.79.0",
     "rollup-plugin-copy": "^3.4.0",
@@ -193,6 +194,10 @@
     "vue-template-compiler": "^2.6.11",
     "webpack": "5.69.0",
     "webpack-chain": "6.5.1",
+    "webpack-dev-server": "4.7.4",
+    "webpack-sources": "^3.2.3"
+  },
+  "peerDependencies": {
     "webpack-dev-server": "4.7.4"
   },
   "pnpm": {

@@ -23,6 +23,12 @@ export default (_appPath: string, _config: Partial<BuildConfig>) => {
     }
   })
 
+  // Note: stencil 开发环境环境会加载 map 文件，需要额外配置
+  chain.module
+    .rule('map')
+    .test(/\.map$/)
+    .type('json')
+
   chain.resolve
     .plugin('MultiPlatformPlugin')
     .use(MultiPlatformPlugin, ['described-resolve', 'resolve', {

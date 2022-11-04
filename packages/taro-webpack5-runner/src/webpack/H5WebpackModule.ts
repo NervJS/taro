@@ -257,7 +257,7 @@ export class H5WebpackModule {
   getScriptRule () {
     const rule: IRule = WebpackModule.getScriptRule()
 
-    rule.exclude = [filename => {
+    rule.exclude = [(filename: string) => {
       /**
        * 要优先处理 css-loader 问题
        *
@@ -265,7 +265,7 @@ export class H5WebpackModule {
        */
       if (/css-loader/.test(filename)) return true
       // 若包含 @tarojs/components，则跳过 babel-loader 处理
-      if (/@tarojs\/components/.test(filename)) return true
+      if (/@tarojs[\\/]components/.test(filename)) return true
 
       // 非 node_modules 下的文件直接走 babel-loader 逻辑
       if (!(/node_modules/.test(filename))) return false

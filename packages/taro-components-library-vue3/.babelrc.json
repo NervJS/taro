@@ -1,0 +1,22 @@
+{
+  "presets": [
+    [
+      "@babel/preset-env",
+      {
+        "modules": false,
+        "targets": {
+          "ios": "9",
+          "android": "4.4"
+        }
+      }
+    ],
+    [
+      "@babel/preset-typescript",
+      {
+        "allExtensions": true,
+        "isTSX": true
+      }
+    ]
+  ],
+  "plugins": ["@babel/plugin-transform-runtime"]
+}

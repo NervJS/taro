@@ -1,4 +1,3 @@
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { Component, Prop, Event, h, ComponentInterface, EventEmitter } from '@stencil/core'
 
 @Component({
