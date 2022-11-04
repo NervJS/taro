@@ -4,6 +4,7 @@
     "baseUrl": ".",
     "jsx": "react",
     "jsxFactory": "h",
+    "jsxFragmentFactory": "Fragment",
     "module": "ESNext",
     "sourceMap": true,
     "target": "ES2017",

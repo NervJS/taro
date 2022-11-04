@@ -14,7 +14,7 @@ export class Button implements ComponentInterface {
   @Prop() size: string
   @Prop() plain: boolean
   @Prop() loading = false
-  @Prop() formType: 'submit' | 'reset' | null = null
+  @Prop({ reflect: true }) formType: 'submit' | 'reset' | null = null
 
   @Element() el: HTMLElement
 

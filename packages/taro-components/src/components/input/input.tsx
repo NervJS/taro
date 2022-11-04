@@ -30,7 +30,7 @@ export class Input implements ComponentInterface {
   private onInputExcuted = false
   private fileListener: EventHandler
 
-  @Prop() value: string
+  @Prop({ mutable: true }) value: string
   @Prop() type: string
   @Prop() password = false
   @Prop() placeholder: string
@@ -53,7 +53,7 @@ export class Input implements ComponentInterface {
   @Watch('value')
   watchValue (newValue: string) {
     const value = fixControlledValue(newValue)
-    if (this.inputRef && this.inputRef.value !== value) {
+    if (this.inputRef?.value !== value) {
       this.inputRef.value = value
     }
   }
@@ -156,6 +156,7 @@ export class Input implements ComponentInterface {
   }
 
   handlePaste = (e: TaroEvent<HTMLInputElement> & ClipboardEvent) => {
+    e.stopPropagation()
     this.isOnPaste = true
     this.onPaste.emit({
       value: e.target.value
@@ -163,6 +164,7 @@ export class Input implements ComponentInterface {
   }
 
   handleFocus = (e: TaroEvent<HTMLInputElement> & FocusEvent) => {
+    e.stopPropagation()
     this.onInputExcuted = false
     this.onFocus.emit({
       value: e.target.value
@@ -170,6 +172,7 @@ export class Input implements ComponentInterface {
   }
 
   handleBlur = (e: TaroEvent<HTMLInputElement> & FocusEvent) => {
+    e.stopPropagation()
     this.onBlur.emit({
       value: e.target.value
     })
@@ -192,10 +195,10 @@ export class Input implements ComponentInterface {
   }
 
   handleKeyDown = (e: TaroEvent<HTMLInputElement> & KeyboardEvent) => {
+    e.stopPropagation()
     const { value } = e.target
     const keyCode = e.keyCode || e.code
     this.onInputExcuted = false
-    e.stopPropagation()
 
     this.onKeyDown.emit({
       value,
@@ -206,7 +209,8 @@ export class Input implements ComponentInterface {
     keyCode === 13 && this.onConfirm.emit({ value })
   }
 
-  handleComposition = (e) => {
+  handleComposition = (e: Event) => {
+    e.stopPropagation()
     if (!(e.target instanceof HTMLInputElement)) return
 
     if (e.type === 'compositionend') {
@@ -255,7 +259,6 @@ export class Input implements ComponentInterface {
           if (autoFocus && input) input.focus()
         }}
         class='weui-input'
-        value={fixControlledValue(value)}
         type={getTrueType(type, confirmType, password)}
         placeholder={placeholder}
         autoFocus={autoFocus}
@@ -271,6 +274,7 @@ export class Input implements ComponentInterface {
         onCompositionStart={this.handleComposition}
         onCompositionEnd={this.handleComposition}
         {...nativeProps}
+        value={fixControlledValue(value)}
       />
     )
   }

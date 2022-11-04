@@ -14,7 +14,7 @@ export class Textarea implements ComponentInterface {
 
   @Element() el: HTMLElement
 
-  @Prop() value: string
+  @Prop({ mutable: true }) value: string
   @Prop() placeholder: string
   @Prop() disabled = false
   @Prop() maxlength = 140
@@ -61,19 +61,22 @@ export class Textarea implements ComponentInterface {
   handleInput = (e: TaroEvent<HTMLInputElement>) => {
     e.stopPropagation()
     this.handleLineChange()
+    const value = e.target.value || ''
     this.onInput.emit({
-      value: e.target.value,
-      cursor: e.target.value.length
+      value,
+      cursor: value.length
     })
   }
 
   handleFocus = (e: TaroEvent<HTMLInputElement> & FocusEvent) => {
+    e.stopPropagation()
     this.onFocus.emit({
       value: e.target.value
     })
   }
 
   handleBlur = (e: TaroEvent<HTMLInputElement> & FocusEvent) => {
+    e.stopPropagation()
     this.onBlur.emit({
       value: e.target.value
     })

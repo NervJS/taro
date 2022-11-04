@@ -113,18 +113,21 @@ export class Swiper implements ComponentInterface {
   watchAutoplay (newVal) {
     if (!this.isWillLoadCalled || !this.swiper) return
 
-    if (this.swiper.autoplay.running === newVal) return
-
-    if (newVal) {
-      if (this.swiper.params && typeof this.swiper.params.autoplay === 'object') {
-        if (this.swiper.params.autoplay.disableOnInteraction === true) {
-          this.swiper.params.autoplay.disableOnInteraction = false
+    const swiperAutoplay = this.swiper.autoplay
+    if (swiperAutoplay) {
+      if (swiperAutoplay.running === newVal) return
+  
+      if (newVal) {
+        if (this.swiper.params && typeof this.swiper.params.autoplay === 'object') {
+          if (this.swiper.params.autoplay.disableOnInteraction === true) {
+            this.swiper.params.autoplay.disableOnInteraction = false
+          }
+          this.swiper.params.autoplay.delay = this.interval
         }
-        this.swiper.params.autoplay.delay = this.interval
+        swiperAutoplay.start()
+      } else {
+        swiperAutoplay.stop()
       }
-      this.swiper.autoplay.start()
-    } else {
-      this.swiper.autoplay.stop()
     }
   }
 
@@ -183,7 +186,7 @@ export class Swiper implements ComponentInterface {
     this.handleInit()
     if (!this.swiper || !this.circular) return
 
-    const wrapper = this.swiper.$wrapperEl[0]
+    const wrapper = this.swiper.$wrapperEl?.[0]
     this.observer = new MutationObserver(this.handleSwiperLoopListen)
 
     this.observer.observe(wrapper, {
@@ -193,8 +196,8 @@ export class Swiper implements ComponentInterface {
 
   componentWillUpdate () {
     if (!this.swiper) return
-    if (this.autoplay && !this.swiper.autoplay.running) {
-      this.swiper.autoplay.start()
+    if (this.autoplay && !this.swiper.autoplay?.running) {
+      this.swiper.autoplay?.start()
     }
     this.swiper.update() // 更新子元素
   }
@@ -216,7 +219,7 @@ export class Swiper implements ComponentInterface {
     this.observerLast?.disconnect && this.observerLast.disconnect()
     this.observerFirst = new MutationObserver(this.handleSwiperLoop)
     this.observerLast = new MutationObserver(this.handleSwiperLoop)
-    const wrapper = this.swiper.$wrapperEl[0]
+    const wrapper = this.swiper.$wrapperEl?.[0]
     const list = wrapper.querySelectorAll('taro-swiper-item-core:not(.swiper-slide-duplicate)')
     if (list.length >= 1) {
       this.observerFirst.observe(list[0], {

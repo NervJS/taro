@@ -1,4 +1,4 @@
-import { Component, h, ComponentInterface, Prop, Host, State, Listen } from '@stencil/core'
+import { Component, h, ComponentInterface, Prop, Host, Method, State, Listen } from '@stencil/core'
 
 import {
   TOP,
@@ -55,6 +55,7 @@ export class TaroPickerGroup implements ComponentInterface {
     })
   }
 
+  @Method()
   handleMoveStart (clientY: number) {
     // 记录第一次的点击位置
     this.startY = clientY
@@ -62,6 +63,7 @@ export class TaroPickerGroup implements ComponentInterface {
     this.hadMove = false
   }
 
+  @Method()
   handleMoving (clientY: number) {
     const y = clientY
     const deltaY = y - this.preY
@@ -95,6 +97,7 @@ export class TaroPickerGroup implements ComponentInterface {
     this.updateHeight(newPos, this.columnId)
   }
 
+  @Method()
   handleMoveEnd (clientY: number) {
     const {
       mode,

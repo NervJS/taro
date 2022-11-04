@@ -37,7 +37,7 @@ export class Checkbox implements ComponentInterface {
     this.id && this.el.removeAttribute('id')
   }
 
-  handleChange = e => {
+  handleChange = (e: Event) => {
     e.stopPropagation()
     this.onChange.emit({
       value: this.value
