@@ -5,14 +5,19 @@ declare module '../../index' {
     interface Option {
       /** 下载资源的 url */
       url: string
-      /** 接口调用结束的回调函数（调用成功、失败都会执行） */
-      complete?: (res: TaroGeneral.CallbackResult) => void
-      /** 接口调用失败的回调函数 */
-      fail?: (res: TaroGeneral.CallbackResult) => void
       /** 指定文件下载后存储的路径 */
       filePath?: string
       /** HTTP 请求的 Header，Header 中不能设置 Referer */
       header?: TaroGeneral.IAnyObject
+      /** 是否应使用传出凭据 (cookie) 发送此请求
+       * @default true
+       * @supported h5
+       */
+      withCredentials?: boolean
+      /** 接口调用结束的回调函数（调用成功、失败都会执行） */
+      complete?: (res: TaroGeneral.CallbackResult) => void
+      /** 接口调用失败的回调函数 */
+      fail?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用成功的回调函数 */
       success?: (result: FileSuccessCallbackResult) => void
     }

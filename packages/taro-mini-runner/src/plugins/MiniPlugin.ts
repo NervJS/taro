@@ -13,8 +13,6 @@ import {
   resolveMainFilePath,
   SCRIPT_EXT
 } from '@tarojs/helper'
-import { RecursiveTemplate, UnRecursiveTemplate } from '@tarojs/shared/dist/template'
-import { AppConfig, Config } from '@tarojs/taro'
 import * as fs from 'fs-extra'
 import { minify } from 'html-minifier'
 import { urlToRequest } from 'loader-utils'
@@ -34,10 +32,14 @@ import { ConcatSource } from 'webpack-sources'
 import TaroSingleEntryDependency from '../dependencies/TaroSingleEntryDependency'
 import { PrerenderConfig, validatePrerenderPages } from '../prerender/prerender'
 import { componentConfig } from '../template/component'
-import { AddPageChunks, Func, IComponent, IFileType } from '../utils/types'
 import TaroLoadChunksPlugin from './TaroLoadChunksPlugin'
 import TaroNormalModulesPlugin from './TaroNormalModulesPlugin'
 import TaroSingleEntryPlugin from './TaroSingleEntryPlugin'
+
+import type { RecursiveTemplate, UnRecursiveTemplate } from '@tarojs/shared/dist/template'
+import type { AppConfig, Config } from '@tarojs/taro'
+import type { Func } from '@tarojs/taro/types/compile'
+import type { AddPageChunks, IComponent, IFileType } from '../utils/types'
 
 const PLUGIN_NAME = 'TaroMiniPlugin'
 
@@ -497,10 +499,11 @@ export default class TaroMiniPlugin {
 
   modifyPluginJSON (pluginJSON) {
     const { main, publicComponents } = pluginJSON
+    const isUsingCustomWrapper = componentConfig.thirdPartyComponents.has('custom-wrapper')
     if (main) {
       pluginJSON.main = this.getTargetFilePath(main, '.js')
     }
-    if (publicComponents) {
+    if (publicComponents && isUsingCustomWrapper) {
       pluginJSON.publicComponents = Object.assign({}, publicComponents, {
         'custom-wrapper': 'custom-wrapper'
       })

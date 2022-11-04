@@ -1,10 +1,5 @@
 import { ComponentType } from 'react'
-import {
-  StandardProps,
-  CommonEventFunction,
-  CanvasTouchEventFunction,
-  CanvasTouchEvent,
-} from './common'
+import { StandardProps, CommonEventFunction, CanvasTouchEventFunction, CanvasTouchEvent } from './common'
 interface CanvasProps extends StandardProps<any, CanvasTouchEvent> {
   /** 指定 canvas 类型，支持 2d 和 webgl
    * @supported weapp, alipay, tt
@@ -21,6 +16,27 @@ interface CanvasProps extends StandardProps<any, CanvasTouchEvent> {
    * @supported weapp, alipay, swan, qq, jd
    */
   disableScroll?: boolean
+
+  /** 用于透传 `WebComponents` 上的属性到内部 H5 标签上
+   * @supported h5
+   */
+  nativeProps?: Record<string, unknown>
+
+  /** 组件唯一标识符。
+   * 注意：同一页面中的 id 不可重复。
+   * @supported alipay
+   */
+  id?: string
+
+  /**
+   * @supported alipay
+   */
+  width?: string
+
+  /**
+   * @supported alipay
+   */
+  height?: string
 
   /** 手指触摸动作开始
    * @supported weapp, alipay, swan, tt, qq, jd
@@ -52,44 +68,12 @@ interface CanvasProps extends StandardProps<any, CanvasTouchEvent> {
    */
   onError?: CommonEventFunction<CanvasProps.onErrorEventDetail>
 
-  /** 用于透传 `WebComponents` 上的属性到内部 H5 标签上
-   * @supported h5
-   */
-  nativeProps?: Record<string, unknown>
-
-  /** 组件唯一标识符。
-   * 注意：同一页面中的 id 不可重复。
-   * @supported alipay
-   */
-  id?: string
-
-  /** -
-   * @supported alipay
-   */
-  style?: string
-
-  /** -
-   * @supported alipay
-   */
-  class?: string
-
-  /**
-   * @supported alipay
-   */
-  width?: string
-
-  /**
-   * @supported alipay
-   */
-  height?: string
-
   /** 点击。
    * @supported alipay
    */
   onTap?: CommonEventFunction
 
   /** canvas 组件初始化成功触发。
-   * 版本要求：基础库 2.7.0 及以上
    * @supported alipay
    */
   onReady?: CommonEventFunction
