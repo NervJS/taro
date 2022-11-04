@@ -35,7 +35,7 @@ const DEFAULT_WEAPP_OPTIONS = {
 
 let targetUnit
 
-const postcssPxTransForm = (options = {}) => {
+module.exports = (options = {}) => {
   options = Object.assign({}, DEFAULT_WEAPP_OPTIONS, options)
 
   const transUnits = ['px']
@@ -301,5 +301,4 @@ function createPropListMatcher (propList) {
   }
 }
 
-postcssPxTransForm.postcss = true
-export default postcssPxTransForm
+module.exports.postcss = true
