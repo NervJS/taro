@@ -78,7 +78,7 @@ export class PageProvider extends React.Component<any> {
         shadowOpacity: 1,
         borderBottomWidth: 0
       }, screenHeaderStyle)
-      const navBarParams = Object.assign(winScreenOptions, {
+      const navBarParams = Object.assign({ ...winScreenOptions }, {
         title: headerTitle,
         headerShown: showHeader,
         headerTintColor: color
