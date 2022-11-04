@@ -1,4 +1,3 @@
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { Component, h, ComponentInterface, Prop, State, Event, EventEmitter, Element } from '@stencil/core'
 import { TaroEvent } from '../../../types'
 

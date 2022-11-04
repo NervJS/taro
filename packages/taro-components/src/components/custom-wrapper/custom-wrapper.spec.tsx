@@ -1,7 +1,19 @@
 import { h } from '@stencil/core'
+import { newSpecPage } from '@stencil/core/testing'
+
+import { CustomWrapper } from './custom-wrapper'
 
 describe('CustomWrapper', () => {
-  it('base', async () => {
-    // TODO
+  it('有一个空的占位元素，并且 slot 能够使用', async () => {
+    const page = await newSpecPage({
+      components: [CustomWrapper],
+      template: () => (<taro-custom-wrapper-core>
+        <div />
+        <div />
+      </taro-custom-wrapper-core>),
+    })
+    await page.waitForChanges()
+
+    expect(page.root?.childNodes.length).toBe(2)
   })
 })
