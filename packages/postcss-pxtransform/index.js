@@ -153,7 +153,7 @@ module.exports = (options = {}) => {
       }
     },
 
-    AtRules (rule) {
+    AtRule (rule) {
       if (options.platform === 'harmony' && rule.name === 'media') {
         if (rule.params.indexOf('PX') === -1) return
         const value = rule.params.replace(PXRegex, function (m, _$1, $2) {
