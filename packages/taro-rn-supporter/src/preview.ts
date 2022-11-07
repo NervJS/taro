@@ -2,10 +2,10 @@ import { readFile } from 'fs'
 import { createServer } from 'http'
 import * as mime from 'mime-types'
 import { extname, join } from 'path'
-import * as qr from 'qrcode-terminal'
+import { toString } from 'qrcode'
 import { URL } from 'url'
 
-import { getOpenHost, isWin, PLAYGROUNDINFO } from '../utils'
+import { getOpenHost, isWin, PLAYGROUNDINFO } from './utils'
 
 interface PreviewOption {
   out: string
@@ -65,7 +65,7 @@ function getAndroidResourceIdentifier (pathname:string): string {
     .replace(/^assets_/, '') + ext
 }
 
-export default (opt: PreviewOption):void => {
+export function previewProd (opt: PreviewOption):void {
   const port = process.env.PORT || 8079
   const host = `http://${getOpenHost()}:${port}`
 
@@ -110,5 +110,21 @@ export default (opt: PreviewOption):void => {
   const url = `${host}/index.js`
   console.log(PLAYGROUNDINFO)
   console.log(`print qrcode of ${opt.platform} bundle '${url}':`)
-  qr.generate(url, { small: !isWin })
+  toString(url, { type: 'terminal', small: !isWin }).then(console.log)
+}
+
+interface PreviewDevOption {
+  port: number
+}
+
+export function previewDev (args:PreviewDevOption):void {
+  const host = getOpenHost()
+  if (host) {
+    const url = `taro://${host}:${args.port}`
+    console.log(PLAYGROUNDINFO)
+    console.log(`print qrcode of '${url}':`)
+    toString(url, { type: 'terminal', small: !isWin }).then(console.log)
+  } else {
+    console.log('print qrcode error: host not found.')
+  }
 }

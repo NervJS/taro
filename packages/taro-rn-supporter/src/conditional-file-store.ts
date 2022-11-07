@@ -1,6 +1,6 @@
 import * as FileStore from 'metro-cache/src/stores/FileStore'
 
-export default class ConditionalFileStore<T> {
+export class ConditionalFileStore<T> {
   ignoreEntryFileCache = false
   _fileStore: FileStore<T>
   entryName: string
