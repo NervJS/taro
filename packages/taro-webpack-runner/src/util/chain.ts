@@ -498,7 +498,7 @@ export const parseModule = (appPath: string, {
     test: REG_LESS,
     use: [lessLoader]
   }
-  rule.styl = {
+  rule.stylus = {
     test: REG_STYLUS,
     use: [stylusLoader]
   }
