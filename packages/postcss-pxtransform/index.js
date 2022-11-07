@@ -35,7 +35,7 @@ const DEFAULT_WEAPP_OPTIONS = {
 
 let targetUnit
 
-const postcssPxTransForm = (options = {}) => {
+module.exports = (options = {}) => {
   options = Object.assign({}, DEFAULT_WEAPP_OPTIONS, options)
 
   const transUnits = ['px']
@@ -153,7 +153,7 @@ const postcssPxTransForm = (options = {}) => {
       }
     },
 
-    AtRules (rule) {
+    AtRule (rule) {
       if (options.platform === 'harmony' && rule.name === 'media') {
         if (rule.params.indexOf('PX') === -1) return
         const value = rule.params.replace(PXRegex, function (m, _$1, $2) {
@@ -301,5 +301,4 @@ function createPropListMatcher (propList) {
   }
 }
 
-postcssPxTransForm.postcss = true
-export default postcssPxTransForm
+module.exports.postcss = true
