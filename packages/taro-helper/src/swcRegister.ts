@@ -18,7 +18,7 @@ export class InjectDefineConfigHeader extends Visitor {
 
 interface ICreateSwcRegisterParam {
   only
-  plugins: [string, any][]
+  plugins?: [string, any][]
 }
 
 export default function createSwcRegister ({ only, plugins }: ICreateSwcRegisterParam) {
