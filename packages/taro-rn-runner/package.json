@@ -48,11 +48,11 @@
     "@babel/core": "^7.14.5",
     "@babel/preset-env": "^7.14.5",
     "acorn": "^8.0.4",
-    "expo": "~47.0.1",
+    "expo": "~47.0.3",
     "expo-file-system": "~15.1.1",
     "react": "18.1.0",
     "react-is": "^16.13.0",
-    "react-native": "^0.70.4",
+    "react-native": "^0.70.5",
     "react-native-root-siblings": "^4.1.1",
     "react-test-renderer": "18.1.0",
     "rollup": "^2.79.0"
