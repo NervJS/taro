@@ -88,7 +88,16 @@ export function createRouter (
     const pathname = handler.pathname
     let shouldLoad = false
 
-    if (action === 'POP') {
+    if (handler.isTabBar) {
+      if (handler.isSamePage(currentPage)) return
+      const prevIndex = stacks.getPrevIndex(pathname, 0)
+      handler.hide(currentPage)
+      if (prevIndex > -1) {
+        // NOTE: tabbar 页且之前出现过，直接复用
+        return handler.show(stacks.getItem(prevIndex), pageConfig, prevIndex)
+      }
+      shouldLoad = true
+    } else if (action === 'POP') {
       // NOTE: 浏览器事件退后多次时，该事件只会被触发一次
       const prevIndex = stacks.getPrevIndex(pathname)
       const delta = stacks.getDelta(pathname)
@@ -101,22 +110,13 @@ export function createRouter (
           shouldLoad = true
         }
       }
-    } else {
-      if (handler.isTabBar) {
-        if (handler.isSamePage(currentPage)) return
-        const prevIndex = stacks.getPrevIndex(pathname, 0)
-        handler.hide(currentPage)
-        if (prevIndex > -1) {
-          // NOTE: tabbar 页且之前出现过，直接复用
-          return handler.show(stacks.getItem(prevIndex), pageConfig, prevIndex)
-        }
-      } else if (action === 'REPLACE') {
-        const delta = stacks.getDelta(pathname)
-        // NOTE: 页面路由记录并不会清空，只是移除掉缓存的 stack 以及页面
-        handler.unload(currentPage, delta)
-      } else if (action === 'PUSH') {
-        handler.hide(currentPage)
-      }
+    } else if (action === 'REPLACE') {
+      const delta = stacks.getDelta(pathname)
+      // NOTE: 页面路由记录并不会清空，只是移除掉缓存的 stack 以及页面
+      handler.unload(currentPage, delta)
+      shouldLoad = true
+    } else if (action === 'PUSH') {
+      handler.hide(currentPage)
       shouldLoad = true
     }
 
