@@ -105,7 +105,7 @@ export function temporarilyNotSupport (name = '') {
   }
 }
 
-export function weixinCorpSupport (name) {
+export function weixinCorpSupport (name: string) {
   return (option = {}, ...args) => {
     const { success, fail, complete } = option as any
     const handle = new MethodHandler({ name, success, fail, complete })
@@ -126,7 +126,7 @@ export function weixinCorpSupport (name) {
 }
 
 export function permanentlyNotSupport (name = '') {
-  return (option = {}, ...args) => {
+  return (option = {}, ...args: any[]) => {
     const { success, fail, complete } = option as any
     const handle = new MethodHandler({ name, success, fail, complete })
     const errMsg = '不支持 API'
@@ -161,7 +161,7 @@ export function processOpenApi<TOptions = Record<string, unknown>, TResult exten
   formatResult = res => res
 }: IProcessOpenApi<TOptions, TResult>) {
   const notSupported = weixinCorpSupport(name)
-  return (options: Partial<TOptions> = {}): Promise<TResult> => {
+  return (options: Partial<TOptions> = {}, ...args: any[]): Promise<TResult> => {
     // @ts-ignore
     const targetApi = window?.wx?.[name]
     const opts = formatOptions(Object.assign({}, defaultOptions, options))
@@ -183,7 +183,7 @@ export function processOpenApi<TOptions = Record<string, unknown>, TResult exten
     } else if (typeof standardMethod === 'function') {
       return standardMethod(opts)
     } else {
-      return notSupported() as Promise<TResult>
+      return notSupported(options, ...args) as Promise<TResult>
     }
   }
 }
