@@ -29,6 +29,13 @@ export class Button implements ComponentInterface {
     eventName: 'tarobuttonreset'
   }) onReset: EventEmitter
 
+  @Listen('click')
+  onClick (e: Event) {
+    if (this.disabled) {
+      e.stopPropagation()
+    }
+  }
+
   @Listen('touchstart')
   onTouchStart () {
     if (this.disabled) {
