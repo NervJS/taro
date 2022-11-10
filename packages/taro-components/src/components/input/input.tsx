@@ -1,4 +1,4 @@
-import { Component, h, ComponentInterface, Prop, Event, EventEmitter, Element, Watch } from '@stencil/core'
+import { Component, h, ComponentInterface, Prop, Event, EventEmitter, Element, Watch, Method } from '@stencil/core'
 import { EventHandler, TaroEvent } from '../../../types'
 
 function getTrueType (type: string | undefined, confirmType: string, password: boolean) {
@@ -43,6 +43,11 @@ export class Input implements ComponentInterface {
 
   @Element() el: HTMLElement
 
+  @Method()
+  focus() {
+    this.inputRef.focus()
+  }
+
   @Watch('autoFocus')
   watchAutoFocus (newValue: boolean, oldValue: boolean) {
     if (!oldValue && newValue) {
@@ -53,7 +58,7 @@ export class Input implements ComponentInterface {
   @Watch('value')
   watchValue (newValue: string) {
     const value = fixControlledValue(newValue)
-    if (this.inputRef?.value !== value) {
+    if (this.inputRef.value !== value) {
       this.inputRef.value = value
     }
   }
@@ -100,7 +105,7 @@ export class Input implements ComponentInterface {
     }
 
     Object.defineProperty(this.el, 'value', {
-      get: () => this.inputRef?.value,
+      get: () => this.inputRef.value,
       set: value => (this.value = value),
       configurable: true
     })

@@ -1,4 +1,4 @@
-import { Component, h, ComponentInterface, Prop, State, Event, EventEmitter, Element } from '@stencil/core'
+import { Component, h, ComponentInterface, Prop, State, Event, EventEmitter, Element, Method } from '@stencil/core'
 import { TaroEvent } from '../../../types'
 
 function fixControlledValue(value?: string) {
@@ -48,6 +48,11 @@ export class Textarea implements ComponentInterface {
     eventName: 'linechange' // 必须全小写
   })
   onLineChange: EventEmitter
+
+  @Method()
+  focus() {
+    this.textareaRef.focus()
+  }
 
   componentDidLoad() {
     Object.defineProperty(this.el, 'value', {

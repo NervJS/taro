@@ -449,21 +449,24 @@ export class Video implements ComponentInterface {
   }
 
   /** 播放视频 */
-  @Method() async play () {
+  @Method()
+  async play () {
     this._play()
   }
 
   _play = () => this.videoRef.play()
 
   /** 暂停视频 */
-  @Method() async pause () {
+  @Method()
+  async pause () {
     this._pause()
   }
 
   _pause = () => this.videoRef.pause()
 
   /** 停止视频 */
-  @Method() async stop () {
+  @Method()
+  async stop () {
     this._stop()
   }
 
@@ -473,7 +476,8 @@ export class Video implements ComponentInterface {
   }
 
   /** 跳转到指定位置 */
-  @Method() async seek (position: number) {
+  @Method()
+  async seek (position: number) {
     this._seek(position)
   }
 
@@ -482,12 +486,14 @@ export class Video implements ComponentInterface {
   }
 
   /** 进入全屏。若有自定义内容需在全屏时展示，需将内容节点放置到 video 节点内。 */
-  @Method() async requestFullScreen () {
+  @Method()
+  async requestFullScreen () {
     this.toggleFullScreen(true)
   }
 
   /** 退出全屏 */
-  @Method() async exitFullScreen () {
+  @Method()
+  async exitFullScreen () {
     this.toggleFullScreen(false)
   }
 
