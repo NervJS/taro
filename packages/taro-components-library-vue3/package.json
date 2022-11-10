@@ -6,7 +6,7 @@
   "main": "index.js",
   "scripts": {
     "prebuild:ci": "node ./scripts/fix.js",
-    "build:ci": "babel src --extensions=.ts --out-dir ../taro-components/dist/vue3"
+    "build:ci": "babel src --extensions=.ts,.tsx --out-dir ../taro-components/dist/vue3"
   },
   "keywords": [],
   "author": "",
