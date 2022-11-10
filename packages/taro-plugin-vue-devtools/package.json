@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/plugin-vue-devtools",
-  "version": "3.6.0-canary.0",
+  "version": "3.5.7-alpha.8",
   "description": "Taro 小程序端支持使用 Vue DevTools 的插件",
   "main": "index.js",
   "scripts": {

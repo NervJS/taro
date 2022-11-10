@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/plugin-framework-react",
-  "version": "3.6.0-canary.0",
+  "version": "3.5.7-alpha.8",
   "description": "React/Preact/Nerv 框架插件",
   "author": "drchan",
   "homepage": "https://github.com/nervjs/taro",
