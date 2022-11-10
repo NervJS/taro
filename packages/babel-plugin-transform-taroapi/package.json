@@ -1,6 +1,6 @@
 {
   "name": "babel-plugin-transform-taroapi",
-  "version": "3.6.0-canary.0",
+  "version": "3.6.0-canary.1",
   "main": "dist/index.js",
   "scripts": {
     "build": "tsc"
