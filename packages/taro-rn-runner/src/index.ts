@@ -24,6 +24,8 @@ function confirmFiles () {
   })
 }
 
+const isWin = /^win/.test(process.platform)
+
 export default async function build (_appPath: string, config: any): Promise<any> {
   process.env.TARO_ENV = 'rn'
   const isIos = config.deviceType === 'ios'
@@ -94,7 +96,7 @@ export default async function build (_appPath: string, config: any): Promise<any
     cliParams.push('--assets-dest', assetsDest || defaultOutputDir)
 
     try {
-      spawn('npx', [
+      spawn(isWin ? 'npx.cmd' : 'npx', [
         'react-native',
         'bundle',
         '--platform',
