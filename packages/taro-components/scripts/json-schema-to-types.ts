@@ -19,8 +19,7 @@ class GenerateTypes {
 
     MINI_APP_TYPES.forEach((type) => {
       try {
-        const json = require(`miniapp-types/dist/schema/${type}/${componentName === 'AD' ? 'ad' : humps.decamelize(componentName, { separator: '-' })
-        }.json`)
+        const json = require(`miniapp-types/dist/schema/${type}/${componentName === 'AD' ? 'ad' : humps.decamelize(componentName, { separator: '-' })}.json`)
 
         if (!json) {
           return
@@ -119,7 +118,7 @@ class GenerateTypes {
             if (value.toLowerCase().indexOf('rn') > -1) {
               supportedPlatforms.push('rn')
             }
-            if (isEmpty(supportedPlatforms)) {
+            if (isEmpty(supportedPlatforms) && value.indexOf('@unique') === -1) {
               astPath.remove()
             } else {
               astPath.node.leadingComments[0].value = value.replace(
@@ -228,15 +227,15 @@ class GenerateTypes {
               if (!aName.startsWith('catch') && bName.startsWith('catch')) {
                 return -1
               }
-              
+
               if (aName.startsWith('on') && !bName.startsWith('on')) {
                 return 1
               }
               if (!aName.startsWith('on') && bName.startsWith('on')) {
                 return -1
               }
-              
-    
+
+
               return 1
             })
           },
