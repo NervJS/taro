@@ -25,6 +25,7 @@ function confirmFiles () {
 }
 
 const isWin = /^win/.test(process.platform)
+const npxCmd = isWin ? 'npx.cmd' : 'npx'
 
 export default async function build (_appPath: string, config: any): Promise<any> {
   process.env.TARO_ENV = 'rn'
@@ -59,7 +60,7 @@ export default async function build (_appPath: string, config: any): Promise<any
       cliParams.push('--port', config.port)
     }
     try {
-      spawn('npx', ['react-native', 'start'].concat(cliParams), {
+      spawn(npxCmd, ['react-native', 'start'].concat(cliParams), {
         stdio: 'inherit'
       })
       if(config.qr) {
@@ -96,7 +97,7 @@ export default async function build (_appPath: string, config: any): Promise<any
     cliParams.push('--assets-dest', assetsDest || defaultOutputDir)
 
     try {
-      spawn(isWin ? 'npx.cmd' : 'npx', [
+      spawn(npxCmd, [
         'react-native',
         'bundle',
         '--platform',
