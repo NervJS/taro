@@ -50,6 +50,8 @@ async function navigate (option: Option | NavigateBackOption, method: MethodName
     })
 
     try {
+      // isTabbar那里需要拿来判断
+      stacks.method = method
       if ('url' in option) {
         const pathPieces = processNavigateUrl(option)
         const state = { timestamp: Date.now() }

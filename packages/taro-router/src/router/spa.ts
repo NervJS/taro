@@ -86,7 +86,10 @@ export function createRouter (
 
     const currentPage = Current.page
     const pathname = handler.pathname
+    const methodName = stacks.method ?? ''
     let shouldLoad = false
+    // 拷贝之后清空掉，因为浏览器左上角的返回前进不会有methodName
+    stacks.method = ''
 
     if (action === 'POP') {
       // NOTE: 浏览器事件退后多次时，该事件只会被触发一次
@@ -102,7 +105,11 @@ export function createRouter (
         }
       }
     } else {
-      if (handler.isTabBar) {
+      // 卸载所有页面，然后重新加载新页面
+      if (methodName === 'reLaunch') {
+        // NOTE: 页面路由记录并不会清空，只是移除掉缓存的 stack 以及页面
+        handler.unload(currentPage, stacks.length)
+      } else if (handler.isTabBar) {
         if (handler.isSamePage(currentPage)) return
         const prevIndex = stacks.getPrevIndex(pathname, 0)
         handler.hide(currentPage)

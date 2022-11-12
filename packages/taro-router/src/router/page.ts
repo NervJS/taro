@@ -173,7 +173,7 @@ export default class PageHandler {
 
     // NOTE: 页面栈推入太晚可能导致 getCurrentPages 无法获取到当前页面实例
     stacks.push(page)
-    const param = this.getQuery(stacks.length, '', page.options)
+    const param = this.getQuery(Date.now(), '', page.options)
     let pageEl = this.getPageContainer(page)
     if (pageEl) {
       setDisplay(pageEl)
@@ -225,7 +225,7 @@ export default class PageHandler {
   show (page?: PageInstance | null, pageConfig: Route = {}, stacksIndex = 0) {
     if (!page) return
 
-    const param = this.getQuery(stacks.length, '', page.options)
+    const param = this.getQuery(Date.now(), '', page.options)
     let pageEl = this.getPageContainer(page)
     if (pageEl) {
       setDisplay(pageEl)

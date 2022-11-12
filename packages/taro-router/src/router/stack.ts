@@ -4,6 +4,7 @@ class Stacks {
   stacks: PageInstance[] = []
 
   backDelta = 0
+  methodName = ''
 
   set delta (delta: number) {
     if (delta > 0) {
@@ -17,6 +18,14 @@ class Stacks {
 
   get delta () {
     return this.backDelta
+  }
+
+  set method (methodName: string) {
+    this.methodName = methodName
+  }
+
+  get method () {
+    return this.methodName
   }
 
   get length () {
