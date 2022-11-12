@@ -225,7 +225,7 @@ export default class PageHandler {
   show (page?: PageInstance | null, pageConfig: Route = {}, stacksIndex = 0) {
     if (!page) return
 
-    const param = this.getQuery(Date.now(), '', page.options)
+    const param = this.getQuery(page.$taroParams.stamp, '', page.options)
     let pageEl = this.getPageContainer(page)
     if (pageEl) {
       setDisplay(pageEl)
