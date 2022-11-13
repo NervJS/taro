@@ -225,7 +225,10 @@ export default class PageHandler {
   show (page?: PageInstance | null, pageConfig: Route = {}, stacksIndex = 0) {
     if (!page) return
 
-    const param = this.getQuery(page.$taroParams.stamp, '', page.options)
+    const index = page.path?.indexOf('?') ?? -1
+    const q = index > -1 ? queryString.parse(page.path!.substring(index), { decode: false }) : {}
+    const stamp = q.stamp ? Number(q.stamp) : undefined
+    const param = this.getQuery(stamp, '', page.options)
     let pageEl = this.getPageContainer(page)
     if (pageEl) {
       setDisplay(pageEl)
