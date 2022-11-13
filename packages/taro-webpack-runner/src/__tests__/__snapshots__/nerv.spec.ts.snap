@@ -4545,7 +4545,7 @@ exports[`nerv should build nerv app 2`] = `
         var render = function render(_ref) {
             var location = _ref.location, action = _ref.action;
             return spa_awaiter(_this, void 0, void 0, _regeneratorRuntime().mark((function _callee() {
-                var _c, _d, _e, _f, _g, _h, element, params, result, _yield$Promise$all, _yield$Promise$all2, pageConfig, enablePullDownRefresh, currentPage, pathname, methodName, shouldLoad, prevIndex, delta, _prevIndex, _delta, el, loadConfig, stacksIndex, page;
+                var _c, _d, _e, _f, _g, _h, _j, element, params, result, _yield$Promise$all, _yield$Promise$all2, pageConfig, enablePullDownRefresh, currentPage, pathname, methodName, shouldLoad, prevIndex, delta, _prevIndex, _delta, currentIsTabbar, _prevIndex2, _delta2, _delta3, _prevIndex3, el, loadConfig, stacksIndex, page;
                 return _regeneratorRuntime().wrap((function _callee$(_context) {
                     while (1) {
                         switch (_context.prev = _context.next) {
@@ -4621,72 +4621,166 @@ exports[`nerv should build nerv app 2`] = `
                             shouldLoad = false;
                             stack.method = \\"\\";
                             if (!(action === \\"POP\\")) {
-                                _context.next = 41;
+                                _context.next = 45;
                                 break;
                             }
                             prevIndex = stack.getPrevIndex(pathname);
                             delta = stack.getDelta(pathname);
-                            if (currentPage !== stack.getItem(prevIndex)) {
-                                handler.unload(currentPage, delta, prevIndex > -1);
-                                if (prevIndex > -1) {
-                                    handler.show(stack.getItem(prevIndex), pageConfig, prevIndex);
-                                } else {
-                                    shouldLoad = true;
-                                }
-                            }
-                            _context.next = 56;
-                            break;
-
-                          case 41:
-                            if (!(methodName === \\"reLaunch\\")) {
-                                _context.next = 45;
+                            if (!(currentPage !== stack.getItem(prevIndex))) {
+                                _context.next = 43;
                                 break;
                             }
-                            handler.unload(currentPage, stack.length);
-                            _context.next = 55;
+                            handler.unload(currentPage, delta, prevIndex > -1);
+                            if (!(prevIndex > -1)) {
+                                _context.next = 42;
+                                break;
+                            }
+                            return _context.abrupt(\\"return\\", handler.show(stack.getItem(prevIndex), pageConfig, prevIndex));
+
+                          case 42:
+                            shouldLoad = true;
+
+                          case 43:
+                            _context.next = 93;
                             break;
 
                           case 45:
+                            if (!(action === \\"REPLACE\\")) {
+                                _context.next = 80;
+                                break;
+                            }
+                            if (!(methodName === \\"reLaunch\\")) {
+                                _context.next = 51;
+                                break;
+                            }
+                            handler.unload(currentPage, stack.length);
+                            shouldLoad = true;
+                            _context.next = 78;
+                            break;
+
+                          case 51:
+                            if (!(methodName === \\"redirectTo\\")) {
+                                _context.next = 56;
+                                break;
+                            }
+                            _prevIndex = stack.getPrevIndex(pathname);
+                            if (handler.isTabBar && _prevIndex > -1) {
+                                _delta = stack.getDelta(pathname);
+                                handler.unload(currentPage, _delta + 1);
+                                shouldLoad = true;
+                            } else {
+                                handler.unload(currentPage);
+                                shouldLoad = true;
+                            }
+                            _context.next = 78;
+                            break;
+
+                          case 56:
+                            if (!(methodName === \\"switchTab\\")) {
+                                _context.next = 75;
+                                break;
+                            }
                             if (!handler.isTabBar) {
-                                _context.next = 54;
+                                _context.next = 72;
                                 break;
                             }
                             if (!handler.isSamePage(currentPage)) {
-                                _context.next = 48;
+                                _context.next = 60;
                                 break;
                             }
                             return _context.abrupt(\\"return\\");
 
-                          case 48:
-                            _prevIndex = stack.getPrevIndex(pathname, 0);
-                            handler.hide(currentPage);
-                            if (!(_prevIndex > -1)) {
-                                _context.next = 52;
+                          case 60:
+                            currentIsTabbar = (_h = handler.tabBarList) === null || _h === void 0 ? void 0 : _h.some((function(t) {
+                                var _a;
+                                return stripTrailing(t.pagePath) === stripTrailing((_a = currentPage === null || currentPage === void 0 ? void 0 : currentPage.path) !== null && _a !== void 0 ? _a : \\"\\");
+                            }));
+                            _prevIndex2 = stack.getPrevIndex(pathname, 0);
+                            if (!currentIsTabbar) {
+                                _context.next = 69;
                                 break;
                             }
-                            return _context.abrupt(\\"return\\", handler.show(stack.getItem(_prevIndex), pageConfig, _prevIndex));
+                            handler.hide(currentPage);
+                            if (!(_prevIndex2 > -1)) {
+                                _context.next = 66;
+                                break;
+                            }
+                            return _context.abrupt(\\"return\\", handler.show(stack.getItem(_prevIndex2), pageConfig, _prevIndex2));
 
-                          case 52:
-                            _context.next = 55;
+                          case 66:
+                            shouldLoad = true;
+                            _context.next = 70;
                             break;
 
-                          case 54:
-                            if (action === \\"REPLACE\\") {
-                                _delta = stack.getDelta(pathname);
-                                handler.unload(currentPage, _delta);
-                            } else if (action === \\"PUSH\\") {
-                                handler.hide(currentPage);
+                          case 69:
+                            if (_prevIndex2 > -1) {
+                                _delta2 = stack.getDelta(pathname);
+                                handler.unload(currentPage, _delta2, _prevIndex2 > -1);
+                                handler.show(stack.getItem(_prevIndex2), pageConfig, _prevIndex2);
+                            } else {
+                                handler.unload(currentPage, stack.length);
+                                shouldLoad = true;
                             }
 
-                          case 55:
+                          case 70:
+                            _context.next = 73;
+                            break;
+
+                          case 72:
+                            return _context.abrupt(\\"return\\", console.error(\\"switchTab:fail can not switch to no-tabBar page\\"));
+
+                          case 73:
+                            _context.next = 78;
+                            break;
+
+                          case 75:
+                            _delta3 = stack.getDelta(pathname);
+                            handler.unload(currentPage, _delta3);
                             shouldLoad = true;
 
-                          case 56:
-                            if (!(shouldLoad || stack.length < 1)) {
-                                _context.next = 65;
+                          case 78:
+                            _context.next = 93;
+                            break;
+
+                          case 80:
+                            if (!(action === \\"PUSH\\")) {
+                                _context.next = 93;
                                 break;
                             }
-                            el = (_h = element.default) !== null && _h !== void 0 ? _h : element;
+                            if (!handler.isTabBar) {
+                                _context.next = 91;
+                                break;
+                            }
+                            if (!handler.isSamePage(currentPage)) {
+                                _context.next = 84;
+                                break;
+                            }
+                            return _context.abrupt(\\"return\\");
+
+                          case 84:
+                            _prevIndex3 = stack.getPrevIndex(pathname, 0);
+                            handler.hide(currentPage);
+                            if (!(_prevIndex3 > -1)) {
+                                _context.next = 88;
+                                break;
+                            }
+                            return _context.abrupt(\\"return\\", handler.show(stack.getItem(_prevIndex3), pageConfig, _prevIndex3));
+
+                          case 88:
+                            shouldLoad = true;
+                            _context.next = 93;
+                            break;
+
+                          case 91:
+                            handler.hide(currentPage);
+                            shouldLoad = true;
+
+                          case 93:
+                            if (!(shouldLoad || stack.length < 1)) {
+                                _context.next = 102;
+                                break;
+                            }
+                            el = (_j = element.default) !== null && _j !== void 0 ? _j : element;
                             loadConfig = Object.assign({}, pageConfig);
                             stacksIndex = stack.length;
                             delete loadConfig[\\"path\\"];
@@ -4695,7 +4789,7 @@ exports[`nerv should build nerv app 2`] = `
                             if (params) page.options = params;
                             return _context.abrupt(\\"return\\", handler.load(page, pageConfig, stacksIndex));
 
-                          case 65:
+                          case 102:
                           case \\"end\\":
                             return _context.stop();
                         }
