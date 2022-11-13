@@ -132,10 +132,10 @@ export function createRouter (
         if (handler.isTabBar) {
           // 如果当前页和目标页相同，则什么都不做
           if (handler.isSamePage(currentPage)) return
-          const currentIsTab = handler.tabBarList?.some(t => stripTrailing(t.pagePath) === stripTrailing(currentPage.path))
+          const currentIsTabbar = handler.tabBarList?.some(t => stripTrailing(t.pagePath) === stripTrailing(currentPage?.path ?? ''))
           const prevIndex = stacks.getPrevIndex(pathname, 0)
           // 如果当前页是tabbar
-          if (currentIsTab) {
+          if (currentIsTabbar) {
             // 目标页是tabbar，当前页是tabbar，隐藏当前页
             handler.hide(currentPage)
             if (prevIndex > -1) {

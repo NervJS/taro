@@ -3262,6 +3262,7 @@ exports[`typescript should build project with ts 2`] = `
             Object(classCallCheck[\\"a\\"])(this, Stacks);
             this.stacks = [];
             this.backDelta = 0;
+            this.methodName = \\"\\";
         }
         Object(createClass[\\"a\\"])(Stacks, [ {
             \\"key\\": \\"delta\\",
@@ -3276,6 +3277,14 @@ exports[`typescript should build project with ts 2`] = `
                 } else {
                     this.backDelta = 0;
                 }
+            }
+        }, {
+            \\"key\\": \\"method\\",
+            \\"get\\": function get() {
+                return this.methodName;
+            },
+            \\"set\\": function set(methodName) {
+                this.methodName = methodName;
             }
         }, {
             \\"key\\": \\"length\\",
@@ -3405,6 +3414,7 @@ exports[`typescript should build project with ts 2`] = `
                                 unListen();
                             }));
                             try {
+                                stack.method = method;
                                 if (\\"url\\" in option) {
                                     var pathPieces = processNavigateUrl(option);
                                     var state = {
@@ -4324,7 +4334,7 @@ exports[`typescript should build project with ts 2`] = `
                 var _a, _b;
                 if (!page) return;
                 stack.push(page);
-                var param = this.getQuery(stack.length, \\"\\", page.options);
+                var param = this.getQuery(Date.now(), \\"\\", page.options);
                 var pageEl = this.getPageContainer(page);
                 if (pageEl) {
                     setDisplay(pageEl);
@@ -4383,17 +4393,22 @@ exports[`typescript should build project with ts 2`] = `
                 var _this3 = this;
                 var pageConfig = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
                 var stacksIndex = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 0;
-                var _a, _b;
+                var _a, _b, _c, _d;
                 if (!page) return;
-                var param = this.getQuery(stack.length, \\"\\", page.options);
+                var index = (_b = (_a = page.path) === null || _a === void 0 ? void 0 : _a.indexOf(\\"?\\")) !== null && _b !== void 0 ? _b : -1;
+                var q = index > -1 ? query_string_default.a.parse(page.path.substring(index), {
+                    \\"decode\\": false
+                }) : {};
+                var stamp = q.stamp ? Number(q.stamp) : undefined;
+                var param = this.getQuery(stamp, \\"\\", page.options);
                 var pageEl = this.getPageContainer(page);
                 if (pageEl) {
                     setDisplay(pageEl);
                     this.addAnimation(pageEl, stacksIndex === 0);
-                    (_a = page.onShow) === null || _a === void 0 ? void 0 : _a.call(page);
+                    (_c = page.onShow) === null || _c === void 0 ? void 0 : _c.call(page);
                     this.bindPageEvents(page, pageEl, pageConfig);
                 } else {
-                    (_b = page.onLoad) === null || _b === void 0 ? void 0 : _b.call(page, param, (function() {
+                    (_d = page.onLoad) === null || _d === void 0 ? void 0 : _d.call(page, param, (function() {
                         var _a;
                         pageEl = _this3.getPageContainer(page);
                         _this3.addAnimation(pageEl, stacksIndex === 0);
@@ -4534,7 +4549,7 @@ exports[`typescript should build project with ts 2`] = `
         var render = function render(_ref) {
             var location = _ref.location, action = _ref.action;
             return spa_awaiter(_this, void 0, void 0, _regeneratorRuntime().mark((function _callee() {
-                var _c, _d, _e, _f, _g, element, params, result, _yield$Promise$all, _yield$Promise$all2, pageConfig, enablePullDownRefresh, currentPage, pathname, shouldLoad, prevIndex, delta, _prevIndex, _delta, el, loadConfig, stacksIndex, page;
+                var _c, _d, _e, _f, _g, _h, element, params, result, _yield$Promise$all, _yield$Promise$all2, pageConfig, enablePullDownRefresh, currentPage, pathname, methodName, shouldLoad, prevIndex, delta, _prevIndex, _delta, el, loadConfig, stacksIndex, page;
                 return _regeneratorRuntime().wrap((function _callee$(_context) {
                     while (1) {
                         switch (_context.prev = _context.next) {
@@ -4606,9 +4621,11 @@ exports[`typescript should build project with ts 2`] = `
                             }
                             currentPage = undefined.page;
                             pathname = handler.pathname;
+                            methodName = (_g = stack.method) !== null && _g !== void 0 ? _g : \\"\\";
                             shouldLoad = false;
+                            stack.method = \\"\\";
                             if (!(action === \\"POP\\")) {
-                                _context.next = 39;
+                                _context.next = 41;
                                 break;
                             }
                             prevIndex = stack.getPrevIndex(pathname);
@@ -4621,34 +4638,43 @@ exports[`typescript should build project with ts 2`] = `
                                     shouldLoad = true;
                                 }
                             }
-                            _context.next = 50;
+                            _context.next = 56;
                             break;
 
-                          case 39:
+                          case 41:
+                            if (!(methodName === \\"reLaunch\\")) {
+                                _context.next = 45;
+                                break;
+                            }
+                            handler.unload(currentPage, stack.length);
+                            _context.next = 55;
+                            break;
+
+                          case 45:
                             if (!handler.isTabBar) {
-                                _context.next = 48;
+                                _context.next = 54;
                                 break;
                             }
                             if (!handler.isSamePage(currentPage)) {
-                                _context.next = 42;
+                                _context.next = 48;
                                 break;
                             }
                             return _context.abrupt(\\"return\\");
 
-                          case 42:
+                          case 48:
                             _prevIndex = stack.getPrevIndex(pathname, 0);
                             handler.hide(currentPage);
                             if (!(_prevIndex > -1)) {
-                                _context.next = 46;
+                                _context.next = 52;
                                 break;
                             }
                             return _context.abrupt(\\"return\\", handler.show(stack.getItem(_prevIndex), pageConfig, _prevIndex));
 
-                          case 46:
-                            _context.next = 49;
+                          case 52:
+                            _context.next = 55;
                             break;
 
-                          case 48:
+                          case 54:
                             if (action === \\"REPLACE\\") {
                                 _delta = stack.getDelta(pathname);
                                 handler.unload(currentPage, _delta);
@@ -4656,15 +4682,15 @@ exports[`typescript should build project with ts 2`] = `
                                 handler.hide(currentPage);
                             }
 
-                          case 49:
+                          case 55:
                             shouldLoad = true;
 
-                          case 50:
+                          case 56:
                             if (!(shouldLoad || stack.length < 1)) {
-                                _context.next = 59;
+                                _context.next = 65;
                                 break;
                             }
-                            el = (_g = element.default) !== null && _g !== void 0 ? _g : element;
+                            el = (_h = element.default) !== null && _h !== void 0 ? _h : element;
                             loadConfig = Object.assign({}, pageConfig);
                             stacksIndex = stack.length;
                             delete loadConfig[\\"path\\"];
@@ -4673,7 +4699,7 @@ exports[`typescript should build project with ts 2`] = `
                             if (params) page.options = params;
                             return _context.abrupt(\\"return\\", handler.load(page, pageConfig, stacksIndex));
 
-                          case 59:
+                          case 65:
                           case \\"end\\":
                             return _context.stop();
                         }
