@@ -9,7 +9,7 @@ import { Action as LocationAction, Listener as LocationListener } from 'history'
 import UniversalRouter, { Routes } from 'universal-router'
 
 import { history, prependBasename } from '../history'
-import { addLeadingSlash, routesAlias, stripBasename } from '../utils'
+import { addLeadingSlash, routesAlias, stripBasename, stripTrailing } from '../utils'
 import { setTitle } from '../utils/navigate'
 import { RouterConfig } from '.'
 import PageHandler from './page'
@@ -91,41 +91,102 @@ export function createRouter (
     // 拷贝之后清空掉，因为浏览器左上角的返回前进不会有methodName
     stacks.method = ''
 
-    if (action === 'POP') {
+    if (action === 'POP') { // navigateBack
       // NOTE: 浏览器事件退后多次时，该事件只会被触发一次
       const prevIndex = stacks.getPrevIndex(pathname)
       const delta = stacks.getDelta(pathname)
       // NOTE: Safari 内核浏览器在非应用页面返回上一页时，会触发额外的 POP 事件，此处需避免当前页面被错误卸载
       if (currentPage !== stacks.getItem(prevIndex)) {
+        // 卸载delta个页面
         handler.unload(currentPage, delta, prevIndex > -1)
         if (prevIndex > -1) {
-          handler.show(stacks.getItem(prevIndex), pageConfig, prevIndex)
-        } else {
-          shouldLoad = true
-        }
-      }
-    } else {
-      // 卸载所有页面，然后重新加载新页面
-      if (methodName === 'reLaunch') {
-        // NOTE: 页面路由记录并不会清空，只是移除掉缓存的 stack 以及页面
-        handler.unload(currentPage, stacks.length)
-      } else if (handler.isTabBar) {
-        if (handler.isSamePage(currentPage)) return
-        const prevIndex = stacks.getPrevIndex(pathname, 0)
-        handler.hide(currentPage)
-        if (prevIndex > -1) {
-          // NOTE: tabbar 页且之前出现过，直接复用
+          // 显示目标页
           return handler.show(stacks.getItem(prevIndex), pageConfig, prevIndex)
         }
-      } else if (action === 'REPLACE') {
-        const delta = stacks.getDelta(pathname)
-        // NOTE: 页面路由记录并不会清空，只是移除掉缓存的 stack 以及页面
-        handler.unload(currentPage, delta)
-      } else if (action === 'PUSH') {
-        handler.hide(currentPage)
+        // 如果路由栈为空，则加载目标页
+        shouldLoad = true
       }
-      shouldLoad = true
+    } else if (action === 'REPLACE') { // reLaunch switchTab redirectTo
+      if (methodName === 'reLaunch') {
+        // 卸载所有页面
+        handler.unload(currentPage, stacks.length)
+        // 加载目标页
+        shouldLoad = true
+      } else if (methodName === 'redirectTo') {
+        const prevIndex = stacks.getPrevIndex(pathname)
+        // 如果目标页是tabbar并且目标页已经存在了
+        if (handler.isTabBar && prevIndex > -1) {
+          const delta = stacks.getDelta(pathname)
+          // delta + 1 是因为redirectTo的原则是先卸载再装载，所以也要把目标页先卸载，即卸载delta+1个页面
+          handler.unload(currentPage, delta + 1)
+          // 加载目标页
+          shouldLoad = true
+        } else {
+          // 卸载当前页
+          handler.unload(currentPage)
+          // 加载目标页
+          shouldLoad = true
+        }
+      } else if (methodName === 'switchTab') {
+        // 如果目标页是tabbar
+        if (handler.isTabBar) {
+          // 如果当前页和目标页相同，则什么都不做
+          if (handler.isSamePage(currentPage)) return
+          const currentIsTab = handler.tabBarList?.some(t => stripTrailing(t.pagePath) === stripTrailing(currentPage.path))
+          const prevIndex = stacks.getPrevIndex(pathname, 0)
+          // 如果当前页是tabbar
+          if (currentIsTab) {
+            // 目标页是tabbar，当前页是tabbar，隐藏当前页
+            handler.hide(currentPage)
+            if (prevIndex > -1) {
+              // 目标页是tabbar，当前页是tabbar，并且目标页存在，显示目标页
+              return handler.show(stacks.getItem(prevIndex), pageConfig, prevIndex)
+            }
+            // 目标页是tabbar，当前页是tabbar，并且目标页不存在，加载目标页
+            shouldLoad = true
+          } else {
+            if (prevIndex > -1) {
+              const delta = stacks.getDelta(pathname)
+              // 目标页是tabbar，当前页不是tabbar，目标页存在，卸载目标页后的页面
+              handler.unload(currentPage, delta, prevIndex > -1)
+              // 目标页是tabbar，当前页不是tabbar，目标页存在，显示目标页
+              handler.show(stacks.getItem(prevIndex), pageConfig, prevIndex)
+            } else {
+              // 目标页是tabbar，当前页不是tabbar，目标页不存在，卸载所有的页面
+              handler.unload(currentPage, stacks.length)
+              // 目标页是tabbar，当前页不是tabbar，目标页不存在，加载目标页
+              shouldLoad = true
+            }
+          }
+        } else {
+          return console.error('switchTab:fail can not switch to no-tabBar page')
+        }
+      } else {
+        const delta = stacks.getDelta(pathname)
+        handler.unload(currentPage, delta)
+        shouldLoad = true
+      }
+    } else if (action === 'PUSH') { // navigateTo
+      if (handler.isTabBar) {
+        // 如果当前页和目标页相同，则什么都不做
+        if (handler.isSamePage(currentPage)) return
+        const prevIndex = stacks.getPrevIndex(pathname, 0)
+        // 隐藏当前页面
+        handler.hide(currentPage)
+        if (prevIndex > -1) {
+          // 如果tabbar目标页存在，则直接复用
+          return handler.show(stacks.getItem(prevIndex), pageConfig, prevIndex)
+        }
+        // 重新加载新页面
+        shouldLoad = true
+      } else {
+        // 隐藏当前页面，加载新页面
+        handler.hide(currentPage)
+        shouldLoad = true
+      }
     }
+
+
 
     if (shouldLoad || stacks.length < 1) {
       const el = element.default ?? element
