@@ -37,7 +37,7 @@ export default async function build (_appPath: string, config: any): Promise<any
     cliParams.push('--reset-cache')
   }
   if (config.publicPath) {
-    cliParams.push('--public-path', config.publicPath)
+    process.env.PUBLIC_PATH = config.publicPath
   }
   const onFinish = function (error?) {
     if (typeof config.onBuildFinish === 'function') {
@@ -95,6 +95,7 @@ export default async function build (_appPath: string, config: any): Promise<any
 
     const assetsDest = (config.assetsDest ? config.assetsDest : (isIos ? config.output.iosAssetsDest : config.output.androidAssetsDest)) || defaultOutputDir
     cliParams.push('--assets-dest', assetsDest)
+    fse.ensureDirSync(assetsDest)
 
     try {
       spawn(npxCmd, [

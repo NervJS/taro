@@ -21,6 +21,7 @@ process.env.TARO_ENV = 'rn'
 export function getTransformer (opt: Options = {}) {
   const transformerPath = (opt.fromRunner ?? true) ? './taroTransformer' : './transformer'
   return {
+    publicPath: process.env.PUBLIC_PATH,
     allowOptionalDependencies: true,
     asyncRequireModulePath: require.resolve('metro-runtime/src/modules/asyncRequire'),
     dynamicDepsInPackages: 'reject',
