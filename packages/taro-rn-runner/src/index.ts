@@ -95,6 +95,7 @@ export default async function build (_appPath: string, config: any): Promise<any
 
     const assetsDest = (config.assetsDest ? config.assetsDest : (isIos ? config.output.iosAssetsDest : config.output.androidAssetsDest)) || defaultOutputDir
     cliParams.push('--assets-dest', assetsDest)
+    fse.ensureDirSync(assetsDest)
 
     try {
       spawn(npxCmd, [
