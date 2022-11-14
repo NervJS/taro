@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/with-weapp",
-  "version": "3.6.0-canary.1",
+  "version": "3.5.7-alpha.11",
   "description": "taroize 之后的运行时",
   "main": "index.js",
   "scripts": {
