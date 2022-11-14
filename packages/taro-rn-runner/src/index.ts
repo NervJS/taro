@@ -75,9 +75,9 @@ export default async function build (_appPath: string, config: any): Promise<any
   } else {
     const defaultOutputDir = join(process.cwd(), config.outputRoot || 'dist')
     const defaultBundleOutput = join(defaultOutputDir, 'index.bundle')
-    const bundleOutput = config.bundleOutput ? config.bundleOutput : (isIos ? config.output.ios : config.output.android)
+    const bundleOutput = (config.bundleOutput ? config.bundleOutput : (isIos ? config.output.ios : config.output.android)) || defaultBundleOutput
     fse.ensureDirSync(dirname(bundleOutput))
-    cliParams.push('--bundle-output', bundleOutput || defaultBundleOutput)
+    cliParams.push('--bundle-output', bundleOutput)
 
     const sourcemapOutput = config.sourcemapOutput ? config.sourcemapOutput : (isIos ? config.output.iosSourcemapOutput : config.output.androidSourcemapOutput)
     if (sourcemapOutput) {
@@ -93,8 +93,8 @@ export default async function build (_appPath: string, config: any): Promise<any
       cliParams.push('--sourcemap-sources-root', sourcemapSourcesRoot)
     }
 
-    const assetsDest = config.assetsDest ? config.assetsDest : (isIos ? config.output.iosAssetsDest : config.output.androidAssetsDest)
-    cliParams.push('--assets-dest', assetsDest || defaultOutputDir)
+    const assetsDest = (config.assetsDest ? config.assetsDest : (isIos ? config.output.iosAssetsDest : config.output.androidAssetsDest)) || defaultOutputDir
+    cliParams.push('--assets-dest', assetsDest)
 
     try {
       spawn(npxCmd, [
