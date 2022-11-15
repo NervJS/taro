@@ -555,15 +555,15 @@ importers:
       '@tarojs/taro': workspace:*
       '@types/node': ^14.14.31
       better-scroll: ^1.14.1
+      change-case: ^4.1.2
       classnames: ^2.2.5
       css-loader: 3.4.2
       hls.js: ^1.1.5
-      humps: ^2.0.1
       intersection-observer: ^0.7.0
       jquery: ^3.4.1
       karmatic: ^2.1.0
       lodash: ^4.17.21
-      miniapp-types: latest
+      miniapp-types: 1.1.14
       resolve-pathname: ^3.0.0
       simulant: ^0.2.2
       style-loader: 1.3.0
@@ -587,12 +587,12 @@ importers:
       weui: registry.npmjs.org/weui/1.1.3
     devDependencies:
       '@types/node': registry.npmjs.org/@types/node/14.18.21
+      change-case: registry.npmjs.org/change-case/4.1.2
       css-loader: registry.npmjs.org/css-loader/3.4.2_webpack@4.46.0
-      humps: registry.npmjs.org/humps/2.0.1
       jquery: registry.npmjs.org/jquery/3.6.0
       karmatic: registry.npmjs.org/karmatic/2.1.0_webpack@4.46.0
       lodash: registry.npmjs.org/lodash/4.17.21
-      miniapp-types: registry.npmjs.org/miniapp-types/1.1.13
+      miniapp-types: registry.npmjs.org/miniapp-types/1.1.14
       simulant: registry.npmjs.org/simulant/0.2.2
       style-loader: registry.npmjs.org/style-loader/1.3.0_webpack@4.46.0
       ts-node: registry.npmjs.org/ts-node/10.9.1_ah2igguqgj6e7ik4ubgohitm4e
@@ -670,6 +670,9 @@ importers:
       react-native-gesture-handler: registry.npmjs.org/react-native-gesture-handler/2.5.0_ws5w265lwlgfx6ddpl3mdiooma
       react-native-svg: registry.npmjs.org/react-native-svg/12.4.3_ws5w265lwlgfx6ddpl3mdiooma
       react-test-renderer: registry.npmjs.org/react-test-renderer/18.0.0_react@18.0.0
+
+  packages/taro-components/loader:
+    specifiers: {}
 
   packages/taro-extend:
     specifiers: {}
@@ -20742,12 +20745,6 @@ packages:
       strip-url-auth: registry.npmjs.org/strip-url-auth/1.0.1
     dev: true
 
-  registry.npmjs.org/humps/2.0.1:
-    resolution: {integrity: sha512-E0eIbrFWUhwfXJmsbdjRQFQPrl5pTEoKlz163j1mTqqUnU9PgR4AgB8AIITzuB3vLBdxZXyZ9TDIrwB2OASz4g==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/humps/-/humps-2.0.1.tgz}
-    name: humps
-    version: 2.0.1
-    dev: true
-
   registry.npmjs.org/husky/8.0.1:
     resolution: {integrity: sha512-xs7/chUH/CKdOCs7Zy0Aev9e/dKOMZf3K1Az1nar3tzlv0jfqnYtu235bstsWTmXOR0EfINrPa97yy4Lz6RiKw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/husky/-/husky-8.0.1.tgz}
     name: husky
@@ -25131,10 +25128,10 @@ packages:
       webpack: registry.npmjs.org/webpack/5.69.0_esbuild@0.14.47
     dev: false
 
-  registry.npmjs.org/miniapp-types/1.1.13:
-    resolution: {integrity: sha512-OcdC7U3ih8Sdfu3jDqDSzX9dU8Lf7TIpqPRrdxBaLdcReqPm86c48E84xkqm5caOnAooWdHPriIv2rx7/saBQQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/miniapp-types/-/miniapp-types-1.1.13.tgz}
+  registry.npmjs.org/miniapp-types/1.1.14:
+    resolution: {integrity: sha512-DPndWG+z0Vno2KxjPfAIqdDcAmEs7l2goYSswAF/S3G8HsjW3dlPQpJu8yulQcdQGPuxpNC/TJ1zL3/0bBiB1Q==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/miniapp-types/-/miniapp-types-1.1.14.tgz}
     name: miniapp-types
-    version: 1.1.13
+    version: 1.1.14
     dev: true
 
   registry.npmjs.org/minimalistic-assert/1.0.1:
