@@ -2,7 +2,6 @@ name: Sync Components types
 on:
   schedule:
     - cron: '0 0 * * 6'
-    
 
 jobs:
   sync-components-types:
@@ -36,6 +35,7 @@ jobs:
           run_install: |
             - recursive: true
               args: [--frozen-lockfile, --strict-peer-dependencies]
+            - args: [--filter @tarojs/components, -D, miniapp-types@latest]
 
       - name: execute sync script
         run: |
@@ -52,4 +52,4 @@ jobs:
           labels: |
             A-typings
             A-components
-          
+

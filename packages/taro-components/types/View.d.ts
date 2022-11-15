@@ -133,7 +133,7 @@ interface ViewProps extends StandardProps {
   onFirstAppear?: CommonEventFunction
 
   /** 是否以 catch 的形式绑定 touchmove 事件
-   * @supported
+   * @supported weapp, alipay, swan, tt, qq, jd
    * @version 3.1.0+
    * @unique
    */
