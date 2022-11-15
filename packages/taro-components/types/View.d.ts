@@ -67,12 +67,6 @@ interface ViewProps extends StandardProps {
    */
   ariaLabel?: string
 
-  /** 是否以 catch 的形式绑定 touchmove 事件
-   * @supported weapp, alipay, swan, tt, qq, jd
-   * @version 3.1.0+
-   */
-  catchMove?: boolean
-
   /** 点击。
    * @supported alipay
    */
@@ -137,6 +131,13 @@ interface ViewProps extends StandardProps {
    * @supported alipay
    */
   onFirstAppear?: CommonEventFunction
+
+  /** 是否以 catch 的形式绑定 touchmove 事件
+   * @supported weapp, alipay, swan, tt, qq, jd
+   * @version 3.1.0+
+   * @unique
+   */
+  catchMove?: boolean
 }
 
 /** 视图容器
