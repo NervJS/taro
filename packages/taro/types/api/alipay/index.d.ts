@@ -3,6 +3,14 @@ import Taro from '../../index'
 declare module '../../index' {
   namespace getOpenUserInfo  {
     interface Option {
+      /** 接口调用结束的回调函数（调用成功、失败都会执行） */
+      complete?:(res: TaroGeneral.CallbackResult) => void
+      /** 接口调用失败的回调函数 */
+      fail?: (res: TaroGeneral.CallbackResult) => void
+      /** 接口调用成功的回调函数 */
+      success?: (res: SuccessCallbackResult) => void
+    }
+    interface SuccessCallbackResult {
       /** 返回一个 Object 类型的对象 res。使用 JSON.parse(res.response).response 解析 */
       response: string
     }
@@ -13,6 +21,6 @@ declare module '../../index' {
      * @supported alipay
      * @see https://docs.alipay.com/mini/api/ch8chh
      */
-    getOpenUserInfo(): Promise<getOpenUserInfo.Option>
+    getOpenUserInfo(Option: getOpenUserInfo.Option): Promise<getOpenUserInfo.SuccessCallbackResult>
   }
 }
