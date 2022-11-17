@@ -9,6 +9,8 @@ declare module '../../index' {
       filePath?: string
       /** HTTP 请求的 Header，Header 中不能设置 Referer */
       header?: TaroGeneral.IAnyObject
+      /** 超时时间，单位为毫秒 */
+      timeout?: number
       /** 是否应使用传出凭据 (cookie) 发送此请求
        * @default true
        * @supported h5
