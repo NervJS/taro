@@ -1,4 +1,6 @@
 import { chalk, isWindows } from '@tarojs/helper'
+import { parse } from 'dotenv'
+import { expand } from 'dotenv-expand'
 import * as fs from 'fs-extra'
 import * as path from 'path'
 
@@ -99,4 +101,41 @@ export function clearConsole () {
     readline.cursorTo(process.stdout, 0, 0)
     readline.clearScreenDown(process.stdout)
   }
+}
+
+export const dotenvParse = (root: string, prefixs: string | string[], mode?: string) => {
+  const prefixsArr: string[] = (Array.isArray(prefixs) ? prefixs : [prefixs]).map(prefix => prefix.trim()).filter(prefix => !!prefix)
+
+  const envFiles = new Set([
+    /** default file */ `.env`,
+    /** local file */ `.env.local`,
+  ])
+
+  if(mode) {
+    envFiles.add(/** mode file */ `.env.${mode}`)
+    envFiles.add(/** mode local file */ `.env.${mode}.local`)
+  }
+
+  let parseTemp = {}
+  const load = envPath => {
+    // file doesn'et exist
+    if(!fs.existsSync(envPath)) return
+    const env = parse(fs.readFileSync(envPath))
+    parseTemp = {
+      ...parseTemp,
+      ...env
+    }
+  }
+
+  envFiles.forEach(envPath => {
+    load(path.resolve(root, envPath))
+  })
+
+  const parsed = {}
+  Object.entries(parseTemp).forEach(([key, value]) => {
+    if(prefixsArr.some(prefix => key.startsWith(prefix))) {
+      parsed[key] = value
+    }
+  })
+  expand({ parsed })
 }

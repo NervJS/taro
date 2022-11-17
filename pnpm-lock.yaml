@@ -481,6 +481,8 @@ importers:
       babylon: ^6.18.0
       better-babel-generator: 6.26.1
       cli-highlight: ^2.1.4
+      dotenv: ^16.0.3
+      dotenv-expand: ^9.0.0
       download-git-repo: ^2.0.0
       ejs: ^2.6.1
       envinfo: ^6.0.1
@@ -520,6 +522,8 @@ importers:
       babylon: registry.npmjs.org/babylon/6.18.0
       better-babel-generator: registry.npmjs.org/better-babel-generator/6.26.1
       cli-highlight: registry.npmjs.org/cli-highlight/2.1.11
+      dotenv: registry.npmjs.org/dotenv/16.0.3
+      dotenv-expand: registry.npmjs.org/dotenv-expand/9.0.0
       download-git-repo: registry.npmjs.org/download-git-repo/2.0.0
       ejs: registry.npmjs.org/ejs/2.7.4
       envinfo: registry.npmjs.org/envinfo/6.0.1
@@ -16270,6 +16274,20 @@ packages:
     engines: {node: '>=10'}
     dependencies:
       is-obj: registry.npmjs.org/is-obj/2.0.0
+    dev: false
+
+  registry.npmjs.org/dotenv-expand/9.0.0:
+    resolution: {integrity: sha512-uW8Hrhp5ammm9x7kBLR6jDfujgaDarNA02tprvZdyrJ7MpdzD1KyrIHG4l+YoC2fJ2UcdFdNWNWIjt+sexBHJw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/dotenv-expand/-/dotenv-expand-9.0.0.tgz}
+    name: dotenv-expand
+    version: 9.0.0
+    engines: {node: '>=12'}
+    dev: false
+
+  registry.npmjs.org/dotenv/16.0.3:
+    resolution: {integrity: sha512-7GO6HghkA5fYG9TYnNxi14/7K9f5occMlp3zXAuSxn7CKCxt9xbNWG7yF8hTCSUchlfWSe3uLmlPfigevRItzQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/dotenv/-/dotenv-16.0.3.tgz}
+    name: dotenv
+    version: 16.0.3
+    engines: {node: '>=12'}
     dev: false
 
   registry.npmjs.org/download-git-repo/2.0.0:

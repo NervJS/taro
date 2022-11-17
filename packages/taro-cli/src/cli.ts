@@ -4,7 +4,7 @@ import * as minimist from 'minimist'
 import * as path from 'path'
 
 import customCommand from './commands/customCommand'
-import { getPkgVersion } from './util'
+import { dotenvParse, getPkgVersion } from './util'
 
 export default class CLI {
   appPath: string
@@ -54,6 +54,8 @@ export default class CLI {
       if (typeof args.plugin === 'string') {
         process.env.TARO_ENV = 'plugin'
       }
+
+      dotenvParse(appPath, 'TARO_' ,process.env.TARO_ENV)
 
       const kernel = new Kernel({
         appPath,
