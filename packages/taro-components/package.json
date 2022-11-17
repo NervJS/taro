@@ -53,6 +53,10 @@
     "weui": "^1.1.2"
   },
   "devDependencies": {
+    "@babel/generator": "^7.14.5",
+    "@babel/parser": "^7.14.5",
+    "@babel/traverse": "^7.14.5",
+    "@babel/types": "^7.14.5",
     "@stencil/core": "^2.18.1",
     "@stencil/react-output-target": "0.3.1",
     "@stencil/sass": "^2.0.0",
@@ -60,6 +64,7 @@
     "@types/jest": "^27.4.1",
     "@types/node": "^14.14.31",
     "change-case": "^4.1.2",
+    "csstype": "^3.1.1",
     "jquery": "^3.4.1",
     "lodash": "^4.17.21",
     "miniapp-types": "1.1.14",

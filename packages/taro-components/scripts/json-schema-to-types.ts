@@ -3,24 +3,16 @@ import * as parser from '@babel/parser'
 import traverse from '@babel/traverse'
 import * as t from '@babel/types'
 import { camelCase, paramCase } from 'change-case'
-import * as fs from 'fs'
+import fs from 'fs'
 import { flattenDeep, isEmpty, toArray, xorWith } from 'lodash'
-import * as path from 'path'
 import { format as prettify } from 'prettier'
 
-const MINI_APP_TYPES = ['weapp', 'alipay', 'swan', 'tt', 'qq', 'jd'] as const
+import { MINI_APP_TYPES } from './constants'
+import { camelCaseEnhance, getTypeFilePath, getTypesList } from './utils'
 
 const OMIT_PROPS = ['generic:simple-component', 'style', 'class']
 const catchStart = 'catch'
 const eventStart = 'on'
-
-function camelCaseEnhance (word = '', index: number) {
-  word = word.toLowerCase()
-  if (index !== 0) {
-    word = `${word[0].toUpperCase()}${word.slice(1)}`
-  }
-  return word
-}
 
 type AST = parser.ParseResult<t.File>
 type PROP_MAP = Partial<Record<typeof MINI_APP_TYPES[number], string[]>>
@@ -263,7 +255,7 @@ class GenerateTypes {
   }
 
   exec () {
-    const filePath = path.join(process.cwd(), 'types', `${this.componentName}.d.ts`)
+    const filePath = getTypeFilePath(this.componentName)
     const codeStr = fs.readFileSync(filePath, 'utf8')
     const ast = parser.parse(codeStr, {
       sourceType: 'module',
@@ -285,9 +277,8 @@ class GenerateTypes {
     fs.writeFileSync(filePath, code)
   }
 }
-const typesFiles: string[] = fs.readdirSync(path.join(process.cwd(), 'types'))
 
-typesFiles.forEach((fileName) => {
+getTypesList().forEach((fileName) => {
   const componentName = fileName.replace(/\.d\.ts$/, '')
   const generateTypes = new GenerateTypes(componentName)
   if (isEmpty(generateTypes.jsonSchemas[componentName])) {
