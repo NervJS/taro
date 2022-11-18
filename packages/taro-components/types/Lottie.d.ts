@@ -15,9 +15,9 @@ interface LottieProps extends StandardProps {
 
   /** 播放速度。正数为正向播放，负数负向播放。
    * @supported alipay
-   * @default 1
+   * @default 1.0
    */
-  speed?: string
+  speed?: number
 
   /** 循环次数。
    *

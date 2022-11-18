@@ -4,12 +4,12 @@ interface ContactButtonProps extends StandardProps {
   /** 必填。企业唯一编码，一个企业支付宝账号对应一个编码。
    * @supported alipay
    */
-  tntInstId?: string
+  tntInstId: string
 
   /** 必填。聊天窗编码，每个聊天窗的唯一编码。
    * @supported alipay
    */
-  scene?: string
+  scene: string
 
   /** 选填。咨询按钮大小，正方形设置边长（如25*25 px）。
    * @supported alipay
@@ -19,6 +19,7 @@ interface ContactButtonProps extends StandardProps {
 
   /** 选填。咨询按钮颜色，默认白底蓝色。
    * @supported alipay
+   * @default "#00A3FF"
    */
   color?: string
 
