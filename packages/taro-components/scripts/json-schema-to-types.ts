@@ -117,7 +117,7 @@ class GenerateTypes {
             if (isEmpty(astPath.node.leadingComments) || !astPath.node.leadingComments?.[0]?.value) {
               return
             }
-            const value = astPath.node.leadingComments?.[0]?.value
+            const value = astPath.node.leadingComments?.[0]?.value || ''
             const preSupportedPlatforms = value.match(/@supported\s+(.+)/)?.[1].toLowerCase().split(/\s?[,，]\s?/) || []
             const isUnique = value.indexOf('@unique') !== -1
 
@@ -168,7 +168,9 @@ class GenerateTypes {
               if (OMIT_PROPS.includes(prop)) {
                 return
               }
-              const node = t.cloneNode(astPath.node.body[0]) as t.TSPropertySignature
+              const emptySignature = { type: 'TSPropertySignature', key: t.identifier(''), leadingComments: [], kind: 'get' } as t.TSPropertySignature
+              const list = astPath.node.body as t.TSPropertySignature[]
+              const node = t.cloneNode(list[0] || emptySignature)
               node.key = t.identifier(camelCase(prop, { transform: camelCaseEnhance }))
               const platform = props[prop][0]
               const json = jsonSchemas[platform]
@@ -181,6 +183,10 @@ class GenerateTypes {
                 } else {
                   value = t.tsUnionType(enumArray.map((item) => t.tsLiteralType(t.stringLiteral(item))))
                 }
+              } else if (['boolean', 'number'].includes(type)) {
+                value = t.tsTypeReference(t.identifier(type))
+              } else if (['array'].includes(type)) {
+                value = t.tsTypeReference(t.identifier('any[]'))
               } else if (type instanceof Array) {
                 value = t.tsTypeReference(t.identifier(type.join('|')))
               } else if (tsType === '() => void') {
@@ -198,15 +204,17 @@ class GenerateTypes {
                 if (defaultValue) {
                   if (defaultValue instanceof Array) {
                     commentValue += `* @default ${defaultValue.join(',')}\n`
-                  } else if (!defaultValue.startsWith('"') && type === 'string') {
-                    commentValue += `* @default "${propSchema.defaultValue}"\n`
+                  } else if (!defaultValue.startsWith('"') && !['none', '无'].includes(defaultValue) && type === 'string') {
+                    commentValue += `* @default "${propSchema.defaultValue.replace(/(^')|('$)/ig, '')}"\n`
                   } else {
                     commentValue += `* @default ${defaultValue}\n`
                   }
                 }
+                // @ts-ignore
+                node.leadingComments[0] ||= { type: 'CommentBlock' }
                 node.leadingComments[0].value = commentValue
               }
-              astPath.node.body.push(node)
+              list.push(node)
               addedProps.push(prop)
             })
           },
