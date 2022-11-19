@@ -563,7 +563,7 @@ importers:
       jquery: ^3.4.1
       karmatic: ^2.1.0
       lodash: ^4.17.21
-      miniapp-types: 1.1.14
+      miniapp-types: 1.1.16
       resolve-pathname: ^3.0.0
       simulant: ^0.2.2
       style-loader: 1.3.0
@@ -592,7 +592,7 @@ importers:
       jquery: registry.npmjs.org/jquery/3.6.0
       karmatic: registry.npmjs.org/karmatic/2.1.0_webpack@4.46.0
       lodash: registry.npmjs.org/lodash/4.17.21
-      miniapp-types: registry.npmjs.org/miniapp-types/1.1.14
+      miniapp-types: registry.npmjs.org/miniapp-types/1.1.16
       simulant: registry.npmjs.org/simulant/0.2.2
       style-loader: registry.npmjs.org/style-loader/1.3.0_webpack@4.46.0
       ts-node: registry.npmjs.org/ts-node/10.9.1_ah2igguqgj6e7ik4ubgohitm4e
@@ -12758,7 +12758,7 @@ packages:
       mississippi: registry.npmjs.org/mississippi/3.0.0
       mkdirp: registry.npmjs.org/mkdirp/0.5.6
       move-concurrently: registry.npmjs.org/move-concurrently/1.0.1
-      promise-inflight: registry.npmjs.org/promise-inflight/1.0.1
+      promise-inflight: registry.npmjs.org/promise-inflight/1.0.1_bluebird@3.7.2
       rimraf: registry.npmjs.org/rimraf/2.7.1
       ssri: registry.npmjs.org/ssri/6.0.2
       unique-filename: registry.npmjs.org/unique-filename/1.1.1
@@ -25128,10 +25128,10 @@ packages:
       webpack: registry.npmjs.org/webpack/5.69.0_esbuild@0.14.47
     dev: false
 
-  registry.npmjs.org/miniapp-types/1.1.14:
-    resolution: {integrity: sha512-DPndWG+z0Vno2KxjPfAIqdDcAmEs7l2goYSswAF/S3G8HsjW3dlPQpJu8yulQcdQGPuxpNC/TJ1zL3/0bBiB1Q==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/miniapp-types/-/miniapp-types-1.1.14.tgz}
+  registry.npmjs.org/miniapp-types/1.1.16:
+    resolution: {integrity: sha512-fDrVi3lOAbixgTMhsSexzbUn+KdWCmMAmwl3R7qYK7vAutLOmwM2q8x7AN6Uw+7oA8yVNjQpFsZka2sWrQlfSQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/miniapp-types/-/miniapp-types-1.1.16.tgz}
     name: miniapp-types
-    version: 1.1.14
+    version: 1.1.16
     dev: true
 
   registry.npmjs.org/minimalistic-assert/1.0.1:
@@ -28951,6 +28951,19 @@ packages:
     peerDependenciesMeta:
       bluebird:
         optional: true
+
+  registry.npmjs.org/promise-inflight/1.0.1_bluebird@3.7.2:
+    resolution: {integrity: sha512-6zWPyEOFaQBJYcGMHBKTKJ3u6TBsnMFOIZSa6ce1e/ZrrsOlnHRHbabMjLiBYKp+n44X9eUI6VUPaukCXHuG4g==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/promise-inflight/-/promise-inflight-1.0.1.tgz}
+    id: registry.npmjs.org/promise-inflight/1.0.1
+    name: promise-inflight
+    version: 1.0.1
+    peerDependencies:
+      bluebird: '*'
+    peerDependenciesMeta:
+      bluebird:
+        optional: true
+    dependencies:
+      bluebird: registry.npmjs.org/bluebird/3.7.2
 
   registry.npmjs.org/promise-polyfill/7.1.2:
     resolution: {integrity: sha512-FuEc12/eKqqoRYIGBrUptCBRhobL19PS2U31vMNTfyck1FxPyMfgsXyW4Mav85y/ZN1hop3hOwRlUDok23oYfQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/promise-polyfill/-/promise-polyfill-7.1.2.tgz}
