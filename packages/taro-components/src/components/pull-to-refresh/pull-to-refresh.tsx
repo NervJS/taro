@@ -282,7 +282,9 @@ export class PullToRefresh implements ComponentInterface {
                 <div />
               </div>
             )}
-            <slot />
+            <taro-pull-to-refresh-content>
+              <slot />
+            </taro-pull-to-refresh-content>
           </div>
         </div>
       )
