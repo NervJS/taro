@@ -1,22 +1,13 @@
 {
   "presets": [
     [
-      "@babel/preset-env",
+      "taro",
       {
-        "modules": false,
-        "targets": {
-          "ios": "9",
-          "android": "4.4"
-        }
-      }
-    ],
-    [
-      "@babel/preset-typescript",
-      {
-        "allExtensions": true,
-        "isTSX": true
+        "framework": "vue3",
+        "ts": true,
+        "hot": false,
+        "modules": false
       }
     ]
-  ],
-  "plugins": ["@babel/plugin-transform-runtime"]
+  ]
 }

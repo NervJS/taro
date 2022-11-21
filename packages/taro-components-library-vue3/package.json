@@ -17,10 +17,8 @@
   "devDependencies": {
     "@babel/cli": "^7.14.5",
     "@babel/core": "^7.14.5",
-    "@babel/plugin-transform-runtime": "^7.14.5",
-    "@babel/preset-env": "^7.14.5",
-    "@babel/preset-typescript": "^7.14.5",
     "@types/node": "^14.14.31",
+    "babel-preset-taro": "workspace:*",
     "typescript": "^4.7.4",
     "vue": "^3.0.0"
   }
