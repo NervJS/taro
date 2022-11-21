@@ -46,15 +46,16 @@ interface CommentDetailProps extends StandardProps {
    */
   onDelete?: CommonEventFunction
 }
-
 namespace CommentDetailProps {
   interface ICommentParam {
     /** 被点赞的文章的 id，与 path 参数一一对应
      * @example "20200101"
      */
     snid: string
+
     /** 文章标题 */
     title: string
+
     /** 智能小程序内页链接，最长不能超过 194 字符
      * @example "/pages/index/index"
      */

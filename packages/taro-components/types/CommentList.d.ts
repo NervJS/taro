@@ -66,15 +66,16 @@ interface CommentListProps extends StandardProps {
    */
   onViewMore?: CommonEventFunction
 }
-
 namespace CommentListProps {
   interface ICommentParam {
     /** 被点赞的文章的 id，与 path 参数一一对应
      * @example "20200101"
      */
     snid: string
+
     /** 文章标题 */
     title: string
+
     /** 智能小程序内页链接，最长不能超过 194 字符
      * @example "/pages/index/index"
      */
@@ -84,29 +85,31 @@ namespace CommentListProps {
      */
     images?: string[]
   }
-
   interface IToolbarConfig {
     /** 输入框提示文字 */
     placeholder?: string
+
     /** 显示的互动模块，对应默认值分别是：评论数、点赞、收藏、分享
      * @default ['comment', 'like', 'favor', 'share']
      */
     moduleList?: string
+
     /** 若 moduleList 里配置了 share 模块，该参数为必填 */
     share?: IShare
   }
-
   interface IShare {
     /** 分享标题 */
     title: string
+
     /** 分享内容 */
     content?: string
+
     /** 分享图标 */
     imageUrl?: string
+
     /** 页面 path ，必须是以 / 开头的完整路径，如果 path 中参数包含中文字符，需对中文字符进行编码 */
     path?: string
   }
-
   interface IViewMoreStyle {
     /** 『全部 xx 条』的字体颜色，默认为视觉提供色号，开发者可传入自定义色号
      * @default "#3388ff"
