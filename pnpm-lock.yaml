@@ -549,15 +549,19 @@ importers:
 
   packages/taro-components:
     specifiers:
+      '@babel/generator': ^7.14.5
+      '@babel/parser': ^7.14.5
+      '@babel/traverse': ^7.14.5
+      '@babel/types': ^7.14.5
       '@stencil/core': ~2.13.0
       '@stencil/sass': 1.5.2
       '@tarojs/router': workspace:*
       '@tarojs/taro': workspace:*
       '@types/node': ^14.14.31
-      better-scroll: ^1.14.1
       change-case: ^4.1.2
       classnames: ^2.2.5
       css-loader: 3.4.2
+      csstype: ^3.1.1
       hls.js: ^1.1.5
       intersection-observer: ^0.7.0
       jquery: ^3.4.1
@@ -574,11 +578,8 @@ importers:
       weui: ^1.1.2
       workbox-build: 4.3.1
     dependencies:
-      '@stencil/core': registry.npmjs.org/@stencil/core/2.13.0
-      '@stencil/sass': registry.npmjs.org/@stencil/sass/1.5.2_@stencil+core@2.13.0
       '@tarojs/router': link:../taro-router
       '@tarojs/taro': link:../taro
-      better-scroll: registry.npmjs.org/better-scroll/1.15.2
       classnames: registry.npmjs.org/classnames/2.3.1
       hls.js: registry.npmjs.org/hls.js/1.1.5
       intersection-observer: registry.npmjs.org/intersection-observer/0.7.0
@@ -586,9 +587,16 @@ importers:
       swiper: registry.npmjs.org/swiper/6.8.0
       weui: registry.npmjs.org/weui/1.1.3
     devDependencies:
+      '@babel/generator': registry.npmjs.org/@babel/generator/7.18.2
+      '@babel/parser': registry.npmjs.org/@babel/parser/7.18.5
+      '@babel/traverse': registry.npmjs.org/@babel/traverse/7.18.5
+      '@babel/types': registry.npmjs.org/@babel/types/7.18.4
+      '@stencil/core': registry.npmjs.org/@stencil/core/2.13.0
+      '@stencil/sass': registry.npmjs.org/@stencil/sass/1.5.2_@stencil+core@2.13.0
       '@types/node': registry.npmjs.org/@types/node/14.18.21
       change-case: registry.npmjs.org/change-case/4.1.2
       css-loader: registry.npmjs.org/css-loader/3.4.2_webpack@4.46.0
+      csstype: registry.npmjs.org/csstype/3.1.1
       jquery: registry.npmjs.org/jquery/3.6.0
       karmatic: registry.npmjs.org/karmatic/2.1.0_webpack@4.46.0
       lodash: registry.npmjs.org/lodash/4.17.21
@@ -1839,7 +1847,7 @@ packages:
     engines: {node: '>=6.9.0'}
     dependencies:
       '@babel/code-frame': registry.npmjs.org/@babel/code-frame/7.16.7
-      '@babel/generator': registry.npmjs.org/@babel/generator/7.17.10
+      '@babel/generator': registry.npmjs.org/@babel/generator/7.18.2
       '@babel/helper-module-transforms': registry.npmjs.org/@babel/helper-module-transforms/7.18.0
       '@babel/helpers': registry.npmjs.org/@babel/helpers/7.12.1
       '@babel/parser': registry.npmjs.org/@babel/parser/7.18.5
@@ -4813,7 +4821,7 @@ packages:
     engines: {node: '>=6.9.0'}
     dependencies:
       '@babel/code-frame': registry.npmjs.org/@babel/code-frame/7.16.7
-      '@babel/generator': registry.npmjs.org/@babel/generator/7.17.10
+      '@babel/generator': registry.npmjs.org/@babel/generator/7.18.2
       '@babel/helper-environment-visitor': registry.npmjs.org/@babel/helper-environment-visitor/7.18.2
       '@babel/helper-function-name': registry.npmjs.org/@babel/helper-function-name/7.17.9
       '@babel/helper-hoist-variables': registry.npmjs.org/@babel/helper-hoist-variables/7.16.7
@@ -7565,7 +7573,7 @@ packages:
     version: 2.13.0
     engines: {node: '>=12.10.0', npm: '>=6.0.0'}
     hasBin: true
-    dev: false
+    dev: true
 
   registry.npmjs.org/@stencil/sass/1.5.2_@stencil+core@2.13.0:
     resolution: {integrity: sha512-nJ93pUSylsGsMX0eLmhxh1oEljcUjj5mYjhB9ziCdoaydAdjukrUoqDCC7tdVbOcBo2hKptQyWqCtETnBGYsXQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@stencil/sass/-/sass-1.5.2.tgz}
@@ -7576,7 +7584,7 @@ packages:
       '@stencil/core': '>=1.0.2'
     dependencies:
       '@stencil/core': registry.npmjs.org/@stencil/core/2.13.0
-    dev: false
+    dev: true
 
   registry.npmjs.org/@svgr/babel-plugin-add-jsx-attribute/4.2.0:
     resolution: {integrity: sha512-j7KnilGyZzYr/jhcrSYS3FGWMZVaqyCG0vzMCwzvei0coIkczuYMcniK07nI0aHJINciujjH11T72ICW5eL5Ig==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@svgr/babel-plugin-add-jsx-attribute/-/babel-plugin-add-jsx-attribute-4.2.0.tgz}
@@ -8490,7 +8498,7 @@ packages:
     dependencies:
       '@types/prop-types': registry.npmjs.org/@types/prop-types/15.7.5
       '@types/scheduler': registry.npmjs.org/@types/scheduler/0.16.2
-      csstype: registry.npmjs.org/csstype/3.1.0
+      csstype: registry.npmjs.org/csstype/3.1.1
     dev: true
 
   registry.npmjs.org/@types/request/2.48.8:
@@ -12758,7 +12766,7 @@ packages:
       mississippi: registry.npmjs.org/mississippi/3.0.0
       mkdirp: registry.npmjs.org/mkdirp/0.5.6
       move-concurrently: registry.npmjs.org/move-concurrently/1.0.1
-      promise-inflight: registry.npmjs.org/promise-inflight/1.0.1_bluebird@3.7.2
+      promise-inflight: registry.npmjs.org/promise-inflight/1.0.1
       rimraf: registry.npmjs.org/rimraf/2.7.1
       ssri: registry.npmjs.org/ssri/6.0.2
       unique-filename: registry.npmjs.org/unique-filename/1.1.1
@@ -15307,10 +15315,10 @@ packages:
     version: 2.6.20
     dev: true
 
-  registry.npmjs.org/csstype/3.1.0:
-    resolution: {integrity: sha512-uX1KG+x9h5hIJsaKR9xHUeUraxf8IODOwq9JLNPq6BwB04a/xgpq3rcx47l5BZu5zBPlgD342tdke3Hom/nJRA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/csstype/-/csstype-3.1.0.tgz}
+  registry.npmjs.org/csstype/3.1.1:
+    resolution: {integrity: sha512-DJR/VvkAvSZW9bTouZue2sSxDwdTN92uHjqeKVm+0dAqdfNykRzQ95tay8aXMBAAPpUiq4Qcug2L7neoRh2Egw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/csstype/-/csstype-3.1.1.tgz}
     name: csstype
-    version: 3.1.0
+    version: 3.1.1
     dev: true
 
   registry.npmjs.org/cuint/0.2.2:
@@ -28951,19 +28959,6 @@ packages:
     peerDependenciesMeta:
       bluebird:
         optional: true
-
-  registry.npmjs.org/promise-inflight/1.0.1_bluebird@3.7.2:
-    resolution: {integrity: sha512-6zWPyEOFaQBJYcGMHBKTKJ3u6TBsnMFOIZSa6ce1e/ZrrsOlnHRHbabMjLiBYKp+n44X9eUI6VUPaukCXHuG4g==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/promise-inflight/-/promise-inflight-1.0.1.tgz}
-    id: registry.npmjs.org/promise-inflight/1.0.1
-    name: promise-inflight
-    version: 1.0.1
-    peerDependencies:
-      bluebird: '*'
-    peerDependenciesMeta:
-      bluebird:
-        optional: true
-    dependencies:
-      bluebird: registry.npmjs.org/bluebird/3.7.2
 
   registry.npmjs.org/promise-polyfill/7.1.2:
     resolution: {integrity: sha512-FuEc12/eKqqoRYIGBrUptCBRhobL19PS2U31vMNTfyck1FxPyMfgsXyW4Mav85y/ZN1hop3hOwRlUDok23oYfQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/promise-polyfill/-/promise-polyfill-7.1.2.tgz}
