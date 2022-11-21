@@ -30,7 +30,7 @@ interface InputProps extends StandardProps, FormItemProps {
 
   /** 指定 placeholder 的样式类
    * @default "input-placeholder"
-   * @supported weapp, alipay, swan, qq, jd
+   * @supported weapp, alipay, swan, tt, qq, jd
    */
   placeholderClass?: string
 
@@ -77,7 +77,7 @@ interface InputProps extends StandardProps, FormItemProps {
 
   /** 点击键盘右下角按钮时是否保持键盘不收起
    * @default false
-   * @supported weapp, alipay, swan, qq, jd
+   * @supported weapp, alipay, swan, tt, qq, jd
    */
   confirmHold?: boolean
 
@@ -106,7 +106,7 @@ interface InputProps extends StandardProps, FormItemProps {
 
   /** focus 时，点击页面的时候不收起键盘
    * @default false
-   * @supported weapp
+   * @supported weapp, tt
    */
   holdKeyboard?: boolean
 
