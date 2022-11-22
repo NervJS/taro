@@ -66,6 +66,39 @@
 | `updateHeight`   | --          |             | `(height: number, columnId: string, needRevise?: boolean \| undefined) => void` | `undefined` |
 
 
+## Methods
+
+### `handleMoveEnd(clientY: number) => Promise<void>`
+
+
+
+#### Returns
+
+Type: `Promise<void>`
+
+
+
+### `handleMoveStart(clientY: number) => Promise<void>`
+
+
+
+#### Returns
+
+Type: `Promise<void>`
+
+
+
+### `handleMoving(clientY: number) => Promise<void>`
+
+
+
+#### Returns
+
+Type: `Promise<void>`
+
+
+
+
 ## Dependencies
 
 ### Used by

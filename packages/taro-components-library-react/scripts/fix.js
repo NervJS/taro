@@ -25,6 +25,12 @@ if (fs.existsSync(componentsPath)) {
     code = code.replace(/\(([^,)]+)[^;]*/ig, '($1, undefined, manipulatePropsFunction)')
   }
 
+  if (!code.includes('Fragment')) {
+    const comps = ['Block', 'CustomWrapper', 'Slot']
+    code = code.replace('/* auto-generated react proxies */', `/* auto-generated react proxies */\nimport { Fragment } from 'react'`)
+    code = code.replace(new RegExp(`export const (${comps.join('|')}) = \\/\\*\\@__PURE__\\*\\/createReactComponent.*`, 'ig'), 'export const $1 = Fragment;')
+  }
+
   fs.writeFileSync(componentsPath, code)
 }
 

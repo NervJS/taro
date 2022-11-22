@@ -34,9 +34,13 @@ export interface IConfig {
   }
 }
 
+let isBuildH5
+
 export default (ctx: IPluginContext, config: IConfig = {}) => {
   const { framework } = ctx.initialConfig
   if (framework !== 'vue3') return
+
+  isBuildH5 = process.env.TARO_ENV === 'h5'
 
   ctx.modifyWebpackChain(({ chain, data }) => {
     // 通用
@@ -76,6 +80,11 @@ export default (ctx: IPluginContext, config: IConfig = {}) => {
       const prebundleOptions = compiler.prebundle
       prebundleOptions.include ||= []
       prebundleOptions.include = prebundleOptions.include.concat(deps)
+      prebundleOptions.exclude ||= []
+      if (!isBuildH5) {
+        // Note: 当前小程序 prebundle 引入模式下，预编译 vue 会导致 @tarojs/runtime 多次引入，找不到页面实例
+        prebundleOptions.exclude.push('vue')
+      }
 
       const taroVue3Plugin = {
         name: 'taroVue3Plugin',

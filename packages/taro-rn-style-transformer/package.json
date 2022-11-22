@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/rn-style-transformer",
-  "version": "3.6.0-canary.0",
+  "version": "3.6.0-canary.3",
   "description": "提供Taro RN 统一处理样式文件能力",
   "main": "dist/index.js",
   "scripts": {
@@ -23,9 +23,11 @@
     "npm": ">=6.0.0"
   },
   "dependencies": {
+    "@babel/core": "^7.14.5",
     "@tarojs/helper": "workspace:*",
     "fbjs": "^2.0.0",
     "less": "^3.12.2",
+    "metro-react-native-babel-transformer": "^0.72.1",
     "postcss-import": "^14.0.0",
     "postcss-pxtransform": "workspace:*",
     "postcss-reporter": "^7.0.5",

@@ -147,7 +147,7 @@ export function createPageConfig (component: any, pageName?: string, data?: Reco
 
       // 初始化当前页面的上下文信息
       if (process.env.TARO_ENV !== 'h5') {
-        window.trigger(CONTEXT_ACTIONS.INIT, this.$taroPath)
+        window.trigger(CONTEXT_ACTIONS.INIT, $taroPath)
       }
 
       const mount = () => {
