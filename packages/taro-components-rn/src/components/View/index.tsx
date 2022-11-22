@@ -28,6 +28,9 @@ const _View: React.ForwardRefExoticComponent<_ViewProps & React.RefAttributes<an
     <View
       ref={ref}
       style={props.style}
+      // android机器上，当该View仅仅只是布局时，如果不设置为false，可能会在编译时时该View被优化掉，从而导致点击事件失效 https://reactnative.dev/docs/view#collapsable-android
+      // 是否包含onResponderStart表示是否是从ClickableSimplified包装带有触摸事件
+      collapsable={!!props['onResponderStart']}
       {...props}
     >
       {child}

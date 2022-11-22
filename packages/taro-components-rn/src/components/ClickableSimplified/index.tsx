@@ -177,8 +177,6 @@ export default function <P extends Record<string, any>>(WrappedComponent: React.
         // onTouchMove,
         // onTouchCancel,
         onTouchEnd,
-        // android机器上，当该View仅仅只是布局时，如果不设置为false，可能会在编译时时该View被优化掉，从而导致点击事件失效 https://reactnative.dev/docs/view#collapsable-android
-        collapsable = false, 
         // 当View绑定了onClick事件时,该View应该就是一个无障碍可识别元素
         accessible = true
       } = this.props
@@ -202,7 +200,6 @@ export default function <P extends Record<string, any>>(WrappedComponent: React.
       return (
         <WrappedComponent
           ref={this.$ref}
-          collapsable={collapsable}
           accessible={accessible}
           {...omit(this.props, [
             'style',
