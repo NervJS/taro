@@ -63,7 +63,7 @@ export default class CLI {
         plugins: []
       })
       kernel.optsPlugins ||= []
-      dotenvParse(appPath, kernel.config.initialConfig.envPrefix, process.env.NODE_ENV)
+      dotenvParse(appPath, kernel.config?.initialConfig.envPrefix, process.env.NODE_ENV)
 
       // 针对不同的内置命令注册对应的命令插件
       if (commandPlugins.includes(targetPlugin)) {
