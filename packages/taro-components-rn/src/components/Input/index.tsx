@@ -267,7 +267,7 @@ const _Input = (props: InputProps) => {
           padding: 0
         },
         style,
-        _multiline && _autoHeight && { height: Math.max(35, _height) }
+        _multiline && _autoHeight && { height: Math.max(style?.minHeight||35, _height) }
       ]}
     />
   )
