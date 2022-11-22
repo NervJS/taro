@@ -103,7 +103,7 @@ export function clearConsole () {
   }
 }
 
-export const dotenvParse = (root: string, prefixs: string | string[], mode?: string) => {
+export const dotenvParse = (root: string, prefixs: string | string[] = ['TARO_'], mode?: string) => {
   const prefixsArr: string[] = (Array.isArray(prefixs) ? prefixs : [prefixs]).map(prefix => prefix.trim()).filter(prefix => !!prefix)
 
   const envFiles = new Set([

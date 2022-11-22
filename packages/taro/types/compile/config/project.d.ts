@@ -49,6 +49,7 @@ export interface IProjectBaseConfig {
   cache?: ICache
   logger?: ILogger
   enableSourceMap?: boolean
+  envPrefix?: string | string[] // 自定义环境变量前缀
   /**
    * 编译开始
    */
