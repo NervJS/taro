@@ -5,11 +5,12 @@ interface NativeSlotProps {
    * @default none
    * @supported weapp, swan, alipay, tt, jd, qq
    */
-  name?: string,
+  name?: string
 }
 
-/** native-slot 插槽
+/** 编译的原生组件支持使用 slot 插槽
  * @supported weapp, swan, alipay, tt, jd, qq
+ * @version 3.5.7+
  * @example
  * ```tsx
  * import { NativeSlot, View } from '@tarojs/components'
@@ -24,6 +25,7 @@ interface NativeSlotProps {
  *   }
  * }
  * ```
+ * @see https://github.com/NervJS/taro/pull/12627
  */
 declare const NativeSlot: ComponentType<NativeSlotProps>
 
