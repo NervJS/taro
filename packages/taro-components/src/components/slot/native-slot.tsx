@@ -3,11 +3,11 @@ import { Component, ComponentInterface, h, Host } from '@stencil/core'
 import { notSupport } from '../../utils'
 
 @Component({
-  tag: 'taro-slot-core'
+  tag: 'taro-native-slot-core'
 })
-export class Slot implements ComponentInterface {
+export class NativeSlot implements ComponentInterface {
   componentDidLoad () {
-    notSupport('Slot', this)
+    notSupport('NativeSlot', this)
   }
 
   render () {
