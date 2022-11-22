@@ -115,6 +115,7 @@ export class ScrollView implements ComponentInterface {
   @Listen('scroll', { capture: true })
   handleScroll (e: Event) {
     if (e instanceof CustomEvent) return
+    e.stopPropagation()
 
     const {
       scrollLeft,
@@ -133,7 +134,6 @@ export class ScrollView implements ComponentInterface {
       scrollHeight,
       scrollWidth
     })
-    e.cancelBubble = true
   }
 
   componentDidLoad () {

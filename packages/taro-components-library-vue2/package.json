@@ -1,12 +1,12 @@
 {
   "name": "@tarojs/components-library-vue2",
-  "version": "3.6.0-canary.0",
+  "version": "3.6.0-canary.3",
   "description": "Taro 组件库 Vue2 版本库",
   "private": true,
   "main": "index.js",
   "scripts": {
     "prebuild:ci": "node ./scripts/fix.js",
-    "build:ci": "babel src --extensions=.ts --out-dir ../taro-components/dist/vue2"
+    "build:ci": "babel src --extensions=.ts,.tsx --out-dir ../taro-components/dist/vue2"
   },
   "keywords": [],
   "author": "",
@@ -17,10 +17,8 @@
   "devDependencies": {
     "@babel/cli": "^7.14.5",
     "@babel/core": "^7.14.5",
-    "@babel/plugin-transform-runtime": "^7.14.5",
-    "@babel/preset-env": "^7.14.5",
-    "@babel/preset-typescript": "^7.14.5",
     "@types/node": "^14.14.31",
+    "babel-preset-taro": "workspace:*",
     "typescript": "^4.7.4",
     "vue": "^2.6.11"
   }

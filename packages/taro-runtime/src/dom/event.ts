@@ -33,6 +33,9 @@ export class TaroEvent {
 
   public defaultPrevented = false
 
+  // Mouse Event botton property, it's used in 3rd lib, like react-router. default 0 in general
+  public button = 0
+
   // timestamp can either be hi-res ( relative to page load) or low-res (relative to UNIX epoch)
   // here use hi-res timestamp
   public timeStamp = Date.now()

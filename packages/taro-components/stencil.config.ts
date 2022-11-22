@@ -63,18 +63,16 @@ export const config: Config = {
       ENABLE_CONTAINS: true,
       'ts-jest': {
         diagnostics: false,
-        tsconfig: {
-          allowJs: true,
-          jsx: 'react',
-          target: 'ES6'
-        }
+        tsconfig: '<rootDir>/__tests__/tsconfig.test.json'
       }
     },
     moduleNameMapper: {
       '(\\.(css|less|sass|scss))|weui': '<rootDir>/__mocks__/styleMock.js',
       '\\.(gif|ttf|eot|svg)$': '<rootDir>/__mocks__/fileMock.js'
     },
+    setupFiles: ['<rootDir>/__tests__/setup.ts'],
     testRegex: '(\\.|/)(e2e|spec|test|tt)\\.[jt]sx?$',
+    // timers: 'fake',
     transform: {
       '^.+\\.(ts|tsx|js|jsx|css)$': '<rootDir>/node_modules/@stencil/core/testing/jest-preprocessor.js',
     },

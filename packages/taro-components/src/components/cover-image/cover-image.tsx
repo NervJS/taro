@@ -29,8 +29,8 @@ export class CoverImage implements ComponentInterface {
     })
   }
 
-  imageOnError () {
-    this.onError.emit()
+  imageOnError (e: Event) {
+    this.onError.emit(e)
   }
 
   render () {

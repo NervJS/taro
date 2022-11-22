@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/webpack5-runner",
-  "version": "3.6.0-canary.0",
+  "version": "3.6.0-canary.3",
   "description": "Taro app runner",
   "main": "index.js",
   "scripts": {
@@ -61,7 +61,7 @@
     "fs-extra": "^8.0.1",
     "html-minifier": "^4.0.0",
     "html-webpack-plugin": "5.5.0",
-    "jsdom": "^15.2.1",
+    "jsdom": "^16.4.0",
     "less": "^4.1.0",
     "less-loader": "10.2.0",
     "loader-utils": "^1.2.3",

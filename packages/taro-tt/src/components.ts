@@ -115,5 +115,13 @@ export const components = {
     bindRefund: _empty,
     bindApplyRefund: _empty,
     bindError: _empty
+  },
+  AwemeData: {
+    'aweme-id': _empty,
+    type: singleQuote('avatar'),
+    'disable-default': _empty,
+    'default-avatar': _empty,
+    'default-text': _empty,
+    bindError: _empty
   }
 }
