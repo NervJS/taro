@@ -63,7 +63,16 @@ export default class CLI {
         plugins: []
       })
       kernel.optsPlugins ||= []
-      dotenvParse(appPath, kernel.config?.initialConfig.envPrefix, process.env.NODE_ENV)
+
+      // 将自定义的 变量 添加到 config.env 中，实现 definePlugin 字段定义
+      const initialConfig = kernel.config?.initialConfig
+      if(initialConfig) {
+        const expandEnv = dotenvParse(appPath, initialConfig.envPrefix, process.env.NODE_ENV)
+        initialConfig.env = {
+          ...initialConfig.env,
+          ...expandEnv
+        }
+      }
 
       // 针对不同的内置命令注册对应的命令插件
       if (commandPlugins.includes(targetPlugin)) {
