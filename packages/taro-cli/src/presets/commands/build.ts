@@ -10,6 +10,7 @@ export default (ctx: IPluginContext) => {
       '--type [typeName]': 'Build type, weapp/swan/alipay/tt/qq/jd/h5/rn',
       '--watch': 'Watch mode',
       '--env [env]': 'Value for process.env.NODE_ENV',
+      '--mode [mode]': 'Value of dotenv extname',
       '-p, --port [port]': 'Specified port',
       '--platform': '[rn] Specific React-Native build target: android / ios, android is default value',
       '--reset-cache': '[rn] Clear transform cache',
@@ -30,7 +31,8 @@ export default (ctx: IPluginContext) => {
       'taro build --type weapp --blended',
       'taro build native-components --type weapp',
       'taro build --plugin weapp --watch',
-      'taro build --plugin weapp'
+      'taro build --plugin weapp',
+      'taro build --mode prepare'
     ],
     async fn (opts) {
       const { options, config, _ } = opts
