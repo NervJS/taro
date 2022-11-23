@@ -67,7 +67,7 @@ export default class CLI {
       // 将自定义的 变量 添加到 config.env 中，实现 definePlugin 字段定义
       const initialConfig = kernel.config?.initialConfig
       if(initialConfig) {
-        const expandEnv = dotenvParse(appPath, initialConfig.envPrefix, args.env || process.env.NODE_ENV)
+        const expandEnv = dotenvParse(appPath, initialConfig.envPrefix, args.mode || process.env.NODE_ENV)
         initialConfig.env = {
           ...initialConfig.env,
           ...expandEnv
