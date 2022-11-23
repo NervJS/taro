@@ -860,7 +860,7 @@ importers:
       babel-loader: 8.2.1
       babel-preset-taro: workspace:*
       copy-webpack-plugin: 5.1.2
-      css-loader: ^6.7.1
+      css-loader: 5.2.7
       csso-webpack-plugin: 2.0.0-beta.1
       file-loader: ^6.0.0
       fs-extra: ^8.0.1
@@ -879,7 +879,7 @@ importers:
       postcss: ^8.4.18
       postcss-html-transform: workspace:*
       postcss-import: ^14.0.0
-      postcss-loader: ^7.0.1
+      postcss-loader: 4.3.0
       postcss-pxtransform: workspace:*
       postcss-url: ^10.1.3
       regenerator-runtime: '0.11'
@@ -920,7 +920,7 @@ importers:
       babel-loader: registry.npmjs.org/babel-loader/8.2.1_p4a4vpdmvzvrx3lnpkqvj5nmla
       babel-preset-taro: link:../babel-preset-taro
       copy-webpack-plugin: registry.npmjs.org/copy-webpack-plugin/5.1.2_webpack@4.46.0
-      css-loader: registry.npmjs.org/css-loader/6.7.1_webpack@4.46.0
+      css-loader: registry.npmjs.org/css-loader/5.2.7_webpack@4.46.0
       csso-webpack-plugin: registry.npmjs.org/csso-webpack-plugin/2.0.0-beta.1
       file-loader: registry.npmjs.org/file-loader/6.2.0_webpack@4.46.0
       fs-extra: registry.npmjs.org/fs-extra/8.1.0
@@ -938,7 +938,7 @@ importers:
       ora: registry.npmjs.org/ora/4.0.3
       postcss-html-transform: link:../postcss-html-transform
       postcss-import: registry.npmjs.org/postcss-import/14.1.0_postcss@8.4.18
-      postcss-loader: registry.npmjs.org/postcss-loader/7.0.1_dhonik3q6ff6ozbzdscnovq2ka
+      postcss-loader: registry.npmjs.org/postcss-loader/4.3.0_dhonik3q6ff6ozbzdscnovq2ka
       postcss-pxtransform: link:../postcss-pxtransform
       postcss-url: registry.npmjs.org/postcss-url/10.1.3_postcss@8.4.18
       regenerator-runtime: registry.npmjs.org/regenerator-runtime/0.11.1
@@ -960,7 +960,7 @@ importers:
     devDependencies:
       '@types/webpack': registry.npmjs.org/@types/webpack/4.41.32
       postcss: registry.npmjs.org/postcss/8.4.18
-      vue-loader: registry.npmjs.org/vue-loader/15.9.8_wp7nvls7fysseamnft7sdne2jm
+      vue-loader: registry.npmjs.org/vue-loader/15.9.8_izcuroqdza55ucckmxgxii63uq
       webpack-merge: registry.npmjs.org/webpack-merge/4.2.2
 
   packages/taro-plugin-html:
@@ -1516,7 +1516,7 @@ importers:
       autoprefixer: ^9.7.4
       babel-loader: 8.2.1
       copy-webpack-plugin: 5.1.2
-      css-loader: ^6.7.1
+      css-loader: 5.2.7
       csso-webpack-plugin: 2.0.0-beta.1
       detect-port: ^1.3.0
       file-loader: ^6.0.0
@@ -1530,11 +1530,11 @@ importers:
       ora: 4.0.3
       postcss: ^8.4.18
       postcss-html-transform: workspace:*
-      postcss-import: ^14.0.0
-      postcss-loader: ^7.0.1
+      postcss-import: 12.0.1
+      postcss-loader: 4.3.0
       postcss-plugin-constparse: workspace:*
       postcss-pxtransform: workspace:*
-      postcss-url: ^10.1.3
+      postcss-url: 8.0.0
       resolve: ^1.22.0
       resolve-url-loader: 3.1.3
       sass: 1.50.0
@@ -1560,7 +1560,7 @@ importers:
       autoprefixer: registry.npmjs.org/autoprefixer/9.8.8
       babel-loader: registry.npmjs.org/babel-loader/8.2.1_p4a4vpdmvzvrx3lnpkqvj5nmla
       copy-webpack-plugin: registry.npmjs.org/copy-webpack-plugin/5.1.2_webpack@4.46.0
-      css-loader: registry.npmjs.org/css-loader/6.7.1_webpack@4.46.0
+      css-loader: registry.npmjs.org/css-loader/5.2.7_webpack@4.46.0
       csso-webpack-plugin: registry.npmjs.org/csso-webpack-plugin/2.0.0-beta.1
       detect-port: registry.npmjs.org/detect-port/1.3.0
       file-loader: registry.npmjs.org/file-loader/6.2.0_webpack@4.46.0
@@ -1573,11 +1573,11 @@ importers:
       open: registry.npmjs.org/open/7.0.2
       ora: registry.npmjs.org/ora/4.0.3
       postcss-html-transform: link:../postcss-html-transform
-      postcss-import: registry.npmjs.org/postcss-import/14.1.0_postcss@8.4.18
-      postcss-loader: registry.npmjs.org/postcss-loader/7.0.1_dhonik3q6ff6ozbzdscnovq2ka
+      postcss-import: registry.npmjs.org/postcss-import/12.0.1
+      postcss-loader: registry.npmjs.org/postcss-loader/4.3.0_dhonik3q6ff6ozbzdscnovq2ka
       postcss-plugin-constparse: link:../postcss-plugin-constparse
       postcss-pxtransform: link:../postcss-pxtransform
-      postcss-url: registry.npmjs.org/postcss-url/10.1.3_postcss@8.4.18
+      postcss-url: registry.npmjs.org/postcss-url/8.0.0
       resolve: registry.npmjs.org/resolve/1.22.1
       resolve-url-loader: registry.npmjs.org/resolve-url-loader/3.1.3
       sass: registry.npmjs.org/sass/1.50.0
@@ -1595,7 +1595,7 @@ importers:
       '@types/webpack': registry.npmjs.org/@types/webpack/4.41.32
       '@types/webpack-dev-server': registry.npmjs.org/@types/webpack-dev-server/3.11.6
       postcss: registry.npmjs.org/postcss/8.4.18
-      vue-loader: registry.npmjs.org/vue-loader/15.9.8_wp7nvls7fysseamnft7sdne2jm
+      vue-loader: registry.npmjs.org/vue-loader/15.9.8_izcuroqdza55ucckmxgxii63uq
       webpack: registry.npmjs.org/webpack/4.46.0
       webpack-merge: registry.npmjs.org/webpack-merge/4.2.2
 
@@ -5342,7 +5342,7 @@ packages:
       getenv: registry.npmjs.org/getenv/1.0.0
       glob: registry.npmjs.org/glob/7.1.6
       resolve-from: registry.npmjs.org/resolve-from/5.0.0
-      semver: registry.npmjs.org/semver/7.3.7
+      semver: registry.npmjs.org/semver/7.3.8
       slash: registry.npmjs.org/slash/3.0.0
       xcode: registry.npmjs.org/xcode/3.0.1
       xml2js: registry.npmjs.org/xml2js/0.4.23
@@ -6998,7 +6998,7 @@ packages:
     version: 1.1.1
     dependencies:
       '@gar/promisify': registry.npmjs.org/@gar/promisify/1.1.3
-      semver: registry.npmjs.org/semver/7.3.7
+      semver: registry.npmjs.org/semver/7.3.8
 
   registry.npmjs.org/@npmcli/move-file/1.1.2:
     resolution: {integrity: sha512-1SUf/Cg2GzGDyaf15aR9St9TWlb+XvbZXWpDx8YKs7MLzMH/BCeopv+y9vzrzgkfykCGuWOlSu3mZhj2+FQcrg==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@npmcli/move-file/-/move-file-1.1.2.tgz}
@@ -9181,7 +9181,7 @@ packages:
       debug: registry.npmjs.org/debug/4.3.4
       globby: registry.npmjs.org/globby/11.1.0
       is-glob: registry.npmjs.org/is-glob/4.0.3
-      semver: registry.npmjs.org/semver/7.3.7
+      semver: registry.npmjs.org/semver/7.3.8
       tsutils: registry.npmjs.org/tsutils/3.21.0_typescript@4.7.4
       typescript: registry.npmjs.org/typescript/4.7.4
     transitivePeerDependencies:
@@ -12675,7 +12675,7 @@ packages:
       caniuse-lite: registry.npmjs.org/caniuse-lite/1.0.30001429
       isbot: registry.npmjs.org/isbot/3.4.5
       object-path: registry.npmjs.org/object-path/0.11.8
-      semver: registry.npmjs.org/semver/7.3.7
+      semver: registry.npmjs.org/semver/7.3.8
       ua-parser-js: registry.npmjs.org/ua-parser-js/1.0.2
     dev: true
 
@@ -13914,7 +13914,7 @@ packages:
       make-dir: registry.npmjs.org/make-dir/3.1.0
       onetime: registry.npmjs.org/onetime/5.1.2
       pkg-up: registry.npmjs.org/pkg-up/3.1.0
-      semver: registry.npmjs.org/semver/7.3.7
+      semver: registry.npmjs.org/semver/7.3.8
     dev: false
 
   registry.npmjs.org/config-chain/1.1.13:
@@ -14807,23 +14807,25 @@ packages:
     version: 3.1.0
     engines: {node: '>=12.22'}
 
-  registry.npmjs.org/css-loader/6.7.1_webpack@4.46.0:
-    resolution: {integrity: sha512-yB5CNFa14MbPJcomwNh3wLThtkZgcNyI2bNMRt8iE5Z8Vwl7f8vQXFAzn2HDOJvtDq2NTZBUGMSUNNyrv3/+cw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/css-loader/-/css-loader-6.7.1.tgz}
-    id: registry.npmjs.org/css-loader/6.7.1
+  registry.npmjs.org/css-loader/5.2.7_webpack@4.46.0:
+    resolution: {integrity: sha512-Q7mOvpBNBG7YrVGMxRxcBJZFL75o+cH2abNASdibkj/fffYD8qWbInZrD0S9ccI6vZclF3DsHE7njGlLtaHbhg==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/css-loader/-/css-loader-5.2.7.tgz}
+    id: registry.npmjs.org/css-loader/5.2.7
     name: css-loader
-    version: 6.7.1
-    engines: {node: '>= 12.13.0'}
+    version: 5.2.7
+    engines: {node: '>= 10.13.0'}
     peerDependencies:
-      webpack: ^5.0.0
+      webpack: ^4.27.0 || ^5.0.0
     dependencies:
       icss-utils: registry.npmjs.org/icss-utils/5.1.0_postcss@8.4.18
+      loader-utils: registry.npmjs.org/loader-utils/2.0.2
       postcss: registry.npmjs.org/postcss/8.4.18
       postcss-modules-extract-imports: registry.npmjs.org/postcss-modules-extract-imports/3.0.0_postcss@8.4.18
       postcss-modules-local-by-default: registry.npmjs.org/postcss-modules-local-by-default/4.0.0_postcss@8.4.18
       postcss-modules-scope: registry.npmjs.org/postcss-modules-scope/3.0.0_postcss@8.4.18
       postcss-modules-values: registry.npmjs.org/postcss-modules-values/4.0.0_postcss@8.4.18
       postcss-value-parser: registry.npmjs.org/postcss-value-parser/4.2.0
-      semver: registry.npmjs.org/semver/7.3.7
+      schema-utils: registry.npmjs.org/schema-utils/3.1.1
+      semver: registry.npmjs.org/semver/7.3.8
       webpack: registry.npmjs.org/webpack/4.46.0
 
   registry.npmjs.org/css-loader/6.7.1_webpack@5.69.0:
@@ -19366,7 +19368,7 @@ packages:
       es6-error: registry.npmjs.org/es6-error/4.1.1
       matcher: registry.npmjs.org/matcher/3.0.0
       roarr: registry.npmjs.org/roarr/2.15.4
-      semver: registry.npmjs.org/semver/7.3.7
+      semver: registry.npmjs.org/semver/7.3.8
       serialize-error: registry.npmjs.org/serialize-error/7.0.1
     dev: false
     optional: true
@@ -22178,7 +22180,7 @@ packages:
       jest-resolve: registry.npmjs.org/jest-resolve/26.6.2
       natural-compare: registry.npmjs.org/natural-compare/1.4.0
       pretty-format: registry.npmjs.org/pretty-format/26.6.2
-      semver: registry.npmjs.org/semver/7.3.7
+      semver: registry.npmjs.org/semver/7.3.8
     transitivePeerDependencies:
       - supports-color
     dev: true
@@ -24897,7 +24899,7 @@ packages:
       npmlog: registry.npmjs.org/npmlog/4.1.2
       request: registry.npmjs.org/request/2.88.2
       rimraf: registry.npmjs.org/rimraf/3.0.2
-      semver: registry.npmjs.org/semver/7.3.7
+      semver: registry.npmjs.org/semver/7.3.8
       tar: registry.npmjs.org/tar/6.1.11
       which: registry.npmjs.org/which/2.0.2
     dev: true
@@ -24944,7 +24946,7 @@ packages:
     dependencies:
       growly: registry.npmjs.org/growly/1.3.0
       is-wsl: registry.npmjs.org/is-wsl/2.2.0
-      semver: registry.npmjs.org/semver/7.3.7
+      semver: registry.npmjs.org/semver/7.3.8
       shellwords: registry.npmjs.org/shellwords/0.1.1
       uuid: registry.npmjs.org/uuid/8.3.2
       which: registry.npmjs.org/which/2.0.2
@@ -25029,7 +25031,7 @@ packages:
     dependencies:
       hosted-git-info: registry.npmjs.org/hosted-git-info/4.1.0
       is-core-module: registry.npmjs.org/is-core-module/2.9.0
-      semver: registry.npmjs.org/semver/7.3.7
+      semver: registry.npmjs.org/semver/7.3.8
       validate-npm-package-license: registry.npmjs.org/validate-npm-package-license/3.0.4
 
   registry.npmjs.org/normalize-path/2.1.1:
@@ -26554,6 +26556,18 @@ packages:
       postcss: registry.npmjs.org/postcss/8.4.18
     dev: false
 
+  registry.npmjs.org/postcss-import/12.0.1:
+    resolution: {integrity: sha512-3Gti33dmCjyKBgimqGxL3vcV8w9+bsHwO5UrBawp796+jdardbcFl4RP5w/76BwNL7aGzpKstIfF9I+kdE8pTw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/postcss-import/-/postcss-import-12.0.1.tgz}
+    name: postcss-import
+    version: 12.0.1
+    engines: {node: '>=6.0.0'}
+    dependencies:
+      postcss: registry.npmjs.org/postcss/7.0.39
+      postcss-value-parser: registry.npmjs.org/postcss-value-parser/3.3.1
+      read-cache: registry.npmjs.org/read-cache/1.0.0
+      resolve: registry.npmjs.org/resolve/1.22.1
+    dev: false
+
   registry.npmjs.org/postcss-import/14.1.0_postcss@8.4.18:
     resolution: {integrity: sha512-flwI+Vgm4SElObFVPpTIT7SU7R3qk2L7PyduMcokiaVKuWv9d/U+Gm/QAd8NDLuykTWTkcrjOeD2Pp1rMeBTGw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/postcss-import/-/postcss-import-14.1.0.tgz}
     id: registry.npmjs.org/postcss-import/14.1.0
@@ -26579,19 +26593,21 @@ packages:
       import-cwd: registry.npmjs.org/import-cwd/2.1.0
     dev: true
 
-  registry.npmjs.org/postcss-loader/7.0.1_dhonik3q6ff6ozbzdscnovq2ka:
-    resolution: {integrity: sha512-VRviFEyYlLjctSM93gAZtcJJ/iSkPZ79zWbN/1fSH+NisBByEiVLqpdVDrPLVSi8DX0oJo12kL/GppTBdKVXiQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/postcss-loader/-/postcss-loader-7.0.1.tgz}
-    id: registry.npmjs.org/postcss-loader/7.0.1
+  registry.npmjs.org/postcss-loader/4.3.0_dhonik3q6ff6ozbzdscnovq2ka:
+    resolution: {integrity: sha512-M/dSoIiNDOo8Rk0mUqoj4kpGq91gcxCfb9PoyZVdZ76/AuhxylHDYZblNE8o+EQ9AMSASeMFEKxZf5aU6wlx1Q==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/postcss-loader/-/postcss-loader-4.3.0.tgz}
+    id: registry.npmjs.org/postcss-loader/4.3.0
     name: postcss-loader
-    version: 7.0.1
-    engines: {node: '>= 14.15.0'}
+    version: 4.3.0
+    engines: {node: '>= 10.13.0'}
     peerDependencies:
       postcss: ^7.0.0 || ^8.0.1
-      webpack: ^5.0.0
+      webpack: ^4.0.0 || ^5.0.0
     dependencies:
       cosmiconfig: registry.npmjs.org/cosmiconfig/7.0.1
       klona: registry.npmjs.org/klona/2.0.5
+      loader-utils: registry.npmjs.org/loader-utils/2.0.2
       postcss: registry.npmjs.org/postcss/8.4.18
+      schema-utils: registry.npmjs.org/schema-utils/3.1.1
       semver: registry.npmjs.org/semver/7.3.7
       webpack: registry.npmjs.org/webpack/4.46.0
     dev: false
@@ -27310,6 +27326,19 @@ packages:
       mime: registry.npmjs.org/mime/2.5.2
       minimatch: registry.npmjs.org/minimatch/3.0.8
       postcss: registry.npmjs.org/postcss/8.4.18
+      xxhashjs: registry.npmjs.org/xxhashjs/0.2.2
+    dev: false
+
+  registry.npmjs.org/postcss-url/8.0.0:
+    resolution: {integrity: sha512-E2cbOQ5aii2zNHh8F6fk1cxls7QVFZjLPSrqvmiza8OuXLzIpErij8BDS5Y3STPfJgpIMNCPEr8JlKQWEoozUw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/postcss-url/-/postcss-url-8.0.0.tgz}
+    name: postcss-url
+    version: 8.0.0
+    engines: {node: '>=6.0.0'}
+    dependencies:
+      mime: registry.npmjs.org/mime/2.6.0
+      minimatch: registry.npmjs.org/minimatch/3.1.2
+      mkdirp: registry.npmjs.org/mkdirp/0.5.6
+      postcss: registry.npmjs.org/postcss/7.0.39
       xxhashjs: registry.npmjs.org/xxhashjs/0.2.2
     dev: false
 
@@ -30025,6 +30054,15 @@ packages:
     resolution: {integrity: sha512-QlYTucUYOews+WeEujDoEGziz4K6c47V/Bd+LjSSYcA94p+DmINdf7ncaUinThfvZyu13lN9OY1XDxt8C0Tw0g==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/semver/-/semver-7.3.7.tgz}
     name: semver
     version: 7.3.7
+    engines: {node: '>=10'}
+    hasBin: true
+    dependencies:
+      lru-cache: registry.npmjs.org/lru-cache/6.0.0
+
+  registry.npmjs.org/semver/7.3.8:
+    resolution: {integrity: sha512-NB1ctGL5rlHrPJtFDVIVzTyQylMLu9N9VICA6HSFJo8MCGVTMW6gfpicwKmmK/dAjTOrqu5l63JJOpDSrAis3A==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/semver/-/semver-7.3.8.tgz}
+    name: semver
+    version: 7.3.8
     engines: {node: '>=10'}
     hasBin: true
     dependencies:
@@ -33334,7 +33372,7 @@ packages:
       espree: registry.npmjs.org/espree/9.3.2
       esquery: registry.npmjs.org/esquery/1.4.0
       lodash: registry.npmjs.org/lodash/4.17.21
-      semver: registry.npmjs.org/semver/7.3.7
+      semver: registry.npmjs.org/semver/7.3.8
     transitivePeerDependencies:
       - supports-color
     dev: true
@@ -33345,7 +33383,7 @@ packages:
     version: 2.3.4
     dev: true
 
-  registry.npmjs.org/vue-loader/15.9.8_wp7nvls7fysseamnft7sdne2jm:
+  registry.npmjs.org/vue-loader/15.9.8_izcuroqdza55ucckmxgxii63uq:
     resolution: {integrity: sha512-GwSkxPrihfLR69/dSV3+5CdMQ0D+jXg8Ma1S4nQXKJAznYFX14vHdc/NetQc34Dw+rBbIJyP7JOuVb9Fhprvog==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/vue-loader/-/vue-loader-15.9.8.tgz}
     id: registry.npmjs.org/vue-loader/15.9.8
     name: vue-loader
@@ -33365,7 +33403,7 @@ packages:
         optional: true
     dependencies:
       '@vue/component-compiler-utils': registry.npmjs.org/@vue/component-compiler-utils/3.3.0_lodash@4.17.21
-      css-loader: registry.npmjs.org/css-loader/6.7.1_webpack@4.46.0
+      css-loader: registry.npmjs.org/css-loader/5.2.7_webpack@4.46.0
       hash-sum: registry.npmjs.org/hash-sum/1.0.2
       loader-utils: registry.npmjs.org/loader-utils/1.4.0
       vue-hot-reload-api: registry.npmjs.org/vue-hot-reload-api/2.3.4
