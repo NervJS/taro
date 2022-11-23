@@ -58,11 +58,13 @@ interface InputProps extends StandardProps, FormItemProps {
 
   /** (即将废弃，请直接使用 focus )自动聚焦，拉起键盘
    * @default false
-   * @supported weapp, qq, jd
+   * @deprecated
+   * @supported weapp, qq, jd, h5
    */
   autoFocus?: boolean
 
   /** 获取焦点
+   * @default false
    * @supported weapp, alipay, swan, tt, qq, jd, h5, rn
    */
   focus?: boolean

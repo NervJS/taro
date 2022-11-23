@@ -505,7 +505,7 @@ declare module '../../index' {
      * ```tsx
      * const observer = Taro.createIntersectionObserver(this, { thresholds: [0], observeAll: true })
      * ```
-     * @see https://developers.weixin.qq.com/miniprogram/dev/api/wxml/wx.createSelectorQuery.html
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/wxml/wx.createIntersectionObserver.html
      */
     createIntersectionObserver(
       /** 自定义组件实例 */
