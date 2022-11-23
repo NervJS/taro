@@ -1,6 +1,5 @@
 import { chalk, recursiveMerge, SCRIPT_EXT } from '@tarojs/helper'
 import { AppConfig } from '@tarojs/taro'
-import { IOption } from '@tarojs/taro/types/compile'
 import { get, mapValues, merge } from 'lodash'
 import * as path from 'path'
 
@@ -19,22 +18,20 @@ import {
 import { BuildConfig } from '../util/types'
 import getBaseChain from './base.conf'
 
-const emptyObj: IOption = {}
-
 export default function (appPath: string, config: Partial<BuildConfig>, appConfig: AppConfig): any {
   const chain = getBaseChain(appPath, config)
   const {
     alias = {},
     copy,
-    entry = emptyObj,
+    entry = {},
     entryFileName = 'app',
-    output = emptyObj,
+    output = {},
     sourceRoot = 'src',
     outputRoot = 'dist',
     publicPath = '/',
     staticDirectory = 'static',
     chunkDirectory = 'chunk',
-    router = emptyObj,
+    router = {},
 
     designWidth = 750,
     deviceRatio,
@@ -42,24 +39,24 @@ export default function (appPath: string, config: Partial<BuildConfig>, appConfi
     sourceMapType,
     enableExtract = false,
 
-    defineConstants = emptyObj,
-    env = emptyObj,
-    styleLoaderOption = emptyObj,
-    cssLoaderOption = emptyObj,
-    sassLoaderOption = emptyObj,
-    lessLoaderOption = emptyObj,
-    stylusLoaderOption = emptyObj,
-    mediaUrlLoaderOption = emptyObj,
-    fontUrlLoaderOption = emptyObj,
-    imageUrlLoaderOption = emptyObj,
+    defineConstants = {},
+    env = {},
+    styleLoaderOption = {},
+    cssLoaderOption = {},
+    sassLoaderOption = {},
+    lessLoaderOption = {},
+    stylusLoaderOption = {},
+    mediaUrlLoaderOption = {},
+    fontUrlLoaderOption = {},
+    imageUrlLoaderOption = {},
 
-    miniCssExtractPluginOption = emptyObj,
+    miniCssExtractPluginOption = {},
     esnextModules = [],
 
     useHtmlComponents = false,
 
-    postcss = emptyObj,
-    htmlPluginOption = emptyObj
+    postcss = {},
+    htmlPluginOption = {}
   } = config
   const sourceDir = path.join(appPath, sourceRoot)
   const outputDir = path.join(appPath, outputRoot)
