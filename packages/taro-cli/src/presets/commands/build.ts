@@ -32,7 +32,7 @@ export default (ctx: IPluginContext) => {
       'taro build native-components --type weapp',
       'taro build --plugin weapp --watch',
       'taro build --plugin weapp',
-      'taro build --mode prepare'
+      'taro build --type weapp --mode prepare'
     ],
     async fn (opts) {
       const { options, config, _ } = opts
