@@ -4,6 +4,8 @@ import { expand } from 'dotenv-expand'
 import * as fs from 'fs-extra'
 import * as path from 'path'
 
+import type { IProjectConfig } from '@tarojs/taro/types/compile'
+
 export function getRootPath (): string {
   return path.resolve(__dirname, '../../')
 }
@@ -103,7 +105,7 @@ export function clearConsole () {
   }
 }
 
-export const dotenvParse = (root: string, prefixs: string | string[] = ['TARO_'], mode?: string): Record<string, string> => {
+export const dotenvParse = (root: string, prefixs: string | string[] = ['TARO_APP_'], mode?: string): Record<string, string> => {
   const prefixsArr: string[] = (Array.isArray(prefixs) ? prefixs : [prefixs]).map(prefix => prefix.trim()).filter(prefix => !!prefix)
 
   const envFiles = new Set([
@@ -139,4 +141,16 @@ export const dotenvParse = (root: string, prefixs: string | string[] = ['TARO_']
   })
   expand({ parsed })
   return parsed
+}
+
+// 扩展 env
+export const patchEnv = (config: IProjectConfig, expandEnv: Record<string, string>) => {
+  const expandEnvStringify = {}
+  for (const key in expandEnv) {
+    expandEnvStringify[key] = JSON.stringify(expandEnv[key])
+  }
+  return {
+    ...config.env,
+    ...expandEnv
+  }
 }

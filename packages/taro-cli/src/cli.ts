@@ -4,7 +4,7 @@ import * as minimist from 'minimist'
 import * as path from 'path'
 
 import customCommand from './commands/customCommand'
-import { dotenvParse, getPkgVersion } from './util'
+import { dotenvParse, getPkgVersion, patchEnv } from './util'
 
 export default class CLI {
   appPath: string
@@ -68,10 +68,7 @@ export default class CLI {
       const initialConfig = kernel.config?.initialConfig
       if(initialConfig) {
         const expandEnv = dotenvParse(appPath, initialConfig.envPrefix, args.mode || process.env.NODE_ENV)
-        initialConfig.env = {
-          ...initialConfig.env,
-          ...expandEnv
-        }
+        initialConfig.env = patchEnv(initialConfig, expandEnv)
       }
 
       // 针对不同的内置命令注册对应的命令插件
