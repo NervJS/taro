@@ -105,6 +105,7 @@ export function clearConsole () {
   }
 }
 
+// 支持 --env-prefix=TARO_APP_,aa 类型参数
 export const formatPrefix = (prefixs: string | string[] = ['TARO_APP_']): string[] => {
   const prefixsArr: string[] = (Array.isArray(prefixs) ? prefixs : prefixs.split(',')).map(prefix => prefix.trim()).filter(prefix => !!prefix)
   return prefixsArr
