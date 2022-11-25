@@ -52,10 +52,6 @@ export default (ctx: IPluginContext) => {
       prebundleOptions.include ||= []
       prebundleOptions.include = prebundleOptions.include.concat(deps)
       prebundleOptions.exclude ||= []
-      if (!isBuildH5) {
-        // Note: 当前小程序 prebundle 引入模式下，预编译 vue 会导致 @tarojs/runtime 多次引入，找不到页面实例
-        prebundleOptions.exclude.push('vue')
-      }
     }
   })
 }

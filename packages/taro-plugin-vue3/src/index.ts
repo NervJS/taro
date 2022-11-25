@@ -49,7 +49,7 @@ export default (ctx: IPluginContext, config: IConfig = {}) => {
     }
     setDefinePlugin(chain)
 
-    if (process.env.TARO_ENV === 'h5') {
+    if (isBuildH5) {
       // H5
       modifyH5WebpackChain(ctx, chain, config)
     } else {
@@ -80,11 +80,6 @@ export default (ctx: IPluginContext, config: IConfig = {}) => {
       const prebundleOptions = compiler.prebundle
       prebundleOptions.include ||= []
       prebundleOptions.include = prebundleOptions.include.concat(deps)
-      prebundleOptions.exclude ||= []
-      if (!isBuildH5) {
-        // Note: 当前小程序 prebundle 引入模式下，预编译 vue 会导致 @tarojs/runtime 多次引入，找不到页面实例
-        prebundleOptions.exclude.push('vue')
-      }
 
       const taroVue3Plugin = {
         name: 'taroVue3Plugin',
