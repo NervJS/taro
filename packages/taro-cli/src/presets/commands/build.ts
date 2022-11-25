@@ -22,7 +22,8 @@ export default (ctx: IPluginContext) => {
       '--assets-dest': '[rn] Directory name where to store assets referenced in the bundle',
       '--qr': '[rn] Print qrcode of React-Native bundle server',
       '--blended': 'Blended Taro project in an original MiniApp project',
-      '--plugin [typeName]': 'Build Taro plugin project, weapp'
+      '--plugin [typeName]': 'Build Taro plugin project, weapp',
+      '--env-prefix [envPrefix]': "Provide the dotEnv varables's prefix"
     },
     synopsisList: [
       'taro build --type weapp',
@@ -32,7 +33,7 @@ export default (ctx: IPluginContext) => {
       'taro build native-components --type weapp',
       'taro build --plugin weapp --watch',
       'taro build --plugin weapp',
-      'taro build --type weapp --mode prepare'
+      'taro build --type weapp --mode prepare --env-prefix TARO_APP_'
     ],
     async fn (opts) {
       const { options, config, _ } = opts

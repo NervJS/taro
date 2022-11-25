@@ -105,8 +105,12 @@ export function clearConsole () {
   }
 }
 
+export const formatPrefix = (prefixs: string | string[] = ['TARO_APP_']): string[] => {
+  const prefixsArr: string[] = (Array.isArray(prefixs) ? prefixs : prefixs.split(',')).map(prefix => prefix.trim()).filter(prefix => !!prefix)
+  return prefixsArr
+}
 export const dotenvParse = (root: string, prefixs: string | string[] = ['TARO_APP_'], mode?: string): Record<string, string> => {
-  const prefixsArr: string[] = (Array.isArray(prefixs) ? prefixs : [prefixs]).map(prefix => prefix.trim()).filter(prefix => !!prefix)
+  const prefixsArr: string[] = formatPrefix(prefixs)
 
   const envFiles = new Set([
     /** default file */ `.env`,
