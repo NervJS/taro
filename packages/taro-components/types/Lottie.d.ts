@@ -49,12 +49,6 @@ interface LottieProps extends StandardProps {
    */
   placeholder?: string
 
-  /** Lottie 在线资源。远端的 Zip 文件地址。Lottie 组件会执行 MD5 校验、解压、获取等过程，在过程中显示 placeholder 图片。
-   * 与 path 二选一
-   * @supported alipay
-   */
-  djangoId?: string
-
   /** 在线资源的 md5 校验。
    * djangoId=https://b.zip。
    * 可以使用 b.zip 加密 获取 md5 值
