@@ -141,5 +141,31 @@ export const components = {
     bindStop: '',
     bindError: '',
     bindARFrame: ''
-  }
+  },
+  PageContainer: {
+    show: 'false',
+    duration: '300',
+    'z-index': '100',
+    overlay: 'true',
+    position: "'bottom'",
+    round: 'false',
+    'close-on-slide-down': 'false',
+    'overlay-style': '',
+    'custom-style': '',
+    bindBeforeEnter: '',
+    bindEnter: '',
+    bindEnterCancelled: '',
+    bindAfterEnter: '',
+    bindBeforeLeave: '',
+    bindLeave: '',
+    bindLeaveCancelled: '',
+    bindAfterLeave: '',
+    bindClickOverlay: '',
+  },
+  ShareElement: {
+    name: '',
+    transform: 'false',
+    duration: '300',
+    'easing-function': "'ease-out'",
+  },
 }
