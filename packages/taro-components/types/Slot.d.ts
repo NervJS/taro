@@ -1,4 +1,4 @@
-import { ComponentType } from 'react'
+import { ComponentType, ReactNode } from 'react'
 
 interface SlotProps {
   /** 指定插入的 slot 位置
@@ -11,6 +11,8 @@ interface SlotProps {
    * @supported swan
    */
   varName?: string
+
+  children: ReactNode;
 }
 
 /** slot 插槽
