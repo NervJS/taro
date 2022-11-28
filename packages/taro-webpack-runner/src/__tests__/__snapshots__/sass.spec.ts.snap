@@ -3244,6 +3244,8 @@ exports[`sass should build app with sass 2`] = `
             Object(classCallCheck[\\"a\\"])(this, Stacks);
             this.stacks = [];
             this.backDelta = 0;
+            this.tabs = {};
+            this.methodName = \\"\\";
         }
         Object(createClass[\\"a\\"])(Stacks, [ {
             \\"key\\": \\"delta\\",
@@ -3258,6 +3260,14 @@ exports[`sass should build app with sass 2`] = `
                 } else {
                     this.backDelta = 0;
                 }
+            }
+        }, {
+            \\"key\\": \\"method\\",
+            \\"get\\": function get() {
+                return this.methodName;
+            },
+            \\"set\\": function set(methodName) {
+                this.methodName = methodName;
             }
         }, {
             \\"key\\": \\"length\\",
@@ -3318,6 +3328,21 @@ exports[`sass should build app with sass 2`] = `
             \\"value\\": function push(page) {
                 return this.stacks.push(page);
             }
+        }, {
+            \\"key\\": \\"getTabs\\",
+            \\"value\\": function getTabs() {
+                return this.tabs;
+            }
+        }, {
+            \\"key\\": \\"pushTab\\",
+            \\"value\\": function pushTab(path, page) {
+                this.tabs[path] = page;
+            }
+        }, {
+            \\"key\\": \\"popTab\\",
+            \\"value\\": function popTab(path) {
+                delete this.tabs[path];
+            }
         } ]);
         return Stacks;
     }();
@@ -3376,6 +3401,7 @@ exports[`sass should build app with sass 2`] = `
                     switch (_context.prev = _context.next) {
                       case 0:
                         return _context.abrupt(\\"return\\", new Promise((function(resolve, reject) {
+                            stack.method = method;
                             var success = option.success, complete = option.complete, fail = option.fail;
                             var unListen = history_history.listen((function() {
                                 var res = {
@@ -4196,9 +4222,9 @@ exports[`sass should build app with sass 2`] = `
             }
         }, {
             \\"key\\": \\"isTabBar\\",
-            \\"get\\": function get() {
+            \\"value\\": function isTabBar(pathname) {
                 var _a;
-                var routePath = addLeadingSlash(stripBasename(this.pathname, this.basename));
+                var routePath = addLeadingSlash(stripBasename(pathname, this.basename)).split(\\"?\\")[0];
                 var pagePath = ((_a = Object.entries(this.customRoutes).find((function(_ref) {
                     var _ref2 = _slicedToArray(_ref, 2), target = _ref2[1];
                     if (typeof target === \\"string\\") {
@@ -4246,15 +4272,14 @@ exports[`sass should build app with sass 2`] = `
             }
         }, {
             \\"key\\": \\"getQuery\\",
-            \\"value\\": function getQuery() {
-                var stamp = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
+            \\"value\\": function getQuery(stamp) {
                 var search = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : \\"\\";
                 var options = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
                 search = search ? \\"\\".concat(search, \\"&\\").concat(this.search) : this.search;
                 var query = search ? query_string_default.a.parse(search, {
                     \\"decode\\": false
                 }) : {};
-                query.stamp = stamp.toString();
+                query.stamp = stamp;
                 return Object.assign(Object.assign({}, query), options);
             }
         }, {
@@ -4303,18 +4328,18 @@ exports[`sass should build app with sass 2`] = `
             }
         }, {
             \\"key\\": \\"load\\",
-            \\"value\\": function load(page) {
+            \\"value\\": function load(stampId, page) {
                 var _this = this;
-                var pageConfig = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
-                var stacksIndex = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 0;
+                var pageConfig = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
+                var stacksIndex = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 0;
                 var _a, _b;
                 if (!page) return;
                 stack.push(page);
-                var param = this.getQuery(stack.length, \\"\\", page.options);
+                var param = this.getQuery(stampId, \\"\\", page.options);
                 var pageEl = this.getPageContainer(page);
                 if (pageEl) {
                     setDisplay(pageEl);
-                    this.isTabBar && pageEl.classList.add(\\"taro_tabbar_page\\");
+                    this.isTabBar(this.pathname) && pageEl.classList.add(\\"taro_tabbar_page\\");
                     this.addAnimation(pageEl, stacksIndex === 0);
                     (_a = page.onShow) === null || _a === void 0 ? void 0 : _a.call(page);
                     this.bindPageEvents(page, pageEl, pageConfig);
@@ -4322,7 +4347,7 @@ exports[`sass should build app with sass 2`] = `
                     (_b = page.onLoad) === null || _b === void 0 ? void 0 : _b.call(page, param, (function() {
                         var _a;
                         pageEl = _this.getPageContainer(page);
-                        _this.isTabBar && (pageEl === null || pageEl === void 0 ? void 0 : pageEl.classList.add(\\"taro_tabbar_page\\"));
+                        _this.isTabBar(_this.pathname) && (pageEl === null || pageEl === void 0 ? void 0 : pageEl.classList.add(\\"taro_tabbar_page\\"));
                         _this.addAnimation(pageEl, stacksIndex === 0);
                         _this.onReady(page, true);
                         (_a = page.onShow) === null || _a === void 0 ? void 0 : _a.call(page);
@@ -4332,36 +4357,40 @@ exports[`sass should build app with sass 2`] = `
             }
         }, {
             \\"key\\": \\"unload\\",
-            \\"value\\": function unload(page) {
+            \\"value\\": function unload(methodName, page) {
                 var _this2 = this;
-                var delta = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1;
-                var top = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
+                var delta = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 1;
+                var top = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : false;
                 var _a, _b, _c;
                 if (!page) return;
                 stack.delta = --delta;
                 stack.pop();
-                if (this.animation && top) {
-                    if (this.unloadTimer) {
-                        clearTimeout(this.unloadTimer);
-                        (_b = (_a = this.lastUnloadPage) === null || _a === void 0 ? void 0 : _a.onUnload) === null || _b === void 0 ? void 0 : _b.call(_a);
-                        this.unloadTimer = null;
-                    }
-                    this.lastUnloadPage = page;
-                    var pageEl = this.getPageContainer(page);
-                    pageEl === null || pageEl === void 0 ? void 0 : pageEl.classList.remove(\\"taro_page_stationed\\");
-                    pageEl === null || pageEl === void 0 ? void 0 : pageEl.classList.remove(\\"taro_page_show\\");
-                    this.unloadTimer = setTimeout((function() {
-                        var _a, _b;
-                        _this2.unloadTimer = null;
-                        (_b = (_a = _this2.lastUnloadPage) === null || _a === void 0 ? void 0 : _a.onUnload) === null || _b === void 0 ? void 0 : _b.call(_a);
-                    }), this.animationDuration);
+                if (methodName !== \\"reLaunch\\" && this.isTabBar(page.path)) {
+                    stack.pushTab(page.path, page);
                 } else {
-                    var _pageEl = this.getPageContainer(page);
-                    _pageEl === null || _pageEl === void 0 ? void 0 : _pageEl.classList.remove(\\"taro_page_stationed\\");
-                    _pageEl === null || _pageEl === void 0 ? void 0 : _pageEl.classList.remove(\\"taro_page_show\\");
-                    (_c = page === null || page === void 0 ? void 0 : page.onUnload) === null || _c === void 0 ? void 0 : _c.call(page);
+                    if (this.animation && top) {
+                        if (this.unloadTimer) {
+                            clearTimeout(this.unloadTimer);
+                            (_b = (_a = this.lastUnloadPage) === null || _a === void 0 ? void 0 : _a.onUnload) === null || _b === void 0 ? void 0 : _b.call(_a);
+                            this.unloadTimer = null;
+                        }
+                        this.lastUnloadPage = page;
+                        var pageEl = this.getPageContainer(page);
+                        pageEl === null || pageEl === void 0 ? void 0 : pageEl.classList.remove(\\"taro_page_stationed\\");
+                        pageEl === null || pageEl === void 0 ? void 0 : pageEl.classList.remove(\\"taro_page_show\\");
+                        this.unloadTimer = setTimeout((function() {
+                            var _a, _b;
+                            _this2.unloadTimer = null;
+                            (_b = (_a = _this2.lastUnloadPage) === null || _a === void 0 ? void 0 : _a.onUnload) === null || _b === void 0 ? void 0 : _b.call(_a);
+                        }), this.animationDuration);
+                    } else {
+                        var _pageEl = this.getPageContainer(page);
+                        _pageEl === null || _pageEl === void 0 ? void 0 : _pageEl.classList.remove(\\"taro_page_stationed\\");
+                        _pageEl === null || _pageEl === void 0 ? void 0 : _pageEl.classList.remove(\\"taro_page_show\\");
+                        (_c = page === null || page === void 0 ? void 0 : page.onUnload) === null || _c === void 0 ? void 0 : _c.call(page);
+                    }
                 }
-                if (delta >= 1) this.unload(stack.last, delta);
+                if (delta >= 1) this.unload(methodName, stack.last, delta);
             }
         }, {
             \\"key\\": \\"show\\",
@@ -4371,7 +4400,7 @@ exports[`sass should build app with sass 2`] = `
                 var stacksIndex = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 0;
                 var _a, _b;
                 if (!page) return;
-                var param = this.getQuery(stack.length, \\"\\", page.options);
+                var param = this.getQuery(page[\\"$taroParams\\"][\\"stamp\\"], \\"\\", page.options);
                 var pageEl = this.getPageContainer(page);
                 if (pageEl) {
                     setDisplay(pageEl);
@@ -4486,6 +4515,8 @@ exports[`sass should build app with sass 2`] = `
             step((generator = generator.apply(thisArg, _arguments || [])).next());
         }));
     };
+    var createStampId = undefined();
+    var launchStampId = createStampId();
     function createRouter(app, config, framework) {
         var _this = this;
         var _a, _b;
@@ -4506,7 +4537,7 @@ exports[`sass should build app with sass 2`] = `
         });
         var launchParam = {
             \\"path\\": handler.homePage,
-            \\"query\\": handler.getQuery(stack.length),
+            \\"query\\": handler.getQuery(launchStampId),
             \\"scene\\": 0,
             \\"shareTicket\\": \\"\\",
             \\"referrerInfo\\": {}
@@ -4520,7 +4551,7 @@ exports[`sass should build app with sass 2`] = `
         var render = function render(_ref) {
             var location = _ref.location, action = _ref.action;
             return spa_awaiter(_this, void 0, void 0, _regeneratorRuntime().mark((function _callee() {
-                var _c, _d, _e, _f, _g, element, params, result, _yield$Promise$all, _yield$Promise$all2, pageConfig, enablePullDownRefresh, currentPage, pathname, shouldLoad, prevIndex, delta, _prevIndex, _delta, el, loadConfig, stacksIndex, page;
+                var _c, _d, _e, _f, _g, _h, element, params, result, _yield$Promise$all, _yield$Promise$all2, pageConfig, enablePullDownRefresh, currentPage, pathname, methodName, cacheTabs, shouldLoad, key, prevIndex, delta, _delta, el, loadConfig, stacksIndex, pageStampId, page;
                 return _regeneratorRuntime().wrap((function _callee$(_context) {
                     while (1) {
                         switch (_context.prev = _context.next) {
@@ -4592,74 +4623,100 @@ exports[`sass should build app with sass 2`] = `
                             }
                             currentPage = undefined.page;
                             pathname = handler.pathname;
+                            methodName = (_g = stack.method) !== null && _g !== void 0 ? _g : \\"\\";
+                            cacheTabs = stack.getTabs();
                             shouldLoad = false;
-                            if (!(action === \\"POP\\")) {
-                                _context.next = 39;
+                            stack.method = \\"\\";
+                            if (!(methodName === \\"reLaunch\\")) {
+                                _context.next = 42;
                                 break;
                             }
-                            prevIndex = stack.getPrevIndex(pathname);
-                            delta = stack.getDelta(pathname);
-                            if (currentPage !== stack.getItem(prevIndex)) {
-                                handler.unload(currentPage, delta, prevIndex > -1);
-                                if (prevIndex > -1) {
-                                    handler.show(stack.getItem(prevIndex), pageConfig, prevIndex);
-                                } else {
-                                    shouldLoad = true;
+                            handler.unload(methodName, currentPage, stack.length);
+                            for (key in cacheTabs) {
+                                if (cacheTabs[key]) {
+                                    handler.unload(methodName, cacheTabs[key]);
+                                    stack.popTab(key);
                                 }
                             }
-                            _context.next = 50;
+                            shouldLoad = true;
+                            _context.next = 54;
                             break;
 
-                          case 39:
-                            if (!handler.isTabBar) {
-                                _context.next = 48;
+                          case 42:
+                            if (!handler.isTabBar(handler.pathname)) {
+                                _context.next = 53;
                                 break;
                             }
                             if (!handler.isSamePage(currentPage)) {
-                                _context.next = 42;
+                                _context.next = 45;
                                 break;
                             }
                             return _context.abrupt(\\"return\\");
 
-                          case 42:
-                            _prevIndex = stack.getPrevIndex(pathname, 0);
-                            handler.hide(currentPage);
-                            if (!(_prevIndex > -1)) {
-                                _context.next = 46;
+                          case 45:
+                            if (stack.length === 1 && handler.isTabBar(currentPage.path)) {
+                                handler.hide(currentPage);
+                                stack.pushTab(currentPage.path.split(\\"?\\")[0], stack.last);
+                                stack.pop();
+                            } else {
+                                handler.unload(methodName, currentPage, stack.length);
+                            }
+                            if (!cacheTabs[handler.pathname]) {
+                                _context.next = 50;
                                 break;
                             }
-                            return _context.abrupt(\\"return\\", handler.show(stack.getItem(_prevIndex), pageConfig, _prevIndex));
-
-                          case 46:
-                            _context.next = 49;
-                            break;
-
-                          case 48:
-                            if (action === \\"REPLACE\\") {
-                                _delta = stack.getDelta(pathname);
-                                handler.unload(currentPage, _delta);
-                            } else if (action === \\"PUSH\\") {
-                                handler.hide(currentPage);
-                            }
-
-                          case 49:
-                            shouldLoad = true;
+                            stack.push(cacheTabs[handler.pathname]);
+                            stack.popTab(handler.pathname);
+                            return _context.abrupt(\\"return\\", handler.show(stack.getItem(0), pageConfig, 0));
 
                           case 50:
+                            shouldLoad = true;
+                            _context.next = 54;
+                            break;
+
+                          case 53:
+                            if (action === \\"POP\\") {
+                                prevIndex = stack.getPrevIndex(pathname);
+                                delta = stack.getDelta(pathname);
+                                if (currentPage !== stack.getItem(prevIndex)) {
+                                    handler.unload(methodName, currentPage, delta, prevIndex > -1);
+                                    if (prevIndex > -1) {
+                                        handler.show(stack.getItem(prevIndex), pageConfig, prevIndex);
+                                    } else {
+                                        shouldLoad = true;
+                                    }
+                                }
+                            } else if (action === \\"REPLACE\\") {
+                                _delta = stack.getDelta(pathname);
+                                handler.unload(methodName, currentPage, _delta);
+                                shouldLoad = true;
+                            } else if (action === \\"PUSH\\") {
+                                handler.hide(currentPage);
+                                shouldLoad = true;
+                            }
+
+                          case 54:
                             if (!(shouldLoad || stack.length < 1)) {
-                                _context.next = 59;
+                                _context.next = 65;
                                 break;
                             }
-                            el = (_g = element.default) !== null && _g !== void 0 ? _g : element;
+                            el = (_h = element.default) !== null && _h !== void 0 ? _h : element;
                             loadConfig = Object.assign({}, pageConfig);
                             stacksIndex = stack.length;
                             delete loadConfig[\\"path\\"];
                             delete loadConfig[\\"load\\"];
-                            page = undefined(enablePullDownRefresh ? undefined.call(\\"createPullDownComponent\\", el, location.pathname, framework, handler.PullDownRefresh) : el, pathname + undefined(handler.getQuery(stacksIndex)), {}, loadConfig);
+                            pageStampId = \\"\\";
+                            if (launchStampId) {
+                                pageStampId = launchStampId;
+                                launchStampId = \\"\\";
+                            } else {
+                                pageStampId = createStampId();
+                            }
+                            page = undefined(enablePullDownRefresh ? undefined.call(\\"createPullDownComponent\\", el, location.pathname, framework, handler.PullDownRefresh) : el, pathname + undefined(handler.getQuery(pageStampId)), {}, loadConfig);
                             if (params) page.options = params;
-                            return _context.abrupt(\\"return\\", handler.load(page, pageConfig, stacksIndex));
+                            return _context.abrupt(\\"return\\", handler.load(pageStampId, page, pageConfig, stacksIndex));
 
-                          case 59:
+                          case 65:
                           case \\"end\\":
                             return _context.stop();
                         }
@@ -8025,6 +8082,8 @@ exports[`sass should build app with scss 2`] = `
             Object(classCallCheck[\\"a\\"])(this, Stacks);
             this.stacks = [];
             this.backDelta = 0;
+            this.tabs = {};
+            this.methodName = \\"\\";
         }
         Object(createClass[\\"a\\"])(Stacks, [ {
             \\"key\\": \\"delta\\",
@@ -8039,6 +8098,14 @@ exports[`sass should build app with scss 2`] = `
                 } else {
                     this.backDelta = 0;
                 }
+            }
+        }, {
+            \\"key\\": \\"method\\",
+            \\"get\\": function get() {
+                return this.methodName;
+            },
+            \\"set\\": function set(methodName) {
+                this.methodName = methodName;
             }
         }, {
             \\"key\\": \\"length\\",
@@ -8099,6 +8166,21 @@ exports[`sass should build app with scss 2`] = `
             \\"value\\": function push(page) {
                 return this.stacks.push(page);
             }
+        }, {
+            \\"key\\": \\"getTabs\\",
+            \\"value\\": function getTabs() {
+                return this.tabs;
+            }
+        }, {
+            \\"key\\": \\"pushTab\\",
+            \\"value\\": function pushTab(path, page) {
+                this.tabs[path] = page;
+            }
+        }, {
+            \\"key\\": \\"popTab\\",
+            \\"value\\": function popTab(path) {
+                delete this.tabs[path];
+            }
         } ]);
         return Stacks;
     }();
@@ -8157,6 +8239,7 @@ exports[`sass should build app with scss 2`] = `
                     switch (_context.prev = _context.next) {
                       case 0:
                         return _context.abrupt(\\"return\\", new Promise((function(resolve, reject) {
+                            stack.method = method;
                             var success = option.success, complete = option.complete, fail = option.fail;
                             var unListen = history_history.listen((function() {
                                 var res = {
@@ -8977,9 +9060,9 @@ exports[`sass should build app with scss 2`] = `
             }
         }, {
             \\"key\\": \\"isTabBar\\",
-            \\"get\\": function get() {
+            \\"value\\": function isTabBar(pathname) {
                 var _a;
-                var routePath = addLeadingSlash(stripBasename(this.pathname, this.basename));
+                var routePath = addLeadingSlash(stripBasename(pathname, this.basename)).split(\\"?\\")[0];
                 var pagePath = ((_a = Object.entries(this.customRoutes).find((function(_ref) {
                     var _ref2 = _slicedToArray(_ref, 2), target = _ref2[1];
                     if (typeof target === \\"string\\") {
@@ -9027,15 +9110,14 @@ exports[`sass should build app with scss 2`] = `
             }
         }, {
             \\"key\\": \\"getQuery\\",
-            \\"value\\": function getQuery() {
-                var stamp = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
+            \\"value\\": function getQuery(stamp) {
                 var search = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : \\"\\";
                 var options = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
                 search = search ? \\"\\".concat(search, \\"&\\").concat(this.search) : this.search;
                 var query = search ? query_string_default.a.parse(search, {
                     \\"decode\\": false
                 }) : {};
-                query.stamp = stamp.toString();
+                query.stamp = stamp;
                 return Object.assign(Object.assign({}, query), options);
             }
         }, {
@@ -9084,18 +9166,18 @@ exports[`sass should build app with scss 2`] = `
             }
         }, {
             \\"key\\": \\"load\\",
-            \\"value\\": function load(page) {
+            \\"value\\": function load(stampId, page) {
                 var _this = this;
-                var pageConfig = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
-                var stacksIndex = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 0;
+                var pageConfig = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
+                var stacksIndex = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 0;
                 var _a, _b;
                 if (!page) return;
                 stack.push(page);
-                var param = this.getQuery(stack.length, \\"\\", page.options);
+                var param = this.getQuery(stampId, \\"\\", page.options);
                 var pageEl = this.getPageContainer(page);
                 if (pageEl) {
                     setDisplay(pageEl);
-                    this.isTabBar && pageEl.classList.add(\\"taro_tabbar_page\\");
+                    this.isTabBar(this.pathname) && pageEl.classList.add(\\"taro_tabbar_page\\");
                     this.addAnimation(pageEl, stacksIndex === 0);
                     (_a = page.onShow) === null || _a === void 0 ? void 0 : _a.call(page);
                     this.bindPageEvents(page, pageEl, pageConfig);
@@ -9103,7 +9185,7 @@ exports[`sass should build app with scss 2`] = `
                     (_b = page.onLoad) === null || _b === void 0 ? void 0 : _b.call(page, param, (function() {
                         var _a;
                         pageEl = _this.getPageContainer(page);
-                        _this.isTabBar && (pageEl === null || pageEl === void 0 ? void 0 : pageEl.classList.add(\\"taro_tabbar_page\\"));
+                        _this.isTabBar(_this.pathname) && (pageEl === null || pageEl === void 0 ? void 0 : pageEl.classList.add(\\"taro_tabbar_page\\"));
                         _this.addAnimation(pageEl, stacksIndex === 0);
                         _this.onReady(page, true);
                         (_a = page.onShow) === null || _a === void 0 ? void 0 : _a.call(page);
@@ -9113,36 +9195,40 @@ exports[`sass should build app with scss 2`] = `
             }
         }, {
             \\"key\\": \\"unload\\",
-            \\"value\\": function unload(page) {
+            \\"value\\": function unload(methodName, page) {
                 var _this2 = this;
-                var delta = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1;
-                var top = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
+                var delta = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 1;
+                var top = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : false;
                 var _a, _b, _c;
                 if (!page) return;
                 stack.delta = --delta;
                 stack.pop();
-                if (this.animation && top) {
-                    if (this.unloadTimer) {
-                        clearTimeout(this.unloadTimer);
-                        (_b = (_a = this.lastUnloadPage) === null || _a === void 0 ? void 0 : _a.onUnload) === null || _b === void 0 ? void 0 : _b.call(_a);
-                        this.unloadTimer = null;
-                    }
-                    this.lastUnloadPage = page;
-                    var pageEl = this.getPageContainer(page);
-                    pageEl === null || pageEl === void 0 ? void 0 : pageEl.classList.remove(\\"taro_page_stationed\\");
-                    pageEl === null || pageEl === void 0 ? void 0 : pageEl.classList.remove(\\"taro_page_show\\");
-                    this.unloadTimer = setTimeout((function() {
-                        var _a, _b;
-                        _this2.unloadTimer = null;
-                        (_b = (_a = _this2.lastUnloadPage) === null || _a === void 0 ? void 0 : _a.onUnload) === null || _b === void 0 ? void 0 : _b.call(_a);
-                    }), this.animationDuration);
+                if (methodName !== \\"reLaunch\\" && this.isTabBar(page.path)) {
+                    stack.pushTab(page.path, page);
                 } else {
-                    var _pageEl = this.getPageContainer(page);
-                    _pageEl === null || _pageEl === void 0 ? void 0 : _pageEl.classList.remove(\\"taro_page_stationed\\");
-                    _pageEl === null || _pageEl === void 0 ? void 0 : _pageEl.classList.remove(\\"taro_page_show\\");
-                    (_c = page === null || page === void 0 ? void 0 : page.onUnload) === null || _c === void 0 ? void 0 : _c.call(page);
+                    if (this.animation && top) {
+                        if (this.unloadTimer) {
+                            clearTimeout(this.unloadTimer);
+                            (_b = (_a = this.lastUnloadPage) === null || _a === void 0 ? void 0 : _a.onUnload) === null || _b === void 0 ? void 0 : _b.call(_a);
+                            this.unloadTimer = null;
+                        }
+                        this.lastUnloadPage = page;
+                        var pageEl = this.getPageContainer(page);
+                        pageEl === null || pageEl === void 0 ? void 0 : pageEl.classList.remove(\\"taro_page_stationed\\");
+                        pageEl === null || pageEl === void 0 ? void 0 : pageEl.classList.remove(\\"taro_page_show\\");
+                        this.unloadTimer = setTimeout((function() {
+                            var _a, _b;
+                            _this2.unloadTimer = null;
+                            (_b = (_a = _this2.lastUnloadPage) === null || _a === void 0 ? void 0 : _a.onUnload) === null || _b === void 0 ? void 0 : _b.call(_a);
+                        }), this.animationDuration);
+                    } else {
+                        var _pageEl = this.getPageContainer(page);
+                        _pageEl === null || _pageEl === void 0 ? void 0 : _pageEl.classList.remove(\\"taro_page_stationed\\");
+                        _pageEl === null || _pageEl === void 0 ? void 0 : _pageEl.classList.remove(\\"taro_page_show\\");
+                        (_c = page === null || page === void 0 ? void 0 : page.onUnload) === null || _c === void 0 ? void 0 : _c.call(page);
+                    }
                 }
-                if (delta >= 1) this.unload(stack.last, delta);
+                if (delta >= 1) this.unload(methodName, stack.last, delta);
             }
         }, {
             \\"key\\": \\"show\\",
@@ -9152,7 +9238,7 @@ exports[`sass should build app with scss 2`] = `
                 var stacksIndex = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 0;
                 var _a, _b;
                 if (!page) return;
-                var param = this.getQuery(stack.length, \\"\\", page.options);
+                var param = this.getQuery(page[\\"$taroParams\\"][\\"stamp\\"], \\"\\", page.options);
                 var pageEl = this.getPageContainer(page);
                 if (pageEl) {
                     setDisplay(pageEl);
@@ -9267,6 +9353,8 @@ exports[`sass should build app with scss 2`] = `
             step((generator = generator.apply(thisArg, _arguments || [])).next());
         }));
     };
+    var createStampId = undefined();
+    var launchStampId = createStampId();
     function createRouter(app, config, framework) {
         var _this = this;
         var _a, _b;
@@ -9287,7 +9375,7 @@ exports[`sass should build app with scss 2`] = `
         });
         var launchParam = {
             \\"path\\": handler.homePage,
-            \\"query\\": handler.getQuery(stack.length),
+            \\"query\\": handler.getQuery(launchStampId),
             \\"scene\\": 0,
             \\"shareTicket\\": \\"\\",
             \\"referrerInfo\\": {}
@@ -9301,7 +9389,7 @@ exports[`sass should build app with scss 2`] = `
         var render = function render(_ref) {
             var location = _ref.location, action = _ref.action;
             return spa_awaiter(_this, void 0, void 0, _regeneratorRuntime().mark((function _callee() {
-                var _c, _d, _e, _f, _g, element, params, result, _yield$Promise$all, _yield$Promise$all2, pageConfig, enablePullDownRefresh, currentPage, pathname, shouldLoad, prevIndex, delta, _prevIndex, _delta, el, loadConfig, stacksIndex, page;
+                var _c, _d, _e, _f, _g, _h, element, params, result, _yield$Promise$all, _yield$Promise$all2, pageConfig, enablePullDownRefresh, currentPage, pathname, methodName, cacheTabs, shouldLoad, key, prevIndex, delta, _delta, el, loadConfig, stacksIndex, pageStampId, page;
                 return _regeneratorRuntime().wrap((function _callee$(_context) {
                     while (1) {
                         switch (_context.prev = _context.next) {
@@ -9373,74 +9461,100 @@ exports[`sass should build app with scss 2`] = `
                             }
                             currentPage = undefined.page;
                             pathname = handler.pathname;
+                            methodName = (_g = stack.method) !== null && _g !== void 0 ? _g : \\"\\";
+                            cacheTabs = stack.getTabs();
                             shouldLoad = false;
-                            if (!(action === \\"POP\\")) {
-                                _context.next = 39;
+                            stack.method = \\"\\";
+                            if (!(methodName === \\"reLaunch\\")) {
+                                _context.next = 42;
                                 break;
                             }
-                            prevIndex = stack.getPrevIndex(pathname);
-                            delta = stack.getDelta(pathname);
-                            if (currentPage !== stack.getItem(prevIndex)) {
-                                handler.unload(currentPage, delta, prevIndex > -1);
-                                if (prevIndex > -1) {
-                                    handler.show(stack.getItem(prevIndex), pageConfig, prevIndex);
-                                } else {
-                                    shouldLoad = true;
+                            handler.unload(methodName, currentPage, stack.length);
+                            for (key in cacheTabs) {
+                                if (cacheTabs[key]) {
+                                    handler.unload(methodName, cacheTabs[key]);
+                                    stack.popTab(key);
                                 }
                             }
-                            _context.next = 50;
+                            shouldLoad = true;
+                            _context.next = 54;
                             break;
 
-                          case 39:
-                            if (!handler.isTabBar) {
-                                _context.next = 48;
+                          case 42:
+                            if (!handler.isTabBar(handler.pathname)) {
+                                _context.next = 53;
                                 break;
                             }
                             if (!handler.isSamePage(currentPage)) {
-                                _context.next = 42;
+                                _context.next = 45;
                                 break;
                             }
                             return _context.abrupt(\\"return\\");
 
-                          case 42:
-                            _prevIndex = stack.getPrevIndex(pathname, 0);
-                            handler.hide(currentPage);
-                            if (!(_prevIndex > -1)) {
-                                _context.next = 46;
+                          case 45:
+                            if (stack.length === 1 && handler.isTabBar(currentPage.path)) {
+                                handler.hide(currentPage);
+                                stack.pushTab(currentPage.path.split(\\"?\\")[0], stack.last);
+                                stack.pop();
+                            } else {
+                                handler.unload(methodName, currentPage, stack.length);
+                            }
+                            if (!cacheTabs[handler.pathname]) {
+                                _context.next = 50;
                                 break;
                             }
-                            return _context.abrupt(\\"return\\", handler.show(stack.getItem(_prevIndex), pageConfig, _prevIndex));
-
-                          case 46:
-                            _context.next = 49;
-                            break;
-
-                          case 48:
-                            if (action === \\"REPLACE\\") {
-                                _delta = stack.getDelta(pathname);
-                                handler.unload(currentPage, _delta);
-                            } else if (action === \\"PUSH\\") {
-                                handler.hide(currentPage);
-                            }
-
-                          case 49:
-                            shouldLoad = true;
+                            stack.push(cacheTabs[handler.pathname]);
+                            stack.popTab(handler.pathname);
+                            return _context.abrupt(\\"return\\", handler.show(stack.getItem(0), pageConfig, 0));
 
                           case 50:
+                            shouldLoad = true;
+                            _context.next = 54;
+                            break;
+
+                          case 53:
+                            if (action === \\"POP\\") {
+                                prevIndex = stack.getPrevIndex(pathname);
+                                delta = stack.getDelta(pathname);
+                                if (currentPage !== stack.getItem(prevIndex)) {
+                                    handler.unload(methodName, currentPage, delta, prevIndex > -1);
+                                    if (prevIndex > -1) {
+                                        handler.show(stack.getItem(prevIndex), pageConfig, prevIndex);
+                                    } else {
+                                        shouldLoad = true;
+                                    }
+                                }
+                            } else if (action === \\"REPLACE\\") {
+                                _delta = stack.getDelta(pathname);
+                                handler.unload(methodName, currentPage, _delta);
+                                shouldLoad = true;
+                            } else if (action === \\"PUSH\\") {
+                                handler.hide(currentPage);
+                                shouldLoad = true;
+                            }
+
+                          case 54:
                             if (!(shouldLoad || stack.length < 1)) {
-                                _context.next = 59;
+                                _context.next = 65;
                                 break;
                             }
-                            el = (_g = element.default) !== null && _g !== void 0 ? _g : element;
+                            el = (_h = element.default) !== null && _h !== void 0 ? _h : element;
                             loadConfig = Object.assign({}, pageConfig);
                             stacksIndex = stack.length;
                             delete loadConfig[\\"path\\"];
                             delete loadConfig[\\"load\\"];
-                            page = undefined(enablePullDownRefresh ? undefined.call(\\"createPullDownComponent\\", el, location.pathname, framework, handler.PullDownRefresh) : el, pathname + undefined(handler.getQuery(stacksIndex)), {}, loadConfig);
+                            pageStampId = \\"\\";
+                            if (launchStampId) {
+                                pageStampId = launchStampId;
+                                launchStampId = \\"\\";
+                            } else {
+                                pageStampId = createStampId();
+                            }
+                            page = undefined(enablePullDownRefresh ? undefined.call(\\"createPullDownComponent\\", el, location.pathname, framework, handler.PullDownRefresh) : el, pathname + undefined(handler.getQuery(pageStampId)), {}, loadConfig);
                             if (params) page.options = params;
-                            return _context.abrupt(\\"return\\", handler.load(page, pageConfig, stacksIndex));
+                            return _context.abrupt(\\"return\\", handler.load(pageStampId, page, pageConfig, stacksIndex));
 
-                          case 59:
+                          case 65:
                           case \\"end\\":
                             return _context.stop();
                         }
@@ -12816,6 +12930,8 @@ exports[`sass should set global sass content with data 2`] = `
             Object(classCallCheck[\\"a\\"])(this, Stacks);
             this.stacks = [];
             this.backDelta = 0;
+            this.tabs = {};
+            this.methodName = \\"\\";
         }
         Object(createClass[\\"a\\"])(Stacks, [ {
             \\"key\\": \\"delta\\",
@@ -12830,6 +12946,14 @@ exports[`sass should set global sass content with data 2`] = `
                 } else {
                     this.backDelta = 0;
                 }
+            }
+        }, {
+            \\"key\\": \\"method\\",
+            \\"get\\": function get() {
+                return this.methodName;
+            },
+            \\"set\\": function set(methodName) {
+                this.methodName = methodName;
             }
         }, {
             \\"key\\": \\"length\\",
@@ -12890,6 +13014,21 @@ exports[`sass should set global sass content with data 2`] = `
             \\"value\\": function push(page) {
                 return this.stacks.push(page);
             }
+        }, {
+            \\"key\\": \\"getTabs\\",
+            \\"value\\": function getTabs() {
+                return this.tabs;
+            }
+        }, {
+            \\"key\\": \\"pushTab\\",
+            \\"value\\": function pushTab(path, page) {
+                this.tabs[path] = page;
+            }
+        }, {
+            \\"key\\": \\"popTab\\",
+            \\"value\\": function popTab(path) {
+                delete this.tabs[path];
+            }
         } ]);
         return Stacks;
     }();
@@ -12948,6 +13087,7 @@ exports[`sass should set global sass content with data 2`] = `
                     switch (_context.prev = _context.next) {
                       case 0:
                         return _context.abrupt(\\"return\\", new Promise((function(resolve, reject) {
+                            stack.method = method;
                             var success = option.success, complete = option.complete, fail = option.fail;
                             var unListen = history_history.listen((function() {
                                 var res = {
@@ -13768,9 +13908,9 @@ exports[`sass should set global sass content with data 2`] = `
             }
         }, {
             \\"key\\": \\"isTabBar\\",
-            \\"get\\": function get() {
+            \\"value\\": function isTabBar(pathname) {
                 var _a;
-                var routePath = addLeadingSlash(stripBasename(this.pathname, this.basename));
+                var routePath = addLeadingSlash(stripBasename(pathname, this.basename)).split(\\"?\\")[0];
                 var pagePath = ((_a = Object.entries(this.customRoutes).find((function(_ref) {
                     var _ref2 = _slicedToArray(_ref, 2), target = _ref2[1];
                     if (typeof target === \\"string\\") {
@@ -13818,15 +13958,14 @@ exports[`sass should set global sass content with data 2`] = `
             }
         }, {
             \\"key\\": \\"getQuery\\",
-            \\"value\\": function getQuery() {
-                var stamp = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
+            \\"value\\": function getQuery(stamp) {
                 var search = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : \\"\\";
                 var options = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
                 search = search ? \\"\\".concat(search, \\"&\\").concat(this.search) : this.search;
                 var query = search ? query_string_default.a.parse(search, {
                     \\"decode\\": false
                 }) : {};
-                query.stamp = stamp.toString();
+                query.stamp = stamp;
                 return Object.assign(Object.assign({}, query), options);
             }
         }, {
@@ -13875,18 +14014,18 @@ exports[`sass should set global sass content with data 2`] = `
             }
         }, {
             \\"key\\": \\"load\\",
-            \\"value\\": function load(page) {
+            \\"value\\": function load(stampId, page) {
                 var _this = this;
-                var pageConfig = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
-                var stacksIndex = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 0;
+                var pageConfig = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
+                var stacksIndex = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 0;
                 var _a, _b;
                 if (!page) return;
                 stack.push(page);
-                var param = this.getQuery(stack.length, \\"\\", page.options);
+                var param = this.getQuery(stampId, \\"\\", page.options);
                 var pageEl = this.getPageContainer(page);
                 if (pageEl) {
                     setDisplay(pageEl);
-                    this.isTabBar && pageEl.classList.add(\\"taro_tabbar_page\\");
+                    this.isTabBar(this.pathname) && pageEl.classList.add(\\"taro_tabbar_page\\");
                     this.addAnimation(pageEl, stacksIndex === 0);
                     (_a = page.onShow) === null || _a === void 0 ? void 0 : _a.call(page);
                     this.bindPageEvents(page, pageEl, pageConfig);
@@ -13894,7 +14033,7 @@ exports[`sass should set global sass content with data 2`] = `
                     (_b = page.onLoad) === null || _b === void 0 ? void 0 : _b.call(page, param, (function() {
                         var _a;
                         pageEl = _this.getPageContainer(page);
-                        _this.isTabBar && (pageEl === null || pageEl === void 0 ? void 0 : pageEl.classList.add(\\"taro_tabbar_page\\"));
+                        _this.isTabBar(_this.pathname) && (pageEl === null || pageEl === void 0 ? void 0 : pageEl.classList.add(\\"taro_tabbar_page\\"));
                         _this.addAnimation(pageEl, stacksIndex === 0);
                         _this.onReady(page, true);
                         (_a = page.onShow) === null || _a === void 0 ? void 0 : _a.call(page);
@@ -13904,36 +14043,40 @@ exports[`sass should set global sass content with data 2`] = `
             }
         }, {
             \\"key\\": \\"unload\\",
-            \\"value\\": function unload(page) {
+            \\"value\\": function unload(methodName, page) {
                 var _this2 = this;
-                var delta = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1;
-                var top = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
+                var delta = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 1;
+                var top = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : false;
                 var _a, _b, _c;
                 if (!page) return;
                 stack.delta = --delta;
                 stack.pop();
-                if (this.animation && top) {
-                    if (this.unloadTimer) {
-                        clearTimeout(this.unloadTimer);
-                        (_b = (_a = this.lastUnloadPage) === null || _a === void 0 ? void 0 : _a.onUnload) === null || _b === void 0 ? void 0 : _b.call(_a);
-                        this.unloadTimer = null;
-                    }
-                    this.lastUnloadPage = page;
-                    var pageEl = this.getPageContainer(page);
-                    pageEl === null || pageEl === void 0 ? void 0 : pageEl.classList.remove(\\"taro_page_stationed\\");
-                    pageEl === null || pageEl === void 0 ? void 0 : pageEl.classList.remove(\\"taro_page_show\\");
-                    this.unloadTimer = setTimeout((function() {
-                        var _a, _b;
-                        _this2.unloadTimer = null;
-                        (_b = (_a = _this2.lastUnloadPage) === null || _a === void 0 ? void 0 : _a.onUnload) === null || _b === void 0 ? void 0 : _b.call(_a);
-                    }), this.animationDuration);
+                if (methodName !== \\"reLaunch\\" && this.isTabBar(page.path)) {
+                    stack.pushTab(page.path, page);
                 } else {
-                    var _pageEl = this.getPageContainer(page);
-                    _pageEl === null || _pageEl === void 0 ? void 0 : _pageEl.classList.remove(\\"taro_page_stationed\\");
-                    _pageEl === null || _pageEl === void 0 ? void 0 : _pageEl.classList.remove(\\"taro_page_show\\");
-                    (_c = page === null || page === void 0 ? void 0 : page.onUnload) === null || _c === void 0 ? void 0 : _c.call(page);
+                    if (this.animation && top) {
+                        if (this.unloadTimer) {
+                            clearTimeout(this.unloadTimer);
+                            (_b = (_a = this.lastUnloadPage) === null || _a === void 0 ? void 0 : _a.onUnload) === null || _b === void 0 ? void 0 : _b.call(_a);
+                            this.unloadTimer = null;
+                        }
+                        this.lastUnloadPage = page;
+                        var pageEl = this.getPageContainer(page);
+                        pageEl === null || pageEl === void 0 ? void 0 : pageEl.classList.remove(\\"taro_page_stationed\\");
+                        pageEl === null || pageEl === void 0 ? void 0 : pageEl.classList.remove(\\"taro_page_show\\");
+                        this.unloadTimer = setTimeout((function() {
+                            var _a, _b;
+                            _this2.unloadTimer = null;
+                            (_b = (_a = _this2.lastUnloadPage) === null || _a === void 0 ? void 0 : _a.onUnload) === null || _b === void 0 ? void 0 : _b.call(_a);
+                        }), this.animationDuration);
+                    } else {
+                        var _pageEl = this.getPageContainer(page);
+                        _pageEl === null || _pageEl === void 0 ? void 0 : _pageEl.classList.remove(\\"taro_page_stationed\\");
+                        _pageEl === null || _pageEl === void 0 ? void 0 : _pageEl.classList.remove(\\"taro_page_show\\");
+                        (_c = page === null || page === void 0 ? void 0 : page.onUnload) === null || _c === void 0 ? void 0 : _c.call(page);
+                    }
                 }
-                if (delta >= 1) this.unload(stack.last, delta);
+                if (delta >= 1) this.unload(methodName, stack.last, delta);
             }
         }, {
             \\"key\\": \\"show\\",
@@ -13943,7 +14086,7 @@ exports[`sass should set global sass content with data 2`] = `
                 var stacksIndex = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 0;
                 var _a, _b;
                 if (!page) return;
-                var param = this.getQuery(stack.length, \\"\\", page.options);
+                var param = this.getQuery(page[\\"$taroParams\\"][\\"stamp\\"], \\"\\", page.options);
                 var pageEl = this.getPageContainer(page);
                 if (pageEl) {
                     setDisplay(pageEl);
@@ -14058,6 +14201,8 @@ exports[`sass should set global sass content with data 2`] = `
             step((generator = generator.apply(thisArg, _arguments || [])).next());
         }));
     };
+    var createStampId = undefined();
+    var launchStampId = createStampId();
     function createRouter(app, config, framework) {
         var _this = this;
         var _a, _b;
@@ -14078,7 +14223,7 @@ exports[`sass should set global sass content with data 2`] = `
         });
         var launchParam = {
             \\"path\\": handler.homePage,
-            \\"query\\": handler.getQuery(stack.length),
+            \\"query\\": handler.getQuery(launchStampId),
             \\"scene\\": 0,
             \\"shareTicket\\": \\"\\",
             \\"referrerInfo\\": {}
@@ -14092,7 +14237,7 @@ exports[`sass should set global sass content with data 2`] = `
         var render = function render(_ref) {
             var location = _ref.location, action = _ref.action;
             return spa_awaiter(_this, void 0, void 0, _regeneratorRuntime().mark((function _callee() {
-                var _c, _d, _e, _f, _g, element, params, result, _yield$Promise$all, _yield$Promise$all2, pageConfig, enablePullDownRefresh, currentPage, pathname, shouldLoad, prevIndex, delta, _prevIndex, _delta, el, loadConfig, stacksIndex, page;
+                var _c, _d, _e, _f, _g, _h, element, params, result, _yield$Promise$all, _yield$Promise$all2, pageConfig, enablePullDownRefresh, currentPage, pathname, methodName, cacheTabs, shouldLoad, key, prevIndex, delta, _delta, el, loadConfig, stacksIndex, pageStampId, page;
                 return _regeneratorRuntime().wrap((function _callee$(_context) {
                     while (1) {
                         switch (_context.prev = _context.next) {
@@ -14164,74 +14309,100 @@ exports[`sass should set global sass content with data 2`] = `
                             }
                             currentPage = undefined.page;
                             pathname = handler.pathname;
+                            methodName = (_g = stack.method) !== null && _g !== void 0 ? _g : \\"\\";
+                            cacheTabs = stack.getTabs();
                             shouldLoad = false;
-                            if (!(action === \\"POP\\")) {
-                                _context.next = 39;
+                            stack.method = \\"\\";
+                            if (!(methodName === \\"reLaunch\\")) {
+                                _context.next = 42;
                                 break;
                             }
-                            prevIndex = stack.getPrevIndex(pathname);
-                            delta = stack.getDelta(pathname);
-                            if (currentPage !== stack.getItem(prevIndex)) {
-                                handler.unload(currentPage, delta, prevIndex > -1);
-                                if (prevIndex > -1) {
-                                    handler.show(stack.getItem(prevIndex), pageConfig, prevIndex);
-                                } else {
-                                    shouldLoad = true;
+                            handler.unload(methodName, currentPage, stack.length);
+                            for (key in cacheTabs) {
+                                if (cacheTabs[key]) {
+                                    handler.unload(methodName, cacheTabs[key]);
+                                    stack.popTab(key);
                                 }
                             }
-                            _context.next = 50;
+                            shouldLoad = true;
+                            _context.next = 54;
                             break;
 
-                          case 39:
-                            if (!handler.isTabBar) {
-                                _context.next = 48;
+                          case 42:
+                            if (!handler.isTabBar(handler.pathname)) {
+                                _context.next = 53;
                                 break;
                             }
                             if (!handler.isSamePage(currentPage)) {
-                                _context.next = 42;
+                                _context.next = 45;
                                 break;
                             }
                             return _context.abrupt(\\"return\\");
 
-                          case 42:
-                            _prevIndex = stack.getPrevIndex(pathname, 0);
-                            handler.hide(currentPage);
-                            if (!(_prevIndex > -1)) {
-                                _context.next = 46;
+                          case 45:
+                            if (stack.length === 1 && handler.isTabBar(currentPage.path)) {
+                                handler.hide(currentPage);
+                                stack.pushTab(currentPage.path.split(\\"?\\")[0], stack.last);
+                                stack.pop();
+                            } else {
+                                handler.unload(methodName, currentPage, stack.length);
+                            }
+                            if (!cacheTabs[handler.pathname]) {
+                                _context.next = 50;
                                 break;
                             }
-                            return _context.abrupt(\\"return\\", handler.show(stack.getItem(_prevIndex), pageConfig, _prevIndex));
-
-                          case 46:
-                            _context.next = 49;
-                            break;
-
-                          case 48:
-                            if (action === \\"REPLACE\\") {
-                                _delta = stack.getDelta(pathname);
-                                handler.unload(currentPage, _delta);
-                            } else if (action === \\"PUSH\\") {
-                                handler.hide(currentPage);
-                            }
-
-                          case 49:
-                            shouldLoad = true;
+                            stack.push(cacheTabs[handler.pathname]);
+                            stack.popTab(handler.pathname);
+                            return _context.abrupt(\\"return\\", handler.show(stack.getItem(0), pageConfig, 0));
 
                           case 50:
+                            shouldLoad = true;
+                            _context.next = 54;
+                            break;
+
+                          case 53:
+                            if (action === \\"POP\\") {
+                                prevIndex = stack.getPrevIndex(pathname);
+                                delta = stack.getDelta(pathname);
+                                if (currentPage !== stack.getItem(prevIndex)) {
+                                    handler.unload(methodName, currentPage, delta, prevIndex > -1);
+                                    if (prevIndex > -1) {
+                                        handler.show(stack.getItem(prevIndex), pageConfig, prevIndex);
+                                    } else {
+                                        shouldLoad = true;
+                                    }
+                                }
+                            } else if (action === \\"REPLACE\\") {
+                                _delta = stack.getDelta(pathname);
+                                handler.unload(methodName, currentPage, _delta);
+                                shouldLoad = true;
+                            } else if (action === \\"PUSH\\") {
+                                handler.hide(currentPage);
+                                shouldLoad = true;
+                            }
+
+                          case 54:
                             if (!(shouldLoad || stack.length < 1)) {
-                                _context.next = 59;
+                                _context.next = 65;
                                 break;
                             }
-                            el = (_g = element.default) !== null && _g !== void 0 ? _g : element;
+                            el = (_h = element.default) !== null && _h !== void 0 ? _h : element;
                             loadConfig = Object.assign({}, pageConfig);
                             stacksIndex = stack.length;
                             delete loadConfig[\\"path\\"];
                             delete loadConfig[\\"load\\"];
-                            page = undefined(enablePullDownRefresh ? undefined.call(\\"createPullDownComponent\\", el, location.pathname, framework, handler.PullDownRefresh) : el, pathname + undefined(handler.getQuery(stacksIndex)), {}, loadConfig);
+                            pageStampId = \\"\\";
+                            if (launchStampId) {
+                                pageStampId = launchStampId;
+                                launchStampId = \\"\\";
+                            } else {
+                                pageStampId = createStampId();
+                            }
+                            page = undefined(enablePullDownRefresh ? undefined.call(\\"createPullDownComponent\\", el, location.pathname, framework, handler.PullDownRefresh) : el, pathname + undefined(handler.getQuery(pageStampId)), {}, loadConfig);
                             if (params) page.options = params;
-                            return _context.abrupt(\\"return\\", handler.load(page, pageConfig, stacksIndex));
+                            return _context.abrupt(\\"return\\", handler.load(pageStampId, page, pageConfig, stacksIndex));
 
-                          case 59:
+                          case 65:
                           case \\"end\\":
                             return _context.stop();
                         }
@@ -17607,6 +17778,8 @@ exports[`sass should set global sass content with source & dir 2`] = `
             Object(classCallCheck[\\"a\\"])(this, Stacks);
             this.stacks = [];
             this.backDelta = 0;
+            this.tabs = {};
+            this.methodName = \\"\\";
         }
         Object(createClass[\\"a\\"])(Stacks, [ {
             \\"key\\": \\"delta\\",
@@ -17621,6 +17794,14 @@ exports[`sass should set global sass content with source & dir 2`] = `
                 } else {
                     this.backDelta = 0;
                 }
+            }
+        }, {
+            \\"key\\": \\"method\\",
+            \\"get\\": function get() {
+                return this.methodName;
+            },
+            \\"set\\": function set(methodName) {
+                this.methodName = methodName;
             }
         }, {
             \\"key\\": \\"length\\",
@@ -17681,6 +17862,21 @@ exports[`sass should set global sass content with source & dir 2`] = `
             \\"value\\": function push(page) {
                 return this.stacks.push(page);
             }
+        }, {
+            \\"key\\": \\"getTabs\\",
+            \\"value\\": function getTabs() {
+                return this.tabs;
+            }
+        }, {
+            \\"key\\": \\"pushTab\\",
+            \\"value\\": function pushTab(path, page) {
+                this.tabs[path] = page;
+            }
+        }, {
+            \\"key\\": \\"popTab\\",
+            \\"value\\": function popTab(path) {
+                delete this.tabs[path];
+            }
         } ]);
         return Stacks;
     }();
@@ -17739,6 +17935,7 @@ exports[`sass should set global sass content with source & dir 2`] = `
                     switch (_context.prev = _context.next) {
                       case 0:
                         return _context.abrupt(\\"return\\", new Promise((function(resolve, reject) {
+                            stack.method = method;
                             var success = option.success, complete = option.complete, fail = option.fail;
                             var unListen = history_history.listen((function() {
                                 var res = {
@@ -18559,9 +18756,9 @@ exports[`sass should set global sass content with source & dir 2`] = `
             }
         }, {
             \\"key\\": \\"isTabBar\\",
-            \\"get\\": function get() {
+            \\"value\\": function isTabBar(pathname) {
                 var _a;
-                var routePath = addLeadingSlash(stripBasename(this.pathname, this.basename));
+                var routePath = addLeadingSlash(stripBasename(pathname, this.basename)).split(\\"?\\")[0];
                 var pagePath = ((_a = Object.entries(this.customRoutes).find((function(_ref) {
                     var _ref2 = _slicedToArray(_ref, 2), target = _ref2[1];
                     if (typeof target === \\"string\\") {
@@ -18609,15 +18806,14 @@ exports[`sass should set global sass content with source & dir 2`] = `
             }
         }, {
             \\"key\\": \\"getQuery\\",
-            \\"value\\": function getQuery() {
-                var stamp = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
+            \\"value\\": function getQuery(stamp) {
                 var search = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : \\"\\";
                 var options = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
                 search = search ? \\"\\".concat(search, \\"&\\").concat(this.search) : this.search;
                 var query = search ? query_string_default.a.parse(search, {
                     \\"decode\\": false
                 }) : {};
-                query.stamp = stamp.toString();
+                query.stamp = stamp;
                 return Object.assign(Object.assign({}, query), options);
             }
         }, {
@@ -18666,18 +18862,18 @@ exports[`sass should set global sass content with source & dir 2`] = `
             }
         }, {
             \\"key\\": \\"load\\",
-            \\"value\\": function load(page) {
+            \\"value\\": function load(stampId, page) {
                 var _this = this;
-                var pageConfig = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
-                var stacksIndex = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 0;
+                var pageConfig = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
+                var stacksIndex = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 0;
                 var _a, _b;
                 if (!page) return;
                 stack.push(page);
-                var param = this.getQuery(stack.length, \\"\\", page.options);
+                var param = this.getQuery(stampId, \\"\\", page.options);
                 var pageEl = this.getPageContainer(page);
                 if (pageEl) {
                     setDisplay(pageEl);
-                    this.isTabBar && pageEl.classList.add(\\"taro_tabbar_page\\");
+                    this.isTabBar(this.pathname) && pageEl.classList.add(\\"taro_tabbar_page\\");
                     this.addAnimation(pageEl, stacksIndex === 0);
                     (_a = page.onShow) === null || _a === void 0 ? void 0 : _a.call(page);
                     this.bindPageEvents(page, pageEl, pageConfig);
@@ -18685,7 +18881,7 @@ exports[`sass should set global sass content with source & dir 2`] = `
                     (_b = page.onLoad) === null || _b === void 0 ? void 0 : _b.call(page, param, (function() {
                         var _a;
                         pageEl = _this.getPageContainer(page);
-                        _this.isTabBar && (pageEl === null || pageEl === void 0 ? void 0 : pageEl.classList.add(\\"taro_tabbar_page\\"));
+                        _this.isTabBar(_this.pathname) && (pageEl === null || pageEl === void 0 ? void 0 : pageEl.classList.add(\\"taro_tabbar_page\\"));
                         _this.addAnimation(pageEl, stacksIndex === 0);
                         _this.onReady(page, true);
                         (_a = page.onShow) === null || _a === void 0 ? void 0 : _a.call(page);
@@ -18695,36 +18891,40 @@ exports[`sass should set global sass content with source & dir 2`] = `
             }
         }, {
             \\"key\\": \\"unload\\",
-            \\"value\\": function unload(page) {
+            \\"value\\": function unload(methodName, page) {
                 var _this2 = this;
-                var delta = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1;
-                var top = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
+                var delta = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 1;
+                var top = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : false;
                 var _a, _b, _c;
                 if (!page) return;
                 stack.delta = --delta;
                 stack.pop();
-                if (this.animation && top) {
-                    if (this.unloadTimer) {
-                        clearTimeout(this.unloadTimer);
-                        (_b = (_a = this.lastUnloadPage) === null || _a === void 0 ? void 0 : _a.onUnload) === null || _b === void 0 ? void 0 : _b.call(_a);
-                        this.unloadTimer = null;
-                    }
-                    this.lastUnloadPage = page;
-                    var pageEl = this.getPageContainer(page);
-                    pageEl === null || pageEl === void 0 ? void 0 : pageEl.classList.remove(\\"taro_page_stationed\\");
-                    pageEl === null || pageEl === void 0 ? void 0 : pageEl.classList.remove(\\"taro_page_show\\");
-                    this.unloadTimer = setTimeout((function() {
-                        var _a, _b;
-                        _this2.unloadTimer = null;
-                        (_b = (_a = _this2.lastUnloadPage) === null || _a === void 0 ? void 0 : _a.onUnload) === null || _b === void 0 ? void 0 : _b.call(_a);
-                    }), this.animationDuration);
+                if (methodName !== \\"reLaunch\\" && this.isTabBar(page.path)) {
+                    stack.pushTab(page.path, page);
                 } else {
-                    var _pageEl = this.getPageContainer(page);
-                    _pageEl === null || _pageEl === void 0 ? void 0 : _pageEl.classList.remove(\\"taro_page_stationed\\");
-                    _pageEl === null || _pageEl === void 0 ? void 0 : _pageEl.classList.remove(\\"taro_page_show\\");
-                    (_c = page === null || page === void 0 ? void 0 : page.onUnload) === null || _c === void 0 ? void 0 : _c.call(page);
+                    if (this.animation && top) {
+                        if (this.unloadTimer) {
+                            clearTimeout(this.unloadTimer);
+                            (_b = (_a = this.lastUnloadPage) === null || _a === void 0 ? void 0 : _a.onUnload) === null || _b === void 0 ? void 0 : _b.call(_a);
+                            this.unloadTimer = null;
+                        }
+                        this.lastUnloadPage = page;
+                        var pageEl = this.getPageContainer(page);
+                        pageEl === null || pageEl === void 0 ? void 0 : pageEl.classList.remove(\\"taro_page_stationed\\");
+                        pageEl === null || pageEl === void 0 ? void 0 : pageEl.classList.remove(\\"taro_page_show\\");
+                        this.unloadTimer = setTimeout((function() {
+                            var _a, _b;
+                            _this2.unloadTimer = null;
+                            (_b = (_a = _this2.lastUnloadPage) === null || _a === void 0 ? void 0 : _a.onUnload) === null || _b === void 0 ? void 0 : _b.call(_a);
+                        }), this.animationDuration);
+                    } else {
+                        var _pageEl = this.getPageContainer(page);
+                        _pageEl === null || _pageEl === void 0 ? void 0 : _pageEl.classList.remove(\\"taro_page_stationed\\");
+                        _pageEl === null || _pageEl === void 0 ? void 0 : _pageEl.classList.remove(\\"taro_page_show\\");
+                        (_c = page === null || page === void 0 ? void 0 : page.onUnload) === null || _c === void 0 ? void 0 : _c.call(page);
+                    }
                 }
-                if (delta >= 1) this.unload(stack.last, delta);
+                if (delta >= 1) this.unload(methodName, stack.last, delta);
             }
         }, {
             \\"key\\": \\"show\\",
@@ -18734,7 +18934,7 @@ exports[`sass should set global sass content with source & dir 2`] = `
                 var stacksIndex = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 0;
                 var _a, _b;
                 if (!page) return;
-                var param = this.getQuery(stack.length, \\"\\", page.options);
+                var param = this.getQuery(page[\\"$taroParams\\"][\\"stamp\\"], \\"\\", page.options);
                 var pageEl = this.getPageContainer(page);
                 if (pageEl) {
                     setDisplay(pageEl);
@@ -18849,6 +19049,8 @@ exports[`sass should set global sass content with source & dir 2`] = `
             step((generator = generator.apply(thisArg, _arguments || [])).next());
         }));
     };
+    var createStampId = undefined();
+    var launchStampId = createStampId();
     function createRouter(app, config, framework) {
         var _this = this;
         var _a, _b;
@@ -18869,7 +19071,7 @@ exports[`sass should set global sass content with source & dir 2`] = `
         });
         var launchParam = {
             \\"path\\": handler.homePage,
-            \\"query\\": handler.getQuery(stack.length),
+            \\"query\\": handler.getQuery(launchStampId),
             \\"scene\\": 0,
             \\"shareTicket\\": \\"\\",
             \\"referrerInfo\\": {}
@@ -18883,7 +19085,7 @@ exports[`sass should set global sass content with source & dir 2`] = `
         var render = function render(_ref) {
             var location = _ref.location, action = _ref.action;
             return spa_awaiter(_this, void 0, void 0, _regeneratorRuntime().mark((function _callee() {
-                var _c, _d, _e, _f, _g, element, params, result, _yield$Promise$all, _yield$Promise$all2, pageConfig, enablePullDownRefresh, currentPage, pathname, shouldLoad, prevIndex, delta, _prevIndex, _delta, el, loadConfig, stacksIndex, page;
+                var _c, _d, _e, _f, _g, _h, element, params, result, _yield$Promise$all, _yield$Promise$all2, pageConfig, enablePullDownRefresh, currentPage, pathname, methodName, cacheTabs, shouldLoad, key, prevIndex, delta, _delta, el, loadConfig, stacksIndex, pageStampId, page;
                 return _regeneratorRuntime().wrap((function _callee$(_context) {
                     while (1) {
                         switch (_context.prev = _context.next) {
@@ -18955,74 +19157,100 @@ exports[`sass should set global sass content with source & dir 2`] = `
                             }
                             currentPage = undefined.page;
                             pathname = handler.pathname;
+                            methodName = (_g = stack.method) !== null && _g !== void 0 ? _g : \\"\\";
+                            cacheTabs = stack.getTabs();
                             shouldLoad = false;
-                            if (!(action === \\"POP\\")) {
-                                _context.next = 39;
+                            stack.method = \\"\\";
+                            if (!(methodName === \\"reLaunch\\")) {
+                                _context.next = 42;
                                 break;
                             }
-                            prevIndex = stack.getPrevIndex(pathname);
-                            delta = stack.getDelta(pathname);
-                            if (currentPage !== stack.getItem(prevIndex)) {
-                                handler.unload(currentPage, delta, prevIndex > -1);
-                                if (prevIndex > -1) {
-                                    handler.show(stack.getItem(prevIndex), pageConfig, prevIndex);
-                                } else {
-                                    shouldLoad = true;
+                            handler.unload(methodName, currentPage, stack.length);
+                            for (key in cacheTabs) {
+                                if (cacheTabs[key]) {
+                                    handler.unload(methodName, cacheTabs[key]);
+                                    stack.popTab(key);
                                 }
                             }
-                            _context.next = 50;
+                            shouldLoad = true;
+                            _context.next = 54;
                             break;
 
-                          case 39:
-                            if (!handler.isTabBar) {
-                                _context.next = 48;
+                          case 42:
+                            if (!handler.isTabBar(handler.pathname)) {
+                                _context.next = 53;
                                 break;
                             }
                             if (!handler.isSamePage(currentPage)) {
-                                _context.next = 42;
+                                _context.next = 45;
                                 break;
                             }
                             return _context.abrupt(\\"return\\");
 
-                          case 42:
-                            _prevIndex = stack.getPrevIndex(pathname, 0);
-                            handler.hide(currentPage);
-                            if (!(_prevIndex > -1)) {
-                                _context.next = 46;
+                          case 45:
+                            if (stack.length === 1 && handler.isTabBar(currentPage.path)) {
+                                handler.hide(currentPage);
+                                stack.pushTab(currentPage.path.split(\\"?\\")[0], stack.last);
+                                stack.pop();
+                            } else {
+                                handler.unload(methodName, currentPage, stack.length);
+                            }
+                            if (!cacheTabs[handler.pathname]) {
+                                _context.next = 50;
                                 break;
                             }
-                            return _context.abrupt(\\"return\\", handler.show(stack.getItem(_prevIndex), pageConfig, _prevIndex));
-
-                          case 46:
-                            _context.next = 49;
-                            break;
-
-                          case 48:
-                            if (action === \\"REPLACE\\") {
-                                _delta = stack.getDelta(pathname);
-                                handler.unload(currentPage, _delta);
-                            } else if (action === \\"PUSH\\") {
-                                handler.hide(currentPage);
-                            }
-
-                          case 49:
-                            shouldLoad = true;
+                            stack.push(cacheTabs[handler.pathname]);
+                            stack.popTab(handler.pathname);
+                            return _context.abrupt(\\"return\\", handler.show(stack.getItem(0), pageConfig, 0));
 
                           case 50:
+                            shouldLoad = true;
+                            _context.next = 54;
+                            break;
+
+                          case 53:
+                            if (action === \\"POP\\") {
+                                prevIndex = stack.getPrevIndex(pathname);
+                                delta = stack.getDelta(pathname);
+                                if (currentPage !== stack.getItem(prevIndex)) {
+                                    handler.unload(methodName, currentPage, delta, prevIndex > -1);
+                                    if (prevIndex > -1) {
+                                        handler.show(stack.getItem(prevIndex), pageConfig, prevIndex);
+                                    } else {
+                                        shouldLoad = true;
+                                    }
+                                }
+                            } else if (action === \\"REPLACE\\") {
+                                _delta = stack.getDelta(pathname);
+                                handler.unload(methodName, currentPage, _delta);
+                                shouldLoad = true;
+                            } else if (action === \\"PUSH\\") {
+                                handler.hide(currentPage);
+                                shouldLoad = true;
+                            }
+
+                          case 54:
                             if (!(shouldLoad || stack.length < 1)) {
-                                _context.next = 59;
+                                _context.next = 65;
                                 break;
                             }
-                            el = (_g = element.default) !== null && _g !== void 0 ? _g : element;
+                            el = (_h = element.default) !== null && _h !== void 0 ? _h : element;
                             loadConfig = Object.assign({}, pageConfig);
                             stacksIndex = stack.length;
                             delete loadConfig[\\"path\\"];
                             delete loadConfig[\\"load\\"];
-                            page = undefined(enablePullDownRefresh ? undefined.call(\\"createPullDownComponent\\", el, location.pathname, framework, handler.PullDownRefresh) : el, pathname + undefined(handler.getQuery(stacksIndex)), {}, loadConfig);
+                            pageStampId = \\"\\";
+                            if (launchStampId) {
+                                pageStampId = launchStampId;
+                                launchStampId = \\"\\";
+                            } else {
+                                pageStampId = createStampId();
+                            }
+                            page = undefined(enablePullDownRefresh ? undefined.call(\\"createPullDownComponent\\", el, location.pathname, framework, handler.PullDownRefresh) : el, pathname + undefined(handler.getQuery(pageStampId)), {}, loadConfig);
                             if (params) page.options = params;
-                            return _context.abrupt(\\"return\\", handler.load(page, pageConfig, stacksIndex));
+                            return _context.abrupt(\\"return\\", handler.load(pageStampId, page, pageConfig, stacksIndex));
 
-                          case 59:
+                          case 65:
                           case \\"end\\":
                             return _context.stop();
                         }
@@ -22398,6 +22626,8 @@ exports[`sass should set global sass content with source 2`] = `
             Object(classCallCheck[\\"a\\"])(this, Stacks);
             this.stacks = [];
             this.backDelta = 0;
+            this.tabs = {};
+            this.methodName = \\"\\";
         }
         Object(createClass[\\"a\\"])(Stacks, [ {
             \\"key\\": \\"delta\\",
@@ -22412,6 +22642,14 @@ exports[`sass should set global sass content with source 2`] = `
                 } else {
                     this.backDelta = 0;
                 }
+            }
+        }, {
+            \\"key\\": \\"method\\",
+            \\"get\\": function get() {
+                return this.methodName;
+            },
+            \\"set\\": function set(methodName) {
+                this.methodName = methodName;
             }
         }, {
             \\"key\\": \\"length\\",
@@ -22472,6 +22710,21 @@ exports[`sass should set global sass content with source 2`] = `
             \\"value\\": function push(page) {
                 return this.stacks.push(page);
             }
+        }, {
+            \\"key\\": \\"getTabs\\",
+            \\"value\\": function getTabs() {
+                return this.tabs;
+            }
+        }, {
+            \\"key\\": \\"pushTab\\",
+            \\"value\\": function pushTab(path, page) {
+                this.tabs[path] = page;
+            }
+        }, {
+            \\"key\\": \\"popTab\\",
+            \\"value\\": function popTab(path) {
+                delete this.tabs[path];
+            }
         } ]);
         return Stacks;
     }();
@@ -22530,6 +22783,7 @@ exports[`sass should set global sass content with source 2`] = `
                     switch (_context.prev = _context.next) {
                       case 0:
                         return _context.abrupt(\\"return\\", new Promise((function(resolve, reject) {
+                            stack.method = method;
                             var success = option.success, complete = option.complete, fail = option.fail;
                             var unListen = history_history.listen((function() {
                                 var res = {
@@ -23350,9 +23604,9 @@ exports[`sass should set global sass content with source 2`] = `
             }
         }, {
             \\"key\\": \\"isTabBar\\",
-            \\"get\\": function get() {
+            \\"value\\": function isTabBar(pathname) {
                 var _a;
-                var routePath = addLeadingSlash(stripBasename(this.pathname, this.basename));
+                var routePath = addLeadingSlash(stripBasename(pathname, this.basename)).split(\\"?\\")[0];
                 var pagePath = ((_a = Object.entries(this.customRoutes).find((function(_ref) {
                     var _ref2 = _slicedToArray(_ref, 2), target = _ref2[1];
                     if (typeof target === \\"string\\") {
@@ -23400,15 +23654,14 @@ exports[`sass should set global sass content with source 2`] = `
             }
         }, {
             \\"key\\": \\"getQuery\\",
-            \\"value\\": function getQuery() {
-                var stamp = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
+            \\"value\\": function getQuery(stamp) {
                 var search = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : \\"\\";
                 var options = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
                 search = search ? \\"\\".concat(search, \\"&\\").concat(this.search) : this.search;
                 var query = search ? query_string_default.a.parse(search, {
                     \\"decode\\": false
                 }) : {};
-                query.stamp = stamp.toString();
+                query.stamp = stamp;
                 return Object.assign(Object.assign({}, query), options);
             }
         }, {
@@ -23457,18 +23710,18 @@ exports[`sass should set global sass content with source 2`] = `
             }
         }, {
             \\"key\\": \\"load\\",
-            \\"value\\": function load(page) {
+            \\"value\\": function load(stampId, page) {
                 var _this = this;
-                var pageConfig = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
-                var stacksIndex = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 0;
+                var pageConfig = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
+                var stacksIndex = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 0;
                 var _a, _b;
                 if (!page) return;
                 stack.push(page);
-                var param = this.getQuery(stack.length, \\"\\", page.options);
+                var param = this.getQuery(stampId, \\"\\", page.options);
                 var pageEl = this.getPageContainer(page);
                 if (pageEl) {
                     setDisplay(pageEl);
-                    this.isTabBar && pageEl.classList.add(\\"taro_tabbar_page\\");
+                    this.isTabBar(this.pathname) && pageEl.classList.add(\\"taro_tabbar_page\\");
                     this.addAnimation(pageEl, stacksIndex === 0);
                     (_a = page.onShow) === null || _a === void 0 ? void 0 : _a.call(page);
                     this.bindPageEvents(page, pageEl, pageConfig);
@@ -23476,7 +23729,7 @@ exports[`sass should set global sass content with source 2`] = `
                     (_b = page.onLoad) === null || _b === void 0 ? void 0 : _b.call(page, param, (function() {
                         var _a;
                         pageEl = _this.getPageContainer(page);
-                        _this.isTabBar && (pageEl === null || pageEl === void 0 ? void 0 : pageEl.classList.add(\\"taro_tabbar_page\\"));
+                        _this.isTabBar(_this.pathname) && (pageEl === null || pageEl === void 0 ? void 0 : pageEl.classList.add(\\"taro_tabbar_page\\"));
                         _this.addAnimation(pageEl, stacksIndex === 0);
                         _this.onReady(page, true);
                         (_a = page.onShow) === null || _a === void 0 ? void 0 : _a.call(page);
@@ -23486,36 +23739,40 @@ exports[`sass should set global sass content with source 2`] = `
             }
         }, {
             \\"key\\": \\"unload\\",
-            \\"value\\": function unload(page) {
+            \\"value\\": function unload(methodName, page) {
                 var _this2 = this;
-                var delta = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1;
-                var top = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
+                var delta = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 1;
+                var top = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : false;
                 var _a, _b, _c;
                 if (!page) return;
                 stack.delta = --delta;
                 stack.pop();
-                if (this.animation && top) {
-                    if (this.unloadTimer) {
-                        clearTimeout(this.unloadTimer);
-                        (_b = (_a = this.lastUnloadPage) === null || _a === void 0 ? void 0 : _a.onUnload) === null || _b === void 0 ? void 0 : _b.call(_a);
-                        this.unloadTimer = null;
-                    }
-                    this.lastUnloadPage = page;
-                    var pageEl = this.getPageContainer(page);
-                    pageEl === null || pageEl === void 0 ? void 0 : pageEl.classList.remove(\\"taro_page_stationed\\");
-                    pageEl === null || pageEl === void 0 ? void 0 : pageEl.classList.remove(\\"taro_page_show\\");
-                    this.unloadTimer = setTimeout((function() {
-                        var _a, _b;
-                        _this2.unloadTimer = null;
-                        (_b = (_a = _this2.lastUnloadPage) === null || _a === void 0 ? void 0 : _a.onUnload) === null || _b === void 0 ? void 0 : _b.call(_a);
-                    }), this.animationDuration);
+                if (methodName !== \\"reLaunch\\" && this.isTabBar(page.path)) {
+                    stack.pushTab(page.path, page);
                 } else {
-                    var _pageEl = this.getPageContainer(page);
-                    _pageEl === null || _pageEl === void 0 ? void 0 : _pageEl.classList.remove(\\"taro_page_stationed\\");
-                    _pageEl === null || _pageEl === void 0 ? void 0 : _pageEl.classList.remove(\\"taro_page_show\\");
-                    (_c = page === null || page === void 0 ? void 0 : page.onUnload) === null || _c === void 0 ? void 0 : _c.call(page);
+                    if (this.animation && top) {
+                        if (this.unloadTimer) {
+                            clearTimeout(this.unloadTimer);
+                            (_b = (_a = this.lastUnloadPage) === null || _a === void 0 ? void 0 : _a.onUnload) === null || _b === void 0 ? void 0 : _b.call(_a);
+                            this.unloadTimer = null;
+                        }
+                        this.lastUnloadPage = page;
+                        var pageEl = this.getPageContainer(page);
+                        pageEl === null || pageEl === void 0 ? void 0 : pageEl.classList.remove(\\"taro_page_stationed\\");
+                        pageEl === null || pageEl === void 0 ? void 0 : pageEl.classList.remove(\\"taro_page_show\\");
+                        this.unloadTimer = setTimeout((function() {
+                            var _a, _b;
+                            _this2.unloadTimer = null;
+                            (_b = (_a = _this2.lastUnloadPage) === null || _a === void 0 ? void 0 : _a.onUnload) === null || _b === void 0 ? void 0 : _b.call(_a);
+                        }), this.animationDuration);
+                    } else {
+                        var _pageEl = this.getPageContainer(page);
+                        _pageEl === null || _pageEl === void 0 ? void 0 : _pageEl.classList.remove(\\"taro_page_stationed\\");
+                        _pageEl === null || _pageEl === void 0 ? void 0 : _pageEl.classList.remove(\\"taro_page_show\\");
+                        (_c = page === null || page === void 0 ? void 0 : page.onUnload) === null || _c === void 0 ? void 0 : _c.call(page);
+                    }
                 }
-                if (delta >= 1) this.unload(stack.last, delta);
+                if (delta >= 1) this.unload(methodName, stack.last, delta);
             }
         }, {
             \\"key\\": \\"show\\",
@@ -23525,7 +23782,7 @@ exports[`sass should set global sass content with source 2`] = `
                 var stacksIndex = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 0;
                 var _a, _b;
                 if (!page) return;
-                var param = this.getQuery(stack.length, \\"\\", page.options);
+                var param = this.getQuery(page[\\"$taroParams\\"][\\"stamp\\"], \\"\\", page.options);
                 var pageEl = this.getPageContainer(page);
                 if (pageEl) {
                     setDisplay(pageEl);
@@ -23640,6 +23897,8 @@ exports[`sass should set global sass content with source 2`] = `
             step((generator = generator.apply(thisArg, _arguments || [])).next());
         }));
     };
+    var createStampId = undefined();
+    var launchStampId = createStampId();
     function createRouter(app, config, framework) {
         var _this = this;
         var _a, _b;
@@ -23660,7 +23919,7 @@ exports[`sass should set global sass content with source 2`] = `
         });
         var launchParam = {
             \\"path\\": handler.homePage,
-            \\"query\\": handler.getQuery(stack.length),
+            \\"query\\": handler.getQuery(launchStampId),
             \\"scene\\": 0,
             \\"shareTicket\\": \\"\\",
             \\"referrerInfo\\": {}
@@ -23674,7 +23933,7 @@ exports[`sass should set global sass content with source 2`] = `
         var render = function render(_ref) {
             var location = _ref.location, action = _ref.action;
             return spa_awaiter(_this, void 0, void 0, _regeneratorRuntime().mark((function _callee() {
-                var _c, _d, _e, _f, _g, element, params, result, _yield$Promise$all, _yield$Promise$all2, pageConfig, enablePullDownRefresh, currentPage, pathname, shouldLoad, prevIndex, delta, _prevIndex, _delta, el, loadConfig, stacksIndex, page;
+                var _c, _d, _e, _f, _g, _h, element, params, result, _yield$Promise$all, _yield$Promise$all2, pageConfig, enablePullDownRefresh, currentPage, pathname, methodName, cacheTabs, shouldLoad, key, prevIndex, delta, _delta, el, loadConfig, stacksIndex, pageStampId, page;
                 return _regeneratorRuntime().wrap((function _callee$(_context) {
                     while (1) {
                         switch (_context.prev = _context.next) {
@@ -23746,74 +24005,100 @@ exports[`sass should set global sass content with source 2`] = `
                             }
                             currentPage = undefined.page;
                             pathname = handler.pathname;
+                            methodName = (_g = stack.method) !== null && _g !== void 0 ? _g : \\"\\";
+                            cacheTabs = stack.getTabs();
                             shouldLoad = false;
-                            if (!(action === \\"POP\\")) {
-                                _context.next = 39;
+                            stack.method = \\"\\";
+                            if (!(methodName === \\"reLaunch\\")) {
+                                _context.next = 42;
                                 break;
                             }
-                            prevIndex = stack.getPrevIndex(pathname);
-                            delta = stack.getDelta(pathname);
-                            if (currentPage !== stack.getItem(prevIndex)) {
-                                handler.unload(currentPage, delta, prevIndex > -1);
-                                if (prevIndex > -1) {
-                                    handler.show(stack.getItem(prevIndex), pageConfig, prevIndex);
-                                } else {
-                                    shouldLoad = true;
+                            handler.unload(methodName, currentPage, stack.length);
+                            for (key in cacheTabs) {
+                                if (cacheTabs[key]) {
+                                    handler.unload(methodName, cacheTabs[key]);
+                                    stack.popTab(key);
                                 }
                             }
-                            _context.next = 50;
+                            shouldLoad = true;
+                            _context.next = 54;
                             break;
 
-                          case 39:
-                            if (!handler.isTabBar) {
-                                _context.next = 48;
+                          case 42:
+                            if (!handler.isTabBar(handler.pathname)) {
+                                _context.next = 53;
                                 break;
                             }
                             if (!handler.isSamePage(currentPage)) {
-                                _context.next = 42;
+                                _context.next = 45;
                                 break;
                             }
                             return _context.abrupt(\\"return\\");
 
-                          case 42:
-                            _prevIndex = stack.getPrevIndex(pathname, 0);
-                            handler.hide(currentPage);
-                            if (!(_prevIndex > -1)) {
-                                _context.next = 46;
+                          case 45:
+                            if (stack.length === 1 && handler.isTabBar(currentPage.path)) {
+                                handler.hide(currentPage);
+                                stack.pushTab(currentPage.path.split(\\"?\\")[0], stack.last);
+                                stack.pop();
+                            } else {
+                                handler.unload(methodName, currentPage, stack.length);
+                            }
+                            if (!cacheTabs[handler.pathname]) {
+                                _context.next = 50;
                                 break;
                             }
-                            return _context.abrupt(\\"return\\", handler.show(stack.getItem(_prevIndex), pageConfig, _prevIndex));
-
-                          case 46:
-                            _context.next = 49;
-                            break;
-
-                          case 48:
-                            if (action === \\"REPLACE\\") {
-                                _delta = stack.getDelta(pathname);
-                                handler.unload(currentPage, _delta);
-                            } else if (action === \\"PUSH\\") {
-                                handler.hide(currentPage);
-                            }
-
-                          case 49:
-                            shouldLoad = true;
+                            stack.push(cacheTabs[handler.pathname]);
+                            stack.popTab(handler.pathname);
+                            return _context.abrupt(\\"return\\", handler.show(stack.getItem(0), pageConfig, 0));
 
                           case 50:
+                            shouldLoad = true;
+                            _context.next = 54;
+                            break;
+
+                          case 53:
+                            if (action === \\"POP\\") {
+                                prevIndex = stack.getPrevIndex(pathname);
+                                delta = stack.getDelta(pathname);
+                                if (currentPage !== stack.getItem(prevIndex)) {
+                                    handler.unload(methodName, currentPage, delta, prevIndex > -1);
+                                    if (prevIndex > -1) {
+                                        handler.show(stack.getItem(prevIndex), pageConfig, prevIndex);
+                                    } else {
+                                        shouldLoad = true;
+                                    }
+                                }
+                            } else if (action === \\"REPLACE\\") {
+                                _delta = stack.getDelta(pathname);
+                                handler.unload(methodName, currentPage, _delta);
+                                shouldLoad = true;
+                            } else if (action === \\"PUSH\\") {
+                                handler.hide(currentPage);
+                                shouldLoad = true;
+                            }
+
+                          case 54:
                             if (!(shouldLoad || stack.length < 1)) {
-                                _context.next = 59;
+                                _context.next = 65;
                                 break;
                             }
-                            el = (_g = element.default) !== null && _g !== void 0 ? _g : element;
+                            el = (_h = element.default) !== null && _h !== void 0 ? _h : element;
                             loadConfig = Object.assign({}, pageConfig);
                             stacksIndex = stack.length;
                             delete loadConfig[\\"path\\"];
                             delete loadConfig[\\"load\\"];
-                            page = undefined(enablePullDownRefresh ? undefined.call(\\"createPullDownComponent\\", el, location.pathname, framework, handler.PullDownRefresh) : el, pathname + undefined(handler.getQuery(stacksIndex)), {}, loadConfig);
+                            pageStampId = \\"\\";
+                            if (launchStampId) {
+                                pageStampId = launchStampId;
+                                launchStampId = \\"\\";
+                            } else {
+                                pageStampId = createStampId();
+                            }
+                            page = undefined(enablePullDownRefresh ? undefined.call(\\"createPullDownComponent\\", el, location.pathname, framework, handler.PullDownRefresh) : el, pathname + undefined(handler.getQuery(pageStampId)), {}, loadConfig);
                             if (params) page.options = params;
-                            return _context.abrupt(\\"return\\", handler.load(page, pageConfig, stacksIndex));
+                            return _context.abrupt(\\"return\\", handler.load(pageStampId, page, pageConfig, stacksIndex));
 
-                          case 59:
+                          case 65:
                           case \\"end\\":
                             return _context.stop();
                         }
