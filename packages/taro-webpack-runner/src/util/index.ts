@@ -1,8 +1,7 @@
-import { IOption, IPostcssOption } from '@tarojs/taro/types/compile'
+import { IPostcssOption } from '@tarojs/taro/types/compile'
 import { networkInterfaces } from 'os'
 import * as path from 'path'
 
-export const emptyObj: IOption = {}
 export const emptyTogglableObj = {
   enable: false,
   config: {}
