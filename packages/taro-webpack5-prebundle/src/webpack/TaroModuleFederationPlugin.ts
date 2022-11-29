@@ -11,7 +11,7 @@ import { CollectedDeps } from '../utils/constant'
 import TaroContainerPlugin from './TaroContainerPlugin'
 import TaroContainerReferencePlugin from './TaroContainerReferencePlugin'
 
-import type { Compiler } from 'webpack'
+import type { Compiler, LibraryOptions } from 'webpack'
 import type { ContainerReferencePluginOptions, ModuleFederationPluginOptions } from 'webpack/types'
 
 const PLUGIN_NAME = 'TaroModuleFederationPlugin'
@@ -29,6 +29,7 @@ export default class TaroModuleFederationPlugin extends ModuleFederationPlugin {
   private runtimeRequirements: IParams['runtimeRequirements']
 
   protected _options: ModuleFederationPluginOptions
+  protected _Library: LibraryOptions
 
   constructor (options: ModuleFederationPluginOptions, private params: IParams) {
     super(options)
@@ -36,13 +37,14 @@ export default class TaroModuleFederationPlugin extends ModuleFederationPlugin {
     this.deps = params.deps
     this.remoteAssets = params.remoteAssets || []
     this.runtimeRequirements = params.runtimeRequirements
+    this._Library = { type: 'var', name: options.name }
   }
 
   /** Apply the plugin */
   apply (compiler: Compiler) {
     const { SharePlugin } = compiler.webpack.sharing
     const { _options: options } = this
-    const library = options.library || { type: 'var', name: options.name }
+    const library = options.library || this._Library
     const remoteType = options.remoteType ||
       (options.library && isValidExternalsType(options.library.type)
         ? (options.library.type as ContainerReferencePluginOptions['remoteType'])

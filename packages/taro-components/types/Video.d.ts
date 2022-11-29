@@ -221,6 +221,131 @@ interface VideoProps extends StandardProps {
    */
   backgroundPoster?: string
 
+  /** 用于透传 `WebComponents` 上的属性到内部 H5 标签上
+   * @supported h5
+   */
+  nativeProps?: Record<string, unknown>
+
+  /** 是否展示底部进度条
+   * @supported weapp
+   */
+  showBottomProgress?: string
+
+  /** 是否在小窗模式下显示播放进度
+   * @supported weapp
+   */
+  pictureInPictureShowProgress?: string
+
+  /** 格式固定为 https://servicewechat.com/{appid}/{version}/page-frame.html，其中 {appid} 为小程序的 appid，{version} 为小程序的版本号，版本号为 0 表示为开发版、体验版以及审核版本，版本号为 devtools 表示为开发者工具，其余为正式版本；
+   * @supported weapp
+   */
+  referrerPolicy?: 'origin' | 'no-referrer'
+
+  /** 是否是 DRM 视频源
+   * @supported weapp
+   */
+  isDrm?: string
+
+  /** DRM 设备身份认证 url，仅 is-drm 为 true 时生效 (Android)
+   * @supported weapp
+   */
+  provisionUrl?: string
+
+  /** DRM 设备身份认证 url，仅 is-drm 为 true 时生效 (iOS)
+   * @supported weapp
+   */
+  certificateUrl?: string
+
+  /** DRM 获取加密信息 url，仅 is-drm 为 true 时生效
+   * @supported weapp
+   */
+  licenseUrl?: string
+
+  /** 当 poster 高宽比跟视频高宽不匹配时，如何显示 poster，设置规则同 background-size 一致。
+   * @supported alipay
+   */
+  posterSize?: string
+
+  /** 当底部工具条隐藏时，是否显示细进度条（controls=false 时设置无效）。
+   * @supported alipay
+   */
+  showThinProgressBar?: string
+
+  /** 移动网络提醒样式。
+   *
+   * 0 - 不提醒
+   * 1 - tip 提醒
+   * 2 - 阻塞提醒(无消耗流量大小)
+   * 3 - 阻塞提醒(有消耗流量大小提醒)
+   *
+   * @supported alipay, jd
+   */
+  mobilenetHintType?: string
+
+  /** 浮窗设置。暂时不支持全局浮窗。
+   * 可选值：
+   *
+   * none：无浮窗。
+   * page：页面内浮窗。
+   * @supported alipay
+   */
+  floatingMode?: string
+
+  /** 非 wifi 环境下是否显示继续播放浮层
+   * @supported swan
+   */
+  showNoWifiTip?: string
+
+  /** 全屏模式下，是否显示锁屏按钮
+   * @supported swan
+   */
+  showLockBtn?: string
+
+  /** 是否显示倍速播放按钮
+   * @supported swan
+   */
+  showRateBtn?: string
+
+  /** 全屏模式下，是否显示侧边栏控制按钮
+   * @supported swan
+   */
+  showVslideBtnInFullscreen?: string
+
+  /** 是否进入无声视频模式，进入无声视频模式后，视频将静音播放且不响应系统物理音量变化，点击播放器提示无声视频，手势调节失效
+   * @supported swan
+   */
+  silentPlay?: string
+
+  /** 前贴广告的 unit id
+   * @supported tt
+   */
+  preRollUnitId?: string
+
+  /** 后贴广告的 unit id
+   * @supported tt
+   */
+  postRollUnitId?: string
+
+  /** 是否显示倍速控件，点击倍速控件后可选择倍速，可选值： 0.75/1.0/1.25/1.5/2
+   * @supported tt
+   */
+  showPlaybackRateBtn?: string
+
+  /** video 播放时宿主退出后台后开启小窗播放，iOS 14 及以上版本支持。开启时首次退出后台后给予弹窗提示用户授权，授权完成后可以到小程序「设置」中重设。支持场景见后台小窗播放
+   * @supported tt
+   */
+  enablePlayInBackground?: string
+
+  /** 设置署名水印
+   * @supported tt
+   */
+  signature?: string
+
+  /** 指定码率上界，单位为比特每秒
+   * @supported weapp
+   */
+  preferredPeakBitRate?: number
+
   /** 当开始/继续播放时触发 play 事件
    * @supported weapp, alipay, swan, tt, qq, jd, h5, rn
    */
@@ -286,46 +411,6 @@ interface VideoProps extends StandardProps {
    */
   onSeekComplete?: CommonEventFunction
 
-  /** 用于透传 `WebComponents` 上的属性到内部 H5 标签上
-   * @supported h5
-   */
-  nativeProps?: Record<string, unknown>
-
-  /** 是否展示底部进度条
-   * @supported weapp
-   */
-  showBottomProgress?: string
-
-  /** 是否在小窗模式下显示播放进度
-   * @supported weapp
-   */
-  pictureInPictureShowProgress?: string
-
-  /** 格式固定为 https://servicewechat.com/{appid}/{version}/page-frame.html，其中 {appid} 为小程序的 appid，{version} 为小程序的版本号，版本号为 0 表示为开发版、体验版以及审核版本，版本号为 devtools 表示为开发者工具，其余为正式版本；
-   * @supported weapp
-   */
-  referrerPolicy?: 'origin' | 'no-referrer'
-
-  /** 是否是 DRM 视频源
-   * @supported weapp
-   */
-  isDrm?: string
-
-  /** DRM 设备身份认证 url，仅 is-drm 为 true 时生效 (Android)
-   * @supported weapp
-   */
-  provisionUrl?: string
-
-  /** DRM 设备身份认证 url，仅 is-drm 为 true 时生效 (iOS)
-   * @supported weapp
-   */
-  certificateUrl?: string
-
-  /** DRM 获取加密信息 url，仅 is-drm 为 true 时生效
-   * @supported weapp
-   */
-  licenseUrl?: string
-
   /** 视频进入和退出全屏时触发
    * @supported weapp, alipay, swan, tt, qq, jd
    */
@@ -335,27 +420,6 @@ interface VideoProps extends StandardProps {
    * @supported weapp
    */
   onControlsToggle?: CommonEventFunction<VideoProps.onControlsToggleEventDetail>
-
-  /** 当 poster 高宽比跟视频高宽不匹配时，如何显示 poster，设置规则同 background-size 一致。
-   * @supported alipay
-   */
-  posterSize?: string
-
-  /** 当底部工具条隐藏时，是否显示细进度条（controls=false 时设置无效）。
-   * @supported alipay
-   */
-  showThinProgressBar?: string
-
-  /** 移动网络提醒样式。
-   *
-   * 0 - 不提醒
-   * 1 - tip 提醒
-   * 2 - 阻塞提醒(无消耗流量大小)
-   * 3 - 阻塞提醒(有消耗流量大小提醒)
-   *
-   * @supported alipay, jd
-   */
-  mobilenetHintType?: string
 
   /** 视频出现缓冲时触发。
    * @supported alipay
@@ -381,65 +445,6 @@ interface VideoProps extends StandardProps {
    * @supported alipay
    */
   onRenderStart?: CommonEventFunction
-
-  /** 浮窗设置。暂时不支持全局浮窗。
-   * 可选值：
-   *
-   * none：无浮窗。
-   * page：页面内浮窗。
-   * @supported alipay
-   */
-  floatingMode?: string
-
-  /** 非 wifi 环境下是否显示继续播放浮层
-   * @supported swan
-   */
-  showNoWifiTip?: string
-
-  /** 全屏模式下，是否显示锁屏按钮
-   * @supported swan
-   */
-  showLockBtn?: string
-
-  /** 是否显示倍速播放按钮
-   * @supported swan
-   */
-  showRateBtn?: string
-
-  /** 全屏模式下，是否显示侧边栏控制按钮
-   * @supported swan
-   */
-  showVslideBtnInFullscreen?: string
-
-  /** 是否进入无声视频模式，进入无声视频模式后，视频将静音播放且不响应系统物理音量变化，点击播放器提示无声视频，手势调节失效
-   * @supported swan
-   */
-  silentPlay?: string
-
-  /** 前贴广告的 unit id
-   * @supported tt
-   */
-  preRollUnitId?: string
-
-  /** 后贴广告的 unit id
-   * @supported tt
-   */
-  postRollUnitId?: string
-
-  /** 是否显示倍速控件，点击倍速控件后可选择倍速，可选值： 0.75/1.0/1.25/1.5/2
-   * @supported tt
-   */
-  showPlaybackRateBtn?: string
-
-  /** video 播放时宿主退出后台后开启小窗播放，iOS 14 及以上版本支持。开启时首次退出后台后给予弹窗提示用户授权，授权完成后可以到小程序「设置」中重设。支持场景见后台小窗播放
-   * @supported tt
-   */
-  enablePlayInBackground?: string
-
-  /** 设置署名水印
-   * @supported tt
-   */
-  signature?: string
 
   /** 贴片广告开始播放时触发
    * @supported tt
@@ -516,11 +521,6 @@ interface VideoProps extends StandardProps {
    * @supported jd
    */
   onSeeking?: CommonEventFunction
-
-  /** 指定码率上界，单位为比特每秒
-   * @supported weapp
-   */
-  preferredPeakBitRate?: number
 
   /** 贴片广告加载成功时触发，event.detail = { adType: 'preRollAd' | 'postRollAd' }
    * @supported tt
@@ -636,10 +636,8 @@ declare namespace VideoProps {
 }
 
 /** 视频。相关api：Taro.createVideoContext
- *
- * 备注：h5上因为没有测试，所以暂时写了“待定”，需要`Video`来确认。
  * @classification media
- * @supported weapp, h5, swan, alipay, tt
+ * @supported weapp, swan, alipay, tt, h5, rn
  * @example_react
  * ```tsx
  * export default class PageView extends Component {

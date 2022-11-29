@@ -52,6 +52,21 @@ interface ViewProps extends StandardProps {
    */
   animation?: TaroGeneral.IAnyObject
 
+  /** 表示组件的语义角色。设置为 img 时，组件聚焦后读屏软件会朗读出 图像 ；设置为 button 时，聚焦后读屏软件会朗读出 按钮 。详情请参见 aria-component。
+   * @supported alipay
+   */
+  role?: string
+
+  /** 无障碍访问，（角色）标识元素的作用
+   * @supported qq
+   */
+  ariaRole?: string
+
+  /** 无障碍访问，（属性）元素的额外描述
+   * @supported qq
+   */
+  ariaLabel?: string
+
   /** 点击。
    * @supported alipay
    */
@@ -117,20 +132,12 @@ interface ViewProps extends StandardProps {
    */
   onFirstAppear?: CommonEventFunction
 
-  /** 表示组件的语义角色。设置为 img 时，组件聚焦后读屏软件会朗读出 图像 ；设置为 button 时，聚焦后读屏软件会朗读出 按钮 。详情请参见 aria-component。
-   * @supported alipay
+  /** 是否以 catch 的形式绑定 touchmove 事件
+   * @supported weapp, alipay, swan, tt, qq, jd
+   * @version 3.1.0+
+   * @unique
    */
-  role?: string
-
-  /** 无障碍访问，（角色）标识元素的作用
-   * @supported qq
-   */
-  ariaRole?: string
-
-  /** 无障碍访问，（属性）元素的额外描述
-   * @supported qq
-   */
-  ariaLabel?: string
+  catchMove?: boolean
 }
 
 /** 视图容器

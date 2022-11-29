@@ -155,6 +155,65 @@ interface MapProps extends StandardProps {
         [key: string]: number | string | any
       }
 
+  /** 视野在地图 padding 范围内展示
+   * @supported alipay
+   */
+  includePadding?: { [key in 'left' | 'right' | 'top' | 'bottom']: number | string }
+
+  /** 覆盖物，自定义贴图
+   * @supported alipay
+   */
+  groundOverlays?: any[]
+
+  /** 覆盖物，网格贴图
+   * @supported alipay
+   */
+  tileOverlay?: any[]
+
+  /** 是否展示 POI 点
+   * @supported weapp, alipay, tt
+   */
+  enablePoi?: string
+
+  /** 是否展示建筑物
+   * @supported weapp, alipay, tt
+   */
+  enableBuilding?: string
+
+  /** 覆盖物，多边形。
+   * @supported alipay
+   */
+  polygon?: string
+
+  /** 设置地图样式。
+   *
+   * default：默认样式
+   * light：精简样式
+   * @supported alipay
+   */
+  customMapStyle?: string
+
+  /** 基于 map 高级定制渲染，设置覆盖在地图上的 view。
+   * @supported alipay
+   */
+  panels?: string
+
+  /** 否
+   * @supported jd
+   */
+  theme?: string
+
+  /** 内联样式。
+   * @supported alipay
+   */
+  optimize?: string
+
+  /** 展示3D楼块
+   * @supported weapp, swan, tt, qq
+   * @default false
+   */
+  enable3D?: boolean
+
   /** 点击地图时触发
    * @supported weapp, alipay, swan, tt, qq, jd
    */
@@ -195,31 +254,6 @@ interface MapProps extends StandardProps {
    */
   onPoiTap?: CommonEventFunction<MapProps.onPoiTapEventDetail>
 
-  /** 视野在地图 padding 范围内展示
-   * @supported alipay
-   */
-  includePadding?: { [key in 'left' | 'right' | 'top' | 'bottom']: number | string }
-
-  /** 覆盖物，自定义贴图
-   * @supported alipay
-   */
-  groundOverlays?: any[]
-
-  /** 覆盖物，网格贴图
-   * @supported alipay
-   */
-  tileOverlay?: any[]
-
-  /** 是否展示 POI 点
-   * @supported weapp, alipay, tt
-   */
-  enablePoi?: string
-
-  /** 是否展示建筑物
-   * @supported weapp, alipay, tt
-   */
-  enableBuilding?: string
-
   /** 点击标记点对应的气泡时触发e.detail = {markerId}
    * @supported weapp, swan, tt, jd
    */
@@ -229,24 +263,6 @@ interface MapProps extends StandardProps {
    * @supported weapp, tt
    */
   onAnchorPointTap?: CommonEventFunction
-
-  /** 覆盖物，多边形。
-   * @supported alipay
-   */
-  polygon?: string
-
-  /** 设置地图样式。
-   *
-   * default：默认样式
-   * light：精简样式
-   * @supported alipay
-   */
-  customMapStyle?: string
-
-  /** 基于 map 高级定制渲染，设置覆盖在地图上的 view。
-   * @supported alipay
-   */
-  panels?: string
 
   /** 点击 panel 时触发。
    * @supported alipay
@@ -260,22 +276,6 @@ interface MapProps extends StandardProps {
    * @supported alipay
    */
   onInitComplete?: CommonEventFunction
-
-  /** 否
-   * @supported jd
-   */
-  theme?: string
-
-  /** 展示3D楼块
-   * @supported weapp, swan, tt, qq
-   * @default false
-   */
-  enable3D?: string
-
-  /** 内联样式。
-   * @supported alipay
-   */
-  optimize?: string
 }
 declare namespace MapProps {
   /** 标记点用于在地图上显示标记的位置 */

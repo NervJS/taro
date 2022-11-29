@@ -97,21 +97,6 @@ interface SwiperProps extends StandardProps {
    */
   easingFunction?: keyof SwiperProps.TEasingFunction
 
-  /** current 改变时会触发 change 事件
-   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn
-   */
-  onChange?: CommonEventFunction<SwiperProps.onChangeEventDetail>
-
-  /** swiper-item 的位置发生改变时会触发 transition 事件
-   * @supported weapp, alipay, tt, qq, jd
-   */
-  onTransition?: CommonEventFunction<SwiperProps.onTransitionEventDetail>
-
-  /** 动画结束时会触发 animationfinish 事件
-   * @supported weapp, swan, tt, qq, jd, h5, rn
-   */
-  onAnimationFinish?: SwiperProps['onChange']
-
   /** 是否禁止用户 touch 操作
    * @default false
    * @supported alipay
@@ -152,11 +137,6 @@ interface SwiperProps extends StandardProps {
    */
   disableProgrammaticAnimation?: string
 
-  /** 动画结束时会触发 animationEnd 事件
-   * @supported alipay
-   */
-  onAnimationEnd?: CommonEventFunction<SwiperProps.onCommonEventDetail>
-
   /** 滑动距离阈值，当滑动距离超过阈值时进行 swiper-item 切换。
    * @supported alipay
    */
@@ -187,6 +167,26 @@ interface SwiperProps extends StandardProps {
    * @supported swan
    */
   disableTouchmove?: string
+
+  /** current 改变时会触发 change 事件
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn
+   */
+  onChange?: CommonEventFunction<SwiperProps.onChangeEventDetail>
+
+  /** swiper-item 的位置发生改变时会触发 transition 事件
+   * @supported weapp, alipay, tt, qq, jd
+   */
+  onTransition?: CommonEventFunction<SwiperProps.onTransitionEventDetail>
+
+  /** 动画结束时会触发 animationfinish 事件
+   * @supported weapp, swan, tt, qq, jd, h5, rn
+   */
+  onAnimationFinish?: SwiperProps['onChange']
+
+  /** 动画结束时会触发 animationEnd 事件
+   * @supported alipay
+   */
+  onAnimationEnd?: CommonEventFunction<SwiperProps.onCommonEventDetail>
 }
 declare namespace SwiperProps {
   /** 导致变更的原因 */

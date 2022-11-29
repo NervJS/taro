@@ -106,38 +106,6 @@ interface TextareaProps extends StandardProps, FormItemProps {
    */
   disableDefaultPadding?: boolean
 
-  /** 输入框聚焦时触发
-   * @supported weapp, alipay, swan, tt, qq, h5, rn
-   */
-  onFocus?: CommonEventFunction<TextareaProps.onFocusEventDetail>
-
-  /** 输入框失去焦点时触发
-   * @supported weapp, alipay, swan, tt, qq, h5, rn
-   */
-  onBlur?: CommonEventFunction<TextareaProps.onBlurEventDetail>
-
-  /** 输入框行数变化时调用
-   * @supported weapp, swan, tt, qq, rn
-   */
-  onLineChange?: CommonEventFunction<TextareaProps.onLineChangeEventDetail>
-
-  /** 当键盘输入时，触发 input 事件
-   *
-   * **onInput 处理函数的返回值并不会反映到 textarea 上**
-   * @supported weapp, alipay, swan, tt, qq, h5, rn
-   */
-  onInput?: CommonEventFunction<TextareaProps.onInputEventDetail>
-
-  /** 点击完成时， 触发 confirm 事件
-   * @supported weapp, alipay, swan, tt, qq, rn
-   */
-  onConfirm?: CommonEventFunction<TextareaProps.onConfirmEventDetail>
-
-  /** 键盘高度发生变化的时候触发此事件
-   * @supported weapp
-   */
-  onKeyboardHeightChange?: CommonEventFunction<TextareaProps.onKeyboardHeightChangeEventDetail>
-
   /** 用于透传 `WebComponents` 上的属性到内部 H5 标签上
    * @supported h5
    */
@@ -172,6 +140,38 @@ interface TextareaProps extends StandardProps, FormItemProps {
    * @supported qq
    */
   ariaLabel?: string
+
+  /** 输入框聚焦时触发
+   * @supported weapp, alipay, swan, tt, qq, h5, rn
+   */
+  onFocus?: CommonEventFunction<TextareaProps.onFocusEventDetail>
+
+  /** 输入框失去焦点时触发
+   * @supported weapp, alipay, swan, tt, qq, h5, rn
+   */
+  onBlur?: CommonEventFunction<TextareaProps.onBlurEventDetail>
+
+  /** 输入框行数变化时调用
+   * @supported weapp, swan, tt, qq, rn
+   */
+  onLineChange?: CommonEventFunction<TextareaProps.onLineChangeEventDetail>
+
+  /** 当键盘输入时，触发 input 事件
+   *
+   * **onInput 处理函数的返回值并不会反映到 textarea 上**
+   * @supported weapp, alipay, swan, tt, qq, h5, rn
+   */
+  onInput?: CommonEventFunction<TextareaProps.onInputEventDetail>
+
+  /** 点击完成时， 触发 confirm 事件
+   * @supported weapp, alipay, swan, tt, qq, rn
+   */
+  onConfirm?: CommonEventFunction<TextareaProps.onConfirmEventDetail>
+
+  /** 键盘高度发生变化的时候触发此事件
+   * @supported weapp
+   */
+  onKeyboardHeightChange?: CommonEventFunction<TextareaProps.onKeyboardHeightChangeEventDetail>
 }
 declare namespace TextareaProps {
   interface onFocusEventDetail {

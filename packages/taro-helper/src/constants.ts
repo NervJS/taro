@@ -180,8 +180,6 @@ export const UPDATE_PACKAGE_LIST = [
   '@tarojs/plugin-mini-ci',
   '@tarojs/webpack5-runner',
   '@tarojs/webpack5-prebundle',
-  'nervjs',
-  'nerv-devtools'
 ]
 
 export enum META_TYPE {

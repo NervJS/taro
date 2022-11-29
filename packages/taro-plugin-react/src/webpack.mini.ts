@@ -17,7 +17,8 @@ function setAlias (ctx: IPluginContext, framework: Frameworks, chain) {
 
   if (framework === 'react') {
     alias.set('react-dom$', '@tarojs/react')
-    const isProd = !config.isWatch || process.env.NODE_ENV === 'production'
+    const webpackConfig = chain.toConfig()
+    const isProd = webpackConfig.mode === 'production'
     if (!isProd && config.mini?.debugReact !== true) {
       // 不是生产环境，且没有设置 debugReact，则使用压缩版本的 react 依赖，减少体积
       alias.set('react-reconciler$', 'react-reconciler/cjs/react-reconciler.production.min.js')
