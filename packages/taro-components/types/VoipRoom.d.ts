@@ -14,7 +14,7 @@ interface VoipRoomProps extends StandardProps {
   devicePosition?: keyof VoipRoomProps.DevicePosition
 
   /** 进入房间用户的 openid
-   * @default none
+   * @default "none"
    * @supported weapp
    */
   openId?: string
