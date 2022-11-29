@@ -3,7 +3,7 @@ import { AppConfig } from '@tarojs/taro'
 import { get, mapValues, merge } from 'lodash'
 import * as path from 'path'
 
-import { addTrailingSlash, emptyObj, getConfigFilePath, getPages, parseHtmlScript } from '../util'
+import { addTrailingSlash, getConfigFilePath, getPages, parseHtmlScript } from '../util'
 import {
   getCopyWebpackPlugin,
   getCssoWebpackPlugin,
@@ -23,17 +23,17 @@ import getBaseChain from './base.conf'
 export default function (appPath: string, config: Partial<BuildConfig>, appConfig: AppConfig): any {
   const chain = getBaseChain(appPath, config)
   const {
-    alias = emptyObj,
+    alias = {},
     copy,
-    entry = emptyObj,
+    entry = {},
     entryFileName = 'app',
-    output = emptyObj,
+    output = {},
     sourceRoot = '',
     outputRoot = 'dist',
     publicPath = '/',
     staticDirectory = 'static',
     chunkDirectory = 'chunk',
-    router = emptyObj,
+    router = {},
 
     designWidth = 750,
     deviceRatio,
@@ -41,24 +41,24 @@ export default function (appPath: string, config: Partial<BuildConfig>, appConfi
     sourceMapType,
     enableExtract = true,
 
-    defineConstants = emptyObj,
-    env = emptyObj,
-    styleLoaderOption = emptyObj,
-    cssLoaderOption = emptyObj,
-    sassLoaderOption = emptyObj,
-    lessLoaderOption = emptyObj,
-    stylusLoaderOption = emptyObj,
-    mediaUrlLoaderOption = emptyObj,
-    fontUrlLoaderOption = emptyObj,
-    imageUrlLoaderOption = emptyObj,
+    defineConstants = {},
+    env = {},
+    styleLoaderOption = {},
+    cssLoaderOption = {},
+    sassLoaderOption = {},
+    lessLoaderOption = {},
+    stylusLoaderOption = {},
+    mediaUrlLoaderOption = {},
+    fontUrlLoaderOption = {},
+    imageUrlLoaderOption = {},
 
-    miniCssExtractPluginOption = emptyObj,
+    miniCssExtractPluginOption = {},
     esnextModules = [],
 
     useHtmlComponents = false,
 
     postcss,
-    htmlPluginOption = emptyObj,
+    htmlPluginOption = {},
     csso,
     uglify,
     terser
