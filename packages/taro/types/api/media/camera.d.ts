@@ -62,7 +62,8 @@ declare module '../../index' {
       /** 实际设置的缩放级别。由于系统限制，某些机型可能无法设置成指定值，会改用最接近的可设值。 */
       zoom: number
       /**
-       * @supported alipay on android
+       * @supported alipay
+       * @alipay on android
        */
       setZoom:number
     }
@@ -86,19 +87,19 @@ declare module '../../index' {
       /** 视频的文件的临时路径 */
       tempVideoPath: string
       /** 视频文件的高度。
-       * @supported alipay 
+       * @supported alipay
        */
       height: string
        /** 视频文件的宽度。
-       * @supported alipay 
+       * @supported alipay
        */
       width: string
        /** 视频文件的尺寸。
-       * @supported alipay 
+       * @supported alipay
        */
       size: string
        /** 录制的持续时间。
-       * @supported alipay 
+       * @supported alipay
        */
       duration: string
     }
@@ -198,7 +199,6 @@ declare module '../../index' {
      * ```
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/camera/wx.createCameraContext.html
      */
-    createCameraContext(): CameraContext
-    createCameraContext(id: string): CameraContext
+    createCameraContext(id?: string): CameraContext
   }
 }
