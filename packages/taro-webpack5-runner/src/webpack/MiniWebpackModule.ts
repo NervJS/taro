@@ -67,7 +67,7 @@ export class MiniWebpackModule {
         test: REG_STYLUS,
         oneOf: this.addCSSLoader(cssLoaders, stylusLoader)
       },
-      nomorlCss: {
+      normalCss: {
         test: REG_CSS,
         oneOf: cssLoaders
       },
