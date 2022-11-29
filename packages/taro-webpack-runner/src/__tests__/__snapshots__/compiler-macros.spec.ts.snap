@@ -4369,7 +4369,7 @@ exports[`compiler-macros - defineAppConfig and definePageConfig should read app 
                 stack.delta = --delta;
                 stack.pop();
                 if (methodName !== \\"reLaunch\\" && this.isTabBar(page.path)) {
-                    stack.pushTab(page.path, page);
+                    stack.pushTab(page.path.split(\\"?\\")[0], page);
                 } else {
                     if (this.animation && top) {
                         if (this.unloadTimer) {
