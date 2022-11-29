@@ -4362,7 +4362,7 @@ exports[`sass should build app with sass 2`] = `
                 stack.delta = --delta;
                 stack.pop();
                 if (methodName !== \\"reLaunch\\" && this.isTabBar(page.path)) {
-                    stack.pushTab(page.path, page);
+                    stack.pushTab(page.path.split(\\"?\\")[0], page);
                 } else {
                     if (this.animation && top) {
                         if (this.unloadTimer) {
@@ -9196,7 +9196,7 @@ exports[`sass should build app with scss 2`] = `
                 stack.delta = --delta;
                 stack.pop();
                 if (methodName !== \\"reLaunch\\" && this.isTabBar(page.path)) {
-                    stack.pushTab(page.path, page);
+                    stack.pushTab(page.path.split(\\"?\\")[0], page);
                 } else {
                     if (this.animation && top) {
                         if (this.unloadTimer) {
@@ -14040,7 +14040,7 @@ exports[`sass should set global sass content with data 2`] = `
                 stack.delta = --delta;
                 stack.pop();
                 if (methodName !== \\"reLaunch\\" && this.isTabBar(page.path)) {
-                    stack.pushTab(page.path, page);
+                    stack.pushTab(page.path.split(\\"?\\")[0], page);
                 } else {
                     if (this.animation && top) {
                         if (this.unloadTimer) {
@@ -18884,7 +18884,7 @@ exports[`sass should set global sass content with source & dir 2`] = `
                 stack.delta = --delta;
                 stack.pop();
                 if (methodName !== \\"reLaunch\\" && this.isTabBar(page.path)) {
-                    stack.pushTab(page.path, page);
+                    stack.pushTab(page.path.split(\\"?\\")[0], page);
                 } else {
                     if (this.animation && top) {
                         if (this.unloadTimer) {
@@ -23728,7 +23728,7 @@ exports[`sass should set global sass content with source 2`] = `
                 stack.delta = --delta;
                 stack.pop();
                 if (methodName !== \\"reLaunch\\" && this.isTabBar(page.path)) {
-                    stack.pushTab(page.path, page);
+                    stack.pushTab(page.path.split(\\"?\\")[0], page);
                 } else {
                     if (this.animation && top) {
                         if (this.unloadTimer) {

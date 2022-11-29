@@ -4377,7 +4377,7 @@ exports[`config should build from origin and pipe to output 2`] = `
                 stack.delta = --delta;
                 stack.pop();
                 if (methodName !== \\"reLaunch\\" && this.isTabBar(page.path)) {
-                    stack.pushTab(page.path, page);
+                    stack.pushTab(page.path.split(\\"?\\")[0], page);
                 } else {
                     if (this.animation && top) {
                         if (this.unloadTimer) {
@@ -9225,7 +9225,7 @@ I m irrelevant.
                 stack.delta = --delta;
                 stack.pop();
                 if (methodName !== \\"reLaunch\\" && this.isTabBar(page.path)) {
-                    stack.pushTab(page.path, page);
+                    stack.pushTab(page.path.split(\\"?\\")[0], page);
                 } else {
                     if (this.animation && top) {
                         if (this.unloadTimer) {
@@ -14073,7 +14073,7 @@ exports[`config should resolved alias 2`] = `
                 stack.delta = --delta;
                 stack.pop();
                 if (methodName !== \\"reLaunch\\" && this.isTabBar(page.path)) {
-                    stack.pushTab(page.path, page);
+                    stack.pushTab(page.path.split(\\"?\\")[0], page);
                 } else {
                     if (this.animation && top) {
                         if (this.unloadTimer) {
