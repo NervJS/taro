@@ -97,6 +97,7 @@ export function createRouter (
 
     if (methodName === 'reLaunch') {
       handler.unload(currentPage, stacks.length)
+      // NOTE: 同时卸载缓存在tabs里面的页面实例
       for (const key in cacheTabs) {
         if (cacheTabs[key]) {
           handler.unload(cacheTabs[key])
