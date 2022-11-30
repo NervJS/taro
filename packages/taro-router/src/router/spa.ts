@@ -95,12 +95,16 @@ export function createRouter (
     let shouldLoad = false
     stacks.method = ''
 
+    // if (methodName !== 'reLaunch' && this.isTabBar(page.path!)) {
+    //   stacks.pushTab(page.path!.split('?')[0], page)
+    // }
+
     if (methodName === 'reLaunch') {
-      handler.unload(methodName, currentPage, stacks.length)
+      handler.unload(currentPage, stacks.length)
       for (const key in cacheTabs) {
         if (cacheTabs[key]) {
-          handler.unload(methodName, cacheTabs[key])
-          stacks.popTab(key)
+          handler.unload(cacheTabs[key])
+          stacks.removeTab(key)
         }
       }
       shouldLoad = true
@@ -108,14 +112,18 @@ export function createRouter (
       if (handler.isSamePage(currentPage)) return
       if (stacks.length === 1 && handler.isTabBar(currentPage!.path!)) {
         handler.hide(currentPage)
-        stacks.pushTab(currentPage!.path!.split('?')[0], stacks.last)
-        stacks.pop()
-      } else {
-        handler.unload(methodName, currentPage, stacks.length)
+        stacks.pushTab(currentPage!.path!.split('?')[0])
+      } else if (stacks.length > 0) {
+        const firstIns = stacks.getItem(0)
+        if (handler.isTabBar(firstIns.path!)) {
+          handler.unload(currentPage, stacks.length - 1)
+          stacks.pushTab(firstIns.path!.split('?')[0])
+        } else {
+          handler.unload(currentPage, stacks.length)
+        }
       }
 
       if (cacheTabs[handler.pathname]) {
-        stacks.push(cacheTabs[handler.pathname])
         stacks.popTab(handler.pathname)
         return handler.show(stacks.getItem(0), pageConfig, 0)
       }
@@ -126,7 +134,7 @@ export function createRouter (
       const delta = stacks.getDelta(pathname)
       // NOTE: Safari 内核浏览器在非应用页面返回上一页时，会触发额外的 POP 事件，此处需避免当前页面被错误卸载
       if (currentPage !== stacks.getItem(prevIndex)) {
-        handler.unload(methodName, currentPage, delta, prevIndex > -1)
+        handler.unload(currentPage, delta, prevIndex > -1)
         if (prevIndex > -1) {
           handler.show(stacks.getItem(prevIndex), pageConfig, prevIndex)
         } else {
@@ -136,7 +144,7 @@ export function createRouter (
     } else if (action === 'REPLACE') {
       const delta = stacks.getDelta(pathname)
       // NOTE: 页面路由记录并不会清空，只是移除掉缓存的 stack 以及页面
-      handler.unload(methodName, currentPage, delta)
+      handler.unload(currentPage, delta)
       shouldLoad = true
     } else if (action === 'PUSH') {
       handler.hide(currentPage)

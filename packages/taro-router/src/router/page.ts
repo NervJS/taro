@@ -115,7 +115,7 @@ export default class PageHandler {
     return search.substr(1)
   }
 
-  getQuery (stamp: string, search = '', options: Record<string, unknown> = {}) {
+  getQuery (stamp = '0', search = '', options: Record<string, unknown> = {}) {
     search = search ? `${search}&${this.search}` : this.search
     const query = search
       ? queryString.parse(search, { decode: false })
@@ -193,37 +193,33 @@ export default class PageHandler {
     }
   }
 
-  unload (methodName: string, page?: PageInstance | null, delta = 1, top = false) {
+  unload (page?: PageInstance | null, delta = 1, top = false) {
     if (!page) return
 
     stacks.delta = --delta
     stacks.pop()
-    if (methodName !== 'reLaunch' && this.isTabBar(page.path!)) {
-      stacks.pushTab(page.path!.split('?')[0], page)
-    } else {
-      if (this.animation && top) {
-        if (this.unloadTimer) {
-          clearTimeout(this.unloadTimer)
-          this.lastUnloadPage?.onUnload?.()
-          this.unloadTimer = null
-        }
-        this.lastUnloadPage = page
-        const pageEl = this.getPageContainer(page)
-        pageEl?.classList.remove('taro_page_stationed')
-        pageEl?.classList.remove('taro_page_show')
-
-        this.unloadTimer = setTimeout(() => {
-          this.unloadTimer = null
-          this.lastUnloadPage?.onUnload?.()
-        }, this.animationDuration)
-      } else {
-        const pageEl = this.getPageContainer(page)
-        pageEl?.classList.remove('taro_page_stationed')
-        pageEl?.classList.remove('taro_page_show')
-        page?.onUnload?.()
+    if (this.animation && top) {
+      if (this.unloadTimer) {
+        clearTimeout(this.unloadTimer)
+        this.lastUnloadPage?.onUnload?.()
+        this.unloadTimer = null
       }
+      this.lastUnloadPage = page
+      const pageEl = this.getPageContainer(page)
+      pageEl?.classList.remove('taro_page_stationed')
+      pageEl?.classList.remove('taro_page_show')
+
+      this.unloadTimer = setTimeout(() => {
+        this.unloadTimer = null
+        this.lastUnloadPage?.onUnload?.()
+      }, this.animationDuration)
+    } else {
+      const pageEl = this.getPageContainer(page)
+      pageEl?.classList.remove('taro_page_stationed')
+      pageEl?.classList.remove('taro_page_show')
+      page?.onUnload?.()
     }
-    if (delta >= 1) this.unload(methodName, stacks.last, delta)
+    if (delta >= 1) this.unload(stacks.last, delta)
   }
 
   show (page?: PageInstance | null, pageConfig: Route = {}, stacksIndex = 0) {

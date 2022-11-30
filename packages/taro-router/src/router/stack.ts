@@ -79,11 +79,17 @@ class Stacks {
     return this.tabs
   }
 
-  pushTab (path: string, page: PageInstance) {
-    this.tabs[path] = page
+  pushTab (path: string) {
+    this.tabs[path] = this.last
+    this.pop()
   }
 
   popTab (path: string) {
+    this.push(this.tabs[path])
+    delete this.tabs[path]
+  }
+
+  removeTab (path: string) {
     delete this.tabs[path]
   }
 }
