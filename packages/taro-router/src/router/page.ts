@@ -35,7 +35,7 @@ export default class PageHandler {
     this.mount()
   }
 
-  get appId () { return 'app' }
+  get appId () { return this.config.appId ||'app' }
   get router () { return this.config.router || {} }
   get routerMode () { return this.router.mode || 'hash' }
   get customRoutes () { return this.router.customRoutes || {} }
@@ -127,12 +127,15 @@ export default class PageHandler {
 
   mount () {
     setHistoryMode(this.routerMode, this.router.basename)
-    document.getElementById('app')?.remove()
 
     this.animation && loadAnimateStyle(this.animationDuration)
 
-    const app = document.createElement('div')
-    app.id = this.appId
+    const appId = this.appId
+    let app = document.getElementById(appId)
+    if (!app) {
+      app = document.createElement('div')
+      app.id = appId
+    }
     app.classList.add('taro_router')
 
     if (this.tabBarList.length > 1) {
