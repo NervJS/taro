@@ -673,7 +673,7 @@ require(\\"./taro\\");
                     duration: \\"300\\",
                     \\"z-index\\": \\"100\\",
                     overlay: \\"true\\",
-                    position: \\"'bottom'\\",
+                    position: Object(_tarojs_shared__WEBPACK_IMPORTED_MODULE_0__[\\"singleQuote\\"])(\\"bottom\\"),
                     round: \\"false\\",
                     \\"close-on-slide-down\\": \\"false\\",
                     \\"overlay-style\\": \\"\\",
@@ -692,7 +692,7 @@ require(\\"./taro\\");
                     name: \\"\\",
                     transform: \\"false\\",
                     duration: \\"300\\",
-                    \\"easing-function\\": \\"'ease-out'\\"
+                    \\"easing-function\\": Object(_tarojs_shared__WEBPACK_IMPORTED_MODULE_0__[\\"singleQuote\\"])(\\"ease-out\\")
                 }
             };
             var BUBBLE_EVENTS = new Set([ \\"touchStart\\", \\"touchMove\\", \\"touchEnd\\", \\"touchCancel\\", \\"tap\\", \\"longTap\\" ]);
