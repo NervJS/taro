@@ -147,7 +147,7 @@ export const components = {
     duration: '300',
     'z-index': '100',
     overlay: 'true',
-    position: "'bottom'",
+    position: singleQuote('bottom'),
     round: 'false',
     'close-on-slide-down': 'false',
     'overlay-style': '',
@@ -166,6 +166,6 @@ export const components = {
     name: '',
     transform: 'false',
     duration: '300',
-    'easing-function': "'ease-out'",
+    'easing-function': singleQuote('ease-out'),
   },
 }
