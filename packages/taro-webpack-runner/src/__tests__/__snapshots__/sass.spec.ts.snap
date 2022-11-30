@@ -3675,7 +3675,7 @@ exports[`sass should build app with sass 2`] = `
         Object(createClass[\\"a\\"])(MultiPageHandler, [ {
             \\"key\\": \\"appId\\",
             \\"get\\": function get() {
-                return \\"app\\";
+                return this.config.appId || \\"app\\";
             }
         }, {
             \\"key\\": \\"router\\",
@@ -3756,11 +3756,13 @@ exports[`sass should build app with sass 2`] = `
         }, {
             \\"key\\": \\"mount\\",
             \\"value\\": function mount() {
-                var _a;
                 setHistoryMode(this.routerMode, this.router.basename);
-                (_a = document.getElementById(\\"app\\")) === null || _a === void 0 ? void 0 : _a.remove();
-                var app = document.createElement(\\"div\\");
-                app.id = this.appId;
+                var appId = this.appId;
+                var app = document.getElementById(appId);
+                if (!app) {
+                    app = document.createElement(\\"div\\");
+                    app.id = appId;
+                }
                 app.classList.add(\\"taro_router\\");
                 if (this.tabBarList.length > 1) {
                     var container = document.createElement(\\"div\\");
@@ -4150,7 +4152,7 @@ exports[`sass should build app with sass 2`] = `
         Object(createClass[\\"a\\"])(PageHandler, [ {
             \\"key\\": \\"appId\\",
             \\"get\\": function get() {
-                return \\"app\\";
+                return this.config.appId || \\"app\\";
             }
         }, {
             \\"key\\": \\"router\\",
@@ -4291,12 +4293,14 @@ exports[`sass should build app with sass 2`] = `
         }, {
             \\"key\\": \\"mount\\",
             \\"value\\": function mount() {
-                var _a;
                 setHistoryMode(this.routerMode, this.router.basename);
-                (_a = document.getElementById(\\"app\\")) === null || _a === void 0 ? void 0 : _a.remove();
                 this.animation && loadAnimateStyle(this.animationDuration);
-                var app = document.createElement(\\"div\\");
-                app.id = this.appId;
+                var appId = this.appId;
+                var app = document.getElementById(appId);
+                if (!app) {
+                    app = document.createElement(\\"div\\");
+                    app.id = appId;
+                }
                 app.classList.add(\\"taro_router\\");
                 if (this.tabBarList.length > 1) {
                     var container = document.createElement(\\"div\\");
@@ -4657,7 +4661,7 @@ exports[`sass should build app with sass 2`] = `
                             if (stack.length === 1 && handler.isTabBar(currentPage.path)) {
                                 handler.hide(currentPage);
                                 stack.pushTab(currentPage.path.split(\\"?\\")[0]);
-                            } else {
+                            } else if (stack.length > 0) {
                                 firstIns = stack.getItem(0);
                                 if (handler.isTabBar(firstIns.path)) {
                                     handler.unload(currentPage, stack.length - 1);
@@ -8517,7 +8521,7 @@ exports[`sass should build app with scss 2`] = `
         Object(createClass[\\"a\\"])(MultiPageHandler, [ {
             \\"key\\": \\"appId\\",
             \\"get\\": function get() {
-                return \\"app\\";
+                return this.config.appId || \\"app\\";
             }
         }, {
             \\"key\\": \\"router\\",
@@ -8598,11 +8602,13 @@ exports[`sass should build app with scss 2`] = `
         }, {
             \\"key\\": \\"mount\\",
             \\"value\\": function mount() {
-                var _a;
                 setHistoryMode(this.routerMode, this.router.basename);
-                (_a = document.getElementById(\\"app\\")) === null || _a === void 0 ? void 0 : _a.remove();
-                var app = document.createElement(\\"div\\");
-                app.id = this.appId;
+                var appId = this.appId;
+                var app = document.getElementById(appId);
+                if (!app) {
+                    app = document.createElement(\\"div\\");
+                    app.id = appId;
+                }
                 app.classList.add(\\"taro_router\\");
                 if (this.tabBarList.length > 1) {
                     var container = document.createElement(\\"div\\");
@@ -8992,7 +8998,7 @@ exports[`sass should build app with scss 2`] = `
         Object(createClass[\\"a\\"])(PageHandler, [ {
             \\"key\\": \\"appId\\",
             \\"get\\": function get() {
-                return \\"app\\";
+                return this.config.appId || \\"app\\";
             }
         }, {
             \\"key\\": \\"router\\",
@@ -9133,12 +9139,14 @@ exports[`sass should build app with scss 2`] = `
         }, {
             \\"key\\": \\"mount\\",
             \\"value\\": function mount() {
-                var _a;
                 setHistoryMode(this.routerMode, this.router.basename);
-                (_a = document.getElementById(\\"app\\")) === null || _a === void 0 ? void 0 : _a.remove();
                 this.animation && loadAnimateStyle(this.animationDuration);
-                var app = document.createElement(\\"div\\");
-                app.id = this.appId;
+                var appId = this.appId;
+                var app = document.getElementById(appId);
+                if (!app) {
+                    app = document.createElement(\\"div\\");
+                    app.id = appId;
+                }
                 app.classList.add(\\"taro_router\\");
                 if (this.tabBarList.length > 1) {
                     var container = document.createElement(\\"div\\");
@@ -9499,7 +9507,7 @@ exports[`sass should build app with scss 2`] = `
                             if (stack.length === 1 && handler.isTabBar(currentPage.path)) {
                                 handler.hide(currentPage);
                                 stack.pushTab(currentPage.path.split(\\"?\\")[0]);
-                            } else {
+                            } else if (stack.length > 0) {
                                 firstIns = stack.getItem(0);
                                 if (handler.isTabBar(firstIns.path)) {
                                     handler.unload(currentPage, stack.length - 1);
@@ -13369,7 +13377,7 @@ exports[`sass should set global sass content with data 2`] = `
         Object(createClass[\\"a\\"])(MultiPageHandler, [ {
             \\"key\\": \\"appId\\",
             \\"get\\": function get() {
-                return \\"app\\";
+                return this.config.appId || \\"app\\";
             }
         }, {
             \\"key\\": \\"router\\",
@@ -13450,11 +13458,13 @@ exports[`sass should set global sass content with data 2`] = `
         }, {
             \\"key\\": \\"mount\\",
             \\"value\\": function mount() {
-                var _a;
                 setHistoryMode(this.routerMode, this.router.basename);
-                (_a = document.getElementById(\\"app\\")) === null || _a === void 0 ? void 0 : _a.remove();
-                var app = document.createElement(\\"div\\");
-                app.id = this.appId;
+                var appId = this.appId;
+                var app = document.getElementById(appId);
+                if (!app) {
+                    app = document.createElement(\\"div\\");
+                    app.id = appId;
+                }
                 app.classList.add(\\"taro_router\\");
                 if (this.tabBarList.length > 1) {
                     var container = document.createElement(\\"div\\");
@@ -13844,7 +13854,7 @@ exports[`sass should set global sass content with data 2`] = `
         Object(createClass[\\"a\\"])(PageHandler, [ {
             \\"key\\": \\"appId\\",
             \\"get\\": function get() {
-                return \\"app\\";
+                return this.config.appId || \\"app\\";
             }
         }, {
             \\"key\\": \\"router\\",
@@ -13985,12 +13995,14 @@ exports[`sass should set global sass content with data 2`] = `
         }, {
             \\"key\\": \\"mount\\",
             \\"value\\": function mount() {
-                var _a;
                 setHistoryMode(this.routerMode, this.router.basename);
-                (_a = document.getElementById(\\"app\\")) === null || _a === void 0 ? void 0 : _a.remove();
                 this.animation && loadAnimateStyle(this.animationDuration);
-                var app = document.createElement(\\"div\\");
-                app.id = this.appId;
+                var appId = this.appId;
+                var app = document.getElementById(appId);
+                if (!app) {
+                    app = document.createElement(\\"div\\");
+                    app.id = appId;
+                }
                 app.classList.add(\\"taro_router\\");
                 if (this.tabBarList.length > 1) {
                     var container = document.createElement(\\"div\\");
@@ -14351,7 +14363,7 @@ exports[`sass should set global sass content with data 2`] = `
                             if (stack.length === 1 && handler.isTabBar(currentPage.path)) {
                                 handler.hide(currentPage);
                                 stack.pushTab(currentPage.path.split(\\"?\\")[0]);
-                            } else {
+                            } else if (stack.length > 0) {
                                 firstIns = stack.getItem(0);
                                 if (handler.isTabBar(firstIns.path)) {
                                     handler.unload(currentPage, stack.length - 1);
@@ -18221,7 +18233,7 @@ exports[`sass should set global sass content with source & dir 2`] = `
         Object(createClass[\\"a\\"])(MultiPageHandler, [ {
             \\"key\\": \\"appId\\",
             \\"get\\": function get() {
-                return \\"app\\";
+                return this.config.appId || \\"app\\";
             }
         }, {
             \\"key\\": \\"router\\",
@@ -18302,11 +18314,13 @@ exports[`sass should set global sass content with source & dir 2`] = `
         }, {
             \\"key\\": \\"mount\\",
             \\"value\\": function mount() {
-                var _a;
                 setHistoryMode(this.routerMode, this.router.basename);
-                (_a = document.getElementById(\\"app\\")) === null || _a === void 0 ? void 0 : _a.remove();
-                var app = document.createElement(\\"div\\");
-                app.id = this.appId;
+                var appId = this.appId;
+                var app = document.getElementById(appId);
+                if (!app) {
+                    app = document.createElement(\\"div\\");
+                    app.id = appId;
+                }
                 app.classList.add(\\"taro_router\\");
                 if (this.tabBarList.length > 1) {
                     var container = document.createElement(\\"div\\");
@@ -18696,7 +18710,7 @@ exports[`sass should set global sass content with source & dir 2`] = `
         Object(createClass[\\"a\\"])(PageHandler, [ {
             \\"key\\": \\"appId\\",
             \\"get\\": function get() {
-                return \\"app\\";
+                return this.config.appId || \\"app\\";
             }
         }, {
             \\"key\\": \\"router\\",
@@ -18837,12 +18851,14 @@ exports[`sass should set global sass content with source & dir 2`] = `
         }, {
             \\"key\\": \\"mount\\",
             \\"value\\": function mount() {
-                var _a;
                 setHistoryMode(this.routerMode, this.router.basename);
-                (_a = document.getElementById(\\"app\\")) === null || _a === void 0 ? void 0 : _a.remove();
                 this.animation && loadAnimateStyle(this.animationDuration);
-                var app = document.createElement(\\"div\\");
-                app.id = this.appId;
+                var appId = this.appId;
+                var app = document.getElementById(appId);
+                if (!app) {
+                    app = document.createElement(\\"div\\");
+                    app.id = appId;
+                }
                 app.classList.add(\\"taro_router\\");
                 if (this.tabBarList.length > 1) {
                     var container = document.createElement(\\"div\\");
@@ -19203,7 +19219,7 @@ exports[`sass should set global sass content with source & dir 2`] = `
                             if (stack.length === 1 && handler.isTabBar(currentPage.path)) {
                                 handler.hide(currentPage);
                                 stack.pushTab(currentPage.path.split(\\"?\\")[0]);
-                            } else {
+                            } else if (stack.length > 0) {
                                 firstIns = stack.getItem(0);
                                 if (handler.isTabBar(firstIns.path)) {
                                     handler.unload(currentPage, stack.length - 1);
@@ -23073,7 +23089,7 @@ exports[`sass should set global sass content with source 2`] = `
         Object(createClass[\\"a\\"])(MultiPageHandler, [ {
             \\"key\\": \\"appId\\",
             \\"get\\": function get() {
-                return \\"app\\";
+                return this.config.appId || \\"app\\";
             }
         }, {
             \\"key\\": \\"router\\",
@@ -23154,11 +23170,13 @@ exports[`sass should set global sass content with source 2`] = `
         }, {
             \\"key\\": \\"mount\\",
             \\"value\\": function mount() {
-                var _a;
                 setHistoryMode(this.routerMode, this.router.basename);
-                (_a = document.getElementById(\\"app\\")) === null || _a === void 0 ? void 0 : _a.remove();
-                var app = document.createElement(\\"div\\");
-                app.id = this.appId;
+                var appId = this.appId;
+                var app = document.getElementById(appId);
+                if (!app) {
+                    app = document.createElement(\\"div\\");
+                    app.id = appId;
+                }
                 app.classList.add(\\"taro_router\\");
                 if (this.tabBarList.length > 1) {
                     var container = document.createElement(\\"div\\");
@@ -23548,7 +23566,7 @@ exports[`sass should set global sass content with source 2`] = `
         Object(createClass[\\"a\\"])(PageHandler, [ {
             \\"key\\": \\"appId\\",
             \\"get\\": function get() {
-                return \\"app\\";
+                return this.config.appId || \\"app\\";
             }
         }, {
             \\"key\\": \\"router\\",
@@ -23689,12 +23707,14 @@ exports[`sass should set global sass content with source 2`] = `
         }, {
             \\"key\\": \\"mount\\",
             \\"value\\": function mount() {
-                var _a;
                 setHistoryMode(this.routerMode, this.router.basename);
-                (_a = document.getElementById(\\"app\\")) === null || _a === void 0 ? void 0 : _a.remove();
                 this.animation && loadAnimateStyle(this.animationDuration);
-                var app = document.createElement(\\"div\\");
-                app.id = this.appId;
+                var appId = this.appId;
+                var app = document.getElementById(appId);
+                if (!app) {
+                    app = document.createElement(\\"div\\");
+                    app.id = appId;
+                }
                 app.classList.add(\\"taro_router\\");
                 if (this.tabBarList.length > 1) {
                     var container = document.createElement(\\"div\\");
@@ -24055,7 +24075,7 @@ exports[`sass should set global sass content with source 2`] = `
                             if (stack.length === 1 && handler.isTabBar(currentPage.path)) {
                                 handler.hide(currentPage);
                                 stack.pushTab(currentPage.path.split(\\"?\\")[0]);
-                            } else {
+                            } else if (stack.length > 0) {
                                 firstIns = stack.getItem(0);
                                 if (handler.isTabBar(firstIns.path)) {
                                     handler.unload(currentPage, stack.length - 1);
