@@ -95,10 +95,6 @@ export function createRouter (
     let shouldLoad = false
     stacks.method = ''
 
-    // if (methodName !== 'reLaunch' && this.isTabBar(page.path!)) {
-    //   stacks.pushTab(page.path!.split('?')[0], page)
-    // }
-
     if (methodName === 'reLaunch') {
       handler.unload(currentPage, stacks.length)
       for (const key in cacheTabs) {
