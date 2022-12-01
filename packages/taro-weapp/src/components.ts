@@ -322,7 +322,7 @@ export const components = {
     overlay: _true,
     position: "'bottom'",
     round: _false,
-    'close-on-slideDown': _false,
+    'close-on-slide-down': _false,
     'overlay-style': _empty,
     'custom-style': _empty,
     bindBeforeEnter: _empty,
