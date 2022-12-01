@@ -7,9 +7,10 @@ interface SwiperItemProps extends StandardProps {
   itemId?: string
 
   /** 是否跳过未显示的滑块布局，设为 true 可优化复杂情况下的滑动性能，但会丢失隐藏状态滑块的布局信息
+   * @default false
    * @supported weapp
    */
-  skipHiddenItemLayout?: string
+  skipHiddenItemLayout?: boolean
 }
 
 /** 仅可放置在 swiper 组件中，宽高自动设置为100%

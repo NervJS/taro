@@ -1,4 +1,15 @@
-import { ComponentType } from 'react'
+import { ComponentType, ReactNode } from 'react'
+
+interface RootPortalProps {
+  children?: ReactNode
+
+  /**
+   * 是否从页面中脱离出来
+   * @supported weapp
+   * @default true
+   */
+  enable?: boolean
+}
 
 /** root-portal
  * 使整个子树从页面中脱离出来，类似于在 CSS 中使用 fixed position 的效果。主要用于制作弹窗、弹出层等。
@@ -28,6 +39,6 @@ import { ComponentType } from 'react'
  * }
  * ```
  */
-declare const RootPortal: ComponentType
+declare const RootPortal: ComponentType<RootPortalProps>
 
-export { RootPortal }
+export { RootPortal, RootPortalProps }
