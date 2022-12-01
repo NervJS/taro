@@ -111,6 +111,7 @@ export default (ctx: IPluginContext, _pluginOpts: CIOptions | (() => CIOptions))
     let ci: BaseCI | null = null
     switch (platform) {
       case 'weapp':
+      case 'qywx':
         ci = new WeappCI(ctx, pluginOpts)
         break
       case 'tt':
