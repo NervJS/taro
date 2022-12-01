@@ -1,6 +1,6 @@
 /* eslint-disable dot-notation */
 import { Current, PageInstance, requestAnimationFrame } from '@tarojs/runtime'
-import queryString from 'query-string'
+import { parse } from 'qs'
 
 import { loadAnimateStyle } from '../animation'
 import { bindPageResize } from '../events/resize'
@@ -118,7 +118,7 @@ export default class PageHandler {
   getQuery (stamp = 0, search = '', options: Record<string, unknown> = {}) {
     search = search ? `${search}&${this.search}` : this.search
     const query = search
-      ? queryString.parse(search, { decode: false })
+      ? parse(search, { decoder: s => s })
       : {}
 
     query.stamp = stamp.toString()

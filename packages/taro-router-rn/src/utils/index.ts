@@ -1,5 +1,5 @@
 import { camelCase } from 'lodash'
-import { parseUrl } from 'query-string'
+import { parse } from 'qs'
 
 import { CallbackResult, OptionsFunc, TaroTabBarConfig } from './types'
 
@@ -115,7 +115,7 @@ export function getTabBarPages (): string[] {
 export function handleUrl (url: string): Record<string, any> {
   const path = url.split('?')[0]
   const pageName = camelCase(path.startsWith('/') ? path : `/${path}`)
-  const params = parseUrl(url.startsWith('/') ? url.substr(1) : url).query || {}
+  const params = parse(path.split('#')[0]) || {}
   return {
     pageName,
     params

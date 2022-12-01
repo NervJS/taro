@@ -1,6 +1,6 @@
 /* eslint-disable dot-notation */
 import { Current, PageInstance } from '@tarojs/runtime'
-import queryString from 'query-string'
+import { parse } from 'qs'
 
 import { bindPageResize } from '../events/resize'
 import { bindPageScroll } from '../events/scroll'
@@ -52,7 +52,7 @@ export default class MultiPageHandler {
   getQuery (search = '', options: Record<string, unknown> = {}) {
     search = search ? `${search}&${this.search}` : this.search
     const query = search
-      ? queryString.parse(search)
+      ? parse(search)
       : {}
     return { ...query, ...options }
   }

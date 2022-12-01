@@ -38,7 +38,7 @@
     "@tarojs/runtime": "workspace:*",
     "base64-js": "^1.3.0",
     "jsonp-retry": "^1.0.3",
-    "query-string": "^7.1.1",
+    "qs": "^6.11.0",
     "whatwg-fetch": "^3.4.0"
   },
   "devDependencies": {
