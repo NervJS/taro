@@ -6,9 +6,9 @@ exports[`vue should build vue app 2`] = `
 "
 /** filePath: dist/chunk/1.js **/
 (window[\\"webpackJsonp\\"] = window[\\"webpackJsonp\\"] || []).push([ [ 1 ], {
-    \\"30\\": function(module, exports, __webpack_require__) {
+    \\"29\\": function(module, exports, __webpack_require__) {
         var api = __webpack_require__(5);
-        var content = __webpack_require__(33);
+        var content = __webpack_require__(32);
         content = content.__esModule ? content.default : content;
         if (typeof content === \\"string\\") {
             content = [ [ module.i, content, \\"\\" ] ];
@@ -19,9 +19,9 @@ exports[`vue should build vue app 2`] = `
         var update = api(content, options);
         module.exports = content.locals || {};
     },
-    \\"31\\": function(module, exports, __webpack_require__) {
+    \\"30\\": function(module, exports, __webpack_require__) {
         var api = __webpack_require__(5);
-        var content = __webpack_require__(35);
+        var content = __webpack_require__(34);
         content = content.__esModule ? content.default : content;
         if (typeof content === \\"string\\") {
             content = [ [ module.i, content, \\"\\" ] ];
@@ -31,30 +31,40 @@ exports[`vue should build vue app 2`] = `
         options.singleton = false;
         var update = api(content, options);
         module.exports = content.locals || {};
+    },
+    \\"31\\": function(module, __webpack_exports__, __webpack_require__) {
+        \\"use strict\\";
+        var _node_modules_pnpm_registry_npmjs_org_style_loader_1_3_0_webpack_4_46_0_node_modules_style_loader_dist_cjs_js_node_modules_pnpm_registry_npmjs_org_css_loader_5_2_7_webpack_4_46_0_node_modules_css_loader_dist_cjs_js_ref_3_oneOf_0_0_node_modules_pnpm_registry_npmjs_org_vue_loader_15_9_8_izcuroqdza55ucckmxgxii63uq_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_pnpm_registry_npmjs_org_postcss_loader_4_3_0_dhonik3q6ff6ozbzdscnovq2ka_node_modules_postcss_loader_dist_cjs_js_ref_4_0_node_modules_pnpm_registry_npmjs_org_resolve_url_loader_3_1_3_node_modules_resolve_url_loader_index_js_node_modules_pnpm_registry_npmjs_org_sass_loader_10_2_0_sass_1_50_0_webpack_4_46_0_node_modules_sass_loader_dist_cjs_js_ref_6_1_node_modules_pnpm_registry_npmjs_org_vue_loader_15_9_8_izcuroqdza55ucckmxgxii63uq_node_modules_vue_loader_lib_index_js_vue_loader_options_index_vue_vue_type_style_index_0_lang_scss___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(29);
+        var _node_modules_pnpm_registry_npmjs_org_style_loader_1_3_0_webpack_4_46_0_node_modules_style_loader_dist_cjs_js_node_modules_pnpm_registry_npmjs_org_css_loader_5_2_7_webpack_4_46_0_node_modules_css_loader_dist_cjs_js_ref_3_oneOf_0_0_node_modules_pnpm_registry_npmjs_org_vue_loader_15_9_8_izcuroqdza55ucckmxgxii63uq_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_pnpm_registry_npmjs_org_postcss_loader_4_3_0_dhonik3q6ff6ozbzdscnovq2ka_node_modules_postcss_loader_dist_cjs_js_ref_4_0_node_modules_pnpm_registry_npmjs_org_resolve_url_loader_3_1_3_node_modules_resolve_url_loader_index_js_node_modules_pnpm_registry_npmjs_org_sass_loader_10_2_0_sass_1_50_0_webpack_4_46_0_node_modules_sass_loader_dist_cjs_js_ref_6_1_node_modules_pnpm_registry_npmjs_org_vue_loader_15_9_8_izcuroqdza55ucckmxgxii63uq_node_modules_vue_loader_lib_index_js_vue_loader_options_index_vue_vue_type_style_index_0_lang_scss___WEBPACK_IMPORTED_MODULE_0___default = __webpack_require__.n(_node_modules_pnpm_registry_npmjs_org_style_loader_1_3_0_webpack_4_46_0_node_modules_style_loader_dist_cjs_js_node_modules_pnpm_registry_npmjs_org_css_loader_5_2_7_webpack_4_46_0_node_modules_css_loader_dist_cjs_js_ref_3_oneOf_0_0_node_modules_pnpm_registry_npmjs_org_vue_loader_15_9_8_izcuroqdza55ucckmxgxii63uq_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_pnpm_registry_npmjs_org_postcss_loader_4_3_0_dhonik3q6ff6ozbzdscnovq2ka_node_modules_postcss_loader_dist_cjs_js_ref_4_0_node_modules_pnpm_registry_npmjs_org_resolve_url_loader_3_1_3_node_modules_resolve_url_loader_index_js_node_modules_pnpm_registry_npmjs_org_sass_loader_10_2_0_sass_1_50_0_webpack_4_46_0_node_modules_sass_loader_dist_cjs_js_ref_6_1_node_modules_pnpm_registry_npmjs_org_vue_loader_15_9_8_izcuroqdza55ucckmxgxii63uq_node_modules_vue_loader_lib_index_js_vue_loader_options_index_vue_vue_type_style_index_0_lang_scss___WEBPACK_IMPORTED_MODULE_0__);
     },
     \\"32\\": function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
-        var _node_modules_pnpm_registry_npmjs_org_style_loader_1_3_0_webpack_4_46_0_node_modules_style_loader_dist_cjs_js_node_modules_pnpm_registry_npmjs_org_css_loader_3_4_2_webpack_4_46_0_node_modules_css_loader_dist_cjs_js_ref_2_oneOf_0_0_node_modules_pnpm_registry_npmjs_org_vue_loader_15_9_8_mb4th6kmyx4ixjh6t2xkx624yu_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_pnpm_registry_npmjs_org_postcss_loader_4_3_0_mmkiswgrgezhd2zweiqe7apfva_node_modules_postcss_loader_dist_cjs_js_ref_3_0_node_modules_pnpm_registry_npmjs_org_resolve_url_loader_3_1_3_node_modules_resolve_url_loader_index_js_node_modules_pnpm_registry_npmjs_org_sass_loader_10_2_0_sass_1_50_0_webpack_4_46_0_node_modules_sass_loader_dist_cjs_js_ref_5_1_node_modules_pnpm_registry_npmjs_org_vue_loader_15_9_8_mb4th6kmyx4ixjh6t2xkx624yu_node_modules_vue_loader_lib_index_js_vue_loader_options_index_vue_vue_type_style_index_0_lang_scss___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(30);
-        var _node_modules_pnpm_registry_npmjs_org_style_loader_1_3_0_webpack_4_46_0_node_modules_style_loader_dist_cjs_js_node_modules_pnpm_registry_npmjs_org_css_loader_3_4_2_webpack_4_46_0_node_modules_css_loader_dist_cjs_js_ref_2_oneOf_0_0_node_modules_pnpm_registry_npmjs_org_vue_loader_15_9_8_mb4th6kmyx4ixjh6t2xkx624yu_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_pnpm_registry_npmjs_org_postcss_loader_4_3_0_mmkiswgrgezhd2zweiqe7apfva_node_modules_postcss_loader_dist_cjs_js_ref_3_0_node_modules_pnpm_registry_npmjs_org_resolve_url_loader_3_1_3_node_modules_resolve_url_loader_index_js_node_modules_pnpm_registry_npmjs_org_sass_loader_10_2_0_sass_1_50_0_webpack_4_46_0_node_modules_sass_loader_dist_cjs_js_ref_5_1_node_modules_pnpm_registry_npmjs_org_vue_loader_15_9_8_mb4th6kmyx4ixjh6t2xkx624yu_node_modules_vue_loader_lib_index_js_vue_loader_options_index_vue_vue_type_style_index_0_lang_scss___WEBPACK_IMPORTED_MODULE_0___default = __webpack_require__.n(_node_modules_pnpm_registry_npmjs_org_style_loader_1_3_0_webpack_4_46_0_node_modules_style_loader_dist_cjs_js_node_modules_pnpm_registry_npmjs_org_css_loader_3_4_2_webpack_4_46_0_node_modules_css_loader_dist_cjs_js_ref_2_oneOf_0_0_node_modules_pnpm_registry_npmjs_org_vue_loader_15_9_8_mb4th6kmyx4ixjh6t2xkx624yu_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_pnpm_registry_npmjs_org_postcss_loader_4_3_0_mmkiswgrgezhd2zweiqe7apfva_node_modules_postcss_loader_dist_cjs_js_ref_3_0_node_modules_pnpm_registry_npmjs_org_resolve_url_loader_3_1_3_node_modules_resolve_url_loader_index_js_node_modules_pnpm_registry_npmjs_org_sass_loader_10_2_0_sass_1_50_0_webpack_4_46_0_node_modules_sass_loader_dist_cjs_js_ref_5_1_node_modules_pnpm_registry_npmjs_org_vue_loader_15_9_8_mb4th6kmyx4ixjh6t2xkx624yu_node_modules_vue_loader_lib_index_js_vue_loader_options_index_vue_vue_type_style_index_0_lang_scss___WEBPACK_IMPORTED_MODULE_0__);
+        __webpack_require__.r(__webpack_exports__);
+        var _node_modules_pnpm_registry_npmjs_org_css_loader_5_2_7_webpack_4_46_0_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
+        var _node_modules_pnpm_registry_npmjs_org_css_loader_5_2_7_webpack_4_46_0_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default = __webpack_require__.n(_node_modules_pnpm_registry_npmjs_org_css_loader_5_2_7_webpack_4_46_0_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__);
+        var ___CSS_LOADER_EXPORT___ = _node_modules_pnpm_registry_npmjs_org_css_loader_5_2_7_webpack_4_46_0_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()((function(i) {
+            return i[1];
+        }));
+        ___CSS_LOADER_EXPORT___.push([ module.i, \\".index {\\\\n  color: blue;\\\\n}\\\\n\\", \\"\\" ]);
+        __webpack_exports__[\\"default\\"] = ___CSS_LOADER_EXPORT___;
     },
-    \\"33\\": function(module, exports, __webpack_require__) {
-        var ___CSS_LOADER_API_IMPORT___ = __webpack_require__(6);
-        exports = ___CSS_LOADER_API_IMPORT___(false);
-        exports.push([ module.i, \\".index {\\\\n  color: blue;\\\\n}\\\\n\\", \\"\\" ]);
-        module.exports = exports;
+    \\"33\\": function(module, __webpack_exports__, __webpack_require__) {
+        \\"use strict\\";
+        var _node_modules_pnpm_registry_npmjs_org_style_loader_1_3_0_webpack_4_46_0_node_modules_style_loader_dist_cjs_js_node_modules_pnpm_registry_npmjs_org_css_loader_5_2_7_webpack_4_46_0_node_modules_css_loader_dist_cjs_js_ref_3_oneOf_0_0_node_modules_pnpm_registry_npmjs_org_vue_loader_15_9_8_izcuroqdza55ucckmxgxii63uq_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_pnpm_registry_npmjs_org_postcss_loader_4_3_0_dhonik3q6ff6ozbzdscnovq2ka_node_modules_postcss_loader_dist_cjs_js_ref_4_0_node_modules_pnpm_registry_npmjs_org_resolve_url_loader_3_1_3_node_modules_resolve_url_loader_index_js_node_modules_pnpm_registry_npmjs_org_sass_loader_10_2_0_sass_1_50_0_webpack_4_46_0_node_modules_sass_loader_dist_cjs_js_ref_5_1_node_modules_pnpm_registry_npmjs_org_vue_loader_15_9_8_izcuroqdza55ucckmxgxii63uq_node_modules_vue_loader_lib_index_js_vue_loader_options_index_vue_vue_type_style_index_1_lang_sass___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(30);
+        var _node_modules_pnpm_registry_npmjs_org_style_loader_1_3_0_webpack_4_46_0_node_modules_style_loader_dist_cjs_js_node_modules_pnpm_registry_npmjs_org_css_loader_5_2_7_webpack_4_46_0_node_modules_css_loader_dist_cjs_js_ref_3_oneOf_0_0_node_modules_pnpm_registry_npmjs_org_vue_loader_15_9_8_izcuroqdza55ucckmxgxii63uq_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_pnpm_registry_npmjs_org_postcss_loader_4_3_0_dhonik3q6ff6ozbzdscnovq2ka_node_modules_postcss_loader_dist_cjs_js_ref_4_0_node_modules_pnpm_registry_npmjs_org_resolve_url_loader_3_1_3_node_modules_resolve_url_loader_index_js_node_modules_pnpm_registry_npmjs_org_sass_loader_10_2_0_sass_1_50_0_webpack_4_46_0_node_modules_sass_loader_dist_cjs_js_ref_5_1_node_modules_pnpm_registry_npmjs_org_vue_loader_15_9_8_izcuroqdza55ucckmxgxii63uq_node_modules_vue_loader_lib_index_js_vue_loader_options_index_vue_vue_type_style_index_1_lang_sass___WEBPACK_IMPORTED_MODULE_0___default = __webpack_require__.n(_node_modules_pnpm_registry_npmjs_org_style_loader_1_3_0_webpack_4_46_0_node_modules_style_loader_dist_cjs_js_node_modules_pnpm_registry_npmjs_org_css_loader_5_2_7_webpack_4_46_0_node_modules_css_loader_dist_cjs_js_ref_3_oneOf_0_0_node_modules_pnpm_registry_npmjs_org_vue_loader_15_9_8_izcuroqdza55ucckmxgxii63uq_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_pnpm_registry_npmjs_org_postcss_loader_4_3_0_dhonik3q6ff6ozbzdscnovq2ka_node_modules_postcss_loader_dist_cjs_js_ref_4_0_node_modules_pnpm_registry_npmjs_org_resolve_url_loader_3_1_3_node_modules_resolve_url_loader_index_js_node_modules_pnpm_registry_npmjs_org_sass_loader_10_2_0_sass_1_50_0_webpack_4_46_0_node_modules_sass_loader_dist_cjs_js_ref_5_1_node_modules_pnpm_registry_npmjs_org_vue_loader_15_9_8_izcuroqdza55ucckmxgxii63uq_node_modules_vue_loader_lib_index_js_vue_loader_options_index_vue_vue_type_style_index_1_lang_sass___WEBPACK_IMPORTED_MODULE_0__);
     },
     \\"34\\": function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
-        var _node_modules_pnpm_registry_npmjs_org_style_loader_1_3_0_webpack_4_46_0_node_modules_style_loader_dist_cjs_js_node_modules_pnpm_registry_npmjs_org_css_loader_3_4_2_webpack_4_46_0_node_modules_css_loader_dist_cjs_js_ref_2_oneOf_0_0_node_modules_pnpm_registry_npmjs_org_vue_loader_15_9_8_mb4th6kmyx4ixjh6t2xkx624yu_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_pnpm_registry_npmjs_org_postcss_loader_4_3_0_mmkiswgrgezhd2zweiqe7apfva_node_modules_postcss_loader_dist_cjs_js_ref_3_0_node_modules_pnpm_registry_npmjs_org_resolve_url_loader_3_1_3_node_modules_resolve_url_loader_index_js_node_modules_pnpm_registry_npmjs_org_sass_loader_10_2_0_sass_1_50_0_webpack_4_46_0_node_modules_sass_loader_dist_cjs_js_ref_4_1_node_modules_pnpm_registry_npmjs_org_vue_loader_15_9_8_mb4th6kmyx4ixjh6t2xkx624yu_node_modules_vue_loader_lib_index_js_vue_loader_options_index_vue_vue_type_style_index_1_lang_sass___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(31);
-        var _node_modules_pnpm_registry_npmjs_org_style_loader_1_3_0_webpack_4_46_0_node_modules_style_loader_dist_cjs_js_node_modules_pnpm_registry_npmjs_org_css_loader_3_4_2_webpack_4_46_0_node_modules_css_loader_dist_cjs_js_ref_2_oneOf_0_0_node_modules_pnpm_registry_npmjs_org_vue_loader_15_9_8_mb4th6kmyx4ixjh6t2xkx624yu_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_pnpm_registry_npmjs_org_postcss_loader_4_3_0_mmkiswgrgezhd2zweiqe7apfva_node_modules_postcss_loader_dist_cjs_js_ref_3_0_node_modules_pnpm_registry_npmjs_org_resolve_url_loader_3_1_3_node_modules_resolve_url_loader_index_js_node_modules_pnpm_registry_npmjs_org_sass_loader_10_2_0_sass_1_50_0_webpack_4_46_0_node_modules_sass_loader_dist_cjs_js_ref_4_1_node_modules_pnpm_registry_npmjs_org_vue_loader_15_9_8_mb4th6kmyx4ixjh6t2xkx624yu_node_modules_vue_loader_lib_index_js_vue_loader_options_index_vue_vue_type_style_index_1_lang_sass___WEBPACK_IMPORTED_MODULE_0___default = __webpack_require__.n(_node_modules_pnpm_registry_npmjs_org_style_loader_1_3_0_webpack_4_46_0_node_modules_style_loader_dist_cjs_js_node_modules_pnpm_registry_npmjs_org_css_loader_3_4_2_webpack_4_46_0_node_modules_css_loader_dist_cjs_js_ref_2_oneOf_0_0_node_modules_pnpm_registry_npmjs_org_vue_loader_15_9_8_mb4th6kmyx4ixjh6t2xkx624yu_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_pnpm_registry_npmjs_org_postcss_loader_4_3_0_mmkiswgrgezhd2zweiqe7apfva_node_modules_postcss_loader_dist_cjs_js_ref_3_0_node_modules_pnpm_registry_npmjs_org_resolve_url_loader_3_1_3_node_modules_resolve_url_loader_index_js_node_modules_pnpm_registry_npmjs_org_sass_loader_10_2_0_sass_1_50_0_webpack_4_46_0_node_modules_sass_loader_dist_cjs_js_ref_4_1_node_modules_pnpm_registry_npmjs_org_vue_loader_15_9_8_mb4th6kmyx4ixjh6t2xkx624yu_node_modules_vue_loader_lib_index_js_vue_loader_options_index_vue_vue_type_style_index_1_lang_sass___WEBPACK_IMPORTED_MODULE_0__);
+        __webpack_require__.r(__webpack_exports__);
+        var _node_modules_pnpm_registry_npmjs_org_css_loader_5_2_7_webpack_4_46_0_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
+        var _node_modules_pnpm_registry_npmjs_org_css_loader_5_2_7_webpack_4_46_0_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default = __webpack_require__.n(_node_modules_pnpm_registry_npmjs_org_css_loader_5_2_7_webpack_4_46_0_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__);
+        var ___CSS_LOADER_EXPORT___ = _node_modules_pnpm_registry_npmjs_org_css_loader_5_2_7_webpack_4_46_0_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()((function(i) {
+            return i[1];
+        }));
+        ___CSS_LOADER_EXPORT___.push([ module.i, \\".detail {\\\\n  color: red;\\\\n}\\\\n\\", \\"\\" ]);
+        __webpack_exports__[\\"default\\"] = ___CSS_LOADER_EXPORT___;
     },
-    \\"35\\": function(module, exports, __webpack_require__) {
-        var ___CSS_LOADER_API_IMPORT___ = __webpack_require__(6);
-        exports = ___CSS_LOADER_API_IMPORT___(false);
-        exports.push([ module.i, \\".detail {\\\\n  color: red;\\\\n}\\\\n\\", \\"\\" ]);
-        module.exports = exports;
-    },
-    \\"36\\": function(module, __webpack_exports__, __webpack_require__) {
+    \\"35\\": function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_require__.r(__webpack_exports__);
         var render = function() {
@@ -75,8 +85,8 @@ exports[`vue should build vue app 2`] = `
             }
         };
         var pages_indexvue_type_script_lang_js_ = indexvue_type_script_lang_js_;
-        var indexvue_type_style_index_0_lang_scss_ = __webpack_require__(32);
-        var indexvue_type_style_index_1_lang_sass_ = __webpack_require__(34);
+        var indexvue_type_style_index_0_lang_scss_ = __webpack_require__(31);
+        var indexvue_type_style_index_1_lang_sass_ = __webpack_require__(33);
         function normalizeComponent(scriptExports, render, staticRenderFns, functionalTemplate, injectStyles, scopeId, moduleIdentifier, shadowMode) {
             var options = typeof scriptExports === \\"function\\" ? scriptExports.options : scriptExports;
             if (render) {
@@ -291,18 +301,61 @@ exports[`vue should build vue app 2`] = `
     jsonpArray = jsonpArray.slice();
     for (var i = 0; i < jsonpArray.length; i++) webpackJsonpCallback(jsonpArray[i]);
     var parentJsonpFunction = oldJsonpFunction;
-    return __webpack_require__(__webpack_require__.s = 9);
+    return __webpack_require__(__webpack_require__.s = 8);
 })([ function(module, exports, __webpack_require__) {
     \\"use strict\\";
-    var _defineProperty = __webpack_require__(11).default;
-    var _slicedToArray = __webpack_require__(12).default;
-    var _createForOfIteratorHelper = __webpack_require__(16).default;
-    var _typeof = __webpack_require__(2).default;
-    var _toConsumableArray = __webpack_require__(17).default;
-    var strictUriEncode = __webpack_require__(21);
-    var decodeComponent = __webpack_require__(22);
-    var splitOnFirst = __webpack_require__(23);
-    var filterObject = __webpack_require__(24);
+    module.exports = function(cssWithMappingToString) {
+        var list = [];
+        list.toString = function toString() {
+            return this.map((function(item) {
+                var content = cssWithMappingToString(item);
+                if (item[2]) {
+                    return \\"@media \\".concat(item[2], \\" {\\").concat(content, \\"}\\");
+                }
+                return content;
+            })).join(\\"\\");
+        };
+        list.i = function(modules, mediaQuery, dedupe) {
+            if (typeof modules === \\"string\\") {
+                modules = [ [ null, modules, \\"\\" ] ];
+            }
+            var alreadyImportedModules = {};
+            if (dedupe) {
+                for (var i = 0; i < this.length; i++) {
+                    var id = this[i][0];
+                    if (id != null) {
+                        alreadyImportedModules[id] = true;
+                    }
+                }
+            }
+            for (var _i = 0; _i < modules.length; _i++) {
+                var item = [].concat(modules[_i]);
+                if (dedupe && alreadyImportedModules[item[0]]) {
+                    continue;
+                }
+                if (mediaQuery) {
+                    if (!item[2]) {
+                        item[2] = mediaQuery;
+                    } else {
+                        item[2] = \\"\\".concat(mediaQuery, \\" and \\").concat(item[2]);
+                    }
+                }
+                list.push(item);
+            }
+        };
+        return list;
+    };
+}, function(module, exports, __webpack_require__) {
+    \\"use strict\\";
+    var _defineProperty = __webpack_require__(10).default;
+    var _slicedToArray = __webpack_require__(11).default;
+    var _createForOfIteratorHelper = __webpack_require__(15).default;
+    var _typeof = __webpack_require__(3).default;
+    var _toConsumableArray = __webpack_require__(16).default;
+    var strictUriEncode = __webpack_require__(20);
+    var decodeComponent = __webpack_require__(21);
+    var splitOnFirst = __webpack_require__(22);
+    var filterObject = __webpack_require__(23);
     var isNullOrUndefined = function isNullOrUndefined(value) {
         return value === null || value === undefined;
     };
@@ -690,7 +743,7 @@ exports[`vue should build vue app 2`] = `
         return exports.pick(input, exclusionFilter, options);
     };
 }, function(module, exports, __webpack_require__) {
-    var arrayLikeToArray = __webpack_require__(7);
+    var arrayLikeToArray = __webpack_require__(6);
     function _unsupportedIterableToArray(o, minLen) {
         if (!o) return;
         if (typeof o === \\"string\\") return arrayLikeToArray(o, minLen);
@@ -713,7 +766,7 @@ exports[`vue should build vue app 2`] = `
     }
     module.exports = _typeof, module.exports.__esModule = true, module.exports[\\"default\\"] = module.exports;
 }, function(module, exports, __webpack_require__) {
-    var _typeof = __webpack_require__(2).default;
+    var _typeof = __webpack_require__(3).default;
     module.exports = pathToRegexp;
     module.exports.match = match;
     module.exports.regexpToFunction = regexpToFunction;
@@ -946,22 +999,6 @@ exports[`vue should build vue app 2`] = `
         }
         return stringToRegexp(path, keys, options);
     }
-}, function(module, __webpack_exports__, __webpack_require__) {
-    \\"use strict\\";
-    __webpack_require__.r(__webpack_exports__);
-    __webpack_require__.d(__webpack_exports__, \\"defineCustomElements\\", (function() {
-        return defineCustomElements;
-    }));
-    __webpack_require__.d(__webpack_exports__, \\"applyPolyfills\\", (function() {
-        return applyPolyfills;
-    }));
-    __webpack_require__.d(__webpack_exports__, \\"initVue3Components\\", (function() {
-        return initVue3Components;
-    }));
-    __webpack_exports__[\\"default\\"] = \\"taro-components-mock\\";
-    function defineCustomElements() {}
-    function applyPolyfills() {}
-    function initVue3Components() {}
 }, function(module, exports, __webpack_require__) {
     \\"use strict\\";
     var isOldIE = function isOldIE() {
@@ -1163,69 +1200,6 @@ exports[`vue should build vue app 2`] = `
             lastIdentifiers = newLastIdentifiers;
         };
     };
-}, function(module, exports, __webpack_require__) {
-    \\"use strict\\";
-    module.exports = function(useSourceMap) {
-        var list = [];
-        list.toString = function toString() {
-            return this.map((function(item) {
-                var content = cssWithMappingToString(item, useSourceMap);
-                if (item[2]) {
-                    return \\"@media \\".concat(item[2], \\" {\\").concat(content, \\"}\\");
-                }
-                return content;
-            })).join(\\"\\");
-        };
-        list.i = function(modules, mediaQuery, dedupe) {
-            if (typeof modules === \\"string\\") {
-                modules = [ [ null, modules, \\"\\" ] ];
-            }
-            var alreadyImportedModules = {};
-            if (dedupe) {
-                for (var i = 0; i < this.length; i++) {
-                    var id = this[i][0];
-                    if (id != null) {
-                        alreadyImportedModules[id] = true;
-                    }
-                }
-            }
-            for (var _i = 0; _i < modules.length; _i++) {
-                var item = [].concat(modules[_i]);
-                if (dedupe && alreadyImportedModules[item[0]]) {
-                    continue;
-                }
-                if (mediaQuery) {
-                    if (!item[2]) {
-                        item[2] = mediaQuery;
-                    } else {
-                        item[2] = \\"\\".concat(mediaQuery, \\" and \\").concat(item[2]);
-                    }
-                }
-                list.push(item);
-            }
-        };
-        return list;
-    };
-    function cssWithMappingToString(item, useSourceMap) {
-        var content = item[1] || \\"\\";
-        var cssMapping = item[3];
-        if (!cssMapping) {
-            return content;
-        }
-        if (useSourceMap && typeof btoa === \\"function\\") {
-            var sourceMapping = toComment(cssMapping);
-            var sourceURLs = cssMapping.sources.map((function(source) {
-                return \\"/*# sourceURL=\\".concat(cssMapping.sourceRoot || \\"\\").concat(source, \\" */\\");
-            }));
-            return [ content ].concat(sourceURLs).concat([ sourceMapping ]).join(\\"\\\\n\\");
-        }
-        return [ content ].join(\\"\\\\n\\");
-    }
-    function toComment(sourceMap) {
-        var base64 = btoa(unescape(encodeURIComponent(JSON.stringify(sourceMap))));
-        var data = \\"sourceMappingURL=data:application/json;charset=utf-8;base64,\\".concat(base64);
-        return \\"/*# \\".concat(data, \\" */\\");
-    }
 }, function(module, exports) {
     function _arrayLikeToArray(arr, len) {
         if (len == null || len > arr.length) len = arr.length;
@@ -1752,11 +1726,11 @@ exports[`vue should build vue app 2`] = `
                 module.exports = factory();
             };
         } else if (true) {
-            return __webpack_require__(10);
+            return __webpack_require__(9);
         } else {}
     }());
 }, function(module, exports, __webpack_require__) {
-    module.exports = __webpack_require__(29);
+    module.exports = __webpack_require__(28);
 }, function(module, exports) {
     module.exports = function() {
         throw new Error(\\"define cannot be used indirect\\");
@@ -1777,10 +1751,10 @@ exports[`vue should build vue app 2`] = `
     }
     module.exports = _defineProperty, module.exports.__esModule = true, module.exports[\\"default\\"] = module.exports;
 }, function(module, exports, __webpack_require__) {
-    var arrayWithHoles = __webpack_require__(13);
-    var iterableToArrayLimit = __webpack_require__(14);
-    var unsupportedIterableToArray = __webpack_require__(1);
-    var nonIterableRest = __webpack_require__(15);
+    var arrayWithHoles = __webpack_require__(12);
+    var iterableToArrayLimit = __webpack_require__(13);
+    var unsupportedIterableToArray = __webpack_require__(2);
+    var nonIterableRest = __webpack_require__(14);
     function _slicedToArray(arr, i) {
         return arrayWithHoles(arr) || iterableToArrayLimit(arr, i) || unsupportedIterableToArray(arr, i) || nonIterableRest();
     }
@@ -1822,7 +1796,7 @@ exports[`vue should build vue app 2`] = `
     }
     module.exports = _nonIterableRest, module.exports.__esModule = true, module.exports[\\"default\\"] = module.exports;
 }, function(module, exports, __webpack_require__) {
-    var unsupportedIterableToArray = __webpack_require__(1);
+    var unsupportedIterableToArray = __webpack_require__(2);
     function _createForOfIteratorHelper(o, allowArrayLike) {
         var it = typeof Symbol !== \\"undefined\\" && o[Symbol.iterator] || o[\\"@@iterator\\"];
         if (!it) {
@@ -1874,16 +1848,16 @@ exports[`vue should build vue app 2`] = `
     }
     module.exports = _createForOfIteratorHelper, module.exports.__esModule = true, module.exports[\\"default\\"] = module.exports;
 }, function(module, exports, __webpack_require__) {
-    var arrayWithoutHoles = __webpack_require__(18);
-    var iterableToArray = __webpack_require__(19);
-    var unsupportedIterableToArray = __webpack_require__(1);
-    var nonIterableSpread = __webpack_require__(20);
+    var arrayWithoutHoles = __webpack_require__(17);
+    var iterableToArray = __webpack_require__(18);
+    var unsupportedIterableToArray = __webpack_require__(2);
+    var nonIterableSpread = __webpack_require__(19);
     function _toConsumableArray(arr) {
         return arrayWithoutHoles(arr) || iterableToArray(arr) || unsupportedIterableToArray(arr) || nonIterableSpread();
     }
     module.exports = _toConsumableArray, module.exports.__esModule = true, module.exports[\\"default\\"] = module.exports;
 }, function(module, exports, __webpack_require__) {
-    var arrayLikeToArray = __webpack_require__(7);
+    var arrayLikeToArray = __webpack_require__(6);
     function _arrayWithoutHoles(arr) {
         if (Array.isArray(arr)) return arrayLikeToArray(arr);
     }
@@ -1907,7 +1881,7 @@ exports[`vue should build vue app 2`] = `
     };
 }, function(module, exports, __webpack_require__) {
     \\"use strict\\";
-    var _typeof = __webpack_require__(2).default;
+    var _typeof = __webpack_require__(3).default;
     var token = \\"%[a-f0-9]{2}\\";
     var singleMatcher = new RegExp(token, \\"gi\\");
     var multiMatcher = new RegExp(\\"(\\" + token + \\")+\\", \\"gi\\");
@@ -2003,7 +1977,7 @@ exports[`vue should build vue app 2`] = `
     };
 }, function(module, exports, __webpack_require__) {
     var api = __webpack_require__(5);
-    var content = __webpack_require__(26);
+    var content = __webpack_require__(25);
     content = content.__esModule ? content.default : content;
     if (typeof content === \\"string\\") {
         content = [ [ module.i, content, \\"\\" ] ];
@@ -2013,14 +1987,19 @@ exports[`vue should build vue app 2`] = `
     options.singleton = false;
     var update = api(content, options);
     module.exports = content.locals || {};
-}, function(module, exports, __webpack_require__) {
-    var ___CSS_LOADER_API_IMPORT___ = __webpack_require__(6);
-    exports = ___CSS_LOADER_API_IMPORT___(false);
-    exports.push([ module.i, \\"\\", \\"\\" ]);
-    module.exports = exports;
+}, function(module, __webpack_exports__, __webpack_require__) {
+    \\"use strict\\";
+    __webpack_require__.r(__webpack_exports__);
+    var _node_modules_pnpm_registry_npmjs_org_css_loader_5_2_7_webpack_4_46_0_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
+    var _node_modules_pnpm_registry_npmjs_org_css_loader_5_2_7_webpack_4_46_0_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default = __webpack_require__.n(_node_modules_pnpm_registry_npmjs_org_css_loader_5_2_7_webpack_4_46_0_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__);
+    var ___CSS_LOADER_EXPORT___ = _node_modules_pnpm_registry_npmjs_org_css_loader_5_2_7_webpack_4_46_0_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()((function(i) {
+        return i[1];
+    }));
+    ___CSS_LOADER_EXPORT___.push([ module.i, \\"\\", \\"\\" ]);
+    __webpack_exports__[\\"default\\"] = ___CSS_LOADER_EXPORT___;
 }, function(module, exports, __webpack_require__) {
     var api = __webpack_require__(5);
-    var content = __webpack_require__(28);
+    var content = __webpack_require__(27);
     content = content.__esModule ? content.default : content;
     if (typeof content === \\"string\\") {
         content = [ [ module.i, content, \\"\\" ] ];
@@ -2043,14 +2022,249 @@ exports[`vue should build vue app 2`] = `
     options.singleton = false;
     var update = api(content, options);
     module.exports = content.locals || {};
-}, function(module, exports, __webpack_require__) {
-    var ___CSS_LOADER_API_IMPORT___ = __webpack_require__(6);
-    exports = ___CSS_LOADER_API_IMPORT___(false);
-    exports.push([ module.i, \\"\\", \\"\\" ]);
-    module.exports = exports;
 }, function(module, __webpack_exports__, __webpack_require__) {
     \\"use strict\\";
     __webpack_require__.r(__webpack_exports__);
+    var _node_modules_pnpm_registry_npmjs_org_css_loader_5_2_7_webpack_4_46_0_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
+    var _node_modules_pnpm_registry_npmjs_org_css_loader_5_2_7_webpack_4_46_0_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default = __webpack_require__.n(_node_modules_pnpm_registry_npmjs_org_css_loader_5_2_7_webpack_4_46_0_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__);
+    var ___CSS_LOADER_EXPORT___ = _node_modules_pnpm_registry_npmjs_org_css_loader_5_2_7_webpack_4_46_0_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()((function(i) {
+        return i[1];
+    }));
+    ___CSS_LOADER_EXPORT___.push([ module.i, \\"\\", \\"\\" ]);
+    __webpack_exports__[\\"default\\"] = ___CSS_LOADER_EXPORT___;
+}, function(module, __webpack_exports__, __webpack_require__) {
+    \\"use strict\\";
+    __webpack_require__.r(__webpack_exports__);
+    var components_namespaceObject = {};
+    __webpack_require__.r(components_namespaceObject);
+    __webpack_require__.d(components_namespaceObject, \\"Ad\\", (function() {
+        return Ad;
+    }));
+    __webpack_require__.d(components_namespaceObject, \\"AdCustom\\", (function() {
+        return AdCustom;
+    }));
+    __webpack_require__.d(components_namespaceObject, \\"AnimationVideo\\", (function() {
+        return AnimationVideo;
+    }));
+    __webpack_require__.d(components_namespaceObject, \\"AnimationView\\", (function() {
+        return AnimationView;
+    }));
+    __webpack_require__.d(components_namespaceObject, \\"ArCamera\\", (function() {
+        return ArCamera;
+    }));
+    __webpack_require__.d(components_namespaceObject, \\"Audio\\", (function() {
+        return Audio;
+    }));
+    __webpack_require__.d(components_namespaceObject, \\"AwemeData\\", (function() {
+        return AwemeData;
+    }));
+    __webpack_require__.d(components_namespaceObject, \\"Block\\", (function() {
+        return Block;
+    }));
+    __webpack_require__.d(components_namespaceObject, \\"Button\\", (function() {
+        return Button;
+    }));
+    __webpack_require__.d(components_namespaceObject, \\"Camera\\", (function() {
+        return Camera;
+    }));
+    __webpack_require__.d(components_namespaceObject, \\"Canvas\\", (function() {
+        return Canvas;
+    }));
+    __webpack_require__.d(components_namespaceObject, \\"Checkbox\\", (function() {
+        return Checkbox;
+    }));
+    __webpack_require__.d(components_namespaceObject, \\"CheckboxGroup\\", (function() {
+        return CheckboxGroup;
+    }));
+    __webpack_require__.d(components_namespaceObject, \\"CommentDetail\\", (function() {
+        return CommentDetail;
+    }));
+    __webpack_require__.d(components_namespaceObject, \\"CommentList\\", (function() {
+        return CommentList;
+    }));
+    __webpack_require__.d(components_namespaceObject, \\"ContactButton\\", (function() {
+        return ContactButton;
+    }));
+    __webpack_require__.d(components_namespaceObject, \\"CoverImage\\", (function() {
+        return CoverImage;
+    }));
+    __webpack_require__.d(components_namespaceObject, \\"CoverView\\", (function() {
+        return CoverView;
+    }));
+    __webpack_require__.d(components_namespaceObject, \\"CustomWrapper\\", (function() {
+        return CustomWrapper;
+    }));
+    __webpack_require__.d(components_namespaceObject, \\"Editor\\", (function() {
+        return Editor;
+    }));
+    __webpack_require__.d(components_namespaceObject, \\"FollowSwan\\", (function() {
+        return FollowSwan;
+    }));
+    __webpack_require__.d(components_namespaceObject, \\"Form\\", (function() {
+        return Form;
+    }));
+    __webpack_require__.d(components_namespaceObject, \\"FunctionalPageNavigator\\", (function() {
+        return FunctionalPageNavigator;
+    }));
+    __webpack_require__.d(components_namespaceObject, \\"Icon\\", (function() {
+        return Icon;
+    }));
+    __webpack_require__.d(components_namespaceObject, \\"Image\\", (function() {
+        return Image;
+    }));
+    __webpack_require__.d(components_namespaceObject, \\"InlinePaymentPanel\\", (function() {
+        return InlinePaymentPanel;
+    }));
+    __webpack_require__.d(components_namespaceObject, \\"Input\\", (function() {
+        return Input;
+    }));
+    __webpack_require__.d(components_namespaceObject, \\"KeyboardAccessory\\", (function() {
+        return KeyboardAccessory;
+    }));
+    __webpack_require__.d(components_namespaceObject, \\"Label\\", (function() {
+        return Label;
+    }));
+    __webpack_require__.d(components_namespaceObject, \\"Lifestyle\\", (function() {
+        return Lifestyle;
+    }));
+    __webpack_require__.d(components_namespaceObject, \\"Like\\", (function() {
+        return Like;
+    }));
+    __webpack_require__.d(components_namespaceObject, \\"LivePlayer\\", (function() {
+        return LivePlayer;
+    }));
+    __webpack_require__.d(components_namespaceObject, \\"LivePusher\\", (function() {
+        return LivePusher;
+    }));
+    __webpack_require__.d(components_namespaceObject, \\"Login\\", (function() {
+        return Login;
+    }));
+    __webpack_require__.d(components_namespaceObject, \\"Lottie\\", (function() {
+        return Lottie;
+    }));
+    __webpack_require__.d(components_namespaceObject, \\"Map\\", (function() {
+        return components_Map;
+    }));
+    __webpack_require__.d(components_namespaceObject, \\"MatchMedia\\", (function() {
+        return MatchMedia;
+    }));
+    __webpack_require__.d(components_namespaceObject, \\"MovableArea\\", (function() {
+        return MovableArea;
+    }));
+    __webpack_require__.d(components_namespaceObject, \\"MovableView\\", (function() {
+        return MovableView;
+    }));
+    __webpack_require__.d(components_namespaceObject, \\"NativeSlot\\", (function() {
+        return NativeSlot;
+    }));
+    __webpack_require__.d(components_namespaceObject, \\"NavigationBar\\", (function() {
+        return NavigationBar;
+    }));
+    __webpack_require__.d(components_namespaceObject, \\"Navigator\\", (function() {
+        return Navigator;
+    }));
+    __webpack_require__.d(components_namespaceObject, \\"OfficialAccount\\", (function() {
+        return OfficialAccount;
+    }));
+    __webpack_require__.d(components_namespaceObject, \\"OpenData\\", (function() {
+        return OpenData;
+    }));
+    __webpack_require__.d(components_namespaceObject, \\"PageContainer\\", (function() {
+        return PageContainer;
+    }));
+    __webpack_require__.d(components_namespaceObject, \\"PageMeta\\", (function() {
+        return PageMeta;
+    }));
+    __webpack_require__.d(components_namespaceObject, \\"Picker\\", (function() {
+        return Picker;
+    }));
+    __webpack_require__.d(components_namespaceObject, \\"PickerGroup\\", (function() {
+        return PickerGroup;
+    }));
+    __webpack_require__.d(components_namespaceObject, \\"PickerViewColumn\\", (function() {
+        return PickerViewColumn;
+    }));
+    __webpack_require__.d(components_namespaceObject, \\"PickerView\\", (function() {
+        return PickerView;
+    }));
+    __webpack_require__.d(components_namespaceObject, \\"Progress\\", (function() {
+        return Progress;
+    }));
+    __webpack_require__.d(components_namespaceObject, \\"PullToRefresh\\", (function() {
+        return PullToRefresh;
+    }));
+    __webpack_require__.d(components_namespaceObject, \\"Radio\\", (function() {
+        return Radio;
+    }));
+    __webpack_require__.d(components_namespaceObject, \\"RadioGroup\\", (function() {
+        return RadioGroup;
+    }));
+    __webpack_require__.d(components_namespaceObject, \\"RichText\\", (function() {
+        return RichText;
+    }));
+    __webpack_require__.d(components_namespaceObject, \\"RootPortal\\", (function() {
+        return RootPortal;
+    }));
+    __webpack_require__.d(components_namespaceObject, \\"RtcRoom\\", (function() {
+        return RtcRoom;
+    }));
+    __webpack_require__.d(components_namespaceObject, \\"RtcRoomItem\\", (function() {
+        return RtcRoomItem;
+    }));
+    __webpack_require__.d(components_namespaceObject, \\"ScrollView\\", (function() {
+        return ScrollView;
+    }));
+    __webpack_require__.d(components_namespaceObject, \\"ShareElement\\", (function() {
+        return ShareElement;
+    }));
+    __webpack_require__.d(components_namespaceObject, \\"Slider\\", (function() {
+        return Slider;
+    }));
+    __webpack_require__.d(components_namespaceObject, \\"Slot\\", (function() {
+        return Slot;
+    }));
+    __webpack_require__.d(components_namespaceObject, \\"Swiper\\", (function() {
+        return Swiper;
+    }));
+    __webpack_require__.d(components_namespaceObject, \\"SwiperItem\\", (function() {
+        return SwiperItem;
+    }));
+    __webpack_require__.d(components_namespaceObject, \\"Switch\\", (function() {
+        return Switch;
+    }));
+    __webpack_require__.d(components_namespaceObject, \\"TabItem\\", (function() {
+        return TabItem;
+    }));
+    __webpack_require__.d(components_namespaceObject, \\"Tabbar\\", (function() {
+        return Tabbar;
+    }));
+    __webpack_require__.d(components_namespaceObject, \\"Tabs\\", (function() {
+        return Tabs;
+    }));
+    __webpack_require__.d(components_namespaceObject, \\"Text\\", (function() {
+        return Text;
+    }));
+    __webpack_require__.d(components_namespaceObject, \\"Textarea\\", (function() {
+        return Textarea;
+    }));
+    __webpack_require__.d(components_namespaceObject, \\"VideoControl\\", (function() {
+        return VideoControl;
+    }));
+    __webpack_require__.d(components_namespaceObject, \\"Video\\", (function() {
+        return Video;
+    }));
+    __webpack_require__.d(components_namespaceObject, \\"VideoDanmu\\", (function() {
+        return VideoDanmu;
+    }));
+    __webpack_require__.d(components_namespaceObject, \\"View\\", (function() {
+        return View;
+    }));
+    __webpack_require__.d(components_namespaceObject, \\"VoipRoom\\", (function() {
+        return VoipRoom;
+    }));
+    __webpack_require__.d(components_namespaceObject, \\"WebView\\", (function() {
+        return WebView;
+    }));
     function initPxTransform() {}
     function _typeof(obj) {
         \\"@babel/helpers - typeof\\";
@@ -3429,7 +3643,7 @@ exports[`vue should build vue app 2`] = `
     function createReactApp() {}
     function createVueApp() {}
     function createVue3App() {}
-    var mobile_detect = __webpack_require__(8);
+    var mobile_detect = __webpack_require__(7);
     var mobile_detect_default = __webpack_require__.n(mobile_detect);
     var navigate_awaiter = undefined && undefined.__awaiter || function(thisArg, _arguments, P, generator) {
         function adopt(value) {
@@ -3535,7 +3749,7 @@ exports[`vue should build vue app 2`] = `
     function _slicedToArray(arr, i) {
         return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest();
     }
-    var query_string = __webpack_require__(0);
+    var query_string = __webpack_require__(1);
     var query_string_default = __webpack_require__.n(query_string);
     var pageResizeFn;
     function bindPageResize(page) {
@@ -3877,7 +4091,7 @@ exports[`vue should build vue app 2`] = `
             }), _callee, null, [ [ 9, 16 ] ]);
         })));
     }
-    var path_to_regexp = __webpack_require__(3);
+    var path_to_regexp = __webpack_require__(4);
     var path_to_regexp_default = __webpack_require__.n(path_to_regexp);
     var module_hasOwnProperty = Object.prototype.hasOwnProperty;
     var cache = new Map;
@@ -4651,7 +4865,7 @@ exports[`vue should build vue app 2`] = `
         return history_history.listen(render);
     }
     var vue = \\"vue-mock\\";
-    var src_app = __webpack_require__(25);
+    var src_app = __webpack_require__(24);
     var App = new vue({
         \\"onShow\\": function onShow() {},
         \\"render\\": function render(h) {
@@ -4662,8 +4876,633 @@ exports[`vue should build vue app 2`] = `
     function taro_framework_createReactApp() {}
     function taro_framework_createVueApp() {}
     function taro_framework_createVue3App() {}
-    var taro_components = __webpack_require__(4);
-    var mocks_taro_components = __webpack_require__(27);
+    var taro_components = \\"taro-components-mock\\";
+    function defineCustomElements() {}
+    function applyPolyfills() {}
+    function initVue3Components() {}
+    var mocks_taro_components = __webpack_require__(26);
+    function _defineProperty(obj, key, value) {
+        if (key in obj) {
+            Object.defineProperty(obj, key, {
+                \\"value\\": value,
+                \\"enumerable\\": true,
+                \\"configurable\\": true,
+                \\"writable\\": true
+            });
+        } else {
+            obj[key] = value;
+        }
+        return obj;
+    }
+    function ownKeys(object, enumerableOnly) {
+        var keys = Object.keys(object);
+        if (Object.getOwnPropertySymbols) {
+            var symbols = Object.getOwnPropertySymbols(object);
+            enumerableOnly && (symbols = symbols.filter((function(sym) {
+                return Object.getOwnPropertyDescriptor(object, sym).enumerable;
+            }))), keys.push.apply(keys, symbols);
+        }
+        return keys;
+    }
+    function _objectSpread2(target) {
+        for (var i = 1; i < arguments.length; i++) {
+            var source = null != arguments[i] ? arguments[i] : {};
+            i % 2 ? ownKeys(Object(source), !0).forEach((function(key) {
+                _defineProperty(target, key, source[key]);
+            })) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach((function(key) {
+                Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));
+            }));
+        }
+        return target;
+    }
+    var utils_createCommonRender = function createCommonRender(tagName) {
+        var eventNames = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [];
+        return function(createElement) {
+            var vueElement = this;
+            var allListeners = eventNames.reduce((function(listeners, eventName) {
+                return _objectSpread2(_objectSpread2({}, listeners), {}, _defineProperty({}, eventName, (function(event) {
+                    vueElement.$emit(eventName, event);
+                })));
+            }), vueElement.$listeners);
+            var attributes = vueElement.$props ? Object.keys(vueElement.$props).reduce((function(attrs, prop) {
+                var attributeName = toDashCase(prop);
+                attrs[attributeName] = vueElement.$props[prop];
+                return attrs;
+            }), {}) : {};
+            return createElement(tagName, {
+                \\"ref\\": \\"wc\\",
+                \\"domProps\\": vueElement.$props,
+                \\"on\\": allListeners,
+                \\"attrs\\": _objectSpread2(_objectSpread2({}, attributes), {}, {
+                    \\"data-testid\\": tagName
+                })
+            }, [ vueElement.$slots.default ]);
+        };
+    };
+    var createCommonMethod = function createCommonMethod(methodName) {
+        return function() {
+            var _this$$refs$wc;
+            (_this$$refs$wc = this.$refs.wc)[methodName].apply(_this$$refs$wc, arguments);
+        };
+    };
+    var toLowerCase = function toLowerCase(str) {
+        return str.toLowerCase();
+    };
+    var toDashCase = function toDashCase(str) {
+        return toLowerCase(str.replace(/([A-Z0-9])/g, (function(g) {
+            return \\" \\" + g[0];
+        })).trim().replace(/ /g, \\"-\\"));
+    };
+    var customElementTags = [ \\"taro-ad-core\\", \\"taro-ad-custom-core\\", \\"taro-animation-video-core\\", \\"taro-animation-view-core\\", \\"taro-ar-camera-core\\", \\"taro-audio-core\\", \\"taro-aweme-data-core\\", \\"taro-block-core\\", \\"taro-button-core\\", \\"taro-camera-core\\", \\"taro-canvas-core\\", \\"taro-checkbox-core\\", \\"taro-checkbox-group-core\\", \\"taro-comment-detail-core\\", \\"taro-comment-list-core\\", \\"taro-contact-button-core\\", \\"taro-cover-image-core\\", \\"taro-cover-view-core\\", \\"taro-custom-wrapper-core\\", \\"taro-editor-core\\", \\"taro-follow-swan-core\\", \\"taro-form-core\\", \\"taro-functional-page-navigator-core\\", \\"taro-icon-core\\", \\"taro-image-core\\", \\"taro-inline-payment-panel-core\\", \\"taro-input-core\\", \\"taro-keyboard-accessory-core\\", \\"taro-label-core\\", \\"taro-lifestyle-core\\", \\"taro-like-core\\", \\"taro-live-player-core\\", \\"taro-live-pusher-core\\", \\"taro-login-core\\", \\"taro-lottie-core\\", \\"taro-map-core\\", \\"taro-match-media-core\\", \\"taro-movable-area-core\\", \\"taro-movable-view-core\\", \\"taro-native-slot-core\\", \\"taro-navigation-bar-core\\", \\"taro-navigator-core\\", \\"taro-official-account-core\\", \\"taro-open-data-core\\", \\"taro-page-container-core\\", \\"taro-page-meta-core\\", \\"taro-picker-core\\", \\"taro-picker-group\\", \\"taro-picker-view-column-core\\", \\"taro-picker-view-core\\", \\"taro-progress-core\\", \\"taro-pull-to-refresh\\", \\"taro-radio-core\\", \\"taro-radio-group-core\\", \\"taro-rich-text-core\\", \\"taro-root-portal-core\\", \\"taro-rtc-room-core\\", \\"taro-rtc-room-item-core\\", \\"taro-scroll-view-core\\", \\"taro-share-element-core\\", \\"taro-slider-core\\", \\"taro-slot-core\\", \\"taro-swiper-core\\", \\"taro-swiper-item-core\\", \\"taro-switch-core\\", \\"taro-tab-item-core\\", \\"taro-tabbar\\", \\"taro-tabs-core\\", \\"taro-text-core\\", \\"taro-textarea-core\\", \\"taro-video-control\\", \\"taro-video-core\\", \\"taro-video-danmu\\", \\"taro-view-core\\", \\"taro-voip-room-core\\", \\"taro-web-view-core\\" ];
+    vue.config.ignoredElements = [].concat(_toConsumableArray(vue.config.ignoredElements), customElementTags);
+    var Ad = vue.extend({
+        \\"render\\": utils_createCommonRender(\\"taro-ad-core\\", [])
+    });
+    var AdCustom = vue.extend({
+        \\"render\\": utils_createCommonRender(\\"taro-ad-custom-core\\", [])
+    });
+    var AnimationVideo = vue.extend({
+        \\"render\\": utils_createCommonRender(\\"taro-animation-video-core\\", [])
+    });
+    var AnimationView = vue.extend({
+        \\"render\\": utils_createCommonRender(\\"taro-animation-view-core\\", [])
+    });
+    var ArCamera = vue.extend({
+        \\"render\\": utils_createCommonRender(\\"taro-ar-camera-core\\", [])
+    });
+    var Audio = vue.extend({
+        \\"props\\": {
+            \\"src\\": {},
+            \\"controls\\": {},
+            \\"autoplay\\": {},
+            \\"loop\\": {},
+            \\"muted\\": {},
+            \\"nativeProps\\": {}
+        },
+        \\"render\\": utils_createCommonRender(\\"taro-audio-core\\", [ \\"error\\", \\"play\\", \\"pause\\", \\"timeupdate\\", \\"ended\\" ])
+    });
+    var AwemeData = vue.extend({
+        \\"render\\": utils_createCommonRender(\\"taro-aweme-data-core\\", [])
+    });
+    var Block = vue.extend({
+        \\"render\\": utils_createCommonRender(\\"taro-block-core\\", [])
+    });
+    var Button = vue.extend({
+        \\"props\\": {
+            \\"disabled\\": {},
+            \\"hoverClass\\": {},
+            \\"type\\": {},
+            \\"hoverStartTime\\": {},
+            \\"hoverStayTime\\": {},
+            \\"size\\": {},
+            \\"plain\\": {},
+            \\"loading\\": {},
+            \\"formType\\": {}
+        },
+        \\"render\\": utils_createCommonRender(\\"taro-button-core\\", [ \\"tarobuttonsubmit\\", \\"tarobuttonreset\\" ])
+    });
+    var Camera = vue.extend({
+        \\"render\\": utils_createCommonRender(\\"taro-camera-core\\", [])
+    });
+    var Canvas = vue.extend({
+        \\"props\\": {
+            \\"canvasId\\": {},
+            \\"nativeProps\\": {}
+        },
+        \\"render\\": utils_createCommonRender(\\"taro-canvas-core\\", [ \\"longtap\\" ])
+    });
+    var Checkbox = vue.extend({
+        \\"props\\": {
+            \\"name\\": {},
+            \\"value\\": {},
+            \\"color\\": {},
+            \\"id\\": {},
+            \\"checked\\": {},
+            \\"disabled\\": {},
+            \\"nativeProps\\": {}
+        },
+        \\"render\\": utils_createCommonRender(\\"taro-checkbox-core\\", [ \\"checkboxchange\\" ])
+    });
+    var CheckboxGroup = vue.extend({
+        \\"props\\": {
+            \\"name\\": {}
+        },
+        \\"render\\": utils_createCommonRender(\\"taro-checkbox-group-core\\", [ \\"change\\" ])
+    });
+    var CommentDetail = vue.extend({
+        \\"render\\": utils_createCommonRender(\\"taro-comment-detail-core\\", [])
+    });
+    var CommentList = vue.extend({
+        \\"render\\": utils_createCommonRender(\\"taro-comment-list-core\\", [])
+    });
+    var ContactButton = vue.extend({
+        \\"render\\": utils_createCommonRender(\\"taro-contact-button-core\\", [])
+    });
+    var CoverImage = vue.extend({
+        \\"props\\": {
+            \\"src\\": {},
+            \\"nativeProps\\": {}
+        },
+        \\"render\\": utils_createCommonRender(\\"taro-cover-image-core\\", [ \\"load\\", \\"error\\" ])
+    });
+    var CoverView = vue.extend({
+        \\"props\\": {
+            \\"animation\\": {},
+            \\"hoverClass\\": {},
+            \\"hoverStartTime\\": {},
+            \\"hoverStayTime\\": {}
+        },
+        \\"render\\": utils_createCommonRender(\\"taro-cover-view-core\\", [ \\"longpress\\" ])
+    });
+    var CustomWrapper = vue.extend({
+        \\"render\\": utils_createCommonRender(\\"taro-custom-wrapper-core\\", [])
+    });
+    var Editor = vue.extend({
+        \\"render\\": utils_createCommonRender(\\"taro-editor-core\\", [])
+    });
+    var FollowSwan = vue.extend({
+        \\"render\\": utils_createCommonRender(\\"taro-follow-swan-core\\", [])
+    });
+    var Form = vue.extend({
+        \\"render\\": utils_createCommonRender(\\"taro-form-core\\", [ \\"submit\\" ])
+    });
+    var FunctionalPageNavigator = vue.extend({
+        \\"render\\": utils_createCommonRender(\\"taro-functional-page-navigator-core\\", [])
+    });
+    var Icon = vue.extend({
+        \\"props\\": {
+            \\"type\\": {},
+            \\"size\\": {},
+            \\"color\\": {}
+        },
+        \\"render\\": utils_createCommonRender(\\"taro-icon-core\\", [])
+    });
+    var Image = vue.extend({
+        \\"props\\": {
+            \\"src\\": {},
+            \\"mode\\": {},
+            \\"lazyLoad\\": {},
+            \\"nativeProps\\": {}
+        },
+        \\"render\\": utils_createCommonRender(\\"taro-image-core\\", [ \\"load\\", \\"error\\" ])
+    });
+    var InlinePaymentPanel = vue.extend({
+        \\"render\\": utils_createCommonRender(\\"taro-inline-payment-panel-core\\", [])
+    });
+    var Input = vue.extend({
+        \\"props\\": {
+            \\"value\\": {},
+            \\"type\\": {},
+            \\"password\\": {},
+            \\"placeholder\\": {},
+            \\"disabled\\": {},
+            \\"maxlength\\": {},
+            \\"autoFocus\\": {},
+            \\"confirmType\\": {},
+            \\"name\\": {},
+            \\"nativeProps\\": {}
+        },
+        \\"methods\\": {
+            \\"focus\\": createCommonMethod(\\"focus\\")
+        },
+        \\"render\\": utils_createCommonRender(\\"taro-input-core\\", [ \\"input\\", \\"paste\\", \\"focus\\", \\"blur\\", \\"confirm\\", \\"change\\", \\"keydown\\" ])
+    });
+    var KeyboardAccessory = vue.extend({
+        \\"render\\": utils_createCommonRender(\\"taro-keyboard-accessory-core\\", [])
+    });
+    var Label = vue.extend({
+        \\"props\\": {
+            \\"for\\": {}
+        },
+        \\"render\\": utils_createCommonRender(\\"taro-label-core\\", [])
+    });
+    var Lifestyle = vue.extend({
+        \\"render\\": utils_createCommonRender(\\"taro-lifestyle-core\\", [])
+    });
+    var Like = vue.extend({
+        \\"render\\": utils_createCommonRender(\\"taro-like-core\\", [])
+    });
+    var LivePlayer = vue.extend({
+        \\"render\\": utils_createCommonRender(\\"taro-live-player-core\\", [])
+    });
+    var LivePusher = vue.extend({
+        \\"render\\": utils_createCommonRender(\\"taro-live-pusher-core\\", [])
+    });
+    var Login = vue.extend({
+        \\"render\\": utils_createCommonRender(\\"taro-login-core\\", [])
+    });
+    var Lottie = vue.extend({
+        \\"render\\": utils_createCommonRender(\\"taro-lottie-core\\", [])
+    });
+    var components_Map = vue.extend({
+        \\"render\\": utils_createCommonRender(\\"taro-map-core\\", [])
+    });
+    var MatchMedia = vue.extend({
+        \\"render\\": utils_createCommonRender(\\"taro-match-media-core\\", [])
+    });
+    var MovableArea = vue.extend({
+        \\"props\\": {
+            \\"scaleArea\\": {}
+        },
+        \\"render\\": utils_createCommonRender(\\"taro-movable-area-core\\", [])
+    });
+    var MovableView = vue.extend({
+        \\"props\\": {
+            \\"x\\": {},
+            \\"y\\": {},
+            \\"direction\\": {},
+            \\"outOfBounds\\": {},
+            \\"inertia\\": {},
+            \\"friction\\": {},
+            \\"damping\\": {},
+            \\"disabled\\": {},
+            \\"scale\\": {},
+            \\"scaleMin\\": {},
+            \\"scaleMax\\": {},
+            \\"scaleValue\\": {},
+            \\"animation\\": {}
+        },
+        \\"methods\\": {
+            \\"setParent\\": createCommonMethod(\\"setParent\\"),
+            \\"endScale\\": createCommonMethod(\\"endScale\\"),
+            \\"setScale\\": createCommonMethod(\\"setScale\\")
+        },
+        \\"render\\": utils_createCommonRender(\\"taro-movable-view-core\\", [ \\"change\\", \\"scale\\", \\"htouchmove\\", \\"vtouchmove\\" ])
+    });
+    var NativeSlot = vue.extend({
+        \\"render\\": utils_createCommonRender(\\"taro-native-slot-core\\", [])
+    });
+    var NavigationBar = vue.extend({
+        \\"render\\": utils_createCommonRender(\\"taro-navigation-bar-core\\", [])
+    });
+    var Navigator = vue.extend({
+        \\"props\\": {
+            \\"hoverClass\\": {},
+            \\"url\\": {},
+            \\"openType\\": {},
+            \\"isHover\\": {},
+            \\"delta\\": {}
+        },
+        \\"render\\": utils_createCommonRender(\\"taro-navigator-core\\", [ \\"cuccess\\", \\"fail\\", \\"Complete\\" ])
+    });
+    var OfficialAccount = vue.extend({
+        \\"render\\": utils_createCommonRender(\\"taro-official-account-core\\", [])
+    });
+    var OpenData = vue.extend({
+        \\"render\\": utils_createCommonRender(\\"taro-open-data-core\\", [])
+    });
+    var PageContainer = vue.extend({
+        \\"render\\": utils_createCommonRender(\\"taro-page-container-core\\", [])
+    });
+    var PageMeta = vue.extend({
+        \\"render\\": utils_createCommonRender(\\"taro-page-meta-core\\", [])
+    });
+    var Picker = vue.extend({
+        \\"props\\": {
+            \\"mode\\": {},
+            \\"disabled\\": {},
+            \\"range\\": {},
+            \\"rangeKey\\": {},
+            \\"value\\": {},
+            \\"start\\": {},
+            \\"end\\": {},
+            \\"fields\\": {},
+            \\"name\\": {}
+        },
+        \\"render\\": utils_createCommonRender(\\"taro-picker-core\\", [ \\"change\\", \\"columnchange\\", \\"cancel\\" ])
+    });
+    var PickerGroup = vue.extend({
+        \\"props\\": {
+            \\"mode\\": {},
+            \\"range\\": {},
+            \\"rangeKey\\": {},
+            \\"height\\": {},
+            \\"columnId\\": {},
+            \\"updateHeight\\": {},
+            \\"onColumnChange\\": {},
+            \\"updateDay\\": {}
+        },
+        \\"methods\\": {
+            \\"handleMoveStart\\": createCommonMethod(\\"handleMoveStart\\"),
+            \\"handleMoving\\": createCommonMethod(\\"handleMoving\\"),
+            \\"handleMoveEnd\\": createCommonMethod(\\"handleMoveEnd\\")
+        },
+        \\"render\\": utils_createCommonRender(\\"taro-picker-group\\", [])
+    });
+    var PickerViewColumn = vue.extend({
+        \\"props\\": {
+            \\"col\\": {},
+            \\"initialPosition\\": {},
+            \\"paddingVertical\\": {}
+        },
+        \\"render\\": utils_createCommonRender(\\"taro-picker-view-column-core\\", [ \\"onselect\\", \\"onselectstart\\", \\"onselectend\\" ])
+    });
+    var PickerView = vue.extend({
+        \\"props\\": {
+            \\"indicatorStyle\\": {},
+            \\"indicatorClass\\": {},
+            \\"value\\": {},
+            \\"maskStyle\\": {},
+            \\"maskClass\\": {}
+        },
+        \\"render\\": utils_createCommonRender(\\"taro-picker-view-core\\", [ \\"change\\", \\"pickstart\\", \\"pickend\\" ])
+    });
+    var Progress = vue.extend({
+        \\"props\\": {
+            \\"percent\\": {},
+            \\"showInfo\\": {},
+            \\"borderRadius\\": {},
+            \\"fontSize\\": {},
+            \\"strokeWidth\\": {},
+            \\"activeColor\\": {},
+            \\"backgroundColor\\": {},
+            \\"active\\": {}
+        },
+        \\"render\\": utils_createCommonRender(\\"taro-progress-core\\", [])
+    });
+    var PullToRefresh = vue.extend({
+        \\"props\\": {
+            \\"prefixCls\\": {},
+            \\"distanceToRefresh\\": {},
+            \\"damping\\": {},
+            \\"indicator\\": {}
+        },
+        \\"render\\": utils_createCommonRender(\\"taro-pull-to-refresh\\", [ \\"refresh\\" ])
+    });
+    var Radio = vue.extend({
+        \\"props\\": {
+            \\"name\\": {},
+            \\"value\\": {},
+            \\"id\\": {},
+            \\"checked\\": {},
+            \\"disabled\\": {},
+            \\"nativeProps\\": {}
+        },
+        \\"render\\": utils_createCommonRender(\\"taro-radio-core\\", [ \\"radiochange\\" ])
+    });
+    var RadioGroup = vue.extend({
+        \\"props\\": {
+            \\"name\\": {}
+        },
+        \\"render\\": utils_createCommonRender(\\"taro-radio-group-core\\", [ \\"change\\" ])
+    });
+    var RichText = vue.extend({
+        \\"props\\": {
+            \\"nodes\\": {}
+        },
+        \\"render\\": utils_createCommonRender(\\"taro-rich-text-core\\", [])
+    });
+    var RootPortal = vue.extend({
+        \\"render\\": utils_createCommonRender(\\"taro-root-portal-core\\", [])
+    });
+    var RtcRoom = vue.extend({
+        \\"render\\": utils_createCommonRender(\\"taro-rtc-room-core\\", [])
+    });
+    var RtcRoomItem = vue.extend({
+        \\"render\\": utils_createCommonRender(\\"taro-rtc-room-item-core\\", [])
+    });
+    var ScrollView = vue.extend({
+        \\"props\\": {
+            \\"scrollX\\": {},
+            \\"scrollY\\": {},
+            \\"upperThreshold\\": {},
+            \\"lowerThreshold\\": {},
+            \\"mpScrollTop\\": {},
+            \\"mpScrollLeft\\": {},
+            \\"mpScrollIntoView\\": {},
+            \\"scrollWithAnimation\\": {}
+        },
+        \\"render\\": utils_createCommonRender(\\"taro-scroll-view-core\\", [ \\"scroll\\", \\"scrolltoupper\\", \\"scrolltolower\\" ])
+    });
+    var ShareElement = vue.extend({
+        \\"render\\": utils_createCommonRender(\\"taro-share-element-core\\", [])
+    });
+    var Slider = vue.extend({
+        \\"props\\": {
+            \\"min\\": {},
+            \\"max\\": {},
+            \\"step\\": {},
+            \\"disabled\\": {},
+            \\"value\\": {},
+            \\"activeColor\\": {},
+            \\"backgroundColor\\": {},
+            \\"blockSize\\": {},
+            \\"blockColor\\": {},
+            \\"showValue\\": {},
+            \\"name\\": {}
+        },
+        \\"render\\": utils_createCommonRender(\\"taro-slider-core\\", [ \\"change\\", \\"changing\\" ])
+    });
+    var Slot = vue.extend({
+        \\"render\\": utils_createCommonRender(\\"taro-slot-core\\", [])
+    });
+    var Swiper = vue.extend({
+        \\"props\\": {
+            \\"indicatorDots\\": {},
+            \\"indicatorColor\\": {},
+            \\"indicatorActiveColor\\": {},
+            \\"autoplay\\": {},
+            \\"current\\": {},
+            \\"interval\\": {},
+            \\"duration\\": {},
+            \\"circular\\": {},
+            \\"vertical\\": {},
+            \\"previousMargin\\": {},
+            \\"nextMargin\\": {},
+            \\"displayMultipleItems\\": {},
+            \\"full\\": {},
+            \\"zoom\\": {}
+        },
+        \\"render\\": utils_createCommonRender(\\"taro-swiper-core\\", [ \\"change\\", \\"animationfinish\\" ])
+    });
+    var SwiperItem = vue.extend({
+        \\"props\\": {
+            \\"itemId\\": {}
+        },
+        \\"render\\": utils_createCommonRender(\\"taro-swiper-item-core\\", [])
+    });
+    var Switch = vue.extend({
+        \\"props\\": {
+            \\"type\\": {},
+            \\"checked\\": {},
+            \\"color\\": {},
+            \\"name\\": {},
+            \\"disabled\\": {},
+            \\"nativeProps\\": {}
+        },
+        \\"render\\": utils_createCommonRender(\\"taro-switch-core\\", [ \\"change\\" ])
+    });
+    var TabItem = vue.extend({
+        \\"render\\": utils_createCommonRender(\\"taro-tab-item-core\\", [])
+    });
+    var Tabbar = vue.extend({
+        \\"props\\": {
+            \\"conf\\": {}
+        },
+        \\"render\\": utils_createCommonRender(\\"taro-tabbar\\", [ \\"longpress\\" ])
+    });
+    var Tabs = vue.extend({
+        \\"render\\": utils_createCommonRender(\\"taro-tabs-core\\", [])
+    });
+    var Text = vue.extend({
+        \\"props\\": {
+            \\"selectable\\": {}
+        },
+        \\"render\\": utils_createCommonRender(\\"taro-text-core\\", [])
+    });
+    var Textarea = vue.extend({
+        \\"props\\": {
+            \\"value\\": {},
+            \\"placeholder\\": {},
+            \\"disabled\\": {},
+            \\"maxlength\\": {},
+            \\"autoFocus\\": {},
+            \\"autoHeight\\": {},
+            \\"name\\": {},
+            \\"nativeProps\\": {}
+        },
+        \\"methods\\": {
+            \\"focus\\": createCommonMethod(\\"focus\\")
+        },
+        \\"render\\": utils_createCommonRender(\\"taro-textarea-core\\", [ \\"input\\", \\"focus\\", \\"blur\\", \\"change\\", \\"linechange\\" ])
+    });
+    var VideoControl = vue.extend({
+        \\"props\\": {
+            \\"controls\\": {},
+            \\"currentTime\\": {},
+            \\"duration\\": {},
+            \\"isPlaying\\": {},
+            \\"pauseFunc\\": {},
+            \\"playFunc\\": {},
+            \\"seekFunc\\": {},
+            \\"showPlayBtn\\": {},
+            \\"showProgress\\": {}
+        },
+        \\"methods\\": {
+            \\"setProgressBall\\": createCommonMethod(\\"setProgressBall\\"),
+            \\"toggleVisibility\\": createCommonMethod(\\"toggleVisibility\\"),
+            \\"getIsDraggingProgressBall\\": createCommonMethod(\\"getIsDraggingProgressBall\\"),
+            \\"setCurrentTime\\": createCommonMethod(\\"setCurrentTime\\")
+        },
+        \\"render\\": utils_createCommonRender(\\"taro-video-control\\", [])
+    });
+    var Video = vue.extend({
+        \\"props\\": {
+            \\"src\\": {},
+            \\"duration\\": {},
+            \\"controls\\": {},
+            \\"autoplay\\": {},
+            \\"loop\\": {},
+            \\"muted\\": {},
+            \\"initialTime\\": {},
+            \\"poster\\": {},
+            \\"objectFit\\": {},
+            \\"showProgress\\": {},
+            \\"showFullscreenBtn\\": {},
+            \\"showPlayBtn\\": {},
+            \\"showCenterPlayBtn\\": {},
+            \\"showMuteBtn\\": {},
+            \\"danmuList\\": {},
+            \\"danmuBtn\\": {},
+            \\"enableDanmu\\": {},
+            \\"enablePlayGesture\\": {},
+            \\"enableProgressGesture\\": {},
+            \\"vslideGesture\\": {},
+            \\"vslideGestureInFullscreen\\": {},
+            \\"nativeProps\\": {}
+        },
+        \\"methods\\": {
+            \\"play\\": createCommonMethod(\\"play\\"),
+            \\"pause\\": createCommonMethod(\\"pause\\"),
+            \\"stop\\": createCommonMethod(\\"stop\\"),
+            \\"seek\\": createCommonMethod(\\"seek\\"),
+            \\"requestFullScreen\\": createCommonMethod(\\"requestFullScreen\\"),
+            \\"exitFullScreen\\": createCommonMethod(\\"exitFullScreen\\")
+        },
+        \\"render\\": utils_createCommonRender(\\"taro-video-core\\", [ \\"play\\", \\"pause\\", \\"ended\\", \\"timeupdate\\", \\"error\\", \\"fullscreenchange\\", \\"progress\\", \\"loadedmetadata\\" ])
+    });
+    var VideoDanmu = vue.extend({
+        \\"props\\": {
+            \\"enable\\": {}
+        },
+        \\"methods\\": {
+            \\"sendDanmu\\": createCommonMethod(\\"sendDanmu\\"),
+            \\"tick\\": createCommonMethod(\\"tick\\")
+        },
+        \\"render\\": utils_createCommonRender(\\"taro-video-danmu\\", [])
+    });
+    var View = vue.extend({
+        \\"props\\": {
+            \\"animation\\": {},
+            \\"hoverClass\\": {},
+            \\"hoverStartTime\\": {},
+            \\"hoverStayTime\\": {}
+        },
+        \\"render\\": utils_createCommonRender(\\"taro-view-core\\", [ \\"longpress\\" ])
+    });
+    var VoipRoom = vue.extend({
+        \\"render\\": utils_createCommonRender(\\"taro-voip-room-core\\", [])
+    });
+    var WebView = vue.extend({
+        \\"props\\": {
+            \\"src\\": {}
+        },
+        \\"render\\": utils_createCommonRender(\\"taro-web-view-core\\", [ \\"load\\", \\"error\\" ])
+    });
+    function initVue2Components() {
+        var _Vue$config$ignoredEl;
+        var ignoredElements = [ /^taro-/, \\"root\\", \\"block\\" ];
+        if (!((_Vue$config$ignoredEl = vue.config.ignoredElements) !== null && _Vue$config$ignoredEl !== void 0 && _Vue$config$ignoredEl.includes(ignoredElements[0]))) {
+            vue.config.ignoredElements = [].concat(_toConsumableArray(vue.config.ignoredElements), ignoredElements);
+        }
+        Object.entries(components_namespaceObject).forEach((function(params) {
+            var _ref = params, _ref2 = _slicedToArray(_ref, 2), name = _ref2[0], definition = _ref2[1];
+            if (definition) {
+                var tagName = \\"taro\\" + name.replace(new RegExp(\\"([A-Z])\\", \\"g\\"), \\"-$1\\").toLowerCase();
+                vue.component(tagName, definition);
+            }
+        }));
+    }
     var app_config_config = {
         \\"router\\": {
             \\"mode\\": \\"hash\\",
@@ -4678,9 +5517,8 @@ exports[`vue should build vue app 2`] = `
             \\"navigationBarTextStyle\\": \\"black\\"
         }
     };
-    Promise.resolve().then(__webpack_require__.bind(null, 4));
-    Object(taro_components[\\"applyPolyfills\\"])().then((function() {
-        Object(taro_components[\\"defineCustomElements\\"])(taro_runtime_window);
+    applyPolyfills().then((function() {
+        defineCustomElements(taro_runtime_window);
     }));
     taro_runtime_window.__taroAppConfig = app_config_config;
     if (app_config_config.tabBar) {
@@ -4698,12 +5536,13 @@ exports[`vue should build vue app 2`] = `
     app_config_config.routes = [ Object.assign({
         \\"path\\": \\"pages/index/index\\",
         \\"load\\": function load(context, params) {
-            var page = __webpack_require__.e(1).then(__webpack_require__.bind(null, 36));
+            var page = __webpack_require__.e(1).then(__webpack_require__.bind(null, 35));
             return [ page, context, params ];
         }
     }, {
         \\"navigationBarTitleText\\": \\"首页\\"
     }) ];
+    initVue2Components();
     var inst = taro_framework_createVueApp(src_app_0, vue, app_config_config);
     createRouter(inst, app_config_config, vue);
     undefined.initPxTransform({

@@ -315,7 +315,7 @@ exports[`subpackages should process subpackages 2`] = `
     jsonpArray = jsonpArray.slice();
     for (var i = 0; i < jsonpArray.length; i++) webpackJsonpCallback(jsonpArray[i]);
     var parentJsonpFunction = oldJsonpFunction;
-    return __webpack_require__(__webpack_require__.s = 14);
+    return __webpack_require__(__webpack_require__.s = 15);
 })([ function(module, __webpack_exports__, __webpack_require__) {
     \\"use strict\\";
     __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
@@ -370,15 +370,15 @@ exports[`subpackages should process subpackages 2`] = `
     function initPxTransform() {}
 }, function(module, exports, __webpack_require__) {
     \\"use strict\\";
-    var _defineProperty = __webpack_require__(16).default;
-    var _slicedToArray = __webpack_require__(17).default;
-    var _createForOfIteratorHelper = __webpack_require__(21).default;
+    var _defineProperty = __webpack_require__(17).default;
+    var _slicedToArray = __webpack_require__(18).default;
+    var _createForOfIteratorHelper = __webpack_require__(22).default;
     var _typeof = __webpack_require__(7).default;
-    var _toConsumableArray = __webpack_require__(22).default;
-    var strictUriEncode = __webpack_require__(26);
-    var decodeComponent = __webpack_require__(27);
-    var splitOnFirst = __webpack_require__(28);
-    var filterObject = __webpack_require__(29);
+    var _toConsumableArray = __webpack_require__(23).default;
+    var strictUriEncode = __webpack_require__(27);
+    var decodeComponent = __webpack_require__(28);
+    var splitOnFirst = __webpack_require__(29);
+    var filterObject = __webpack_require__(30);
     var isNullOrUndefined = function isNullOrUndefined(value) {
         return value === null || value === undefined;
     };
@@ -1638,9 +1638,52 @@ exports[`subpackages should process subpackages 2`] = `
                 module.exports = factory();
             };
         } else if (true) {
-            return __webpack_require__(15);
+            return __webpack_require__(16);
         } else {}
     }());
+}, function(module, exports, __webpack_require__) {
+    \\"use strict\\";
+    module.exports = function(cssWithMappingToString) {
+        var list = [];
+        list.toString = function toString() {
+            return this.map((function(item) {
+                var content = cssWithMappingToString(item);
+                if (item[2]) {
+                    return \\"@media \\".concat(item[2], \\" {\\").concat(content, \\"}\\");
+                }
+                return content;
+            })).join(\\"\\");
+        };
+        list.i = function(modules, mediaQuery, dedupe) {
+            if (typeof modules === \\"string\\") {
+                modules = [ [ null, modules, \\"\\" ] ];
+            }
+            var alreadyImportedModules = {};
+            if (dedupe) {
+                for (var i = 0; i < this.length; i++) {
+                    var id = this[i][0];
+                    if (id != null) {
+                        alreadyImportedModules[id] = true;
+                    }
+                }
+            }
+            for (var _i = 0; _i < modules.length; _i++) {
+                var item = [].concat(modules[_i]);
+                if (dedupe && alreadyImportedModules[item[0]]) {
+                    continue;
+                }
+                if (mediaQuery) {
+                    if (!item[2]) {
+                        item[2] = mediaQuery;
+                    } else {
+                        item[2] = \\"\\".concat(mediaQuery, \\" and \\").concat(item[2]);
+                    }
+                }
+                list.push(item);
+            }
+        };
+        return list;
+    };
 }, function(module, exports, __webpack_require__) {
     module.exports = __webpack_require__(35);
 }, function(module, exports) {
@@ -1663,10 +1706,10 @@ exports[`subpackages should process subpackages 2`] = `
     }
     module.exports = _defineProperty, module.exports.__esModule = true, module.exports[\\"default\\"] = module.exports;
 }, function(module, exports, __webpack_require__) {
-    var arrayWithHoles = __webpack_require__(18);
-    var iterableToArrayLimit = __webpack_require__(19);
+    var arrayWithHoles = __webpack_require__(19);
+    var iterableToArrayLimit = __webpack_require__(20);
     var unsupportedIterableToArray = __webpack_require__(6);
-    var nonIterableRest = __webpack_require__(20);
+    var nonIterableRest = __webpack_require__(21);
     function _slicedToArray(arr, i) {
         return arrayWithHoles(arr) || iterableToArrayLimit(arr, i) || unsupportedIterableToArray(arr, i) || nonIterableRest();
     }
@@ -1760,10 +1803,10 @@ exports[`subpackages should process subpackages 2`] = `
     }
     module.exports = _createForOfIteratorHelper, module.exports.__esModule = true, module.exports[\\"default\\"] = module.exports;
 }, function(module, exports, __webpack_require__) {
-    var arrayWithoutHoles = __webpack_require__(23);
-    var iterableToArray = __webpack_require__(24);
+    var arrayWithoutHoles = __webpack_require__(24);
+    var iterableToArray = __webpack_require__(25);
     var unsupportedIterableToArray = __webpack_require__(6);
-    var nonIterableSpread = __webpack_require__(25);
+    var nonIterableSpread = __webpack_require__(26);
     function _toConsumableArray(arr) {
         return arrayWithoutHoles(arr) || iterableToArray(arr) || unsupportedIterableToArray(arr) || nonIterableSpread();
     }
@@ -1888,8 +1931,8 @@ exports[`subpackages should process subpackages 2`] = `
         return ret;
     };
 }, function(module, exports, __webpack_require__) {}, function(module, exports, __webpack_require__) {
-    var api = __webpack_require__(32);
-    var content = __webpack_require__(33);
+    var api = __webpack_require__(33);
+    var content = __webpack_require__(34);
     content = content.__esModule ? content.default : content;
     if (typeof content === \\"string\\") {
         content = [ [ module.i, content, \\"\\" ] ];
@@ -2113,74 +2156,16 @@ exports[`subpackages should process subpackages 2`] = `
             lastIdentifiers = newLastIdentifiers;
         };
     };
-}, function(module, exports, __webpack_require__) {
-    var ___CSS_LOADER_API_IMPORT___ = __webpack_require__(34);
-    exports = ___CSS_LOADER_API_IMPORT___(false);
-    exports.push([ module.i, \\"\\", \\"\\" ]);
-    module.exports = exports;
-}, function(module, exports, __webpack_require__) {
+}, function(module, __webpack_exports__, __webpack_require__) {
     \\"use strict\\";
-    module.exports = function(useSourceMap) {
-        var list = [];
-        list.toString = function toString() {
-            return this.map((function(item) {
-                var content = cssWithMappingToString(item, useSourceMap);
-                if (item[2]) {
-                    return \\"@media \\".concat(item[2], \\" {\\").concat(content, \\"}\\");
-                }
-                return content;
-            })).join(\\"\\");
-        };
-        list.i = function(modules, mediaQuery, dedupe) {
-            if (typeof modules === \\"string\\") {
-                modules = [ [ null, modules, \\"\\" ] ];
-            }
-            var alreadyImportedModules = {};
-            if (dedupe) {
-                for (var i = 0; i < this.length; i++) {
-                    var id = this[i][0];
-                    if (id != null) {
-                        alreadyImportedModules[id] = true;
-                    }
-                }
-            }
-            for (var _i = 0; _i < modules.length; _i++) {
-                var item = [].concat(modules[_i]);
-                if (dedupe && alreadyImportedModules[item[0]]) {
-                    continue;
-                }
-                if (mediaQuery) {
-                    if (!item[2]) {
-                        item[2] = mediaQuery;
-                    } else {
-                        item[2] = \\"\\".concat(mediaQuery, \\" and \\").concat(item[2]);
-                    }
-                }
-                list.push(item);
-            }
-        };
-        return list;
-    };
-    function cssWithMappingToString(item, useSourceMap) {
-        var content = item[1] || \\"\\";
-        var cssMapping = item[3];
-        if (!cssMapping) {
-            return content;
-        }
-        if (useSourceMap && typeof btoa === \\"function\\") {
-            var sourceMapping = toComment(cssMapping);
-            var sourceURLs = cssMapping.sources.map((function(source) {
-                return \\"/*# sourceURL=\\".concat(cssMapping.sourceRoot || \\"\\").concat(source, \\" */\\");
-            }));
-            return [ content ].concat(sourceURLs).concat([ sourceMapping ]).join(\\"\\\\n\\");
-        }
-        return [ content ].join(\\"\\\\n\\");
-    }
-    function toComment(sourceMap) {
-        var base64 = btoa(unescape(encodeURIComponent(JSON.stringify(sourceMap))));
-        var data = \\"sourceMappingURL=data:application/json;charset=utf-8;base64,\\".concat(base64);
-        return \\"/*# \\".concat(data, \\" */\\");
-    }
+    __webpack_require__.r(__webpack_exports__);
+    var _node_modules_pnpm_registry_npmjs_org_css_loader_5_2_7_webpack_4_46_0_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(14);
+    var _node_modules_pnpm_registry_npmjs_org_css_loader_5_2_7_webpack_4_46_0_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default = __webpack_require__.n(_node_modules_pnpm_registry_npmjs_org_css_loader_5_2_7_webpack_4_46_0_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__);
+    var ___CSS_LOADER_EXPORT___ = _node_modules_pnpm_registry_npmjs_org_css_loader_5_2_7_webpack_4_46_0_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()((function(i) {
+        return i[1];
+    }));
+    ___CSS_LOADER_EXPORT___.push([ module.i, \\"\\", \\"\\" ]);
+    __webpack_exports__[\\"default\\"] = ___CSS_LOADER_EXPORT___;
 }, function(module, __webpack_exports__, __webpack_require__) {
     \\"use strict\\";
     __webpack_require__.r(__webpack_exports__);
@@ -4759,7 +4744,7 @@ exports[`subpackages should process subpackages 2`] = `
     var inherits = __webpack_require__(11);
     var createSuper = __webpack_require__(10);
     var react = __webpack_require__(3);
-    var src_app = __webpack_require__(30);
+    var src_app = __webpack_require__(31);
     var app_App = function(_Component) {
         Object(inherits[\\"a\\"])(App, _Component);
         var _super = Object(createSuper[\\"a\\"])(App);
@@ -4789,7 +4774,7 @@ exports[`subpackages should process subpackages 2`] = `
     function taro_framework_createVueApp() {}
     function taro_framework_createVue3App() {}
     var taro_components = __webpack_require__(8);
-    var mocks_taro_components = __webpack_require__(31);
+    var mocks_taro_components = __webpack_require__(32);
     var app_config_config = {
         \\"router\\": {
             \\"mode\\": \\"hash\\",
