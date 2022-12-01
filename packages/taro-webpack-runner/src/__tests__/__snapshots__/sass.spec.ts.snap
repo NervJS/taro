@@ -3860,6 +3860,8 @@ exports[`sass should build app with sass 2`] = `
             step((generator = generator.apply(thisArg, _arguments || [])).next());
         }));
     };
+    var createStampId = undefined();
+    var launchStampId = createStampId();
     function createMultiRouter(app, config, framework) {
         var _a, _b, _c, _d, _e, _f;
         return mpa_awaiter(this, void 0, void 0, _regeneratorRuntime().mark((function _callee() {
@@ -3872,7 +3874,7 @@ exports[`sass should build app with sass 2`] = `
                         handler = new multi_page_MultiPageHandler(config);
                         launchParam = {
                             \\"path\\": config.pageName,
-                            \\"query\\": handler.getQuery(),
+                            \\"query\\": handler.getQuery(launchStampId),
                             \\"scene\\": 0,
                             \\"shareTicket\\": \\"\\",
                             \\"referrerInfo\\": {}
@@ -4280,7 +4282,7 @@ exports[`sass should build app with sass 2`] = `
         }, {
             \\"key\\": \\"getQuery\\",
             \\"value\\": function getQuery() {
-                var stamp = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : \\"0\\";
+                var stamp = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : \\"\\";
                 var search = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : \\"\\";
                 var options = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
                 search = search ? \\"\\".concat(search, \\"&\\").concat(this.search) : this.search;
@@ -4336,10 +4338,11 @@ exports[`sass should build app with sass 2`] = `
             }
         }, {
             \\"key\\": \\"load\\",
-            \\"value\\": function load(stampId, page) {
+            \\"value\\": function load(page) {
                 var _this = this;
-                var pageConfig = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
-                var stacksIndex = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 0;
+                var pageConfig = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+                var stampId = arguments.length > 2 ? arguments[2] : undefined;
+                var pageNo = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 0;
                 var _a, _b;
                 if (!page) return;
                 stack.push(page);
@@ -4348,7 +4351,7 @@ exports[`sass should build app with sass 2`] = `
                 if (pageEl) {
                     setDisplay(pageEl);
                     this.isTabBar(this.pathname) && pageEl.classList.add(\\"taro_tabbar_page\\");
-                    this.addAnimation(pageEl, stacksIndex === 0);
+                    this.addAnimation(pageEl, pageNo === 0);
                     (_a = page.onShow) === null || _a === void 0 ? void 0 : _a.call(page);
                     this.bindPageEvents(page, pageEl, pageConfig);
                 } else {
@@ -4356,7 +4359,7 @@ exports[`sass should build app with sass 2`] = `
                         var _a;
                         pageEl = _this.getPageContainer(page);
                         _this.isTabBar(_this.pathname) && (pageEl === null || pageEl === void 0 ? void 0 : pageEl.classList.add(\\"taro_tabbar_page\\"));
-                        _this.addAnimation(pageEl, stacksIndex === 0);
+                        _this.addAnimation(pageEl, pageNo === 0);
                         _this.onReady(page, true);
                         (_a = page.onShow) === null || _a === void 0 ? void 0 : _a.call(page);
                         _this.bindPageEvents(page, pageEl, pageConfig);
@@ -4401,21 +4404,21 @@ exports[`sass should build app with sass 2`] = `
             \\"value\\": function show(page) {
                 var _this3 = this;
                 var pageConfig = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
-                var stacksIndex = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 0;
+                var pageNo = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 0;
                 var _a, _b;
                 if (!page) return;
                 var param = this.getQuery(page[\\"$taroParams\\"][\\"stamp\\"], \\"\\", page.options);
                 var pageEl = this.getPageContainer(page);
                 if (pageEl) {
                     setDisplay(pageEl);
-                    this.addAnimation(pageEl, stacksIndex === 0);
+                    this.addAnimation(pageEl, pageNo === 0);
                     (_a = page.onShow) === null || _a === void 0 ? void 0 : _a.call(page);
                     this.bindPageEvents(page, pageEl, pageConfig);
                 } else {
                     (_b = page.onLoad) === null || _b === void 0 ? void 0 : _b.call(page, param, (function() {
                         var _a;
                         pageEl = _this3.getPageContainer(page);
-                        _this3.addAnimation(pageEl, stacksIndex === 0);
+                        _this3.addAnimation(pageEl, pageNo === 0);
                         _this3.onReady(page, false);
                         (_a = page.onShow) === null || _a === void 0 ? void 0 : _a.call(page);
                         _this3.bindPageEvents(page, pageEl, pageConfig);
@@ -4519,8 +4522,8 @@ exports[`sass should build app with sass 2`] = `
             step((generator = generator.apply(thisArg, _arguments || [])).next());
         }));
     };
-    var createStampId = undefined();
-    var launchStampId = createStampId();
+    var spa_createStampId = undefined();
+    var spa_launchStampId = spa_createStampId();
     function createRouter(app, config, framework) {
         var _this = this;
         var _a, _b;
@@ -4541,7 +4544,7 @@ exports[`sass should build app with sass 2`] = `
         });
         var launchParam = {
             \\"path\\": handler.homePage,
-            \\"query\\": handler.getQuery(launchStampId),
+            \\"query\\": handler.getQuery(spa_launchStampId),
             \\"scene\\": 0,
             \\"shareTicket\\": \\"\\",
             \\"referrerInfo\\": {}
@@ -4658,7 +4661,7 @@ exports[`sass should build app with sass 2`] = `
                             return _context.abrupt(\\"return\\");
 
                           case 45:
-                            if (stack.length === 1 && handler.isTabBar(currentPage.path)) {
+                            if (handler.isTabBar(currentPage.path)) {
                                 handler.hide(currentPage);
                                 stack.pushTab(currentPage.path.split(\\"?\\")[0]);
                             } else if (stack.length > 0) {
@@ -4714,15 +4717,15 @@ exports[`sass should build app with sass 2`] = `
                             delete loadConfig[\\"path\\"];
                             delete loadConfig[\\"load\\"];
                             pageStampId = \\"\\";
-                            if (launchStampId) {
-                                pageStampId = launchStampId;
-                                launchStampId = \\"\\";
+                            if (spa_launchStampId) {
+                                pageStampId = spa_launchStampId;
+                                spa_launchStampId = \\"\\";
                             } else {
-                                pageStampId = createStampId();
+                                pageStampId = spa_createStampId();
                             }
                             page = undefined(enablePullDownRefresh ? undefined.call(\\"createPullDownComponent\\", el, location.pathname, framework, handler.PullDownRefresh) : el, pathname + undefined(handler.getQuery(pageStampId)), {}, loadConfig);
                             if (params) page.options = params;
-                            return _context.abrupt(\\"return\\", handler.load(pageStampId, page, pageConfig, stacksIndex));
+                            return _context.abrupt(\\"return\\", handler.load(page, pageConfig, pageStampId, stacksIndex));
 
                           case 64:
                           case \\"end\\":
@@ -8706,6 +8709,8 @@ exports[`sass should build app with scss 2`] = `
             step((generator = generator.apply(thisArg, _arguments || [])).next());
         }));
     };
+    var createStampId = undefined();
+    var launchStampId = createStampId();
     function createMultiRouter(app, config, framework) {
         var _a, _b, _c, _d, _e, _f;
         return mpa_awaiter(this, void 0, void 0, _regeneratorRuntime().mark((function _callee() {
@@ -8718,7 +8723,7 @@ exports[`sass should build app with scss 2`] = `
                         handler = new multi_page_MultiPageHandler(config);
                         launchParam = {
                             \\"path\\": config.pageName,
-                            \\"query\\": handler.getQuery(),
+                            \\"query\\": handler.getQuery(launchStampId),
                             \\"scene\\": 0,
                             \\"shareTicket\\": \\"\\",
                             \\"referrerInfo\\": {}
@@ -9126,7 +9131,7 @@ exports[`sass should build app with scss 2`] = `
         }, {
             \\"key\\": \\"getQuery\\",
             \\"value\\": function getQuery() {
-                var stamp = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : \\"0\\";
+                var stamp = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : \\"\\";
                 var search = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : \\"\\";
                 var options = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
                 search = search ? \\"\\".concat(search, \\"&\\").concat(this.search) : this.search;
@@ -9182,10 +9187,11 @@ exports[`sass should build app with scss 2`] = `
             }
         }, {
             \\"key\\": \\"load\\",
-            \\"value\\": function load(stampId, page) {
+            \\"value\\": function load(page) {
                 var _this = this;
-                var pageConfig = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
-                var stacksIndex = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 0;
+                var pageConfig = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+                var stampId = arguments.length > 2 ? arguments[2] : undefined;
+                var pageNo = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 0;
                 var _a, _b;
                 if (!page) return;
                 stack.push(page);
@@ -9194,7 +9200,7 @@ exports[`sass should build app with scss 2`] = `
                 if (pageEl) {
                     setDisplay(pageEl);
                     this.isTabBar(this.pathname) && pageEl.classList.add(\\"taro_tabbar_page\\");
-                    this.addAnimation(pageEl, stacksIndex === 0);
+                    this.addAnimation(pageEl, pageNo === 0);
                     (_a = page.onShow) === null || _a === void 0 ? void 0 : _a.call(page);
                     this.bindPageEvents(page, pageEl, pageConfig);
                 } else {
@@ -9202,7 +9208,7 @@ exports[`sass should build app with scss 2`] = `
                         var _a;
                         pageEl = _this.getPageContainer(page);
                         _this.isTabBar(_this.pathname) && (pageEl === null || pageEl === void 0 ? void 0 : pageEl.classList.add(\\"taro_tabbar_page\\"));
-                        _this.addAnimation(pageEl, stacksIndex === 0);
+                        _this.addAnimation(pageEl, pageNo === 0);
                         _this.onReady(page, true);
                         (_a = page.onShow) === null || _a === void 0 ? void 0 : _a.call(page);
                         _this.bindPageEvents(page, pageEl, pageConfig);
@@ -9247,21 +9253,21 @@ exports[`sass should build app with scss 2`] = `
             \\"value\\": function show(page) {
                 var _this3 = this;
                 var pageConfig = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
-                var stacksIndex = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 0;
+                var pageNo = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 0;
                 var _a, _b;
                 if (!page) return;
                 var param = this.getQuery(page[\\"$taroParams\\"][\\"stamp\\"], \\"\\", page.options);
                 var pageEl = this.getPageContainer(page);
                 if (pageEl) {
                     setDisplay(pageEl);
-                    this.addAnimation(pageEl, stacksIndex === 0);
+                    this.addAnimation(pageEl, pageNo === 0);
                     (_a = page.onShow) === null || _a === void 0 ? void 0 : _a.call(page);
                     this.bindPageEvents(page, pageEl, pageConfig);
                 } else {
                     (_b = page.onLoad) === null || _b === void 0 ? void 0 : _b.call(page, param, (function() {
                         var _a;
                         pageEl = _this3.getPageContainer(page);
-                        _this3.addAnimation(pageEl, stacksIndex === 0);
+                        _this3.addAnimation(pageEl, pageNo === 0);
                         _this3.onReady(page, false);
                         (_a = page.onShow) === null || _a === void 0 ? void 0 : _a.call(page);
                         _this3.bindPageEvents(page, pageEl, pageConfig);
@@ -9365,8 +9371,8 @@ exports[`sass should build app with scss 2`] = `
             step((generator = generator.apply(thisArg, _arguments || [])).next());
         }));
     };
-    var createStampId = undefined();
-    var launchStampId = createStampId();
+    var spa_createStampId = undefined();
+    var spa_launchStampId = spa_createStampId();
     function createRouter(app, config, framework) {
         var _this = this;
         var _a, _b;
@@ -9387,7 +9393,7 @@ exports[`sass should build app with scss 2`] = `
         });
         var launchParam = {
             \\"path\\": handler.homePage,
-            \\"query\\": handler.getQuery(launchStampId),
+            \\"query\\": handler.getQuery(spa_launchStampId),
             \\"scene\\": 0,
             \\"shareTicket\\": \\"\\",
             \\"referrerInfo\\": {}
@@ -9504,7 +9510,7 @@ exports[`sass should build app with scss 2`] = `
                             return _context.abrupt(\\"return\\");
 
                           case 45:
-                            if (stack.length === 1 && handler.isTabBar(currentPage.path)) {
+                            if (handler.isTabBar(currentPage.path)) {
                                 handler.hide(currentPage);
                                 stack.pushTab(currentPage.path.split(\\"?\\")[0]);
                             } else if (stack.length > 0) {
@@ -9560,15 +9566,15 @@ exports[`sass should build app with scss 2`] = `
                             delete loadConfig[\\"path\\"];
                             delete loadConfig[\\"load\\"];
                             pageStampId = \\"\\";
-                            if (launchStampId) {
-                                pageStampId = launchStampId;
-                                launchStampId = \\"\\";
+                            if (spa_launchStampId) {
+                                pageStampId = spa_launchStampId;
+                                spa_launchStampId = \\"\\";
                             } else {
-                                pageStampId = createStampId();
+                                pageStampId = spa_createStampId();
                             }
                             page = undefined(enablePullDownRefresh ? undefined.call(\\"createPullDownComponent\\", el, location.pathname, framework, handler.PullDownRefresh) : el, pathname + undefined(handler.getQuery(pageStampId)), {}, loadConfig);
                             if (params) page.options = params;
-                            return _context.abrupt(\\"return\\", handler.load(pageStampId, page, pageConfig, stacksIndex));
+                            return _context.abrupt(\\"return\\", handler.load(page, pageConfig, pageStampId, stacksIndex));
 
                           case 64:
                           case \\"end\\":
@@ -13562,6 +13568,8 @@ exports[`sass should set global sass content with data 2`] = `
             step((generator = generator.apply(thisArg, _arguments || [])).next());
         }));
     };
+    var createStampId = undefined();
+    var launchStampId = createStampId();
     function createMultiRouter(app, config, framework) {
         var _a, _b, _c, _d, _e, _f;
         return mpa_awaiter(this, void 0, void 0, _regeneratorRuntime().mark((function _callee() {
@@ -13574,7 +13582,7 @@ exports[`sass should set global sass content with data 2`] = `
                         handler = new multi_page_MultiPageHandler(config);
                         launchParam = {
                             \\"path\\": config.pageName,
-                            \\"query\\": handler.getQuery(),
+                            \\"query\\": handler.getQuery(launchStampId),
                             \\"scene\\": 0,
                             \\"shareTicket\\": \\"\\",
                             \\"referrerInfo\\": {}
@@ -13982,7 +13990,7 @@ exports[`sass should set global sass content with data 2`] = `
         }, {
             \\"key\\": \\"getQuery\\",
             \\"value\\": function getQuery() {
-                var stamp = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : \\"0\\";
+                var stamp = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : \\"\\";
                 var search = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : \\"\\";
                 var options = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
                 search = search ? \\"\\".concat(search, \\"&\\").concat(this.search) : this.search;
@@ -14038,10 +14046,11 @@ exports[`sass should set global sass content with data 2`] = `
             }
         }, {
             \\"key\\": \\"load\\",
-            \\"value\\": function load(stampId, page) {
+            \\"value\\": function load(page) {
                 var _this = this;
-                var pageConfig = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
-                var stacksIndex = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 0;
+                var pageConfig = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+                var stampId = arguments.length > 2 ? arguments[2] : undefined;
+                var pageNo = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 0;
                 var _a, _b;
                 if (!page) return;
                 stack.push(page);
@@ -14050,7 +14059,7 @@ exports[`sass should set global sass content with data 2`] = `
                 if (pageEl) {
                     setDisplay(pageEl);
                     this.isTabBar(this.pathname) && pageEl.classList.add(\\"taro_tabbar_page\\");
-                    this.addAnimation(pageEl, stacksIndex === 0);
+                    this.addAnimation(pageEl, pageNo === 0);
                     (_a = page.onShow) === null || _a === void 0 ? void 0 : _a.call(page);
                     this.bindPageEvents(page, pageEl, pageConfig);
                 } else {
@@ -14058,7 +14067,7 @@ exports[`sass should set global sass content with data 2`] = `
                         var _a;
                         pageEl = _this.getPageContainer(page);
                         _this.isTabBar(_this.pathname) && (pageEl === null || pageEl === void 0 ? void 0 : pageEl.classList.add(\\"taro_tabbar_page\\"));
-                        _this.addAnimation(pageEl, stacksIndex === 0);
+                        _this.addAnimation(pageEl, pageNo === 0);
                         _this.onReady(page, true);
                         (_a = page.onShow) === null || _a === void 0 ? void 0 : _a.call(page);
                         _this.bindPageEvents(page, pageEl, pageConfig);
@@ -14103,21 +14112,21 @@ exports[`sass should set global sass content with data 2`] = `
             \\"value\\": function show(page) {
                 var _this3 = this;
                 var pageConfig = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
-                var stacksIndex = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 0;
+                var pageNo = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 0;
                 var _a, _b;
                 if (!page) return;
                 var param = this.getQuery(page[\\"$taroParams\\"][\\"stamp\\"], \\"\\", page.options);
                 var pageEl = this.getPageContainer(page);
                 if (pageEl) {
                     setDisplay(pageEl);
-                    this.addAnimation(pageEl, stacksIndex === 0);
+                    this.addAnimation(pageEl, pageNo === 0);
                     (_a = page.onShow) === null || _a === void 0 ? void 0 : _a.call(page);
                     this.bindPageEvents(page, pageEl, pageConfig);
                 } else {
                     (_b = page.onLoad) === null || _b === void 0 ? void 0 : _b.call(page, param, (function() {
                         var _a;
                         pageEl = _this3.getPageContainer(page);
-                        _this3.addAnimation(pageEl, stacksIndex === 0);
+                        _this3.addAnimation(pageEl, pageNo === 0);
                         _this3.onReady(page, false);
                         (_a = page.onShow) === null || _a === void 0 ? void 0 : _a.call(page);
                         _this3.bindPageEvents(page, pageEl, pageConfig);
@@ -14221,8 +14230,8 @@ exports[`sass should set global sass content with data 2`] = `
             step((generator = generator.apply(thisArg, _arguments || [])).next());
         }));
     };
-    var createStampId = undefined();
-    var launchStampId = createStampId();
+    var spa_createStampId = undefined();
+    var spa_launchStampId = spa_createStampId();
     function createRouter(app, config, framework) {
         var _this = this;
         var _a, _b;
@@ -14243,7 +14252,7 @@ exports[`sass should set global sass content with data 2`] = `
         });
         var launchParam = {
             \\"path\\": handler.homePage,
-            \\"query\\": handler.getQuery(launchStampId),
+            \\"query\\": handler.getQuery(spa_launchStampId),
             \\"scene\\": 0,
             \\"shareTicket\\": \\"\\",
             \\"referrerInfo\\": {}
@@ -14360,7 +14369,7 @@ exports[`sass should set global sass content with data 2`] = `
                             return _context.abrupt(\\"return\\");
 
                           case 45:
-                            if (stack.length === 1 && handler.isTabBar(currentPage.path)) {
+                            if (handler.isTabBar(currentPage.path)) {
                                 handler.hide(currentPage);
                                 stack.pushTab(currentPage.path.split(\\"?\\")[0]);
                             } else if (stack.length > 0) {
@@ -14416,15 +14425,15 @@ exports[`sass should set global sass content with data 2`] = `
                             delete loadConfig[\\"path\\"];
                             delete loadConfig[\\"load\\"];
                             pageStampId = \\"\\";
-                            if (launchStampId) {
-                                pageStampId = launchStampId;
-                                launchStampId = \\"\\";
+                            if (spa_launchStampId) {
+                                pageStampId = spa_launchStampId;
+                                spa_launchStampId = \\"\\";
                             } else {
-                                pageStampId = createStampId();
+                                pageStampId = spa_createStampId();
                             }
                             page = undefined(enablePullDownRefresh ? undefined.call(\\"createPullDownComponent\\", el, location.pathname, framework, handler.PullDownRefresh) : el, pathname + undefined(handler.getQuery(pageStampId)), {}, loadConfig);
                             if (params) page.options = params;
-                            return _context.abrupt(\\"return\\", handler.load(pageStampId, page, pageConfig, stacksIndex));
+                            return _context.abrupt(\\"return\\", handler.load(page, pageConfig, pageStampId, stacksIndex));
 
                           case 64:
                           case \\"end\\":
@@ -18418,6 +18427,8 @@ exports[`sass should set global sass content with source & dir 2`] = `
             step((generator = generator.apply(thisArg, _arguments || [])).next());
         }));
     };
+    var createStampId = undefined();
+    var launchStampId = createStampId();
     function createMultiRouter(app, config, framework) {
         var _a, _b, _c, _d, _e, _f;
         return mpa_awaiter(this, void 0, void 0, _regeneratorRuntime().mark((function _callee() {
@@ -18430,7 +18441,7 @@ exports[`sass should set global sass content with source & dir 2`] = `
                         handler = new multi_page_MultiPageHandler(config);
                         launchParam = {
                             \\"path\\": config.pageName,
-                            \\"query\\": handler.getQuery(),
+                            \\"query\\": handler.getQuery(launchStampId),
                             \\"scene\\": 0,
                             \\"shareTicket\\": \\"\\",
                             \\"referrerInfo\\": {}
@@ -18838,7 +18849,7 @@ exports[`sass should set global sass content with source & dir 2`] = `
         }, {
             \\"key\\": \\"getQuery\\",
             \\"value\\": function getQuery() {
-                var stamp = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : \\"0\\";
+                var stamp = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : \\"\\";
                 var search = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : \\"\\";
                 var options = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
                 search = search ? \\"\\".concat(search, \\"&\\").concat(this.search) : this.search;
@@ -18894,10 +18905,11 @@ exports[`sass should set global sass content with source & dir 2`] = `
             }
         }, {
             \\"key\\": \\"load\\",
-            \\"value\\": function load(stampId, page) {
+            \\"value\\": function load(page) {
                 var _this = this;
-                var pageConfig = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
-                var stacksIndex = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 0;
+                var pageConfig = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+                var stampId = arguments.length > 2 ? arguments[2] : undefined;
+                var pageNo = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 0;
                 var _a, _b;
                 if (!page) return;
                 stack.push(page);
@@ -18906,7 +18918,7 @@ exports[`sass should set global sass content with source & dir 2`] = `
                 if (pageEl) {
                     setDisplay(pageEl);
                     this.isTabBar(this.pathname) && pageEl.classList.add(\\"taro_tabbar_page\\");
-                    this.addAnimation(pageEl, stacksIndex === 0);
+                    this.addAnimation(pageEl, pageNo === 0);
                     (_a = page.onShow) === null || _a === void 0 ? void 0 : _a.call(page);
                     this.bindPageEvents(page, pageEl, pageConfig);
                 } else {
@@ -18914,7 +18926,7 @@ exports[`sass should set global sass content with source & dir 2`] = `
                         var _a;
                         pageEl = _this.getPageContainer(page);
                         _this.isTabBar(_this.pathname) && (pageEl === null || pageEl === void 0 ? void 0 : pageEl.classList.add(\\"taro_tabbar_page\\"));
-                        _this.addAnimation(pageEl, stacksIndex === 0);
+                        _this.addAnimation(pageEl, pageNo === 0);
                         _this.onReady(page, true);
                         (_a = page.onShow) === null || _a === void 0 ? void 0 : _a.call(page);
                         _this.bindPageEvents(page, pageEl, pageConfig);
@@ -18959,21 +18971,21 @@ exports[`sass should set global sass content with source & dir 2`] = `
             \\"value\\": function show(page) {
                 var _this3 = this;
                 var pageConfig = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
-                var stacksIndex = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 0;
+                var pageNo = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 0;
                 var _a, _b;
                 if (!page) return;
                 var param = this.getQuery(page[\\"$taroParams\\"][\\"stamp\\"], \\"\\", page.options);
                 var pageEl = this.getPageContainer(page);
                 if (pageEl) {
                     setDisplay(pageEl);
-                    this.addAnimation(pageEl, stacksIndex === 0);
+                    this.addAnimation(pageEl, pageNo === 0);
                     (_a = page.onShow) === null || _a === void 0 ? void 0 : _a.call(page);
                     this.bindPageEvents(page, pageEl, pageConfig);
                 } else {
                     (_b = page.onLoad) === null || _b === void 0 ? void 0 : _b.call(page, param, (function() {
                         var _a;
                         pageEl = _this3.getPageContainer(page);
-                        _this3.addAnimation(pageEl, stacksIndex === 0);
+                        _this3.addAnimation(pageEl, pageNo === 0);
                         _this3.onReady(page, false);
                         (_a = page.onShow) === null || _a === void 0 ? void 0 : _a.call(page);
                         _this3.bindPageEvents(page, pageEl, pageConfig);
@@ -19077,8 +19089,8 @@ exports[`sass should set global sass content with source & dir 2`] = `
             step((generator = generator.apply(thisArg, _arguments || [])).next());
         }));
     };
-    var createStampId = undefined();
-    var launchStampId = createStampId();
+    var spa_createStampId = undefined();
+    var spa_launchStampId = spa_createStampId();
     function createRouter(app, config, framework) {
         var _this = this;
         var _a, _b;
@@ -19099,7 +19111,7 @@ exports[`sass should set global sass content with source & dir 2`] = `
         });
         var launchParam = {
             \\"path\\": handler.homePage,
-            \\"query\\": handler.getQuery(launchStampId),
+            \\"query\\": handler.getQuery(spa_launchStampId),
             \\"scene\\": 0,
             \\"shareTicket\\": \\"\\",
             \\"referrerInfo\\": {}
@@ -19216,7 +19228,7 @@ exports[`sass should set global sass content with source & dir 2`] = `
                             return _context.abrupt(\\"return\\");
 
                           case 45:
-                            if (stack.length === 1 && handler.isTabBar(currentPage.path)) {
+                            if (handler.isTabBar(currentPage.path)) {
                                 handler.hide(currentPage);
                                 stack.pushTab(currentPage.path.split(\\"?\\")[0]);
                             } else if (stack.length > 0) {
@@ -19272,15 +19284,15 @@ exports[`sass should set global sass content with source & dir 2`] = `
                             delete loadConfig[\\"path\\"];
                             delete loadConfig[\\"load\\"];
                             pageStampId = \\"\\";
-                            if (launchStampId) {
-                                pageStampId = launchStampId;
-                                launchStampId = \\"\\";
+                            if (spa_launchStampId) {
+                                pageStampId = spa_launchStampId;
+                                spa_launchStampId = \\"\\";
                             } else {
-                                pageStampId = createStampId();
+                                pageStampId = spa_createStampId();
                             }
                             page = undefined(enablePullDownRefresh ? undefined.call(\\"createPullDownComponent\\", el, location.pathname, framework, handler.PullDownRefresh) : el, pathname + undefined(handler.getQuery(pageStampId)), {}, loadConfig);
                             if (params) page.options = params;
-                            return _context.abrupt(\\"return\\", handler.load(pageStampId, page, pageConfig, stacksIndex));
+                            return _context.abrupt(\\"return\\", handler.load(page, pageConfig, pageStampId, stacksIndex));
 
                           case 64:
                           case \\"end\\":
@@ -23274,6 +23286,8 @@ exports[`sass should set global sass content with source 2`] = `
             step((generator = generator.apply(thisArg, _arguments || [])).next());
         }));
     };
+    var createStampId = undefined();
+    var launchStampId = createStampId();
     function createMultiRouter(app, config, framework) {
         var _a, _b, _c, _d, _e, _f;
         return mpa_awaiter(this, void 0, void 0, _regeneratorRuntime().mark((function _callee() {
@@ -23286,7 +23300,7 @@ exports[`sass should set global sass content with source 2`] = `
                         handler = new multi_page_MultiPageHandler(config);
                         launchParam = {
                             \\"path\\": config.pageName,
-                            \\"query\\": handler.getQuery(),
+                            \\"query\\": handler.getQuery(launchStampId),
                             \\"scene\\": 0,
                             \\"shareTicket\\": \\"\\",
                             \\"referrerInfo\\": {}
@@ -23694,7 +23708,7 @@ exports[`sass should set global sass content with source 2`] = `
         }, {
             \\"key\\": \\"getQuery\\",
             \\"value\\": function getQuery() {
-                var stamp = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : \\"0\\";
+                var stamp = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : \\"\\";
                 var search = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : \\"\\";
                 var options = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
                 search = search ? \\"\\".concat(search, \\"&\\").concat(this.search) : this.search;
@@ -23750,10 +23764,11 @@ exports[`sass should set global sass content with source 2`] = `
             }
         }, {
             \\"key\\": \\"load\\",
-            \\"value\\": function load(stampId, page) {
+            \\"value\\": function load(page) {
                 var _this = this;
-                var pageConfig = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
-                var stacksIndex = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 0;
+                var pageConfig = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+                var stampId = arguments.length > 2 ? arguments[2] : undefined;
+                var pageNo = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 0;
                 var _a, _b;
                 if (!page) return;
                 stack.push(page);
@@ -23762,7 +23777,7 @@ exports[`sass should set global sass content with source 2`] = `
                 if (pageEl) {
                     setDisplay(pageEl);
                     this.isTabBar(this.pathname) && pageEl.classList.add(\\"taro_tabbar_page\\");
-                    this.addAnimation(pageEl, stacksIndex === 0);
+                    this.addAnimation(pageEl, pageNo === 0);
                     (_a = page.onShow) === null || _a === void 0 ? void 0 : _a.call(page);
                     this.bindPageEvents(page, pageEl, pageConfig);
                 } else {
@@ -23770,7 +23785,7 @@ exports[`sass should set global sass content with source 2`] = `
                         var _a;
                         pageEl = _this.getPageContainer(page);
                         _this.isTabBar(_this.pathname) && (pageEl === null || pageEl === void 0 ? void 0 : pageEl.classList.add(\\"taro_tabbar_page\\"));
-                        _this.addAnimation(pageEl, stacksIndex === 0);
+                        _this.addAnimation(pageEl, pageNo === 0);
                         _this.onReady(page, true);
                         (_a = page.onShow) === null || _a === void 0 ? void 0 : _a.call(page);
                         _this.bindPageEvents(page, pageEl, pageConfig);
@@ -23815,21 +23830,21 @@ exports[`sass should set global sass content with source 2`] = `
             \\"value\\": function show(page) {
                 var _this3 = this;
                 var pageConfig = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
-                var stacksIndex = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 0;
+                var pageNo = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 0;
                 var _a, _b;
                 if (!page) return;
                 var param = this.getQuery(page[\\"$taroParams\\"][\\"stamp\\"], \\"\\", page.options);
                 var pageEl = this.getPageContainer(page);
                 if (pageEl) {
                     setDisplay(pageEl);
-                    this.addAnimation(pageEl, stacksIndex === 0);
+                    this.addAnimation(pageEl, pageNo === 0);
                     (_a = page.onShow) === null || _a === void 0 ? void 0 : _a.call(page);
                     this.bindPageEvents(page, pageEl, pageConfig);
                 } else {
                     (_b = page.onLoad) === null || _b === void 0 ? void 0 : _b.call(page, param, (function() {
                         var _a;
                         pageEl = _this3.getPageContainer(page);
-                        _this3.addAnimation(pageEl, stacksIndex === 0);
+                        _this3.addAnimation(pageEl, pageNo === 0);
                         _this3.onReady(page, false);
                         (_a = page.onShow) === null || _a === void 0 ? void 0 : _a.call(page);
                         _this3.bindPageEvents(page, pageEl, pageConfig);
@@ -23933,8 +23948,8 @@ exports[`sass should set global sass content with source 2`] = `
             step((generator = generator.apply(thisArg, _arguments || [])).next());
         }));
     };
-    var createStampId = undefined();
-    var launchStampId = createStampId();
+    var spa_createStampId = undefined();
+    var spa_launchStampId = spa_createStampId();
     function createRouter(app, config, framework) {
         var _this = this;
         var _a, _b;
@@ -23955,7 +23970,7 @@ exports[`sass should set global sass content with source 2`] = `
         });
         var launchParam = {
             \\"path\\": handler.homePage,
-            \\"query\\": handler.getQuery(launchStampId),
+            \\"query\\": handler.getQuery(spa_launchStampId),
             \\"scene\\": 0,
             \\"shareTicket\\": \\"\\",
             \\"referrerInfo\\": {}
@@ -24072,7 +24087,7 @@ exports[`sass should set global sass content with source 2`] = `
                             return _context.abrupt(\\"return\\");
 
                           case 45:
-                            if (stack.length === 1 && handler.isTabBar(currentPage.path)) {
+                            if (handler.isTabBar(currentPage.path)) {
                                 handler.hide(currentPage);
                                 stack.pushTab(currentPage.path.split(\\"?\\")[0]);
                             } else if (stack.length > 0) {
@@ -24128,15 +24143,15 @@ exports[`sass should set global sass content with source 2`] = `
                             delete loadConfig[\\"path\\"];
                             delete loadConfig[\\"load\\"];
                             pageStampId = \\"\\";
-                            if (launchStampId) {
-                                pageStampId = launchStampId;
-                                launchStampId = \\"\\";
+                            if (spa_launchStampId) {
+                                pageStampId = spa_launchStampId;
+                                spa_launchStampId = \\"\\";
                             } else {
-                                pageStampId = createStampId();
+                                pageStampId = spa_createStampId();
                             }
                             page = undefined(enablePullDownRefresh ? undefined.call(\\"createPullDownComponent\\", el, location.pathname, framework, handler.PullDownRefresh) : el, pathname + undefined(handler.getQuery(pageStampId)), {}, loadConfig);
                             if (params) page.options = params;
-                            return _context.abrupt(\\"return\\", handler.load(pageStampId, page, pageConfig, stacksIndex));
+                            return _context.abrupt(\\"return\\", handler.load(page, pageConfig, pageStampId, stacksIndex));
 
                           case 64:
                           case \\"end\\":
