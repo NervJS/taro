@@ -107,7 +107,7 @@ export function createRouter (
       shouldLoad = true
     } else if (handler.isTabBar(handler.pathname)) {
       if (handler.isSamePage(currentPage)) return
-      if (stacks.length === 1 && handler.isTabBar(currentPage!.path!)) {
+      if (handler.isTabBar(currentPage!.path!)) {
         handler.hide(currentPage)
         stacks.pushTab(currentPage!.path!.split('?')[0])
       } else if (stacks.length > 0) {
@@ -170,7 +170,7 @@ export function createRouter (
         loadConfig
       )
       if (params) page.options = params
-      return handler.load(pageStampId, page, pageConfig, stacksIndex)
+      return handler.load(page, pageConfig, pageStampId, stacksIndex)
     }
   }
 
