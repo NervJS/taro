@@ -11,9 +11,10 @@ interface InputProps extends StandardProps, FormItemProps {
    * @supported weapp, alipay, swan, tt, qq, jd, h5, rn
    * @rn 部分支持
    */
-  type?: 'text' | 'number' | 'idcard' | 'digit' | 'safe-password' | 'nickname'
+  type?: 'text' | 'number' | 'idcard' | 'digit' | 'safe-password' | 'nickname' | 'numberpad' | 'digitpad' | 'idcardpad'
 
   /** 是否是密码类型
+   * @default false
    * @supported weapp, alipay, swan, tt, qq, jd, h5, rn
    */
   password?: boolean
@@ -40,6 +41,7 @@ interface InputProps extends StandardProps, FormItemProps {
   placeholderTextColor?: string
 
   /** 是否禁用
+   * @default false
    * @supported weapp, alipay, swan, tt, qq, jd, h5, rn
    */
   disabled?: boolean
@@ -69,11 +71,19 @@ interface InputProps extends StandardProps, FormItemProps {
    */
   focus?: boolean
 
-  /** 设置键盘右下角按钮的文字
+  /** 设置键盘右下角按钮的文字，仅在type='text'时生效
+   * @alipay confirm-type 与 enableNative 属性冲突，若希望 confirm-type 生效，enableNative 不能设定为 false，而且不能设定 always-system
    * @default done
    * @supported weapp, alipay, swan, tt, qq, jd, rn
    */
   confirmType?: 'send' | 'search' | 'next' | 'go' | 'done'
+
+  /**
+   * 强制 input 处于同层状态，默认 focus 时 input 会切到非同层状态 (仅在 iOS 下生效)
+   * @default false
+   * @supported weapp
+   */
+  alwaysEmbed?: boolean
 
   /** 点击键盘右下角按钮时是否保持键盘不收起
    * @default false
@@ -99,7 +109,7 @@ interface InputProps extends StandardProps, FormItemProps {
   selectionEnd?: number
 
   /** 键盘弹起时，是否自动上推页面
-   * @default false
+   * @default true
    * @supported weapp, swan, tt, qq, jd
    */
   adjustPosition?: boolean
@@ -109,13 +119,6 @@ interface InputProps extends StandardProps, FormItemProps {
    * @supported weapp, tt
    */
   holdKeyboard?: boolean
-
-  /**
-   * 强制 input 处于同层状态，默认 focus 时 input 会切到非同层状态 (仅在 iOS 下生效)
-   * @default false
-   * @supported weapp
-   */
-  alwaysEmbed?: boolean
 
   /**
    * 安全键盘加密公钥的路径，只支持包内路径
@@ -161,7 +164,9 @@ interface InputProps extends StandardProps, FormItemProps {
   randomNumber?: boolean
 
   /**
-   * 是否为受控组件
+   * 是否为受控组件。为 true 时，value 内容会完全受 setData 控制。
+   * 
+   * 建议当 type 值为 text 时不要将 controlled 设置为 true,详见 [Bugs & Tips](https://opendocs.alipay.com/mini/component/input#Bug%20%26%20Tip)
    * @default false
    * @supported alipay
    */
@@ -178,9 +183,16 @@ interface InputProps extends StandardProps, FormItemProps {
   name?: string
 
   /** 是否强制使用系统键盘和 Web-view 创建的 input 元素。为 true 时，confirm-type、confirm-hold 可能失效。
+   * @default false
    * @supported alipay
    */
-  alwaysSystem?: string
+  alwaysSystem?: boolean
+
+  /** 使用原生键盘
+   * @default true
+   * @supported alipay
+   */
+  enableNative?: boolean
 
   /** 无障碍访问，（属性）元素的额外描述
    * @supported qq

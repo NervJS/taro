@@ -35,9 +35,11 @@ export const components = {
     bindChange: ''
   },
   Input: {
+    'always-system':'false',
     'random-number': 'false',
     controlled: 'false',
-    enableNative: 'false'
+    enableNative: 'true',
+    name:''
   },
   Slider: {
     'track-size': '4',
