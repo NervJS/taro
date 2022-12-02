@@ -156,6 +156,6 @@ export const patchEnv = (config: IProjectConfig, expandEnv: Record<string, strin
   }
   return {
     ...config.env,
-    ...expandEnv
+    ...expandEnvStringify
   }
 }
