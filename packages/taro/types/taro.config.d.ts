@@ -72,6 +72,11 @@ declare module './index' {
      * 支持 static / manual / auto
      */
     handleWebviewPreload?: string
+    /** 是否允许向下拉拽。
+     * @default: "YES"
+     * @supported alipay
+     */
+    allowsBounceVertical?: 'YES' | 'NO'
     /**
      * 下拉露出显示背景图的底色。例：白色 "#FFFFFF"。**仅安卓下有效，iOS 下页面背景图底色会使用 backgroundColor 的值**
      * @supported alipay
@@ -99,6 +104,14 @@ declare module './index' {
      * @supported alipay
      */
     gestureBack?: string
+    /** 是否允许下拉刷新
+     * @desc
+     * 1. 下拉刷新生效的前提是 allowsBounceVertical 值为 true
+     * 2. window 全局配置后全局生效，但是如果单个页面配置了该参数，以页面的配置为准。
+     * @default true
+     * @supported alipay
+     */
+    pullRefresh?: boolean
     /**
      * rpx 单位是否宽度自适应 ，默认 true，当设置为 false 时，2 rpx 将恒等于 1 px，不再根据屏幕宽度进行自适应，注意，此时 750 rpx 将不再等于 100% 宽度。
      * @supported alipay
@@ -211,22 +224,7 @@ declare module './index' {
     barButtonTheme?: string
   }
 
-  interface WindowConfig extends CommonConfig {
-    /** 是否允许下拉刷新，默认 true
-     * @desc
-     * 1. 下拉刷新生效的前提是 allowsBounceVertical 值为 YES
-     * 2. window 全局配置后全局生效，但是如果单个页面配置了该参数，以页面的配置为准。
-     * @default: "NO"
-     * @supported alipay
-     */
-    pullRefresh?: 'YES' | 'NO'
-
-    /** 是否允许向下拉拽。默认 YES, 支持 YES / NO
-     * @default: "YES"
-     * @supported alipay
-     */
-    allowsBounceVertical?: 'YES' | 'NO'
-  }
+  interface WindowConfig extends CommonConfig {}
 
   interface TabBarItem {
     /** 页面路径，必须在 pages 中先定义 */
