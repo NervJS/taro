@@ -1,8 +1,6 @@
-import { ComponentType, ReactNode } from 'react'
-
-interface RootPortalProps {
-  children?: ReactNode
-
+import { ComponentType } from 'react'
+import { StandardProps } from './common'
+interface RootPortalProps extends StandardProps {
   /**
    * 是否从页面中脱离出来
    * @supported weapp
