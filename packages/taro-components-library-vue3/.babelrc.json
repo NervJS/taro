@@ -3,10 +3,11 @@
     [
       "taro",
       {
-        "framework": "vue3",
-        "ts": true,
+        "absoluteRuntime": false,
+        "framework": "vue",
         "hot": false,
-        "modules": false
+        "modules": false,
+        "ts": true
       }
     ]
   ]
