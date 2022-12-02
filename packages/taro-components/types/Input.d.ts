@@ -190,7 +190,6 @@ interface InputProps extends StandardProps, FormItemProps {
   /** 使用原生键盘
    * @default true
    * @supported alipay
-   * @unique
    */
   enableNative?: boolean
 
