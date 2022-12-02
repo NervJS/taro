@@ -616,6 +616,7 @@ require(\\"./taro\\");
                 Video: {
                     \\"poster-size\\": Object(_tarojs_shared__WEBPACK_IMPORTED_MODULE_0__[\\"singleQuote\\"])(\\"contain\\"),
                     \\"mobilenet-hint-type\\": \\"1\\",
+                    enableNative: \\"true\\",
                     bindLoading: \\"\\",
                     bindUserAction: \\"\\",
                     bindStop: \\"\\",

@@ -282,7 +282,7 @@ interface VideoProps extends StandardProps {
    */
   mobilenetHintType?: string
 
-  /** 使用原生键盘
+  /** 使用原生
    * @default true
    * @supported alipay
    */
