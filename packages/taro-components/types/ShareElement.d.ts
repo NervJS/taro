@@ -1,28 +1,38 @@
 import { ComponentType } from 'react'
 import { StandardProps, CommonEventFunction } from './common'
 interface ShareElementProps extends StandardProps {
+  /** 映射标记
+   * @supported weapp 
+   */
+  key?: string
+
+  /** 映射标记
+   * @supported weapp 
+   */
+  mapkey?: string
+
+  /** 映射标记
+   * @supported alipay 
+   */
+  name?: string
+
   /** 是否进行动画
    * @default false
-   * @supported weapp
+   * @supported weapp, alipay
    */
   transform?: boolean
 
   /** 动画时长，单位毫秒
    * @default 300
-   * @supported weapp
+   * @supported weapp, alipay
    */
   duration?: number
 
   /** css缓动函数
    * @default ease-out
-   * @supported weapp
+   * @supported weapp, alipay
    */
-  easingFunction?: number
-
-  /** 映射标记
-   * @supported weapp
-   */
-  key?: string
+  easingFunction?: string
 }
 
 /** 共享元素
@@ -30,7 +40,7 @@ interface ShareElementProps extends StandardProps {
  * 共享元素是一种动画形式，类似于 [`flutter Hero`](https://flutterchina.club/animations/hero-animations/) 动画，表现为元素像是在页面间穿越一样。该组件需与 [`PageContainer`](/docs/components/viewContainer/page-container) 组件结合使用。
  * 使用时需在当前页放置 `ShareElement` 组件，同时在 `PageContainer` 容器中放置对应的 `ShareElement` 组件，对应关系通过属性值 key 映射。当设置 `PageContainer` `显示时，transform` 属性为 `true` 的共享元素会产生动画。当前页面容器退出时，会产生返回动画。
  * @classification viewContainer
- * @supported weapp
+ * @supported weapp, alipay
  * @example_react
  * ```tsx
  * // index.js

@@ -1,3 +1,4 @@
 templates/*
 !templates/default
 templates/default/.*
+!src/__tests__/env/.*
