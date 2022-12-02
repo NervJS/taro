@@ -88,7 +88,7 @@ export const components = {
   Video: {
     'poster-size': singleQuote('contain'),
     'mobilenet-hint-type': '1',
-    // enableNative: 'false',
+    enableNative: 'true',
     bindLoading: '',
     bindUserAction: '',
     bindStop: '',
