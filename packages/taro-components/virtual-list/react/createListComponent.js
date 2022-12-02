@@ -505,7 +505,7 @@ export default function createListComponent ({
             style = this._getItemStyle(index)
           }
           items.push(createElement(itemElementType || itemTagName || 'div', {
-            key, style
+            key, style: {...style}
           }, createElement(children, {
             id: `${id}-${index}`,
             data: itemData,
