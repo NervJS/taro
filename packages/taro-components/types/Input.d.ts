@@ -9,9 +9,8 @@ interface InputProps extends StandardProps, FormItemProps {
   /** input 的类型
    * @default "text"
    * @supported weapp, alipay, swan, tt, qq, jd, h5, rn
-   * @rn 部分支持
    */
-  type?: 'text' | 'number' | 'idcard' | 'digit' | 'safe-password' | 'nickname' | 'numberpad' | 'digitpad' | 'idcardpad'
+  type?: keyof InputProps.Type
 
   /** 是否是密码类型
    * @default false
@@ -76,7 +75,7 @@ interface InputProps extends StandardProps, FormItemProps {
    * @default done
    * @supported weapp, alipay, swan, tt, qq, jd, rn
    */
-  confirmType?: 'send' | 'search' | 'next' | 'go' | 'done'
+  confirmType?: keyof InputProps.ConfirmType
 
   /**
    * 强制 input 处于同层状态，默认 focus 时 input 会切到非同层状态 (仅在 iOS 下生效)
@@ -227,6 +226,58 @@ interface InputProps extends StandardProps, FormItemProps {
   onKeyboardHeightChange?: CommonEventFunction<InputProps.onKeyboardHeightChangeEventDetail>
 }
 declare namespace InputProps {
+  /** Input 类型 */
+  interface Type {
+    /** 文本输入键盘
+     * @supported weapp, alipay, h5, rn
+     */
+    text
+    /** 数字输入键盘
+     * @supported weapp, alipay, h5, rn
+     */
+    number
+    /** 身份证输入键盘
+     *@supported weapp, alipay, rn
+     */
+    idcard
+    /** 带小数点的数字键盘
+     * @supported weapp, alipay, h5, rn
+     */
+    digit
+    /** 密码安全输入键盘[指引](https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/safe-password.html)
+     * @supported weapp, alipay
+     */
+    'safe-password'
+    /** 昵称输入键盘
+     * @supported weapp, alipay
+     */
+    nickname
+    /** 数字输入键盘
+     * @supported alipay
+     */
+    numberpad
+    /** 带小数点的数字键盘
+     * @supported alipay
+     */
+    digitpad
+    /** 身份证输入键盘
+     * @supported alipay
+     */
+    idcardpad
+  }
+  /** Confirm 类型 */
+  interface ConfirmType {
+    /** 右下角按钮为“发送” */
+    send
+    /** 右下角按钮为“搜索” */
+    search
+    /** 右下角按钮为“下一个” */
+    next
+    /** 右下角按钮为“前往” */
+    go
+    /** 右下角按钮为“完成” */
+    done
+  }
   /** > 注意：React-Native 端 `inputEventDetail` 仅实现参数 `value`，若需实时获取光标位置则可通过 [`onSelectionChange`](https://reactnative.dev/docs/textinput#onselectionchange) 实现。 */
   interface inputEventDetail {
     /** 输入值 */
