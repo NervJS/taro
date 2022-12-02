@@ -365,7 +365,7 @@ declare namespace LivePusherProps {
 /** 实时音视频录制。需要用户授权 scope.camera、scope.record
  * 需要先通过类目审核，再在小程序管理后台，「开发」-「接口设置」中自助开通该组件权限。
  * @classification media
- * @supported weapp
+ * @supported weapp, qq
  * @example_react
  * ```tsx
  * class App extends Components {

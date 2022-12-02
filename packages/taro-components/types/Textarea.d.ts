@@ -218,7 +218,7 @@ declare namespace TextareaProps {
 
 /** 多行输入框。该组件是原生组件，使用时请注意相关限制
  * @classification forms
- * @supported weapp, h5, rn
+ * @supported weapp, alipay, swan, tt, qq, h5, rn
  * @example_react
  * ```tsx
  * export default class PageView extends Component {

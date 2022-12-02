@@ -165,7 +165,7 @@ interface InputProps extends StandardProps, FormItemProps {
 
   /**
    * 是否为受控组件。为 true 时，value 内容会完全受 setData 控制。
-   * 
+   *
    * 建议当 type 值为 text 时不要将 controlled 设置为 true,详见 [Bugs & Tips](https://opendocs.alipay.com/mini/component/input#Bug%20%26%20Tip)
    * @default false
    * @supported alipay
@@ -191,6 +191,7 @@ interface InputProps extends StandardProps, FormItemProps {
   /** 使用原生键盘
    * @default true
    * @supported alipay
+   * @unique
    */
   enableNative?: boolean
 
@@ -259,7 +260,7 @@ declare namespace InputProps {
 
 /** 输入框。该组件是原生组件，使用时请注意相关限制
  * @classification forms
- * @supported weapp, h5, rn
+ * @supported weapp, alipay, swan, tt, qq, jd, h5, rn
  * @example_react
  * ```tsx
  * class App extends Component {
