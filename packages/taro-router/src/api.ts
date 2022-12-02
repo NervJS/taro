@@ -40,6 +40,7 @@ function processNavigateUrl (option: Option) {
 
 async function navigate (option: Option | NavigateBackOption, method: MethodName) {
   return new Promise<TaroGeneral.CallbackResult>((resolve, reject) => {
+    stacks.method = method
     const { success, complete, fail } = option
     const unListen = history.listen(() => {
       const res = { errMsg: `${method}:ok` }

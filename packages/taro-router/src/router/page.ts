@@ -72,8 +72,8 @@ export default class PageHandler {
     })
   }
 
-  get isTabBar () {
-    const routePath = addLeadingSlash(stripBasename(this.pathname, this.basename))
+  isTabBar (pathname: string) {
+    const routePath = addLeadingSlash(stripBasename(pathname, this.basename)).split('?')[0]
     const pagePath = Object.entries(this.customRoutes).find(
       ([, target]) => {
         if (typeof target === 'string') {
@@ -115,13 +115,13 @@ export default class PageHandler {
     return search.substr(1)
   }
 
-  getQuery (stamp = 0, search = '', options: Record<string, unknown> = {}) {
+  getQuery (stamp = '', search = '', options: Record<string, unknown> = {}) {
     search = search ? `${search}&${this.search}` : this.search
     const query = search
       ? queryString.parse(search, { decode: false })
       : {}
 
-    query.stamp = stamp.toString()
+    query.stamp = stamp
     return { ...query, ...options }
   }
 
@@ -171,24 +171,24 @@ export default class PageHandler {
     }
   }
 
-  load (page: PageInstance, pageConfig: Route = {}, stacksIndex = 0) {
+  load (page: PageInstance, pageConfig: Route = {}, stampId: string, pageNo = 0) {
     if (!page) return
 
     // NOTE: 页面栈推入太晚可能导致 getCurrentPages 无法获取到当前页面实例
     stacks.push(page)
-    const param = this.getQuery(stacks.length, '', page.options)
+    const param = this.getQuery(stampId, '', page.options)
     let pageEl = this.getPageContainer(page)
     if (pageEl) {
       setDisplay(pageEl)
-      this.isTabBar && pageEl.classList.add('taro_tabbar_page')
-      this.addAnimation(pageEl, stacksIndex === 0)
+      this.isTabBar(this.pathname) && pageEl.classList.add('taro_tabbar_page')
+      this.addAnimation(pageEl, pageNo === 0)
       page.onShow?.()
       this.bindPageEvents(page, pageEl, pageConfig)
     } else {
       page.onLoad?.(param, () => {
         pageEl = this.getPageContainer(page)
-        this.isTabBar && pageEl?.classList.add('taro_tabbar_page')
-        this.addAnimation(pageEl, stacksIndex === 0)
+        this.isTabBar(this.pathname) && pageEl?.classList.add('taro_tabbar_page')
+        this.addAnimation(pageEl, pageNo === 0)
         this.onReady(page, true)
         page.onShow?.()
         this.bindPageEvents(page, pageEl, pageConfig)
@@ -225,20 +225,20 @@ export default class PageHandler {
     if (delta >= 1) this.unload(stacks.last, delta)
   }
 
-  show (page?: PageInstance | null, pageConfig: Route = {}, stacksIndex = 0) {
+  show (page?: PageInstance | null, pageConfig: Route = {}, pageNo = 0) {
     if (!page) return
 
-    const param = this.getQuery(stacks.length, '', page.options)
+    const param = this.getQuery(page['$taroParams']['stamp'], '', page.options)
     let pageEl = this.getPageContainer(page)
     if (pageEl) {
       setDisplay(pageEl)
-      this.addAnimation(pageEl, stacksIndex === 0)
+      this.addAnimation(pageEl, pageNo === 0)
       page.onShow?.()
       this.bindPageEvents(page, pageEl, pageConfig)
     } else {
       page.onLoad?.(param, () => {
         pageEl = this.getPageContainer(page)
-        this.addAnimation(pageEl, stacksIndex === 0)
+        this.addAnimation(pageEl, pageNo === 0)
         this.onReady(page, false)
         page.onShow?.()
         this.bindPageEvents(page, pageEl, pageConfig)

@@ -3259,6 +3259,8 @@ exports[`config should build from origin and pipe to output 2`] = `
             Object(classCallCheck[\\"a\\"])(this, Stacks);
             this.stacks = [];
             this.backDelta = 0;
+            this.tabs = {};
+            this.methodName = \\"\\";
         }
         Object(createClass[\\"a\\"])(Stacks, [ {
             \\"key\\": \\"delta\\",
@@ -3273,6 +3275,14 @@ exports[`config should build from origin and pipe to output 2`] = `
                 } else {
                     this.backDelta = 0;
                 }
+            }
+        }, {
+            \\"key\\": \\"method\\",
+            \\"get\\": function get() {
+                return this.methodName;
+            },
+            \\"set\\": function set(methodName) {
+                this.methodName = methodName;
             }
         }, {
             \\"key\\": \\"length\\",
@@ -3333,6 +3343,28 @@ exports[`config should build from origin and pipe to output 2`] = `
             \\"value\\": function push(page) {
                 return this.stacks.push(page);
             }
+        }, {
+            \\"key\\": \\"getTabs\\",
+            \\"value\\": function getTabs() {
+                return this.tabs;
+            }
+        }, {
+            \\"key\\": \\"pushTab\\",
+            \\"value\\": function pushTab(path) {
+                this.tabs[path] = this.last;
+                this.pop();
+            }
+        }, {
+            \\"key\\": \\"popTab\\",
+            \\"value\\": function popTab(path) {
+                this.push(this.tabs[path]);
+                delete this.tabs[path];
+            }
+        }, {
+            \\"key\\": \\"removeTab\\",
+            \\"value\\": function removeTab(path) {
+                delete this.tabs[path];
+            }
         } ]);
         return Stacks;
     }();
@@ -3391,6 +3423,7 @@ exports[`config should build from origin and pipe to output 2`] = `
                     switch (_context.prev = _context.next) {
                       case 0:
                         return _context.abrupt(\\"return\\", new Promise((function(resolve, reject) {
+                            stack.method = method;
                             var success = option.success, complete = option.complete, fail = option.fail;
                             var unListen = history_history.listen((function() {
                                 var res = {
@@ -3842,6 +3875,8 @@ exports[`config should build from origin and pipe to output 2`] = `
             step((generator = generator.apply(thisArg, _arguments || [])).next());
         }));
     };
+    var createStampId = undefined();
+    var launchStampId = createStampId();
     function createMultiRouter(app, config, framework) {
         var _a, _b, _c, _d, _e, _f;
         return mpa_awaiter(this, void 0, void 0, _regeneratorRuntime().mark((function _callee() {
@@ -3854,7 +3889,7 @@ exports[`config should build from origin and pipe to output 2`] = `
                         handler = new multi_page_MultiPageHandler(config);
                         launchParam = {
                             \\"path\\": config.pageName,
-                            \\"query\\": handler.getQuery(),
+                            \\"query\\": handler.getQuery(launchStampId),
                             \\"scene\\": 0,
                             \\"shareTicket\\": \\"\\",
                             \\"referrerInfo\\": {}
@@ -4211,9 +4246,9 @@ exports[`config should build from origin and pipe to output 2`] = `
             }
         }, {
             \\"key\\": \\"isTabBar\\",
-            \\"get\\": function get() {
+            \\"value\\": function isTabBar(pathname) {
                 var _a;
-                var routePath = addLeadingSlash(stripBasename(this.pathname, this.basename));
+                var routePath = addLeadingSlash(stripBasename(pathname, this.basename)).split(\\"?\\")[0];
                 var pagePath = ((_a = Object.entries(this.customRoutes).find((function(_ref) {
                     var _ref2 = _slicedToArray(_ref, 2), target = _ref2[1];
                     if (typeof target === \\"string\\") {
@@ -4262,14 +4297,14 @@ exports[`config should build from origin and pipe to output 2`] = `
         }, {
             \\"key\\": \\"getQuery\\",
             \\"value\\": function getQuery() {
-                var stamp = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
+                var stamp = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : \\"\\";
                 var search = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : \\"\\";
                 var options = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
                 search = search ? \\"\\".concat(search, \\"&\\").concat(this.search) : this.search;
                 var query = search ? query_string_default.a.parse(search, {
                     \\"decode\\": false
                 }) : {};
-                query.stamp = stamp.toString();
+                query.stamp = stamp;
                 return Object.assign(Object.assign({}, query), options);
             }
         }, {
@@ -4321,24 +4356,25 @@ exports[`config should build from origin and pipe to output 2`] = `
             \\"value\\": function load(page) {
                 var _this = this;
                 var pageConfig = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
-                var stacksIndex = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 0;
+                var stampId = arguments.length > 2 ? arguments[2] : undefined;
+                var pageNo = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 0;
                 var _a, _b;
                 if (!page) return;
                 stack.push(page);
-                var param = this.getQuery(stack.length, \\"\\", page.options);
+                var param = this.getQuery(stampId, \\"\\", page.options);
                 var pageEl = this.getPageContainer(page);
                 if (pageEl) {
                     setDisplay(pageEl);
-                    this.isTabBar && pageEl.classList.add(\\"taro_tabbar_page\\");
-                    this.addAnimation(pageEl, stacksIndex === 0);
+                    this.isTabBar(this.pathname) && pageEl.classList.add(\\"taro_tabbar_page\\");
+                    this.addAnimation(pageEl, pageNo === 0);
                     (_a = page.onShow) === null || _a === void 0 ? void 0 : _a.call(page);
                     this.bindPageEvents(page, pageEl, pageConfig);
                 } else {
                     (_b = page.onLoad) === null || _b === void 0 ? void 0 : _b.call(page, param, (function() {
                         var _a;
                         pageEl = _this.getPageContainer(page);
-                        _this.isTabBar && (pageEl === null || pageEl === void 0 ? void 0 : pageEl.classList.add(\\"taro_tabbar_page\\"));
-                        _this.addAnimation(pageEl, stacksIndex === 0);
+                        _this.isTabBar(_this.pathname) && (pageEl === null || pageEl === void 0 ? void 0 : pageEl.classList.add(\\"taro_tabbar_page\\"));
+                        _this.addAnimation(pageEl, pageNo === 0);
                         _this.onReady(page, true);
                         (_a = page.onShow) === null || _a === void 0 ? void 0 : _a.call(page);
                         _this.bindPageEvents(page, pageEl, pageConfig);
@@ -4383,21 +4419,21 @@ exports[`config should build from origin and pipe to output 2`] = `
             \\"value\\": function show(page) {
                 var _this3 = this;
                 var pageConfig = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
-                var stacksIndex = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 0;
+                var pageNo = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 0;
                 var _a, _b;
                 if (!page) return;
-                var param = this.getQuery(stack.length, \\"\\", page.options);
+                var param = this.getQuery(page[\\"$taroParams\\"][\\"stamp\\"], \\"\\", page.options);
                 var pageEl = this.getPageContainer(page);
                 if (pageEl) {
                     setDisplay(pageEl);
-                    this.addAnimation(pageEl, stacksIndex === 0);
+                    this.addAnimation(pageEl, pageNo === 0);
                     (_a = page.onShow) === null || _a === void 0 ? void 0 : _a.call(page);
                     this.bindPageEvents(page, pageEl, pageConfig);
                 } else {
                     (_b = page.onLoad) === null || _b === void 0 ? void 0 : _b.call(page, param, (function() {
                         var _a;
                         pageEl = _this3.getPageContainer(page);
-                        _this3.addAnimation(pageEl, stacksIndex === 0);
+                        _this3.addAnimation(pageEl, pageNo === 0);
                         _this3.onReady(page, false);
                         (_a = page.onShow) === null || _a === void 0 ? void 0 : _a.call(page);
                         _this3.bindPageEvents(page, pageEl, pageConfig);
@@ -4501,6 +4537,8 @@ exports[`config should build from origin and pipe to output 2`] = `
             step((generator = generator.apply(thisArg, _arguments || [])).next());
         }));
     };
+    var spa_createStampId = undefined();
+    var spa_launchStampId = spa_createStampId();
     function createRouter(app, config, framework) {
         var _this = this;
         var _a, _b;
@@ -4521,7 +4559,7 @@ exports[`config should build from origin and pipe to output 2`] = `
         });
         var launchParam = {
             \\"path\\": handler.homePage,
-            \\"query\\": handler.getQuery(stack.length),
+            \\"query\\": handler.getQuery(spa_launchStampId),
             \\"scene\\": 0,
             \\"shareTicket\\": \\"\\",
             \\"referrerInfo\\": {}
@@ -4535,7 +4573,7 @@ exports[`config should build from origin and pipe to output 2`] = `
         var render = function render(_ref) {
             var location = _ref.location, action = _ref.action;
             return spa_awaiter(_this, void 0, void 0, _regeneratorRuntime().mark((function _callee() {
-                var _c, _d, _e, _f, _g, element, params, result, _yield$Promise$all, _yield$Promise$all2, pageConfig, enablePullDownRefresh, currentPage, pathname, shouldLoad, prevIndex, delta, _prevIndex, _delta, el, loadConfig, stacksIndex, page;
+                var _c, _d, _e, _f, _g, _h, element, params, result, _yield$Promise$all, _yield$Promise$all2, pageConfig, enablePullDownRefresh, currentPage, pathname, methodName, cacheTabs, shouldLoad, key, firstIns, prevIndex, delta, _delta, el, loadConfig, stacksIndex, pageStampId, page;
                 return _regeneratorRuntime().wrap((function _callee$(_context) {
                     while (1) {
                         switch (_context.prev = _context.next) {
@@ -4607,74 +4645,104 @@ exports[`config should build from origin and pipe to output 2`] = `
                             }
                             currentPage = undefined.page;
                             pathname = handler.pathname;
+                            methodName = (_g = stack.method) !== null && _g !== void 0 ? _g : \\"\\";
+                            cacheTabs = stack.getTabs();
                             shouldLoad = false;
-                            if (!(action === \\"POP\\")) {
-                                _context.next = 39;
+                            stack.method = \\"\\";
+                            if (!(methodName === \\"reLaunch\\")) {
+                                _context.next = 42;
                                 break;
                             }
-                            prevIndex = stack.getPrevIndex(pathname);
-                            delta = stack.getDelta(pathname);
-                            if (currentPage !== stack.getItem(prevIndex)) {
-                                handler.unload(currentPage, delta, prevIndex > -1);
-                                if (prevIndex > -1) {
-                                    handler.show(stack.getItem(prevIndex), pageConfig, prevIndex);
-                                } else {
-                                    shouldLoad = true;
+                            handler.unload(currentPage, stack.length);
+                            for (key in cacheTabs) {
+                                if (cacheTabs[key]) {
+                                    handler.unload(cacheTabs[key]);
+                                    stack.removeTab(key);
                                 }
                             }
-                            _context.next = 50;
+                            shouldLoad = true;
+                            _context.next = 53;
                             break;
 
-                          case 39:
-                            if (!handler.isTabBar) {
-                                _context.next = 48;
+                          case 42:
+                            if (!handler.isTabBar(handler.pathname)) {
+                                _context.next = 52;
                                 break;
                             }
                             if (!handler.isSamePage(currentPage)) {
-                                _context.next = 42;
+                                _context.next = 45;
                                 break;
                             }
                             return _context.abrupt(\\"return\\");
 
-                          case 42:
-                            _prevIndex = stack.getPrevIndex(pathname, 0);
-                            handler.hide(currentPage);
-                            if (!(_prevIndex > -1)) {
-                                _context.next = 46;
+                          case 45:
+                            if (handler.isTabBar(currentPage.path)) {
+                                handler.hide(currentPage);
+                                stack.pushTab(currentPage.path.split(\\"?\\")[0]);
+                            } else if (stack.length > 0) {
+                                firstIns = stack.getItem(0);
+                                if (handler.isTabBar(firstIns.path)) {
+                                    handler.unload(currentPage, stack.length - 1);
+                                    stack.pushTab(firstIns.path.split(\\"?\\")[0]);
+                                } else {
+                                    handler.unload(currentPage, stack.length);
+                                }
+                            }
+                            if (!cacheTabs[handler.pathname]) {
+                                _context.next = 49;
                                 break;
                             }
-                            return _context.abrupt(\\"return\\", handler.show(stack.getItem(_prevIndex), pageConfig, _prevIndex));
-
-                          case 46:
-                            _context.next = 49;
-                            break;
-
-                          case 48:
-                            if (action === \\"REPLACE\\") {
-                                _delta = stack.getDelta(pathname);
-                                handler.unload(currentPage, _delta);
-                            } else if (action === \\"PUSH\\") {
-                                handler.hide(currentPage);
-                            }
+                            stack.popTab(handler.pathname);
+                            return _context.abrupt(\\"return\\", handler.show(stack.getItem(0), pageConfig, 0));
 
                           case 49:
                             shouldLoad = true;
+                            _context.next = 53;
+                            break;
 
-                          case 50:
+                          case 52:
+                            if (action === \\"POP\\") {
+                                prevIndex = stack.getPrevIndex(pathname);
+                                delta = stack.getDelta(pathname);
+                                if (currentPage !== stack.getItem(prevIndex)) {
+                                    handler.unload(currentPage, delta, prevIndex > -1);
+                                    if (prevIndex > -1) {
+                                        handler.show(stack.getItem(prevIndex), pageConfig, prevIndex);
+                                    } else {
+                                        shouldLoad = true;
+                                    }
+                                }
+                            } else if (action === \\"REPLACE\\") {
+                                _delta = stack.getDelta(pathname);
+                                handler.unload(currentPage, _delta);
+                                shouldLoad = true;
+                            } else if (action === \\"PUSH\\") {
+                                handler.hide(currentPage);
+                                shouldLoad = true;
+                            }
+
+                          case 53:
                             if (!(shouldLoad || stack.length < 1)) {
-                                _context.next = 59;
+                                _context.next = 64;
                                 break;
                             }
-                            el = (_g = element.default) !== null && _g !== void 0 ? _g : element;
+                            el = (_h = element.default) !== null && _h !== void 0 ? _h : element;
                             loadConfig = Object.assign({}, pageConfig);
                             stacksIndex = stack.length;
                             delete loadConfig[\\"path\\"];
                             delete loadConfig[\\"load\\"];
-                            page = undefined(enablePullDownRefresh ? undefined.call(\\"createPullDownComponent\\", el, location.pathname, framework, handler.PullDownRefresh) : el, pathname + undefined(handler.getQuery(stacksIndex)), {}, loadConfig);
+                            pageStampId = \\"\\";
+                            if (spa_launchStampId) {
+                                pageStampId = spa_launchStampId;
+                                spa_launchStampId = \\"\\";
+                            } else {
+                                pageStampId = spa_createStampId();
+                            }
+                            page = undefined(enablePullDownRefresh ? undefined.call(\\"createPullDownComponent\\", el, location.pathname, framework, handler.PullDownRefresh) : el, pathname + undefined(handler.getQuery(pageStampId)), {}, loadConfig);
                             if (params) page.options = params;
-                            return _context.abrupt(\\"return\\", handler.load(page, pageConfig, stacksIndex));
+                            return _context.abrupt(\\"return\\", handler.load(page, pageConfig, pageStampId, stacksIndex));
 
-                          case 59:
+                          case 64:
                           case \\"end\\":
                             return _context.stop();
                         }
@@ -8054,6 +8122,8 @@ I m irrelevant.
             Object(classCallCheck[\\"a\\"])(this, Stacks);
             this.stacks = [];
             this.backDelta = 0;
+            this.tabs = {};
+            this.methodName = \\"\\";
         }
         Object(createClass[\\"a\\"])(Stacks, [ {
             \\"key\\": \\"delta\\",
@@ -8068,6 +8138,14 @@ I m irrelevant.
                 } else {
                     this.backDelta = 0;
                 }
+            }
+        }, {
+            \\"key\\": \\"method\\",
+            \\"get\\": function get() {
+                return this.methodName;
+            },
+            \\"set\\": function set(methodName) {
+                this.methodName = methodName;
             }
         }, {
             \\"key\\": \\"length\\",
@@ -8128,6 +8206,28 @@ I m irrelevant.
             \\"value\\": function push(page) {
                 return this.stacks.push(page);
             }
+        }, {
+            \\"key\\": \\"getTabs\\",
+            \\"value\\": function getTabs() {
+                return this.tabs;
+            }
+        }, {
+            \\"key\\": \\"pushTab\\",
+            \\"value\\": function pushTab(path) {
+                this.tabs[path] = this.last;
+                this.pop();
+            }
+        }, {
+            \\"key\\": \\"popTab\\",
+            \\"value\\": function popTab(path) {
+                this.push(this.tabs[path]);
+                delete this.tabs[path];
+            }
+        }, {
+            \\"key\\": \\"removeTab\\",
+            \\"value\\": function removeTab(path) {
+                delete this.tabs[path];
+            }
         } ]);
         return Stacks;
     }();
@@ -8186,6 +8286,7 @@ I m irrelevant.
                     switch (_context.prev = _context.next) {
                       case 0:
                         return _context.abrupt(\\"return\\", new Promise((function(resolve, reject) {
+                            stack.method = method;
                             var success = option.success, complete = option.complete, fail = option.fail;
                             var unListen = history_history.listen((function() {
                                 var res = {
@@ -8637,6 +8738,8 @@ I m irrelevant.
             step((generator = generator.apply(thisArg, _arguments || [])).next());
         }));
     };
+    var createStampId = undefined();
+    var launchStampId = createStampId();
     function createMultiRouter(app, config, framework) {
         var _a, _b, _c, _d, _e, _f;
         return mpa_awaiter(this, void 0, void 0, _regeneratorRuntime().mark((function _callee() {
@@ -8649,7 +8752,7 @@ I m irrelevant.
                         handler = new multi_page_MultiPageHandler(config);
                         launchParam = {
                             \\"path\\": config.pageName,
-                            \\"query\\": handler.getQuery(),
+                            \\"query\\": handler.getQuery(launchStampId),
                             \\"scene\\": 0,
                             \\"shareTicket\\": \\"\\",
                             \\"referrerInfo\\": {}
@@ -9006,9 +9109,9 @@ I m irrelevant.
             }
         }, {
             \\"key\\": \\"isTabBar\\",
-            \\"get\\": function get() {
+            \\"value\\": function isTabBar(pathname) {
                 var _a;
-                var routePath = addLeadingSlash(stripBasename(this.pathname, this.basename));
+                var routePath = addLeadingSlash(stripBasename(pathname, this.basename)).split(\\"?\\")[0];
                 var pagePath = ((_a = Object.entries(this.customRoutes).find((function(_ref) {
                     var _ref2 = _slicedToArray(_ref, 2), target = _ref2[1];
                     if (typeof target === \\"string\\") {
@@ -9057,14 +9160,14 @@ I m irrelevant.
         }, {
             \\"key\\": \\"getQuery\\",
             \\"value\\": function getQuery() {
-                var stamp = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
+                var stamp = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : \\"\\";
                 var search = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : \\"\\";
                 var options = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
                 search = search ? \\"\\".concat(search, \\"&\\").concat(this.search) : this.search;
                 var query = search ? query_string_default.a.parse(search, {
                     \\"decode\\": false
                 }) : {};
-                query.stamp = stamp.toString();
+                query.stamp = stamp;
                 return Object.assign(Object.assign({}, query), options);
             }
         }, {
@@ -9116,24 +9219,25 @@ I m irrelevant.
             \\"value\\": function load(page) {
                 var _this = this;
                 var pageConfig = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
-                var stacksIndex = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 0;
+                var stampId = arguments.length > 2 ? arguments[2] : undefined;
+                var pageNo = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 0;
                 var _a, _b;
                 if (!page) return;
                 stack.push(page);
-                var param = this.getQuery(stack.length, \\"\\", page.options);
+                var param = this.getQuery(stampId, \\"\\", page.options);
                 var pageEl = this.getPageContainer(page);
                 if (pageEl) {
                     setDisplay(pageEl);
-                    this.isTabBar && pageEl.classList.add(\\"taro_tabbar_page\\");
-                    this.addAnimation(pageEl, stacksIndex === 0);
+                    this.isTabBar(this.pathname) && pageEl.classList.add(\\"taro_tabbar_page\\");
+                    this.addAnimation(pageEl, pageNo === 0);
                     (_a = page.onShow) === null || _a === void 0 ? void 0 : _a.call(page);
                     this.bindPageEvents(page, pageEl, pageConfig);
                 } else {
                     (_b = page.onLoad) === null || _b === void 0 ? void 0 : _b.call(page, param, (function() {
                         var _a;
                         pageEl = _this.getPageContainer(page);
-                        _this.isTabBar && (pageEl === null || pageEl === void 0 ? void 0 : pageEl.classList.add(\\"taro_tabbar_page\\"));
-                        _this.addAnimation(pageEl, stacksIndex === 0);
+                        _this.isTabBar(_this.pathname) && (pageEl === null || pageEl === void 0 ? void 0 : pageEl.classList.add(\\"taro_tabbar_page\\"));
+                        _this.addAnimation(pageEl, pageNo === 0);
                         _this.onReady(page, true);
                         (_a = page.onShow) === null || _a === void 0 ? void 0 : _a.call(page);
                         _this.bindPageEvents(page, pageEl, pageConfig);
@@ -9178,21 +9282,21 @@ I m irrelevant.
             \\"value\\": function show(page) {
                 var _this3 = this;
                 var pageConfig = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
-                var stacksIndex = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 0;
+                var pageNo = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 0;
                 var _a, _b;
                 if (!page) return;
-                var param = this.getQuery(stack.length, \\"\\", page.options);
+                var param = this.getQuery(page[\\"$taroParams\\"][\\"stamp\\"], \\"\\", page.options);
                 var pageEl = this.getPageContainer(page);
                 if (pageEl) {
                     setDisplay(pageEl);
-                    this.addAnimation(pageEl, stacksIndex === 0);
+                    this.addAnimation(pageEl, pageNo === 0);
                     (_a = page.onShow) === null || _a === void 0 ? void 0 : _a.call(page);
                     this.bindPageEvents(page, pageEl, pageConfig);
                 } else {
                     (_b = page.onLoad) === null || _b === void 0 ? void 0 : _b.call(page, param, (function() {
                         var _a;
                         pageEl = _this3.getPageContainer(page);
-                        _this3.addAnimation(pageEl, stacksIndex === 0);
+                        _this3.addAnimation(pageEl, pageNo === 0);
                         _this3.onReady(page, false);
                         (_a = page.onShow) === null || _a === void 0 ? void 0 : _a.call(page);
                         _this3.bindPageEvents(page, pageEl, pageConfig);
@@ -9296,6 +9400,8 @@ I m irrelevant.
             step((generator = generator.apply(thisArg, _arguments || [])).next());
         }));
     };
+    var spa_createStampId = undefined();
+    var spa_launchStampId = spa_createStampId();
     function createRouter(app, config, framework) {
         var _this = this;
         var _a, _b;
@@ -9316,7 +9422,7 @@ I m irrelevant.
         });
         var launchParam = {
             \\"path\\": handler.homePage,
-            \\"query\\": handler.getQuery(stack.length),
+            \\"query\\": handler.getQuery(spa_launchStampId),
             \\"scene\\": 0,
             \\"shareTicket\\": \\"\\",
             \\"referrerInfo\\": {}
@@ -9330,7 +9436,7 @@ I m irrelevant.
         var render = function render(_ref) {
             var location = _ref.location, action = _ref.action;
             return spa_awaiter(_this, void 0, void 0, _regeneratorRuntime().mark((function _callee() {
-                var _c, _d, _e, _f, _g, element, params, result, _yield$Promise$all, _yield$Promise$all2, pageConfig, enablePullDownRefresh, currentPage, pathname, shouldLoad, prevIndex, delta, _prevIndex, _delta, el, loadConfig, stacksIndex, page;
+                var _c, _d, _e, _f, _g, _h, element, params, result, _yield$Promise$all, _yield$Promise$all2, pageConfig, enablePullDownRefresh, currentPage, pathname, methodName, cacheTabs, shouldLoad, key, firstIns, prevIndex, delta, _delta, el, loadConfig, stacksIndex, pageStampId, page;
                 return _regeneratorRuntime().wrap((function _callee$(_context) {
                     while (1) {
                         switch (_context.prev = _context.next) {
@@ -9402,74 +9508,104 @@ I m irrelevant.
                             }
                             currentPage = undefined.page;
                             pathname = handler.pathname;
+                            methodName = (_g = stack.method) !== null && _g !== void 0 ? _g : \\"\\";
+                            cacheTabs = stack.getTabs();
                             shouldLoad = false;
-                            if (!(action === \\"POP\\")) {
-                                _context.next = 39;
+                            stack.method = \\"\\";
+                            if (!(methodName === \\"reLaunch\\")) {
+                                _context.next = 42;
                                 break;
                             }
-                            prevIndex = stack.getPrevIndex(pathname);
-                            delta = stack.getDelta(pathname);
-                            if (currentPage !== stack.getItem(prevIndex)) {
-                                handler.unload(currentPage, delta, prevIndex > -1);
-                                if (prevIndex > -1) {
-                                    handler.show(stack.getItem(prevIndex), pageConfig, prevIndex);
-                                } else {
-                                    shouldLoad = true;
+                            handler.unload(currentPage, stack.length);
+                            for (key in cacheTabs) {
+                                if (cacheTabs[key]) {
+                                    handler.unload(cacheTabs[key]);
+                                    stack.removeTab(key);
                                 }
                             }
-                            _context.next = 50;
+                            shouldLoad = true;
+                            _context.next = 53;
                             break;
 
-                          case 39:
-                            if (!handler.isTabBar) {
-                                _context.next = 48;
+                          case 42:
+                            if (!handler.isTabBar(handler.pathname)) {
+                                _context.next = 52;
                                 break;
                             }
                             if (!handler.isSamePage(currentPage)) {
-                                _context.next = 42;
+                                _context.next = 45;
                                 break;
                             }
                             return _context.abrupt(\\"return\\");
 
-                          case 42:
-                            _prevIndex = stack.getPrevIndex(pathname, 0);
-                            handler.hide(currentPage);
-                            if (!(_prevIndex > -1)) {
-                                _context.next = 46;
+                          case 45:
+                            if (handler.isTabBar(currentPage.path)) {
+                                handler.hide(currentPage);
+                                stack.pushTab(currentPage.path.split(\\"?\\")[0]);
+                            } else if (stack.length > 0) {
+                                firstIns = stack.getItem(0);
+                                if (handler.isTabBar(firstIns.path)) {
+                                    handler.unload(currentPage, stack.length - 1);
+                                    stack.pushTab(firstIns.path.split(\\"?\\")[0]);
+                                } else {
+                                    handler.unload(currentPage, stack.length);
+                                }
+                            }
+                            if (!cacheTabs[handler.pathname]) {
+                                _context.next = 49;
                                 break;
                             }
-                            return _context.abrupt(\\"return\\", handler.show(stack.getItem(_prevIndex), pageConfig, _prevIndex));
-
-                          case 46:
-                            _context.next = 49;
-                            break;
-
-                          case 48:
-                            if (action === \\"REPLACE\\") {
-                                _delta = stack.getDelta(pathname);
-                                handler.unload(currentPage, _delta);
-                            } else if (action === \\"PUSH\\") {
-                                handler.hide(currentPage);
-                            }
+                            stack.popTab(handler.pathname);
+                            return _context.abrupt(\\"return\\", handler.show(stack.getItem(0), pageConfig, 0));
 
                           case 49:
                             shouldLoad = true;
+                            _context.next = 53;
+                            break;
 
-                          case 50:
+                          case 52:
+                            if (action === \\"POP\\") {
+                                prevIndex = stack.getPrevIndex(pathname);
+                                delta = stack.getDelta(pathname);
+                                if (currentPage !== stack.getItem(prevIndex)) {
+                                    handler.unload(currentPage, delta, prevIndex > -1);
+                                    if (prevIndex > -1) {
+                                        handler.show(stack.getItem(prevIndex), pageConfig, prevIndex);
+                                    } else {
+                                        shouldLoad = true;
+                                    }
+                                }
+                            } else if (action === \\"REPLACE\\") {
+                                _delta = stack.getDelta(pathname);
+                                handler.unload(currentPage, _delta);
+                                shouldLoad = true;
+                            } else if (action === \\"PUSH\\") {
+                                handler.hide(currentPage);
+                                shouldLoad = true;
+                            }
+
+                          case 53:
                             if (!(shouldLoad || stack.length < 1)) {
-                                _context.next = 59;
+                                _context.next = 64;
                                 break;
                             }
-                            el = (_g = element.default) !== null && _g !== void 0 ? _g : element;
+                            el = (_h = element.default) !== null && _h !== void 0 ? _h : element;
                             loadConfig = Object.assign({}, pageConfig);
                             stacksIndex = stack.length;
                             delete loadConfig[\\"path\\"];
                             delete loadConfig[\\"load\\"];
-                            page = undefined(enablePullDownRefresh ? undefined.call(\\"createPullDownComponent\\", el, location.pathname, framework, handler.PullDownRefresh) : el, pathname + undefined(handler.getQuery(stacksIndex)), {}, loadConfig);
+                            pageStampId = \\"\\";
+                            if (spa_launchStampId) {
+                                pageStampId = spa_launchStampId;
+                                spa_launchStampId = \\"\\";
+                            } else {
+                                pageStampId = spa_createStampId();
+                            }
+                            page = undefined(enablePullDownRefresh ? undefined.call(\\"createPullDownComponent\\", el, location.pathname, framework, handler.PullDownRefresh) : el, pathname + undefined(handler.getQuery(pageStampId)), {}, loadConfig);
                             if (params) page.options = params;
-                            return _context.abrupt(\\"return\\", handler.load(page, pageConfig, stacksIndex));
+                            return _context.abrupt(\\"return\\", handler.load(page, pageConfig, pageStampId, stacksIndex));
 
-                          case 59:
+                          case 64:
                           case \\"end\\":
                             return _context.stop();
                         }
@@ -12849,6 +12985,8 @@ exports[`config should resolved alias 2`] = `
             Object(classCallCheck[\\"a\\"])(this, Stacks);
             this.stacks = [];
             this.backDelta = 0;
+            this.tabs = {};
+            this.methodName = \\"\\";
         }
         Object(createClass[\\"a\\"])(Stacks, [ {
             \\"key\\": \\"delta\\",
@@ -12863,6 +13001,14 @@ exports[`config should resolved alias 2`] = `
                 } else {
                     this.backDelta = 0;
                 }
+            }
+        }, {
+            \\"key\\": \\"method\\",
+            \\"get\\": function get() {
+                return this.methodName;
+            },
+            \\"set\\": function set(methodName) {
+                this.methodName = methodName;
             }
         }, {
             \\"key\\": \\"length\\",
@@ -12923,6 +13069,28 @@ exports[`config should resolved alias 2`] = `
             \\"value\\": function push(page) {
                 return this.stacks.push(page);
             }
+        }, {
+            \\"key\\": \\"getTabs\\",
+            \\"value\\": function getTabs() {
+                return this.tabs;
+            }
+        }, {
+            \\"key\\": \\"pushTab\\",
+            \\"value\\": function pushTab(path) {
+                this.tabs[path] = this.last;
+                this.pop();
+            }
+        }, {
+            \\"key\\": \\"popTab\\",
+            \\"value\\": function popTab(path) {
+                this.push(this.tabs[path]);
+                delete this.tabs[path];
+            }
+        }, {
+            \\"key\\": \\"removeTab\\",
+            \\"value\\": function removeTab(path) {
+                delete this.tabs[path];
+            }
         } ]);
         return Stacks;
     }();
@@ -12981,6 +13149,7 @@ exports[`config should resolved alias 2`] = `
                     switch (_context.prev = _context.next) {
                       case 0:
                         return _context.abrupt(\\"return\\", new Promise((function(resolve, reject) {
+                            stack.method = method;
                             var success = option.success, complete = option.complete, fail = option.fail;
                             var unListen = history_history.listen((function() {
                                 var res = {
@@ -13432,6 +13601,8 @@ exports[`config should resolved alias 2`] = `
             step((generator = generator.apply(thisArg, _arguments || [])).next());
         }));
     };
+    var createStampId = undefined();
+    var launchStampId = createStampId();
     function createMultiRouter(app, config, framework) {
         var _a, _b, _c, _d, _e, _f;
         return mpa_awaiter(this, void 0, void 0, _regeneratorRuntime().mark((function _callee() {
@@ -13444,7 +13615,7 @@ exports[`config should resolved alias 2`] = `
                         handler = new multi_page_MultiPageHandler(config);
                         launchParam = {
                             \\"path\\": config.pageName,
-                            \\"query\\": handler.getQuery(),
+                            \\"query\\": handler.getQuery(launchStampId),
                             \\"scene\\": 0,
                             \\"shareTicket\\": \\"\\",
                             \\"referrerInfo\\": {}
@@ -13801,9 +13972,9 @@ exports[`config should resolved alias 2`] = `
             }
         }, {
             \\"key\\": \\"isTabBar\\",
-            \\"get\\": function get() {
+            \\"value\\": function isTabBar(pathname) {
                 var _a;
-                var routePath = addLeadingSlash(stripBasename(this.pathname, this.basename));
+                var routePath = addLeadingSlash(stripBasename(pathname, this.basename)).split(\\"?\\")[0];
                 var pagePath = ((_a = Object.entries(this.customRoutes).find((function(_ref) {
                     var _ref2 = _slicedToArray(_ref, 2), target = _ref2[1];
                     if (typeof target === \\"string\\") {
@@ -13852,14 +14023,14 @@ exports[`config should resolved alias 2`] = `
         }, {
             \\"key\\": \\"getQuery\\",
             \\"value\\": function getQuery() {
-                var stamp = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
+                var stamp = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : \\"\\";
                 var search = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : \\"\\";
                 var options = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
                 search = search ? \\"\\".concat(search, \\"&\\").concat(this.search) : this.search;
                 var query = search ? query_string_default.a.parse(search, {
                     \\"decode\\": false
                 }) : {};
-                query.stamp = stamp.toString();
+                query.stamp = stamp;
                 return Object.assign(Object.assign({}, query), options);
             }
         }, {
@@ -13911,24 +14082,25 @@ exports[`config should resolved alias 2`] = `
             \\"value\\": function load(page) {
                 var _this = this;
                 var pageConfig = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
-                var stacksIndex = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 0;
+                var stampId = arguments.length > 2 ? arguments[2] : undefined;
+                var pageNo = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 0;
                 var _a, _b;
                 if (!page) return;
                 stack.push(page);
-                var param = this.getQuery(stack.length, \\"\\", page.options);
+                var param = this.getQuery(stampId, \\"\\", page.options);
                 var pageEl = this.getPageContainer(page);
                 if (pageEl) {
                     setDisplay(pageEl);
-                    this.isTabBar && pageEl.classList.add(\\"taro_tabbar_page\\");
-                    this.addAnimation(pageEl, stacksIndex === 0);
+                    this.isTabBar(this.pathname) && pageEl.classList.add(\\"taro_tabbar_page\\");
+                    this.addAnimation(pageEl, pageNo === 0);
                     (_a = page.onShow) === null || _a === void 0 ? void 0 : _a.call(page);
                     this.bindPageEvents(page, pageEl, pageConfig);
                 } else {
                     (_b = page.onLoad) === null || _b === void 0 ? void 0 : _b.call(page, param, (function() {
                         var _a;
                         pageEl = _this.getPageContainer(page);
-                        _this.isTabBar && (pageEl === null || pageEl === void 0 ? void 0 : pageEl.classList.add(\\"taro_tabbar_page\\"));
-                        _this.addAnimation(pageEl, stacksIndex === 0);
+                        _this.isTabBar(_this.pathname) && (pageEl === null || pageEl === void 0 ? void 0 : pageEl.classList.add(\\"taro_tabbar_page\\"));
+                        _this.addAnimation(pageEl, pageNo === 0);
                         _this.onReady(page, true);
                         (_a = page.onShow) === null || _a === void 0 ? void 0 : _a.call(page);
                         _this.bindPageEvents(page, pageEl, pageConfig);
@@ -13973,21 +14145,21 @@ exports[`config should resolved alias 2`] = `
             \\"value\\": function show(page) {
                 var _this3 = this;
                 var pageConfig = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
-                var stacksIndex = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 0;
+                var pageNo = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 0;
                 var _a, _b;
                 if (!page) return;
-                var param = this.getQuery(stack.length, \\"\\", page.options);
+                var param = this.getQuery(page[\\"$taroParams\\"][\\"stamp\\"], \\"\\", page.options);
                 var pageEl = this.getPageContainer(page);
                 if (pageEl) {
                     setDisplay(pageEl);
-                    this.addAnimation(pageEl, stacksIndex === 0);
+                    this.addAnimation(pageEl, pageNo === 0);
                     (_a = page.onShow) === null || _a === void 0 ? void 0 : _a.call(page);
                     this.bindPageEvents(page, pageEl, pageConfig);
                 } else {
                     (_b = page.onLoad) === null || _b === void 0 ? void 0 : _b.call(page, param, (function() {
                         var _a;
                         pageEl = _this3.getPageContainer(page);
-                        _this3.addAnimation(pageEl, stacksIndex === 0);
+                        _this3.addAnimation(pageEl, pageNo === 0);
                         _this3.onReady(page, false);
                         (_a = page.onShow) === null || _a === void 0 ? void 0 : _a.call(page);
                         _this3.bindPageEvents(page, pageEl, pageConfig);
@@ -14091,6 +14263,8 @@ exports[`config should resolved alias 2`] = `
             step((generator = generator.apply(thisArg, _arguments || [])).next());
         }));
     };
+    var spa_createStampId = undefined();
+    var spa_launchStampId = spa_createStampId();
     function createRouter(app, config, framework) {
         var _this = this;
         var _a, _b;
@@ -14111,7 +14285,7 @@ exports[`config should resolved alias 2`] = `
         });
         var launchParam = {
             \\"path\\": handler.homePage,
-            \\"query\\": handler.getQuery(stack.length),
+            \\"query\\": handler.getQuery(spa_launchStampId),
             \\"scene\\": 0,
             \\"shareTicket\\": \\"\\",
             \\"referrerInfo\\": {}
@@ -14125,7 +14299,7 @@ exports[`config should resolved alias 2`] = `
         var render = function render(_ref) {
             var location = _ref.location, action = _ref.action;
             return spa_awaiter(_this, void 0, void 0, _regeneratorRuntime().mark((function _callee() {
-                var _c, _d, _e, _f, _g, element, params, result, _yield$Promise$all, _yield$Promise$all2, pageConfig, enablePullDownRefresh, currentPage, pathname, shouldLoad, prevIndex, delta, _prevIndex, _delta, el, loadConfig, stacksIndex, page;
+                var _c, _d, _e, _f, _g, _h, element, params, result, _yield$Promise$all, _yield$Promise$all2, pageConfig, enablePullDownRefresh, currentPage, pathname, methodName, cacheTabs, shouldLoad, key, firstIns, prevIndex, delta, _delta, el, loadConfig, stacksIndex, pageStampId, page;
                 return _regeneratorRuntime().wrap((function _callee$(_context) {
                     while (1) {
                         switch (_context.prev = _context.next) {
@@ -14197,74 +14371,104 @@ exports[`config should resolved alias 2`] = `
                             }
                             currentPage = undefined.page;
                             pathname = handler.pathname;
+                            methodName = (_g = stack.method) !== null && _g !== void 0 ? _g : \\"\\";
+                            cacheTabs = stack.getTabs();
                             shouldLoad = false;
-                            if (!(action === \\"POP\\")) {
-                                _context.next = 39;
+                            stack.method = \\"\\";
+                            if (!(methodName === \\"reLaunch\\")) {
+                                _context.next = 42;
                                 break;
                             }
-                            prevIndex = stack.getPrevIndex(pathname);
-                            delta = stack.getDelta(pathname);
-                            if (currentPage !== stack.getItem(prevIndex)) {
-                                handler.unload(currentPage, delta, prevIndex > -1);
-                                if (prevIndex > -1) {
-                                    handler.show(stack.getItem(prevIndex), pageConfig, prevIndex);
-                                } else {
-                                    shouldLoad = true;
+                            handler.unload(currentPage, stack.length);
+                            for (key in cacheTabs) {
+                                if (cacheTabs[key]) {
+                                    handler.unload(cacheTabs[key]);
+                                    stack.removeTab(key);
                                 }
                             }
-                            _context.next = 50;
+                            shouldLoad = true;
+                            _context.next = 53;
                             break;
 
-                          case 39:
-                            if (!handler.isTabBar) {
-                                _context.next = 48;
+                          case 42:
+                            if (!handler.isTabBar(handler.pathname)) {
+                                _context.next = 52;
                                 break;
                             }
                             if (!handler.isSamePage(currentPage)) {
-                                _context.next = 42;
+                                _context.next = 45;
                                 break;
                             }
                             return _context.abrupt(\\"return\\");
 
-                          case 42:
-                            _prevIndex = stack.getPrevIndex(pathname, 0);
-                            handler.hide(currentPage);
-                            if (!(_prevIndex > -1)) {
-                                _context.next = 46;
+                          case 45:
+                            if (handler.isTabBar(currentPage.path)) {
+                                handler.hide(currentPage);
+                                stack.pushTab(currentPage.path.split(\\"?\\")[0]);
+                            } else if (stack.length > 0) {
+                                firstIns = stack.getItem(0);
+                                if (handler.isTabBar(firstIns.path)) {
+                                    handler.unload(currentPage, stack.length - 1);
+                                    stack.pushTab(firstIns.path.split(\\"?\\")[0]);
+                                } else {
+                                    handler.unload(currentPage, stack.length);
+                                }
+                            }
+                            if (!cacheTabs[handler.pathname]) {
+                                _context.next = 49;
                                 break;
                             }
-                            return _context.abrupt(\\"return\\", handler.show(stack.getItem(_prevIndex), pageConfig, _prevIndex));
-
-                          case 46:
-                            _context.next = 49;
-                            break;
-
-                          case 48:
-                            if (action === \\"REPLACE\\") {
-                                _delta = stack.getDelta(pathname);
-                                handler.unload(currentPage, _delta);
-                            } else if (action === \\"PUSH\\") {
-                                handler.hide(currentPage);
-                            }
+                            stack.popTab(handler.pathname);
+                            return _context.abrupt(\\"return\\", handler.show(stack.getItem(0), pageConfig, 0));
 
                           case 49:
                             shouldLoad = true;
+                            _context.next = 53;
+                            break;
 
-                          case 50:
+                          case 52:
+                            if (action === \\"POP\\") {
+                                prevIndex = stack.getPrevIndex(pathname);
+                                delta = stack.getDelta(pathname);
+                                if (currentPage !== stack.getItem(prevIndex)) {
+                                    handler.unload(currentPage, delta, prevIndex > -1);
+                                    if (prevIndex > -1) {
+                                        handler.show(stack.getItem(prevIndex), pageConfig, prevIndex);
+                                    } else {
+                                        shouldLoad = true;
+                                    }
+                                }
+                            } else if (action === \\"REPLACE\\") {
+                                _delta = stack.getDelta(pathname);
+                                handler.unload(currentPage, _delta);
+                                shouldLoad = true;
+                            } else if (action === \\"PUSH\\") {
+                                handler.hide(currentPage);
+                                shouldLoad = true;
+                            }
+
+                          case 53:
                             if (!(shouldLoad || stack.length < 1)) {
-                                _context.next = 59;
+                                _context.next = 64;
                                 break;
                             }
-                            el = (_g = element.default) !== null && _g !== void 0 ? _g : element;
+                            el = (_h = element.default) !== null && _h !== void 0 ? _h : element;
                             loadConfig = Object.assign({}, pageConfig);
                             stacksIndex = stack.length;
                             delete loadConfig[\\"path\\"];
                             delete loadConfig[\\"load\\"];
-                            page = undefined(enablePullDownRefresh ? undefined.call(\\"createPullDownComponent\\", el, location.pathname, framework, handler.PullDownRefresh) : el, pathname + undefined(handler.getQuery(stacksIndex)), {}, loadConfig);
+                            pageStampId = \\"\\";
+                            if (spa_launchStampId) {
+                                pageStampId = spa_launchStampId;
+                                spa_launchStampId = \\"\\";
+                            } else {
+                                pageStampId = spa_createStampId();
+                            }
+                            page = undefined(enablePullDownRefresh ? undefined.call(\\"createPullDownComponent\\", el, location.pathname, framework, handler.PullDownRefresh) : el, pathname + undefined(handler.getQuery(pageStampId)), {}, loadConfig);
                             if (params) page.options = params;
-                            return _context.abrupt(\\"return\\", handler.load(page, pageConfig, stacksIndex));
+                            return _context.abrupt(\\"return\\", handler.load(page, pageConfig, pageStampId, stacksIndex));
 
-                          case 59:
+                          case 64:
                           case \\"end\\":
                             return _context.stop();
                         }
