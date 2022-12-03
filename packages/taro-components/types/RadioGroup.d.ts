@@ -19,7 +19,7 @@ declare namespace RadioGroupProps {
 
 /** 单项选择器，内部由多个 Radio 组成。
  * @classification forms
- * @supported weapp, alipay, swan, tt, qq, h5
+ * @supported weapp, alipay, swan, tt, qq, h5, rn
  * @see https://developers.weixin.qq.com/miniprogram/dev/component/radio-group.html
  */
 declare const RadioGroup: ComponentType<RadioGroupProps>

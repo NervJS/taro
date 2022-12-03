@@ -571,7 +571,7 @@ importers:
       jquery: ^3.4.1
       karmatic: ^2.1.0
       lodash: ^4.17.21
-      miniapp-types: 1.1.20
+      miniapp-types: 1.1.21
       resolve-pathname: ^3.0.0
       simulant: ^0.2.2
       style-loader: 1.3.0
@@ -604,7 +604,7 @@ importers:
       jquery: registry.npmjs.org/jquery/3.6.0
       karmatic: registry.npmjs.org/karmatic/2.1.0_webpack@4.46.0
       lodash: registry.npmjs.org/lodash/4.17.21
-      miniapp-types: registry.npmjs.org/miniapp-types/1.1.20
+      miniapp-types: registry.npmjs.org/miniapp-types/1.1.21
       simulant: registry.npmjs.org/simulant/0.2.2
       style-loader: registry.npmjs.org/style-loader/1.3.0_webpack@4.46.0
       ts-node: registry.npmjs.org/ts-node/10.9.1_ah2igguqgj6e7ik4ubgohitm4e
@@ -25162,10 +25162,10 @@ packages:
       webpack: registry.npmjs.org/webpack/5.69.0_esbuild@0.14.47
     dev: false
 
-  registry.npmjs.org/miniapp-types/1.1.20:
-    resolution: {integrity: sha512-PSyKjZtudZhbWFahidGh4TE0dHIQH0rZxefsesaTqweHrj3Jkl/U8rpKylJR8WwSUe42sNPUzkehoaH68pzrnA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/miniapp-types/-/miniapp-types-1.1.20.tgz}
+  registry.npmjs.org/miniapp-types/1.1.21:
+    resolution: {integrity: sha512-nhAgQjIYEPSO1VvAAvRxZOwvH/gEykbcMZdSGIG9HBE73bCE+I4IOdUt1O/CPjodH5C8husNGr3vTGq7JnfwVQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/miniapp-types/-/miniapp-types-1.1.21.tgz}
     name: miniapp-types
-    version: 1.1.20
+    version: 1.1.21
     dev: true
 
   registry.npmjs.org/minimalistic-assert/1.0.1:
