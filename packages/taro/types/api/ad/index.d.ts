@@ -10,6 +10,12 @@ declare module '../../index' {
        */
       multiton?: boolean
     }
+    interface SwanOption {
+      /** 小程序广告位 ID */
+      adUnitId: string
+      /** 小程序应用 ID */
+       appSid: string
+    }
   }
 
   namespace createInterstitialAd {
@@ -186,10 +192,11 @@ declare module '../../index' {
 
   interface TaroStatic {
     /** 创建激励视频广告组件。
-     * @supported weapp
+     * @supported weapp, tt, swan
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/ad/wx.createRewardedVideoAd.html
      */
     createRewardedVideoAd (option: createRewardedVideoAd.Option): RewardedVideoAd
+    createRewardedVideoAd (option: createRewardedVideoAd.SwanOption): RewardedVideoAd
 
     /** 创建插屏广告组件。
      * 请通过 getSystemInfoSync 返回对象的 SDKVersion 判断基础库版本号后再使用该 API。每次调用该方法创建插屏广告都会返回一个全新的实例（小程序端的插屏广告实例不允许跨页面使用）。
