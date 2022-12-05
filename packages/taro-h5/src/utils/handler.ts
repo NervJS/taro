@@ -40,6 +40,19 @@ export class MethodHandler<T = Partial<TaroGeneral.CallbackResult>> {
     typeof this.__complete === 'function' && this.__complete(res)
     return reject(res)
   }
+
+  cancel<U = Record<string, unknown>> (res: Partial<T> & Partial<TaroGeneral.CallbackResult> = {}, resolve = Promise.resolve.bind(Promise)): Promise<T & U & TaroGeneral.CallbackResult> {
+    if (!res.errMsg) {
+      res.errMsg = `${this.methodName}:fail`
+    } else {
+      res.errMsg = `${this.methodName}:fail ${res.errMsg}`
+    }
+    // 点击取消走fail回调
+    typeof this.__fail === 'function' && this.__fail(res)
+    typeof this.__complete === 'function' && this.__complete(res)
+    // 使用resolve取消报错
+    return resolve(res as Required<T & U & TaroGeneral.CallbackResult>)
+  }
 }
 
 type TCallbackManagerParam = (...arr: unknown[]) => void

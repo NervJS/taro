@@ -283,7 +283,9 @@ const showActionSheet: typeof Taro.showActionSheet = async (options = { itemList
     result = await actionSheet.show(options)
   }
 
-  if (typeof result === 'string') {
+  if (typeof result === 'string' && result === 'cancel') {
+    return handle.cancel(({ errMsg: result }))
+  } else if (typeof result === 'string') {
     return handle.fail(({ errMsg: result }))
   } else {
     return handle.success(({ tapIndex: result }))
