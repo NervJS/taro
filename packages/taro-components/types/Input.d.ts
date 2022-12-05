@@ -77,13 +77,6 @@ interface InputProps extends StandardProps, FormItemProps {
    */
   confirmType?: keyof InputProps.ConfirmType
 
-  /**
-   * 强制 input 处于同层状态，默认 focus 时 input 会切到非同层状态 (仅在 iOS 下生效)
-   * @default false
-   * @supported weapp
-   */
-  alwaysEmbed?: boolean
-
   /** 点击键盘右下角按钮时是否保持键盘不收起
    * @default false
    * @supported weapp, alipay, swan, tt, qq, jd
@@ -118,6 +111,13 @@ interface InputProps extends StandardProps, FormItemProps {
    * @supported weapp, tt
    */
   holdKeyboard?: boolean
+
+  /**
+   * 强制 input 处于同层状态，默认 focus 时 input 会切到非同层状态 (仅在 iOS 下生效)
+   * @default false
+   * @supported weapp
+   */
+  alwaysEmbed?: boolean
 
   /**
    * 安全键盘加密公钥的路径，只支持包内路径
