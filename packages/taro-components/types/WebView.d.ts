@@ -49,7 +49,7 @@ declare namespace WebViewProps {
 
 /** web-view 组件是一个可以用来承载网页的容器，会自动铺满整个小程序页面。个人类型与海外类型的小程序暂不支持使用。
  * @classification open
- * @supported weapp, h5, rn, tt
+ * @supported weapp, alipay, swan, tt, qq, jd, h5, rn
  * @example_react
  * ```tsx
  * class App extends Component {
