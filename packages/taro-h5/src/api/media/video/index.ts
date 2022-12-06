@@ -1,7 +1,7 @@
 import Taro from '@tarojs/api'
 
-import { MethodHandler } from '../../utils/handler'
-import { findDOM, shouldBeObject, temporarilyNotSupport } from '../../utils'
+import { findDOM, shouldBeObject, temporarilyNotSupport } from '../../../utils'
+import { MethodHandler } from '../../../utils/handler'
 
 // 视频
 export const saveVideoToPhotosAlbum = temporarilyNotSupport('saveVideoToPhotosAlbum')

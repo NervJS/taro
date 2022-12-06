@@ -1,23 +1,16 @@
 import {
-  Current,
-  document,
-  injectPageInstance,
-  safeExecute,
-  addLeadingSlash,
-  incrementId,
-  eventHandler
+  addLeadingSlash, Current, document, eventHandler,
+  incrementId, injectPageInstance, Instance, removePageInstance, safeExecute,
+  TaroRootElement
 } from '@tarojs/runtime'
 import { EMPTY_OBJ } from '@tarojs/shared'
-import { isClassComponent } from './utils'
+
 import { setReconciler } from './connect'
 import { reactMeta } from './react-meta'
+import { isClassComponent } from './utils'
 
-import type * as React from 'react'
 import type { PageInstance } from '@tarojs/taro'
-import type {
-  TaroRootElement,
-  Instance
-} from '@tarojs/runtime'
+import type * as React from 'react'
 
 declare const getCurrentPages: () => PageInstance[]
 
@@ -113,6 +106,8 @@ function initNativeComponentEntry (R: typeof React, ReactDOM) {
       const next = [...components.slice(0, index), ...components.slice(index + 1)]
       this.setState({
         components: next
+      }, () => {
+        removePageInstance(compId)
       })
     }
 
@@ -178,7 +173,13 @@ export function createNativeComponentConfig (Component, react: typeof React, rea
       }
     },
     methods: {
-      eh: eventHandler
+      eh: eventHandler,
+      onLoad (options) {
+        safeExecute(this.compId, 'onLoad', options)
+      },
+      onUnload () {
+        safeExecute(this.compId, 'onUnload')
+      }
     }
   }
 

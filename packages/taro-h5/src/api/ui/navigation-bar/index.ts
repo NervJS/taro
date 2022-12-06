@@ -1,7 +1,8 @@
 import Taro from '@tarojs/api'
+import { setTitle } from '@tarojs/router/dist/utils/navigate'
 
-import { MethodHandler } from '../../utils/handler'
-import { getParameterError, shouldBeObject, temporarilyNotSupport } from '../../utils'
+import { getParameterError, shouldBeObject, temporarilyNotSupport } from '../../../utils'
+import { MethodHandler } from '../../../utils/handler'
 
 // 导航栏
 export const showNavigationBarLoading = temporarilyNotSupport('showNavigationBarLoading')
@@ -28,9 +29,7 @@ export function setNavigationBarTitle (options) {
     })
   }
 
-  if (document.title !== title) {
-    document.title = title
-  }
+  setTitle(title)
 
   return handle.success()
 }

@@ -1,11 +1,8 @@
 import Taro from '@tarojs/api'
+import { history } from '@tarojs/router'
 
-import {
-  history,
-  createRouter
-} from '@tarojs/router'
-import { getApp, getCurrentInstance, getCurrentPages, nextTick, navigateBack, navigateTo, reLaunch, redirectTo, switchTab } from '../api'
-import { permanentlyNotSupport } from '../api/utils'
+import { getApp, getCurrentInstance, getCurrentPages, navigateBack, navigateTo, nextTick, redirectTo, reLaunch, switchTab } from '../api'
+import { permanentlyNotSupport } from '../utils'
 
 const {
   Behavior,
@@ -36,7 +33,6 @@ const taro: typeof Taro = {
   Events,
   preload,
   history,
-  createRouter,
   navigateBack,
   navigateTo,
   reLaunch,
@@ -50,9 +46,13 @@ const initPxTransform = getInitPxTransform(taro)
 const requirePlugin = permanentlyNotSupport('requirePlugin')
 
 const pxTransform = function (size) {
-  // @ts-ignore
-  const { designWidth } = taro.config
-  return Math.ceil((((parseInt(size, 10) / 40) * 640) / designWidth) * 10000) / 10000 + 'rem'
+  const options = (taro as any).config
+  const baseFontSize = options.baseFontSize || 20
+  const designWidth = ((input = 0) => typeof options.designWidth === 'function'
+    ? options.designWidth(input)
+    : options.designWidth)
+  const rootValue = (input = 0) => baseFontSize / options.deviceRatio[designWidth(input)] * 2
+  return Math.ceil((parseInt(size, 10) / rootValue(size)) * 10000) / 10000 + 'rem'
 }
 
 const canIUseWebp = function () {
@@ -71,19 +71,18 @@ export default taro
 
 export {
   Behavior,
-  getEnv,
-  ENV_TYPE,
-  Link,
-  interceptors,
-  initPxTransform,
+  canIUseWebp,
   Current,
-  options,
+  ENV_TYPE,
   eventCenter,
   Events,
-  preload,
-  requirePlugin,
-  pxTransform,
-  canIUseWebp,
+  getEnv,
   history,
-  createRouter
+  initPxTransform,
+  interceptors,
+  Link,
+  options,
+  preload,
+  pxTransform,
+  requirePlugin
 }

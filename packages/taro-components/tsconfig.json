@@ -2,13 +2,14 @@
   "extends": "../../tsconfig.root.json",
   "compilerOptions": {
     "baseUrl": ".",
-    "module": "ESNext",
-    "skipLibCheck": true,
-    "sourceMap": true,
+    "esModuleInterop": true,
     "jsx": "react",
-    "jsxFactory": "h"
+    "jsxFactory": "h",
+    "jsxFragmentFactory": "Fragment",
+    "module": "ESNext",
+    "sourceMap": true,
+    "target": "ES2017",
+    "typeRoots": ["./node_modules/@types"]
   },
-  "include": [
-    "./src"
-  ]
+  "include": ["src", "types"]
 }

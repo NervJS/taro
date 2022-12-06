@@ -19,6 +19,11 @@ declare module '../../index' {
        * @supported h5
        */
       fileName?: string
+      /** 是否应使用传出凭据 (cookie) 发送此请求
+       * @default true
+       * @supported h5
+       */
+      withCredentials?: boolean
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
       complete?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用失败的回调函数 */
@@ -35,6 +40,18 @@ declare module '../../index' {
       statusCode: number
       /** 调用结果 */
       errMsg: string
+      /**
+       * 开发者服务器返回的 HTTP Response Header
+       * @supported weapp
+       * @weapp 非官方文档标注属性
+       */
+      header?: TaroGeneral.IAnyObject
+      /**
+       * cookies
+       * @supported weapp
+       * @weapp 非官方文档标注属性
+       */
+      cookies?: string[]
     }
   }
 
@@ -68,10 +85,9 @@ declare module '../../index' {
       totalBytesSent: number
     }
 
-    type UploadTaskPromise = Promise<UploadTask> & {
+    type UploadTaskPromise = Promise<uploadFile.SuccessCallbackResult> & UploadTask & {
       headersReceive: UploadTask['onHeadersReceived'],
-      progress: UploadTask['onProgressUpdate'],
-      abort: UploadTask['abort']
+      progress: UploadTask['onProgressUpdate']
     }
   }
 

@@ -1,6 +1,7 @@
 import Taro from '@tarojs/api'
-import { permanentlyNotSupport } from '../../utils'
-import { CallbackManager } from '../../utils/handler'
+
+import { permanentlyNotSupport } from '../../../utils'
+import { CallbackManager } from '../../../utils/handler'
 
 export class InnerAudioContext implements Taro.InnerAudioContext {
   Instance?: HTMLAudioElement
@@ -28,7 +29,7 @@ export class InnerAudioContext implements Taro.InnerAudioContext {
   get duration () { return this.Instance?.duration || 0 }
   set loop (e) { this.setProperty('loop', e) }
   get loop () { return this.Instance?.loop || false }
-  get paused () { return this.Instance?.paused || true }
+  get paused () { return this.Instance?.paused ?? true }
   set src (e) { this.setProperty('src', e) }
   get src () { return this.Instance?.src || '' }
   set volume (e) { this.setProperty('volume', e) }

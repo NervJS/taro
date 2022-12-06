@@ -1,15 +1,15 @@
+import { Func, getCurrentInstance } from '@tarojs/runtime'
 import { ComponentLifecycle, eventCenter, nextTick } from '@tarojs/taro'
-import { getCurrentInstance } from '@tarojs/runtime'
-import { lifecycles, lifecycleMap, TaroLifeCycles, uniquePageLifecycle, appOptions } from './lifecycle'
-import { bind, isEqual, safeGet, safeSet, report, unsupport, flattenBehaviors } from './utils'
-import { diff } from './diff'
+
 import { clone } from './clone'
+import { diff } from './diff'
+import { appOptions, lifecycleMap, lifecycles, TaroLifeCycles, uniquePageLifecycle } from './lifecycle'
+import { bind, flattenBehaviors, isEqual, nonsupport, report, safeGet, safeSet } from './utils'
 
 type Observer = (newProps, oldProps, changePath: string) => void
-type Func = (...args: any[]) => void
 
 interface ObserverProperties {
-  name: string,
+  name: string
   observer: string | Observer
 }
 
@@ -22,12 +22,10 @@ interface ComponentClass<P = Record<string, any>, S = Record<string, any>> exten
 }
 
 interface WxOptions {
-  methods?: {
-    [key: string]: Func;
-  }
+  methods?: Record<string, Func>
   properties?: Record<string, Record<string, unknown> | Func>
   props?: Record<string, unknown>
-  data?: Record<string, unknown>,
+  data?: Record<string, unknown>
   observers?: Record<string, Func>
   lifetimes?: Record<string, Func>
   behaviors?: any[]
@@ -106,7 +104,7 @@ export default function withWeapp (weappConf: WxOptions, isApp = false) {
 
       private willUnmounts: Func[] = []
 
-      private eventDistoryList: Func[] = []
+      private eventDestroyList: Func[] = []
 
       private current: any = getCurrentInstance()
 
@@ -158,8 +156,8 @@ export default function withWeapp (weappConf: WxOptions, isApp = false) {
 
         for (const confKey in options) {
           // 不支持的属性
-          if (unsupport.has(confKey)) {
-            const advise = unsupport.get(confKey)
+          if (nonsupport.has(confKey)) {
+            const advise = nonsupport.get(confKey)
             report(advise)
           }
 
@@ -294,10 +292,10 @@ export default function withWeapp (weappConf: WxOptions, isApp = false) {
         }
       }
 
-      private initLifeCycles (lifecycleName: string, lifecycle: (...args: any[]) => any) {
+      private initLifeCycles (lifecycleName: string, lifecycle: Func) {
         // 不支持的生命周期
-        if (unsupport.has(lifecycleName)) {
-          const advise = unsupport.get(lifecycleName)
+        if (nonsupport.has(lifecycleName)) {
+          const advise = nonsupport.get(lifecycleName)
           return report(advise)
         }
 
@@ -358,7 +356,7 @@ export default function withWeapp (weappConf: WxOptions, isApp = false) {
         cb = cb.bind(this)
         router?.[lifecycleName] && eventCenter.on(router[lifecycleName], cb)
         // unMount 时需要取消事件监听
-        this.eventDistoryList.push(() => eventCenter.off(router[lifecycleName], cb))
+        this.eventDestroyList.push(() => eventCenter.off(router[lifecycleName], cb))
       }
 
       private executeLifeCycles (funcs: Func[], ...args: unknown[]) {
@@ -473,7 +471,7 @@ export default function withWeapp (weappConf: WxOptions, isApp = false) {
       }
 
       public componentWillUnmount () {
-        this.eventDistoryList.forEach(fn => fn())
+        this.eventDestroyList.forEach(fn => fn())
         this.safeExecute(super.componentWillUnmount)
         this.executeLifeCycles(this.willUnmounts)
       }
@@ -529,6 +527,13 @@ export default function withWeapp (weappConf: WxOptions, isApp = false) {
           report('triggerEvent 不支持事件选项。')
         }
 
+        // eventName support kebab case
+        if (eventName.match(/[a-z]+-[a-z]+/g)) {
+          eventName = eventName.replace(/-[a-z]/g, function (match) {
+            return match[1].toUpperCase()
+          })
+        }
+
         const props = this.props
         const dataset = {}
         for (const key in props) {
@@ -576,19 +581,19 @@ export default function withWeapp (weappConf: WxOptions, isApp = false) {
       public setUpdatePerformanceListener = this.componentMethodsProxy('setUpdatePerformanceListener')
 
       public selectComponent () {
-        report(unsupport.get('selectComponent'))
+        report(nonsupport.get('selectComponent'))
       }
 
       public selectAllComponents () {
-        report(unsupport.get('selectAllComponents'))
+        report(nonsupport.get('selectAllComponents'))
       }
 
       public selectOwnerComponent () {
-        report(unsupport.get('selectOwnerComponent'))
+        report(nonsupport.get('selectOwnerComponent'))
       }
 
       public groupSetData () {
-        report(unsupport.get('groupSetData'))
+        report(nonsupport.get('groupSetData'))
       }
     }
 

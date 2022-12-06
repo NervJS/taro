@@ -1,7 +1,7 @@
 const DEFAULT_EMPTY_ARRAY = '[]'
 const NO_DEFAULT_VALUE = ''
-const DEFAULT_TRUE = 'true'
-const DEFAULT_FALSE = 'false'
+const DEFAULT_TRUE = '!0'
+const DEFAULT_FALSE = '!1'
 
 export const touchEvents = {
   bindTouchStart: NO_DEFAULT_VALUE,
@@ -438,6 +438,10 @@ const Slot = {
   name: NO_DEFAULT_VALUE
 }
 
+const NativeSlot = {
+  name: NO_DEFAULT_VALUE
+}
+
 export const internalComponents: Record<string, Record<string, string>> = {
   View,
   Icon,
@@ -477,7 +481,8 @@ export const internalComponents: Record<string, Record<string, string>> = {
   Block,
   Map: MapComp,
   Slot,
-  SlotView
+  SlotView,
+  NativeSlot,
 }
 
 export const controlledComponent = new Set([

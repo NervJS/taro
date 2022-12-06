@@ -1,10 +1,11 @@
 
-import React from 'react'
-import ReactDOM from 'react-dom'
 import * as assert from 'assert'
+import React from 'react'
 import simulant from 'simulant'
 import * as sinon from 'sinon'
+
 import { PickerView, PickerViewColumn, View } from '../h5/react'
+import { mount } from './test-tools'
 import { waitForChange } from './utils'
 
 const h = React.createElement
@@ -76,7 +77,7 @@ describe('PickerView', () => {
       }
     }
 
-    ReactDOM.render(<App />, scratch)
+    await mount(<App />, scratch)
 
     const node = domRef.current
 

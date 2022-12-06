@@ -1,34 +1,36 @@
-import * as path from 'path'
-import { EventEmitter } from 'events'
-import { merge } from 'lodash'
-import { AsyncSeriesWaterfallHook } from 'tapable'
-import { IProjectConfig, PluginItem } from '@tarojs/taro/types/compile'
 import {
+  createDebug,
+  createSwcRegister,
   NODE_MODULES,
-  recursiveFindNodeModules,
-  createBabelRegister,
-  createDebug
+  recursiveFindNodeModules
 } from '@tarojs/helper'
 import * as helper from '@tarojs/helper'
+import { EventEmitter } from 'events'
+import { merge } from 'lodash'
+import * as path from 'path'
+import { AsyncSeriesWaterfallHook } from 'tapable'
 
-import {
-  IPreset,
-  IPluginsObject,
-  IPlugin,
-  IPaths,
-  IHook,
-  ICommand,
-  IPlatform
-} from './utils/types'
-import {
-  PluginType,
-  IS_MODIFY_HOOK,
-  IS_ADD_HOOK,
-  IS_EVENT_HOOK
-} from './utils/constants'
-import { mergePlugins, resolvePresetsOrPlugins, convertPluginsToObject, printHelpLog } from './utils'
-import Plugin from './Plugin'
 import Config from './Config'
+import Plugin from './Plugin'
+import { convertPluginsToObject, mergePlugins, printHelpLog, resolvePresetsOrPlugins } from './utils'
+import {
+  IS_ADD_HOOK,
+  IS_EVENT_HOOK,
+  IS_MODIFY_HOOK,
+  PluginType
+} from './utils/constants'
+
+import type { IProjectConfig, PluginItem } from '@tarojs/taro/types/compile'
+import type {
+  Func,
+  ICommand,
+  IHook,
+  IPaths,
+  IPlatform,
+  IPlugin,
+  IPluginsObject,
+  IPreset
+} from './utils/types'
 
 interface IKernelOptions {
   appPath: string
@@ -48,7 +50,7 @@ export default class Kernel extends EventEmitter {
   config: Config
   initialConfig: IProjectConfig
   hooks: Map<string, IHook[]>
-  methods: Map<string, ((...args: any[]) => void)[]>
+  methods: Map<string, Func[]>
   commands: Map<string, ICommand>
   platforms: Map<string, IPlatform>
   helper: any
@@ -104,7 +106,7 @@ export default class Kernel extends EventEmitter {
     const allConfigPlugins = mergePlugins(this.optsPlugins || [], initialConfig.plugins || [])()
     this.debugger('initPresetsAndPlugins', allConfigPresets, allConfigPlugins)
     process.env.NODE_ENV !== 'test' &&
-    createBabelRegister({
+    createSwcRegister({
       only: [...Object.keys(allConfigPresets), ...Object.keys(allConfigPlugins)]
     })
     this.plugins = new Map()
@@ -160,6 +162,7 @@ export default class Kernel extends EventEmitter {
     if (typeof pluginCtx.optsSchema !== 'function') {
       return
     }
+    this.debugger('checkPluginOpts', pluginCtx)
     const joi = require('joi')
     const schema = pluginCtx.optsSchema(joi)
     if (!joi.isSchema(schema)) {
@@ -173,6 +176,7 @@ export default class Kernel extends EventEmitter {
   }
 
   registerPlugin (plugin: IPlugin) {
+    this.debugger('registerPlugin', plugin)
     if (this.plugins.has(plugin.id)) {
       throw new Error(`插件 ${plugin.id} 已被注册`)
     }

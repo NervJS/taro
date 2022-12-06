@@ -1,9 +1,10 @@
 import Taro from '@tarojs/api'
-import { CallbackManager } from '../utils/handler'
+
+import { CallbackManager } from '../../utils/handler'
 import { NETWORK_TIMEOUT, setHeader, XHR_STATS } from './utils'
 
-const createDownloadTask = ({ url, header, success, error }): Taro.DownloadTask => {
-  let timeout
+const createDownloadTask = ({ url, header, withCredentials = true, timeout, success, error }): Taro.DownloadTask => {
+  let timeoutInter: ReturnType<typeof setTimeout>
   const apiName = 'downloadFile'
   const xhr = new XMLHttpRequest()
   const callbackManager = {
@@ -12,6 +13,7 @@ const createDownloadTask = ({ url, header, success, error }): Taro.DownloadTask 
   }
 
   xhr.open('GET', url, true)
+  xhr.withCredentials = !!withCredentials
   xhr.responseType = 'blob'
   setHeader(xhr, header)
 
@@ -42,7 +44,7 @@ const createDownloadTask = ({ url, header, success, error }): Taro.DownloadTask 
   }
 
   xhr.onabort = () => {
-    clearTimeout(timeout)
+    clearTimeout(timeoutInter)
     error({
       errMsg: `${apiName}:fail abort`
     })
@@ -63,7 +65,7 @@ const createDownloadTask = ({ url, header, success, error }): Taro.DownloadTask 
 
   const send = () => {
     xhr.send()
-    timeout = setTimeout(() => {
+    timeoutInter = setTimeout(() => {
       xhr.onabort = null
       xhr.onload = null
       xhr.onprogress = null
@@ -73,7 +75,7 @@ const createDownloadTask = ({ url, header, success, error }): Taro.DownloadTask 
       error({
         errMsg: `${apiName}:fail timeout`
       })
-    }, NETWORK_TIMEOUT)
+    }, timeout || NETWORK_TIMEOUT)
   }
 
   send()
@@ -113,12 +115,14 @@ const createDownloadTask = ({ url, header, success, error }): Taro.DownloadTask 
  * 下载文件资源到本地。客户端直接发起一个 HTTPS GET 请求，返回文件的本地临时路径。使用前请注意阅读相关说明。
  * 注意：请在服务端响应的 header 中指定合理的 Content-Type 字段，以保证客户端正确处理文件类型。
  */
-export const downloadFile: typeof Taro.downloadFile = ({ url, header, success, fail, complete }) => {
+export const downloadFile: typeof Taro.downloadFile = ({ url, header, withCredentials, timeout, success, fail, complete }) => {
   let task!: Taro.DownloadTask
   const result: ReturnType<typeof Taro.downloadFile> = new Promise((resolve, reject) => {
     task = createDownloadTask({
       url,
       header,
+      withCredentials,
+      timeout,
       success: res => {
         success && success(res)
         complete && complete(res)

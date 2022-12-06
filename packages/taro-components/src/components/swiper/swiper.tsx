@@ -86,6 +86,11 @@ export class Swiper implements ComponentInterface {
    */
   @Prop() full = false
 
+  /**
+   * 给 previewImage API 使用，缩放支持
+   */
+  @Prop() zoom = false
+
   @Event({
     eventName: 'change'
   }) onChange: EventEmitter
@@ -248,12 +253,12 @@ export class Swiper implements ComponentInterface {
   handleInit () {
     const {
       autoplay,
-      current,
-      interval,
-      duration,
       circular,
-      vertical,
-      displayMultipleItems
+      current,
+      displayMultipleItems,
+      duration,
+      interval,
+      vertical
     } = this
 
     // eslint-disable-next-line @typescript-eslint/no-this-alias
@@ -268,13 +273,14 @@ export class Swiper implements ComponentInterface {
       speed: duration,
       observer: true,
       observeParents: true,
+      zoom: this.zoom,
       on: {
         slideTo () {
           that.current = this.realIndex
         },
-        // slideChange 事件在 swiper.slideTo 改写 current 时不触发，因此用 slideChangeTransitionEnd 事件代替
-        slideChangeTransitionEnd (_swiper: ISwiper) {
-          if (circular) {
+         // slideChange 事件在 swiper.slideTo 改写 current 时不触发，因此用 slideChangeTransitionStart 事件代替
+         slideChangeTransitionStart (_swiper: ISwiper) {
+          if (that.circular) {
             if (_swiper.isBeginning || _swiper.isEnd) {
               _swiper.slideToLoop(this.realIndex, 0) // 更新下标
               return
@@ -296,7 +302,11 @@ export class Swiper implements ComponentInterface {
           const className = target && typeof target.className === 'string' ? target.className : ''
           if (className.includes('taro_page') && target.style.display !== 'none') {
             if (that.autoplay && target.contains(_swiper.$el[0])) {
-              _swiper.slideTo(that.current)
+              if (that.circular) {
+                _swiper.slideToLoop(this.realIndex, 0) // 更新下标
+              } else {
+                _swiper.slideTo(this.realIndex)
+              }
             }
           }
         }

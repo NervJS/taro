@@ -1,4 +1,4 @@
-import { processOpenApi, temporarilyNotSupport } from '../utils/index'
+import { processOpenApi, temporarilyNotSupport } from '../../utils/index'
 
 // 位置
 export const stopLocationUpdate = temporarilyNotSupport('stopLocationUpdate')
@@ -18,5 +18,6 @@ export const offLocationChange = temporarilyNotSupport('offLocationChange')
 export { getLocation } from './getLocation'
 
 export const choosePoi = temporarilyNotSupport('choosePoi')
+export const getFuzzyLocation = temporarilyNotSupport('getFuzzyLocation')
 
 export { chooseLocation } from './chooseLocation'

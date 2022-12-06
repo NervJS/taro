@@ -1,6 +1,7 @@
 import Taro from '@tarojs/api'
-import { MethodHandler } from '../utils/handler'
-import { findDOM } from '../utils'
+
+import { findDOM } from '../../utils'
+import { MethodHandler } from '../../utils/handler'
 
 /**
  * 将像素数据绘制到画布。在自定义组件下，第二个参数传入自定义组件实例 this，以操作组件内 <canvas> 组件

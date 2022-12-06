@@ -1,18 +1,22 @@
-import { Shortcuts, toCamelCase } from '@tarojs/shared'
-import { isText, isHasExtractProp, isComment } from './utils'
+import { hooks, Shortcuts, toCamelCase } from '@tarojs/shared'
+
 import {
-  VIEW,
+  CATCH_VIEW,
+  CATCHMOVE,
   CLASS,
-  STYLE,
   ID,
   PURE_VIEW,
-  CATCHMOVE,
-  CATCH_VIEW
+  STYLE,
+  VIEW
 } from './constants'
+import { getComponentsAlias, isComment, isHasExtractProp, isText } from './utils'
 
-import type { MiniData, MiniElementData } from './interface'
 import type { TaroElement } from './dom/element'
 import type { TaroText } from './dom/text'
+import type { MiniData, MiniElementData } from './interface'
+
+let SPECIAL_NODES
+let componentsAlias
 
 /**
  * React also has a fancy function's name for this: `hydrate()`.
@@ -21,12 +25,22 @@ import type { TaroText } from './dom/text'
  * it's a vnode traverser and modifier: that's exactly what Taro's doing in here.
  */
 export function hydrate (node: TaroElement | TaroText): MiniData {
+  if (!componentsAlias) {
+    // 初始化 componentsAlias
+    componentsAlias = getComponentsAlias()
+  }
+
+  if (!SPECIAL_NODES) {
+    // 初始化 SPECIAL_NODES
+    SPECIAL_NODES = hooks.call('getSpecialNodes')!
+  }
+
   const nodeName = node.nodeName
 
   if (isText(node)) {
     return {
       [Shortcuts.Text]: node.nodeValue,
-      [Shortcuts.NodeName]: nodeName
+      [Shortcuts.NodeName]: componentsAlias[nodeName]._num
     }
   }
 
@@ -34,8 +48,6 @@ export function hydrate (node: TaroElement | TaroText): MiniData {
     [Shortcuts.NodeName]: nodeName,
     sid: node.sid
   }
-  const { props } = node
-  const SPECIAL_NODES = node.hooks.getSpecialNodes()
 
   if (node.uid !== node.sid) {
     data.uid = node.uid
@@ -48,6 +60,7 @@ export function hydrate (node: TaroElement | TaroText): MiniData {
     }
   }
 
+  const { props } = node
   for (const prop in props) {
     const propInCamelCase = toCamelCase(prop)
     if (
@@ -79,11 +92,24 @@ export function hydrate (node: TaroElement | TaroText): MiniData {
     data[Shortcuts.Class] = node.className
   }
 
-  if (node.cssText !== '' && nodeName !== 'swiper-item') {
-    data[Shortcuts.Style] = node.cssText
+  const cssText = node.cssText
+  if (cssText !== '' && nodeName !== 'swiper-item') {
+    data[Shortcuts.Style] = cssText
   }
 
-  node.hooks.modifyHydrateData?.(data)
+  hooks.call('modifyHydrateData', data)
+
+  const nn = data[Shortcuts.NodeName]
+  const componentAlias = componentsAlias[nn]
+  if (componentAlias) {
+    data[Shortcuts.NodeName] = componentAlias._num
+    for (const prop in data) {
+      if (prop in componentAlias) {
+        data[componentAlias[prop]] = data[prop]
+        delete data[prop]
+      }
+    }
+  }
 
   return data
 }

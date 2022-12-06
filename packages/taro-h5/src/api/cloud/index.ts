@@ -1,5 +1,6 @@
 import Taro from '@tarojs/api'
-import { temporarilyNotSupport } from '../utils'
+
+import { temporarilyNotSupport } from '../../utils'
 
 export class cloud implements Taro.cloud {
   Cloud: new (options: Taro.cloud.IOptions) => Taro.Cloud

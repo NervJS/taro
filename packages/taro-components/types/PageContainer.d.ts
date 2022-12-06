@@ -1,104 +1,115 @@
 import { ComponentType } from 'react'
-import { StandardProps, CommonEventFunction, BaseEventOrigFunction } from './common'
-
+import { StandardProps, CommonEventFunction } from './common'
 interface PageContainerProps extends StandardProps {
   /** 是否显示容器组件
    * @default false
-   * @supported weapp, rn
+   * @supported weapp, alipay, rn
    */
   show?: boolean
 
   /** 动画时长，单位毫秒
    * @default 300
-   * @supported weapp, rn
+   * @supported weapp, alipay, rn
    */
   duration?: number
 
   /** z-index 层级
    * @default 100
-   * @supported weapp
+   * @supported weapp, alipay
    */
   zIndex?: number
 
   /** 是否显示遮罩层
    * @default true
-   * @supported weapp, rn
+   * @supported weapp, alipay, rn
    */
   overlay?: boolean
 
   /** 弹出位置，可选值为 top bottom right center
    * @default bottom
-   * @supported weapp, rn
+   * @supported weapp, alipay, rn
    */
   position?: keyof PageContainerProps.Position
 
   /** 是否显示圆角
    * @default false
-   * @supported weapp, rn
+   * @supported weapp, alipay, rn
    */
   round?: boolean
 
-  /** 是否在下滑一段距离后关闭
-   * @default false
-   * @supported weapp
-   */
-  closeOnSlideDown?: boolean
-
   /** 自定义遮罩层样式
-   * @supported weapp, rn
+   * @supported weapp, alipay, rn
    */
   overlayStyle?: string
 
   /** 自定义弹出层样式
-   * @supported weapp, rn
+   * @supported weapp, alipay, rn
    */
   customStyle?: string
 
+  /** 是否在下滑一段距离后关闭
+   * @supported weapp, alipay
+   * @default false
+   */
+  closeOnSlideDown?: boolean
+
   /** 进入前触发
-   * @supported weapp, rn
+   * @supported weapp, alipay, rn
    */
   onBeforeEnter?: CommonEventFunction
 
   /** 进入中触发
-   * @supported weapp, rn
+   * @supported weapp, alipay, rn
    */
   onEnter?: CommonEventFunction
 
   /** 进入后触发
-   * @supported weapp, rn
+   * @supported weapp, alipay, rn
    */
   onAfterEnter?: CommonEventFunction
 
   /** 离开前触发
-   * @supported weapp, rn
+   * @supported weapp, alipay, rn
    */
   onBeforeLeave?: CommonEventFunction
 
   /** 离开中触发
-   * @supported weapp, rn
+   * @supported weapp, alipay, rn
    */
   onLeave?: CommonEventFunction
 
   /** 离开后触发
-   * @supported weapp, rn
+   * @supported weapp, alipay, rn
    */
   onAfterLeave?: CommonEventFunction
 
   /** 点击遮罩层时触发
-   * @supported weapp
+   * @supported weapp, alipay
    */
   onClickOverlay?: CommonEventFunction
-}
 
+  /** 进入被打断时触发（通过 a: if 打断时不会触发）。
+   * @supported alipay
+   */
+  onEnterCancelled?: CommonEventFunction
+
+  /** 离开被打断时触发（通过 a: if 打断时不会触发）。
+   * @supported alipay
+   */
+  onLeaveCancelled?: CommonEventFunction
+}
 declare namespace PageContainerProps {
   /** 弹出位置 */
   interface Position {
     /** 上方弹出 */
     top
+
     /** 下方弹出 */
     bottom
+
     /** 右边弹出 */
     right
+
     /** 中央弹出 */
     center
   }
@@ -113,9 +124,8 @@ declare namespace PageContainerProps {
  *   1. tip: 当前页面最多只有 1 个容器，若已存在容器的情况下，无法增加新的容器
  *   2. tip: wx.navigateBack 无法在页面栈顶调用，此时没有上一级页面
  * @classification viewContainer
- * @supported weapp, rn
+ * @supported weapp, alipay, rn
  * @see https://developers.weixin.qq.com/miniprogram/dev/component/page-container.html
  */
 declare const PageContainer: ComponentType<PageContainerProps>
-
 export { PageContainer, PageContainerProps }

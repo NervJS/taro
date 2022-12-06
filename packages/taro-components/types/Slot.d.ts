@@ -5,7 +5,7 @@ interface SlotProps {
    * @default none
    * @supported weapp, swan, alipay, tt, jd, qq
    */
-  name?: string,
+  name?: string
   /** scoped slot 传入数据源
    * @default none
    * @supported swan
@@ -18,7 +18,7 @@ interface SlotProps {
  * @example
  * ```tsx
  * import { Slot, View, Text } from '@tarojs/components'
- * 
+ *
  * export default class SlotView extends Component {
  *   render () {
  *     return (

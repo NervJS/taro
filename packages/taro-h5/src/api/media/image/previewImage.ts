@@ -1,7 +1,8 @@
 import Taro from '@tarojs/api'
+import { SwiperProps } from '@tarojs/components'
 
-import { shouldBeObject } from '../../utils'
-import { MethodHandler } from '../../utils/handler'
+import { shouldBeObject } from '../../../utils'
+import { MethodHandler } from '../../../utils/handler'
 
 /**
  * previewImage api基于开源的React组件[react-wx-images-viewer](https://github.com/react-ld/react-wx-images-viewer)开发，感谢！
@@ -19,6 +20,7 @@ export const previewImage: typeof Taro.previewImage = async (options) => {
       image.style.maxWidth = '100%'
       image.src = url
       const div = document.createElement('div')
+      div.classList.add('swiper-zoom-container')
       div.style.cssText = 'display:flex;align-items:center;justify-content:center;max-width:100%;min-height:100%;'
       div.appendChild(image)
       item.appendChild(div)
@@ -49,9 +51,11 @@ export const previewImage: typeof Taro.previewImage = async (options) => {
     container.remove()
   })
 
-  const swiper = document.createElement('taro-swiper-core')
+  const swiper: HTMLElement & Omit<SwiperProps, 'style' | 'children'> = document.createElement('taro-swiper-core')
   // @ts-ignore
   swiper.full = true
+  // @ts-ignore
+  swiper.zoom = true
 
   let children: Node[] = []
   try {

@@ -1,6 +1,7 @@
 import Taro, { AppConfig } from '@tarojs/api'
-import { shouldBeObject, getParameterError, isValidColor } from '../utils'
-import { MethodHandler } from '../utils/handler'
+
+import { getParameterError, isValidColor, shouldBeObject } from '../../utils'
+import { MethodHandler } from '../../utils/handler'
 
 let tabConf
 

@@ -1,8 +1,12 @@
-import { transform as babelTransform, getCacheKey } from 'metro-react-native-babel-transformer'
-import { merge } from 'lodash'
-import * as ModuleResolution from 'metro/src/node-haste/DependencyGraph/ModuleResolution'
-import { getProjectConfig, getRNConfig } from './utils'
 import { injectDefineConfigHeader } from '@tarojs/helper'
+import { merge } from 'lodash'
+import { getCacheKey, transform as babelTransform } from 'metro-react-native-babel-transformer'
+import { sep } from 'path'
+
+import { emptyModulePath } from './defaults'
+import { getProjectConfig, getRNConfig } from './utils'
+
+const normalizeEmptyModulePath = emptyModulePath.replace(/\//g, sep)
 
 const configBabelTransform = ({ src, filename, options, plugins }) => {
   // 获取rn配置中的moodifyBabelConfig
@@ -45,7 +49,9 @@ const transform = ({ src, filename, options, plugins }) => {
         designWidth: rnConfig.designWidth ? rnConfig.designWidth : config.designWidth,
         deviceRatio: rnConfig.designWidth ? rnConfig.deviceRatio : config.deviceRatio,
         nextTransformer: /\.config\.(t|j)sx?$/.test(filename) ? configBabelTransform : babelTransform,
-        isEntryFile: filename_ => ModuleResolution.ModuleResolver.EMPTY_MODULE.includes(filename_),
+        isEntryFile: filename_ => {
+          return filename_.includes(normalizeEmptyModulePath)
+        },
         rn: rnConfig
       }
     }
@@ -61,8 +67,8 @@ const transform = ({ src, filename, options, plugins }) => {
 }
 
 export {
-  transform,
-  getCacheKey
+  getCacheKey,
+  transform
 }
 
 module.exports.transform = function ({ src, filename, options }) {

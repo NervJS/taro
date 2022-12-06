@@ -1,9 +1,28 @@
 const path = require('path')
-const apis = require('@tarojs/taro-h5/dist/taroApis')
-const presetForReactNative = require('./rn')
+const fs = require('fs')
+
+function hasBrowserslist () {
+  const root = process.cwd()
+  try {
+    const pkg = require(path.resolve(root, 'package.json'))
+    if (pkg.browserslist) {
+      return true
+    }
+  } catch {
+    //
+  }
+  if (fs.existsSync(path.resolve(root, '.browserslistrc'))) {
+    return true
+  }
+  if (process.env.BROWSERSLIST) {
+    return true
+  }
+  return false
+}
 
 module.exports = (_, options = {}) => {
   if (process.env.TARO_ENV === 'rn') {
+    const presetForReactNative = require('./rn')
     return presetForReactNative(_, options)
   }
   const presets = []
@@ -102,7 +121,7 @@ module.exports = (_, options = {}) => {
     targets = rawTargets
   } else if (ignoreBrowserslistConfig) {
     targets = { node: 'current' }
-  } else {
+  } else if (!hasBrowserslist()) {
     targets = {
       ios: '9',
       android: '5'
@@ -157,6 +176,7 @@ module.exports = (_, options = {}) => {
   }])
 
   if (process.env.TARO_ENV === 'h5') {
+    const apis = require('@tarojs/taro-h5/dist/taroApis')
     plugins.push([require('babel-plugin-transform-taroapi'), {
       packageName: '@tarojs/taro',
       apis

@@ -1,4 +1,4 @@
-import { inlineStyle, setTransform } from '../../utils'
+import { inlineStyle, setTransform } from '../../../utils'
 
 const noop = function () {}
 
@@ -55,12 +55,13 @@ export default class ActionSheet {
 
   lastConfig = {}
   el: HTMLDivElement
+  mask: HTMLDivElement
   actionSheet: HTMLDivElement
   menu: HTMLDivElement
   cells: HTMLDivElement[]
   cancel: HTMLDivElement
-  hideOpacityTimer: any
-  hideDisplayTimer: any
+  hideOpacityTimer: ReturnType<typeof setTimeout>
+  hideDisplayTimer: ReturnType<typeof setTimeout>
 
   create (options = {}) {
     return new Promise<string | number>((resolve) => {
@@ -82,8 +83,8 @@ export default class ActionSheet {
       this.el.style.transition = 'opacity 0.2s linear'
 
       // mask
-      const mask = document.createElement('div')
-      mask.setAttribute('style', inlineStyle(maskStyle))
+      this.mask = document.createElement('div')
+      this.mask.setAttribute('style', inlineStyle(maskStyle))
 
       // actionSheet
       this.actionSheet = document.createElement('div')
@@ -121,7 +122,7 @@ export default class ActionSheet {
       this.cells.forEach(item => this.menu.appendChild(item))
       this.actionSheet.appendChild(this.menu)
       this.actionSheet.appendChild(this.cancel)
-      this.el.appendChild(mask)
+      this.el.appendChild(this.mask)
       this.el.appendChild(this.actionSheet)
 
       // callbacks
@@ -129,7 +130,7 @@ export default class ActionSheet {
         this.hide()
         resolve('cancel')
       }
-      mask.onclick = cb
+      this.mask.onclick = cb
       this.cancel.onclick = cb
 
       // show immediately
@@ -189,6 +190,14 @@ export default class ActionSheet {
         }
         this.cells.splice(itemListLen)
       }
+
+      // callbacks
+      const cb = () => {
+        this.hide()
+        resolve('cancel')
+      }
+      this.mask.onclick = cb
+      this.cancel.onclick = cb
 
       // show
       this.el.style.display = 'block'

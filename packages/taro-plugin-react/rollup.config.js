@@ -1,23 +1,20 @@
-import typescript from 'rollup-plugin-typescript2'
 import * as path from 'path'
+import externals from 'rollup-plugin-node-externals'
+import ts from 'rollup-plugin-ts'
 
 const cwd = __dirname
 
 const base = {
-  external: [
-    '@tarojs/shared',
-    '@tarojs/runtime',
-    'acorn',
-    'acorn-walk',
-    '@pmmmwh/react-refresh-webpack-plugin'
-  ],
   plugins: [
-    typescript()
+    externals({
+      devDeps: false,
+    }),
+    ts(),
   ]
 }
 
 // 供 CLI 编译时使用的 Taro 插件入口
-const comileConfig = {
+const compileConfig = {
   input: path.join(cwd, 'src/index.ts'),
   output: {
     file: path.join(cwd, 'dist/index.js'),
@@ -43,6 +40,7 @@ const runtimeConfig = {
 const loaderConfig = {
   input: path.join(cwd, 'src/api-loader.ts'),
   output: {
+    exports: 'auto',
     file: path.join(cwd, 'dist/api-loader.js'),
     format: 'cjs',
     sourcemap: true
@@ -50,4 +48,4 @@ const loaderConfig = {
   ...base
 }
 
-module.exports = [comileConfig, runtimeConfig, loaderConfig]
+module.exports = [compileConfig, runtimeConfig, loaderConfig]

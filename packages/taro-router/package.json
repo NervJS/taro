@@ -1,19 +1,20 @@
 {
   "name": "@tarojs/router",
-  "version": "3.4.10",
+  "version": "3.5.8",
   "description": "Taro-router",
-  "main:h5": "dist/router.esm.js",
+  "browser": "dist/index.esm.js",
+  "main:h5": "dist/index.js",
   "main": "dist/index.js",
-  "module": "dist/router.esm.js",
-  "typings": "src/index.ts",
+  "module": "dist/index.cjs.js",
+  "typings": "dist/index.d.ts",
   "files": [
     "dist",
     "types",
     "index.js"
   ],
   "scripts": {
-    "build": "rollup -c rollup.config.js",
-    "dev": "rollup -c rollup.config.js --watch",
+    "build": "rimraf ./dist && tsc && rollup -c",
+    "dev": "tsc -w",
     "test": "jest",
     "test:dev": "jest --watch"
   },
@@ -27,9 +28,11 @@
   "author": "O2Team",
   "license": "MIT",
   "dependencies": {
-    "@tarojs/runtime": "3.4.10",
-    "@tarojs/taro": "3.4.10",
+    "@tarojs/runtime": "workspace:*",
+    "@tarojs/taro": "workspace:*",
+    "dingtalk-jsapi": "~2.15.2",
     "history": "^5.1.0",
+    "mobile-detect": "^1.4.2",
     "query-string": "^7.1.1",
     "universal-router": "^8.3.0"
   }

@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
 
 import PropTypes from 'prop-types'
-import { Modal, View, StyleSheet, Dimensions, Animated, Easing, ViewPropTypes } from 'react-native'
+import { Modal, View, StyleSheet, Dimensions, Animated, Easing } from 'react-native'
+import { ViewPropTypes } from 'deprecated-react-native-prop-types'
 import { Mask } from './Mask'
 
 const { width, height } = Dimensions.get('window')

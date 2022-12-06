@@ -1,4 +1,5 @@
 import { Dimensions } from 'react-native'
+
 import { AppConfig } from './types/index'
 
 const globalAny: any = global

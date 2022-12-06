@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/plugin-framework-react",
-  "version": "3.4.10",
+  "version": "3.5.8",
   "description": "React/Preact/Nerv 框架插件",
   "author": "drchan",
   "homepage": "https://github.com/nervjs/taro",
@@ -25,15 +25,40 @@
     "url": "https://github.com/NervJS/taro/issues"
   },
   "dependencies": {
-    "@pmmmwh/react-refresh-webpack-plugin": "0.4.3",
-    "@prefresh/webpack": "^3.2.3",
-    "@tarojs/runtime": "3.4.10",
-    "@tarojs/shared": "3.4.10",
+    "@tarojs/helper": "workspace:*",
+    "@tarojs/runtime": "workspace:*",
+    "@tarojs/service": "workspace:*",
+    "@tarojs/shared": "workspace:*",
     "acorn": "^8.0.4",
     "acorn-walk": "^8.0.0"
   },
   "devDependencies": {
-    "@tarojs/service": "3.4.10",
-    "@tarojs/taro": "3.4.10"
+    "@pmmmwh/react-refresh-webpack-plugin": "^0.5.5",
+    "@prefresh/babel-plugin": "^0.4.1",
+    "@prefresh/core": "^1.3.4",
+    "@prefresh/webpack": "^3.2.3",
+    "preact": "^10.10.0",
+    "react-refresh": "^0.11.0",
+    "webpack": "5.69.0"
+  },
+  "peerDependencies": {
+    "react": ">=17"
+  },
+  "peerDependenciesMeta": {
+    "@pmmmwh/react-refresh-webpack-plugin": {
+      "optional": true
+    },
+    "@prefresh/webpack": {
+      "optional": true
+    },
+    "preact": {
+      "optional": true
+    },
+    "react": {
+      "optional": true
+    },
+    "react-refresh": {
+      "optional": true
+    }
   }
 }

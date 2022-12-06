@@ -1,6 +1,7 @@
-import * as path from 'path'
 import { chalk } from '@tarojs/helper'
 import * as fs from 'fs-extra'
+import * as path from 'path'
+
 import validator from '../doctor/recommandValidator'
 
 jest.mock('fs-extra', () => {
@@ -34,7 +35,7 @@ describe('recommand validator of doctor', () => {
 
     try {
       await validator({ appPath: 'src/' })
-    } catch (error) {}
+    } catch (error) {} // eslint-disable-line no-empty
 
     expect(exitSpy).toBeCalledWith(1)
     expect(logSpy).toBeCalledWith(chalk.red('找不到src/package.json，请确定当前目录是Taro项目根目录!'))

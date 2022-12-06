@@ -195,6 +195,10 @@ declare module '../../index' {
       fail?: (res: TaroGeneral.CallbackResult) => void
       /** 压缩质量，范围0～100，数值越小，质量越低，压缩率越高（仅对jpg有效）。 */
       quality?: number
+      /** 压缩后图片的宽度，单位为px，若不填写则默认以 compressedHeight 为准等比缩放。 */
+      compressedWidth?: number
+      /** 压缩后图片的高度，单位为px，若不填写则默认以 compressedWidth 为准等比缩放。 */
+      compressHeight?: number
       /** 接口调用成功的回调函数 */
       success?: (result: SuccessCallbackResult) => void
     }
@@ -257,6 +261,41 @@ declare module '../../index' {
       image
       /** 选择了除图片和视频的文件 */
       file
+    }
+  }
+
+  namespace cropImage {
+    interface Option {
+      /** 图片路径，图片的路径，支持本地路径、代码包路径 */
+      src: string
+      /** 裁剪比例 */
+      cropScale: keyof CropScale
+      /** 接口调用结束的回调函数（调用成功、失败都会执行） */
+      complete?: (res: TaroGeneral.CallbackResult) => void
+      /** 接口调用失败的回调函数 */
+      fail?: (res: TaroGeneral.CallbackResult) => void
+      /** 接口调用成功的回调函数 */
+      success?: (result: SuccessCallbackResult) => void
+    }
+    interface SuccessCallbackResult extends TaroGeneral.CallbackResult {
+      /** 剪裁后图片的临时文件路径 (本地路径) */
+      tempFilePath: string
+    }
+    interface CropScale {
+      /** 宽高比为1比1 */
+      '1:1'
+      /** 宽高比为3比4 */
+      '3:4'
+      /** 宽高比为4比3 */
+      '4:3'
+      /** 宽高比为4比5 */
+      '4:5'
+      /** 宽高比为5比4 */
+      '5:4'
+      /** 宽高比为6比19 */
+      '6:19'
+      /** 宽高比为19比6 */
+      '19:6'
     }
   }
 
@@ -385,5 +424,23 @@ declare module '../../index' {
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/image/wx.chooseImage.html
      */
     chooseImage(option: chooseImage.Option): Promise<chooseImage.SuccessCallbackResult>
+
+    /**
+     * 裁剪图片接口
+     * @supported weapp
+     * @example
+     * ```tsx
+     * Taro.cropImage({
+     *   src: '', // 图片路径
+     *   cropScale: '1:1', // 裁剪比例
+     *   success: function (res) {
+     *     // 返回选定照片的本地文件路径列表，tempFilePath可以作为img标签的src属性显示图片
+     *     var tempFilePaths = res.tempFilePaths
+     *   }
+     * })
+     * ```
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/image/wx.cropImage.html
+     */
+    cropImage(option: cropImage.Option): Promise<cropImage.SuccessCallbackResult>
   }
 }

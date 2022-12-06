@@ -1,10 +1,11 @@
 import { NodePath } from 'babel-traverse'
 import * as t from 'babel-types'
-import { buildRender, buildBlockElement, pascalName, setting } from './utils'
-import { resolve, relative, extname, dirname } from 'path'
 import * as fs from 'fs'
-import { parseWXML, createWxmlVistor } from './wxml'
+import { dirname, extname, relative, resolve } from 'path'
+
 import { errors } from './global'
+import { buildBlockElement, buildRender, pascalName, setting } from './utils'
+import { createWxmlVistor, parseWXML } from './wxml'
 
 function isNumeric (n) {
   return !isNaN(parseFloat(n)) && isFinite(n)
@@ -205,7 +206,6 @@ export function parseModule (jsx: NodePath<t.JSXElement>, dirPath: string, type:
     const block = buildBlockElement()
     if (wxmlStr === '') {
       if (jsx.node.children.length) {
-        // tslint:disable-next-line: no-console
         console.error(`标签: <include src="${srcValue}"> 没有自动关闭。形如：<include src="${srcValue}" /> 才是标准的 wxml 格式。`)
       }
       jsx.remove()

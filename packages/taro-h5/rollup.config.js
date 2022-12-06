@@ -1,9 +1,9 @@
-import { mergeWith } from 'lodash'
 import commonjs from '@rollup/plugin-commonjs'
 import resolve from '@rollup/plugin-node-resolve'
-import typescript from '@rollup/plugin-typescript'
+import { mergeWith } from 'lodash'
 import externals from 'rollup-plugin-node-externals'
 import postcss from 'rollup-plugin-postcss'
+import ts from 'rollup-plugin-ts'
 
 import exportNameOnly from './build/rollup-plugin-export-name-only'
 
@@ -22,10 +22,9 @@ const baseConfig = {
       preferBuiltins: false,
       mainFields: ['main:h5', 'browser', 'module', 'jsnext:main', 'main']
     }),
-    typescript({
-      tsconfig: './tsconfig.json',
-      declaration: true,
-      sourceMap: true
+    ts({
+      declaration: false,
+      sourceMap: true,
     }),
     commonjs(),
     postcss({
@@ -44,6 +43,12 @@ const variesConfig = [{
   input: 'src/index.ts',
   output: {
     file: 'dist/index.cjs.js'
+  }
+}, {
+  input: 'src/index.ts',
+  output: {
+    format: 'es',
+    file: 'dist/index.esm.js'
   }
 }]
 

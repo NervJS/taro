@@ -20,11 +20,16 @@ export class Template extends RecursiveTemplate {
     return '<import-sjs name="xs" from="./utils.sjs" />'
   }
 
-  replacePropName (name, value, compName) {
+  replacePropName (name, value, compName, componentAlias) {
     if (value === 'eh') return name.replace('bind', 'on')
-    if (compName === 'map' && value.includes('polygons')) {
-      name = 'polygon'
+
+    if (compName === 'map') {
+      const polygonsAlias = componentAlias.polygons
+      if (value.includes(polygonsAlias)) {
+        name = 'polygon'
+      }
     }
+
     return name
   }
 
@@ -58,6 +63,7 @@ export class Template extends RecursiveTemplate {
     // 兼容支付宝 2.0 构建
     delete result.slot
     delete result['slot-view']
+    delete result['native-slot']
 
     return result
   }
@@ -100,7 +106,11 @@ export class Template extends RecursiveTemplate {
 
   modifyThirdPartyLoopBody = () => {
     // 兼容支付宝 2.0 构建
-    return `<view a:if="{{item.nn==='slot'}}" slot="{{item.name}}" id="{{item.uid||item.sid}}" data-sid="{{item.sid}}">
+    const slot = this.componentsAlias.slot
+    const slotAlias = slot._num
+    const slotNamePropAlias = slot.name
+
+    return `<view a:if="{{item.nn==='${slotAlias}'}}" slot="{{item.${slotNamePropAlias}}}" id="{{item.uid||item.sid}}" data-sid="{{item.sid}}">
         <block a:for="{{item.cn}}" a:key="sid">
           <template is="{{xs.e(0)}}" data="{{i:item}}" />
         </block>
@@ -109,8 +119,9 @@ export class Template extends RecursiveTemplate {
   }
 
   buildXSTmpExtra () {
+    const swiperItemAlias = this.componentsAlias['swiper-item']._num
     return `f: function (l) {
-    return l.filter(function (i) {return i.nn === 'swiper-item'})
+    return l.filter(function (i) {return i.nn === '${swiperItemAlias}'})
   }`
   }
 }

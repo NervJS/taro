@@ -1,10 +1,11 @@
-import React from 'react'
 import * as assert from 'assert'
+import React from 'react'
 import simulant from 'simulant'
 import { spy } from 'sinon'
+
 import { CoverView } from '../h5/react'
-import { delay } from './utils'
 import { mount } from './test-tools'
+import { delay } from './utils'
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const h = React.createElement

@@ -1,21 +1,57 @@
-import { Shortcuts } from '@tarojs/shared'
-import { NodeType } from '../dom/node_types'
 import {
+  getComponentsAlias as _getComponentsAlias,
+  internalComponents,
+  isFunction,
+  Shortcuts
+} from '@tarojs/shared'
+
+import {
+  CLASS,
+  COMMENT,
+  ID,
   ROOT_STR,
   STYLE,
-  ID,
-  UID,
-  CLASS,
-  COMMENT
+  UID
 } from '../constants'
+import { NodeType } from '../dom/node_types'
+import { Func } from '../interface'
 
 import type { TaroElement } from '../dom/element'
-import type { TaroText } from '../dom/text'
 import type { TaroNode } from '../dom/node'
+import type { TaroText } from '../dom/text'
 
 export const incrementId = () => {
-  let id = 0
-  return () => (id++).toString()
+  const chatCodes: number[] = []
+  // A-Z
+  for (let i = 65; i <= 90; i++) {
+    chatCodes.push(i)
+  }
+  // a-z
+  for (let i = 97; i <= 122; i++) {
+    chatCodes.push(i)
+  }
+  const chatCodesLen = chatCodes.length - 1
+  const list = [0, 0]
+  return () => {
+    const target = list.map(item => chatCodes[item])
+    const res = String.fromCharCode(...target)
+
+    let tailIdx = list.length - 1
+
+    list[tailIdx]++
+
+    while (list[tailIdx] > chatCodesLen) {
+      list[tailIdx] = 0
+      tailIdx = tailIdx - 1
+      if (tailIdx < 0) {
+        list.push(0)
+        break
+      }
+      list[tailIdx]++
+    }
+
+    return res
+  }
 }
 
 export function isElement (node: TaroNode): node is TaroElement {
@@ -68,3 +104,28 @@ export function shortcutAttr (key: string): string {
 }
 
 export const customWrapperCache = new Map<string, Record<string, any>>()
+
+interface Ctor {
+  new (...args: any[]): any
+}
+
+export function extend (ctor: Ctor, methodName: string, options: Func | Record<string, any>) {
+  if (isFunction(options)) {
+    options = {
+      value: options
+    }
+  }
+  Object.defineProperty(ctor.prototype, methodName, {
+    configurable: true,
+    enumerable: true,
+    ...options
+  })
+}
+
+let componentsAlias
+export function getComponentsAlias () {
+  if (!componentsAlias) {
+    componentsAlias = _getComponentsAlias(internalComponents)
+  }
+  return componentsAlias
+}

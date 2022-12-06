@@ -1,14 +1,29 @@
-import React from 'react'
-import ReactDOM from 'react-dom'
-import {
-  MovableArea,
-  MovableView,
-  OpenData,
-  Camera
-} from '../h5/react'
 import * as assert from 'assert'
+import React from 'react'
 import * as sinon from 'sinon'
-import { waitForChange } from './utils'
+
+import {
+  Ad,
+  AdCustom,
+  Camera,
+  Editor,
+  FunctionalPageNavigator,
+  KeyboardAccessory,
+  LivePlayer,
+  LivePusher,
+  Map,
+  MatchMedia,
+  NavigationBar,
+  OfficialAccount,
+  OpenData,
+  PageContainer,
+  PageMeta,
+  RootPortal,
+  ShareElement,
+  VoipRoom
+} from '../h5/react'
+import { mount } from './test-tools'
+
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const h = React.createElement
 
@@ -44,15 +59,10 @@ describe('unimplemented', () => {
 
   async function testComponent (Comp) {
     const ref = React.createRef()
-    class App extends React.Component {
-      render () {
-        return <Comp ref={ref} />
-      }
-    }
-
-    ReactDOM.render(<App />, scratch)
-
-    await waitForChange(ref.current)
+    const app = (
+      <Comp ref={ref} />
+    )
+    await mount(app, scratch)
 
     assert(warning === buildWarning(ref))
   }
@@ -77,19 +87,75 @@ describe('unimplemented', () => {
     console.error.restore()
   })
 
-  it('MovableArea', async () => {
-    await testComponent(MovableArea)
+  it('Ad', async () => {
+    await testComponent(Ad)
   })
 
-  it('MovableView', async () => {
-    await testComponent(MovableView)
+  it('AdCustom', async () => {
+    await testComponent(AdCustom)
+  })
+
+  it('Camera', async () => {
+    await testComponent(Camera)
+  })
+
+  it('Editor', async () => {
+    await testComponent(Editor)
+  })
+
+  it('FunctionalPageNavigator', async () => {
+    await testComponent(FunctionalPageNavigator)
+  })
+
+  it('KeyboardAccessory', async () => {
+    await testComponent(KeyboardAccessory)
+  })
+
+  it('LivePlayer', async () => {
+    await testComponent(LivePlayer)
+  })
+
+  it('LivePusher', async () => {
+    await testComponent(LivePusher)
+  })
+
+  it('Map', async () => {
+    await testComponent(Map)
+  })
+
+  it('MatchMedia', async () => {
+    await testComponent(MatchMedia)
+  })
+
+  it('NavigationBar', async () => {
+    await testComponent(NavigationBar)
+  })
+
+  it('OfficialAccount', async () => {
+    await testComponent(OfficialAccount)
   })
 
   it('OpenData', async () => {
     await testComponent(OpenData)
   })
 
-  it('Camera', async () => {
-    await testComponent(Camera)
+  it('PageContainer', async () => {
+    await testComponent(PageContainer)
+  })
+
+  it('PageMeta', async () => {
+    await testComponent(PageMeta)
+  })
+
+  it('RootPortal', async () => {
+    await testComponent(RootPortal)
+  })
+
+  it('ShareElement', async () => {
+    await testComponent(ShareElement)
+  })
+
+  it('VoipRoom', async () => {
+    await testComponent(VoipRoom)
   })
 })

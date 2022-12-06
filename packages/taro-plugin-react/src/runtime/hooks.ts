@@ -1,41 +1,43 @@
-import { isFunction, isArray } from '@tarojs/shared'
 import {
-  Current,
-  getPageInstance,
-  injectPageInstance
+  AppInstance, Current,
+  Func, getPageInstance,
+  injectPageInstance,
+  Instance,
+  PageLifeCycle,
+  PageProps
 } from '@tarojs/runtime'
+import { isArray, isFunction } from '@tarojs/shared'
+
 import { reactMeta } from './react-meta'
 import { HOOKS_APP_ID } from './utils'
 
-import type { Func, PageLifeCycle } from '@tarojs/runtime'
-
-const taroHooks = (lifecycle: keyof PageLifeCycle) => {
+const createTaroHook = (lifecycle: keyof PageLifeCycle | keyof AppInstance) => {
   return (fn: Func) => {
     const { R: React, PageContext } = reactMeta
     const id = React.useContext(PageContext) || HOOKS_APP_ID
+    const instRef = React.useRef<Instance<PageProps>>()
 
     // hold fn ref and keep up to date
     const fnRef = React.useRef(fn)
     if (fnRef.current !== fn) fnRef.current = fn
 
     React.useLayoutEffect(() => {
-      let inst = getPageInstance(id)
+      let inst = instRef.current = getPageInstance(id)
       let first = false
-      if (inst == null) {
+      if (!inst) {
         first = true
-        inst = Object.create(null)
+        instRef.current = Object.create(null)
+        inst = instRef.current!
       }
-
-      inst = inst!
 
       // callback is immutable but inner function is up to date
       const callback = (...args: any) => fnRef.current(...args)
 
       if (isFunction(inst[lifecycle])) {
-        (inst[lifecycle] as any) = [inst[lifecycle], callback]
+        (inst[lifecycle]) = [inst[lifecycle], callback]
       } else {
-        (inst[lifecycle] as any) = [
-          ...((inst[lifecycle] as any) || []),
+        (inst[lifecycle]) = [
+          ...((inst[lifecycle]) || []),
           callback
         ]
       }
@@ -44,49 +46,52 @@ const taroHooks = (lifecycle: keyof PageLifeCycle) => {
         injectPageInstance(inst!, id)
       }
       return () => {
-        const inst = getPageInstance(id)
+        const inst = instRef.current
+        if (!inst) return
         const list = inst![lifecycle]
         if (list === callback) {
-          (inst![lifecycle] as any) = undefined
+          (inst[lifecycle]) = undefined
         } else if (isArray(list)) {
-          (inst![lifecycle] as any) = list.filter(item => item !== callback)
+          (inst[lifecycle]) = list.filter(item => item !== callback)
         }
+        instRef.current = undefined
       }
     }, [])
   }
 }
 
-export const useDidShow = taroHooks('componentDidShow')
+/** LifeCycle */
+export const useDidHide = createTaroHook('componentDidHide')
+export const useDidShow = createTaroHook('componentDidShow')
 
-export const useDidHide = taroHooks('componentDidHide')
+/** App */
+export const useError = createTaroHook('onError')
+export const useLaunch = createTaroHook('onLaunch')
+export const usePageNotFound = createTaroHook('onPageNotFound')
 
-export const usePullDownRefresh = taroHooks('onPullDownRefresh')
+/** Page */
+export const useLoad = createTaroHook('onLoad')
+export const usePageScroll = createTaroHook('onPageScroll')
+export const usePullDownRefresh = createTaroHook('onPullDownRefresh')
+export const usePullIntercept = createTaroHook('onPullIntercept')
+export const useReachBottom = createTaroHook('onReachBottom')
+export const useResize = createTaroHook('onResize')
+export const useUnload = createTaroHook('onUnload')
 
-export const useReachBottom = taroHooks('onReachBottom')
+/** Mini-Program */
+export const useAddToFavorites = createTaroHook('onAddToFavorites')
+export const useOptionMenuClick = createTaroHook('onOptionMenuClick')
+export const useSaveExitState = createTaroHook('onSaveExitState')
+export const useShareAppMessage = createTaroHook('onShareAppMessage')
+export const useShareTimeline = createTaroHook('onShareTimeline')
+export const useTitleClick = createTaroHook('onTitleClick')
 
-export const usePageScroll = taroHooks('onPageScroll')
-
-export const useResize = taroHooks('onResize')
-
-export const useShareAppMessage = taroHooks('onShareAppMessage')
-
-export const useTabItemTap = taroHooks('onTabItemTap')
-
-export const useTitleClick = taroHooks('onTitleClick')
-
-export const useOptionMenuClick = taroHooks('onOptionMenuClick')
-
-export const usePullIntercept = taroHooks('onPullIntercept')
-
-export const useShareTimeline = taroHooks('onShareTimeline')
-
-export const useAddToFavorites = taroHooks('onAddToFavorites')
-
-export const useReady = taroHooks('onReady')
-
+/** Router */
+export const useReady = createTaroHook('onReady')
 export const useRouter = (dynamic = false) => {
   const React = reactMeta.R
   return dynamic ? Current.router : React.useMemo(() => Current.router, [])
 }
+export const useTabItemTap = createTaroHook('onTabItemTap')
 
 export const useScope = () => undefined

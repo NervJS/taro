@@ -1,7 +1,8 @@
 import { isFunction, isString, Shortcuts } from '@tarojs/shared'
+
 import {
-  inlineElements,
   blockElements,
+  inlineElements,
   specialElements,
   SpecialMaps
 } from './constant'
@@ -47,12 +48,13 @@ function getMapNameByCondition (nodeName: string, attr: string, props: Record<st
   }
 }
 
-export function mapNameByContion (nodeName: string, key: string, element: any) {
+export function mapNameByContion (nodeName: string, key: string, element: any, componentsAlias) {
   const mapName = getMapNameByCondition(nodeName, key, element.props)
   if (mapName) {
+    const mapNameAlias = componentsAlias[mapName]._num
     element.enqueueUpdate({
       path: `${element._path}.${Shortcuts.NodeName}`,
-      value: mapName
+      value: mapNameAlias
     })
   }
 }

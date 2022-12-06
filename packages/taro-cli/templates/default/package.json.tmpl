@@ -37,14 +37,23 @@
   "dependencies": {
     "@babel/runtime": "^7.7.7",
     "@tarojs/components": "<%= version %>",
+    "@tarojs/helper": "<%= version %>",
+    "@tarojs/plugin-platform-weapp": "<%= version %>",
+    "@tarojs/plugin-platform-alipay": "<%= version %>",
+    "@tarojs/plugin-platform-tt": "<%= version %>",
+    "@tarojs/plugin-platform-swan": "<%= version %>",
+    "@tarojs/plugin-platform-jd": "<%= version %>",
+    "@tarojs/plugin-platform-qq": "<%= version %>",
+    "@tarojs/router": "<%= version %>",
     "@tarojs/runtime": "<%= version %>",
-    "@tarojs/taro": "<%= version %>",<% if (framework === 'react' || framework === 'preact' || framework === 'nerv') {%>
+    "@tarojs/shared": "<%= version %>",
+    "@tarojs/taro": "<%= version %>",
+    "@tarojs/taro-h5": "<%= version %>",<% if (['react', 'preact'].includes(framework)) {%>
     "@tarojs/plugin-framework-react": "<%= version %>",<%}%><% if (framework === 'react') {%>
     "@tarojs/react": "<%= version %>",
-    "react-dom": "^17.0.0",
-    "react": "^17.0.0"<%}%><% if (framework === 'preact') {%>
-    "preact": "^10.5.15"<%}%><% if (framework === 'nerv') {%>
-    "nervjs": "^1.5.0"<%}%><% if (framework === 'vue') {%>
+    "react-dom": "^18.0.0",
+    "react": "^18.0.0"<%}%><% if (framework === 'preact') {%>
+    "preact": "^10.5.15"<%}%><% if (framework === 'vue') {%>
     "@tarojs/plugin-framework-vue2": "<%= version %>",
     "vue-template-compiler": "^2.5.0",
     "vue": "^2.5.0"<%}%><% if (framework === 'vue3') {%>
@@ -52,19 +61,32 @@
     "vue": "^3.0.0"<%}%>
   },
   "devDependencies": {
-    "@types/webpack-env": "^1.13.6",<% if (framework === 'react' || framework === 'preact' || framework === 'nerv') {%>
-    "@types/react": "^17.0.2",<%}%>
-    "@tarojs/mini-runner": "<%= version %>",
     "@babel/core": "^7.8.0",
+    "@tarojs/cli": "<%= version %>",
+    "@types/webpack-env": "^1.13.6",<% if (['react', 'preact'].includes(framework)) {%>
+    "@types/react": "^18.0.0",<%}%><% if (compiler === 'webpack4') {%>
+    "@tarojs/mini-runner": "<%= version %>",
     "@tarojs/webpack-runner": "<%= version %>",
-    "babel-preset-taro": "<%= version %>",<% if (framework === 'vue') {%>
+    "webpack": "4.46.0",<%} else if (compiler === 'webpack5') {%>
+    "webpack": "5.69.0",
+    "@tarojs/webpack5-runner": "<%= version %>",<%}%>
+    "babel-preset-taro": "<%= version %>",<% if (['vue', 'vue3'].includes(framework)) {%>
+    "css-loader": "3.4.2",
+    "style-loader": "1.3.0",<%}%><% if (framework === 'vue') {%>
+    "@vue/babel-preset-jsx": "^1.2.4",
     "vue-loader": "^15.9.2",
     "eslint-plugin-vue": "^6.x",<%}%><% if (framework === 'vue3') {%>
+    "@vue/babel-plugin-jsx": "^1.0.6",
     "@vue/compiler-sfc": "^3.0.0",
-    "vue-loader": "^16.0.0-beta.8",
+    "vue-loader": "^17.0.0",
     "eslint-plugin-vue": "^8.0.0",<%}%>
     "eslint-config-taro": "<%= version %>",
-    "eslint": "^8.12.0",<% if (framework === 'react' || framework === 'preact' || framework === 'nerv') {%>
+    "eslint": "^8.12.0",<% if (framework === 'react') {%>
+    "@pmmmwh/react-refresh-webpack-plugin": "^0.5.5",
+    "react-refresh": "^0.11.0",<%}%><% if (framework === 'preact') {%>
+    "@prefresh/webpack": "^3.2.3",
+    "@prefresh/core": "^1.3.4",
+    "@prefresh/babel-plugin": "^0.4.1",<%}%><% if (['react', 'preact'].includes(framework)) {%>
     "eslint-plugin-react": "^7.8.2",
     "eslint-plugin-import": "^2.12.0",
     "eslint-plugin-react-hooks": "^4.2.0",<%}%>

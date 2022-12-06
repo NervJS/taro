@@ -1,7 +1,8 @@
-import * as React from 'react'
 import { camelCase } from 'lodash'
-import { getTabVisible, getTabBarPages } from './utils/index'
+import * as React from 'react'
+
 import { navigationRef } from './rootNavigation'
+import { getTabBarPages, getTabVisible } from './utils/index'
 
 interface PageProps {
   navigation: any
@@ -77,7 +78,7 @@ export class PageProvider extends React.Component<any> {
         shadowOpacity: 1,
         borderBottomWidth: 0
       }, screenHeaderStyle)
-      const navBarParams = Object.assign(winScreenOptions, {
+      const navBarParams = Object.assign({ ...winScreenOptions }, {
         title: headerTitle,
         headerShown: showHeader,
         headerTintColor: color

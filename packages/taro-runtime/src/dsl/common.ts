@@ -1,30 +1,34 @@
 /* eslint-disable dot-notation */
-import { isFunction, EMPTY_OBJ, ensure, Shortcuts, isUndefined, isArray, isString } from '@tarojs/shared'
-import { getHooks } from '../container/store'
-import { eventHandler } from '../dom/event'
-import { Current } from '../current'
-import { document } from '../bom/document'
-import { incrementId, customWrapperCache } from '../utils'
-import { perf } from '../perf'
-import { eventCenter } from '../emitter/emitter'
+import { EMPTY_OBJ, ensure, hooks, isArray, isFunction, isString, isUndefined, Shortcuts } from '@tarojs/shared'
+
 import { raf } from '../bom/raf'
-import { PAGE_INIT, CUSTOM_WRAPPER, VIEW, ON_READY, ON_SHOW, ON_HIDE, ON_LOAD, OPTIONS, EXTERNAL_CLASSES, BEHAVIORS } from '../constants'
+import { BEHAVIORS, CUSTOM_WRAPPER, EXTERNAL_CLASSES, ON_HIDE, ON_LOAD, ON_READY, ON_SHOW, OPTIONS, PAGE_INIT, VIEW } from '../constants'
+import { Current } from '../current'
+import { eventHandler } from '../dom/event'
+import { eventCenter } from '../emitter/emitter'
+import env from '../env'
+import { perf } from '../perf'
+import { customWrapperCache, getComponentsAlias, incrementId } from '../utils'
 
 import type { PageConfig } from '@tarojs/taro'
-import type { Instance, PageInstance, PageProps } from './instance'
-import type { Func, MpInstance } from '../interface'
 import type { TaroRootElement } from '../dom/root'
+import type { Func, MpInstance } from '../interface'
+import type { Instance, PageInstance, PageProps } from './instance'
 
 const instances = new Map<string, Instance>()
 const pageId = incrementId()
 
 export function injectPageInstance (inst: Instance<PageProps>, id: string) {
-  getHooks().mergePageInstance?.(instances.get(id), inst)
+  hooks.call('mergePageInstance', instances.get(id), inst)
   instances.set(id, inst)
 }
 
 export function getPageInstance (id: string): Instance | undefined {
   return instances.get(id)
+}
+
+export function removePageInstance (id: string) {
+  instances.delete(id)
 }
 
 export function addLeadingSlash (path?: string): string {
@@ -41,7 +45,7 @@ export function safeExecute (path: string, lifecycle: string, ...args: unknown[]
     return
   }
 
-  const func = getHooks().getLifecycle(instance, lifecycle as keyof PageInstance)
+  const func = hooks.call('getLifecycle', instance, lifecycle as keyof PageInstance)
 
   if (isArray(func)) {
     const res = func.map(fn => fn.apply(instance, args))
@@ -67,7 +71,11 @@ export function stringify (obj?: Record<string, unknown>) {
 
 export function getPath (id: string, options?: Record<string, unknown>): string {
   const idx = id.indexOf('?')
-  return `${idx > -1 ? id.substring(0, idx) : id}${stringify(process.env.TARO_ENV === 'h5' ? { stamp: options?.stamp || '' } : options)}`
+  if (process.env.TARO_ENV === 'h5') {
+    return `${idx > -1 ? id.substring(0, idx) : id}${stringify(options?.stamp ? { stamp: options.stamp } : {})}`
+  } else {
+    return `${idx > -1 ? id.substring(0, idx) : id}${stringify(options)}`
+  }
 }
 
 export function getOnReadyEventKey (path: string) {
@@ -85,15 +93,15 @@ export function getOnHideEventKey (path: string) {
 export function createPageConfig (component: any, pageName?: string, data?: Record<string, unknown>, pageConfig?: PageConfig) {
   // 小程序 Page 构造器是一个傲娇小公主，不能把复杂的对象挂载到参数上
   const id = pageName ?? `taro_page_${pageId()}`
-  const hooks = getHooks()
   const [
     ONLOAD,
     ONUNLOAD,
     ONREADY,
     ONSHOW,
     ONHIDE,
-    LIFECYCLES
-  ] = hooks.getMiniLifecycleImpl().page
+    LIFECYCLES,
+    SIDE_EFFECT_LIFECYCLES
+  ] = hooks.call('getMiniLifecycleImpl')!.page
   let pageElement: TaroRootElement | null = null
   let unmounting = false
   let prepareMountList: (() => void)[] = []
@@ -107,6 +115,9 @@ export function createPageConfig (component: any, pageName?: string, data?: Reco
       onReady: getOnReadyEventKey(id),
       onShow: getOnShowEventKey(id),
       onHide: getOnHideEventKey(id)
+    }
+    if (!isUndefined(page.exitState)) {
+      Current.router.exitState = page.exitState
     }
   }
   let loadResolver: (...args: unknown[]) => void
@@ -135,7 +146,7 @@ export function createPageConfig (component: any, pageName?: string, data?: Reco
 
       const mount = () => {
         Current.app!.mount!(component, $taroPath, () => {
-          pageElement = document.getElementById<TaroRootElement>($taroPath)
+          pageElement = env.document.getElementById<TaroRootElement>($taroPath)
 
           ensure(pageElement !== null, '没有找到页面实例。')
           safeExecute($taroPath, ON_LOAD, this.$taroParams)
@@ -210,28 +221,24 @@ export function createPageConfig (component: any, pageName?: string, data?: Reco
   })
 
   // onShareAppMessage 和 onShareTimeline 一样，会影响小程序右上方按钮的选项，因此不能默认注册。
-  if (component.onShareAppMessage ||
-      component.prototype?.onShareAppMessage ||
-      component.enableShareAppMessage) {
-    config.onShareAppMessage = function (options) {
-      const target = options?.target
-      if (target) {
-        const id = target.id
-        const element = document.getElementById(id)
-        if (element) {
-          target!.dataset = element.dataset
+  SIDE_EFFECT_LIFECYCLES.forEach(lifecycle => {
+    if (component[lifecycle] ||
+      component.prototype?.[lifecycle] ||
+      component[lifecycle.replace(/^on/, 'enable')]
+    ) {
+      config[lifecycle] = function (...args) {
+        const target = args[0]?.target
+        if (target?.id) {
+          const id = target.id
+          const element = env.document.getElementById(id)
+          if (element) {
+            target.dataset = element.dataset
+          }
         }
+        return safeExecute(this.$taroPath, lifecycle, ...args)
       }
-      return safeExecute(this.$taroPath, 'onShareAppMessage', options)
     }
-  }
-  if (component.onShareTimeline ||
-      component.prototype?.onShareTimeline ||
-      component.enableShareTimeline) {
-    config.onShareTimeline = function () {
-      return safeExecute(this.$taroPath, 'onShareTimeline')
-    }
-  }
+  })
 
   config.eh = eventHandler
 
@@ -239,7 +246,7 @@ export function createPageConfig (component: any, pageName?: string, data?: Reco
     config.data = data
   }
 
-  hooks.modifyPageObject?.(config)
+  hooks.call('modifyPageObject', config)
 
   return config
 }
@@ -247,13 +254,14 @@ export function createPageConfig (component: any, pageName?: string, data?: Reco
 export function createComponentConfig (component: React.ComponentClass, componentName?: string, data?: Record<string, unknown>) {
   const id = componentName ?? `taro_component_${pageId()}`
   let componentElement: TaroRootElement | null = null
+  const [ ATTACHED, DETACHED ] = hooks.call('getMiniLifecycleImpl')!.component
 
   const config: any = {
-    attached () {
+    [ATTACHED] () {
       perf.start(PAGE_INIT)
       const path = getPath(id, { id: this.getPageId?.() || pageId() })
       Current.app!.mount!(component, path, () => {
-        componentElement = document.getElementById<TaroRootElement>(path)
+        componentElement = env.document.getElementById<TaroRootElement>(path)
         ensure(componentElement !== null, '没有找到组件实例。')
         this.$taroInstances = instances.get(path)
         safeExecute(path, ON_LOAD)
@@ -263,7 +271,7 @@ export function createComponentConfig (component: React.ComponentClass, componen
         }
       })
     },
-    detached () {
+    [DETACHED] () {
       const path = getPath(id, { id: this.getPageId() })
       Current.app!.unmount!(path, () => {
         instances.delete(path)
@@ -290,16 +298,18 @@ export function createComponentConfig (component: React.ComponentClass, componen
 
 export function createRecursiveComponentConfig (componentName?: string) {
   const isCustomWrapper = componentName === CUSTOM_WRAPPER
+  const [ ATTACHED, DETACHED ] = hooks.call('getMiniLifecycleImpl')!.component
+
   const lifeCycles = isCustomWrapper
     ? {
-      attached () {
-        const componentId = this.data.i?.sid
+      [ATTACHED] () {
+        const componentId = this.data.i?.sid || this.props.i?.sid
         if (isString(componentId)) {
           customWrapperCache.set(componentId, this)
         }
       },
-      detached () {
-        const componentId = this.data.i?.sid
+      [DETACHED] () {
+        const componentId = this.data.i?.sid || this.props.i?.sid
         if (isString(componentId)) {
           customWrapperCache.delete(componentId)
         }
@@ -312,7 +322,7 @@ export function createRecursiveComponentConfig (componentName?: string) {
       i: {
         type: Object,
         value: {
-          [Shortcuts.NodeName]: VIEW
+          [Shortcuts.NodeName]: getComponentsAlias()[VIEW]._num
         }
       },
       l: {

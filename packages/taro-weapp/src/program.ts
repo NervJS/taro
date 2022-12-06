@@ -1,6 +1,7 @@
 import { TaroPlatformBase } from '@tarojs/service'
-import { Template } from './template'
+
 import { components } from './components'
+import { Template } from './template'
 
 import type { IOptions } from './index'
 

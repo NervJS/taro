@@ -1,9 +1,10 @@
-import * as webpack from 'webpack'
-import { getOptions, stringifyRequest } from 'loader-utils'
 import { normalizePath } from '@tarojs/helper'
+import { getOptions, stringifyRequest } from 'loader-utils'
 import * as path from 'path'
 
-export default function (this: webpack.loader.LoaderContext) {
+import type * as webpack from 'webpack'
+
+export default function (this: webpack.LoaderContext<any>) {
   const options = getOptions(this)
   const stringify = (s: string): string => stringifyRequest(this, s)
   const { isNeedRawLoader } = options.loaderMeta
@@ -14,7 +15,7 @@ export default function (this: webpack.loader.LoaderContext) {
   const componentPath = isNeedRawLoader
     ? `${raw}!${this.resourcePath}`
     : this.request.split('!').slice(thisLoaderIndex + 1).join('!')
-  const { globalObject } = this._compilation.outputOptions
+  const { globalObject } = this._compilation?.outputOptions || { globalObject: 'wx' }
 
   const prerender = `
 if (typeof PRERENDER !== 'undefined') {

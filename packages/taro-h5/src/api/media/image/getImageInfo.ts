@@ -1,7 +1,7 @@
 import Taro from '@tarojs/api'
 
-import { shouldBeObject } from '../../utils'
-import { MethodHandler } from '../../utils/handler'
+import { shouldBeObject } from '../../../utils'
+import { MethodHandler } from '../../../utils/handler'
 
 /**
  * 获取图片信息。网络图片需先配置download域名才能生效。

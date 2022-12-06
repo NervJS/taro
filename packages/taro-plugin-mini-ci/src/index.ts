@@ -1,10 +1,11 @@
 import { IPluginContext } from '@tarojs/service'
 import * as minimist from 'minimist'
-import { CIOptions } from './BaseCi'
-import WeappCI from './WeappCI'
-import TTCI from './TTCI'
+
 import AlipayCI from './AlipayCI'
+import { CIOptions } from './BaseCi'
 import SwanCI from './SwanCI'
+import TTCI from './TTCI'
+import WeappCI from './WeappCI'
 
 export { CIOptions } from './BaseCi'
 export default (ctx: IPluginContext, pluginOpts: CIOptions) => {
@@ -33,6 +34,7 @@ export default (ctx: IPluginContext, pluginOpts: CIOptions) => {
           toolId: joi.string().required(),
           privateKeyPath: joi.string().required(),
           proxy: joi.string(),
+          project: joi.string(),
           clientType: joi.string().valid('alipay', 'ampe', 'amap', 'genie', 'alios', 'uc', 'quark', 'taobao', 'koubei', 'alipayiot', 'cainiao', 'alihealth')
         }),
         /** 百度小程序上传配置 */

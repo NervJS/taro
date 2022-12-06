@@ -1,26 +1,27 @@
 {
   "name": "@tarojs/taro-h5",
-  "version": "3.4.10",
+  "version": "3.5.8",
   "description": "Taro h5 framework",
+  "browser": "dist/index.esm.js",
   "main:h5": "dist/index.js",
-  "main": "dist/index.cjs.js",
-  "typings": "src/types/index.d.ts",
+  "main": "dist/index.js",
+  "module": "dist/index.cjs.js",
+  "typings": "dist/index.d.ts",
   "files": [
     "dist",
-    "src",
+    "types",
     "index.js"
   ],
   "sideEffects": false,
   "scripts": {
+    "assets": "cpy 'src/**/*.css' dist",
+    "build": "rimraf ./dist && tsc && pnpm run assets && rollup -c",
+    "predev": "pnpm run assets",
+    "dev": "tsc -w",
     "test": "jest",
     "test:ci": "jest -i --coverage false",
     "test:dev": "jest --watch",
-    "test:coverage": "jest --coverage",
-    "copy:assets": "copy-cli src/**/*.css dist",
-    "build": "rollup -c && tsc",
-    "dev": "tsc -w",
-    "prebuild": "npm run copy:assets",
-    "predev": "npm run copy:assets"
+    "test:coverage": "jest --coverage"
   },
   "repository": {
     "type": "git",
@@ -32,14 +33,16 @@
   "author": "O2Team",
   "license": "MIT",
   "dependencies": {
-    "@tarojs/api": "3.4.10",
-    "@tarojs/router": "3.4.10",
-    "@tarojs/runtime": "3.4.10",
-    "@tarojs/taro": "3.4.10",
+    "@tarojs/api": "workspace:*",
+    "@tarojs/router": "workspace:*",
+    "@tarojs/runtime": "workspace:*",
     "base64-js": "^1.3.0",
     "jsonp-retry": "^1.0.3",
-    "mobile-detect": "^1.4.2",
     "query-string": "^7.1.1",
     "whatwg-fetch": "^3.4.0"
+  },
+  "devDependencies": {
+    "react": "^18.2.0",
+    "react-test-renderer": "^18.2.0"
   }
 }

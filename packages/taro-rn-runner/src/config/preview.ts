@@ -1,10 +1,11 @@
-import * as mime from 'mime-types'
-import { createServer } from 'http'
 import { readFile } from 'fs'
-import { generate } from 'qrcode-terminal'
-import { getOpenHost, PLAYGROUNDINFO } from '../utils'
+import { createServer } from 'http'
+import * as mime from 'mime-types'
+import { extname, join } from 'path'
+import * as qr from 'qrcode-terminal'
 import { URL } from 'url'
-import { join, extname } from 'path'
+
+import { getOpenHost, isWin, PLAYGROUNDINFO } from '../utils'
 
 interface PreviewOption {
   out: string
@@ -109,5 +110,5 @@ export default (opt: PreviewOption):void => {
   const url = `${host}/index.js`
   console.log(PLAYGROUNDINFO)
   console.log(`print qrcode of ${opt.platform} bundle '${url}':`)
-  generate(url, { small: true })
+  qr.generate(url, { small: !isWin })
 }

@@ -13,23 +13,24 @@
 */
 
 import {
-  internalComponents,
   focusComponents,
-  voidElements,
+  internalComponents,
   nestElements,
-  singleQuote
+  singleQuote,
+  voidElements
 } from './components'
+import { isBooleanStringLiteral, isFunction, isNumber, isString } from './is'
 import { Shortcuts } from './shortcuts'
-import { isBooleanStringLiteral, isNumber, isFunction, isString } from './is'
-import { toCamelCase, toKebabCase, toDashed, hasOwn, indent, capitalize } from './utils'
+import { capitalize, getComponentsAlias, hasOwn, indent, toCamelCase, toDashed, toKebabCase } from './utils'
 
 interface Component {
-  nodeName: string;
-  attributes: Attributes;
+  nodeName: string
+  nodeAlias: string
+  attributes: Attributes
 }
 
 interface Components {
-  [key: string]: Record<string, string>;
+  [key: string]: Record<string, string>
 }
 
 interface ComponentConfig {
@@ -40,15 +41,15 @@ interface ComponentConfig {
 }
 
 export interface IAdapter {
-  if: string;
-  else: string;
-  elseif: string;
-  for: string;
-  forItem: string;
-  forIndex: string;
-  key: string;
-  xs?: string,
-  type: string;
+  if: string
+  else: string
+  elseif: string
+  for: string
+  forItem: string
+  forIndex: string
+  key: string
+  xs?: string
+  type: string
 }
 
 export type Attributes = Record<string, string>
@@ -95,6 +96,7 @@ export class BaseTemplate {
   public voidElements: Set<string> = voidElements
   /** 可以递归调用自身的组件 */
   public nestElements: Map<string, number> = nestElements
+  public componentsAlias
 
   private buildAttribute (attrs: Attributes, nodeName: string): string {
     return Object.keys(attrs)
@@ -102,7 +104,7 @@ export class BaseTemplate {
       .join('')
   }
 
-  protected replacePropName (name: string, value: string, _componentName?: string) {
+  protected replacePropName (name: string, value: string, _componentName?: string, _componentAlias?) {
     if (value === 'eh') return name.toLowerCase()
     return name
   }
@@ -115,6 +117,7 @@ export class BaseTemplate {
         let component = components[key]
         const compName = toDashed(key)
         const newComp: Record<string, string> = Object.create(null)
+        const componentAlias = this.componentsAlias[compName]
 
         if (isFunction(this.modifyCompProps)) {
           component = this.modifyCompProps(compName, component)
@@ -126,16 +129,22 @@ export class BaseTemplate {
             if (prop.startsWith('bind') || propValue === 'eh') {
               propValue = 'eh'
             } else if (propValue === '') {
-              propValue = `i.${toCamelCase(prop)}`
+              const propInCamelCase = toCamelCase(prop)
+              const propAlias = componentAlias[propInCamelCase] || propInCamelCase
+              propValue = `i.${propAlias}`
             } else if (isBooleanStringLiteral(propValue) || isNumber(+propValue)) {
+              const propInCamelCase = toCamelCase(prop)
+              const propAlias = componentAlias[propInCamelCase] || propInCamelCase
               propValue = this.supportXS
-                ? `xs.b(i.${toCamelCase(prop)},${propValue})`
-                : `i.${toCamelCase(prop)}===undefined?${propValue}:i.${toCamelCase(prop)}`
+                ? `xs.b(i.${propAlias},${propValue})`
+                : `i.${propAlias}===undefined?${propValue}:i.${propAlias}`
             } else {
-              propValue = `i.${toCamelCase(prop)}||${propValue || singleQuote('')}`
+              const propInCamelCase = toCamelCase(prop)
+              const propAlias = componentAlias[propInCamelCase] || propInCamelCase
+              propValue = `i.${propAlias}||${propValue || singleQuote('')}`
             }
 
-            prop = this.replacePropName(prop, propValue, compName)
+            prop = this.replacePropName(prop, propValue, compName, componentAlias)
 
             newComp[prop] = propValue
           }
@@ -179,10 +188,14 @@ export class BaseTemplate {
 
         if (compName === 'slot' || compName === 'slot-view') {
           result[compName] = {
-            slot: 'i.name',
+            slot: newComp?.name,
             ...styles
           }
-        } else {
+        } else if (compName === 'native-slot') {
+          result[compName] = {
+            name: newComp?.name,
+          }
+        }  else {
           result[compName] = newComp
         }
       }
@@ -282,28 +295,29 @@ export class BaseTemplate {
 
   protected buildFocusComponentTemplte (comp: Component, level: number) {
     const children = this.getChildren(comp, level)
-
+    const nodeName = comp.nodeName
+    const nodeAlias = comp.nodeAlias
     const attrs = { ...comp.attributes }
     const templateName = this.supportXS
       ? `xs.c(i, 'tmpl_${level}_')`
-      : `i.focus ? 'tmpl_${level}_${comp.nodeName}_focus' : 'tmpl_${level}_${comp.nodeName}_blur'`
+      : `i.focus ? 'tmpl_${level}_${nodeAlias}_focus' : 'tmpl_${level}_${nodeAlias}_blur'`
     delete attrs.focus
 
     let res = `
-<template name="tmpl_${level}_${comp.nodeName}">
+<template name="tmpl_${level}_${nodeAlias}">
   <template is="{{${templateName}}}" data="{{${this.dataKeymap('i:i')}${children ? ',cid:cid' : ''}}}" />
 </template>
 
-<template name="tmpl_${level}_${comp.nodeName}_focus">
-  <${comp.nodeName} ${this.buildAttribute(comp.attributes, comp.nodeName)} id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">${children}</${comp.nodeName}>
+<template name="tmpl_${level}_${nodeAlias}_focus">
+  <${nodeName} ${this.buildAttribute(comp.attributes, nodeName)} id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">${children}</${nodeName}>
 </template>
 
-<template name="tmpl_${level}_${comp.nodeName}_blur">
-  <${comp.nodeName} ${this.buildAttribute(attrs, comp.nodeName)} id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">${children}</${comp.nodeName}>
+<template name="tmpl_${level}_${nodeAlias}_blur">
+  <${nodeName} ${this.buildAttribute(attrs, nodeName)} id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">${children}</${nodeName}>
 </template>
 `
     if (isFunction(this.modifyTemplateResult)) {
-      res = this.modifyTemplateResult(res, comp.nodeName, level, children)
+      res = this.modifyTemplateResult(res, nodeName, level, children)
     }
 
     return res
@@ -311,6 +325,7 @@ export class BaseTemplate {
 
   protected buildStandardComponentTemplate (comp: Component, level: number) {
     const children = this.getChildren(comp, level)
+    const nodeAlias = comp.nodeAlias
 
     let nodeName = ''
     switch (comp.nodeName) {
@@ -327,13 +342,16 @@ export class BaseTemplate {
       case 'static-image':
         nodeName = 'image'
         break
+      case 'native-slot':
+        nodeName = 'slot'
+        break
       default:
         nodeName = comp.nodeName
         break
     }
 
     let res = `
-<template name="tmpl_${level}_${comp.nodeName}">
+<template name="tmpl_${level}_${nodeAlias}">
   <${nodeName} ${this.buildAttribute(comp.attributes, comp.nodeName)} id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">${children}</${nodeName}>
 </template>
 `
@@ -347,7 +365,7 @@ export class BaseTemplate {
 
   protected buildPlainTextTemplate (level: number): string {
     return `
-<template name="tmpl_${level}_#text">
+<template name="tmpl_${level}_${this.componentsAlias['#text']._num}">
   <block>{{i.${Shortcuts.Text}}}</block>
 </template>
 `
@@ -517,6 +535,7 @@ export class RecursiveTemplate extends BaseTemplate {
   public buildTemplate = (componentConfig: ComponentConfig) => {
     let template = this.buildBaseTemplate()
     if (!this.miniComponents) {
+      this.componentsAlias = getComponentsAlias(this.internalComponents)
       this.miniComponents = this.createMiniComponents(this.internalComponents)
     }
     const ZERO_FLOOR = 0
@@ -525,7 +544,8 @@ export class RecursiveTemplate extends BaseTemplate {
 
     template = components.reduce((current, nodeName) => {
       const attributes: Attributes = this.miniComponents[nodeName]
-      return current + this.buildComponentTemplate({ nodeName, attributes }, ZERO_FLOOR)
+      const nodeAlias = this.componentsAlias[nodeName]._num
+      return current + this.buildComponentTemplate({ nodeName, nodeAlias, attributes }, ZERO_FLOOR)
     }, template)
 
     template += this.buildPlainTextTemplate(ZERO_FLOOR)
@@ -552,6 +572,7 @@ export class UnRecursiveTemplate extends BaseTemplate {
   public buildTemplate = (componentConfig: ComponentConfig) => {
     this.componentConfig = componentConfig
     if (!this.miniComponents) {
+      this.componentsAlias = getComponentsAlias(this.internalComponents)
       this.miniComponents = this.createMiniComponents(this.internalComponents)
     }
     const components = Object.keys(this.miniComponents)
@@ -572,7 +593,8 @@ export class UnRecursiveTemplate extends BaseTemplate {
 
     let template = components.reduce((current, nodeName) => {
       const attributes: Attributes = this.miniComponents[nodeName]
-      return current + this.buildComponentTemplate({ nodeName, attributes }, level)
+      const nodeAlias = this.componentsAlias[nodeName]._num
+      return current + this.buildComponentTemplate({ nodeName, nodeAlias, attributes }, level)
     }, '')
 
     template += this.buildPlainTextTemplate(level)
@@ -599,7 +621,8 @@ export class UnRecursiveTemplate extends BaseTemplate {
         }
       }
       const attributes: Attributes = this.miniComponents[nodeName]
-      return current + this.buildComponentTemplate({ nodeName, attributes }, level)
+      const nodeAlias = this.componentsAlias[nodeName]._num
+      return current + this.buildComponentTemplate({ nodeName, nodeAlias, attributes }, level)
     }, '')
 
     if (level === 0) template += this.buildPlainTextTemplate(level)
@@ -623,9 +646,14 @@ export class UnRecursiveTemplate extends BaseTemplate {
         isLoopCompsSet.delete(comp)
       }
     })
+
+    const componentsAlias = this.componentsAlias
+    const listA = Array.from(isLoopCompsSet).map(item => componentsAlias[item]?._num || item)
+    const listB = hasMaxComps.map(item => componentsAlias[item]?._num || item)
+
     return `function (l, n, s) {
-    var a = ${JSON.stringify(Array.from(isLoopCompsSet))}
-    var b = ${JSON.stringify(hasMaxComps)}
+    var a = ${JSON.stringify(listA)}
+    var b = ${JSON.stringify(listB)}
     if (a.indexOf(n) === -1) {
       l = 0
     }
@@ -646,8 +674,12 @@ export class UnRecursiveTemplate extends BaseTemplate {
     this.nestElements.forEach((max, comp) => {
       if (max > 1) hasMaxComps.push(comp)
     })
+
+    const componentsAlias = this.componentsAlias
+    const listA = hasMaxComps.map(item => componentsAlias[item]?._num || item)
+
     return `f: function (l, n) {
-    var b = ${JSON.stringify(hasMaxComps)}
+    var b = ${JSON.stringify(listA)}
     if (b.indexOf(n) > -1) {
       if (l) l += ','
       l += n
@@ -658,8 +690,8 @@ export class UnRecursiveTemplate extends BaseTemplate {
 }
 
 export {
-  internalComponents,
-  toCamelCase,
   capitalize,
-  Shortcuts
+  internalComponents,
+  Shortcuts,
+  toCamelCase
 }

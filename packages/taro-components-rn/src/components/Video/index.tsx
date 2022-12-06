@@ -9,6 +9,7 @@ import { formatTime } from './utils'
 import { VideoProps } from '@tarojs/components/types/Video'
 import {
   AVPlaybackStatus,
+  ResizeMode,
   Video,
   VideoFullscreenUpdateEvent,
   VideoReadyForDisplayEvent,
@@ -65,9 +66,9 @@ import { onFullscreenChangeEventDetail } from './PropsType'
  */
 
 const ObjectFit = {
-  contain: Video.RESIZE_MODE_CONTAIN,
-  fill: Video.RESIZE_MODE_STRETCH,
-  cover: Video.RESIZE_MODE_COVER,
+  contain: ResizeMode.CONTAIN,
+  fill: ResizeMode.STRETCH,
+  cover: ResizeMode.COVER,
 }
 
 declare const global: any
@@ -76,6 +77,8 @@ global._taroVideoMap = {}
 
 interface Props extends VideoProps {
   onLoad: () => void;
+  // 兼容旧版本，可传入 style 对象
+  style?: any;
 }
 
 class _Video extends Component<Props, any> {
@@ -282,12 +285,14 @@ class _Video extends Component<Props, any> {
   }
 
   onFullscreenChange = (event: VideoFullscreenUpdateEvent): void => {
+    const PLAYER_WILL_PRESENT = 0 // VideoFullscreenUpdate.PLAYER_WILL_PRESENT
+    const PLAYER_DID_PRESENT = 1 // VideoFullscreenUpdate.PLAYER_DID_PRESENT
     const { fullscreenUpdate, status } = event
-    const fullScreen: boolean = fullscreenUpdate === Video.FULLSCREEN_UPDATE_PLAYER_WILL_PRESENT || fullscreenUpdate === Video.FULLSCREEN_UPDATE_PLAYER_DID_PRESENT
+    const fullScreen: boolean = fullscreenUpdate === PLAYER_WILL_PRESENT || fullscreenUpdate === PLAYER_DID_PRESENT
     const detail: onFullscreenChangeEventDetail = {
-      fullScreen: fullscreenUpdate === Video.FULLSCREEN_UPDATE_PLAYER_WILL_PRESENT || fullscreenUpdate === Video.FULLSCREEN_UPDATE_PLAYER_DID_PRESENT,
+      fullScreen: fullscreenUpdate === PLAYER_WILL_PRESENT || fullscreenUpdate === PLAYER_DID_PRESENT,
       fullscreenUpdate,
-      direction: 1,
+      direction: 'vertical',
       ...status,
     }
     if (this.state.isFullScreen !== fullScreen) {

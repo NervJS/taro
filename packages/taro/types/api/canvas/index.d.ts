@@ -4,7 +4,7 @@ declare module '../../index' {
   namespace canvasToTempFilePath {
     interface Option {
       /** 画布标识，传入 [canvas](/docs/components/canvas) 组件实例 （canvas type="2d" 时使用该属性）。 */
-      canvas?: CanvasProps
+      canvas?: Canvas
       /** 画布标识，传入 [canvas](/docs/components/canvas) 组件的 canvas-id */
       canvasId?: string
       /** 图片的质量，目前仅对 jpg 有效。取值范围为 (0, 1]，不在范围内时当作 1.0 处理。 */
@@ -123,6 +123,21 @@ declare module '../../index' {
       width: number
       /** 调用结果 */
       errMsg: string
+    }
+  }
+
+  namespace createOffscreenCanvas {
+    interface Option {
+      /** 创建的离屏 canvas 类型
+       * @default: 'webgl'
+       */
+      type?: 'webgl' | '2d'
+      /** 画布高度 */
+      height?: number
+      /** 画布宽度 */
+      width?: number
+      /** 在自定义组件下，当前组件实例的 this，以操作组件内 [canvas](/docs/components/canvas) 组件 */
+      component?: TaroGeneral.IAnyObject,
     }
   }
 
@@ -1705,8 +1720,13 @@ declare module '../../index' {
     /** 创建离屏 canvas 实例
      * @supported weapp
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/canvas/wx.createOffscreenCanvas.html
+     *
+     * 有两个版本的写法：
+     *
+     * - createOffscreenCanvas(options) 从 2.16.1 起支持
+     * - createOffscreenCanvas(width, height, this) 从 2.7.0 起支持
      */
-    createOffscreenCanvas(): OffscreenCanvas
+    createOffscreenCanvas(options: createOffscreenCanvas.Option): OffscreenCanvas
 
     /** 创建 canvas 的绘图上下文 [CanvasContext](/docs/apis/canvas/CanvasContext) 对象
      *

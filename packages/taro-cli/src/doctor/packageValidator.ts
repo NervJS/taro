@@ -1,6 +1,7 @@
+import { UPDATE_PACKAGE_LIST } from '@tarojs/helper'
 import * as _ from 'lodash/fp'
 import * as npmCheck from 'npm-check'
-import { UPDATE_PACKAGE_LIST } from '@tarojs/helper'
+
 import { getPkgVersion } from '../util'
 
 interface ErrorLine {
@@ -56,7 +57,6 @@ function pkgsNotInstalled (pkgs): ErrorLine[] {
 function taroShouldUpdate (pkgs): ErrorLine[] {
   // sort 是为了 UPDATE_PACKAGE_LIST 顺序改变也不影响单测结果
   const list = UPDATE_PACKAGE_LIST
-    .filter(item => !(/nerv/.test(item)))
     .sort()
     .map(item => {
       const taroPkg = pkgs.find(pkg => pkg.moduleName === item)

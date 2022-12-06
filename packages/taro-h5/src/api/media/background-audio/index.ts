@@ -1,4 +1,4 @@
-import { temporarilyNotSupport } from '../../utils'
+import { temporarilyNotSupport } from '../../../utils'
 import { BackgroundAudioManager } from './BackgroundAudioManager'
 
 // 背景音频

@@ -5,11 +5,10 @@ import {
   Text,
   TouchableHighlight,
   StyleSheet,
-  Platform,
-  ViewPropTypes
+  Platform
 } from 'react-native'
+import { ViewPropTypes } from 'deprecated-react-native-prop-types'
 import { initialWindowMetrics } from 'react-native-safe-area-context';
-import { Mask } from '../Mask'
 import { Popup } from '../Popup'
 import V from '../variable'
 
@@ -59,7 +58,7 @@ const styles = StyleSheet.create({
     marginBottom: ((18 * V.baseLineHeight) - 18) / 2
   },
   androidActionsheetCellText: {
-    textAlign: 'left',
+    textAlign: 'center',
     fontSize: 16,
     marginTop: ((16 * 1.4) - 16) / 2,
     marginBottom: ((16 * 1.4) - 16) / 2
@@ -145,8 +144,7 @@ const Index: React.FC<any> = ({
       </TouchableHighlight>
     )
 
-  return _type === 'ios'
-    ? <Popup
+  return <Popup
       visible={visible}
       style={[styles.iosActionsheet, style]}
       maskStyle={maskStyle}
@@ -165,24 +163,6 @@ const Index: React.FC<any> = ({
         : false}
       <View style={{paddingBottom: Math.max(initialWindowMetrics?.insets.bottom || 0, 16), backgroundColor: '#fff'}}></View>
     </Popup>
-    : <View
-      style={styles.Modal}
-    >
-      <Mask style={[styles.androidActionsheetWrapper, maskStyle]} onPress={onClose}>
-        <View style={[styles.androidActionsheet, style]}>
-          {menus.length
-            ? <View style={[styles.actionsheetMenu]}>
-              {_renderMenuItems()}
-            </View>
-            : false}
-          {actions.length
-            ? <View style={[styles.actionsheetAction]}>
-              {_renderActions()}
-            </View>
-            : false}
-        </View>
-      </Mask>
-    </View>
 }
 
 Index.propTypes = {

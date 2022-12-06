@@ -1,12 +1,12 @@
-import * as path from 'path'
 import {
   getInstalledNpmPkgPath,
-  taroJsQuickAppComponents,
   promoteRelativePath,
-  REG_STYLE,
   REG_SCRIPT,
-  removeHeadSlash
+  REG_STYLE,
+  removeHeadSlash,
+  taroJsQuickAppComponents
 } from '@tarojs/helper'
+import * as path from 'path'
 
 export function getTaroJsQuickAppComponentsPath (nodeModulesPath: string): string {
   const taroJsQuickAppComponentsPkg = getInstalledNpmPkgPath(taroJsQuickAppComponents, nodeModulesPath)
@@ -38,11 +38,11 @@ export function generateQuickAppUx ({
   style,
   imports
 }: {
-  script?: string,
-  template?: string,
-  style?: string,
+  script?: string
+  template?: string
+  style?: string
   imports?: Set<{
-    path: string,
+    path: string
     name: string
   }>
 }) {

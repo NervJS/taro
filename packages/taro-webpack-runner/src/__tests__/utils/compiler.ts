@@ -1,17 +1,18 @@
-import * as path from 'path'
-import * as webpack from 'webpack'
-import * as merge from 'webpack-merge'
-import { createFsFromVolume, Volume, IFs } from 'memfs'
-import * as joinPath from 'memory-fs/lib/join'
 import ReactLikePlugin from '@tarojs/plugin-framework-react'
 import Vue2Plugin from '@tarojs/plugin-framework-vue2'
 import Vue3Plugin from '@tarojs/plugin-framework-vue3'
+import { createFsFromVolume, IFs, Volume } from 'memfs'
+import * as joinPath from 'memory-fs/lib/join'
+import * as path from 'path'
+import * as webpack from 'webpack'
+import * as merge from 'webpack-merge'
 
-import baseConfig from './config'
 import prodConf from '../../config/prod.conf'
-import { BuildConfig } from '../../util/types'
 import { customizeChain } from '../../index'
+import { getAppConfig, getAppEntry } from '../../util'
 import { makeConfig } from '../../util/chain'
+import { BuildConfig } from '../../util/types'
+import baseConfig from './config'
 
 interface EnsuredFs extends IFs {
   join: () => string
@@ -24,7 +25,7 @@ function ensureWebpackMemoryFs (fs: IFs): EnsuredFs {
   return newFs
 }
 
-function run (webpackConfig: webpack.Configuration): Promise<webpack.Stats> {
+function run (webpackConfig: webpack.Configuration): Promise<webpack.Stats | undefined> {
   const compiler = webpack(webpackConfig)
   const fs = createFsFromVolume(new Volume())
   const ensuredFs = ensureWebpackMemoryFs(fs)
@@ -33,8 +34,8 @@ function run (webpackConfig: webpack.Configuration): Promise<webpack.Stats> {
 
   return new Promise((resolve, reject) => {
     compiler.run((err, stats) => {
-      if (err || stats.hasErrors()) {
-        const error = err ?? stats.toJson().errors
+      if (err ?? stats?.hasErrors()) {
+        const error = err ?? stats!.toJson().errors
         reject(error)
       } else {
         resolve(stats)
@@ -112,7 +113,8 @@ export async function compile (app: string, customConfig: Partial<BuildConfig> =
   }, customConfig)
 
   const newConfig: BuildConfig = await makeConfig(config)
-  const webpackChain = prodConf(appPath, newConfig)
+  const entry = await getAppEntry(newConfig.entry)
+  const webpackChain = prodConf(appPath, newConfig, getAppConfig(entry))
 
   await customizeChain(webpackChain, () => {}, newConfig.webpackChain)
 
@@ -122,6 +124,7 @@ export async function compile (app: string, customConfig: Partial<BuildConfig> =
         '@tarojs/runtime': path.resolve(__dirname, '../mocks/taro-runtime'),
         '@tarojs/shared': path.resolve(__dirname, '../mocks/taro-shared'),
         '@tarojs/taro-h5': path.resolve(__dirname, '../mocks/taro-h5'),
+        '@tarojs/router': path.resolve(__dirname, '../mocks/taro-router'),
         '@tarojs/plugin-framework-react/dist/runtime': path.resolve(__dirname, '../mocks/taro-framework'),
         '@tarojs/plugin-framework-vue2/dist/runtime': path.resolve(__dirname, '../mocks/taro-framework'),
         '@tarojs/plugin-framework-vue3/dist/runtime': path.resolve(__dirname, '../mocks/taro-framework'),
@@ -130,7 +133,8 @@ export async function compile (app: string, customConfig: Partial<BuildConfig> =
         '@tarojs/components/dist-h5/vue3': path.resolve(__dirname, '../mocks/taro-components'),
         '@tarojs/components/loader': path.resolve(__dirname, '../mocks/taro-components'),
         '@tarojs/components/dist/taro-components/taro-components.css': path.resolve(__dirname, '../mocks/taro-components.css'),
-        'react-dom': path.resolve(__dirname, '../mocks/react'),
+        'react-dom$': path.resolve(__dirname, '../mocks/react'),
+        'react-dom/client$': path.resolve(__dirname, '../mocks/react'),
         react: path.resolve(__dirname, '../mocks/react'),
         vue: path.resolve(__dirname, '../mocks/vue'),
         nervjs: path.resolve(__dirname, '../mocks/nerv')
@@ -153,15 +157,19 @@ function frameworkPatch (chain, webpack, config) {
     initialConfig: {
       framework: config.framework || 'react'
     },
-    modifyWebpackChain: cb => cb({ chain, webpack, data: {} })
+    modifyWebpackChain: cb => cb({ chain, webpack, data: {} }),
+    modifyRunnerOpts: cb => cb(config),
+    onParseCreateElement: () => {}
   }
 
   let frameworkPlugin: any = ReactLikePlugin
   switch (config.framework) {
     case 'vue':
+      config.opts = {}
       frameworkPlugin = Vue2Plugin
       break
     case 'vue3':
+      config.opts = {}
       frameworkPlugin = Vue3Plugin
       break
   }

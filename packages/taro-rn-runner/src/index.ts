@@ -1,22 +1,22 @@
-import * as Metro from 'metro'
-import getMetroConfig from './config'
-import { getRNConfigEntry } from './config/config-holder'
-import { getOpenHost, PLAYGROUNDINFO } from './utils'
-import preview from './config/preview'
-
-import { PLATFORMS } from '@tarojs/helper'
-import * as path from 'path'
-import * as fse from 'fs-extra'
-import * as url from 'url'
-import { generate } from 'qrcode-terminal'
-
-import * as readline from 'readline'
+import saveAssets from '@react-native-community/cli-plugin-metro/build/commands/bundle/saveAssets'
 import { createDevServerMiddleware } from '@react-native-community/cli-server-api'
-import { TerminalReporter } from './config/terminal-reporter'
+import { PLATFORMS } from '@tarojs/helper'
+import * as fse from 'fs-extra'
+import * as Metro from 'metro'
 import { getResolveDependencyFn } from 'metro/src/lib/transformHelpers'
 import * as Server from 'metro/src/Server'
-import saveAssets from '@react-native-community/cli-plugin-metro/build/commands/bundle/saveAssets'
 import * as outputBundle from 'metro/src/shared/output/bundle'
+import * as path from 'path'
+import * as qr from 'qrcode-terminal'
+import * as readline from 'readline'
+import * as url from 'url'
+
+import getMetroConfig from './config'
+import buildComponent from './config/build-component'
+import { getRNConfigEntry } from './config/config-holder'
+import preview from './config/preview'
+import { TerminalReporter } from './config/terminal-reporter'
+import { getOpenHost, isWin, PLAYGROUNDINFO } from './utils'
 
 function concatOutputFileName (config: any): string {
   // 优先级：--bundle-output > config.output > config.outputRoot
@@ -109,7 +109,12 @@ export default async function build (_appPath: string, config: any): Promise<any
     if (error instanceof Error) throw error
   }
 
-  if (config.isWatch) {
+  if (config.isBuildNativeComp) {
+    return buildComponent(
+      _appPath,
+      config
+    )
+  } else if (config.isWatch) {
     if (!metroConfig.server || (metroConfig.server.useGlobalHotkey === undefined)) {
       if (!metroConfig.server) {
         metroConfig.server = {}
@@ -120,7 +125,11 @@ export default async function build (_appPath: string, config: any): Promise<any
       metroConfig.server.port = config.port
     }
 
-    const { middleware, attachToServer } = createDevServerMiddleware({
+    const {
+      middleware,
+      messageSocketEndpoint,
+      websocketEndpoints
+    } = createDevServerMiddleware({
       port: metroConfig.server.port,
       watchFolders: metroConfig.watchFolders
     })
@@ -145,22 +154,21 @@ export default async function build (_appPath: string, config: any): Promise<any
     // 支持host
     return Metro.runServer(metroConfig, {
       ...commonOptions,
-      hmrEnabled: true
+      hmrEnabled: true,
+      websocketEndpoints
     }).then(server => {
       console.log(`React-Native Dev server is running on port: ${metroConfig.server.port}`)
       console.log('\n\nTo reload the app press "r"\nTo open developer menu press "d"\n')
-
-      const { messageSocket } = attachToServer(server)
 
       readline.emitKeypressEvents(process.stdin)
       process.stdin.setRawMode && process.stdin.setRawMode(true)
       process.stdin.on('keypress', (_key, data) => {
         const { ctrl, name } = data
         if (name === 'r') {
-          messageSocket.broadcast('reload')
+          messageSocketEndpoint.broadcast('reload')
           console.log('Reloading app...')
         } else if (name === 'd') {
-          messageSocket.broadcast('devMenu')
+          messageSocketEndpoint.broadcast('devMenu')
           console.log('Opening developer menu...')
         } else if (ctrl && (name === 'c')) {
           process.exit()
@@ -173,7 +181,7 @@ export default async function build (_appPath: string, config: any): Promise<any
           const url = `taro://${host}:${metroConfig.server.port}`
           console.log(PLAYGROUNDINFO)
           console.log(`print qrcode of '${url}':`)
-          generate(url, { small: true })
+          qr.generate(url, { small: !isWin })
         } else {
           console.log('print qrcode error: host not found.')
         }
@@ -192,7 +200,10 @@ export default async function build (_appPath: string, config: any): Promise<any
     const savedBuildFunc = outputBundle.build
     outputBundle.build = async (packagerClient, requestOptions) => {
       const resolutionFn = await getResolveDependencyFn(packagerClient.getBundler().getBundler(), requestOptions.platform)
-      requestOptions.entryFile = resolutionFn(metroConfig.projectRoot, requestOptions.entryFile)
+      // try for test case build_noWatch
+      try {
+        requestOptions.entryFile = resolutionFn(metroConfig.projectRoot, requestOptions.entryFile)
+      } catch (e) {} // eslint-disable-line no-empty
       return savedBuildFunc(packagerClient, requestOptions)
     }
 
