@@ -2,19 +2,22 @@ import Taro from '../../index'
 
 declare module '../../index' {
   namespace createRewardedVideoAd {
-    interface WeappOption {
-      /** 小程序广告位 ID */
+    interface Option {
+      /** 小程序广告位 ID
+       * @supported weapp, tt, swan
+       */
       adUnitId: string
-      /** 小程序应用 ID */
-      appSid: string
+      /** 是否启用多例模式
+       * @default false
+       * @supported weapp
+       */
+      multiton?: boolean
+      /** 小程序应用 ID
+       * @supported swan
+       * @swan 必填
+       */
+      appSid?: string
     }
-    interface SwanOption {
-      /** 小程序广告位 ID */
-      adUnitId: string
-      /** 小程序应用 ID */
-      appSid: string
-    }
-    type Option =  WeappOption | SwanOption
   }
 
   namespace createInterstitialAd {
