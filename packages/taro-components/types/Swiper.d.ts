@@ -247,7 +247,7 @@ declare namespace SwiperProps {
 /** 滑块视图容器。其中只可放置 swiper-item 组件，否则会导致未定义的行为。
  * > 不要为 `SwiperItem` 设置 **style** 属性，可以通过 class 设置样式。[7147](https://github.com/NervJS/taro/issues/7147)
  * @classification viewContainer
- * @supported weapp, swan, alipay, tt, h5, rn
+ * @supported weapp, alipay, swan, tt, qq, jd, h5, rn
  * @example_react
  * ```tsx
  * class App extends Component {
