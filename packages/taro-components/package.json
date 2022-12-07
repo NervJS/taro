@@ -43,6 +43,7 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
+    "@tarojs/components-advanced": "workspace:*",
     "@tarojs/router": "workspace:*",
     "@tarojs/taro": "workspace:*",
     "classnames": "^2.2.5",

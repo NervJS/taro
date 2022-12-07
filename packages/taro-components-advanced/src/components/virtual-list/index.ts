@@ -1,6 +1,5 @@
-import { Component, ComponentType, CSSProperties, ReactNode } from 'react'
-import { StandardProps, BaseEventOrigFunction } from '../../types/common'
-import { ScrollViewProps } from '../../types/ScrollView'
+import type { BaseEventOrigFunction, ScrollViewProps, StandardProps } from '@tarojs/components'
+import type { ComponentType, ReactNode } from 'react'
 
 interface VirtualListProps extends StandardProps {
   /** 列表的高度。 */
@@ -21,8 +20,6 @@ interface VirtualListProps extends StandardProps {
   initialScrollOffset?: number
   /** 列表内部容器组件类型，默认值为 View。 */
   innerElementType?: ComponentType
-  /** 顶部区域 */
-  renderTop?: ReactNode
   /** 底部区域 */
   renderBottom?: ReactNode
   /** 滚动方向。vertical 为垂直滚动，horizontal 为平行滚动。默认为 vertical。 */
@@ -35,22 +32,21 @@ interface VirtualListProps extends StandardProps {
   overscanCount?: number
   /** 是否注入 isScrolling 属性到 children 组件。这个参数一般用于实现滚动骨架屏（或其它 placeholder） 时比较有用。 */
   useIsScrolling?: boolean
-  children?: ComponentType<{
-    /** 组件 ID */
-    id: string
-    /** 单项的样式，样式必须传入组件的 style 中 */
-    style?: CSSProperties
-    /** 组件渲染的数据 */
-    data: any
-    /** 组件渲染数据的索引 */
-    index: number
-    /** 组件是否正在滚动，当 useIsScrolling 值为 true 时返回布尔值，否则返回 undefined */
-    isScrolling?: boolean
-  }>
+  // children?: ComponentType<{
+  //   /** 组件 ID */
+  //   id: string
+  //   /** 单项的样式，样式必须传入组件的 style 中 */
+  //   style?: CSSProperties
+  //   /** 组件渲染的数据 */
+  //   data: any
+  //   /** 组件渲染数据的索引 */
+  //   index: number
+  //   /** 组件是否正在滚动，当 useIsScrolling 值为 true 时返回布尔值，否则返回 undefined */
+  //   isScrolling?: boolean
+  // }>
 }
 
 declare namespace VirtualListProps {
-  // eslint-disable-next-line @typescript-eslint/class-name-casing
   interface onScrollDetail {
     clientWidth: number
     clientHeight: number
@@ -65,14 +61,15 @@ interface VirtualListEvent<T> {
   /** 当滚动是由 scrollTo() 或 scrollToItem() 调用时返回 true，否则返回 false */
   scrollUpdateWasRequested: boolean
   /** 当前只有 React 支持 */
-  detail?: {
-    scrollLeft: number
-    scrollTop: number
-    scrollHeight: number
-    scrollWidth: number
-    clientWidth: number
-    clientHeight: number
-  }
+  detail?: T
+  //  {
+  //   scrollLeft: number
+  //   scrollTop: number
+  //   scrollHeight: number
+  //   scrollWidth: number
+  //   clientWidth: number
+  //   clientHeight: number
+  // }
 }
 
 /**
@@ -106,7 +103,7 @@ interface VirtualListEvent<T> {
  *       <VirtualList
  *         height={500} // 列表的高度
  *         width='100%' // 列表的宽度
- *         itemData={data} // 渲染列表的数据
+ *         itemData={data} // 渲染列表的数据
  *         itemCount={dataLen} // 渲染列表的长度
  *         itemSize={100} // 列表单项的高度
  *       >
@@ -118,6 +115,7 @@ interface VirtualListEvent<T> {
  * ```
  * @see https://taro-docs.jd.com/taro/docs/virtual-list/
  */
-declare class VirtualList extends Component<VirtualListProps> {}
+const VirtualList = process.env.FRAMEWORK === 'vue' ? require('./vue').default : require('./react').default
 
-export = VirtualList
+export { VirtualList, VirtualListProps }
+export default VirtualList

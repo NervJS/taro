@@ -14,8 +14,8 @@ function convertPxToInt (style) {
 }
 
 const OuterScrollView = React.forwardRef(
-  (props, ref) => {
-    const { style, onScroll, onScrollNative, layout, ...rest } = props
+  function OuterScrollView (props, ref) {
+    const { style, onScroll, onScrollNative, layout, ...rest } = props as any
     const handleScroll = event => {
       onScroll({
         ...event,
@@ -42,7 +42,7 @@ const OuterScrollView = React.forwardRef(
   }
 )
 
-const VirtualList = React.forwardRef((props, ref) => {
+const VirtualList = React.forwardRef(function VirtualList (props, ref) {
   const {
     direction = 'ltr',
     innerElementType = View,
@@ -50,8 +50,12 @@ const VirtualList = React.forwardRef((props, ref) => {
     initialScrollOffset = 0,
     overscanCount = 1,
     ...rest
-  } = props
+  } = props as any
 
+  if (rest.children instanceof Array) {
+    console.warn('Taro(VirtualList): children should not be an array')
+    rest.children = rest.children[0]
+  }
   return React.createElement(FixedSizeList, {
     ref,
     ...rest,

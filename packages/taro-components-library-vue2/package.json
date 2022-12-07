@@ -9,8 +9,8 @@
     "build:ci": "babel src --extensions=.ts,.tsx --out-dir ../taro-components/dist/vue2"
   },
   "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "author": "ZakaryCode",
+  "license": "MIT",
   "dependencies": {
     "@tarojs/components": "workspace:*"
   },

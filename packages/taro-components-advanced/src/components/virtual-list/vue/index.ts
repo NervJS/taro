@@ -1,10 +1,9 @@
+import memoizeOne from 'memoize-one'
+
+import { cancelTimeout, requestTimeout } from '../../../utils/timer'
+import { IS_SCROLLING_DEBOUNCE_INTERVAL } from '../constants'
 import { getRTLOffsetType } from '../domHelpers'
-import { memoizeOne } from '../memoize'
-import { cancelTimeout, requestTimeout } from '../timer'
-
-const IS_SCROLLING_DEBOUNCE_INTERVAL = 150
-
-const defaultItemKey = (index) => index
+import { defaultItemKey } from '../utils'
 
 function createListComponent ({
   getItemOffset,

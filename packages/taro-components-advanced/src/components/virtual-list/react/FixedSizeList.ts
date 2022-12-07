@@ -1,4 +1,5 @@
-import createListComponent, { isHorizontalFunc } from './createListComponent'
+import { isHorizontalFunc } from '../utils'
+import createListComponent from './createListComponent'
 
 let devWarningsDirection = null
 let devWarningsTagName = null
@@ -96,7 +97,7 @@ createListComponent({
   getEstimatedTotalSize (props, ref) {
     return ref._getCountSize(props, props.itemCount)
   },
-  getOffsetForIndexAndAlignment: (props, id, index, align, scrollOffset, ref) => {
+  getOffsetForIndexAndAlignment: (props, _id, index, align, scrollOffset, ref) => {
     const { height, width } = props
     const { sizeList } = ref.state
     // TODO Deprecate direction "horizontal"

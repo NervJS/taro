@@ -1,37 +1,12 @@
-/* eslint-disable no-sequences */
-/* eslint-disable no-case-declarations */
-/* eslint-disable no-void */
-/* eslint-disable no-return-assign */
-import { createSelectorQuery } from '@tarojs/taro'
+import memoizeOne from 'memoize-one'
 import { createElement, PureComponent } from 'react'
 
+import { cancelTimeout, requestTimeout } from '../../../utils/timer'
+import { IS_SCROLLING_DEBOUNCE_INTERVAL } from '../constants'
 import { getRTLOffsetType } from '../domHelpers'
-import { memoizeOne } from '../memoize'
-import { cancelTimeout, requestTimeout } from '../timer'
-
-const IS_SCROLLING_DEBOUNCE_INTERVAL = 200
-
-const defaultItemKey = (index) => index // In DEV mode, this Set helps us only log a warning once per component instance.
-// This avoids spamming the console every time a render happens.
+import { defaultItemKey , getRectSize, isHorizontalFunc, isRtlFunc } from '../utils'
 
 let INSTANCE_ID = 0
-
-export function isHorizontalFunc ({ direction, layout }) {
-  return direction === 'horizontal' || layout === 'horizontal'
-}
-export function isRtlFunc ({ direction }) {
-  return direction === 'rtl'
-}
-export function getRectSize (id, success = () => {}, fail = () => {}) {
-  const query = createSelectorQuery()
-  query.select(id).boundingClientRect((res) => {
-    if (res) {
-      success(res)
-    } else {
-      fail()
-    }
-  }).exec()
-}
 
 export default function createListComponent ({
   getItemOffset,
@@ -46,14 +21,37 @@ export default function createListComponent ({
 }) {
   let _class, _temp
 
-  return _temp = _class = class List extends PureComponent {
+  // eslint-disable-next-line no-return-assign
+  return _temp = _class = class List extends PureComponent<any> {
+    _instanceProps
+    _outerRef
+    field
+    _callOnItemsRendered
+    _callOnScroll
+    _getCountSize
+    _getSizeCount
+    _getSize
+    _getSizeUpload
+    _getSizeUploadSync
+    _getStyleValue
+    _getItemStyle
+    _getItemStyleCache
+    _resetIsScrollingTimeoutId
+    _resetIsScrollingDebounced
+    _resetIsScrolling
+    _onScrollHorizontal
+    _onScrollVertical
+    _outerRefSetter
+
+    state: any = {}
+
     // Always use explicit constructor for React components.
     // It produces less code after transpilation. (#26)
     // eslint-disable-next-line no-useless-constructor
     constructor (props) {
       super(props)
       this._instanceProps = initInstanceProps(this.props, this)
-      this._outerRef = void 0
+      this._outerRef = undefined
       this._resetIsScrollingTimeoutId = null
       this.state = {
         id: this.props.id || `virtual-list-${INSTANCE_ID++}`,
@@ -75,14 +73,14 @@ export default function createListComponent ({
         clientHeight: 0,
         clientWidth: 0
       }
-      this._callOnItemsRendered = void 0
+      this._callOnItemsRendered = undefined
       this._callOnItemsRendered = memoizeOne((overscanStartIndex, overscanStopIndex, visibleStartIndex, visibleStopIndex) => this.props.onItemsRendered({
         overscanStartIndex,
         overscanStopIndex,
         visibleStartIndex,
         visibleStopIndex
       }))
-      this._callOnScroll = void 0
+      this._callOnScroll = undefined
       this._callOnScroll = memoizeOne((scrollDirection, scrollOffset, scrollUpdateWasRequested, detail) => this.props.onScroll({
         scrollDirection,
         scrollOffset,
@@ -90,7 +88,7 @@ export default function createListComponent ({
         detail
       }))
 
-      this._getSize = void 0
+      this._getSize = undefined
 
       this._getSize = (size) => {
         if (typeof size === 'number' && size >= 0) {
@@ -99,7 +97,7 @@ export default function createListComponent ({
         return this.props.itemSize
       }
 
-      this._getSizeUploadSync = void 0
+      this._getSizeUploadSync = undefined
 
       this._getSizeUploadSync = (index, isHorizontal) => {
         const ID = `#${this.state.id}-${index}`
@@ -135,7 +133,7 @@ export default function createListComponent ({
         return this._getSize(sizeList[index])
       }
 
-      this._getCountSize = void 0
+      this._getCountSize = undefined
 
       this._getCountSize = (props, count) => {
         if (!props.unlimitedSize) {
@@ -148,7 +146,7 @@ export default function createListComponent ({
         }, 0)
       }
 
-      this._getSizeCount = void 0
+      this._getSizeCount = undefined
 
       this._getSizeCount = (props, offset) => {
         if (offset === 0) {
@@ -178,7 +176,7 @@ export default function createListComponent ({
             : value
       }
 
-      this._getItemStyle = void 0
+      this._getItemStyle = undefined
 
       this._getItemStyle = index => {
         const {
@@ -187,7 +185,11 @@ export default function createListComponent ({
           layout
         } = this.props
 
-        const itemStyleCache = this._getItemStyleCache(shouldResetStyleCacheOnItemSizeChange && itemSize, shouldResetStyleCacheOnItemSizeChange && layout, shouldResetStyleCacheOnItemSizeChange && direction)
+        const itemStyleCache = this._getItemStyleCache(
+          shouldResetStyleCacheOnItemSizeChange && itemSize,
+          shouldResetStyleCacheOnItemSizeChange && layout,
+          shouldResetStyleCacheOnItemSizeChange && direction
+        )
 
         let style
 
@@ -196,7 +198,8 @@ export default function createListComponent ({
         const isHorizontal = isHorizontalFunc(this.props)
         const isRtl = isRtlFunc(this.props)
         if (itemStyleCache.hasOwnProperty(index)) {
-          style = itemStyleCache[index]
+          // Note: style is frozen.
+          style = { ...itemStyleCache[index] }
           if (isHorizontal) {
             style.width = size
             if (isRtl) {
@@ -229,7 +232,7 @@ export default function createListComponent ({
         return style
       }
 
-      this._getItemStyleCache = void 0
+      this._getItemStyleCache = undefined
       this._getItemStyleCache = memoizeOne(() => ({}))
 
       this._onScrollHorizontal = event => {
@@ -246,7 +249,7 @@ export default function createListComponent ({
         this.field.scrollLeft = scrollLeft
         this.field.clientHeight = scrollHeight
         this.field.clientWidth = clientWidth
-        this.setState(prevState => {
+        this.setState((prevState: any) => {
           if (prevState.scrollOffset === scrollLeft) {
             // Scroll position may have been updated by cDM/cDU,
             // In which case we don't need to trigger another render,
@@ -291,7 +294,7 @@ export default function createListComponent ({
           scrollTop,
           scrollLeft
         } = event.currentTarget
-        this.setState(prevState => {
+        this.setState((prevState: any) => {
           const diffOffset = this.field.scrollTop - scrollTop
           if (prevState.scrollOffset === scrollTop || this.field.diffOffset === -diffOffset) {
             // Scroll position may have been updated by cDM/cDU,
@@ -356,7 +359,7 @@ export default function createListComponent ({
 
     scrollTo (scrollOffset) {
       scrollOffset = Math.max(0, scrollOffset)
-      this.setState(prevState => {
+      this.setState((prevState: any) => {
         if (prevState.scrollOffset === scrollOffset) {
           return null
         }
@@ -420,11 +423,7 @@ export default function createListComponent ({
                 break
 
               default:
-                const {
-                  clientWidth,
-                  scrollWidth
-                } = outerRef
-                outerRef.scrollLeft = scrollWidth - clientWidth - scrollOffset
+                outerRef.scrollLeft = outerRef.scrollWidth - outerRef.clientWidth - scrollOffset
                 break
             }
           } else {
@@ -518,7 +517,7 @@ export default function createListComponent ({
       // So their actual sizes (if variable) are taken into consideration.
 
       const estimatedTotalSize = getEstimatedTotalSize(this.props, this)
-      const outerElementProps = {
+      const outerElementProps: any = {
         ...rest,
         id,
         className,
@@ -584,7 +583,7 @@ export default function createListComponent ({
       }
     }
 
-    _callPropsCallbacks (prevProps, prevState) {
+    _callPropsCallbacks (prevProps: any = {}, prevState: any = {}) {
       if (typeof this.props.onItemsRendered === 'function') {
         if (this.props.itemCount > 0) {
           if (!prevProps && prevProps.itemCount !== this.props.itemCount) {
@@ -610,11 +609,11 @@ export default function createListComponent ({
         }
       }
     }
+
     // Lazily create and cache item styles while scrolling,
     // So that pure component sCU will prevent re-renders.
     // We maintain this cache, and pass a style prop rather than index,
     // So that List can clear cached styles and force item re-render if necessary.
-
     _getRangeToRender () {
       const {
         itemCount,
@@ -638,6 +637,7 @@ export default function createListComponent ({
       const overscanForward = !isScrolling || scrollDirection === 'forward' ? Math.max(1, overscanCount) : 1
       return [Math.max(0, startIndex - overscanBackward), Math.max(0, Math.min(itemCount - 1, stopIndex + overscanForward)), startIndex, stopIndex]
     }
+  // eslint-disable-next-line no-sequences
   }, _class.defaultProps = {
     direction: 'ltr',
     itemData: undefined,

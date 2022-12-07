@@ -4,7 +4,7 @@
       "taro",
       {
         "absoluteRuntime": false,
-        "framework": "react",
+        "framework": "advanced",
         "hot": false,
         "modules": false,
         "ts": true

@@ -4,7 +4,7 @@
       "taro",
       {
         "absoluteRuntime": false,
-        "framework": "vue",
+        "framework": "vue3",
         "hot": false,
         "modules": false,
         "ts": true
