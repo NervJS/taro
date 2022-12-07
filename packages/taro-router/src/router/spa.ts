@@ -170,8 +170,14 @@ export function createRouter (
         loadConfig
       )
       if (params) page.options = params
-      return handler.load(page, pageConfig, pageStampId, stacksIndex)
+      handler.load(page, pageConfig, pageStampId, stacksIndex)
     }
+
+    eventCenter.trigger('__afterTaroRouterChange', {
+      toLocation: {
+        path: handler.pathname
+      }
+    })
   }
 
   const routePath = addLeadingSlash(stripBasename(history.location.pathname, handler.basename))
