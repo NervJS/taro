@@ -147,10 +147,11 @@ export class Input implements ComponentInterface {
       // }
 
       this.value = value
-      this.onInput.emit({
+      const result = this.onInput.emit({
         value,
-        cursor: value.length
+        cursor: value.length,
       })
+      if (typeof result === 'string') this.value = result
       this.onInputExcuted = false
     }
   }
