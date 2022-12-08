@@ -1,4 +1,4 @@
-import { chalk, fs, readConfig, recursiveMerge, REG_SCRIPTS,resolveMainFilePath, terminalLink } from '@tarojs/helper'
+import { chalk, fs, readConfig, recursiveMerge, REG_SCRIPTS, resolveMainFilePath, terminalLink } from '@tarojs/helper'
 import { Message } from 'esbuild'
 import path from 'path'
 import { performance } from 'perf_hooks'
