@@ -251,8 +251,8 @@ async function getDevServerOptions (appPath: string, config: H5BuildConfig): Pro
     customDevServerOption
   )
 
-  const originalPort = devServerOptions.port
-  const availablePort = await detectPort(Number(originalPort))
+  const originalPort = Number(devServerOptions.port)
+  const availablePort = await detectPort(originalPort)
 
   if (availablePort !== originalPort) {
     console.log(`ℹ 预览端口 ${originalPort} 被占用, 自动切换到空闲端口 ${availablePort}`)
