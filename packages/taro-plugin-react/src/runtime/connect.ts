@@ -365,6 +365,14 @@ export function createReactApp (
       }
     }),
 
+    onUnhandledRejection: setDefaultDescriptor({
+      value (res: unknown) {
+        const app = getAppInstance()
+        app?.onUnhandledRejection?.(res)
+        triggerAppHook('onUnhandledRejection', res)
+      }
+    }),
+
     onPageNotFound: setDefaultDescriptor({
       value (res: unknown) {
         const app = getAppInstance()
