@@ -95,7 +95,8 @@ export const specialElements = new Map<string, string | SpecialMaps>([
     mapName: 'textarea',
     mapAttr: genAttrMapFnFromDir({
       autofocus: 'focus',
-      readonly: 'disabled'
+      readonly: 'disabled',
+      maxlength: 'maxlength'
     })
   }],
   ['progress', {

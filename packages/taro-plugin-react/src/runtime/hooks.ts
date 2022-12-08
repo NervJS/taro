@@ -66,6 +66,7 @@ export const useDidShow = createTaroHook('componentDidShow')
 
 /** App */
 export const useError = createTaroHook('onError')
+export const useUnhandledRejection = createTaroHook('onUnhandledRejection')
 export const useLaunch = createTaroHook('onLaunch')
 export const usePageNotFound = createTaroHook('onPageNotFound')
 
