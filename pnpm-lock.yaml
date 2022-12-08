@@ -469,6 +469,7 @@ importers:
 
   packages/taro-cli:
     specifiers:
+      '@babel/generator': ^7.14.5
       '@babel/template': ^7.14.5
       '@babel/traverse': ^7.14.5
       '@babel/types': ^7.14.5
@@ -479,7 +480,6 @@ importers:
       '@tarojs/transformer-wx': ^2.0.4
       adm-zip: ^0.4.13
       babylon: ^6.18.0
-      better-babel-generator: 6.26.1
       cli-highlight: ^2.1.4
       dotenv: ^16.0.3
       dotenv-expand: ^9.0.0
@@ -510,6 +510,7 @@ importers:
       xml2js: ^0.4.19
       xxhashjs: ^0.2.2
     dependencies:
+      '@babel/generator': registry.npmjs.org/@babel/generator/7.18.2
       '@babel/template': registry.npmjs.org/@babel/template/7.16.7
       '@babel/traverse': registry.npmjs.org/@babel/traverse/7.18.5
       '@babel/types': registry.npmjs.org/@babel/types/7.18.4
@@ -520,7 +521,6 @@ importers:
       '@tarojs/transformer-wx': registry.npmjs.org/@tarojs/transformer-wx/2.2.10
       adm-zip: registry.npmjs.org/adm-zip/0.4.16
       babylon: registry.npmjs.org/babylon/6.18.0
-      better-babel-generator: registry.npmjs.org/better-babel-generator/6.26.1
       cli-highlight: registry.npmjs.org/cli-highlight/2.1.11
       dotenv: registry.npmjs.org/dotenv/16.0.3
       dotenv-expand: registry.npmjs.org/dotenv-expand/9.0.0
