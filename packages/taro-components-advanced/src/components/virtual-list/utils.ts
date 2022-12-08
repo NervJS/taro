@@ -2,17 +2,23 @@ import Taro from '@tarojs/taro'
 
 // In DEV mode, this Set helps us only log a warning once per component instance.
 // This avoids spamming the console every time a render happens.
-export const defaultItemKey = (index: number) => index
+export const defaultItemKey = (index: number, _itemData?: unknown) => index
 
-export function isHorizontalFunc ({ direction, layout }: any) {
+interface IHorizontal {
+  direction?: string
+  layout?: string
+}
+export function isHorizontalFunc ({ direction, layout }: IHorizontal) {
   return direction === 'horizontal' || layout === 'horizontal'
 }
-
-export function isRtlFunc ({ direction }: any) {
+interface IRrl {
+  direction?: string
+}
+export function isRtlFunc ({ direction }: IRrl) {
   return direction === 'rtl'
 }
 
-export function getRectSize (id, success: any = () => {}, fail = () => {}) {
+export function getRectSize (id: string, success: TFunc = () => {}, fail: TFunc = () => {}) {
   const query = Taro.createSelectorQuery()
   try {
     query.select(id).boundingClientRect((res) => {

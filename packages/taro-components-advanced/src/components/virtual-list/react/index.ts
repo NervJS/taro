@@ -1,29 +1,24 @@
 import { ScrollView, View } from '@tarojs/components'
 import React from 'react'
 
-import FixedSizeList from './FixedSizeList'
+import { convertPX2Int } from '../../../utils/convert'
+import List from './list'
 
-function convertPxToInt (style) {
-  if (typeof style === 'string') {
-    const str = style.toLowerCase()
-    if (/px$/.test(str)) {
-      return Number(str.replace(/px$/, ''))
-    }
-  }
-  return style
-}
+import type { BaseEventOrig } from '@tarojs/components'
+import type { VirtualListProps } from '../'
+import type { IProps } from './list'
 
 const OuterScrollView = React.forwardRef(
   function OuterScrollView (props, ref) {
-    const { style, onScroll, onScrollNative, layout, ...rest } = props as any
-    const handleScroll = event => {
+    const { style, onScroll, onScrollNative, layout, ...rest } = props as IProps
+    const handleScroll = (event: BaseEventOrig<VirtualListProps.IVirtualListEventDetail>) => {
       onScroll({
-        ...event,
+        ...event as any,
         currentTarget: {
           ...event.detail,
-          clientWidth: convertPxToInt(style.width),
-          clientHeight: convertPxToInt(style.height)
-        }
+          clientWidth: convertPX2Int(style.width),
+          clientHeight: convertPX2Int(style.height)
+        } as any
       })
 
       if (typeof onScrollNative === 'function') {
@@ -31,7 +26,7 @@ const OuterScrollView = React.forwardRef(
       }
     }
 
-    return React.createElement(ScrollView, {
+    return React.createElement<any>(ScrollView, {
       ref,
       style,
       scrollY: layout === 'vertical',
@@ -50,13 +45,13 @@ const VirtualList = React.forwardRef(function VirtualList (props, ref) {
     initialScrollOffset = 0,
     overscanCount = 1,
     ...rest
-  } = props as any
+  } = props as IProps
 
   if (rest.children instanceof Array) {
     console.warn('Taro(VirtualList): children should not be an array')
     rest.children = rest.children[0]
   }
-  return React.createElement(FixedSizeList, {
+  return React.createElement(List, {
     ref,
     ...rest,
     itemElementType,
