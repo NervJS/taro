@@ -1704,31 +1704,29 @@ importers:
   packages/taroize:
     specifiers:
       '@babel/code-frame': ^7.14.5
-      '@types/babel-traverse': 6.25.6
-      babel-core: ^6.26.3
-      babel-generator: ^6.26.1
-      babel-template: ^6.26.0
-      babel-traverse: ^6.26.0
-      babel-types: ^6.26.0
-      babylon: ^6.18.0
-      better-babel-generator: 6.26.1
+      '@babel/core': ^7.14.5
+      '@babel/generator': ^7.14.5
+      '@babel/parser': ^7.14.5
+      '@babel/template': ^7.14.5
+      '@babel/traverse': ^7.14.5
+      '@babel/types': ^7.14.5
+      '@types/babel__traverse': 7.18.3
       himalaya-wxml: ^1.1.0
       html: ^1.0.0
       lodash: ^4.17.21
     dependencies:
       '@babel/code-frame': registry.npmjs.org/@babel/code-frame/7.16.7
-      babel-core: registry.npmjs.org/babel-core/6.26.3
-      babel-generator: registry.npmjs.org/babel-generator/6.26.1
-      babel-template: registry.npmjs.org/babel-template/6.26.0
-      babel-traverse: registry.npmjs.org/babel-traverse/6.26.0
-      babel-types: registry.npmjs.org/babel-types/6.26.0
-      babylon: registry.npmjs.org/babylon/6.18.0
-      better-babel-generator: registry.npmjs.org/better-babel-generator/6.26.1
+      '@babel/core': registry.npmjs.org/@babel/core/7.18.5
+      '@babel/generator': registry.npmjs.org/@babel/generator/7.18.2
+      '@babel/parser': registry.npmjs.org/@babel/parser/7.18.5
+      '@babel/template': registry.npmjs.org/@babel/template/7.16.7
+      '@babel/traverse': registry.npmjs.org/@babel/traverse/7.18.5
+      '@babel/types': registry.npmjs.org/@babel/types/7.18.4
       himalaya-wxml: registry.npmjs.org/himalaya-wxml/1.1.0
       html: registry.npmjs.org/html/1.0.0
       lodash: registry.npmjs.org/lodash/4.17.21
     devDependencies:
-      '@types/babel-traverse': registry.npmjs.org/@types/babel-traverse/6.25.6
+      '@types/babel__traverse': registry.npmjs.org/@types/babel__traverse/7.18.3
 
 packages:
 
@@ -8022,14 +8020,6 @@ packages:
       postcss: registry.npmjs.org/postcss/7.0.39
     dev: true
 
-  registry.npmjs.org/@types/babel-traverse/6.25.6:
-    resolution: {integrity: sha512-kPGq7V3SP3sipa2ddQBKa0cIA5ji4vInn15rYRt9c0FRT+4Mo6TcbfRZTF/7TnPC8RgTJT0FE+LftqK1iV+0SA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@types/babel-traverse/-/babel-traverse-6.25.6.tgz}
-    name: '@types/babel-traverse'
-    version: 6.25.6
-    dependencies:
-      '@types/babel-types': registry.npmjs.org/@types/babel-types/7.0.11
-    dev: true
-
   registry.npmjs.org/@types/babel-types/7.0.11:
     resolution: {integrity: sha512-pkPtJUUY+Vwv6B1inAz55rQvivClHJxc9aVEPPmaq2cbyeMLCiDpbKpcKyX4LAwpNGi+SHBv0tHv6+0gXv0P2A==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@types/babel-types/-/babel-types-7.0.11.tgz}
     name: '@types/babel-types'
@@ -8045,7 +8035,7 @@ packages:
       '@babel/types': registry.npmjs.org/@babel/types/7.18.4
       '@types/babel__generator': registry.npmjs.org/@types/babel__generator/7.6.4
       '@types/babel__template': registry.npmjs.org/@types/babel__template/7.4.1
-      '@types/babel__traverse': registry.npmjs.org/@types/babel__traverse/7.17.1
+      '@types/babel__traverse': registry.npmjs.org/@types/babel__traverse/7.18.3
     dev: true
 
   registry.npmjs.org/@types/babel__generator/7.6.4:
@@ -8069,6 +8059,14 @@ packages:
     resolution: {integrity: sha512-kVzjari1s2YVi77D3w1yuvohV2idweYXMCDzqBiVNN63TcDWrIlTVOYpqVrvbbyOE/IyzBoTKF0fdnLPEORFxA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@types/babel__traverse/-/babel__traverse-7.17.1.tgz}
     name: '@types/babel__traverse'
     version: 7.17.1
+    dependencies:
+      '@babel/types': registry.npmjs.org/@babel/types/7.18.4
+    dev: true
+
+  registry.npmjs.org/@types/babel__traverse/7.18.3:
+    resolution: {integrity: sha512-1kbcJ40lLB7MHsj39U4Sh1uTd2E7rLEa79kmDpI6cy+XiXsteB3POdQomoq4FxszMrO3ZYchkhYJw7A2862b3w==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@types/babel__traverse/-/babel__traverse-7.18.3.tgz}
+    name: '@types/babel__traverse'
+    version: 7.18.3
     dependencies:
       '@babel/types': registry.npmjs.org/@babel/types/7.18.4
     dev: true
@@ -11233,7 +11231,7 @@ packages:
     version: 24.9.0
     engines: {node: '>= 6'}
     dependencies:
-      '@types/babel__traverse': registry.npmjs.org/@types/babel__traverse/7.17.1
+      '@types/babel__traverse': registry.npmjs.org/@types/babel__traverse/7.18.3
     dev: true
 
   registry.npmjs.org/babel-plugin-jest-hoist/26.6.2:
@@ -11245,7 +11243,7 @@ packages:
       '@babel/template': registry.npmjs.org/@babel/template/7.16.7
       '@babel/types': registry.npmjs.org/@babel/types/7.18.4
       '@types/babel__core': registry.npmjs.org/@types/babel__core/7.1.19
-      '@types/babel__traverse': registry.npmjs.org/@types/babel__traverse/7.17.1
+      '@types/babel__traverse': registry.npmjs.org/@types/babel__traverse/7.18.3
     dev: true
 
   registry.npmjs.org/babel-plugin-jsx-attributes-array-to-object/0.3.0:
@@ -22704,7 +22702,7 @@ packages:
     dependencies:
       '@babel/types': registry.npmjs.org/@babel/types/7.18.4
       '@jest/types': registry.npmjs.org/@jest/types/26.6.2
-      '@types/babel__traverse': registry.npmjs.org/@types/babel__traverse/7.17.1
+      '@types/babel__traverse': registry.npmjs.org/@types/babel__traverse/7.18.3
       '@types/prettier': registry.npmjs.org/@types/prettier/2.6.3
       chalk: registry.npmjs.org/chalk/4.1.2
       expect: registry.npmjs.org/expect/26.6.2

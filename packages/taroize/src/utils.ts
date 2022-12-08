@@ -1,8 +1,8 @@
 import { codeFrameColumns } from '@babel/code-frame'
-import { transform } from 'babel-core'
-import * as template from 'babel-template'
-import { NodePath } from 'babel-traverse'
-import * as t from 'babel-types'
+import { transform } from '@babel/core'
+import * as template from '@babel/template'
+import { NodePath } from '@babel/traverse'
+import * as t from '@babel/types'
 import { camelCase, capitalize } from 'lodash'
 
 export function isAliasThis (p: NodePath<t.Node>, name: string) {

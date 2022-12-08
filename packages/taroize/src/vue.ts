@@ -1,6 +1,6 @@
 /* eslint-disable camelcase */
-import traverse, { Visitor } from 'babel-traverse'
-import * as t from 'babel-types'
+import traverse, { Visitor } from '@babel/traverse'
+import * as t from '@babel/types'
 import * as fs from 'fs'
 import { parse, stringify } from 'himalaya-wxml'
 import { kebabCase } from 'lodash'

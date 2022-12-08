@@ -1,7 +1,7 @@
 /* eslint-disable camelcase */
-import traverse, { NodePath, Visitor } from 'babel-traverse'
-import * as t from 'babel-types'
-import { parse as parseFile } from 'babylon'
+import { parse as parseFile } from '@babel/parser'
+import traverse, { NodePath, Visitor } from '@babel/traverse'
+import * as t from '@babel/types'
 import { parse } from 'himalaya-wxml'
 import { camelCase, cloneDeep } from 'lodash'
 

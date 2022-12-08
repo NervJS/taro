@@ -20,19 +20,18 @@
   "license": "MIT",
   "dependencies": {
     "@babel/code-frame": "^7.14.5",
-    "babel-core": "^6.26.3",
-    "babel-generator": "^6.26.1",
-    "babel-template": "^6.26.0",
-    "babel-traverse": "^6.26.0",
-    "babel-types": "^6.26.0",
-    "babylon": "^6.18.0",
-    "better-babel-generator": "6.26.1",
+    "@babel/core": "^7.14.5",
+    "@babel/generator": "^7.14.5",
+    "@babel/template": "^7.14.5",
+    "@babel/traverse": "^7.14.5",
+    "@babel/types": "^7.14.5",
+    "@babel/parser": "^7.14.5",
     "himalaya-wxml": "^1.1.0",
     "html": "^1.0.0",
     "lodash": "^4.17.21"
   },
   "devDependencies": {
-    "@types/babel-traverse": "6.25.6"
+    "@types/babel__traverse": "7.18.3"
   },
   "publishConfig": {
     "access": "public"

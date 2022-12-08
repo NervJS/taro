@@ -1,5 +1,5 @@
-import traverse, { NodePath, Visitor } from 'babel-traverse'
-import * as t from 'babel-types'
+import traverse, { NodePath, Visitor } from '@babel/traverse'
+import * as t from '@babel/types'
 
 import { usedComponents } from './global'
 import { buildBlockElement, buildImportStatement, buildRender, codeFrameError, parseCode } from './utils'
