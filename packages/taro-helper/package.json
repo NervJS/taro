@@ -20,7 +20,8 @@
   "files": [
     "index.js",
     "dist",
-    "types"
+    "types",
+    "swc"
   ],
   "keywords": [
     "taro"
