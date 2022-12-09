@@ -282,7 +282,8 @@ declare global {
 
       'custom-wrapper': ElementAttrs<TransformReact2VueType<CustomWrapperProps>>
       'taro-custom-wrapper-core': ElementAttrs<TransformReact2VueType<CustomWrapperProps>>
-      'slot': ElementAttrs<TransformReact2VueType<SlotProps>>
+      /** 为了不与vue3模板默认的slot冲突，增加 Record<string, any> */
+      'slot': ElementAttrs<TransformReact2VueType<SlotProps>> & Record<string, any>
       'taro-slot-core': ElementAttrs<TransformReact2VueType<SlotProps>>
     }
   }

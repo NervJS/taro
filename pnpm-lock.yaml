@@ -469,6 +469,7 @@ importers:
 
   packages/taro-cli:
     specifiers:
+      '@babel/generator': ^7.14.5
       '@babel/template': ^7.14.5
       '@babel/traverse': ^7.14.5
       '@babel/types': ^7.14.5
@@ -479,7 +480,6 @@ importers:
       '@tarojs/transformer-wx': ^2.0.4
       adm-zip: ^0.4.13
       babylon: ^6.18.0
-      better-babel-generator: 6.26.1
       cli-highlight: ^2.1.4
       dotenv: ^16.0.3
       dotenv-expand: ^9.0.0
@@ -510,6 +510,7 @@ importers:
       xml2js: ^0.4.19
       xxhashjs: ^0.2.2
     dependencies:
+      '@babel/generator': registry.npmjs.org/@babel/generator/7.18.2
       '@babel/template': registry.npmjs.org/@babel/template/7.16.7
       '@babel/traverse': registry.npmjs.org/@babel/traverse/7.18.5
       '@babel/types': registry.npmjs.org/@babel/types/7.18.4
@@ -520,7 +521,6 @@ importers:
       '@tarojs/transformer-wx': registry.npmjs.org/@tarojs/transformer-wx/2.2.10
       adm-zip: registry.npmjs.org/adm-zip/0.4.16
       babylon: registry.npmjs.org/babylon/6.18.0
-      better-babel-generator: registry.npmjs.org/better-babel-generator/6.26.1
       cli-highlight: registry.npmjs.org/cli-highlight/2.1.11
       dotenv: registry.npmjs.org/dotenv/16.0.3
       dotenv-expand: registry.npmjs.org/dotenv-expand/9.0.0
@@ -571,7 +571,7 @@ importers:
       jquery: ^3.4.1
       karmatic: ^2.1.0
       lodash: ^4.17.21
-      miniapp-types: 1.1.20
+      miniapp-types: 1.1.21
       resolve-pathname: ^3.0.0
       simulant: ^0.2.2
       style-loader: 1.3.0
@@ -604,7 +604,7 @@ importers:
       jquery: registry.npmjs.org/jquery/3.6.0
       karmatic: registry.npmjs.org/karmatic/2.1.0_webpack@4.46.0
       lodash: registry.npmjs.org/lodash/4.17.21
-      miniapp-types: registry.npmjs.org/miniapp-types/1.1.20
+      miniapp-types: registry.npmjs.org/miniapp-types/1.1.21
       simulant: registry.npmjs.org/simulant/0.2.2
       style-loader: registry.npmjs.org/style-loader/1.3.0_webpack@4.46.0
       ts-node: registry.npmjs.org/ts-node/10.9.1_ah2igguqgj6e7ik4ubgohitm4e
@@ -682,9 +682,6 @@ importers:
       react-native-gesture-handler: registry.npmjs.org/react-native-gesture-handler/2.5.0_ws5w265lwlgfx6ddpl3mdiooma
       react-native-svg: registry.npmjs.org/react-native-svg/12.4.3_ws5w265lwlgfx6ddpl3mdiooma
       react-test-renderer: registry.npmjs.org/react-test-renderer/18.0.0_react@18.0.0
-
-  packages/taro-components/loader:
-    specifiers: {}
 
   packages/taro-extend:
     specifiers: {}
@@ -12771,7 +12768,7 @@ packages:
       mississippi: registry.npmjs.org/mississippi/3.0.0
       mkdirp: registry.npmjs.org/mkdirp/0.5.6
       move-concurrently: registry.npmjs.org/move-concurrently/1.0.1
-      promise-inflight: registry.npmjs.org/promise-inflight/1.0.1_bluebird@3.7.2
+      promise-inflight: registry.npmjs.org/promise-inflight/1.0.1
       rimraf: registry.npmjs.org/rimraf/2.7.1
       ssri: registry.npmjs.org/ssri/6.0.2
       unique-filename: registry.npmjs.org/unique-filename/1.1.1
@@ -25162,10 +25159,10 @@ packages:
       webpack: registry.npmjs.org/webpack/5.69.0_esbuild@0.14.47
     dev: false
 
-  registry.npmjs.org/miniapp-types/1.1.20:
-    resolution: {integrity: sha512-PSyKjZtudZhbWFahidGh4TE0dHIQH0rZxefsesaTqweHrj3Jkl/U8rpKylJR8WwSUe42sNPUzkehoaH68pzrnA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/miniapp-types/-/miniapp-types-1.1.20.tgz}
+  registry.npmjs.org/miniapp-types/1.1.21:
+    resolution: {integrity: sha512-nhAgQjIYEPSO1VvAAvRxZOwvH/gEykbcMZdSGIG9HBE73bCE+I4IOdUt1O/CPjodH5C8husNGr3vTGq7JnfwVQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/miniapp-types/-/miniapp-types-1.1.21.tgz}
     name: miniapp-types
-    version: 1.1.20
+    version: 1.1.21
     dev: true
 
   registry.npmjs.org/minimalistic-assert/1.0.1:
@@ -28986,19 +28983,6 @@ packages:
     peerDependenciesMeta:
       bluebird:
         optional: true
-
-  registry.npmjs.org/promise-inflight/1.0.1_bluebird@3.7.2:
-    resolution: {integrity: sha512-6zWPyEOFaQBJYcGMHBKTKJ3u6TBsnMFOIZSa6ce1e/ZrrsOlnHRHbabMjLiBYKp+n44X9eUI6VUPaukCXHuG4g==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/promise-inflight/-/promise-inflight-1.0.1.tgz}
-    id: registry.npmjs.org/promise-inflight/1.0.1
-    name: promise-inflight
-    version: 1.0.1
-    peerDependencies:
-      bluebird: '*'
-    peerDependenciesMeta:
-      bluebird:
-        optional: true
-    dependencies:
-      bluebird: registry.npmjs.org/bluebird/3.7.2
 
   registry.npmjs.org/promise-polyfill/7.1.2:
     resolution: {integrity: sha512-FuEc12/eKqqoRYIGBrUptCBRhobL19PS2U31vMNTfyck1FxPyMfgsXyW4Mav85y/ZN1hop3hOwRlUDok23oYfQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/promise-polyfill/-/promise-polyfill-7.1.2.tgz}
@@ -33540,7 +33524,6 @@ packages:
       serialize-javascript: registry.npmjs.org/serialize-javascript/6.0.0
       terser: registry.npmjs.org/terser/5.14.1
       webpack: registry.npmjs.org/webpack/5.69.0_wkjo2hiq5f7hoisy3o6yu6yuja
-    dev: true
 
   registry.npmjs.org/terser-webpack-plugin/5.3.3_v3nag7joep3fhay4q6lv7p6we4:
     resolution: {integrity: sha512-Fx60G5HNYknNTNQnzQ1VePRuu89ZVYWfjRAeT5rITuCY/1b08s49e5kSQwHDirKZWuoKOBRFS98EUUoZ9kLEwQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/terser-webpack-plugin/-/terser-webpack-plugin-5.3.3.tgz}
@@ -34328,6 +34311,7 @@ packages:
     version: 3.17.4
     engines: {node: '>=0.8.0'}
     hasBin: true
+    requiresBuild: true
     dev: true
     optional: true
 
@@ -35302,7 +35286,7 @@ packages:
       mime-types: registry.npmjs.org/mime-types/2.1.35
       range-parser: registry.npmjs.org/range-parser/1.2.1
       schema-utils: registry.npmjs.org/schema-utils/4.0.0
-      webpack: registry.npmjs.org/webpack/5.69.0_esbuild@0.14.47
+      webpack: registry.npmjs.org/webpack/5.69.0_wkjo2hiq5f7hoisy3o6yu6yuja
 
   registry.npmjs.org/webpack-dev-server/3.11.3_webpack@4.46.0:
     resolution: {integrity: sha512-3x31rjbEQWKMNzacUZRE6wXvUFuGpH7vr0lIEbYpMAG9BOxi0928QU1BBswOAP3kg3H1O4hiS+sq4YyAn6ANnA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/webpack-dev-server/-/webpack-dev-server-3.11.3.tgz}
@@ -35399,7 +35383,7 @@ packages:
       sockjs: registry.npmjs.org/sockjs/0.3.24
       spdy: registry.npmjs.org/spdy/4.0.2
       strip-ansi: registry.npmjs.org/strip-ansi/7.0.1
-      webpack: registry.npmjs.org/webpack/5.69.0_esbuild@0.14.47
+      webpack: registry.npmjs.org/webpack/5.69.0_wkjo2hiq5f7hoisy3o6yu6yuja
       webpack-dev-middleware: registry.npmjs.org/webpack-dev-middleware/5.3.3_webpack@5.69.0
       ws: registry.npmjs.org/ws/8.8.0
     transitivePeerDependencies:
@@ -35629,7 +35613,6 @@ packages:
       - '@swc/core'
       - esbuild
       - uglify-js
-    dev: true
 
   registry.npmjs.org/webpackbar/5.0.2_webpack@5.69.0:
     resolution: {integrity: sha512-BmFJo7veBDgQzfWXl/wwYXr/VFus0614qZ8i9znqcl9fnEdiVkdbi0TedLQ6xAK92HZHDJ0QmyQ0fmuZPAgCYQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/webpackbar/-/webpackbar-5.0.2.tgz}

@@ -44,7 +44,7 @@ interface RadioProps extends StandardProps {
 
 /** 单选项目
  * @classification forms
- * @supported weapp, h5, rn, tt
+ * @supported weapp, alipay, swan, tt, qq, h5, rn
  * @example_react
  * ```tsx
  * export default class PageRadio extends Component {
