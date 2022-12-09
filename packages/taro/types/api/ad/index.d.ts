@@ -3,12 +3,20 @@ import Taro from '../../index'
 declare module '../../index' {
   namespace createRewardedVideoAd {
     interface Option {
-      /** 广告单元 id */
+      /** 小程序广告位 ID
+       * @supported weapp, tt, swan
+       */
       adUnitId: string
       /** 是否启用多例模式
        * @default false
+       * @supported weapp
        */
       multiton?: boolean
+      /** 小程序应用 ID
+       * @supported swan
+       * @swan 必填
+       */
+      appSid?: string
     }
   }
 
@@ -186,7 +194,7 @@ declare module '../../index' {
 
   interface TaroStatic {
     /** 创建激励视频广告组件。
-     * @supported weapp
+     * @supported weapp, tt, swan
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/ad/wx.createRewardedVideoAd.html
      */
     createRewardedVideoAd (option: createRewardedVideoAd.Option): RewardedVideoAd
