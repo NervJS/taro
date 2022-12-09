@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/webpack-runner",
-  "version": "3.6.0-canary.4",
+  "version": "3.6.0-canary.6",
   "description": "webpack runner for taro",
   "main": "index.js",
   "scripts": {

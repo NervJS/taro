@@ -1,0 +1,47 @@
+{
+  "name": "@tarojs/components-advanced",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build:babel": "cross-env TARO_ENV=h5 babel src --extensions=.js,.jsx,.ts,.tsx --out-dir dist",
+    "build:declaration": "tsc",
+    "clean": "rimraf ./dist",
+    "dev": "pnpm run build:babel -w",
+    "prod": "run-s clean build:babel build:declaration"
+  },
+  "keywords": [],
+  "author": "ZakaryCode",
+  "license": "MIT",
+  "dependencies": {
+    "@tarojs/components": "workspace:*",
+    "memoize-one": "^6.0.0",
+    "postcss": "^8.4.18"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.14.5",
+    "@babel/core": "^7.14.5",
+    "@babel/plugin-transform-typescript": "^7.20.2",
+    "@types/node": "^14.14.31",
+    "babel-preset-taro": "workspace:*",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "typescript": "^4.7.4",
+    "vue": "^3.0.0"
+  },
+  "peerDependencies": {
+    "react": ">=17"
+  },
+  "peerDependenciesMeta": {
+    "react": {
+      "optional": true
+    },
+    "vue": {
+      "optional": true
+    }
+  }
+}

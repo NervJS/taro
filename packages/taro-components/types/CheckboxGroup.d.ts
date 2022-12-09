@@ -16,7 +16,7 @@ interface CheckboxGroupProps extends StandardProps, FormItemProps {
 
 /** 多项选择器，内部由多个checkbox组成
  * @classification forms
- * @supported weapp, h5, rn, tt
+ * @supported weapp, alipay, swan, tt, qq, jd, h5, rn
  * @example
  * ```tsx
  * export default class PageCheckbox extends Component {

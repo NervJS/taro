@@ -95,7 +95,7 @@ declare namespace OpenDataProps {
 
 /** 用于展示平台开放的数据
  * @classification open
- * @supported weapp, tt
+ * @supported weapp, swan, tt, qq
  * @example_react
  * ```tsx
  * class App extends Component {

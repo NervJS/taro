@@ -83,6 +83,7 @@ export interface AppInstance extends Show {
   onError? (error: string): void
   onLaunch? (options?: Record<string, unknown>): void
   onPageNotFound? (res: any): void
+  onUnhandledRejection? (error: any): void
   onShow?(options?: Record<string, unknown>): void
   unmount? (id: string, cb?: () => void): void
   taroGlobalData?: Record<any, any>

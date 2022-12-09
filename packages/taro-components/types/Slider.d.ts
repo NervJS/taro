@@ -118,7 +118,7 @@ declare namespace SliderProps {
 
 /** 滑动选择器
  * @classification forms
- * @supported weapp, h5, rn, swan, alipay, tt
+ * @supported weapp, alipay, swan, tt, qq, jd, h5, rn
  * @example_react
  * ```tsx
  * export default class PageView extends Component {

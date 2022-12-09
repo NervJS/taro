@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/components",
-  "version": "3.6.0-canary.4",
+  "version": "3.6.0-canary.6",
   "description": "Taro 组件库",
   "browser": "dist/index.js",
   "main:h5": "dist/index.js",
@@ -43,6 +43,7 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
+    "@tarojs/components-advanced": "workspace:*",
     "@tarojs/router": "workspace:*",
     "@tarojs/taro": "workspace:*",
     "classnames": "^2.2.5",
@@ -67,7 +68,7 @@
     "csstype": "^3.1.1",
     "jquery": "^3.4.1",
     "lodash": "^4.17.21",
-    "miniapp-types": "1.1.16",
+    "miniapp-types": "1.1.21",
     "puppeteer": "^19.2.0",
     "stencil-vue2-output-target": "0.0.4",
     "ts-node": "^10.9.1",

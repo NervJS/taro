@@ -563,9 +563,11 @@ require(\\"./taro\\");
                     bindChange: \\"\\"
                 },
                 Input: {
+                    \\"always-system\\": \\"false\\",
                     \\"random-number\\": \\"false\\",
                     controlled: \\"false\\",
-                    enableNative: \\"false\\"
+                    enableNative: \\"true\\",
+                    name: \\"\\"
                 },
                 Slider: {
                     \\"track-size\\": \\"4\\",
@@ -614,6 +616,7 @@ require(\\"./taro\\");
                 Video: {
                     \\"poster-size\\": Object(_tarojs_shared__WEBPACK_IMPORTED_MODULE_0__[\\"singleQuote\\"])(\\"contain\\"),
                     \\"mobilenet-hint-type\\": \\"1\\",
+                    enableNative: \\"true\\",
                     bindLoading: \\"\\",
                     bindUserAction: \\"\\",
                     bindStop: \\"\\",
@@ -623,9 +626,9 @@ require(\\"./taro\\");
                     autoplay: \\"false\\",
                     path: \\"\\",
                     speed: \\"1.0\\",
-                    repeatCount: \\"0\\",
-                    autoReverse: \\"false\\",
-                    assetsPath: \\"\\",
+                    \\"repeat-count\\": \\"0\\",
+                    \\"auto-reverse\\": \\"false\\",
+                    \\"assets-path\\": \\"\\",
                     placeholder: \\"\\",
                     djangoId: \\"\\",
                     md5: \\"\\",
@@ -667,6 +670,32 @@ require(\\"./taro\\");
                     bindStop: \\"\\",
                     bindError: \\"\\",
                     bindARFrame: \\"\\"
+                },
+                PageContainer: {
+                    show: \\"false\\",
+                    duration: \\"300\\",
+                    \\"z-index\\": \\"100\\",
+                    overlay: \\"true\\",
+                    position: Object(_tarojs_shared__WEBPACK_IMPORTED_MODULE_0__[\\"singleQuote\\"])(\\"bottom\\"),
+                    round: \\"false\\",
+                    \\"close-on-slide-down\\": \\"false\\",
+                    \\"overlay-style\\": \\"\\",
+                    \\"custom-style\\": \\"\\",
+                    bindBeforeEnter: \\"\\",
+                    bindEnter: \\"\\",
+                    bindEnterCancelled: \\"\\",
+                    bindAfterEnter: \\"\\",
+                    bindBeforeLeave: \\"\\",
+                    bindLeave: \\"\\",
+                    bindLeaveCancelled: \\"\\",
+                    bindAfterLeave: \\"\\",
+                    bindClickOverlay: \\"\\"
+                },
+                ShareElement: {
+                    name: \\"\\",
+                    transform: \\"false\\",
+                    duration: \\"300\\",
+                    \\"easing-function\\": Object(_tarojs_shared__WEBPACK_IMPORTED_MODULE_0__[\\"singleQuote\\"])(\\"ease-out\\")
                 }
             };
             var BUBBLE_EVENTS = new Set([ \\"touchStart\\", \\"touchMove\\", \\"touchEnd\\", \\"touchCancel\\", \\"tap\\", \\"longTap\\" ]);
@@ -1230,7 +1259,7 @@ require(\\"./taro\\");
         function useRouter() {}
         function useTabItemTap() {}
         function useScope() {}
-        var needPromiseApis = new Set([ \\"authPrivateMessage\\", \\"disableAlertBeforeUnload\\", \\"enableAlertBeforeUnload\\", \\"getBackgroundFetchData\\", \\"getGroupEnterInfo\\", \\"getShareInfo\\", \\"getWeRunData\\", \\"join1v1Chat\\", \\"openVideoEditor\\", \\"saveFileToDisk\\", \\"scanItem\\", \\"setEnable1v1Chat\\", \\"setWindowSize\\", \\"sendBizRedPacket\\", \\"startFacialRecognitionVerify\\", \\"openCustomerServiceChat\\", \\"getLocalIPAddress\\", \\"getUserProfile\\", \\"editImage\\", \\"getFuzzyLocation\\", \\"cropImage\\" ]);
+        var needPromiseApis = new Set([ \\"authPrivateMessage\\", \\"chooseContact\\", \\"cropImage\\", \\"disableAlertBeforeUnload\\", \\"editImage\\", \\"enableAlertBeforeUnload\\", \\"getBackgroundFetchData\\", \\"getFuzzyLocation\\", \\"getGroupEnterInfo\\", \\"getLocalIPAddress\\", \\"getShareInfo\\", \\"getUserProfile\\", \\"getWeRunData\\", \\"join1v1Chat\\", \\"openCustomerServiceChat\\", \\"openVideoEditor\\", \\"saveFileToDisk\\", \\"scanItem\\", \\"setEnable1v1Chat\\", \\"setWindowSize\\", \\"sendBizRedPacket\\", \\"startFacialRecognitionVerify\\" ]);
         function initNativeApi(taro) {
             processApis(taro, wx, {
                 needPromiseApis: needPromiseApis,
@@ -1574,7 +1603,7 @@ require(\\"./taro\\");
                 overlay: _true,
                 position: \\"'bottom'\\",
                 round: _false,
-                \\"close-on-slideDown\\": _false,
+                \\"close-on-slide-down\\": _false,
                 \\"overlay-style\\": _empty,
                 \\"custom-style\\": _empty,
                 bindBeforeEnter: _empty,

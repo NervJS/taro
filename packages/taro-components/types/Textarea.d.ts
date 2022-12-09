@@ -136,6 +136,12 @@ interface TextareaProps extends StandardProps, FormItemProps {
    */
   controlled?: string
 
+  /** 使用原生键盘
+   * @default false
+   * @supported alipay
+   */
+  enableNative?: boolean
+
   /** 无障碍访问，（属性）元素的额外描述
    * @supported qq
    */
@@ -218,7 +224,7 @@ declare namespace TextareaProps {
 
 /** 多行输入框。该组件是原生组件，使用时请注意相关限制
  * @classification forms
- * @supported weapp, h5, rn
+ * @supported weapp, alipay, swan, tt, qq, h5, rn
  * @example_react
  * ```tsx
  * export default class PageView extends Component {

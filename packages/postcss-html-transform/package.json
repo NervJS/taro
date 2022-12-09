@@ -1,6 +1,6 @@
 {
   "name": "postcss-html-transform",
-  "version": "3.6.0-canary.4",
+  "version": "3.6.0-canary.6",
   "description": "transform html tag name selector",
   "main": "index.js",
   "author": "drchan",
