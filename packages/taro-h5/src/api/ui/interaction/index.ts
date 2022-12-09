@@ -292,11 +292,11 @@ const showActionSheet: typeof Taro.showActionSheet = async (options = { itemList
 }
 
 Taro.eventCenter.on('__afterTaroRouterChange', () => {
-  if (toast.currentPath !== Current.page?.path) {
+  if (toast.currentPath && toast.currentPath !== Current.page?.path) {
     hideLoading()
   }
 
-  if (modal.currentPath !== Current.page?.path) {
+  if (modal.currentPath && modal.currentPath !== Current.page?.path) {
     hideModal()
   }
 })
