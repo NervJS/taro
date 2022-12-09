@@ -4561,7 +4561,7 @@ exports[`vue3 should build vue3 app 2`] = `
                             break;
 
                           case 42:
-                            if (!handler.isTabBar(handler.pathname)) {
+                            if (!(currentPage && handler.isTabBar(handler.pathname))) {
                                 _context.next = 52;
                                 break;
                             }
