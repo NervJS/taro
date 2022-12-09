@@ -14,6 +14,14 @@ export const stripTrailing = (str = '') => str.replace(/[?#][\s\S]*$/, '')
 export const stripSuffix = (path = '', suffix = '') =>
   path.includes(suffix) ? path.substring(0, path.length - suffix.length) : path
 
+export const getHomePage = (path = '', basename = '', customRoutes: Record<string, string | string[]> = {}, entryPagePath = '') => {
+  const routePath = addLeadingSlash(stripBasename(path, basename))
+  const alias = Object.entries(customRoutes).find(
+    ([key]) => key === routePath
+  )?.[1] || routePath
+  return entryPagePath || (typeof alias === 'string' ? alias : alias[0]) || basename
+}
+
 class RoutesAlias {
   conf: Array<string[]> = []
 

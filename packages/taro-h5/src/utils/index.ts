@@ -1,5 +1,6 @@
 /* eslint-disable prefer-promise-reject-errors */
 import Taro from '@tarojs/api'
+import { addLeadingSlash, getHomePage, stripBasename } from '@tarojs/router/dist/utils'
 import { Current, hooks, TaroElement } from '@tarojs/runtime'
 
 import { MethodHandler } from './handler'
@@ -188,29 +189,6 @@ export function processOpenApi<TOptions = Record<string, unknown>, TResult exten
   }
 }
 
-function addLeadingSlash (url = '') {
-  return url.charAt(0) === '/' ? url : '/' + url
-}
-
-function hasBasename (path = '', prefix = '') {
-  return new RegExp('^' + prefix + '(\\/|\\?|#|$)', 'i').test(path) || path === prefix
-}
-
-function stripBasename (path = '', prefix = '') {
-  return hasBasename(path, prefix) ? path.substring(prefix.length) : path
-}
-
-function getHomePage (appConfig) {
-  const basename: string = appConfig.router?.basename
-  const customRoutes: Record<string, string | string[]> = appConfig.router?.customRoutes
-  const routePath = addLeadingSlash(stripBasename(appConfig.routes?.[0]?.path, basename))
-  const alias = Object.entries(customRoutes || []).find(
-    ([key]) => key === routePath
-  )?.[1] || routePath
-
-  return appConfig.entryPagePath || (typeof alias === 'string' ? alias : alias[0]) || basename
-}
-
 /**
  * 根据url获取应用的启动页面
  * @returns 
@@ -227,7 +205,7 @@ export function getLaunchPage (): string {
     entryPath = location.hash.slice(1).split('?')[0]
   }
   const routePath = addLeadingSlash(stripBasename(entryPath, appConfig.router?.basename))
-  const homePath = addLeadingSlash(getHomePage(appConfig))
+  const homePath = addLeadingSlash(getHomePage(appConfig.routes?.[0]?.path, appConfig.router?.basename, appConfig.router?.customRoutes, appConfig.entryPagePath))
 
   // url上没有指定应用的启动页面时使用homePath
   if(routePath === '/') {

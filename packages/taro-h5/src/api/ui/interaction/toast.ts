@@ -1,6 +1,6 @@
 import { Current } from '@tarojs/runtime'
 
-import { getLaunchPage,inlineStyle } from '../../../utils'
+import { getLaunchPage, inlineStyle } from '../../../utils'
 
 export default class Toast {
   options = {
@@ -154,7 +154,7 @@ export default class Toast {
     config.duration >= 0 && this.hide(config.duration, this.type)
 
     // Current.page不存在时说明路由还未挂载，此时需根据url来分配将要渲染的页面path
-    this.currentPath = Current.page && Current.page.path ? Current.page.path : getLaunchPage()
+    this.currentPath = Current.page?.path ?? getLaunchPage()
 
     return ''
   }
@@ -210,7 +210,7 @@ export default class Toast {
     config.duration >= 0 && this.hide(config.duration, this.type)
 
     // Current.page不存在时说明路由还未挂载，此时需根据url来分配将要渲染的页面path
-    this.currentPath = Current.page && Current.page.path ? Current.page.path : getLaunchPage()
+    this.currentPath = Current.page?.path ?? getLaunchPage()
 
     return ''
   }
