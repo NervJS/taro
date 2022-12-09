@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/service",
-  "version": "3.6.0-canary.5",
+  "version": "3.6.0-canary.6",
   "description": "Taro Service",
   "main": "index.js",
   "types": "types/index.d.ts",

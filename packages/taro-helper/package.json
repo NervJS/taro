@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/helper",
-  "version": "3.6.0-canary.5",
+  "version": "3.6.0-canary.6",
   "description": "Taro Helper",
   "main": "index.js",
   "types": "dist/index.d.ts",
