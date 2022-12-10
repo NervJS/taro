@@ -4682,7 +4682,7 @@ exports[`css modules should use css modules with global mode 2`] = `
                             break;
 
                           case 42:
-                            if (!handler.isTabBar(handler.pathname)) {
+                            if (!(currentPage && handler.isTabBar(handler.pathname))) {
                                 _context.next = 52;
                                 break;
                             }
@@ -9554,7 +9554,7 @@ exports[`css modules should use css modules with module mode 2`] = `
                             break;
 
                           case 42:
-                            if (!handler.isTabBar(handler.pathname)) {
+                            if (!(currentPage && handler.isTabBar(handler.pathname))) {
                                 _context.next = 52;
                                 break;
                             }
