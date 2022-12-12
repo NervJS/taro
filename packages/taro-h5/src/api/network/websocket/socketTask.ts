@@ -1,5 +1,7 @@
 import Taro from '@tarojs/api'
 
+import { isFunction } from '../../../utils'
+
 export class SocketTask {
   ws: WebSocket
   CONNECTING: number
@@ -33,16 +35,16 @@ export class SocketTask {
     if (this.readyState !== 1) {
       const res = { errMsg: 'SocketTask.send:fail SocketTask.readState is not OPEN' }
       console.error(res.errMsg)
-      typeof fail === 'function' && fail(res)
-      typeof complete === 'function' && complete(res)
+      isFunction(fail) && fail(res)
+      isFunction(complete) && complete(res)
       return Promise.reject(res)
     }
 
     this.ws.send(data)
 
     const res = { errMsg: 'sendSocketMessage:ok' }
-    typeof success === 'function' && success(res)
-    typeof complete === 'function' && complete(res)
+    isFunction(success) && success(res)
+    isFunction(complete) && complete(res)
     return Promise.resolve(res)
   }
 
@@ -62,8 +64,8 @@ export class SocketTask {
     this.ws.close()
 
     const res = { errMsg: 'closeSocket:ok' }
-    typeof success === 'function' && success(res)
-    typeof complete === 'function' && complete(res)
+    isFunction(success) && success(res)
+    isFunction(complete) && complete(res)
     return Promise.resolve(res)
   }
 

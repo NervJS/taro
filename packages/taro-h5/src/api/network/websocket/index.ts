@@ -49,14 +49,14 @@ export function connectSocket (options) {
           correct: 'String',
           wrong: url
         })
-      }, reject)
+      }, { resolve, reject })
     }
 
     // options.url must be invalid
     if (!url.startsWith('ws://') && !url.startsWith('wss://')) {
       return handle.fail({
         errMsg: `request:fail invalid url "${url}"`
-      }, reject)
+      }, { resolve, reject })
     }
 
     // protocols must be array
@@ -66,7 +66,7 @@ export function connectSocket (options) {
     if (socketTasks.length > 1) {
       return handle.fail({
         errMsg: '同时最多发起 2 个 socket 请求，更多请参考文档。'
-      }, reject)
+      }, { resolve, reject })
     }
 
     const task = new SocketTask(url, _protocols)

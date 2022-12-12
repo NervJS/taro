@@ -1,7 +1,7 @@
 import Taro from '@tarojs/api'
 import { SwiperProps } from '@tarojs/components'
 
-import { shouldBeObject } from '../../../utils'
+import { isFunction, shouldBeObject } from '../../../utils'
 import { MethodHandler } from '../../../utils/handler'
 
 /**
@@ -26,7 +26,7 @@ export const previewImage: typeof Taro.previewImage = async (options) => {
       item.appendChild(div)
       // Note: 等待图片加载完后返回，会导致轮播被卡住
       resolve(item)
-      if (typeof loadFail === 'function') {
+      if (isFunction(loadFail)) {
         image.addEventListener('error', (err) => {
           loadFail({ errMsg: err.message })
         })

@@ -3,6 +3,7 @@ import Taro from '@tarojs/api'
 import { Current, hooks, TaroElement } from '@tarojs/runtime'
 
 import { MethodHandler } from './handler'
+import { isFunction } from './valid'
 
 export const isProd = process.env.NODE_ENV === 'production'
 
@@ -165,7 +166,7 @@ export function processOpenApi<TOptions = Record<string, unknown>, TResult exten
     // @ts-ignore
     const targetApi = window?.wx?.[name]
     const opts = formatOptions(Object.assign({}, defaultOptions, options))
-    if (typeof targetApi === 'function') {
+    if (isFunction(targetApi)) {
       return new Promise<TResult>((resolve, reject) => {
         ['fail', 'success', 'complete'].forEach(k => {
           opts[k] = preRef => {
@@ -180,7 +181,7 @@ export function processOpenApi<TOptions = Record<string, unknown>, TResult exten
           return targetApi(opts)
         })
       })
-    } else if (typeof standardMethod === 'function') {
+    } else if (isFunction(standardMethod)) {
       return standardMethod(opts)
     } else {
       return notSupported(options, ...args) as Promise<TResult>
