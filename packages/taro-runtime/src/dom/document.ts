@@ -29,7 +29,7 @@ export class TaroDocument extends TaroElement {
   }
 
   public createElement (type: string): TaroElement | TaroRootElement | FormElement {
-    const nodeName = type.toLocaleLowerCase()
+    const nodeName = type.toLowerCase()
     if (nodeName === ROOT_STR) {
       return new TaroRootElement()
     }
