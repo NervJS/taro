@@ -30,12 +30,12 @@ export class TaroDocument extends TaroElement {
 
   public createElement (type: string): TaroElement | TaroRootElement | FormElement {
     const nodeName = type.toLowerCase()
-    if (nodeName === ROOT_STR) {
-      return new TaroRootElement()
-    }
 
     let element: TaroElement
     switch (true) {
+      case nodeName === ROOT_STR:
+        element = new TaroRootElement()
+        return element
       case controlledComponent.has(nodeName):
         element = new FormElement()
         break
