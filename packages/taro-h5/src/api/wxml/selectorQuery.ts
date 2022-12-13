@@ -1,6 +1,7 @@
 import Taro from '@tarojs/api'
+import { isFunction } from '@tarojs/shared'
 
-import { findDOM, isFunction } from '../../utils'
+import { findDOM } from '../../utils'
 import { CanvasContext } from '../canvas/CanvasContext'
 import { NodesRef } from './nodesRef'
 

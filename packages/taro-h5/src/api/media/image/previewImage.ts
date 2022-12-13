@@ -1,7 +1,8 @@
 import Taro from '@tarojs/api'
 import { SwiperProps } from '@tarojs/components'
+import { isFunction } from '@tarojs/shared'
 
-import { isFunction, shouldBeObject } from '../../../utils'
+import { shouldBeObject } from '../../../utils'
 import { MethodHandler } from '../../../utils/handler'
 
 /**

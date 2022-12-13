@@ -6,8 +6,8 @@
  */
 
 import Taro from '@tarojs/api'
+import { isFunction } from '@tarojs/shared'
 
-import { isFunction } from '../../utils'
 import { MethodHandler } from '../../utils/handler'
 import { getStorageSync, setStorage, setStorageSync } from '../storage/index'
 

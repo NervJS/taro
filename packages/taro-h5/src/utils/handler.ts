@@ -1,4 +1,6 @@
-import { isFunction, isProd } from './index'
+import { isFunction } from '@tarojs/shared'
+
+import { isProd } from './index'
 
 type TCallback<T = Partial<TaroGeneral.CallbackResult>> = (res: T) => Promise<void> | void
 interface IMethodParam<T = Partial<TaroGeneral.CallbackResult>> {

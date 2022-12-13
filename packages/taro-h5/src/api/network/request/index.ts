@@ -1,9 +1,10 @@
 import 'whatwg-fetch'
 
 import Taro from '@tarojs/api'
+import { isFunction } from '@tarojs/shared'
 import jsonpRetry from 'jsonp-retry'
 
-import { isFunction, serializeParams } from '../../../utils'
+import { serializeParams } from '../../../utils'
 
 // @ts-ignore
 const { Link } = Taro

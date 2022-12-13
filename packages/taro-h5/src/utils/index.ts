@@ -1,9 +1,9 @@
 /* eslint-disable prefer-promise-reject-errors */
 import Taro from '@tarojs/api'
 import { Current, hooks, TaroElement } from '@tarojs/runtime'
+import { isFunction } from '@tarojs/shared'
 
 import { MethodHandler } from './handler'
-import { isFunction } from './valid'
 
 export const isProd = process.env.NODE_ENV === 'production'
 

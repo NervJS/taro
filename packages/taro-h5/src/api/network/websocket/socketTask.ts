@@ -1,6 +1,5 @@
 import Taro from '@tarojs/api'
-
-import { isFunction } from '../../../utils'
+import { isFunction } from '@tarojs/shared'
 
 export class SocketTask {
   ws: WebSocket
