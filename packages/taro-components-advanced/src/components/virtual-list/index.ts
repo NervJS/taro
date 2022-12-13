@@ -32,6 +32,8 @@ interface VirtualListProps extends Omit<StandardProps, 'children'> {
   onScrollNative?: BaseEventOrigFunction<ScrollViewProps.onScrollDetail>
   /** 在可视区域之外渲染的列表单项数量，值设置得越高，快速滚动时出现白屏的概率就越小，相应地，每次滚动的性能会变得越差。 */
   overscanCount?: number
+  /** 上下滚动预占位节点 */
+  placeholderCount?: number
   /** 是否注入 isScrolling 属性到 children 组件。这个参数一般用于实现滚动骨架屏（或其它 placeholder） 时比较有用。 */
   useIsScrolling?: boolean
   style?: CSSProperties

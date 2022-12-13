@@ -29,6 +29,8 @@ export function getRectSize (id: string, success: TFunc = () => {}, fail: TFunc 
       }
     }).exec()
   } catch (err) {
-    // fail()
+    setTimeout(() => {
+      getRectSize(id, success, fail)
+    }, 400)
   }
 }

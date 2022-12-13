@@ -65,8 +65,13 @@ export default class List extends React.PureComponent<IProps, IState> {
       scrollUpdateWasRequested: false,
       refreshCount: 0
     }
+    const setState = this.setState.bind(this)
 
-    this.itemList = new ListSet(props)
+    this.itemList = new ListSet(
+      props,
+      () => setState(({ refreshCount }) => ({
+        refreshCount: ++refreshCount
+      })))
   }
 
   get isHorizontal () {
@@ -75,6 +80,10 @@ export default class List extends React.PureComponent<IProps, IState> {
 
   get isRtl () {
     return isRtlFunc(this.props)
+  }
+
+  get placeholderCount () {
+    return this.props.placeholderCount >= 0 ? this.props.placeholderCount : this.props.overscanCount
   }
 
   getItemSize (props: IProps, index) {
@@ -173,11 +182,7 @@ export default class List extends React.PureComponent<IProps, IState> {
         const size = isHorizontal ? width : height
         if (!this.itemList.compareSize(index, size)) {
           this.itemList.setSize(index, size)
-          // this.setState(({ refreshCount }) => ({
-          //   refreshCount: ++refreshCount
-          // }), () => {
           resolve(this.itemList.getSize(index))
-          // })
         }
       }
       const fail = () => {
@@ -496,6 +501,7 @@ export default class List extends React.PureComponent<IProps, IState> {
     } = this.state
 
     const isHorizontal = this.isHorizontal
+    const placeholderCount = this.placeholderCount
     const onScroll = isHorizontal ? this._onScrollHorizontal : this._onScrollVertical
 
     const [startIndex, stopIndex] = this._getRangeToRender()
@@ -503,6 +509,13 @@ export default class List extends React.PureComponent<IProps, IState> {
     const items = []
 
     if (itemCount > 0) {
+      const prevPlaceholder = startIndex < placeholderCount ? startIndex : placeholderCount
+      items.push(new Array(prevPlaceholder).fill(-1).map((_, index) => React.createElement<any>(
+        itemElementType || itemTagName || 'div', {
+          key: itemKey(index, itemData),
+          style: { display: 'none' }
+        }
+      )))
       for (let index = startIndex; index <= stopIndex; index++) {
         const key = itemKey(index, itemData)
         let style
@@ -524,6 +537,14 @@ export default class List extends React.PureComponent<IProps, IState> {
           isScrolling: useIsScrolling ? isScrolling : undefined
         })))
       }
+      const restCount = itemCount - stopIndex
+      const postPlaceholder = restCount < placeholderCount ? restCount : placeholderCount
+      items.push(new Array(postPlaceholder).fill(-1).map((_, index) => React.createElement<any>(
+        itemElementType || itemTagName || 'div', {
+          key: itemKey(index + stopIndex, itemData),
+          style: { display: 'none' }
+        }
+      )))
     }
     // Read this value AFTER items have been created,
     // So their actual sizes (if variable) are taken into consideration.

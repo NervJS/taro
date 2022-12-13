@@ -11,9 +11,9 @@ export default class ListSet {
   length = 100
   overscan = 0
 
-  list: [number, number][] = []
+  list: number[] = []
 
-  constructor (props: IProps) {
+  constructor (props: IProps, protected refresh?: TFunc) {
     this.update(props)
 
     // Note: 不考虑无限制列表切换情况，可能会导致列表抖动体验过差
@@ -36,20 +36,13 @@ export default class ListSet {
     }
   }
 
-  set (i = 0, id = 0, size = this.defaultSize) {
-    this.list[i] = [id, size]
-  }
-
   get (i = 0) {
     return this.list[i]
   }
 
   setSize (i = 0, size = this.defaultSize) {
-    const item = this.get(i)
-    if (typeof item !== 'object') {
-      return this.set(i, 0, size)
-    }
-    item[1] = size
+    this.list[i] = size
+    this.refresh?.()
   }
 
   compareSize (i = 0, size = 0) {
@@ -60,10 +53,7 @@ export default class ListSet {
   getSize (i = 0) {
     if (!this.unlimited) return this.defaultSize
     const item = this.get(i)
-    if (typeof item !== 'object') {
-      return this.defaultSize
-    }
-    return item[1] >= 0 ? item[1] : this.defaultSize
+    return item >= 0 ? item : this.defaultSize
   }
 
   getOffsetSize (i = this.list.length) {
@@ -110,7 +100,7 @@ export default class ListSet {
 
     const startIndex = this.getStartIndex(scrollOffset)
     const stopIndex = this.getStopIndex(wrapperSize, scrollOffset, startIndex)
-    
+
     // Overscan by one item in each direction so that tab/focus works. If there isn't at least one extra item, tab loops back around.
     const overscanBackward = !block || direction === 'backward' ? Math.max(1, this.overscan) : 1
     const overscanForward = !block || direction === 'forward' ? Math.max(1, this.overscan) : 1
