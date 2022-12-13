@@ -105,7 +105,7 @@ export function createRouter (
         }
       }
       shouldLoad = true
-    } else if (handler.isTabBar(handler.pathname)) {
+    } else if (currentPage && handler.isTabBar(handler.pathname)) {
       if (handler.isSamePage(currentPage)) return
       if (handler.isTabBar(currentPage!.path!)) {
         handler.hide(currentPage)
