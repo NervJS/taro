@@ -86,7 +86,7 @@ export default class List extends React.PureComponent<IProps, IState> {
     return this.props.placeholderCount >= 0 ? this.props.placeholderCount : this.props.overscanCount
   }
 
-  getItemSize (props: IProps, index) {
+  getItemSize (props: IProps, index: number) {
     if (!props.unlimitedSize) {
       return props.itemSize
     }
@@ -197,7 +197,7 @@ export default class List extends React.PureComponent<IProps, IState> {
     })
   }
 
-  _getItemStyle = index => {
+  _getItemStyle = (index: number) => {
     const {
       direction,
       itemSize,

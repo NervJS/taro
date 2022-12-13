@@ -10,21 +10,36 @@ interface VirtualListProps extends Omit<StandardProps, 'children'> {
   itemCount: number
   /** 渲染数据 */
   itemData: any[]
-  /** 列表单项的大小，垂直滚动时为高度，水平滚动时为宽度。 */
-  itemSize: number
-  /** 解开高度列表单项大小限制，默认值使用: itemSize (请注意，初始高度与实际高度差异过大会导致隐患)。 */
+  /** 列表单项的大小，垂直滚动时为高度，水平滚动时为宽度。
+   *
+   * > Note:
+   * >  - unlimitedSize 模式下如果传入函数，只会调用一次用于设置初始值
+   * >  - 非 unlimitedSize 模式下如果传入函数，为避免性能问题，每个节点只会调用一次用于设置初始值
+   */
+  itemSize: number | ((index?: number, itemData?: unknown) => number)
+  /** 解开高度列表单项大小限制，默认值使用: itemSize (请注意，初始高度与实际高度差异过大会导致隐患)。
+   *
+   * > Note: 通过 itemSize 设置的初始高度与子节点实际高度差异过大会导致隐患
+   * @default false
+   */
   unlimitedSize?: boolean
-  /** 布局方式，默认采用 "absolute" */
+  /** 布局方式
+   * @default "absolute"
+   */
   position?: 'absolute' | 'relative'
   /** 初始滚动偏移值，水平滚动影响 scrollLeft，垂直滚动影响 scrollTop。 */
   initialScrollOffset?: number
-  /** 列表内部容器组件类型，默认值为 View。 */
+  /** 列表内部容器组件类型。
+   * @default View
+   */
   innerElementType?: ComponentType
   /** 顶部区域 */
   renderTop?: ReactNode
   /** 底部区域 */
   renderBottom?: ReactNode
-  /** 滚动方向。vertical 为垂直滚动，horizontal 为平行滚动。默认为 vertical。 */
+  /** 滚动方向。vertical 为垂直滚动，horizontal 为平行滚动。
+   * @default "vertical"
+   */
   layout?: 'vertical' | 'horizontal'
   /** 列表滚动时调用函数 */
   onScroll?: (event: VirtualListProps.IVirtualListEvent<VirtualListProps.IVirtualListEventDetail>) => void

@@ -1,43 +1,66 @@
+import { isFunction } from '@tarojs/shared'
+
 interface IProps {
   unlimitedSize?: boolean
   itemCount?: number
-  itemSize?: number
+  itemData?: unknown
+  itemSize?: number | ((index?: number, itemData?: unknown) => number)
   overscanCount?: number
 }
 
 export default class ListSet {
-  unlimited = false
-  defaultSize = 0
-  length = 100
-  overscan = 0
-
   list: number[] = []
+  mode?: 'normal' | 'function' | 'unlimited'
+  defaultSize = 1
 
-  constructor (props: IProps, protected refresh?: TFunc) {
+  constructor (protected props: IProps, protected refresh?: TFunc) {
     this.update(props)
 
-    // Note: 不考虑无限制列表切换情况，可能会导致列表抖动体验过差
-    if (this.unlimited) {
+    // Note: 不考虑列表模式切换情况，可能会导致列表抖动体验过差
+    if (this.props.unlimitedSize) {
+      this.mode = 'unlimited'
+    } else if (isFunction(this.props.itemSize)) {
+      this.mode = 'function'
+    } else {
+      this.mode = 'normal'
+    }
+
+    this.defaultSize = (isFunction(this.props.itemSize) ? this.props.itemSize() : this.props.itemSize) || 1
+
+    if (!this.isNormalMode) {
       this.list = new Array(this.length).fill(-1)
     }
   }
 
-  update ({ unlimitedSize, itemCount, itemSize, overscanCount }: IProps) {
-    this.unlimited = unlimitedSize
-    this.defaultSize = itemSize
-    this.length = itemCount
-    this.overscan = overscanCount
-
-    if (itemCount > this.list.length) {
-      const arr = new Array(itemCount - this.list.length).fill(-1)
-      this.list.push(...arr)
-    } else if (itemCount < this.list.length) {
-      this.list.length = itemCount
-    }
+  get isNormalMode () {
+    return this.mode === 'normal'
   }
 
-  get (i = 0) {
-    return this.list[i]
+  get isFunctionMode () {
+    return this.mode === 'function'
+  }
+
+  get isUnlimitedMode () {
+    return this.mode === 'unlimited'
+  }
+
+  get length () {
+    return this.props.itemCount || 100
+  }
+
+  get overscan () {
+    return this.props.overscanCount || 0
+  }
+
+  update (props: IProps) {
+    this.props = props
+
+    if (this.length > this.list.length) {
+      const arr = new Array(this.length - this.list.length).fill(-1)
+      this.list.push(...arr)
+    } else if (this.length < this.list.length) {
+      this.list.length = this.length
+    }
   }
 
   setSize (i = 0, size = this.defaultSize) {
@@ -45,19 +68,21 @@ export default class ListSet {
     this.refresh?.()
   }
 
-  compareSize (i = 0, size = 0) {
-    if (!this.unlimited) return true
-    return this.getSize(i) === size
-  }
-
   getSize (i = 0) {
-    if (!this.unlimited) return this.defaultSize
-    const item = this.get(i)
-    return item >= 0 ? item : this.defaultSize
+    const size = this.props.itemSize
+    const item = this.list[i]
+    if (item >= 0) return item
+    
+    if (this.isFunctionMode && isFunction(size)) {
+      const itemSize = size(i, this.props.itemData)
+      this.setSize(i, itemSize)
+      return itemSize
+    }
+    return this.defaultSize
   }
 
   getOffsetSize (i = this.list.length) {
-    if (!this.unlimited) return i * this.defaultSize
+    if (this.isNormalMode) return i * this.defaultSize
     return this.list.slice(0, i).reduce((sum, _, idx) => sum + this.getSize(idx), 0)
   }
 
@@ -65,7 +90,7 @@ export default class ListSet {
     if (offset === 0) {
       return 0
     }
-    if (!this.unlimited) {
+    if (this.isNormalMode) {
       return Math.min(this.length - 1, Math.floor(offset / this.length))
     }
     let offsetSize = 0
@@ -85,7 +110,7 @@ export default class ListSet {
 
   getStopIndex (wrapperSize = 0, scrollOffset = 0, startIndex = 0) {
     const visibleOffset = this.getOffsetSize(startIndex)
-    if (!this.unlimited) {
+    if (this.isNormalMode) {
       const numVisibleItems = Math.ceil((wrapperSize + scrollOffset - visibleOffset) / this.length)
       /** -1 is because stop index is inclusive */
       return Math.max(startIndex, Math.min(this.length - 1, startIndex + numVisibleItems - 1))
@@ -110,5 +135,10 @@ export default class ListSet {
       startIndex,
       stopIndex
     ]
+  }
+
+  compareSize (i = 0, size = 0) {
+    if (this.isNormalMode) return true
+    return this.getSize(i) === size
   }
 }
