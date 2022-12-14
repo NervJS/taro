@@ -2,17 +2,17 @@ import { ComponentType } from 'react'
 import { StandardProps, CommonEventFunction } from './common'
 interface ShareElementProps extends StandardProps {
   /** 映射标记
-   * @supported weapp 
+   * @supported weapp
    */
   key?: string
 
   /** 映射标记
-   * @supported weapp 
+   * @supported weapp
    */
   mapkey?: string
 
   /** 映射标记
-   * @supported alipay 
+   * @supported alipay
    */
   name?: string
 
