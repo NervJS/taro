@@ -49,7 +49,7 @@
     "babel-helper-mark-eval-scopes": "^0.4.3",
     "babel-helper-remove-or-void": "^0.4.3",
     "babel-plugin-danger-remove-unused-import": "^1.1.1",
-    "babel-plugin-minify-dead-code": "^1.3.2",
+    "babel-plugin-minify-dead-code-elimination": "^0.5.2",
     "babel-plugin-preval": "^1.6.4",
     "babel-plugin-syntax-dynamic-import": "^6.18.0",
     "babel-plugin-transform-class-properties": "^6.24.1",
