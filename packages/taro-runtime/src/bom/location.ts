@@ -389,7 +389,7 @@ function generateFullUrl (val = '') {
   return val
 }
 
-function parseUrl (url = '') {
+export function parseUrl (url = '') {
   const result = {
     href: '',
     origin: '',

@@ -4,6 +4,7 @@ import './dom-external'
 
 export { hooks } from '@tarojs/shared'
 // bom
+export { Cookie } from './bom/cookie'
 export { document } from './bom/document'
 export { getComputedStyle } from './bom/getComputedStyle'
 export { nav as navigator } from './bom/navigator'

@@ -1,5 +1,7 @@
 import { controlledComponent, isUndefined } from '@tarojs/shared'
+import { getStorageSync } from '@tarojs/taro'
 
+import { Cookie } from '../bom/cookie'
 import {
   COMMENT,
   DOCUMENT_ELEMENT_NAME,
@@ -20,10 +22,21 @@ export class TaroDocument extends TaroElement {
   public body: TaroElement
   public createEvent = createEvent
 
+  private _cookie: Cookie
+
   public constructor () {
     super()
     this.nodeType = NodeType.DOCUMENT_NODE
     this.nodeName = DOCUMENT_ELEMENT_NAME
+
+    this._cookie = new Cookie()
+    try {
+      const key =  'PAGE_COOKIE'
+      const cookie = getStorageSync(key)
+      if (cookie) this._cookie.deserialize(cookie)
+    } catch (err) {
+      // ignore
+    }
   }
 
   public createElement (type: string): TaroElement | TaroRootElement | FormElement {
@@ -78,5 +91,19 @@ export class TaroDocument extends TaroElement {
 
   get defaultView () {
     return env.window
+  }
+
+  get URL () {
+    if (this.defaultView) return this.defaultView.location.href
+    return ''
+  }
+
+  get cookie () {
+    return this._cookie.getCookie(this.URL)
+  }
+
+  set cookie (value: string) {
+    if (!value || typeof value !== 'string') return
+    this._cookie.setCookie(value, this.URL)
   }
 }
