@@ -6,7 +6,7 @@ declare module './index' {
      * 页面展示时的回调。
      * @supported global
      */
-    useDidShow(callback: () => void): void
+    useDidShow(callback: (options?: getLaunchOptionsSync.LaunchOptions) => void): void
 
     /**
      * 页面隐藏时的回调。
@@ -100,7 +100,7 @@ declare module './index' {
      * 页面加载完成时的回调。
      * @supported weapp, h5
      */
-    useLoad(callback: () => void): void
+    useLoad<T extends {} = Record<string, any>>(callback: (param: T) => void): void
 
     /**
      * 页面卸载时的回调。
