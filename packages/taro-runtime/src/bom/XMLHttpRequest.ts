@@ -202,7 +202,6 @@ export class XMLHttpRequest extends Events {
     const setCookieStr = header['Set-Cookie']
 
     if (setCookieStr && typeof setCookieStr === 'string') {
-      // window.document.$$setCookie(setCookie)
       let start = 0
       let startSplit = 0
       let nextSplit = setCookieStr.indexOf(',', startSplit)
