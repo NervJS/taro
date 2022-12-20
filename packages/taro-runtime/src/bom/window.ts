@@ -8,6 +8,7 @@ import { History } from './history'
 import { Location } from './location'
 import { nav as navigator } from './navigator'
 import { caf, raf } from './raf'
+import { XMLHttpRequest as XHR} from './XMLHttpRequest'
 
 let window
 
@@ -21,6 +22,8 @@ if (process.env.TARO_ENV && process.env.TARO_ENV !== 'h5') {
 
     location: Location
     history: History
+
+    #XMLHttpRequest
 
     constructor () {
       super()
@@ -42,6 +45,9 @@ if (process.env.TARO_ENV && process.env.TARO_ENV !== 'h5') {
       // 应用启动时，提供给需要读取历史信息的库使用
       this.location = new Location({ window: this })
       this.history = new History(this.location, { window: this })
+
+      const _window = this
+      this.#XMLHttpRequest = class XMLHttpRequest extends XHR {constructor () { super(_window) }}
 
       this.initEvent()
     }
@@ -95,6 +101,10 @@ if (process.env.TARO_ENV && process.env.TARO_ENV !== 'h5') {
     clearTimeout (...args: Parameters<typeof clearTimeout>) {
       return clearTimeout(...args)
     }
+
+    get XMLHttpRequest () {
+      return this.#XMLHttpRequest
+    }
   }
 
   window = env.window = new Window()
@@ -104,6 +114,7 @@ if (process.env.TARO_ENV && process.env.TARO_ENV !== 'h5') {
 
 export const location = window.location
 export const history = window.history
+export const XMLHttpRequest = window.XMLHttpRequest
 
 export {
   window

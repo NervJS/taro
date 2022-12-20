@@ -10,7 +10,7 @@ export { getComputedStyle } from './bom/getComputedStyle'
 export { nav as navigator } from './bom/navigator'
 export { caf as cancelAnimationFrame, now, raf as requestAnimationFrame } from './bom/raf'
 export { URLSearchParams } from './bom/URLSearchParams'
-export { history, location, window } from './bom/window'
+export { history, location, window, XMLHttpRequest } from './bom/window'
 // dom
 export { TaroElement } from './dom/element'
 export { createEvent, eventHandler, TaroEvent } from './dom/event'

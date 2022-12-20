@@ -190,6 +190,7 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
     history: ['@tarojs/runtime', 'history'],
     location: ['@tarojs/runtime', 'location'],
     URLSearchParams: ['@tarojs/runtime', 'URLSearchParams'],
+    XMLHttpRequest: ['@tarojs/runtime', 'XMLHttpRequest']
   })
 
   const isCssoEnabled = !((csso && csso.enable === false))

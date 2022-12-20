@@ -3,9 +3,9 @@ import { setStorage } from '@tarojs/taro'
 import { parseUrl } from './location'
 
 export class Cookie {
-  $_map: any
+  #map: any
   constructor () {
-    this.$_map = {} // 三维数组，domain - path - key
+    this.#map = {} // 三维数组，domain - path - key
   }
 
   static parse (cookieStr: string) {
@@ -144,7 +144,7 @@ export class Cookie {
     }
 
     // 存入 cookie
-    const map = this.$_map
+    const map = this.#map
     const cookieDomain = cookie.domain
     const cookiePath = cookie.path
     const cookieKey = cookie.key
@@ -181,7 +181,7 @@ export class Cookie {
     const path = (pathname || '')[0] === '/' ? pathname : '/'
     const res: any[] = []
 
-    const map = this.$_map
+    const map = this.#map
     const domainList = Object.keys(map)
 
     for (const domainItem of domainList) {
@@ -236,7 +236,7 @@ export class Cookie {
    */
   serialize () {
     try {
-      return JSON.stringify(this.$_map)
+      return JSON.stringify(this.#map)
     } catch (err) {
       // eslint-disable-next-line no-console
       console.log('cannot serialize the cookie')
@@ -273,9 +273,9 @@ export class Cookie {
           if (!cookie) return
 
           // 已存在则不覆盖
-          if (!this.$_map[domainItem]) this.$_map[domainItem] = {}
-          if (!this.$_map[domainItem][pathItem]) this.$_map[domainItem][pathItem] = {}
-          if (!this.$_map[domainItem][pathItem][key]) this.$_map[domainItem][pathItem][key] = cookie
+          if (!this.#map[domainItem]) this.#map[domainItem] = {}
+          if (!this.#map[domainItem][pathItem]) this.#map[domainItem][pathItem] = {}
+          if (!this.#map[domainItem][pathItem][key]) this.#map[domainItem][pathItem][key] = cookie
         })
       }
     }
