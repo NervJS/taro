@@ -1,4 +1,5 @@
 import Taro from '@tarojs/api'
+import { isFunction } from '@tarojs/shared'
 
 import { findDOM } from '../../utils'
 import { CanvasContext } from '../canvas/CanvasContext'
@@ -201,9 +202,9 @@ export class SelectorQuery implements Taro.SelectorQuery {
       const _queueCb = this._queueCb
       res.forEach((item, index) => {
         const cb = _queueCb[index]
-        typeof cb === 'function' && cb.call(this, item)
+        isFunction(cb) && cb.call(this, item)
       })
-      typeof cb === 'function' && cb.call(this, res)
+      isFunction(cb) && cb.call(this, res)
     })
     return this as unknown as Taro.NodesRef
   }

@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/components-advanced",
-  "version": "1.0.0",
+  "version": "3.6.0-canary.8",
   "description": "",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -19,6 +19,7 @@
   "license": "MIT",
   "dependencies": {
     "@tarojs/components": "workspace:*",
+    "@tarojs/shared": "workspace:*",
     "memoize-one": "^6.0.0",
     "postcss": "^8.4.18"
   },

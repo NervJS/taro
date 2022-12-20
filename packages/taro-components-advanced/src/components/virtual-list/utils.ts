@@ -18,17 +18,19 @@ export function isRtlFunc ({ direction }: IRrl) {
   return direction === 'rtl'
 }
 
-export function getRectSize (id: string, success: TFunc = () => {}, fail: TFunc = () => {}) {
+export function getRectSize (id: string, success?: TFunc, fail?: TFunc, retryMs = 500) {
   const query = Taro.createSelectorQuery()
   try {
     query.select(id).boundingClientRect((res) => {
       if (res) {
-        success(res)
+        success?.(res)
       } else {
-        fail()
+        fail?.()
       }
     }).exec()
   } catch (err) {
-    // fail()
+    setTimeout(() => {
+      getRectSize(id, success, fail, retryMs)
+    }, retryMs)
   }
 }

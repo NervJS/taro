@@ -4650,7 +4650,7 @@ exports[`config should build from origin and pipe to output 2`] = `
                             break;
 
                           case 42:
-                            if (!handler.isTabBar(handler.pathname)) {
+                            if (!(currentPage && handler.isTabBar(handler.pathname))) {
                                 _context.next = 52;
                                 break;
                             }
@@ -9498,7 +9498,7 @@ I m irrelevant.
                             break;
 
                           case 42:
-                            if (!handler.isTabBar(handler.pathname)) {
+                            if (!(currentPage && handler.isTabBar(handler.pathname))) {
                                 _context.next = 52;
                                 break;
                             }
@@ -14346,7 +14346,7 @@ exports[`config should resolved alias 2`] = `
                             break;
 
                           case 42:
-                            if (!handler.isTabBar(handler.pathname)) {
+                            if (!(currentPage && handler.isTabBar(handler.pathname))) {
                                 _context.next = 52;
                                 break;
                             }

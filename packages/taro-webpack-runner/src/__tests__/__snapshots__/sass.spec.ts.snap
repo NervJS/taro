@@ -4635,7 +4635,7 @@ exports[`sass should build app with sass 2`] = `
                             break;
 
                           case 42:
-                            if (!handler.isTabBar(handler.pathname)) {
+                            if (!(currentPage && handler.isTabBar(handler.pathname))) {
                                 _context.next = 52;
                                 break;
                             }
@@ -9469,7 +9469,7 @@ exports[`sass should build app with scss 2`] = `
                             break;
 
                           case 42:
-                            if (!handler.isTabBar(handler.pathname)) {
+                            if (!(currentPage && handler.isTabBar(handler.pathname))) {
                                 _context.next = 52;
                                 break;
                             }
@@ -14313,7 +14313,7 @@ exports[`sass should set global sass content with data 2`] = `
                             break;
 
                           case 42:
-                            if (!handler.isTabBar(handler.pathname)) {
+                            if (!(currentPage && handler.isTabBar(handler.pathname))) {
                                 _context.next = 52;
                                 break;
                             }
@@ -19157,7 +19157,7 @@ exports[`sass should set global sass content with source & dir 2`] = `
                             break;
 
                           case 42:
-                            if (!handler.isTabBar(handler.pathname)) {
+                            if (!(currentPage && handler.isTabBar(handler.pathname))) {
                                 _context.next = 52;
                                 break;
                             }
@@ -24001,7 +24001,7 @@ exports[`sass should set global sass content with source 2`] = `
                             break;
 
                           case 42:
-                            if (!handler.isTabBar(handler.pathname)) {
+                            if (!(currentPage && handler.isTabBar(handler.pathname))) {
                                 _context.next = 52;
                                 break;
                             }

@@ -48,7 +48,7 @@ export const chooseVideo: typeof Taro.chooseVideo = (options) => {
   inputEl.setAttribute('style', 'position: fixed; top: -4000px; left: -3000px; z-index: -300;')
   document.body.appendChild(inputEl)
 
-  return new Promise<Taro.chooseVideo.SuccessCallbackResult>(resolve => {
+  return new Promise<Taro.chooseVideo.SuccessCallbackResult>((resolve, reject) => {
     const TaroMouseEvents = document.createEvent('MouseEvents')
     TaroMouseEvents.initEvent('click', true, true)
     inputEl.dispatchEvent(TaroMouseEvents)
@@ -67,7 +67,7 @@ export const chooseVideo: typeof Taro.chooseVideo = (options) => {
           res.size = event.total
           res.height = videoEl.videoHeight
           res.width = videoEl.videoHeight
-          return handle.success(res, resolve)
+          return handle.success(res, { resolve, reject })
         }
       }
       if (file) {

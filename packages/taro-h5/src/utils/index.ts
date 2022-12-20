@@ -1,6 +1,7 @@
 /* eslint-disable prefer-promise-reject-errors */
 import Taro from '@tarojs/api'
 import { Current, hooks, TaroElement } from '@tarojs/runtime'
+import { isFunction } from '@tarojs/shared'
 
 import { MethodHandler } from './handler'
 
@@ -165,7 +166,7 @@ export function processOpenApi<TOptions = Record<string, unknown>, TResult exten
     // @ts-ignore
     const targetApi = window?.wx?.[name]
     const opts = formatOptions(Object.assign({}, defaultOptions, options))
-    if (typeof targetApi === 'function') {
+    if (isFunction(targetApi)) {
       return new Promise<TResult>((resolve, reject) => {
         ['fail', 'success', 'complete'].forEach(k => {
           opts[k] = preRef => {
@@ -180,7 +181,7 @@ export function processOpenApi<TOptions = Record<string, unknown>, TResult exten
           return targetApi(opts)
         })
       })
-    } else if (typeof standardMethod === 'function') {
+    } else if (isFunction(standardMethod)) {
       return standardMethod(opts)
     } else {
       return notSupported(options, ...args) as Promise<TResult>

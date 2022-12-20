@@ -4638,7 +4638,7 @@ exports[`compiler-macros - defineAppConfig and definePageConfig should read app 
                             break;
 
                           case 42:
-                            if (!handler.isTabBar(handler.pathname)) {
+                            if (!(currentPage && handler.isTabBar(handler.pathname))) {
                                 _context.next = 52;
                                 break;
                             }

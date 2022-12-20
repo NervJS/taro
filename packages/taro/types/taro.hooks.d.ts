@@ -87,7 +87,7 @@ declare module './index' {
      * 小程序有未处理的 Promise reject 时触发。也可以使用 Taro.onUnhandledRejection 绑定监听。
      * @supported weapp, alipay
      */
-     useUnhandledRejection(callback: (error: { reason: Error, promise: Promise<Error> }) => void): void
+    useUnhandledRejection(callback: (error: { reason: Error, promise: Promise<Error> }) => void): void
 
     /**
      * 小程序要打开的页面不存在时触发的回调。
