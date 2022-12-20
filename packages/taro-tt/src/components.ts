@@ -124,10 +124,9 @@ export const components = {
   },
   OpenData: {
     type: _empty,
-    'open-gid': _empty,
-    lang: "'en'",
     'default-text': _empty,
     'default-avatar': _empty,
+    'use-empty-value': _false,
     bindError: _empty
   }
 }
