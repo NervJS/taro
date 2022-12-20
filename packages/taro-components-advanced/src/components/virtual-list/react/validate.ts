@@ -28,8 +28,8 @@ export const validateListProps = ({
   instance,
 }: IState) => {
   if (process.env.NODE_ENV !== 'production') {
-    if (typeof itemSize !== 'number') {
-      throw Error('An invalid "itemSize" prop has been specified. ' + 'Value should be a number. ' + `"${itemSize === null ? 'null' : typeof itemSize}" was specified.`)
+    if (!['number', 'function'].includes(typeof itemSize)) {
+      throw Error('An invalid "itemSize" prop has been specified. ' + 'Value should be a number or function. ' + `"${itemSize === null ? 'null' : typeof itemSize}" was specified.`)
     }
   }
 

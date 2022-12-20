@@ -1,5 +1,6 @@
 import Taro from '@tarojs/api'
 import { history } from '@tarojs/router'
+import { isFunction } from '@tarojs/shared'
 
 import { getApp, getCurrentInstance, getCurrentPages, navigateBack, navigateTo, nextTick, redirectTo, reLaunch, switchTab } from '../api'
 import { permanentlyNotSupport } from '../utils'
@@ -48,7 +49,7 @@ const requirePlugin = permanentlyNotSupport('requirePlugin')
 const pxTransform = function (size) {
   const options = (taro as any).config
   const baseFontSize = options.baseFontSize || 20
-  const designWidth = ((input = 0) => typeof options.designWidth === 'function'
+  const designWidth = ((input = 0) => isFunction(options.designWidth)
     ? options.designWidth(input)
     : options.designWidth)
   const rootValue = (input = 0) => baseFontSize / options.deviceRatio[designWidth(input)] * 2
