@@ -526,7 +526,7 @@ declare namespace ButtonProps {
 
 /** 按钮
  * @classification forms
- * @supported weapp, h5, rn, tt
+ * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony
  * @example_react
  * ```tsx
  * export default class PageButton extends Component {

@@ -1,7 +1,6 @@
 import { networkInterfaces } from 'os'
 import path from 'path'
 
-export const emptyObj = {}
 export const emptyTogglableObj = {
   enable: false,
   config: {}

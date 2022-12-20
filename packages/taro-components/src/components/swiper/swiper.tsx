@@ -86,6 +86,11 @@ export class Swiper implements ComponentInterface {
    */
   @Prop() full = false
 
+  /**
+   * 给 previewImage API 使用，缩放支持
+   */
+  @Prop() zoom = false
+
   @Event({
     eventName: 'change'
   }) onChange: EventEmitter
@@ -268,6 +273,7 @@ export class Swiper implements ComponentInterface {
       speed: duration,
       observer: true,
       observeParents: true,
+      zoom: this.zoom,
       on: {
         slideTo () {
           that.current = this.realIndex

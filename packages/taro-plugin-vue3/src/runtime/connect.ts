@@ -217,6 +217,13 @@ export function createVue3App (app: App<TaroElement>, h: typeof createElement, c
       }
     }),
 
+    onUnhandledRejection: setDefaultDescriptor({
+      value (error) {
+        const onUnhandledRejection = appInstance?.$options?.onUnhandledRejection
+        isFunction(onUnhandledRejection) && onUnhandledRejection.call(appInstance, error)
+      }
+    }),
+
     onPageNotFound: setDefaultDescriptor({
       value (res) {
         const onPageNotFound = appInstance?.$options?.onPageNotFound

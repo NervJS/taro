@@ -302,7 +302,7 @@ declare namespace PickerRegionProps {
 /**
  * 从底部弹起的滚动选择器
  * @classification forms
- * @supported weapp, h5, rn, swan, alipay, tt
+ * @supported weapp, swan, alipay, tt, h5, rn, harmony
  * @example_react
  * ```tsx
  * export default class PagePicker extends Component {

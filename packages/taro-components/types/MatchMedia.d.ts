@@ -39,7 +39,7 @@ interface MatchMediaProps extends StandardProps {
 
 /** media query 匹配检测节点。可以指定一组 media query 规则，满足时，这个节点才会被展示。
  * 通过这个节点可以实现“页面宽高在某个范围时才展示某个区域”这样的效果。
- * @supported weapp
+ * @supported weapp, alipay
  * @classification viewContainer
  * @example_react
  * ```tsx

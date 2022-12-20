@@ -115,5 +115,11 @@ export const components = {
     bindRefund: _empty,
     bindApplyRefund: _empty,
     bindError: _empty
+  },
+  RateButton: {
+    'order-id': _empty,
+    bindInit: _empty,
+    bindSuccess: _empty,
+    bindError: _empty,
   }
 }
