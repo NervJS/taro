@@ -272,8 +272,7 @@ describe('DOM', () => {
             <div>
               <span> a </span>
             </div>
-            b
-            <span>c</span>
+            b<span>c</span>
           </div>
         )
       }
@@ -289,7 +288,60 @@ describe('DOM', () => {
       document.cookie = 'aaa=1111-2222-33-444-abcdefgasd; path=/; expires=Mon, 18 Jan 2038 19:14:07 GMT; secure;'
       document.cookie = 'bbb=23123-aswe-4a7a-a740-f55dfd296b1d; path=/; expires=Mon, 18 Jan 2038 19:14:07 GMT'
       document.cookie = 'ccc=69asd3d81234668942; path=/; expires=Mon, 18 Jan 2038 19:14:07 GMT'
-      expect(document.cookie).toBe('aaa=1111-2222-33-444-abcdefgasd; bbb=23123-aswe-4a7a-a740-f55dfd296b1d; ccc=69asd3d81234668942')
+      expect(document.cookie).toBe(
+        'aaa=1111-2222-33-444-abcdefgasd; bbb=23123-aswe-4a7a-a740-f55dfd296b1d; ccc=69asd3d81234668942'
+      )
+    })
+    
+    it('创建 A 标签', () => {
+      const a = document.createElement('a')
+
+      expect(a.nodeName).toBe('a')
+      expect(a.tagName).toBe('A')
+
+      a.setAttribute('href', 'https://taro.com:8080/path/add?name=lizong')
+
+      expect({
+        href: a.href,
+        protocol: a.protocol,
+        host: a.host,
+        search: a.search,
+        hash: a.hash,
+        hostname: a.hostname,
+        port: a.port,
+        pathname: a.pathname,
+      }).toEqual({
+        hash: '',
+        host: 'taro.com:8080',
+        hostname: 'taro.com',
+        href: 'https://taro.com:8080/path/add?name=lizong',
+        pathname: '/path/add',
+        port: '8080',
+        protocol: 'https:',
+        search: '?name=lizong',
+      })
+
+      a.href = 'https://taro.com:9090/path/index#id3'
+
+      expect({
+        href: a.href,
+        protocol: a.protocol,
+        host: a.host,
+        search: a.search,
+        hash: a.hash,
+        hostname: a.hostname,
+        port: a.port,
+        pathname: a.pathname,
+      }).toEqual({
+        hash: '#id3',
+        host: 'taro.com:9090',
+        hostname: 'taro.com',
+        href: 'https://taro.com:9090/path/index#id3',
+        pathname: '/path/index',
+        port: '9090',
+        protocol: 'https:',
+        search: '',
+      })
     })
   })
 })
