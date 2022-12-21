@@ -1,4 +1,5 @@
 import memoizeOne from 'memoize-one'
+import { h, nextTick } from 'vue'
 
 import { cancelTimeout, requestTimeout } from '../../../utils/timer'
 import { IS_SCROLLING_DEBOUNCE_INTERVAL } from '../constants'
@@ -122,7 +123,7 @@ export default {
           default: process.env.TARO_ENV === 'h5' ? 'taro-view-core' : 'view'
         },
         itemCount: Number,
-        wstyle: String,
+        wrapperStyle: String,
         width: String,
         itemSize: {
           required: true
@@ -161,7 +162,7 @@ export default {
           this.scrollOffset = scrollOffset
           this.scrollUpdateWasRequested = true
   
-          Vue.nextTick(this._resetIsScrollingDebounced)
+          nextTick(this._resetIsScrollingDebounced)
         },
   
         scrollToItem (index, align = 'auto') {
@@ -359,7 +360,7 @@ export default {
           this.scrollDirection = this.scrollOffset < scrollLeft ? 'forward' : 'backward'
           this.scrollOffset = scrollOffset
           this.scrollUpdateWasRequested = false
-          Vue.nextTick(this._resetIsScrollingDebounced)
+          nextTick(this._resetIsScrollingDebounced)
         },
   
         _onScrollVertical (event) {
@@ -382,7 +383,7 @@ export default {
           this.scrollDirection = this.scrollOffset < scrollOffset ? 'forward' : 'backward'
           this.scrollOffset = scrollOffset
           this.scrollUpdateWasRequested = false
-          Vue.nextTick(this._resetIsScrollingDebounced)
+          nextTick(this._resetIsScrollingDebounced)
         },
   
         _resetIsScrollingDebounced () {
@@ -399,7 +400,7 @@ export default {
         _resetIsScrolling () {
           this.resetIsScrollingTimeoutId = null
           this.isScrolling = false
-          Vue.nextTick(() => {
+          nextTick(() => {
             this._getItemStyleCache(-1, null)
           })
         }
@@ -460,7 +461,7 @@ export default {
         }
       },
   
-      render (h) {
+      render () {
         const {
           item,
           wclass,
@@ -472,7 +473,7 @@ export default {
           itemData,
           itemKey = defaultItemKey,
           layout,
-          wstyle,
+          wrapperStyle,
           useIsScrolling,
           width
         } = this.$props
@@ -493,12 +494,10 @@ export default {
             items.push(
               h(item, {
                 key: itemKey(index, itemData),
-                props: {
-                  data: itemData,
-                  index,
-                  isScrolling: useIsScrolling ? isScrolling : undefined,
-                  css: this._getItemStyle(index)
-                }
+                data: itemData,
+                index,
+                isScrolling: useIsScrolling ? isScrolling : undefined,
+                css: this._getItemStyle(index)
               })
             )
           }
@@ -515,7 +514,7 @@ export default {
           scrollViewName,
           {
             class: wclass,
-            ref: this._outerRefSetter,
+            // ref: this._outerRefSetter,
             style: {
               position: 'relative',
               height: this._getStyleValue(height),
@@ -524,15 +523,11 @@ export default {
               WebkitOverflowScrolling: 'touch',
               willChange: 'transform',
               direction,
-              ...wstyle
+              ...wrapperStyle
             },
-            attrs: {
-              scrollY: layout === 'vertical',
-              scrollX: layout === 'horizontal'
-            },
-            on: {
-              scroll: onScroll
-            }
+            scrollY: layout === 'vertical',
+            scrollX: layout === 'horizontal',
+            onScroll
           },
           [
             h(

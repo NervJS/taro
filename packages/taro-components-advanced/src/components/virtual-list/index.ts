@@ -186,9 +186,18 @@ declare namespace VirtualListProps {
  * @see https://taro-docs.jd.com/docs/virtual-list
  */
 declare class VirtualListComponent extends Component<VirtualListProps> {}
-const VirtualList: typeof VirtualListComponent = process.env.FRAMEWORK === 'vue'
-  ? require('./vue').default
-  : require('./react').default
+
+function getVirtualListComponent () {
+  switch (process.env.FRAMEWORK) {
+    case 'vue3':
+      return require('./vue/vue3').default
+    case 'vue':
+      return require('./vue').default
+    default:
+      return require('./react').default
+  }
+}
+const VirtualList: typeof VirtualListComponent = getVirtualListComponent()
 
 export { VirtualList, VirtualListProps }
 export default VirtualList
