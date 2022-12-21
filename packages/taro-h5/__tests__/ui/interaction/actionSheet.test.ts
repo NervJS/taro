@@ -8,20 +8,16 @@ describe('actionSheet', () => {
     const fail = jest.fn()
     const complete = jest.fn()
 
-    expect.assertions(4)
     Taro.showActionSheet({
       itemList: 'abc',
       success,
       fail,
       complete
     })
-      .catch(err => {
-        const expectErrObj = { errMsg: 'showActionSheet:fail parameter error: parameter.itemList should be Array instead of String' }
-        expect(success.mock.calls.length).toBe(0)
-        expect(fail).toHaveBeenCalledWith(expectErrObj)
-        expect(complete).toHaveBeenCalledWith(expectErrObj)
-        expect(err).toEqual(expectErrObj)
-      })
+    const expectErrObj = { errMsg: 'showActionSheet:fail parameter error: parameter.itemList should be Array instead of String' }
+    expect(success.mock.calls.length).toBe(0)
+    expect(fail).toHaveBeenCalledWith(expectErrObj)
+    expect(complete).toHaveBeenCalledWith(expectErrObj)
   })
 
   test('options.itemList should have at least 1 item', () => {
@@ -29,20 +25,16 @@ describe('actionSheet', () => {
     const fail = jest.fn()
     const complete = jest.fn()
 
-    expect.assertions(4)
     Taro.showActionSheet({
       itemList: [],
       success,
       fail,
       complete
     })
-      .catch(err => {
-        const expectErrObj = { errMsg: 'showActionSheet:fail parameter error: parameter.itemList should have at least 1 item' }
-        expect(success.mock.calls.length).toBe(0)
-        expect(fail).toHaveBeenCalledWith(expectErrObj)
-        expect(complete).toHaveBeenCalledWith(expectErrObj)
-        expect(err).toEqual(expectErrObj)
-      })
+    const expectErrObj = { errMsg: 'showActionSheet:fail parameter error: parameter.itemList should have at least 1 item' }
+    expect(success.mock.calls.length).toBe(0)
+    expect(fail).toHaveBeenCalledWith(expectErrObj)
+    expect(complete).toHaveBeenCalledWith(expectErrObj)
   })
 
   test('options.itemList should not be large than 6', () => {
@@ -50,20 +42,16 @@ describe('actionSheet', () => {
     const fail = jest.fn()
     const complete = jest.fn()
 
-    expect.assertions(4)
     Taro.showActionSheet({
       itemList: ['a', 'b', 'c', 'd', 'e', 'f', 'g'],
       success,
       fail,
       complete
     })
-      .catch(err => {
-        const expectErrObj = { errMsg: 'showActionSheet:fail parameter error: parameter.itemList should not be large than 6' }
-        expect(success.mock.calls.length).toBe(0)
-        expect(fail).toHaveBeenCalledWith(expectErrObj)
-        expect(complete).toHaveBeenCalledWith(expectErrObj)
-        expect(err).toEqual(expectErrObj)
-      })
+    const expectErrObj = { errMsg: 'showActionSheet:fail parameter error: parameter.itemList should not be large than 6' }
+    expect(success.mock.calls.length).toBe(0)
+    expect(fail).toHaveBeenCalledWith(expectErrObj)
+    expect(complete).toHaveBeenCalledWith(expectErrObj)
   })
 
   test('options.itemList should not be large than 6', () => {
@@ -71,20 +59,16 @@ describe('actionSheet', () => {
     const fail = jest.fn()
     const complete = jest.fn()
 
-    expect.assertions(4)
     Taro.showActionSheet({
       itemList: ['a', 1, 'c'],
       success,
       fail,
       complete
     })
-      .catch(err => {
-        const expectErrObj = { errMsg: 'showActionSheet:fail parameter error: parameter.itemList[1] should be String instead of Number' }
-        expect(success.mock.calls.length).toBe(0)
-        expect(fail).toHaveBeenCalledWith(expectErrObj)
-        expect(complete).toHaveBeenCalledWith(expectErrObj)
-        expect(err).toEqual(expectErrObj)
-      })
+    const expectErrObj = { errMsg: 'showActionSheet:fail parameter error: parameter.itemList[1] should be String instead of Number' }
+    expect(success.mock.calls.length).toBe(0)
+    expect(fail).toHaveBeenCalledWith(expectErrObj)
+    expect(complete).toHaveBeenCalledWith(expectErrObj)
   })
 
   test('options.itemColor should be String', () => {
@@ -92,7 +76,6 @@ describe('actionSheet', () => {
     const fail = jest.fn()
     const complete = jest.fn()
 
-    expect.assertions(4)
     Taro.showActionSheet({
       itemList: ['a'],
       itemColor: 123,
@@ -100,13 +83,10 @@ describe('actionSheet', () => {
       fail,
       complete
     })
-      .catch(err => {
-        const expectErrObj = { errMsg: 'showActionSheet:fail parameter error: parameter.itemColor should be String instead of Number' }
-        expect(success.mock.calls.length).toBe(0)
-        expect(fail).toHaveBeenCalledWith(expectErrObj)
-        expect(complete).toHaveBeenCalledWith(expectErrObj)
-        expect(err).toEqual(expectErrObj)
-      })
+    const expectErrObj = { errMsg: 'showActionSheet:fail parameter error: parameter.itemColor should be String instead of Number' }
+    expect(success.mock.calls.length).toBe(0)
+    expect(fail).toHaveBeenCalledWith(expectErrObj)
+    expect(complete).toHaveBeenCalledWith(expectErrObj)
   })
 
   test('basic test', done => {
@@ -159,20 +139,17 @@ describe('actionSheet', () => {
       fail,
       complete
     })
-      .catch(res => {
-        const expectObj = { errMsg: 'showActionSheet:fail cancel' }
-        expect(success.mock.calls.length).toBe(0)
-        expect(fail).toHaveBeenCalledWith(expectObj)
-        expect(complete).toHaveBeenCalledWith(expectObj)
-        expect(res).toEqual(expectObj)
-      })
 
     const actionSheet: any = document.body.lastChild
     const cancel = actionSheet.lastChild.lastChild
 
     cancel.click()
     setTimeout(() => {
+      const expectObj = { errMsg: 'showActionSheet:fail cancel' }
       expect(actionSheet).not.toBeVisible()
+      expect(success.mock.calls.length).toBe(0)
+      expect(fail).toHaveBeenCalledWith(expectObj)
+      expect(complete).toHaveBeenCalledWith(expectObj)
       done()
     }, 200)
   })
@@ -187,20 +164,16 @@ describe('actionSheet', () => {
       fail,
       complete
     })
-      .catch(res => {
-        const expectObj = { errMsg: 'showActionSheet:fail cancel' }
-        expect(success.mock.calls.length).toBe(0)
-        expect(fail).toHaveBeenCalledWith(expectObj)
-        expect(complete).toHaveBeenCalledWith(expectObj)
-        expect(res).toEqual(expectObj)
-      })
-
     const actionSheet: any = document.body.lastChild
     const mask = actionSheet.firstChild
 
     mask.click()
     setTimeout(() => {
+      const expectObj = { errMsg: 'showActionSheet:fail cancel' }
       expect(actionSheet).not.toBeVisible()
+      expect(success.mock.calls.length).toBe(0)
+      expect(fail).toHaveBeenCalledWith(expectObj)
+      expect(complete).toHaveBeenCalledWith(expectObj)
       done()
     }, 200)
   })
@@ -214,7 +187,7 @@ describe('actionSheet', () => {
     const actionSheet: any = document.body.lastChild
     const list = actionSheet.lastChild.firstChild
 
-    expect(list).toHaveStyle('color: red')
+    expect(list).toHaveStyle({ color: 'red' })
   })
 
   test('should update list item when only item content changed', () => {
