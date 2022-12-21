@@ -1,4 +1,5 @@
 import Taro from '@tarojs/api'
+import { Current } from '@tarojs/runtime'
 
 import { getParameterError, temporarilyNotSupport } from '../../../utils'
 import { MethodHandler } from '../../../utils/handler'
@@ -290,10 +291,15 @@ const showActionSheet: typeof Taro.showActionSheet = async (options = { itemList
   }
 }
 
-Taro.eventCenter.on('__taroRouterChange', () => {
-  hideToast()
-  hideLoading()
-  hideModal()
+Taro.eventCenter.on('__afterTaroRouterChange', () => {
+  if (toast.currentPath && toast.currentPath !== Current.page?.path) {
+    hideToast()
+    hideLoading()
+  }
+
+  if (modal.currentPath && modal.currentPath !== Current.page?.path) {
+    hideModal()
+  }
 })
 
 const enableAlertBeforeUnload = temporarilyNotSupport('enableAlertBeforeUnload')
