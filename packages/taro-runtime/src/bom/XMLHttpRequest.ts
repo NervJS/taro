@@ -1,5 +1,4 @@
 import { isString } from '@tarojs/shared'
-import Taro from '@tarojs/taro'
 
 import { Events } from '../emitter/emitter'
 import { parseUrl}  from './location'
@@ -168,7 +167,7 @@ export class XMLHttpRequest extends Events {
       const {origin} = parseUrl(url)
       if (origin !== window.location.origin) delete header.cookie
     }
-
+    const Taro = require('@tarojs/taro')
     this.#requestTask = Taro.request({
       url,
       data: this.#data || {},

@@ -1,7 +1,6 @@
-import { setStorage } from '@tarojs/taro'
-
 import { parseUrl } from './location'
 
+const STORAGE_KEY = 'PAGE_COOKIE'
 export class Cookie {
   #map: any
   constructor () {
@@ -164,12 +163,12 @@ export class Cookie {
     }
 
     // 持久化 cookie
-    const key = 'PAGE_COOKIE'
-    setStorage &&
-      setStorage({
-        key,
-        data: this.serialize(),
-      })
+    const Taro = require('@tarojs/taro')
+    Taro.setStorage &&
+    Taro.setStorage({
+      key: STORAGE_KEY,
+      data: this.serialize(),
+    })
   }
 
   /**
@@ -280,6 +279,25 @@ export class Cookie {
       }
     }
   }
+}
+
+/**
+ * 创建 cookie 实例并反序列化
+ * @returns 
+ */
+export function createCookieInstance () {
+  const cookieInstance = new Cookie()
+  try {
+    // runtime 中 无法直接 import 引入 '@tarojs/taro'，会导致循环依赖且静态引入时 Taro api 还未初始化完毕
+    const Taro = require('@tarojs/taro')
+    const cookie = Taro.getStorageSync(STORAGE_KEY)
+    if (cookie) cookieInstance.deserialize(cookie)
+    
+  } catch (err) {
+    // ignore
+  }
+  return cookieInstance
+  
 }
 
 // 特别感谢： 此 Cookie 实现参考自 `https://github.com/Tencent/kbone`
