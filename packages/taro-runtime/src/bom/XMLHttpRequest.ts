@@ -1,4 +1,4 @@
-import { isString } from '@tarojs/shared'
+import { isFunction,isString } from '@tarojs/shared'
 
 import { Events } from '../emitter/emitter'
 import { parseUrl}  from './location'
@@ -51,7 +51,7 @@ const STATUS_TEXT_MAP = {
   504: 'Gateway Timeout',
   505: 'HTTP Version Not Supported',
 }
-
+// https://developer.mozilla.org/zh-CN/docs/Web/API/XMLHttpRequest
 export class XMLHttpRequest extends Events {
 
   static readonly  UNSENT = 0
@@ -84,6 +84,29 @@ export class XMLHttpRequest extends Events {
   #withCredentials: boolean
   #requestTask: null | Taro.RequestTask<any>
 
+  // 事件
+
+  /** 当 request 被停止时触发，例如当程序调用 XMLHttpRequest.abort() 时 */
+  onabort: (() => void) | null = null
+
+  /** 当 request 遭遇错误时触发 */
+  onerror: ((err: any) => void) | null = null
+
+  /** 接收到响应数据时触发 */
+  onloadstart: (() => void) | null = null
+
+  /** 请求成功完成时触发 */
+  onload : (() => void) | null = null
+
+  /** 当请求结束时触发，无论请求成功 ( load) 还是失败 (abort 或 error)。 */
+  onloadend : (() => void) | null = null
+
+  /** 在预设时间内没有接收到响应时触发 */
+  ontimeout : (() => void) | null = null
+
+  /** 当 readyState 属性发生变化时，调用的事件处理器 */
+  onreadystatechange : (() => void) | null = null
+
   constructor (window: any) {
     super()
 
@@ -105,6 +128,7 @@ export class XMLHttpRequest extends Events {
     this.#withCredentials = true 
 
     this.#requestTask = null
+
   }
 
   addEventListener (event: string, callback: (arg: any) => void) {
@@ -124,7 +148,10 @@ export class XMLHttpRequest extends Events {
     const hasChange = readyState !== this.#readyState
     this.#readyState = readyState
 
-    if (hasChange) this.trigger('readystatechange')
+    if (hasChange) {
+      this.trigger('readystatechange')
+      isFunction(this.onreadystatechange) && this.onreadystatechange()
+    }
   }
 
   /**
@@ -144,6 +171,7 @@ export class XMLHttpRequest extends Events {
           if (this.#requestTask) this.#requestTask.abort()
           this.#callReadyStateChange(XMLHttpRequest.DONE)
           this.trigger('timeout')
+          isFunction(this.ontimeout) && this.ontimeout()
         }
       }, this.#timeout)
     }
@@ -233,19 +261,21 @@ export class XMLHttpRequest extends Events {
     if (data) {
       this.#callReadyStateChange(XMLHttpRequest.LOADING)
       this.trigger('loadstart')
+      isFunction(this.onloadstart) && this.onloadstart()
       this.#response = data
-      this.trigger('loadend')
+      this.trigger('load')
+      isFunction(this.onload) && this.onload()
     }
   }
 
   /**
      * 请求失败
      */
-  #requestFail ({errMsg}) {
+  #requestFail (err) {
     this.#status = 0
-    this.#statusText = errMsg
-
+    this.#statusText = err.errMsg
     this.trigger('error')
+    isFunction(this.onerror) && this.onerror(err)
   }
 
   /**
@@ -256,7 +286,8 @@ export class XMLHttpRequest extends Events {
     this.#callReadyStateChange(XMLHttpRequest.DONE)
 
     if (this.#status) {
-      this.trigger('load')
+      this.trigger('loadend')
+      isFunction(this.onloadend) && this.onloadend()
     }
   }
 
@@ -321,6 +352,7 @@ export class XMLHttpRequest extends Events {
     if (this.#requestTask) {
       this.#requestTask.abort()
       this.trigger('abort')
+      isFunction(this.onabort) && this.onabort()
     }
   }
 
