@@ -3,16 +3,24 @@ import * as parser from '@babel/parser'
 import traverse from '@babel/traverse'
 import * as t from '@babel/types'
 import { camelCase, paramCase } from 'change-case'
-import fs from 'fs'
+import * as fs from 'fs'
 import { flattenDeep, isEmpty, toArray, xorWith } from 'lodash'
+import * as path from 'path'
 import { format as prettify } from 'prettier'
 
-import { MINI_APP_TYPES } from './constants'
-import { camelCaseEnhance, getTypeFilePath, getTypesList } from './utils'
+const MINI_APP_TYPES = ['weapp', 'alipay', 'swan', 'tt', 'qq', 'jd'] as const
 
 const OMIT_PROPS = ['generic:simple-component', 'style', 'class']
 const catchStart = 'catch'
 const eventStart = 'on'
+
+function camelCaseEnhance (word = '', index: number) {
+  word = word.toLowerCase()
+  if (index !== 0) {
+    word = `${word[0].toUpperCase()}${word.slice(1)}`
+  }
+  return word
+}
 
 type AST = parser.ParseResult<t.File>
 type PROP_MAP = Partial<Record<typeof MINI_APP_TYPES[number], string[]>>
@@ -117,7 +125,7 @@ class GenerateTypes {
             if (isEmpty(astPath.node.leadingComments) || !astPath.node.leadingComments?.[0]?.value) {
               return
             }
-            const value = astPath.node.leadingComments?.[0]?.value || ''
+            const value = astPath.node.leadingComments?.[0]?.value
             const preSupportedPlatforms = value.match(/@supported\s+(.+)/)?.[1].toLowerCase().split(/\s?[,，]\s?/) || []
             const isUnique = value.indexOf('@unique') !== -1
 
@@ -168,9 +176,7 @@ class GenerateTypes {
               if (OMIT_PROPS.includes(prop)) {
                 return
               }
-              const emptySignature = { type: 'TSPropertySignature', key: t.identifier(''), leadingComments: [], kind: 'get' } as t.TSPropertySignature
-              const list = astPath.node.body as t.TSPropertySignature[]
-              const node = t.cloneNode(list[0] || emptySignature)
+              const node = t.cloneNode(astPath.node.body[0]) as t.TSPropertySignature
               node.key = t.identifier(camelCase(prop, { transform: camelCaseEnhance }))
               const platform = props[prop][0]
               const json = jsonSchemas[platform]
@@ -183,10 +189,6 @@ class GenerateTypes {
                 } else {
                   value = t.tsUnionType(enumArray.map((item) => t.tsLiteralType(t.stringLiteral(item))))
                 }
-              } else if (['boolean', 'number'].includes(type)) {
-                value = t.tsTypeReference(t.identifier(type))
-              } else if (['array'].includes(type)) {
-                value = t.tsTypeReference(t.identifier('any[]'))
               } else if (type instanceof Array) {
                 value = t.tsTypeReference(t.identifier(type.join('|')))
               } else if (tsType === '() => void') {
@@ -204,17 +206,15 @@ class GenerateTypes {
                 if (defaultValue) {
                   if (defaultValue instanceof Array) {
                     commentValue += `* @default ${defaultValue.join(',')}\n`
-                  } else if (!defaultValue.startsWith('"') && !['none', '无'].includes(defaultValue) && type === 'string') {
-                    commentValue += `* @default "${propSchema.defaultValue.replace(/(^')|('$)/ig, '')}"\n`
+                  } else if (!defaultValue.startsWith('"') && type === 'string') {
+                    commentValue += `* @default "${propSchema.defaultValue}"\n`
                   } else {
                     commentValue += `* @default ${defaultValue}\n`
                   }
                 }
-                // @ts-ignore
-                node.leadingComments[0] ||= { type: 'CommentBlock' }
                 node.leadingComments[0].value = commentValue
               }
-              list.push(node)
+              astPath.node.body.push(node)
               addedProps.push(prop)
             })
           },
@@ -263,7 +263,7 @@ class GenerateTypes {
   }
 
   exec () {
-    const filePath = getTypeFilePath(this.componentName)
+    const filePath = path.join(process.cwd(), 'types', `${this.componentName}.d.ts`)
     const codeStr = fs.readFileSync(filePath, 'utf8')
     const ast = parser.parse(codeStr, {
       sourceType: 'module',
@@ -285,8 +285,9 @@ class GenerateTypes {
     fs.writeFileSync(filePath, code)
   }
 }
+const typesFiles: string[] = fs.readdirSync(path.join(process.cwd(), 'types'))
 
-getTypesList().forEach((fileName) => {
+typesFiles.forEach((fileName) => {
   const componentName = fileName.replace(/\.d\.ts$/, '')
   const generateTypes = new GenerateTypes(componentName)
   if (isEmpty(generateTypes.jsonSchemas[componentName])) {
