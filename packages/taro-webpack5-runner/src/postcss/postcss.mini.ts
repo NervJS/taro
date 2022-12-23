@@ -23,7 +23,7 @@ const defaultPxtransformOption: {
 const defaultUrlOption: {
   [key: string]: any
 } = {
-  enable: true,
+  enable: false,
   config: {
     url: 'inline'
   }
