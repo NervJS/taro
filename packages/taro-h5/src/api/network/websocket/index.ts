@@ -25,7 +25,7 @@ export function onSocketClose () {
   console.warn('Deprecated.Please use socketTask.onClose instead.')
 }
 
-export function connectSocket (options) {
+export function connectSocket (options?: Taro.connectSocket.Option) {
   const name = 'connectSocket'
 
   return new Promise((resolve, reject) => {
@@ -36,7 +36,7 @@ export function connectSocket (options) {
       console.error(res.errMsg)
       return reject(res)
     }
-    const { url, protocols, success, fail, complete } = options
+    const { url, protocols, success, fail, complete } = options as Exclude<typeof options, undefined>
     const handle = new MethodHandler<{
       socketTaskId?: number
     }>({ name, success, fail, complete })

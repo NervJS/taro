@@ -1,9 +1,12 @@
-import type { IProps, IState } from './list'
+import { IS_PROD } from '../../../utils/constants'
+
+import type { IProps } from '../preset'
+import type { IState } from './list'
 
 let devWarningsDirection = null
 let devWarningsTagName = null
 
-if (process.env.NODE_ENV !== 'production') {
+if (!IS_PROD) {
   if (typeof window !== 'undefined' && typeof window.WeakSet !== 'undefined') {
     devWarningsDirection =
       /* #__PURE__ */
@@ -15,7 +18,7 @@ if (process.env.NODE_ENV !== 'production') {
 }
 
 export const validateListProps = ({
-  children,
+  item,
   direction,
   height,
   layout,
@@ -27,13 +30,13 @@ export const validateListProps = ({
 }: IProps, {
   instance,
 }: IState) => {
-  if (process.env.NODE_ENV !== 'production') {
+  if (!IS_PROD) {
     if (!['number', 'function'].includes(typeof itemSize)) {
       throw Error('An invalid "itemSize" prop has been specified. ' + 'Value should be a number or function. ' + `"${itemSize === null ? 'null' : typeof itemSize}" was specified.`)
     }
   }
 
-  if (process.env.NODE_ENV !== 'production') {
+  if (!IS_PROD) {
     if (innerTagName != null || outerTagName != null || itemTagName != null) {
       if (devWarningsTagName && !devWarningsTagName.has(instance)) {
         devWarningsTagName.add(instance)
@@ -72,8 +75,8 @@ export const validateListProps = ({
         throw Error('An invalid "layout" prop has been specified. ' + 'Value should be either "horizontal" or "vertical". ' + `"${layout}" was specified.`)
     }
 
-    if (children == null) {
-      throw Error('An invalid "children" prop has been specified. ' + 'Value should be a React component. ' + `"${children === null ? 'null' : typeof children}" was specified.`)
+    if (item == null) {
+      throw Error('An invalid "item" prop has been specified. ' + 'Value should be a React component. ' + `"${item === null ? 'null' : typeof item}" was specified.`)
     }
 
     if (isHorizontal && typeof width !== 'number') {

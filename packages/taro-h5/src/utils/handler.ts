@@ -5,7 +5,7 @@ import { isProd } from './index'
 type TCallback<T = Partial<TaroGeneral.CallbackResult>> = (res: T) => Promise<void> | void
 interface IMethodParam<T = Partial<TaroGeneral.CallbackResult>> {
   name: string
-  success?: TCallback<T>
+  success?: TCallback<T & TaroGeneral.CallbackResult>
   fail?: TCallback
   complete?: TCallback
 }

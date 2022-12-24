@@ -126,7 +126,6 @@
     "babel-plugin-syntax-jsx": "6.18.0",
     "babel-preset-power-assert": "3.0.0",
     "babel-preset-taro": "workspace:*",
-    "cli-highlight": "^2.1.4",
     "conventional-changelog-cli": "^2.0.1",
     "core-js": "^2.6.5",
     "cpy-cli": "^4.1.0",

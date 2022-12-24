@@ -1,3 +1,4 @@
+import { isFunction } from '@tarojs/shared'
 import memoizeOne from 'memoize-one'
 import React from 'react'
 
@@ -6,26 +7,13 @@ import { cancelTimeout, requestTimeout } from '../../../utils/timer'
 import { IS_SCROLLING_DEBOUNCE_INTERVAL } from '../constants'
 import { getRTLOffsetType } from '../dom-helpers'
 import ListSet from '../list-set'
-import { defaultItemKey, getRectSize, isHorizontalFunc, isRtlFunc } from '../utils'
+import Preset from '../preset'
+import { defaultItemKey, getRectSize } from '../utils'
 import { validateListProps } from './validate'
 
-import type { VirtualListProps } from '../'
+import type { IProps } from '../preset'
 
 let INSTANCE_ID = 0
-
-export interface IProps extends Partial<VirtualListProps> {
-  direction?: 'ltr' | 'rtl' | 'horizontal' | 'vertical'
-  itemKey?: typeof defaultItemKey
-  itemTagName?: string
-  innerTagName?: string
-  outerTagName?: string
-  itemElementType?: React.ComponentType
-  outerElementType?: React.ComponentType
-  innerRef?: React.Ref<HTMLElement>
-  outerRef?: React.Ref<HTMLElement>
-  onItemsRendered?: TFunc
-  shouldResetStyleCacheOnItemSizeChange?: boolean
-}
 
 export interface IState {
   id: string
@@ -52,6 +40,7 @@ export default class List extends React.PureComponent<IProps, IState> {
   }
 
   itemList: ListSet
+  preset: Preset
 
   constructor (props: IProps) {
     super(props)
@@ -72,32 +61,21 @@ export default class List extends React.PureComponent<IProps, IState> {
       () => setState(({ refreshCount }) => ({
         refreshCount: ++refreshCount
       })))
-  }
-
-  get isHorizontal () {
-    return isHorizontalFunc(this.props)
-  }
-
-  get isRtl () {
-    return isRtlFunc(this.props)
-  }
-
-  get placeholderCount () {
-    return this.props.placeholderCount >= 0 ? this.props.placeholderCount : this.props.overscanCount
+    this.preset = new Preset(props)
   }
 
   getItemSize (props: IProps, index: number) {
-    if (!props.unlimitedSize) {
+    if (!props.unlimitedSize && !isFunction(props.itemSize)) {
       return props.itemSize
     }
 
-    this._getSizeUploadSync(index, this.isHorizontal)
+    this._getSizeUploadSync(index, this.preset.isHorizontal)
     return this.itemList.getSize(index)
   }
 
   getOffsetForIndexAndAlignment (props, _id, index, align, scrollOffset) {
     const { height, width } = props
-    const size = this.isHorizontal ? width : height
+    const size = this.preset.isHorizontal ? width : height
     const itemSize = this.itemList.getSize(index)
     const lastItemOffset = Math.max(0, this.itemList.getOffsetSize(props.itemCount) - size)
     const maxOffset = Math.min(lastItemOffset, this.itemList.getOffsetSize(index))
@@ -174,6 +152,33 @@ export default class List extends React.PureComponent<IProps, IState> {
     detail
   } as any))
 
+  _callPropsCallbacks (prevProps: any = {}, prevState: any = {}) {
+    if (typeof this.props.onItemsRendered === 'function') {
+      if (this.props.itemCount > 0) {
+        if (!prevProps && prevProps.itemCount !== this.props.itemCount) {
+          const [overscanStartIndex, overscanStopIndex, visibleStartIndex, visibleStopIndex] = this._getRangeToRender()
+
+          this._callOnItemsRendered(overscanStartIndex, overscanStopIndex, visibleStartIndex, visibleStopIndex)
+        }
+      }
+    }
+
+    if (typeof this.props.onScroll === 'function') {
+      if (!prevState ||
+        prevState.scrollDirection !== this.state.scrollDirection ||
+        prevState.scrollOffset !== this.state.scrollOffset ||
+        prevState.scrollUpdateWasRequested !== this.state.scrollUpdateWasRequested
+      ) {
+        this._callOnScroll(
+          this.state.scrollDirection,
+          this.state.scrollOffset,
+          this.state.scrollUpdateWasRequested,
+          this.field
+        )
+      }
+    }
+  }
+
   _getSizeUploadSync = (index: number, isHorizontal: boolean) => {
     const ID = `#${this.state.id}-${index}`
 
@@ -205,18 +210,18 @@ export default class List extends React.PureComponent<IProps, IState> {
       shouldResetStyleCacheOnItemSizeChange
     } = this.props
 
-    const itemStyleCache = this._getItemStyleCache(
-      shouldResetStyleCacheOnItemSizeChange && itemSize,
-      shouldResetStyleCacheOnItemSizeChange && layout,
-      shouldResetStyleCacheOnItemSizeChange && direction
+    const itemStyleCache = this.preset.getItemStyleCache(
+      shouldResetStyleCacheOnItemSizeChange ? itemSize : false,
+      shouldResetStyleCacheOnItemSizeChange ? layout : false,
+      shouldResetStyleCacheOnItemSizeChange ? direction : false
     )
 
     let style
 
     const offset = this.itemList.getOffsetSize(index)
     const size = this.getItemSize(this.props, index)
-    const isHorizontal = this.isHorizontal
-    const isRtl = this.isRtl
+    const isHorizontal = this.preset.isHorizontal
+    const isRtl = this.preset.isRtl
     if (itemStyleCache.hasOwnProperty(index)) {
       // Note: style is frozen.
       style = { ...itemStyleCache[index] }
@@ -252,8 +257,21 @@ export default class List extends React.PureComponent<IProps, IState> {
     return style
   }
 
-  // TODO: Cache of item styles, keyed by item index.
-  _getItemStyleCache = memoizeOne((...__args: unknown[]) => ({}))
+  // Lazily create and cache item styles while scrolling,
+  // So that pure component sCU will prevent re-renders.
+  // We maintain this cache, and pass a style prop rather than index,
+  // So that List can clear cached styles and force item re-render if necessary.
+  _getRangeToRender () {
+    const { width, height } = this.props
+    const { isScrolling, scrollDirection, scrollOffset } = this.state
+    const size = this.preset.isHorizontal ? width : height
+    return this.itemList.getRangeToRender(
+      scrollDirection,
+      size as number,
+      scrollOffset,
+      isScrolling
+    )
+  }
 
   _onScrollHorizontal = event => {
     const {
@@ -279,7 +297,7 @@ export default class List extends React.PureComponent<IProps, IState> {
 
       let scrollOffset = scrollLeft
 
-      if (this.isRtl) {
+      if (this.preset.isRtl) {
         // TRICKY According to the spec, scrollLeft should be negative for RTL aligned elements.
         // This is not the case for all browsers though (e.g. Chrome reports values as positive, measured relative to the left).
         // It's also easier for this component if we convert offsets to the same format as they would be in for ltr.
@@ -368,7 +386,7 @@ export default class List extends React.PureComponent<IProps, IState> {
     }, () => {
       // Clear style cache after state update has been committed.
       // This way we don't break pure sCU for items that don't use isScrolling param.
-      this._getItemStyleCache(-1, null)
+      this.preset.getItemStyleCache(-1, null)
     })
   }
 
@@ -404,7 +422,7 @@ export default class List extends React.PureComponent<IProps, IState> {
     if (typeof initialScrollOffset === 'number' && this._outerRef != null) {
       const outerRef = this._outerRef
 
-      if (this.isHorizontal) {
+      if (this.preset.isHorizontal) {
         outerRef.scrollLeft = initialScrollOffset
       } else {
         outerRef.scrollTop = initialScrollOffset
@@ -421,12 +439,13 @@ export default class List extends React.PureComponent<IProps, IState> {
     } = this.state
 
     this.itemList.update(this.props)
+    this.preset.update(this.props)
 
     if (scrollUpdateWasRequested && this._outerRef != null) {
       const outerRef = this._outerRef
 
-      if (this.isHorizontal) {
-        if (this.isRtl) {
+      if (this.preset.isHorizontal) {
+        if (this.preset.isRtl) {
           // TRICKY According to the spec, scrollLeft should be negative for RTL aligned elements.
           // This is not the case for all browsers though (e.g. Chrome reports values as positive, measured relative to the left).
           // So we need to determine which browser behavior we're dealing with, and mimic it.
@@ -455,7 +474,7 @@ export default class List extends React.PureComponent<IProps, IState> {
 
     setTimeout(() => {
       const [startIndex, stopIndex] = this._getRangeToRender()
-      const isHorizontal = this.isHorizontal
+      const isHorizontal = this.preset.isHorizontal
       for (let index = startIndex; index <= stopIndex; index++) {
         this._getSizeUploadSync(index, isHorizontal)
       }
@@ -470,21 +489,15 @@ export default class List extends React.PureComponent<IProps, IState> {
 
   render () {
     const {
-      children,
+      item,
       className,
       direction,
       height,
       innerRef,
-      innerElementType,
-      innerTagName,
-      itemElementType,
-      itemTagName,
       itemCount,
       itemData,
       itemKey = defaultItemKey,
       layout,
-      outerElementType,
-      outerTagName,
       style,
       useIsScrolling,
       width,
@@ -493,6 +506,12 @@ export default class List extends React.PureComponent<IProps, IState> {
       renderBottom,
       ...rest
     } = this.props
+    delete rest.innerElementType
+    delete rest.innerTagName
+    delete rest.itemElementType
+    delete rest.itemTagName
+    delete rest.outerElementType
+    delete rest.outerTagName
     const {
       id,
       isScrolling,
@@ -500,8 +519,8 @@ export default class List extends React.PureComponent<IProps, IState> {
       scrollUpdateWasRequested
     } = this.state
 
-    const isHorizontal = this.isHorizontal
-    const placeholderCount = this.placeholderCount
+    const isHorizontal = this.preset.isHorizontal
+    const placeholderCount = this.preset.placeholderCount
     const onScroll = isHorizontal ? this._onScrollHorizontal : this._onScrollVertical
 
     const [startIndex, stopIndex] = this._getRangeToRender()
@@ -511,7 +530,7 @@ export default class List extends React.PureComponent<IProps, IState> {
     if (itemCount > 0) {
       const prevPlaceholder = startIndex < placeholderCount ? startIndex : placeholderCount
       items.push(new Array(prevPlaceholder).fill(-1).map((_, index) => React.createElement<any>(
-        itemElementType || itemTagName || 'div', {
+        this.preset.itemTagName, {
           key: itemKey(index, itemData),
           style: { display: 'none' }
         }
@@ -528,9 +547,9 @@ export default class List extends React.PureComponent<IProps, IState> {
         } else {
           style = this._getItemStyle(index)
         }
-        items.push(React.createElement<any>(itemElementType || itemTagName || 'div', {
+        items.push(React.createElement<any>(this.preset.itemTagName, {
           key, style
-        }, React.createElement(children, {
+        }, React.createElement(item, {
           id: `${id}-${index}`,
           data: itemData,
           index,
@@ -540,7 +559,7 @@ export default class List extends React.PureComponent<IProps, IState> {
       const restCount = itemCount - stopIndex
       const postPlaceholder = restCount < placeholderCount ? restCount : placeholderCount
       items.push(new Array(postPlaceholder).fill(-1).map((_, index) => React.createElement<any>(
-        itemElementType || itemTagName || 'div', {
+        this.preset.itemTagName, {
           key: itemKey(index + stopIndex, itemData),
           style: { display: 'none' }
         }
@@ -578,9 +597,9 @@ export default class List extends React.PureComponent<IProps, IState> {
 
     if (position === 'relative') {
       const pre = this.itemList.getOffsetSize(startIndex)
-      return React.createElement(outerElementType || outerTagName || 'div', outerElementProps,
+      return React.createElement(this.preset.outerTagName, outerElementProps,
         renderTop,
-        React.createElement<any>(itemElementType || itemTagName || 'div', {
+        React.createElement<any>(this.preset.itemTagName, {
           key: `${id}-pre`,
           id: `${id}-pre`,
           style: {
@@ -588,7 +607,7 @@ export default class List extends React.PureComponent<IProps, IState> {
             width: convertNumber2PX(!isHorizontal ? '100%' : pre)
           }
         }),
-        React.createElement<any>(innerElementType || innerTagName || 'div', {
+        React.createElement<any>(this.preset.innerTagName, {
           ref: innerRef,
           key: `${id}-inner`,
           id: `${id}-inner`,
@@ -599,9 +618,9 @@ export default class List extends React.PureComponent<IProps, IState> {
         renderBottom
       )
     } else {
-      return React.createElement(outerElementType || outerTagName || 'div', outerElementProps,
+      return React.createElement(this.preset.outerTagName, outerElementProps,
         renderTop,
-        React.createElement<any>(innerElementType || innerTagName || 'div', {
+        React.createElement<any>(this.preset.innerTagName, {
           ref: innerRef,
           key: `${id}-inner`,
           id: `${id}-inner`,
@@ -614,49 +633,6 @@ export default class List extends React.PureComponent<IProps, IState> {
         renderBottom
       )
     }
-  }
-
-  _callPropsCallbacks (prevProps: any = {}, prevState: any = {}) {
-    if (typeof this.props.onItemsRendered === 'function') {
-      if (this.props.itemCount > 0) {
-        if (!prevProps && prevProps.itemCount !== this.props.itemCount) {
-          const [overscanStartIndex, overscanStopIndex, visibleStartIndex, visibleStopIndex] = this._getRangeToRender()
-
-          this._callOnItemsRendered(overscanStartIndex, overscanStopIndex, visibleStartIndex, visibleStopIndex)
-        }
-      }
-    }
-
-    if (typeof this.props.onScroll === 'function') {
-      if (!prevState ||
-        prevState.scrollDirection !== this.state.scrollDirection ||
-        prevState.scrollOffset !== this.state.scrollOffset ||
-        prevState.scrollUpdateWasRequested !== this.state.scrollUpdateWasRequested
-      ) {
-        this._callOnScroll(
-          this.state.scrollDirection,
-          this.state.scrollOffset,
-          this.state.scrollUpdateWasRequested,
-          this.field
-        )
-      }
-    }
-  }
-
-  // Lazily create and cache item styles while scrolling,
-  // So that pure component sCU will prevent re-renders.
-  // We maintain this cache, and pass a style prop rather than index,
-  // So that List can clear cached styles and force item re-render if necessary.
-  _getRangeToRender () {
-    const { width, height } = this.props
-    const { isScrolling, scrollDirection, scrollOffset } = this.state
-    const size = this.isHorizontal ? width : height
-    return this.itemList.getRangeToRender(
-      scrollDirection,
-      size as number,
-      scrollOffset,
-      isScrolling
-    )
   }
 }
 

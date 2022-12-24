@@ -6,7 +6,7 @@ import List from './list'
 
 import type { BaseEventOrig } from '@tarojs/components'
 import type { VirtualListProps } from '../'
-import type { IProps } from './list'
+import type { IProps } from '../preset'
 
 const OuterScrollView = React.forwardRef(
   function OuterScrollView (props, ref) {
@@ -47,9 +47,9 @@ const VirtualList = React.forwardRef(function VirtualList (props, ref) {
     ...rest
   } = props as IProps
 
-  if (rest.children instanceof Array) {
-    console.warn('Taro(VirtualList): children should not be an array')
-    rest.children = rest.children[0]
+  if (rest.item instanceof Array) {
+    console.warn('Taro(VirtualList): item should not be an array')
+    rest.item = rest.item[0]
   }
   return React.createElement(List, {
     ref,

@@ -2976,6 +2976,39 @@ exports[`sass should build app with sass 2`] = `
     function _toConsumableArray(arr) {
         return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread();
     }
+    function _arrayWithHoles(arr) {
+        if (Array.isArray(arr)) return arr;
+    }
+    function _iterableToArrayLimit(arr, i) {
+        var _i = arr == null ? null : typeof Symbol !== \\"undefined\\" && arr[Symbol.iterator] || arr[\\"@@iterator\\"];
+        if (_i == null) return;
+        var _arr = [];
+        var _n = true;
+        var _d = false;
+        var _s, _e;
+        try {
+            for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) {
+                _arr.push(_s.value);
+                if (i && _arr.length === i) break;
+            }
+        } catch (err) {
+            _d = true;
+            _e = err;
+        } finally {
+            try {
+                if (!_n && _i[\\"return\\"] != null) _i[\\"return\\"]();
+            } finally {
+                if (_d) throw _e;
+            }
+        }
+        return _arr;
+    }
+    function _nonIterableRest() {
+        throw new TypeError(\\"Invalid attempt to destructure non-iterable instance.\\\\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.\\");
+    }
+    function _slicedToArray(arr, i) {
+        return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest();
+    }
     var addLeadingSlash = function addLeadingSlash() {
         var url = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : \\"\\";
         return url.charAt(0) === \\"/\\" ? url : \\"/\\" + url;
@@ -2998,6 +3031,19 @@ exports[`sass should build app with sass 2`] = `
         var path = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : \\"\\";
         var suffix = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : \\"\\";
         return path.includes(suffix) ? path.substring(0, path.length - suffix.length) : path;
+    };
+    var utils_getHomePage = function getHomePage() {
+        var path = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : \\"\\";
+        var basename = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : \\"\\";
+        var customRoutes = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
+        var entryPagePath = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : \\"\\";
+        var _a;
+        var routePath = addLeadingSlash(stripBasename(path, basename));
+        var alias = ((_a = Object.entries(customRoutes).find((function(_ref) {
+            var _ref2 = _slicedToArray(_ref, 1), key = _ref2[0];
+            return key === routePath;
+        }))) === null || _a === void 0 ? void 0 : _a[1]) || routePath;
+        return entryPagePath || (typeof alias === \\"string\\" ? alias : alias[0]) || basename;
     };
     var utils_RoutesAlias = function() {
         function RoutesAlias() {
@@ -3547,39 +3593,6 @@ exports[`sass should build app with sass 2`] = `
     function isDingTalk() {
         var md = getMobileDetect();
         return md.match(/DingTalk/gi);
-    }
-    function _arrayWithHoles(arr) {
-        if (Array.isArray(arr)) return arr;
-    }
-    function _iterableToArrayLimit(arr, i) {
-        var _i = arr == null ? null : typeof Symbol !== \\"undefined\\" && arr[Symbol.iterator] || arr[\\"@@iterator\\"];
-        if (_i == null) return;
-        var _arr = [];
-        var _n = true;
-        var _d = false;
-        var _s, _e;
-        try {
-            for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) {
-                _arr.push(_s.value);
-                if (i && _arr.length === i) break;
-            }
-        } catch (err) {
-            _d = true;
-            _e = err;
-        } finally {
-            try {
-                if (!_n && _i[\\"return\\"] != null) _i[\\"return\\"]();
-            } finally {
-                if (_d) throw _e;
-            }
-        }
-        return _arr;
-    }
-    function _nonIterableRest() {
-        throw new TypeError(\\"Invalid attempt to destructure non-iterable instance.\\\\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.\\");
-    }
-    function _slicedToArray(arr, i) {
-        return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest();
     }
     var query_string = __webpack_require__(4);
     var query_string_default = __webpack_require__.n(query_string);
@@ -4133,7 +4146,7 @@ exports[`sass should build app with sass 2`] = `
                 \\"delay\\": 50
             };
             this.config = config;
-            this.homePage = this.getHomePage();
+            this.homePage = utils_getHomePage(this.routes[0].path, this.basename, this.customRoutes, this.config.entryPagePath);
             this.mount();
         }
         Object(createClass[\\"a\\"])(PageHandler, [ {
@@ -4231,17 +4244,6 @@ exports[`sass should build app with sass 2`] = `
                 return !!pagePath && this.tabBarList.some((function(t) {
                     return stripTrailing(t.pagePath) === pagePath;
                 }));
-            }
-        }, {
-            \\"key\\": \\"getHomePage\\",
-            \\"value\\": function getHomePage() {
-                var _a;
-                var routePath = addLeadingSlash(stripBasename(this.routes[0].path, this.basename));
-                var alias = ((_a = Object.entries(this.customRoutes).find((function(_ref3) {
-                    var _ref4 = _slicedToArray(_ref3, 1), key = _ref4[0];
-                    return key === routePath;
-                }))) === null || _a === void 0 ? void 0 : _a[1]) || routePath;
-                return this.config.entryPagePath || (typeof alias === \\"string\\" ? alias : alias[0]) || this.basename;
             }
         }, {
             \\"key\\": \\"isSamePage\\",
@@ -4692,27 +4694,30 @@ exports[`sass should build app with sass 2`] = `
                             }
 
                           case 53:
-                            if (!(shouldLoad || stack.length < 1)) {
-                                _context.next = 64;
-                                break;
+                            if (shouldLoad || stack.length < 1) {
+                                el = (_h = element.default) !== null && _h !== void 0 ? _h : element;
+                                loadConfig = Object.assign({}, pageConfig);
+                                stacksIndex = stack.length;
+                                delete loadConfig[\\"path\\"];
+                                delete loadConfig[\\"load\\"];
+                                pageStampId = \\"\\";
+                                if (spa_launchStampId) {
+                                    pageStampId = spa_launchStampId;
+                                    spa_launchStampId = \\"\\";
+                                } else {
+                                    pageStampId = spa_createStampId();
+                                }
+                                page = undefined(enablePullDownRefresh ? undefined.call(\\"createPullDownComponent\\", el, location.pathname, framework, handler.PullDownRefresh) : el, pathname + undefined(handler.getQuery(pageStampId)), {}, loadConfig);
+                                if (params) page.options = params;
+                                handler.load(page, pageConfig, pageStampId, stacksIndex);
                             }
-                            el = (_h = element.default) !== null && _h !== void 0 ? _h : element;
-                            loadConfig = Object.assign({}, pageConfig);
-                            stacksIndex = stack.length;
-                            delete loadConfig[\\"path\\"];
-                            delete loadConfig[\\"load\\"];
-                            pageStampId = \\"\\";
-                            if (spa_launchStampId) {
-                                pageStampId = spa_launchStampId;
-                                spa_launchStampId = \\"\\";
-                            } else {
-                                pageStampId = spa_createStampId();
-                            }
-                            page = undefined(enablePullDownRefresh ? undefined.call(\\"createPullDownComponent\\", el, location.pathname, framework, handler.PullDownRefresh) : el, pathname + undefined(handler.getQuery(pageStampId)), {}, loadConfig);
-                            if (params) page.options = params;
-                            return _context.abrupt(\\"return\\", handler.load(page, pageConfig, pageStampId, stacksIndex));
+                            undefined.trigger(\\"__afterTaroRouterChange\\", {
+                                \\"toLocation\\": {
+                                    \\"path\\": handler.pathname
+                                }
+                            });
 
-                          case 64:
+                          case 55:
                           case \\"end\\":
                             return _context.stop();
                         }
@@ -7810,6 +7815,39 @@ exports[`sass should build app with scss 2`] = `
     function _toConsumableArray(arr) {
         return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread();
     }
+    function _arrayWithHoles(arr) {
+        if (Array.isArray(arr)) return arr;
+    }
+    function _iterableToArrayLimit(arr, i) {
+        var _i = arr == null ? null : typeof Symbol !== \\"undefined\\" && arr[Symbol.iterator] || arr[\\"@@iterator\\"];
+        if (_i == null) return;
+        var _arr = [];
+        var _n = true;
+        var _d = false;
+        var _s, _e;
+        try {
+            for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) {
+                _arr.push(_s.value);
+                if (i && _arr.length === i) break;
+            }
+        } catch (err) {
+            _d = true;
+            _e = err;
+        } finally {
+            try {
+                if (!_n && _i[\\"return\\"] != null) _i[\\"return\\"]();
+            } finally {
+                if (_d) throw _e;
+            }
+        }
+        return _arr;
+    }
+    function _nonIterableRest() {
+        throw new TypeError(\\"Invalid attempt to destructure non-iterable instance.\\\\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.\\");
+    }
+    function _slicedToArray(arr, i) {
+        return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest();
+    }
     var addLeadingSlash = function addLeadingSlash() {
         var url = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : \\"\\";
         return url.charAt(0) === \\"/\\" ? url : \\"/\\" + url;
@@ -7832,6 +7870,19 @@ exports[`sass should build app with scss 2`] = `
         var path = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : \\"\\";
         var suffix = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : \\"\\";
         return path.includes(suffix) ? path.substring(0, path.length - suffix.length) : path;
+    };
+    var utils_getHomePage = function getHomePage() {
+        var path = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : \\"\\";
+        var basename = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : \\"\\";
+        var customRoutes = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
+        var entryPagePath = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : \\"\\";
+        var _a;
+        var routePath = addLeadingSlash(stripBasename(path, basename));
+        var alias = ((_a = Object.entries(customRoutes).find((function(_ref) {
+            var _ref2 = _slicedToArray(_ref, 1), key = _ref2[0];
+            return key === routePath;
+        }))) === null || _a === void 0 ? void 0 : _a[1]) || routePath;
+        return entryPagePath || (typeof alias === \\"string\\" ? alias : alias[0]) || basename;
     };
     var utils_RoutesAlias = function() {
         function RoutesAlias() {
@@ -8381,39 +8432,6 @@ exports[`sass should build app with scss 2`] = `
     function isDingTalk() {
         var md = getMobileDetect();
         return md.match(/DingTalk/gi);
-    }
-    function _arrayWithHoles(arr) {
-        if (Array.isArray(arr)) return arr;
-    }
-    function _iterableToArrayLimit(arr, i) {
-        var _i = arr == null ? null : typeof Symbol !== \\"undefined\\" && arr[Symbol.iterator] || arr[\\"@@iterator\\"];
-        if (_i == null) return;
-        var _arr = [];
-        var _n = true;
-        var _d = false;
-        var _s, _e;
-        try {
-            for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) {
-                _arr.push(_s.value);
-                if (i && _arr.length === i) break;
-            }
-        } catch (err) {
-            _d = true;
-            _e = err;
-        } finally {
-            try {
-                if (!_n && _i[\\"return\\"] != null) _i[\\"return\\"]();
-            } finally {
-                if (_d) throw _e;
-            }
-        }
-        return _arr;
-    }
-    function _nonIterableRest() {
-        throw new TypeError(\\"Invalid attempt to destructure non-iterable instance.\\\\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.\\");
-    }
-    function _slicedToArray(arr, i) {
-        return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest();
     }
     var query_string = __webpack_require__(4);
     var query_string_default = __webpack_require__.n(query_string);
@@ -8967,7 +8985,7 @@ exports[`sass should build app with scss 2`] = `
                 \\"delay\\": 50
             };
             this.config = config;
-            this.homePage = this.getHomePage();
+            this.homePage = utils_getHomePage(this.routes[0].path, this.basename, this.customRoutes, this.config.entryPagePath);
             this.mount();
         }
         Object(createClass[\\"a\\"])(PageHandler, [ {
@@ -9065,17 +9083,6 @@ exports[`sass should build app with scss 2`] = `
                 return !!pagePath && this.tabBarList.some((function(t) {
                     return stripTrailing(t.pagePath) === pagePath;
                 }));
-            }
-        }, {
-            \\"key\\": \\"getHomePage\\",
-            \\"value\\": function getHomePage() {
-                var _a;
-                var routePath = addLeadingSlash(stripBasename(this.routes[0].path, this.basename));
-                var alias = ((_a = Object.entries(this.customRoutes).find((function(_ref3) {
-                    var _ref4 = _slicedToArray(_ref3, 1), key = _ref4[0];
-                    return key === routePath;
-                }))) === null || _a === void 0 ? void 0 : _a[1]) || routePath;
-                return this.config.entryPagePath || (typeof alias === \\"string\\" ? alias : alias[0]) || this.basename;
             }
         }, {
             \\"key\\": \\"isSamePage\\",
@@ -9526,27 +9533,30 @@ exports[`sass should build app with scss 2`] = `
                             }
 
                           case 53:
-                            if (!(shouldLoad || stack.length < 1)) {
-                                _context.next = 64;
-                                break;
+                            if (shouldLoad || stack.length < 1) {
+                                el = (_h = element.default) !== null && _h !== void 0 ? _h : element;
+                                loadConfig = Object.assign({}, pageConfig);
+                                stacksIndex = stack.length;
+                                delete loadConfig[\\"path\\"];
+                                delete loadConfig[\\"load\\"];
+                                pageStampId = \\"\\";
+                                if (spa_launchStampId) {
+                                    pageStampId = spa_launchStampId;
+                                    spa_launchStampId = \\"\\";
+                                } else {
+                                    pageStampId = spa_createStampId();
+                                }
+                                page = undefined(enablePullDownRefresh ? undefined.call(\\"createPullDownComponent\\", el, location.pathname, framework, handler.PullDownRefresh) : el, pathname + undefined(handler.getQuery(pageStampId)), {}, loadConfig);
+                                if (params) page.options = params;
+                                handler.load(page, pageConfig, pageStampId, stacksIndex);
                             }
-                            el = (_h = element.default) !== null && _h !== void 0 ? _h : element;
-                            loadConfig = Object.assign({}, pageConfig);
-                            stacksIndex = stack.length;
-                            delete loadConfig[\\"path\\"];
-                            delete loadConfig[\\"load\\"];
-                            pageStampId = \\"\\";
-                            if (spa_launchStampId) {
-                                pageStampId = spa_launchStampId;
-                                spa_launchStampId = \\"\\";
-                            } else {
-                                pageStampId = spa_createStampId();
-                            }
-                            page = undefined(enablePullDownRefresh ? undefined.call(\\"createPullDownComponent\\", el, location.pathname, framework, handler.PullDownRefresh) : el, pathname + undefined(handler.getQuery(pageStampId)), {}, loadConfig);
-                            if (params) page.options = params;
-                            return _context.abrupt(\\"return\\", handler.load(page, pageConfig, pageStampId, stacksIndex));
+                            undefined.trigger(\\"__afterTaroRouterChange\\", {
+                                \\"toLocation\\": {
+                                    \\"path\\": handler.pathname
+                                }
+                            });
 
-                          case 64:
+                          case 55:
                           case \\"end\\":
                             return _context.stop();
                         }
@@ -12654,6 +12664,39 @@ exports[`sass should set global sass content with data 2`] = `
     function _toConsumableArray(arr) {
         return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread();
     }
+    function _arrayWithHoles(arr) {
+        if (Array.isArray(arr)) return arr;
+    }
+    function _iterableToArrayLimit(arr, i) {
+        var _i = arr == null ? null : typeof Symbol !== \\"undefined\\" && arr[Symbol.iterator] || arr[\\"@@iterator\\"];
+        if (_i == null) return;
+        var _arr = [];
+        var _n = true;
+        var _d = false;
+        var _s, _e;
+        try {
+            for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) {
+                _arr.push(_s.value);
+                if (i && _arr.length === i) break;
+            }
+        } catch (err) {
+            _d = true;
+            _e = err;
+        } finally {
+            try {
+                if (!_n && _i[\\"return\\"] != null) _i[\\"return\\"]();
+            } finally {
+                if (_d) throw _e;
+            }
+        }
+        return _arr;
+    }
+    function _nonIterableRest() {
+        throw new TypeError(\\"Invalid attempt to destructure non-iterable instance.\\\\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.\\");
+    }
+    function _slicedToArray(arr, i) {
+        return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest();
+    }
     var addLeadingSlash = function addLeadingSlash() {
         var url = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : \\"\\";
         return url.charAt(0) === \\"/\\" ? url : \\"/\\" + url;
@@ -12676,6 +12719,19 @@ exports[`sass should set global sass content with data 2`] = `
         var path = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : \\"\\";
         var suffix = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : \\"\\";
         return path.includes(suffix) ? path.substring(0, path.length - suffix.length) : path;
+    };
+    var utils_getHomePage = function getHomePage() {
+        var path = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : \\"\\";
+        var basename = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : \\"\\";
+        var customRoutes = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
+        var entryPagePath = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : \\"\\";
+        var _a;
+        var routePath = addLeadingSlash(stripBasename(path, basename));
+        var alias = ((_a = Object.entries(customRoutes).find((function(_ref) {
+            var _ref2 = _slicedToArray(_ref, 1), key = _ref2[0];
+            return key === routePath;
+        }))) === null || _a === void 0 ? void 0 : _a[1]) || routePath;
+        return entryPagePath || (typeof alias === \\"string\\" ? alias : alias[0]) || basename;
     };
     var utils_RoutesAlias = function() {
         function RoutesAlias() {
@@ -13225,39 +13281,6 @@ exports[`sass should set global sass content with data 2`] = `
     function isDingTalk() {
         var md = getMobileDetect();
         return md.match(/DingTalk/gi);
-    }
-    function _arrayWithHoles(arr) {
-        if (Array.isArray(arr)) return arr;
-    }
-    function _iterableToArrayLimit(arr, i) {
-        var _i = arr == null ? null : typeof Symbol !== \\"undefined\\" && arr[Symbol.iterator] || arr[\\"@@iterator\\"];
-        if (_i == null) return;
-        var _arr = [];
-        var _n = true;
-        var _d = false;
-        var _s, _e;
-        try {
-            for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) {
-                _arr.push(_s.value);
-                if (i && _arr.length === i) break;
-            }
-        } catch (err) {
-            _d = true;
-            _e = err;
-        } finally {
-            try {
-                if (!_n && _i[\\"return\\"] != null) _i[\\"return\\"]();
-            } finally {
-                if (_d) throw _e;
-            }
-        }
-        return _arr;
-    }
-    function _nonIterableRest() {
-        throw new TypeError(\\"Invalid attempt to destructure non-iterable instance.\\\\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.\\");
-    }
-    function _slicedToArray(arr, i) {
-        return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest();
     }
     var query_string = __webpack_require__(4);
     var query_string_default = __webpack_require__.n(query_string);
@@ -13811,7 +13834,7 @@ exports[`sass should set global sass content with data 2`] = `
                 \\"delay\\": 50
             };
             this.config = config;
-            this.homePage = this.getHomePage();
+            this.homePage = utils_getHomePage(this.routes[0].path, this.basename, this.customRoutes, this.config.entryPagePath);
             this.mount();
         }
         Object(createClass[\\"a\\"])(PageHandler, [ {
@@ -13909,17 +13932,6 @@ exports[`sass should set global sass content with data 2`] = `
                 return !!pagePath && this.tabBarList.some((function(t) {
                     return stripTrailing(t.pagePath) === pagePath;
                 }));
-            }
-        }, {
-            \\"key\\": \\"getHomePage\\",
-            \\"value\\": function getHomePage() {
-                var _a;
-                var routePath = addLeadingSlash(stripBasename(this.routes[0].path, this.basename));
-                var alias = ((_a = Object.entries(this.customRoutes).find((function(_ref3) {
-                    var _ref4 = _slicedToArray(_ref3, 1), key = _ref4[0];
-                    return key === routePath;
-                }))) === null || _a === void 0 ? void 0 : _a[1]) || routePath;
-                return this.config.entryPagePath || (typeof alias === \\"string\\" ? alias : alias[0]) || this.basename;
             }
         }, {
             \\"key\\": \\"isSamePage\\",
@@ -14370,27 +14382,30 @@ exports[`sass should set global sass content with data 2`] = `
                             }
 
                           case 53:
-                            if (!(shouldLoad || stack.length < 1)) {
-                                _context.next = 64;
-                                break;
+                            if (shouldLoad || stack.length < 1) {
+                                el = (_h = element.default) !== null && _h !== void 0 ? _h : element;
+                                loadConfig = Object.assign({}, pageConfig);
+                                stacksIndex = stack.length;
+                                delete loadConfig[\\"path\\"];
+                                delete loadConfig[\\"load\\"];
+                                pageStampId = \\"\\";
+                                if (spa_launchStampId) {
+                                    pageStampId = spa_launchStampId;
+                                    spa_launchStampId = \\"\\";
+                                } else {
+                                    pageStampId = spa_createStampId();
+                                }
+                                page = undefined(enablePullDownRefresh ? undefined.call(\\"createPullDownComponent\\", el, location.pathname, framework, handler.PullDownRefresh) : el, pathname + undefined(handler.getQuery(pageStampId)), {}, loadConfig);
+                                if (params) page.options = params;
+                                handler.load(page, pageConfig, pageStampId, stacksIndex);
                             }
-                            el = (_h = element.default) !== null && _h !== void 0 ? _h : element;
-                            loadConfig = Object.assign({}, pageConfig);
-                            stacksIndex = stack.length;
-                            delete loadConfig[\\"path\\"];
-                            delete loadConfig[\\"load\\"];
-                            pageStampId = \\"\\";
-                            if (spa_launchStampId) {
-                                pageStampId = spa_launchStampId;
-                                spa_launchStampId = \\"\\";
-                            } else {
-                                pageStampId = spa_createStampId();
-                            }
-                            page = undefined(enablePullDownRefresh ? undefined.call(\\"createPullDownComponent\\", el, location.pathname, framework, handler.PullDownRefresh) : el, pathname + undefined(handler.getQuery(pageStampId)), {}, loadConfig);
-                            if (params) page.options = params;
-                            return _context.abrupt(\\"return\\", handler.load(page, pageConfig, pageStampId, stacksIndex));
+                            undefined.trigger(\\"__afterTaroRouterChange\\", {
+                                \\"toLocation\\": {
+                                    \\"path\\": handler.pathname
+                                }
+                            });
 
-                          case 64:
+                          case 55:
                           case \\"end\\":
                             return _context.stop();
                         }
@@ -17498,6 +17513,39 @@ exports[`sass should set global sass content with source & dir 2`] = `
     function _toConsumableArray(arr) {
         return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread();
     }
+    function _arrayWithHoles(arr) {
+        if (Array.isArray(arr)) return arr;
+    }
+    function _iterableToArrayLimit(arr, i) {
+        var _i = arr == null ? null : typeof Symbol !== \\"undefined\\" && arr[Symbol.iterator] || arr[\\"@@iterator\\"];
+        if (_i == null) return;
+        var _arr = [];
+        var _n = true;
+        var _d = false;
+        var _s, _e;
+        try {
+            for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) {
+                _arr.push(_s.value);
+                if (i && _arr.length === i) break;
+            }
+        } catch (err) {
+            _d = true;
+            _e = err;
+        } finally {
+            try {
+                if (!_n && _i[\\"return\\"] != null) _i[\\"return\\"]();
+            } finally {
+                if (_d) throw _e;
+            }
+        }
+        return _arr;
+    }
+    function _nonIterableRest() {
+        throw new TypeError(\\"Invalid attempt to destructure non-iterable instance.\\\\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.\\");
+    }
+    function _slicedToArray(arr, i) {
+        return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest();
+    }
     var addLeadingSlash = function addLeadingSlash() {
         var url = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : \\"\\";
         return url.charAt(0) === \\"/\\" ? url : \\"/\\" + url;
@@ -17520,6 +17568,19 @@ exports[`sass should set global sass content with source & dir 2`] = `
         var path = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : \\"\\";
         var suffix = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : \\"\\";
         return path.includes(suffix) ? path.substring(0, path.length - suffix.length) : path;
+    };
+    var utils_getHomePage = function getHomePage() {
+        var path = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : \\"\\";
+        var basename = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : \\"\\";
+        var customRoutes = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
+        var entryPagePath = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : \\"\\";
+        var _a;
+        var routePath = addLeadingSlash(stripBasename(path, basename));
+        var alias = ((_a = Object.entries(customRoutes).find((function(_ref) {
+            var _ref2 = _slicedToArray(_ref, 1), key = _ref2[0];
+            return key === routePath;
+        }))) === null || _a === void 0 ? void 0 : _a[1]) || routePath;
+        return entryPagePath || (typeof alias === \\"string\\" ? alias : alias[0]) || basename;
     };
     var utils_RoutesAlias = function() {
         function RoutesAlias() {
@@ -18069,39 +18130,6 @@ exports[`sass should set global sass content with source & dir 2`] = `
     function isDingTalk() {
         var md = getMobileDetect();
         return md.match(/DingTalk/gi);
-    }
-    function _arrayWithHoles(arr) {
-        if (Array.isArray(arr)) return arr;
-    }
-    function _iterableToArrayLimit(arr, i) {
-        var _i = arr == null ? null : typeof Symbol !== \\"undefined\\" && arr[Symbol.iterator] || arr[\\"@@iterator\\"];
-        if (_i == null) return;
-        var _arr = [];
-        var _n = true;
-        var _d = false;
-        var _s, _e;
-        try {
-            for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) {
-                _arr.push(_s.value);
-                if (i && _arr.length === i) break;
-            }
-        } catch (err) {
-            _d = true;
-            _e = err;
-        } finally {
-            try {
-                if (!_n && _i[\\"return\\"] != null) _i[\\"return\\"]();
-            } finally {
-                if (_d) throw _e;
-            }
-        }
-        return _arr;
-    }
-    function _nonIterableRest() {
-        throw new TypeError(\\"Invalid attempt to destructure non-iterable instance.\\\\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.\\");
-    }
-    function _slicedToArray(arr, i) {
-        return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest();
     }
     var query_string = __webpack_require__(4);
     var query_string_default = __webpack_require__.n(query_string);
@@ -18655,7 +18683,7 @@ exports[`sass should set global sass content with source & dir 2`] = `
                 \\"delay\\": 50
             };
             this.config = config;
-            this.homePage = this.getHomePage();
+            this.homePage = utils_getHomePage(this.routes[0].path, this.basename, this.customRoutes, this.config.entryPagePath);
             this.mount();
         }
         Object(createClass[\\"a\\"])(PageHandler, [ {
@@ -18753,17 +18781,6 @@ exports[`sass should set global sass content with source & dir 2`] = `
                 return !!pagePath && this.tabBarList.some((function(t) {
                     return stripTrailing(t.pagePath) === pagePath;
                 }));
-            }
-        }, {
-            \\"key\\": \\"getHomePage\\",
-            \\"value\\": function getHomePage() {
-                var _a;
-                var routePath = addLeadingSlash(stripBasename(this.routes[0].path, this.basename));
-                var alias = ((_a = Object.entries(this.customRoutes).find((function(_ref3) {
-                    var _ref4 = _slicedToArray(_ref3, 1), key = _ref4[0];
-                    return key === routePath;
-                }))) === null || _a === void 0 ? void 0 : _a[1]) || routePath;
-                return this.config.entryPagePath || (typeof alias === \\"string\\" ? alias : alias[0]) || this.basename;
             }
         }, {
             \\"key\\": \\"isSamePage\\",
@@ -19214,27 +19231,30 @@ exports[`sass should set global sass content with source & dir 2`] = `
                             }
 
                           case 53:
-                            if (!(shouldLoad || stack.length < 1)) {
-                                _context.next = 64;
-                                break;
+                            if (shouldLoad || stack.length < 1) {
+                                el = (_h = element.default) !== null && _h !== void 0 ? _h : element;
+                                loadConfig = Object.assign({}, pageConfig);
+                                stacksIndex = stack.length;
+                                delete loadConfig[\\"path\\"];
+                                delete loadConfig[\\"load\\"];
+                                pageStampId = \\"\\";
+                                if (spa_launchStampId) {
+                                    pageStampId = spa_launchStampId;
+                                    spa_launchStampId = \\"\\";
+                                } else {
+                                    pageStampId = spa_createStampId();
+                                }
+                                page = undefined(enablePullDownRefresh ? undefined.call(\\"createPullDownComponent\\", el, location.pathname, framework, handler.PullDownRefresh) : el, pathname + undefined(handler.getQuery(pageStampId)), {}, loadConfig);
+                                if (params) page.options = params;
+                                handler.load(page, pageConfig, pageStampId, stacksIndex);
                             }
-                            el = (_h = element.default) !== null && _h !== void 0 ? _h : element;
-                            loadConfig = Object.assign({}, pageConfig);
-                            stacksIndex = stack.length;
-                            delete loadConfig[\\"path\\"];
-                            delete loadConfig[\\"load\\"];
-                            pageStampId = \\"\\";
-                            if (spa_launchStampId) {
-                                pageStampId = spa_launchStampId;
-                                spa_launchStampId = \\"\\";
-                            } else {
-                                pageStampId = spa_createStampId();
-                            }
-                            page = undefined(enablePullDownRefresh ? undefined.call(\\"createPullDownComponent\\", el, location.pathname, framework, handler.PullDownRefresh) : el, pathname + undefined(handler.getQuery(pageStampId)), {}, loadConfig);
-                            if (params) page.options = params;
-                            return _context.abrupt(\\"return\\", handler.load(page, pageConfig, pageStampId, stacksIndex));
+                            undefined.trigger(\\"__afterTaroRouterChange\\", {
+                                \\"toLocation\\": {
+                                    \\"path\\": handler.pathname
+                                }
+                            });
 
-                          case 64:
+                          case 55:
                           case \\"end\\":
                             return _context.stop();
                         }
@@ -22342,6 +22362,39 @@ exports[`sass should set global sass content with source 2`] = `
     function _toConsumableArray(arr) {
         return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread();
     }
+    function _arrayWithHoles(arr) {
+        if (Array.isArray(arr)) return arr;
+    }
+    function _iterableToArrayLimit(arr, i) {
+        var _i = arr == null ? null : typeof Symbol !== \\"undefined\\" && arr[Symbol.iterator] || arr[\\"@@iterator\\"];
+        if (_i == null) return;
+        var _arr = [];
+        var _n = true;
+        var _d = false;
+        var _s, _e;
+        try {
+            for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) {
+                _arr.push(_s.value);
+                if (i && _arr.length === i) break;
+            }
+        } catch (err) {
+            _d = true;
+            _e = err;
+        } finally {
+            try {
+                if (!_n && _i[\\"return\\"] != null) _i[\\"return\\"]();
+            } finally {
+                if (_d) throw _e;
+            }
+        }
+        return _arr;
+    }
+    function _nonIterableRest() {
+        throw new TypeError(\\"Invalid attempt to destructure non-iterable instance.\\\\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.\\");
+    }
+    function _slicedToArray(arr, i) {
+        return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest();
+    }
     var addLeadingSlash = function addLeadingSlash() {
         var url = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : \\"\\";
         return url.charAt(0) === \\"/\\" ? url : \\"/\\" + url;
@@ -22364,6 +22417,19 @@ exports[`sass should set global sass content with source 2`] = `
         var path = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : \\"\\";
         var suffix = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : \\"\\";
         return path.includes(suffix) ? path.substring(0, path.length - suffix.length) : path;
+    };
+    var utils_getHomePage = function getHomePage() {
+        var path = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : \\"\\";
+        var basename = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : \\"\\";
+        var customRoutes = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
+        var entryPagePath = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : \\"\\";
+        var _a;
+        var routePath = addLeadingSlash(stripBasename(path, basename));
+        var alias = ((_a = Object.entries(customRoutes).find((function(_ref) {
+            var _ref2 = _slicedToArray(_ref, 1), key = _ref2[0];
+            return key === routePath;
+        }))) === null || _a === void 0 ? void 0 : _a[1]) || routePath;
+        return entryPagePath || (typeof alias === \\"string\\" ? alias : alias[0]) || basename;
     };
     var utils_RoutesAlias = function() {
         function RoutesAlias() {
@@ -22913,39 +22979,6 @@ exports[`sass should set global sass content with source 2`] = `
     function isDingTalk() {
         var md = getMobileDetect();
         return md.match(/DingTalk/gi);
-    }
-    function _arrayWithHoles(arr) {
-        if (Array.isArray(arr)) return arr;
-    }
-    function _iterableToArrayLimit(arr, i) {
-        var _i = arr == null ? null : typeof Symbol !== \\"undefined\\" && arr[Symbol.iterator] || arr[\\"@@iterator\\"];
-        if (_i == null) return;
-        var _arr = [];
-        var _n = true;
-        var _d = false;
-        var _s, _e;
-        try {
-            for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) {
-                _arr.push(_s.value);
-                if (i && _arr.length === i) break;
-            }
-        } catch (err) {
-            _d = true;
-            _e = err;
-        } finally {
-            try {
-                if (!_n && _i[\\"return\\"] != null) _i[\\"return\\"]();
-            } finally {
-                if (_d) throw _e;
-            }
-        }
-        return _arr;
-    }
-    function _nonIterableRest() {
-        throw new TypeError(\\"Invalid attempt to destructure non-iterable instance.\\\\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.\\");
-    }
-    function _slicedToArray(arr, i) {
-        return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest();
     }
     var query_string = __webpack_require__(4);
     var query_string_default = __webpack_require__.n(query_string);
@@ -23499,7 +23532,7 @@ exports[`sass should set global sass content with source 2`] = `
                 \\"delay\\": 50
             };
             this.config = config;
-            this.homePage = this.getHomePage();
+            this.homePage = utils_getHomePage(this.routes[0].path, this.basename, this.customRoutes, this.config.entryPagePath);
             this.mount();
         }
         Object(createClass[\\"a\\"])(PageHandler, [ {
@@ -23597,17 +23630,6 @@ exports[`sass should set global sass content with source 2`] = `
                 return !!pagePath && this.tabBarList.some((function(t) {
                     return stripTrailing(t.pagePath) === pagePath;
                 }));
-            }
-        }, {
-            \\"key\\": \\"getHomePage\\",
-            \\"value\\": function getHomePage() {
-                var _a;
-                var routePath = addLeadingSlash(stripBasename(this.routes[0].path, this.basename));
-                var alias = ((_a = Object.entries(this.customRoutes).find((function(_ref3) {
-                    var _ref4 = _slicedToArray(_ref3, 1), key = _ref4[0];
-                    return key === routePath;
-                }))) === null || _a === void 0 ? void 0 : _a[1]) || routePath;
-                return this.config.entryPagePath || (typeof alias === \\"string\\" ? alias : alias[0]) || this.basename;
             }
         }, {
             \\"key\\": \\"isSamePage\\",
@@ -24058,27 +24080,30 @@ exports[`sass should set global sass content with source 2`] = `
                             }
 
                           case 53:
-                            if (!(shouldLoad || stack.length < 1)) {
-                                _context.next = 64;
-                                break;
+                            if (shouldLoad || stack.length < 1) {
+                                el = (_h = element.default) !== null && _h !== void 0 ? _h : element;
+                                loadConfig = Object.assign({}, pageConfig);
+                                stacksIndex = stack.length;
+                                delete loadConfig[\\"path\\"];
+                                delete loadConfig[\\"load\\"];
+                                pageStampId = \\"\\";
+                                if (spa_launchStampId) {
+                                    pageStampId = spa_launchStampId;
+                                    spa_launchStampId = \\"\\";
+                                } else {
+                                    pageStampId = spa_createStampId();
+                                }
+                                page = undefined(enablePullDownRefresh ? undefined.call(\\"createPullDownComponent\\", el, location.pathname, framework, handler.PullDownRefresh) : el, pathname + undefined(handler.getQuery(pageStampId)), {}, loadConfig);
+                                if (params) page.options = params;
+                                handler.load(page, pageConfig, pageStampId, stacksIndex);
                             }
-                            el = (_h = element.default) !== null && _h !== void 0 ? _h : element;
-                            loadConfig = Object.assign({}, pageConfig);
-                            stacksIndex = stack.length;
-                            delete loadConfig[\\"path\\"];
-                            delete loadConfig[\\"load\\"];
-                            pageStampId = \\"\\";
-                            if (spa_launchStampId) {
-                                pageStampId = spa_launchStampId;
-                                spa_launchStampId = \\"\\";
-                            } else {
-                                pageStampId = spa_createStampId();
-                            }
-                            page = undefined(enablePullDownRefresh ? undefined.call(\\"createPullDownComponent\\", el, location.pathname, framework, handler.PullDownRefresh) : el, pathname + undefined(handler.getQuery(pageStampId)), {}, loadConfig);
-                            if (params) page.options = params;
-                            return _context.abrupt(\\"return\\", handler.load(page, pageConfig, pageStampId, stacksIndex));
+                            undefined.trigger(\\"__afterTaroRouterChange\\", {
+                                \\"toLocation\\": {
+                                    \\"path\\": handler.pathname
+                                }
+                            });
 
-                          case 64:
+                          case 55:
                           case \\"end\\":
                             return _context.stop();
                         }
