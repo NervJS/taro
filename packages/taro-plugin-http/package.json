@@ -1,0 +1,40 @@
+{
+  "name": "@tarojs/plugin-http",
+  "version": "3.6.0-canary.8",
+  "description": "Taro 小程序端支持使用 web 请求 的插件",
+  "main": "index.js",
+  "scripts": {
+    "dev": "rollup -c -w",
+    "build": "rollup -c",
+    "test": "jest",
+    "test:ci": "jest --ci -i --coverage false"
+  },
+  "files": [
+    "src",
+    "dist",
+    "index.js",
+    "package.json"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NervJS/taro.git"
+  },
+  "keywords": [
+    "Taro"
+  ],
+  "author": "bigmeow <https://github.com/bigmeow>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/NervJS/taro/issues"
+  },
+  "homepage": "https://github.com/NervJS/taro#readme",
+  "dependencies": {
+    "@tarojs/runtime": "workspace:*",
+    "@tarojs/service": "workspace:*",
+    "@tarojs/shared": "workspace:*"
+  },
+  "devDependencies": {
+    "tslib": "^2.4.0",
+    "@rollup/plugin-json": "^4.1.0"
+  }
+}
