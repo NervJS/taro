@@ -21,6 +21,7 @@ export { SVGElement } from './dom/svg'
 export { TaroText } from './dom/text'
 export { MutationObserver } from './dom-external/mutation-observer'
 // others
+export { parseUrl } from './bom/location'
 export { Current, getCurrentInstance } from './current'
 export { eventSource } from './dom/event-source'
 export {
