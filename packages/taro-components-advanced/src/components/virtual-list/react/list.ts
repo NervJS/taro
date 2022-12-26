@@ -3,6 +3,7 @@ import React from 'react'
 
 import { IS_PREACT } from '../../../utils/constants'
 import { convertNumber2PX } from '../../../utils/convert'
+import { omit } from '../../../utils/lodash'
 import { cancelTimeout, requestTimeout } from '../../../utils/timer'
 import { IS_SCROLLING_DEBOUNCE_INTERVAL } from '../constants'
 import { getRTLOffsetType } from '../dom-helpers'
@@ -12,8 +13,6 @@ import { defaultItemKey, getRectSize } from '../utils'
 import { validateListProps } from './validate'
 
 import type { IProps } from '../preset'
-
-let INSTANCE_ID = 0
 
 export interface IState {
   id: string
@@ -52,23 +51,27 @@ export default class List extends React.PureComponent<IProps, IState> {
   constructor (props: IProps) {
     super(props)
 
-    this.state = {
-      id: this.props.id || `virtual-list-${INSTANCE_ID++}`,
-      instance: this,
-      isScrolling: false,
-      scrollDirection: 'forward',
-      scrollOffset: typeof this.props.initialScrollOffset === 'number' ? this.props.initialScrollOffset : 0,
-      scrollUpdateWasRequested: false,
-      refreshCount: 0
-    }
-
     this.preset = new Preset(
       props,
       this.refresh
     )
     this.itemList = this.preset.itemList
+
+    this.state = {
+      id: this.props.id || this.preset.id,
+      instance: this,
+      isScrolling: false,
+      scrollDirection: 'forward',
+      scrollOffset:
+        typeof this.props.initialScrollOffset === 'number'
+          ? this.props.initialScrollOffset
+          : 0,
+      scrollUpdateWasRequested: false,
+      refreshCount: 0
+    }
   }
 
+  // FIXME Warning: Cannot update during an existing state transition (such as within `render`).
   refresh = () => this.setState(({ refreshCount }) => ({
     refreshCount: ++refreshCount
   }))
@@ -127,6 +130,14 @@ export default class List extends React.PureComponent<IProps, IState> {
         )
       }
     }
+
+    setTimeout(() => {
+      const [startIndex, stopIndex] = this._getRangeToRender()
+      const isHorizontal = this.preset.isHorizontal
+      for (let index = startIndex; index <= stopIndex; index++) {
+        this._getSizeUploadSync(index, isHorizontal)
+      }
+    }, 0)
   }
 
   _getSizeUploadSync = (index: number, isHorizontal: boolean) => {
@@ -357,14 +368,6 @@ export default class List extends React.PureComponent<IProps, IState> {
     }
 
     this._callPropsCallbacks(prevProps, prevState)
-
-    setTimeout(() => {
-      const [startIndex, stopIndex] = this._getRangeToRender()
-      const isHorizontal = this.preset.isHorizontal
-      for (let index = startIndex; index <= stopIndex; index++) {
-        this._getSizeUploadSync(index, isHorizontal)
-      }
-    }, 0)
   }
 
   componentWillUnmount () {
@@ -387,17 +390,10 @@ export default class List extends React.PureComponent<IProps, IState> {
       style,
       useIsScrolling,
       width,
-      position,
       renderTop,
       renderBottom,
       ...rest
-    } = this.props
-    delete rest.innerElementType
-    delete rest.innerTagName
-    delete rest.itemElementType
-    delete rest.itemTagName
-    delete rest.outerElementType
-    delete rest.outerTagName
+    } = omit(this.props, ['innerElementType', 'innerTagName', 'itemElementType', 'itemTagName', 'outerElementType', 'outerTagName', 'position'])
     const {
       id,
       isScrolling,
@@ -407,7 +403,9 @@ export default class List extends React.PureComponent<IProps, IState> {
 
     const isHorizontal = this.preset.isHorizontal
     const placeholderCount = this.preset.placeholderCount
-    const onScroll = isHorizontal ? this._onScrollHorizontal : this._onScrollVertical
+    const onScroll = isHorizontal
+      ? this._onScrollHorizontal
+      : this._onScrollVertical
 
     const [startIndex, stopIndex] = this._getRangeToRender()
 
@@ -417,15 +415,15 @@ export default class List extends React.PureComponent<IProps, IState> {
       const prevPlaceholder = startIndex < placeholderCount ? startIndex : placeholderCount
       items.push(new Array(prevPlaceholder).fill(-1).map((_, index) => React.createElement<any>(
         this.preset.itemTagName, {
-          key: itemKey(index, itemData),
+          key: itemKey(index + startIndex - prevPlaceholder, itemData),
           style: { display: 'none' }
         }
       )))
       for (let index = startIndex; index <= stopIndex; index++) {
-        const key = itemKey(index, itemData)
         const style = this.preset.getItemStyle(index)
         items.push(React.createElement<any>(this.preset.itemTagName, {
-          key, style
+          key: itemKey(index, itemData),
+          style
         }, React.createElement(item, {
           id: `${id}-${index}`,
           data: itemData,
@@ -437,7 +435,7 @@ export default class List extends React.PureComponent<IProps, IState> {
       const postPlaceholder = restCount < placeholderCount ? restCount : placeholderCount
       items.push(new Array(postPlaceholder).fill(-1).map((_, index) => React.createElement<any>(
         this.preset.itemTagName, {
-          key: itemKey(index + stopIndex, itemData),
+          key: itemKey(1 + index + stopIndex, itemData),
           style: { display: 'none' }
         }
       )))
@@ -472,7 +470,7 @@ export default class List extends React.PureComponent<IProps, IState> {
       }
     }
 
-    if (position === 'relative') {
+    if (this.preset.isRelative) {
       const pre = convertNumber2PX(this.itemList.getOffsetSize(startIndex))
       return React.createElement(this.preset.outerTagName, outerElementProps,
         renderTop,
@@ -489,7 +487,8 @@ export default class List extends React.PureComponent<IProps, IState> {
           key: `${id}-inner`,
           id: `${id}-inner`,
           style: {
-            pointerEvents: isScrolling ? 'none' : 'auto'
+            pointerEvents: isScrolling ? 'none' : 'auto',
+            position: 'relative',
           }
         }, items),
         renderBottom
@@ -504,6 +503,7 @@ export default class List extends React.PureComponent<IProps, IState> {
           style: {
             height: isHorizontal ? '100%' : estimatedTotalSize,
             pointerEvents: isScrolling ? 'none' : 'auto',
+            position: 'relative',
             width: !isHorizontal ? '100%' : estimatedTotalSize
           }
         }, items),

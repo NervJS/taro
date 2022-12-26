@@ -74,7 +74,6 @@ export default class ListSet {
 
   setSize (i = 0, size = this.defaultSize) {
     this.list[i] = size
-    // FIXME Warning: Cannot update during an existing state transition (such as within `render`).
     this.refresh?.()
   }
 
@@ -100,9 +99,9 @@ export default class ListSet {
     if (offset === 0) {
       return 0
     }
-    if (this.isNormalMode) {
-      return Math.min(this.length - 1, Math.floor(offset / this.length))
-    }
+    // if (this.isNormalMode) {
+    //   return Math.min(this.length - 1, Math.floor(offset / this.length))
+    // }
     let offsetSize = 0
     const count = this.list.reduce((sum, _, idx) => {
       if (offsetSize < offset) {
@@ -119,12 +118,12 @@ export default class ListSet {
   }
 
   getStopIndex (wrapperSize = 0, scrollOffset = 0, startIndex = 0) {
-    const visibleOffset = this.getOffsetSize(startIndex)
-    if (this.isNormalMode) {
-      const numVisibleItems = Math.ceil((wrapperSize + scrollOffset - visibleOffset) / this.length)
-      /** -1 is because stop index is inclusive */
-      return Math.max(startIndex, Math.min(this.length - 1, startIndex + numVisibleItems - 1))
-    }
+    // const visibleOffset = this.getOffsetSize(startIndex)
+    // if (this.isNormalMode) {
+    //   const numVisibleItems = Math.ceil((wrapperSize + scrollOffset - visibleOffset) / this.length)
+    //   /** -1 is because stop index is inclusive */
+    //   return Math.max(startIndex, Math.min(this.length - 1, startIndex + numVisibleItems - 1))
+    // }
     return Math.max(startIndex, Math.min(this.length - 1, this.getSizeCount(wrapperSize + scrollOffset)))
   }
 

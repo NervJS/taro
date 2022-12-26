@@ -1,13 +1,14 @@
 import memoizeOne from 'memoize-one'
-import { nextTick } from 'vue'
+import { nextTick, renderSlot } from 'vue'
 
-import { IS_WEB } from '../../../utils/constants'
+import { IS_VUE3,IS_WEB } from '../../../utils/constants'
 import { convertNumber2PX } from '../../../utils/convert'
+import { omit } from '../../../utils/lodash'
 import { cancelTimeout, requestTimeout } from '../../../utils/timer'
 import { IS_SCROLLING_DEBOUNCE_INTERVAL } from '../constants'
 import { getRTLOffsetType } from '../dom-helpers'
 import Preset from '../preset'
-import { defaultItemKey } from '../utils'
+import { defaultItemKey, getRectSize } from '../utils'
 import render from './render'
 
 export default {
@@ -48,8 +49,6 @@ export default {
       type: String,
       default: IS_WEB ? 'taro-view-core' : 'view'
     },
-    // TODO renderTop
-    // TODO renderBottom
     direction: {
       type: String,
       default: 'ltr'
@@ -73,9 +72,18 @@ export default {
       required: true
     },
     itemKey: String,
-    itemTagName: String,
-    innerTagName: String,
-    outerTagName: String,
+    itemTagName: {
+      type: String,
+      default: IS_WEB ? 'taro-view-core' : 'view'
+    },
+    innerTagName: {
+      type: String,
+      default: IS_WEB ? 'taro-view-core' : 'view'
+    },
+    outerTagName: {
+      type: String,
+      default: IS_WEB ? 'taro-scroll-view-core' : 'scroll-view'
+    },
     itemElementType: String,
     outerElementType: String,
     innerRef: String,
@@ -86,14 +94,13 @@ export default {
       type: Boolean,
       default: true
     },
-    wclass: String,
-    wstyle: String,
   },
   data () {
-    const preset = new Preset(this.$props)
+    const preset = new Preset(this.$props, this.refresh)
     return {
       itemList: preset.itemList,
       preset,
+      id: this.$props.id || preset.id,
       instance: this,
       isScrolling: false,
       scrollDirection: 'forward',
@@ -106,6 +113,9 @@ export default {
     }
   },
   methods: {
+    refresh () {
+      this.$forceUpdate()
+    },
     scrollTo (scrollOffset) {
       scrollOffset = Math.max(0, scrollOffset)
 
@@ -190,6 +200,37 @@ export default {
         this.scrollOffset,
         this.scrollUpdateWasRequested
       )
+
+      setTimeout(() => {
+        const [startIndex, stopIndex] = this._getRangeToRender()
+        const isHorizontal = this.preset.isHorizontal
+        for (let index = startIndex; index <= stopIndex; index++) {
+          this._getSizeUploadSync(index, isHorizontal)
+        }
+      }, 0)
+    },
+
+    _getSizeUploadSync (index: number, isHorizontal: boolean) {
+      const ID = `#${this.$data.id}-${index}`
+  
+      return new Promise((resolve) => {
+        const success = ({ width, height }) => {
+          const size = isHorizontal ? width : height
+          if (!this.itemList.compareSize(index, size)) {
+            this.itemList.setSize(index, size)
+            resolve(this.itemList.getSize(index))
+          }
+        }
+        const fail = () => {
+          const [startIndex, stopIndex] = this._getRangeToRender()
+          if (index >= startIndex && index <= stopIndex) {
+            setTimeout(() => {
+              getRectSize(ID, success, fail)
+            }, 100)
+          }
+        }
+        getRectSize(ID, success, fail)
+      })
     },
 
     _getRangeToRender () {
@@ -353,23 +394,25 @@ export default {
   render () {
     const {
       item,
-      wclass,
       direction,
       height,
       innerRef,
-      innerElementType,
       itemCount,
       itemData,
       itemKey = defaultItemKey,
       layout,
-      wstyle,
       useIsScrolling,
       width
-    } = this.$props
-    const { isScrolling } = this.$data
+    } = omit(this.$props, ['innerElementType', 'innerTagName', 'itemElementType', 'itemTagName', 'outerElementType', 'outerTagName', 'position'])
+    const {
+      id,
+      isScrolling,
+      scrollOffset,
+      scrollUpdateWasRequested
+    } = this.$data
 
     const isHorizontal = this.preset.isHorizontal
-
+    const placeholderCount = this.preset.placeholderCount
     const onScroll = isHorizontal
       ? this._onScrollHorizontal
       : this._onScrollVertical
@@ -378,64 +421,113 @@ export default {
 
     const items = []
     if (itemCount > 0) {
+      const prevPlaceholder = startIndex < placeholderCount ? startIndex : placeholderCount
+      items.push(new Array(prevPlaceholder).fill(-1).map((_, index) => render(
+        this.preset.itemTagName, {
+          key: itemKey(index + startIndex - prevPlaceholder, itemData),
+          style: { display: 'none' }
+        }
+      )))
       for (let index = startIndex; index <= stopIndex; index++) {
-
+        const style = this.preset.getItemStyle(index)
         items.push(
-          render(item, {
+          render(this.preset.itemTagName, {
             key: itemKey(index, itemData),
-            props: {
-              data: itemData,
-              index,
-              isScrolling: useIsScrolling ? isScrolling : undefined,
-              css: this.preset.getItemStyle(index)
-            }
-          })
+            style
+          }, [
+            render(item, {
+              id: `${id}-${index}`,
+              props: {
+                id: `${id}-${index}`,
+                data: itemData,
+                index,
+                isScrolling: useIsScrolling ? isScrolling : undefined
+              }
+            })
+          ])
         )
       }
+      const restCount = itemCount - stopIndex
+      const postPlaceholder = restCount < placeholderCount ? restCount : placeholderCount
+      items.push(new Array(postPlaceholder).fill(-1).map((_, index) => render(
+        this.preset.itemTagName, {
+          key: itemKey(1 + index + stopIndex, itemData),
+          style: { display: 'none' }
+        }
+      )))
     }
 
     // Read this value AFTER items have been created,
     // So their actual sizes (if variable) are taken into consideration.
-    const estimatedTotalSize = this.itemList.getOffsetSize()
-
-    const scrollViewName = IS_WEB ? 'taro-scroll-view-core' : 'scroll-view'
-    return render(
-      scrollViewName,
-      {
-        class: wclass,
-        ref: this._outerRefSetter,
-        style: {
-          position: 'relative',
-          height: convertNumber2PX(height),
-          width: convertNumber2PX(width),
-          overflow: 'auto',
-          WebkitOverflowScrolling: 'touch',
-          willChange: 'transform',
-          direction,
-          ...wstyle
-        },
-        attrs: {
-          scrollY: layout === 'vertical',
-          scrollX: layout === 'horizontal'
-        },
-        on: {
-          scroll: onScroll
-        }
+    const estimatedTotalSize = convertNumber2PX(this.itemList.getOffsetSize())
+    const outerElementProps: any = {
+      id,
+      ref: this._outerRefSetter,
+      layout,
+      style: {
+        position: 'relative',
+        height: convertNumber2PX(height),
+        width: convertNumber2PX(width),
+        overflow: 'auto',
+        WebkitOverflowScrolling: 'touch',
+        willChange: 'transform',
+        direction
       },
-      [
-        render(
-          innerElementType,
-          {
-            ref: innerRef,
-            style: {
-              height: convertNumber2PX(isHorizontal ? '100%' : estimatedTotalSize),
-              pointerEvents: isScrolling ? 'none' : undefined,
-              width: convertNumber2PX(isHorizontal ? estimatedTotalSize : '100%')
-            }
-          },
-          items
-        )
-      ]
-    )
+      attrs: {
+        scrollY: layout === 'vertical',
+        scrollX: layout === 'horizontal'
+      },
+      on: {
+        scroll: onScroll
+      }
+    }
+    if (scrollUpdateWasRequested) {
+      if (isHorizontal) {
+        outerElementProps.scrollLeft = scrollOffset
+      } else {
+        outerElementProps.scrollTop = scrollOffset
+      }
+    }
+
+    if (this.preset.isRelative) {
+      const pre = convertNumber2PX(this.itemList.getOffsetSize(startIndex))
+      return render(this.preset.outerTagName, outerElementProps, [
+        IS_VUE3 ? renderSlot(this.$slots, 'top') : this.$slots.top,
+        render(this.preset.itemTagName, {
+          key: `${id}-pre`,
+          id: `${id}-pre`,
+          style: {
+            height: isHorizontal ? '100%' : pre,
+            width: !isHorizontal ? '100%' : pre
+          }
+        }),
+        render(this.preset.innerTagName, {
+          ref: innerRef,
+          key: `${id}-inner`,
+          id: `${id}-inner`,
+          style: {
+            pointerEvents: isScrolling ? 'none' : 'auto',
+            position: 'relative',
+          }
+        }, items),
+        IS_VUE3 ? renderSlot(this.$slots, 'bottom') : this.$slots.bottom,
+      ])
+    } else {
+      return render(this.preset.outerTagName, outerElementProps, [
+        IS_VUE3 ? renderSlot(this.$slots, 'top') : this.$slots.top,
+        render(this.preset.innerTagName, {
+          ref: innerRef,
+          key: `${id}-inner`,
+          id: `${id}-inner`,
+          style: {
+            height: isHorizontal ? '100%' : estimatedTotalSize,
+            pointerEvents: isScrolling ? 'none' : 'auto',
+            position: 'relative',
+            width: !isHorizontal ? '100%' : estimatedTotalSize
+          }
+        }, items),
+        IS_VUE3 ? renderSlot(this.$slots, 'bottom') : this.$slots.bottom,
+      ])
+    }
   }
 }

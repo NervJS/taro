@@ -6,6 +6,8 @@ import { defaultItemKey, isHorizontalFunc, isRtlFunc } from './utils'
 
 import type { VirtualListProps } from './'
 
+let INSTANCE_ID = 0
+
 export interface IProps extends Partial<VirtualListProps> {
   direction?: 'ltr' | 'rtl' | 'horizontal' | 'vertical'
   itemKey?: typeof defaultItemKey
@@ -35,6 +37,10 @@ export default class Preset {
   update (props: IProps) {
     this.props = props
     this.itemList.update(props)
+  }
+
+  get id () {
+    return `virtual-list-${INSTANCE_ID++}`
   }
 
   get isHorizontal () {
