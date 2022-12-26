@@ -6,94 +6,18 @@ import { convertNumber2PX } from '../../../utils/convert'
 import { cancelTimeout, requestTimeout } from '../../../utils/timer'
 import { IS_SCROLLING_DEBOUNCE_INTERVAL } from '../constants'
 import { getRTLOffsetType } from '../dom-helpers'
-import ListSet from '../list-set'
 import Preset from '../preset'
-import { defaultItemKey, isHorizontalFunc } from '../utils'
+import { defaultItemKey } from '../utils'
 import render from './render'
-
-const getItemOffset = ({
-  itemSize
-}, index) => index * itemSize
-const getItemSize = ({
-  itemSize
-}) => itemSize
-const getEstimatedTotalSize = ({
-  itemCount,
-  itemSize
-}) => itemSize * itemCount
-const getOffsetForIndexAndAlignment = (props, index, align, scrollOffset) => {
-  const isHorizontal = isHorizontalFunc(props)
-  const { height, itemCount, itemSize, width } = props
-  const size = isHorizontal ? width : height
-  const lastItemOffset = Math.max(0, itemCount * itemSize - size)
-  const maxOffset = Math.min(lastItemOffset, index * itemSize)
-  const minOffset = Math.max(0, index * itemSize - size + itemSize)
-
-  if (align === 'smart') {
-    if (scrollOffset >= minOffset - size && scrollOffset <= maxOffset + size) {
-      align = 'auto'
-    } else {
-      align = 'center'
-    }
-  }
-
-  switch (align) {
-    case 'start':
-      return maxOffset
-
-    case 'end':
-      return minOffset
-
-    case 'center':
-    {
-      // "Centered" offset is usually the average of the min and max.
-      // But near the edges of the list, this doesn't hold true.
-      const middleOffset = Math.round(minOffset + (maxOffset - minOffset) / 2)
-
-      if (middleOffset < Math.ceil(size / 2)) {
-        return 0 // near the beginning
-      } else if (middleOffset > lastItemOffset + Math.floor(size / 2)) {
-        return lastItemOffset // near the end
-      } else {
-        return middleOffset
-      }
-    }
-
-    case 'auto':
-    default:
-      if (scrollOffset >= minOffset && scrollOffset <= maxOffset) {
-        return scrollOffset
-      } else if (scrollOffset < minOffset) {
-        return minOffset
-      } else {
-        return maxOffset
-      }
-  }
-}
-const getStartIndexForOffset = ({
-  itemCount,
-  itemSize
-}, offset) => {
-  return Math.max(0, Math.min(itemCount - 1, Math.floor(offset / itemSize)))
-}
-const getStopIndexForStartIndex = (props, startIndex, scrollOffset) => {
-  const isHorizontal = isHorizontalFunc(props)
-  const { height, itemCount, itemSize, width } = props
-  const offset = startIndex * itemSize
-  const size = isHorizontal ? width : height
-  const numVisibleItems = Math.ceil((size + scrollOffset - offset) / itemSize)
-  return Math.max(0, Math.min(itemCount - 1, startIndex + numVisibleItems - 1 // -1 is because stop index is inclusive
-  ))
-}
 
 export default {
   props: {
     height: {
-      type: String || Number,
+      type: [String, Number],
       required: true
     },
     width: {
-      type: String || Number,
+      type: [String, Number],
       required: true
     },
     itemCount: {
@@ -105,7 +29,7 @@ export default {
       required: true
     },
     itemSize: {
-      type: Number || Function,
+      type: [Number, Function],
       required: true
     },
     unlimitedSize: {
@@ -124,8 +48,8 @@ export default {
       type: String,
       default: IS_WEB ? 'taro-view-core' : 'view'
     },
-    // renderTop
-    // renderBottom
+    // TODO renderTop
+    // TODO renderBottom
     direction: {
       type: String,
       default: 'ltr'
@@ -166,9 +90,10 @@ export default {
     wstyle: String,
   },
   data () {
+    const preset = new Preset(this.$props)
     return {
-      itemList: new ListSet(this.$props),
-      preset: new Preset(this.$props),
+      itemList: preset.itemList,
+      preset,
       instance: this,
       isScrolling: false,
       scrollDirection: 'forward',
@@ -202,7 +127,7 @@ export default {
       index = Math.max(0, Math.min(index, itemCount - 1))
 
       this.scrollTo(
-        getOffsetForIndexAndAlignment(
+        this.itemList.getOffsetForIndexAndAlignment(
           this.$props,
           index,
           align,
@@ -267,80 +192,12 @@ export default {
       )
     },
 
-    _getItemStyle (index) {
-      const { direction, itemSize, layout, shouldResetStyleCacheOnItemSizeChange } = this.$props
-
-      const itemStyleCache = this.preset.getItemStyleCache(
-        shouldResetStyleCacheOnItemSizeChange ? itemSize : false,
-        shouldResetStyleCacheOnItemSizeChange ? layout : false,
-        shouldResetStyleCacheOnItemSizeChange ? direction : false
-      )
-
-      let style
-      if (itemStyleCache.hasOwnProperty(index)) {
-        style = itemStyleCache[index]
-      } else {
-        const offset = getItemOffset(this.$props, index)
-        const size = getItemSize(this.$props)
-
-        const isHorizontal = this.preset.isHorizontal
-
-        const isRtl = this.preset.isRtl
-        const offsetHorizontal = isHorizontal ? offset : 0
-        itemStyleCache[index] = style = {
-          position: 'absolute',
-          left: isRtl ? undefined : offsetHorizontal,
-          right: isRtl ? offsetHorizontal : undefined,
-          top: !isHorizontal ? offset : 0,
-          height: !isHorizontal ? size : '100%',
-          width: isHorizontal ? size : '100%'
-        }
-      }
-
-      for (const k in style) {
-        if (style.hasOwnProperty(k)) {
-          style[k] = convertNumber2PX(style[k])
-        }
-      }
-
-      return style
-    },
-
     _getRangeToRender () {
-      const { itemCount, overscanCount } = this.$props
-      const { isScrolling, scrollDirection, scrollOffset } = this.$data
-
-      if (itemCount === 0) {
-        return [0, 0, 0, 0]
-      }
-
-      const startIndex = getStartIndexForOffset(
-        this.$props,
-        scrollOffset
+      return this.itemList.getRangeToRender(
+        this.$data.scrollDirection,
+        this.$data.scrollOffset,
+        this.$data.isScrolling
       )
-      const stopIndex = getStopIndexForStartIndex(
-        this.$props,
-        startIndex,
-        scrollOffset
-      )
-
-      // Overscan by one item in each direction so that tab/focus works.
-      // If there isn't at least one extra item, tab loops back around.
-      const overscanBackward =
-        !isScrolling || scrollDirection === 'backward'
-          ? Math.max(1, overscanCount)
-          : 1
-      const overscanForward =
-        !isScrolling || scrollDirection === 'forward'
-          ? Math.max(1, overscanCount)
-          : 1
-
-      return [
-        Math.max(0, startIndex - overscanBackward),
-        Math.max(0, Math.min(itemCount - 1, stopIndex + overscanForward)),
-        startIndex,
-        stopIndex
-      ]
     },
 
     _onScrollHorizontal (event) {
@@ -451,7 +308,6 @@ export default {
     this._callPropsCallbacks()
   },
   updated () {
-    this.itemList.update(this.$props)
     this.preset.update(this.$props)
 
     const { scrollOffset, scrollUpdateWasRequested } = this.$data
@@ -531,7 +387,7 @@ export default {
               data: itemData,
               index,
               isScrolling: useIsScrolling ? isScrolling : undefined,
-              css: this._getItemStyle(index)
+              css: this.preset.getItemStyle(index)
             }
           })
         )
@@ -540,9 +396,7 @@ export default {
 
     // Read this value AFTER items have been created,
     // So their actual sizes (if variable) are taken into consideration.
-    const estimatedTotalSize = getEstimatedTotalSize(
-      this.$props
-    )
+    const estimatedTotalSize = this.itemList.getOffsetSize()
 
     const scrollViewName = IS_WEB ? 'taro-scroll-view-core' : 'scroll-view'
     return render(

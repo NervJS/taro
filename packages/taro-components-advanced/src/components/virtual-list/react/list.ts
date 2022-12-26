@@ -1,7 +1,7 @@
-import { isFunction } from '@tarojs/shared'
 import memoizeOne from 'memoize-one'
 import React from 'react'
 
+import { IS_PREACT } from '../../../utils/constants'
 import { convertNumber2PX } from '../../../utils/convert'
 import { cancelTimeout, requestTimeout } from '../../../utils/timer'
 import { IS_SCROLLING_DEBOUNCE_INTERVAL } from '../constants'
@@ -39,6 +39,13 @@ export default class List extends React.PureComponent<IProps, IState> {
     return validateListProps(nextProps, prevState)
   }
 
+  // Note: preact 不会在未使用的 state 更新后主动更新，需新增判断
+  shouldComponentUpdate = IS_PREACT ? (_nextProps: IProps, nextState: IState) => {
+    if (this.state.refreshCount !== nextState.refreshCount) {
+      return true
+    }
+  } : undefined
+
   itemList: ListSet
   preset: Preset
 
@@ -54,74 +61,17 @@ export default class List extends React.PureComponent<IProps, IState> {
       scrollUpdateWasRequested: false,
       refreshCount: 0
     }
-    const setState = this.setState.bind(this)
 
-    this.itemList = new ListSet(
+    this.preset = new Preset(
       props,
-      () => setState(({ refreshCount }) => ({
-        refreshCount: ++refreshCount
-      })))
-    this.preset = new Preset(props)
+      this.refresh
+    )
+    this.itemList = this.preset.itemList
   }
 
-  getItemSize (props: IProps, index: number) {
-    if (!props.unlimitedSize && !isFunction(props.itemSize)) {
-      return props.itemSize
-    }
-
-    this._getSizeUploadSync(index, this.preset.isHorizontal)
-    return this.itemList.getSize(index)
-  }
-
-  getOffsetForIndexAndAlignment (props, _id, index, align, scrollOffset) {
-    const { height, width } = props
-    const size = this.preset.isHorizontal ? width : height
-    const itemSize = this.itemList.getSize(index)
-    const lastItemOffset = Math.max(0, this.itemList.getOffsetSize(props.itemCount) - size)
-    const maxOffset = Math.min(lastItemOffset, this.itemList.getOffsetSize(index))
-    const minOffset = Math.max(0, this.itemList.getOffsetSize(index) - size + itemSize)
-
-    if (align === 'smart') {
-      if (scrollOffset >= minOffset - size && scrollOffset <= maxOffset + size) {
-        align = 'auto'
-      } else {
-        align = 'center'
-      }
-    }
-
-    switch (align) {
-      case 'start':
-        return maxOffset
-
-      case 'end':
-        return minOffset
-
-      case 'center':
-      {
-        // "Centered" offset is usually the average of the min and max.
-        // But near the edges of the list, this doesn't hold true.
-        const middleOffset = Math.round(minOffset + (maxOffset - minOffset) / 2)
-
-        if (middleOffset < Math.ceil(size / 2)) {
-          return 0 // near the beginning
-        } else if (middleOffset > lastItemOffset + Math.floor(size / 2)) {
-          return lastItemOffset // near the end
-        } else {
-          return middleOffset
-        }
-      }
-
-      case 'auto':
-      default:
-        if (scrollOffset >= minOffset && scrollOffset <= maxOffset) {
-          return scrollOffset
-        } else if (scrollOffset < minOffset) {
-          return minOffset
-        } else {
-          return maxOffset
-        }
-    }
-  }
+  refresh = () => this.setState(({ refreshCount }) => ({
+    refreshCount: ++refreshCount
+  }))
 
   _outerRef = undefined
 
@@ -155,7 +105,7 @@ export default class List extends React.PureComponent<IProps, IState> {
   _callPropsCallbacks (prevProps: any = {}, prevState: any = {}) {
     if (typeof this.props.onItemsRendered === 'function') {
       if (this.props.itemCount > 0) {
-        if (!prevProps && prevProps.itemCount !== this.props.itemCount) {
+        if (prevProps && prevProps.itemCount !== this.props.itemCount) {
           const [overscanStartIndex, overscanStopIndex, visibleStartIndex, visibleStopIndex] = this._getRangeToRender()
 
           this._callOnItemsRendered(overscanStartIndex, overscanStopIndex, visibleStartIndex, visibleStopIndex)
@@ -202,74 +152,15 @@ export default class List extends React.PureComponent<IProps, IState> {
     })
   }
 
-  _getItemStyle = (index: number) => {
-    const {
-      direction,
-      itemSize,
-      layout,
-      shouldResetStyleCacheOnItemSizeChange
-    } = this.props
-
-    const itemStyleCache = this.preset.getItemStyleCache(
-      shouldResetStyleCacheOnItemSizeChange ? itemSize : false,
-      shouldResetStyleCacheOnItemSizeChange ? layout : false,
-      shouldResetStyleCacheOnItemSizeChange ? direction : false
-    )
-
-    let style
-
-    const offset = this.itemList.getOffsetSize(index)
-    const size = this.getItemSize(this.props, index)
-    const isHorizontal = this.preset.isHorizontal
-    const isRtl = this.preset.isRtl
-    if (itemStyleCache.hasOwnProperty(index)) {
-      // Note: style is frozen.
-      style = { ...itemStyleCache[index] }
-      if (isHorizontal) {
-        style.width = size
-        if (isRtl) {
-          style.right = offset
-        } else {
-          style.left = offset
-        }
-      } else {
-        style.height = size
-        style.top = offset
-      }
-    } else {
-      const offsetHorizontal = isHorizontal ? offset : 0
-      itemStyleCache[index] = style = {
-        position: 'absolute',
-        left: !isRtl ? offsetHorizontal : undefined,
-        right: isRtl ? offsetHorizontal : undefined,
-        top: !isHorizontal ? offset : 0,
-        height: !isHorizontal ? size : '100%',
-        width: isHorizontal ? size : '100%'
-      }
-    }
-
-    for (const k in style) {
-      if (style.hasOwnProperty(k)) {
-        style[k] = convertNumber2PX(style[k])
-      }
-    }
-
-    return style
-  }
-
   // Lazily create and cache item styles while scrolling,
   // So that pure component sCU will prevent re-renders.
   // We maintain this cache, and pass a style prop rather than index,
   // So that List can clear cached styles and force item re-render if necessary.
   _getRangeToRender () {
-    const { width, height } = this.props
-    const { isScrolling, scrollDirection, scrollOffset } = this.state
-    const size = this.preset.isHorizontal ? width : height
     return this.itemList.getRangeToRender(
-      scrollDirection,
-      size as number,
-      scrollOffset,
-      isScrolling
+      this.state.scrollDirection,
+      this.state.scrollOffset,
+      this.state.isScrolling
     )
   }
 
@@ -288,7 +179,8 @@ export default class List extends React.PureComponent<IProps, IState> {
     this.field.clientHeight = scrollHeight
     this.field.clientWidth = clientWidth
     this.setState((prevState: any) => {
-      if (prevState.scrollOffset === scrollLeft) {
+      const diffOffset = this.field.scrollLeft - scrollLeft
+      if (prevState.scrollOffset === scrollLeft || this.field.diffOffset === -diffOffset) {
         // Scroll position may have been updated by cDM/cDU,
         // In which case we don't need to trigger another render,
         // And we don't want to update state.isScrolling.
@@ -332,14 +224,16 @@ export default class List extends React.PureComponent<IProps, IState> {
       scrollTop,
       scrollLeft
     } = event.currentTarget
-    this.setState((prevState: any) => {
+    this.setState((prevState: IState) => {
       const diffOffset = this.field.scrollTop - scrollTop
       if (prevState.scrollOffset === scrollTop || this.field.diffOffset === -diffOffset) {
         // Scroll position may have been updated by cDM/cDU,
         // In which case we don't need to trigger another render,
         // And we don't want to update state.isScrolling.
         return null
-      } // Prevent Safari's elastic scrolling from causing visual shaking when scrolling past bounds.
+      }
+      // FIXME preact 中使用时，该组件会出现触底滚动事件重复触发导致的抖动问题，后续修复
+      // Prevent Safari's elastic scrolling from causing visual shaking when scrolling past bounds.
       const scrollOffset = Math.max(0, Math.min(scrollTop, scrollHeight - clientHeight))
       this.field.scrollHeight = this.itemList.getOffsetSize()
       this.field.scrollWidth = scrollWidth
@@ -390,9 +284,9 @@ export default class List extends React.PureComponent<IProps, IState> {
     })
   }
 
-  scrollTo (scrollOffset: number) {
+  public scrollTo (scrollOffset: number) {
     scrollOffset = Math.max(0, scrollOffset)
-    this.setState((prevState: any) => {
+    this.setState((prevState: IState) => {
       if (prevState.scrollOffset === scrollOffset) {
         return null
       }
@@ -405,15 +299,11 @@ export default class List extends React.PureComponent<IProps, IState> {
     }, this._resetIsScrollingDebounced)
   }
 
-  scrollToItem (index: number, align = 'auto') {
-    const {
-      itemCount
-    } = this.props
-    const {
-      scrollOffset
-    } = this.state
+  public scrollToItem (index: number, align = 'auto') {
+    const { itemCount } = this.props
+    const { scrollOffset } = this.state
     index = Math.max(0, Math.min(index, itemCount - 1))
-    this.scrollTo(this.getOffsetForIndexAndAlignment(this.props, this.state.id, index, align, scrollOffset))
+    this.scrollTo(this.itemList.getOffsetForIndexAndAlignment(index, align, scrollOffset))
   }
 
   componentDidMount () {
@@ -433,12 +323,8 @@ export default class List extends React.PureComponent<IProps, IState> {
   }
 
   componentDidUpdate (prevProps: IProps, prevState: IState) {
-    const {
-      scrollOffset,
-      scrollUpdateWasRequested
-    } = this.state
+    const { scrollOffset, scrollUpdateWasRequested } = this.state
 
-    this.itemList.update(this.props)
     this.preset.update(this.props)
 
     if (scrollUpdateWasRequested && this._outerRef != null) {
@@ -489,11 +375,11 @@ export default class List extends React.PureComponent<IProps, IState> {
 
   render () {
     const {
-      item,
       className,
       direction,
       height,
       innerRef,
+      item,
       itemCount,
       itemData,
       itemKey = defaultItemKey,
@@ -537,16 +423,7 @@ export default class List extends React.PureComponent<IProps, IState> {
       )))
       for (let index = startIndex; index <= stopIndex; index++) {
         const key = itemKey(index, itemData)
-        let style
-        if (position === 'relative') {
-          const size = this.getItemSize(this.props, index)
-          style = {
-            height: convertNumber2PX(!isHorizontal ? size : '100%'),
-            width: convertNumber2PX(isHorizontal ? size : '100%')
-          }
-        } else {
-          style = this._getItemStyle(index)
-        }
+        const style = this.preset.getItemStyle(index)
         items.push(React.createElement<any>(this.preset.itemTagName, {
           key, style
         }, React.createElement(item, {
@@ -565,10 +442,10 @@ export default class List extends React.PureComponent<IProps, IState> {
         }
       )))
     }
+
     // Read this value AFTER items have been created,
     // So their actual sizes (if variable) are taken into consideration.
-
-    const estimatedTotalSize = this.itemList.getOffsetSize()
+    const estimatedTotalSize = convertNumber2PX(this.itemList.getOffsetSize())
     const outerElementProps: any = {
       ...rest,
       id,
@@ -596,15 +473,15 @@ export default class List extends React.PureComponent<IProps, IState> {
     }
 
     if (position === 'relative') {
-      const pre = this.itemList.getOffsetSize(startIndex)
+      const pre = convertNumber2PX(this.itemList.getOffsetSize(startIndex))
       return React.createElement(this.preset.outerTagName, outerElementProps,
         renderTop,
         React.createElement<any>(this.preset.itemTagName, {
           key: `${id}-pre`,
           id: `${id}-pre`,
           style: {
-            height: convertNumber2PX(isHorizontal ? '100%' : pre),
-            width: convertNumber2PX(!isHorizontal ? '100%' : pre)
+            height: isHorizontal ? '100%' : pre,
+            width: !isHorizontal ? '100%' : pre
           }
         }),
         React.createElement<any>(this.preset.innerTagName, {
@@ -625,9 +502,9 @@ export default class List extends React.PureComponent<IProps, IState> {
           key: `${id}-inner`,
           id: `${id}-inner`,
           style: {
-            height: convertNumber2PX(isHorizontal ? '100%' : estimatedTotalSize),
+            height: isHorizontal ? '100%' : estimatedTotalSize,
             pointerEvents: isScrolling ? 'none' : 'auto',
-            width: convertNumber2PX(isHorizontal ? estimatedTotalSize : '100%')
+            width: !isHorizontal ? '100%' : estimatedTotalSize
           }
         }, items),
         renderBottom

@@ -1,19 +1,18 @@
 import { isFunction } from '@tarojs/shared'
 
-interface IProps {
-  unlimitedSize?: boolean
-  itemCount?: number
-  itemData?: unknown
-  itemSize?: number | ((index?: number, itemData?: unknown) => number)
-  overscanCount?: number
-}
+import { IS_PROD } from '../../utils/constants'
+import { isHorizontalFunc } from './utils'
+
+import type { IProps } from './preset'
+
+type TProps = Pick<IProps, 'width' | 'height' | 'unlimitedSize' | 'itemCount' | 'itemData' | 'itemSize' | 'overscanCount' | 'direction' | 'layout'>
 
 export default class ListSet {
   list: number[] = []
   mode?: 'normal' | 'function' | 'unlimited'
   defaultSize = 1
 
-  constructor (protected props: IProps, protected refresh?: TFunc) {
+  constructor (protected props: TProps, protected refresh?: TFunc) {
     this.update(props)
 
     // Note: 不考虑列表模式切换情况，可能会导致列表抖动体验过差
@@ -52,7 +51,17 @@ export default class ListSet {
     return this.props.overscanCount || 0
   }
 
-  update (props: IProps) {
+  get wrapperSize () {
+    const { height, width } = this.props
+    const isHorizontal = isHorizontalFunc(this.props)
+    const size = (isHorizontal ? width : height) as number
+    if (!IS_PROD && typeof size !== 'number') {
+      console.warn(`In mode ${isHorizontal ? 'horizontal, width' : 'vertical, height'} parameter should be a number, but got ${typeof size}.`)
+    }
+    return size
+  }
+
+  update (props: TProps) {
     this.props = props
 
     if (this.length > this.list.length) {
@@ -65,6 +74,7 @@ export default class ListSet {
 
   setSize (i = 0, size = this.defaultSize) {
     this.list[i] = size
+    // FIXME Warning: Cannot update during an existing state transition (such as within `render`).
     this.refresh?.()
   }
 
@@ -72,7 +82,7 @@ export default class ListSet {
     const size = this.props.itemSize
     const item = this.list[i]
     if (item >= 0) return item
-    
+
     if (this.isFunctionMode && isFunction(size)) {
       const itemSize = size(i, this.props.itemData)
       this.setSize(i, itemSize)
@@ -118,11 +128,12 @@ export default class ListSet {
     return Math.max(startIndex, Math.min(this.length - 1, this.getSizeCount(wrapperSize + scrollOffset)))
   }
 
-  getRangeToRender (direction: 'forward' | 'backward', wrapperSize = 0, scrollOffset = 0, block = false) {
+  getRangeToRender (direction: 'forward' | 'backward', scrollOffset = 0, block = false) {
     if (this.length === 0) {
       return [0, 0, 0, 0]
     }
 
+    const wrapperSize = this.wrapperSize
     const startIndex = this.getStartIndex(scrollOffset)
     const stopIndex = this.getStopIndex(wrapperSize, scrollOffset, startIndex)
 
@@ -135,6 +146,55 @@ export default class ListSet {
       startIndex,
       stopIndex
     ]
+  }
+
+  getOffsetForIndexAndAlignment (index: number, align: string, scrollOffset: number) {
+    const wrapperSize = this.wrapperSize
+    const itemSize = this.getSize(index)
+    const lastItemOffset = Math.max(0, this.getOffsetSize(this.props.itemCount) - wrapperSize)
+    const maxOffset = Math.min(lastItemOffset, this.getOffsetSize(index))
+    const minOffset = Math.max(0, this.getOffsetSize(index) - wrapperSize + itemSize)
+
+    if (align === 'smart') {
+      if (scrollOffset >= minOffset - wrapperSize && scrollOffset <= maxOffset + wrapperSize) {
+        align = 'auto'
+      } else {
+        align = 'center'
+      }
+    }
+
+    switch (align) {
+      case 'start':
+        return maxOffset
+
+      case 'end':
+        return minOffset
+
+      case 'center':
+      {
+        // "Centered" offset is usually the average of the min and max.
+        // But near the edges of the list, this doesn't hold true.
+        const middleOffset = Math.round(minOffset + (maxOffset - minOffset) / 2)
+
+        if (middleOffset < Math.ceil(wrapperSize / 2)) {
+          return 0 // near the beginning
+        } else if (middleOffset > lastItemOffset + Math.floor(wrapperSize / 2)) {
+          return lastItemOffset // near the end
+        } else {
+          return middleOffset
+        }
+      }
+
+      case 'auto':
+      default:
+        if (scrollOffset >= minOffset && scrollOffset <= maxOffset) {
+          return scrollOffset
+        } else if (scrollOffset < minOffset) {
+          return minOffset
+        } else {
+          return maxOffset
+        }
+    }
   }
 
   compareSize (i = 0, size = 0) {
