@@ -33,6 +33,7 @@ module.exports = {
     ENABLE_MUTATION_OBSERVER: true,
     ENABLE_CLONE_NODE: true,
     ENABLE_CONTAINS: true,
+    ENABLE_COOKIE: true,
     'ts-jest': {
       diagnostics: false,
       tsconfig: 'tsconfig.test.json'
