@@ -2,6 +2,8 @@ import { Events, parseUrl, window } from '@tarojs/runtime'
 import { isFunction, isString } from '@tarojs/shared'
 import { request } from '@tarojs/taro'
 
+declare const ENABLE_COOKIE: boolean
+
 const SUPPORT_METHOD = ['OPTIONS', 'GET', 'HEAD', 'POST', 'PUT', 'DELETE', 'TRACE', 'CONNECT']
 const STATUS_TEXT_MAP = {
   100: 'Continue',
@@ -216,36 +218,38 @@ export class XMLHttpRequest extends Events {
 
     this.#callReadyStateChange(XMLHttpRequest.HEADERS_RECEIVED)
 
-    // 处理 set-cookie
-    const setCookieStr = header['Set-Cookie']
-
-    if (setCookieStr && typeof setCookieStr === 'string') {
-      let start = 0
-      let startSplit = 0
-      let nextSplit = setCookieStr.indexOf(',', startSplit)
-      const cookies: string[] = []
-
-      while (nextSplit >= 0) {
-        const lastSplitStr = setCookieStr.substring(start, nextSplit)
-        const splitStr = setCookieStr.substr(nextSplit)
-
-        // eslint-disable-next-line no-control-regex
-        if (/^,\s*([^,=;\x00-\x1F]+)=([^;\n\r\0\x00-\x1F]*).*/.test(splitStr)) {
-          // 分割成功，则上一片是完整 cookie
-          cookies.push(lastSplitStr)
-          start = nextSplit + 1
+    if (ENABLE_COOKIE) {
+      // 处理 set-cookie
+      const setCookieStr = header['Set-Cookie']
+  
+      if (setCookieStr && typeof setCookieStr === 'string') {
+        let start = 0
+        let startSplit = 0
+        let nextSplit = setCookieStr.indexOf(',', startSplit)
+        const cookies: string[] = []
+  
+        while (nextSplit >= 0) {
+          const lastSplitStr = setCookieStr.substring(start, nextSplit)
+          const splitStr = setCookieStr.substr(nextSplit)
+  
+          // eslint-disable-next-line no-control-regex
+          if (/^,\s*([^,=;\x00-\x1F]+)=([^;\n\r\0\x00-\x1F]*).*/.test(splitStr)) {
+            // 分割成功，则上一片是完整 cookie
+            cookies.push(lastSplitStr)
+            start = nextSplit + 1
+          }
+  
+          startSplit = nextSplit + 1
+          nextSplit = setCookieStr.indexOf(',', startSplit)
         }
-
-        startSplit = nextSplit + 1
-        nextSplit = setCookieStr.indexOf(',', startSplit)
+  
+        // 塞入最后一片 cookie
+        cookies.push(setCookieStr.substr(start))
+  
+        cookies.forEach((cookie) => {
+          window.document.cookie = cookie
+        })
       }
-
-      // 塞入最后一片 cookie
-      cookies.push(setCookieStr.substr(start))
-
-      cookies.forEach((cookie) => {
-        window.document.cookie = cookie
-      })
     }
 
     // 处理返回数据

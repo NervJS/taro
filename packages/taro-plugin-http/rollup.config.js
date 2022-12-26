@@ -25,7 +25,7 @@ const runtimeConfig = {
     format: 'es',
     sourcemap: true,
   },
-  external: ['@tarojs/shared'],
+  external: ['@tarojs/taro', '@tarojs/runtime', '@tarojs/shared'],
   plugins: [ts()],
 }
 
