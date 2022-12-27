@@ -18,12 +18,12 @@ declare module '../../index' {
    */
   interface IntersectionObserver {
     /** 停止监听。回调函数将不再触发
-     * @supported weapp, tt
+     * @supported weapp, tt, h5
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/wxml/IntersectionObserver.disconnect.html
      */
     disconnect(): void
     /** 指定目标节点并开始监听相交状态变化情况
-     * @supported weapp, tt
+     * @supported weapp, tt, h5
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/wxml/IntersectionObserver.observe.html
      */
     observe(
@@ -33,7 +33,7 @@ declare module '../../index' {
       callback: IntersectionObserver.ObserveCallback,
     ): void
     /** 使用选择器指定一个节点，作为参照区域之一。
-     * @supported weapp, tt
+     * @supported weapp, tt, h5
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/wxml/IntersectionObserver.relativeTo.html
      */
     relativeTo(
@@ -43,7 +43,7 @@ declare module '../../index' {
       margins?: IntersectionObserver.RelativeToMargins,
     ): IntersectionObserver
     /** 指定页面显示区域作为参照区域之一
-     * @supported weapp, tt
+     * @supported weapp, tt, h5
      * @example
      * 下面的示例代码中，如果目标节点（用选择器 .target-class 指定）进入显示区域以下 100px 时，就会触发回调函数。
      *
