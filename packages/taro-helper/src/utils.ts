@@ -15,7 +15,7 @@ import {
   SCRIPT_EXT,
   TARO_CONFIG_FOLDER
 } from './constants'
-import createSwcRegister, { InjectDefineConfigHeader } from './swcRegister'
+import createSwcRegister from './swcRegister'
 import { chalk } from './terminal'
 
 const execSync = child_process.execSync
@@ -649,7 +649,9 @@ export function readConfig (configPath: string) {
         configPath,
         filepath => importPaths.includes(filepath)
       ],
-      plugin: m => new InjectDefineConfigHeader().visitProgram(m)
+      plugins: [
+        [path.resolve(__dirname, '../swc/plugin-define-config/target/wasm32-wasi/release/swc_plugin_define_config.wasm'), {}]
+      ]
     })
 
     importPaths.concat([configPath]).forEach(item => {

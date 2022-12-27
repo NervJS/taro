@@ -88,6 +88,17 @@ export class MiniWebpackModule {
         })]
       },
 
+      xscript: {
+        test: new RegExp(`\\${this.combination.fileType.xs || 'wxs'}$`),
+        type: 'asset/resource',
+        generator: {
+          filename ({ filename }) {
+            return filename.replace(sourceRoot + '/', '')
+          }
+        },
+        use: [WebpackModule.getLoader(path.resolve(__dirname, '../loaders/miniXScriptLoader'))]
+      },
+
       media: this.getMediaRule(postcssUrlOption),
 
       font: this.getFontRule(postcssUrlOption),

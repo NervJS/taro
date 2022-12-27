@@ -20,6 +20,12 @@ declare module './index' {
      * - custom 自定义导航栏
      */
     navigationStyle?: 'default' | 'custom'
+    /**
+     * 在非首页、非页面栈最底层页面或非 tabbar 内页面中的导航栏展示 home 键
+     * @default false
+     * @supported weapp
+     */
+    homeButton?: boolean
     /** 窗口的背景色， HexColor
      * @default: "#ffffff"
      */
@@ -44,11 +50,11 @@ declare module './index' {
      * @default: 50
      */
     onReachBottomDistance?: number
-    /** 屏幕旋转设置
+    /** 屏幕旋转设置，支持 auto / portrait / landscape
      * @see https://developers.weixin.qq.com/miniprogram/dev/framework/view/resizable.html
      */
     pageOrientation?: 'auto' | 'portrait' | 'landscape'
-    /** 页面初始渲染缓存配置，支持 static / dynamic */
+    /** 页面[初始渲染缓存](https://developers.weixin.qq.com/miniprogram/dev/framework/view/initial-rendering-cache.html)配置，支持 static / dynamic */
     initialRenderingCache?: 'static' | 'dynamic'
     /** 重新启动策略配置
      * - homePage: 如果从这个页面退出小程序，下次将从首页冷启动
@@ -56,6 +62,90 @@ declare module './index' {
      * @default "homePage"
      */
     restartStrategy?: 'homePage' | 'homePageAndLatestPage'
+    /**
+     * 切入系统后台时，隐藏页面内容，保护用户隐私。支持 hidden / none
+     * @default "none"
+     */
+    visualEffectInBackground?: 'hidden' | 'none'
+    /**
+     * 控制[预加载下个页面的时机](https://developers.weixin.qq.com/miniprogram/dev/framework/performance/tips/runtime_nav.html#_2-4-%E6%8E%A7%E5%88%B6%E9%A2%84%E5%8A%A0%E8%BD%BD%E4%B8%8B%E4%B8%AA%E9%A1%B5%E9%9D%A2%E7%9A%84%E6%97%B6%E6%9C%BA)。
+     * 支持 static / manual / auto
+     */
+    handleWebviewPreload?: string
+    /** 是否允许向下拉拽。
+     * @default: "YES"
+     * @supported alipay
+     */
+    allowsBounceVertical?: 'YES' | 'NO'
+    /**
+     * 下拉露出显示背景图的底色。例：白色 "#FFFFFF"。**仅安卓下有效，iOS 下页面背景图底色会使用 backgroundColor 的值**
+     * @supported alipay
+     * @type {HexColor}
+     */
+    backgroundImageColor?: string
+    /**
+     * 下拉露出显示背景图的链接
+     * @supported alipay
+     */
+    backgroundImageUrl?: string
+    /**
+     * 页面默认标题
+     * @supported alipay
+     */
+    defaultTitle?: string
+    /**
+     * 仅支持 Android，是否显示 WebView 滚动条。默认 YES，支持 YES / NO。
+     * @default "YES"
+     * @supported alipay
+     */
+    enableScrollBar?: string
+    /**
+     * 仅支持 iOS，是否支持手势返回。默认 YES，支持 YES / NO。
+     * @supported alipay
+     */
+    gestureBack?: string
+    /** 是否允许下拉刷新
+     * @desc
+     * 1. 下拉刷新生效的前提是 allowsBounceVertical 值为 true
+     * 2. window 全局配置后全局生效，但是如果单个页面配置了该参数，以页面的配置为准。
+     * @default true
+     * @supported alipay
+     */
+    pullRefresh?: boolean
+    /**
+     * rpx 单位是否宽度自适应 ，默认 true，当设置为 false 时，2 rpx 将恒等于 1 px，不再根据屏幕宽度进行自适应，注意，此时 750 rpx 将不再等于 100% 宽度。
+     * @supported alipay
+     */
+    responsive?: boolean
+    /**
+     * 	是否进入时显示导航栏的 loading。默认 NO，支持 YES / NO。
+     * @default "NO"
+     * @supported alipay
+     */
+    showTitleLoading?: string
+    /**
+     * 导航栏透明设置。默认 none，支持 always 一直透明 / auto 滑动自适应 / none 不透明。
+     * @default "none"
+     * @supported alipay
+     */
+    transparentTitle?: string
+    /**
+     * 是否允许导航栏点击穿透。默认 NO，支持 YES / NO。
+     * @default "NO"
+     * @supported alipay
+     */
+    titlePenetrate?: string
+    /**
+     * 导航栏图片地址。
+     * @supported alipay
+     */
+    titleImage?: string
+    /**
+     * 导航栏背景色。例：白色 "#FFFFFF"。
+     * @supported alipay
+     * @type {HexColor}
+     */
+    titleBarColor?: string
   }
 
   interface PageConfig extends CommonConfig {
@@ -91,23 +181,50 @@ declare module './index' {
     style?: string
     /** 单页模式相关配置 */
     singlePage?: SinglePage
+    /**
+     * 事件监听是否为 passive
+     * @default false
+     * @see https://developers.weixin.qq.com/miniprogram/dev/reference/configuration/app.html#enablePassiveEvent
+     */
+    enablePassiveEvent?:
+      | boolean
+      | {
+          /**
+           * 是否设置 touchstart 事件为 passive
+           * @default false
+           */
+          touchstart?: boolean
+          /**
+           * 是否设置 touchmove 事件为 passive
+           * @default false
+           */
+          touchmove?: boolean
+          /**
+           * 是否设置 wheel 事件为 passive
+           * @default false
+           */
+          wheel?: boolean
+        }
+    /**
+     * 渲染后端
+     * @default "webview"
+     */
+    renderer?: 'webview' | 'skyline'
+    /**
+     * 设置导航栏额外图标，目前支持设置属性 icon，值为图标 url（以 https/http 开头）或 base64 字符串，大小建议 30*30 px
+     *
+     * 点击后触发 onOptionMenuClick（**注意**：该配置即将废弃。）。
+     *  @supported alipay
+     */
+    optionMenu?: Record<string, string>
+    /**
+     * 设置导航栏图标主题，仅支持真机预览。"default" 为蓝色图标，"light" 为白色图标。
+     * @supported alipay
+     */
+    barButtonTheme?: string
   }
 
-  interface WindowConfig extends CommonConfig {
-    /** 切入系统后台时，隐藏页面内容，保护用户隐私。支持 hidden / none
-     * @default none
-     */
-    visualEffectInBackground?: 'hidden' | 'none'
-    /** 是否允许下拉刷新
-     * 备注：下拉刷新生效的前提是 allowsBounceVertical 值为 YES
-     * @default: "NO"
-     */
-    pullRefresh?: 'YES' | 'NO' | boolean
-    /** 是否允许向下拉拽
-     * @default: "YES"
-     */
-    allowsBounceVertical?: 'YES' | 'NO'
-  }
+  interface WindowConfig extends CommonConfig {}
 
   interface TabBarItem {
     /** 页面路径，必须在 pages 中先定义 */
@@ -283,7 +400,16 @@ declare module './index' {
      * - chooseAddress: 获取用户地址信息
      *  @see https://developers.weixin.qq.com/miniprogram/dev/reference/configuration/app.html#requiredPrivateInfos
      */
-    requiredPrivateInfos?: ('getFuzzyLocation' | 'getLocation' | 'onLocationChange' | 'startLocationUpdate' | 'startLocationUpdateBackground' | 'chooseLocation' | 'choosePoi' | 'chooseAddress')[] 
+    requiredPrivateInfos?: (
+      | 'getFuzzyLocation'
+      | 'getLocation'
+      | 'onLocationChange'
+      | 'startLocationUpdate'
+      | 'startLocationUpdateBackground'
+      | 'chooseLocation'
+      | 'choosePoi'
+      | 'chooseAddress'
+    )[]
     /** 使用到的插件
      * @since 1.9.6
      */
@@ -377,15 +503,32 @@ declare module './index' {
       /** 是否开启 FPS 面板，默认false */
       enableFPSPanel?: boolean
     }
-    /** touch 事件监听是否为 passive，默认false */
-    enablePassiveEvent?: boolean | {
-      /** 是否设置 touchstart 事件为 passive，默认false */
-      touchstart?: boolean
-      /** 是否设置 touchmove 事件为 passive，默认false */
-      touchmove?: boolean
-      /** 是否设置 wheel 事件为 passive，默认false */
-      wheel?: boolean
-    }
+    /**
+     * touch 相关事件默认的 passive 为 false。如果小程序不使用 catchtouch 事件时，可以通过这个选项将 passive 置为 true，以提高滚动性能。
+     * 具体原理可参考[MDN](https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/addEventListener#improving_scrolling_performance_with_passive_listeners)
+     *
+     * 可以直接设置这个选项为 true，也可以分别控制某个事件。
+     * @default false
+     */
+    enablePassiveEvent?:
+      | boolean
+      | {
+          /**
+           * 是否设置 touchstart 事件为 passive
+           * @default false
+           */
+          touchstart?: boolean
+          /**
+           * 是否设置 touchmove 事件为 passive
+           * @default false
+           */
+          touchmove?: boolean
+          /**
+           * 是否设置 wheel 事件为 passive
+           * @default false
+           */
+          wheel?: boolean
+        }
     /** 自定义模块映射规则 */
     resolveAlias?: Record<string, string>
     /** 接受一个数组，每一项都是字符串，来指定编译为原生小程序组件的组件入口 */
@@ -400,6 +543,11 @@ declare module './index' {
      * @since 3.3.18
      */
     animation?: RouterAnimate | boolean
+    /**
+     * 指定小程序全局的默认渲染后端。
+     * @default "webview"
+     */
+    renderer?: 'webview' | 'skyline'
   }
 
   interface Config extends PageConfig, AppConfig {
@@ -422,4 +570,3 @@ declare module './index' {
     Config: Config
   }
 }
-

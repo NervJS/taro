@@ -56,7 +56,7 @@ require(\\"./taro\\");
         function useRouter() {}
         function useTabItemTap() {}
         function useScope() {}
-        var needPromiseApis = new Set([ \\"checkFollowState\\", \\"exitMiniProgram\\", \\"followOfficialAccount\\", \\"getMenuButtonLayout\\", \\"getUserProfile\\", \\"hideInteractionBar\\", \\"navigateToVideoView\\", \\"openAwemeUserProfile\\", \\"openEcGood\\", \\"pay\\", \\"showInteractionBar\\" ]);
+        var needPromiseApis = new Set([ \\"applyRefund\\", \\"canRateAwemeOrders\\", \\"checkFollowAwemeState\\", \\"checkFollowState\\", \\"continueToPay\\", \\"createOrder\\", \\"exitMiniProgram\\", \\"followAwemeUser\\", \\"followOfficialAccount\\", \\"getEnvInfoSync\\", \\"getMenuButtonLayout\\", \\"getUserProfile\\", \\"hideInteractionBar\\", \\"navigateToVideoView\\", \\"openAwemeUserProfile\\", \\"openEcGood\\", \\"openWebcastRoom\\", \\"pay\\", \\"rateAwemeOrder\\", \\"showDouyinOpenAuth\\", \\"showInteractionBar\\" ]);
         var apiDiff = {
             showToast: {
                 options: {
@@ -215,6 +215,12 @@ require(\\"./taro\\");
                 bindConsume: _empty,
                 bindRefund: _empty,
                 bindApplyRefund: _empty,
+                bindError: _empty
+            },
+            RateButton: {
+                \\"order-id\\": _empty,
+                bindInit: _empty,
+                bindSuccess: _empty,
                 bindError: _empty
             }
         };

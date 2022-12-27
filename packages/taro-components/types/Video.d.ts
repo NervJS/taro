@@ -282,6 +282,12 @@ interface VideoProps extends StandardProps {
    */
   mobilenetHintType?: string
 
+  /** 使用原生
+   * @default true
+   * @supported alipay
+   */
+  enableNative?: boolean
+
   /** 浮窗设置。暂时不支持全局浮窗。
    * 可选值：
    *
@@ -636,10 +642,8 @@ declare namespace VideoProps {
 }
 
 /** 视频。相关api：Taro.createVideoContext
- *
- * 备注：h5上因为没有测试，所以暂时写了“待定”，需要`Video`来确认。
  * @classification media
- * @supported weapp, h5, swan, alipay, tt
+ * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony
  * @example_react
  * ```tsx
  * export default class PageView extends Component {

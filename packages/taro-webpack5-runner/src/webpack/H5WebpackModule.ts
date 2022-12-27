@@ -82,7 +82,7 @@ export class H5WebpackModule {
         test: REG_LESS,
         use: [lessLoader]
       },
-      styl: {
+      stylus: {
         test: REG_STYLUS,
         use: [stylusLoader]
       },

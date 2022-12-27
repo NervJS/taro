@@ -212,7 +212,7 @@ interface MapProps extends StandardProps {
    * @supported weapp, swan, tt, qq
    * @default false
    */
-  enable3D?: string
+  enable3D?: boolean
 
   /** 点击地图时触发
    * @supported weapp, alipay, swan, tt, qq, jd
@@ -661,7 +661,7 @@ declare namespace MapProps {
 
 /** 地图。相关api Taro.createMapContext。
  * @classification maps
- * @supported weapp, alipay, swan
+ * @supported weapp, alipay, swan, tt, qq, jd
  * @example_react
  * ```tsx
  * class App extends Component {
