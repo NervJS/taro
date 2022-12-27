@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/components-react",
-  "version": "3.6.0-canary.8",
+  "version": "3.6.0-canary.9",
   "description": "",
   "main:h5": "src/index.js",
   "main": "dist/index.js",
