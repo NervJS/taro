@@ -12,7 +12,10 @@
     "types",
     "index.js"
   ],
-  "sideEffects": false,
+  "sideEffects": [
+    "*.scss",
+    "*.css"
+  ],
   "scripts": {
     "assets": "cpy 'src/**/*.css' dist",
     "build": "rimraf ./dist && tsc && pnpm run assets && rollup -c",
