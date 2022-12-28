@@ -8,11 +8,11 @@
     "dist"
   ],
   "scripts": {
+    "build": "run-s clean build:babel build:declaration",
     "build:babel": "cross-env TARO_ENV=h5 babel src --extensions=.js,.jsx,.ts,.tsx --out-dir dist",
     "build:declaration": "tsc",
     "clean": "rimraf ./dist",
-    "dev": "pnpm run build:babel -w",
-    "prod": "run-s clean build:babel build:declaration"
+    "dev": "pnpm run build:babel -w"
   },
   "keywords": [],
   "author": "ZakaryCode",
