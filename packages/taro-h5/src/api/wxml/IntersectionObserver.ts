@@ -48,13 +48,6 @@ export class TaroH5IntersectionObserver implements Taro.IntersectionObserver {
     Object.assign(this._options, options)
   }
 
-  /**
-   * 构建IntersectionObserver实例
-   *
-   * @private
-   * @return {*} 
-   * @memberof TaroH5IntersectionObserver
-   */
   private createInst () {
     // 去除原本的实例
     this.disconnect()
@@ -85,11 +78,6 @@ export class TaroH5IntersectionObserver implements Taro.IntersectionObserver {
     })
   }
 
-  /**
-   * 停止监听
-   *
-   * @memberof TaroH5IntersectionObserver
-   */
   public disconnect (): void {
     if (this._observerInst) {
       let listener
@@ -100,13 +88,6 @@ export class TaroH5IntersectionObserver implements Taro.IntersectionObserver {
     }
   }
 
-  /**
-   * 指定目标节点并开始监听相交状态变化情况
-   *
-   * @param {string} targetSelector 选择器
-   * @param {Taro.IntersectionObserver.ObserveCallback} callback 回调函数
-   * @memberof TaroH5IntersectionObserver
-   */
   public observe (targetSelector: string, callback: Taro.IntersectionObserver.ObserveCallback): void {
     // 同wx小程序效果一致，每个实例监听一个Selector
     if (this._listeners.length) return
@@ -127,14 +108,6 @@ export class TaroH5IntersectionObserver implements Taro.IntersectionObserver {
     })
   }
 
-  /**
-   * 使用选择器指定一个节点，作为参照区域之一
-   *
-   * @param {string} selector 选择器
-   * @param {(Taro.IntersectionObserver.RelativeToMargins | undefined)} [margins] 用来扩展（或收缩）参照节点布局区域的边界
-   * @return {*}  {Taro.IntersectionObserver}
-   * @memberof TaroH5IntersectionObserver
-   */
   public relativeTo (selector: string, margins?: Taro.IntersectionObserver.RelativeToMargins | undefined): Taro.IntersectionObserver {
     // 已设置observe监听后，重新关联节点
     if (this._listeners.length) {
@@ -149,17 +122,9 @@ export class TaroH5IntersectionObserver implements Taro.IntersectionObserver {
     return this
   }
 
-  /**
-   * 指定页面显示区域作为参照区域之一
-   *
-   * @param {(Taro.IntersectionObserver.RelativeToViewportMargins | undefined)} [margins] 用来扩展（或收缩）参照节点布局区域的边界
-   * @return {*}  {Taro.IntersectionObserver}
-   * @memberof TaroH5IntersectionObserver
-   */
   public relativeToViewport (margins?: Taro.IntersectionObserver.RelativeToViewportMargins | undefined): Taro.IntersectionObserver {
     return this.relativeTo('.taro_page', margins)
   }
-
 
   private _getCallbackByElement (element: Element) {
     const listener = this._listeners.find(listener => listener.element === element)

@@ -500,7 +500,7 @@ declare module '../../index' {
     createSelectorQuery(): SelectorQuery
 
     /** 创建并返回一个 IntersectionObserver 对象实例。在自定义组件或包含自定义组件的页面中，应使用 `this.createIntersectionObserver([options])` 来代替。
-     * @supported weapp, tt
+     * @supported weapp, h5, tt
      * @example
      * ```tsx
      * const observer = Taro.createIntersectionObserver(this, { thresholds: [0], observeAll: true })
