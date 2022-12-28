@@ -329,6 +329,21 @@ require(\\"./taro\\");
                             }
                         } ]
                     }
+                },
+                getBLEDeviceServices: {
+                    res: {
+                        set: [ {
+                            key: \\"services\\",
+                            value: function value(res) {
+                                return res.services.map((function(item) {
+                                    return {
+                                        uuid: item.serviceId,
+                                        isPrimary: item.isPrimary
+                                    };
+                                }));
+                            }
+                        } ]
+                    }
                 }
             };
             var nativeRequest = my.canIUse(\\"request\\") ? my.request : my.httpRequest;

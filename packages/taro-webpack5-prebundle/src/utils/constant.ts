@@ -74,6 +74,7 @@ export type CollectedDeps = Map<string, string>
 export const MF_NAME = 'taro_app_library'
 
 export const defaultEsbuildLoader: Record<string, Loader> = {
-  '.js': 'jsx',
+  '.js': 'tsx',
+  '.jsx': 'tsx',
   '.ts': 'tsx'
 }
