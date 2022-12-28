@@ -481,12 +481,10 @@ export default {
         scroll: onScroll
       }
     }
-    if (scrollUpdateWasRequested) {
-      if (isHorizontal) {
-        outerElementProps.scrollLeft = scrollOffset
-      } else {
-        outerElementProps.scrollTop = scrollOffset
-      }
+    if (isHorizontal) {
+      outerElementProps.scrollLeft = scrollUpdateWasRequested ? scrollOffset : this.field.scrollLeft
+    } else {
+      outerElementProps.scrollTop = scrollUpdateWasRequested ? scrollOffset : this.field.scrollTop
     }
 
     if (this.preset.isRelative) {
