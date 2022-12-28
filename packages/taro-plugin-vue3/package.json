@@ -18,8 +18,8 @@
     "url": "git+https://github.com/NervJS/taro.git"
   },
   "scripts": {
-    "build": "rollup -c",
-    "dev": "rollup -c -w"
+    "build": "rollup -c --bundleConfigAsCjs",
+    "dev": "rollup -c -w --bundleConfigAsCjs"
   },
   "bugs": {
     "url": "https://github.com/NervJS/taro/issues"
@@ -32,7 +32,8 @@
     "@tarojs/shared": "workspace:*"
   },
   "devDependencies": {
-    "vue": "^3.0.0"
+    "vue": "^3.0.0",
+    "rollup": "^3.8.1"
   },
   "peerDependencies": {
     "vue": "^3.0.0"

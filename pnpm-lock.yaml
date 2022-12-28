@@ -740,9 +740,6 @@ importers:
       react-native-svg: registry.npmjs.org/react-native-svg/13.4.0_ed6hdicvoe3mtgaxburxkml6qq
       react-test-renderer: registry.npmjs.org/react-test-renderer/18.1.0_react@18.1.0
 
-  packages/taro-components/loader:
-    specifiers: {}
-
   packages/taro-extend:
     specifiers: {}
 
@@ -969,11 +966,14 @@ importers:
       '@tarojs/runtime': workspace:*
       '@tarojs/service': workspace:*
       '@tarojs/shared': workspace:*
+      rollup: ^3.8.1
     dependencies:
       '@babel/parser': registry.npmjs.org/@babel/parser/7.18.5
       '@tarojs/runtime': link:../taro-runtime
       '@tarojs/service': link:../taro-service
       '@tarojs/shared': link:../shared
+    devDependencies:
+      rollup: registry.npmjs.org/rollup/3.8.1
 
   packages/taro-plugin-mini-ci:
     specifiers:
@@ -1012,6 +1012,7 @@ importers:
       acorn-walk: ^8.0.0
       preact: ^10.10.0
       react-refresh: ^0.11.0
+      rollup: ^3.8.1
       webpack: 5.69.0
     dependencies:
       '@tarojs/helper': link:../taro-helper
@@ -1027,6 +1028,7 @@ importers:
       '@prefresh/webpack': registry.npmjs.org/@prefresh/webpack/3.3.4_ikiizjou7sgv3pyyezgzqfjlky
       preact: registry.npmjs.org/preact/10.10.0
       react-refresh: registry.npmjs.org/react-refresh/0.11.0
+      rollup: registry.npmjs.org/rollup/3.8.1
       webpack: registry.npmjs.org/webpack/5.69.0
 
   packages/taro-plugin-react-devtools:
@@ -1038,6 +1040,7 @@ importers:
       cross-spawn: ^7.0.3
       detect-port: ^1.3.0
       react-devtools: 4.14.0
+      rollup: ^3.8.1
     dependencies:
       '@tarojs/helper': link:../taro-helper
       '@tarojs/service': link:../taro-service
@@ -1046,6 +1049,8 @@ importers:
       cross-spawn: registry.npmjs.org/cross-spawn/7.0.3
       detect-port: registry.npmjs.org/detect-port/1.3.0
       react-devtools: registry.npmjs.org/react-devtools/4.14.0
+    devDependencies:
+      rollup: registry.npmjs.org/rollup/3.8.1
 
   packages/taro-plugin-vue-devtools:
     specifiers:
@@ -1056,6 +1061,7 @@ importers:
       '@vue/devtools': 6.0.0-beta.15
       cross-spawn: ^7.0.3
       detect-port: ^1.3.0
+      rollup: ^3.8.1
     dependencies:
       '@tarojs/helper': link:../taro-helper
       '@tarojs/service': link:../taro-service
@@ -1064,6 +1070,8 @@ importers:
       '@vue/devtools': registry.npmjs.org/@vue/devtools/6.0.0-beta.15
       cross-spawn: registry.npmjs.org/cross-spawn/7.0.3
       detect-port: registry.npmjs.org/detect-port/1.3.0
+    devDependencies:
+      rollup: registry.npmjs.org/rollup/3.8.1
 
   packages/taro-plugin-vue2:
     specifiers:
@@ -1072,6 +1080,7 @@ importers:
       '@tarojs/runtime': workspace:*
       '@tarojs/service': workspace:*
       '@tarojs/shared': workspace:*
+      rollup: ^3.8.1
       vue: ^2.6.11
     dependencies:
       '@tarojs/helper': link:../taro-helper
@@ -1080,6 +1089,7 @@ importers:
       '@tarojs/service': link:../taro-service
       '@tarojs/shared': link:../shared
     devDependencies:
+      rollup: registry.npmjs.org/rollup/3.8.1
       vue: registry.npmjs.org/vue/2.6.14
 
   packages/taro-plugin-vue3:
@@ -1089,6 +1099,7 @@ importers:
       '@tarojs/runtime': workspace:*
       '@tarojs/service': workspace:*
       '@tarojs/shared': workspace:*
+      rollup: ^3.8.1
       vue: ^3.0.0
     dependencies:
       '@tarojs/helper': link:../taro-helper
@@ -1097,6 +1108,7 @@ importers:
       '@tarojs/service': link:../taro-service
       '@tarojs/shared': link:../shared
     devDependencies:
+      rollup: registry.npmjs.org/rollup/3.8.1
       vue: registry.npmjs.org/vue/3.2.37
 
   packages/taro-qq:
@@ -29634,6 +29646,16 @@ packages:
     hasBin: true
     optionalDependencies:
       fsevents: registry.npmjs.org/fsevents/2.3.2
+
+  registry.npmjs.org/rollup/3.8.1:
+    resolution: {integrity: sha512-4yh9eMW7byOroYcN8DlF9P/2jCpu6txVIHjEqquQVSx7DI0RgyCCN3tjrcy4ra6yVtV336aLBB3v2AarYAxePQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/rollup/-/rollup-3.8.1.tgz}
+    name: rollup
+    version: 3.8.1
+    engines: {node: '>=14.18.0', npm: '>=8.0.0'}
+    hasBin: true
+    optionalDependencies:
+      fsevents: registry.npmjs.org/fsevents/2.3.2
+    dev: true
 
   registry.npmjs.org/rsvp/4.8.5:
     resolution: {integrity: sha512-nfMOlASu9OnRJo1mbEk2cz0D56a1MBNrJ7orjRZQG10XDyuvwksKbuXNp6qa+kbn839HwjwhBzhFmdsaEAfauA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/rsvp/-/rsvp-4.8.5.tgz}
