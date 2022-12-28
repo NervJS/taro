@@ -1,5 +1,6 @@
 import type { BaseEventOrig, BaseEventOrigFunction, ScrollViewProps, StandardProps } from '@tarojs/components'
 import type { Component, ComponentType, CSSProperties, ReactNode } from 'react'
+import type { VuePlugin } from '../../../typings/vue'
 
 interface VirtualListProps extends Omit<StandardProps, 'children'> {
   /** 列表的高度。 */
@@ -168,6 +169,7 @@ declare namespace VirtualListProps {
  *
  * <script>
  * import Row from './row.vue'
+ * import { markRaw } from 'vue'
  *
  * function buildData (offset = 0) {
  *   return Array(100).fill(0).map((_, i) => i + offset)
@@ -176,7 +178,7 @@ declare namespace VirtualListProps {
  * export default {
  *   data() {
  *     return {
- *       Row,
+ *       Row: markRaw(Row),
  *       list: buildData(0)
  *     }
  *   },
@@ -187,8 +189,8 @@ declare namespace VirtualListProps {
  */
 declare class VirtualListComponent extends Component<VirtualListProps> {}
 
-const VirtualList: typeof VirtualListComponent = require('./react').default
-export const registerVirtualList = require('./vue').default
+const VirtualList = require('./react').default as typeof VirtualListComponent
+export const registerVirtualList = require('./vue').default as VuePlugin
 
 export { VirtualList, VirtualListProps }
 export default VirtualList

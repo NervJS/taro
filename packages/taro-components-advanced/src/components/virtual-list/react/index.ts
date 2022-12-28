@@ -37,7 +37,7 @@ const OuterScrollView = React.forwardRef(
   }
 )
 
-const VirtualList = React.forwardRef(function VirtualList (props, ref) {
+const VirtualList = React.forwardRef(function VirtualList (props: VirtualListProps, ref) {
   const {
     direction = 'ltr',
     innerElementType = View,
