@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/components-library-vue2",
-  "version": "3.6.0-canary.3",
+  "version": "3.6.0-beta.0",
   "description": "Taro 组件库 Vue2 版本库",
   "private": true,
   "main": "index.js",
@@ -9,8 +9,8 @@
     "build:ci": "babel src --extensions=.ts,.tsx --out-dir ../taro-components/dist/vue2"
   },
   "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "author": "ZakaryCode",
+  "license": "MIT",
   "dependencies": {
     "@tarojs/components": "workspace:*"
   },

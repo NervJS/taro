@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/taro-h5",
-  "version": "3.6.0-canary.3",
+  "version": "3.6.0-beta.0",
   "description": "Taro h5 framework",
   "browser": "dist/index.esm.js",
   "main:h5": "dist/index.js",
@@ -36,12 +36,17 @@
     "@tarojs/api": "workspace:*",
     "@tarojs/router": "workspace:*",
     "@tarojs/runtime": "workspace:*",
+    "@tarojs/shared": "workspace:*",
     "base64-js": "^1.3.0",
     "jsonp-retry": "^1.0.3",
     "query-string": "^7.1.1",
     "whatwg-fetch": "^3.4.0"
   },
   "devDependencies": {
+    "jest": "^29.3.1",
+    "jest-fetch-mock": "^3.0.3",
+    "jest-localstorage-mock": "^2.4.0",
+    "jest-mock-console": "^1.0.0",
     "react": "^18.2.0",
     "react-test-renderer": "^18.2.0"
   }

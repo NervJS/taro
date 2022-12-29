@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/cli",
-  "version": "3.6.0-canary.3",
+  "version": "3.6.0-beta.0",
   "description": "cli tool for taro",
   "main": "index.js",
   "scripts": {
@@ -41,6 +41,7 @@
   "author": "O2Team",
   "license": "MIT",
   "dependencies": {
+    "@babel/generator": "^7.14.5",
     "@babel/template": "^7.14.5",
     "@babel/traverse": "^7.14.5",
     "@babel/types": "^7.14.5",
@@ -51,8 +52,9 @@
     "@tarojs/transformer-wx": "^2.0.4",
     "adm-zip": "^0.4.13",
     "babylon": "^6.18.0",
-    "better-babel-generator": "6.26.1",
     "cli-highlight": "^2.1.4",
+    "dotenv": "^16.0.3",
+    "dotenv-expand": "^9.0.0",
     "download-git-repo": "^2.0.0",
     "ejs": "^2.6.1",
     "envinfo": "^6.0.1",
