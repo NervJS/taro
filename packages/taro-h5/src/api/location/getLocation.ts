@@ -64,10 +64,10 @@ const getLocationByW3CApi: (options: Taro.getLocation.Option) => Promise<Taro.ge
             /** 调用结果,自动补充 */
             errMsg: ''
           }
-          handle.success(result, resolve)
+          handle.success(result, { resolve, reject })
         },
         (error) => {
-          handle.fail({ errMsg: error.message }, reject)
+          handle.fail({ errMsg: error.message }, { resolve, reject })
         },
         positionOptions
       )

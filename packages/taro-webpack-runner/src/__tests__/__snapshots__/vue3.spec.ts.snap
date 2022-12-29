@@ -252,7 +252,7 @@ exports[`vue3 should build vue3 app 2`] = `
     var _defineProperty = __webpack_require__(11).default;
     var _slicedToArray = __webpack_require__(12).default;
     var _createForOfIteratorHelper = __webpack_require__(16).default;
-    var _typeof = __webpack_require__(3).default;
+    var _typeof = __webpack_require__(4).default;
     var _toConsumableArray = __webpack_require__(17).default;
     var strictUriEncode = __webpack_require__(21);
     var decodeComponent = __webpack_require__(22);
@@ -645,7 +645,50 @@ exports[`vue3 should build vue3 app 2`] = `
         return exports.pick(input, exclusionFilter, options);
     };
 }, function(module, exports, __webpack_require__) {
-    var arrayLikeToArray = __webpack_require__(5);
+    \\"use strict\\";
+    module.exports = function(cssWithMappingToString) {
+        var list = [];
+        list.toString = function toString() {
+            return this.map((function(item) {
+                var content = cssWithMappingToString(item);
+                if (item[2]) {
+                    return \\"@media \\".concat(item[2], \\" {\\").concat(content, \\"}\\");
+                }
+                return content;
+            })).join(\\"\\");
+        };
+        list.i = function(modules, mediaQuery, dedupe) {
+            if (typeof modules === \\"string\\") {
+                modules = [ [ null, modules, \\"\\" ] ];
+            }
+            var alreadyImportedModules = {};
+            if (dedupe) {
+                for (var i = 0; i < this.length; i++) {
+                    var id = this[i][0];
+                    if (id != null) {
+                        alreadyImportedModules[id] = true;
+                    }
+                }
+            }
+            for (var _i = 0; _i < modules.length; _i++) {
+                var item = [].concat(modules[_i]);
+                if (dedupe && alreadyImportedModules[item[0]]) {
+                    continue;
+                }
+                if (mediaQuery) {
+                    if (!item[2]) {
+                        item[2] = mediaQuery;
+                    } else {
+                        item[2] = \\"\\".concat(mediaQuery, \\" and \\").concat(item[2]);
+                    }
+                }
+                list.push(item);
+            }
+        };
+        return list;
+    };
+}, function(module, exports, __webpack_require__) {
+    var arrayLikeToArray = __webpack_require__(6);
     function _unsupportedIterableToArray(o, minLen) {
         if (!o) return;
         if (typeof o === \\"string\\") return arrayLikeToArray(o, minLen);
@@ -668,7 +711,7 @@ exports[`vue3 should build vue3 app 2`] = `
     }
     module.exports = _typeof, module.exports.__esModule = true, module.exports[\\"default\\"] = module.exports;
 }, function(module, exports, __webpack_require__) {
-    var _typeof = __webpack_require__(3).default;
+    var _typeof = __webpack_require__(4).default;
     module.exports = pathToRegexp;
     module.exports.match = match;
     module.exports.regexpToFunction = regexpToFunction;
@@ -1111,69 +1154,6 @@ exports[`vue3 should build vue3 app 2`] = `
             lastIdentifiers = newLastIdentifiers;
         };
     };
-}, function(module, exports, __webpack_require__) {
-    \\"use strict\\";
-    module.exports = function(useSourceMap) {
-        var list = [];
-        list.toString = function toString() {
-            return this.map((function(item) {
-                var content = cssWithMappingToString(item, useSourceMap);
-                if (item[2]) {
-                    return \\"@media \\".concat(item[2], \\" {\\").concat(content, \\"}\\");
-                }
-                return content;
-            })).join(\\"\\");
-        };
-        list.i = function(modules, mediaQuery, dedupe) {
-            if (typeof modules === \\"string\\") {
-                modules = [ [ null, modules, \\"\\" ] ];
-            }
-            var alreadyImportedModules = {};
-            if (dedupe) {
-                for (var i = 0; i < this.length; i++) {
-                    var id = this[i][0];
-                    if (id != null) {
-                        alreadyImportedModules[id] = true;
-                    }
-                }
-            }
-            for (var _i = 0; _i < modules.length; _i++) {
-                var item = [].concat(modules[_i]);
-                if (dedupe && alreadyImportedModules[item[0]]) {
-                    continue;
-                }
-                if (mediaQuery) {
-                    if (!item[2]) {
-                        item[2] = mediaQuery;
-                    } else {
-                        item[2] = \\"\\".concat(mediaQuery, \\" and \\").concat(item[2]);
-                    }
-                }
-                list.push(item);
-            }
-        };
-        return list;
-    };
-    function cssWithMappingToString(item, useSourceMap) {
-        var content = item[1] || \\"\\";
-        var cssMapping = item[3];
-        if (!cssMapping) {
-            return content;
-        }
-        if (useSourceMap && typeof btoa === \\"function\\") {
-            var sourceMapping = toComment(cssMapping);
-            var sourceURLs = cssMapping.sources.map((function(source) {
-                return \\"/*# sourceURL=\\".concat(cssMapping.sourceRoot || \\"\\").concat(source, \\" */\\");
-            }));
-            return [ content ].concat(sourceURLs).concat([ sourceMapping ]).join(\\"\\\\n\\");
-        }
-        return [ content ].join(\\"\\\\n\\");
-    }
-    function toComment(sourceMap) {
-        var base64 = btoa(unescape(encodeURIComponent(JSON.stringify(sourceMap))));
-        var data = \\"sourceMappingURL=data:application/json;charset=utf-8;base64,\\".concat(base64);
-        return \\"/*# \\".concat(data, \\" */\\");
-    }
 }, function(module, exports, __webpack_require__) {
     (function(define, undefined) {
         define((function() {
@@ -1718,7 +1698,7 @@ exports[`vue3 should build vue3 app 2`] = `
 }, function(module, exports, __webpack_require__) {
     var arrayWithHoles = __webpack_require__(13);
     var iterableToArrayLimit = __webpack_require__(14);
-    var unsupportedIterableToArray = __webpack_require__(2);
+    var unsupportedIterableToArray = __webpack_require__(3);
     var nonIterableRest = __webpack_require__(15);
     function _slicedToArray(arr, i) {
         return arrayWithHoles(arr) || iterableToArrayLimit(arr, i) || unsupportedIterableToArray(arr, i) || nonIterableRest();
@@ -1761,7 +1741,7 @@ exports[`vue3 should build vue3 app 2`] = `
     }
     module.exports = _nonIterableRest, module.exports.__esModule = true, module.exports[\\"default\\"] = module.exports;
 }, function(module, exports, __webpack_require__) {
-    var unsupportedIterableToArray = __webpack_require__(2);
+    var unsupportedIterableToArray = __webpack_require__(3);
     function _createForOfIteratorHelper(o, allowArrayLike) {
         var it = typeof Symbol !== \\"undefined\\" && o[Symbol.iterator] || o[\\"@@iterator\\"];
         if (!it) {
@@ -1815,14 +1795,14 @@ exports[`vue3 should build vue3 app 2`] = `
 }, function(module, exports, __webpack_require__) {
     var arrayWithoutHoles = __webpack_require__(18);
     var iterableToArray = __webpack_require__(19);
-    var unsupportedIterableToArray = __webpack_require__(2);
+    var unsupportedIterableToArray = __webpack_require__(3);
     var nonIterableSpread = __webpack_require__(20);
     function _toConsumableArray(arr) {
         return arrayWithoutHoles(arr) || iterableToArray(arr) || unsupportedIterableToArray(arr) || nonIterableSpread();
     }
     module.exports = _toConsumableArray, module.exports.__esModule = true, module.exports[\\"default\\"] = module.exports;
 }, function(module, exports, __webpack_require__) {
-    var arrayLikeToArray = __webpack_require__(5);
+    var arrayLikeToArray = __webpack_require__(6);
     function _arrayWithoutHoles(arr) {
         if (Array.isArray(arr)) return arrayLikeToArray(arr);
     }
@@ -1846,7 +1826,7 @@ exports[`vue3 should build vue3 app 2`] = `
     };
 }, function(module, exports, __webpack_require__) {
     \\"use strict\\";
-    var _typeof = __webpack_require__(3).default;
+    var _typeof = __webpack_require__(4).default;
     var token = \\"%[a-f0-9]{2}\\";
     var singleMatcher = new RegExp(token, \\"gi\\");
     var multiMatcher = new RegExp(\\"(\\" + token + \\")+\\", \\"gi\\");
@@ -1941,7 +1921,7 @@ exports[`vue3 should build vue3 app 2`] = `
         return ret;
     };
 }, function(module, exports, __webpack_require__) {
-    var api = __webpack_require__(6);
+    var api = __webpack_require__(7);
     var content = __webpack_require__(26);
     content = content.__esModule ? content.default : content;
     if (typeof content === \\"string\\") {
@@ -1952,13 +1932,18 @@ exports[`vue3 should build vue3 app 2`] = `
     options.singleton = false;
     var update = api(content, options);
     module.exports = content.locals || {};
+}, function(module, __webpack_exports__, __webpack_require__) {
+    \\"use strict\\";
+    __webpack_require__.r(__webpack_exports__);
+    var _node_modules_pnpm_registry_npmjs_org_css_loader_5_2_7_webpack_4_46_0_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(2);
+    var _node_modules_pnpm_registry_npmjs_org_css_loader_5_2_7_webpack_4_46_0_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default = __webpack_require__.n(_node_modules_pnpm_registry_npmjs_org_css_loader_5_2_7_webpack_4_46_0_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__);
+    var ___CSS_LOADER_EXPORT___ = _node_modules_pnpm_registry_npmjs_org_css_loader_5_2_7_webpack_4_46_0_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()((function(i) {
+        return i[1];
+    }));
+    ___CSS_LOADER_EXPORT___.push([ module.i, \\"\\", \\"\\" ]);
+    __webpack_exports__[\\"default\\"] = ___CSS_LOADER_EXPORT___;
 }, function(module, exports, __webpack_require__) {
-    var ___CSS_LOADER_API_IMPORT___ = __webpack_require__(7);
-    exports = ___CSS_LOADER_API_IMPORT___(false);
-    exports.push([ module.i, \\"\\", \\"\\" ]);
-    module.exports = exports;
-}, function(module, exports, __webpack_require__) {
-    var api = __webpack_require__(6);
+    var api = __webpack_require__(7);
     var content = __webpack_require__(28);
     content = content.__esModule ? content.default : content;
     if (typeof content === \\"string\\") {
@@ -1982,14 +1967,249 @@ exports[`vue3 should build vue3 app 2`] = `
     options.singleton = false;
     var update = api(content, options);
     module.exports = content.locals || {};
-}, function(module, exports, __webpack_require__) {
-    var ___CSS_LOADER_API_IMPORT___ = __webpack_require__(7);
-    exports = ___CSS_LOADER_API_IMPORT___(false);
-    exports.push([ module.i, \\"\\", \\"\\" ]);
-    module.exports = exports;
 }, function(module, __webpack_exports__, __webpack_require__) {
     \\"use strict\\";
     __webpack_require__.r(__webpack_exports__);
+    var _node_modules_pnpm_registry_npmjs_org_css_loader_5_2_7_webpack_4_46_0_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(2);
+    var _node_modules_pnpm_registry_npmjs_org_css_loader_5_2_7_webpack_4_46_0_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default = __webpack_require__.n(_node_modules_pnpm_registry_npmjs_org_css_loader_5_2_7_webpack_4_46_0_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__);
+    var ___CSS_LOADER_EXPORT___ = _node_modules_pnpm_registry_npmjs_org_css_loader_5_2_7_webpack_4_46_0_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()((function(i) {
+        return i[1];
+    }));
+    ___CSS_LOADER_EXPORT___.push([ module.i, \\"\\", \\"\\" ]);
+    __webpack_exports__[\\"default\\"] = ___CSS_LOADER_EXPORT___;
+}, function(module, __webpack_exports__, __webpack_require__) {
+    \\"use strict\\";
+    __webpack_require__.r(__webpack_exports__);
+    var components_namespaceObject = {};
+    __webpack_require__.r(components_namespaceObject);
+    __webpack_require__.d(components_namespaceObject, \\"Ad\\", (function() {
+        return Ad;
+    }));
+    __webpack_require__.d(components_namespaceObject, \\"AdCustom\\", (function() {
+        return AdCustom;
+    }));
+    __webpack_require__.d(components_namespaceObject, \\"AnimationVideo\\", (function() {
+        return AnimationVideo;
+    }));
+    __webpack_require__.d(components_namespaceObject, \\"AnimationView\\", (function() {
+        return AnimationView;
+    }));
+    __webpack_require__.d(components_namespaceObject, \\"ArCamera\\", (function() {
+        return ArCamera;
+    }));
+    __webpack_require__.d(components_namespaceObject, \\"Audio\\", (function() {
+        return Audio;
+    }));
+    __webpack_require__.d(components_namespaceObject, \\"AwemeData\\", (function() {
+        return AwemeData;
+    }));
+    __webpack_require__.d(components_namespaceObject, \\"Block\\", (function() {
+        return Block;
+    }));
+    __webpack_require__.d(components_namespaceObject, \\"Button\\", (function() {
+        return Button;
+    }));
+    __webpack_require__.d(components_namespaceObject, \\"Camera\\", (function() {
+        return Camera;
+    }));
+    __webpack_require__.d(components_namespaceObject, \\"Canvas\\", (function() {
+        return Canvas;
+    }));
+    __webpack_require__.d(components_namespaceObject, \\"Checkbox\\", (function() {
+        return Checkbox;
+    }));
+    __webpack_require__.d(components_namespaceObject, \\"CheckboxGroup\\", (function() {
+        return CheckboxGroup;
+    }));
+    __webpack_require__.d(components_namespaceObject, \\"CommentDetail\\", (function() {
+        return CommentDetail;
+    }));
+    __webpack_require__.d(components_namespaceObject, \\"CommentList\\", (function() {
+        return CommentList;
+    }));
+    __webpack_require__.d(components_namespaceObject, \\"ContactButton\\", (function() {
+        return ContactButton;
+    }));
+    __webpack_require__.d(components_namespaceObject, \\"CoverImage\\", (function() {
+        return CoverImage;
+    }));
+    __webpack_require__.d(components_namespaceObject, \\"CoverView\\", (function() {
+        return CoverView;
+    }));
+    __webpack_require__.d(components_namespaceObject, \\"CustomWrapper\\", (function() {
+        return CustomWrapper;
+    }));
+    __webpack_require__.d(components_namespaceObject, \\"Editor\\", (function() {
+        return Editor;
+    }));
+    __webpack_require__.d(components_namespaceObject, \\"FollowSwan\\", (function() {
+        return FollowSwan;
+    }));
+    __webpack_require__.d(components_namespaceObject, \\"Form\\", (function() {
+        return Form;
+    }));
+    __webpack_require__.d(components_namespaceObject, \\"FunctionalPageNavigator\\", (function() {
+        return FunctionalPageNavigator;
+    }));
+    __webpack_require__.d(components_namespaceObject, \\"Icon\\", (function() {
+        return Icon;
+    }));
+    __webpack_require__.d(components_namespaceObject, \\"Image\\", (function() {
+        return Image;
+    }));
+    __webpack_require__.d(components_namespaceObject, \\"InlinePaymentPanel\\", (function() {
+        return InlinePaymentPanel;
+    }));
+    __webpack_require__.d(components_namespaceObject, \\"Input\\", (function() {
+        return Input;
+    }));
+    __webpack_require__.d(components_namespaceObject, \\"KeyboardAccessory\\", (function() {
+        return KeyboardAccessory;
+    }));
+    __webpack_require__.d(components_namespaceObject, \\"Label\\", (function() {
+        return Label;
+    }));
+    __webpack_require__.d(components_namespaceObject, \\"Lifestyle\\", (function() {
+        return Lifestyle;
+    }));
+    __webpack_require__.d(components_namespaceObject, \\"Like\\", (function() {
+        return Like;
+    }));
+    __webpack_require__.d(components_namespaceObject, \\"LivePlayer\\", (function() {
+        return LivePlayer;
+    }));
+    __webpack_require__.d(components_namespaceObject, \\"LivePusher\\", (function() {
+        return LivePusher;
+    }));
+    __webpack_require__.d(components_namespaceObject, \\"Login\\", (function() {
+        return Login;
+    }));
+    __webpack_require__.d(components_namespaceObject, \\"Lottie\\", (function() {
+        return Lottie;
+    }));
+    __webpack_require__.d(components_namespaceObject, \\"Map\\", (function() {
+        return components_Map;
+    }));
+    __webpack_require__.d(components_namespaceObject, \\"MatchMedia\\", (function() {
+        return MatchMedia;
+    }));
+    __webpack_require__.d(components_namespaceObject, \\"MovableArea\\", (function() {
+        return MovableArea;
+    }));
+    __webpack_require__.d(components_namespaceObject, \\"MovableView\\", (function() {
+        return MovableView;
+    }));
+    __webpack_require__.d(components_namespaceObject, \\"NativeSlot\\", (function() {
+        return NativeSlot;
+    }));
+    __webpack_require__.d(components_namespaceObject, \\"NavigationBar\\", (function() {
+        return NavigationBar;
+    }));
+    __webpack_require__.d(components_namespaceObject, \\"Navigator\\", (function() {
+        return Navigator;
+    }));
+    __webpack_require__.d(components_namespaceObject, \\"OfficialAccount\\", (function() {
+        return OfficialAccount;
+    }));
+    __webpack_require__.d(components_namespaceObject, \\"OpenData\\", (function() {
+        return OpenData;
+    }));
+    __webpack_require__.d(components_namespaceObject, \\"PageContainer\\", (function() {
+        return PageContainer;
+    }));
+    __webpack_require__.d(components_namespaceObject, \\"PageMeta\\", (function() {
+        return PageMeta;
+    }));
+    __webpack_require__.d(components_namespaceObject, \\"Picker\\", (function() {
+        return Picker;
+    }));
+    __webpack_require__.d(components_namespaceObject, \\"PickerGroup\\", (function() {
+        return PickerGroup;
+    }));
+    __webpack_require__.d(components_namespaceObject, \\"PickerViewColumn\\", (function() {
+        return PickerViewColumn;
+    }));
+    __webpack_require__.d(components_namespaceObject, \\"PickerView\\", (function() {
+        return PickerView;
+    }));
+    __webpack_require__.d(components_namespaceObject, \\"Progress\\", (function() {
+        return Progress;
+    }));
+    __webpack_require__.d(components_namespaceObject, \\"PullToRefresh\\", (function() {
+        return PullToRefresh;
+    }));
+    __webpack_require__.d(components_namespaceObject, \\"Radio\\", (function() {
+        return Radio;
+    }));
+    __webpack_require__.d(components_namespaceObject, \\"RadioGroup\\", (function() {
+        return RadioGroup;
+    }));
+    __webpack_require__.d(components_namespaceObject, \\"RichText\\", (function() {
+        return RichText;
+    }));
+    __webpack_require__.d(components_namespaceObject, \\"RootPortal\\", (function() {
+        return RootPortal;
+    }));
+    __webpack_require__.d(components_namespaceObject, \\"RtcRoom\\", (function() {
+        return RtcRoom;
+    }));
+    __webpack_require__.d(components_namespaceObject, \\"RtcRoomItem\\", (function() {
+        return RtcRoomItem;
+    }));
+    __webpack_require__.d(components_namespaceObject, \\"ScrollView\\", (function() {
+        return ScrollView;
+    }));
+    __webpack_require__.d(components_namespaceObject, \\"ShareElement\\", (function() {
+        return ShareElement;
+    }));
+    __webpack_require__.d(components_namespaceObject, \\"Slider\\", (function() {
+        return Slider;
+    }));
+    __webpack_require__.d(components_namespaceObject, \\"Slot\\", (function() {
+        return Slot;
+    }));
+    __webpack_require__.d(components_namespaceObject, \\"Swiper\\", (function() {
+        return Swiper;
+    }));
+    __webpack_require__.d(components_namespaceObject, \\"SwiperItem\\", (function() {
+        return SwiperItem;
+    }));
+    __webpack_require__.d(components_namespaceObject, \\"Switch\\", (function() {
+        return Switch;
+    }));
+    __webpack_require__.d(components_namespaceObject, \\"TabItem\\", (function() {
+        return TabItem;
+    }));
+    __webpack_require__.d(components_namespaceObject, \\"Tabbar\\", (function() {
+        return Tabbar;
+    }));
+    __webpack_require__.d(components_namespaceObject, \\"Tabs\\", (function() {
+        return Tabs;
+    }));
+    __webpack_require__.d(components_namespaceObject, \\"Text\\", (function() {
+        return Text;
+    }));
+    __webpack_require__.d(components_namespaceObject, \\"Textarea\\", (function() {
+        return Textarea;
+    }));
+    __webpack_require__.d(components_namespaceObject, \\"VideoControl\\", (function() {
+        return VideoControl;
+    }));
+    __webpack_require__.d(components_namespaceObject, \\"Video\\", (function() {
+        return Video;
+    }));
+    __webpack_require__.d(components_namespaceObject, \\"VideoDanmu\\", (function() {
+        return VideoDanmu;
+    }));
+    __webpack_require__.d(components_namespaceObject, \\"View\\", (function() {
+        return View;
+    }));
+    __webpack_require__.d(components_namespaceObject, \\"VoipRoom\\", (function() {
+        return VoipRoom;
+    }));
+    __webpack_require__.d(components_namespaceObject, \\"WebView\\", (function() {
+        return WebView;
+    }));
     function initPxTransform() {}
     function _typeof(obj) {
         \\"@babel/helpers - typeof\\";
@@ -2902,6 +3122,39 @@ exports[`vue3 should build vue3 app 2`] = `
     function _toConsumableArray(arr) {
         return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread();
     }
+    function _arrayWithHoles(arr) {
+        if (Array.isArray(arr)) return arr;
+    }
+    function _iterableToArrayLimit(arr, i) {
+        var _i = arr == null ? null : typeof Symbol !== \\"undefined\\" && arr[Symbol.iterator] || arr[\\"@@iterator\\"];
+        if (_i == null) return;
+        var _arr = [];
+        var _n = true;
+        var _d = false;
+        var _s, _e;
+        try {
+            for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) {
+                _arr.push(_s.value);
+                if (i && _arr.length === i) break;
+            }
+        } catch (err) {
+            _d = true;
+            _e = err;
+        } finally {
+            try {
+                if (!_n && _i[\\"return\\"] != null) _i[\\"return\\"]();
+            } finally {
+                if (_d) throw _e;
+            }
+        }
+        return _arr;
+    }
+    function _nonIterableRest() {
+        throw new TypeError(\\"Invalid attempt to destructure non-iterable instance.\\\\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.\\");
+    }
+    function _slicedToArray(arr, i) {
+        return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest();
+    }
     var addLeadingSlash = function addLeadingSlash() {
         var url = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : \\"\\";
         return url.charAt(0) === \\"/\\" ? url : \\"/\\" + url;
@@ -2924,6 +3177,19 @@ exports[`vue3 should build vue3 app 2`] = `
         var path = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : \\"\\";
         var suffix = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : \\"\\";
         return path.includes(suffix) ? path.substring(0, path.length - suffix.length) : path;
+    };
+    var utils_getHomePage = function getHomePage() {
+        var path = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : \\"\\";
+        var basename = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : \\"\\";
+        var customRoutes = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
+        var entryPagePath = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : \\"\\";
+        var _a;
+        var routePath = addLeadingSlash(stripBasename(path, basename));
+        var alias = ((_a = Object.entries(customRoutes).find((function(_ref) {
+            var _ref2 = _slicedToArray(_ref, 1), key = _ref2[0];
+            return key === routePath;
+        }))) === null || _a === void 0 ? void 0 : _a[1]) || routePath;
+        return entryPagePath || (typeof alias === \\"string\\" ? alias : alias[0]) || basename;
     };
     var utils_RoutesAlias = function() {
         function RoutesAlias() {
@@ -3155,6 +3421,8 @@ exports[`vue3 should build vue3 app 2`] = `
             _classCallCheck(this, Stacks);
             this.stacks = [];
             this.backDelta = 0;
+            this.tabs = {};
+            this.methodName = \\"\\";
         }
         _createClass(Stacks, [ {
             \\"key\\": \\"delta\\",
@@ -3169,6 +3437,14 @@ exports[`vue3 should build vue3 app 2`] = `
                 } else {
                     this.backDelta = 0;
                 }
+            }
+        }, {
+            \\"key\\": \\"method\\",
+            \\"get\\": function get() {
+                return this.methodName;
+            },
+            \\"set\\": function set(methodName) {
+                this.methodName = methodName;
             }
         }, {
             \\"key\\": \\"length\\",
@@ -3229,6 +3505,28 @@ exports[`vue3 should build vue3 app 2`] = `
             \\"value\\": function push(page) {
                 return this.stacks.push(page);
             }
+        }, {
+            \\"key\\": \\"getTabs\\",
+            \\"value\\": function getTabs() {
+                return this.tabs;
+            }
+        }, {
+            \\"key\\": \\"pushTab\\",
+            \\"value\\": function pushTab(path) {
+                this.tabs[path] = this.last;
+                this.pop();
+            }
+        }, {
+            \\"key\\": \\"popTab\\",
+            \\"value\\": function popTab(path) {
+                this.push(this.tabs[path]);
+                delete this.tabs[path];
+            }
+        }, {
+            \\"key\\": \\"removeTab\\",
+            \\"value\\": function removeTab(path) {
+                delete this.tabs[path];
+            }
         } ]);
         return Stacks;
     }();
@@ -3287,6 +3585,7 @@ exports[`vue3 should build vue3 app 2`] = `
                     switch (_context.prev = _context.next) {
                       case 0:
                         return _context.abrupt(\\"return\\", new Promise((function(resolve, reject) {
+                            stack.method = method;
                             var success = option.success, complete = option.complete, fail = option.fail;
                             var unListen = history_history.listen((function() {
                                 var res = {
@@ -3441,39 +3740,6 @@ exports[`vue3 should build vue3 app 2`] = `
         var md = getMobileDetect();
         return md.match(/DingTalk/gi);
     }
-    function _arrayWithHoles(arr) {
-        if (Array.isArray(arr)) return arr;
-    }
-    function _iterableToArrayLimit(arr, i) {
-        var _i = arr == null ? null : typeof Symbol !== \\"undefined\\" && arr[Symbol.iterator] || arr[\\"@@iterator\\"];
-        if (_i == null) return;
-        var _arr = [];
-        var _n = true;
-        var _d = false;
-        var _s, _e;
-        try {
-            for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) {
-                _arr.push(_s.value);
-                if (i && _arr.length === i) break;
-            }
-        } catch (err) {
-            _d = true;
-            _e = err;
-        } finally {
-            try {
-                if (!_n && _i[\\"return\\"] != null) _i[\\"return\\"]();
-            } finally {
-                if (_d) throw _e;
-            }
-        }
-        return _arr;
-    }
-    function _nonIterableRest() {
-        throw new TypeError(\\"Invalid attempt to destructure non-iterable instance.\\\\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.\\");
-    }
-    function _slicedToArray(arr, i) {
-        return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest();
-    }
     var query_string = __webpack_require__(1);
     var query_string_default = __webpack_require__.n(query_string);
     var pageResizeFn;
@@ -3553,7 +3819,7 @@ exports[`vue3 should build vue3 app 2`] = `
         _createClass(MultiPageHandler, [ {
             \\"key\\": \\"appId\\",
             \\"get\\": function get() {
-                return \\"app\\";
+                return this.config.appId || \\"app\\";
             }
         }, {
             \\"key\\": \\"router\\",
@@ -3634,11 +3900,13 @@ exports[`vue3 should build vue3 app 2`] = `
         }, {
             \\"key\\": \\"mount\\",
             \\"value\\": function mount() {
-                var _a;
                 setHistoryMode(this.routerMode, this.router.basename);
-                (_a = document.getElementById(\\"app\\")) === null || _a === void 0 ? void 0 : _a.remove();
-                var app = document.createElement(\\"div\\");
-                app.id = this.appId;
+                var appId = this.appId;
+                var app = document.getElementById(appId);
+                if (!app) {
+                    app = document.createElement(\\"div\\");
+                    app.id = appId;
+                }
                 app.classList.add(\\"taro_router\\");
                 if (this.tabBarList.length > 1) {
                     var container = document.createElement(\\"div\\");
@@ -3736,6 +4004,8 @@ exports[`vue3 should build vue3 app 2`] = `
             step((generator = generator.apply(thisArg, _arguments || [])).next());
         }));
     };
+    var createStampId = undefined();
+    var launchStampId = createStampId();
     function createMultiRouter(app, config, framework) {
         var _a, _b, _c, _d, _e, _f;
         return mpa_awaiter(this, void 0, void 0, _regeneratorRuntime().mark((function _callee() {
@@ -3748,7 +4018,7 @@ exports[`vue3 should build vue3 app 2`] = `
                         handler = new multi_page_MultiPageHandler(config);
                         launchParam = {
                             \\"path\\": config.pageName,
-                            \\"query\\": handler.getQuery(),
+                            \\"query\\": handler.getQuery(launchStampId),
                             \\"scene\\": 0,
                             \\"shareTicket\\": \\"\\",
                             \\"referrerInfo\\": {}
@@ -3814,7 +4084,7 @@ exports[`vue3 should build vue3 app 2`] = `
             }), _callee, null, [ [ 9, 16 ] ]);
         })));
     }
-    var path_to_regexp = __webpack_require__(4);
+    var path_to_regexp = __webpack_require__(5);
     var path_to_regexp_default = __webpack_require__.n(path_to_regexp);
     var module_hasOwnProperty = Object.prototype.hasOwnProperty;
     var cache = new Map;
@@ -4022,13 +4292,13 @@ exports[`vue3 should build vue3 app 2`] = `
                 \\"delay\\": 50
             };
             this.config = config;
-            this.homePage = this.getHomePage();
+            this.homePage = utils_getHomePage(this.routes[0].path, this.basename, this.customRoutes, this.config.entryPagePath);
             this.mount();
         }
         _createClass(PageHandler, [ {
             \\"key\\": \\"appId\\",
             \\"get\\": function get() {
-                return \\"app\\";
+                return this.config.appId || \\"app\\";
             }
         }, {
             \\"key\\": \\"router\\",
@@ -4105,9 +4375,9 @@ exports[`vue3 should build vue3 app 2`] = `
             }
         }, {
             \\"key\\": \\"isTabBar\\",
-            \\"get\\": function get() {
+            \\"value\\": function isTabBar(pathname) {
                 var _a;
-                var routePath = addLeadingSlash(stripBasename(this.pathname, this.basename));
+                var routePath = addLeadingSlash(stripBasename(pathname, this.basename)).split(\\"?\\")[0];
                 var pagePath = ((_a = Object.entries(this.customRoutes).find((function(_ref) {
                     var _ref2 = _slicedToArray(_ref, 2), target = _ref2[1];
                     if (typeof target === \\"string\\") {
@@ -4120,17 +4390,6 @@ exports[`vue3 should build vue3 app 2`] = `
                 return !!pagePath && this.tabBarList.some((function(t) {
                     return stripTrailing(t.pagePath) === pagePath;
                 }));
-            }
-        }, {
-            \\"key\\": \\"getHomePage\\",
-            \\"value\\": function getHomePage() {
-                var _a;
-                var routePath = addLeadingSlash(stripBasename(this.routes[0].path, this.basename));
-                var alias = ((_a = Object.entries(this.customRoutes).find((function(_ref3) {
-                    var _ref4 = _slicedToArray(_ref3, 1), key = _ref4[0];
-                    return key === routePath;
-                }))) === null || _a === void 0 ? void 0 : _a[1]) || routePath;
-                return this.config.entryPagePath || (typeof alias === \\"string\\" ? alias : alias[0]) || this.basename;
             }
         }, {
             \\"key\\": \\"isSamePage\\",
@@ -4156,25 +4415,27 @@ exports[`vue3 should build vue3 app 2`] = `
         }, {
             \\"key\\": \\"getQuery\\",
             \\"value\\": function getQuery() {
-                var stamp = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
+                var stamp = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : \\"\\";
                 var search = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : \\"\\";
                 var options = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
                 search = search ? \\"\\".concat(search, \\"&\\").concat(this.search) : this.search;
                 var query = search ? query_string_default.a.parse(search, {
                     \\"decode\\": false
                 }) : {};
-                query.stamp = stamp.toString();
+                query.stamp = stamp;
                 return Object.assign(Object.assign({}, query), options);
             }
         }, {
             \\"key\\": \\"mount\\",
             \\"value\\": function mount() {
-                var _a;
                 setHistoryMode(this.routerMode, this.router.basename);
-                (_a = document.getElementById(\\"app\\")) === null || _a === void 0 ? void 0 : _a.remove();
                 this.animation && loadAnimateStyle(this.animationDuration);
-                var app = document.createElement(\\"div\\");
-                app.id = this.appId;
+                var appId = this.appId;
+                var app = document.getElementById(appId);
+                if (!app) {
+                    app = document.createElement(\\"div\\");
+                    app.id = appId;
+                }
                 app.classList.add(\\"taro_router\\");
                 if (this.tabBarList.length > 1) {
                     var container = document.createElement(\\"div\\");
@@ -4213,24 +4474,25 @@ exports[`vue3 should build vue3 app 2`] = `
             \\"value\\": function load(page) {
                 var _this = this;
                 var pageConfig = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
-                var stacksIndex = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 0;
+                var stampId = arguments.length > 2 ? arguments[2] : undefined;
+                var pageNo = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 0;
                 var _a, _b;
                 if (!page) return;
                 stack.push(page);
-                var param = this.getQuery(stack.length, \\"\\", page.options);
+                var param = this.getQuery(stampId, \\"\\", page.options);
                 var pageEl = this.getPageContainer(page);
                 if (pageEl) {
                     setDisplay(pageEl);
-                    this.isTabBar && pageEl.classList.add(\\"taro_tabbar_page\\");
-                    this.addAnimation(pageEl, stacksIndex === 0);
+                    this.isTabBar(this.pathname) && pageEl.classList.add(\\"taro_tabbar_page\\");
+                    this.addAnimation(pageEl, pageNo === 0);
                     (_a = page.onShow) === null || _a === void 0 ? void 0 : _a.call(page);
                     this.bindPageEvents(page, pageEl, pageConfig);
                 } else {
                     (_b = page.onLoad) === null || _b === void 0 ? void 0 : _b.call(page, param, (function() {
                         var _a;
                         pageEl = _this.getPageContainer(page);
-                        _this.isTabBar && (pageEl === null || pageEl === void 0 ? void 0 : pageEl.classList.add(\\"taro_tabbar_page\\"));
-                        _this.addAnimation(pageEl, stacksIndex === 0);
+                        _this.isTabBar(_this.pathname) && (pageEl === null || pageEl === void 0 ? void 0 : pageEl.classList.add(\\"taro_tabbar_page\\"));
+                        _this.addAnimation(pageEl, pageNo === 0);
                         _this.onReady(page, true);
                         (_a = page.onShow) === null || _a === void 0 ? void 0 : _a.call(page);
                         _this.bindPageEvents(page, pageEl, pageConfig);
@@ -4275,21 +4537,21 @@ exports[`vue3 should build vue3 app 2`] = `
             \\"value\\": function show(page) {
                 var _this3 = this;
                 var pageConfig = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
-                var stacksIndex = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 0;
+                var pageNo = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 0;
                 var _a, _b;
                 if (!page) return;
-                var param = this.getQuery(stack.length, \\"\\", page.options);
+                var param = this.getQuery(page[\\"$taroParams\\"][\\"stamp\\"], \\"\\", page.options);
                 var pageEl = this.getPageContainer(page);
                 if (pageEl) {
                     setDisplay(pageEl);
-                    this.addAnimation(pageEl, stacksIndex === 0);
+                    this.addAnimation(pageEl, pageNo === 0);
                     (_a = page.onShow) === null || _a === void 0 ? void 0 : _a.call(page);
                     this.bindPageEvents(page, pageEl, pageConfig);
                 } else {
                     (_b = page.onLoad) === null || _b === void 0 ? void 0 : _b.call(page, param, (function() {
                         var _a;
                         pageEl = _this3.getPageContainer(page);
-                        _this3.addAnimation(pageEl, stacksIndex === 0);
+                        _this3.addAnimation(pageEl, pageNo === 0);
                         _this3.onReady(page, false);
                         (_a = page.onShow) === null || _a === void 0 ? void 0 : _a.call(page);
                         _this3.bindPageEvents(page, pageEl, pageConfig);
@@ -4393,6 +4655,8 @@ exports[`vue3 should build vue3 app 2`] = `
             step((generator = generator.apply(thisArg, _arguments || [])).next());
         }));
     };
+    var spa_createStampId = undefined();
+    var spa_launchStampId = spa_createStampId();
     function createRouter(app, config, framework) {
         var _this = this;
         var _a, _b;
@@ -4413,7 +4677,7 @@ exports[`vue3 should build vue3 app 2`] = `
         });
         var launchParam = {
             \\"path\\": handler.homePage,
-            \\"query\\": handler.getQuery(stack.length),
+            \\"query\\": handler.getQuery(spa_launchStampId),
             \\"scene\\": 0,
             \\"shareTicket\\": \\"\\",
             \\"referrerInfo\\": {}
@@ -4427,7 +4691,7 @@ exports[`vue3 should build vue3 app 2`] = `
         var render = function render(_ref) {
             var location = _ref.location, action = _ref.action;
             return spa_awaiter(_this, void 0, void 0, _regeneratorRuntime().mark((function _callee() {
-                var _c, _d, _e, _f, _g, element, params, result, _yield$Promise$all, _yield$Promise$all2, pageConfig, enablePullDownRefresh, currentPage, pathname, shouldLoad, prevIndex, delta, _prevIndex, _delta, el, loadConfig, stacksIndex, page;
+                var _c, _d, _e, _f, _g, _h, element, params, result, _yield$Promise$all, _yield$Promise$all2, pageConfig, enablePullDownRefresh, currentPage, pathname, methodName, cacheTabs, shouldLoad, key, firstIns, prevIndex, delta, _delta, el, loadConfig, stacksIndex, pageStampId, page;
                 return _regeneratorRuntime().wrap((function _callee$(_context) {
                     while (1) {
                         switch (_context.prev = _context.next) {
@@ -4499,74 +4763,107 @@ exports[`vue3 should build vue3 app 2`] = `
                             }
                             currentPage = undefined.page;
                             pathname = handler.pathname;
+                            methodName = (_g = stack.method) !== null && _g !== void 0 ? _g : \\"\\";
+                            cacheTabs = stack.getTabs();
                             shouldLoad = false;
-                            if (!(action === \\"POP\\")) {
-                                _context.next = 39;
+                            stack.method = \\"\\";
+                            if (!(methodName === \\"reLaunch\\")) {
+                                _context.next = 42;
                                 break;
                             }
-                            prevIndex = stack.getPrevIndex(pathname);
-                            delta = stack.getDelta(pathname);
-                            if (currentPage !== stack.getItem(prevIndex)) {
-                                handler.unload(currentPage, delta, prevIndex > -1);
-                                if (prevIndex > -1) {
-                                    handler.show(stack.getItem(prevIndex), pageConfig, prevIndex);
-                                } else {
-                                    shouldLoad = true;
+                            handler.unload(currentPage, stack.length);
+                            for (key in cacheTabs) {
+                                if (cacheTabs[key]) {
+                                    handler.unload(cacheTabs[key]);
+                                    stack.removeTab(key);
                                 }
                             }
-                            _context.next = 50;
+                            shouldLoad = true;
+                            _context.next = 53;
                             break;
 
-                          case 39:
-                            if (!handler.isTabBar) {
-                                _context.next = 48;
+                          case 42:
+                            if (!(currentPage && handler.isTabBar(handler.pathname))) {
+                                _context.next = 52;
                                 break;
                             }
                             if (!handler.isSamePage(currentPage)) {
-                                _context.next = 42;
+                                _context.next = 45;
                                 break;
                             }
                             return _context.abrupt(\\"return\\");
 
-                          case 42:
-                            _prevIndex = stack.getPrevIndex(pathname, 0);
-                            handler.hide(currentPage);
-                            if (!(_prevIndex > -1)) {
-                                _context.next = 46;
+                          case 45:
+                            if (handler.isTabBar(currentPage.path)) {
+                                handler.hide(currentPage);
+                                stack.pushTab(currentPage.path.split(\\"?\\")[0]);
+                            } else if (stack.length > 0) {
+                                firstIns = stack.getItem(0);
+                                if (handler.isTabBar(firstIns.path)) {
+                                    handler.unload(currentPage, stack.length - 1);
+                                    stack.pushTab(firstIns.path.split(\\"?\\")[0]);
+                                } else {
+                                    handler.unload(currentPage, stack.length);
+                                }
+                            }
+                            if (!cacheTabs[handler.pathname]) {
+                                _context.next = 49;
                                 break;
                             }
-                            return _context.abrupt(\\"return\\", handler.show(stack.getItem(_prevIndex), pageConfig, _prevIndex));
-
-                          case 46:
-                            _context.next = 49;
-                            break;
-
-                          case 48:
-                            if (action === \\"REPLACE\\") {
-                                _delta = stack.getDelta(pathname);
-                                handler.unload(currentPage, _delta);
-                            } else if (action === \\"PUSH\\") {
-                                handler.hide(currentPage);
-                            }
+                            stack.popTab(handler.pathname);
+                            return _context.abrupt(\\"return\\", handler.show(stack.getItem(0), pageConfig, 0));
 
                           case 49:
                             shouldLoad = true;
+                            _context.next = 53;
+                            break;
 
-                          case 50:
-                            if (!(shouldLoad || stack.length < 1)) {
-                                _context.next = 59;
-                                break;
+                          case 52:
+                            if (action === \\"POP\\") {
+                                prevIndex = stack.getPrevIndex(pathname);
+                                delta = stack.getDelta(pathname);
+                                if (currentPage !== stack.getItem(prevIndex)) {
+                                    handler.unload(currentPage, delta, prevIndex > -1);
+                                    if (prevIndex > -1) {
+                                        handler.show(stack.getItem(prevIndex), pageConfig, prevIndex);
+                                    } else {
+                                        shouldLoad = true;
+                                    }
+                                }
+                            } else if (action === \\"REPLACE\\") {
+                                _delta = stack.getDelta(pathname);
+                                handler.unload(currentPage, _delta);
+                                shouldLoad = true;
+                            } else if (action === \\"PUSH\\") {
+                                handler.hide(currentPage);
+                                shouldLoad = true;
                             }
-                            el = (_g = element.default) !== null && _g !== void 0 ? _g : element;
-                            loadConfig = Object.assign({}, pageConfig);
-                            stacksIndex = stack.length;
-                            delete loadConfig[\\"path\\"];
-                            delete loadConfig[\\"load\\"];
-                            page = undefined(enablePullDownRefresh ? undefined.call(\\"createPullDownComponent\\", el, location.pathname, framework, handler.PullDownRefresh) : el, pathname + undefined(handler.getQuery(stacksIndex)), {}, loadConfig);
-                            if (params) page.options = params;
-                            return _context.abrupt(\\"return\\", handler.load(page, pageConfig, stacksIndex));
 
-                          case 59:
+                          case 53:
+                            if (shouldLoad || stack.length < 1) {
+                                el = (_h = element.default) !== null && _h !== void 0 ? _h : element;
+                                loadConfig = Object.assign({}, pageConfig);
+                                stacksIndex = stack.length;
+                                delete loadConfig[\\"path\\"];
+                                delete loadConfig[\\"load\\"];
+                                pageStampId = \\"\\";
+                                if (spa_launchStampId) {
+                                    pageStampId = spa_launchStampId;
+                                    spa_launchStampId = \\"\\";
+                                } else {
+                                    pageStampId = spa_createStampId();
+                                }
+                                page = undefined(enablePullDownRefresh ? undefined.call(\\"createPullDownComponent\\", el, location.pathname, framework, handler.PullDownRefresh) : el, pathname + undefined(handler.getQuery(pageStampId)), {}, loadConfig);
+                                if (params) page.options = params;
+                                handler.load(page, pageConfig, pageStampId, stacksIndex);
+                            }
+                            undefined.trigger(\\"__afterTaroRouterChange\\", {
+                                \\"toLocation\\": {
+                                    \\"path\\": handler.pathname
+                                }
+                            });
+
+                          case 55:
                           case \\"end\\":
                             return _context.stop();
                         }
@@ -4599,6 +4896,243 @@ exports[`vue3 should build vue3 app 2`] = `
     function applyPolyfills() {}
     function initVue3Components() {}
     var mocks_taro_components = __webpack_require__(27);
+    function _defineProperty(obj, key, value) {
+        if (key in obj) {
+            Object.defineProperty(obj, key, {
+                \\"value\\": value,
+                \\"enumerable\\": true,
+                \\"configurable\\": true,
+                \\"writable\\": true
+            });
+        } else {
+            obj[key] = value;
+        }
+        return obj;
+    }
+    function ownKeys(object, enumerableOnly) {
+        var keys = Object.keys(object);
+        if (Object.getOwnPropertySymbols) {
+            var symbols = Object.getOwnPropertySymbols(object);
+            enumerableOnly && (symbols = symbols.filter((function(sym) {
+                return Object.getOwnPropertyDescriptor(object, sym).enumerable;
+            }))), keys.push.apply(keys, symbols);
+        }
+        return keys;
+    }
+    function _objectSpread2(target) {
+        for (var i = 1; i < arguments.length; i++) {
+            var source = null != arguments[i] ? arguments[i] : {};
+            i % 2 ? ownKeys(Object(source), !0).forEach((function(key) {
+                _defineProperty(target, key, source[key]);
+            })) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach((function(key) {
+                Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));
+            }));
+        }
+        return target;
+    }
+    var UPDATE_VALUE_EVENT = \\"update:modelValue\\";
+    var MODEL_VALUE = \\"modelValue\\";
+    var ROUTER_LINK_VALUE = \\"routerLink\\";
+    var NAV_MANAGER = \\"navManager\\";
+    var ROUTER_PROP_PREFIX = \\"router\\";
+    var EMPTY_PROP = Symbol();
+    var DEFAULT_EMPTY_PROP = {
+        \\"default\\": EMPTY_PROP
+    };
+    var getComponentClasses = function getComponentClasses(classes) {
+        return (classes === null || classes === void 0 ? void 0 : classes.split(\\" \\")) || [];
+    };
+    var utils_getElementClasses = function getElementClasses(ref, componentClasses) {
+        var _ref$value;
+        var defaultClasses = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : [];
+        return [].concat(_toConsumableArray(Array.from(((_ref$value = ref.value) === null || _ref$value === void 0 ? void 0 : _ref$value.classList) || [])), _toConsumableArray(defaultClasses)).filter((function(c, i, self) {
+            return !componentClasses.has(c) && self.indexOf(c) === i;
+        }));
+    };
+    var utils_defineContainer = function defineContainer(name, defineCustomElement) {
+        var componentProps = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : [];
+        var modelProp = arguments.length > 3 ? arguments[3] : undefined;
+        var modelUpdateEvent = arguments.length > 4 ? arguments[4] : undefined;
+        var externalModelUpdateEvent = arguments.length > 5 ? arguments[5] : undefined;
+        if (defineCustomElement !== undefined) {
+            defineCustomElement();
+        }
+        var Container = Object(vue[\\"defineComponent\\"])((function(props, _ref) {
+            var _currentInstance$appC;
+            var attrs = _ref.attrs, slots = _ref.slots, emit = _ref.emit;
+            var modelPropValue = props[modelProp];
+            var containerRef = Object(vue[\\"ref\\"])();
+            var classes = new Set(getComponentClasses(attrs.class));
+            var onVnodeBeforeMount = function onVnodeBeforeMount(vnode) {
+                if (vnode.el) {
+                    var eventsNames = Array.isArray(modelUpdateEvent) ? modelUpdateEvent : [ modelUpdateEvent ];
+                    eventsNames.forEach((function(eventName) {
+                        vnode.el.addEventListener(eventName.toLowerCase(), (function(e) {
+                            modelPropValue = (e === null || e === void 0 ? void 0 : e.target)[modelProp];
+                            emit(UPDATE_VALUE_EVENT, modelPropValue);
+                            if (externalModelUpdateEvent) {
+                                emit(externalModelUpdateEvent, e);
+                            }
+                        }));
+                    }));
+                }
+            };
+            var currentInstance = Object(vue[\\"getCurrentInstance\\"])();
+            var hasRouter = currentInstance === null || currentInstance === void 0 ? void 0 : (_currentInstance$appC = currentInstance.appContext) === null || _currentInstance$appC === void 0 ? void 0 : _currentInstance$appC.provides[NAV_MANAGER];
+            var navManager = hasRouter ? Object(vue[\\"inject\\"])(NAV_MANAGER) : undefined;
+            var handleRouterLink = function handleRouterLink(ev) {
+                var routerLink = props.routerLink;
+                if (routerLink === EMPTY_PROP) return;
+                if (navManager !== undefined) {
+                    var navigationPayload = {
+                        \\"event\\": ev
+                    };
+                    for (var key in props) {
+                        var value = props[key];
+                        if (props.hasOwnProperty(key) && key.startsWith(ROUTER_PROP_PREFIX) && value !== EMPTY_PROP) {
+                            navigationPayload[key] = value;
+                        }
+                    }
+                    navManager.navigate(navigationPayload);
+                } else {
+                    console.warn(\\"Tried to navigate, but no router was found. Make sure you have mounted Vue Router.\\");
+                }
+            };
+            return function() {
+                modelPropValue = props[modelProp];
+                getComponentClasses(attrs.class).forEach((function(value) {
+                    classes.add(value);
+                }));
+                var oldClick = props.onClick;
+                var handleClick = function handleClick(ev) {
+                    if (oldClick !== undefined) {
+                        oldClick(ev);
+                    }
+                    if (!ev.defaultPrevented) {
+                        handleRouterLink(ev);
+                    }
+                };
+                var propsToAdd = {
+                    \\"ref\\": containerRef,
+                    \\"class\\": utils_getElementClasses(containerRef, classes),
+                    \\"onClick\\": handleClick,
+                    \\"onVnodeBeforeMount\\": modelUpdateEvent ? onVnodeBeforeMount : undefined
+                };
+                for (var key in props) {
+                    var value = props[key];
+                    if (props.hasOwnProperty(key) && value !== EMPTY_PROP) {
+                        propsToAdd[key] = value;
+                    }
+                }
+                if (modelProp) {
+                    if (props[MODEL_VALUE] !== EMPTY_PROP) {
+                        propsToAdd = _objectSpread2(_objectSpread2({}, propsToAdd), {}, _defineProperty({}, modelProp, props[MODEL_VALUE]));
+                    } else if (modelPropValue !== EMPTY_PROP) {
+                        propsToAdd = _objectSpread2(_objectSpread2({}, propsToAdd), {}, _defineProperty({}, modelProp, modelPropValue));
+                    }
+                }
+                return Object(vue[\\"h\\"])(name, propsToAdd, slots.default && slots.default());
+            };
+        }));
+        Container.displayName = name;
+        Container.props = _defineProperty({}, ROUTER_LINK_VALUE, DEFAULT_EMPTY_PROP);
+        componentProps.forEach((function(componentProp) {
+            Container.props[componentProp] = DEFAULT_EMPTY_PROP;
+        }));
+        if (modelProp) {
+            Container.props[MODEL_VALUE] = DEFAULT_EMPTY_PROP;
+            Container.emits = [ UPDATE_VALUE_EVENT, externalModelUpdateEvent ];
+        }
+        return Container;
+    };
+    var Ad = utils_defineContainer(\\"taro-ad-core\\", undefined);
+    var AdCustom = utils_defineContainer(\\"taro-ad-custom-core\\", undefined);
+    var AnimationVideo = utils_defineContainer(\\"taro-animation-video-core\\", undefined);
+    var AnimationView = utils_defineContainer(\\"taro-animation-view-core\\", undefined);
+    var ArCamera = utils_defineContainer(\\"taro-ar-camera-core\\", undefined);
+    var Audio = utils_defineContainer(\\"taro-audio-core\\", undefined, [ \\"src\\", \\"controls\\", \\"autoplay\\", \\"loop\\", \\"muted\\", \\"nativeProps\\", \\"error\\", \\"play\\", \\"pause\\", \\"timeupdate\\", \\"ended\\" ]);
+    var AwemeData = utils_defineContainer(\\"taro-aweme-data-core\\", undefined);
+    var Block = utils_defineContainer(\\"taro-block-core\\", undefined);
+    var Button = utils_defineContainer(\\"taro-button-core\\", undefined, [ \\"disabled\\", \\"hoverClass\\", \\"type\\", \\"hoverStartTime\\", \\"hoverStayTime\\", \\"size\\", \\"plain\\", \\"loading\\", \\"formType\\", \\"tarobuttonsubmit\\", \\"tarobuttonreset\\" ]);
+    var Camera = utils_defineContainer(\\"taro-camera-core\\", undefined);
+    var Canvas = utils_defineContainer(\\"taro-canvas-core\\", undefined, [ \\"canvasId\\", \\"nativeProps\\", \\"longtap\\" ]);
+    var Checkbox = utils_defineContainer(\\"taro-checkbox-core\\", undefined, [ \\"name\\", \\"value\\", \\"color\\", \\"id\\", \\"checked\\", \\"disabled\\", \\"nativeProps\\", \\"checkboxchange\\" ]);
+    var CheckboxGroup = utils_defineContainer(\\"taro-checkbox-group-core\\", undefined, [ \\"name\\", \\"change\\" ]);
+    var CommentDetail = utils_defineContainer(\\"taro-comment-detail-core\\", undefined);
+    var CommentList = utils_defineContainer(\\"taro-comment-list-core\\", undefined);
+    var ContactButton = utils_defineContainer(\\"taro-contact-button-core\\", undefined);
+    var CoverImage = utils_defineContainer(\\"taro-cover-image-core\\", undefined, [ \\"src\\", \\"nativeProps\\", \\"load\\", \\"error\\" ]);
+    var CoverView = utils_defineContainer(\\"taro-cover-view-core\\", undefined, [ \\"animation\\", \\"hoverClass\\", \\"hoverStartTime\\", \\"hoverStayTime\\", \\"longpress\\" ]);
+    var CustomWrapper = utils_defineContainer(\\"taro-custom-wrapper-core\\", undefined);
+    var Editor = utils_defineContainer(\\"taro-editor-core\\", undefined);
+    var FollowSwan = utils_defineContainer(\\"taro-follow-swan-core\\", undefined);
+    var Form = utils_defineContainer(\\"taro-form-core\\", undefined, [ \\"submit\\" ]);
+    var FunctionalPageNavigator = utils_defineContainer(\\"taro-functional-page-navigator-core\\", undefined);
+    var Icon = utils_defineContainer(\\"taro-icon-core\\", undefined, [ \\"type\\", \\"size\\", \\"color\\" ]);
+    var Image = utils_defineContainer(\\"taro-image-core\\", undefined, [ \\"src\\", \\"mode\\", \\"lazyLoad\\", \\"nativeProps\\", \\"load\\", \\"error\\" ]);
+    var InlinePaymentPanel = utils_defineContainer(\\"taro-inline-payment-panel-core\\", undefined);
+    var Input = utils_defineContainer(\\"taro-input-core\\", undefined, [ \\"value\\", \\"type\\", \\"password\\", \\"placeholder\\", \\"disabled\\", \\"maxlength\\", \\"autoFocus\\", \\"confirmType\\", \\"name\\", \\"nativeProps\\", \\"input\\", \\"paste\\", \\"focus\\", \\"blur\\", \\"confirm\\", \\"change\\", \\"keydown\\" ]);
+    var KeyboardAccessory = utils_defineContainer(\\"taro-keyboard-accessory-core\\", undefined);
+    var Label = utils_defineContainer(\\"taro-label-core\\", undefined, [ \\"for\\" ]);
+    var Lifestyle = utils_defineContainer(\\"taro-lifestyle-core\\", undefined);
+    var Like = utils_defineContainer(\\"taro-like-core\\", undefined);
+    var LivePlayer = utils_defineContainer(\\"taro-live-player-core\\", undefined);
+    var LivePusher = utils_defineContainer(\\"taro-live-pusher-core\\", undefined);
+    var Login = utils_defineContainer(\\"taro-login-core\\", undefined);
+    var Lottie = utils_defineContainer(\\"taro-lottie-core\\", undefined);
+    var components_Map = utils_defineContainer(\\"taro-map-core\\", undefined);
+    var MatchMedia = utils_defineContainer(\\"taro-match-media-core\\", undefined);
+    var MovableArea = utils_defineContainer(\\"taro-movable-area-core\\", undefined, [ \\"scaleArea\\" ]);
+    var MovableView = utils_defineContainer(\\"taro-movable-view-core\\", undefined, [ \\"x\\", \\"y\\", \\"direction\\", \\"outOfBounds\\", \\"inertia\\", \\"friction\\", \\"damping\\", \\"disabled\\", \\"scale\\", \\"scaleMin\\", \\"scaleMax\\", \\"scaleValue\\", \\"animation\\", \\"change\\", \\"scale\\", \\"htouchmove\\", \\"vtouchmove\\" ]);
+    var NativeSlot = utils_defineContainer(\\"taro-native-slot-core\\", undefined);
+    var NavigationBar = utils_defineContainer(\\"taro-navigation-bar-core\\", undefined);
+    var Navigator = utils_defineContainer(\\"taro-navigator-core\\", undefined, [ \\"hoverClass\\", \\"url\\", \\"openType\\", \\"isHover\\", \\"delta\\", \\"cuccess\\", \\"fail\\", \\"Complete\\" ]);
+    var OfficialAccount = utils_defineContainer(\\"taro-official-account-core\\", undefined);
+    var OpenData = utils_defineContainer(\\"taro-open-data-core\\", undefined);
+    var PageContainer = utils_defineContainer(\\"taro-page-container-core\\", undefined);
+    var PageMeta = utils_defineContainer(\\"taro-page-meta-core\\", undefined);
+    var Picker = utils_defineContainer(\\"taro-picker-core\\", undefined, [ \\"mode\\", \\"disabled\\", \\"range\\", \\"rangeKey\\", \\"value\\", \\"start\\", \\"end\\", \\"fields\\", \\"name\\", \\"change\\", \\"columnchange\\", \\"cancel\\" ]);
+    var PickerGroup = utils_defineContainer(\\"taro-picker-group\\", undefined, [ \\"mode\\", \\"range\\", \\"rangeKey\\", \\"height\\", \\"columnId\\", \\"updateHeight\\", \\"onColumnChange\\", \\"updateDay\\" ]);
+    var PickerViewColumn = utils_defineContainer(\\"taro-picker-view-column-core\\", undefined, [ \\"col\\", \\"initialPosition\\", \\"paddingVertical\\", \\"onselect\\", \\"onselectstart\\", \\"onselectend\\" ]);
+    var PickerView = utils_defineContainer(\\"taro-picker-view-core\\", undefined, [ \\"indicatorStyle\\", \\"indicatorClass\\", \\"value\\", \\"maskStyle\\", \\"maskClass\\", \\"change\\", \\"pickstart\\", \\"pickend\\" ]);
+    var Progress = utils_defineContainer(\\"taro-progress-core\\", undefined, [ \\"percent\\", \\"showInfo\\", \\"borderRadius\\", \\"fontSize\\", \\"strokeWidth\\", \\"activeColor\\", \\"backgroundColor\\", \\"active\\" ]);
+    var PullToRefresh = utils_defineContainer(\\"taro-pull-to-refresh\\", undefined, [ \\"prefixCls\\", \\"distanceToRefresh\\", \\"damping\\", \\"indicator\\", \\"refresh\\" ]);
+    var Radio = utils_defineContainer(\\"taro-radio-core\\", undefined, [ \\"name\\", \\"value\\", \\"id\\", \\"checked\\", \\"disabled\\", \\"nativeProps\\", \\"radiochange\\" ]);
+    var RadioGroup = utils_defineContainer(\\"taro-radio-group-core\\", undefined, [ \\"name\\", \\"change\\" ]);
+    var RichText = utils_defineContainer(\\"taro-rich-text-core\\", undefined, [ \\"nodes\\" ]);
+    var RootPortal = utils_defineContainer(\\"taro-root-portal-core\\", undefined);
+    var RtcRoom = utils_defineContainer(\\"taro-rtc-room-core\\", undefined);
+    var RtcRoomItem = utils_defineContainer(\\"taro-rtc-room-item-core\\", undefined);
+    var ScrollView = utils_defineContainer(\\"taro-scroll-view-core\\", undefined, [ \\"scrollX\\", \\"scrollY\\", \\"upperThreshold\\", \\"lowerThreshold\\", \\"mpScrollTop\\", \\"mpScrollLeft\\", \\"mpScrollIntoView\\", \\"scrollWithAnimation\\", \\"scroll\\", \\"scrolltoupper\\", \\"scrolltolower\\" ]);
+    var ShareElement = utils_defineContainer(\\"taro-share-element-core\\", undefined);
+    var Slider = utils_defineContainer(\\"taro-slider-core\\", undefined, [ \\"min\\", \\"max\\", \\"step\\", \\"disabled\\", \\"value\\", \\"activeColor\\", \\"backgroundColor\\", \\"blockSize\\", \\"blockColor\\", \\"showValue\\", \\"name\\", \\"change\\", \\"changing\\" ]);
+    var Slot = utils_defineContainer(\\"taro-slot-core\\", undefined);
+    var Swiper = utils_defineContainer(\\"taro-swiper-core\\", undefined, [ \\"indicatorDots\\", \\"indicatorColor\\", \\"indicatorActiveColor\\", \\"autoplay\\", \\"current\\", \\"interval\\", \\"duration\\", \\"circular\\", \\"vertical\\", \\"previousMargin\\", \\"nextMargin\\", \\"displayMultipleItems\\", \\"full\\", \\"zoom\\", \\"change\\", \\"animationfinish\\" ]);
+    var SwiperItem = utils_defineContainer(\\"taro-swiper-item-core\\", undefined, [ \\"itemId\\" ]);
+    var Switch = utils_defineContainer(\\"taro-switch-core\\", undefined, [ \\"type\\", \\"checked\\", \\"color\\", \\"name\\", \\"disabled\\", \\"nativeProps\\", \\"change\\" ]);
+    var TabItem = utils_defineContainer(\\"taro-tab-item-core\\", undefined);
+    var Tabbar = utils_defineContainer(\\"taro-tabbar\\", undefined, [ \\"conf\\", \\"longpress\\" ]);
+    var Tabs = utils_defineContainer(\\"taro-tabs-core\\", undefined);
+    var Text = utils_defineContainer(\\"taro-text-core\\", undefined, [ \\"selectable\\" ]);
+    var Textarea = utils_defineContainer(\\"taro-textarea-core\\", undefined, [ \\"value\\", \\"placeholder\\", \\"disabled\\", \\"maxlength\\", \\"autoFocus\\", \\"autoHeight\\", \\"name\\", \\"nativeProps\\", \\"input\\", \\"focus\\", \\"blur\\", \\"change\\", \\"linechange\\" ]);
+    var VideoControl = utils_defineContainer(\\"taro-video-control\\", undefined, [ \\"controls\\", \\"currentTime\\", \\"duration\\", \\"isPlaying\\", \\"pauseFunc\\", \\"playFunc\\", \\"seekFunc\\", \\"showPlayBtn\\", \\"showProgress\\" ]);
+    var Video = utils_defineContainer(\\"taro-video-core\\", undefined, [ \\"src\\", \\"duration\\", \\"controls\\", \\"autoplay\\", \\"loop\\", \\"muted\\", \\"initialTime\\", \\"poster\\", \\"objectFit\\", \\"showProgress\\", \\"showFullscreenBtn\\", \\"showPlayBtn\\", \\"showCenterPlayBtn\\", \\"showMuteBtn\\", \\"danmuList\\", \\"danmuBtn\\", \\"enableDanmu\\", \\"enablePlayGesture\\", \\"enableProgressGesture\\", \\"vslideGesture\\", \\"vslideGestureInFullscreen\\", \\"nativeProps\\", \\"play\\", \\"pause\\", \\"ended\\", \\"timeupdate\\", \\"error\\", \\"fullscreenchange\\", \\"progress\\", \\"loadedmetadata\\" ]);
+    var VideoDanmu = utils_defineContainer(\\"taro-video-danmu\\", undefined, [ \\"enable\\" ]);
+    var View = utils_defineContainer(\\"taro-view-core\\", undefined, [ \\"animation\\", \\"hoverClass\\", \\"hoverStartTime\\", \\"hoverStayTime\\", \\"longpress\\" ]);
+    var VoipRoom = utils_defineContainer(\\"taro-voip-room-core\\", undefined);
+    var WebView = utils_defineContainer(\\"taro-web-view-core\\", undefined, [ \\"src\\", \\"load\\", \\"error\\" ]);
+    function vue3_initVue3Components(app) {
+        app.config.isCustomElement = function(tag) {
+            return /^taro-/.test(tag) || tag === \\"root\\" || tag === \\"block\\";
+        };
+        Object.entries(components_namespaceObject).forEach((function(_ref) {
+            var _ref2 = _slicedToArray(_ref, 2), name = _ref2[0], component = _ref2[1];
+            if (component) {
+                var tagName = \\"taro\\" + name.replace(new RegExp(\\"([A-Z])\\", \\"g\\"), \\"-$1\\").toLowerCase();
+                app.component(tagName, component);
+            }
+        }));
+    }
     var app_config_config = {
         \\"router\\": {
             \\"mode\\": \\"hash\\",
@@ -4638,7 +5172,7 @@ exports[`vue3 should build vue3 app 2`] = `
     }, {
         \\"navigationBarTitleText\\": \\"首页\\"
     }) ];
-    initVue3Components(src_app_0);
+    vue3_initVue3Components(src_app_0);
     var inst = taro_framework_createVue3App(src_app_0, vue[\\"h\\"], app_config_config);
     createRouter(inst, app_config_config, vue[\\"h\\"]);
     undefined.initPxTransform({

@@ -155,7 +155,7 @@ declare namespace ImageProps {
  *
  * **Note:** 为实现小程序的 `mode` 特性，在 H5 组件中使用一个 `div` 容器来对内部的 `img` 进行展示区域的裁剪，因此请勿使用元素选择器来重置 `img` 的样式！
  * @classification media
- * @supported weapp, h5, rn, swan, alipay, tt
+ * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony
  * @example_react
  * ```tsx
  * export default class PageView extends Component {

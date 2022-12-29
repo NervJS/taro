@@ -149,7 +149,7 @@ declare namespace CameraProps {
 
 /** 系统相机
  * @classification media
- * @supported weapp, rn, tt
+ * @supported weapp, alipay, swan, tt, qq, jd, rn, harmony
  * @see https://developers.weixin.qq.com/miniprogram/dev/component/camera.html
  */
 declare const Camera: ComponentType<CameraProps>

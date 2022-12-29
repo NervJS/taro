@@ -1,4 +1,6 @@
 import Taro from '@tarojs/api'
+import { SwiperProps } from '@tarojs/components'
+import { isFunction } from '@tarojs/shared'
 
 import { shouldBeObject } from '../../../utils'
 import { MethodHandler } from '../../../utils/handler'
@@ -19,12 +21,13 @@ export const previewImage: typeof Taro.previewImage = async (options) => {
       image.style.maxWidth = '100%'
       image.src = url
       const div = document.createElement('div')
+      div.classList.add('swiper-zoom-container')
       div.style.cssText = 'display:flex;align-items:center;justify-content:center;max-width:100%;min-height:100%;'
       div.appendChild(image)
       item.appendChild(div)
       // Note: 等待图片加载完后返回，会导致轮播被卡住
       resolve(item)
-      if (typeof loadFail === 'function') {
+      if (isFunction(loadFail)) {
         image.addEventListener('error', (err) => {
           loadFail({ errMsg: err.message })
         })
@@ -49,9 +52,11 @@ export const previewImage: typeof Taro.previewImage = async (options) => {
     container.remove()
   })
 
-  const swiper = document.createElement('taro-swiper-core')
+  const swiper: HTMLElement & Omit<SwiperProps, 'style' | 'children'> = document.createElement('taro-swiper-core')
   // @ts-ignore
   swiper.full = true
+  // @ts-ignore
+  swiper.zoom = true
 
   let children: Node[] = []
   try {

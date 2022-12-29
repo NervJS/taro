@@ -123,5 +123,11 @@ export const components = {
     'default-avatar': _empty,
     'default-text': _empty,
     bindError: _empty
+  },
+  RateButton: {
+    'order-id': _empty,
+    bindInit: _empty,
+    bindSuccess: _empty,
+    bindError: _empty,
   }
 }

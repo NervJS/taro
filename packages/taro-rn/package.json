@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/taro-rn",
-  "version": "3.6.0-canary.3",
+  "version": "3.6.0-beta.0",
   "description": "Taro RN framework",
   "main": "dist/index.js",
   "typings": "types/index.d.ts",
@@ -65,6 +65,7 @@
   "devDependencies": {
     "@babel/core": "^7.14.5",
     "@babel/preset-env": "^7.14.5",
+    "@jest/globals": "^26.6.2",
     "@testing-library/react-native": "^11.0.0",
     "@types/jest": "^27.4.1",
     "@types/react-native": "^0.69.8",

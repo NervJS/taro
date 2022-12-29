@@ -69,7 +69,7 @@ module.exports = (_, options = {}) => {
   }
 
   if (options.ts) {
-    const config = {}
+    const config = typeof options.ts === 'object' ? options.ts : {}
     if (isNerv || isReact) {
       config.jsxPragma = moduleName
     }

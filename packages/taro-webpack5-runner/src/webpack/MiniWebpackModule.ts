@@ -67,7 +67,7 @@ export class MiniWebpackModule {
         test: REG_STYLUS,
         oneOf: this.addCSSLoader(cssLoaders, stylusLoader)
       },
-      nomorlCss: {
+      normalCss: {
         test: REG_CSS,
         oneOf: cssLoaders
       },
@@ -86,6 +86,17 @@ export class MiniWebpackModule {
         use: [WebpackModule.getLoader(path.resolve(__dirname, '../loaders/miniTemplateLoader'), {
           buildAdapter
         })]
+      },
+
+      xscript: {
+        test: new RegExp(`\\${this.combination.fileType.xs || 'wxs'}$`),
+        type: 'asset/resource',
+        generator: {
+          filename ({ filename }) {
+            return filename.replace(sourceRoot + '/', '')
+          }
+        },
+        use: [WebpackModule.getLoader(path.resolve(__dirname, '../loaders/miniXScriptLoader'))]
       },
 
       media: this.getMediaRule(postcssUrlOption),

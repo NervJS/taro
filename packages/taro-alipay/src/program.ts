@@ -47,14 +47,16 @@ export default class Alipay extends TaroPlatformBase {
   modifyMiniConfigs () {
     this.ctx.modifyMiniConfigs(({ configMap }) => {
       const replaceKeyMap = {
+        color: 'textColor',
+        custom: 'customize',
+        enablePullDownRefresh: 'pullRefresh',
+        iconPath: 'icon',
+        list: 'items',
         navigationBarTitleText: 'defaultTitle',
         navigationBarBackgroundColor: 'titleBarColor',
-        enablePullDownRefresh: 'pullRefresh',
-        list: 'items',
-        text: 'name',
-        iconPath: 'icon',
         selectedIconPath: 'activeIcon',
-        color: 'textColor'
+        subpackages: 'subPackages',
+        text: 'name'
       }
       Object.keys(configMap).forEach(key => {
         const item = configMap[key]

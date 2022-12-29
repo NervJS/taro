@@ -7,7 +7,7 @@ import { MethodHandler } from '../../../utils/handler'
 // 导航栏
 export const showNavigationBarLoading = temporarilyNotSupport('showNavigationBarLoading')
 
-export function setNavigationBarTitle (options) {
+export function setNavigationBarTitle (options?: Taro.setNavigationBarTitle.Option) {
   // options must be an Object
   const isObject = shouldBeObject(options)
   if (!isObject.flag) {
@@ -16,7 +16,7 @@ export function setNavigationBarTitle (options) {
     return Promise.reject(res)
   }
 
-  const { title, success, fail, complete } = options
+  const { title, success, fail, complete } = options as Exclude<typeof options, undefined>
   const handle = new MethodHandler({ name: 'setNavigationBarTitle', success, fail, complete })
 
   if (!title || typeof title !== 'string') {
