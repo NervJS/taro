@@ -1,5 +1,4 @@
 import memoizeOne from 'memoize-one'
-import { nextTick, renderSlot } from 'vue'
 
 import { IS_VUE3,IS_WEB } from '../../../utils/constants'
 import { convertNumber2PX } from '../../../utils/convert'
@@ -109,12 +108,13 @@ export default {
           ? this.$props.initialScrollOffset
           : 0,
       scrollUpdateWasRequested: false,
-      resetIsScrollingTimeoutId: null
+      resetIsScrollingTimeoutId: null,
+      refreshCount: 0
     }
   },
   methods: {
     refresh () {
-      this.$forceUpdate()
+      this.refreshCount = this.refreshCount + 1
     },
     scrollTo (scrollOffset) {
       scrollOffset = Math.max(0, scrollOffset)
@@ -127,7 +127,7 @@ export default {
       this.scrollOffset = scrollOffset
       this.scrollUpdateWasRequested = true
 
-      nextTick(this._resetIsScrollingDebounced)
+      this.$nextTick(this._resetIsScrollingDebounced)
     },
 
     scrollToItem (index, align = 'auto') {
@@ -166,12 +166,14 @@ export default {
       function (
         scrollDirection,
         scrollOffset,
-        scrollUpdateWasRequested
+        scrollUpdateWasRequested,
+        detail
       ) {
         this.$emit('scroll', {
           scrollDirection,
           scrollOffset,
-          scrollUpdateWasRequested
+          scrollUpdateWasRequested,
+          detail
         })
       }
     ),
@@ -198,7 +200,8 @@ export default {
       this._callOnScroll(
         this.scrollDirection,
         this.scrollOffset,
-        this.scrollUpdateWasRequested
+        this.scrollUpdateWasRequested,
+        this.preset.field
       )
 
       setTimeout(() => {
@@ -212,7 +215,7 @@ export default {
 
     _getSizeUploadSync (index: number, isHorizontal: boolean) {
       const ID = `#${this.$data.id}-${index}`
-  
+
       return new Promise((resolve) => {
         const success = ({ width, height }) => {
           const size = isHorizontal ? width : height
@@ -242,12 +245,26 @@ export default {
     },
 
     _onScrollHorizontal (event) {
-      const clientWidth = this.$props.width
-      const { scrollLeft, scrollWidth } = event.currentTarget
+      const {
+        clientWidth,
+        scrollTop,
+        scrollLeft,
+        scrollHeight,
+        scrollWidth
+      } = event.currentTarget
+      this.preset.field = {
+        scrollHeight: scrollHeight,
+        scrollWidth: this.itemList.getOffsetSize(),
+        scrollTop: scrollTop,
+        scrollLeft: scrollLeft,
+        clientHeight: scrollHeight,
+        clientWidth: scrollWidth
+      }
       if (this.$props.onScrollNative) {
         this.$props.onScrollNative(event)
       }
-      if (this.scrollOffset === scrollLeft) {
+      const diffOffset = this.preset.field.scrollLeft - scrollLeft
+      if (this.scrollOffset === scrollLeft || this.preset.isShaking(diffOffset)) {
         return
       }
 
@@ -272,20 +289,29 @@ export default {
         0,
         Math.min(scrollOffset, scrollWidth - clientWidth)
       )
+      this.preset.field = {
+        scrollWidth: scrollOffset,
+      }
       this.isScrolling = true
       this.scrollDirection = this.scrollOffset < scrollLeft ? 'forward' : 'backward'
       this.scrollOffset = scrollOffset
       this.scrollUpdateWasRequested = false
-      nextTick(this._resetIsScrollingDebounced)
+      this.$nextTick(this._resetIsScrollingDebounced)
     },
 
     _onScrollVertical (event) {
-      const clientHeight = this.$props.height
-      const { scrollHeight, scrollTop } = event.currentTarget
+      const {
+        clientHeight,
+        scrollHeight,
+        scrollWidth,
+        scrollTop,
+        scrollLeft
+      } = event.currentTarget
       if (this.$props.onScrollNative) {
         this.$props.onScrollNative(event)
       }
-      if (this.scrollOffset === scrollTop) {
+      const diffOffset = this.preset.field.scrollTop - scrollTop
+      if (this.scrollOffset === scrollTop || this.preset.isShaking(diffOffset)) {
         return
       }
 
@@ -294,12 +320,21 @@ export default {
         0,
         Math.min(scrollTop, scrollHeight - clientHeight)
       )
+      this.preset.field = {
+        scrollHeight: this.itemList.getOffsetSize(),
+        scrollWidth: scrollWidth,
+        scrollTop: scrollOffset,
+        scrollLeft: scrollLeft,
+        clientHeight: clientHeight,
+        clientWidth: scrollWidth,
+        diffOffset: this.preset.field.scrollTop - scrollOffset,
+      }
 
       this.isScrolling = true
       this.scrollDirection = this.scrollOffset < scrollOffset ? 'forward' : 'backward'
       this.scrollOffset = scrollOffset
       this.scrollUpdateWasRequested = false
-      nextTick(this._resetIsScrollingDebounced)
+      this.$nextTick(this._resetIsScrollingDebounced)
     },
 
     _outerRefSetter (ref) {
@@ -329,7 +364,7 @@ export default {
     _resetIsScrolling () {
       this.resetIsScrollingTimeoutId = null
       this.isScrolling = false
-      nextTick(() => {
+      this.$nextTick(() => {
         this.preset.getItemStyleCache(-1, null)
       })
     }
@@ -482,15 +517,15 @@ export default {
       }
     }
     if (isHorizontal) {
-      outerElementProps.scrollLeft = scrollUpdateWasRequested ? scrollOffset : this.field.scrollLeft
+      outerElementProps.scrollLeft = scrollUpdateWasRequested ? scrollOffset : this.preset.field.scrollLeft
     } else {
-      outerElementProps.scrollTop = scrollUpdateWasRequested ? scrollOffset : this.field.scrollTop
+      outerElementProps.scrollTop = scrollUpdateWasRequested ? scrollOffset : this.preset.field.scrollTop
     }
 
     if (this.preset.isRelative) {
       const pre = convertNumber2PX(this.itemList.getOffsetSize(startIndex))
       return render(this.preset.outerTagName, outerElementProps, [
-        IS_VUE3 ? renderSlot(this.$slots, 'top') : this.$slots.top,
+        IS_VUE3 ? this.$slots.top?.() : this.$slots.top,
         render(this.preset.itemTagName, {
           key: `${id}-pre`,
           id: `${id}-pre`,
@@ -508,11 +543,11 @@ export default {
             position: 'relative',
           }
         }, items),
-        IS_VUE3 ? renderSlot(this.$slots, 'bottom') : this.$slots.bottom,
+        IS_VUE3 ? this.$slots.bottom?.() : this.$slots.bottom,
       ])
     } else {
       return render(this.preset.outerTagName, outerElementProps, [
-        IS_VUE3 ? renderSlot(this.$slots, 'top') : this.$slots.top,
+        IS_VUE3 ? this.$slots.top?.() : this.$slots.top,
         render(this.preset.innerTagName, {
           ref: innerRef,
           key: `${id}-inner`,
@@ -524,7 +559,7 @@ export default {
             width: !isHorizontal ? '100%' : estimatedTotalSize
           }
         }, items),
-        IS_VUE3 ? renderSlot(this.$slots, 'bottom') : this.$slots.bottom,
+        IS_VUE3 ? this.$slots.bottom?.() : this.$slots.bottom,
       ])
     }
   }

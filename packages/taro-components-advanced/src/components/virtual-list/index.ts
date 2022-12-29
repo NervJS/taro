@@ -1,6 +1,5 @@
 import type { BaseEventOrig, BaseEventOrigFunction, ScrollViewProps, StandardProps } from '@tarojs/components'
 import type { Component, ComponentType, CSSProperties, ReactNode } from 'react'
-import type { VuePlugin } from '../../../typings/vue'
 
 interface VirtualListProps extends Omit<StandardProps, 'children'> {
   /** 列表的高度。 */
@@ -189,8 +188,9 @@ declare namespace VirtualListProps {
  */
 declare class VirtualListComponent extends Component<VirtualListProps> {}
 
-const VirtualList = require('./react').default as typeof VirtualListComponent
-export const registerVirtualList = require('./vue').default as VuePlugin
+const VirtualList: typeof VirtualListComponent = process.env.FRAMEWORK.includes('vue')
+  ? require('./vue').default
+  : require('./react').default
 
 export { VirtualList, VirtualListProps }
 export default VirtualList

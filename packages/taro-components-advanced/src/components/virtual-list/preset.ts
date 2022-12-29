@@ -1,6 +1,6 @@
 import memoizeOne from 'memoize-one'
 
-import { convertNumber2PX } from '../../utils'
+import { convertNumber2PX, isCosDistributing } from '../../utils'
 import ListSet from './list-set'
 import { defaultItemKey, isHorizontalFunc, isRtlFunc } from './utils'
 
@@ -29,6 +29,18 @@ export default class Preset {
     this.init(this.props)
     this.itemList = new ListSet(props, refresh)
   }
+
+  wrapperField = {
+    scrollLeft: 0,
+    scrollTop: 0,
+    scrollHeight: 0,
+    scrollWidth: 0,
+    clientHeight: 0,
+    clientWidth: 0,
+    diffOffset: 0
+  }
+
+  diffList: number[] = [0, 0, 0]
 
   init (props: IProps) {
     this.props = props
@@ -69,6 +81,25 @@ export default class Preset {
 
   get itemTagName () {
     return this.props.itemElementType || this.props.itemTagName || 'div'
+  }
+
+  get field () {
+    return this.wrapperField
+  }
+
+  set field (o: Record<string, number>) {
+    Object.assign(this.wrapperField, o)
+    // Object.keys(o).forEach(key => {
+    //   if (typeof o[key] === 'number' && typeof this.wrapperField[key] === 'number') {
+    //     this.wrapperField[key] = o[key]
+    //   }
+    // })
+  }
+
+  isShaking (diff?: number) {
+    const list = this.diffList.slice(-3)
+    this.diffList.push(diff)
+    return list.findIndex(e => Math.abs(e) === Math.abs(diff)) !== -1 || isCosDistributing(this.diffList.slice(-4))
   }
 
   getItemStyleCache = memoizeOne((
