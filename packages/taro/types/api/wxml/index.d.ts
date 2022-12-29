@@ -529,6 +529,6 @@ declare module '../../index' {
      * ```
      * @see https://developers.weixin.qq.com/miniprogram/dev/framework/view/resizable.html#Media%20Query
      */
-     createMediaQueryObserver(): MediaQueryObserver
+    createMediaQueryObserver(): MediaQueryObserver
   }
 }
