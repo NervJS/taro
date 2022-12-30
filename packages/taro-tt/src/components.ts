@@ -121,5 +121,12 @@ export const components = {
     bindInit: _empty,
     bindSuccess: _empty,
     bindError: _empty,
+  },
+  OpenData: {
+    type: _empty,
+    'default-text': _empty,
+    'default-avatar': _empty,
+    'use-empty-value': _false,
+    bindError: _empty
   }
 }
