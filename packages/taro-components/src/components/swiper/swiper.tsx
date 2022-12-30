@@ -240,11 +240,9 @@ export class Swiper implements ComponentInterface {
   handleSwiperLoop = debounce(() => {
     if (this.swiper && this.circular) {
       // @ts-ignore
-      this.swiper.loopDestroy()
-      // @ts-ignore
-      this.swiper.loopCreate()
+      this.swiper.loopFix()
     }
-  }, 500)
+  }, 50)
 
   handleSwiperSize = debounce(() => {
     if (this.swiper && !this.circular) {
@@ -284,7 +282,7 @@ export class Swiper implements ComponentInterface {
          slideChangeTransitionStart (_swiper: ISwiper) {
           if (that.circular) {
             if (_swiper.isBeginning || _swiper.isEnd) {
-              _swiper.slideToLoop(this.realIndex, 0) // 更新下标
+              // _swiper.slideToLoop(this.realIndex, 0, false) // 更新下标
               return
             }
           }
