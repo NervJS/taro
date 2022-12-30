@@ -60,6 +60,11 @@ function upperCaseFirstLetter (string) {
   return string
 }
 
+export const toKebabCase = function (string) {
+  return string.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase()
+}
+
+
 export function inlineStyle (style) {
   let res = ''
   for (const attr in style) res += `${attr}: ${style[attr]};`
