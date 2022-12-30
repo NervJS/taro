@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/runtime-rn",
-  "version": "3.6.0-beta.0",
+  "version": "3.6.0-beta.1",
   "description": "taro-runtime-rn",
   "main": "dist/index.js",
   "types": "./src/index.ts",

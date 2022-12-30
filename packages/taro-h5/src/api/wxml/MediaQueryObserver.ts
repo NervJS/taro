@@ -1,14 +1,15 @@
 
+import { isFunction } from '@tarojs/shared'
 import Taro from '@tarojs/taro'
 
-import { isFunction, toKebabCase } from '../../utils'
+import { toKebabCase } from '../../utils'
 
 function generateMediaQueryStr (descriptor: Taro.MediaQueryObserver.descriptor) {
   const mediaQueryArr: string[] = []
   const descriptorMenu = ['width', 'minWidth', 'maxWidth', 'height', 'minHeight', 'maxHeight', 'orientation']
   for (const item of descriptorMenu) {
     if (
-      item !== 'orientation' && 
+      item !== 'orientation' &&
       descriptor[item] &&
       Number(descriptor[item]) >= 0
     ) {
@@ -21,9 +22,8 @@ function generateMediaQueryStr (descriptor: Taro.MediaQueryObserver.descriptor) 
   return mediaQueryArr.join(' and ')
 }
 
- 
-export class MediaQueryObserver implements Taro.MediaQueryObserver {
 
+export class MediaQueryObserver implements Taro.MediaQueryObserver {
   private _mediaQueryObserver: MediaQueryList
   private _listener: (ev: MediaQueryListEvent) => void
 
@@ -37,7 +37,7 @@ export class MediaQueryObserver implements Taro.MediaQueryObserver {
         callback({ matches: ev.matches })
       }
       callback({ matches: this._mediaQueryObserver.matches })
-      // 兼容旧浏览器中MediaQueryList尚未继承于EventTarget导致不存在'addEventListener'
+      // 兼容旧浏览器中 MediaQueryList 尚未继承于 EventTarget 导致不存在 'addEventListener'
       if ('addEventListener' in this._mediaQueryObserver) {
         this._mediaQueryObserver.addEventListener('change', this._listener)
       } else {
@@ -49,7 +49,7 @@ export class MediaQueryObserver implements Taro.MediaQueryObserver {
   // 停止监听，销毁媒体查询对象
   public disconnect (): void {
     if (this._mediaQueryObserver && this._listener) {
-      // 兼容旧浏览器中MediaQueryList尚未继承于EventTarget导致不存在'removeEventListener'
+      // 兼容旧浏览器中 MediaQueryList 尚未继承于 EventTarget 导致不存在 'removeEventListener'
       if ('removeEventListener' in this._mediaQueryObserver) {
         this._mediaQueryObserver.removeEventListener('change', this._listener)
       } else {
