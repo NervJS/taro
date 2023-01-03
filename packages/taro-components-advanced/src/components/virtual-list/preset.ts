@@ -9,6 +9,7 @@ import type { VirtualListProps } from './'
 let INSTANCE_ID = 0
 
 export interface IProps extends Partial<VirtualListProps> {
+  children?: VirtualListProps['item']
   direction?: 'ltr' | 'rtl' | 'horizontal' | 'vertical'
   itemKey?: typeof defaultItemKey
   itemTagName?: string
