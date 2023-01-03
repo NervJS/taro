@@ -188,7 +188,7 @@ declare namespace VirtualListProps {
  */
 declare class VirtualListComponent extends Component<VirtualListProps> {}
 
-const VirtualList: typeof VirtualListComponent = process.env.FRAMEWORK.includes('vue')
+const VirtualList: typeof VirtualListComponent = (process.env.FRAMEWORK === 'vue' || process.env.FRAMEWORK === 'vue3')
   ? require('./vue').default
   : require('./react').default
 
