@@ -1,6 +1,5 @@
 import memoizeOne from 'memoize-one'
 
-import { IS_VUE3,IS_WEB } from '../../../utils/constants'
 import { convertNumber2PX } from '../../../utils/convert'
 import { omit } from '../../../utils/lodash'
 import { cancelTimeout, requestTimeout } from '../../../utils/timer'
@@ -46,7 +45,7 @@ export default {
     },
     innerElementType: {
       type: String,
-      default: IS_WEB ? 'taro-view-core' : 'view'
+      default: process.env.TARO_ENV === 'h5' ? 'taro-view-core' : 'view'
     },
     direction: {
       type: String,
@@ -73,15 +72,15 @@ export default {
     itemKey: String,
     itemTagName: {
       type: String,
-      default: IS_WEB ? 'taro-view-core' : 'view'
+      default: process.env.TARO_ENV === 'h5' ? 'taro-view-core' : 'view'
     },
     innerTagName: {
       type: String,
-      default: IS_WEB ? 'taro-view-core' : 'view'
+      default: process.env.TARO_ENV === 'h5' ? 'taro-view-core' : 'view'
     },
     outerTagName: {
       type: String,
-      default: IS_WEB ? 'taro-scroll-view-core' : 'scroll-view'
+      default: process.env.TARO_ENV === 'h5' ? 'taro-scroll-view-core' : 'scroll-view'
     },
     itemElementType: String,
     outerElementType: String,
@@ -525,7 +524,7 @@ export default {
     if (this.preset.isRelative) {
       const pre = convertNumber2PX(this.itemList.getOffsetSize(startIndex))
       return render(this.preset.outerTagName, outerElementProps, [
-        IS_VUE3 ? this.$slots.top?.() : this.$slots.top,
+        process.env.FRAMEWORK === 'vue3' ? this.$slots.top?.() : this.$slots.top,
         render(this.preset.itemTagName, {
           key: `${id}-pre`,
           id: `${id}-pre`,
@@ -543,11 +542,11 @@ export default {
             position: 'relative',
           }
         }, items),
-        IS_VUE3 ? this.$slots.bottom?.() : this.$slots.bottom,
+        process.env.FRAMEWORK === 'vue3' ? this.$slots.bottom?.() : this.$slots.bottom,
       ])
     } else {
       return render(this.preset.outerTagName, outerElementProps, [
-        IS_VUE3 ? this.$slots.top?.() : this.$slots.top,
+        process.env.FRAMEWORK === 'vue3' ? this.$slots.top?.() : this.$slots.top,
         render(this.preset.innerTagName, {
           ref: innerRef,
           key: `${id}-inner`,
@@ -559,7 +558,7 @@ export default {
             width: !isHorizontal ? '100%' : estimatedTotalSize
           }
         }, items),
-        IS_VUE3 ? this.$slots.bottom?.() : this.$slots.bottom,
+        process.env.FRAMEWORK === 'vue3' ? this.$slots.bottom?.() : this.$slots.bottom,
       ])
     }
   }

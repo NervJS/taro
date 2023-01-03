@@ -1,6 +1,5 @@
 import { isFunction } from '@tarojs/shared'
 
-import { IS_PROD } from '../../utils/constants'
 import { isHorizontalFunc } from './utils'
 
 import type { IProps } from './preset'
@@ -55,7 +54,7 @@ export default class ListSet {
     const { height, width } = this.props
     const isHorizontal = isHorizontalFunc(this.props)
     const size = (isHorizontal ? width : height) as number
-    if (!IS_PROD && typeof size !== 'number') {
+    if (process.env.NODE_ENV !== 'production' && typeof size !== 'number') {
       console.warn(`In mode ${isHorizontal ? 'horizontal, width' : 'vertical, height'} parameter should be a number, but got ${typeof size}.`)
     }
     return size

@@ -1,4 +1,3 @@
-export * from './constants'
 export * from './convert'
 export * from './lodash'
 export * from './math'

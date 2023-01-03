@@ -1,7 +1,6 @@
 import memoizeOne from 'memoize-one'
 import React from 'react'
 
-import { IS_PREACT } from '../../../utils/constants'
 import { convertNumber2PX } from '../../../utils/convert'
 import { omit } from '../../../utils/lodash'
 import { cancelTimeout, requestTimeout } from '../../../utils/timer'
@@ -66,7 +65,7 @@ export default class List extends React.PureComponent<IProps, IState> {
 
   // FIXME Warning: Cannot update during an existing state transition (such as within `render`).
   refresh = () => {
-    if (IS_PREACT) {
+    if (process.env.FRAMEWORK === 'preact') {
       this.forceUpdate()
     } else {
       this.setState(({ refreshCount }) => ({

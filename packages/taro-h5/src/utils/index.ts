@@ -6,8 +6,6 @@ import { isFunction } from '@tarojs/shared'
 
 import { MethodHandler } from './handler'
 
-export const isProd = process.env.NODE_ENV === 'production'
-
 export function shouldBeObject (target: unknown) {
   if (target && typeof target === 'object') return { flag: true }
   return {
@@ -103,7 +101,7 @@ export function temporarilyNotSupport (name = '') {
       type: 'method',
       category: 'temporarily',
     })
-    if (isProd) {
+    if (process.env.NODE_ENV === 'production') {
       console.warn(errMsg)
       return handle.success({ errMsg })
     } else {
@@ -123,7 +121,7 @@ export function weixinCorpSupport (name: string) {
       type: 'method',
       category: 'weixin_corp',
     })
-    if (isProd) {
+    if (process.env.NODE_ENV === 'production') {
       console.warn(errMsg)
       return handle.success({ errMsg })
     } else {
@@ -143,7 +141,7 @@ export function permanentlyNotSupport (name = '') {
       type: 'method',
       category: 'permanently',
     })
-    if (isProd) {
+    if (process.env.NODE_ENV === 'production') {
       console.warn(errMsg)
       return handle.success({ errMsg })
     } else {
@@ -197,7 +195,7 @@ export function processOpenApi<TOptions = Record<string, unknown>, TResult exten
 
 /**
  * 根据url获取应用的启动页面
- * @returns 
+ * @returns
  */
 export function getLaunchPage (): string {
   const appConfig = (window as any).__taroAppConfig || {}
