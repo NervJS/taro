@@ -6,7 +6,7 @@ export * from './components'
 export const hostConfig = {
   initNativeApi,
   modifyMpEventImpl: (event) => {
-    if (event.type === "regionchange") {
+    if (event.type === 'regionchange') {
       event.type = event.detail.type
     }
   }
