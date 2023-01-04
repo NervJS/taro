@@ -231,7 +231,7 @@ export function getSwcPlugin ({
               fs.move(srcPath, destPath)
                 .then(() => fs.writeFile(
                   srcPath,
-                  `const m = require('./${path.basename(destPath)}')
+                  `var m = require('./${path.basename(destPath)}')
 module.exports = m.default
 exports.default = module.exports
 `
