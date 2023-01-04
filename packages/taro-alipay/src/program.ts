@@ -104,6 +104,18 @@ export default class Alipay extends TaroPlatformBase {
           delete newArgs.navigator
           return [newArgs]
         })
+
+      const { compiler, framework } = this.ctx.initialConfig
+      if (
+        framework === 'react' &&
+        compiler &&
+        (
+          compiler === 'webpack4' ||
+          typeof compiler === 'object' && compiler.type === 'webpack4'
+        )
+      ) {
+        chain.node.set('setImmediate', false)
+      }
     })
   }
 }
