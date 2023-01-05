@@ -17,7 +17,7 @@ interface ITaroH5PluginOptions {
   entryFileName: string
   framework: FRAMEWORK_MAP
   frameworkExts: string[]
-  useHtmlComponents: boolean
+  runtimePath: string[]
   pxTransformConfig: {
     baseFontSize: number
     deviceRatio: any
@@ -44,7 +44,7 @@ export default class TaroH5Plugin {
       entryFileName: 'app',
       framework: FRAMEWORK_MAP.NERV,
       frameworkExts: SCRIPT_EXT,
-      useHtmlComponents: false,
+      runtimePath: [],
       pxTransformConfig: {
         baseFontSize: 20,
         deviceRatio: {},
@@ -110,11 +110,11 @@ export default class TaroH5Plugin {
               entryFileName,
               filename: name.replace(suffixRgx, ''),
               framework,
+              runtimePath: this.options.runtimePath,
               loaderMeta,
               pages: this.inst.pagesConfigList,
               pxTransformConfig,
-              sourceDir,
-              useHtmlComponents: this.options.useHtmlComponents
+              sourceDir
             },
             ident: null,
             type: null

@@ -11,9 +11,9 @@ src/demo
 .idea
 
 # build
-dist
-dist-h5
 build
+dist
+lib
 
 # jest
 coverage

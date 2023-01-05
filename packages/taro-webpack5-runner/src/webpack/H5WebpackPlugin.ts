@@ -118,8 +118,7 @@ export class H5WebpackPlugin {
     } = this.combination
     const {
       entryFileName = 'app',
-      router = {},
-      useHtmlComponents = false
+      router = {}
     } = config
     const pxTransformConfig = this.pxtransformOption?.config || {}
     const prebundleOptions = this.combination.getPrebundleOptions()
@@ -131,7 +130,7 @@ export class H5WebpackPlugin {
       frameworkExts: config.frameworkExts,
       entryFileName,
       routerConfig: router,
-      useHtmlComponents,
+      runtimePath: config.runtimePath,
       pxTransformConfig,
       prebundle: prebundleOptions.enable
     }

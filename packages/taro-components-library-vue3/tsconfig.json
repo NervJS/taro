@@ -2,9 +2,10 @@
   "extends": "../../tsconfig.root.json",
   "compilerOptions": {
     "baseUrl": ".",
-    "declaration": false,
+    "declaration": true,
+    "declarationDir": "../taro-components/lib/vue3",
     "module": "ESNext",
-    "outDir": "../taro-components/dist/vue3",
+    "outDir": "../taro-components/lib/vue3",
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "sourceMap": false,

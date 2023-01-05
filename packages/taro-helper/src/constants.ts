@@ -176,6 +176,7 @@ export const UPDATE_PACKAGE_LIST = [
   '@tarojs/plugin-platform-tt',
   '@tarojs/plugin-platform-qq',
   '@tarojs/plugin-platform-jd',
+  '@tarojs/plugin-platform-h5',
   '@tarojs/plugin-html',
   '@tarojs/plugin-mini-ci',
   '@tarojs/webpack5-runner',

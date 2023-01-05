@@ -93,10 +93,11 @@ export default class CLI {
             case 'tt':
             case 'qq':
             case 'jd':
+            case 'h5':
               kernel.optsPlugins.push(`@tarojs/plugin-platform-${platform}`)
               break
             default: {
-              // h5, rn
+              // plugin, rn
               const platformPlugins = fs.readdirSync(platformsPath)
               const targetPlugin = `${platform}.js`
               if (platformPlugins.includes(targetPlugin)) {

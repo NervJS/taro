@@ -158,3 +158,5 @@ export declare interface IPluginContext {
 
   [key: string]: any
 }
+
+export declare type TConfig = Record<string, any>

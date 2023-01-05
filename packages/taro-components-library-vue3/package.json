@@ -6,7 +6,10 @@
   "main": "index.js",
   "scripts": {
     "prebuild:ci": "node ./scripts/fix.js",
-    "build:ci": "babel src --extensions=.ts,.tsx --out-dir ../taro-components/dist/vue3"
+    "build:ci": "run-s clean build:babel build:declaration",
+    "build:babel": "babel src --extensions=.ts,.tsx --out-dir ../taro-components/lib/vue3",
+    "build:declaration": "tsc --emitDeclarationOnly",
+    "clean": "rimraf ../taro-components/lib/vue3"
   },
   "keywords": [],
   "author": "ZakaryCode",

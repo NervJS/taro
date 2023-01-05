@@ -55,8 +55,6 @@ export default function (appPath: string, config: Partial<BuildConfig>, appConfi
     miniCssExtractPluginOption = {},
     esnextModules = [],
 
-    useHtmlComponents = false,
-
     postcss,
     htmlPluginOption = {},
     csso,
@@ -97,7 +95,7 @@ export default function (appPath: string, config: Partial<BuildConfig>, appConfi
     sourceDir,
     outputDir,
     routerConfig: router,
-    useHtmlComponents,
+    runtimePath: config.runtimePath,
     pxTransformConfig: pxtransformOption?.config || {}
   })
 

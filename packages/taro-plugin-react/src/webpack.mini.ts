@@ -8,7 +8,7 @@ import type { Frameworks } from './index'
 
 export function modifyMiniWebpackChain (ctx: IPluginContext, framework: Frameworks, chain) {
   setAlias(ctx, framework, chain)
-  setLoader(framework, chain)
+  setLoader(ctx, framework, chain)
 }
 
 function setAlias (ctx: IPluginContext, framework: Frameworks, chain) {
@@ -43,10 +43,10 @@ function setAlias (ctx: IPluginContext, framework: Frameworks, chain) {
   }
 }
 
-function setLoader (framework: Frameworks, chain) {
+function setLoader (ctx: IPluginContext, framework: Frameworks, chain) {
   chain.plugin('miniPlugin')
     .tap(args => {
-      args[0].loaderMeta = getLoaderMeta(framework)
+      args[0].loaderMeta = getLoaderMeta(framework, ctx)
       return args
     })
 }

@@ -5,11 +5,9 @@ interface ILoaderMeta {
   creator: string
   creatorLocation: string
   importFrameworkName: string
+  extraImportForWeb: string
+  execBeforeCreateWebApp: string
   isNeedRawLoader?: boolean
-  extraImportForWeb?: string
-  execBeforeCreateWebApp?: string
-  compatComponentImport?: string
-  compatComponentExtra?: string
   modifyConfig?: (config: Record<string, any>, source: string) => void
 }
 

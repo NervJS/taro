@@ -21,8 +21,11 @@ const outputTargets: OutputTarget[] = [
   }),
   {
     type: 'dist',
-    esmLoaderPath: '../loader'
-  }
+    esmLoaderPath: '../loader',
+  },
+  {
+    type: 'dist-custom-elements'
+  },
 ]
 
 if (!isProd) {

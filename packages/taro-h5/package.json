@@ -51,6 +51,7 @@
     "jest-fetch-mock": "^3.0.3",
     "jest-localstorage-mock": "^2.4.0",
     "jest-mock-console": "^1.0.0",
+    "lodash": "^4.17.21",
     "react": "^18.2.0",
     "react-test-renderer": "^18.2.0"
   }
