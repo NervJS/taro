@@ -5,4 +5,5 @@ export { Kernel }
 export { TaroPlatformBase }
 export default { Kernel, TaroPlatformBase }
 
+export { defineConfig } from './utils/index'
 export type { IPluginContext } from './utils/types'

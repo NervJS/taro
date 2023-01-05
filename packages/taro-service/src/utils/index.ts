@@ -6,7 +6,7 @@ import * as resolve from 'resolve'
 import { PluginType } from './constants'
 import { IPlugin, IPluginsObject } from './types'
 
-import type { PluginItem } from '@tarojs/taro/types/compile'
+import type { IProjectConfig, PluginItem } from '@tarojs/taro/types/compile'
 
 export const isNpmPkg: (name: string) => boolean = name => !(/^(\.|\/)/.test(name))
 
@@ -99,4 +99,8 @@ export function printHelpLog (command, optionsList: Map<string, string>, synopsi
       console.log(`  $ ${item}`)
     })
   }
+}
+
+export const defineConfig = (config: IProjectConfig): IProjectConfig => {
+  return config
 }
