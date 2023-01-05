@@ -232,7 +232,12 @@ require(\\"./taro\\");
             }
         };
         var hostConfig = {
-            initNativeApi: initNativeApi
+            initNativeApi: initNativeApi,
+            modifyMpEventImpl: function modifyMpEventImpl(event) {
+                if (event.type === \\"regionchange\\") {
+                    event.type = event.detail.type;
+                }
+            }
         };
         mergeReconciler(hostConfig);
         mergeInternalComponents(components);
