@@ -101,6 +101,6 @@ export function printHelpLog (command, optionsList: Map<string, string>, synopsi
   }
 }
 
-export const defineConfig = (config: IProjectConfig): IProjectConfig => {
+export const defineConfig = (config: Partial<IProjectConfig>): Partial<IProjectConfig> => {
   return config
 }
