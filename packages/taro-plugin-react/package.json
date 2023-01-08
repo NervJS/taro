@@ -40,7 +40,9 @@
     "preact": "^10.10.0",
     "react-refresh": "^0.11.0",
     "webpack": "5.69.0",
-    "rollup": "^3.8.1"
+    "rollup": "^3.8.1",
+    "rollup-plugin-node-externals": "^4.0.0",
+    "rollup-plugin-ts": "^3.0.2"
   },
   "peerDependencies": {
     "react": ">=17"

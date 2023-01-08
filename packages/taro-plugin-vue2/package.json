@@ -33,7 +33,9 @@
   },
   "devDependencies": {
     "vue": "^2.6.11",
-    "rollup": "^3.8.1"
+    "rollup": "^3.8.1",
+    "rollup-plugin-node-externals": "^4.0.0",
+    "rollup-plugin-ts": "^3.0.2"
   },
   "peerDependencies": {
     "vue": "^2.6.11"
