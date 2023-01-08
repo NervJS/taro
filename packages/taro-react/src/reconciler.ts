@@ -20,7 +20,9 @@ const hostConfig: HostConfig<
   unknown, // ChildSet
   unknown, // TimeoutHandle
   unknown // NoTimeout
-> = {
+> & {
+  supportsMicrotasks: boolean  // 待官方类型文件修复后删除
+} = {
   // below keys order by {React ReactFiberHostConfig.custom.js}, convenient for comparing each other.
 
   // -------------------
