@@ -35,6 +35,15 @@ const apiDiff: IApiDiff = {
       }, {
         old: 'icon',
         new: 'type'
+      }],
+      set: [{
+        key: 'type',
+        value (options) {
+          if (options.type === 'error') {
+            return 'fail'
+          }
+          return options.type
+        }
       }]
     }
   },
