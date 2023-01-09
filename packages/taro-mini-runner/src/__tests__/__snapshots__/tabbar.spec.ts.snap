@@ -101,6 +101,15 @@ require(\\"./taro\\");
                         }, {
                             old: \\"icon\\",
                             new: \\"type\\"
+                        } ],
+                        set: [ {
+                            key: \\"type\\",
+                            value: function value(options) {
+                                if (options.type === \\"error\\") {
+                                    return \\"fail\\";
+                                }
+                                return options.type;
+                            }
                         } ]
                     }
                 },
