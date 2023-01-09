@@ -70,8 +70,12 @@ function getAlias () {
     alias = config.alias
   }
 
-  alias['@tarojs/components'] = '@tarojs/components-rn'
-  alias['@tarojs/taro'] = '@tarojs/taro-rn'
+  if (alias['@tarojs/components'] === undefined) {
+    alias['@tarojs/components'] = '@tarojs/components-rn'
+  }
+  if (alias['@tarojs/taro'] === undefined) {
+    alias['@tarojs/taro'] = '@tarojs/taro-rn'
+  }
   return alias
 }
 
