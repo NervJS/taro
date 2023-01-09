@@ -3,6 +3,7 @@ import * as minimist from 'minimist'
 
 import AlipayCI from './AlipayCI'
 import { CIOptions } from './BaseCi'
+import JdCI from './JdCI'
 import SwanCI from './SwanCI'
 import TTCI from './TTCI'
 import WeappCI from './WeappCI'
@@ -42,6 +43,11 @@ export default (ctx: IPluginContext, pluginOpts: CIOptions) => {
           token: joi.string().required(),
           minSwanVersion: joi.string()
         }),
+        jd: joi.object({
+          privateKey: joi.string().required(),
+          projectPath: joi.string().required(),
+          base64: joi.boolean()
+        }),
         version: joi.string(),
         desc: joi.string()
       })
@@ -68,6 +74,9 @@ export default (ctx: IPluginContext, pluginOpts: CIOptions) => {
         break
       case 'swan':
         ci = new SwanCI(ctx, pluginOpts)
+        break
+      case 'jd':
+        ci = new JdCI(ctx, pluginOpts)
         break
       default:
         break

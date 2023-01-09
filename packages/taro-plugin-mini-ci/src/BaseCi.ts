@@ -68,6 +68,14 @@ export interface SwanConfig {
   minSwanVersion?: string
 }
 
+export interface JdConfig {
+  privateKey: string
+  projectPath: string
+  uv?: string
+  desc?: string
+  base64?: boolean
+}
+
 export interface CIOptions {
   /** 发布版本号，默认取 package.json 文件的 taroConfig.version 字段 */
   version: string
@@ -81,6 +89,8 @@ export interface CIOptions {
   alipay?: AlipayConfig
   /** 百度小程序配置, 官方文档地址：https://smartprogram.baidu.com/docs/develop/devtools/commandtool/ */
   swan?: SwanConfig
+  /** 京东小程序配置, 官方文档地址：https://mp-docs.jd.com/doc/dev/devtools/1597 */
+  jd?:JdConfig
 }
 
 export default abstract class BaseCI {
