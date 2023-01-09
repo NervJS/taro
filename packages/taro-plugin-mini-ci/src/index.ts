@@ -5,6 +5,7 @@ import * as path from 'path'
 import AlipayCI from './AlipayCI'
 import BaseCI, { CIOptions } from './BaseCi'
 import DingtalkCI from './DingtalkCI'
+import JdCI from './JdCI'
 import SwanCI from './SwanCI'
 import TTCI from './TTCI'
 import WeappCI from './WeappCI'
@@ -92,6 +93,11 @@ export default (ctx: IPluginContext, _pluginOpts: CIOptions | (() => CIOptions))
             token: joi.string().required(),
             minSwanVersion: joi.string()
           }),
+          jd: joi.object({
+            privateKey: joi.string().required(),
+            projectPath: joi.string().required(),
+            base64: joi.boolean()
+          }),
           version: joi.string(),
           desc: joi.string(),
           projectPath: joi.string()
@@ -127,12 +133,17 @@ export default (ctx: IPluginContext, _pluginOpts: CIOptions | (() => CIOptions))
       case 'swan':
         ci = new SwanCI(ctx, pluginOpts)
         break
+      case 'jd':
+        ci = new JdCI(ctx, pluginOpts)
+        break
+      default:
+        break
     }
     if (!ci) {
       printLog(processTypeEnum.WARNING, `"@tarojs/plugin-mini-ci" 插件暂时不支持 "${platform}" 平台`)
       return
     }
-    
+
     projectPath = projectPath || pluginOpts.projectPath || ctx.paths.outputPath
     projectPath = path.isAbsolute(projectPath) ? projectPath : path.join(ctx.paths.appPath, projectPath)
 
