@@ -54,11 +54,11 @@ jobs:
 
       - name: Commit message compliance verification
         if: startsWith( env.COMMIT_MESSAGE , 'chore(release):' ) != true
-        uses: andymckay/cancel-action@0.2
+        uses: andymckay/cancel-action@0.3
 
       - name: Publish push tag verification
         if: github.event_name == 'push' && contains( env.COMMIT_MESSAGE , '--tag=' ) != true
-        uses: andymckay/cancel-action@0.2
+        uses: andymckay/cancel-action@0.3
 
       # ------------------ If event is push -------------
 
@@ -100,7 +100,7 @@ jobs:
 
       - name: Git tag verification
         if: steps.tag_check.outputs.exists_tag == false
-        uses: andymckay/cancel-action@0.2
+        uses: andymckay/cancel-action@0.3
 
       # Bootstrap project
       - name: Cache pnpm modules
