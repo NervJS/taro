@@ -168,7 +168,7 @@ jobs:
           prerelease: false
 
       # Create PR page comment when event is PR
-      - uses: actions/github-script@0.8.0
+      - uses: actions/github-script@v6.3.3
         if: github.event.pull_request.merged == true
         with:
           github-token: ${{secrets.GITHUB_TOKEN}}
