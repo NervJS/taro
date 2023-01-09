@@ -811,9 +811,6 @@ importers:
       react-native-svg: registry.npmjs.org/react-native-svg/13.7.0_ed6hdicvoe3mtgaxburxkml6qq
       react-test-renderer: registry.npmjs.org/react-test-renderer/18.1.0_react@18.1.0
 
-  packages/taro-components/loader:
-    specifiers: {}
-
   packages/taro-extend:
     specifiers: {}
 
