@@ -1,7 +1,6 @@
 import memoizeOne from 'memoize-one'
 import React from 'react'
 
-import { IS_PREACT } from '../../../utils/constants'
 import { convertNumber2PX } from '../../../utils/convert'
 import { omit } from '../../../utils/lodash'
 import { cancelTimeout, requestTimeout } from '../../../utils/timer'
@@ -38,13 +37,6 @@ export default class List extends React.PureComponent<IProps, IState> {
     return validateListProps(nextProps, prevState)
   }
 
-  // Note: preact 不会在未使用的 state 更新后主动更新，需新增判断
-  shouldComponentUpdate = IS_PREACT ? (_nextProps: IProps, nextState: IState) => {
-    if (this.state.refreshCount !== nextState.refreshCount) {
-      return true
-    }
-  } : undefined
-
   itemList: ListSet
   preset: Preset
 
@@ -72,23 +64,19 @@ export default class List extends React.PureComponent<IProps, IState> {
   }
 
   // FIXME Warning: Cannot update during an existing state transition (such as within `render`).
-  refresh = () => this.setState(({ refreshCount }) => ({
-    refreshCount: ++refreshCount
-  }))
+  refresh = () => {
+    if (process.env.FRAMEWORK === 'preact') {
+      this.forceUpdate()
+    } else {
+      this.setState(({ refreshCount }) => ({
+        refreshCount: ++refreshCount
+      }))
+    }
+  }
 
   _outerRef = undefined
 
   _resetIsScrollingTimeoutId = null
-
-  field = {
-    scrollLeft: 0,
-    scrollTop: 0,
-    scrollHeight: 0,
-    scrollWidth: 0,
-    clientHeight: 0,
-    clientWidth: 0,
-    diffOffset: 0
-  }
 
   _callOnItemsRendered = memoizeOne((overscanStartIndex, overscanStopIndex, visibleStartIndex, visibleStopIndex) => this.props.onItemsRendered({
     overscanStartIndex,
@@ -126,7 +114,7 @@ export default class List extends React.PureComponent<IProps, IState> {
           this.state.scrollDirection,
           this.state.scrollOffset,
           this.state.scrollUpdateWasRequested,
-          this.field
+          this.preset.field
         )
       }
     }
@@ -183,15 +171,17 @@ export default class List extends React.PureComponent<IProps, IState> {
       scrollHeight,
       scrollWidth
     } = event.currentTarget
-    this.field.scrollHeight = scrollHeight
-    this.field.scrollWidth = this.itemList.getOffsetSize()
-    this.field.scrollTop = scrollTop
-    this.field.scrollLeft = scrollLeft
-    this.field.clientHeight = scrollHeight
-    this.field.clientWidth = clientWidth
+    this.preset.field = {
+      scrollHeight: scrollHeight,
+      scrollWidth: this.itemList.getOffsetSize(),
+      scrollTop: scrollTop,
+      scrollLeft: scrollLeft,
+      clientHeight: scrollHeight,
+      clientWidth: scrollWidth
+    }
     this.setState((prevState: any) => {
-      const diffOffset = this.field.scrollLeft - scrollLeft
-      if (prevState.scrollOffset === scrollLeft || this.field.diffOffset === -diffOffset) {
+      const diffOffset = this.preset.field.scrollLeft - scrollLeft
+      if (prevState.scrollOffset === scrollLeft || this.preset.isShaking(diffOffset)) {
         // Scroll position may have been updated by cDM/cDU,
         // In which case we don't need to trigger another render,
         // And we don't want to update state.isScrolling.
@@ -216,8 +206,9 @@ export default class List extends React.PureComponent<IProps, IState> {
         }
       } // Prevent Safari's elastic scrolling from causing visual shaking when scrolling past bounds.
 
-      scrollOffset = Math.max(0, Math.min(scrollOffset, scrollWidth - clientWidth))
-      this.field.scrollWidth = scrollOffset
+      this.preset.field = {
+        scrollWidth: scrollOffset,
+      }
       return {
         isScrolling: true,
         scrollDirection: prevState.scrollOffset < scrollLeft ? 'forward' : 'backward',
@@ -236,8 +227,8 @@ export default class List extends React.PureComponent<IProps, IState> {
       scrollLeft
     } = event.currentTarget
     this.setState((prevState: IState) => {
-      const diffOffset = this.field.scrollTop - scrollTop
-      if (prevState.scrollOffset === scrollTop || this.field.diffOffset === -diffOffset) {
+      const diffOffset = this.preset.field.scrollTop - scrollTop
+      if (prevState.scrollOffset === scrollTop || this.preset.isShaking(diffOffset)) {
         // Scroll position may have been updated by cDM/cDU,
         // In which case we don't need to trigger another render,
         // And we don't want to update state.isScrolling.
@@ -246,13 +237,15 @@ export default class List extends React.PureComponent<IProps, IState> {
       // FIXME preact 中使用时，该组件会出现触底滚动事件重复触发导致的抖动问题，后续修复
       // Prevent Safari's elastic scrolling from causing visual shaking when scrolling past bounds.
       const scrollOffset = Math.max(0, Math.min(scrollTop, scrollHeight - clientHeight))
-      this.field.scrollHeight = this.itemList.getOffsetSize()
-      this.field.scrollWidth = scrollWidth
-      this.field.scrollTop = scrollOffset
-      this.field.scrollLeft = scrollLeft
-      this.field.clientHeight = clientHeight
-      this.field.clientWidth = scrollWidth
-      this.field.diffOffset = diffOffset
+      this.preset.field = {
+        scrollHeight: this.itemList.getOffsetSize(),
+        scrollWidth: scrollWidth,
+        scrollTop: scrollOffset,
+        scrollLeft: scrollLeft,
+        clientHeight: clientHeight,
+        clientWidth: scrollWidth,
+        diffOffset: this.preset.field.scrollTop - scrollOffset,
+      }
       return {
         isScrolling: true,
         scrollDirection: prevState.scrollOffset < scrollOffset ? 'forward' : 'backward',
@@ -463,9 +456,9 @@ export default class List extends React.PureComponent<IProps, IState> {
       }
     }
     if (isHorizontal) {
-      outerElementProps.scrollLeft = scrollUpdateWasRequested ? scrollOffset : this.field.scrollLeft
+      outerElementProps.scrollLeft = scrollUpdateWasRequested ? scrollOffset : this.preset.field.scrollLeft
     } else {
-      outerElementProps.scrollTop = scrollUpdateWasRequested ? scrollOffset : this.field.scrollTop
+      outerElementProps.scrollTop = scrollUpdateWasRequested ? scrollOffset : this.preset.field.scrollTop
     }
 
     if (this.preset.isRelative) {

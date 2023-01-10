@@ -47,6 +47,10 @@ const VirtualList = React.forwardRef(function VirtualList (props: VirtualListPro
     ...rest
   } = props as IProps
 
+  if ('children' in rest) {
+    console.warn('Taro(VirtualList): children props have been deprecated. ' + 'Please use the item props instead.')
+    rest.item = rest.children as IProps['item']
+  }
   if (rest.item instanceof Array) {
     console.warn('Taro(VirtualList): item should not be an array')
     rest.item = rest.item[0]

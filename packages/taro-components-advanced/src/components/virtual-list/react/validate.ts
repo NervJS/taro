@@ -1,12 +1,10 @@
-import { IS_PROD } from '../../../utils/constants'
-
 import type { IProps } from '../preset'
 import type { IState } from './list'
 
 let devWarningsDirection = null
 let devWarningsTagName = null
 
-if (!IS_PROD) {
+if (process.env.NODE_ENV !== 'production') {
   if (typeof window !== 'undefined' && typeof window.WeakSet !== 'undefined') {
     devWarningsDirection =
       /* #__PURE__ */
@@ -30,13 +28,13 @@ export const validateListProps = ({
 }: IProps, {
   instance,
 }: IState) => {
-  if (!IS_PROD) {
+  if (process.env.NODE_ENV !== 'production') {
     if (!['number', 'function'].includes(typeof itemSize)) {
       throw Error('An invalid "itemSize" prop has been specified. ' + 'Value should be a number or function. ' + `"${itemSize === null ? 'null' : typeof itemSize}" was specified.`)
     }
   }
 
-  if (!IS_PROD) {
+  if (process.env.NODE_ENV !== 'production') {
     if (innerTagName != null || outerTagName != null || itemTagName != null) {
       if (devWarningsTagName && !devWarningsTagName.has(instance)) {
         devWarningsTagName.add(instance)
