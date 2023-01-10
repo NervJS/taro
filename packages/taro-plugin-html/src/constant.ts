@@ -81,6 +81,8 @@ export const specialElements = new Map<string, string | SpecialMaps>([
         } else if (value === 'tel') {
           value = 'number'
         }
+      } else if (htmlKey === 'maxlength') {
+        key = 'maxlength';
       }
       return [key, value]
     }
