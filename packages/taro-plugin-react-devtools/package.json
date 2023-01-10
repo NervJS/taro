@@ -4,8 +4,8 @@
   "description": "Taro 小程序端支持使用 React DevTools 的插件",
   "main": "index.js",
   "scripts": {
-    "dev": "rollup -c -w",
-    "build": "rollup -c",
+    "dev": "rollup -c -w --bundleConfigAsCjs",
+    "build": "rollup -c --bundleConfigAsCjs",
     "test": "jest",
     "test:dev": "jest --watch"
   },
@@ -27,6 +27,12 @@
     "url": "https://github.com/NervJS/taro/issues"
   },
   "homepage": "https://github.com/NervJS/taro#readme",
+  "devDependencies": {
+    "rollup": "^3.8.1",
+    "rollup-plugin-copy": "^3.4.0",
+    "rollup-plugin-node-externals": "^4.0.0",
+    "rollup-plugin-ts": "^3.0.2"
+  },
   "dependencies": {
     "@tarojs/helper": "workspace:*",
     "@tarojs/service": "workspace:*",
