@@ -4,7 +4,6 @@ import type { IPluginContext } from '@tarojs/service'
 import type { Frameworks } from './index'
 
 export function modifyH5WebpackChain (ctx: IPluginContext, framework: Frameworks, chain) {
-  setAlias(ctx, chain)
   setLoader(ctx, framework, chain)
   setPlugin(ctx, framework, chain)
 
@@ -18,17 +17,6 @@ export function modifyH5WebpackChain (ctx: IPluginContext, framework: Frameworks
       }
     }
   })
-}
-
-function setAlias (ctx: IPluginContext, chain) {
-  const config = ctx.initialConfig
-  const alias = chain.resolve.alias
-
-  if (config.h5?.useHtmlComponents) {
-    alias.set('@tarojs/components$', '@tarojs/components-react/index')
-  } else {
-    alias.set('@tarojs/components$', '@tarojs/components/dist/react')
-  }
 }
 
 function setLoader (ctx: IPluginContext, framework: Frameworks, chain) {

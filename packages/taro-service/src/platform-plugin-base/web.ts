@@ -81,6 +81,9 @@ export abstract class TaroPlatformWeb extends TaroPlatform {
         FRAMEWORK: JSON.stringify(this.config.framework),
         TARO_VERSION: JSON.stringify(getPkgVersion())
       },
+      defineConstants: {
+        USE_HTML_COMPONENTS: JSON.stringify(!!this.config.useHtmlComponents),
+      },
       devServer: { port },
       sourceRoot: this.config.sourceRoot || SOURCE_DIR,
       outputRoot: this.config.outputRoot || OUTPUT_DIR

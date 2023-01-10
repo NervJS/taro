@@ -24,6 +24,7 @@
   "license": "MIT",
   "dependencies": {
     "@babel/runtime": "^7.14.5",
+    "@tarojs/components": "workspace:*",
     "classnames": "^2.2.5",
     "intersection-observer": "^0.7.0",
     "resolve-pathname": "^3.0.0",

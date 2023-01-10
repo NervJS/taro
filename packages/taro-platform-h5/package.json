@@ -14,6 +14,10 @@
     "dist",
     "types"
   ],
+  "sideEffects": [
+    "*.scss",
+    "*.css"
+  ],
   "types": "types/index.d.ts",
   "repository": {
     "type": "git",
@@ -27,8 +31,21 @@
     "url": "https://github.com/NervJS/taro/issues"
   },
   "dependencies": {
-    "@tarojs/components": "workspace:*",
     "@tarojs/service": "workspace:*",
-    "@tarojs/shared": "workspace:*"
+    "@tarojs/components": "workspace:*",
+    "@tarojs/shared": "workspace:*",
+    "@tarojs/taro-h5": "workspace:*",
+    "babel-plugin-transform-taroapi": "workspace:*",
+    "resolve": "^1.22.0"
+  },
+  "devDependencies": {
+    "@rollup/plugin-commonjs": "^20.0.0",
+    "@rollup/plugin-node-resolve": "^8.0.0",
+    "@tarojs/components-react": "workspace:*",
+    "lodash": "^4.17.21",
+    "rollup": "^2.79.0",
+    "rollup-plugin-node-externals": "^4.0.0",
+    "rollup-plugin-ts": "^3.0.2",
+    "typescript": "^4.7.4"
   }
 }

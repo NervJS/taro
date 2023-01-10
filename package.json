@@ -72,6 +72,7 @@
     "@tarojs/plugin-framework-vue2": "workspace:*",
     "@tarojs/plugin-framework-vue3": "workspace:*",
     "@tarojs/plugin-platform-alipay": "workspace:*",
+    "@tarojs/plugin-platform-h5": "workspace:*",
     "@tarojs/plugin-platform-jd": "workspace:*",
     "@tarojs/plugin-platform-qq": "workspace:*",
     "@tarojs/plugin-platform-swan": "workspace:*",

@@ -17,10 +17,8 @@
     "*.css"
   ],
   "scripts": {
-    "assets": "cpy 'src/**/*.css' dist",
-    "build": "rimraf ./dist && tsc && pnpm run assets && rollup -c",
-    "predev": "pnpm run assets",
-    "dev": "tsc -w",
+    "build": "rimraf ./dist && cross-env NODE_ENV=production rollup -c",
+    "dev": "cross-env NODE_ENV=development rollup -c -w",
     "test": "jest",
     "test:ci": "jest -i --coverage false",
     "test:dev": "jest --watch",

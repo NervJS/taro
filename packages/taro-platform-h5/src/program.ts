@@ -1,6 +1,13 @@
 import { TaroPlatformWeb } from '@tarojs/service'
 
+import { resolveSync } from './utils'
+
 import type { IPluginContext, TConfig } from '@tarojs/service'
+
+const compLibraryAlias = {
+  'vue': 'vue2',
+  'vue3': 'vue3'
+}
 
 const PACKAGE_NAME = '@tarojs/plugin-platform-h5'
 export default class H5 extends TaroPlatformWeb {
@@ -16,18 +23,50 @@ export default class H5 extends TaroPlatformWeb {
     })
   }
 
+  get framework () {
+    return this.ctx.initialConfig.framework || 'react'
+  }
+
+  get useHtmlComponents () {
+    return !!this.ctx.initialConfig.h5?.useHtmlComponents
+  }
+
+  get componentLibrary () {
+    if (this.useHtmlComponents && this.framework === 'react') {
+      return '@tarojs/components-react/index'
+    } else {
+      return `@tarojs/components/lib/${compLibraryAlias[this.framework] || 'react'}`
+    }
+  }
+
   /**
    * 修改 Webpack 配置
    */
   modifyWebpackConfig () {
     this.ctx.modifyWebpackChain(({ chain }) => {
-      const alias = chain.resolve.alias
+      const rules = chain.module.rules
+      const script = rules.get('script')
+      const babelLoader = script.uses.get('babelLoader')
+      babelLoader.set('options', {
+        ...babelLoader.get('options'),
+        plugins: [
+          [require('babel-plugin-transform-taroapi'), {
+            packageName: '@tarojs/taro',
+            apis: require(resolveSync('./taroApis'))
+          }]
+        ]
+      })
 
-      // TODO 在插件内导出 taro-h5
-      alias.set('@tarojs/taro', '@tarojs/taro-h5')
-      // TODO 将组件库设置迁移至此
-      // TODO 为 babel-plugin-transform-taroapi 更新 @tarojs/taro-h5/dist/taroApis
+      const alias = chain.resolve.alias
+      alias.set('@tarojs/taro', require.resolve('./runtime/apis'))
+      alias.set('@tarojs/components$', require.resolve(this.componentLibrary))
+      // TODO 将组件库设置迁移至此 postcss.htmltransform (useHtmlComponents 状态下不需要)
       // TODO 为 postcss-html-transform 更新组件转换列表
+      // chain.plugin('mainPlugin')
+      //   .tap(args => {
+      //     args[0].loaderMeta = getLoaderMeta(framework, ctx)
+      //     return args
+      //   })
     })
   }
 }
