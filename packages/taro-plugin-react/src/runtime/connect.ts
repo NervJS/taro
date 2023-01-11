@@ -343,41 +343,73 @@ export function createReactApp (
 
     [ONHIDE]: setDefaultDescriptor({
       value () {
-        /**
-         * trigger lifecycle
-         */
-        const app = getAppInstance()
-        // class component, componentDidHide
-        app?.componentDidHide?.()
-        // functional component, useDidHide
-        triggerAppHook('onHide')
+        const onHide = () => {
+          /**
+           * trigger lifecycle
+           */
+          const app = getAppInstance()
+          // class component, componentDidHide
+          app?.componentDidHide?.()
+          // functional component, useDidHide
+          triggerAppHook('onHide')
+        }
+
+        if (appWrapper) {
+          onHide()
+        } else {
+          appWrapperPromise.then(onHide)
+        }
       }
     }),
 
     onError: setDefaultDescriptor({
       value (error: string) {
-        const app = getAppInstance()
-        app?.onError?.(error)
-        triggerAppHook('onError', error)
-        if (process.env.NODE_ENV !== 'production' && error?.includes('Minified React error')) {
-          console.warn('React 出现报错，请打开编译配置 mini.debugReact 查看报错详情：https://docs.taro.zone/docs/config-detail#minidebugreact')
+        const onError = () => {
+          const app = getAppInstance()
+          app?.onError?.(error)
+          triggerAppHook('onError', error)
+          if (process.env.NODE_ENV !== 'production' && error?.includes('Minified React error')) {
+            console.warn('React 出现报错，请打开编译配置 mini.debugReact 查看报错详情：https://docs.taro.zone/docs/config-detail#minidebugreact')
+          }
+        }
+
+        if (appWrapper) {
+          onError()
+        } else {
+          appWrapperPromise.then(onError)
         }
       }
     }),
 
     onUnhandledRejection: setDefaultDescriptor({
       value (res: unknown) {
-        const app = getAppInstance()
-        app?.onUnhandledRejection?.(res)
-        triggerAppHook('onUnhandledRejection', res)
+        const onUnhandledRejection = () => {
+          const app = getAppInstance()
+          app?.onUnhandledRejection?.(res)
+          triggerAppHook('onUnhandledRejection', res)
+        }
+
+        if (appWrapper) {
+          onUnhandledRejection()
+        } else {
+          appWrapperPromise.then(onUnhandledRejection)
+        }
       }
     }),
 
     onPageNotFound: setDefaultDescriptor({
       value (res: unknown) {
-        const app = getAppInstance()
-        app?.onPageNotFound?.(res)
-        triggerAppHook('onPageNotFound', res)
+        const onPageNotFound = () => {
+          const app = getAppInstance()
+          app?.onPageNotFound?.(res)
+          triggerAppHook('onPageNotFound', res)
+        }
+
+        if (appWrapper) {
+          onPageNotFound()
+        } else {
+          appWrapperPromise.then(onPageNotFound)
+        }
       }
     })
   })
