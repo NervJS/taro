@@ -11,7 +11,7 @@ export function modifyH5WebpackChain (ctx: IPluginContext, framework: Frameworks
     module: {
       rule: {
         'process-import-taro': {
-          test: /taro-h5[\\/]dist[\\/]index/,
+          test: /taro-h5[\\/]dist[\\/]api[\\/]taro/,
           loader: require.resolve('./api-loader')
         }
       }

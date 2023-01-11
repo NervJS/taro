@@ -84,7 +84,7 @@ export default (ctx: IPluginContext, config: IConfig = {}) => {
       const taroVue3Plugin = {
         name: 'taroVue3Plugin',
         setup (build) {
-          build.onLoad({ filter: /taro-h5[\\/]dist[\\/]index/ }, ({ path }) => {
+          build.onLoad({ filter: /taro-h5[\\/]dist[\\/]api[\\/]taro/ }, ({ path }) => {
             const content = fs.readFileSync(path).toString()
             return {
               contents: require('./api-loader')(content)
