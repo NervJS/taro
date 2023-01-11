@@ -9,7 +9,7 @@
   "scripts": {
     "dev": "tsc -w",
     "prod": "tsc",
-    "build": "npm run clean && npm run prod",
+    "build": "run-s clean prod",
     "clean": "rimraf dist"
   },
   "files": [

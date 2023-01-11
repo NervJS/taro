@@ -643,30 +643,45 @@ importers:
     specifiers:
       '@babel/cli': ^7.14.5
       '@babel/core': ^7.14.5
+      '@rollup/plugin-commonjs': ^20.0.0
+      '@rollup/plugin-node-resolve': ^8.0.0
       '@tarojs/components': workspace:*
       '@types/node': ^14.14.31
       babel-preset-taro: workspace:*
       react: ^18.2.0
       react-dom: ^18.2.0
+      rollup: ^2.79.0
+      rollup-plugin-node-externals: ^4.0.0
+      rollup-plugin-ts: ^3.0.2
       typescript: ^4.7.4
     dependencies:
       '@tarojs/components': link:../taro-components
     devDependencies:
       '@babel/cli': registry.npmjs.org/@babel/cli/7.19.3_@babel+core@7.20.5
       '@babel/core': registry.npmjs.org/@babel/core/7.20.5
+      '@rollup/plugin-commonjs': registry.npmjs.org/@rollup/plugin-commonjs/20.0.0_rollup@2.79.0
+      '@rollup/plugin-node-resolve': registry.npmjs.org/@rollup/plugin-node-resolve/8.4.0_rollup@2.79.0
       '@types/node': registry.npmjs.org/@types/node/14.18.21
       babel-preset-taro: link:../babel-preset-taro
       react: registry.npmjs.org/react/18.2.0
       react-dom: registry.npmjs.org/react-dom/18.2.0_react@18.2.0
+      rollup: registry.npmjs.org/rollup/2.79.0
+      rollup-plugin-node-externals: registry.npmjs.org/rollup-plugin-node-externals/4.0.0_rollup@2.79.0
+      rollup-plugin-ts: registry.npmjs.org/rollup-plugin-ts/3.0.2_qefrbwfbafqvb7urjfe6pwtg5i
       typescript: registry.npmjs.org/typescript/4.7.4
 
   packages/taro-components-library-vue2:
     specifiers:
       '@babel/cli': ^7.14.5
       '@babel/core': ^7.14.5
+      '@rollup/plugin-commonjs': ^20.0.0
+      '@rollup/plugin-node-resolve': ^8.0.0
       '@tarojs/components': workspace:*
       '@types/node': ^14.14.31
       babel-preset-taro: workspace:*
+      rollup: ^2.79.0
+      rollup-plugin-node-externals: ^4.0.0
+      rollup-plugin-ts: ^3.0.2
       typescript: ^4.7.4
       vue: ^2.6.11
     dependencies:
@@ -674,8 +689,13 @@ importers:
     devDependencies:
       '@babel/cli': registry.npmjs.org/@babel/cli/7.19.3_@babel+core@7.20.5
       '@babel/core': registry.npmjs.org/@babel/core/7.20.5
+      '@rollup/plugin-commonjs': registry.npmjs.org/@rollup/plugin-commonjs/20.0.0_rollup@2.79.0
+      '@rollup/plugin-node-resolve': registry.npmjs.org/@rollup/plugin-node-resolve/8.4.0_rollup@2.79.0
       '@types/node': registry.npmjs.org/@types/node/14.18.21
       babel-preset-taro: link:../babel-preset-taro
+      rollup: registry.npmjs.org/rollup/2.79.0
+      rollup-plugin-node-externals: registry.npmjs.org/rollup-plugin-node-externals/4.0.0_rollup@2.79.0
+      rollup-plugin-ts: registry.npmjs.org/rollup-plugin-ts/3.0.2_qefrbwfbafqvb7urjfe6pwtg5i
       typescript: registry.npmjs.org/typescript/4.7.4
       vue: registry.npmjs.org/vue/2.6.14
 
@@ -683,9 +703,14 @@ importers:
     specifiers:
       '@babel/cli': ^7.14.5
       '@babel/core': ^7.14.5
+      '@rollup/plugin-commonjs': ^20.0.0
+      '@rollup/plugin-node-resolve': ^8.0.0
       '@tarojs/components': workspace:*
       '@types/node': ^14.14.31
       babel-preset-taro: workspace:*
+      rollup: ^2.79.0
+      rollup-plugin-node-externals: ^4.0.0
+      rollup-plugin-ts: ^3.0.2
       typescript: ^4.7.4
       vue: ^3.0.0
     dependencies:
@@ -693,8 +718,13 @@ importers:
     devDependencies:
       '@babel/cli': registry.npmjs.org/@babel/cli/7.19.3_@babel+core@7.20.5
       '@babel/core': registry.npmjs.org/@babel/core/7.20.5
+      '@rollup/plugin-commonjs': registry.npmjs.org/@rollup/plugin-commonjs/20.0.0_rollup@2.79.0
+      '@rollup/plugin-node-resolve': registry.npmjs.org/@rollup/plugin-node-resolve/8.4.0_rollup@2.79.0
       '@types/node': registry.npmjs.org/@types/node/14.18.21
       babel-preset-taro: link:../babel-preset-taro
+      rollup: registry.npmjs.org/rollup/2.79.0
+      rollup-plugin-node-externals: registry.npmjs.org/rollup-plugin-node-externals/4.0.0_rollup@2.79.0
+      rollup-plugin-ts: registry.npmjs.org/rollup-plugin-ts/3.0.2_qefrbwfbafqvb7urjfe6pwtg5i
       typescript: registry.npmjs.org/typescript/4.7.4
       vue: registry.npmjs.org/vue/3.2.37
 
@@ -11808,7 +11838,7 @@ packages:
       postcss: ^8.1.0
     dependencies:
       browserslist: registry.npmjs.org/browserslist/4.21.4
-      caniuse-lite: registry.npmjs.org/caniuse-lite/1.0.30001429
+      caniuse-lite: registry.npmjs.org/caniuse-lite/1.0.30001442
       fraction.js: registry.npmjs.org/fraction.js/4.2.0
       normalize-range: registry.npmjs.org/normalize-range/0.1.2
       picocolors: registry.npmjs.org/picocolors/1.0.0
@@ -14098,12 +14128,6 @@ packages:
     resolution: {integrity: sha512-Xln/BAsPzEuiVLgJ2/45IaqD9jShtk3Y33anKb4+yLwQzws3+v6odKfpgES/cDEaZMLzSChpIGdbOYtH9MyuHw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/caniuse-lite/-/caniuse-lite-1.0.30001359.tgz}
     name: caniuse-lite
     version: 1.0.30001359
-    dev: false
-
-  registry.npmjs.org/caniuse-lite/1.0.30001429:
-    resolution: {integrity: sha512-511ThLu1hF+5RRRt0zYCf2U2yRr9GPF6m5y90SBCWsvSoYoW7yAGlv/elyPaNfvGCkp6kj/KFZWU0BMA69Prsg==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/caniuse-lite/-/caniuse-lite-1.0.30001429.tgz}
-    name: caniuse-lite
-    version: 1.0.30001429
     dev: false
 
   registry.npmjs.org/caniuse-lite/1.0.30001442:
@@ -31149,6 +31173,53 @@ packages:
       '@babel/preset-env': registry.npmjs.org/@babel/preset-env/7.20.2_@babel+core@7.20.5
       '@babel/preset-typescript': registry.npmjs.org/@babel/preset-typescript/7.18.6_@babel+core@7.20.5
       '@babel/runtime': registry.npmjs.org/@babel/runtime/7.20.6
+      '@rollup/pluginutils': registry.npmjs.org/@rollup/pluginutils/4.2.1
+      '@wessberg/stringutil': registry.npmjs.org/@wessberg/stringutil/1.0.19
+      ansi-colors: registry.npmjs.org/ansi-colors/4.1.3
+      browserslist: registry.npmjs.org/browserslist/4.21.4
+      browserslist-generator: registry.npmjs.org/browserslist-generator/1.0.66
+      compatfactory: registry.npmjs.org/compatfactory/1.0.1_typescript@4.7.4
+      crosspath: registry.npmjs.org/crosspath/2.0.0
+      magic-string: registry.npmjs.org/magic-string/0.26.2
+      rollup: registry.npmjs.org/rollup/2.79.0
+      ts-clone-node: registry.npmjs.org/ts-clone-node/1.0.0_typescript@4.7.4
+      tslib: registry.npmjs.org/tslib/2.4.0
+      typescript: registry.npmjs.org/typescript/4.7.4
+    dev: true
+
+  registry.npmjs.org/rollup-plugin-ts/3.0.2_qefrbwfbafqvb7urjfe6pwtg5i:
+    resolution: {integrity: sha512-67qi2QTHewhLyKDG6fX3jpohWpmUPPIT/xJ7rsYK46X6MqmoWy64Ti0y8ygPfLv8mXDCdRZUofM3mTxDfCswRA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/rollup-plugin-ts/-/rollup-plugin-ts-3.0.2.tgz}
+    id: registry.npmjs.org/rollup-plugin-ts/3.0.2
+    name: rollup-plugin-ts
+    version: 3.0.2
+    engines: {node: '>=14.9.0', npm: '>=7.0.0', pnpm: '>=3.2.0', yarn: '>=1.13'}
+    peerDependencies:
+      '@babel/core': '>=6.x || >=7.x'
+      '@babel/plugin-transform-runtime': '>=6.x || >=7.x'
+      '@babel/preset-env': '>=6.x || >=7.x'
+      '@babel/preset-typescript': '>=6.x || >=7.x'
+      '@babel/runtime': '>=6.x || >=7.x'
+      '@swc/core': '>=1.x'
+      '@swc/helpers': '>=0.2'
+      rollup: '>=1.x || >=2.x'
+      typescript: '>=3.2.x || >= 4.x'
+    peerDependenciesMeta:
+      '@babel/core':
+        optional: true
+      '@babel/plugin-transform-runtime':
+        optional: true
+      '@babel/preset-env':
+        optional: true
+      '@babel/preset-typescript':
+        optional: true
+      '@babel/runtime':
+        optional: true
+      '@swc/core':
+        optional: true
+      '@swc/helpers':
+        optional: true
+    dependencies:
+      '@babel/core': registry.npmjs.org/@babel/core/7.20.5
       '@rollup/pluginutils': registry.npmjs.org/@rollup/pluginutils/4.2.1
       '@wessberg/stringutil': registry.npmjs.org/@wessberg/stringutil/1.0.19
       ansi-colors: registry.npmjs.org/ansi-colors/4.1.3

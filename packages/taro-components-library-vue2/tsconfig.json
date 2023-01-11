@@ -3,9 +3,7 @@
   "compilerOptions": {
     "baseUrl": ".",
     "declaration": true,
-    "declarationDir": "../taro-components/lib/vue2",
     "module": "ESNext",
-    "outDir": "../taro-components/lib/vue2",
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "sourceMap": false,

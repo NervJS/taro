@@ -8,6 +8,10 @@
     "dist",
     "typings"
   ],
+  "sideEffects": [
+    "*.scss",
+    "*.css"
+  ],
   "scripts": {
     "build": "run-s clean build:babel build:declaration",
     "build:babel": "cross-env TARO_ENV=h5 babel src --extensions=.js,.jsx,.ts,.tsx --out-dir dist",
