@@ -1,1 +1,1 @@
-export * from '@tarojs/components-react/index'
+export * from '@tarojs/components-react'

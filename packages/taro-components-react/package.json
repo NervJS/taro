@@ -6,10 +6,12 @@
   "main": "dist/index.js",
   "module": "dist/index.mjs",
   "types": "types/index.d.ts",
-  "sideEffects": [],
+  "sideEffects": [
+    "./dist/components/**/loader.js"
+  ],
   "files": [
     "dist",
-    "index.js"
+    "types"
   ],
   "scripts": {
     "build": "rollup -c",
