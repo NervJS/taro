@@ -33,7 +33,7 @@ export default class H5 extends TaroPlatformWeb {
 
   get componentLibrary () {
     if (this.useHtmlComponents && this.framework === 'react') {
-      return '@tarojs/components-react/index'
+      return './runtime/components'
     } else {
       return `@tarojs/components/lib/${compLibraryAlias[this.framework] || 'react'}`
     }
@@ -60,13 +60,18 @@ export default class H5 extends TaroPlatformWeb {
       const alias = chain.resolve.alias
       alias.set('@tarojs/taro', require.resolve('./runtime/apis'))
       alias.set('@tarojs/components$', require.resolve(this.componentLibrary))
-      // TODO 将组件库设置迁移至此 postcss.htmltransform (useHtmlComponents 状态下不需要)
-      // TODO 为 postcss-html-transform 更新组件转换列表
-      // chain.plugin('mainPlugin')
-      //   .tap(args => {
-      //     args[0].loaderMeta = getLoaderMeta(framework, ctx)
-      //     return args
-      //   })
+      chain.plugin('mainPlugin')
+        .tap(args => {
+          if (this.useHtmlComponents) {
+            args[0].loaderMeta ||= {
+              extraImportForWeb: '',
+              execBeforeCreateWebApp: ''
+            }
+            args[0].loaderMeta.extraImportForWeb += `import { PullDownRefresh } from '@tarojs/components'\n`
+            args[0].loaderMeta.execBeforeCreateWebApp += `config.PullDownRefresh = PullDownRefresh\n`
+          }
+          return args
+        })
     })
   }
 }

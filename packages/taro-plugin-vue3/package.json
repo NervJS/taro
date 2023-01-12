@@ -29,7 +29,8 @@
     "@tarojs/runner-utils": "workspace:*",
     "@tarojs/runtime": "workspace:*",
     "@tarojs/service": "workspace:*",
-    "@tarojs/shared": "workspace:*"
+    "@tarojs/shared": "workspace:*",
+    "lodash": "^4.17.21"
   },
   "devDependencies": {
     "vue": "^3.0.0"

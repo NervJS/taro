@@ -41,15 +41,11 @@ const variesConfig = [{
   },
   plugins: getPlugins([externals()])
 }, {
-  input: path.join(cwd, 'src/runtime/index.ts'), // 供 Loader 使用的运行时入口
-  output: {
-    dir: path.join(cwd, 'dist'),
-    preserveModules: true,
-    preserveModulesRoot: 'src'
-  },
-  plugins: getPlugins([externals()])
-}, {
-  input: path.join(cwd, 'src/runtime/apis/index.ts'), // API
+  input: [
+    path.join(cwd, 'src/runtime/index.ts'), // 供 Loader 使用的运行时入口
+    path.join(cwd, 'src/runtime/apis/index.ts'), // API
+    path.join(cwd, 'src/runtime/components/index.ts'), // Components Library
+  ],
   output: {
     dir: path.join(cwd, 'dist'),
     preserveModules: true,

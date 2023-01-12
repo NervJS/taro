@@ -3,8 +3,6 @@ import * as walk from 'acorn-walk'
 
 import { Frameworks } from './index'
 
-import type { IPluginContext } from '@tarojs/service'
-
 interface ILoaderMeta {
   importFrameworkStatement: string
   mockAppStatement: string
@@ -85,7 +83,7 @@ render () {
   importFrameworkName: 'Nerv'
 }
 
-export function getLoaderMeta (framework: Frameworks, ctx: IPluginContext): ILoaderMeta {
+export function getLoaderMeta (framework: Frameworks): ILoaderMeta {
   const loaderMeta = {
     importFrameworkStatement: `
 import * as React from 'react'
@@ -113,8 +111,6 @@ class App extends React.Component {
   }
 
   if (process.env.TARO_ENV === 'h5') {
-    const config = ctx.initialConfig.h5 || {}
-    const { useHtmlComponents = false } = config
     if(framework === 'react') {
       const react = require('react')
       const majorVersion = Number((react.version || '18').split('.')[0])
@@ -123,11 +119,6 @@ class App extends React.Component {
         loaderMeta.importFrameworkStatement = loaderMeta.importFrameworkStatement.replace('\'react-dom\'', '\'react-dom/client\'')
         loaderMeta.extraImportForWeb += `import { findDOMNode, render, unstable_batchedUpdates } from 'react-dom'\n`
         loaderMeta.execBeforeCreateWebApp += `Object.assign(ReactDOM, { findDOMNode, render, unstable_batchedUpdates })\n`
-      }
-  
-      if (useHtmlComponents) {
-        loaderMeta.extraImportForWeb += `import { PullDownRefresh } from '@tarojs/components'\n`
-        loaderMeta.execBeforeCreateWebApp += `config.PullDownRefresh = PullDownRefresh\n`
       }
     }
   }

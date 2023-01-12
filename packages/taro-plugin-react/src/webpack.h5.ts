@@ -1,10 +1,12 @@
+import { mergeWith } from 'lodash'
+
 import { getLoaderMeta} from './loader-meta'
 
 import type { IPluginContext } from '@tarojs/service'
 import type { Frameworks } from './index'
 
 export function modifyH5WebpackChain (ctx: IPluginContext, framework: Frameworks, chain) {
-  setLoader(ctx, framework, chain)
+  setLoader(framework, chain)
   setPlugin(ctx, framework, chain)
 
   chain.merge({
@@ -19,10 +21,15 @@ export function modifyH5WebpackChain (ctx: IPluginContext, framework: Frameworks
   })
 }
 
-function setLoader (ctx: IPluginContext, framework: Frameworks, chain) {
+function setLoader (framework: Frameworks, chain) {
+  function customizer (object = '', sources = '') {
+    if ([object, sources].every(e => typeof e === 'string')) return object + sources
+  }
   chain.plugin('mainPlugin')
     .tap(args => {
-      args[0].loaderMeta = getLoaderMeta(framework, ctx)
+      args[0].loaderMeta = mergeWith(
+        getLoaderMeta(framework), args[0].loaderMeta, customizer
+      )
       return args
     })
 }

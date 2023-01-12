@@ -30,7 +30,8 @@
     "@tarojs/service": "workspace:*",
     "@tarojs/shared": "workspace:*",
     "acorn": "^8.0.4",
-    "acorn-walk": "^8.0.0"
+    "acorn-walk": "^8.0.0",
+    "lodash": "^4.17.21"
   },
   "devDependencies": {
     "@pmmmwh/react-refresh-webpack-plugin": "^0.5.5",

@@ -15,6 +15,7 @@
     "types"
   ],
   "sideEffects": [
+    "./dist/runtime/index.js",
     "*.scss",
     "*.css"
   ],
@@ -33,6 +34,7 @@
   "dependencies": {
     "@tarojs/service": "workspace:*",
     "@tarojs/components": "workspace:*",
+    "@tarojs/components-react": "workspace:*",
     "@tarojs/shared": "workspace:*",
     "@tarojs/taro-h5": "workspace:*",
     "babel-plugin-transform-taroapi": "workspace:*",
@@ -41,7 +43,6 @@
   "devDependencies": {
     "@rollup/plugin-commonjs": "^20.0.0",
     "@rollup/plugin-node-resolve": "^8.0.0",
-    "@tarojs/components-react": "workspace:*",
     "lodash": "^4.17.21",
     "rollup": "^2.79.0",
     "rollup-plugin-node-externals": "^4.0.0",
