@@ -1,6 +1,6 @@
 {
   "name": "stylelint-config-taro-rn",
-  "version": "3.6.0-beta.1",
+  "version": "3.6.0-canary.11",
   "description": "Shareable stylelint config for React Native CSS modules",
   "main": "index.js",
   "files": [
