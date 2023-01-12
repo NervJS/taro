@@ -4,8 +4,8 @@
   "description": "Taro 小程序端支持使用 HTML 标签的插件",
   "main": "index.js",
   "scripts": {
-    "dev": "rollup -c -w",
-    "build": "rollup -c",
+    "dev": "rollup -c -w --bundleConfigAsCjs",
+    "build": "rollup -c --bundleConfigAsCjs",
     "test": "jest",
     "test:dev": "jest --watch"
   },
@@ -28,6 +28,9 @@
     "url": "https://github.com/NervJS/taro/issues"
   },
   "homepage": "https://github.com/NervJS/taro#readme",
+  "devDependencies": {
+    "rollup": "^3.8.1"
+  },
   "dependencies": {
     "@babel/parser": "^7.14.5",
     "@tarojs/runtime": "workspace:*",
