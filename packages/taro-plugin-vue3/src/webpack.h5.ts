@@ -11,16 +11,10 @@ import type { IConfig } from './index'
 
 export function modifyH5WebpackChain (ctx: IPluginContext, chain, config: IConfig) {
   // vue3 tsx 使用原生组件
-  setAlias(chain)
   setStyleLoader(ctx, chain)
   setVueLoader(chain, config)
   setLoader(chain)
   setTaroApiLoader(chain)
-}
-
-function setAlias (chain) {
-  const alias = chain.resolve.alias
-  alias.set('@tarojs/components$', '@tarojs/components/lib/vue3')
 }
 
 function setStyleLoader (ctx: IPluginContext, chain) {

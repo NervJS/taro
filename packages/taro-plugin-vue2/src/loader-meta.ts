@@ -29,11 +29,7 @@ const App = {
     creatorLocation: '@tarojs/plugin-framework-vue2/dist/runtime',
     importFrameworkName: 'Vue',
     isNeedRawLoader: true,
-    extraImportForWeb: `
-import { initVue2Components } from '@tarojs/components/lib/vue2'
-`,
-    execBeforeCreateWebApp: `
-initVue2Components()
-`
+    extraImportForWeb: '',
+    execBeforeCreateWebApp: '',
   }
 }

@@ -24,11 +24,7 @@ const App = createApp({})
     creatorLocation: '@tarojs/plugin-framework-vue3/dist/runtime',
     importFrameworkName: 'h',
     isNeedRawLoader: true,
-    extraImportForWeb: `
-import { initVue3Components } from '@tarojs/components/lib/vue3'
-`,
-    execBeforeCreateWebApp: `
-initVue3Components(component)
-`
+    extraImportForWeb: '',
+    execBeforeCreateWebApp: '',
   }
 }

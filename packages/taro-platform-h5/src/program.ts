@@ -63,13 +63,24 @@ export default class H5 extends TaroPlatformWeb {
       alias.set('@tarojs/router$', require.resolve('@tarojs/router'))
       chain.plugin('mainPlugin')
         .tap(args => {
-          if (this.useHtmlComponents) {
-            args[0].loaderMeta ||= {
-              extraImportForWeb: '',
-              execBeforeCreateWebApp: ''
-            }
-            args[0].loaderMeta.extraImportForWeb += `import { PullDownRefresh } from '@tarojs/components'\n`
-            args[0].loaderMeta.execBeforeCreateWebApp += `config.PullDownRefresh = PullDownRefresh\n`
+          args[0].loaderMeta ||= {
+            extraImportForWeb: '',
+            execBeforeCreateWebApp: ''
+          }
+          switch (this.framework) {
+            case 'vue':
+              args[0].loaderMeta.extraImportForWeb += `import { initVue2Components } from '@tarojs/components'\n`
+              args[0].loaderMeta.execBeforeCreateWebApp += `initVue2Components()\n`
+              break
+            case 'vue3':
+              args[0].loaderMeta.extraImportForWeb += `import { initVue3Components } from '@tarojs/components'\n`
+              args[0].loaderMeta.execBeforeCreateWebApp += `initVue3Components(component)\n`
+              break
+            default:
+              if (this.useHtmlComponents) {
+                args[0].loaderMeta.extraImportForWeb += `import { PullDownRefresh } from '@tarojs/components'\n`
+                args[0].loaderMeta.execBeforeCreateWebApp += `config.PullDownRefresh = PullDownRefresh\n`
+              }
           }
           return args
         })
