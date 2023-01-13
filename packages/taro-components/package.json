@@ -23,7 +23,7 @@
   "collection": "dist/collection/collection-manifest.json",
   "collection:main": "dist/collection/index.js",
   "scripts": {
-    "preinstall": "mkdir -p lib",
+    "prebuild": "mkdir -p lib",
     "build": "cross-env NODE_ENV=production run-s build:components build:library",
     "build:components": "stencil build --config stencil.config.ts",
     "build:library": "pnpm --filter @tarojs/components-library-react --filter @tarojs/components-library-vue2 --filter @tarojs/components-library-vue3 run build:ci",
