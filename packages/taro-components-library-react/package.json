@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/components-library-react",
-  "version": "3.6.0-canary.11",
+  "version": "3.6.0-canary.12",
   "description": "Taro 组件库 React 版本库",
   "private": true,
   "main": "index.js",
