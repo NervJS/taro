@@ -180,6 +180,10 @@ export function createReactApp (
     return appInstanceRef.current
   }
 
+  function waitAppWrapper (cb: () => void) {
+    appWrapper ? cb() : appWrapperPromise.then(() => cb())
+  }
+
   function renderReactRoot () {
     let appId = 'app'
     if (process.env.TARO_ENV === 'h5') {
@@ -310,11 +314,7 @@ export function createReactApp (
           triggerAppHook('onLaunch', options)
         }
 
-        if (appWrapper) {
-          onLaunch()
-        } else {
-          appWrapperPromise.then(() => onLaunch())
-        }
+        waitAppWrapper(onLaunch)
       }
     }),
 
@@ -333,11 +333,7 @@ export function createReactApp (
           triggerAppHook('onShow', options)
         }
 
-        if (appWrapper) {
-          onShow()
-        } else {
-          appWrapperPromise.then(onShow)
-        }
+        waitAppWrapper(onShow)
       }
     }),
 
@@ -354,11 +350,7 @@ export function createReactApp (
           triggerAppHook('onHide')
         }
 
-        if (appWrapper) {
-          onHide()
-        } else {
-          appWrapperPromise.then(onHide)
-        }
+        waitAppWrapper(onHide)
       }
     }),
 
@@ -373,11 +365,7 @@ export function createReactApp (
           }
         }
 
-        if (appWrapper) {
-          onError()
-        } else {
-          appWrapperPromise.then(onError)
-        }
+        waitAppWrapper(onError)
       }
     }),
 
@@ -389,11 +377,7 @@ export function createReactApp (
           triggerAppHook('onUnhandledRejection', res)
         }
 
-        if (appWrapper) {
-          onUnhandledRejection()
-        } else {
-          appWrapperPromise.then(onUnhandledRejection)
-        }
+        waitAppWrapper(onUnhandledRejection)
       }
     }),
 
@@ -405,11 +389,7 @@ export function createReactApp (
           triggerAppHook('onPageNotFound', res)
         }
 
-        if (appWrapper) {
-          onPageNotFound()
-        } else {
-          appWrapperPromise.then(onPageNotFound)
-        }
+        waitAppWrapper(onPageNotFound)
       }
     })
   })
