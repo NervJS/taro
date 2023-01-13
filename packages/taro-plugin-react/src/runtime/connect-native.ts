@@ -143,7 +143,7 @@ export function createNativeComponentConfig (Component, react: typeof React, rea
         type: null,
         value: null,
         observer (_newVal, oldVal) {
-          oldVal && this.component.forceUpdate()
+          oldVal && this.component?.forceUpdate()
         }
       }
     },
@@ -162,6 +162,7 @@ export function createNativeComponentConfig (Component, react: typeof React, rea
       safeExecute(this.compId, 'onReady')
     },
     detached () {
+      resetCurrent()
       Current.app!.unmount!(this.compId)
     },
     pageLifetimes: {
@@ -181,6 +182,12 @@ export function createNativeComponentConfig (Component, react: typeof React, rea
         safeExecute(this.compId, 'onUnload')
       }
     }
+  }
+  
+  function resetCurrent () {
+    // 小程序插件页面卸载之后返回到宿主页面时，需重置Current页面和路由。否则引发插件组件二次加载异常 fix:#11991
+    Current.page = null
+    Current.router = null
   }
 
   function setCurrent (compId: string) {
