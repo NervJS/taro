@@ -3,8 +3,11 @@ function createWhenTs (params) {
 }
 
 const handler = {
-  '/global.d.ts': createWhenTs,
   '/tsconfig.json': createWhenTs,
+  '/types/global.d.ts': createWhenTs,
+  '/types/vue.d.ts' ({ framework, typescript }) {
+    return ['vue', 'vue3'].includes(framework) && !!typescript
+  },
   '/src/pages/index/index.jsx' ({ pageName }) {
     return { setPageName: `/src/pages/${pageName}/index.jsx` }
   },
