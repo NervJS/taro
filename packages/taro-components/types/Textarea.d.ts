@@ -139,6 +139,7 @@ interface TextareaProps extends StandardProps, FormItemProps {
   /** 使用原生键盘
    * @default false
    * @supported alipay
+   * @ignore
    */
   enableNative?: boolean
 
