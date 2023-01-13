@@ -30,7 +30,7 @@ const baseConfig = {
 }
 
 const variesConfig = [{
-  input: 'src/index.ts',
+  input: ['src/index.ts', 'src/api/index.ts', 'src/api/taro.ts'],
   output: {
     dir: 'dist',
     preserveModules: true,
