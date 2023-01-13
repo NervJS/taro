@@ -285,6 +285,7 @@ interface VideoProps extends StandardProps {
   /** 使用原生
    * @default true
    * @supported alipay
+   * @ignore
    */
   enableNative?: boolean
 
