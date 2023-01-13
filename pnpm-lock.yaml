@@ -1044,6 +1044,7 @@ importers:
       '@rollup/plugin-node-resolve': ^8.0.0
       '@tarojs/components': workspace:*
       '@tarojs/components-react': workspace:*
+      '@tarojs/router': workspace:*
       '@tarojs/service': workspace:*
       '@tarojs/shared': workspace:*
       '@tarojs/taro-h5': workspace:*
@@ -1057,6 +1058,7 @@ importers:
     dependencies:
       '@tarojs/components': link:../taro-components
       '@tarojs/components-react': link:../taro-components-react
+      '@tarojs/router': link:../taro-router
       '@tarojs/service': link:../taro-service
       '@tarojs/shared': link:../shared
       '@tarojs/taro-h5': link:../taro-h5

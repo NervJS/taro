@@ -3,7 +3,6 @@
   "version": "3.6.0-canary.11",
   "description": "Web 端平台插件",
   "author": "ZakaryCode",
-  "private": true,
   "license": "MIT",
   "main": "index.js",
   "keywords": [
@@ -35,6 +34,7 @@
     "@tarojs/service": "workspace:*",
     "@tarojs/components": "workspace:*",
     "@tarojs/components-react": "workspace:*",
+    "@tarojs/router": "workspace:*",
     "@tarojs/shared": "workspace:*",
     "@tarojs/taro-h5": "workspace:*",
     "babel-plugin-transform-taroapi": "workspace:*",
