@@ -342,4 +342,8 @@ export const components = {
   },
   KeyboardAccessory: {},
   RootPortal: {},
+  ChannelLive: {
+    feedId: _empty,
+    finderUserName: _empty
+  }
 }
