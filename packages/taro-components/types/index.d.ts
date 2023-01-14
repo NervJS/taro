@@ -51,6 +51,7 @@ export { NavigationBar } from './NavigationBar'
 /** 媒体组件 */
 export { Audio } from './Audio'
 export { Camera } from './Camera'
+export { ChannelLive } from './ChannelLive'
 export { Image } from './Image'
 export { LivePlayer } from './LivePlayer'
 export { LivePusher } from './LivePusher'
