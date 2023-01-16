@@ -48,7 +48,6 @@ interface VirtualListProps extends StandardProps {
 }
 
 declare namespace VirtualListProps {
-  // eslint-disable-next-line @typescript-eslint/class-name-casing
   interface onScrollDetail {
     clientWidth: number
     clientHeight: number
