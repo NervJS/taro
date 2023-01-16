@@ -19,9 +19,7 @@ module.exports = {
   },
   rules: {
     'comma-dangle': [2, 'only-multiline'],
-    '@typescript-eslint/class-name-casing': 0,
     '@typescript-eslint/explicit-function-return-type': 0,
-    '@typescript-eslint/ban-ts-ignore': 0,
     '@typescript-eslint/ban-ts-comment': 0,
     'space-before-function-paren': 0,
     'react/display-name': 0,
