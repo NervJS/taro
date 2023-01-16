@@ -1,3 +1,5 @@
+// Copyright (c) 2019 wechat-miniprogram  MIT License
+// Reference and modify code  by miniprogram-render/src/bom/cookie.js
 import { parseUrl } from '@tarojs/runtime'
 import { getStorageSync, setStorage } from '@tarojs/taro'
 
@@ -295,5 +297,3 @@ export function createCookieInstance () {
   }
   return cookieInstance
 }
-
-// 特别感谢： 此 Cookie 实现参考自 `https://github.com/Tencent/kbone`
