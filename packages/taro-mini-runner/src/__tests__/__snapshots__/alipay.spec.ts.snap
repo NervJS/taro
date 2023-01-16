@@ -101,6 +101,15 @@ require(\\"./taro\\");
                         }, {
                             old: \\"icon\\",
                             new: \\"type\\"
+                        } ],
+                        set: [ {
+                            key: \\"type\\",
+                            value: function value(options) {
+                                if (options.type === \\"error\\") {
+                                    return \\"fail\\";
+                                }
+                                return options.type;
+                            }
                         } ]
                     }
                 },
@@ -326,6 +335,21 @@ require(\\"./taro\\");
                             key: \\"savedFilePath\\",
                             value: function value(res) {
                                 return res.apFilePath;
+                            }
+                        } ]
+                    }
+                },
+                getBLEDeviceServices: {
+                    res: {
+                        set: [ {
+                            key: \\"services\\",
+                            value: function value(res) {
+                                return res.services.map((function(item) {
+                                    return {
+                                        uuid: item.serviceId,
+                                        isPrimary: item.isPrimary
+                                    };
+                                }));
                             }
                         } ]
                     }

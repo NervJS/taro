@@ -6,6 +6,19 @@ interface VirtualListProps extends Omit<StandardProps, 'children'> {
   height: string | number
   /** 列表的宽度。 */
   width: string | number
+  /** 子组件 */
+  item: ComponentType<{
+    /** 组件 ID */
+    id: string
+    /** 单项的样式，样式必须传入组件的 style 中 */
+    style?: CSSProperties
+    /** 组件渲染的数据 */
+    data: any
+    /** 组件渲染数据的索引 */
+    index: number
+    /** 组件是否正在滚动，当 useIsScrolling 值为 true 时返回布尔值，否则返回 undefined */
+    isScrolling?: boolean
+  }>
   /** 列表的长度 */
   itemCount: number
   /** 渲染数据 */
@@ -16,7 +29,7 @@ interface VirtualListProps extends Omit<StandardProps, 'children'> {
    * >  - unlimitedSize 模式下如果传入函数，只会调用一次用于设置初始值
    * >  - 非 unlimitedSize 模式下如果传入函数，为避免性能问题，每个节点只会调用一次用于设置初始值
    */
-  itemSize: number | ((index?: number, itemData?: unknown) => number)
+  itemSize: number | ((index?: number, itemData?: any[]) => number)
   /** 解开高度列表单项大小限制，默认值使用: itemSize (请注意，初始高度与实际高度差异过大会导致隐患)。
    *
    * > Note: 通过 itemSize 设置的初始高度与子节点实际高度差异过大会导致隐患
@@ -49,21 +62,9 @@ interface VirtualListProps extends Omit<StandardProps, 'children'> {
   overscanCount?: number
   /** 上下滚动预占位节点 */
   placeholderCount?: number
-  /** 是否注入 isScrolling 属性到 children 组件。这个参数一般用于实现滚动骨架屏（或其它 placeholder） 时比较有用。 */
+  /** 是否注入 isScrolling 属性到 item 组件。这个参数一般用于实现滚动骨架屏（或其它 placeholder） 时比较有用。 */
   useIsScrolling?: boolean
   style?: CSSProperties
-  children?: ComponentType<{
-    /** 组件 ID */
-    id: string
-    /** 单项的样式，样式必须传入组件的 style 中 */
-    style?: CSSProperties
-    /** 组件渲染的数据 */
-    data: any
-    /** 组件渲染数据的索引 */
-    index: number
-    /** 组件是否正在滚动，当 useIsScrolling 值为 true 时返回布尔值，否则返回 undefined */
-    isScrolling?: boolean
-  }>
 }
 
 declare namespace VirtualListProps {
@@ -117,12 +118,11 @@ declare namespace VirtualListProps {
  *       <VirtualList
  *         height={500} // 列表的高度
  *         width='100%' // 列表的宽度
+ *         item={Row} // 列表单项组件，这里只能传入一个组件
  *         itemData={data} // 渲染列表的数据
  *         itemCount={dataLen} // 渲染列表的长度
  *         itemSize={100} // 列表单项的高度
- *       >
- *         {Row} // 列表单项组件，这里只能传入一个组件
- *       </VirtualList>
+ *       />
  *     );
  *   }
  * }
@@ -168,6 +168,7 @@ declare namespace VirtualListProps {
  *
  * <script>
  * import Row from './row.vue'
+ * import { markRaw } from 'vue'
  *
  * function buildData (offset = 0) {
  *   return Array(100).fill(0).map((_, i) => i + offset)
@@ -176,7 +177,7 @@ declare namespace VirtualListProps {
  * export default {
  *   data() {
  *     return {
- *       Row,
+ *       Row: markRaw(Row),
  *       list: buildData(0)
  *     }
  *   },
@@ -186,7 +187,8 @@ declare namespace VirtualListProps {
  * @see https://taro-docs.jd.com/docs/virtual-list
  */
 declare class VirtualListComponent extends Component<VirtualListProps> {}
-const VirtualList: typeof VirtualListComponent = process.env.FRAMEWORK === 'vue'
+
+const VirtualList: typeof VirtualListComponent = (process.env.FRAMEWORK === 'vue' || process.env.FRAMEWORK === 'vue3')
   ? require('./vue').default
   : require('./react').default
 

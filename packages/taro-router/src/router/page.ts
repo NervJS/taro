@@ -7,7 +7,7 @@ import { bindPageResize } from '../events/resize'
 import { bindPageScroll } from '../events/scroll'
 import { setHistoryMode } from '../history'
 import { initTabbar } from '../tabbar'
-import { addLeadingSlash, routesAlias, stripBasename, stripTrailing } from '../utils'
+import { addLeadingSlash, getHomePage, routesAlias, stripBasename, stripTrailing } from '../utils'
 import stacks from './stack'
 
 import type { PageConfig, RouterAnimate } from '@tarojs/taro'
@@ -31,7 +31,7 @@ export default class PageHandler {
 
   constructor (config: SpaRouterConfig) {
     this.config = config
-    this.homePage = this.getHomePage()
+    this.homePage = getHomePage(this.routes[0].path, this.basename, this.customRoutes, this.config.entryPagePath)
     this.mount()
   }
 
@@ -86,14 +86,6 @@ export default class PageHandler {
     )?.[0] || routePath
 
     return !!pagePath && this.tabBarList.some(t => stripTrailing(t.pagePath) === pagePath)
-  }
-
-  getHomePage () {
-    const routePath = addLeadingSlash(stripBasename(this.routes[0].path, this.basename))
-    const alias = Object.entries(this.customRoutes).find(
-      ([key]) => key === routePath
-    )?.[1] || routePath
-    return this.config.entryPagePath || (typeof alias === 'string' ? alias : alias[0]) || this.basename
   }
 
   isSamePage (page?: PageInstance | null) {

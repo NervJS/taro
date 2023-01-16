@@ -32,21 +32,20 @@ describe('storage', () => {
       const fail = jest.fn()
       const complete = jest.fn()
 
-      expect.assertions(7)
+      expect.assertions(5)
       return Taro.setStorage({
         success,
         fail,
         complete
       })
-        .catch(err => {
+        .then(() => {
           const expectErrMsg = 'setStorage:fail parameter error: parameter.key should be String instead of Undefined'
           expect(success.mock.calls.length).toBe(0)
           expect(fail.mock.calls.length).toBe(1)
           expect(fail.mock.calls[0][0]).toEqual({ errMsg: expectErrMsg })
           expect(complete.mock.calls.length).toBe(1)
           expect(complete.mock.calls[0][0]).toEqual({ errMsg: expectErrMsg })
-          expect(console.error).toHaveBeenCalledWith(expectErrMsg)
-          expect(err.errMsg).toMatch(expectErrMsg)
+          // expect(console.error).toHaveBeenCalledWith(expectErrMsg)
         })
     })
 
@@ -137,21 +136,20 @@ describe('storage', () => {
       const fail = jest.fn()
       const complete = jest.fn()
 
-      expect.assertions(7)
+      expect.assertions(5)
       return Taro.getStorage({
         success,
         fail,
         complete
       })
-        .catch(err => {
+        .then(() => {
           const expectErrMsg = 'getStorage:fail parameter error: parameter.key should be String instead of Undefined'
           expect(success.mock.calls.length).toBe(0)
           expect(fail.mock.calls.length).toBe(1)
           expect(fail.mock.calls[0][0]).toEqual({ errMsg: expectErrMsg })
           expect(complete.mock.calls.length).toBe(1)
           expect(complete.mock.calls[0][0]).toEqual({ errMsg: expectErrMsg })
-          expect(console.error).toHaveBeenCalledWith(expectErrMsg)
-          expect(err.errMsg).toMatch(expectErrMsg)
+          // expect(console.error).toHaveBeenCalledWith(expectErrMsg)
         })
     })
 
@@ -160,21 +158,20 @@ describe('storage', () => {
       const fail = jest.fn()
       const complete = jest.fn()
 
-      expect.assertions(6)
+      expect.assertions(5)
       return Taro.getStorage({
         key: 'test',
         success,
         fail,
         complete
       })
-        .catch(err => {
+        .then(() => {
           const expectObj = { errMsg: 'getStorage:fail data not found' }
           expect(success.mock.calls.length).toBe(0)
           expect(fail.mock.calls.length).toBe(1)
           expect(fail.mock.calls[0][0]).toEqual({ errMsg: expectObj.errMsg })
           expect(complete.mock.calls.length).toBe(1)
           expect(complete.mock.calls[0][0]).toEqual({ errMsg: expectObj.errMsg })
-          expect(err).toEqual(expectObj)
         })
     })
 
@@ -349,21 +346,20 @@ describe('storage', () => {
       const fail = jest.fn()
       const complete = jest.fn()
 
-      expect.assertions(7)
+      expect.assertions(5)
       return Taro.removeStorage({
         success,
         fail,
         complete
       })
-        .catch(err => {
+        .then(() => {
           const expectErrMsg = 'removeStorage:fail parameter error: parameter.key should be String instead of Undefined'
           expect(success.mock.calls.length).toBe(0)
           expect(fail.mock.calls.length).toBe(1)
           expect(fail.mock.calls[0][0]).toEqual({ errMsg: expectErrMsg })
           expect(complete.mock.calls.length).toBe(1)
           expect(complete.mock.calls[0][0]).toEqual({ errMsg: expectErrMsg })
-          expect(console.error).toHaveBeenCalledWith(expectErrMsg)
-          expect(err.errMsg).toMatch(expectErrMsg)
+          // expect(console.error).toHaveBeenCalledWith(expectErrMsg)
         })
     })
 

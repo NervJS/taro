@@ -14,7 +14,7 @@ const baseConfig = {
       exports: 'named'
     }
   ],
-  external: ['@tarojs/runtime', 'scheduler', 'react-reconciler', '@tarojs/shared'],
+  external: ['@tarojs/runtime', 'react-reconciler', '@tarojs/shared'],
   plugins: [
     ts(),
     buble()

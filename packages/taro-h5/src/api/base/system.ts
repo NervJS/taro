@@ -63,6 +63,8 @@ export const getDeviceInfo: typeof Taro.getDeviceInfo = () => {
   const info: ReturnType<typeof Taro.getDeviceInfo> = {
     /** 应用二进制接口类型（仅 Android 支持） */
     abi: '',
+    /** 设备二进制接口类型（仅 Android 支持） */
+    deviceAbi: '',
     /** 设备性能等级（仅Android小游戏）。取值为：-2 或 0（该设备无法运行小游戏），-1（性能未知），>=1（设备性能值，该值越高，设备性能越好，目前最高不到50） */
     benchmarkLevel: -1,
     /** 设备品牌 */
@@ -72,7 +74,9 @@ export const getDeviceInfo: typeof Taro.getDeviceInfo = () => {
     /** 操作系统及版本 */
     system: md.os(),
     /** 客户端平台 */
-    platform: navigator.platform
+    platform: navigator.platform,
+    /** 设备二进制接口类型（仅 Android 支持） */
+    CPUType: '',
   }
 
   return info

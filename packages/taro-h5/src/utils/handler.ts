@@ -1,11 +1,9 @@
 import { isFunction } from '@tarojs/shared'
 
-import { isProd } from './index'
-
 type TCallback<T = Partial<TaroGeneral.CallbackResult>> = (res: T) => Promise<void> | void
 interface IMethodParam<T = Partial<TaroGeneral.CallbackResult>> {
   name: string
-  success?: TCallback<T>
+  success?: TCallback<T & TaroGeneral.CallbackResult>
   fail?: TCallback
   complete?: TCallback
 }
@@ -49,7 +47,7 @@ export class MethodHandler<T = Partial<TaroGeneral.CallbackResult>> {
     } else {
       res.errMsg = `${this.methodName}:fail ${res.errMsg}`
     }
-    if (!isProd) {
+    if (process.env.NODE_ENV !== 'production') {
       console.error(res.errMsg)
     }
     isFunction(this.__fail) && this.__fail(res)

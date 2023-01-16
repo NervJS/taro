@@ -1,4 +1,5 @@
-import type { IProps, IState } from './list'
+import type { IProps } from '../preset'
+import type { IState } from './list'
 
 let devWarningsDirection = null
 let devWarningsTagName = null
@@ -15,7 +16,7 @@ if (process.env.NODE_ENV !== 'production') {
 }
 
 export const validateListProps = ({
-  children,
+  item,
   direction,
   height,
   layout,
@@ -72,8 +73,8 @@ export const validateListProps = ({
         throw Error('An invalid "layout" prop has been specified. ' + 'Value should be either "horizontal" or "vertical". ' + `"${layout}" was specified.`)
     }
 
-    if (children == null) {
-      throw Error('An invalid "children" prop has been specified. ' + 'Value should be a React component. ' + `"${children === null ? 'null' : typeof children}" was specified.`)
+    if (item == null) {
+      throw Error('An invalid "item" prop has been specified. ' + 'Value should be a React component. ' + `"${item === null ? 'null' : typeof item}" was specified.`)
     }
 
     if (isHorizontal && typeof width !== 'number') {
