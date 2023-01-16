@@ -4,8 +4,8 @@
   "description": "Taro 小程序端支持使用 web 请求 的插件",
   "main": "index.js",
   "scripts": {
-    "dev": "rollup -c -w",
-    "build": "rollup -c",
+    "dev": "rollup -c -w --bundleConfigAsCjs",
+    "build": "rollup -c --bundleConfigAsCjs",
     "test": "jest",
     "test:ci": "jest --ci -i --coverage false"
   },
@@ -35,6 +35,7 @@
   },
   "devDependencies": {
     "tslib": "^2.4.0",
+    "rollup": "^3.8.1",
     "@rollup/plugin-json": "^4.1.0"
   }
 }
