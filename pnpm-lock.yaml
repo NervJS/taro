@@ -1208,6 +1208,7 @@ importers:
     specifiers:
       '@babel/core': ^7.14.5
       '@babel/preset-env': ^7.14.5
+      '@bam.tech/react-native-image-resizer': ~3.0.4
       '@jest/globals': ^26.6.2
       '@react-native-async-storage/async-storage': ~1.17.7
       '@react-native-camera-roll/camera-roll': ~5.0.4
@@ -1239,7 +1240,6 @@ importers:
       react: 18.1.0
       react-native: ^0.70.5
       react-native-device-info: ~10.3.0
-      react-native-image-resizer: ~1.4.5
       react-native-image-zoom-viewer: ^3.0.1
       react-native-root-siblings: ^4.1.1
       react-native-root-toast: ^3.0.1
@@ -1248,6 +1248,7 @@ importers:
       react-native-syan-image-picker: 0.5.3
       react-test-renderer: 18.1.0
     dependencies:
+      '@bam.tech/react-native-image-resizer': registry.npmjs.org/@bam.tech/react-native-image-resizer/3.0.4_ed6hdicvoe3mtgaxburxkml6qq
       '@react-native-async-storage/async-storage': registry.npmjs.org/@react-native-async-storage/async-storage/1.17.7_react-native@0.70.6
       '@react-native-camera-roll/camera-roll': registry.npmjs.org/@react-native-camera-roll/camera-roll/5.0.4_react-native@0.70.6
       '@react-native-clipboard/clipboard': registry.npmjs.org/@react-native-clipboard/clipboard/1.11.1_ed6hdicvoe3mtgaxburxkml6qq
@@ -1270,7 +1271,6 @@ importers:
       nullthrows: registry.npmjs.org/nullthrows/1.1.1
       prop-types: registry.npmjs.org/prop-types/15.8.1
       react-native-device-info: registry.npmjs.org/react-native-device-info/10.3.0_react-native@0.70.6
-      react-native-image-resizer: registry.npmjs.org/react-native-image-resizer/1.4.5_react-native@0.70.6
       react-native-image-zoom-viewer: registry.npmjs.org/react-native-image-zoom-viewer/3.0.1_ed6hdicvoe3mtgaxburxkml6qq
       react-native-root-siblings: registry.npmjs.org/react-native-root-siblings/4.1.1_react@18.1.0
       react-native-root-toast: registry.npmjs.org/react-native-root-toast/3.4.0_ed6hdicvoe3mtgaxburxkml6qq
@@ -5647,6 +5647,19 @@ packages:
       '@babel/helper-string-parser': registry.npmjs.org/@babel/helper-string-parser/7.19.4
       '@babel/helper-validator-identifier': registry.npmjs.org/@babel/helper-validator-identifier/7.19.1
       to-fast-properties: registry.npmjs.org/to-fast-properties/2.0.0
+
+  registry.npmjs.org/@bam.tech/react-native-image-resizer/3.0.4_ed6hdicvoe3mtgaxburxkml6qq:
+    resolution: {integrity: sha512-p2Ecs469bntk4Ke4CEYyEoVBKBT+8JyaXXPz4Fm55s9G+jEg99p1V9MHkza2k7OAq1iUF8oAtZ/wZ9zKn6b43Q==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@bam.tech/react-native-image-resizer/-/react-native-image-resizer-3.0.4.tgz}
+    id: registry.npmjs.org/@bam.tech/react-native-image-resizer/3.0.4
+    name: '@bam.tech/react-native-image-resizer'
+    version: 3.0.4
+    peerDependencies:
+      react: '*'
+      react-native: '*'
+    dependencies:
+      react: registry.npmjs.org/react/18.1.0
+      react-native: registry.npmjs.org/react-native/0.70.6_2hkxedd44to6uuf252s62q5boq
+    dev: false
 
   registry.npmjs.org/@bang88/react-native-ultimate-listview/4.1.0:
     resolution: {integrity: sha512-om2CsUXyr5kPvW1qBL+zGWOLwE7jq+wYCY47eBIRs7GmLqnnhbG2LlTHhnid8NI4q2/DQsEVfu8oWk15Atb7BA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@bang88/react-native-ultimate-listview/-/react-native-ultimate-listview-4.1.0.tgz}
@@ -29835,17 +29848,6 @@ packages:
       react-native: '*'
     dependencies:
       react: registry.npmjs.org/react/18.1.0
-      react-native: registry.npmjs.org/react-native/0.70.6_2hkxedd44to6uuf252s62q5boq
-    dev: false
-
-  registry.npmjs.org/react-native-image-resizer/1.4.5_react-native@0.70.6:
-    resolution: {integrity: sha512-33EgL3C9pyvjKpullAB6fWyD5QhoYEpNNB9rxNvUsrpAnL2mHBW7PTrUCCZudJeB6Weg7nbweKrSw1nnto5aqg==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/react-native-image-resizer/-/react-native-image-resizer-1.4.5.tgz}
-    id: registry.npmjs.org/react-native-image-resizer/1.4.5
-    name: react-native-image-resizer
-    version: 1.4.5
-    peerDependencies:
-      react-native: '>=v0.40.0'
-    dependencies:
       react-native: registry.npmjs.org/react-native/0.70.6_2hkxedd44to6uuf252s62q5boq
     dev: false
 
