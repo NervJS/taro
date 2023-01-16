@@ -34,6 +34,7 @@
   "dependencies": {
     "@react-native-community/cli-config": "^9.1.0",
     "@react-native-community/cli-tools": "^9.1.0",
+    "@rnx-kit/metro-resolver-symlinks": "^0.1.23",
     "@tarojs/helper": "workspace:*",
     "@tarojs/rn-transformer": "workspace:*",
     "@tarojs/rn-style-transformer": "workspace:*",

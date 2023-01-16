@@ -1,3 +1,4 @@
+import * as MetroSymlinksResolver from '@rnx-kit/metro-resolver-symlinks'
 import * as fs from 'fs'
 import * as path from 'path'
 
@@ -5,6 +6,8 @@ import { entryFilePath } from './defaults'
 import { resolveExtFile, resolvePathFromAlias } from './utils'
 
 import type { ResolutionContext } from 'metro-resolver'
+
+const symlinksResolver = MetroSymlinksResolver()
 
 interface VersionInfo {
   major: number
@@ -70,7 +73,7 @@ function handleFile (context: ResolutionContext, moduleName, platform) {
 
   // 处理后缀 .rn.ts
   moduleName = resolveExtFile(context, moduleName, platform)
-  return context.resolveRequest(context, moduleName, platform)
+  return symlinksResolver(context, moduleName, platform)
 }
 
 // rn runner调用

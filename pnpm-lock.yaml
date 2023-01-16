@@ -1389,6 +1389,7 @@ importers:
       '@babel/preset-env': ^7.14.5
       '@react-native-community/cli-config': ^9.1.0
       '@react-native-community/cli-tools': ^9.1.0
+      '@rnx-kit/metro-resolver-symlinks': ^0.1.23
       '@tarojs/helper': workspace:*
       '@tarojs/rn-style-transformer': workspace:*
       '@tarojs/rn-transformer': workspace:*
@@ -1409,6 +1410,7 @@ importers:
     dependencies:
       '@react-native-community/cli-config': registry.npmjs.org/@react-native-community/cli-config/9.2.1
       '@react-native-community/cli-tools': registry.npmjs.org/@react-native-community/cli-tools/9.2.1
+      '@rnx-kit/metro-resolver-symlinks': registry.npmjs.org/@rnx-kit/metro-resolver-symlinks/0.1.23
       '@tarojs/helper': link:../taro-helper
       '@tarojs/rn-style-transformer': link:../taro-rn-style-transformer
       '@tarojs/rn-transformer': link:../taro-rn-transformer
@@ -8611,6 +8613,41 @@ packages:
       react-native-safe-area-context: registry.npmjs.org/react-native-safe-area-context/4.4.1_ed6hdicvoe3mtgaxburxkml6qq
       react-native-screens: registry.npmjs.org/react-native-screens/3.18.2_ed6hdicvoe3mtgaxburxkml6qq
       warn-once: registry.npmjs.org/warn-once/0.1.0
+    dev: false
+
+  registry.npmjs.org/@rnx-kit/metro-resolver-symlinks/0.1.23:
+    resolution: {integrity: sha512-Mh9/3DvEfRCxgvf/XQOOC67Opziw0c9/lCdRTvRzY6GAWErmi2GfEKBR9wceBPfAR0s7IhtEAVNCHfkN/ZHfSQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@rnx-kit/metro-resolver-symlinks/-/metro-resolver-symlinks-0.1.23.tgz}
+    name: '@rnx-kit/metro-resolver-symlinks'
+    version: 0.1.23
+    dependencies:
+      '@rnx-kit/tools-node': registry.npmjs.org/@rnx-kit/tools-node/1.3.1
+      '@rnx-kit/tools-react-native': registry.npmjs.org/@rnx-kit/tools-react-native/1.2.3
+      enhanced-resolve: registry.npmjs.org/enhanced-resolve/5.9.3
+    dev: false
+
+  registry.npmjs.org/@rnx-kit/tools-language/1.4.2:
+    resolution: {integrity: sha512-eU6VQxuLgRnoYqc2uDB5VeocyFHXbq1TJLubND8kF6G8rFoUcQCehON5dMBOSF+3C33bDuqzjTlMtc2b1eAd7w==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@rnx-kit/tools-language/-/tools-language-1.4.2.tgz}
+    name: '@rnx-kit/tools-language'
+    version: 1.4.2
+    dev: false
+
+  registry.npmjs.org/@rnx-kit/tools-node/1.3.1:
+    resolution: {integrity: sha512-qeMRwjFK7CSeVInoYc/fEy7hJrkvR6ud2AQHmbkYTMmTp7TzwCSx2tRbl+bSu7jxDcHOWxvz0d+NM0m84p3tVg==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@rnx-kit/tools-node/-/tools-node-1.3.1.tgz}
+    name: '@rnx-kit/tools-node'
+    version: 1.3.1
+    dependencies:
+      '@rnx-kit/tools-language': registry.npmjs.org/@rnx-kit/tools-language/1.4.2
+      find-up: registry.npmjs.org/find-up/5.0.0
+      pkg-dir: registry.npmjs.org/pkg-dir/5.0.0
+      pkg-up: registry.npmjs.org/pkg-up/3.1.0
+    dev: false
+
+  registry.npmjs.org/@rnx-kit/tools-react-native/1.2.3:
+    resolution: {integrity: sha512-sQUSdCt5ZFpmLEv8CmYZ/erW/rRybWAkOfLXzZ4gWErCxt7O7phJHJ3XSk2yIArMi0pcViTLPxMrJHI044eSNQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@rnx-kit/tools-react-native/-/tools-react-native-1.2.3.tgz}
+    name: '@rnx-kit/tools-react-native'
+    version: 1.2.3
+    dependencies:
+      '@rnx-kit/tools-node': registry.npmjs.org/@rnx-kit/tools-node/1.3.1
     dev: false
 
   registry.npmjs.org/@rollup/plugin-babel/5.3.1_etrer7mxmx73plhzfgf4pivlny:
@@ -27847,6 +27884,15 @@ packages:
     dependencies:
       find-up: registry.npmjs.org/find-up/4.1.0
 
+  registry.npmjs.org/pkg-dir/5.0.0:
+    resolution: {integrity: sha512-NPE8TDbzl/3YQYY7CSS228s3g2ollTFnc+Qi3tqmqJp9Vg2ovUpixcJEo2HJScN2Ez+kEaal6y70c0ehqJBJeA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/pkg-dir/-/pkg-dir-5.0.0.tgz}
+    name: pkg-dir
+    version: 5.0.0
+    engines: {node: '>=10'}
+    dependencies:
+      find-up: registry.npmjs.org/find-up/5.0.0
+    dev: false
+
   registry.npmjs.org/pkg-up/3.1.0:
     resolution: {integrity: sha512-nDywThFk1i4BQK4twPQ6TA4RT8bDY96yeuCVBWL3ePARCiEKDRSrNGbFIgUJpLp+XeIR65v8ra7WuJOFUBtkMA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/pkg-up/-/pkg-up-3.1.0.tgz}
     name: pkg-up
@@ -33647,7 +33693,6 @@ packages:
       serialize-javascript: registry.npmjs.org/serialize-javascript/6.0.0
       terser: registry.npmjs.org/terser/5.14.1
       webpack: registry.npmjs.org/webpack/5.69.0_k3zzwfl4stqj3whko6kmspvmxm
-    dev: true
 
   registry.npmjs.org/terser-webpack-plugin/5.3.3_v3nag7joep3fhay4q6lv7p6we4:
     resolution: {integrity: sha512-Fx60G5HNYknNTNQnzQ1VePRuu89ZVYWfjRAeT5rITuCY/1b08s49e5kSQwHDirKZWuoKOBRFS98EUUoZ9kLEwQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/terser-webpack-plugin/-/terser-webpack-plugin-5.3.3.tgz}
@@ -35333,7 +35378,7 @@ packages:
       mime-types: registry.npmjs.org/mime-types/2.1.35
       range-parser: registry.npmjs.org/range-parser/1.2.1
       schema-utils: registry.npmjs.org/schema-utils/4.0.0
-      webpack: registry.npmjs.org/webpack/5.69.0_esbuild@0.14.47
+      webpack: registry.npmjs.org/webpack/5.69.0_k3zzwfl4stqj3whko6kmspvmxm
 
   registry.npmjs.org/webpack-dev-server/3.11.3_webpack@4.46.0:
     resolution: {integrity: sha512-3x31rjbEQWKMNzacUZRE6wXvUFuGpH7vr0lIEbYpMAG9BOxi0928QU1BBswOAP3kg3H1O4hiS+sq4YyAn6ANnA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/webpack-dev-server/-/webpack-dev-server-3.11.3.tgz}
@@ -35430,7 +35475,7 @@ packages:
       sockjs: registry.npmjs.org/sockjs/0.3.24
       spdy: registry.npmjs.org/spdy/4.0.2
       strip-ansi: registry.npmjs.org/strip-ansi/7.0.1
-      webpack: registry.npmjs.org/webpack/5.69.0_esbuild@0.14.47
+      webpack: registry.npmjs.org/webpack/5.69.0_k3zzwfl4stqj3whko6kmspvmxm
       webpack-dev-middleware: registry.npmjs.org/webpack-dev-middleware/5.3.3_webpack@5.69.0
       ws: registry.npmjs.org/ws/8.8.0
     transitivePeerDependencies:
@@ -35661,7 +35706,6 @@ packages:
       - '@swc/core'
       - esbuild
       - uglify-js
-    dev: true
 
   registry.npmjs.org/webpackbar/5.0.2_webpack@5.69.0:
     resolution: {integrity: sha512-BmFJo7veBDgQzfWXl/wwYXr/VFus0614qZ8i9znqcl9fnEdiVkdbi0TedLQ6xAK92HZHDJ0QmyQ0fmuZPAgCYQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/webpackbar/-/webpackbar-5.0.2.tgz}
