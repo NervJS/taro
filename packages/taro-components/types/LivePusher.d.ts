@@ -23,6 +23,12 @@ interface LivePusherProps extends StandardProps {
    */
   autopush?: boolean
 
+  /** 自定义渲染，允许开发者自行处理所采集的视频帧
+   * @default false
+   * @supported weapp
+   */
+  enableVideoCustomRender?: boolean
+
   /** 是否静音。即将废弃，可用 enable-mic 替代
    * @default false
    * @deprecated
@@ -191,6 +197,12 @@ interface LivePusherProps extends StandardProps {
    */
   pictureInPictureMode?: string | any[]
 
+  /** 自定义渲染，允许开发者自行处理所采集的视频帧，详见LivePusherContext
+   * @supported weapp
+   * @default false
+   */
+  enableVideoCustomRender?: boolean
+
   /** 状态变化事件，detail = {code}
    * @supported weapp, qq
    */
@@ -287,6 +299,9 @@ declare namespace LivePusherProps {
 
   /** audioVolumeType 的合法值 */
   interface AudioVolumeType {
+    /** 自动 */
+    auto
+    
     /** 媒体音量 */
     media
 
