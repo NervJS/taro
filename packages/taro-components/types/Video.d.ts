@@ -285,6 +285,7 @@ interface VideoProps extends StandardProps {
   /** 使用原生
    * @default true
    * @supported alipay
+   * @ignore
    */
   enableNative?: boolean
 
@@ -351,6 +352,11 @@ interface VideoProps extends StandardProps {
    * @supported weapp
    */
   preferredPeakBitRate?: number
+
+  /** 是否为直播源
+   * @supported weapp
+   */
+  isLive?: boolean
 
   /** 当开始/继续播放时触发 play 事件
    * @supported weapp, alipay, swan, tt, qq, jd, h5, rn

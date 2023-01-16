@@ -355,6 +355,8 @@ declare module '../../index' {
     interface Result {
       /** 应用二进制接口类型（仅 Android 支持） */
       abi?: string
+      /** 设备二进制接口类型（仅 Android 支持） */
+      deviceAbi: string
       /** 设备性能等级（仅Android小游戏）。取值为：-2 或 0（该设备无法运行小游戏），-1（性能未知），>=1（设备性能值，该值越高，设备性能越好，目前最高不到50） */
       benchmarkLevel: number
       /** 设备品牌 */
@@ -365,6 +367,8 @@ declare module '../../index' {
       system: string
       /** 客户端平台 */
       platform: string
+      /** 设备 CPU 型号（仅 Android 支持） */
+      CPUType: string
     }
   }
 
