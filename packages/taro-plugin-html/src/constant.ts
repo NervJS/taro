@@ -82,7 +82,7 @@ export const specialElements = new Map<string, string | SpecialMaps>([
           value = 'number'
         }
       } else if (htmlKey === 'maxlength') {
-        key = 'maxlength';
+        key = 'maxlength'
       }
       return [key, value]
     }
