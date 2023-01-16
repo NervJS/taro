@@ -14,7 +14,7 @@ import { NodeType } from '../dom/node_types'
 import { TaroRootElement } from '../dom/root'
 import { TaroText } from '../dom/text'
 import env from '../env'
-import { AnchorElement } from './anchorElement'
+import { AnchorElement } from './anchor-element'
 
 export class TaroDocument extends TaroElement {
   public documentElement: TaroElement
