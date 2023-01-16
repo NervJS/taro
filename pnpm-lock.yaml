@@ -1487,7 +1487,7 @@ importers:
       '@react-navigation/stack': ^6.1.1
       '@types/react-native': ^0.69.8
       nanoid: ^3.1.12
-      query-string: ^6.1.0
+      query-string: ^7.1.1
       react: 18.1.0
       react-native: ^0.70.5
       react-native-gesture-handler: ~2.8.0
@@ -1501,7 +1501,7 @@ importers:
       '@react-navigation/routers': registry.npmjs.org/@react-navigation/routers/6.1.0
       '@react-navigation/stack': registry.npmjs.org/@react-navigation/stack/6.2.1_kmk54zorjpu2frg3u7jsyaonh4
       nanoid: registry.npmjs.org/nanoid/3.3.4
-      query-string: registry.npmjs.org/query-string/6.14.1
+      query-string: registry.npmjs.org/query-string/7.1.1
       react-native-gesture-handler: registry.npmjs.org/react-native-gesture-handler/2.8.0_ed6hdicvoe3mtgaxburxkml6qq
       react-native-safe-area-context: registry.npmjs.org/react-native-safe-area-context/4.4.1_ed6hdicvoe3mtgaxburxkml6qq
       react-native-screens: registry.npmjs.org/react-native-screens/3.18.2_ed6hdicvoe3mtgaxburxkml6qq
@@ -29543,18 +29543,6 @@ packages:
       decode-uri-component: registry.npmjs.org/decode-uri-component/0.2.0
       object-assign: registry.npmjs.org/object-assign/4.1.1
       strict-uri-encode: registry.npmjs.org/strict-uri-encode/1.1.0
-    dev: false
-
-  registry.npmjs.org/query-string/6.14.1:
-    resolution: {integrity: sha512-XDxAeVmpfu1/6IjyT/gXHOl+S0vQ9owggJ30hhWKdHAsNPOcasn5o9BW0eejZqL2e4vMjhAxoW3jVHcD6mbcYw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/query-string/-/query-string-6.14.1.tgz}
-    name: query-string
-    version: 6.14.1
-    engines: {node: '>=6'}
-    dependencies:
-      decode-uri-component: registry.npmjs.org/decode-uri-component/0.2.0
-      filter-obj: registry.npmjs.org/filter-obj/1.1.0
-      split-on-first: registry.npmjs.org/split-on-first/1.1.0
-      strict-uri-encode: registry.npmjs.org/strict-uri-encode/2.0.0
     dev: false
 
   registry.npmjs.org/query-string/7.1.1:
