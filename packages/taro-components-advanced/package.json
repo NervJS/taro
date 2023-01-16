@@ -1,18 +1,19 @@
 {
   "name": "@tarojs/components-advanced",
-  "version": "3.6.0-canary.8",
+  "version": "3.6.0-beta.1",
   "description": "",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "files": [
-    "dist"
+    "dist",
+    "typings"
   ],
   "scripts": {
+    "build": "run-s clean build:babel build:declaration",
     "build:babel": "cross-env TARO_ENV=h5 babel src --extensions=.js,.jsx,.ts,.tsx --out-dir dist",
     "build:declaration": "tsc",
     "clean": "rimraf ./dist",
-    "dev": "pnpm run build:babel -w",
-    "prod": "run-s clean build:babel build:declaration"
+    "dev": "pnpm run build:babel -w"
   },
   "keywords": [],
   "author": "ZakaryCode",

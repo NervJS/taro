@@ -35,7 +35,7 @@ import {
   getMfHash,
   parsePublicPath
 } from './utils'
-import { assetsRE, MF_NAME } from './utils/constant'
+import { MF_NAME } from './utils/constant'
 import TaroModuleFederationPlugin from './webpack/TaroModuleFederationPlugin'
 
 import type { Configuration, Stats } from 'webpack'
@@ -98,18 +98,6 @@ export class H5Prebundle extends BasePrebundle<IH5PrebundleConfig> {
         devtool,
         entry: path.resolve(__dirname, './webpack/index.js'),
         mode: this.mode,
-        module: {
-          // TODO 同步普通打包文件配置
-          rules: [
-            {
-              test: assetsRE,
-              type: 'asset/resource',
-              generator: {
-                filename: 'static/[hash][ext][query]'
-              }
-            }
-          ]
-        },
         output,
         plugins: [
           new TaroModuleFederationPlugin(

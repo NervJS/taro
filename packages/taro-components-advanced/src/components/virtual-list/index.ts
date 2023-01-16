@@ -29,7 +29,7 @@ interface VirtualListProps extends Omit<StandardProps, 'children'> {
    * >  - unlimitedSize 模式下如果传入函数，只会调用一次用于设置初始值
    * >  - 非 unlimitedSize 模式下如果传入函数，为避免性能问题，每个节点只会调用一次用于设置初始值
    */
-  itemSize: number | ((index?: number, itemData?: unknown) => number)
+  itemSize: number | ((index?: number, itemData?: any[]) => number)
   /** 解开高度列表单项大小限制，默认值使用: itemSize (请注意，初始高度与实际高度差异过大会导致隐患)。
    *
    * > Note: 通过 itemSize 设置的初始高度与子节点实际高度差异过大会导致隐患
@@ -168,6 +168,7 @@ declare namespace VirtualListProps {
  *
  * <script>
  * import Row from './row.vue'
+ * import { markRaw } from 'vue'
  *
  * function buildData (offset = 0) {
  *   return Array(100).fill(0).map((_, i) => i + offset)
@@ -176,7 +177,7 @@ declare namespace VirtualListProps {
  * export default {
  *   data() {
  *     return {
- *       Row,
+ *       Row: markRaw(Row),
  *       list: buildData(0)
  *     }
  *   },
@@ -187,8 +188,9 @@ declare namespace VirtualListProps {
  */
 declare class VirtualListComponent extends Component<VirtualListProps> {}
 
-const VirtualList: typeof VirtualListComponent = require('./react').default
-export const registerVirtualList = require('./vue').default
+const VirtualList: typeof VirtualListComponent = (process.env.FRAMEWORK === 'vue' || process.env.FRAMEWORK === 'vue3')
+  ? require('./vue').default
+  : require('./react').default
 
 export { VirtualList, VirtualListProps }
 export default VirtualList

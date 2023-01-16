@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/plugin-framework-vue2",
-  "version": "3.6.0-canary.8",
+  "version": "3.6.0-beta.1",
   "description": "Vue2 框架插件",
   "author": "drchan",
   "homepage": "https://github.com/nervjs/taro",
@@ -18,8 +18,8 @@
     "url": "git+https://github.com/NervJS/taro.git"
   },
   "scripts": {
-    "build": "rollup -c",
-    "dev": "rollup -c -w"
+    "build": "rollup -c --bundleConfigAsCjs",
+    "dev": "rollup -c -w --bundleConfigAsCjs"
   },
   "bugs": {
     "url": "https://github.com/NervJS/taro/issues"
@@ -32,7 +32,10 @@
     "@tarojs/shared": "workspace:*"
   },
   "devDependencies": {
-    "vue": "^2.6.11"
+    "vue": "^2.6.11",
+    "rollup": "^3.8.1",
+    "rollup-plugin-node-externals": "^4.0.0",
+    "rollup-plugin-ts": "^3.0.2"
   },
   "peerDependencies": {
     "vue": "^2.6.11"

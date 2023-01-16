@@ -35,6 +35,15 @@ const apiDiff: IApiDiff = {
       }, {
         old: 'icon',
         new: 'type'
+      }],
+      set: [{
+        key: 'type',
+        value (options) {
+          if (options.type === 'error') {
+            return 'fail'
+          }
+          return options.type
+        }
       }]
     }
   },
@@ -275,6 +284,20 @@ const asyncResultApiDiff = {
           key: 'savedFilePath',
           value (res) {
             return res.apFilePath
+          }
+        }
+      ]
+    }
+  },
+  getBLEDeviceServices: {
+    res: {
+      set: [
+        {
+          key: 'services',
+          value (res) {
+            return res.services.map(item => { 
+              return {uuid: item.serviceId, isPrimary: item.isPrimary}
+            })
           }
         }
       ]

@@ -81,7 +81,6 @@ export function createRouter (
     let enablePullDownRefresh = config?.window?.enablePullDownRefresh || false
 
     if (pageConfig) {
-      document.title = pageConfig.navigationBarTitleText ?? document.title
       setTitle(pageConfig.navigationBarTitleText ?? document.title)
       if (typeof pageConfig.enablePullDownRefresh === 'boolean') {
         enablePullDownRefresh = pageConfig.enablePullDownRefresh
