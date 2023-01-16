@@ -683,9 +683,6 @@ importers:
       react-native-svg: registry.npmjs.org/react-native-svg/12.4.3_ws5w265lwlgfx6ddpl3mdiooma
       react-test-renderer: registry.npmjs.org/react-test-renderer/18.0.0_react@18.0.0
 
-  packages/taro-components/loader:
-    specifiers: {}
-
   packages/taro-extend:
     specifiers: {}
 
@@ -725,6 +722,7 @@ importers:
       '@babel/preset-typescript': ^7.14.5
       '@babel/register': ^7.14.5
       '@babel/runtime': ^7.14.5
+      '@babel/traverse': ^7.14.5
       '@swc/core': ^1.3.23
       '@swc/register': ^0.1.10
       ansi-escapes: ^4.3.2
@@ -748,6 +746,7 @@ importers:
       '@babel/preset-typescript': registry.npmjs.org/@babel/preset-typescript/7.17.12_@babel+core@7.18.5
       '@babel/register': registry.npmjs.org/@babel/register/7.17.7_@babel+core@7.18.5
       '@babel/runtime': registry.npmjs.org/@babel/runtime/7.18.3
+      '@babel/traverse': registry.npmjs.org/@babel/traverse/7.18.5
       '@swc/core': registry.npmjs.org/@swc/core/1.3.23
       '@swc/register': registry.npmjs.org/@swc/register/0.1.10_@swc+core@1.3.23
       ansi-escapes: registry.npmjs.org/ansi-escapes/4.3.2
@@ -25320,10 +25319,10 @@ packages:
       - supports-color
     dev: false
 
-  registry.npmjs.org/miniprogram-compiler/0.2.1:
-    resolution: {integrity: sha512-AHQgJFTnVPMcVBUUdKHlCRC3guK212XkWME0awMQiUgpzp/eIbb3jgFdkl3ib9nDbbEK+m2fSBs0++vwetWJ9Q==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/miniprogram-compiler/-/miniprogram-compiler-0.2.1.tgz}
+  registry.npmjs.org/miniprogram-compiler/0.2.2:
+    resolution: {integrity: sha512-fiJXv/15jCcRAU8YKcO7S7fkPKLa5ZBgpLN+d6B3r3KMktM5tAkDEQ+zm6aTfNoHurYOHcRyPyGf26gqQXlFXg==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/miniprogram-compiler/-/miniprogram-compiler-0.2.2.tgz}
     name: miniprogram-compiler
-    version: 0.2.1
+    version: 0.2.2
     dependencies:
       glob: registry.npmjs.org/glob/7.2.3
       unescape-js: registry.npmjs.org/unescape-js/1.1.4
@@ -25343,7 +25342,7 @@ packages:
       csso: registry.npmjs.org/csso/3.5.1
       j-component: registry.npmjs.org/j-component/1.4.6
       less: registry.npmjs.org/less/3.13.1
-      miniprogram-compiler: registry.npmjs.org/miniprogram-compiler/0.2.1
+      miniprogram-compiler: registry.npmjs.org/miniprogram-compiler/0.2.2
       postcss: registry.npmjs.org/postcss/7.0.39
     dev: false
 
