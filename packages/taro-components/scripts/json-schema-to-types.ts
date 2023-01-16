@@ -131,7 +131,7 @@ class GenerateTypes {
             })
 
             // 保留 Taro 支持或平台独有特性
-            if (isUnique && isIgnore) {
+            if (isUnique || isIgnore) {
               supportedPlatforms.push(...preSupportedPlatforms)
             }
 
