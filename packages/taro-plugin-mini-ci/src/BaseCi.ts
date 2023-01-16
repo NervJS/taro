@@ -118,7 +118,7 @@ export interface CIOptions {
   /** 百度小程序配置, 官方文档地址：https://smartprogram.baidu.com/docs/develop/devtools/commandtool/ */
   swan?: SwanConfig
   /** 京东小程序配置, 官方文档地址：https://mp-docs.jd.com/doc/dev/devtools/1597 */
-  jd?:JdConfig
+  jd?: JdConfig
 }
 
 export default abstract class BaseCI {
