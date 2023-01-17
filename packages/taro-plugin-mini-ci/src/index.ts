@@ -95,8 +95,6 @@ export default (ctx: IPluginContext, _pluginOpts: CIOptions | (() => CIOptions))
           }),
           jd: joi.object({
             privateKey: joi.string().required(),
-            projectPath: joi.string().required(),
-            base64: joi.boolean()
           }),
           version: joi.string(),
           desc: joi.string(),
