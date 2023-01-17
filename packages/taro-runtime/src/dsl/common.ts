@@ -194,11 +194,13 @@ export function createPageConfig (component: any, pageName?: string, data?: Reco
       })
     },
     [ONREADY] () {
-      // 触发生命周期
-      safeExecute(this.$taroPath, ON_READY)
-      // 通过事件触发子组件的生命周期
-      raf(() => eventCenter.trigger(getOnReadyEventKey(id)))
-      this.onReady.called = true
+      hasLoaded.then(() => {
+        // 触发生命周期
+        safeExecute(this.$taroPath, ON_READY)
+        // 通过事件触发子组件的生命周期
+        raf(() => eventCenter.trigger(getOnReadyEventKey(id)))
+        this.onReady.called = true
+      })
     },
     [ONSHOW] (options = {}) {
       hasLoaded.then(() => {

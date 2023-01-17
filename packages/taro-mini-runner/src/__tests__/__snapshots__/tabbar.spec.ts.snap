@@ -1646,7 +1646,11 @@ require(\\"./taro\\");
                 \\"easing-function\\": \\"'ease-out'\\"
             },
             KeyboardAccessory: {},
-            RootPortal: {}
+            RootPortal: {},
+            ChannelLive: {
+                feedId: _empty,
+                finderUserName: _empty
+            }
         };
         var hostConfig = {
             initNativeApi: initNativeApi,
