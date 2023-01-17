@@ -1384,8 +1384,7 @@ require(\\"./taro\\");
                 \\"safe-password-salt\\": \\"\\",
                 \\"safe-password-custom-hash\\": \\"\\",
                 \\"auto-fill\\": _empty,
-                bindKeyboardHeightChange: _empty,
-                bindNicknameReview: _empty
+                bindKeyboardHeightChange: _empty
             },
             Picker: {
                 \\"header-text\\": _empty
@@ -1646,11 +1645,7 @@ require(\\"./taro\\");
                 \\"easing-function\\": \\"'ease-out'\\"
             },
             KeyboardAccessory: {},
-            RootPortal: {},
-            ChannelLive: {
-                feedId: _empty,
-                finderUserName: _empty
-            }
+            RootPortal: {}
         };
         var hostConfig = {
             initNativeApi: initNativeApi,
