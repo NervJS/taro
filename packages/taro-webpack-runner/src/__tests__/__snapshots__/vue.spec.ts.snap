@@ -6,20 +6,7 @@ exports[`vue should build vue app 2`] = `
 "
 /** filePath: dist/chunk/1.js **/
 (window[\\"webpackJsonp\\"] = window[\\"webpackJsonp\\"] || []).push([ [ 1 ], {
-    \\"29\\": function(module, exports, __webpack_require__) {
-        var api = __webpack_require__(5);
-        var content = __webpack_require__(32);
-        content = content.__esModule ? content.default : content;
-        if (typeof content === \\"string\\") {
-            content = [ [ module.i, content, \\"\\" ] ];
-        }
-        var options = {};
-        options.insert = \\"head\\";
-        options.singleton = false;
-        var update = api(content, options);
-        module.exports = content.locals || {};
-    },
-    \\"30\\": function(module, exports, __webpack_require__) {
+    \\"31\\": function(module, exports, __webpack_require__) {
         var api = __webpack_require__(5);
         var content = __webpack_require__(34);
         content = content.__esModule ? content.default : content;
@@ -32,15 +19,28 @@ exports[`vue should build vue app 2`] = `
         var update = api(content, options);
         module.exports = content.locals || {};
     },
-    \\"31\\": function(module, __webpack_exports__, __webpack_require__) {
+    \\"32\\": function(module, exports, __webpack_require__) {
+        var api = __webpack_require__(5);
+        var content = __webpack_require__(36);
+        content = content.__esModule ? content.default : content;
+        if (typeof content === \\"string\\") {
+            content = [ [ module.i, content, \\"\\" ] ];
+        }
+        var options = {};
+        options.insert = \\"head\\";
+        options.singleton = false;
+        var update = api(content, options);
+        module.exports = content.locals || {};
+    },
+    \\"33\\": function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
-        var _node_modules_pnpm_registry_npmjs_org_style_loader_1_3_0_webpack_4_46_0_node_modules_style_loader_dist_cjs_js_node_modules_pnpm_registry_npmjs_org_css_loader_5_2_7_webpack_4_46_0_node_modules_css_loader_dist_cjs_js_ref_3_oneOf_0_0_node_modules_pnpm_registry_npmjs_org_vue_loader_15_9_8_izcuroqdza55ucckmxgxii63uq_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_pnpm_registry_npmjs_org_postcss_loader_4_3_0_dhonik3q6ff6ozbzdscnovq2ka_node_modules_postcss_loader_dist_cjs_js_ref_4_0_node_modules_pnpm_registry_npmjs_org_resolve_url_loader_3_1_3_node_modules_resolve_url_loader_index_js_node_modules_pnpm_registry_npmjs_org_sass_loader_10_2_0_sass_1_50_0_webpack_4_46_0_node_modules_sass_loader_dist_cjs_js_ref_6_1_node_modules_pnpm_registry_npmjs_org_vue_loader_15_9_8_izcuroqdza55ucckmxgxii63uq_node_modules_vue_loader_lib_index_js_vue_loader_options_index_vue_vue_type_style_index_0_lang_scss___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(29);
+        var _node_modules_pnpm_registry_npmjs_org_style_loader_1_3_0_webpack_4_46_0_node_modules_style_loader_dist_cjs_js_node_modules_pnpm_registry_npmjs_org_css_loader_5_2_7_webpack_4_46_0_node_modules_css_loader_dist_cjs_js_ref_3_oneOf_0_0_node_modules_pnpm_registry_npmjs_org_vue_loader_15_9_8_izcuroqdza55ucckmxgxii63uq_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_pnpm_registry_npmjs_org_postcss_loader_4_3_0_dhonik3q6ff6ozbzdscnovq2ka_node_modules_postcss_loader_dist_cjs_js_ref_4_0_node_modules_pnpm_registry_npmjs_org_resolve_url_loader_3_1_3_node_modules_resolve_url_loader_index_js_node_modules_pnpm_registry_npmjs_org_sass_loader_10_2_0_sass_1_50_0_webpack_4_46_0_node_modules_sass_loader_dist_cjs_js_ref_6_1_node_modules_pnpm_registry_npmjs_org_vue_loader_15_9_8_izcuroqdza55ucckmxgxii63uq_node_modules_vue_loader_lib_index_js_vue_loader_options_index_vue_vue_type_style_index_0_lang_scss___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(31);
         var _node_modules_pnpm_registry_npmjs_org_style_loader_1_3_0_webpack_4_46_0_node_modules_style_loader_dist_cjs_js_node_modules_pnpm_registry_npmjs_org_css_loader_5_2_7_webpack_4_46_0_node_modules_css_loader_dist_cjs_js_ref_3_oneOf_0_0_node_modules_pnpm_registry_npmjs_org_vue_loader_15_9_8_izcuroqdza55ucckmxgxii63uq_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_pnpm_registry_npmjs_org_postcss_loader_4_3_0_dhonik3q6ff6ozbzdscnovq2ka_node_modules_postcss_loader_dist_cjs_js_ref_4_0_node_modules_pnpm_registry_npmjs_org_resolve_url_loader_3_1_3_node_modules_resolve_url_loader_index_js_node_modules_pnpm_registry_npmjs_org_sass_loader_10_2_0_sass_1_50_0_webpack_4_46_0_node_modules_sass_loader_dist_cjs_js_ref_6_1_node_modules_pnpm_registry_npmjs_org_vue_loader_15_9_8_izcuroqdza55ucckmxgxii63uq_node_modules_vue_loader_lib_index_js_vue_loader_options_index_vue_vue_type_style_index_0_lang_scss___WEBPACK_IMPORTED_MODULE_0___default = __webpack_require__.n(_node_modules_pnpm_registry_npmjs_org_style_loader_1_3_0_webpack_4_46_0_node_modules_style_loader_dist_cjs_js_node_modules_pnpm_registry_npmjs_org_css_loader_5_2_7_webpack_4_46_0_node_modules_css_loader_dist_cjs_js_ref_3_oneOf_0_0_node_modules_pnpm_registry_npmjs_org_vue_loader_15_9_8_izcuroqdza55ucckmxgxii63uq_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_pnpm_registry_npmjs_org_postcss_loader_4_3_0_dhonik3q6ff6ozbzdscnovq2ka_node_modules_postcss_loader_dist_cjs_js_ref_4_0_node_modules_pnpm_registry_npmjs_org_resolve_url_loader_3_1_3_node_modules_resolve_url_loader_index_js_node_modules_pnpm_registry_npmjs_org_sass_loader_10_2_0_sass_1_50_0_webpack_4_46_0_node_modules_sass_loader_dist_cjs_js_ref_6_1_node_modules_pnpm_registry_npmjs_org_vue_loader_15_9_8_izcuroqdza55ucckmxgxii63uq_node_modules_vue_loader_lib_index_js_vue_loader_options_index_vue_vue_type_style_index_0_lang_scss___WEBPACK_IMPORTED_MODULE_0__);
     },
-    \\"32\\": function(module, __webpack_exports__, __webpack_require__) {
+    \\"34\\": function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_require__.r(__webpack_exports__);
-        var _node_modules_pnpm_registry_npmjs_org_css_loader_5_2_7_webpack_4_46_0_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
+        var _node_modules_pnpm_registry_npmjs_org_css_loader_5_2_7_webpack_4_46_0_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(1);
         var _node_modules_pnpm_registry_npmjs_org_css_loader_5_2_7_webpack_4_46_0_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default = __webpack_require__.n(_node_modules_pnpm_registry_npmjs_org_css_loader_5_2_7_webpack_4_46_0_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__);
         var ___CSS_LOADER_EXPORT___ = _node_modules_pnpm_registry_npmjs_org_css_loader_5_2_7_webpack_4_46_0_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()((function(i) {
             return i[1];
@@ -48,15 +48,15 @@ exports[`vue should build vue app 2`] = `
         ___CSS_LOADER_EXPORT___.push([ module.i, \\".index {\\\\n  color: blue;\\\\n}\\\\n\\", \\"\\" ]);
         __webpack_exports__[\\"default\\"] = ___CSS_LOADER_EXPORT___;
     },
-    \\"33\\": function(module, __webpack_exports__, __webpack_require__) {
+    \\"35\\": function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
-        var _node_modules_pnpm_registry_npmjs_org_style_loader_1_3_0_webpack_4_46_0_node_modules_style_loader_dist_cjs_js_node_modules_pnpm_registry_npmjs_org_css_loader_5_2_7_webpack_4_46_0_node_modules_css_loader_dist_cjs_js_ref_3_oneOf_0_0_node_modules_pnpm_registry_npmjs_org_vue_loader_15_9_8_izcuroqdza55ucckmxgxii63uq_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_pnpm_registry_npmjs_org_postcss_loader_4_3_0_dhonik3q6ff6ozbzdscnovq2ka_node_modules_postcss_loader_dist_cjs_js_ref_4_0_node_modules_pnpm_registry_npmjs_org_resolve_url_loader_3_1_3_node_modules_resolve_url_loader_index_js_node_modules_pnpm_registry_npmjs_org_sass_loader_10_2_0_sass_1_50_0_webpack_4_46_0_node_modules_sass_loader_dist_cjs_js_ref_5_1_node_modules_pnpm_registry_npmjs_org_vue_loader_15_9_8_izcuroqdza55ucckmxgxii63uq_node_modules_vue_loader_lib_index_js_vue_loader_options_index_vue_vue_type_style_index_1_lang_sass___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(30);
+        var _node_modules_pnpm_registry_npmjs_org_style_loader_1_3_0_webpack_4_46_0_node_modules_style_loader_dist_cjs_js_node_modules_pnpm_registry_npmjs_org_css_loader_5_2_7_webpack_4_46_0_node_modules_css_loader_dist_cjs_js_ref_3_oneOf_0_0_node_modules_pnpm_registry_npmjs_org_vue_loader_15_9_8_izcuroqdza55ucckmxgxii63uq_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_pnpm_registry_npmjs_org_postcss_loader_4_3_0_dhonik3q6ff6ozbzdscnovq2ka_node_modules_postcss_loader_dist_cjs_js_ref_4_0_node_modules_pnpm_registry_npmjs_org_resolve_url_loader_3_1_3_node_modules_resolve_url_loader_index_js_node_modules_pnpm_registry_npmjs_org_sass_loader_10_2_0_sass_1_50_0_webpack_4_46_0_node_modules_sass_loader_dist_cjs_js_ref_5_1_node_modules_pnpm_registry_npmjs_org_vue_loader_15_9_8_izcuroqdza55ucckmxgxii63uq_node_modules_vue_loader_lib_index_js_vue_loader_options_index_vue_vue_type_style_index_1_lang_sass___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(32);
         var _node_modules_pnpm_registry_npmjs_org_style_loader_1_3_0_webpack_4_46_0_node_modules_style_loader_dist_cjs_js_node_modules_pnpm_registry_npmjs_org_css_loader_5_2_7_webpack_4_46_0_node_modules_css_loader_dist_cjs_js_ref_3_oneOf_0_0_node_modules_pnpm_registry_npmjs_org_vue_loader_15_9_8_izcuroqdza55ucckmxgxii63uq_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_pnpm_registry_npmjs_org_postcss_loader_4_3_0_dhonik3q6ff6ozbzdscnovq2ka_node_modules_postcss_loader_dist_cjs_js_ref_4_0_node_modules_pnpm_registry_npmjs_org_resolve_url_loader_3_1_3_node_modules_resolve_url_loader_index_js_node_modules_pnpm_registry_npmjs_org_sass_loader_10_2_0_sass_1_50_0_webpack_4_46_0_node_modules_sass_loader_dist_cjs_js_ref_5_1_node_modules_pnpm_registry_npmjs_org_vue_loader_15_9_8_izcuroqdza55ucckmxgxii63uq_node_modules_vue_loader_lib_index_js_vue_loader_options_index_vue_vue_type_style_index_1_lang_sass___WEBPACK_IMPORTED_MODULE_0___default = __webpack_require__.n(_node_modules_pnpm_registry_npmjs_org_style_loader_1_3_0_webpack_4_46_0_node_modules_style_loader_dist_cjs_js_node_modules_pnpm_registry_npmjs_org_css_loader_5_2_7_webpack_4_46_0_node_modules_css_loader_dist_cjs_js_ref_3_oneOf_0_0_node_modules_pnpm_registry_npmjs_org_vue_loader_15_9_8_izcuroqdza55ucckmxgxii63uq_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_pnpm_registry_npmjs_org_postcss_loader_4_3_0_dhonik3q6ff6ozbzdscnovq2ka_node_modules_postcss_loader_dist_cjs_js_ref_4_0_node_modules_pnpm_registry_npmjs_org_resolve_url_loader_3_1_3_node_modules_resolve_url_loader_index_js_node_modules_pnpm_registry_npmjs_org_sass_loader_10_2_0_sass_1_50_0_webpack_4_46_0_node_modules_sass_loader_dist_cjs_js_ref_5_1_node_modules_pnpm_registry_npmjs_org_vue_loader_15_9_8_izcuroqdza55ucckmxgxii63uq_node_modules_vue_loader_lib_index_js_vue_loader_options_index_vue_vue_type_style_index_1_lang_sass___WEBPACK_IMPORTED_MODULE_0__);
     },
-    \\"34\\": function(module, __webpack_exports__, __webpack_require__) {
+    \\"36\\": function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_require__.r(__webpack_exports__);
-        var _node_modules_pnpm_registry_npmjs_org_css_loader_5_2_7_webpack_4_46_0_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
+        var _node_modules_pnpm_registry_npmjs_org_css_loader_5_2_7_webpack_4_46_0_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(1);
         var _node_modules_pnpm_registry_npmjs_org_css_loader_5_2_7_webpack_4_46_0_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default = __webpack_require__.n(_node_modules_pnpm_registry_npmjs_org_css_loader_5_2_7_webpack_4_46_0_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__);
         var ___CSS_LOADER_EXPORT___ = _node_modules_pnpm_registry_npmjs_org_css_loader_5_2_7_webpack_4_46_0_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()((function(i) {
             return i[1];
@@ -64,7 +64,7 @@ exports[`vue should build vue app 2`] = `
         ___CSS_LOADER_EXPORT___.push([ module.i, \\".detail {\\\\n  color: red;\\\\n}\\\\n\\", \\"\\" ]);
         __webpack_exports__[\\"default\\"] = ___CSS_LOADER_EXPORT___;
     },
-    \\"35\\": function(module, __webpack_exports__, __webpack_require__) {
+    \\"37\\": function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_require__.r(__webpack_exports__);
         var render = function() {
@@ -85,8 +85,8 @@ exports[`vue should build vue app 2`] = `
             }
         };
         var pages_indexvue_type_script_lang_js_ = indexvue_type_script_lang_js_;
-        var indexvue_type_style_index_0_lang_scss_ = __webpack_require__(31);
-        var indexvue_type_style_index_1_lang_sass_ = __webpack_require__(33);
+        var indexvue_type_style_index_0_lang_scss_ = __webpack_require__(33);
+        var indexvue_type_style_index_1_lang_sass_ = __webpack_require__(35);
         function normalizeComponent(scriptExports, render, staticRenderFns, functionalTemplate, injectStyles, scopeId, moduleIdentifier, shadowMode) {
             var options = typeof scriptExports === \\"function\\" ? scriptExports.options : scriptExports;
             if (render) {
@@ -302,7 +302,18 @@ exports[`vue should build vue app 2`] = `
     for (var i = 0; i < jsonpArray.length; i++) webpackJsonpCallback(jsonpArray[i]);
     var parentJsonpFunction = oldJsonpFunction;
     return __webpack_require__(__webpack_require__.s = 8);
-})([ function(module, exports, __webpack_require__) {
+})([ function(module, exports) {
+    function _typeof(obj) {
+        \\"@babel/helpers - typeof\\";
+        return module.exports = _typeof = \\"function\\" == typeof Symbol && \\"symbol\\" == typeof Symbol.iterator ? function(obj) {
+            return typeof obj;
+        } : function(obj) {
+            return obj && \\"function\\" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? \\"symbol\\" : typeof obj;
+        }, module.exports.__esModule = true, module.exports[\\"default\\"] = module.exports, 
+        _typeof(obj);
+    }
+    module.exports = _typeof, module.exports.__esModule = true, module.exports[\\"default\\"] = module.exports;
+}, function(module, exports, __webpack_require__) {
     \\"use strict\\";
     module.exports = function(cssWithMappingToString) {
         var list = [];
@@ -348,14 +359,14 @@ exports[`vue should build vue app 2`] = `
 }, function(module, exports, __webpack_require__) {
     \\"use strict\\";
     var _defineProperty = __webpack_require__(10).default;
-    var _slicedToArray = __webpack_require__(11).default;
-    var _createForOfIteratorHelper = __webpack_require__(15).default;
-    var _typeof = __webpack_require__(3).default;
-    var _toConsumableArray = __webpack_require__(16).default;
-    var strictUriEncode = __webpack_require__(20);
-    var decodeComponent = __webpack_require__(21);
-    var splitOnFirst = __webpack_require__(22);
-    var filterObject = __webpack_require__(23);
+    var _slicedToArray = __webpack_require__(13).default;
+    var _createForOfIteratorHelper = __webpack_require__(17).default;
+    var _typeof = __webpack_require__(0).default;
+    var _toConsumableArray = __webpack_require__(18).default;
+    var strictUriEncode = __webpack_require__(22);
+    var decodeComponent = __webpack_require__(23);
+    var splitOnFirst = __webpack_require__(24);
+    var filterObject = __webpack_require__(25);
     var isNullOrUndefined = function isNullOrUndefined(value) {
         return value === null || value === undefined;
     };
@@ -754,19 +765,8 @@ exports[`vue should build vue app 2`] = `
     }
     module.exports = _unsupportedIterableToArray, module.exports.__esModule = true, 
     module.exports[\\"default\\"] = module.exports;
-}, function(module, exports) {
-    function _typeof(obj) {
-        \\"@babel/helpers - typeof\\";
-        return module.exports = _typeof = \\"function\\" == typeof Symbol && \\"symbol\\" == typeof Symbol.iterator ? function(obj) {
-            return typeof obj;
-        } : function(obj) {
-            return obj && \\"function\\" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? \\"symbol\\" : typeof obj;
-        }, module.exports.__esModule = true, module.exports[\\"default\\"] = module.exports, 
-        _typeof(obj);
-    }
-    module.exports = _typeof, module.exports.__esModule = true, module.exports[\\"default\\"] = module.exports;
 }, function(module, exports, __webpack_require__) {
-    var _typeof = __webpack_require__(3).default;
+    var _typeof = __webpack_require__(0).default;
     module.exports = pathToRegexp;
     module.exports.match = match;
     module.exports.regexpToFunction = regexpToFunction;
@@ -1730,13 +1730,15 @@ exports[`vue should build vue app 2`] = `
         } else {}
     }());
 }, function(module, exports, __webpack_require__) {
-    module.exports = __webpack_require__(28);
+    module.exports = __webpack_require__(30);
 }, function(module, exports) {
     module.exports = function() {
         throw new Error(\\"define cannot be used indirect\\");
     };
-}, function(module, exports) {
+}, function(module, exports, __webpack_require__) {
+    var toPropertyKey = __webpack_require__(11);
     function _defineProperty(obj, key, value) {
+        key = toPropertyKey(key);
         if (key in obj) {
             Object.defineProperty(obj, key, {
                 \\"value\\": value,
@@ -1751,10 +1753,31 @@ exports[`vue should build vue app 2`] = `
     }
     module.exports = _defineProperty, module.exports.__esModule = true, module.exports[\\"default\\"] = module.exports;
 }, function(module, exports, __webpack_require__) {
-    var arrayWithHoles = __webpack_require__(12);
-    var iterableToArrayLimit = __webpack_require__(13);
-    var unsupportedIterableToArray = __webpack_require__(2);
-    var nonIterableRest = __webpack_require__(14);
+    var _typeof = __webpack_require__(0)[\\"default\\"];
+    var toPrimitive = __webpack_require__(12);
+    function _toPropertyKey(arg) {
+        var key = toPrimitive(arg, \\"string\\");
+        return _typeof(key) === \\"symbol\\" ? key : String(key);
+    }
+    module.exports = _toPropertyKey, module.exports.__esModule = true, module.exports[\\"default\\"] = module.exports;
+}, function(module, exports, __webpack_require__) {
+    var _typeof = __webpack_require__(0)[\\"default\\"];
+    function _toPrimitive(input, hint) {
+        if (_typeof(input) !== \\"object\\" || input === null) return input;
+        var prim = input[Symbol.toPrimitive];
+        if (prim !== undefined) {
+            var res = prim.call(input, hint || \\"default\\");
+            if (_typeof(res) !== \\"object\\") return res;
+            throw new TypeError(\\"@@toPrimitive must return a primitive value.\\");
+        }
+        return (hint === \\"string\\" ? String : Number)(input);
+    }
+    module.exports = _toPrimitive, module.exports.__esModule = true, module.exports[\\"default\\"] = module.exports;
+}, function(module, exports, __webpack_require__) {
+    var arrayWithHoles = __webpack_require__(14);
+    var iterableToArrayLimit = __webpack_require__(15);
+    var unsupportedIterableToArray = __webpack_require__(3);
+    var nonIterableRest = __webpack_require__(16);
     function _slicedToArray(arr, i) {
         return arrayWithHoles(arr) || iterableToArrayLimit(arr, i) || unsupportedIterableToArray(arr, i) || nonIterableRest();
     }
@@ -1766,28 +1789,26 @@ exports[`vue should build vue app 2`] = `
     module.exports = _arrayWithHoles, module.exports.__esModule = true, module.exports[\\"default\\"] = module.exports;
 }, function(module, exports) {
     function _iterableToArrayLimit(arr, i) {
-        var _i = arr == null ? null : typeof Symbol !== \\"undefined\\" && arr[Symbol.iterator] || arr[\\"@@iterator\\"];
-        if (_i == null) return;
-        var _arr = [];
-        var _n = true;
-        var _d = false;
-        var _s, _e;
-        try {
-            for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) {
-                _arr.push(_s.value);
-                if (i && _arr.length === i) break;
-            }
-        } catch (err) {
-            _d = true;
-            _e = err;
-        } finally {
+        var _i = null == arr ? null : \\"undefined\\" != typeof Symbol && arr[Symbol.iterator] || arr[\\"@@iterator\\"];
+        if (null != _i) {
+            var _s, _e, _x, _r, _arr = [], _n = !0, _d = !1;
             try {
-                if (!_n && _i[\\"return\\"] != null) _i[\\"return\\"]();
+                if (_x = (_i = _i.call(arr)).next, 0 === i) {
+                    if (Object(_i) !== _i) return;
+                    _n = !1;
+                } else for (;!(_n = (_s = _x.call(_i)).done) && (_arr.push(_s.value), _arr.length !== i); _n = !0) {
+                }
+            } catch (err) {
+                _d = !0, _e = err;
             } finally {
-                if (_d) throw _e;
+                try {
+                    if (!_n && null != _i[\\"return\\"] && (_r = _i[\\"return\\"](), Object(_r) !== _r)) return;
+                } finally {
+                    if (_d) throw _e;
+                }
             }
+            return _arr;
         }
-        return _arr;
     }
     module.exports = _iterableToArrayLimit, module.exports.__esModule = true, module.exports[\\"default\\"] = module.exports;
 }, function(module, exports) {
@@ -1796,7 +1817,7 @@ exports[`vue should build vue app 2`] = `
     }
     module.exports = _nonIterableRest, module.exports.__esModule = true, module.exports[\\"default\\"] = module.exports;
 }, function(module, exports, __webpack_require__) {
-    var unsupportedIterableToArray = __webpack_require__(2);
+    var unsupportedIterableToArray = __webpack_require__(3);
     function _createForOfIteratorHelper(o, allowArrayLike) {
         var it = typeof Symbol !== \\"undefined\\" && o[Symbol.iterator] || o[\\"@@iterator\\"];
         if (!it) {
@@ -1848,10 +1869,10 @@ exports[`vue should build vue app 2`] = `
     }
     module.exports = _createForOfIteratorHelper, module.exports.__esModule = true, module.exports[\\"default\\"] = module.exports;
 }, function(module, exports, __webpack_require__) {
-    var arrayWithoutHoles = __webpack_require__(17);
-    var iterableToArray = __webpack_require__(18);
-    var unsupportedIterableToArray = __webpack_require__(2);
-    var nonIterableSpread = __webpack_require__(19);
+    var arrayWithoutHoles = __webpack_require__(19);
+    var iterableToArray = __webpack_require__(20);
+    var unsupportedIterableToArray = __webpack_require__(3);
+    var nonIterableSpread = __webpack_require__(21);
     function _toConsumableArray(arr) {
         return arrayWithoutHoles(arr) || iterableToArray(arr) || unsupportedIterableToArray(arr) || nonIterableSpread();
     }
@@ -1881,7 +1902,7 @@ exports[`vue should build vue app 2`] = `
     };
 }, function(module, exports, __webpack_require__) {
     \\"use strict\\";
-    var _typeof = __webpack_require__(3).default;
+    var _typeof = __webpack_require__(0).default;
     var token = \\"%[a-f0-9]{2}\\";
     var singleMatcher = new RegExp(token, \\"gi\\");
     var multiMatcher = new RegExp(\\"(\\" + token + \\")+\\", \\"gi\\");
@@ -1977,7 +1998,7 @@ exports[`vue should build vue app 2`] = `
     };
 }, function(module, exports, __webpack_require__) {
     var api = __webpack_require__(5);
-    var content = __webpack_require__(25);
+    var content = __webpack_require__(27);
     content = content.__esModule ? content.default : content;
     if (typeof content === \\"string\\") {
         content = [ [ module.i, content, \\"\\" ] ];
@@ -1990,7 +2011,7 @@ exports[`vue should build vue app 2`] = `
 }, function(module, __webpack_exports__, __webpack_require__) {
     \\"use strict\\";
     __webpack_require__.r(__webpack_exports__);
-    var _node_modules_pnpm_registry_npmjs_org_css_loader_5_2_7_webpack_4_46_0_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
+    var _node_modules_pnpm_registry_npmjs_org_css_loader_5_2_7_webpack_4_46_0_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(1);
     var _node_modules_pnpm_registry_npmjs_org_css_loader_5_2_7_webpack_4_46_0_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default = __webpack_require__.n(_node_modules_pnpm_registry_npmjs_org_css_loader_5_2_7_webpack_4_46_0_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__);
     var ___CSS_LOADER_EXPORT___ = _node_modules_pnpm_registry_npmjs_org_css_loader_5_2_7_webpack_4_46_0_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()((function(i) {
         return i[1];
@@ -1999,7 +2020,7 @@ exports[`vue should build vue app 2`] = `
     __webpack_exports__[\\"default\\"] = ___CSS_LOADER_EXPORT___;
 }, function(module, exports, __webpack_require__) {
     var api = __webpack_require__(5);
-    var content = __webpack_require__(27);
+    var content = __webpack_require__(29);
     content = content.__esModule ? content.default : content;
     if (typeof content === \\"string\\") {
         content = [ [ module.i, content, \\"\\" ] ];
@@ -2025,7 +2046,7 @@ exports[`vue should build vue app 2`] = `
 }, function(module, __webpack_exports__, __webpack_require__) {
     \\"use strict\\";
     __webpack_require__.r(__webpack_exports__);
-    var _node_modules_pnpm_registry_npmjs_org_css_loader_5_2_7_webpack_4_46_0_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
+    var _node_modules_pnpm_registry_npmjs_org_css_loader_5_2_7_webpack_4_46_0_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(1);
     var _node_modules_pnpm_registry_npmjs_org_css_loader_5_2_7_webpack_4_46_0_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default = __webpack_require__.n(_node_modules_pnpm_registry_npmjs_org_css_loader_5_2_7_webpack_4_46_0_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__);
     var ___CSS_LOADER_EXPORT___ = _node_modules_pnpm_registry_npmjs_org_css_loader_5_2_7_webpack_4_46_0_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()((function(i) {
         return i[1];
@@ -2279,7 +2300,9 @@ exports[`vue should build vue app 2`] = `
         _regeneratorRuntime = function _regeneratorRuntime() {
             return exports;
         };
-        var exports = {}, Op = Object.prototype, hasOwn = Op.hasOwnProperty, $Symbol = \\"function\\" == typeof Symbol ? Symbol : {}, iteratorSymbol = $Symbol.iterator || \\"@@iterator\\", asyncIteratorSymbol = $Symbol.asyncIterator || \\"@@asyncIterator\\", toStringTagSymbol = $Symbol.toStringTag || \\"@@toStringTag\\";
+        var exports = {}, Op = Object.prototype, hasOwn = Op.hasOwnProperty, defineProperty = Object.defineProperty || function(obj, key, desc) {
+            obj[key] = desc.value;
+        }, $Symbol = \\"function\\" == typeof Symbol ? Symbol : {}, iteratorSymbol = $Symbol.iterator || \\"@@iterator\\", asyncIteratorSymbol = $Symbol.asyncIterator || \\"@@asyncIterator\\", toStringTagSymbol = $Symbol.toStringTag || \\"@@toStringTag\\";
         function define(obj, key, value) {
             return Object.defineProperty(obj, key, {
                 \\"value\\": value,
@@ -2297,40 +2320,9 @@ exports[`vue should build vue app 2`] = `
         }
         function wrap(innerFn, outerFn, self, tryLocsList) {
             var protoGenerator = outerFn && outerFn.prototype instanceof Generator ? outerFn : Generator, generator = Object.create(protoGenerator.prototype), context = new Context(tryLocsList || []);
-            return generator._invoke = function(innerFn, self, context) {
-                var state = \\"suspendedStart\\";
-                return function(method, arg) {
-                    if (\\"executing\\" === state) throw new Error(\\"Generator is already running\\");
-                    if (\\"completed\\" === state) {
-                        if (\\"throw\\" === method) throw arg;
-                        return doneResult();
-                    }
-                    for (context.method = method, context.arg = arg; ;) {
-                        var delegate = context.delegate;
-                        if (delegate) {
-                            var delegateResult = maybeInvokeDelegate(delegate, context);
-                            if (delegateResult) {
-                                if (delegateResult === ContinueSentinel) continue;
-                                return delegateResult;
-                            }
-                        }
-                        if (\\"next\\" === context.method) context.sent = context._sent = context.arg; else if (\\"throw\\" === context.method) {
-                            if (\\"suspendedStart\\" === state) throw state = \\"completed\\", context.arg;
-                            context.dispatchException(context.arg);
-                        } else \\"return\\" === context.method && context.abrupt(\\"return\\", context.arg);
-                        state = \\"executing\\";
-                        var record = tryCatch(innerFn, self, context);
-                        if (\\"normal\\" === record.type) {
-                            if (state = context.done ? \\"completed\\" : \\"suspendedYield\\", record.arg === ContinueSentinel) continue;
-                            return {
-                                \\"value\\": record.arg,
-                                \\"done\\": context.done
-                            };
-                        }
-                        \\"throw\\" === record.type && (state = \\"completed\\", context.method = \\"throw\\", context.arg = record.arg);
-                    }
-                };
-            }(innerFn, self, context), generator;
+            return defineProperty(generator, \\"_invoke\\", {
+                \\"value\\": makeInvokeMethod(innerFn, self, context)
+            }), generator;
         }
         function tryCatch(fn, obj, arg) {
             try {
@@ -2382,25 +2374,57 @@ exports[`vue should build vue app 2`] = `
                 reject(record.arg);
             }
             var previousPromise;
-            this._invoke = function(method, arg) {
-                function callInvokeWithMethodAndArg() {
-                    return new PromiseImpl((function(resolve, reject) {
-                        invoke(method, arg, resolve, reject);
-                    }));
+            defineProperty(this, \\"_invoke\\", {
+                \\"value\\": function value(method, arg) {
+                    function callInvokeWithMethodAndArg() {
+                        return new PromiseImpl((function(resolve, reject) {
+                            invoke(method, arg, resolve, reject);
+                        }));
+                    }
+                    return previousPromise = previousPromise ? previousPromise.then(callInvokeWithMethodAndArg, callInvokeWithMethodAndArg) : callInvokeWithMethodAndArg();
                 }
-                return previousPromise = previousPromise ? previousPromise.then(callInvokeWithMethodAndArg, callInvokeWithMethodAndArg) : callInvokeWithMethodAndArg();
+            });
+        }
+        function makeInvokeMethod(innerFn, self, context) {
+            var state = \\"suspendedStart\\";
+            return function(method, arg) {
+                if (\\"executing\\" === state) throw new Error(\\"Generator is already running\\");
+                if (\\"completed\\" === state) {
+                    if (\\"throw\\" === method) throw arg;
+                    return doneResult();
+                }
+                for (context.method = method, context.arg = arg; ;) {
+                    var delegate = context.delegate;
+                    if (delegate) {
+                        var delegateResult = maybeInvokeDelegate(delegate, context);
+                        if (delegateResult) {
+                            if (delegateResult === ContinueSentinel) continue;
+                            return delegateResult;
+                        }
+                    }
+                    if (\\"next\\" === context.method) context.sent = context._sent = context.arg; else if (\\"throw\\" === context.method) {
+                        if (\\"suspendedStart\\" === state) throw state = \\"completed\\", context.arg;
+                        context.dispatchException(context.arg);
+                    } else \\"return\\" === context.method && context.abrupt(\\"return\\", context.arg);
+                    state = \\"executing\\";
+                    var record = tryCatch(innerFn, self, context);
+                    if (\\"normal\\" === record.type) {
+                        if (state = context.done ? \\"completed\\" : \\"suspendedYield\\", record.arg === ContinueSentinel) continue;
+                        return {
+                            \\"value\\": record.arg,
+                            \\"done\\": context.done
+                        };
+                    }
+                    \\"throw\\" === record.type && (state = \\"completed\\", context.method = \\"throw\\", context.arg = record.arg);
+                }
             };
         }
         function maybeInvokeDelegate(delegate, context) {
-            var method = delegate.iterator[context.method];
-            if (undefined === method) {
-                if (context.delegate = null, \\"throw\\" === context.method) {
-                    if (delegate.iterator[\\"return\\"] && (context.method = \\"return\\", context.arg = undefined, 
-                    maybeInvokeDelegate(delegate, context), \\"throw\\" === context.method)) return ContinueSentinel;
-                    context.method = \\"throw\\", context.arg = new TypeError(\\"The iterator does not provide a 'throw' method\\");
-                }
-                return ContinueSentinel;
-            }
+            var methodName = context.method, method = delegate.iterator[methodName];
+            if (undefined === method) return context.delegate = null, \\"throw\\" === methodName && delegate.iterator[\\"return\\"] && (context.method = \\"return\\", 
+            context.arg = undefined, maybeInvokeDelegate(delegate, context), \\"throw\\" === context.method) || \\"return\\" !== methodName && (context.method = \\"throw\\", 
+            context.arg = new TypeError(\\"The iterator does not provide a '\\" + methodName + \\"' method\\")), 
+            ContinueSentinel;
             var record = tryCatch(method, delegate.iterator, context.arg);
             if (\\"throw\\" === record.type) return context.method = \\"throw\\", context.arg = record.arg, 
             context.delegate = null, ContinueSentinel;
@@ -2451,8 +2475,13 @@ exports[`vue should build vue app 2`] = `
                 \\"done\\": !0
             };
         }
-        return GeneratorFunction.prototype = GeneratorFunctionPrototype, define(Gp, \\"constructor\\", GeneratorFunctionPrototype), 
-        define(GeneratorFunctionPrototype, \\"constructor\\", GeneratorFunction), GeneratorFunction.displayName = define(GeneratorFunctionPrototype, toStringTagSymbol, \\"GeneratorFunction\\"), 
+        return GeneratorFunction.prototype = GeneratorFunctionPrototype, defineProperty(Gp, \\"constructor\\", {
+            \\"value\\": GeneratorFunctionPrototype,
+            \\"configurable\\": !0
+        }), defineProperty(GeneratorFunctionPrototype, \\"constructor\\", {
+            \\"value\\": GeneratorFunction,
+            \\"configurable\\": !0
+        }), GeneratorFunction.displayName = define(GeneratorFunctionPrototype, toStringTagSymbol, \\"GeneratorFunction\\"), 
         exports.isGeneratorFunction = function(genFun) {
             var ctor = \\"function\\" == typeof genFun && genFun.constructor;
             return !!ctor && (ctor === GeneratorFunction || \\"GeneratorFunction\\" === (ctor.displayName || ctor.name));
@@ -2476,8 +2505,8 @@ exports[`vue should build vue app 2`] = `
             return this;
         })), define(Gp, \\"toString\\", (function() {
             return \\"[object Generator]\\";
-        })), exports.keys = function(object) {
-            var keys = [];
+        })), exports.keys = function(val) {
+            var object = Object(val), keys = [];
             for (var key in object) {
                 keys.push(key);
             }
@@ -3133,13 +3162,27 @@ exports[`vue should build vue app 2`] = `
             throw new TypeError(\\"Cannot call a class as a function\\");
         }
     }
+    function _toPrimitive(input, hint) {
+        if (_typeof(input) !== \\"object\\" || input === null) return input;
+        var prim = input[Symbol.toPrimitive];
+        if (prim !== undefined) {
+            var res = prim.call(input, hint || \\"default\\");
+            if (_typeof(res) !== \\"object\\") return res;
+            throw new TypeError(\\"@@toPrimitive must return a primitive value.\\");
+        }
+        return (hint === \\"string\\" ? String : Number)(input);
+    }
+    function _toPropertyKey(arg) {
+        var key = _toPrimitive(arg, \\"string\\");
+        return _typeof(key) === \\"symbol\\" ? key : String(key);
+    }
     function _defineProperties(target, props) {
         for (var i = 0; i < props.length; i++) {
             var descriptor = props[i];
             descriptor.enumerable = descriptor.enumerable || false;
             descriptor.configurable = true;
             if (\\"value\\" in descriptor) descriptor.writable = true;
-            Object.defineProperty(target, descriptor.key, descriptor);
+            Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor);
         }
     }
     function _createClass(Constructor, protoProps, staticProps) {
@@ -3181,28 +3224,26 @@ exports[`vue should build vue app 2`] = `
         if (Array.isArray(arr)) return arr;
     }
     function _iterableToArrayLimit(arr, i) {
-        var _i = arr == null ? null : typeof Symbol !== \\"undefined\\" && arr[Symbol.iterator] || arr[\\"@@iterator\\"];
-        if (_i == null) return;
-        var _arr = [];
-        var _n = true;
-        var _d = false;
-        var _s, _e;
-        try {
-            for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) {
-                _arr.push(_s.value);
-                if (i && _arr.length === i) break;
-            }
-        } catch (err) {
-            _d = true;
-            _e = err;
-        } finally {
+        var _i = null == arr ? null : \\"undefined\\" != typeof Symbol && arr[Symbol.iterator] || arr[\\"@@iterator\\"];
+        if (null != _i) {
+            var _s, _e, _x, _r, _arr = [], _n = !0, _d = !1;
             try {
-                if (!_n && _i[\\"return\\"] != null) _i[\\"return\\"]();
+                if (_x = (_i = _i.call(arr)).next, 0 === i) {
+                    if (Object(_i) !== _i) return;
+                    _n = !1;
+                } else for (;!(_n = (_s = _x.call(_i)).done) && (_arr.push(_s.value), _arr.length !== i); _n = !0) {
+                }
+            } catch (err) {
+                _d = !0, _e = err;
             } finally {
-                if (_d) throw _e;
+                try {
+                    if (!_n && null != _i[\\"return\\"] && (_r = _i[\\"return\\"](), Object(_r) !== _r)) return;
+                } finally {
+                    if (_d) throw _e;
+                }
             }
+            return _arr;
         }
-        return _arr;
     }
     function _nonIterableRest() {
         throw new TypeError(\\"Invalid attempt to destructure non-iterable instance.\\\\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.\\");
@@ -3795,7 +3836,7 @@ exports[`vue should build vue app 2`] = `
         var md = getMobileDetect();
         return md.match(/DingTalk/gi);
     }
-    var query_string = __webpack_require__(1);
+    var query_string = __webpack_require__(2);
     var query_string_default = __webpack_require__.n(query_string);
     var pageResizeFn;
     function bindPageResize(page) {
@@ -4746,7 +4787,7 @@ exports[`vue should build vue app 2`] = `
         var render = function render(_ref) {
             var location = _ref.location, action = _ref.action;
             return spa_awaiter(_this, void 0, void 0, _regeneratorRuntime().mark((function _callee() {
-                var _c, _d, _e, _f, _g, _h, element, params, result, _yield$Promise$all, _yield$Promise$all2, pageConfig, enablePullDownRefresh, currentPage, pathname, methodName, cacheTabs, shouldLoad, key, firstIns, prevIndex, delta, _delta, el, loadConfig, stacksIndex, pageStampId, page;
+                var _c, _d, _e, _f, _g, element, params, result, _yield$Promise$all, _yield$Promise$all2, pageConfig, enablePullDownRefresh, currentPage, pathname, methodName, cacheTabs, shouldLoad, key, firstIns, prevIndex, delta, _delta, el, loadConfig, stacksIndex, pageStampId, page;
                 return _regeneratorRuntime().wrap((function _callee$(_context) {
                     while (1) {
                         switch (_context.prev = _context.next) {
@@ -4810,15 +4851,14 @@ exports[`vue should build vue app 2`] = `
                             pageConfig = handler.pageConfig;
                             enablePullDownRefresh = ((_d = config === null || config === void 0 ? void 0 : config.window) === null || _d === void 0 ? void 0 : _d.enablePullDownRefresh) || false;
                             if (pageConfig) {
-                                document.title = (_e = pageConfig.navigationBarTitleText) !== null && _e !== void 0 ? _e : document.title;
-                                setTitle((_f = pageConfig.navigationBarTitleText) !== null && _f !== void 0 ? _f : document.title);
+                                setTitle((_e = pageConfig.navigationBarTitleText) !== null && _e !== void 0 ? _e : document.title);
                                 if (typeof pageConfig.enablePullDownRefresh === \\"boolean\\") {
                                     enablePullDownRefresh = pageConfig.enablePullDownRefresh;
                                 }
                             }
                             currentPage = undefined.page;
                             pathname = handler.pathname;
-                            methodName = (_g = stack.method) !== null && _g !== void 0 ? _g : \\"\\";
+                            methodName = (_f = stack.method) !== null && _f !== void 0 ? _f : \\"\\";
                             cacheTabs = stack.getTabs();
                             shouldLoad = false;
                             stack.method = \\"\\";
@@ -4896,7 +4936,7 @@ exports[`vue should build vue app 2`] = `
 
                           case 53:
                             if (shouldLoad || stack.length < 1) {
-                                el = (_h = element.default) !== null && _h !== void 0 ? _h : element;
+                                el = (_g = element.default) !== null && _g !== void 0 ? _g : element;
                                 loadConfig = Object.assign({}, pageConfig);
                                 stacksIndex = stack.length;
                                 delete loadConfig[\\"path\\"];
@@ -4938,7 +4978,7 @@ exports[`vue should build vue app 2`] = `
         return history_history.listen(render);
     }
     var vue = \\"vue-mock\\";
-    var src_app = __webpack_require__(24);
+    var src_app = __webpack_require__(26);
     var App = new vue({
         \\"onShow\\": function onShow() {},
         \\"render\\": function render(h) {
@@ -4953,8 +4993,9 @@ exports[`vue should build vue app 2`] = `
     function defineCustomElements() {}
     function applyPolyfills() {}
     function initVue3Components() {}
-    var mocks_taro_components = __webpack_require__(26);
+    var mocks_taro_components = __webpack_require__(28);
     function _defineProperty(obj, key, value) {
+        key = _toPropertyKey(key);
         if (key in obj) {
             Object.defineProperty(obj, key, {
                 \\"value\\": value,
@@ -5609,7 +5650,7 @@ exports[`vue should build vue app 2`] = `
     app_config_config.routes = [ Object.assign({
         \\"path\\": \\"pages/index/index\\",
         \\"load\\": function load(context, params) {
-            var page = __webpack_require__.e(1).then(__webpack_require__.bind(null, 35));
+            var page = __webpack_require__.e(1).then(__webpack_require__.bind(null, 37));
             return [ page, context, params ];
         }
     }, {

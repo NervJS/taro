@@ -6,8 +6,8 @@ exports[`typescript should build project with ts 2`] = `
 "
 /** filePath: dist/chunk/1.js **/
 (window[\\"webpackJsonp\\"] = window[\\"webpackJsonp\\"] || []).push([ [ 1 ], {
-    \\"35\\": function(module, exports, __webpack_require__) {},
-    \\"36\\": function(module, __webpack_exports__, __webpack_require__) {
+    \\"37\\": function(module, exports, __webpack_require__) {},
+    \\"38\\": function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_require__.r(__webpack_exports__);
         __webpack_require__.d(__webpack_exports__, \\"default\\", (function() {
@@ -19,7 +19,7 @@ exports[`typescript should build project with ts 2`] = `
         var _babel_runtime_helpers_esm_createSuper__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(10);
         var react__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(3);
         var _tarojs_components__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(7);
-        var _index_less__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(35);
+        var _index_less__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(37);
         var _index_less__WEBPACK_IMPORTED_MODULE_6___default = __webpack_require__.n(_index_less__WEBPACK_IMPORTED_MODULE_6__);
         var Index = function(_Component) {
             Object(_babel_runtime_helpers_esm_inherits__WEBPACK_IMPORTED_MODULE_2__[\\"a\\"])(Index, _Component);
@@ -274,13 +274,28 @@ exports[`typescript should build project with ts 2`] = `
     __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
         return _createClass;
     }));
+    var esm_typeof = __webpack_require__(2);
+    function _toPrimitive(input, hint) {
+        if (Object(esm_typeof[\\"a\\"])(input) !== \\"object\\" || input === null) return input;
+        var prim = input[Symbol.toPrimitive];
+        if (prim !== undefined) {
+            var res = prim.call(input, hint || \\"default\\");
+            if (Object(esm_typeof[\\"a\\"])(res) !== \\"object\\") return res;
+            throw new TypeError(\\"@@toPrimitive must return a primitive value.\\");
+        }
+        return (hint === \\"string\\" ? String : Number)(input);
+    }
+    function _toPropertyKey(arg) {
+        var key = _toPrimitive(arg, \\"string\\");
+        return Object(esm_typeof[\\"a\\"])(key) === \\"symbol\\" ? key : String(key);
+    }
     function _defineProperties(target, props) {
         for (var i = 0; i < props.length; i++) {
             var descriptor = props[i];
             descriptor.enumerable = descriptor.enumerable || false;
             descriptor.configurable = true;
             if (\\"value\\" in descriptor) descriptor.writable = true;
-            Object.defineProperty(target, descriptor.key, descriptor);
+            Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor);
         }
     }
     function _createClass(Constructor, protoProps, staticProps) {
@@ -308,17 +323,28 @@ exports[`typescript should build project with ts 2`] = `
     \\"use strict\\";
     __webpack_require__.r(__webpack_exports__);
     __webpack_exports__[\\"default\\"] = \\"react-mock\\";
+}, function(module, exports) {
+    function _typeof(obj) {
+        \\"@babel/helpers - typeof\\";
+        return module.exports = _typeof = \\"function\\" == typeof Symbol && \\"symbol\\" == typeof Symbol.iterator ? function(obj) {
+            return typeof obj;
+        } : function(obj) {
+            return obj && \\"function\\" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? \\"symbol\\" : typeof obj;
+        }, module.exports.__esModule = true, module.exports[\\"default\\"] = module.exports, 
+        _typeof(obj);
+    }
+    module.exports = _typeof, module.exports.__esModule = true, module.exports[\\"default\\"] = module.exports;
 }, function(module, exports, __webpack_require__) {
     \\"use strict\\";
     var _defineProperty = __webpack_require__(16).default;
-    var _slicedToArray = __webpack_require__(17).default;
-    var _createForOfIteratorHelper = __webpack_require__(21).default;
-    var _typeof = __webpack_require__(6).default;
-    var _toConsumableArray = __webpack_require__(22).default;
-    var strictUriEncode = __webpack_require__(26);
-    var decodeComponent = __webpack_require__(27);
-    var splitOnFirst = __webpack_require__(28);
-    var filterObject = __webpack_require__(29);
+    var _slicedToArray = __webpack_require__(19).default;
+    var _createForOfIteratorHelper = __webpack_require__(23).default;
+    var _typeof = __webpack_require__(4).default;
+    var _toConsumableArray = __webpack_require__(24).default;
+    var strictUriEncode = __webpack_require__(28);
+    var decodeComponent = __webpack_require__(29);
+    var splitOnFirst = __webpack_require__(30);
+    var filterObject = __webpack_require__(31);
     var isNullOrUndefined = function isNullOrUndefined(value) {
         return value === null || value === undefined;
     };
@@ -717,17 +743,6 @@ exports[`typescript should build project with ts 2`] = `
     }
     module.exports = _unsupportedIterableToArray, module.exports.__esModule = true, 
     module.exports[\\"default\\"] = module.exports;
-}, function(module, exports) {
-    function _typeof(obj) {
-        \\"@babel/helpers - typeof\\";
-        return module.exports = _typeof = \\"function\\" == typeof Symbol && \\"symbol\\" == typeof Symbol.iterator ? function(obj) {
-            return typeof obj;
-        } : function(obj) {
-            return obj && \\"function\\" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? \\"symbol\\" : typeof obj;
-        }, module.exports.__esModule = true, module.exports[\\"default\\"] = module.exports, 
-        _typeof(obj);
-    }
-    module.exports = _typeof, module.exports.__esModule = true, module.exports[\\"default\\"] = module.exports;
 }, function(module, __webpack_exports__, __webpack_require__) {
     \\"use strict\\";
     __webpack_require__.d(__webpack_exports__, \\"d\\", (function() {
@@ -741,7 +756,7 @@ exports[`typescript should build project with ts 2`] = `
     function applyPolyfills() {}
     function initVue3Components() {}
 }, function(module, exports, __webpack_require__) {
-    var _typeof = __webpack_require__(6).default;
+    var _typeof = __webpack_require__(4).default;
     module.exports = pathToRegexp;
     module.exports.match = match;
     module.exports.regexpToFunction = regexpToFunction;
@@ -1625,13 +1640,15 @@ exports[`typescript should build project with ts 2`] = `
         return list;
     };
 }, function(module, exports, __webpack_require__) {
-    module.exports = __webpack_require__(34);
+    module.exports = __webpack_require__(36);
 }, function(module, exports) {
     module.exports = function() {
         throw new Error(\\"define cannot be used indirect\\");
     };
-}, function(module, exports) {
+}, function(module, exports, __webpack_require__) {
+    var toPropertyKey = __webpack_require__(17);
     function _defineProperty(obj, key, value) {
+        key = toPropertyKey(key);
         if (key in obj) {
             Object.defineProperty(obj, key, {
                 \\"value\\": value,
@@ -1646,10 +1663,31 @@ exports[`typescript should build project with ts 2`] = `
     }
     module.exports = _defineProperty, module.exports.__esModule = true, module.exports[\\"default\\"] = module.exports;
 }, function(module, exports, __webpack_require__) {
-    var arrayWithHoles = __webpack_require__(18);
-    var iterableToArrayLimit = __webpack_require__(19);
-    var unsupportedIterableToArray = __webpack_require__(5);
-    var nonIterableRest = __webpack_require__(20);
+    var _typeof = __webpack_require__(4)[\\"default\\"];
+    var toPrimitive = __webpack_require__(18);
+    function _toPropertyKey(arg) {
+        var key = toPrimitive(arg, \\"string\\");
+        return _typeof(key) === \\"symbol\\" ? key : String(key);
+    }
+    module.exports = _toPropertyKey, module.exports.__esModule = true, module.exports[\\"default\\"] = module.exports;
+}, function(module, exports, __webpack_require__) {
+    var _typeof = __webpack_require__(4)[\\"default\\"];
+    function _toPrimitive(input, hint) {
+        if (_typeof(input) !== \\"object\\" || input === null) return input;
+        var prim = input[Symbol.toPrimitive];
+        if (prim !== undefined) {
+            var res = prim.call(input, hint || \\"default\\");
+            if (_typeof(res) !== \\"object\\") return res;
+            throw new TypeError(\\"@@toPrimitive must return a primitive value.\\");
+        }
+        return (hint === \\"string\\" ? String : Number)(input);
+    }
+    module.exports = _toPrimitive, module.exports.__esModule = true, module.exports[\\"default\\"] = module.exports;
+}, function(module, exports, __webpack_require__) {
+    var arrayWithHoles = __webpack_require__(20);
+    var iterableToArrayLimit = __webpack_require__(21);
+    var unsupportedIterableToArray = __webpack_require__(6);
+    var nonIterableRest = __webpack_require__(22);
     function _slicedToArray(arr, i) {
         return arrayWithHoles(arr) || iterableToArrayLimit(arr, i) || unsupportedIterableToArray(arr, i) || nonIterableRest();
     }
@@ -1661,28 +1699,26 @@ exports[`typescript should build project with ts 2`] = `
     module.exports = _arrayWithHoles, module.exports.__esModule = true, module.exports[\\"default\\"] = module.exports;
 }, function(module, exports) {
     function _iterableToArrayLimit(arr, i) {
-        var _i = arr == null ? null : typeof Symbol !== \\"undefined\\" && arr[Symbol.iterator] || arr[\\"@@iterator\\"];
-        if (_i == null) return;
-        var _arr = [];
-        var _n = true;
-        var _d = false;
-        var _s, _e;
-        try {
-            for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) {
-                _arr.push(_s.value);
-                if (i && _arr.length === i) break;
-            }
-        } catch (err) {
-            _d = true;
-            _e = err;
-        } finally {
+        var _i = null == arr ? null : \\"undefined\\" != typeof Symbol && arr[Symbol.iterator] || arr[\\"@@iterator\\"];
+        if (null != _i) {
+            var _s, _e, _x, _r, _arr = [], _n = !0, _d = !1;
             try {
-                if (!_n && _i[\\"return\\"] != null) _i[\\"return\\"]();
+                if (_x = (_i = _i.call(arr)).next, 0 === i) {
+                    if (Object(_i) !== _i) return;
+                    _n = !1;
+                } else for (;!(_n = (_s = _x.call(_i)).done) && (_arr.push(_s.value), _arr.length !== i); _n = !0) {
+                }
+            } catch (err) {
+                _d = !0, _e = err;
             } finally {
-                if (_d) throw _e;
+                try {
+                    if (!_n && null != _i[\\"return\\"] && (_r = _i[\\"return\\"](), Object(_r) !== _r)) return;
+                } finally {
+                    if (_d) throw _e;
+                }
             }
+            return _arr;
         }
-        return _arr;
     }
     module.exports = _iterableToArrayLimit, module.exports.__esModule = true, module.exports[\\"default\\"] = module.exports;
 }, function(module, exports) {
@@ -1691,7 +1727,7 @@ exports[`typescript should build project with ts 2`] = `
     }
     module.exports = _nonIterableRest, module.exports.__esModule = true, module.exports[\\"default\\"] = module.exports;
 }, function(module, exports, __webpack_require__) {
-    var unsupportedIterableToArray = __webpack_require__(5);
+    var unsupportedIterableToArray = __webpack_require__(6);
     function _createForOfIteratorHelper(o, allowArrayLike) {
         var it = typeof Symbol !== \\"undefined\\" && o[Symbol.iterator] || o[\\"@@iterator\\"];
         if (!it) {
@@ -1743,10 +1779,10 @@ exports[`typescript should build project with ts 2`] = `
     }
     module.exports = _createForOfIteratorHelper, module.exports.__esModule = true, module.exports[\\"default\\"] = module.exports;
 }, function(module, exports, __webpack_require__) {
-    var arrayWithoutHoles = __webpack_require__(23);
-    var iterableToArray = __webpack_require__(24);
-    var unsupportedIterableToArray = __webpack_require__(5);
-    var nonIterableSpread = __webpack_require__(25);
+    var arrayWithoutHoles = __webpack_require__(25);
+    var iterableToArray = __webpack_require__(26);
+    var unsupportedIterableToArray = __webpack_require__(6);
+    var nonIterableSpread = __webpack_require__(27);
     function _toConsumableArray(arr) {
         return arrayWithoutHoles(arr) || iterableToArray(arr) || unsupportedIterableToArray(arr) || nonIterableSpread();
     }
@@ -1776,7 +1812,7 @@ exports[`typescript should build project with ts 2`] = `
     };
 }, function(module, exports, __webpack_require__) {
     \\"use strict\\";
-    var _typeof = __webpack_require__(6).default;
+    var _typeof = __webpack_require__(4).default;
     var token = \\"%[a-f0-9]{2}\\";
     var singleMatcher = new RegExp(token, \\"gi\\");
     var multiMatcher = new RegExp(\\"(\\" + token + \\")+\\", \\"gi\\");
@@ -1871,8 +1907,8 @@ exports[`typescript should build project with ts 2`] = `
         return ret;
     };
 }, function(module, exports, __webpack_require__) {}, function(module, exports, __webpack_require__) {
-    var api = __webpack_require__(32);
-    var content = __webpack_require__(33);
+    var api = __webpack_require__(34);
+    var content = __webpack_require__(35);
     content = content.__esModule ? content.default : content;
     if (typeof content === \\"string\\") {
         content = [ [ module.i, content, \\"\\" ] ];
@@ -2116,7 +2152,9 @@ exports[`typescript should build project with ts 2`] = `
         _regeneratorRuntime = function _regeneratorRuntime() {
             return exports;
         };
-        var exports = {}, Op = Object.prototype, hasOwn = Op.hasOwnProperty, $Symbol = \\"function\\" == typeof Symbol ? Symbol : {}, iteratorSymbol = $Symbol.iterator || \\"@@iterator\\", asyncIteratorSymbol = $Symbol.asyncIterator || \\"@@asyncIterator\\", toStringTagSymbol = $Symbol.toStringTag || \\"@@toStringTag\\";
+        var exports = {}, Op = Object.prototype, hasOwn = Op.hasOwnProperty, defineProperty = Object.defineProperty || function(obj, key, desc) {
+            obj[key] = desc.value;
+        }, $Symbol = \\"function\\" == typeof Symbol ? Symbol : {}, iteratorSymbol = $Symbol.iterator || \\"@@iterator\\", asyncIteratorSymbol = $Symbol.asyncIterator || \\"@@asyncIterator\\", toStringTagSymbol = $Symbol.toStringTag || \\"@@toStringTag\\";
         function define(obj, key, value) {
             return Object.defineProperty(obj, key, {
                 \\"value\\": value,
@@ -2134,40 +2172,9 @@ exports[`typescript should build project with ts 2`] = `
         }
         function wrap(innerFn, outerFn, self, tryLocsList) {
             var protoGenerator = outerFn && outerFn.prototype instanceof Generator ? outerFn : Generator, generator = Object.create(protoGenerator.prototype), context = new Context(tryLocsList || []);
-            return generator._invoke = function(innerFn, self, context) {
-                var state = \\"suspendedStart\\";
-                return function(method, arg) {
-                    if (\\"executing\\" === state) throw new Error(\\"Generator is already running\\");
-                    if (\\"completed\\" === state) {
-                        if (\\"throw\\" === method) throw arg;
-                        return doneResult();
-                    }
-                    for (context.method = method, context.arg = arg; ;) {
-                        var delegate = context.delegate;
-                        if (delegate) {
-                            var delegateResult = maybeInvokeDelegate(delegate, context);
-                            if (delegateResult) {
-                                if (delegateResult === ContinueSentinel) continue;
-                                return delegateResult;
-                            }
-                        }
-                        if (\\"next\\" === context.method) context.sent = context._sent = context.arg; else if (\\"throw\\" === context.method) {
-                            if (\\"suspendedStart\\" === state) throw state = \\"completed\\", context.arg;
-                            context.dispatchException(context.arg);
-                        } else \\"return\\" === context.method && context.abrupt(\\"return\\", context.arg);
-                        state = \\"executing\\";
-                        var record = tryCatch(innerFn, self, context);
-                        if (\\"normal\\" === record.type) {
-                            if (state = context.done ? \\"completed\\" : \\"suspendedYield\\", record.arg === ContinueSentinel) continue;
-                            return {
-                                \\"value\\": record.arg,
-                                \\"done\\": context.done
-                            };
-                        }
-                        \\"throw\\" === record.type && (state = \\"completed\\", context.method = \\"throw\\", context.arg = record.arg);
-                    }
-                };
-            }(innerFn, self, context), generator;
+            return defineProperty(generator, \\"_invoke\\", {
+                \\"value\\": makeInvokeMethod(innerFn, self, context)
+            }), generator;
         }
         function tryCatch(fn, obj, arg) {
             try {
@@ -2219,25 +2226,57 @@ exports[`typescript should build project with ts 2`] = `
                 reject(record.arg);
             }
             var previousPromise;
-            this._invoke = function(method, arg) {
-                function callInvokeWithMethodAndArg() {
-                    return new PromiseImpl((function(resolve, reject) {
-                        invoke(method, arg, resolve, reject);
-                    }));
+            defineProperty(this, \\"_invoke\\", {
+                \\"value\\": function value(method, arg) {
+                    function callInvokeWithMethodAndArg() {
+                        return new PromiseImpl((function(resolve, reject) {
+                            invoke(method, arg, resolve, reject);
+                        }));
+                    }
+                    return previousPromise = previousPromise ? previousPromise.then(callInvokeWithMethodAndArg, callInvokeWithMethodAndArg) : callInvokeWithMethodAndArg();
                 }
-                return previousPromise = previousPromise ? previousPromise.then(callInvokeWithMethodAndArg, callInvokeWithMethodAndArg) : callInvokeWithMethodAndArg();
+            });
+        }
+        function makeInvokeMethod(innerFn, self, context) {
+            var state = \\"suspendedStart\\";
+            return function(method, arg) {
+                if (\\"executing\\" === state) throw new Error(\\"Generator is already running\\");
+                if (\\"completed\\" === state) {
+                    if (\\"throw\\" === method) throw arg;
+                    return doneResult();
+                }
+                for (context.method = method, context.arg = arg; ;) {
+                    var delegate = context.delegate;
+                    if (delegate) {
+                        var delegateResult = maybeInvokeDelegate(delegate, context);
+                        if (delegateResult) {
+                            if (delegateResult === ContinueSentinel) continue;
+                            return delegateResult;
+                        }
+                    }
+                    if (\\"next\\" === context.method) context.sent = context._sent = context.arg; else if (\\"throw\\" === context.method) {
+                        if (\\"suspendedStart\\" === state) throw state = \\"completed\\", context.arg;
+                        context.dispatchException(context.arg);
+                    } else \\"return\\" === context.method && context.abrupt(\\"return\\", context.arg);
+                    state = \\"executing\\";
+                    var record = tryCatch(innerFn, self, context);
+                    if (\\"normal\\" === record.type) {
+                        if (state = context.done ? \\"completed\\" : \\"suspendedYield\\", record.arg === ContinueSentinel) continue;
+                        return {
+                            \\"value\\": record.arg,
+                            \\"done\\": context.done
+                        };
+                    }
+                    \\"throw\\" === record.type && (state = \\"completed\\", context.method = \\"throw\\", context.arg = record.arg);
+                }
             };
         }
         function maybeInvokeDelegate(delegate, context) {
-            var method = delegate.iterator[context.method];
-            if (undefined === method) {
-                if (context.delegate = null, \\"throw\\" === context.method) {
-                    if (delegate.iterator[\\"return\\"] && (context.method = \\"return\\", context.arg = undefined, 
-                    maybeInvokeDelegate(delegate, context), \\"throw\\" === context.method)) return ContinueSentinel;
-                    context.method = \\"throw\\", context.arg = new TypeError(\\"The iterator does not provide a 'throw' method\\");
-                }
-                return ContinueSentinel;
-            }
+            var methodName = context.method, method = delegate.iterator[methodName];
+            if (undefined === method) return context.delegate = null, \\"throw\\" === methodName && delegate.iterator[\\"return\\"] && (context.method = \\"return\\", 
+            context.arg = undefined, maybeInvokeDelegate(delegate, context), \\"throw\\" === context.method) || \\"return\\" !== methodName && (context.method = \\"throw\\", 
+            context.arg = new TypeError(\\"The iterator does not provide a '\\" + methodName + \\"' method\\")), 
+            ContinueSentinel;
             var record = tryCatch(method, delegate.iterator, context.arg);
             if (\\"throw\\" === record.type) return context.method = \\"throw\\", context.arg = record.arg, 
             context.delegate = null, ContinueSentinel;
@@ -2288,8 +2327,13 @@ exports[`typescript should build project with ts 2`] = `
                 \\"done\\": !0
             };
         }
-        return GeneratorFunction.prototype = GeneratorFunctionPrototype, define(Gp, \\"constructor\\", GeneratorFunctionPrototype), 
-        define(GeneratorFunctionPrototype, \\"constructor\\", GeneratorFunction), GeneratorFunction.displayName = define(GeneratorFunctionPrototype, toStringTagSymbol, \\"GeneratorFunction\\"), 
+        return GeneratorFunction.prototype = GeneratorFunctionPrototype, defineProperty(Gp, \\"constructor\\", {
+            \\"value\\": GeneratorFunctionPrototype,
+            \\"configurable\\": !0
+        }), defineProperty(GeneratorFunctionPrototype, \\"constructor\\", {
+            \\"value\\": GeneratorFunction,
+            \\"configurable\\": !0
+        }), GeneratorFunction.displayName = define(GeneratorFunctionPrototype, toStringTagSymbol, \\"GeneratorFunction\\"), 
         exports.isGeneratorFunction = function(genFun) {
             var ctor = \\"function\\" == typeof genFun && genFun.constructor;
             return !!ctor && (ctor === GeneratorFunction || \\"GeneratorFunction\\" === (ctor.displayName || ctor.name));
@@ -2313,8 +2357,8 @@ exports[`typescript should build project with ts 2`] = `
             return this;
         })), define(Gp, \\"toString\\", (function() {
             return \\"[object Generator]\\";
-        })), exports.keys = function(object) {
-            var keys = [];
+        })), exports.keys = function(val) {
+            var object = Object(val), keys = [];
             for (var key in object) {
                 keys.push(key);
             }
@@ -2998,28 +3042,26 @@ exports[`typescript should build project with ts 2`] = `
         if (Array.isArray(arr)) return arr;
     }
     function _iterableToArrayLimit(arr, i) {
-        var _i = arr == null ? null : typeof Symbol !== \\"undefined\\" && arr[Symbol.iterator] || arr[\\"@@iterator\\"];
-        if (_i == null) return;
-        var _arr = [];
-        var _n = true;
-        var _d = false;
-        var _s, _e;
-        try {
-            for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) {
-                _arr.push(_s.value);
-                if (i && _arr.length === i) break;
-            }
-        } catch (err) {
-            _d = true;
-            _e = err;
-        } finally {
+        var _i = null == arr ? null : \\"undefined\\" != typeof Symbol && arr[Symbol.iterator] || arr[\\"@@iterator\\"];
+        if (null != _i) {
+            var _s, _e, _x, _r, _arr = [], _n = !0, _d = !1;
             try {
-                if (!_n && _i[\\"return\\"] != null) _i[\\"return\\"]();
+                if (_x = (_i = _i.call(arr)).next, 0 === i) {
+                    if (Object(_i) !== _i) return;
+                    _n = !1;
+                } else for (;!(_n = (_s = _x.call(_i)).done) && (_arr.push(_s.value), _arr.length !== i); _n = !0) {
+                }
+            } catch (err) {
+                _d = !0, _e = err;
             } finally {
-                if (_d) throw _e;
+                try {
+                    if (!_n && null != _i[\\"return\\"] && (_r = _i[\\"return\\"](), Object(_r) !== _r)) return;
+                } finally {
+                    if (_d) throw _e;
+                }
             }
+            return _arr;
         }
-        return _arr;
     }
     function _nonIterableRest() {
         throw new TypeError(\\"Invalid attempt to destructure non-iterable instance.\\\\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.\\");
@@ -3612,7 +3654,7 @@ exports[`typescript should build project with ts 2`] = `
         var md = getMobileDetect();
         return md.match(/DingTalk/gi);
     }
-    var query_string = __webpack_require__(4);
+    var query_string = __webpack_require__(5);
     var query_string_default = __webpack_require__.n(query_string);
     var pageResizeFn;
     function bindPageResize(page) {
@@ -4563,7 +4605,7 @@ exports[`typescript should build project with ts 2`] = `
         var render = function render(_ref) {
             var location = _ref.location, action = _ref.action;
             return spa_awaiter(_this, void 0, void 0, _regeneratorRuntime().mark((function _callee() {
-                var _c, _d, _e, _f, _g, _h, element, params, result, _yield$Promise$all, _yield$Promise$all2, pageConfig, enablePullDownRefresh, currentPage, pathname, methodName, cacheTabs, shouldLoad, key, firstIns, prevIndex, delta, _delta, el, loadConfig, stacksIndex, pageStampId, page;
+                var _c, _d, _e, _f, _g, element, params, result, _yield$Promise$all, _yield$Promise$all2, pageConfig, enablePullDownRefresh, currentPage, pathname, methodName, cacheTabs, shouldLoad, key, firstIns, prevIndex, delta, _delta, el, loadConfig, stacksIndex, pageStampId, page;
                 return _regeneratorRuntime().wrap((function _callee$(_context) {
                     while (1) {
                         switch (_context.prev = _context.next) {
@@ -4627,15 +4669,14 @@ exports[`typescript should build project with ts 2`] = `
                             pageConfig = handler.pageConfig;
                             enablePullDownRefresh = ((_d = config === null || config === void 0 ? void 0 : config.window) === null || _d === void 0 ? void 0 : _d.enablePullDownRefresh) || false;
                             if (pageConfig) {
-                                document.title = (_e = pageConfig.navigationBarTitleText) !== null && _e !== void 0 ? _e : document.title;
-                                setTitle((_f = pageConfig.navigationBarTitleText) !== null && _f !== void 0 ? _f : document.title);
+                                setTitle((_e = pageConfig.navigationBarTitleText) !== null && _e !== void 0 ? _e : document.title);
                                 if (typeof pageConfig.enablePullDownRefresh === \\"boolean\\") {
                                     enablePullDownRefresh = pageConfig.enablePullDownRefresh;
                                 }
                             }
                             currentPage = undefined.page;
                             pathname = handler.pathname;
-                            methodName = (_g = stack.method) !== null && _g !== void 0 ? _g : \\"\\";
+                            methodName = (_f = stack.method) !== null && _f !== void 0 ? _f : \\"\\";
                             cacheTabs = stack.getTabs();
                             shouldLoad = false;
                             stack.method = \\"\\";
@@ -4713,7 +4754,7 @@ exports[`typescript should build project with ts 2`] = `
 
                           case 53:
                             if (shouldLoad || stack.length < 1) {
-                                el = (_h = element.default) !== null && _h !== void 0 ? _h : element;
+                                el = (_g = element.default) !== null && _g !== void 0 ? _g : element;
                                 loadConfig = Object.assign({}, pageConfig);
                                 stacksIndex = stack.length;
                                 delete loadConfig[\\"path\\"];
@@ -4757,7 +4798,7 @@ exports[`typescript should build project with ts 2`] = `
     var inherits = __webpack_require__(11);
     var createSuper = __webpack_require__(10);
     var react = __webpack_require__(3);
-    var src_app = __webpack_require__(30);
+    var src_app = __webpack_require__(32);
     var app_App = function(_Component) {
         Object(inherits[\\"a\\"])(App, _Component);
         var _super = Object(createSuper[\\"a\\"])(App);
@@ -4787,7 +4828,7 @@ exports[`typescript should build project with ts 2`] = `
     function taro_framework_createVueApp() {}
     function taro_framework_createVue3App() {}
     var taro_components = __webpack_require__(7);
-    var mocks_taro_components = __webpack_require__(31);
+    var mocks_taro_components = __webpack_require__(33);
     var app_config_config = {
         \\"router\\": {
             \\"mode\\": \\"hash\\",
@@ -4821,7 +4862,7 @@ exports[`typescript should build project with ts 2`] = `
     app_config_config.routes = [ Object.assign({
         \\"path\\": \\"pages/index/index\\",
         \\"load\\": function load(context, params) {
-            var page = __webpack_require__.e(1).then(__webpack_require__.bind(null, 36));
+            var page = __webpack_require__.e(1).then(__webpack_require__.bind(null, 38));
             return [ page, context, params ];
         }
     }, {
