@@ -94,10 +94,6 @@ export interface SwanConfig {
 
 export interface JdConfig {
   privateKey: string
-  projectPath: string
-  uv?: string
-  desc?: string
-  base64?: boolean
 }
 
 export interface CIOptions {
