@@ -34,8 +34,9 @@
     "@tarojs/shared": "workspace:*"
   },
   "devDependencies": {
-    "tslib": "^2.4.0",
+    "@rollup/plugin-json": "^4.1.0",
+    "@rollup/plugin-node-resolve": "^15.0.1",
     "rollup": "^3.8.1",
-    "@rollup/plugin-json": "^4.1.0"
+    "tslib": "^2.4.0"
   }
 }
