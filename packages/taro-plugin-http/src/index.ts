@@ -40,7 +40,7 @@ export default (ctx: IPluginContext, options: IOptions) => {
     ctx.registerMethod({
       name: 'onSetupClose',
       fn (platform: TaroPlatformBase) {
-        const injectedPath = `${packageName}/dist/runtime`
+        const injectedPath = `post:${packageName}/dist/runtime`
         if (isArray(platform.runtimePath)) {
           platform.runtimePath.push(injectedPath)
         } else if (isString(platform.runtimePath)) {
