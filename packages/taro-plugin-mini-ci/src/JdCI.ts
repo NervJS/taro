@@ -44,7 +44,7 @@ export default class JdCI extends BaseCI {
       await printQrcode2Terminal(qrcodeContent)
       printLog(processTypeEnum.REMIND, `预览二维码已生成，存储在:"${previewQrcodePath}",二维码内容是："${qrcodeContent}"`)
 
-      this.triggerUploadHooks({
+      this.triggerPreviewHooks({
         success: true,
         data: {
           platform: 'jd',
@@ -96,7 +96,7 @@ export default class JdCI extends BaseCI {
       })
     } catch(error) {
       console.log(chalk.red(`上传失败 ${new Date().toLocaleString()} \n${error.message}`))
-      this.triggerPreviewHooks({
+      this.triggerUploadHooks({
         success: false,
         data: {
           platform: 'jd',
