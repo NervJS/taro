@@ -138,7 +138,8 @@ require(\\"./taro\\");
             Form: {
                 \\"report-type\\": \\"default\\",
                 \\"template-id\\": \\"\\",
-                \\"subscribe-id\\": \\"\\"
+                \\"subscribe-id\\": \\"\\",
+                \\"skip-subscribe-authorize\\": \\"false\\"
             },
             Input: {
                 \\"adjust-position\\": \\"true\\"

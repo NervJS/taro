@@ -44,7 +44,7 @@ export class BaseConfig {
                 const { warnings, errors } = formatMessages(stats)
 
                 if (stats.hasWarnings()) {
-                  console.log(chalk.bgKeyword('orange')('⚠️ Warinings: \n'))
+                  console.log(chalk.bgKeyword('orange')('⚠️ Warnings: \n'))
                   warnings.forEach(w => console.log(w + '\n'))
                 }
 
