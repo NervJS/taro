@@ -43,7 +43,8 @@
   "peerDependencies": {
     "dingtalk-miniapp-opensdk": "^1.0.7",
     "minidev": "^1.5.1",
-    "tt-ide-cli": "^0.1.13"
+    "tt-ide-cli": "^0.1.13",
+    "jd-miniprogram-ci": "^1.0.2"
   },
   "peerDependenciesMeta": {
     "dingtalk-miniapp-opensdk": {
@@ -53,6 +54,9 @@
       "optional": true
     },
     "tt-ide-cli": {
+      "optional": true
+    },
+    "jd-miniprogram-ci": {
       "optional": true
     }
   }
