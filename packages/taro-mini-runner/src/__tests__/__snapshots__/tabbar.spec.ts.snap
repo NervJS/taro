@@ -101,6 +101,15 @@ require(\\"./taro\\");
                         }, {
                             old: \\"icon\\",
                             new: \\"type\\"
+                        } ],
+                        set: [ {
+                            key: \\"type\\",
+                            value: function value(options) {
+                                if (options.type === \\"error\\") {
+                                    return \\"fail\\";
+                                }
+                                return options.type;
+                            }
                         } ]
                     }
                 },
@@ -1375,7 +1384,8 @@ require(\\"./taro\\");
                 \\"safe-password-salt\\": \\"\\",
                 \\"safe-password-custom-hash\\": \\"\\",
                 \\"auto-fill\\": _empty,
-                bindKeyboardHeightChange: _empty
+                bindKeyboardHeightChange: _empty,
+                bindNicknameReview: _empty
             },
             Picker: {
                 \\"header-text\\": _empty
@@ -1636,7 +1646,11 @@ require(\\"./taro\\");
                 \\"easing-function\\": \\"'ease-out'\\"
             },
             KeyboardAccessory: {},
-            RootPortal: {}
+            RootPortal: {},
+            ChannelLive: {
+                feedId: _empty,
+                finderUserName: _empty
+            }
         };
         var hostConfig = {
             initNativeApi: initNativeApi,
