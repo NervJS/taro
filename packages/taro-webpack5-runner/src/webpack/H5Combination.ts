@@ -101,20 +101,17 @@ export class H5Combination extends Combination<H5BuildConfig> {
       defaultVendors: false,
       common: {
         name: isProd ? false : 'common',
-        filename: 'js/[name].js',
         minChunks: 2,
         priority: 1
       },
       vendors: {
         name: isProd ? false : 'vendors',
-        filename: 'js/[name].js',
         minChunks: 2,
         test: (module: any) => /[\\/]node_modules[\\/]/.test(module.resource),
         priority: 10
       },
       taro: {
         name: isProd ? false : 'taro',
-        filename: 'js/[name].js',
         test: (module: any) => /@tarojs[\\/][a-z]+/.test(module.context),
         priority: 100
       }
