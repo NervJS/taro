@@ -56,7 +56,7 @@ importers:
       '@tarojs/webpack5-runner': workspace:*
       '@testing-library/jest-dom': ^5.16.4
       '@testing-library/jest-native': ^4.0.4
-      '@types/autoprefixer': 9.7.0
+      '@types/autoprefixer': 10.2.0
       '@types/babel-types': ^7.0.7
       '@types/babel__core': ^7.1.14
       '@types/babel__traverse': ^7.0.7
@@ -211,7 +211,7 @@ importers:
       '@tarojs/webpack5-runner': link:packages/taro-webpack5-runner
       '@testing-library/jest-dom': registry.npmjs.org/@testing-library/jest-dom/5.16.4
       '@testing-library/jest-native': registry.npmjs.org/@testing-library/jest-native/4.0.5
-      '@types/autoprefixer': registry.npmjs.org/@types/autoprefixer/9.7.0
+      '@types/autoprefixer': registry.npmjs.org/@types/autoprefixer/10.2.0_postcss@8.4.14
       '@types/babel-types': registry.npmjs.org/@types/babel-types/7.0.11
       '@types/babel__core': registry.npmjs.org/@types/babel__core/7.1.19
       '@types/babel__traverse': registry.npmjs.org/@types/babel__traverse/7.17.1
@@ -7983,13 +7983,16 @@ packages:
     version: 0.0.31
     dev: false
 
-  registry.npmjs.org/@types/autoprefixer/9.7.0:
-    resolution: {integrity: sha512-9hkjyWBFXTedisO1IhVRBeudzVA/b+X+d6/XqkXkCJBwmh1VWCUy42J+c4ZI6WTDnw4q2NEw+YufIQ9PobNNZg==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@types/autoprefixer/-/autoprefixer-9.7.0.tgz}
+  registry.npmjs.org/@types/autoprefixer/10.2.0_postcss@8.4.14:
+    resolution: {integrity: sha512-ClU0uw3HhUra890K4xcf2IQxD6w0WOjPIaKb8jrRXYPHvvUW1P5dGufPlDtTo5gtWPWH+4L6tSBAoAKVf93uBQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@types/autoprefixer/-/autoprefixer-10.2.0.tgz}
+    id: registry.npmjs.org/@types/autoprefixer/10.2.0
     name: '@types/autoprefixer'
-    version: 9.7.0
+    version: 10.2.0
+    deprecated: This is a stub types definition. autoprefixer provides its own type definitions, so you do not need this installed.
     dependencies:
-      '@types/browserslist': registry.npmjs.org/@types/browserslist/4.15.0
-      postcss: registry.npmjs.org/postcss/7.0.39
+      autoprefixer: registry.npmjs.org/autoprefixer/10.4.7_postcss@8.4.14
+    transitivePeerDependencies:
+      - postcss
     dev: true
 
   registry.npmjs.org/@types/babel-traverse/6.25.6:
@@ -8057,15 +8060,6 @@ packages:
     version: 3.5.10
     dependencies:
       '@types/node': registry.npmjs.org/@types/node/18.0.0
-
-  registry.npmjs.org/@types/browserslist/4.15.0:
-    resolution: {integrity: sha512-h9LyKErRGZqMsHh9bd+FE8yCIal4S0DxKTOeui56VgVXqa66TKiuaIUxCAI7c1O0LjaUzOTcsMyOpO9GetozRA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@types/browserslist/-/browserslist-4.15.0.tgz}
-    name: '@types/browserslist'
-    version: 4.15.0
-    deprecated: This is a stub types definition. browserslist provides its own type definitions, so you do not need this installed.
-    dependencies:
-      browserslist: registry.npmjs.org/browserslist/4.21.0
-    dev: true
 
   registry.npmjs.org/@types/buble/0.19.2:
     resolution: {integrity: sha512-uUD8zIfXMKThmFkahTXDGI3CthFH1kMg2dOm3KLi4GlC5cbARA64bEcUMbbWdWdE73eoc/iBB9PiTMqH0dNS2Q==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@types/buble/-/buble-0.19.2.tgz}
@@ -10651,7 +10645,6 @@ packages:
       picocolors: registry.npmjs.org/picocolors/1.0.0
       postcss: registry.npmjs.org/postcss/8.4.14
       postcss-value-parser: registry.npmjs.org/postcss-value-parser/4.2.0
-    dev: false
 
   registry.npmjs.org/autoprefixer/9.8.8:
     resolution: {integrity: sha512-eM9d/swFopRt5gdJ7jrpCwgvEMIayITpojhkkSMRsFHYuH5bkSQ4p/9qTEHtmNudUZh22Tehu7I6CxAW0IXTKA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/autoprefixer/-/autoprefixer-9.8.8.tgz}
@@ -19072,7 +19065,6 @@ packages:
     resolution: {integrity: sha512-MhLuK+2gUcnZe8ZHlaaINnQLl0xRIGRfcGk2yl8xoQAfHrSsL3rYu6FCmBdkdbhc9EPlwyGHewaRsvwRMJtAlA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/fraction.js/-/fraction.js-4.2.0.tgz}
     name: fraction.js
     version: 4.2.0
-    dev: false
 
   registry.npmjs.org/fragment-cache/0.2.1:
     resolution: {integrity: sha512-GMBAbW9antB8iZRHLoGw0b3HANt57diZYFO/HL1JGIC1MjKrdmhxvrJbupnVvpys0zsz7yBApXdQyfepKly2kA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/fragment-cache/-/fragment-cache-0.2.1.tgz}
@@ -25940,7 +25932,6 @@ packages:
     name: normalize-range
     version: 0.1.2
     engines: {node: '>=0.10.0'}
-    dev: false
 
   registry.npmjs.org/normalize-url/1.9.1:
     resolution: {integrity: sha512-A48My/mtCklowHBlI8Fq2jFWK4tX4lJ5E6ytFsSOq1fzpvT0SQSgKhSg7lN5c2uYFOrUAOQp6zhhJnpp1eMloQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/normalize-url/-/normalize-url-1.9.1.tgz}
