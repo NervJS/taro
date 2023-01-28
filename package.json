@@ -1,6 +1,6 @@
 {
   "name": "taro",
-  "version": "3.5.11",
+  "version": "3.5.12",
   "description": "开放式跨端跨框架开发解决方案",
   "homepage": "https://github.com/NervJS/taro#readme",
   "author": "O2Team",
@@ -90,7 +90,7 @@
     "@tarojs/webpack5-runner": "workspace:*",
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/jest-native": "^4.0.4",
-    "@types/autoprefixer": "9.7.0",
+    "@types/autoprefixer": "10.2.0",
     "@types/babel-types": "^7.0.7",
     "@types/babel__core": "^7.1.14",
     "@types/babel__traverse": "^7.0.7",
