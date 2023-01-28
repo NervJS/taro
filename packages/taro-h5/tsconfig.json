@@ -3,7 +3,6 @@
   "compilerOptions": {
     "baseUrl": ".",
     "declaration": true,
-    "outDir": "dist",
     "module": "ESNext",
     "sourceMap": false
   },
