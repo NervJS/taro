@@ -282,13 +282,6 @@ interface VideoProps extends StandardProps {
    */
   mobilenetHintType?: string
 
-  /** 使用原生
-   * @default true
-   * @supported alipay
-   * @ignore
-   */
-  enableNative?: boolean
-
   /** 浮窗设置。暂时不支持全局浮窗。
    * 可选值：
    *
