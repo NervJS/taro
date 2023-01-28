@@ -46,6 +46,11 @@ interface AudioProps extends StandardProps {
    */
   author?: string
 
+  /** 用于透传 `WebComponents` 上的属性到内部 H5 标签上
+   * @supported h5
+   */
+  nativeProps?: Record<string, unknown>
+
   /** 当发生错误时触发 error 事件，detail = {errMsg: MediaError.code}
    * @supported weapp, swan, qq, h5
    */
@@ -70,11 +75,6 @@ interface AudioProps extends StandardProps {
    * @supported weapp, swan, qq, h5
    */
   onEnded?: CommonEventFunction
-
-  /** 用于透传 `WebComponents` 上的属性到内部 H5 标签上
-   * @supported h5
-   */
-  nativeProps?: Record<string, unknown>
 }
 declare namespace AudioProps {
   interface onErrorEventDetail {
@@ -107,7 +107,7 @@ declare namespace AudioProps {
 /** 音频。1.6.0版本开始，该组件不再维护。建议使用能力更强的 Taro.createInnerAudioContext 接口
  * @classification media
  * @deprecated
- * @supported weapp, h5, swan
+ * @supported weapp, swan, qq, h5
  * @example_react
  * ```tsx
  * export default class PageView extends Component {

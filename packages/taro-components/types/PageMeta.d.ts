@@ -45,21 +45,6 @@ interface PageMetaProps extends StandardProps {
    */
   rootFontSize?: string
 
-  /** 页面尺寸变化时会触发 resize 事件
-   * @supported weapp
-   */
-  onResize?: CommonEventFunction<PageMetaProps.onResizeEventDetail>
-
-  /** 页面滚动时会触发 scroll 事件
-   * @supported weapp, alipay
-   */
-  onScroll?: CommonEventFunction<PageMetaProps.onScrollEventDetail>
-
-  /** 如果通过改变 scroll-top 属性来使页面滚动，页面滚动结束后会触发 scrolldone 事件
-   * @supported weapp
-   */
-  onScrollDone?: CommonEventFunction
-
   /** 页面内容的背景色，用于页面中的空白部分和页面大小变化 resize 动画期间的临时空闲区域
    * @supported weapp, alipay
    */
@@ -74,6 +59,21 @@ interface PageMetaProps extends StandardProps {
    * @supported weapp
    */
   pageOrientation?: string
+
+  /** 页面尺寸变化时会触发 resize 事件
+   * @supported weapp
+   */
+  onResize?: CommonEventFunction<PageMetaProps.onResizeEventDetail>
+
+  /** 页面滚动时会触发 scroll 事件
+   * @supported weapp, alipay
+   */
+  onScroll?: CommonEventFunction<PageMetaProps.onScrollEventDetail>
+
+  /** 如果通过改变 scroll-top 属性来使页面滚动，页面滚动结束后会触发 scrolldone 事件
+   * @supported weapp
+   */
+  onScrollDone?: CommonEventFunction
 }
 declare namespace PageMetaProps {
   interface onResizeEventDetail {
@@ -96,7 +96,7 @@ declare namespace PageMetaProps {
 
 /** 页面属性配置节点，用于指定页面的一些属性、监听页面事件。只能是页面内的第一个节点。可以配合 navigation-bar 组件一同使用。
  * 通过这个节点可以获得类似于调用 Taro.setBackgroundTextStyle Taro.setBackgroundColor 等接口调用的效果。
- * @supported weapp
+ * @supported weapp, alipay
  * @see https://developers.weixin.qq.com/miniprogram/dev/component/page-meta.html
  */
 declare const PageMeta: ComponentType<PageMetaProps>

@@ -11,8 +11,14 @@ on:
 
 env:
   CI: true
+permissions: {}
 jobs:
   publish:
+    permissions:
+      contents: write # to create tags and refs
+      actions: write # to cancel running workflow (andymckay/cancel-action)
+      issues: write # to create comment
+
     name: Publish
     runs-on: ubuntu-latest
     steps:
@@ -98,14 +104,14 @@ jobs:
 
       # Bootstrap project
       - name: Cache pnpm modules
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: ~/.pnpm-store
           key: ${{ runner.os }}-${{ hashFiles('**/pnpm-lock.yaml') }}
           restore-keys: |
             ${{ runner.os }}-
       - name: install
-        uses: pnpm/action-setup@v2.2.2
+        uses: pnpm/action-setup@v2.2.4
         with:
           version: 7
           run_install: |

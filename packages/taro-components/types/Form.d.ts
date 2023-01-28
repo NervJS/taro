@@ -17,16 +17,6 @@ interface FormProps extends StandardProps {
    */
   reportSubmitTimeout?: number
 
-  /** 携带 form 中的数据触发 submit 事件
-   * @supported weapp, alipay, swan, tt, qq, jd, rn
-   */
-  onSubmit?: CommonEventFunction<FormProps.onSubmitEventDetail>
-
-  /** 表单重置时会触发 reset 事件
-   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn
-   */
-  onReset?: CommonEventFunction
-
   /** 模板消息的类型，report-submit 为 true 时填写有效
    * 取值：default / subscribe
    * @default 'default'
@@ -45,6 +35,22 @@ interface FormProps extends StandardProps {
    * @supported swan
    */
   subscribeId?: string
+
+  /** 是否开启免授权订阅。report-type 为 subscribe，template-id 与 subscribe-id 必填时设置该属性生效。
+   * 注意：只有白名单内小程序可使用此功能。
+   * @supported swan
+   */
+  skipSubscribeAuthorize?: boolean
+
+  /** 携带 form 中的数据触发 submit 事件
+   * @supported weapp, alipay, swan, tt, qq, jd, rn
+   */
+  onSubmit?: CommonEventFunction<FormProps.onSubmitEventDetail>
+
+  /** 表单重置时会触发 reset 事件
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn
+   */
+  onReset?: CommonEventFunction
 }
 declare namespace FormProps {
   interface onSubmitEventDetail {
@@ -66,7 +72,7 @@ declare namespace FormProps {
  *
  * 当点击 form 表单中 form-type 为 submit 的 button 组件时，会将表单组件中的 value 值进行提交，需要在表单组件中加上 name 来作为 key。
  * @classification forms
- * @supported weapp, h5, rn
+ * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony
  * @example_react
  * ```tsx
  * class App extends Component {

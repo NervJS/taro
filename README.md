@@ -54,6 +54,7 @@
 10. [开发计划](#开发计划)
 11. [更新日志](#更新日志)
 12. [开发交流](#开发交流)
+
 ## 简介
 
 开放式跨端跨框架解决方案，支持使用 React/Vue/Nerv 等框架来开发微信/京东/百度/支付宝/字节跳动/ QQ 小程序/H5/React Native 等应用。现如今市面上端的形态多种多样，Web、React Native、微信小程序等各种端大行其道，当业务要求同时在不同的端都要求有所表现的时候，针对不同的端去编写多套代码的成本显然非常高，这时候只编写一套代码就能够适配到多端的能力就显得极为需要
@@ -76,13 +77,13 @@ Taro 1/2 迁移至 Taro 3，请阅读[《Taro 版本升级权威指南》](https
 
 ### UI 库
 
-|  名称   | 地址  | 介绍 | 支持的框架  | 支持的 Taro 版本 |
-|  ----  | ----  | ----  | ----  | ----  |
-| [taro-ui](https://github.com/NervJS/taro-ui)  | https://taro-ui.jd.com/#/ | 一套基于 Taro 框架开发的多端 UI 组件库 | React | Taro 1/2/3 （Taro 3 需要安装 alpha 版本） |
-| [NutUI](https://github.com/jdf2e/nutui)  | https://nutui.jd.com/#/ | 京东风格的轻量级移动端 Vue 组件库 | Vue3 | Taro 3 |
-| [taroify](https://github.com/mallfoundry/taroify)  | https://taroify.gitee.io/taroify.com/introduce/ | 轻量、可靠的小程序端 Taro 组件库（Vant 的 Taro 版本） | React | Taro 3 |
-| [@antmjs/vantui](https://github.com/AntmJS/vantui)  | https://antmjs.github.io/vantui/#/home | 基于有赞 VantWeapp 开发的同时支持 Taro 和 React 的 UI 库 | React | Taro 3 |
-| [Tard](https://github.com/jd-antelope/tard)  | https://tard-ui.selling.cn/ | 一套基于Taro框架开发的多端React UI组件库 | React | Taro 3 |
+| 名称                                               | 地址                                            | 介绍                                                     | 支持的框架 | 支持的 Taro 版本                          |
+| -------------------------------------------------- | ----------------------------------------------- | -------------------------------------------------------- | ---------- | ----------------------------------------- |
+| [taro-ui](https://github.com/NervJS/taro-ui)       | https://taro-ui.jd.com/#/                       | 一套基于 Taro 框架开发的多端 UI 组件库                   | React      | Taro 1/2/3 （Taro 3 需要安装 alpha 版本） |
+| [NutUI](https://github.com/jdf2e/nutui)            | https://nutui.jd.com/#/                         | 京东风格的轻量级移动端 Vue 组件库                        | Vue3       | Taro 3                                    |
+| [taroify](https://github.com/mallfoundry/taroify)  | https://taroify.gitee.io/taroify.com/introduce/ | 轻量、可靠的小程序端 Taro 组件库（Vant 的 Taro 版本）    | React      | Taro 3                                    |
+| [@antmjs/vantui](https://github.com/AntmJS/vantui) | https://antmjs.github.io/vantui/#/home          | 基于有赞 VantWeapp 开发的同时支持 Taro 和 React 的 UI 库 | React      | Taro 3                                    |
+| [Tard](https://github.com/jd-antelope/tard)        | https://tard-ui.selling.cn/                     | 一套基于 Taro 框架开发的多端 React UI 组件库             | React      | Taro 3                                    |
 
 ## 使用案例
 
@@ -108,18 +109,18 @@ import { View, Text } from '@tarojs/components'
 
 export default class Index extends Component {
   state = {
-    msg: 'Hello World！ '
+    msg: 'Hello World！ ',
   }
-  
-  componentWillUnmount () { }
 
-  componentDidShow () { }
+  componentWillUnmount() {}
 
-  componentDidHide () { }
+  componentDidShow() {}
 
-  render () {
+  componentDidHide() {}
+
+  render() {
     return (
-      <View className='index'>
+      <View className="index">
         <Text>{this.state.msg}</Text>
       </View>
     )
@@ -136,20 +137,20 @@ export default class Index extends Component {
 ```vue
 <template>
   <view class="index">
-    <text>{{msg}}</text>
+    <text>{{ msg }}</text>
   </view>
 </template>
 
 <script>
 export default {
-  data () {
+  data() {
     return {
-      msg: 'Hello World!'
+      msg: 'Hello World!',
     }
   },
-  created () {},
-  onShow () {},
-  onHide () {}
+  created() {},
+  onShow() {},
+  onHide() {},
 }
 </script>
 ```
@@ -170,7 +171,7 @@ Taro 方案的初心就是为了打造一个多端开发的解决方案。
 
 Taro 非常欢迎社区开发者为 Taro 贡献代码，在贡献之前请先阅读[贡献指南](https://nervjs.github.io/taro/docs/CONTRIBUTING.html)。
 
-如果你想为 Taro 实现一个重要功能，需要先撰写 RFC  文档，按照 Taro 的[RFC 机制](https://github.com/NervJS/taro-rfcs)进行操作，在经过社区讨论完善后才可以进行代码的提交。
+如果你想为 Taro 实现一个重要功能，需要先撰写 RFC 文档，按照 Taro 的[RFC 机制](https://github.com/NervJS/taro-rfcs)进行操作，在经过社区讨论完善后才可以进行代码的提交。
 
 ## 问题反馈与建议
 
@@ -182,9 +183,9 @@ Taro 非常欢迎社区开发者为 Taro 贡献代码，在贡献之前请先阅
 
 ## 特别鸣谢
 
-[![nanjingboy](https://avatars1.githubusercontent.com/u/1390888?s=100&v=4)](https://github.com/nanjingboy/) | [![jsNewbee](https://avatars3.githubusercontent.com/u/20449400?s=100&v=4)](https://github.com/js-newbee/) | [![Qiyu8](https://avatars2.githubusercontent.com/u/15245051?s=100&v=4)](https://github.com/Qiyu8/) | [![Garfield550](https://avatars2.githubusercontent.com/u/3471836?s=100&v=4)](https://github.com/Garfield550/)
-:---:|:---:|:---:|:---:
-[nanjingboy](https://github.com/nanjingboy/) | [jsNewbee](https://github.com/js-newbee/) |  [Qiyu8](https://github.com/Qiyu8/) |  [Garfield Lee](https://github.com/Garfield550/)
+| [![nanjingboy](https://avatars1.githubusercontent.com/u/1390888?s=100&v=4)](https://github.com/nanjingboy/) | [![jsNewbee](https://avatars3.githubusercontent.com/u/20449400?s=100&v=4)](https://github.com/js-newbee/) | [![Qiyu8](https://avatars2.githubusercontent.com/u/15245051?s=100&v=4)](https://github.com/Qiyu8/) | [![Garfield550](https://avatars2.githubusercontent.com/u/3471836?s=100&v=4)](https://github.com/Garfield550/) |
+| :---------------------------------------------------------------------------------------------------------: | :-------------------------------------------------------------------------------------------------------: | :------------------------------------------------------------------------------------------------: | :-----------------------------------------------------------------------------------------------------------: |
+|                                [nanjingboy](https://github.com/nanjingboy/)                                 |                                 [jsNewbee](https://github.com/js-newbee/)                                 |                                 [Qiyu8](https://github.com/Qiyu8/)                                 |                                [Garfield Lee](https://github.com/Garfield550/)                                |
 
 ## 贡献者们
 

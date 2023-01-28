@@ -4,7 +4,7 @@ import * as minimist from 'minimist'
 import * as path from 'path'
 
 import customCommand from './commands/customCommand'
-import { getPkgVersion } from './util'
+import { dotenvParse, getPkgVersion, patchEnv } from './util'
 
 export default class CLI {
   appPath: string
@@ -28,7 +28,8 @@ export default class CLI {
         sourcemapOutput: ['sourcemap-output'], // specially for rn, File name where to store the sourcemap file for resulting bundle.
         sourceMapUrl: ['sourcemap-use-absolute-path'], // specially for rn, Report SourceMapURL using its full path.
         sourcemapSourcesRoot: ['sourcemap-sources-root'], // specially for rn, Path to make sourcemaps sources entries relative to.
-        assetsDest: ['assets-dest'] // specially for rn, Directory name where to store assets referenced in the bundle.
+        assetsDest: ['assets-dest'], // specially for rn, Directory name where to store assets referenced in the bundle.
+        envPrefix: ['env-prefix']
       },
       boolean: ['version', 'help']
     })
@@ -54,6 +55,8 @@ export default class CLI {
       if (typeof args.plugin === 'string') {
         process.env.TARO_ENV = 'plugin'
       }
+      // 这里解析 dotenv 以便于 config 解析时能获取 dotenv 配置信息
+      const expandEnv = dotenvParse(appPath, args.envPrefix, args.mode || process.env.NODE_ENV)
 
       const kernel = new Kernel({
         appPath,
@@ -63,6 +66,12 @@ export default class CLI {
         plugins: []
       })
       kernel.optsPlugins ||= []
+
+      // 将自定义的 变量 添加到 config.env 中，实现 definePlugin 字段定义
+      const initialConfig = kernel.config?.initialConfig
+      if(initialConfig) {
+        initialConfig.env = patchEnv(initialConfig, expandEnv)
+      }
 
       // 针对不同的内置命令注册对应的命令插件
       if (commandPlugins.includes(targetPlugin)) {

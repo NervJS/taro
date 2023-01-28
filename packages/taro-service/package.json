@@ -1,9 +1,9 @@
 {
   "name": "@tarojs/service",
-  "version": "3.5.7",
+  "version": "3.5.12",
   "description": "Taro Service",
   "main": "index.js",
-  "types": "types/index.d.ts",
+  "types": "dist/index.d.ts",
   "scripts": {
     "build": "run-s clean prod",
     "dev": "tsc -w",

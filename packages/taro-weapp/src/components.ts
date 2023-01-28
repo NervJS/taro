@@ -73,7 +73,8 @@ export const components = {
     'safe-password-salt': '',
     'safe-password-custom-hash': '',
     'auto-fill': _empty,
-    bindKeyboardHeightChange: _empty
+    bindKeyboardHeightChange: _empty,
+    bindNicknameReview: _empty
   },
   Picker: {
     'header-text': _empty
@@ -322,7 +323,7 @@ export const components = {
     overlay: _true,
     position: "'bottom'",
     round: _false,
-    'close-on-slideDown': _false,
+    'close-on-slide-down': _false,
     'overlay-style': _empty,
     'custom-style': _empty,
     bindBeforeEnter: _empty,
@@ -341,4 +342,8 @@ export const components = {
   },
   KeyboardAccessory: {},
   RootPortal: {},
+  ChannelLive: {
+    feedId: _empty,
+    finderUserName: _empty
+  }
 }

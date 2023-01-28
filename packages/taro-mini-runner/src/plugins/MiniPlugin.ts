@@ -800,6 +800,11 @@ export default class TaroMiniPlugin {
             maxInitialRequests: Infinity,
             minSize: 0,
             cacheGroups: {
+              common: {
+                name: `${name}/common`,
+                minChunks: 2,
+                priority: 1
+              },
               vendors: {
                 name: `${name}/vendors`,
                 minChunks: 1,
@@ -828,7 +833,7 @@ export default class TaroMiniPlugin {
           dependencies.delete(pagePath)
         })
         new TaroLoadChunksPlugin({
-          commonChunks: [`${name}/runtime`, `${name}/vendors`],
+          commonChunks: [`${name}/runtime`, `${name}/vendors`, `${name}/common`],
           isBuildPlugin: false,
           addChunkPages: this.options.addChunkPages,
           pages: childPages,

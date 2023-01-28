@@ -18,11 +18,9 @@ module.exports = {
   ],
   rules: {
     '@typescript-eslint/ban-ts-comment': 0,
-    '@typescript-eslint/camelcase': 0,
     '@typescript-eslint/explicit-function-return-type': 0,
     '@typescript-eslint/explicit-module-boundary-types': 0,
     '@typescript-eslint/indent': [2, 2],
-    '@typescript-eslint/interface-name-prefix': 0,
     '@typescript-eslint/member-delimiter-style': [1, { multiline: { delimiter: 'none' }, singleline: { delimiter: 'comma' } }],
     '@typescript-eslint/no-empty-function': 0,
     '@typescript-eslint/no-explicit-any': 0,

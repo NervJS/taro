@@ -81,6 +81,8 @@ export const specialElements = new Map<string, string | SpecialMaps>([
         } else if (value === 'tel') {
           value = 'number'
         }
+      } else if (htmlKey === 'maxlength') {
+        key = 'maxlength'
       }
       return [key, value]
     }
@@ -95,7 +97,8 @@ export const specialElements = new Map<string, string | SpecialMaps>([
     mapName: 'textarea',
     mapAttr: genAttrMapFnFromDir({
       autofocus: 'focus',
-      readonly: 'disabled'
+      readonly: 'disabled',
+      maxlength: 'maxlength'
     })
   }],
   ['progress', {

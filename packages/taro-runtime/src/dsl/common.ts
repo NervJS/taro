@@ -1,5 +1,5 @@
 /* eslint-disable dot-notation */
-import { EMPTY_OBJ, ensure, hooks, isArray, isFunction, isString, isUndefined, Shortcuts } from '@tarojs/shared'
+import { EMPTY_OBJ, ensure, getComponentsAlias, hooks, internalComponents,isArray, isFunction, isString, isUndefined, Shortcuts } from '@tarojs/shared'
 
 import { raf } from '../bom/raf'
 import { BEHAVIORS, CUSTOM_WRAPPER, EXTERNAL_CLASSES, ON_HIDE, ON_LOAD, ON_READY, ON_SHOW, OPTIONS, PAGE_INIT, VIEW } from '../constants'
@@ -8,7 +8,7 @@ import { eventHandler } from '../dom/event'
 import { eventCenter } from '../emitter/emitter'
 import env from '../env'
 import { perf } from '../perf'
-import { customWrapperCache, getComponentsAlias, incrementId } from '../utils'
+import { customWrapperCache, incrementId } from '../utils'
 
 import type { PageConfig } from '@tarojs/taro'
 import type { TaroRootElement } from '../dom/root'
@@ -184,11 +184,13 @@ export function createPageConfig (component: any, pageName?: string, data?: Reco
       })
     },
     [ONREADY] () {
-      // 触发生命周期
-      safeExecute(this.$taroPath, ON_READY)
-      // 通过事件触发子组件的生命周期
-      raf(() => eventCenter.trigger(getOnReadyEventKey(id)))
-      this.onReady.called = true
+      hasLoaded.then(() => {
+        // 触发生命周期
+        safeExecute(this.$taroPath, ON_READY)
+        // 通过事件触发子组件的生命周期
+        raf(() => eventCenter.trigger(getOnReadyEventKey(id)))
+        this.onReady.called = true
+      })
     },
     [ONSHOW] (options = {}) {
       hasLoaded.then(() => {
@@ -322,7 +324,7 @@ export function createRecursiveComponentConfig (componentName?: string) {
       i: {
         type: Object,
         value: {
-          [Shortcuts.NodeName]: getComponentsAlias()[VIEW]._num
+          [Shortcuts.NodeName]: getComponentsAlias(internalComponents)[VIEW]._num
         }
       },
       l: {

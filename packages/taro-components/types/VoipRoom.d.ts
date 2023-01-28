@@ -13,16 +13,16 @@ interface VoipRoomProps extends StandardProps {
    */
   devicePosition?: keyof VoipRoomProps.DevicePosition
 
+  /** 进入房间用户的 openid
+   * @default "none"
+   * @supported weapp
+   */
+  openId?: string
+
   /** 创建对话窗口失败时触发
    * @supported weapp
    */
   onError?: CommonEventFunction
-
-  /** 进入房间用户的 openid
-   * @default none
-   * @supported weapp
-   */
-  openid?: string
 }
 declare namespace VoipRoomProps {
   /** 对话窗口类型 */

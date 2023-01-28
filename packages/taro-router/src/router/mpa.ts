@@ -3,7 +3,8 @@ import {
   AppInstance,
   createPageConfig,
   eventCenter, hooks,
-  stringify
+  incrementId,
+  stringify,
 } from '@tarojs/runtime'
 
 import { setTitle } from '../utils/navigate'
@@ -11,6 +12,9 @@ import { RouterConfig } from '.'
 import MultiPageHandler from './multi-page'
 
 import type { MpaRouterConfig } from '../../types/router'
+
+const createStampId = incrementId()
+const launchStampId = createStampId()
 
 // TODO 支持多路由 (APP 生命周期仅触发一次)
 /** Note: 关于多页面应用
@@ -20,7 +24,6 @@ import type { MpaRouterConfig } from '../../types/router'
  * - TabBar 会多次加载
  * - 不支持路由动画
  */
-
 export async function createMultiRouter (
   app: AppInstance,
   config: MpaRouterConfig,
@@ -30,7 +33,7 @@ export async function createMultiRouter (
   const handler = new MultiPageHandler(config)
   const launchParam: Taro.getLaunchOptionsSync.LaunchOptions = {
     path: config.pageName, // 多页面模式没新开一个页面相当于重启，所以直接使用当前页面路径
-    query: handler.getQuery(),
+    query: handler.getQuery(launchStampId),
     scene: 0,
     shareTicket: '',
     referrerInfo: {}
