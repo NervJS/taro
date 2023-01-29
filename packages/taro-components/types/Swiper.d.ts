@@ -75,7 +75,7 @@ interface SwiperProps extends StandardProps {
   /**
    * 当 swiper-item 的个数大于等于 2，关闭 circular 并且开启 previous-margin 或 next-margin 的时候，可以指定这个边距是否应用到第一个、最后一个元素
    * @default false
-   * @supported weapp, alipay, jd
+   * @supported weapp, alipay
    */
   snapToEdge?: boolean
 
@@ -174,7 +174,7 @@ interface SwiperProps extends StandardProps {
   onChange?: CommonEventFunction<SwiperProps.onChangeEventDetail>
 
   /** swiper-item 的位置发生改变时会触发 transition 事件
-   * @supported weapp, alipay, tt, qq, jd
+   * @supported weapp, alipay, tt, qq
    */
   onTransition?: CommonEventFunction<SwiperProps.onTransitionEventDetail>
 

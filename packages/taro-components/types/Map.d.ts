@@ -214,6 +214,12 @@ interface MapProps extends StandardProps {
    */
   enable3D?: boolean
 
+  /** 开启最大俯视角，俯视角度从 45 度拓展到 75 度
+   * @supported weapp
+   * @default false
+   */
+  enableAutoMaxOverlooking?: boolean
+
   /** 点击地图时触发
    * @supported weapp, alipay, swan, tt, qq, jd
    */
