@@ -3,7 +3,7 @@ import { CommonEventFunction } from './common'
 import { ViewProps } from './View'
 interface CoverViewProps extends ViewProps {
   /** 设置顶部滚动偏移量，仅在设置了 overflow-y: scroll 成为滚动元素后生效
-   * @supported weapp, alipay, swan, qq
+   * @supported weapp, alipay, swan, qq, jd
    */
   scrollTop?: number
 
@@ -143,7 +143,7 @@ interface CoverViewProps extends ViewProps {
 
 /** 覆盖在原生组件之上的文本视图。可覆盖的原生组件包括 map、video、canvas、camera、live-player、live-pusher 只支持嵌套 cover-view、cover-image，可在 cover-view 中使用 button。
  * @classification viewContainer
- * @supported weapp, alipay, swan, qq, h5
+ * @supported weapp, alipay, swan, qq, jd, h5
  * @example_react
  * ```tsx
  * // js
