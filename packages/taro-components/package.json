@@ -63,7 +63,7 @@
     "jquery": "^3.4.1",
     "karmatic": "^2.1.0",
     "lodash": "^4.17.21",
-    "miniapp-types": "1.2.0",
+    "miniapp-types": "1.4.0",
     "simulant": "^0.2.2",
     "style-loader": "1.3.0",
     "ts-node": "^10.9.1",
