@@ -3,7 +3,7 @@ import { CommonEventFunction } from './common'
 import { ViewProps } from './View'
 interface CoverViewProps extends ViewProps {
   /** 设置顶部滚动偏移量，仅在设置了 overflow-y: scroll 成为滚动元素后生效
-   * @supported weapp, alipay, swan, qq
+   * @supported weapp, alipay, swan, qq, jd
    */
   scrollTop?: number
 

@@ -217,6 +217,11 @@ interface InputProps extends StandardProps, FormItemProps {
    * @supported weapp, qq
    */
   onKeyboardHeightChange?: CommonEventFunction<InputProps.onKeyboardHeightChangeEventDetail>
+
+  /** 用户昵称审核完毕后触发，仅在 type 为 "nickname" 时有效，event.detail = { pass, timeout }
+   * @supported weapp
+   */
+  onNickNameReview?: CommonEventFunction
 }
 declare namespace InputProps {
   /** Input 类型 */

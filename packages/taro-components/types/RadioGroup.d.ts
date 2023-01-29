@@ -7,7 +7,7 @@ interface RadioGroupProps extends StandardProps, FormItemProps {
   name?: string
 
   /** RadioGroup 中选中项发生改变时触发 change 事件，detail = {value:[选中的radio的value的数组]}
-   * @supported weapp, alipay, swan, tt, qq, h5
+   * @supported weapp, alipay, swan, tt, qq, jd, h5
    */
   onChange?: CommonEventFunction
 }

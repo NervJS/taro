@@ -3,7 +3,7 @@ import { StandardProps } from './common'
 interface MovableAreaProps extends StandardProps {
   /** 当里面的 movable-view 设置为支持双指缩放时，设置此值可将缩放手势生效区域修改为整个 movable-area
    * @default false
-   * @supported weapp, alipay, swan, tt, qq, h5
+   * @supported weapp, alipay, swan, tt, qq, jd, h5
    */
   scaleArea?: boolean
 }

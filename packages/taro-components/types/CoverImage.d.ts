@@ -2,7 +2,7 @@ import { ComponentType } from 'react'
 import { StandardProps, CommonEventFunction } from './common'
 interface CoverImageProps extends StandardProps {
   /** 图标路径，支持临时路径、网络地址、云文件ID。暂不支持base64格式。
-   * @supported weapp, alipay, swan, qq, h5
+   * @supported weapp, alipay, swan, qq, jd, h5
    */
   src: string
 
@@ -42,12 +42,12 @@ interface CoverImageProps extends StandardProps {
   ariaLabel?: string
 
   /** 图片加载成功时触发
-   * @supported weapp, swan, qq, h5
+   * @supported weapp, swan, qq, jd, h5
    */
   onLoad?: CommonEventFunction
 
   /** 图片加载失败时触发
-   * @supported weapp, swan, qq, h5
+   * @supported weapp, swan, qq, jd, h5
    */
   onError?: CommonEventFunction
 
