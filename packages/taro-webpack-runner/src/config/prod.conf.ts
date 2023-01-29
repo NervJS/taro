@@ -55,6 +55,7 @@ export default function (appPath: string, config: Partial<BuildConfig>, appConfi
     miniCssExtractPluginOption = {},
     esnextModules = [],
 
+    compile,
     postcss,
     htmlPluginOption = {},
     csso,
@@ -81,7 +82,9 @@ export default function (appPath: string, config: Partial<BuildConfig>, appConfi
     mediaUrlLoaderOption,
     esnextModules,
 
+    compile,
     postcss,
+    sourceDir,
     staticDirectory
   })
   const [, pxtransformOption] = postcssOption.find(([name]) => name === 'postcss-pxtransform') || []

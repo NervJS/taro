@@ -255,7 +255,6 @@ const getEsnextModuleRules = esnextModules => {
 }
 
 export const parseModule = (appPath: string, {
-  staticDirectory,
   designWidth,
   deviceRatio,
   enableExtract,
@@ -271,7 +270,10 @@ export const parseModule = (appPath: string, {
   mediaUrlLoaderOption,
   esnextModules = [] as (string | RegExp)[],
 
-  postcss
+  compile,
+  postcss,
+  sourceDir,
+  staticDirectory
 }) => {
   const customPostcssOption: IPostcssOption = postcss || {}
 
@@ -455,6 +457,45 @@ export const parseModule = (appPath: string, {
 
   const stylusLoader = getStylusLoader([{ sourceMap: enableSourceMap }, stylusLoaderOption])
 
+  const scriptRule: any = {
+    test: REG_SCRIPTS,
+    use: {
+      babelLoader: getBabelLoader([{
+        compact: false
+      }]),
+      /** stencil 2.14 开始使用了 import.meta.url 需要额外处理
+       * https://github.com/webpack/webpack/issues/6719
+       */
+      importMeta: getImportMetaLoader([]),
+    }
+  }
+
+  if (compile.exclude && compile.exclude.length) {
+    scriptRule.exclude = [
+      ...compile.exclude,
+      filename => /css-loader/.test(filename) || (/node_modules/.test(filename) && !(/taro/.test(filename)))
+    ]
+  } else if (compile.include && compile.include.length) {
+    scriptRule.include = [
+      ...compile.include,
+      sourceDir,
+      filename => /taro/.test(filename)
+    ]
+  } else {
+    /**
+     * 要优先处理 css-loader 问题
+     *
+     * https://github.com/webpack-contrib/mini-css-extract-plugin/issues/471#issuecomment-750266195
+     *
+     * 若包含 @tarojs/components，则跳过 babel-loader 处理
+     * 除了包含 taro 和 inversify 的第三方依赖均不经过 babel-loader 处理
+     */
+    scriptRule.exclude = [filename =>
+      /css-loader/.test(filename)
+      || /@tarojs[\\/]components/.test(filename)
+      || (/node_modules/.test(filename) && !(/taro/.test(filename) || /inversify/.test(filename)))]
+  }
+
   const rule: {
     [key: string]: any
   } = {}
@@ -504,37 +545,7 @@ export const parseModule = (appPath: string, {
     test: REG_STYLUS,
     use: [stylusLoader]
   }
-  rule.script = {
-    test: REG_SCRIPTS,
-    exclude: [(filename: string) => {
-      /**
-       * 要优先处理 css-loader 问题
-       *
-       * https://github.com/webpack-contrib/mini-css-extract-plugin/issues/471#issuecomment-750266195
-       */
-      if (/css-loader/.test(filename)) return true
-      // 若包含 @tarojs/components，则跳过 babel-loader 处理
-      if (/@tarojs[\\/]components/.test(filename)) return true
-
-      // 非 node_modules 下的文件直接走 babel-loader 逻辑
-      if (!(/node_modules/.test(filename))) return false
-
-      // 除了包含 taro 和 inversify 的第三方依赖均不经过 babel-loader 处理
-      if (/taro/.test(filename)) return false
-      if (/inversify/.test(filename)) return false
-
-      return true
-    }],
-    use: {
-      babelLoader: getBabelLoader([{
-        compact: false
-      }]),
-      /** stencil 2.14 开始使用了 import.meta.url 需要额外处理
-       * https://github.com/webpack/webpack/issues/6719
-       */
-      importMeta: getImportMetaLoader([]),
-    }
-  }
+  rule.script = scriptRule
   rule.media = {
     test: REG_MEDIA,
     use: {
