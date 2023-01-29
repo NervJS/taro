@@ -68,7 +68,7 @@
     "mem-fs": "2.2.1",
     "mem-fs-editor": "7.1.0",
     "minimist": "1.2.5",
-    "npm-check": "^5.9.0",
+    "npm-check": "^6.0.1",
     "ora": "4.0.3",
     "postcss-taro-unit-transform": "2.2.10",
     "prettier": "^2.7.1",
