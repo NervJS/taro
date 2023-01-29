@@ -33,6 +33,13 @@ interface RadioProps extends StandardProps {
    * @supported qq
    */
   ariaLabel?: string
+
+  /** <radio-group/> 中的选中项发生变化时触发 change 事件
+   * @supported h5, rn
+   */
+  onChange?: CommonEventFunction<{
+    value?: string
+  }>
 }
 
 /** 单选项目
