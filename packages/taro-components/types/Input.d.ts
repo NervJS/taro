@@ -192,6 +192,12 @@ interface InputProps extends StandardProps, FormItemProps {
    */
   ariaLabel?: string
 
+  /** 是否启用原生键盘。
+   * @supported alipay
+   * @default true
+   */
+  enableNative?: boolean
+
   /** 当键盘输入时，触发input事件，event.detail = {value, cursor, keyCode}，处理函数可以直接 return 一个字符串，将替换输入框的内容。
    * @supported weapp, alipay, swan, tt, qq, jd, h5, rn
    */
