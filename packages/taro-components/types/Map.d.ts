@@ -208,17 +208,17 @@ interface MapProps extends StandardProps {
    */
   optimize?: string
 
-  /** 展示3D楼块
-   * @supported weapp, swan, tt, qq
-   * @default false
-   */
-  enable3D?: boolean
-
   /** 开启最大俯视角，俯视角度从 45 度拓展到 75 度
    * @supported weapp
    * @default false
    */
   enableAutoMaxOverlooking?: boolean
+
+  /** 展示3D楼块
+   * @supported weapp, swan, tt, qq
+   * @default false
+   */
+  enable3D?: boolean
 
   /** 点击地图时触发
    * @supported weapp, alipay, swan, tt, qq, jd
