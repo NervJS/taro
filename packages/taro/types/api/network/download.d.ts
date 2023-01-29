@@ -87,7 +87,7 @@ declare module '../../index' {
     }
 
     type DownloadTaskPromise = Promise<downloadFile.FileSuccessCallbackResult> & DownloadTask & {
-      headersReceive: DownloadTask['onHeadersReceived'],
+      headersReceive: DownloadTask['onHeadersReceived']
       progress: DownloadTask['onProgressUpdate']
     }
   }
