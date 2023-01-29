@@ -197,12 +197,6 @@ interface LivePusherProps extends StandardProps {
    */
   pictureInPictureMode?: string | any[]
 
-  /** 自定义渲染，允许开发者自行处理所采集的视频帧，详见LivePusherContext
-   * @supported weapp
-   * @default false
-   */
-  enableVideoCustomRender?: boolean
-
   /** 是否启动自定义特效，设定后不能更改
    * @supported weapp
    * @default false
