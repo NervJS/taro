@@ -27,13 +27,6 @@
     "@tarojs/api": "workspace:*",
     "@tarojs/runtime": "workspace:*"
   },
-  "devDependencies": {
-    "@tarojs/plugin-platform-alipay": "workspace:*",
-    "@tarojs/plugin-platform-jd": "workspace:*",
-    "@tarojs/plugin-platform-swan": "workspace:*",
-    "@tarojs/plugin-platform-tt": "workspace:*",
-    "@tarojs/plugin-platform-weapp": "workspace:*"
-  },
   "peerDependenciesMeta": {
     "@types/react": {
       "optional": true
