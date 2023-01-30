@@ -1095,6 +1095,9 @@ importers:
       '@tarojs/service': workspace:*
       '@tarojs/shared': workspace:*
       rollup: ^3.8.1
+      rollup-plugin-node-externals: ^4.0.0
+      rollup-plugin-ts: ^3.0.2
+      typescript: ^4.7.4
     dependencies:
       '@babel/parser': registry.npmjs.org/@babel/parser/7.18.5
       '@tarojs/runtime': link:../taro-runtime
@@ -1105,6 +1108,9 @@ importers:
       '@babel/traverse': registry.npmjs.org/@babel/traverse/7.18.5
       '@babel/types': registry.npmjs.org/@babel/types/7.18.4
       rollup: registry.npmjs.org/rollup/3.12.0
+      rollup-plugin-node-externals: registry.npmjs.org/rollup-plugin-node-externals/4.0.0_rollup@3.12.0
+      rollup-plugin-ts: registry.npmjs.org/rollup-plugin-ts/3.0.2_y3i5qkucco7mn7xglkvcz4nxpm
+      typescript: registry.npmjs.org/typescript/4.7.4
 
   packages/taro-plugin-http:
     specifiers:
@@ -1114,7 +1120,10 @@ importers:
       '@tarojs/service': workspace:*
       '@tarojs/shared': workspace:*
       rollup: ^3.8.1
+      rollup-plugin-node-externals: ^4.0.0
+      rollup-plugin-ts: ^3.0.2
       tslib: ^2.4.0
+      typescript: ^4.7.4
     dependencies:
       '@tarojs/runtime': link:../taro-runtime
       '@tarojs/service': link:../taro-service
@@ -1123,7 +1132,10 @@ importers:
       '@rollup/plugin-json': registry.npmjs.org/@rollup/plugin-json/4.1.0_rollup@3.12.0
       '@rollup/plugin-node-resolve': registry.npmjs.org/@rollup/plugin-node-resolve/15.0.1_rollup@3.12.0
       rollup: registry.npmjs.org/rollup/3.12.0
+      rollup-plugin-node-externals: registry.npmjs.org/rollup-plugin-node-externals/4.0.0_rollup@3.12.0
+      rollup-plugin-ts: registry.npmjs.org/rollup-plugin-ts/3.0.2_y3i5qkucco7mn7xglkvcz4nxpm
       tslib: registry.npmjs.org/tslib/2.4.0
+      typescript: registry.npmjs.org/typescript/4.7.4
 
   packages/taro-plugin-mini-ci:
     specifiers:

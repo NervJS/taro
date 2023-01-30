@@ -1,6 +1,7 @@
 import json from '@rollup/plugin-json'
 import nodeResolve from '@rollup/plugin-node-resolve'
 import * as path from 'path'
+import { externals } from 'rollup-plugin-node-externals'
 import ts from 'rollup-plugin-ts'
 
 const cwd = __dirname
@@ -13,8 +14,14 @@ const compileConfig = {
     format: 'cjs',
     exports: 'named',
   },
-  external: ['@tarojs/taro', '@tarojs/runtime', '@tarojs/shared'],
-  plugins: [nodeResolve(), json(), ts()]
+  plugins: [
+    externals({
+      devDeps: false
+    }),
+    nodeResolve(),
+    json(),
+    ts()
+  ]
 }
 
 // 运行时入口
