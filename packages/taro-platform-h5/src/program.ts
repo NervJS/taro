@@ -58,9 +58,9 @@ export default class H5 extends TaroPlatformWeb {
       })
 
       const alias = chain.resolve.alias
-      alias.set('@tarojs/taro', require.resolve('./runtime/apis'))
       alias.set('@tarojs/components$', require.resolve(this.componentLibrary))
-      alias.set('@tarojs/router$', require.resolve('@tarojs/router'))
+      alias.set('@tarojs/router', require.resolve('@tarojs/router'))
+      alias.set('@tarojs/taro', require.resolve('./runtime/apis'))
       chain.plugin('mainPlugin')
         .tap(args => {
           args[0].loaderMeta ||= {
