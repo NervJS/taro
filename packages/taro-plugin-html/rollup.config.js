@@ -15,6 +15,7 @@ const compileConfig = {
     file: path.join(cwd, 'dist/index.js'),
     format: 'cjs',
     sourcemap: true,
+    interop: 'compat',
     exports: 'named'
   },
   ...base
