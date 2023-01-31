@@ -1,15 +1,15 @@
-import { EMPTY_OBJ, hooks } from '@tarojs/shared'
+import { EMPTY_OBJ, hooks, isUndefined } from '@tarojs/shared'
 
 import {
   CONFIRM,
   CURRENT_TARGET,
+  EVENT_CALLBACK_RESULT,
   INPUT,
   KEY_CODE,
   TARGET,
   TIME_STAMP,
   TOUCHMOVE,
-  TYPE
-} from '../constants'
+  TYPE} from '../constants'
 import env from '../env'
 import { isParentBinded } from '../utils'
 
@@ -134,6 +134,14 @@ export function createEvent (event: MpEvent | string, node?: TaroElement) {
 
 const eventsBatch = {}
 
+function getEventCBResult (event: MpEvent) {
+  const result = event[EVENT_CALLBACK_RESULT]
+  if (!isUndefined(result)) {
+    delete event[EVENT_CALLBACK_RESULT]
+  }
+  return result
+}
+
 // 小程序的事件代理回调函数
 export function eventHandler (event: MpEvent) {
   hooks.call('modifyMpEventImpl', event)
@@ -166,12 +174,14 @@ export function eventHandler (event: MpEvent) {
           }
           dispatch()
         })
+        return getEventCBResult(event)
       } else {
         // 如果上层组件也有绑定同类型的组件，委托给上层组件调用事件回调
         (eventsBatch[type] ||= []).push(dispatch)
       }
     } else {
       dispatch()
+      return getEventCBResult(event)
     }
   }
 }
