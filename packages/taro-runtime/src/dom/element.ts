@@ -4,14 +4,14 @@ import {
   CATCH_VIEW,
   CATCHMOVE,
   CLASS,
+  EVENT_CALLBACK_RESULT,
   FOCUS,
   ID,
   PROPERTY_THRESHOLD,
   PURE_VIEW,
   STATIC_VIEW,
   STYLE,
-  VIEW
-} from '../constants'
+  VIEW} from '../constants'
 import { MutationObserver, MutationRecordType } from '../dom-external/mutation-observer'
 import { extend, getComponentsAlias, isElement, isHasExtractProp, shortcutAttr } from '../utils'
 import { ClassList } from './class-list'
@@ -327,6 +327,10 @@ export class TaroElement extends TaroNode {
       }
       if ((result === false || event._end) && cancelable) {
         event.defaultPrevented = true
+      }
+
+      if (!isUndefined(result) && event.mpEvent) {
+        event.mpEvent[EVENT_CALLBACK_RESULT] = result
       }
 
       if (event._end && event._stop) {
