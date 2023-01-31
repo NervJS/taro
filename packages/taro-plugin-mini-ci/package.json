@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/plugin-mini-ci",
-  "version": "3.6.0-beta.1",
+  "version": "3.6.0-canary.13",
   "description": "Taro 小程序端构建后支持CI（持续集成）的插件",
   "keywords": [
     "Taro",
@@ -43,7 +43,8 @@
   "peerDependencies": {
     "dingtalk-miniapp-opensdk": "^1.0.7",
     "minidev": "^1.5.1",
-    "tt-ide-cli": "^0.1.13"
+    "tt-ide-cli": "^0.1.13",
+    "jd-miniprogram-ci": "^1.0.2"
   },
   "peerDependenciesMeta": {
     "dingtalk-miniapp-opensdk": {
@@ -53,6 +54,9 @@
       "optional": true
     },
     "tt-ide-cli": {
+      "optional": true
+    },
+    "jd-miniprogram-ci": {
       "optional": true
     }
   }

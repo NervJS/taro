@@ -5,11 +5,8 @@ import externals from 'rollup-plugin-node-externals'
 import postcss from 'rollup-plugin-postcss'
 import ts from 'rollup-plugin-ts'
 
-import exportNameOnly from './build/rollup-plugin-export-name-only'
-
 const baseConfig = {
   output: {
-    format: 'cjs',
     sourcemap: true,
     exports: 'named'
   },
@@ -23,7 +20,6 @@ const baseConfig = {
       mainFields: ['main:h5', 'browser', 'module', 'jsnext:main', 'main']
     }),
     ts({
-      declaration: false,
       sourceMap: true,
     }),
     commonjs(),
@@ -34,23 +30,28 @@ const baseConfig = {
 }
 
 const variesConfig = [{
-  input: 'src/api/index.ts',
+  input: ['src/index.ts', 'src/api/index.ts', 'src/api/taro.ts'],
   output: {
-    file: 'dist/taroApis.js'
-  },
-  plugins: exportNameOnly()
-}, {
-  input: 'src/index.ts',
-  output: {
-    file: 'dist/index.cjs.js'
-  }
-}, {
-  input: 'src/index.ts',
-  output: {
-    format: 'es',
-    file: 'dist/index.esm.js'
+    dir: 'dist',
+    preserveModules: true,
+    preserveModulesRoot: 'src'
   }
 }]
+
+if (process.env.NODE_ENV === 'production') {
+  variesConfig.push({
+    input: 'src/index.ts',
+    output: {
+      format: 'cjs',
+      file: 'dist/index.cjs.js'
+    }
+  }, {
+    input: 'src/index.ts',
+    output: {
+      file: 'dist/index.esm.js'
+    }
+  })
+}
 
 export default variesConfig.map(v => {
   const customizer = function (objValue, srcValue) {

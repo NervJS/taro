@@ -175,13 +175,6 @@ module.exports = (_, options = {}) => {
     version
   }])
 
-  if (process.env.TARO_ENV === 'h5') {
-    const apis = require('@tarojs/taro-h5/dist/taroApis')
-    plugins.push([require('babel-plugin-transform-taroapi'), {
-      packageName: '@tarojs/taro',
-      apis
-    }])
-  }
   if (typeof options['dynamic-import-node'] === 'boolean' ? options['dynamic-import-node'] : process.env.TARO_ENV !== 'h5') {
     plugins.push([require('babel-plugin-dynamic-import-node')])
   }

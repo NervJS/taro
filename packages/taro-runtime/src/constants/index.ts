@@ -45,6 +45,7 @@ export const ON_HIDE = 'onHide'
 export const OPTIONS = 'options'
 export const EXTERNAL_CLASSES = 'externalClasses'
 export const BEHAVIORS = 'behaviors'
+export const A = 'a'
 
 /**
  * 页面上下文切换时的行为

@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/rn-supporter",
-  "version": "3.6.0-beta.1",
+  "version": "3.6.0-canary.13",
   "description": "Taro rn supporter",
   "main": "dist/index.js",
   "scripts": {
@@ -34,6 +34,7 @@
   "dependencies": {
     "@react-native-community/cli-config": "^9.1.0",
     "@react-native-community/cli-tools": "^9.1.0",
+    "@rnx-kit/metro-resolver-symlinks": "^0.1.23",
     "@tarojs/helper": "workspace:*",
     "@tarojs/rn-transformer": "workspace:*",
     "@tarojs/rn-style-transformer": "workspace:*",
@@ -53,7 +54,7 @@
     "@babel/preset-env": "^7.14.5",
     "react": "18.1.0",
     "react-native": "^0.70.5",
-    "react-native-svg": "~13.6.0",
+    "react-native-svg": "~13.7.0",
     "react-test-renderer": "18.1.0"
   }
 }

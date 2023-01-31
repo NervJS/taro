@@ -1,4 +1,4 @@
-import './style.css'
+import './style.scss'
 
 import Taro from '@tarojs/api'
 import { stringify } from 'query-string'

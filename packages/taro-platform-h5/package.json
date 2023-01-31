@@ -1,0 +1,52 @@
+{
+  "name": "@tarojs/plugin-platform-h5",
+  "version": "3.6.0-canary.13",
+  "description": "Web 端平台插件",
+  "author": "ZakaryCode",
+  "license": "MIT",
+  "main": "index.js",
+  "keywords": [
+    "taro"
+  ],
+  "files": [
+    "index.js",
+    "dist",
+    "types"
+  ],
+  "sideEffects": [
+    "./dist/runtime/index.js",
+    "*.scss",
+    "*.css"
+  ],
+  "types": "types/index.d.ts",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NervJS/taro.git"
+  },
+  "scripts": {
+    "build": "rollup -c",
+    "dev": "rollup -c -w"
+  },
+  "bugs": {
+    "url": "https://github.com/NervJS/taro/issues"
+  },
+  "dependencies": {
+    "@tarojs/service": "workspace:*",
+    "@tarojs/components": "workspace:*",
+    "@tarojs/components-react": "workspace:*",
+    "@tarojs/router": "workspace:*",
+    "@tarojs/shared": "workspace:*",
+    "@tarojs/taro-h5": "workspace:*",
+    "babel-plugin-transform-taroapi": "workspace:*",
+    "resolve": "^1.22.0"
+  },
+  "devDependencies": {
+    "@rollup/plugin-commonjs": "^20.0.0",
+    "@rollup/plugin-node-resolve": "^8.0.0",
+    "lodash": "^4.17.21",
+    "rollup": "^2.79.0",
+    "rollup-plugin-node-externals": "^4.0.0",
+    "rollup-plugin-ts": "^3.0.2",
+    "typescript": "^4.7.4"
+  }
+}

@@ -380,6 +380,7 @@ export class Tabbar implements ComponentInterface {
                 isSelected={isSelected}
                 textColor={textColor}
                 iconPath={iconPath}
+                pagePath={item.pagePath}
                 text={item.text}
                 badgeText={item.badgeText}
                 showRedDot={item.showRedDot}

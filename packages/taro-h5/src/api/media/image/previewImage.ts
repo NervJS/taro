@@ -1,5 +1,7 @@
 import Taro from '@tarojs/api'
 import { SwiperProps } from '@tarojs/components'
+import { defineCustomElement as defineCustomElementTaroSwiperCore } from '@tarojs/components/dist/components/taro-swiper-core'
+import { defineCustomElement as defineCustomElementTaroSwiperItemCore } from '@tarojs/components/dist/components/taro-swiper-item-core'
 import { isFunction } from '@tarojs/shared'
 
 import { shouldBeObject } from '../../../utils'
@@ -13,6 +15,10 @@ import { MethodHandler } from '../../../utils/handler'
  * 在新页面中全屏预览图片。预览的过程中用户可以进行保存图片、发送给朋友等操作。
  */
 export const previewImage: typeof Taro.previewImage = async (options) => {
+  if (USE_HTML_COMPONENTS) {
+    defineCustomElementTaroSwiperCore()
+    defineCustomElementTaroSwiperItemCore()
+  }
   function loadImage (url: string, loadFail: typeof fail): Promise<Node> {
     return new Promise((resolve) => {
       const item = document.createElement('taro-swiper-item-core')

@@ -1,5 +1,6 @@
+import TaroPlatform from './platform'
+
 import type { RecursiveTemplate, UnRecursiveTemplate } from '@tarojs/shared/dist/template'
-import type { Func, IPluginContext } from './utils/types'
 
 interface IFileType {
   templ: string
@@ -9,71 +10,12 @@ interface IFileType {
   xs?: string
 }
 
-interface IWrapper {
-  init? (): void
-  close? (): void
-}
-
-class Transaction {
-  wrappers: IWrapper[] = []
-
-  async perform (fn: Func, scope: TaroPlatformBase, ...args) {
-    this.initAll(scope)
-    await fn.call(scope, ...args)
-    this.closeAll(scope)
-  }
-
-  initAll (scope) {
-    const wrappers = this.wrappers
-    wrappers.forEach(wrapper => wrapper.init?.call(scope))
-  }
-
-  closeAll (scope) {
-    const wrappers = this.wrappers
-    wrappers.forEach(wrapper => wrapper.close?.call(scope))
-  }
-
-  addWrapper (wrapper: IWrapper) {
-    this.wrappers.push(wrapper)
-  }
-}
-
-export abstract class TaroPlatformBase {
-  ctx: IPluginContext
-  helper: IPluginContext['helper']
-  config: any
-  compiler: string
-
-  abstract platform: string
+export abstract class TaroPlatformBase extends TaroPlatform {
   abstract globalObject: string
-  abstract runtimePath: string | string[]
   abstract fileType: IFileType
   abstract template: RecursiveTemplate | UnRecursiveTemplate
   projectConfigJson?: string
   taroComponentsPath?: string
-
-  setupTransaction = new Transaction()
-  buildTransaction = new Transaction()
-
-  constructor (ctx: IPluginContext, config) {
-    this.ctx = ctx
-    this.helper = ctx.helper
-    this.config = config
-    this.updateOutputPath(config)
-    const _compiler = config.compiler
-    this.compiler = typeof _compiler === 'object' ? _compiler.type : _compiler
-  }
-
-  /**
-   * 如果分端编译详情webpack配置了output则需更新outputPath位置
-   * 小程序端才能将project.config.json生成到正确的位置
-   */
-  private updateOutputPath (config) {
-    const platformPath = config.output?.path
-    if(platformPath) {
-      this.ctx.paths.outputPath = platformPath
-    }
-  }
 
   /**
    * 1. 清空 dist 文件夹
@@ -98,11 +40,6 @@ export abstract class TaroPlatformBase {
       const { printLog, processTypeEnum } = this.ctx.helper
       printLog(processTypeEnum.START, '开发者工具-项目目录', `${this.ctx.paths.outputPath}`)
     }
-  }
-
-  protected emptyOutputDir () {
-    const { outputPath } = this.ctx.paths
-    this.helper.emptyDirectory(outputPath)
   }
 
   protected printDevelopmentTip (platform: string) {
@@ -180,7 +117,7 @@ ${exampleCommand}`))
     await this.buildTransaction.perform(this.buildImpl, this, extraOptions)
   }
 
-  private async buildImpl (extraOptions) {
+  private async buildImpl (extraOptions = {}) {
     const runner = await this.getRunner()
     const options = this.getOptions(Object.assign({
       runtimePath: this.runtimePath,

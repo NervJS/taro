@@ -10,6 +10,9 @@ interface onChangeEventDetail {
 
   /** Y 坐标 */
   y: number
+
+  /** 事件 */
+  source: string
 }
 export interface MovableViewProps {
   // movable-view 的移动方向，属性值有all、vertical、horizontal、none
@@ -20,7 +23,7 @@ export interface MovableViewProps {
   y?: string | number;
   onDragStart?: () => void;
   onDragEnd?: () => void;
-  onChange?: (onChangeEventDetail) => void;
+  onChange?: (e: onChangeEventDetail) => void;
   animation: boolean;
   onMove: (value: AnimatedValueProps) => void;
   disabled?: boolean;

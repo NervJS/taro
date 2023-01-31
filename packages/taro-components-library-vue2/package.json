@@ -1,12 +1,15 @@
 {
   "name": "@tarojs/components-library-vue2",
-  "version": "3.6.0-beta.1",
+  "version": "3.6.0-canary.13",
   "description": "Taro 组件库 Vue2 版本库",
   "private": true,
   "main": "index.js",
   "scripts": {
-    "prebuild:ci": "node ./scripts/fix.js",
-    "build:ci": "babel src --extensions=.ts,.tsx --out-dir ../taro-components/dist/vue2"
+    "build:ci": "run-s clean prod",
+    "clean": "rimraf ../taro-components/lib/vue2",
+    "dev": "pnpm run build -w",
+    "preprod": "node ./scripts/fix.js",
+    "prod": "rollup -c"
   },
   "keywords": [],
   "author": "ZakaryCode",
@@ -17,8 +20,13 @@
   "devDependencies": {
     "@babel/cli": "^7.14.5",
     "@babel/core": "^7.14.5",
+    "@rollup/plugin-commonjs": "^20.0.0",
+    "@rollup/plugin-node-resolve": "^8.0.0",
     "@types/node": "^14.14.31",
     "babel-preset-taro": "workspace:*",
+    "rollup": "^2.79.0",
+    "rollup-plugin-node-externals": "^4.0.0",
+    "rollup-plugin-ts": "^3.0.2",
     "typescript": "^4.7.4",
     "vue": "^2.6.11"
   }

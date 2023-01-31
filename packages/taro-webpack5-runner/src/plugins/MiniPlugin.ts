@@ -804,7 +804,7 @@ export default class TaroMiniPlugin {
           dependencies.delete(pagePath)
         })
         new TaroLoadChunksPlugin({
-          commonChunks: [`${name}/runtime`, `${name}/vendors`],
+          commonChunks: [`${name}/runtime`, `${name}/vendors`, `${name}/common`],
           isBuildPlugin: false,
           addChunkPages: this.options.addChunkPages,
           pages: childPages,

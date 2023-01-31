@@ -333,7 +333,6 @@ export class Video implements ComponentInterface {
   init = () => {
     const { src, videoRef } = this
 
-
     if (isHls(src)) {
       import('hls.js').then(e => {
         const Hls = e.default
@@ -446,6 +445,12 @@ export class Video implements ComponentInterface {
       height: target.videoHeight,
       duration: target.duration
     })
+  }
+
+  @Method()
+  async getHlsObject() {
+    // Note: H5 端专属方法，获取 HLS 实例 fix #11894
+    return this.hls
   }
 
   /** 播放视频 */
