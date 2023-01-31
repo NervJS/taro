@@ -9,7 +9,8 @@ import {
   TARGET,
   TIME_STAMP,
   TOUCHMOVE,
-  TYPE} from '../constants'
+  TYPE
+} from '../constants'
 import env from '../env'
 import { isParentBinded } from '../utils'
 
