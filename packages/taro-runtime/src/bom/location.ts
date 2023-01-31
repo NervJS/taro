@@ -358,7 +358,7 @@ export class Location extends Events {
   }
 }
 
-function resolveRelativePath (path, relative): string {
+export function resolveRelativePath (path: string, relative: string): string {
   const relativeArr = relative.split('/')
   const parent = relativeArr.slice(0, relativeArr.length - 1)
   let depth = 0

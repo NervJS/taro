@@ -8,6 +8,7 @@ export { document } from './bom/document'
 export { getComputedStyle } from './bom/getComputedStyle'
 export { nav as navigator } from './bom/navigator'
 export { caf as cancelAnimationFrame, now, raf as requestAnimationFrame } from './bom/raf'
+export { URL } from './bom/URL'
 export { URLSearchParams } from './bom/URLSearchParams'
 export { history, location, window } from './bom/window'
 // dom

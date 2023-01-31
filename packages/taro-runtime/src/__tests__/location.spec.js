@@ -72,13 +72,16 @@ describe('location', () => {
       expect(searchParams.get('b')).toBe('2')
     }
     {
-      const searchParams = new URLSearchParams([['a', '1'], ['b', '2']])
+      const searchParams = new URLSearchParams([
+        ['a', '1'],
+        ['b', '2'],
+      ])
       expect(searchParams.keys()).toEqual(['a', 'b'])
       expect(searchParams.get('a')).toBe('1')
       expect(searchParams.get('b')).toBe('2')
     }
     {
-      const searchParams = new URLSearchParams({'a': '1', 'b': '2'})
+      const searchParams = new URLSearchParams({ a: '1', b: '2' })
       expect(searchParams.keys()).toEqual(['a', 'b'])
       expect(searchParams.get('a')).toBe('1')
       expect(searchParams.get('b')).toBe('2')
@@ -86,7 +89,7 @@ describe('location', () => {
 
     // methods
     {
-      const searchParams = new URLSearchParams({'a': '1'})
+      const searchParams = new URLSearchParams({ a: '1' })
       expect(searchParams.get('a')).toBe('1')
       searchParams.set('b', '2')
       expect(searchParams.get('b')).toBe('2')
@@ -102,5 +105,67 @@ describe('location', () => {
       const searchParams = new URLSearchParams('a=1&a=2')
       expect(searchParams.getAll('a')).toEqual(['1', '2'])
     }
+  })
+
+  it('URL', () => {
+    const URL = runtime.URL
+
+    // constructor
+
+    try {
+      // eslint-disable-next-line
+        new URL()
+    } catch (error) {
+      expect(error instanceof TypeError).toBe(true)
+      // expect(error.message).toBe('')
+    }
+
+
+
+    try {
+      // eslint-disable-next-line
+        new URL('/a/b', '/c/d')
+    } catch (error) {
+      expect(error instanceof TypeError).toBe(true)
+      // expect(error.message).toBe('')
+    }
+
+
+    {
+      const url = new URL('http://taro.com')
+      expect(url.toString()).toBe('http://taro.com/')
+    }
+
+    // cases from https://developer.mozilla.org/en-US/docs/Web/API/URL/URL
+    {
+      const baseUrl = 'https://developer.mozilla.org'
+      const A = new URL('/', baseUrl)
+      expect(A.toString()).toBe('https://developer.mozilla.org/')
+      const B = new URL(baseUrl)
+      expect(B.toString()).toBe('https://developer.mozilla.org/')
+      const C = new URL('en-US/docs', B)
+      expect(C.toString()).toBe('https://developer.mozilla.org/en-US/docs')
+      const D = new URL('/en-US/docs', B)
+      expect(D.toString()).toBe('https://developer.mozilla.org/en-US/docs')
+      const E = new URL('/en-US/docs', D)
+      expect(E.toString()).toBe('https://developer.mozilla.org/en-US/docs')
+      const F = new URL('/en-US/docs', A)
+      expect(F.toString()).toBe('https://developer.mozilla.org/en-US/docs')
+      const G = new URL('/en-US/docs', 'https://developer.mozilla.org/fr-FR/toto')
+      expect(G.toString()).toBe('https://developer.mozilla.org/en-US/docs')
+
+      const H = new URL('', 'https://example.com/?query=1')
+      expect(H.toString()).toBe('https://example.com/?query=1')
+      const J = new URL('//foo.com', 'https://example.com')
+      expect(J.toString()).toBe('https://foo.com/')
+    }
+
+    {
+      const searchParams = new URL('http://taro.com?a=1&b=2').searchParams
+      expect(searchParams.keys()).toEqual(['a', 'b'])
+      expect(searchParams.get('a')).toBe('1')
+      expect(searchParams.get('b')).toBe('2')
+    }
+
   })
 })
