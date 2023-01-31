@@ -11,7 +11,8 @@ import {
   PURE_VIEW,
   STATIC_VIEW,
   STYLE,
-  VIEW} from '../constants'
+  VIEW
+} from '../constants'
 import { MutationObserver, MutationRecordType } from '../dom-external/mutation-observer'
 import { extend, getComponentsAlias, isElement, isHasExtractProp, shortcutAttr } from '../utils'
 import { ClassList } from './class-list'
