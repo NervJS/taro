@@ -16,6 +16,7 @@ import { MethodHandler } from '../../../utils/handler'
  */
 export const previewImage: typeof Taro.previewImage = async (options) => {
   if (USE_HTML_COMPONENTS) {
+    // TODO 改为通过 window.__taroAppConfig 获取配置的 Swiper 插件创建节点
     defineCustomElementTaroSwiperCore()
     defineCustomElementTaroSwiperItemCore()
   }

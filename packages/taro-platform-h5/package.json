@@ -9,8 +9,9 @@
     "taro"
   ],
   "files": [
-    "index.js",
+    "build",
     "dist",
+    "index.js",
     "types"
   ],
   "sideEffects": [

@@ -820,6 +820,7 @@ importers:
   packages/taro-h5:
     specifiers:
       '@tarojs/api': workspace:*
+      '@tarojs/components': workspace:*
       '@tarojs/router': workspace:*
       '@tarojs/runtime': workspace:*
       '@tarojs/shared': workspace:*
@@ -846,6 +847,7 @@ importers:
       query-string: registry.npmjs.org/query-string/7.1.1
       whatwg-fetch: registry.npmjs.org/whatwg-fetch/3.6.2
     devDependencies:
+      '@tarojs/components': link:../taro-components
       jest: registry.npmjs.org/jest/29.4.1
       jest-fetch-mock: registry.npmjs.org/jest-fetch-mock/3.0.3
       jest-localstorage-mock: registry.npmjs.org/jest-localstorage-mock/2.4.21

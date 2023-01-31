@@ -58,6 +58,7 @@ export default class H5 extends TaroPlatformWeb {
       })
 
       const alias = chain.resolve.alias
+      // TODO 考虑集成到 taroComponentsPath 中，与小程序端对齐
       alias.set('@tarojs/components$', require.resolve(this.componentLibrary))
       alias.set('@tarojs/router', require.resolve('@tarojs/router'))
       alias.set('@tarojs/taro', require.resolve('./runtime/apis'))
