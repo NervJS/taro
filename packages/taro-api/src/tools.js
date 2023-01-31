@@ -1,4 +1,4 @@
-import { isObject } from './utils'
+import { isFunction, isObject } from './utils'
 
 export function Behavior (options) {
   return options
@@ -38,10 +38,11 @@ export function getInitPxTransform (taro) {
 
 export function getPxTransform (taro) {
   return function (size) {
-    const {
-      designWidth = defaultDesignWidth,
-      deviceRatio = defaultDesignRatio
-    } = taro.config || {}
+    const config = taro.config || {}
+    const deviceRatio = config.deviceRatio || defaultDesignRatio
+    const designWidth = (((input = 0) => isFunction(config.designWidth)
+      ? config.designWidth(input)
+      : config.designWidth || defaultDesignWidth))(size)
     if (!(designWidth in deviceRatio)) {
       throw new Error(`deviceRatio 配置中不存在 ${designWidth} 的设置！`)
     }
