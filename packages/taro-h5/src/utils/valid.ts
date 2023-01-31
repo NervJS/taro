@@ -1,5 +1,5 @@
-export function isFunction (obj) {
-  return typeof obj === 'function'
+export function isFunction (o: unknown): o is (...args: any[]) => any {
+  return typeof o === 'function'
 }
 
 const VALID_COLOR_REG = /^#[0-9a-fA-F]{6}$/
