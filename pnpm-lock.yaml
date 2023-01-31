@@ -578,6 +578,7 @@ importers:
       typescript: ^4.7.4
       weui: ^1.1.2
     dependencies:
+      '@stencil/core': registry.npmjs.org/@stencil/core/2.22.2
       '@tarojs/components-advanced': link:../taro-components-advanced
       '@tarojs/router': link:../taro-router
       '@tarojs/taro': link:../taro
@@ -592,7 +593,6 @@ importers:
       '@babel/parser': registry.npmjs.org/@babel/parser/7.18.5
       '@babel/traverse': registry.npmjs.org/@babel/traverse/7.18.5
       '@babel/types': registry.npmjs.org/@babel/types/7.18.4
-      '@stencil/core': registry.npmjs.org/@stencil/core/2.22.2
       '@stencil/react-output-target': registry.npmjs.org/@stencil/react-output-target/0.3.1_@stencil+core@2.22.2
       '@stencil/sass': registry.npmjs.org/@stencil/sass/2.0.3_@stencil+core@2.22.2
       '@stencil/vue-output-target': registry.npmjs.org/@stencil/vue-output-target/0.6.2_@stencil+core@2.22.2
@@ -838,6 +838,7 @@ importers:
       whatwg-fetch: ^3.4.0
     dependencies:
       '@tarojs/api': link:../taro-api
+      '@tarojs/components': link:../taro-components
       '@tarojs/router': link:../taro-router
       '@tarojs/runtime': link:../taro-runtime
       '@tarojs/shared': link:../shared
@@ -847,7 +848,6 @@ importers:
       query-string: registry.npmjs.org/query-string/7.1.1
       whatwg-fetch: registry.npmjs.org/whatwg-fetch/3.6.2
     devDependencies:
-      '@tarojs/components': link:../taro-components
       jest: registry.npmjs.org/jest/29.4.1
       jest-fetch-mock: registry.npmjs.org/jest-fetch-mock/3.0.3
       jest-localstorage-mock: registry.npmjs.org/jest-localstorage-mock/2.4.21
@@ -8811,7 +8811,6 @@ packages:
     version: 2.22.2
     engines: {node: '>=12.10.0', npm: '>=6.0.0'}
     hasBin: true
-    dev: true
 
   registry.npmjs.org/@stencil/react-output-target/0.3.1_@stencil+core@2.22.2:
     resolution: {integrity: sha512-6d9pPhyajFfdxkqU/pPP2SzI7wn+EklySQc4KXlI/xcdvC2H9BzLmhmR40fR1q2TQoJbJui/nvSWhbYqkE3OBQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@stencil/react-output-target/-/react-output-target-0.3.1.tgz}
