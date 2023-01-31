@@ -2,7 +2,7 @@ import Taro from '@tarojs/api'
 import { history } from '@tarojs/router'
 
 import { getApp, getCurrentInstance, getCurrentPages, navigateBack, navigateTo, nextTick, redirectTo, reLaunch, switchTab } from '../api'
-import { permanentlyNotSupport } from '../utils'
+import { isFunction, permanentlyNotSupport } from '../utils'
 
 const {
   Behavior,
@@ -46,13 +46,13 @@ const initPxTransform = getInitPxTransform(taro)
 const requirePlugin = permanentlyNotSupport('requirePlugin')
 
 const pxTransform = function (size) {
-  const options = (taro as any).config
-  const baseFontSize = options.baseFontSize || 20
-  const designWidth = ((input = 0) => typeof options.designWidth === 'function'
-    ? options.designWidth(input)
-    : options.designWidth)
-  const rootValue = (input = 0) => baseFontSize / options.deviceRatio[designWidth(input)] * 2
-  return Math.ceil((parseInt(size, 10) / rootValue(size)) * 10000) / 10000 + 'rem'
+  const config = (taro as any).config
+  const baseFontSize = config.baseFontSize || 20
+  const designWidth = (((input = 0) => isFunction(config.designWidth)
+    ? config.designWidth(input)
+    : config.designWidth))(size)
+  const rootValue = baseFontSize / config.deviceRatio[designWidth] * 2
+  return Math.ceil((parseInt(size, 10) / rootValue) * 10000) / 10000 + 'rem'
 }
 
 const canIUseWebp = function () {
