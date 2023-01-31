@@ -4,6 +4,14 @@ import { parseUrl } from './location'
 import { URLSearchParams } from './URLSearchParams'
 
 export class URL {
+  static createObjectURL () {
+    throw new Error('Oops, not support URL.createObjectURL() in miniprogram.')
+  }
+
+  static revokeObjectURL () {
+    throw new Error('Oops, not support URL.revokeObjectURL() in miniprogram.')
+  }
+
   /* private property */
   #hash = ''
   #hostname = ''
@@ -33,11 +41,20 @@ export class URL {
   }
 
   set protocol (val: string) {
-    isString(val) && (this.#protocol = val)
+    isString(val) && (this.#protocol = val.trim())
   }
 
   get host () {
-    return (this.hostname || '') + (this.port ? ':' + this.port : '')
+    return this.hostname + (this.port ? ':' + this.port : '')
+  }
+
+  set host (val: string) {
+    if (val && isString(val)) {
+      val = val.trim()
+      const { hostname, port } = parseUrl(`//${val}`)
+      this.hostname = hostname
+      this.port = port
+    }
   }
 
   get hostname () {
@@ -45,7 +62,7 @@ export class URL {
   }
 
   set hostname (val: string) {
-    val && isString(val) && (this.#hostname = val)
+    val && isString(val) && (this.#hostname = val.trim())
   }
 
   get port () {
@@ -53,7 +70,7 @@ export class URL {
   }
 
   set port (val: string) {
-    isString(val) && (this.#port = val)
+    isString(val) && (this.#port = val.trim())
   }
 
   get pathname () {
@@ -62,7 +79,7 @@ export class URL {
 
   set pathname (val: string) {
     if (isString(val)) {
-      if (val) this.#pathname = val
+      if (val) this.#pathname = val.trim()
       else this.#pathname = '/'
     }
   }
@@ -71,9 +88,10 @@ export class URL {
     return this.#search
   }
 
-  set search (val: string){
-    if(isString(val)){
-      if(val) this.#search = val.startsWith('?') ? val : `?${val}`
+  set search (val: string) {
+    if (isString(val)) {
+      val = val.trim()
+      if (val) this.#search = val.startsWith('?') ? val : `?${val}`
       else this.#search = ''
     }
   }
@@ -82,9 +100,10 @@ export class URL {
     return this.#hash
   }
 
-  set hash (val: string){
-    if(isString(val)){
-      if(val) this.#hash = val.startsWith('#') ? val : `#${val}`
+  set hash (val: string) {
+    if (isString(val)) {
+      val = val.trim()
+      if (val) this.#hash = val.startsWith('#') ? val : `#${val}`
       else this.#hash = ''
     }
   }
@@ -93,8 +112,31 @@ export class URL {
     return `${this.protocol}//${this.host}${this.pathname}${this.search}${this.hash}`
   }
 
+  set href (val: string) {
+    if (val && isString(val)) {
+      val = val.trim()
+      const { protocol, hostname, port, hash, search, pathname } = parseUrl(val)
+      this.protocol = protocol
+      this.hostname = hostname
+      this.pathname = pathname
+      this.port = port
+      this.hash = hash
+      this.search = search
+    }
+  }
+
   get origin () {
     return `${this.protocol}//${this.host}`
+  }
+
+  set origin (val: string){
+    if (val && isString(val)) {
+      val = val.trim()
+      const { protocol, hostname, port } = parseUrl(val)
+      this.protocol = protocol
+      this.hostname = hostname
+      this.port = port
+    }
   }
 
   get searchParams () {
