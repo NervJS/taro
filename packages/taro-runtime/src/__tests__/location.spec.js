@@ -49,4 +49,58 @@ describe('location', () => {
       expect(search).toBe('?a=1')
     }
   })
+
+  it('URLSearchParams', () => {
+    const URLSearchParams = runtime.URLSearchParams
+
+    // query is empty
+    {
+      const searchParams = new URLSearchParams('')
+      expect(searchParams.keys()).toEqual([])
+    }
+    // constructor
+    {
+      const searchParams = new URLSearchParams('?a=1&b=2')
+      expect(searchParams.keys()).toEqual(['a', 'b'])
+      expect(searchParams.get('a')).toBe('1')
+      expect(searchParams.get('b')).toBe('2')
+    }
+    {
+      const searchParams = new URLSearchParams('a=1&b=2')
+      expect(searchParams.keys()).toEqual(['a', 'b'])
+      expect(searchParams.get('a')).toBe('1')
+      expect(searchParams.get('b')).toBe('2')
+    }
+    {
+      const searchParams = new URLSearchParams([['a', '1'], ['b', '2']])
+      expect(searchParams.keys()).toEqual(['a', 'b'])
+      expect(searchParams.get('a')).toBe('1')
+      expect(searchParams.get('b')).toBe('2')
+    }
+    {
+      const searchParams = new URLSearchParams({'a': '1', 'b': '2'})
+      expect(searchParams.keys()).toEqual(['a', 'b'])
+      expect(searchParams.get('a')).toBe('1')
+      expect(searchParams.get('b')).toBe('2')
+    }
+
+    // methods
+    {
+      const searchParams = new URLSearchParams({'a': '1'})
+      expect(searchParams.get('a')).toBe('1')
+      searchParams.set('b', '2')
+      expect(searchParams.get('b')).toBe('2')
+      expect(searchParams.has('b')).toBe(true)
+      searchParams.delete('b')
+      expect(searchParams.has('b')).toBe(false)
+      searchParams.set('c', '3')
+      expect(searchParams.toString()).toBe('a=1&c=3')
+      searchParams.append('c', '4')
+      expect(searchParams.toString()).toBe('a=1&c=3&c=4')
+    }
+    {
+      const searchParams = new URLSearchParams('a=1&a=2')
+      expect(searchParams.getAll('a')).toEqual(['1', '2'])
+    }
+  })
 })
