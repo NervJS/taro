@@ -115,6 +115,7 @@ export class MiniPrebundle extends BasePrebundle<IMiniPrebundleConfig> {
       history: [taroRuntimeBundlePath, 'history'],
       location: [taroRuntimeBundlePath, 'location'],
       URLSearchParams: [taroRuntimeBundlePath, 'URLSearchParams'],
+      URL: [taroRuntimeBundlePath, 'URL'],
     }
     const customWebpackConfig = this.option.webpack
     if (customWebpackConfig?.provide?.length) {
