@@ -409,6 +409,7 @@ export function parseUrl (url = '') {
 
   if (!matches) return result
 
+  // TODO: username & password ?
   result.protocol = matches[1] || 'https:'
   result.hostname = matches[6] || DEFAULT_HOSTNAME
   result.port = matches[8] || ''
