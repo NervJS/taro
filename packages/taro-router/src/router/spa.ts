@@ -41,7 +41,7 @@ export function createRouter (
   })
   const router = new UniversalRouter(routes, { baseUrl: basename || '' })
   const launchParam: Taro.getLaunchOptionsSync.LaunchOptions = {
-    path: handler.homePage,
+    path: handler.currentPage,
     query: handler.getQuery(launchStampId),
     scene: 0,
     shareTicket: '',
