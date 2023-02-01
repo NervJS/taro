@@ -1,6 +1,6 @@
 MIT License
 
-Copyright (c) 2018
+Copyright (c) 2018 O2Team
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -21,15 +21,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
 ========================================================================
-
-Taro Subcomponents:
-
-The Taro project contains subcomponents with separate copyright
-notices and license terms. Your use of the source code for these
-subcomponents is also subject to the terms and conditions of the following
-licenses.
-
-==================
 
 MIT (react-devtools):
 The following files embed [react-devtools](https://github.com/facebook/react) MIT:
