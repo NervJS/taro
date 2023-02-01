@@ -50,6 +50,7 @@ export class MiniWebpackPlugin {
       history: ['@tarojs/runtime', 'history'],
       location: ['@tarojs/runtime', 'location'],
       URLSearchParams: ['@tarojs/runtime', 'URLSearchParams'],
+      URL: ['@tarojs/runtime', 'URL'],
     })
   }
 
