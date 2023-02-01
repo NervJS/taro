@@ -111,29 +111,52 @@ describe('location', () => {
     const URL = runtime.URL
 
     // constructor
+    try {
+      // eslint-disable-next-line
+      new URL()
+    } catch (error) {
+      expect(error instanceof TypeError).toBe(true)
+      expect(error.message).toMatch('Invalid URL')
+    }
 
     try {
       // eslint-disable-next-line
-        new URL()
+      new URL('//taro.com')
     } catch (error) {
       expect(error instanceof TypeError).toBe(true)
-      // expect(error.message).toBe('')
+      expect(error.message).toMatch('Invalid URL')
     }
-
-
 
     try {
       // eslint-disable-next-line
-        new URL('/a/b', '/c/d')
+      new URL('/a/b', '/c/d')
     } catch (error) {
       expect(error instanceof TypeError).toBe(true)
-      // expect(error.message).toBe('')
+      expect(error.message).toMatch('Invalid base URL')
     }
 
+    try {
+      // eslint-disable-next-line
+      new URL('http://taro.com', '')
+    } catch (error) {
+      expect(error instanceof TypeError).toBe(true)
+      expect(error.message).toMatch('Invalid base URL')
+    }
 
     {
       const url = new URL('http://taro.com')
       expect(url.toString()).toBe('http://taro.com/')
+    }
+
+    {
+      const url = new URL('http://taro.com/')
+      expect(url.toString()).toBe('http://taro.com/')
+      expect(url.pathname).toBe('/')
+    }
+
+    {
+      const url = new URL('?a=1#b=2', 'https://taro.com')
+      expect(url.toString()).toBe('https://taro.com/?a=1#b=2')
     }
 
     // cases from https://developer.mozilla.org/en-US/docs/Web/API/URL/URL
@@ -156,16 +179,44 @@ describe('location', () => {
 
       const H = new URL('', 'https://example.com/?query=1')
       expect(H.toString()).toBe('https://example.com/?query=1')
-      const J = new URL('//foo.com', 'https://example.com')
-      expect(J.toString()).toBe('https://foo.com/')
+      const I = new URL('//foo.com', 'https://example.com')
+      expect(I.toString()).toBe('https://foo.com/')
     }
 
+    // searchParams
     {
-      const searchParams = new URL('http://taro.com?a=1&b=2').searchParams
+      const searchParams = new URL('http://taro.com/?a=1&b=2').searchParams
       expect(searchParams.keys()).toEqual(['a', 'b'])
       expect(searchParams.get('a')).toBe('1')
       expect(searchParams.get('b')).toBe('2')
     }
 
+    // setters
+    {
+      const url = new URL('http://taro.com')
+      expect(url.toString()).toBe('http://taro.com/')
+      url.protocol = 'https:'
+      expect(url.toString()).toBe('https://taro.com/')
+      url.port = '8080'
+      expect(url.toString()).toBe('https://taro.com:8080/')
+      url.pathname = '/hello/world'
+      expect(url.toString()).toBe('https://taro.com:8080/hello/world')
+      url.hostname = 'example.com'
+      expect(url.toString()).toBe('https://example.com:8080/hello/world')
+      url.hostname = 'taro.com'
+      expect(url.toString()).toBe('https://taro.com:8080/hello/world')
+      url.search = '?a=1'
+      expect(url.toString()).toBe('https://taro.com:8080/hello/world?a=1')
+      url.hash = '#b=2'
+      expect(url.toString()).toBe('https://taro.com:8080/hello/world?a=1#b=2')
+
+      url.host = 'example.com:8081'
+      expect(url.toString()).toBe('https://example.com:8081/hello/world?a=1#b=2')
+      url.origin = 'http://taro.com:8080'
+      expect(url.toString()).toBe('http://taro.com:8080/hello/world?a=1#b=2')
+      url.href = 'https://taro.com/user?name=hongxin#age=18'
+      expect(url.toString()).toBe('https://taro.com/user?name=hongxin#age=18')
+      expect(url.search).toBe('?name=hongxin')
+    }
   })
 })

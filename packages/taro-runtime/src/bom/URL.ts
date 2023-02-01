@@ -1,4 +1,4 @@
-import { isString } from '@tarojs/shared'
+import { isString, isUndefined } from '@tarojs/shared'
 
 import { parseUrl } from './location'
 import { URLSearchParams } from './URLSearchParams'
@@ -20,11 +20,10 @@ export class URL {
   #protocol = ''
   #search = ''
 
-  constructor (url: string, base = '') {
+  constructor (url: string, base?: string) {
     if (!isString(url)) url = String(url)
-    if (base && !isString(base)) base = String(base)
 
-    const parseResult = parseFullPath(url, base)
+    const parseResult = parseUrlBase(url, base)
     const { hash, hostname, pathname, port, protocol, search } = parseResult
 
     this.#hash = hash
@@ -129,7 +128,7 @@ export class URL {
     return `${this.protocol}//${this.host}`
   }
 
-  set origin (val: string){
+  set origin (val: string) {
     if (val && isString(val)) {
       val = val.trim()
       const { protocol, hostname, port } = parseUrl(val)
@@ -151,22 +150,51 @@ export class URL {
   toJSON () {
     return this.toString()
   }
+
+  // convenient for deconstructor
+  _toRaw () {
+    return {
+      protocol: this.protocol,
+      port: this.port,
+      host: this.host,
+      hostname: this.hostname,
+      pathname: this.pathname,
+      hash: this.hash,
+      search: this.search,
+      origin: this.origin,
+      href: this.href,
+    }
+  }
 }
 
-function parseFullPath (url: string, base: string) {
-  const VALID_URL = /^(https?:)?\/\//i
+export function parseUrlBase (url: string, base?: string) {
+  const VALID_URL = /^(https?:)\/\//i
+
   let fullUrl = ''
+  let parsedBase: ReturnType<typeof parseUrl> | null = null
+
+  if (!isUndefined(base)) {
+    base = String(base).trim()
+    if (!VALID_URL.test(base)) throw new TypeError(`Failed to construct 'URL': Invalid base URL`)
+    parsedBase = parseUrl(base)
+  }
+
+  url = String(url).trim()
+
   if (VALID_URL.test(url)) {
     fullUrl = url
-  } else if (VALID_URL.test(base)) {
-    const baseUrlObj = parseUrl(base)
+  } else if (parsedBase) {
     if (url) {
-      fullUrl = baseUrlObj.origin + (url.startsWith('/') ? url : `/${url}`)
+      if (url.startsWith('//')) {
+        fullUrl = parsedBase.protocol + url
+      } else {
+        fullUrl = parsedBase.origin + (url.startsWith('/') ? url : `/${url}`)
+      }
     } else {
-      fullUrl = base
+      fullUrl = parsedBase.href
     }
   } else {
-    throw new TypeError(`${url} is not a valid URL`)
+    throw new TypeError(`Failed to construct 'URL': Invalid URL`)
   }
 
   return parseUrl(fullUrl)
