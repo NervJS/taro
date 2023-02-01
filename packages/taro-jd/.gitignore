@@ -1,2 +1,2 @@
-types
+types/*
 !types/shims-*
