@@ -43,12 +43,14 @@ if (process.env.NODE_ENV === 'production') {
     input: 'src/index.ts',
     output: {
       format: 'cjs',
-      file: 'dist/index.cjs.js'
+      file: 'dist/index.cjs.js',
+      inlineDynamicImports: true
     }
   }, {
     input: 'src/index.ts',
     output: {
-      file: 'dist/index.esm.js'
+      file: 'dist/index.esm.js',
+      inlineDynamicImports: true
     }
   })
 }

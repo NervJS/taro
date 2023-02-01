@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/components",
-  "version": "3.6.0-canary.13",
+  "version": "3.6.0-beta.3",
   "description": "Taro 组件库",
   "browser": "dist/index.js",
   "main:h5": "dist/index.js",
@@ -48,6 +48,7 @@
     "@tarojs/components-advanced": "workspace:*",
     "@tarojs/router": "workspace:*",
     "@tarojs/taro": "workspace:*",
+    "@stencil/core": "^2.18.1",
     "classnames": "^2.2.5",
     "hls.js": "^1.1.5",
     "intersection-observer": "^0.7.0",
@@ -60,7 +61,6 @@
     "@babel/parser": "^7.14.5",
     "@babel/traverse": "^7.14.5",
     "@babel/types": "^7.14.5",
-    "@stencil/core": "^2.18.1",
     "@stencil/react-output-target": "0.3.1",
     "@stencil/sass": "^2.0.0",
     "@stencil/vue-output-target": "0.6.2",

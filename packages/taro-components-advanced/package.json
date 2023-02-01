@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/components-advanced",
-  "version": "3.6.0-canary.13",
+  "version": "3.6.0-beta.3",
   "description": "",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

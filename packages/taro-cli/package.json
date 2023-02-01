@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/cli",
-  "version": "3.6.0-canary.13",
+  "version": "3.6.0-beta.3",
   "description": "cli tool for taro",
   "main": "index.js",
   "scripts": {

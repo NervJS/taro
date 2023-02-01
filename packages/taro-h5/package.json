@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/taro-h5",
-  "version": "3.6.0-canary.13",
+  "version": "3.6.0-beta.3",
   "description": "Taro h5 framework",
   "browser": "dist/index.esm.js",
   "main:h5": "dist/index.js",
@@ -35,6 +35,7 @@
   "license": "MIT",
   "dependencies": {
     "@tarojs/api": "workspace:*",
+    "@tarojs/components": "workspace:*",
     "@tarojs/router": "workspace:*",
     "@tarojs/runtime": "workspace:*",
     "@tarojs/shared": "workspace:*",

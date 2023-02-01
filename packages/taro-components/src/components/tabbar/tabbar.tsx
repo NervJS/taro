@@ -1,6 +1,6 @@
 import { Component, Prop, h, ComponentInterface, Host, State, Event, EventEmitter, Element } from '@stencil/core'
 import Taro from '@tarojs/taro'
-import { addLeadingSlash, stripBasename, stripSuffix } from '@tarojs/router/dist/utils'
+import { addLeadingSlash, getCurrentPage, stripBasename, stripSuffix } from '@tarojs/router/dist/utils'
 import { IH5RouterConfig } from '@tarojs/taro/types/compile'
 import classNames from 'classnames'
 import resolvePathname from 'resolve-pathname'
@@ -118,20 +118,8 @@ export class Tabbar implements ComponentInterface {
   }
 
   getCurrentUrl () {
-    const routerMode = this.conf.mode
-    const routerBasename = this.conf.basename || '/'
-    let url
-    if (routerMode === 'hash') {
-      const href = window.location.href
-      const hashIndex = href.indexOf('#')
-      url = hashIndex === -1
-        ? ''
-        : href.substring(hashIndex + 1)
-    } else {
-      url = location.pathname
-    }
-    const processedUrl = addLeadingSlash(stripBasename(url, routerBasename))
-    return decodeURI(processedUrl === '/' ? this.homePage : processedUrl)
+    const routePath = getCurrentPage(this.conf.mode, this.conf.basename)
+    return decodeURI(routePath === '/' ? this.homePage : routePath)
   }
 
   getOriginUrl = (url: string) => {

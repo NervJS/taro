@@ -1,7 +1,8 @@
+import '@tarojs/components/dist/taro-components/taro-components.css'
+
 import { applyPolyfills, defineCustomElements } from '@tarojs/components/loader'
 
 if (!USE_HTML_COMPONENTS) {
-  require('@tarojs/components/dist/taro-components/taro-components.css')
   applyPolyfills().then(function () {
     defineCustomElements(window)
     /** TODO

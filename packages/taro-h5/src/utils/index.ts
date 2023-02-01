@@ -1,6 +1,6 @@
 /* eslint-disable prefer-promise-reject-errors */
 import Taro from '@tarojs/api'
-import { addLeadingSlash, getHomePage, stripBasename } from '@tarojs/router/dist/utils'
+import { getCurrentPage, getHomePage } from '@tarojs/router/dist/utils'
 import { Current, hooks, TaroElement } from '@tarojs/runtime'
 import { isFunction } from '@tarojs/shared'
 
@@ -194,29 +194,19 @@ export function processOpenApi<TOptions = Record<string, unknown>, TResult exten
 }
 
 /**
- * 根据url获取应用的启动页面
+ * 获取当前页面路径
  * @returns
  */
-export function getLaunchPage (): string {
+export function getCurrentPath (): string {
   const appConfig = (window as any).__taroAppConfig || {}
-  // createPageConfig时根据stack的长度来设置stamp以保证页面path的唯一，此函数是在createPageConfig之前调用，预先设置stamp=1
-  const stamp = '?stamp=1'
-  let entryPath = ''
+  const routePath = getCurrentPage(appConfig.router?.mode, appConfig.router?.basename)
+  const homePath = getHomePage(appConfig.routes?.[0]?.path, appConfig.router?.basename, appConfig.router?.customRoutes, appConfig.entryPagePath)
 
-  if (appConfig.router?.mode === 'browser' || appConfig.router?.mode === 'multi') {
-    entryPath = location.pathname
-  } else {
-    entryPath = location.hash.slice(1).split('?')[0]
-  }
-  const routePath = addLeadingSlash(stripBasename(entryPath, appConfig.router?.basename))
-  const homePath = addLeadingSlash(getHomePage(appConfig.routes?.[0]?.path, appConfig.router?.basename, appConfig.router?.customRoutes, appConfig.entryPagePath))
-
-  // url上没有指定应用的启动页面时使用homePath
-  if(routePath === '/') {
-    return homePath + stamp
-  }
-
-  return routePath + stamp
+  /**
+   * createPageConfig 时根据 stack 的长度来设置 stamp 以保证页面 path 的唯一，此函数是在 createPageConfig 之前调用，预先设置 stamp=1
+   * url 上没有指定应用的启动页面时使用 homePath
+   */
+  return `${routePath === '/' ? homePath : routePath}?stamp=1`
 }
 
 export * from './animation'
