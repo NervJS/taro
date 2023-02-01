@@ -6,7 +6,7 @@ exports[`vue3 should build vue3 app 2`] = `
 "
 /** filePath: dist/chunk/1.js **/
 (window[\\"webpackJsonp\\"] = window[\\"webpackJsonp\\"] || []).push([ [ 1 ], {
-    \\"17\\": function(module, __webpack_exports__, __webpack_require__) {
+    \\"15\\": function(module, __webpack_exports__, __webpack_require__) {
         \\"use strict\\";
         __webpack_require__.r(__webpack_exports__);
         var render = function() {
@@ -242,7 +242,7 @@ exports[`vue3 should build vue3 app 2`] = `
     jsonpArray = jsonpArray.slice();
     for (var i = 0; i < jsonpArray.length; i++) webpackJsonpCallback(jsonpArray[i]);
     var parentJsonpFunction = oldJsonpFunction;
-    return __webpack_require__(__webpack_require__.s = 10);
+    return __webpack_require__(__webpack_require__.s = 9);
 })([ function(module, __webpack_exports__, __webpack_require__) {
     \\"use strict\\";
     __webpack_require__.r(__webpack_exports__);
@@ -267,20 +267,7 @@ exports[`vue3 should build vue3 app 2`] = `
     \\"use strict\\";
     var _unused_webpack_default_export = \\"vue-mock\\";
 }, function(module, exports) {
-    function _typeof(obj) {
-        \\"@babel/helpers - typeof\\";
-        return module.exports = _typeof = \\"function\\" == typeof Symbol && \\"symbol\\" == typeof Symbol.iterator ? function(obj) {
-            return typeof obj;
-        } : function(obj) {
-            return obj && \\"function\\" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? \\"symbol\\" : typeof obj;
-        }, module.exports.__esModule = true, module.exports[\\"default\\"] = module.exports, 
-        _typeof(obj);
-    }
-    module.exports = _typeof, module.exports.__esModule = true, module.exports[\\"default\\"] = module.exports;
-}, function(module, exports, __webpack_require__) {
-    var toPropertyKey = __webpack_require__(6);
     function _defineProperty(obj, key, value) {
-        key = toPropertyKey(key);
         if (key in obj) {
             Object.defineProperty(obj, key, {
                 \\"value\\": value,
@@ -301,15 +288,14 @@ exports[`vue3 should build vue3 app 2`] = `
         }
     }
     module.exports = _classCallCheck, module.exports.__esModule = true, module.exports[\\"default\\"] = module.exports;
-}, function(module, exports, __webpack_require__) {
-    var toPropertyKey = __webpack_require__(6);
+}, function(module, exports) {
     function _defineProperties(target, props) {
         for (var i = 0; i < props.length; i++) {
             var descriptor = props[i];
             descriptor.enumerable = descriptor.enumerable || false;
             descriptor.configurable = true;
             if (\\"value\\" in descriptor) descriptor.writable = true;
-            Object.defineProperty(target, toPropertyKey(descriptor.key), descriptor);
+            Object.defineProperty(target, descriptor.key, descriptor);
         }
     }
     function _createClass(Constructor, protoProps, staticProps) {
@@ -322,23 +308,26 @@ exports[`vue3 should build vue3 app 2`] = `
     }
     module.exports = _createClass, module.exports.__esModule = true, module.exports[\\"default\\"] = module.exports;
 }, function(module, exports, __webpack_require__) {
-    var _typeof = __webpack_require__(2)[\\"default\\"];
-    var toPrimitive = __webpack_require__(12);
-    function _toPropertyKey(arg) {
-        var key = toPrimitive(arg, \\"string\\");
-        return _typeof(key) === \\"symbol\\" ? key : String(key);
-    }
-    module.exports = _toPropertyKey, module.exports.__esModule = true, module.exports[\\"default\\"] = module.exports;
-}, function(module, exports, __webpack_require__) {
     var _require = __webpack_require__(0), hooks = _require.hooks;
-    var taro = __webpack_require__(11).default;
+    var taro = __webpack_require__(10).default;
     if (hooks.isExist(\\"initNativeApi\\")) {
         hooks.call(\\"initNativeApi\\", taro);
     }
     module.exports = taro;
     module.exports.default = module.exports;
+}, function(module, exports) {
+    function _typeof(obj) {
+        \\"@babel/helpers - typeof\\";
+        return module.exports = _typeof = \\"function\\" == typeof Symbol && \\"symbol\\" == typeof Symbol.iterator ? function(obj) {
+            return typeof obj;
+        } : function(obj) {
+            return obj && \\"function\\" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? \\"symbol\\" : typeof obj;
+        }, module.exports.__esModule = true, module.exports[\\"default\\"] = module.exports, 
+        _typeof(obj);
+    }
+    module.exports = _typeof, module.exports.__esModule = true, module.exports[\\"default\\"] = module.exports;
 }, function(module, exports, __webpack_require__) {
-    var defineProperty = __webpack_require__(3);
+    var defineProperty = __webpack_require__(2);
     function ownKeys(object, enumerableOnly) {
         var keys = Object.keys(object);
         if (Object.getOwnPropertySymbols) {
@@ -405,23 +394,23 @@ exports[`vue3 should build vue3 app 2`] = `
         return list;
     };
 }, function(module, exports, __webpack_require__) {
-    module.exports = __webpack_require__(16);
+    module.exports = __webpack_require__(14);
 }, function(module, __webpack_exports__, __webpack_require__) {
     \\"use strict\\";
     __webpack_require__.r(__webpack_exports__);
     __webpack_require__.d(__webpack_exports__, \\"default\\", (function() {
         return Taro;
     }));
-    var _babel_runtime_helpers_typeof__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(2);
+    var _babel_runtime_helpers_typeof__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(6);
     var _babel_runtime_helpers_typeof__WEBPACK_IMPORTED_MODULE_0___default = __webpack_require__.n(_babel_runtime_helpers_typeof__WEBPACK_IMPORTED_MODULE_0__);
     var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(0);
-    var _babel_runtime_helpers_objectSpread2__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(8);
+    var _babel_runtime_helpers_objectSpread2__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(7);
     var _babel_runtime_helpers_objectSpread2__WEBPACK_IMPORTED_MODULE_2___default = __webpack_require__.n(_babel_runtime_helpers_objectSpread2__WEBPACK_IMPORTED_MODULE_2__);
-    var _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(4);
+    var _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(3);
     var _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_3___default = __webpack_require__.n(_babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_3__);
-    var _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(5);
+    var _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(4);
     var _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_4___default = __webpack_require__.n(_babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_4__);
-    var _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(3);
+    var _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(2);
     var _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_5___default = __webpack_require__.n(_babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_5__);
     function isFunction(x) {
         return typeof x === \\"function\\";
@@ -651,7 +640,12 @@ exports[`vue3 should build vue3 app 2`] = `
     }
     function getPxTransform(taro) {
         return function(size) {
-            var _ref2 = taro.config || {}, _ref2$designWidth = _ref2.designWidth, designWidth = _ref2$designWidth === void 0 ? defaultDesignWidth : _ref2$designWidth, _ref2$deviceRatio = _ref2.deviceRatio, deviceRatio = _ref2$deviceRatio === void 0 ? defaultDesignRatio : _ref2$deviceRatio;
+            var config = taro.config || {};
+            var deviceRatio = config.deviceRatio || defaultDesignRatio;
+            var designWidth = function() {
+                var input = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
+                return isFunction(config.designWidth) ? config.designWidth(input) : config.designWidth || defaultDesignWidth;
+            }(size);
             if (!(designWidth in deviceRatio)) {
                 throw new Error(\\"deviceRatio 配置中不存在 \\".concat(designWidth, \\" 的设置！\\"));
             }
@@ -676,21 +670,8 @@ exports[`vue3 should build vue3 app 2`] = `
     Taro.preload = getPreload(_tarojs_runtime__WEBPACK_IMPORTED_MODULE_1__[\\"Current\\"]);
     Taro.pxTransform = getPxTransform(Taro);
 }, function(module, exports, __webpack_require__) {
-    var _typeof = __webpack_require__(2)[\\"default\\"];
-    function _toPrimitive(input, hint) {
-        if (_typeof(input) !== \\"object\\" || input === null) return input;
-        var prim = input[Symbol.toPrimitive];
-        if (prim !== undefined) {
-            var res = prim.call(input, hint || \\"default\\");
-            if (_typeof(res) !== \\"object\\") return res;
-            throw new TypeError(\\"@@toPrimitive must return a primitive value.\\");
-        }
-        return (hint === \\"string\\" ? String : Number)(input);
-    }
-    module.exports = _toPrimitive, module.exports.__esModule = true, module.exports[\\"default\\"] = module.exports;
-}, function(module, exports, __webpack_require__) {
-    var api = __webpack_require__(14);
-    var content = __webpack_require__(15);
+    var api = __webpack_require__(12);
+    var content = __webpack_require__(13);
     content = content.__esModule ? content.default : content;
     if (typeof content === \\"string\\") {
         content = [ [ module.i, content, \\"\\" ] ];
@@ -904,7 +885,7 @@ exports[`vue3 should build vue3 app 2`] = `
 }, function(module, __webpack_exports__, __webpack_require__) {
     \\"use strict\\";
     __webpack_require__.r(__webpack_exports__);
-    var _node_modules_pnpm_registry_npmjs_org_css_loader_5_2_7_webpack_4_46_0_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(9);
+    var _node_modules_pnpm_registry_npmjs_org_css_loader_5_2_7_webpack_4_46_0_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(8);
     var _node_modules_pnpm_registry_npmjs_org_css_loader_5_2_7_webpack_4_46_0_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default = __webpack_require__.n(_node_modules_pnpm_registry_npmjs_org_css_loader_5_2_7_webpack_4_46_0_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__);
     var ___CSS_LOADER_EXPORT___ = _node_modules_pnpm_registry_npmjs_org_css_loader_5_2_7_webpack_4_46_0_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()((function(i) {
         return i[1];
@@ -914,11 +895,11 @@ exports[`vue3 should build vue3 app 2`] = `
 }, function(module, __webpack_exports__, __webpack_require__) {
     \\"use strict\\";
     __webpack_require__.r(__webpack_exports__);
-    var taro = __webpack_require__(7);
+    var taro = __webpack_require__(5);
     function createMultiRouter() {}
     function createRouter() {}
     var vue = __webpack_require__(1);
-    var app = __webpack_require__(13);
+    var app = __webpack_require__(11);
     var App = Object(vue[\\"createApp\\"])({
         \\"onShow\\": function onShow(options) {}
     });
@@ -957,7 +938,7 @@ exports[`vue3 should build vue3 app 2`] = `
     config.routes = [ Object.assign({
         \\"path\\": \\"pages/index/index\\",
         \\"load\\": function load(context, params) {
-            var page = __webpack_require__.e(1).then(__webpack_require__.bind(null, 17));
+            var page = __webpack_require__.e(1).then(__webpack_require__.bind(null, 15));
             return [ page, context, params ];
         }
     }, {
