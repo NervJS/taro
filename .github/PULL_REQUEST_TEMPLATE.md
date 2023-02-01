@@ -32,3 +32,4 @@ https://github.com/NervJS/taro/blob/master/CONTRIBUTING.md
 - [ ] 快应用平台（QuickApp）
 - [ ] Web 平台（H5）
 - [ ] 移动端（React-Native）
+- [ ] 鸿蒙（harmony）

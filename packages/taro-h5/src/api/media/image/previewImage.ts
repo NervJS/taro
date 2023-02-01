@@ -1,5 +1,8 @@
 import Taro from '@tarojs/api'
 import { SwiperProps } from '@tarojs/components'
+import { defineCustomElement as defineCustomElementTaroSwiperCore } from '@tarojs/components/dist/components/taro-swiper-core'
+import { defineCustomElement as defineCustomElementTaroSwiperItemCore } from '@tarojs/components/dist/components/taro-swiper-item-core'
+import { isFunction } from '@tarojs/shared'
 
 import { shouldBeObject } from '../../../utils'
 import { MethodHandler } from '../../../utils/handler'
@@ -12,6 +15,11 @@ import { MethodHandler } from '../../../utils/handler'
  * 在新页面中全屏预览图片。预览的过程中用户可以进行保存图片、发送给朋友等操作。
  */
 export const previewImage: typeof Taro.previewImage = async (options) => {
+  if (USE_HTML_COMPONENTS) {
+    // TODO 改为通过 window.__taroAppConfig 获取配置的 Swiper 插件创建节点
+    defineCustomElementTaroSwiperCore()
+    defineCustomElementTaroSwiperItemCore()
+  }
   function loadImage (url: string, loadFail: typeof fail): Promise<Node> {
     return new Promise((resolve) => {
       const item = document.createElement('taro-swiper-item-core')
@@ -26,7 +34,7 @@ export const previewImage: typeof Taro.previewImage = async (options) => {
       item.appendChild(div)
       // Note: 等待图片加载完后返回，会导致轮播被卡住
       resolve(item)
-      if (typeof loadFail === 'function') {
+      if (isFunction(loadFail)) {
         image.addEventListener('error', (err) => {
           loadFail({ errMsg: err.message })
         })

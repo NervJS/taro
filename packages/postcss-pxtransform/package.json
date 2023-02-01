@@ -1,7 +1,8 @@
 {
   "name": "postcss-pxtransform",
-  "version": "3.5.12",
+  "version": "3.6.0-beta.4",
   "description": "PostCSS plugin px 转小程序 rpx及h5 rem 单位",
+  "main": "index.js",
   "keywords": [
     "postcss",
     "css",
@@ -18,14 +19,16 @@
     "url": "https://github.com/NervJS/taro/issues"
   },
   "homepage": "https://github.com/NervJS/taro#readme",
-  "dependencies": {
-    "postcss": "^6.0.22"
-  },
   "scripts": {
     "test": "jest"
   },
   "jest": {
     "testEnvironment": "node"
   },
-  "main": "index.js"
+  "devDependencies": {
+    "postcss": "^8.4.18"
+  },
+  "peerDependencies": {
+    "postcss": "^8.4.18"
+  }
 }

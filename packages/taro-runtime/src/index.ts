@@ -8,7 +8,9 @@ export { document } from './bom/document'
 export { getComputedStyle } from './bom/getComputedStyle'
 export { nav as navigator } from './bom/navigator'
 export { caf as cancelAnimationFrame, now, raf as requestAnimationFrame } from './bom/raf'
-export { window } from './bom/window'
+export { URL } from './bom/URL'
+export { URLSearchParams } from './bom/URLSearchParams'
+export { history, location, window } from './bom/window'
 // dom
 export { TaroElement } from './dom/element'
 export { createEvent, eventHandler, TaroEvent } from './dom/event'
@@ -20,6 +22,7 @@ export { SVGElement } from './dom/svg'
 export { TaroText } from './dom/text'
 export { MutationObserver } from './dom-external/mutation-observer'
 // others
+export { parseUrl } from './bom/location'
 export { Current, getCurrentInstance } from './current'
 export { eventSource } from './dom/event-source'
 export {

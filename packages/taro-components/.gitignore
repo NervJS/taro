@@ -13,12 +13,10 @@ src/demo
 # build
 build
 dist
-dist-h5
 lib
 
 # jest
 coverage
-__snapshots__
 .stencil
 loader
 

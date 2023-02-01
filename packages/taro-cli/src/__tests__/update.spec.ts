@@ -91,7 +91,8 @@ function updatePkg (pkgPath: string, version: string) {
       '@tarojs/plugin-platform-swan': version,
       '@tarojs/plugin-platform-tt': version,
       '@tarojs/plugin-platform-jd': version,
-      '@tarojs/plugin-platform-qq': version
+      '@tarojs/plugin-platform-qq': version,
+      '@tarojs/plugin-platform-h5': version
     },
     devDependencies: {
       ...packageMap.devDependencies,

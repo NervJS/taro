@@ -44,6 +44,7 @@ export const specialElements = new Map<string, string | SpecialMaps>([
   ['canvas', 'canvas'],
   ['a', {
     mapName (props) {
+      if(props.as && isString(props.as)) return props.as.toLowerCase()
       return !props.href || (/^javascript/.test(props.href)) ? 'view' : 'navigator'
     },
     mapNameCondition: ['href'],
