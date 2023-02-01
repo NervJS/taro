@@ -51,6 +51,8 @@ function createTaroHook (lifecycle: keyof PageLifeCycle | keyof AppInstance) {
       } else if (isArray(list)) {
         inst[lifecycle] = list.filter(item => item !== callback)
       }
+      inst = null
+      callback = null
     })
   }
 }
