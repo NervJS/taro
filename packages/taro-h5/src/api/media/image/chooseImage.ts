@@ -68,7 +68,7 @@ export const chooseImage: typeof Taro.chooseImage = function (options) {
     }
   }
 
-  return new Promise(resolve => {
+  return new Promise((resolve, reject) => {
     const TaroMouseEvents = document.createEvent('MouseEvents')
     TaroMouseEvents.initEvent('click', true, true)
     if (el) {
@@ -86,7 +86,7 @@ export const chooseImage: typeof Taro.chooseImage = function (options) {
             res.tempFilePaths?.push(url)
             res.tempFiles?.push({ path: url, size: item.size, type: item.type, originalFileObj: item })
           })
-          handle.success(res, resolve)
+          handle.success(res, { resolve, reject })
           target.value = ''
         }
       }

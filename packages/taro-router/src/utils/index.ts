@@ -22,6 +22,13 @@ export const getHomePage = (path = '', basename = '', customRoutes: Record<strin
   return entryPagePath || (typeof alias === 'string' ? alias : alias[0]) || basename
 }
 
+export const getCurrentPage = (routerMode = 'hash', basename = '/') => {
+  const pagePath = routerMode === 'hash'
+    ? location.hash.slice(1).split('?')[0]
+    : location.pathname
+  return addLeadingSlash(stripBasename(pagePath, basename))
+}
+
 class RoutesAlias {
   conf: Array<string[]> = []
 

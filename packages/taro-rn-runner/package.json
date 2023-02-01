@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/rn-runner",
-  "version": "3.5.12",
+  "version": "3.6.0-beta.4",
   "description": "ReactNative build tool for taro",
   "main": "index.js",
   "repository": {
@@ -30,11 +30,6 @@
     "npm": ">=6.0.0"
   },
   "dependencies": {
-    "@react-native-community/cli": "^8.0.0",
-    "@react-native-community/cli-config": "^8.0.0",
-    "@react-native-community/cli-plugin-metro": "^8.0.0",
-    "@react-native-community/cli-tools": "^8.0.0",
-    "@react-native-community/cli-server-api": "^8.0.0",
     "@rollup/plugin-babel": "^5.3.1",
     "@rollup/plugin-commonjs": "^20.0.0",
     "@rollup/plugin-json": "^4.1.0",
@@ -47,27 +42,19 @@
     "acorn-jsx": "^5.3.2",
     "fs-extra": "^8.0.1",
     "lodash": "^4.17.21",
-    "metro": "^0.70.3",
-    "metro-cache": "^0.70.3",
-    "metro-config": "^0.70.3",
-    "metro-core": "^0.70.3",
-    "metro-react-native-babel-transformer": "^0.70.3",
-    "metro-resolver": "^0.70.3",
-    "mime-types": "^2.1.27",
-    "qrcode-terminal": "^0.12.0",
     "rollup-plugin-image-file": "^1.0.2"
   },
   "devDependencies": {
     "@babel/core": "^7.14.5",
     "@babel/preset-env": "^7.14.5",
     "acorn": "^8.0.4",
-    "expo": "~46.0.1",
-    "expo-file-system": "~14.1.0",
-    "react": "18.0.0",
+    "expo": "~47.0.3",
+    "expo-file-system": "~15.1.1",
+    "react": "18.1.0",
     "react-is": "^16.13.0",
-    "react-native": "^0.69.3",
+    "react-native": "^0.70.5",
     "react-native-root-siblings": "^4.1.1",
-    "react-test-renderer": "18.0.0",
+    "react-test-renderer": "18.1.0",
     "rollup": "^2.79.0"
   }
 }

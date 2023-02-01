@@ -25,7 +25,7 @@ export function onSocketClose () {
   console.warn('Deprecated.Please use socketTask.onClose instead.')
 }
 
-export function connectSocket (options) {
+export function connectSocket (options?: Taro.connectSocket.Option) {
   const name = 'connectSocket'
 
   return new Promise((resolve, reject) => {
@@ -36,7 +36,7 @@ export function connectSocket (options) {
       console.error(res.errMsg)
       return reject(res)
     }
-    const { url, protocols, success, fail, complete } = options
+    const { url, protocols, success, fail, complete } = options as Exclude<typeof options, undefined>
     const handle = new MethodHandler<{
       socketTaskId?: number
     }>({ name, success, fail, complete })
@@ -49,14 +49,14 @@ export function connectSocket (options) {
           correct: 'String',
           wrong: url
         })
-      }, reject)
+      }, { resolve, reject })
     }
 
     // options.url must be invalid
     if (!url.startsWith('ws://') && !url.startsWith('wss://')) {
       return handle.fail({
         errMsg: `request:fail invalid url "${url}"`
-      }, reject)
+      }, { resolve, reject })
     }
 
     // protocols must be array
@@ -66,7 +66,7 @@ export function connectSocket (options) {
     if (socketTasks.length > 1) {
       return handle.fail({
         errMsg: '同时最多发起 2 个 socket 请求，更多请参考文档。'
-      }, reject)
+      }, { resolve, reject })
     }
 
     const task = new SocketTask(url, _protocols)

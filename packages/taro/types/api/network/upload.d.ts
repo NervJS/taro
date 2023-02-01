@@ -86,7 +86,7 @@ declare module '../../index' {
     }
 
     type UploadTaskPromise = Promise<uploadFile.SuccessCallbackResult> & UploadTask & {
-      headersReceive: UploadTask['onHeadersReceived'],
+      headersReceive: UploadTask['onHeadersReceived']
       progress: UploadTask['onProgressUpdate']
     }
   }

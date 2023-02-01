@@ -34,4 +34,4 @@ export const assetExts = [
   'zip'
 ]
 
-export const emptyModulePath = '@tarojs/rn-supporter/dist/empty-module'
+export const entryFilePath = '@tarojs/rn-supporter/entry-file.js'

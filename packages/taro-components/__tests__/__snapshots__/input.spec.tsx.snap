@@ -1,0 +1,13 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Input event 1`] = `
+<taro-input-core>
+  <input class="weui-input" maxlength="4" type="text" value="value">
+</taro-input-core>
+`;
+
+exports[`Input props 1`] = `
+<taro-input-core focus="" maxlength="4" type="password" value="test">
+  <input autofocus="" class="weui-input" maxlength="4" placeholder="placeholder" type="password" value="test">
+</taro-input-core>
+`;

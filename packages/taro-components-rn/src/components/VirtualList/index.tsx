@@ -61,15 +61,16 @@ class _VirtualList extends React.Component<VirtualListProps & ScrollViewProps<an
   }
 
   render(): JSX.Element {
-    const { itemData, itemSize, layout, overscanCount, children, ...restProps } = this.props
+    const { itemData, itemSize, item, layout, overscanCount, children, ...restProps } = this.props
     const itemStyle = layout === 'vertical' ? { height: itemSize } : { width: itemSize }
     // 这边用any是因为any值的是item的类型，取决于用户传入进来的内容，可能是string或jsx.element
-    const itemRow = ({ item, index, separators }: ListRenderItemInfo<any>) =>
-      React.createElement(children, {
+    const itemCom = item || children
+    const itemRow = ({ item: _item, index, separators }: ListRenderItemInfo<any>) =>
+      React.createElement(itemCom, {
         data: itemData,
         key: index,
         index,
-        item,
+        item: _item,
         separators,
         style: {
           ...itemStyle

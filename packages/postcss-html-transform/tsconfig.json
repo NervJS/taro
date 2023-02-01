@@ -7,13 +7,9 @@
     "outDir": "dist",
     "sourceMap": true,
     "esModuleInterop": true,
-    "baseUrl": ".",
+    "baseUrl": "."
   },
   "include": ["./src"],
-  "exclude": [
-    "**/*.test.ts",
-    "**/*.spec.ts"
-  ],
+  "exclude": ["**/*.test.ts", "**/*.spec.ts"],
   "compileOnSave": false
 }
-

@@ -1,5 +1,6 @@
 import { REG_VUE } from '@tarojs/helper'
 import { DEFAULT_Components } from '@tarojs/runner-utils'
+import { mergeWith } from 'lodash'
 
 import { getLoaderMeta } from './loader-meta'
 import { getVueLoaderPath } from './utils'
@@ -10,16 +11,10 @@ import type { IConfig } from './index'
 
 export function modifyH5WebpackChain (ctx: IPluginContext, chain, config: IConfig) {
   // vue3 tsx 使用原生组件
-  setAlias(chain)
   setStyleLoader(ctx, chain)
   setVueLoader(chain, config)
   setLoader(chain)
   setTaroApiLoader(chain)
-}
-
-function setAlias (chain) {
-  const alias = chain.resolve.alias
-  alias.set('@tarojs/components$', '@tarojs/components/dist-h5/vue3')
 }
 
 function setStyleLoader (ctx: IPluginContext, chain) {
@@ -88,9 +83,14 @@ function setVueLoader (chain, config: IConfig) {
 }
 
 function setLoader (chain) {
+  function customizer (object = '', sources = '') {
+    if ([object, sources].every(e => typeof e === 'string')) return object + sources
+  }
   chain.plugin('mainPlugin')
     .tap(args => {
-      args[0].loaderMeta = getLoaderMeta()
+      args[0].loaderMeta = mergeWith(
+        getLoaderMeta(), args[0].loaderMeta, customizer
+      )
       return args
     })
 }
@@ -100,7 +100,7 @@ function setTaroApiLoader (chain) {
     module: {
       rule: {
         'process-import-taro': {
-          test: /taro-h5[\\/]dist[\\/]index/,
+          test: /taro-h5[\\/]dist[\\/]api[\\/]taro/,
           loader: require.resolve('./api-loader')
         }
       }

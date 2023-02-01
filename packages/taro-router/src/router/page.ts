@@ -7,7 +7,7 @@ import { bindPageResize } from '../events/resize'
 import { bindPageScroll } from '../events/scroll'
 import { setHistoryMode } from '../history'
 import { initTabbar } from '../tabbar'
-import { addLeadingSlash, getHomePage, routesAlias, stripBasename, stripTrailing } from '../utils'
+import { addLeadingSlash, getCurrentPage, getHomePage, routesAlias, stripBasename, stripTrailing } from '../utils'
 import stacks from './stack'
 
 import type { PageConfig, RouterAnimate } from '@tarojs/taro'
@@ -33,6 +33,11 @@ export default class PageHandler {
     this.config = config
     this.homePage = getHomePage(this.routes[0].path, this.basename, this.customRoutes, this.config.entryPagePath)
     this.mount()
+  }
+
+  get currentPage () {
+    const routePath = getCurrentPage(this.routerMode, this.basename)
+    return routePath === '/' ? this.homePage : routePath
   }
 
   get appId () { return this.config.appId ||'app' }
@@ -104,7 +109,7 @@ export default class PageHandler {
     } else {
       search = location.search
     }
-    return search.substr(1)
+    return search.substring(1)
   }
 
   getQuery (stamp = '', search = '', options: Record<string, unknown> = {}) {

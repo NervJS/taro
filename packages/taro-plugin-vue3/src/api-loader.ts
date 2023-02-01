@@ -1,4 +1,4 @@
-export default function (str) {
+export default function (str: string) {
   return `import {
   useAddToFavorites,
   useDidHide,
