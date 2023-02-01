@@ -55,8 +55,8 @@ export default function (appPath: string, config: Partial<BuildConfig>, appConfi
     miniCssExtractPluginOption = {},
     esnextModules = [],
 
-    compile,
-    postcss,
+    compile = {},
+    postcss = {},
     htmlPluginOption = {},
     csso,
     uglify,

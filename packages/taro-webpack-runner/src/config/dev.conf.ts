@@ -53,7 +53,7 @@ export default function (appPath: string, config: Partial<BuildConfig>, appConfi
     miniCssExtractPluginOption = {},
     esnextModules = [],
 
-    compile,
+    compile = {},
     postcss = {},
     htmlPluginOption = {}
   } = config
