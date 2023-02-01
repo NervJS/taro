@@ -492,7 +492,7 @@ export const parseModule = (appPath: string, {
      */
     scriptRule.exclude = [filename =>
       /css-loader/.test(filename)
-      || /@tarojs[\\/]components/.test(filename)
+      // || /@tarojs[\\/]components/.test(filename) Note: stencil 2.14 开始使用了 import.meta.url 需要额外处理
       || (/node_modules/.test(filename) && !(/taro/.test(filename) || /inversify/.test(filename)))]
   }
 
