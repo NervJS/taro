@@ -32,8 +32,8 @@ export function isUrl (str: string): boolean {
   return false
 }
 
-export function isFunction (obj: unknown): boolean {
-  return typeof obj === 'function'
+export function isFunction (o: unknown): o is (...args: any[]) => any {
+  return typeof o === 'function'
 }
 
 export function isEmptyObject (obj: any): boolean {
