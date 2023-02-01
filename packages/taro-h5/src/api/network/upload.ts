@@ -165,7 +165,12 @@ export const uploadFile: typeof Taro.uploadFile = ({ url, filePath, name, header
 
   result.headersReceive = task.onHeadersReceived
   result.progress = task.onProgressUpdate
-  result.abort = task.abort
 
-  return result
+  return new Proxy(result, {
+    get (target, prop) {
+      const object = prop in task ? task : target
+      const value = object[prop]
+      return typeof value === 'function' ? value.bind(object) : value
+    },
+  })
 }

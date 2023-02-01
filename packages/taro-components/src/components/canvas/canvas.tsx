@@ -1,4 +1,3 @@
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { Component, h, ComponentInterface, Prop, Element, Event } from '@stencil/core'
 
 const LONG_TAP_DELAY = 500

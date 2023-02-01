@@ -6,9 +6,7 @@
     "rootDir": ".",
     "module": "commonjs",
     "sourceMap": true,
-    "preserveConstEnums": true,
+    "preserveConstEnums": true
   },
-  "include": [
-    "./src"
-  ]
+  "include": ["./src"]
 }

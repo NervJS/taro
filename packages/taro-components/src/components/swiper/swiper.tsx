@@ -121,7 +121,7 @@ export class Swiper implements ComponentInterface {
     const swiperAutoplay = this.swiper.autoplay
     if (swiperAutoplay) {
       if (swiperAutoplay.running === newVal) return
-  
+
       if (newVal) {
         if (this.swiper.params && typeof this.swiper.params.autoplay === 'object') {
           if (this.swiper.params.autoplay.disableOnInteraction === true) {
@@ -173,6 +173,14 @@ export class Swiper implements ComponentInterface {
 
   @Watch("circular")
   watchCircular () {
+    if (this.swiper) {
+      this.swiper.destroy()
+      this.handleInit()
+    }
+  }
+
+  @Watch("displayMultipleItems")
+  watchDisplayMultipleItems () {
     if (this.swiper) {
       this.swiper.destroy()
       this.handleInit()

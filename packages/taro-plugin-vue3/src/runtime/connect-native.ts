@@ -5,7 +5,8 @@ import {
   incrementId,
   injectPageInstance,
   removePageInstance,
-  safeExecute} from '@tarojs/runtime'
+  safeExecute
+} from '@tarojs/runtime'
 import { isArray } from '@tarojs/shared'
 import { createApp, defineComponent, onMounted, provide, ref, shallowReactive, toRaw } from 'vue'
 

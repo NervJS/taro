@@ -258,7 +258,7 @@ export class BaseTemplate {
 
   protected buildComponentTemplate (comp: Component, level: number) {
     return this.focusComponents.has(comp.nodeName)
-      ? this.buildFocusComponentTemplte(comp, level)
+      ? this.buildFocusComponentTemplate(comp, level)
       : this.buildStandardComponentTemplate(comp, level)
   }
 
@@ -293,7 +293,7 @@ export class BaseTemplate {
     return children
   }
 
-  protected buildFocusComponentTemplte (comp: Component, level: number) {
+  protected buildFocusComponentTemplate (comp: Component, level: number) {
     const children = this.getChildren(comp, level)
     const nodeName = comp.nodeName
     const nodeAlias = comp.nodeAlias

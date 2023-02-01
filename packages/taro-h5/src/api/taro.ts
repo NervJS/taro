@@ -1,8 +1,9 @@
 import Taro from '@tarojs/api'
 import { history } from '@tarojs/router'
+import { isFunction } from '@tarojs/shared'
 
 import { getApp, getCurrentInstance, getCurrentPages, navigateBack, navigateTo, nextTick, redirectTo, reLaunch, switchTab } from '../api'
-import { isFunction, permanentlyNotSupport } from '../utils'
+import { permanentlyNotSupport } from '../utils'
 
 const {
   Behavior,

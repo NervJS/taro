@@ -32,3 +32,7 @@ export function debounce (fn, ms = 250, scope?) {
 export * from './helper'
 export * from './style'
 export * from './url'
+
+export function isVisible (e: HTMLElement) {
+  return !!( e.offsetWidth || e.offsetHeight || e.getClientRects().length )
+}

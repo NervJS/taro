@@ -5,7 +5,7 @@
     "declaration": false,
     "experimentalDecorators": true,
     "jsx": "react",
-    "jsxFactory": "Nerv.createElement",
+    "jsxFactory": "React.createElement",
     "module": "commonjs",
     "moduleResolution": "node",
     "noImplicitAny": false,
@@ -18,11 +18,7 @@
     "strictNullChecks": true,
     "target": "es6"
   },
-  "include": [
-    "src/**/*"
-  ],
-  "exclude": [
-    "node_modules"
-  ],
+  "include": ["src/**/*"],
+  "exclude": ["node_modules"],
   "compileOnSave": false
 }

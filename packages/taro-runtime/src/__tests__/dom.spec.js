@@ -283,5 +283,56 @@ describe('DOM', () => {
       ReactDOM.render(<App />, div)
       expect(div.textContent).toBe(' a bc')
     })
+
+    it('创建 A 标签', () => {
+      const a = document.createElement('a')
+
+      expect(a.nodeName).toBe('a')
+      expect(a.tagName).toBe('A')
+
+      a.setAttribute('href', 'https://taro.com:8080/path/add?name=lizong')
+
+      expect({
+        href: a.href,
+        protocol: a.protocol,
+        host: a.host,
+        search: a.search,
+        hash: a.hash,
+        hostname: a.hostname,
+        port: a.port,
+        pathname: a.pathname,
+      }).toEqual({
+        hash: '',
+        host: 'taro.com:8080',
+        hostname: 'taro.com',
+        href: 'https://taro.com:8080/path/add?name=lizong',
+        pathname: '/path/add',
+        port: '8080',
+        protocol: 'https:',
+        search: '?name=lizong',
+      })
+
+      a.href = 'https://taro.com:9090/path/index#id3'
+
+      expect({
+        href: a.href,
+        protocol: a.protocol,
+        host: a.host,
+        search: a.search,
+        hash: a.hash,
+        hostname: a.hostname,
+        port: a.port,
+        pathname: a.pathname,
+      }).toEqual({
+        hash: '#id3',
+        host: 'taro.com:9090',
+        hostname: 'taro.com',
+        href: 'https://taro.com:9090/path/index#id3',
+        pathname: '/path/index',
+        port: '9090',
+        protocol: 'https:',
+        search: '',
+      })
+    })
   })
 })
