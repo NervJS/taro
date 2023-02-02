@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/plugin-http",
-  "version": "3.6.0-beta.4",
+  "version": "3.6.0",
   "description": "Taro 小程序端支持使用 web 请求 的插件",
   "main": "index.js",
   "scripts": {
