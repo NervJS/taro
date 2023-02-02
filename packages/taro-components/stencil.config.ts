@@ -27,7 +27,7 @@ const outputTargets: OutputTarget[] = [
       targetAttr: 'value',
       event: 'change'
     }, {
-      elements: ['taro-switch'],
+      elements: ['taro-switch-core'],
       targetAttr: 'checked',
       event: 'change'
     }]
