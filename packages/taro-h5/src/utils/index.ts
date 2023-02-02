@@ -1,11 +1,10 @@
 /* eslint-disable prefer-promise-reject-errors */
 import Taro from '@tarojs/api'
-import { addLeadingSlash, getHomePage, stripBasename } from '@tarojs/router/dist/utils'
+import { getCurrentPage, getHomePage } from '@tarojs/router/dist/utils'
 import { Current, hooks, TaroElement } from '@tarojs/runtime'
+import { isFunction } from '@tarojs/shared'
 
 import { MethodHandler } from './handler'
-
-export const isProd = process.env.NODE_ENV === 'production'
 
 export function shouldBeObject (target: unknown) {
   if (target && typeof target === 'object') return { flag: true }
@@ -102,7 +101,7 @@ export function temporarilyNotSupport (name = '') {
       type: 'method',
       category: 'temporarily',
     })
-    if (isProd) {
+    if (process.env.NODE_ENV === 'production') {
       console.warn(errMsg)
       return handle.success({ errMsg })
     } else {
@@ -122,7 +121,7 @@ export function weixinCorpSupport (name: string) {
       type: 'method',
       category: 'weixin_corp',
     })
-    if (isProd) {
+    if (process.env.NODE_ENV === 'production') {
       console.warn(errMsg)
       return handle.success({ errMsg })
     } else {
@@ -142,7 +141,7 @@ export function permanentlyNotSupport (name = '') {
       type: 'method',
       category: 'permanently',
     })
-    if (isProd) {
+    if (process.env.NODE_ENV === 'production') {
       console.warn(errMsg)
       return handle.success({ errMsg })
     } else {
@@ -171,7 +170,7 @@ export function processOpenApi<TOptions = Record<string, unknown>, TResult exten
     // @ts-ignore
     const targetApi = window?.wx?.[name]
     const opts = formatOptions(Object.assign({}, defaultOptions, options))
-    if (typeof targetApi === 'function') {
+    if (isFunction(targetApi)) {
       return new Promise<TResult>((resolve, reject) => {
         ['fail', 'success', 'complete'].forEach(k => {
           opts[k] = preRef => {
@@ -186,7 +185,7 @@ export function processOpenApi<TOptions = Record<string, unknown>, TResult exten
           return targetApi(opts)
         })
       })
-    } else if (typeof standardMethod === 'function') {
+    } else if (isFunction(standardMethod)) {
       return standardMethod(opts)
     } else {
       return notSupported(options, ...args) as Promise<TResult>
@@ -195,29 +194,19 @@ export function processOpenApi<TOptions = Record<string, unknown>, TResult exten
 }
 
 /**
- * 根据url获取应用的启动页面
- * @returns 
+ * 获取当前页面路径
+ * @returns
  */
-export function getLaunchPage (): string {
+export function getCurrentPath (): string {
   const appConfig = (window as any).__taroAppConfig || {}
-  // createPageConfig时根据stack的长度来设置stamp以保证页面path的唯一，此函数是在createPageConfig之前调用，预先设置stamp=1
-  const stamp = '?stamp=1'
-  let entryPath = ''
+  const routePath = getCurrentPage(appConfig.router?.mode, appConfig.router?.basename)
+  const homePath = getHomePage(appConfig.routes?.[0]?.path, appConfig.router?.basename, appConfig.router?.customRoutes, appConfig.entryPagePath)
 
-  if (appConfig.router?.mode === 'browser' || appConfig.router?.mode === 'multi') {
-    entryPath = location.pathname
-  } else {
-    entryPath = location.hash.slice(1).split('?')[0]
-  }
-  const routePath = addLeadingSlash(stripBasename(entryPath, appConfig.router?.basename))
-  const homePath = addLeadingSlash(getHomePage(appConfig.routes?.[0]?.path, appConfig.router?.basename, appConfig.router?.customRoutes, appConfig.entryPagePath))
-
-  // url上没有指定应用的启动页面时使用homePath
-  if(routePath === '/') {
-    return homePath + stamp
-  }
-
-  return routePath + stamp
+  /**
+   * createPageConfig 时根据 stack 的长度来设置 stamp 以保证页面 path 的唯一，此函数是在 createPageConfig 之前调用，预先设置 stamp=1
+   * url 上没有指定应用的启动页面时使用 homePath
+   */
+  return `${routePath === '/' ? homePath : routePath}?stamp=1`
 }
 
 export * from './animation'

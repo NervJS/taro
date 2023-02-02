@@ -13,5 +13,8 @@ export const components = {
   },
   Map: {
     bindRegionChange: ''
+  },
+  WebView: {
+    height: ''
   }
 }

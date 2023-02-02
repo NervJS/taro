@@ -80,7 +80,6 @@ namespace CommentListProps {
      * @example "/pages/index/index"
      */
     path: string
-
     /** 数组第一项用于收藏功能的展示图片
      * @default ['https://b.bdstatic.com/miniapp/images/demo-dog.png']
      */

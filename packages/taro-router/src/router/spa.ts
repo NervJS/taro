@@ -41,7 +41,7 @@ export function createRouter (
   })
   const router = new UniversalRouter(routes, { baseUrl: basename || '' })
   const launchParam: Taro.getLaunchOptionsSync.LaunchOptions = {
-    path: handler.homePage,
+    path: handler.currentPage,
     query: handler.getQuery(launchStampId),
     scene: 0,
     shareTicket: '',
@@ -81,7 +81,6 @@ export function createRouter (
     let enablePullDownRefresh = config?.window?.enablePullDownRefresh || false
 
     if (pageConfig) {
-      document.title = pageConfig.navigationBarTitleText ?? document.title
       setTitle(pageConfig.navigationBarTitleText ?? document.title)
       if (typeof pageConfig.enablePullDownRefresh === 'boolean') {
         enablePullDownRefresh = pageConfig.enablePullDownRefresh

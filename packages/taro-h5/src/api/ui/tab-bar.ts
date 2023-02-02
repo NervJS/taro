@@ -42,8 +42,8 @@ export const showTabBarRedDot: typeof Taro.showTabBarRedDot = (options) => {
   return new Promise((resolve, reject) => {
     Taro.eventCenter.trigger('__taroShowTabBarRedDotHandler', {
       index,
-      successHandler: (res = {}) => handle.success(res, resolve as any),
-      errorHandler: (res = {}) => handle.fail(res, reject as any)
+      successHandler: (res = {}) => handle.success(res, { resolve, reject }),
+      errorHandler: (res = {}) => handle.fail(res, { resolve, reject })
     })
   })
 }
@@ -76,8 +76,8 @@ export const showTabBar: typeof Taro.showTabBar = (options = {}) => {
   return new Promise((resolve, reject) => {
     Taro.eventCenter.trigger('__taroShowTabBar', {
       animation,
-      successHandler: (res = {}) => handle.success(res, resolve as any),
-      errorHandler: (res = {}) => handle.fail(res, reject as any)
+      successHandler: (res = {}) => handle.success(res, { resolve, reject }),
+      errorHandler: (res = {}) => handle.fail(res, { resolve, reject })
     })
   })
 }
@@ -128,8 +128,8 @@ export const setTabBarStyle: typeof Taro.setTabBarStyle = (options = {}) => {
       selectedColor,
       backgroundColor,
       borderStyle,
-      successHandler: (res = {}) => handle.success(res, resolve as any),
-      errorHandler: (res = {}) => handle.fail(res, reject as any)
+      successHandler: (res = {}) => handle.success(res, { resolve, reject }),
+      errorHandler: (res = {}) => handle.fail(res, { resolve, reject })
     })
   })
 }
@@ -173,8 +173,8 @@ export const setTabBarItem: typeof Taro.setTabBarItem = (options) => {
       text,
       iconPath,
       selectedIconPath,
-      successHandler: (res = {}) => handle.success(res, resolve as any),
-      errorHandler: (res = {}) => handle.fail(res, reject as any)
+      successHandler: (res = {}) => handle.success(res, { resolve, reject }),
+      errorHandler: (res = {}) => handle.fail(res, { resolve, reject })
     })
   })
 }
@@ -218,8 +218,8 @@ export const setTabBarBadge: typeof Taro.setTabBarBadge = (options) => {
     Taro.eventCenter.trigger('__taroSetTabBarBadge', {
       index,
       text,
-      successHandler: (res = {}) => handle.success(res, resolve as any),
-      errorHandler: (res = {}) => handle.fail(res, reject as any)
+      successHandler: (res = {}) => handle.success(res, { resolve, reject }),
+      errorHandler: (res = {}) => handle.fail(res, { resolve, reject })
     })
   })
 }
@@ -252,8 +252,8 @@ export const removeTabBarBadge: typeof Taro.removeTabBarBadge = (options) => {
   return new Promise((resolve, reject) => {
     Taro.eventCenter.trigger('__taroRemoveTabBarBadge', {
       index,
-      successHandler: (res = {}) => handle.success(res, resolve as any),
-      errorHandler: (res = {}) => handle.fail(res, reject as any)
+      successHandler: (res = {}) => handle.success(res, { resolve, reject }),
+      errorHandler: (res = {}) => handle.fail(res, { resolve, reject })
     })
   })
 }
@@ -286,8 +286,8 @@ export const hideTabBarRedDot: typeof Taro.hideTabBarRedDot = (options) => {
   return new Promise((resolve, reject) => {
     Taro.eventCenter.trigger('__taroHideTabBarRedDotHandler', {
       index,
-      successHandler: (res = {}) => handle.success(res, resolve as any),
-      errorHandler: (res = {}) => handle.fail(res, reject as any)
+      successHandler: (res = {}) => handle.success(res, { resolve, reject }),
+      errorHandler: (res = {}) => handle.fail(res, { resolve, reject })
     })
   })
 }
@@ -320,8 +320,8 @@ export const hideTabBar: typeof Taro.hideTabBar = (options = {}) => {
   return new Promise((resolve, reject) => {
     Taro.eventCenter.trigger('__taroHideTabBar', {
       animation,
-      successHandler: (res = {}) => handle.success(res, resolve as any),
-      errorHandler: (res = {}) => handle.fail(res, reject as any)
+      successHandler: (res = {}) => handle.success(res, { resolve, reject }),
+      errorHandler: (res = {}) => handle.fail(res, { resolve, reject })
     })
   })
 }

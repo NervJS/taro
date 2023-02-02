@@ -1,6 +1,7 @@
 import { controlledComponent, isUndefined } from '@tarojs/shared'
 
 import {
+  A,
   COMMENT,
   DOCUMENT_ELEMENT_NAME,
   ROOT_STR
@@ -13,6 +14,7 @@ import { NodeType } from '../dom/node_types'
 import { TaroRootElement } from '../dom/root'
 import { TaroText } from '../dom/text'
 import env from '../env'
+import { AnchorElement } from './anchor-element'
 
 export class TaroDocument extends TaroElement {
   public documentElement: TaroElement
@@ -27,15 +29,25 @@ export class TaroDocument extends TaroElement {
   }
 
   public createElement (type: string): TaroElement | TaroRootElement | FormElement {
-    if (type === ROOT_STR) {
-      return new TaroRootElement()
+    const nodeName = type.toLowerCase()
+
+    let element: TaroElement
+    switch (true) {
+      case nodeName === ROOT_STR:
+        element = new TaroRootElement()
+        return element
+      case controlledComponent.has(nodeName):
+        element = new FormElement()
+        break
+      case nodeName === A:
+        element = new AnchorElement()
+        break
+      default:
+        element = new TaroElement()
+        break
     }
 
-    const element = controlledComponent.has(type)
-      ? new FormElement()
-      : new TaroElement()
-
-    element.nodeName = type
+    element.nodeName = nodeName
     element.tagName = type.toUpperCase()
 
     return element

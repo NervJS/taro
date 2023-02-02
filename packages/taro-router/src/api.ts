@@ -103,5 +103,5 @@ export function getCurrentPages (): Taro.Page[] {
     console.warn('多页面路由模式不支持使用 getCurrentPages 方法！')
   }
   const pages = stacks.get()
-  return pages.map(e => ({ ...e, route: e.path || '' }))
+  return pages.map(e => ({ ...e, route: e.path?.replace(/\?.*/g, '') || '' }))
 }

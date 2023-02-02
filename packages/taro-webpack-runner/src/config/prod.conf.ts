@@ -55,16 +55,15 @@ export default function (appPath: string, config: Partial<BuildConfig>, appConfi
     miniCssExtractPluginOption = {},
     esnextModules = [],
 
-    useHtmlComponents = false,
-
-    postcss,
+    compile = {},
+    postcss = {},
     htmlPluginOption = {},
     csso,
     uglify,
     terser
   } = config
   const sourceDir = path.join(appPath, sourceRoot)
-  const outputDir = path.join(appPath, outputRoot)
+  const outputDir = path.resolve(appPath, outputRoot)
   const isMultiRouterMode = get(router, 'mode') === 'multi'
 
   const { rule, postcssOption } = parseModule(appPath, {
@@ -83,7 +82,9 @@ export default function (appPath: string, config: Partial<BuildConfig>, appConfi
     mediaUrlLoaderOption,
     esnextModules,
 
+    compile,
     postcss,
+    sourceDir,
     staticDirectory
   })
   const [, pxtransformOption] = postcssOption.find(([name]) => name === 'postcss-pxtransform') || []
@@ -97,7 +98,7 @@ export default function (appPath: string, config: Partial<BuildConfig>, appConfi
     sourceDir,
     outputDir,
     routerConfig: router,
-    useHtmlComponents,
+    runtimePath: config.runtimePath,
     pxTransformConfig: pxtransformOption?.config || {}
   })
 
