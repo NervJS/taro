@@ -244,7 +244,7 @@ export class Location extends Events {
 
     let newPathName = ''
     if (val.startsWith('/')) {
-      newPathName = this.#pathname + val
+      newPathName = val
     } else if (val.startsWith('./')) {
       val = val.replace(/\.\//, '/')
       newPathName = this.#pathname + val
@@ -252,11 +252,9 @@ export class Location extends Events {
       newPathName = resolveRelativePath(val, preValue.pathname)
     }
 
-    const { pathname, search, hash } = parseUrl(`//${DEFAULT_HOSTNAME}${newPathName}`)
+    const { pathname } = parseUrl(`//${DEFAULT_HOSTNAME}${newPathName}`)
 
     this.#pathname = pathname
-    this.#search = search
-    this.#hash = hash
 
     if (this.#checkUrlChange(preValue)) this.#recordHistory()
   }
