@@ -59,7 +59,7 @@ export class History extends Events {
     this.on(CONTEXT_ACTIONS.RESTORE, (pageId: string) => {
       cache.set(pageId, {
         location: this.#location,
-        stack: this.#stack,
+        stack: this.#stack.slice(),
         cur: this.#cur
       })
     }, null)
