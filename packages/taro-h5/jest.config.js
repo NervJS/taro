@@ -1,4 +1,5 @@
 const { jsWithTs: tsjPreset } = require('ts-jest/presets')
+const path = require('path')
 
 module.exports = {
   preset: 'ts-jest',
@@ -35,15 +36,14 @@ module.exports = {
       isolatedModules: true,
       tsconfig: {
         jsx: 'react',
-        allowJs: true,
-        rootDir: '.'
+        allowJs: true
       }
     }
   },
   moduleNameMapper: {
     '@tarojs/taro': '@tarojs/taro-h5',
     '@tarojs/taro-h5': '<rootDir>/src/index.ts',
-    // '@tarojs/runtime': '<rootDir>/__mocks__/taro-runtime',
+    '@tarojs/shared': path.resolve(__dirname, '..', '..', 'packages/shared/src/index.ts'),
     '@tarojs/plugin-framework-react/dist/runtime': '<rootDir>/__mocks__/taro-framework',
     '@tarojs/plugin-framework-vue2/dist/runtime': '<rootDir>/__mocks__/taro-framework',
     '@tarojs/plugin-framework-vue3/dist/runtime': '<rootDir>/__mocks__/taro-framework',

@@ -73,8 +73,8 @@ export class Image implements ComponentInterface {
     this.aspectFillMode = naturalWidth > naturalHeight ? 'width' : 'height'
   }
 
-  imageOnError () {
-    this.onError.emit()
+  imageOnError (e: Event) {
+    this.onError.emit(e)
   }
 
   render () {

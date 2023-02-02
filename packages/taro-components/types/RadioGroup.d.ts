@@ -7,7 +7,7 @@ interface RadioGroupProps extends StandardProps, FormItemProps {
   name?: string
 
   /** RadioGroup 中选中项发生改变时触发 change 事件，detail = {value:[选中的radio的value的数组]}
-   * @supported weapp, alipay, swan, tt, qq, h5
+   * @supported weapp, alipay, swan, tt, qq, jd, h5
    */
   onChange?: CommonEventFunction
 }
@@ -19,7 +19,7 @@ declare namespace RadioGroupProps {
 
 /** 单项选择器，内部由多个 Radio 组成。
  * @classification forms
- * @supported weapp, alipay, swan, tt, qq, h5, rn, harmony
+ * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony
  * @see https://developers.weixin.qq.com/miniprogram/dev/component/radio-group.html
  */
 declare const RadioGroup: ComponentType<RadioGroupProps>

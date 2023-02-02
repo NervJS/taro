@@ -1,6 +1,6 @@
 {
   "name": "taro",
-  "version": "3.5.12",
+  "version": "3.6.0",
   "description": "开放式跨端跨框架开发解决方案",
   "homepage": "https://github.com/NervJS/taro#readme",
   "author": "O2Team",
@@ -60,7 +60,6 @@
     "@babel/types": "^7.14.5",
     "@commitlint/cli": "^16.2.1",
     "@commitlint/config-conventional": "^16.2.1",
-    "@jest/globals": "^26.6.2",
     "@rollup/plugin-babel": "^5.2.1",
     "@rollup/plugin-buble": "^0.21.3",
     "@rollup/plugin-commonjs": "^20.0.0",
@@ -73,6 +72,7 @@
     "@tarojs/plugin-framework-vue2": "workspace:*",
     "@tarojs/plugin-framework-vue3": "workspace:*",
     "@tarojs/plugin-platform-alipay": "workspace:*",
+    "@tarojs/plugin-platform-h5": "workspace:*",
     "@tarojs/plugin-platform-jd": "workspace:*",
     "@tarojs/plugin-platform-qq": "workspace:*",
     "@tarojs/plugin-platform-swan": "workspace:*",
@@ -90,7 +90,7 @@
     "@tarojs/webpack5-runner": "workspace:*",
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/jest-native": "^4.0.4",
-    "@types/autoprefixer": "10.2.0",
+    "@types/autoprefixer": "^10.2.0",
     "@types/babel-types": "^7.0.7",
     "@types/babel__core": "^7.1.14",
     "@types/babel__traverse": "^7.0.7",
@@ -114,8 +114,8 @@
     "@types/sinon": "^7.5.0",
     "@types/tapable": "^1",
     "@types/testing-library__jest-dom": "^5.14.3",
-    "@types/webpack": "4",
-    "@types/webpack-dev-server": "3",
+    "@types/webpack": "^4.41.26",
+    "@types/webpack-dev-server": "^3.11.3",
     "@typescript-eslint/eslint-plugin": "^5.17.0",
     "@typescript-eslint/parser": "^5.17.0",
     "@vue/babel-plugin-jsx": "^1.0.6",
@@ -123,11 +123,10 @@
     "@vue/compiler-core": "3.0.0",
     "@vue/runtime-core": "3.0.0",
     "@vue/runtime-dom": "3.0.0",
-    "babel-jest": "24.9.0",
+    "babel-jest": "26.6.3",
     "babel-plugin-syntax-jsx": "6.18.0",
     "babel-preset-power-assert": "3.0.0",
     "babel-preset-taro": "workspace:*",
-    "cli-highlight": "^2.1.4",
     "conventional-changelog-cli": "^2.0.1",
     "core-js": "^2.6.5",
     "cpy-cli": "^4.1.0",
@@ -149,13 +148,9 @@
     "eslint-plugin-simple-import-sort": "^7.0.0",
     "eslint-plugin-standard": "^4.0.1",
     "eslint-plugin-vue": "^8.6.0",
-    "gh-pages": "^1.1.0",
     "husky": "^8.0.1",
     "jest": "26.4.2",
-    "jest-expo": "^46.0.1",
-    "jest-fetch-mock": "^3.0.3",
-    "jest-localstorage-mock": "^2.4.0",
-    "jest-mock-console": "^1.0.0",
+    "jest-expo": "^47.0.0",
     "lint-staged": "^13.0.2",
     "memfs": "^3.1.2",
     "memory-fs": "^0.5.0",
@@ -164,7 +159,7 @@
     "node-sass": "6.0.1",
     "npm-run-all": "^4.1.2",
     "ora": "4.0.3",
-    "postcss": "^8.4.12",
+    "postcss": "^8.4.18",
     "postcss-scss": "^4.0.3",
     "power-assert": "^1.6.1",
     "preact": "^10.5.15",
@@ -172,6 +167,7 @@
     "prop-types": "^15.7.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-test-renderer": "^18.2.0",
     "rimraf": "^3.0.0",
     "rollup": "^2.79.0",
     "rollup-plugin-copy": "^3.4.0",
@@ -193,16 +189,24 @@
     "vue-template-compiler": "^2.6.11",
     "webpack": "5.69.0",
     "webpack-chain": "6.5.1",
-    "webpack-dev-server": "4.7.4"
+    "webpack-dev-server": "4.7.4",
+    "webpack-sources": "^3.2.3"
   },
   "pnpm": {
     "packageExtensions": {
       "react-native-root-siblings": {
         "peerDependencies": {
-          "react": "18.0.0"
+          "react": "18.1.0"
         },
         "peerDependenciesMeta": {
           "react": {
+            "optional": true
+          }
+        }
+      },
+      "@ant-design/react-native": {
+        "peerDependenciesMeta": {
+          "@react-native-community/cameraroll": {
             "optional": true
           }
         }

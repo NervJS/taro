@@ -71,6 +71,9 @@ require(\\"./taro\\");
             },
             Map: {
                 bindRegionChange: \\"\\"
+            },
+            WebView: {
+                height: \\"\\"
             }
         };
         var hostConfig = {

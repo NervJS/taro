@@ -1,4 +1,3 @@
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { Component, h, ComponentInterface, Prop, Event, EventEmitter, State, Watch, Host, Element } from '@stencil/core'
 
 @Component({
@@ -14,7 +13,7 @@ export class Slider implements ComponentInterface {
   @Prop() max = 100
   @Prop() step = 1
   @Prop() disabled = false
-  @Prop({ mutable: true }) value: number | null = 0
+  @Prop({ mutable: true, reflect: true }) value: number = 0
   @Prop() activeColor = '#1aad19'
   @Prop() backgroundColor = '#e9e9e9'
   @Prop() blockSize = 28
@@ -22,8 +21,7 @@ export class Slider implements ComponentInterface {
   @Prop() showValue = false
   @Prop() name = ''
 
-  @State() val: number
-  @State() totalWidth = 0
+  @State() totalWidth = 1
   @State() touching = false
   @State() ogX = 0
   @State() touchId: number | null = null
@@ -32,32 +30,22 @@ export class Slider implements ComponentInterface {
   @State() isWillLoadCalled = false
 
   @Watch('value')
-  function (newVal) {
+  function (value) {
     if (!this.isWillLoadCalled) return
     const { max, min } = this
-    if (newVal !== null && newVal !== this.val) {
-      const val = Math.max(min, Math.min(newVal, max))
+    if (value !== null) {
+      const val = this.handleValueUpdate(value, min, max)
       this.updateByStep(val)
     }
   }
 
   componentDidLoad () {
-    Object.defineProperty(this.el, 'value', {
-      get: () => this.val,
-      set: value => (this.value = value),
-      configurable: true
-    })
-
     // 在自动化测试时，如果通过 JSX 绑定 touch 事件，
     // 模拟的 touch 事件只会在浏览器的 device mode 下触发，Karma 跑的测试就会跪。
     // 因此改为 didLoad 后 addEventListener 的形式。
     this.handler.addEventListener('touchstart', this.handleTouchStart)
     this.handler.addEventListener('touchmove', this.handleTouchMove)
     this.handler.addEventListener('touchend', this.handleTouchEnd)
-  }
-
-  componentDidUpdate () {
-    this.value = null
   }
 
   @Event({
@@ -73,9 +61,8 @@ export class Slider implements ComponentInterface {
   componentWillLoad () {
     this.isWillLoadCalled = true
     const { value, max, min } = this
-    if (value === null) return
 
-    const val = Math.max(min, Math.min(value, max))
+    const val = this.handleValueUpdate(value, min, max)
     this.updateByStep(val)
   }
 
@@ -84,7 +71,7 @@ export class Slider implements ComponentInterface {
 
     this.touching = true
     this.touchId = e.targetTouches[0].identifier
-    this.totalWidth = this.sliderInsRef.clientWidth
+    this.totalWidth = this.sliderInsRef.clientWidth || 1
     this.ogX = e.targetTouches[0].pageX
     this.ogPercent = this.percent
   }
@@ -110,14 +97,14 @@ export class Slider implements ComponentInterface {
     const diffX = pageX - ogX
 
     let percent = diffX / totalWidth * 100 + ogPercent
-    percent = Math.max(0, Math.min(percent, 100))
+    percent = this.handleValueUpdate(percent, 0, 100)
     const val = min + percent * 0.01 * (max - min)
 
     this.updateByStep(val)
 
     this.onChanging.emit({
       detail: e.detail,
-      value: this.val
+      value: this.value
     })
   }
 
@@ -128,7 +115,7 @@ export class Slider implements ComponentInterface {
     if (this.percent !== this.ogPercent) {
       this.onChange.emit({
         detail: e.detail,
-        value: this.val
+        value: this.value
       })
     }
 
@@ -136,6 +123,11 @@ export class Slider implements ComponentInterface {
     this.touchId = null
     this.ogX = 0
     this.ogPercent = 0
+  }
+
+  handleValueUpdate = (e: number, min = this.min, max = this.max) => {
+    e = isNaN(e) ? 0 : e
+    return Math.max(min, Math.min(e, max))
   }
 
   // 根据步长 step 修改 value
@@ -165,7 +157,7 @@ export class Slider implements ComponentInterface {
 
     const percent = (value - min) / (max - min) * 100
 
-    this.val = value
+    this.value = value
     this.percent = percent
   }
 
@@ -177,7 +169,7 @@ export class Slider implements ComponentInterface {
       blockColor,
       name,
       percent,
-      val
+      value
     } = this
     let blockSize = this.blockSize
 
@@ -215,10 +207,10 @@ export class Slider implements ComponentInterface {
               }}
               style={handlerStyles}
             />
-            <input type='hidden' name={name} value={val} />
+            <input type='hidden' name={name} value={value} />
           </div>
         </div>
-        {showValue && <div class='weui-slider-box__value'>{val}</div>}
+        {showValue && <div class='weui-slider-box__value'>{value}</div>}
       </Host>
     )
   }

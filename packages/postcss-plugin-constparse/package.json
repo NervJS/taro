@@ -1,11 +1,14 @@
 {
   "name": "postcss-plugin-constparse",
-  "version": "3.5.12",
+  "version": "3.6.0",
   "description": "parse constants defined in config",
   "main": "index.js",
   "author": "Simba",
   "license": "MIT",
-  "dependencies": {
-    "postcss": "^6.0.22"
+  "devDependencies": {
+    "postcss": "^8.4.18"
+  },
+  "peerDependencies": {
+    "postcss": "^8.4.18"
   }
 }

@@ -84,8 +84,8 @@ interface SlimProps {
 }
 
 /** 转换 react 的类型到 vue */
-type RemoveReactAttribute = 'className' | 'style' | 'key' | 'ref' | 'dangerouslySetInnerHTML'
-type TransformReact2VueType<P extends StandardProps = Record<string, never>> = DistributiveOmit<P, RemoveReactAttribute> & SlimProps
+export type RemoveReactAttribute = 'className' | 'style' | 'key' | 'ref' | 'dangerouslySetInnerHTML'
+export type TransformReact2VueType<P extends StandardProps = Record<string, never>> = DistributiveOmit<P, RemoveReactAttribute> & SlimProps
 export type VueComponentType<P = Record<string, never>> = DefineComponent<TransformReact2VueType<P>>
 
 export * from './common'
@@ -156,14 +156,14 @@ export declare const PageMeta: VueComponentType<PageMetaProps>
 export declare const CustomWrapper: VueComponentType<CustomWrapperProps>
 export declare const Slot: VueComponentType<SlotProps>
 
-type ReservedProps = {
+export type ReservedProps = {
   key?: string | number | symbol
   ref?: VNodeRef
   ref_for?: boolean
   ref_key?: string
 }
 
-type ElementAttrs<T> = T & ReservedProps
+export type ElementAttrs<T> = T & ReservedProps
 
 declare global {
   namespace JSX {
