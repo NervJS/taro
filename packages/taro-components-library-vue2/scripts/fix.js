@@ -13,10 +13,13 @@ if (fs.existsSync(componentsPath)) {
 
 if (fs.existsSync(utilsPath)) {
   const codeBuffer = fs.readFileSync(utilsPath)
-  // Note: 移除事件不必要的定义
-  let code = codeBuffer.toString().replace(/let[\s\S]*vueElement\.\$emit\(eventName,\semittedValue\);/, 'vueElement.$emit(eventName, event);')
-  // Note: 为 click 事件绑定 tap 事件
-  code = codeBuffer.toString().replace(/on: allListeners/g, `on: { ...allListeners, click: (event) => { typeof allListeners.click === 'function' && click(event); vueElement.$emit('tap', event); } }`)
+  // Note: 事件优化代码
+  const eventCode = `vueElement.$emit(eventName, event); if (['input', 'change'].includes(eventName)) vueElement.$emit('update:modelValue', event.detail.value);`
+  // Note: click 事件绑定 tap 事件触发
+  const listenersCode = `on: { ...allListeners, click: (event) => { typeof allListeners.click === 'function' && allListeners.click(event); vueElement.$emit('tap', event); } }`
+  const code = codeBuffer.toString()
+    .replace(/let[\s\S]*vueElement\.\$emit\(eventName,\semittedValue\);/, eventCode)
+    .replace(/on: allListeners/g, listenersCode)
 
   fs.writeFileSync(utilsPath, code)
 }
