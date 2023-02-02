@@ -6,6 +6,20 @@ import { vueOutputTarget as vue3OutputTarget } from '@stencil/vue-output-target'
 import { vueOutputTarget as vue2OutputTarget } from 'stencil-vue2-output-target'
 
 const isProd = process.env.NODE_ENV === 'production'
+const componentModels = [{
+  elements: ['taro-input-core', 'taro-textarea-core'],
+  targetAttr: 'value',
+  event: 'input'
+}, {
+  elements: ['taro-picker-core', 'taro-slider-core'],
+  targetAttr: 'value',
+  event: 'change'
+}, {
+  elements: ['taro-switch-core'],
+  targetAttr: 'checked',
+  event: 'change'
+}]
+
 const outputTargets: OutputTarget[] = [
   reactOutputTarget({
     componentCorePackage: '@tarojs/components/dist/types/components',
@@ -13,24 +27,13 @@ const outputTargets: OutputTarget[] = [
   }),
   vue2OutputTarget({
     componentCorePackage: '@tarojs/components/dist/types/components',
-    proxiesFile: '../taro-components-library-vue2/src/components.ts'
+    proxiesFile: '../taro-components-library-vue2/src/components.ts',
+    componentModels,
   }),
   vue3OutputTarget({
     componentCorePackage: '@tarojs/components/dist/types/components',
     proxiesFile: '../taro-components-library-vue3/src/components.ts',
-    componentModels: [{
-      elements: ['taro-input-core', 'taro-textarea-core'],
-      targetAttr: 'value',
-      event: 'input'
-    }, {
-      elements: ['taro-picker-core', 'taro-slider-core'],
-      targetAttr: 'value',
-      event: 'change'
-    }, {
-      elements: ['taro-switch-core'],
-      targetAttr: 'checked',
-      event: 'change'
-    }]
+    componentModels,
   }),
   {
     type: 'dist',
