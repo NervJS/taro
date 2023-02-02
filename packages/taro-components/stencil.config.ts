@@ -17,7 +17,20 @@ const outputTargets: OutputTarget[] = [
   }),
   vue3OutputTarget({
     componentCorePackage: '@tarojs/components/dist/types/components',
-    proxiesFile: '../taro-components-library-vue3/src/components.ts'
+    proxiesFile: '../taro-components-library-vue3/src/components.ts',
+    componentModels: [{
+      elements: ['taro-input-core', 'taro-textarea-core'],
+      targetAttr: 'value',
+      event: 'input'
+    }, {
+      elements: ['taro-picker-core', 'taro-slider-core'],
+      targetAttr: 'value',
+      event: 'change'
+    }, {
+      elements: ['taro-switch'],
+      targetAttr: 'checked',
+      event: 'change'
+    }]
   }),
   {
     type: 'dist',
