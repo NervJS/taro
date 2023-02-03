@@ -1,11 +1,10 @@
 import { isNumber, isString, warn } from '@tarojs/shared'
 
-import { CONTEXT_ACTIONS } from '../constants'
+import { CONTEXT_ACTIONS, DEFAULT_HOSTNAME } from '../constants'
 import { getCurrentInstance } from '../current'
 import { Events } from '../emitter/emitter'
 import { RuntimeCache } from '../utils/cache'
-
-const DEFAULT_HOSTNAME = 'taro.com'
+import { parseUrl } from './URL'
 
 type PreValue = {
   protocol: string
@@ -382,38 +381,4 @@ function generateFullUrl (val = '') {
     return val
   }
   return val
-}
-
-export function parseUrl (url = '') {
-  const result = {
-    href: '',
-    origin: '',
-    protocol: '',
-    hostname: '',
-    host: '',
-    port: '',
-    pathname: '',
-    search: '',
-    hash: ''
-  }
-  if (!url || !isString(url)) return result
-
-  url = url.trim()
-  const PATTERN = /^(([^:/?#]+):)?\/\/(([^/?#]+):(.+)@)?([^/?#:]*)(:(\d+))?([^?#]*)(\?([^#]*))?(#(.*))?/
-  const matches = url.match(PATTERN)
-
-  if (!matches) return result
-
-  // TODO: username & password ?
-  result.protocol = matches[1] || 'https:'
-  result.hostname = matches[6] || DEFAULT_HOSTNAME
-  result.port = matches[8] || ''
-  result.pathname = matches[9] || '/'
-  result.search = matches[10] || ''
-  result.hash = matches[12] || ''
-  result.href = url
-  result.origin = result.protocol + '//' + result.hostname
-  result.host = result.hostname + (result.port ? `:${result.port}` : '')
-
-  return result
 }
