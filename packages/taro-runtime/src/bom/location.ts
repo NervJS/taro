@@ -352,20 +352,6 @@ export class Location extends Events {
   }
 }
 
-export function resolveRelativePath (path: string, relative: string): string {
-  const relativeArr = relative.split('/')
-  const parent = relativeArr.slice(0, relativeArr.length - 1)
-  let depth = 0
-  const dests = path.split('../').map(v => {
-    v === '' && depth++
-    return v
-  })
-
-  if (depth > parent.length) return relative
-
-  return parent.slice(0, parent.length - depth).concat(dests.filter(v => v !== '')).join('/')
-}
-
 function generateFullUrl (val = '') {
   const origin = `https://${DEFAULT_HOSTNAME}`
   if (val.startsWith('/')) {
