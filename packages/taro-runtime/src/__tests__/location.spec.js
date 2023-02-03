@@ -356,14 +356,14 @@ describe('location', () => {
 
       // CONTEXT_ACTIONS.RESTORE
       const pageId = 'page_' + Date.now()
-      location.trigger('2', pageId)
+      location.trigger('1', pageId)
       location.replace('https://taro.com/hello/world?b=2')
       expect(location.href).toBe('https://taro.com/hello/world?b=2')
       expect(cache.has(pageId)).toBe(true)
       expect(cache.get(pageId).lastHref).toBe('https://taro.com/?a=1')
 
       // CONTEXT_ACTIONS.RECOVER
-      location.trigger('1', pageId)
+      location.trigger('2', pageId)
       expect(location.href).toBe('https://taro.com/?a=1')
 
 
@@ -496,13 +496,13 @@ describe('location', () => {
       // CONTEXT_ACTIONS.RESTORE
       const pageId = 'page_' + Date.now()
       history.pushState(null, '', 'https://taro.com/2')
-      history.trigger('2', pageId)
+      history.trigger('1', pageId)
       expect(cache.has(pageId)).toBe(true)
       expect(Object.is(cache.get(pageId).location, location))
       expect(cache.get(pageId).cur).toBe(1)
 
       // CONTEXT_ACTIONS.RECOVER
-      history.trigger('1', pageId)
+      history.trigger('2', pageId)
       expect(history.length).toBe(2)
       expect(location.href).toBe('https://taro.com/2')
 
