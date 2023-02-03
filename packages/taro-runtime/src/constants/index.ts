@@ -57,3 +57,4 @@ export enum CONTEXT_ACTIONS {
   RESTORE = '2',
   DESTORY = '3'
 }
+export const DEFAULT_HOSTNAME = 'taro.com'
