@@ -285,6 +285,32 @@ describe('location', () => {
       expect(location.href).toBe('https://taro.com/pages?name=hongxin#age=18')
     }
 
+    // more cases for pathname
+    {
+      Current.router = {
+        path: '',
+        params: {},
+      }
+      const location = new Location({ window: fakerWindow })
+      expect(location.pathname).toBe('/')
+      location.pathname = '/a/b'
+      expect(location.pathname).toBe('/a/b')
+      location.pathname = './c'
+      expect(location.pathname).toBe('/c')
+      location.pathname = '/a/b'
+      expect(location.pathname).toBe('/a/b')
+      location.pathname = '../d'
+      expect(location.pathname).toBe('/d')
+      location.pathname = '/a/b'
+      expect(location.pathname).toBe('/a/b')
+      location.pathname = '../../f'
+      expect(location.pathname).toBe('/f')
+      location.pathname = '../../'
+      expect(location.pathname).toBe('/')
+      location.pathname = 'a/b'
+      expect(location.pathname).toBe('/a/b')
+    }
+
     // methods
     {
       Current.router = {
