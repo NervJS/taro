@@ -66,9 +66,10 @@ describe('px2rem', function () {
     expect(processed).toBe(expected)
   })
 
-  it('7 should remain unitless if 0', function () {
-    const expected = '.rule { font-size: 0px; font-size: 0; }'
-    const processed = postcss(px2rem()).process(expected).css
+  it('7 属性值为"0"时不处理，为"0px"时仍然单位转换', function () {
+    const rule = '.rule { font-size: 0px; font-size: 0; }'
+    const expected = '.rule { font-size: 0rpx; font-size: 0; }'
+    const processed = postcss(px2rem()).process(rule).css
 
     expect(processed).toBe(expected)
   })

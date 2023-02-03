@@ -10,20 +10,16 @@ describe('toast', () => {
     const fail = jest.fn()
     const complete = jest.fn()
 
-    expect.assertions(4)
     Taro.showToast({
       title: 123,
       success,
       fail,
       complete
     })
-      .catch(err => {
-        const expectErrObj = { errMsg: 'showToast:fail parameter error: parameter.title should be String instead of Number' }
-        expect(success.mock.calls.length).toBe(0)
-        expect(fail).toHaveBeenCalledWith(expectErrObj)
-        expect(complete).toHaveBeenCalledWith(expectErrObj)
-        expect(err).toEqual(expectErrObj)
-      })
+    const expectErrObj = { errMsg: 'showToast:fail parameter error: parameter.title should be String instead of Number' }
+    expect(success.mock.calls.length).toBe(0)
+    expect(fail).toHaveBeenCalledWith(expectErrObj)
+    expect(complete).toHaveBeenCalledWith(expectErrObj)
   })
 
   test('options.duration should be Number', () => {
@@ -31,20 +27,16 @@ describe('toast', () => {
     const fail = jest.fn()
     const complete = jest.fn()
 
-    expect.assertions(4)
     Taro.showToast({
       duration: null,
       success,
       fail,
       complete
     })
-      .catch(err => {
-        const expectErrObj = { errMsg: 'showToast:fail parameter error: parameter.duration should be Number instead of Null' }
-        expect(success.mock.calls.length).toBe(0)
-        expect(fail).toHaveBeenCalledWith(expectErrObj)
-        expect(complete).toHaveBeenCalledWith(expectErrObj)
-        expect(err).toEqual(expectErrObj)
-      })
+    const expectErrObj = { errMsg: 'showToast:fail parameter error: parameter.duration should be Number instead of Null' }
+    expect(success.mock.calls.length).toBe(0)
+    expect(fail).toHaveBeenCalledWith(expectErrObj)
+    expect(complete).toHaveBeenCalledWith(expectErrObj)
   })
 
   test('basic test', async done => {

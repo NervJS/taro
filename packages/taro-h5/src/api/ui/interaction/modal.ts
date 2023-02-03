@@ -1,6 +1,6 @@
 import { Current } from '@tarojs/runtime'
 
-import { getLaunchPage, inlineStyle } from '../../../utils'
+import { getCurrentPath, inlineStyle } from '../../../utils'
 
 export default class Modal {
   options = {
@@ -165,7 +165,7 @@ export default class Modal {
       setTimeout(() => { this.el.style.opacity = '1' }, 0)
 
       // Current.page不存在时说明路由还未挂载，此时需根据url来分配将要渲染的页面path
-      this.currentPath = Current.page?.path ?? getLaunchPage()
+      this.currentPath = Current.page?.path ?? getCurrentPath()
     })
   }
 
@@ -231,7 +231,7 @@ export default class Modal {
       setTimeout(() => { this.el.style.opacity = '1' }, 0)
 
       // Current.page不存在时说明路由还未挂载，此时需根据url来分配将要渲染的页面path
-      this.currentPath = Current.page?.path ?? getLaunchPage()
+      this.currentPath = Current.page?.path ?? getCurrentPath()
     })
   }
 

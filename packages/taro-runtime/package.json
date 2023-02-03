@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/runtime",
-  "version": "3.5.12",
+  "version": "3.6.0",
   "description": "taro runtime for mini apps.",
   "main": "dist/runtime.esm.js",
   "module": "dist/runtime.esm.js",
@@ -26,5 +26,8 @@
   "dependencies": {
     "@tarojs/shared": "workspace:*",
     "lodash-es": "4.17.21"
+  },
+  "devDependencies": {
+    "tslib": "^2.4.0"
   }
 }

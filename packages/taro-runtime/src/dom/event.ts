@@ -34,6 +34,9 @@ export class TaroEvent {
 
   public defaultPrevented = false
 
+  // Mouse Event botton property, it's used in 3rd lib, like react-router. default 0 in general
+  public button = 0
+
   // timestamp can either be hi-res ( relative to page load) or low-res (relative to UNIX epoch)
   // here use hi-res timestamp
   public timeStamp = Date.now()
@@ -145,12 +148,18 @@ function getEventCBResult (event: MpEvent) {
 
 // 小程序的事件代理回调函数
 export function eventHandler (event: MpEvent) {
+  // Note: ohos 上事件没有设置 type、detail 类型 setter 方法，且部分事件（例如 load 等）缺失 target 导致事件错误
+  !event.type && Object.defineProperty(event, 'type', {
+    value: (event as any)._type // ohos only
+  })
+  !event.detail && Object.defineProperty(event, 'detail', {
+    value: (event as any)._detail || { ...event } // ohos only
+  })
+  event.currentTarget = event.currentTarget || event.target || { ...event }
   hooks.call('modifyMpEventImpl', event)
 
-  event.currentTarget ||= event.target
-
   const currentTarget = event.currentTarget
-  const id = currentTarget.dataset?.sid as string /** sid */ || currentTarget.id /** uid */ || ''
+  const id = currentTarget.dataset?.sid as string /** sid */ || currentTarget.id /** uid */ || event.detail?.id as string || ''
 
   const node = env.document.getElementById(id)
   if (node) {

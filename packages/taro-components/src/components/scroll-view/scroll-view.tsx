@@ -1,5 +1,4 @@
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { Component, h, ComponentInterface, Prop, Event, EventEmitter, Watch, Element, Host } from '@stencil/core'
+import { Component, h, ComponentInterface, Prop, Event, EventEmitter, Watch, Element, Host, Listen } from '@stencil/core'
 import classNames from 'classnames'
 
 import { debounce } from '../../utils'
@@ -45,9 +44,9 @@ export class ScrollView implements ComponentInterface {
   @Prop() scrollY = false
   @Prop() upperThreshold: number | string = 50
   @Prop() lowerThreshold: number | string = 50
-  @Prop({ attribute: 'scroll-top' }) mpScrollTop: number | string
-  @Prop({ attribute: 'scroll-left' }) mpScrollLeft: number | string
-  @Prop({ attribute: 'scroll-into-view' }) mpScrollIntoView: string
+  @Prop({ attribute: 'scroll-top', reflect: true }) mpScrollTop: number | string
+  @Prop({ attribute: 'scroll-left', reflect: true }) mpScrollLeft: number | string
+  @Prop({ attribute: 'scroll-into-view', reflect: true }) mpScrollIntoView: string
   @Prop() scrollWithAnimation = false
 
   @Event({
@@ -113,6 +112,30 @@ export class ScrollView implements ComponentInterface {
     }
   }
 
+  @Listen('scroll', { capture: true })
+  handleScroll (e: Event) {
+    if (e instanceof CustomEvent) return
+    e.stopPropagation()
+
+    const {
+      scrollLeft,
+      scrollTop,
+      scrollHeight,
+      scrollWidth
+    } = this.el
+    this._scrollLeft = scrollLeft
+    this._scrollTop = scrollTop
+
+    this.upperAndLower()
+
+    this.onScroll.emit({
+      scrollLeft,
+      scrollTop,
+      scrollHeight,
+      scrollWidth
+    })
+  }
+
   componentDidLoad () {
     const {
       scrollY,
@@ -140,28 +163,6 @@ export class ScrollView implements ComponentInterface {
       }
       this._scrollLeft = scrollLeft
     }
-  }
-
-  handleScroll = (e) => {
-    if (e instanceof CustomEvent) return
-
-    const {
-      scrollLeft,
-      scrollTop,
-      scrollHeight,
-      scrollWidth
-    } = this.el
-    this._scrollLeft = scrollLeft
-    this._scrollTop = scrollTop
-
-    this.upperAndLower()
-
-    this.onScroll.emit({
-      scrollLeft,
-      scrollTop,
-      scrollHeight,
-      scrollWidth
-    })
   }
 
   upperAndLower = debounce(() => {
@@ -209,10 +210,7 @@ export class ScrollView implements ComponentInterface {
       'taro-scroll-view__scroll-y': scrollY
     })
     return (
-      <Host
-        class={cls}
-        onScroll={this.handleScroll}
-      >
+      <Host class={cls}>
         <slot />
       </Host>
     )

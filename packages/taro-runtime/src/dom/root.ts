@@ -147,9 +147,9 @@ export class TaroRootElement extends TaroElement {
         }
       }
 
-      const customWrpperCount = customWrapperMap.size
+      const customWrapperCount = customWrapperMap.size
       const isNeedNormalUpdate = Object.keys(normalUpdate).length > 0
-      const updateArrLen = customWrpperCount + (isNeedNormalUpdate ? 1 : 0)
+      const updateArrLen = customWrapperCount + (isNeedNormalUpdate ? 1 : 0)
       let executeTime = 0
 
       const cb = () => {
@@ -161,7 +161,7 @@ export class TaroRootElement extends TaroElement {
       }
 
       // custom-wrapper setData
-      if (customWrpperCount) {
+      if (customWrapperCount) {
         customWrapperMap.forEach((data, ctx) => {
           if (process.env.NODE_ENV !== 'production' && options.debug) {
             // eslint-disable-next-line no-console

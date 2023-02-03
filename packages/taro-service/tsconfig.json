@@ -2,10 +2,11 @@
   "extends": "../../tsconfig.root.json",
   "compilerOptions": {
     "baseUrl": ".",
+    "declaration": true,
+    "declarationDir": "./types",
+    "module": "commonjs",
     "outDir": "dist",
     "rootDir": "./src",
-    "module": "commonjs",
-    "declaration": true,
     "preserveConstEnums": true,
     "sourceMap": true
   },

@@ -1,0 +1,9 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`MovableArea base 1`] = `
+<taro-movable-area-core style="0: h; 1: e; 2: i; 3: g; 4: h; 5: t; 6: :; 7:  ; 8: 2; 9: 0; 10: 0; 11: p; 12: x; 13: ;; 14:  ; 15: w; 16: i; 17: d; 18: t; 19: h; 20: :; 21:  ; 22: 2; 23: 0; 24: 0; 25: p; 26: x; 27: ;; 28:  ; 29: b; 30: a; 31: c; 32: k; 33: g; 34: r; 35: o; 36: u; 37: n; 38: d; 39: :; 40:  ; 41: r; 42: e; 43: d; 44: ;;">
+  <taro-movable-view-core style="0: h; 1: e; 2: i; 3: g; 4: h; 5: t; 6: :; 7:  ; 8: 5; 9: 0; 10: p; 11: x; 12: ;; 13:  ; 14: w; 15: i; 16: d; 17: t; 18: h; 19: :; 20:  ; 21: 5; 22: 0; 23: p; 24: x; 25: ;; 26:  ; 27: b; 28: a; 29: c; 30: k; 31: g; 32: r; 33: o; 34: u; 35: n; 36: d; 37: :; 38:  ; 39: b; 40: l; 41: u; 42: e; 43: ;; transform-origin: center; transform: translateX(0px) translateY(0px) translateZ(0px) scale(1); webkit-transform: translateX(0px) translateY(0px) translateZ(0px) scale(1);">
+    带我走
+  </taro-movable-view-core>
+</taro-movable-area-core>
+`;
