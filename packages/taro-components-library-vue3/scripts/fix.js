@@ -6,7 +6,13 @@ const utilsPath = path.resolve(__dirname, '..', 'src/vue-component-lib/utils.ts'
 
 if (fs.existsSync(componentsPath)) {
   const codeBuffer = fs.readFileSync(componentsPath)
-  const code = codeBuffer.toString().replace(/const\sTaro([A-Za-z]+)\s=/g, 'const $1 =').replace(/const\s([A-Za-z]+)Core\s=/g, 'const $1 =')
+  let code = codeBuffer.toString().replace(/const\sTaro([A-Za-z]+)\s=/g, 'const $1 =').replace(/const\s([A-Za-z]+)Core\s=/g, 'const $1 =')
+
+  if (!code.includes('Fragment')) {
+    const comps = ['Block', 'CustomWrapper']
+    code = code.replace('/* auto-generated vue proxies */', `/* auto-generated vue proxies */\nimport { defineComponent } from 'vue'`)
+    code = code.replace(new RegExp(`export const (${comps.join('|')}) = \\/\\*\\@__PURE__\\*\\/ defineContainer[^;]*;`, 'ig'), 'export const $1 = defineComponent((__props, { slots }) => slots.default);')
+  }
 
   fs.writeFileSync(componentsPath, code)
 }

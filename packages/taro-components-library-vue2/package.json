@@ -15,7 +15,8 @@
   "author": "ZakaryCode",
   "license": "MIT",
   "dependencies": {
-    "@tarojs/components": "workspace:*"
+    "@tarojs/components": "workspace:*",
+    "vue-fragment": "^1.6.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.14.5",
