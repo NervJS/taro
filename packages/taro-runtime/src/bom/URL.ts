@@ -78,7 +78,13 @@ export class URL {
 
   set pathname (val: string) {
     if (isString(val)) {
-      if (val) this.#pathname = val.trim()
+      val = val.trim()
+      const HEAD_REG = /^(\/|\.\/|\.\.\/)/
+      let temp = val
+      while (HEAD_REG.test(temp)) {
+        temp = temp.replace(HEAD_REG, '')
+      }
+      if (temp) this.#pathname = '/' + temp
       else this.#pathname = '/'
     }
   }
