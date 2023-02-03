@@ -1,6 +1,5 @@
 import { isString, isUndefined } from '@tarojs/shared'
 
-import { DEFAULT_HOSTNAME } from '../constants'
 import { URLSearchParams } from './URLSearchParams'
 
 export class URL {
@@ -195,7 +194,7 @@ export function parseUrl (url = '') {
 
   // TODO: username & password ?
   result.protocol = matches[1] || 'https:'
-  result.hostname = matches[6] || DEFAULT_HOSTNAME
+  result.hostname = matches[6] || 'taro.com'
   result.port = matches[8] || ''
   result.pathname = matches[9] || '/'
   result.search = matches[10] || ''
