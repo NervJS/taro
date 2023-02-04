@@ -38,5 +38,4 @@ interface RootPortalProps extends StandardProps {
  * ```
  */
 declare const RootPortal: ComponentType<RootPortalProps>
-
 export { RootPortal, RootPortalProps }
