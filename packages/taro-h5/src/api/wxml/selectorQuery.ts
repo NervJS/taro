@@ -38,9 +38,13 @@ function filter (fields, dom?: HTMLElement, selector?: string) {
       } else {
         res.node = null
       }
+    } else if (/^taro-scroll-view-core/i.test(tagName)) {
+      // Note https://developers.weixin.qq.com/miniprogram/dev/api/ui/scroll/ScrollViewContext.html
+      res.nodeCanvasType = ''
+      res.node = dom
+      dom.scrollTo = (dom as any).mpScrollToMethod
+      dom.scrollIntoView = (dom as any).mpScrollIntoViewMethod
     } else {
-      // TODO https://developers.weixin.qq.com/miniprogram/dev/api/ui/scroll/ScrollViewContext.html
-      // if (/^taro-scroll-view-core/i.test(tagName))
       res.nodeCanvasType = ''
       res.node = dom
     }
