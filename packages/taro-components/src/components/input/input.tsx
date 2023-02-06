@@ -44,7 +44,7 @@ export class Input implements ComponentInterface {
   @Element() el: HTMLElement
 
   @Method()
-  focus() {
+  async focus() {
     this.inputRef.focus()
   }
 
