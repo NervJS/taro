@@ -36,7 +36,10 @@ if (fs.existsSync(componentsPath)) {
 
 if (fs.existsSync(attachPropsPath)) {
   const codeBuffer = fs.readFileSync(attachPropsPath)
-  const code = codeBuffer.toString().replace(/const\seventNameLc\s=.+;/g, 'const eventNameLc = eventName.toLowerCase();')
+  let code = codeBuffer.toString().replace(/const\seventNameLc\s=.+;/g, 'const eventNameLc = eventName.toLowerCase();')
+
+  // Note: 禁用 react 合成事件抛出
+  code = code.replace(/export\sconst\sisCoveredByReact.*(\s\s.*)*\n};/g, 'export const isCoveredByReact = (__eventNameSuffix: string) => false;')
 
   fs.writeFileSync(attachPropsPath, code)
 }
