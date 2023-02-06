@@ -64,7 +64,7 @@
     "@rollup/plugin-buble": "^0.21.3",
     "@rollup/plugin-commonjs": "^20.0.0",
     "@rollup/plugin-node-resolve": "^8.0.0",
-    "@rollup/plugin-replace": "^2.2.0",
+    "@rollup/plugin-replace": "^5.0.2",
     "@tarojs/components": "workspace:*",
     "@tarojs/helper": "workspace:*",
     "@tarojs/mini-runner": "workspace:*",
