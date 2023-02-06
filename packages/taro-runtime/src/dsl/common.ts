@@ -1,14 +1,15 @@
 /* eslint-disable dot-notation */
-import { EMPTY_OBJ, ensure, hooks, isArray, isFunction, isString, isUndefined, Shortcuts } from '@tarojs/shared'
+import { EMPTY_OBJ, ensure, getComponentsAlias, hooks, internalComponents,isArray, isFunction, isString, isUndefined, Shortcuts } from '@tarojs/shared'
 
 import { raf } from '../bom/raf'
-import { BEHAVIORS, CUSTOM_WRAPPER, EXTERNAL_CLASSES, ON_HIDE, ON_LOAD, ON_READY, ON_SHOW, OPTIONS, PAGE_INIT, VIEW } from '../constants'
+import { window } from '../bom/window'
+import { BEHAVIORS, CONTEXT_ACTIONS, CUSTOM_WRAPPER, EXTERNAL_CLASSES, ON_HIDE, ON_LOAD, ON_READY, ON_SHOW, OPTIONS, PAGE_INIT, VIEW } from '../constants'
 import { Current } from '../current'
 import { eventHandler } from '../dom/event'
 import { eventCenter } from '../emitter/emitter'
 import env from '../env'
 import { perf } from '../perf'
-import { customWrapperCache, getComponentsAlias, incrementId } from '../utils'
+import { customWrapperCache, incrementId } from '../utils'
 
 import type { PageConfig } from '@tarojs/taro'
 import type { TaroRootElement } from '../dom/root'
@@ -144,6 +145,11 @@ export function createPageConfig (component: any, pageName?: string, data?: Reco
 
       setCurrentRouter(this)
 
+      // 初始化当前页面的上下文信息
+      if (process.env.TARO_ENV !== 'h5') {
+        window.trigger(CONTEXT_ACTIONS.INIT, $taroPath)
+      }
+
       const mount = () => {
         Current.app!.mount!(component, $taroPath, () => {
           pageElement = env.document.getElementById<TaroRootElement>($taroPath)
@@ -167,6 +173,10 @@ export function createPageConfig (component: any, pageName?: string, data?: Reco
     },
     [ONUNLOAD] () {
       const $taroPath = this.$taroPath
+      // 销毁当前页面的上下文信息
+      if (process.env.TARO_ENV !== 'h5') {
+        window.trigger(CONTEXT_ACTIONS.DESTORY, $taroPath)
+      }
       // 触发onUnload生命周期
       safeExecute($taroPath, ONUNLOAD)
       unmounting = true
@@ -184,17 +194,23 @@ export function createPageConfig (component: any, pageName?: string, data?: Reco
       })
     },
     [ONREADY] () {
-      // 触发生命周期
-      safeExecute(this.$taroPath, ON_READY)
-      // 通过事件触发子组件的生命周期
-      raf(() => eventCenter.trigger(getOnReadyEventKey(id)))
-      this.onReady.called = true
+      hasLoaded.then(() => {
+        // 触发生命周期
+        safeExecute(this.$taroPath, ON_READY)
+        // 通过事件触发子组件的生命周期
+        raf(() => eventCenter.trigger(getOnReadyEventKey(id)))
+        this.onReady.called = true
+      })
     },
     [ONSHOW] (options = {}) {
       hasLoaded.then(() => {
         // 设置 Current 的 page 和 router
         Current.page = this as any
         setCurrentRouter(this)
+        // 恢复上下文信息
+        if (process.env.TARO_ENV !== 'h5') {
+          window.trigger(CONTEXT_ACTIONS.RECOVER, this.$taroPath)
+        }
         // 触发生命周期
         safeExecute(this.$taroPath, ON_SHOW, options)
         // 通过事件触发子组件的生命周期
@@ -202,6 +218,10 @@ export function createPageConfig (component: any, pageName?: string, data?: Reco
       })
     },
     [ONHIDE] () {
+      // 缓存当前页面上下文信息
+      if (process.env.TARO_ENV !== 'h5') {
+        window.trigger(CONTEXT_ACTIONS.RESTORE, this.$taroPath)
+      }
       // 设置 Current 的 page 和 router
       if (Current.page === this) {
         Current.page = null
@@ -322,7 +342,7 @@ export function createRecursiveComponentConfig (componentName?: string) {
       i: {
         type: Object,
         value: {
-          [Shortcuts.NodeName]: getComponentsAlias()[VIEW]._num
+          [Shortcuts.NodeName]: getComponentsAlias(internalComponents)[VIEW]._num
         }
       },
       l: {

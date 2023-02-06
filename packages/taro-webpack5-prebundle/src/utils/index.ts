@@ -86,7 +86,7 @@ export function isExclude (id: string, excludes: (string | RegExp)[]) {
 }
 
 export function isOptimizeIncluded (path: string) {
-  return /\.[jt]sx?$/.test(path)
+  return /\.m?[jt]sx?$/.test(path)
 }
 
 export function isScanIncluded (path: string) {

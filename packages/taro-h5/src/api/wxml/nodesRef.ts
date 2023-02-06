@@ -1,3 +1,5 @@
+import Taro from '@tarojs/api'
+
 import { SelectorQuery } from './selectorQuery'
 
 export class NodesRef implements Taro.NodesRef {

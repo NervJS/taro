@@ -67,6 +67,16 @@ interface NavigatorProps extends StandardProps {
    */
   hoverStayTime?: number
 
+  /** 当target="miniProgram"时有效，当传递该参数后，可以不传 app-id 和 path。链接可以通过【小程序菜单】->【复制链接】获取。
+   * @supported weapp
+   */
+  shortLink?: string
+
+  /** 无障碍访问，（属性）元素的额外描述
+   * @supported qq
+   */
+  ariaLabel?: string
+
   /** 当 `target="miniProgram"` 时有效，跳转小程序成功
    * @supported weapp, swan, qq
    */
@@ -81,16 +91,6 @@ interface NavigatorProps extends StandardProps {
    * @supported weapp, swan, qq
    */
   onComplete?: CommonEventFunction
-
-  /** 当target="miniProgram"时有效，当传递该参数后，可以不传 app-id 和 path。链接可以通过【小程序菜单】->【复制链接】获取。
-   * @supported weapp
-   */
-  shortLink?: string
-
-  /** 无障碍访问，（属性）元素的额外描述
-   * @supported qq
-   */
-  ariaLabel?: string
 }
 declare namespace NavigatorProps {
   /** target 的合法值 */
@@ -138,7 +138,7 @@ declare namespace NavigatorProps {
 
 /** 页面链接
  * @classification navig
- * @supported weapp, swan, alipay, tt
+ * @supported weapp, alipay, swan, tt, qq, jd, harmony
  * @see https://developers.weixin.qq.com/miniprogram/dev/component/navigator.html
  */
 declare const Navigator: ComponentType<NavigatorProps>

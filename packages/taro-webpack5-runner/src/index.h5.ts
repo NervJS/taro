@@ -32,7 +32,12 @@ export default async function build (appPath: string, rawConfig: H5BuildConfig):
     isWatch: combination.config.isWatch,
     publicPath
   })
-  await prebundle.run(combination.getPrebundleOptions())
+  try {
+    await prebundle.run(combination.getPrebundleOptions())
+  } catch (error) {
+    console.error(error)
+    console.warn(chalk.yellow('依赖预编译失败，已经为您跳过预编译步骤，但是编译速度可能会受到影响。'))
+  }
 
   const webpackConfig = combination.chain.toConfig()
   const config = combination.config
@@ -246,8 +251,8 @@ async function getDevServerOptions (appPath: string, config: H5BuildConfig): Pro
     customDevServerOption
   )
 
-  const originalPort = devServerOptions.port
-  const availablePort = await detectPort(Number(originalPort))
+  const originalPort = Number(devServerOptions.port)
+  const availablePort = await detectPort(originalPort)
 
   if (availablePort !== originalPort) {
     console.log(`ℹ 预览端口 ${originalPort} 被占用, 自动切换到空闲端口 ${availablePort}`)

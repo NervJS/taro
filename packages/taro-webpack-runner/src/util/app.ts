@@ -2,8 +2,6 @@ import { isEmptyObject, readConfig, resolveMainFilePath, SCRIPT_EXT } from '@tar
 import * as path from 'path'
 import { Entry, EntryFunc } from 'webpack'
 
-import { emptyObj } from '.'
-
 export function getConfigFilePath (filePath: string) {
   return resolveMainFilePath(`${filePath.replace(path.extname(filePath), '')}.config`)
 }
@@ -18,7 +16,7 @@ export function getAppConfig (appEntry: string) {
   return appConfig
 }
 
-export async function getAppEntry (entry: string | string[] | Entry | EntryFunc = emptyObj, entryFileName = 'app') {
+export async function getAppEntry (entry: string | string[] | Entry | EntryFunc = {}, entryFileName = 'app') {
   if (typeof entry === 'function') {
     return getAppEntry(await entry(), entryFileName)
   } else if (Array.isArray(entry) || typeof entry === 'string') {

@@ -1,7 +1,6 @@
 const globalAny:any = global
 
-globalAny._taroVideoMap = {}
-
+globalAny._taroVideoMap = globalAny._taroVideoMap || {}
 class VideoContext {
   private videoRef: any
 

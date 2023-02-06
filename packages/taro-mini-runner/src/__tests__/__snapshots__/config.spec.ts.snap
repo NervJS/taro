@@ -56,7 +56,7 @@ require(\\"./taro\\");
         function useRouter() {}
         function useTabItemTap() {}
         function useScope() {}
-        var needPromiseApis = new Set([ \\"authPrivateMessage\\", \\"disableAlertBeforeUnload\\", \\"enableAlertBeforeUnload\\", \\"getBackgroundFetchData\\", \\"getGroupEnterInfo\\", \\"getShareInfo\\", \\"getWeRunData\\", \\"join1v1Chat\\", \\"openVideoEditor\\", \\"saveFileToDisk\\", \\"scanItem\\", \\"setEnable1v1Chat\\", \\"setWindowSize\\", \\"sendBizRedPacket\\", \\"startFacialRecognitionVerify\\", \\"openCustomerServiceChat\\", \\"getLocalIPAddress\\", \\"getUserProfile\\", \\"editImage\\", \\"getFuzzyLocation\\", \\"cropImage\\" ]);
+        var needPromiseApis = new Set([ \\"authPrivateMessage\\", \\"chooseContact\\", \\"cropImage\\", \\"disableAlertBeforeUnload\\", \\"editImage\\", \\"enableAlertBeforeUnload\\", \\"getBackgroundFetchData\\", \\"getFuzzyLocation\\", \\"getGroupEnterInfo\\", \\"getLocalIPAddress\\", \\"getShareInfo\\", \\"getUserProfile\\", \\"getWeRunData\\", \\"join1v1Chat\\", \\"openCustomerServiceChat\\", \\"openVideoEditor\\", \\"saveFileToDisk\\", \\"scanItem\\", \\"setEnable1v1Chat\\", \\"setWindowSize\\", \\"sendBizRedPacket\\", \\"startFacialRecognitionVerify\\" ]);
         function initNativeApi(taro) {
             processApis(taro, wx, {
                 needPromiseApis: needPromiseApis,
@@ -157,7 +157,8 @@ require(\\"./taro\\");
                 \\"safe-password-salt\\": \\"\\",
                 \\"safe-password-custom-hash\\": \\"\\",
                 \\"auto-fill\\": _empty,
-                bindKeyboardHeightChange: _empty
+                bindKeyboardHeightChange: _empty,
+                bindNicknameReview: _empty
             },
             Picker: {
                 \\"header-text\\": _empty
@@ -400,7 +401,7 @@ require(\\"./taro\\");
                 overlay: _true,
                 position: \\"'bottom'\\",
                 round: _false,
-                \\"close-on-slideDown\\": _false,
+                \\"close-on-slide-down\\": _false,
                 \\"overlay-style\\": _empty,
                 \\"custom-style\\": _empty,
                 bindBeforeEnter: _empty,
@@ -418,7 +419,11 @@ require(\\"./taro\\");
                 \\"easing-function\\": \\"'ease-out'\\"
             },
             KeyboardAccessory: {},
-            RootPortal: {}
+            RootPortal: {},
+            ChannelLive: {
+                feedId: _empty,
+                finderUserName: _empty
+            }
         };
         var hostConfig = {
             initNativeApi: initNativeApi,
@@ -1770,7 +1775,7 @@ require(\\"./taro\\");
         function useRouter() {}
         function useTabItemTap() {}
         function useScope() {}
-        var needPromiseApis = new Set([ \\"authPrivateMessage\\", \\"disableAlertBeforeUnload\\", \\"enableAlertBeforeUnload\\", \\"getBackgroundFetchData\\", \\"getGroupEnterInfo\\", \\"getShareInfo\\", \\"getWeRunData\\", \\"join1v1Chat\\", \\"openVideoEditor\\", \\"saveFileToDisk\\", \\"scanItem\\", \\"setEnable1v1Chat\\", \\"setWindowSize\\", \\"sendBizRedPacket\\", \\"startFacialRecognitionVerify\\", \\"openCustomerServiceChat\\", \\"getLocalIPAddress\\", \\"getUserProfile\\", \\"editImage\\", \\"getFuzzyLocation\\", \\"cropImage\\" ]);
+        var needPromiseApis = new Set([ \\"authPrivateMessage\\", \\"chooseContact\\", \\"cropImage\\", \\"disableAlertBeforeUnload\\", \\"editImage\\", \\"enableAlertBeforeUnload\\", \\"getBackgroundFetchData\\", \\"getFuzzyLocation\\", \\"getGroupEnterInfo\\", \\"getLocalIPAddress\\", \\"getShareInfo\\", \\"getUserProfile\\", \\"getWeRunData\\", \\"join1v1Chat\\", \\"openCustomerServiceChat\\", \\"openVideoEditor\\", \\"saveFileToDisk\\", \\"scanItem\\", \\"setEnable1v1Chat\\", \\"setWindowSize\\", \\"sendBizRedPacket\\", \\"startFacialRecognitionVerify\\" ]);
         function initNativeApi(taro) {
             processApis(taro, wx, {
                 needPromiseApis: needPromiseApis,
@@ -1871,7 +1876,8 @@ require(\\"./taro\\");
                 \\"safe-password-salt\\": \\"\\",
                 \\"safe-password-custom-hash\\": \\"\\",
                 \\"auto-fill\\": _empty,
-                bindKeyboardHeightChange: _empty
+                bindKeyboardHeightChange: _empty,
+                bindNicknameReview: _empty
             },
             Picker: {
                 \\"header-text\\": _empty
@@ -2114,7 +2120,7 @@ require(\\"./taro\\");
                 overlay: _true,
                 position: \\"'bottom'\\",
                 round: _false,
-                \\"close-on-slideDown\\": _false,
+                \\"close-on-slide-down\\": _false,
                 \\"overlay-style\\": _empty,
                 \\"custom-style\\": _empty,
                 bindBeforeEnter: _empty,
@@ -2132,7 +2138,11 @@ require(\\"./taro\\");
                 \\"easing-function\\": \\"'ease-out'\\"
             },
             KeyboardAccessory: {},
-            RootPortal: {}
+            RootPortal: {},
+            ChannelLive: {
+                feedId: _empty,
+                finderUserName: _empty
+            }
         };
         var hostConfig = {
             initNativeApi: initNativeApi,
@@ -3422,7 +3432,7 @@ require(\\"./taro\\");
         function useRouter() {}
         function useTabItemTap() {}
         function useScope() {}
-        var needPromiseApis = new Set([ \\"authPrivateMessage\\", \\"disableAlertBeforeUnload\\", \\"enableAlertBeforeUnload\\", \\"getBackgroundFetchData\\", \\"getGroupEnterInfo\\", \\"getShareInfo\\", \\"getWeRunData\\", \\"join1v1Chat\\", \\"openVideoEditor\\", \\"saveFileToDisk\\", \\"scanItem\\", \\"setEnable1v1Chat\\", \\"setWindowSize\\", \\"sendBizRedPacket\\", \\"startFacialRecognitionVerify\\", \\"openCustomerServiceChat\\", \\"getLocalIPAddress\\", \\"getUserProfile\\", \\"editImage\\", \\"getFuzzyLocation\\", \\"cropImage\\" ]);
+        var needPromiseApis = new Set([ \\"authPrivateMessage\\", \\"chooseContact\\", \\"cropImage\\", \\"disableAlertBeforeUnload\\", \\"editImage\\", \\"enableAlertBeforeUnload\\", \\"getBackgroundFetchData\\", \\"getFuzzyLocation\\", \\"getGroupEnterInfo\\", \\"getLocalIPAddress\\", \\"getShareInfo\\", \\"getUserProfile\\", \\"getWeRunData\\", \\"join1v1Chat\\", \\"openCustomerServiceChat\\", \\"openVideoEditor\\", \\"saveFileToDisk\\", \\"scanItem\\", \\"setEnable1v1Chat\\", \\"setWindowSize\\", \\"sendBizRedPacket\\", \\"startFacialRecognitionVerify\\" ]);
         function initNativeApi(taro) {
             processApis(taro, wx, {
                 needPromiseApis: needPromiseApis,
@@ -3523,7 +3533,8 @@ require(\\"./taro\\");
                 \\"safe-password-salt\\": \\"\\",
                 \\"safe-password-custom-hash\\": \\"\\",
                 \\"auto-fill\\": _empty,
-                bindKeyboardHeightChange: _empty
+                bindKeyboardHeightChange: _empty,
+                bindNicknameReview: _empty
             },
             Picker: {
                 \\"header-text\\": _empty
@@ -3766,7 +3777,7 @@ require(\\"./taro\\");
                 overlay: _true,
                 position: \\"'bottom'\\",
                 round: _false,
-                \\"close-on-slideDown\\": _false,
+                \\"close-on-slide-down\\": _false,
                 \\"overlay-style\\": _empty,
                 \\"custom-style\\": _empty,
                 bindBeforeEnter: _empty,
@@ -3784,7 +3795,11 @@ require(\\"./taro\\");
                 \\"easing-function\\": \\"'ease-out'\\"
             },
             KeyboardAccessory: {},
-            RootPortal: {}
+            RootPortal: {},
+            ChannelLive: {
+                feedId: _empty,
+                finderUserName: _empty
+            }
         };
         var hostConfig = {
             initNativeApi: initNativeApi,

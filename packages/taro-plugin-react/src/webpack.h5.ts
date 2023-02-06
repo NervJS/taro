@@ -1,10 +1,11 @@
-import { getLoaderMetaForH5 } from './loader-meta'
+import { mergeWith } from 'lodash'
+
+import { getLoaderMeta} from './loader-meta'
 
 import type { IPluginContext } from '@tarojs/service'
 import type { Frameworks } from './index'
 
 export function modifyH5WebpackChain (ctx: IPluginContext, framework: Frameworks, chain) {
-  setAlias(ctx, chain)
   setLoader(framework, chain)
   setPlugin(ctx, framework, chain)
 
@@ -12,7 +13,7 @@ export function modifyH5WebpackChain (ctx: IPluginContext, framework: Frameworks
     module: {
       rule: {
         'process-import-taro': {
-          test: /taro-h5[\\/]dist[\\/]index/,
+          test: /taro-h5[\\/]dist[\\/]api[\\/]taro/,
           loader: require.resolve('./api-loader')
         }
       }
@@ -20,29 +21,24 @@ export function modifyH5WebpackChain (ctx: IPluginContext, framework: Frameworks
   })
 }
 
-function setAlias (ctx: IPluginContext, chain) {
-  const config = ctx.initialConfig
-  const alias = chain.resolve.alias
-
-  if (config.h5?.useHtmlComponents) {
-    alias.set('@tarojs/components$', '@tarojs/components-react/index')
-  } else {
-    alias.set('@tarojs/components$', '@tarojs/components/dist-h5/react')
-  }
-}
-
 function setLoader (framework: Frameworks, chain) {
+  function customizer (object = '', sources = '') {
+    if ([object, sources].every(e => typeof e === 'string')) return object + sources
+  }
   chain.plugin('mainPlugin')
     .tap(args => {
-      args[0].loaderMeta = getLoaderMetaForH5(framework)
+      args[0].loaderMeta = mergeWith(
+        getLoaderMeta(framework), args[0].loaderMeta, customizer
+      )
       return args
     })
 }
 
 function setPlugin (ctx: IPluginContext, framework: Frameworks, chain) {
   const config = ctx.initialConfig
-
-  if (config.isWatch && config.h5?.devServer?.hot !== false) {
+  const webpackConfig = chain.toConfig()
+  const isProd = webpackConfig.mode === 'production'
+  if (!isProd && config.h5?.devServer?.hot !== false) {
     // 默认开启 fast-refresh
     if (framework === 'react') {
       chain

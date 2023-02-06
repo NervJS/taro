@@ -9,11 +9,11 @@ interface InputProps extends StandardProps, FormItemProps {
   /** input 的类型
    * @default "text"
    * @supported weapp, alipay, swan, tt, qq, jd, h5, rn
-   * @rn 部分支持
    */
-  type?: 'text' | 'number' | 'idcard' | 'digit' | 'safe-password' | 'nickname'
+  type?: keyof InputProps.Type
 
   /** 是否是密码类型
+   * @default false
    * @supported weapp, alipay, swan, tt, qq, jd, h5, rn
    */
   password?: boolean
@@ -40,6 +40,7 @@ interface InputProps extends StandardProps, FormItemProps {
   placeholderTextColor?: string
 
   /** 是否禁用
+   * @default false
    * @supported weapp, alipay, swan, tt, qq, jd, h5, rn
    */
   disabled?: boolean
@@ -58,20 +59,23 @@ interface InputProps extends StandardProps, FormItemProps {
 
   /** (即将废弃，请直接使用 focus )自动聚焦，拉起键盘
    * @default false
-   * @supported weapp, qq, jd
+   * @deprecated
+   * @supported weapp, qq, jd, h5
    */
   autoFocus?: boolean
 
   /** 获取焦点
+   * @default false
    * @supported weapp, alipay, swan, tt, qq, jd, h5, rn
    */
   focus?: boolean
 
-  /** 设置键盘右下角按钮的文字
+  /** 设置键盘右下角按钮的文字，仅在type='text'时生效
+   * @alipay confirm-type 与 enableNative 属性冲突，若希望 confirm-type 生效，enableNative 不能设定为 false，而且不能设定 always-system
    * @default done
    * @supported weapp, alipay, swan, tt, qq, jd, rn
    */
-  confirmType?: 'send' | 'search' | 'next' | 'go' | 'done'
+  confirmType?: keyof InputProps.ConfirmType
 
   /** 点击键盘右下角按钮时是否保持键盘不收起
    * @default false
@@ -97,7 +101,7 @@ interface InputProps extends StandardProps, FormItemProps {
   selectionEnd?: number
 
   /** 键盘弹起时，是否自动上推页面
-   * @default false
+   * @default true
    * @supported weapp, swan, tt, qq, jd
    */
   adjustPosition?: boolean
@@ -159,11 +163,40 @@ interface InputProps extends StandardProps, FormItemProps {
   randomNumber?: boolean
 
   /**
-   * 是否为受控组件
+   * 是否为受控组件。为 true 时，value 内容会完全受 setData 控制。
+   *
+   * 建议当 type 值为 text 时不要将 controlled 设置为 true,详见 [Bugs & Tips](https://opendocs.alipay.com/mini/component/input#Bug%20%26%20Tip)
    * @default false
    * @supported alipay
    */
   controlled?: boolean
+
+  /** 用于透传 `WebComponents` 上的属性到内部 H5 标签上
+   * @supported h5
+   */
+  nativeProps?: Record<string, unknown>
+
+  /** 组件名字，用于表单提交获取数据。
+   * @supported alipay
+   */
+  name?: string
+
+  /** 是否强制使用系统键盘和 Web-view 创建的 input 元素。为 true 时，confirm-type、confirm-hold 可能失效。
+   * @default false
+   * @supported alipay
+   */
+  alwaysSystem?: boolean
+
+  /** 无障碍访问，（属性）元素的额外描述
+   * @supported qq
+   */
+  ariaLabel?: string
+
+  /** 是否启用原生键盘。
+   * @supported alipay
+   * @default true
+   */
+  enableNative?: boolean
 
   /** 当键盘输入时，触发input事件，event.detail = {value, cursor, keyCode}，处理函数可以直接 return 一个字符串，将替换输入框的内容。
    * @supported weapp, alipay, swan, tt, qq, jd, h5, rn
@@ -191,27 +224,78 @@ interface InputProps extends StandardProps, FormItemProps {
    */
   onKeyboardHeightChange?: CommonEventFunction<InputProps.onKeyboardHeightChangeEventDetail>
 
-  /** 用于透传 `WebComponents` 上的属性到内部 H5 标签上
-   * @supported h5
+  /** 用户昵称审核完毕后触发，仅在 type 为 "nickname" 时有效，event.detail = { pass, timeout }
+   * @supported weapp
    */
-  nativeProps?: Record<string, unknown>
-
-  /** 组件名字，用于表单提交获取数据。
-   * @supported alipay
-   */
-  name?: string
-
-  /** 是否强制使用系统键盘和 Web-view 创建的 input 元素。为 true 时，confirm-type、confirm-hold 可能失效。
-   * @supported alipay
-   */
-  alwaysSystem?: string
-
-  /** 无障碍访问，（属性）元素的额外描述
-   * @supported qq
-   */
-  ariaLabel?: string
+  onNickNameReview?: CommonEventFunction
 }
 declare namespace InputProps {
+  /** Input 类型 */
+  interface Type {
+    /** 文本输入键盘
+     * @supported weapp, alipay, h5, rn
+     */
+    text
+
+    /** 数字输入键盘
+     * @supported weapp, alipay, h5, rn
+     */
+    number
+
+    /** 身份证输入键盘
+     *@supported weapp, alipay, rn
+     */
+    idcard
+
+    /** 带小数点的数字键盘
+     * @supported weapp, alipay, h5, rn
+     */
+    digit
+
+    /** 密码安全输入键盘[指引](https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/safe-password.html)
+     * @supported weapp, alipay
+     */
+    'safe-password'
+
+    /** 昵称输入键盘
+     * @supported weapp, alipay
+     */
+    nickname
+
+    /** 数字输入键盘
+     * @supported alipay
+     */
+    numberpad
+
+    /** 带小数点的数字键盘
+     * @supported alipay
+     */
+    digitpad
+
+    /** 身份证输入键盘
+     * @supported alipay
+     */
+    idcardpad
+  }
+
+  /** Confirm 类型 */
+  interface ConfirmType {
+    /** 右下角按钮为“发送” */
+    send
+
+    /** 右下角按钮为“搜索” */
+    search
+
+    /** 右下角按钮为“下一个” */
+    next
+
+    /** 右下角按钮为“前往” */
+    go
+
+    /** 右下角按钮为“完成” */
+    done
+  }
+
   /** > 注意：React-Native 端 `inputEventDetail` 仅实现参数 `value`，若需实时获取光标位置则可通过 [`onSelectionChange`](https://reactnative.dev/docs/textinput#onselectionchange) 实现。 */
   interface inputEventDetail {
     /** 输入值 */
@@ -245,7 +329,7 @@ declare namespace InputProps {
 
 /** 输入框。该组件是原生组件，使用时请注意相关限制
  * @classification forms
- * @supported weapp, h5, rn
+ * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony
  * @example_react
  * ```tsx
  * class App extends Component {

@@ -68,20 +68,20 @@ interface ProgressProps extends StandardProps {
    */
   duration?: number
 
-  /** 动画完成事件
-   * @supported weapp, qq, jd, h5
-   */
-  onActiveEnd?: CommonEventFunction
-
   /** 无障碍访问，（属性）元素的额外描述
    * @supported qq
    */
   ariaLabel?: string
+
+  /** 动画完成事件
+   * @supported weapp, qq, jd, h5
+   */
+  onActiveEnd?: CommonEventFunction
 }
 
 /** 进度条。组件属性的长度单位默认为 px
  * @classification base
- * @supported weapp, swan, alipay, tt, h5, rn
+ * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony
  * @example_react
  * ```tsx
  * export default class PageView extends Component {

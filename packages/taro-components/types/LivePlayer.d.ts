@@ -72,6 +72,37 @@ interface LivePlayerProps extends StandardProps {
    */
   pictureInPictureMode?: ('push' | 'pop')[] | 'push' | 'pop' | ''
 
+  /** 当跳转到其它微信原生页面时，是否自动暂停本页面的实时音视频播放
+   * @supported weapp, qq
+   */
+  autoPauseIfOpenNative?: string
+
+  /** 格式固定为 https://servicewechat.com/{appid}/{version}/page-frame.html，其中 {appid} 为小程序的 appid，{version} 为小程序的版本号，版本号为 0 表示为开发版、体验版以及审核版本，版本号为 devtools 表示为开发者工具，其余为正式版本；
+   * @supported weapp
+   */
+  referrerPolicy?: 'origin' | 'no-referrer'
+
+  /** 设置署名水印
+   * @supported tt
+   */
+  signature?: string
+
+  /** 是否回调metadata
+   * @supported qq
+   */
+  enableMetadata?: string
+
+  /** live-player 属性的唯一标志符
+   * @supported swan
+   */
+  id?: string
+
+  /** 是否开启手机横屏时自动全屏，当系统设置开启自动旋转时生效
+   * @supported weapp
+   * @default false
+   */
+  enableAutoRotation?: string
+
   /** 播放状态变化事件，detail = {code}
    * @supported weapp, swan, tt, qq, jd
    */
@@ -102,40 +133,15 @@ interface LivePlayerProps extends StandardProps {
    */
   onLeavePictureInPicture?: CommonEventFunction
 
-  /** 当跳转到其它微信原生页面时，是否自动暂停本页面的实时音视频播放
-   * @supported weapp, qq
-   */
-  autoPauseIfOpenNative?: string
-
-  /** 格式固定为 https://servicewechat.com/{appid}/{version}/page-frame.html，其中 {appid} 为小程序的 appid，{version} 为小程序的版本号，版本号为 0 表示为开发版、体验版以及审核版本，版本号为 devtools 表示为开发者工具，其余为正式版本；
-   * @supported weapp
-   */
-  referrerPolicy?: 'origin' | 'no-referrer'
-
-  /** 设置署名水印
-   * @supported tt
-   */
-  signature?: string
-
   /** 播放错误事件
    * @supported tt
    */
   onError?: CommonEventFunction
 
-  /** 是否回调metadata
-   * @supported qq
-   */
-  enableMetadata?: string
-
   /** metadata通知，detail = {info}
    * @supported qq
    */
   onMetaDataChange?: CommonEventFunction
-
-  /** live-player 属性的唯一标志符
-   * @supported swan
-   */
-  id?: string
 }
 declare namespace LivePlayerProps {
   /** mode 的合法值 */
@@ -265,7 +271,7 @@ declare namespace LivePlayerProps {
  *
  * 需要先通过类目审核，再在小程序管理后台，“设置”-“接口设置”中自助开通该组件权限。
  * @classification media
- * @supported weapp, tt
+ * @supported weapp, swan, tt, qq, jd
  * @example_react
  * ```tsx
  * class App extends Components {

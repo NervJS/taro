@@ -1,10 +1,9 @@
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { Component, h, ComponentInterface, Prop, Host } from '@stencil/core'
 
 @Component({
   tag: 'taro-progress-core'
 })
-export class Index implements ComponentInterface {
+export class Progress implements ComponentInterface {
   @Prop() percent = 0
   @Prop() showInfo = false
   @Prop() borderRadius: number | string = 0
@@ -32,7 +31,7 @@ export class Index implements ComponentInterface {
       backgroundColor
     }
     const transition = active ? 'width 1s ease-in-out' : 'none'
-    const pgWdith = {
+    const pgWidth = {
       width: `${pgPercent}%`,
       transition,
       WebkitTransition: transition,
@@ -43,7 +42,7 @@ export class Index implements ComponentInterface {
     return (
       <Host class='weui-progress'>
         <div class='weui-progress__bar' style={pgHeight}>
-          <div class='weui-progress__inner-bar' style={pgWdith} />
+          <div class='weui-progress__inner-bar' style={pgWidth} />
         </div>
 
         {showInfo && (
