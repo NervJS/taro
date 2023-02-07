@@ -104,7 +104,7 @@ importers:
       eslint-plugin-jest: 26.1.3
       eslint-plugin-node: ^10.0.0
       eslint-plugin-prettier: ^3.1.1
-      eslint-plugin-promise: ^4.2.1
+      eslint-plugin-promise: ^6.1.1
       eslint-plugin-react: ^7.4.0
       eslint-plugin-react-hooks: ^4.4.0
       eslint-plugin-simple-import-sort: ^7.0.0
@@ -244,14 +244,14 @@ importers:
       esbuild: registry.npmjs.org/esbuild/0.14.47
       eslint: registry.npmjs.org/eslint/8.18.0
       eslint-config-prettier: registry.npmjs.org/eslint-config-prettier/6.15.0_eslint@8.18.0
-      eslint-config-standard: registry.npmjs.org/eslint-config-standard/14.1.1_kh4dbgcrlopojvl2wjliwz75se
+      eslint-config-standard: registry.npmjs.org/eslint-config-standard/14.1.1_huw56chn2b5kk2r5tfnvv7xr4i
       eslint-config-taro: link:packages/eslint-config-taro
       eslint-plugin-flowtype: registry.npmjs.org/eslint-plugin-flowtype/3.13.0_eslint@8.18.0
       eslint-plugin-import: registry.npmjs.org/eslint-plugin-import/2.26.0_zgg5sxdhnxsuz2d3vdnwdtmcnu
       eslint-plugin-jest: registry.npmjs.org/eslint-plugin-jest/26.1.3_6sc4zw46gmins6sms33znumwdi
       eslint-plugin-node: registry.npmjs.org/eslint-plugin-node/10.0.0_eslint@8.18.0
       eslint-plugin-prettier: registry.npmjs.org/eslint-plugin-prettier/3.4.1_5pi6fad7qhihll6yuwi4pumjhu
-      eslint-plugin-promise: registry.npmjs.org/eslint-plugin-promise/4.3.1
+      eslint-plugin-promise: registry.npmjs.org/eslint-plugin-promise/6.1.1_eslint@8.18.0
       eslint-plugin-react: registry.npmjs.org/eslint-plugin-react/7.30.1_eslint@8.18.0
       eslint-plugin-react-hooks: registry.npmjs.org/eslint-plugin-react-hooks/4.6.0_eslint@8.18.0
       eslint-plugin-simple-import-sort: registry.npmjs.org/eslint-plugin-simple-import-sort/7.0.0_eslint@8.18.0
@@ -802,9 +802,6 @@ importers:
       react-native-gesture-handler: registry.npmjs.org/react-native-gesture-handler/2.9.0_ed6hdicvoe3mtgaxburxkml6qq
       react-native-svg: registry.npmjs.org/react-native-svg/13.7.0_ed6hdicvoe3mtgaxburxkml6qq
       react-test-renderer: registry.npmjs.org/react-test-renderer/18.1.0_react@18.1.0
-
-  packages/taro-components/loader:
-    specifiers: {}
 
   packages/taro-extend:
     specifiers: {}
@@ -17824,7 +17821,7 @@ packages:
       get-stdin: registry.npmjs.org/get-stdin/6.0.0
     dev: true
 
-  registry.npmjs.org/eslint-config-standard/14.1.1_kh4dbgcrlopojvl2wjliwz75se:
+  registry.npmjs.org/eslint-config-standard/14.1.1_huw56chn2b5kk2r5tfnvv7xr4i:
     resolution: {integrity: sha512-Z9B+VR+JIXRxz21udPTL9HpFMyoMUEeX1G251EQ6e05WD9aPVtVBn09XUmZ259wCMlCDmYDSZG62Hhm+ZTJcUg==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/eslint-config-standard/-/eslint-config-standard-14.1.1.tgz}
     id: registry.npmjs.org/eslint-config-standard/14.1.1
     name: eslint-config-standard
@@ -17839,7 +17836,7 @@ packages:
       eslint: registry.npmjs.org/eslint/8.18.0
       eslint-plugin-import: registry.npmjs.org/eslint-plugin-import/2.26.0_zgg5sxdhnxsuz2d3vdnwdtmcnu
       eslint-plugin-node: registry.npmjs.org/eslint-plugin-node/10.0.0_eslint@8.18.0
-      eslint-plugin-promise: registry.npmjs.org/eslint-plugin-promise/4.3.1
+      eslint-plugin-promise: registry.npmjs.org/eslint-plugin-promise/6.1.1_eslint@8.18.0
       eslint-plugin-standard: registry.npmjs.org/eslint-plugin-standard/4.1.0_eslint@8.18.0
     dev: true
 
@@ -18007,11 +18004,16 @@ packages:
       prettier-linter-helpers: registry.npmjs.org/prettier-linter-helpers/1.0.0
     dev: true
 
-  registry.npmjs.org/eslint-plugin-promise/4.3.1:
-    resolution: {integrity: sha512-bY2sGqyptzFBDLh/GMbAxfdJC+b0f23ME63FOE4+Jao0oZ3E1LEwFtWJX/1pGMJLiTtrSSern2CRM/g+dfc0eQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/eslint-plugin-promise/-/eslint-plugin-promise-4.3.1.tgz}
+  registry.npmjs.org/eslint-plugin-promise/6.1.1_eslint@8.18.0:
+    resolution: {integrity: sha512-tjqWDwVZQo7UIPMeDReOpUgHCmCiH+ePnVT+5zVapL0uuHnegBUs2smM13CzOs2Xb5+MHMRFTs9v24yjba4Oig==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/eslint-plugin-promise/-/eslint-plugin-promise-6.1.1.tgz}
+    id: registry.npmjs.org/eslint-plugin-promise/6.1.1
     name: eslint-plugin-promise
-    version: 4.3.1
-    engines: {node: '>=6'}
+    version: 6.1.1
+    engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
+    peerDependencies:
+      eslint: ^7.0.0 || ^8.0.0
+    dependencies:
+      eslint: registry.npmjs.org/eslint/8.18.0
     dev: true
 
   registry.npmjs.org/eslint-plugin-react-hooks/4.6.0_eslint@8.18.0:
