@@ -22,16 +22,16 @@
 
 ## Properties
 
-| Property              | Attribute               | Description | Type               | Default     |
-| --------------------- | ----------------------- | ----------- | ------------------ | ----------- |
-| `lowerThreshold`      | `lower-threshold`       |             | `number \| string` | `50`        |
-| `mpScrollIntoView`    | `scroll-into-view`      |             | `string`           | `undefined` |
-| `mpScrollLeft`        | `scroll-left`           |             | `number \| string` | `undefined` |
-| `mpScrollTop`         | `scroll-top`            |             | `number \| string` | `undefined` |
-| `scrollWithAnimation` | `scroll-with-animation` |             | `boolean`          | `false`     |
-| `scrollX`             | `scroll-x`              |             | `boolean`          | `false`     |
-| `scrollY`             | `scroll-y`              |             | `boolean`          | `false`     |
-| `upperThreshold`      | `upper-threshold`       |             | `number \| string` | `50`        |
+| Property           | Attribute               | Description | Type               | Default     |
+| ------------------ | ----------------------- | ----------- | ------------------ | ----------- |
+| `animated`         | `scroll-with-animation` |             | `boolean`          | `false`     |
+| `lowerThreshold`   | `lower-threshold`       |             | `number \| string` | `50`        |
+| `mpScrollIntoView` | `scroll-into-view`      |             | `string`           | `undefined` |
+| `mpScrollLeft`     | `scroll-left`           |             | `number \| string` | `undefined` |
+| `mpScrollTop`      | `scroll-top`            |             | `number \| string` | `undefined` |
+| `scrollX`          | `scroll-x`              |             | `boolean`          | `false`     |
+| `scrollY`          | `scroll-y`              |             | `boolean`          | `false`     |
+| `upperThreshold`   | `upper-threshold`       |             | `number \| string` | `50`        |
 
 
 ## Events
@@ -41,6 +41,29 @@
 | `scroll`        |             | `CustomEvent<any>` |
 | `scrolltolower` |             | `CustomEvent<any>` |
 | `scrolltoupper` |             | `CustomEvent<any>` |
+
+
+## Methods
+
+### `mpScrollIntoViewMethod(selector: string) => Promise<void>`
+
+
+
+#### Returns
+
+Type: `Promise<void>`
+
+
+
+### `mpScrollToMethod(object: ScrollViewContext.scrollTo.Option) => Promise<void>`
+
+
+
+#### Returns
+
+Type: `Promise<void>`
+
+
 
 
 ----------------------------------------------
