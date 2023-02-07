@@ -8,7 +8,7 @@ import { IS_SCROLLING_DEBOUNCE_INTERVAL } from '../constants'
 import { getRTLOffsetType } from '../dom-helpers'
 import ListSet from '../list-set'
 import Preset from '../preset'
-import { defaultItemKey, getRectSize } from '../utils'
+import { defaultItemKey, getRectSize, getScrollViewContextNode } from '../utils'
 import { validateListProps } from './validate'
 
 import type { IProps } from '../preset'
@@ -288,8 +288,25 @@ export default class List extends React.PureComponent<IProps, IState> {
     })
   }
 
-  public scrollTo (scrollOffset: number) {
+  public scrollTo (scrollOffset = 0) {
+    const { enhanced } = this.props
     scrollOffset = Math.max(0, scrollOffset)
+    if (this.state.scrollOffset === scrollOffset) return
+
+    if (enhanced) {
+      const isHorizontal = this.preset.isHorizontal
+      const option: any = {
+        animated: true,
+        duration: 500
+      }
+      if (isHorizontal) {
+        option.left	= scrollOffset
+      } else {
+        option.top = scrollOffset
+      }
+      return getScrollViewContextNode(`#${this.state.id}`).then((node: any) => node.scrollTo(option))
+    }
+
     this.setState((prevState: IState) => {
       if (prevState.scrollOffset === scrollOffset) {
         return null
@@ -383,6 +400,7 @@ export default class List extends React.PureComponent<IProps, IState> {
       style,
       useIsScrolling,
       width,
+      enhanced = false,
       renderTop,
       renderBottom,
       ...rest
@@ -444,6 +462,7 @@ export default class List extends React.PureComponent<IProps, IState> {
       onScroll,
       ref: this._outerRefSetter,
       layout,
+      enhanced,
       style: {
         position: 'relative',
         height: convertNumber2PX(height),
@@ -455,10 +474,13 @@ export default class List extends React.PureComponent<IProps, IState> {
         ...style
       }
     }
-    if (isHorizontal) {
-      outerElementProps.scrollLeft = scrollUpdateWasRequested ? scrollOffset : this.preset.field.scrollLeft
-    } else {
-      outerElementProps.scrollTop = scrollUpdateWasRequested ? scrollOffset : this.preset.field.scrollTop
+
+    if (!enhanced) {
+      if (isHorizontal) {
+        outerElementProps.scrollLeft = scrollUpdateWasRequested ? scrollOffset : this.preset.field.scrollLeft
+      } else {
+        outerElementProps.scrollTop = scrollUpdateWasRequested ? scrollOffset : this.preset.field.scrollTop
+      }
     }
 
     if (this.preset.isRelative) {

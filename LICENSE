@@ -39,7 +39,9 @@ See `/LICENSE` for details of the license.
 MIT (vite):
 The following files embed [vite](https://github.com/vitejs/vite) MIT:
 `/packages/taro-webpack5-prebundle/src/prebundle/scanImport.ts`,
-`/packages/taro-webpack5-prebundle/src/prebundle/bundle.ts`
+`/packages/taro-webpack5-prebundle/src/prebundle/bundle.ts`,
+`/packages/taro-webpack5-prebundle/src/h5.ts`,
+`/packages/taro-webpack5-prebundle/src/min.ts`
 See `/LICENSE` for details of the license.
 
 ==================
@@ -100,6 +102,13 @@ See `/LICENSE` for details of the license.
 MIT (webpack-contrib/css-loader):
 The following files embed [webpack-contrib/css-loader](https://github.com/webpack-contrib/css-loader) MIT:
 `/packages/taro-rn-style-transformer/src/utils/index.ts`
+See `/LICENSE` for details of the license.
+
+==================
+
+MIT (react-native):
+The following files embed [react-native](https://github.com/facebook/react-native) MIT:
+`/packages/taro-rn-style-transformer/src/transforms/StyleSheet/*`
 See `/LICENSE` for details of the license.
 
 ==================
