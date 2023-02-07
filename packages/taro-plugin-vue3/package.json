@@ -32,6 +32,8 @@
     "@tarojs/shared": "workspace:*"
   },
   "devDependencies": {
+    "@vue/compiler-core": "^3.0.0",
+    "@vue/runtime-core": "^3.0.0",
     "vue": "^3.0.0"
   },
   "peerDependencies": {
