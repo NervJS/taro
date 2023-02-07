@@ -46,6 +46,11 @@ interface VirtualListProps extends Omit<StandardProps, 'children'> {
    * @default View
    */
   innerElementType?: ComponentType
+  /** 通过 ScrollViewContext 优化组件滚动性能
+   * @default false
+   * @note 部分平台不支持，使用时请注意甄别
+   */
+  enhanced?: boolean
   /** 顶部区域 */
   renderTop?: ReactNode
   /** 底部区域 */

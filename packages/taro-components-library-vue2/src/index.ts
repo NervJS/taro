@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import { ExtendedVue } from 'vue/types/vue'
+import Fragment from 'vue-fragment'
 
 import * as components from './components'
 
@@ -8,6 +9,8 @@ export function initVue2Components () {
   if (!Vue.config.ignoredElements?.includes(ignoredElements[0])) {
     Vue.config.ignoredElements = [...Vue.config.ignoredElements, ...ignoredElements]
   }
+
+  Vue.use(Fragment.Plugin)
   Object.entries(components).forEach(params => {
     const [name, definition] = params as [string, ExtendedVue<Vue, unknown, unknown, unknown, Record<string, unknown>>]
     if (definition) {

@@ -1,0 +1,34 @@
+{
+  "name": "@tarojs/plugin-inject",
+  "version": "3.6.0",
+  "description": "Taro 小程序端平台中间层插件",
+  "author": "luckyadam",
+  "homepage": "https://github.com/nervjs/taro",
+  "license": "MIT",
+  "main": "index.js",
+  "keywords": [
+    "taro"
+  ],
+  "files": [
+    "index.js",
+    "dist"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NervJS/taro.git"
+  },
+  "scripts": {
+    "build": "rollup -c",
+    "dev": "rollup -c -w"
+  },
+  "bugs": {
+    "url": "https://github.com/NervJS/taro/issues"
+  },
+  "dependencies": {
+    "@tarojs/service": "workspace:*",
+    "@tarojs/shared": "workspace:*"
+  },
+  "peerDependencies": {
+    "react": ">=17"
+  }
+}

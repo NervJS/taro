@@ -4,29 +4,25 @@
   // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
   "version": "0.2.0",
   "configurations": [
-  {
-    "type": "node",
-    "request": "launch",
-    "name": "CLI debug",
-    "program": "${workspaceFolder}/packages/taro-cli/bin/taro",
-    // "cwd": "${project absolute path}",
-    // "args": [
-    //   "build",
-    //   "--type",
-    //   "weapp",
-    //   "--watch"
-    // ],
-    "skipFiles": [
-      "<node_internals>/**"
-    ]
-  },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "CLI debug",
+      "program": "${workspaceFolder}/packages/taro-cli/bin/taro",
+      // "cwd": "${project absolute path}",
+      // "args": [
+      //   "build",
+      //   "--type",
+      //   "weapp",
+      //   "--watch"
+      // ],
+      "skipFiles": ["<node_internals>/**"]
+    },
     {
       "type": "node",
       "name": "vscode-jest-tests",
       "request": "launch",
-      "args": [
-        "--runInBand"
-      ],
+      "args": ["--runInBand"],
       "cwd": "${workspaceFolder}",
       "console": "integratedTerminal",
       "internalConsoleOptions": "neverOpen",
@@ -39,9 +35,7 @@
       "name": "Launch Program",
       "program": "${workspaceFolder}/index.js",
       "preLaunchTask": "tsc: build - tsconfig.json",
-      "outFiles": [
-        "${workspaceFolder}/lib/**/*.js"
-      ]
+      "outFiles": ["${workspaceFolder}/lib/**/*.js"]
     },
     {
       "type": "node",
@@ -53,6 +47,6 @@
       "console": "integratedTerminal",
       "internalConsoleOptions": "neverOpen",
       "disableOptimisticBPs": true
-    },
+    }
   ]
 }
