@@ -98,6 +98,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.14.5",
+    "@types/sax": "^1.2.4",
     "webpack": "5.69.0",
     "postcss": "^8.4.18"
   },

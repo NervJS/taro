@@ -1,6 +1,5 @@
 import { ComponentType } from 'react'
 import { StandardProps } from './common'
-
 interface ChannelLiveProps extends StandardProps {
   /** 视频 feedId
    * @supported weapp
@@ -15,6 +14,7 @@ interface ChannelLiveProps extends StandardProps {
 
 /**
  * 小程序内嵌视频号直播组件，展示视频号直播状态和封面，并无弹窗跳转至视频号。注意：使用该组件打开的视频号视频需要与小程序的主体一致。
+ * @classification media
  * @supported weapp
  * @see https://developers.weixin.qq.com/miniprogram/dev/component/channel-live.html
  */
