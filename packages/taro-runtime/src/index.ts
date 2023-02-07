@@ -10,7 +10,7 @@ export { History } from './bom/history'
 export { Location } from './bom/location'
 export { nav as navigator } from './bom/navigator'
 export { caf as cancelAnimationFrame, now, raf as requestAnimationFrame } from './bom/raf'
-export { parseUrl,URL } from './bom/URL'
+export { parseUrl, URL } from './bom/URL'
 export { URLSearchParams } from './bom/URLSearchParams'
 export { history, location, window } from './bom/window'
 // dom
