@@ -150,7 +150,7 @@ importers:
       vue-template-compiler: ^2.6.11
       webpack: 5.69.0
       webpack-chain: 6.5.1
-      webpack-dev-server: 4.7.4
+      webpack-dev-server: 4.11.1
       webpack-sources: ^3.2.3
     devDependencies:
       '@babel/cli': registry.npmjs.org/@babel/cli/7.17.10_@babel+core@7.18.5
@@ -297,7 +297,7 @@ importers:
       vue-template-compiler: registry.npmjs.org/vue-template-compiler/2.6.14
       webpack: registry.npmjs.org/webpack/5.69.0_esbuild@0.14.47
       webpack-chain: registry.npmjs.org/webpack-chain/6.5.1
-      webpack-dev-server: registry.npmjs.org/webpack-dev-server/4.7.4_webpack@5.69.0
+      webpack-dev-server: registry.npmjs.org/webpack-dev-server/4.11.1_webpack@5.69.0
       webpack-sources: registry.npmjs.org/webpack-sources/3.2.3
 
   packages/babel-plugin-transform-react-jsx-to-rn-stylesheet:
@@ -802,9 +802,6 @@ importers:
       react-native-gesture-handler: registry.npmjs.org/react-native-gesture-handler/2.9.0_ed6hdicvoe3mtgaxburxkml6qq
       react-native-svg: registry.npmjs.org/react-native-svg/13.7.0_ed6hdicvoe3mtgaxburxkml6qq
       react-test-renderer: registry.npmjs.org/react-test-renderer/18.1.0_react@18.1.0
-
-  packages/taro-components/loader:
-    specifiers: {}
 
   packages/taro-extend:
     specifiers: {}
@@ -7708,6 +7705,12 @@ packages:
     version: 0.1.6
     dev: false
 
+  registry.npmjs.org/@leichtgewicht/ip-codec/2.0.4:
+    resolution: {integrity: sha512-Hcv+nVC0kZnQ3tD9GVu5xSMR4VVYOteQIr/hwFPVEvPdlXqgGEuRjiheChHgdM+JyqdgNcmzZOX/tnl0JOiI7A==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@leichtgewicht/ip-codec/-/ip-codec-2.0.4.tgz}
+    name: '@leichtgewicht/ip-codec'
+    version: 2.0.4
+    dev: true
+
   registry.npmjs.org/@mdn/browser-compat-data/4.2.1:
     resolution: {integrity: sha512-EWUguj2kd7ldmrF9F+vI5hUOralPd+sdsUnYbRy33vZTuZkduC1shE9TtEMEjAQwyfyMb4ole5KtjF8MsnQOlA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@mdn/browser-compat-data/-/browser-compat-data-4.2.1.tgz}
     name: '@mdn/browser-compat-data'
@@ -13357,6 +13360,17 @@ packages:
     transitivePeerDependencies:
       - supports-color
 
+  registry.npmjs.org/bonjour-service/1.1.0:
+    resolution: {integrity: sha512-LVRinRB3k1/K0XzZ2p58COnWvkQknIY6sf0zF2rpErvcJXpMBttEPQSxK+HEXSS9VmpZlDoDnQWv8ftJT20B0Q==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/bonjour-service/-/bonjour-service-1.1.0.tgz}
+    name: bonjour-service
+    version: 1.1.0
+    dependencies:
+      array-flatten: registry.npmjs.org/array-flatten/2.1.2
+      dns-equal: registry.npmjs.org/dns-equal/1.0.0
+      fast-deep-equal: registry.npmjs.org/fast-deep-equal/3.1.3
+      multicast-dns: registry.npmjs.org/multicast-dns/7.2.5
+    dev: true
+
   registry.npmjs.org/bonjour/3.5.0:
     resolution: {integrity: sha512-RaVTblr+OnEli0r/ud8InrU7D+G0y6aJhlxaLa6Pwty4+xoxboF1BsUI45tujvRpbj9dQVoglChqonGAsjEBYg==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/bonjour/-/bonjour-3.5.0.tgz}
     name: bonjour
@@ -14846,6 +14860,13 @@ packages:
     name: connect-history-api-fallback
     version: 1.6.0
     engines: {node: '>=0.8'}
+
+  registry.npmjs.org/connect-history-api-fallback/2.0.0:
+    resolution: {integrity: sha512-U73+6lQFmfiNPrYbXqr6kZ1i1wiRqXnp2nhMsINseWXO8lDau0LGEffJ8kQi4EjLZympVgRdvqjAgiZ1tgzDDA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/connect-history-api-fallback/-/connect-history-api-fallback-2.0.0.tgz}
+    name: connect-history-api-fallback
+    version: 2.0.0
+    engines: {node: '>=0.8'}
+    dev: true
 
   registry.npmjs.org/connect/3.7.0:
     resolution: {integrity: sha512-ZqRXc+tZukToSNmh5C2iWMSoV3X1YUcPbqEM4DkEG5tNQXrQUZCNVGGv3IuicnkMtPfGf3Xtp8WCXs295iQ1pQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/connect/-/connect-3.7.0.tgz}
@@ -16855,6 +16876,15 @@ packages:
     dependencies:
       ip: registry.npmjs.org/ip/1.1.8
       safe-buffer: registry.npmjs.org/safe-buffer/5.2.1
+
+  registry.npmjs.org/dns-packet/5.4.0:
+    resolution: {integrity: sha512-EgqGeaBB8hLiHLZtp/IbaDQTL8pZ0+IvwzSHA6d7VyMDM+B9hgddEMa9xjK5oYnw0ci0JQ6g2XCD7/f6cafU6g==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/dns-packet/-/dns-packet-5.4.0.tgz}
+    name: dns-packet
+    version: 5.4.0
+    engines: {node: '>=6'}
+    dependencies:
+      '@leichtgewicht/ip-codec': registry.npmjs.org/@leichtgewicht/ip-codec/2.0.4
+    dev: true
 
   registry.npmjs.org/dns-txt/2.0.2:
     resolution: {integrity: sha512-Ix5PrWjphuSoUXV/Zv5gaFHjnaJtb02F2+Si3Ht9dyJ87+Z/lMmy+dpNHtTGraNK958ndXq2i+GLkWsWHcKaBQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/dns-txt/-/dns-txt-2.0.2.tgz}
@@ -25918,6 +25948,16 @@ packages:
       dns-packet: registry.npmjs.org/dns-packet/1.3.4
       thunky: registry.npmjs.org/thunky/1.1.0
 
+  registry.npmjs.org/multicast-dns/7.2.5:
+    resolution: {integrity: sha512-2eznPJP8z2BFLX50tf0LuODrpINqP1RVIm/CObbTcBRITQgmC/TjcREF1NeTBzIcR5XO/ukWo+YHOjBbFwIupg==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/multicast-dns/-/multicast-dns-7.2.5.tgz}
+    name: multicast-dns
+    version: 7.2.5
+    hasBin: true
+    dependencies:
+      dns-packet: registry.npmjs.org/dns-packet/5.4.0
+      thunky: registry.npmjs.org/thunky/1.1.0
+    dev: true
+
   registry.npmjs.org/multimatch/4.0.0:
     resolution: {integrity: sha512-lDmx79y1z6i7RNx0ZGCPq1bzJ6ZoDDKbvh7jxr9SJcWLkShMzXrHbYVpTdnhNM5MXpDUxCQ4DgqVttVXlBgiBQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/multimatch/-/multimatch-4.0.0.tgz}
     name: multimatch
@@ -31361,6 +31401,15 @@ packages:
     dependencies:
       node-forge: registry.npmjs.org/node-forge/1.3.1
 
+  registry.npmjs.org/selfsigned/2.1.1:
+    resolution: {integrity: sha512-GSL3aowiF7wa/WtSFwnUrludWFoNhftq8bUkH9pkzjpN2XSPOAYEgg6e0sS9s0rZwgJzJiQRPU18A6clnoW5wQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/selfsigned/-/selfsigned-2.1.1.tgz}
+    name: selfsigned
+    version: 2.1.1
+    engines: {node: '>=10'}
+    dependencies:
+      node-forge: registry.npmjs.org/node-forge/1.3.1
+    dev: true
+
   registry.npmjs.org/semver-compare/1.0.0:
     resolution: {integrity: sha512-YM3/ITh2MJ5MtzaM429anh+x2jiLVjqILF4m4oyQB18W7Ggea7BfqdH/wGMK7dDiMghv/6WG7znWMwUDzJiXow==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/semver-compare/-/semver-compare-1.0.0.tgz}
     name: semver-compare
@@ -35085,6 +35134,57 @@ packages:
       - bufferutil
       - utf-8-validate
     dev: false
+
+  registry.npmjs.org/webpack-dev-server/4.11.1_webpack@5.69.0:
+    resolution: {integrity: sha512-lILVz9tAUy1zGFwieuaQtYiadImb5M3d+H+L1zDYalYoDl0cksAB1UNyuE5MMWJrG6zR1tXkCP2fitl7yoUJiw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/webpack-dev-server/-/webpack-dev-server-4.11.1.tgz}
+    id: registry.npmjs.org/webpack-dev-server/4.11.1
+    name: webpack-dev-server
+    version: 4.11.1
+    engines: {node: '>= 12.13.0'}
+    hasBin: true
+    peerDependencies:
+      webpack: ^4.37.0 || ^5.0.0
+      webpack-cli: '*'
+    peerDependenciesMeta:
+      webpack-cli:
+        optional: true
+    dependencies:
+      '@types/bonjour': registry.npmjs.org/@types/bonjour/3.5.10
+      '@types/connect-history-api-fallback': registry.npmjs.org/@types/connect-history-api-fallback/1.3.5
+      '@types/express': registry.npmjs.org/@types/express/4.17.13
+      '@types/serve-index': registry.npmjs.org/@types/serve-index/1.9.1
+      '@types/serve-static': registry.npmjs.org/@types/serve-static/1.13.10
+      '@types/sockjs': registry.npmjs.org/@types/sockjs/0.3.33
+      '@types/ws': registry.npmjs.org/@types/ws/8.5.3
+      ansi-html-community: registry.npmjs.org/ansi-html-community/0.0.8
+      bonjour-service: registry.npmjs.org/bonjour-service/1.1.0
+      chokidar: registry.npmjs.org/chokidar/3.5.3
+      colorette: registry.npmjs.org/colorette/2.0.19
+      compression: registry.npmjs.org/compression/1.7.4
+      connect-history-api-fallback: registry.npmjs.org/connect-history-api-fallback/2.0.0
+      default-gateway: registry.npmjs.org/default-gateway/6.0.3
+      express: registry.npmjs.org/express/4.18.1
+      graceful-fs: registry.npmjs.org/graceful-fs/4.2.10
+      html-entities: registry.npmjs.org/html-entities/2.3.3
+      http-proxy-middleware: registry.npmjs.org/http-proxy-middleware/2.0.6_@types+express@4.17.13
+      ipaddr.js: registry.npmjs.org/ipaddr.js/2.0.1
+      open: registry.npmjs.org/open/8.4.0
+      p-retry: registry.npmjs.org/p-retry/4.6.2
+      rimraf: registry.npmjs.org/rimraf/3.0.2
+      schema-utils: registry.npmjs.org/schema-utils/4.0.0
+      selfsigned: registry.npmjs.org/selfsigned/2.1.1
+      serve-index: registry.npmjs.org/serve-index/1.9.1
+      sockjs: registry.npmjs.org/sockjs/0.3.24
+      spdy: registry.npmjs.org/spdy/4.0.2
+      webpack: registry.npmjs.org/webpack/5.69.0_esbuild@0.14.47
+      webpack-dev-middleware: registry.npmjs.org/webpack-dev-middleware/5.3.3_webpack@5.69.0
+      ws: registry.npmjs.org/ws/8.11.0
+    transitivePeerDependencies:
+      - bufferutil
+      - debug
+      - supports-color
+      - utf-8-validate
+    dev: true
 
   registry.npmjs.org/webpack-dev-server/4.7.4_webpack@5.69.0:
     resolution: {integrity: sha512-nfdsb02Zi2qzkNmgtZjkrMOcXnYZ6FLKcQwpxT7MvmHKc+oTtDsBju8j+NMyAygZ9GW1jMEUpy3itHtqgEhe1A==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/webpack-dev-server/-/webpack-dev-server-4.7.4.tgz}
