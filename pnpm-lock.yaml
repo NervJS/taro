@@ -119,7 +119,7 @@ importers:
       vue-template-compiler: ^2.6.11
       webpack: 5.78.0
       webpack-chain: 6.5.1
-      webpack-dev-server: 4.7.4
+      webpack-dev-server: 4.11.1
       webpack-sources: ^3.2.3
     devDependencies:
       '@babel/cli': registry.npmjs.org/@babel/cli/7.21.5_@babel+core@7.21.8
@@ -235,7 +235,7 @@ importers:
       vue-template-compiler: registry.npmjs.org/vue-template-compiler/2.7.14
       webpack: registry.npmjs.org/webpack/5.78.0
       webpack-chain: registry.npmjs.org/webpack-chain/6.5.1
-      webpack-dev-server: registry.npmjs.org/webpack-dev-server/4.7.4_webpack@5.78.0
+      webpack-dev-server: registry.npmjs.org/webpack-dev-server/4.11.1_webpack@5.78.0
       webpack-sources: registry.npmjs.org/webpack-sources/3.2.3
 
   packages/babel-plugin-transform-react-jsx-to-rn-stylesheet:
@@ -2272,7 +2272,7 @@ importers:
       typescript: ^4.7.4
       webpack: 5.78.0
       webpack-chain: 6.5.1
-      webpack-dev-server: 4.7.4
+      webpack-dev-server: 4.11.1
       webpack-virtual-modules: ^0.5.0
     dependencies:
       '@tarojs/helper': link:../taro-helper
@@ -2289,7 +2289,7 @@ importers:
       ts-jest: registry.npmjs.org/ts-jest/29.1.0_doipufordlnvh5g4adbwayvyvy
       typescript: registry.npmjs.org/typescript/4.9.5
       webpack: registry.npmjs.org/webpack/5.78.0
-      webpack-dev-server: registry.npmjs.org/webpack-dev-server/4.7.4_webpack@5.78.0
+      webpack-dev-server: registry.npmjs.org/webpack-dev-server/4.11.1_webpack@5.78.0
 
   packages/taro-webpack5-runner:
     specifiers:
@@ -2366,7 +2366,7 @@ importers:
       vue-loader: ^15.10.1
       webpack: 5.78.0
       webpack-chain: 6.5.1
-      webpack-dev-server: 4.7.4
+      webpack-dev-server: 4.11.1
       webpack-format-messages: ^2.0.6
       webpack-merge: ^4.2.2
       webpackbar: ^5.0.2
@@ -2429,7 +2429,7 @@ importers:
       vm2: registry.npmjs.org/vm2/3.9.17
       vue-loader: registry.npmjs.org/vue-loader/15.10.1_2pus2vgzeyqqeogvuzpu66jcia
       webpack-chain: registry.npmjs.org/webpack-chain/6.5.1
-      webpack-dev-server: registry.npmjs.org/webpack-dev-server/4.7.4_webpack@5.78.0
+      webpack-dev-server: registry.npmjs.org/webpack-dev-server/4.11.1_webpack@5.78.0
       webpack-format-messages: registry.npmjs.org/webpack-format-messages/2.0.6
       webpackbar: registry.npmjs.org/webpackbar/5.0.2_webpack@5.78.0
     devDependencies:
@@ -8393,6 +8393,11 @@ packages:
     version: 0.1.6
     dev: false
 
+  registry.npmjs.org/@leichtgewicht/ip-codec/2.0.4:
+    resolution: {integrity: sha512-Hcv+nVC0kZnQ3tD9GVu5xSMR4VVYOteQIr/hwFPVEvPdlXqgGEuRjiheChHgdM+JyqdgNcmzZOX/tnl0JOiI7A==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@leichtgewicht/ip-codec/-/ip-codec-2.0.4.tgz}
+    name: '@leichtgewicht/ip-codec'
+    version: 2.0.4
+
   registry.npmjs.org/@mdn/browser-compat-data/5.2.56:
     resolution: {integrity: sha512-1Pu6qcdJ1tQApjhWONtf8XtXH4bG9qnRyry+mYzNgZhfawoO2ODJWasvDf4pgEPlaHbxxFuZFL5l3UeKCdS3Xg==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@mdn/browser-compat-data/-/browser-compat-data-5.2.56.tgz}
     name: '@mdn/browser-compat-data'
@@ -12471,6 +12476,7 @@ packages:
     version: 2.6.4
     dependencies:
       lodash: registry.npmjs.org/lodash/4.17.21
+    dev: false
 
   registry.npmjs.org/async/3.2.4:
     resolution: {integrity: sha512-iAB+JbDEGXhyIUavoDl9WP/Jj106Kz9DEn1DPgYw5ruDn0e3Wgi3sKFm55sASdGBNOQB8F59d9qQ7deqrHA8wQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/async/-/async-3.2.4.tgz}
@@ -14222,6 +14228,16 @@ packages:
     transitivePeerDependencies:
       - supports-color
 
+  registry.npmjs.org/bonjour-service/1.1.1:
+    resolution: {integrity: sha512-Z/5lQRMOG9k7W+FkeGTNjh7htqn/2LMnfOvBZ8pynNZCM9MwkQkI3zeI4oz09uWdcgmgHugVvBqxGg4VQJ5PCg==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/bonjour-service/-/bonjour-service-1.1.1.tgz}
+    name: bonjour-service
+    version: 1.1.1
+    dependencies:
+      array-flatten: registry.npmjs.org/array-flatten/2.1.2
+      dns-equal: registry.npmjs.org/dns-equal/1.0.0
+      fast-deep-equal: registry.npmjs.org/fast-deep-equal/3.1.3
+      multicast-dns: registry.npmjs.org/multicast-dns/7.2.5
+
   registry.npmjs.org/bonjour/3.5.0:
     resolution: {integrity: sha512-RaVTblr+OnEli0r/ud8InrU7D+G0y6aJhlxaLa6Pwty4+xoxboF1BsUI45tujvRpbj9dQVoglChqonGAsjEBYg==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/bonjour/-/bonjour-3.5.0.tgz}
     name: bonjour
@@ -14233,6 +14249,7 @@ packages:
       dns-txt: registry.npmjs.org/dns-txt/2.0.2
       multicast-dns: registry.npmjs.org/multicast-dns/6.2.3
       multicast-dns-service-types: registry.npmjs.org/multicast-dns-service-types/1.1.0
+    dev: false
 
   registry.npmjs.org/boolbase/1.0.0:
     resolution: {integrity: sha512-JZOSA7Mo9sNGB8+UjSgzdLtokWAky1zbztM3WRLCbZ70/3cTANmQmOdR7y2g+J0e2WXywy1yS468tY+IruqEww==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/boolbase/-/boolbase-1.0.0.tgz}
@@ -14535,6 +14552,7 @@ packages:
     resolution: {integrity: sha512-4/rOEg86jivtPTeOUUT61jJO1Ya1TrR/OkqCSZDyq84WJh3LuuiphBYJN+fm5xufIk4XAFcEwte/8WzC8If/1g==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/buffer-indexof/-/buffer-indexof-1.1.1.tgz}
     name: buffer-indexof
     version: 1.1.1
+    dev: false
 
   registry.npmjs.org/buffer-xor/1.0.3:
     resolution: {integrity: sha512-571s0T7nZWK6vB67HI5dyUF7wXiNcfaPPPTl6zYCNApANjIvYJTg7hlud/+cJpdAhS7dVzqMLmfhfHR3rAcOjQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/buffer-xor/-/buffer-xor-1.0.3.tgz}
@@ -15722,6 +15740,13 @@ packages:
     resolution: {integrity: sha512-e54B99q/OUoH64zYYRf3HBP5z24G38h5D3qXu23JGRoigpX5Ss4r9ZnDk3g0Z8uQC2x2lPaJ+UlWBc1ZWBWdLg==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/connect-history-api-fallback/-/connect-history-api-fallback-1.6.0.tgz}
     name: connect-history-api-fallback
     version: 1.6.0
+    engines: {node: '>=0.8'}
+    dev: false
+
+  registry.npmjs.org/connect-history-api-fallback/2.0.0:
+    resolution: {integrity: sha512-U73+6lQFmfiNPrYbXqr6kZ1i1wiRqXnp2nhMsINseWXO8lDau0LGEffJ8kQi4EjLZympVgRdvqjAgiZ1tgzDDA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/connect-history-api-fallback/-/connect-history-api-fallback-2.0.0.tgz}
+    name: connect-history-api-fallback
+    version: 2.0.0
     engines: {node: '>=0.8'}
 
   registry.npmjs.org/connect/3.7.0:
@@ -17778,6 +17803,15 @@ packages:
     dependencies:
       ip: registry.npmjs.org/ip/1.1.8
       safe-buffer: registry.npmjs.org/safe-buffer/5.2.1
+    dev: false
+
+  registry.npmjs.org/dns-packet/5.6.0:
+    resolution: {integrity: sha512-rza3UH1LwdHh9qyPXp8lkwpjSNk/AMD3dPytUoRoqnypDUhY0xvbdmVhWOfxO68frEfV9BU8V12Ez7ZsHGZpCQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/dns-packet/-/dns-packet-5.6.0.tgz}
+    name: dns-packet
+    version: 5.6.0
+    engines: {node: '>=6'}
+    dependencies:
+      '@leichtgewicht/ip-codec': registry.npmjs.org/@leichtgewicht/ip-codec/2.0.4
 
   registry.npmjs.org/dns-txt/2.0.2:
     resolution: {integrity: sha512-Ix5PrWjphuSoUXV/Zv5gaFHjnaJtb02F2+Si3Ht9dyJ87+Z/lMmy+dpNHtTGraNK958ndXq2i+GLkWsWHcKaBQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/dns-txt/-/dns-txt-2.0.2.tgz}
@@ -17785,6 +17819,7 @@ packages:
     version: 2.0.2
     dependencies:
       buffer-indexof: registry.npmjs.org/buffer-indexof/1.1.1
+    dev: false
 
   registry.npmjs.org/doctrine/2.1.0:
     resolution: {integrity: sha512-35mSku4ZXK0vfCuHEDAwt55dg2jNajHZ1odvF+8SSr82EsZY4QmXfuWso8oEd8zRhVObSN18aM0CjSdoBX7zIw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/doctrine/-/doctrine-2.1.0.tgz}
@@ -27817,6 +27852,7 @@ packages:
     resolution: {integrity: sha512-cnAsSVxIDsYt0v7HmC0hWZFwwXSh+E6PgCrREDuN/EsjgLwA5XRmlMHhSiDPrt6HxY1gTivEa/Zh7GtODoLevQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/multicast-dns-service-types/-/multicast-dns-service-types-1.1.0.tgz}
     name: multicast-dns-service-types
     version: 1.1.0
+    dev: false
 
   registry.npmjs.org/multicast-dns/6.2.3:
     resolution: {integrity: sha512-ji6J5enbMyGRHIAkAOu3WdV8nggqviKCEKtXcOqfphZZtQrmHKycfynJ2V7eVPUA4NhJ6V7Wf4TmGbTwKE9B6g==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/multicast-dns/-/multicast-dns-6.2.3.tgz}
@@ -27825,6 +27861,16 @@ packages:
     hasBin: true
     dependencies:
       dns-packet: registry.npmjs.org/dns-packet/1.3.4
+      thunky: registry.npmjs.org/thunky/1.1.0
+    dev: false
+
+  registry.npmjs.org/multicast-dns/7.2.5:
+    resolution: {integrity: sha512-2eznPJP8z2BFLX50tf0LuODrpINqP1RVIm/CObbTcBRITQgmC/TjcREF1NeTBzIcR5XO/ukWo+YHOjBbFwIupg==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/multicast-dns/-/multicast-dns-7.2.5.tgz}
+    name: multicast-dns
+    version: 7.2.5
+    hasBin: true
+    dependencies:
+      dns-packet: registry.npmjs.org/dns-packet/5.6.0
       thunky: registry.npmjs.org/thunky/1.1.0
 
   registry.npmjs.org/multimatch/5.0.0:
@@ -29470,18 +29516,6 @@ packages:
     version: 6.0.0
     engines: {node: '>=12.13.0'}
     dev: false
-
-  registry.npmjs.org/portfinder/1.0.32:
-    resolution: {integrity: sha512-on2ZJVVDXRADWE6jnQaX0ioEylzgBpQk8r55NE4wjXW1ZxO+BgDlY6DXwj20i0V8eB4SenDQ00WEaxfiIQPcxg==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/portfinder/-/portfinder-1.0.32.tgz}
-    name: portfinder
-    version: 1.0.32
-    engines: {node: '>= 0.12.0'}
-    dependencies:
-      async: registry.npmjs.org/async/2.6.4
-      debug: registry.npmjs.org/debug/3.2.7
-      mkdirp: registry.npmjs.org/mkdirp/0.5.6
-    transitivePeerDependencies:
-      - supports-color
 
   registry.npmjs.org/portfinder/1.0.32_supports-color@6.1.0:
     resolution: {integrity: sha512-on2ZJVVDXRADWE6jnQaX0ioEylzgBpQk8r55NE4wjXW1ZxO+BgDlY6DXwj20i0V8eB4SenDQ00WEaxfiIQPcxg==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/portfinder/-/portfinder-1.0.32.tgz}
@@ -37389,11 +37423,11 @@ packages:
       - utf-8-validate
     dev: false
 
-  registry.npmjs.org/webpack-dev-server/4.7.4_webpack@5.78.0:
-    resolution: {integrity: sha512-nfdsb02Zi2qzkNmgtZjkrMOcXnYZ6FLKcQwpxT7MvmHKc+oTtDsBju8j+NMyAygZ9GW1jMEUpy3itHtqgEhe1A==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/webpack-dev-server/-/webpack-dev-server-4.7.4.tgz}
-    id: registry.npmjs.org/webpack-dev-server/4.7.4
+  registry.npmjs.org/webpack-dev-server/4.11.1_webpack@5.78.0:
+    resolution: {integrity: sha512-lILVz9tAUy1zGFwieuaQtYiadImb5M3d+H+L1zDYalYoDl0cksAB1UNyuE5MMWJrG6zR1tXkCP2fitl7yoUJiw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/webpack-dev-server/-/webpack-dev-server-4.11.1.tgz}
+    id: registry.npmjs.org/webpack-dev-server/4.11.1
     name: webpack-dev-server
-    version: 4.7.4
+    version: 4.11.1
     engines: {node: '>= 12.13.0'}
     hasBin: true
     peerDependencies:
@@ -37407,16 +37441,16 @@ packages:
       '@types/connect-history-api-fallback': registry.npmjs.org/@types/connect-history-api-fallback/1.5.0
       '@types/express': registry.npmjs.org/@types/express/4.17.17
       '@types/serve-index': registry.npmjs.org/@types/serve-index/1.9.1
+      '@types/serve-static': registry.npmjs.org/@types/serve-static/1.15.1
       '@types/sockjs': registry.npmjs.org/@types/sockjs/0.3.33
       '@types/ws': registry.npmjs.org/@types/ws/8.5.4
       ansi-html-community: registry.npmjs.org/ansi-html-community/0.0.8
-      bonjour: registry.npmjs.org/bonjour/3.5.0
+      bonjour-service: registry.npmjs.org/bonjour-service/1.1.1
       chokidar: registry.npmjs.org/chokidar/3.5.3
       colorette: registry.npmjs.org/colorette/2.0.20
       compression: registry.npmjs.org/compression/1.7.4
-      connect-history-api-fallback: registry.npmjs.org/connect-history-api-fallback/1.6.0
+      connect-history-api-fallback: registry.npmjs.org/connect-history-api-fallback/2.0.0
       default-gateway: registry.npmjs.org/default-gateway/6.0.3
-      del: registry.npmjs.org/del/6.1.1
       express: registry.npmjs.org/express/4.18.2
       graceful-fs: registry.npmjs.org/graceful-fs/4.2.11
       html-entities: registry.npmjs.org/html-entities/2.3.3
@@ -37424,13 +37458,12 @@ packages:
       ipaddr.js: registry.npmjs.org/ipaddr.js/2.0.1
       open: registry.npmjs.org/open/8.4.2
       p-retry: registry.npmjs.org/p-retry/4.6.2
-      portfinder: registry.npmjs.org/portfinder/1.0.32
+      rimraf: registry.npmjs.org/rimraf/3.0.2
       schema-utils: registry.npmjs.org/schema-utils/4.0.1
       selfsigned: registry.npmjs.org/selfsigned/2.1.1
       serve-index: registry.npmjs.org/serve-index/1.9.1
       sockjs: registry.npmjs.org/sockjs/0.3.24
       spdy: registry.npmjs.org/spdy/4.0.2
-      strip-ansi: registry.npmjs.org/strip-ansi/7.0.1
       webpack: registry.npmjs.org/webpack/5.78.0
       webpack-dev-middleware: registry.npmjs.org/webpack-dev-middleware/5.3.3_webpack@5.78.0
       ws: registry.npmjs.org/ws/8.13.0
