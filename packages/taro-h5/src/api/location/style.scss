@@ -1,13 +1,13 @@
 .taro_choose_location {
-  position: fixed;
   display: flex;
+  position: fixed;
+  top: 100%;
+  z-index: 1;
   flex-direction: column;
   width: 100%;
   height: 100%;
-  top: 100%;
   background-color: #fff;
-  transition: ease top .3s;
-  z-index: 1;
+  transition: ease top 0.3s;
 
   &_bar {
     display: flex;
@@ -18,59 +18,53 @@
   }
 
   &_back {
-    flex: 0 45px;
     position: relative;
+    flex: 0 45px;
+    margin-top: 30px;
     width: 33px;
     height: 30px;
-    margin-top: 30px;
 
     &::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
       display: block;
+      position: absolute;
+      left: 0;
+      top: 0;
+      border: solid 15px;
+      border-color: transparent #090909 transparent transparent;
       width: 0;
       height: 0;
-      border: solid 15px;
-      border-top-color: transparent;
-      border-right-color: #090909;
-      border-bottom-color: transparent;
-      border-left-color: transparent;
+      content: "";
     }
 
     &::after {
-      content: '';
-      position: absolute;
       display: block;
+      position: absolute;
+      left: 3px;
+      top: 0;
+      border: solid 15px;
+      border-color: transparent #ededed transparent transparent;
       width: 0;
       height: 0;
-      top: 0;
-      left: 3px;
-      border: solid 15px;
-      border-top-color: transparent;
-      border-right-color: #ededed;
-      border-bottom-color: transparent;
-      border-left-color: transparent;
+      content: "";
     }
   }
 
   &_title {
     flex: 1;
-    line-height: 95px;
     padding-left: 30px;
+    line-height: 95px;
   }
 
   &_submit {
+    margin: 18px 30px 0 0;
+    padding: 0;
+    border: none;
     width: 110px;
     height: 60px;
-    color: #fff;
     background-color: #08bf62;
-    border: none;
-    font-size: 28px;
     line-height: 60px;
-    padding: 0;
-    margin: 18px 30px 0 0;
+    font-size: 28px;
+    color: #fff;
   }
 
   &_frame {

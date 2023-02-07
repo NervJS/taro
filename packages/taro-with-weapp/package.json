@@ -26,5 +26,9 @@
     "@tarojs/runtime": "workspace:*",
     "@tarojs/taro": "workspace:*",
     "lodash": "^4.17.21"
+  },
+  "devDependencies": {
+    "@types/sinon": "^7.5.0",
+    "sinon": "^7.5.0"
   }
 }
