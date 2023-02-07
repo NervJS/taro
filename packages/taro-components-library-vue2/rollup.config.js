@@ -15,7 +15,9 @@ const config = {
   },
   treeshake: false,
   plugins: [
-    externals(),
+    externals({
+      exclude: ['vue-fragment']
+    }),
     resolve({
       preferBuiltins: false,
       mainFields: ['main:h5', 'browser', 'module', 'jsnext:main', 'main']

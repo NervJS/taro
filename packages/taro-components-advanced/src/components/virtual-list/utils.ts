@@ -34,3 +34,8 @@ export function getRectSize (id: string, success?: TFunc, fail?: TFunc, retryMs 
     }, retryMs)
   }
 }
+
+export async function getScrollViewContextNode (id: string) {
+  const query = Taro.createSelectorQuery()
+  return new Promise((resolve) => query.select(id).node(({ node }) => resolve(node)).exec())
+}

@@ -53,7 +53,7 @@ export const A = 'a'
  */
 export enum CONTEXT_ACTIONS {
   INIT = '0',
-  RECOVER = '1',
-  RESTORE = '2',
+  RESTORE = '1',
+  RECOVER = '2',
   DESTORY = '3'
 }

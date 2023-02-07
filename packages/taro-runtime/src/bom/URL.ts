@@ -1,6 +1,5 @@
 import { isString, isUndefined } from '@tarojs/shared'
 
-import { parseUrl } from './location'
 import { URLSearchParams } from './URLSearchParams'
 
 export class URL {
@@ -78,7 +77,13 @@ export class URL {
 
   set pathname (val: string) {
     if (isString(val)) {
-      if (val) this.#pathname = val.trim()
+      val = val.trim()
+      const HEAD_REG = /^(\/|\.\/|\.\.\/)/
+      let temp = val
+      while (HEAD_REG.test(temp)) {
+        temp = temp.replace(HEAD_REG, '')
+      }
+      if (temp) this.#pathname = '/' + temp
       else this.#pathname = '/'
     }
   }
@@ -165,6 +170,40 @@ export class URL {
       href: this.href,
     }
   }
+}
+
+export function parseUrl (url = '') {
+  const result = {
+    href: '',
+    origin: '',
+    protocol: '',
+    hostname: '',
+    host: '',
+    port: '',
+    pathname: '',
+    search: '',
+    hash: ''
+  }
+  if (!url || !isString(url)) return result
+
+  url = url.trim()
+  const PATTERN = /^(([^:/?#]+):)?\/\/(([^/?#]+):(.+)@)?([^/?#:]*)(:(\d+))?([^?#]*)(\?([^#]*))?(#(.*))?/
+  const matches = url.match(PATTERN)
+
+  if (!matches) return result
+
+  // TODO: username & password ?
+  result.protocol = matches[1] || 'https:'
+  result.hostname = matches[6] || 'taro.com'
+  result.port = matches[8] || ''
+  result.pathname = matches[9] || '/'
+  result.search = matches[10] || ''
+  result.hash = matches[12] || ''
+  result.href = url
+  result.origin = result.protocol + '//' + result.hostname
+  result.host = result.hostname + (result.port ? `:${result.port}` : '')
+
+  return result
 }
 
 export function parseUrlBase (url: string, base?: string) {
