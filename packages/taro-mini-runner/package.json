@@ -91,6 +91,7 @@
     "webpack-format-messages": "^2.0.5"
   },
   "devDependencies": {
+    "@types/sax": "^1.2.4",
     "@types/webpack": "4",
     "webpack-merge": "^4.2.2",
     "vue-loader": "^15.9.3",
