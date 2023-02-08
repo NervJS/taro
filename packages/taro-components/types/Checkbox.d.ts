@@ -23,13 +23,6 @@ interface CheckboxProps extends StandardProps {
    */
   color?: string
 
-  /** 选中项发生变化时触发 change 事件，小程序无此 API
-   * @supported alipay, h5, rn
-   */
-  onChange?: CommonEventFunction<{
-    value: string[]
-  }>
-
   /** 用于透传 `WebComponents` 上的属性到内部 H5 标签上
    * @supported h5
    */
@@ -39,11 +32,18 @@ interface CheckboxProps extends StandardProps {
    * @supported qq
    */
   ariaLabel?: string
+
+  /** 选中项发生变化时触发 change 事件，小程序无此 API
+   * @supported alipay, h5, rn
+   */
+  onChange?: CommonEventFunction<{
+    value: string[]
+  }>
 }
 
 /** 多选项目
  * @classification forms
- * @supported weapp, h5, rn
+ * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony
  * @example_react
  * ```tsx
  * export default class PageCheckbox extends Component {

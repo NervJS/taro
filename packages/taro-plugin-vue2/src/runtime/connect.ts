@@ -208,6 +208,14 @@ export function createVueApp (App: ComponentOptions<VueCtor>, vue: V, config: Ap
         }
       }
     }),
+    
+    onUnhandledRejection: setDefaultDescriptor({
+      value (error) {
+        if (appInstance != null && isFunction(appInstance.$options.onUnhandledRejection)) {
+          appInstance.$options.onUnhandledRejection.call(appInstance, error)
+        }
+      }
+    }),
 
     onPageNotFound: setDefaultDescriptor({
       value (res) {

@@ -1,4 +1,3 @@
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { Component, Prop, h, ComponentInterface, Host, Listen, State, Event, EventEmitter, Element } from '@stencil/core'
 import classNames from 'classnames'
 
@@ -64,7 +63,10 @@ export class View implements ComponentInterface {
   componentDidRender () {
     const el = this.el
     el.childNodes.forEach(item => {
-      if (item.nodeType === document.COMMENT_NODE && item["s-cn"]) item["s-cn"] = false
+      // Note: ['s-cn'] Content Reference Node
+      if (item.nodeType === document.COMMENT_NODE && item['s-cn']) item['s-cn'] = false
+      // Note: ['s-sr'] Is a slot reference node (渲染完成后禁用 slotRelocation 特性, 避免 Stencil 组件相互调用时内置排序与第三方 UI 框架冲突导致组件顺序混乱)
+      if (item.nodeType !== document.COMMENT_NODE && item['s-sr']) item['s-sr'] = false
     })
   }
 

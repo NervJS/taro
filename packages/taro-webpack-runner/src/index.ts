@@ -166,7 +166,7 @@ const buildDev = async (appPath: string, config: BuildConfig, appConfig: AppConf
     devServerOptions.useLocalIp = false
   }
 
-  const originalPort = devServerOptions.port
+  const originalPort = Number(devServerOptions.port)
   const availablePort = await detectPort(originalPort)
 
   if (availablePort !== originalPort) {

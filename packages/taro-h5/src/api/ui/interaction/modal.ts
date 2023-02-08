@@ -1,4 +1,6 @@
-import { inlineStyle } from '../../../utils'
+import { Current } from '@tarojs/runtime'
+
+import { getCurrentPath, inlineStyle } from '../../../utils'
 
 export default class Modal {
   options = {
@@ -60,6 +62,7 @@ export default class Modal {
     }
   }
 
+  currentPath: string | null
   el: HTMLDivElement
   title: HTMLDivElement
   text: HTMLDivElement
@@ -160,6 +163,9 @@ export default class Modal {
       // show immediately
       document.body.appendChild(this.el)
       setTimeout(() => { this.el.style.opacity = '1' }, 0)
+
+      // Current.page不存在时说明路由还未挂载，此时需根据url来分配将要渲染的页面path
+      this.currentPath = Current.page?.path ?? getCurrentPath()
     })
   }
 
@@ -223,12 +229,17 @@ export default class Modal {
       // show
       this.el.style.display = 'block'
       setTimeout(() => { this.el.style.opacity = '1' }, 0)
+
+      // Current.page不存在时说明路由还未挂载，此时需根据url来分配将要渲染的页面path
+      this.currentPath = Current.page?.path ?? getCurrentPath()
     })
   }
 
   hide () {
     if (this.hideOpacityTimer) clearTimeout(this.hideOpacityTimer)
     if (this.hideDisplayTimer) clearTimeout(this.hideDisplayTimer)
+
+    this.currentPath = null
 
     this.hideOpacityTimer = setTimeout(() => {
       this.el.style.opacity = '0'

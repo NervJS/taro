@@ -1,8 +1,9 @@
-import { EMPTY_OBJ, hooks } from '@tarojs/shared'
+import { EMPTY_OBJ, hooks, isUndefined } from '@tarojs/shared'
 
 import {
   CONFIRM,
   CURRENT_TARGET,
+  EVENT_CALLBACK_RESULT,
   INPUT,
   KEY_CODE,
   TARGET,
@@ -32,6 +33,9 @@ export class TaroEvent {
   public _end = false
 
   public defaultPrevented = false
+
+  // Mouse Event botton property, it's used in 3rd lib, like react-router. default 0 in general
+  public button = 0
 
   // timestamp can either be hi-res ( relative to page load) or low-res (relative to UNIX epoch)
   // here use hi-res timestamp
@@ -134,14 +138,28 @@ export function createEvent (event: MpEvent | string, node?: TaroElement) {
 
 const eventsBatch = {}
 
+function getEventCBResult (event: MpEvent) {
+  const result = event[EVENT_CALLBACK_RESULT]
+  if (!isUndefined(result)) {
+    delete event[EVENT_CALLBACK_RESULT]
+  }
+  return result
+}
+
 // 小程序的事件代理回调函数
 export function eventHandler (event: MpEvent) {
+  // Note: ohos 上事件没有设置 type、detail 类型 setter 方法，且部分事件（例如 load 等）缺失 target 导致事件错误
+  !event.type && Object.defineProperty(event, 'type', {
+    value: (event as any)._type // ohos only
+  })
+  !event.detail && Object.defineProperty(event, 'detail', {
+    value: (event as any)._detail || { ...event } // ohos only
+  })
+  event.currentTarget = event.currentTarget || event.target || { ...event }
   hooks.call('modifyMpEventImpl', event)
 
-  event.currentTarget ||= event.target
-
   const currentTarget = event.currentTarget
-  const id = currentTarget.dataset?.sid as string /** sid */ || currentTarget.id /** uid */ || ''
+  const id = currentTarget.dataset?.sid as string /** sid */ || currentTarget.id /** uid */ || event.detail?.id as string || ''
 
   const node = env.document.getElementById(id)
   if (node) {
@@ -166,12 +184,14 @@ export function eventHandler (event: MpEvent) {
           }
           dispatch()
         })
+        return getEventCBResult(event)
       } else {
         // 如果上层组件也有绑定同类型的组件，委托给上层组件调用事件回调
         (eventsBatch[type] ||= []).push(dispatch)
       }
     } else {
       dispatch()
+      return getEventCBResult(event)
     }
   }
 }

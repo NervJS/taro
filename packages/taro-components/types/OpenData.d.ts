@@ -27,11 +27,6 @@ interface OpenDataProps extends StandardProps {
    */
   defaultAvatar?: string
 
-  /** 群名称或用户信息为空时触发
-   * @supported weapp, tt, qq
-   */
-  onError?: CommonEventFunction
-
   /** 当数据为空且未设置默认值时，是否显示官方默认值
    * @supported tt
    */
@@ -51,6 +46,11 @@ interface OpenDataProps extends StandardProps {
    * @supported qq
    */
   componentData?: string
+
+  /** 群名称或用户信息为空时触发
+   * @supported weapp, tt, qq
+   */
+  onError?: CommonEventFunction
 }
 declare namespace OpenDataProps {
   /** type 的合法值 */
@@ -95,7 +95,7 @@ declare namespace OpenDataProps {
 
 /** 用于展示平台开放的数据
  * @classification open
- * @supported weapp, tt
+ * @supported weapp, swan, tt, qq
  * @example_react
  * ```tsx
  * class App extends Component {

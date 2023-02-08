@@ -23,6 +23,12 @@ interface LivePusherProps extends StandardProps {
    */
   autopush?: boolean
 
+  /** 自定义渲染，允许开发者自行处理所采集的视频帧
+   * @default false
+   * @supported weapp
+   */
+  enableVideoCustomRender?: boolean
+
   /** 是否静音。即将废弃，可用 enable-mic 替代
    * @default false
    * @deprecated
@@ -186,6 +192,41 @@ interface LivePusherProps extends StandardProps {
    */
   filter?: keyof LivePusherProps.FilterType
 
+  /** 设置小窗模式： push, pop，空字符串或通过数组形式设置多种模式（如： ["push", "pop"]）
+   * @supported weapp
+   */
+  pictureInPictureMode?: string | any[]
+
+  /** 是否启动自定义特效，设定后不能更改
+   * @supported weapp
+   * @default false
+   */
+  customEffect?: boolean
+
+  /** 自定义特效美白效果，取值 0~1。需要开启 custom-effect
+   * @supported weapp
+   * @default 0
+   */
+  skinWhiteness?: number
+
+  /** 自定义特效磨皮效果，取值 0~1。需要开启 custom-effect
+   * @supported weapp
+   * @default 0
+   */
+  skinSmoothness?: number
+
+  /** 自定义特效瘦脸效果，取值 0~1。需要开启 custom-effect
+   * @supported weapp
+   * @default 0
+   */
+  faceThinness?: number
+
+  /** 自定义特效大眼效果，取值 0~1。需要开启 custom-effect
+   * @supported weapp
+   * @default 0
+   */
+  eyeBigness?: number
+
   /** 状态变化事件，detail = {code}
    * @supported weapp, qq
    */
@@ -210,11 +251,6 @@ interface LivePusherProps extends StandardProps {
    * @supported weapp
    */
   onAudioVolumeNotify?: CommonEventFunction
-
-  /** 设置小窗模式： push, pop，空字符串或通过数组形式设置多种模式（如： ["push", "pop"]）
-   * @supported weapp
-   */
-  pictureInPictureMode?: string | any[]
 
   /** 网络状态通知，detail = {info}
    * @supported weapp, qq
@@ -287,6 +323,9 @@ declare namespace LivePusherProps {
 
   /** audioVolumeType 的合法值 */
   interface AudioVolumeType {
+    /** 自动 */
+    auto
+
     /** 媒体音量 */
     media
 
@@ -365,7 +404,7 @@ declare namespace LivePusherProps {
 /** 实时音视频录制。需要用户授权 scope.camera、scope.record
  * 需要先通过类目审核，再在小程序管理后台，「开发」-「接口设置」中自助开通该组件权限。
  * @classification media
- * @supported weapp
+ * @supported weapp, qq
  * @example_react
  * ```tsx
  * class App extends Components {

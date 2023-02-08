@@ -115,5 +115,26 @@ export const components = {
     bindRefund: _empty,
     bindApplyRefund: _empty,
     bindError: _empty
+  },
+  AwemeData: {
+    'aweme-id': _empty,
+    type: singleQuote('avatar'),
+    'disable-default': _empty,
+    'default-avatar': _empty,
+    'default-text': _empty,
+    bindError: _empty
+  },
+  RateButton: {
+    'order-id': _empty,
+    bindInit: _empty,
+    bindSuccess: _empty,
+    bindError: _empty,
+  },
+  OpenData: {
+    type: _empty,
+    'default-text': _empty,
+    'default-avatar': _empty,
+    'use-empty-value': _false,
+    bindError: _empty
   }
 }

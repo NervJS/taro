@@ -35,9 +35,11 @@ export const components = {
     bindChange: ''
   },
   Input: {
+    'always-system':'false',
     'random-number': 'false',
     controlled: 'false',
-    enableNative: 'false'
+    enableNative: 'true',
+    name:''
   },
   Slider: {
     'track-size': '4',
@@ -86,7 +88,7 @@ export const components = {
   Video: {
     'poster-size': singleQuote('contain'),
     'mobilenet-hint-type': '1',
-    // enableNative: 'false',
+    enableNative: 'true',
     bindLoading: '',
     bindUserAction: '',
     bindStop: '',
@@ -97,9 +99,9 @@ export const components = {
     autoplay: 'false',
     path: '',
     speed: '1.0',
-    repeatCount: '0',
-    autoReverse: 'false',
-    assetsPath: '',
+    'repeat-count': '0',
+    'auto-reverse': 'false',
+    'assets-path': '',
     placeholder: '',
     djangoId: '',
     md5: '',
@@ -141,5 +143,31 @@ export const components = {
     bindStop: '',
     bindError: '',
     bindARFrame: ''
-  }
+  },
+  PageContainer: {
+    show: 'false',
+    duration: '300',
+    'z-index': '100',
+    overlay: 'true',
+    position: singleQuote('bottom'),
+    round: 'false',
+    'close-on-slide-down': 'false',
+    'overlay-style': '',
+    'custom-style': '',
+    bindBeforeEnter: '',
+    bindEnter: '',
+    bindEnterCancelled: '',
+    bindAfterEnter: '',
+    bindBeforeLeave: '',
+    bindLeave: '',
+    bindLeaveCancelled: '',
+    bindAfterLeave: '',
+    bindClickOverlay: '',
+  },
+  ShareElement: {
+    name: '',
+    transform: 'false',
+    duration: '300',
+    'easing-function': singleQuote('ease-out'),
+  },
 }
