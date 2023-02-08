@@ -28,6 +28,7 @@
     "lodash-es": "4.17.21"
   },
   "devDependencies": {
+    "@vue/runtime-core": "3.2.41",
     "tslib": "^2.4.0"
   }
 }
