@@ -8768,6 +8768,14 @@ packages:
       '@sinonjs/commons': registry.npmjs.org/@sinonjs/commons/1.8.3
     dev: true
 
+  registry.npmjs.org/@sinonjs/fake-timers/9.1.2:
+    resolution: {integrity: sha512-BPS4ynJW/o92PUR4wgriz2Ud5gpST5vz6GQfMixEDK0Z8ZCUv2M7SkBLykH56T++Xs+8ln9zTGbOvNGIe02/jw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@sinonjs/fake-timers/-/fake-timers-9.1.2.tgz}
+    name: '@sinonjs/fake-timers'
+    version: 9.1.2
+    dependencies:
+      '@sinonjs/commons': registry.npmjs.org/@sinonjs/commons/1.8.3
+    dev: true
+
   registry.npmjs.org/@sinonjs/formatio/3.2.2:
     resolution: {integrity: sha512-B8SEsgd8gArBLMD6zpRw3juQ2FVSsmdd7qlevyDqzS9WTCtvF55/gAL+h6gue8ZvPYcdiPdvueM/qm//9XzyTQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@sinonjs/formatio/-/formatio-3.2.2.tgz}
     name: '@sinonjs/formatio'
@@ -31704,6 +31712,7 @@ packages:
     version: 7.5.0
     dependencies:
       '@sinonjs/commons': registry.npmjs.org/@sinonjs/commons/1.8.3
+      '@sinonjs/fake-timers': registry.npmjs.org/@sinonjs/fake-timers/9.1.2
       '@sinonjs/formatio': registry.npmjs.org/@sinonjs/formatio/3.2.2
       '@sinonjs/samsam': registry.npmjs.org/@sinonjs/samsam/3.3.3
       diff: registry.npmjs.org/diff/3.5.0
