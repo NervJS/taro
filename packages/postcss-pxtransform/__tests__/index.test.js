@@ -73,7 +73,7 @@ describe('px2rem', function () {
 
     expect(processed).toBe(expected)
   })
-  
+
   it('8 should work on custom baseFontSize', function () {
     const processed = postcss(px2rem({ platform: 'h5', baseFontSize: 15 })).process(basicCSS).css
     const expected = '.rule { font-size: 0.5rem }'
@@ -639,5 +639,39 @@ describe('rpx 单位转换', () => {
     }
     const processed = postcss(px2rem(options)).process(rules).css
     expect(processed).toBe('h1 {margin: 0 0 0.585rem;font-size: 40Px;line-height: 1.2;} .test{}')
+  })
+})
+
+describe('platform 为 rn，适配', () => {
+  it('{platform: \'rn\', designWidth: 750} ', () => {
+    const rules = 'view { width: 100px; }'
+    const options = {
+      platform: 'rn',
+      designWidth: 750,
+      deviceRatio: {
+        640: 2.34 / 2,
+        750: 1,
+        828: 1.81 / 2
+      }
+    }
+    const processed = postcss(px2rem(options)).process(rules).css
+    expect(processed).toBe('view { width: 50px; }')
+  })
+})
+
+describe('platform 为 harmony，适配', () => {
+  it('{platform: \'harmony\', designWidth: 640} ', () => {
+    const rules = 'view { width: 100PX; }'
+    const options = {
+      platform: 'harmony',
+      designWidth: 640,
+      deviceRatio: {
+        640: 2.34 / 2,
+        750: 1,
+        828: 1.81 / 2
+      }
+    }
+    const processed = postcss(px2rem(options)).process(rules).css
+    expect(processed).toBe('view { width: 100vp; }')
   })
 })
