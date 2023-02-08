@@ -442,7 +442,8 @@ export default class List extends React.PureComponent<IProps, IState> {
           isScrolling: useIsScrolling ? isScrolling : undefined
         })))
       }
-      const restCount = itemCount - stopIndex
+      let restCount = itemCount - stopIndex
+      restCount =  restCount > 0 ? restCount : 0
       const postPlaceholder = restCount < placeholderCount ? restCount : placeholderCount
       items.push(new Array(postPlaceholder).fill(-1).map((_, index) => React.createElement<any>(
         this.preset.itemTagName, {
