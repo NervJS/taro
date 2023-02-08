@@ -1,4 +1,4 @@
-import { chalk, fs, VUE_EXT } from '@tarojs/helper'
+import { fs, VUE_EXT } from '@tarojs/helper'
 import { isString } from '@tarojs/shared'
 import { capitalize, internalComponents, toCamelCase } from '@tarojs/shared/dist/template'
 
@@ -122,16 +122,4 @@ function setDefinePlugin (chain) {
       config.__VUE_PROD_DEVTOOLS__ = JSON.stringify(false)
       return args
     })
-}
-
-export function getVueLoaderPath (): string {
-  try {
-    return require.resolve('vue-loader', {
-      paths: [process.cwd()]
-    })
-  } catch (error) {
-    // eslint-disable-next-line no-console
-    console.log(chalk.yellow('找不到 vue-loader，请先安装。'))
-    process.exit(1)
-  }
 }

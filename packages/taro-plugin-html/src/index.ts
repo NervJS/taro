@@ -119,7 +119,7 @@ function patchMappingElements (ctx: IPluginContext, options: IOptions, inlineEle
 
   if (t.isNode(ast)) {
     options.modifyElements?.(inlineElements, blockElements)
-  
+
     traverse(ast, {
       VariableDeclarator (path) {
         const node = path.node
@@ -134,7 +134,7 @@ function patchMappingElements (ctx: IPluginContext, options: IOptions, inlineEle
         }
       }
     })
-  
+
     const str = generator(ast).code
     helper.fs.writeFileSync(filePath, str)
   }

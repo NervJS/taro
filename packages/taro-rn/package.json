@@ -72,6 +72,7 @@
     "expo": "~47.0.3",
     "fbjs-scripts": "^3.0.1",
     "metro-react-native-babel-preset": "^0.72.1",
+    "mock-socket": "^7.1.0",
     "react": "18.1.0",
     "react-native": "^0.70.5",
     "react-test-renderer": "18.1.0"
