@@ -122,7 +122,6 @@ importers:
       rollup-plugin-node-externals: ^4.0.0
       rollup-plugin-postcss: ^3.1.8
       rollup-plugin-ts: ^3.0.2
-      shelljs: ^0.8.1
       stylelint: ^14.6.1
       stylelint-config-standard-scss: ^3.0.0
       stylelint-config-taro-rn: workspace:*
@@ -255,7 +254,6 @@ importers:
       rollup-plugin-node-externals: registry.npmjs.org/rollup-plugin-node-externals/4.0.0_rollup@2.79.0
       rollup-plugin-postcss: registry.npmjs.org/rollup-plugin-postcss/3.1.8
       rollup-plugin-ts: registry.npmjs.org/rollup-plugin-ts/3.0.2_22p3bbacs4vvwboov4adfmanjy
-      shelljs: registry.npmjs.org/shelljs/0.8.5
       stylelint: registry.npmjs.org/stylelint/14.9.1
       stylelint-config-standard-scss: registry.npmjs.org/stylelint-config-standard-scss/3.0.0_uw7nz5xqcmvtvz7g4i6uisa5x4
       stylelint-config-taro-rn: link:packages/stylelint-config-taro-rn
@@ -21553,6 +21551,7 @@ packages:
     name: interpret
     version: 1.4.0
     engines: {node: '>= 0.10'}
+    dev: false
 
   registry.npmjs.org/intersection-observer/0.7.0:
     resolution: {integrity: sha512-Id0Fij0HsB/vKWGeBe9PxeY45ttRiBmhFyyt/geBdDHBYNctMRTE3dC1U3ujzz3lap+hVXlEcVaB56kZP/eEUg==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/intersection-observer/-/intersection-observer-0.7.0.tgz}
@@ -30018,6 +30017,7 @@ packages:
     engines: {node: '>= 0.10'}
     dependencies:
       resolve: registry.npmjs.org/resolve/1.22.1
+    dev: false
 
   registry.npmjs.org/redent/2.0.0:
     resolution: {integrity: sha512-XNwrTx77JQCEMXTeb8movBKuK75MgH0RZkujNuDKCezemx/voapl9i2gCSi8WWm8+ox5ycJi1gxF22fR7c0Ciw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/redent/-/redent-2.0.0.tgz}
@@ -31659,6 +31659,7 @@ packages:
       glob: registry.npmjs.org/glob/7.2.3
       interpret: registry.npmjs.org/interpret/1.4.0
       rechoir: registry.npmjs.org/rechoir/0.6.2
+    dev: false
 
   registry.npmjs.org/shellwords/0.1.1:
     resolution: {integrity: sha512-vFwSUfQvqybiICwZY5+DAWIPLKsWO31Q91JSKl3UYv+K5c2QRPzn0qzec6QPu1Qc9eHYItiP3NdJqNVqetYAww==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/shellwords/-/shellwords-0.1.1.tgz}

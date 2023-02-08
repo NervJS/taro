@@ -156,7 +156,6 @@
     "rollup-plugin-node-externals": "^4.0.0",
     "rollup-plugin-postcss": "^3.1.8",
     "rollup-plugin-ts": "^3.0.2",
-    "shelljs": "^0.8.1",
     "stylelint": "^14.6.1",
     "stylelint-config-standard-scss": "^3.0.0",
     "stylelint-config-taro-rn": "workspace:*",
