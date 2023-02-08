@@ -5,7 +5,6 @@ import {
   recursiveFindNodeModules
 } from '@tarojs/helper'
 import * as helper from '@tarojs/helper'
-import { IProjectConfig, PluginItem } from '@tarojs/taro/types/compile'
 import { EventEmitter } from 'events'
 import { merge } from 'lodash'
 import * as path from 'path'
@@ -20,7 +19,10 @@ import {
   IS_MODIFY_HOOK,
   PluginType
 } from './utils/constants'
-import {
+
+import type { IProjectConfig, PluginItem } from '@tarojs/taro/types/compile'
+import type {
+  Func,
   ICommand,
   IHook,
   IPaths,
@@ -48,7 +50,7 @@ export default class Kernel extends EventEmitter {
   config: Config
   initialConfig: IProjectConfig
   hooks: Map<string, IHook[]>
-  methods: Map<string, ((...args: any[]) => void)[]>
+  methods: Map<string, Func[]>
   commands: Map<string, ICommand>
   platforms: Map<string, IPlatform>
   helper: any
@@ -87,7 +89,7 @@ export default class Kernel extends EventEmitter {
       Object.assign(this.paths, {
         configPath: this.config.configPath,
         sourcePath: path.join(this.appPath, this.initialConfig.sourceRoot as string),
-        outputPath: path.join(this.appPath, this.initialConfig.outputRoot as string)
+        outputPath: path.resolve(this.appPath, this.initialConfig.outputRoot as string)
       })
     }
     this.debugger(`initPaths:${JSON.stringify(this.paths, null, 2)}`)

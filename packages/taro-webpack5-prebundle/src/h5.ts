@@ -35,7 +35,7 @@ import {
   getMfHash,
   parsePublicPath
 } from './utils'
-import { assetsRE, MF_NAME } from './utils/constant'
+import { MF_NAME } from './utils/constant'
 import TaroModuleFederationPlugin from './webpack/TaroModuleFederationPlugin'
 
 import type { Configuration, Stats } from 'webpack'
@@ -44,6 +44,7 @@ import type { IPrebundle } from './prebundle'
 export const VirtualModule = new VirtualModulesPlugin()
 
 export interface IH5PrebundleConfig extends IPrebundleConfig {
+  runtimePath?: string | string[]
   chunkFilename?: string
   devServer?: webpackDevServer.Configuration
   publicPath?: string
@@ -98,18 +99,6 @@ export class H5Prebundle extends BasePrebundle<IH5PrebundleConfig> {
         devtool,
         entry: path.resolve(__dirname, './webpack/index.js'),
         mode: this.mode,
-        module: {
-          // TODO 同步普通打包文件配置
-          rules: [
-            {
-              test: assetsRE,
-              type: 'asset/resource',
-              generator: {
-                filename: 'static/[hash][ext][query]'
-              }
-            }
-          ]
-        },
         output,
         plugins: [
           new TaroModuleFederationPlugin(
@@ -180,7 +169,11 @@ export class H5Prebundle extends BasePrebundle<IH5PrebundleConfig> {
         ),
       )
     }
-    await this.setDeps(entries, include, exclude)
+    // plugin-platform 等插件的 runtime 文件入口
+    const runtimePath = typeof this.config.runtimePath === 'string' ? [this.config.runtimePath] : this.config.runtimePath || []
+    await this.setDeps(entries, include.concat(
+      ...runtimePath.map(item => item.replace(/^post:/, '')),
+    ), exclude)
 
     /** 使用 esbuild 对 node_modules 依赖进行 bundle */
     await this.bundle()

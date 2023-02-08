@@ -15,11 +15,11 @@ import {
 import fs from 'fs-extra'
 import { urlToRequest } from 'loader-utils'
 import path from 'path'
-import webpack, { Compilation, sources } from 'webpack'
+import { Compilation, sources } from 'webpack'
 import EntryDependency from 'webpack/lib/dependencies/EntryDependency'
 
 import TaroSingleEntryDependency from '../dependencies/TaroSingleEntryDependency'
-import { PrerenderConfig, validatePrerenderPages } from '../prerender/prerender'
+import { validatePrerenderPages } from '../prerender/prerender'
 import { componentConfig } from '../template/component'
 import TaroLoadChunksPlugin from './TaroLoadChunksPlugin'
 import TaroNormalModulesPlugin from './TaroNormalModulesPlugin'
@@ -29,6 +29,7 @@ import type { RecursiveTemplate, UnRecursiveTemplate } from '@tarojs/shared/dist
 import type { AppConfig, Config } from '@tarojs/taro'
 import type { Func } from '@tarojs/taro/types/compile'
 import type { Compiler } from 'webpack'
+import type { PrerenderConfig } from '../prerender/prerender'
 import type { AddPageChunks, IComponent, IFileType } from '../utils/types'
 
 const PLUGIN_NAME = 'TaroMiniPlugin'
@@ -213,7 +214,7 @@ export default class TaroMiniPlugin {
           }))
         })
         await Promise.all(promises)
-        await this.options.onCompilerMake?.(compilation)
+        await this.options.onCompilerMake?.(compilation, compiler, this)
       })
     )
 
@@ -226,7 +227,7 @@ export default class TaroMiniPlugin {
        * webpack NormalModule 在 runLoaders 真正解析资源的前一刻，
        * 往 NormalModule.loaders 中插入对应的 Taro Loader
        */
-      webpack.NormalModule.getCompilationHooks(compilation).loader.tap(PLUGIN_NAME, (_loaderContext, module:/** TaroNormalModule */ any) => {
+      compiler.webpack.NormalModule.getCompilationHooks(compilation).loader.tap(PLUGIN_NAME, (_loaderContext, module:/** TaroNormalModule */ any) => {
         const { framework, loaderMeta, designWidth, deviceRatio } = this.options
         if (module.miniType === META_TYPE.ENTRY) {
           const loaderName = '@tarojs/taro-loader'
@@ -763,13 +764,18 @@ export default class TaroMiniPlugin {
           filename: `[name]${this.options.fileType.style}`,
           chunkFilename: `[name]${this.options.fileType.style}`
         }).apply(childCompiler)
-        new webpack.DefinePlugin(this.options.constantsReplaceList).apply(childCompiler)
+        new compiler.webpack.DefinePlugin(this.options.constantsReplaceList).apply(childCompiler)
         if (compiler.options.optimization) {
           new SplitChunksPlugin({
             chunks: 'all',
             maxInitialRequests: Infinity,
             minSize: 0,
             cacheGroups: {
+              common: {
+                name: `${name}/common`,
+                minChunks: 2,
+                priority: 1
+              },
               vendors: {
                 name: `${name}/vendors`,
                 minChunks: 1,
@@ -798,7 +804,7 @@ export default class TaroMiniPlugin {
           dependencies.delete(pagePath)
         })
         new TaroLoadChunksPlugin({
-          commonChunks: [`${name}/runtime`, `${name}/vendors`],
+          commonChunks: [`${name}/runtime`, `${name}/vendors`, `${name}/common`],
           isBuildPlugin: false,
           addChunkPages: this.options.addChunkPages,
           pages: childPages,
@@ -1025,8 +1031,8 @@ export default class TaroMiniPlugin {
 
   generateConfigFile (compilation: Compilation, filePath: string, config: Config & { component?: boolean }) {
     const fileConfigName = this.getConfigPath(this.getComponentName(filePath))
-    const unOfficalConfigs = ['enableShareAppMessage', 'enableShareTimeline', 'components']
-    unOfficalConfigs.forEach(item => {
+    const unofficialConfigs = ['enableShareAppMessage', 'enableShareTimeline', 'components']
+    unofficialConfigs.forEach(item => {
       delete config[item]
     })
     const fileConfigStr = JSON.stringify(config)

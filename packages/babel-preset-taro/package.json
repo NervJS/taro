@@ -1,6 +1,6 @@
 {
   "name": "babel-preset-taro",
-  "version": "3.5.7",
+  "version": "3.6.0",
   "description": "Taro babel preset",
   "author": "yuche <i@yuche.me>",
   "homepage": "https://github.com/nervjs/taro/tree/master/packages/babel-preset-taro#readme",
@@ -42,10 +42,13 @@
     "babel-plugin-transform-react-jsx-to-rn-stylesheet": "workspace:*",
     "babel-plugin-transform-taroapi": "workspace:*",
     "core-js": "^3.6.5",
-    "metro-react-native-babel-preset": "^0.70.3"
+    "metro-react-native-babel-preset": "^0.72.1",
+    "react-refresh": "^0.11.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.14.5"
+    "@babel/core": "^7.14.5",
+    "@vue/babel-plugin-jsx": "^1.0.6",
+    "@vue/babel-preset-jsx": "^1.2.4"
   },
   "peerDependencies": {
     "@babel/core": "*"

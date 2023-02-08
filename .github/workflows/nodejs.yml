@@ -9,6 +9,9 @@ on:
     branches:
       - next
 
+permissions:
+  contents: read # to fetch code (actions/checkout)
+
 jobs:
   build:
 
@@ -25,20 +28,20 @@ jobs:
         with :
           ref : ${{ github.ref || github.head_ref || github.ref_name }}
       - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
 
       # Bootstrap project
       - name: Cache pnpm modules
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: ~/.pnpm-store
           key: ${{ runner.os }}-${{ hashFiles('**/pnpm-lock.yaml') }}
           restore-keys: |
             ${{ runner.os }}-
       - name: install
-        uses: pnpm/action-setup@v2.2.2
+        uses: pnpm/action-setup@v2.2.4
         with:
           version: 7
           run_install: |

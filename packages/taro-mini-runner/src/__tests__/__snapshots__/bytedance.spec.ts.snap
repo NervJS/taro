@@ -56,10 +56,52 @@ require(\\"./taro\\");
         function useRouter() {}
         function useTabItemTap() {}
         function useScope() {}
-        var needPromiseApis = new Set([ \\"checkFollowState\\", \\"exitMiniProgram\\", \\"followOfficialAccount\\", \\"getMenuButtonLayout\\", \\"getUserProfile\\", \\"hideInteractionBar\\", \\"navigateToVideoView\\", \\"openAwemeUserProfile\\", \\"openEcGood\\", \\"pay\\", \\"showInteractionBar\\" ]);
+        var needPromiseApis = new Set([ \\"applyRefund\\", \\"canRateAwemeOrders\\", \\"checkFollowAwemeState\\", \\"checkFollowState\\", \\"continueToPay\\", \\"createOrder\\", \\"exitMiniProgram\\", \\"followAwemeUser\\", \\"followOfficialAccount\\", \\"getEnvInfoSync\\", \\"getMenuButtonLayout\\", \\"getUserProfile\\", \\"hideInteractionBar\\", \\"navigateToVideoView\\", \\"openAwemeUserProfile\\", \\"openEcGood\\", \\"openWebcastRoom\\", \\"pay\\", \\"rateAwemeOrder\\", \\"showDouyinOpenAuth\\", \\"showInteractionBar\\" ]);
+        var apiDiff = {
+            showToast: {
+                options: {
+                    set: [ {
+                        key: \\"icon\\",
+                        value: function value(options) {
+                            return options.icon === \\"error\\" ? \\"fail\\" : options.icon;
+                        }
+                    } ]
+                }
+            }
+        };
+        function transformMeta(api, options) {
+            var apiAlias = api;
+            Object.keys(apiDiff).forEach((function(item) {
+                var apiItem = apiDiff[item];
+                if (api === item) {
+                    if (apiItem.alias) {
+                        apiAlias = apiItem.alias;
+                    }
+                    if (apiItem.options) {
+                        var change = apiItem.options.change;
+                        var set = apiItem.options.set;
+                        if (change) {
+                            change.forEach((function(changeItem) {
+                                options[changeItem.new] = options[changeItem.old];
+                            }));
+                        }
+                        if (set) {
+                            set.forEach((function(setItem) {
+                                options[setItem.key] = typeof setItem.value === \\"function\\" ? setItem.value(options) : setItem.value;
+                            }));
+                        }
+                    }
+                }
+            }));
+            return {
+                key: apiAlias,
+                options: options
+            };
+        }
         function initNativeApi(taro) {
             processApis(taro, tt, {
-                needPromiseApis: needPromiseApis
+                needPromiseApis: needPromiseApis,
+                transformMeta: transformMeta
             });
         }
         var _true = \\"!0\\";
@@ -174,10 +216,36 @@ require(\\"./taro\\");
                 bindRefund: _empty,
                 bindApplyRefund: _empty,
                 bindError: _empty
+            },
+            AwemeData: {
+                \\"aweme-id\\": _empty,
+                type: undefined(\\"avatar\\"),
+                \\"disable-default\\": _empty,
+                \\"default-avatar\\": _empty,
+                \\"default-text\\": _empty,
+                bindError: _empty
+            },
+            RateButton: {
+                \\"order-id\\": _empty,
+                bindInit: _empty,
+                bindSuccess: _empty,
+                bindError: _empty
+            },
+            OpenData: {
+                type: _empty,
+                \\"default-text\\": _empty,
+                \\"default-avatar\\": _empty,
+                \\"use-empty-value\\": _false,
+                bindError: _empty
             }
         };
         var hostConfig = {
-            initNativeApi: initNativeApi
+            initNativeApi: initNativeApi,
+            modifyMpEventImpl: function modifyMpEventImpl(event) {
+                if (event.type === \\"regionchange\\") {
+                    event.type = event.detail.type;
+                }
+            }
         };
         mergeReconciler(hostConfig);
         mergeInternalComponents(components);

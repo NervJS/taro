@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/webpack5-prebundle",
-  "version": "3.5.7",
+  "version": "3.6.0",
   "description": "Taro app webpack5 prebundle",
   "main": "dist/index.js",
   "scripts": {
@@ -29,7 +29,7 @@
   },
   "homepage": "https://github.com/NervJS/taro#readme",
   "dependencies": {
-    "@swc/core": "^1.2.204",
+    "@swc/core": "^1.3.23",
     "@tarojs/helper": "workspace:*",
     "@tarojs/taro": "workspace:*",
     "enhanced-resolve": "^5.9.3",

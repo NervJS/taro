@@ -2,6 +2,7 @@ import { chalk, REG_VUE, VUE_EXT } from '@tarojs/helper'
 import { DEFAULT_Components } from '@tarojs/runner-utils'
 import { isString } from '@tarojs/shared'
 import { capitalize, internalComponents, toCamelCase } from '@tarojs/shared/dist/template'
+import { mergeWith } from 'lodash'
 
 import { getLoaderMeta } from './loader-meta'
 
@@ -51,6 +52,7 @@ export default (ctx: IPluginContext) => {
       const prebundleOptions = compiler.prebundle
       prebundleOptions.include ||= []
       prebundleOptions.include = prebundleOptions.include.concat(deps)
+      prebundleOptions.exclude ||= []
     }
   })
 }
@@ -172,10 +174,15 @@ function setStyleLoader (ctx: IPluginContext, chain) {
 }
 
 function setLoader (chain) {
+  function customizer (object = '', sources = '') {
+    if ([object, sources].every(e => typeof e === 'string')) return object + sources
+  }
   if (isBuildH5) {
     chain.plugin('mainPlugin')
       .tap(args => {
-        args[0].loaderMeta = getLoaderMeta()
+        args[0].loaderMeta = mergeWith(
+          getLoaderMeta(), args[0].loaderMeta, customizer
+        )
         return args
       })
   } else {

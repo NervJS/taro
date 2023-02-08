@@ -57,13 +57,13 @@ export default (ctx: IPluginContext) => {
       prebundleOptions.include ||= []
       prebundleOptions.include = prebundleOptions.include.concat(deps)
       prebundleOptions.exclude ||= []
-      prebundleOptions.exclude.push('mobx') // 依赖会对 webpack 修改，默认排除
+      prebundleOptions.exclude.push(/mobx/) // 依赖会对 webpack 修改，默认排除
       if (prebundleOptions.enable === false) return
 
       const taroReactPlugin: Plugin = {
         name: 'taroReactPlugin',
         setup (build) {
-          build.onLoad({ filter: /taro-h5[\\/]dist[\\/]index/ }, ({ path }) => {
+          build.onLoad({ filter: /taro-h5[\\/]dist[\\/]api[\\/]taro/ }, ({ path }) => {
             const content = fs.readFileSync(path).toString()
             return {
               contents: require('./api-loader')(content)

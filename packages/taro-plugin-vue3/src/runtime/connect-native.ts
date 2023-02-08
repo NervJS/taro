@@ -5,7 +5,8 @@ import {
   incrementId,
   injectPageInstance,
   removePageInstance,
-  safeExecute} from '@tarojs/runtime'
+  safeExecute
+} from '@tarojs/runtime'
 import { isArray } from '@tarojs/shared'
 import { createApp, defineComponent, onMounted, provide, ref, shallowReactive, toRaw } from 'vue'
 
@@ -152,7 +153,7 @@ export function createNativeComponentConfig (component, h: typeof createElement,
         type: null,
         value: null,
         observer (_newVal, oldVal) {
-          oldVal && this.component.$forceUpdate()
+          oldVal && this.component?.$forceUpdate()
         }
       }
     },
@@ -171,6 +172,7 @@ export function createNativeComponentConfig (component, h: typeof createElement,
       safeExecute(this.compId, 'onReady')
     },
     detached () {
+      resetCurrent()
       Current.app!.unmount!(this.compId)
       this.component = null
     },
@@ -185,6 +187,12 @@ export function createNativeComponentConfig (component, h: typeof createElement,
     methods: {
       eh: eventHandler
     }
+  }
+
+  function resetCurrent () {
+    // 小程序插件页面卸载之后返回到宿主页面时，需重置Current页面和路由。否则引发插件组件二次加载异常 fix:#11991
+    Current.page = null
+    Current.router = null
   }
 
   function setCurrent (compId: string) {

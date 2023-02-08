@@ -1,4 +1,4 @@
-import { chalk, fs, VUE_EXT } from '@tarojs/helper'
+import { fs, VUE_EXT } from '@tarojs/helper'
 import { isString } from '@tarojs/shared'
 import { capitalize, internalComponents, toCamelCase } from '@tarojs/shared/dist/template'
 
@@ -34,9 +34,13 @@ export interface IConfig {
   }
 }
 
+let isBuildH5
+
 export default (ctx: IPluginContext, config: IConfig = {}) => {
   const { framework } = ctx.initialConfig
   if (framework !== 'vue3') return
+
+  isBuildH5 = process.env.TARO_ENV === 'h5'
 
   ctx.modifyWebpackChain(({ chain, data }) => {
     // 通用
@@ -45,7 +49,7 @@ export default (ctx: IPluginContext, config: IConfig = {}) => {
     }
     setDefinePlugin(chain)
 
-    if (process.env.TARO_ENV === 'h5') {
+    if (isBuildH5) {
       // H5
       modifyH5WebpackChain(ctx, chain, config)
     } else {
@@ -80,7 +84,7 @@ export default (ctx: IPluginContext, config: IConfig = {}) => {
       const taroVue3Plugin = {
         name: 'taroVue3Plugin',
         setup (build) {
-          build.onLoad({ filter: /taro-h5[\\/]dist[\\/]index/ }, ({ path }) => {
+          build.onLoad({ filter: /taro-h5[\\/]dist[\\/]api[\\/]taro/ }, ({ path }) => {
             const content = fs.readFileSync(path).toString()
             return {
               contents: require('./api-loader')(content)
@@ -118,16 +122,4 @@ function setDefinePlugin (chain) {
       config.__VUE_PROD_DEVTOOLS__ = JSON.stringify(false)
       return args
     })
-}
-
-export function getVueLoaderPath (): string {
-  try {
-    return require.resolve('vue-loader', {
-      paths: [process.cwd()]
-    })
-  } catch (error) {
-    // eslint-disable-next-line no-console
-    console.log(chalk.yellow('找不到 vue-loader，请先安装。'))
-    process.exit(1)
-  }
 }

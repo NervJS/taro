@@ -1,0 +1,198 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Form e2e events 1`] = `
+CDPPage {
+  "_e2eClose": [Function],
+  "_e2eElements": Array [
+    <taro-form-core class="hydrated">
+  <!---->
+  <form>
+    <taro-switch-core checked="false" class="hydrated" name="my-switch">
+      <input class="weui-switch" name="my-switch" type="checkbox" style="border-color: rgb(4, 190, 2); background-color: rgb(4, 190, 2);">
+    </taro-switch-core>
+    <taro-slider-core class="hydrated weui-slider-box" name="my-slider" value="60">
+      <div class="weui-slider">
+        <div class="weui-slider__inner" style="background-color: rgb(233, 233, 233);">
+          <div class="weui-slider__track" style="width: 60%; background-color: rgb(26, 173, 25);"></div>
+          <div class="weui-slider__handler" style="left: 60%; width: 28px; height: 28px; background-color: rgb(255, 255, 255); margin-top: -14px; margin-left: -14px;"></div>
+          <input name="my-slider" type="hidden" value="60">
+        </div>
+      </div>
+    </taro-slider-core>
+    <taro-input-core class="hydrated" name="my-input" value="">
+      <input class="weui-input" maxlength="140" name="my-input" type="text">
+    </taro-input-core>
+    <taro-textarea-core class="hydrated" name="my-textarea" value=""><textarea class="taro-textarea" maxlength="140" name="my-textarea"></textarea>
+    </taro-textarea-core>
+    <taro-radio-group-core class="hydrated weui-cells_radiogroup" name="my-radio-group">
+      <taro-radio-core checked="" class="hydrated weui-cells_checkbox" classname="weui-cells_checkbox" key="radio1" name="my-radio-group" value="radio1">
+        <!---->
+        <input class="weui-check" name="my-radio-group" type="radio" value="radio1">
+        <i class="weui-icon-checked"></i>
+        radio1
+      </taro-radio-core>
+      <taro-radio-core checked="false" class="hydrated weui-cells_checkbox" classname="weui-cells_checkbox" key="radio2" name="my-radio-group" value="radio2">
+        <!---->
+        <input class="weui-check" name="my-radio-group" type="radio" value="radio2">
+        <i class="weui-icon-checked"></i>
+        radio2
+      </taro-radio-core>
+    </taro-radio-group-core>
+    <taro-checkbox-group-core class="hydrated" name="my-checkbox-group">
+      <taro-checkbox-core checked="false" class="hydrated weui-cells_checkbox" classname="weui-cells_checkbox" key="checkbox1" name="my-checkbox-group" value="checkbox1">
+        <!---->
+        <input class="taro-checkbox_checked" name="my-checkbox-group" type="checkbox" value="checkbox1">
+        checkbox1
+      </taro-checkbox-core>
+      <taro-checkbox-core checked="false" class="hydrated weui-cells_checkbox" classname="weui-cells_checkbox" key="checkbox2" name="my-checkbox-group" value="checkbox2">
+        <!---->
+        <input class="taro-checkbox_checked" name="my-checkbox-group" type="checkbox" value="checkbox2">
+        checkbox2
+      </taro-checkbox-core>
+    </taro-checkbox-group-core>
+    <taro-picker-core 'æ©™å­',="" 'æœ¨ç“œ']}="" 'è‹¹æžœ',="" class="hydrated" name="my-picker" range="{['è‘¡è„'," value="0">
+      <!---->
+      <div>
+        <input name="my-picker" type="hidden" value="1">
+      </div>
+    </taro-picker-core>
+    <taro-button-core class="hydrated" form-type="submit" type="">
+      <!---->
+      Submit
+    </taro-button-core>
+    <taro-button-core class="hydrated" form-type="reset" type="">
+      <!---->
+      Reset
+    </taro-button-core>
+  </form>
+</taro-form-core>,
+    <taro-button-core class="hydrated" form-type="submit" type="">
+  <!---->
+  Submit
+</taro-button-core>,
+    <taro-button-core class="hydrated" form-type="reset" type="">
+  <!---->
+  Reset
+</taro-button-core>,
+    <taro-switch-core checked="false" class="hydrated" name="my-switch">
+  <input class="weui-switch" name="my-switch" type="checkbox" style="border-color: rgb(4, 190, 2); background-color: rgb(4, 190, 2);">
+</taro-switch-core>,
+    <taro-slider-core class="hydrated weui-slider-box" name="my-slider" value="60">
+  <div class="weui-slider">
+    <div class="weui-slider__inner" style="background-color: rgb(233, 233, 233);">
+      <div class="weui-slider__track" style="width: 60%; background-color: rgb(26, 173, 25);"></div>
+      <div class="weui-slider__handler" style="left: 60%; width: 28px; height: 28px; background-color: rgb(255, 255, 255); margin-top: -14px; margin-left: -14px;"></div>
+      <input name="my-slider" type="hidden" value="60">
+    </div>
+  </div>
+</taro-slider-core>,
+    <taro-input-core class="hydrated" name="my-input" value="">
+  <input class="weui-input" maxlength="140" name="my-input" type="text">
+</taro-input-core>,
+    <taro-textarea-core class="hydrated" name="my-textarea" value=""><textarea class="taro-textarea" maxlength="140" name="my-textarea"></textarea>
+</taro-textarea-core>,
+    <taro-radio-group-core class="hydrated weui-cells_radiogroup" name="my-radio-group">
+  <taro-radio-core checked="" class="hydrated weui-cells_checkbox" classname="weui-cells_checkbox" key="radio1" name="my-radio-group" value="radio1">
+    <!---->
+    <input class="weui-check" name="my-radio-group" type="radio" value="radio1">
+    <i class="weui-icon-checked"></i>
+    radio1
+  </taro-radio-core>
+  <taro-radio-core checked="false" class="hydrated weui-cells_checkbox" classname="weui-cells_checkbox" key="radio2" name="my-radio-group" value="radio2">
+    <!---->
+    <input class="weui-check" name="my-radio-group" type="radio" value="radio2">
+    <i class="weui-icon-checked"></i>
+    radio2
+  </taro-radio-core>
+</taro-radio-group-core>,
+    <taro-checkbox-group-core class="hydrated" name="my-checkbox-group">
+  <taro-checkbox-core checked="false" class="hydrated weui-cells_checkbox" classname="weui-cells_checkbox" key="checkbox1" name="my-checkbox-group" value="checkbox1">
+    <!---->
+    <input class="taro-checkbox_checked" name="my-checkbox-group" type="checkbox" value="checkbox1">
+    checkbox1
+  </taro-checkbox-core>
+  <taro-checkbox-core checked="false" class="hydrated weui-cells_checkbox" classname="weui-cells_checkbox" key="checkbox2" name="my-checkbox-group" value="checkbox2">
+    <!---->
+    <input class="taro-checkbox_checked" name="my-checkbox-group" type="checkbox" value="checkbox2">
+    checkbox2
+  </taro-checkbox-core>
+</taro-checkbox-group-core>,
+    <taro-picker-core 'æ©™å­',="" 'æœ¨ç“œ']}="" 'è‹¹æžœ',="" class="hydrated" name="my-picker" range="{['è‘¡è„'," value="0">
+  <!---->
+  <div>
+    <input name="my-picker" type="hidden" value="1">
+  </div>
+</taro-picker-core>,
+    <taro-checkbox-core checked="false" class="hydrated weui-cells_checkbox" classname="weui-cells_checkbox" key="checkbox1" name="my-checkbox-group" value="checkbox1">
+  <!---->
+  <input class="taro-checkbox_checked" name="my-checkbox-group" type="checkbox" value="checkbox1">
+  checkbox1
+</taro-checkbox-core>,
+    <taro-checkbox-core checked="false" class="hydrated weui-cells_checkbox" classname="weui-cells_checkbox" key="checkbox2" name="my-checkbox-group" value="checkbox2">
+  <!---->
+  <input class="taro-checkbox_checked" name="my-checkbox-group" type="checkbox" value="checkbox2">
+  checkbox2
+</taro-checkbox-core>,
+    <taro-radio-core checked="" class="hydrated weui-cells_checkbox" classname="weui-cells_checkbox" key="radio1" name="my-radio-group" value="radio1">
+  <!---->
+  <input class="weui-check" name="my-radio-group" type="radio" value="radio1">
+  <i class="weui-icon-checked"></i>
+  radio1
+</taro-radio-core>,
+  ],
+  "_e2eEventIds": 2,
+  "_e2eEvents": Map {
+    0 => Object {
+      "callback": [Function],
+      "eventName": "submit",
+    },
+    1 => Object {
+      "callback": [Function],
+      "eventName": "reset",
+    },
+  },
+  "_e2eGoto": [Function],
+  "close": [Function],
+  "compareScreenshot": [Function],
+  "debugger": [Function],
+  "emitter": Object {
+    "all": Map {
+      "console" => Array [
+        [Function],
+      ],
+      "pageerror" => Array [
+        [Function],
+      ],
+      "requestfailed" => Array [
+        [Function],
+      ],
+      "request" => Array [
+        [Function],
+      ],
+    },
+    "emit": [Function],
+    "off": [Function],
+    "on": [Function],
+  },
+  "eventsMap": Map {
+    "console" => Array [
+      [Function],
+    ],
+    "pageerror" => Array [
+      [Function],
+    ],
+    "requestfailed" => Array [
+      [Function],
+    ],
+    "request" => Array [
+      [Function],
+    ],
+  },
+  "find": [Function],
+  "findAll": [Function],
+  "getDiagnostics": [Function],
+  "spyOnEvent": [Function],
+  "waitForChanges": [Function],
+  "waitForEvent": [Function],
+}
+`;

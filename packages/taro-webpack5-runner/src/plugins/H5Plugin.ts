@@ -1,22 +1,23 @@
 import { FRAMEWORK_MAP, SCRIPT_EXT } from '@tarojs/helper'
-import { AppConfig } from '@tarojs/taro'
 import { VirtualModule } from '@tarojs/webpack5-prebundle/dist/h5'
 import { defaults } from 'lodash'
 import path from 'path'
-import webpack, { Compiler, LoaderContext } from 'webpack'
 
 import H5AppInstance from '../utils/H5AppInstance'
 
-const PLUGIN_NAME = 'H5Plugin'
+import type { AppConfig } from '@tarojs/taro'
+import type { Compiler, LoaderContext, NormalModule } from 'webpack'
 
-interface IH5PluginOptions {
+const PLUGIN_NAME = 'TaroH5Plugin'
+
+interface ITaroH5PluginOptions {
   appPath: string
   sourceDir: string
   routerConfig: any
   entryFileName: string
   framework: FRAMEWORK_MAP
   frameworkExts: string[]
-  useHtmlComponents: boolean
+  runtimePath: string[]
   pxTransformConfig: {
     baseFontSize: number
     deviceRatio: any
@@ -27,8 +28,8 @@ interface IH5PluginOptions {
   loaderMeta?: Record<string, string>
 }
 
-export default class H5Plugin {
-  options: IH5PluginOptions
+export default class TaroH5Plugin {
+  options: ITaroH5PluginOptions
   appEntry: string
   appConfig: AppConfig
   pagesConfigList = new Map<string, string>()
@@ -43,7 +44,7 @@ export default class H5Plugin {
       entryFileName: 'app',
       framework: FRAMEWORK_MAP.NERV,
       frameworkExts: SCRIPT_EXT,
-      useHtmlComponents: false,
+      runtimePath: [],
       pxTransformConfig: {
         baseFontSize: 20,
         deviceRatio: {},
@@ -80,7 +81,7 @@ export default class H5Plugin {
     )
 
     compiler.hooks.compilation.tap(PLUGIN_NAME, compilation => {
-      webpack.NormalModule.getCompilationHooks(compilation).loader.tap(PLUGIN_NAME, (_loaderContext: LoaderContext<any>, module: webpack.NormalModule) => {
+      compiler.webpack.NormalModule.getCompilationHooks(compilation).loader.tap(PLUGIN_NAME, (_loaderContext: LoaderContext<any>, module: NormalModule) => {
         const { framework, entryFileName, appPath, sourceDir, pxTransformConfig, loaderMeta, prebundle, routerConfig } = this.options
         const { dir, name } = path.parse(module.resource)
         const suffixRgx = /\.(boot|config)/
@@ -109,11 +110,11 @@ export default class H5Plugin {
               entryFileName,
               filename: name.replace(suffixRgx, ''),
               framework,
+              runtimePath: this.options.runtimePath,
               loaderMeta,
               pages: this.inst.pagesConfigList,
               pxTransformConfig,
-              sourceDir,
-              useHtmlComponents: this.options.useHtmlComponents
+              sourceDir
             },
             ident: null,
             type: null

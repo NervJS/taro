@@ -18,6 +18,25 @@ interface IProcessApisIOptions {
   [propName: string]: any
 }
 
+export interface IApiDiff {
+  [key: string]: {
+    /** API重命名 */
+    alias?: string
+    options?: {
+      /** API参数键名修改 */
+      change?: {
+        old: string
+        new: string
+      }[]
+      /** API参数值修改 */
+      set?: {
+        key: string
+        value: ((options: Record<string, any>) => unknown) | unknown
+      }[]
+    }
+  }
+}
+
 const needPromiseApis = new Set<string>([
   'addPhoneContact',
   'authorize',

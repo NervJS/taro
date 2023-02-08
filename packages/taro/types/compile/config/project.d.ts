@@ -24,9 +24,9 @@ export interface IProjectBaseConfig {
   port?: number
   projectName?: string
   date?: string
-  designWidth?: number
-  watcher?: any[]
+  designWidth?: number | ((size: number) => number)
   deviceRatio?: TaroGeneral.TDeviceRatio
+  watcher?: any[]
   sourceRoot?: string
   outputRoot?: string
   env?: IOption

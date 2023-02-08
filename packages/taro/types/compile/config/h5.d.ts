@@ -43,4 +43,9 @@ export interface IH5Config {
 
   postcss?: IPostcssOption
   htmlPluginOption?: HtmlWebpackPlugin.Options
+
+  compile?: {
+    exclude?: any[]
+    include?: any[]
+  }
 }

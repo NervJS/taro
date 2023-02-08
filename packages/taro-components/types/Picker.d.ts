@@ -302,7 +302,7 @@ declare namespace PickerRegionProps {
 /**
  * 从底部弹起的滚动选择器
  * @classification forms
- * @supported weapp, h5, rn, swan, alipay, tt
+ * @supported weapp, swan, alipay, tt, h5, rn, harmony
  * @example_react
  * ```tsx
  * export default class PagePicker extends Component {
@@ -436,11 +436,7 @@ declare namespace PickerRegionProps {
  * @see https://developers.weixin.qq.com/miniprogram/dev/component/picker.html
  */
 declare const Picker: ComponentType<
-  | PickerMultiSelectorProps
-  | PickerTimeProps
-  | PickerDateProps
-  | PickerRegionProps
-  | PickerSelectorProps
+  PickerMultiSelectorProps | PickerTimeProps | PickerDateProps | PickerRegionProps | PickerSelectorProps
 >
 export {
   Picker,

@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/plugin-framework-vue3",
-  "version": "3.5.7",
+  "version": "3.6.0",
   "description": "Vue3 框架插件",
   "author": "drchan",
   "homepage": "https://github.com/nervjs/taro",
@@ -18,8 +18,8 @@
     "url": "git+https://github.com/NervJS/taro.git"
   },
   "scripts": {
-    "build": "rollup -c",
-    "dev": "rollup -c -w"
+    "build": "rollup -c --bundleConfigAsCjs",
+    "dev": "rollup -c -w --bundleConfigAsCjs"
   },
   "bugs": {
     "url": "https://github.com/NervJS/taro/issues"
@@ -29,10 +29,17 @@
     "@tarojs/runner-utils": "workspace:*",
     "@tarojs/runtime": "workspace:*",
     "@tarojs/service": "workspace:*",
-    "@tarojs/shared": "workspace:*"
+    "@tarojs/shared": "workspace:*",
+    "lodash": "^4.17.21"
   },
   "devDependencies": {
-    "vue": "^3.0.0"
+    "@vue/compiler-core": "^3.0.0",
+    "@vue/runtime-core": "^3.0.0",
+    "vue": "^3.0.0",
+    "rollup": "^3.8.1",
+    "rollup-plugin-node-externals": "^4.0.0",
+    "rollup-plugin-ts": "^3.0.2",
+    "typescript": "^4.7.4"
   },
   "peerDependencies": {
     "vue": "^3.0.0"

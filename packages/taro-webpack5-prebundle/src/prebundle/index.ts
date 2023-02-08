@@ -1,4 +1,4 @@
-import { chalk, fs, readConfig, recursiveMerge, resolveMainFilePath, terminalLink } from '@tarojs/helper'
+import { chalk, fs, readConfig, recursiveMerge, REG_SCRIPTS, resolveMainFilePath, terminalLink } from '@tarojs/helper'
 import { Message } from 'esbuild'
 import path from 'path'
 import { performance } from 'perf_hooks'
@@ -12,7 +12,7 @@ import { scanImports } from './scanImports'
 
 import type { Config } from '@swc/core'
 import type { IProjectBaseConfig } from '@tarojs/taro/types/compile'
-import type { Configuration, EntryObject } from 'webpack'
+import type { Configuration, EntryObject, RuleSetRule } from 'webpack'
 import type Chain from 'webpack-chain'
 
 export type IPrebundle = Exclude<IProjectBaseConfig['compiler'], string | undefined>['prebundle']
@@ -233,10 +233,13 @@ export default class BasePrebundle<T extends IPrebundleConfig = IPrebundleConfig
   getRemoteWebpackCompiler (standard: Configuration, custom: Configuration = {}) {
     /** NOTE: 删除 Host 应用影响打包 Remote 应用的配置 */
     const inherit = { ...this.webpackConfig }
+    const skipPlugins = ['MiniSplitChunksPlugin', 'TaroMiniPlugin', 'TaroH5Plugin', 'ProvidePlugin', 'CopyPlugin']
     delete inherit.devServer
-    delete inherit.module
-    delete inherit.plugins
     delete inherit.optimization?.splitChunks
+    inherit.plugins = inherit.plugins?.filter(p => !skipPlugins.includes(p?.constructor?.name))
+    if (inherit.module?.rules) {
+      inherit.module.rules = inherit.module.rules.filter((rule: RuleSetRule) => rule.test?.toString() !== REG_SCRIPTS.toString())
+    }
 
     return webpack(recursiveMerge(inherit, standard, custom))
   }

@@ -23,6 +23,11 @@ export function run (name: string, presets: string[] = []): IRun {
     })
     kernel.optsPlugins ||= []
 
+    const type = options.type
+    if (typeof type === 'string' && !presets.some(e => e.includes(type))) {
+      kernel.optsPlugins.push(require.resolve(`@tarojs/plugin-platform-${options.type}`))
+    }
+
     await kernel.run({
       name,
       opts: {
