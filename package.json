@@ -159,7 +159,7 @@
     "stylelint": "^14.6.1",
     "stylelint-config-standard-scss": "^3.0.0",
     "stylelint-config-taro-rn": "workspace:*",
-    "stylelint-order": "^5.0.0",
+    "stylelint-order": "^6.0.1",
     "stylelint-taro-rn": "workspace:*",
     "ts-jest": "^26.5.5",
     "tslib": "^1.9.3",
