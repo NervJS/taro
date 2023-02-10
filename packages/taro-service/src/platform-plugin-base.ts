@@ -144,6 +144,9 @@ ${exampleCommand}`))
       case 'webpack5':
         runnerPkg = '@tarojs/webpack5-runner'
         break
+      case 'vite':
+        runnerPkg = '@tarojs/vite-runner'
+        break
       default:
         runnerPkg = '@tarojs/mini-runner'
     }

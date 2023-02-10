@@ -1,7 +1,7 @@
 import type swc from '@swc/core'
 import type Webpack from 'webpack'
 
-type CompilerTypes = 'webpack4' | 'webpack5'
+type CompilerTypes = 'webpack4' | 'webpack5' | 'vite'
 
 interface IPrebundle {
   enable?: boolean
@@ -19,7 +19,8 @@ interface IPrebundle {
 
 interface ICompiler {
   type: CompilerTypes
-  prebundle: IPrebundle
+  prebundle?: IPrebundle
+  plugins?: any[]
 }
 
 export type Compiler = CompilerTypes | ICompiler

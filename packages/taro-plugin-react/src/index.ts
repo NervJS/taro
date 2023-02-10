@@ -1,11 +1,13 @@
 import { fs } from '@tarojs/helper'
 import { isString } from '@tarojs/shared'
 
+import { miniVitePlugin } from './vite.mini'
 import { modifyH5WebpackChain } from './webpack.h5'
 import { modifyMiniWebpackChain } from './webpack.mini'
 
 import type { IPluginContext } from '@tarojs/service'
 import type { Plugin } from 'esbuild'
+import type { PluginOption } from 'vite'
 
 export type Frameworks = 'react' | 'preact' | 'nerv'
 
@@ -76,6 +78,16 @@ export default (ctx: IPluginContext) => {
       const esbuildConfig = prebundleOptions.esbuild
       esbuildConfig.plugins ||= []
       esbuildConfig.plugins.push(taroReactPlugin)
+    } else if (compiler.type === 'vite') {
+      compiler.plugins ||= []
+      compiler.plugins.push(viteCommonPlugin(framework))
+      compiler.plugins.push(require('@vitejs/plugin-react').default())
+      if (process.env.TARO === 'h5') {
+        // H5
+      } else {
+        // 小程序
+        compiler.plugins.push(miniVitePlugin(ctx, framework))
+      }
     }
   })
 }
@@ -94,5 +106,30 @@ function setAlias (framework: Frameworks, chain) {
       alias.set('react$', 'nervjs')
       alias.set('react-dom$', 'nervjs')
       break
+  }
+}
+
+function viteCommonPlugin (framework: Frameworks): PluginOption {
+  return {
+    name: 'taro-react:common',
+    config () {
+      const alias = framework === 'preact'
+        ? [
+          { find: 'react', replacement: 'preact/compat'},
+          { find: 'react-dom/test-utils', replacement:'preact/test-utils'},
+          { find: 'react-dom', replacement: 'preact/compat'},
+          { find: 'react/jsx-runtime', replacement: 'preact/jsx-runtime'},
+        ]
+        : []
+
+      return {
+        define: {
+          __TARO_FRAMEWORK__: `"${framework}"`
+        },
+        resolve: {
+          alias
+        }
+      }
+    }
   }
 }

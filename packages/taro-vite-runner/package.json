@@ -1,0 +1,22 @@
+{
+  "name": "@tarojs/vite-runner",
+  "version": "3.7.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "dev": "pnpm run mv:comp && tsc -w",
+    "build": "tsc && pnpm run mv:comp",
+    "mv:comp": "node ./mv-comp.js"
+  },
+  "dependencies": {
+    "@tarojs/shared": "workspace:*",
+    "html-minifier": "^4.0.0",
+    "regenerator-runtime": "0.11",
+    "rollup": "^3.7.0",
+    "vite": "^4.0.4",
+    "vite-plugin-static-copy": "^0.13.0"
+  },
+  "devDependencies": {
+    "fs-extra": "^11.1.0"
+  }
+}
