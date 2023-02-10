@@ -31,8 +31,8 @@ export default function (): PluginOption {
           // eslint-disable-next-line no-inner-declarations
           function collectDeps (chunkName: string) {
             const chunk = bundle[chunkName]
-            if (chunk?.moduleIds?.includes(id)) {
-              const module = chunk.modules?.[id]
+            if (chunk.type === 'chunk' && chunk.moduleIds.includes(id)) {
+              const module = chunk.modules[id]
               module.renderedExports.forEach(item => componentConfig.includes.add(toDashed(item)))
               isFound = true
               return true
