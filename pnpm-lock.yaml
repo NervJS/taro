@@ -543,7 +543,7 @@ importers:
       intersection-observer: ^0.7.0
       jquery: ^3.4.1
       lodash: ^4.17.21
-      miniapp-types: 1.4.1
+      miniapp-types: 1.4.2
       puppeteer: ^19.2.0
       resolve-pathname: ^3.0.0
       stencil-vue2-output-target: 0.0.4
@@ -576,7 +576,7 @@ importers:
       csstype: registry.npmjs.org/csstype/3.1.1
       jquery: registry.npmjs.org/jquery/3.6.0
       lodash: registry.npmjs.org/lodash/4.17.21
-      miniapp-types: registry.npmjs.org/miniapp-types/1.4.1
+      miniapp-types: registry.npmjs.org/miniapp-types/1.4.2
       puppeteer: registry.npmjs.org/puppeteer/19.6.2
       stencil-vue2-output-target: registry.npmjs.org/stencil-vue2-output-target/0.0.4_@stencil+core@2.22.2
       ts-node: registry.npmjs.org/ts-node/10.9.1_ah2igguqgj6e7ik4ubgohitm4e
@@ -25538,10 +25538,10 @@ packages:
       webpack: registry.npmjs.org/webpack/5.69.0_esbuild@0.14.47
     dev: false
 
-  registry.npmjs.org/miniapp-types/1.4.1:
-    resolution: {integrity: sha512-giXqW/IU6hJ7pJBd3lipMOhO8dr9ks1juJVlEFNlLdRpBpVFtapsBRlO/zlQj9fjpN9AnSZi5H4GcwEf8xuUmw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/miniapp-types/-/miniapp-types-1.4.1.tgz}
+  registry.npmjs.org/miniapp-types/1.4.2:
+    resolution: {integrity: sha512-YHO0Jj/R20kZ5PARQgziaOcPPsaE3DeLkb0srfrRDnzpzdko51JzkYpGg1KnYS67aMw17zgMBpd3r0TpN+SwNA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/miniapp-types/-/miniapp-types-1.4.2.tgz}
     name: miniapp-types
-    version: 1.4.1
+    version: 1.4.2
     dev: true
 
   registry.npmjs.org/minimalistic-assert/1.0.1:
