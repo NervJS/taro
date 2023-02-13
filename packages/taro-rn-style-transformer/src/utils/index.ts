@@ -67,9 +67,9 @@ export function resolveStyle (id: string, opts: ResolveStyleOptions) {
   } = opts
   id = id.trim()
   Object.keys(alias).forEach(key => {
-    if (id.startsWith(key)) {
-      id = id.replace(key, alias[key])
-    }
+    const str = `~${key}`
+    const reg = new RegExp('^' + (id.startsWith(str) ? str : key))
+    id = id.replace(reg, alias[key])
   })
 
   const { dir, name, ext: idExt } = path.parse(id)
