@@ -113,6 +113,8 @@ declare module '../../index' {
 
   namespace hideLoading {
     interface Option {
+      /** 2.22.1 以上版本 toast 和 loading 相关接口可以相互混用，此参数可用于取消混用特性	 */
+      noConflict?: boolean
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
       complete?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用失败的回调函数 */
