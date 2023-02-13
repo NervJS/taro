@@ -173,12 +173,12 @@ interface MapProps extends StandardProps {
   /** 是否展示 POI 点
    * @supported weapp, alipay, tt
    */
-  enablePoi?: string
+  enablePoi?: boolean
 
   /** 是否展示建筑物
    * @supported weapp, alipay, tt
    */
-  enableBuilding?: string
+  enableBuilding?: boolean
 
   /** 覆盖物，多边形。
    * @supported alipay
@@ -203,10 +203,10 @@ interface MapProps extends StandardProps {
    */
   theme?: string
 
-  /** 内联样式。
+  /** 保持缩放比例不变
    * @supported alipay
    */
-  optimize?: string
+  optimize?: boolean
 
   /** 开启最大俯视角，俯视角度从 45 度拓展到 75 度
    * @supported weapp
