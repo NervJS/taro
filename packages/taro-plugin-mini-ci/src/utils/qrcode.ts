@@ -1,4 +1,4 @@
-import Jimp from 'jimp'
+import Jimp from 'jimp/es'
 import * as QRCode from 'qrcode'
 import * as QrCodeReader from 'qrcode-reader'
 
