@@ -22,7 +22,7 @@ export const components = {
     'custom-map-style': '',
     panels: '[]',
     setting: '{}',
-    optimize: '',
+    optimize: 'false',
     'show-compass': 'false',
     'show-scale': 'false',
     'enable-overlooking': 'false',
