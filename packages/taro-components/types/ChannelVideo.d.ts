@@ -10,13 +10,6 @@ interface ChannelVideoProps extends StandardProps {
    * @supported weapp
    */
   finderUserName: string
-
-  /** 是否自动播放
-   * @supported weapp
-   * @default false
-   */
-  autoPlay?: boolean
-
   /** 是否循环播放
    * @supported weapp
    * @default false
@@ -34,6 +27,12 @@ interface ChannelVideoProps extends StandardProps {
    * @default "contain"
    */
   objectFit?: 'fill' | 'contain' | 'cover'
+
+  /** 是否自动播放
+   * @supported weapp
+   * @default false
+   */
+  autoplay?: boolean
 
   /** 视频播放出错时触发
    * @supported weapp
