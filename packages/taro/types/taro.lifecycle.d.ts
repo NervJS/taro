@@ -107,7 +107,40 @@ declare module './index' {
     imageUrl?: string
   }
 
-  type ShareAppMessageReturn = ShareAppMessageReturnObject | Promise<ShareAppMessageReturnObject>
+  interface WeappShareAppMessageReturnObject extends ShareAppMessageReturnObject{
+    /**
+     * 如果该参数存在，则以 resolve 结果为准，如果三秒内不 resolve，分享会使用上面传入的默认参数
+     * @supported weapp
+     * @since 2.12.0
+     * @see https://developers.weixin.qq.com/miniprogram/dev/reference/api/Page.html#onShareAppMessage-Object-object
+     * @example
+     * ```tsx
+     * import { ShareAppMessageReturnObject, useShareAppMessage } from "@tarojs/taro";
+     * // ... else code
+     * useShareAppMessage(() => {
+     *   const p = new Promise<ShareAppMessageReturnObject>(resolve => {
+     *     setTimeout(() => {
+     *       resolve({
+     *         title: "",
+     *         imageUrl: "",
+     *         path: ""
+     *       })
+     *     }, 2000)
+     *   })
+     *   return {
+     *     title: "",
+     *     imageUrl: "",
+     *     path: "",
+     *     promise: p
+     *   }
+     * });
+     * ```
+     * 
+     */
+    promise?: Promise<ShareAppMessageReturnObject>
+  }
+
+  type ShareAppMessageReturn = ShareAppMessageReturnObject | Promise<ShareAppMessageReturnObject> | WeappShareAppMessageReturnObject
 
   interface TabItemTapObject {
     /**
