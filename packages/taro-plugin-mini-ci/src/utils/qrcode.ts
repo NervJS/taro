@@ -16,6 +16,9 @@ export async function readQrcodeImageContent (imagePath: string): Promise<string
       const qr = new QrCodeReader()
       qr.callback = function (err, value) {
         if (err) {
+          if (typeof err === 'string') {
+            err = new Error(err)
+          }
           reject(err)
           return
         }
