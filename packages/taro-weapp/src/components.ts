@@ -345,5 +345,14 @@ export const components = {
   ChannelLive: {
     feedId: _empty,
     finderUserName: _empty
-  }
+  },
+  ChannelVideo: {
+    feedId: _empty,
+    finderUserName: _empty,
+    autoPlay: _false,
+    loop: _false,
+    muted: _false,
+    objectFit: "'contain'",
+    bindError: _empty
+  },
 }
