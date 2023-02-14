@@ -77,3 +77,4 @@ export { PageMeta } from './PageMeta'
 
 export { CustomWrapper } from './CustomWrapper'
 export { Slot } from './Slot'
+export { NativeSlot } from './NativeSlot'
