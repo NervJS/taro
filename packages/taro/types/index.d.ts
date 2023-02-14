@@ -127,6 +127,12 @@
 /// <reference path="taro.hooks.d.ts" />
 /// <reference path="taro.lifecycle.d.ts" />
 
+/// <reference types="@tarojs/plugin-platform-alipay/types/shims-alipay" />
+/// <reference types="@tarojs/plugin-platform-jd/types/shims-jd" />
+/// <reference types="@tarojs/plugin-platform-swan/types/shims-swan" />
+/// <reference types="@tarojs/plugin-platform-tt/types/shims-tt" />
+/// <reference types="@tarojs/plugin-platform-weapp/types/shims-weapp" />
+
 export = Taro
 export as namespace Taro
 

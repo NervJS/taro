@@ -1,4 +1,5 @@
 import Taro from '@tarojs/api'
+import { isFunction } from '@tarojs/shared'
 
 import { findDOM } from '../../utils'
 import { CanvasContext } from '../canvas/CanvasContext'
@@ -37,9 +38,13 @@ function filter (fields, dom?: HTMLElement, selector?: string) {
       } else {
         res.node = null
       }
+    } else if (/^taro-scroll-view-core/i.test(tagName)) {
+      // Note https://developers.weixin.qq.com/miniprogram/dev/api/ui/scroll/ScrollViewContext.html
+      res.nodeCanvasType = ''
+      res.node = dom
+      dom.scrollTo = (dom as any).mpScrollToMethod
+      dom.scrollIntoView = (dom as any).mpScrollIntoViewMethod
     } else {
-      // TODO https://developers.weixin.qq.com/miniprogram/dev/api/ui/scroll/ScrollViewContext.html
-      // if (/^taro-scroll-view-core/i.test(tagName))
       res.nodeCanvasType = ''
       res.node = dom
     }
@@ -201,9 +206,9 @@ export class SelectorQuery implements Taro.SelectorQuery {
       const _queueCb = this._queueCb
       res.forEach((item, index) => {
         const cb = _queueCb[index]
-        typeof cb === 'function' && cb.call(this, item)
+        isFunction(cb) && cb.call(this, item)
       })
-      typeof cb === 'function' && cb.call(this, res)
+      isFunction(cb) && cb.call(this, res)
     })
     return this as unknown as Taro.NodesRef
   }

@@ -163,27 +163,29 @@ interface MapProps extends StandardProps {
   /** 覆盖物，自定义贴图
    * @supported alipay
    */
-  groundOverlays?: any[]
+  groundOverlays?: MapProps.groundOverlays[]
 
   /** 覆盖物，网格贴图
    * @supported alipay
    */
-  tileOverlay?: any[]
+  tileOverlay?: MapProps.tileOverlay
 
   /** 是否展示 POI 点
    * @supported weapp, alipay, tt
+   * @default true
    */
-  enablePoi?: string
+  enablePoi?: boolean
 
   /** 是否展示建筑物
    * @supported weapp, alipay, tt
+   * @default true
    */
-  enableBuilding?: string
+  enableBuilding?: boolean
 
   /** 覆盖物，多边形。
    * @supported alipay
    */
-  polygon?: string
+  polygon?: MapProps.polygon[]
 
   /** 设置地图样式。
    *
@@ -196,17 +198,24 @@ interface MapProps extends StandardProps {
   /** 基于 map 高级定制渲染，设置覆盖在地图上的 view。
    * @supported alipay
    */
-  panels?: string
+  panels?: MapProps.panels[]
 
   /** 否
    * @supported jd
    */
   theme?: string
 
-  /** 内联样式。
+  /** 保持缩放比例不变
    * @supported alipay
+   * @default false
    */
-  optimize?: string
+  optimize?: boolean
+
+  /** 开启最大俯视角，俯视角度从 45 度拓展到 75 度
+   * @supported weapp
+   * @default false
+   */
+  enableAutoMaxOverlooking?: boolean
 
   /** 展示3D楼块
    * @supported weapp, swan, tt, qq
@@ -485,10 +494,25 @@ declare namespace MapProps {
 
   /** 指定一系列坐标点，根据 points 坐标数据生成闭合多边形 */
   interface polygon {
+    /**
+     * 边线虚线
+     * @remarks 默认值 [0, 0] 为实线，[10, 10]表示十个像素的实线和十个像素的空白（如此反复）组成的虚线
+     * @default [0,0]
+     * @supported weapp
+     */
+    dashArray?: number[]
+
     /** 经纬度数组
      * @remarks [{latitude: 0, longitude: 0}]
      */
     points: point[]
+
+    /**
+     * 线的颜色，用 8 位十六进制表示，后两位表示 alpha 值，如：#eeeeeeAA。
+     * @remarks 当前 Android 与 iOS 上此属性默认值存在差异（分别为 transparent 与 #ff0000ff ），建议在代码中统一显式设置。
+     * @supported alipay
+     */
+    color?: string
 
     /** 描边的宽度 */
     strokeWidth?: number
@@ -503,8 +527,29 @@ declare namespace MapProps {
      */
     fillColor?: string
 
+    /**
+     * 线的宽度
+     * @remarks 当前 Android 与 iOS 上此属性默认值存在差异（分别为 0 与 5），建议在代码中统一显式设置。
+     * @supported alipay
+     */
+    width?: number
+
     /** 设置多边形Z轴数值 */
     zIndex?: number
+
+    /**
+     * 压盖关系
+     * @supported weapp
+     * @remarks 默认为 abovelabels
+     */
+    level?: string
+
+    /**
+     * 标明在特定地图缩放级别下展示。
+     * @remarks [{ from: 12, to: 17}]
+     * @supported alipay
+     */
+    displayRanges?: [{ from: number; to: number }]
   }
 
   /** 在地图上显示圆 */
@@ -588,6 +633,31 @@ declare namespace MapProps {
      */
     height: number
   }
+
+  interface groundOverlays {
+    /**刷新的时候需要变更id值 */
+    id: string
+    /**右上 左下 */
+    'include-points': [{ latitude: number; longitude: number }, { latitude: number; longitude: number }]
+    image: string
+    alpha: number
+    zIndex: number
+  }
+
+  interface tileOverlay {
+    url: string
+    type: number
+    tileWidth: number
+    tileHeight: number
+    zIndex: number
+  }
+
+  interface panels {
+    id: number
+    layout: { src: string }
+    position: position
+  }
+
   interface onMarkerTapEventDetail {
     markerId: number | string
   }
@@ -661,7 +731,7 @@ declare namespace MapProps {
 
 /** 地图。相关api Taro.createMapContext。
  * @classification maps
- * @supported weapp, alipay, swan
+ * @supported weapp, alipay, swan, tt, qq, jd
  * @example_react
  * ```tsx
  * class App extends Component {

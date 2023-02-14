@@ -54,13 +54,14 @@ declare module '../../index' {
     decelerationDisabled: boolean
 
     /** 滚动至指定位置
-     * @supported weapp
+     * @supported weapp, h5
+     * @h5 不支持 velocity 参数
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui/scroll/ScrollViewContext.scrollTo.html
      */
     scrollTo(object: ScrollViewContext.scrollTo.Option): void
 
     /** 滚动至指定位置
-     * @supported weapp, tt
+     * @supported weapp, tt, h5
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui/scroll/ScrollViewContext.scrollIntoView.html
      */
     scrollIntoView(

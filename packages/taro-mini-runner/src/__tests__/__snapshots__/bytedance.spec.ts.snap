@@ -56,7 +56,7 @@ require(\\"./taro\\");
         function useRouter() {}
         function useTabItemTap() {}
         function useScope() {}
-        var needPromiseApis = new Set([ \\"checkFollowState\\", \\"exitMiniProgram\\", \\"followOfficialAccount\\", \\"getMenuButtonLayout\\", \\"getUserProfile\\", \\"hideInteractionBar\\", \\"navigateToVideoView\\", \\"openAwemeUserProfile\\", \\"openEcGood\\", \\"pay\\", \\"showInteractionBar\\" ]);
+        var needPromiseApis = new Set([ \\"applyRefund\\", \\"canRateAwemeOrders\\", \\"checkFollowAwemeState\\", \\"checkFollowState\\", \\"continueToPay\\", \\"createOrder\\", \\"exitMiniProgram\\", \\"followAwemeUser\\", \\"followOfficialAccount\\", \\"getEnvInfoSync\\", \\"getMenuButtonLayout\\", \\"getUserProfile\\", \\"hideInteractionBar\\", \\"navigateToVideoView\\", \\"openAwemeUserProfile\\", \\"openEcGood\\", \\"openWebcastRoom\\", \\"pay\\", \\"rateAwemeOrder\\", \\"showDouyinOpenAuth\\", \\"showInteractionBar\\" ]);
         var apiDiff = {
             showToast: {
                 options: {
@@ -216,10 +216,36 @@ require(\\"./taro\\");
                 bindRefund: _empty,
                 bindApplyRefund: _empty,
                 bindError: _empty
+            },
+            AwemeData: {
+                \\"aweme-id\\": _empty,
+                type: undefined(\\"avatar\\"),
+                \\"disable-default\\": _empty,
+                \\"default-avatar\\": _empty,
+                \\"default-text\\": _empty,
+                bindError: _empty
+            },
+            RateButton: {
+                \\"order-id\\": _empty,
+                bindInit: _empty,
+                bindSuccess: _empty,
+                bindError: _empty
+            },
+            OpenData: {
+                type: _empty,
+                \\"default-text\\": _empty,
+                \\"default-avatar\\": _empty,
+                \\"use-empty-value\\": _false,
+                bindError: _empty
             }
         };
         var hostConfig = {
-            initNativeApi: initNativeApi
+            initNativeApi: initNativeApi,
+            modifyMpEventImpl: function modifyMpEventImpl(event) {
+                if (event.type === \\"regionchange\\") {
+                    event.type = event.detail.type;
+                }
+            }
         };
         mergeReconciler(hostConfig);
         mergeInternalComponents(components);

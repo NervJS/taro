@@ -10,7 +10,7 @@ type Callback6Rest<T1, T2, T3, T4, T5, T6> = (arg1: T1, arg2: T2, arg3: T3,
 
 export class Events {
   protected callbacks?: Record<string, unknown>
-  static eventSplitter = /\s+/
+  static eventSplitter = ',' // Note: Harmony ACE API 8 开发板不支持使用正则 split 字符串 /\s+/
 
   constructor (opts?) {
     this.callbacks = opts?.callbacks ?? {}

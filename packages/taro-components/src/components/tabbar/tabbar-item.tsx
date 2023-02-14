@@ -1,5 +1,8 @@
 import classNames from 'classnames'
 import { FunctionalComponent, h } from '@stencil/core'
+import Taro from '@tarojs/taro'
+
+import { isVisible } from '../../utils'
 
 type TabbarItemProps = {
   index: number
@@ -8,6 +11,7 @@ type TabbarItemProps = {
   badgeText?: string
   iconPath: string
   showRedDot?: boolean
+  pagePath?: string
   text?: string
   onSelect: (index: number) => void
 }
@@ -19,6 +23,7 @@ export const TabbarItem: FunctionalComponent<TabbarItemProps> = ({
   iconPath,
   badgeText,
   showRedDot = false,
+  pagePath,
   text,
   onSelect
 }) => {
@@ -37,6 +42,10 @@ export const TabbarItem: FunctionalComponent<TabbarItemProps> = ({
   }
 
   function onClick () {
+    const page = Taro.getCurrentPages().shift()
+    if (typeof page?.onTabItemTap === 'function' && isVisible(this)) {
+      page.onTabItemTap({ index, pagePath, text })
+    }
     onSelect(index)
   }
 

@@ -120,21 +120,22 @@ class GenerateTypes {
             const value = astPath.node.leadingComments?.[0]?.value || ''
             const preSupportedPlatforms = value.match(/@supported\s+(.+)/)?.[1].toLowerCase().split(/\s?[,，]\s?/) || []
             const isUnique = value.indexOf('@unique') !== -1
+            const isIgnore = value.indexOf('@ignore') !== -1
 
             // 保留内置类型
-            const inherentTypes = ['global', 'h5', 'rn']
+            const inherentTypes = ['global', 'h5', 'rn', 'quickapp', 'harmony']
             inherentTypes.forEach((type) => {
               if (preSupportedPlatforms?.includes(type)) {
                 supportedPlatforms.push(type)
               }
             })
 
-            // 保留已有的支持平台
-            if (isUnique) {
+            // 保留 Taro 支持或平台独有特性
+            if (isUnique || isIgnore) {
               supportedPlatforms.push(...preSupportedPlatforms)
             }
 
-            if (isEmpty(supportedPlatforms) && value.indexOf('@unique') === -1) {
+            if (isEmpty(supportedPlatforms) && !(isUnique || isIgnore)) {
               astPath.remove()
             } else {
               astPath.node.leadingComments[0].value = value.replace(

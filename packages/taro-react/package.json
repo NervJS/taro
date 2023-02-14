@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/react",
-  "version": "3.5.8",
+  "version": "3.6.1",
   "description": "like react-dom, but for mini apps.",
   "author": "yuche <i@yuche.me>",
   "homepage": "https://github.com/nervjs/taro/tree/master/packages/taro-react#readme",
@@ -26,8 +26,7 @@
   "dependencies": {
     "@tarojs/runtime": "workspace:*",
     "@tarojs/shared": "workspace:*",
-    "react-reconciler": "0.27.0",
-    "scheduler": "^0.20.1"
+    "react-reconciler": "0.27.0"
   },
   "devDependencies": {
     "react": "^18.2.0"

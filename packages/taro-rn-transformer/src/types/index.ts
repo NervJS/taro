@@ -9,8 +9,8 @@ export interface TransformType {
     projectRoot: string
     appName?: string
     isEntryFile: (filename: string) => boolean
-    designWidth?: number
-    deviceRatio?: Record<number, number>
+    designWidth?: number | ((size: number) => number)
+    deviceRatio?: Record<string, number>
     rn?: Record<string, any>
   }
 }
@@ -27,8 +27,8 @@ export interface TransformEntry {
   appName: string
   projectRoot: string
   filename: string
-  designWidth: number
-  deviceRatio: Record<number, number>
+  designWidth: number | ((size: number) => number)
+  deviceRatio: Record<string, number>
   entryName: string
 }
 
@@ -36,8 +36,8 @@ export interface AppConfig {
   pages: string[]
   subPackages?: SubPackage[]
   subpackages?: SubPackage[]
-  designWidth: number
-  deviceRatio?: Record<number, unknown>
+  designWidth: number | ((size: number) => number)
+  deviceRatio?: Record<string, number>
   tabBar:Record<string, any>
 }
 

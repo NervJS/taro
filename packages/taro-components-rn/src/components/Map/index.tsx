@@ -42,7 +42,7 @@ import {
 } from 'react-native'
 // @ts-ignore // The type definitions for MapView have not been created.
 import MapView, { Callout, Polygon, Circle, Polyline, Marker, MapEvent } from 'react-native-maps'
-import utils from '../../utils'
+import { noop } from '../../utils'
 
 const { width, height } = Dimensions.get('window')
 const ASPECT_RATIO = width / height
@@ -179,13 +179,13 @@ class _Map extends React.Component<Props, State> {
     subkey: '',
     enableZoom: true,
     enableScroll: true,
-    onMarkerClick: utils.noop,
-    onCalloutClick: utils.noop,
-    onControlClick: utils.noop,
-    onRegionChange: utils.noop,
-    onClick: utils.noop,
-    onUpdated: utils.noop,
-    onPoiClick: utils.noop
+    onMarkerClick: noop,
+    onCalloutClick: noop,
+    onControlClick: noop,
+    onRegionChange: noop,
+    onClick: noop,
+    onUpdated: noop,
+    onPoiClick: noop
   }
 
   state: State = {

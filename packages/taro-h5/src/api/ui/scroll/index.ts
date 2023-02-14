@@ -18,7 +18,7 @@ export const pageScrollTo: typeof Taro.pageScrollTo = ({ scrollTop, selector = '
       if (scrollTop === undefined && !selector) {
         return handle.fail({
           errMsg: 'scrollTop" 或 "selector" 需要其之一'
-        }, reject)
+        }, { resolve, reject })
       }
 
       const id = Current.page?.path?.replace(/([^a-z0-9\u00a0-\uffff_-])/ig, '\\$1')
@@ -72,14 +72,14 @@ export const pageScrollTo: typeof Taro.pageScrollTo = ({ scrollTop, selector = '
             scroll(frame + 1)
           }, FRAME_DURATION)
         } else {
-          return handle.success({}, resolve)
+          return handle.success({}, { resolve, reject })
         }
       }
       scroll()
     } catch (e) {
       return handle.fail({
         errMsg: e.message
-      }, reject)
+      }, { resolve, reject })
     }
   })
 }

@@ -1,0 +1,329 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Video danmu 1`] = `
+<taro-video-core class="taro-video-container">
+  <video class="taro-video-video" playsinline="" webkit-playsinline="" style="object-fit: contain;">
+    暂时不支持播放该视频
+  </video>
+  <taro-video-danmu enable=""></taro-video-danmu>
+  <div class="taro-video-cover">
+    <div class="taro-video-cover-play-button"></div>
+    <p class="taro-video-cover-duration"></p>
+  </div>
+  <taro-video-control controls="" currenttime="0" showplaybtn="" showprogress="">
+    <div class="taro-video-fullscreen"></div>
+  </taro-video-control>
+  <div class="taro-video-toast taro-video-toast-volume">
+    <div class="taro-video-toast-title">
+      音量
+    </div>
+    <div class="taro-video-toast-icon"></div>
+    <div class="taro-video-toast-value">
+      <div class="taro-video-toast-value-content">
+        <div class="taro-video-toast-volume-grids">
+          <div class="taro-video-toast-volume-grids-item"></div>
+          <div class="taro-video-toast-volume-grids-item"></div>
+          <div class="taro-video-toast-volume-grids-item"></div>
+          <div class="taro-video-toast-volume-grids-item"></div>
+          <div class="taro-video-toast-volume-grids-item"></div>
+          <div class="taro-video-toast-volume-grids-item"></div>
+          <div class="taro-video-toast-volume-grids-item"></div>
+          <div class="taro-video-toast-volume-grids-item"></div>
+          <div class="taro-video-toast-volume-grids-item"></div>
+          <div class="taro-video-toast-volume-grids-item"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="taro-video-toast taro-video-toast-progress">
+    <div class="taro-video-toast-title"></div>
+  </div>
+</taro-video-core>
+`;
+
+exports[`Video props 1`] = `
+<taro-video-core class="taro-video-container">
+  <video class="taro-video-video" playsinline="" webkit-playsinline="" style="object-fit: contain;">
+    暂时不支持播放该视频
+  </video>
+  <taro-video-danmu></taro-video-danmu>
+  <div class="taro-video-cover">
+    <div class="taro-video-cover-play-button"></div>
+    <p class="taro-video-cover-duration"></p>
+  </div>
+  <taro-video-control controls="" currenttime="0" showplaybtn="" showprogress="">
+    <div class="taro-video-fullscreen"></div>
+  </taro-video-control>
+  <div class="taro-video-toast taro-video-toast-volume">
+    <div class="taro-video-toast-title">
+      音量
+    </div>
+    <div class="taro-video-toast-icon"></div>
+    <div class="taro-video-toast-value">
+      <div class="taro-video-toast-value-content">
+        <div class="taro-video-toast-volume-grids">
+          <div class="taro-video-toast-volume-grids-item"></div>
+          <div class="taro-video-toast-volume-grids-item"></div>
+          <div class="taro-video-toast-volume-grids-item"></div>
+          <div class="taro-video-toast-volume-grids-item"></div>
+          <div class="taro-video-toast-volume-grids-item"></div>
+          <div class="taro-video-toast-volume-grids-item"></div>
+          <div class="taro-video-toast-volume-grids-item"></div>
+          <div class="taro-video-toast-volume-grids-item"></div>
+          <div class="taro-video-toast-volume-grids-item"></div>
+          <div class="taro-video-toast-volume-grids-item"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="taro-video-toast taro-video-toast-progress">
+    <div class="taro-video-toast-title"></div>
+  </div>
+</taro-video-core>
+`;
+
+exports[`Video should be controlled by bar 1`] = `
+<taro-video-core class="taro-video-container">
+  <video class="taro-video-video" playsinline="" webkit-playsinline="" style="object-fit: contain;">
+    暂时不支持播放该视频
+  </video>
+  <taro-video-danmu></taro-video-danmu>
+  <div class="taro-video-cover">
+    <div class="taro-video-cover-play-button"></div>
+    <p class="taro-video-cover-duration"></p>
+  </div>
+  <taro-video-control controls="" currenttime="0" showplaybtn="" showprogress="">
+    <div class="taro-video-fullscreen"></div>
+  </taro-video-control>
+  <div class="taro-video-toast taro-video-toast-volume">
+    <div class="taro-video-toast-title">
+      音量
+    </div>
+    <div class="taro-video-toast-icon"></div>
+    <div class="taro-video-toast-value">
+      <div class="taro-video-toast-value-content">
+        <div class="taro-video-toast-volume-grids">
+          <div class="taro-video-toast-volume-grids-item"></div>
+          <div class="taro-video-toast-volume-grids-item"></div>
+          <div class="taro-video-toast-volume-grids-item"></div>
+          <div class="taro-video-toast-volume-grids-item"></div>
+          <div class="taro-video-toast-volume-grids-item"></div>
+          <div class="taro-video-toast-volume-grids-item"></div>
+          <div class="taro-video-toast-volume-grids-item"></div>
+          <div class="taro-video-toast-volume-grids-item"></div>
+          <div class="taro-video-toast-volume-grids-item"></div>
+          <div class="taro-video-toast-volume-grids-item"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="taro-video-toast taro-video-toast-progress">
+    <div class="taro-video-toast-title"></div>
+  </div>
+</taro-video-core>
+`;
+
+exports[`Video should pause 1`] = `
+<taro-video-core class="taro-video-container">
+  <video class="taro-video-video" playsinline="" webkit-playsinline="" style="object-fit: contain;">
+    暂时不支持播放该视频
+  </video>
+  <taro-video-danmu></taro-video-danmu>
+  <div class="taro-video-cover">
+    <div class="taro-video-cover-play-button"></div>
+    <p class="taro-video-cover-duration"></p>
+  </div>
+  <taro-video-control controls="" currenttime="0" showplaybtn="" showprogress="">
+    <div class="taro-video-fullscreen"></div>
+  </taro-video-control>
+  <div class="taro-video-toast taro-video-toast-volume">
+    <div class="taro-video-toast-title">
+      音量
+    </div>
+    <div class="taro-video-toast-icon"></div>
+    <div class="taro-video-toast-value">
+      <div class="taro-video-toast-value-content">
+        <div class="taro-video-toast-volume-grids">
+          <div class="taro-video-toast-volume-grids-item"></div>
+          <div class="taro-video-toast-volume-grids-item"></div>
+          <div class="taro-video-toast-volume-grids-item"></div>
+          <div class="taro-video-toast-volume-grids-item"></div>
+          <div class="taro-video-toast-volume-grids-item"></div>
+          <div class="taro-video-toast-volume-grids-item"></div>
+          <div class="taro-video-toast-volume-grids-item"></div>
+          <div class="taro-video-toast-volume-grids-item"></div>
+          <div class="taro-video-toast-volume-grids-item"></div>
+          <div class="taro-video-toast-volume-grids-item"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="taro-video-toast taro-video-toast-progress">
+    <div class="taro-video-toast-title"></div>
+  </div>
+</taro-video-core>
+`;
+
+exports[`Video should play 1`] = `
+<taro-video-core class="taro-video-container">
+  <video class="taro-video-video" playsinline="" webkit-playsinline="" style="object-fit: contain;">
+    暂时不支持播放该视频
+  </video>
+  <taro-video-danmu></taro-video-danmu>
+  <div class="taro-video-cover">
+    <div class="taro-video-cover-play-button"></div>
+    <p class="taro-video-cover-duration"></p>
+  </div>
+  <taro-video-control controls="" currenttime="0" showplaybtn="" showprogress="">
+    <div class="taro-video-fullscreen"></div>
+  </taro-video-control>
+  <div class="taro-video-toast taro-video-toast-volume">
+    <div class="taro-video-toast-title">
+      音量
+    </div>
+    <div class="taro-video-toast-icon"></div>
+    <div class="taro-video-toast-value">
+      <div class="taro-video-toast-value-content">
+        <div class="taro-video-toast-volume-grids">
+          <div class="taro-video-toast-volume-grids-item"></div>
+          <div class="taro-video-toast-volume-grids-item"></div>
+          <div class="taro-video-toast-volume-grids-item"></div>
+          <div class="taro-video-toast-volume-grids-item"></div>
+          <div class="taro-video-toast-volume-grids-item"></div>
+          <div class="taro-video-toast-volume-grids-item"></div>
+          <div class="taro-video-toast-volume-grids-item"></div>
+          <div class="taro-video-toast-volume-grids-item"></div>
+          <div class="taro-video-toast-volume-grids-item"></div>
+          <div class="taro-video-toast-volume-grids-item"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="taro-video-toast taro-video-toast-progress">
+    <div class="taro-video-toast-title"></div>
+  </div>
+</taro-video-core>
+`;
+
+exports[`Video should seek and stop 1`] = `
+<taro-video-core class="taro-video-container">
+  <video class="taro-video-video" playsinline="" webkit-playsinline="" style="object-fit: contain;">
+    暂时不支持播放该视频
+  </video>
+  <taro-video-danmu></taro-video-danmu>
+  <div class="taro-video-cover">
+    <div class="taro-video-cover-play-button"></div>
+    <p class="taro-video-cover-duration"></p>
+  </div>
+  <taro-video-control controls="" currenttime="0" showplaybtn="" showprogress="">
+    <div class="taro-video-fullscreen"></div>
+  </taro-video-control>
+  <div class="taro-video-toast taro-video-toast-volume">
+    <div class="taro-video-toast-title">
+      音量
+    </div>
+    <div class="taro-video-toast-icon"></div>
+    <div class="taro-video-toast-value">
+      <div class="taro-video-toast-value-content">
+        <div class="taro-video-toast-volume-grids">
+          <div class="taro-video-toast-volume-grids-item"></div>
+          <div class="taro-video-toast-volume-grids-item"></div>
+          <div class="taro-video-toast-volume-grids-item"></div>
+          <div class="taro-video-toast-volume-grids-item"></div>
+          <div class="taro-video-toast-volume-grids-item"></div>
+          <div class="taro-video-toast-volume-grids-item"></div>
+          <div class="taro-video-toast-volume-grids-item"></div>
+          <div class="taro-video-toast-volume-grids-item"></div>
+          <div class="taro-video-toast-volume-grids-item"></div>
+          <div class="taro-video-toast-volume-grids-item"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="taro-video-toast taro-video-toast-progress">
+    <div class="taro-video-toast-title"></div>
+  </div>
+</taro-video-core>
+`;
+
+exports[`Video should set initial time 1`] = `
+<taro-video-core class="taro-video-container">
+  <video class="taro-video-video" playsinline="" webkit-playsinline="" style="object-fit: contain;">
+    暂时不支持播放该视频
+  </video>
+  <taro-video-danmu></taro-video-danmu>
+  <div class="taro-video-cover">
+    <div class="taro-video-cover-play-button"></div>
+    <p class="taro-video-cover-duration"></p>
+  </div>
+  <taro-video-control controls="" currenttime="0" showplaybtn="" showprogress="">
+    <div class="taro-video-fullscreen"></div>
+  </taro-video-control>
+  <div class="taro-video-toast taro-video-toast-volume">
+    <div class="taro-video-toast-title">
+      音量
+    </div>
+    <div class="taro-video-toast-icon"></div>
+    <div class="taro-video-toast-value">
+      <div class="taro-video-toast-value-content">
+        <div class="taro-video-toast-volume-grids">
+          <div class="taro-video-toast-volume-grids-item"></div>
+          <div class="taro-video-toast-volume-grids-item"></div>
+          <div class="taro-video-toast-volume-grids-item"></div>
+          <div class="taro-video-toast-volume-grids-item"></div>
+          <div class="taro-video-toast-volume-grids-item"></div>
+          <div class="taro-video-toast-volume-grids-item"></div>
+          <div class="taro-video-toast-volume-grids-item"></div>
+          <div class="taro-video-toast-volume-grids-item"></div>
+          <div class="taro-video-toast-volume-grids-item"></div>
+          <div class="taro-video-toast-volume-grids-item"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="taro-video-toast taro-video-toast-progress">
+    <div class="taro-video-toast-title"></div>
+  </div>
+</taro-video-core>
+`;
+
+exports[`Video should toggle full screen 1`] = `
+<taro-video-core class="taro-video-container">
+  <video class="taro-video-video" playsinline="" webkit-playsinline="" style="object-fit: contain;">
+    暂时不支持播放该视频
+  </video>
+  <taro-video-danmu></taro-video-danmu>
+  <div class="taro-video-cover">
+    <div class="taro-video-cover-play-button"></div>
+    <p class="taro-video-cover-duration"></p>
+  </div>
+  <taro-video-control controls="" currenttime="0" showplaybtn="" showprogress="">
+    <div class="taro-video-fullscreen"></div>
+  </taro-video-control>
+  <div class="taro-video-toast taro-video-toast-volume">
+    <div class="taro-video-toast-title">
+      音量
+    </div>
+    <div class="taro-video-toast-icon"></div>
+    <div class="taro-video-toast-value">
+      <div class="taro-video-toast-value-content">
+        <div class="taro-video-toast-volume-grids">
+          <div class="taro-video-toast-volume-grids-item"></div>
+          <div class="taro-video-toast-volume-grids-item"></div>
+          <div class="taro-video-toast-volume-grids-item"></div>
+          <div class="taro-video-toast-volume-grids-item"></div>
+          <div class="taro-video-toast-volume-grids-item"></div>
+          <div class="taro-video-toast-volume-grids-item"></div>
+          <div class="taro-video-toast-volume-grids-item"></div>
+          <div class="taro-video-toast-volume-grids-item"></div>
+          <div class="taro-video-toast-volume-grids-item"></div>
+          <div class="taro-video-toast-volume-grids-item"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="taro-video-toast taro-video-toast-progress">
+    <div class="taro-video-toast-title"></div>
+  </div>
+</taro-video-core>
+`;

@@ -155,7 +155,8 @@ require(\\"./taro\\");
                 \\"safe-password-salt\\": \\"\\",
                 \\"safe-password-custom-hash\\": \\"\\",
                 \\"auto-fill\\": _empty,
-                bindKeyboardHeightChange: _empty
+                bindKeyboardHeightChange: _empty,
+                bindNicknameReview: _empty
             },
             Picker: {
                 \\"header-text\\": _empty
@@ -398,7 +399,7 @@ require(\\"./taro\\");
                 overlay: _true,
                 position: \\"'bottom'\\",
                 round: _false,
-                \\"close-on-slideDown\\": _false,
+                \\"close-on-slide-down\\": _false,
                 \\"overlay-style\\": _empty,
                 \\"custom-style\\": _empty,
                 bindBeforeEnter: _empty,
@@ -416,7 +417,20 @@ require(\\"./taro\\");
                 \\"easing-function\\": \\"'ease-out'\\"
             },
             KeyboardAccessory: {},
-            RootPortal: {}
+            RootPortal: {},
+            ChannelLive: {
+                feedId: _empty,
+                finderUserName: _empty
+            },
+            ChannelVideo: {
+                feedId: _empty,
+                finderUserName: _empty,
+                autoPlay: _false,
+                loop: _false,
+                muted: _false,
+                objectFit: \\"'contain'\\",
+                bindError: _empty
+            }
         };
         var hostConfig = {
             initNativeApi: initNativeApi,

@@ -111,7 +111,11 @@ export class MiniPrebundle extends BasePrebundle<IMiniPrebundleConfig> {
       cancelAnimationFrame: [taroRuntimeBundlePath, '_caf'],
       Element: [taroRuntimeBundlePath, 'TaroElement'],
       SVGElement: [taroRuntimeBundlePath, 'SVGElement'],
-      MutationObserver: [taroRuntimeBundlePath, 'MutationObserver']
+      MutationObserver: [taroRuntimeBundlePath, 'MutationObserver'],
+      history: [taroRuntimeBundlePath, 'history'],
+      location: [taroRuntimeBundlePath, 'location'],
+      URLSearchParams: [taroRuntimeBundlePath, 'URLSearchParams'],
+      URL: [taroRuntimeBundlePath, 'URL'],
     }
     const customWebpackConfig = this.option.webpack
     if (customWebpackConfig?.provide?.length) {

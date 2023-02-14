@@ -67,12 +67,7 @@ function uploadFile (opts: Taro.uploadFile.Option): Promise<Taro.uploadFile.Succ
   })
 
   return _fetch(execFetch, timeout).then((res: any) => {
-    if (res.ok) {
-      return successHandler(success, complete)(res)
-    } else {
-      const errMsg = `uploadFile fail: ${res.status} ${res.statusText}`
-      return errorHandler(fail, complete)({ errMsg })
-    }
+    return successHandler(success, complete)(res)
   }).catch(e => {
     const errMsg = `uploadFile fail: ${e}`
     return errorHandler(fail, complete)({ errMsg })

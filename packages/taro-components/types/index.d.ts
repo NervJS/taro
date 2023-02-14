@@ -51,6 +51,8 @@ export { NavigationBar } from './NavigationBar'
 /** 媒体组件 */
 export { Audio } from './Audio'
 export { Camera } from './Camera'
+export { ChannelLive } from './ChannelLive'
+export { ChannelVideo } from './ChannelVideo'
 export { Image } from './Image'
 export { LivePlayer } from './LivePlayer'
 export { LivePusher } from './LivePusher'
@@ -75,3 +77,4 @@ export { PageMeta } from './PageMeta'
 
 export { CustomWrapper } from './CustomWrapper'
 export { Slot } from './Slot'
+export { NativeSlot } from './NativeSlot'

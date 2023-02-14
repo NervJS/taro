@@ -4,6 +4,8 @@ import { IH5Config } from '@tarojs/taro/types/compile'
 import { getOptions, stringifyRequest } from 'loader-utils'
 import { dirname, join } from 'path'
 
+import { REG_POST } from './constants'
+
 import type * as webpack from 'webpack'
 
 function genResource (path: string, pages: Map<string, string>, loaderContext: webpack.LoaderContext<any>, syncFileName: string | false = false) {
@@ -22,15 +24,13 @@ export default function (this: webpack.LoaderContext<any>) {
   const options = getOptions(this)
   const stringify = (s: string): string => stringifyRequest(this, s)
   const {
-    importFrameworkStatement,
     frameworkArgs,
     creator,
     creatorLocation,
+    importFrameworkStatement,
     importFrameworkName,
     extraImportForWeb,
-    execBeforeCreateWebApp,
-    compatComponentImport,
-    compatComponentExtra
+    execBeforeCreateWebApp
   } = options.loaderMeta
   const config: AppConfig & IH5Config = options.config
   const pages: Map<string, string> = options.pages
@@ -73,16 +73,17 @@ var tabbarSelectedIconPath = []
     }
   }
 
-  const webComponents = `
-import { defineCustomElements, applyPolyfills } from '@tarojs/components/loader'
-import '@tarojs/components/dist/taro-components/taro-components.css'
-${extraImportForWeb || ''}
-applyPolyfills().then(function () {
-  defineCustomElements(window)
-})
-`
+  const runtimePath = Array.isArray(options.runtimePath) ? options.runtimePath : [options.runtimePath]
+  let setReconcilerPost = ''
+  const setReconciler = runtimePath.reduce((res, item) => {
+    if (REG_POST.test(item)) {
+      setReconcilerPost += `import '${item.replace(REG_POST, '')}'\n`
+      return res
+    } else {
+      return res + `import '${item}'\n`
+    }
+  }, '')
 
-  const components = options.useHtmlComponents ? compatComponentImport || '' : webComponents
   const routesConfig = isMultiRouterMode ? `config.routes = []
 config.route = ${genResource(pageName, pages, this, options.filename)}
 config.pageName = "${pageName}"` : `config.routes = [
@@ -90,14 +91,16 @@ config.pageName = "${pageName}"` : `config.routes = [
 ]`
   const routerCreator = isMultiRouterMode ? 'createMultiRouter' : 'createRouter'
 
-  const code = `import { initPxTransform } from '@tarojs/taro'
+  const code = `${setReconciler}
+import { initPxTransform } from '@tarojs/taro'
 import { ${routerCreator} } from '@tarojs/router'
 import component from ${stringify(join(options.sourceDir, options.entryFileName))}
 import { window } from '@tarojs/runtime'
 import { ${creator} } from '${creatorLocation}'
-var config = ${JSON.stringify(config)}
 ${importFrameworkStatement}
-${components}
+${extraImportForWeb}
+${setReconcilerPost}
+var config = ${JSON.stringify(config)}
 window.__taroAppConfig = config
 ${config.tabBar ? tabBarCode : ''}
 if (config.tabBar) {
@@ -113,7 +116,6 @@ if (config.tabBar) {
   }
 }
 ${routesConfig}
-${options.useHtmlComponents ? compatComponentExtra : ''}
 ${execBeforeCreateWebApp || ''}
 var inst = ${creator}(component, ${frameworkArgs})
 ${routerCreator}(inst, config, ${importFrameworkName})

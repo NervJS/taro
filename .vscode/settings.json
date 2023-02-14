@@ -16,7 +16,7 @@
     "**/node_modules": true,
     "**/yarn.lock": true,
     "**/__snapshots__": true
- },
+  },
   "jest.autoEnable": false,
   "typescript.tsdk": "node_modules/typescript/lib",
   "javascript.format.insertSpaceBeforeFunctionParenthesis": true,

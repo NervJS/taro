@@ -1,4 +1,5 @@
 import Taro from '@tarojs/api'
+import { Current } from '@tarojs/runtime'
 
 import { getParameterError, temporarilyNotSupport } from '../../../utils'
 import { MethodHandler } from '../../../utils/handler'
@@ -70,10 +71,10 @@ const showToast: typeof Taro.showToast = (options = { title: '' }) => {
   return handle.success({ errMsg })
 }
 
-const hideToast: typeof Taro.hideToast = ({ success, fail, complete } = {}) => {
+const hideToast: typeof Taro.hideToast = ({ noConflict = false, success, fail, complete } = {}) => {
   const handle = new MethodHandler({ name: 'hideToast', success, fail, complete })
   if (!toast.el) return handle.success()
-  toast.hide(0, 'toast')
+  toast.hide(0, noConflict ? 'toast' : '')
   return handle.success()
 }
 
@@ -115,10 +116,10 @@ const showLoading: typeof Taro.showLoading = (options = { title: '' }) => {
   return handle.success({ errMsg })
 }
 
-const hideLoading: typeof Taro.hideLoading = ({ success, fail, complete } = {}) => {
+const hideLoading: typeof Taro.hideLoading = ({ noConflict = false, success, fail, complete } = {}) => {
   const handle = new MethodHandler({ name: 'hideLoading', success, fail, complete })
   if (!toast.el) return handle.success()
-  toast.hide(0, 'loading')
+  toast.hide(0, noConflict ? 'loading' : '')
   return handle.success()
 }
 
@@ -290,10 +291,15 @@ const showActionSheet: typeof Taro.showActionSheet = async (options = { itemList
   }
 }
 
-Taro.eventCenter.on('__taroRouterChange', () => {
-  hideToast()
-  hideLoading()
-  hideModal()
+Taro.eventCenter.on('__afterTaroRouterChange', () => {
+  if (toast.currentPath && toast.currentPath !== Current.page?.path) {
+    hideToast()
+    hideLoading()
+  }
+
+  if (modal.currentPath && modal.currentPath !== Current.page?.path) {
+    hideModal()
+  }
 })
 
 const enableAlertBeforeUnload = temporarilyNotSupport('enableAlertBeforeUnload')

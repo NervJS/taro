@@ -199,7 +199,7 @@ declare namespace AdProps {
 
 /** Banner 广告
  * @classification open
- * @supported weapp, tt
+ * @supported weapp, swan, tt, qq
  * @example_react
  * ```tsx
  * class App extends Component {

@@ -255,27 +255,35 @@ export class H5WebpackModule {
   }
 
   getScriptRule () {
+    const { sourceDir } = this.combination
+    const { compile = {} } = this.combination.config
     const rule: IRule = WebpackModule.getScriptRule()
 
-    rule.exclude = [filename => {
+    if (compile.exclude && compile.exclude.length) {
+      rule.exclude = [
+        ...compile.exclude,
+        filename => /css-loader/.test(filename) || (/node_modules/.test(filename) && !(/taro/.test(filename)))
+      ]
+    } else if (compile.include && compile.include.length) {
+      rule.include = [
+        ...compile.include,
+        sourceDir,
+        filename => /taro/.test(filename)
+      ]
+    } else {
       /**
        * 要优先处理 css-loader 问题
        *
        * https://github.com/webpack-contrib/mini-css-extract-plugin/issues/471#issuecomment-750266195
+       *
+       * 若包含 @tarojs/components，则跳过 babel-loader 处理
+       * 除了包含 taro 和 inversify 的第三方依赖均不经过 babel-loader 处理
        */
-      if (/css-loader/.test(filename)) return true
-      // 若包含 @tarojs/components，则跳过 babel-loader 处理
-      if (/@tarojs\/components/.test(filename)) return true
-
-      // 非 node_modules 下的文件直接走 babel-loader 逻辑
-      if (!(/node_modules/.test(filename))) return false
-
-      // 除了包含 taro 和 inversify 的第三方依赖均不经过 babel-loader 处理
-      if (/taro/.test(filename)) return false
-      if (/inversify/.test(filename)) return false
-
-      return true
-    }]
+      rule.exclude = [filename =>
+        /css-loader/.test(filename)
+        || /@tarojs[\\/]components/.test(filename)
+        || (/node_modules/.test(filename) && !(/taro/.test(filename) || /inversify/.test(filename)))]
+    }
 
     return rule
   }

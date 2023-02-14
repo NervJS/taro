@@ -101,6 +101,15 @@ require(\\"./taro\\");
                         }, {
                             old: \\"icon\\",
                             new: \\"type\\"
+                        } ],
+                        set: [ {
+                            key: \\"type\\",
+                            value: function value(options) {
+                                if (options.type === \\"error\\") {
+                                    return \\"fail\\";
+                                }
+                                return options.type;
+                            }
                         } ]
                     }
                 },
@@ -329,6 +338,21 @@ require(\\"./taro\\");
                             }
                         } ]
                     }
+                },
+                getBLEDeviceServices: {
+                    res: {
+                        set: [ {
+                            key: \\"services\\",
+                            value: function value(res) {
+                                return res.services.map((function(item) {
+                                    return {
+                                        uuid: item.serviceId,
+                                        isPrimary: item.isPrimary
+                                    };
+                                }));
+                            }
+                        } ]
+                    }
                 }
             };
             var nativeRequest = my.canIUse(\\"request\\") ? my.request : my.httpRequest;
@@ -545,13 +569,25 @@ require(\\"./taro\\");
                     rotate: \\"0\\",
                     polygons: \\"[]\\",
                     \\"include-padding\\": \\"\\",
-                    \\"ground-overlays\\": \\"\\",
+                    \\"ground-overlays\\": \\"[]\\",
                     \\"tile-overlay\\": \\"\\",
                     \\"custom-map-style\\": \\"\\",
+                    panels: \\"[]\\",
                     setting: \\"{}\\",
-                    optimize: \\"\\",
+                    optimize: \\"false\\",
+                    \\"show-compass\\": \\"false\\",
+                    \\"show-scale\\": \\"false\\",
+                    \\"enable-overlooking\\": \\"false\\",
+                    \\"enable-zoom\\": \\"true\\",
+                    \\"enable-scroll\\": \\"true\\",
+                    \\"enable-rotate\\": \\"false\\",
+                    \\"enable-traffic\\": \\"false\\",
+                    \\"enable-poi\\": \\"true\\",
+                    \\"enable-building\\": \\"true\\",
+                    \\"enable-satellite\\": \\"false\\",
                     bindRegionChange: \\"\\",
-                    bindPanelTap: \\"\\"
+                    bindPanelTap: \\"\\",
+                    bindInitComplete: \\"\\"
                 },
                 Button: {
                     scope: \\"\\",
@@ -563,9 +599,11 @@ require(\\"./taro\\");
                     bindChange: \\"\\"
                 },
                 Input: {
+                    \\"always-system\\": \\"false\\",
                     \\"random-number\\": \\"false\\",
                     controlled: \\"false\\",
-                    enableNative: \\"false\\"
+                    enableNative: \\"true\\",
+                    name: \\"\\"
                 },
                 Slider: {
                     \\"track-size\\": \\"4\\",
@@ -614,6 +652,7 @@ require(\\"./taro\\");
                 Video: {
                     \\"poster-size\\": Object(_tarojs_shared__WEBPACK_IMPORTED_MODULE_0__[\\"singleQuote\\"])(\\"contain\\"),
                     \\"mobilenet-hint-type\\": \\"1\\",
+                    enableNative: \\"true\\",
                     bindLoading: \\"\\",
                     bindUserAction: \\"\\",
                     bindStop: \\"\\",
@@ -623,9 +662,9 @@ require(\\"./taro\\");
                     autoplay: \\"false\\",
                     path: \\"\\",
                     speed: \\"1.0\\",
-                    repeatCount: \\"0\\",
-                    autoReverse: \\"false\\",
-                    assetsPath: \\"\\",
+                    \\"repeat-count\\": \\"0\\",
+                    \\"auto-reverse\\": \\"false\\",
+                    \\"assets-path\\": \\"\\",
                     placeholder: \\"\\",
                     djangoId: \\"\\",
                     md5: \\"\\",
@@ -667,6 +706,32 @@ require(\\"./taro\\");
                     bindStop: \\"\\",
                     bindError: \\"\\",
                     bindARFrame: \\"\\"
+                },
+                PageContainer: {
+                    show: \\"false\\",
+                    duration: \\"300\\",
+                    \\"z-index\\": \\"100\\",
+                    overlay: \\"true\\",
+                    position: Object(_tarojs_shared__WEBPACK_IMPORTED_MODULE_0__[\\"singleQuote\\"])(\\"bottom\\"),
+                    round: \\"false\\",
+                    \\"close-on-slide-down\\": \\"false\\",
+                    \\"overlay-style\\": \\"\\",
+                    \\"custom-style\\": \\"\\",
+                    bindBeforeEnter: \\"\\",
+                    bindEnter: \\"\\",
+                    bindEnterCancelled: \\"\\",
+                    bindAfterEnter: \\"\\",
+                    bindBeforeLeave: \\"\\",
+                    bindLeave: \\"\\",
+                    bindLeaveCancelled: \\"\\",
+                    bindAfterLeave: \\"\\",
+                    bindClickOverlay: \\"\\"
+                },
+                ShareElement: {
+                    name: \\"\\",
+                    transform: \\"false\\",
+                    duration: \\"300\\",
+                    \\"easing-function\\": Object(_tarojs_shared__WEBPACK_IMPORTED_MODULE_0__[\\"singleQuote\\"])(\\"ease-out\\")
                 }
             };
             var BUBBLE_EVENTS = new Set([ \\"touchStart\\", \\"touchMove\\", \\"touchEnd\\", \\"touchCancel\\", \\"tap\\", \\"longTap\\" ]);

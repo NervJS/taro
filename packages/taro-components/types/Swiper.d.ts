@@ -75,7 +75,7 @@ interface SwiperProps extends StandardProps {
   /**
    * 当 swiper-item 的个数大于等于 2，关闭 circular 并且开启 previous-margin 或 next-margin 的时候，可以指定这个边距是否应用到第一个、最后一个元素
    * @default false
-   * @supported weapp, alipay, jd
+   * @supported weapp, alipay
    */
   snapToEdge?: boolean
 
@@ -174,7 +174,7 @@ interface SwiperProps extends StandardProps {
   onChange?: CommonEventFunction<SwiperProps.onChangeEventDetail>
 
   /** swiper-item 的位置发生改变时会触发 transition 事件
-   * @supported weapp, alipay, tt, qq, jd
+   * @supported weapp, alipay, tt, qq
    */
   onTransition?: CommonEventFunction<SwiperProps.onTransitionEventDetail>
 
@@ -247,7 +247,7 @@ declare namespace SwiperProps {
 /** 滑块视图容器。其中只可放置 swiper-item 组件，否则会导致未定义的行为。
  * > 不要为 `SwiperItem` 设置 **style** 属性，可以通过 class 设置样式。[7147](https://github.com/NervJS/taro/issues/7147)
  * @classification viewContainer
- * @supported weapp, swan, alipay, tt, h5, rn
+ * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony
  * @example_react
  * ```tsx
  * class App extends Component {

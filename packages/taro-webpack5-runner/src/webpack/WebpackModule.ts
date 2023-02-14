@@ -36,10 +36,10 @@ export interface IRule {
 export type CssModuleOptionConfig = Exclude<PostcssOption.cssModules['config'], undefined>
 
 export class WebpackModule {
-  static getLoader (loaderName: string, options: Record<string, any>) {
+  static getLoader (loaderName: string, options: Record<string, any> = {}) {
     return {
       loader: require.resolve(loaderName),
-      options: options || {}
+      options
     }
   }
 

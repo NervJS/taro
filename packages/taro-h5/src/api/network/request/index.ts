@@ -1,6 +1,7 @@
 import 'whatwg-fetch'
 
 import Taro from '@tarojs/api'
+import { isFunction } from '@tarojs/shared'
 import jsonpRetry from 'jsonp-retry'
 
 import { serializeParams } from '../../../utils'
@@ -41,13 +42,13 @@ function _request (options) {
       .then(data => {
         res.statusCode = 200
         res.data = data
-        typeof success === 'function' && success(res)
-        typeof complete === 'function' && complete(res)
+        isFunction(success) && success(res)
+        isFunction(complete) && complete(res)
         return res
       })
       .catch(err => {
-        typeof fail === 'function' && fail(err)
-        typeof complete === 'function' && complete(res)
+        isFunction(fail) && fail(err)
+        isFunction(complete) && complete(res)
         return Promise.reject(err)
       })
   }
@@ -56,7 +57,7 @@ function _request (options) {
   params.cache = options.cache || 'default'
   if (methodUpper === 'GET' || methodUpper === 'HEAD') {
     url = generateRequestUrlWithParams(url, options.data)
-  } else if (typeof options.data === 'object') {
+  } else if (Object.prototype.toString.call(options.data) === '[object Object]') {
     options.header = options.header || {}
 
     const keyOfContentType = Object.keys(options.header).find(item => item.toLowerCase() === 'content-type')
@@ -113,13 +114,13 @@ function _request (options) {
     })
     .then(data => {
       res.data = data
-      typeof success === 'function' && success(res)
-      typeof complete === 'function' && complete(res)
+      isFunction(success) && success(res)
+      isFunction(complete) && complete(res)
       return res
     })
     .catch(err => {
-      typeof fail === 'function' && fail(err)
-      typeof complete === 'function' && complete(res)
+      isFunction(fail) && fail(err)
+      isFunction(complete) && complete(res)
       err.statusCode = res.statusCode
       err.errMsg = err.message
       return Promise.reject(err)

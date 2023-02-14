@@ -44,6 +44,7 @@ export const specialElements = new Map<string, string | SpecialMaps>([
   ['canvas', 'canvas'],
   ['a', {
     mapName (props) {
+      if(props.as && isString(props.as)) return props.as.toLowerCase()
       return !props.href || (/^javascript/.test(props.href)) ? 'view' : 'navigator'
     },
     mapNameCondition: ['href'],
@@ -81,6 +82,8 @@ export const specialElements = new Map<string, string | SpecialMaps>([
         } else if (value === 'tel') {
           value = 'number'
         }
+      } else if (htmlKey === 'maxlength') {
+        key = 'maxlength'
       }
       return [key, value]
     }
@@ -95,7 +98,8 @@ export const specialElements = new Map<string, string | SpecialMaps>([
     mapName: 'textarea',
     mapAttr: genAttrMapFnFromDir({
       autofocus: 'focus',
-      readonly: 'disabled'
+      readonly: 'disabled',
+      maxlength: 'maxlength'
     })
   }],
   ['progress', {
