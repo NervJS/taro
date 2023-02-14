@@ -257,6 +257,7 @@ module.exports = function (merge) {
 | alipay   | ✅         | ✅            |✅             |
 | dd       | ✅         | ✅            |❌             |
 | swan     | ✅         | ✅            |✅             |
+| jd       | ❌         | ✅            |✅             |
 
 > ps: 各平台上传都是支持的，只是不一定会输出二维码
 
@@ -358,6 +359,13 @@ health:  阿里医院
 | minSwanVersion | string | 最低基础库版本, 不传默认为 3.350.6  |
 
 官方CI文档[点这里](https://smartprogram.baidu.com/docs/develop/devtools/commandtool/)
+
+### 京东小程序CI配置
+| 参数 | 类型 | 说明 |
+| :--- | :--- | :--- |
+| privateKey | string | 秘钥字符串 |
+
+官方CI文档[点这里](https://mp-docs.jd.com/doc/dev/devtools/1597)
 
 ### 完整 ts 接口描述
 
@@ -466,6 +474,11 @@ export interface SwanConfig {
   token: string
   /** 最低基础库版本, 不传默认为 3.350.6 */
   minSwanVersion?: string
+}
+
+/** 京东小程序配置 */
+export interface JdConfig {
+  privateKey: string
 }
 
 ```
