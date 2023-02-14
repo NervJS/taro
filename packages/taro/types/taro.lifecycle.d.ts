@@ -85,7 +85,7 @@ declare module './index' {
     webViewUrl?: string
   }
 
-  interface ShareAppMessageReturn {
+  interface ShareAppMessageReturnObject {
     /**
      * 	转发标题，默认为当前小程序名称
      */
@@ -106,6 +106,8 @@ declare module './index' {
      */
     imageUrl?: string
   }
+
+  type ShareAppMessageReturn = ShareAppMessageReturnObject | Promise<ShareAppMessageReturnObject>
 
   interface TabItemTapObject {
     /**
