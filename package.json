@@ -174,19 +174,19 @@
   },
   "pnpm": {
     "packageExtensions": {
+      "@ant-design/react-native": {
+        "peerDependenciesMeta": {
+          "@react-native-community/cameraroll": {
+            "optional": true
+          }
+        }
+      },
       "react-native-root-siblings": {
         "peerDependencies": {
           "react": "18.1.0"
         },
         "peerDependenciesMeta": {
           "react": {
-            "optional": true
-          }
-        }
-      },
-      "@ant-design/react-native": {
-        "peerDependenciesMeta": {
-          "@react-native-community/cameraroll": {
             "optional": true
           }
         }
