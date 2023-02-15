@@ -64,7 +64,7 @@ export const config: Config = {
   plugins: [
     sass()
   ],
-  sourceMap: isProd,
+  sourceMap: !isProd,
   nodeResolve: {
     preferBuiltins: false,
     // @ts-ignore
