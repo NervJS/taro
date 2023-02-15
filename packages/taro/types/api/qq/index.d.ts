@@ -4,19 +4,19 @@ declare module '../../index' {
   namespace openQzonePublish {
     interface Option {
       /** 传递的文字内容 */
-      text: string;
+      text: string
       /** 传递的视频/图片内容，显示顺序为元素下标顺序 */
-      media: Media[];
+      media: Media[]
       /** 说说小尾巴跳转到的页面路径，不填则默认跳到主页 */
-      path: string;
+      path: string
       /** 说说小尾巴显示的文案，不填则默认显示小程序的简介文案 */
-      footnote: string;
+      footnote: string
     }
     type Media = {
       /** 图片填"photo"，视频填"video" */
-      type: MediaType;
+      type: MediaType
       /** 文件路径，必须为本地文件 */
-      path: string;
+      path: string
     }
     type MediaType = 'photo' | 'video'
   }
