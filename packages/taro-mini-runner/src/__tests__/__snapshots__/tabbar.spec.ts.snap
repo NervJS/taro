@@ -569,13 +569,25 @@ require(\\"./taro\\");
                     rotate: \\"0\\",
                     polygons: \\"[]\\",
                     \\"include-padding\\": \\"\\",
-                    \\"ground-overlays\\": \\"\\",
+                    \\"ground-overlays\\": \\"[]\\",
                     \\"tile-overlay\\": \\"\\",
                     \\"custom-map-style\\": \\"\\",
+                    panels: \\"[]\\",
                     setting: \\"{}\\",
-                    optimize: \\"\\",
+                    optimize: \\"false\\",
+                    \\"show-compass\\": \\"false\\",
+                    \\"show-scale\\": \\"false\\",
+                    \\"enable-overlooking\\": \\"false\\",
+                    \\"enable-zoom\\": \\"true\\",
+                    \\"enable-scroll\\": \\"true\\",
+                    \\"enable-rotate\\": \\"false\\",
+                    \\"enable-traffic\\": \\"false\\",
+                    \\"enable-poi\\": \\"true\\",
+                    \\"enable-building\\": \\"true\\",
+                    \\"enable-satellite\\": \\"false\\",
                     bindRegionChange: \\"\\",
-                    bindPanelTap: \\"\\"
+                    bindPanelTap: \\"\\",
+                    bindInitComplete: \\"\\"
                 },
                 Button: {
                     scope: \\"\\",
@@ -1650,6 +1662,15 @@ require(\\"./taro\\");
             ChannelLive: {
                 feedId: _empty,
                 finderUserName: _empty
+            },
+            ChannelVideo: {
+                feedId: _empty,
+                finderUserName: _empty,
+                autoPlay: _false,
+                loop: _false,
+                muted: _false,
+                objectFit: \\"'contain'\\",
+                bindError: _empty
             }
         };
         var hostConfig = {
