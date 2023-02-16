@@ -40,7 +40,11 @@ export const createCommonRender = (
       return {
         ...listeners,
         [eventName]: (event: CustomEvent<any>) => {
-          vueElement.$emit(eventName, event); if (['input', 'change'].includes(eventName)) vueElement.$emit('update:modelValue', event.detail.value)
+          vueElement.$emit(eventName, event)
+          // Note(taro): 优化 input、change 事件与 v-model 兼容性问题
+          if (['input', 'change'].includes(eventName)) {
+            vueElement.$emit('update:modelValue', event.detail.value)
+          }
         },
       }
     }, vueElement.$listeners)
@@ -56,7 +60,14 @@ export const createCommonRender = (
       {
         ref: 'wc',
         domProps: vueElement.$props,
-        on: { ...allListeners, click: (event) => { typeof allListeners.click === 'function' && allListeners.click(event); vueElement.$emit('tap', event) } },
+        on: {
+          ...allListeners,
+          // Note(taro): click 事件绑定 tap 事件触发
+          click: (event) => {
+            typeof allListeners.click === 'function' && allListeners.click(event)
+            vueElement.$emit('tap', event)
+          }
+        },
         attrs: { ...attributes, 'data-testid': tagName },
       },
       [vueElement.$slots.default]

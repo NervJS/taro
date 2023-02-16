@@ -2,7 +2,6 @@ const fs = require('@tarojs/helper').fs
 const path = require('path')
 
 const componentsPath = path.resolve(__dirname, '..', 'src/components.ts')
-// const utilsPath = path.resolve(__dirname, '..', 'src/vue-component-lib/utils.ts')
 
 if (fs.existsSync(componentsPath)) {
   const codeBuffer = fs.readFileSync(componentsPath)
@@ -17,11 +16,3 @@ if (fs.existsSync(componentsPath)) {
 
   fs.writeFileSync(componentsPath, code)
 }
-
-// if (fs.existsSync(utilsPath)) {
-//   const codeBuffer = fs.readFileSync(utilsPath)
-//   // Note: 为 click 事件绑定 tap 事件
-//   const code = codeBuffer.toString().replace(/onClick: handleClick/g, `onClick: (ev: Event) => { handleClick(ev), emit('tap', ev) }`)
-
-//   fs.writeFileSync(utilsPath, code)
-// }

@@ -56,7 +56,7 @@ export const createReactComponent = <
 
     render () {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      const { children, forwardedRef, className, ref, ...cProps } = this.props
+      const { children, forwardedRef, className, ref, style, ...cProps } = this.props
 
       let propsToPass = Object.keys(cProps).reduce((acc: any, name) => {
         const value = (cProps as any)[name]
@@ -71,7 +71,7 @@ export const createReactComponent = <
           // objects, functions, arrays etc get synced via properties on mount.
           const type = typeof value
 
-          if (name !== 'style' && ['string', 'boolean', 'number'].includes(type)) {
+          if (['string', 'boolean', 'number'].includes(type)) {
             acc[camelToDashCase(name)] = value
           }
         }
@@ -85,6 +85,8 @@ export const createReactComponent = <
       const newProps: Omit<StencilReactInternalProps<ElementType>, 'forwardedRef'> = {
         ...propsToPass,
         ref: mergeRefs(forwardedRef, this.setComponentElRef),
+        // Note(taro): 需处理 string 类型的 style，调整到 manipulatePropsFunction 方法中判断是否需注入 (string 类型在 attachProps 中处理)
+        // style
       }
 
       /**
