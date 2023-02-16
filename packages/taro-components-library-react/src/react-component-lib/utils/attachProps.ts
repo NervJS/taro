@@ -34,10 +34,7 @@ export const getClassName = (classList: DOMTokenList, newProps: any, oldProps: a
   return finalClassNames.join(' ')
 }
 
-/**
- * Checks if an event is supported in the current execution environment.
- * @license Modernizr 3.0.0pre (Custom Build) | MIT
- */
+// Note(taro): 禁用 react 合成事件抛出 (避免自定义事件属性调用问题, 例如: event.detail.value 等)
 export const isCoveredByReact = (__eventNameSuffix: string) => false
 
 export const syncEvent = (
@@ -74,6 +71,10 @@ export const attachProps = (node: HTMLElement, newProps: any, oldProps: any = {}
     }
 
     Object.keys(newProps).forEach((name) => {
+      /** Note(taro): 优化 style 属性的处理
+       * 1. 考虑到兼容旧版本项目，支持使用字符串配置 style 属性，但这并非推荐写法，且不考虑优化在 style 移除时同步删除属性
+       * 2. style 属性应当交与前端 UI 框架自行处理，不考虑实现类似于 reactify-wc 的更新策略
+       */
       if ((name === 'style' && typeof newProps[name] !== 'string') || ['children', 'ref', 'class', 'className', 'forwardedRef'].includes(name)) {
         return
       }
