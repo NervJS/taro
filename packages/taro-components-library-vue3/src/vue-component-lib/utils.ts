@@ -149,7 +149,7 @@ export const defineContainer = <Props, VModelType = string | number | boolean>(
         class: getElementClasses(containerRef, classes),
         onClick: (ev: Event) => {
           handleClick(ev)
-          emit('tap', ev) // Note: 为 click 事件绑定 tap 事件
+          emit('tap', ev) // Note(taro): 为 click 事件绑定 tap 事件
         },
         onVnodeBeforeMount: modelUpdateEvent ? onVnodeBeforeMount : undefined,
       }
