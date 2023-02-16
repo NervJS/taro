@@ -137,3 +137,24 @@ MIT (miniprogram-render):
 The following files embed [miniprogram-render](https://github.com/Tencent/kbone) MIT:
 `/packages/taro-plugin-http/src/runtime/Cookie.ts`
 See `/LICENSE` for details of the license.
+
+==================
+
+MIT (stencil-ds-output-targets):
+The following files embed [stencil-ds-output-targets](https://github.com/ionic-team/stencil-ds-output-targets/) MIT:
+`/packages/taro-components-library-react/src/react-component-lib/utils/attachProps.ts`
+`/packages/taro-components-library-react/src/react-component-lib/utils/case.ts`
+`/packages/taro-components-library-react/src/react-component-lib/utils/dev.ts`
+`/packages/taro-components-library-react/src/react-component-lib/utils/index.tsx`
+`/packages/taro-components-library-react/src/react-component-lib/createComponent.tsx`
+`/packages/taro-components-library-react/src/react-component-lib/createOverlayComponent.tsx`
+`/packages/taro-components-library-react/src/react-component-lib/interfaces.ts`
+`/packages/taro-components-library-vue3/src/vue-component-lib/utils.ts`
+See `/LICENSE` for details of the license.
+
+==================
+
+MIT (stencil-vue2-output-target):
+The following files embed [stencil-vue2-output-target](https://github.com/diondree/stencil-vue2-output-target) MIT:
+`/packages/taro-components-library-vue2/src/vue-component-lib/utils.ts`
+See `/LICENSE` for details of the license.
