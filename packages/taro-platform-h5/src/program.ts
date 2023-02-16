@@ -31,9 +31,15 @@ export default class H5 extends TaroPlatformWeb {
     return !!this.ctx.initialConfig.h5?.useHtmlComponents
   }
 
+  get useDeprecatedAdapterComponent () {
+    return !!this.ctx.initialConfig.h5?.useDeprecatedAdapterComponent
+  }
+
   get componentLibrary () {
     if (this.useHtmlComponents && this.framework === 'react') {
       return './runtime/components'
+    } else if (this.useDeprecatedAdapterComponent) {
+      return `@tarojs/components/lib/component-lib/${compLibraryAlias[this.framework] || 'react'}`
     } else {
       return `@tarojs/components/lib/${compLibraryAlias[this.framework] || 'react'}`
     }
@@ -68,6 +74,13 @@ export default class H5 extends TaroPlatformWeb {
             extraImportForWeb: '',
             execBeforeCreateWebApp: ''
           }
+
+          // Note: 旧版本适配器不会自动注册 Web Components 组件，需要加载 defineCustomElements 脚本自动注册使用的组件
+          if (this.useDeprecatedAdapterComponent) {
+            args[0].loaderMeta.extraImportForWeb += `import { applyPolyfills, defineCustomElements } from '@tarojs/components/loader'\n`
+            args[0].loaderMeta.execBeforeCreateWebApp += `applyPolyfills().then(() => defineCustomElements(window))\n`
+          }
+
           switch (this.framework) {
             case 'vue':
               args[0].loaderMeta.extraImportForWeb += `import { initVue2Components } from '@tarojs/components'\n`
