@@ -4,6 +4,7 @@
     "baseUrl": ".",
     "declaration": true,
     "module": "ESNext",
+    "noUnusedLocals": false,
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "sourceMap": false,
