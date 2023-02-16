@@ -1,49 +1,54 @@
 import { Config } from '@stencil/core'
 import { OutputTarget } from '@stencil/core/internal'
-import { reactOutputTarget } from '@stencil/react-output-target'
 import { sass } from '@stencil/sass'
-import { vueOutputTarget as vue3OutputTarget } from '@stencil/vue-output-target'
-import { vueOutputTarget as vue2OutputTarget } from 'stencil-vue2-output-target'
+
+import { reactOutputTarget, vue2OutputTarget, vue3OutputTarget } from './output-target'
 
 const isProd = process.env.NODE_ENV === 'production'
 const outputTargets: OutputTarget[] = [
   reactOutputTarget({
-    componentCorePackage: '@tarojs/components/dist/types/components',
-    proxiesFile: '../taro-components-library-react/src/components.ts'
+    componentCorePackage: '@tarojs/components',
+    customElementsDir: 'dist/components',
+    includeImportCustomElements: true,
+    proxiesFile: '../taro-components-library-react/src/components.ts',
   }),
   vue2OutputTarget({
-    componentCorePackage: '@tarojs/components/dist/types/components',
-    proxiesFile: '../taro-components-library-vue2/src/components.ts',
+    componentCorePackage: '@tarojs/components',
     componentModels: [{
       elements: ['taro-input-core', 'taro-textarea-core'],
       targetAttr: 'value',
-      event: 'update:modelValue'
+      event: 'update:modelValue',
     }, {
       elements: ['taro-picker-core', 'taro-slider-core'],
       targetAttr: 'value',
-      event: 'update:modelValue'
+      event: 'update:modelValue',
     }, {
       elements: ['taro-switch-core'],
       targetAttr: 'checked',
-      event: 'update:modelValue'
-    }]
+      event: 'update:modelValue',
+    }],
+    customElementsDir: 'dist/components',
+    includeImportCustomElements: true,
+    proxiesFile: '../taro-components-library-vue2/src/components.ts',
   }),
   vue3OutputTarget({
-    componentCorePackage: '@tarojs/components/dist/types/components',
-    proxiesFile: '../taro-components-library-vue3/src/components.ts',
+    componentCorePackage: '@tarojs/components',
     componentModels: [{
       elements: ['taro-input-core', 'taro-textarea-core'],
       targetAttr: 'value',
-      event: 'input'
+      event: 'input',
     }, {
       elements: ['taro-picker-core', 'taro-slider-core'],
       targetAttr: 'value',
-      event: 'change'
+      event: 'change',
     }, {
       elements: ['taro-switch-core'],
       targetAttr: 'checked',
-      event: 'change'
-    }]
+      event: 'change',
+    }],
+    customElementsDir: 'dist/components',
+    includeImportCustomElements: true,
+    proxiesFile: '../taro-components-library-vue3/src/components.ts',
   }),
   {
     type: 'dist',

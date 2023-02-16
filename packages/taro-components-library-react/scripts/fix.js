@@ -8,7 +8,8 @@ const attachPropsPath = path.resolve(__dirname, '..', 'src/react-component-lib/u
 
 if (fs.existsSync(componentsPath)) {
   const codeBuffer = fs.readFileSync(componentsPath)
-  let code = codeBuffer.toString().replace(/const\sTaro([A-Za-z]+)\s=/g, 'const $1 =').replace(/const\s([A-Za-z]+)Core\s=/g, 'const $1 =')
+  let code = codeBuffer.toString().replace(/import\stype\s\{\s([^}]*)\s\}\sfrom\s'@tarojs\/components[^']*';/ig, `import type { $1 } from '@tarojs/components/dist/types/components';`)
+  code = code.replace(/const\sTaro([A-Za-z]+)\s=/g, 'const $1 =').replace(/const\s([A-Za-z]+)Core\s=/g, 'const $1 =')
 
   // NOTE: HTMLStencilElement 与 HTMLTaroInputCoreElement 在 force 参数上冲突
   // const avoidType = avoidErrorType.join('|')
@@ -23,7 +24,7 @@ if (fs.existsSync(componentsPath)) {
    */
   if (!code.includes('./helper')) {
     code = code.replace('/* auto-generated react proxies */', `/* auto-generated react proxies */\nimport { manipulatePropsFunction } from './helper'`)
-    code = code.replace(/\(([^,)]+)[^;]*/ig, '($1, undefined, manipulatePropsFunction)')
+    code = code.replace(/\(([^,)]+)[^;]*,\s([^,]+)\);/ig, '($1, undefined, manipulatePropsFunction, $2);')
   }
 
   if (!code.includes('Fragment')) {
