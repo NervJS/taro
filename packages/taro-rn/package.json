@@ -68,18 +68,17 @@
     "@testing-library/jest-native": "^4.0.4",
     "@testing-library/react-native": "^11.5.0",
     "@types/jest": "^27.4.1",
-    "@types/react-native": "^0.69.8",
     "expo": "~48.0.0",
     "fbjs-scripts": "^3.0.1",
     "jest": "^26.4.2",
     "jest-cli": "^26.4.2",
     "jest-environment-node": "^26.0.0",
     "jest-expo": "^47.0.0",
-    "metro-react-native-babel-preset": "^0.72.1",
+    "metro-react-native-babel-preset": "^0.73.7",
     "mock-socket": "^7.1.0",
-    "react": "18.1.0",
-    "react-native": "^0.70.5",
-    "react-test-renderer": "18.1.0"
+    "react": "18.2.0",
+    "react-native": "^0.71.3",
+    "react-test-renderer": "18.2.0"
   },
   "peerDependencies": {
     "@bam.tech/react-native-image-resizer": "~3.0.4",
