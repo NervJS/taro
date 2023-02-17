@@ -51,13 +51,13 @@
     "jest-cli": "^26.4.2",
     "jest-environment-node": "^26.0.0",
     "jest-expo": "^47.0.0",
-    "metro-babel-register": "^0.72.1",
-    "metro-react-native-babel-preset": "^0.72.1",
-    "react": "18.1.0",
-    "react-native": "^0.70.5",
+    "metro-babel-register": "^0.73.7",
+    "metro-react-native-babel-preset": "^0.73.7",
+    "react": "18.2.0",
+    "react-native": "^0.71.3",
     "react-native-gesture-handler": "~2.9.0",
     "react-native-svg": "~13.8.0",
-    "react-test-renderer": "18.1.0"
+    "react-test-renderer": "18.2.0"
   },
   "peerDependencies": {
     "@react-native-community/slider": "~4.4.2",
