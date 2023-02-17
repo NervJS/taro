@@ -29,7 +29,5 @@
     "@tarojs/router-rn": "workspace:*",
     "react-native-root-siblings": "^4.1.1"
   },
-  "devDependencies": {
-    "@types/react-native": "^0.69.8"
-  }
+  "devDependencies": {}
 }
