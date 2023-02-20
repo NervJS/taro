@@ -9,7 +9,7 @@ import React from 'react'
 import { StyleProp, ViewStyle } from 'react-native'
 
 import { navigationRef } from './rootNavigation'
-import { getTabInitRoute, getTabItemConfig, getTabVisible, handleUrl, setTabConfig } from './utils/index'
+import { getTabInitRoute, getTabItemConfig, getTabVisible, handleUrl, hasJumpAnimate, setTabConfig } from './utils/index'
 import BackButton from './view/BackButton'
 import HeadTitle from './view/HeadTitle'
 import CustomTabBar from './view/TabBar'
@@ -333,6 +333,7 @@ function createTabNavigate (config: RouterConfig) {
   const linking = getLinkingConfig(config)
   const stackProps = config.rnConfig?.stackProps
   const screenOptions = getStackOptions(config)
+ 
   return <NavigationContainer
     ref={navigationRef}
     linking={linking}
@@ -341,7 +342,11 @@ function createTabNavigate (config: RouterConfig) {
       detachInactiveScreens={false}
       {...stackProps}
       // @ts-ignore
-      screenOptions={screenOptions}
+      screenOptions={() => ({
+        ...screenOptions,
+        animation: hasJumpAnimate() ? 'default' : 'none',
+        animationEnabled: !!hasJumpAnimate()
+      })}
       initialRouteName={getInitRouteName(config)}
     >
       <Stack.Screen
@@ -370,6 +375,7 @@ function createStackNavigate (config: RouterConfig) {
   if (pageList.length <= 0) return null
   const linking = getLinkingConfig(config)
   const stackProps = config.rnConfig?.stackProps
+  const screenOptions = getStackOptions(config)
   return <NavigationContainer
     ref={navigationRef}
     linking={linking}
@@ -378,7 +384,11 @@ function createStackNavigate (config: RouterConfig) {
       detachInactiveScreens={false}
       {...stackProps}
       // @ts-ignore
-      screenOptions={getStackOptions(config)}
+      screenOptions={() => ({
+        ...screenOptions,
+        animation: hasJumpAnimate() ? 'default' : 'none',
+        animationEnabled: !!hasJumpAnimate()
+      })}
       initialRouteName={getInitRouteName(config)}
     >{pageList.map(item => {
         const initParams = getInitParams(config, item.name)
