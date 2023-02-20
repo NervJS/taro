@@ -1749,6 +1749,7 @@ importers:
       '@tarojs/taro-loader': workspace:*
       '@types/webpack': ^4.41.26
       '@types/webpack-dev-server': ^3.11.3
+      acorn-walk: ^8.0.0
       autoprefixer: ^9.7.4
       babel-loader: 8.2.1
       copy-webpack-plugin: 5.1.2
@@ -1795,6 +1796,7 @@ importers:
       '@tarojs/runtime': link:../taro-runtime
       '@tarojs/taro': link:../taro
       '@tarojs/taro-loader': link:../taro-loader
+      acorn-walk: registry.npmjs.org/acorn-walk/8.2.0
       autoprefixer: registry.npmjs.org/autoprefixer/9.8.8
       babel-loader: registry.npmjs.org/babel-loader/8.2.1_p4a4vpdmvzvrx3lnpkqvj5nmla
       copy-webpack-plugin: registry.npmjs.org/copy-webpack-plugin/5.1.2_webpack@4.46.0
@@ -11657,7 +11659,7 @@ packages:
       postcss: ^8.1.0
     dependencies:
       browserslist: registry.npmjs.org/browserslist/4.21.0
-      caniuse-lite: registry.npmjs.org/caniuse-lite/1.0.30001453
+      caniuse-lite: registry.npmjs.org/caniuse-lite/1.0.30001457
       fraction.js: registry.npmjs.org/fraction.js/4.2.0
       normalize-range: registry.npmjs.org/normalize-range/0.1.2
       picocolors: registry.npmjs.org/picocolors/1.0.0
@@ -13533,7 +13535,7 @@ packages:
       '@types/semver': registry.npmjs.org/@types/semver/7.3.10
       '@types/ua-parser-js': registry.npmjs.org/@types/ua-parser-js/0.7.36
       browserslist: registry.npmjs.org/browserslist/4.20.2
-      caniuse-lite: registry.npmjs.org/caniuse-lite/1.0.30001453
+      caniuse-lite: registry.npmjs.org/caniuse-lite/1.0.30001457
       isbot: registry.npmjs.org/isbot/3.4.5
       object-path: registry.npmjs.org/object-path/0.11.8
       semver: registry.npmjs.org/semver/7.3.8
@@ -13547,7 +13549,7 @@ packages:
     engines: {node: ^6 || ^7 || ^8 || ^9 || ^10 || ^11 || ^12 || >=13.7}
     hasBin: true
     dependencies:
-      caniuse-lite: registry.npmjs.org/caniuse-lite/1.0.30001453
+      caniuse-lite: registry.npmjs.org/caniuse-lite/1.0.30001457
       electron-to-chromium: registry.npmjs.org/electron-to-chromium/1.4.170
       escalade: registry.npmjs.org/escalade/3.1.1
       node-releases: registry.npmjs.org/node-releases/2.0.5
@@ -13561,7 +13563,7 @@ packages:
     engines: {node: ^6 || ^7 || ^8 || ^9 || ^10 || ^11 || ^12 || >=13.7}
     hasBin: true
     dependencies:
-      caniuse-lite: registry.npmjs.org/caniuse-lite/1.0.30001453
+      caniuse-lite: registry.npmjs.org/caniuse-lite/1.0.30001457
       electron-to-chromium: registry.npmjs.org/electron-to-chromium/1.4.170
       node-releases: registry.npmjs.org/node-releases/2.0.5
       update-browserslist-db: registry.npmjs.org/update-browserslist-db/1.0.4_browserslist@4.21.0
@@ -13924,7 +13926,7 @@ packages:
     version: 3.0.0
     dependencies:
       browserslist: registry.npmjs.org/browserslist/4.21.0
-      caniuse-lite: registry.npmjs.org/caniuse-lite/1.0.30001453
+      caniuse-lite: registry.npmjs.org/caniuse-lite/1.0.30001457
       lodash.memoize: registry.npmjs.org/lodash.memoize/4.1.2
       lodash.uniq: registry.npmjs.org/lodash.uniq/4.5.0
 
@@ -13934,10 +13936,10 @@ packages:
     version: 1.0.30001359
     dev: false
 
-  registry.npmjs.org/caniuse-lite/1.0.30001453:
-    resolution: {integrity: sha512-R9o/uySW38VViaTrOtwfbFEiBFUh7ST3uIG4OEymIG3/uKdHDO4xk/FaqfUw0d+irSUyFPy3dZszf9VvSTPnsA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/caniuse-lite/-/caniuse-lite-1.0.30001453.tgz}
+  registry.npmjs.org/caniuse-lite/1.0.30001457:
+    resolution: {integrity: sha512-SDIV6bgE1aVbK6XyxdURbUE89zY7+k1BBBaOwYwkNCglXlel/E7mELiHC64HQ+W0xSKlqWhV9Wh7iHxUjMs4fA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/caniuse-lite/-/caniuse-lite-1.0.30001457.tgz}
     name: caniuse-lite
-    version: 1.0.30001453
+    version: 1.0.30001457
 
   registry.npmjs.org/capital-case/1.0.4:
     resolution: {integrity: sha512-ds37W8CytHgwnhGGTi88pcPyR15qoNkOpYwmMMfnWqqWgESapLqvDx6huFjQ5vqWSn2Z06173XNA7LtMOeUh1A==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/capital-case/-/capital-case-1.0.4.tgz}

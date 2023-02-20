@@ -1,6 +1,6 @@
 import { taroJsComponents } from '@tarojs/helper'
 
-import { componentConfig } from '../template/component'
+import { componentConfig } from '../utils/component'
 import { BuildNativePlugin } from './BuildNativePlugin'
 import { Combination } from './Combination'
 import { MiniBaseConfig } from './MiniBaseConfig'

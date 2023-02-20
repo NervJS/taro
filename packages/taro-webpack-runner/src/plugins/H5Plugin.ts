@@ -3,11 +3,14 @@ import {
   resolveMainFilePath,
   SCRIPT_EXT
 } from '@tarojs/helper'
-import { AppConfig } from '@tarojs/taro'
 import { defaults } from 'lodash'
 import * as path from 'path'
 
-import { getAppConfig, getConfigFilePath, getPages } from '../util'
+import { getAppConfig, getConfigFilePath, getPages } from '../utils'
+import TaroComponentsExportsPlugin from './TaroComponentsExportsPlugin'
+
+import type { AppConfig } from '@tarojs/taro'
+import type { Func } from '@tarojs/taro/types/compile'
 
 const PLUGIN_NAME = 'MainPlugin'
 
@@ -26,6 +29,9 @@ interface IMainPluginOptions {
     minRootSize: number
   }
   loaderMeta?: Record<string, string>
+
+  onCompilerMake?: Func
+  onParseCreateElement?: Func
 }
 
 export default class MainPlugin {
@@ -81,6 +87,10 @@ export default class MainPlugin {
       })
     )
 
+    compiler.hooks.make.tapAsync(PLUGIN_NAME, this.tryAsync(async compilation => {
+      await this.options.onCompilerMake?.(compilation, compiler, this)
+    }))
+
     compiler.hooks.compilation.tap(PLUGIN_NAME, compilation => {
       compilation.hooks.normalModuleLoader.tap(PLUGIN_NAME, (_loaderContext, module: any) => {
         const { framework, entryFileName, sourceDir, pxTransformConfig, loaderMeta, routerConfig } = this.options
@@ -114,6 +124,8 @@ export default class MainPlugin {
         }
       })
     })
+
+    new TaroComponentsExportsPlugin(this.options.onParseCreateElement).apply(compiler)
   }
 
   getAppEntry (compiler) {

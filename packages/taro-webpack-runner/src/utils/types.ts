@@ -18,4 +18,7 @@ export interface BuildConfig extends IProjectBaseConfig, IH5Config {
   entry?: webpack.Entry
   entryFileName?: string
   runtimePath?: string | string[]
+  /** hooks */
+  onCompilerMake: (compilation) => Promise<any>
+  onParseCreateElement: (nodeName, componentConfig) => Promise<any>
 }
