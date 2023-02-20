@@ -115,6 +115,7 @@ declare module '../../index' {
     /**
      * 检查小程序是否被添加至 「我的小程序」
      * @supported weapp
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/open-api/my-miniprogram/wx.checkIsAddedToMyMiniProgram.html
      */
     checkIsAddedToMyMiniProgram(option?: checkIsAddedToMyMiniProgram.Option):Promise<checkIsAddedToMyMiniProgram.SuccessCallbackResult>
   }
