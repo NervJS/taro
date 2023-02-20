@@ -334,7 +334,10 @@ export class Video implements ComponentInterface {
     const { src, videoRef } = this
 
     if (isHls(src)) {
-      import('hls.js').then(e => {
+      import(
+        /* webpackMode: "weak" */
+        './hls.js'
+      ).then(e => {
         const Hls = e.default
         this.HLS = Hls
         if (Hls.isSupported()) {
