@@ -14,7 +14,7 @@ import * as TerserPlugin from 'terser-webpack-plugin'
 import * as webpack from 'webpack'
 
 import { getDefaultPostcssConfig, getPostcssPlugins } from '../config/postcss.conf'
-import MainPlugin from '../plugins/MainPlugin'
+import MainPlugin from '../plugins/H5Plugin'
 import { BuildConfig, Option } from './types'
 
 export const makeConfig = async (buildConfig: BuildConfig) => {

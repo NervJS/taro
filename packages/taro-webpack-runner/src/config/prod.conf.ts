@@ -3,7 +3,7 @@ import { AppConfig } from '@tarojs/taro'
 import { get, mapValues, merge } from 'lodash'
 import * as path from 'path'
 
-import { addTrailingSlash, getConfigFilePath, getPages, parseHtmlScript } from '../util'
+import { addTrailingSlash, getConfigFilePath, getPages, parseHtmlScript } from '../utils'
 import {
   getCopyWebpackPlugin,
   getCssoWebpackPlugin,
@@ -16,8 +16,8 @@ import {
   getTerserPlugin,
   parseModule,
   processEnvOption
-} from '../util/chain'
-import { BuildConfig } from '../util/types'
+} from '../utils/chain'
+import { BuildConfig } from '../utils/types'
 import getBaseChain from './base.conf'
 
 export default function (appPath: string, config: Partial<BuildConfig>, appConfig: AppConfig): any {
@@ -99,7 +99,10 @@ export default function (appPath: string, config: Partial<BuildConfig>, appConfi
     outputDir,
     routerConfig: router,
     runtimePath: config.runtimePath,
-    pxTransformConfig: pxtransformOption?.config || {}
+    pxTransformConfig: pxtransformOption?.config || {},
+    /** hooks & methods */
+    onCompilerMake: config.onCompilerMake,
+    onParseCreateElement: config.onParseCreateElement,
   })
 
   if (enableExtract) {

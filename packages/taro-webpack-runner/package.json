@@ -36,6 +36,7 @@
     "@tarojs/runtime": "workspace:*",
     "@tarojs/taro": "workspace:*",
     "@tarojs/taro-loader": "workspace:*",
+    "acorn-walk": "^8.0.0",
     "autoprefixer": "^9.7.4",
     "babel-loader": "8.2.1",
     "copy-webpack-plugin": "5.1.2",

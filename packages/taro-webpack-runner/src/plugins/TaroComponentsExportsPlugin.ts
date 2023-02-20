@@ -1,31 +1,32 @@
-import TaroSingleEntryDependency from '../dependencies/TaroSingleEntryDependency'
+import { taroJsComponents } from '@tarojs/helper'
+import { toDashed } from '@tarojs/shared'
+
 import { componentConfig } from '../utils/component'
-import TaroNormalModule from './TaroNormalModule'
 
 import type { Func } from '@tarojs/taro/types/compile'
 import type { Compiler } from 'webpack'
 
 const walk = require('acorn-walk')
 
-const PLUGIN_NAME = 'TaroNormalModulesPlugin'
+const PLUGIN_NAME = 'TaroComponentsExportsPlugin'
 
-export default class TaroNormalModulesPlugin {
-  onParseCreateElement: Func | undefined
+export default class TaroComponentsExportsPlugin {
+  onParseCreateElement?: Func
 
-  constructor (onParseCreateElement: Func | undefined) {
+  constructor (onParseCreateElement?: Func) {
     this.onParseCreateElement = onParseCreateElement
   }
 
   apply (compiler: Compiler) {
-    compiler.hooks.compilation.tap(PLUGIN_NAME, (_, { normalModuleFactory }) => {
-      normalModuleFactory.hooks.createModule.tapPromise(PLUGIN_NAME, (data, { dependencies }) => {
-        const dependency = dependencies[0]
-        if (dependency instanceof TaroSingleEntryDependency) {
-          return Promise.resolve(new TaroNormalModule(Object.assign(data,
-            { miniType: dependency.miniType, name: dependency.name }
-          )))
+    compiler.hooks.normalModuleFactory.tap(PLUGIN_NAME, (normalModuleFactory) => {
+      normalModuleFactory.hooks.afterResolve.tap(PLUGIN_NAME, (resolveData) => {
+        if (resolveData.request === taroJsComponents) {
+          resolveData.dependencies.forEach((dependency: any) => {
+            if (dependency.usedByExports && dependency.ids?.lenght > 0) {
+              dependency.ids.forEach(item => componentConfig.includes.add(toDashed(item)))
+            }
+          })
         }
-        return Promise.resolve()
       })
 
       // react 的第三方组件支持
@@ -56,27 +57,11 @@ export default class TaroNormalModulesPlugin {
                 }
               }
 
-              const [type, prop] = node.arguments
-              const componentName = type.name
-
+              const type = node.arguments[0]
               type.value && this.onParseCreateElement?.(type.value, componentConfig)
-
-              if (componentName === 'CustomWrapper' && !componentConfig.thirdPartyComponents.get('custom-wrapper')) {
-                componentConfig.thirdPartyComponents.set('custom-wrapper', new Set())
-              }
-              if (componentConfig.thirdPartyComponents.size === 0) {
-                return
-              }
-              const attrs = componentConfig.thirdPartyComponents.get(type.value)
-
-              if (attrs == null || !prop || prop.type !== 'ObjectExpression') {
-                return
-              }
-
-              prop.properties
-                .filter(p => p.type === 'Property' && p.key.type === 'Identifier' && p.key.name !== 'children' && p.key.name !== 'id')
-                .forEach(p => attrs.add(p.key.name))
             }
+          }, {
+            ...walk.base, Import: walk.base.Import || (() => {})
           })
         })
       })
