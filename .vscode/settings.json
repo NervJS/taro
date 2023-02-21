@@ -23,5 +23,19 @@
   "typescript.format.insertSpaceBeforeFunctionParenthesis": true,
   "files.associations": {
     "*.json": "jsonc"
-  }
+  },
+  "license-header-manager.excludeExtensions": [".snap", ".md", ".d", ".sh", ".bat", ""],
+  "license-header-manager.excludeFolders": [
+    "node_modules/**",
+    "dist",
+    "bin",
+    "templates",
+    "target",
+    ".git",
+    ".github",
+    ".husky",
+    ".bin/",
+    ".ignored",
+    "node_modules"
+  ]
 }
