@@ -33,6 +33,7 @@
     "lodash": "^4.17.21"
   },
   "devDependencies": {
+    "@tarojs/taro": "workspace:*",
     "@vue/compiler-core": "^3.0.0",
     "@vue/runtime-core": "^3.0.0",
     "vue": "^3.0.0",

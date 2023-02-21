@@ -1087,6 +1087,7 @@ importers:
       '@tarojs/runtime': workspace:*
       '@tarojs/service': workspace:*
       '@tarojs/shared': workspace:*
+      '@tarojs/taro': workspace:*
       rollup: ^3.8.1
       rollup-plugin-node-externals: ^4.0.0
       rollup-plugin-ts: ^3.0.2
@@ -1100,6 +1101,7 @@ importers:
       '@babel/generator': registry.npmjs.org/@babel/generator/7.20.14
       '@babel/traverse': registry.npmjs.org/@babel/traverse/7.20.13
       '@babel/types': registry.npmjs.org/@babel/types/7.20.7
+      '@tarojs/taro': link:../taro
       rollup: registry.npmjs.org/rollup/3.12.0
       rollup-plugin-node-externals: registry.npmjs.org/rollup-plugin-node-externals/4.0.0_rollup@3.12.0
       rollup-plugin-ts: registry.npmjs.org/rollup-plugin-ts/3.0.2_y3i5qkucco7mn7xglkvcz4nxpm
@@ -1294,6 +1296,7 @@ importers:
       '@tarojs/runtime': workspace:*
       '@tarojs/service': workspace:*
       '@tarojs/shared': workspace:*
+      '@tarojs/taro': workspace:*
       '@vue/compiler-core': ^3.0.0
       '@vue/runtime-core': ^3.0.0
       lodash: ^4.17.21
@@ -1310,6 +1313,7 @@ importers:
       '@tarojs/shared': link:../shared
       lodash: registry.npmjs.org/lodash/4.17.21
     devDependencies:
+      '@tarojs/taro': link:../taro
       '@vue/compiler-core': registry.npmjs.org/@vue/compiler-core/3.2.37
       '@vue/runtime-core': registry.npmjs.org/@vue/runtime-core/3.2.41
       rollup: registry.npmjs.org/rollup/3.12.0

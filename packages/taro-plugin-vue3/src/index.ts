@@ -6,6 +6,7 @@ import { modifyH5WebpackChain } from './webpack.h5'
 import { modifyMiniWebpackChain } from './webpack.mini'
 
 import type { IPluginContext } from '@tarojs/service'
+import type { IComponentConfig } from '@tarojs/taro/types/compile/hooks'
 
 type CompilerOptions = {
   isCustomElement: (tag: string) => boolean
@@ -13,10 +14,6 @@ type CompilerOptions = {
   delimiters: string[]
   comments: boolean
   nodeTransforms: ((...args: any) => void)[]
-}
-
-interface IComponentConfig {
-  includes: Set<string>
 }
 
 interface OnParseCreateElementArgs {
