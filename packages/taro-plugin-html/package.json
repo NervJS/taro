@@ -38,6 +38,7 @@
     "@babel/generator": "^7.20.0",
     "@babel/traverse": "^7.20.0",
     "@babel/types": "^7.20.0",
+    "@tarojs/taro": "workspace:*",
     "rollup": "^3.8.1",
     "rollup-plugin-node-externals": "^4.0.0",
     "rollup-plugin-ts": "^3.0.2",
