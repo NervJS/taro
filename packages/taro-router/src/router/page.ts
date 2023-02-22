@@ -178,15 +178,15 @@ export default class PageHandler {
 
   onReady (page: PageInstance, onLoad = true) {
     const pageEl = this.getPageContainer(page)
-    if (pageEl && !pageEl?.['__isReady']) {
+    if (pageEl && !pageEl?.__isReady) {
       const el = pageEl.firstElementChild
-      el?.['componentOnReady']?.()?.then(() => {
+      el?.componentOnReady?.()?.then(() => {
         requestAnimationFrame(() => {
           page.onReady?.()
-          pageEl!['__isReady'] = true
+          pageEl!.__isReady = true
         })
       })
-      onLoad && (pageEl['__page'] = page)
+      onLoad && (pageEl.__page = page)
     }
   }
 
@@ -247,7 +247,7 @@ export default class PageHandler {
   show (page?: PageInstance | null, pageConfig: Route = {}, pageNo = 0) {
     if (!page) return
 
-    const param = this.getQuery(page['$taroParams']['stamp'], '', page.options)
+    const param = this.getQuery(page.$taroParams.stamp, '', page.options)
     let pageEl = this.getPageContainer(page)
     if (pageEl) {
       setDisplay(pageEl)

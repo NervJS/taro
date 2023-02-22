@@ -26,9 +26,10 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { createElement, render } from 'nervjs'
-import withWeapp from '../src'
-import { TaroComponent, delay } from './utils'
 import * as sinon from 'sinon'
+
+import withWeapp from '../src'
+import { delay,TaroComponent } from './utils'
 
 describe('lifecycle', () => {
   /**

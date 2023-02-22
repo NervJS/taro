@@ -111,10 +111,10 @@ export default class MultiPageHandler {
 
   onReady (page: PageInstance, onLoad = true) {
     const pageEl = this.getPageContainer(page)
-    if (pageEl && !pageEl?.['__isReady']) {
+    if (pageEl && !pageEl?.__isReady) {
       const el = pageEl.firstElementChild
-      el?.['componentOnReady']?.()
-      onLoad && (pageEl['__page'] = page)
+      el?.componentOnReady?.()
+      onLoad && (pageEl.__page = page)
     }
   }
 

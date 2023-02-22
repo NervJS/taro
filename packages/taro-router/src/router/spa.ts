@@ -173,8 +173,8 @@ export function createRouter (
       const el = element.default ?? element
       const loadConfig = { ...pageConfig }
       const stacksIndex = stacks.length
-      delete loadConfig['path']
-      delete loadConfig['load']
+      delete loadConfig.path
+      delete loadConfig.load
 
       let pageStampId = ''
       if (launchStampId) {

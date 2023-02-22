@@ -29,19 +29,19 @@ import { DefaultEventPriority } from 'react-reconciler/constants'
 import { getUpdatePayload, Props, updateProps, updatePropsByPayload } from './props'
 
 const hostConfig: HostConfig<
-  string, // Type
-  Props, // Props
-  TaroElement, // Container
-  TaroElement, // Instance
-  TaroText, // TextInstance
-  TaroElement, // SuspenseInstance
-  TaroElement, // HydratableInstance
-  TaroElement, // PublicInstance
-  Record<string, any>, // HostContext
-  string[], // UpdatePayload
-  unknown, // ChildSet
-  unknown, // TimeoutHandle
-  unknown // NoTimeout
+string, // Type
+Props, // Props
+TaroElement, // Container
+TaroElement, // Instance
+TaroText, // TextInstance
+TaroElement, // SuspenseInstance
+TaroElement, // HydratableInstance
+TaroElement, // PublicInstance
+Record<string, any>, // HostContext
+string[], // UpdatePayload
+unknown, // ChildSet
+unknown, // TimeoutHandle
+unknown // NoTimeout
 > & {
   supportsMicrotasks: boolean  // 待官方类型文件修复后删除
 } = {
@@ -109,13 +109,13 @@ const hostConfig: HostConfig<
   scheduleMicrotask: isUndefined(Promise)
     ? setTimeout
     : (callback) =>
-        Promise.resolve(null)
-          .then(callback)
-          .catch(function (error) {
-            setTimeout(() => {
-              throw error
-            })
-          }),
+      Promise.resolve(null)
+        .then(callback)
+        .catch(function (error) {
+          setTimeout(() => {
+            throw error
+          })
+        }),
 
   // -------------------
   //      Mutation
