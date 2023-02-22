@@ -30,7 +30,7 @@ export async function readQrcodeImageContent (imagePath: string): Promise<string
  * @param content
  */
 export async function printQrcode2Terminal (content: string) {
-  const terminalStr = await QRCode.toString(content, { type: 'terminal' })
+  const terminalStr = await QRCode.toString(content, { type: 'terminal', small: true })
   // eslint-disable-next-line no-console
   console.log(terminalStr)
 }
