@@ -1,23 +1,25 @@
-/**
- * @see https://facebook.github.io/react-native/docs/scrollview.html
+/*
+ *  MIT License
  *
- * 注意事项：
- *   一般地，ScrollView 外面要套一个 View 并在这个 View 上设置高度，否则会出现 ScrollView 撑满外层出现不能滚动的假象
- *   hack: scrollTop 在设置过一次后经过滚动再次设置时失效，因为 state 没变，所以这时可以通过设置一个比 0 小的值
+ *  Copyright (c) 2018 O2Team
  *
- * ✔ scrollX(scroll-x): Either-or
- * ✘ scrollY(scroll-y): Either-or
- * ✔ upperThreshold(upper-threshold)
- * ✔ lowerThreshold(lower-threshold)
- * ✔ scrollTop(scroll-top)
- * ✔ scrollLeft(scroll-left)
- * ✘ scroll-into-view
- * ✔ scrollWithAnimation(scroll-with-animation)
- * ✔ enableBackToTop(enable-back-to-top)
- * ✔ onScrollToUpper(bindscrolltoupper)
- * ✔ onScrollToLower(bindscrolltolower)
- * ✔ onScroll(bindscroll)
- */
+ *  Permission is hereby granted, free of charge, to any person obtaining a copy
+ *  of this software and associated documentation files (the "Software"), to deal
+ *  in the Software without restriction, including without limitation the rights
+ *  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ *  copies of the Software, and to permit persons to whom the Software is
+ *  furnished to do so, subject to the following conditions:
+ *
+ *  The above copyright notice and this permission notice shall be included in all
+ *  copies or substantial portions of the Software.
+ *
+ *  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ *  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ *  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ *  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ *  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ *  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+*/
 
 import * as React from 'react'
 import {

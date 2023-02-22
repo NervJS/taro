@@ -1,4 +1,3 @@
-/* eslint-disable no-mixed-operators */
 /* eslint-disable prefer-const */
 /*!
  * Sizzle CSS Selector Engine v@VERSION

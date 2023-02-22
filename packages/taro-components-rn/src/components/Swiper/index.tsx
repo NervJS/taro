@@ -1,51 +1,25 @@
-/**
- * 注意事项：
- *   Swiper 不能加 `flex: 1`
+/*
+ *  MIT License
  *
- * ✔ indicatorDots(indicator-dots)
- * ✔ indicatorColor(indicator-color)
- * ✔ indicatorActiveColor(indicator-active-color)
- * ✔ autoplay
- * ✔ current
- * ✘ currentItemId(current-item-id)
- * ✔ interval
- * ✘ duration
- * ✔ circular
- * ✔ vertical
- * ✘ previousMargin(previous-margin)
- * ✘ nextMargin(next-margin)
- * ✘ displayMultipleItems(display-multiple-items)
- * ✘ skipHiddenItem-layout(skip-hidden-item-layout)
- * ✔ onChange(bindchange): No support for detail.source
- * ✔ onAnimationFinish(bindanimationfinish): No support for detail.source
+ *  Copyright (c) 2018 O2Team
  *
- * @warn vertical swiper nested in scrollview on android would not work.
+ *  Permission is hereby granted, free of charge, to any person obtaining a copy
+ *  of this software and associated documentation files (the "Software"), to deal
+ *  in the Software without restriction, including without limitation the rights
+ *  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ *  copies of the Software, and to permit persons to whom the Software is
+ *  furnished to do so, subject to the following conditions:
  *
- * @example
- * <Swiper
- *   indicatorDots={true}
- *   indicatorColor="white"
- *   indicatorActiveColor="purple"
- *   autoplay={false}
- *   current={1}
- *   interval={6000}
- *   circular={false}
- *   vertical={true}
- *   onChange={() => null}
- *   onAnimationFinish={() => null}
- *   style={{ backgroundColor: 'black' }}
- * >
- *   <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: 'red' }}>
- *     <Text style={styles.text}>Hello Swiper</Text>
- *   </View>
- *   <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: 'green' }}>
- *     <Text style={styles.text}>Beautiful</Text>
- *   </View>
- *   <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: 'blue' }}>
- *     <Text style={styles.text}>And simple</Text>
- *   </View>
- * </Swiper>
- */
+ *  The above copyright notice and this permission notice shall be included in all
+ *  copies or substantial portions of the Software.
+ *
+ *  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ *  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ *  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ *  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ *  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ *  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+*/
 
 import * as React from 'react'
 import {

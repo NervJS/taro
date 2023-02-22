@@ -1,4 +1,3 @@
-/* eslint-disable no-mixed-operators */
 /* eslint-disable eqeqeq */
 /* eslint-disable @typescript-eslint/no-this-alias */
 /* eslint-disable no-sequences */

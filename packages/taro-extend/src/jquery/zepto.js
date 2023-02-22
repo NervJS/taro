@@ -1,4 +1,3 @@
-/* eslint-disable brace-style */
 /* eslint-disable no-mixed-operators */
 /* eslint-disable no-sequences */
 /* eslint-disable no-return-assign */

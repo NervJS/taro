@@ -24,18 +24,26 @@
   "files.associations": {
     "*.json": "jsonc"
   },
-  "license-header-manager.excludeExtensions": [".snap", ".md", ".d", ".sh", ".bat", ""],
   "license-header-manager.excludeFolders": [
-    "node_modules/**",
-    "dist",
+    "node_modules",
     "bin",
+    "dist",
+    "dist-h5",
     "templates",
-    "target",
     ".git",
     ".github",
     ".husky",
-    ".bin/",
-    ".ignored",
-    "node_modules"
+    ".vscode",
+    ".bin",
+    ".ignored"
+  ],
+  "license-header-manager.excludeExtensions": [".snap", ".md", ".d", ".sh", ".bat", ".txt"],
+  "license-header-manager.additionalCommentStyles": [
+    {
+      "commentStart": "/*",
+      "commentMiddle": " * ",
+      "commentEnd": "*/",
+      "extension": ".tsx"
+    }
   ]
 }

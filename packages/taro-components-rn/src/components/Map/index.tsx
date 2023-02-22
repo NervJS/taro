@@ -1,38 +1,25 @@
-/**
- * 地图组件【EXPERIMENTAL】
+/*
+ *  MIT License
  *
- * 安卓和 iOS 统一用谷歌地图
+ *  Copyright (c) 2018 O2Team
  *
- * @see https://developers.weixin.qq.com/miniprogram/dev/component/map.html
- * @see https://docs.expo.io/versions/v27.0.0/sdk/map-view
- * @see https://github.com/react-community/react-native-maps
+ *  Permission is hereby granted, free of charge, to any person obtaining a copy
+ *  of this software and associated documentation files (the "Software"), to deal
+ *  in the Software without restriction, including without limitation the rights
+ *  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ *  copies of the Software, and to permit persons to whom the Software is
+ *  furnished to do so, subject to the following conditions:
  *
- * 颜色并不支持8位十六进制
+ *  The above copyright notice and this permission notice shall be included in all
+ *  copies or substantial portions of the Software.
  *
- * ✔ longitude
- * ✔ latitude
- * ✘ scale
- * ✔ markers (部分支持)
- * ✔ polyline (部分属性支持)
- * ✔ polygons (不支持 zIndex)
- * ✔ circles
- * ✘ includePoints
- * ✔ showLocation
- * ✘ subkey
- * ✘ enable3D
- * ✔ showCompass
- * ✘ enableOverlooking
- * ✔ enableZoom
- * ✔ enableScroll
- * ✔ enableRotate
- * ✔ onMarkerClick (onMarkerTap)
- * ✔ onCalloutClick (onCalloutTap)
- * ✘ onControlClick (onControlTap)
- * ✔ onRegionChange (不支持 causedBy)
- * ✔ onClick (onTap)
- * ✔ onUpdated
- * ✔ onPoiClick (onPoiTap)
- */
+ *  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ *  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ *  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ *  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ *  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ *  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+*/
 
 import * as React from 'react'
 import {
