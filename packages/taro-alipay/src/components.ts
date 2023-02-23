@@ -41,7 +41,6 @@ export const components = {
     scope: '',
     'public-id': '',
     bindGetAuthorize: '',
-    bindFollowLifestyle: '',
     bindError: '',
     bindGetUserInfo: '',
     bindGetPhoneNumber: ''

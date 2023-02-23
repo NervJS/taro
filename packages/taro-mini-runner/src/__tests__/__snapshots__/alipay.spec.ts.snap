@@ -593,7 +593,6 @@ require(\\"./taro\\");
                     scope: \\"\\",
                     \\"public-id\\": \\"\\",
                     bindGetAuthorize: \\"\\",
-                    bindFollowLifestyle: \\"\\",
                     bindError: \\"\\",
                     bindGetUserInfo: \\"\\",
                     bindGetPhoneNumber: \\"\\"
