@@ -41,7 +41,10 @@ export const components = {
     scope: '',
     'public-id': '',
     bindGetAuthorize: '',
-    bindError: ''
+    bindFollowLifestyle: '',
+    bindError: '',
+    bindGetUserInfo: '',
+    bindGetPhoneNumber: ''
   },
   Checkbox: {
     bindChange: ''
