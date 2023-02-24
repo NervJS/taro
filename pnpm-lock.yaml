@@ -1,6 +1,6 @@
 lockfileVersion: 5.4
 
-packageExtensionsChecksum: 0a15fe4310f883c6b28393cf496c3fb3
+packageExtensionsChecksum: 4febf6665ca78aef4b39b91c5bd86984
 
 importers:
 
@@ -528,9 +528,9 @@ importers:
       '@babel/traverse': ^7.20.0
       '@babel/types': ^7.20.0
       '@stencil/core': ^2.18.1
-      '@stencil/react-output-target': 0.3.1
+      '@stencil/react-output-target': 0.4.0
       '@stencil/sass': ^2.0.0
-      '@stencil/vue-output-target': 0.6.2
+      '@stencil/vue-output-target': 0.7.0
       '@tarojs/components-advanced': workspace:*
       '@tarojs/router': workspace:*
       '@tarojs/taro': workspace:*
@@ -567,9 +567,9 @@ importers:
       '@babel/parser': registry.npmjs.org/@babel/parser/7.20.13
       '@babel/traverse': registry.npmjs.org/@babel/traverse/7.20.13
       '@babel/types': registry.npmjs.org/@babel/types/7.20.7
-      '@stencil/react-output-target': registry.npmjs.org/@stencil/react-output-target/0.3.1_@stencil+core@2.22.2
+      '@stencil/react-output-target': registry.npmjs.org/@stencil/react-output-target/0.4.0_@stencil+core@2.22.2
       '@stencil/sass': registry.npmjs.org/@stencil/sass/2.0.3_@stencil+core@2.22.2
-      '@stencil/vue-output-target': registry.npmjs.org/@stencil/vue-output-target/0.6.2_@stencil+core@2.22.2
+      '@stencil/vue-output-target': registry.npmjs.org/@stencil/vue-output-target/0.7.0_@stencil+core@2.22.2
       '@types/jest': registry.npmjs.org/@types/jest/27.5.2
       '@types/node': registry.npmjs.org/@types/node/14.18.21
       change-case: registry.npmjs.org/change-case/4.1.2
@@ -8780,13 +8780,13 @@ packages:
     engines: {node: '>=12.10.0', npm: '>=6.0.0'}
     hasBin: true
 
-  registry.npmjs.org/@stencil/react-output-target/0.3.1_@stencil+core@2.22.2:
-    resolution: {integrity: sha512-6d9pPhyajFfdxkqU/pPP2SzI7wn+EklySQc4KXlI/xcdvC2H9BzLmhmR40fR1q2TQoJbJui/nvSWhbYqkE3OBQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@stencil/react-output-target/-/react-output-target-0.3.1.tgz}
-    id: registry.npmjs.org/@stencil/react-output-target/0.3.1
+  registry.npmjs.org/@stencil/react-output-target/0.4.0_@stencil+core@2.22.2:
+    resolution: {integrity: sha512-X7XW6aHSU7ZypkFj4wX/XL7ROj2GXcdTL+Emo1mKNg5laBcuTVtt8zPR4ERG/grq8ec8wav+FxBuSlQ3cH0qcg==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@stencil/react-output-target/-/react-output-target-0.4.0.tgz}
+    id: registry.npmjs.org/@stencil/react-output-target/0.4.0
     name: '@stencil/react-output-target'
-    version: 0.3.1
+    version: 0.4.0
     peerDependencies:
-      '@stencil/core': ^2.9.0
+      '@stencil/core': ^2.9.0 || ^3.0.0-beta.0
     dependencies:
       '@stencil/core': registry.npmjs.org/@stencil/core/2.22.2
     dev: true
@@ -8802,13 +8802,13 @@ packages:
       '@stencil/core': registry.npmjs.org/@stencil/core/2.22.2
     dev: true
 
-  registry.npmjs.org/@stencil/vue-output-target/0.6.2_@stencil+core@2.22.2:
-    resolution: {integrity: sha512-Oh7SLFbOUchCSCbGe/Dqal2xSYPKCFQiVKnvzvS0dsHP/XS7rfHqp3qptW6JCp9lBoo3wmmBurHfldqxhLlnag==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@stencil/vue-output-target/-/vue-output-target-0.6.2.tgz}
-    id: registry.npmjs.org/@stencil/vue-output-target/0.6.2
+  registry.npmjs.org/@stencil/vue-output-target/0.7.0_@stencil+core@2.22.2:
+    resolution: {integrity: sha512-iPEgnT2z6HsfWVRWVZk5C1AaMZnbJjB+c/hvtWoO7B3aErTJB8Up6oFk/t3IRsr12aNuZ4fUra0FEDx9WweH0Q==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@stencil/vue-output-target/-/vue-output-target-0.7.0.tgz}
+    id: registry.npmjs.org/@stencil/vue-output-target/0.7.0
     name: '@stencil/vue-output-target'
-    version: 0.6.2
+    version: 0.7.0
     peerDependencies:
-      '@stencil/core': ^2.9.0
+      '@stencil/core': ^2.9.0 || ^3.0.0-beta.0
     dependencies:
       '@stencil/core': registry.npmjs.org/@stencil/core/2.22.2
     dev: true
@@ -11669,7 +11669,7 @@ packages:
       postcss: ^8.1.0
     dependencies:
       browserslist: registry.npmjs.org/browserslist/4.21.0
-      caniuse-lite: registry.npmjs.org/caniuse-lite/1.0.30001451
+      caniuse-lite: registry.npmjs.org/caniuse-lite/1.0.30001452
       fraction.js: registry.npmjs.org/fraction.js/4.2.0
       normalize-range: registry.npmjs.org/normalize-range/0.1.2
       picocolors: registry.npmjs.org/picocolors/1.0.0
@@ -13537,7 +13537,7 @@ packages:
       '@types/semver': registry.npmjs.org/@types/semver/7.3.10
       '@types/ua-parser-js': registry.npmjs.org/@types/ua-parser-js/0.7.36
       browserslist: registry.npmjs.org/browserslist/4.20.2
-      caniuse-lite: registry.npmjs.org/caniuse-lite/1.0.30001451
+      caniuse-lite: registry.npmjs.org/caniuse-lite/1.0.30001452
       isbot: registry.npmjs.org/isbot/3.4.5
       object-path: registry.npmjs.org/object-path/0.11.8
       semver: registry.npmjs.org/semver/7.3.8
@@ -13551,7 +13551,7 @@ packages:
     engines: {node: ^6 || ^7 || ^8 || ^9 || ^10 || ^11 || ^12 || >=13.7}
     hasBin: true
     dependencies:
-      caniuse-lite: registry.npmjs.org/caniuse-lite/1.0.30001451
+      caniuse-lite: registry.npmjs.org/caniuse-lite/1.0.30001452
       electron-to-chromium: registry.npmjs.org/electron-to-chromium/1.4.170
       escalade: registry.npmjs.org/escalade/3.1.1
       node-releases: registry.npmjs.org/node-releases/2.0.5
@@ -13565,7 +13565,7 @@ packages:
     engines: {node: ^6 || ^7 || ^8 || ^9 || ^10 || ^11 || ^12 || >=13.7}
     hasBin: true
     dependencies:
-      caniuse-lite: registry.npmjs.org/caniuse-lite/1.0.30001451
+      caniuse-lite: registry.npmjs.org/caniuse-lite/1.0.30001452
       electron-to-chromium: registry.npmjs.org/electron-to-chromium/1.4.170
       node-releases: registry.npmjs.org/node-releases/2.0.5
       update-browserslist-db: registry.npmjs.org/update-browserslist-db/1.0.4_browserslist@4.21.0
@@ -13934,7 +13934,7 @@ packages:
     version: 3.0.0
     dependencies:
       browserslist: registry.npmjs.org/browserslist/4.21.0
-      caniuse-lite: registry.npmjs.org/caniuse-lite/1.0.30001451
+      caniuse-lite: registry.npmjs.org/caniuse-lite/1.0.30001452
       lodash.memoize: registry.npmjs.org/lodash.memoize/4.1.2
       lodash.uniq: registry.npmjs.org/lodash.uniq/4.5.0
 
@@ -13944,10 +13944,10 @@ packages:
     version: 1.0.30001359
     dev: false
 
-  registry.npmjs.org/caniuse-lite/1.0.30001451:
-    resolution: {integrity: sha512-XY7UbUpGRatZzoRft//5xOa69/1iGJRBlrieH6QYrkKLIFn3m7OVEJ81dSrKoy2BnKsdbX5cLrOispZNYo9v2w==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/caniuse-lite/-/caniuse-lite-1.0.30001451.tgz}
+  registry.npmjs.org/caniuse-lite/1.0.30001452:
+    resolution: {integrity: sha512-Lkp0vFjMkBB3GTpLR8zk4NwW5EdRdnitwYJHDOOKIU85x4ckYCPQ+9WlVvSVClHxVReefkUMtWZH2l9KGlD51w==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/caniuse-lite/-/caniuse-lite-1.0.30001452.tgz}
     name: caniuse-lite
-    version: 1.0.30001451
+    version: 1.0.30001452
 
   registry.npmjs.org/capital-case/1.0.4:
     resolution: {integrity: sha512-ds37W8CytHgwnhGGTi88pcPyR15qoNkOpYwmMMfnWqqWgESapLqvDx6huFjQ5vqWSn2Z06173XNA7LtMOeUh1A==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/capital-case/-/capital-case-1.0.4.tgz}
