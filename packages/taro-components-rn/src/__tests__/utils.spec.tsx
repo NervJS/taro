@@ -1,20 +1,20 @@
-import utils from '../utils'
+import { omit, dismemberStyle, parseStyles } from '../utils'
 
 describe('Utils', () => {
   describe('omit should works well', () => {
     it('functional test', () => {
       const obj = { a: 'miao', b: 'miao2', c: 'miao3' }
-      expect(utils.omit(obj, ['a'])).not.toHaveProperty('a')
+      expect(omit(obj, ['a'])).not.toHaveProperty('a')
     })
 
     it('default parameter', () => {
-      expect(utils.omit()).toEqual({})
+      expect(omit()).toEqual({})
     })
   })
 
   describe('dismemberStyle should works well', () => {
     it('functional test', () => {
-      const result = utils.dismemberStyle({
+      const result = dismemberStyle({
         alignSelf: 'center',
         flex: 1,
         unknownProperty: 'unknownProperty'
@@ -26,7 +26,7 @@ describe('Utils', () => {
     })
 
     it('default parameter', () => {
-      expect(utils.dismemberStyle()).toEqual({
+      expect(dismemberStyle()).toEqual({
         wrapperStyle: {},
         innerStyle: {}
       })
@@ -35,7 +35,7 @@ describe('Utils', () => {
 
   describe('parseStyles should works well', () => {
     it('functional test', () => {
-      const result = utils.parseStyles('line-height: 60px; color: red;')
+      const result = parseStyles('line-height: 60px; color: red;')
       expect(result).toEqual({
         lineHeight: '60px',
         color: 'red'
@@ -43,7 +43,7 @@ describe('Utils', () => {
     })
 
     it('default parameter', () => {
-      expect(utils.parseStyles()).toEqual({})
+      expect(parseStyles()).toEqual({})
     })
   })
 })

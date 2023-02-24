@@ -215,8 +215,8 @@ export default class Toast {
     return ''
   }
 
-  hide (duration = 0, type) {
-    if (this.type !== type) return
+  hide (duration = 0, type = '') {
+    if (type && type !== this.type) return
 
     if (this.hideOpacityTimer) clearTimeout(this.hideOpacityTimer)
     if (this.hideDisplayTimer) clearTimeout(this.hideDisplayTimer)

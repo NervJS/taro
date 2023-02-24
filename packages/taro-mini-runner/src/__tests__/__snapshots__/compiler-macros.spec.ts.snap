@@ -55,7 +55,7 @@ require(\\"./taro\\");
         function useRouter() {}
         function useTabItemTap() {}
         function useScope() {}
-        var needPromiseApis = new Set([ \\"authPrivateMessage\\", \\"chooseContact\\", \\"cropImage\\", \\"disableAlertBeforeUnload\\", \\"editImage\\", \\"enableAlertBeforeUnload\\", \\"getBackgroundFetchData\\", \\"getFuzzyLocation\\", \\"getGroupEnterInfo\\", \\"getLocalIPAddress\\", \\"getShareInfo\\", \\"getUserProfile\\", \\"getWeRunData\\", \\"join1v1Chat\\", \\"openCustomerServiceChat\\", \\"openVideoEditor\\", \\"saveFileToDisk\\", \\"scanItem\\", \\"setEnable1v1Chat\\", \\"setWindowSize\\", \\"sendBizRedPacket\\", \\"startFacialRecognitionVerify\\" ]);
+        var needPromiseApis = new Set([ \\"addFileToFavorites\\", \\"addVideoToFavorites\\", \\"authPrivateMessage\\", \\"checkIsAddedToMyMiniProgram\\", \\"chooseContact\\", \\"cropImage\\", \\"disableAlertBeforeUnload\\", \\"editImage\\", \\"enableAlertBeforeUnload\\", \\"getBackgroundFetchData\\", \\"getFuzzyLocation\\", \\"getGroupEnterInfo\\", \\"getLocalIPAddress\\", \\"getShareInfo\\", \\"getUserProfile\\", \\"getWeRunData\\", \\"join1v1Chat\\", \\"openCustomerServiceChat\\", \\"openVideoEditor\\", \\"saveFileToDisk\\", \\"scanItem\\", \\"setEnable1v1Chat\\", \\"setWindowSize\\", \\"sendBizRedPacket\\", \\"startFacialRecognitionVerify\\" ]);
         function initNativeApi(taro) {
             processApis(taro, wx, {
                 needPromiseApis: needPromiseApis,
@@ -422,6 +422,15 @@ require(\\"./taro\\");
             ChannelLive: {
                 feedId: _empty,
                 finderUserName: _empty
+            },
+            ChannelVideo: {
+                feedId: _empty,
+                finderUserName: _empty,
+                autoPlay: _false,
+                loop: _false,
+                muted: _false,
+                objectFit: \\"'contain'\\",
+                bindError: _empty
             }
         };
         var hostConfig = {

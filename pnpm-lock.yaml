@@ -1136,19 +1136,19 @@ importers:
       '@tarojs/service': workspace:*
       '@types/qrcode': ^1.5.0
       '@types/shelljs': ^0.8.11
-      jimp: ^0.16.1
+      jimp: ^0.22.4
+      jsqr: ^1.4.0
       minimist: ^1.2.5
       miniprogram-ci: ^1.8.35
       qrcode: ^1.5.1
-      qrcode-reader: ^1.0.4
       shelljs: ^0.8.4
     dependencies:
       '@tarojs/service': link:../taro-service
-      jimp: registry.npmjs.org/jimp/0.16.2
+      jimp: registry.npmjs.org/jimp/0.22.4
+      jsqr: registry.npmjs.org/jsqr/1.4.0
       minimist: registry.npmjs.org/minimist/1.2.6
       miniprogram-ci: registry.npmjs.org/miniprogram-ci/1.9.5
       qrcode: registry.npmjs.org/qrcode/1.5.1
-      qrcode-reader: registry.npmjs.org/qrcode-reader/1.0.4
       shelljs: registry.npmjs.org/shelljs/0.8.5
     devDependencies:
       '@types/qrcode': registry.npmjs.org/@types/qrcode/1.5.0
@@ -6654,17 +6654,16 @@ packages:
       chalk: registry.npmjs.org/chalk/4.1.2
     dev: true
 
-  registry.npmjs.org/@jimp/bmp/0.16.2_@jimp+custom@0.16.2:
-    resolution: {integrity: sha512-4g9vW45QfMoGhLVvaFj26h4e7cC+McHUQwyFQmNTLW4FfC1OonN9oUr2m/FEDGkTYKR7aqdXR5XUqqIkHWLaFw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@jimp/bmp/-/bmp-0.16.2.tgz}
-    id: registry.npmjs.org/@jimp/bmp/0.16.2
+  registry.npmjs.org/@jimp/bmp/0.22.4_@jimp+custom@0.22.4:
+    resolution: {integrity: sha512-ZDwQ/tLihpZuTCFGGa0zcyZIWHfhvHkrdbsoHUY0GG/JpH/y2xzlm2I48/TicCpoujN8oGKLHIJje0HmVX3xaA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@jimp/bmp/-/bmp-0.22.4.tgz}
+    id: registry.npmjs.org/@jimp/bmp/0.22.4
     name: '@jimp/bmp'
-    version: 0.16.2
+    version: 0.22.4
     peerDependencies:
       '@jimp/custom': '>=0.3.5'
     dependencies:
-      '@babel/runtime': registry.npmjs.org/@babel/runtime/7.18.3
-      '@jimp/custom': registry.npmjs.org/@jimp/custom/0.16.2
-      '@jimp/utils': registry.npmjs.org/@jimp/utils/0.16.2
+      '@jimp/custom': registry.npmjs.org/@jimp/custom/0.22.4
+      '@jimp/utils': registry.npmjs.org/@jimp/utils/0.22.4
       bmp-js: registry.npmjs.org/bmp-js/0.1.0
     dev: false
 
@@ -6683,22 +6682,22 @@ packages:
       core-js: registry.npmjs.org/core-js/3.23.3
     dev: false
 
-  registry.npmjs.org/@jimp/core/0.16.2:
-    resolution: {integrity: sha512-dp7HcyUMzjXphXYodI6PaXue+I9PXAavbb+AN+1XqFbotN22Z12DosNPEyy+UhLY/hZiQQqUkEaJHkvV31rs+w==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@jimp/core/-/core-0.16.2.tgz}
+  registry.npmjs.org/@jimp/core/0.22.4:
+    resolution: {integrity: sha512-K7guEYpXV44SCLR35QdPyKqF+mFZaEUAqiSL8qQ/F4N4Ws9JkPzFI/qYTjOkDoKxSWkXlKnlsk1sfMzy0yqA5g==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@jimp/core/-/core-0.22.4.tgz}
     name: '@jimp/core'
-    version: 0.16.2
+    version: 0.22.4
     dependencies:
-      '@babel/runtime': registry.npmjs.org/@babel/runtime/7.18.3
-      '@jimp/utils': registry.npmjs.org/@jimp/utils/0.16.2
+      '@jimp/utils': registry.npmjs.org/@jimp/utils/0.22.4
       any-base: registry.npmjs.org/any-base/1.1.0
       buffer: registry.npmjs.org/buffer/5.7.1
       exif-parser: registry.npmjs.org/exif-parser/0.1.12
-      file-type: registry.npmjs.org/file-type/9.0.0
-      load-bmfont: registry.npmjs.org/load-bmfont/1.4.1
-      mkdirp: registry.npmjs.org/mkdirp/0.5.6
-      phin: registry.npmjs.org/phin/2.9.3
+      file-type: registry.npmjs.org/file-type/16.5.4
+      isomorphic-fetch: registry.npmjs.org/isomorphic-fetch/3.0.0
+      mkdirp: registry.npmjs.org/mkdirp/2.1.3
       pixelmatch: registry.npmjs.org/pixelmatch/4.0.2
-      tinycolor2: registry.npmjs.org/tinycolor2/1.4.2
+      tinycolor2: registry.npmjs.org/tinycolor2/1.6.0
+    transitivePeerDependencies:
+      - encoding
     dev: false
 
   registry.npmjs.org/@jimp/core/0.9.8:
@@ -6720,13 +6719,14 @@ packages:
       tinycolor2: registry.npmjs.org/tinycolor2/1.4.2
     dev: false
 
-  registry.npmjs.org/@jimp/custom/0.16.2:
-    resolution: {integrity: sha512-GtNwOs4hcVS2GIbqRUf42rUuX07oLB92cj7cqxZb0ZGWwcwhnmSW0TFLAkNafXmqn9ug4VTpNvcJSUdiuECVKg==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@jimp/custom/-/custom-0.16.2.tgz}
+  registry.npmjs.org/@jimp/custom/0.22.4:
+    resolution: {integrity: sha512-k9m/RfxjPjklUsgZ2nszlyNkodUG/4xlxlif70UELhxW8bdqZqqlQGzwA9p+PUiSnlSJYZjL6q+P8cd7yj1ggA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@jimp/custom/-/custom-0.22.4.tgz}
     name: '@jimp/custom'
-    version: 0.16.2
+    version: 0.22.4
     dependencies:
-      '@babel/runtime': registry.npmjs.org/@babel/runtime/7.18.3
-      '@jimp/core': registry.npmjs.org/@jimp/core/0.16.2
+      '@jimp/core': registry.npmjs.org/@jimp/core/0.22.4
+    transitivePeerDependencies:
+      - encoding
     dev: false
 
   registry.npmjs.org/@jimp/custom/0.9.8:
@@ -6739,17 +6739,16 @@ packages:
       core-js: registry.npmjs.org/core-js/3.23.3
     dev: false
 
-  registry.npmjs.org/@jimp/gif/0.16.2_@jimp+custom@0.16.2:
-    resolution: {integrity: sha512-TMdyT9Q0paIKNtT7c5KzQD29CNCsI/t8ka28jMrBjEK7j5RRTvBfuoOnHv7pDJRCjCIqeUoaUSJ7QcciKic6CA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@jimp/gif/-/gif-0.16.2.tgz}
-    id: registry.npmjs.org/@jimp/gif/0.16.2
+  registry.npmjs.org/@jimp/gif/0.22.4_@jimp+custom@0.22.4:
+    resolution: {integrity: sha512-KmN7GoaQTzLAX4JXLBRkIiZAXthgQdKe+Y7BOw4n6CMe6LAS/XCQqrYCG3Av/GqIO7UAKems6D7kIGAUuhpNlQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@jimp/gif/-/gif-0.22.4.tgz}
+    id: registry.npmjs.org/@jimp/gif/0.22.4
     name: '@jimp/gif'
-    version: 0.16.2
+    version: 0.22.4
     peerDependencies:
       '@jimp/custom': '>=0.3.5'
     dependencies:
-      '@babel/runtime': registry.npmjs.org/@babel/runtime/7.18.3
-      '@jimp/custom': registry.npmjs.org/@jimp/custom/0.16.2
-      '@jimp/utils': registry.npmjs.org/@jimp/utils/0.16.2
+      '@jimp/custom': registry.npmjs.org/@jimp/custom/0.22.4
+      '@jimp/utils': registry.npmjs.org/@jimp/utils/0.22.4
       gifwrap: registry.npmjs.org/gifwrap/0.9.4
       omggif: registry.npmjs.org/omggif/1.0.10
     dev: false
@@ -6769,17 +6768,16 @@ packages:
       omggif: registry.npmjs.org/omggif/1.0.10
     dev: false
 
-  registry.npmjs.org/@jimp/jpeg/0.16.2_@jimp+custom@0.16.2:
-    resolution: {integrity: sha512-BW5gZydgq6wdIwHd+3iUNgrTklvoQc/FUKSj9meM6A0FU21lUaansRX5BDdJqHkyXJLnnlDGwDt27J+hQuBAVw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@jimp/jpeg/-/jpeg-0.16.2.tgz}
-    id: registry.npmjs.org/@jimp/jpeg/0.16.2
+  registry.npmjs.org/@jimp/jpeg/0.22.4_@jimp+custom@0.22.4:
+    resolution: {integrity: sha512-mMJNhEtJpne65mxpIXEvT0VIzmsKiZWmaFT/c2eQ2tBLEtWAFpkvoP+F7jEaU+F3Ur4fXKFkJ/xOSXtRr/gGNw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@jimp/jpeg/-/jpeg-0.22.4.tgz}
+    id: registry.npmjs.org/@jimp/jpeg/0.22.4
     name: '@jimp/jpeg'
-    version: 0.16.2
+    version: 0.22.4
     peerDependencies:
       '@jimp/custom': '>=0.3.5'
     dependencies:
-      '@babel/runtime': registry.npmjs.org/@babel/runtime/7.18.3
-      '@jimp/custom': registry.npmjs.org/@jimp/custom/0.16.2
-      '@jimp/utils': registry.npmjs.org/@jimp/utils/0.16.2
+      '@jimp/custom': registry.npmjs.org/@jimp/custom/0.22.4
+      '@jimp/utils': registry.npmjs.org/@jimp/utils/0.22.4
       jpeg-js: registry.npmjs.org/jpeg-js/0.4.4
     dev: false
 
@@ -6798,17 +6796,16 @@ packages:
       jpeg-js: registry.npmjs.org/jpeg-js/0.3.7
     dev: false
 
-  registry.npmjs.org/@jimp/plugin-blit/0.16.2_@jimp+custom@0.16.2:
-    resolution: {integrity: sha512-Z31rRfV80gC/r+B/bOPSVVpJEWXUV248j7MdnMOFLu4vr8DMqXVo9jYqvwU/s4LSTMAMXqm4Jg6E/jQfadPKAg==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@jimp/plugin-blit/-/plugin-blit-0.16.2.tgz}
-    id: registry.npmjs.org/@jimp/plugin-blit/0.16.2
+  registry.npmjs.org/@jimp/plugin-blit/0.22.4_@jimp+custom@0.22.4:
+    resolution: {integrity: sha512-QQHe+rFarsxJQxWKlyHEMfLyXmUG9AiQky+8WfwjZVBYilIFyiBywOc3sThonOsru+7LOSUDmbN6mvbFk4R+gw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@jimp/plugin-blit/-/plugin-blit-0.22.4.tgz}
+    id: registry.npmjs.org/@jimp/plugin-blit/0.22.4
     name: '@jimp/plugin-blit'
-    version: 0.16.2
+    version: 0.22.4
     peerDependencies:
       '@jimp/custom': '>=0.3.5'
     dependencies:
-      '@babel/runtime': registry.npmjs.org/@babel/runtime/7.18.3
-      '@jimp/custom': registry.npmjs.org/@jimp/custom/0.16.2
-      '@jimp/utils': registry.npmjs.org/@jimp/utils/0.16.2
+      '@jimp/custom': registry.npmjs.org/@jimp/custom/0.22.4
+      '@jimp/utils': registry.npmjs.org/@jimp/utils/0.22.4
     dev: false
 
   registry.npmjs.org/@jimp/plugin-blit/0.9.8_@jimp+custom@0.9.8:
@@ -6825,17 +6822,16 @@ packages:
       core-js: registry.npmjs.org/core-js/3.23.3
     dev: false
 
-  registry.npmjs.org/@jimp/plugin-blur/0.16.2_@jimp+custom@0.16.2:
-    resolution: {integrity: sha512-ShkJCAzRI+1fAKPuLLgEkixpSpVmKTYaKEFROUcgmrv9AansDXGNCupchqVMTdxf8zPyW8rR1ilvG3OJobufLQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@jimp/plugin-blur/-/plugin-blur-0.16.2.tgz}
-    id: registry.npmjs.org/@jimp/plugin-blur/0.16.2
+  registry.npmjs.org/@jimp/plugin-blur/0.22.4_@jimp+custom@0.22.4:
+    resolution: {integrity: sha512-p57Ac5LEQckIogiwf7qyOojGvLOD08eMaQd5ylOhet/fbdwAzD/8flWFhSIKsdAVzvnfGcszuLtrsV07jDutTw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@jimp/plugin-blur/-/plugin-blur-0.22.4.tgz}
+    id: registry.npmjs.org/@jimp/plugin-blur/0.22.4
     name: '@jimp/plugin-blur'
-    version: 0.16.2
+    version: 0.22.4
     peerDependencies:
       '@jimp/custom': '>=0.3.5'
     dependencies:
-      '@babel/runtime': registry.npmjs.org/@babel/runtime/7.18.3
-      '@jimp/custom': registry.npmjs.org/@jimp/custom/0.16.2
-      '@jimp/utils': registry.npmjs.org/@jimp/utils/0.16.2
+      '@jimp/custom': registry.npmjs.org/@jimp/custom/0.22.4
+      '@jimp/utils': registry.npmjs.org/@jimp/utils/0.22.4
     dev: false
 
   registry.npmjs.org/@jimp/plugin-blur/0.9.8_@jimp+custom@0.9.8:
@@ -6852,17 +6848,16 @@ packages:
       core-js: registry.npmjs.org/core-js/3.23.3
     dev: false
 
-  registry.npmjs.org/@jimp/plugin-circle/0.16.2_@jimp+custom@0.16.2:
-    resolution: {integrity: sha512-6T4z/48F4Z5+YwAVCLOvXQcyGmo0E3WztxCz6XGQf66r4JJK78+zcCDYZFLMx0BGM0091FogNK4QniP8JaOkrA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@jimp/plugin-circle/-/plugin-circle-0.16.2.tgz}
-    id: registry.npmjs.org/@jimp/plugin-circle/0.16.2
+  registry.npmjs.org/@jimp/plugin-circle/0.22.4_@jimp+custom@0.22.4:
+    resolution: {integrity: sha512-T+TpG+s+wM9kKHlpIEfCAfOM+QrYVqcMoWjkULddc0KtaDEhqgGYFhN+/SlzJfDbZKw0xUgIuAw89sXuzMIUjw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@jimp/plugin-circle/-/plugin-circle-0.22.4.tgz}
+    id: registry.npmjs.org/@jimp/plugin-circle/0.22.4
     name: '@jimp/plugin-circle'
-    version: 0.16.2
+    version: 0.22.4
     peerDependencies:
       '@jimp/custom': '>=0.3.5'
     dependencies:
-      '@babel/runtime': registry.npmjs.org/@babel/runtime/7.18.3
-      '@jimp/custom': registry.npmjs.org/@jimp/custom/0.16.2
-      '@jimp/utils': registry.npmjs.org/@jimp/utils/0.16.2
+      '@jimp/custom': registry.npmjs.org/@jimp/custom/0.22.4
+      '@jimp/utils': registry.npmjs.org/@jimp/utils/0.22.4
     dev: false
 
   registry.npmjs.org/@jimp/plugin-circle/0.9.8_@jimp+custom@0.9.8:
@@ -6879,18 +6874,17 @@ packages:
       core-js: registry.npmjs.org/core-js/3.23.3
     dev: false
 
-  registry.npmjs.org/@jimp/plugin-color/0.16.2_@jimp+custom@0.16.2:
-    resolution: {integrity: sha512-6oBV0g0J17/7E+aTquvUsgSc85nUbUi+64tIK5eFIDzvjhlqhjGNJYlc46KJMCWIs61qRJayQoZdL/iT/iQuGQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@jimp/plugin-color/-/plugin-color-0.16.2.tgz}
-    id: registry.npmjs.org/@jimp/plugin-color/0.16.2
+  registry.npmjs.org/@jimp/plugin-color/0.22.4_@jimp+custom@0.22.4:
+    resolution: {integrity: sha512-TZqcqepoCcIlF7VodPPfS3WET+LL5Y/XnXOBk4tWnG5i+lhNrs7/U0HOJY6Iw9o4g267DddnlfKWmunvzBcvOQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@jimp/plugin-color/-/plugin-color-0.22.4.tgz}
+    id: registry.npmjs.org/@jimp/plugin-color/0.22.4
     name: '@jimp/plugin-color'
-    version: 0.16.2
+    version: 0.22.4
     peerDependencies:
       '@jimp/custom': '>=0.3.5'
     dependencies:
-      '@babel/runtime': registry.npmjs.org/@babel/runtime/7.18.3
-      '@jimp/custom': registry.npmjs.org/@jimp/custom/0.16.2
-      '@jimp/utils': registry.npmjs.org/@jimp/utils/0.16.2
-      tinycolor2: registry.npmjs.org/tinycolor2/1.4.2
+      '@jimp/custom': registry.npmjs.org/@jimp/custom/0.22.4
+      '@jimp/utils': registry.npmjs.org/@jimp/utils/0.22.4
+      tinycolor2: registry.npmjs.org/tinycolor2/1.6.0
     dev: false
 
   registry.npmjs.org/@jimp/plugin-color/0.9.8_@jimp+custom@0.9.8:
@@ -6908,23 +6902,22 @@ packages:
       tinycolor2: registry.npmjs.org/tinycolor2/1.4.2
     dev: false
 
-  registry.npmjs.org/@jimp/plugin-contain/0.16.2_imjb3y324usacerau4nmcprwgm:
-    resolution: {integrity: sha512-pLcxO3hVN3LCEhMNvpZ9B7xILHVlS433Vv16zFFJxLRqZdYvPLsc+ZzJhjAiHHuEjVblQrktHE3LGeQwGJPo0w==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@jimp/plugin-contain/-/plugin-contain-0.16.2.tgz}
-    id: registry.npmjs.org/@jimp/plugin-contain/0.16.2
+  registry.npmjs.org/@jimp/plugin-contain/0.22.4_jeqm4jjmlbrpgprbbfsrkyshgy:
+    resolution: {integrity: sha512-Hl+TO4v+EpRfEl3R6k/bEgOGOpm6JqNfEIyCFWLi6yqJQjMGzBQ0vt+VHe2u3WIFaFrDWsGxeuFZBDzgtjTwxw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@jimp/plugin-contain/-/plugin-contain-0.22.4.tgz}
+    id: registry.npmjs.org/@jimp/plugin-contain/0.22.4
     name: '@jimp/plugin-contain'
-    version: 0.16.2
+    version: 0.22.4
     peerDependencies:
       '@jimp/custom': '>=0.3.5'
       '@jimp/plugin-blit': '>=0.3.5'
       '@jimp/plugin-resize': '>=0.3.5'
       '@jimp/plugin-scale': '>=0.3.5'
     dependencies:
-      '@babel/runtime': registry.npmjs.org/@babel/runtime/7.18.3
-      '@jimp/custom': registry.npmjs.org/@jimp/custom/0.16.2
-      '@jimp/plugin-blit': registry.npmjs.org/@jimp/plugin-blit/0.16.2_@jimp+custom@0.16.2
-      '@jimp/plugin-resize': registry.npmjs.org/@jimp/plugin-resize/0.16.2_@jimp+custom@0.16.2
-      '@jimp/plugin-scale': registry.npmjs.org/@jimp/plugin-scale/0.16.2_ml7r7ku4xtw2ibnxqj5uaaiwdu
-      '@jimp/utils': registry.npmjs.org/@jimp/utils/0.16.2
+      '@jimp/custom': registry.npmjs.org/@jimp/custom/0.22.4
+      '@jimp/plugin-blit': registry.npmjs.org/@jimp/plugin-blit/0.22.4_@jimp+custom@0.22.4
+      '@jimp/plugin-resize': registry.npmjs.org/@jimp/plugin-resize/0.22.4_@jimp+custom@0.22.4
+      '@jimp/plugin-scale': registry.npmjs.org/@jimp/plugin-scale/0.22.4_vopy3obhn4pprukvzd63hf3gde
+      '@jimp/utils': registry.npmjs.org/@jimp/utils/0.22.4
     dev: false
 
   registry.npmjs.org/@jimp/plugin-contain/0.9.8_csbaqnvbdutk6adlb6hztrnkru:
@@ -6947,23 +6940,22 @@ packages:
       core-js: registry.npmjs.org/core-js/3.23.3
     dev: false
 
-  registry.npmjs.org/@jimp/plugin-cover/0.16.2_gpdsppfdtbiku5k3fcmgpdqet4:
-    resolution: {integrity: sha512-gzWM7VvYeI8msyiwbUZxH+sGQEgO6Vd6adGxZ0CeKX00uQOe5lDzxb1Wjx7sHcJGz8a/5fmAuwz7rdDtpDUbkw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@jimp/plugin-cover/-/plugin-cover-0.16.2.tgz}
-    id: registry.npmjs.org/@jimp/plugin-cover/0.16.2
+  registry.npmjs.org/@jimp/plugin-cover/0.22.4_3dxw2fzq5h45n64pa6s5uv26nu:
+    resolution: {integrity: sha512-KMTQjN/B7r/RNzoLFwnhqhLrgT0kMqTkBMEZQSopj5vPLPNjIX0ElEYC8AIVFKeZAV+1mYkyss+IDdxq4fyRng==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@jimp/plugin-cover/-/plugin-cover-0.22.4.tgz}
+    id: registry.npmjs.org/@jimp/plugin-cover/0.22.4
     name: '@jimp/plugin-cover'
-    version: 0.16.2
+    version: 0.22.4
     peerDependencies:
       '@jimp/custom': '>=0.3.5'
       '@jimp/plugin-crop': '>=0.3.5'
       '@jimp/plugin-resize': '>=0.3.5'
       '@jimp/plugin-scale': '>=0.3.5'
     dependencies:
-      '@babel/runtime': registry.npmjs.org/@babel/runtime/7.18.3
-      '@jimp/custom': registry.npmjs.org/@jimp/custom/0.16.2
-      '@jimp/plugin-crop': registry.npmjs.org/@jimp/plugin-crop/0.16.2_@jimp+custom@0.16.2
-      '@jimp/plugin-resize': registry.npmjs.org/@jimp/plugin-resize/0.16.2_@jimp+custom@0.16.2
-      '@jimp/plugin-scale': registry.npmjs.org/@jimp/plugin-scale/0.16.2_ml7r7ku4xtw2ibnxqj5uaaiwdu
-      '@jimp/utils': registry.npmjs.org/@jimp/utils/0.16.2
+      '@jimp/custom': registry.npmjs.org/@jimp/custom/0.22.4
+      '@jimp/plugin-crop': registry.npmjs.org/@jimp/plugin-crop/0.22.4_@jimp+custom@0.22.4
+      '@jimp/plugin-resize': registry.npmjs.org/@jimp/plugin-resize/0.22.4_@jimp+custom@0.22.4
+      '@jimp/plugin-scale': registry.npmjs.org/@jimp/plugin-scale/0.22.4_vopy3obhn4pprukvzd63hf3gde
+      '@jimp/utils': registry.npmjs.org/@jimp/utils/0.22.4
     dev: false
 
   registry.npmjs.org/@jimp/plugin-cover/0.9.8_e7agfqfmuiarleg23dtizs6sge:
@@ -6986,17 +6978,16 @@ packages:
       core-js: registry.npmjs.org/core-js/3.23.3
     dev: false
 
-  registry.npmjs.org/@jimp/plugin-crop/0.16.2_@jimp+custom@0.16.2:
-    resolution: {integrity: sha512-qCd3hfMEE+Z2EuuyXewgXRTtKJGIerWzc1zLEJztsUkPz5i73IGgkOL+mrNutZwGaXZbm+8SwUaGb46sxAO6Tw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@jimp/plugin-crop/-/plugin-crop-0.16.2.tgz}
-    id: registry.npmjs.org/@jimp/plugin-crop/0.16.2
+  registry.npmjs.org/@jimp/plugin-crop/0.22.4_@jimp+custom@0.22.4:
+    resolution: {integrity: sha512-8krDt7xzBa1fbtlYCzEMZIgNjTkhgywho0FJpgIMkIUMjaZITS1Ea/Veb3UrWt8EsgQS6hxjGVE/Q1FvP5iPLA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@jimp/plugin-crop/-/plugin-crop-0.22.4.tgz}
+    id: registry.npmjs.org/@jimp/plugin-crop/0.22.4
     name: '@jimp/plugin-crop'
-    version: 0.16.2
+    version: 0.22.4
     peerDependencies:
       '@jimp/custom': '>=0.3.5'
     dependencies:
-      '@babel/runtime': registry.npmjs.org/@babel/runtime/7.18.3
-      '@jimp/custom': registry.npmjs.org/@jimp/custom/0.16.2
-      '@jimp/utils': registry.npmjs.org/@jimp/utils/0.16.2
+      '@jimp/custom': registry.npmjs.org/@jimp/custom/0.22.4
+      '@jimp/utils': registry.npmjs.org/@jimp/utils/0.22.4
     dev: false
 
   registry.npmjs.org/@jimp/plugin-crop/0.9.8_@jimp+custom@0.9.8:
@@ -7013,17 +7004,16 @@ packages:
       core-js: registry.npmjs.org/core-js/3.23.3
     dev: false
 
-  registry.npmjs.org/@jimp/plugin-displace/0.16.2_@jimp+custom@0.16.2:
-    resolution: {integrity: sha512-6nXdvNNjCdD95v2o3/jPeur903dz08lG4Y8gmr5oL2yVv9LSSbMonoXYrR/ASesdyXqGdXJLU4NL+yZs4zUqbQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@jimp/plugin-displace/-/plugin-displace-0.16.2.tgz}
-    id: registry.npmjs.org/@jimp/plugin-displace/0.16.2
+  registry.npmjs.org/@jimp/plugin-displace/0.22.4_@jimp+custom@0.22.4:
+    resolution: {integrity: sha512-3gBfwYVFrOjp8SUpb7H0UMgqvsG/sxY1PVBIfRW9MUCosiH1eE/Mo5cbxhQ6/w5f3sh23lBmG8W0WuSrnXLorg==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@jimp/plugin-displace/-/plugin-displace-0.22.4.tgz}
+    id: registry.npmjs.org/@jimp/plugin-displace/0.22.4
     name: '@jimp/plugin-displace'
-    version: 0.16.2
+    version: 0.22.4
     peerDependencies:
       '@jimp/custom': '>=0.3.5'
     dependencies:
-      '@babel/runtime': registry.npmjs.org/@babel/runtime/7.18.3
-      '@jimp/custom': registry.npmjs.org/@jimp/custom/0.16.2
-      '@jimp/utils': registry.npmjs.org/@jimp/utils/0.16.2
+      '@jimp/custom': registry.npmjs.org/@jimp/custom/0.22.4
+      '@jimp/utils': registry.npmjs.org/@jimp/utils/0.22.4
     dev: false
 
   registry.npmjs.org/@jimp/plugin-displace/0.9.8_@jimp+custom@0.9.8:
@@ -7040,17 +7030,16 @@ packages:
       core-js: registry.npmjs.org/core-js/3.23.3
     dev: false
 
-  registry.npmjs.org/@jimp/plugin-dither/0.16.2_@jimp+custom@0.16.2:
-    resolution: {integrity: sha512-DERpIzy21ZanMkVsD0Tdy8HQLbD1E41OuvIzaMRoW4183PA6AgGNlrQoFTyXmzjy6FTy1SxaQgTEdouInAWZ9Q==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@jimp/plugin-dither/-/plugin-dither-0.16.2.tgz}
-    id: registry.npmjs.org/@jimp/plugin-dither/0.16.2
+  registry.npmjs.org/@jimp/plugin-dither/0.22.4_@jimp+custom@0.22.4:
+    resolution: {integrity: sha512-oOhdZBDJpSGIoTUhPOIvLIVUwILRWgrWdA4Vbzcyz2RHvaPHS8gdBH0EdIPbJ5agNyFnY8sJWFM7YKx/rLNKsw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@jimp/plugin-dither/-/plugin-dither-0.22.4.tgz}
+    id: registry.npmjs.org/@jimp/plugin-dither/0.22.4
     name: '@jimp/plugin-dither'
-    version: 0.16.2
+    version: 0.22.4
     peerDependencies:
       '@jimp/custom': '>=0.3.5'
     dependencies:
-      '@babel/runtime': registry.npmjs.org/@babel/runtime/7.18.3
-      '@jimp/custom': registry.npmjs.org/@jimp/custom/0.16.2
-      '@jimp/utils': registry.npmjs.org/@jimp/utils/0.16.2
+      '@jimp/custom': registry.npmjs.org/@jimp/custom/0.22.4
+      '@jimp/utils': registry.npmjs.org/@jimp/utils/0.22.4
     dev: false
 
   registry.npmjs.org/@jimp/plugin-dither/0.9.8_@jimp+custom@0.9.8:
@@ -7067,17 +7056,16 @@ packages:
       core-js: registry.npmjs.org/core-js/3.23.3
     dev: false
 
-  registry.npmjs.org/@jimp/plugin-fisheye/0.16.2_@jimp+custom@0.16.2:
-    resolution: {integrity: sha512-Df7PsGIwiIpQu3EygYCnaJyTfOwvwtYV3cmYJS7yFLtdiFUuod+hlSo5GkwEPLAy+QBxhUbDuUqnsWo4NQtbiQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@jimp/plugin-fisheye/-/plugin-fisheye-0.16.2.tgz}
-    id: registry.npmjs.org/@jimp/plugin-fisheye/0.16.2
+  registry.npmjs.org/@jimp/plugin-fisheye/0.22.4_@jimp+custom@0.22.4:
+    resolution: {integrity: sha512-2myNZyDrwUOV8MKd4NeULnEOojYF7XRbnRHiUPsNptpmK6g/gI4xt+5k7BallAYZD8ZLfZVjstUogsObprHd/Q==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@jimp/plugin-fisheye/-/plugin-fisheye-0.22.4.tgz}
+    id: registry.npmjs.org/@jimp/plugin-fisheye/0.22.4
     name: '@jimp/plugin-fisheye'
-    version: 0.16.2
+    version: 0.22.4
     peerDependencies:
       '@jimp/custom': '>=0.3.5'
     dependencies:
-      '@babel/runtime': registry.npmjs.org/@babel/runtime/7.18.3
-      '@jimp/custom': registry.npmjs.org/@jimp/custom/0.16.2
-      '@jimp/utils': registry.npmjs.org/@jimp/utils/0.16.2
+      '@jimp/custom': registry.npmjs.org/@jimp/custom/0.22.4
+      '@jimp/utils': registry.npmjs.org/@jimp/utils/0.22.4
     dev: false
 
   registry.npmjs.org/@jimp/plugin-fisheye/0.9.8_@jimp+custom@0.9.8:
@@ -7094,19 +7082,18 @@ packages:
       core-js: registry.npmjs.org/core-js/3.23.3
     dev: false
 
-  registry.npmjs.org/@jimp/plugin-flip/0.16.2_ktwwnsoypijoghlnmlrfdl3qqm:
-    resolution: {integrity: sha512-+2uC8ioVQUr06mnjSWraskz2L33nJHze35LkQ8ZNsIpoZLkgvfiWatqAs5bj+1jGI/9kxoCFAaT1Is0f+a4/rw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@jimp/plugin-flip/-/plugin-flip-0.16.2.tgz}
-    id: registry.npmjs.org/@jimp/plugin-flip/0.16.2
+  registry.npmjs.org/@jimp/plugin-flip/0.22.4_6ievyzf4kfoy7kelf63ybf3ntm:
+    resolution: {integrity: sha512-9FZ0k5N5leLDefeDjizXXTl17dzo23PYtCD/T4xeSVr96d1pQDwbeIk7pEhhHr1rl98tJe0U/OV2dFXFYauKPw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@jimp/plugin-flip/-/plugin-flip-0.22.4.tgz}
+    id: registry.npmjs.org/@jimp/plugin-flip/0.22.4
     name: '@jimp/plugin-flip'
-    version: 0.16.2
+    version: 0.22.4
     peerDependencies:
       '@jimp/custom': '>=0.3.5'
       '@jimp/plugin-rotate': '>=0.3.5'
     dependencies:
-      '@babel/runtime': registry.npmjs.org/@babel/runtime/7.18.3
-      '@jimp/custom': registry.npmjs.org/@jimp/custom/0.16.2
-      '@jimp/plugin-rotate': registry.npmjs.org/@jimp/plugin-rotate/0.16.2_rqxyxjeek4vqmsj2o2ueqoj3ai
-      '@jimp/utils': registry.npmjs.org/@jimp/utils/0.16.2
+      '@jimp/custom': registry.npmjs.org/@jimp/custom/0.22.4
+      '@jimp/plugin-rotate': registry.npmjs.org/@jimp/plugin-rotate/0.22.4_fv6wy43fpohvb4kchpix76sfci
+      '@jimp/utils': registry.npmjs.org/@jimp/utils/0.22.4
     dev: false
 
   registry.npmjs.org/@jimp/plugin-flip/0.9.8_36suawdjmayri5cxli4ay3sxp4:
@@ -7125,17 +7112,16 @@ packages:
       core-js: registry.npmjs.org/core-js/3.23.3
     dev: false
 
-  registry.npmjs.org/@jimp/plugin-gaussian/0.16.2_@jimp+custom@0.16.2:
-    resolution: {integrity: sha512-2mnuDSg4ZEH8zcJig7DZZf4st/cYmQ5UYJKP76iGhZ+6JDACk6uejwAgT5xHecNhkVAaXMdCybA2eknH/9OE1w==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@jimp/plugin-gaussian/-/plugin-gaussian-0.16.2.tgz}
-    id: registry.npmjs.org/@jimp/plugin-gaussian/0.16.2
+  registry.npmjs.org/@jimp/plugin-gaussian/0.22.4_@jimp+custom@0.22.4:
+    resolution: {integrity: sha512-irOSwLdZ9kTq5Wd5dpkMgIMJVwemYcqgnzd04+P6TJGYmem2HR6JUCDpjbET3Fpbo/snFLm4mZ+2A+SmeCGjKA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@jimp/plugin-gaussian/-/plugin-gaussian-0.22.4.tgz}
+    id: registry.npmjs.org/@jimp/plugin-gaussian/0.22.4
     name: '@jimp/plugin-gaussian'
-    version: 0.16.2
+    version: 0.22.4
     peerDependencies:
       '@jimp/custom': '>=0.3.5'
     dependencies:
-      '@babel/runtime': registry.npmjs.org/@babel/runtime/7.18.3
-      '@jimp/custom': registry.npmjs.org/@jimp/custom/0.16.2
-      '@jimp/utils': registry.npmjs.org/@jimp/utils/0.16.2
+      '@jimp/custom': registry.npmjs.org/@jimp/custom/0.22.4
+      '@jimp/utils': registry.npmjs.org/@jimp/utils/0.22.4
     dev: false
 
   registry.npmjs.org/@jimp/plugin-gaussian/0.9.8_@jimp+custom@0.9.8:
@@ -7152,17 +7138,16 @@ packages:
       core-js: registry.npmjs.org/core-js/3.23.3
     dev: false
 
-  registry.npmjs.org/@jimp/plugin-invert/0.16.2_@jimp+custom@0.16.2:
-    resolution: {integrity: sha512-xFvHbVepTY/nus+6yXiYN1iq+UBRkT0MdnObbiQPstUrAsz0Imn6MWISsnAyMvcNxHGrxaxjuU777JT/esM0gg==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@jimp/plugin-invert/-/plugin-invert-0.16.2.tgz}
-    id: registry.npmjs.org/@jimp/plugin-invert/0.16.2
+  registry.npmjs.org/@jimp/plugin-invert/0.22.4_@jimp+custom@0.22.4:
+    resolution: {integrity: sha512-/WtZeLrF+H+mzbjqudeGvvSxudlHy1kyiP1gVWDxhYNQOuZJI57Vn20kSTYvHBNjvy31LV4/uestyX8j8tE2Qg==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@jimp/plugin-invert/-/plugin-invert-0.22.4.tgz}
+    id: registry.npmjs.org/@jimp/plugin-invert/0.22.4
     name: '@jimp/plugin-invert'
-    version: 0.16.2
+    version: 0.22.4
     peerDependencies:
       '@jimp/custom': '>=0.3.5'
     dependencies:
-      '@babel/runtime': registry.npmjs.org/@babel/runtime/7.18.3
-      '@jimp/custom': registry.npmjs.org/@jimp/custom/0.16.2
-      '@jimp/utils': registry.npmjs.org/@jimp/utils/0.16.2
+      '@jimp/custom': registry.npmjs.org/@jimp/custom/0.22.4
+      '@jimp/utils': registry.npmjs.org/@jimp/utils/0.22.4
     dev: false
 
   registry.npmjs.org/@jimp/plugin-invert/0.9.8_@jimp+custom@0.9.8:
@@ -7179,17 +7164,16 @@ packages:
       core-js: registry.npmjs.org/core-js/3.23.3
     dev: false
 
-  registry.npmjs.org/@jimp/plugin-mask/0.16.2_@jimp+custom@0.16.2:
-    resolution: {integrity: sha512-AbdO85xxhfgEDdxYKpUotEI9ixiCMaIpfYHD5a5O/VWeimz2kuwhcrzlHGiyq1kKAgRcl0WEneTCZAHVSyvPKA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@jimp/plugin-mask/-/plugin-mask-0.16.2.tgz}
-    id: registry.npmjs.org/@jimp/plugin-mask/0.16.2
+  registry.npmjs.org/@jimp/plugin-mask/0.22.4_@jimp+custom@0.22.4:
+    resolution: {integrity: sha512-U0SrOwBNKkMYTNPTz5CXeJdZ4c5easFlq2B9Txy0kPsav2OraTv8cZjpMxrWUejo/AQGVUDbaGtXMm9pE13/6w==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@jimp/plugin-mask/-/plugin-mask-0.22.4.tgz}
+    id: registry.npmjs.org/@jimp/plugin-mask/0.22.4
     name: '@jimp/plugin-mask'
-    version: 0.16.2
+    version: 0.22.4
     peerDependencies:
       '@jimp/custom': '>=0.3.5'
     dependencies:
-      '@babel/runtime': registry.npmjs.org/@babel/runtime/7.18.3
-      '@jimp/custom': registry.npmjs.org/@jimp/custom/0.16.2
-      '@jimp/utils': registry.npmjs.org/@jimp/utils/0.16.2
+      '@jimp/custom': registry.npmjs.org/@jimp/custom/0.22.4
+      '@jimp/utils': registry.npmjs.org/@jimp/utils/0.22.4
     dev: false
 
   registry.npmjs.org/@jimp/plugin-mask/0.9.8_@jimp+custom@0.9.8:
@@ -7206,17 +7190,16 @@ packages:
       core-js: registry.npmjs.org/core-js/3.23.3
     dev: false
 
-  registry.npmjs.org/@jimp/plugin-normalize/0.16.2_@jimp+custom@0.16.2:
-    resolution: {integrity: sha512-+ItBWFwmB0Od7OfOtTYT1gm543PpHUgU8/DN55z83l1JqS0OomDJAe7BmCppo2405TN6YtVm/csXo7p4iWd/SQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@jimp/plugin-normalize/-/plugin-normalize-0.16.2.tgz}
-    id: registry.npmjs.org/@jimp/plugin-normalize/0.16.2
+  registry.npmjs.org/@jimp/plugin-normalize/0.22.4_@jimp+custom@0.22.4:
+    resolution: {integrity: sha512-XJiPBJGCHWmIzUdmL4mWP1Ev5LMp77oMmPXdgQGDty1cxfyo3CbkTjZSsnwF/XLlrQ1yfLW+8JB+ihGKcVEOxA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@jimp/plugin-normalize/-/plugin-normalize-0.22.4.tgz}
+    id: registry.npmjs.org/@jimp/plugin-normalize/0.22.4
     name: '@jimp/plugin-normalize'
-    version: 0.16.2
+    version: 0.22.4
     peerDependencies:
       '@jimp/custom': '>=0.3.5'
     dependencies:
-      '@babel/runtime': registry.npmjs.org/@babel/runtime/7.18.3
-      '@jimp/custom': registry.npmjs.org/@jimp/custom/0.16.2
-      '@jimp/utils': registry.npmjs.org/@jimp/utils/0.16.2
+      '@jimp/custom': registry.npmjs.org/@jimp/custom/0.22.4
+      '@jimp/utils': registry.npmjs.org/@jimp/utils/0.22.4
     dev: false
 
   registry.npmjs.org/@jimp/plugin-normalize/0.9.8_@jimp+custom@0.9.8:
@@ -7233,19 +7216,18 @@ packages:
       core-js: registry.npmjs.org/core-js/3.23.3
     dev: false
 
-  registry.npmjs.org/@jimp/plugin-print/0.16.2_jjb7dzm7g3gdkyninttbcskgge:
-    resolution: {integrity: sha512-ifTGEeJ5UZTCiqC70HMeU3iXk/vsOmhWiwVGOXSFXhFeE8ZpDWvlmBsrMYnRrJGuaaogHOIrrQPI+kCdDBSBIQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@jimp/plugin-print/-/plugin-print-0.16.2.tgz}
-    id: registry.npmjs.org/@jimp/plugin-print/0.16.2
+  registry.npmjs.org/@jimp/plugin-print/0.22.4_2dqyxq4xosxuwhbxu4b5qcz3dm:
+    resolution: {integrity: sha512-mayiPhg6c7KYjvq3fYOW9ohhXD1eWdEiseV9dAWqTOEbDbohT8S6eTGhVIiVa2sVySLcpNEKZSk07c5EhJAMcw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@jimp/plugin-print/-/plugin-print-0.22.4.tgz}
+    id: registry.npmjs.org/@jimp/plugin-print/0.22.4
     name: '@jimp/plugin-print'
-    version: 0.16.2
+    version: 0.22.4
     peerDependencies:
       '@jimp/custom': '>=0.3.5'
       '@jimp/plugin-blit': '>=0.3.5'
     dependencies:
-      '@babel/runtime': registry.npmjs.org/@babel/runtime/7.18.3
-      '@jimp/custom': registry.npmjs.org/@jimp/custom/0.16.2
-      '@jimp/plugin-blit': registry.npmjs.org/@jimp/plugin-blit/0.16.2_@jimp+custom@0.16.2
-      '@jimp/utils': registry.npmjs.org/@jimp/utils/0.16.2
+      '@jimp/custom': registry.npmjs.org/@jimp/custom/0.22.4
+      '@jimp/plugin-blit': registry.npmjs.org/@jimp/plugin-blit/0.22.4_@jimp+custom@0.22.4
+      '@jimp/utils': registry.npmjs.org/@jimp/utils/0.22.4
       load-bmfont: registry.npmjs.org/load-bmfont/1.4.1
     dev: false
 
@@ -7266,17 +7248,16 @@ packages:
       load-bmfont: registry.npmjs.org/load-bmfont/1.4.1
     dev: false
 
-  registry.npmjs.org/@jimp/plugin-resize/0.16.2_@jimp+custom@0.16.2:
-    resolution: {integrity: sha512-gE4N9l6xuwzacFZ2EPCGZCJ/xR+aX2V7GdMndIl/6kYIw5/eib1SFuF9AZLvIPSFuE1FnGo8+vT0pr++SSbhYg==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@jimp/plugin-resize/-/plugin-resize-0.16.2.tgz}
-    id: registry.npmjs.org/@jimp/plugin-resize/0.16.2
+  registry.npmjs.org/@jimp/plugin-resize/0.22.4_@jimp+custom@0.22.4:
+    resolution: {integrity: sha512-2wMdpPNGf6Zo2lfJg1QHHQ+ds5baQH75IcFpdjw717dcEISpn1jPG//iClXOGh16OJsRQlwHESaZTgEo/5Dw/g==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@jimp/plugin-resize/-/plugin-resize-0.22.4.tgz}
+    id: registry.npmjs.org/@jimp/plugin-resize/0.22.4
     name: '@jimp/plugin-resize'
-    version: 0.16.2
+    version: 0.22.4
     peerDependencies:
       '@jimp/custom': '>=0.3.5'
     dependencies:
-      '@babel/runtime': registry.npmjs.org/@babel/runtime/7.18.3
-      '@jimp/custom': registry.npmjs.org/@jimp/custom/0.16.2
-      '@jimp/utils': registry.npmjs.org/@jimp/utils/0.16.2
+      '@jimp/custom': registry.npmjs.org/@jimp/custom/0.22.4
+      '@jimp/utils': registry.npmjs.org/@jimp/utils/0.22.4
     dev: false
 
   registry.npmjs.org/@jimp/plugin-resize/0.9.8_@jimp+custom@0.9.8:
@@ -7293,23 +7274,22 @@ packages:
       core-js: registry.npmjs.org/core-js/3.23.3
     dev: false
 
-  registry.npmjs.org/@jimp/plugin-rotate/0.16.2_rqxyxjeek4vqmsj2o2ueqoj3ai:
-    resolution: {integrity: sha512-/CTEYkR1HrgmnE0VqPhhbBARbDAfFX590LWGIpxcYIYsUUGQCadl+8Qo4UX13FH0Nt8UHEtPA+O2x08uPYg9UA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@jimp/plugin-rotate/-/plugin-rotate-0.16.2.tgz}
-    id: registry.npmjs.org/@jimp/plugin-rotate/0.16.2
+  registry.npmjs.org/@jimp/plugin-rotate/0.22.4_fv6wy43fpohvb4kchpix76sfci:
+    resolution: {integrity: sha512-g08LBsPENbeA6NVoeq0iuDgAL89+N+aZrvYVKYkiJZIM7vUvueJyAIq4+bjDl4r54OR8XBFX0GsrKsqrULh1eA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@jimp/plugin-rotate/-/plugin-rotate-0.22.4.tgz}
+    id: registry.npmjs.org/@jimp/plugin-rotate/0.22.4
     name: '@jimp/plugin-rotate'
-    version: 0.16.2
+    version: 0.22.4
     peerDependencies:
       '@jimp/custom': '>=0.3.5'
       '@jimp/plugin-blit': '>=0.3.5'
       '@jimp/plugin-crop': '>=0.3.5'
       '@jimp/plugin-resize': '>=0.3.5'
     dependencies:
-      '@babel/runtime': registry.npmjs.org/@babel/runtime/7.18.3
-      '@jimp/custom': registry.npmjs.org/@jimp/custom/0.16.2
-      '@jimp/plugin-blit': registry.npmjs.org/@jimp/plugin-blit/0.16.2_@jimp+custom@0.16.2
-      '@jimp/plugin-crop': registry.npmjs.org/@jimp/plugin-crop/0.16.2_@jimp+custom@0.16.2
-      '@jimp/plugin-resize': registry.npmjs.org/@jimp/plugin-resize/0.16.2_@jimp+custom@0.16.2
-      '@jimp/utils': registry.npmjs.org/@jimp/utils/0.16.2
+      '@jimp/custom': registry.npmjs.org/@jimp/custom/0.22.4
+      '@jimp/plugin-blit': registry.npmjs.org/@jimp/plugin-blit/0.22.4_@jimp+custom@0.22.4
+      '@jimp/plugin-crop': registry.npmjs.org/@jimp/plugin-crop/0.22.4_@jimp+custom@0.22.4
+      '@jimp/plugin-resize': registry.npmjs.org/@jimp/plugin-resize/0.22.4_@jimp+custom@0.22.4
+      '@jimp/utils': registry.npmjs.org/@jimp/utils/0.22.4
     dev: false
 
   registry.npmjs.org/@jimp/plugin-rotate/0.9.8_rup4sk4ndrcfzhgre6ebonwqbi:
@@ -7332,19 +7312,18 @@ packages:
       core-js: registry.npmjs.org/core-js/3.23.3
     dev: false
 
-  registry.npmjs.org/@jimp/plugin-scale/0.16.2_ml7r7ku4xtw2ibnxqj5uaaiwdu:
-    resolution: {integrity: sha512-3inuxfrlquyLaqFdiiiQNJUurR0WbvN5wAf1qcYX2LubG1AG8grayYD6H7XVoxfUGTZXh1kpmeirEYlqA2zxcw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@jimp/plugin-scale/-/plugin-scale-0.16.2.tgz}
-    id: registry.npmjs.org/@jimp/plugin-scale/0.16.2
+  registry.npmjs.org/@jimp/plugin-scale/0.22.4_vopy3obhn4pprukvzd63hf3gde:
+    resolution: {integrity: sha512-cJiLQtTcNk6/+j05R23TFGXy+smDV0BdlmzJVDb+7Ye9qcmWpkdjVSioQQqZr0QScIYKhhRCY/lFTepBx67yzw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@jimp/plugin-scale/-/plugin-scale-0.22.4.tgz}
+    id: registry.npmjs.org/@jimp/plugin-scale/0.22.4
     name: '@jimp/plugin-scale'
-    version: 0.16.2
+    version: 0.22.4
     peerDependencies:
       '@jimp/custom': '>=0.3.5'
       '@jimp/plugin-resize': '>=0.3.5'
     dependencies:
-      '@babel/runtime': registry.npmjs.org/@babel/runtime/7.18.3
-      '@jimp/custom': registry.npmjs.org/@jimp/custom/0.16.2
-      '@jimp/plugin-resize': registry.npmjs.org/@jimp/plugin-resize/0.16.2_@jimp+custom@0.16.2
-      '@jimp/utils': registry.npmjs.org/@jimp/utils/0.16.2
+      '@jimp/custom': registry.npmjs.org/@jimp/custom/0.22.4
+      '@jimp/plugin-resize': registry.npmjs.org/@jimp/plugin-resize/0.22.4_@jimp+custom@0.22.4
+      '@jimp/utils': registry.npmjs.org/@jimp/utils/0.22.4
     dev: false
 
   registry.npmjs.org/@jimp/plugin-scale/0.9.8_oz25dekidpgfut4npowlf2uoq4:
@@ -7363,21 +7342,20 @@ packages:
       core-js: registry.npmjs.org/core-js/3.23.3
     dev: false
 
-  registry.npmjs.org/@jimp/plugin-shadow/0.16.2_5zizl4daumbyziiswanqnnjtui:
-    resolution: {integrity: sha512-Q0aIs2/L6fWMcEh9Ms73u34bT1hyUMw/oxaVoIzOLo6/E8YzCs2Bi63H0/qaPS0MQpEppI++kvosPbblABY79w==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@jimp/plugin-shadow/-/plugin-shadow-0.16.2.tgz}
-    id: registry.npmjs.org/@jimp/plugin-shadow/0.16.2
+  registry.npmjs.org/@jimp/plugin-shadow/0.22.4_3zfvzbernvkadivjx64lirasi4:
+    resolution: {integrity: sha512-a5hdpzGBzBo91DNiKaGvs8iJbs2bYQmDRm/BrCh4NET+h5l5AwXNu/Ak0bWRhN16YQ55XYNGHer2jOwBPrf2WQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@jimp/plugin-shadow/-/plugin-shadow-0.22.4.tgz}
+    id: registry.npmjs.org/@jimp/plugin-shadow/0.22.4
     name: '@jimp/plugin-shadow'
-    version: 0.16.2
+    version: 0.22.4
     peerDependencies:
       '@jimp/custom': '>=0.3.5'
       '@jimp/plugin-blur': '>=0.3.5'
       '@jimp/plugin-resize': '>=0.3.5'
     dependencies:
-      '@babel/runtime': registry.npmjs.org/@babel/runtime/7.18.3
-      '@jimp/custom': registry.npmjs.org/@jimp/custom/0.16.2
-      '@jimp/plugin-blur': registry.npmjs.org/@jimp/plugin-blur/0.16.2_@jimp+custom@0.16.2
-      '@jimp/plugin-resize': registry.npmjs.org/@jimp/plugin-resize/0.16.2_@jimp+custom@0.16.2
-      '@jimp/utils': registry.npmjs.org/@jimp/utils/0.16.2
+      '@jimp/custom': registry.npmjs.org/@jimp/custom/0.22.4
+      '@jimp/plugin-blur': registry.npmjs.org/@jimp/plugin-blur/0.22.4_@jimp+custom@0.22.4
+      '@jimp/plugin-resize': registry.npmjs.org/@jimp/plugin-resize/0.22.4_@jimp+custom@0.22.4
+      '@jimp/utils': registry.npmjs.org/@jimp/utils/0.22.4
     dev: false
 
   registry.npmjs.org/@jimp/plugin-shadow/0.9.8_vk2ocnpxesucjiun6ekhhfy3eq:
@@ -7398,21 +7376,20 @@ packages:
       core-js: registry.npmjs.org/core-js/3.23.3
     dev: false
 
-  registry.npmjs.org/@jimp/plugin-threshold/0.16.2_qzopulswoxcbleqavzrwgrm3ue:
-    resolution: {integrity: sha512-gyOwmBgjtMPvcuyOhkP6dOGWbQdaTfhcBRN22mYeI/k/Wh/Zh1OI21F6eKLApsVRmg15MoFnkrCz64RROC34sw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@jimp/plugin-threshold/-/plugin-threshold-0.16.2.tgz}
-    id: registry.npmjs.org/@jimp/plugin-threshold/0.16.2
+  registry.npmjs.org/@jimp/plugin-threshold/0.22.4_n4cz6fptuaatbdrnbpgiaszkoi:
+    resolution: {integrity: sha512-jTT/+p2zb2NESzd7O0bVRowiQszoaHeBf2OgP7lFde10fHd+fn78m5brUmSmlGAdlMRwm8S8ZcxTj5ZjdQns5w==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@jimp/plugin-threshold/-/plugin-threshold-0.22.4.tgz}
+    id: registry.npmjs.org/@jimp/plugin-threshold/0.22.4
     name: '@jimp/plugin-threshold'
-    version: 0.16.2
+    version: 0.22.4
     peerDependencies:
       '@jimp/custom': '>=0.3.5'
       '@jimp/plugin-color': '>=0.8.0'
       '@jimp/plugin-resize': '>=0.8.0'
     dependencies:
-      '@babel/runtime': registry.npmjs.org/@babel/runtime/7.18.3
-      '@jimp/custom': registry.npmjs.org/@jimp/custom/0.16.2
-      '@jimp/plugin-color': registry.npmjs.org/@jimp/plugin-color/0.16.2_@jimp+custom@0.16.2
-      '@jimp/plugin-resize': registry.npmjs.org/@jimp/plugin-resize/0.16.2_@jimp+custom@0.16.2
-      '@jimp/utils': registry.npmjs.org/@jimp/utils/0.16.2
+      '@jimp/custom': registry.npmjs.org/@jimp/custom/0.22.4
+      '@jimp/plugin-color': registry.npmjs.org/@jimp/plugin-color/0.22.4_@jimp+custom@0.22.4
+      '@jimp/plugin-resize': registry.npmjs.org/@jimp/plugin-resize/0.22.4_@jimp+custom@0.22.4
+      '@jimp/utils': registry.npmjs.org/@jimp/utils/0.22.4
     dev: false
 
   registry.npmjs.org/@jimp/plugin-threshold/0.9.8_gcqaer4x5kvjkbanjgfsz4ibua:
@@ -7433,37 +7410,36 @@ packages:
       core-js: registry.npmjs.org/core-js/3.23.3
     dev: false
 
-  registry.npmjs.org/@jimp/plugins/0.16.2_@jimp+custom@0.16.2:
-    resolution: {integrity: sha512-zCvYtCgctmC0tkYEu+y+kSwSIZBsNznqJ3/3vkpzxdyjd6wCfNY5Qc/68MPrLc1lmdeGo4cOOTYHG7Vc6myzRw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@jimp/plugins/-/plugins-0.16.2.tgz}
-    id: registry.npmjs.org/@jimp/plugins/0.16.2
+  registry.npmjs.org/@jimp/plugins/0.22.4_@jimp+custom@0.22.4:
+    resolution: {integrity: sha512-yAxcA4UR3Bs7j73I7wt4ty52vm5MzPmr+8DYk8jrS/ng2Z2iuXzbcTe4mf9eEqXYVah3rTIggo4dPjW75DRZtA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@jimp/plugins/-/plugins-0.22.4.tgz}
+    id: registry.npmjs.org/@jimp/plugins/0.22.4
     name: '@jimp/plugins'
-    version: 0.16.2
+    version: 0.22.4
     peerDependencies:
       '@jimp/custom': '>=0.3.5'
     dependencies:
-      '@babel/runtime': registry.npmjs.org/@babel/runtime/7.18.3
-      '@jimp/custom': registry.npmjs.org/@jimp/custom/0.16.2
-      '@jimp/plugin-blit': registry.npmjs.org/@jimp/plugin-blit/0.16.2_@jimp+custom@0.16.2
-      '@jimp/plugin-blur': registry.npmjs.org/@jimp/plugin-blur/0.16.2_@jimp+custom@0.16.2
-      '@jimp/plugin-circle': registry.npmjs.org/@jimp/plugin-circle/0.16.2_@jimp+custom@0.16.2
-      '@jimp/plugin-color': registry.npmjs.org/@jimp/plugin-color/0.16.2_@jimp+custom@0.16.2
-      '@jimp/plugin-contain': registry.npmjs.org/@jimp/plugin-contain/0.16.2_imjb3y324usacerau4nmcprwgm
-      '@jimp/plugin-cover': registry.npmjs.org/@jimp/plugin-cover/0.16.2_gpdsppfdtbiku5k3fcmgpdqet4
-      '@jimp/plugin-crop': registry.npmjs.org/@jimp/plugin-crop/0.16.2_@jimp+custom@0.16.2
-      '@jimp/plugin-displace': registry.npmjs.org/@jimp/plugin-displace/0.16.2_@jimp+custom@0.16.2
-      '@jimp/plugin-dither': registry.npmjs.org/@jimp/plugin-dither/0.16.2_@jimp+custom@0.16.2
-      '@jimp/plugin-fisheye': registry.npmjs.org/@jimp/plugin-fisheye/0.16.2_@jimp+custom@0.16.2
-      '@jimp/plugin-flip': registry.npmjs.org/@jimp/plugin-flip/0.16.2_ktwwnsoypijoghlnmlrfdl3qqm
-      '@jimp/plugin-gaussian': registry.npmjs.org/@jimp/plugin-gaussian/0.16.2_@jimp+custom@0.16.2
-      '@jimp/plugin-invert': registry.npmjs.org/@jimp/plugin-invert/0.16.2_@jimp+custom@0.16.2
-      '@jimp/plugin-mask': registry.npmjs.org/@jimp/plugin-mask/0.16.2_@jimp+custom@0.16.2
-      '@jimp/plugin-normalize': registry.npmjs.org/@jimp/plugin-normalize/0.16.2_@jimp+custom@0.16.2
-      '@jimp/plugin-print': registry.npmjs.org/@jimp/plugin-print/0.16.2_jjb7dzm7g3gdkyninttbcskgge
-      '@jimp/plugin-resize': registry.npmjs.org/@jimp/plugin-resize/0.16.2_@jimp+custom@0.16.2
-      '@jimp/plugin-rotate': registry.npmjs.org/@jimp/plugin-rotate/0.16.2_rqxyxjeek4vqmsj2o2ueqoj3ai
-      '@jimp/plugin-scale': registry.npmjs.org/@jimp/plugin-scale/0.16.2_ml7r7ku4xtw2ibnxqj5uaaiwdu
-      '@jimp/plugin-shadow': registry.npmjs.org/@jimp/plugin-shadow/0.16.2_5zizl4daumbyziiswanqnnjtui
-      '@jimp/plugin-threshold': registry.npmjs.org/@jimp/plugin-threshold/0.16.2_qzopulswoxcbleqavzrwgrm3ue
+      '@jimp/custom': registry.npmjs.org/@jimp/custom/0.22.4
+      '@jimp/plugin-blit': registry.npmjs.org/@jimp/plugin-blit/0.22.4_@jimp+custom@0.22.4
+      '@jimp/plugin-blur': registry.npmjs.org/@jimp/plugin-blur/0.22.4_@jimp+custom@0.22.4
+      '@jimp/plugin-circle': registry.npmjs.org/@jimp/plugin-circle/0.22.4_@jimp+custom@0.22.4
+      '@jimp/plugin-color': registry.npmjs.org/@jimp/plugin-color/0.22.4_@jimp+custom@0.22.4
+      '@jimp/plugin-contain': registry.npmjs.org/@jimp/plugin-contain/0.22.4_jeqm4jjmlbrpgprbbfsrkyshgy
+      '@jimp/plugin-cover': registry.npmjs.org/@jimp/plugin-cover/0.22.4_3dxw2fzq5h45n64pa6s5uv26nu
+      '@jimp/plugin-crop': registry.npmjs.org/@jimp/plugin-crop/0.22.4_@jimp+custom@0.22.4
+      '@jimp/plugin-displace': registry.npmjs.org/@jimp/plugin-displace/0.22.4_@jimp+custom@0.22.4
+      '@jimp/plugin-dither': registry.npmjs.org/@jimp/plugin-dither/0.22.4_@jimp+custom@0.22.4
+      '@jimp/plugin-fisheye': registry.npmjs.org/@jimp/plugin-fisheye/0.22.4_@jimp+custom@0.22.4
+      '@jimp/plugin-flip': registry.npmjs.org/@jimp/plugin-flip/0.22.4_6ievyzf4kfoy7kelf63ybf3ntm
+      '@jimp/plugin-gaussian': registry.npmjs.org/@jimp/plugin-gaussian/0.22.4_@jimp+custom@0.22.4
+      '@jimp/plugin-invert': registry.npmjs.org/@jimp/plugin-invert/0.22.4_@jimp+custom@0.22.4
+      '@jimp/plugin-mask': registry.npmjs.org/@jimp/plugin-mask/0.22.4_@jimp+custom@0.22.4
+      '@jimp/plugin-normalize': registry.npmjs.org/@jimp/plugin-normalize/0.22.4_@jimp+custom@0.22.4
+      '@jimp/plugin-print': registry.npmjs.org/@jimp/plugin-print/0.22.4_2dqyxq4xosxuwhbxu4b5qcz3dm
+      '@jimp/plugin-resize': registry.npmjs.org/@jimp/plugin-resize/0.22.4_@jimp+custom@0.22.4
+      '@jimp/plugin-rotate': registry.npmjs.org/@jimp/plugin-rotate/0.22.4_fv6wy43fpohvb4kchpix76sfci
+      '@jimp/plugin-scale': registry.npmjs.org/@jimp/plugin-scale/0.22.4_vopy3obhn4pprukvzd63hf3gde
+      '@jimp/plugin-shadow': registry.npmjs.org/@jimp/plugin-shadow/0.22.4_3zfvzbernvkadivjx64lirasi4
+      '@jimp/plugin-threshold': registry.npmjs.org/@jimp/plugin-threshold/0.22.4_n4cz6fptuaatbdrnbpgiaszkoi
       timm: registry.npmjs.org/timm/1.7.1
     dev: false
 
@@ -7502,18 +7478,17 @@ packages:
       timm: registry.npmjs.org/timm/1.7.1
     dev: false
 
-  registry.npmjs.org/@jimp/png/0.16.2_@jimp+custom@0.16.2:
-    resolution: {integrity: sha512-sFOtOSz/tzDwXEChFQ/Nxe+0+vG3Tj0eUxnZVDUG/StXE9dI8Bqmwj3MIa0EgK5s+QG3YlnDOmlPUa4JqmeYeQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@jimp/png/-/png-0.16.2.tgz}
-    id: registry.npmjs.org/@jimp/png/0.16.2
+  registry.npmjs.org/@jimp/png/0.22.4_@jimp+custom@0.22.4:
+    resolution: {integrity: sha512-kDovx9dTyV/TSR40HQHdRyVgNNb7Cny4/0PPEa+xeR7snuDC3dV5hu9s/QJwY0RMGiAkiuKDpiaBuSZuz8dwRQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@jimp/png/-/png-0.22.4.tgz}
+    id: registry.npmjs.org/@jimp/png/0.22.4
     name: '@jimp/png'
-    version: 0.16.2
+    version: 0.22.4
     peerDependencies:
       '@jimp/custom': '>=0.3.5'
     dependencies:
-      '@babel/runtime': registry.npmjs.org/@babel/runtime/7.18.3
-      '@jimp/custom': registry.npmjs.org/@jimp/custom/0.16.2
-      '@jimp/utils': registry.npmjs.org/@jimp/utils/0.16.2
-      pngjs: registry.npmjs.org/pngjs/3.4.0
+      '@jimp/custom': registry.npmjs.org/@jimp/custom/0.22.4
+      '@jimp/utils': registry.npmjs.org/@jimp/utils/0.22.4
+      pngjs: registry.npmjs.org/pngjs/6.0.0
     dev: false
 
   registry.npmjs.org/@jimp/png/0.9.8_@jimp+custom@0.9.8:
@@ -7531,17 +7506,16 @@ packages:
       pngjs: registry.npmjs.org/pngjs/3.4.0
     dev: false
 
-  registry.npmjs.org/@jimp/tiff/0.16.2_@jimp+custom@0.16.2:
-    resolution: {integrity: sha512-ADcdqmtZF+U2YoaaHTzFX8D6NFpmN4WZUT0BPMerEuY7Cq8QoLYU22z2h034FrVW+Rbi1b3y04sB9iDiQAlf2w==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@jimp/tiff/-/tiff-0.16.2.tgz}
-    id: registry.npmjs.org/@jimp/tiff/0.16.2
+  registry.npmjs.org/@jimp/tiff/0.22.4_@jimp+custom@0.22.4:
+    resolution: {integrity: sha512-RStUATRnb+unYzzuGxU+SPZALqh5NxYdcS6UGTBvhCMlijopGiY/iL01wstIOst0ypKIjwbcSVj7mAHn6B7Qbw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@jimp/tiff/-/tiff-0.22.4.tgz}
+    id: registry.npmjs.org/@jimp/tiff/0.22.4
     name: '@jimp/tiff'
-    version: 0.16.2
+    version: 0.22.4
     peerDependencies:
       '@jimp/custom': '>=0.3.5'
     dependencies:
-      '@babel/runtime': registry.npmjs.org/@babel/runtime/7.18.3
-      '@jimp/custom': registry.npmjs.org/@jimp/custom/0.16.2
-      utif: registry.npmjs.org/utif/2.0.1
+      '@jimp/custom': registry.npmjs.org/@jimp/custom/0.22.4
+      utif2: registry.npmjs.org/utif2/4.0.1
     dev: false
 
   registry.npmjs.org/@jimp/tiff/0.9.8_@jimp+custom@0.9.8:
@@ -7558,21 +7532,20 @@ packages:
       utif: registry.npmjs.org/utif/2.0.1
     dev: false
 
-  registry.npmjs.org/@jimp/types/0.16.2_@jimp+custom@0.16.2:
-    resolution: {integrity: sha512-0Ue5Sq0XnDF6TirisWv5E+8uOnRcd8vRLuwocJOhF76NIlcQrz+5r2k2XWKcr3d+11n28dHLXW5TKSqrUopxhA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@jimp/types/-/types-0.16.2.tgz}
-    id: registry.npmjs.org/@jimp/types/0.16.2
+  registry.npmjs.org/@jimp/types/0.22.4_@jimp+custom@0.22.4:
+    resolution: {integrity: sha512-v3hm8LGc3we6P6ML0ticiLX7wtdvywrKthYxqVrJVIu3vRL0Z4q3ngFjwzqDmaIF8wC0neq98s/t7ODWfeIiRQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@jimp/types/-/types-0.22.4.tgz}
+    id: registry.npmjs.org/@jimp/types/0.22.4
     name: '@jimp/types'
-    version: 0.16.2
+    version: 0.22.4
     peerDependencies:
       '@jimp/custom': '>=0.3.5'
     dependencies:
-      '@babel/runtime': registry.npmjs.org/@babel/runtime/7.18.3
-      '@jimp/bmp': registry.npmjs.org/@jimp/bmp/0.16.2_@jimp+custom@0.16.2
-      '@jimp/custom': registry.npmjs.org/@jimp/custom/0.16.2
-      '@jimp/gif': registry.npmjs.org/@jimp/gif/0.16.2_@jimp+custom@0.16.2
-      '@jimp/jpeg': registry.npmjs.org/@jimp/jpeg/0.16.2_@jimp+custom@0.16.2
-      '@jimp/png': registry.npmjs.org/@jimp/png/0.16.2_@jimp+custom@0.16.2
-      '@jimp/tiff': registry.npmjs.org/@jimp/tiff/0.16.2_@jimp+custom@0.16.2
+      '@jimp/bmp': registry.npmjs.org/@jimp/bmp/0.22.4_@jimp+custom@0.22.4
+      '@jimp/custom': registry.npmjs.org/@jimp/custom/0.22.4
+      '@jimp/gif': registry.npmjs.org/@jimp/gif/0.22.4_@jimp+custom@0.22.4
+      '@jimp/jpeg': registry.npmjs.org/@jimp/jpeg/0.22.4_@jimp+custom@0.22.4
+      '@jimp/png': registry.npmjs.org/@jimp/png/0.22.4_@jimp+custom@0.22.4
+      '@jimp/tiff': registry.npmjs.org/@jimp/tiff/0.22.4_@jimp+custom@0.22.4
       timm: registry.npmjs.org/timm/1.7.1
     dev: false
 
@@ -7595,12 +7568,11 @@ packages:
       timm: registry.npmjs.org/timm/1.7.1
     dev: false
 
-  registry.npmjs.org/@jimp/utils/0.16.2:
-    resolution: {integrity: sha512-XENrPvmigiXZQ8E2nxJqO6UVvWBLzbNwyYi3Y8Q1IECoYhYI3kgOQ0fmy4G269Vz1V0omh1bNmC42r4OfXg1Jg==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@jimp/utils/-/utils-0.16.2.tgz}
+  registry.npmjs.org/@jimp/utils/0.22.4:
+    resolution: {integrity: sha512-EPaBMNg4NvVXnMpSFJEsdCQqdSVU2ACreAL+Ipkq19C/FkDEj9Q10t6Mjx8zOe/AAjBQj1vTALS/DykcHOn4bQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@jimp/utils/-/utils-0.22.4.tgz}
     name: '@jimp/utils'
-    version: 0.16.2
+    version: 0.22.4
     dependencies:
-      '@babel/runtime': registry.npmjs.org/@babel/runtime/7.18.3
       regenerator-runtime: registry.npmjs.org/regenerator-runtime/0.13.9
     dev: false
 
@@ -9182,6 +9154,12 @@ packages:
       react-native: registry.npmjs.org/react-native/0.70.6_j7e373p77i2v54hdygqxp3cfya
       react-test-renderer: registry.npmjs.org/react-test-renderer/18.1.0_react@18.1.0
     dev: true
+
+  registry.npmjs.org/@tokenizer/token/0.3.0:
+    resolution: {integrity: sha512-OvjF+z51L3ov0OyAU0duzsYuvO01PH7x4t6DJx+guahgTnBHkhJdG7soQeTSFLWN3efnHyibZ4Z8l2EuWwJN3A==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@tokenizer/token/-/token-0.3.0.tgz}
+    name: '@tokenizer/token'
+    version: 0.3.0
+    dev: false
 
   registry.npmjs.org/@tootallnate/once/1.1.2:
     resolution: {integrity: sha512-RbzJvlNzmRq5c3O09UipeuXno4tA1FE6ikOjxZK0tuxVv3412l64l5t1W5pj4+rJq9vpkm/kwiR07aZXnsKPxw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@tootallnate/once/-/once-1.1.2.tgz}
@@ -19291,6 +19269,17 @@ packages:
       webpack: registry.npmjs.org/webpack/4.46.0
     dev: false
 
+  registry.npmjs.org/file-type/16.5.4:
+    resolution: {integrity: sha512-/yFHK0aGjFEgDJjEKP0pWCplsPFPhwyfwevf/pVxiN0tmE4L9LmwWxWukdJSHdoCli4VgQLehjJtwQBnqmsKcw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/file-type/-/file-type-16.5.4.tgz}
+    name: file-type
+    version: 16.5.4
+    engines: {node: '>=10'}
+    dependencies:
+      readable-web-to-node-stream: registry.npmjs.org/readable-web-to-node-stream/3.0.2
+      strtok3: registry.npmjs.org/strtok3/6.3.0
+      token-types: registry.npmjs.org/token-types/4.2.1
+    dev: false
+
   registry.npmjs.org/file-type/3.9.0:
     resolution: {integrity: sha512-RLoqTXE8/vPmMuTI88DAzhMYC99I8BWv7zYP4A1puo5HIjEJ5EX48ighy4ZyKMG9EDXxBgW6e++cn7d1xuFghA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/file-type/-/file-type-3.9.0.tgz}
     name: file-type
@@ -22331,6 +22320,17 @@ packages:
     version: 3.0.1
     engines: {node: '>=0.10.0'}
 
+  registry.npmjs.org/isomorphic-fetch/3.0.0:
+    resolution: {integrity: sha512-qvUtwJ3j6qwsF3jLxkZ72qCgjMysPzDfeV240JHiGZsANBYd+EEuu35v7dfrJ9Up0Ak07D7GGSkGhCHTqg/5wA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/isomorphic-fetch/-/isomorphic-fetch-3.0.0.tgz}
+    name: isomorphic-fetch
+    version: 3.0.0
+    dependencies:
+      node-fetch: registry.npmjs.org/node-fetch/2.6.7
+      whatwg-fetch: registry.npmjs.org/whatwg-fetch/3.6.2
+    transitivePeerDependencies:
+      - encoding
+    dev: false
+
   registry.npmjs.org/isstream/0.1.2:
     resolution: {integrity: sha512-Yljz7ffyPbrLpLngrMtZ7NduUgVvi6wG9RJ9IUcyCd59YQ911PBJphODUcbOVbqYfxe1wuYf/LJ8PauMRwsM/g==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/isstream/-/isstream-0.1.2.tgz}
     name: isstream
@@ -23629,16 +23629,17 @@ packages:
     name: jimp-compact
     version: 0.16.1
 
-  registry.npmjs.org/jimp/0.16.2:
-    resolution: {integrity: sha512-UpItBk81a92f8oEyoGYbO3YK4QcM0hoIyuGHmShoF9Ov63P5Qo7Q/X2xsAgnODmSuDJFOtrPtJd5GSWW4LKdOQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/jimp/-/jimp-0.16.2.tgz}
+  registry.npmjs.org/jimp/0.22.4:
+    resolution: {integrity: sha512-reGESbcYp38VlGtdAe8qrmbjLLEYXMrQWc2XXb7+czulKfCCidUHEpNfrS3hx5XXMWrAmoYKkxPTqCvll6Q6ug==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/jimp/-/jimp-0.22.4.tgz}
     name: jimp
-    version: 0.16.2
+    version: 0.22.4
     dependencies:
-      '@babel/runtime': registry.npmjs.org/@babel/runtime/7.18.3
-      '@jimp/custom': registry.npmjs.org/@jimp/custom/0.16.2
-      '@jimp/plugins': registry.npmjs.org/@jimp/plugins/0.16.2_@jimp+custom@0.16.2
-      '@jimp/types': registry.npmjs.org/@jimp/types/0.16.2_@jimp+custom@0.16.2
+      '@jimp/custom': registry.npmjs.org/@jimp/custom/0.22.4
+      '@jimp/plugins': registry.npmjs.org/@jimp/plugins/0.22.4_@jimp+custom@0.22.4
+      '@jimp/types': registry.npmjs.org/@jimp/types/0.22.4_@jimp+custom@0.22.4
       regenerator-runtime: registry.npmjs.org/regenerator-runtime/0.13.9
+    transitivePeerDependencies:
+      - encoding
     dev: false
 
   registry.npmjs.org/jimp/0.9.8:
@@ -24018,6 +24019,12 @@ packages:
       extsprintf: registry.npmjs.org/extsprintf/1.3.0
       json-schema: registry.npmjs.org/json-schema/0.4.0
       verror: registry.npmjs.org/verror/1.10.0
+
+  registry.npmjs.org/jsqr/1.4.0:
+    resolution: {integrity: sha512-dxLob7q65Xg2DvstYkRpkYtmKm2sPJ9oFhrhmudT1dZvNFFTlroai3AWSpLey/w5vMcLBXRgOJsbXpdN9HzU/A==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/jsqr/-/jsqr-1.4.0.tgz}
+    name: jsqr
+    version: 1.4.0
+    dev: false
 
   registry.npmjs.org/jsx-ast-utils/2.4.1:
     resolution: {integrity: sha512-z1xSldJ6imESSzOjd3NNkieVJKRlKYSOtMG8SFyCj2FIrvSaSuli/WjpBkEzCBoR9bYYYFgqJw61Xhu7Lcgk+w==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/jsx-ast-utils/-/jsx-ast-utils-2.4.1.tgz}
@@ -24706,6 +24713,7 @@ packages:
     name: make-dir
     version: 2.1.0
     engines: {node: '>=6'}
+    requiresBuild: true
     dependencies:
       pify: registry.npmjs.org/pify/4.0.1
       semver: registry.npmjs.org/semver/5.7.1
@@ -25813,6 +25821,14 @@ packages:
     version: 1.0.4
     engines: {node: '>=10'}
     hasBin: true
+
+  registry.npmjs.org/mkdirp/2.1.3:
+    resolution: {integrity: sha512-sjAkg21peAG9HS+Dkx7hlG9Ztx7HLeKnvB3NQRcu/mltCVmvkF0pisbiTSfDVYTT86XEfZrTUosLdZLStquZUw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/mkdirp/-/mkdirp-2.1.3.tgz}
+    name: mkdirp
+    version: 2.1.3
+    engines: {node: '>=10'}
+    hasBin: true
+    dev: false
 
   registry.npmjs.org/mobile-detect/1.4.5:
     resolution: {integrity: sha512-yc0LhH6tItlvfLBugVUEtgawwFU2sIe+cSdmRJJCTMZ5GEJyLxNyC/NIOAOGk67Fa8GNpOttO3Xz/1bHpXFD/g==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/mobile-detect/-/mobile-detect-1.4.5.tgz}
@@ -27396,6 +27412,13 @@ packages:
       safe-buffer: registry.npmjs.org/safe-buffer/5.2.1
       sha.js: registry.npmjs.org/sha.js/2.4.11
 
+  registry.npmjs.org/peek-readable/4.1.0:
+    resolution: {integrity: sha512-ZI3LnwUv5nOGbQzD9c2iDG6toheuXSZP5esSHBjopsXH4dg19soufvpUGA3uohi5anFtGb2lhAVdHzH6R/Evvg==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/peek-readable/-/peek-readable-4.1.0.tgz}
+    name: peek-readable
+    version: 4.1.0
+    engines: {node: '>=8'}
+    dev: false
+
   registry.npmjs.org/pend/1.2.0:
     resolution: {integrity: sha512-F3asv42UuXchdzt+xXqfW1OGlVBe+mxa2mqI0pg5yAHZPvFmY3Y6drSf/GQ1A86WgWEN9Kzh/WrgKa6iGcHXLg==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/pend/-/pend-1.2.0.tgz}
     name: pend
@@ -27574,6 +27597,13 @@ packages:
     name: pngjs
     version: 5.0.0
     engines: {node: '>=10.13.0'}
+    dev: false
+
+  registry.npmjs.org/pngjs/6.0.0:
+    resolution: {integrity: sha512-TRzzuFRRmEoSW/p1KVAmiOgPco2Irlah+bGFCeNfJXxxYGwSw7YwAOAcd7X28K/m5bjBWKsC29KyoMfHbypayg==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/pngjs/-/pngjs-6.0.0.tgz}
+    name: pngjs
+    version: 6.0.0
+    engines: {node: '>=12.13.0'}
     dev: false
 
   registry.npmjs.org/portfinder/1.0.28:
@@ -29954,6 +29984,15 @@ packages:
       inherits: registry.npmjs.org/inherits/2.0.4
       string_decoder: registry.npmjs.org/string_decoder/1.3.0
       util-deprecate: registry.npmjs.org/util-deprecate/1.0.2
+
+  registry.npmjs.org/readable-web-to-node-stream/3.0.2:
+    resolution: {integrity: sha512-ePeK6cc1EcKLEhJFt/AebMCLL+GgSKhuygrZ/GLaKZYEecIgIECf4UaUuaByiGtzckwR4ain9VzUh95T1exYGw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/readable-web-to-node-stream/-/readable-web-to-node-stream-3.0.2.tgz}
+    name: readable-web-to-node-stream
+    version: 3.0.2
+    engines: {node: '>=8'}
+    dependencies:
+      readable-stream: registry.npmjs.org/readable-stream/3.6.0
+    dev: false
 
   registry.npmjs.org/readdir-scoped-modules/1.1.0:
     resolution: {integrity: sha512-asaikDeqAQg7JifRsZn1NJZXo9E+VwlyCfbkZhwyISinqk5zNS6266HS5kah6P0SaQKGF6SkNnZVHUzHFYxYDw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/readdir-scoped-modules/-/readdir-scoped-modules-1.1.0.tgz}
@@ -32680,6 +32719,16 @@ packages:
       escape-string-regexp: registry.npmjs.org/escape-string-regexp/1.0.5
     dev: false
 
+  registry.npmjs.org/strtok3/6.3.0:
+    resolution: {integrity: sha512-fZtbhtvI9I48xDSywd/somNqgUHl2L2cstmXCCif0itOf96jeW18MBSyrLuNicYQVkvpOxkZtkzujiTJ9LW5Jw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/strtok3/-/strtok3-6.3.0.tgz}
+    name: strtok3
+    version: 6.3.0
+    engines: {node: '>=10'}
+    dependencies:
+      '@tokenizer/token': registry.npmjs.org/@tokenizer/token/0.3.0
+      peek-readable: registry.npmjs.org/peek-readable/4.1.0
+    dev: false
+
   registry.npmjs.org/structured-headers/0.4.1:
     resolution: {integrity: sha512-0MP/Cxx5SzeeZ10p/bZI0S6MpgD+yxAhi1BOQ34jgnMXsCq3j1t6tQnZu+KdlL7dvJTLT3g9xN8tl10TqgFMcg==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/structured-headers/-/structured-headers-0.4.1.tgz}
     name: structured-headers
@@ -33341,7 +33390,6 @@ packages:
       serialize-javascript: registry.npmjs.org/serialize-javascript/6.0.0
       terser: registry.npmjs.org/terser/5.14.1
       webpack: registry.npmjs.org/webpack/5.69.0_k3zzwfl4stqj3whko6kmspvmxm
-    dev: true
 
   registry.npmjs.org/terser-webpack-plugin/5.3.3_v3nag7joep3fhay4q6lv7p6we4:
     resolution: {integrity: sha512-Fx60G5HNYknNTNQnzQ1VePRuu89ZVYWfjRAeT5rITuCY/1b08s49e5kSQwHDirKZWuoKOBRFS98EUUoZ9kLEwQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/terser-webpack-plugin/-/terser-webpack-plugin-5.3.3.tgz}
@@ -33551,6 +33599,12 @@ packages:
     version: 1.4.2
     dev: false
 
+  registry.npmjs.org/tinycolor2/1.6.0:
+    resolution: {integrity: sha512-XPaBkWQJdsf3pLKJV9p4qN/S+fm2Oj8AIPo1BTUhg5oxkvm9+SVEGFdhyOz7tTdUTfvxMiAs4sp6/eZO2Ew+pw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/tinycolor2/-/tinycolor2-1.6.0.tgz}
+    name: tinycolor2
+    version: 1.6.0
+    dev: false
+
   registry.npmjs.org/tmp/0.0.33:
     resolution: {integrity: sha512-jRCJlojKnZ3addtTOjdIqoRuPEKBvNXcGYqzO6zWZX8KfKEpnGY5jfggJQ3EjKuu8D4bJRr0y+cYJFmYbImXGw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/tmp/-/tmp-0.0.33.tgz}
     name: tmp
@@ -33642,6 +33696,16 @@ packages:
     name: toidentifier
     version: 1.0.1
     engines: {node: '>=0.6'}
+
+  registry.npmjs.org/token-types/4.2.1:
+    resolution: {integrity: sha512-6udB24Q737UD/SDsKAHI9FCRP7Bqc9D/MQUV02ORQg5iskjtLJlZJNdN4kKtcdtwCeWIwIHDGaUsTsCCAa8sFQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/token-types/-/token-types-4.2.1.tgz}
+    name: token-types
+    version: 4.2.1
+    engines: {node: '>=10'}
+    dependencies:
+      '@tokenizer/token': registry.npmjs.org/@tokenizer/token/0.3.0
+      ieee754: registry.npmjs.org/ieee754/1.2.1
+    dev: false
 
   registry.npmjs.org/tough-cookie/2.5.0:
     resolution: {integrity: sha512-nlLsUzgm1kfLXSXfRZMc1KLAugd4hqJHDTvc2hDIwS3mZAfMEuMbc03SujMF+GEcpaX/qboeycw6iO8JwVv2+g==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/tough-cookie/-/tough-cookie-2.5.0.tgz}
@@ -34493,6 +34557,14 @@ packages:
       pako: registry.npmjs.org/pako/1.0.11
     dev: false
 
+  registry.npmjs.org/utif2/4.0.1:
+    resolution: {integrity: sha512-KMaD76dbzK1VjbwsckHJiqDjhP3pbpwyV+FdqkY6XFQenc2o/HS6pjPSYdu4+NQMHf2NLTW+nVP/eFP1CvOYQQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/utif2/-/utif2-4.0.1.tgz}
+    name: utif2
+    version: 4.0.1
+    dependencies:
+      pako: registry.npmjs.org/pako/1.0.11
+    dev: false
+
   registry.npmjs.org/util-deprecate/1.0.2:
     resolution: {integrity: sha512-EPD5q1uXyFxJpCrLnCc1nHnq3gOa6DZBocAIiI2TaSCA7VCJ1UJDMagCzIkXNsUYfD1daK//LTEQ8xiIbrHtcw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/util-deprecate/-/util-deprecate-1.0.2.tgz}
     name: util-deprecate
@@ -35008,7 +35080,7 @@ packages:
       mime-types: registry.npmjs.org/mime-types/2.1.35
       range-parser: registry.npmjs.org/range-parser/1.2.1
       schema-utils: registry.npmjs.org/schema-utils/4.0.0
-      webpack: registry.npmjs.org/webpack/5.69.0_esbuild@0.14.47
+      webpack: registry.npmjs.org/webpack/5.69.0_k3zzwfl4stqj3whko6kmspvmxm
 
   registry.npmjs.org/webpack-dev-server/3.11.3_webpack@4.46.0:
     resolution: {integrity: sha512-3x31rjbEQWKMNzacUZRE6wXvUFuGpH7vr0lIEbYpMAG9BOxi0928QU1BBswOAP3kg3H1O4hiS+sq4YyAn6ANnA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/webpack-dev-server/-/webpack-dev-server-3.11.3.tgz}
@@ -35105,7 +35177,7 @@ packages:
       sockjs: registry.npmjs.org/sockjs/0.3.24
       spdy: registry.npmjs.org/spdy/4.0.2
       strip-ansi: registry.npmjs.org/strip-ansi/7.0.1
-      webpack: registry.npmjs.org/webpack/5.69.0_esbuild@0.14.47
+      webpack: registry.npmjs.org/webpack/5.69.0_k3zzwfl4stqj3whko6kmspvmxm
       webpack-dev-middleware: registry.npmjs.org/webpack-dev-middleware/5.3.3_webpack@5.69.0
       ws: registry.npmjs.org/ws/8.8.0
     transitivePeerDependencies:
@@ -35336,7 +35408,6 @@ packages:
       - '@swc/core'
       - esbuild
       - uglify-js
-    dev: true
 
   registry.npmjs.org/webpackbar/5.0.2_webpack@5.69.0:
     resolution: {integrity: sha512-BmFJo7veBDgQzfWXl/wwYXr/VFus0614qZ8i9znqcl9fnEdiVkdbi0TedLQ6xAK92HZHDJ0QmyQ0fmuZPAgCYQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/webpackbar/-/webpackbar-5.0.2.tgz}

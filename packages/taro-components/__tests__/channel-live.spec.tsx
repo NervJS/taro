@@ -1,24 +1,24 @@
 import { h } from '@stencil/core'
 import { newSpecPage, SpecPage } from '@stencil/core/testing'
 
-import { FollowSwan } from '../src/components/follow-swan/follow-swan'
+import { ChannelLive } from '../src/components/channel-live/channel-live'
 import { printUnimplementedWarning } from './utils'
 
 const logError = jest.fn()
 console.error = logError
 
-describe('FollowSwan', () => {
+describe('ChannelLive', () => {
   let page: SpecPage
 
   it('unimplemented', async () => {
     page = await newSpecPage({
-      components: [FollowSwan],
-      template: () => (<taro-follow-swan-core />),
+      components: [ChannelLive],
+      template: () => (<taro-channel-live-core />),
     })
     await page.waitForChanges()
 
     expect(page.root).toEqualHtml(`
-      <taro-follow-swan-core></taro-follow-swan-core>
+      <taro-channel-live-core></taro-channel-live-core>
     `)
     expect(logError).toHaveBeenCalledWith(printUnimplementedWarning(page.root))
   })
