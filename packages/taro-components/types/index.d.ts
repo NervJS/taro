@@ -58,6 +58,7 @@ export { LivePlayer } from './LivePlayer'
 export { LivePusher } from './LivePusher'
 export { Video } from './Video'
 export { VoipRoom } from './VoipRoom'
+export { Lottie } from './Lottie'
 
 /** 地图 */
 export { Map } from './Map'

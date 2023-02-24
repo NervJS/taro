@@ -447,6 +447,12 @@ declare namespace ButtonProps {
       /** 头像 */
       avatarUrl: string
 
+      /** 
+       * 头像
+       * @supported alipay
+       */
+      avatar: string
+
       /** 性别 */
       gender: keyof Gender
 
@@ -514,6 +520,12 @@ declare namespace ButtonProps {
      * @see https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/share.html#%E4%BD%BF%E7%94%A8%E6%8C%87%E5%BC%95
      */
     code?: string
+
+    /**
+     * 签名信息，如果在开放平台后台配置了加签方式后有此字段
+     * @supported alipay
+     */
+    sign: string
   }
   interface onOpenSettingEventDetail {
     /* 打开授权设置页的调用状态 */

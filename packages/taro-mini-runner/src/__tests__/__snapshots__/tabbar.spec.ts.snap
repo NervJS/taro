@@ -593,7 +593,9 @@ require(\\"./taro\\");
                     scope: \\"\\",
                     \\"public-id\\": \\"\\",
                     bindGetAuthorize: \\"\\",
-                    bindError: \\"\\"
+                    bindError: \\"\\",
+                    bindGetUserInfo: \\"\\",
+                    bindGetPhoneNumber: \\"\\"
                 },
                 Checkbox: {
                     bindChange: \\"\\"
