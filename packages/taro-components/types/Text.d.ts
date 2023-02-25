@@ -6,24 +6,20 @@ interface TextProps extends StandardProps {
    * @supported weapp, alipay, swan, tt, qq, jd, h5, rn
    */
   selectable?: boolean
-
   /** 文本是否可选，该属性会使文本节点显示为 inline-block
    * @default false
    * @supported weapp
    */
   userSelect?: boolean
-
   /** 显示连续空格
    * @supported weapp, alipay, swan, tt, qq, jd
    */
   space?: keyof TextProps.TSpace
-
   /** 是否解码
    * @default false
    * @supported weapp, alipay, tt, qq, jd
    */
   decode?: boolean
-
   /** 多行省略，值须大于等于 1，表现同 css 的 -webkit-line-clamp 属性一致。
    * @supported alipay
    */
@@ -34,15 +30,12 @@ declare namespace TextProps {
   interface TSpace {
     /** 中文字符空格一半大小 */
     ensp
-
     /** 中文字符空格大小 */
     emsp
-
     /** 根据字体设置的空格大小 */
     nbsp
   }
 }
-
 /** 文本
  * @classification base
  * @supported weapp, alipay, swan, tt, qq, jd, h5, rn

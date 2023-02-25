@@ -5,37 +5,31 @@ interface AnimationViewProps extends StandardProps {
    * @supported swan
    */
   path?: string
-
   /** 动画是否循环播放
    * @supported swan
    * @default false
    */
   loop?: boolean
-
   /** 动画是否自动播放
    * @supported swan
    * @default true
    */
   autoplay?: boolean
-
   /** 动画操作，可取值 play、pause、stop
    * @supported swan
    * @default "play"
    */
   action?: 'play' | 'pause' | 'stop'
-
   /** 是否隐藏动画
    * @supported swan
    * @default true
    */
   hidden?: boolean
-
   /** 当播放到末尾时触发 ended 事件（自然播放结束会触发回调，循环播放结束及手动停止动画不会触发）
    * @supported swan
    */
   onEnded?: CommonEventFunction
 }
-
 /** Lottie 动画
  * @classification media
  * @supported swan
