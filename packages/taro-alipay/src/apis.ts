@@ -305,8 +305,6 @@ const asyncResultApiDiff = {
   }
 }
 
-const nativeRequest = my.canIUse('request') ? my.request : my.httpRequest
-
 export function request (options) {
   options = options || {}
   if (typeof options === 'string') {
@@ -346,7 +344,8 @@ export function request (options) {
     options.complete = res => {
       originComplete && originComplete(res)
     }
-
+    
+    const nativeRequest = my.canIUse('request') ? my.request : my.httpRequest
     requestTask = nativeRequest(options)
   })
   p.abort = (cb) => {
