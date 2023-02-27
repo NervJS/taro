@@ -37,6 +37,7 @@ export default function (this: webpack.LoaderContext<any>) {
   const routerMode = config?.router?.mode || 'hash'
   const isMultiRouterMode = routerMode === 'multi'
   const pxTransformConfig = options.pxTransformConfig
+  const designWidth = typeof pxTransformConfig.designWidth === 'function' ? pxTransformConfig.designWidth() : pxTransformConfig.designWidth
 
   const pathDirname = dirname(this.resourcePath)
   const pageName = isMultiRouterMode ? join(pathDirname, options.filename).replace(options.sourceDir + '/', '') : ''
@@ -120,7 +121,7 @@ ${execBeforeCreateWebApp || ''}
 var inst = ${creator}(component, ${frameworkArgs})
 ${routerCreator}(inst, config, ${importFrameworkName})
 initPxTransform({
-  designWidth: ${pxTransformConfig.designWidth},
+  designWidth: ${designWidth},
   deviceRatio: ${JSON.stringify(pxTransformConfig.deviceRatio)},
   baseFontSize: ${pxTransformConfig.baseFontSize || (pxTransformConfig.minRootSize >= 1 ? pxTransformConfig.minRootSize : 20)}
 })

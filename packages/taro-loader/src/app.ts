@@ -13,6 +13,7 @@ export default function (this: webpack.LoaderContext<any>) {
   const config = JSON.stringify(options.config)
   const blended = options.blended
   const pxTransformConfig = options.pxTransformConfig
+  const designWidth = typeof pxTransformConfig.designWidth === 'function' ? pxTransformConfig.designWidth() : pxTransformConfig.designWidth
   const loaders = this.loaders
   const thisLoaderIndex = loaders.findIndex(item => normalizePath(item.path).indexOf('@tarojs/taro-loader') >= 0)
   const { globalObject } = this._compilation?.outputOptions || { globalObject: 'wx' }
@@ -59,7 +60,7 @@ window.__taroAppConfig = config
 ${instantiateApp}
 ${options.prerender ? prerender : ''}
 initPxTransform({
-  designWidth: ${pxTransformConfig.designWidth},
+  designWidth: ${designWidth},
   deviceRatio: ${JSON.stringify(pxTransformConfig.deviceRatio)}
 })
 `
