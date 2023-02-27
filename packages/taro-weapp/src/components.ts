@@ -98,6 +98,8 @@ export const components = {
     bindKeyboardHeightChange: _empty
   },
   ScrollView: {
+    'type': "'list'",
+    'event-passive': _false,
     'enable-flex': _false,
     'scroll-anchoring': _false,
     'refresher-enabled': _false,
@@ -110,13 +112,20 @@ export const components = {
     'show-scrollbar': _true,
     'paging-enabled': _false,
     'fast-deceleration': _false,
+    reverse: _false,
+    'cache-extent': _zero,
+    'scroll-into-view-within-extent': _false,
+    'scroll-into-view-alignment': "'start'",
     bindDragStart: _empty,
     bindDragging: _empty,
     bindDragEnd: _empty,
     bindRefresherPulling: _empty,
     bindRefresherRefresh: _empty,
     bindRefresherRestore: _empty,
-    bindRefresherAbort: _empty
+    bindRefresherAbort: _empty,
+    bindScrollStart: _empty,
+    bindScrollEnd: _empty,
+    bindRefresherWillRefresh: _empty,
   },
   Swiper: {
     'snap-to-edge': _false,
