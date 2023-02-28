@@ -32,7 +32,7 @@ import {
 import styles from './styles'
 import { ProgressProps, ProgressState } from './PropsType'
 
-class _Progress extends React.Component<ProgressProps, ProgressState> {
+export default class _Progress extends React.Component<ProgressProps, ProgressState> {
   static defaultProps = {
     percent: 0,
     strokeWidth: 6,
@@ -42,8 +42,7 @@ class _Progress extends React.Component<ProgressProps, ProgressState> {
     borderRadius: 0,
   }
 
-  static getDerivedStateFromProps (props: ProgressProps, state: ProgressState): ProgressState| null {
-    // eslint-disable-next-line multiline-ternary
+  static getDerivedStateFromProps(props: ProgressProps, state: ProgressState): ProgressState | null {
     return props.percent !== state.percent ? {
       percent: props.percent,
       prevPercent: state.percent,
@@ -91,21 +90,21 @@ class _Progress extends React.Component<ProgressProps, ProgressState> {
     Animated.sequence(sequence).start()
   }
 
-  componentDidMount (): void {
+  componentDidMount(): void {
     this.animate()
   }
 
-  getSnapshotBeforeUpdate (prevProps: ProgressProps, prevState: ProgressState): boolean {
+  getSnapshotBeforeUpdate(_prevProps: ProgressProps, prevState: ProgressState): boolean {
     return prevState.percent !== this.state.percent
   }
 
-  componentDidUpdate (prevProps: ProgressProps, prevState: ProgressState, snapshot: boolean): void {
+  componentDidUpdate(_prevProps: ProgressProps, _prevState: ProgressState, snapshot: boolean): void {
     if (snapshot) {
       this.animate()
     }
   }
 
-  render (): JSX.Element {
+  render(): JSX.Element {
     const {
       style,
       percent,
@@ -146,5 +145,3 @@ class _Progress extends React.Component<ProgressProps, ProgressState> {
     )
   }
 }
-
-export default _Progress

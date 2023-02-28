@@ -1,26 +1,27 @@
-import copy from 'rollup-plugin-copy'
-import typescript from 'rollup-plugin-typescript2'
 import { join } from 'path'
+import copy from 'rollup-plugin-copy'
+import { externals } from 'rollup-plugin-node-externals'
+import ts from 'rollup-plugin-ts'
 
 const cwd = __dirname
 
 const base = {
+  external: ['vue'],
   plugins: [
+    externals({
+      devDeps: false
+    }),
     copy({
       targets: [
         { src: 'src/backend', dest: 'dist' }
       ]
     }),
-    typescript({
-      // fix https://github.com/vladshcherbin/rollup-plugin-copy/issues/16
-      typescript: require('typescript'),
-      objectHashIgnoreUnknownHack: true
-    })
+    ts()
   ]
 }
 
 // 供 CLI 编译时使用的 Taro 插件入口
-const comileConfig = {
+const compileConfig = {
   input: join(cwd, 'src/index.ts'),
   output: {
     file: join(cwd, 'dist/index.js'),
@@ -42,4 +43,4 @@ const runtimeConfig = {
   ...base
 }
 
-module.exports = [comileConfig, runtimeConfig]
+module.exports = [compileConfig, runtimeConfig]

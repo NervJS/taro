@@ -1,11 +1,11 @@
 {
   "name": "@tarojs/rn-style-transformer",
-  "version": "3.3.7",
+  "version": "3.6.2",
   "description": "提供Taro RN 统一处理样式文件能力",
   "main": "dist/index.js",
   "scripts": {
     "test": "jest",
-    "test:ci": "jest --silent --coverage false",
+    "test:ci": "jest --ci --silent --coverage false",
     "build": "tsc",
     "dev": "tsc -w",
     "lint": "eslint ."
@@ -23,23 +23,27 @@
     "npm": ">=6.0.0"
   },
   "dependencies": {
-    "@tarojs/helper": "3.3.7",
+    "@babel/core": "^7.14.5",
+    "@tarojs/helper": "workspace:*",
     "fbjs": "^2.0.0",
     "less": "^3.12.2",
-    "postcss": "^7.0.35",
-    "postcss-import": "^12.0.1",
-    "postcss-pxtransform": "3.3.7",
-    "postcss-reporter": "^6.0.1",
+    "metro-react-native-babel-transformer": "^0.72.1",
+    "postcss-import": "^14.0.0",
+    "postcss-pxtransform": "workspace:*",
+    "postcss-reporter": "^7.0.5",
     "prop-types": "^15.7.2",
-    "sass": "^1.34.1",
-    "stylelint": "^13.8.0",
-    "stylelint-config-taro-rn": "3.3.7",
-    "stylelint-taro-rn": "3.3.7",
-    "stylus": "^0.54.8",
-    "taro-css-to-react-native": "3.3.7"
+    "resolve": "^1.22.0",
+    "sass": "1.37.5",
+    "stylelint": "^14.9.1",
+    "stylelint-config-taro-rn": "workspace:*",
+    "stylelint-taro-rn": "workspace:*",
+    "stylus": "^0.55.0",
+    "taro-css-to-react-native": "workspace:*"
   },
   "devDependencies": {
-    "@types/less": "^3.0.2",
-    "@types/postcss-import": "^12.0.0"
+    "postcss": "^8.4.18"
+  },
+  "peerDependencies": {
+    "postcss": "^8.4.18"
   }
 }

@@ -18,21 +18,36 @@ import * as React from 'react'
 import { Image, StyleSheet, ImageSourcePropType, LayoutChangeEvent, ImageResolvedAssetSource } from 'react-native'
 import { noop, omit } from '../../utils'
 import ClickableSimplified from '../ClickableSimplified'
-import { ImageProps, ImageState, Mode, ResizeModeMap, ResizeMode } from './PropsType'
+import { ImageProps, ImageState, ResizeModeMap, ResizeMode } from './PropsType'
+
+// fix: https://github.com/facebook/metro/issues/836
+// 保证 react-native-svg 是最后一个依赖
+const omitProp = (props) => {
+  return omit(props, ['source', 'src', 'resizeMode', 'onLoad', 'onError', 'onLayout', 'style'])
+}
 
 const resizeModeMap: ResizeModeMap = {
   scaleToFill: 'stretch',
   aspectFit: 'contain',
   aspectFill: 'cover',
-  center: 'center'
+  center: 'center',
   // And widthFix
   // Not supported value...
 }
 
+let SvgCssUri, WithLocalSvg
+// react-native-svg is optional
+try {
+  // eslint-disable-next-line @typescript-eslint/no-var-requires
+  const svg = require('react-native-svg')
+  SvgCssUri = svg.SvgCssUri
+  WithLocalSvg = svg.WithLocalSvg
+} catch (e) {}
+
 export class _Image extends React.Component<ImageProps, ImageState> {
-  static defaultProps = {
+  static defaultProps: ImageProps = {
     src: '',
-    mode: Mode.ScaleToFill
+    mode: 'scaleToFill'
   }
 
   hasLayout = false
@@ -131,16 +146,41 @@ export class _Image extends React.Component<ImageProps, ImageState> {
   }
 
   render(): JSX.Element {
-    const { style, src, mode } = this.props
+    const { style, src, mode = 'scaleToFill', svg = false } = this.props
 
     const flattenStyle = StyleSheet.flatten(style) || {}
+
+    const defaultWidth = flattenStyle.width || 300
+    const defaultHeight = flattenStyle.height || 225
+
+    // remote svg image support, svg 图片暂不支持 mode
+    const remoteSvgReg = /(https?:\/\/.*\.(?:svg|svgx))/i
+    if (SvgCssUri && typeof src === 'string' && remoteSvgReg.test(src)) {
+      return (
+        <SvgCssUri
+          uri={src}
+          width={defaultWidth}
+          height={defaultHeight}
+        />
+      )
+    }
 
     // The parameter passed to require mpxTransformust be a string literal
     const source: ImageSourcePropType = typeof src === 'string' ? { uri: src } : src
 
+    // local svg image support, svg 图片暂不支持 mode
+    if (WithLocalSvg && svg) {
+      return (
+        <WithLocalSvg
+          asset={source}
+          width={defaultWidth}
+          height={defaultHeight}
+        />
+      )
+    }
+
     const isWidthFix = mode === 'widthFix'
-    // @ts-ignore
-    const rMode: ResizeMode = (resizeModeMap[mode] || (isWidthFix ? undefined : 'stretch')) as ResizeMode
+    const rMode: ResizeMode = (resizeModeMap[mode] || (isWidthFix ? undefined : 'stretch'))
 
     const imageHeight = (() => {
       if (isWidthFix) {
@@ -152,13 +192,14 @@ export class _Image extends React.Component<ImageProps, ImageState> {
           return 300 * this.state.ratio
         }
       } else {
-        return flattenStyle.height || 225
+        return defaultHeight
       }
     })()
-    const restImageProps = omit(this.props, ['source', 'src', 'resizeMode', 'onLoad', 'onError', 'onLayout', 'style'])
+    const restImageProps = omitProp(this.props)
 
     return (
       <Image
+        testID='image'
         source={source}
         resizeMode={rMode}
         onError={this.onError}

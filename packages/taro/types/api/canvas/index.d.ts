@@ -1,71 +1,26 @@
-declare namespace Taro {
-  /** 创建离屏 canvas 实例
-   * @supported weapp
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/canvas/wx.createOffscreenCanvas.html
-   */
-  function createOffscreenCanvas(): OffscreenCanvas
+import Taro from '../../index'
 
-  /** 创建 canvas 的绘图上下文 [CanvasContext](https://developers.weixin.qq.com/miniprogram/dev/api/canvas/CanvasContext.html) 对象
-   *
-   * **Tip**: 需要指定 canvasId，该绘图上下文只作用于对应的 `<canvas/>`
-   * @supported weapp, h5
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/canvas/wx.createCanvasContext.html
-   */
-  function createCanvasContext(
-    /** 要获取上下文的 [canvas](https://developers.weixin.qq.com/miniprogram/dev/component/canvas.html) 组件 canvas-id 属性 */
-    canvasId: string,
-    /** 在自定义组件下，当前组件实例的this，表示在这个自定义组件下查找拥有 canvas-id 的 [canvas](https://developers.weixin.qq.com/miniprogram/dev/component/canvas.html) ，如果省略则不在任何自定义组件内查找 */
-    component?: General.IAnyObject,
-  ): CanvasContext
-
-  /** 把当前画布指定区域的内容导出生成指定大小的图片。在 `draw()` 回调里调用该方法才能保证图片导出成功。
-   *
-   * **Bug & Tip：**
-   *
-   * 1.  `tip`: 在 `draw` 回调里调用该方法才能保证图片导出成功。
-   * @example
-   * ```tsx
-   * Taro.canvasToTempFilePath({
-   *   x: 100,
-   *   y: 200,
-   *   width: 50,
-   *   height: 50,
-   *   destWidth: 100,
-   *   destHeight: 100,
-   *   canvasId: 'myCanvas',
-   *   success: function (res) {
-   *     console.log(res.tempFilePath)
-   *   }
-   * })
-   * ```
-   * @supported weapp, h5
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/canvas/wx.canvasToTempFilePath.html
-   */
-  function canvasToTempFilePath(
-    option: canvasToTempFilePath.Option,
-    /** 在自定义组件下，当前组件实例的this，以操作组件内 [canvas](https://developers.weixin.qq.com/miniprogram/dev/component/canvas.html) 组件 */
-    component?: General.IAnyObject,
-  ): Promise<canvasToTempFilePath.SuccessCallbackResult>
+declare module '../../index' {
   namespace canvasToTempFilePath {
     interface Option {
-      /** 画布标识，传入 [canvas](https://developers.weixin.qq.com/miniprogram/dev/component/canvas.html) 组件实例 （canvas type="2d" 时使用该属性）。 */
-      canvas?: CanvasProps
-      /** 画布标识，传入 [canvas](https://developers.weixin.qq.com/miniprogram/dev/component/canvas.html) 组件的 canvas-id */
+      /** 画布标识，传入 [canvas](/docs/components/canvas) 组件实例 （canvas type="2d" 时使用该属性）。 */
+      canvas?: Canvas
+      /** 画布标识，传入 [canvas](/docs/components/canvas) 组件的 canvas-id */
       canvasId?: string
       /** 图片的质量，目前仅对 jpg 有效。取值范围为 (0, 1]，不在范围内时当作 1.0 处理。 */
       quality?: number
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
-      complete?: (res: General.CallbackResult) => void
+      complete?: (res: TaroGeneral.CallbackResult) => void
       /** 输出的图片的高度 */
       destHeight?: number
       /** 输出的图片的宽度 */
       destWidth?: number
       /** 接口调用失败的回调函数 */
-      fail?: (res: General.CallbackResult) => void
+      fail?: (res: TaroGeneral.CallbackResult) => void
       /** 目标文件的类型
        * @default "png"
        */
-      fileType?: keyof fileType
+      fileType?: keyof FileType
       /** 指定的画布区域的高度 */
       height?: number
       /** 接口调用成功的回调函数 */
@@ -77,13 +32,13 @@ declare namespace Taro {
       /** 指定的画布区域的左上角纵坐标 */
       y?: number
     }
-    interface SuccessCallbackResult extends General.CallbackResult {
+    interface SuccessCallbackResult extends TaroGeneral.CallbackResult {
       /** 生成文件的临时路径 */
       tempFilePath: string
       /** 调用结果 */
       errMsg: string
     }
-    interface fileType {
+    interface FileType {
       /** jpg 图片 */
       jpg
       /** png 图片 */
@@ -99,17 +54,17 @@ declare namespace Taro {
        */
       disableScroll?: boolean
       /** 手指触摸动作开始 */
-      onTouchStart?: General.CommonEventFunction
+      onTouchStart?: TaroGeneral.CommonEventFunction
       /** 手指触摸后移动 */
-      onTouchMove?: General.CommonEventFunction
+      onTouchMove?: TaroGeneral.CommonEventFunction
       /** 手指触摸动作结束 */
-      onTouchEnd?: General.CommonEventFunction
+      onTouchEnd?: TaroGeneral.CommonEventFunction
       /** 手指触摸动作被打断，如来电提醒，弹窗 */
-      onTouchCancel?: General.CommonEventFunction
+      onTouchCancel?: TaroGeneral.CommonEventFunction
       /** 手指长按 500ms 之后触发，触发了长按事件后进行移动不会触发屏幕的滚动 */
-      onLongTap?: General.CommonEventFunction
+      onLongTap?: TaroGeneral.CommonEventFunction
       /** 当发生错误时触发 error 事件，detail = {errMsg: 'something wrong'} */
-      onError?: General.CommonEventFunction<CanvasProps.onErrorEventDetail>
+      onError?: TaroGeneral.CommonEventFunction<CanvasProps.onErrorEventDetail>
     }
 
     namespace CanvasProps {
@@ -118,31 +73,9 @@ declare namespace Taro {
       }
     }
   }
-
-  /** 将像素数据绘制到画布。在自定义组件下，第二个参数传入自定义组件实例 this，以操作组件内 <canvas> 组件
-   * @supported weapp, h5
-   * @example
-   * ```tsx
-   * const data = new Uint8ClampedArray([255, 0, 0, 1])
-   * Taro.canvasPutImageData({
-   *   canvasId: 'myCanvas',
-   *   x: 0,
-   *   y: 0,
-   *   width: 1,
-   *   data: data,
-   *   success: function (res) {}
-   * })
-   * ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/canvas/wx.canvasPutImageData.html
-   */
-  function canvasPutImageData(
-    option: canvasPutImageData.Option,
-    /** 在自定义组件下，当前组件实例的this，以操作组件内 [canvas](https://developers.weixin.qq.com/miniprogram/dev/component/canvas.html) 组件 */
-    component?: General.IAnyObject,
-  ): Promise<General.CallbackResult>
   namespace canvasPutImageData {
     interface Option {
-      /** 画布标识，传入 [canvas](https://developers.weixin.qq.com/miniprogram/dev/component/canvas.html) 组件的 canvas-id 属性。 */
+      /** 画布标识，传入 [canvas](/docs/components/canvas) 组件的 canvas-id 属性。 */
       canvasId: string
       /** 图像像素点数据，一维数组，每四项表示一个像素点的 rgba */
       data: Uint8ClampedArray
@@ -155,42 +88,16 @@ declare namespace Taro {
       /** 源图像数据在目标画布中的位置偏移量（y 轴方向的偏移量） */
       y: number
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
-      complete?: (res: General.CallbackResult) => void
+      complete?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用失败的回调函数 */
-      fail?: (res: General.CallbackResult) => void
+      fail?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用成功的回调函数 */
-      success?: (res: General.CallbackResult) => void
+      success?: (res: TaroGeneral.CallbackResult) => void
     }
   }
-
-  /** 获取 canvas 区域隐含的像素数据。
-   * @supported weapp, h5
-   * @example
-   * ```tsx
-   * Taro.canvasGetImageData({
-   *   canvasId: 'myCanvas',
-   *   x: 0,
-   *   y: 0,
-   *   width: 100,
-   *   height: 100,
-   *   success: function (res) {
-   *     console.log(res.width) // 100
-   *     console.log(res.height) // 100
-   *     console.log(res.data instanceof Uint8ClampedArray) // true
-   *     console.log(res.data.length) // 100 * 100 * 4
-   *   }
-   * })
-   * ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/canvas/wx.canvasGetImageData.html
-   */
-  function canvasGetImageData(
-    option: canvasGetImageData.Option,
-    /** 在自定义组件下，当前组件实例的this，以操作组件内 [canvas](https://developers.weixin.qq.com/miniprogram/dev/component/canvas.html) 组件 */
-    component?: General.IAnyObject,
-  ): Promise<canvasGetImageData.SuccessCallbackResult>
   namespace canvasGetImageData {
     interface Option {
-      /** 画布标识，传入 [canvas](https://developers.weixin.qq.com/miniprogram/dev/component/canvas.html) 组件的 `canvas-id` 属性。 */
+      /** 画布标识，传入 [canvas](/docs/components/canvas) 组件的 `canvas-id` 属性。 */
       canvasId: string
       /** 将要被提取的图像数据矩形区域的高度 */
       height: number
@@ -201,13 +108,13 @@ declare namespace Taro {
       /** 将要被提取的图像数据矩形区域的左上角纵坐标 */
       y: number
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
-      complete?: (res: General.CallbackResult) => void
+      complete?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用失败的回调函数 */
-      fail?: (res: General.CallbackResult) => void
+      fail?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用成功的回调函数 */
       success?: (result: SuccessCallbackResult) => void
     }
-    interface SuccessCallbackResult extends General.CallbackResult {
+    interface SuccessCallbackResult extends TaroGeneral.CallbackResult {
       /** 图像像素点数据，一维数组，每四项表示一个像素点的 rgba */
       data: Uint8ClampedArray
       /** 图像数据矩形的高度 */
@@ -219,10 +126,20 @@ declare namespace Taro {
     }
   }
 
-  /** Canvas 2D API 的接口 Path2D 用来声明路径，此路径稍后会被CanvasRenderingContext2D 对象使用。CanvasRenderingContext2D 接口的 路径方法 也存在于 Path2D 这个接口中，允许你在 canvas 中根据需要创建可以保留并重用的路径。
-   *  @supported weapp
-   */
-  interface Path2D {}
+  namespace createOffscreenCanvas {
+    interface Option {
+      /** 创建的离屏 canvas 类型
+       * @default: 'webgl'
+       */
+      type?: 'webgl' | '2d'
+      /** 画布高度 */
+      height?: number
+      /** 画布宽度 */
+      width?: number
+      /** 在自定义组件下，当前组件实例的 this，以操作组件内 [canvas](/docs/components/canvas) 组件 */
+      component?: TaroGeneral.IAnyObject,
+    }
+  }
 
   /** Canvas 实例，可通过 SelectorQuery 获取。
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/canvas/Canvas.html
@@ -283,10 +200,42 @@ declare namespace Taro {
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/canvas/CanvasContext.html
    */
   interface CanvasContext {
+    /** 填充颜色。用法同 [CanvasContext.setFillStyle()]。 */
+    fillStyle: string
+    /** 边框颜色。用法同 [CanvasContext.setFillStyle()]。 */
+    strokeStyle: string
+    /** 阴影相对于形状在水平方向的偏移 */
+    shadowOffsetX: number
+    /** 阴影相对于形状在竖直方向的偏移 */
+    shadowOffsetY: number
+    /** 阴影的模糊级别 */
+    shadowBlur: number
+    /** 阴影的颜色 */
+    shadowColor: string
+    /** 线条的宽度。用法同 [CanvasContext.setLineWidth()]。 */
+    lineWidth: number
+    /** 线条的端点样式。用法同 [CanvasContext.setLineCap()]。 */
+    lineCap: keyof CanvasContext.LineCap
+    /** 线条的交点样式。用法同 [CanvasContext.setLineJoin()]。 */
+    lineJoin: keyof CanvasContext.LineJoin
+    /** 最大斜接长度。用法同 [CanvasContext.setMiterLimit()]。 */
+    miterLimit: number
+    /** 虚线偏移量，初始值为0 */
+    lineDashOffset: number
+    /** 当前字体样式的属性。符合 [CSS font 语法](https://developer.mozilla.org/zh-CN/docs/Web/CSS/font) 的 DOMString 字符串，至少需要提供字体大小和字体族名。默认值为 10px sans-serif。 */
+    font: string
+    /** 全局画笔透明度。范围 0-1，0 表示完全透明，1 表示完全不透明。 */
+    globalAlpha: number
+    /** 在绘制新形状时应用的合成操作的类型。目前安卓版本只适用于 `fill` 填充块的合成，用于 `stroke` 线段的合成效果都是 `source-over`。
+     *
+     * 目前支持的操作有
+     * - 安卓：xor, source-over, source-atop, destination-out, lighter, overlay, darken, lighten, hard-light
+     * - iOS：xor, source-over, source-atop, destination-over, destination-out, lighter, multiply, overlay, darken, lighten, color-dodge, color-burn, hard-light, soft-light, difference, exclusion, saturation, luminosity */
+    globalCompositeOperation: string
     /** 创建一条弧线。
      *
-     *   - 创建一个圆可以指定起始弧度为 0，终止弧度为 2 * Math.PI。
-     *   - 用 `stroke` 或者 `fill` 方法来在 `canvas` 中画弧线。
+     * - 创建一个圆可以指定起始弧度为 0，终止弧度为 2 * Math.PI。
+     * - 用 `stroke` 或者 `fill` 方法来在 `canvas` 中画弧线。
      *
      * 针对 arc(100, 75, 50, 0, 1.5 * Math.PI)的三个关键坐标如下：
      *
@@ -536,6 +485,56 @@ declare namespace Taro {
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/canvas/CanvasContext.closePath.html
      */
     closePath(): void
+    /** 创建一个圆形的渐变颜色。起点在圆心，终点在圆环。返回的`CanvasGradient`对象需要使用 [CanvasGradient.addColorStop()](/docs/apis/canvas/CanvasGradient#addcolorstop) 来指定渐变点，至少要两个。
+     * @supported weapp
+     * @example
+     * ```tsx
+     * const ctx = Taro.createCanvasContext('myCanvas')
+     * // Create circular gradient
+     * const grd = ctx.createCircularGradient(75, 50, 50)
+     * grd.addColorStop(0, 'red')
+     * grd.addColorStop(1, 'white')
+     * // Fill with gradient
+     * ctx.setFillStyle(grd)
+     * ctx.fillRect(10, 10, 150, 80)
+     * ctx.draw()
+     * ```
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/canvas/CanvasContext.createCircularGradient.html
+     */
+    createCircularGradient(
+      /** 圆心的 x 坐标 */
+      x: number,
+      /** 圆心的 y 坐标 */
+      y: number,
+      /** 圆的半径 */
+      r: number,
+    ): CanvasGradient
+    /** 创建一个线性的渐变颜色。返回的`CanvasGradient`对象需要使用 [CanvasGradient.addColorStop()](/docs/apis/canvas/CanvasGradient#addcolorstop) 来指定渐变点，至少要两个。
+     * @supported weapp
+     * @example
+     * ```tsx
+     * const ctx = Taro.createCanvasContext('myCanvas')
+     * // Create linear gradient
+     * const grd = ctx.createLinearGradient(0, 0, 200, 0)
+     * grd.addColorStop(0, 'red')
+     * grd.addColorStop(1, 'white')
+     * // Fill with gradient
+     * ctx.setFillStyle(grd)
+     * ctx.fillRect(10, 10, 150, 80)
+     * ctx.draw()
+     * ```
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/canvas/CanvasContext.createLinearGradient.html
+     */
+    createLinearGradient(
+      /** 起点的 x 坐标 */
+      x0: number,
+      /** 起点的 y 坐标 */
+      y0: number,
+      /** 终点的 x 坐标 */
+      x1: number,
+      /** 终点的 y 坐标 */
+      y1: number,
+    ): CanvasGradient
     /** 对指定的图像创建模式的方法，可在指定的方向上重复元图像
      * @supported weapp
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/canvas/CanvasContext.createPattern.html
@@ -544,7 +543,7 @@ declare namespace Taro {
       /** 重复的图像源，仅支持包内路径和临时路径 */
       image: string,
       /** 如何重复图像 */
-      repetition: keyof CanvasContext.repetition,
+      repetition: keyof CanvasContext.Repetition,
     ): void
     /** 将之前在绘图上下文中的描述（路径、变形、样式）画到 canvas 中。
      * @supported weapp
@@ -715,7 +714,7 @@ declare namespace Taro {
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/canvas/CanvasContext.fill.html
      */
     fill(): void
-    /** 填充一个矩形。用 [`setFillStyle`](https://developers.weixin.qq.com/miniprogram/dev/api/canvas/CanvasContext.setFillStyle.html) 设置矩形的填充色，如果没设置默认是黑色。
+    /** 填充一个矩形。用 [`setFillStyle`](/docs/apis/canvas/CanvasContext#setfillstyle) 设置矩形的填充色，如果没设置默认是黑色。
      * @supported weapp
      * @example
      * ```tsx
@@ -777,6 +776,14 @@ declare namespace Taro {
       /** 目标位置的 y 坐标 */
       y: number,
     ): void
+    /** 测量文本尺寸信息。目前仅返回文本宽度。同步接口。
+     * @supported weapp
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/canvas/CanvasContext.measureText.html
+     */
+    measureText(
+      /** 要测量的文本 */
+      text: string,
+    ): TextMetrics
     /** 把路径移动到画布中的指定点，不创建线条。用 `stroke` 方法来画线条
      * @supported weapp
      * @example
@@ -850,7 +857,7 @@ declare namespace Taro {
       /** 结束点的 y 坐标 */
       y: number,
     ): void
-    /** 创建一个矩形路径。需要用 [`fill`](https://developers.weixin.qq.com/miniprogram/dev/api/canvas/CanvasContext.fill.html) 或者 [`stroke`](https://developers.weixin.qq.com/miniprogram/dev/api/canvas/CanvasContext.stroke.html) 方法将矩形真正的画到 `canvas` 中
+    /** 创建一个矩形路径。需要用 [`fill`](/docs/apis/canvas/CanvasContext#fill) 或者 [`stroke`](/docs/apis/canvas/CanvasContext#stroke) 方法将矩形真正的画到 `canvas` 中
      * @supported weapp
      * @example
      * ```tsx
@@ -872,7 +879,7 @@ declare namespace Taro {
       /** 矩形路径的高度 */
       height: number,
     ): void
-    /** 恢复之前保存的绘图上下文。
+    /** 恢复之前保存的绘图上下文
      * @supported weapp
      * @example
      * ```tsx
@@ -1033,7 +1040,7 @@ declare namespace Taro {
      */
     setLineCap(
       /** 线条的结束端点样式 */
-      lineCap: keyof CanvasContext.lineCap,
+      lineCap: keyof CanvasContext.LineCap,
     ): void
     /** 设置虚线样式。
      * @supported weapp
@@ -1092,7 +1099,7 @@ declare namespace Taro {
      */
     setLineJoin(
       /** 线条的结束交点样式 */
-      lineJoin: keyof CanvasContext.lineJoin,
+      lineJoin: keyof CanvasContext.LineJoin,
     ): void
     /** 设置线条的宽度
      * @supported weapp
@@ -1126,7 +1133,7 @@ declare namespace Taro {
       /** 线条的宽度，单位px */
       lineWidth: number,
     ): void
-    /** 设置最大斜接长度。斜接长度指的是在两条线交汇处内角和外角之间的距离。当 [CanvasContext.setLineJoin()](https://developers.weixin.qq.com/miniprogram/dev/api/canvas/CanvasContext.setLineJoin.html) 为 miter 时才有效。超过最大倾斜长度的，连接处将以 lineJoin 为 bevel 来显示。
+    /** 设置最大斜接长度。斜接长度指的是在两条线交汇处内角和外角之间的距离。当 [CanvasContext.setLineJoin()](/docs/apis/canvas/CanvasContext#setlinejoin) 为 miter 时才有效。超过最大倾斜长度的，连接处将以 lineJoin 为 bevel 来显示。
      * @supported weapp
      * @example
      * ```tsx
@@ -1230,7 +1237,7 @@ declare namespace Taro {
      */
     setTextAlign(
       /** 文字的对齐方式 */
-      align: keyof CanvasContext.align,
+      align: keyof CanvasContext.Align,
     ): void
     /** 设置文字的竖直对齐
      * @supported weapp
@@ -1256,7 +1263,7 @@ declare namespace Taro {
      */
     setTextBaseline(
       /** 文字的竖直对齐方式 */
-      textBaseline: keyof CanvasContext.textBaseline,
+      textBaseline: keyof CanvasContext.TextBaseline,
     ): void
     /** 使用矩阵重新设置（覆盖）当前变换的方法
      * @supported weapp
@@ -1311,7 +1318,7 @@ declare namespace Taro {
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/canvas/CanvasContext.stroke.html
      */
     stroke(): void
-    /** 画一个矩形(非填充)。 用 [`setStrokeStyle`](https://developers.weixin.qq.com/miniprogram/dev/api/canvas/CanvasContext.setStrokeStyle.html) 设置矩形线条的颜色，如果没设置默认是黑色。
+    /** 画一个矩形(非填充)。 用 [`setStrokeStyle`](/docs/apis/canvas/CanvasContext#setstrokestyle) 设置矩形线条的颜色，如果没设置默认是黑色。
      * @supported weapp
      * @example
      * ```tsx
@@ -1384,100 +1391,10 @@ declare namespace Taro {
       /** 竖直坐标平移量 */
       y: number,
     ): void
-    /** 测量文本尺寸信息。目前仅返回文本宽度。同步接口。
-     * @supported weapp
-     * @see https://developers.weixin.qq.com/miniprogram/dev/api/canvas/CanvasContext.measureText.html
-     */
-    measureText(
-      /** 要测量的文本 */
-      text: string,
-    ): TextMetrics
-    /** 创建一个圆形的渐变颜色。起点在圆心，终点在圆环。返回的`CanvasGradient`对象需要使用 [CanvasGradient.addColorStop()](https://developers.weixin.qq.com/miniprogram/dev/api/canvas/CanvasGradient.addColorStop.html) 来指定渐变点，至少要两个。
-     * @supported weapp
-     * @example
-     * ```tsx
-     * const ctx = Taro.createCanvasContext('myCanvas')
-     * // Create circular gradient
-     * const grd = ctx.createCircularGradient(75, 50, 50)
-     * grd.addColorStop(0, 'red')
-     * grd.addColorStop(1, 'white')
-     * // Fill with gradient
-     * ctx.setFillStyle(grd)
-     * ctx.fillRect(10, 10, 150, 80)
-     * ctx.draw()
-     * ```
-     * @see https://developers.weixin.qq.com/miniprogram/dev/api/canvas/CanvasContext.createCircularGradient.html
-     */
-    createCircularGradient(
-      /** 圆心的 x 坐标 */
-      x: number,
-      /** 圆心的 y 坐标 */
-      y: number,
-      /** 圆的半径 */
-      r: number,
-    ): CanvasGradient
-    /** 创建一个线性的渐变颜色。返回的`CanvasGradient`对象需要使用 [CanvasGradient.addColorStop()](https://developers.weixin.qq.com/miniprogram/dev/api/canvas/CanvasGradient.addColorStop.html) 来指定渐变点，至少要两个。
-     * @supported weapp
-     * @example
-     * ```tsx
-     * const ctx = Taro.createCanvasContext('myCanvas')
-     * // Create linear gradient
-     * const grd = ctx.createLinearGradient(0, 0, 200, 0)
-     * grd.addColorStop(0, 'red')
-     * grd.addColorStop(1, 'white')
-     * // Fill with gradient
-     * ctx.setFillStyle(grd)
-     * ctx.fillRect(10, 10, 150, 80)
-     * ctx.draw()
-     * ```
-     * @see https://developers.weixin.qq.com/miniprogram/dev/api/canvas/CanvasContext.createLinearGradient.html
-     */
-    createLinearGradient(
-      /** 起点的 x 坐标 */
-      x0: number,
-      /** 起点的 y 坐标 */
-      y0: number,
-      /** 终点的 x 坐标 */
-      x1: number,
-      /** 终点的 y 坐标 */
-      y1: number,
-    ): CanvasGradient
-    /** 填充颜色。用法同 [CanvasContext.setFillStyle()]。 */
-    fillStyle: string
-    /** 当前字体样式的属性。符合 [CSS font 语法](https://developer.mozilla.org/zh-CN/docs/Web/CSS/font) 的 DOMString 字符串，至少需要提供字体大小和字体族名。默认值为 10px sans-serif。 */
-    font: string
-    /** 全局画笔透明度。范围 0-1，0 表示完全透明，1 表示完全不透明。 */
-    globalAlpha: number
-    /** 在绘制新形状时应用的合成操作的类型。目前安卓版本只适用于 `fill` 填充块的合成，用于 `stroke` 线段的合成效果都是 `source-over`。
-     *
-     * 目前支持的操作有
-     * - 安卓：xor, source-over, source-atop, destination-out, lighter, overlay, darken, lighten, hard-light
-     * - iOS：xor, source-over, source-atop, destination-over, destination-out, lighter, multiply, overlay, darken, lighten, color-dodge, color-burn, hard-light, soft-light, difference, exclusion, saturation, luminosity */
-    globalCompositeOperation: string
-    /** 线条的端点样式。用法同 [CanvasContext.setLineCap()]。 */
-    lineCap: keyof CanvasContext.lineCap
-    /** 虚线偏移量，初始值为0 */
-    lineDashOffset: number
-    /** 线条的交点样式。用法同 [CanvasContext.setLineJoin()]。 */
-    lineJoin: keyof CanvasContext.lineJoin
-    /** 线条的宽度。用法同 [CanvasContext.setLineWidth()]。 */
-    lineWidth: number
-    /** 最大斜接长度。用法同 [CanvasContext.setMiterLimit()]。 */
-    miterLimit: number
-    /** 阴影的模糊级别 */
-    shadowBlur: number
-    /** 阴影的颜色 */
-    shadowColor: number
-    /** 阴影相对于形状在水平方向的偏移 */
-    shadowOffsetX: number
-    /** 阴影相对于形状在竖直方向的偏移 */
-    shadowOffsetY: number
-    /** 边框颜色。用法同 [CanvasContext.setFillStyle()]。 */
-    strokeStyle: string
   }
   namespace CanvasContext {
     /** 参数 repetition 可选值 */
-    interface repetition {
+    interface Repetition {
       /** 水平竖直方向都重复 */
       'repeat'
       /** 水平方向重复 */
@@ -1489,7 +1406,7 @@ declare namespace Taro {
     }
 
     /** 参数 lineCap 可选值 */
-    interface lineCap {
+    interface LineCap {
       /** 向线条的每个末端添加平直的边缘。 */
       butt
       /** 向线条的每个末端添加圆形线帽。 */
@@ -1498,7 +1415,7 @@ declare namespace Taro {
       square
     }
     /** 参数 lineJoin 可选值 */
-    interface lineJoin {
+    interface LineJoin {
       /** 斜角 */
       bevel
       /** 圆角 */
@@ -1507,7 +1424,7 @@ declare namespace Taro {
       miter
     }
     /** 参数 align 可选值 */
-    interface align {
+    interface Align {
       /** 左对齐 */
       left
       /** 居中对齐 */
@@ -1516,7 +1433,7 @@ declare namespace Taro {
       right
     }
       /** 参数 textBaseline 可选值 */
-    interface textBaseline {
+    interface TextBaseline {
       /** 顶部对齐 */
       top
       /** 底部对齐 */
@@ -1528,6 +1445,7 @@ declare namespace Taro {
   }
 
   /** 创建 canvas 的绘图上下文 CanvasContext 对象
+   * @supported weapp
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/canvas/CanvasGradient.html
    */
   interface CanvasGradient {
@@ -1730,16 +1648,21 @@ declare namespace Taro {
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/canvas/Image.html
    */
   interface Image {
+    /** 图片的 URL */
+    src: string
     /** 图片的真实高度 */
     height: number
+    /** 图片的真实宽度 */
+    width: number
+    /** origin: 发送完整的referrer; no-referrer: 不发送。
+     *
+     * 格式固定为 https://servicewechat.com/{appid}/{version}/page-frame.html，其中 {appid} 为小程序的 appid，{version} 为小程序的版本号，版本号为 0 表示为开发版、体验版以及审核版本，版本号为 devtools 表示为开发者工具，其余为正式版本
+     */
+    referrerPolicy: string
     /** 图片加载发生错误后触发的回调函数 */
     onerror: (...args: any[]) => any
     /** 图片加载完成后触发的回调函数 */
     onload: (...args: any[]) => any
-    /** 图片的 URL */
-    src: string
-    /** 图片的真实宽度 */
-    width: number
   }
 
   /** ImageData 对象
@@ -1747,27 +1670,40 @@ declare namespace Taro {
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/canvas/ImageData.html
    */
   interface ImageData {
-    /** 一维数组，包含以 RGBA 顺序的数据，数据使用 0 至 255（包含）的整数表示 */
-    data: Uint8ClampedArray
-    /** 使用像素描述 ImageData 的实际高度 */
-    height: number
     /** 使用像素描述 ImageData 的实际宽度 */
     width: number
+    /** 使用像素描述 ImageData 的实际高度 */
+    height: number
+    /** 一维数组，包含以 RGBA 顺序的数据，数据使用 0 至 255（包含）的整数表示 */
+    data: Uint8ClampedArray
   }
 
   /** 离屏 canvas 实例，可通过 Taro.createOffscreenCanvas 创建。
+   * @supported weapp
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/canvas/OffscreenCanvas.html
    */
   interface OffscreenCanvas {
+    /** 创建一个图片对象。支持在 2D Canvas 和 WebGL Canvas 下使用, 但不支持混用 2D 和 WebGL 的方法
+     *
+     * > 注意不允许混用 webgl 和 2d 画布创建的图片对象，使用时请注意尽量使用 canvas 自身的 createImage 创建图片对象。
+     * @supported weapp
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/canvas/OffscreenCanvas.createImage.html
+     */
+    createImage(): Image
     /** 该方法返回 OffscreenCanvas 的绘图上下文
      *
-     * ****
-     *
-     * 当前仅支持获取 WebGL 绘图上下文
+     * > 当前仅支持获取 WebGL 绘图上下文
      * @supported weapp
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/canvas/OffscreenCanvas.getContext.html
      */
     getContext(contextType: string): RenderingContext
   }
+
+  /** Canvas 2D API 的接口 Path2D 用来声明路径，此路径稍后会被CanvasRenderingContext2D 对象使用。CanvasRenderingContext2D 接口的 路径方法 也存在于 Path2D 这个接口中，允许你在 canvas 中根据需要创建可以保留并重用的路径。
+   * @supported weapp
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/canvas/Path2D.html
+   */
+  interface Path2D {}
 
   /** Canvas 绘图上下文。
    *
@@ -1779,4 +1715,128 @@ declare namespace Taro {
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/canvas/RenderingContext.html
    */
   interface RenderingContext {}
+
+  interface TaroStatic {
+    /** 创建离屏 canvas 实例
+     * @supported weapp
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/canvas/wx.createOffscreenCanvas.html
+     *
+     * 有两个版本的写法：
+     *
+     * - createOffscreenCanvas(options) 从 2.16.1 起支持
+     * - createOffscreenCanvas(width, height, this) 从 2.7.0 起支持
+     */
+    createOffscreenCanvas(options: createOffscreenCanvas.Option): OffscreenCanvas
+
+    /** 创建 canvas 的绘图上下文 [CanvasContext](/docs/apis/canvas/CanvasContext) 对象
+     *
+     * **Tip**: 需要指定 canvasId，该绘图上下文只作用于对应的 `<canvas/>`
+     * @supported weapp, h5
+     * @example
+     * ```tsx
+     * const context = Taro.createCanvasContext('canvas')
+     *
+     * context.setStrokeStyle("#00ff00")
+     * context.setLineWidth(5)
+     * context.rect(0, 0, 200, 200)
+     * context.stroke()
+     * context.setStrokeStyle("#ff0000")
+     * context.setLineWidth(2)
+     * context.moveTo(160, 100)
+     * context.arc(100, 100, 60, 0, 2 * Math.PI, true)
+     * context.moveTo(140, 100)
+     * context.arc(100, 100, 40, 0, Math.PI, false)
+     * context.moveTo(85, 80)
+     * context.arc(80, 80, 5, 0, 2 * Math.PI, true)
+     * context.moveTo(125, 80)
+     * context.arc(120, 80, 5, 0, 2 * Math.PI, true)
+     * context.stroke()
+     * context.draw()
+     * ```
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/canvas/wx.createCanvasContext.html
+     */
+    createCanvasContext(
+      /** 要获取上下文的 [canvas](/docs/components/canvas) 组件 canvas-id 属性 */
+      canvasId: string,
+      /** 在自定义组件下，当前组件实例的this，表示在这个自定义组件下查找拥有 canvas-id 的 [canvas](/docs/components/canvas) ，如果省略则不在任何自定义组件内查找 */
+      component?: TaroGeneral.IAnyObject,
+    ): CanvasContext
+
+    /** 把当前画布指定区域的内容导出生成指定大小的图片。在 `draw()` 回调里调用该方法才能保证图片导出成功。
+     *
+     * **Bug & Tip：**
+     *
+     * 1.  `tip`: 在 `draw` 回调里调用该方法才能保证图片导出成功。
+     * @example
+     * ```tsx
+     * Taro.canvasToTempFilePath({
+     *   x: 100,
+     *   y: 200,
+     *   width: 50,
+     *   height: 50,
+     *   destWidth: 100,
+     *   destHeight: 100,
+     *   canvasId: 'myCanvas',
+     *   success: function (res) {
+     *     console.log(res.tempFilePath)
+     *   }
+     * })
+     * ```
+     * @supported weapp, h5
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/canvas/wx.canvasToTempFilePath.html
+     */
+    canvasToTempFilePath(
+      option: canvasToTempFilePath.Option,
+      /** 在自定义组件下，当前组件实例的this，以操作组件内 [canvas](/docs/components/canvas) 组件 */
+      component?: TaroGeneral.IAnyObject,
+    ): Promise<canvasToTempFilePath.SuccessCallbackResult>
+
+    /** 将像素数据绘制到画布。在自定义组件下，第二个参数传入自定义组件实例 this，以操作组件内 `<canvas>` 组件
+     * @supported weapp, h5
+     * @example
+     * ```tsx
+     * const data = new Uint8ClampedArray([255, 0, 0, 1])
+     * Taro.canvasPutImageData({
+     *   canvasId: 'myCanvas',
+     *   x: 0,
+     *   y: 0,
+     *   width: 1,
+     *   data: data,
+     *   success: function (res) {}
+     * })
+     * ```
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/canvas/wx.canvasPutImageData.html
+     */
+    canvasPutImageData(
+      option: canvasPutImageData.Option,
+      /** 在自定义组件下，当前组件实例的this，以操作组件内 [canvas](/docs/components/canvas) 组件 */
+      component?: TaroGeneral.IAnyObject,
+    ): Promise<TaroGeneral.CallbackResult>
+
+    /** 获取 canvas 区域隐含的像素数据。
+     * @supported weapp, h5
+     * @example
+     * ```tsx
+     * Taro.canvasGetImageData({
+     *   canvasId: 'myCanvas',
+     *   x: 0,
+     *   y: 0,
+     *   width: 100,
+     *   height: 100,
+     *   success: function (res) {
+     *     console.log(res.width) // 100
+     *     console.log(res.height) // 100
+     *     console.log(res.data instanceof Uint8ClampedArray) // true
+     *     console.log(res.data.length) // 100 * 100 * 4
+     *   }
+     * })
+     * ```
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/canvas/wx.canvasGetImageData.html
+     */
+    canvasGetImageData(
+      option: canvasGetImageData.Option,
+      /** 在自定义组件下，当前组件实例的this，以操作组件内 [canvas](/docs/components/canvas) 组件 */
+      component?: TaroGeneral.IAnyObject,
+    ): Promise<canvasGetImageData.SuccessCallbackResult>
+  }
 }

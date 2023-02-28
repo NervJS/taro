@@ -1,19 +1,21 @@
-import * as path from 'path'
-import { IPluginContext } from '@tarojs/service'
 import {
-  SOURCE_DIR,
-  OUTPUT_DIR,
   ENTRY,
-  resolveScriptPath
+  OUTPUT_DIR,
+  resolveScriptPath,
+  SOURCE_DIR
 } from '@tarojs/helper'
+import { IPluginContext } from '@tarojs/service'
 import highlight from 'cli-highlight'
+import * as path from 'path'
+
+import * as hooks from '../constant'
 
 export default (ctx: IPluginContext) => {
   ctx.registerCommand({
     name: 'inspect',
     optionsMap: {
       '-t, --type [typeName]': 'Build type, weapp/swan/alipay/tt/h5/quickapp/rn/qq/jd',
-      '-o, --output [outputPath]': 'output config to ouputPath'
+      '-o, --output [outputPath]': 'output config to outputPath'
     },
     synopsisList: [
       'taro inspect --type weapp',
@@ -50,13 +52,14 @@ export default (ctx: IPluginContext) => {
             ...config,
             isWatch: !isProduction,
             mode: isProduction ? 'production' : 'development',
-            async modifyWebpackChain (chain, webpack) {
+            async modifyWebpackChain (chain, webpack, data) {
               await ctx.applyPlugins({
-                name: 'modifyWebpackChain',
+                name: hooks.MODIFY_WEBPACK_CHAIN,
                 initialVal: chain,
                 opts: {
                   chain,
-                  webpack
+                  webpack,
+                  data
                 }
               })
             },

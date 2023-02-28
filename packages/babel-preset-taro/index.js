@@ -1,15 +1,34 @@
 const path = require('path')
-const apis = require('@tarojs/taro-h5/dist/taroApis')
-const presetForReactNative = require('./rn')
+const fs = require('fs')
+
+function hasBrowserslist () {
+  const root = process.cwd()
+  try {
+    const pkg = require(path.resolve(root, 'package.json'))
+    if (pkg.browserslist) {
+      return true
+    }
+  } catch {
+    //
+  }
+  if (fs.existsSync(path.resolve(root, '.browserslistrc'))) {
+    return true
+  }
+  if (process.env.BROWSERSLIST) {
+    return true
+  }
+  return false
+}
 
 module.exports = (_, options = {}) => {
   if (process.env.TARO_ENV === 'rn') {
+    const presetForReactNative = require('./rn')
     return presetForReactNative(_, options)
   }
   const presets = []
   const plugins = []
   const overrides = []
-  const isReact = options.framework === 'react'
+  const isReact = options.framework === 'react' || options.framework === 'preact'
   const isNerv = options.framework === 'nerv'
   const isVue = options.framework === 'vue'
   const isVue3 = options.framework === 'vue3'
@@ -27,7 +46,14 @@ module.exports = (_, options = {}) => {
       runtime: options.reactJsxRuntime || 'automatic'
     }])
     if (process.env.TARO_ENV === 'h5' && process.env.NODE_ENV !== 'production' && options.hot !== false) {
-      plugins.push([require('react-refresh/babel')])
+      if (options.framework === 'react') {
+        plugins.push([require('react-refresh/babel'), { skipEnvCheck: true }])
+      } else if (options.framework === 'preact') {
+        overrides.push({
+          include: /\.[jt]sx$/,
+          plugins: [require('@prefresh/babel-plugin')]
+        })
+      }
     }
   }
 
@@ -43,7 +69,7 @@ module.exports = (_, options = {}) => {
   }
 
   if (options.ts) {
-    const config = {}
+    const config = typeof options.ts === 'object' ? options.ts : {}
     if (isNerv || isReact) {
       config.jsxPragma = moduleName
     }
@@ -95,7 +121,7 @@ module.exports = (_, options = {}) => {
     targets = rawTargets
   } else if (ignoreBrowserslistConfig) {
     targets = { node: 'current' }
-  } else {
+  } else if (!hasBrowserslist()) {
     targets = {
       ios: '9',
       android: '5'
@@ -149,14 +175,11 @@ module.exports = (_, options = {}) => {
     version
   }])
 
-  if (process.env.TARO_ENV === 'h5') {
-    plugins.push([require('babel-plugin-transform-taroapi'), {
-      packageName: '@tarojs/taro',
-      apis
-    }])
-  } else {
+  if (typeof options['dynamic-import-node'] === 'boolean' ? options['dynamic-import-node'] : process.env.TARO_ENV !== 'h5') {
     plugins.push([require('babel-plugin-dynamic-import-node')])
   }
+
+  plugins.push(require('./remove-define-config'))
 
   return {
     sourceType: 'unambiguous',

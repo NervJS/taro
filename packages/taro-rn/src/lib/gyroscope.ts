@@ -15,7 +15,7 @@ const intervalMap: any = {
  * @param opts 
  * @param {string} [opts.interval='normal'] 监听陀螺仪数据回调函数的执行频率
  */
-function startGyroscope(opts: Taro.startGyroscope.Option = {}): Promise<Taro.General.CallbackResult> {
+function startGyroscope(opts: Taro.startGyroscope.Option = {}): Promise<TaroGeneral.CallbackResult> {
     const { interval = 'normal', success, fail, complete } = opts
     const res = { errMsg: 'startGyroscope:ok' }
     try {
@@ -40,11 +40,11 @@ function startGyroscope(opts: Taro.startGyroscope.Option = {}): Promise<Taro.Gen
  * 停止监听陀螺仪数据
  * @param opts 
  */
-function stopGyroscope(opts: Taro.stopGyroscope.Option = {}): Promise<Taro.General.CallbackResult> {
+function stopGyroscope(opts: Taro.stopGyroscope.Option = {}): Promise<TaroGeneral.CallbackResult> {
     const { success, fail, complete } = opts
     const res = { errMsg: 'stopGyroscope:ok' }
     try {
-        _listener.remove()
+        _listener && _listener.remove()
         _listener = null
         return successHandler(success, complete)(res)
     } catch (error) {

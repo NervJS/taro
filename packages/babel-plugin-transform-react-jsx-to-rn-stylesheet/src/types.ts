@@ -6,7 +6,8 @@ export interface PluginOptions {
   enableMultipleClassName?: boolean
 }
 
+// @ts-ignore
 export interface ConvertPluginPass extends PluginPass {
   file: any
-  opts: PluginOptions | undefined
+  opts?: PluginOptions
 }

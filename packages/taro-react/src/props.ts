@@ -1,5 +1,5 @@
-import { TaroElement, Style, FormElement } from '@tarojs/runtime'
-import { isFunction, isString, isObject, isNumber, internalComponents, capitalize, toCamelCase } from '@tarojs/shared'
+import { FormElement, Style, TaroElement } from '@tarojs/runtime'
+import { capitalize, internalComponents, isFunction, isNumber, isObject, isString, toCamelCase } from '@tarojs/shared'
 
 export type Props = Record<string, unknown>
 
@@ -7,22 +7,39 @@ function isEventName (s: string) {
   return s[0] === 'o' && s[1] === 'n'
 }
 
-const IS_NON_DIMENSIONAL = /acit|ex(?:s|g|n|p|$)|rph|grid|ows|mnc|ntw|ine[ch]|zoo|^ord/i
+const IS_NON_DIMENSIONAL = /acit|ex(?:s|g|n|p|$)|rph|grid|ows|mnc|ntw|ine[ch]|zoo|^ord|itera/i
 
 export function updateProps (dom: TaroElement, oldProps: Props, newProps: Props) {
+  const updatePayload = getUpdatePayload(dom, oldProps, newProps)
+  if(updatePayload){
+    updatePropsByPayload(dom, oldProps, updatePayload)
+  }
+}
+
+export function updatePropsByPayload (dom: TaroElement, oldProps: Props, updatePayload: any[]){
+  for(let i = 0; i < updatePayload.length; i += 2){ // key, value 成对出现
+    const key = updatePayload[i]; const newProp = updatePayload[i+1]; const oldProp = oldProps[key]
+    setProperty(dom, key, newProp, oldProp)
+  }
+}
+
+export function getUpdatePayload (dom: TaroElement, oldProps: Props, newProps: Props){
   let i: string
+  let updatePayload: any[] | null = null
 
   for (i in oldProps) {
     if (!(i in newProps)) {
-      setProperty(dom, i, null, oldProps[i])
+      (updatePayload = updatePayload || []).push(i, null)
     }
   }
   const isFormElement = dom instanceof FormElement
   for (i in newProps) {
     if (oldProps[i] !== newProps[i] || (isFormElement && i === 'value')) {
-      setProperty(dom, i, newProps[i], oldProps[i])
+      (updatePayload = updatePayload || []).push(i, newProps[i])
     }
   }
+
+  return updatePayload
 }
 
 // function eventProxy (e: CommonEvent) {
@@ -45,14 +62,11 @@ function setEvent (dom: TaroElement, name: string, value: unknown, oldValue?: un
   }
 
   if (isFunction(value)) {
-    if (!oldValue) {
-      dom.addEventListener(eventName, value, isCapture)
-    }
-    if (eventName === 'regionchange') {
-      dom.__handlers.begin[0] = value
-      dom.__handlers.end[0] = value
+    if (oldValue) {
+      dom.removeEventListener(eventName, oldValue as any, false)
+      dom.addEventListener(eventName, value, { isCapture, sideEffect: false })
     } else {
-      dom.__handlers[eventName][0] = value
+      dom.addEventListener(eventName, value, isCapture)
     }
   } else {
     dom.removeEventListener(eventName, oldValue as any)
@@ -62,6 +76,8 @@ function setEvent (dom: TaroElement, name: string, value: unknown, oldValue?: un
 function setStyle (style: Style, key: string, value: string | number) {
   if (key[0] === '-') {
     style.setProperty(key, value.toString())
+    // css variables need not further judgment
+    return
   }
 
   style[key] =

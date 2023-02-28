@@ -1,4 +1,4 @@
-import rule, { ruleName, messages } from '..'
+import rule, { messages, ruleName } from '..'
 
 testRule(rule, {
   ruleName,
@@ -99,7 +99,7 @@ testRule(rule, {
 
 testRule(rule, {
   ruleName,
-  syntax: 'scss',
+  syntax: 'postcss-scss',
   config: [true],
 
   accept: [
@@ -120,7 +120,7 @@ testRule(rule, {
 
 testRule(rule, {
   ruleName,
-  syntax: 'less',
+  syntax: 'postcss-less',
   config: [true],
 
   accept: [

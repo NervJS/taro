@@ -1,0 +1,70 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`RichText RichText render 1`] = `
+<View
+  style={
+    Object {
+      "height": 0,
+      "width": "100%",
+    }
+  }
+>
+  <View
+    style={
+      Array [
+        Object {
+          "flex": 1,
+          "overflow": "hidden",
+        },
+        undefined,
+      ]
+    }
+  >
+    <RNCWebView
+      cacheEnabled={true}
+      injectedJavaScript="
+            document.documentElement.style.padding = 0;
+            document.documentElement.style.margin = 0;
+            document.body.style.padding = 0;
+            document.body.style.margin = 0;
+            window.ReactNativeWebView.postMessage(document.body.scrollHeight);
+            true;
+          "
+      injectedJavaScriptBeforeContentLoadedForMainFrameOnly={true}
+      injectedJavaScriptForMainFrameOnly={true}
+      javaScriptEnabled={true}
+      messagingEnabled={true}
+      onContentProcessDidTerminate={[Function]}
+      onHttpError={[Function]}
+      onLoadingError={[Function]}
+      onLoadingFinish={[Function]}
+      onLoadingProgress={[Function]}
+      onLoadingStart={[Function]}
+      onMessage={[Function]}
+      onShouldStartLoadWithRequest={[Function]}
+      scalesPageToFit={false}
+      source={
+        Object {
+          "html": "<meta name=\\"viewport\\" content=\\"width=device-width, initial-scale=1, maximum-scale=1\\"/><div class=\\"div_class\\" style=\\"line-height:60px;color:white;font-size:60px;\\">Hello World!</div>",
+        }
+      }
+      style={
+        Array [
+          Object {
+            "flex": 1,
+            "overflow": "hidden",
+          },
+          Object {
+            "backgroundColor": "#ffffff",
+          },
+          Object {
+            "backgroundColor": "transparent",
+          },
+        ]
+      }
+      textInteractionEnabled={true}
+      useSharedProcessPool={true}
+    />
+  </View>
+</View>
+`;

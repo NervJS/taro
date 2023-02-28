@@ -10,6 +10,7 @@ export interface MpInstance {
   $taroPath: string
   __data__: any
   data: any
+  exitState?: any
   selectComponent: (selector: string) => any
 }
 
@@ -18,7 +19,8 @@ export interface MiniElementData {
   [Shortcuts.NodeName]: string
   [Shortcuts.Class]?: string
   [Shortcuts.Style]?: string
-  uid: string
+  uid?: string
+  sid: string
   [key: string]: unknown
 }
 

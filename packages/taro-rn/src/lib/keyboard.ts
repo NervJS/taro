@@ -1,7 +1,7 @@
 import { Keyboard } from 'react-native'
 import { createCallbackManager, errorHandler, successHandler } from '../utils'
 
-const hideKeyboard = (opts: Taro.hideKeyboard.Option = {}): Promise<Taro.General.CallbackResult> => {
+const hideKeyboard = (opts: Taro.hideKeyboard.Option = {}): Promise<TaroGeneral.CallbackResult> => {
   const { success, fail, complete } = opts
   try {
     Keyboard.dismiss()

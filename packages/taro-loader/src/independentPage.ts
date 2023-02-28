@@ -1,14 +1,16 @@
-import * as webpack from 'webpack'
 import { getOptions, stringifyRequest } from 'loader-utils'
 import * as path from 'path'
-import { frameworkMeta } from './utils'
+
+import { REG_POST } from './constants'
+
+import type * as webpack from 'webpack'
 
 interface PageConfig {
   content: any
   path: string
 }
 
-export default function (this: webpack.loader.LoaderContext) {
+export default function (this: webpack.LoaderContext<any>) {
   const options = getOptions(this)
   const config = getPageConfig(options.config, this.resourcePath)
   const configString = JSON.stringify(config)
@@ -18,8 +20,9 @@ export default function (this: webpack.loader.LoaderContext) {
     importFrameworkStatement,
     mockAppStatement,
     frameworkArgs,
-    creator
-  } = frameworkMeta[options.framework]
+    creator,
+    creatorLocation
+  } = options.loaderMeta
   const appConfig = options.appConfig
   const frameworkArgsArray = frameworkArgs.split(',')
   frameworkArgsArray.splice(frameworkArgsArray.length - 1, 1, 'appConfig')
@@ -30,22 +33,32 @@ export default function (this: webpack.loader.LoaderContext) {
     ? `${raw}!${this.resourcePath}`
     : this.request.split('!').slice(1).join('!')
   const runtimePath = Array.isArray(options.runtimePath) ? options.runtimePath : [options.runtimePath]
+  let setReconcilerPost = ''
   const setReconciler = runtimePath.reduce((res, item) => {
-    return res + `import '${item}'\n`
+    if (REG_POST.test(item)) {
+      setReconcilerPost += `import '${item.replace(REG_POST, '')}'\n`
+      return res
+    } else {
+      return res + `import '${item}'\n`
+    }
   }, '')
+  const { globalObject } = this._compilation?.outputOptions || { globalObject: 'wx' }
+
   const prerender = `
 if (typeof PRERENDER !== 'undefined') {
-  global._prerender = inst
+  ${globalObject}._prerender = inst
 }`
   return `${setReconciler}
-import { createPageConfig, ${creator}, window } from '@tarojs/runtime'
-import component from ${stringify(componentPath)}
+import { createPageConfig, window } from '@tarojs/runtime'
+import { ${creator} } from '${creatorLocation}'
+${setReconcilerPost}
 ${importFrameworkStatement}
 var config = ${configString};
 var appConfig = ${JSON.stringify(appConfig)};
 window.__taroAppConfig = appConfig
 ${mockAppStatement}
 ${creator}(App, ${frameworkArgsCopy})
+var component = require(${stringify(componentPath)}).default
 ${config.enableShareTimeline ? 'component.enableShareTimeline = true' : ''}
 ${config.enableShareAppMessage ? 'component.enableShareAppMessage = true' : ''}
 var inst = Page(createPageConfig(component, '${options.name}', {}, config || {}))

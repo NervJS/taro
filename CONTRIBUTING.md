@@ -10,12 +10,89 @@
 
 ## 开发配置
 
-你需要保证你的 Node.js 版本大于 8，把仓库 clone 到本地，并运行以下命令：
+> 你需要保证你的 Node.js 版本大于 12
+
+### 安装依赖
+
+基于 pnpm workspace。
 
 ```bash
-$ npm install # or yarn
-$ npm run bootstrap
+$ pnpm install
 ```
+
+### 编译构建
+
+```bash
+# 全局编译
+$ pnpm run build # 等价于 pnpm -r --filter=./packages/* run build
+
+# 编译某个子包，如 `@tarojs/cli`
+$ pnpm --filter @tarojs/cli run dev
+```
+
+### 新增/删除依赖
+
+可以分为三种情况：
+
+> 应该尽量把子包的 devDependencies 作为根目录的 devDependencies，从而安装在根目录。
+> 如果版本遇到冲突，可以安装在子包内。
+
+#### 1. 根目录
+
+```bash
+# 新增
+$ pnpm add -wD <dependency>
+
+# 删除
+$ pnpm remove -wD <dependency>
+```
+
+#### 2. 操作某个子包
+
+```bash
+# 为某个子包（如 @tarojs/cli）新增一个依赖
+$ pnpm --filter @tarojs/cli add <dependency>
+
+# 为某个子包（如 @tarojs/cli）删除一个依赖
+$ pnpm --filter @tarojs/cli remove <dependency>
+```
+
+#### 3. 操作所有子包
+
+```bash
+# 新增
+$ pnpm -r --filter=./packages/* add <dependency>
+
+# 删除
+$ pnpm -r --filter=./packages/* remove <dependency>
+```
+
+### 清理所有依赖
+
+```bash
+# 包括删除根目录的 node_modules 和所有 workspace 里的 node_modules
+$ npm run clear-all
+```
+
+### 运行子包的 `npm script`
+
+```bash
+$ pnpm --filter <workspace> run <script-name>
+```
+
+### 提交发布
+
+- PR 发布规则
+
+  ```bash
+  $ pnpm version <version>
+  ```
+
+- `feat/**` 分支发布规则
+
+  ```bash
+  $ pnpm version <version> --tag=<tag>
+  ```
 
 ## 提交 commit
 
@@ -24,7 +101,7 @@ $ npm run bootstrap
 ## 代码风格
 
 * `JavaScript`：JavaScript 风格遵从 [JavaScript Standard Style](https://github.com/standard/standard)。
-* `TypeScript`：TypeScript 风格也是 [JavaScript Standard Style](https://github.com/standard/standard) 的变种，详情请看相关包目录下的 `tslint.json` 和 `tsconfig.json`。
+* `TypeScript`：TypeScript 风格也是 [JavaScript Standard Style](https://github.com/standard/standard) 的变种，详情请看相关包目录下的 `eslint.json` 和 `tsconfig.json`。
 * 样式：遵循相关包目录下的 `.stylelintrc` 风格。
 
 ## Pull Request 指南

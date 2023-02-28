@@ -1,6 +1,0 @@
-export { default as View } from './dist/view'
-export { default as ScrollView } from './dist/scroll-view'
-export { default as Text } from './dist/text'
-export { default as Image } from './dist/image'
-export { Swiper, SwiperItem } from './dist/swiper'
-export { default as PullDownRefresh } from './dist/pull-down-refresh'

@@ -1,25 +1,67 @@
-# Taro
-
-[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com)
-[![](https://img.shields.io/node/v/@tarojs/cli.svg?style=flat-square)](https://www.npmjs.com/package/@tarojs/cli)
-[![](https://img.shields.io/npm/v/@tarojs/taro.svg?style=flat-square)](https://www.npmjs.com/package/@tarojs/taro)
-[![](https://img.shields.io/npm/l/@tarojs/taro.svg?style=flat-square)](https://www.npmjs.com/package/@tarojs/taro)
-[![](https://img.shields.io/npm/dt/@tarojs/taro.svg?style=flat-square)](https://www.npmjs.com/package/@tarojs/taro)
-[![](https://img.shields.io/travis/NervJS/taro.svg?style=flat-square)](https://travis-ci.org/NervJS/taro)
+<div align="center">
+  <h1>Taro</h1>
+  <p>A cross-platform and -framework solution for easily developing applications across mini-programs, Web, APP, etc.</p>
+  <a href="http://makeapullrequest.com">
+    <img src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square" alt="PRs Welcome">
+  </a>
+  <a href="https://www.npmjs.com/package/@tarojs/cli">
+    <img src="https://img.shields.io/node/v/@tarojs/cli.svg?style=flat-square">
+  </a>
+  <a href="https://www.npmjs.com/package/@tarojs/taro">
+    <img src="https://img.shields.io/npm/v/@tarojs/taro.svg?style=flat-square">
+  </a>
+  <a href="https://www.npmjs.com/package/@tarojs/taro">
+    <img src="https://img.shields.io/npm/l/@tarojs/taro.svg?style=flat-square">
+  </a>
+  <a href="https://www.npmjs.com/package/@tarojs/taro">
+    <img src="https://img.shields.io/npm/dt/@tarojs/taro.svg?style=flat-square">
+  </a>
+  <a href="https://travis-ci.org/NervJS/taro">
+    <img src="https://img.shields.io/travis/NervJS/taro.svg?style=flat-square">
+  </a>
+  <a href="https://github.com/NervJS/taro">
+    <img src="https://img.shields.io/github/contributors/NervJS/taro" alt="GitHub contributors">
+  </a>
+  <a href="https://github.com/NervJS/taro">
+    <img src="https://img.shields.io/github/commit-activity/w/NervJS/taro" alt="GitHub commit activity">
+  </a>
+  <a href="https://github.com/NervJS/taro">
+    <img src="https://img.shields.io/github/issues-closed/NervJS/taro" alt="GitHub closed issues">
+  </a>
+  <a href="https://github.com/NervJS/taro">
+    <img src="https://img.shields.io/github/commits-since/NervJS/taro/latest/next" alt="GitHub commits since latest release (by date)">
+  </a>
+  <a href="https://github.com/NervJS/taro">
+    <img src="https://img.shields.io/github/release-date/NervJS/taro" alt="GitHub Release Date">
+  </a>
+</div>
 
 [简体中文](./README.md) | [English](./README_EN.md)
 
 > 👽 Taro['tɑ:roʊ], Ultraman Taro, the chief instructor of the Space Guard, the strongest Ultraman.
 
+## Contents
+
+1. [Introduction](#Introduction)
+2. [Resources](#Resources)
+3. [Community](#Community)
+4. [Cases](#Cases)
+5. [Feature](#Feature)
+6. [Join us](#join-us)
+7. [Issues](#Issues)
+8. [Acknowledgements](#Acknowledgements)
+9. [Contributors](#Contributors)
+10. [Milestones](#Milestones)
+11. [Release Notes](#release-notes)
+12. [Communication](#Communication)
+
 ## Introduction
 
-**Taro** is a cross-platform/cross-framework solution that supports users to develop WeChat/JD/Baidu/Alipay/ByteDance/QQ mini-programs and H5 applications with React/Vue/Nerv and other frameworks. Nowdays, there are various types of mini-program on the market. Multiple platforms such as Web, React Native, and WeChat mini-program are widely used by the developers. Different codes are written while we require to show features on different platforms. The ability to be compatible with multiple platforms within one code is extremely needed.
+**Taro** is an open style cross-platform and -framework solution that supports users to develop WeChat/JD/Baidu/Alipay/ByteDance/QQ mini-programs/H5 and React Native applications with React/Vue/Nerv and other frameworks. Nowdays, there are various types of mini-programs on the market. Multiple platforms such as Web, React Native, and WeChat mini-programs are widely used by the developers. Different codes are written while we require to show features on different platforms. The ability to be compatible with multiple platforms within one code is extremely needed.
 
 ### Version
 
-Taro has entered the 3.x era, with a runtime heavy architecture compared to Taro 1/2, allowing developers to get the full React/Vue framework development experience. Please refer to [Mini Program Development in Cross-platform](https://mp.weixin.qq.com/s?__biz=MzU3NDkzMTI3MA==&mid=2247483770&idx=1&sn=ba2cdea5256e1c4e7bb513aa4c837834).
-
-If you want to use Taro 1/2, please visit [Versions](https://nervjs.github.io/taro/versions) for more information.
+To migrate from Taro 1/2 to Taro 3, please refer to [The definitive guide to Taro version upgrades](https://docs.taro.zone/blog/2020-09-01-taro-versions).
 
 ## Resources
 
@@ -31,9 +73,18 @@ Juejin book: [Taro Cross-platform Development in Action](https://juejin.im/book/
 
 ## Community
 
-[Taro community](http://taro-club.jd.com/)
-
 [Taro market](http://taro-ext.jd.com/)
+
+
+### UI Library
+
+|  Name   | Link  | Intro | Framework  | Taro Version |
+|  ----  | ----  | ----  | ----  | ----  |
+| [taro-ui](https://github.com/NervJS/taro-ui)  | https://taro-ui.jd.com/#/ | A cross-platform UI library based on Taro | React | Taro 1/2/3 (Alpha-version needed for Taro 3） |
+| [NutUI](https://github.com/jdf2e/nutui)  | https://nutui.jd.com/#/ | A JD-style light-weighted Vue library | Vue3 | Taro 3 |
+| [taroify](https://github.com/mallfoundry/taroify)  | https://taroify.gitee.io/taroify.com/introduce/ | A light-weighted and reliable Taro library for mini-programs (Vant's Taro version) | React | Taro 3 |
+| [@antmjs/vantui](https://github.com/AntmJS/vantui)  | https://antmjs.github.io/vantui/#/home | A UI library that supports Taro and React, based on Youzan VantWeapp | React | Taro 3 |
+
 
 ## Cases
 

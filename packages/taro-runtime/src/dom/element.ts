@@ -1,33 +1,30 @@
-import { inject, injectable } from 'inversify'
-import { isArray, isUndefined, Shortcuts, EMPTY_OBJ, warn, isString, toCamelCase } from '@tarojs/shared'
-import SERVICE_IDENTIFIER from '../constants/identifiers'
+import { EMPTY_OBJ, hooks, isArray, isFunction, isObject, isString, isUndefined, Shortcuts, toCamelCase, warn } from '@tarojs/shared'
+
+import {
+  CATCH_VIEW,
+  CATCHMOVE,
+  CLASS,
+  EVENT_CALLBACK_RESULT,
+  FOCUS,
+  ID,
+  PROPERTY_THRESHOLD,
+  PURE_VIEW,
+  STATIC_VIEW,
+  STYLE,
+  VIEW
+} from '../constants'
+import { MutationObserver, MutationRecordType } from '../dom-external/mutation-observer'
+import { extend, getComponentsAlias, isElement, isHasExtractProp, shortcutAttr } from '../utils'
+import { ClassList } from './class-list'
+import { eventSource } from './event-source'
 import { TaroNode } from './node'
 import { NodeType } from './node_types'
-import { eventSource } from './event-source'
-import { isElement, isHasExtractProp, shortcutAttr } from '../utils'
 import { Style } from './style'
 import { treeToArray } from './tree'
-import { ClassList } from './class-list'
-import {
-  ID,
-  CLASS,
-  STYLE,
-  FOCUS,
-  VIEW,
-  STATIC_VIEW,
-  PURE_VIEW,
-  PROPERTY_THRESHOLD,
-  CATCHMOVE,
-  CATCH_VIEW
-} from '../constants'
 
+import type { Attributes, Func } from '../interface'
 import type { TaroEvent } from './event'
-import type { Attributes, InstanceNamedFactory } from '../interface'
-import type { TaroNodeImpl } from '../dom-external/node-impl'
-import type { TaroElementImpl } from '../dom-external/element-impl'
-import type { Hooks } from '../hooks'
 
-@injectable()
 export class TaroElement extends TaroNode {
   public tagName: string
   public props: Record<string, any> = {}
@@ -35,17 +32,11 @@ export class TaroElement extends TaroNode {
   public dataset: Record<string, unknown> = EMPTY_OBJ
   public innerHTML: string
 
-  public constructor (// eslint-disable-next-line @typescript-eslint/indent
-    @inject(SERVICE_IDENTIFIER.TaroNodeImpl) nodeImpl: TaroNodeImpl,
-    @inject(SERVICE_IDENTIFIER.TaroElementFactory) getElement: InstanceNamedFactory,
-    @inject(SERVICE_IDENTIFIER.Hooks) hooks: Hooks,
-    @inject(SERVICE_IDENTIFIER.TaroElementImpl) elementImpl: TaroElementImpl
-  ) {
-    super(nodeImpl, getElement, hooks)
-    elementImpl.bind(this)
+  public constructor () {
+    super()
     this.nodeType = NodeType.ELEMENT_NODE
     this.style = new Style(this)
-    hooks.patchElement(this)
+    hooks.call('patchElement', this)
   }
 
   private _stopPropagation (event: TaroEvent) {
@@ -125,8 +116,15 @@ export class TaroElement extends TaroNode {
     return this.attributes.length > 0
   }
 
-  public focus () {
-    this.setAttribute(FOCUS, true)
+  public get focus () {
+    return function () {
+      this.setAttribute(FOCUS, true)
+    }
+  }
+
+  // 兼容 Vue3，详情请见：https://github.com/NervJS/taro/issues/10579
+  public set focus (value) {
+    this.setAttribute(FOCUS, value)
   }
 
   public blur () {
@@ -136,17 +134,30 @@ export class TaroElement extends TaroNode {
   public setAttribute (qualifiedName: string, value: any): void {
     process.env.NODE_ENV !== 'production' && warn(
       isString(value) && value.length > PROPERTY_THRESHOLD,
-      `元素 ${this.nodeName} 的 属性 ${qualifiedName} 的值数据量过大，可能会影响渲染性能。考虑降低图片转为 base64 的阈值或在 CSS 中使用 base64。`
+      `元素 ${this.nodeName} 的 ${qualifiedName} 属性值数据量过大，可能会影响渲染性能。考虑降低图片转为 base64 的阈值或在 CSS 中使用 base64。`
     )
 
     const isPureView = this.nodeName === VIEW && !isHasExtractProp(this) && !this.isAnyEventBinded()
+
+    if (qualifiedName !== STYLE) {
+      MutationObserver.record({
+        target: this,
+        type: MutationRecordType.ATTRIBUTES,
+        attributeName: qualifiedName,
+        oldValue: this.getAttribute(qualifiedName)
+      })
+    }
 
     switch (qualifiedName) {
       case STYLE:
         this.style.cssText = value as string
         break
       case ID:
-        eventSource.delete(this.uid)
+        if (this.uid !== this.sid) {
+          // eventSource[sid] 永远保留，直到组件卸载
+          // eventSource[uid] 可变
+          eventSource.delete(this.uid)
+        }
         value = String(value)
         this.props[qualifiedName] = this.uid = value
         eventSource.set(value, this)
@@ -163,32 +174,48 @@ export class TaroElement extends TaroNode {
         break
     }
 
+    // Serialization
+    if (!this._root) return
+
+    const componentsAlias = getComponentsAlias()
+    const _alias = componentsAlias[this.nodeName]
+    const viewAlias = componentsAlias[VIEW]._num
+    const staticViewAlias = componentsAlias[STATIC_VIEW]._num
+    const catchViewAlias = componentsAlias[CATCH_VIEW]._num
+    const _path = this._path
+
     qualifiedName = shortcutAttr(qualifiedName)
 
+    const qualifiedNameInCamelCase = toCamelCase(qualifiedName)
     const payload = {
-      path: `${this._path}.${toCamelCase(qualifiedName)}`,
-      value
+      path: `${_path}.${qualifiedNameInCamelCase}`,
+      value: isFunction(value) ? () => value : value
     }
 
-    this.hooks.modifySetAttrPayload?.(this, qualifiedName, payload)
+    hooks.call('modifySetAttrPayload', this, qualifiedName, payload, componentsAlias)
+
+    if (_alias) {
+      const qualifiedNameAlias = _alias[qualifiedNameInCamelCase] || qualifiedName
+      payload.path = `${_path}.${toCamelCase(qualifiedNameAlias)}`
+    }
 
     this.enqueueUpdate(payload)
 
     if (this.nodeName === VIEW) {
-      if (toCamelCase(qualifiedName) === CATCHMOVE) {
+      if (qualifiedNameInCamelCase === CATCHMOVE) {
         // catchMove = true: catch-view
         // catchMove = false: view or static-view
         this.enqueueUpdate({
-          path: `${this._path}.${Shortcuts.NodeName}`,
-          value: value ? CATCH_VIEW : (
-            this.isAnyEventBinded() ? VIEW : STATIC_VIEW
+          path: `${_path}.${Shortcuts.NodeName}`,
+          value: value ? catchViewAlias : (
+            this.isAnyEventBinded() ? viewAlias : staticViewAlias
           )
         })
       } else if (isPureView && isHasExtractProp(this)) {
         // pure-view => static-view
         this.enqueueUpdate({
-          path: `${this._path}.${Shortcuts.NodeName}`,
-          value: STATIC_VIEW
+          path: `${_path}.${Shortcuts.NodeName}`,
+          value: staticViewAlias
         })
       }
     }
@@ -197,10 +224,17 @@ export class TaroElement extends TaroNode {
   public removeAttribute (qualifiedName: string) {
     const isStaticView = this.nodeName === VIEW && isHasExtractProp(this) && !this.isAnyEventBinded()
 
+    MutationObserver.record({
+      target: this,
+      type: MutationRecordType.ATTRIBUTES,
+      attributeName: qualifiedName,
+      oldValue: this.getAttribute(qualifiedName)
+    })
+
     if (qualifiedName === STYLE) {
       this.style.cssText = ''
     } else {
-      const isInterrupt = this.hooks.onRemoveAttribute?.(this, qualifiedName)
+      const isInterrupt = hooks.call('onRemoveAttribute', this, qualifiedName)
       if (isInterrupt) {
         return
       }
@@ -211,29 +245,45 @@ export class TaroElement extends TaroNode {
       delete this.props[qualifiedName]
     }
 
+    // Serialization
+    if (!this._root) return
+
+    const componentsAlias = getComponentsAlias()
+    const _alias = componentsAlias[this.nodeName]
+    const viewAlias = componentsAlias[VIEW]._num
+    const staticViewAlias = componentsAlias[STATIC_VIEW]._num
+    const pureViewAlias = componentsAlias[PURE_VIEW]._num
+    const _path = this._path
+
     qualifiedName = shortcutAttr(qualifiedName)
 
+    const qualifiedNameInCamelCase = toCamelCase(qualifiedName)
     const payload = {
-      path: `${this._path}.${toCamelCase(qualifiedName)}`,
+      path: `${_path}.${qualifiedNameInCamelCase}`,
       value: ''
     }
 
-    this.hooks.modifyRmAttrPayload?.(this, qualifiedName, payload)
+    hooks.call('modifyRmAttrPayload', this, qualifiedName, payload, componentsAlias)
+
+    if (_alias) {
+      const qualifiedNameAlias = _alias[qualifiedNameInCamelCase] || qualifiedName
+      payload.path = `${_path}.${toCamelCase(qualifiedNameAlias)}`
+    }
 
     this.enqueueUpdate(payload)
 
     if (this.nodeName === VIEW) {
-      if (toCamelCase(qualifiedName) === CATCHMOVE) {
+      if (qualifiedNameInCamelCase === CATCHMOVE) {
         // catch-view => view or static-view or pure-view
         this.enqueueUpdate({
-          path: `${this._path}.${Shortcuts.NodeName}`,
-          value: this.isAnyEventBinded() ? VIEW : (isHasExtractProp(this) ? STATIC_VIEW : PURE_VIEW)
+          path: `${_path}.${Shortcuts.NodeName}`,
+          value: this.isAnyEventBinded() ? viewAlias : (isHasExtractProp(this) ? staticViewAlias : pureViewAlias)
         })
       } else if (isStaticView && !isHasExtractProp(this)) {
         // static-view => pure-view
         this.enqueueUpdate({
-          path: `${this._path}.${Shortcuts.NodeName}`,
-          value: PURE_VIEW
+          path: `${_path}.${Shortcuts.NodeName}`,
+          value: pureViewAlias
         })
       }
     }
@@ -273,10 +323,15 @@ export class TaroElement extends TaroNode {
       if (listener._stop) {
         listener._stop = false
       } else {
+        hooks.call('modifyDispatchEvent', event, this)
         result = listener.call(this, event)
       }
       if ((result === false || event._end) && cancelable) {
         event.defaultPrevented = true
+      }
+
+      if (!isUndefined(result) && event.mpEvent) {
+        event.mpEvent[EVENT_CALLBACK_RESULT] = result
       }
 
       if (event._end && event._stop) {
@@ -295,29 +350,44 @@ export class TaroElement extends TaroNode {
 
   public addEventListener (type, handler, options) {
     const name = this.nodeName
-    const SPECIAL_NODES = this.hooks.getSpecialNodes()
+    const SPECIAL_NODES = hooks.call('getSpecialNodes')!
 
-    if (!this.isAnyEventBinded() && SPECIAL_NODES.indexOf(name) > -1) {
+    let sideEffect = true
+    if (isObject<Record<string, any>>(options) && options.sideEffect === false) {
+      sideEffect = false
+      delete options.sideEffect
+    }
+
+    if (sideEffect !== false && !this.isAnyEventBinded() && SPECIAL_NODES.indexOf(name) > -1) {
+      const componentsAlias = getComponentsAlias()
+      const alias = componentsAlias[name]._num
       this.enqueueUpdate({
         path: `${this._path}.${Shortcuts.NodeName}`,
-        value: name
+        value: alias
       })
     }
 
     super.addEventListener(type, handler, options)
   }
 
-  public removeEventListener (type, handler) {
+  public removeEventListener (type, handler, sideEffect = true) {
     super.removeEventListener(type, handler)
 
     const name = this.nodeName
-    const SPECIAL_NODES = this.hooks.getSpecialNodes()
+    const SPECIAL_NODES = hooks.call('getSpecialNodes')!
 
-    if (!this.isAnyEventBinded() && SPECIAL_NODES.indexOf(name) > -1) {
+    if (sideEffect !== false && !this.isAnyEventBinded() && SPECIAL_NODES.indexOf(name) > -1) {
+      const componentsAlias = getComponentsAlias()
+      const value = isHasExtractProp(this) ? `static-${name}` : `pure-${name}`
+      const valueAlias = componentsAlias[value]._num
       this.enqueueUpdate({
         path: `${this._path}.${Shortcuts.NodeName}`,
-        value: isHasExtractProp(this) ? `static-${name}` : `pure-${name}`
+        value: valueAlias
       })
     }
+  }
+
+  static extend (methodName: string, options: Func | Record<string, any>) {
+    extend(TaroElement, methodName, options)
   }
 }

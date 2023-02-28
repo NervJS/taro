@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
 
 import PropTypes from 'prop-types'
-import { Modal, View, StyleSheet, Dimensions, Animated, Easing, ViewPropTypes } from 'react-native'
+import { Modal, View, StyleSheet, Dimensions, Animated, Easing } from 'react-native'
+import { ViewPropTypes } from 'deprecated-react-native-prop-types'
 import { Mask } from './Mask'
 
 const { width, height } = Dimensions.get('window')
@@ -34,7 +35,7 @@ class Popup extends Component<any, any> {
 
   constructor (props:Props) {
     super(props)
-    this.state = { visible: false, translateY: new Animated.Value(height) }
+    this.state = { visible: props.visible ?? false, translateY: new Animated.Value(height) }
     this.handleLayout = this.handleLayout.bind(this)
   }
 
@@ -54,7 +55,7 @@ class Popup extends Component<any, any> {
   }
 
   handleLayout ():void {
-    this.popup.measure((x, y, w, h) => {
+    this.popup.measure((_x, _y, _w, h) => {
       this.height = h
       this.setState({ translateY: new Animated.Value(h) })
       Animated.timing(this.state.translateY, {

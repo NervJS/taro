@@ -1,4 +1,3 @@
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { Component, h, ComponentInterface, Prop, Event, EventEmitter, Host, Watch, Element, State } from '@stencil/core'
 
 @Component({
@@ -9,8 +8,10 @@ export class Radio implements ComponentInterface {
   @Prop() name: string
   @Prop() value = ''
   @Prop({ mutable: true }) id: string
-  @Prop({ mutable: true }) checked = false
+  @Prop({ mutable: true, reflect: true }) checked = false
   @Prop() disabled: boolean = false
+  @Prop() nativeProps = {}
+
   @State() isWillLoadCalled = false
 
   @Element() el: HTMLElement
@@ -40,13 +41,14 @@ export class Radio implements ComponentInterface {
     this.isWillLoadCalled = true
   }
 
-  handleClick = () => {
+  handleClick = (e: Event) => {
+    e.stopPropagation()
     if (this.disabled) return
     if (!this.checked) this.checked = true
   }
 
   render () {
-    const { checked, name, value, disabled } = this
+    const { checked, name, value, disabled, nativeProps } = this
 
     return (
       <Host
@@ -66,6 +68,7 @@ export class Radio implements ComponentInterface {
           checked={checked}
           disabled={disabled}
           onChange={e => e.stopPropagation()}
+          {...nativeProps}
         />
         <i class='weui-icon-checked' />
         <slot />

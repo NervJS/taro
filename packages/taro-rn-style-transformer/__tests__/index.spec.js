@@ -1,9 +1,20 @@
-import StyleTransform, { getWrapedCSS } from '../dist/transforms'
+import StyleTransform, { getWrapedCSS } from '../src/transforms'
 
 // 初始化
-const styleTransform = new StyleTransform()
+const styleTransform = new StyleTransform({})
 
-async function run (src, filename = './__tests__/styles/a.css', options, debug) {
+async function run (src, filename = './__tests__/styles/a.css', debug) {
+  let options = { platform: 'android' }
+
+  if (typeof src === 'object') {
+    ({
+      src,
+      filename = './__tests__/styles/a.css',
+      options = { platform: 'android' },
+      debug
+    } = src || {})
+  }
+
   const css = await styleTransform.transform(src, filename, options)
   if (debug) {
     // eslint-disable-next-line
@@ -30,6 +41,20 @@ describe('style transform', () => {
 }`))
   })
 
+  it('.css transform viewport unit', async () => {
+    const css = await run(`
+      .test {
+        height: 10vh;
+      }
+    `)
+    expect(css).toEqual(getWrapedCSS(`{
+  "test": {
+    "height": scaleVu2dp(10, 'vh')
+  },
+  "__viewportUnits": true
+}`))
+  })
+
   it('.css transform @import', async () => {
     const css = await run(`
       @import './b.css';
@@ -48,9 +73,7 @@ describe('style transform', () => {
   })
 
   it('.css import source omit extension', async () => {
-    const css = await run(`
-      @import './b';
-    `, './__tests__/styles/a.css')
+    const css = await run("@import './b';", './__tests__/styles/a.css')
     expect(css).toEqual(getWrapedCSS(`{
   "brn": {
     "color": "red"
@@ -121,9 +144,7 @@ describe('style transform', () => {
   })
 
   it('.sass import source omit extension', async () => {
-    const css = await run(`
-      @import './b';
-    `, './__tests__/styles/a.scss')
+    const css = await run("@import './b';", './__tests__/styles/a.scss')
     expect(css).toEqual(getWrapedCSS(`{
   "b": {
     "color": "red"
@@ -181,10 +202,17 @@ describe('style transform', () => {
 }`))
   })
 
+  it('.less tranform node_modules file import', async () => {
+    const css = await run("@import 'less/test/browser/css/global-vars/simple.css';", './__tests__/styles/a.less')
+    expect(css).toEqual(getWrapedCSS(`{
+  "test": {
+    "color": "red"
+  }
+}`))
+  })
+
   it('.less import source omit extension', async () => {
-    const css = await run(`
-      @import './b';
-    `, './__tests__/styles/a.less')
+    const css = await run("@import './b';", './__tests__/styles/a.less')
     expect(css).toEqual(getWrapedCSS(`{
   "b": {
     "color": "red"

@@ -1,7 +1,6 @@
-import CameraRoll from '@react-native-community/cameraroll'
-import { Permissions } from 'react-native-unimodules'
+import { CameraRoll } from "@react-native-camera-roll/camera-roll"
+import { requestCameraPermissionsAsync } from 'expo-camera'
 import * as ImagePicker from 'expo-image-picker'
-import { askAsyncPermissions } from '../utils/premissions'
 import { successHandler, errorHandler } from '../utils'
 
 export const MEDIA_TYPE = {
@@ -9,10 +8,10 @@ export const MEDIA_TYPE = {
   IMAGES: 'Images'
 }
 
-export async function saveMedia(opts: Taro.saveImageToPhotosAlbum.Option|Taro.saveVideoToPhotosAlbum.Option, type:string, API:string):Promise<Taro.General.CallbackResult> {
+export async function saveMedia(opts: Taro.saveImageToPhotosAlbum.Option | Taro.saveVideoToPhotosAlbum.Option, type:string, API:string):Promise<TaroGeneral.CallbackResult> {
   const { filePath, success, fail, complete } = opts
-  const status = await askAsyncPermissions(Permissions.CAMERA_ROLL)
-  if (status !== 'granted') {
+  const { granted } = await ImagePicker.requestMediaLibraryPermissionsAsync()
+  if (!granted) {
     const res = { errMsg: 'Permissions denied!' }
     return errorHandler(fail, complete)(res)
   }
@@ -29,7 +28,7 @@ export async function saveMedia(opts: Taro.saveImageToPhotosAlbum.Option|Taro.sa
   }
 }
 
-export async function chooseMedia(opts: Taro.chooseImage.Option|Taro.chooseVideo.Option, mediaTypes: string): Promise<Taro.General.CallbackResult> {
+export async function chooseMedia(opts: Taro.chooseImage.Option | Taro.chooseVideo.Option, mediaTypes: string): Promise<TaroGeneral.CallbackResult> {
   if (!opts || typeof opts !== 'object') {
     opts = {}
   }
@@ -40,8 +39,8 @@ export async function chooseMedia(opts: Taro.chooseImage.Option|Taro.chooseVideo
     videoMaxDuration: maxDuration
   }
   const isCamera = sourceType[0] === 'camera'
-  const status = isCamera ? await askAsyncPermissions(Permissions.CAMERA) : await askAsyncPermissions(Permissions.CAMERA_ROLL)
-  if (status !== 'granted') {
+  const { granted } = isCamera ? await requestCameraPermissionsAsync() : await ImagePicker.requestMediaLibraryPermissionsAsync()
+  if (!granted) {
     const res = { errMsg: 'Permissions denied!' }
     return errorHandler(fail, complete)(res)
   }

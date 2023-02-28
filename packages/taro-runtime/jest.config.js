@@ -30,10 +30,12 @@ module.exports = {
     ENABLE_ADJACENT_HTML: true,
     ENABLE_SIZE_APIS: true,
     ENABLE_TEMPLATE_CONTENT: true,
+    ENABLE_MUTATION_OBSERVER: true,
     ENABLE_CLONE_NODE: true,
+    ENABLE_CONTAINS: true,
     'ts-jest': {
       diagnostics: false,
-      tsConfig: 'tsconfig.test.json'
+      tsconfig: 'tsconfig.test.json'
     }
   },
   testPathIgnorePatterns: [
@@ -42,8 +44,9 @@ module.exports = {
   ],
   moduleNameMapper: {
     '@tarojs/shared': path.resolve(__dirname, '..', '..', 'packages/shared/src/index.ts'),
-    '@tarojs/react': path.resolve(__dirname, '..', '..', 'packages/taro-react/dist/index.js')
+    '@tarojs/react': path.resolve(__dirname, '..', '..', 'packages/taro-react/dist/index.js'),
+    '@tarojs/plugin-framework-vue2': path.resolve(__dirname, '..', '..', 'packages/taro-plugin-vue2/dist/runtime.js')
   },
-  // setupFiles: ['<rootDir>/__tests__/setup.js'],
+  setupFiles: [path.resolve(__dirname, './src/__tests__/setup.js')],
   testMatch: ['**/__tests__/?(*.)+(spec|test).[jt]s?(x)']
 }

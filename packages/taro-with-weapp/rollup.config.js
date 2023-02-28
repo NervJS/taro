@@ -1,36 +1,52 @@
-const { join } = require('path')
-const resolve = require('rollup-plugin-node-resolve')
-const babel = require('@rollup/plugin-babel').default
-const common = require('rollup-plugin-commonjs')
-const typescript = require('rollup-plugin-typescript2')
+import babel from '@rollup/plugin-babel'
+import commonjs from '@rollup/plugin-commonjs'
+import resolve from '@rollup/plugin-node-resolve'
+import * as path from 'path'
+import ts from 'rollup-plugin-ts'
+
 const cwd = __dirname
 
 const baseConfig = {
-  input: join(cwd, 'src/index.ts'),
+  input: path.join(cwd, 'src/index.ts'),
   external: d => {
     return d.includes('@tarojs/runtime') || d.includes('@tarojs/taro') || d.includes('@babel/runtime')
   },
   output: [
     {
-      file: join(cwd, 'dist/index.js'),
+      file: path.join(cwd, 'dist/index.js'),
       format: 'cjs',
       sourcemap: true,
       exports: 'named'
     },
     {
-      file: join(cwd, 'dist/with-weapp.js'),
+      file: path.join(cwd, 'dist/with-weapp.js'),
       format: 'umd',
       name: 'TaroWithWeapp',
       sourcemap: true,
-      exports: 'named'
+      exports: 'named',
+      globals: {
+        '@babel/runtime/helpers/defineProperty': '_defineProperty',
+        '@babel/runtime/helpers/toConsumableArray': '_toConsumableArray',
+        '@babel/runtime/helpers/slicedToArray': '_slicedToArray',
+        '@babel/runtime/helpers/classCallCheck': '_classCallCheck',
+        '@babel/runtime/helpers/createClass': '_createClass',
+        '@babel/runtime/helpers/assertThisInitialized': '_assertThisInitialized',
+        '@babel/runtime/helpers/get': '_get',
+        '@babel/runtime/helpers/inherits': '_inherits',
+        '@babel/runtime/helpers/possibleConstructorReturn': '_possibleConstructorReturn',
+        '@babel/runtime/helpers/getPrototypeOf': '_getPrototypeOf',
+        '@babel/runtime/helpers/typeof': '_typeof',
+        '@tarojs/runtime': 'runtime',
+        '@tarojs/taro': 'taro'
+      }
     }
   ],
   plugins: [
-    typescript(),
     resolve({
       preferBuiltins: false
     }),
-    common({
+    ts(),
+    commonjs({
       include: 'node_modules/**'
     }),
     babel({
@@ -40,10 +56,10 @@ const baseConfig = {
   ]
 }
 const esmConfig = Object.assign({}, baseConfig, {
-  output: Object.assign({}, baseConfig.output, {
+  output: Object.assign({}, baseConfig.output[0], {
     sourcemap: true,
     format: 'es',
-    file: join(cwd, 'dist/index.esm.js')
+    file: path.join(cwd, 'dist/index.esm.js')
   })
 })
 

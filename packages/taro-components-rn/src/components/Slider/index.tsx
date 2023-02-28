@@ -25,6 +25,7 @@ import styles from './styles'
 import { SliderProps, SliderState } from './PropsType'
 
 class _Slider extends React.Component<SliderProps, SliderState> {
+  static displayName = '_Slider'
   static defaultProps = {
     min: 0,
     max: 100,

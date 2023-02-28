@@ -1,7 +1,7 @@
 import * as React from 'react'
 import AntDatePicker from '@ant-design/react-native/lib/date-picker'
 import { noop } from '../../utils'
-import { TimeProps } from './PropsType'
+import { TimeProps, TimeState } from './PropsType'
 import { TouchableWithoutFeedback } from 'react-native'
 
 function formatTimeStr(time = ''): Date {
@@ -13,7 +13,7 @@ function formatTimeStr(time = ''): Date {
   return now
 }
 
-export default class TimeSelector extends React.Component<TimeProps, any> {
+export default class TimeSelector extends React.Component<TimeProps, TimeState> {
   static defaultProps = {
     value: new Date(),
     start: '00:00',
@@ -22,14 +22,11 @@ export default class TimeSelector extends React.Component<TimeProps, any> {
 
   state: any = {
     pValue: null,
-    value: 0
+    value: new Date()
   }
 
-  dismissByOk = false
-
-  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   static getDerivedStateFromProps(nextProps: TimeProps, lastState: any) {
-    if (nextProps.value !== lastState.pValue) {
+    if (nextProps.value && nextProps.value !== lastState.pValue) {
       const now = new Date()
       if (!nextProps.value || typeof nextProps.value !== 'string') {
         return {
@@ -52,22 +49,16 @@ export default class TimeSelector extends React.Component<TimeProps, any> {
     onChange({ detail: { value: `${hh}:${mm}` } })
   }
 
-  onValueChange = (vals: number[]): void => {
+  onValueChange = (vals: string[]): void => {
     const now = new Date()
-    now.setHours(vals[0], vals[1])
+    now.setHours(+vals[0], +vals[1])
+    console.log('11', this.state)
     this.setState({ value: now })
   }
 
-  onOk = (): void => {
-    this.dismissByOk = true
-  }
-
-  onVisibleChange = (visible: boolean): void => {
-    if (!visible && !this.dismissByOk) {
-      const { onCancel = noop } = this.props
-      onCancel()
-    }
-    this.dismissByOk = false
+  onDismiss = (): void => {
+    const { onCancel = noop } = this.props
+    onCancel()
   }
 
   render(): JSX.Element {
@@ -82,9 +73,7 @@ export default class TimeSelector extends React.Component<TimeProps, any> {
         maxDate={formatTimeStr(end)}
         onChange={this.onChange}
         onValueChange={this.onValueChange}
-        // @ts-ignore
-        onOk={this.onOk}
-        onVisibleChange={this.onVisibleChange}
+        onDismiss={this.onDismiss}
         disabled={disabled}
       >
         <TouchableWithoutFeedback>{children}</TouchableWithoutFeedback>

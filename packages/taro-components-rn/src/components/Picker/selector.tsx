@@ -27,7 +27,7 @@ export default class Selector extends React.Component<SelectorProps, SelectorSta
     pRange: [],
     range: [],
     value: 0,
-    preValue: '',
+    pValue: '',
   }
 
   dismissByOk = false
@@ -42,10 +42,10 @@ export default class Selector extends React.Component<SelectorProps, SelectorSta
         })
       }
     }
-    if (nextProps.value !== lastState.preValue) {
+    if (nextProps.value !== lastState.pValue) {
       ret = ret || {}
       ret.value = nextProps.value
-      ret.preValue = nextProps.value
+      ret.pValue = nextProps.value
     }
     return ret
   }
@@ -84,6 +84,8 @@ export default class Selector extends React.Component<SelectorProps, SelectorSta
     const {
       children,
       disabled,
+      itemStyle,
+      indicatorStyle,
     } = this.props
     const {
       range,
@@ -93,10 +95,13 @@ export default class Selector extends React.Component<SelectorProps, SelectorSta
     const selected: any = range[value]
 
     return (
+      // @ts-ignore
       <AntPicker
         data={range}
         value={[selected && selected.value]}
         cols={1}
+        itemStyle={itemStyle}
+        indicatorStyle={indicatorStyle}
         onChange={this.onChange}
         onPickerChange={this.onPickerChange}
         onOk={this.onOk}

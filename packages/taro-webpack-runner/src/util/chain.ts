@@ -1,23 +1,21 @@
-import * as fs from 'fs-extra'
-import * as path from 'path'
-import { recursiveMerge, REG_SCRIPTS, REG_SASS_SASS, REG_SASS_SCSS, REG_LESS, REG_STYLUS, REG_STYLE, REG_MEDIA, REG_FONT, REG_IMAGE } from '@tarojs/helper'
+import { recursiveMerge, REG_FONT, REG_IMAGE, REG_LESS, REG_MEDIA, REG_SASS_SASS, REG_SASS_SCSS, REG_SCRIPTS, REG_STYLE, REG_STYLUS } from '@tarojs/helper'
 import { getSassLoaderOption } from '@tarojs/runner-utils'
+import { ICopyOptions, IPostcssOption, PostcssOption } from '@tarojs/taro/types/compile'
 import * as CopyWebpackPlugin from 'copy-webpack-plugin'
 import CssoWebpackPlugin from 'csso-webpack-plugin'
-import * as sass from 'sass'
+import * as fs from 'fs-extra'
 import * as HtmlWebpackPlugin from 'html-webpack-plugin'
 import { partial } from 'lodash'
 import { mapKeys, pipe } from 'lodash/fp'
 import * as MiniCssExtractPlugin from 'mini-css-extract-plugin'
-import { join, resolve } from 'path'
+import * as path from 'path'
+import * as sass from 'sass'
 import * as TerserPlugin from 'terser-webpack-plugin'
 import * as webpack from 'webpack'
-import { PostcssOption, IPostcssOption, ICopyOptions } from '@tarojs/taro/types/compile'
-import * as ReactRefreshWebpackPlugin from '@pmmmwh/react-refresh-webpack-plugin'
 
+import { getDefaultPostcssConfig, getPostcssPlugins } from '../config/postcss.conf'
 import MainPlugin from '../plugins/MainPlugin'
-import { getPostcssPlugins } from '../config/postcss.conf'
-import { Option, BuildConfig } from './types'
+import { BuildConfig, Option } from './types'
 
 export const makeConfig = async (buildConfig: BuildConfig) => {
   const sassLoaderOption = await getSassLoaderOption(buildConfig)
@@ -85,52 +83,6 @@ const getPlugin = (plugin: any, args: Option[]) => {
   }
 }
 
-export const DEFAULT_Components = new Set<string>([
-  'view',
-  'scroll-view',
-  'swiper',
-  'cover-view',
-  'cover-image',
-  'icon',
-  'text',
-  'rich-text',
-  'progress',
-  'button',
-  'checkbox',
-  'form',
-  'input',
-  'label',
-  'picker',
-  'picker-view',
-  'picker-view-column',
-  'radio',
-  'radio-group',
-  'checkbox-group',
-  'slider',
-  'switch',
-  'textarea',
-  'navigator',
-  'audio',
-  'image',
-  'video',
-  'camera',
-  'live-player',
-  'live-pusher',
-  'map',
-  'canvas',
-  'open-data',
-  'web-view',
-  'swiper-item',
-  'movable-area',
-  'movable-view',
-  'functional-page-navigator',
-  'ad',
-  'block',
-  'import',
-  'official-account',
-  'editor'
-])
-
 const mergeOption = ([...options]: Option[]): Option => {
   return recursiveMerge({}, ...options)
 }
@@ -169,7 +121,6 @@ const getBabelLoader = pipe(
   mergeOption,
   partial(getLoader, 'babel-loader')
 )
-
 const getUrlLoader = pipe(
   mergeOption,
   partial(getLoader, 'url-loader')
@@ -179,6 +130,10 @@ const getExtractCssLoader = () => {
     loader: MiniCssExtractPlugin.loader
   }
 }
+const getImportMetaLoader = pipe(
+  mergeOption,
+  partial(getLoader, '@open-wc/webpack-import-meta-loader')
+)
 
 export const getMiniCssExtractPlugin = pipe(
   mergeOption,
@@ -211,12 +166,12 @@ export const getCssoWebpackPlugin = ([cssoOption]) => {
     partial(getPlugin, CssoWebpackPlugin)
   )([defaultCSSCompressOption, cssoOption])
 }
-export const getCopyWebpackPlugin = ({ copy, appPath }: { copy: ICopyOptions; appPath: string }) => {
+export const getCopyWebpackPlugin = ({ copy, appPath }: { copy: ICopyOptions, appPath: string }) => {
   const args = [
     copy.patterns.map(({ from, to, ...extra }) => {
       return {
         from,
-        to: resolve(appPath, to),
+        to: path.resolve(appPath, to),
         context: appPath,
         ...extra
       }
@@ -228,10 +183,6 @@ export const getCopyWebpackPlugin = ({ copy, appPath }: { copy: ICopyOptions; ap
 
 export const getMainPlugin = args => {
   return partial(getPlugin, MainPlugin)([args])
-}
-
-export const getFastRefreshPlugin = () => {
-  return partial(getPlugin, ReactRefreshWebpackPlugin)([])
 }
 
 const styleModuleReg = /(.*\.module).*\.(css|s[ac]ss|less|styl)\b/
@@ -257,8 +208,7 @@ const getEsnextModuleRules = esnextModules => {
   return [...defaultEsnextModuleRegs, ...esnextModules]
 }
 
-export const getModule = (appPath: string, {
-  staticDirectory,
+export const parseModule = (appPath: string, {
   designWidth,
   deviceRatio,
   enableExtract,
@@ -274,9 +224,12 @@ export const getModule = (appPath: string, {
   mediaUrlLoaderOption,
   esnextModules = [] as (string | RegExp)[],
 
-  postcss
+  compile,
+  postcss,
+  sourceDir,
+  staticDirectory
 }) => {
-  const postcssOption: IPostcssOption = postcss || {}
+  const customPostcssOption: IPostcssOption = postcss || {}
 
   const defaultStyleLoaderOption = {
     /**
@@ -288,7 +241,7 @@ export const getModule = (appPath: string, {
   const cssModuleOptions: PostcssOption.cssModules = recursiveMerge(
     {},
     defaultCssModuleOption,
-    postcssOption.cssModules
+    customPostcssOption.cssModules
   )
 
   const { namingPattern, generateScopedName } = cssModuleOptions.config!
@@ -367,6 +320,7 @@ export const getModule = (appPath: string, {
   const cssLoader = getCssLoader(cssOptions)
   const cssLoaders: {
     include?
+    resourceQuery?
     use
   }[] = [
     {
@@ -381,6 +335,11 @@ export const getModule = (appPath: string, {
     if (cssModuleOptions.config!.namingPattern === 'module') {
       /* 不排除 node_modules 内的样式 */
       cssModuleCondition = styleModuleReg
+      // for vue
+      cssLoaders.unshift({
+        resourceQuery: /module=/,
+        use: [cssLoaderWithModule]
+      })
     } else {
       cssModuleCondition = {
         and: [{ exclude: styleGlobalReg }, { exclude: [isNodeModule] }]
@@ -392,15 +351,16 @@ export const getModule = (appPath: string, {
     })
   }
 
+  const postcssOption = getDefaultPostcssConfig({
+    designWidth,
+    deviceRatio,
+    option: customPostcssOption
+  })
   const postcssLoader = getPostcssLoader([
     { sourceMap: enableSourceMap },
     {
       postcssOptions: {
-        plugins: getPostcssPlugins(appPath, {
-          designWidth,
-          deviceRatio,
-          postcssOption
-        })
+        plugins: getPostcssPlugins(appPath, postcssOption)
       }
     }
   ])
@@ -451,6 +411,45 @@ export const getModule = (appPath: string, {
 
   const stylusLoader = getStylusLoader([{ sourceMap: enableSourceMap }, stylusLoaderOption])
 
+  const scriptRule: any = {
+    test: REG_SCRIPTS,
+    use: {
+      babelLoader: getBabelLoader([{
+        compact: false
+      }]),
+      /** stencil 2.14 开始使用了 import.meta.url 需要额外处理
+       * https://github.com/webpack/webpack/issues/6719
+       */
+      importMeta: getImportMetaLoader([]),
+    }
+  }
+
+  if (compile.exclude && compile.exclude.length) {
+    scriptRule.exclude = [
+      ...compile.exclude,
+      filename => /css-loader/.test(filename) || (/node_modules/.test(filename) && !(/taro/.test(filename)))
+    ]
+  } else if (compile.include && compile.include.length) {
+    scriptRule.include = [
+      ...compile.include,
+      sourceDir,
+      filename => /taro/.test(filename)
+    ]
+  } else {
+    /**
+     * 要优先处理 css-loader 问题
+     *
+     * https://github.com/webpack-contrib/mini-css-extract-plugin/issues/471#issuecomment-750266195
+     *
+     * 若包含 @tarojs/components，则跳过 babel-loader 处理
+     * 除了包含 taro 和 inversify 的第三方依赖均不经过 babel-loader 处理
+     */
+    scriptRule.exclude = [filename =>
+      /css-loader/.test(filename)
+      // || /@tarojs[\\/]components/.test(filename) Note: stencil 2.14 开始使用了 import.meta.url 需要额外处理
+      || (/node_modules/.test(filename) && !(/taro/.test(filename) || /inversify/.test(filename)))]
+  }
+
   const rule: {
     [key: string]: any
   } = {}
@@ -496,19 +495,11 @@ export const getModule = (appPath: string, {
     test: REG_LESS,
     use: [lessLoader]
   }
-  rule.styl = {
+  rule.stylus = {
     test: REG_STYLUS,
     use: [stylusLoader]
   }
-  rule.script = {
-    test: REG_SCRIPTS,
-    exclude: [filename => /@tarojs\/components/.test(filename) || (/node_modules/.test(filename) && !(/taro/.test(filename)))],
-    use: {
-      babelLoader: getBabelLoader([{
-        compact: false
-      }])
-    }
-  }
+  rule.script = scriptRule
   rule.media = {
     test: REG_MEDIA,
     use: {
@@ -546,12 +537,12 @@ export const getModule = (appPath: string, {
     }
   }
 
-  return { rule }
+  return { rule, postcssOption }
 }
 
 export const getOutput = (appPath: string, [{ outputRoot, publicPath, chunkDirectory }, customOutput]) => {
   return {
-    path: join(appPath, outputRoot),
+    path: path.resolve(appPath, outputRoot),
     filename: 'js/[name].js',
     chunkFilename: `${chunkDirectory}/[name].js`,
     publicPath,

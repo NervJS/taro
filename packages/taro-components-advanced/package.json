@@ -1,0 +1,57 @@
+{
+  "name": "@tarojs/components-advanced",
+  "version": "3.6.2",
+  "description": "",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist",
+    "typings"
+  ],
+  "sideEffects": [
+    "*.scss",
+    "*.css"
+  ],
+  "scripts": {
+    "prebuild": "pnpm run clean",
+    "build": "rollup -c",
+    "clean": "rimraf ./dist",
+    "dev": "pnpm run build -w"
+  },
+  "keywords": [],
+  "author": "ZakaryCode",
+  "license": "MIT",
+  "dependencies": {
+    "@tarojs/components": "workspace:*",
+    "@tarojs/shared": "workspace:*",
+    "memoize-one": "^6.0.0",
+    "postcss": "^8.4.18"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.14.5",
+    "@babel/core": "^7.14.5",
+    "@babel/plugin-transform-typescript": "^7.20.2",
+    "@rollup/plugin-commonjs": "^20.0.0",
+    "@rollup/plugin-node-resolve": "^8.0.0",
+    "@types/node": "^14.14.31",
+    "babel-preset-taro": "workspace:*",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "rollup": "^2.79.0",
+    "rollup-plugin-node-externals": "^4.0.0",
+    "rollup-plugin-ts": "^3.0.2",
+    "typescript": "^4.7.4",
+    "vue": "^3.0.0"
+  },
+  "peerDependencies": {
+    "react": ">=17"
+  },
+  "peerDependenciesMeta": {
+    "react": {
+      "optional": true
+    },
+    "vue": {
+      "optional": true
+    }
+  }
+}

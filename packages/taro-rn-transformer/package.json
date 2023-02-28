@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/rn-transformer",
-  "version": "3.3.7",
+  "version": "3.6.2",
   "description": "Taro RN 入口文件处理",
   "main": "dist/index.js",
   "types": "./src/types/index.d.ts",
@@ -8,7 +8,7 @@
     "build": "tsc",
     "dev": "tsc -w",
     "test": "jest",
-    "test:ci": "jest --silent --coverage false",
+    "test:ci": "jest --ci --silent --coverage false",
     "lint": "eslint ."
   },
   "author": "yechunxi",
@@ -31,8 +31,17 @@
     "node": ">=12.0.0",
     "npm": ">=6.0.0"
   },
+  "dependencies": {
+    "lodash": "^4.17.21",
+    "mkdirp": "^1.0.4",
+    "mime-types": "^2.1.27",
+    "normalize-path": "^3.0.0"
+  },
   "devDependencies": {
-    "@tarojs/helper": "3.3.7",
-    "lodash": "^4.17.20"
+    "@babel/core": "^7.14.5",
+    "@babel/parser": "^7.14.5",
+    "@babel/traverse": "^7.14.5",
+    "@babel/types": "^7.14.5",
+    "@tarojs/helper": "workspace:*"
   }
 }

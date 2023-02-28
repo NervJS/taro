@@ -43,7 +43,7 @@ function showVideoPicker(options: Taro.chooseVideo.Option):any {
           resolve(chooseMedia({...options, sourceType: ['album']}, MEDIA_TYPE.VIDEOS))
         }
       },
-      fail: function (err) {
+      fail: function () {
         const res = { errMsg: 'chooseVideo:fail cancel' }
         reject(res)
       }

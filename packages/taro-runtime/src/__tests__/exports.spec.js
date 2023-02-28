@@ -28,7 +28,5 @@ describe('style', () => {
   it('dsl', () => {
     expect(runtime.createComponentConfig).not.toBeUndefined()
     expect(runtime.createPageConfig).not.toBeUndefined()
-    expect(runtime.createReactApp).not.toBeUndefined()
-    expect(runtime.createReactApp).not.toBeUndefined()
   })
 })

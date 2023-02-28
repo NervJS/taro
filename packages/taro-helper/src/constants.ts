@@ -1,5 +1,6 @@
 import * as os from 'os'
-import * as chalk from 'chalk'
+
+import { chalk } from './terminal'
 
 // eslint-disable-next-line dot-notation
 export const PLATFORMS = global['PLATFORMS'] = global['PLATFORMS'] || {}
@@ -21,7 +22,7 @@ export const enum processTypeEnum {
 
 export interface IProcessTypeMap {
   [key: string]: {
-    name: string,
+    name: string
     color: string | chalk.Chalk
   }
 }
@@ -104,7 +105,7 @@ export const REG_JSON = /\.json(\?.*)?$/
 export const REG_UX = /\.ux(\?.*)?$/
 export const REG_TEMPLATE = /\.(wxml|axml|ttml|qml|swan|jxml)(\?.*)?$/
 export const REG_WXML_IMPORT = /<import(.*)?src=(?:(?:'([^']*)')|(?:"([^"]*)"))/gi
-export const REG_URL = /^(?:(?:(?:https?|ftp):)?\/\/)(?:\S+(?::\S*)?@)?(?:(?!(?:10|127)(?:\.\d{1,3}){3})(?!(?:169\.254|192\.168)(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)(?:\.(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)*(?:\.(?:[a-z\u00a1-\uffff]{2,}))\.?)(?::\d{2,5})?(?:[/?#]\S*)?$/i
+export const REG_URL = /^(?:(?:(?:https?|ftp):)?\/\/)(?:\S+(?::\S*)?@)?(?:(?!(?:10|127)(?:\.\d{1,3}){3})(?!(?:169\.254|192\.168)(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z0-9\u00a1-\uffff][a-z0-9\u00a1-\uffff_-]{0,62})?[a-z0-9\u00a1-\uffff]\.)+(?:[a-z\u00a1-\uffff]{2,}\.?))(?::\d{2,5})?(?:[/?#]\S*)?$/i
 export const CSS_IMPORT_REG = /@import (["'])(.+?)\1;/g
 
 export const NODE_MODULES = 'node_modules'
@@ -127,24 +128,44 @@ export const FILE_PROCESSOR_MAP = {
 }
 
 export const UPDATE_PACKAGE_LIST = [
+  'babel-plugin-transform-react-jsx-to-rn-stylesheet',
+  'taro-css-to-react-native',
+  'stylelint-config-taro-rn',
+  'stylelint-taro-rn',
   'babel-plugin-transform-taroapi',
   'babel-preset-taro',
   'eslint-config-taro',
-  'eslint-plugin-taro',
+  'postcss-html-transform',
   'postcss-plugin-constparse',
   'postcss-pxtransform',
   '@tarojs/shared',
   '@tarojs/taro',
   '@tarojs/cli',
+  '@tarojs/api',
   '@tarojs/components',
+  '@tarojs/components-react',
+  '@tarojs/components-rn',
+  '@tarojs/extend',
   '@tarojs/taro-h5',
+  '@tarojs/taro-rn',
+  '@tarojs/rn-runner',
+  '@tarojs/rn-style-transformer',
+  '@tarojs/rn-supporter',
+  '@tarojs/rn-transformer',
   '@tarojs/helper',
   '@tarojs/taro-loader',
   '@tarojs/mini-runner',
   '@tarojs/react',
+  '@tarojs/plugin-framework-react',
+  '@tarojs/plugin-framework-vue2',
+  '@tarojs/plugin-framework-vue3',
+  '@tarojs/plugin-react-devtools',
+  '@tarojs/plugin-vue-devtools',
   '@tarojs/router',
+  '@tarojs/router-rn',
   '@tarojs/runner-utils',
   '@tarojs/runtime',
+  '@tarojs/runtime-rn',
   '@tarojs/service',
   '@tarojs/webpack-runner',
   '@tarojs/with-weapp',
@@ -155,8 +176,11 @@ export const UPDATE_PACKAGE_LIST = [
   '@tarojs/plugin-platform-tt',
   '@tarojs/plugin-platform-qq',
   '@tarojs/plugin-platform-jd',
-  'nervjs',
-  'nerv-devtools'
+  '@tarojs/plugin-platform-h5',
+  '@tarojs/plugin-html',
+  '@tarojs/plugin-mini-ci',
+  '@tarojs/webpack5-runner',
+  '@tarojs/webpack5-prebundle',
 ]
 
 export enum META_TYPE {
@@ -179,9 +203,9 @@ export const taroJsMobxCommon = '@tarojs/mobx-common'
 export const DEVICE_RATIO_NAME = 'deviceRatio'
 export const isWindows = os.platform() === 'win32'
 
-export const DEFAULT_TEMPLATE_SRC = 'github:NervJS/taro-project-templates#v3.1'
-export const DEFAULT_TEMPLATE_SRC_GITEE = 'direct:https://gitee.com/o2team/taro-project-templates.git#v3.1'
-export const TARO_CONFIG_FLODER = '.taro3.1'
+export const DEFAULT_TEMPLATE_SRC = 'github:NervJS/taro-project-templates#v3.6'
+export const DEFAULT_TEMPLATE_SRC_GITEE = 'direct:https://gitee.com/o2team/taro-project-templates.git#v3.6'
+export const TARO_CONFIG_FOLDER = '.taro3.6'
 export const TARO_BASE_CONFIG = 'index.json'
 
 export const OUTPUT_DIR = 'dist'
@@ -195,11 +219,4 @@ export enum FRAMEWORK_MAP {
   VUE3 = 'vue3',
   REACT = 'react',
   NERV = 'nerv'
-}
-
-export const FRAMEWORK_EXT_MAP = {
-  vue: VUE_EXT,
-  vue3: VUE_EXT,
-  react: SCRIPT_EXT,
-  nerv: SCRIPT_EXT
 }

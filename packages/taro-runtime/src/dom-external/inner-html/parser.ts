@@ -1,12 +1,13 @@
 import { isFunction } from '@tarojs/shared'
-import { Scaner, Token } from './scaner'
+
 import { options } from '../../options'
-import { specialMiniElements, isMiniElements, isBlockElements, isInlineElements } from './tags'
+import { Scaner, Token } from './scaner'
 import StyleTagParser from './style'
+import { isBlockElements, isInlineElements, isMiniElements, specialMiniElements } from './tags'
 import { unquote } from './utils'
 
-import type { TaroElement } from '../../dom/element'
 import type { TaroDocument } from '../../dom/document'
+import type { TaroElement } from '../../dom/element'
 
 interface State {
   tokens: Token[]
@@ -26,7 +27,7 @@ const closingTagAncestorBreakers = {
 }
 
 interface Node {
-  type: string;
+  type: string
 }
 
 interface Comment extends Node {
@@ -119,9 +120,9 @@ function format (
     .map((child: Text | Element) => {
       // 文本节点
       if (child.type === 'text') {
-        const text = document.createTextNode(child.content)
+        let text = document.createTextNode(child.content)
         if (isFunction(options.html!.transformText)) {
-          return options.html!.transformText(text, child)
+          text = options.html!.transformText(text, child)
         }
         parent?.appendChild(text)
         return text

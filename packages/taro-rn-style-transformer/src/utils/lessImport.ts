@@ -1,47 +1,47 @@
-import path from 'path'
-import { resolveStyle } from './index'
-import { LogLevelEnum } from '../types'
+import Less from 'less'
 
-class Importer {
+import { resolveStyle } from './index'
+
+class LessImporter extends Less.FileManager {
+  platform: 'android' | 'ios'
+  alias: Record<string, string> = {}
+
   constructor (opt) {
+    super()
     this.platform = opt.platform
     this.alias = opt.alias
   }
 
-  platform: 'android' | 'ios'
+  supports () {
+    return true
+  }
 
-  alias: Record<string, string> = {}
+  supportsSync () {
+    return false
+  }
 
-  process (src: string, options: Less.PreProcessorExtraInfo) {
-    const { fileInfo } = options
-    const { filename, currentDirectory: basedir } = fileInfo
-
-    if (!basedir) {
-      return src
-    }
-
+  async loadFile (
+    filename: string,
+    currentDirectory: string,
+    options: any,
+    environment: any
+  ) {
     const resolveOpts = {
-      basedir,
+      basedir: currentDirectory,
       alias: this.alias,
       platform: this.platform,
-      logLevel: LogLevelEnum.WARNING,
-      defaultExt: path.extname(filename)
+      defaultExt: '.less'
     }
+    const rewriteFilename = resolveStyle(filename, resolveOpts)
 
-    // 解析 @import "a.less" 字符串里面的内容
-    src = src.replace(/@import\s+['"]([^'|"]*)['"]/gi, (_, id) => {
-      const relativePath = path.relative(basedir, resolveStyle(id.trim(), resolveOpts)).replace(/\\/g, '/')
-      return `@import '${relativePath}';`
-    })
-
-    return src
+    return super.loadFile(rewriteFilename, currentDirectory, options, environment)
   }
 }
 
 function makeLessImport (options) {
   return {
     install: (_, pluginManager) => {
-      pluginManager.addPreProcessor(new Importer(options))
+      pluginManager.addFileManager(new LessImporter(options))
     },
     minVersion: [2, 7, 1]
   }

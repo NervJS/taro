@@ -25,3 +25,9 @@ export const clearStorageSync = temporarilyNotSupport('clearStorageSync', 'clear
 // 屏幕
 export const onUserCaptureScreen = temporarilyNotSupport('onUserCaptureScreen', '', false)
 export const offUserCaptureScreen = temporarilyNotSupport('offUserCaptureScreen', '', false)
+
+// 文件
+export const getFileSystemManager = temporarilyNotSupport('getFileSystemManager', '', false)
+
+// WXML
+export const createSelectorQuery = temporarilyNotSupport('createSelectorQuery', '', false)

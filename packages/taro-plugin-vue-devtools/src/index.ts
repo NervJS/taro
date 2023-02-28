@@ -43,6 +43,7 @@ export default function (ctx: IPluginContext, options: IOptions) {
         const config = args[0]
         config.__VUE_DEVTOOLS_PORT__ = port
         config.ENABLE_SIZE_APIS = true
+        config.ENABLE_CONTAINS = true
         return args
       })
 
@@ -55,10 +56,33 @@ export default function (ctx: IPluginContext, options: IOptions) {
         return args
       })
   })
+
+  ctx.modifyRunnerOpts(({ opts }) => {
+    if (!opts?.compiler) return
+
+    if (isString(opts.compiler)) {
+      opts.compiler = {
+        type: opts.compiler
+      }
+    }
+    if (opts.compiler.type === 'webpack5') {
+      opts.compiler.prebundle ||= {}
+      const prebundle = opts.compiler.prebundle
+      if (prebundle.enable === false) return
+
+      prebundle.webpack ||= {}
+      const webpackConfig = prebundle.webpack
+      webpackConfig.provide ||= []
+      webpackConfig.provide.push(function (obj, taroRuntimeBundlePath) {
+        obj.globalThis = [taroRuntimeBundlePath, 'window']
+        obj.HTMLElement = [taroRuntimeBundlePath, 'TaroElement']
+      })
+    }
+  })
 }
 
 function injectRuntimePath (platform: TaroPlatformBase) {
-  const injectedPath = '@tarojs/plugin-vue-devtools/dist/runtime'
+  const injectedPath = 'post:@tarojs/plugin-vue-devtools/dist/runtime'
 
   if (isArray(platform.runtimePath)) {
     platform.runtimePath.push(injectedPath)

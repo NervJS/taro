@@ -1,13 +1,13 @@
 {
   "name": "@tarojs/rn-supporter",
-  "version": "3.3.7",
+  "version": "3.6.2",
   "description": "Taro rn supporter",
   "main": "dist/index.js",
   "scripts": {
     "build": "tsc",
     "dev": "tsc -w",
     "test": "jest",
-    "test:ci": "jest --silent --coverage false",
+    "test:ci": "jest --ci --silent --coverage false",
     "lint": "eslint ."
   },
   "author": "yechunxi",
@@ -19,7 +19,8 @@
   },
   "files": [
     "dist/",
-    "src/types/"
+    "src/types/",
+    "entry-file.js"
   ],
   "repository": {
     "type": "git",
@@ -31,11 +32,29 @@
     "npm": ">=6.0.0"
   },
   "dependencies": {
-    "@tarojs/helper": "3.3.7",
-    "@tarojs/rn-style-transformer": "3.3.7",
-    "lodash": "^4.17.20",
-    "metro": "^0.64.0",
-    "metro-react-native-babel-transformer": "^0.64.0",
-    "metro-resolver": "^0.64.0"
+    "@react-native-community/cli-config": "^9.1.0",
+    "@react-native-community/cli-tools": "^9.1.0",
+    "@rnx-kit/metro-resolver-symlinks": "^0.1.23",
+    "@tarojs/helper": "workspace:*",
+    "@tarojs/rn-transformer": "workspace:*",
+    "@tarojs/rn-style-transformer": "workspace:*",
+    "lodash": "^4.17.21",
+    "metro": "^0.72.1",
+    "metro-cache": "^0.72.1",
+    "metro-core": "^0.72.1",
+    "metro-react-native-babel-transformer": "^0.72.1",
+    "metro-resolver": "^0.72.1",
+    "mime-types": "^2.1.27",
+    "qrcode": "^1.5.1",
+    "react-native-svg-transformer": "^0.14.3",
+    "yargs": "^15.3.1"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.14.5",
+    "@babel/preset-env": "^7.14.5",
+    "react": "18.1.0",
+    "react-native": "^0.70.5",
+    "react-native-svg": "~13.7.0",
+    "react-test-renderer": "18.1.0"
   }
 }

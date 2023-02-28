@@ -1,12 +1,12 @@
-import { successHandler, errorHandler } from './utils/index'
-import { CallbackResult, BaseOption } from './utils/types'
-import { navigationRef, isTabPage } from './rootNavigation'
+import { navigationRef } from './rootNavigation'
+import { errorHandler, successHandler } from './utils/index'
+import { BaseOption, CallbackResult } from './utils/types'
 
 interface NavigateBarTitleOption extends BaseOption {
   title: string
 }
 interface NavigateBarColorOption extends BaseOption {
-  backgroundColor: string,
+  backgroundColor: string
   frontColor: string
 }
 
@@ -15,21 +15,16 @@ function setNavigateConfig (obj) {
   const params = oldParams?.navigateConfig || {}
   navigationRef.current?.setParams({
     navigateConfig: Object.assign({}, { ...params }, { ...obj })
-  })
+  } as never)
 }
 
 export function setNavigationBarTitle (option: NavigateBarTitleOption): Promise<CallbackResult> {
   const { title, fail, success, complete } = option
   let msg
   try {
-    // 如果是tabbar，设置会不生效，设置setParams ,触发tab header重新渲染
-    if (isTabPage()) {
-      setNavigateConfig({ title })
-    } else {
-      navigationRef.current?.setOptions({
-        title: title
-      })
-    }
+    navigationRef.current?.setOptions({
+      title: title
+    })
   } catch (error) {
     msg = error
     return errorHandler(fail, complete)({ errMsg: msg })
@@ -51,12 +46,7 @@ export function setNavigationBarColor (option: NavigateBarColorOption): Promise<
     headerTintColor: frontColor
   })
   try {
-    // 如果是tabbar，设置会不生效，设置setParams ,触发tab header更新
-    if (isTabPage()) {
-      setNavigateConfig({ ...params })
-    } else {
-      navigationRef.current?.setOptions({ ...params })
-    }
+    navigationRef.current?.setOptions({ ...params })
   } catch (error) {
     msg = error
     return errorHandler(fail, complete)({ errMsg: msg })

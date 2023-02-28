@@ -1,72 +1,42 @@
-import React from 'react'
+import { PickerDateProps, PickerMultiSelectorProps, PickerSelectorProps, PickerTimeProps, PickerRegionProps } from '@tarojs/components/types/Picker'
 
-export type OnChangeEvent<T, E> = { detail: { value: T } & E }
-interface CommonProps<T, E = Record<string, unknown>> {
-  children?: React.ReactNode;
-  mode?: 'selector' | 'multiSelector' | 'time' | 'date' | 'region';
-  value?: T;
-  onChange?: (event: OnChangeEvent<T, E>) => void;
-  onCancel?: () => void;
-  disabled?: boolean;
+export interface BaseState<T> {
+  /** 表示当前选中的值 */
+  value: T;
+  /** 表示上一次选中的值 */
+  pValue: T;
 }
 
-export interface SelectorProps extends CommonProps<number> {
-  range?: any[];
-  rangeKey?: string;
-}
+export type SelectorProps = Partial<PickerSelectorProps>
 
-export type MultiSelectorOnColumnChangeEvent = { detail: { column: number; value: number } }
-export interface MultiSelectorProps extends CommonProps<number[]> {
-  range?: any[][];
-  rangeKey?: string;
-  onColumnChange?: (event: MultiSelectorOnColumnChangeEvent) => void;
-}
-
-export interface TimeProps extends CommonProps<string> {
-  start?: string;
-  end?: string;
-}
-
-export interface DateProps extends CommonProps<string> {
-  start?: string;
-  end?: string;
-  fields?: 'year' | 'month' | 'day';
-}
-
-export interface DateState {
-  pValue: string | Date;
-  value: string | Date;
-}
-
-export interface RegionState {
-  pvalue: string[] | undefined;
-  value: string[] | undefined;
-}
-
-export interface SelectorState {
+export interface SelectorState extends BaseState<number | string> {
   pRange: any[] | undefined;
   range: any[];
-  value: number;
-  preValue: React.ReactText[] | undefined;
 }
 
-export interface MultiSelectorState {
-  cols: number;
-  pRange: any[];
-  pValue: any[];
-  range: any[];
-  value: any[];
-}
+export type TimeProps = Partial<PickerTimeProps>
+export type TimeState = BaseState<string|Date>
 
-type RegionOnChangeEventExtra = { code: string[]; postcode?: string[] }
-export interface RegionProps extends CommonProps<string[], RegionOnChangeEventExtra> {
+export type DateProps = Partial<PickerDateProps>
+export type DateState = BaseState<string | Date>
+
+export interface RegionProps extends Partial<PickerRegionProps> {
   customItem?: string;
   regionData?: RegionObj[];
 }
-
+export type RegionState = BaseState<string[]>
 export interface RegionObj {
   value: string
   code: string
   postcode?: string
   children?: RegionObj[]
+}
+
+export interface MultiSelectorProps extends Partial<PickerMultiSelectorProps> {
+  value: number[]
+}
+export interface MultiSelectorState extends BaseState<any[]> {
+  cols: number;
+  pRange: any[];
+  range: any[];
 }

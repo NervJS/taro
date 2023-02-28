@@ -1,36 +1,34 @@
-import * as fs from 'fs-extra'
-import * as path from 'path'
-
-import { AppConfig, TabBar } from '@tarojs/taro'
-import * as prettier from 'prettier'
-import traverse, { NodePath } from 'babel-traverse'
-import * as t from 'babel-types'
-import * as taroize from '@tarojs/taroize'
-import wxTransformer from '@tarojs/transformer-wx'
-import * as postcss from 'postcss'
-import * as unitTransform from 'postcss-taro-unit-transform'
+import template from '@babel/template'
+import traverse, { NodePath } from '@babel/traverse'
+import * as t from '@babel/types'
 // import * as inquirer from 'inquirer'
-
 import {
-  printLog,
-  promoteRelativePath,
-  resolveScriptPath,
+  chalk,
   CSS_IMPORT_REG,
-  pascalCase,
   emptyDirectory,
+  pascalCase,
+  printLog,
   processTypeEnum,
+  promoteRelativePath,
+  REG_IMAGE,
   REG_TYPESCRIPT,
   REG_URL,
-  REG_IMAGE,
-  chalk
+  resolveScriptPath
 } from '@tarojs/helper'
-import { generateMinimalEscapeCode } from '../util/astConvert'
-import Creator from '../create/creator'
-import babylonConfig from '../config/babylon'
-import { analyzeImportUrl, incrementId } from './helper'
-import { getPkgVersion } from '../util'
+import { AppConfig, TabBar } from '@tarojs/taro'
+import * as taroize from '@tarojs/taroize'
+import wxTransformer from '@tarojs/transformer-wx'
+import * as fs from 'fs-extra'
+import * as path from 'path'
+import Processors from 'postcss'
+import * as unitTransform from 'postcss-taro-unit-transform'
+import * as prettier from 'prettier'
 
-const template = require('babel-template')
+import babylonConfig from '../config/babylon'
+import Creator from '../create/creator'
+import { getPkgVersion } from '../util'
+import { generateMinimalEscapeCode } from '../util/astConvert'
+import { analyzeImportUrl, incrementId } from './helper'
 
 const prettierJSConfig: prettier.Options = {
   semi: false,
@@ -43,31 +41,31 @@ const OUTPUT_STYLE_EXTNAME = '.scss'
 const WX_GLOBAL_FN = new Set<string>(['getApp', 'getCurrentPages', 'requirePlugin', 'Behavior'])
 
 interface IComponent {
-  name: string;
-  path: string;
+  name: string
+  path: string
 }
 
 interface IImport {
-  ast: t.File;
-  name: string;
-  wxs?: boolean;
+  ast: t.File
+  name: string
+  wxs?: boolean
 }
 
 interface IParseAstOptions {
-  ast: t.File;
-  sourceFilePath: string;
-  outputFilePath: string;
-  importStylePath?: string | null;
-  depComponents?: Set<IComponent>;
-  imports?: IImport[];
-  isApp?: boolean;
+  ast: t.File
+  sourceFilePath: string
+  outputFilePath: string
+  importStylePath?: string | null
+  depComponents?: Set<IComponent>
+  imports?: IImport[]
+  isApp?: boolean
 }
 
 interface ITaroizeOptions {
-  json?: string;
-  script?: string;
-  wxml?: string;
-  path?: string;
+  json?: string
+  script?: string
+  wxml?: string
+  path?: string
   rootPath?: string
 }
 
@@ -75,7 +73,7 @@ function processStyleImports (content: string, processFn: (a: string, b: string)
   const style: string[] = []
   const imports: string[] = []
   const styleReg = new RegExp('.wxss')
-  content = content.replace(CSS_IMPORT_REG, (m, $1, $2) => {
+  content = content.replace(CSS_IMPORT_REG, (m, _$1, $2) => {
     if (styleReg.test($2)) {
       style.push(m)
       imports.push($2)
@@ -160,7 +158,7 @@ export default class Convertor {
     importStylePath,
     depComponents,
     imports = []
-  }: IParseAstOptions): { ast: t.File; scriptFiles: Set<string> } {
+  }: IParseAstOptions): { ast: t.File, scriptFiles: Set<string> } {
     const scriptFiles = new Set<string>()
     // eslint-disable-next-line @typescript-eslint/no-this-alias
     const self = this
@@ -213,7 +211,7 @@ export default class Convertor {
                       componentClassName = (parentNode.id as t.Identifier).name
                     }
                   } else {
-                    componentClassName = node.id.name
+                    componentClassName = node.id!.name
                   }
                 }
               }
@@ -237,7 +235,7 @@ export default class Convertor {
                     }
                   })
                   if (isTaroComponent) {
-                    componentClassName = declaration.id.name
+                    componentClassName = declaration.id!.name
                   }
                 }
               }
@@ -793,7 +791,7 @@ ${code}
   }
 
   async styleUnitTransform (filePath: string, content: string) {
-    const postcssResult = await postcss([unitTransform()]).process(content, {
+    const postcssResult = await Processors([unitTransform()]).process(content, {
       from: filePath
     })
     return postcssResult
@@ -879,12 +877,14 @@ ${code}
       css: 'sass',
       typescript: false,
       template: templateName,
-      framework: this.framework
+      framework: this.framework,
+      compiler: 'webpack5'
     })
     creator.template(templateName, path.join('config', 'index.js'), path.join(configDir, 'index.js'), {
       date,
       projectName,
-      framework: this.framework
+      framework: this.framework,
+      compiler: 'webpack5'
     })
     creator.template(templateName, path.join('config', 'dev.js'), path.join(configDir, 'dev.js'), {
       framework: this.framework
@@ -907,7 +907,9 @@ ${code}
       typescript: false,
       framework: this.framework
     })
-    creator.template(templateName, path.join('src', 'index.html'), path.join(this.convertDir, 'index.html'))
+    creator.template(templateName, path.join('src', 'index.html'), path.join(this.convertDir, 'index.html'),{
+      projectName
+    })
     creator.fs.commit(() => {
       const pkgObj = JSON.parse(fs.readFileSync(pkgPath).toString())
       pkgObj.dependencies['@tarojs/with-weapp'] = `^${version}`

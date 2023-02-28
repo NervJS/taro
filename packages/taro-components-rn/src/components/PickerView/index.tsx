@@ -1,8 +1,9 @@
 import * as React from 'react'
 import AntPickerView from '@ant-design/react-native/lib/picker-view'
 import { noop } from '../../utils'
+import { PickerViewProps } from './PropsType'
 
-export default class _Picker extends React.Component<any> {
+export default class _Picker extends React.Component<PickerViewProps> {
   static defaultProps = {
     data: [],
     value: []
@@ -47,6 +48,7 @@ export default class _Picker extends React.Component<any> {
         data={data.length > 0 ? data : this.getDataFromChildren(children)}
         onChange={this.onChange}
         cascade={false}
+
       />
     )
   }

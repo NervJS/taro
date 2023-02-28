@@ -1,10 +1,15 @@
-import * as nodePath from 'path'
-import * as fs from 'fs'
-import * as mimeType from 'mime-types'
+import { parseSync, transformFromAstSync, types } from '@babel/core'
 import * as parser from '@babel/parser'
 import traverse from '@babel/traverse'
+import * as t from '@babel/types'
 import { readConfig, resolveMainFilePath } from '@tarojs/helper'
-import { globalAny } from './types/index'
+import * as fs from 'fs'
+import * as mimeType from 'mime-types'
+import * as mkdirp from 'mkdirp'
+import * as normalize from 'normalize-path'
+import * as nodePath from 'path'
+
+import { globalAny, TransformLinariaOption } from './types/index'
 
 const RN_CSS_EXT = ['.css', '.scss', '.sass', '.less', '.styl', '.stylus']
 
@@ -20,7 +25,7 @@ export function getConfigContent (path: string) {
 }
 
 export function getStyleCode (code: string, basePath: string) {
-  const ast:any = parser.parse(code, {
+  const ast = parser.parse(code, {
     sourceType: 'module',
     plugins: [
       'jsx',
@@ -32,7 +37,7 @@ export function getStyleCode (code: string, basePath: string) {
 
   const styleTypes = RN_CSS_EXT
   const styleSource: Record<string, string>[] = []
-  traverse(ast, {
+  t.isNode(ast) && traverse(ast, {
     ImportDeclaration (path) {
       const node = path.node
       const resource: string = node.source.value
@@ -76,7 +81,7 @@ function isJSXSource (file: string, code: string) {
     result = false
   } else {
     // .js
-    const ast: any = parser.parse(code, {
+    const ast = parser.parse(code, {
       sourceType: 'module',
       plugins: [
         'jsx',
@@ -84,7 +89,7 @@ function isJSXSource (file: string, code: string) {
         'decorators-legacy'
       ]
     })
-    traverse(ast, {
+    t.isNode(ast) && traverse(ast, {
       JSXElement () {
         result = true
       }
@@ -157,4 +162,167 @@ export function parseBase64Image (iconPath: string, baseRoot: string) {
   const buff = Buffer.from(data).toString('base64')
   const base64 = 'data:' + fileMimeType + ';base64,' + buff
   return base64
+}
+
+export function transformLinaria ({ sourcePath, sourceCode }: TransformLinariaOption) {
+  // TODO：配置 option, 小程序和 h5 可配置 webpack loader 更改配置，RN没有loader，所以默认不可配置，后续可考虑加配置
+  const cacheDirectory = '.linaria-cache'
+  const preprocessor = undefined
+  const extension = '.linaria.css'
+  const root = process.cwd()
+
+  // 处理 option 参数
+  const baseOutputFileName = sourcePath.replace(/\.[^.]+$/, extension)
+  const outputFilename = normalize(
+    nodePath.join(
+      nodePath.isAbsolute(cacheDirectory)
+        ? cacheDirectory
+        : nodePath.join(process.cwd(), cacheDirectory),
+      sourcePath.includes(root)
+        ? nodePath.relative(root, baseOutputFileName)
+        : baseOutputFileName
+    )
+  )
+  const filename = nodePath.relative(process.cwd(), sourcePath)
+
+  // linaria代码转换
+  const result = require('linaria/lib/node').transform(sourceCode, {
+    filename,
+    // inputSourceMap: inputSourceMap ?? undefined,
+    outputFilename,
+    preprocessor
+  })
+
+  // 生成样式文件
+  if (result.cssText) {
+    const { cssText } = result
+    // Read the file first to compare the content
+    // Write the new content only if it's changed
+    // This will prevent unnecessary WDS reloads
+    let currentCssText
+
+    try {
+      currentCssText = fs.readFileSync(outputFilename, 'utf-8')
+    } catch (e) {
+      // Ignore error
+    }
+
+    if (currentCssText !== cssText) {
+      mkdirp.sync(nodePath.dirname(outputFilename))
+      fs.writeFileSync(outputFilename, cssText)
+    }
+  } else {
+    // 没有生成 linaria 样式文件不走下面处理语法的逻辑
+    return
+  }
+
+  const ast = parseSync(result.code, {
+    filename,
+    caller: { name: 'taro' }
+  })
+
+  // 遍历 ast 处理引入的样式文件和更改属性名
+  let linariaStyle: types.Identifier
+  /**
+   * 维护对应组件和样式的关系
+   * 比如 const Background = styled(View)`width: 100px;`
+   * Map => [['Background', className]]
+   */
+  const componentClassMap = new Map()
+
+  if (t.isNode(ast)) {
+    traverse(ast, {
+      Program: {
+        enter (astPath) {
+          linariaStyle = astPath.scope.generateUidIdentifier('linariaStyle')
+          let lastImportAstPath
+          for (const stmt of astPath.get('body')) {
+            if (types.isImportDeclaration(stmt.node)) {
+              lastImportAstPath = stmt
+            }
+          }
+          if (lastImportAstPath) {
+            const cssImportCSS = types.importDeclaration([types.importDefaultSpecifier(linariaStyle)], types.stringLiteral(outputFilename))
+            lastImportAstPath.insertAfter(cssImportCSS)
+          }
+        }
+      },
+      ObjectExpression (astPath) {
+        for (const node of astPath.node.properties) {
+          if (types.isObjectProperty(node) && types.isIdentifier(node.key) && node.key.name === 'class') {
+            if (types.isStringLiteral(node.value) && Object.keys(result.rules).includes(`.${node.value.value}`)) {
+              const componentProperty = astPath.node.properties.find((property) => {
+                if (types.isObjectProperty(property) && types.isIdentifier(property.key)) {
+                  return property.key.name === 'name'
+                }
+              })
+              if (types.isObjectProperty(componentProperty) && types.isStringLiteral(componentProperty.value)) {
+                componentClassMap.set(componentProperty.value.value, node.value.value)
+              }
+              break
+            }
+          }
+        }
+      },
+      JSXOpeningElement (astPath) {
+        const { attributes, name: component } = astPath.node
+        const className = types.isJSXIdentifier(component) && componentClassMap.get(component.name)
+        if (className) {
+          const index = attributes.findIndex(attribute =>
+            types.isJSXAttribute(attribute) && attribute.name.name === 'style')
+  
+          let attribute = attributes[index]
+          const linariaExpression = types.memberExpression(
+            linariaStyle,
+            types.identifier(className)
+          )
+  
+          // 不处理行内字符串样式，删除 style 属性
+          if (attribute && types.isJSXAttribute(attribute) && types.isStringLiteral(attribute.value)) {
+            attributes.splice(index, 1)
+            attribute = null as any
+          }
+  
+          if (attribute) {
+            if (types.isJSXAttribute(attribute) && types.isJSXExpressionContainer(attribute.value)) {
+              const expression = attribute.value.expression
+              let elements
+              if (types.isArrayExpression(expression)) {
+                elements = expression.elements
+              } else {
+                elements = expression
+              }
+              // 合并 style 对象
+              // style = Object.assign({}, linariaStyle, { color: 'red' })
+              const mergeStyleExpression = types.callExpression(
+                types.identifier('Object.assign'),
+                // @ts-ignore
+                [types.objectExpression([])].concat(linariaExpression, elements)
+              )
+              attribute.value = types.jSXExpressionContainer(mergeStyleExpression)
+            }
+          } else {
+            attributes.push(
+              types.jsxAttribute(
+                types.jsxIdentifier('style'),
+                types.jsxExpressionContainer(linariaExpression)
+              )
+            )
+          }
+        }
+      }
+    })
+  
+    // 根据 ast 生成新的结果
+    const transformResult = transformFromAstSync(ast, result.code, {
+      filename,
+      babelrc: false,
+      configFile: false,
+      sourceMaps: true,
+      sourceFileName: filename,
+      inputSourceMap: result.sourceMap
+    })
+  
+    return transformResult
+  }
 }

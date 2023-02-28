@@ -1,5 +1,5 @@
-import * as Permissions from 'expo-permissions'
 import { errorHandler, successHandler } from '../../utils'
+import { requestCameraPermissionsAsync, requestMicrophonePermissionsAsync } from 'expo-camera'
 const globalAny: any = global
 
 class CameraContext {
@@ -14,30 +14,39 @@ class CameraContext {
    * 开始录像
    */
   startRecord = (option: Taro.CameraContext.StartRecordOption) => {
-    Permissions.askAsync(Permissions.CAMERA, Permissions.AUDIO_RECORDING).then(() => {
-      this.cameraRef?.recordAsync().then((res) => {
-        const { uri } = res
-        const result = {
-          tempVideoPath: uri,
-          tempThumbPath: '',
-          errMsg: 'stopRecord: ok'
-        }
-        this.recordCallback?.success?.(result)
-      }).catch((e) => {
+    Promise.all([requestCameraPermissionsAsync(), requestMicrophonePermissionsAsync()]).then(([cameraPermission, microphonePermission]) => {
+      if(cameraPermission.granted && microphonePermission.granted) {
+        this.cameraRef?.recordAsync().then((res) => {
+          const { uri } = res
+          const result = {
+            tempVideoPath: uri,
+            tempThumbPath: '',
+            errMsg: 'stopRecord: ok'
+          }
+          this.recordCallback?.success?.(result)
+        }).catch((e) => {
+          const res = {
+            errMsg: e.message
+          }
+          option?.fail?.(res)
+          option?.complete?.(res)
+          this.recordCallback?.fail?.({ errMsg: e })
+        }).finally(() => {
+          this.recordCallback?.complete?.({ errMsg: '' })
+        })
         const res = {
-          errMsg: e.message
+          errMsg: 'startRecord: ok'
+        }
+        option?.success?.(res)
+        option?.complete?.(res)
+      } else {
+        const res = {
+          errMsg: 'startRecord: fail',
+          err: Error('You have not enabled camera or microphone permissions')
         }
         option?.fail?.(res)
         option?.complete?.(res)
-        this.recordCallback?.fail?.({ errMsg: e })
-      }).finally(() => {
-        this.recordCallback?.complete?.({ errMsg: '' })
-      })
-      const res = {
-        errMsg: 'startRecord: ok'
       }
-      option?.success?.(res)
-      option?.complete?.(res)
     })
   }
 
@@ -67,8 +76,8 @@ class CameraContext {
         break
     }
     try {
-      const { status } = await Permissions.askAsync(Permissions.CAMERA, Permissions.AUDIO_RECORDING)
-      if (status === 'granted') {
+      const { granted } = await requestCameraPermissionsAsync()
+      if (granted) {
         if (this.cameraRef?.takePictureAsync) {
           const { uri } = await this.cameraRef.takePictureAsync({ quality: _quality })
           const res = {
@@ -112,6 +121,10 @@ class CameraContext {
         console.log('not support')
       }
     }
+  }
+
+  setZoom = () => {
+    console.log('not support')
   }
 }
 /**

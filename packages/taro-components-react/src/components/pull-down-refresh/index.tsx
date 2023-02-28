@@ -1,8 +1,8 @@
-import React from 'react'
-import classNames from 'classnames'
-import Taro from '@tarojs/taro-h5'
-
 import './style/index.css'
+
+import Taro from '@tarojs/taro'
+import classNames from 'classnames'
+import React from 'react'
 
 function setTransform (nodeStyle, value) {
   nodeStyle.transform = value
@@ -10,8 +10,8 @@ function setTransform (nodeStyle, value) {
   nodeStyle.MozTransform = value
 }
 
-const isWebView = typeof navigator !== 'undefined' &&
-  /(iPhone|iPod|iPad).*AppleWebKit(?!.*Safari)/i.test(navigator.userAgent)
+const isWebView =
+  typeof navigator !== 'undefined' && /(iPhone|iPod|iPad).*AppleWebKit(?!.*Safari)/i.test(navigator.userAgent)
 
 enum PullDownState {
   activate = 'activate',
@@ -35,12 +35,11 @@ try {
     }
   })
   window.addEventListener('cancel', () => ({}), opts)
-} catch (e) {}
+} catch (e) {} // eslint-disable-line no-empty
 
 const willPreventDefault = supportsPassive ? { passive: false } : false
 
-interface IProps {
-  className?: string
+interface IProps extends React.HTMLAttributes<HTMLBaseElement> {
   prefixCls: string
   distanceToRefresh: number
   damping: number
@@ -49,7 +48,7 @@ interface IProps {
 }
 
 interface IState {
-  currSt: PullDownState,
+  currSt: PullDownState
   dragOnEdge: boolean
 }
 
@@ -78,37 +77,51 @@ class PullDownRefresh extends React.Component<IProps, IState> {
   listeners: [string, (...args: any[]) => void][] = []
 
   get scrollContainer () {
-    return document.querySelector('.taro-tabbar__panel') || document.body
+    return (
+      this.contentRef?.parentElement ||
+      this.contentRef?.closest('.taro_page_stationed') ||
+      document.querySelector('.taro_page_stationed') ||
+      document.querySelector('.taro_page') ||
+      document.querySelector('.taro_router') ||
+      document.querySelector('.taro-tabbar__panel') ||
+      document.body
+    )
   }
 
   componentDidMount () {
     this.init()
     this._isMounted = true
     this.listeners = [
-      ['__taroStartPullDownRefresh', ({ successHandler, errorHandler }) => {
-        try {
-          this.triggerPullDownRefresh(true)
-          successHandler({
-            errMsg: 'startPullDownRefresh: ok'
-          })
-        } catch (e) {
-          errorHandler({
-            errMsg: 'startPullDownRefresh: fail'
-          })
+      [
+        '__taroStartPullDownRefresh',
+        ({ successHandler, errorHandler }) => {
+          try {
+            this.triggerPullDownRefresh(true)
+            successHandler({
+              errMsg: 'startPullDownRefresh: ok'
+            })
+          } catch (e) {
+            errorHandler({
+              errMsg: 'startPullDownRefresh: fail'
+            })
+          }
         }
-      }],
-      ['__taroStopPullDownRefresh', ({ successHandler, errorHandler }) => {
-        try {
-          this.triggerPullDownRefresh(false)
-          successHandler({
-            errMsg: 'stopPullDownRefresh: ok'
-          })
-        } catch (e) {
-          errorHandler({
-            errMsg: 'stopPullDownRefresh: fail'
-          })
+      ],
+      [
+        '__taroStopPullDownRefresh',
+        ({ successHandler, errorHandler }) => {
+          try {
+            this.triggerPullDownRefresh(false)
+            successHandler({
+              errMsg: 'stopPullDownRefresh: ok'
+            })
+          } catch (e) {
+            errorHandler({
+              errMsg: 'stopPullDownRefresh: fail'
+            })
+          }
         }
-      }]
+      ]
     ]
     this.listeners.forEach(([evtName, callback]) => {
       Taro.eventCenter.on(evtName, callback)
@@ -123,10 +136,14 @@ class PullDownRefresh extends React.Component<IProps, IState> {
   }
 
   componentDidUpdate (_, prevState: IState) {
-    if (prevState.currSt !== this.state.currSt && this.state.currSt === PullDownState.release) {
-      const pageEl: any = this.contentRef?.closest('.taro_page')
-      if (pageEl?.__page) {
-        pageEl.__page?.onPullDownRefresh()
+    if (prevState.currSt !== this.state.currSt) {
+      const pageEl: any = this.scrollContainer
+      switch (this.state.currSt) {
+        case PullDownState.release:
+          pageEl?.__page?.onPullDownRefresh?.()
+          break
+        case PullDownState.deactivate:
+          pageEl?.__page?.onPullIntercept?.()
       }
     }
   }
@@ -263,8 +280,8 @@ class PullDownRefresh extends React.Component<IProps, IState> {
     this.setContentStyle(0)
   }
 
-  setContentStyle = (ty) => {
-    // todos: Why sometimes do not have `this.contentRef` ?
+  setContentStyle = ty => {
+    // TODO: Why sometimes do not have `this.contentRef` ?
     if (this.contentRef) {
       // translate3d 不清理 会影响内部元素定位
       if (ty) {
@@ -276,7 +293,7 @@ class PullDownRefresh extends React.Component<IProps, IState> {
   }
 
   render () {
-    const props: Optional<IProps> & {
+    const props: Partial<IProps> & {
       children?: React.ReactNode
     } = { ...this.props }
     delete props.damping
@@ -284,12 +301,7 @@ class PullDownRefresh extends React.Component<IProps, IState> {
     delete props.distanceToRefresh
     delete props.onRefresh
 
-    const {
-      className,
-      prefixCls,
-      children,
-      ...restProps
-    } = props
+    const { className, prefixCls, children, ...restProps } = props
 
     const renderRefresh = (cls: string) => {
       const { currSt, dragOnEdge } = this.state
@@ -301,7 +313,8 @@ class PullDownRefresh extends React.Component<IProps, IState> {
             className={cla}
             ref={el => {
               this.contentRef = el
-            }}>
+            }}
+          >
             {showIndicator && (
               <div className={`${prefixCls}-indicator`}>
                 <div />

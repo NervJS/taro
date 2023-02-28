@@ -1,29 +1,11 @@
 {
+  "extends": "../../tsconfig.root.json",
   "compilerOptions": {
-    "target": "ESNext",
-    "module": "ESNext",
-    "removeComments": false,
-    "preserveConstEnums": false,
-    "moduleResolution": "node",
-    "experimentalDecorators": true,
-    "noImplicitAny": false,
-    "allowSyntheticDefaultImports": true,
-    "outDir": "lib",
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "strictNullChecks": true,
-    "resolveJsonModule": true,
-    "sourceMap": true,
     "baseUrl": ".",
-    "rootDir": "./src",
-    "jsx": "react"
+    "jsx": "react",
+    "module": "ESNext",
+    "sourceMap": false,
+    "typeRoots": ["./node_modules/@types"]
   },
-  "include": [
-    "src",
-    "global.d.ts"
-  ],
-  "exclude": [
-    "node_modules"
-  ],
-  "compileOnSave": false
+  "include": ["./src", "./types"]
 }

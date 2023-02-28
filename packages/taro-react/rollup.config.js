@@ -1,30 +1,31 @@
-const { join } = require('path')
-const buble = require('rollup-plugin-buble')
-const typescript = require('rollup-plugin-typescript2')
+import buble from '@rollup/plugin-buble'
+import * as path from 'path'
+import ts from 'rollup-plugin-ts'
+
 const cwd = __dirname
 
 const baseConfig = {
-  input: join(cwd, 'src/index.ts'),
+  input: path.join(cwd, 'src/index.ts'),
   output: [
     {
-      file: join(cwd, 'dist/index.js'),
+      file: path.join(cwd, 'dist/index.js'),
       format: 'cjs',
       sourcemap: true,
       exports: 'named'
     }
   ],
-  external: ['@tarojs/runtime', 'scheduler', 'react-reconciler', '@tarojs/shared'],
+  external: ['@tarojs/runtime', 'react-reconciler', '@tarojs/shared'],
   plugins: [
-    typescript(),
+    ts(),
     buble()
   ]
 }
 
 const esmConfig = Object.assign({}, baseConfig, {
-  output: Object.assign({}, baseConfig.output, {
+  output: Object.assign({}, baseConfig.output[0], {
     sourcemap: true,
     format: 'es',
-    file: join(cwd, 'dist/react.esm.js')
+    file: path.join(cwd, 'dist/react.esm.js')
   }),
   plugins: baseConfig.plugins.slice(0, baseConfig.plugins.length - 1)
 })

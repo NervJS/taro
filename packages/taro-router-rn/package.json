@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/router-rn",
-  "version": "3.3.7",
+  "version": "3.6.2",
   "description": "Taro-router-rn",
   "main": "dist/index.js",
   "typings": "src/index.ts",
@@ -27,30 +27,30 @@
   ],
   "author": "yechunxi",
   "license": "MIT",
-  "peerDependencies": {
-    "@react-native-community/masked-view": "^0.1.10",
-    "react-native-gesture-handler": "^1.8.0",
-    "react-native-reanimated": "^1.13.1",
-    "react-native-safe-area-context": "^3.1.8",
-    "react-native-screens": "^2.11.0"
-  },
   "dependencies": {
-    "@react-native-community/bob": "^0.16.2",
-    "@react-native-community/masked-view": "^0.1.10",
-    "@react-navigation/bottom-tabs": "^5.8.0",
-    "@react-navigation/native": "^5.7.3",
-    "@react-navigation/stack": "^5.9.0",
+    "@react-native-masked-view/masked-view": "~0.2.7",
+    "@react-navigation/bottom-tabs": "^6.2.0",
+    "@react-navigation/native": "^6.0.8",
+    "@react-navigation/native-stack": "^6.7.0",
+    "@react-navigation/routers": "^6.1.0",
+    "@react-navigation/stack": "^6.1.1",
     "nanoid": "^3.1.12",
-    "query-string": "^6.1.0",
-    "react-native-gesture-handler": "^1.8.0",
-    "react-native-safe-area-context": "^3.1.8",
-    "react-native-screens": "^2.11.0"
-  },
-  "resolutions": {
-    "@types/react": "17.0.11",
-    "@types/node": "^14.14.41"
+    "query-string": "^7.1.1",
+    "react-native-gesture-handler": "~2.9.0",
+    "react-native-safe-area-context": "~4.4.1",
+    "react-native-screens": "^3.18.2"
   },
   "devDependencies": {
-    "@types/react-native": "0.64.10"
+    "@babel/core": "^7.14.5",
+    "@babel/preset-env": "^7.14.5",
+    "@types/react-native": "^0.69.8",
+    "react": "18.1.0",
+    "react-native": "^0.70.5"
+  },
+  "peerDependencies": {
+    "@react-native-masked-view/masked-view": "~0.2.7",
+    "react-native-gesture-handler": "~2.9.0",
+    "react-native-safe-area-context": "~4.4.1",
+    "react-native-screens": "^3.18.2"
   }
 }

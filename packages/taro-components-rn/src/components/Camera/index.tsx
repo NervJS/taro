@@ -1,59 +1,46 @@
 import React, { Component } from 'react'
 import View from '../View'
 import Text from '../Text'
-import { BarCodeScanningResult, Camera, CameraMountError } from 'expo-camera'
-import { CameraProps } from '@tarojs/components/types/Camera'
+import { BarCodeScanningResult, Camera, CameraMountError, PermissionStatus } from 'expo-camera'
 import { BarCodeScanner } from 'expo-barcode-scanner'
+import { CameraProps, CameraState } from './PropsType'
+import styles from './styles'
 
-// @ts-ignore
-global._taroCamera = undefined
-
-interface State {
-  hasPermission: boolean | null;
-}
-
-interface Props extends CameraProps {
-  ratio: string;
-}
-
-export class _Camera extends Component<Props, State> {
-  constructor(props: Props) {
+export class _Camera extends Component<CameraProps, CameraState> {
+  constructor(props: CameraProps) {
     super(props)
     this.state = {
       hasPermission: null,
     }
   }
 
-  ref: string | ((instance: Camera | null) => void) | React.RefObject<Camera> | null | undefined = React.createRef()
+  expoCameraRef = React.createRef<Camera>()
 
-  async componentDidMount (): Promise<void> {
-    const { status } = await Camera.requestPermissionsAsync()
+  async componentDidMount(): Promise<void> {
+    const { status } = await Camera.requestCameraPermissionsAsync()
     this.setState({
-      hasPermission: status === 'granted'
+      hasPermission: status === PermissionStatus.GRANTED
     })
   }
 
   onError = (event: CameraMountError): void => {
-    // @ts-ignore
-    this.props.onError && this.props.onError(event)
+    this.props.onError && this.props.onError(event as any)
   }
 
   onInitDone = (): void => {
-    // @ts-ignore
-    global._taroCamera = this.ref && this.ref.current
-    // @ts-ignore
-    this.props.onInitDone && this.props.onInitDone()
+    global._taroCamera = this.expoCameraRef && this.expoCameraRef.current
+    const event: any = {}
+    this.props.onInitDone && this.props.onInitDone(event)
   }
 
   onScanCode = (event: BarCodeScanningResult): void => {
     const { data } = event
-    // @ts-ignore
     this.props.onScanCode && this.props.onScanCode({
       detail: {
         result: data
       },
       ...event
-    })
+    } as any)
   }
 
   render(): JSX.Element {
@@ -77,14 +64,15 @@ export class _Camera extends Component<Props, State> {
         : {}
     return (
       <Camera
-        ref={this.ref}
+        ref={this.expoCameraRef}
+        // @ts-ignore
         type={type}
         flashMode={flash}
         onMountError={this.onError}
         onCameraReady={this.onInitDone}
         ratio={this.props.ratio}
         {...barCodeScannerSettings}
-        style={[{ width: 300, height: 300 }, style as Record<string, unknown>]}
+        style={[styles.camera, style]}
       />
     )
   }

@@ -1,6 +1,7 @@
 import { TaroPlatformBase } from '@tarojs/service'
-import { Template } from './template'
+
 import { components } from './components'
+import { Template } from './template'
 
 const PACKAGE_NAME = '@tarojs/plugin-platform-alipay'
 
@@ -46,14 +47,16 @@ export default class Alipay extends TaroPlatformBase {
   modifyMiniConfigs () {
     this.ctx.modifyMiniConfigs(({ configMap }) => {
       const replaceKeyMap = {
+        color: 'textColor',
+        custom: 'customize',
+        enablePullDownRefresh: 'pullRefresh',
+        iconPath: 'icon',
+        list: 'items',
         navigationBarTitleText: 'defaultTitle',
         navigationBarBackgroundColor: 'titleBarColor',
-        enablePullDownRefresh: 'pullRefresh',
-        list: 'items',
-        text: 'name',
-        iconPath: 'icon',
         selectedIconPath: 'activeIcon',
-        color: 'textColor'
+        subpackages: 'subPackages',
+        text: 'name'
       }
       Object.keys(configMap).forEach(key => {
         const item = configMap[key]
@@ -101,6 +104,18 @@ export default class Alipay extends TaroPlatformBase {
           delete newArgs.navigator
           return [newArgs]
         })
+
+      const { compiler, framework } = this.ctx.initialConfig
+      if (
+        framework === 'react' &&
+        compiler &&
+        (
+          compiler === 'webpack4' ||
+          typeof compiler === 'object' && compiler.type === 'webpack4'
+        )
+      ) {
+        chain.node.set('setImmediate', false)
+      }
     })
   }
 }

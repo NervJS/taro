@@ -10,7 +10,7 @@ export class ClassList extends Set<string> {
   }
 
   public get value () {
-    return [...this].join(' ')
+    return [...this].filter(v => v !== '').join(' ')
   }
 
   public add (s: string) {

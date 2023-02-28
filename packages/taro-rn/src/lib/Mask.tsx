@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { StyleSheet, TouchableWithoutFeedback, View, ViewPropTypes } from 'react-native'
+import { StyleSheet, TouchableWithoutFeedback, View } from 'react-native'
+import { ViewPropTypes } from 'deprecated-react-native-prop-types'
 
 const styles = StyleSheet.create({
   mask: {
@@ -12,6 +13,7 @@ const styles = StyleSheet.create({
 const Mask: React.FC<any> = ({ transparent = false, style, onPress, children }) =>
   <TouchableWithoutFeedback onPress={onPress}>
     <View
+      accessibilityLabel='mask'
       style={[styles.mask, { backgroundColor: transparent ? 'transparent' : 'rgba(0,0,0,.6)' }, style]}
     >
       <TouchableWithoutFeedback>{children}</TouchableWithoutFeedback>

@@ -215,7 +215,7 @@ class _ScrollView extends React.Component<ScrollViewProps<any>, ScrollViewState>
     )
   }
 
-  componentDidUpdate(prevProps: ScrollViewProps<any>, prevState: ScrollViewState, snapshot: boolean): void {
+  componentDidUpdate(_prevProps: ScrollViewProps<any>, _prevState: ScrollViewState, snapshot: boolean): void {
     if (snapshot) {
       this.scrollToOffset(this.state.snapScrollLeft, this.state.snapScrollTop)
     }
@@ -285,7 +285,7 @@ class _ScrollView extends React.Component<ScrollViewProps<any>, ScrollViewState>
         {...scrollElementProps}
         data={data}
         renderItem={renderItem}
-        keyExtractor={(item, index) => index + ''}
+        keyExtractor={(_item, index) => index + ''}
       />
     ) : (
       <ScrollView {...scrollElementProps}>{children}</ScrollView>

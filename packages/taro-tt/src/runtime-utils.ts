@@ -1,8 +1,13 @@
 import { initNativeApi } from './apis'
 
 export { initNativeApi }
-export * from './components'
 export * from './apis-list'
+export * from './components'
 export const hostConfig = {
-  initNativeApi
+  initNativeApi,
+  modifyMpEventImpl: (event) => {
+    if (event.type === 'regionchange') {
+      event.type = event.detail.type
+    }
+  }
 }

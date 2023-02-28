@@ -1,4 +1,3 @@
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { Component, h, ComponentInterface, Prop, State, Event, EventEmitter, Watch, Element } from '@stencil/core'
 
 @Component({
@@ -11,6 +10,8 @@ export class Switch implements ComponentInterface {
   @Prop() color = '#04BE02'
   @Prop() name: string
   @Prop() disabled = false
+  @Prop() nativeProps = {}
+
   @State() isChecked: boolean
   @State() isWillLoadCalled = false
 
@@ -54,7 +55,8 @@ export class Switch implements ComponentInterface {
       color,
       isChecked,
       name,
-      disabled
+      disabled,
+      nativeProps
     } = this
 
     const style = isChecked
@@ -73,6 +75,7 @@ export class Switch implements ComponentInterface {
         name={name}
         disabled={disabled}
         onChange={this.switchChange}
+        {...nativeProps}
       />
     )
   }

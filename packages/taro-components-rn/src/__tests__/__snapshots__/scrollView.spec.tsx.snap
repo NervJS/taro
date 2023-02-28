@@ -1,0 +1,24 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ScrollView ScrollView render 1`] = `
+<RCTScrollView
+  contentContainerStyle={
+    Array [
+      Object {},
+      undefined,
+    ]
+  }
+  onContentSizeChange={[Function]}
+  onLayout={[Function]}
+  onMomentumScrollEnd={[Function]}
+  onScroll={[Function]}
+  onScrollEndDrag={[Function]}
+  scrollEventThrottle={50}
+  scrollsToTop={false}
+  style={Object {}}
+>
+  <View>
+    scroll me
+  </View>
+</RCTScrollView>
+`;

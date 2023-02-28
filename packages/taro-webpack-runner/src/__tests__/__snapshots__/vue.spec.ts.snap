@@ -1,34 +1,177 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`vue should build vue app 1`] = `2`;
+exports[`vue should build vue app 1`] = `3`;
 
 exports[`vue should build vue app 2`] = `
 "
-/** filePath: dist/index.html **/
-<!DOCTYPE html>
-<html>
-<head>
-  <meta content=\\"text/html; charset=utf-8\\" http-equiv=\\"Content-Type\\">
-  <meta content=\\"width=device-width,initial-scale=1,user-scalable=no\\" name=\\"viewport\\">
-  <meta name=\\"apple-mobile-web-app-capable\\" content=\\"yes\\">
-  <meta name=\\"apple-touch-fullscreen\\" content=\\"yes\\">
-  <meta name=\\"format-detection\\" content=\\"telephone=no,address=no\\">
-  <meta name=\\"apple-mobile-web-app-status-bar-style\\" content=\\"white\\">
-  <meta http-equiv=\\"X-UA-Compatible\\" content=\\"IE=edge,chrome=1\\" >
-  <title></title>
-  <script>
-    !function(x){function w(){var v,u,t,tes,s=x.document,r=s.documentElement,a=r.getBoundingClientRect().width;if(!v&&!u){var n=!!x.navigator.appVersion.match(/AppleWebKit.*Mobile.*/);v=x.devicePixelRatio;tes=x.devicePixelRatio;v=n?v:1,u=1/v}if(a>=640){r.style.fontSize=\\"40px\\"}else{if(a<=320){r.style.fontSize=\\"20px\\"}else{r.style.fontSize=a/320*20+\\"px\\"}}}x.addEventListener(\\"resize\\",function(){w()});w()}(window);
-  </script>
-</head>
-<body>
-  <div id=\\"app\\"></div>
-<script type=\\"text/javascript\\" src=\\"/js/app.js\\"></script></body>
-</html>
+/** filePath: dist/chunk/1.js **/
+(window[\\"webpackJsonp\\"] = window[\\"webpackJsonp\\"] || []).push([ [ 1 ], [ , , , , , , , , , , , , , , function(module, exports, __webpack_require__) {
+    var api = __webpack_require__(8);
+    var content = __webpack_require__(17);
+    content = content.__esModule ? content.default : content;
+    if (typeof content === \\"string\\") {
+        content = [ [ module.i, content, \\"\\" ] ];
+    }
+    var options = {};
+    options.insert = \\"head\\";
+    options.singleton = false;
+    var update = api(content, options);
+    module.exports = content.locals || {};
+}, function(module, exports, __webpack_require__) {
+    var api = __webpack_require__(8);
+    var content = __webpack_require__(19);
+    content = content.__esModule ? content.default : content;
+    if (typeof content === \\"string\\") {
+        content = [ [ module.i, content, \\"\\" ] ];
+    }
+    var options = {};
+    options.insert = \\"head\\";
+    options.singleton = false;
+    var update = api(content, options);
+    module.exports = content.locals || {};
+}, function(module, __webpack_exports__, __webpack_require__) {
+    \\"use strict\\";
+    var _node_modules_pnpm_registry_npmjs_org_style_loader_1_3_0_webpack_4_46_0_node_modules_style_loader_dist_cjs_js_node_modules_pnpm_registry_npmjs_org_css_loader_5_2_7_webpack_4_46_0_node_modules_css_loader_dist_cjs_js_ref_2_oneOf_0_0_node_modules_pnpm_registry_npmjs_org_vue_loader_15_9_8_izcuroqdza55ucckmxgxii63uq_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_pnpm_registry_npmjs_org_postcss_loader_4_3_0_4dftvqknpgmotzmzzqmnfvmmye_node_modules_postcss_loader_dist_cjs_js_ref_3_0_node_modules_pnpm_registry_npmjs_org_resolve_url_loader_3_1_3_node_modules_resolve_url_loader_index_js_node_modules_pnpm_registry_npmjs_org_sass_loader_10_2_0_sass_1_50_0_webpack_4_46_0_node_modules_sass_loader_dist_cjs_js_ref_5_1_node_modules_pnpm_registry_npmjs_org_vue_loader_15_9_8_izcuroqdza55ucckmxgxii63uq_node_modules_vue_loader_lib_index_js_vue_loader_options_index_vue_vue_type_style_index_0_lang_scss___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(14);
+    var _node_modules_pnpm_registry_npmjs_org_style_loader_1_3_0_webpack_4_46_0_node_modules_style_loader_dist_cjs_js_node_modules_pnpm_registry_npmjs_org_css_loader_5_2_7_webpack_4_46_0_node_modules_css_loader_dist_cjs_js_ref_2_oneOf_0_0_node_modules_pnpm_registry_npmjs_org_vue_loader_15_9_8_izcuroqdza55ucckmxgxii63uq_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_pnpm_registry_npmjs_org_postcss_loader_4_3_0_4dftvqknpgmotzmzzqmnfvmmye_node_modules_postcss_loader_dist_cjs_js_ref_3_0_node_modules_pnpm_registry_npmjs_org_resolve_url_loader_3_1_3_node_modules_resolve_url_loader_index_js_node_modules_pnpm_registry_npmjs_org_sass_loader_10_2_0_sass_1_50_0_webpack_4_46_0_node_modules_sass_loader_dist_cjs_js_ref_5_1_node_modules_pnpm_registry_npmjs_org_vue_loader_15_9_8_izcuroqdza55ucckmxgxii63uq_node_modules_vue_loader_lib_index_js_vue_loader_options_index_vue_vue_type_style_index_0_lang_scss___WEBPACK_IMPORTED_MODULE_0___default = __webpack_require__.n(_node_modules_pnpm_registry_npmjs_org_style_loader_1_3_0_webpack_4_46_0_node_modules_style_loader_dist_cjs_js_node_modules_pnpm_registry_npmjs_org_css_loader_5_2_7_webpack_4_46_0_node_modules_css_loader_dist_cjs_js_ref_2_oneOf_0_0_node_modules_pnpm_registry_npmjs_org_vue_loader_15_9_8_izcuroqdza55ucckmxgxii63uq_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_pnpm_registry_npmjs_org_postcss_loader_4_3_0_4dftvqknpgmotzmzzqmnfvmmye_node_modules_postcss_loader_dist_cjs_js_ref_3_0_node_modules_pnpm_registry_npmjs_org_resolve_url_loader_3_1_3_node_modules_resolve_url_loader_index_js_node_modules_pnpm_registry_npmjs_org_sass_loader_10_2_0_sass_1_50_0_webpack_4_46_0_node_modules_sass_loader_dist_cjs_js_ref_5_1_node_modules_pnpm_registry_npmjs_org_vue_loader_15_9_8_izcuroqdza55ucckmxgxii63uq_node_modules_vue_loader_lib_index_js_vue_loader_options_index_vue_vue_type_style_index_0_lang_scss___WEBPACK_IMPORTED_MODULE_0__);
+}, function(module, __webpack_exports__, __webpack_require__) {
+    \\"use strict\\";
+    __webpack_require__.r(__webpack_exports__);
+    var _node_modules_pnpm_registry_npmjs_org_css_loader_5_2_7_webpack_4_46_0_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(4);
+    var _node_modules_pnpm_registry_npmjs_org_css_loader_5_2_7_webpack_4_46_0_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default = __webpack_require__.n(_node_modules_pnpm_registry_npmjs_org_css_loader_5_2_7_webpack_4_46_0_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__);
+    var ___CSS_LOADER_EXPORT___ = _node_modules_pnpm_registry_npmjs_org_css_loader_5_2_7_webpack_4_46_0_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()((function(i) {
+        return i[1];
+    }));
+    ___CSS_LOADER_EXPORT___.push([ module.i, \\".index {\\\\n  color: blue;\\\\n}\\\\n\\", \\"\\" ]);
+    __webpack_exports__[\\"default\\"] = ___CSS_LOADER_EXPORT___;
+}, function(module, __webpack_exports__, __webpack_require__) {
+    \\"use strict\\";
+    var _node_modules_pnpm_registry_npmjs_org_style_loader_1_3_0_webpack_4_46_0_node_modules_style_loader_dist_cjs_js_node_modules_pnpm_registry_npmjs_org_css_loader_5_2_7_webpack_4_46_0_node_modules_css_loader_dist_cjs_js_ref_2_oneOf_0_0_node_modules_pnpm_registry_npmjs_org_vue_loader_15_9_8_izcuroqdza55ucckmxgxii63uq_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_pnpm_registry_npmjs_org_postcss_loader_4_3_0_4dftvqknpgmotzmzzqmnfvmmye_node_modules_postcss_loader_dist_cjs_js_ref_3_0_node_modules_pnpm_registry_npmjs_org_resolve_url_loader_3_1_3_node_modules_resolve_url_loader_index_js_node_modules_pnpm_registry_npmjs_org_sass_loader_10_2_0_sass_1_50_0_webpack_4_46_0_node_modules_sass_loader_dist_cjs_js_ref_4_1_node_modules_pnpm_registry_npmjs_org_vue_loader_15_9_8_izcuroqdza55ucckmxgxii63uq_node_modules_vue_loader_lib_index_js_vue_loader_options_index_vue_vue_type_style_index_1_lang_sass___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(15);
+    var _node_modules_pnpm_registry_npmjs_org_style_loader_1_3_0_webpack_4_46_0_node_modules_style_loader_dist_cjs_js_node_modules_pnpm_registry_npmjs_org_css_loader_5_2_7_webpack_4_46_0_node_modules_css_loader_dist_cjs_js_ref_2_oneOf_0_0_node_modules_pnpm_registry_npmjs_org_vue_loader_15_9_8_izcuroqdza55ucckmxgxii63uq_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_pnpm_registry_npmjs_org_postcss_loader_4_3_0_4dftvqknpgmotzmzzqmnfvmmye_node_modules_postcss_loader_dist_cjs_js_ref_3_0_node_modules_pnpm_registry_npmjs_org_resolve_url_loader_3_1_3_node_modules_resolve_url_loader_index_js_node_modules_pnpm_registry_npmjs_org_sass_loader_10_2_0_sass_1_50_0_webpack_4_46_0_node_modules_sass_loader_dist_cjs_js_ref_4_1_node_modules_pnpm_registry_npmjs_org_vue_loader_15_9_8_izcuroqdza55ucckmxgxii63uq_node_modules_vue_loader_lib_index_js_vue_loader_options_index_vue_vue_type_style_index_1_lang_sass___WEBPACK_IMPORTED_MODULE_0___default = __webpack_require__.n(_node_modules_pnpm_registry_npmjs_org_style_loader_1_3_0_webpack_4_46_0_node_modules_style_loader_dist_cjs_js_node_modules_pnpm_registry_npmjs_org_css_loader_5_2_7_webpack_4_46_0_node_modules_css_loader_dist_cjs_js_ref_2_oneOf_0_0_node_modules_pnpm_registry_npmjs_org_vue_loader_15_9_8_izcuroqdza55ucckmxgxii63uq_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_pnpm_registry_npmjs_org_postcss_loader_4_3_0_4dftvqknpgmotzmzzqmnfvmmye_node_modules_postcss_loader_dist_cjs_js_ref_3_0_node_modules_pnpm_registry_npmjs_org_resolve_url_loader_3_1_3_node_modules_resolve_url_loader_index_js_node_modules_pnpm_registry_npmjs_org_sass_loader_10_2_0_sass_1_50_0_webpack_4_46_0_node_modules_sass_loader_dist_cjs_js_ref_4_1_node_modules_pnpm_registry_npmjs_org_vue_loader_15_9_8_izcuroqdza55ucckmxgxii63uq_node_modules_vue_loader_lib_index_js_vue_loader_options_index_vue_vue_type_style_index_1_lang_sass___WEBPACK_IMPORTED_MODULE_0__);
+}, function(module, __webpack_exports__, __webpack_require__) {
+    \\"use strict\\";
+    __webpack_require__.r(__webpack_exports__);
+    var _node_modules_pnpm_registry_npmjs_org_css_loader_5_2_7_webpack_4_46_0_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(4);
+    var _node_modules_pnpm_registry_npmjs_org_css_loader_5_2_7_webpack_4_46_0_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default = __webpack_require__.n(_node_modules_pnpm_registry_npmjs_org_css_loader_5_2_7_webpack_4_46_0_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__);
+    var ___CSS_LOADER_EXPORT___ = _node_modules_pnpm_registry_npmjs_org_css_loader_5_2_7_webpack_4_46_0_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()((function(i) {
+        return i[1];
+    }));
+    ___CSS_LOADER_EXPORT___.push([ module.i, \\".detail {\\\\n  color: red;\\\\n}\\\\n\\", \\"\\" ]);
+    __webpack_exports__[\\"default\\"] = ___CSS_LOADER_EXPORT___;
+}, function(module, __webpack_exports__, __webpack_require__) {
+    \\"use strict\\";
+    __webpack_require__.r(__webpack_exports__);
+    var render = function() {
+        var _vm = this;
+        var _h = _vm.$createElement;
+        var _c = _vm._self._c || _h;
+        return _c(\\"taro-view\\", {
+            \\"staticClass\\": \\"index\\"
+        }, [ _c(\\"taro-text\\", [ _vm._v(_vm._s(_vm.msg)) ]) ], 1);
+    };
+    var staticRenderFns = [];
+    render._withStripped = true;
+    var indexvue_type_script_lang_js_ = {
+        \\"data\\": function data() {
+            return {
+                \\"msg\\": \\"Hello world!\\"
+            };
+        }
+    };
+    var pages_indexvue_type_script_lang_js_ = indexvue_type_script_lang_js_;
+    var indexvue_type_style_index_0_lang_scss_ = __webpack_require__(16);
+    var indexvue_type_style_index_1_lang_sass_ = __webpack_require__(18);
+    function normalizeComponent(scriptExports, render, staticRenderFns, functionalTemplate, injectStyles, scopeId, moduleIdentifier, shadowMode) {
+        var options = typeof scriptExports === \\"function\\" ? scriptExports.options : scriptExports;
+        if (render) {
+            options.render = render;
+            options.staticRenderFns = staticRenderFns;
+            options._compiled = true;
+        }
+        if (functionalTemplate) {
+            options.functional = true;
+        }
+        if (scopeId) {
+            options._scopeId = \\"data-v-\\" + scopeId;
+        }
+        var hook;
+        if (moduleIdentifier) {
+            hook = function(context) {
+                context = context || this.$vnode && this.$vnode.ssrContext || this.parent && this.parent.$vnode && this.parent.$vnode.ssrContext;
+                if (!context && typeof __VUE_SSR_CONTEXT__ !== \\"undefined\\") {
+                    context = __VUE_SSR_CONTEXT__;
+                }
+                if (injectStyles) {
+                    injectStyles.call(this, context);
+                }
+                if (context && context._registeredComponents) {
+                    context._registeredComponents.add(moduleIdentifier);
+                }
+            };
+            options._ssrRegister = hook;
+        } else if (injectStyles) {
+            hook = shadowMode ? function() {
+                injectStyles.call(this, (options.functional ? this.parent : this).$root.$options.shadowRoot);
+            } : injectStyles;
+        }
+        if (hook) {
+            if (options.functional) {
+                options._injectStyles = hook;
+                var originalRender = options.render;
+                options.render = function renderWithStyleInjection(h, context) {
+                    hook.call(context);
+                    return originalRender(h, context);
+                };
+            } else {
+                var existing = options.beforeCreate;
+                options.beforeCreate = existing ? [].concat(existing, hook) : [ hook ];
+            }
+        }
+        return {
+            \\"exports\\": scriptExports,
+            \\"options\\": options
+        };
+    }
+    var component = normalizeComponent(pages_indexvue_type_script_lang_js_, render, staticRenderFns, false, null, null, null);
+    if (false) {
+        var api;
+    }
+    component.options.__file = \\"src/pages/index/index.vue\\";
+    var index = __webpack_exports__[\\"default\\"] = component.exports;
+} ] ]);
 
+/** filePath: dist/index.html **/
+<!doctype html><html><head><meta content=\\"text/html; charset=utf-8\\" http-equiv=\\"Content-Type\\"><meta content=\\"width=device-width,initial-scale=1,user-scalable=no\\" name=\\"viewport\\"><meta name=\\"apple-mobile-web-app-capable\\" content=\\"yes\\"><meta name=\\"apple-touch-fullscreen\\" content=\\"yes\\"><meta name=\\"format-detection\\" content=\\"telephone=no,address=no\\"><meta name=\\"apple-mobile-web-app-status-bar-style\\" content=\\"white\\"><meta http-equiv=\\"X-UA-Compatible\\" content=\\"IE=edge,chrome=1\\"><title></title><script>!function(x){function w(){var v,u,t,tes,s=x.document,r=s.documentElement,a=r.getBoundingClientRect().width;if(!v&&!u){var n=!!x.navigator.appVersion.match(/AppleWebKit.*Mobile.*/);v=x.devicePixelRatio;tes=x.devicePixelRatio;v=n?v:1,u=1/v}if(a>=640){r.style.fontSize=\\"40px\\"}else{if(a<=320){r.style.fontSize=\\"20px\\"}else{r.style.fontSize=a/320*20+\\"px\\"}}}x.addEventListener(\\"resize\\",function(){w()});w()}(window);</script></head><body><div id=\\"app\\"></div><script src=\\"/js/app.js\\"></script></body></html>
 
 /** filePath: dist/js/app.js **/
 (function(modules) {
+    function webpackJsonpCallback(data) {
+        var chunkIds = data[0];
+        var moreModules = data[1];
+        var moduleId, chunkId, i = 0, resolves = [];
+        for (;i < chunkIds.length; i++) {
+            chunkId = chunkIds[i];
+            if (Object.prototype.hasOwnProperty.call(installedChunks, chunkId) && installedChunks[chunkId]) {
+                resolves.push(installedChunks[chunkId][0]);
+            }
+            installedChunks[chunkId] = 0;
+        }
+        for (moduleId in moreModules) {
+            if (Object.prototype.hasOwnProperty.call(moreModules, moduleId)) {
+                modules[moduleId] = moreModules[moduleId];
+            }
+        }
+        if (parentJsonpFunction) parentJsonpFunction(data);
+        while (resolves.length) {
+            resolves.shift()();
+        }
+    }
     var installedModules = {};
+    var installedChunks = {
+        \\"0\\": 0
+    };
+    function jsonpScriptSrc(chunkId) {
+        return __webpack_require__.p + \\"chunk/\\" + ({}[chunkId] || chunkId) + \\".js\\";
+    }
     function __webpack_require__(moduleId) {
         if (installedModules[moduleId]) {
             return installedModules[moduleId].exports;
@@ -42,6 +185,55 @@ exports[`vue should build vue app 2`] = `
         module.l = true;
         return module.exports;
     }
+    __webpack_require__.e = function requireEnsure(chunkId) {
+        var promises = [];
+        var installedChunkData = installedChunks[chunkId];
+        if (installedChunkData !== 0) {
+            if (installedChunkData) {
+                promises.push(installedChunkData[2]);
+            } else {
+                var promise = new Promise((function(resolve, reject) {
+                    installedChunkData = installedChunks[chunkId] = [ resolve, reject ];
+                }));
+                promises.push(installedChunkData[2] = promise);
+                var script = document.createElement(\\"script\\");
+                var onScriptComplete;
+                script.charset = \\"utf-8\\";
+                script.timeout = 120;
+                if (__webpack_require__.nc) {
+                    script.setAttribute(\\"nonce\\", __webpack_require__.nc);
+                }
+                script.src = jsonpScriptSrc(chunkId);
+                var error = new Error;
+                onScriptComplete = function(event) {
+                    script.onerror = script.onload = null;
+                    clearTimeout(timeout);
+                    var chunk = installedChunks[chunkId];
+                    if (chunk !== 0) {
+                        if (chunk) {
+                            var errorType = event && (event.type === \\"load\\" ? \\"missing\\" : event.type);
+                            var realSrc = event && event.target && event.target.src;
+                            error.message = \\"Loading chunk \\" + chunkId + \\" failed.\\\\n(\\" + errorType + \\": \\" + realSrc + \\")\\";
+                            error.name = \\"ChunkLoadError\\";
+                            error.type = errorType;
+                            error.request = realSrc;
+                            chunk[1](error);
+                        }
+                        installedChunks[chunkId] = undefined;
+                    }
+                };
+                var timeout = setTimeout((function() {
+                    onScriptComplete({
+                        \\"type\\": \\"timeout\\",
+                        \\"target\\": script
+                    });
+                }), 12e4);
+                script.onerror = script.onload = onScriptComplete;
+                document.head.appendChild(script);
+            }
+        }
+        return Promise.all(promises);
+    };
     __webpack_require__.m = modules;
     __webpack_require__.c = installedModules;
     __webpack_require__.d = function(exports, name, getter) {
@@ -90,8 +282,165 @@ exports[`vue should build vue app 2`] = `
         return Object.prototype.hasOwnProperty.call(object, property);
     };
     __webpack_require__.p = \\"/\\";
-    return __webpack_require__(__webpack_require__.s = 6);
-})([ function(module, exports, __webpack_require__) {
+    __webpack_require__.oe = function(err) {
+        console.error(err);
+        throw err;
+    };
+    var jsonpArray = window[\\"webpackJsonp\\"] = window[\\"webpackJsonp\\"] || [];
+    var oldJsonpFunction = jsonpArray.push.bind(jsonpArray);
+    jsonpArray.push = webpackJsonpCallback;
+    jsonpArray = jsonpArray.slice();
+    for (var i = 0; i < jsonpArray.length; i++) webpackJsonpCallback(jsonpArray[i]);
+    var parentJsonpFunction = oldJsonpFunction;
+    return __webpack_require__(__webpack_require__.s = 9);
+})([ function(module, __webpack_exports__, __webpack_require__) {
+    \\"use strict\\";
+    __webpack_require__.r(__webpack_exports__);
+    __webpack_require__.d(__webpack_exports__, \\"window\\", (function() {
+        return window;
+    }));
+    __webpack_require__.d(__webpack_exports__, \\"createReactApp\\", (function() {
+        return createReactApp;
+    }));
+    __webpack_require__.d(__webpack_exports__, \\"createVueApp\\", (function() {
+        return createVueApp;
+    }));
+    __webpack_require__.d(__webpack_exports__, \\"createVue3App\\", (function() {
+        return createVue3App;
+    }));
+    __webpack_exports__[\\"default\\"] = \\"taro-runtime-mock\\";
+    var window = {};
+    function createReactApp() {}
+    function createVueApp() {}
+    function createVue3App() {}
+}, function(module, exports) {
+    function _defineProperty(obj, key, value) {
+        if (key in obj) {
+            Object.defineProperty(obj, key, {
+                \\"value\\": value,
+                \\"enumerable\\": true,
+                \\"configurable\\": true,
+                \\"writable\\": true
+            });
+        } else {
+            obj[key] = value;
+        }
+        return obj;
+    }
+    module.exports = _defineProperty, module.exports.__esModule = true, module.exports[\\"default\\"] = module.exports;
+}, function(module, exports) {
+    function _classCallCheck(instance, Constructor) {
+        if (!(instance instanceof Constructor)) {
+            throw new TypeError(\\"Cannot call a class as a function\\");
+        }
+    }
+    module.exports = _classCallCheck, module.exports.__esModule = true, module.exports[\\"default\\"] = module.exports;
+}, function(module, exports) {
+    function _defineProperties(target, props) {
+        for (var i = 0; i < props.length; i++) {
+            var descriptor = props[i];
+            descriptor.enumerable = descriptor.enumerable || false;
+            descriptor.configurable = true;
+            if (\\"value\\" in descriptor) descriptor.writable = true;
+            Object.defineProperty(target, descriptor.key, descriptor);
+        }
+    }
+    function _createClass(Constructor, protoProps, staticProps) {
+        if (protoProps) _defineProperties(Constructor.prototype, protoProps);
+        if (staticProps) _defineProperties(Constructor, staticProps);
+        Object.defineProperty(Constructor, \\"prototype\\", {
+            \\"writable\\": false
+        });
+        return Constructor;
+    }
+    module.exports = _createClass, module.exports.__esModule = true, module.exports[\\"default\\"] = module.exports;
+}, function(module, exports, __webpack_require__) {
+    \\"use strict\\";
+    module.exports = function(cssWithMappingToString) {
+        var list = [];
+        list.toString = function toString() {
+            return this.map((function(item) {
+                var content = cssWithMappingToString(item);
+                if (item[2]) {
+                    return \\"@media \\".concat(item[2], \\" {\\").concat(content, \\"}\\");
+                }
+                return content;
+            })).join(\\"\\");
+        };
+        list.i = function(modules, mediaQuery, dedupe) {
+            if (typeof modules === \\"string\\") {
+                modules = [ [ null, modules, \\"\\" ] ];
+            }
+            var alreadyImportedModules = {};
+            if (dedupe) {
+                for (var i = 0; i < this.length; i++) {
+                    var id = this[i][0];
+                    if (id != null) {
+                        alreadyImportedModules[id] = true;
+                    }
+                }
+            }
+            for (var _i = 0; _i < modules.length; _i++) {
+                var item = [].concat(modules[_i]);
+                if (dedupe && alreadyImportedModules[item[0]]) {
+                    continue;
+                }
+                if (mediaQuery) {
+                    if (!item[2]) {
+                        item[2] = mediaQuery;
+                    } else {
+                        item[2] = \\"\\".concat(mediaQuery, \\" and \\").concat(item[2]);
+                    }
+                }
+                list.push(item);
+            }
+        };
+        return list;
+    };
+}, function(module, exports, __webpack_require__) {
+    var _require = __webpack_require__(0), hooks = _require.hooks;
+    var taro = __webpack_require__(10).default;
+    if (hooks.isExist(\\"initNativeApi\\")) {
+        hooks.call(\\"initNativeApi\\", taro);
+    }
+    module.exports = taro;
+    module.exports.default = module.exports;
+}, function(module, exports) {
+    function _typeof(obj) {
+        \\"@babel/helpers - typeof\\";
+        return module.exports = _typeof = \\"function\\" == typeof Symbol && \\"symbol\\" == typeof Symbol.iterator ? function(obj) {
+            return typeof obj;
+        } : function(obj) {
+            return obj && \\"function\\" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? \\"symbol\\" : typeof obj;
+        }, module.exports.__esModule = true, module.exports[\\"default\\"] = module.exports, 
+        _typeof(obj);
+    }
+    module.exports = _typeof, module.exports.__esModule = true, module.exports[\\"default\\"] = module.exports;
+}, function(module, exports, __webpack_require__) {
+    var defineProperty = __webpack_require__(1);
+    function ownKeys(object, enumerableOnly) {
+        var keys = Object.keys(object);
+        if (Object.getOwnPropertySymbols) {
+            var symbols = Object.getOwnPropertySymbols(object);
+            enumerableOnly && (symbols = symbols.filter((function(sym) {
+                return Object.getOwnPropertyDescriptor(object, sym).enumerable;
+            }))), keys.push.apply(keys, symbols);
+        }
+        return keys;
+    }
+    function _objectSpread2(target) {
+        for (var i = 1; i < arguments.length; i++) {
+            var source = null != arguments[i] ? arguments[i] : {};
+            i % 2 ? ownKeys(Object(source), !0).forEach((function(key) {
+                defineProperty(target, key, source[key]);
+            })) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach((function(key) {
+                Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));
+            }));
+        }
+        return target;
+    }
+    module.exports = _objectSpread2, module.exports.__esModule = true, module.exports[\\"default\\"] = module.exports;
+}, function(module, exports, __webpack_require__) {
     \\"use strict\\";
     var isOldIE = function isOldIE() {
         var memo;
@@ -293,86 +642,283 @@ exports[`vue should build vue app 2`] = `
         };
     };
 }, function(module, exports, __webpack_require__) {
-    \\"use strict\\";
-    module.exports = function(useSourceMap) {
-        var list = [];
-        list.toString = function toString() {
-            return this.map((function(item) {
-                var content = cssWithMappingToString(item, useSourceMap);
-                if (item[2]) {
-                    return \\"@media \\".concat(item[2], \\" {\\").concat(content, \\"}\\");
-                }
-                return content;
-            })).join(\\"\\");
-        };
-        list.i = function(modules, mediaQuery, dedupe) {
-            if (typeof modules === \\"string\\") {
-                modules = [ [ null, modules, \\"\\" ] ];
-            }
-            var alreadyImportedModules = {};
-            if (dedupe) {
-                for (var i = 0; i < this.length; i++) {
-                    var id = this[i][0];
-                    if (id != null) {
-                        alreadyImportedModules[id] = true;
-                    }
-                }
-            }
-            for (var _i = 0; _i < modules.length; _i++) {
-                var item = [].concat(modules[_i]);
-                if (dedupe && alreadyImportedModules[item[0]]) {
-                    continue;
-                }
-                if (mediaQuery) {
-                    if (!item[2]) {
-                        item[2] = mediaQuery;
-                    } else {
-                        item[2] = \\"\\".concat(mediaQuery, \\" and \\").concat(item[2]);
-                    }
-                }
-                list.push(item);
-            }
-        };
-        return list;
-    };
-    function cssWithMappingToString(item, useSourceMap) {
-        var content = item[1] || \\"\\";
-        var cssMapping = item[3];
-        if (!cssMapping) {
-            return content;
-        }
-        if (useSourceMap && typeof btoa === \\"function\\") {
-            var sourceMapping = toComment(cssMapping);
-            var sourceURLs = cssMapping.sources.map((function(source) {
-                return \\"/*# sourceURL=\\".concat(cssMapping.sourceRoot || \\"\\").concat(source, \\" */\\");
-            }));
-            return [ content ].concat(sourceURLs).concat([ sourceMapping ]).join(\\"\\\\n\\");
-        }
-        return [ content ].join(\\"\\\\n\\");
-    }
-    function toComment(sourceMap) {
-        var base64 = btoa(unescape(encodeURIComponent(JSON.stringify(sourceMap))));
-        var data = \\"sourceMappingURL=data:application/json;charset=utf-8;base64,\\".concat(base64);
-        return \\"/*# \\".concat(data, \\" */\\");
-    }
+    module.exports = __webpack_require__(13);
 }, function(module, __webpack_exports__, __webpack_require__) {
     \\"use strict\\";
     __webpack_require__.r(__webpack_exports__);
-    __webpack_require__.d(__webpack_exports__, \\"defineCustomElements\\", (function() {
-        return defineCustomElements;
+    __webpack_require__.d(__webpack_exports__, \\"default\\", (function() {
+        return Taro;
     }));
-    __webpack_require__.d(__webpack_exports__, \\"applyPolyfills\\", (function() {
-        return applyPolyfills;
-    }));
-    __webpack_require__.d(__webpack_exports__, \\"initVue3Components\\", (function() {
-        return initVue3Components;
-    }));
-    __webpack_exports__[\\"default\\"] = \\"taro-components-mock\\";
-    function defineCustomElements() {}
-    function applyPolyfills() {}
-    function initVue3Components() {}
+    var _babel_runtime_helpers_typeof__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(6);
+    var _babel_runtime_helpers_typeof__WEBPACK_IMPORTED_MODULE_0___default = __webpack_require__.n(_babel_runtime_helpers_typeof__WEBPACK_IMPORTED_MODULE_0__);
+    var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(0);
+    var _babel_runtime_helpers_objectSpread2__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(7);
+    var _babel_runtime_helpers_objectSpread2__WEBPACK_IMPORTED_MODULE_2___default = __webpack_require__.n(_babel_runtime_helpers_objectSpread2__WEBPACK_IMPORTED_MODULE_2__);
+    var _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(2);
+    var _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_3___default = __webpack_require__.n(_babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_3__);
+    var _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(3);
+    var _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_4___default = __webpack_require__.n(_babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_4__);
+    var _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(1);
+    var _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_5___default = __webpack_require__.n(_babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_5__);
+    function isFunction(x) {
+        return typeof x === \\"function\\";
+    }
+    function isUndefined(x) {
+        return typeof x === \\"undefined\\";
+    }
+    function isObject(x) {
+        return x && _babel_runtime_helpers_typeof__WEBPACK_IMPORTED_MODULE_0___default()(x) === \\"object\\";
+    }
+    var isBadObj = function isBadObj(x) {
+        return !isObject(x);
+    };
+    function throwTypeError(s) {
+        throw new TypeError(s);
+    }
+    if (!isFunction(Object.assign)) {
+        Object.assign = function(target) {
+            if (target == null) {
+                throwTypeError(\\"Cannot convert undefined or null to object\\");
+            }
+            var to = Object(target);
+            for (var index = 1; index < arguments.length; index++) {
+                var nextSource = arguments[index];
+                if (nextSource != null) {
+                    for (var nextKey in nextSource) {
+                        if (Object.prototype.hasOwnProperty.call(nextSource, nextKey)) {
+                            to[nextKey] = nextSource[nextKey];
+                        }
+                    }
+                }
+            }
+            return to;
+        };
+    }
+    if (!isFunction(Object.defineProperties)) {
+        Object.defineProperties = function(obj, properties) {
+            function convertToDescriptor(desc) {
+                function hasProperty(obj, prop) {
+                    return Object.prototype.hasOwnProperty.call(obj, prop);
+                }
+                if (isBadObj(desc)) {
+                    throwTypeError(\\"bad desc\\");
+                }
+                var d = {};
+                if (hasProperty(desc, \\"enumerable\\")) d.enumerable = !!desc.enumerable;
+                if (hasProperty(desc, \\"configurable\\")) {
+                    d.configurable = !!desc.configurable;
+                }
+                if (hasProperty(desc, \\"value\\")) d.value = desc.value;
+                if (hasProperty(desc, \\"writable\\")) d.writable = !!desc.writable;
+                if (hasProperty(desc, \\"get\\")) {
+                    var g = desc.get;
+                    if (!isFunction(g) && !isUndefined(g)) {
+                        throwTypeError(\\"bad get\\");
+                    }
+                    d.get = g;
+                }
+                if (hasProperty(desc, \\"set\\")) {
+                    var s = desc.set;
+                    if (!isFunction(s) && !isUndefined(s)) {
+                        throwTypeError(\\"bad set\\");
+                    }
+                    d.set = s;
+                }
+                if ((\\"get\\" in d || \\"set\\" in d) && (\\"value\\" in d || \\"writable\\" in d)) {
+                    throwTypeError(\\"identity-confused descriptor\\");
+                }
+                return d;
+            }
+            if (isBadObj(obj)) throwTypeError(\\"bad obj\\");
+            properties = Object(properties);
+            var keys = Object.keys(properties);
+            var descs = [];
+            for (var i = 0; i < keys.length; i++) {
+                descs.push([ keys[i], convertToDescriptor(properties[keys[i]]) ]);
+            }
+            for (var _i = 0; _i < descs.length; _i++) {
+                Object.defineProperty(obj, descs[_i][0], descs[_i][1]);
+            }
+            return obj;
+        };
+    }
+    var ENV_TYPE = {
+        \\"WEAPP\\": \\"WEAPP\\",
+        \\"WEB\\": \\"WEB\\",
+        \\"RN\\": \\"RN\\",
+        \\"SWAN\\": \\"SWAN\\",
+        \\"ALIPAY\\": \\"ALIPAY\\",
+        \\"TT\\": \\"TT\\",
+        \\"QQ\\": \\"QQ\\",
+        \\"JD\\": \\"JD\\"
+    };
+    function getEnv() {
+        if (false) {} else if (false) {} else if (false) {} else if (false) {} else if (false) {} else if (false) {} else if (true) {
+            return ENV_TYPE.WEB;
+        } else {}
+    }
+    var Chain = function() {
+        function Chain(requestParams, interceptors, index) {
+            _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_3___default()(this, Chain);
+            this.index = index || 0;
+            this.requestParams = requestParams;
+            this.interceptors = interceptors || [];
+        }
+        _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_4___default()(Chain, [ {
+            \\"key\\": \\"proceed\\",
+            \\"value\\": function proceed(requestParams) {
+                this.requestParams = requestParams;
+                if (this.index >= this.interceptors.length) {
+                    throw new Error(\\"chain 参数错误, 请勿直接修改 request.chain\\");
+                }
+                var nextInterceptor = this._getNextInterceptor();
+                var nextChain = this._getNextChain();
+                var p = nextInterceptor(nextChain);
+                var res = p.catch((function(err) {
+                    return Promise.reject(err);
+                }));
+                Object.keys(p).forEach((function(k) {
+                    return isFunction(p[k]) && (res[k] = p[k]);
+                }));
+                return res;
+            }
+        }, {
+            \\"key\\": \\"_getNextInterceptor\\",
+            \\"value\\": function _getNextInterceptor() {
+                return this.interceptors[this.index];
+            }
+        }, {
+            \\"key\\": \\"_getNextChain\\",
+            \\"value\\": function _getNextChain() {
+                return new Chain(this.requestParams, this.interceptors, this.index + 1);
+            }
+        } ]);
+        return Chain;
+    }();
+    var Link = function() {
+        function Link(interceptor) {
+            _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_3___default()(this, Link);
+            this.taroInterceptor = interceptor;
+            this.chain = new Chain;
+        }
+        _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_4___default()(Link, [ {
+            \\"key\\": \\"request\\",
+            \\"value\\": function request(requestParams) {
+                var chain = this.chain;
+                var taroInterceptor = this.taroInterceptor;
+                chain.interceptors = chain.interceptors.filter((function(interceptor) {
+                    return interceptor !== taroInterceptor;
+                })).concat(taroInterceptor);
+                return chain.proceed(_babel_runtime_helpers_objectSpread2__WEBPACK_IMPORTED_MODULE_2___default()({}, requestParams));
+            }
+        }, {
+            \\"key\\": \\"addInterceptor\\",
+            \\"value\\": function addInterceptor(interceptor) {
+                this.chain.interceptors.push(interceptor);
+            }
+        }, {
+            \\"key\\": \\"cleanInterceptors\\",
+            \\"value\\": function cleanInterceptors() {
+                this.chain = new Chain;
+            }
+        } ]);
+        return Link;
+    }();
+    function timeoutInterceptor(chain) {
+        var requestParams = chain.requestParams;
+        var p;
+        var res = new Promise((function(resolve, reject) {
+            var timeout = setTimeout((function() {
+                timeout = null;
+                reject(new Error(\\"网络链接超时,请稍后再试！\\"));
+            }), requestParams && requestParams.timeout || 6e4);
+            p = chain.proceed(requestParams);
+            p.then((function(res) {
+                if (!timeout) return;
+                clearTimeout(timeout);
+                resolve(res);
+            })).catch((function(err) {
+                timeout && clearTimeout(timeout);
+                reject(err);
+            }));
+        }));
+        if (!isUndefined(p) && isFunction(p.abort)) res.abort = p.abort;
+        return res;
+    }
+    function logInterceptor(chain) {
+        var requestParams = chain.requestParams;
+        var method = requestParams.method, data = requestParams.data, url = requestParams.url;
+        if (false) {}
+        var p = chain.proceed(requestParams);
+        var res = p.then((function(res) {
+            if (false) {}
+            return res;
+        }));
+        if (isFunction(p.abort)) res.abort = p.abort;
+        return res;
+    }
+    var interceptors = Object.freeze({
+        \\"__proto__\\": null,
+        \\"timeoutInterceptor\\": timeoutInterceptor,
+        \\"logInterceptor\\": logInterceptor
+    });
+    function Behavior(options) {
+        return options;
+    }
+    function getPreload(current) {
+        return function(key, val) {
+            current.preloadData = isObject(key) ? key : _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_5___default()({}, key, val);
+        };
+    }
+    var defaultDesignWidth = 750;
+    var defaultDesignRatio = {
+        \\"640\\": 2.34 / 2,
+        \\"750\\": 1,
+        \\"828\\": 1.81 / 2
+    };
+    var defaultBaseFontSize = 20;
+    function getInitPxTransform(taro) {
+        return function(config) {
+            var _config$designWidth = config.designWidth, designWidth = _config$designWidth === void 0 ? defaultDesignWidth : _config$designWidth, _config$deviceRatio = config.deviceRatio, deviceRatio = _config$deviceRatio === void 0 ? defaultDesignRatio : _config$deviceRatio, _config$baseFontSize = config.baseFontSize, baseFontSize = _config$baseFontSize === void 0 ? defaultBaseFontSize : _config$baseFontSize;
+            taro.config = taro.config || {};
+            taro.config.designWidth = designWidth;
+            taro.config.deviceRatio = deviceRatio;
+            taro.config.baseFontSize = baseFontSize;
+        };
+    }
+    function getPxTransform(taro) {
+        return function(size) {
+            var config = taro.config || {};
+            var deviceRatio = config.deviceRatio || defaultDesignRatio;
+            var designWidth = function() {
+                var input = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
+                return isFunction(config.designWidth) ? config.designWidth(input) : config.designWidth || defaultDesignWidth;
+            }(size);
+            if (!(designWidth in deviceRatio)) {
+                throw new Error(\\"deviceRatio 配置中不存在 \\".concat(designWidth, \\" 的设置！\\"));
+            }
+            return parseInt(size, 10) * deviceRatio[designWidth] + \\"rpx\\";
+        };
+    }
+    var Taro = {
+        \\"Behavior\\": Behavior,
+        \\"getEnv\\": getEnv,
+        \\"ENV_TYPE\\": ENV_TYPE,
+        \\"Link\\": Link,
+        \\"interceptors\\": interceptors,
+        \\"Current\\": _tarojs_runtime__WEBPACK_IMPORTED_MODULE_1__[\\"Current\\"],
+        \\"getCurrentInstance\\": _tarojs_runtime__WEBPACK_IMPORTED_MODULE_1__[\\"getCurrentInstance\\"],
+        \\"options\\": _tarojs_runtime__WEBPACK_IMPORTED_MODULE_1__[\\"options\\"],
+        \\"nextTick\\": _tarojs_runtime__WEBPACK_IMPORTED_MODULE_1__[\\"nextTick\\"],
+        \\"eventCenter\\": _tarojs_runtime__WEBPACK_IMPORTED_MODULE_1__[\\"eventCenter\\"],
+        \\"Events\\": _tarojs_runtime__WEBPACK_IMPORTED_MODULE_1__[\\"Events\\"],
+        \\"getInitPxTransform\\": getInitPxTransform
+    };
+    Taro.initPxTransform = getInitPxTransform(Taro);
+    Taro.preload = getPreload(_tarojs_runtime__WEBPACK_IMPORTED_MODULE_1__[\\"Current\\"]);
+    Taro.pxTransform = getPxTransform(Taro);
 }, function(module, exports, __webpack_require__) {
-    var api = __webpack_require__(0);
+    var api = __webpack_require__(8);
     var content = __webpack_require__(12);
     content = content.__esModule ? content.default : content;
     if (typeof content === \\"string\\") {
@@ -383,159 +929,24 @@ exports[`vue should build vue app 2`] = `
     options.singleton = false;
     var update = api(content, options);
     module.exports = content.locals || {};
-}, function(module, exports, __webpack_require__) {
-    var api = __webpack_require__(0);
-    var content = __webpack_require__(14);
-    content = content.__esModule ? content.default : content;
-    if (typeof content === \\"string\\") {
-        content = [ [ module.i, content, \\"\\" ] ];
-    }
-    var options = {};
-    options.insert = \\"head\\";
-    options.singleton = false;
-    var update = api(content, options);
-    module.exports = content.locals || {};
-}, function(module, exports) {
-    function _typeof(obj) {
-        \\"@babel/helpers - typeof\\";
-        if (typeof Symbol === \\"function\\" && typeof Symbol.iterator === \\"symbol\\") {
-            module.exports = _typeof = function _typeof(obj) {
-                return typeof obj;
-            };
-            module.exports[\\"default\\"] = module.exports, module.exports.__esModule = true;
-        } else {
-            module.exports = _typeof = function _typeof(obj) {
-                return obj && typeof Symbol === \\"function\\" && obj.constructor === Symbol && obj !== Symbol.prototype ? \\"symbol\\" : typeof obj;
-            };
-            module.exports[\\"default\\"] = module.exports, module.exports.__esModule = true;
-        }
-        return _typeof(obj);
-    }
-    module.exports = _typeof;
-    module.exports[\\"default\\"] = module.exports, module.exports.__esModule = true;
-}, function(module, exports, __webpack_require__) {
-    module.exports = __webpack_require__(16);
-}, function(module, exports, __webpack_require__) {
-    var api = __webpack_require__(0);
-    var content = __webpack_require__(8);
-    content = content.__esModule ? content.default : content;
-    if (typeof content === \\"string\\") {
-        content = [ [ module.i, content, \\"\\" ] ];
-    }
-    var options = {};
-    options.insert = \\"head\\";
-    options.singleton = false;
-    var update = api(content, options);
-    module.exports = content.locals || {};
-}, function(module, exports, __webpack_require__) {
-    var ___CSS_LOADER_API_IMPORT___ = __webpack_require__(1);
-    exports = ___CSS_LOADER_API_IMPORT___(false);
-    exports.push([ module.i, \\"\\", \\"\\" ]);
-    module.exports = exports;
-}, function(module, exports, __webpack_require__) {
-    var api = __webpack_require__(0);
-    var content = __webpack_require__(10);
-    content = content.__esModule ? content.default : content;
-    if (typeof content === \\"string\\") {
-        content = [ [ module.i, content, \\"\\" ] ];
-    }
-    var options = {};
-    options.insert = function insertAtTop(element) {
-        var parent = document.querySelector(\\"head\\");
-        if (parent) {
-            var lastInsertedElement = window._lastElementInsertedByStyleLoader;
-            if (!lastInsertedElement) {
-                parent.insertBefore(element, parent.firstChild);
-            } else if (lastInsertedElement.nextSibling) {
-                parent.insertBefore(element, lastInsertedElement.nextSibling);
-            } else {
-                parent.appendChild(element);
-            }
-            window._lastElementInsertedByStyleLoader = element;
-        }
-    };
-    options.singleton = false;
-    var update = api(content, options);
-    module.exports = content.locals || {};
-}, function(module, exports, __webpack_require__) {
-    var ___CSS_LOADER_API_IMPORT___ = __webpack_require__(1);
-    exports = ___CSS_LOADER_API_IMPORT___(false);
-    exports.push([ module.i, \\"\\", \\"\\" ]);
-    module.exports = exports;
-}, function(module, __webpack_exports__, __webpack_require__) {
-    \\"use strict\\";
-    var _node_modules_style_loader_dist_cjs_js_node_modules_css_loader_dist_cjs_js_ref_2_oneOf_0_0_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_ref_3_0_node_modules_resolve_url_loader_index_js_node_modules_sass_loader_dist_cjs_js_ref_5_1_node_modules_vue_loader_lib_index_js_vue_loader_options_index_vue_vue_type_style_index_0_lang_scss___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(3);
-    var _node_modules_style_loader_dist_cjs_js_node_modules_css_loader_dist_cjs_js_ref_2_oneOf_0_0_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_ref_3_0_node_modules_resolve_url_loader_index_js_node_modules_sass_loader_dist_cjs_js_ref_5_1_node_modules_vue_loader_lib_index_js_vue_loader_options_index_vue_vue_type_style_index_0_lang_scss___WEBPACK_IMPORTED_MODULE_0___default = __webpack_require__.n(_node_modules_style_loader_dist_cjs_js_node_modules_css_loader_dist_cjs_js_ref_2_oneOf_0_0_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_ref_3_0_node_modules_resolve_url_loader_index_js_node_modules_sass_loader_dist_cjs_js_ref_5_1_node_modules_vue_loader_lib_index_js_vue_loader_options_index_vue_vue_type_style_index_0_lang_scss___WEBPACK_IMPORTED_MODULE_0__);
-}, function(module, exports, __webpack_require__) {
-    var ___CSS_LOADER_API_IMPORT___ = __webpack_require__(1);
-    exports = ___CSS_LOADER_API_IMPORT___(false);
-    exports.push([ module.i, \\".index {\\\\n  color: blue;\\\\n}\\\\n\\", \\"\\" ]);
-    module.exports = exports;
-}, function(module, __webpack_exports__, __webpack_require__) {
-    \\"use strict\\";
-    var _node_modules_style_loader_dist_cjs_js_node_modules_css_loader_dist_cjs_js_ref_2_oneOf_0_0_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_ref_3_0_node_modules_resolve_url_loader_index_js_node_modules_sass_loader_dist_cjs_js_ref_4_1_node_modules_vue_loader_lib_index_js_vue_loader_options_index_vue_vue_type_style_index_1_lang_sass___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(4);
-    var _node_modules_style_loader_dist_cjs_js_node_modules_css_loader_dist_cjs_js_ref_2_oneOf_0_0_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_ref_3_0_node_modules_resolve_url_loader_index_js_node_modules_sass_loader_dist_cjs_js_ref_4_1_node_modules_vue_loader_lib_index_js_vue_loader_options_index_vue_vue_type_style_index_1_lang_sass___WEBPACK_IMPORTED_MODULE_0___default = __webpack_require__.n(_node_modules_style_loader_dist_cjs_js_node_modules_css_loader_dist_cjs_js_ref_2_oneOf_0_0_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_ref_3_0_node_modules_resolve_url_loader_index_js_node_modules_sass_loader_dist_cjs_js_ref_4_1_node_modules_vue_loader_lib_index_js_vue_loader_options_index_vue_vue_type_style_index_1_lang_sass___WEBPACK_IMPORTED_MODULE_0__);
-}, function(module, exports, __webpack_require__) {
-    var ___CSS_LOADER_API_IMPORT___ = __webpack_require__(1);
-    exports = ___CSS_LOADER_API_IMPORT___(false);
-    exports.push([ module.i, \\".detail {\\\\n  color: red;\\\\n}\\\\n\\", \\"\\" ]);
-    module.exports = exports;
 }, function(module, __webpack_exports__, __webpack_require__) {
     \\"use strict\\";
     __webpack_require__.r(__webpack_exports__);
-    __webpack_exports__[\\"default\\"] = {
-        \\"navigationBarTitleText\\": \\"首页\\"
-    };
+    var _node_modules_pnpm_registry_npmjs_org_css_loader_5_2_7_webpack_4_46_0_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(4);
+    var _node_modules_pnpm_registry_npmjs_org_css_loader_5_2_7_webpack_4_46_0_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default = __webpack_require__.n(_node_modules_pnpm_registry_npmjs_org_css_loader_5_2_7_webpack_4_46_0_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__);
+    var ___CSS_LOADER_EXPORT___ = _node_modules_pnpm_registry_npmjs_org_css_loader_5_2_7_webpack_4_46_0_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()((function(i) {
+        return i[1];
+    }));
+    ___CSS_LOADER_EXPORT___.push([ module.i, \\"\\", \\"\\" ]);
+    __webpack_exports__[\\"default\\"] = ___CSS_LOADER_EXPORT___;
 }, function(module, __webpack_exports__, __webpack_require__) {
     \\"use strict\\";
     __webpack_require__.r(__webpack_exports__);
-    var helpers_typeof = __webpack_require__(5);
-    var typeof_default = __webpack_require__.n(helpers_typeof);
-    function _getRequireWildcardCache(nodeInterop) {
-        if (typeof WeakMap !== \\"function\\") return null;
-        var cacheBabelInterop = new WeakMap;
-        var cacheNodeInterop = new WeakMap;
-        return (_getRequireWildcardCache = function _getRequireWildcardCache(nodeInterop) {
-            return nodeInterop ? cacheNodeInterop : cacheBabelInterop;
-        })(nodeInterop);
-    }
-    function _interopRequireWildcard(obj, nodeInterop) {
-        if (!nodeInterop && obj && obj.__esModule) {
-            return obj;
-        }
-        if (obj === null || typeof_default()(obj) !== \\"object\\" && typeof obj !== \\"function\\") {
-            return {
-                \\"default\\": obj
-            };
-        }
-        var cache = _getRequireWildcardCache(nodeInterop);
-        if (cache && cache.has(obj)) {
-            return cache.get(obj);
-        }
-        var newObj = {};
-        var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor;
-        for (var key in obj) {
-            if (key !== \\"default\\" && Object.prototype.hasOwnProperty.call(obj, key)) {
-                var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null;
-                if (desc && (desc.get || desc.set)) {
-                    Object.defineProperty(newObj, key, desc);
-                } else {
-                    newObj[key] = obj[key];
-                }
-            }
-        }
-        newObj[\\"default\\"] = obj;
-        if (cache) {
-            cache.set(obj, newObj);
-        }
-        return newObj;
-    }
-    var taro_h5 = \\"taro-h5-mock\\";
+    var taro = __webpack_require__(5);
+    function createMultiRouter() {}
     function createRouter() {}
-    function initPxTransform() {}
-    var h5 = taro_h5;
     var vue = \\"vue-mock\\";
-    var app = __webpack_require__(7);
+    var app = __webpack_require__(11);
     var App = new vue({
         \\"onShow\\": function onShow() {},
         \\"render\\": function render(h) {
@@ -543,17 +954,10 @@ exports[`vue should build vue app 2`] = `
         }
     });
     var src_app = App;
-    var taro_runtime = \\"taro-runtime-mock\\";
-    var taro_runtime_window = {};
+    var taro_runtime = __webpack_require__(0);
     function createReactApp() {}
     function createVueApp() {}
     function createVue3App() {}
-    var taro_components = __webpack_require__(2);
-    var mocks_taro_components = __webpack_require__(9);
-    __webpack_require__(2);
-    Object(taro_components[\\"applyPolyfills\\"])().then((function() {
-        Object(taro_components[\\"defineCustomElements\\"])(taro_runtime_window);
-    }));
     var config = {
         \\"router\\": {
             \\"mode\\": \\"hash\\",
@@ -568,7 +972,7 @@ exports[`vue should build vue app 2`] = `
             \\"navigationBarTextStyle\\": \\"black\\"
         }
     };
-    taro_runtime_window.__taroAppConfig = config;
+    taro_runtime[\\"window\\"].__taroAppConfig = config;
     if (config.tabBar) {
         var tabbarList = config.tabBar.list;
         for (var i = 0; i < tabbarList.length; i++) {
@@ -583,102 +987,24 @@ exports[`vue should build vue app 2`] = `
     }
     config.routes = [ Object.assign({
         \\"path\\": \\"pages/index/index\\",
-        \\"load\\": function load() {
-            return Promise.resolve().then((function() {
-                return _interopRequireWildcard(__webpack_require__(17));
-            }));
+        \\"load\\": function load(context, params) {
+            var page = __webpack_require__.e(1).then(__webpack_require__.bind(null, 20));
+            return [ page, context, params ];
         }
-    }, __webpack_require__(15).default || {}) ];
+    }, {
+        \\"navigationBarTitleText\\": \\"首页\\"
+    }) ];
     var inst = createVueApp(src_app, vue, config);
     createRouter(inst, config, vue);
-    initPxTransform({
+    Object(taro[\\"initPxTransform\\"])({
         \\"designWidth\\": 750,
         \\"deviceRatio\\": {
             \\"640\\": 1.17,
             \\"750\\": 1,
             \\"828\\": .905
-        }
+        },
+        \\"baseFontSize\\": 20
     });
-}, function(module, __webpack_exports__, __webpack_require__) {
-    \\"use strict\\";
-    __webpack_require__.r(__webpack_exports__);
-    var render = function() {
-        var _vm = this;
-        var _h = _vm.$createElement;
-        var _c = _vm._self._c || _h;
-        return _c(\\"taro-view\\", {
-            \\"staticClass\\": \\"index\\"
-        }, [ _c(\\"taro-text\\", [ _vm._v(_vm._s(_vm.msg)) ]) ], 1);
-    };
-    var staticRenderFns = [];
-    render._withStripped = true;
-    var indexvue_type_script_lang_js_ = {
-        \\"data\\": function data() {
-            return {
-                \\"msg\\": \\"Hello world!\\"
-            };
-        }
-    };
-    var pages_indexvue_type_script_lang_js_ = indexvue_type_script_lang_js_;
-    var indexvue_type_style_index_0_lang_scss_ = __webpack_require__(11);
-    var indexvue_type_style_index_1_lang_sass_ = __webpack_require__(13);
-    function normalizeComponent(scriptExports, render, staticRenderFns, functionalTemplate, injectStyles, scopeId, moduleIdentifier, shadowMode) {
-        var options = typeof scriptExports === \\"function\\" ? scriptExports.options : scriptExports;
-        if (render) {
-            options.render = render;
-            options.staticRenderFns = staticRenderFns;
-            options._compiled = true;
-        }
-        if (functionalTemplate) {
-            options.functional = true;
-        }
-        if (scopeId) {
-            options._scopeId = \\"data-v-\\" + scopeId;
-        }
-        var hook;
-        if (moduleIdentifier) {
-            hook = function(context) {
-                context = context || this.$vnode && this.$vnode.ssrContext || this.parent && this.parent.$vnode && this.parent.$vnode.ssrContext;
-                if (!context && typeof __VUE_SSR_CONTEXT__ !== \\"undefined\\") {
-                    context = __VUE_SSR_CONTEXT__;
-                }
-                if (injectStyles) {
-                    injectStyles.call(this, context);
-                }
-                if (context && context._registeredComponents) {
-                    context._registeredComponents.add(moduleIdentifier);
-                }
-            };
-            options._ssrRegister = hook;
-        } else if (injectStyles) {
-            hook = shadowMode ? function() {
-                injectStyles.call(this, (options.functional ? this.parent : this).$root.$options.shadowRoot);
-            } : injectStyles;
-        }
-        if (hook) {
-            if (options.functional) {
-                options._injectStyles = hook;
-                var originalRender = options.render;
-                options.render = function renderWithStyleInjection(h, context) {
-                    hook.call(context);
-                    return originalRender(h, context);
-                };
-            } else {
-                var existing = options.beforeCreate;
-                options.beforeCreate = existing ? [].concat(existing, hook) : [ hook ];
-            }
-        }
-        return {
-            \\"exports\\": scriptExports,
-            \\"options\\": options
-        };
-    }
-    var component = normalizeComponent(pages_indexvue_type_script_lang_js_, render, staticRenderFns, false, null, null, null);
-    if (false) {
-        var api;
-    }
-    component.options.__file = \\"src/pages/index/index.vue\\";
-    var index = __webpack_exports__[\\"default\\"] = component.exports;
 } ]);
 "
 `;

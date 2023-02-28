@@ -25,7 +25,6 @@ export function connectSocket(opts: Taro.connectSocket.Option): Promise<Taro.Soc
     if (socketTasks.length >= 2) {
       const error = new Error('同时最多发起 2 个 socket 请求，更多请参考文档。')
       res.errMsg = error.message
-      console.error(res.errMsg)
       fail?.(res)
       complete?.(res)
       return reject(res)

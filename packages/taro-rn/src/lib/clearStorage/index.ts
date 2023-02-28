@@ -1,7 +1,7 @@
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { errorHandler, successHandler } from '../../utils'
 
-export async function clearStorage(option: Taro.clearStorage.Option = {}): Promise<Taro.General.CallbackResult> {
+export async function clearStorage(option: Taro.clearStorage.Option = {}): Promise<TaroGeneral.CallbackResult> {
   const { success, fail, complete } = option
   const res = { errMsg: 'clearStorage:ok' }
 

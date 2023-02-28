@@ -49,4 +49,5 @@ export interface CarouselProps {
   dotActiveStyle?: StyleProp<ViewStyle>;
   pagination?: (props: PaginationProps) => React.ReactNode;
   afterChange?: (index: number) => void;
+  children?: React.ReactNode;
 }

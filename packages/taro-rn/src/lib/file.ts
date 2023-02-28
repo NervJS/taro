@@ -1,6 +1,6 @@
 import * as FileSystem from 'expo-file-system'
 import { Platform } from 'react-native'
-import { shouleBeObject, successHandler, errorHandler } from '../utils'
+import { shouldBeObject, successHandler, errorHandler } from '../utils'
 
 interface Func{
   (arg: any): void
@@ -16,7 +16,7 @@ let timer: any
 
 const _fetch = (requestPromise, timeout) => {
   let timeoutAction
-  const timerPromise = new Promise((resolve, reject) => {
+  const timerPromise = new Promise((_resolve, reject) => {
     timeoutAction = () => {
       reject(new Error('网络请求超时'))
     }
@@ -40,6 +40,7 @@ const createFormData = (filePath, body, name) => {
     data.append(key, body[key])
   })
 
+  // @ts-ignore
   data.append(name, fileObj)
 
   return data
@@ -66,12 +67,7 @@ function uploadFile (opts: Taro.uploadFile.Option): Promise<Taro.uploadFile.Succ
   })
 
   return _fetch(execFetch, timeout).then((res: any) => {
-    if (res.ok) {
-      return successHandler(success, complete)(res)
-    } else {
-      const errMsg = `uploadFile fail: ${res.status} ${res.statusText}`
-      return errorHandler(fail, complete)({ errMsg })
-    }
+    return successHandler(success, complete)(res)
   }).catch(e => {
     const errMsg = `uploadFile fail: ${e}`
     return errorHandler(fail, complete)({ errMsg })
@@ -153,7 +149,7 @@ function downloadFile (opts: Taro.downloadFile.Option): Promise<Taro.DownloadTas
  */
 async function saveFile (opts: Taro.saveFile.Option): Promise<Taro.saveFile.SuccessCallbackResult | Taro.saveFile.FailCallbackResult> {
   const res = <any>{ errMsg: 'saveFile:ok' }
-  const isObject = shouleBeObject(opts)
+  const isObject = shouldBeObject(opts)
   if (!isObject.res) {
     res.errMsg = `saveFile${isObject.msg}`
     return Promise.reject(res)
@@ -190,9 +186,9 @@ async function saveFile (opts: Taro.saveFile.Option): Promise<Taro.saveFile.Succ
  * @param opts
  * @param {string} opts.filePath 需要删除的文件路径
  */
-async function removeSavedFile (opts: Taro.removeSavedFile.Option): Promise<Taro.General.CallbackResult> {
+async function removeSavedFile (opts: Taro.removeSavedFile.Option): Promise<TaroGeneral.CallbackResult> {
   let res = <any>{ errMsg: 'removeSavedFile:ok' }
-  const isObject = shouleBeObject(opts)
+  const isObject = shouldBeObject(opts)
   if (!isObject.res) {
     res.errMsg = `removeSavedFile${isObject.msg}`
     console.error(res)
@@ -221,7 +217,7 @@ async function removeSavedFile (opts: Taro.removeSavedFile.Option): Promise<Taro
  */
 async function getSavedFileList (opts: Taro.getSavedFileList.Option = {}): Promise<Taro.getSavedFileList.SuccessCallbackResult> {
   const res = <any>{ errMsg: 'getSavedFileList:ok' }
-  const isObject = shouleBeObject(opts)
+  const isObject = shouldBeObject(opts)
   if (!isObject.res) {
     res.errMsg = `getSavedFileList${isObject.msg}`
     console.error(res)
@@ -260,7 +256,7 @@ async function getSavedFileList (opts: Taro.getSavedFileList.Option = {}): Promi
  */
 async function getSavedFileInfo (opts: Taro.getSavedFileInfo.Option): Promise<Taro.getSavedFileInfo.SuccessCallbackResult> {
   const res = <any>{ errMsg: 'getSavedFileInfo:ok' }
-  const isObject = shouleBeObject(opts)
+  const isObject = shouldBeObject(opts)
   if (!isObject.res) {
     res.errMsg = `getSavedFileInfo${isObject.msg}`
     console.error(res)
@@ -295,7 +291,7 @@ async function getSavedFileInfo (opts: Taro.getSavedFileInfo.Option): Promise<Ta
  */
 async function getFileInfo (opts: Taro.getFileInfo.Option): Promise<Taro.getFileInfo.SuccessCallbackResult | Taro.getFileInfo.FailCallbackResult> {
   const res = <any>{ errMsg: 'getFileInfo:ok' }
-  const isObject = shouleBeObject(opts)
+  const isObject = shouldBeObject(opts)
   if (!isObject.res) {
     res.errMsg = `getFileInfo${isObject.msg}`
     console.error(res)

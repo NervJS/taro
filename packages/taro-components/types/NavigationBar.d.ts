@@ -1,6 +1,5 @@
 import { ComponentType } from 'react'
 import { StandardProps, CommonEventFunction } from './common'
-
 interface NavigationBarProps extends StandardProps {
   /** 导航条标题
    * @supported weapp
@@ -37,9 +36,9 @@ interface NavigationBarProps extends StandardProps {
 
 /** 页面导航条配置节点，用于指定导航栏的一些属性。只能是 PageMeta 组件内的第一个节点，需要配合它一同使用。
  * 通过这个节点可以获得类似于调用 Taro.setNavigationBarTitle Taro.setNavigationBarColor 等接口调用的效果。
- * @supported weapp
- * @see https://developers.weixin.qq.com/miniprogram/dev/component/open-data.html
+ * @classification navig
+ * @supported weapp, harmony
+ * @see https://developers.weixin.qq.com/miniprogram/dev/component/navigation-bar.html
  */
 declare const NavigationBar: ComponentType<NavigationBarProps>
-
 export { NavigationBar, NavigationBarProps }

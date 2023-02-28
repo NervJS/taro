@@ -1,10 +1,9 @@
-import { options } from '../options'
-import { ElementNames } from '../interface'
 import { DOCUMENT_FRAGMENT } from '../constants'
+import { options } from '../options'
 
-import type { Ctx } from '../interface'
+import type { TaroElement } from 'src/dom/element'
 
-export function getBoundingClientRectImpl (): Promise<null> {
+export function getBoundingClientRectImpl (this: TaroElement): Promise<null> {
   if (!options.miniGlobal) return Promise.resolve(null)
   return new Promise(resolve => {
     const query = options.miniGlobal.createSelectorQuery()
@@ -14,9 +13,10 @@ export function getBoundingClientRectImpl (): Promise<null> {
   })
 }
 
-export function getTemplateContent (ctx: Ctx): string | undefined {
+export function getTemplateContent (ctx: TaroElement): TaroElement | undefined {
   if (ctx.nodeName === 'template') {
-    const content = ctx._getElement(ElementNames.Element)(DOCUMENT_FRAGMENT)
+    const document = ctx.ownerDocument
+    const content: TaroElement = document.createElement(DOCUMENT_FRAGMENT)
     content.childNodes = ctx.childNodes
     ctx.childNodes = [content]
     content.parentNode = ctx

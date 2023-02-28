@@ -49,8 +49,9 @@ const _Icon: React.FC<IconProps> = ({
   const iconColor: string = color || iconObj.defaultColor
 
   return (
-    <View style={[style, { width: size, height: size }]}>
+    <View testID='icon' style={[style, { width: size, height: size }]}>
       <Image
+        testID='image'
         source={imageAsset}
         style={{
           width: size,

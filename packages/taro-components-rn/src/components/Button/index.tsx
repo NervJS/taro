@@ -20,6 +20,7 @@
  * - show-message-card
  * - bindcontact
  * - bindgetphonenumber
+ * - bindchooseavatar
  * - app-parameter
  * - binderror
  * - bindopensetting
@@ -43,9 +44,11 @@ import {
 import styles from './styles'
 import { extracteTextStyle, noop } from '../../utils'
 import { ButtonProps, ButtonState } from './PropsType'
+import loadingWarnPng from '../../assets/loading-warn.png'
+import ladingPng from '../../assets/loading.png'
 
-const Loading = (props: { type: ButtonProps['type'] }) => {
-  const { type = 'primary' } = props
+const Loading = (props: { type: ButtonProps['type'], hasSibling: boolean }) => {
+  const { type = 'primary', hasSibling } = props
   const rotate = React.useRef(new Animated.Value(0)).current
 
   React.useEffect(() => {
@@ -70,11 +73,20 @@ const Loading = (props: { type: ButtonProps['type'] }) => {
     outputRange: ['0deg', '360deg']
   })
 
+  const loadingStyle = {
+    ...styles.loading,
+    transform: [{ rotate: rotateDeg }]
+  }
+  if (!hasSibling) {
+    loadingStyle.marginRight = 0
+  }
+
   return (
-    <Animated.View style={[styles.loading, { transform: [{ rotate: rotateDeg }] }]}>
+    <Animated.View testID='loading' style={loadingStyle}>
       <Image
+        accessibilityLabel='loading image'
         source={
-          type === 'warn' ? require('../../assets/loading-warn.png') : require('../../assets/loading.png')
+          type === 'warn' ? loadingWarnPng : ladingPng
         }
         style={styles.loadingImg}
       />
@@ -101,6 +113,11 @@ class _Button extends React.Component<ButtonProps, ButtonState> {
 
   state: ButtonState = {
     isHover: false
+  }
+
+  componentWillUnmount():void {
+    clearTimeout(this.pressOutTimer)
+    clearTimeout(this.pressInTimer)
   }
 
   onPress = (): void => {
@@ -198,7 +215,7 @@ class _Button extends React.Component<ButtonProps, ButtonState> {
             this.state.isHover && hoverStyle
           ]}
         >
-          {loading && <Loading type={type} />}
+          {loading && <Loading hasSibling={!!React.Children.count(children)} type={type} />}
           {
             Array.isArray(children) ? (
               children.map((c: never, i: number) => (

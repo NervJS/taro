@@ -1,4 +1,6 @@
-declare namespace Taro {
+import Taro from '../../index'
+
+declare module '../../index' {
   namespace getAccountInfoSync {
     /** 帐号信息 */
     interface AccountInfo {
@@ -31,17 +33,19 @@ declare namespace Taro {
     }
   }
 
-  /** 获取当前帐号信息
-   * @supported weapp
-   * @example
-   * ```tsx
-   * const accountInfo = Taro.getAccountInfoSync();
-   *
-   * console.log(accountInfo.miniProgram.appId) // 小程序 appId
-   * console.log(accountInfo.plugin.appId) // 插件 appId
-   * console.log(accountInfo.plugin.version) // 插件版本号， 'a.b.c' 这样的形式
-   * ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/open-api/account-info/wx.getAccountInfoSync.html
-   */
-  function getAccountInfoSync(): getAccountInfoSync.AccountInfo
+  interface TaroStatic {
+    /** 获取当前帐号信息
+     * @supported weapp
+     * @example
+     * ```tsx
+     * const accountInfo = Taro.getAccountInfoSync();
+     *
+     * console.log(accountInfo.miniProgram.appId) // 小程序 appId
+     * console.log(accountInfo.plugin.appId) // 插件 appId
+     * console.log(accountInfo.plugin.version) // 插件版本号， 'a.b.c' 这样的形式
+     * ```
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/open-api/account-info/wx.getAccountInfoSync.html
+     */
+    getAccountInfoSync(): getAccountInfoSync.AccountInfo
+  }
 }

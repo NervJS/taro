@@ -1,6 +1,4 @@
-import { CSSProperties, LegacyRef } from 'react'
-
-export type Omit<T, K extends keyof T> = Pick<T, ({ [P in keyof T]: P } & { [P in K]: never } & { [x: string]: never })[keyof T]>;
+import { CSSProperties, LegacyRef, ReactNode } from 'react'
 
 export interface StandardProps<T = any, TouchEvent extends BaseTouchEvent<any> = ITouchEvent> extends EventProps<TouchEvent> {
   /** 组件的唯一标示, 保持整个页面唯一 */
@@ -9,6 +7,8 @@ export interface StandardProps<T = any, TouchEvent extends BaseTouchEvent<any> =
   className?: string
   /** 组件的内联样式, 可以动态设置的内联样式 */
   style?: string | CSSProperties
+  /** 子节点 */
+  children?: ReactNode
   /** 如果列表中项目的位置会动态改变或者有新的项目添加到列表中，
    * 需要使用 `wx:key` 来指定列表中项目的唯一的标识符。
    */
@@ -16,15 +16,15 @@ export interface StandardProps<T = any, TouchEvent extends BaseTouchEvent<any> =
   /** 组件是否显示, 所有组件默认显示 */
   hidden?: boolean
   /** 动画属性 */
-  animation?: { actions: object[] }
+  animation?: { actions: TaroGeneral.IAnyObject[] } | TaroGeneral.IAnyObject
   /** 引用 */
   ref?: LegacyRef<T>
   /**
    * 渲染 HTML
-   * @see https://taro-docs.jd.com/taro/docs/html
+   * @see /docs/html
    */
   dangerouslySetInnerHTML?: {
-    __html: string;
+    __html: string
   }
 }
 
@@ -146,13 +146,10 @@ export interface Target {
   }
 }
 
-/**
- * @ignore
- */
-export interface currentTarget extends Target {}
+export type currentTarget = Target
 
 /** 网络状态数据 */
-export interface netStatus {
+export interface NetStatus {
   /* 当前视频编/码器输出的比特率，单位 kbps */
   videoBitrate?: number
   /* 当前音频编/码器输出的比特率，单位 kbps */

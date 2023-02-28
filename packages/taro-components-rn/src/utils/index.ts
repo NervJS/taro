@@ -5,6 +5,8 @@ import {
   TextStyle
 } from 'react-native'
 
+import * as React from 'react'
+
 // @see https://facebook.github.io/react-native/docs/layout-props.html
 // @see https://facebook.github.io/react-native/docs/view-style-props.html
 // @todo According to the source code of ScrollView, ['alignItems','justifyContent'] should be set to contentContainerStyle
@@ -78,11 +80,23 @@ export const parseStyles = (styles = ''): { [key: string]: string } => {
 }
 
 // eslint-disable-next-line
-export const noop = (...args: any[]): void => {}
+export const noop = (..._args: any[]): void => {}
 
-export default {
-  omit,
-  dismemberStyle,
-  parseStyles,
-  noop,
+export const useUpdateEffect = (effect, deps) => {
+  const isMounted = React.useRef(false)
+
+  // for react-refresh
+  React.useEffect(() => {
+    return () => {
+      isMounted.current = false
+    }
+  }, [])
+
+  React.useEffect(() => {
+    if (!isMounted.current) {
+      isMounted.current = true
+    } else {
+      return effect()
+    }
+  }, deps)
 }

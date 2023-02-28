@@ -1,44 +1,44 @@
-// eslint-disable-next-line no-use-before-define
 import * as React from 'react'
 import {
-  View,
-  Text,
   Image,
-  StyleSheet,
   ImageSourcePropType,
-  ViewStyle,
-  TextStyle
+  StyleSheet,
+  Text,
+  TextStyle,
+  View,
+  ViewStyle
 } from 'react-native'
+
 import Badge from './Badge'
 
 export interface TabBarOptions {
-  activeTintColor: string,
-  inactiveTintColor: string,
-  activeBackgroundColor: string,
-  inactiveBackgroundColor: string,
-  tabStyle?: ViewStyle,
-  labelStyle?: TextStyle,
-  showLabel?: boolean,
-  allowFontScaling?: boolean,
-  keyboardHidesTabBar?: boolean,
+  activeTintColor: string
+  inactiveTintColor: string
+  activeBackgroundColor: string
+  inactiveBackgroundColor: string
+  tabStyle?: ViewStyle
+  labelStyle?: TextStyle
+  showLabel?: boolean
+  allowFontScaling?: boolean
+  keyboardHidesTabBar?: boolean
   safeAreaInsets?: Record<string, number>
   style?: ViewStyle
 }
 
 export interface TabOptions {
-  tabBarVisible?: boolean,
-  tabBarBadge?: boolean,
-  tabBarBadgeStyle?: Record<string, any>,
+  tabBarVisible?: boolean
+  tabBarBadge?: boolean
+  tabBarBadgeStyle?: Record<string, any>
 }
 interface TabBarItemProps extends TabBarOptions{
-  badge: number | string,
-  showRedDot: boolean,
-  label: string,
-  horizontal: boolean,
-  labelColor: string,
+  badge: number | string
+  showRedDot: boolean
+  label: string
+  horizontal: boolean
+  labelColor: string
   iconSource: ImageSourcePropType
-  size?: number,
-  userOptions?: TabOptions
+  size?: number
+  tabOptions?: TabOptions
 }
 
 const styles = StyleSheet.create({
@@ -97,7 +97,6 @@ const styles = StyleSheet.create({
 })
 
 export default class TabBarItem extends React.PureComponent<TabBarItemProps> {
-  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   render () {
     const {
       label,
@@ -107,13 +106,13 @@ export default class TabBarItem extends React.PureComponent<TabBarItemProps> {
       size = 20,
       labelColor,
       iconSource,
-      userOptions,
+      tabOptions,
       tabStyle = {},
       labelStyle = {},
       allowFontScaling = true,
       showLabel = true
     } = this.props
-    const tabBarBadgeStyle = userOptions?.tabBarBadgeStyle || {}
+    const tabBarBadgeStyle = tabOptions?.tabBarBadgeStyle || {}
     return (
       <View style={[styles.tabItem, styles.itemHorizontal, tabStyle]}>
         <View style={styles.icon}>

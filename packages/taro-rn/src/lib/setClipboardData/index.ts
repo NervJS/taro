@@ -1,4 +1,4 @@
-import Clipboard from '@react-native-community/clipboard'
+import Clipboard from '@react-native-clipboard/clipboard'
 import { showToast } from '../showModal/toast'
 import { successHandler, errorHandler } from '../../utils'
 
@@ -18,6 +18,7 @@ export function setClipboardData(opts: Taro.setClipboardData.Option): Promise<Ta
     data,
   }
   showToast({
+    icon: "none",
     title: '内容已复制'
   })
   return successHandler(success, complete)(res)

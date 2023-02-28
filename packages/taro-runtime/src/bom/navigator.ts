@@ -1,13 +1,15 @@
-import { isBrowser, win } from '../env'
+import env from '../env'
 
 const machine = 'Macintosh'
 const arch = 'Intel Mac OS X 10_14_5'
 const engine = 'AppleWebKit/534.36 (KHTML, like Gecko) NodeJS/v4.1.0 Chrome/76.0.3809.132 Safari/534.36'
 
-export const navigator = isBrowser ? win.navigator : {
+const msg = '(' + machine + '; ' + arch + ') ' + engine
+
+export const nav = process.env.TARO_ENV === 'h5' ? env.window.navigator : {
   appCodeName: 'Mozilla',
   appName: 'Netscape',
-  appVersion: '5.0 (' + machine + '; ' + arch + ') ' + engine,
+  appVersion: '5.0 ' + msg,
   cookieEnabled: true,
   mimeTypes: [],
   onLine: true,
@@ -15,7 +17,7 @@ export const navigator = isBrowser ? win.navigator : {
   plugins: [],
   product: 'Taro',
   productSub: '20030107',
-  userAgent: 'Mozilla/5.0 (' + machine + '; ' + arch + ') ' + engine,
+  userAgent: 'Mozilla/5.0 ' + msg,
   vendor: 'Joyent',
   vendorSub: ''
 }

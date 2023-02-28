@@ -1,16 +1,15 @@
-// eslint-disable-next-line no-use-before-define
 import * as React from 'react'
-import { Animated, StyleSheet, StyleProp, TextStyle } from 'react-native'
+import { Animated, StyleProp, StyleSheet, TextStyle } from 'react-native'
 
 export interface BadgeProps {
-  visible: boolean,
-  children?: string | number,
-  size?: number,
+  visible: boolean
+  children?: string | number
+  size?: number
   style?: Animated.WithAnimatedValue<StyleProp<TextStyle>>
 }
 
 export interface BadgeState {
-  opacity: Animated.Value,
+  opacity: Animated.Value
   visible: boolean
 }
 
@@ -62,7 +61,6 @@ export default class Badge extends React.PureComponent<BadgeProps, BadgeState> {
     }
   }
 
-  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   render () {
     const { opacity } = this.state
     const { style, size = 18, children, visible } = this.props
@@ -72,7 +70,6 @@ export default class Badge extends React.PureComponent<BadgeProps, BadgeState> {
     const borderRadius = size / 2
     const fontSize = Math.floor((size * 3) / 4)
 
-    // eslint-disable-next-line multiline-ternary
     return (!visible ? null
       : (
         <Animated.Text

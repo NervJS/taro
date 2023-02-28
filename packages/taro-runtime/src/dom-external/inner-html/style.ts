@@ -32,7 +32,7 @@ interface IStyle {
 }
 
 export default class StyleTagParser {
-  styles: IStyle[]= []
+  styles: IStyle[] = []
 
   extractStyle (src: string) {
     const REG_STYLE = /<style\s?[^>]*>((.|\n|\s)+?)<\/style>/g
@@ -80,8 +80,12 @@ export default class StyleTagParser {
   }
 
   parseSelector (src: string) {
-    // todo: 属性选择器里可以带空格：[a = "b"]，这里的 split(' ') 需要作兼容
-    const list = src.trim().replace(/ *([>~+]) */g, ' $1').replace(/ +/g, ' ').split(' ')
+    const list = src
+      .trim()
+      .replace(/ *([>~+]) */g, ' $1')
+      .replace(/ +/g, ' ')
+      .replace(/\[\s*([^[\]=\s]+)\s*=\s*([^[\]=\s]+)\s*\]/g, '[$1=$2]')
+      .split(' ')
     const selectors = list.map(item => {
       const firstChar = item.charAt(0)
       const selector: ISelector = {

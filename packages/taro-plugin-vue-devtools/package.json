@@ -1,11 +1,11 @@
 {
   "name": "@tarojs/plugin-vue-devtools",
-  "version": "3.3.7",
+  "version": "3.6.2",
   "description": "Taro 小程序端支持使用 Vue DevTools 的插件",
   "main": "index.js",
   "scripts": {
-    "dev": "rollup -c -w",
-    "build": "rollup -c",
+    "dev": "rollup -c -w --bundleConfigAsCjs",
+    "build": "rollup -c --bundleConfigAsCjs",
     "test": "jest",
     "test:dev": "jest --watch"
   },
@@ -27,15 +27,20 @@
     "url": "https://github.com/NervJS/taro/issues"
   },
   "homepage": "https://github.com/NervJS/taro#readme",
-  "devDependencies": {
-    "@tarojs/service": "3.3.7"
-  },
   "dependencies": {
-    "@tarojs/helper": "3.3.7",
-    "@tarojs/shared": "3.3.7",
-    "@tarojs/taro": "3.3.7",
+    "@tarojs/helper": "workspace:*",
+    "@tarojs/service": "workspace:*",
+    "@tarojs/shared": "workspace:*",
+    "@tarojs/taro": "workspace:*",
     "@vue/devtools": "6.0.0-beta.15",
     "cross-spawn": "^7.0.3",
     "detect-port": "^1.3.0"
+  },
+  "devDependencies": {
+    "rollup": "^3.8.1",
+    "rollup-plugin-copy": "^3.4.0",
+    "rollup-plugin-node-externals": "^4.0.0",
+    "rollup-plugin-ts": "^3.0.2",
+    "typescript": "^4.7.4"
   }
 }

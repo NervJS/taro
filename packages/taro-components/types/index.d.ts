@@ -1,23 +1,36 @@
-export { ScrollView } from './ScrollView'
-export { View } from './View'
+export * from './common'
+export * from './event'
+export * from './props'
+
+/** 视图容器 */
 export { Block } from './Block'
+export { CoverImage } from './CoverImage'
+export { CoverView } from './CoverView'
+export { MatchMedia } from './MatchMedia'
+export { MovableArea } from './MovableArea'
+export { MovableView } from './MovableView'
+export { PageContainer } from './PageContainer'
+export { RootPortal } from './RootPortal'
+export { ScrollView } from './ScrollView'
+export { ShareElement } from './ShareElement'
 export { Swiper } from './Swiper'
 export { SwiperItem } from './SwiperItem'
-export { MatchMedia } from './MatchMedia'
-export { MovableView } from './MovableView'
-export { MovableArea } from './MovableArea'
-export { CoverView } from './CoverView'
-export { CoverImage } from './CoverImage'
+export { View } from './View'
+
+/** 基础内容 */
 export { Icon } from './Icon'
-export { Text } from './Text'
-export { RichText } from './RichText'
 export { Progress } from './Progress'
-export { Button, ButtonProps } from './Button'
+export { RichText } from './RichText'
+export { Text } from './Text'
+
+/** 表单组件 */
+export { Button } from './Button'
 export { Checkbox } from './Checkbox'
 export { CheckboxGroup } from './CheckboxGroup'
 export { Editor } from './Editor'
 export { Form } from './Form'
 export { Input } from './Input'
+export { KeyboardAccessory } from './KeyboardAccessory'
 export { Label } from './Label'
 export { Picker } from './Picker'
 export { PickerView } from './PickerView'
@@ -27,23 +40,42 @@ export { RadioGroup } from './RadioGroup'
 export { Slider } from './Slider'
 export { Switch } from './Switch'
 export { Textarea } from './Textarea'
-export { Image } from './Image'
-export { Navigator } from './Navigator'
-export { Camera } from './Camera'
-export { Canvas } from './Canvas'
-export { OpenData } from './OpenData'
-export { Video } from './Video'
-export { Ad } from './Ad'
-export { Audio } from './Audio'
+
+/** 导航 */
 export { FunctionalPageNavigator } from './FunctionalPageNavigator'
+export { Navigator } from './Navigator'
+export { NavigationBar } from './NavigationBar'
+// export { Tabbar } from './Tabbar'
+// export { TabbarItem } from './TabbarItem'
+
+/** 媒体组件 */
+export { Audio } from './Audio'
+export { Camera } from './Camera'
+export { ChannelLive } from './ChannelLive'
+export { ChannelVideo } from './ChannelVideo'
+export { Image } from './Image'
 export { LivePlayer } from './LivePlayer'
 export { LivePusher } from './LivePusher'
+export { Video } from './Video'
+export { VoipRoom } from './VoipRoom'
+export { Lottie } from './Lottie'
+
+/** 地图 */
 export { Map } from './Map'
-export { WebView } from './WebView'
+
+/** 画布 */
+export { Canvas } from './Canvas'
+
+/** 开放能力 */
+export { Ad } from './Ad'
+export { AdCustom } from './AdCustom'
 export { OfficialAccount } from './OfficialAccount'
-export { NavigationBar } from './NavigationBar'
+export { OpenData } from './OpenData'
+export { WebView } from './WebView'
+
+/** 配置节点 */
 export { PageMeta } from './PageMeta'
-export { Slot } from './Slot'
+
 export { CustomWrapper } from './CustomWrapper'
-export * from './common'
-export * from './event'
+export { Slot } from './Slot'
+export { NativeSlot } from './NativeSlot'

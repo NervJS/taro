@@ -1,4 +1,5 @@
 import * as fs from 'fs-extra'
+
 import { detailMock, indexMock } from './fixtures/prerender/vmMock'
 
 let compile
@@ -34,11 +35,10 @@ describe('prerender', () => {
   })
 
   beforeEach(() => {
-    jest.isolateModules(() => {
-      const compiler = require('./utils/compiler')
-      compile = compiler.compile
-      getOutput = compiler.getOutput
-    })
+    jest.resetModules()
+    const compiler = require('./utils/compiler')
+    compile = compiler.compile
+    getOutput = compiler.getOutput
   })
 
   test('should prerender selected pages', async () => {
@@ -92,7 +92,7 @@ describe('prerender', () => {
         match: 'others/**',
         include: ['pages/index/index'],
         exclude: ['others/normal/index'],
-        transformXML (data, { path }, xml) {
+        transformXML (_data, { path }, xml) {
           if (path === 'others/detail/index') {
             return '<video src="https://github.com/taro" />'
           }

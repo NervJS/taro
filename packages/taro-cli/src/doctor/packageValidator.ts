@@ -1,6 +1,7 @@
+import { UPDATE_PACKAGE_LIST } from '@tarojs/helper'
 import * as _ from 'lodash/fp'
 import * as npmCheck from 'npm-check'
-import { UPDATE_PACKAGE_LIST } from '@tarojs/helper'
+
 import { getPkgVersion } from '../util'
 
 interface ErrorLine {
@@ -56,7 +57,6 @@ function pkgsNotInstalled (pkgs): ErrorLine[] {
 function taroShouldUpdate (pkgs): ErrorLine[] {
   // sort 是为了 UPDATE_PACKAGE_LIST 顺序改变也不影响单测结果
   const list = UPDATE_PACKAGE_LIST
-    .filter(item => !(/nerv/.test(item)))
     .sort()
     .map(item => {
       const taroPkg = pkgs.find(pkg => pkg.moduleName === item)
@@ -93,7 +93,7 @@ function taroShouldUpdate (pkgs): ErrorLine[] {
 function taroOutdate (pkgs): ErrorLine[] {
   const list: ErrorLine[] = []
   pkgs.forEach(({ moduleName, isInstalled }) => {
-    if (!UPDATE_PACKAGE_LIST.includes(moduleName) && /^@tarojs/.test(moduleName)) {
+    if (!UPDATE_PACKAGE_LIST.includes(moduleName) && /^@tarojs/.test(moduleName) && !/^@tarojs\/plugin-/.test(moduleName)) {
       list.push({
         desc: `Taro 3 不再依赖 ${moduleName}，可以${isInstalled ? '卸载' : '从 package.json 移除'}`,
         valid: true

@@ -1,8 +1,10 @@
 // import { Scaner } from '../src/html/scaner'
 // import { parser } from '../src/html/oparser'
 import '../dom-external/inner-html/html'
+
 import { parser } from '../dom-external/inner-html/parser'
 import { Scaner } from '../dom-external/inner-html/scaner'
+import { options } from '../options'
 import { isElement } from '../utils'
 
 const runtime = require('../../dist/runtime.esm')
@@ -38,8 +40,8 @@ describe('html with <style>', () => {
     const res = parser(html, document)
     const el0 = res[0].children[0]
     const el1 = res[0].children[0]
-    expect(el0.style.cssText).toBe('color: red;font-size: 10;')
-    expect(el1.style.cssText).toBe('color: red;font-size: 10;')
+    expect(el0.style.cssText).toBe('color: red; font-size: 10;')
+    expect(el1.style.cssText).toBe('color: red; font-size: 10;')
   })
 
   it('id selector', () => {
@@ -59,7 +61,7 @@ describe('html with <style>', () => {
     `
     const res = parser(html, document)
     const el = res[0].children[1]
-    expect(el.style.cssText).toBe('color: red;font-size: 10;transition: color ease-in 300ms;border: 1px solid red;')
+    expect(el.style.cssText).toBe('color: red; font-size: 10; transition: color ease-in 300ms; border: 1px solid red;')
   })
 
   it('class selector', () => {
@@ -88,9 +90,9 @@ describe('html with <style>', () => {
     const el0 = res[0]
     const el1 = res[0].children[0]
     const el2 = res[0].children[1]
-    expect(el0.style.cssText).toBe('background: red;border: 1px;padding: 10px;')
-    expect(el1.style.cssText).toBe('font-weight: bold;color: red;font-size: 10;')
-    expect(el2.style.cssText).toBe('font-weight: bold;margin: 10px;')
+    expect(el0.style.cssText).toBe('background: red; border: 1px; padding: 10px;')
+    expect(el1.style.cssText).toBe('font-weight: bold; color: red; font-size: 10;')
+    expect(el2.style.cssText).toBe('font-weight: bold; margin: 10px;')
   })
 
   it('attributes selector', () => {
@@ -100,6 +102,28 @@ describe('html with <style>', () => {
           color: red;
         }
         [name="body"][content='hello-world'] {
+          font-size: 10;
+        }
+      </style>
+      <div>
+        <div name="title"></div>
+        <div name="body" content="hello-world"></div>
+      </div>
+    `
+    const res = parser(html, document)
+    const el0 = res[0].children[0]
+    const el1 = res[0].children[1]
+    expect(el0.style.cssText).toBe('color: red;')
+    expect(el1.style.cssText).toBe('font-size: 10;')
+  })
+
+  it('attributes selector with space', () => {
+    const html = `
+      <style>
+        [    name = "title"]   {
+          color: red;
+        }
+        [name = "body"][content = 'hello-world'] {
           font-size: 10;
         }
       </style>
@@ -227,7 +251,7 @@ describe('html with <style>', () => {
     const el4 = res[0].children[2].children[0].children[0]
     expect(el1.style.cssText).toBe('width: 100%;')
     expect(el2.style.cssText).toBe('')
-    expect(el3.style.cssText).toBe('width: 100%;color: red;')
+    expect(el3.style.cssText).toBe('width: 100%; color: red;')
     expect(el4.style.cssText).toBe('width: 100%;')
   })
 
@@ -310,9 +334,9 @@ describe('html with <style>', () => {
     const res = parser(html, document)
     const el0 = res[0].children[0]
     const el1 = res[0].children[1]
-    expect(el0.style.cssText).toBe('color: red;font-size: 10;')
+    expect(el0.style.cssText).toBe('color: red; font-size: 10;')
     expect(el0.childNodes[0]._value).toBe('测试换行\nxxxx')
-    expect(el1.style.cssText).toBe('color: red;font-size: 10;')
+    expect(el1.style.cssText).toBe('color: red; font-size: 10;')
     expect(el1.childNodes[0]._value).toBe('测试换行xxxx')
   })
 })
@@ -351,6 +375,19 @@ describe('sort style', () => {
     const res = parser(html, document)
     const node = res[0]
 
-    expect(node.style.cssText).toBe('color: blue;font-size: 12px;')
+    expect(node.style.cssText).toBe('color: blue; font-size: 12px;')
+  })
+
+  describe('html with transformText', () => {
+    it('transformText function works', () => {
+      options.html.transformText = taroText => {
+        taroText._value = 'c'
+        return taroText
+      }
+      const html = '<span>a</span>'
+      const res = parser(html, document)
+      const node = res[0]
+      expect(node.childNodes[0]._value).toBe('c')
+    })
   })
 })

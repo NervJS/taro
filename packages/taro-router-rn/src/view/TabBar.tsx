@@ -1,44 +1,45 @@
-// eslint-disable-next-line no-use-before-define
-import * as React from 'react'
 import {
   Link
 } from '@react-navigation/native'
-import { withSafeAreaInsets } from 'react-native-safe-area-context'
+import * as React from 'react'
 import {
-  View,
-  TouchableWithoutFeedback,
   Animated,
-  StyleSheet,
-  Platform,
   Dimensions,
+  EmitterSubscription,
+  Keyboard,
   LayoutChangeEvent,
-  Keyboard
+  Platform,
+  StyleSheet,
+  TouchableWithoutFeedback,
+  View
 } from 'react-native'
-import { getTabVisible, getTabConfig, getTabItemConfig, getDefalutTabItem, isUrl } from '../utils/index'
-import { getInitSafeAreaInsets } from './tabBarUtils'
+import { EdgeInsets, withSafeAreaInsets, WithSafeAreaInsetsProps } from 'react-native-safe-area-context'
+
+import { getDefalutTabItem, getTabConfig, getTabItemConfig, getTabVisible, isUrl } from '../utils/index'
 import TabBarItem, { TabBarOptions, TabOptions } from './TabBarItem'
+import { getInitSafeAreaInsets } from './tabBarUtils'
 
 interface TabBarProps extends TabBarOptions {
-  state: Record<string, any>,
-  navigation: any,
-  descriptors: Record<string, any>,
-  userOptions: TabOptions
+  state: Record<string, any>
+  navigation: any
+  descriptors: Record<string, any>
+  tabOptions: TabOptions
 }
 
 interface TabBarState {
-  visible: Animated.Value,
-  isKeyboardShown: boolean,
-  tabVisible: boolean,
+  visible: Animated.Value
+  isKeyboardShown: boolean
+  tabVisible: boolean
   layout: {
-    height: number,
-    width: number,
-  },
-  insets: Record<string, number>
+    height: number
+    width: number
+  }
+  insets: EdgeInsets
 }
 interface TabBarStyle {
-  color?: string,
-  selectedColor?: string,
-  backgroundColor?: string,
+  color?: string
+  selectedColor?: string
+  backgroundColor?: string
   borderStyle?: string
 }
 
@@ -70,12 +71,14 @@ const styles = StyleSheet.create({
   }
 })
 
-export class TabBar extends React.PureComponent<TabBarProps, TabBarState> {
-  constructor (props: TabBarProps) {
+export class TabBar extends React.PureComponent<TabBarProps & WithSafeAreaInsetsProps, TabBarState> {
+  handleKeyboardShowEvent: EmitterSubscription
+  handleKeyboardHideEvent: EmitterSubscription
+  constructor (props: TabBarProps & WithSafeAreaInsetsProps) {
     super(props)
     const { height = 0, width = 0 } = Dimensions.get('window')
-    const { safeAreaInsets, userOptions = {} } = this.props
-    const { tabBarVisible = true } = userOptions
+    const { insets, safeAreaInsets, tabOptions = {} } = this.props
+    const { tabBarVisible = true } = tabOptions
     const tabVisible = tabBarVisible === false ? false : getTabVisible()
     this.state = {
       visible: new Animated.Value(tabVisible ? 1 : 0),
@@ -85,7 +88,8 @@ export class TabBar extends React.PureComponent<TabBarProps, TabBarState> {
         width,
         height
       },
-      insets: safeAreaInsets || getInitSafeAreaInsets()
+      // todo: remove safeAreaInsets
+      insets: insets || safeAreaInsets || getInitSafeAreaInsets()
     }
   }
 
@@ -93,11 +97,11 @@ export class TabBar extends React.PureComponent<TabBarProps, TabBarState> {
     const { keyboardHidesTabBar = false } = this.props
     if (keyboardHidesTabBar) {
       if (Platform.OS === 'ios') {
-        Keyboard.addListener('keyboardWillShow', () => this.handleKeyboardShow())
-        Keyboard.addListener('keyboardWillHide', () => this.handleKeyboardHide())
+        this.handleKeyboardShowEvent = Keyboard.addListener('keyboardWillShow', () => this.handleKeyboardShow())
+        this.handleKeyboardHideEvent = Keyboard.addListener('keyboardWillHide', () => this.handleKeyboardHide())
       } else {
-        Keyboard.addListener('keyboardDidShow', () => this.handleKeyboardShow())
-        Keyboard.addListener('keyboardDidHide', () => this.handleKeyboardHide())
+        this.handleKeyboardShowEvent = Keyboard.addListener('keyboardDidShow', () => this.handleKeyboardShow())
+        this.handleKeyboardHideEvent = Keyboard.addListener('keyboardDidHide', () => this.handleKeyboardHide())
       }
     }
   }
@@ -105,24 +109,24 @@ export class TabBar extends React.PureComponent<TabBarProps, TabBarState> {
   componentWillUnmount () {
     const { keyboardHidesTabBar = false } = this.props
     if (keyboardHidesTabBar) {
-      if (Platform.OS === 'ios') {
-        Keyboard.removeListener('keyboardWillShow', () => this.handleKeyboardShow())
-        Keyboard.removeListener('keyboardWillHide', () => this.handleKeyboardHide())
-      } else {
-        Keyboard.removeListener('keyboardDidShow', () => this.handleKeyboardShow())
-        Keyboard.removeListener('keyboardDidHide', () => this.handleKeyboardHide())
-      }
+      this.handleKeyboardShowEvent.remove()
+      this.handleKeyboardHideEvent.remove()
     }
   }
 
-  UNSAFE_componentWillReceiveProps (): void {
+  UNSAFE_componentWillReceiveProps (nextProps): void {
     const curVisible = getTabVisible()
-    const { tabVisible } = this.state
+    const { tabVisible, insets } = this.state
     if (curVisible !== tabVisible) {
       this.setState({
         tabVisible: curVisible
       })
       this.setTabBarHidden(!curVisible)
+    }
+    if(nextProps.insets && insets !== nextProps.insets) {
+      this.setState({
+        insets: nextProps.insets
+      })
     }
   }
 
@@ -229,7 +233,6 @@ export class TabBar extends React.PureComponent<TabBarProps, TabBarState> {
     return isUrl(path) ? { uri: path } : { uri: path }
   }
 
-  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   renderContent () {
     const { state, descriptors, navigation } = this.props
     const horizontal = true
@@ -336,7 +339,6 @@ export class TabBar extends React.PureComponent<TabBarProps, TabBarState> {
     </View>
   }
 
-  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   render () {
     const { insets, visible, layout, tabVisible, isKeyboardShown } = this.state
     const paddingBottom = Math.max(
@@ -349,7 +351,6 @@ export class TabBar extends React.PureComponent<TabBarProps, TabBarState> {
 
     const showTabBar = tabVisible !== false && !isKeyboardShown
     if (!needAnimate) {
-      // eslint-disable-next-line multiline-ternary
       return (!showTabBar ? null
         : (
           <View
@@ -392,7 +393,7 @@ export class TabBar extends React.PureComponent<TabBarProps, TabBarState> {
                   })
                 }
               ],
-              position: showTabBar ? 'absolute' : (null as any)
+              position: showTabBar ? 'relative' : (null as any)
             },
             style,
             {

@@ -11,7 +11,7 @@ import {
 import { noop } from '../../utils'
 import { FormProps, FormValues } from './PropsType'
 
-function isFormTypeElement (typeName: string): boolean {
+function isFormTypeElement(typeName: string): boolean {
   return [
     '_Input',
     '_Textarea',
@@ -30,15 +30,19 @@ class _Form extends React.Component<FormProps> {
     // onChange: _CheckboxGroup _RadioGroup _Switch _Slider _Picker
     // onBlur: _Input _Textarea
     // @ts-ignore
-    const childTypeName = child.type && child.type.name
+    const childTypeName = child.type && child.type.displayName
     const childPropsName = child.props.name
     const valueChangeCbName = childTypeName === '_Input' || childTypeName === '_Textarea' ? 'onBlur' : 'onChange'
     const tmpProps = { ...child.props }
     // Initial value
     if (['_Input', '_Textarea', '_Slider', '_Picker'].indexOf(childTypeName) >= 0) {
-      this.formValues[childPropsName] = child.props.value
+      if (child.props.value !== undefined) {
+        this.formValues[childPropsName] = child.props.value
+      }
     } else if (childTypeName === '_Switch') {
-      this.formValues[childPropsName] = !!child.props.checked
+      if (child.props.checked !== undefined) {
+        this.formValues[childPropsName] = !!child.props.checked
+      }
     } else {
       tmpProps._onGroupDataInitial = (value: any) => {
         this.formValues[childPropsName] = value
@@ -56,8 +60,8 @@ class _Form extends React.Component<FormProps> {
   }
 
   deppDiveIntoChildren = (children: React.ReactNode): React.ReactNode => {
-    return React.Children.toArray(children).map((child: any) => {
-      const childTypeName = child.type && child.type.name
+    const result = React.Children.toArray(children).map((child: any) => {
+      const childTypeName = child.type && child.type.displayName
       if (!child.type) return child
       if (childTypeName === '_Button' && ['submit', 'reset'].indexOf(child.props.formType) >= 0) {
         const onClick = child.props.onClick || noop
@@ -74,6 +78,7 @@ class _Form extends React.Component<FormProps> {
         ? this.bindValueChangeEvent(child)
         : React.cloneElement(child, { ...child.props }, this.deppDiveIntoChildren(child.props.children))
     })
+    return result.length ? result : null
   }
 
   submit = (): void => {
@@ -90,7 +95,7 @@ class _Form extends React.Component<FormProps> {
     onReset()
   }
 
-  render (): JSX.Element {
+  render(): JSX.Element {
     const {
       children,
       style,

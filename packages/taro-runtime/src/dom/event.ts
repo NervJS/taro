@@ -1,33 +1,27 @@
-import { EMPTY_OBJ } from '@tarojs/shared'
-import container from '../container'
-import { ElementNames } from '../interface'
-import { isParentBinded } from '../utils'
-import SERVICE_IDENTIFIER from '../constants/identifiers'
+import { EMPTY_OBJ, hooks, isUndefined } from '@tarojs/shared'
+
 import {
   CONFIRM,
   CURRENT_TARGET,
+  EVENT_CALLBACK_RESULT,
   INPUT,
   KEY_CODE,
   TARGET,
   TIME_STAMP,
-  TYPE,
-  TOUCHMOVE
+  TOUCHMOVE,
+  TYPE
 } from '../constants'
+import env from '../env'
+import { isParentBinded } from '../utils'
 
+import type { EventOptions, MpEvent } from '../interface'
 import type { TaroElement } from './element'
-import type { InstanceNamedFactory, EventOptions, MpEvent, TaroDocumentInstance, IHooks } from '../interface'
-
-let hooks
-let getElement
-let document
-if (process.env.TARO_ENV !== 'h5') {
-  hooks = container.get<IHooks>(SERVICE_IDENTIFIER.Hooks)
-  getElement = container.get<InstanceNamedFactory>(SERVICE_IDENTIFIER.TaroElementFactory)
-  document = getElement(ElementNames.Document)() as TaroDocumentInstance
-}
 
 // Taro 事件对象。以 Web 标准的事件对象为基础，加入小程序事件对象中携带的部分信息，并模拟实现事件冒泡。
 export class TaroEvent {
+  private cacheTarget
+  private cacheCurrentTarget
+
   public type: string
 
   public bubbles: boolean
@@ -39,6 +33,9 @@ export class TaroEvent {
   public _end = false
 
   public defaultPrevented = false
+
+  // Mouse Event botton property, it's used in 3rd lib, like react-router. default 0 in general
+  public button = 0
 
   // timestamp can either be hi-res ( relative to page load) or low-res (relative to UNIX epoch)
   // here use hi-res timestamp
@@ -66,25 +63,51 @@ export class TaroEvent {
   }
 
   get target () {
-    const element = document.getElementById(this.mpEvent?.target.id)
-    return {
-      ...this.mpEvent?.target,
-      ...this.mpEvent?.detail,
-      dataset: element !== null ? element.dataset : EMPTY_OBJ
+    const cacheTarget = this.cacheTarget
+    if (!cacheTarget) {
+      const target = Object.create(this.mpEvent?.target || null)
+
+      const element = env.document.getElementById(target.id)
+      target.dataset = element !== null ? element.dataset : EMPTY_OBJ
+
+      for (const key in this.mpEvent?.detail) {
+        target[key] = this.mpEvent!.detail[key]
+      }
+
+      this.cacheTarget = target
+
+      return target
+    } else {
+      return cacheTarget
     }
   }
 
   get currentTarget () {
-    const element = document.getElementById(this.mpEvent?.currentTarget.id)
+    const cacheCurrentTarget = this.cacheCurrentTarget
+    if (!cacheCurrentTarget) {
+      const doc = env.document
 
-    if (element === null) {
-      return this.target
-    }
+      const currentTarget = Object.create(this.mpEvent?.currentTarget || null)
 
-    return {
-      ...this.mpEvent?.currentTarget,
-      ...this.mpEvent?.detail,
-      dataset: element.dataset
+      const element = doc.getElementById(currentTarget.id)
+      const targetElement = doc.getElementById(this.mpEvent?.target?.id || null)
+
+      if (element === null || (element && element === targetElement)) {
+        this.cacheCurrentTarget = this.target
+        return this.target
+      }
+
+      currentTarget.dataset = element.dataset
+
+      for (const key in this.mpEvent?.detail) {
+        currentTarget[key] = this.mpEvent!.detail[key]
+      }
+
+      this.cacheCurrentTarget = currentTarget
+
+      return currentTarget
+    } else {
+      return cacheCurrentTarget
     }
   }
 }
@@ -115,43 +138,60 @@ export function createEvent (event: MpEvent | string, node?: TaroElement) {
 
 const eventsBatch = {}
 
+function getEventCBResult (event: MpEvent) {
+  const result = event[EVENT_CALLBACK_RESULT]
+  if (!isUndefined(result)) {
+    delete event[EVENT_CALLBACK_RESULT]
+  }
+  return result
+}
+
 // 小程序的事件代理回调函数
 export function eventHandler (event: MpEvent) {
-  hooks.modifyMpEvent?.(event)
+  // Note: ohos 上事件没有设置 type、detail 类型 setter 方法，且部分事件（例如 load 等）缺失 target 导致事件错误
+  !event.type && Object.defineProperty(event, 'type', {
+    value: (event as any)._type // ohos only
+  })
+  !event.detail && Object.defineProperty(event, 'detail', {
+    value: (event as any)._detail || { ...event } // ohos only
+  })
+  event.currentTarget = event.currentTarget || event.target || { ...event }
+  hooks.call('modifyMpEventImpl', event)
 
-  if (event.currentTarget == null) {
-    event.currentTarget = event.target
-  }
+  const currentTarget = event.currentTarget
+  const id = currentTarget.dataset?.sid as string /** sid */ || currentTarget.id /** uid */ || event.detail?.id as string || ''
 
-  const node = document.getElementById(event.currentTarget.id)
+  const node = env.document.getElementById(id)
   if (node) {
     const dispatch = () => {
       const e = createEvent(event, node)
-      hooks.modifyTaroEvent?.(e, node)
+      hooks.call('modifyTaroEvent', e, node)
       node.dispatchEvent(e)
     }
-    if (typeof hooks.batchedEventUpdates === 'function') {
+    if (hooks.isExist('batchedEventUpdates')) {
       const type = event.type
 
       if (
-        !hooks.isBubbleEvents(type) ||
+        !hooks.call('isBubbleEvents', type) ||
         !isParentBinded(node, type) ||
         (type === TOUCHMOVE && !!node.props.catchMove)
       ) {
         // 最上层组件统一 batchUpdate
-        hooks.batchedEventUpdates(() => {
+        hooks.call('batchedEventUpdates', () => {
           if (eventsBatch[type]) {
             eventsBatch[type].forEach(fn => fn())
             delete eventsBatch[type]
           }
           dispatch()
         })
+        return getEventCBResult(event)
       } else {
         // 如果上层组件也有绑定同类型的组件，委托给上层组件调用事件回调
         (eventsBatch[type] ||= []).push(dispatch)
       }
     } else {
       dispatch()
+      return getEventCBResult(event)
     }
   }
 }

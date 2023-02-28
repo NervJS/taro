@@ -1,9 +1,10 @@
-import * as path from 'path'
+import { isEmptyObject, readPageConfig } from '@tarojs/helper'
 import * as fs from 'fs'
 import { camelCase } from 'lodash'
-import { isEmptyObject } from '@tarojs/helper'
+import * as path from 'path'
+
+import { AppConfig, TransformEntry } from './types/index'
 import { getConfigContent, getConfigFilePath, parseBase64Image } from './utils'
-import { TransformEntry, AppConfig } from './types/index'
 
 function getPagesResource (appPath: string, basePath: string, pathPrefix: string) {
   const importPages: string[] = []
@@ -22,7 +23,11 @@ function getPagesResource (appPath: string, basePath: string, pathPrefix: string
     if (fs.existsSync(configFile)) {
       importConfigs.push(`import ${screenConfigName} from '.${pathPrefix}${pagePath}.config'`)
     } else {
-      importConfigs.push(`const ${screenConfigName} = {}`)
+      let result = {}
+      try {
+        result = readPageConfig(configFile)
+      } catch (err) {} // eslint-disable-line no-empty
+      importConfigs.push(`const ${screenConfigName} = ${JSON.stringify(result)}`)
     }
   })
   return {
@@ -38,7 +43,7 @@ function getPageScreen (pagePath: string) {
   return `{name:'${screen}',pagePath:'${pagePath}',component:createPageConfig(${screen},{...${screenConfigName},pagePath:'${pagePath}'})}`
 }
 
-function getAppConfig (appPath: string) {
+export function getAppConfig (appPath: string) {
   // 读取配置文件内容
   if (!appPath) {
     throw new Error('缺少 app 全局配置文件，请检查！')
@@ -115,13 +120,14 @@ export default function generateEntry ({
 
   const appTabBar = getFormatTabBar(appPath, basePath)
 
-  const code = `import { AppRegistry } from 'react-native'
+  const code = `import 'react-native-gesture-handler'
+  import { AppRegistry } from 'react-native'
   import { createReactNativeApp, createPageConfig } from '@tarojs/runtime-rn'
   import Component from '${appComponentPath}'
   ${importPageList}
   ${`import AppComponentConfig from '${appComponentPath}.config';`}
   ${importPageConfig}
-  
+
   AppComponentConfig.tabBar = ${JSON.stringify(appTabBar)}
 
   const buildConfig = ${JSON.stringify(appConfig)}

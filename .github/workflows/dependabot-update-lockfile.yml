@@ -1,0 +1,31 @@
+# https://github.com/dependabot/dependabot-core/issues/1736
+name: Dependabot
+on: pull_request_target
+permissions: read-all
+jobs:
+  update-lockfile:
+    runs-on: ubuntu-latest
+    if: ${{ github.actor == 'dependabot[bot]' }}
+    permissions:
+      contents: write
+      id-token: write
+      pull-requests: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with :
+          ref : ${{ github.head_ref }}
+
+      - name: Generate SBOM
+        run: |
+          curl -Lo $RUNNER_TEMP/sbom-tool https://github.com/microsoft/sbom-tool/releases/latest/download/sbom-tool-linux-x64
+          chmod +x $RUNNER_TEMP/sbom-tool
+          $RUNNER_TEMP/sbom-tool generate -b . -bc . -pn ${{ github.repository }} -pv 1.0.0 -ps OwnerName -nsb https://sbom.mycompany.com -V Verbose
+      - uses: actions/upload-artifact@v3
+        with:
+          name: sbom
+          path: _manifest/spdx_2.2
+      - name: SBOM upload
+        uses: jhutchings1/spdx-to-dependency-graph-action@v0.0.2
+        with:
+          filePath: "_manifest/spdx_2.2/"

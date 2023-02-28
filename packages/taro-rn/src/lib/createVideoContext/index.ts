@@ -1,7 +1,6 @@
 const globalAny:any = global
 
-globalAny._taroVideoMap = {}
-
+globalAny._taroVideoMap = globalAny._taroVideoMap || {}
 class VideoContext {
   private videoRef: any
 
@@ -44,7 +43,7 @@ class VideoContext {
    */
   async play () {
     try {
-      await this.videoRef?.playAsync()
+      await this.videoRef?.playAsync?.()
     } catch (e) {
       console.log(e)
     }
@@ -108,6 +107,18 @@ class VideoContext {
     console.log('not support')
   }
 
+  exitBackgroundPlayback () {
+    console.log('not support')
+  }
+
+  exitPictureInPicture () {
+    console.log('not support')
+  }
+
+  requestBackgroundPlayback () {
+    console.log('not support')
+  }
+
   /**
    * 停止视频
    */
@@ -125,7 +136,7 @@ class VideoContext {
  * {string} @param - id video 组件的 id
  * {object} @param t - 在自定义组件下，当前组件实例的this，以操作组件内 video 组件
  */
-export function createVideoContext (id: string, t?: Taro.General.IAnyObject): Taro.VideoContext|undefined {
+export function createVideoContext (id: string, t?: TaroGeneral.IAnyObject): Taro.VideoContext|undefined {
   let ref = globalAny._taroVideoMap[id]
   if (t) ref = t
   if (ref) {

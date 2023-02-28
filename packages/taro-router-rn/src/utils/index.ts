@@ -1,6 +1,7 @@
 import { camelCase } from 'lodash'
 import { parseUrl } from 'query-string'
-import { TaroTabBarConfig, CallbackResult, OptionsFunc } from './types'
+
+import { CallbackResult, OptionsFunc, TaroTabBarConfig } from './types'
 
 const globalAny: any = global
 
@@ -31,11 +32,10 @@ export function isUrl (str: string): boolean {
   return false
 }
 
-export function isFunction (obj: unknown): boolean {
-  return typeof obj === 'function'
+export function isFunction (o: unknown): o is (...args: any[]) => any {
+  return typeof o === 'function'
 }
 
-// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export function isEmptyObject (obj: any): boolean {
   if (obj == null) {
     return true
@@ -120,4 +120,16 @@ export function handleUrl (url: string): Record<string, any> {
     pageName,
     params
   }
+}
+
+export function hasJumpAnimate () :boolean{
+  if(globalAny.__taroJumpAnimate === false){
+    return false
+  }
+  return true
+}
+
+
+export function updateJumpAnimate (needAnimate: boolean){
+  globalAny.__taroJumpAnimate = needAnimate
 }

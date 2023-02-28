@@ -1,10 +1,12 @@
-declare namespace Taro {
+import Taro from '../../index'
+
+declare module '../../index' {
   namespace chooseAddress {
     interface Option {
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
-      complete?: (res: General.CallbackResult) => void
+      complete?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用失败的回调函数 */
-      fail?: (res: General.CallbackResult) => void
+      fail?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用成功的回调函数 */
       success?: (result: SuccessCallbackResult) => void
     }
@@ -31,24 +33,26 @@ declare namespace Taro {
     }
   }
 
-  /** 获取用户收货地址。调起用户编辑收货地址原生界面，并在编辑完成后返回用户选择的地址。
-   * @supported weapp
-   * @example
-   * ```tsx
-   * Taro.chooseAddress({
-   *   success: function (res) {
-   *     console.log(res.userName)
-   *     console.log(res.postalCode)
-   *     console.log(res.provinceName)
-   *     console.log(res.cityName)
-   *     console.log(res.countyName)
-   *     console.log(res.detailInfo)
-   *     console.log(res.nationalCode)
-   *     console.log(res.telNumber)
-   *   }
-   * })
-   * ```
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/open-api/address/wx.chooseAddress.html
-   */
-  function chooseAddress(option?: chooseAddress.Option): Promise<chooseAddress.SuccessCallbackResult>
+  interface TaroStatic {
+    /** 获取用户收货地址。调起用户编辑收货地址原生界面，并在编辑完成后返回用户选择的地址。
+     * @supported weapp, tt
+     * @example
+     * ```tsx
+     * Taro.chooseAddress({
+     *   success: function (res) {
+     *     console.log(res.userName)
+     *     console.log(res.postalCode)
+     *     console.log(res.provinceName)
+     *     console.log(res.cityName)
+     *     console.log(res.countyName)
+     *     console.log(res.detailInfo)
+     *     console.log(res.nationalCode)
+     *     console.log(res.telNumber)
+     *   }
+     * })
+     * ```
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/open-api/address/wx.chooseAddress.html
+     */
+    chooseAddress(option?: chooseAddress.Option): Promise<chooseAddress.SuccessCallbackResult>
+  }
 }

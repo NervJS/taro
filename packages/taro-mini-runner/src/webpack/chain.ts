@@ -1,41 +1,40 @@
-import * as fs from 'fs-extra'
-import * as path from 'path'
-import * as CopyWebpackPlugin from 'copy-webpack-plugin'
-import CssoWebpackPlugin from 'csso-webpack-plugin'
-import * as MiniCssExtractPlugin from 'mini-css-extract-plugin'
-import * as sass from 'sass'
-import { partial, cloneDeep } from 'lodash'
-import { mapKeys, pipe } from 'lodash/fp'
-import * as TerserPlugin from 'terser-webpack-plugin'
-import * as webpack from 'webpack'
-import { PostcssOption, ICopyOptions, IPostcssOption } from '@tarojs/taro/types/compile'
 import {
-  recursiveMerge,
+  chalk,
   isNodeModule,
-  resolveMainFilePath,
-  REG_SASS_SASS,
-  REG_SASS_SCSS,
-  REG_LESS,
-  REG_STYLUS,
-  REG_STYLE,
-  REG_MEDIA,
+  recursiveMerge,
+  REG_CSS,
   REG_FONT,
   REG_IMAGE,
+  REG_LESS,
+  REG_MEDIA,
+  REG_SASS_SASS,
+  REG_SASS_SCSS,
   REG_SCRIPTS,
-  REG_CSS,
+  REG_STYLE,
+  REG_STYLUS,
   REG_TEMPLATE,
-  chalk
+  resolveMainFilePath,
+  SCRIPT_EXT
 } from '@tarojs/helper'
 import { getSassLoaderOption } from '@tarojs/runner-utils'
+import { ICopyOptions, IPostcssOption, PostcssOption } from '@tarojs/taro/types/compile'
+import * as CopyWebpackPlugin from 'copy-webpack-plugin'
+import CssoWebpackPlugin from 'csso-webpack-plugin'
+import * as fs from 'fs-extra'
+import { cloneDeep, partial } from 'lodash'
+import { mapKeys, pipe } from 'lodash/fp'
+import * as MiniCssExtractPlugin from 'mini-css-extract-plugin'
+import * as path from 'path'
+import * as sass from 'sass'
+import * as TerserPlugin from 'terser-webpack-plugin'
+import * as webpack from 'webpack'
 
-import { getPostcssPlugins } from './postcss.conf'
-
-import MiniPlugin from '../plugins/MiniPlugin'
-import BuildNativePlugin from '../plugins/BuildNativePlugin'
-import { IOption, IBuildConfig } from '../utils/types'
 import defaultTerserOptions from '../config/terserOptions'
-
+import BuildNativePlugin from '../plugins/BuildNativePlugin'
+import MiniPlugin from '../plugins/MiniPlugin'
 import MiniSplitChunksPlugin from '../plugins/MiniSplitChunksPlugin'
+import { IBuildConfig, IOption } from '../utils/types'
+import { getPostcssPlugins } from './postcss.conf'
 
 interface IRule {
   test?: any
@@ -63,7 +62,8 @@ export const makeConfig = async (buildConfig: IBuildConfig) => {
   const sassLoaderOption = await getSassLoaderOption(buildConfig)
   return {
     ...buildConfig,
-    sassLoaderOption
+    sassLoaderOption,
+    frameworkExts: buildConfig.frameworkExts || SCRIPT_EXT
   }
 }
 
@@ -161,7 +161,7 @@ export const getCssoWebpackPlugin = ([cssoOption]) => {
   return pipe(listify, partial(getPlugin, CssoWebpackPlugin))([mergeOption([defaultCSSCompressOption, cssoOption]), REG_STYLE])
 }
 export const getCopyWebpackPlugin = ({ copy, appPath }: {
-  copy: ICopyOptions,
+  copy: ICopyOptions
   appPath: string
 }) => {
   const args = [
@@ -315,8 +315,9 @@ export const getModule = (appPath: string, {
   const stylusLoader = getStylusLoader([{ sourceMap: enableSourceMap }, stylusLoaderOption])
 
   const cssLoaders: {
-    include?;
-    use;
+    include?
+    resourceQuery?
+    use
   }[] = [{
     use: [
       extractCssLoader,
@@ -332,6 +333,15 @@ export const getModule = (appPath: string, {
     if (cssModuleOptions.config!.namingPattern === 'module') {
       /* 不排除 node_modules 内的样式 */
       cssModuleCondition = styleModuleReg
+      // for vue
+      cssLoaders.unshift({
+        resourceQuery: /module=/,
+        use: [
+          extractCssLoader,
+          cssLoaderWithModule,
+          postcssLoader
+        ]
+      })
     } else {
       cssModuleCondition = {
         and: [
@@ -378,7 +388,7 @@ export const getModule = (appPath: string, {
   if (compile.exclude && compile.exclude.length) {
     scriptRule.exclude = [
       ...compile.exclude,
-      filename => /node_modules/.test(filename) && !(/taro/.test(filename))
+      filename => /css-loader/.test(filename) || (/node_modules/.test(filename) && !(/taro/.test(filename)))
     ]
   } else if (compile.include && compile.include.length) {
     scriptRule.include = [
@@ -387,7 +397,7 @@ export const getModule = (appPath: string, {
       filename => /taro/.test(filename)
     ]
   } else {
-    scriptRule.exclude = [filename => /node_modules/.test(filename) && !(/taro/.test(filename))]
+    scriptRule.exclude = [filename => /css-loader/.test(filename) || (/node_modules/.test(filename) && !(/taro/.test(filename)))]
   }
 
   const rule: Record<string, IRule> = {
@@ -506,7 +516,7 @@ export const getEntry = ({
 
 export function getOutput (appPath: string, [{ outputRoot, publicPath, globalObject }, customOutput]) {
   return {
-    path: path.join(appPath, outputRoot),
+    path: path.resolve(appPath, outputRoot),
     publicPath,
     filename: '[name].js',
     chunkFilename: '[name].js',
@@ -520,33 +530,21 @@ export function getDevtool (enableSourceMap, sourceMapType = 'cheap-module-sourc
 }
 
 export function getRuntimeConstants (runtime) {
-  const constants = {
-    ENABLE_INNER_HTML: true,
-    ENABLE_ADJACENT_HTML: true,
-    ENABLE_TEMPLATE_CONTENT: true,
-    ENABLE_CLONE_NODE: true,
-    ENABLE_SIZE_APIS: false
-  }
+  const constants: Record<string, boolean> = {}
 
-  if (runtime.enableInnerHTML !== undefined) {
-    constants.ENABLE_INNER_HTML = runtime.enableInnerHTML
-  }
+  constants.ENABLE_INNER_HTML = runtime.enableInnerHTML ?? true
 
-  if (runtime.enableAdjacentHTML !== undefined) {
-    constants.ENABLE_ADJACENT_HTML = runtime.enableAdjacentHTML
-  }
+  constants.ENABLE_ADJACENT_HTML = runtime.enableAdjacentHTML ?? false
 
-  if (runtime.enableSizeAPIs !== undefined) {
-    constants.ENABLE_SIZE_APIS = runtime.enableSizeAPIs
-  }
+  constants.ENABLE_SIZE_APIS = runtime.enableSizeAPIs ?? false
 
-  if (runtime.enableTemplateContent !== undefined) {
-    constants.ENABLE_TEMPLATE_CONTENT = runtime.enableTemplateContent
-  }
+  constants.ENABLE_TEMPLATE_CONTENT = runtime.enableTemplateContent ?? false
 
-  if (runtime.enableCloneNode !== undefined) {
-    constants.ENABLE_CLONE_NODE = runtime.enableCloneNode
-  }
+  constants.ENABLE_CLONE_NODE = runtime.enableCloneNode ?? false
+
+  constants.ENABLE_CONTAINS = runtime.enableContains ?? false
+
+  constants.ENABLE_MUTATION_OBSERVER = runtime.enableMutationObserver ?? false
 
   return constants
 }

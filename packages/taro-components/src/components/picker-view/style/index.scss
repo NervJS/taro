@@ -1,0 +1,36 @@
+.taro-picker-view {
+  &-container {
+    display: flex;
+    position: relative;
+  }
+
+  &-mask {
+    &-container {
+      display: flex;
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 0;
+      bottom: 0;
+      flex-direction: column;
+      pointer-events: none;
+    }
+
+    &-indicator {
+      display: flex;
+      border-top: 1px solid #ddd;
+      border-bottom: 1px solid #ddd;
+      height: 50px;
+    }
+
+    &-top {
+      flex: 1;
+      background-image: linear-gradient(to bottom, rgb(255 255 255 / 95%), rgb(255 255 255 / 60%));
+    }
+
+    &-bottom {
+      flex: 1;
+      background: linear-gradient(to top, rgb(255 255 255 / 95%), rgb(255 255 255 / 60%));
+    }
+  }
+}

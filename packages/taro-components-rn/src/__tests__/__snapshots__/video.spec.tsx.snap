@@ -1,0 +1,188 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Video render Video 1`] = `
+<View
+  hoverStartTime={20}
+  hoverStayTime={70}
+  style={
+    Array [
+      Object {
+        "height": 225,
+        "lineHeight": 0,
+        "overflow": "hidden",
+        "position": "relative",
+        "width": "100%",
+      },
+      undefined,
+    ]
+  }
+>
+  <View
+    hoverStartTime={20}
+    hoverStayTime={70}
+    style={
+      Array [
+        Object {
+          "backgroundColor": "#000",
+          "bottom": 0,
+          "height": "100%",
+          "left": 0,
+          "overflow": "hidden",
+          "position": "absolute",
+          "right": 0,
+          "top": 0,
+          "width": "100%",
+        },
+        false,
+      ]
+    }
+  >
+    <View
+      pointerEvents="box-none"
+      style={
+        Object {
+          "height": "100%",
+          "overflow": "hidden",
+          "width": "100%",
+        }
+      }
+    >
+      <ViewManagerAdapter_ExpoVideoView
+        onError={[Function]}
+        onFullscreenUpdate={[Function]}
+        onLoad={[Function]}
+        onLoadStart={[Function]}
+        onReadyForDisplay={[Function]}
+        onStatusUpdate={[Function]}
+        proxiedProperties={
+          Object {
+            "resizeMode": "mock",
+            "source": Object {
+              "headers": undefined,
+              "overridingExtension": null,
+              "uri": "http://wxsnsdy.tc.qq.com/105/20210/snsdyvideodownload?filekey=30280201010421301f0201690402534804102ca905ce620b1241b726bc41dcff44e00204012882540400&bizid=1023&hy=SH&fileparam=302c020101042530230204136ffd93020457e3c4ff02024ef202031e8d7f02030f42400204045a320a0201000400",
+            },
+            "status": Object {
+              "isLooping": false,
+              "isMuted": false,
+              "positionMillis": 30,
+              "shouldPlay": false,
+            },
+            "useNativeControls": true,
+          }
+        }
+        style={
+          Object {
+            "bottom": 0,
+            "left": 0,
+            "position": "absolute",
+            "right": 0,
+            "top": 0,
+          }
+        }
+        videoStyle={
+          Object {
+            "bottom": 0,
+            "left": 0,
+            "position": "absolute",
+            "right": 0,
+            "top": 0,
+          }
+        }
+      />
+      <Image
+        source={
+          Object {
+            "uri": "http://misc.aotu.io/booxood/mobile-video/cover_900x500.jpg",
+          }
+        }
+        style={
+          Array [
+            Object {
+              "bottom": 0,
+              "left": 0,
+              "position": "absolute",
+              "resizeMode": "contain",
+              "right": 0,
+              "top": 0,
+            },
+            undefined,
+          ]
+        }
+      />
+    </View>
+    <View
+      hoverStartTime={20}
+      hoverStayTime={70}
+      style={
+        Object {
+          "alignItems": "center",
+          "backgroundColor": "rgba(1, 1, 1, 0.5)",
+          "bottom": 0,
+          "display": "flex",
+          "flexDirection": "column",
+          "justifyContent": "center",
+          "left": 0,
+          "position": "absolute",
+          "right": 0,
+          "top": 0,
+          "width": "100%",
+          "zIndex": 1,
+        }
+      }
+    >
+      <Image
+        mode="scaleToFill"
+        onError={[Function]}
+        onLayout={[Function]}
+        onLoad={[Function]}
+        onMoveShouldSetResponder={[Function]}
+        onMoveShouldSetResponderCapture={[Function]}
+        onResponderEnd={[Function]}
+        onResponderGrant={[Function]}
+        onResponderMove={[Function]}
+        onResponderReject={[Function]}
+        onResponderRelease={[Function]}
+        onResponderStart={[Function]}
+        onResponderTerminate={[Function]}
+        onResponderTerminationRequest={[Function]}
+        onStartShouldSetResponder={[Function]}
+        onStartShouldSetResponderCapture={[Function]}
+        resizeMode="stretch"
+        source={1}
+        style={
+          Array [
+            Object {
+              "width": 300,
+            },
+            Array [
+              Object {
+                "backgroundColor": "transparent",
+              },
+              Object {
+                "height": 30,
+                "width": 30,
+              },
+              false,
+            ],
+            Object {
+              "height": 30,
+            },
+          ]
+        }
+        testID="image"
+      />
+      <Text
+        selectable={false}
+        style={
+          Object {
+            "color": "#fff",
+            "fontSize": 16,
+            "marginTop": 10,
+          }
+        }
+      />
+    </View>
+  </View>
+</View>
+`;

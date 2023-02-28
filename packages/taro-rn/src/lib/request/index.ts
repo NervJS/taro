@@ -1,6 +1,6 @@
-// import { Link } from '@tarojs/taro'
+import { errorHandler, successHandler } from "../../utils"
 
-function serializeParams (params) {
+function serializeParams(params) {
   if (!params) {
     return ''
   }
@@ -8,14 +8,14 @@ function serializeParams (params) {
     .map(key => (`${encodeURIComponent(key)}=${encodeURIComponent(params[key])}`)).join('&')
 }
 
-function generateRequestUrlWithParams (url, params) {
+function generateRequestUrlWithParams(url, params) {
   params = typeof params === 'string' ? params : serializeParams(params)
   url += (~url.indexOf('?') ? '&' : '?') + params
   url = url.replace('?&', '?')
   return url
 }
 
-function _request <T = any>(options: Taro.request.Option): Taro.RequestTask<T> {
+function _request<T = any>(options: Taro.request.Option): Taro.RequestTask<T> {
   options = options || {}
   if (typeof options === 'string') {
     options = {
@@ -33,10 +33,10 @@ function _request <T = any>(options: Taro.request.Option): Taro.RequestTask<T> {
     url = generateRequestUrlWithParams(url, data)
   } else {
     if (typeof data === 'object') {
-      const contentType = options.header && (options.header['content-type'] || options.header['Content-Type'])
-      if (contentType === 'application/json') {
+      const contentType = options.header && (options.header['content-type'] || options.header['Content-Type']) || 'application/json'
+      if (contentType.startsWith('application/json')) {
         data = JSON.stringify(data)
-      } else if (contentType === 'application/x-www-form-urlencoded') {
+      } else if (contentType.startsWith('application/x-www-form-urlencoded')) {
         data = serializeParams(data)
       }
     }
@@ -53,46 +53,47 @@ function _request <T = any>(options: Taro.request.Option): Taro.RequestTask<T> {
   params.method = method
   let controller
   // eslint-disable-next-line no-undef
-  if (AbortController) {
+  if (typeof(AbortController) !== 'undefined' ) {
     // eslint-disable-next-line no-undef
     controller = new AbortController()
     const signal = controller.signal
     params.signal = signal
   }
-  const { success, fail, complete }  = options
-  let completeRes
-  const p: any = new Promise((resolve, reject) => {
-    // eslint-disable-next-line no-undef
-    fetch(url, params)
-      .then(response => {
-        res.statusCode = response.status
-        res.header = response.headers
-        if (options.dataType === 'json' || typeof options.dataType === 'undefined') {
-          return response.json()
-        }
-        if (options.responseType === 'arraybuffer') {
-          return response.arrayBuffer()
-        }
-        if (options.responseType === 'text') {
-          return response.text()
-        }
-        return response
-      })
-      .then(resData => {
-        res.data = resData
-        completeRes = Object.assign({}, res)
-        success?.(res)
-        resolve(res)
-      })
-      .catch(error => {
-        completeRes = error.message === 'Aborted' ? { code: 20, message: 'Aborted', name: 'AbortError' } : Object.assign({}, error)
-        fail?.(error)
-        reject(error)
-      })
-      .finally(() => {
-        complete?.(completeRes)
-      })
+
+  const { success, fail, complete } = options
+
+  const fetchPromise = fetch(url, params)
+    .then(response => {
+      res.statusCode = response.status
+      res.header = response.headers
+      if (options.dataType === 'json' || typeof options.dataType === 'undefined') {
+        return response.json()
+      }
+      if (options.responseType === 'arraybuffer') {
+        return response.arrayBuffer()
+      }
+      if (options.responseType === 'text') {
+        return response.text()
+      }
+      return response
+    })
+
+  const timeoutPromise = new Promise((_resolve, reject) => {
+    const timer = setTimeout(() => {
+      controller?.abort()
+      reject(Error('request:fail timeout'))
+      clearTimeout?.(timer)
+    }, options.timeout ?? 2000)
   })
+
+  const p: any = Promise.race([fetchPromise, timeoutPromise]).then(resData => {
+    res.data = resData
+    return successHandler(success, complete)(res)
+  }).catch(err => {
+    res.errMsg = err.message
+    return errorHandler(fail, complete)(res)
+  })
+
   p.abort = function () {
     if (controller) {
       controller.abort()
@@ -104,12 +105,3 @@ function _request <T = any>(options: Taro.request.Option): Taro.RequestTask<T> {
 }
 
 export const request = _request
-
-// function taroInterceptor (chain) {
-//   return _request(chain.requestParams)
-// }
-
-// const link = new Link(taroInterceptor)
-
-// export const request = link.request.bind(link)
-// export const addInterceptor = link.addInterceptor.bind(link)

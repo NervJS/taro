@@ -1,28 +1,10 @@
 {
+  "extends": "../../tsconfig.root.json",
   "compilerOptions": {
-    "allowSyntheticDefaultImports": true,
-    "allowJs": true,
     "baseUrl": ".",
-    "experimentalDecorators": true,
-    "lib": ["esnext", "dom"],
-    "module": "commonjs",
-    "moduleResolution": "node",
-    "noImplicitAny": false,
-    "noUnusedLocals": true,
-    "outDir": "dist/",
-    "preserveConstEnums": true,
-    "removeComments": false,
+    "outDir": "dist",
     "rootDir": "./src",
-    "sourceMap": false,
-    "strictNullChecks": true,
-    "target": "es2015",
-    "traceResolution": false,
-    "types": ["jest"],
-    "paths": {
-      "@tarojs/taro-h5": ["../packages/taro-h5"]
-    }
+    "module": "commonjs"
   },
-  "include": [
-    "./src/index.ts"
-  ]
+  "include": ["./src"]
 }

@@ -1,7 +1,5 @@
-<%if (framework === 'react') {-%>
-import { Component } from 'react'
-<%} else if (framework === 'nerv') { -%>
-import { Component } from 'nervjs'
+<%if (['react', 'preact'].includes(framework)) {-%>
+import { Component<% if (typescript) {%>, PropsWithChildren<%}%> } from 'react'
 <%} else if (framework === 'vue') { -%>
 import Vue from 'vue'
 <%} else if (framework === 'vue3') { -%>
@@ -9,8 +7,8 @@ import { createApp } from 'vue'
 <%}-%>
 import './app.<%= cssExt %>'
 
-<% if (framework === 'react' || framework === 'nerv') { -%>
-class App extends Component {
+<% if (['react', 'preact'].includes(framework)) { -%>
+class App extends <% if (typescript) {%>Component<PropsWithChildren><%} else {%>Component<%}%> {
 
   componentDidMount () {}
 
@@ -18,10 +16,8 @@ class App extends Component {
 
   componentDidHide () {}
 
-  componentDidCatchError () {}
-
-  // this.props.children 是将要会渲染的页面
   render () {
+    // this.props.children 是将要会渲染的页面
     return this.props.children
   }
 }

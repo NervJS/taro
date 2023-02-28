@@ -8,6 +8,7 @@ export type Mode =
   | 'aspectFit'
   | 'aspectFill'
   | 'widthFix'
+  | 'heightFix'
   | 'top'
   | 'bottom'
   | 'center'
@@ -26,6 +27,8 @@ export class Image implements ComponentInterface {
   @Prop() src: string
   @Prop() mode: Mode = 'scaleToFill'
   @Prop() lazyLoad = false
+  @Prop() nativeProps = {}
+
   @State() aspectFillMode = 'width'
 
   @Event({
@@ -70,18 +73,19 @@ export class Image implements ComponentInterface {
     this.aspectFillMode = naturalWidth > naturalHeight ? 'width' : 'height'
   }
 
-  imageOnError () {
-    this.onError.emit()
+  imageOnError (e: Event) {
+    this.onError.emit(e)
   }
 
   render () {
     const {
       src,
-      mode,
-      lazyLoad,
-      aspectFillMode,
+      mode = 'scaleToFill',
+      lazyLoad = false,
+      aspectFillMode = 'width',
       imageOnLoad,
-      imageOnError
+      imageOnError,
+      nativeProps
     } = this
 
     const cls = classNames({
@@ -102,6 +106,7 @@ export class Image implements ComponentInterface {
             class={imgCls}
             onLoad={imageOnLoad.bind(this)}
             onError={imageOnError.bind(this)}
+            {...nativeProps}
           />
         ) : (
           <img
@@ -110,6 +115,7 @@ export class Image implements ComponentInterface {
             src={src}
             onLoad={imageOnLoad.bind(this)}
             onError={imageOnError.bind(this)}
+            {...nativeProps}
           />
         )}
       </Host>

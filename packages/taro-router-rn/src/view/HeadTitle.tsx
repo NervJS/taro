@@ -1,17 +1,16 @@
-// eslint-disable-next-line no-use-before-define
 import * as React from 'react'
-import { View, Text } from 'react-native'
-import Loading from './Loading'
+import { Text, View } from 'react-native'
+
 import { navigationRef } from '../rootNavigation'
+import Loading from './Loading'
 
 export interface HeadTitleProps {
-  label: string,
-  color: string,
+  label: string
+  color: string
   headerProps?: any
 }
 
 export default class HeadTitle extends React.PureComponent<HeadTitleProps> {
-  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   render () {
     // showLoading自定义的参数放在params中
     const params: Record<string, any> = navigationRef.current?.getCurrentRoute()?.params || {}

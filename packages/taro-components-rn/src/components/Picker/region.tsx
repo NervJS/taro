@@ -6,11 +6,11 @@ import { noop } from '../../utils'
 import { RegionProps, RegionState, RegionObj } from './PropsType'
 import { TouchableWithoutFeedback } from 'react-native'
 
-function formateRegionData(clObj:RegionObj[] = [], customItem?:string, depth = 2):PickerData[] {
+function formateRegionData(clObj: RegionObj[] = [], customItem?: string, depth = 2): PickerData[] {
   const l = depth
-  const obj:PickerData[] = []
+  const obj: PickerData[] = []
   if (customItem) {
-    const objClone:PickerData = {
+    const objClone: PickerData = {
       value: customItem,
       label: customItem
     }
@@ -23,7 +23,7 @@ function formateRegionData(clObj:RegionObj[] = [], customItem?:string, depth = 2
     obj.push(panding)
   }
   for (let i = 0; i < clObj.length; i++) {
-    const region:PickerData = {
+    const region: PickerData = {
       value: clObj[i].value,
       label: clObj[i].value,
     }
@@ -36,7 +36,7 @@ function formateRegionData(clObj:RegionObj[] = [], customItem?:string, depth = 2
 }
 
 export default class RegionSelector extends React.Component<RegionProps, RegionState> {
-  constructor (props: RegionProps) {
+  constructor(props: RegionProps) {
     super(props)
     this.regionData = formateRegionData(props.regionData || regionData, props.customItem)
   }
@@ -45,11 +45,11 @@ export default class RegionSelector extends React.Component<RegionProps, RegionS
     value: [],
   }
 
-  static getDerivedStateFromProps (nextProps: RegionProps, lastState: RegionState): RegionState | null {
-    if (nextProps.value !== lastState.pvalue) {
+  static getDerivedStateFromProps(nextProps: Required<RegionProps>, lastState: RegionState): RegionState | null {
+    if (nextProps.value !== lastState.pValue) {
       return {
         value: nextProps.value,
-        pvalue: nextProps.value
+        pValue: nextProps.value
       }
     }
     return null
@@ -57,7 +57,7 @@ export default class RegionSelector extends React.Component<RegionProps, RegionS
 
   state = {
     value: [],
-    pvalue: []
+    pValue: []
   }
 
   dismissByOk = false
@@ -68,7 +68,7 @@ export default class RegionSelector extends React.Component<RegionProps, RegionS
     const { onChange = noop } = this.props
     // 通过 value 查找 code
     let tmp: RegionObj[] = this.props.regionData || regionData
-    const postcode:(string|undefined)[] = []
+    const postcode: (string | undefined)[] = []
     const code = value.map((item) => {
       for (let i = 0; i < tmp.length; i++) {
         if (tmp[i].value === item) {
@@ -79,7 +79,7 @@ export default class RegionSelector extends React.Component<RegionProps, RegionS
         }
       }
     }).filter(code => !!code)
-    const detail:Record<string, any> = { value, code }
+    const detail: Record<string, any> = { value, code }
     if (postcode[2]) detail.postcode = postcode[2]
     onChange({ detail })
   }
@@ -100,7 +100,7 @@ export default class RegionSelector extends React.Component<RegionProps, RegionS
     this.dismissByOk = false
   }
 
-  render (): JSX.Element {
+  render(): JSX.Element {
     const {
       children,
       disabled,
@@ -110,6 +110,7 @@ export default class RegionSelector extends React.Component<RegionProps, RegionS
     } = this.state
 
     return (
+      // @ts-ignore
       <AntPicker
         data={this.regionData}
         value={value}

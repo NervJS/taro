@@ -1,11 +1,11 @@
 {
   "name": "@tarojs/plugin-html",
-  "version": "3.3.7",
+  "version": "3.6.2",
   "description": "Taro 小程序端支持使用 HTML 标签的插件",
   "main": "index.js",
   "scripts": {
-    "dev": "rollup -c -w",
-    "build": "rollup -c",
+    "dev": "rollup -c -w --bundleConfigAsCjs",
+    "build": "rollup -c --bundleConfigAsCjs",
     "test": "jest",
     "test:dev": "jest --watch"
   },
@@ -28,11 +28,19 @@
     "url": "https://github.com/NervJS/taro/issues"
   },
   "homepage": "https://github.com/NervJS/taro#readme",
-  "devDependencies": {
-    "@tarojs/runtime": "3.3.7",
-    "@tarojs/service": "3.3.7"
-  },
   "dependencies": {
-    "@tarojs/shared": "3.3.7"
+    "@babel/parser": "^7.20.0",
+    "@tarojs/runtime": "workspace:*",
+    "@tarojs/service": "workspace:*",
+    "@tarojs/shared": "workspace:*"
+  },
+  "devDependencies": {
+    "@babel/generator": "^7.20.0",
+    "@babel/traverse": "^7.20.0",
+    "@babel/types": "^7.20.0",
+    "rollup": "^3.8.1",
+    "rollup-plugin-node-externals": "^4.0.0",
+    "rollup-plugin-ts": "^3.0.2",
+    "typescript": "^4.7.4"
   }
 }

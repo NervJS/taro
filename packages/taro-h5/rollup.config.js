@@ -1,61 +1,59 @@
+import commonjs from '@rollup/plugin-commonjs'
+import resolve from '@rollup/plugin-node-resolve'
 import { mergeWith } from 'lodash'
-import { join } from 'path'
-import resolve from 'rollup-plugin-node-resolve'
-import common from 'rollup-plugin-commonjs'
-import alias from 'rollup-plugin-alias'
+import externals from 'rollup-plugin-node-externals'
 import postcss from 'rollup-plugin-postcss'
-import exportNameOnly from './build/rollup-plugin-export-name-only'
+import ts from 'rollup-plugin-ts'
 
-const babel = require('@rollup/plugin-babel').default
-
-const cwd = __dirname
 const baseConfig = {
-  external: ['nervjs', '@tarojs/runtime', 'react-dom'],
   output: {
-    format: 'cjs',
-    sourcemap: false,
-    exports: 'auto'
+    sourcemap: true,
+    exports: 'named'
   },
+  treeshake: false,
   plugins: [
-    alias({
-      '@tarojs/taro': join(cwd, '../taro/src/index')
+    externals({
+      devDeps: false
     }),
     resolve({
       preferBuiltins: false,
-      mainFields: ['module', 'js-next', 'main']
+      mainFields: ['main:h5', 'browser', 'module', 'jsnext:main', 'main']
     }),
-    postcss(),
-    babel({
-      babelrc: false,
-      presets: [
-        ['@babel/preset-env', {
-          modules: false
-        }]
-      ],
-      plugins: [
-        '@babel/plugin-proposal-class-properties',
-        '@babel/plugin-proposal-object-rest-spread',
-        ['@babel/plugin-transform-react-jsx', {
-          pragma: 'Nerv.createElement'
-        }]
-      ]
+    ts({
+      sourceMap: true,
     }),
-    common()
+    commonjs(),
+    postcss({
+      inject: { insertAt: 'top' }
+    })
   ]
 }
 
 const variesConfig = [{
-  input: 'src/api/index.js',
+  input: ['src/index.ts', 'src/api/index.ts', 'src/api/taro.ts'],
   output: {
-    file: 'dist/taroApis.js'
-  },
-  plugins: exportNameOnly()
-}, {
-  input: 'src/index.cjs.js',
-  output: {
-    file: 'dist/index.cjs.js'
+    dir: 'dist',
+    preserveModules: true,
+    preserveModulesRoot: 'src'
   }
 }]
+
+if (process.env.NODE_ENV === 'production') {
+  variesConfig.push({
+    input: 'src/index.ts',
+    output: {
+      format: 'cjs',
+      file: 'dist/index.cjs.js',
+      inlineDynamicImports: true
+    }
+  }, {
+    input: 'src/index.ts',
+    output: {
+      file: 'dist/index.esm.js',
+      inlineDynamicImports: true
+    }
+  })
+}
 
 export default variesConfig.map(v => {
   const customizer = function (objValue, srcValue) {

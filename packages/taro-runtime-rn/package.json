@@ -1,40 +1,38 @@
 {
-    "name": "@tarojs/runtime-rn",
-    "version": "3.3.7",
-    "description": "taro-runtime-rn",
-    "main": "dist/index.js",
-    "types": "./src/index.ts",
-    "files": [
-        "dist",
-        "src"
-    ],
-    "scripts": {
-        "build": "tsc",
-        "dev": "tsc -w",
-        "lint": "eslint .",
-        "test": "jest",
-        "test:dev": "jest --watch",
-        "test:coverage": "jest --coverage"
-    },
-    "keywords": [
-        "taro"
-    ],
-    "repository": {
-        "type": "git",
-        "url": "git+https://github.com/NervJS/taro.git"
-    },
-    "author": "yechunxi",
-    "bugs": {
-        "url": "https://github.com/NervJS/taro/issues"
-    },
-    "dependencies": {
-        "@tarojs/components-rn": "3.3.7",
-        "@tarojs/router-rn": "3.3.7"
-    },
-    "resolutions": {
-        "@types/react": "17.0.11"
-    },
-    "devDependencies": {
-        "@types/react-native": "0.64.10"
-    }
+  "name": "@tarojs/runtime-rn",
+  "version": "3.6.2",
+  "description": "taro-runtime-rn",
+  "main": "dist/index.js",
+  "types": "./src/index.ts",
+  "files": [
+    "dist",
+    "src"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc -w",
+    "lint": "eslint .",
+    "test": "jest",
+    "test:dev": "jest --watch",
+    "test:coverage": "jest --coverage"
+  },
+  "keywords": [
+    "taro"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NervJS/taro.git"
+  },
+  "author": "yechunxi",
+  "bugs": {
+    "url": "https://github.com/NervJS/taro/issues"
+  },
+  "dependencies": {
+    "@tarojs/components-rn": "workspace:*",
+    "@tarojs/router-rn": "workspace:*",
+    "react-native-root-siblings": "^4.1.1"
+  },
+  "devDependencies": {
+    "@types/react-native": "^0.69.8"
+  }
 }

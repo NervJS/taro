@@ -1,9 +1,9 @@
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { Component, h, ComponentInterface, Prop, Event, EventEmitter, Watch, Host, Element, State } from '@stencil/core'
-import SwiperJS from 'swiper/swiper-bundle.esm.js'
 import classNames from 'classnames'
-
 import type ISwiper from 'swiper'
+import SwiperJS from 'swiper/swiper-bundle.esm.js'
+
+import { debounce } from '../../utils'
 
 let INSTANCE_ID = 0
 
@@ -85,6 +85,11 @@ export class Swiper implements ComponentInterface {
    */
   @Prop() full = false
 
+  /**
+   * 给 previewImage API 使用，缩放支持
+   */
+  @Prop() zoom = false
+
   @Event({
     eventName: 'change'
   }) onChange: EventEmitter
@@ -113,18 +118,21 @@ export class Swiper implements ComponentInterface {
   watchAutoplay (newVal) {
     if (!this.isWillLoadCalled || !this.swiper) return
 
-    if (this.swiper.autoplay.running === newVal) return
+    const swiperAutoplay = this.swiper.autoplay
+    if (swiperAutoplay) {
+      if (swiperAutoplay.running === newVal) return
 
-    if (newVal) {
-      if (this.swiper.params && typeof this.swiper.params.autoplay === 'object') {
-        if (this.swiper.params.autoplay.disableOnInteraction === true) {
-          this.swiper.params.autoplay.disableOnInteraction = false
+      if (newVal) {
+        if (this.swiper.params && typeof this.swiper.params.autoplay === 'object') {
+          if (this.swiper.params.autoplay.disableOnInteraction === true) {
+            this.swiper.params.autoplay.disableOnInteraction = false
+          }
+          this.swiper.params.autoplay.delay = this.interval
         }
-        this.swiper.params.autoplay.delay = this.interval
+        swiperAutoplay.start()
+      } else {
+        swiperAutoplay.stop()
       }
-      this.swiper.autoplay.start()
-    } else {
-      this.swiper.autoplay.stop()
     }
   }
 
@@ -159,10 +167,20 @@ export class Swiper implements ComponentInterface {
     this.el.removeChild = <T extends Node>(oldChild: T): T => {
       return newVal.removeChild(oldChild)
     }
+    this.el.addEventListener('DOMNodeInserted', this.handleSwiperSize)
+    this.el.addEventListener('DOMNodeRemoved', this.handleSwiperSize)
   }
 
   @Watch("circular")
   watchCircular () {
+    if (this.swiper) {
+      this.swiper.destroy()
+      this.handleInit()
+    }
+  }
+
+  @Watch("displayMultipleItems")
+  watchDisplayMultipleItems () {
     if (this.swiper) {
       this.swiper.destroy()
       this.handleInit()
@@ -181,7 +199,7 @@ export class Swiper implements ComponentInterface {
     this.handleInit()
     if (!this.swiper || !this.circular) return
 
-    const wrapper = this.swiper.$wrapperEl[0]
+    const wrapper = this.swiper.$wrapperEl?.[0]
     this.observer = new MutationObserver(this.handleSwiperLoopListen)
 
     this.observer.observe(wrapper, {
@@ -191,8 +209,8 @@ export class Swiper implements ComponentInterface {
 
   componentWillUpdate () {
     if (!this.swiper) return
-    if (this.autoplay && !this.swiper.autoplay.running) {
-      this.swiper.autoplay.start()
+    if (this.autoplay && !this.swiper.autoplay?.running) {
+      this.swiper.autoplay?.start()
     }
     this.swiper.update() // 更新子元素
   }
@@ -202,6 +220,8 @@ export class Swiper implements ComponentInterface {
   }
 
   disconnectedCallback () {
+    this.el.removeEventListener('DOMNodeInserted', this.handleSwiperSize)
+    this.el.removeEventListener('DOMNodeRemoved', this.handleSwiperSize)
     this.observer?.disconnect?.()
     this.observerFirst?.disconnect?.()
     this.observerLast?.disconnect?.()
@@ -212,7 +232,7 @@ export class Swiper implements ComponentInterface {
     this.observerLast?.disconnect && this.observerLast.disconnect()
     this.observerFirst = new MutationObserver(this.handleSwiperLoop)
     this.observerLast = new MutationObserver(this.handleSwiperLoop)
-    const wrapper = this.swiper.$wrapperEl[0]
+    const wrapper = this.swiper.$wrapperEl?.[0]
     const list = wrapper.querySelectorAll('taro-swiper-item-core:not(.swiper-slide-duplicate)')
     if (list.length >= 1) {
       this.observerFirst.observe(list[0], {
@@ -228,21 +248,25 @@ export class Swiper implements ComponentInterface {
   handleSwiperLoop = debounce(() => {
     if (this.swiper && this.circular) {
       // @ts-ignore
-      this.swiper.loopDestroy()
-      // @ts-ignore
-      this.swiper.loopCreate()
+      this.swiper.loopFix()
     }
-  }, 500)
+  }, 50)
+
+  handleSwiperSize = debounce(() => {
+    if (this.swiper && !this.circular) {
+      this.swiper.updateSlides()
+    }
+  }, 50)
 
   handleInit () {
     const {
       autoplay,
-      current,
-      interval,
-      duration,
       circular,
-      vertical,
-      displayMultipleItems
+      current,
+      displayMultipleItems,
+      duration,
+      interval,
+      vertical
     } = this
 
     // eslint-disable-next-line @typescript-eslint/no-this-alias
@@ -257,12 +281,19 @@ export class Swiper implements ComponentInterface {
       speed: duration,
       observer: true,
       observeParents: true,
+      zoom: this.zoom,
       on: {
         slideTo () {
           that.current = this.realIndex
         },
-        // slideChange 事件在 swiper.slideTo 改写 current 时不触发，因此用 slideChangeTransitionEnd 事件代替
-        slideChangeTransitionEnd () {
+         // slideChange 事件在 swiper.slideTo 改写 current 时不触发，因此用 slideChangeTransitionStart 事件代替
+         slideChangeTransitionStart (_swiper: ISwiper) {
+          if (that.circular) {
+            if (_swiper.isBeginning || _swiper.isEnd) {
+              // _swiper.slideToLoop(this.realIndex, 0, false) // 更新下标
+              return
+            }
+          }
           that.onChange.emit({
             current: this.realIndex,
             source: ''
@@ -277,9 +308,13 @@ export class Swiper implements ComponentInterface {
         observerUpdate (_swiper: ISwiper, e) {
           const target = e.target
           const className = target && typeof target.className === 'string' ? target.className : ''
-          if (className.includes('taro_page') && target.style.display === 'block') {
+          if (className.includes('taro_page') && target.style.display !== 'none') {
             if (that.autoplay && target.contains(_swiper.$el[0])) {
-              _swiper.slideTo(that.current)
+              if (that.circular) {
+                _swiper.slideToLoop(this.realIndex, 0) // 更新下标
+              } else {
+                _swiper.slideTo(this.realIndex)
+              }
             }
           }
         }
@@ -346,16 +381,5 @@ export class Swiper implements ComponentInterface {
         </div>
       </Host>
     )
-  }
-}
-
-function debounce (fn, delay: number) {
-  let timer: NodeJS.Timeout
-
-  return function (...arrs) {
-    clearTimeout(timer)
-    timer = setTimeout(function () {
-      fn(...arrs)
-    }, delay)
   }
 }

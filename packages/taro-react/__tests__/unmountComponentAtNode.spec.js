@@ -60,8 +60,8 @@ describe('unmountComponentAtNode', () => {
     const mockUnmount = jest.fn()
 
     class Component extends React.Component {
-      componentDidMount = mockMount;
-      componentWillUnmount = mockUnmount;
+      componentDidMount = mockMount
+      componentWillUnmount = mockUnmount
       render () {
         return <span>{this.props.text}</span>
       }
@@ -101,7 +101,7 @@ describe('unmountComponentAtNode', () => {
     const container2 = document.createElement('div')
 
     class Foo extends React.Component {
-      state = { active: false };
+      state = { active: false }
       componentDidMount () {
         this.setState({ active: true })
       }

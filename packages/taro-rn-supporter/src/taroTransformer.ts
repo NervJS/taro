@@ -1,12 +1,19 @@
-import { transform as babelTransform, getCacheKey } from 'metro-react-native-babel-transformer'
+import { injectDefineConfigHeader } from '@tarojs/helper'
 import { merge } from 'lodash'
-import * as ModuleResolution from 'metro/src/node-haste/DependencyGraph/ModuleResolution'
+import { getCacheKey, transform as babelTransform } from 'metro-react-native-babel-transformer'
+import { sep } from 'path'
+
+import { entryFilePath } from './defaults'
 import { getProjectConfig, getRNConfig } from './utils'
 
-const _babelTransform = ({ src, filename, options, plugins }) => {
+const normalizeEntryFilePath = entryFilePath.replace(/\//g, sep)
+
+const configBabelTransform = ({ src, filename, options, plugins }) => {
   // 获取rn配置中的moodifyBabelConfig
   // 与参数plugins合并，然后传给babelTransform
-  return babelTransform({ src, filename, options, plugins })
+  const _plugins = plugins || []
+  _plugins.push(injectDefineConfigHeader)
+  return babelTransform({ src, filename, options, plugins: _plugins })
 }
 
 const getTransformer = (pkgName) => {
@@ -25,6 +32,10 @@ const transform = ({ src, filename, options, plugins }) => {
       configOpt: { config: config }
     },
     {
+      test: /\.(svg|svgx)/, // .svg 文件仅在 enableSvgTransform 为 true 才会生效
+      transformer: 'react-native-svg-transformer'
+    },
+    {
       // TODO:处理引用的外部资源文件
       test: /\.(png|jpg|jpeg|bmp)/,
       transformer: ''
@@ -37,8 +48,10 @@ const transform = ({ src, filename, options, plugins }) => {
         appName: rnConfig.appName,
         designWidth: rnConfig.designWidth ? rnConfig.designWidth : config.designWidth,
         deviceRatio: rnConfig.designWidth ? rnConfig.deviceRatio : config.deviceRatio,
-        nextTransformer: babelTransform,
-        isEntryFile: filename_ => ModuleResolution.ModuleResolver.EMPTY_MODULE.includes(filename_),
+        nextTransformer: /\.config\.(t|j)sx?$/.test(filename) ? configBabelTransform : babelTransform,
+        isEntryFile: filename_ => {
+          return filename_.includes(normalizeEntryFilePath)
+        },
         rn: rnConfig
       }
     }
@@ -50,12 +63,12 @@ const transform = ({ src, filename, options, plugins }) => {
       return getTransformer(rules[i].transformer).transform({ src, filename, options: mixOptions })
     }
   }
-  return _babelTransform({ src, filename, options, plugins })
+  return babelTransform({ src, filename, options, plugins })
 }
 
 export {
-  transform,
-  getCacheKey
+  getCacheKey,
+  transform
 }
 
 module.exports.transform = function ({ src, filename, options }) {

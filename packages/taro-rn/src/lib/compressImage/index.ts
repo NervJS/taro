@@ -1,4 +1,4 @@
-import ImageResizer from 'react-native-image-resizer'
+import ImageResizer, { ResizeFormat } from '@bam.tech/react-native-image-resizer'
 import { Image } from 'react-native'
 import { errorHandler, successHandler } from '../../utils'
 
@@ -19,7 +19,8 @@ export async function compressImage(opt: Taro.compressImage.Option): Promise<Tar
 
   const _createResizedImage = async (width = 800, height = 800) => {
     try {
-      const { uri } = await ImageResizer.createResizedImage(src, width, height, 'JPEG', quality)
+      const compressFormat: ResizeFormat = src.toLocaleLowerCase().endsWith('.png') ? 'PNG' : 'JPEG'
+      const { uri } = await ImageResizer.createResizedImage(src, width, height, compressFormat, quality)
       res.tempFilePath = uri
       return successHandler(success, complete)(res)
     } catch (err) {

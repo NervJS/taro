@@ -1,5 +1,5 @@
+import { IH5Config, IProjectBaseConfig } from '@tarojs/taro/types/compile'
 import * as webpack from 'webpack'
-import { IProjectBaseConfig, IH5Config } from '@tarojs/taro/types/compile'
 
 type FunctionLikeCustomWebpackConfig = (webpackConfig: webpack.Configuration, webpack) => webpack.Configuration
 
@@ -15,12 +15,7 @@ export interface Chain {
 export type Func = (...args: any[]) => void
 
 export interface BuildConfig extends IProjectBaseConfig, IH5Config {
-  isWatch: boolean;
-  port?: number;
-  entryFileName?: string;
-  modifyWebpackChain: Func;
-  modifyMiniConfigs: Func;
-  modifyBuildAssets: Func;
-  onWebpackChainReady: Func;
-  onBuildFinish: Func;
+  entry?: webpack.Entry
+  entryFileName?: string
+  runtimePath?: string | string[]
 }

@@ -1,0 +1,25 @@
+.cellGroup {
+  background-color: white;
+  border-radius: 20px;
+}
+.cellItem {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding-left: 30px;
+  padding-right: 30px;
+  height: 98px;
+
+  &--care {
+    height: 128px;
+  }
+}
+.cellItem__title {
+  // font-size: 28px;
+  color: #333;
+  font-weight: bold;
+}
+.cellItem__line {
+  height: 1px;
+  background-color: #f4f4f4;
+}

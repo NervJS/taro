@@ -1,25 +1,21 @@
-import path from 'path'
+import { printLog, processTypeEnum, recursiveMerge } from '@tarojs/helper'
+import * as path from 'path'
 import transformCSS from 'taro-css-to-react-native'
-import { recursiveMerge, printLog, processTypeEnum } from '@tarojs/helper'
 
-import postcssTransform, { Config as PostcssConfig, getPostcssPlugins } from './postcss'
-import sassTransform, { Config as SassConfig, SassExternalConfig, processByExternal } from './sass'
-import lessTransform, { Config as LessConfig } from './less'
-import stylusTransform, { Config as StylusConfig, defaultOptions as stylusDefaultOptions } from './stylus'
+import { Config, PostcssConfig, RenderAdditionalResult, TransformOptions } from '../types'
+import { normalizeSourceMap } from '../utils'
+import lessTransform from './less'
+import postcssTransform, { makePostcssPlugins } from './postcss'
+import sassTransform from './sass'
 import { StyleSheetValidation } from './StyleSheet'
-import { TransformOptions } from '../types'
+import stylusTransform, { defaultOptions as stylusDefaultOptions } from './stylus'
+
+
 
 export function getWrapedCSS (css) {
   return `
-import { StyleSheet, Dimensions } from 'react-native'
-
-// 一般app 只有竖屏模式，所以可以只获取一次 width
-const deviceWidthDp = Dimensions.get('window').width
-const uiWidthPx = 375
-
-function scalePx2dp (uiElementPx) {
-  return uiElementPx * deviceWidthDp / uiWidthPx
-}
+import { StyleSheet } from 'react-native'
+import { scalePx2dp, scaleVu2dp } from '@tarojs/runtime-rn'
 
 // 用来标识 rn-runner transformer 是否读写缓存
 function ignoreStyleFileCache() {}
@@ -38,24 +34,17 @@ function validateStyle ({ styleObject, filename }) {
     } catch (err) {
       // 先忽略掉 scalePx2dp 的报错
       if (/Invalid prop `.*` of type `string` supplied to `.*`, expected `number`[^]*/g.test(err.message)) return
-      printLog(processTypeEnum.WARNING, err.message, filename)
+      printLog(processTypeEnum.WARNING, err.message, `entry file: ${filename}`)
     }
   }
 }
-
-interface RNConfig {
-  postcss?: PostcssConfig;
-  sass?: SassConfig;
-  less?: LessConfig;
-  stylus?: StylusConfig;
-}
-
-interface Config {
-  designWidth: number;
-  deviceRatio: { [key: number]: number };
-  sass: SassExternalConfig;
-  alias: Record<string, string>;
-  rn: RNConfig;
+interface PostcssParam {
+  css: string
+  map: any
+  filename: string
+  additionalData: string
+  postcssConfig: PostcssConfig
+  transformOptions: TransformOptions
 }
 
 const designWidth = 750
@@ -66,7 +55,7 @@ const deviceRatio = {
   828: 1.81 / 2
 }
 
-enum StyleTypes {
+const enum ProcessTypes {
   POSTCSS = 'postcss',
   SASS = 'sass',
   LESS = 'less',
@@ -74,17 +63,17 @@ enum StyleTypes {
 }
 
 const DEFAULT_RN_CONFIG = {
-  [StyleTypes.POSTCSS]: {
+  [ProcessTypes.POSTCSS]: {
     options: {},
     scalable: true
   },
-  [StyleTypes.SASS]: {
+  [ProcessTypes.SASS]: {
     options: {}
   },
-  [StyleTypes.LESS]: {
+  [ProcessTypes.LESS]: {
     options: {}
   },
-  [StyleTypes.STYLUS]: {
+  [ProcessTypes.STYLUS]: {
     options: stylusDefaultOptions
   }
 }
@@ -92,13 +81,13 @@ const DEFAULT_RN_CONFIG = {
 export default class StyleTransform {
   config: Config
 
-  extConfigMap = new Map()
+  processConfigMap = new Map()
 
-  constructor (config = {}) {
+  constructor (config: Config) {
     this.init(config)
   }
 
-  init = (config) => {
+  init = (config: Config) => {
     this.config = {
       designWidth: config.designWidth || designWidth,
       deviceRatio: config.deviceRatio || deviceRatio,
@@ -106,7 +95,26 @@ export default class StyleTransform {
       alias: config.alias ?? {},
       rn: recursiveMerge({}, DEFAULT_RN_CONFIG, config.rn)
     }
-    Reflect.ownKeys(this.config.rn).forEach(key => this.extConfigMap.set(key, { ...this.config.rn[key], alias: config.alias ?? {} }))
+
+    Reflect.ownKeys(this.config.rn).forEach((key: string) => {
+      if (
+        [
+          ProcessTypes.SASS,
+          ProcessTypes.LESS,
+          ProcessTypes.STYLUS,
+          ProcessTypes.POSTCSS
+        ].includes(key.toLocaleLowerCase() as any)
+      ) {
+        const processConfig = {
+          ...this.config.rn[key],
+          alias: config.alias ?? {}
+        }
+        if (key.toLocaleLowerCase() === ProcessTypes.SASS) {
+          processConfig.sass = this.config.sass
+        }
+        this.processConfigMap.set(key, processConfig)
+      }
+    })
   }
 
   /**
@@ -116,43 +124,78 @@ export default class StyleTransform {
    * @param {object} options
    */
   async processStyle (src: string, filename: string, options: TransformOptions) {
+    let result: undefined | RenderAdditionalResult
     let css = src
+    let map: undefined | string
+    let additionalData = ''
     const ext = path.extname(filename)
-    if (ext === '.less') {
-      css = await lessTransform(src, filename, this.extConfigMap.get(StyleTypes.LESS))
-    } else if (ext === '.sass' || ext === '.scss') {
-      src = processByExternal(src, filename, this.config.sass)
-      css = await sassTransform(src, filename, this.extConfigMap.get(StyleTypes.SASS), options)
-    } else if (ext === '.styl' || ext === '.stylus') {
-      css = await stylusTransform(src, filename, this.extConfigMap.get(StyleTypes.STYLUS))
+    if (/.less$/i.test(ext)) {
+      result = await lessTransform(src, filename, this.processConfigMap.get(ProcessTypes.LESS))
+    } else if (/.s(c|a)ss$/i.test(ext)) {
+      result = await sassTransform(src, filename, this.processConfigMap.get(ProcessTypes.SASS), options)
+    } else if (/.styl(us)?$/i.test(ext)) {
+      result = await stylusTransform(src, filename, this.processConfigMap.get(ProcessTypes.STYLUS))
+    }
+
+    if (result) {
+      css = Buffer.isBuffer(result.css) ? result.css.toString() : result.css
+      map = Buffer.isBuffer(result.map) ? result.map.toString() : result.map
+      additionalData = result.additionalData
     }
 
     // postcss 插件，比如处理平台特有样式，单位转换
-    const cssItem = await this.postCSS(css, filename, this.extConfigMap.get(StyleTypes.POSTCSS), options)
-    return cssItem
+    return await this.postCSS({
+      css,
+      map,
+      filename,
+      additionalData,
+      transformOptions: options,
+      postcssConfig: this.processConfigMap.get(ProcessTypes.POSTCSS)
+    })
   }
 
   /**
-   * @description postcss处理
-   * @param {string} css
-   * @param {string} filename
-   * @returns {Function | any}
+   * postcss处理
+   * @param param0 PostcssParam
+   * @returns {Promise | any}
    */
-  postCSS (css, filename, postcssConfig: PostcssConfig, transformOptions: TransformOptions) {
-    const plugins = getPostcssPlugins({
+  postCSS ({
+    css,
+    map,
+    filename,
+    postcssConfig,
+    transformOptions,
+    additionalData
+  }: PostcssParam) {
+    const plugins = makePostcssPlugins({
+      filename,
+      postcssConfig,
+      transformOptions,
       designWidth: this.config.designWidth,
       deviceRatio: this.config.deviceRatio,
-      postcssConfig,
-      transformOptions
+      additionalData: additionalData
     })
 
-    return postcssTransform(css, filename, { options: postcssConfig.options, plugins })
-      .then(cssString => {
-        return {
-          css: cssString,
-          filename
+    return postcssTransform(
+      css,
+      filename,
+      {
+        plugins,
+        options: {
+          ...postcssConfig.options,
+          map: map && {
+            prev: normalizeSourceMap(map, filename),
+            inline: false,
+            annotation: false
+          }
         }
-      })
+      }
+    ).then(result => {
+      return {
+        ...result,
+        filename
+      }
+    })
   }
 
   /**
@@ -162,16 +205,25 @@ export default class StyleTransform {
    * @param {object} transform
    * @return {string} JSONString
    */
-  async transform (src: string, filename: string, options = {} as TransformOptions) {
-    printLog(processTypeEnum.START, '样式文件处理开始', filename)
-    const { css: cssSrc } = await this.processStyle(src, filename, options)
-    // printLog(processTypeEnum.REMIND, cssSrc, filename)
+  async transform (src: string, filename: string, options: TransformOptions) {
+    // printLog(processTypeEnum.START, '样式文件处理开始', filename)
+    const result = await this.processStyle(src, filename, options)
+
     // 把 css 转换成对象 rn 的样式，接入 taro 的 css-to-react-native，比如有单位的处理
-    const styleObject = transformCSS(cssSrc, { parseMediaQueries: true, scalable: this.config.rn.postcss.scalable })
+    const styleObject = transformCSS(
+      result.css,
+      {
+        parseMediaQueries: true,
+        scalable: this.config.rn.postcss?.scalable
+      }
+    )
+
     // stylelint，转换成对象，对对象进行校验
     validateStyle({ styleObject, filename })
-    const css = JSON.stringify(styleObject, null, 2).replace(/"(scalePx2dp\(.*?\))"/g, '$1')
-    printLog(processTypeEnum.COMPILE, '样式文件处理完毕', filename)
+    const css = JSON.stringify(styleObject, null, 2)
+      .replace(/"(scalePx2dp\(.*?\))"/g, '$1')
+      .replace(/"(scaleVu2dp\(.*?\))"/g, '$1')
+
     // 注入自适应方法 scalePx2dp
     return getWrapedCSS(css)
   }

@@ -1,18 +1,46 @@
+import { isString } from '@tarojs/shared'
+
 import Alipay from './program'
+
 import type { IPluginContext } from '@tarojs/service'
 
 // 让其它平台插件可以继承此平台
 export { Alipay }
 
-let registedModifyPageTemplate = false
+let registeredModifyPageTemplate = false
 export default (ctx: IPluginContext) => {
   ctx.registerPlatform({
     name: 'alipay',
     useConfigName: 'mini',
     async fn ({ config }) {
-      !registedModifyPageTemplate && modifyPageTemplate(ctx)
+      !registeredModifyPageTemplate && modifyPageTemplate(ctx)
       const program = new Alipay(ctx, config)
       await program.start()
+    }
+  })
+
+  ctx.modifyRunnerOpts(({ opts }) => {
+    if (!opts?.compiler) return
+
+    if (isString(opts.compiler)) {
+      opts.compiler = {
+        type: opts.compiler
+      }
+    }
+    const { compiler } = opts
+    if (compiler.type === 'webpack5') {
+      compiler.prebundle ||= {}
+      const prebundleOptions = compiler.prebundle
+      if (prebundleOptions.enable === false) return
+      prebundleOptions.swc ||= {
+        jsc: {
+          target: 'es5'
+        }
+      }
+      prebundleOptions.exclude ||= []
+      prebundleOptions.exclude.push('@tarojs/plugin-platform-alipay/dist/runtime')
+      prebundleOptions.include ||= []
+      prebundleOptions.include.push('@tarojs/shared')
     }
   })
 }
@@ -25,7 +53,7 @@ function getIsBuildPluginPath (filePath, isBuildPlugin) {
 // 那么这个页面不能使用公共模板 base.axml，
 // 而需要把公共模板的内容在此页面的模板中复制一份, 。
 function modifyPageTemplate (ctx: IPluginContext) {
-  registedModifyPageTemplate = true
+  registeredModifyPageTemplate = true
   ctx.modifyBuildAssets(({ assets, miniPlugin }) => {
     const pages: string[] = []
 
@@ -73,7 +101,7 @@ ${main}`
       }
       const pluginJSON = JSON.parse(assets['/plugin/plugin.json'].source())
       pluginJSON.publicPages = pluginJSON.pages
-      delete pluginJSON.pages
+      pluginJSON.pages = Object.values(pluginJSON.publicPages)
       const pluginJSONStr = JSON.stringify(pluginJSON, null, 2)
       assets['/plugin/plugin.json'] = {
         size: () => pluginJSONStr.length,

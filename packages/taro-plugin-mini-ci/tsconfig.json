@@ -1,0 +1,18 @@
+{
+  "extends": "../../tsconfig.root.json",
+  "compilerOptions": {
+    "target": "ES2017",
+    "module": "commonjs",
+    "preserveConstEnums": true,
+    "outDir": "./dist",
+    "traceResolution": false,
+    "sourceMap": true,
+    "baseUrl": ".",
+    "rootDir": "./src",
+    "declaration": true,
+    "declarationDir": "types"
+  },
+  "include": ["./src"],
+  "exclude": ["node_modules"],
+  "compileOnSave": false
+}

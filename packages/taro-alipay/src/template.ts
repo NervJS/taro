@@ -20,11 +20,16 @@ export class Template extends RecursiveTemplate {
     return '<import-sjs name="xs" from="./utils.sjs" />'
   }
 
-  replacePropName (name, value, compName) {
+  replacePropName (name, value, compName, componentAlias) {
     if (value === 'eh') return name.replace('bind', 'on')
-    if (compName === 'map' && value.includes('polygons')) {
-      name = 'polygon'
+
+    if (compName === 'map') {
+      const polygonsAlias = componentAlias.polygons
+      if (value.includes(polygonsAlias)) {
+        name = 'polygon'
+      }
     }
+
     return name
   }
 
@@ -52,10 +57,21 @@ export class Template extends RecursiveTemplate {
     }, '')
   }
 
+  createMiniComponents (components): any {
+    const result = super.createMiniComponents(components)
+
+    // 兼容支付宝 2.0 构建
+    delete result.slot
+    delete result['slot-view']
+    delete result['native-slot']
+
+    return result
+  }
+
   modifyLoopBody = (child: string, nodeName: string) => {
     if (nodeName === 'picker-view') {
-      return `<picker-view-column>
-        <view a:for="{{item.cn}}" a:key="uid">
+      return `<picker-view-column class="{{item.cl}}" style="{{item.st}}">
+        <view a:for="{{item.cn}}" a:key="sid">
           ${child}
         </view>
       </picker-view-column>`
@@ -71,9 +87,9 @@ export class Template extends RecursiveTemplate {
     }
     if (nodeName === 'swiper') {
       return `
-    <block a:for="{{xs.f(i.cn)}}" a:key="uid">
-      <swiper-item class="{{item.cl}}" style="{{item.st}}" id="{{item.uid}}">
-        <block a:for="{{item.cn}}" a:key="uid">
+    <block a:for="{{xs.f(i.cn)}}" a:key="sid">
+      <swiper-item class="{{item.cl}}" style="{{item.st}}" id="{{item.uid||item.sid}}" data-sid="{{item.sid}}">
+        <block a:for="{{item.cn}}" a:key="sid">
           <template is="{{xs.e(0)}}" data="{{i:item}}" />
         </block>
       </swiper-item>
@@ -88,9 +104,24 @@ export class Template extends RecursiveTemplate {
     return res
   }
 
+  modifyThirdPartyLoopBody = () => {
+    // 兼容支付宝 2.0 构建
+    const slot = this.componentsAlias.slot
+    const slotAlias = slot._num
+    const slotNamePropAlias = slot.name
+
+    return `<view a:if="{{item.nn==='${slotAlias}'}}" slot="{{item.${slotNamePropAlias}}}" id="{{item.uid||item.sid}}" data-sid="{{item.sid}}">
+        <block a:for="{{item.cn}}" a:key="sid">
+          <template is="{{xs.e(0)}}" data="{{i:item}}" />
+        </block>
+      </view>
+      <template a:else is="{{xs.e(0)}}" data="{{i:item}}" />`
+  }
+
   buildXSTmpExtra () {
+    const swiperItemAlias = this.componentsAlias['swiper-item']._num
     return `f: function (l) {
-    return l.filter(function (i) {return i.nn === 'swiper-item'})
+    return l.filter(function (i) {return i.nn === '${swiperItemAlias}'})
   }`
   }
 }

@@ -1,7 +1,8 @@
 module.exports = {
   verbose: true,
   transform: {
-    '^.+\\.js$': 'babel-jest'
+    '^.+\\.js$': 'babel-jest',
+    '^.+\\.tsx?$': 'ts-jest'
   },
-  testPathIgnorePatterns: ['/node_modules/', '/__tests__/mocks/']
+  testPathIgnorePatterns: ['/node_modules/']
 }

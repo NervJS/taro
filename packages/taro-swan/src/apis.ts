@@ -1,9 +1,12 @@
 import { processApis } from '@tarojs/shared'
+
 import { needPromiseApis } from './apis-list'
+
+import type { IApiDiff } from '@tarojs/shared'
 
 declare const swan: any
 
-const apiDiff = {
+const apiDiff: IApiDiff = {
   login: {
     alias: 'getLoginCode'
   }

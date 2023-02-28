@@ -53,7 +53,7 @@ interface CommonConfig {
   onReachBottomDistance?: number
 }
 
-interface TarbarList {
+interface TabBarItem {
   /**
    * 页面路径，必须在 pages 中先定义
    */
@@ -102,7 +102,7 @@ interface TabBar {
    */
   custom?: boolean
 
-  list: TarbarList[]
+  list: TabBarItem[]
 }
 
 interface SubPackage {
@@ -154,15 +154,16 @@ export interface WindowConfig extends CommonConfig {
   allowsBounceVertical?: 'YES' | 'NO'
 }
 export interface AppConfig {
-  pages: string[],
-  window?: WindowConfig,
-  tabBar?: TabBar,
+  pages: string[]
+  window?: WindowConfig
+  tabBar?: TabBar
   subPackages?: SubPackage[]
-  subpackages?: SubPackage[],
-  designWidth: number,
-  deviceRatio: Record<number, number>,
-  linkPrefix: string[],
+  subpackages?: SubPackage[]
+  designWidth: number | ((size: number) => number)
+  deviceRatio: Record<string, number>
+  linkPrefix: string[]
   rn?: any
+  entryPagePath?: string
 }
 
 export interface RNAppConfig {
@@ -170,7 +171,7 @@ export interface RNAppConfig {
   pageList: PageItem[]
 }
 
-export type HooksMethods = 'componentDidShow' | 'componentDidHide' | 'onPullDownRefresh' | 'onReachBottom' | 'onPageScroll' | 'onResize' | 'onTabItemTap'
+export type HooksMethods = 'componentDidShow' | 'componentDidHide' | 'onLoad' | 'onUnload' | 'onReady' | 'onPullDownRefresh' | 'onReachBottom' | 'onPageScroll' | 'onResize' | 'onTabItemTap'
 
 export interface CallbackResult {
   errMsg: string

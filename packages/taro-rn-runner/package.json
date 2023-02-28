@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/rn-runner",
-  "version": "3.3.7",
+  "version": "3.6.2",
   "description": "ReactNative build tool for taro",
   "main": "index.js",
   "repository": {
@@ -13,7 +13,7 @@
     "lint": "eslint .",
     "test": "jest --silent",
     "test:dev": "jest --watch",
-    "test:ci": "jest --silent --coverage false",
+    "test:ci": "jest --ci --silent --coverage false",
     "test:coverage": "jest --coverage"
   },
   "keywords": [
@@ -30,20 +30,31 @@
     "npm": ">=6.0.0"
   },
   "dependencies": {
-    "@react-native-community/cli": "^5.0.1",
-    "@react-native-community/cli-server-api": "^5.0.1",
-    "@tarojs/helper": "3.3.7",
-    "@tarojs/rn-style-transformer": "3.3.7",
-    "@tarojs/rn-supporter": "3.3.7",
-    "@tarojs/rn-transformer": "3.3.7",
-    "fs-extra": "^9.0.1",
-    "lodash": "^4.17.4",
-    "metro": "^0.64.0",
-    "metro-cache": "^0.64.0",
-    "metro-config": "^0.64.0",
-    "metro-core": "^0.64.0",
-    "metro-react-native-babel-transformer": "^0.64.0",
-    "metro-resolver": "^0.64.0",
-    "qrcode-terminal": "^0.12.0"
+    "@rollup/plugin-babel": "^5.3.1",
+    "@rollup/plugin-commonjs": "^20.0.0",
+    "@rollup/plugin-json": "^4.1.0",
+    "@rollup/plugin-node-resolve": "^13.3.0",
+    "@rollup/plugin-replace": "^4.0.0",
+    "@tarojs/helper": "workspace:*",
+    "@tarojs/rn-style-transformer": "workspace:*",
+    "@tarojs/rn-supporter": "workspace:*",
+    "@tarojs/rn-transformer": "workspace:*",
+    "acorn-jsx": "^5.3.2",
+    "fs-extra": "^8.0.1",
+    "lodash": "^4.17.21",
+    "rollup-plugin-image-file": "^1.0.2"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.14.5",
+    "@babel/preset-env": "^7.14.5",
+    "acorn": "^8.0.4",
+    "expo": "~47.0.3",
+    "expo-file-system": "~15.1.1",
+    "react": "18.1.0",
+    "react-is": "^16.13.0",
+    "react-native": "^0.70.5",
+    "react-native-root-siblings": "^4.1.1",
+    "react-test-renderer": "18.1.0",
+    "rollup": "^2.79.0"
   }
 }

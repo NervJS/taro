@@ -47,7 +47,7 @@ describe('config validator of doctor', () => {
     expect(msgs.includes('projectName "projectName" is not allowed to be empty')).toBeTruthy()
     expect(msgs.includes('sourceRoot "sourceRoot" is not allowed to be empty')).toBeTruthy()
     expect(msgs.includes('outputRoot "outputRoot" is not allowed to be empty')).toBeTruthy()
-    expect(msgs.includes('framework "framework" must be one of [nerv, react, vue, vue3]')).toBeTruthy()
+    expect(msgs.includes('framework "framework" must be one of [nerv, react, preact, vue, vue3]')).toBeTruthy()
   })
 
   it('date', async () => {
@@ -91,7 +91,7 @@ describe('config validator of doctor', () => {
       framework: 'other'
     }))
     expect(res.lines.length).toEqual(1)
-    expect(res.lines[0].desc).toEqual('framework "framework" must be one of [nerv, react, vue, vue3]')
+    expect(res.lines[0].desc).toEqual('framework "framework" must be one of [nerv, react, preact, vue, vue3]')
   })
 
   it('designWidth', async () => {

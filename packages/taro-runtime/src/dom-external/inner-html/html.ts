@@ -1,8 +1,7 @@
-import { parser } from './parser'
 import { options } from '../../options'
+import { parser } from './parser'
 
 import type { TaroNode } from '../../dom/node'
-import type { TaroDocument } from '../../dom/document'
 
 options.html = {
   skipElements: new Set(['style', 'script']),
@@ -18,11 +17,11 @@ options.html = {
   renderHTMLTag: false
 }
 
-export function setInnerHTML (element: TaroNode, html: string, getDoc: () => TaroDocument) {
+export function setInnerHTML (element: TaroNode, html: string) {
   while (element.firstChild) {
     element.removeChild(element.firstChild)
   }
-  const children = parser(html, getDoc())
+  const children = parser(html, element.ownerDocument)
 
   for (let i = 0; i < children.length; i++) {
     element.appendChild(children[i])

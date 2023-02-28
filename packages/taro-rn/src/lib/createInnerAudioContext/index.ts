@@ -141,10 +141,10 @@ class InnerAudioContext {
     await Audio.setAudioModeAsync({
       allowsRecordingIOS: false,
       staysActiveInBackground: false,
-      interruptionModeIOS: Audio.INTERRUPTION_MODE_IOS_DO_NOT_MIX,
+      interruptionModeIOS: 1, // InterruptionModeIOS.DoNotMix
       playsInSilentModeIOS: !this._obeyMuteSwitch,
       shouldDuckAndroid: true,
-      interruptionModeAndroid: Audio.INTERRUPTION_MODE_ANDROID_DO_NOT_MIX,
+      interruptionModeAndroid: 1, // InterruptionModeAndroid.DoNotMix
       playThroughEarpieceAndroid: false
     })
     const soundStatus = await this.soundObject.getStatusAsync()
@@ -224,7 +224,7 @@ class InnerAudioContext {
    * @param callback
    */
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  offCanplay (callback) {
+  offCanplay (_callback) {
     this.onCanplayCallback = undefined
   }
 
@@ -241,7 +241,7 @@ class InnerAudioContext {
    * @param callback
    */
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  offPlay (callback) {
+  offPlay (_callback) {
     this.onPlayCallback = undefined
   }
 
@@ -258,7 +258,7 @@ class InnerAudioContext {
    * @param callback
    */
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  offPause (callback) {
+  offPause (_callback) {
     this.onPauseCallback = undefined
   }
 
@@ -275,7 +275,7 @@ class InnerAudioContext {
    * @param callback
    */
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  offStop (callback) {
+  offStop (_callback) {
     this.onStopCallback = undefined
   }
 
@@ -292,7 +292,7 @@ class InnerAudioContext {
    * @param callback
    */
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  offEnded (callback) {
+  offEnded (_callback) {
     this.onEndedCallback = undefined
   }
 
@@ -309,7 +309,7 @@ class InnerAudioContext {
    * @param callback
    */
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  offTimeUpdate (callback) {
+  offTimeUpdate (_callback) {
     this.onTimeUpdateCallback = undefined
   }
 
@@ -326,7 +326,7 @@ class InnerAudioContext {
    * @param callback
    */
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  offError (callback) {
+  offError (_callback) {
     this.onErrorCallback = undefined
   }
 
@@ -343,7 +343,7 @@ class InnerAudioContext {
    * @param callback
    */
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  offWaiting (callback) {
+  offWaiting (_callback) {
     this.onWaitingCallback = undefined
   }
 
@@ -360,7 +360,7 @@ class InnerAudioContext {
    * @param callback
    */
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  offSeeking (callback) {
+  offSeeking (_callback) {
     this.onSeekingCallback = undefined
   }
 
@@ -377,7 +377,7 @@ class InnerAudioContext {
    * @param callback
    */
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  offSeeked (callback) {
+  offSeeked (_callback) {
     this.onSeekedCallback = undefined
   }
 }

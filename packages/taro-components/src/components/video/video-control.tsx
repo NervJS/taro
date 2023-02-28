@@ -1,4 +1,3 @@
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { Component, h, ComponentInterface, Prop, Host, Element, Listen, Method } from '@stencil/core'
 import { formatTime } from './utils'
 
@@ -10,14 +9,14 @@ export class VideoControl implements ComponentInterface {
   private progressBallRef: HTMLDivElement
   private visible = false
   private isDraggingProgressBall = false
-  private hideControlsTimer: NodeJS.Timeout
+  private hideControlsTimer: ReturnType<typeof setTimeout>
   private percentage = 0
-  private progressDimentions = {
+  private progressDimensions = {
     left: 0,
     width: 0
   }
 
-  @Element() controlsRef: HTMLElement
+  @Element() el: HTMLElement
 
   @Prop() controls: boolean
   @Prop() currentTime: number
@@ -71,9 +70,9 @@ export class VideoControl implements ComponentInterface {
           this.toggleVisibility(false)
         }, 2000)
       }
-      this.controlsRef.style.visibility = 'visible'
+      this.el.style.visibility = 'visible'
     } else {
-      this.controlsRef.style.visibility = 'hidden'
+      this.el.style.visibility = 'hidden'
     }
     this.visible = !!visible
   }
@@ -89,10 +88,10 @@ export class VideoControl implements ComponentInterface {
   }
 
   calcPercentage = (pageX: number): number => {
-    let pos = pageX - this.progressDimentions.left
+    let pos = pageX - this.progressDimensions.left
     pos = Math.max(pos, 0)
-    pos = Math.min(pos, this.progressDimentions.width)
-    return pos / this.progressDimentions.width
+    pos = Math.min(pos, this.progressDimensions.width)
+    return pos / this.progressDimensions.width
   }
 
   onDragProgressBallStart = () => {
@@ -148,8 +147,8 @@ export class VideoControl implements ComponentInterface {
                   ref={ref => {
                     if (!ref) return
                     const rect = ref.getBoundingClientRect()
-                    this.progressDimentions.left = rect.left
-                    this.progressDimentions.width = rect.width
+                    this.progressDimensions.left = rect.left
+                    this.progressDimensions.width = rect.width
                   }}>
                   <div class='taro-video-progress-buffered' style={{ width: '100%' }} />
                   <div

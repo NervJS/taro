@@ -5,7 +5,7 @@ describe.only('nerv', () => {
     const { stats, config } = await compile('nerv', {
       framework: 'nerv'
     })
-    const assets = stats.toJson().assets || []
+    const assets = stats?.toJson().assets || []
 
     expect(assets.length).toMatchSnapshot()
 

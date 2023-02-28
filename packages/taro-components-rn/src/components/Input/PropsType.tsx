@@ -1,3 +1,4 @@
+import { FormItemProps } from '@tarojs/components'
 import { ViewStyle, StyleProp } from 'react-native'
 
 export type Event = {
@@ -18,10 +19,10 @@ export interface InputState {
   value?: string;
 }
 
-export interface InputProps {
+export interface InputProps extends FormItemProps{
   style?: StyleProp<ViewStyle>;
   value?: string;
-  type: 'text' | 'number' | 'idcard' | 'digit';
+  type?: 'text' | 'number' | 'idcard' | 'digit';
   password?: boolean;
   placeholder?: string;
   disabled?: boolean;
@@ -31,8 +32,10 @@ export interface InputProps {
   confirmType: 'done' | 'send' | 'search' | 'next' | 'go';
   confirmHold?: boolean;
   cursor?: number;
-  selectionStart: number;
-  selectionEnd: number;
+  selectionStart?: number;
+  selectionEnd?: number;
+  placeholderStyle?: string;
+  placeholderTextColor?: string;
   onInput?: (evt: Event) => void;
   onChange?: (evt: Event) => void;
   onFocus?: (evt: Event) => void;

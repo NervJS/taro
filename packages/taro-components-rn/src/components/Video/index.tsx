@@ -9,6 +9,7 @@ import { formatTime } from './utils'
 import { VideoProps } from '@tarojs/components/types/Video'
 import {
   AVPlaybackStatus,
+  ResizeMode,
   Video,
   VideoFullscreenUpdateEvent,
   VideoReadyForDisplayEvent,
@@ -65,17 +66,19 @@ import { onFullscreenChangeEventDetail } from './PropsType'
  */
 
 const ObjectFit = {
-  contain: Video.RESIZE_MODE_CONTAIN,
-  fill: Video.RESIZE_MODE_STRETCH,
-  cover: Video.RESIZE_MODE_COVER,
+  contain: ResizeMode.CONTAIN,
+  fill: ResizeMode.STRETCH,
+  cover: ResizeMode.COVER,
 }
 
 declare const global: any
 
-global._taroVideoMap = {}
+global._taroVideoMap = global._taroVideoMap || {}
 
 interface Props extends VideoProps {
   onLoad: () => void;
+  // 兼容旧版本，可传入 style 对象
+  style?: any;
 }
 
 class _Video extends Component<Props, any> {
@@ -106,38 +109,39 @@ class _Video extends Component<Props, any> {
     vslideGestureInFullscreen: true,
     // eslint-disable-next-line @typescript-eslint/no-empty-function
     onLoad: () => {},
-  };
+  }
 
   /** @type {HTMLVideoElement} */
-  videoRef: Video;
+  videoRef: Video
 
   /** @type {number} */
-  currentTime = 0;
+  currentTime = 0
 
   progressDimentions = {
     left: 0,
     right: 0,
     width: 0,
-  };
+  }
 
-  getVideoRef: (ref: any) => void;
-  isDraggingProgress: any;
-  duration: any;
-  toastVolumeRef: any;
-  toastVolumeBarRef: any;
-  toastProgressTitleRef: any;
-  toastProgressRef: any;
-  getControlsRef: (ref: any) => void;
-  getDanmuRef: (ref: any) => void;
-  getToastProgressRef: (ref: any) => void;
-  getToastProgressTitleRef: (ref: any) => void;
-  getToastVolumeRef: (ref: any) => void;
-  getToastVolumeBarRef: (ref: any) => void;
-  unbindTouchEvents: () => void;
+  getVideoRef: (ref: any) => void
+  isDraggingProgress: any
+  duration: any
+  toastVolumeRef: any
+  toastVolumeBarRef: any
+  toastProgressTitleRef: any
+  toastProgressRef: any
+  getControlsRef: (ref: any) => void
+  getDanmuRef: (ref: any) => void
+  getToastProgressRef: (ref: any) => void
+  getToastProgressTitleRef: (ref: any) => void
+  getToastVolumeRef: (ref: any) => void
+  getToastVolumeBarRef: (ref: any) => void
+  unbindTouchEvents: () => void
 
-  constructor({ props, context }: { props: Props; context: any }) {
-    super(props, context)
+  constructor(props: Props) {
+    super(props)
     const stateObj = this.props
+    const id = props.id
     this.videoRef = (React.createRef() as unknown) as Video
     this.state = Object.assign(
       {
@@ -150,6 +154,11 @@ class _Video extends Component<Props, any> {
       },
       stateObj
     )
+    this.getVideoRef = (ref: any) => {
+      if (!ref) return
+      this.videoRef = ref
+      id && (global._taroVideoMap[id] = ref)
+    }
   }
 
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
@@ -160,7 +169,7 @@ class _Video extends Component<Props, any> {
     })
     if (!this.props.loop) this.pause()
     this.props.onEnded && this.props.onEnded(e)
-  };
+  }
 
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   onPlay = (e: any): void => {
@@ -168,7 +177,7 @@ class _Video extends Component<Props, any> {
     if (!this.state.isPlaying) {
       this.play()
     }
-  };
+  }
 
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   onPause = (e: any): void => {
@@ -178,7 +187,7 @@ class _Video extends Component<Props, any> {
         isPlaying: false,
       })
     }
-  };
+  }
 
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   onError = (e: string): void => {
@@ -187,10 +196,9 @@ class _Video extends Component<Props, any> {
         enumerable: true,
         value: { errMsg: e },
       })
-      // @ts-ignore
       this.props.onError(error)
     }
-  };
+  }
 
   onLoad = (status: AVPlaybackStatus): void => {
     const { durationMillis = 0 }: any = status
@@ -198,7 +206,7 @@ class _Video extends Component<Props, any> {
       duration: durationMillis,
     })
     this.props.onLoad && this.props.onLoad()
-  };
+  }
 
   clickPlayBtn = ():void => {
     const { isEnded } = this.state
@@ -219,14 +227,14 @@ class _Video extends Component<Props, any> {
       isPlaying: true,
       isFirst: false,
     })
-  };
+  }
 
   pause = (): void => {
     this.setState({
       isPlaying: false,
       shouldPlay: false,
     })
-  };
+  }
 
   stop = (): void => {
     this.pause()
@@ -234,44 +242,28 @@ class _Video extends Component<Props, any> {
     this.setState({
       isPlaying: false,
     })
-  };
+  }
 
   seek = (position: number): void => {
     this.videoRef.setStatusAsync({
       positionMillis: position,
     })
-  };
+  }
 
   showStatusBar = (): void => {
     console.error('暂不支持 videoContext.showStatusBar')
-  };
+  }
 
   hideStatusBar = (): void => {
     console.error('暂不支持 videoContext.hideStatusBar')
-  };
+  }
 
   requestFullScreen = (): void => {
-    // @ts-ignore
     this.videoRef.presentFullscreenPlayer()
-  };
+  }
 
   exitFullScreen = (): void => {
-    // @ts-ignore
     this.videoRef.dismissFullscreenPlayer()
-  };
-
-  componentDidMount(): void {
-    const getRef = (refName: string) => {
-      const { id } = this.props
-      return (ref: any) => {
-        if (!ref) return
-        // @ts-ignore
-        this[refName] = ref
-        // @ts-ignore
-        id && (global._taroVideoMap[id] = ref)
-      }
-    }
-    this.getVideoRef = getRef('videoRef')
   }
 
   static getDerivedStateFromProps(nProps: VideoProps): VideoProps {
@@ -284,15 +276,17 @@ class _Video extends Component<Props, any> {
     status.duration = status.durationMillis
     // @ts-ignore
     this.props.onLoadedMetaData && this.props.onLoadedMetaData({ detail: { ...naturalSize, ...status } })
-  };
+  }
 
   onFullscreenChange = (event: VideoFullscreenUpdateEvent): void => {
+    const PLAYER_WILL_PRESENT = 0 // VideoFullscreenUpdate.PLAYER_WILL_PRESENT
+    const PLAYER_DID_PRESENT = 1 // VideoFullscreenUpdate.PLAYER_DID_PRESENT
     const { fullscreenUpdate, status } = event
-    const fullScreen: boolean = fullscreenUpdate === Video.FULLSCREEN_UPDATE_PLAYER_WILL_PRESENT || fullscreenUpdate === Video.FULLSCREEN_UPDATE_PLAYER_DID_PRESENT
+    const fullScreen: boolean = fullscreenUpdate === PLAYER_WILL_PRESENT || fullscreenUpdate === PLAYER_DID_PRESENT
     const detail: onFullscreenChangeEventDetail = {
-      fullScreen: fullscreenUpdate === Video.FULLSCREEN_UPDATE_PLAYER_WILL_PRESENT || fullscreenUpdate === Video.FULLSCREEN_UPDATE_PLAYER_DID_PRESENT,
+      fullScreen: fullscreenUpdate === PLAYER_WILL_PRESENT || fullscreenUpdate === PLAYER_DID_PRESENT,
       fullscreenUpdate,
-      direction: 1,
+      direction: 'vertical',
       ...status,
     }
     if (this.state.isFullScreen !== fullScreen) {
@@ -303,7 +297,7 @@ class _Video extends Component<Props, any> {
         this.props.onFullscreenChange && this.props.onFullscreenChange({ detail })
       })
     }
-  };
+  }
 
   onPlaybackStatusUpdate = (event: AVPlaybackStatus): void => {
     // @ts-ignore
@@ -326,7 +320,7 @@ class _Video extends Component<Props, any> {
         }
       )
     }
-  };
+  }
 
   render(): JSX.Element {
     const {

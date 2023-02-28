@@ -1,16 +1,14 @@
-import { types as Types, PluginObj } from 'babel-core'
-
 const plugin = function (babel: {
-  types: typeof Types;
-}): PluginObj {
+  types: any
+}) {
   const t = babel.types
 
-  // 这些变量需要在每个programe里重置
+  // 这些变量需要在每个 program 里重置
   const invokedApis: Map<string, string> = new Map()
   let taroName: string
   let needDefault: boolean
 
-  let referrencedTaros: Types.Identifier[]
+  let referTaro: any[]
 
   return {
     name: 'babel-plugin-transform-taro-api',
@@ -33,12 +31,12 @@ const plugin = function (babel: {
               needDefault = true
               const localName = node.local.name
               const binding = ast.scope.getBinding(localName)
-              const iden = t.identifier(taroName)
-              referrencedTaros.push(iden)
+              const idn = t.identifier(taroName)
+              referTaro.push(idn)
               binding && binding.referencePaths.forEach(reference => {
                 reference.replaceWith(
                   t.memberExpression(
-                    iden,
+                    idn,
                     t.identifier(propertyName)
                   )
                 )
@@ -71,7 +69,7 @@ const plugin = function (babel: {
           const isAssignment = t.isAssignmentExpression(parentNode) && parentNode.left === ast.node
 
           if (!isAssignment) {
-            let identifier: Types.Identifier
+            let identifier: any
             if (invokedApis.has(propertyName)) {
               identifier = t.identifier(invokedApis.get(propertyName)!)
             } else {
@@ -89,7 +87,7 @@ const plugin = function (babel: {
       Program: {
         enter (ast) {
           needDefault = false
-          referrencedTaros = []
+          referTaro = []
           invokedApis.clear()
 
           taroName = ast.scope.getBinding('Taro')
@@ -99,7 +97,7 @@ const plugin = function (babel: {
         exit (ast, state) {
           // 防止重复引入
           let isTaroApiImported = false
-          referrencedTaros.forEach(node => {
+          referTaro.forEach(node => {
             node.name = taroName
           })
 

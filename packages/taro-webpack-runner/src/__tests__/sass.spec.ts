@@ -1,10 +1,11 @@
 import * as path from 'path'
+
 import { compile, getOutput } from './utils/compiler'
 
 describe('sass', () => {
   test('should build app with scss', async () => {
     const { stats, config } = await compile('sass')
-    const assets = stats.toJson().assets || []
+    const assets = stats?.toJson().assets || []
 
     expect(assets.length).toMatchSnapshot()
 
@@ -16,7 +17,7 @@ describe('sass', () => {
     const { stats, config } = await compile('sass', {
       sourceRoot: 'input'
     })
-    const assets = stats.toJson().assets || []
+    const assets = stats?.toJson().assets || []
 
     expect(assets.length).toMatchSnapshot()
 
@@ -31,7 +32,7 @@ describe('sass', () => {
         resource: path.resolve(__dirname, './fixtures/sass/src/common/global.scss')
       }
     })
-    const assets = stats.toJson().assets || []
+    const assets = stats?.toJson().assets || []
 
     expect(assets.length).toMatchSnapshot()
 
@@ -47,7 +48,7 @@ describe('sass', () => {
         projectDirectory: path.resolve(__dirname, './fixtures/sass/src')
       }
     })
-    const assets = stats.toJson().assets || []
+    const assets = stats?.toJson().assets || []
 
     expect(assets.length).toMatchSnapshot()
 
@@ -64,7 +65,7 @@ describe('sass', () => {
         data: '.body {background-color: red;}'
       }
     })
-    const assets = stats.toJson().assets || []
+    const assets = stats?.toJson().assets || []
 
     expect(assets.length).toMatchSnapshot()
 

@@ -1,12 +1,22 @@
 export const needPromiseApis = new Set([
+  'addFileToFavorites',
+  'addVideoToFavorites',
   'authPrivateMessage',
+  'checkIsAddedToMyMiniProgram',
+  'chooseContact',
+  'cropImage',
   'disableAlertBeforeUnload',
+  'editImage',
   'enableAlertBeforeUnload',
   'getBackgroundFetchData',
+  'getFuzzyLocation',
   'getGroupEnterInfo',
+  'getLocalIPAddress',
   'getShareInfo',
+  'getUserProfile',
   'getWeRunData',
   'join1v1Chat',
+  'openCustomerServiceChat',
   'openVideoEditor',
   'saveFileToDisk',
   'scanItem',
@@ -14,5 +24,4 @@ export const needPromiseApis = new Set([
   'setWindowSize',
   'sendBizRedPacket',
   'startFacialRecognitionVerify',
-  'openCustomerServiceChat'
 ])

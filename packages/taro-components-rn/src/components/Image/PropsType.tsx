@@ -1,36 +1,17 @@
-import { StyleProp, ImageStyle } from 'react-native'
-
+import { StyleProp, ImageStyle, ImageResizeMode } from 'react-native'
+import { ImageProps as _ImageProps } from '@tarojs/components/types/Image'
 export interface ImageState {
   ratio: number;
   layoutWidth: number;
 }
 
-export enum Mode {
-  ScaleToFill = 'scaleToFill',
-  AspectFit = 'aspectFit',
-  AspectFill = 'aspectFill',
-  WidthFix = 'widthFix',
-  Top = 'top',
-  Bottom = 'bottom',
-  Center = 'center',
-  Left = 'left',
-  Right = 'right',
-  TopLeft = 'top left',
-  TopRight = 'top right',
-  BottomLeft = 'bottom left',
-  BottomRight = 'bottom right'
-}
+export type ResizeModeMap = Partial<Record<keyof _ImageProps.Mode, ImageResizeMode>>;
+// 其实上面的写法是和下面的是等价了，下面可阅读性高点，上面优雅一点
+// export type ResizeModeMap = {
+//   [key in keyof _ImageProps.mode]?: ImageResizeMode;
+// }
 
-export type ResizeModeMap = {
-  // [key in Mode]: string
-  [Mode.ScaleToFill]: string;
-  [Mode.AspectFit]: string;
-  [Mode.AspectFill]: string;
-  [Mode.Center]: string;
-  [key: string]: string;
-}
-
-export type ResizeMode = 'cover' | 'contain' | 'stretch' | 'repeat' | 'center' | undefined
+export type ResizeMode = ImageResizeMode | undefined
 
 export type EventError = {
   detail: {
@@ -48,7 +29,8 @@ export type EventLoad = {
 export interface ImageProps {
   style?: StyleProp<ImageStyle>;
   src: string;
-  mode?: Mode;
+  mode?:keyof _ImageProps.Mode;
   onError?: (event: EventError) => void;
   onLoad?: (event: EventLoad) => void;
+  svg?: boolean;
 }

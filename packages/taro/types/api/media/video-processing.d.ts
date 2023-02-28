@@ -1,11 +1,10 @@
-declare namespace Taro {
-  /** 创建音视频处理容器，最终可将容器中的轨道合成一个视频
-   * @supported weapp
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/video-processing/wx.createMediaContainer.html
-   */
-  function createMediaContainer(): MediaContainer
+import Taro from '../../index'
 
+declare module '../../index' {
   /** 创建音视频处理容器，最终可将容器中的轨道合成一个视频
+   *
+   * > 可通过 [Taro.createMediaContainer](./createMediaContainer) 创建
+   * @supported weapp
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/video-processing/MediaContainer.html
    */
   interface MediaContainer {
@@ -49,28 +48,37 @@ declare namespace Taro {
     }
   }
 
-  /** 可通过 [MediaContainer.extractDataSource](https://developers.weixin.qq.com/miniprogram/dev/api/media/video-processing/MediaContainer.extractDataSource.html) 返回。
-   * [MediaTrack](https://developers.weixin.qq.com/miniprogram/dev/api/media/video-processing/MediaTrack.html) 音频或视频轨道，可以对轨道进行一些操作
+  /** 可通过 [MediaContainer.extractDataSource](/docs/apis/media/video-processing/MediaContainer#extractdatasource) 返回。
+   * [MediaTrack](/docs/apis/media/video-processing/MediaTrack) 音频或视频轨道，可以对轨道进行一些操作
+   * @supported weapp
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/video-processing/MediaTrack.html
    */
   interface MediaTrack {
+    /** 轨道类型
+     * @readonly
+     */
+    kind: keyof MediaTrack.Kind
     /** 轨道长度
      * @readonly
      */
     duration: number
-    /** 轨道类型
-     * @readonly
-     */
-    kind: keyof MediaTrack.kind
     /** 音量，音频轨道下有效，可写 */
     volume: number
   }
   namespace MediaTrack {
-    interface kind {
+    interface Kind {
       /** 音频轨道 */
       audio
       /** 视频轨道 */
       video
     }
+  }
+
+  interface TaroStatic {
+    /** 创建音视频处理容器，最终可将容器中的轨道合成一个视频
+     * @supported weapp
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/video-processing/wx.createMediaContainer.html
+     */
+    createMediaContainer(): MediaContainer
   }
 }

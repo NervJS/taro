@@ -1,6 +1,6 @@
-import * as fs from 'fs'
 import * as babel from '@babel/core'
-import { createFsFromVolume, Volume, IFs } from 'memfs'
+import * as fs from 'fs'
+import { createFsFromVolume, IFs, Volume } from 'memfs'
 import * as joinPath from 'memory-fs/lib/join'
 
 interface EnsuredFs extends IFs {
@@ -43,8 +43,29 @@ jest.mock('@tarojs/helper', () => {
             presets: [['@babel/env']],
             plugins: ['@babel/plugin-proposal-class-properties']
           })
+          const header = /app\.config/.test(configPath)
+            ? 'function defineAppConfig(config){ return config };\r\n'
+            : 'function definePageConfig(config){ return config };\r\n'
+          const code = header + res!.code as string
           // eslint-disable-next-line no-eval
-          return eval(res!.code as string)
+          return eval(code)
+        }
+      } else {
+        const extensions = ['.js', '.ts', '.jsx', '.tsx', '.vue']
+        for (const ext of extensions) {
+          const tempPath = configPath.replace('.config', ext)
+          if (fs.existsSync(tempPath)) {
+            configPath = tempPath
+            const sfcSource = fs.readFileSync(configPath, 'utf8')
+            const dpcReg = /definePageConfig\(\{[\w\W]+?\}\)/g
+            const matches = sfcSource.match(dpcReg)
+            if (matches && matches.length === 1) {
+              const header = 'function definePageConfig(config){ return config };\r\n'
+              const code = header + matches[0]
+              // eslint-disable-next-line no-eval
+              return eval(code as string)
+            }
+          }
         }
       }
       return {}

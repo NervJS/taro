@@ -29,7 +29,7 @@ function onAccelerometerChange(fnc: Taro.onAccelerometerChange.Callback): void {
  * @param {Object} opts
  * @param {string} [opts.interval='normal'] 监听加速度数据回调函数的执行频率
  */
-function startAccelerometer(opts: Taro.startAccelerometer.Option = {}): Promise<Taro.General.CallbackResult> {
+function startAccelerometer(opts: Taro.startAccelerometer.Option = {}): Promise<TaroGeneral.CallbackResult> {
   const { interval = 'normal', success, fail, complete } = opts
   const res = { errMsg: 'startAccelerometer:ok' }
   try {
@@ -54,11 +54,11 @@ function startAccelerometer(opts: Taro.startAccelerometer.Option = {}): Promise<
  * 停止监听加速度数据
  * @param opts
  */
-function stopAccelerometer(opts: Taro.stopAccelerometer.Option = {}): Promise<Taro.General.CallbackResult> {
+function stopAccelerometer(opts: Taro.stopAccelerometer.Option = {}): Promise<TaroGeneral.CallbackResult> {
   const { success, fail, complete } = opts
   const res = { errMsg: 'stopAccelerometer:ok' }
   try {
-    _listener.remove()
+    _listener && _listener.remove()
     _listener = null
     return successHandler(success, complete)(res)
   } catch (error) {

@@ -1,14 +1,8 @@
-import {
-  STYLE,
-  DATASET,
-  PROPS,
-  OBJECT
-} from '../constants'
-import { parser } from '../dom-external/inner-html/parser'
-import { GetDoc } from '../interface'
+import { DATASET, OBJECT, PROPS, STYLE } from '../constants'
 import { NodeType } from '../dom/node_types'
+import { parser } from '../dom-external/inner-html/parser'
 
-import type { Ctx } from '../interface'
+import type { TaroNode } from 'src/dom/node'
 
 export type IPosition = 'beforebegin' | 'afterbegin' | 'beforeend' | 'afterend'
 
@@ -16,12 +10,12 @@ export type IPosition = 'beforebegin' | 'afterbegin' | 'beforeend' | 'afterend'
  * An implementation of `Element.insertAdjacentHTML()`
  * to support Vue 3 with a version of or greater than `vue@3.1.2`
  */
-export function insertAdjacentHTMLImpl (
+export function insertAdjacentHTML (
+  this: TaroNode,
   position: IPosition,
-  html: string,
-  getDoc: GetDoc
+  html: string
 ) {
-  const parsedNodes = parser(html, getDoc())
+  const parsedNodes = parser(html, this.ownerDocument)
 
   for (let i = 0; i < parsedNodes.length; i++) {
     const n = parsedNodes[i]
@@ -47,13 +41,13 @@ export function insertAdjacentHTMLImpl (
   }
 }
 
-export function cloneNode (ctx: Ctx, getDoc, isDeep = false) {
-  const document = getDoc()
+export function cloneNode (this: TaroNode, isDeep = false) {
+  const document = this.ownerDocument
   let newNode
 
-  if (ctx.nodeType === NodeType.ELEMENT_NODE) {
-    newNode = document.createElement(ctx.nodeName)
-  } else if (ctx.nodeType === NodeType.TEXT_NODE) {
+  if (this.nodeType === NodeType.ELEMENT_NODE) {
+    newNode = document.createElement(this.nodeName)
+  } else if (this.nodeType === NodeType.TEXT_NODE) {
     newNode = document.createTextNode('')
   }
 
@@ -70,8 +64,20 @@ export function cloneNode (ctx: Ctx, getDoc, isDeep = false) {
   }
 
   if (isDeep) {
-    newNode.childNodes = ctx.childNodes.map(node => node.cloneNode(true))
+    newNode.childNodes = this.childNodes.map(node => (node as any).cloneNode(true))
   }
 
   return newNode
+}
+
+export function contains (this: TaroNode, node: TaroNode & { id?: string }): boolean {
+  let isContains = false
+  this.childNodes.some(childNode => {
+    const { uid } = childNode
+    if (uid === node.uid || uid === node.id || (childNode as any).contains(node)) {
+      isContains = true
+      return true
+    }
+  })
+  return isContains
 }

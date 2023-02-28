@@ -24,7 +24,7 @@ describe('style', () => {
     style.setProperty('font-weight', 'bold')
     expect(style._usedStyleProp.size).toBe(2)
     expect(style.fontWeight).toBe('bold')
-    expect(style.cssText).toBe('color: red;font-weight: bold;')
+    expect(style.cssText).toBe('color: red; font-weight: bold;')
     style.cssText = ''
     expect(style.cssText).toBe('')
     expect(style._usedStyleProp.size).toBe(0)
@@ -32,7 +32,7 @@ describe('style', () => {
     expect(style.fontWeight).toBe('')
     style.textAlign = 'center'
     expect(style.cssText).toBe('text-align: center;')
-    style.cssText = 'color: red;font-weight: bold;'
+    style.cssText = 'color: red; font-weight: bold;'
     expect(style._usedStyleProp.size).toBe(2)
     expect(style.fontWeight).toBe('bold')
     expect(style.color).toBe('red')

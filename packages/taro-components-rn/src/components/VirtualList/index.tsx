@@ -5,7 +5,7 @@ import { noop } from '../../utils'
 import { VirtualListProps } from './PropsType'
 import { ScrollViewProps } from '../ScrollView/PropsType'
 
-class _VirtualList extends React.Component<VirtualListProps<any> & ScrollViewProps<any>, any> {
+class _VirtualList extends React.Component<VirtualListProps & ScrollViewProps<any>, any> {
   static defaultProps = {
     upperThreshold: 50,
     lowerThreshold: 50,
@@ -61,16 +61,16 @@ class _VirtualList extends React.Component<VirtualListProps<any> & ScrollViewPro
   }
 
   render(): JSX.Element {
-    const { itemData, itemSize, layout, overscanCount, children, ...restProps } = this.props
+    const { itemData, itemSize, item, layout, overscanCount, children, ...restProps } = this.props
     const itemStyle = layout === 'vertical' ? { height: itemSize } : { width: itemSize }
-    const itemRow = ({ item, index, separators }: ListRenderItemInfo<Record<string, unknown>>) =>
-      React.createElement(children, {
+    // 这边用any是因为any值的是item的类型，取决于用户传入进来的内容，可能是string或jsx.element
+    const itemCom = item || children
+    const itemRow = ({ item: _item, index, separators }: ListRenderItemInfo<any>) =>
+      React.createElement(itemCom, {
         data: itemData,
         key: index,
         index,
-        item,
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
+        item: _item,
         separators,
         style: {
           ...itemStyle

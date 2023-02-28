@@ -1,0 +1,28 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`VirtualList VirtualList render 1`] = `
+<RCTScrollView
+  enableBackToTop={false}
+  getItem={[Function]}
+  getItemCount={[Function]}
+  horizontal={false}
+  keyExtractor={[Function]}
+  lowerThreshold={50}
+  onContentSizeChange={[Function]}
+  onLayout={[Function]}
+  onMomentumScrollBegin={[Function]}
+  onMomentumScrollEnd={[Function]}
+  onScroll={[Function]}
+  onScrollBeginDrag={[Function]}
+  onScrollEndDrag={[Function]}
+  removeClippedSubviews={false}
+  renderItem={[Function]}
+  scrollEventThrottle={50}
+  stickyHeaderIndices={Array []}
+  upperThreshold={50}
+  viewabilityConfigCallbackPairs={Array []}
+  windowSize={1}
+>
+  <View />
+</RCTScrollView>
+`;

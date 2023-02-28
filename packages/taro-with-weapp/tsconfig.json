@@ -1,31 +1,12 @@
 {
+  "extends": "../../tsconfig.root.json",
   "compilerOptions": {
-    "target": "es2015",
-    "module": "ES2015",
-    "removeComments": false,
-    "preserveConstEnums": true,
-    "moduleResolution": "node",
-    "experimentalDecorators": true,
-    "noImplicitAny": false,
-    "allowSyntheticDefaultImports": true,
-    "outDir": "lib",
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "strictNullChecks": true,
-    "sourceMap": true,
     "baseUrl": ".",
-    "rootDir": "."
+    "module": "ESNext",
+    "preserveConstEnums": true,
+    "sourceMap": true
   },
-  "include": ["src"],
-  "exclude": [
-    "__tests__",
-    "node_modules",
-    "dist",
-    "tests",
-    "jest",
-    "lib",
-    "**/*.test.ts",
-    "**/*.spec.ts"
-  ],
-  "compileOnSave": false
+  "include": [
+    "./src"
+  ]
 }

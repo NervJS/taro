@@ -1,30 +1,28 @@
+import { PLATFORMS, taroJsComponents } from '@tarojs/helper'
 import * as path from 'path'
-import { PLATFORMS, FRAMEWORK_MAP, taroJsComponents } from '@tarojs/helper'
 
+import { createTarget } from '../plugins/MiniPlugin'
+import { componentConfig } from '../template/component'
 import { IBuildConfig } from '../utils/types'
+import getBaseConf from './base.conf'
 import {
+  getBuildNativePlugin,
   getCopyWebpackPlugin,
-  getDefinePlugin,
-  processEnvOption,
   getCssoWebpackPlugin,
-  getTerserPlugin,
+  getDefinePlugin,
   getDevtool,
-  getOutput,
-  getModule,
-  mergeOption,
+  getEntry,
+  getMiniCssExtractPlugin,
   getMiniPlugin,
   getMiniSplitChunksPlugin,
-  getBuildNativePlugin,
+  getModule,
+  getOutput,
   getProviderPlugin,
-  getMiniCssExtractPlugin,
-  getEntry,
-  getRuntimeConstants
+  getRuntimeConstants,
+  getTerserPlugin,
+  mergeOption,
+  processEnvOption
 } from './chain'
-import getBaseConf from './base.conf'
-import { createTarget } from '../plugins/MiniPlugin'
-import { customVueChain } from './vue'
-import { customVue3Chain } from './vue3'
-import { componentConfig } from '../template/component'
 
 export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
   const chain = getBaseConf(appPath)
@@ -50,11 +48,12 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
     deviceRatio,
     enableSourceMap = process.env.NODE_ENV !== 'production',
     sourceMapType,
-    debugReact = false,
     baseLevel = 16,
     framework = 'nerv',
+    frameworkExts,
     prerender,
     minifyXML = {},
+    hot = false,
 
     defineConstants = {},
     runtime = {},
@@ -112,21 +111,6 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
     plugin.copyWebpackPlugin = getCopyWebpackPlugin({ copy, appPath })
   }
   alias[taroJsComponents + '$'] = taroComponentsPath || `${taroJsComponents}/mini`
-  if (framework === 'react') {
-    alias['react-dom$'] = '@tarojs/react'
-    if (process.env.NODE_ENV !== 'production' && !debugReact) {
-      alias['react-reconciler$'] = 'react-reconciler/cjs/react-reconciler.production.min.js'
-      // eslint-disable-next-line dot-notation
-      alias['react$'] = 'react/cjs/react.production.min.js'
-      // eslint-disable-next-line dot-notation
-      alias['scheduler$'] = 'scheduler/cjs/scheduler.production.min.js'
-      alias['react/jsx-runtime$'] = 'react/cjs/react-jsx-runtime.production.min.js'
-    }
-  }
-  if (framework === 'nerv') {
-    alias['react-dom'] = 'nervjs'
-    alias.react = 'nervjs'
-  }
 
   env.FRAMEWORK = JSON.stringify(framework)
   env.TARO_ENV = JSON.stringify(buildAdapter)
@@ -151,7 +135,8 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
   /** 需要在miniPlugin前，否则无法获取entry地址 */
   if (optimizeMainPackage.enable) {
     plugin.miniSplitChunksPlugin = getMiniSplitChunksPlugin({
-      exclude: optimizeMainPackage.exclude
+      ...optimizeMainPackage,
+      fileType
     })
   }
 
@@ -172,6 +157,7 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
     commonChunks: customCommonChunks,
     baseLevel,
     framework,
+    frameworkExts,
     prerender,
     addChunkPages,
     modifyMiniConfigs,
@@ -182,7 +168,8 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
     runtimePath,
     blended,
     isBuildNativeComp,
-    alias
+    alias,
+    hot
   }
   plugin.miniPlugin = !isBuildNativeComp ? getMiniPlugin(miniPluginOptions) : getBuildNativePlugin(miniPluginOptions)
 
@@ -198,7 +185,12 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
     requestAnimationFrame: ['@tarojs/runtime', 'requestAnimationFrame'],
     cancelAnimationFrame: ['@tarojs/runtime', 'cancelAnimationFrame'],
     Element: ['@tarojs/runtime', 'TaroElement'],
-    SVGElement: ['@tarojs/runtime', 'SVGElement']
+    SVGElement: ['@tarojs/runtime', 'SVGElement'],
+    MutationObserver: ['@tarojs/runtime', 'MutationObserver'],
+    history: ['@tarojs/runtime', 'history'],
+    location: ['@tarojs/runtime', 'location'],
+    URLSearchParams: ['@tarojs/runtime', 'URLSearchParams'],
+    URL: ['@tarojs/runtime', 'URL'],
   })
 
   const isCssoEnabled = !((csso && csso.enable === false))
@@ -290,16 +282,6 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
       }
     }
   })
-
-  switch (framework) {
-    case FRAMEWORK_MAP.VUE:
-      customVueChain(chain)
-      break
-    case FRAMEWORK_MAP.VUE3:
-      customVue3Chain(chain)
-      break
-    default:
-  }
 
   return chain
 }

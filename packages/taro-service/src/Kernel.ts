@@ -1,34 +1,36 @@
-import * as path from 'path'
-import { EventEmitter } from 'events'
-
-import { AsyncSeriesWaterfallHook } from 'tapable'
-import { IProjectConfig, PluginItem } from '@tarojs/taro/types/compile'
 import {
+  createDebug,
+  createSwcRegister,
   NODE_MODULES,
-  recursiveFindNodeModules,
-  createBabelRegister,
-  createDebug
+  recursiveFindNodeModules
 } from '@tarojs/helper'
 import * as helper from '@tarojs/helper'
-import * as joi from '@hapi/joi'
+import { EventEmitter } from 'events'
+import { merge } from 'lodash'
+import * as path from 'path'
+import { AsyncSeriesWaterfallHook } from 'tapable'
 
-import {
-  IPreset,
-  IPlugin,
-  IPaths,
-  IHook,
-  ICommand,
-  IPlatform
-} from './utils/types'
-import {
-  PluginType,
-  IS_MODIFY_HOOK,
-  IS_ADD_HOOK,
-  IS_EVENT_HOOK
-} from './utils/constants'
-import { mergePlugins, resolvePresetsOrPlugins, convertPluginsToObject, printHelpLog } from './utils'
-import Plugin from './Plugin'
 import Config from './Config'
+import Plugin from './Plugin'
+import { convertPluginsToObject, mergePlugins, printHelpLog, resolvePresetsOrPlugins } from './utils'
+import {
+  IS_ADD_HOOK,
+  IS_EVENT_HOOK,
+  IS_MODIFY_HOOK,
+  PluginType
+} from './utils/constants'
+
+import type { IProjectConfig, PluginItem } from '@tarojs/taro/types/compile'
+import type {
+  Func,
+  ICommand,
+  IHook,
+  IPaths,
+  IPlatform,
+  IPlugin,
+  IPluginsObject,
+  IPreset
+} from './utils/types'
 
 interface IKernelOptions {
   appPath: string
@@ -44,11 +46,11 @@ export default class Kernel extends EventEmitter {
   optsPlugins: PluginItem[] | void
   plugins: Map<string, IPlugin>
   paths: IPaths
-  extraPlugins: IPlugin[]
+  extraPlugins: IPluginsObject
   config: Config
   initialConfig: IProjectConfig
   hooks: Map<string, IHook[]>
-  methods: Map<string, (...args: any[]) => void>
+  methods: Map<string, Func[]>
   commands: Map<string, ICommand>
   platforms: Map<string, IPlatform>
   helper: any
@@ -57,7 +59,7 @@ export default class Kernel extends EventEmitter {
 
   constructor (options: IKernelOptions) {
     super()
-    this.debugger = createDebug('Taro:Kernel')
+    this.debugger = process.env.DEBUG === 'Taro:Kernel' ? createDebug('Taro:Kernel') : function () {}
     this.appPath = options.appPath || process.cwd()
     this.optsPresets = options.presets
     this.optsPlugins = options.plugins
@@ -66,14 +68,8 @@ export default class Kernel extends EventEmitter {
     this.commands = new Map()
     this.platforms = new Map()
     this.initHelper()
-  }
-
-  async init () {
-    this.debugger('init')
     this.initConfig()
     this.initPaths()
-    this.initPresetsAndPlugins()
-    await this.applyPlugins('onReady')
   }
 
   initConfig () {
@@ -93,7 +89,7 @@ export default class Kernel extends EventEmitter {
       Object.assign(this.paths, {
         configPath: this.config.configPath,
         sourcePath: path.join(this.appPath, this.initialConfig.sourceRoot as string),
-        outputPath: path.join(this.appPath, this.initialConfig.outputRoot as string)
+        outputPath: path.resolve(this.appPath, this.initialConfig.outputRoot as string)
       })
     }
     this.debugger(`initPaths:${JSON.stringify(this.paths, null, 2)}`)
@@ -110,11 +106,11 @@ export default class Kernel extends EventEmitter {
     const allConfigPlugins = mergePlugins(this.optsPlugins || [], initialConfig.plugins || [])()
     this.debugger('initPresetsAndPlugins', allConfigPresets, allConfigPlugins)
     process.env.NODE_ENV !== 'test' &&
-    createBabelRegister({
+    createSwcRegister({
       only: [...Object.keys(allConfigPresets), ...Object.keys(allConfigPlugins)]
     })
     this.plugins = new Map()
-    this.extraPlugins = []
+    this.extraPlugins = {}
     this.resolvePresets(allConfigPresets)
     this.resolvePlugins(allConfigPlugins)
   }
@@ -127,12 +123,13 @@ export default class Kernel extends EventEmitter {
   }
 
   resolvePlugins (plugins) {
+    plugins = merge(this.extraPlugins, plugins)
     const allPlugins = resolvePresetsOrPlugins(this.appPath, plugins, PluginType.Plugin)
-    const _plugins = [...this.extraPlugins, ...allPlugins]
-    while (_plugins.length) {
-      this.initPlugin(_plugins.shift()!)
+
+    while (allPlugins.length) {
+      this.initPlugin(allPlugins.shift()!)
     }
-    this.extraPlugins = []
+    this.extraPlugins = {}
   }
 
   initPreset (preset: IPreset) {
@@ -148,7 +145,7 @@ export default class Kernel extends EventEmitter {
       }
     }
     if (Array.isArray(plugins)) {
-      this.extraPlugins.push(...resolvePresetsOrPlugins(this.appPath, convertPluginsToObject(plugins)(), PluginType.Plugin))
+      this.extraPlugins = merge(this.extraPlugins, convertPluginsToObject(plugins)())
     }
   }
 
@@ -165,6 +162,8 @@ export default class Kernel extends EventEmitter {
     if (typeof pluginCtx.optsSchema !== 'function') {
       return
     }
+    this.debugger('checkPluginOpts', pluginCtx)
+    const joi = require('joi')
     const schema = pluginCtx.optsSchema(joi)
     if (!joi.isSchema(schema)) {
       throw new Error(`插件${pluginCtx.id}中设置参数检查 schema 有误，请检查！`)
@@ -177,6 +176,7 @@ export default class Kernel extends EventEmitter {
   }
 
   registerPlugin (plugin: IPlugin) {
+    this.debugger('registerPlugin', plugin)
     if (this.plugins.has(plugin.id)) {
       throw new Error(`插件 ${plugin.id} 已被注册`)
     }
@@ -203,7 +203,17 @@ export default class Kernel extends EventEmitter {
     })
     return new Proxy(pluginCtx, {
       get: (target, name: string) => {
-        if (this.methods.has(name)) return this.methods.get(name)
+        if (this.methods.has(name)) {
+          const method = this.methods.get(name)
+          if (Array.isArray(method)) {
+            return (...arg) => {
+              method.forEach(item => {
+                item.apply(this, arg)
+              })
+            }
+          }
+          return method
+        }
         if (kernelApis.includes(name)) {
           return typeof this[name] === 'function' ? this[name].bind(this) : this[name]
         }
@@ -231,6 +241,9 @@ export default class Kernel extends EventEmitter {
       throw new Error('调用失败，未传入正确的名称！')
     }
     const hooks = this.hooks.get(name) || []
+    if (!hooks.length) {
+      return await initialVal
+    }
     const waterfall = new AsyncSeriesWaterfallHook(['arg'])
     if (hooks.length) {
       const resArr: any[] = []
@@ -268,6 +281,18 @@ export default class Kernel extends EventEmitter {
     this.runOpts = opts
   }
 
+  runHelp (name: string) {
+    const command = this.commands.get(name)
+    const defaultOptionsMap = new Map()
+    defaultOptionsMap.set('-h, --help', 'output usage information')
+    let customOptionsMap = new Map()
+    if (command?.optionsMap) {
+      customOptionsMap = new Map(Object.entries(command?.optionsMap))
+    }
+    const optionsMap = new Map([...customOptionsMap, ...defaultOptionsMap])
+    printHelpLog(name, optionsMap, command?.synopsisList ? new Set(command?.synopsisList) : new Set())
+  }
+
   async run (args: string | { name: string, opts?: any }) {
     let name
     let opts
@@ -282,33 +307,33 @@ export default class Kernel extends EventEmitter {
     this.debugger('command:runOpts')
     this.debugger(`command:runOpts:${JSON.stringify(opts, null, 2)}`)
     this.setRunOpts(opts)
-    await this.init()
+
+    this.debugger('initPresetsAndPlugins')
+    this.initPresetsAndPlugins()
+
+    await this.applyPlugins('onReady')
+
     this.debugger('command:onStart')
     await this.applyPlugins('onStart')
+
     if (!this.commands.has(name)) {
       throw new Error(`${name} 命令不存在`)
     }
+
     if (opts?.isHelp) {
-      const command = this.commands.get(name)
-      const defaultOptionsMap = new Map()
-      defaultOptionsMap.set('-h, --help', 'output usage information')
-      let customOptionsMap = new Map()
-      if (command?.optionsMap) {
-        customOptionsMap = new Map(Object.entries(command?.optionsMap))
-      }
-      const optionsMap = new Map([...customOptionsMap, ...defaultOptionsMap])
-      printHelpLog(name, optionsMap, command?.synopsisList ? new Set(command?.synopsisList) : new Set())
-      return
+      return this.runHelp(name)
     }
+
     if (opts?.options?.platform) {
       opts.config = this.runWithPlatform(opts.options.platform)
+      await this.applyPlugins({
+        name: 'modifyRunnerOpts',
+        opts: {
+          opts: opts?.config
+        }
+      })
     }
-    await this.applyPlugins({
-      name: 'modifyRunnerOpts',
-      opts: {
-        opts: opts?.config
-      }
-    })
+
     await this.applyPlugins({
       name,
       opts

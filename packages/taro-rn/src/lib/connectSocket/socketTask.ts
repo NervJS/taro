@@ -87,9 +87,9 @@ class SocketTask {
   }
 
   onError (func?: Taro.SocketTask.OnErrorCallback): void {
-    this.ws.onerror = (res) => {
+    this.ws.onerror = () => {
       func && func({
-        errMsg: res.message
+        errMsg: "There was an error with your websocket.",
       })
     }
   }

@@ -23,7 +23,7 @@ class _MovableArea extends React.Component<MovableAreaProps, any> {
   render(): JSX.Element {
     const { style } = this.props
     const { width, height } = this.state
-    return <View style={[{ height, width, overflow: 'hidden' }, style]} onLayout={this._onLayout}>
+    return <View style={[{ height, width, overflow: 'hidden' }, style]} testID='moveableArea' onLayout={this._onLayout}>
       {React.cloneElement(this.props.children, { layout: { width, height } })}
     </View>
   }

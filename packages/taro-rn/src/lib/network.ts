@@ -1,24 +1,41 @@
-import NetInfo from '@react-native-community/netinfo'
+import NetInfo, { NetInfoStateType, NetInfoState } from '@react-native-community/netinfo'
 
 let _unsubscribe: any = null
 
 let _callbacks: Set<Function> = new Set()
 
+function getTypeFromState(connectionInfo:NetInfoState): keyof Taro.getNetworkType.NetworkType {
+  let type: keyof Taro.getNetworkType.NetworkType
+  if(connectionInfo.type === NetInfoStateType.wifi) {
+    type = NetInfoStateType.wifi
+  } else if(connectionInfo.type === NetInfoStateType.cellular && connectionInfo.details.cellularGeneration) {
+    type = connectionInfo.details.cellularGeneration
+  } else if(connectionInfo.type === NetInfoStateType.none) {
+    type = 'none'
+  } else {
+    type = 'unknown'
+  }
+  return type
+}
+
 export function getNetworkType(opts: Taro.getNetworkType.Option = {}): Promise<Taro.getNetworkType.SuccessCallbackResult> {
   const { success, fail, complete } = opts
-  const res: any = {}
 
   return new Promise((resolve, reject) => {
     NetInfo.fetch()
       .then((connectionInfo) => {
-        res.networkType = connectionInfo.type
-        res.errMsg = 'getNetworkType:ok'
+        const res: Taro.getNetworkType.SuccessCallbackResult = {
+          errMsg: 'getNetworkType:ok',
+          networkType: getTypeFromState(connectionInfo),
+        }
         success?.(res)
         complete?.(res)
 
         resolve(res)
       }).catch((err) => {
-        res.errMsg = err.message
+        const res: TaroGeneral.CallbackResult = {
+          errMsg: err.message
+        }
         fail?.(res)
         complete?.(res)
 
@@ -32,8 +49,8 @@ export function onNetworkStatusChange(fnc: Taro.onNetworkStatusChange.Callback):
   if (!_unsubscribe) {
     _unsubscribe = NetInfo.addEventListener((connectionInfo) => {
       _callbacks.forEach(cb => {
-        const { type, isConnected } = connectionInfo
-        cb?.({ isConnected, networkType: type })
+        const { isConnected } = connectionInfo
+        cb?.({ isConnected, networkType: getTypeFromState(connectionInfo) })
       })
     })
   }

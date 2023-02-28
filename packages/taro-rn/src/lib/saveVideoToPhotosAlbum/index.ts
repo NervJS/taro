@@ -6,6 +6,6 @@ import { saveMedia } from '../media'
  * @param {string} opts.filePath - 视频文件路径，可以是临时文件路径也可以是永久文件路径
  * @returns {Promise<*>}
  */
-export function saveVideoToPhotosAlbum(opts: Taro.saveVideoToPhotosAlbum.Option): Promise<Taro.General.CallbackResult> {
+export function saveVideoToPhotosAlbum(opts: Taro.saveVideoToPhotosAlbum.Option): Promise<TaroGeneral.CallbackResult> {
   return saveMedia(opts, 'video', 'saveVideoToPhotosAlbum')
 }
