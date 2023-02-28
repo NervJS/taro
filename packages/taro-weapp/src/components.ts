@@ -127,6 +127,18 @@ export const components = {
     bindScrollEnd: _empty,
     bindRefresherWillRefresh: _empty,
   },
+  StickySection: {
+    'push-pinned-header': _true,
+  },
+  GridView: {
+    type: "'aligned'",
+    'cross-axis-count': '2',
+    'max-cross-axis-extent': _zero,
+    'main-axis-gap': _zero,
+    'cross-axis-gap': _zero,
+  },
+  ListView: {},
+  StickyHeader: {},
   Swiper: {
     'snap-to-edge': _false,
     'easing-function': "'default'"
