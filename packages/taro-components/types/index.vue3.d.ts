@@ -72,6 +72,10 @@ import { WebViewProps } from './WebView'
 import { RootPortalProps } from './RootPortal'
 import { PickerViewColumnProps } from './PickerViewColumn'
 import { NativeSlotProps } from './NativeSlot'
+import { GridViewProps } from './GridView'
+import { ListViewProps } from './ListView'
+import { StickyHeaderProps } from './StickyHeader'
+import { StickySectionProps } from './StickySection'
 
 /** 联合类型不能用omit（比如picker） */
 type DistributiveOmit<T, K extends keyof T> = T extends unknown ? Omit<T, K> : never
@@ -95,6 +99,8 @@ export * from './props'
 export declare const Block: VueComponentType<StandardProps>
 export declare const CoverImage: VueComponentType<CoverImageProps>
 export declare const CoverView: VueComponentType<CoverViewProps>
+export declare const GridView: VueComponentType<GridViewProps>
+export declare const ListView: VueComponentType<ListViewProps>
 export declare const MatchMedia: VueComponentType<MatchMediaProps>
 export declare const MovableArea: VueComponentType<MovableAreaProps>
 export declare const MovableView: VueComponentType<MovableViewProps>
@@ -102,6 +108,8 @@ export declare const PageContainer: VueComponentType<PageContainerProps>
 export declare const RootPortal: VueComponentType<RootPortalProps>
 export declare const ScrollView: VueComponentType<ScrollViewProps>
 export declare const ShareElement: VueComponentType<ShareElementProps>
+export declare const StickyHeader: VueComponentType<StickyHeaderProps>
+export declare const StickySection: VueComponentType<StickySectionProps>
 export declare const Swiper: VueComponentType<SwiperProps>
 export declare const SwiperItem: VueComponentType<SwiperItemProps>
 export declare const View: VueComponentType<ViewProps>
