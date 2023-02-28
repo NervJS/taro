@@ -28,7 +28,7 @@ export class Navigator implements ComponentInterface {
   }) onFail: EventEmitter
 
   @Event({
-    eventName: 'Complete'
+    eventName: 'complete'
   }) onComplete: EventEmitter
 
   @Listen('click')
