@@ -322,6 +322,8 @@ declare module '../../index' {
       video
       /** 只能拍摄图片或从相册选择图片 */
       image
+      /** 可同时选择图片和视频 */
+      mix
     }
     interface sourceType {
       /** 从相册选择 */

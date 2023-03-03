@@ -85,6 +85,14 @@ export default class H5 extends TaroPlatformWeb {
           }
           return args
         })
+
+      // Note: 本地调试 stencil 组件库时，如果启用 sourceMap 则需要相关配置
+      chain.module.rule('map')
+        .test(/\.map$/).type('json')
+      // Note: 生产环境默认不加载 map 文件
+      if (process.env.NODE_ENV === 'production') {
+        alias.set('.map$', false as any)
+      }
     })
   }
 }
