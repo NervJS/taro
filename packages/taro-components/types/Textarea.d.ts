@@ -42,13 +42,13 @@ interface TextareaProps extends StandardProps, FormItemProps {
 
   /** 获取焦点
    * @default false
-   * @supported weapp, alipay, swan, tt, qq, jd, rn
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn
    */
   focus?: boolean
 
   /** 是否自动增高，设置 autoHeight 时，style.height不生效
    * @default false
-   * @supported weapp, alipay, swan, tt, qq, jd, rn
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn
    */
   autoHeight?: boolean
 
