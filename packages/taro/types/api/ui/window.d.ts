@@ -60,5 +60,12 @@ declare module '../../index' {
       /** 窗口尺寸变化事件的回调函数 */
       callback: offWindowResize.Callback,
     ): void
+
+    /**
+     * 返回当前是否存在小窗播放（小窗在 video/live-player/live-pusher 下可用）
+     * @supported weapp
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui/window/wx.checkIsPictureInPictureActive.html
+     */
+    checkIsPictureInPictureActive(): boolean
   }
 }
