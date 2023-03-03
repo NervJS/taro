@@ -87,6 +87,7 @@ export default class WeappCI extends BaseCI {
         desc: this.desc,
         onProgressUpdate: undefined,
         robot: this.pluginOpts.weapp!.robot,
+        setting: this.pluginOpts.weapp!.setting,
         qrcodeFormat: 'image',
         qrcodeOutputDest: previewQrcodePath
       })
@@ -138,7 +139,8 @@ export default class WeappCI extends BaseCI {
         version: this.version,
         desc: this.desc,
         onProgressUpdate: undefined,
-        robot: this.pluginOpts.weapp!.robot
+        robot: this.pluginOpts.weapp!.robot,
+        setting: this.pluginOpts.weapp!.setting
       })
 
       if (uploadResult.subPackageInfo) {

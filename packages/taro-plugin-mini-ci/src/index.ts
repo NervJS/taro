@@ -53,7 +53,8 @@ export default (ctx: IPluginContext, _pluginOpts: CIOptions | (() => CIOptions))
             privateKeyPath: joi.string().required(),
             type: joi.string().valid('miniProgram', 'miniProgramPlugin', 'miniGame', 'miniGamePlugin'),
             ignores: joi.array().items(joi.string().required()),
-            robot: joi.number()
+            robot: joi.number(),
+            setting: joi.object()
           }),
           /** 字节跳动小程序上传配置 */
           tt: joi.object({
