@@ -128,6 +128,7 @@ interface ButtonProps extends StandardProps {
   /** 显示会话内消息卡片
    *
    * 生效时机：`open-type="contact"`
+   * @supported weapp
    * @default false
    */
   showMessageCard?: boolean

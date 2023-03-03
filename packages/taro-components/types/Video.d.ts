@@ -59,6 +59,7 @@ interface VideoProps extends StandardProps {
 
   /** 在非全屏模式下，是否开启亮度与音量调节手势
    * @default false
+   * @supported weapp
    */
   pageGesture?: boolean
 

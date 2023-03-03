@@ -2,7 +2,7 @@ import { ComponentType } from 'react'
 import { StandardProps, CommonEventFunction, FormItemProps } from './common'
 interface CheckboxProps extends StandardProps {
   /** `<Checkbox/>`标识，选中时触发`<CheckboxGroup/>`的 change 事件，并携带 `<Checkbox/>` 的 value
-   * @supported weapp, alipay, swan, tt, qq, jd, rn
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn
    */
   value: string
 

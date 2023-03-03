@@ -7,7 +7,7 @@ interface CanvasProps extends StandardProps<any, CanvasTouchEvent> {
   type?: string
 
   /** canvas 组件的唯一标识符，若指定了 type 则无需再指定该属性
-   * @supported weapp, swan, tt, qq, jd
+   * @supported weapp, swan, tt, qq, jd, h5
    */
   canvasId?: string
 
@@ -59,7 +59,7 @@ interface CanvasProps extends StandardProps<any, CanvasTouchEvent> {
   onTouchCancel?: CanvasTouchEventFunction
 
   /** 手指长按 500ms 之后触发，触发了长按事件后进行移动不会触发屏幕的滚动
-   * @supported weapp, alipay, swan, qq, jd
+   * @supported weapp, alipay, swan, qq, jd, h5
    */
   onLongTap?: CommonEventFunction
 

@@ -1,7 +1,9 @@
 import { ComponentType } from 'react'
 import { StandardProps } from './common'
 interface LabelProps extends StandardProps {
-  /** 绑定控件的 id */
+  /** 绑定控件的 id
+   * @supported weapp, swan, alipay, tt, h5
+   */
   for?: string
 }
 

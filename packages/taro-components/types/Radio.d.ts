@@ -2,7 +2,7 @@ import { ComponentType } from 'react'
 import { StandardProps, CommonEventFunction, FormItemProps } from './common'
 interface RadioProps extends StandardProps {
   /** `<Radio/>` 标识。当该`<Radio/>` 选中时，`<RadioGroup/>`的 change 事件会携带`<Radio/>`的 value
-   * @supported weapp, alipay, swan, tt, qq, jd, rn
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn
    */
   value?: string
 

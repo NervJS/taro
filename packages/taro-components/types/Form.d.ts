@@ -37,7 +37,7 @@ interface FormProps extends StandardProps {
   subscribeId?: string
 
   /** 携带 form 中的数据触发 submit 事件
-   * @supported weapp, alipay, swan, tt, qq, jd, rn
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn
    */
   onSubmit?: CommonEventFunction<FormProps.onSubmitEventDetail>
 
