@@ -1402,7 +1402,6 @@ importers:
       expo-image-picker: registry.npmjs.org/expo-image-picker/14.0.3_expo@47.0.13
       expo-keep-awake: registry.npmjs.org/expo-keep-awake/11.0.1_expo@47.0.13
       expo-location: registry.npmjs.org/expo-location/15.0.1_expo@47.0.13
-      expo-modules-core: registry.npmjs.org/expo-modules-core/1.0.4
       expo-sensors: registry.npmjs.org/expo-sensors/12.0.1_expo@47.0.13
       nullthrows: registry.npmjs.org/nullthrows/1.1.1
       prop-types: registry.npmjs.org/prop-types/15.8.1
@@ -1421,6 +1420,7 @@ importers:
       '@types/jest': registry.npmjs.org/@types/jest/27.5.2
       '@types/react-native': registry.npmjs.org/@types/react-native/0.69.16
       expo: registry.npmjs.org/expo/47.0.13_@babel+core@7.18.5
+      expo-modules-core: registry.npmjs.org/expo-modules-core/1.0.4
       fbjs-scripts: registry.npmjs.org/fbjs-scripts/3.0.1
       metro-react-native-babel-preset: registry.npmjs.org/metro-react-native-babel-preset/0.72.3_@babel+core@7.18.5
       mock-socket: registry.npmjs.org/mock-socket/7.1.0
@@ -18687,7 +18687,7 @@ packages:
     dependencies:
       compare-versions: registry.npmjs.org/compare-versions/3.6.0
       invariant: registry.npmjs.org/invariant/2.2.4
-    dev: false
+    dev: true
 
   registry.npmjs.org/expo-modules-core/1.1.1:
     resolution: {integrity: sha512-+AcaYmaWphIfkBcccu65dyOhWnpOJ3+SQpoI4lI/Plg1nNjOLuBjmrdVvpiJOvkN+CqbNGsJ5Yll8LLk+C107Q==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/expo-modules-core/-/expo-modules-core-1.1.1.tgz}
