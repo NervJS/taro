@@ -64,9 +64,9 @@ export default class TaroH5Plugin {
     return async (arg: T, callback: any) => {
       try {
         await fn(arg)
-        callback()
+        typeof callback === 'function' && callback()
       } catch (err) {
-        callback(err)
+        typeof callback === 'function' && callback()
       }
     }
   }
@@ -134,7 +134,7 @@ export default class TaroH5Plugin {
       })
     })
 
-    new TaroComponentsExportsPlugin(this.options.onParseCreateElement).apply(compiler)
+    new TaroComponentsExportsPlugin(this.options).apply(compiler)
   }
 
   run () {
