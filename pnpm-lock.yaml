@@ -118,7 +118,7 @@ importers:
       rimraf: ^3.0.0
       rollup: ^2.79.0
       rollup-plugin-copy: ^3.4.0
-      rollup-plugin-node-externals: ^4.0.0
+      rollup-plugin-node-externals: ^5.0.0
       rollup-plugin-postcss: ^3.1.8
       rollup-plugin-ts: ^3.0.2
       stylelint: ^14.6.1
@@ -249,7 +249,7 @@ importers:
       rimraf: registry.npmjs.org/rimraf/3.0.2
       rollup: registry.npmjs.org/rollup/2.79.0
       rollup-plugin-copy: registry.npmjs.org/rollup-plugin-copy/3.4.0
-      rollup-plugin-node-externals: registry.npmjs.org/rollup-plugin-node-externals/4.0.0_rollup@2.79.0
+      rollup-plugin-node-externals: registry.npmjs.org/rollup-plugin-node-externals/5.1.2_rollup@2.79.0
       rollup-plugin-postcss: registry.npmjs.org/rollup-plugin-postcss/3.1.8
       rollup-plugin-ts: registry.npmjs.org/rollup-plugin-ts/3.0.2_22p3bbacs4vvwboov4adfmanjy
       stylelint: registry.npmjs.org/stylelint/14.9.1
@@ -603,7 +603,7 @@ importers:
       react: ^18.2.0
       react-dom: ^18.2.0
       rollup: ^2.79.0
-      rollup-plugin-node-externals: ^4.0.0
+      rollup-plugin-node-externals: ^5.0.0
       rollup-plugin-ts: ^3.0.2
       typescript: ^4.7.4
       vue: ^3.0.0
@@ -623,7 +623,7 @@ importers:
       react: registry.npmjs.org/react/18.2.0
       react-dom: registry.npmjs.org/react-dom/18.2.0_react@18.2.0
       rollup: registry.npmjs.org/rollup/2.79.0
-      rollup-plugin-node-externals: registry.npmjs.org/rollup-plugin-node-externals/4.0.0_rollup@2.79.0
+      rollup-plugin-node-externals: registry.npmjs.org/rollup-plugin-node-externals/5.1.2_rollup@2.79.0
       rollup-plugin-ts: registry.npmjs.org/rollup-plugin-ts/3.0.2_zjqk5pftt7tdwjkunnahfmviim
       typescript: registry.npmjs.org/typescript/4.7.4
       vue: registry.npmjs.org/vue/3.2.37
@@ -640,7 +640,7 @@ importers:
       react: ^18.2.0
       react-dom: ^18.2.0
       rollup: ^2.79.0
-      rollup-plugin-node-externals: ^4.0.0
+      rollup-plugin-node-externals: ^5.0.0
       rollup-plugin-ts: ^3.0.2
       typescript: ^4.7.4
     dependencies:
@@ -655,7 +655,7 @@ importers:
       react: registry.npmjs.org/react/18.2.0
       react-dom: registry.npmjs.org/react-dom/18.2.0_react@18.2.0
       rollup: registry.npmjs.org/rollup/2.79.0
-      rollup-plugin-node-externals: registry.npmjs.org/rollup-plugin-node-externals/4.0.0_rollup@2.79.0
+      rollup-plugin-node-externals: registry.npmjs.org/rollup-plugin-node-externals/5.1.2_rollup@2.79.0
       rollup-plugin-ts: registry.npmjs.org/rollup-plugin-ts/3.0.2_zjqk5pftt7tdwjkunnahfmviim
       typescript: registry.npmjs.org/typescript/4.7.4
 
@@ -669,7 +669,7 @@ importers:
       '@types/node': ^14.14.31
       babel-preset-taro: workspace:*
       rollup: ^2.79.0
-      rollup-plugin-node-externals: ^4.0.0
+      rollup-plugin-node-externals: ^5.0.0
       rollup-plugin-ts: ^3.0.2
       typescript: ^4.7.4
       vue: ^2.6.11
@@ -685,7 +685,7 @@ importers:
       '@types/node': registry.npmjs.org/@types/node/14.18.21
       babel-preset-taro: link:../babel-preset-taro
       rollup: registry.npmjs.org/rollup/2.79.0
-      rollup-plugin-node-externals: registry.npmjs.org/rollup-plugin-node-externals/4.0.0_rollup@2.79.0
+      rollup-plugin-node-externals: registry.npmjs.org/rollup-plugin-node-externals/5.1.2_rollup@2.79.0
       rollup-plugin-ts: registry.npmjs.org/rollup-plugin-ts/3.0.2_zjqk5pftt7tdwjkunnahfmviim
       typescript: registry.npmjs.org/typescript/4.7.4
       vue: registry.npmjs.org/vue/2.6.14
@@ -700,7 +700,7 @@ importers:
       '@types/node': ^14.14.31
       babel-preset-taro: workspace:*
       rollup: ^2.79.0
-      rollup-plugin-node-externals: ^4.0.0
+      rollup-plugin-node-externals: ^5.0.0
       rollup-plugin-ts: ^3.0.2
       typescript: ^4.7.4
       vue: ^3.0.0
@@ -714,7 +714,7 @@ importers:
       '@types/node': registry.npmjs.org/@types/node/14.18.21
       babel-preset-taro: link:../babel-preset-taro
       rollup: registry.npmjs.org/rollup/2.79.0
-      rollup-plugin-node-externals: registry.npmjs.org/rollup-plugin-node-externals/4.0.0_rollup@2.79.0
+      rollup-plugin-node-externals: registry.npmjs.org/rollup-plugin-node-externals/5.1.2_rollup@2.79.0
       rollup-plugin-ts: registry.npmjs.org/rollup-plugin-ts/3.0.2_zjqk5pftt7tdwjkunnahfmviim
       typescript: registry.npmjs.org/typescript/4.7.4
       vue: registry.npmjs.org/vue/3.2.37
@@ -1038,7 +1038,7 @@ importers:
       memfs: registry.npmjs.org/memfs/3.4.7
       memory-fs: registry.npmjs.org/memory-fs/0.5.0
       postcss: registry.npmjs.org/postcss/8.4.21
-      vue-loader: registry.npmjs.org/vue-loader/15.9.8_izcuroqdza55ucckmxgxii63uq
+      vue-loader: registry.npmjs.org/vue-loader/15.10.1_izcuroqdza55ucckmxgxii63uq
       webpack-merge: registry.npmjs.org/webpack-merge/4.2.2
 
   packages/taro-platform-h5:
@@ -1055,7 +1055,7 @@ importers:
       lodash: ^4.17.21
       resolve: ^1.22.0
       rollup: ^2.79.0
-      rollup-plugin-node-externals: ^4.0.0
+      rollup-plugin-node-externals: ^5.0.0
       rollup-plugin-ts: ^3.0.2
       typescript: ^4.7.4
     dependencies:
@@ -1072,7 +1072,7 @@ importers:
       '@rollup/plugin-node-resolve': registry.npmjs.org/@rollup/plugin-node-resolve/8.4.0_rollup@2.79.0
       lodash: registry.npmjs.org/lodash/4.17.21
       rollup: registry.npmjs.org/rollup/2.79.0
-      rollup-plugin-node-externals: registry.npmjs.org/rollup-plugin-node-externals/4.0.0_rollup@2.79.0
+      rollup-plugin-node-externals: registry.npmjs.org/rollup-plugin-node-externals/5.1.2_rollup@2.79.0
       rollup-plugin-ts: registry.npmjs.org/rollup-plugin-ts/3.0.2_xdb5ss5ub2cemhlks3szmapm6q
       typescript: registry.npmjs.org/typescript/4.7.4
 
@@ -1086,7 +1086,7 @@ importers:
       '@tarojs/service': workspace:*
       '@tarojs/shared': workspace:*
       rollup: ^3.8.1
-      rollup-plugin-node-externals: ^4.0.0
+      rollup-plugin-node-externals: ^5.0.0
       rollup-plugin-ts: ^3.0.2
       typescript: ^4.7.4
     dependencies:
@@ -1099,7 +1099,7 @@ importers:
       '@babel/traverse': registry.npmjs.org/@babel/traverse/7.20.13
       '@babel/types': registry.npmjs.org/@babel/types/7.20.7
       rollup: registry.npmjs.org/rollup/3.12.0
-      rollup-plugin-node-externals: registry.npmjs.org/rollup-plugin-node-externals/4.0.0_rollup@3.12.0
+      rollup-plugin-node-externals: registry.npmjs.org/rollup-plugin-node-externals/5.1.2_rollup@3.12.0
       rollup-plugin-ts: registry.npmjs.org/rollup-plugin-ts/3.0.2_y3i5qkucco7mn7xglkvcz4nxpm
       typescript: registry.npmjs.org/typescript/4.7.4
 
@@ -1111,7 +1111,7 @@ importers:
       '@tarojs/service': workspace:*
       '@tarojs/shared': workspace:*
       rollup: ^3.8.1
-      rollup-plugin-node-externals: ^4.0.0
+      rollup-plugin-node-externals: ^5.0.0
       rollup-plugin-ts: ^3.0.2
       tslib: ^2.4.0
       typescript: ^4.7.4
@@ -1123,7 +1123,7 @@ importers:
       '@rollup/plugin-json': registry.npmjs.org/@rollup/plugin-json/4.1.0_rollup@3.12.0
       '@rollup/plugin-node-resolve': registry.npmjs.org/@rollup/plugin-node-resolve/15.0.1_rollup@3.12.0
       rollup: registry.npmjs.org/rollup/3.12.0
-      rollup-plugin-node-externals: registry.npmjs.org/rollup-plugin-node-externals/4.0.0_rollup@3.12.0
+      rollup-plugin-node-externals: registry.npmjs.org/rollup-plugin-node-externals/5.1.2_rollup@3.12.0
       rollup-plugin-ts: registry.npmjs.org/rollup-plugin-ts/3.0.2_y3i5qkucco7mn7xglkvcz4nxpm
       tslib: registry.npmjs.org/tslib/2.4.0
       typescript: registry.npmjs.org/typescript/4.7.4
@@ -1175,7 +1175,7 @@ importers:
       preact: ^10.10.0
       react-refresh: ^0.11.0
       rollup: ^3.8.1
-      rollup-plugin-node-externals: ^4.0.0
+      rollup-plugin-node-externals: ^5.0.0
       rollup-plugin-ts: ^3.0.2
       typescript: ^4.7.4
       webpack: 5.69.0
@@ -1195,7 +1195,7 @@ importers:
       preact: registry.npmjs.org/preact/10.10.0
       react-refresh: registry.npmjs.org/react-refresh/0.11.0
       rollup: registry.npmjs.org/rollup/3.12.0
-      rollup-plugin-node-externals: registry.npmjs.org/rollup-plugin-node-externals/4.0.0_rollup@3.12.0
+      rollup-plugin-node-externals: registry.npmjs.org/rollup-plugin-node-externals/5.1.2_rollup@3.12.0
       rollup-plugin-ts: registry.npmjs.org/rollup-plugin-ts/3.0.2_y3i5qkucco7mn7xglkvcz4nxpm
       typescript: registry.npmjs.org/typescript/4.7.4
       webpack: registry.npmjs.org/webpack/5.69.0
@@ -1211,7 +1211,7 @@ importers:
       react-devtools: 4.14.0
       rollup: ^3.8.1
       rollup-plugin-copy: ^3.4.0
-      rollup-plugin-node-externals: ^4.0.0
+      rollup-plugin-node-externals: ^5.0.0
       rollup-plugin-ts: ^3.0.2
       typescript: ^4.7.4
     dependencies:
@@ -1225,7 +1225,7 @@ importers:
     devDependencies:
       rollup: registry.npmjs.org/rollup/3.12.0
       rollup-plugin-copy: registry.npmjs.org/rollup-plugin-copy/3.4.0
-      rollup-plugin-node-externals: registry.npmjs.org/rollup-plugin-node-externals/4.0.0_rollup@3.12.0
+      rollup-plugin-node-externals: registry.npmjs.org/rollup-plugin-node-externals/5.1.2_rollup@3.12.0
       rollup-plugin-ts: registry.npmjs.org/rollup-plugin-ts/3.0.2_y3i5qkucco7mn7xglkvcz4nxpm
       typescript: registry.npmjs.org/typescript/4.7.4
 
@@ -1240,7 +1240,7 @@ importers:
       detect-port: ^1.3.0
       rollup: ^3.8.1
       rollup-plugin-copy: ^3.4.0
-      rollup-plugin-node-externals: ^4.0.0
+      rollup-plugin-node-externals: ^5.0.0
       rollup-plugin-ts: ^3.0.2
       typescript: ^4.7.4
     dependencies:
@@ -1254,7 +1254,7 @@ importers:
     devDependencies:
       rollup: registry.npmjs.org/rollup/3.12.0
       rollup-plugin-copy: registry.npmjs.org/rollup-plugin-copy/3.4.0
-      rollup-plugin-node-externals: registry.npmjs.org/rollup-plugin-node-externals/4.0.0_rollup@3.12.0
+      rollup-plugin-node-externals: registry.npmjs.org/rollup-plugin-node-externals/5.1.2_rollup@3.12.0
       rollup-plugin-ts: registry.npmjs.org/rollup-plugin-ts/3.0.2_y3i5qkucco7mn7xglkvcz4nxpm
       typescript: registry.npmjs.org/typescript/4.7.4
 
@@ -1267,7 +1267,7 @@ importers:
       '@tarojs/shared': workspace:*
       lodash: ^4.17.21
       rollup: ^3.8.1
-      rollup-plugin-node-externals: ^4.0.0
+      rollup-plugin-node-externals: ^5.0.0
       rollup-plugin-ts: ^3.0.2
       typescript: ^4.7.4
       vue: ^2.6.11
@@ -1280,7 +1280,7 @@ importers:
       lodash: registry.npmjs.org/lodash/4.17.21
     devDependencies:
       rollup: registry.npmjs.org/rollup/3.12.0
-      rollup-plugin-node-externals: registry.npmjs.org/rollup-plugin-node-externals/4.0.0_rollup@3.12.0
+      rollup-plugin-node-externals: registry.npmjs.org/rollup-plugin-node-externals/5.1.2_rollup@3.12.0
       rollup-plugin-ts: registry.npmjs.org/rollup-plugin-ts/3.0.2_y3i5qkucco7mn7xglkvcz4nxpm
       typescript: registry.npmjs.org/typescript/4.7.4
       vue: registry.npmjs.org/vue/2.6.14
@@ -1296,7 +1296,7 @@ importers:
       '@vue/runtime-core': ^3.0.0
       lodash: ^4.17.21
       rollup: ^3.8.1
-      rollup-plugin-node-externals: ^4.0.0
+      rollup-plugin-node-externals: ^5.0.0
       rollup-plugin-ts: ^3.0.2
       typescript: ^4.7.4
       vue: ^3.0.0
@@ -1311,7 +1311,7 @@ importers:
       '@vue/compiler-core': registry.npmjs.org/@vue/compiler-core/3.2.37
       '@vue/runtime-core': registry.npmjs.org/@vue/runtime-core/3.2.41
       rollup: registry.npmjs.org/rollup/3.12.0
-      rollup-plugin-node-externals: registry.npmjs.org/rollup-plugin-node-externals/4.0.0_rollup@3.12.0
+      rollup-plugin-node-externals: registry.npmjs.org/rollup-plugin-node-externals/5.1.2_rollup@3.12.0
       rollup-plugin-ts: registry.npmjs.org/rollup-plugin-ts/3.0.2_y3i5qkucco7mn7xglkvcz4nxpm
       typescript: registry.npmjs.org/typescript/4.7.4
       vue: registry.npmjs.org/vue/3.2.37
@@ -1780,7 +1780,7 @@ importers:
       stylus-loader: 3.0.2
       terser-webpack-plugin: ^3.0.5
       url-loader: ^4.1.0
-      vue-loader: ^15.9.3
+      vue-loader: ^17.0.0
       webpack: 4.46.0
       webpack-chain: 4.9.0
       webpack-dev-server: 3.11.3
@@ -1833,7 +1833,7 @@ importers:
       memfs: registry.npmjs.org/memfs/3.4.7
       memory-fs: registry.npmjs.org/memory-fs/0.5.0
       postcss: registry.npmjs.org/postcss/8.4.21
-      vue-loader: registry.npmjs.org/vue-loader/15.9.8_izcuroqdza55ucckmxgxii63uq
+      vue-loader: registry.npmjs.org/vue-loader/17.0.0_webpack@4.46.0
       webpack: registry.npmjs.org/webpack/4.46.0
       webpack-merge: registry.npmjs.org/webpack-merge/4.2.2
 
@@ -13690,7 +13690,7 @@ packages:
       mississippi: registry.npmjs.org/mississippi/3.0.0
       mkdirp: registry.npmjs.org/mkdirp/0.5.6
       move-concurrently: registry.npmjs.org/move-concurrently/1.0.1
-      promise-inflight: registry.npmjs.org/promise-inflight/1.0.1
+      promise-inflight: registry.npmjs.org/promise-inflight/1.0.1_bluebird@3.7.2
       rimraf: registry.npmjs.org/rimraf/2.7.1
       ssri: registry.npmjs.org/ssri/6.0.2
       unique-filename: registry.npmjs.org/unique-filename/1.1.1
@@ -28814,6 +28814,19 @@ packages:
       bluebird:
         optional: true
 
+  registry.npmjs.org/promise-inflight/1.0.1_bluebird@3.7.2:
+    resolution: {integrity: sha512-6zWPyEOFaQBJYcGMHBKTKJ3u6TBsnMFOIZSa6ce1e/ZrrsOlnHRHbabMjLiBYKp+n44X9eUI6VUPaukCXHuG4g==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/promise-inflight/-/promise-inflight-1.0.1.tgz}
+    id: registry.npmjs.org/promise-inflight/1.0.1
+    name: promise-inflight
+    version: 1.0.1
+    peerDependencies:
+      bluebird: '*'
+    peerDependenciesMeta:
+      bluebird:
+        optional: true
+    dependencies:
+      bluebird: registry.npmjs.org/bluebird/3.7.2
+
   registry.npmjs.org/promise-polyfill/7.1.2:
     resolution: {integrity: sha512-FuEc12/eKqqoRYIGBrUptCBRhobL19PS2U31vMNTfyck1FxPyMfgsXyW4Mav85y/ZN1hop3hOwRlUDok23oYfQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/promise-polyfill/-/promise-polyfill-7.1.2.tgz}
     name: promise-polyfill
@@ -30618,29 +30631,27 @@ packages:
       rollup-pluginutils: registry.npmjs.org/rollup-pluginutils/2.8.2
     dev: false
 
-  registry.npmjs.org/rollup-plugin-node-externals/4.0.0_rollup@2.79.0:
-    resolution: {integrity: sha512-7L0lqN+AEJqS13x240F5zyArHn2tNpHC7Ju8vtS893DkutIU89k5v3A7jhnOqLvOXAzjm9Ha7UZdwHOPyqiPDQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/rollup-plugin-node-externals/-/rollup-plugin-node-externals-4.0.0.tgz}
-    id: registry.npmjs.org/rollup-plugin-node-externals/4.0.0
+  registry.npmjs.org/rollup-plugin-node-externals/5.1.2_rollup@2.79.0:
+    resolution: {integrity: sha512-M32v8yPeVT0dYOYHfd6SNyl0X1xskB15jYFlwUPzIIVpLQ200KVlilbFsoNMUho4SnQuT7Di3s/aLm79bnP48w==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/rollup-plugin-node-externals/-/rollup-plugin-node-externals-5.1.2.tgz}
+    id: registry.npmjs.org/rollup-plugin-node-externals/5.1.2
     name: rollup-plugin-node-externals
-    version: 4.0.0
-    engines: {node: '>=14.0.0', rollup: '>=2.60.0'}
+    version: 5.1.2
+    engines: {node: '>=14.0.0'}
     peerDependencies:
-      rollup: ^2.60.0
+      rollup: ^2.60.0 || ^3.0.0
     dependencies:
-      find-up: registry.npmjs.org/find-up/5.0.0
       rollup: registry.npmjs.org/rollup/2.79.0
     dev: true
 
-  registry.npmjs.org/rollup-plugin-node-externals/4.0.0_rollup@3.12.0:
-    resolution: {integrity: sha512-7L0lqN+AEJqS13x240F5zyArHn2tNpHC7Ju8vtS893DkutIU89k5v3A7jhnOqLvOXAzjm9Ha7UZdwHOPyqiPDQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/rollup-plugin-node-externals/-/rollup-plugin-node-externals-4.0.0.tgz}
-    id: registry.npmjs.org/rollup-plugin-node-externals/4.0.0
+  registry.npmjs.org/rollup-plugin-node-externals/5.1.2_rollup@3.12.0:
+    resolution: {integrity: sha512-M32v8yPeVT0dYOYHfd6SNyl0X1xskB15jYFlwUPzIIVpLQ200KVlilbFsoNMUho4SnQuT7Di3s/aLm79bnP48w==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/rollup-plugin-node-externals/-/rollup-plugin-node-externals-5.1.2.tgz}
+    id: registry.npmjs.org/rollup-plugin-node-externals/5.1.2
     name: rollup-plugin-node-externals
-    version: 4.0.0
-    engines: {node: '>=14.0.0', rollup: '>=2.60.0'}
+    version: 5.1.2
+    engines: {node: '>=14.0.0'}
     peerDependencies:
-      rollup: ^2.60.0
+      rollup: ^2.60.0 || ^3.0.0
     dependencies:
-      find-up: registry.npmjs.org/find-up/5.0.0
       rollup: registry.npmjs.org/rollup/3.12.0
     dev: true
 
@@ -34673,11 +34684,11 @@ packages:
     version: 2.3.4
     dev: true
 
-  registry.npmjs.org/vue-loader/15.9.8_izcuroqdza55ucckmxgxii63uq:
-    resolution: {integrity: sha512-GwSkxPrihfLR69/dSV3+5CdMQ0D+jXg8Ma1S4nQXKJAznYFX14vHdc/NetQc34Dw+rBbIJyP7JOuVb9Fhprvog==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/vue-loader/-/vue-loader-15.9.8.tgz}
-    id: registry.npmjs.org/vue-loader/15.9.8
+  registry.npmjs.org/vue-loader/15.10.1_izcuroqdza55ucckmxgxii63uq:
+    resolution: {integrity: sha512-SaPHK1A01VrNthlix6h1hq4uJu7S/z0kdLUb6klubo738NeQoLbS6V9/d8Pv19tU0XdQKju3D1HSKuI8wJ5wMA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/vue-loader/-/vue-loader-15.10.1.tgz}
+    id: registry.npmjs.org/vue-loader/15.10.1
     name: vue-loader
-    version: 15.9.8
+    version: 15.10.1
     peerDependencies:
       '@vue/compiler-sfc': ^3.0.8
       cache-loader: '*'
@@ -34753,6 +34764,20 @@ packages:
       - velocityjs
       - walrus
       - whiskers
+    dev: true
+
+  registry.npmjs.org/vue-loader/17.0.0_webpack@4.46.0:
+    resolution: {integrity: sha512-OWSXjrzIvbF2LtOUmxT3HYgwwubbfFelN8PAP9R9dwpIkj48TVioHhWWSx7W7fk+iF5cgg3CBJRxwTdtLU4Ecg==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/vue-loader/-/vue-loader-17.0.0.tgz}
+    id: registry.npmjs.org/vue-loader/17.0.0
+    name: vue-loader
+    version: 17.0.0
+    peerDependencies:
+      webpack: ^4.1.0 || ^5.0.0-0
+    dependencies:
+      chalk: registry.npmjs.org/chalk/4.1.2
+      hash-sum: registry.npmjs.org/hash-sum/2.0.0
+      loader-utils: registry.npmjs.org/loader-utils/2.0.2
+      webpack: registry.npmjs.org/webpack/4.46.0
     dev: true
 
   registry.npmjs.org/vue-loader/17.0.0_webpack@5.69.0:

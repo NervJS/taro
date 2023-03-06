@@ -76,7 +76,7 @@
     "@types/webpack-dev-server": "^3.11.3",
     "memfs": "^3.1.2",
     "memory-fs": "^0.5.0",
-    "vue-loader": "^15.9.3",
+    "vue-loader": "^17.0.0",
     "webpack": "4.46.0",
     "webpack-merge": "^4.2.2",
     "postcss": "^8.4.18"

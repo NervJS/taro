@@ -152,7 +152,6 @@
     "rimraf": "^3.0.0",
     "rollup": "^2.79.0",
     "rollup-plugin-copy": "^3.4.0",
-    "rollup-plugin-node-externals": "^4.0.0",
     "rollup-plugin-postcss": "^3.1.8",
     "rollup-plugin-ts": "^3.0.2",
     "stylelint": "^14.6.1",
