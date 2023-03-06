@@ -1,4 +1,5 @@
 import { TaroPlatformWeb } from '@tarojs/service'
+import path from 'path'
 
 import { resolveSync } from './utils'
 
@@ -45,6 +46,10 @@ export default class H5 extends TaroPlatformWeb {
     }
   }
 
+  get componentAdapter () {
+    return path.join(path.dirname(require.resolve('@tarojs/components')), '..', 'lib')
+  }
+
   /**
    * 修改 Webpack 配置
    */
@@ -66,6 +71,7 @@ export default class H5 extends TaroPlatformWeb {
       const alias = chain.resolve.alias
       // TODO 考虑集成到 taroComponentsPath 中，与小程序端对齐
       alias.set('@tarojs/components$', require.resolve(this.componentLibrary))
+      alias.set('@tarojs/components/lib', this.componentAdapter)
       alias.set('@tarojs/router$', require.resolve('@tarojs/router'))
       alias.set('@tarojs/taro', require.resolve('./runtime/apis'))
       chain.plugin('mainPlugin')
@@ -83,12 +89,12 @@ export default class H5 extends TaroPlatformWeb {
 
           switch (this.framework) {
             case 'vue':
-              args[0].loaderMeta.extraImportForWeb += `import { initVue2Components } from '@tarojs/components'\n`
-              args[0].loaderMeta.execBeforeCreateWebApp += `initVue2Components()\n`
+              args[0].loaderMeta.extraImportForWeb += `import { initVue2Components } from '@tarojs/components/lib/vue2/components-loader'\nimport * as list from '@tarojs/components'\n`
+              args[0].loaderMeta.execBeforeCreateWebApp += `initVue2Components(list)\n`
               break
             case 'vue3':
-              args[0].loaderMeta.extraImportForWeb += `import { initVue3Components } from '@tarojs/components'\n`
-              args[0].loaderMeta.execBeforeCreateWebApp += `initVue3Components(component)\n`
+              args[0].loaderMeta.extraImportForWeb += `import { initVue3Components } from '@tarojs/components/lib/vue3/components-loader'\nimport * as list from '@tarojs/components'\n`
+              args[0].loaderMeta.execBeforeCreateWebApp += `initVue3Components(component, list)\n`
               break
             default:
               if (this.useHtmlComponents) {
@@ -102,10 +108,6 @@ export default class H5 extends TaroPlatformWeb {
       // Note: 本地调试 stencil 组件库时，如果启用 sourceMap 则需要相关配置
       chain.module.rule('map')
         .test(/\.map$/).type('json')
-      // Note: 生产环境默认不加载 map 文件
-      if (process.env.NODE_ENV === 'production') {
-        alias.set('.map$', false as any)
-      }
     })
   }
 }
