@@ -57,14 +57,14 @@ export class Textarea implements ComponentInterface {
   }
 
   @Method()
-  focus() {
+  async focus() {
     this.textareaRef.focus()
   }
 
   componentDidLoad() {
     Object.defineProperty(this.el, 'value', {
       get: () => this.textareaRef.value,
-      set: value => (this.value = value),
+      set: value => this.value !== value && (this.value = value),
       configurable: true
     })
   }
