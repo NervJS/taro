@@ -125,7 +125,7 @@ export default class MainPlugin {
       })
     })
 
-    new TaroComponentsExportsPlugin(this.options.onParseCreateElement).apply(compiler)
+    new TaroComponentsExportsPlugin(this.options).apply(compiler)
   }
 
   getAppEntry (compiler) {
