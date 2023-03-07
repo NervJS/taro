@@ -30,7 +30,7 @@ export const createCommonRender = (
    * They refer to whatever properties are set on an instance of a component.
    */
 
-  if (defineCustomElement !== undefined) {
+  if (!DEPRECATED_ADAPTER_COMPONENT && defineCustomElement !== undefined) {
     defineCustomElement()
   }
 
