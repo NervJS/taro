@@ -1,4 +1,4 @@
-export function initVue3Components (app, components = {}) {
+export function initVue3Components (app, components: Record<string, any> = {}) {
   app.config.isCustomElement = tag => /^taro-/.test(tag) || tag === 'root' || tag === 'block'
 
   Object.entries(components).forEach(([name, component]) => {

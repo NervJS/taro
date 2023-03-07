@@ -22,7 +22,7 @@ export const createVue2ComponentDefinition = (
     methods = cmpMeta.methods.map((method) => `  ${method.name}: createCommonMethod('${method.name}') as ${importCompsTypes}.${tagNameAsPascal}['${method.name}']`)
   }
 
-  let templateString = `\nexport const ${tagNameAsPascal} = /*@__PURE__*/ Vue.extend({`
+  let templateString = `\nexport const ${tagNameAsPascal} = {`
 
   const findModel =
     componentModelConfig && componentModelConfig.find((config) => config.elements.includes(cmpMeta.tagName))
@@ -41,9 +41,9 @@ export const createVue2ComponentDefinition = (
     templateString += `\n  methods: {${methods.length > 0 ? `\n  ${methods.join(',\n  ')}\n  ` : ''}},`
   }
 
-  templateString += `\n  render: createCommonRender('${cmpMeta.tagName}', [${cmpMeta.events.map((e) => `'${e.name}'`).join(', ')}], ${importAs}),`
+  templateString += `\n  render: /*@__PURE__*/ createCommonRender('${cmpMeta.tagName}', [${cmpMeta.events.map((e) => `'${e.name}'`).join(', ')}], ${importAs}),`
   templateString += `\n}`
-  templateString += `);\n`
+  templateString += `;\n`
 
   return templateString
 }
