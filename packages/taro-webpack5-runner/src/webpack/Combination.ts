@@ -25,6 +25,9 @@ export class Combination<T extends MiniBuildConfig | H5BuildConfig = CommonBuild
 
   prebundleOptions?: IPrebundle
 
+  /** special mode */
+  isBuildNativeComp = false
+
   constructor (appPath: string, config: T) {
     this.appPath = appPath
     this.rawConfig = config
@@ -37,11 +40,18 @@ export class Combination<T extends MiniBuildConfig | H5BuildConfig = CommonBuild
 
   async make () {
     await this.pre(this.rawConfig)
-    this.process(this.config, this.appPath)
+    this.process(this.config)
     await this.post(this.config, this.chain)
   }
 
-  process (_config: T, _appPath: string) {}
+  process (config: Partial<T>) {
+    const {
+      isBuildNativeComp = false
+    } = config
+    if (isBuildNativeComp) {
+      this.isBuildNativeComp = true
+    }
+  }
 
   async pre (rawConfig: T) {
     const preMode = rawConfig.mode || process.env.NODE_ENV
