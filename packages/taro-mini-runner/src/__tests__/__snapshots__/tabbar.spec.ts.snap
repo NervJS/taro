@@ -596,7 +596,7 @@ require(\\"./taro\\");
                     bindError: \\"\\",
                     bindGetUserInfo: \\"\\",
                     bindGetPhoneNumber: \\"\\",
-                    bindFollowLifestyle: \\"\\",
+                    bindFollowLifestyle: \\"\\"
                 },
                 Checkbox: {
                     bindChange: \\"\\"
