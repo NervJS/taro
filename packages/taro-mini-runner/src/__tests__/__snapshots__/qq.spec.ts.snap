@@ -475,7 +475,7 @@ require(\\"./taro\\");
             ChannelVideo: {
                 feedId: _empty,
                 finderUserName: _empty,
-                autoPlay: _false,
+                autoplay: _false,
                 loop: _false,
                 muted: _false,
                 objectFit: \\"'contain'\\",
@@ -2711,7 +2711,7 @@ require(\\"./taro\\");
             ChannelVideo: {
                 feedId: _empty,
                 finderUserName: _empty,
-                autoPlay: _false,
+                autoplay: _false,
                 loop: _false,
                 muted: _false,
                 objectFit: \\"'contain'\\",
