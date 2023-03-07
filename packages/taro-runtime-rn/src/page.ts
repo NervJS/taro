@@ -1,4 +1,4 @@
-import { getCurrentRoute, PageProvider } from '@tarojs/router-rn'
+import { getCurrentRoute, isTabPage, PageProvider } from '@tarojs/router-rn'
 import { Component, Context, createContext, createElement, createRef, forwardRef, RefObject } from 'react'
 import { AppState, Dimensions, EmitterSubscription, NativeEventSubscription, RefreshControl, ScrollView } from 'react-native'
 
@@ -155,6 +155,12 @@ export function createPageConfig (Page: any, pageConfig: PageConfig): any {
         eventCenter.on('__taroPullDownRefresh', this.pullDownRefresh, this)
         eventCenter.on('__taroPageScrollTo', this.pageToScroll, this)
         eventCenter.on('__taroSetRefreshStyle', this.setRefreshStyle, this)
+        
+        // 如果是tabbar页面，因为tabbar是懒加载的，第一次点击事件还未监听，不会触发，初始化触发一下
+        const lazy = globalAny.__taroAppConfig?.appConfig?.rn?.tabOptions?.lazy ?? true
+        if(isTabPage() && lazy){
+          this.onTabItemTap()
+        }
       }
 
       componentWillUnmount () {
