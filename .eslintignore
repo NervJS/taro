@@ -9,6 +9,7 @@ examples
 packages/taro-cli/src/__tests__/fixtures
 packages/taro-cli/templates
 
+packages/taro-components/stencil.config.js
 packages/taro-components/loader
 packages/taro-components/src/components
 packages/taro-components-library-react/components.ts

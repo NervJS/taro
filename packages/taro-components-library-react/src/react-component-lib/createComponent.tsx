@@ -29,7 +29,7 @@ export const createReactComponent = <
   ) => ExpandedPropsTypes,
   defineCustomElement?: () => void
 ) => {
-  if (defineCustomElement !== undefined) {
+  if (!DEPRECATED_ADAPTER_COMPONENT && defineCustomElement !== undefined) {
     defineCustomElement()
   }
 
