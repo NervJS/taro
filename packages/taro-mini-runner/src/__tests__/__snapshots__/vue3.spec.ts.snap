@@ -1381,10 +1381,6 @@ require(\\"./taro\\");
             };
         }
         var component = normalizeComponent(pages_indexvue_type_script_lang_js_, render, staticRenderFns, false, null, null, null);
-        if (false) {
-            var api;
-        }
-        component.options.__file = \\"src/pages/index/index.vue\\";
         var index = component.exports;
         var config = {
             navigationBarTitleText: \\"\\\\u9996\\\\u9875\\"
