@@ -57,7 +57,7 @@
     "file-loader": "^6.0.0",
     "fs-extra": "^8.0.1",
     "html-minifier": "^4.0.0",
-    "jsdom": "^16.4.0",
+    "jsdom": "^21.1.0",
     "less": "^4.1.0",
     "less-loader": "7.3.0",
     "loader-utils": "^1.2.3",

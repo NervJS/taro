@@ -4,17 +4,26 @@ const path = require('path')
 module.exports = {
   preset: 'ts-jest',
   testEnvironment: 'jsdom',
-  testURL: 'http://localhost/',
+  testEnvironmentOptions: {
+    url: 'http://localhost/'
+  },
   collectCoverage: false,
   moduleFileExtensions: ['js', 'jsx', 'ts', 'tsx', 'json', 'node'],
   transformIgnorePatterns: ['<rootDir>/node_modules/'],
-  setupFiles: ['jest-localstorage-mock', '<rootDir>/__mocks__/setEnv.ts'],
+  setupFiles: ['<rootDir>/__mocks__/setEnv.ts', 'jest-environment-jsdom'],
   setupFilesAfterEnv: [
     'jest-mock-console/dist/setupTestFramework.js'
   ],
   transform: {
     '^.+\\.jsx?$': 'babel-jest',
-    '^.+\\.tsx?$': 'ts-jest',
+    '^.+\\.tsx?$': ['ts-jest', {
+      diagnostics: false,
+      isolatedModules: true,
+      tsconfig: {
+        jsx: 'react',
+        allowJs: true
+      }
+    }],
     ...tsjPreset.transform
   },
   testMatch: ['**/__tests__/**/?(*.)+(spec|test).[jt]s?(x)'],
@@ -30,15 +39,7 @@ module.exports = {
     ENABLE_TEMPLATE_CONTENT: true,
     ENABLE_MUTATION_OBSERVER: true,
     ENABLE_CLONE_NODE: true,
-    ENABLE_CONTAINS: true,
-    'ts-jest': {
-      diagnostics: false,
-      isolatedModules: true,
-      tsconfig: {
-        jsx: 'react',
-        allowJs: true
-      }
-    }
+    ENABLE_CONTAINS: true
   },
   moduleNameMapper: {
     '@tarojs/taro': '@tarojs/taro-h5',
