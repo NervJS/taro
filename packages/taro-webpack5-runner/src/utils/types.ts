@@ -37,6 +37,8 @@ export interface IFileType {
 export interface CommonBuildConfig extends IProjectBaseConfig {
   entry?: Webpack.EntryObject
   mode: 'production' | 'development' | 'none'
+  /** special mode */
+  isBuildNativeComp?: boolean
   /** hooks */
   onCompilerMake: (compilation) => Promise<any>
   onParseCreateElement: (nodeName, componentConfig) => Promise<any>
@@ -44,7 +46,6 @@ export interface CommonBuildConfig extends IProjectBaseConfig {
 
 export interface MiniBuildConfig extends CommonBuildConfig, IMiniAppConfig {
   isBuildPlugin: boolean
-  isBuildNativeComp?: boolean
   isSupportRecursive: boolean
   isSupportXS: boolean
   buildAdapter: string
