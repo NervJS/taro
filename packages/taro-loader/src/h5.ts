@@ -21,7 +21,15 @@ function genResource (path: string, pages: Map<string, string>, loaderContext: w
 }
 
 export default function (this: webpack.LoaderContext<any>) {
-  const options = getOptions(this)
+  // The objection "options" here might obtained a null Map Object, when I tranform weapp to H5，the console alert "pages.get is not a function"， which is due to the empty Map object without
+  //  the method "{}.get()"
+  let _this = this;
+  // 这里通过webpack5封装的loader-utils中的getOptions函数获取app.config.ts参数配置可能为一个空对象,即使在ts中使用type Map<string, string>规范，在调用"pages.get()"方法时也会报错,导致项目无法构建，此处应该对Map数组options.pages进行非空校验
+  let options = getOptions(_this)
+  while(JSON.stringify(options.pages)==="{}") //when pages is empty Map Obj, it will reobtain once; util the function getOption return; 
+    {
+       options = getOptions(_this)
+    }
   const stringify = (s: string): string => stringifyRequest(this, s)
   const {
     frameworkArgs,
