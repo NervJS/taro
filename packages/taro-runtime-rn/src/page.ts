@@ -8,7 +8,7 @@ import { eventCenter } from './emmiter'
 import EventChannel from './EventChannel'
 import { Instance, PageInstance } from './instance'
 import { BackgroundOption, BaseOption, CallbackResult, HooksMethods, PageConfig, ScrollOption, TextStyleOption } from './types/index'
-import { EMPTY_OBJ, errorHandler, incrementId, isArray, isFunction, successHandler } from './utils'
+import { EMPTY_OBJ, errorHandler, getPageStr, incrementId, isArray, isFunction, successHandler } from './utils'
 
 const compId = incrementId()
 
@@ -40,7 +40,6 @@ function getLifecyle (instance, lifecyle) {
 
 function safeExecute (path: string, lifecycle: keyof Instance, ...args: unknown[]) {
   const instance = instances.get(path)
-
   if (instance == null) {
     return
   }
@@ -280,7 +279,7 @@ export function createPageConfig (Page: any, pageConfig: PageConfig): any {
       }
 
       pullDownRefresh = (path, refresh) => {
-        if (path === pagePath) {
+        if (getPageStr(path) === getPageStr(pagePath)) {
           this.setState({ refreshing: refresh })
         }
       }
@@ -294,7 +293,7 @@ export function createPageConfig (Page: any, pageConfig: PageConfig): any {
       }
 
       pageToScroll = ({ path = '', scrollTop = 0 }) => {
-        if (path === pagePath) {
+        if (getPageStr(path) === getPageStr(pagePath)) {
           this.pageScrollView?.current?.scrollTo({ x: 0, y: scrollTop, animated: true })
         }
       }
@@ -387,8 +386,8 @@ export function createPageConfig (Page: any, pageConfig: PageConfig): any {
         let result: Record<string, unknown> = {}
         for (let i = 0; i < tabBar.list.length; i++) {
           const item = tabBar.list[i]
-          const path = item.pagePath.startsWith('/') ? item.pagePath : `/${item.pagePath}`
-          if (path === itemPath) {
+          const path = item.pagePath.replace(/^\//, '') || ''
+          if (getPageStr(path) === getPageStr(itemPath)) {
             result = {
               index: i,
               pagePath: path,
