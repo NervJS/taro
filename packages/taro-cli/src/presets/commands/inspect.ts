@@ -5,7 +5,6 @@ import {
   SOURCE_DIR
 } from '@tarojs/helper'
 import { IPluginContext } from '@tarojs/service'
-import highlight from 'cli-highlight'
 import * as path from 'path'
 
 import * as hooks from '../constant'
@@ -70,6 +69,7 @@ export default (ctx: IPluginContext) => {
               const res = toString(config)
 
               if (mode === 'console') {
+                const highlight = require('cli-highlight').default
                 console.log(highlight(res, { language: 'js' }))
               } else if (mode === 'output' && outputPath) {
                 fs.writeFileSync(outputPath, res)
