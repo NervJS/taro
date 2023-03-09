@@ -23,23 +23,15 @@ function genResource (path: string, pages: Map<string, string>, loaderContext: w
 export default function (this: webpack.LoaderContext<any>) {
   const options = getOptions(this)
   const stringify = (s: string): string => stringifyRequest(this, s)
-  const {
-    frameworkArgs,
-    creator,
-    creatorLocation,
-    importFrameworkStatement,
-    importFrameworkName,
-    extraImportForWeb,
-    execBeforeCreateWebApp
-  } = options.loaderMeta
   const config: AppConfig & IH5Config = options.config
-  const pages: Map<string, string> = options.pages
   const routerMode = config?.router?.mode || 'hash'
+  const isBuildNativeComp = options.isBuildNativeComp
   const isMultiRouterMode = routerMode === 'multi'
-  const pxTransformConfig = options.pxTransformConfig
 
   const pathDirname = dirname(this.resourcePath)
   const pageName = isMultiRouterMode ? join(pathDirname, options.filename).replace(options.sourceDir + '/', '') : ''
+  const pages: Map<string, string> = options.pages
+  const pxTransformConfig = options.pxTransformConfig
   if (options.bootstrap) {
     /** NOTE: Webpack Virtual Module plugin doesn't support triggering a rebuild for webpack5,
      * which can cause "module not found" error when webpack5 cache is enabled.
@@ -52,8 +44,23 @@ export default function (this: webpack.LoaderContext<any>) {
      *   - https://github.com/sveltejs/svelte-loader/pull/151
      */
     this.cacheable?.(false)
+    return `import(${stringify(join(options.sourceDir, `${isMultiRouterMode ? pageName : options.entryFileName}.boot`))})`
   }
-  if (options.bootstrap) return `import(${stringify(join(options.sourceDir, `${isMultiRouterMode ? pageName : options.entryFileName}.boot`))})`
+  if (isBuildNativeComp) {
+    const compPath = join(pathDirname, options.filename)
+    return `import component from ${stringify(compPath)}
+component.config = {}
+component.pxTransformconfig = {}
+Objext.assign(component.config, ${JSON.stringify(readConfig(this.resourcePath))})
+initPxTransform({
+  designWidth: ${pxTransformConfig.designWidth},
+  deviceRatio: ${JSON.stringify(pxTransformConfig.deviceRatio)},
+  baseFontSize: ${pxTransformConfig.baseFontSize || (pxTransformConfig.minRootSize >= 1 ? pxTransformConfig.minRootSize : 20)},
+  unitPrecision: ${pxTransformConfig.unitPrecision},
+  targetUnit: ${JSON.stringify(pxTransformConfig.targetUnit)}
+}).bind(component)
+export default component`
+  }
 
   let tabBarCode = `var tabbarIconPath = []
 var tabbarSelectedIconPath = []
@@ -96,9 +103,9 @@ import { initPxTransform } from '@tarojs/taro'
 import { ${routerCreator} } from '@tarojs/router'
 import component from ${stringify(join(options.sourceDir, options.entryFileName))}
 import { window } from '@tarojs/runtime'
-import { ${creator} } from '${creatorLocation}'
-${importFrameworkStatement}
-${extraImportForWeb}
+import { ${options.loaderMeta.creator} } from '${options.loaderMeta.creatorLocation}'
+${options.loaderMeta.importFrameworkStatement}
+${options.loaderMeta.extraImportForWeb}
 ${setReconcilerPost}
 var config = ${JSON.stringify(config)}
 window.__taroAppConfig = config
@@ -116,13 +123,15 @@ if (config.tabBar) {
   }
 }
 ${routesConfig}
-${execBeforeCreateWebApp || ''}
-var inst = ${creator}(component, ${frameworkArgs})
-${routerCreator}(inst, config, ${importFrameworkName})
+${options.loaderMeta.execBeforeCreateWebApp || ''}
+var inst = ${options.loaderMeta.creator}(component, ${options.loaderMeta.frameworkArgs})
+${routerCreator}(inst, config, ${options.loaderMeta.importFrameworkName})
 initPxTransform({
   designWidth: ${pxTransformConfig.designWidth},
   deviceRatio: ${JSON.stringify(pxTransformConfig.deviceRatio)},
-  baseFontSize: ${pxTransformConfig.baseFontSize || (pxTransformConfig.minRootSize >= 1 ? pxTransformConfig.minRootSize : 20)}
+  baseFontSize: ${pxTransformConfig.baseFontSize || (pxTransformConfig.minRootSize >= 1 ? pxTransformConfig.minRootSize : 20)},
+  unitPrecision: ${pxTransformConfig.unitPrecision},
+  targetUnit: ${JSON.stringify(pxTransformConfig.targetUnit)}
 })
 `
   return code

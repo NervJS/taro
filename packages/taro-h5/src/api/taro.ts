@@ -44,11 +44,8 @@ const taro: typeof Taro = {
 const requirePlugin = permanentlyNotSupport('requirePlugin')
 
 function getConfig (): Record<string, any> {
-  if (NATIVE_COMPONENTS) {
-    return (this.config ||= {})
-  } else {
-    return ((taro as any).config ||= {})
-  }
+  if (this.pxTransformconfig) return this.pxTransformconfig
+  return ((taro as any).config ||= {})
 }
 
 const initPxTransform = function ({

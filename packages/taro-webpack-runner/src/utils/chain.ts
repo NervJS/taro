@@ -14,7 +14,7 @@ import * as TerserPlugin from 'terser-webpack-plugin'
 import * as webpack from 'webpack'
 
 import { getDefaultPostcssConfig, getPostcssPlugins } from '../config/postcss.conf'
-import MainPlugin from '../plugins/H5Plugin'
+import H5Plugin from '../plugins/H5Plugin'
 import { BuildConfig, Option } from './types'
 
 export const makeConfig = async (buildConfig: BuildConfig) => {
@@ -182,7 +182,7 @@ export const getCopyWebpackPlugin = ({ copy, appPath }: { copy: ICopyOptions, ap
 }
 
 export const getMainPlugin = args => {
-  return partial(getPlugin, MainPlugin)([args])
+  return partial(getPlugin, H5Plugin)([args])
 }
 
 const styleModuleReg = /(.*\.module).*\.(css|s[ac]ss|less|styl)\b/
