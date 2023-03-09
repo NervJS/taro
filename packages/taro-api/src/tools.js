@@ -30,7 +30,7 @@ export function getInitPxTransform (taro) {
       baseFontSize = defaultBaseFontSize
     } = config
     taro.config = taro.config || {}
-    taro.config.designWidth = designWidth
+    taro.config.designWidth = isFunction(designWidth) ? designWidth(): designWidth
     taro.config.deviceRatio = deviceRatio
     taro.config.baseFontSize = baseFontSize
   }

@@ -44,7 +44,7 @@ options = {
 options = {
     platform: 'h5',
     designWidth (input) {
-      if (input.file.replace(/\\+/g, '/').indexOf('@nutui/nutui-taro') > -1) {
+      if (input?.file.replace(/\\+/g, '/').indexOf('@nutui/nutui-taro') > -1) {
         return 375
       }
       return 750
