@@ -1,4 +1,5 @@
 import {
+  fs,
   printLog,
   processTypeEnum,
   promoteRelativePath,
@@ -6,10 +7,17 @@ import {
   REG_TYPESCRIPT,
   resolveScriptPath
 } from '@tarojs/helper'
-import * as fs from 'fs-extra'
 import * as path from 'path'
 
 import type * as t from '@babel/types'
+
+export function getRootPath (): string {
+  return path.resolve(__dirname, '../../')
+}
+
+export function getPkgVersion (): string {
+  return require(path.join(getRootPath(), 'package.json')).version
+}
 
 function getRelativePath (
   rootPath: string,
