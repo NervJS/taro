@@ -77,8 +77,8 @@ export abstract class TaroPlatformWeb extends TaroPlatform {
     const config = recursiveMerge(Object.assign({}, this.config), {
       entryFileName: ENTRY,
       env: {
-        TARO_ENV: JSON.stringify('h5'),
         FRAMEWORK: JSON.stringify(this.config.framework),
+        TARO_ENV: JSON.stringify('h5'),
         TARO_VERSION: JSON.stringify(getPkgVersion())
       },
       devServer: { port },

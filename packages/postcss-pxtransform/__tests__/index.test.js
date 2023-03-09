@@ -631,6 +631,7 @@ describe('rpx 单位转换', () => {
     const processed = postcss(px2rem(options)).process(rules).css
     expect(processed).toBe('h1 {margin: 0 0 20rpx;font-size: 40Px;line-height: 1.2;} .test{}')
   })
+
   it('{platform: \'h5\', designWidth: 640} ', () => {
     const rules = 'h1 {margin: 0 0 20rpx;font-size: 40Px;line-height: 1.2;} .test{}'
     const options = {
@@ -639,6 +640,30 @@ describe('rpx 单位转换', () => {
     }
     const processed = postcss(px2rem(options)).process(rules).css
     expect(processed).toBe('h1 {margin: 0 0 0.585rem;font-size: 40Px;line-height: 1.2;} .test{}')
+  })
+})
+
+describe('vw 单位转换', () => {
+  it('{platform: \'h5\', designWidth: 640} ', () => {
+    const rules = 'h1 {margin: 0 0 640px;font-size: 40Px;line-height: 1.2;} .test{}'
+    const options = {
+      platform: 'h5',
+      designWidth: 750,
+      targetUnit: 'vw'
+    }
+    const processed = postcss(px2rem(options)).process(rules).css
+    expect(processed).toBe('h1 {margin: 0 0 85.33333vw;font-size: 40Px;line-height: 1.2;} .test{}')
+  })
+
+  it('{platform: \'h5\', designWidth: 750} ', () => {
+    const rules = 'h1 {margin: 0 0 375px;font-size: 40Px;line-height: 1.2;} .test{}'
+    const options = {
+      platform: 'h5',
+      designWidth: 750,
+      targetUnit: 'vw'
+    }
+    const processed = postcss(px2rem(options)).process(rules).css
+    expect(processed).toBe('h1 {margin: 0 0 50vw;font-size: 40Px;line-height: 1.2;} .test{}')
   })
 })
 

@@ -27,6 +27,8 @@ interface IMainPluginOptions {
     deviceRatio: any
     designWidth: number
     minRootSize: number
+    unitPrecision: number
+    targetUnit: string
   }
   loaderMeta?: Record<string, string>
 
@@ -56,7 +58,9 @@ export default class MainPlugin {
         baseFontSize: 20,
         deviceRatio: {},
         designWidth: 750,
-        minRootSize: 20
+        minRootSize: 20,
+        unitPrecision: 5,
+        targetUnit: 'rem'
       }
     })
     this.sourceDir = this.options.sourceDir

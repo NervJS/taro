@@ -23,14 +23,16 @@ export class H5WebpackPlugin {
       definePlugin: this.getDefinePlugin(),
       mainPlugin: this.getMainPlugin()
     }
-    const pages = this.pages || []
-    if (pages.length > 0) {
-      // NOTE: multi router
-      pages.forEach(page => {
-        plugins[page] = this.getHtmlWebpackPlugin(page)
-      })
-    } else {
-      plugins.htmlWebpackPlugin = this.getHtmlWebpackPlugin()
+    if (!this.combination.isBuildNativeComp) {
+      const pages = this.pages || []
+      if (pages.length > 0) {
+        // NOTE: multi router
+        pages.forEach(page => {
+          plugins[page] = this.getHtmlWebpackPlugin(page)
+        })
+      } else {
+        plugins.htmlWebpackPlugin = this.getHtmlWebpackPlugin()
+      }
     }
 
     const miniCssExtractPlugin = this.getMiniCssExtractPlugin()
@@ -91,7 +93,13 @@ export class H5WebpackPlugin {
       ? options.designWidth(input)
       : options.designWidth)(baseFontSize)
     const rootValue = baseFontSize / options.deviceRatio[designWidth] * 2
-    const htmlScript = `!function(n){function f(){var e=n.document.documentElement,w=e.getBoundingClientRect().width,x=${rootValue}*w/${designWidth};e.style.fontSize=x>=${max}?"${max}px":x<=${min}?"${min}px":x+"px"}n.addEventListener("resize",(function(){f()})),f()}(window);`
+    let htmlScript = ''
+    switch (options?.targetUnit) {
+      case 'vw':
+        break
+      default:
+        htmlScript = `!function(n){function f(){var e=n.document.documentElement,w=e.getBoundingClientRect().width,x=${rootValue}*w/${designWidth};e.style.fontSize=x>=${max}?"${max}px":x<=${min}?"${min}px":x+"px"}n.addEventListener("resize",(function(){f()})),f()}(window);`
+    }
     const args: Record<string, string | string []> = {
       filename: `${entry || 'index'}.html`,
       template: path.join(this.combination.sourceDir, 'index.html'),
