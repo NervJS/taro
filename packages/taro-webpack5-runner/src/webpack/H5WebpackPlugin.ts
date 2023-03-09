@@ -121,7 +121,6 @@ export class H5WebpackPlugin {
     const {
       appPath,
       sourceDir,
-      outputDir,
       config
     } = this.combination
     const {
@@ -131,16 +130,19 @@ export class H5WebpackPlugin {
     const pxTransformConfig = this.pxtransformOption?.config || {}
     const prebundleOptions = this.combination.getPrebundleOptions()
     const options = {
+      /** paths */
       appPath,
       sourceDir,
-      outputDir,
+      entryFileName,
+      /** config & message */
       framework: config.framework,
       frameworkExts: config.frameworkExts,
-      entryFileName,
       routerConfig: router,
       runtimePath: config.runtimePath,
       pxTransformConfig,
+      /** building mode */
       prebundle: prebundleOptions.enable,
+      isBuildNativeComp: this.combination.isBuildNativeComp,
       /** hooks & methods */
       onCompilerMake: config.onCompilerMake,
       onParseCreateElement: config.onParseCreateElement,

@@ -1,9 +1,8 @@
-import { chalk, recursiveMerge, SCRIPT_EXT } from '@tarojs/helper'
-import { AppConfig } from '@tarojs/taro'
+import { chalk, recursiveMerge } from '@tarojs/helper'
 import { get, mapValues, merge } from 'lodash'
 import * as path from 'path'
 
-import { addTrailingSlash, getConfigFilePath, getPages, parseHtmlScript } from '../utils'
+import { addTrailingSlash, AppHelper, parseHtmlScript } from '../utils'
 import {
   getCopyWebpackPlugin,
   getCssoWebpackPlugin,
@@ -20,7 +19,7 @@ import {
 import { BuildConfig } from '../utils/types'
 import getBaseChain from './base.conf'
 
-export default function (appPath: string, config: Partial<BuildConfig>, appConfig: AppConfig): any {
+export default function (appPath: string, config: Partial<BuildConfig>, appHelper: AppHelper): any {
   const chain = getBaseChain(appPath, config)
   const {
     alias = {},
@@ -63,7 +62,6 @@ export default function (appPath: string, config: Partial<BuildConfig>, appConfi
     terser
   } = config
   const sourceDir = path.join(appPath, sourceRoot)
-  const outputDir = path.resolve(appPath, outputRoot)
   const isMultiRouterMode = get(router, 'mode') === 'multi'
 
   const { rule, postcssOption } = parseModule(appPath, {
@@ -92,14 +90,17 @@ export default function (appPath: string, config: Partial<BuildConfig>, appConfi
   const plugin: any = {}
 
   plugin.mainPlugin = getMainPlugin({
+    /** paths */
+    sourceDir,
+    entryFileName,
+    /** config & message */
     framework: config.framework,
     frameworkExts: config.frameworkExts,
-    entryFileName,
-    sourceDir,
-    outputDir,
     routerConfig: router,
     runtimePath: config.runtimePath,
     pxTransformConfig: pxtransformOption?.config || {},
+    /** building mode */
+    isBuildNativeComp: config.isBuildNativeComp,
     /** hooks & methods */
     onCompilerMake: config.onCompilerMake,
     onParseCreateElement: config.onParseCreateElement,
@@ -126,11 +127,9 @@ export default function (appPath: string, config: Partial<BuildConfig>, appConfi
     )
   }
   if (isMultiRouterMode) {
-    const frameworkExts = config.frameworkExts || SCRIPT_EXT
-    const pages = getPages(appConfig.pages, sourceDir, frameworkExts)
     delete entry[entryFileName]
-    pages.forEach(({ name, path }) => {
-      entry[name] = [getConfigFilePath(path)]
+    appHelper.pagesConfigList.forEach((page, index) => {
+      entry[index] = [page]
     })
     merge(plugin, mapValues(entry, (_filePath, entryName) => {
       return getHtmlWebpackPlugin([recursiveMerge({

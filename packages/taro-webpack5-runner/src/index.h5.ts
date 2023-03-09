@@ -8,7 +8,7 @@ import webpack, { EntryNormalized } from 'webpack'
 import WebpackDevServer from 'webpack-dev-server'
 
 import { addHtmlSuffix, addLeadingSlash, formatOpenHost, parsePublicPath, stripBasename, stripTrailingSlash } from './utils'
-import H5AppInstance from './utils/H5AppInstance'
+import AppHelper from './utils/app'
 import { H5Combination } from './webpack/H5Combination'
 
 import type { H5BuildConfig } from './utils/types'
@@ -20,23 +20,25 @@ export default async function build (appPath: string, rawConfig: H5BuildConfig):
   await combination.make()
 
   const { chunkDirectory = 'chunk', devServer, enableSourceMap, entryFileName = 'app', entry = {}, publicPath } = combination.config
-  const prebundle = new Prebundle({
-    appPath,
-    sourceRoot: combination.sourceRoot,
-    chain: combination.chain,
-    chunkDirectory,
-    devServer,
-    enableSourceMap,
-    entryFileName,
-    entry,
-    isWatch: combination.config.isWatch,
-    publicPath
-  })
-  try {
-    await prebundle.run(combination.getPrebundleOptions())
-  } catch (error) {
-    console.error(error)
-    console.warn(chalk.yellow('依赖预编译失败，已经为您跳过预编译步骤，但是编译速度可能会受到影响。'))
+  if (!combination.isBuildNativeComp) {
+    const prebundle = new Prebundle({
+      appPath,
+      sourceRoot: combination.sourceRoot,
+      chain: combination.chain,
+      chunkDirectory,
+      devServer,
+      enableSourceMap,
+      entryFileName,
+      entry,
+      isWatch: combination.config.isWatch,
+      publicPath
+    })
+    try {
+      await prebundle.run(combination.getPrebundleOptions())
+    } catch (error) {
+      console.error(error)
+      console.warn(chalk.yellow('依赖预编译失败，已经为您跳过预编译步骤，但是编译速度可能会受到影响。'))
+    }
   }
 
   const webpackConfig = combination.chain.toConfig()
@@ -137,6 +139,13 @@ export default async function build (appPath: string, rawConfig: H5BuildConfig):
 }
 
 async function getDevServerOptions (appPath: string, config: H5BuildConfig): Promise<WebpackDevServer.Configuration> {
+  if (config.isBuildNativeComp) {
+    return {
+      devMiddleware: {
+        writeToDisk: true
+      }
+    }
+  }
   const publicPath = parsePublicPath(config.publicPath)
   const outputPath = path.join(appPath, config.outputRoot || 'dist')
   const { proxy: customProxy = [], ...customDevServerOption } = config.devServer || {}
@@ -145,7 +154,7 @@ async function getDevServerOptions (appPath: string, config: H5BuildConfig): Pro
   const isMultiRouterMode = routerMode === 'multi'
   const proxy: WebpackDevServer.Configuration['proxy'] = []
   if (isMultiRouterMode) {
-    const app = new H5AppInstance(config.entry as EntryNormalized, {
+    const app = new AppHelper(config.entry as EntryNormalized, {
       sourceDir: path.join(appPath, config.sourceRoot || SOURCE_DIR),
       frameworkExts: config.frameworkExts,
       entryFileName: config.entryFileName
