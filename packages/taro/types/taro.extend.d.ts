@@ -69,7 +69,13 @@ declare module './index' {
     /** 尺寸转换初始化
      * @supported global
      */
-    initPxTransform(config: { designWidth: number; deviceRatio: TaroGeneral.TDeviceRatio }): void
+    initPxTransform(config: {
+      baseFontSize?: number
+      deviceRatio?: TaroGeneral.TDeviceRatio
+      designWidth?: number
+      targetUnit?: string
+      unitPrecision?: number
+    }): void
 
     /** 小程序引用插件 JS 接口
      * @supported weapp, alipay, h5, rn, jd, qq, swan, tt, quickapp

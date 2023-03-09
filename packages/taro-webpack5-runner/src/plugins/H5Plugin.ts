@@ -25,6 +25,8 @@ interface ITaroH5PluginOptions {
     deviceRatio: any
     designWidth: number
     minRootSize: number
+    unitPrecision: number
+    targetUnit: string
   }
   prebundle?: boolean
   loaderMeta?: Record<string, string>
@@ -54,7 +56,9 @@ export default class TaroH5Plugin {
         baseFontSize: 20,
         deviceRatio: {},
         designWidth: 750,
-        minRootSize: 20
+        minRootSize: 20,
+        unitPrecision: 5,
+        targetUnit: 'rem'
       },
       prebundle: false
     })
