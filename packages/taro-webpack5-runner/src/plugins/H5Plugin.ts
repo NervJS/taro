@@ -3,10 +3,9 @@ import { VirtualModule } from '@tarojs/webpack5-prebundle/dist/h5'
 import { defaults } from 'lodash'
 import path from 'path'
 
-import H5AppInstance from '../utils/H5AppInstance'
+import AppHelper from '../utils/app'
 import TaroComponentsExportsPlugin from './TaroComponentsExportsPlugin'
 
-import type { AppConfig } from '@tarojs/taro'
 import type { Func } from '@tarojs/taro/types/compile'
 import type { Compilation, Compiler, LoaderContext, NormalModule } from 'webpack'
 
@@ -28,7 +27,9 @@ interface ITaroH5PluginOptions {
     unitPrecision: number
     targetUnit: string
   }
+
   prebundle?: boolean
+  isBuildNativeComp?: boolean
   loaderMeta?: Record<string, string>
 
   onCompilerMake?: Func
@@ -37,11 +38,7 @@ interface ITaroH5PluginOptions {
 
 export default class TaroH5Plugin {
   options: ITaroH5PluginOptions
-  appEntry: string
-  appConfig: AppConfig
-  pagesConfigList = new Map<string, string>()
-  pages = new Set<{name: string, path: string}>()
-  inst: H5AppInstance
+  appHelper: AppHelper
 
   constructor (options = {}) {
     this.options = defaults(options || {}, {
@@ -77,7 +74,7 @@ export default class TaroH5Plugin {
 
   apply (compiler: Compiler) {
     const { entry } = compiler.options
-    this.inst = new H5AppInstance(entry, this.options)
+    this.appHelper = new AppHelper(entry, this.options)
     compiler.hooks.run.tapAsync(
       PLUGIN_NAME,
       this.tryAsync(() => {
@@ -97,7 +94,7 @@ export default class TaroH5Plugin {
 
     compiler.hooks.compilation.tap(PLUGIN_NAME, compilation => {
       compiler.webpack.NormalModule.getCompilationHooks(compilation).loader.tap(PLUGIN_NAME, (_loaderContext: LoaderContext<any>, module: NormalModule) => {
-        const { framework, entryFileName, appPath, sourceDir, pxTransformConfig, loaderMeta, prebundle, routerConfig } = this.options
+        const { entryFileName, appPath, sourceDir, prebundle, routerConfig, isBuildNativeComp } = this.options
         const { dir, name } = path.parse(module.resource)
         const suffixRgx = /\.(boot|config)/
         if (!suffixRgx.test(name)) return
@@ -108,28 +105,36 @@ export default class TaroH5Plugin {
         const isMultiRouterMode = routerMode === 'multi'
         const isApp = !isMultiRouterMode && pageName === entryFileName
         const bootstrap = prebundle && !/\.boot$/.test(name)
-        if (isApp || this.inst.pagesConfigList.has(pageName)) {
+        if (
+          isBuildNativeComp
+            ? this.appHelper.compsConfigList.has(pageName)
+            : (isApp || this.appHelper.pagesConfigList.has(pageName))
+        ) {
           if (bootstrap) {
             const bootPath = path.relative(appPath, path.join(sourceDir, `${isMultiRouterMode ? pageName : entryFileName}.boot.js`))
             VirtualModule.writeModule(bootPath, '/** bootstrap application code */')
           }
 
           module.loaders.push({
-            loader: '@tarojs/taro-loader/lib/h5',
+            loader: require.resolve('@tarojs/taro-loader/lib/h5'),
             options: {
-              bootstrap,
-              config: {
-                router: this.options.routerConfig,
-                ...this.inst.appConfig
-              },
+              /** paths */
               entryFileName,
               filename: name.replace(suffixRgx, ''),
-              framework,
               runtimePath: this.options.runtimePath,
-              loaderMeta,
-              pages: this.inst.pagesConfigList,
-              pxTransformConfig,
-              sourceDir
+              sourceDir,
+              /** config & message */
+              config: {
+                router: routerConfig,
+                ...this.appHelper.appConfig
+              },
+              framework: this.options.framework,
+              loaderMeta: this.options.loaderMeta,
+              pages: this.appHelper.pagesConfigList,
+              pxTransformConfig: this.options.pxTransformConfig,
+              /** building mode */
+              bootstrap,
+              isBuildNativeComp
             },
             ident: null,
             type: null
@@ -142,8 +147,6 @@ export default class TaroH5Plugin {
   }
 
   run () {
-    delete this.inst.__appConfig
-    delete this.inst.__pages
-    delete this.inst.__pagesConfigList
+    this.appHelper.clear()
   }
 }

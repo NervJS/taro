@@ -86,6 +86,7 @@ export class Combination<T extends MiniBuildConfig | H5BuildConfig = CommonBuild
   }
 
   getPrebundleOptions () {
+    if (this.isBuildNativeComp) return { enable: false }
     if (this.prebundleOptions) return this.prebundleOptions
     const include: string[] = ['@tarojs/taro', '@tarojs/runtime']
     const exclude: string[] = []
