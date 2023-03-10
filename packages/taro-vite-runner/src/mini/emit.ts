@@ -26,12 +26,12 @@ export default function (): PluginOption {
         const compPathId = await this.resolve(taroConfig.taroComponentsPath || '@tarojs/components/mini')
         if (compPathId) {
           const id = compPathId.id
-          const depsChunks = ['taro.js', 'vendors.js', 'common.js']
+          const depsChunks = ['vendors.js', 'common.js']
           let isFound = false
           // eslint-disable-next-line no-inner-declarations
           function collectDeps (chunkName: string) {
             const chunk = bundle[chunkName]
-            if (chunk.type === 'chunk' && chunk.moduleIds.includes(id)) {
+            if (chunk?.type === 'chunk' && chunk.moduleIds.includes(id)) {
               const module = chunk.modules[id]
               module.renderedExports.forEach(item => componentConfig.includes.add(toDashed(item)))
               isFound = true

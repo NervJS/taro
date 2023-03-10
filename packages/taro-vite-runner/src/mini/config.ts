@@ -1,3 +1,4 @@
+import inject from '@rollup/plugin-inject'
 import { PLATFORMS } from '@tarojs/helper'
 
 import type { PluginOption } from 'vite'
@@ -50,6 +51,7 @@ export default function (taroConfig: MiniBuildConfig): PluginOption {
       mode: taroConfig.mode,
       outDir: taroConfig.outputRoot || 'dist',
       build: {
+        emptyOutDir: false,
         lib: {
           entry: taroConfig.entry.app,
           formats: ['cjs']
@@ -65,15 +67,25 @@ export default function (taroConfig: MiniBuildConfig): PluginOption {
             manualChunks (id, { getModuleInfo }) {
               const moduleInfo = getModuleInfo(id)
 
-              if (/@tarojs[\\/][a-z]+/.test(id)) {
-                return 'taro'
-              } else if (/[\\/]node_modules[\\/]/.test(id)) {
+              if (/[\\/]node_modules[\\/]/.test(id) || /commonjsHelpers\.js$/.test(id)) {
                 return 'vendors'
               } else if (moduleInfo?.importers?.length && moduleInfo.importers.length > 1) {
                 return 'common'
               }
             }
-          }
+          },
+          plugins: [
+            inject({
+              window: ['@tarojs/runtime', 'window'],
+              document: ['@tarojs/runtime', 'document'],
+              navigator: ['@tarojs/runtime', 'navigator'],
+              requestAnimationFrame: ['@tarojs/runtime', 'requestAnimationFrame'],
+              cancelAnimationFrame: ['@tarojs/runtime', 'cancelAnimationFrame'],
+              Element: ['@tarojs/runtime', 'TaroElement'],
+              SVGElement: ['@tarojs/runtime', 'SVGElement'],
+              MutationObserver: ['@tarojs/runtime', 'MutationObserver']
+            })
+          ]
         },
         commonjsOptions: {
           exclude: [/\.esm/],
@@ -100,7 +112,6 @@ export default function (taroConfig: MiniBuildConfig): PluginOption {
         jsxDev: false
       }
 
-      // @TODO providerPlugin
       // @TODO cssExtractPlugin
       // @TODO copy
       // @TODO css sass scss less stylus loader
