@@ -1,4 +1,4 @@
-import { chalk, recursiveMerge } from '@tarojs/helper'
+import { chalk, fs, recursiveMerge } from '@tarojs/helper'
 import { IPostcssOption } from '@tarojs/taro/types/compile'
 import HtmlWebpackPlugin from 'html-webpack-plugin'
 import path from 'path'
@@ -23,15 +23,16 @@ export class H5WebpackPlugin {
       definePlugin: this.getDefinePlugin(),
       mainPlugin: this.getMainPlugin()
     }
-    if (!this.combination.isBuildNativeComp) {
+    const template = path.join(this.combination.sourceDir, 'index.html')
+    if (fs.existsSync(template)) {
       const pages = this.pages || []
       if (pages.length > 0) {
         // NOTE: multi router
         pages.forEach(page => {
-          plugins[page] = this.getHtmlWebpackPlugin(page)
+          plugins[page] = this.getHtmlWebpackPlugin(template, page)
         })
       } else {
-        plugins.htmlWebpackPlugin = this.getHtmlWebpackPlugin()
+        plugins.htmlWebpackPlugin = this.getHtmlWebpackPlugin(template)
       }
     }
 
@@ -83,7 +84,7 @@ export class H5WebpackPlugin {
     return WebpackPlugin.getMiniCssExtractPlugin(args)
   }
 
-  getHtmlWebpackPlugin (entry = '', chunks: string[] = []) {
+  getHtmlWebpackPlugin (template, entry = '', chunks: string[] = []) {
     const config = this.combination.config || {}
     const options = this.pxtransformOption?.config || {}
     const max = options?.maxRootSize ?? 40
@@ -102,8 +103,8 @@ export class H5WebpackPlugin {
     }
     const args: Record<string, string | string []> = {
       filename: `${entry || 'index'}.html`,
-      template: path.join(this.combination.sourceDir, 'index.html'),
-      script: htmlScript
+      script: htmlScript,
+      template,
     }
     if (entry && entry !== 'index') {
       args.chunks = [...chunks, entry]
