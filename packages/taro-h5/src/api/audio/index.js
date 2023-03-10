@@ -71,7 +71,6 @@ export const createInnerAudioContext = () => {
    */
   iac.destroy = () => {
     iac.stop()
-    document.body.removeChild(audioEl)
     audioEl = null
   }
 
