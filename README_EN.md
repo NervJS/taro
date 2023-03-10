@@ -75,16 +75,14 @@ Juejin book: [Taro Cross-platform Development in Action](https://juejin.im/book/
 
 [Taro market](http://taro-ext.jd.com/)
 
-
 ### UI Library
 
-|  Name   | Link  | Intro | Framework  | Taro Version |
-|  ----  | ----  | ----  | ----  | ----  |
-| [taro-ui](https://github.com/NervJS/taro-ui)  | https://taro-ui.jd.com/#/ | A cross-platform UI library based on Taro | React | Taro 1/2/3 (Alpha-version needed for Taro 3） |
-| [NutUI](https://github.com/jdf2e/nutui)  | https://nutui.jd.com/#/ | A JD-style light-weighted Vue library | Vue3 | Taro 3 |
-| [taroify](https://github.com/mallfoundry/taroify)  | https://taroify.gitee.io/taroify.com/introduce/ | A light-weighted and reliable Taro library for mini-programs (Vant's Taro version) | React | Taro 3 |
-| [@antmjs/vantui](https://github.com/AntmJS/vantui)  | https://antmjs.github.io/vantui/#/home | A UI library that supports Taro and React, based on Youzan VantWeapp | React | Taro 3 |
-
+| Name                                               | Link                                            | Intro                                                                              | Framework | Taro Version                                  |
+| -------------------------------------------------- | ----------------------------------------------- | ---------------------------------------------------------------------------------- | --------- | --------------------------------------------- |
+| [taro-ui](https://github.com/NervJS/taro-ui)       | https://taro-ui.jd.com/#/                       | A cross-platform UI library based on Taro                                          | React     | Taro 1/2/3 (Alpha-version needed for Taro 3） |
+| [NutUI](https://github.com/jdf2e/nutui)            | https://nutui.jd.com/#/                         | A JD-style light-weighted Vue library                                              | Vue3      | Taro 3                                        |
+| [taroify](https://github.com/mallfoundry/taroify)  | https://taroify.gitee.io/taroify.com/introduce/ | A light-weighted and reliable Taro library for mini-programs (Vant's Taro version) | React     | Taro 3                                        |
+| [@antmjs/vantui](https://github.com/AntmJS/vantui) | https://antmjs.github.io/vantui/#/home          | A UI library that supports Taro and React, based on Youzan VantWeapp               | React     | Taro 3                                        |
 
 ## Cases
 
@@ -110,17 +108,17 @@ import { View, Text } from '@tarojs/components'
 
 export default class Index extends Component {
   state = {
-    msg: 'Hello World！ '
+    msg: 'Hello World！ ',
   }
-  componentWillUnmount () { }
+  componentWillUnmount() {}
 
-  componentDidShow () { }
+  componentDidShow() {}
 
-  componentDidHide () { }
+  componentDidHide() {}
 
-  render () {
+  render() {
     return (
-      <View className='index'>
+      <View className="index">
         <Text>{this.state.msg}</Text>
       </View>
     )
@@ -137,20 +135,20 @@ Example:
 ```vue
 <template>
   <view class="index">
-    <text>{{msg}}</text>
+    <text>{{ msg }}</text>
   </view>
 </template>
 
 <script>
 export default {
-  data () {
+  data() {
     return {
-      msg: 'Hello World!'
+      msg: 'Hello World!',
     }
   },
-  created () {},
-  onShow () {},
-  onHide () {}
+  created() {},
+  onShow() {},
+  onHide() {},
 }
 </script>
 ```
@@ -177,15 +175,15 @@ If you want to implement a feature for Taro, you need to write an RFC document f
 
 [Report issues to Taro](https://nervjs.github.io/taro-issue-helper/)
 
-> Highly recommend reading these books before reporting issues [*How to Ask Questions The Smart Way*(Chinese)](https://github.com/ryanhanwu/How-To-Ask-Questions-The-Smart-Way), [*How to Ask Questions in an open-source community*](https://github.com/seajs/seajs/issues/545), [*How to Report Bugs Effectively*](https://www.chiark.greenend.org.uk/~sgtatham/bugs.html), [*How to Ask Bad Questions to Open Source Projects*(Chinese)](https://zhuanlan.zhihu.com/p/25795393). Good questions can be answered quickly.
+> Highly recommend reading these books before reporting issues [_How to Ask Questions The Smart Way_(Chinese)](https://github.com/ryanhanwu/How-To-Ask-Questions-The-Smart-Way), [_How to Ask Questions in an open-source community_](https://github.com/seajs/seajs/issues/545), [_How to Report Bugs Effectively_](https://www.chiark.greenend.org.uk/~sgtatham/bugs.html), [_How to Ask Bad Questions to Open Source Projects_(Chinese)](https://zhuanlan.zhihu.com/p/25795393). Good questions can be answered quickly.
 
 [![Let's fund issues in this repository](https://issuehunt.io/static/embed/issuehunt-button-v1.svg)](https://issuehunt.io/repos/128624453)
 
 ## Acknowledgements
 
-[![nanjingboy](https://avatars1.githubusercontent.com/u/1390888?s=100&v=4)](https://github.com/nanjingboy/) | [![jsNewbee](https://avatars3.githubusercontent.com/u/20449400?s=100&v=4)](https://github.com/js-newbee/) | [![Qiyu8](https://avatars2.githubusercontent.com/u/15245051?s=100&v=4)](https://github.com/Qiyu8/) | [![Garfield550](https://avatars2.githubusercontent.com/u/3471836?s=100&v=4)](https://github.com/Garfield550/)
-:---:|:---:|:---:|:---:
-[nanjingboy](https://github.com/nanjingboy/) | [jsNewbee](https://github.com/js-newbee/) |  [Qiyu8](https://github.com/Qiyu8/) |  [Garfield Lee](https://github.com/Garfield550/)
+| [![nanjingboy](https://avatars1.githubusercontent.com/u/1390888?s=100&v=4)](https://github.com/nanjingboy/) | [![jsNewbee](https://avatars3.githubusercontent.com/u/20449400?s=100&v=4)](https://github.com/js-newbee/) | [![Qiyu8](https://avatars2.githubusercontent.com/u/15245051?s=100&v=4)](https://github.com/Qiyu8/) | [![Garfield550](https://avatars2.githubusercontent.com/u/3471836?s=100&v=4)](https://github.com/Garfield550/) |
+| :---------------------------------------------------------------------------------------------------------: | :-------------------------------------------------------------------------------------------------------: | :------------------------------------------------------------------------------------------------: | :-----------------------------------------------------------------------------------------------------------: |
+|                                [nanjingboy](https://github.com/nanjingboy/)                                 |                                 [jsNewbee](https://github.com/js-newbee/)                                 |                                 [Qiyu8](https://github.com/Qiyu8/)                                 |                                [Garfield Lee](https://github.com/Garfield550/)                                |
 
 ## Contributors
 
@@ -207,7 +205,7 @@ Taro follows [Angular Style Commit Message Conventions](https://gist.github.com/
 
 MIT License
 
-Copyright (c) O2Team
+Copyright (c) 2018 O2Team、58.com、other contributors
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

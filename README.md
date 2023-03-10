@@ -207,7 +207,7 @@ Taro 非常欢迎社区开发者为 Taro 贡献代码，在贡献之前请先阅
 
 MIT License
 
-Copyright (c) O2Team
+Copyright (c) 2018 O2Team、58.com、other contributors
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
