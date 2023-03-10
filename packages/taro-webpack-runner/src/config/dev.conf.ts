@@ -1,4 +1,4 @@
-import { chalk, recursiveMerge } from '@tarojs/helper'
+import { chalk, fs, recursiveMerge } from '@tarojs/helper'
 import { get, mapValues, merge } from 'lodash'
 import * as path from 'path'
 
@@ -121,25 +121,29 @@ export default function (appPath: string, config: Partial<BuildConfig>, appHelpe
       chalk.yellowBright('配置文件覆盖 htmlPluginOption.script 参数会导致 pxtransform 脚本失效，请慎重使用！')
     )
   }
-  if (isMultiRouterMode) {
-    delete entry[entryFileName]
-    appHelper.pagesConfigList.forEach((page, index) => {
-      entry[index] = [page]
-    })
-    merge(plugin, mapValues(entry, (_filePath, entryName) => {
-      return getHtmlWebpackPlugin([recursiveMerge({
-        filename: `${entryName}.html`,
-        template: path.join(appPath, sourceRoot, 'index.html'),
+
+  const template = path.join(this.combination.sourceDir, 'index.html')
+  if (fs.existsSync(template)) {
+    if (isMultiRouterMode) {
+      delete entry[entryFileName]
+      appHelper.pagesConfigList.forEach((page, index) => {
+        entry[index] = [page]
+      })
+      merge(plugin, mapValues(entry, (_filePath, entryName) => {
+        return getHtmlWebpackPlugin([recursiveMerge({
+          filename: `${entryName}.html`,
+          script: htmlScript,
+          template,
+          chunks: [entryName]
+        }, htmlPluginOption)])
+      }))
+    } else {
+      plugin.htmlWebpackPlugin = getHtmlWebpackPlugin([recursiveMerge({
+        filename: 'index.html',
         script: htmlScript,
-        chunks: [entryName]
+        template,
       }, htmlPluginOption)])
-    }))
-  } else {
-    plugin.htmlWebpackPlugin = getHtmlWebpackPlugin([recursiveMerge({
-      filename: 'index.html',
-      template: path.join(appPath, sourceRoot, 'index.html'),
-      script: htmlScript
-    }, htmlPluginOption)])
+    }
   }
   env.SUPPORT_DINGTALK_NAVIGATE = env.SUPPORT_DINGTALK_NAVIGATE || '"disabled"'
   plugin.definePlugin = getDefinePlugin([processEnvOption(env), defineConstants])
