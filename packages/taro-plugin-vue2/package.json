@@ -33,6 +33,8 @@
     "lodash": "^4.17.21"
   },
   "devDependencies": {
+    "@vitejs/plugin-vue2": "^2.2.0",
+    "vite": "^4.1.0",
     "vue": "^2.7.0",
     "rollup": "^3.8.1",
     "rollup-plugin-node-externals": "^4.0.0",
@@ -40,6 +42,16 @@
     "typescript": "^4.7.4"
   },
   "peerDependencies": {
-    "vue": "^2.7.0"
+    "vue": "^2.7.0",
+    "@vitejs/plugin-vue2": "^2.2.0",
+    "vite": "^4.1.0"
+  },
+  "peerDependenciesMeta": {
+    "vitejs/plugin-vue2": {
+      "optional": true
+    },
+    "vite": {
+      "optional": true
+    }
   }
 }

@@ -79,14 +79,14 @@ export default (ctx: IPluginContext) => {
       esbuildConfig.plugins ||= []
       esbuildConfig.plugins.push(taroReactPlugin)
     } else if (compiler.type === 'vite') {
-      compiler.plugins ||= []
-      compiler.plugins.push(viteCommonPlugin(framework))
-      compiler.plugins.push(require('@vitejs/plugin-react').default())
+      compiler.vitePlugins ||= []
+      compiler.vitePlugins.push(viteCommonPlugin(framework))
+      compiler.vitePlugins.push(require('@vitejs/plugin-react').default())
       if (process.env.TARO === 'h5') {
         // H5
       } else {
         // 小程序
-        compiler.plugins.push(miniVitePlugin(ctx, framework))
+        compiler.vitePlugins.push(miniVitePlugin(ctx, framework))
       }
     }
   })

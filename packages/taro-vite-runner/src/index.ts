@@ -5,6 +5,7 @@ import { Target,viteStaticCopy } from 'vite-plugin-static-copy'
 
 import h5Preset from './h5'
 import miniPreset from './mini'
+import { componentConfig } from './template/component'
 
 import type { UserConfig } from 'vite'
 import type { MiniBuildConfig } from './utils/types'
@@ -50,8 +51,8 @@ export default async function (appPath: string, taroConfig: MiniBuildConfig) {
     }))
   }
 
-  if (!isString(taroConfig.compiler) && taroConfig.compiler?.plugins?.length) {
-    plugins.push(...taroConfig.compiler.plugins)
+  if (!isString(taroConfig.compiler) && taroConfig.compiler?.vitePlugins?.length) {
+    plugins.push(...taroConfig.compiler.vitePlugins)
   }
 
   const commonConfig: UserConfig = {
@@ -64,6 +65,8 @@ export default async function (appPath: string, taroConfig: MiniBuildConfig) {
     // css
     plugins
   }
+
+  taroConfig.modifyViteConfig?.(commonConfig, componentConfig)
 
   await build(commonConfig)
 }

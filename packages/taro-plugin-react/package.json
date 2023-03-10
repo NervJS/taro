@@ -41,7 +41,7 @@
     "@vitejs/plugin-react": "^3.1.0",
     "preact": "^10.10.0",
     "react-refresh": "^0.11.0",
-    "vite": "^4.0.4",
+    "vite": "^4.1.0",
     "webpack": "5.69.0",
     "rollup": "^3.8.1",
     "rollup-plugin-node-externals": "^4.0.0",
@@ -50,7 +50,8 @@
   },
   "peerDependencies": {
     "@vitejs/plugin-react": "^3.1.0",
-    "react": ">=17"
+    "react": ">=17",
+    "vite": "^4.1.0"
   },
   "peerDependenciesMeta": {
     "@pmmmwh/react-refresh-webpack-plugin": {
@@ -69,6 +70,9 @@
       "optional": true
     },
     "react-refresh": {
+      "optional": true
+    },
+    "vite": {
       "optional": true
     }
   }
