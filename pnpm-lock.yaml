@@ -129,9 +129,9 @@ importers:
       ts-jest: ^26.5.5
       tslib: ^1.9.3
       typescript: ^4.7.4
-      vue: ^2.7.0
+      vue: ^2.6.11
       vue-loader: ^17.0.0
-      vue-template-compiler: ^2.7.0
+      vue-template-compiler: ^2.6.11
       webpack: 5.69.0
       webpack-chain: 6.5.1
       webpack-dev-server: 4.7.4
@@ -260,9 +260,9 @@ importers:
       ts-jest: registry.npmjs.org/ts-jest/26.5.5_iq57leuoshvgjxnu5a5x3xstvi
       tslib: registry.npmjs.org/tslib/1.14.1
       typescript: registry.npmjs.org/typescript/4.7.4
-      vue: registry.npmjs.org/vue/2.7.14
+      vue: registry.npmjs.org/vue/2.6.14
       vue-loader: registry.npmjs.org/vue-loader/17.0.0_webpack@5.69.0
-      vue-template-compiler: registry.npmjs.org/vue-template-compiler/2.7.14
+      vue-template-compiler: registry.npmjs.org/vue-template-compiler/2.6.14
       webpack: registry.npmjs.org/webpack/5.69.0_esbuild@0.14.47
       webpack-chain: registry.npmjs.org/webpack-chain/6.5.1
       webpack-dev-server: registry.npmjs.org/webpack-dev-server/4.7.4_webpack@5.69.0
@@ -672,11 +672,11 @@ importers:
       rollup-plugin-node-externals: ^4.0.0
       rollup-plugin-ts: ^3.0.2
       typescript: ^4.7.4
-      vue: ^2.7.0
+      vue: ^2.6.11
       vue-fragment: ^1.6.0
     dependencies:
       '@tarojs/components': link:../taro-components
-      vue-fragment: registry.npmjs.org/vue-fragment/1.6.0_vue@2.7.14
+      vue-fragment: registry.npmjs.org/vue-fragment/1.6.0_vue@2.6.14
     devDependencies:
       '@babel/cli': registry.npmjs.org/@babel/cli/7.17.10_@babel+core@7.18.5
       '@babel/core': registry.npmjs.org/@babel/core/7.18.5
@@ -688,7 +688,7 @@ importers:
       rollup-plugin-node-externals: registry.npmjs.org/rollup-plugin-node-externals/4.0.0_rollup@2.79.0
       rollup-plugin-ts: registry.npmjs.org/rollup-plugin-ts/3.0.2_zjqk5pftt7tdwjkunnahfmviim
       typescript: registry.npmjs.org/typescript/4.7.4
-      vue: registry.npmjs.org/vue/2.7.14
+      vue: registry.npmjs.org/vue/2.6.14
 
   packages/taro-components-library-vue3:
     specifiers:
@@ -10230,6 +10230,7 @@ packages:
       '@babel/parser': registry.npmjs.org/@babel/parser/7.20.13
       postcss: registry.npmjs.org/postcss/8.4.21
       source-map: registry.npmjs.org/source-map/0.6.1
+    dev: true
 
   registry.npmjs.org/@vue/compiler-sfc/3.2.37:
     resolution: {integrity: sha512-+7i/2+9LYlpqDv+KTtWhOZH+pa8/HnX/905MdVmAcI/mPQOBwkHHIzrsEsucyOIZQYMkXUiTkmZq5am/NyXKkg==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@vue/compiler-sfc/-/compiler-sfc-3.2.37.tgz}
@@ -16089,6 +16090,7 @@ packages:
     resolution: {integrity: sha512-DJR/VvkAvSZW9bTouZue2sSxDwdTN92uHjqeKVm+0dAqdfNykRzQ95tay8aXMBAAPpUiq4Qcug2L7neoRh2Egw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/csstype/-/csstype-3.1.1.tgz}
     name: csstype
     version: 3.1.1
+    dev: true
 
   registry.npmjs.org/cuint/0.2.2:
     resolution: {integrity: sha512-d4ZVpCW31eWwCMe1YT3ur7mUDnTXbgwyzaL320DrcRT45rfjYxkt5QWLrmOJ+/UEAI2+fQgKe/fCjR8l4TpRgw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/cuint/-/cuint-0.2.2.tgz}
@@ -33284,7 +33286,6 @@ packages:
       serialize-javascript: registry.npmjs.org/serialize-javascript/6.0.0
       terser: registry.npmjs.org/terser/5.14.1
       webpack: registry.npmjs.org/webpack/5.69.0_k3zzwfl4stqj3whko6kmspvmxm
-    dev: true
 
   registry.npmjs.org/terser-webpack-plugin/5.3.3_v3nag7joep3fhay4q6lv7p6we4:
     resolution: {integrity: sha512-Fx60G5HNYknNTNQnzQ1VePRuu89ZVYWfjRAeT5rITuCY/1b08s49e5kSQwHDirKZWuoKOBRFS98EUUoZ9kLEwQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/terser-webpack-plugin/-/terser-webpack-plugin-5.3.3.tgz}
@@ -34678,7 +34679,7 @@ packages:
       - supports-color
     dev: true
 
-  registry.npmjs.org/vue-fragment/1.6.0_vue@2.7.14:
+  registry.npmjs.org/vue-fragment/1.6.0_vue@2.6.14:
     resolution: {integrity: sha512-a5T8ZZZK/EQzgVShEl374HbobUJ0a7v12BzOzS6Z/wd/5EE/5SffcyHC+7bf9hP3L7Yc0hhY/GhMdwFQ25O/8A==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/vue-fragment/-/vue-fragment-1.6.0.tgz}
     id: registry.npmjs.org/vue-fragment/1.6.0
     name: vue-fragment
@@ -34686,7 +34687,7 @@ packages:
     peerDependencies:
       vue: ^2.5.16
     dependencies:
-      vue: registry.npmjs.org/vue/2.7.14
+      vue: registry.npmjs.org/vue/2.6.14
     dev: false
 
   registry.npmjs.org/vue-hot-reload-api/2.3.4:
@@ -34800,10 +34801,10 @@ packages:
       loader-utils: registry.npmjs.org/loader-utils/1.4.0
     dev: true
 
-  registry.npmjs.org/vue-template-compiler/2.7.14:
-    resolution: {integrity: sha512-zyA5Y3ArvVG0NacJDkkzJuPQDF8RFeRlzV2vLeSnhSpieO6LK2OVbdLPi5MPPs09Ii+gMO8nY4S3iKQxBxDmWQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/vue-template-compiler/-/vue-template-compiler-2.7.14.tgz}
+  registry.npmjs.org/vue-template-compiler/2.6.14:
+    resolution: {integrity: sha512-ODQS1SyMbjKoO1JBJZojSw6FE4qnh9rIpUZn2EUT86FKizx9uH5z6uXiIrm4/Nb/gwxTi/o17ZDEGWAXHvtC7g==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/vue-template-compiler/-/vue-template-compiler-2.6.14.tgz}
     name: vue-template-compiler
-    version: 2.7.14
+    version: 2.6.14
     dependencies:
       de-indent: registry.npmjs.org/de-indent/1.0.2
       he: registry.npmjs.org/he/1.2.0
@@ -34815,6 +34816,11 @@ packages:
     version: 1.9.1
     dev: true
 
+  registry.npmjs.org/vue/2.6.14:
+    resolution: {integrity: sha512-x2284lgYvjOMj3Za7kqzRcUSxBboHqtgRE2zlos1qWaOye5yUmHn42LB1250NJBLRwEcdrB0JRwyPTEPhfQjiQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/vue/-/vue-2.6.14.tgz}
+    name: vue
+    version: 2.6.14
+
   registry.npmjs.org/vue/2.7.14:
     resolution: {integrity: sha512-b2qkFyOM0kwqWFuQmgd4o+uHGU7T+2z3T+WQp8UBjADfEv2n4FEMffzBmCKNP0IGzOEEfYjvtcC62xaSKeQDrQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/vue/-/vue-2.7.14.tgz}
     name: vue
@@ -34822,6 +34828,7 @@ packages:
     dependencies:
       '@vue/compiler-sfc': registry.npmjs.org/@vue/compiler-sfc/2.7.14
       csstype: registry.npmjs.org/csstype/3.1.1
+    dev: true
 
   registry.npmjs.org/vue/3.2.37:
     resolution: {integrity: sha512-bOKEZxrm8Eh+fveCqS1/NkG/n6aMidsI6hahas7pa0w/l7jkbssJVsRhVDs07IdDq7h9KHswZOgItnwJAgtVtQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/vue/-/vue-3.2.37.tgz}
@@ -34976,7 +34983,7 @@ packages:
       mime-types: registry.npmjs.org/mime-types/2.1.35
       range-parser: registry.npmjs.org/range-parser/1.2.1
       schema-utils: registry.npmjs.org/schema-utils/4.0.0
-      webpack: registry.npmjs.org/webpack/5.69.0_esbuild@0.14.47
+      webpack: registry.npmjs.org/webpack/5.69.0_k3zzwfl4stqj3whko6kmspvmxm
 
   registry.npmjs.org/webpack-dev-server/3.11.3_webpack@4.46.0:
     resolution: {integrity: sha512-3x31rjbEQWKMNzacUZRE6wXvUFuGpH7vr0lIEbYpMAG9BOxi0928QU1BBswOAP3kg3H1O4hiS+sq4YyAn6ANnA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/webpack-dev-server/-/webpack-dev-server-3.11.3.tgz}
@@ -35073,7 +35080,7 @@ packages:
       sockjs: registry.npmjs.org/sockjs/0.3.24
       spdy: registry.npmjs.org/spdy/4.0.2
       strip-ansi: registry.npmjs.org/strip-ansi/7.0.1
-      webpack: registry.npmjs.org/webpack/5.69.0_esbuild@0.14.47
+      webpack: registry.npmjs.org/webpack/5.69.0_k3zzwfl4stqj3whko6kmspvmxm
       webpack-dev-middleware: registry.npmjs.org/webpack-dev-middleware/5.3.3_webpack@5.69.0
       ws: registry.npmjs.org/ws/8.8.0
     transitivePeerDependencies:
@@ -35304,7 +35311,6 @@ packages:
       - '@swc/core'
       - esbuild
       - uglify-js
-    dev: true
 
   registry.npmjs.org/webpackbar/5.0.2_webpack@5.69.0:
     resolution: {integrity: sha512-BmFJo7veBDgQzfWXl/wwYXr/VFus0614qZ8i9znqcl9fnEdiVkdbi0TedLQ6xAK92HZHDJ0QmyQ0fmuZPAgCYQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/webpackbar/-/webpackbar-5.0.2.tgz}
