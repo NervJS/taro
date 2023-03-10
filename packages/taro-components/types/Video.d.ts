@@ -53,7 +53,7 @@ interface VideoProps extends StandardProps {
   muted?: boolean
 
   /** 指定视频初始播放位置
-   * @supported weapp, alipay, swan, qq, jd, h5, rn
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn
    */
   initialTime?: number
 
@@ -199,7 +199,7 @@ interface VideoProps extends StandardProps {
 
   /**
    * 是否显示锁屏按钮，仅在全屏时显示，锁屏后控制栏的操作
-   * @supported weapp
+   * @supported weapp, tt
    */
   showScreenLockButton?: boolean
 
@@ -282,12 +282,6 @@ interface VideoProps extends StandardProps {
    */
   mobilenetHintType?: string
 
-  /** 使用原生
-   * @default true
-   * @supported alipay
-   */
-  enableNative?: boolean
-
   /** 浮窗设置。暂时不支持全局浮窗。
    * 可选值：
    *
@@ -351,6 +345,16 @@ interface VideoProps extends StandardProps {
    * @supported weapp
    */
   preferredPeakBitRate?: number
+
+  /** 是否为直播源
+   * @supported weapp
+   */
+  isLive?: boolean
+
+  /** 清晰度，设置清晰度列表和默认播放的清晰度。切换清晰度按钮仅在全屏时展示，属性说明详见 Definition 类型说明。需要保证 src 和 definition 中有一个为必填，若同时设置了 src 和 definition，definition 优先级高于 src
+   * @supported tt
+   */
+  definition?: string
 
   /** 当开始/继续播放时触发 play 事件
    * @supported weapp, alipay, swan, tt, qq, jd, h5, rn
@@ -423,7 +427,7 @@ interface VideoProps extends StandardProps {
   onFullScreenChange?: CommonEventFunction<VideoProps.onFullscreenChangeEventDetail>
 
   /** 切换 controls 显示隐藏时触发。
-   * @supported weapp
+   * @supported weapp, swan
    */
   onControlsToggle?: CommonEventFunction<VideoProps.onControlsToggleEventDetail>
 

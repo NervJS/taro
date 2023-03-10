@@ -138,7 +138,8 @@ require(\\"./taro\\");
             Form: {
                 \\"report-type\\": \\"default\\",
                 \\"template-id\\": \\"\\",
-                \\"subscribe-id\\": \\"\\"
+                \\"subscribe-id\\": \\"\\",
+                \\"skip-subscribe-authorize\\": \\"false\\"
             },
             Input: {
                 \\"adjust-position\\": \\"true\\"
@@ -201,8 +202,9 @@ require(\\"./taro\\");
                 \\"resource-height\\": \\"400\\",
                 \\"canvas-style\\": undefined(\\"width:400px;height:400px\\"),
                 path: \\"\\",
-                loop: \\"fasle\\",
-                autoplay: \\"fasle\\",
+                loop: \\"false\\",
+                autoplay: \\"false\\",
+                \\"alpha-direction\\": undefined(\\"left\\"),
                 bindStarted: \\"\\",
                 bindEnded: \\"\\"
             },
@@ -251,8 +253,65 @@ require(\\"./taro\\");
             },
             Login: {
                 \\"button-class\\": \\"\\",
+                \\"checked-color\\": undefined(\\"#3388FF\\"),
+                \\"theme-color\\": undefined(\\"#3388FF\\"),
                 bindGetPhoneNumber: \\"\\",
                 bindLoadError: \\"\\"
+            },
+            Like: {
+                \\"is-liked\\": \\"false\\",
+                mode: undefined(\\"icon\\"),
+                \\"icon-type\\": undefined(\\"hand\\"),
+                \\"like-text\\": undefined(\\"\\\\u8d5e\\"),
+                \\"like-num\\": \\"0\\",
+                \\"like-type\\": \\"0\\",
+                \\"animation-type\\": \\"1\\",
+                \\"is-show-toast\\": \\"false\\",
+                \\"toast-text\\": \\"['\\\\u5df2\\\\u70b9\\\\u8d5e', '\\\\u5df2\\\\u53d6\\\\u6d88']\\",
+                \\"like-param\\": \\"\\",
+                bindError: \\"\\",
+                bindSuccess: \\"\\",
+                bindFail: \\"\\"
+            },
+            CommentList: {
+                \\"comment-param\\": \\"\\",
+                \\"toolbar-config\\": \\"\\",
+                \\"is-page-scroll\\": \\"true\\",
+                \\"need-toolbar\\": \\"true\\",
+                \\"add-comment\\": \\"false\\",
+                \\"detail-path\\": \\"\\",
+                \\"is-folded\\": \\"false\\",
+                \\"fold-num\\": \\"3\\",
+                \\"view-more-path\\": \\"\\",
+                \\"view-more-style\\": \\"\\",
+                bindClickComment: \\"\\",
+                bindViewMore: \\"\\"
+            },
+            CommentDetail: {
+                \\"comment-param\\": \\"\\",
+                srid: \\"\\",
+                \\"is-page-scroll\\": \\"true\\",
+                \\"need-toolbar\\": \\"true\\",
+                \\"need-like-btn\\": \\"true\\",
+                \\"back-list-after-delete\\": \\"true\\",
+                \\"add-comment\\": \\"false\\",
+                bindDelete: \\"\\"
+            },
+            FollowSwan: {
+                size: undefined(\\"default\\"),
+                type: undefined(\\"primary\\"),
+                bindFavorStatusChange: \\"\\"
+            },
+            InlinePaymentPanel: {
+                \\"total-amount\\": \\"\\",
+                \\"deal-id\\": \\"\\",
+                \\"app-key\\": \\"\\",
+                \\"promotion-tag\\": \\"\\",
+                \\"enable-page-back-modal\\": \\"\\",
+                \\"custom-style\\": \\"\\",
+                \\"style-type\\": undefined(\\"default\\"),
+                bindGetPaymentInfo: \\"\\",
+                bindError: \\"\\"
             }
         };
         var hostConfig = {

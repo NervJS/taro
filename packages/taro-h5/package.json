@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/taro-h5",
-  "version": "3.5.11",
+  "version": "3.6.1",
   "description": "Taro h5 framework",
   "browser": "dist/index.esm.js",
   "main:h5": "dist/index.js",
@@ -17,10 +17,8 @@
     "*.css"
   ],
   "scripts": {
-    "assets": "cpy 'src/**/*.css' dist",
-    "build": "rimraf ./dist && tsc && pnpm run assets && rollup -c",
-    "predev": "pnpm run assets",
-    "dev": "tsc -w",
+    "build": "rimraf ./dist && cross-env NODE_ENV=production rollup -c",
+    "dev": "cross-env NODE_ENV=development rollup -c -w",
     "test": "jest",
     "test:ci": "jest -i --coverage false",
     "test:dev": "jest --watch",
@@ -37,8 +35,10 @@
   "license": "MIT",
   "dependencies": {
     "@tarojs/api": "workspace:*",
+    "@tarojs/components": "workspace:*",
     "@tarojs/router": "workspace:*",
     "@tarojs/runtime": "workspace:*",
+    "@tarojs/shared": "workspace:*",
     "base64-js": "^1.3.0",
     "intersection-observer": "^0.7.0",
     "jsonp-retry": "^1.0.3",
@@ -46,6 +46,12 @@
     "whatwg-fetch": "^3.4.0"
   },
   "devDependencies": {
+    "jest": "^29.3.1",
+    "jest-fetch-mock": "^3.0.3",
+    "jest-localstorage-mock": "^2.4.0",
+    "jest-mock-console": "^1.0.0",
+    "lodash": "^4.17.21",
+    "mock-socket": "^7.1.0",
     "react": "^18.2.0",
     "react-test-renderer": "^18.2.0"
   }

@@ -27,7 +27,10 @@ export function setReconciler (ReactDOM) {
   })
 
   hooks.tap('modifyMpEvent', function (event) {
-    event.type = event.type.replace(/-/g, '')
+    // Note: ohos 上事件没有设置 type 类型 setter 方法导致报错
+    Object.defineProperty(event, 'type', {
+      value: event.type.replace(/-/g, '')
+    })
   })
 
   hooks.tap('batchedEventUpdates', function (cb) {
@@ -180,6 +183,10 @@ export function createReactApp (
     return appInstanceRef.current
   }
 
+  function waitAppWrapper (cb: () => void) {
+    appWrapper ? cb() : appWrapperPromise.then(() => cb())
+  }
+
   function renderReactRoot () {
     let appId = 'app'
     if (process.env.TARO_ENV === 'h5') {
@@ -310,11 +317,7 @@ export function createReactApp (
           triggerAppHook('onLaunch', options)
         }
 
-        if (appWrapper) {
-          onLaunch()
-        } else {
-          appWrapperPromise.then(() => onLaunch())
-        }
+        waitAppWrapper(onLaunch)
       }
     }),
 
@@ -333,51 +336,63 @@ export function createReactApp (
           triggerAppHook('onShow', options)
         }
 
-        if (appWrapper) {
-          onShow()
-        } else {
-          appWrapperPromise.then(onShow)
-        }
+        waitAppWrapper(onShow)
       }
     }),
 
     [ONHIDE]: setDefaultDescriptor({
       value () {
-        /**
-         * trigger lifecycle
-         */
-        const app = getAppInstance()
-        // class component, componentDidHide
-        app?.componentDidHide?.()
-        // functional component, useDidHide
-        triggerAppHook('onHide')
+        const onHide = () => {
+          /**
+           * trigger lifecycle
+           */
+          const app = getAppInstance()
+          // class component, componentDidHide
+          app?.componentDidHide?.()
+          // functional component, useDidHide
+          triggerAppHook('onHide')
+        }
+
+        waitAppWrapper(onHide)
       }
     }),
 
     onError: setDefaultDescriptor({
       value (error: string) {
-        const app = getAppInstance()
-        app?.onError?.(error)
-        triggerAppHook('onError', error)
-        if (process.env.NODE_ENV !== 'production' && error?.includes('Minified React error')) {
-          console.warn('React 出现报错，请打开编译配置 mini.debugReact 查看报错详情：https://docs.taro.zone/docs/config-detail#minidebugreact')
+        const onError = () => {
+          const app = getAppInstance()
+          app?.onError?.(error)
+          triggerAppHook('onError', error)
+          if (process.env.NODE_ENV !== 'production' && error?.includes('Minified React error')) {
+            console.warn('React 出现报错，请打开编译配置 mini.debugReact 查看报错详情：https://docs.taro.zone/docs/config-detail#minidebugreact')
+          }
         }
+
+        waitAppWrapper(onError)
       }
     }),
 
     onUnhandledRejection: setDefaultDescriptor({
       value (res: unknown) {
-        const app = getAppInstance()
-        app?.onUnhandledRejection?.(res)
-        triggerAppHook('onUnhandledRejection', res)
+        const onUnhandledRejection = () => {
+          const app = getAppInstance()
+          app?.onUnhandledRejection?.(res)
+          triggerAppHook('onUnhandledRejection', res)
+        }
+
+        waitAppWrapper(onUnhandledRejection)
       }
     }),
 
     onPageNotFound: setDefaultDescriptor({
       value (res: unknown) {
-        const app = getAppInstance()
-        app?.onPageNotFound?.(res)
-        triggerAppHook('onPageNotFound', res)
+        const onPageNotFound = () => {
+          const app = getAppInstance()
+          app?.onPageNotFound?.(res)
+          triggerAppHook('onPageNotFound', res)
+        }
+
+        waitAppWrapper(onPageNotFound)
       }
     })
   })

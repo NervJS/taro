@@ -15,6 +15,7 @@ export interface Chain {
 export type Func = (...args: any[]) => void
 
 export interface BuildConfig extends IProjectBaseConfig, IH5Config {
-  entryFileName?: string
   entry?: webpack.Entry
+  entryFileName?: string
+  runtimePath?: string | string[]
 }

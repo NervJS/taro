@@ -1,10 +1,19 @@
-import { GestureResponderEvent } from 'react-native'
 
 export interface AnimatedValueProps {
   x: number;
   y: number;
 }
 
+interface onChangeEventDetail {
+  /** X 坐标 */
+  x: number
+
+  /** Y 坐标 */
+  y: number
+
+  /** 事件 */
+  source: string
+}
 export interface MovableViewProps {
   // movable-view 的移动方向，属性值有all、vertical、horizontal、none
   direction: 'all' | 'vertical' | 'horizontal' | 'none';
@@ -14,7 +23,7 @@ export interface MovableViewProps {
   y?: string | number;
   onDragStart?: () => void;
   onDragEnd?: () => void;
-  onChange?: (e: GestureResponderEvent) => void;
+  onChange?: (e: onChangeEventDetail) => void;
   animation: boolean;
   onMove: (value: AnimatedValueProps) => void;
   disabled?: boolean;

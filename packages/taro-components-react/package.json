@@ -1,15 +1,17 @@
 {
   "name": "@tarojs/components-react",
-  "version": "3.5.11",
+  "version": "3.6.1",
   "description": "",
   "main:h5": "src/index.js",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
   "types": "types/index.d.ts",
-  "sideEffects": [],
+  "sideEffects": [
+    "./dist/components/**/loader.js"
+  ],
   "files": [
     "dist",
-    "index.js"
+    "types"
   ],
   "scripts": {
     "build": "rollup -c",
@@ -24,7 +26,7 @@
   "license": "MIT",
   "dependencies": {
     "@babel/runtime": "^7.14.5",
-    "better-scroll": "^1.14.1",
+    "@tarojs/components": "workspace:*",
     "classnames": "^2.2.5",
     "intersection-observer": "^0.7.0",
     "resolve-pathname": "^3.0.0",

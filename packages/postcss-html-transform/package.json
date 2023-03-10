@@ -1,6 +1,6 @@
 {
   "name": "postcss-html-transform",
-  "version": "3.5.11",
+  "version": "3.6.1",
   "description": "transform html tag name selector",
   "main": "index.js",
   "author": "drchan",
@@ -20,7 +20,10 @@
   "bugs": {
     "url": "https://github.com/NervJS/taro/issues"
   },
-  "dependencies": {
-    "postcss": "^6.0.22"
+  "devDependencies": {
+    "postcss": "^8.4.18"
+  },
+  "peerDependencies": {
+    "postcss": "^8.4.18"
   }
 }

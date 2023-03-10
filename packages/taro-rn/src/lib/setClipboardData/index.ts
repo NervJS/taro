@@ -1,4 +1,4 @@
-import Clipboard from '@react-native-community/clipboard'
+import Clipboard from '@react-native-clipboard/clipboard'
 import { showToast } from '../showModal/toast'
 import { successHandler, errorHandler } from '../../utils'
 

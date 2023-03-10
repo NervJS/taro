@@ -198,8 +198,6 @@ class Carousel extends React.Component<CarouselProps, CarouselState> {
           style={this.props.style}
           // Lib does not support dynamically orientation change
           orientation={vertical ? 'vertical' : 'horizontal'}
-          // Lib does not support dynamically transitionStyle change
-          transitionStyle="scroll"
           ref={this.viewPager as any}
         >
           {pages}

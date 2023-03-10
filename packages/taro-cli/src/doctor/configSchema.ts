@@ -10,7 +10,10 @@ const schema = Joi.object().keys({
 
   plugins: Joi.array().items(Joi.alternatives(
     Joi.string(),
-    Joi.array().ordered(Joi.string().required(), Joi.object())
+    Joi.array().ordered(
+      Joi.string().required(),
+      Joi.alternatives().try(Joi.object(), Joi.function())
+    )
   )),
 
   presets: Joi.array().items(Joi.alternatives(

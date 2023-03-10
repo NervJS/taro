@@ -187,16 +187,16 @@ interface InputProps extends StandardProps, FormItemProps {
    */
   alwaysSystem?: boolean
 
-  /** 使用原生键盘
-   * @default true
-   * @supported alipay
-   */
-  enableNative?: boolean
-
   /** 无障碍访问，（属性）元素的额外描述
    * @supported qq
    */
   ariaLabel?: string
+
+  /** 是否启用原生键盘。
+   * @supported alipay
+   * @default true
+   */
+  enableNative?: boolean
 
   /** 当键盘输入时，触发input事件，event.detail = {value, cursor, keyCode}，处理函数可以直接 return 一个字符串，将替换输入框的内容。
    * @supported weapp, alipay, swan, tt, qq, jd, h5, rn
@@ -223,6 +223,11 @@ interface InputProps extends StandardProps, FormItemProps {
    * @supported weapp, qq
    */
   onKeyboardHeightChange?: CommonEventFunction<InputProps.onKeyboardHeightChangeEventDetail>
+
+  /** 用户昵称审核完毕后触发，仅在 type 为 "nickname" 时有效，event.detail = { pass, timeout }
+   * @supported weapp
+   */
+  onNickNameReview?: CommonEventFunction
 }
 declare namespace InputProps {
   /** Input 类型 */

@@ -1,16 +1,16 @@
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { Component, h, ComponentInterface, Prop, Event, EventEmitter, Watch, Element, Host } from '@stencil/core'
+import { Component, h, ComponentInterface, Prop, Event, EventEmitter, Watch, Element, Method, Host, Listen } from '@stencil/core'
 import classNames from 'classnames'
 
 import { debounce } from '../../utils'
 
-function easeOutScroll (from: number, to: number, callback) {
+import type { ScrollViewContext } from '@tarojs/taro'
+
+function easeOutScroll (from: number, to: number, duration = 500, callback?) {
   if (from === to || typeof from !== 'number') {
     return
   }
 
   const change = to - from
-  const dur = 500
   const sTime = Date.now()
   const isLarger = to >= from
 
@@ -19,7 +19,7 @@ function easeOutScroll (from: number, to: number, callback) {
   }
 
   function step () {
-    from = linear(Date.now() - sTime, from, change, dur)
+    from = linear(Date.now() - sTime, from, change, duration)
     if ((isLarger && from >= to) || (!isLarger && to >= from)) {
       callback(to)
       return
@@ -36,8 +36,8 @@ function easeOutScroll (from: number, to: number, callback) {
   styleUrl: './style/index.scss'
 })
 export class ScrollView implements ComponentInterface {
-  private _scrollLeft: number
-  private _scrollTop: number
+  private _scrollLeft = 0
+  private _scrollTop = 0
 
   @Element() el: HTMLElement
 
@@ -45,10 +45,10 @@ export class ScrollView implements ComponentInterface {
   @Prop() scrollY = false
   @Prop() upperThreshold: number | string = 50
   @Prop() lowerThreshold: number | string = 50
-  @Prop({ attribute: 'scroll-top' }) mpScrollTop: number | string
-  @Prop({ attribute: 'scroll-left' }) mpScrollLeft: number | string
-  @Prop({ attribute: 'scroll-into-view' }) mpScrollIntoView: string
-  @Prop() scrollWithAnimation = false
+  @Prop({ attribute: 'scroll-top', reflect: true }) mpScrollTop: number | string
+  @Prop({ attribute: 'scroll-left', reflect: true }) mpScrollLeft: number | string
+  @Prop({ attribute: 'scroll-into-view', reflect: true }) mpScrollIntoView: string
+  @Prop({ attribute: 'scroll-with-animation' }) animated = false
 
   @Event({
     eventName: 'scroll',
@@ -70,80 +70,33 @@ export class ScrollView implements ComponentInterface {
 
   @Watch('mpScrollLeft')
   watchScrollLeft (newVal) {
-    const scrollLeft = Number(newVal)
-    if (
-      this.scrollX &&
-      !isNaN(scrollLeft) &&
-      scrollLeft !== this._scrollLeft
-    ) {
-      if (this.scrollWithAnimation) {
-        easeOutScroll(this._scrollLeft, scrollLeft, pos => (this.el.scrollLeft = pos))
-      } else {
-        this.el.scrollLeft = scrollLeft
-      }
-      this._scrollLeft = scrollLeft
-    }
+    const left = Number(newVal)
+    const { animated } = this
+
+    this.mpScrollToMethod({
+      left, animated
+    })
   }
 
   @Watch('mpScrollTop')
   watchScrollTop (newVal) {
-    const scrollTop = Number(newVal)
-    if (
-      this.scrollY &&
-      !isNaN(scrollTop) &&
-      scrollTop !== this._scrollTop
-    ) {
-      if (this.scrollWithAnimation) {
-        easeOutScroll(this._scrollTop, scrollTop, pos => (this.el.scrollTop = pos))
-      } else {
-        this.el.scrollTop = scrollTop
-      }
-      this._scrollTop = scrollTop
-    }
+    const top = Number(newVal)
+    const { animated } = this
+
+    this.mpScrollToMethod({
+      top, animated
+    })
   }
 
   @Watch('mpScrollIntoView')
   watchScrollIntoView (newVal) {
-    if (typeof newVal === 'string' && newVal) {
-      document.querySelector(`#${newVal}`)?.scrollIntoView({
-        behavior: 'smooth',
-        block: 'center',
-        inline: 'start'
-      })
-    }
+    this.mpScrollIntoViewMethod(newVal)
   }
 
-  componentDidLoad () {
-    const {
-      scrollY,
-      scrollX,
-      scrollWithAnimation
-    } = this
-
-    const scrollTop = Number(this.mpScrollTop)
-    const scrollLeft = Number(this.mpScrollLeft)
-
-    if (scrollY && !isNaN(scrollTop)) {
-      if (scrollWithAnimation) {
-        easeOutScroll(0, scrollTop, pos => (this.el.scrollTop = pos))
-      } else {
-        this.el.scrollTop = scrollTop
-      }
-      this._scrollTop = scrollTop
-    }
-
-    if (scrollX && !isNaN(scrollLeft)) {
-      if (scrollWithAnimation) {
-        easeOutScroll(0, scrollLeft, pos => (this.el.scrollLeft = pos))
-      } else {
-        this.el.scrollLeft = scrollLeft
-      }
-      this._scrollLeft = scrollLeft
-    }
-  }
-
-  handleScroll = (e) => {
+  @Listen('scroll', { capture: true })
+  handleScroll (e: Event) {
     if (e instanceof CustomEvent) return
+    e.stopPropagation()
 
     const {
       scrollLeft,
@@ -161,6 +114,50 @@ export class ScrollView implements ComponentInterface {
       scrollTop,
       scrollHeight,
       scrollWidth
+    })
+  }
+
+  @Method()
+  async mpScrollToMethod(object: ScrollViewContext.scrollTo.Option) {
+    let { top, left, duration, animated = false } = object
+
+    if (this.scrollY && typeof top === 'number' && !isNaN(top) && top !== this._scrollTop) {
+      if (animated) {
+        easeOutScroll(this._scrollTop, top, duration, pos => (this.el.scrollTop = pos))
+      } else {
+        this.el.scrollTop = top
+      }
+      this._scrollTop = top
+    }
+
+    if (this.scrollX && typeof left === 'number' && !isNaN(left) && left !== this._scrollLeft) {
+      if (animated) {
+        easeOutScroll(this._scrollLeft, left, duration, pos => (this.el.scrollLeft = pos))
+      } else {
+        this.el.scrollLeft = left
+      }
+      this._scrollLeft = left
+    }
+  }
+
+  @Method()
+  async mpScrollIntoViewMethod(selector: string) {
+    if (typeof selector === 'string' && selector) {
+      document.querySelector(`#${selector}`)?.scrollIntoView({
+        behavior: 'smooth',
+        block: 'center',
+        inline: 'start'
+      })
+    }
+  }
+
+  componentDidLoad () {
+    const top = Number(this.mpScrollTop)
+    const left = Number(this.mpScrollLeft)
+    const { animated } = this
+
+    this.mpScrollToMethod({
+      top, left, animated
     })
   }
 
@@ -199,20 +196,14 @@ export class ScrollView implements ComponentInterface {
   }, 200)
 
   render () {
-    const {
-      scrollX,
-      scrollY
-    } = this
+    const { scrollX, scrollY } = this
 
     const cls = classNames({
       'taro-scroll-view__scroll-x': scrollX,
       'taro-scroll-view__scroll-y': scrollY
     })
     return (
-      <Host
-        class={cls}
-        onScroll={this.handleScroll}
-      >
+      <Host class={cls}>
         <slot />
       </Host>
     )

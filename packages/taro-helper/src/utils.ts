@@ -646,7 +646,7 @@ export function readConfig (configPath: string) {
 
     createSwcRegister({
       only: [
-        configPath,
+        fs.realpathSync(configPath), // configPath might be a symlink. that will cause compilation to fail
         filepath => importPaths.includes(filepath)
       ],
       plugins: [

@@ -1,4 +1,4 @@
-import './style.css'
+import './style.scss'
 
 import Taro from '@tarojs/api'
 import { stringify } from 'query-string'
@@ -77,7 +77,7 @@ export const chooseLocation: typeof Taro.chooseLocation = ({ success, fail, comp
       console.warn('chooseLocation api 依赖腾讯地图定位api，需要在 defineConstants 中配置 LOCATION_APIKEY')
       return handle.fail({
         errMsg: 'LOCATION_APIKEY needed'
-      }, reject)
+      }, { resolve, reject })
     }
 
     const onMessage = event => {
@@ -99,12 +99,12 @@ export const chooseLocation: typeof Taro.chooseLocation = ({ success, fail, comp
         chooser.remove()
       }, 300)
       if (res) {
-        return handle.fail(res, reject)
+        return handle.fail(res, { resolve, reject })
       } else {
         if (chooseLocation.latitude && chooseLocation.longitude) {
-          return handle.success(chooseLocation, resolve)
+          return handle.success(chooseLocation, { resolve, reject })
         } else {
-          return handle.fail({}, reject)
+          return handle.fail({}, { resolve, reject })
         }
       }
     }, key, mapOpts)

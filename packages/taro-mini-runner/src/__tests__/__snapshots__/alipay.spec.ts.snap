@@ -101,6 +101,15 @@ require(\\"./taro\\");
                         }, {
                             old: \\"icon\\",
                             new: \\"type\\"
+                        } ],
+                        set: [ {
+                            key: \\"type\\",
+                            value: function value(options) {
+                                if (options.type === \\"error\\") {
+                                    return \\"fail\\";
+                                }
+                                return options.type;
+                            }
                         } ]
                     }
                 },
@@ -641,9 +650,9 @@ require(\\"./taro\\");
                     autoplay: \\"false\\",
                     path: \\"\\",
                     speed: \\"1.0\\",
-                    repeatCount: \\"0\\",
-                    autoReverse: \\"false\\",
-                    assetsPath: \\"\\",
+                    \\"repeat-count\\": \\"0\\",
+                    \\"auto-reverse\\": \\"false\\",
+                    \\"assets-path\\": \\"\\",
                     placeholder: \\"\\",
                     djangoId: \\"\\",
                     md5: \\"\\",
