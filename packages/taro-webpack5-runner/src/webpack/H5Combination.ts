@@ -47,11 +47,13 @@ export class H5Combination extends Combination<H5BuildConfig> {
       this.appHelper.compsConfigList.forEach((comp, index) => {
         entry[index] = [comp]
       })
+      this.webpackPlugin.pages = this.appHelper.appConfig?.components
     } else if (isMultiRouterMode) {
       delete entry[entryFileName]
       this.appHelper.pagesConfigList.forEach((page, index) => {
         entry[index] = [page]
       })
+      this.webpackPlugin.pages = this.appHelper.appConfig?.pages
     }
 
     const webpackOutput = this.getOutput({
@@ -62,9 +64,6 @@ export class H5Combination extends Combination<H5BuildConfig> {
     })
     const module = this.webpackModule.getModules()
     const [, pxtransformOption] = this.webpackModule.__postcssOption.find(([name]) => name === 'postcss-pxtransform') || []
-    if (isMultiRouterMode) {
-      this.webpackPlugin.pages = this.appHelper.appConfig?.pages
-    }
     this.webpackPlugin.pxtransformOption = pxtransformOption as any
     const plugin = this.webpackPlugin.getPlugins()
 
