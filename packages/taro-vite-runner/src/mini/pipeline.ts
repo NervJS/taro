@@ -9,7 +9,7 @@ export default function (appPath: string, taroConfig: MiniBuildConfig): PluginOp
   return {
     name: 'taro:vite-mini-pipeline',
     enforce: 'pre',
-    async buildStart () {
+    buildStart () {
       this.load({ id: TARO_COMPILER })
       const info = this.getModuleInfo(TARO_COMPILER)
       if (info) {
@@ -21,7 +21,7 @@ export default function (appPath: string, taroConfig: MiniBuildConfig): PluginOp
       if (id === TARO_COMPILER) return ''
     },
     buildEnd () {
-      compiler.rollupCtx = null
+      compiler.cleanup()
       resetComponentConfig()
       // console.log('this.watchFiles: ', this.getWatchFiles())
     }

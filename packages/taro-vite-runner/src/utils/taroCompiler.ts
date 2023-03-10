@@ -233,4 +233,8 @@ export class TaroCompiler {
       ? filePath.replace(extname, targetExtName)
       : filePath + targetExtName
   }
+
+  cleanup () {
+    this.rollupCtx = null
+  }
 }
