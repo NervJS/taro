@@ -143,6 +143,10 @@ export declare interface IPluginContext {
    */
   modifyWebpackChain: (fn: (args: { chain: any, webpack: any, data?: IModifyWebpackChain }) => void) => void
   /**
+   * 编译中修改 vite 配置
+   */
+  modifyViteConfig: (fn: (args: { viteConfig: any, componentConfig?: IModifyWebpackChain['componentConfig'] }) => void) => void
+  /**
    * 修改编译后的结果
    */
   modifyBuildAssets: (fn: (args: { assets: any, miniPlugin: any }) => void) => void

@@ -102,6 +102,16 @@ export default (ctx: IPluginContext) => {
                 }
               })
             },
+            async modifyViteConfig (viteConfig, componentConfig) {
+              await ctx.applyPlugins({
+                name: hooks.MODIFY_VITE_CONFIG,
+                initialVal: viteConfig,
+                opts: {
+                  viteConfig,
+                  componentConfig
+                }
+              })
+            },
             async modifyBuildAssets (assets, miniPlugin) {
               await ctx.applyPlugins({
                 name: hooks.MODIFY_BUILD_ASSETS,

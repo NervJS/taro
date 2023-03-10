@@ -71,6 +71,10 @@ export interface IProjectBaseConfig {
    */
   modifyWebpackChain?: (chain: Chain, webpack: typeof Webpack, data: IModifyWebpackChain) => Promise<any>
   /**
+   * 编译中修改 vite 配置
+   */
+  modifyViteConfig?: (viteConfig: any, componentConfig: IModifyWebpackChain['componentConfig']) => void
+  /**
    * 修改编译过程中的页面组件配置
    */
   modifyMiniConfigs?: (configMap: any) => Promise<any>
