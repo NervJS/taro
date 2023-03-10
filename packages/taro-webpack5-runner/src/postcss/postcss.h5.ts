@@ -40,9 +40,9 @@ const defaultHtmltransformOption: {
 const defaultUrlOption: {
   [key: string]: any
 } = {
-  enable: false,
+  enable: true,
   config: {
-    url: 'inline'
+    url: 'rebase'
   }
 }
 

@@ -16,9 +16,8 @@ export default (ctx: IPluginContext) => {
   })
 
   ctx.modifyRunnerOpts(({ opts }) => {
-    opts.defineConstants = {
-      USE_HTML_COMPONENTS: JSON.stringify(!!opts.useHtmlComponents),
-    }
+    opts.defineConstants ||= {}
+    opts.defineConstants.USE_HTML_COMPONENTS = JSON.stringify(!!opts.useHtmlComponents)
     // TODO 为 postcss-html-transform 更新组件转换列表
   })
 }

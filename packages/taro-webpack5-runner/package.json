@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/webpack5-runner",
-  "version": "3.6.1",
+  "version": "3.6.2",
   "description": "Taro app runner",
   "main": "index.js",
   "scripts": {
@@ -71,7 +71,7 @@
     "mini-css-extract-plugin": "2.4.6",
     "miniprogram-simulate": "^1.1.5",
     "mkdirp": "^1.0.4",
-    "ora": "4.0.3",
+    "ora": "^5.0.0",
     "postcss-html-transform": "workspace:*",
     "postcss-import": "^14.0.0",
     "postcss-loader": "^7.0.1",

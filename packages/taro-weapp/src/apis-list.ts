@@ -1,5 +1,8 @@
 export const needPromiseApis = new Set([
+  'addFileToFavorites',
+  'addVideoToFavorites',
   'authPrivateMessage',
+  'checkIsAddedToMyMiniProgram',
   'chooseContact',
   'cropImage',
   'disableAlertBeforeUnload',
