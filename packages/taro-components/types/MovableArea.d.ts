@@ -7,7 +7,6 @@ interface MovableAreaProps extends StandardProps {
    */
   scaleArea?: boolean
 }
-
 /** movable-view 的可移动区域
  * @classification viewContainer
  * @supported weapp, alipay, swan, tt, qq, jd, h5, rn
