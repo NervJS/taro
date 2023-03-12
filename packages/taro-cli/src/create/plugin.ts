@@ -44,7 +44,7 @@ export default class Plugin extends Creator {
     const logs: string[] = []
     const templateFiles = await getAllFilesInFolder(templatePath)
 
-    templateFiles.forEach(async file => {
+    templateFiles.forEach(file => {
       const relativePath = path.relative(templatePath, file)
       const destPath = path.join(projectDir, pluginName, relativePath)
 

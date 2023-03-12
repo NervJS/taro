@@ -1,33 +1,7 @@
 import { IPluginContext } from '@tarojs/service'
 <% if (['plugin-build'].includes(type)) { -%>
 import webpackChain from 'webpack-chain';
-<% } -%>
 
-<% if (['plugin-command'].includes(type)) { -%>
-/**
- * 命令行扩展
- */
-export default (ctx: IPluginContext, pluginOpts) => {
-  ctx.registerCommand({
-    // 命令名
-    name: 'say',
-    // 参数说明，执行 taro say --help 时输出的 options 信息
-    optionsMap: {
-      '--msg': '输出的信息',
-    },
-    // 执行 taro say --help 时输出的使用例子的信息
-    synopsisList: ['taro say --msg Hello!'],
-    // 命令钩子
-    async fn() {
-      console.log('插件入参：', pluginOpts)
-      const { msg } = ctx.runOpts.options
-      console.log('Taro say:', msg)
-    },
-  })
-}
-<% } -%>
-
-<% if (['plugin-build'].includes(type)) { -%>
 /**
  * 编译过程扩展
  */
@@ -71,3 +45,28 @@ export default (ctx: IPluginContext, pluginOpts) => {
   })
 }
 <% } -%>
+
+<% if (['plugin-command'].includes(type)) { -%>
+/**
+ * 命令行扩展
+ */
+export default (ctx: IPluginContext, pluginOpts) => {
+  ctx.registerCommand({
+    // 命令名
+    name: 'say',
+    // 参数说明，执行 taro say --help 时输出的 options 信息
+    optionsMap: {
+      '--msg': '输出的信息',
+    },
+    // 执行 taro say --help 时输出的使用例子的信息
+    synopsisList: ['taro say --msg Hello!'],
+    // 命令钩子
+    async fn() {
+      console.log('插件入参：', pluginOpts)
+      const { msg } = ctx.runOpts.options
+      console.log('Taro say:', msg)
+    },
+  })
+}
+<% } -%>
+
