@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/webpack-runner",
-  "version": "3.6.1",
+  "version": "3.6.2",
   "description": "webpack runner for taro",
   "main": "index.js",
   "scripts": {
@@ -50,7 +50,7 @@
     "lodash": "^4.17.21",
     "mini-css-extract-plugin": "0.9.0",
     "open": "7.0.2",
-    "ora": "4.0.3",
+    "ora": "^5.0.0",
     "postcss-html-transform": "workspace:*",
     "postcss-import": "12.0.1",
     "postcss-loader": "4.3.0",

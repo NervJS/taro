@@ -108,4 +108,5 @@
 /// <reference path="api/open-api/facial.d.ts" />
 
 /// <reference path="api/alipay/index.d.ts" />
+/// <reference path="api/qq/index.d.ts" />
 /// <reference path="api/swan/index.d.ts" />

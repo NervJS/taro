@@ -31,3 +31,6 @@ export const getFileSystemManager = temporarilyNotSupport('getFileSystemManager'
 
 // WXML
 export const createSelectorQuery = temporarilyNotSupport('createSelectorQuery', '', false)
+
+// 用户信息
+export const getUserProfile = temporarilyNotSupport('getUserProfile', '', false)
