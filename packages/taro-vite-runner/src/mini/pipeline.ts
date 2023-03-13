@@ -20,7 +20,7 @@ export default function (appPath: string, taroConfig: MiniBuildConfig): PluginOp
     load (id) {
       if (id === TARO_COMPILER) return ''
     },
-    buildEnd () {
+    closeBundle () {
       compiler.cleanup()
       resetComponentConfig()
       // console.log('this.watchFiles: ', this.getWatchFiles())

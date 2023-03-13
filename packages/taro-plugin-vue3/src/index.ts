@@ -2,10 +2,12 @@ import { fs, VUE_EXT } from '@tarojs/helper'
 import { isString } from '@tarojs/shared'
 import { capitalize, internalComponents, toCamelCase } from '@tarojs/shared/dist/template'
 
+import { getMiniVueLoaderOptions,miniVitePlugin } from './vite.mini'
 import { modifyH5WebpackChain } from './webpack.h5'
 import { modifyMiniWebpackChain } from './webpack.mini'
 
 import type { IPluginContext } from '@tarojs/service'
+import type { PluginOption } from 'vite'
 
 type CompilerOptions = {
   isCustomElement: (tag: string) => boolean
@@ -58,6 +60,13 @@ export default (ctx: IPluginContext, config: IConfig = {}) => {
     }
   })
 
+  ctx.modifyViteConfig(({ viteConfig, componentConfig }) => {
+    const vueLoaderOptions = isBuildH5 ? {} : getMiniVueLoaderOptions(ctx, componentConfig, config)
+    viteConfig.plugins.push(require('@vitejs/plugin-vue').default({
+      template: vueLoaderOptions
+    }))
+  })
+
   ctx.modifyRunnerOpts(({ opts }) => {
     opts.frameworkExts = VUE_EXT
 
@@ -97,6 +106,16 @@ export default (ctx: IPluginContext, config: IConfig = {}) => {
       const esbuildConfig = prebundleOptions.esbuild
       esbuildConfig.plugins ||= []
       esbuildConfig.plugins.push(taroVue3Plugin)
+    } else if (compiler.type === 'vite') {
+      compiler.vitePlugins ||= []
+      compiler.vitePlugins.push(viteCommonPlugin())
+      if (isBuildH5) {
+        // H5
+      } else {
+        // 小程序
+        compiler.vitePlugins.push(miniVitePlugin())
+        compiler.vitePlugins.push(require('@vitejs/plugin-vue-jsx').default())
+      }
     }
   })
 
@@ -122,4 +141,19 @@ function setDefinePlugin (chain) {
       config.__VUE_PROD_DEVTOOLS__ = JSON.stringify(false)
       return args
     })
+}
+
+function viteCommonPlugin (): PluginOption {
+  return {
+    name: 'taro-vue3:common',
+    config: () => ({
+      define: {
+        '__VUE_OPTIONS_API__': JSON.stringify(true),
+        '__VUE_PROD_DEVTOOLS__': JSON.stringify(false),
+      },
+      resolve: {
+        dedupe: ['vue']
+      }
+    })
+  }
 }

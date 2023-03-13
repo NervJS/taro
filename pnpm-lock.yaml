@@ -1300,6 +1300,8 @@ importers:
       '@tarojs/runtime': workspace:*
       '@tarojs/service': workspace:*
       '@tarojs/shared': workspace:*
+      '@vitejs/plugin-vue': ^4.0.0
+      '@vitejs/plugin-vue-jsx': ^3.0.0
       '@vue/compiler-core': ^3.0.0
       '@vue/runtime-core': ^3.0.0
       lodash: ^4.17.21
@@ -1307,6 +1309,7 @@ importers:
       rollup-plugin-node-externals: ^4.0.0
       rollup-plugin-ts: ^3.0.2
       typescript: ^4.7.4
+      vite: ^4.1.0
       vue: ^3.0.0
     dependencies:
       '@tarojs/helper': link:../taro-helper
@@ -1316,12 +1319,15 @@ importers:
       '@tarojs/shared': link:../shared
       lodash: registry.npmjs.org/lodash/4.17.21
     devDependencies:
+      '@vitejs/plugin-vue': registry.npmjs.org/@vitejs/plugin-vue/4.0.0_vite@4.1.4+vue@3.2.37
+      '@vitejs/plugin-vue-jsx': registry.npmjs.org/@vitejs/plugin-vue-jsx/3.0.0_vite@4.1.4+vue@3.2.37
       '@vue/compiler-core': registry.npmjs.org/@vue/compiler-core/3.2.37
       '@vue/runtime-core': registry.npmjs.org/@vue/runtime-core/3.2.41
       rollup: registry.npmjs.org/rollup/3.19.0
       rollup-plugin-node-externals: registry.npmjs.org/rollup-plugin-node-externals/4.0.0_rollup@3.19.0
       rollup-plugin-ts: registry.npmjs.org/rollup-plugin-ts/3.0.2_xha6vv53hufdydmrlhjcblw5tm
       typescript: registry.npmjs.org/typescript/4.7.4
+      vite: registry.npmjs.org/vite/4.1.4
       vue: registry.npmjs.org/vue/3.2.37
 
   packages/taro-qq:
@@ -11838,6 +11844,39 @@ packages:
       - supports-color
     dev: true
 
+  registry.npmjs.org/@vitejs/plugin-vue-jsx/3.0.0_vite@4.1.4+vue@3.2.37:
+    resolution: {integrity: sha512-vurkuzgac5SYuxd2HUZqAFAWGTF10diKBwJNbCvnWijNZfXd+7jMtqjPFbGt7idOJUn584fP1Ar9j/GN2jQ3Ew==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@vitejs/plugin-vue-jsx/-/plugin-vue-jsx-3.0.0.tgz}
+    id: registry.npmjs.org/@vitejs/plugin-vue-jsx/3.0.0
+    name: '@vitejs/plugin-vue-jsx'
+    version: 3.0.0
+    engines: {node: ^14.18.0 || >=16.0.0}
+    peerDependencies:
+      vite: ^4.0.0
+      vue: ^3.0.0
+    dependencies:
+      '@babel/core': registry.npmjs.org/@babel/core/7.20.12
+      '@babel/plugin-transform-typescript': registry.npmjs.org/@babel/plugin-transform-typescript/7.21.0_@babel+core@7.20.12
+      '@vue/babel-plugin-jsx': registry.npmjs.org/@vue/babel-plugin-jsx/1.1.1_@babel+core@7.20.12
+      vite: registry.npmjs.org/vite/4.1.4
+      vue: registry.npmjs.org/vue/3.2.37
+    transitivePeerDependencies:
+      - supports-color
+    dev: true
+
+  registry.npmjs.org/@vitejs/plugin-vue/4.0.0_vite@4.1.4+vue@3.2.37:
+    resolution: {integrity: sha512-e0X4jErIxAB5oLtDqbHvHpJe/uWNkdpYV83AOG2xo2tEVSzCzewgJMtREZM30wXnM5ls90hxiOtAuVU6H5JgbA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@vitejs/plugin-vue/-/plugin-vue-4.0.0.tgz}
+    id: registry.npmjs.org/@vitejs/plugin-vue/4.0.0
+    name: '@vitejs/plugin-vue'
+    version: 4.0.0
+    engines: {node: ^14.18.0 || >=16.0.0}
+    peerDependencies:
+      vite: ^4.0.0
+      vue: ^3.2.25
+    dependencies:
+      vite: registry.npmjs.org/vite/4.1.4
+      vue: registry.npmjs.org/vue/3.2.37
+    dev: true
+
   registry.npmjs.org/@vitejs/plugin-vue2/2.2.0_vite@4.1.4+vue@2.7.14:
     resolution: {integrity: sha512-1km7zEuZ/9QRPvzXSjikbTYGQPG86Mq1baktpC4sXqsXlb02HQKfi+fl8qVS703JM7cgm24Ga9j+RwKmvFn90A==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@vitejs/plugin-vue2/-/plugin-vue2-2.2.0.tgz}
     id: registry.npmjs.org/@vitejs/plugin-vue2/2.2.0
@@ -11872,6 +11911,26 @@ packages:
     dependencies:
       '@babel/helper-module-imports': registry.npmjs.org/@babel/helper-module-imports/7.18.6
       '@babel/plugin-syntax-jsx': registry.npmjs.org/@babel/plugin-syntax-jsx/7.17.12_@babel+core@7.18.5
+      '@babel/template': registry.npmjs.org/@babel/template/7.20.7
+      '@babel/traverse': registry.npmjs.org/@babel/traverse/7.20.13
+      '@babel/types': registry.npmjs.org/@babel/types/7.20.7
+      '@vue/babel-helper-vue-transform-on': registry.npmjs.org/@vue/babel-helper-vue-transform-on/1.0.2
+      camelcase: registry.npmjs.org/camelcase/6.3.0
+      html-tags: registry.npmjs.org/html-tags/3.2.0
+      svg-tags: registry.npmjs.org/svg-tags/1.0.0
+    transitivePeerDependencies:
+      - '@babel/core'
+      - supports-color
+    dev: true
+
+  registry.npmjs.org/@vue/babel-plugin-jsx/1.1.1_@babel+core@7.20.12:
+    resolution: {integrity: sha512-j2uVfZjnB5+zkcbc/zsOc0fSNGCMMjaEXP52wdwdIfn0qjFfEYpYZBFKFg+HHnQeJCVrjOeO0YxgaL7DMrym9w==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@vue/babel-plugin-jsx/-/babel-plugin-jsx-1.1.1.tgz}
+    id: registry.npmjs.org/@vue/babel-plugin-jsx/1.1.1
+    name: '@vue/babel-plugin-jsx'
+    version: 1.1.1
+    dependencies:
+      '@babel/helper-module-imports': registry.npmjs.org/@babel/helper-module-imports/7.18.6
+      '@babel/plugin-syntax-jsx': registry.npmjs.org/@babel/plugin-syntax-jsx/7.17.12_@babel+core@7.20.12
       '@babel/template': registry.npmjs.org/@babel/template/7.20.7
       '@babel/traverse': registry.npmjs.org/@babel/traverse/7.20.13
       '@babel/types': registry.npmjs.org/@babel/types/7.20.7
@@ -15587,7 +15646,7 @@ packages:
       mississippi: registry.npmjs.org/mississippi/3.0.0
       mkdirp: registry.npmjs.org/mkdirp/0.5.6
       move-concurrently: registry.npmjs.org/move-concurrently/1.0.1
-      promise-inflight: registry.npmjs.org/promise-inflight/1.0.1
+      promise-inflight: registry.npmjs.org/promise-inflight/1.0.1_bluebird@3.7.2
       rimraf: registry.npmjs.org/rimraf/2.7.1
       ssri: registry.npmjs.org/ssri/6.0.2
       unique-filename: registry.npmjs.org/unique-filename/1.1.1
@@ -30873,6 +30932,19 @@ packages:
     peerDependenciesMeta:
       bluebird:
         optional: true
+
+  registry.npmjs.org/promise-inflight/1.0.1_bluebird@3.7.2:
+    resolution: {integrity: sha512-6zWPyEOFaQBJYcGMHBKTKJ3u6TBsnMFOIZSa6ce1e/ZrrsOlnHRHbabMjLiBYKp+n44X9eUI6VUPaukCXHuG4g==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/promise-inflight/-/promise-inflight-1.0.1.tgz}
+    id: registry.npmjs.org/promise-inflight/1.0.1
+    name: promise-inflight
+    version: 1.0.1
+    peerDependencies:
+      bluebird: '*'
+    peerDependenciesMeta:
+      bluebird:
+        optional: true
+    dependencies:
+      bluebird: registry.npmjs.org/bluebird/3.7.2
 
   registry.npmjs.org/promise-polyfill/7.1.2:
     resolution: {integrity: sha512-FuEc12/eKqqoRYIGBrUptCBRhobL19PS2U31vMNTfyck1FxPyMfgsXyW4Mav85y/ZN1hop3hOwRlUDok23oYfQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/promise-polyfill/-/promise-polyfill-7.1.2.tgz}

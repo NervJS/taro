@@ -33,8 +33,11 @@
     "lodash": "^4.17.21"
   },
   "devDependencies": {
+    "@vitejs/plugin-vue": "^4.0.0",
+    "@vitejs/plugin-vue-jsx": "^3.0.0",
     "@vue/compiler-core": "^3.0.0",
     "@vue/runtime-core": "^3.0.0",
+    "vite": "^4.1.0",
     "vue": "^3.0.0",
     "rollup": "^3.8.1",
     "rollup-plugin-node-externals": "^4.0.0",
@@ -42,6 +45,20 @@
     "typescript": "^4.7.4"
   },
   "peerDependencies": {
+    "@vitejs/plugin-vue": "^4.0.0",
+    "@vitejs/plugin-vue-jsx": "^3.0.0",
+    "vite": "^4.1.0",
     "vue": "^3.0.0"
+  },
+  "peerDependenciesMeta": {
+    "vite": {
+      "optional": true
+    },
+    "@vitejs/plugin-vue": {
+      "optional": true
+    },
+    "@vitejs/plugin-vue-jsx": {
+      "optional": true
+    }
   }
 }
