@@ -86,6 +86,11 @@ export const config: Config = {
     { components: ['taro-video-core', 'taro-video-control', 'taro-video-danmu'] }
   ],
   buildEs5: 'prod',
+  /**
+   * Note: 由于 Stencil 的获取 jest 依赖的方式，硬链接模式下仅可使用更目录依赖的版本，所以当前未将相关依赖置于 devDependencies 中声明。
+   * 该问题可以通过为 pnpm 新增配置 `package-import-method: clone-or-copy` 修复，不过由于在 Mac 中，[NodeJS 存在问题问题](https://github.com/libuv/libuv/pull/2578)，
+   * 实际并不支持 clone 模式，暂不考虑修复
+   */
   testing: {
     globals: {
       ENABLE_INNER_HTML: true,
@@ -97,7 +102,11 @@ export const config: Config = {
       ENABLE_CONTAINS: true,
       'ts-jest': {
         diagnostics: false,
-        tsconfig: '<rootDir>/__tests__/tsconfig.test.json'
+        tsconfig: {
+          jsx: 'react',
+          allowJs: true,
+          target: 'ES6'
+        }
       }
     },
     moduleNameMapper: {

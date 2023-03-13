@@ -1,19 +1,16 @@
+const path = require('path')
+
 module.exports = {
-  globals: {
-    ENABLE_INNER_HTML: true,
-    ENABLE_ADJACENT_HTML: true,
-    ENABLE_SIZE_APIS: true,
-    ENABLE_TEMPLATE_CONTENT: true,
-    ENABLE_MUTATION_OBSERVER: true,
-    ENABLE_CLONE_NODE: true,
-    ENABLE_CONTAINS: true,
-  },
   moduleFileExtensions: ['js', 'jsx', 'ts', 'tsx', 'json', 'node'],
+  moduleNameMapper: {
+    '@tarojs/shared': path.join(__dirname, './packages/shared/src')
+  },
   preset: 'ts-jest',
-  testEnvironment: 'jsdom',
+  testEnvironment: 'node',
   testEnvironmentOptions: {
     url: 'http://localhost/'
   },
+  testMatch: ['**/__tests__/?(*.)+(spec|test).[jt]s?(x)'],
   testPathIgnorePatterns: [
     'node_modules',
     'utils'
@@ -24,9 +21,9 @@ module.exports = {
       tsconfig: {
         jsx: 'react',
         allowJs: true,
+        esModuleInterop: true,
         target: 'ES6'
       }
     }],
-  },
-  transformIgnorePatterns: ['<rootDir>/node_modules/']
+  }
 }
