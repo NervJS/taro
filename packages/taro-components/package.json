@@ -48,10 +48,10 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
+    "@stencil/core": "^2.18.1",
     "@tarojs/components-advanced": "workspace:*",
     "@tarojs/router": "workspace:*",
     "@tarojs/taro": "workspace:*",
-    "@stencil/core": "^2.18.1",
     "classnames": "^2.2.5",
     "hls.js": "^1.1.5",
     "intersection-observer": "^0.7.0",

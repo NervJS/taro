@@ -36,7 +36,11 @@
   "devDependencies": {
     "@rollup/plugin-json": "^4.1.0",
     "@rollup/plugin-node-resolve": "^15.0.1",
+    "jest": "^29.3.1",
+    "jest-cli": "^29.3.1",
+    "jest-environment-node": "^29.5.0",
     "rollup": "^3.8.1",
+    "ts-jest": "^29.0.5",
     "tslib": "^2.4.0",
     "rollup-plugin-node-externals": "^4.0.0",
     "rollup-plugin-ts": "^3.0.2",

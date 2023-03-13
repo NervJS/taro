@@ -5,9 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "rollup -c -w --bundleConfigAsCjs",
-    "build": "rollup -c --bundleConfigAsCjs",
-    "test": "jest",
-    "test:dev": "jest --watch"
+    "build": "rollup -c --bundleConfigAsCjs"
   },
   "files": [
     "dist",

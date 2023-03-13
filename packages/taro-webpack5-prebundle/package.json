@@ -41,6 +41,11 @@
     "webpack-virtual-modules": "^0.4.3"
   },
   "devDependencies": {
+    "jest": "^29.3.1",
+    "jest-cli": "^29.3.1",
+    "jest-environment-node": "^29.5.0",
+    "ts-jest": "^29.0.5",
+    "typescript": "^4.7.4",
     "webpack": "5.69.0",
     "webpack-dev-server": "4.7.4"
   },
