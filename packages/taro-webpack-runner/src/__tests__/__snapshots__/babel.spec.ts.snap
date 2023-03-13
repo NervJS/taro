@@ -5,12 +5,12 @@ exports[`babel should convert do expressions 1`] = `5`;
 exports[`babel should convert do expressions 2`] = `
 "
 /** filePath: dist/chunk/1.js **/
-(window[\\"webpackJsonp\\"] = window[\\"webpackJsonp\\"] || []).push([ [ 1 ], {
-    \\"16\\": function(module, exports, __webpack_require__) {},
-    \\"17\\": function(module, __webpack_exports__, __webpack_require__) {
-        \\"use strict\\";
+(window["webpackJsonp"] = window["webpackJsonp"] || []).push([ [ 1 ], {
+    "16": function(module, exports, __webpack_require__) {},
+    "17": function(module, __webpack_exports__, __webpack_require__) {
+        "use strict";
         __webpack_require__.r(__webpack_exports__);
-        __webpack_require__.d(__webpack_exports__, \\"default\\", (function() {
+        __webpack_require__.d(__webpack_exports__, "default", (function() {
             return index_Index;
         }));
         var classCallCheck = __webpack_require__(5);
@@ -18,33 +18,33 @@ exports[`babel should convert do expressions 2`] = `
         var inherits = __webpack_require__(8);
         var createSuper = __webpack_require__(7);
         var react = __webpack_require__(0);
-        var taro_components = \\"taro-components-mock\\";
+        var taro_components = "taro-components-mock";
         function defineCustomElements() {}
         function applyPolyfills() {}
         function initVue3Components() {}
         var index = __webpack_require__(16);
         var index_Index = function(_Component) {
-            Object(inherits[\\"a\\"])(Index, _Component);
-            var _super = Object(createSuper[\\"a\\"])(Index);
+            Object(inherits["a"])(Index, _Component);
+            var _super = Object(createSuper["a"])(Index);
             function Index() {
-                Object(classCallCheck[\\"a\\"])(this, Index);
+                Object(classCallCheck["a"])(this, Index);
                 return _super.apply(this, arguments);
             }
-            Object(createClass[\\"a\\"])(Index, [ {
-                \\"key\\": \\"componentDidMount\\",
-                \\"value\\": function componentDidMount() {
-                    var a = x > 10 ? \\"big\\" : \\"small\\";
+            Object(createClass["a"])(Index, [ {
+                "key": "componentDidMount",
+                "value": function componentDidMount() {
+                    var a = x > 10 ? "big" : "small";
                 }
             }, {
-                \\"key\\": \\"render\\",
-                \\"value\\": function render() {
-                    return react[\\"default\\"].createElement(undefined, {
-                        \\"className\\": \\"index\\"
-                    }, react[\\"default\\"].createElement(undefined, null, \\"Hello world!\\"));
+                "key": "render",
+                "value": function render() {
+                    return react["default"].createElement(undefined, {
+                        "className": "index"
+                    }, react["default"].createElement(undefined, null, "Hello world!"));
                 }
             } ]);
             return Index;
-        }(react[\\"Component\\"]);
+        }(react["Component"]);
     }
 } ]);
 
@@ -55,7 +55,7 @@ exports[`babel should convert do expressions 2`] = `
 
 
 /** filePath: dist/index.html **/
-<!doctype html><html><head><meta content=\\"text/html; charset=utf-8\\" http-equiv=\\"Content-Type\\"><meta content=\\"width=device-width,initial-scale=1,user-scalable=no\\" name=\\"viewport\\"><meta name=\\"apple-mobile-web-app-capable\\" content=\\"yes\\"><meta name=\\"apple-touch-fullscreen\\" content=\\"yes\\"><meta name=\\"format-detection\\" content=\\"telephone=no,address=no\\"><meta name=\\"apple-mobile-web-app-status-bar-style\\" content=\\"white\\"><meta http-equiv=\\"X-UA-Compatible\\" content=\\"IE=edge,chrome=1\\"><title></title><script>!function(x){function w(){var v,u,t,tes,s=x.document,r=s.documentElement,a=r.getBoundingClientRect().width;if(!v&&!u){var n=!!x.navigator.appVersion.match(/AppleWebKit.*Mobile.*/);v=x.devicePixelRatio;tes=x.devicePixelRatio;v=n?v:1,u=1/v}if(a>=640){r.style.fontSize=\\"40px\\"}else{if(a<=320){r.style.fontSize=\\"20px\\"}else{r.style.fontSize=a/320*20+\\"px\\"}}}x.addEventListener(\\"resize\\",function(){w()});w()}(window);</script><link href=\\"/css/app.css\\" rel=\\"stylesheet\\"></head><body><div id=\\"app\\"></div><script src=\\"/js/app.js\\"></script></body></html>
+<!doctype html><html><head><meta content="text/html; charset=utf-8" http-equiv="Content-Type"><meta content="width=device-width,initial-scale=1,user-scalable=no" name="viewport"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-touch-fullscreen" content="yes"><meta name="format-detection" content="telephone=no,address=no"><meta name="apple-mobile-web-app-status-bar-style" content="white"><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><title></title><script>!function(x){function w(){var v,u,t,tes,s=x.document,r=s.documentElement,a=r.getBoundingClientRect().width;if(!v&&!u){var n=!!x.navigator.appVersion.match(/AppleWebKit.*Mobile.*/);v=x.devicePixelRatio;tes=x.devicePixelRatio;v=n?v:1,u=1/v}if(a>=640){r.style.fontSize="40px"}else{if(a<=320){r.style.fontSize="20px"}else{r.style.fontSize=a/320*20+"px"}}}x.addEventListener("resize",function(){w()});w()}(window);</script><link href="/css/app.css" rel="stylesheet"></head><body><div id="app"></div><script src="/js/app.js"></script></body></html>
 
 /** filePath: dist/js/app.js **/
 (function(modules) {
@@ -82,22 +82,22 @@ exports[`babel should convert do expressions 2`] = `
     }
     var installedModules = {};
     var installedCssChunks = {
-        \\"0\\": 0
+        "0": 0
     };
     var installedChunks = {
-        \\"0\\": 0
+        "0": 0
     };
     function jsonpScriptSrc(chunkId) {
-        return __webpack_require__.p + \\"chunk/\\" + ({}[chunkId] || chunkId) + \\".js\\";
+        return __webpack_require__.p + "chunk/" + ({}[chunkId] || chunkId) + ".js";
     }
     function __webpack_require__(moduleId) {
         if (installedModules[moduleId]) {
             return installedModules[moduleId].exports;
         }
         var module = installedModules[moduleId] = {
-            \\"i\\": moduleId,
-            \\"l\\": false,
-            \\"exports\\": {}
+            "i": moduleId,
+            "l": false,
+            "exports": {}
         };
         modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
         module.l = true;
@@ -106,39 +106,39 @@ exports[`babel should convert do expressions 2`] = `
     __webpack_require__.e = function requireEnsure(chunkId) {
         var promises = [];
         var cssChunks = {
-            \\"1\\": 1
+            "1": 1
         };
         if (installedCssChunks[chunkId]) promises.push(installedCssChunks[chunkId]); else if (installedCssChunks[chunkId] !== 0 && cssChunks[chunkId]) {
             promises.push(installedCssChunks[chunkId] = new Promise((function(resolve, reject) {
-                var href = \\"css/\\" + ({}[chunkId] || chunkId) + \\".css\\";
+                var href = "css/" + ({}[chunkId] || chunkId) + ".css";
                 var fullhref = __webpack_require__.p + href;
-                var existingLinkTags = document.getElementsByTagName(\\"link\\");
+                var existingLinkTags = document.getElementsByTagName("link");
                 for (var i = 0; i < existingLinkTags.length; i++) {
                     var tag = existingLinkTags[i];
-                    var dataHref = tag.getAttribute(\\"data-href\\") || tag.getAttribute(\\"href\\");
-                    if (tag.rel === \\"stylesheet\\" && (dataHref === href || dataHref === fullhref)) return resolve();
+                    var dataHref = tag.getAttribute("data-href") || tag.getAttribute("href");
+                    if (tag.rel === "stylesheet" && (dataHref === href || dataHref === fullhref)) return resolve();
                 }
-                var existingStyleTags = document.getElementsByTagName(\\"style\\");
+                var existingStyleTags = document.getElementsByTagName("style");
                 for (var i = 0; i < existingStyleTags.length; i++) {
                     var tag = existingStyleTags[i];
-                    var dataHref = tag.getAttribute(\\"data-href\\");
+                    var dataHref = tag.getAttribute("data-href");
                     if (dataHref === href || dataHref === fullhref) return resolve();
                 }
-                var linkTag = document.createElement(\\"link\\");
-                linkTag.rel = \\"stylesheet\\";
-                linkTag.type = \\"text/css\\";
+                var linkTag = document.createElement("link");
+                linkTag.rel = "stylesheet";
+                linkTag.type = "text/css";
                 linkTag.onload = resolve;
                 linkTag.onerror = function(event) {
                     var request = event && event.target && event.target.src || fullhref;
-                    var err = new Error(\\"Loading CSS chunk \\" + chunkId + \\" failed.\\\\n(\\" + request + \\")\\");
-                    err.code = \\"CSS_CHUNK_LOAD_FAILED\\";
+                    var err = new Error("Loading CSS chunk " + chunkId + " failed.\\n(" + request + ")");
+                    err.code = "CSS_CHUNK_LOAD_FAILED";
                     err.request = request;
                     delete installedCssChunks[chunkId];
                     linkTag.parentNode.removeChild(linkTag);
                     reject(err);
                 };
                 linkTag.href = fullhref;
-                var head = document.getElementsByTagName(\\"head\\")[0];
+                var head = document.getElementsByTagName("head")[0];
                 head.appendChild(linkTag);
             })).then((function() {
                 installedCssChunks[chunkId] = 0;
@@ -153,12 +153,12 @@ exports[`babel should convert do expressions 2`] = `
                     installedChunkData = installedChunks[chunkId] = [ resolve, reject ];
                 }));
                 promises.push(installedChunkData[2] = promise);
-                var script = document.createElement(\\"script\\");
+                var script = document.createElement("script");
                 var onScriptComplete;
-                script.charset = \\"utf-8\\";
+                script.charset = "utf-8";
                 script.timeout = 120;
                 if (__webpack_require__.nc) {
-                    script.setAttribute(\\"nonce\\", __webpack_require__.nc);
+                    script.setAttribute("nonce", __webpack_require__.nc);
                 }
                 script.src = jsonpScriptSrc(chunkId);
                 var error = new Error;
@@ -168,10 +168,10 @@ exports[`babel should convert do expressions 2`] = `
                     var chunk = installedChunks[chunkId];
                     if (chunk !== 0) {
                         if (chunk) {
-                            var errorType = event && (event.type === \\"load\\" ? \\"missing\\" : event.type);
+                            var errorType = event && (event.type === "load" ? "missing" : event.type);
                             var realSrc = event && event.target && event.target.src;
-                            error.message = \\"Loading chunk \\" + chunkId + \\" failed.\\\\n(\\" + errorType + \\": \\" + realSrc + \\")\\";
-                            error.name = \\"ChunkLoadError\\";
+                            error.message = "Loading chunk " + chunkId + " failed.\\n(" + errorType + ": " + realSrc + ")";
+                            error.name = "ChunkLoadError";
                             error.type = errorType;
                             error.request = realSrc;
                             chunk[1](error);
@@ -181,8 +181,8 @@ exports[`babel should convert do expressions 2`] = `
                 };
                 var timeout = setTimeout((function() {
                     onScriptComplete({
-                        \\"type\\": \\"timeout\\",
-                        \\"target\\": script
+                        "type": "timeout",
+                        "target": script
                     });
                 }), 12e4);
                 script.onerror = script.onload = onScriptComplete;
@@ -196,54 +196,54 @@ exports[`babel should convert do expressions 2`] = `
     __webpack_require__.d = function(exports, name, getter) {
         if (!__webpack_require__.o(exports, name)) {
             Object.defineProperty(exports, name, {
-                \\"enumerable\\": true,
-                \\"get\\": getter
+                "enumerable": true,
+                "get": getter
             });
         }
     };
     __webpack_require__.r = function(exports) {
-        if (typeof Symbol !== \\"undefined\\" && Symbol.toStringTag) {
+        if (typeof Symbol !== "undefined" && Symbol.toStringTag) {
             Object.defineProperty(exports, Symbol.toStringTag, {
-                \\"value\\": \\"Module\\"
+                "value": "Module"
             });
         }
-        Object.defineProperty(exports, \\"__esModule\\", {
-            \\"value\\": true
+        Object.defineProperty(exports, "__esModule", {
+            "value": true
         });
     };
     __webpack_require__.t = function(value, mode) {
         if (mode & 1) value = __webpack_require__(value);
         if (mode & 8) return value;
-        if (mode & 4 && typeof value === \\"object\\" && value && value.__esModule) return value;
+        if (mode & 4 && typeof value === "object" && value && value.__esModule) return value;
         var ns = Object.create(null);
         __webpack_require__.r(ns);
-        Object.defineProperty(ns, \\"default\\", {
-            \\"enumerable\\": true,
-            \\"value\\": value
+        Object.defineProperty(ns, "default", {
+            "enumerable": true,
+            "value": value
         });
-        if (mode & 2 && typeof value != \\"string\\") for (var key in value) __webpack_require__.d(ns, key, function(key) {
+        if (mode & 2 && typeof value != "string") for (var key in value) __webpack_require__.d(ns, key, function(key) {
             return value[key];
         }.bind(null, key));
         return ns;
     };
     __webpack_require__.n = function(module) {
         var getter = module && module.__esModule ? function getDefault() {
-            return module[\\"default\\"];
+            return module["default"];
         } : function getModuleExports() {
             return module;
         };
-        __webpack_require__.d(getter, \\"a\\", getter);
+        __webpack_require__.d(getter, "a", getter);
         return getter;
     };
     __webpack_require__.o = function(object, property) {
         return Object.prototype.hasOwnProperty.call(object, property);
     };
-    __webpack_require__.p = \\"/\\";
+    __webpack_require__.p = "/";
     __webpack_require__.oe = function(err) {
         console.error(err);
         throw err;
     };
-    var jsonpArray = window[\\"webpackJsonp\\"] = window[\\"webpackJsonp\\"] || [];
+    var jsonpArray = window["webpackJsonp"] = window["webpackJsonp"] || [];
     var oldJsonpFunction = jsonpArray.push.bind(jsonpArray);
     jsonpArray.push = webpackJsonpCallback;
     jsonpArray = jsonpArray.slice();
@@ -251,25 +251,25 @@ exports[`babel should convert do expressions 2`] = `
     var parentJsonpFunction = oldJsonpFunction;
     return __webpack_require__(__webpack_require__.s = 12);
 })([ function(module, __webpack_exports__, __webpack_require__) {
-    \\"use strict\\";
+    "use strict";
     __webpack_require__.r(__webpack_exports__);
-    __webpack_exports__[\\"default\\"] = \\"react-mock\\";
+    __webpack_exports__["default"] = "react-mock";
 }, function(module, __webpack_exports__, __webpack_require__) {
-    \\"use strict\\";
+    "use strict";
     __webpack_require__.r(__webpack_exports__);
-    __webpack_require__.d(__webpack_exports__, \\"window\\", (function() {
+    __webpack_require__.d(__webpack_exports__, "window", (function() {
         return window;
     }));
-    __webpack_require__.d(__webpack_exports__, \\"createReactApp\\", (function() {
+    __webpack_require__.d(__webpack_exports__, "createReactApp", (function() {
         return createReactApp;
     }));
-    __webpack_require__.d(__webpack_exports__, \\"createVueApp\\", (function() {
+    __webpack_require__.d(__webpack_exports__, "createVueApp", (function() {
         return createVueApp;
     }));
-    __webpack_require__.d(__webpack_exports__, \\"createVue3App\\", (function() {
+    __webpack_require__.d(__webpack_exports__, "createVue3App", (function() {
         return createVue3App;
     }));
-    __webpack_exports__[\\"default\\"] = \\"taro-runtime-mock\\";
+    __webpack_exports__["default"] = "taro-runtime-mock";
     var window = {};
     function createReactApp() {}
     function createVueApp() {}
@@ -278,56 +278,56 @@ exports[`babel should convert do expressions 2`] = `
     function _defineProperty(obj, key, value) {
         if (key in obj) {
             Object.defineProperty(obj, key, {
-                \\"value\\": value,
-                \\"enumerable\\": true,
-                \\"configurable\\": true,
-                \\"writable\\": true
+                "value": value,
+                "enumerable": true,
+                "configurable": true,
+                "writable": true
             });
         } else {
             obj[key] = value;
         }
         return obj;
     }
-    module.exports = _defineProperty, module.exports.__esModule = true, module.exports[\\"default\\"] = module.exports;
+    module.exports = _defineProperty, module.exports.__esModule = true, module.exports["default"] = module.exports;
 }, function(module, exports) {
     function _classCallCheck(instance, Constructor) {
         if (!(instance instanceof Constructor)) {
-            throw new TypeError(\\"Cannot call a class as a function\\");
+            throw new TypeError("Cannot call a class as a function");
         }
     }
-    module.exports = _classCallCheck, module.exports.__esModule = true, module.exports[\\"default\\"] = module.exports;
+    module.exports = _classCallCheck, module.exports.__esModule = true, module.exports["default"] = module.exports;
 }, function(module, exports) {
     function _defineProperties(target, props) {
         for (var i = 0; i < props.length; i++) {
             var descriptor = props[i];
             descriptor.enumerable = descriptor.enumerable || false;
             descriptor.configurable = true;
-            if (\\"value\\" in descriptor) descriptor.writable = true;
+            if ("value" in descriptor) descriptor.writable = true;
             Object.defineProperty(target, descriptor.key, descriptor);
         }
     }
     function _createClass(Constructor, protoProps, staticProps) {
         if (protoProps) _defineProperties(Constructor.prototype, protoProps);
         if (staticProps) _defineProperties(Constructor, staticProps);
-        Object.defineProperty(Constructor, \\"prototype\\", {
-            \\"writable\\": false
+        Object.defineProperty(Constructor, "prototype", {
+            "writable": false
         });
         return Constructor;
     }
-    module.exports = _createClass, module.exports.__esModule = true, module.exports[\\"default\\"] = module.exports;
+    module.exports = _createClass, module.exports.__esModule = true, module.exports["default"] = module.exports;
 }, function(module, __webpack_exports__, __webpack_require__) {
-    \\"use strict\\";
-    __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
+    "use strict";
+    __webpack_require__.d(__webpack_exports__, "a", (function() {
         return _classCallCheck;
     }));
     function _classCallCheck(instance, Constructor) {
         if (!(instance instanceof Constructor)) {
-            throw new TypeError(\\"Cannot call a class as a function\\");
+            throw new TypeError("Cannot call a class as a function");
         }
     }
 }, function(module, __webpack_exports__, __webpack_require__) {
-    \\"use strict\\";
-    __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
+    "use strict";
+    __webpack_require__.d(__webpack_exports__, "a", (function() {
         return _createClass;
     }));
     function _defineProperties(target, props) {
@@ -335,21 +335,21 @@ exports[`babel should convert do expressions 2`] = `
             var descriptor = props[i];
             descriptor.enumerable = descriptor.enumerable || false;
             descriptor.configurable = true;
-            if (\\"value\\" in descriptor) descriptor.writable = true;
+            if ("value" in descriptor) descriptor.writable = true;
             Object.defineProperty(target, descriptor.key, descriptor);
         }
     }
     function _createClass(Constructor, protoProps, staticProps) {
         if (protoProps) _defineProperties(Constructor.prototype, protoProps);
         if (staticProps) _defineProperties(Constructor, staticProps);
-        Object.defineProperty(Constructor, \\"prototype\\", {
-            \\"writable\\": false
+        Object.defineProperty(Constructor, "prototype", {
+            "writable": false
         });
         return Constructor;
     }
 }, function(module, __webpack_exports__, __webpack_require__) {
-    \\"use strict\\";
-    __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
+    "use strict";
+    __webpack_require__.d(__webpack_exports__, "a", (function() {
         return _createSuper;
     }));
     function _getPrototypeOf(o) {
@@ -359,9 +359,9 @@ exports[`babel should convert do expressions 2`] = `
         return _getPrototypeOf(o);
     }
     function _isNativeReflectConstruct() {
-        if (typeof Reflect === \\"undefined\\" || !Reflect.construct) return false;
+        if (typeof Reflect === "undefined" || !Reflect.construct) return false;
         if (Reflect.construct.sham) return false;
-        if (typeof Proxy === \\"function\\") return true;
+        if (typeof Proxy === "function") return true;
         try {
             Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], (function() {})));
             return true;
@@ -370,24 +370,24 @@ exports[`babel should convert do expressions 2`] = `
         }
     }
     function _typeof(obj) {
-        \\"@babel/helpers - typeof\\";
-        return _typeof = \\"function\\" == typeof Symbol && \\"symbol\\" == typeof Symbol.iterator ? function(obj) {
+        "@babel/helpers - typeof";
+        return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function(obj) {
             return typeof obj;
         } : function(obj) {
-            return obj && \\"function\\" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? \\"symbol\\" : typeof obj;
+            return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
         }, _typeof(obj);
     }
     function _assertThisInitialized(self) {
         if (self === void 0) {
-            throw new ReferenceError(\\"this hasn't been initialised - super() hasn't been called\\");
+            throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
         }
         return self;
     }
     function _possibleConstructorReturn(self, call) {
-        if (call && (_typeof(call) === \\"object\\" || typeof call === \\"function\\")) {
+        if (call && (_typeof(call) === "object" || typeof call === "function")) {
             return call;
         } else if (call !== void 0) {
-            throw new TypeError(\\"Derived constructors may only return object or undefined\\");
+            throw new TypeError("Derived constructors may only return object or undefined");
         }
         return _assertThisInitialized(self);
     }
@@ -405,8 +405,8 @@ exports[`babel should convert do expressions 2`] = `
         };
     }
 }, function(module, __webpack_exports__, __webpack_require__) {
-    \\"use strict\\";
-    __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
+    "use strict";
+    __webpack_require__.d(__webpack_exports__, "a", (function() {
         return _inherits;
     }));
     function _setPrototypeOf(o, p) {
@@ -417,40 +417,40 @@ exports[`babel should convert do expressions 2`] = `
         return _setPrototypeOf(o, p);
     }
     function _inherits(subClass, superClass) {
-        if (typeof superClass !== \\"function\\" && superClass !== null) {
-            throw new TypeError(\\"Super expression must either be null or a function\\");
+        if (typeof superClass !== "function" && superClass !== null) {
+            throw new TypeError("Super expression must either be null or a function");
         }
         subClass.prototype = Object.create(superClass && superClass.prototype, {
-            \\"constructor\\": {
-                \\"value\\": subClass,
-                \\"writable\\": true,
-                \\"configurable\\": true
+            "constructor": {
+                "value": subClass,
+                "writable": true,
+                "configurable": true
             }
         });
-        Object.defineProperty(subClass, \\"prototype\\", {
-            \\"writable\\": false
+        Object.defineProperty(subClass, "prototype", {
+            "writable": false
         });
         if (superClass) _setPrototypeOf(subClass, superClass);
     }
 }, function(module, exports, __webpack_require__) {
     var _require = __webpack_require__(1), hooks = _require.hooks;
     var taro = __webpack_require__(13).default;
-    if (hooks.isExist(\\"initNativeApi\\")) {
-        hooks.call(\\"initNativeApi\\", taro);
+    if (hooks.isExist("initNativeApi")) {
+        hooks.call("initNativeApi", taro);
     }
     module.exports = taro;
     module.exports.default = module.exports;
 }, function(module, exports) {
     function _typeof(obj) {
-        \\"@babel/helpers - typeof\\";
-        return module.exports = _typeof = \\"function\\" == typeof Symbol && \\"symbol\\" == typeof Symbol.iterator ? function(obj) {
+        "@babel/helpers - typeof";
+        return module.exports = _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function(obj) {
             return typeof obj;
         } : function(obj) {
-            return obj && \\"function\\" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? \\"symbol\\" : typeof obj;
-        }, module.exports.__esModule = true, module.exports[\\"default\\"] = module.exports, 
+            return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
+        }, module.exports.__esModule = true, module.exports["default"] = module.exports, 
         _typeof(obj);
     }
-    module.exports = _typeof, module.exports.__esModule = true, module.exports[\\"default\\"] = module.exports;
+    module.exports = _typeof, module.exports.__esModule = true, module.exports["default"] = module.exports;
 }, function(module, exports, __webpack_require__) {
     var defineProperty = __webpack_require__(2);
     function ownKeys(object, enumerableOnly) {
@@ -474,13 +474,13 @@ exports[`babel should convert do expressions 2`] = `
         }
         return target;
     }
-    module.exports = _objectSpread2, module.exports.__esModule = true, module.exports[\\"default\\"] = module.exports;
+    module.exports = _objectSpread2, module.exports.__esModule = true, module.exports["default"] = module.exports;
 }, function(module, exports, __webpack_require__) {
     module.exports = __webpack_require__(15);
 }, function(module, __webpack_exports__, __webpack_require__) {
-    \\"use strict\\";
+    "use strict";
     __webpack_require__.r(__webpack_exports__);
-    __webpack_require__.d(__webpack_exports__, \\"default\\", (function() {
+    __webpack_require__.d(__webpack_exports__, "default", (function() {
         return Taro;
     }));
     var _babel_runtime_helpers_typeof__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(10);
@@ -495,13 +495,13 @@ exports[`babel should convert do expressions 2`] = `
     var _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(2);
     var _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_5___default = __webpack_require__.n(_babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_5__);
     function isFunction(x) {
-        return typeof x === \\"function\\";
+        return typeof x === "function";
     }
     function isUndefined(x) {
-        return typeof x === \\"undefined\\";
+        return typeof x === "undefined";
     }
     function isObject(x) {
-        return x && _babel_runtime_helpers_typeof__WEBPACK_IMPORTED_MODULE_0___default()(x) === \\"object\\";
+        return x && _babel_runtime_helpers_typeof__WEBPACK_IMPORTED_MODULE_0___default()(x) === "object";
     }
     var isBadObj = function isBadObj(x) {
         return !isObject(x);
@@ -512,7 +512,7 @@ exports[`babel should convert do expressions 2`] = `
     if (!isFunction(Object.assign)) {
         Object.assign = function(target) {
             if (target == null) {
-                throwTypeError(\\"Cannot convert undefined or null to object\\");
+                throwTypeError("Cannot convert undefined or null to object");
             }
             var to = Object(target);
             for (var index = 1; index < arguments.length; index++) {
@@ -535,35 +535,35 @@ exports[`babel should convert do expressions 2`] = `
                     return Object.prototype.hasOwnProperty.call(obj, prop);
                 }
                 if (isBadObj(desc)) {
-                    throwTypeError(\\"bad desc\\");
+                    throwTypeError("bad desc");
                 }
                 var d = {};
-                if (hasProperty(desc, \\"enumerable\\")) d.enumerable = !!desc.enumerable;
-                if (hasProperty(desc, \\"configurable\\")) {
+                if (hasProperty(desc, "enumerable")) d.enumerable = !!desc.enumerable;
+                if (hasProperty(desc, "configurable")) {
                     d.configurable = !!desc.configurable;
                 }
-                if (hasProperty(desc, \\"value\\")) d.value = desc.value;
-                if (hasProperty(desc, \\"writable\\")) d.writable = !!desc.writable;
-                if (hasProperty(desc, \\"get\\")) {
+                if (hasProperty(desc, "value")) d.value = desc.value;
+                if (hasProperty(desc, "writable")) d.writable = !!desc.writable;
+                if (hasProperty(desc, "get")) {
                     var g = desc.get;
                     if (!isFunction(g) && !isUndefined(g)) {
-                        throwTypeError(\\"bad get\\");
+                        throwTypeError("bad get");
                     }
                     d.get = g;
                 }
-                if (hasProperty(desc, \\"set\\")) {
+                if (hasProperty(desc, "set")) {
                     var s = desc.set;
                     if (!isFunction(s) && !isUndefined(s)) {
-                        throwTypeError(\\"bad set\\");
+                        throwTypeError("bad set");
                     }
                     d.set = s;
                 }
-                if ((\\"get\\" in d || \\"set\\" in d) && (\\"value\\" in d || \\"writable\\" in d)) {
-                    throwTypeError(\\"identity-confused descriptor\\");
+                if (("get" in d || "set" in d) && ("value" in d || "writable" in d)) {
+                    throwTypeError("identity-confused descriptor");
                 }
                 return d;
             }
-            if (isBadObj(obj)) throwTypeError(\\"bad obj\\");
+            if (isBadObj(obj)) throwTypeError("bad obj");
             properties = Object(properties);
             var keys = Object.keys(properties);
             var descs = [];
@@ -577,14 +577,14 @@ exports[`babel should convert do expressions 2`] = `
         };
     }
     var ENV_TYPE = {
-        \\"WEAPP\\": \\"WEAPP\\",
-        \\"WEB\\": \\"WEB\\",
-        \\"RN\\": \\"RN\\",
-        \\"SWAN\\": \\"SWAN\\",
-        \\"ALIPAY\\": \\"ALIPAY\\",
-        \\"TT\\": \\"TT\\",
-        \\"QQ\\": \\"QQ\\",
-        \\"JD\\": \\"JD\\"
+        "WEAPP": "WEAPP",
+        "WEB": "WEB",
+        "RN": "RN",
+        "SWAN": "SWAN",
+        "ALIPAY": "ALIPAY",
+        "TT": "TT",
+        "QQ": "QQ",
+        "JD": "JD"
     };
     function getEnv() {
         if (false) {} else if (false) {} else if (false) {} else if (false) {} else if (false) {} else if (false) {} else if (true) {
@@ -599,11 +599,11 @@ exports[`babel should convert do expressions 2`] = `
             this.interceptors = interceptors || [];
         }
         _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_4___default()(Chain, [ {
-            \\"key\\": \\"proceed\\",
-            \\"value\\": function proceed(requestParams) {
+            "key": "proceed",
+            "value": function proceed(requestParams) {
                 this.requestParams = requestParams;
                 if (this.index >= this.interceptors.length) {
-                    throw new Error(\\"chain 参数错误, 请勿直接修改 request.chain\\");
+                    throw new Error("chain 参数错误, 请勿直接修改 request.chain");
                 }
                 var nextInterceptor = this._getNextInterceptor();
                 var nextChain = this._getNextChain();
@@ -617,13 +617,13 @@ exports[`babel should convert do expressions 2`] = `
                 return res;
             }
         }, {
-            \\"key\\": \\"_getNextInterceptor\\",
-            \\"value\\": function _getNextInterceptor() {
+            "key": "_getNextInterceptor",
+            "value": function _getNextInterceptor() {
                 return this.interceptors[this.index];
             }
         }, {
-            \\"key\\": \\"_getNextChain\\",
-            \\"value\\": function _getNextChain() {
+            "key": "_getNextChain",
+            "value": function _getNextChain() {
                 return new Chain(this.requestParams, this.interceptors, this.index + 1);
             }
         } ]);
@@ -636,8 +636,8 @@ exports[`babel should convert do expressions 2`] = `
             this.chain = new Chain;
         }
         _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_4___default()(Link, [ {
-            \\"key\\": \\"request\\",
-            \\"value\\": function request(requestParams) {
+            "key": "request",
+            "value": function request(requestParams) {
                 var chain = this.chain;
                 var taroInterceptor = this.taroInterceptor;
                 chain.interceptors = chain.interceptors.filter((function(interceptor) {
@@ -646,13 +646,13 @@ exports[`babel should convert do expressions 2`] = `
                 return chain.proceed(_babel_runtime_helpers_objectSpread2__WEBPACK_IMPORTED_MODULE_2___default()({}, requestParams));
             }
         }, {
-            \\"key\\": \\"addInterceptor\\",
-            \\"value\\": function addInterceptor(interceptor) {
+            "key": "addInterceptor",
+            "value": function addInterceptor(interceptor) {
                 this.chain.interceptors.push(interceptor);
             }
         }, {
-            \\"key\\": \\"cleanInterceptors\\",
-            \\"value\\": function cleanInterceptors() {
+            "key": "cleanInterceptors",
+            "value": function cleanInterceptors() {
                 this.chain = new Chain;
             }
         } ]);
@@ -664,7 +664,7 @@ exports[`babel should convert do expressions 2`] = `
         var res = new Promise((function(resolve, reject) {
             var timeout = setTimeout((function() {
                 timeout = null;
-                reject(new Error(\\"网络链接超时,请稍后再试！\\"));
+                reject(new Error("网络链接超时,请稍后再试！"));
             }), requestParams && requestParams.timeout || 6e4);
             p = chain.proceed(requestParams);
             p.then((function(res) {
@@ -692,9 +692,9 @@ exports[`babel should convert do expressions 2`] = `
         return res;
     }
     var interceptors = Object.freeze({
-        \\"__proto__\\": null,
-        \\"timeoutInterceptor\\": timeoutInterceptor,
-        \\"logInterceptor\\": logInterceptor
+        "__proto__": null,
+        "timeoutInterceptor": timeoutInterceptor,
+        "logInterceptor": logInterceptor
     });
     function Behavior(options) {
         return options;
@@ -706,9 +706,9 @@ exports[`babel should convert do expressions 2`] = `
     }
     var defaultDesignWidth = 750;
     var defaultDesignRatio = {
-        \\"640\\": 2.34 / 2,
-        \\"750\\": 1,
-        \\"828\\": 1.81 / 2
+        "640": 2.34 / 2,
+        "750": 1,
+        "828": 1.81 / 2
     };
     var defaultBaseFontSize = 20;
     function getInitPxTransform(taro) {
@@ -729,30 +729,30 @@ exports[`babel should convert do expressions 2`] = `
                 return isFunction(config.designWidth) ? config.designWidth(input) : config.designWidth || defaultDesignWidth;
             }(size);
             if (!(designWidth in deviceRatio)) {
-                throw new Error(\\"deviceRatio 配置中不存在 \\".concat(designWidth, \\" 的设置！\\"));
+                throw new Error("deviceRatio 配置中不存在 ".concat(designWidth, " 的设置！"));
             }
-            return parseInt(size, 10) * deviceRatio[designWidth] + \\"rpx\\";
+            return parseInt(size, 10) * deviceRatio[designWidth] + "rpx";
         };
     }
     var Taro = {
-        \\"Behavior\\": Behavior,
-        \\"getEnv\\": getEnv,
-        \\"ENV_TYPE\\": ENV_TYPE,
-        \\"Link\\": Link,
-        \\"interceptors\\": interceptors,
-        \\"Current\\": _tarojs_runtime__WEBPACK_IMPORTED_MODULE_1__[\\"Current\\"],
-        \\"getCurrentInstance\\": _tarojs_runtime__WEBPACK_IMPORTED_MODULE_1__[\\"getCurrentInstance\\"],
-        \\"options\\": _tarojs_runtime__WEBPACK_IMPORTED_MODULE_1__[\\"options\\"],
-        \\"nextTick\\": _tarojs_runtime__WEBPACK_IMPORTED_MODULE_1__[\\"nextTick\\"],
-        \\"eventCenter\\": _tarojs_runtime__WEBPACK_IMPORTED_MODULE_1__[\\"eventCenter\\"],
-        \\"Events\\": _tarojs_runtime__WEBPACK_IMPORTED_MODULE_1__[\\"Events\\"],
-        \\"getInitPxTransform\\": getInitPxTransform
+        "Behavior": Behavior,
+        "getEnv": getEnv,
+        "ENV_TYPE": ENV_TYPE,
+        "Link": Link,
+        "interceptors": interceptors,
+        "Current": _tarojs_runtime__WEBPACK_IMPORTED_MODULE_1__["Current"],
+        "getCurrentInstance": _tarojs_runtime__WEBPACK_IMPORTED_MODULE_1__["getCurrentInstance"],
+        "options": _tarojs_runtime__WEBPACK_IMPORTED_MODULE_1__["options"],
+        "nextTick": _tarojs_runtime__WEBPACK_IMPORTED_MODULE_1__["nextTick"],
+        "eventCenter": _tarojs_runtime__WEBPACK_IMPORTED_MODULE_1__["eventCenter"],
+        "Events": _tarojs_runtime__WEBPACK_IMPORTED_MODULE_1__["Events"],
+        "getInitPxTransform": getInitPxTransform
     };
     Taro.initPxTransform = getInitPxTransform(Taro);
-    Taro.preload = getPreload(_tarojs_runtime__WEBPACK_IMPORTED_MODULE_1__[\\"Current\\"]);
+    Taro.preload = getPreload(_tarojs_runtime__WEBPACK_IMPORTED_MODULE_1__["Current"]);
     Taro.pxTransform = getPxTransform(Taro);
 }, function(module, exports, __webpack_require__) {}, function(module, __webpack_exports__, __webpack_require__) {
-    \\"use strict\\";
+    "use strict";
     __webpack_require__.r(__webpack_exports__);
     var taro = __webpack_require__(9);
     function createMultiRouter() {}
@@ -764,49 +764,49 @@ exports[`babel should convert do expressions 2`] = `
     var react = __webpack_require__(0);
     var app = __webpack_require__(14);
     var app_App = function(_Component) {
-        Object(inherits[\\"a\\"])(App, _Component);
-        var _super = Object(createSuper[\\"a\\"])(App);
+        Object(inherits["a"])(App, _Component);
+        var _super = Object(createSuper["a"])(App);
         function App() {
-            Object(classCallCheck[\\"a\\"])(this, App);
+            Object(classCallCheck["a"])(this, App);
             return _super.apply(this, arguments);
         }
-        Object(createClass[\\"a\\"])(App, [ {
-            \\"key\\": \\"componentDidMount\\",
-            \\"value\\": function componentDidMount() {}
+        Object(createClass["a"])(App, [ {
+            "key": "componentDidMount",
+            "value": function componentDidMount() {}
         }, {
-            \\"key\\": \\"componentDidShow\\",
-            \\"value\\": function componentDidShow() {}
+            "key": "componentDidShow",
+            "value": function componentDidShow() {}
         }, {
-            \\"key\\": \\"componentDidHide\\",
-            \\"value\\": function componentDidHide() {}
+            "key": "componentDidHide",
+            "value": function componentDidHide() {}
         }, {
-            \\"key\\": \\"render\\",
-            \\"value\\": function render() {
+            "key": "render",
+            "value": function render() {
                 return this.props.children;
             }
         } ]);
         return App;
-    }(react[\\"Component\\"]);
+    }(react["Component"]);
     var src_app = app_App;
     var taro_runtime = __webpack_require__(1);
     function createReactApp() {}
     function createVueApp() {}
     function createVue3App() {}
     var config = {
-        \\"router\\": {
-            \\"mode\\": \\"hash\\",
-            \\"customRoutes\\": {},
-            \\"basename\\": \\"/\\"
+        "router": {
+            "mode": "hash",
+            "customRoutes": {},
+            "basename": "/"
         },
-        \\"pages\\": [ \\"pages/index/index\\" ],
-        \\"window\\": {
-            \\"backgroundTextStyle\\": \\"light\\",
-            \\"navigationBarBackgroundColor\\": \\"#fff\\",
-            \\"navigationBarTitleText\\": \\"WeChat\\",
-            \\"navigationBarTextStyle\\": \\"black\\"
+        "pages": [ "pages/index/index" ],
+        "window": {
+            "backgroundTextStyle": "light",
+            "navigationBarBackgroundColor": "#fff",
+            "navigationBarTitleText": "WeChat",
+            "navigationBarTextStyle": "black"
         }
     };
-    taro_runtime[\\"window\\"].__taroAppConfig = config;
+    taro_runtime["window"].__taroAppConfig = config;
     if (config.tabBar) {
         var tabbarList = config.tabBar.list;
         for (var i = 0; i < tabbarList.length; i++) {
@@ -820,29 +820,29 @@ exports[`babel should convert do expressions 2`] = `
         }
     }
     config.routes = [ Object.assign({
-        \\"path\\": \\"pages/index/index\\",
-        \\"load\\": function load(context, params) {
+        "path": "pages/index/index",
+        "load": function load(context, params) {
             var page = __webpack_require__.e(1).then(__webpack_require__.bind(null, 17));
             return [ page, context, params ];
         }
     }, {
-        \\"navigationBarTitleText\\": \\"首页\\"
+        "navigationBarTitleText": "首页"
     }) ];
-    Object.assign(react[\\"default\\"], {
-        \\"findDOMNode\\": react[\\"findDOMNode\\"],
-        \\"render\\": react[\\"render\\"],
-        \\"unstable_batchedUpdates\\": react[\\"unstable_batchedUpdates\\"]
+    Object.assign(react["default"], {
+        "findDOMNode": react["findDOMNode"],
+        "render": react["render"],
+        "unstable_batchedUpdates": react["unstable_batchedUpdates"]
     });
-    var inst = createReactApp(src_app, react, react[\\"default\\"], config);
+    var inst = createReactApp(src_app, react, react["default"], config);
     createRouter(inst, config, react);
-    Object(taro[\\"initPxTransform\\"])({
-        \\"designWidth\\": 750,
-        \\"deviceRatio\\": {
-            \\"640\\": 1.17,
-            \\"750\\": 1,
-            \\"828\\": .905
+    Object(taro["initPxTransform"])({
+        "designWidth": 750,
+        "deviceRatio": {
+            "640": 1.17,
+            "750": 1,
+            "828": .905
         },
-        \\"baseFontSize\\": 20
+        "baseFontSize": 20
     });
 } ]);
 "

@@ -3,12 +3,6 @@
   "version": "3.6.2",
   "description": "taroize 之后的运行时",
   "main": "index.js",
-  "scripts": {
-    "test": "jest",
-    "build": "rollup -c rollup.config.js",
-    "dev": "rollup -c -w rollup.config.js",
-    "tsc": "tsc"
-  },
   "files": [
     "dist",
     "src",
@@ -21,6 +15,12 @@
   },
   "author": "yuche",
   "license": "MIT",
+  "scripts": {
+    "build": "rollup -c rollup.config.js",
+    "dev": "rollup -c -w rollup.config.js",
+    "test": "jest",
+    "tsc": "tsc"
+  },
   "dependencies": {
     "@babel/runtime": "^7.14.5",
     "@tarojs/runtime": "workspace:*",
@@ -29,6 +29,12 @@
   },
   "devDependencies": {
     "@types/sinon": "^7.5.0",
-    "sinon": "^7.5.0"
+    "jest": "^29.3.1",
+    "jest-cli": "^29.3.1",
+    "jest-environment-jsdom": "^29.5.0",
+    "jsdom": "^21.1.0",
+    "sinon": "^7.5.0",
+    "ts-jest": "^29.0.5",
+    "typescript": "^4.7.4"
   }
 }
