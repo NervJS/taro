@@ -194,7 +194,7 @@ describe('inspect', () => {
 
       setProcessArgv('taro -h')
       cli.run()
-      expect(spy).toBeCalledTimes(17)
+      expect(spy).toBeCalledTimes(16)
 
       spy.mockRestore()
     })

@@ -158,6 +158,41 @@ interface ScrollViewProps extends StandardProps {
    */
   enablePassive?: string
 
+  /** 渲染模式
+   * list - 列表模式。只会渲染在屏节点，会根据直接子节点是否在屏来按需渲染，若只有一个直接子节点则性能会退化
+   * custom - 自定义模式。只会渲染在屏节点，子节点可以是 sticky-section list-view grid-view 等组件
+   * @supported weapp
+   * @default 'list'
+   */
+  type: string
+
+  /** 是否反向滚动。一般初始滚动位置是在顶部，反向滚动则是在底部。
+   * @supported weapp
+   * @default false
+   */
+  reverse?: boolean
+
+  /** 指定视口外渲染区域的距离，默认情况下视口外节点不渲染。指定 cache-extent 可优化滚动体验和加载速度，但会提高内存占用且影响首屏速度，可按需启用。
+   * @supported weapp
+   */
+  cacheExtent?: number
+
+  /** 只 scroll-into-view 到 cacheExtent 以内的目标节点，性能更佳
+   * @supported weapp
+   * @default false
+   */
+  scrollIntoViewWithinExtent?: boolean
+
+  /** 指定 scroll-into-view 目标节点在视口内的位置。
+   * start - 目标节点显示在视口开始处
+   * center - 目标节点显示在视口中间
+   * end - 目标节点显示在视口结束处
+   * nearest - 目标节点在就近的视口边缘显示，若节点已在视口内则不触发滚动
+   * @supported weapp
+   * @default 'start'
+   */
+  scrollIntoViewAlignment?: string
+
   /** 滚动到顶部/左边，会触发 scrolltoupper 事件
    * @supported weapp, alipay, swan, tt, qq, jd, h5, rn
    */
@@ -172,6 +207,16 @@ interface ScrollViewProps extends StandardProps {
    * @supported weapp, alipay, swan, tt, qq, jd, h5, rn
    */
   onScroll?: BaseEventOrigFunction<ScrollViewProps.onScrollDetail>
+
+  /** 滚动开始事件
+   * @supported weapp
+   */
+  onScrollStart?:BaseEventOrigFunction<ScrollViewProps.onScrollDetail>
+
+  /** 滚动结束事件
+   * @supported weapp
+   */
+  onScrollEnd?:BaseEventOrigFunction<ScrollViewProps.onScrollDetail>
 
   /** 自定义下拉刷新控件被下拉
    * @supported weapp
@@ -192,6 +237,11 @@ interface ScrollViewProps extends StandardProps {
    * @supported weapp
    */
   onRefresherAbort?: CommonEventFunction
+
+  /** 自定义下拉刷新即将触发刷新（拖动超过 refresher-threshold 时）的事件
+   * @supported weapp
+   */
+  onRefresherWillRefresh?: CommonEventFunction
 
   /** 滑动开始事件 (同时开启 enhanced 属性后生效)
    * @supported weapp
@@ -243,6 +293,8 @@ declare namespace ScrollViewProps {
     scrollWidth: number
     deltaX: number
     deltaY: number
+
+    isDrag?: boolean
   }
   interface onDragDetail {
     /** 横向滚动条位置 */

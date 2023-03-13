@@ -194,7 +194,6 @@ export default class CLI {
         console.log('  info                Diagnostics Taro env info')
         console.log('  doctor              Diagnose taro project')
         console.log('  inspect             Inspect the webpack config')
-        console.log('  convert             Convert native WeiXin-Mini-App to Taro app')
         console.log('  help [cmd]          display help for [cmd]')
       } else if (args.v) {
         console.log(getPkgVersion())
