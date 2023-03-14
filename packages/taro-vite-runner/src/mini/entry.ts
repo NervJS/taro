@@ -1,3 +1,5 @@
+import { isString } from '@tarojs/shared'
+import fs from 'fs'
 import path from 'path'
 
 import { appendVirtualModulePrefix, getCompiler, prettyPrintJson, stripVirtualModulePrefix } from '../utils'
@@ -22,7 +24,8 @@ export default function (/* taroConfig: MiniBuildConfig */): PluginOption {
       const compiler = getCompiler(this)
       if (compiler && id.endsWith(ENTRY_SUFFIX)) {
         const rawId = stripVirtualModulePrefix(id).replace(ENTRY_SUFFIX, '')
-        const { taroConfig } = compiler
+        const { taroConfig, app } = compiler
+        const appConfig = app.config
         const runtimePath = Array.isArray(taroConfig.runtimePath) ? taroConfig.runtimePath : [taroConfig.runtimePath]
         let setReconcilerPost = ''
         const setReconciler = runtimePath.reduce((res, item) => {
@@ -37,7 +40,7 @@ export default function (/* taroConfig: MiniBuildConfig */): PluginOption {
         const { importFrameworkStatement, frameworkArgs, creator, creatorLocation, modifyInstantiate } = compiler.loaderMeta
         const createApp = `${creator}(component, ${frameworkArgs})`
 
-        const appConfig = prettyPrintJson(compiler.app.config)
+        const appConfigStr = prettyPrintJson(appConfig)
 
         let instantiateApp = taroConfig.blended
           ? [
@@ -77,6 +80,17 @@ export default function (/* taroConfig: MiniBuildConfig */): PluginOption {
           implicitlyLoadedAfterOneOf: [rawId]
         })
 
+        // darkmode
+        if (appConfig.darkmode && isString(appConfig.themeLocation)) {
+          const themePath = path.resolve(compiler.sourceDir, appConfig.themeLocation)
+          this.emitFile({
+            type: 'asset',
+            fileName: appConfig.themeLocation,
+            source: fs.readFileSync(themePath)
+          })
+          this.addWatchFile(themePath)
+        }
+
         return [
           setReconciler,
           'import { window } from "@tarojs/runtime"',
@@ -85,7 +99,7 @@ export default function (/* taroConfig: MiniBuildConfig */): PluginOption {
           setReconcilerPost,
           `import component from "${rawId}"`,
           importFrameworkStatement,
-          `var config = ${appConfig};`,
+          `var config = ${appConfigStr};`,
           'window.__taroAppConfig = config',
           instantiateApp,
           'initPxTransform({',
