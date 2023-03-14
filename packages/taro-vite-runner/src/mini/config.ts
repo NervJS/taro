@@ -1,10 +1,12 @@
+import { babel, RollupBabelInputPluginOptions } from '@rollup/plugin-babel'
 import inject from '@rollup/plugin-inject'
 import { PLATFORMS } from '@tarojs/helper'
+import path from 'path'
 
 import type { PluginOption } from 'vite'
 import type { MiniBuildConfig } from '../utils/types'
 
-export default function (taroConfig: MiniBuildConfig): PluginOption {
+export default function (appPath: string, taroConfig: MiniBuildConfig): PluginOption {
   function getDefineOption () {
     const {
       env = {},
@@ -43,6 +45,37 @@ export default function (taroConfig: MiniBuildConfig): PluginOption {
     return Object.entries(alias).map(([find, replacement]) => {
       return { find, replacement }
     })
+  }
+
+  function getBabelOption (taroConfig: MiniBuildConfig): RollupBabelInputPluginOptions {
+    const { compile = {} } = taroConfig
+    const babelOptions: RollupBabelInputPluginOptions = {
+      extensions: ['.js', '.jsx', 'ts', 'tsx', '.es6', '.es', '.mjs'],
+      babelHelpers: 'runtime',
+      skipPreflightCheck: true
+    }
+
+    if (compile.exclude?.length) {
+      babelOptions.exclude = [
+        ...compile.exclude,
+        /css-loader/,
+        /node_modules[/\\](?!@tarojs)/
+      ]
+    } else if (compile.include?.length) {
+      const sourceDir = path.join(appPath, taroConfig.sourceRoot || 'src')
+      babelOptions.include = [
+        ...compile.include,
+        sourceDir,
+        /taro/
+      ]
+    } else {
+      babelOptions.exclude = [
+        /css-loader/,
+        /node_modules[/\\](?!@tarojs)/
+      ]
+    }
+
+    return babelOptions
   }
 
   return {
@@ -84,7 +117,8 @@ export default function (taroConfig: MiniBuildConfig): PluginOption {
               Element: ['@tarojs/runtime', 'TaroElement'],
               SVGElement: ['@tarojs/runtime', 'SVGElement'],
               MutationObserver: ['@tarojs/runtime', 'MutationObserver']
-            })
+            }),
+            babel(getBabelOption(taroConfig)),
           ]
         },
         commonjsOptions: {

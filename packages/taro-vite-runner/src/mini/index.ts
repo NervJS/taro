@@ -10,7 +10,7 @@ import type { MiniBuildConfig } from '../utils/types'
 export default function (appPath: string, taroConfig: MiniBuildConfig): PluginOption[] {
   return [
     pipelinePlugin(appPath, taroConfig),
-    configPlugin(taroConfig),
+    configPlugin(appPath, taroConfig),
     entryPlugin(),
     pagePlugin(),
     emitPlugin()
