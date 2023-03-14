@@ -1,4 +1,4 @@
-import { isFunction, isUndefined, Shortcuts } from '@tarojs/shared'
+import { isArray, isFunction, isUndefined, Shortcuts } from '@tarojs/shared'
 
 import {
   CUSTOM_WRAPPER,
@@ -8,7 +8,7 @@ import {
 } from '../constants'
 import { options } from '../options'
 import { perf } from '../perf'
-import { customWrapperCache } from '../utils'
+import { customWrapperCache, isComment } from '../utils'
 import { TaroElement } from './element'
 
 import type { Func, HydratedData, MpInstance, UpdatePayload, UpdatePayloadValue } from '../interface'
@@ -28,6 +28,10 @@ function findCustomWrapper (root: TaroRootElement, dataPathArr: string[]) {
       .replace(/\bcn\b/g, 'childNodes')
 
     currentData = currentData[key]
+
+    if (isArray(currentData)) {
+      currentData = currentData.filter(el => !isComment(el))
+    }
 
     if (isUndefined(currentData)) return true
 
