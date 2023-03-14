@@ -122,7 +122,7 @@ export default function (appPath: string, taroConfig: MiniBuildConfig): PluginOp
           ]
         },
         commonjsOptions: {
-          exclude: [/\.esm/],
+          exclude: [/\.esm/, /[/\\]esm[/\\]/],
           transformMixedEsModules: true
         }
       },
