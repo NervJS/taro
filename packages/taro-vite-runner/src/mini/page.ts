@@ -1,4 +1,4 @@
-import { getCompiler, prettyPrintJson } from '../utils'
+import { appendVirtualModulePrefix, getCompiler, prettyPrintJson, stripVirtualModulePrefix } from '../utils'
 
 import type { PluginOption } from 'vite'
 
@@ -11,14 +11,14 @@ export default function (): PluginOption {
     resolveId (source, _importer, options) {
       const compiler = getCompiler(this)
       if (compiler?.isPage(source) && options.isEntry) {
-        return '\0' + source + PAGE_SUFFIX
+        return appendVirtualModulePrefix(source + PAGE_SUFFIX)
       }
       return null
     },
     load (id) {
       const compiler = getCompiler(this)
       if (compiler && id.endsWith(PAGE_SUFFIX)) {
-        const rawId = id.replace(/^\0/, '').replace(PAGE_SUFFIX, '')
+        const rawId = stripVirtualModulePrefix(id).replace(PAGE_SUFFIX, '')
         const page = compiler.getPageById(rawId)
 
         if (!page) {

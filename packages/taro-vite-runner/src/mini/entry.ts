@@ -1,6 +1,6 @@
 import path from 'path'
 
-import { getCompiler, prettyPrintJson } from '../utils'
+import { appendVirtualModulePrefix, getCompiler, prettyPrintJson, stripVirtualModulePrefix } from '../utils'
 import { baseCompName, customWrapperName } from '../utils/constants'
 
 import type { PluginOption } from 'vite'
@@ -14,14 +14,14 @@ export default function (/* taroConfig: MiniBuildConfig */): PluginOption {
     resolveId (source, _importer, options) {
       const compiler = getCompiler(this)
       if (compiler?.isApp(source) && options.isEntry) {
-        return '\0' + source + ENTRY_SUFFIX
+        return appendVirtualModulePrefix(source + ENTRY_SUFFIX)
       }
       return null
     },
     load (id) {
       const compiler = getCompiler(this)
       if (compiler && id.endsWith(ENTRY_SUFFIX)) {
-        const rawId = id.replace(/^\0/, '').replace(ENTRY_SUFFIX, '')
+        const rawId = stripVirtualModulePrefix(id).replace(ENTRY_SUFFIX, '')
         const { taroConfig } = compiler
         const runtimePath = Array.isArray(taroConfig.runtimePath) ? taroConfig.runtimePath : [taroConfig.runtimePath]
         let setReconcilerPost = ''

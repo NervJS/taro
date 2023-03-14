@@ -12,6 +12,7 @@
     "@rollup/plugin-babel": "^6.0.3",
     "@rollup/plugin-inject": "^5.0.3",
     "@tarojs/shared": "workspace:*",
+    "acorn-walk": "^8.0.0",
     "html-minifier": "^4.0.0",
     "regenerator-runtime": "0.11",
     "rollup": "^3.19.0",

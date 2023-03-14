@@ -87,6 +87,7 @@ importers:
       cpy-cli: ^4.1.0
       cross-env: ^7.0.2
       esbuild: ^0.14.27
+      escodegen: ^2.0.0
       eslint: ^8.12.0
       eslint-config-prettier: ^6.4.0
       eslint-config-standard: ^14.1.1
@@ -218,6 +219,7 @@ importers:
       cpy-cli: registry.npmjs.org/cpy-cli/4.1.0
       cross-env: registry.npmjs.org/cross-env/7.0.3
       esbuild: registry.npmjs.org/esbuild/0.14.47
+      escodegen: registry.npmjs.org/escodegen/2.0.0
       eslint: registry.npmjs.org/eslint/8.18.0
       eslint-config-prettier: registry.npmjs.org/eslint-config-prettier/6.15.0_eslint@8.18.0
       eslint-config-standard: registry.npmjs.org/eslint-config-standard/14.1.1_huw56chn2b5kk2r5tfnvv7xr4i
@@ -1745,6 +1747,7 @@ importers:
       '@rollup/plugin-babel': ^6.0.3
       '@rollup/plugin-inject': ^5.0.3
       '@tarojs/shared': workspace:*
+      acorn-walk: ^8.0.0
       fs-extra: ^11.1.0
       html-minifier: ^4.0.0
       regenerator-runtime: '0.11'
@@ -1752,14 +1755,15 @@ importers:
       vite: ^4.1.4
       vite-plugin-static-copy: ^0.13.0
     dependencies:
+      '@rollup/plugin-babel': registry.npmjs.org/@rollup/plugin-babel/6.0.3_rollup@3.19.0
       '@rollup/plugin-inject': registry.npmjs.org/@rollup/plugin-inject/5.0.3_rollup@3.19.0
       '@tarojs/shared': link:../shared
+      acorn-walk: registry.npmjs.org/acorn-walk/8.2.0
       html-minifier: registry.npmjs.org/html-minifier/4.0.0
       regenerator-runtime: registry.npmjs.org/regenerator-runtime/0.11.1
       rollup: registry.npmjs.org/rollup/3.19.0
       vite-plugin-static-copy: registry.npmjs.org/vite-plugin-static-copy/0.13.0_vite@4.1.4
     devDependencies:
-      '@rollup/plugin-babel': registry.npmjs.org/@rollup/plugin-babel/6.0.3_rollup@3.19.0
       fs-extra: registry.npmjs.org/fs-extra/11.1.0
       vite: registry.npmjs.org/vite/4.1.4
 
@@ -10240,7 +10244,7 @@ packages:
       '@babel/helper-module-imports': registry.npmjs.org/@babel/helper-module-imports/7.18.6
       '@rollup/pluginutils': registry.npmjs.org/@rollup/pluginutils/5.0.2_rollup@3.19.0
       rollup: registry.npmjs.org/rollup/3.19.0
-    dev: true
+    dev: false
 
   registry.npmjs.org/@rollup/plugin-buble/0.21.3_rollup@2.79.0:
     resolution: {integrity: sha512-Iv8cCuFPnMdqV4pcyU+OrfjOfagPArRQ1PyQjx5KgHk3dARedI+8PNTLSMpJts0lQJr8yF2pAU4GxpxCBJ9HYw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@rollup/plugin-buble/-/plugin-buble-0.21.3.tgz}

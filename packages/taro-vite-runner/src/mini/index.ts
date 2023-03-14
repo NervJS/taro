@@ -1,6 +1,7 @@
 import configPlugin from './config'
 import emitPlugin from './emit'
 import entryPlugin from './entry'
+import nativeSupportPlugin from './native-support'
 import pagePlugin from './page'
 import pipelinePlugin from './pipeline'
 
@@ -13,6 +14,7 @@ export default function (appPath: string, taroConfig: MiniBuildConfig): PluginOp
     configPlugin(appPath, taroConfig),
     entryPlugin(),
     pagePlugin(),
+    nativeSupportPlugin(taroConfig),
     emitPlugin()
   ]
 }

@@ -33,3 +33,18 @@ export function getComponentName (compiler: TaroCompiler, componentPath: string)
 
   return componentName.replace(/^(\/|\\)/, '')
 }
+
+const virtaulModulePrefix ='\0'
+const virtaulModulePrefixREG = new RegExp(`^${virtaulModulePrefix}`)
+
+export function appendVirtualModulePrefix (id: string): string {
+  return virtaulModulePrefix + id
+}
+
+export function stripVirtualModulePrefix (id: string): string {
+  return id.replace(virtaulModulePrefixREG, '')
+}
+
+export function isVirtualModule (id: string): boolean {
+  return virtaulModulePrefixREG.test(id)
+}
