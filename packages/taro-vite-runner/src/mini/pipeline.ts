@@ -1,4 +1,3 @@
-import { resetComponentConfig } from '../template/component'
 import { TARO_COMPILER,TaroCompiler } from '../utils/taroCompiler'
 
 import type { PluginOption } from 'vite'
@@ -22,7 +21,6 @@ export default function (appPath: string, taroConfig: MiniBuildConfig): PluginOp
     },
     closeBundle () {
       compiler.cleanup()
-      resetComponentConfig()
       // console.log('this.watchFiles: ', this.getWatchFiles())
     }
   }

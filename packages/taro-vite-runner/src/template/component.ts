@@ -16,10 +16,3 @@ export const componentConfig: IComponentConfig = {
   thirdPartyComponents: new Map(),
   includeAll: false
 }
-
-export function resetComponentConfig () {
-  componentConfig.includes = new Set(initialComps)
-  componentConfig.exclude = new Set()
-  componentConfig.thirdPartyComponents = new Map()
-  componentConfig.includeAll = false
-}
