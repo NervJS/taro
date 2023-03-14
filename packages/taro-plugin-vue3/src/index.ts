@@ -153,6 +153,9 @@ function viteCommonPlugin (): PluginOption {
       },
       resolve: {
         dedupe: ['vue']
+      },
+      build: {
+        sourcemap: false // https://github.com/vitejs/vite-plugin-vue/issues/35
       }
     })
   }
