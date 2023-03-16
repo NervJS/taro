@@ -50,15 +50,15 @@ export default function (this: webpack.LoaderContext<any>) {
     const compPath = join(pathDirname, options.filename)
     return `import component from ${stringify(compPath)}
 component.config = {}
-component.pxTransformconfig = {}
-Objext.assign(component.config, ${JSON.stringify(readConfig(this.resourcePath))})
+component.pxTransformConfig = {}
+Object.assign(component.config, ${JSON.stringify(readConfig(this.resourcePath))})
 initPxTransform({
   designWidth: ${pxTransformConfig.designWidth},
   deviceRatio: ${JSON.stringify(pxTransformConfig.deviceRatio)},
   baseFontSize: ${pxTransformConfig.baseFontSize || (pxTransformConfig.minRootSize >= 1 ? pxTransformConfig.minRootSize : 20)},
   unitPrecision: ${pxTransformConfig.unitPrecision},
   targetUnit: ${JSON.stringify(pxTransformConfig.targetUnit)}
-}).bind(component)
+}).call(component)
 export default component`
   }
 
