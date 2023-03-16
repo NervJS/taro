@@ -1,5 +1,5 @@
 import { babel, RollupBabelInputPluginOptions } from '@rollup/plugin-babel'
-import inject from '@rollup/plugin-inject'
+import inject, { RollupInjectOptions } from '@rollup/plugin-inject'
 import { PLATFORMS } from '@tarojs/helper'
 import path from 'path'
 
@@ -40,14 +40,14 @@ export default function (appPath: string, taroConfig: MiniBuildConfig): PluginOp
     }
   }
 
-  function getAliasOption (taroConfig: MiniBuildConfig) {
+  function getAliasOption () {
     const alias = taroConfig.alias || {}
     return Object.entries(alias).map(([find, replacement]) => {
       return { find, replacement }
     })
   }
 
-  function getBabelOption (taroConfig: MiniBuildConfig): RollupBabelInputPluginOptions {
+  function getBabelOption (): RollupBabelInputPluginOptions {
     const { compile = {} } = taroConfig
     const babelOptions: RollupBabelInputPluginOptions = {
       extensions: ['.js', '.jsx', 'ts', 'tsx', '.es6', '.es', '.mjs'],
@@ -76,6 +76,39 @@ export default function (appPath: string, taroConfig: MiniBuildConfig): PluginOp
     }
 
     return babelOptions
+  }
+
+  function getInjectOption (): RollupInjectOptions {
+    const options: RollupInjectOptions = {
+      window: ['@tarojs/runtime', 'window'],
+      document: ['@tarojs/runtime', 'document'],
+      navigator: ['@tarojs/runtime', 'navigator'],
+      requestAnimationFrame: ['@tarojs/runtime', 'requestAnimationFrame'],
+      cancelAnimationFrame: ['@tarojs/runtime', 'cancelAnimationFrame'],
+      Element: ['@tarojs/runtime', 'TaroElement'],
+      SVGElement: ['@tarojs/runtime', 'SVGElement'],
+      MutationObserver: ['@tarojs/runtime', 'MutationObserver'],
+      history: ['@tarojs/runtime', 'history'],
+      location: ['@tarojs/runtime', 'location'],
+      URLSearchParams: ['@tarojs/runtime', 'URLSearchParams'],
+      URL: ['@tarojs/runtime', 'URL'],
+    }
+
+    const injectOptions = taroConfig.injectOptions
+
+    if (injectOptions?.include) {
+      for (const key in injectOptions.include) {
+        options[key] = injectOptions.include[key]
+      }
+    }
+
+    if (injectOptions?.exclude?.length) {
+      injectOptions.exclude.forEach(item => {
+        delete options[item]
+      })
+    }
+
+    return options
   }
 
   return {
@@ -108,17 +141,8 @@ export default function (appPath: string, taroConfig: MiniBuildConfig): PluginOp
             }
           },
           plugins: [
-            inject({
-              window: ['@tarojs/runtime', 'window'],
-              document: ['@tarojs/runtime', 'document'],
-              navigator: ['@tarojs/runtime', 'navigator'],
-              requestAnimationFrame: ['@tarojs/runtime', 'requestAnimationFrame'],
-              cancelAnimationFrame: ['@tarojs/runtime', 'cancelAnimationFrame'],
-              Element: ['@tarojs/runtime', 'TaroElement'],
-              SVGElement: ['@tarojs/runtime', 'SVGElement'],
-              MutationObserver: ['@tarojs/runtime', 'MutationObserver']
-            }),
-            babel(getBabelOption(taroConfig)),
+            inject(getInjectOption()),
+            babel(getBabelOption()),
           ]
         },
         commonjsOptions: {
@@ -135,7 +159,7 @@ export default function (appPath: string, taroConfig: MiniBuildConfig): PluginOp
           // 小程序使用 regenerator-runtime@0.11
           { find: 'regenerator-runtime', replacement: require.resolve('regenerator-runtime') },
           { find: /@tarojs\/components$/, replacement: taroConfig.taroComponentsPath || '@tarojs/components/mini' },
-          ...getAliasOption(taroConfig)
+          ...getAliasOption()
         ],
         dedupe: [
           '@tarojs/shared',

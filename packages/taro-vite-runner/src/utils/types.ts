@@ -31,6 +31,10 @@ export interface MiniBuildConfig extends CommonBuildConfig, IMiniAppConfig {
   taroComponentsPath?: string
   blended?: boolean
   hot?: boolean
+  injectOptions?: {
+    include?: Record<string, string | string[]>
+    exclude?: string[]
+  }
   /** hooks */
   modifyComponentConfig: (componentConfig: IComponentConfig, config: Partial<MiniBuildConfig>) => Promise<any>
   onCompilerMake: (compilation) => Promise<any>

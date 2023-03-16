@@ -13,7 +13,7 @@ import { componentConfig } from '../template/component'
 import { getComponentName } from '../utils'
 import { logger } from './logger'
 
-import type { AppConfig, PageConfig } from '@tarojs/taro'
+import type { AppConfig, Config,PageConfig } from '@tarojs/taro'
 import type { PluginContext } from 'rollup'
 import type { MiniBuildConfig } from './types'
 
@@ -53,6 +53,13 @@ interface FileType {
   xs?: string
 }
 
+interface FilesConfig {
+  [configName: string]: {
+    content: Config
+    path: string
+  }
+}
+
 const defaultFileType = {
   style: '.wxss',
   config: '.json',
@@ -74,6 +81,7 @@ export class TaroCompiler {
   fileType: FileType
   loaderMeta: any
   logger = logger
+  filesConfig: FilesConfig = {}
 
   constructor (rollupCtx: PluginContext, appPath: string, taroConfig: MiniBuildConfig) {
     this.rollupCtx = rollupCtx
@@ -104,6 +112,10 @@ export class TaroCompiler {
       isNative: false
     }
 
+    this.filesConfig[this.getConfigFilePath(appMeta.name)] = {
+      path: configPath,
+      content: config
+    }
     this.collectNativeComponents(appMeta)
     this.rollupCtx?.addWatchFile(appMeta.configPath)
 
@@ -135,6 +147,10 @@ export class TaroCompiler {
         cssPath: isNative ? this.getStylePath(scriptPath) : undefined,
       }
 
+      this.filesConfig[this.getConfigFilePath(pageMeta.name)] = {
+        path: configPath,
+        content: config
+      }
       this.collectNativeComponents(pageMeta)
       this.rollupCtx?.addWatchFile(pageMeta.configPath)
 
@@ -177,6 +193,10 @@ export class TaroCompiler {
         isNative: true
       }
 
+      this.filesConfig[this.getConfigFilePath(nativeCompMeta.name)] = {
+        path: configPath,
+        content: nativeCompMeta.config
+      }
       this.nativeComponents.set(compScriptPath, nativeCompMeta)
       this.rollupCtx?.addWatchFile(nativeCompMeta.configPath)
 

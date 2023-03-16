@@ -41,6 +41,10 @@ export default (ctx: IPluginContext) => {
       prebundleOptions.exclude.push('@tarojs/plugin-platform-alipay/dist/runtime')
       prebundleOptions.include ||= []
       prebundleOptions.include.push('@tarojs/shared')
+    } else if (compiler.type === 'vite') {
+      opts.injectOptions = {
+        exclude: ['navigator']
+      }
     }
   })
 }

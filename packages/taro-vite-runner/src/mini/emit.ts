@@ -1,5 +1,5 @@
 import { promoteRelativePath } from '@tarojs/helper'
-import { toDashed } from '@tarojs/shared'
+import { isFunction, isString,toDashed } from '@tarojs/shared'
 import path from 'path'
 
 import { componentConfig } from '../template/component'
@@ -12,7 +12,7 @@ import type { PluginOption } from 'vite'
 import type { TaroCompiler } from '../utils/taroCompiler'
 
 export default function (): PluginOption {
-  return {
+  return [{
     name: 'taro:vite-mini-emit',
     async generateBundle (_outputOpts, bundle) {
       const compiler = getCompiler(this)
@@ -22,7 +22,11 @@ export default function (): PluginOption {
         const { taroConfig, sourceDir } = compiler
         const template = taroConfig.template
 
-        // @TODO modifyMiniConfigs
+        if (isFunction(compiler.taroConfig.modifyMiniConfigs)) {
+          compiler.taroConfig.modifyMiniConfigs(compiler.filesConfig)
+        }
+
+
         const compPathId = await this.resolve(taroConfig.taroComponentsPath || '@tarojs/components/mini')
         if (compPathId) {
           const id = compPathId.id
@@ -157,7 +161,50 @@ export default function (): PluginOption {
         // @TODO emit: modifyBuildAssets hook
       }
     }
-  }
+  }, {
+    name: 'taro:vite-mini-emit-post',
+    async generateBundle (_outputOpts, bundle) {
+      const compiler = getCompiler(this)
+      if (compiler) {
+        const { taroConfig } = compiler
+        if (isFunction(taroConfig.modifyBuildAssets)) {
+          const assets = {}
+          for (const name in bundle) {
+            const chunk = bundle[name]
+            const source = chunk.type === 'asset' ? chunk.source : chunk.code
+            assets[chunk.fileName] = {
+              source: () => source
+            }
+          }
+          const assetsProxy = new Proxy(assets, {
+            set (target, p, newValue) {
+              if (!isString(p)) return false
+
+              target[p] = newValue
+              const chunk = bundle[p]
+              if (chunk.type === 'asset') {
+                chunk.source = newValue.source()
+              } else {
+                chunk.code = newValue.source()
+              }
+              return true
+            },
+          })
+          taroConfig.modifyBuildAssets(
+            assetsProxy,
+            {
+              pages: compiler.pages,
+              filesConfig: compiler.filesConfig,
+              getConfigFilePath: compiler.getConfigFilePath,
+              options: {
+                isBuildPlugin: compiler.taroConfig.isBuildPlugin
+              }
+            }
+          )
+        }
+      }
+    }
+  }]
 }
 
 function generateConfigFile (ctx: PluginContext, compiler: TaroCompiler, options: { filePath: string, config: Config & { component?: boolean } }) {
