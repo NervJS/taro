@@ -29,6 +29,13 @@ export class Transaction<T = TaroPlatform> {
   }
 }
 
+export enum PLATFORM_TYPE {
+  MINI = 'mini',
+  WEB = 'h5',
+  RN = 'rn',
+  HARMONY = 'harmony',
+  QUICK = 'quickapp'
+} 
 
 export default abstract class TaroPlatform<T extends TConfig = TConfig> {
   protected ctx: IPluginContext
@@ -36,6 +43,7 @@ export default abstract class TaroPlatform<T extends TConfig = TConfig> {
   protected helper: IPluginContext['helper']
   protected compiler: string
 
+  abstract platformType: PLATFORM_TYPE
   abstract platform: string
   abstract runtimePath: string | string[]
 
