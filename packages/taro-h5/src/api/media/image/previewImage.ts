@@ -1,7 +1,6 @@
 import Taro from '@tarojs/api'
 import { SwiperProps } from '@tarojs/components'
-import { defineCustomElement as defineCustomElementTaroSwiperCore } from '@tarojs/components/dist/components/taro-swiper-core'
-import { defineCustomElement as defineCustomElementTaroSwiperItemCore } from '@tarojs/components/dist/components/taro-swiper-item-core'
+import { defineCustomElementTaroSwiperCore, defineCustomElementTaroSwiperItemCore } from '@tarojs/components/dist/components'
 import { isFunction } from '@tarojs/shared'
 
 import { shouldBeObject } from '../../../utils'
