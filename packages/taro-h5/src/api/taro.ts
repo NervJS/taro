@@ -44,7 +44,7 @@ const taro: typeof Taro = {
 const requirePlugin = permanentlyNotSupport('requirePlugin')
 
 function getConfig (): Record<string, any> {
-  if (this.pxTransformconfig) return this.pxTransformconfig
+  if (this?.pxTransformConfig) return this.pxTransformConfig
   return ((taro as any).config ||= {})
 }
 
@@ -59,7 +59,7 @@ const initPxTransform = function ({
   unitPrecision = 5,
   targetUnit = 'rem'
 }) {
-  const config = getConfig().bind(this)
+  const config = getConfig.call(this)
   config.designWidth = designWidth
   config.deviceRatio = deviceRatio
   config.baseFontSize = baseFontSize
@@ -68,7 +68,7 @@ const initPxTransform = function ({
 }
 
 const pxTransform = function (size = 0) {
-  const config = getConfig().bind(this)
+  const config = getConfig.call(this)
   const baseFontSize = config.baseFontSize || 20
   const designWidth = (((input = 0) => isFunction(config.designWidth)
     ? config.designWidth(input)
