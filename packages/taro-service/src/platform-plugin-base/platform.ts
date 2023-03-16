@@ -1,3 +1,5 @@
+import { PLATFORM_TYPE } from '@tarojs/shared'
+
 import type { Func, IPluginContext, TConfig } from '../utils/types'
 
 interface IWrapper {
@@ -28,14 +30,6 @@ export class Transaction<T = TaroPlatform> {
     this.wrappers.push(wrapper)
   }
 }
-
-export enum PLATFORM_TYPE {
-  MINI = 'mini',
-  WEB = 'h5',
-  RN = 'rn',
-  HARMONY = 'harmony',
-  QUICK = 'quickapp'
-} 
 
 export default abstract class TaroPlatform<T extends TConfig = TConfig> {
   protected ctx: IPluginContext

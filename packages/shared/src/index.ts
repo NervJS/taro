@@ -1,4 +1,5 @@
 export * from './components'
+export * from './constants'
 export * from './event-emitter'
 export * from './is'
 export * from './native-apis'

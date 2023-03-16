@@ -1,23 +1,14 @@
+import { PLATFORM_TYPE } from '@tarojs/shared'
 import { get, merge } from 'lodash'
 import * as path from 'path'
 
 import { getPkgVersion } from '../utils/package'
-import TaroPlatform, { PLATFORM_TYPE } from './platform'
+import TaroPlatform from './platform'
 
-import type { IPluginContext, TConfig } from '../utils/types'
+import type { TConfig } from '../utils/types'
 
 export abstract class TaroPlatformWeb<T extends TConfig = TConfig> extends TaroPlatform<T> {
   platformType = PLATFORM_TYPE.WEB
-
-  constructor (ctx: IPluginContext, config: T) {
-    super(ctx, config)
-    this.setupEnvironment()
-  }
-
-  private setupEnvironment () {
-    process.env.TARO_ENV = this.platformType
-    process.env.TARO_PLATFORM = this.platform
-  }
 
   /**
    * 1. 清空 dist 文件夹
@@ -92,7 +83,8 @@ export abstract class TaroPlatformWeb<T extends TConfig = TConfig> extends TaroP
       entryFileName: ENTRY,
       env: {
         FRAMEWORK: JSON.stringify(this.config.framework),
-        TARO_ENV: JSON.stringify(this.platformType),
+        TARO_ENV: JSON.stringify(this.platform),
+        TARO_PLATFORM: JSON.stringify(this.platformType),
         TARO_VERSION: JSON.stringify(getPkgVersion())
       },
       devServer: { port },

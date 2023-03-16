@@ -11,6 +11,7 @@ import { CollectedDeps } from '../utils/constant'
 import TaroContainerPlugin from './TaroContainerPlugin'
 import TaroContainerReferencePlugin from './TaroContainerReferencePlugin'
 
+import type { PLATFORM_TYPE } from '@tarojs/shared'
 import type { Compiler, LibraryOptions } from 'webpack'
 import type { ContainerReferencePluginOptions, ModuleFederationPluginOptions } from 'webpack/types'
 
@@ -19,6 +20,7 @@ const PLUGIN_NAME = 'TaroModuleFederationPlugin'
 interface IParams {
   deps: CollectedDeps
   env: string
+  platformType: PLATFORM_TYPE
   remoteAssets?: Record<'name', string>[]
   runtimeRequirements: Set<string>
 }
@@ -66,6 +68,7 @@ export default class TaroModuleFederationPlugin extends ModuleFederationPlugin {
           },
           {
             env: this.params.env,
+            platformType: this.params.platformType,
             runtimeRequirements: this.runtimeRequirements
           }
         ).apply(compiler)
@@ -80,6 +83,7 @@ export default class TaroModuleFederationPlugin extends ModuleFederationPlugin {
           {
             deps: this.deps,
             env: this.params.env,
+            platformType: this.params.platformType,
             remoteAssets: this.remoteAssets,
             runtimeRequirements: this.runtimeRequirements
           }

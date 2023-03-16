@@ -168,6 +168,7 @@ export class MiniPrebundle extends BasePrebundle<IMiniPrebundleConfig> {
             {
               deps: this.deps,
               env: this.env,
+              platformType: this.platformType,
               remoteAssets: this.metadata.remoteAssets,
               runtimeRequirements: this.metadata.runtimeRequirements
             }

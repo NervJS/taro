@@ -1,16 +1,18 @@
+import { getPlatformType, PLATFORM_TYPE } from '@tarojs/shared'
 import webpackDevServer from 'webpack-dev-server'
 
 import BasePrebundle, { IPrebundle } from './prebundle'
 
 import type { EntryObject } from 'webpack'
 import type Chain from 'webpack-chain'
-import type { IH5PrebundleConfig } from './h5'
 import type { IMiniPrebundleConfig } from './mini'
+import type { IWebPrebundleConfig } from './web'
 
 export * from './prebundle'
 
 export interface IPrebundleParam {
   env?: string
+  platformType?: PLATFORM_TYPE
 
   appPath?: string
   sourceRoot?: string
@@ -28,13 +30,17 @@ export interface IPrebundleParam {
 
 export default class TaroPrebundle {
   public env: string
+  public platformType: PLATFORM_TYPE
 
   constructor (protected params: IPrebundleParam) {
-    const { env = process.env.TARO_ENV || 'h5' } = params
-    this.env = env
+    const env = params.env || process.env.TARO_ENV
+    const platform = params.platformType || process.env.TARO_PLATFORM || PLATFORM_TYPE.WEB
+    this.platformType = getPlatformType(env, platform)
+    this.env = env || platform
   }
 
-  get config (): IH5PrebundleConfig | IMiniPrebundleConfig {
+  get config (): IWebPrebundleConfig | IMiniPrebundleConfig {
+    const platformType = this.platformType
     const env = this.env
     const {
       appPath = process.cwd(),
@@ -63,6 +69,7 @@ export default class TaroPrebundle {
       entry,
       env,
       isWatch,
+      platformType,
       publicPath,
       runtimePath,
       sourceRoot
@@ -82,9 +89,9 @@ export default class TaroPrebundle {
 
     let prebundleRunner: BasePrebundle
 
-    switch (this.env) {
-      case 'h5':
-        prebundleRunner = new (await import('./h5')).H5Prebundle(this.config, options)
+    switch (this.platformType) {
+      case 'web':
+        prebundleRunner = new (await import('./web')).WebPrebundle(this.config, options)
         break
       default:
         prebundleRunner = new (await import('./mini')).MiniPrebundle(this.config, options)

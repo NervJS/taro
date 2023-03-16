@@ -7,6 +7,7 @@ import ContainerPlugin from 'webpack/lib/container/ContainerPlugin'
 
 import TaroContainerEntryModuleFactory from './TaroContainerEntryModuleFactory'
 
+import type { PLATFORM_TYPE } from '@tarojs/shared'
 import type { Compiler } from 'webpack'
 
 const ContainerEntryDependency = require('webpack/lib/container/ContainerEntryDependency')
@@ -15,6 +16,7 @@ const PLUGIN_NAME = 'TaroContainerPlugin'
 
 interface IParams {
   env: string
+  platformType: PLATFORM_TYPE
   runtimeRequirements?: Set<string>
 }
 
@@ -27,8 +29,8 @@ class TaroContainerPlugin extends ContainerPlugin {
   }
 
   apply (compiler: Compiler) {
-    switch (this.params.env) {
-      case 'h5':
+    switch (this.params.platformType) {
+      case 'web':
         super.apply(compiler)
         break
       default:
