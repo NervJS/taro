@@ -66,4 +66,15 @@ const variesConfig = [{
   ], [exportNameOnly()])
 }]
 
+if (process.env.NODE_ENV === 'production') {
+  variesConfig.push({
+    input: path.join(cwd, 'build/rollup-plugin-export-name-only.js'),
+    output: {
+      file: 'dist/rollup-plugin-export-name-only.js',
+      format: 'cjs',
+      sourcemap: false
+    },
+  })
+}
+
 export default variesConfig.map(v => merge({}, baseConfig, v))
