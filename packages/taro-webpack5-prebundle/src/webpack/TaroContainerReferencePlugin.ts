@@ -13,6 +13,7 @@ import { addRequireToSource, getChunkEntryModule, getChunkIdOrName } from '../ut
 import { CollectedDeps, MF_NAME } from '../utils/constant'
 import TaroRemoteRuntimeModule from './TaroRemoteRuntimeModule'
 
+import type { PLATFORM_TYPE } from '@tarojs/shared'
 import type { Compiler, NormalModule, sources } from 'webpack'
 import type { ContainerReferencePluginOptions, RemotesConfig } from 'webpack/types'
 
@@ -31,6 +32,7 @@ interface IParams {
   deps: CollectedDeps
   env: string
   isBuildPlugin?: boolean
+  platformType: PLATFORM_TYPE
   remoteAssets?: Record<'name', string>[]
   runtimeRequirements: Set<string>
 }
@@ -60,8 +62,8 @@ export default class TaroContainerReferencePlugin extends ContainerReferencePlug
   }
 
   apply (compiler: Compiler) {
-    switch (this.params.env) {
-      case 'h5':
+    switch (this.params.platformType) {
+      case 'web':
         this.applyWebApp(compiler)
         break
       default:
@@ -138,11 +140,8 @@ export default class TaroContainerReferencePlugin extends ContainerReferencePlug
           set.add(RuntimeGlobals.hasOwnProperty)
           set.add(RuntimeGlobals.initializeSharing)
           set.add(RuntimeGlobals.shareScopeMap)
-          // 收集 Remote runtime 使用到的工具函数
-          this.runtimeRequirements.forEach(item => set.add(item))
-          compilation.addRuntimeModule(chunk, new TaroRemoteRuntimeModule(this.params.env))
-        }
-      )
+          compilation.addRuntimeModule(chunk, new TaroRemoteRuntimeModule(this.params.platformType))
+        })
     })
   }
 
@@ -183,7 +182,7 @@ export default class TaroContainerReferencePlugin extends ContainerReferencePlug
           (chunk, set) => {
             // 收集 Remote runtime 使用到的工具函数
             this.runtimeRequirements.forEach(item => set.add(item))
-            compilation.addRuntimeModule(chunk, new TaroRemoteRuntimeModule(this.params.env))
+            compilation.addRuntimeModule(chunk, new TaroRemoteRuntimeModule(this.params.platformType))
           }
         )
 
@@ -200,12 +199,12 @@ export default class TaroContainerReferencePlugin extends ContainerReferencePlug
               if (this.isBuildPlugin) {
                 let id = getChunkIdOrName(chunk)
                 const idList = id.split(path.sep)
-                
+
                 if (idList.length > 1) {
                   idList.splice(0, 1)
                   id = idList.join(path.sep)
                 }
-                
+
                 return addRequireToSource(id, modules, this.remoteAssets)
               }
 

@@ -43,15 +43,15 @@ import type { IPrebundle } from './prebundle'
 
 export const VirtualModule = new VirtualModulesPlugin()
 
-export interface IH5PrebundleConfig extends IPrebundleConfig {
+export interface IWebPrebundleConfig extends IPrebundleConfig {
   runtimePath?: string | string[]
   chunkFilename?: string
   devServer?: webpackDevServer.Configuration
   publicPath?: string
 }
 
-export class H5Prebundle extends BasePrebundle<IH5PrebundleConfig> {
-  constructor (protected config: IH5PrebundleConfig, protected option: IPrebundle) {
+export class WebPrebundle extends BasePrebundle<IWebPrebundleConfig> {
+  constructor (protected config: IWebPrebundleConfig, protected option: IPrebundle) {
     super(config, option)
   }
 
@@ -111,6 +111,7 @@ export class H5Prebundle extends BasePrebundle<IH5PrebundleConfig> {
             {
               deps: this.deps,
               env: this.env,
+              platformType: this.platformType,
               remoteAssets: this.metadata.remoteAssets,
               runtimeRequirements: this.metadata.runtimeRequirements
             }

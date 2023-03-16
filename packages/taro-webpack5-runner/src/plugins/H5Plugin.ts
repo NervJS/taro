@@ -1,5 +1,5 @@
 import { FRAMEWORK_MAP, SCRIPT_EXT } from '@tarojs/helper'
-import { VirtualModule } from '@tarojs/webpack5-prebundle/dist/h5'
+import { VirtualModule } from '@tarojs/webpack5-prebundle/dist/web'
 import { defaults } from 'lodash'
 import path from 'path'
 

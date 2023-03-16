@@ -1,6 +1,6 @@
 import { META_TYPE, recursiveMerge, SCRIPT_EXT } from '@tarojs/helper'
 import { getSassLoaderOption } from '@tarojs/runner-utils'
-import { isFunction, isObject } from '@tarojs/shared'
+import { isFunction, isObject, isWebPlatform } from '@tarojs/shared'
 import path from 'path'
 import webpack from 'webpack'
 
@@ -24,6 +24,8 @@ export class Combination<T extends MiniBuildConfig | H5BuildConfig = CommonBuild
   rawConfig: T
 
   prebundleOptions?: IPrebundle
+
+  isWeb = isWebPlatform()
 
   /** special mode */
   isBuildNativeComp = false
@@ -90,7 +92,7 @@ export class Combination<T extends MiniBuildConfig | H5BuildConfig = CommonBuild
     if (this.prebundleOptions) return this.prebundleOptions
     const include: string[] = ['@tarojs/taro', '@tarojs/runtime']
     const exclude: string[] = []
-    if (process.env.TARO_ENV === 'h5') {
+    if (this.isWeb) {
       include.push('@tarojs/router')
     } else {
       // 小程序编译 Host 时需要扫描 @tarojs/components 的 useExports，因此不能被 external

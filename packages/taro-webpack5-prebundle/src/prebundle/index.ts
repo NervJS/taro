@@ -1,4 +1,5 @@
 import { chalk, fs, readConfig, recursiveMerge, REG_SCRIPTS, resolveMainFilePath, terminalLink } from '@tarojs/helper'
+import { PLATFORM_TYPE } from '@tarojs/shared'
 import { Message } from 'esbuild'
 import path from 'path'
 import { performance } from 'perf_hooks'
@@ -26,6 +27,7 @@ export interface IPrebundleConfig {
   entryFileName?: string
   env: string
   isWatch?: boolean
+  platformType: PLATFORM_TYPE
   sourceRoot: string
   isBuildPlugin?: boolean
 }
@@ -41,6 +43,7 @@ export default class BasePrebundle<T extends IPrebundleConfig = IPrebundleConfig
   customSwcConfig?: Config
   env: string
   mode: TMode
+  platformType: PLATFORM_TYPE
   prebundleCacheDir: string
   remoteCacheDir: string
   metadataPath: string
@@ -55,7 +58,7 @@ export default class BasePrebundle<T extends IPrebundleConfig = IPrebundleConfig
   constructor (protected config: T, protected option: IPrebundle) {
     if (!option.enable) return
 
-    const { appPath, env, chain, sourceRoot, isWatch } = this.config
+    const { appPath, env, chain, platformType, sourceRoot, isWatch } = this.config
     const { cacheDir = getCacheDir(appPath, env), esbuild = {}, force, swc } = this.option
 
     this.chain = chain
@@ -65,6 +68,7 @@ export default class BasePrebundle<T extends IPrebundleConfig = IPrebundleConfig
     this.customEsbuildConfig = esbuild
     this.customSwcConfig = swc
     this.env = env
+    this.platformType = platformType
     this.mode = ['production', 'development', 'none'].find(e => e === env) as TMode
       || (!isWatch || process.env.NODE_ENV === 'production' ? 'production' : 'development')
     this.prebundleCacheDir = path.resolve(cacheDir, './prebundle')
@@ -227,6 +231,7 @@ export default class BasePrebundle<T extends IPrebundleConfig = IPrebundleConfig
         deps: this.deps,
         env: this.env,
         isBuildPlugin: this.config.isBuildPlugin,
+        platformType: this.platformType,
         remoteAssets: this.metadata.remoteAssets,
         runtimeRequirements: this.metadata.runtimeRequirements || new Set()
       }])

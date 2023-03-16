@@ -1,5 +1,5 @@
 import { fs, VUE_EXT } from '@tarojs/helper'
-import { isString } from '@tarojs/shared'
+import { isString, isWebPlatform } from '@tarojs/shared'
 import { capitalize, internalComponents, toCamelCase } from '@tarojs/shared/dist/template'
 
 import { modifyH5WebpackChain } from './webpack.h5'
@@ -31,13 +31,10 @@ export interface IConfig {
   }
 }
 
-let isBuildH5
 
 export default (ctx: IPluginContext, config: IConfig = {}) => {
   const { framework } = ctx.initialConfig
   if (framework !== 'vue3') return
-
-  isBuildH5 = process.env.TARO_ENV === 'h5'
 
   ctx.modifyWebpackChain(({ chain, data }) => {
     // 通用
@@ -46,7 +43,7 @@ export default (ctx: IPluginContext, config: IConfig = {}) => {
     }
     setDefinePlugin(chain)
 
-    if (isBuildH5) {
+    if (isWebPlatform()) {
       // H5
       modifyH5WebpackChain(ctx, chain, config)
     } else {

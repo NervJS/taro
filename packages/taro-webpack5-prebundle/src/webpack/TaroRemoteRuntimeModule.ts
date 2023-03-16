@@ -7,7 +7,7 @@ export default class TaroRemoteRuntimeModule extends RuntimeModule {
   compilation: Compilation
   chunkGraph: ChunkGraph
 
-  constructor (private env: string) {
+  constructor (private platformType: string) {
     super('remotes loading')
   }
 
@@ -42,8 +42,8 @@ export default class TaroRemoteRuntimeModule extends RuntimeModule {
   }
 
   generate () {
-    switch (this.env) {
-      case 'h5':
+    switch (this.platformType) {
+      case 'web':
         return this.generateWeb()
       default:
         return this.generateMini()

@@ -420,9 +420,9 @@ importers:
       '@tarojs/helper':
         specifier: workspace:*
         version: link:../taro-helper
-      '@tarojs/taro-h5':
+      '@tarojs/shared':
         specifier: workspace:*
-        version: link:../taro-h5
+        version: link:../shared
       babel-plugin-dynamic-import-node:
         specifier: 2.3.3
         version: registry.npmjs.org/babel-plugin-dynamic-import-node@2.3.3
@@ -677,6 +677,9 @@ importers:
       '@tarojs/runtime':
         specifier: workspace:*
         version: link:../taro-runtime
+      '@tarojs/shared':
+        specifier: workspace:*
+        version: link:../shared
     devDependencies:
       '@babel/core':
         specifier: ^7.14.5
