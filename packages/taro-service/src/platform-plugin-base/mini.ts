@@ -1,4 +1,4 @@
-import TaroPlatform from './platform'
+import TaroPlatform, { PLATFORM_TYPE } from './platform'
 
 import type { RecursiveTemplate, UnRecursiveTemplate } from '@tarojs/shared/dist/template'
 
@@ -11,6 +11,8 @@ interface IFileType {
 }
 
 export abstract class TaroPlatformBase extends TaroPlatform {
+  platformType = PLATFORM_TYPE.MINI
+
   abstract globalObject: string
   abstract fileType: IFileType
   abstract template: RecursiveTemplate | UnRecursiveTemplate
