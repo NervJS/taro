@@ -1,9 +1,10 @@
+import { fs } from '@tarojs/helper'
 import { isString } from '@tarojs/shared'
-import fs from 'fs'
 import path from 'path'
 
 import { appendVirtualModulePrefix, getCompiler, prettyPrintJson, stripVirtualModulePrefix } from '../utils'
 import { baseCompName, customWrapperName } from '../utils/constants'
+import { miniTemplateLoader } from './native-support'
 
 import type { PluginOption } from 'vite'
 
@@ -56,6 +57,25 @@ export default function (/* taroConfig: MiniBuildConfig */): PluginOption {
 
         // pages
         compiler.pages.forEach(page => {
+          // 小程序原生页面
+          if (page.isNative) {
+            if (page.templatePath) {
+              const source = miniTemplateLoader(this, page.templatePath, compiler.sourceDir)
+              this.emitFile({
+                type: 'asset',
+                fileName: compiler.getTemplatePath(page.name),
+                source
+              })
+            }
+            if (page.cssPath && fs.existsSync(page.cssPath)) {
+              // @TODO 检查样式的处理是否正确
+              this.emitFile({
+                type: 'chunk',
+                id: page.cssPath,
+                fileName: compiler.getStylePath(page.name)
+              })
+            }
+          }
           this.emitFile({
             type: 'chunk',
             id: page.scriptPath,

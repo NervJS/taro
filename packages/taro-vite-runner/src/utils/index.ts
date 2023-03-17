@@ -1,4 +1,5 @@
 import { NODE_MODULES_REG } from '@tarojs/helper'
+import { isString } from '@tarojs/shared'
 import path from 'path'
 
 import { TARO_COMPILER,TaroCompiler } from './taroCompiler'
@@ -47,4 +48,14 @@ export function stripVirtualModulePrefix (id: string): string {
 
 export function isVirtualModule (id: string): boolean {
   return virtaulModulePrefixREG.test(id)
+}
+
+export function isRelativePath (id: string | undefined): boolean {
+  if (!isString(id)) return false
+
+  if (path.isAbsolute(id)) return false
+
+  if (/^[a-z][a-z0-9+.-]*:/i.test(id)) return false
+
+  return true
 }

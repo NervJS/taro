@@ -16,6 +16,7 @@
     "html-minifier": "^4.0.0",
     "regenerator-runtime": "0.11",
     "rollup": "^3.19.0",
+    "sax": "1.2.4",
     "vite-plugin-static-copy": "^0.13.0"
   },
   "devDependencies": {

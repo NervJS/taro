@@ -1752,6 +1752,7 @@ importers:
       html-minifier: ^4.0.0
       regenerator-runtime: '0.11'
       rollup: ^3.19.0
+      sax: 1.2.4
       vite: ^4.1.4
       vite-plugin-static-copy: ^0.13.0
     dependencies:
@@ -1762,6 +1763,7 @@ importers:
       html-minifier: registry.npmjs.org/html-minifier/4.0.0
       regenerator-runtime: registry.npmjs.org/regenerator-runtime/0.11.1
       rollup: registry.npmjs.org/rollup/3.19.0
+      sax: registry.npmjs.org/sax/1.2.4
       vite-plugin-static-copy: registry.npmjs.org/vite-plugin-static-copy/0.13.0_vite@4.1.4
     devDependencies:
       fs-extra: registry.npmjs.org/fs-extra/11.1.0

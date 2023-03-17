@@ -11,6 +11,7 @@ export default function (): PluginOption {
     resolveId (source, _importer, options) {
       const compiler = getCompiler(this)
       if (compiler?.isPage(source) && options.isEntry) {
+        if (compiler.getPageById(source)?.isNative) return null
         return appendVirtualModulePrefix(source + PAGE_SUFFIX)
       }
       return null

@@ -132,10 +132,12 @@ export class TaroCompiler {
 
     return appConfig.pages.map<PageMeta>(page => {
       const scriptPath = resolveMainFilePath(path.join(this.sourceDir, page), this.frameworkExts)
-      const configPath = this.getConfigFilePath(scriptPath)
-      const config: PageConfig = readConfig(configPath) || {}
       const templatePath = this.getTemplatePath(scriptPath)
       const isNative = this.isNativePageORComponent(templatePath)
+      const configPath = isNative
+        ? this.getConfigPath(scriptPath)
+        : this.getConfigFilePath(scriptPath)
+      const config: PageConfig = readConfig(configPath) || {}
 
       const pageMeta = {
         name: page,

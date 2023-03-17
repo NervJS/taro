@@ -62,18 +62,16 @@ export default function (): PluginOption {
 
         // emit: page
         compiler.pages.forEach(page => {
-          // @TODO support native page
           const pageConfig = page.config
-          const usingComponents = pageConfig.usingComponents = {
-            ...pageConfig.usingComponents
-          }
-
-          if (isUsingCustomWrapper) {
-            const importCustomWrapperPath = promoteRelativePath(path.relative(page.scriptPath, path.join(sourceDir, compiler.getTargetFilePath(customWrapperName, ''))))
-            usingComponents[customWrapperName] = importCustomWrapperPath
-          }
 
           if (!page.isNative) {
+            const usingComponents = pageConfig.usingComponents = {
+              ...pageConfig.usingComponents
+            }
+            if (isUsingCustomWrapper) {
+              const importCustomWrapperPath = promoteRelativePath(path.relative(page.scriptPath, path.join(sourceDir, compiler.getTargetFilePath(customWrapperName, ''))))
+              usingComponents[customWrapperName] = importCustomWrapperPath
+            }
             if (!template.isSupportRecursive) {
               const importBaseCompPath = promoteRelativePath(path.relative(page.scriptPath, path.join(sourceDir, compiler.getTargetFilePath(baseCompName, ''))))
               usingComponents[baseCompName] = importBaseCompPath
@@ -157,8 +155,6 @@ export default function (): PluginOption {
 
         // @TODO emit: components
         // @TODO emit: tabbar files
-        // @TODO emit: theme
-        // @TODO emit: modifyBuildAssets hook
       }
     }
   }, {
