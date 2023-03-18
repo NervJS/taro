@@ -59,7 +59,9 @@ export default function (appPath: string, config: Partial<BuildConfig>, appHelpe
     htmlPluginOption = {},
     csso,
     uglify,
-    terser
+    terser,
+
+    useDeprecatedAdapterComponent = false
   } = config
   const sourceDir = path.join(appPath, sourceRoot)
   const isMultiRouterMode = get(router, 'mode') === 'multi'
@@ -151,6 +153,7 @@ export default function (appPath: string, config: Partial<BuildConfig>, appHelpe
     }
   }
   env.SUPPORT_DINGTALK_NAVIGATE = env.SUPPORT_DINGTALK_NAVIGATE || '"disabled"'
+  defineConstants.DEPRECATED_ADAPTER_COMPONENT = JSON.stringify(!!useDeprecatedAdapterComponent)
   plugin.definePlugin = getDefinePlugin([processEnvOption(env), defineConstants])
 
   const isCssoEnabled = !(csso && csso.enable === false)
