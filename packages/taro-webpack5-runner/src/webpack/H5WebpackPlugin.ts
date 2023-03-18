@@ -48,7 +48,8 @@ export class H5WebpackPlugin {
   getDefinePlugin () {
     const {
       env = {},
-      defineConstants = {}
+      defineConstants = {},
+      useDeprecatedAdapterComponent = false
     } = this.combination.config
 
     env.SUPPORT_DINGTALK_NAVIGATE = env.SUPPORT_DINGTALK_NAVIGATE || '"disabled"'
@@ -57,6 +58,7 @@ export class H5WebpackPlugin {
       return target
     }, {})
 
+    defineConstants.DEPRECATED_ADAPTER_COMPONENT = JSON.stringify(!!useDeprecatedAdapterComponent)
     return WebpackPlugin.getDefinePlugin([envConstants, defineConstants])
   }
 
