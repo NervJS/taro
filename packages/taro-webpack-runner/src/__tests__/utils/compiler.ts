@@ -1,3 +1,4 @@
+import { SOURCE_DIR } from '@tarojs/helper'
 import ReactLikePlugin from '@tarojs/plugin-framework-react'
 import Vue2Plugin from '@tarojs/plugin-framework-vue2'
 import Vue3Plugin from '@tarojs/plugin-framework-vue3'
@@ -9,7 +10,7 @@ import * as merge from 'webpack-merge'
 
 import prodConf from '../../config/prod.conf'
 import { customizeChain } from '../../index'
-import { getAppConfig, getAppEntry } from '../../utils'
+import { AppHelper } from '../../utils'
 import { makeConfig } from '../../utils/chain'
 import { BuildConfig } from '../../utils/types'
 import baseConfig from './config'
@@ -113,8 +114,12 @@ export async function compile (app: string, customConfig: Partial<BuildConfig> =
   }, customConfig)
 
   const newConfig: BuildConfig = await makeConfig(config)
-  const entry = await getAppEntry(newConfig.entry)
-  const webpackChain = prodConf(appPath, newConfig, getAppConfig(entry))
+  const appHelper = new AppHelper(newConfig.entry, {
+    sourceDir: path.join(appPath, config.sourceRoot || SOURCE_DIR),
+    frameworkExts: newConfig.frameworkExts,
+    entryFileName: newConfig.entryFileName
+  })
+  const webpackChain = prodConf(appPath, newConfig, appHelper)
 
   await customizeChain(webpackChain, () => {}, newConfig.webpackChain)
 

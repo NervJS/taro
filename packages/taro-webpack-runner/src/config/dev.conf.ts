@@ -124,7 +124,7 @@ export default function (appPath: string, config: Partial<BuildConfig>, appHelpe
     )
   }
 
-  const template = path.join(this.combination.sourceDir, 'index.html')
+  const template = path.join(sourceDir, 'index.html')
   if (fs.existsSync(template)) {
     if (isMultiRouterMode) {
       delete entry[entryFileName]
