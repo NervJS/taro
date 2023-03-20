@@ -110,7 +110,7 @@ export default function (): PluginOption {
             }
           }
           if (isUsingCustomWrapper) {
-            baseCompConfig[customWrapperName] = `./${customWrapperName}`
+            baseCompConfig.usingComponents[customWrapperName] = `./${customWrapperName}`
           }
           generateConfigFile(this, compiler, {
             filePath: baseCompName,
