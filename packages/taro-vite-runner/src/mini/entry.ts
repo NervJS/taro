@@ -1,4 +1,4 @@
-import { fs } from '@tarojs/helper'
+import { fs, isEmptyObject } from '@tarojs/helper'
 import { isString } from '@tarojs/shared'
 import path from 'path'
 
@@ -108,6 +108,7 @@ export default function (/* taroConfig: MiniBuildConfig */): PluginOption {
           }
         }
 
+        // comp' script
         if (!compiler.taroConfig.template.isSupportRecursive) {
           this.emitFile({
             type: 'chunk',
@@ -117,12 +118,43 @@ export default function (/* taroConfig: MiniBuildConfig */): PluginOption {
           })
         }
 
+        // custom-wrapper' script
         this.emitFile({
           type: 'chunk',
           id: path.resolve(__dirname, '../template/custom-wrapper'),
           fileName: compiler.getScriptPath(customWrapperName),
           implicitlyLoadedAfterOneOf: [rawId]
         })
+
+        // tabbar
+        if (appConfig.tabBar && !isEmptyObject(appConfig.tabBar)) {
+          const list = appConfig.tabBar.list || []
+          list.forEach(async item => {
+            const { iconPath, selectedIconPath } = item
+            const { sourceDir } = compiler
+
+
+            if (iconPath) {
+              const filePath = path.resolve(sourceDir, iconPath)
+              this.emitFile({
+                type: 'asset',
+                fileName: item.iconPath,
+                source: await fs.readFile(filePath)
+              })
+              this.addWatchFile(filePath)
+            }
+
+            if (selectedIconPath) {
+              const filePath = path.resolve(sourceDir, selectedIconPath)
+              this.emitFile({
+                type: 'asset',
+                fileName: selectedIconPath,
+                source: await fs.readFile(filePath)
+              })
+              this.addWatchFile(filePath)
+            }
+          })
+        }
 
         // darkmode
         if (appConfig.darkmode && isString(appConfig.themeLocation)) {
