@@ -130,34 +130,57 @@ export class TaroCompiler {
       process.exit(1)
     }
 
-    return appConfig.pages.map<PageMeta>(page => {
-      const scriptPath = resolveMainFilePath(path.join(this.sourceDir, page), this.frameworkExts)
-      const templatePath = this.getTemplatePath(scriptPath)
-      const isNative = this.isNativePageORComponent(templatePath)
-      const configPath = isNative
-        ? this.getConfigPath(scriptPath)
-        : this.getConfigFilePath(scriptPath)
-      const config: PageConfig = readConfig(configPath) || {}
+    const pagesList = appConfig.pages.map<PageMeta>(pageName => this.compilePage(pageName))
 
-      const pageMeta = {
-        name: page,
-        scriptPath,
-        configPath,
-        config,
-        isNative,
-        templatePath: isNative ? templatePath : undefined,
-        cssPath: isNative ? this.getStylePath(scriptPath) : undefined,
+    const subPackages = appConfig.subPackages || appConfig.subpackages || []
+    subPackages.forEach(item => {
+      if (item.pages?.length) {
+        const root = item.root
+        item.pages.forEach(page => {
+          const subPageName = `${root}/${page}`.replace(/\/{2,}/g, '/')
+
+          for (const mainPage of pagesList) {
+            if (mainPage.name === subPageName) return
+          }
+
+          const pageMeta = this.compilePage(subPageName)
+          pagesList.push(pageMeta)
+        })
       }
-
-      this.filesConfig[this.getConfigFilePath(pageMeta.name)] = {
-        path: configPath,
-        content: config
-      }
-      this.collectNativeComponents(pageMeta)
-      this.rollupCtx?.addWatchFile(pageMeta.configPath)
-
-      return pageMeta
     })
+
+    return pagesList
+  }
+
+  compilePage (pageName: string): PageMeta {
+    const { sourceDir, frameworkExts } = this
+
+    const scriptPath = resolveMainFilePath(path.join(sourceDir, pageName), frameworkExts)
+    const templatePath = this.getTemplatePath(scriptPath)
+    const isNative = this.isNativePageORComponent(templatePath)
+    const configPath = isNative
+      ? this.getConfigPath(scriptPath)
+      : this.getConfigFilePath(scriptPath)
+    const config: PageConfig = readConfig(configPath) || {}
+
+    const pageMeta = {
+      name: pageName,
+      scriptPath,
+      configPath,
+      config,
+      isNative,
+      templatePath: isNative ? templatePath : undefined,
+      cssPath: isNative ? this.getStylePath(scriptPath) : undefined,
+    }
+
+    this.filesConfig[this.getConfigFilePath(pageMeta.name)] = {
+      path: configPath,
+      content: config
+    }
+    this.collectNativeComponents(pageMeta)
+    this.rollupCtx?.addWatchFile(pageMeta.configPath)
+
+    return pageMeta
   }
 
   collectNativeComponents (meta: AppMeta | PageMeta | NativeCompMeta) {
