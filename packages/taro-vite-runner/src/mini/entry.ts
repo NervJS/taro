@@ -84,6 +84,30 @@ export default function (/* taroConfig: MiniBuildConfig */): PluginOption {
           })
         })
 
+        // native components
+        for (const comp of compiler.nativeComponents.values()) {
+          this.emitFile({
+            type: 'chunk',
+            id: comp.scriptPath,
+            fileName: compiler.getScriptPath(comp.name),
+            implicitlyLoadedAfterOneOf: [rawId]
+          })
+          const source = miniTemplateLoader(this, comp.templatePath, compiler.sourceDir)
+          this.emitFile({
+            type: 'asset',
+            fileName: compiler.getTemplatePath(comp.name),
+            source
+          })
+          if (comp.cssPath && fs.existsSync(comp.cssPath)) {
+            // @TODO 检查样式的处理是否正确
+            this.emitFile({
+              type: 'chunk',
+              id: comp.cssPath,
+              fileName: compiler.getStylePath(comp.name)
+            })
+          }
+        }
+
         if (!compiler.taroConfig.template.isSupportRecursive) {
           this.emitFile({
             type: 'chunk',

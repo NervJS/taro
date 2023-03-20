@@ -89,6 +89,14 @@ export default function (): PluginOption {
           })
         })
 
+        // emit native components' json
+        for (const comp of compiler.nativeComponents.values()) {
+          generateConfigFile(this, compiler, {
+            filePath: comp.name,
+            config: comp.config
+          })
+        }
+
         // emit: base.xml
         generateTemplateFile(this, compiler, {
           filePath: baseTemplateName,
