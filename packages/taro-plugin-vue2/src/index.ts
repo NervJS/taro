@@ -9,7 +9,6 @@ import { getLoaderMeta } from './loader-meta'
 import type { IPluginContext } from '@tarojs/service'
 
 export const CUSTOM_WRAPPER = 'custom-wrapper'
-const isWeb = isWebPlatform()
 
 export default (ctx: IPluginContext) => {
   const { framework } = ctx.initialConfig
@@ -22,7 +21,7 @@ export default (ctx: IPluginContext) => {
     customVueChain(chain, data)
     setLoader(chain)
 
-    if (isWeb) {
+    if (isWebPlatform()) {
       setStyleLoader(ctx, chain)
     }
   })
@@ -78,7 +77,7 @@ function customVueChain (chain, data) {
   // loader
   let vueLoaderOption
 
-  if (isWeb) {
+  if (isWebPlatform()) {
     // H5
     vueLoaderOption = {
       transformAssetUrls: {
@@ -174,7 +173,7 @@ function setLoader (chain) {
   function customizer (object = '', sources = '') {
     if ([object, sources].every(e => typeof e === 'string')) return object + sources
   }
-  if (isWeb) {
+  if (isWebPlatform()) {
     chain.plugin('mainPlugin')
       .tap(args => {
         args[0].loaderMeta = mergeWith(

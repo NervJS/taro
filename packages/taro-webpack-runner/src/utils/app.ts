@@ -5,7 +5,7 @@ import {
   SCRIPT_EXT
 } from '@tarojs/helper'
 import { defaults } from 'lodash'
-import path from 'path'
+import * as path from 'path'
 
 import type { AppConfig } from '@tarojs/taro'
 import type { Entry, EntryFunc } from 'webpack'
