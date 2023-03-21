@@ -58,11 +58,10 @@ export default function (appPath: string, taroConfig: MiniBuildConfig): PluginOp
     }
 
     if (compile.exclude?.length) {
-      babelOptions.exclude = [
-        ...compile.exclude,
-        /css-loader/,
-        /node_modules[/\\](?!@tarojs)/
-      ]
+      const list = compile.exclude
+      const isNodeModuleReseted = list.find(reg => reg.toString().includes('node_modules'))
+      if (!isNodeModuleReseted) list.push(/node_modules[/\\](?!@tarojs)/)
+      babelOptions.exclude = list
     } else if (compile.include?.length) {
       const sourceDir = path.join(appPath, taroConfig.sourceRoot || 'src')
       babelOptions.include = [
@@ -72,7 +71,6 @@ export default function (appPath: string, taroConfig: MiniBuildConfig): PluginOp
       ]
     } else {
       babelOptions.exclude = [
-        /css-loader/,
         /node_modules[/\\](?!@tarojs)/
       ]
     }

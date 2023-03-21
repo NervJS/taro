@@ -45,6 +45,9 @@ export default (ctx: IPluginContext) => {
       opts.injectOptions = {
         exclude: ['navigator']
       }
+      opts.compile ||= {}
+      opts.compile.exclude ||= []
+      opts.compile.exclude.push(/node_modules[/\\](?!@tarojs|@vue\/shared)/)
     }
   })
 }
