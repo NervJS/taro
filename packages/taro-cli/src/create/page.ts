@@ -18,16 +18,29 @@ export interface IPageConf {
   date?: string
   framework: 'react' | 'preact' | 'nerv' | 'vue' | 'vue3'
   compiler?: 'webpack4' | 'webpack5' | 'vite'
+  customTemplateConfig?:CustomTemplateConfig
 }
 
+interface CustomTemplateConfig {
+  name: string
+  path: string
+}
+
+export type SetCustomTemplateConfig = (customTemplateConfig: CustomTemplateConfig)=> void
+
+type GetCustomTemplate = (cb: SetCustomTemplateConfig )=>Promise<void>
+interface IPageArgs extends IPageConf {
+  getCustomTemplate : GetCustomTemplate
+}
 export default class Page extends Creator {
   public rootPath: string
   public conf: IPageConf
+  private getCustomTemplate: GetCustomTemplate
 
-  constructor (options: IPageConf) {
+  constructor (args: IPageArgs) {
     super()
     this.rootPath = this._rootPath
-
+    const { getCustomTemplate, ...otherOptions } = args
     this.conf = Object.assign(
       {
         projectDir: '',
@@ -35,8 +48,9 @@ export default class Page extends Creator {
         template: '',
         description: ''
       },
-      options
+      otherOptions
     )
+    this.getCustomTemplate = getCustomTemplate
     this.conf.projectName = path.basename(this.conf.projectDir)
   }
 
@@ -52,6 +66,10 @@ export default class Page extends Creator {
       }
     }
     return pkgPath
+  }
+
+  setCustomTemplateConfig (customTemplateConfig: CustomTemplateConfig) {
+    this.conf.customTemplateConfig = customTemplateConfig
   }
 
   getTemplateInfo () {
@@ -93,13 +111,14 @@ export default class Page extends Creator {
 
   async create () {
     const date = new Date()
-    this.getTemplateInfo()
     this.conf.date = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`
-
-    if (!fs.existsSync(this.templatePath(this.conf.template))) {
-      await this.fetchTemplates()
+    await this.getCustomTemplate(this.setCustomTemplateConfig.bind(this))
+    if(!this.conf.customTemplateConfig){
+      this.getTemplateInfo()
+      if (!fs.existsSync(this.templatePath(this.conf.template))) {
+        await this.fetchTemplates()
+      }
     }
-
     this.write()
   }
 
