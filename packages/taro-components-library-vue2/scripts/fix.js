@@ -6,15 +6,25 @@ const utilsPath = path.resolve(__dirname, '..', 'src/vue-component-lib/utils.ts'
 
 if (fs.existsSync(componentsPath)) {
   const codeBuffer = fs.readFileSync(componentsPath)
-  const code = codeBuffer.toString().replace(/const\sTaro([A-Za-z]+)\s=/g, 'const $1 =').replace(/const\s([A-Za-z]+)Core\s=/g, 'const $1 =')
+  let code = codeBuffer.toString().replace(/const\sTaro([A-Za-z]+)\s=/g, 'const $1 =').replace(/const\s([A-Za-z]+)Core\s=/g, 'const $1 =')
+
+  if (!code.includes('fragment')) {
+    const comps = ['block', 'custom-wrapper']
+    code = code.replace(new RegExp(`taro-(${comps.join('|')})-core`, 'ig'), 'fragment')
+  }
 
   fs.writeFileSync(componentsPath, code)
 }
 
 if (fs.existsSync(utilsPath)) {
   const codeBuffer = fs.readFileSync(utilsPath)
-  // Note: 移除事件不必要的定义
-  const code = codeBuffer.toString().replace(/let[\s\S]*vueElement\.\$emit\(eventName,\semittedValue\);/, 'vueElement.$emit(eventName, event);')
+  // Note: 事件优化代码
+  const eventCode = `vueElement.$emit(eventName, event); if (['input', 'change'].includes(eventName)) vueElement.$emit('update:modelValue', event.detail.value);`
+  // Note: click 事件绑定 tap 事件触发
+  const listenersCode = `on: { ...allListeners, click: (event) => { typeof allListeners.click === 'function' && allListeners.click(event); vueElement.$emit('tap', event); } }`
+  const code = codeBuffer.toString()
+    .replace(/let[\s\S]*vueElement\.\$emit\(eventName,\semittedValue\);/, eventCode)
+    .replace(/on: allListeners/g, listenersCode)
 
   fs.writeFileSync(utilsPath, code)
 }

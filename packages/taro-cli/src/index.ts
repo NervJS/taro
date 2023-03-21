@@ -1,15 +1,14 @@
-import Convertor from './convertor'
+import Creator from './create/creator'
 import Project from './create/project'
 import doctor from './doctor'
 
 export default {
-  Convertor,
   doctor,
-  Project
+  Project,
+  Creator
 }
 
 export {
-  Convertor,
+  Creator,
   doctor,
-  Project
-}
+  Project }

@@ -53,7 +53,8 @@ export default (ctx: IPluginContext, _pluginOpts: CIOptions | (() => CIOptions))
             privateKeyPath: joi.string().required(),
             type: joi.string().valid('miniProgram', 'miniProgramPlugin', 'miniGame', 'miniGamePlugin'),
             ignores: joi.array().items(joi.string().required()),
-            robot: joi.number()
+            robot: joi.number(),
+            setting: joi.object()
           }),
           /** 字节跳动小程序上传配置 */
           tt: joi.object({
@@ -200,7 +201,7 @@ export default (ctx: IPluginContext, _pluginOpts: CIOptions | (() => CIOptions))
         `taro ${action} --type weapp`,
         `taro ${action} --type alipay`
       ],
-      async fn ({options}) {
+      async fn ({ options }) {
         doAction(options.type, action, options.projectPath)
       }
     })

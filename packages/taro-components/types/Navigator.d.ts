@@ -8,18 +8,18 @@ interface NavigatorProps extends StandardProps {
   target?: keyof NavigatorProps.Target
 
   /** 当前小程序内的跳转链接
-   * @supported weapp, alipay, swan, tt, qq, jd
+   * @supported weapp, alipay, swan, tt, qq, jd, h5
    */
   url?: string
 
   /** 跳转方式
    * @default "navigate"
-   * @supported weapp, alipay, swan, tt, qq, jd
+   * @supported weapp, alipay, swan, tt, qq, jd, h5
    */
   openType?: keyof NavigatorProps.OpenType
 
   /** 当 open-type 为 'navigateBack' 时有效，表示回退的层数
-   * @supported weapp, swan, tt, qq, jd
+   * @supported weapp, swan, tt, qq, jd, h5
    */
   delta?: number
 
@@ -45,7 +45,7 @@ interface NavigatorProps extends StandardProps {
 
   /** 指定按下去的样式类。当 `hover-class="none"` 时，没有点击态效果
    * @default "navigator-hover"
-   * @supported weapp, alipay, swan, tt, qq, jd
+   * @supported weapp, alipay, swan, tt, qq, jd, h5
    */
   hoverClass?: string
 
@@ -78,17 +78,17 @@ interface NavigatorProps extends StandardProps {
   ariaLabel?: string
 
   /** 当 `target="miniProgram"` 时有效，跳转小程序成功
-   * @supported weapp, swan, qq
+   * @supported weapp, swan, qq, h5
    */
   onSuccess?: CommonEventFunction
 
   /** 当 `target="miniProgram"` 时有效，跳转小程序失败
-   * @supported weapp, swan, qq
+   * @supported weapp, swan, qq, h5
    */
   onFail?: CommonEventFunction
 
   /** 当 `target="miniProgram"` 时有效，跳转小程序完成
-   * @supported weapp, swan, qq
+   * @supported weapp, swan, qq, h5
    */
   onComplete?: CommonEventFunction
 }
@@ -138,7 +138,7 @@ declare namespace NavigatorProps {
 
 /** 页面链接
  * @classification navig
- * @supported weapp, alipay, swan, tt, qq, jd, harmony
+ * @supported weapp, alipay, swan, tt, qq, jd, harmony, h5
  * @see https://developers.weixin.qq.com/miniprogram/dev/component/navigator.html
  */
 declare const Navigator: ComponentType<NavigatorProps>

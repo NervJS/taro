@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/with-weapp",
-  "version": "3.6.0",
+  "version": "3.6.2",
   "description": "taroize 之后的运行时",
   "main": "index.js",
   "scripts": {
@@ -26,5 +26,9 @@
     "@tarojs/runtime": "workspace:*",
     "@tarojs/taro": "workspace:*",
     "lodash": "^4.17.21"
+  },
+  "devDependencies": {
+    "@types/sinon": "^7.5.0",
+    "sinon": "^7.5.0"
   }
 }

@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/mini-runner",
-  "version": "3.6.0",
+  "version": "3.6.2",
   "description": "Mini app runner for taro",
   "main": "index.js",
   "scripts": {
@@ -67,7 +67,7 @@
     "mini-css-extract-plugin": "0.9.0",
     "miniprogram-simulate": "^1.1.5",
     "mkdirp": "^1.0.4",
-    "ora": "4.0.3",
+    "ora": "^5.0.0",
     "postcss-html-transform": "workspace:*",
     "postcss-import": "^14.0.0",
     "postcss-loader": "4.3.0",
@@ -91,10 +91,13 @@
     "webpack-format-messages": "^2.0.5"
   },
   "devDependencies": {
+    "@types/sax": "^1.2.4",
     "@types/webpack": "4",
-    "webpack-merge": "^4.2.2",
+    "memfs": "^3.1.2",
+    "memory-fs": "^0.5.0",
+    "postcss": "^8.4.18",
     "vue-loader": "^15.9.3",
-    "postcss": "^8.4.18"
+    "webpack-merge": "^4.2.2"
   },
   "peerDependencies": {
     "postcss": "^8.4.18"

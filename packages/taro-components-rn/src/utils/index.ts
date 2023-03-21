@@ -100,11 +100,3 @@ export const useUpdateEffect = (effect, deps) => {
     }
   }, deps)
 }
-
-export default {
-  omit,
-  dismemberStyle,
-  parseStyles,
-  noop,
-  useUpdateEffect
-}

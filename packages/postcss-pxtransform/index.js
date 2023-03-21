@@ -33,6 +33,9 @@ const DEFAULT_WEAPP_OPTIONS = {
   deviceRatio
 }
 
+const processed = Symbol('processed')
+
+
 let targetUnit
 
 module.exports = (options = {}) => {
@@ -93,6 +96,7 @@ module.exports = (options = {}) => {
       let skip = false
 
       return {
+        // 注意：钩子在节点变动时会重新执行，Once，OnceExit只执行一次，https://github.com/NervJS/taro/issues/13238
         Comment (comment) {
           if (comment.text === 'postcss-pxtransform disable') {
             skip = true
@@ -157,6 +161,11 @@ module.exports = (options = {}) => {
         Declaration (decl) {
           if (skip) return
 
+          if (decl[processed]) return
+
+          // 标记当前 node 已处理
+          decl[processed] = true
+
           if (options.platform === 'harmony') {
             if (decl.value.indexOf('PX') === -1) return
             const value = decl.value.replace(PXRegex, function (m, _$1, $2) {
@@ -169,11 +178,9 @@ module.exports = (options = {}) => {
             if (!satisfyPropList(decl.prop)) return
 
             if (blacklistedSelector(opts.selectorBlackList, decl.parent.selector)) return
-
             const value = decl.value.replace(pxRgx, pxReplace)
             // if rem unit already exists, do not add or replace
             if (declarationExists(decl.parent, decl.prop, value)) return
-
             if (opts.replace) {
               decl.value = value
             } else {
@@ -181,7 +188,6 @@ module.exports = (options = {}) => {
             }
           }
         },
-
         AtRule: {
           media: (rule) => {
             if (skip) return

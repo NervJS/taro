@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/plugin-framework-vue2",
-  "version": "3.6.0",
+  "version": "3.6.2",
   "description": "Vue2 框架插件",
   "author": "drchan",
   "homepage": "https://github.com/nervjs/taro",
@@ -33,13 +33,13 @@
     "lodash": "^4.17.21"
   },
   "devDependencies": {
-    "vue": "^2.6.11",
+    "vue": "^2.7.0",
     "rollup": "^3.8.1",
     "rollup-plugin-node-externals": "^4.0.0",
     "rollup-plugin-ts": "^3.0.2",
     "typescript": "^4.7.4"
   },
   "peerDependencies": {
-    "vue": "^2.6.11"
+    "vue": "^2.7.0"
   }
 }

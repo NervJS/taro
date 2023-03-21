@@ -1,4 +1,4 @@
-import { parseUrl } from '../bom/location'
+import { parseUrl } from '../bom/URL'
 import { TaroElement } from './element'
 
 const enum AnchorElementAttrs {

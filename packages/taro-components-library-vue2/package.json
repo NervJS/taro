@@ -1,13 +1,13 @@
 {
   "name": "@tarojs/components-library-vue2",
-  "version": "3.6.0",
+  "version": "3.6.2",
   "description": "Taro 组件库 Vue2 版本库",
   "private": true,
   "main": "index.js",
   "scripts": {
     "build:ci": "run-s clean prod",
     "clean": "rimraf ../taro-components/lib/vue2",
-    "dev": "pnpm run build -w",
+    "dev": "pnpm run prod -w",
     "preprod": "node ./scripts/fix.js",
     "prod": "rollup -c"
   },
@@ -15,7 +15,8 @@
   "author": "ZakaryCode",
   "license": "MIT",
   "dependencies": {
-    "@tarojs/components": "workspace:*"
+    "@tarojs/components": "workspace:*",
+    "vue-fragment": "^1.6.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.14.5",

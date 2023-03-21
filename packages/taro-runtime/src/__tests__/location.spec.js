@@ -219,4 +219,298 @@ describe('location', () => {
       expect(url.search).toBe('?name=hongxin')
     }
   })
+
+  it('Location', () => {
+    const Location = runtime.Location
+    const Current = runtime.Current
+    const raw = JSON.stringify(Current)
+    const fakerWindow = { trigger () {} }
+
+    {
+      Current.router = {
+        path: '',
+        params: { a: '1', b: '2' },
+      }
+      const location = new Location({ window: fakerWindow })
+      expect(location.toString()).toBe('https://taro.com/?a=1&b=2')
+      expect(location.protocol).toBe('https:')
+      expect(location.host).toBe('taro.com')
+      expect(location.port).toBe('')
+      expect(location.pathname).toBe('/')
+      expect(location.search).toBe('?a=1&b=2')
+      expect(location.hash).toBe('')
+    }
+
+    {
+      Current.router = {
+        path: 'pages/index/index',
+        params: { a: '1', b: '2' },
+      }
+      const location = new Location({ window: fakerWindow })
+      expect(location.toString()).toBe('https://taro.com/pages/index/index?a=1&b=2')
+      expect(location.protocol).toBe('https:')
+      expect(location.host).toBe('taro.com')
+      expect(location.port).toBe('')
+      expect(location.pathname).toBe('/pages/index/index')
+      expect(location.search).toBe('?a=1&b=2')
+      expect(location.hash).toBe('')
+      expect(location.hostname).toBe('taro.com')
+      expect(location.origin).toBe('https://taro.com')
+      expect(location.href).toBe('https://taro.com/pages/index/index?a=1&b=2')
+    }
+
+    // setters
+    {
+      Current.router = {
+        path: '',
+        params: { a: '1', b: '2' },
+      }
+      const location = new Location({ window: fakerWindow })
+      expect(location.href).toBe('https://taro.com/?a=1&b=2')
+      location.protocol = 'http:'
+      expect(location.protocol).toBe('https:')
+      location.hostname = 'hongxin.com'
+      expect(location.hostname).toBe('taro.com')
+      location.port = '8080'
+      expect(location.port).toBe('')
+      location.pathname = '/hello/world'
+      expect(location.pathname).toBe('/hello/world')
+      location.search = '?c=3&d=4'
+      expect(location.search).toBe('?c=3&d=4')
+      location.hash = '#e=5&f=6'
+      expect(location.hash).toBe('#e=5&f=6')
+      location.origin = 'http://hongxin.com:8080'
+      expect(location.href).toBe('https://taro.com/hello/world?c=3&d=4#e=5&f=6')
+      location.href = 'https://taro.com/pages?name=hongxin#age=18'
+      expect(location.href).toBe('https://taro.com/pages?name=hongxin#age=18')
+    }
+
+    // more cases for pathname
+    {
+      Current.router = {
+        path: '',
+        params: {},
+      }
+      const location = new Location({ window: fakerWindow })
+      expect(location.pathname).toBe('/')
+      location.pathname = '/a/b'
+      expect(location.pathname).toBe('/a/b')
+      location.pathname = './c'
+      expect(location.pathname).toBe('/c')
+      location.pathname = '/a/b'
+      expect(location.pathname).toBe('/a/b')
+      location.pathname = '../d'
+      expect(location.pathname).toBe('/d')
+      location.pathname = '/a/b'
+      expect(location.pathname).toBe('/a/b')
+      location.pathname = '../../f'
+      expect(location.pathname).toBe('/f')
+      location.pathname = '../../'
+      expect(location.pathname).toBe('/')
+      location.pathname = 'a/b'
+      expect(location.pathname).toBe('/a/b')
+    }
+
+    // methods
+    {
+      Current.router = {
+        path: '',
+        params: {},
+      }
+      const location = new Location({ window: fakerWindow })
+      expect(location.href).toBe('https://taro.com/')
+      location.replace('https://taro.com/hello/world?name=hongxin#age=18')
+      expect(location.href).toBe('https://taro.com/hello/world?name=hongxin#age=18')
+    }
+
+    // hashchange
+    {
+      Current.router = {
+        path: '',
+        params: {},
+      }
+      const mockTrigger = jest.fn()
+      const location = new Location({ window: { trigger: mockTrigger } })
+      expect(location.href).toBe('https://taro.com/')
+      location.hash = '#a=1'
+      expect(location.href).toBe('https://taro.com/#a=1')
+      expect(mockTrigger).toHaveBeenCalledTimes(1)
+      location.replace('https://taro.com/hello/world?name=hongxin#age=18')
+      expect(location.href).toBe('https://taro.com/hello/world?name=hongxin#age=18')
+      expect(mockTrigger).toHaveBeenCalledTimes(2)
+    }
+
+    // CONTEXT_ACTIONS
+    {
+      Current.router = {
+        path: '',
+        params: { a: '1' },
+      }
+      const location = new Location({ window: fakerWindow })
+      location.replace('https://taro.com/hello/world?b=2')
+      const cache = location.cache
+
+      // CONTEXT_ACTIONS.INIT
+      location.trigger('0')
+      expect(location.href).toBe('https://taro.com/?a=1')
+
+      // CONTEXT_ACTIONS.RESTORE
+      const pageId = 'page_' + Date.now()
+      location.trigger('1', pageId)
+      location.replace('https://taro.com/hello/world?b=2')
+      expect(location.href).toBe('https://taro.com/hello/world?b=2')
+      expect(cache.has(pageId)).toBe(true)
+      expect(cache.get(pageId).lastHref).toBe('https://taro.com/?a=1')
+
+      // CONTEXT_ACTIONS.RECOVER
+      location.trigger('2', pageId)
+      expect(location.href).toBe('https://taro.com/?a=1')
+
+
+      // CONTEXT_ACTIONS.DESTORY
+      location.trigger('3', pageId)
+      expect(cache.has(pageId)).toBe(false)
+    }
+
+    Object.assign(Current, JSON.parse(raw))
+  })
+
+  it('History', () => {
+    const Location = runtime.Location
+    const History = runtime.History
+    const Current = runtime.Current
+    const raw = JSON.stringify(Current)
+    const fakerWindow = { trigger () {} }
+
+    {
+      Current.router = {
+        path: '/1',
+        params: {},
+      }
+      const location = new Location({ window: fakerWindow })
+      const history = new History(location, { window: fakerWindow })
+      expect(history.length).toBe(1)
+      expect(history.state).toMatchObject({
+        state: null,
+        title: '',
+        url: 'https://taro.com/1',
+      })
+
+      location.href = 'https://taro.com/2'
+      expect(history.length).toBe(2)
+      expect(history.state).toMatchObject({
+        state: null,
+        title: '',
+        url: 'https://taro.com/2',
+      })
+
+      location.pathname = '/3'
+      location.pathname = '/4'
+      location.pathname = '/5'
+      expect(history.length).toBe(5)
+      expect(history.state).toMatchObject({
+        state: null,
+        title: '',
+        url: 'https://taro.com/5',
+      })
+
+      history.back()
+      expect(history.length).toBe(5)
+      expect(history.state).toMatchObject({
+        state: null,
+        title: '',
+        url: 'https://taro.com/4',
+      })
+
+      history.go(-1)
+      expect(history.length).toBe(5)
+      expect(history.state).toMatchObject({
+        state: null,
+        title: '',
+        url: 'https://taro.com/3',
+      })
+
+      history.go(-2)
+      expect(history.length).toBe(5)
+      expect(history.state).toMatchObject({
+        state: null,
+        title: '',
+        url: 'https://taro.com/1',
+      })
+
+      history.forward()
+      expect(history.length).toBe(5)
+      expect(history.state).toMatchObject({
+        state: null,
+        title: '',
+        url: 'https://taro.com/2',
+      })
+
+      history.go(3)
+      expect(history.length).toBe(5)
+      expect(history.state).toMatchObject({
+        state: null,
+        title: '',
+        url: 'https://taro.com/5',
+      })
+      expect(location.href).toBe('https://taro.com/5')
+
+      history.pushState({ i: 6 }, '6', 'https://taro.com/6')
+      expect(history.length).toBe(6)
+      expect(history.state).toMatchObject({
+        state: { i: 6 },
+        title: '6',
+        url: 'https://taro.com/6',
+      })
+      expect(location.href).toBe('https://taro.com/6')
+
+      history.replaceState({ i: 7 }, '7', 'https://taro.com/7')
+      expect(history.length).toBe(6)
+      expect(history.state).toMatchObject({
+        state: { i: 7 },
+        title: '7',
+        url: 'https://taro.com/7',
+      })
+      expect(location.href).toBe('https://taro.com/7')
+
+    }
+
+    // CONTEXT_ACTIONS
+    {
+      Current.router = {
+        path: '/1',
+        params: {},
+      }
+      const mockTrigger = jest.fn()
+      const location = new Location({ window: fakerWindow })
+      const history = new History(location, { window: { trigger: mockTrigger } })
+      const cache = history.cache
+
+      history.pushState(null, '', 'https://taro.com/1')
+      expect(history.length).toBe(2)
+
+      // CONTEXT_ACTIONS.INIT
+      history.trigger('0')
+      expect(history.length).toBe(1)
+
+      // CONTEXT_ACTIONS.RESTORE
+      const pageId = 'page_' + Date.now()
+      history.pushState(null, '', 'https://taro.com/2')
+      history.trigger('1', pageId)
+      expect(cache.has(pageId)).toBe(true)
+      expect(Object.is(cache.get(pageId).location, location))
+      expect(cache.get(pageId).cur).toBe(1)
+
+      // CONTEXT_ACTIONS.RECOVER
+      history.trigger('2', pageId)
+      expect(history.length).toBe(2)
+      expect(location.href).toBe('https://taro.com/2')
+
+      // CONTEXT_ACTIONS.DESTORY
+      history.trigger('3', pageId)
+      expect(cache.has(pageId)).toBe(false)
+    }
+
+    Object.assign(Current, JSON.parse(raw))
+  })
 })
