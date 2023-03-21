@@ -59,3 +59,7 @@ export function isRelativePath (id: string | undefined): boolean {
 
   return true
 }
+
+export function stripMultiPlatformExt (id: string): string {
+  return id.replace(new RegExp(`\\.${process.env.TARO_ENV}$`), '')
+}

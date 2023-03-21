@@ -3,6 +3,8 @@ import inject, { RollupInjectOptions } from '@rollup/plugin-inject'
 import { PLATFORMS } from '@tarojs/helper'
 import path from 'path'
 
+import { stripMultiPlatformExt } from '../utils'
+
 import type { PluginOption } from 'vite'
 import type { MiniBuildConfig } from '../utils/types'
 
@@ -129,6 +131,9 @@ export default function (appPath: string, taroConfig: MiniBuildConfig): PluginOp
         sourcemap: taroConfig.enableSourceMap ?? taroConfig.isWatch ?? process.env.NODE_ENV !== 'production',
         rollupOptions: {
           output: {
+            entryFileNames (chunkInfo) {
+              return stripMultiPlatformExt(chunkInfo.name) + taroConfig.fileType.script
+            },
             chunkFileNames: '[name].js',
             manualChunks (id, { getModuleInfo }) {
               const moduleInfo = getModuleInfo(id)

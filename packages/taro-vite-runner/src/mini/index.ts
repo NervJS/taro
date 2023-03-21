@@ -1,3 +1,4 @@
+import multiPlatformPlugin from '../common/multi-platform-plugin'
 import configPlugin from './config'
 import emitPlugin from './emit'
 import entryPlugin from './entry'
@@ -14,6 +15,7 @@ export default function (appPath: string, taroConfig: MiniBuildConfig): PluginOp
     configPlugin(appPath, taroConfig),
     entryPlugin(),
     pagePlugin(),
+    multiPlatformPlugin(taroConfig),
     nativeSupportPlugin(taroConfig),
     emitPlugin()
   ]

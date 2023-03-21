@@ -10,7 +10,7 @@ import {
 import path from 'path'
 
 import { componentConfig } from '../template/component'
-import { getComponentName } from '../utils'
+import { getComponentName, stripMultiPlatformExt } from '../utils'
 import { logger } from './logger'
 
 import type { AppConfig, Config,PageConfig } from '@tarojs/taro'
@@ -253,7 +253,8 @@ export class TaroCompiler {
   }
 
   getConfigFilePath (filePath: string) {
-    return resolveMainFilePath(`${filePath.replace(path.extname(filePath), '')}.config`)
+    const cleanedPath = stripMultiPlatformExt(filePath.replace(path.extname(filePath), ''))
+    return resolveMainFilePath(`${cleanedPath}.config`)
   }
 
   getScriptPath (filePath: string) {

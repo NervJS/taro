@@ -1,4 +1,4 @@
-import { TARO_COMPILER,TaroCompiler } from '../utils/taroCompiler'
+import { TARO_COMPILER, TaroCompiler } from '../utils/taroCompiler'
 
 import type { UnRecursiveTemplate } from '@tarojs/shared/dist/template'
 import type { PluginOption } from 'vite'
