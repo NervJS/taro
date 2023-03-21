@@ -135,9 +135,17 @@ function createFiles (
 }
 
 export async function createPage (creator: Creator, params: IPageConf, cb) {
-  const { projectDir, template, pageName } = params
+  const { projectDir, template, pageName, customTemplateConfig } = params
+
   // path
-  const templatePath = creator.templatePath(template)
+  let templatePath
+
+  if(customTemplateConfig) {
+    const { name, path } = customTemplateConfig
+    templatePath = `${path}/${name}`
+  } else {
+    templatePath = creator.templatePath(template)
+  }
 
   if (!fs.existsSync(templatePath)) return console.log(chalk.red(`创建页面错误：找不到模板${templatePath}`))
 
