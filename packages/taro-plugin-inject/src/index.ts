@@ -7,7 +7,7 @@ import type { IPluginContext, TaroPlatformBase } from '@tarojs/service'
 type VoidComponents = Set<string>
 type NestElements = Map<string, number>
 
-interface IOptions {
+export interface IOptions {
   voidComponents: string[] | ((list: VoidComponents) => VoidComponents)
   nestElements: Record<string, number> | ((elem: NestElements) => NestElements)
   components: Record<string, Record<string, any>>
