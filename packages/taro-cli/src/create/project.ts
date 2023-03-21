@@ -316,6 +316,7 @@ export default class Project extends Creator {
       type: 'input',
       name: 'templateSource',
       message: '请输入模板源！',
+      askAnswered: true,
       when (answers) {
         return answers.templateSource === 'self-input'
       }
@@ -327,6 +328,7 @@ export default class Project extends Creator {
         const choices = await getOpenSourceTemplates(answers.framework)
         return choices
       },
+      askAnswered: true,
       when (answers) {
         return answers.templateSource === 'open-source'
       }
@@ -424,7 +426,7 @@ export default class Project extends Creator {
 
 function getOpenSourceTemplates (platform) {
   return new Promise((resolve, reject) => {
-    const spinner = ora('正在拉取开源模板列表...').start()
+    const spinner = ora({text: '正在拉取开源模板列表...', discardStdin: false}).start()
     request.get('https://gitee.com/NervJS/awesome-taro/raw/next/index.json', (error, _response, body) => {
       if (error) {
         spinner.fail(chalk.red('拉取开源模板列表失败！'))
