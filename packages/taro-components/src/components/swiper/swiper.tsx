@@ -246,9 +246,15 @@ export class Swiper implements ComponentInterface {
   }
 
   handleSwiperLoop = debounce(() => {
-    if (this.swiper && this.circular) {
-      // @ts-ignore
-      this.swiper.loopFix()
+    if (!this.swiper || !this.circular) return
+    const swiper = this.swiper as any // Note: loop 相关的方法 swiper 未声明
+    const duplicates = this.swiperWrapper?.querySelectorAll('.swiper-slide-duplicate') || []
+    if (duplicates.length < 2) {
+      // Note: 循环模式下，但是前后垫片未注入
+      swiper.loopDestroy()
+      swiper.loopCreate()
+    } else {
+      swiper.loopFix()
     }
   }, 50)
 
@@ -286,8 +292,8 @@ export class Swiper implements ComponentInterface {
         slideTo () {
           that.current = this.realIndex
         },
-         // slideChange 事件在 swiper.slideTo 改写 current 时不触发，因此用 slideChangeTransitionStart 事件代替
-         slideChangeTransitionStart (_swiper: ISwiper) {
+        // slideChange 事件在 swiper.slideTo 改写 current 时不触发，因此用 slideChangeTransitionStart 事件代替
+        slideChangeTransitionStart (_swiper: ISwiper) {
           if (that.circular) {
             if (_swiper.isBeginning || _swiper.isEnd) {
               // _swiper.slideToLoop(this.realIndex, 0, false) // 更新下标
