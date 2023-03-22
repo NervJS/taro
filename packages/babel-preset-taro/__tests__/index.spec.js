@@ -24,6 +24,14 @@ describe('babel-preset-taro', () => {
     expect(config.sourceType).toBe('unambiguous')
   })
 
+  it('solid', () => {
+    const config = babelPresetTaro({}, {
+      framework: 'solid'
+    })
+
+    expect(config.sourceType).toBe('unambiguous')
+  })
+
   it('vue', () => {
     const config = babelPresetTaro({}, {
       framework: 'vue'
@@ -93,6 +101,20 @@ describe('babel-preset-taro', () => {
     const [, , [ts, tsconfig]] = override.presets
     expect(typeof ts.default === 'function').toBeTruthy()
     expect(tsconfig.jsxPragma === 'React').toBeTruthy()
+  })
+
+  it('typescript solid', () => {
+    const config = babelPresetTaro({}, {
+      framework: 'solid',
+      ts: true
+    })
+
+    expect(config.sourceType).toBe('unambiguous')
+
+    const [override] = config.overrides
+
+    const [, , [ts, tsconfig]] = override.presets
+    expect(typeof ts.default === 'function').toBeTruthy()
   })
 
   it('typescript nerv', () => {
