@@ -29,6 +29,7 @@ module.exports = (_, options = {}) => {
   const plugins = []
   const overrides = []
   const isReact = options.framework === 'react' || options.framework === 'preact'
+  const isSolid = options.framework === 'solid'
   const isNerv = options.framework === 'nerv'
   const isVue = options.framework === 'vue'
   const isVue3 = options.framework === 'vue3'
@@ -54,6 +55,16 @@ module.exports = (_, options = {}) => {
           plugins: [require('@prefresh/babel-plugin')]
         })
       }
+    }
+  }
+
+  if (isSolid) {
+    presets.push([require('babel-preset-solid'), {
+      moduleName: '@tarojs/solid',
+      generate: 'universal',
+    }])
+    if (process.env.TARO_ENV === 'h5' && process.env.NODE_ENV !== 'production') {
+      plugins.push([require('solid-refresh/babel'), { bundler: 'webpack5' }])
     }
   }
 
