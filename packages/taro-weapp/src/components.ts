@@ -77,7 +77,8 @@ export const components = {
     bindNicknameReview: _empty
   },
   Picker: {
-    'header-text': _empty
+    'header-text': _empty,
+    'level': 'region'
   },
   PickerView: {
     'immediate-change': _false,
