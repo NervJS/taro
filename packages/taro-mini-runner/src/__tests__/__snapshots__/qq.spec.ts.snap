@@ -188,7 +188,8 @@ require(\\"./taro\\");
                 bindNicknameReview: _empty
             },
             Picker: {
-                \\"header-text\\": _empty
+                \\"header-text\\": _empty,
+                level: \\"region\\"
             },
             PickerView: {
                 \\"immediate-change\\": _false,
@@ -514,6 +515,17 @@ require(\\"./taro\\");
                 \\"share-message-friend-info\\": \\"\\",
                 bindAddFriend: \\"\\",
                 bindAddGroupApp: \\"\\"
+            },
+            Ad: {
+                type: \\"banner\\",
+                \\"ad-left\\": \\"\\",
+                \\"ad-top\\": \\"\\",
+                \\"ad-width\\": \\"\\",
+                \\"ad-height\\": \\"\\",
+                \\"block-size\\": \\"1\\",
+                \\"block-orientation\\": \\"landscape\\",
+                \\"test-banner-type\\": \\"three\\",
+                bindsize: \\"\\"
             }
         };
         var runtime_hostConfig = {
@@ -2424,7 +2436,8 @@ require(\\"./taro\\");
                 bindNicknameReview: _empty
             },
             Picker: {
-                \\"header-text\\": _empty
+                \\"header-text\\": _empty,
+                level: \\"region\\"
             },
             PickerView: {
                 \\"immediate-change\\": _false,
@@ -2750,6 +2763,17 @@ require(\\"./taro\\");
                 \\"share-message-friend-info\\": \\"\\",
                 bindAddFriend: \\"\\",
                 bindAddGroupApp: \\"\\"
+            },
+            Ad: {
+                type: \\"banner\\",
+                \\"ad-left\\": \\"\\",
+                \\"ad-top\\": \\"\\",
+                \\"ad-width\\": \\"\\",
+                \\"ad-height\\": \\"\\",
+                \\"block-size\\": \\"1\\",
+                \\"block-orientation\\": \\"landscape\\",
+                \\"test-banner-type\\": \\"three\\",
+                bindsize: \\"\\"
             }
         };
         var runtime_hostConfig = {

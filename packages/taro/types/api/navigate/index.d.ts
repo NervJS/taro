@@ -4,7 +4,7 @@ declare module '../../index' {
   namespace openEmbeddedMiniProgram {
     interface Option {
       /** 要打开的小程序 appId */
-      appId: string
+      appId?: string
       /** 打开的页面路径，如果为空则打开首页。path 中 ? 后面的部分会成为 query，在小程序的 `App.onLaunch`、`App.onShow` 和 `Page.onLoad` 的回调函数或小游戏的 [Taro.onShow](#) 回调函数、[Taro.getLaunchOptionsSync](/docs/apis/base/weapp/life-cycle/getLaunchOptionsSync) 中可以获取到 query 数据。对于小游戏，可以只传入 query 部分，来实现传参效果，如：传入 "?foo=bar"。 */
       path?: string
       /** 需要传递给目标小程序的数据，目标小程序可在 `App.onLaunch`，`App.onShow` 中获取到这份数据。如果跳转的是小游戏，可以在 [Taro.onShow](#)、[Taro.getLaunchOptionsSync](/docs/apis/base/weapp/life-cycle/getLaunchOptionsSync) 中可以获取到这份数据数据。 */
@@ -45,7 +45,7 @@ declare module '../../index' {
   namespace navigateToMiniProgram {
     interface Option {
       /** 要打开的小程序 appId */
-      appId: string
+      appId?: string
       /** 打开的页面路径，如果为空则打开首页。path 中 ? 后面的部分会成为 query，在小程序的 `App.onLaunch`、`App.onShow` 和 `Page.onLoad` 的回调函数或小游戏的 [Taro.onShow](#) 回调函数、[Taro.getLaunchOptionsSync](/docs/apis/base/weapp/life-cycle/getLaunchOptionsSync) 中可以获取到 query 数据。对于小游戏，可以只传入 query 部分，来实现传参效果，如：传入 "?foo=bar"。 */
       path?: string
       /** 需要传递给目标小程序的数据，目标小程序可在 `App.onLaunch`，`App.onShow` 中获取到这份数据。如果跳转的是小游戏，可以在 [Taro.onShow](#)、[Taro.getLaunchOptionsSync](/docs/apis/base/weapp/life-cycle/getLaunchOptionsSync) 中可以获取到这份数据数据。 */

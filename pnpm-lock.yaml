@@ -1334,7 +1334,7 @@ importers:
       rollup-plugin-node-externals: ^5.0.0
       rollup-plugin-ts: ^3.0.2
       typescript: ^4.7.4
-      vue: ^2.6.11
+      vue: ^2.7.0
     dependencies:
       '@tarojs/helper': link:../taro-helper
       '@tarojs/runner-utils': link:../taro-runner-utils
@@ -1347,7 +1347,7 @@ importers:
       rollup-plugin-node-externals: registry.npmjs.org/rollup-plugin-node-externals/5.1.2_rollup@3.12.0
       rollup-plugin-ts: registry.npmjs.org/rollup-plugin-ts/3.0.2_y3i5qkucco7mn7xglkvcz4nxpm
       typescript: registry.npmjs.org/typescript/4.7.4
-      vue: registry.npmjs.org/vue/2.6.14
+      vue: registry.npmjs.org/vue/2.7.14
 
   packages/taro-plugin-vue3:
     specifiers:
@@ -10336,6 +10336,16 @@ packages:
     dependencies:
       '@vue/compiler-core': registry.npmjs.org/@vue/compiler-core/3.2.37
       '@vue/shared': registry.npmjs.org/@vue/shared/3.2.37
+
+  registry.npmjs.org/@vue/compiler-sfc/2.7.14:
+    resolution: {integrity: sha512-aNmNHyLPsw+sVvlQFQ2/8sjNuLtK54TC6cuKnVzAY93ks4ZBrvwQSnkkIh7bsbNhum5hJBS00wSDipQ937f5DA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@vue/compiler-sfc/-/compiler-sfc-2.7.14.tgz}
+    name: '@vue/compiler-sfc'
+    version: 2.7.14
+    dependencies:
+      '@babel/parser': registry.npmjs.org/@babel/parser/7.20.13
+      postcss: registry.npmjs.org/postcss/8.4.21
+      source-map: registry.npmjs.org/source-map/0.6.1
+    dev: true
 
   registry.npmjs.org/@vue/compiler-sfc/3.2.37:
     resolution: {integrity: sha512-+7i/2+9LYlpqDv+KTtWhOZH+pa8/HnX/905MdVmAcI/mPQOBwkHHIzrsEsucyOIZQYMkXUiTkmZq5am/NyXKkg==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@vue/compiler-sfc/-/compiler-sfc-3.2.37.tgz}
@@ -34926,6 +34936,15 @@ packages:
     resolution: {integrity: sha512-x2284lgYvjOMj3Za7kqzRcUSxBboHqtgRE2zlos1qWaOye5yUmHn42LB1250NJBLRwEcdrB0JRwyPTEPhfQjiQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/vue/-/vue-2.6.14.tgz}
     name: vue
     version: 2.6.14
+
+  registry.npmjs.org/vue/2.7.14:
+    resolution: {integrity: sha512-b2qkFyOM0kwqWFuQmgd4o+uHGU7T+2z3T+WQp8UBjADfEv2n4FEMffzBmCKNP0IGzOEEfYjvtcC62xaSKeQDrQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/vue/-/vue-2.7.14.tgz}
+    name: vue
+    version: 2.7.14
+    dependencies:
+      '@vue/compiler-sfc': registry.npmjs.org/@vue/compiler-sfc/2.7.14
+      csstype: registry.npmjs.org/csstype/3.1.1
+    dev: true
 
   registry.npmjs.org/vue/3.2.37:
     resolution: {integrity: sha512-bOKEZxrm8Eh+fveCqS1/NkG/n6aMidsI6hahas7pa0w/l7jkbssJVsRhVDs07IdDq7h9KHswZOgItnwJAgtVtQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/vue/-/vue-3.2.37.tgz}
