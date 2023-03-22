@@ -883,7 +883,6 @@ export default class TaroMiniPlugin {
     const customWrapperName = 'custom-wrapper'
     const isUsingCustomWrapper = componentConfig.thirdPartyComponents.has('custom-wrapper')
 
-    console.log('componentConfig', componentConfig)
     /**
      * 与原生小程序混写时解析模板与样式
      */
