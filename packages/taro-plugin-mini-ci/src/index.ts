@@ -201,7 +201,7 @@ export default (ctx: IPluginContext, _pluginOpts: CIOptions | (() => CIOptions))
         `taro ${action} --type weapp`,
         `taro ${action} --type alipay`
       ],
-      async fn ({options}) {
+      async fn ({ options }) {
         doAction(options.type, action, options.projectPath)
       }
     })
