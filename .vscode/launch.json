@@ -9,13 +9,9 @@
       "request": "launch",
       "name": "CLI debug",
       "program": "${workspaceFolder}/packages/taro-cli/bin/taro",
-      // "cwd": "${project absolute path}",
-      // "args": [
-      //   "build",
-      //   "--type",
-      //   "weapp",
-      //   "--watch"
-      // ],
+      "cwd": "/Users/xuanzebin/Documents/repos/taro/examples/build-weapp-plugin",
+      "args": ["build", "--plugin", "weapp", "--watch"],
+      "runtimeExecutable": "/Users/xuanzebin/.nvm/versions/node/v16.16.0/bin/node",
       "skipFiles": ["<node_internals>/**"]
     },
     {

@@ -11,7 +11,7 @@ export default {
   plugins: {
     myPlugin: {
       version: 'dev',
-      provider: 'wxa9abf43f10a7bdb0',
+      provider: 'wx970204334d30135c',
       genericsImplementation: {
         list: {
           'mp-comp': 'component/comp'

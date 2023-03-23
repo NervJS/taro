@@ -126,7 +126,7 @@ export default class CLI {
             plugin = args.plugin
             platform = 'plugin'
             kernel.optsPlugins.push(path.resolve(platformsPath, 'plugin.js'))
-            if (plugin === 'weapp' || plugin === 'alipay') {
+            if (plugin === 'weapp' || plugin === 'alipay' || plugin === 'jd') {
               kernel.optsPlugins.push(`@tarojs/plugin-platform-${plugin}`)
             }
           }

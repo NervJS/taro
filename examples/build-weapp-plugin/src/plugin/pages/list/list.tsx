@@ -21,8 +21,8 @@ export default class Index extends Component<any, any> {
   }
 
   componentDidMount () {
-    // 测试 export
-    console.log(requireMiniProgram().whoami)
+    // 测试 export 京东小程序不支持在插件侧调用
+    // console.log(requireMiniProgram().whoami)
   }
 
   onShareAppMessage() {
@@ -48,7 +48,7 @@ export default class Index extends Component<any, any> {
           })}
         </View>
 
-        <Button onClick={this.getElement}>测试元素获取</Button>
+        <Button onClick={this.getElement}>测试元素获取123</Button>
 
         <mp-comp></mp-comp>
       </View>
