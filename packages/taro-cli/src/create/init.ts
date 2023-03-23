@@ -35,6 +35,7 @@ function createFiles (
     pageName: string
     period: string
     version?: string
+    isCustomTemplate?: boolean
   }
 ): string[] {
   const {
@@ -49,7 +50,8 @@ function createFiles (
     projectPath,
     pageName,
     framework,
-    compiler
+    compiler,
+    isCustomTemplate
   } = options
   const logs: string[] = []
   // 模板库模板，直接创建，不需要改后缀
@@ -98,9 +100,11 @@ function createFiles (
         template,
         pageName,
         framework,
-        compiler
+        compiler,
+        isCustomTemplate,
+        templatePath
       },
-      externalConfig
+      externalConfig,
     )
 
     let destRePath = fileRePath
@@ -141,8 +145,8 @@ export async function createPage (creator: Creator, params: IPageConf, cb) {
   let templatePath
 
   if(customTemplateConfig) {
-    const { name, path } = customTemplateConfig
-    templatePath = `${path}/${name}`
+    const { name, templatePath: customDirectoryPath } = customTemplateConfig
+    templatePath = path.join(customDirectoryPath, name)
   } else {
     templatePath = creator.templatePath(template)
   }
@@ -160,6 +164,7 @@ export async function createPage (creator: Creator, params: IPageConf, cb) {
     templatePath,
     projectPath: projectDir,
     pageName,
+    isCustomTemplate: !!customTemplateConfig,
     period: 'createPage'
   })
 

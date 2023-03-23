@@ -50,7 +50,7 @@ export default (ctx: IPluginContext) => {
             projectDir: appPath,
             description,
             framework: ctx.initialConfig.framework,
-            async getCustomTemplate (cb: SetCustomTemplateConfig) {
+            async modifyCustomTemplateConfig (cb: SetCustomTemplateConfig) {
               await ctx.applyPlugins({ name: hooks.MODIFY_CREATE_TEMPLATE, opts: cb })
             }
           })
