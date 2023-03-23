@@ -15,7 +15,7 @@ npm i <%= pluginName %> -D
 ```js
 const config = {
   plugins: [
-    [ "<%= pluginName %>", {} ]
+    [ "<%= pluginName %>", {<% if (['plugin-template'].includes(type)) { %> installPath:'/xxx/xx/x' <% } %>} ]
   ]
 }
 ```
