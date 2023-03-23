@@ -23,24 +23,24 @@ export interface IPageConf {
 
 interface CustomTemplateConfig {
   name: string
-  path: string
+  templatePath: string
 }
 
 export type SetCustomTemplateConfig = (customTemplateConfig: CustomTemplateConfig)=> void
 
 type GetCustomTemplate = (cb: SetCustomTemplateConfig )=>Promise<void>
 interface IPageArgs extends IPageConf {
-  getCustomTemplate : GetCustomTemplate
+  modifyCustomTemplateConfig : GetCustomTemplate
 }
 export default class Page extends Creator {
   public rootPath: string
   public conf: IPageConf
-  private getCustomTemplate: GetCustomTemplate
+  private modifyCustomTemplateConfig: GetCustomTemplate
 
   constructor (args: IPageArgs) {
     super()
     this.rootPath = this._rootPath
-    const { getCustomTemplate, ...otherOptions } = args
+    const { modifyCustomTemplateConfig, ...otherOptions } = args
     this.conf = Object.assign(
       {
         projectDir: '',
@@ -50,7 +50,7 @@ export default class Page extends Creator {
       },
       otherOptions
     )
-    this.getCustomTemplate = getCustomTemplate
+    this.modifyCustomTemplateConfig = modifyCustomTemplateConfig
     this.conf.projectName = path.basename(this.conf.projectDir)
   }
 
@@ -112,7 +112,8 @@ export default class Page extends Creator {
   async create () {
     const date = new Date()
     this.conf.date = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`
-    await this.getCustomTemplate(this.setCustomTemplateConfig.bind(this))
+    // apply 插件，由插件设置自定义模版 config
+    await this.modifyCustomTemplateConfig(this.setCustomTemplateConfig.bind(this))
     if(!this.conf.customTemplateConfig){
       this.getTemplateInfo()
       if (!fs.existsSync(this.templatePath(this.conf.template))) {
