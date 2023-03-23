@@ -58,7 +58,7 @@ export class SwiperItem implements ComponentInterface {
 
   render () {
     return (
-      <Host class='swiper-slide' item-id={this.itemId}/>
+      <Host class='swiper-slide' item-id={this.itemId} />
     )
   }
 }
