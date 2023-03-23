@@ -165,11 +165,11 @@ export default class List extends React.PureComponent<IProps, IState> {
 
   _onScrollHorizontal = event => {
     const {
-      clientWidth,
+      clientWidth = this.itemList.wrapperSize,
+      scrollHeight,
+      scrollWidth = this.itemList.getOffsetSize(),
       scrollTop,
       scrollLeft,
-      scrollHeight,
-      scrollWidth
     } = event.currentTarget
     this.preset.field = {
       scrollHeight: scrollHeight,
@@ -220,8 +220,8 @@ export default class List extends React.PureComponent<IProps, IState> {
 
   _onScrollVertical = event => {
     const {
-      clientHeight,
-      scrollHeight,
+      clientHeight = this.itemList.wrapperSize,
+      scrollHeight = this.itemList.getOffsetSize(),
       scrollWidth,
       scrollTop,
       scrollLeft
