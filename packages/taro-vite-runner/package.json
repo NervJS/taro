@@ -14,6 +14,7 @@
     "@tarojs/shared": "workspace:*",
     "acorn-walk": "^8.0.0",
     "html-minifier": "^4.0.0",
+    "mrmime": "^1.0.1",
     "regenerator-runtime": "0.11",
     "rollup": "^3.19.0",
     "sax": "1.2.4",

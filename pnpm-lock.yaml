@@ -1750,6 +1750,7 @@ importers:
       acorn-walk: ^8.0.0
       fs-extra: ^11.1.0
       html-minifier: ^4.0.0
+      mrmime: ^1.0.1
       regenerator-runtime: '0.11'
       rollup: ^3.19.0
       sax: 1.2.4
@@ -1761,6 +1762,7 @@ importers:
       '@tarojs/shared': link:../shared
       acorn-walk: registry.npmjs.org/acorn-walk/8.2.0
       html-minifier: registry.npmjs.org/html-minifier/4.0.0
+      mrmime: registry.npmjs.org/mrmime/1.0.1
       regenerator-runtime: registry.npmjs.org/regenerator-runtime/0.11.1
       rollup: registry.npmjs.org/rollup/3.19.0
       sax: registry.npmjs.org/sax/1.2.4
@@ -27926,6 +27928,13 @@ packages:
       mkdirp: registry.npmjs.org/mkdirp/0.5.6
       rimraf: registry.npmjs.org/rimraf/2.7.1
       run-queue: registry.npmjs.org/run-queue/1.0.3
+
+  registry.npmjs.org/mrmime/1.0.1:
+    resolution: {integrity: sha512-hzzEagAgDyoU1Q6yg5uI+AorQgdvMCur3FcKf7NhMKWsaYg+RnbTyHRa/9IlLF9rf455MOCtcqqrQQ83pPP7Uw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/mrmime/-/mrmime-1.0.1.tgz}
+    name: mrmime
+    version: 1.0.1
+    engines: {node: '>=10'}
+    dev: false
 
   registry.npmjs.org/ms/2.0.0:
     resolution: {integrity: sha512-Tpp60P6IUJDTuOq/5Z8cdskzJujfwqfOTkrwIwj7IRISpnkJnT6SyJ4PCPnGMoFjC9ddhal5KVIYtAt97ix05A==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/ms/-/ms-2.0.0.tgz}

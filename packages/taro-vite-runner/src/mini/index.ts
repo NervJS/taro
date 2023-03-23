@@ -1,4 +1,5 @@
 import multiPlatformPlugin from '../common/multi-platform-plugin'
+import assetsPlugin from './assets'
 import configPlugin from './config'
 import emitPlugin from './emit'
 import entryPlugin from './entry'
@@ -17,6 +18,7 @@ export default function (appPath: string, taroConfig: MiniBuildConfig): PluginOp
     pagePlugin(),
     multiPlatformPlugin(taroConfig),
     nativeSupportPlugin(taroConfig),
+    assetsPlugin(taroConfig),
     emitPlugin()
   ]
 }
