@@ -46,9 +46,22 @@ export default function (this: webpack.LoaderContext<any>) {
     this.cacheable?.(false)
     return `import(${stringify(join(options.sourceDir, `${isMultiRouterMode ? pageName : options.entryFileName}.boot`))})`
   }
+
+  const runtimePath = Array.isArray(options.runtimePath) ? options.runtimePath : [options.runtimePath]
+  let setReconcilerPost = ''
+  const setReconciler = runtimePath.reduce((res, item) => {
+    if (REG_POST.test(item)) {
+      setReconcilerPost += `import '${item.replace(REG_POST, '')}'\n`
+      return res
+    } else {
+      return res + `import '${item}'\n`
+    }
+  }, '')
+
   if (isBuildNativeComp) {
     const compPath = join(pathDirname, options.filename)
     return `import component from ${stringify(compPath)}
+${setReconcilerPost}
 component.config = {}
 component.pxTransformConfig = {}
 Object.assign(component.config, ${JSON.stringify(readConfig(this.resourcePath))})
@@ -79,17 +92,6 @@ var tabbarSelectedIconPath = []
       }
     }
   }
-
-  const runtimePath = Array.isArray(options.runtimePath) ? options.runtimePath : [options.runtimePath]
-  let setReconcilerPost = ''
-  const setReconciler = runtimePath.reduce((res, item) => {
-    if (REG_POST.test(item)) {
-      setReconcilerPost += `import '${item.replace(REG_POST, '')}'\n`
-      return res
-    } else {
-      return res + `import '${item}'\n`
-    }
-  }, '')
 
   const routesConfig = isMultiRouterMode ? `config.routes = []
 config.route = ${genResource(pageName, pages, this, options.filename)}
