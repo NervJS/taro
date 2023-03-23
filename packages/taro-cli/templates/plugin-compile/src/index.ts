@@ -45,8 +45,8 @@ export default (ctx: IPluginContext, pluginOpts) => {
   })
 }
 <% } -%>
-
 <% if (['plugin-command'].includes(type)) { -%>
+
 /**
  * 命令行扩展
  */
@@ -69,4 +69,70 @@ export default (ctx: IPluginContext, pluginOpts) => {
   })
 }
 <% } -%>
+<% if (['plugin-template'].includes(type)) { -%>
+import * as fs from 'fs-extra'
+const path = require('path')
+const download = require('download')
+const unzip = require("unzip")
 
+/**
+ * 创建 page 自定义模版
+ */
+export default (ctx: IPluginContext, pluginOpts) => {
+  ctx.modifyCreateTemplate(async (setCustomTemplateConfig)=> {
+   const { installPath } = pluginOpts
+
+   const customTemplateConfig = {
+     //模版名称 插件自己设置
+     name:'mobx',
+     //绝对路径
+     templatePath: installPath
+   }
+
+
+   /**
+    * 下载模版到电脑本地，可以自行进行判断，看是否需要重新下载
+    * 从哪里下载，如何下载，taro 官方不做限定
+    * 模版格式和社区模版一样
+    * 只要保证下载后的文件目录为 `${path}/${name}` 即可，taro 会在该目录下获取模版
+    * 如果下载模版失败，请不要调用 setCustomTemplateConfig，taro 会根据默认流程进行兜底创建
+    */
+
+   if(!fs.existsSync(path.join(installPath,customTemplateConfig.name))){
+     //如果文件不存在，就下载文件到指定路径
+     await downloadTemplate(customTemplateConfig)
+   }
+
+   if(fs.existsSync(path.join(installPath,customTemplateConfig.name))){
+     //如果文件下载成功，调用 setCustomTemplateConfig
+     setCustomTemplateConfig(customTemplateConfig)
+   }
+
+  })
+ }
+
+
+ const downloadTemplate = async (customTemplateConfig)=>{
+   return new Promise<void>(async (resolve, reject)=>{
+     const url = 'https://storage.360buyimg.com/olympic-models-test/mobx.zip'
+     const { name, templatePath } = customTemplateConfig
+     const zipName = `${name}.zip`
+     const zipPath = path.join(templatePath, zipName)
+     fs.writeFileSync(zipPath, await download(url));
+     const extract = unzip.Extract({ path: templatePath });
+     fs.createReadStream(zipPath).pipe(extract);
+     extract.on('close', function () {
+       console.log("解压完成!!");
+       //删除
+       fs.unlinkSync(zipPath);
+       resolve()
+     });
+     extract.on('error', function (err) {
+       console.log(err);
+       reject()
+     });
+
+   })
+
+ }
+  <% } -%>
