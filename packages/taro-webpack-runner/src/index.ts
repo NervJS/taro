@@ -196,7 +196,7 @@ const buildDev = async (appPath: string, config: BuildConfig, appHelper: AppHelp
   const webpackConfig = webpackChain.toConfig()
   WebpackDevServer.addDevServerEntrypoints(webpackConfig, devServerOptions)
   const compiler = webpack(webpackConfig) as webpack.Compiler
-  bindDevLogger(devUrl, compiler)
+  bindDevLogger(compiler, devUrl)
   const server = new WebpackDevServer(compiler, devServerOptions)
   compiler.hooks.emit.tapAsync('taroBuildDone', async (compilation, callback) => {
     if (typeof config.modifyBuildAssets === 'function') {
@@ -229,17 +229,6 @@ const buildDev = async (appPath: string, config: BuildConfig, appHelper: AppHelp
         return console.log(err)
       }
       resolve()
-
-      /* 补充处理devServer.open配置 */
-      if (devServerOptions.open) {
-        const openUrl = formatUrl({
-          protocol: devServerOptions.https ? 'https' : 'http',
-          hostname: formatOpenHost(devServerOptions.host),
-          port: devServerOptions.port,
-          pathname
-        })
-        console.log(openUrl)
-      }
     })
   })
 }

@@ -18,6 +18,8 @@ export class H5Combination extends Combination<H5BuildConfig> {
   webpackPlugin = new H5WebpackPlugin(this)
   webpackModule = new H5WebpackModule(this)
 
+  isMultiRouterMode = false
+
   process (config: Partial<H5BuildConfig>) {
     super.process(config)
     const baseConfig = new H5BaseConfig(this.appPath, config)
@@ -35,7 +37,7 @@ export class H5Combination extends Combination<H5BuildConfig> {
       frameworkExts
     } = config
     const routerMode = router?.mode || 'hash'
-    const isMultiRouterMode = routerMode === 'multi'
+    this.isMultiRouterMode = routerMode === 'multi'
     this.appHelper = new AppHelper(entry as EntryNormalized, {
       sourceDir: this.sourceDir,
       frameworkExts,
@@ -48,7 +50,7 @@ export class H5Combination extends Combination<H5BuildConfig> {
         entry[index] = [comp]
       })
       this.webpackPlugin.pages = this.appHelper.appConfig?.components
-    } else if (isMultiRouterMode) {
+    } else if (this.isMultiRouterMode) {
       delete entry[entryFileName]
       this.appHelper.pagesConfigList.forEach((page, index) => {
         entry[index] = [page]

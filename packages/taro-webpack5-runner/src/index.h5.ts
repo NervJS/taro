@@ -9,11 +9,10 @@ import WebpackDevServer from 'webpack-dev-server'
 
 import { addHtmlSuffix, addLeadingSlash, formatOpenHost, parsePublicPath, stripBasename, stripTrailingSlash } from './utils'
 import AppHelper from './utils/app'
+import { bindDevLogger, bindProdLogger, printBuildError } from './utils/logHelper'
 import { H5Combination } from './webpack/H5Combination'
 
 import type { H5BuildConfig } from './utils/types'
-
-let isFirstBuild = true
 
 export default async function build (appPath: string, rawConfig: H5BuildConfig): Promise<void> {
   const combination = new H5Combination(appPath, rawConfig)
@@ -55,6 +54,8 @@ export default async function build (appPath: string, rawConfig: H5BuildConfig):
         callback()
       })
       return new Promise<void>((resolve, reject) => {
+        bindProdLogger(compiler)
+
         compiler.run((error, stats) => {
           compiler.close(error2 => {
             const err = error || error2
@@ -74,28 +75,24 @@ export default async function build (appPath: string, rawConfig: H5BuildConfig):
     } else {
       config.devServer = recursiveMerge(config.devServer || {}, webpackConfig.devServer)
       config.output = webpackConfig.output
+      const routerConfig = config.router || {}
+      const routerMode = routerConfig.mode || 'hash'
+      const routerBasename = routerConfig.basename || '/'
       webpackConfig.devServer = await getDevServerOptions(appPath, config)
+
+      const devUrl = formatUrl({
+        protocol: webpackConfig.devServer?.https ? 'https' : 'http',
+        hostname: formatOpenHost(webpackConfig.devServer?.host),
+        port: webpackConfig.devServer?.port,
+        pathname: routerMode === 'browser' ? routerBasename : '/'
+      })
+      if (typeof webpackConfig.devServer.open === 'undefined') {
+        webpackConfig.devServer.open = devUrl
+      }
+
       const compiler = webpack(webpackConfig)
       const server = new WebpackDevServer(webpackConfig.devServer, compiler)
-
-      compiler.hooks.done.tap('taroDone', () => {
-        if (isFirstBuild) {
-          isFirstBuild = false
-          const routerConfig = config.router || {}
-          const routerMode = routerConfig.mode || 'hash'
-          const routerBasename = routerConfig.basename || '/'
-
-          const devUrl = formatUrl({
-            protocol: webpackConfig.devServer?.https ? 'https' : 'http',
-            hostname: formatOpenHost(webpackConfig.devServer?.host),
-            port: webpackConfig.devServer?.port,
-            pathname: routerMode === 'browser' ? routerBasename : '/'
-          })
-          if (devUrl) {
-            console.log(chalk.cyan(`ℹ Listening at ${devUrl}\n`))
-          }
-        }
-      })
+      bindDevLogger(compiler, devUrl)
 
       compiler.hooks.emit.tapAsync('taroBuildDone', async (compilation, callback) => {
         if (isFunction(config.modifyBuildAssets)) {
@@ -125,6 +122,7 @@ export default async function build (appPath: string, rawConfig: H5BuildConfig):
       return new Promise<void>((resolve, reject) => {
         server.startCallback(err => {
           if (err) {
+            printBuildError(err)
             reject(err)
             return console.log(err)
           }
@@ -160,7 +158,7 @@ async function getDevServerOptions (appPath: string, config: H5BuildConfig): Pro
       entryFileName: config.entryFileName
     })
     const appConfig = app.appConfig
-    const customRoutes = routerConfig?.customRoutes || {}
+    const customRoutes = routerConfig.customRoutes || {}
     const routerBasename = routerConfig.basename || '/'
     const getEntriesRoutes = (customRoutes: Record<string, string | string[]> = {}) => {
       const conf: string[][] = []
@@ -236,7 +234,6 @@ async function getDevServerOptions (appPath: string, config: H5BuildConfig): Pro
       hot: 'only',
       https: false,
       // inline: true, // the inline option (iframe live mode) was removed
-      open: [publicPath],
       client: {
         overlay: true
       },
@@ -268,6 +265,5 @@ async function getDevServerOptions (appPath: string, config: H5BuildConfig): Pro
     devServerOptions.port = availablePort
   }
 
-  devServerOptions.host = formatOpenHost(devServerOptions.host)
   return devServerOptions
 }
