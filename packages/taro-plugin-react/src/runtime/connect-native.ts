@@ -249,9 +249,7 @@ export function createNativePageConfig (Component, pageName: string, data: Recor
         Current.page = this as any
         setCurrentRouter(this)
         // 恢复上下文信息
-        if (process.env.TARO_ENV !== 'h5') {
-          window.trigger(CONTEXT_ACTIONS.RECOVER, this.$taroPath)
-        }
+        window.trigger(CONTEXT_ACTIONS.RECOVER, this.$taroPath)
         // 触发生命周期
         safeExecute(this.$taroPath, ON_SHOW, options)
         // 通过事件触发子组件的生命周期
