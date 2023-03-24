@@ -261,13 +261,20 @@ interface PickerRegionProps extends PickerStandardProps {
    * @supported weapp, h5, rn
    * @default []
    */
-  value: string[]
+  value?: string[]
 
   /**
    * 可为每一列的顶部添加一个自定义的项
    * @supported weapp, h5, rn
    */
   customItem?: string
+
+  /**
+   * 选择器层级
+   * @supported weapp
+   * @default "region"
+   */
+  level?: keyof PickerRegionProps.Level
 
   /**
    * 自定义省市区数据
@@ -296,6 +303,16 @@ declare namespace PickerRegionProps {
     value: string
     code: string
     postcode?: string
+  }
+  interface Level {
+    /** 省级选择器 */
+    province
+    /** 市级选择器 */
+    city
+    /** 区级选择器 */
+    region
+    /** 街道选择器 */
+    'sub-district'  
   }
 }
 
