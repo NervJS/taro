@@ -150,6 +150,8 @@ declare module '../../index' {
       POST
       /** HTTP 请求 PUT */
       PUT
+      /** HTTP 请求 PATCH */
+      PATCH
       /** HTTP 请求 DELETE */
       DELETE
       /** HTTP 请求 TRACE */
