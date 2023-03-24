@@ -1,6 +1,6 @@
 import { mergeWith } from 'lodash'
 
-import { getLoaderMeta} from './loader-meta'
+import { getLoaderMeta } from './loader-meta'
 
 import type { IPluginContext } from '@tarojs/service'
 import type { Frameworks } from './index'

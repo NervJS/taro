@@ -295,8 +295,8 @@ const asyncResultApiDiff = {
         {
           key: 'services',
           value (res) {
-            return res.services.map(item => { 
-              return {uuid: item.serviceId, isPrimary: item.isPrimary}
+            return res.services.map(item => {
+              return { uuid: item.serviceId, isPrimary: item.isPrimary }
             })
           }
         }
