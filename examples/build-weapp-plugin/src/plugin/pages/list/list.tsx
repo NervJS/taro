@@ -48,7 +48,7 @@ export default class Index extends Component<any, any> {
           })}
         </View>
 
-        <Button onClick={this.getElement}>测试元素获取123</Button>
+        <Button onClick={this.getElement}>测试元素获取</Button>
 
         <mp-comp></mp-comp>
       </View>
