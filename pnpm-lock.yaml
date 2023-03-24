@@ -2200,7 +2200,7 @@ importers:
       webpack: 5.69.0
       webpack-chain: 6.5.1
       webpack-dev-server: 4.7.4
-      webpack-virtual-modules: ^0.4.3
+      webpack-virtual-modules: ^0.5.0
     dependencies:
       '@swc/core': registry.npmjs.org/@swc/core/1.3.23
       '@tarojs/helper': link:../taro-helper
@@ -2211,7 +2211,7 @@ importers:
       fs-extra: registry.npmjs.org/fs-extra/8.1.0
       lodash: registry.npmjs.org/lodash/4.17.21
       webpack-chain: registry.npmjs.org/webpack-chain/6.5.1
-      webpack-virtual-modules: registry.npmjs.org/webpack-virtual-modules/0.4.6
+      webpack-virtual-modules: registry.npmjs.org/webpack-virtual-modules/0.5.0
     devDependencies:
       jest: registry.npmjs.org/jest/29.4.1
       jest-cli: registry.npmjs.org/jest-cli/29.4.1
@@ -6699,9 +6699,9 @@ packages:
       graceful-fs: registry.npmjs.org/graceful-fs/4.2.10
       jest-changed-files: registry.npmjs.org/jest-changed-files/29.4.0
       jest-config: registry.npmjs.org/jest-config/29.4.1_@types+node@14.18.21
-      jest-haste-map: registry.npmjs.org/jest-haste-map/29.4.1
+      jest-haste-map: registry.npmjs.org/jest-haste-map/29.5.0
       jest-message-util: registry.npmjs.org/jest-message-util/29.4.1
-      jest-regex-util: registry.npmjs.org/jest-regex-util/29.2.0
+      jest-regex-util: registry.npmjs.org/jest-regex-util/29.4.3
       jest-resolve: registry.npmjs.org/jest-resolve/29.4.1
       jest-resolve-dependencies: registry.npmjs.org/jest-resolve-dependencies/29.4.1
       jest-runner: registry.npmjs.org/jest-runner/29.4.1
@@ -6711,7 +6711,7 @@ packages:
       jest-validate: registry.npmjs.org/jest-validate/29.4.1
       jest-watcher: registry.npmjs.org/jest-watcher/29.4.1
       micromatch: registry.npmjs.org/micromatch/4.0.5
-      pretty-format: registry.npmjs.org/pretty-format/29.5.0
+      pretty-format: registry.npmjs.org/pretty-format/29.4.1
       slash: registry.npmjs.org/slash/3.0.0
       strip-ansi: registry.npmjs.org/strip-ansi/6.0.1
     transitivePeerDependencies:
@@ -6968,7 +6968,7 @@ packages:
       istanbul-reports: registry.npmjs.org/istanbul-reports/3.1.4
       jest-message-util: registry.npmjs.org/jest-message-util/29.5.0
       jest-util: registry.npmjs.org/jest-util/29.5.0
-      jest-worker: registry.npmjs.org/jest-worker/29.4.1
+      jest-worker: registry.npmjs.org/jest-worker/29.5.0
       slash: registry.npmjs.org/slash/3.0.0
       string-length: registry.npmjs.org/string-length/4.0.2
       strip-ansi: registry.npmjs.org/strip-ansi/6.0.1
@@ -10037,7 +10037,7 @@ packages:
     version: 29.5.0
     dependencies:
       expect: registry.npmjs.org/expect/29.4.1
-      pretty-format: registry.npmjs.org/pretty-format/29.5.0
+      pretty-format: registry.npmjs.org/pretty-format/29.4.1
     dev: true
 
   registry.npmjs.org/@types/jsdom/20.0.1:
@@ -10251,7 +10251,7 @@ packages:
     name: '@types/resolve'
     version: 1.17.1
     dependencies:
-      '@types/node': registry.npmjs.org/@types/node/18.0.0
+      '@types/node': registry.npmjs.org/@types/node/14.18.21
 
   registry.npmjs.org/@types/resolve/1.19.0:
     resolution: {integrity: sha512-NikKq+D2KJzmaWbcz4JLVT34ybtCC4c3jV6XRGWOQvOkXka9QblEmC+sPf3vRa3lmcURkVbCk2V2BDyCO7jbXg==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@types/resolve/-/resolve-1.19.0.tgz}
@@ -10407,7 +10407,7 @@ packages:
     version: 2.0.6
     dependencies:
       '@types/expect': registry.npmjs.org/@types/expect/1.20.4
-      '@types/node': registry.npmjs.org/@types/node/18.0.0
+      '@types/node': registry.npmjs.org/@types/node/14.18.21
     dev: false
 
   registry.npmjs.org/@types/webpack-dev-server/3.11.6:
@@ -12272,7 +12272,7 @@ packages:
       postcss: ^8.1.0
     dependencies:
       browserslist: registry.npmjs.org/browserslist/4.21.0
-      caniuse-lite: registry.npmjs.org/caniuse-lite/1.0.30001469
+      caniuse-lite: registry.npmjs.org/caniuse-lite/1.0.30001452
       fraction.js: registry.npmjs.org/fraction.js/4.2.0
       normalize-range: registry.npmjs.org/normalize-range/0.1.2
       picocolors: registry.npmjs.org/picocolors/1.0.0
@@ -14197,7 +14197,7 @@ packages:
       '@types/semver': registry.npmjs.org/@types/semver/7.3.10
       '@types/ua-parser-js': registry.npmjs.org/@types/ua-parser-js/0.7.36
       browserslist: registry.npmjs.org/browserslist/4.20.2
-      caniuse-lite: registry.npmjs.org/caniuse-lite/1.0.30001469
+      caniuse-lite: registry.npmjs.org/caniuse-lite/1.0.30001452
       isbot: registry.npmjs.org/isbot/3.4.5
       object-path: registry.npmjs.org/object-path/0.11.8
       semver: registry.npmjs.org/semver/7.3.8
@@ -14211,7 +14211,7 @@ packages:
     engines: {node: ^6 || ^7 || ^8 || ^9 || ^10 || ^11 || ^12 || >=13.7}
     hasBin: true
     dependencies:
-      caniuse-lite: registry.npmjs.org/caniuse-lite/1.0.30001469
+      caniuse-lite: registry.npmjs.org/caniuse-lite/1.0.30001452
       electron-to-chromium: registry.npmjs.org/electron-to-chromium/1.4.170
       escalade: registry.npmjs.org/escalade/3.1.1
       node-releases: registry.npmjs.org/node-releases/2.0.5
@@ -14588,7 +14588,7 @@ packages:
     version: 3.0.0
     dependencies:
       browserslist: registry.npmjs.org/browserslist/4.21.0
-      caniuse-lite: registry.npmjs.org/caniuse-lite/1.0.30001469
+      caniuse-lite: registry.npmjs.org/caniuse-lite/1.0.30001452
       lodash.memoize: registry.npmjs.org/lodash.memoize/4.1.2
       lodash.uniq: registry.npmjs.org/lodash.uniq/4.5.0
 
@@ -14598,10 +14598,10 @@ packages:
     version: 1.0.30001359
     dev: false
 
-  registry.npmjs.org/caniuse-lite/1.0.30001469:
-    resolution: {integrity: sha512-Rcp7221ScNqQPP3W+lVOYDyjdR6dC+neEQCttoNr5bAyz54AboB4iwpnWgyi8P4YUsPybVzT4LgWiBbI3drL4g==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/caniuse-lite/-/caniuse-lite-1.0.30001469.tgz}
+  registry.npmjs.org/caniuse-lite/1.0.30001452:
+    resolution: {integrity: sha512-Lkp0vFjMkBB3GTpLR8zk4NwW5EdRdnitwYJHDOOKIU85x4ckYCPQ+9WlVvSVClHxVReefkUMtWZH2l9KGlD51w==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/caniuse-lite/-/caniuse-lite-1.0.30001452.tgz}
     name: caniuse-lite
-    version: 1.0.30001469
+    version: 1.0.30001452
 
   registry.npmjs.org/caniuse-lite/1.0.30001472:
     resolution: {integrity: sha512-xWC/0+hHHQgj3/vrKYY0AAzeIUgr7L9wlELIcAvZdDUHlhL/kNxMdnQLOSOQfP8R51ZzPhmHdyMkI0MMpmxCfg==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/caniuse-lite/-/caniuse-lite-1.0.30001472.tgz}
@@ -23785,27 +23785,6 @@ packages:
       fsevents: registry.npmjs.org/fsevents/2.3.2
     dev: true
 
-  registry.npmjs.org/jest-haste-map/29.4.1:
-    resolution: {integrity: sha512-imTjcgfVVTvg02khXL11NNLTx9ZaofbAWhilrMg/G8dIkp+HYCswhxf0xxJwBkfhWb3e8dwbjuWburvxmcr58w==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/jest-haste-map/-/jest-haste-map-29.4.1.tgz}
-    name: jest-haste-map
-    version: 29.4.1
-    engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
-    dependencies:
-      '@jest/types': registry.npmjs.org/@jest/types/29.5.0
-      '@types/graceful-fs': registry.npmjs.org/@types/graceful-fs/4.1.5
-      '@types/node': registry.npmjs.org/@types/node/14.18.21
-      anymatch: registry.npmjs.org/anymatch/3.1.2
-      fb-watchman: registry.npmjs.org/fb-watchman/2.0.1
-      graceful-fs: registry.npmjs.org/graceful-fs/4.2.10
-      jest-regex-util: registry.npmjs.org/jest-regex-util/29.4.3
-      jest-util: registry.npmjs.org/jest-util/29.5.0
-      jest-worker: registry.npmjs.org/jest-worker/29.5.0
-      micromatch: registry.npmjs.org/micromatch/4.0.5
-      walker: registry.npmjs.org/walker/1.0.8
-    optionalDependencies:
-      fsevents: registry.npmjs.org/fsevents/2.3.2
-    dev: true
-
   registry.npmjs.org/jest-haste-map/29.5.0:
     resolution: {integrity: sha512-IspOPnnBro8YfVYSw6yDRKh/TiCdRngjxeacCps1cQ9cgVN6+10JUcuJ1EabrgYLOATsIAigxA0rLR9x/YlrSA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/jest-haste-map/-/jest-haste-map-29.5.0.tgz}
     name: jest-haste-map
@@ -24119,13 +24098,6 @@ packages:
     name: jest-regex-util
     version: 27.5.1
     engines: {node: ^10.13.0 || ^12.13.0 || ^14.15.0 || >=15.0.0}
-
-  registry.npmjs.org/jest-regex-util/29.2.0:
-    resolution: {integrity: sha512-6yXn0kg2JXzH30cr2NlThF+70iuO/3irbaB4mh5WyqNIvLLP+B6sFdluO1/1RJmslyh/f9osnefECflHvTbwVA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/jest-regex-util/-/jest-regex-util-29.2.0.tgz}
-    name: jest-regex-util
-    version: 29.2.0
-    engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
-    dev: true
 
   registry.npmjs.org/jest-regex-util/29.4.3:
     resolution: {integrity: sha512-O4FglZaMmWXbGHSQInfXewIsd1LMn9p3ZXB/6r4FOkyhX2/iP/soMG98jGvk/A3HAN78+5VWcBGO0BJAPRh4kg==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/jest-regex-util/-/jest-regex-util-29.4.3.tgz}
@@ -24730,18 +24702,6 @@ packages:
       '@types/node': registry.npmjs.org/@types/node/14.18.21
       merge-stream: registry.npmjs.org/merge-stream/2.0.0
       supports-color: registry.npmjs.org/supports-color/8.1.1
-
-  registry.npmjs.org/jest-worker/29.4.1:
-    resolution: {integrity: sha512-O9doU/S1EBe+yp/mstQ0VpPwpv0Clgn68TkNwGxL6/usX/KUW9Arnn4ag8C3jc6qHcXznhsT5Na1liYzAsuAbQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/jest-worker/-/jest-worker-29.4.1.tgz}
-    name: jest-worker
-    version: 29.4.1
-    engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
-    dependencies:
-      '@types/node': registry.npmjs.org/@types/node/14.18.21
-      jest-util: registry.npmjs.org/jest-util/29.5.0
-      merge-stream: registry.npmjs.org/merge-stream/2.0.0
-      supports-color: registry.npmjs.org/supports-color/8.1.1
-    dev: true
 
   registry.npmjs.org/jest-worker/29.5.0:
     resolution: {integrity: sha512-NcrQnevGoSp4b5kg+akIpthoAFHxPBcb5P6mYPY0fUNT+sSvmtu6jlkEle3anczUKIKEbMxFimk9oTP/tpIPgA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/jest-worker/-/jest-worker-29.5.0.tgz}
@@ -34687,6 +34647,7 @@ packages:
       serialize-javascript: registry.npmjs.org/serialize-javascript/6.0.0
       terser: registry.npmjs.org/terser/5.14.1
       webpack: registry.npmjs.org/webpack/5.69.0_k3zzwfl4stqj3whko6kmspvmxm
+    dev: true
 
   registry.npmjs.org/terser-webpack-plugin/5.3.3_v3nag7joep3fhay4q6lv7p6we4:
     resolution: {integrity: sha512-Fx60G5HNYknNTNQnzQ1VePRuu89ZVYWfjRAeT5rITuCY/1b08s49e5kSQwHDirKZWuoKOBRFS98EUUoZ9kLEwQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/terser-webpack-plugin/-/terser-webpack-plugin-5.3.3.tgz}
@@ -36599,7 +36560,7 @@ packages:
       mime-types: registry.npmjs.org/mime-types/2.1.35
       range-parser: registry.npmjs.org/range-parser/1.2.1
       schema-utils: registry.npmjs.org/schema-utils/4.0.0
-      webpack: registry.npmjs.org/webpack/5.69.0_k3zzwfl4stqj3whko6kmspvmxm
+      webpack: registry.npmjs.org/webpack/5.69.0_esbuild@0.14.47
 
   registry.npmjs.org/webpack-dev-server/3.11.3_webpack@4.46.0:
     resolution: {integrity: sha512-3x31rjbEQWKMNzacUZRE6wXvUFuGpH7vr0lIEbYpMAG9BOxi0928QU1BBswOAP3kg3H1O4hiS+sq4YyAn6ANnA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/webpack-dev-server/-/webpack-dev-server-3.11.3.tgz}
@@ -36696,7 +36657,7 @@ packages:
       sockjs: registry.npmjs.org/sockjs/0.3.24
       spdy: registry.npmjs.org/spdy/4.0.2
       strip-ansi: registry.npmjs.org/strip-ansi/7.0.1
-      webpack: registry.npmjs.org/webpack/5.69.0_k3zzwfl4stqj3whko6kmspvmxm
+      webpack: registry.npmjs.org/webpack/5.69.0_esbuild@0.14.47
       webpack-dev-middleware: registry.npmjs.org/webpack-dev-middleware/5.3.3_webpack@5.69.0
       ws: registry.npmjs.org/ws/8.8.0
     transitivePeerDependencies:
@@ -36755,10 +36716,10 @@ packages:
     version: 3.2.3
     engines: {node: '>=10.13.0'}
 
-  registry.npmjs.org/webpack-virtual-modules/0.4.6:
-    resolution: {integrity: sha512-5tyDlKLqPfMqjT3Q9TAqf2YqjwmnUleZwzJi1A5qXnlBCdj2AtOJ6wAWdglTIDOPgOiOrXeBeFcsQ8+aGQ6QbA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/webpack-virtual-modules/-/webpack-virtual-modules-0.4.6.tgz}
+  registry.npmjs.org/webpack-virtual-modules/0.5.0:
+    resolution: {integrity: sha512-kyDivFZ7ZM0BVOUteVbDFhlRt7Ah/CSPwJdi8hBpkK7QLumUqdLtVfm/PX/hkcnrvr0i77fO5+TjZ94Pe+C9iw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/webpack-virtual-modules/-/webpack-virtual-modules-0.5.0.tgz}
     name: webpack-virtual-modules
-    version: 0.4.6
+    version: 0.5.0
     dev: false
 
   registry.npmjs.org/webpack/4.46.0:
@@ -36927,6 +36888,7 @@ packages:
       - '@swc/core'
       - esbuild
       - uglify-js
+    dev: true
 
   registry.npmjs.org/webpackbar/5.0.2_webpack@5.69.0:
     resolution: {integrity: sha512-BmFJo7veBDgQzfWXl/wwYXr/VFus0614qZ8i9znqcl9fnEdiVkdbi0TedLQ6xAK92HZHDJ0QmyQ0fmuZPAgCYQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/webpackbar/-/webpackbar-5.0.2.tgz}
