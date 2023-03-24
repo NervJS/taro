@@ -16,12 +16,6 @@ const config = {
     ]
   },
   framework: 'react',
-  compiler: {
-    type: 'webpack5',
-    prebundle: {
-      enable: false
-    }
-  },
   defineConstants: {
   },
   mini: {
@@ -52,9 +46,6 @@ const config = {
           generateScopedName: '[name]__[local]___[hash:base64:5]'
         }
       }
-    },
-    optimizeMainPackage: {
-      enable: false
     }
   },
   h5: {

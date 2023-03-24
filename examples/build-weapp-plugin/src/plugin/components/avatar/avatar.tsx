@@ -5,7 +5,11 @@ import './avatar.scss'
 export default class Avatar extends Component<{ mode: any, onAvatarClick: any }, null> {
   node: { ctx: any }
   handleClick () {
-    this.node.ctx.triggerEvent('avatarClick')
+    if (process.env.TARO_ENV === 'jd') {
+      this.node.ctx.triggerEvent('avatarClick')
+    } else {
+      this.node.ctx.triggerEvent('avatar-click')
+    }
   }
 
   render () {
@@ -15,6 +19,7 @@ export default class Avatar extends Component<{ mode: any, onAvatarClick: any },
           className='logo'
           src='http://storage.360buyimg.com/taro-static/static/images/logo.png'
           mode={this.props.mode}
+          onClick={this.props.onAvatarClick}
         />
         <Child onClick={this.handleClick.bind(this)} />
       </View>
