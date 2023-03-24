@@ -60,7 +60,7 @@ function createFiles (
 
   files.forEach(async file => {
     // fileRePath startsWith '/'
-    const fileRePath = file.replace(templatePath, '').replace(new RegExp(`\\${path.sep}`, 'g'), '/')
+    let fileRePath = file.replace(templatePath, '').replace(new RegExp(`\\${path.sep}`, 'g'), '/')
 
     let externalConfig: any = null
 
@@ -101,13 +101,14 @@ function createFiles (
         pageName,
         framework,
         compiler,
-        isCustomTemplate,
-        templatePath
+        // isCustomTemplate,
+        // templatePath
       },
       externalConfig,
     )
 
     let destRePath = fileRePath
+
 
     // createPage 创建页面模式
     if (config.setPageName) {
@@ -128,6 +129,8 @@ function createFiles (
       destRePath = destRePath.replace('.css', `.${currentStyleExt}`)
     }
 
+    if (isCustomTemplate) fileRePath = path.join(templatePath, fileRePath)
+
     // 创建
     creator.template(template, fileRePath, path.join(projectPath, destRePath), config)
 
@@ -139,14 +142,13 @@ function createFiles (
 }
 
 export async function createPage (creator: Creator, params: IPageConf, cb) {
-  const { projectDir, template, pageName, customTemplateConfig } = params
+  const { projectDir, template, pageName, isCustomTemplate, customTemplatePath } = params
 
   // path
   let templatePath
 
-  if(customTemplateConfig) {
-    const { name, templatePath: customDirectoryPath } = customTemplateConfig
-    templatePath = path.join(customDirectoryPath, name)
+  if(isCustomTemplate) {
+    templatePath = customTemplatePath
   } else {
     templatePath = creator.templatePath(template)
   }
@@ -164,7 +166,7 @@ export async function createPage (creator: Creator, params: IPageConf, cb) {
     templatePath,
     projectPath: projectDir,
     pageName,
-    isCustomTemplate: !!customTemplateConfig,
+    isCustomTemplate: isCustomTemplate,
     period: 'createPage'
   })
 

@@ -111,18 +111,8 @@ export default class Creator {
       data = dest
       dest = source
     }
-    const templatePath = data?.templatePath
-    const isCustomTemplate = data?.isCustomTemplate
-    // 插入自定义模版逻辑
-    let src
-    if(isCustomTemplate) {
-      src = path.join(templatePath, source)
-    }else{
-      src = this.templatePath(template, source)
-    }
-
+    const src = this.templatePath(template, source)
     if (!fs.existsSync(src)) return
-
     this.fs.copyTpl(src, this.destinationPath(dest), Object.assign({ _ }, this, data), options)
     return this
   }
