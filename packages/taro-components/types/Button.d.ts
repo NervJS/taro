@@ -364,10 +364,9 @@ declare namespace ButtonProps {
     userInfo: {
       /** 昵称 */
       nickName: string
-      /** 头像 */
+      /** 头像链接 */
       avatarUrl: string
-      /**
-       * 头像
+      /** 头像
        * @supported alipay
        */
       avatar: string
