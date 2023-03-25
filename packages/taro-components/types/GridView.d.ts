@@ -23,6 +23,7 @@ interface GridViewProps extends StandardProps {
   crossAxisGap?: number
   /** 交叉轴元素最大范围
    * @supported weapp
+   * @default 0
    */
   maxCrossAxisExtent?: number
 }

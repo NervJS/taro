@@ -84,7 +84,7 @@ interface LivePlayerProps extends StandardProps {
    * @supported weapp
    * @default false
    */
-  enableAutoRotation?: string
+  enableAutoRotation?: boolean
   /** 播放状态变化事件，detail = {code}
    * @supported weapp, swan, tt, qq, jd
    */
