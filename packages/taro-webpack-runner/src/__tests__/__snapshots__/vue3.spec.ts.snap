@@ -81,10 +81,6 @@ exports[`vue3 should build vue3 app 2`] = `
             };
         }
         var component = normalizeComponent(pages_indexvue_type_script_lang_js_, render, staticRenderFns, false, null, null, null);
-        if (false) {
-            var api;
-        }
-        component.options.__file = \\"src/pages/index/index.vue\\";
         var index = __webpack_exports__[\\"default\\"] = component.exports;
     }
 } ]);
