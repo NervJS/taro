@@ -40,6 +40,7 @@ module.exports = {
     'no-unused-expressions': 0,
     'no-unused-vars': 'off',
     'no-use-before-define': 0,
+    'object-curly-spacing': 2,
     'no-empty': 1,
     'prefer-spread': 0,
     'prefer-rest-params': 0,

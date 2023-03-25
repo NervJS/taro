@@ -5,7 +5,6 @@ interface OfficialAccountProps extends StandardProps {
    * @supported weapp
    */
   onLoad?: CommonEventFunction<OfficialAccountProps.Detail>
-
   /** 组件加载失败时触发
    * @supported weapp
    */
@@ -16,42 +15,31 @@ declare namespace OfficialAccountProps {
   interface Detail {
     /** 状态码 */
     status: number
-
     /** 错误信息 */
     errMsg: string
   }
-
   /** status 有效值 */
   interface Status {
     /** 网络错误 */
     '-2'
-
     /** 数据解析错误 */
     '-1'
-
     /** 加载成功 */
     0
-
     /** 小程序关注公众号功能被封禁 */
     1
-
     /** 关联公众号被封禁 */
     2
-
     /** 关联关系解除或未选中关联公众号 */
     3
-
     /** 未开启关注公众号功能 */
     4
-
     /** 场景值错误 */
     5
-
     /** 重复创建 */
     6
   }
 }
-
 /** 公众号关注组件。当用户扫小程序码打开小程序时，开发者可在小程序内配置公众号关注组件，方便用户快捷关注公众号，可嵌套在原生组件内。
  *
  * Tips

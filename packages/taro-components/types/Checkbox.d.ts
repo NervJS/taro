@@ -5,34 +5,28 @@ interface CheckboxProps extends StandardProps {
    * @supported weapp, alipay, swan, tt, qq, jd, h5, rn
    */
   value: string
-
   /** 是否禁用
    * @supported weapp, alipay, swan, tt, qq, jd, h5, rn
    * @default false
    */
   disabled?: boolean
-
   /** 当前是否选中，可用来设置默认选中
    * @supported weapp, alipay, swan, tt, qq, jd, h5, rn
    * @default false
    */
   checked?: boolean
-
   /** checkbox的颜色，同 css 的 color
    * @supported weapp, alipay, swan, tt, qq, jd, h5, rn
    */
   color?: string
-
   /** 用于透传 `WebComponents` 上的属性到内部 H5 标签上
    * @supported h5
    */
   nativeProps?: Record<string, unknown>
-
   /** 无障碍访问，（属性）元素的额外描述
    * @supported qq
    */
   ariaLabel?: string
-
   /** 选中项发生变化时触发 change 事件，小程序无此 API
    * @supported alipay, h5, rn
    */
@@ -40,7 +34,6 @@ interface CheckboxProps extends StandardProps {
     value: string[]
   }>
 }
-
 /** 多选项目
  * @classification forms
  * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony

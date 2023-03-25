@@ -43,7 +43,8 @@ export const components = {
     bindGetAuthorize: '',
     bindError: '',
     bindGetUserInfo: '',
-    bindGetPhoneNumber: ''
+    bindGetPhoneNumber: '',
+    bindFollowLifestyle: ''
   },
   Checkbox: {
     bindChange: ''

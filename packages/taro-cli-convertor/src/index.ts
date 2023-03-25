@@ -1,11 +1,12 @@
 import template from '@babel/template'
 import traverse, { NodePath } from '@babel/traverse'
 import * as t from '@babel/types'
-// import * as inquirer from 'inquirer'
+import { Creator } from '@tarojs/cli'
 import {
   chalk,
   CSS_IMPORT_REG,
   emptyDirectory,
+  fs,
   pascalCase,
   printLog,
   processTypeEnum,
@@ -15,25 +16,36 @@ import {
   REG_URL,
   resolveScriptPath
 } from '@tarojs/helper'
-import { AppConfig, TabBar } from '@tarojs/taro'
 import * as taroize from '@tarojs/taroize'
 import wxTransformer from '@tarojs/transformer-wx'
-import * as fs from 'fs-extra'
 import * as path from 'path'
 import Processors from 'postcss'
 import * as unitTransform from 'postcss-taro-unit-transform'
 import * as prettier from 'prettier'
 
-import babylonConfig from '../config/babylon'
-import Creator from '../create/creator'
-import { getPkgVersion } from '../util'
-import { generateMinimalEscapeCode } from '../util/astConvert'
-import { analyzeImportUrl, incrementId } from './helper'
+import { analyzeImportUrl, getPkgVersion, incrementId } from './util'
+import { generateMinimalEscapeCode } from './util/astConvert'
+
+import type { ParserOptions } from '@babel/parser'
+import type { AppConfig, TabBar } from '@tarojs/taro'
 
 const prettierJSConfig: prettier.Options = {
   semi: false,
   singleQuote: true,
   parser: 'babel'
+}
+
+const babylonConfig: ParserOptions = {
+  sourceType: 'module',
+  plugins: [
+    'typescript',
+    'classProperties',
+    'jsx',
+    'asyncGenerators',
+    'objectRestSpread',
+    'decorators',
+    'dynamicImport'
+  ]
 }
 
 const OUTPUT_STYLE_EXTNAME = '.scss'
@@ -944,17 +956,9 @@ ${code}
   }
 
   run () {
-    // inquirer.prompt([{
-    //   type: 'list',
-    //   name: 'framework',
-    //   message: '你想转换为哪种框架？',
-    //   choices: ['react', 'vue'],
-    //   default: 'react'
-    // }]).then(({ framework }) => {
     this.framework = 'react'
     this.generateEntry()
     this.traversePages()
     this.generateConfigFiles()
-    // })
   }
 }

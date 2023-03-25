@@ -5,18 +5,15 @@ interface LifestyleProps extends StandardProps {
    * @supported alipay
    */
   publicId?: string
-
   /** 文案。支持商家自定义，最多展示一行。
    * @supported alipay
    */
   memo?: string
-
   /** 当用户关注生活号成功后执行。
    * @supported alipay
    */
   onFollow?: CommonEventFunction
 }
-
 /** 关注生活号
  * @classification open
  * @supported alipay
