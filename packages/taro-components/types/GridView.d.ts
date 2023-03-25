@@ -6,32 +6,26 @@ interface GridViewProps extends StandardProps {
    * @default "aligned"
    */
   type: string
-
   /** 交叉轴元素数量
    * @supported weapp
    * @default 2
    */
   crossAxisCount?: number
-
-  /** 交叉轴元素最大范围
-   * @supported weapp
-   * @default 0
-   */
-  maxCrossAxisExtend?: number
-
   /** 主轴方向间隔
    * @supported weapp
    * @default 0
    */
   mainAxisGap?: number
-
   /** 交叉轴方向间隔
    * @supported weapp
    * @default 0
    */
   crossAxisGap?: number
+  /** 交叉轴元素最大范围
+   * @supported weapp
+   */
+  maxCrossAxisExtent?: number
 }
-
 /**
  * 网格布局容器，仅支持作为 scroll-view 自定义模式下的直接子节点或 sticky-section 组件直接子节点。仅 Skyline 支持。
  * @classification viewContainer
