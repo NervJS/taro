@@ -7,7 +7,7 @@ import Creator from './creator'
 import fetchTemplate from './fetchTemplate'
 import { createPage } from './init'
 
-export interface IPageConf extends CustomTemplateInfo{
+export interface IPageConf{
   projectDir: string
   projectName: string
   npm: string
@@ -16,8 +16,15 @@ export interface IPageConf extends CustomTemplateInfo{
   pageName: string
   date?: string
   framework: 'react' | 'preact' | 'nerv' | 'vue' | 'vue3'
+  css: 'none' | 'sass' | 'stylus' | 'less'
+  typescript?: boolean
+  compiler?: 'webpack4' | 'webpack5' | 'vite'
+  isCustomTemplate?: boolean
+  customTemplatePath?: string
 }
-
+interface IPageArgs extends IPageConf {
+  modifyCustomTemplateConfig : GetCustomTemplate
+}
 interface TemplateInfo {
   css: 'none' | 'sass' | 'stylus' | 'less'
   typescript?: boolean
@@ -39,9 +46,6 @@ const DEFAULT_TEMPLATE_INFO = {
   css: 'none',
   typescript: false,
   compiler: 'webpack5'
-}
-interface IPageArgs extends IPageConf {
-  modifyCustomTemplateConfig : GetCustomTemplate
 }
 export default class Page extends Creator {
   public rootPath: string
