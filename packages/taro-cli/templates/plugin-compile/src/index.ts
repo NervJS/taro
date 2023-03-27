@@ -1,4 +1,4 @@
-import { IPluginContext } from '@tarojs/service'
+import type { IPluginContext } from '@tarojs/service'
 <% if (['plugin-build'].includes(type)) { -%>
 import webpackChain from 'webpack-chain';
 
@@ -78,25 +78,26 @@ const unzip = require("unzip");
  * 创建 page 自定义模版
  */
 
-interface TemplateInfo {
+interface ITemplateInfo {
   css: 'none' | 'sass' | 'stylus' | 'less'
   typescript?: boolean
-  template?: string
   compiler?: 'webpack4' | 'webpack5' | 'vite'
+  template?: string
 }
 
-type CustomTemplateInfo = Omit<TemplateInfo & {
+type TCustomTemplateInfo = Omit<ITemplateInfo & {
   isCustomTemplate?: boolean
   customTemplatePath?: string
 }, 'template'>
-//todo 等发板后，会从 taro 暴露出这个 type
-type SetCustomTemplateConfig = (customTemplateConfig: CustomTemplateInfo) => void
 
-interface IPluginOpts extends TemplateInfo {
+type TSetCustomTemplateConfig = (customTemplateConfig: TCustomTemplateInfo) => void
+
+interface IPluginOpts extends ITemplateInfo {
   installPath: string
 }
+
 export default (ctx: IPluginContext, pluginOpts:IPluginOpts) => {
- ctx.modifyCreateTemplate(async (setCustomTemplateConfig: SetCustomTemplateConfig)=> {
+ ctx.modifyCreateTemplate(async (setCustomTemplateConfig: TSetCustomTemplateConfig)=> {
   const { installPath, css, typescript, compiler } = pluginOpts
   const templateName = 'mobx'
   const templatePath = path.join(installPath, templateName)

@@ -1,7 +1,8 @@
-import { IPluginContext } from '@tarojs/service'
 import * as path from 'path'
 
 import { ON_PREVIEW_COMPLETE, ON_UPLOAD_COMPLETE } from './hooks'
+
+import type { IPluginContext } from '@tarojs/service'
 
 export type ProjectType = 'miniProgram' | 'miniGame' | 'miniProgramPlugin' | 'miniGamePlugin';
 

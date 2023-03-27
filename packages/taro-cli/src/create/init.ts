@@ -8,8 +8,9 @@ import packagesManagement from '../config/packagesManagement'
 import { getAllFilesInFolder, getPkgVersion } from '../util'
 import Creator from './creator'
 import { changeDefaultNameInTemplate } from './editTemplate'
-import { IPageConf } from './page'
-import { IProjectConf } from './project'
+
+import type { IPageConf } from './page'
+import type { IProjectConf } from './project'
 
 const CONFIG_DIR_NAME = 'config'
 export const TEMPLATE_CREATOR = 'template_creator.js'
