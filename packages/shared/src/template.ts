@@ -76,9 +76,9 @@ const weixinAdapter: IAdapter = {
 }
 
 export class BaseTemplate {
+  protected _baseLevel = 0
   protected exportExpr = 'module.exports ='
   protected isSupportRecursive: boolean
-  protected supportXS = false
   protected miniComponents: Components
   protected thirdPartyPatcher: Record<string, Record<string, string>> = {}
   protected modifyCompProps?: (compName: string, target: Record<string, string>) => Record<string, string>
@@ -87,6 +87,7 @@ export class BaseTemplate {
   protected modifyTemplateResult?: (res: string, nodeName: string, level: number, children: string) => string
   protected modifyThirdPartyLoopBody?: (child: string, nodeName: string) => string
 
+  public supportXS = false
   public Adapter = weixinAdapter
   /** 组件列表 */
   public internalComponents = internalComponents
@@ -97,6 +98,14 @@ export class BaseTemplate {
   /** 可以递归调用自身的组件 */
   public nestElements: Map<string, number> = nestElements
   public componentsAlias
+
+  set baseLevel (lv) {
+    this._baseLevel = lv
+  }
+
+  get baseLevel () {
+    return this._baseLevel
+  }
 
   private buildAttribute (attrs: Attributes, nodeName: string): string {
     return Object.keys(attrs)
@@ -206,15 +215,17 @@ export class BaseTemplate {
 
   protected buildBaseTemplate () {
     const Adapter = this.Adapter
-
     const data = !this.isSupportRecursive && this.supportXS
       ? `${this.dataKeymap('i:item,l:\'\'')}`
       : this.dataKeymap('i:item')
-
-    return `${this.buildXsTemplate()}
+    const xs = this.supportXS
+      ? `xs.a(0, item.${Shortcuts.NodeName})`
+      : "'tmpl_0_' + item.nn"
+    const xsHeader = this.supportXS ? this.buildXsTemplate() : ''
+    return `${xsHeader}
 <template name="taro_tmpl">
   <block ${Adapter.for}="{{root.cn}}" ${Adapter.key}="sid">
-    <template is="tmpl_0_${Shortcuts.Container}" data="{{${data}}}" />
+    <template is="{{${xs}}}" data="{{${data}}}" />
   </block>
 </template>
 `
@@ -262,18 +273,41 @@ export class BaseTemplate {
       : this.buildStandardComponentTemplate(comp, level)
   }
 
+  private getChildrenTemplate (level: number) {
+    const { isSupportRecursive, supportXS } = this
+    const isLastRecursiveComp = !isSupportRecursive && level + 1 === this.baseLevel
+    const isUseXs = !this.isSupportRecursive && this.supportXS
+  
+    if (isLastRecursiveComp) {
+      const data = isUseXs
+        ? `${this.dataKeymap('i:item,l:l')}`
+        : this.dataKeymap('i:item')
+
+      return supportXS
+        ? `<template is="{{xs.e(${level})}}" data="{{${data}}}" />`
+        : `<template is="tmpl_${level}_${Shortcuts.Container}" data="{{${data}}}" />`
+    } else {
+      const data = isUseXs
+        ? `${this.dataKeymap(`i:item,l:xs.f(l,item.${Shortcuts.NodeName})`)}`
+        : `${this.dataKeymap('i:item')}`
+
+      const xs = !this.isSupportRecursive
+        ? `xs.a(${level}, item.${Shortcuts.NodeName}, xs.f(l,item.${Shortcuts.NodeName}))`
+        : `xs.a(${level}, item.${Shortcuts.NodeName})`
+
+      return supportXS
+        ? `<template is="{{${xs}}}" data="{{${data}}}" />`
+        : `<template is="{{'tmpl_' + ${level} + '_' + item.nn}}" data="{{${data}}}" />`
+    }
+  
+  }
+
   private getChildren (comp: Component, level: number): string {
-    const { isSupportRecursive, Adapter, supportXS } = this
+    const { isSupportRecursive, Adapter } = this
     const nextLevel = isSupportRecursive ? 0 : level + 1
-
-    const data = !this.isSupportRecursive && supportXS
-      ? `${this.dataKeymap('i:item,l:l')}`
-      : this.dataKeymap('i:item')
-
-    let child = supportXS
-      ? `<template is="{{xs.e(${isSupportRecursive ? 0 : 'cid+1'})}}" data="{{${data}}}" />`
-      : `<template is="tmpl_${nextLevel}_${Shortcuts.Container}" data="{{${data}}}" />`
-
+  
+    let child = this.getChildrenTemplate(nextLevel)
+  
     if (isFunction(this.modifyLoopBody)) {
       child = this.modifyLoopBody(child, comp.nodeName)
     }
@@ -305,7 +339,7 @@ export class BaseTemplate {
 
     let res = `
 <template name="tmpl_${level}_${nodeAlias}">
-  <template is="{{${templateName}}}" data="{{${this.dataKeymap('i:i')}${children ? ',cid:cid' : ''}}}" />
+  <template is="{{${templateName}}}" data="{{${this.dataKeymap('i:i')}}}" />
 </template>
 
 <template name="tmpl_${level}_${nodeAlias}_focus">
@@ -376,10 +410,6 @@ export class BaseTemplate {
     const nextLevel = isSupportRecursive ? 0 : level + 1
     let template = ''
 
-    const data = !isSupportRecursive && supportXS
-      ? `${this.dataKeymap('i:item,l:l')}`
-      : this.dataKeymap('i:item')
-
     componentConfig.thirdPartyComponents.forEach((attrs, compName) => {
       if (compName === 'custom-wrapper') {
         template += `
@@ -391,9 +421,7 @@ export class BaseTemplate {
       } else {
         if (!isSupportRecursive && supportXS && nestElements.has(compName) && level + 1 > nestElements.get(compName)!) return
 
-        let child = supportXS
-          ? `<template is="{{xs.e(${isSupportRecursive ? 0 : 'cid+1'})}}" data="{{${data}}}" />`
-          : `<template is="tmpl_${nextLevel}_${Shortcuts.Container}" data="{{${data}}}" />`
+        let child = this.getChildrenTemplate(nextLevel)
 
         if (isFunction(this.modifyThirdPartyLoopBody)) {
           child = this.modifyThirdPartyLoopBody(child, compName)
@@ -416,26 +444,17 @@ export class BaseTemplate {
 
   protected buildContainerTemplate (level: number, restart = false) {
     let tmpl = ''
-    if (restart) {
-      tmpl = `<block ${this.Adapter.if}="{{i.nn === '#text'}}">
+
+    // 最后一层的 comp 需要引用 container 进行重新的模版循环，其他情况不需要 container
+    if (!restart) return tmpl
+
+    tmpl = `<block ${this.Adapter.if}="{{i.nn === '#text'}}">
     <template is="tmpl_0_#text" data="{{i:i}}" />
   </block>
   <block ${this.Adapter.else}>
     ${!this.isSupportRecursive && this.supportXS ? '<comp i="{{i}}" l="{{l}}" />' : '<comp i="{{i}}" />'}
   </block>`
-    } else {
-      const xs = !this.isSupportRecursive
-        ? `xs.a(${level}, i.${Shortcuts.NodeName}, l)`
-        : `xs.a(${level}, i.${Shortcuts.NodeName})`
 
-      const data = !this.isSupportRecursive
-        ? `${this.dataKeymap(`i:i,cid:${level},l:xs.f(l,i.${Shortcuts.NodeName})`)}`
-        : `${this.dataKeymap('i:i')}`
-
-      tmpl = this.supportXS
-        ? `<template is="{{${xs}}}" data="{{${data}}}" />`
-        : `<template is="{{'tmpl_${level}_' + i.${Shortcuts.NodeName}}}" data="{{${this.dataKeymap('i:i')}}}" />`
-    }
     return `
 <template name="tmpl_${level}_${Shortcuts.Container}">
   ${tmpl}
@@ -467,12 +486,12 @@ export class BaseTemplate {
   }
 
   public buildBaseComponentTemplate = (ext: string) => {
-    const data = !this.isSupportRecursive && this.supportXS
+    const data = this.supportXS
       ? this.dataKeymap('i:i,l:l')
       : this.dataKeymap('i:i')
 
     return `<import src="./base${ext}" />
-<template is="tmpl_0_${Shortcuts.Container}" data="{{${data}}}" />`
+<template is="{{'tmpl_0_' + i.nn}}" data="{{${data}}}" />`
   }
 
   public buildCustomComponentTemplate = (ext: string) => {
@@ -480,9 +499,10 @@ export class BaseTemplate {
     const data = !this.isSupportRecursive && this.supportXS
       ? `${this.dataKeymap('i:item,l:\'\'')}`
       : this.dataKeymap('i:item')
+
     return `<import src="./base${ext}" />
   <block ${Adapter.for}="{{i.${Shortcuts.Childnodes}}}" ${Adapter.key}="sid">
-    <template is="tmpl_0_container" data="{{${data}}}" />
+    <template is="{{'tmpl_0_' + item.nn}}" data="{{${data}}}" />
   </block>`
   }
 
@@ -493,9 +513,6 @@ export class BaseTemplate {
     return a === undefined ? b : a
   },
   c: ${this.buildXSTepFocus(Shortcuts.NodeName)},
-  d: function (i, v) {
-    return i === undefined ? v : i
-  },
   e: function (n) {
     return 'tmpl_' + n + '_${Shortcuts.Container}'
   },
@@ -558,16 +575,8 @@ export class RecursiveTemplate extends BaseTemplate {
 
 export class UnRecursiveTemplate extends BaseTemplate {
   isSupportRecursive = false
-  private _baseLevel = 16
+  protected _baseLevel = 16
   private componentConfig: ComponentConfig
-
-  set baseLevel (lv) {
-    this._baseLevel = lv
-  }
-
-  get baseLevel () {
-    return this._baseLevel
-  }
 
   public buildTemplate = (componentConfig: ComponentConfig) => {
     this.componentConfig = componentConfig
