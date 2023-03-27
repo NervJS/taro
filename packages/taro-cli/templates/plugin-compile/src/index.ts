@@ -85,12 +85,12 @@ interface TemplateInfo {
   compiler?: 'webpack4' | 'webpack5' | 'vite'
 }
 
-type CustomTemplateInfo = Omit< TemplateInfo & {
+type CustomTemplateInfo = Omit<TemplateInfo & {
   isCustomTemplate?: boolean
   customTemplatePath?: string
-} ,'template'>
+}, 'template'>
 //todo 等发板后，会从 taro 暴露出这个 type
-type SetCustomTemplateConfig =(customTemplateConfig: CustomTemplateInfo)=> void
+type SetCustomTemplateConfig = (customTemplateConfig: CustomTemplateInfo) => void
 
 interface IPluginOpts extends TemplateInfo {
   installPath: string,
