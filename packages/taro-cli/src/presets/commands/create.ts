@@ -28,7 +28,7 @@ export default (ctx: IPluginContext) => {
     optionsMap: {
       '--name [name]': '名称',
       '--description [description]': '介绍',
-      '--type [type]': '模版类型(page(默认)|plugin-command|plugin-build)'
+      '--type [type]': '模版类型(page(默认)|plugin-command|plugin-build|plugin-template)'
     },
     synopsisList: [
       'taro create page',
