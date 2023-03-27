@@ -4,6 +4,7 @@
  * Author Tobias Koppers @sokra and Zackary Jackson @ScriptedAlchemy
  */
 import { META_TYPE } from '@tarojs/helper'
+import path from 'path'
 import { RuntimeGlobals, sources } from 'webpack'
 import ContainerReferencePlugin from 'webpack/lib/container/ContainerReferencePlugin'
 import RemoteModule from 'webpack/lib/container/RemoteModule'
@@ -31,6 +32,7 @@ type MFOptions = Partial<ContainerReferencePluginOptions>
 interface IParams {
   deps: CollectedDeps
   env: string
+  isBuildPlugin?: boolean
   remoteAssets?: Record<'name', string>[]
   runtimeRequirements: Set<string>
 }
@@ -40,6 +42,7 @@ export default class TaroContainerReferencePlugin extends ContainerReferencePlug
   private remoteAssets: Exclude<IParams['remoteAssets'], undefined>
   private remoteName: string
   private remoteConfig: RemotesConfig
+  private isBuildPlugin: IParams['isBuildPlugin']
   private runtimeRequirements: IParams['runtimeRequirements']
 
   protected _remoteType?: ContainerReferencePluginOptions['remoteType']
@@ -51,6 +54,7 @@ export default class TaroContainerReferencePlugin extends ContainerReferencePlug
     const remoteName = Object.keys(remotes)[0] || MF_NAME
     const [, remoteConfig] = this._remotes.find(([key, config]) => key === remoteName && config) || [this.remoteName, { external: [], shareScope: 'default' }]
     this.deps = params.deps
+    this.isBuildPlugin = params.isBuildPlugin || false
     this.remoteAssets = params.remoteAssets || []
     this.remoteName = remoteName
     this.remoteConfig = remoteConfig
@@ -197,6 +201,18 @@ export default class TaroContainerReferencePlugin extends ContainerReferencePlug
           (modules: sources.ConcatSource, { chunk }) => {
             const chunkEntryModule = getChunkEntryModule(compilation, chunk) as any
             if (chunkEntryModule) {
+              if (this.isBuildPlugin) {
+                let id = getChunkIdOrName(chunk)
+                const idList = id.split(path.sep)
+                
+                if (idList.length > 1) {
+                  idList.splice(0, 1)
+                  id = idList.join(path.sep)
+                }
+                
+                return addRequireToSource(id, modules, this.remoteAssets)
+              }
+
               const entryModule = chunkEntryModule.rootModule ?? chunkEntryModule
               if (entryModule.miniType === META_TYPE.ENTRY) {
                 return addRequireToSource(getChunkIdOrName(chunk), modules, this.remoteAssets)
