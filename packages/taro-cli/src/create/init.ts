@@ -100,15 +100,12 @@ function createFiles (
         template,
         pageName,
         framework,
-        compiler,
-        // isCustomTemplate,
-        // templatePath
+        compiler
       },
-      externalConfig,
+      externalConfig
     )
 
     let destRePath = fileRePath
-
 
     // createPage 创建页面模式
     if (config.setPageName) {
@@ -166,7 +163,7 @@ export async function createPage (creator: Creator, params: IPageConf, cb) {
     templatePath,
     projectPath: projectDir,
     pageName,
-    isCustomTemplate: isCustomTemplate,
+    isCustomTemplate,
     period: 'createPage'
   })
 

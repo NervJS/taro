@@ -111,8 +111,10 @@ export default class Creator {
       data = dest
       dest = source
     }
+
     const src = this.templatePath(template, source)
     if (!fs.existsSync(src)) return
+
     this.fs.copyTpl(src, this.destinationPath(dest), Object.assign({ _ }, this, data), options)
     return this
   }
