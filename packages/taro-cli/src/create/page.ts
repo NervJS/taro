@@ -32,14 +32,14 @@ interface TemplateInfo {
   template?: string
 }
 
-type CustomTemplateInfo = Omit< TemplateInfo & {
+type CustomTemplateInfo = Omit<TemplateInfo & {
   isCustomTemplate?: boolean
   customTemplatePath?: string
-} ,'template'>
+}, 'template'>
 
-export type SetCustomTemplateConfig = (customTemplateConfig: CustomTemplateInfo)=> void
+export type SetCustomTemplateConfig = (customTemplateConfig: CustomTemplateInfo) => void
 
-type GetCustomTemplate = (cb: SetCustomTemplateConfig )=>Promise<void>
+type GetCustomTemplate = (cb: SetCustomTemplateConfig ) => Promise<void>
 
 const DEFAULT_TEMPLATE_INFO = {
   name: 'default',
