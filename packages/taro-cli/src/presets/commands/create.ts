@@ -1,6 +1,6 @@
 import { IPluginContext } from '@tarojs/service'
-import {  SetCustomTemplateConfig } from 'src/create/page'
 
+import {  SetCustomTemplateConfig } from '../../create/page'
 import * as hooks from '../constant'
 
 declare const enum createTemplateTypeEnum {
