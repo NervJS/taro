@@ -6,52 +6,43 @@ interface EditorProps extends StandardProps {
    * @supported weapp
    */
   readOnly?: boolean
-
   /** 提示信息
    * @supported weapp
    */
   placeholder?: string
-
   /** 点击图片时显示图片大小控件
    * @default false
    * @supported weapp
    */
   showImgSize?: boolean
-
   /** 点击图片时显示工具栏控件
    * @default false
    * @supported weapp
    */
   showImgToolbar?: boolean
-
   /** 点击图片时显示修改尺寸控件
    * @default false
    * @supported weapp
    */
   showImgResize?: boolean
-
   /** 编辑器初始化完成时触发
    * @supported weapp
    */
   onReady?: CommonEventFunction
-
   /** 编辑器聚焦时触发
    * @supported weapp
    */
   onFocus?: CommonEventFunction<EditorProps.editorEventDetail>
-
   /** 编辑器失去焦点时触发
    * detail = { html, text, delta }
    * @supported weapp
    */
   onBlur?: CommonEventFunction<EditorProps.editorEventDetail>
-
   /** 编辑器内容改变时触发
    * detail = { html, text, delta }
    * @supported weapp
    */
   onInput?: CommonEventFunction<EditorProps.editorEventDetail>
-
   /** 通过 Context 方法改变编辑器内样式时触发，返回选区已设置的样式
    * @supported weapp
    */
@@ -64,7 +55,6 @@ declare namespace EditorProps {
     delta
   }
 }
-
 /** 富文本编辑器，可以对图片、文字进行编辑。
  *
  * 编辑器导出内容支持带标签的 html和纯文本的 text，编辑器内部采用 delta 格式进行存储。

@@ -6,19 +6,16 @@ interface FollowSwanProps extends StandardProps {
    * @default "default"
    */
   size?: string
-
   /** 组件样式
    * @supported swan
    * @default "primary"
    */
   type?: string
-
   /** 关注和取消关注成功的回调，返回关注状态 {isFavor: true|false}
    * @supported swan
    */
   onFavorStatusChange?: CommonEventFunction
 }
-
 /** 关注小程序
  * @classification open
  * @supported swan
