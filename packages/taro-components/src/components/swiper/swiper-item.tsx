@@ -4,18 +4,25 @@ function isEqualTag (a: Element, b: Element) {
   return typeof a.tagName === 'undefined' ? a.nodeType === b.nodeType : a.tagName === b.tagName
 }
 
-function parseChildNodes (items: NodeListOf<ChildNode>, targets: NodeListOf<ChildNode>) {
+function parseChildNodes (items: NodeListOf<ChildNode>, targets: NodeListOf<ChildNode>, needClean = false) {
   const list = Array.from(targets.values())
-  for (let i = 0, j = 0; i < list.length; i++, j++) {
+  for (let i = 0, j = 0; i < list.length; i++) {
     const target = list[i] as Element
+    if (!target) return
+
     let item = items.item(j) as Element
-    while (item && !isEqualTag(item, target)) {
-      item.remove()
-      j++
-      item = items.item(j) as Element
-    }
-    if (item && !item.isEqualNode(target)) {
-      parseChildNodes(item.childNodes, target.childNodes)
+    while (item) {
+      if (!isEqualTag(item, target) || needClean) {
+        item.remove()
+        j++
+        item = items.item(j) as Element
+        continue
+      }
+      if (target.childNodes.length > 0) {
+        const cleanAll = ['taro-image-core'].includes(target.tagName.toLocaleLowerCase())
+        parseChildNodes(item.childNodes, target.childNodes, cleanAll)
+      }
+      break
     }
     while (i === list.length - 1 && j < items.length) {
       j++
