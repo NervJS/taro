@@ -7,7 +7,7 @@ import Creator from './creator'
 import fetchTemplate from './fetchTemplate'
 import { createPage } from './init'
 
-export interface IPageConf{
+export interface IPageConf {
   projectDir: string
   projectName: string
   npm: string

@@ -93,7 +93,7 @@ type CustomTemplateInfo = Omit<TemplateInfo & {
 type SetCustomTemplateConfig = (customTemplateConfig: CustomTemplateInfo) => void
 
 interface IPluginOpts extends TemplateInfo {
-  installPath: string,
+  installPath: string
 }
 export default (ctx: IPluginContext, pluginOpts:IPluginOpts) => {
  ctx.modifyCreateTemplate(async (setCustomTemplateConfig: SetCustomTemplateConfig)=> {
@@ -106,7 +106,7 @@ export default (ctx: IPluginContext, pluginOpts:IPluginOpts) => {
     css,
     typescript,
     compiler
-   }
+  }
 
    /**
     * 下载模版到电脑本地，可以自行进行判断，看是否需要重新下载
@@ -115,12 +115,12 @@ export default (ctx: IPluginContext, pluginOpts:IPluginOpts) => {
     * 只要保证下载后的文件目录为 `${templatePath}` 即可，taro 会在该目录下获取模版
     * 如果下载模版失败，请不要调用 setCustomTemplateConfig，taro 会根据默认流程进行兜底创建
     */
-   if(!fs.existsSync(templatePath)){
+   if (!fs.existsSync(templatePath)) {
     //如果文件不存在，就下载文件到指定路径
      await downloadTemplate(customTemplateConfig)
   }
 
-   if(fs.existsSync(templatePath)){
+   if (fs.existsSync(templatePath)) {
     //如果文件下载成功，调用 setCustomTemplateConfig
      setCustomTemplateConfig(customTemplateConfig)
    }
@@ -128,7 +128,7 @@ export default (ctx: IPluginContext, pluginOpts:IPluginOpts) => {
 }
 
 
-const downloadTemplate = async (customTemplateConfig)=>{
+const downloadTemplate = async (customTemplateConfig) => {
   return new Promise<void>(async (resolve, reject)=>{
     const url = 'https://storage.360buyimg.com/olympic-models-test/mobx.zip'
     const { name, templatePath } = customTemplateConfig
