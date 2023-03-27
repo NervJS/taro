@@ -89,7 +89,7 @@ type CustomTemplateInfo = Omit< TemplateInfo & {
   isCustomTemplate?: boolean
   customTemplatePath?: string
 } ,'template'>
- //odo 等发板后，会从 taro 暴露出这个 type
+//todo 等发板后，会从 taro 暴露出这个 type
 type SetCustomTemplateConfig =(customTemplateConfig: CustomTemplateInfo)=> void
 
 interface IPluginOpts extends TemplateInfo {
@@ -111,8 +111,8 @@ export default (ctx: IPluginContext, pluginOpts:IPluginOpts) => {
    /**
     * 下载模版到电脑本地，可以自行进行判断，看是否需要重新下载
     * 从哪里下载，如何下载，taro 官方不做限定
-     * 模版格式和社区模版一样
-   * 只要保证下载后的文件目录为 `${templatePath}` 即可，taro 会在该目录下获取模版
+    * 模版格式和社区模版一样
+    * 只要保证下载后的文件目录为 `${templatePath}` 即可，taro 会在该目录下获取模版
     * 如果下载模版失败，请不要调用 setCustomTemplateConfig，taro 会根据默认流程进行兜底创建
     */
    if(!fs.existsSync(templatePath)){
