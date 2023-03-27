@@ -1,6 +1,6 @@
 import type { IPluginContext } from '@tarojs/service'
 <% if (['plugin-build'].includes(type)) { -%>
-import webpackChain from 'webpack-chain';
+import webpackChain from 'webpack-chain'
 
 /**
  * 编译过程扩展
@@ -24,8 +24,8 @@ export default (ctx: IPluginContext, pluginOpts) => {
             script: pluginConfig.script + 'console.log("向html中插入代码");'
           }
         ]
-      });
-  });
+      })
+  })
 
   ctx.onBuildComplete(() => {
     console.log('Taro 构建完成！')
@@ -36,9 +36,9 @@ export default (ctx: IPluginContext, pluginOpts) => {
     // 示例：修改html产物内容
     const indexHtml = assets['index.html']
     if (indexHtml && indexHtml._value) {
-      indexHtml._value = indexHtml._value.replace(/<title>(.*?)<\/title>/,'<title>被插件修改过的标题</title>');
+      indexHtml._value = indexHtml._value.replace(/<title>(.*?)<\/title>/,'<title>被插件修改过的标题</title>')
     }
-  });
+  })
 
   ctx.onBuildFinish(() => {
     console.log('Webpack 编译结束！')
@@ -72,8 +72,8 @@ export default (ctx: IPluginContext, pluginOpts) => {
 <% if (['plugin-template'].includes(type)) { -%>
 import * as fs from 'fs-extra'
 const path = require('path')
-const download = require('download');
-const unzip = require("unzip");
+const download = require('download')
+const unzip = require("unzip")
 /**
  * 创建 page 自定义模版
  */
@@ -135,19 +135,19 @@ const downloadTemplate = async (customTemplateConfig) => {
     const { name, templatePath } = customTemplateConfig
     const zipName = `${name}.zip`
     const zipPath = path.join(templatePath, zipName)
-    fs.writeFileSync(zipPath, await download(url));
-    const extract = unzip.Extract({ path: templatePath });
-    fs.createReadStream(zipPath).pipe(extract);
+    fs.writeFileSync(zipPath, await download(url))
+    const extract = unzip.Extract({ path: templatePath })
+    fs.createReadStream(zipPath).pipe(extract)
     extract.on('close', function () {
-      console.log("解压完成!!");
+      console.log("解压完成!!")
       //删除
-       fs.unlinkSync(zipPath);
+       fs.unlinkSync(zipPath)
       resolve()
-    });
+    })
     extract.on('error', function (err) {
-      console.log(err);
+      console.log(err)
       reject()
-    });
+    })
   })
 }
 <% } -%>
