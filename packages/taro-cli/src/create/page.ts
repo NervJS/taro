@@ -23,23 +23,23 @@ export interface IPageConf {
   customTemplatePath?: string
 }
 interface IPageArgs extends IPageConf {
-  modifyCustomTemplateConfig : GetCustomTemplate
+  modifyCustomTemplateConfig : TGetCustomTemplate
 }
-interface TemplateInfo {
+interface ITemplateInfo {
   css: 'none' | 'sass' | 'stylus' | 'less'
   typescript?: boolean
   compiler?: 'webpack4' | 'webpack5' | 'vite'
   template?: string
 }
 
-type CustomTemplateInfo = Omit<TemplateInfo & {
+type TCustomTemplateInfo = Omit<ITemplateInfo & {
   isCustomTemplate?: boolean
   customTemplatePath?: string
 }, 'template'>
 
-export type SetCustomTemplateConfig = (customTemplateConfig: CustomTemplateInfo) => void
+export type TSetCustomTemplateConfig = (customTemplateConfig: TCustomTemplateInfo) => void
 
-type GetCustomTemplate = (cb: SetCustomTemplateConfig ) => Promise<void>
+type TGetCustomTemplate = (cb: TSetCustomTemplateConfig ) => Promise<void>
 
 const DEFAULT_TEMPLATE_INFO = {
   name: 'default',
@@ -50,7 +50,7 @@ const DEFAULT_TEMPLATE_INFO = {
 export default class Page extends Creator {
   public rootPath: string
   public conf: IPageConf
-  private modifyCustomTemplateConfig: GetCustomTemplate
+  private modifyCustomTemplateConfig: TGetCustomTemplate
 
   constructor (args: IPageArgs) {
     super()
@@ -92,7 +92,7 @@ export default class Page extends Creator {
     return templateInfo
   }
 
-  setCustomTemplateConfig (customTemplateConfig: CustomTemplateInfo) {
+  setCustomTemplateConfig (customTemplateConfig: TCustomTemplateInfo) {
     const pkgTemplateInfo = this.getPkgTemplateInfo()
     const { compiler, css, customTemplatePath, typescript } = customTemplateConfig
     const conf = {
@@ -105,7 +105,7 @@ export default class Page extends Creator {
     this.setTemplateConfig(conf)
   }
 
-  setTemplateConfig (templateInfo: TemplateInfo) {
+  setTemplateConfig (templateInfo: ITemplateInfo) {
     this.conf = Object.assign(this.conf, templateInfo)
   }
 

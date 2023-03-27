@@ -1,7 +1,7 @@
-import { IPluginContext } from '@tarojs/service'
-
-import {  SetCustomTemplateConfig } from '../../create/page'
 import * as hooks from '../constant'
+
+import type { IPluginContext } from '@tarojs/service'
+import type { TSetCustomTemplateConfig } from '../../create/page'
 
 declare const enum createTemplateTypeEnum {
   /**
@@ -54,7 +54,7 @@ export default (ctx: IPluginContext) => {
             projectDir: appPath,
             description,
             framework: ctx.initialConfig.framework,
-            async modifyCustomTemplateConfig (cb: SetCustomTemplateConfig) {
+            async modifyCustomTemplateConfig (cb: TSetCustomTemplateConfig) {
               await ctx.applyPlugins({ name: hooks.MODIFY_CREATE_TEMPLATE, opts: cb })
             }
           })
