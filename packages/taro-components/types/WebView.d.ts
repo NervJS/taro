@@ -5,28 +5,23 @@ interface WebViewProps extends StandardProps {
    * @supported weapp, alipay, swan, tt, qq, jd, h5, rn
    */
   src: string
-
   /** webview 的进度条颜色
    * @supported tt
    */
   progressbarColor?: string
-
   /** 若使用web-view组件引入第三方客服，必须填写type="im"
    * @supported tt
    * @default default
    */
   type?: string
-
   /** 网页向小程序 postMessage 时，会在特定时机（小程序后退、组件销毁、分享）触发并收到消息。e.detail = { data }
    * @supported weapp, alipay, swan, tt, qq, jd
    */
   onMessage?: CommonEventFunction<WebViewProps.onMessageEventDetail>
-
   /** 网页加载成功时候触发此事件。e.detail = { src }
    * @supported weapp, alipay, tt, qq, h5, rn
    */
   onLoad?: CommonEventFunction<WebViewProps.onLoadEventDetail>
-
   /** 网页加载失败的时候触发此事件。e.detail = { src }
    * @supported weapp, alipay, tt, qq, h5, rn
    */
@@ -46,7 +41,6 @@ declare namespace WebViewProps {
     src: string
   }
 }
-
 /** web-view 组件是一个可以用来承载网页的容器，会自动铺满整个小程序页面。个人类型与海外类型的小程序暂不支持使用。
  * @classification open
  * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony

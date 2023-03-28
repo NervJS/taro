@@ -21,7 +21,9 @@ export default {
   },
   treeshake: false,
   plugins: [
-    externals(),
+    externals({
+      devDeps: true
+    }),
     resolve({
       preferBuiltins: false,
       mainFields: ['main:h5', 'browser', 'module', 'jsnext:main', 'main']

@@ -16,6 +16,7 @@ const config = {
   treeshake: false,
   plugins: [
     externals({
+      devDeps: true,
       exclude: ['vue-fragment']
     }),
     resolve({
