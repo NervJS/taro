@@ -1,4 +1,7 @@
-import { IPluginContext } from '@tarojs/service'
+import * as hooks from '../constant'
+
+import type { IPluginContext } from '@tarojs/service'
+import type { TSetCustomTemplateConfig } from '../../create/page'
 
 declare const enum createTemplateTypeEnum {
   /**
@@ -13,6 +16,10 @@ declare const enum createTemplateTypeEnum {
    * taro插件，用于扩展编译过程
    */
   PLUGIN_BUILD = 'plugin-build',
+  /**
+   * taro插件，用于扩展 taro create 自定义模版
+  */
+  PLUGIN_TEMPLATE = 'plugin-template'
 }
 
 export default (ctx: IPluginContext) => {
@@ -21,7 +28,7 @@ export default (ctx: IPluginContext) => {
     optionsMap: {
       '--name [name]': '名称',
       '--description [description]': '介绍',
-      '--type [type]': '模版类型(page(默认)|plugin-command|plugin-build)'
+      '--type [type]': '模版类型(page(默认)|plugin-command|plugin-build|plugin-template)'
     },
     synopsisList: [
       'taro create page',
@@ -46,7 +53,10 @@ export default (ctx: IPluginContext) => {
             pageName: name,
             projectDir: appPath,
             description,
-            framework: ctx.initialConfig.framework
+            framework: ctx.initialConfig.framework,
+            async modifyCustomTemplateConfig (cb: TSetCustomTemplateConfig) {
+              await ctx.applyPlugins({ name: hooks.MODIFY_CREATE_TEMPLATE, opts: cb })
+            }
           })
 
           page.create()
@@ -54,6 +64,7 @@ export default (ctx: IPluginContext) => {
         }
         case createTemplateTypeEnum.PLUGIN_COMMAND:
         case createTemplateTypeEnum.PLUGIN_BUILD:
+        case createTemplateTypeEnum.PLUGIN_TEMPLATE:
         {
           if (typeof name !== 'string') {
             return console.log(chalk.red('请输入需要创建的插件名称'))

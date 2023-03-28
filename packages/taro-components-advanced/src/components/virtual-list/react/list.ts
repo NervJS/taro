@@ -63,7 +63,6 @@ export default class List extends React.PureComponent<IProps, IState> {
     }
   }
 
-  // FIXME Warning: Cannot update during an existing state transition (such as within `render`).
   refresh = () => {
     if (process.env.FRAMEWORK === 'preact') {
       this.forceUpdate()
@@ -85,7 +84,6 @@ export default class List extends React.PureComponent<IProps, IState> {
     visibleStopIndex
   }))
 
-  // FIXME 优化事件信息
   _callOnScroll = memoizeOne((scrollDirection, scrollOffset, scrollUpdateWasRequested, detail) => this.props.onScroll({
     scrollDirection,
     scrollOffset,
