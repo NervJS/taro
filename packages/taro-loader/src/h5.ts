@@ -33,7 +33,7 @@ export default function (this: webpack.LoaderContext<any>) {
     execBeforeCreateWebApp
   } = options.loaderMeta
   const config: AppConfig & IH5Config = options.config
-  const pages: Map<string, string> = options.pages
+  const pages: Map<string, string> = new Map(options.pages)
   const routerMode = config?.router?.mode || 'hash'
   const isMultiRouterMode = routerMode === 'multi'
   const pxTransformConfig = options.pxTransformConfig
