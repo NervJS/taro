@@ -110,6 +110,12 @@ export default class TaroH5Plugin {
             VirtualModule.writeModule(bootPath, '/** bootstrap application code */')
           }
 
+          // 把 Map 转换为数组后传递，避免 thread-loader 传递 Map 时变为空对象的问题，fix #13430
+          const pagesConfigList: [string, string][] = []
+          for (const item of this.inst.pagesConfigList.entries()) {
+            pagesConfigList.push(item)
+          }
+
           module.loaders.push({
             loader: '@tarojs/taro-loader/lib/h5',
             options: {
@@ -123,7 +129,7 @@ export default class TaroH5Plugin {
               framework,
               runtimePath: this.options.runtimePath,
               loaderMeta,
-              pages: this.inst.pagesConfigList,
+              pages: pagesConfigList,
               pxTransformConfig,
               sourceDir
             },
