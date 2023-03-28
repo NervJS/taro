@@ -39,9 +39,9 @@ const App = createApp({
 })
 <%}-%>
 <% if (framework === 'solid') { -%>
-  export default function App(props) {
-    return props.children;
-  }
+export default function App(props) {
+  return props.children;
+}
 <%}-%>
 
 export default App
