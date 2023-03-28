@@ -15,7 +15,7 @@ import type { IProjectBaseConfig } from '@tarojs/taro/types/compile'
 import type { Configuration, EntryObject, RuleSetRule } from 'webpack'
 import type Chain from 'webpack-chain'
 
-export type IPrebundle = Exclude<IProjectBaseConfig['compiler'], string | undefined>['prebundle']
+export type IPrebundle = Exclude<Exclude<IProjectBaseConfig['compiler'], string | undefined>['prebundle'], undefined>
 
 export interface IPrebundleConfig {
   appPath: string

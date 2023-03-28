@@ -1,6 +1,6 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { NavigationContainer } from '@react-navigation/native'
-import {createNativeStackNavigator, NativeStackNavigationOptions} from '@react-navigation/native-stack'
+import { createNativeStackNavigator, NativeStackNavigationOptions } from '@react-navigation/native-stack'
 import { BackBehavior } from '@react-navigation/routers/src/TabRouter'
 import { CardStyleInterpolators, createStackNavigator, StackNavigationOptions } from '@react-navigation/stack'
 import { StackHeaderMode, StackHeaderOptions } from '@react-navigation/stack/src/types'
@@ -333,7 +333,7 @@ function createTabNavigate (config: RouterConfig) {
   const linking = getLinkingConfig(config)
   const stackProps = config.rnConfig?.stackProps
   const screenOptions = getStackOptions(config)
- 
+
   return <NavigationContainer
     ref={navigationRef}
     linking={linking}

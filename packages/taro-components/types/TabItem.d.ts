@@ -6,26 +6,22 @@ interface TabItemProps extends StandardProps {
    * @default 无
    */
   label?: string
-
   /** tab-item 对应的 name 值
    * @supported swan
    * @default 无
    */
   name?: string
-
   /** 徽标类型 badge-type 分为圆点“dot”和文本“text”，不设置 badge-type 则不显示徽标
    * @supported swan
    * @default 无
    */
   badgeType?: string
-
   /** badge-type 为 text 的时候，徽标内的数字，为空时badge-type="text"不生效
    * @supported swan
    * @default 无
    */
   badgeText?: string
 }
-
 /** 标签栏子项
  * @classification navig
  * @supported swan

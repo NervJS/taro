@@ -1,4 +1,3 @@
-import { IPluginContext } from '@tarojs/service'
 import { exec } from 'child_process'
 import * as inquirer from 'inquirer'
 import * as getLatestVersion from 'latest-version'
@@ -8,6 +7,8 @@ import * as semver from 'semver'
 
 import packagesManagement from '../../config/packagesManagement'
 import { getPkgItemByKey } from '../../util'
+
+import type { IPluginContext } from '@tarojs/service'
 
 export default (ctx: IPluginContext) => {
   ctx.registerCommand({

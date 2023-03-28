@@ -11,7 +11,7 @@ import type { AppInstance, VueAppInstance, VueInstance } from '@tarojs/runtime'
 import type { AppConfig } from '@tarojs/taro'
 /* eslint-disable import/no-duplicates */
 import type VueCtor from 'vue'
-import type { ComponentOptions, VNode, VueConstructor } from 'vue'
+import type { ComponentOptions, CreateElement, VNode, VueConstructor } from 'vue'
 
 export type V = typeof VueCtor
 
@@ -38,14 +38,14 @@ function setReconciler () {
         props: {
           tid: String
         },
-        mixins: [el as ComponentOptions<Vue>, {
+        mixins: [el as ComponentOptions<VueCtor>, {
           created () {
             injectPageInstance(this, path)
           }
         }]
       })
 
-      const options: ComponentOptions<Vue> = {
+      const options: ComponentOptions<VueCtor> = {
         name: 'PullToRefresh',
         render (h) {
           return h(
@@ -109,7 +109,7 @@ export function createVueApp (App: ComponentOptions<VueCtor>, vue: V, config: Ap
   Vue = vue
   Vue.config.getTagNamespace = noop
   const elements: VNode[] = []
-  const pages: Array<(h: Vue.CreateElement) => VNode> = []
+  const pages: Array<(h: CreateElement) => VNode> = []
   let appInstance: VueAppInstance
 
   setReconciler()
@@ -208,7 +208,7 @@ export function createVueApp (App: ComponentOptions<VueCtor>, vue: V, config: Ap
         }
       }
     }),
-    
+
     onUnhandledRejection: setDefaultDescriptor({
       value (error) {
         if (appInstance != null && isFunction(appInstance.$options.onUnhandledRejection)) {
