@@ -15,7 +15,7 @@
     "sourceMap": true,
     "baseUrl": ".",
     "rootDir": ".",
-    "jsx": "<%= ['vue', 'vue3'].includes(framework) ? 'preserve' : 'react-jsx' %>",<% if (framework === 'preact') {%>
+    "jsx": "<%= ['vue', 'vue3', 'solid'].includes(framework) ? 'preserve' : 'react-jsx' %>",<% if (framework === 'preact') {%>
     "skipLibCheck": true,<%}%>
     "allowJs": true,
     "resolveJsonModule": true,

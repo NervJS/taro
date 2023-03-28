@@ -116,6 +116,9 @@ export default class CLI {
             case 'vue3':
               kernel.optsPlugins.push('@tarojs/plugin-framework-vue3')
               break
+            case 'solid':
+              kernel.optsPlugins.push('@tarojs/plugin-framework-solid')
+              break
             default:
               kernel.optsPlugins.push('@tarojs/plugin-framework-react')
               break

@@ -16,7 +16,7 @@ export interface IPageConf {
   css: 'none' | 'sass' | 'stylus' | 'less'
   typescript?: boolean
   date?: string
-  framework: 'react' | 'preact' | 'nerv' | 'vue' | 'vue3'
+  framework: 'react' | 'preact' | 'nerv' | 'vue' | 'vue3' | 'solid'
   compiler?: 'webpack4' | 'webpack5' | 'vite'
 }
 

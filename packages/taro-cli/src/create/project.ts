@@ -37,7 +37,7 @@ export interface IProjectConf {
   sourceRoot?: string
   env?: string
   autoInstall?: boolean
-  framework: 'react' | 'preact' | 'nerv' | 'vue' | 'vue3'
+  framework: 'react' | 'preact' | 'nerv' | 'vue' | 'vue3' | 'solid'
   compiler?: 'webpack4' | 'webpack5' | 'vite'
 }
 
@@ -243,6 +243,10 @@ export default class Project extends Creator {
       {
         name: 'Vue3',
         value: 'vue3'
+      },
+      {
+        name: 'Solid',
+        value: 'solid'
       }
     ]
 
