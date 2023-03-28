@@ -116,9 +116,9 @@ export default class BuildNativePlugin extends MiniPlugin {
   }
 
   // 不生成 app.json
-  generateConfigFile (compilation: Compilation, filePath: string, config: Config & { component?: boolean }) {
+  generateConfigFile (compilation: Compilation, compiler: Compiler, filePath: string, config: Config & { component?: boolean }) {
     if (filePath === this.appEntry) return
-    super.generateConfigFile(compilation, filePath, config)
+    super.generateConfigFile(compilation, compiler, filePath, config)
   }
 
   // 加载 taro-runtime 前必须先加载端平台插件的 runtime
