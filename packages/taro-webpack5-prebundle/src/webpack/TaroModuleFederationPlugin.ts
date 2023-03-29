@@ -19,12 +19,14 @@ const PLUGIN_NAME = 'TaroModuleFederationPlugin'
 interface IParams {
   deps: CollectedDeps
   env: string
+  isBuildPlugin?: boolean
   remoteAssets?: Record<'name', string>[]
   runtimeRequirements: Set<string>
 }
 
 export default class TaroModuleFederationPlugin extends ModuleFederationPlugin {
   private deps: IParams['deps']
+  private isBuildPlugin: IParams['isBuildPlugin']
   private remoteAssets: IParams['remoteAssets']
   private runtimeRequirements: IParams['runtimeRequirements']
 
@@ -35,6 +37,7 @@ export default class TaroModuleFederationPlugin extends ModuleFederationPlugin {
     super(options)
 
     this.deps = params.deps
+    this.isBuildPlugin = params.isBuildPlugin || false
     this.remoteAssets = params.remoteAssets || []
     this.runtimeRequirements = params.runtimeRequirements
     this._Library = { type: 'var', name: options.name }
@@ -81,6 +84,7 @@ export default class TaroModuleFederationPlugin extends ModuleFederationPlugin {
             deps: this.deps,
             env: this.params.env,
             remoteAssets: this.remoteAssets,
+            isBuildPlugin: this.isBuildPlugin,
             runtimeRequirements: this.runtimeRequirements
           }
         ).apply(compiler)
