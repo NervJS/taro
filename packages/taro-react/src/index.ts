@@ -3,10 +3,25 @@ import { TaroElement } from '@tarojs/runtime'
 import { ensure, isFunction } from '@tarojs/shared'
 import { ReactNode } from 'react'
 
+import { finishEventHandler } from './event'
 import { TaroReconciler } from './reconciler'
 import { ContainerMap, createRoot, render } from './render'
 
-const unstable_batchedUpdates = TaroReconciler.batchedUpdates
+let isInsideEventHandler = false
+const unstable_batchedUpdates = (fn, a) => {
+  if (isInsideEventHandler) {
+    return fn(a)
+  }
+
+  isInsideEventHandler = true
+  
+  try {
+    return TaroReconciler.batchedUpdates(fn, a)
+  } finally {
+    isInsideEventHandler = false
+    finishEventHandler()
+  }
+}
 
 function unmountComponentAtNode (dom: TaroElement) {
   ensure(dom && [1, 8, 9, 11].includes(dom.nodeType), 'unmountComponentAtNode(...): Target container is not a DOM element.')

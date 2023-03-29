@@ -1,7 +1,9 @@
-import { TaroElement } from '@tarojs/runtime'
+import { hooks, TaroElement, TaroEvent } from '@tarojs/runtime'
 import { ReactNode } from 'react'
 import { OpaqueRoot } from 'react-reconciler'
 
+import { markContainerAsRoot } from './componentTree'
+import { enqueueStateRestore, getTargetInstForInputOrChangeEvent } from './event'
 import { TaroReconciler } from './reconciler'
 
 export const ContainerMap: WeakMap<TaroElement, Root> = new WeakMap()
@@ -20,7 +22,7 @@ export type Callback = () => void | null | undefined
 
 class Root {
   private renderer: Renderer
-  private internalRoot: OpaqueRoot
+  public internalRoot: OpaqueRoot
 
   public constructor (renderer: Renderer, domContainer: TaroElement, options?: CreateRootOptions) {
     this.renderer = renderer
@@ -106,5 +108,18 @@ export function createRoot (domContainer: TaroElement, options: CreateRootOption
   // options should be an object
   const root = new Root(TaroReconciler, domContainer, options)
   ContainerMap.set(domContainer, root)
+
+  markContainerAsRoot(root?.internalRoot?.current, domContainer)
+
+  if (process.env.TARO_ENV !== 'h5') {
+    hooks.tap('modifyTaroEvent', (e: TaroEvent, node: TaroElement) => {
+      const inst = getTargetInstForInputOrChangeEvent(e, node)
+  
+      if (!inst) return
+
+      enqueueStateRestore(node)
+    })
+  }
+
   return root
 }

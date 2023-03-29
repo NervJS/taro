@@ -1,9 +1,11 @@
 /* eslint-disable @typescript-eslint/indent */
 import { document, TaroElement, TaroText } from '@tarojs/runtime'
 import { isBoolean, isUndefined, noop } from '@tarojs/shared'
-import Reconciler, { HostConfig } from 'react-reconciler'
+import Reconciler, { Fiber, HostConfig } from 'react-reconciler'
 import { DefaultEventPriority } from 'react-reconciler/constants'
 
+import { precacheFiberNode, updateFiberProps } from './componentTree'
+import { track } from './inputValueTracking'
 import { getUpdatePayload, Props, updateProps, updatePropsByPayload } from './props'
 
 const hostConfig: HostConfig<
@@ -41,14 +43,29 @@ const hostConfig: HostConfig<
     return null
   },
   resetAfterCommit: noop,
-  createInstance (type) {
-    return document.createElement(type)
+  createInstance (type,
+    props: Props,
+    _rootContainerInstance: any,
+    _hostContext: any,
+    internalInstanceHandle: Fiber
+  ) {
+    const element = document.createElement(type)
+
+    precacheFiberNode(internalInstanceHandle, element)
+    updateFiberProps(element, props)
+  
+    return element
   },
   appendInitialChild (parent, child) {
     parent.appendChild(child)
   },
-  finalizeInitialChildren (dom, _, props: any) {
+  finalizeInitialChildren (dom, type: string, props: any) {
     updateProps(dom, {}, props)  // 提前执行更新属性操作，Taro 在 Page 初始化后会立即从 dom 读取必要信息
+
+    if (type === 'input' || type === 'textarea') {
+      track(dom)
+    }
+  
     return false
   },
   prepareUpdate (instance, _, oldProps, newProps) {
@@ -57,8 +74,17 @@ const hostConfig: HostConfig<
   shouldSetTextContent () {
     return false
   },
-  createTextInstance (text) {
-    return document.createTextNode(text)
+  createTextInstance (
+    text: string,
+    _rootContainerInstance: any,
+    _hostContext: any,
+    internalInstanceHandle: Fiber
+    ) {
+      const textNode = document.createTextNode(text)
+
+      precacheFiberNode(internalInstanceHandle, textNode)
+
+      return textNode
   },
   scheduleTimeout: setTimeout,
   cancelTimeout: clearTimeout,
@@ -109,8 +135,9 @@ const hostConfig: HostConfig<
     textInst.nodeValue = newText
   },
   commitMount: noop,
-  commitUpdate (dom, updatePayload, _, oldProps) {
+  commitUpdate (dom, updatePayload, _, oldProps, newProps) {
     updatePropsByPayload(dom, oldProps, updatePayload)
+    updateFiberProps(dom, newProps)
   },
   insertBefore (parent, child, refChild) {
     parent.insertBefore(child, refChild)
