@@ -657,7 +657,7 @@ require("./taro");
               <block s-if="item.nn === '8'">{{item.v}}</block>
               <text s-else id="{{item.uid||item.sid}}" data-sid="{{item.sid}}" selectable="{{xs.b(item.p1,!1)}}" space="{{item.p2}}" decode="{{xs.b(item.p0,!1)}}" style="{{item.st}}" class="{{item.cl}}" bindtap="eh">
                 <block s-for="item.cn trackBy item.sid">
-                  <block>{{i.cn[index].v}}</block>
+                  <block>{{item.v}}</block>
                 </block>
               </text>
             </block>
@@ -680,7 +680,7 @@ require("./taro");
               <block s-if="item.nn === '8'">{{item.v}}</block>
               <text s-else id="{{item.uid||item.sid}}" data-sid="{{item.sid}}" selectable="{{xs.b(item.p1,!1)}}" space="{{item.p2}}" decode="{{xs.b(item.p0,!1)}}" style="{{item.st}}" class="{{item.cl}}" bindtap="eh">
                 <block s-for="item.cn trackBy item.sid">
-                  <block>{{i.cn[index].v}}</block>
+                  <block>{{item.v}}</block>
                 </block>
               </text>
             </block>
