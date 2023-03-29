@@ -292,8 +292,8 @@ export class Swiper implements ComponentInterface {
         slideTo () {
           that.current = this.realIndex
         },
-         // slideChange 事件在 swiper.slideTo 改写 current 时不触发，因此用 slideChangeTransitionStart 事件代替
-         slideChangeTransitionStart (_swiper: ISwiper) {
+        // slideChange 事件在 swiper.slideTo 改写 current 时不触发，因此用 slideChangeTransitionStart 事件代替
+        slideChangeTransitionStart (_swiper: ISwiper) {
           that.onChange.emit({
             current: this.realIndex,
             source: ''

@@ -75,7 +75,7 @@ export class Picker implements ComponentInterface {
   componentDidLoad () {
     Object.defineProperty(this.el, 'value', {
       get: () => this.pickerValue,
-      set: val => (this.value = val),
+      set: value => this.value !== value && (this.value = value),
       configurable: true
     })
 

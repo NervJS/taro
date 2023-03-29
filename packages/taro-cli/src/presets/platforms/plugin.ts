@@ -1,4 +1,4 @@
-import { IPluginContext } from '@tarojs/service'
+import type { IPluginContext } from '@tarojs/service'
 
 export default (ctx: IPluginContext) => {
   ctx.registerPlatform({

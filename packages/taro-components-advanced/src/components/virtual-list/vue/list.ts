@@ -257,11 +257,11 @@ export default {
 
     _onScrollHorizontal (event) {
       const {
-        clientWidth,
+        clientWidth = this.itemList.wrapperSize,
+        scrollHeight,
+        scrollWidth = this.itemList.getOffsetSize(),
         scrollTop,
         scrollLeft,
-        scrollHeight,
-        scrollWidth
       } = event.currentTarget
       this.preset.field = {
         scrollHeight: scrollHeight,
@@ -312,11 +312,11 @@ export default {
 
     _onScrollVertical (event) {
       const {
-        clientHeight,
-        scrollHeight,
+        clientHeight = this.itemList.wrapperSize,
+        scrollHeight = this.itemList.getOffsetSize(),
         scrollWidth,
         scrollTop,
-        scrollLeft
+        scrollLeft,
       } = event.currentTarget
       if (this.$props.onScrollNative) {
         this.$props.onScrollNative(event)

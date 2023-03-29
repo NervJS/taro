@@ -4,10 +4,11 @@ import {
   resolveScriptPath,
   SOURCE_DIR
 } from '@tarojs/helper'
-import { IPluginContext } from '@tarojs/service'
 import * as path from 'path'
 
 import * as hooks from '../constant'
+
+import type { IPluginContext } from '@tarojs/service'
 
 export default (ctx: IPluginContext) => {
   ctx.registerCommand({

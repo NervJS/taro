@@ -78,7 +78,6 @@ const weixinAdapter: IAdapter = {
 export class BaseTemplate {
   protected exportExpr = 'module.exports ='
   protected isSupportRecursive: boolean
-  protected supportXS = false
   protected miniComponents: Components
   protected thirdPartyPatcher: Record<string, Record<string, string>> = {}
   protected modifyCompProps?: (compName: string, target: Record<string, string>) => Record<string, string>
@@ -86,7 +85,7 @@ export class BaseTemplate {
   protected modifyLoopContainer?: (children: string, nodeName: string) => string
   protected modifyTemplateResult?: (res: string, nodeName: string, level: number, children: string) => string
   protected modifyThirdPartyLoopBody?: (child: string, nodeName: string) => string
-
+  public supportXS = false
   public Adapter = weixinAdapter
   /** 组件列表 */
   public internalComponents = internalComponents
