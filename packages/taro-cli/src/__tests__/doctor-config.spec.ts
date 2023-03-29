@@ -87,7 +87,7 @@ describe('config validator of doctor', () => {
     }))
     expect(res.lines.length).toEqual(0)
 
-    let res = await validator(getConfig({
+    res = await validator(getConfig({
       framework: 'solid'
     }))
     expect(res.lines.length).toEqual(0)
