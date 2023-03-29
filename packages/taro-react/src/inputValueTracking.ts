@@ -1,4 +1,6 @@
-function isCheckable (elem: HTMLInputElement) {
+import { FormElement } from '@tarojs/runtime'
+
+function isCheckable (elem: FormElement) {
   const type = elem.type
   const nodeName = elem.nodeName
 
@@ -71,7 +73,6 @@ export function track (node) {
     return
   }
 
-  // TODO: Once it's just Fiber we can move this to node._wrapperState
   node._valueTracker = trackValueOnNode(node)
 }
 

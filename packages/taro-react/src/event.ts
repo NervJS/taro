@@ -2,7 +2,7 @@ import { TaroElement, TaroEvent } from '@tarojs/runtime'
 import { Fiber } from 'react-reconciler'
 
 import { getFiberCurrentPropsFromNode, getInstanceFromNode, getNodeFromInstance } from './componentTree'
-import { ReactDOMInputRestoreControlledState, ReactDOMSelectRestoreControlledState, ReactDOMTextareaRestoreControlledState, toString } from './domInput'
+import { isTextInputElement, ReactDOMInputRestoreControlledState, ReactDOMTextareaRestoreControlledState, toString } from './domInput'
 import { updateValueIfChanged } from './inputValueTracking'
 import { Props } from './props'
 import { TaroReconciler } from './reconciler' 
@@ -14,16 +14,15 @@ export function getTargetInstForInputOrChangeEvent (e: TaroEvent, node: TaroElem
   const targetInst = getInstanceFromNode(node)
   const domEventName = e.type
 
-  if (!targetInst) return
+  if (!targetInst || !isTextInputElement(node)) return
 
   if (domEventName === 'input' || domEventName === 'change') {
     const nextValue = toString(e.mpEvent?.detail?.value)
 
-    // setNodeValue(node as FormElement, prevValue)
-
     return getInstIfValueChanged(targetInst, nextValue)
   }
 }
+
 
 function getInstIfValueChanged (targetInst: Fiber, nextValue: string) {
   const targetNode = getNodeFromInstance(targetInst)
@@ -91,22 +90,17 @@ function restoreImpl (
     case 'textarea':
       ReactDOMTextareaRestoreControlledState(domElement, props)
       break
-    case 'select':
-      ReactDOMSelectRestoreControlledState(domElement, props)
-      break
   }
 }
 
 
 function restoreStateOfTarget (target: TaroElement) {
   const internalInstance = getInstanceFromNode(target)
-  if (!internalInstance) {
-    // Unmounted
-    return
-  }
+
+  if (!internalInstance) return
 
   const stateNode = internalInstance.stateNode
-  // Guard against Fiber being unmounted.
+
   if (stateNode) {
     const props = getFiberCurrentPropsFromNode(stateNode)
     restoreImpl(internalInstance.stateNode, internalInstance.type, props)

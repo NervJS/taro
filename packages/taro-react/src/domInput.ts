@@ -1,9 +1,17 @@
 import { FormElement, TaroElement } from '@tarojs/runtime'
 
+import { supportedInputTypes } from './constant'
 import { Props } from './props'
 
 function updateInputWrapper (element: TaroElement, props: Props) {
-  updateChecked(element, props)
+  const node = element
+  const checked = props.checked
+
+  if (checked != null) {
+    console.warn('updateCheck 未实现', node)
+    return
+  }
+
   updateWrapper(element, props)
   updateNamedCousins(element, props)
 }
@@ -13,16 +21,6 @@ function updateNamedCousins (rootNode, props) {
 
   if (props.type === 'radio' && name != null) {
     console.warn('radio updateNamedCousins 未实现', rootNode, props)
-  }
-}
-
-
-export function updateChecked (element: TaroElement, props: Props) {
-  const node = element
-  const checked = props.checked
-
-  if (checked != null) {
-    console.warn('updateCheck 未实现', node)
   }
 }
 
@@ -73,6 +71,22 @@ export function setNodeValue (node: FormElement, value, type = 'string') {
   }
 }
 
-export const ReactDOMSelectRestoreControlledState = updateWrapper
+
+export function isTextInputElement (elem: TaroElement): boolean {
+  const nodeName = elem && elem.nodeName && elem.nodeName.toLowerCase()
+
+  if (nodeName === 'input') {
+    const type = (elem as FormElement).type
+
+    return !type || !!supportedInputTypes[type]
+  }
+
+  if (nodeName === 'textarea') {
+    return true
+  }
+
+  return false
+}
+
 export const ReactDOMTextareaRestoreControlledState = updateWrapper
 export const ReactDOMInputRestoreControlledState = updateInputWrapper

@@ -1,19 +1,10 @@
 import { TaroElement } from '@tarojs/runtime'
 import { Fiber } from 'react-reconciler'
 
+import { internalContainerInstanceKey, internalInstanceKey, internalPropsKey } from './constant'
 import { Props } from './props'
 import { HostComponent, HostRoot, HostText, SuspenseComponent } from './workTags'
 
-const randomKey = Math.random()
-  .toString(36)
-  .slice(2)
-
-const internalPropsKey = '__reactProps$' + randomKey
-const internalInstanceKey = '__reactFiber$' + randomKey
-const internalContainerInstanceKey = '__reactContainer$' + randomKey
-// const internalEventHandlersKey = '__reactEvents$' + randomKey
-// const internalEventHandlerListenersKey = '__reactListeners$' + randomKey
-// const internalEventHandlesSetKey = '__reactHandles$' + randomKey
 
 export function precacheFiberNode (hostInst: Fiber, node: TaroElement): void {
   node[internalInstanceKey] = hostInst
