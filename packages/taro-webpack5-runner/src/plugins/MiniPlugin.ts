@@ -478,7 +478,7 @@ export default class TaroMiniPlugin {
       })
     }
 
-    if (publicComponents && isUsingCustomWrapper) {
+    if (isUsingCustomWrapper) {
       pluginJSON.publicComponents = Object.assign({}, publicComponents, {
         [customWrapperName]: customWrapperName
       })
@@ -644,8 +644,19 @@ export default class TaroMiniPlugin {
     const filePath = file.path
     const fileConfigPath = file.isNative ? this.replaceExt(filePath, '.json') : this.getConfigFilePath(filePath)
     const fileConfig = readConfig(fileConfigPath)
+    const { componentGenerics } = fileConfig
     const usingComponents = fileConfig.usingComponents
 
+    if (this.options.isBuildPlugin && componentGenerics) {
+      Object.keys(componentGenerics).forEach(component => {
+        if (componentGenerics[component]) {
+          if (!componentConfig.thirdPartyComponents.has(component)) {
+            componentConfig.thirdPartyComponents.set(component, new Set())
+          }
+        }
+      })
+    }
+  
     // 递归收集依赖的第三方组件
     if (usingComponents) {
       const componentNames = Object.keys(usingComponents)

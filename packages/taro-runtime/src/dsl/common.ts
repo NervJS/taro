@@ -12,7 +12,6 @@ import { perf } from '../perf'
 import { customWrapperCache, incrementId } from '../utils'
 
 import type { PageConfig } from '@tarojs/taro'
-import type { CustomWrapperElement } from '../dom/custom-wrapper'
 import type { TaroRootElement } from '../dom/root'
 import type { Func, MpInstance } from '../interface'
 import type { Instance, PageInstance, PageProps } from './instance'
@@ -327,7 +326,7 @@ export function createRecursiveComponentConfig (componentName?: string) {
         const componentId = this.data.i?.sid || this.props.i?.sid
         if (isString(componentId)) {
           customWrapperCache.set(componentId, this)
-          const el = env.document.getElementById<CustomWrapperElement>(componentId)
+          const el = env.document.getElementById(componentId)
           if (el) {
             el.ctx = this
           }
@@ -337,7 +336,7 @@ export function createRecursiveComponentConfig (componentName?: string) {
         const componentId = this.data.i?.sid || this.props.i?.sid
         if (isString(componentId)) {
           customWrapperCache.delete(componentId)
-          const el = env.document.getElementById<CustomWrapperElement>(componentId)
+          const el = env.document.getElementById(componentId)
           if (el) {
             el.ctx = null
           }

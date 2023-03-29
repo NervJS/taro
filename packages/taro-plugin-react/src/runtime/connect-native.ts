@@ -1,5 +1,5 @@
 import {
-  addLeadingSlash, CONTEXT_ACTIONS, Current, env, eventCenter,
+  addLeadingSlash, CONTEXT_ACTIONS, Current, document, eventCenter,
   eventHandler, Func, getOnHideEventKey, getOnReadyEventKey, getOnShowEventKey, getPageInstance, getPath, incrementId, injectPageInstance, Instance, MpInstance, ON_HIDE, ON_READY, ON_SHOW,
   removePageInstance, requestAnimationFrame, safeExecute, TaroRootElement, window
 } from '@tarojs/runtime'
@@ -127,7 +127,7 @@ function initNativeComponentEntry (R: typeof React, ReactDOM, cb?) {
 
   setReconciler(ReactDOM)
 
-  const app = env.document.getElementById('app')
+  const app = document.getElementById('app')
 
   ReactDOM.render(
     h(Entry, {}),
@@ -189,7 +189,7 @@ export function createNativePageConfig (Component, pageName: string, data: Recor
       window.trigger(CONTEXT_ACTIONS.INIT, $taroPath)
 
       const mountCallback = () => {
-        pageElement = env.document.getElementById($taroPath)
+        pageElement = document.getElementById($taroPath)
         ensure(pageElement !== null, '没有找到页面实例。')
         safeExecute($taroPath, ONLOAD, this.$taroParams)
         loadResolver()
@@ -294,7 +294,7 @@ export function createNativePageConfig (Component, pageName: string, data: Recor
         const target = args[0]?.target
         if (target?.id) {
           const id = target.id
-          const element = env.document.getElementById(id)
+          const element = document.getElementById(id)
           if (element) {
             target.dataset = element.dataset
           }
@@ -346,7 +346,7 @@ export function createNativeComponentConfig (Component, react: typeof React, rea
         const instance = getPageInstance(compId)
 
         if (instance && instance.node) {
-          const el = env.document.getElementById(instance.node.uid)
+          const el = document.getElementById(instance.node.uid)
 
           if (el) {
             el.ctx = this
@@ -396,7 +396,7 @@ export function createNativeComponentConfig (Component, react: typeof React, rea
       const target = options?.target
       if (target) {
         const id = target.id
-        const element = env.document.getElementById(id)
+        const element = document.getElementById(id)
         if (element) {
           target!.dataset = element.dataset
         }
