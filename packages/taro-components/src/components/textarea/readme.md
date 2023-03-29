@@ -31,7 +31,7 @@
 
 | Property      | Attribute     | Description | Type      | Default     |
 | ------------- | ------------- | ----------- | --------- | ----------- |
-| `autoFocus`   | `auto-focus`  |             | `boolean` | `false`     |
+| `autoFocus`   | `focus`       |             | `boolean` | `false`     |
 | `autoHeight`  | `auto-height` |             | `boolean` | `false`     |
 | `disabled`    | `disabled`    |             | `boolean` | `false`     |
 | `maxlength`   | `maxlength`   |             | `number`  | `140`       |

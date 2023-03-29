@@ -27,6 +27,7 @@ export interface IPrebundleConfig {
   env: string
   isWatch?: boolean
   sourceRoot: string
+  isBuildPlugin?: boolean
 }
 
 type TMode = 'production' | 'development' | 'none'
@@ -225,6 +226,7 @@ export default class BasePrebundle<T extends IPrebundleConfig = IPrebundleConfig
       {
         deps: this.deps,
         env: this.env,
+        isBuildPlugin: this.config.isBuildPlugin,
         remoteAssets: this.metadata.remoteAssets,
         runtimeRequirements: this.metadata.runtimeRequirements || new Set()
       }])
@@ -233,7 +235,7 @@ export default class BasePrebundle<T extends IPrebundleConfig = IPrebundleConfig
   getRemoteWebpackCompiler (standard: Configuration, custom: Configuration = {}) {
     /** NOTE: 删除 Host 应用影响打包 Remote 应用的配置 */
     const inherit = { ...this.webpackConfig }
-    const skipPlugins = ['MiniSplitChunksPlugin', 'TaroMiniPlugin', 'TaroH5Plugin', 'ProvidePlugin', 'CopyPlugin']
+    const skipPlugins = ['MiniSplitChunksPlugin', 'TaroMiniPlugin', 'TaroH5Plugin', 'ProvidePlugin', 'CopyPlugin', 'HtmlWebpackPlugin']
     delete inherit.devServer
     delete inherit.optimization?.splitChunks
     inherit.plugins = inherit.plugins?.filter(p => !skipPlugins.includes(p?.constructor?.name))

@@ -21,7 +21,7 @@ export class H5WebpackPlugin {
   getPlugins () {
     const plugins: Record<string, { plugin: any, args: PluginArgs }> = {
       definePlugin: this.getDefinePlugin(),
-      mainPlugin: this.getH5Plugin()
+      mainPlugin: this.getMainPlugin()
     }
     const pages = this.pages || []
     if (pages.length > 0) {
@@ -109,7 +109,7 @@ export class H5WebpackPlugin {
     return WebpackPlugin.getPlugin(HtmlWebpackPlugin, [recursiveMerge(args, htmlPluginOption)])
   }
 
-  getH5Plugin () {
+  getMainPlugin () {
     const {
       appPath,
       sourceDir,
@@ -132,7 +132,10 @@ export class H5WebpackPlugin {
       routerConfig: router,
       runtimePath: config.runtimePath,
       pxTransformConfig,
-      prebundle: prebundleOptions.enable
+      prebundle: prebundleOptions.enable,
+      /** hooks & methods */
+      onCompilerMake: config.onCompilerMake,
+      onParseCreateElement: config.onParseCreateElement,
     }
 
     return WebpackPlugin.getPlugin(H5Plugin, [options])
