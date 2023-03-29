@@ -24,14 +24,19 @@ export interface IPrebundleParam {
   devServer?: webpackDevServer.Configuration
   publicPath?: string
   runtimePath?: string | string[]
+  isBuildPlugin?: boolean
 }
 
 export default class TaroPrebundle {
   public env: string
 
+  public isBuildPlugin: boolean
+
   constructor (protected params: IPrebundleParam) {
-    const { env = process.env.TARO_ENV || 'h5' } = params
+    const { env = process.env.TARO_ENV || 'h5', isBuildPlugin = false } = params
+
     this.env = env
+    this.isBuildPlugin = isBuildPlugin
   }
 
   get config (): IH5PrebundleConfig | IMiniPrebundleConfig {
@@ -47,7 +52,8 @@ export default class TaroPrebundle {
       isWatch = false,
       publicPath = chain.output.get('publicPath') || '/',
       runtimePath,
-      sourceRoot = 'src'
+      sourceRoot = 'src',
+      isBuildPlugin
     } = this.params
     let chunkFilename = chain.output.get('chunkFilename') ?? `${chunkDirectory}/[name].js`
     chunkFilename = chunkFilename.replace(/\[([a-z]*hash)[^[\]\s]*\]/ig, '_$1_')
@@ -65,7 +71,8 @@ export default class TaroPrebundle {
       isWatch,
       publicPath,
       runtimePath,
-      sourceRoot
+      sourceRoot,
+      isBuildPlugin
     }
   }
 

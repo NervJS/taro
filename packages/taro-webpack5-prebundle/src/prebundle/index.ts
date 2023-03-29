@@ -27,6 +27,7 @@ export interface IPrebundleConfig {
   env: string
   isWatch?: boolean
   sourceRoot: string
+  isBuildPlugin?: boolean
 }
 
 type TMode = 'production' | 'development' | 'none'
@@ -225,6 +226,7 @@ export default class BasePrebundle<T extends IPrebundleConfig = IPrebundleConfig
       {
         deps: this.deps,
         env: this.env,
+        isBuildPlugin: this.config.isBuildPlugin,
         remoteAssets: this.metadata.remoteAssets,
         runtimeRequirements: this.metadata.runtimeRequirements || new Set()
       }])
