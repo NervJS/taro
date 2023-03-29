@@ -50,9 +50,9 @@ export default class TaroPrebundle {
       entryFileName = 'app',
       entry = this.entry,
       isWatch = false,
+      publicPath = chain.output.get('publicPath') || '/',
       runtimePath,
       sourceRoot = 'src',
-      publicPath,
       isBuildPlugin
     } = this.params
     let chunkFilename = chain.output.get('chunkFilename') ?? `${chunkDirectory}/[name].js`
