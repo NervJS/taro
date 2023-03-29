@@ -355,7 +355,6 @@ require(\\"./taro\\");
                     }
                 }
             };
-            var nativeRequest = my.canIUse(\\"request\\") ? my.request : my.httpRequest;
             function request(options) {
                 options = options || {};
                 if (typeof options === \\"string\\") {
@@ -394,6 +393,7 @@ require(\\"./taro\\");
                     options.complete = function(res) {
                         originComplete && originComplete(res);
                     };
+                    var nativeRequest = my.canIUse(\\"request\\") ? my.request : my.httpRequest;
                     requestTask = nativeRequest(options);
                 }));
                 p.abort = function(cb) {

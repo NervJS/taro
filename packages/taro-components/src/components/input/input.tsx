@@ -106,7 +106,7 @@ export class Input implements ComponentInterface {
 
     Object.defineProperty(this.el, 'value', {
       get: () => this.inputRef.value,
-      set: value => (this.value = value),
+      set: value => this.value !== value && (this.value = value),
       configurable: true
     })
   }
