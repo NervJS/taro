@@ -1,3 +1,4 @@
+import { defineCustomElement } from '@tarojs/components/dist/components/taro-tabbar'
 import { createReactApp } from '@tarojs/plugin-framework-react/dist/runtime'
 import { createRouter } from '@tarojs/router'
 import React, { Component, PropsWithChildren } from 'react'
@@ -62,6 +63,8 @@ export const delay = (ms = 500) => {
 }
 
 export function buildApp () {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  defineCustomElement = jest.fn()
   const config: any = { ...appConfig }
   class App extends Component<PropsWithChildren> {
     render () {

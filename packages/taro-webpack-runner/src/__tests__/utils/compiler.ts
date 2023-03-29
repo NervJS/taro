@@ -9,9 +9,9 @@ import * as merge from 'webpack-merge'
 
 import prodConf from '../../config/prod.conf'
 import { customizeChain } from '../../index'
-import { getAppConfig, getAppEntry } from '../../util'
-import { makeConfig } from '../../util/chain'
-import { BuildConfig } from '../../util/types'
+import { getAppConfig, getAppEntry } from '../../utils'
+import { makeConfig } from '../../utils/chain'
+import { BuildConfig } from '../../utils/types'
 import baseConfig from './config'
 
 interface EnsuredFs extends IFs {

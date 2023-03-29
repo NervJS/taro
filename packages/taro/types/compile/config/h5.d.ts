@@ -40,6 +40,7 @@ export interface IH5Config {
   miniCssExtractPluginOption?: IOption
   esnextModules?: string[]
   useHtmlComponents?: boolean
+  useDeprecatedAdapterComponent?: boolean
 
   postcss?: IPostcssOption
   htmlPluginOption?: HtmlWebpackPlugin.Options

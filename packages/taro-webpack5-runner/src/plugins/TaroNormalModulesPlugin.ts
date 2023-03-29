@@ -1,5 +1,5 @@
 import TaroSingleEntryDependency from '../dependencies/TaroSingleEntryDependency'
-import { componentConfig } from '../template/component'
+import { componentConfig } from '../utils/component'
 import TaroNormalModule from './TaroNormalModule'
 
 import type { Func } from '@tarojs/taro/types/compile'
