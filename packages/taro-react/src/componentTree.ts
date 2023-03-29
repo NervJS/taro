@@ -63,10 +63,6 @@ export function getNodeFromInstance (inst: Fiber) {
     // a host component or host text.
     return inst.stateNode
   }
-
-  // Without this first invariant, passing a non-DOM-component triggers the next
-  // invariant for a missing parent, which is super confusing.
-  throw new Error('getNodeFromInstance: Invalid argument.')
 }
 
 export function getFiberCurrentPropsFromNode (node: TaroElement): Props {

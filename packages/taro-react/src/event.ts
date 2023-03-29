@@ -2,7 +2,7 @@ import { TaroElement, TaroEvent } from '@tarojs/runtime'
 import { Fiber } from 'react-reconciler'
 
 import { getFiberCurrentPropsFromNode, getInstanceFromNode, getNodeFromInstance } from './componentTree'
-import { restoreControlledState, toString } from './domInput'
+import { ReactDOMInputRestoreControlledState, ReactDOMSelectRestoreControlledState, ReactDOMTextareaRestoreControlledState, toString } from './domInput'
 import { updateValueIfChanged } from './inputValueTracking'
 import { Props } from './props'
 import { TaroReconciler } from './reconciler' 
@@ -27,6 +27,8 @@ export function getTargetInstForInputOrChangeEvent (e: TaroEvent, node: TaroElem
 
 function getInstIfValueChanged (targetInst: Fiber, nextValue: string) {
   const targetNode = getNodeFromInstance(targetInst)
+
+  if (!targetNode) return false
 
   if (updateValueIfChanged(targetNode, nextValue)) {
     return targetInst
@@ -84,14 +86,14 @@ function restoreImpl (
 ): void {
   switch (tag) {
     case 'input':
-      restoreControlledState(domElement, props)
+      ReactDOMInputRestoreControlledState(domElement, props)
       break
-    // case 'textarea':
-    //   ReactDOMTextareaRestoreControlledState(domElement, props)
-    //   return
-    // case 'select':
-    //   ReactDOMSelectRestoreControlledState(domElement, props)
-    //   return
+    case 'textarea':
+      ReactDOMTextareaRestoreControlledState(domElement, props)
+      break
+    case 'select':
+      ReactDOMSelectRestoreControlledState(domElement, props)
+      break
   }
 }
 

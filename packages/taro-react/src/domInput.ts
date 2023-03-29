@@ -2,7 +2,8 @@ import { FormElement, TaroElement } from '@tarojs/runtime'
 
 import { Props } from './props'
 
-export function restoreControlledState (element: TaroElement, props: Props) {
+function updateInputWrapper (element: TaroElement, props: Props) {
+  updateChecked(element, props)
   updateWrapper(element, props)
   updateNamedCousins(element, props)
 }
@@ -43,12 +44,8 @@ export function toString (value): string {
   return '' + value
 }
 
-
 export function updateWrapper (element: TaroElement, props: Props) {
   const node = element as FormElement
-
-  updateChecked(element, props)
-
   const value = getToStringValue(props.value)
   const type = props.type as string
 
@@ -75,3 +72,7 @@ export function setNodeValue (node: FormElement, value, type = 'string') {
     node.removeAttribute('value')
   }
 }
+
+export const ReactDOMSelectRestoreControlledState = updateWrapper
+export const ReactDOMTextareaRestoreControlledState = updateWrapper
+export const ReactDOMInputRestoreControlledState = updateInputWrapper
