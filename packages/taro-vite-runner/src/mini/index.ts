@@ -6,6 +6,7 @@ import entryPlugin from './entry'
 import nativeSupportPlugin from './native-support'
 import pagePlugin from './page'
 import pipelinePlugin from './pipeline'
+import stylePlugin from './style'
 
 import type { PluginOption } from 'vite'
 import type { MiniBuildConfig } from '../utils/types'
@@ -19,6 +20,7 @@ export default function (appPath: string, taroConfig: MiniBuildConfig): PluginOp
     multiPlatformPlugin(taroConfig),
     nativeSupportPlugin(taroConfig),
     assetsPlugin(taroConfig),
-    emitPlugin()
+    stylePlugin(),
+    emitPlugin(),
   ]
 }

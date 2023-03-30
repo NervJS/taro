@@ -1746,12 +1746,18 @@ importers:
     specifiers:
       '@rollup/plugin-babel': ^6.0.3
       '@rollup/plugin-inject': ^5.0.3
+      '@tarojs/runner-utils': workspace:*
       '@tarojs/shared': workspace:*
       acorn-walk: ^8.0.0
+      autoprefixer: ^10.4.0
       fs-extra: ^11.1.0
       html-minifier: ^4.0.0
       mrmime: ^1.0.1
+      postcss-html-transform: workspace:*
+      postcss-plugin-constparse: workspace:*
+      postcss-pxtransform: workspace:*
       regenerator-runtime: '0.11'
+      resolve: ^1.22.0
       rollup: ^3.19.0
       sax: 1.2.4
       vite: ^4.1.4
@@ -1759,11 +1765,17 @@ importers:
     dependencies:
       '@rollup/plugin-babel': registry.npmjs.org/@rollup/plugin-babel/6.0.3_rollup@3.19.0
       '@rollup/plugin-inject': registry.npmjs.org/@rollup/plugin-inject/5.0.3_rollup@3.19.0
+      '@tarojs/runner-utils': link:../taro-runner-utils
       '@tarojs/shared': link:../shared
       acorn-walk: registry.npmjs.org/acorn-walk/8.2.0
+      autoprefixer: registry.npmjs.org/autoprefixer/10.4.7
       html-minifier: registry.npmjs.org/html-minifier/4.0.0
       mrmime: registry.npmjs.org/mrmime/1.0.1
+      postcss-html-transform: link:../postcss-html-transform
+      postcss-plugin-constparse: link:../postcss-plugin-constparse
+      postcss-pxtransform: link:../postcss-pxtransform
       regenerator-runtime: registry.npmjs.org/regenerator-runtime/0.11.1
+      resolve: registry.npmjs.org/resolve/1.22.1
       rollup: registry.npmjs.org/rollup/3.19.0
       sax: registry.npmjs.org/sax/1.2.4
       vite-plugin-static-copy: registry.npmjs.org/vite-plugin-static-copy/0.13.0_vite@4.1.4
@@ -13528,6 +13540,23 @@ packages:
     engines: {node: '>=10.12.0'}
     dev: false
 
+  registry.npmjs.org/autoprefixer/10.4.7:
+    resolution: {integrity: sha512-ypHju4Y2Oav95SipEcCcI5J7CGPuvz8oat7sUtYj3ClK44bldfvtvcxK6IEK++7rqB7YchDGzweZIBG+SD0ZAA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/autoprefixer/-/autoprefixer-10.4.7.tgz}
+    name: autoprefixer
+    version: 10.4.7
+    engines: {node: ^10 || ^12 || >=14}
+    hasBin: true
+    peerDependencies:
+      postcss: ^8.1.0
+    dependencies:
+      browserslist: registry.npmjs.org/browserslist/4.21.5
+      caniuse-lite: registry.npmjs.org/caniuse-lite/1.0.30001450
+      fraction.js: registry.npmjs.org/fraction.js/4.2.0
+      normalize-range: registry.npmjs.org/normalize-range/0.1.2
+      picocolors: registry.npmjs.org/picocolors/1.0.0
+      postcss-value-parser: registry.npmjs.org/postcss-value-parser/4.2.0
+    dev: false
+
   registry.npmjs.org/autoprefixer/10.4.7_postcss@8.4.21:
     resolution: {integrity: sha512-ypHju4Y2Oav95SipEcCcI5J7CGPuvz8oat7sUtYj3ClK44bldfvtvcxK6IEK++7rqB7YchDGzweZIBG+SD0ZAA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/autoprefixer/-/autoprefixer-10.4.7.tgz}
     id: registry.npmjs.org/autoprefixer/10.4.7
@@ -13553,8 +13582,8 @@ packages:
     version: 9.8.8
     hasBin: true
     dependencies:
-      browserslist: registry.npmjs.org/browserslist/4.21.0
-      caniuse-lite: registry.npmjs.org/caniuse-lite/1.0.30001359
+      browserslist: registry.npmjs.org/browserslist/4.21.5
+      caniuse-lite: registry.npmjs.org/caniuse-lite/1.0.30001450
       normalize-range: registry.npmjs.org/normalize-range/0.1.2
       num2fraction: registry.npmjs.org/num2fraction/1.2.2
       picocolors: registry.npmjs.org/picocolors/0.2.1
@@ -15677,7 +15706,7 @@ packages:
       mississippi: registry.npmjs.org/mississippi/3.0.0
       mkdirp: registry.npmjs.org/mkdirp/0.5.6
       move-concurrently: registry.npmjs.org/move-concurrently/1.0.1
-      promise-inflight: registry.npmjs.org/promise-inflight/1.0.1_bluebird@3.7.2
+      promise-inflight: registry.npmjs.org/promise-inflight/1.0.1
       rimraf: registry.npmjs.org/rimraf/2.7.1
       ssri: registry.npmjs.org/ssri/6.0.2
       unique-filename: registry.npmjs.org/unique-filename/1.1.1
@@ -15902,12 +15931,6 @@ packages:
       caniuse-lite: registry.npmjs.org/caniuse-lite/1.0.30001450
       lodash.memoize: registry.npmjs.org/lodash.memoize/4.1.2
       lodash.uniq: registry.npmjs.org/lodash.uniq/4.5.0
-
-  registry.npmjs.org/caniuse-lite/1.0.30001359:
-    resolution: {integrity: sha512-Xln/BAsPzEuiVLgJ2/45IaqD9jShtk3Y33anKb4+yLwQzws3+v6odKfpgES/cDEaZMLzSChpIGdbOYtH9MyuHw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/caniuse-lite/-/caniuse-lite-1.0.30001359.tgz}
-    name: caniuse-lite
-    version: 1.0.30001359
-    dev: false
 
   registry.npmjs.org/caniuse-lite/1.0.30001431:
     resolution: {integrity: sha512-zBUoFU0ZcxpvSt9IU66dXVT/3ctO1cy4y9cscs1szkPlcWb6pasYM144GqrUygUbT+k7cmUCW61cvskjcv0enQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/caniuse-lite/-/caniuse-lite-1.0.30001431.tgz}
@@ -30971,19 +30994,6 @@ packages:
       bluebird:
         optional: true
 
-  registry.npmjs.org/promise-inflight/1.0.1_bluebird@3.7.2:
-    resolution: {integrity: sha512-6zWPyEOFaQBJYcGMHBKTKJ3u6TBsnMFOIZSa6ce1e/ZrrsOlnHRHbabMjLiBYKp+n44X9eUI6VUPaukCXHuG4g==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/promise-inflight/-/promise-inflight-1.0.1.tgz}
-    id: registry.npmjs.org/promise-inflight/1.0.1
-    name: promise-inflight
-    version: 1.0.1
-    peerDependencies:
-      bluebird: '*'
-    peerDependenciesMeta:
-      bluebird:
-        optional: true
-    dependencies:
-      bluebird: registry.npmjs.org/bluebird/3.7.2
-
   registry.npmjs.org/promise-polyfill/7.1.2:
     resolution: {integrity: sha512-FuEc12/eKqqoRYIGBrUptCBRhobL19PS2U31vMNTfyck1FxPyMfgsXyW4Mav85y/ZN1hop3hOwRlUDok23oYfQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/promise-polyfill/-/promise-polyfill-7.1.2.tgz}
     name: promise-polyfill
@@ -35454,7 +35464,6 @@ packages:
       serialize-javascript: registry.npmjs.org/serialize-javascript/6.0.0
       terser: registry.npmjs.org/terser/5.14.1
       webpack: registry.npmjs.org/webpack/5.69.0_k3zzwfl4stqj3whko6kmspvmxm
-    dev: true
 
   registry.npmjs.org/terser-webpack-plugin/5.3.3_v3nag7joep3fhay4q6lv7p6we4:
     resolution: {integrity: sha512-Fx60G5HNYknNTNQnzQ1VePRuu89ZVYWfjRAeT5rITuCY/1b08s49e5kSQwHDirKZWuoKOBRFS98EUUoZ9kLEwQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/terser-webpack-plugin/-/terser-webpack-plugin-5.3.3.tgz}
@@ -37171,7 +37180,7 @@ packages:
       mime-types: registry.npmjs.org/mime-types/2.1.35
       range-parser: registry.npmjs.org/range-parser/1.2.1
       schema-utils: registry.npmjs.org/schema-utils/4.0.0
-      webpack: registry.npmjs.org/webpack/5.69.0_esbuild@0.14.47
+      webpack: registry.npmjs.org/webpack/5.69.0_k3zzwfl4stqj3whko6kmspvmxm
 
   registry.npmjs.org/webpack-dev-server/3.11.3_webpack@4.46.0:
     resolution: {integrity: sha512-3x31rjbEQWKMNzacUZRE6wXvUFuGpH7vr0lIEbYpMAG9BOxi0928QU1BBswOAP3kg3H1O4hiS+sq4YyAn6ANnA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/webpack-dev-server/-/webpack-dev-server-3.11.3.tgz}
@@ -37268,7 +37277,7 @@ packages:
       sockjs: registry.npmjs.org/sockjs/0.3.24
       spdy: registry.npmjs.org/spdy/4.0.2
       strip-ansi: registry.npmjs.org/strip-ansi/7.0.1
-      webpack: registry.npmjs.org/webpack/5.69.0_esbuild@0.14.47
+      webpack: registry.npmjs.org/webpack/5.69.0_k3zzwfl4stqj3whko6kmspvmxm
       webpack-dev-middleware: registry.npmjs.org/webpack-dev-middleware/5.3.3_webpack@5.69.0
       ws: registry.npmjs.org/ws/8.8.0
     transitivePeerDependencies:
@@ -37499,7 +37508,6 @@ packages:
       - '@swc/core'
       - esbuild
       - uglify-js
-    dev: true
 
   registry.npmjs.org/webpackbar/5.0.2_webpack@5.69.0:
     resolution: {integrity: sha512-BmFJo7veBDgQzfWXl/wwYXr/VFus0614qZ8i9znqcl9fnEdiVkdbi0TedLQ6xAK92HZHDJ0QmyQ0fmuZPAgCYQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/webpackbar/-/webpackbar-5.0.2.tgz}

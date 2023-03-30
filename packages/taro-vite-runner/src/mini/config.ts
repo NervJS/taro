@@ -1,11 +1,15 @@
 import { babel, RollupBabelInputPluginOptions } from '@rollup/plugin-babel'
 import inject, { RollupInjectOptions } from '@rollup/plugin-inject'
-import { PLATFORMS } from '@tarojs/helper'
+import { fs, PLATFORMS, recursiveMerge } from '@tarojs/helper'
+import { getSassLoaderOption } from '@tarojs/runner-utils'
+import { isArray } from '@tarojs/shared'
 import path from 'path'
 
+import { getPostcssPlugins } from '../postcss/postcss.mini'
 import { stripMultiPlatformExt } from '../utils'
+import { logger } from '../utils/logger'
 
-import type { PluginOption } from 'vite'
+import type { CSSModulesOptions,PluginOption } from 'vite'
 import type { MiniBuildConfig } from '../utils/types'
 
 export default function (appPath: string, taroConfig: MiniBuildConfig): PluginOption {
@@ -111,12 +115,68 @@ export default function (appPath: string, taroConfig: MiniBuildConfig): PluginOp
     return options
   }
 
+  async function getSassOption () {
+    const sassLoaderOption = taroConfig.sassLoaderOption
+    const nativeStyleImporter = function importer (url, prev, done) {
+      // 让 sass 文件里的 @import 能解析小程序原生样式文体，如 @import "a.wxss";
+      const extname = path.extname(url)
+      // fix: @import 文件可以不带scss/sass缀，如: @import "define";
+      if (extname === '.scss' || extname === '.sass' || extname === '.css' || !extname) {
+        return null
+      } else {
+        const filePath = path.resolve(path.dirname(prev), url)
+        fs.access(filePath, fs.constants.F_OK, (err) => {
+          if (err) {
+            logger.error(err.message)
+            return null
+          } else {
+            fs.readFile(filePath)
+              .then(res => {
+                done({ contents: res.toString() })
+              })
+              .catch(err => {
+                logger.error(err)
+                return null
+              })
+          }
+        })
+      }
+    }
+    const importer = [nativeStyleImporter]
+    if (sassLoaderOption?.importer) {
+      isArray(sassLoaderOption.importer)
+        ? importer.unshift(...sassLoaderOption.importer)
+        : importer.unshift(sassLoaderOption.importer)
+    }
+    const option = {
+      ...(await getSassLoaderOption(taroConfig)),
+      ...sassLoaderOption,
+      importer,
+    }
+    return {
+      scss: option,
+      sass: option
+    }
+  }
+
+  function getCSSModulesOptions (): false | CSSModulesOptions {
+    if (taroConfig.postcss?.cssModules?.enable !== true) return false
+    const config = recursiveMerge({}, {
+      namingPattern: 'module',
+      generateScopedName: '[name]__[local]___[hash:base64:5]'
+    }, taroConfig.postcss.cssModules.config)
+    return {
+      generateScopedName: config.generateScopedName
+    }
+  }
+
   return {
     name: 'taro:vite-mini-config',
-    config: () => ({
+    config: async () => ({
       mode: taroConfig.mode,
       outDir: taroConfig.outputRoot || 'dist',
       build: {
+        cssCodeSplit: true,
         emptyOutDir: false,
         lib: {
           entry: taroConfig.entry.app,
@@ -171,6 +231,21 @@ export default function (appPath: string, taroConfig: MiniBuildConfig): PluginOp
       },
       esbuild: {
         jsxDev: false
+      },
+      css: {
+        postcss: {
+          plugins: getPostcssPlugins(appPath, {
+            designWidth: taroConfig.designWidth || 750,
+            deviceRatio: taroConfig.deviceRatio,
+            postcssOption: taroConfig.postcss || {}
+          })
+        },
+        preprocessorOptions: {
+          ...(await getSassOption()),
+          less: taroConfig.lessLoaderOption || {},
+          stylus: taroConfig.stylusLoaderOption || {}
+        },
+        modules: getCSSModulesOptions()
       }
 
       // @TODO cssExtractPlugin

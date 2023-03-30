@@ -7,6 +7,7 @@ import {
   resolveMainFilePath,
   SCRIPT_EXT,
 } from '@tarojs/helper'
+import { isArray, isFunction } from '@tarojs/shared'
 import path from 'path'
 
 import { componentConfig } from '../template/component'
@@ -80,6 +81,7 @@ export class TaroCompiler {
   frameworkExts: string[]
   fileType: FileType
   loaderMeta: any
+  commonChunks: string[]
   logger = logger
   filesConfig: FilesConfig = {}
 
@@ -90,6 +92,7 @@ export class TaroCompiler {
     this.taroConfig = taroConfig
     this.frameworkExts = this.taroConfig.frameworkExts || SCRIPT_EXT
     this.fileType = this.taroConfig.fileType || defaultFileType
+    this.commonChunks = this.getCommonChunks()
     this.app = this.getApp()
     this.pages = this.getPages()
   }
@@ -231,6 +234,18 @@ export class TaroCompiler {
 
       this.collectNativeComponents(nativeCompMeta)
     })
+  }
+
+  getCommonChunks () {
+    const { commonChunks } = this.taroConfig
+    const defaultCommonChunks = ['runtime', 'vendors', 'taro', 'common']
+    let customCommonChunks: string[] = defaultCommonChunks
+    if (isFunction(commonChunks)) {
+      customCommonChunks = commonChunks(defaultCommonChunks.concat()) || defaultCommonChunks
+    } else if (isArray(commonChunks) && commonChunks.length) {
+      customCommonChunks = commonChunks
+    }
+    return customCommonChunks
   }
 
 
