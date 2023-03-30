@@ -3,7 +3,7 @@ import { ReactNode } from 'react'
 import { OpaqueRoot } from 'react-reconciler'
 
 import { markContainerAsRoot } from './componentTree'
-import { enqueueStateRestore, getTargetInstForInputOrChangeEvent } from './event'
+import { enqueueStateRestore, getTargetInstForInputOrChangeEvent, RestoreType } from './event'
 import { TaroReconciler } from './reconciler'
 
 export const ContainerMap: WeakMap<TaroElement, Root> = new WeakMap()
@@ -34,7 +34,9 @@ class Root {
     // @see:https://github.com/facebook/react/blob/0b974418c9a56f6c560298560265dcf4b65784bc/packages/react-reconciler/src/ReactFiberReconciler.js#L248
     const containerInfo = domContainer
     if (options) {
-      const tag = 1 // ConcurrentRoot
+      // 这里不能开启 ConcurrentRoot，否则会导致事件处理时 flushSync 失效
+      // 从而导致 fiber 的值更新不及时从而导致多次触发 setNodeValue
+      const tag = 0
       const concurrentUpdatesByDefaultOverride = false
       let isStrictMode = false
       let identifierPrefix = ''
@@ -116,8 +118,9 @@ export function createRoot (domContainer: TaroElement, options: CreateRootOption
       const inst = getTargetInstForInputOrChangeEvent(e, node)
   
       if (!inst) return
-
-      enqueueStateRestore(node)
+  
+      const nextValue = e.mpEvent?.detail?.value as unknown as RestoreType
+      enqueueStateRestore({ target: node, value: nextValue })
     })
   }
 

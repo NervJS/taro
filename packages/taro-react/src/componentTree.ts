@@ -1,3 +1,8 @@
+/**
+ * 给 TaroElement 绑定 react fiber、react props 等属性
+ * 提供 fiber -> element、element -> fiber、element -> props 的方法
+*/
+
 import { TaroElement } from '@tarojs/runtime'
 import { Fiber } from 'react-reconciler'
 

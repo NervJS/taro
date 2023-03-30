@@ -3,7 +3,10 @@ import { FormElement, TaroElement } from '@tarojs/runtime'
 import { supportedInputTypes } from './constant'
 import { Props } from './props'
 
-function updateInputWrapper (element: TaroElement, props: Props) {
+import type { RestoreType } from './event'
+
+// 从 props 中，更新 input 组件的 value 值
+function updateInputWrapper (element: TaroElement, oldValue: RestoreType, props: Props) {
   const node = element
   const checked = props.checked
 
@@ -12,10 +15,11 @@ function updateInputWrapper (element: TaroElement, props: Props) {
     return
   }
 
-  updateWrapper(element, props)
+  updateWrapper(element, oldValue, props)
   updateNamedCousins(element, props)
 }
 
+// react 中原本处理 type=radio 的逻辑，这里留个空，暂时不处理
 function updateNamedCousins (rootNode, props) {
   const name = props.name
 
@@ -42,26 +46,26 @@ export function toString (value): string {
   return '' + value
 }
 
-export function updateWrapper (element: TaroElement, props: Props) {
+export function updateWrapper (element: TaroElement, oldValue: RestoreType, props: Props) {
   const node = element as FormElement
   const value = getToStringValue(props.value)
   const type = props.type as string
 
-  setNodeValue(node, value, type)
+  setNodeValue(node, oldValue, value, type)
 }
 
-export function setNodeValue (node: FormElement, value, type = 'string') {
+export function setNodeValue (node: FormElement, oldValue: RestoreType, value, type = 'string') {
   if (value != null) {
     if (type === 'number') {
       if (
         (value === 0 && node.value === '') ||
         // We explicitly want to coerce to number here if possible.
         // eslint-disable-next-line
-        node.value != value
+        oldValue != value
       ) {
         node.value = toString(value)
       }
-    } else if (node.value !== toString(value)) {
+    } else if (oldValue !== toString(value)) {
       node.value = toString(value)
     }
   } else if (type === 'submit' || type === 'reset') {
@@ -71,7 +75,7 @@ export function setNodeValue (node: FormElement, value, type = 'string') {
   }
 }
 
-
+// 判断当前 TaroElement 是否为 supportedInputTypes input 或 textarea
 export function isTextInputElement (elem: TaroElement): boolean {
   const nodeName = elem && elem.nodeName && elem.nodeName.toLowerCase()
 

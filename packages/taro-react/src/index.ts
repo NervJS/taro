@@ -8,6 +8,8 @@ import { TaroReconciler } from './reconciler'
 import { ContainerMap, createRoot, render } from './render'
 
 let isInsideEventHandler = false
+
+// 重新包裹 batchedUpdates，使其可以在触发事件后执行 finishEventHandler
 const unstable_batchedUpdates = (fn, a) => {
   if (isInsideEventHandler) {
     return fn(a)

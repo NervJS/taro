@@ -7,9 +7,19 @@ import { updateValueIfChanged } from './inputValueTracking'
 import { Props } from './props'
 import { TaroReconciler } from './reconciler' 
 
-let restoreTarget: TaroElement | null = null
-let restoreQueue: TaroElement[] | null = null
 
+export type RestoreType =  string | number | boolean | any[]
+
+interface RestoreItem {
+  target: TaroElement
+  value: RestoreType
+}
+
+let restoreTarget: RestoreItem | null = null
+let restoreQueue: RestoreItem[] | null = null
+
+
+// 对比 TaroElement tracker 下的 value 和事件下的 value，判断 element 的值是否存在更改
 export function getTargetInstForInputOrChangeEvent (e: TaroEvent, node: TaroElement) {
   const targetInst = getInstanceFromNode(node)
   const domEventName = e.type
@@ -34,7 +44,8 @@ function getInstIfValueChanged (targetInst: Fiber, nextValue: string) {
   }
 }
 
-export function enqueueStateRestore (target: TaroElement): void {
+// 把 target 塞入更新队列中
+export function enqueueStateRestore (target: RestoreItem): void {
   if (restoreTarget) {
     if (restoreQueue) {
       restoreQueue.push(target)
@@ -46,6 +57,7 @@ export function enqueueStateRestore (target: TaroElement): void {
   }
 }
 
+// 判断是否需要恢复 target（input、textarea） 的状态
 export function needsStateRestore (): boolean {
   return restoreTarget !== null || restoreQueue !== null
 }
@@ -59,6 +71,7 @@ export function finishEventHandler () {
   }
 }
 
+// 遍历 restoreQueue、restoreTarget，恢复其状态
 export function restoreStateIfNeeded () {
   if (!restoreTarget) {
     return
@@ -81,21 +94,22 @@ export function restoreStateIfNeeded () {
 function restoreImpl (
   domElement: TaroElement,
   tag: string,
+  oldValue: string | number | boolean | any[],
   props: Props,
 ): void {
   switch (tag) {
     case 'input':
-      ReactDOMInputRestoreControlledState(domElement, props)
+      ReactDOMInputRestoreControlledState(domElement, oldValue, props)
       break
     case 'textarea':
-      ReactDOMTextareaRestoreControlledState(domElement, props)
+      ReactDOMTextareaRestoreControlledState(domElement, oldValue, props)
       break
   }
 }
 
 
-function restoreStateOfTarget (target: TaroElement) {
-  const internalInstance = getInstanceFromNode(target)
+function restoreStateOfTarget (item: RestoreItem) {
+  const internalInstance = getInstanceFromNode(item.target)
 
   if (!internalInstance) return
 
@@ -103,6 +117,8 @@ function restoreStateOfTarget (target: TaroElement) {
 
   if (stateNode) {
     const props = getFiberCurrentPropsFromNode(stateNode)
-    restoreImpl(internalInstance.stateNode, internalInstance.type, props)
+    restoreImpl(internalInstance.stateNode, internalInstance.type, item.value, props)
   }
 }
+
+export const updatePropertiesByTag = restoreImpl

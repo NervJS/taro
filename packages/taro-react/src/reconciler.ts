@@ -1,10 +1,11 @@
 /* eslint-disable @typescript-eslint/indent */
-import { document, TaroElement, TaroText } from '@tarojs/runtime'
+import { document, FormElement, TaroElement, TaroText } from '@tarojs/runtime'
 import { isBoolean, isUndefined, noop } from '@tarojs/shared'
 import Reconciler, { Fiber, HostConfig } from 'react-reconciler'
 import { DefaultEventPriority } from 'react-reconciler/constants'
 
 import { precacheFiberNode, updateFiberProps } from './componentTree'
+import { updatePropertiesByTag } from './event'
 import { track } from './inputValueTracking'
 import { getUpdatePayload, Props, updateProps, updatePropsByPayload } from './props'
 
@@ -137,6 +138,7 @@ const hostConfig: HostConfig<
   commitMount: noop,
   commitUpdate (dom, updatePayload, _, oldProps, newProps) {
     updatePropsByPayload(dom, oldProps, updatePayload)
+    updatePropertiesByTag(dom, dom.tagName, (dom as FormElement).value, newProps)
     updateFiberProps(dom, newProps)
   },
   insertBefore (parent, child, refChild) {
