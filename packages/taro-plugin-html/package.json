@@ -5,9 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "rollup -c -w --bundleConfigAsCjs",
-    "build": "rollup -c --bundleConfigAsCjs",
-    "test": "jest",
-    "test:dev": "jest --watch"
+    "build": "rollup -c --bundleConfigAsCjs"
   },
   "files": [
     "src",
@@ -38,6 +36,7 @@
     "@babel/generator": "^7.20.0",
     "@babel/traverse": "^7.20.0",
     "@babel/types": "^7.20.0",
+    "@tarojs/taro": "workspace:*",
     "rollup": "^3.8.1",
     "rollup-plugin-node-externals": "^5.0.0",
     "rollup-plugin-ts": "^3.0.2",

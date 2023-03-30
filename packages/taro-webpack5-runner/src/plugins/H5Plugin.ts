@@ -4,9 +4,11 @@ import { defaults } from 'lodash'
 import path from 'path'
 
 import H5AppInstance from '../utils/H5AppInstance'
+import TaroComponentsExportsPlugin from './TaroComponentsExportsPlugin'
 
 import type { AppConfig } from '@tarojs/taro'
-import type { Compiler, LoaderContext, NormalModule } from 'webpack'
+import type { Func } from '@tarojs/taro/types/compile'
+import type { Compilation, Compiler, LoaderContext, NormalModule } from 'webpack'
 
 const PLUGIN_NAME = 'TaroH5Plugin'
 
@@ -26,6 +28,9 @@ interface ITaroH5PluginOptions {
   }
   prebundle?: boolean
   loaderMeta?: Record<string, string>
+
+  onCompilerMake?: Func
+  onParseCreateElement?: Func
 }
 
 export default class TaroH5Plugin {
@@ -55,12 +60,14 @@ export default class TaroH5Plugin {
     })
   }
 
-  tryAsync = fn => async (arg, callback) => {
-    try {
-      await fn(arg)
-      callback()
-    } catch (err) {
-      callback(err)
+  tryAsync<T extends Compiler | Compilation | void> (fn: (target?: T) => Promise<void> | void) {
+    return async (arg: T, callback: any) => {
+      try {
+        await fn(arg)
+        typeof callback === 'function' && callback()
+      } catch (err) {
+        typeof callback === 'function' && callback()
+      }
     }
   }
 
@@ -79,6 +86,10 @@ export default class TaroH5Plugin {
         this.run()
       })
     )
+
+    compiler.hooks.make.tapAsync(PLUGIN_NAME, this.tryAsync<Compilation>(async compilation => {
+      await this.options.onCompilerMake?.(compilation, compiler, this)
+    }))
 
     compiler.hooks.compilation.tap(PLUGIN_NAME, compilation => {
       compiler.webpack.NormalModule.getCompilationHooks(compilation).loader.tap(PLUGIN_NAME, (_loaderContext: LoaderContext<any>, module: NormalModule) => {
@@ -122,6 +133,8 @@ export default class TaroH5Plugin {
         }
       })
     })
+
+    new TaroComponentsExportsPlugin(this.options).apply(compiler)
   }
 
   run () {

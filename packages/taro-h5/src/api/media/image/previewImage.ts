@@ -15,11 +15,10 @@ import { MethodHandler } from '../../../utils/handler'
  * 在新页面中全屏预览图片。预览的过程中用户可以进行保存图片、发送给朋友等操作。
  */
 export const previewImage: typeof Taro.previewImage = async (options) => {
-  if (USE_HTML_COMPONENTS) {
-    // TODO 改为通过 window.__taroAppConfig 获取配置的 Swiper 插件创建节点
-    defineCustomElementTaroSwiperCore()
-    defineCustomElementTaroSwiperItemCore()
-  }
+  // TODO 改为通过 window.__taroAppConfig 获取配置的 Swiper 插件创建节点
+  defineCustomElementTaroSwiperCore()
+  defineCustomElementTaroSwiperItemCore()
+
   function loadImage (url: string, loadFail: typeof fail): Promise<Node> {
     return new Promise((resolve) => {
       const item = document.createElement('taro-swiper-item-core')

@@ -36,6 +36,7 @@
     "@tarojs/runtime": "workspace:*",
     "@tarojs/taro": "workspace:*",
     "@tarojs/taro-loader": "workspace:*",
+    "acorn-walk": "^8.0.0",
     "autoprefixer": "^9.7.4",
     "babel-loader": "8.2.1",
     "copy-webpack-plugin": "5.1.2",
@@ -74,12 +75,17 @@
     "@babel/core": "^7.14.5",
     "@types/webpack": "^4.41.26",
     "@types/webpack-dev-server": "^3.11.3",
+    "jest": "^29.3.1",
+    "jest-cli": "^29.3.1",
+    "jest-environment-node": "^29.5.0",
     "memfs": "^3.1.2",
     "memory-fs": "^0.5.0",
-    "vue-loader": "^15.9.3",
+    "vue-loader": "^15.10.1",
     "webpack": "4.46.0",
     "webpack-merge": "^4.2.2",
-    "postcss": "^8.4.18"
+    "postcss": "^8.4.18",
+    "ts-jest": "^29.0.5",
+    "typescript": "^4.7.4"
   },
   "peerDependencies": {
     "webpack": "^4.46.0",

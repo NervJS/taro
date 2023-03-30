@@ -9,13 +9,13 @@ import buildConf from './config/build.conf'
 import devConf from './config/dev.conf'
 import baseDevServerOption from './config/devServer.conf'
 import prodConf from './config/prod.conf'
-import { addHtmlSuffix, addLeadingSlash, formatOpenHost, getAppConfig, getAppEntry, parsePublicPath, stripBasename, stripTrailingSlash } from './util'
-import { makeConfig } from './util/chain'
-import { bindDevLogger, bindProdLogger, printBuildError } from './util/logHelper'
+import { addHtmlSuffix, addLeadingSlash, formatOpenHost, getAppConfig, getAppEntry, parsePublicPath, stripBasename, stripTrailingSlash } from './utils'
+import { makeConfig } from './utils/chain'
+import { bindDevLogger, bindProdLogger, printBuildError } from './utils/logHelper'
 
 import type { AppConfig } from '@tarojs/taro'
 import type { Func } from '@tarojs/taro/types/compile'
-import type { BuildConfig } from './util/types'
+import type { BuildConfig } from './utils/types'
 
 export const customizeChain = async (chain, modifyWebpackChainFunc: Func, customizeFunc?: Func) => {
   if (modifyWebpackChainFunc instanceof Function) {

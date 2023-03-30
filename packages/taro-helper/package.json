@@ -6,12 +6,10 @@
   "types": "dist/index.d.ts",
   "scripts": {
     "build": "run-s clean prod",
-    "dev": "tsc -w",
-    "prod": "tsc",
     "clean": "rimraf dist",
+    "dev": "tsc -w",
     "prepack": "pnpm run build",
-    "test": "jest",
-    "test:dev": "jest --watch"
+    "prod": "tsc"
   },
   "repository": {
     "type": "git",
