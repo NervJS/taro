@@ -46,17 +46,18 @@ export default function (this: webpack.LoaderContext<any>) {
   if (isBuildNativeComp) {
     const compPath = join(pathDirname, options.filename)
     return `import component from ${stringify(compPath)}
+import { initPxTransform } from '@tarojs/taro'
 ${setReconcilerPost}
 component.config = {}
 component.pxTransformConfig = {}
 Object.assign(component.config, ${JSON.stringify(readConfig(this.resourcePath))})
-initPxTransform({
+initPxTransform.call(component, {
   designWidth: ${pxTransformConfig.designWidth},
   deviceRatio: ${JSON.stringify(pxTransformConfig.deviceRatio)},
   baseFontSize: ${pxTransformConfig.baseFontSize || (pxTransformConfig.minRootSize >= 1 ? pxTransformConfig.minRootSize : 20)},
   unitPrecision: ${pxTransformConfig.unitPrecision},
   targetUnit: ${JSON.stringify(pxTransformConfig.targetUnit)}
-}).call(component)
+})
 export default component`
   }
   if (options.bootstrap) return `import(${stringify(join(options.sourceDir, `${isMultiRouterMode ? pageName : options.entryFileName}.boot`))})`
