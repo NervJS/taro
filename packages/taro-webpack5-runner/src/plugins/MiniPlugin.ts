@@ -19,7 +19,7 @@ import EntryDependency from 'webpack/lib/dependencies/EntryDependency'
 
 import TaroSingleEntryDependency from '../dependencies/TaroSingleEntryDependency'
 import { validatePrerenderPages } from '../prerender/prerender'
-import { componentConfig } from '../template/component'
+import { componentConfig } from '../utils/component'
 import TaroLoadChunksPlugin from './TaroLoadChunksPlugin'
 import TaroNormalModulesPlugin from './TaroNormalModulesPlugin'
 import TaroSingleEntryPlugin from './TaroSingleEntryPlugin'
@@ -883,6 +883,7 @@ export default class TaroMiniPlugin {
     const customWrapperName = 'custom-wrapper'
     const isUsingCustomWrapper = componentConfig.thirdPartyComponents.has('custom-wrapper')
 
+    console.log('componentConfig', componentConfig)
     /**
      * 与原生小程序混写时解析模板与样式
      */
@@ -1059,7 +1060,9 @@ export default class TaroMiniPlugin {
   generateXSFile (compilation: Compilation, compiler: Compiler, xsPath, isBuildPlugin: boolean) {
     const { RawSource } = compiler.webpack.sources
     const ext = this.options.fileType.xs
-    if (ext == null) {
+    const isSupportXS = this.options.template.supportXS
+
+    if (ext == null || !isSupportXS) {
       return
     }
 

@@ -26,9 +26,11 @@ export class MiniWebpackPlugin {
     const copyWebpackPlugin = this.getCopyWebpackPlugin()
     if (copyWebpackPlugin) plugins.copyWebpackPlugin = copyWebpackPlugin
 
-    /** 需要在 MiniPlugin 前，否则无法获取 entry 地址 */
-    const miniSplitChunksPlugin = this.getMiniSplitChunksPlugin()
-    if (miniSplitChunksPlugin) plugins.miniSplitChunksPlugin = miniSplitChunksPlugin
+    if (!this.combination.isBuildPlugin) {
+      /** 需要在 MiniPlugin 前，否则无法获取 entry 地址 */
+      const miniSplitChunksPlugin = this.getMiniSplitChunksPlugin()
+      if (miniSplitChunksPlugin) plugins.miniSplitChunksPlugin = miniSplitChunksPlugin
+    }
 
     const definePluginOptions = plugins.definePlugin.args[0]
     const mainPlugin = this.getMainPlugin(definePluginOptions)

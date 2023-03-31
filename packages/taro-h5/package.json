@@ -19,7 +19,7 @@
   "scripts": {
     "build": "rimraf ./dist && cross-env NODE_ENV=production rollup -c",
     "dev": "cross-env NODE_ENV=development rollup -c -w",
-    "test": "jest",
+    "test": "node_modules/jest/bin/jest.js",
     "test:ci": "jest -i --coverage false",
     "test:dev": "jest --watch",
     "test:coverage": "jest --coverage"
@@ -48,10 +48,16 @@
   "devDependencies": {
     "@rollup/plugin-commonjs": "^20.0.0",
     "@rollup/plugin-node-resolve": "^8.0.0",
+    "@babel/core": "^7.14.5",
+    "@testing-library/jest-dom": "^5.16.4",
+    "@types/testing-library__jest-dom": "^5.14.3",
+    "babel-jest": "^29.5.0",
     "jest": "^29.3.1",
+    "jest-cli": "^29.3.1",
+    "jest-environment-jsdom": "^29.5.0",
     "jest-fetch-mock": "^3.0.3",
-    "jest-localstorage-mock": "^2.4.0",
     "jest-mock-console": "^1.0.0",
+    "jsdom": "^21.1.0",
     "lodash": "^4.17.21",
     "mock-socket": "^7.1.0",
     "react": "^18.2.0",
@@ -60,6 +66,7 @@
     "rollup-plugin-node-externals": "^5.0.0",
     "rollup-plugin-postcss": "^3.1.8",
     "rollup-plugin-ts": "^3.0.2",
+    "ts-jest": "^29.0.5",
     "typescript": "^4.7.4"
   }
 }

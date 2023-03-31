@@ -1,8 +1,8 @@
 import type { RecursiveTemplate, UnRecursiveTemplate } from '@tarojs/shared/dist/template'
 import type { IH5Config, IMiniAppConfig, IProjectBaseConfig } from '@tarojs/taro/types/compile'
+import type { IComponentConfig } from '@tarojs/taro/types/compile/hooks'
 import type Webpack from 'webpack'
 import type { PrerenderConfig } from '../prerender/prerender'
-import type { IComponentConfig } from '../template/component'
 
 export interface IOption {
   [key: string]: any
@@ -37,6 +37,9 @@ export interface IFileType {
 export interface CommonBuildConfig extends IProjectBaseConfig {
   entry?: Webpack.EntryObject
   mode: 'production' | 'development' | 'none'
+  /** hooks */
+  onCompilerMake: (compilation) => Promise<any>
+  onParseCreateElement: (nodeName, componentConfig) => Promise<any>
 }
 
 export interface MiniBuildConfig extends CommonBuildConfig, IMiniAppConfig {
@@ -56,8 +59,6 @@ export interface MiniBuildConfig extends CommonBuildConfig, IMiniAppConfig {
   hot?: boolean
   /** hooks */
   modifyComponentConfig: (componentConfig: IComponentConfig, config: Partial<MiniBuildConfig>) => Promise<any>
-  onCompilerMake: (compilation) => Promise<any>
-  onParseCreateElement: (nodeName, componentConfig) => Promise<any>
 }
 
 export interface H5BuildConfig extends CommonBuildConfig, IH5Config {

@@ -165,7 +165,7 @@ export class Template extends RecursiveTemplate {
 
   buildFlattenText = (level = this.flattenTextLevel): string => {
     if (level === 0) {
-      return `<block>{{i.${Shortcuts.Childnodes}[index].${Shortcuts.Text}}}</block>`
+      return `<block>{{item.${Shortcuts.Text}}}</block>`
     }
 
     const child = this.buildFlattenText(level - 1)
