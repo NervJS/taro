@@ -8,6 +8,10 @@ if (fs.existsSync(componentsPath)) {
   let code = codeBuffer.toString().replace(/import\stype\s\{\s([^}]*)\s\}\sfrom\s'@tarojs\/components[^']*';/ig, `import type { $1 } from '@tarojs/components/dist/types/components';`)
   code = code.replace(/const\sTaro([A-Za-z]+)\s=/g, 'const $1 =').replace(/const\s([A-Za-z]+)Core\s=/g, 'const $1 =')
 
+  if (code.includes('defineCustomElement as define')) {
+    code = code.replace(/import\s\{\sdefineCustomElement\sas\sdefine([A-Za-z]+)\s.*/g, '// @ts-ignore\nimport { defineCustomElement$1 as define$1 } from \'@tarojs/components/dist/components\';')
+  }
+
   if (!code.includes('slots.default')) {
     const comps = ['Block', 'CustomWrapper']
     code = code.replace('/* auto-generated vue proxies */', `/* auto-generated vue proxies */\nimport { defineComponent } from 'vue'`)

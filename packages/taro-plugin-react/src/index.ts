@@ -1,5 +1,5 @@
 import { fs } from '@tarojs/helper'
-import { isString } from '@tarojs/shared'
+import { isString, isWebPlatform } from '@tarojs/shared'
 
 import { modifyH5WebpackChain } from './webpack.h5'
 import { modifyMiniWebpackChain } from './webpack.mini'
@@ -25,7 +25,7 @@ export default (ctx: IPluginContext) => {
         return args
       })
 
-    if (process.env.TARO_ENV === 'h5') {
+    if (isWebPlatform()) {
       // H5
       modifyH5WebpackChain(ctx, framework, chain)
     } else {

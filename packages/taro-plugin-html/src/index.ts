@@ -8,7 +8,7 @@ import * as path from 'path'
 import type { IPluginContext, TaroPlatformBase } from '@tarojs/service'
 import type { IComponentConfig } from '@tarojs/taro/types/compile/hooks'
 
-interface IOptions {
+export interface IOptions {
   pxtransformBlackList?: any[]
   modifyElements?(inline: string[], block: string[]): void
   enableSizeAPIs?: boolean

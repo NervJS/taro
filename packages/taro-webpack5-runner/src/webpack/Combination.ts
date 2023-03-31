@@ -1,6 +1,6 @@
 import { META_TYPE, recursiveMerge, SCRIPT_EXT } from '@tarojs/helper'
 import { getSassLoaderOption } from '@tarojs/runner-utils'
-import { isFunction, isObject } from '@tarojs/shared'
+import { isFunction, isObject, isWebPlatform } from '@tarojs/shared'
 import path from 'path'
 import webpack from 'webpack'
 
@@ -25,6 +25,11 @@ export class Combination<T extends MiniBuildConfig | H5BuildConfig = CommonBuild
 
   prebundleOptions?: IPrebundle
 
+  isWeb = isWebPlatform()
+
+  /** special mode */
+  isBuildNativeComp = false
+
   constructor (appPath: string, config: T) {
     this.appPath = appPath
     this.rawConfig = config
@@ -37,11 +42,18 @@ export class Combination<T extends MiniBuildConfig | H5BuildConfig = CommonBuild
 
   async make () {
     await this.pre(this.rawConfig)
-    this.process(this.config, this.appPath)
+    this.process(this.config)
     await this.post(this.config, this.chain)
   }
 
-  process (_config: T, _appPath: string) {}
+  process (config: Partial<T>) {
+    const {
+      isBuildNativeComp = false
+    } = config
+    if (isBuildNativeComp) {
+      this.isBuildNativeComp = true
+    }
+  }
 
   async pre (rawConfig: T) {
     const preMode = rawConfig.mode || process.env.NODE_ENV
@@ -76,10 +88,11 @@ export class Combination<T extends MiniBuildConfig | H5BuildConfig = CommonBuild
   }
 
   getPrebundleOptions () {
+    if (this.isBuildNativeComp) return { enable: false }
     if (this.prebundleOptions) return this.prebundleOptions
     const include: string[] = ['@tarojs/taro', '@tarojs/runtime']
     const exclude: string[] = []
-    if (process.env.TARO_ENV === 'h5') {
+    if (this.isWeb) {
       include.push('@tarojs/router')
     } else {
       // 小程序编译 Host 时需要扫描 @tarojs/components 的 useExports，因此不能被 external

@@ -1,0 +1,1 @@
+export default 'vue-mock'

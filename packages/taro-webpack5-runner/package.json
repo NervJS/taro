@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/webpack5-runner",
-  "version": "3.6.2",
+  "version": "3.6.2-canary.2",
   "description": "Taro app runner",
   "main": "index.js",
   "scripts": {
@@ -102,10 +102,13 @@
     "jest": "^29.3.1",
     "jest-cli": "^29.3.1",
     "jest-environment-node": "^29.5.0",
+    "memfs": "^3.1.2",
+    "memory-fs": "^0.5.0",
     "postcss": "^8.4.18",
     "ts-jest": "^29.0.5",
     "typescript": "^4.7.4",
-    "webpack": "5.69.0"
+    "webpack": "5.69.0",
+    "webpack-merge": "^4.2.2"
   },
   "peerDependencies": {
     "postcss": "^8.4.18",
