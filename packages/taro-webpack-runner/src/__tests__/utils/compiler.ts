@@ -12,6 +12,7 @@ import prodConf from '../../config/prod.conf'
 import { customizeChain } from '../../index'
 import { AppHelper } from '../../utils'
 import { makeConfig } from '../../utils/chain'
+import { componentConfig } from '../../utils/component'
 import { BuildConfig } from '../../utils/types'
 import baseConfig from './config'
 
@@ -162,9 +163,9 @@ function frameworkPatch (chain, webpack, config) {
     initialConfig: {
       framework: config.framework || 'react'
     },
-    modifyWebpackChain: cb => cb({ chain, webpack, data: {} }),
+    modifyWebpackChain: cb => cb({ chain, webpack, data: { componentConfig } }),
     modifyRunnerOpts: cb => cb(config),
-    onParseCreateElement: () => {}
+    onParseCreateElement: cb => cb({ nodeName: '', componentConfig })
   }
 
   let frameworkPlugin: any = ReactLikePlugin

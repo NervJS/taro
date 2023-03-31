@@ -1,9 +1,22 @@
 module.exports = {
+  moduleFileExtensions: ['js', 'jsx', 'ts', 'tsx', 'json', 'node'],
+  moduleNameMapper: {
+    '@pmmmwh/react-refresh-webpack-plugin': '<rootDir>/src/__tests__/mocks/react-refresh',
+    '@prefresh/webpack': '<rootDir>/src/__tests__/mocks/react-refresh'
+  },
   preset: 'ts-jest',
+  setupFilesAfterEnv: ['./src/__tests__/setup/index.ts'],
   testEnvironment: 'node',
   testEnvironmentOptions: {},
-  moduleFileExtensions: ['js', 'jsx', 'ts', 'tsx', 'json', 'node'],
-  setupFilesAfterEnv: ['./src/__tests__/setup/index.ts'],
   testMatch: ['**/__tests__/?(*.)+(spec|test).[jt]s?(x)'],
-  testTimeout: 60000
+  testTimeout: 120000,
+  transform: {
+    '^.+\\.m?[tj]sx?$': ['ts-jest', {
+      diagnostics: false,
+      tsconfig: 'tsconfig.test.json'
+    }],
+  },
+  transformIgnorePatterns: [
+    'node_modules',
+  ],
 }

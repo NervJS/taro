@@ -106,6 +106,7 @@ ${exampleCommand}`))
       ...config,
       nodeModulesPath: ctx.paths.nodeModulesPath,
       buildAdapter: config.platform,
+      platformType: this.platformType,
       globalObject,
       fileType,
       template,

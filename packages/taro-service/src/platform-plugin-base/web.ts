@@ -95,6 +95,8 @@ export abstract class TaroPlatformWeb<T extends TConfig = TConfig> extends TaroP
 
     return {
       ...config,
+      buildAdapter: config.platform,
+      platformType: this.platformType,
       ...extraOptions
     }
   }

@@ -3334,6 +3334,12 @@ importers:
       jest-environment-node:
         specifier: ^29.5.0
         version: registry.npmjs.org/jest-environment-node@29.5.0
+      memfs:
+        specifier: ^3.1.2
+        version: registry.npmjs.org/memfs@3.4.7
+      memory-fs:
+        specifier: ^0.5.0
+        version: registry.npmjs.org/memory-fs@0.5.0
       postcss:
         specifier: ^8.4.18
         version: registry.npmjs.org/postcss@8.4.21
@@ -3346,6 +3352,9 @@ importers:
       webpack:
         specifier: 5.69.0
         version: registry.npmjs.org/webpack@5.69.0(@swc/core@1.3.23)(esbuild@0.14.47)
+      webpack-merge:
+        specifier: ^4.2.2
+        version: registry.npmjs.org/webpack-merge@4.2.2
 
   packages/taro-with-weapp:
     dependencies:
@@ -7884,7 +7893,7 @@ packages:
       collect-v8-coverage: registry.npmjs.org/collect-v8-coverage@1.0.1
       exit: registry.npmjs.org/exit@0.1.2
       glob: registry.npmjs.org/glob@7.2.3
-      graceful-fs: registry.npmjs.org/graceful-fs@4.2.10
+      graceful-fs: registry.npmjs.org/graceful-fs@4.2.11
       istanbul-lib-coverage: registry.npmjs.org/istanbul-lib-coverage@3.2.0
       istanbul-lib-instrument: registry.npmjs.org/istanbul-lib-instrument@4.0.3
       istanbul-lib-report: registry.npmjs.org/istanbul-lib-report@3.0.0
@@ -7926,7 +7935,7 @@ packages:
       collect-v8-coverage: registry.npmjs.org/collect-v8-coverage@1.0.1
       exit: registry.npmjs.org/exit@0.1.2
       glob: registry.npmjs.org/glob@7.2.3
-      graceful-fs: registry.npmjs.org/graceful-fs@4.2.10
+      graceful-fs: registry.npmjs.org/graceful-fs@4.2.11
       istanbul-lib-coverage: registry.npmjs.org/istanbul-lib-coverage@3.2.0
       istanbul-lib-instrument: registry.npmjs.org/istanbul-lib-instrument@5.2.0
       istanbul-lib-report: registry.npmjs.org/istanbul-lib-report@3.0.0
@@ -8018,7 +8027,7 @@ packages:
     engines: {node: '>= 10.14.2'}
     dependencies:
       callsites: registry.npmjs.org/callsites@3.1.0
-      graceful-fs: registry.npmjs.org/graceful-fs@4.2.10
+      graceful-fs: registry.npmjs.org/graceful-fs@4.2.11
       source-map: registry.npmjs.org/source-map@0.6.1
     dev: true
 
@@ -8029,7 +8038,7 @@ packages:
     engines: {node: ^10.13.0 || ^12.13.0 || ^14.15.0 || >=15.0.0}
     dependencies:
       callsites: registry.npmjs.org/callsites@3.1.0
-      graceful-fs: registry.npmjs.org/graceful-fs@4.2.10
+      graceful-fs: registry.npmjs.org/graceful-fs@4.2.11
       source-map: registry.npmjs.org/source-map@0.6.1
     dev: true
 
@@ -8041,7 +8050,7 @@ packages:
     dependencies:
       '@jridgewell/trace-mapping': registry.npmjs.org/@jridgewell/trace-mapping@0.3.17
       callsites: registry.npmjs.org/callsites@3.1.0
-      graceful-fs: registry.npmjs.org/graceful-fs@4.2.10
+      graceful-fs: registry.npmjs.org/graceful-fs@4.2.11
     dev: true
 
   registry.npmjs.org/@jest/test-result@26.6.2:
@@ -8087,7 +8096,7 @@ packages:
     engines: {node: '>= 10.14.2'}
     dependencies:
       '@jest/test-result': registry.npmjs.org/@jest/test-result@26.6.2
-      graceful-fs: registry.npmjs.org/graceful-fs@4.2.10
+      graceful-fs: registry.npmjs.org/graceful-fs@4.2.11
       jest-haste-map: registry.npmjs.org/jest-haste-map@26.6.2
       jest-runner: registry.npmjs.org/jest-runner@26.6.3
       jest-runtime: registry.npmjs.org/jest-runtime@26.6.3
@@ -8106,7 +8115,7 @@ packages:
     engines: {node: ^10.13.0 || ^12.13.0 || ^14.15.0 || >=15.0.0}
     dependencies:
       '@jest/test-result': registry.npmjs.org/@jest/test-result@27.5.1
-      graceful-fs: registry.npmjs.org/graceful-fs@4.2.10
+      graceful-fs: registry.npmjs.org/graceful-fs@4.2.11
       jest-haste-map: registry.npmjs.org/jest-haste-map@27.5.1
       jest-runtime: registry.npmjs.org/jest-runtime@27.5.1
     transitivePeerDependencies:
@@ -8137,7 +8146,7 @@ packages:
       chalk: registry.npmjs.org/chalk@4.1.2
       convert-source-map: registry.npmjs.org/convert-source-map@1.8.0
       fast-json-stable-stringify: registry.npmjs.org/fast-json-stable-stringify@2.1.0
-      graceful-fs: registry.npmjs.org/graceful-fs@4.2.10
+      graceful-fs: registry.npmjs.org/graceful-fs@4.2.11
       jest-haste-map: registry.npmjs.org/jest-haste-map@26.6.2
       jest-regex-util: registry.npmjs.org/jest-regex-util@26.0.0
       jest-util: registry.npmjs.org/jest-util@26.6.2
@@ -8162,7 +8171,7 @@ packages:
       chalk: registry.npmjs.org/chalk@4.1.2
       convert-source-map: registry.npmjs.org/convert-source-map@1.8.0
       fast-json-stable-stringify: registry.npmjs.org/fast-json-stable-stringify@2.1.0
-      graceful-fs: registry.npmjs.org/graceful-fs@4.2.10
+      graceful-fs: registry.npmjs.org/graceful-fs@4.2.11
       jest-haste-map: registry.npmjs.org/jest-haste-map@27.5.1
       jest-regex-util: registry.npmjs.org/jest-regex-util@27.5.1
       jest-util: registry.npmjs.org/jest-util@27.5.1
@@ -13656,7 +13665,7 @@ packages:
       babel-plugin-istanbul: registry.npmjs.org/babel-plugin-istanbul@6.1.1
       babel-preset-jest: registry.npmjs.org/babel-preset-jest@27.5.1(@babel/core@7.18.5)
       chalk: registry.npmjs.org/chalk@4.1.2
-      graceful-fs: registry.npmjs.org/graceful-fs@4.2.10
+      graceful-fs: registry.npmjs.org/graceful-fs@4.2.11
       slash: registry.npmjs.org/slash@3.0.0
     transitivePeerDependencies:
       - supports-color
@@ -16336,7 +16345,7 @@ packages:
     engines: {node: '>=4'}
     dependencies:
       dot-prop: registry.npmjs.org/dot-prop@4.2.1
-      graceful-fs: registry.npmjs.org/graceful-fs@4.2.10
+      graceful-fs: registry.npmjs.org/graceful-fs@4.2.11
       make-dir: registry.npmjs.org/make-dir@1.3.0
       unique-string: registry.npmjs.org/unique-string@1.0.0
       write-file-atomic: registry.npmjs.org/write-file-atomic@2.4.3
@@ -17019,7 +17028,7 @@ packages:
     version: 9.1.0
     engines: {node: '>=10'}
     dependencies:
-      graceful-fs: registry.npmjs.org/graceful-fs@4.2.10
+      graceful-fs: registry.npmjs.org/graceful-fs@4.2.11
       make-dir: registry.npmjs.org/make-dir@3.1.0
       nested-error-stacks: registry.npmjs.org/nested-error-stacks@2.1.1
       p-event: registry.npmjs.org/p-event@4.2.0
@@ -21163,7 +21172,7 @@ packages:
     version: 10.1.0
     engines: {node: '>=12'}
     dependencies:
-      graceful-fs: registry.npmjs.org/graceful-fs@4.2.10
+      graceful-fs: registry.npmjs.org/graceful-fs@4.2.11
       jsonfile: registry.npmjs.org/jsonfile@6.1.0
       universalify: registry.npmjs.org/universalify@2.0.0
     dev: true
@@ -21185,7 +21194,7 @@ packages:
     engines: {node: '>=10'}
     dependencies:
       at-least-node: registry.npmjs.org/at-least-node@1.0.0
-      graceful-fs: registry.npmjs.org/graceful-fs@4.2.10
+      graceful-fs: registry.npmjs.org/graceful-fs@4.2.11
       jsonfile: registry.npmjs.org/jsonfile@6.1.0
       universalify: registry.npmjs.org/universalify@1.0.0
 
@@ -21196,7 +21205,7 @@ packages:
     engines: {node: '>=10'}
     dependencies:
       at-least-node: registry.npmjs.org/at-least-node@1.0.0
-      graceful-fs: registry.npmjs.org/graceful-fs@4.2.10
+      graceful-fs: registry.npmjs.org/graceful-fs@4.2.11
       jsonfile: registry.npmjs.org/jsonfile@6.1.0
       universalify: registry.npmjs.org/universalify@2.0.0
 
@@ -21224,7 +21233,7 @@ packages:
     name: fs-write-stream-atomic
     version: 1.0.10
     dependencies:
-      graceful-fs: registry.npmjs.org/graceful-fs@4.2.10
+      graceful-fs: registry.npmjs.org/graceful-fs@4.2.11
       iferr: registry.npmjs.org/iferr@0.1.5
       imurmurhash: registry.npmjs.org/imurmurhash@0.1.4
       readable-stream: registry.npmjs.org/readable-stream@2.3.7
@@ -24457,7 +24466,7 @@ packages:
       '@types/node': registry.npmjs.org/@types/node@14.18.21
       anymatch: registry.npmjs.org/anymatch@3.1.2
       fb-watchman: registry.npmjs.org/fb-watchman@2.0.1
-      graceful-fs: registry.npmjs.org/graceful-fs@4.2.10
+      graceful-fs: registry.npmjs.org/graceful-fs@4.2.11
       jest-regex-util: registry.npmjs.org/jest-regex-util@26.0.0
       jest-serializer: registry.npmjs.org/jest-serializer@26.6.2
       jest-util: registry.npmjs.org/jest-util@26.6.2
@@ -24482,7 +24491,7 @@ packages:
       '@types/node': registry.npmjs.org/@types/node@14.18.21
       anymatch: registry.npmjs.org/anymatch@3.1.2
       fb-watchman: registry.npmjs.org/fb-watchman@2.0.1
-      graceful-fs: registry.npmjs.org/graceful-fs@4.2.10
+      graceful-fs: registry.npmjs.org/graceful-fs@4.2.11
       jest-regex-util: registry.npmjs.org/jest-regex-util@27.5.1
       jest-serializer: registry.npmjs.org/jest-serializer@27.5.1
       jest-util: registry.npmjs.org/jest-util@27.5.1
@@ -24649,7 +24658,7 @@ packages:
       '@jest/types': registry.npmjs.org/@jest/types@26.6.2
       '@types/stack-utils': registry.npmjs.org/@types/stack-utils@2.0.1
       chalk: registry.npmjs.org/chalk@4.1.2
-      graceful-fs: registry.npmjs.org/graceful-fs@4.2.10
+      graceful-fs: registry.npmjs.org/graceful-fs@4.2.11
       micromatch: registry.npmjs.org/micromatch@4.0.5
       pretty-format: registry.npmjs.org/pretty-format@26.6.2
       slash: registry.npmjs.org/slash@3.0.0
@@ -24666,7 +24675,7 @@ packages:
       '@jest/types': registry.npmjs.org/@jest/types@27.5.1
       '@types/stack-utils': registry.npmjs.org/@types/stack-utils@2.0.1
       chalk: registry.npmjs.org/chalk@4.1.2
-      graceful-fs: registry.npmjs.org/graceful-fs@4.2.10
+      graceful-fs: registry.npmjs.org/graceful-fs@4.2.11
       micromatch: registry.npmjs.org/micromatch@4.0.5
       pretty-format: registry.npmjs.org/pretty-format@27.5.1
       slash: registry.npmjs.org/slash@3.0.0
@@ -24860,7 +24869,7 @@ packages:
     dependencies:
       '@jest/types': registry.npmjs.org/@jest/types@26.6.2
       chalk: registry.npmjs.org/chalk@4.1.2
-      graceful-fs: registry.npmjs.org/graceful-fs@4.2.10
+      graceful-fs: registry.npmjs.org/graceful-fs@4.2.11
       jest-pnp-resolver: registry.npmjs.org/jest-pnp-resolver@1.2.2(jest-resolve@26.6.2)
       jest-util: registry.npmjs.org/jest-util@26.6.2
       read-pkg-up: registry.npmjs.org/read-pkg-up@7.0.1
@@ -24876,7 +24885,7 @@ packages:
     dependencies:
       '@jest/types': registry.npmjs.org/@jest/types@27.5.1
       chalk: registry.npmjs.org/chalk@4.1.2
-      graceful-fs: registry.npmjs.org/graceful-fs@4.2.10
+      graceful-fs: registry.npmjs.org/graceful-fs@4.2.11
       jest-haste-map: registry.npmjs.org/jest-haste-map@27.5.1
       jest-pnp-resolver: registry.npmjs.org/jest-pnp-resolver@1.2.2(jest-resolve@27.5.1)
       jest-util: registry.npmjs.org/jest-util@27.5.1
@@ -24917,7 +24926,7 @@ packages:
       chalk: registry.npmjs.org/chalk@4.1.2
       emittery: registry.npmjs.org/emittery@0.7.2
       exit: registry.npmjs.org/exit@0.1.2
-      graceful-fs: registry.npmjs.org/graceful-fs@4.2.10
+      graceful-fs: registry.npmjs.org/graceful-fs@4.2.11
       jest-config: registry.npmjs.org/jest-config@26.6.3
       jest-docblock: registry.npmjs.org/jest-docblock@26.0.0
       jest-haste-map: registry.npmjs.org/jest-haste-map@26.6.2
@@ -24951,7 +24960,7 @@ packages:
       '@types/node': registry.npmjs.org/@types/node@14.18.21
       chalk: registry.npmjs.org/chalk@4.1.2
       emittery: registry.npmjs.org/emittery@0.8.1
-      graceful-fs: registry.npmjs.org/graceful-fs@4.2.10
+      graceful-fs: registry.npmjs.org/graceful-fs@4.2.11
       jest-docblock: registry.npmjs.org/jest-docblock@27.5.1
       jest-environment-jsdom: registry.npmjs.org/jest-environment-jsdom@27.5.1
       jest-environment-node: registry.npmjs.org/jest-environment-node@27.5.1
@@ -25023,7 +25032,7 @@ packages:
       collect-v8-coverage: registry.npmjs.org/collect-v8-coverage@1.0.1
       exit: registry.npmjs.org/exit@0.1.2
       glob: registry.npmjs.org/glob@7.2.3
-      graceful-fs: registry.npmjs.org/graceful-fs@4.2.10
+      graceful-fs: registry.npmjs.org/graceful-fs@4.2.11
       jest-config: registry.npmjs.org/jest-config@26.6.3
       jest-haste-map: registry.npmjs.org/jest-haste-map@26.6.2
       jest-message-util: registry.npmjs.org/jest-message-util@26.6.2
@@ -25062,7 +25071,7 @@ packages:
       collect-v8-coverage: registry.npmjs.org/collect-v8-coverage@1.0.1
       execa: registry.npmjs.org/execa@5.1.1
       glob: registry.npmjs.org/glob@7.2.3
-      graceful-fs: registry.npmjs.org/graceful-fs@4.2.10
+      graceful-fs: registry.npmjs.org/graceful-fs@4.2.11
       jest-haste-map: registry.npmjs.org/jest-haste-map@27.5.1
       jest-message-util: registry.npmjs.org/jest-message-util@27.5.1
       jest-mock: registry.npmjs.org/jest-mock@27.5.1
@@ -25116,7 +25125,7 @@ packages:
     engines: {node: '>= 10.14.2'}
     dependencies:
       '@types/node': registry.npmjs.org/@types/node@14.18.21
-      graceful-fs: registry.npmjs.org/graceful-fs@4.2.10
+      graceful-fs: registry.npmjs.org/graceful-fs@4.2.11
     dev: true
 
   registry.npmjs.org/jest-serializer@27.5.1:
@@ -25126,7 +25135,7 @@ packages:
     engines: {node: ^10.13.0 || ^12.13.0 || ^14.15.0 || >=15.0.0}
     dependencies:
       '@types/node': registry.npmjs.org/@types/node@14.18.21
-      graceful-fs: registry.npmjs.org/graceful-fs@4.2.10
+      graceful-fs: registry.npmjs.org/graceful-fs@4.2.11
 
   registry.npmjs.org/jest-snapshot@26.6.2:
     resolution: {integrity: sha512-OLhxz05EzUtsAmOMzuupt1lHYXCNib0ECyuZ/PZOx9TrZcC8vL0x+DUG3TL+GLX3yHG45e6YGjIm0XwDc3q3og==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/jest-snapshot/-/jest-snapshot-26.6.2.tgz}
@@ -25140,7 +25149,7 @@ packages:
       '@types/prettier': registry.npmjs.org/@types/prettier@2.6.3
       chalk: registry.npmjs.org/chalk@4.1.2
       expect: registry.npmjs.org/expect@26.6.2
-      graceful-fs: registry.npmjs.org/graceful-fs@4.2.10
+      graceful-fs: registry.npmjs.org/graceful-fs@4.2.11
       jest-diff: registry.npmjs.org/jest-diff@26.6.2
       jest-get-type: registry.npmjs.org/jest-get-type@26.3.0
       jest-haste-map: registry.npmjs.org/jest-haste-map@26.6.2
@@ -25172,7 +25181,7 @@ packages:
       babel-preset-current-node-syntax: registry.npmjs.org/babel-preset-current-node-syntax@1.0.1(@babel/core@7.18.5)
       chalk: registry.npmjs.org/chalk@4.1.2
       expect: registry.npmjs.org/expect@27.5.1
-      graceful-fs: registry.npmjs.org/graceful-fs@4.2.10
+      graceful-fs: registry.npmjs.org/graceful-fs@4.2.11
       jest-diff: registry.npmjs.org/jest-diff@27.5.1
       jest-get-type: registry.npmjs.org/jest-get-type@27.5.1
       jest-haste-map: registry.npmjs.org/jest-haste-map@27.5.1
@@ -25624,7 +25633,7 @@ packages:
       babel-core: registry.npmjs.org/babel-core@7.0.0-bridge.0(@babel/core@7.18.5)
       colors: registry.npmjs.org/colors@1.4.0
       flow-parser: registry.npmjs.org/flow-parser@0.121.0
-      graceful-fs: registry.npmjs.org/graceful-fs@4.2.10
+      graceful-fs: registry.npmjs.org/graceful-fs@4.2.11
       micromatch: registry.npmjs.org/micromatch@3.1.10(supports-color@6.1.0)
       neo-async: registry.npmjs.org/neo-async@2.6.2
       node-dir: registry.npmjs.org/node-dir@0.1.17
@@ -25657,7 +25666,7 @@ packages:
       babel-core: registry.npmjs.org/babel-core@7.0.0-bridge.0(@babel/core@7.18.5)
       chalk: registry.npmjs.org/chalk@4.1.2
       flow-parser: registry.npmjs.org/flow-parser@0.121.0
-      graceful-fs: registry.npmjs.org/graceful-fs@4.2.10
+      graceful-fs: registry.npmjs.org/graceful-fs@4.2.11
       micromatch: registry.npmjs.org/micromatch@3.1.10(supports-color@6.1.0)
       neo-async: registry.npmjs.org/neo-async@2.6.2
       node-dir: registry.npmjs.org/node-dir@0.1.17
@@ -25918,14 +25927,14 @@ packages:
     name: jsonfile
     version: 2.4.0
     optionalDependencies:
-      graceful-fs: registry.npmjs.org/graceful-fs@4.2.10
+      graceful-fs: registry.npmjs.org/graceful-fs@4.2.11
 
   registry.npmjs.org/jsonfile@4.0.0:
     resolution: {integrity: sha512-m6F1R3z8jjlf2imQHS2Qez5sjKWQzbuuhuJ/FKYFRZvPE3PuHcSMVZzfsLhGVOkfd20obL5SWEBew5ShlquNxg==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/jsonfile/-/jsonfile-4.0.0.tgz}
     name: jsonfile
     version: 4.0.0
     optionalDependencies:
-      graceful-fs: registry.npmjs.org/graceful-fs@4.2.10
+      graceful-fs: registry.npmjs.org/graceful-fs@4.2.11
 
   registry.npmjs.org/jsonfile@6.1.0:
     resolution: {integrity: sha512-5dgndWOriYSm5cnYaJNhalLNDKOqFwyDB/rr1E9ZsGciGvKPs8R2xYGCacuf3z6K1YKDz182fd+fY3cn3pMqXQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/jsonfile/-/jsonfile-6.1.0.tgz}
@@ -25934,7 +25943,7 @@ packages:
     dependencies:
       universalify: registry.npmjs.org/universalify@2.0.0
     optionalDependencies:
-      graceful-fs: registry.npmjs.org/graceful-fs@4.2.10
+      graceful-fs: registry.npmjs.org/graceful-fs@4.2.11
 
   registry.npmjs.org/jsonp-retry@1.0.3:
     resolution: {integrity: sha512-/jmE9+shtKP+oIt2AWO9Wx+C27NTGpLCEw4QHOqpoV2X6ta374HE9C+EEdgu8r3iLKgFMx7u5j0mCwxWN8UdlA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/jsonp-retry/-/jsonp-retry-1.0.3.tgz}
@@ -26089,7 +26098,7 @@ packages:
     name: klaw
     version: 1.3.1
     optionalDependencies:
-      graceful-fs: registry.npmjs.org/graceful-fs@4.2.10
+      graceful-fs: registry.npmjs.org/graceful-fs@4.2.11
 
   registry.npmjs.org/kleur@3.0.3:
     resolution: {integrity: sha512-eTIzlVOSUR+JxdDFepEYcBMtZ9Qqdef+rnzWdRZuMbOywu5tO2w2N7rqjoANZ5k9vywhL6Br1VRjUIgTQx4E8w==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/kleur/-/kleur-3.0.3.tgz}
@@ -26330,7 +26339,7 @@ packages:
     version: 4.0.0
     engines: {node: '>=4'}
     dependencies:
-      graceful-fs: registry.npmjs.org/graceful-fs@4.2.10
+      graceful-fs: registry.npmjs.org/graceful-fs@4.2.11
       parse-json: registry.npmjs.org/parse-json@4.0.0
       pify: registry.npmjs.org/pify@3.0.0
       strip-bom: registry.npmjs.org/strip-bom@3.0.0
@@ -26342,7 +26351,7 @@ packages:
     version: 0.2.0
     engines: {node: '>=6'}
     dependencies:
-      graceful-fs: registry.npmjs.org/graceful-fs@4.2.10
+      graceful-fs: registry.npmjs.org/graceful-fs@4.2.11
       js-yaml: registry.npmjs.org/js-yaml@3.14.1
       pify: registry.npmjs.org/pify@4.0.1
       strip-bom: registry.npmjs.org/strip-bom@3.0.0
@@ -31899,7 +31908,7 @@ packages:
     dependencies:
       debuglog: registry.npmjs.org/debuglog@1.0.1
       dezalgo: registry.npmjs.org/dezalgo@1.0.4
-      graceful-fs: registry.npmjs.org/graceful-fs@4.2.10
+      graceful-fs: registry.npmjs.org/graceful-fs@4.2.11
       once: registry.npmjs.org/once@1.4.0
     dev: false
 
@@ -37294,7 +37303,7 @@ packages:
     name: write-file-atomic
     version: 2.4.3
     dependencies:
-      graceful-fs: registry.npmjs.org/graceful-fs@4.2.10
+      graceful-fs: registry.npmjs.org/graceful-fs@4.2.11
       imurmurhash: registry.npmjs.org/imurmurhash@0.1.4
       signal-exit: registry.npmjs.org/signal-exit@3.0.7
 

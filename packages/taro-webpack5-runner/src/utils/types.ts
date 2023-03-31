@@ -37,6 +37,8 @@ export interface IFileType {
 export interface CommonBuildConfig extends IProjectBaseConfig {
   entry?: Webpack.EntryObject
   mode: 'production' | 'development' | 'none'
+  buildAdapter: string // weapp | swan | alipay | tt | qq | jd | h5
+  platformType: string // mini | web
   /** special mode */
   isBuildNativeComp?: boolean
   /** hooks */
@@ -48,7 +50,6 @@ export interface MiniBuildConfig extends CommonBuildConfig, IMiniAppConfig {
   isBuildPlugin: boolean
   isSupportRecursive: boolean
   isSupportXS: boolean
-  buildAdapter: string
   nodeModulesPath: string
   fileType: IFileType
   globalObject: string
