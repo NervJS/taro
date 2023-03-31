@@ -1285,8 +1285,6 @@ importers:
         specifier: 18.1.0
         version: registry.npmjs.org/react-test-renderer@18.1.0(react@18.1.0)
 
-  packages/taro-components/loader: {}
-
   packages/taro-extend:
     devDependencies:
       jest:
@@ -1789,9 +1787,18 @@ importers:
 
   packages/taro-plugin-html:
     dependencies:
+      '@babel/generator':
+        specifier: ^7.20.0
+        version: registry.npmjs.org/@babel/generator@7.20.14
       '@babel/parser':
         specifier: ^7.20.0
         version: registry.npmjs.org/@babel/parser@7.20.13
+      '@babel/traverse':
+        specifier: ^7.20.0
+        version: registry.npmjs.org/@babel/traverse@7.20.13
+      '@babel/types':
+        specifier: ^7.20.0
+        version: registry.npmjs.org/@babel/types@7.20.7
       '@tarojs/runtime':
         specifier: workspace:*
         version: link:../taro-runtime
@@ -1802,15 +1809,6 @@ importers:
         specifier: workspace:*
         version: link:../shared
     devDependencies:
-      '@babel/generator':
-        specifier: ^7.20.0
-        version: registry.npmjs.org/@babel/generator@7.20.14
-      '@babel/traverse':
-        specifier: ^7.20.0
-        version: registry.npmjs.org/@babel/traverse@7.20.13
-      '@babel/types':
-        specifier: ^7.20.0
-        version: registry.npmjs.org/@babel/types@7.20.7
       '@tarojs/taro':
         specifier: workspace:*
         version: link:../taro
@@ -32286,7 +32284,7 @@ packages:
     name: read-package-json
     version: 2.1.2
     dependencies:
-      glob: registry.npmjs.org/glob@7.1.2
+      glob: registry.npmjs.org/glob@7.2.3
       json-parse-even-better-errors: registry.npmjs.org/json-parse-even-better-errors@2.3.1
       normalize-package-data: registry.npmjs.org/normalize-package-data@2.5.0
       npm-normalize-package-bin: registry.npmjs.org/npm-normalize-package-bin@1.0.1
