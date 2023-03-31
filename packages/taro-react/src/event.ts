@@ -18,7 +18,6 @@ interface RestoreItem {
 let restoreTarget: RestoreItem | null = null
 let restoreQueue: RestoreItem[] | null = null
 
-
 // 对比 TaroElement tracker 下的 value 和事件下的 value，判断 element 的值是否存在更改
 export function getTargetInstForInputOrChangeEvent (e: TaroEvent, node: TaroElement) {
   const targetInst = getInstanceFromNode(node)
