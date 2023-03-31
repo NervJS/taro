@@ -12,6 +12,44 @@ import { logger } from '../utils/logger'
 import type { CSSModulesOptions,PluginOption } from 'vite'
 import type { MiniBuildConfig } from '../utils/types'
 
+const DEFAULT_TERSER_OPTIONS = {
+  parse: {
+    ecma: 8
+  },
+  compress: {
+    ecma: 5,
+    warnings: false,
+    arrows: false,
+    collapse_vars: false,
+    comparisons: false,
+    computed_props: false,
+    hoist_funs: false,
+    hoist_props: false,
+    hoist_vars: false,
+    inline: false,
+    loops: false,
+    negate_iife: false,
+    properties: false,
+    reduce_funcs: false,
+    reduce_vars: false,
+    switches: false,
+    toplevel: false,
+    typeofs: false,
+    booleans: true,
+    if_return: true,
+    sequences: true,
+    unused: true,
+    conditionals: true,
+    dead_code: true,
+    evaluate: true
+  },
+  output: {
+    ecma: 5,
+    comments: false,
+    ascii_only: true
+  }
+}
+
 export default function (appPath: string, taroConfig: MiniBuildConfig): PluginOption {
   function getDefineOption () {
     const {
@@ -176,14 +214,13 @@ export default function (appPath: string, taroConfig: MiniBuildConfig): PluginOp
       mode: taroConfig.mode,
       outDir: taroConfig.outputRoot || 'dist',
       build: {
+        target: 'es6',
         cssCodeSplit: true,
         emptyOutDir: false,
         lib: {
           entry: taroConfig.entry.app,
           formats: ['cjs']
         },
-        // @TODO Minify tools support selected
-        minify: taroConfig.mode === 'production',
         watch: taroConfig.isWatch ? {} : null,
         // @TODO doc needed: sourcemapType not supported
         sourcemap: taroConfig.enableSourceMap ?? taroConfig.isWatch ?? process.env.NODE_ENV !== 'production',
@@ -211,7 +248,17 @@ export default function (appPath: string, taroConfig: MiniBuildConfig): PluginOp
         commonjsOptions: {
           exclude: [/\.esm/, /[/\\]esm[/\\]/],
           transformMixedEsModules: true
-        }
+        },
+        minify: taroConfig.mode !== 'production'
+          ? false
+          : taroConfig.jsMinimizer === 'esbuild'
+            ? taroConfig.esbuild?.minify?.enable === false
+              ? false // 只有在明确配置了 esbuild.minify.enable: false 时才不启用压缩
+              : 'esbuild'
+            : taroConfig.terser?.enable === false
+              ? false // 只有在明确配置了 terser.enable: false 时才不启用压缩
+              : 'terser',
+        terserOptions: recursiveMerge({}, DEFAULT_TERSER_OPTIONS, taroConfig.terser?.config || {}),
       },
       define: getDefineOption(),
       resolve: {
