@@ -852,7 +852,7 @@ importers:
   packages/taro-components:
     dependencies:
       '@stencil/core':
-        specifier: ^2.18.1
+        specifier: ^2.22.2
         version: registry.npmjs.org/@stencil/core@2.22.2
       '@tarojs/components-advanced':
         specifier: workspace:*
@@ -3105,8 +3105,8 @@ importers:
         specifier: 6.5.1
         version: registry.npmjs.org/webpack-chain@6.5.1
       webpack-virtual-modules:
-        specifier: ^0.4.3
-        version: registry.npmjs.org/webpack-virtual-modules@0.4.6
+        specifier: ^0.5.0
+        version: registry.npmjs.org/webpack-virtual-modules@0.5.0
     devDependencies:
       jest:
         specifier: ^29.3.1
@@ -11875,7 +11875,7 @@ packages:
       source-map: registry.npmjs.org/source-map@0.6.1
       vue-template-es2015-compiler: registry.npmjs.org/vue-template-es2015-compiler@1.9.1
     optionalDependencies:
-      prettier: registry.npmjs.org/prettier@2.7.1
+      prettier: registry.npmjs.org/prettier@2.8.7
     transitivePeerDependencies:
       - arc-templates
       - atpl
@@ -15174,7 +15174,7 @@ packages:
     engines: {node: ^6 || ^7 || ^8 || ^9 || ^10 || ^11 || ^12 || >=13.7}
     hasBin: true
     dependencies:
-      caniuse-lite: registry.npmjs.org/caniuse-lite@1.0.30001472
+      caniuse-lite: registry.npmjs.org/caniuse-lite@1.0.30001473
       electron-to-chromium: registry.npmjs.org/electron-to-chromium@1.4.170
       node-releases: registry.npmjs.org/node-releases@2.0.5
       update-browserslist-db: registry.npmjs.org/update-browserslist-db@1.0.4(browserslist@4.21.0)
@@ -15552,10 +15552,10 @@ packages:
     name: caniuse-lite
     version: 1.0.30001452
 
-  registry.npmjs.org/caniuse-lite@1.0.30001472:
-    resolution: {integrity: sha512-xWC/0+hHHQgj3/vrKYY0AAzeIUgr7L9wlELIcAvZdDUHlhL/kNxMdnQLOSOQfP8R51ZzPhmHdyMkI0MMpmxCfg==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/caniuse-lite/-/caniuse-lite-1.0.30001472.tgz}
+  registry.npmjs.org/caniuse-lite@1.0.30001473:
+    resolution: {integrity: sha512-ewDad7+D2vlyy+E4UJuVfiBsU69IL+8oVmTuZnH5Q6CIUbxNfI50uVpRHbUPDD6SUaN2o0Lh4DhTrvLG/Tn1yg==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/caniuse-lite/-/caniuse-lite-1.0.30001473.tgz}
     name: caniuse-lite
-    version: 1.0.30001472
+    version: 1.0.30001473
 
   registry.npmjs.org/capital-case@1.0.4:
     resolution: {integrity: sha512-ds37W8CytHgwnhGGTi88pcPyR15qoNkOpYwmMMfnWqqWgESapLqvDx6huFjQ5vqWSn2Z06173XNA7LtMOeUh1A==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/capital-case/-/capital-case-1.0.4.tgz}
@@ -21894,6 +21894,11 @@ packages:
     name: graceful-fs
     version: 4.2.10
 
+  registry.npmjs.org/graceful-fs@4.2.11:
+    resolution: {integrity: sha512-RbJ5/jmFcNNCcDV5o9eTnBLJ/HszWV0P73bc+Ff4nS/rJj+YaS6IGyiOL0VoBYX+l1Wrl3k63h/KrH+nhJ0XvQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/graceful-fs/-/graceful-fs-4.2.11.tgz}
+    name: graceful-fs
+    version: 4.2.11
+
   registry.npmjs.org/graphql-tag@2.12.6(graphql@15.8.0):
     resolution: {integrity: sha512-FdSNcu2QQcWnM2VNvSCCDCVS5PpPqpzgFT8+GXzqJuoDd0CBncxCY278u4mhRO7tMgo2JjgJA5aZ+nWSQ/Z+xg==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/graphql-tag/-/graphql-tag-2.12.6.tgz}
     id: registry.npmjs.org/graphql-tag/2.12.6
@@ -26179,7 +26184,7 @@ packages:
       tslib: registry.npmjs.org/tslib@1.14.1
     optionalDependencies:
       errno: registry.npmjs.org/errno@0.1.8
-      graceful-fs: registry.npmjs.org/graceful-fs@4.2.10
+      graceful-fs: registry.npmjs.org/graceful-fs@4.2.11
       image-size: registry.npmjs.org/image-size@0.5.5
       make-dir: registry.npmjs.org/make-dir@2.1.0
       mime: registry.npmjs.org/mime@1.6.0
@@ -26199,11 +26204,11 @@ packages:
       tslib: registry.npmjs.org/tslib@2.4.0
     optionalDependencies:
       errno: registry.npmjs.org/errno@0.1.8
-      graceful-fs: registry.npmjs.org/graceful-fs@4.2.10
+      graceful-fs: registry.npmjs.org/graceful-fs@4.2.11
       image-size: registry.npmjs.org/image-size@0.5.5
       make-dir: registry.npmjs.org/make-dir@2.1.0
       mime: registry.npmjs.org/mime@1.6.0
-      needle: registry.npmjs.org/needle@3.1.0
+      needle: registry.npmjs.org/needle@3.2.0
       source-map: registry.npmjs.org/source-map@0.6.1
     transitivePeerDependencies:
       - supports-color
@@ -27926,10 +27931,10 @@ packages:
     hasBin: true
     optional: true
 
-  registry.npmjs.org/needle@3.1.0:
-    resolution: {integrity: sha512-gCE9weDhjVGCRqS8dwDR/D3GTAeyXLXuqp7I8EzH6DllZGXSUyxuqqLh+YX9rMAWaaTFyVAg6rHGL25dqvczKw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/needle/-/needle-3.1.0.tgz}
+  registry.npmjs.org/needle@3.2.0:
+    resolution: {integrity: sha512-oUvzXnyLiVyVGoianLijF9O/RecZUf7TkBfimjGrLM4eQhXyeJwM6GeAWccwfQ9aa4gMCZKqhAOuLaMIcQxajQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/needle/-/needle-3.2.0.tgz}
     name: needle
-    version: 3.1.0
+    version: 3.2.0
     engines: {node: '>= 4.4.x'}
     hasBin: true
     requiresBuild: true
@@ -30697,6 +30702,16 @@ packages:
     hasBin: true
     requiresBuild: true
 
+  registry.npmjs.org/prettier@2.8.7:
+    resolution: {integrity: sha512-yPngTo3aXUUmyuTjeTUT75txrf+aMh9FiD7q9ZE/i6r0bPb22g4FsE6Y338PQX1bmfy08i9QQCB7/rcUAVntfw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/prettier/-/prettier-2.8.7.tgz}
+    name: prettier
+    version: 2.8.7
+    engines: {node: '>=10.13.0'}
+    hasBin: true
+    requiresBuild: true
+    dev: true
+    optional: true
+
   registry.npmjs.org/pretty-bytes@5.6.0:
     resolution: {integrity: sha512-FFw039TmrBqFK8ma/7OL3sDz/VytdtJr044/QUJtH0wK9lb9jLq9tJyIxUwtQJHwar2BqtiA4iCWSwo9JLkzFg==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/pretty-bytes/-/pretty-bytes-5.6.0.tgz}
     name: pretty-bytes
@@ -31895,7 +31910,7 @@ packages:
     version: 2.2.1
     engines: {node: '>=0.10'}
     dependencies:
-      graceful-fs: registry.npmjs.org/graceful-fs@4.2.10
+      graceful-fs: registry.npmjs.org/graceful-fs@4.2.11
       micromatch: registry.npmjs.org/micromatch@3.1.10(supports-color@6.1.0)
       readable-stream: registry.npmjs.org/readable-stream@2.3.7
     transitivePeerDependencies:
@@ -36943,10 +36958,10 @@ packages:
     version: 3.2.3
     engines: {node: '>=10.13.0'}
 
-  registry.npmjs.org/webpack-virtual-modules@0.4.6:
-    resolution: {integrity: sha512-5tyDlKLqPfMqjT3Q9TAqf2YqjwmnUleZwzJi1A5qXnlBCdj2AtOJ6wAWdglTIDOPgOiOrXeBeFcsQ8+aGQ6QbA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/webpack-virtual-modules/-/webpack-virtual-modules-0.4.6.tgz}
+  registry.npmjs.org/webpack-virtual-modules@0.5.0:
+    resolution: {integrity: sha512-kyDivFZ7ZM0BVOUteVbDFhlRt7Ah/CSPwJdi8hBpkK7QLumUqdLtVfm/PX/hkcnrvr0i77fO5+TjZ94Pe+C9iw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/webpack-virtual-modules/-/webpack-virtual-modules-0.5.0.tgz}
     name: webpack-virtual-modules
-    version: 0.4.6
+    version: 0.5.0
     dev: false
 
   registry.npmjs.org/webpack@4.46.0:

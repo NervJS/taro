@@ -32,21 +32,6 @@ export default function (this: webpack.LoaderContext<any>) {
   const pageName = isMultiRouterMode ? join(pathDirname, options.filename).replace(options.sourceDir + '/', '') : ''
   const pages: Map<string, string> = options.pages
   const pxTransformConfig = options.pxTransformConfig
-  if (options.bootstrap) {
-    /** NOTE: Webpack Virtual Module plugin doesn't support triggering a rebuild for webpack5,
-     * which can cause "module not found" error when webpack5 cache is enabled.
-     * Currently the only "non-hacky" workaround is to mark this module as non-cacheable.
-     *
-     * See also:
-     *   - https://github.com/sysgears/webpack-virtual-modules/issues/76
-     *   - https://github.com/sysgears/webpack-virtual-modules/issues/86
-     *   - https://github.com/windicss/windicss-webpack-plugin/blob/bbb91323a2a0c0f880eecdf49b831be092ccf511/src/loaders/virtual-module.ts
-     *   - https://github.com/sveltejs/svelte-loader/pull/151
-     */
-    this.cacheable?.(false)
-    return `import(${stringify(join(options.sourceDir, `${isMultiRouterMode ? pageName : options.entryFileName}.boot`))})`
-  }
-
   const runtimePath = Array.isArray(options.runtimePath) ? options.runtimePath : [options.runtimePath]
   let setReconcilerPost = ''
   const setReconciler = runtimePath.reduce((res, item) => {
@@ -74,6 +59,7 @@ initPxTransform({
 }).call(component)
 export default component`
   }
+  if (options.bootstrap) return `import(${stringify(join(options.sourceDir, `${isMultiRouterMode ? pageName : options.entryFileName}.boot`))})`
 
   let tabBarCode = `var tabbarIconPath = []
 var tabbarSelectedIconPath = []
