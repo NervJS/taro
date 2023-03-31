@@ -38,7 +38,7 @@
     "fs-extra": "^8.0.1",
     "lodash": "^4.17.21",
     "webpack-chain": "6.5.1",
-    "webpack-virtual-modules": "^0.4.3"
+    "webpack-virtual-modules": "^0.5.0"
   },
   "devDependencies": {
     "jest": "^29.3.1",
