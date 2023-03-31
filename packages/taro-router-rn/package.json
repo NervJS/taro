@@ -12,10 +12,7 @@
   "scripts": {
     "build": "tsc",
     "dev": "tsc -w",
-    "lint": "eslint .",
-    "test": "jest",
-    "test:dev": "jest --watch",
-    "test:coverage": "jest --coverage"
+    "lint": "eslint ."
   },
   "repository": {
     "type": "git",

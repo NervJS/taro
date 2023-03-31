@@ -4,7 +4,7 @@ import { isFunction, isObject } from '@tarojs/shared'
 import path from 'path'
 import webpack from 'webpack'
 
-import { componentConfig } from '../template/component'
+import { componentConfig } from '../utils/component'
 
 import type { IPrebundle } from '@tarojs/webpack5-prebundle'
 import type Chain from 'webpack-chain'
