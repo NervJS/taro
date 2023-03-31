@@ -3,15 +3,80 @@ import path from 'path'
 import { normalizePath } from 'vite'
 
 import { componentConfig } from '../template/component'
-import { isRelativePath, isVirtualModule } from '../utils'
+import { getCompiler,isRelativePath, isVirtualModule } from '../utils'
 
 import type { PluginContext } from 'rollup'
 import type { PluginOption } from 'vite'
+import type { TaroCompiler } from '../utils/taroCompiler'
 import type { MiniBuildConfig } from '../utils/types'
 
+const QUERY_IS_NATIVE_SCRIPT = '?isNativeScript='
+export const QUERY_IS_NATIVE_PAGE = QUERY_IS_NATIVE_SCRIPT + 'page'
+export const QUERY_IS_NATIVE_COMP = QUERY_IS_NATIVE_SCRIPT + 'comp'
+const IS_NATIVE_SCRIPT_REG = new RegExp(`\\${QUERY_IS_NATIVE_SCRIPT}(page|comp)$`)
+const QUERY_IS_NATIVE_STYLE = '?isNativeStyle=true'
+const IS_NATIVE_STYLE_REG = new RegExp(`\\${QUERY_IS_NATIVE_STYLE}`)
+
 export default function (taroConfig: MiniBuildConfig): PluginOption {
+  let compiler: TaroCompiler | undefined
   return {
     name: 'taro:vite-native-support',
+    enforce: 'pre',
+    buildStart () {
+      compiler = getCompiler(this)
+    },
+    buildEnd () {
+      compiler = undefined
+    },
+    resolveId (id) {
+      if (!compiler) return
+      if (IS_NATIVE_STYLE_REG.test(id)) {
+        return id
+      }
+    },
+    async load (id) {
+      if (!compiler) return
+
+      if (IS_NATIVE_SCRIPT_REG.test(id)) {
+        let type: 'page' | 'comp' = 'page'
+        const target = id.replace(IS_NATIVE_SCRIPT_REG, (_, $1) => {
+          type = $1
+          return ''
+        })
+
+        let stylePath = ''
+
+        if (type === 'page') {
+          for (const page of compiler.pages) {
+            if (page.isNative && page.scriptPath === target && page.cssPath && fs.existsSync(page.cssPath)) {
+              stylePath = compiler.getTargetFilePath(page.cssPath, '.scss')
+              break
+            }
+          }
+        } else {
+          for (const comp of compiler.nativeComponents.values()) {
+            if (comp.scriptPath === target && comp.cssPath && fs.existsSync(comp.cssPath)) {
+              stylePath = compiler.getTargetFilePath(comp.cssPath, '.scss')
+              break
+            }
+          }
+        }
+
+        if (stylePath) return {
+          code: [
+            `import "${target}";\n`,
+            stylePath ? `import "${stylePath}${QUERY_IS_NATIVE_STYLE}";\n` : ''
+          ].join('')
+        }
+      } else if (IS_NATIVE_STYLE_REG.test(id)) {
+        let source = id.replace(new RegExp(`\\${QUERY_IS_NATIVE_STYLE}`), '')
+        source = compiler.getTargetFilePath(source, compiler.fileType.style)
+        const code = await fs.readFile(source, 'utf-8')
+        return {
+          code
+        }
+      }
+    },
     moduleParsed ({ id, ast }) {
       if (!isVirtualModule(id) && /\.[jt]sx/.test(id)) {
         const walk = require('acorn-walk')

@@ -4,7 +4,7 @@ import path from 'path'
 
 import { appendVirtualModulePrefix, getCompiler, prettyPrintJson, stripVirtualModulePrefix } from '../utils'
 import { baseCompName, customWrapperName } from '../utils/constants'
-import { miniTemplateLoader } from './native-support'
+import { miniTemplateLoader, QUERY_IS_NATIVE_COMP,QUERY_IS_NATIVE_PAGE } from './native-support'
 
 import type { PluginOption } from 'vite'
 
@@ -67,18 +67,11 @@ export default function (/* taroConfig: MiniBuildConfig */): PluginOption {
                 source
               })
             }
-            if (page.cssPath && fs.existsSync(page.cssPath)) {
-              // @TODO 检查样式的处理是否正确
-              this.emitFile({
-                type: 'chunk',
-                id: page.cssPath,
-                fileName: compiler.getStylePath(page.name)
-              })
-            }
+            page.cssPath && this.addWatchFile(page.cssPath)
           }
           this.emitFile({
             type: 'chunk',
-            id: page.scriptPath,
+            id: `${page.scriptPath}${page.isNative ? QUERY_IS_NATIVE_PAGE : ''}`,
             fileName: compiler.getScriptPath(page.name),
             implicitlyLoadedAfterOneOf: [rawId]
           })
@@ -88,7 +81,7 @@ export default function (/* taroConfig: MiniBuildConfig */): PluginOption {
         for (const comp of compiler.nativeComponents.values()) {
           this.emitFile({
             type: 'chunk',
-            id: comp.scriptPath,
+            id: comp.scriptPath + QUERY_IS_NATIVE_COMP,
             fileName: compiler.getScriptPath(comp.name),
             implicitlyLoadedAfterOneOf: [rawId]
           })
@@ -98,14 +91,7 @@ export default function (/* taroConfig: MiniBuildConfig */): PluginOption {
             fileName: compiler.getTemplatePath(comp.name),
             source
           })
-          if (comp.cssPath && fs.existsSync(comp.cssPath)) {
-            // @TODO 检查样式的处理是否正确
-            this.emitFile({
-              type: 'chunk',
-              id: comp.cssPath,
-              fileName: compiler.getStylePath(comp.name)
-            })
-          }
+          comp.cssPath && this.addWatchFile(comp.cssPath)
         }
 
         // comp' script
