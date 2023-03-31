@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/webpack5-prebundle",
-  "version": "3.6.2-canary.1",
+  "version": "3.6.2-canary.2",
   "description": "Taro app webpack5 prebundle",
   "main": "dist/index.js",
   "scripts": {
