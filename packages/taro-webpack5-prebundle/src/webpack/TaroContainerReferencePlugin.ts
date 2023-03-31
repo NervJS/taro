@@ -5,7 +5,6 @@
  */
 import { META_TYPE } from '@tarojs/helper'
 import path from 'path'
-import { RuntimeGlobals } from 'webpack'
 import ContainerReferencePlugin from 'webpack/lib/container/ContainerReferencePlugin'
 import RemoteModule from 'webpack/lib/container/RemoteModule'
 
@@ -131,15 +130,18 @@ export default class TaroContainerReferencePlugin extends ContainerReferencePlug
         }
       })
 
+      const { RuntimeGlobals } = compiler.webpack
       /** 修改 webpack runtime */
-      compilation.hooks.additionalTreeRuntimeRequirements.tap(
-        PLUGIN_NAME,
-        (chunk, set) => {
-          set.add(RuntimeGlobals.module)
-          set.add(RuntimeGlobals.moduleFactoriesAddOnly)
+      compilation.hooks.runtimeRequirementInTree
+        .for(RuntimeGlobals.ensureChunkHandlers)
+        .tap(PLUGIN_NAME, (chunk, set) => {
           set.add(RuntimeGlobals.hasOwnProperty)
           set.add(RuntimeGlobals.initializeSharing)
+          set.add(RuntimeGlobals.module)
+          set.add(RuntimeGlobals.moduleFactoriesAddOnly)
           set.add(RuntimeGlobals.shareScopeMap)
+          // 收集 Remote runtime 使用到的工具函数
+          this.runtimeRequirements.forEach(item => set.add(item))
           compilation.addRuntimeModule(chunk, new TaroRemoteRuntimeModule(this.params.platformType))
         })
     })

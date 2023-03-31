@@ -1,4 +1,4 @@
-import { RuntimeGlobals, RuntimeModule, Template } from 'webpack'
+import { RuntimeModule } from 'webpack'
 
 import type { ChunkGraph, Compilation } from 'webpack'
 import type RemoteModule from 'webpack/lib/container/RemoteModule'
@@ -51,7 +51,8 @@ export default class TaroRemoteRuntimeModule extends RuntimeModule {
   }
 
   generateWeb () {
-    const { runtimeTemplate } = this.compilation
+    const { compiler, runtimeTemplate } = this.compilation
+    const { RuntimeGlobals, Template } = compiler.webpack
     const { chunkToRemotesMapping, idToExternalAndNameMapping } = this.getDepsMap()
 
     return Template.asString([
@@ -127,7 +128,8 @@ export default class TaroRemoteRuntimeModule extends RuntimeModule {
   }
 
   generateMini () {
-    const { runtimeTemplate } = this.compilation
+    const { compiler, runtimeTemplate } = this.compilation
+    const { RuntimeGlobals, Template } = compiler.webpack
     const { chunkToRemotesMapping, idToExternalAndNameMapping } = this.getDepsMap()
 
     return Template.asString([
