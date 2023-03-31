@@ -40,7 +40,7 @@ const variesConfig = [{
     format: 'cjs'
   },
   plugins: getPlugins([externals({
-    devDeps: true
+    devDeps: false
   })])
 }, {
   input: [
@@ -54,7 +54,7 @@ const variesConfig = [{
     preserveModulesRoot: 'src'
   },
   plugins: getPlugins([externals({
-    devDeps: true
+    devDeps: false
   })])
 }, {
   input: path.join(cwd, 'src/runtime/apis/index.ts'), // 供 babel-plugin-transform-taroapi 使用，为了能 tree-shaking
@@ -65,7 +65,6 @@ const variesConfig = [{
   },
   plugins: getPlugins([
     externals({
-      devDeps: true,
       exclude: ['@tarojs/components', '@tarojs/taro-h5']
     })
   ], [exportNameOnly()])
