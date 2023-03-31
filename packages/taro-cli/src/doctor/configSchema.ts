@@ -62,7 +62,8 @@ const schema = Joi.object().keys({
         webpack: Joi.object().keys({
           provide: Joi.array().items(Joi.function())
         })
-      })
+      }),
+      vitePlugins: Joi.array().items(Joi.any())
     })
   ),
 
