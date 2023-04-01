@@ -1,4 +1,4 @@
-import { isString } from '@tarojs/shared'
+import { isFunction,isString } from '@tarojs/shared'
 import path from 'path'
 import { build } from 'vite'
 import { Target,viteStaticCopy } from 'vite-plugin-static-copy'
@@ -43,6 +43,11 @@ export default async function (appPath: string, taroConfig: MiniBuildConfig) {
     plugins.push(h5Preset())
   } else {
     plugins.push(miniPreset(appPath, taroConfig))
+
+    const modifyComponentConfig = taroConfig.modifyComponentConfig
+    if (isFunction(modifyComponentConfig)) {
+      modifyComponentConfig(componentConfig, taroConfig)
+    }
   }
 
   if (taroConfig.copy?.patterns?.length) {
