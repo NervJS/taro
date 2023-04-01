@@ -3,8 +3,8 @@
 module.exports = {
   presets: [
     ['taro', {
-      framework: '<%= framework %>',
-      ts: <%= typescript %>
+      framework: '<% if (compiler === 'vite') { %>\0<%}%><%= framework %>',
+      ts: <% if (compiler === 'vite') { %>false<% } else { %><%= typescript %><% } %>
     }]
   ]
 }

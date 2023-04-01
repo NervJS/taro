@@ -58,18 +58,57 @@
     "vue": "^2.5.0"<%}%><% if (framework === 'vue3') {%>
     "@tarojs/plugin-framework-vue3": "<%= version %>",
     "vue": "^3.0.0"<%}%>
-  },
+  },<% if (compiler === 'vite') {%>
   "devDependencies": {
     "@babel/core": "^7.8.0",
     "@tarojs/cli": "<%= version %>",
-    "@types/webpack-env": "^1.13.6",<% if (['react', 'preact'].includes(framework)) {%>
-    "@types/react": "^18.0.0",<%}%><% if (compiler === 'webpack4') {%>
+    "babel-preset-taro": "<%= version %>",
+    "eslint-config-taro": "<%= version %>",
+    "eslint": "^8.12.0",
+    "stylelint": "^14.4.0",
+    "terser": "^5.16.8",
+    "vite": "^4.2.0",<% if (['react', 'preact'].includes(framework)) {%>
+    "@types/react": "^18.0.0",
+    "@vitejs/plugin-react": "^3.1.0",
+    "eslint-plugin-react": "^7.8.2",
+    "eslint-plugin-import": "^2.12.0",
+    "eslint-plugin-react-hooks": "^4.2.0",<%}%><% if (framework === 'react') {%>
+    "react-refresh": "^0.11.0",<%}%><% if (framework === 'preact') {%>
+    "@prefresh/webpack": "^3.2.3",
+    "@prefresh/core": "^1.3.4",
+    "@prefresh/babel-plugin": "^0.4.1",<%}%><% if (framework === 'vue') {%>
+    "@vitejs/plugin-vue2": "^2.2.0",
+    "eslint-plugin-vue": "^6.x",<%}%><% if (framework === 'vue3') {%>
+    "@vitejs/plugin-vue": "^4.0.0",
+    "@vitejs/plugin-vue-jsx": "^3.0.0",
+    "eslint-plugin-vue": "^8.0.0",<%}%><% if (css === 'sass' || css === 'scss') {%>
+    "sass": "^1.60.0",<%}%><% if (css === 'less') {%>
+    "less": "^4.1.3",<%}%><% if (css === 'stylus') {%>
+    "stylus": "^0.59.0",<%}%>
+    "postcss": "^8.4.18"
+  }<%} else {%>
+  "devDependencies": {
+    "@babel/core": "^7.8.0",
+    "@tarojs/cli": "<%= version %>",
+    "@types/webpack-env": "^1.13.6",
+    "babel-preset-taro": "<%= version %>",
+    "eslint-config-taro": "<%= version %>",
+    "eslint": "^8.12.0",
+    "stylelint": "^14.4.0",<% if (compiler === 'webpack4') {%>
     "@tarojs/mini-runner": "<%= version %>",
     "@tarojs/webpack-runner": "<%= version %>",
     "webpack": "4.46.0",<%} else if (compiler === 'webpack5') {%>
     "webpack": "5.69.0",
-    "@tarojs/webpack5-runner": "<%= version %>",<%}%>
-    "babel-preset-taro": "<%= version %>",<% if (['vue', 'vue3'].includes(framework)) {%>
+    "@tarojs/webpack5-runner": "<%= version %>",<%}%><% if (['react', 'preact'].includes(framework)) {%>
+    "@types/react": "^18.0.0",
+    "eslint-plugin-react": "^7.8.2",
+    "eslint-plugin-import": "^2.12.0",
+    "eslint-plugin-react-hooks": "^4.2.0",<%}%><% if (framework === 'react') {%>
+    "@pmmmwh/react-refresh-webpack-plugin": "^0.5.5",
+    "react-refresh": "^0.11.0",<%}%><% if (framework === 'preact') {%>
+    "@prefresh/webpack": "^3.2.3",
+    "@prefresh/core": "^1.3.4",
+    "@prefresh/babel-plugin": "^0.4.1",<%}%><% if (['vue', 'vue3'].includes(framework)) {%>
     "css-loader": "3.4.2",
     "style-loader": "1.3.0",<%}%><% if (framework === 'vue') {%>
     "@vue/babel-preset-jsx": "^1.2.4",
@@ -78,21 +117,10 @@
     "@vue/babel-plugin-jsx": "^1.0.6",
     "@vue/compiler-sfc": "^3.0.0",
     "vue-loader": "^17.0.0",
-    "eslint-plugin-vue": "^8.0.0",<%}%>
-    "eslint-config-taro": "<%= version %>",
-    "eslint": "^8.12.0",<% if (framework === 'react') {%>
-    "@pmmmwh/react-refresh-webpack-plugin": "^0.5.5",
-    "react-refresh": "^0.11.0",<%}%><% if (framework === 'preact') {%>
-    "@prefresh/webpack": "^3.2.3",
-    "@prefresh/core": "^1.3.4",
-    "@prefresh/babel-plugin": "^0.4.1",<%}%><% if (['react', 'preact'].includes(framework)) {%>
-    "eslint-plugin-react": "^7.8.2",
-    "eslint-plugin-import": "^2.12.0",
-    "eslint-plugin-react-hooks": "^4.2.0",<%}%>
-    "stylelint": "^14.4.0"<% if (typescript) {%>,
+    "eslint-plugin-vue": "^8.0.0",<%}%><% if (typescript) {%>
     "@typescript-eslint/parser": "^5.20.0",
     "@typescript-eslint/eslint-plugin": "^5.20.0",
-    "typescript": "^4.1.0"<%}%>,
+    "typescript": "^4.1.0",<%}%>
     "postcss": "^8.4.18"
-  }
+  }<%}%>
 }
