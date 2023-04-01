@@ -1,3 +1,5 @@
+import { isFunction } from '@tarojs/shared'
+
 import { TARO_COMPILER, TaroCompiler } from '../utils/taroCompiler'
 
 import type { UnRecursiveTemplate } from '@tarojs/shared/dist/template'
@@ -26,6 +28,15 @@ export default function (appPath: string, taroConfig: MiniBuildConfig): PluginOp
     },
     closeBundle () {
       compiler.cleanup()
+
+      const onBuildFinish = taroConfig.onBuildFinish
+      if (isFunction(onBuildFinish)) {
+        onBuildFinish({
+          error: null,
+          stats: {},
+          isWatch: taroConfig.isWatch
+        })
+      }
       // console.log('this.watchFiles: ', this.getWatchFiles())
     }
   }

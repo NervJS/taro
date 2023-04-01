@@ -160,9 +160,6 @@ export default function (): PluginOption {
         } else {
           delete bundle[compiler.getScriptPath(customWrapperName)]
         }
-
-        // @TODO emit: components
-        // @TODO emit: tabbar files
       }
     }
   }, {

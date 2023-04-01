@@ -268,7 +268,6 @@ export default function (appPath: string, taroConfig: MiniBuildConfig): PluginOp
       },
       define: getDefineOption(),
       resolve: {
-        // @TODO mutiPlatformPlugin
         mainFields: ['browser', 'module', 'jsnext:main', 'main'],
         extensions: ['.js', '.jsx', '.ts', '.tsx', '.mjs', '.vue'],
         alias: [
@@ -300,13 +299,6 @@ export default function (appPath: string, taroConfig: MiniBuildConfig): PluginOp
         },
         modules: getCSSModulesOptions()
       }
-
-      // @TODO cssExtractPlugin
-      // @TODO copy
-      // @TODO css sass scss less stylus loader
-      // @TODO babelLoader
-      // @TODO template loader
-      // @TODO assets loader
       // @TODO xsscript loader
     }),
     configResolved (_resolvedConfig) {
