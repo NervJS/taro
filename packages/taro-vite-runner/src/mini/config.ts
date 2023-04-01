@@ -208,6 +208,18 @@ export default function (appPath: string, taroConfig: MiniBuildConfig): PluginOp
     }
   }
 
+  function getMinify (): 'terser' | 'esbuild' | boolean {
+    return taroConfig.mode !== 'production'
+      ? false
+      : taroConfig.jsMinimizer === 'esbuild'
+        ? taroConfig.esbuild?.minify?.enable === false
+          ? false // 只有在明确配置了 esbuild.minify.enable: false 时才不启用压缩
+          : 'esbuild'
+        : taroConfig.terser?.enable === false
+          ? false // 只有在明确配置了 terser.enable: false 时才不启用压缩
+          : 'terser'
+  }
+
   return {
     name: 'taro:vite-mini-config',
     config: async () => ({
@@ -249,16 +261,10 @@ export default function (appPath: string, taroConfig: MiniBuildConfig): PluginOp
           exclude: [/\.esm/, /[/\\]esm[/\\]/],
           transformMixedEsModules: true
         },
-        minify: taroConfig.mode !== 'production'
-          ? false
-          : taroConfig.jsMinimizer === 'esbuild'
-            ? taroConfig.esbuild?.minify?.enable === false
-              ? false // 只有在明确配置了 esbuild.minify.enable: false 时才不启用压缩
-              : 'esbuild'
-            : taroConfig.terser?.enable === false
-              ? false // 只有在明确配置了 terser.enable: false 时才不启用压缩
-              : 'terser',
-        terserOptions: recursiveMerge({}, DEFAULT_TERSER_OPTIONS, taroConfig.terser?.config || {}),
+        minify: getMinify(),
+        terserOptions: getMinify() === 'terser'
+          ? recursiveMerge({}, DEFAULT_TERSER_OPTIONS, taroConfig.terser?.config || {})
+          : undefined
       },
       define: getDefineOption(),
       resolve: {
