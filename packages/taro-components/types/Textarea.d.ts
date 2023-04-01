@@ -35,12 +35,12 @@ interface TextareaProps extends StandardProps, FormItemProps {
   autoFocus?: boolean
   /** 获取焦点
    * @default false
-   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn
+   * @supported weapp, alipay, swan, tt, qq, jd, rn
    */
   focus?: boolean
   /** 是否自动增高，设置 autoHeight 时，style.height不生效
    * @default false
-   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn
+   * @supported weapp, alipay, swan, tt, qq, jd, rn
    */
   autoHeight?: boolean
   /** 如果 Textarea 是在一个 `position:fixed` 的区域，需要显示指定属性 fixed 为 true
