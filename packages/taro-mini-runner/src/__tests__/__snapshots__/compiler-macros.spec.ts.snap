@@ -1372,6 +1372,7 @@ require("./taro");
                 cn: []
             }
         }, config || {}));
+        var pages_index = __webpack_exports__["default"] = index_Index;
     }
 }, [ [ 14, 0, 1, 3, 2 ] ] ]);
 

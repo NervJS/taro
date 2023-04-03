@@ -2620,6 +2620,7 @@ require("./taro");
         if (typeof PRERENDER !== "undefined") {
             wx._prerender = inst;
         }
+        var detail = __webpack_exports__["default"] = detail_Index;
     }
 }, [ [ 17, 0, 1, 3, 2 ] ] ]);
       if (typeof PRERENDER !== 'undefined') {
@@ -2681,6 +2682,7 @@ require("./taro");
                 cn: []
             }
         }, config || {}));
+        var normal = __webpack_exports__["default"] = normal_Index;
     }
 }, [ [ 19, 0, 1, 3, 2 ] ] ]);
 
@@ -2733,6 +2735,7 @@ require("./taro");
         if (typeof PRERENDER !== "undefined") {
             wx._prerender = inst;
         }
+        var pages_index = __webpack_exports__["default"] = index_Index;
     }
 }, [ [ 18, 0, 1, 3, 2 ] ] ]);
       if (typeof PRERENDER !== 'undefined') {
@@ -5580,6 +5583,7 @@ require("./taro");
         if (typeof PRERENDER !== "undefined") {
             wx._prerender = inst;
         }
+        var detail = __webpack_exports__["default"] = detail_Index;
     }
 }, [ [ 17, 0, 1, 3, 2 ] ] ]);
       if (typeof PRERENDER !== 'undefined') {
@@ -5641,6 +5645,7 @@ require("./taro");
                 cn: []
             }
         }, config || {}));
+        var normal = __webpack_exports__["default"] = normal_Index;
     }
 }, [ [ 19, 0, 1, 3, 2 ] ] ]);
 
@@ -5693,6 +5698,7 @@ require("./taro");
         if (typeof PRERENDER !== "undefined") {
             wx._prerender = inst;
         }
+        var pages_index = __webpack_exports__["default"] = index_Index;
     }
 }, [ [ 18, 0, 1, 3, 2 ] ] ]);
       if (typeof PRERENDER !== 'undefined') {
@@ -8540,6 +8546,7 @@ require("./taro");
         if (typeof PRERENDER !== "undefined") {
             wx._prerender = inst;
         }
+        var detail = __webpack_exports__["default"] = detail_Index;
     }
 }, [ [ 17, 0, 1, 3, 2 ] ] ]);
       if (typeof PRERENDER !== 'undefined') {
@@ -8601,6 +8608,7 @@ require("./taro");
                 cn: []
             }
         }, config || {}));
+        var normal = __webpack_exports__["default"] = normal_Index;
     }
 }, [ [ 19, 0, 1, 3, 2 ] ] ]);
 
@@ -8653,6 +8661,7 @@ require("./taro");
         if (typeof PRERENDER !== "undefined") {
             wx._prerender = inst;
         }
+        var pages_index = __webpack_exports__["default"] = index_Index;
     }
 }, [ [ 18, 0, 1, 3, 2 ] ] ]);
       if (typeof PRERENDER !== 'undefined') {

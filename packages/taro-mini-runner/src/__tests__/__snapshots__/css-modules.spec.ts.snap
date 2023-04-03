@@ -1392,6 +1392,7 @@ require("./taro");
                 cn: []
             }
         }, config || {}));
+        var pages_index = __webpack_exports__["default"] = index_Index;
     },
     7: function(module, exports, __webpack_require__) {
         module.exports = {
@@ -2988,6 +2989,7 @@ require("./taro");
                 cn: []
             }
         }, config || {}));
+        var pages_index = __webpack_exports__["default"] = index_Index;
     },
     7: function(module, exports, __webpack_require__) {
         module.exports = {

@@ -1384,6 +1384,7 @@ require("./taro");
                 cn: []
             }
         }, config || {}));
+        var pages_index = __webpack_exports__["default"] = index;
     }
 }, [ [ 6, 0, 1 ] ] ]);
 
