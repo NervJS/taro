@@ -22,7 +22,7 @@ export default {
   treeshake: false,
   plugins: [
     externals({
-      devDeps: true
+      devDeps: false
     }),
     resolve({
       preferBuiltins: false,
