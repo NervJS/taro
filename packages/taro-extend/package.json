@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/extend",
-  "version": "3.6.2-canary.2",
+  "version": "3.6.3",
   "description": "Taro extend functionality",
   "author": "yuche <i@yuche.me>",
   "homepage": "https://github.com/nervjs/taro/tree/master/packages/taro-extend#readme",
