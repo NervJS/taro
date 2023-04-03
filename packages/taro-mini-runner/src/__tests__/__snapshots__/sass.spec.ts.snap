@@ -1384,6 +1384,7 @@ require("./taro");
                 cn: []
             }
         }, config || {}));
+        var pages_index = __webpack_exports__["default"] = index_Index;
     }
 }, [ [ 15, 0, 1, 3, 2 ] ] ]);
 
@@ -2959,6 +2960,7 @@ require("./taro");
                 cn: []
             }
         }, config || {}));
+        var pages_index = __webpack_exports__["default"] = index_Index;
     }
 }, [ [ 15, 0, 1, 3, 2 ] ] ]);
 
@@ -4534,6 +4536,7 @@ require("./taro");
                 cn: []
             }
         }, config || {}));
+        var pages_index = __webpack_exports__["default"] = index_Index;
     }
 }, [ [ 15, 0, 1, 3, 2 ] ] ]);
 
@@ -6109,6 +6112,7 @@ require("./taro");
                 cn: []
             }
         }, config || {}));
+        var pages_index = __webpack_exports__["default"] = index_Index;
     }
 }, [ [ 15, 0, 1, 3, 2 ] ] ]);
 

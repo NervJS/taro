@@ -1577,6 +1577,7 @@ h�hځ� �r������Nb2��х��K~��>;;ːL�1�
             return Index;
         }(react["Component"]);
         var inst = Component(Object(taro_runtime["createComponentConfig"])(custom_tab_bar_Index, "custom-tab-bar/index"));
+        var src_custom_tab_bar = __webpack_exports__["default"] = custom_tab_bar_Index;
     }
 }, [ [ 20, 0, 1, 3, 2 ] ] ]);
 
@@ -1627,6 +1628,7 @@ h�hځ� �r������Nb2��х��K~��>;;ːL�1�
                 cn: []
             }
         }, config || {}));
+        var detail = __webpack_exports__["default"] = detail_Index;
     }
 }, [ [ 19, 0, 1, 3, 2 ] ] ]);
 
@@ -1674,6 +1676,7 @@ h�hځ� �r������Nb2��х��K~��>;;ːL�1�
                 cn: []
             }
         }, config || {}));
+        var index = __webpack_exports__["default"] = index_Index;
     }
 }, [ [ 18, 0, 1, 3, 2 ] ] ]);
 
