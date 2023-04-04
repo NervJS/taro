@@ -10,6 +10,7 @@ export default {
   input: 'src/index.ts',
   plugins: [
     externals({
+      deps: true,
       devDeps: false,
       include: [/^react$/]
     }),

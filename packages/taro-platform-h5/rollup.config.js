@@ -40,6 +40,7 @@ const variesConfig = [{
     format: 'cjs'
   },
   plugins: getPlugins([externals({
+    deps: true,
     devDeps: false
   })])
 }, {
@@ -54,6 +55,7 @@ const variesConfig = [{
     preserveModulesRoot: 'src'
   },
   plugins: getPlugins([externals({
+    deps: true,
     devDeps: false
   })])
 }, {
@@ -65,6 +67,8 @@ const variesConfig = [{
   },
   plugins: getPlugins([
     externals({
+      deps: true,
+      devDeps: false,
       exclude: ['@tarojs/components', '@tarojs/taro-h5']
     })
   ], [exportNameOnly()])

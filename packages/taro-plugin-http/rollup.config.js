@@ -16,6 +16,7 @@ const compileConfig = {
   },
   plugins: [
     externals({
+      deps: true,
       devDeps: false
     }),
     nodeResolve(),
