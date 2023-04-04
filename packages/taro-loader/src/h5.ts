@@ -30,7 +30,7 @@ export default function (this: webpack.LoaderContext<any>) {
 
   const pathDirname = dirname(this.resourcePath)
   const pageName = isMultiRouterMode ? join(pathDirname, options.filename).replace(options.sourceDir + '/', '') : ''
-  const pages: Map<string, string> = options.pages
+  const pages: Map<string, string> = new Map(options.pages)
   const pxTransformConfig = options.pxTransformConfig
   const runtimePath = Array.isArray(options.runtimePath) ? options.runtimePath : [options.runtimePath]
   let setReconcilerPost = ''
