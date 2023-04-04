@@ -4,25 +4,29 @@ import {
   resolveMainFilePath,
   SCRIPT_EXT
 } from '@tarojs/helper'
-import { AppConfig } from '@tarojs/taro'
 import { defaults } from 'lodash'
 import path from 'path'
-import { EntryNormalized } from 'webpack'
 
-interface IH5AppInstOptions {
+import type { AppConfig } from '@tarojs/taro'
+import type { EntryNormalized } from 'webpack'
+
+interface IOptions {
   sourceDir: string
   entryFileName: string
   frameworkExts: string[]
 }
 
-export default class H5AppInstance {
-  options: IH5AppInstOptions
+export default class AppHelper {
+  options: IOptions
   entry: EntryNormalized
-  __appConfig?: AppConfig
-  __pages?: Set<{ name: string, path: string }>
-  __pagesConfigList?: Map<string, string>
 
-  constructor (entry: EntryNormalized = {}, options: Partial<IH5AppInstOptions> = {}) {
+  #appConfig?: AppConfig
+  #pages?: Set<{ name: string, path: string }>
+  #pagesConfigList?: Map<string, string>
+  #comps?: Set<{ name: string, path: string }>
+  #compsConfigList?: Map<string, string>
+
+  constructor (entry: EntryNormalized = {}, options: Partial<IOptions> = {}) {
     this.options = defaults(options || {}, {
       sourceDir: '',
       entryFileName: 'app',
@@ -32,6 +36,7 @@ export default class H5AppInstance {
   }
 
   get appEntry () {
+    // Note: 不考虑 `() => Promise` 情况
     const { entryFileName, sourceDir } = this.options
     const appEntry = this.entry[entryFileName]
     if (!appEntry) return path.join(sourceDir, entryFileName)
@@ -44,26 +49,26 @@ export default class H5AppInstance {
   }
 
   get appConfig (): AppConfig {
-    if (!this.__appConfig) {
+    if (!this.#appConfig) {
       const appConfigPath = this.getConfigFilePath(this.appEntry)
       const appConfig = readConfig(appConfigPath)
       if (isEmptyObject(appConfig)) {
         throw new Error('缺少 app 全局配置，请检查！')
       }
-      this.__appConfig = appConfig
+      this.#appConfig = appConfig
     }
-    return this.__appConfig as AppConfig
+    return this.#appConfig as AppConfig
   }
 
   get pages () {
-    if (!this.__pages) {
+    if (!this.#pages) {
       const appPages = this.appConfig.pages
       if (!appPages || !appPages.length) {
         throw new Error('全局配置缺少 pages 字段，请检查！')
       }
       const { frameworkExts, sourceDir } = this.options
 
-      this.__pages = new Set([
+      this.#pages = new Set([
         ...appPages.map(item => ({
           name: item,
           path: resolveMainFilePath(path.join(sourceDir, item), frameworkExts)
@@ -71,10 +76,28 @@ export default class H5AppInstance {
       ])
       this.getSubPackages()
     }
-    return this.__pages
+    return this.#pages
   }
 
-  getSubPackages () {
+  get comps () {
+    if (!this.#comps) {
+      const appPages = this.appConfig.components
+      if (!appPages || !appPages.length) {
+        throw new Error('全局配置缺少 components 字段，请检查！')
+      }
+      const { frameworkExts, sourceDir } = this.options
+
+      this.#comps = new Set([
+        ...appPages.map(item => ({
+          name: item,
+          path: resolveMainFilePath(path.join(sourceDir, item), frameworkExts)
+        }))
+      ])
+    }
+    return this.#comps
+  }
+
+  private getSubPackages () {
     const subPackages = this.appConfig.subPackages || this.appConfig.subpackages
     const { frameworkExts, sourceDir } = this.options
     if (subPackages && subPackages.length) {
@@ -105,16 +128,29 @@ export default class H5AppInstance {
   }
 
   get pagesConfigList () {
-    if (!this.__pagesConfigList) {
+    if (!this.#pagesConfigList) {
       const list = new Map<string, string>()
       const pages = this.pages
       pages.forEach(({ name, path }) => {
         const pageConfigPath = this.getConfigFilePath(path)
         list.set(name, pageConfigPath)
       })
-      this.__pagesConfigList = list
+      this.#pagesConfigList = list
     }
-    return this.__pagesConfigList
+    return this.#pagesConfigList
+  }
+
+  get compsConfigList () {
+    if (!this.#compsConfigList) {
+      const list = new Map<string, string>()
+      const comps = this.comps
+      comps.forEach(({ name, path }) => {
+        const pageConfigPath = this.getConfigFilePath(path)
+        list.set(name, pageConfigPath)
+      })
+      this.#compsConfigList = list
+    }
+    return this.#compsConfigList
   }
 
   getConfigFilePath (filePath = '') {
@@ -122,9 +158,9 @@ export default class H5AppInstance {
     return resolveMainFilePath(`${filePath.replace(path.extname(filePath), '')}.config`)
   }
 
-  getTargetFilePath (filePath: string, targetExtname: string) {
-    const extname = path.extname(filePath)
-    if (extname) return filePath.replace(extname, targetExtname)
-    return filePath + targetExtname
+  clear () {
+    this.#appConfig = undefined
+    this.#pages = undefined
+    this.#pagesConfigList = undefined
   }
 }

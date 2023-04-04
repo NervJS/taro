@@ -1,5 +1,5 @@
 import { PLATFORMS } from '@tarojs/helper'
-import { isArray, isFunction } from '@tarojs/shared'
+import { isArray, isFunction, PLATFORM_TYPE } from '@tarojs/shared'
 import { ICopyOptions } from '@tarojs/taro/types/compile'
 
 import BuildNativePlugin from '../plugins/BuildNativePlugin'
@@ -67,6 +67,7 @@ export class MiniWebpackPlugin {
 
     env.FRAMEWORK = JSON.stringify(framework)
     env.TARO_ENV = JSON.stringify(buildAdapter)
+    env.TARO_PLATFORM = JSON.stringify(process.env.TARO_PLATFORM || PLATFORM_TYPE.MINI)
     const envConstants = Object.keys(env).reduce((target, key) => {
       target[`process.env.${key}`] = env[key]
       return target

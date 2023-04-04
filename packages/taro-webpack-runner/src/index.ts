@@ -1,4 +1,4 @@
-import { recursiveMerge } from '@tarojs/helper'
+import { recursiveMerge, SOURCE_DIR } from '@tarojs/helper'
 import * as detectPort from 'detect-port'
 import * as path from 'path'
 import { format as formatUrl } from 'url'
@@ -9,11 +9,10 @@ import buildConf from './config/build.conf'
 import devConf from './config/dev.conf'
 import baseDevServerOption from './config/devServer.conf'
 import prodConf from './config/prod.conf'
-import { addHtmlSuffix, addLeadingSlash, formatOpenHost, getAppConfig, getAppEntry, parsePublicPath, stripBasename, stripTrailingSlash } from './utils'
+import { addHtmlSuffix, addLeadingSlash, AppHelper, formatOpenHost, parsePublicPath, stripBasename, stripTrailingSlash } from './utils'
 import { makeConfig } from './utils/chain'
 import { bindDevLogger, bindProdLogger, printBuildError } from './utils/logHelper'
 
-import type { AppConfig } from '@tarojs/taro'
 import type { Func } from '@tarojs/taro/types/compile'
 import type { BuildConfig } from './utils/types'
 
@@ -26,8 +25,8 @@ export const customizeChain = async (chain, modifyWebpackChainFunc: Func, custom
   }
 }
 
-const buildProd = async (appPath: string, config: BuildConfig, appConfig: AppConfig): Promise<void> => {
-  const webpackChain = prodConf(appPath, config, appConfig)
+const buildProd = async (appPath: string, config: BuildConfig, appHelper: AppHelper): Promise<void> => {
+  const webpackChain = prodConf(appPath, config, appHelper)
   await customizeChain(webpackChain, config.modifyWebpackChain!, config.webpackChain)
   if (typeof config.onWebpackChainReady === 'function') {
     config.onWebpackChainReady(webpackChain)
@@ -68,7 +67,7 @@ const buildProd = async (appPath: string, config: BuildConfig, appConfig: AppCon
   })
 }
 
-const buildDev = async (appPath: string, config: BuildConfig, appConfig: AppConfig): Promise<any> => {
+const buildDev = async (appPath: string, config: BuildConfig, appHelper: AppHelper): Promise<any> => {
   const conf = buildConf(config)
   const routerConfig = config.router || {}
   const routerMode = routerConfig.mode || 'hash'
@@ -76,7 +75,7 @@ const buildDev = async (appPath: string, config: BuildConfig, appConfig: AppConf
   const publicPath = parsePublicPath(conf.publicPath)
   const outputPath = path.join(appPath, conf.outputRoot as string)
   const { proxy: customProxy = [], ...customDevServerOption } = config.devServer || {}
-  const webpackChain = devConf(appPath, config, appConfig)
+  const webpackChain = devConf(appPath, config, appHelper)
   const onBuildFinish = config.onBuildFinish
   await customizeChain(webpackChain, config.modifyWebpackChain!, config.webpackChain)
 
@@ -102,12 +101,12 @@ const buildDev = async (appPath: string, config: BuildConfig, appConfig: AppConf
       if (req.headers.accept?.indexOf('html') !== -1) {
         const pagePath = stripTrailingSlash(stripBasename(req.path, routerBasename))
         if (pagePath === '') {
-          return addHtmlSuffix(appConfig.entryPagePath || appConfig.pages?.[0])
+          return addHtmlSuffix(appHelper.appConfig.entryPagePath || appHelper.appConfig.pages?.[0])
         }
 
-        const pageIdx = (appConfig.pages ?? []).findIndex(e => addLeadingSlash(e) === pagePath)
+        const pageIdx = (appHelper.appConfig.pages ?? []).findIndex(e => addLeadingSlash(e) === pagePath)
         if (pageIdx > -1) {
-          return addHtmlSuffix(appConfig.pages?.[pageIdx])
+          return addHtmlSuffix(appHelper.appConfig.pages?.[pageIdx])
         }
 
         const customRoutesConf = getEntriesRoutes(customRoutes)
@@ -142,22 +141,24 @@ const buildDev = async (appPath: string, config: BuildConfig, appConfig: AppConf
     config.onWebpackChainReady(webpackChain)
   }
 
-  const devServerOptions = recursiveMerge<WebpackDevServer.Configuration>(
-    {
-      publicPath,
-      contentBase: outputPath,
-      historyApiFallback: {
-        rewrites: [{
-          from: /./,
-          to: publicPath
-        }]
+  const devServerOptions = config.isBuildNativeComp
+    ? { writeToDisk: true }
+    : recursiveMerge<WebpackDevServer.Configuration>(
+      {
+        publicPath,
+        contentBase: outputPath,
+        historyApiFallback: {
+          rewrites: [{
+            from: /./,
+            to: publicPath
+          }]
+        },
+        proxy,
       },
-      proxy,
-    },
-    baseDevServerOption,
-    customDevServerOption
-  )
-  if (devServerOptions.proxy.length < 1) {
+      baseDevServerOption,
+      customDevServerOption
+    )
+  if (devServerOptions.proxy?.length < 1) {
     // Note: proxy 不可以为空数组
     delete devServerOptions.proxy
   }
@@ -195,7 +196,7 @@ const buildDev = async (appPath: string, config: BuildConfig, appConfig: AppConf
   const webpackConfig = webpackChain.toConfig()
   WebpackDevServer.addDevServerEntrypoints(webpackConfig, devServerOptions)
   const compiler = webpack(webpackConfig) as webpack.Compiler
-  bindDevLogger(devUrl, compiler)
+  bindDevLogger(compiler, devUrl)
   const server = new WebpackDevServer(compiler, devServerOptions)
   compiler.hooks.emit.tapAsync('taroBuildDone', async (compilation, callback) => {
     if (typeof config.modifyBuildAssets === 'function') {
@@ -228,34 +229,26 @@ const buildDev = async (appPath: string, config: BuildConfig, appConfig: AppConf
         return console.log(err)
       }
       resolve()
-
-      /* 补充处理devServer.open配置 */
-      if (devServerOptions.open) {
-        const openUrl = formatUrl({
-          protocol: devServerOptions.https ? 'https' : 'http',
-          hostname: formatOpenHost(devServerOptions.host),
-          port: devServerOptions.port,
-          pathname
-        })
-        console.log(openUrl)
-      }
     })
   })
 }
 
 export default async (appPath: string, config: BuildConfig): Promise<void> => {
   const newConfig: BuildConfig = await makeConfig(config)
-  const appEntry = await getAppEntry(newConfig.entry, newConfig.entryFileName)
-  const appConfig = getAppConfig(appEntry)
+  const app = new AppHelper(newConfig.entry, {
+    sourceDir: path.join(appPath, config.sourceRoot || SOURCE_DIR),
+    frameworkExts: newConfig.frameworkExts,
+    entryFileName: newConfig.entryFileName
+  })
   if (newConfig.isWatch) {
     try {
-      await buildDev(appPath, newConfig, appConfig)
+      await buildDev(appPath, newConfig, app)
     } catch (e) {
       console.error(e)
     }
   } else {
     try {
-      await buildProd(appPath, newConfig, appConfig)
+      await buildProd(appPath, newConfig, app)
     } catch (e) {
       console.error(e)
       process.exit(1)

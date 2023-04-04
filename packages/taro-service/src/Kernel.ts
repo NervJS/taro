@@ -1,10 +1,5 @@
-import {
-  createDebug,
-  createSwcRegister,
-  NODE_MODULES,
-  recursiveFindNodeModules
-} from '@tarojs/helper'
 import * as helper from '@tarojs/helper'
+import { getPlatformType } from '@tarojs/shared'
 import { EventEmitter } from 'events'
 import { merge } from 'lodash'
 import * as path from 'path'
@@ -59,7 +54,7 @@ export default class Kernel extends EventEmitter {
 
   constructor (options: IKernelOptions) {
     super()
-    this.debugger = process.env.DEBUG === 'Taro:Kernel' ? createDebug('Taro:Kernel') : function () {}
+    this.debugger = process.env.DEBUG === 'Taro:Kernel' ? helper.createDebug('Taro:Kernel') : function () {}
     this.appPath = options.appPath || process.cwd()
     this.optsPresets = options.presets
     this.optsPlugins = options.plugins
@@ -83,7 +78,7 @@ export default class Kernel extends EventEmitter {
   initPaths () {
     this.paths = {
       appPath: this.appPath,
-      nodeModulesPath: recursiveFindNodeModules(path.join(this.appPath, NODE_MODULES))
+      nodeModulesPath: helper.recursiveFindNodeModules(path.join(this.appPath, helper.NODE_MODULES))
     } as IPaths
     if (this.config.isInitSuccess) {
       Object.assign(this.paths, {
@@ -106,7 +101,7 @@ export default class Kernel extends EventEmitter {
     const allConfigPlugins = mergePlugins(this.optsPlugins || [], initialConfig.plugins || [])()
     this.debugger('initPresetsAndPlugins', allConfigPresets, allConfigPlugins)
     process.env.NODE_ENV !== 'test' &&
-    createSwcRegister({
+    helper.createSwcRegister({
       only: [...Object.keys(allConfigPresets), ...Object.keys(allConfigPlugins)]
     })
     this.plugins = new Map()
@@ -273,7 +268,9 @@ export default class Kernel extends EventEmitter {
     if (!this.platforms.has(platform)) {
       throw new Error(`不存在编译平台 ${platform}`)
     }
-    const withNameConfig = this.config.getConfigWithNamed(platform, this.platforms.get(platform)!.useConfigName)
+    const config = this.platforms.get(platform)!
+    const withNameConfig = this.config.getConfigWithNamed(config.name, config.useConfigName)
+    process.env.TARO_PLATFORM = getPlatformType(config.name, config.useConfigName)
     return withNameConfig
   }
 

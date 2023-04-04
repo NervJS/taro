@@ -1,6 +1,6 @@
 {
   "name": "babel-preset-taro",
-  "version": "3.6.2",
+  "version": "3.6.3",
   "description": "Taro babel preset",
   "author": "yuche <i@yuche.me>",
   "homepage": "https://github.com/nervjs/taro/tree/master/packages/babel-preset-taro#readme",
@@ -33,7 +33,7 @@
     "@babel/runtime": "^7.14.5",
     "@babel/runtime-corejs3": "^7.14.5",
     "@tarojs/helper": "workspace:*",
-    "@tarojs/taro-h5": "workspace:*",
+    "@tarojs/shared": "workspace:*",
     "babel-plugin-dynamic-import-node": "2.3.3",
     "babel-plugin-global-define": "1.0.3",
     "babel-plugin-jsx-attributes-array-to-object": "0.3.0",

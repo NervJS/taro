@@ -19,10 +19,11 @@ packages/taro-components-library-vue3/components.ts
 
 packages/taro-webpack-runner/src/__tests__/__snapshots__
 packages/taro-webpack-runner/src/__tests__/fixtures
-
 packages/taro-mini-runner/src/__tests__/__snapshots__
 packages/taro-mini-runner/src/__tests__/fixtures
 packages/taro-mini-runner/src/quickapp
+packages/taro-webpack5-runner/src/__tests__/__snapshots__
+packages/taro-webpack5-runner/src/__tests__/fixtures
 
 packages/taro/types
 

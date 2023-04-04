@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/webpack5-prebundle",
-  "version": "3.6.2",
+  "version": "3.6.3",
   "description": "Taro app webpack5 prebundle",
   "main": "dist/index.js",
   "scripts": {
@@ -38,7 +38,7 @@
     "fs-extra": "^8.0.1",
     "lodash": "^4.17.21",
     "webpack-chain": "6.5.1",
-    "webpack-virtual-modules": "^0.4.3"
+    "webpack-virtual-modules": "^0.5.0"
   },
   "devDependencies": {
     "jest": "^29.3.1",

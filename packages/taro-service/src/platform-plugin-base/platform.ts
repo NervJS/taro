@@ -1,3 +1,5 @@
+import { PLATFORM_TYPE } from '@tarojs/shared'
+
 import type { Func, IPluginContext, TConfig } from '../utils/types'
 
 interface IWrapper {
@@ -29,13 +31,13 @@ export class Transaction<T = TaroPlatform> {
   }
 }
 
-
 export default abstract class TaroPlatform<T extends TConfig = TConfig> {
   protected ctx: IPluginContext
   protected config: T
   protected helper: IPluginContext['helper']
   protected compiler: string
 
+  abstract platformType: PLATFORM_TYPE
   abstract platform: string
   abstract runtimePath: string | string[]
 

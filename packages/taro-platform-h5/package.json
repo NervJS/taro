@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/plugin-platform-h5",
-  "version": "3.6.2",
+  "version": "3.6.3",
   "description": "Web 端平台插件",
   "author": "ZakaryCode",
   "license": "MIT",
@@ -9,7 +9,6 @@
     "taro"
   ],
   "files": [
-    "build",
     "dist",
     "index.js",
     "types"
@@ -25,8 +24,8 @@
     "url": "git+https://github.com/NervJS/taro.git"
   },
   "scripts": {
-    "build": "rollup -c",
-    "dev": "rollup -c -w"
+    "build": "cross-env NODE_ENV=production rollup -c",
+    "dev": "cross-env NODE_ENV=development rollup -c -w"
   },
   "bugs": {
     "url": "https://github.com/NervJS/taro/issues"

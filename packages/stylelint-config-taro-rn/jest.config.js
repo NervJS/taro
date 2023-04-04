@@ -3,7 +3,7 @@ const path = require('path')
 module.exports = {
   moduleFileExtensions: ['js', 'jsx', 'ts', 'tsx', 'json', 'node'],
   moduleNameMapper: {
-    '@tarojs/shared': path.join(__dirname, './packages/shared/src')
+    '@tarojs/shared': path.join(__dirname, '..', '..', 'packages/shared/src')
   },
   preset: 'ts-jest',
   testEnvironment: 'node',
