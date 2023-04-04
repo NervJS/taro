@@ -16,7 +16,8 @@ const config = {
   treeshake: false,
   plugins: [
     externals({
-      devDeps: false
+      devDeps: false,
+      include: /^react/
     }),
     resolve({
       preferBuiltins: false,
