@@ -120,7 +120,7 @@ const buildDev = async (appPath: string, config: BuildConfig, appHelper: AppHelp
     proxy.push({
       context: [routerBasename],
       bypass
-    })
+    } as WebpackDevServer.ProxyConfigArrayItem)
   }
 
   if (!(customProxy instanceof Array)) {
