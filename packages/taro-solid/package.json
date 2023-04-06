@@ -1,0 +1,29 @@
+{
+  "name": "@tarojs/solid",
+  "version": "3.6.2",
+  "description": "like react-dom, but for mini solid apps.",
+  "author": "zsytssk@gmail.com",
+  "homepage": "https://github.com/nervjs/taro/tree/master/packages/taro-solid#readme",
+  "license": "MIT",
+  "main": "dist/index.js",
+  "module": "dist/solid.esm.js",
+  "files": [
+    "dist"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NervJS/taro.git"
+  },
+  "scripts": {
+    "build": "rollup -c",
+    "dev": "rollup -c -w"
+  },
+  "bugs": {
+    "url": "https://github.com/NervJS/taro/issues"
+  },
+  "dependencies": {
+    "@tarojs/runtime": "workspace:*",
+    "@tarojs/shared": "workspace:*",
+    "solid-js": "^1.6.15"
+  }
+}

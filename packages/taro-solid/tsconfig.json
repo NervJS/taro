@@ -1,0 +1,9 @@
+{
+  "extends": "../../tsconfig.root.json",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "lib": ["es2017"],
+    "module": "ESNext"
+  },
+  "include": ["./src"]
+}
