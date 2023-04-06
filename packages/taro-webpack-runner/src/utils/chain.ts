@@ -157,7 +157,7 @@ export const getTerserPlugin = ([enableSourceMap, terserOptions]) => {
     parallel: true,
     sourceMap: enableSourceMap,
     terserOptions: recursiveMerge({}, defaultTerserOption, terserOptions)
-  })
+  } as TerserPlugin.BasePluginOptions)
 }
 export const getCssoWebpackPlugin = ([cssoOption]) => {
   return pipe(
