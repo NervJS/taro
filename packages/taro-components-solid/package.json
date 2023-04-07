@@ -1,0 +1,37 @@
+{
+  "name": "@tarojs/components-solid",
+  "version": "3.6.2",
+  "description": "",
+  "main:h5": "src/index.js",
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "types/index.d.ts",
+  "sideEffects": [
+    "./dist/components/**/loader.js"
+  ],
+  "files": [
+    "dist",
+    "types"
+  ],
+  "scripts": {
+    "build": "rollup -c",
+    "dev": "rollup -c -w"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NervJS/taro.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "@babel/runtime": "^7.14.5",
+    "@tarojs/components": "workspace:*",
+    "@tarojs/solid": "workspace:*",
+    "classnames": "^2.2.5",
+    "intersection-observer": "^0.7.0",
+    "resolve-pathname": "^3.0.0",
+    "swiper": "6.8.0",
+    "weui": "^1.1.2"
+  }
+}
