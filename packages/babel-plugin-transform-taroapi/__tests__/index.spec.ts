@@ -1,4 +1,3 @@
-// import * as apis from '@tarojs/taro-h5'
 import * as babel from '@babel/core'
 import * as t from '@babel/types'
 import * as apis from '@tarojs/plugin-platform-h5/dist/taroApis'
