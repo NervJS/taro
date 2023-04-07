@@ -967,6 +967,9 @@ importers:
       '@tarojs/components':
         specifier: workspace:*
         version: link:../taro-components
+      '@tarojs/runtime':
+        specifier: workspace:*
+        version: link:../taro-runtime
       '@tarojs/shared':
         specifier: workspace:*
         version: link:../shared
