@@ -1,15 +1,6 @@
 import * as babel from '@babel/core'
 import * as fs from 'fs'
 
-jest.mock('sass', () => {
-  const originalModule = jest.requireActual('node-sass')
-  return {
-    __esModule: true,
-    ...originalModule,
-    printLog () {}
-  }
-})
-
 jest.mock('@tarojs/helper', () => {
   const originalModule = jest.requireActual('@tarojs/helper')
   return {
