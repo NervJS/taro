@@ -82,9 +82,9 @@ export class Tabbar implements ComponentInterface {
 
   @Element() tabbar: HTMLDivElement
 
-  constructor () {
-    const list = this.conf.list
-    const customRoutes = this.conf.customRoutes
+  componentWillLoad () {
+    const list = this.conf?.list || []
+    const customRoutes = this.conf?.customRoutes || {}
     if (
       Object.prototype.toString.call(list) !== '[object Array]' ||
       list.length < 2 ||

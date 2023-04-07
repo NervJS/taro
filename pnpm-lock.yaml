@@ -991,6 +991,9 @@ importers:
       '@tarojs/shared':
         specifier: workspace:*
         version: link:../shared
+      '@tarojs/taro':
+        specifier: workspace:*
+        version: link:../taro
       memoize-one:
         specifier: ^6.0.0
         version: registry.npmjs.org/memoize-one@6.0.0
