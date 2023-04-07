@@ -12,34 +12,40 @@ Taro.noop();"
 `;
 
 exports[`should not go wrong when using an api twice 1`] = `
-"import Taro from '@tarojs/taro-h5';
-const animation = Taro.createAnimation({
+"import Taro, { createAnimation as _createAnimation } from '@tarojs/taro-h5';
+
+const animation = _createAnimation({
   duration: dura * 1000,
   timingFunction: 'linear'
 });
-const resetAnimation = Taro.createAnimation({
+
+const resetAnimation = _createAnimation({
   duration: 0,
   timingFunction: 'linear'
 });"
 `;
 
 exports[`should not import taro duplicatly 1`] = `
-"import Taro from "@tarojs/taro-h5";
+"import Taro, { createAnimation as _createAnimation, initPxTransform as _initPxTransform } from "@tarojs/taro-h5";
 Taro.Component;
-Taro.createAnimation();
-Taro.initPxTransform();"
+
+_createAnimation();
+
+_initPxTransform();"
 `;
 
 exports[`should preserve assignments in lefthands 1`] = `
-"import Taro from '@tarojs/taro-h5';
+"import Taro, { createAnimation as _createAnimation, request as _request } from '@tarojs/taro-h5';
 let animation;
-animation = Taro.createAnimation({
+animation = _createAnimation({
   transformOrigin: "50% 50%",
   duration: 1000,
   timingFunction: "ease",
   delay: 0
 });
-Taro.request();
+
+_request();
+
 Taro.request = '';
 Taro['request'] = '';"
 `;
@@ -56,11 +62,17 @@ export class Connected extends Taro.Component {}"
 `;
 
 exports[`should work! 1`] = `
-"import Taro from '@tarojs/taro-h5';
-Taro.initPxTransform(Taro.param);
-Taro.initPxTransform();
-Taro.initPxTransform();
-Taro['getStorage']();
-Taro.setStorage();
+"import Taro, { setStorage as _setStorage, initPxTransform as _initPxTransform, getStorage as _getStorage } from '@tarojs/taro-h5';
+
+_initPxTransform(Taro.param);
+
+_initPxTransform();
+
+_initPxTransform();
+
+_getStorage();
+
+_setStorage();
+
 export { Taro };"
 `;
