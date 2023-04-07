@@ -65,13 +65,7 @@ const variesConfig = [{
     format: 'cjs',
     inlineDynamicImports: true
   },
-  plugins: getPlugins([
-    externals({
-      deps: true,
-      devDeps: false,
-      exclude: ['@tarojs/components', '@tarojs/taro-h5']
-    })
-  ], [exportNameOnly()])
+  plugins: getPlugins([exportNameOnly()])
 }]
 
 if (process.env.NODE_ENV === 'production') {

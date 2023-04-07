@@ -948,6 +948,9 @@ importers:
       '@tarojs/shared':
         specifier: workspace:*
         version: link:../shared
+      '@tarojs/taro':
+        specifier: workspace:*
+        version: link:../taro
       memoize-one:
         specifier: ^6.0.0
         version: registry.npmjs.org/memoize-one@6.0.0
@@ -32286,7 +32289,7 @@ packages:
     name: read-package-json
     version: 2.1.2
     dependencies:
-      glob: registry.npmjs.org/glob@7.1.2
+      glob: registry.npmjs.org/glob@7.2.3
       json-parse-even-better-errors: registry.npmjs.org/json-parse-even-better-errors@2.3.1
       normalize-package-data: registry.npmjs.org/normalize-package-data@2.5.0
       npm-normalize-package-bin: registry.npmjs.org/npm-normalize-package-bin@1.0.1
