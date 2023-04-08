@@ -62,7 +62,12 @@ export function getDefines (chain: Chain) {
   let defines
   if (chain.plugins.has('definePlugin')) {
     chain.plugin('definePlugin').tap(args => {
-      defines = args[0]
+      defines = { ...args[0] }
+      Object.keys(defines).forEach(name => {
+        if (typeof defines[name] !== 'string') {
+          delete defines[name]
+        }
+      })
       return args
     })
   }

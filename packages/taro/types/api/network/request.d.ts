@@ -150,6 +150,8 @@ declare module '../../index' {
       POST
       /** HTTP 请求 PUT */
       PUT
+      /** HTTP 请求 PATCH */
+      PATCH
       /** HTTP 请求 DELETE */
       DELETE
       /** HTTP 请求 TRACE */
@@ -304,12 +306,8 @@ declare module '../../index' {
     namespace onChunkReceived {
       /** Transfer-Encoding Chunk Received 事件的回调函数 */
       type Callback = (result: CallbackResult) => void
-      interface CallbackResult {
-        /** 开发者服务器每次返回新 chunk 时的 Response */
-        res: Response
-      }
       /** 开发者服务器每次返回新 chunk 时的 Response */
-      interface Response {
+      interface CallbackResult {
         /** 返回的chunk buffer */
         data: ArrayBuffer
       }

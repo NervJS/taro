@@ -1,7 +1,7 @@
 import { MultiPlatformPlugin } from '@tarojs/runner-utils'
 import * as Chain from 'webpack-chain'
 
-import type { BuildConfig } from '../util/types'
+import type { BuildConfig } from '../utils/types'
 
 export default (_appPath: string, _config: Partial<BuildConfig>) => {
   const chain = new Chain()

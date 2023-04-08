@@ -1,4 +1,4 @@
-import { isString } from '@tarojs/shared'
+import { isString, isWebPlatform } from '@tarojs/shared'
 
 import { CONTEXT_ACTIONS } from '../constants'
 import { Events } from '../emitter/emitter'
@@ -11,7 +11,7 @@ import { caf, raf } from './raf'
 
 let window
 
-if (process.env.TARO_ENV && process.env.TARO_ENV !== 'h5') {
+if (process.env.TARO_ENV && !isWebPlatform()) {
   class Window extends Events {
     navigator = navigator
     requestAnimationFrame = raf

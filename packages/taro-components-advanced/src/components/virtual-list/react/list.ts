@@ -63,7 +63,6 @@ export default class List extends React.PureComponent<IProps, IState> {
     }
   }
 
-  // FIXME Warning: Cannot update during an existing state transition (such as within `render`).
   refresh = () => {
     if (process.env.FRAMEWORK === 'preact') {
       this.forceUpdate()
@@ -85,7 +84,6 @@ export default class List extends React.PureComponent<IProps, IState> {
     visibleStopIndex
   }))
 
-  // FIXME 优化事件信息
   _callOnScroll = memoizeOne((scrollDirection, scrollOffset, scrollUpdateWasRequested, detail) => this.props.onScroll({
     scrollDirection,
     scrollOffset,
@@ -165,11 +163,11 @@ export default class List extends React.PureComponent<IProps, IState> {
 
   _onScrollHorizontal = event => {
     const {
-      clientWidth,
+      clientWidth = this.itemList.wrapperSize,
+      scrollHeight,
+      scrollWidth = this.itemList.getOffsetSize(),
       scrollTop,
       scrollLeft,
-      scrollHeight,
-      scrollWidth
     } = event.currentTarget
     this.preset.field = {
       scrollHeight: scrollHeight,
@@ -220,8 +218,8 @@ export default class List extends React.PureComponent<IProps, IState> {
 
   _onScrollVertical = event => {
     const {
-      clientHeight,
-      scrollHeight,
+      clientHeight = this.itemList.wrapperSize,
+      scrollHeight = this.itemList.getOffsetSize(),
       scrollWidth,
       scrollTop,
       scrollLeft

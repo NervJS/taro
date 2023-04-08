@@ -20,7 +20,8 @@ export default async function build (appPath: string, rawConfig: MiniBuildConfig
     enableSourceMap,
     entry,
     isWatch: combination.config.isWatch,
-    runtimePath
+    runtimePath,
+    isBuildPlugin: combination.isBuildPlugin
   })
   try {
     await prebundle.run(combination.getPrebundleOptions())

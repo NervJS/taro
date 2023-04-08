@@ -1,7 +1,7 @@
 {
   "name": "stylelint-taro-rn",
   "description": "A collection of React Native specific rules for stylelint",
-  "version": "3.6.2",
+  "version": "3.6.4",
   "main": "dist/index.js",
   "files": [
     "dist",
@@ -61,5 +61,12 @@
   },
   "dependencies": {
     "react-native-known-styling-properties": "^1.0.4"
+  },
+  "devDependencies": {
+    "jest": "^29.3.1",
+    "jest-cli": "^29.3.1",
+    "jest-environment-node": "^29.5.0",
+    "postcss": "^8.4.18",
+    "postcss-less": "^6.0.0"
   }
 }

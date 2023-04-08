@@ -1,6 +1,6 @@
-import { IPluginContext } from '@tarojs/service'
-
 import { getPkgVersion } from '../../util'
+
+import type { IPluginContext } from '@tarojs/service'
 
 export default (ctx: IPluginContext) => {
   ctx.registerMethod('generateFrameworkInfo', () => {

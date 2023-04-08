@@ -9,22 +9,21 @@ examples
 packages/taro-cli/src/__tests__/fixtures
 packages/taro-cli/templates
 
+packages/taro-components/stencil.config.js
 packages/taro-components/loader
 packages/taro-components/src/components
-packages/taro-components-library-react/src/react-component-lib
 packages/taro-components-library-react/components.ts
-packages/taro-components-library-vue2/src/vue-component-lib
 packages/taro-components-library-vue3/components.ts
-packages/taro-components-library-vue3/src/vue-component-lib
 packages/taro-components-library-vue3/components.ts
 
 
 packages/taro-webpack-runner/src/__tests__/__snapshots__
 packages/taro-webpack-runner/src/__tests__/fixtures
-
 packages/taro-mini-runner/src/__tests__/__snapshots__
 packages/taro-mini-runner/src/__tests__/fixtures
 packages/taro-mini-runner/src/quickapp
+packages/taro-webpack5-runner/src/__tests__/__snapshots__
+packages/taro-webpack5-runner/src/__tests__/fixtures
 
 packages/taro/types
 

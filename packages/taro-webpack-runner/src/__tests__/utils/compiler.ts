@@ -1,3 +1,4 @@
+import { SOURCE_DIR } from '@tarojs/helper'
 import ReactLikePlugin from '@tarojs/plugin-framework-react'
 import Vue2Plugin from '@tarojs/plugin-framework-vue2'
 import Vue3Plugin from '@tarojs/plugin-framework-vue3'
@@ -9,9 +10,10 @@ import * as merge from 'webpack-merge'
 
 import prodConf from '../../config/prod.conf'
 import { customizeChain } from '../../index'
-import { getAppConfig, getAppEntry } from '../../util'
-import { makeConfig } from '../../util/chain'
-import { BuildConfig } from '../../util/types'
+import { AppHelper } from '../../utils'
+import { makeConfig } from '../../utils/chain'
+import { componentConfig } from '../../utils/component'
+import { BuildConfig } from '../../utils/types'
 import baseConfig from './config'
 
 interface EnsuredFs extends IFs {
@@ -113,8 +115,12 @@ export async function compile (app: string, customConfig: Partial<BuildConfig> =
   }, customConfig)
 
   const newConfig: BuildConfig = await makeConfig(config)
-  const entry = await getAppEntry(newConfig.entry)
-  const webpackChain = prodConf(appPath, newConfig, getAppConfig(entry))
+  const appHelper = new AppHelper(newConfig.entry, {
+    sourceDir: path.join(appPath, config.sourceRoot || SOURCE_DIR),
+    frameworkExts: newConfig.frameworkExts,
+    entryFileName: newConfig.entryFileName
+  })
+  const webpackChain = prodConf(appPath, newConfig, appHelper)
 
   await customizeChain(webpackChain, () => {}, newConfig.webpackChain)
 
@@ -157,9 +163,9 @@ function frameworkPatch (chain, webpack, config) {
     initialConfig: {
       framework: config.framework || 'react'
     },
-    modifyWebpackChain: cb => cb({ chain, webpack, data: {} }),
+    modifyWebpackChain: cb => cb({ chain, webpack, data: { componentConfig } }),
     modifyRunnerOpts: cb => cb(config),
-    onParseCreateElement: () => {}
+    onParseCreateElement: cb => cb({ nodeName: '', componentConfig })
   }
 
   let frameworkPlugin: any = ReactLikePlugin
