@@ -93,7 +93,7 @@ export function getTabVisible (): boolean {
   return getTabConfig('tabBarVisible')
 }
 
-export function getDefalutTabItem (index: number): Record<string, unknown> {
+export function getDefaultTabItem (index: number): Record<string, unknown> {
   const _taroAppConfig = globalAny.__taroAppConfig || {}
   const tabBar = _taroAppConfig?.appConfig?.tabBar || []
   return tabBar?.list[index] || {}
