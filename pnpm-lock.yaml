@@ -341,19 +341,19 @@ importers:
         version: registry.npmjs.org/vue@2.6.14
       vue-loader:
         specifier: ^17.0.0
-        version: registry.npmjs.org/vue-loader@17.0.0(webpack@5.69.0)
+        version: registry.npmjs.org/vue-loader@17.0.0(webpack@5.78.0)
       vue-template-compiler:
         specifier: ^2.6.11
         version: registry.npmjs.org/vue-template-compiler@2.6.14
       webpack:
-        specifier: 5.69.0
-        version: registry.npmjs.org/webpack@5.69.0(esbuild@0.14.47)
+        specifier: 5.78.0
+        version: registry.npmjs.org/webpack@5.78.0(esbuild@0.14.47)
       webpack-chain:
         specifier: 6.5.1
         version: registry.npmjs.org/webpack-chain@6.5.1
       webpack-dev-server:
         specifier: 4.7.4
-        version: registry.npmjs.org/webpack-dev-server@4.7.4(webpack@5.69.0)
+        version: registry.npmjs.org/webpack-dev-server@4.7.4(webpack@5.78.0)
       webpack-sources:
         specifier: ^3.2.3
         version: registry.npmjs.org/webpack-sources@3.2.3
@@ -1552,8 +1552,8 @@ importers:
         specifier: ^4.7.4
         version: registry.npmjs.org/typescript@4.7.4
       webpack:
-        specifier: 5.69.0
-        version: registry.npmjs.org/webpack@5.69.0
+        specifier: 5.78.0
+        version: registry.npmjs.org/webpack@5.78.0
 
   packages/taro-mini-runner:
     dependencies:
@@ -1977,7 +1977,7 @@ importers:
     devDependencies:
       '@pmmmwh/react-refresh-webpack-plugin':
         specifier: ^0.5.5
-        version: registry.npmjs.org/@pmmmwh/react-refresh-webpack-plugin@0.5.5(react-refresh@0.11.0)(webpack@5.69.0)
+        version: registry.npmjs.org/@pmmmwh/react-refresh-webpack-plugin@0.5.5(react-refresh@0.11.0)(webpack@5.78.0)
       '@prefresh/babel-plugin':
         specifier: ^0.4.1
         version: registry.npmjs.org/@prefresh/babel-plugin@0.4.3
@@ -1986,7 +1986,7 @@ importers:
         version: registry.npmjs.org/@prefresh/core@1.3.4(preact@10.10.0)
       '@prefresh/webpack':
         specifier: ^3.2.3
-        version: registry.npmjs.org/@prefresh/webpack@3.3.4(@prefresh/babel-plugin@0.4.3)(preact@10.10.0)(webpack@5.69.0)
+        version: registry.npmjs.org/@prefresh/webpack@3.3.4(@prefresh/babel-plugin@0.4.3)(preact@10.10.0)(webpack@5.78.0)
       preact:
         specifier: ^10.10.0
         version: registry.npmjs.org/preact@10.10.0
@@ -2006,8 +2006,8 @@ importers:
         specifier: ^4.7.4
         version: registry.npmjs.org/typescript@4.7.4
       webpack:
-        specifier: 5.69.0
-        version: registry.npmjs.org/webpack@5.69.0
+        specifier: 5.78.0
+        version: registry.npmjs.org/webpack@5.78.0
 
   packages/taro-plugin-react-devtools:
     dependencies:
@@ -2868,8 +2868,8 @@ importers:
         version: registry.npmjs.org/webpack-merge@4.2.2
     devDependencies:
       webpack:
-        specifier: 5.69.0
-        version: registry.npmjs.org/webpack@5.69.0
+        specifier: 5.78.0
+        version: registry.npmjs.org/webpack@5.78.0
 
   packages/taro-swan:
     dependencies:
@@ -3152,11 +3152,11 @@ importers:
         specifier: ^4.7.4
         version: registry.npmjs.org/typescript@4.7.4
       webpack:
-        specifier: 5.69.0
-        version: registry.npmjs.org/webpack@5.69.0(@swc/core@1.3.23)(esbuild@0.14.47)
+        specifier: 5.78.0
+        version: registry.npmjs.org/webpack@5.78.0(@swc/core@1.3.23)(esbuild@0.14.47)
       webpack-dev-server:
         specifier: 4.7.4
-        version: registry.npmjs.org/webpack-dev-server@4.7.4(webpack@5.69.0)
+        version: registry.npmjs.org/webpack-dev-server@4.7.4(webpack@5.78.0)
 
   packages/taro-webpack5-runner:
     dependencies:
@@ -3210,16 +3210,16 @@ importers:
         version: registry.npmjs.org/autoprefixer@9.8.8
       babel-loader:
         specifier: 8.2.1
-        version: registry.npmjs.org/babel-loader@8.2.1(@babel/core@7.18.5)(webpack@5.69.0)
+        version: registry.npmjs.org/babel-loader@8.2.1(@babel/core@7.18.5)(webpack@5.78.0)
       copy-webpack-plugin:
         specifier: 10.2.0
-        version: registry.npmjs.org/copy-webpack-plugin@10.2.0(webpack@5.69.0)
+        version: registry.npmjs.org/copy-webpack-plugin@10.2.0(webpack@5.78.0)
       css-loader:
         specifier: ^6.7.1
-        version: registry.npmjs.org/css-loader@6.7.3(webpack@5.69.0)
+        version: registry.npmjs.org/css-loader@6.7.3(webpack@5.78.0)
       css-minimizer-webpack-plugin:
         specifier: 3.4.1
-        version: registry.npmjs.org/css-minimizer-webpack-plugin@3.4.1(@parcel/css@1.10.1)(csso@5.0.3)(esbuild@0.14.47)(webpack@5.69.0)
+        version: registry.npmjs.org/css-minimizer-webpack-plugin@3.4.1(@parcel/css@1.10.1)(csso@5.0.3)(esbuild@0.14.47)(webpack@5.78.0)
       csso:
         specifier: ^5.0.2
         version: registry.npmjs.org/csso@5.0.3
@@ -3231,10 +3231,10 @@ importers:
         version: registry.npmjs.org/esbuild@0.14.47
       esbuild-loader:
         specifier: 2.18.0
-        version: registry.npmjs.org/esbuild-loader@2.18.0(webpack@5.69.0)
+        version: registry.npmjs.org/esbuild-loader@2.18.0(webpack@5.78.0)
       file-loader:
         specifier: 6.0.0
-        version: registry.npmjs.org/file-loader@6.0.0(webpack@5.69.0)
+        version: registry.npmjs.org/file-loader@6.0.0(webpack@5.78.0)
       fs-extra:
         specifier: ^8.0.1
         version: registry.npmjs.org/fs-extra@8.1.0
@@ -3243,7 +3243,7 @@ importers:
         version: registry.npmjs.org/html-minifier@4.0.0
       html-webpack-plugin:
         specifier: 5.5.0
-        version: registry.npmjs.org/html-webpack-plugin@5.5.0(webpack@5.69.0)
+        version: registry.npmjs.org/html-webpack-plugin@5.5.0(webpack@5.78.0)
       jsdom:
         specifier: ^21.1.0
         version: registry.npmjs.org/jsdom@21.1.1
@@ -3252,7 +3252,7 @@ importers:
         version: registry.npmjs.org/less@4.1.3
       less-loader:
         specifier: 10.2.0
-        version: registry.npmjs.org/less-loader@10.2.0(less@4.1.3)(webpack@5.69.0)
+        version: registry.npmjs.org/less-loader@10.2.0(less@4.1.3)(webpack@5.78.0)
       loader-utils:
         specifier: ^1.2.3
         version: registry.npmjs.org/loader-utils@1.4.0
@@ -3267,7 +3267,7 @@ importers:
         version: registry.npmjs.org/micromatch@4.0.5
       mini-css-extract-plugin:
         specifier: 2.4.6
-        version: registry.npmjs.org/mini-css-extract-plugin@2.4.6(webpack@5.69.0)
+        version: registry.npmjs.org/mini-css-extract-plugin@2.4.6(webpack@5.78.0)
       miniprogram-simulate:
         specifier: ^1.1.5
         version: registry.npmjs.org/miniprogram-simulate@1.5.7
@@ -3285,7 +3285,7 @@ importers:
         version: registry.npmjs.org/postcss-import@14.1.0(postcss@8.4.21)
       postcss-loader:
         specifier: ^7.0.1
-        version: registry.npmjs.org/postcss-loader@7.0.2(postcss@8.4.21)(webpack@5.69.0)
+        version: registry.npmjs.org/postcss-loader@7.0.2(postcss@8.4.21)(webpack@5.78.0)
       postcss-plugin-constparse:
         specifier: workspace:*
         version: link:../postcss-plugin-constparse
@@ -3309,28 +3309,28 @@ importers:
         version: registry.npmjs.org/sass@1.50.0
       sass-loader:
         specifier: 12.4.0
-        version: registry.npmjs.org/sass-loader@12.4.0(sass@1.50.0)(webpack@5.69.0)
+        version: registry.npmjs.org/sass-loader@12.4.0(sass@1.50.0)(webpack@5.78.0)
       sax:
         specifier: 1.2.4
         version: registry.npmjs.org/sax@1.2.4
       style-loader:
         specifier: 3.3.1
-        version: registry.npmjs.org/style-loader@3.3.1(webpack@5.69.0)
+        version: registry.npmjs.org/style-loader@3.3.1(webpack@5.78.0)
       stylus:
         specifier: ^0.55.0
         version: registry.npmjs.org/stylus@0.55.0
       stylus-loader:
         specifier: 6.2.0
-        version: registry.npmjs.org/stylus-loader@6.2.0(stylus@0.55.0)(webpack@5.69.0)
+        version: registry.npmjs.org/stylus-loader@6.2.0(stylus@0.55.0)(webpack@5.78.0)
       tapable:
         specifier: ^1.1.3
         version: registry.npmjs.org/tapable@1.1.3
       terser-webpack-plugin:
         specifier: ^5.1.3
-        version: registry.npmjs.org/terser-webpack-plugin@5.3.3(esbuild@0.14.47)(webpack@5.69.0)
+        version: registry.npmjs.org/terser-webpack-plugin@5.3.3(esbuild@0.14.47)(webpack@5.78.0)
       url-loader:
         specifier: 4.1.0
-        version: registry.npmjs.org/url-loader@4.1.0(file-loader@6.0.0)(webpack@5.69.0)
+        version: registry.npmjs.org/url-loader@4.1.0(file-loader@6.0.0)(webpack@5.78.0)
       vm2:
         specifier: ^3.8.4
         version: registry.npmjs.org/vm2@3.9.9
@@ -3339,13 +3339,13 @@ importers:
         version: registry.npmjs.org/webpack-chain@6.5.1
       webpack-dev-server:
         specifier: 4.7.4
-        version: registry.npmjs.org/webpack-dev-server@4.7.4(webpack@5.69.0)
+        version: registry.npmjs.org/webpack-dev-server@4.7.4(webpack@5.78.0)
       webpack-format-messages:
         specifier: ^2.0.6
         version: registry.npmjs.org/webpack-format-messages@2.0.6
       webpackbar:
         specifier: ^5.0.2
-        version: registry.npmjs.org/webpackbar@5.0.2(webpack@5.69.0)
+        version: registry.npmjs.org/webpackbar@5.0.2(webpack@5.78.0)
     devDependencies:
       '@babel/core':
         specifier: ^7.14.5
@@ -3378,8 +3378,8 @@ importers:
         specifier: ^4.7.4
         version: registry.npmjs.org/typescript@4.7.4
       webpack:
-        specifier: 5.69.0
-        version: registry.npmjs.org/webpack@5.69.0(esbuild@0.14.47)
+        specifier: 5.78.0
+        version: registry.npmjs.org/webpack@5.78.0(esbuild@0.14.47)
       webpack-merge:
         specifier: ^4.2.2
         version: registry.npmjs.org/webpack-merge@4.2.2
@@ -9476,7 +9476,7 @@ packages:
       '@parcel/css-win32-x64-msvc': registry.npmjs.org/@parcel/css-win32-x64-msvc@1.10.1
     dev: false
 
-  registry.npmjs.org/@pmmmwh/react-refresh-webpack-plugin@0.5.5(react-refresh@0.11.0)(webpack@5.69.0):
+  registry.npmjs.org/@pmmmwh/react-refresh-webpack-plugin@0.5.5(react-refresh@0.11.0)(webpack@5.78.0):
     resolution: {integrity: sha512-RbG7h6TuP6nFFYKJwbcToA1rjC1FyPg25NR2noAZ0vKI+la01KTSRPkuVPE+U88jXv7javx2JHglUcL1MHcshQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@pmmmwh/react-refresh-webpack-plugin/-/react-refresh-webpack-plugin-0.5.5.tgz}
     id: registry.npmjs.org/@pmmmwh/react-refresh-webpack-plugin/0.5.5
     name: '@pmmmwh/react-refresh-webpack-plugin'
@@ -9515,7 +9515,7 @@ packages:
       react-refresh: registry.npmjs.org/react-refresh@0.11.0
       schema-utils: registry.npmjs.org/schema-utils@3.1.1
       source-map: registry.npmjs.org/source-map@0.7.4
-      webpack: registry.npmjs.org/webpack@5.69.0
+      webpack: registry.npmjs.org/webpack@5.78.0
     dev: true
 
   registry.npmjs.org/@prefresh/babel-plugin@0.4.3:
@@ -9541,7 +9541,7 @@ packages:
     version: 1.1.3
     dev: true
 
-  registry.npmjs.org/@prefresh/webpack@3.3.4(@prefresh/babel-plugin@0.4.3)(preact@10.10.0)(webpack@5.69.0):
+  registry.npmjs.org/@prefresh/webpack@3.3.4(@prefresh/babel-plugin@0.4.3)(preact@10.10.0)(webpack@5.78.0):
     resolution: {integrity: sha512-RiXS/hvXDup5cQw/267kxkKie81kxaAB7SFbkr8ppshobDEzwgUN1tbGbHNx6Uari0Ql2XByC6HIgQGpaq2Q7w==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@prefresh/webpack/-/webpack-3.3.4.tgz}
     id: registry.npmjs.org/@prefresh/webpack/3.3.4
     name: '@prefresh/webpack'
@@ -9555,7 +9555,7 @@ packages:
       '@prefresh/core': registry.npmjs.org/@prefresh/core@1.3.4(preact@10.10.0)
       '@prefresh/utils': registry.npmjs.org/@prefresh/utils@1.1.3
       preact: registry.npmjs.org/preact@10.10.0
-      webpack: registry.npmjs.org/webpack@5.69.0
+      webpack: registry.npmjs.org/webpack@5.78.0
     dev: true
 
   registry.npmjs.org/@react-native-async-storage/async-storage@1.17.7(react-native@0.70.6):
@@ -12578,7 +12578,7 @@ packages:
       acorn: registry.npmjs.org/acorn@8.8.2
       acorn-walk: registry.npmjs.org/acorn-walk@8.2.0
 
-  registry.npmjs.org/acorn-import-assertions@1.8.0(acorn@8.7.1):
+  registry.npmjs.org/acorn-import-assertions@1.8.0(acorn@8.8.2):
     resolution: {integrity: sha512-m7VZ3jwz4eK6A4Vtt8Ew1/mNbP24u0FhdyfA7fSvnJR6LMdfOYnmuIrrJAgrYfYJ10F/otaHTtrtrtmHdMNzEw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/acorn-import-assertions/-/acorn-import-assertions-1.8.0.tgz}
     id: registry.npmjs.org/acorn-import-assertions/1.8.0
     name: acorn-import-assertions
@@ -12586,7 +12586,7 @@ packages:
     peerDependencies:
       acorn: ^8
     dependencies:
-      acorn: registry.npmjs.org/acorn@8.7.1
+      acorn: registry.npmjs.org/acorn@8.8.2
 
   registry.npmjs.org/acorn-jsx@5.3.2(acorn@6.4.2):
     resolution: {integrity: sha512-rq9s+JNhf0IChjtDXxllJ7g41oZk5SlXtp0LHwyA5cejwn7vKmKp4pPri6YEePv2PU65sAsegbXtIinmDFDXgQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/acorn-jsx/-/acorn-jsx-5.3.2.tgz}
@@ -13886,7 +13886,7 @@ packages:
       webpack: registry.npmjs.org/webpack@4.46.0
     dev: false
 
-  registry.npmjs.org/babel-loader@8.2.1(@babel/core@7.18.5)(webpack@5.69.0):
+  registry.npmjs.org/babel-loader@8.2.1(@babel/core@7.18.5)(webpack@5.78.0):
     resolution: {integrity: sha512-dMF8sb2KQ8kJl21GUjkW1HWmcsL39GOV5vnzjqrCzEPNY0S0UfMLnumidiwIajDSBmKhYf5iRW+HXaM4cvCKBw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/babel-loader/-/babel-loader-8.2.1.tgz}
     id: registry.npmjs.org/babel-loader/8.2.1
     name: babel-loader
@@ -13902,7 +13902,7 @@ packages:
       make-dir: registry.npmjs.org/make-dir@2.1.0
       pify: registry.npmjs.org/pify@4.0.1
       schema-utils: registry.npmjs.org/schema-utils@2.7.1
-      webpack: registry.npmjs.org/webpack@5.69.0(esbuild@0.14.47)
+      webpack: registry.npmjs.org/webpack@5.78.0(esbuild@0.14.47)
     dev: false
 
   registry.npmjs.org/babel-macros@1.2.0:
@@ -17123,7 +17123,7 @@ packages:
     version: 0.1.1
     engines: {node: '>=0.10.0'}
 
-  registry.npmjs.org/copy-webpack-plugin@10.2.0(webpack@5.69.0):
+  registry.npmjs.org/copy-webpack-plugin@10.2.0(webpack@5.78.0):
     resolution: {integrity: sha512-my6iXII95c78w14HzYCNya5TlJYa44lOppAge5GSTMM1SyDxNsVGCJvhP4/ld6snm8lzjn3XOonMZD6s1L86Og==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/copy-webpack-plugin/-/copy-webpack-plugin-10.2.0.tgz}
     id: registry.npmjs.org/copy-webpack-plugin/10.2.0
     name: copy-webpack-plugin
@@ -17138,7 +17138,7 @@ packages:
       normalize-path: registry.npmjs.org/normalize-path@3.0.0
       schema-utils: registry.npmjs.org/schema-utils@4.0.0
       serialize-javascript: registry.npmjs.org/serialize-javascript@6.0.0
-      webpack: registry.npmjs.org/webpack@5.69.0(esbuild@0.14.47)
+      webpack: registry.npmjs.org/webpack@5.78.0(esbuild@0.14.47)
     dev: false
 
   registry.npmjs.org/copy-webpack-plugin@5.1.2(webpack@4.46.0):
@@ -17520,7 +17520,7 @@ packages:
       semver: registry.npmjs.org/semver@7.3.8
       webpack: registry.npmjs.org/webpack@4.46.0
 
-  registry.npmjs.org/css-loader@6.7.3(webpack@5.69.0):
+  registry.npmjs.org/css-loader@6.7.3(webpack@5.78.0):
     resolution: {integrity: sha512-qhOH1KlBMnZP8FzRO6YCH9UHXQhVMcEGLyNdb7Hv2cpcmJbW0YrddO+tG1ab5nT41KpHIYGsbeHqxB9xPu1pKQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/css-loader/-/css-loader-6.7.3.tgz}
     id: registry.npmjs.org/css-loader/6.7.3
     name: css-loader
@@ -17537,7 +17537,7 @@ packages:
       postcss-modules-values: registry.npmjs.org/postcss-modules-values@4.0.0(postcss@8.4.21)
       postcss-value-parser: registry.npmjs.org/postcss-value-parser@4.2.0
       semver: registry.npmjs.org/semver@7.3.8
-      webpack: registry.npmjs.org/webpack@5.69.0(esbuild@0.14.47)
+      webpack: registry.npmjs.org/webpack@5.78.0(esbuild@0.14.47)
     dev: false
 
   registry.npmjs.org/css-mediaquery@0.1.2:
@@ -17546,7 +17546,7 @@ packages:
     version: 0.1.2
     dev: false
 
-  registry.npmjs.org/css-minimizer-webpack-plugin@3.4.1(@parcel/css@1.10.1)(csso@5.0.3)(esbuild@0.14.47)(webpack@5.69.0):
+  registry.npmjs.org/css-minimizer-webpack-plugin@3.4.1(@parcel/css@1.10.1)(csso@5.0.3)(esbuild@0.14.47)(webpack@5.78.0):
     resolution: {integrity: sha512-1u6D71zeIfgngN2XNRJefc/hY7Ybsxd74Jm4qngIXyUEk7fss3VUzuHxLAq/R8NAba4QU9OUSaMZlbpRc7bM4Q==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/css-minimizer-webpack-plugin/-/css-minimizer-webpack-plugin-3.4.1.tgz}
     id: registry.npmjs.org/css-minimizer-webpack-plugin/3.4.1
     name: css-minimizer-webpack-plugin
@@ -17577,7 +17577,7 @@ packages:
       schema-utils: registry.npmjs.org/schema-utils@4.0.0
       serialize-javascript: registry.npmjs.org/serialize-javascript@6.0.0
       source-map: registry.npmjs.org/source-map@0.6.1
-      webpack: registry.npmjs.org/webpack@5.69.0(esbuild@0.14.47)
+      webpack: registry.npmjs.org/webpack@5.78.0(esbuild@0.14.47)
     dev: false
 
   registry.npmjs.org/css-modules-loader-core@1.1.0:
@@ -19153,6 +19153,15 @@ packages:
       memory-fs: registry.npmjs.org/memory-fs@0.5.0
       tapable: registry.npmjs.org/tapable@1.1.3
 
+  registry.npmjs.org/enhanced-resolve@5.12.0:
+    resolution: {integrity: sha512-QHTXI/sZQmko1cbDoNAa3mJ5qhWUUNAq3vR0/YiD379fWQrcfuoX1+HW2S0MTt7XmoPLapdaDKUtelUSPic7hQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/enhanced-resolve/-/enhanced-resolve-5.12.0.tgz}
+    name: enhanced-resolve
+    version: 5.12.0
+    engines: {node: '>=10.13.0'}
+    dependencies:
+      graceful-fs: registry.npmjs.org/graceful-fs@4.2.11
+      tapable: registry.npmjs.org/tapable@2.2.1
+
   registry.npmjs.org/enhanced-resolve@5.9.3:
     resolution: {integrity: sha512-Bq9VSor+kjvW3f9/MiiR4eE3XYgOl7/rS8lnSxbRbF3kS0B2r+Y9w5krBWxZgDxASVZbdYrn5wT4j/Wb0J9qow==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/enhanced-resolve/-/enhanced-resolve-5.9.3.tgz}
     name: enhanced-resolve
@@ -19161,6 +19170,7 @@ packages:
     dependencies:
       graceful-fs: registry.npmjs.org/graceful-fs@4.2.10
       tapable: registry.npmjs.org/tapable@2.2.1
+    dev: false
 
   registry.npmjs.org/entities@2.2.0:
     resolution: {integrity: sha512-p92if5Nz619I0w+akJrLZH0MX0Pb5DX39XOwQTtXSdQQOaYH03S1uIQp4mhOZtAXrxq4ViO67YTiLBo2638o9A==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/entities/-/entities-2.2.0.tgz}
@@ -19470,7 +19480,7 @@ packages:
     requiresBuild: true
     optional: true
 
-  registry.npmjs.org/esbuild-loader@2.18.0(webpack@5.69.0):
+  registry.npmjs.org/esbuild-loader@2.18.0(webpack@5.78.0):
     resolution: {integrity: sha512-AKqxM3bI+gvGPV8o6NAhR+cBxVO8+dh+O0OXBHIXXwuSGumckbPWHzZ17subjBGI2YEGyJ1STH7Haj8aCrwL/w==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/esbuild-loader/-/esbuild-loader-2.18.0.tgz}
     id: registry.npmjs.org/esbuild-loader/2.18.0
     name: esbuild-loader
@@ -19483,7 +19493,7 @@ packages:
       json5: registry.npmjs.org/json5@2.2.1
       loader-utils: registry.npmjs.org/loader-utils@2.0.2
       tapable: registry.npmjs.org/tapable@2.2.1
-      webpack: registry.npmjs.org/webpack@5.69.0(esbuild@0.14.47)
+      webpack: registry.npmjs.org/webpack@5.78.0(esbuild@0.14.47)
       webpack-sources: registry.npmjs.org/webpack-sources@2.3.1
     dev: false
 
@@ -21092,7 +21102,7 @@ packages:
     dependencies:
       flat-cache: registry.npmjs.org/flat-cache@3.0.4
 
-  registry.npmjs.org/file-loader@6.0.0(webpack@5.69.0):
+  registry.npmjs.org/file-loader@6.0.0(webpack@5.78.0):
     resolution: {integrity: sha512-/aMOAYEFXDdjG0wytpTL5YQLfZnnTmLNjn+AIrJ/6HVnTfDqLsVKUUwkDf4I4kgex36BvjuXEn/TX9B/1ESyqQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/file-loader/-/file-loader-6.0.0.tgz}
     id: registry.npmjs.org/file-loader/6.0.0
     name: file-loader
@@ -21103,7 +21113,7 @@ packages:
     dependencies:
       loader-utils: registry.npmjs.org/loader-utils@2.0.2
       schema-utils: registry.npmjs.org/schema-utils@2.7.1
-      webpack: registry.npmjs.org/webpack@5.69.0(esbuild@0.14.47)
+      webpack: registry.npmjs.org/webpack@5.78.0(esbuild@0.14.47)
     dev: false
 
   registry.npmjs.org/file-loader@6.2.0(webpack@4.46.0):
@@ -22820,7 +22830,7 @@ packages:
       webpack: registry.npmjs.org/webpack@4.46.0
     dev: false
 
-  registry.npmjs.org/html-webpack-plugin@5.5.0(webpack@5.69.0):
+  registry.npmjs.org/html-webpack-plugin@5.5.0(webpack@5.78.0):
     resolution: {integrity: sha512-sy88PC2cRTVxvETRgUHFrL4No3UxvcH8G1NepGhqaTT+GXN2kTamqasot0inS5hXeg1cMbFDt27zzo9p35lZVw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/html-webpack-plugin/-/html-webpack-plugin-5.5.0.tgz}
     id: registry.npmjs.org/html-webpack-plugin/5.5.0
     name: html-webpack-plugin
@@ -22834,7 +22844,7 @@ packages:
       lodash: registry.npmjs.org/lodash@4.17.21
       pretty-error: registry.npmjs.org/pretty-error@4.0.0
       tapable: registry.npmjs.org/tapable@2.2.1
-      webpack: registry.npmjs.org/webpack@5.69.0(esbuild@0.14.47)
+      webpack: registry.npmjs.org/webpack@5.78.0(esbuild@0.14.47)
     dev: false
 
   registry.npmjs.org/html@1.0.0:
@@ -26613,7 +26623,7 @@ packages:
     engines: {node: '>=0.10.0'}
     dev: false
 
-  registry.npmjs.org/less-loader@10.2.0(less@4.1.3)(webpack@5.69.0):
+  registry.npmjs.org/less-loader@10.2.0(less@4.1.3)(webpack@5.78.0):
     resolution: {integrity: sha512-AV5KHWvCezW27GT90WATaDnfXBv99llDbtaj4bshq6DvAihMdNjaPDcUMa6EXKLRF+P2opFenJp89BXg91XLYg==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/less-loader/-/less-loader-10.2.0.tgz}
     id: registry.npmjs.org/less-loader/10.2.0
     name: less-loader
@@ -26625,7 +26635,7 @@ packages:
     dependencies:
       klona: registry.npmjs.org/klona@2.0.5
       less: registry.npmjs.org/less@4.1.3
-      webpack: registry.npmjs.org/webpack@5.69.0(esbuild@0.14.47)
+      webpack: registry.npmjs.org/webpack@5.78.0(esbuild@0.14.47)
     dev: false
 
   registry.npmjs.org/less-loader@7.3.0(less@4.1.3)(webpack@4.46.0):
@@ -27948,7 +27958,7 @@ packages:
       webpack-sources: registry.npmjs.org/webpack-sources@1.4.3
     dev: false
 
-  registry.npmjs.org/mini-css-extract-plugin@2.4.6(webpack@5.69.0):
+  registry.npmjs.org/mini-css-extract-plugin@2.4.6(webpack@5.78.0):
     resolution: {integrity: sha512-khHpc29bdsE9EQiGSLqQieLyMbGca+bkC42/BBL1gXC8yAS0nHpOTUCBYUK6En1FuRdfE9wKXhGtsab8vmsugg==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/mini-css-extract-plugin/-/mini-css-extract-plugin-2.4.6.tgz}
     id: registry.npmjs.org/mini-css-extract-plugin/2.4.6
     name: mini-css-extract-plugin
@@ -27958,7 +27968,7 @@ packages:
       webpack: ^5.0.0
     dependencies:
       schema-utils: registry.npmjs.org/schema-utils@4.0.0
-      webpack: registry.npmjs.org/webpack@5.69.0(esbuild@0.14.47)
+      webpack: registry.npmjs.org/webpack@5.78.0(esbuild@0.14.47)
     dev: false
 
   registry.npmjs.org/miniapp-types@1.4.4:
@@ -30266,7 +30276,7 @@ packages:
       webpack: registry.npmjs.org/webpack@4.46.0
     dev: false
 
-  registry.npmjs.org/postcss-loader@7.0.2(postcss@8.4.21)(webpack@5.69.0):
+  registry.npmjs.org/postcss-loader@7.0.2(postcss@8.4.21)(webpack@5.78.0):
     resolution: {integrity: sha512-fUJzV/QH7NXUAqV8dWJ9Lg4aTkDCezpTS5HgJ2DvqznexTbSTxgi/dTECvTZ15BwKTtk8G/bqI/QTu2HPd3ZCg==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/postcss-loader/-/postcss-loader-7.0.2.tgz}
     id: registry.npmjs.org/postcss-loader/7.0.2
     name: postcss-loader
@@ -30280,7 +30290,7 @@ packages:
       klona: registry.npmjs.org/klona@2.0.5
       postcss: registry.npmjs.org/postcss@8.4.21
       semver: registry.npmjs.org/semver@7.3.8
-      webpack: registry.npmjs.org/webpack@5.69.0(esbuild@0.14.47)
+      webpack: registry.npmjs.org/webpack@5.78.0(esbuild@0.14.47)
     dev: false
 
   registry.npmjs.org/postcss-media-query-parser@0.2.3:
@@ -33618,7 +33628,7 @@ packages:
       webpack: registry.npmjs.org/webpack@4.46.0
     dev: false
 
-  registry.npmjs.org/sass-loader@12.4.0(sass@1.50.0)(webpack@5.69.0):
+  registry.npmjs.org/sass-loader@12.4.0(sass@1.50.0)(webpack@5.78.0):
     resolution: {integrity: sha512-7xN+8khDIzym1oL9XyS6zP6Ges+Bo2B2xbPrjdMHEYyV3AQYhd/wXeru++3ODHF0zMjYmVadblSKrPrjEkL8mg==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/sass-loader/-/sass-loader-12.4.0.tgz}
     id: registry.npmjs.org/sass-loader/12.4.0
     name: sass-loader
@@ -33640,7 +33650,7 @@ packages:
       klona: registry.npmjs.org/klona@2.0.5
       neo-async: registry.npmjs.org/neo-async@2.6.2
       sass: registry.npmjs.org/sass@1.50.0
-      webpack: registry.npmjs.org/webpack@5.69.0(esbuild@0.14.47)
+      webpack: registry.npmjs.org/webpack@5.78.0(esbuild@0.14.47)
     dev: false
 
   registry.npmjs.org/sass@1.37.5:
@@ -35221,7 +35231,7 @@ packages:
       webpack: registry.npmjs.org/webpack@4.46.0
     dev: false
 
-  registry.npmjs.org/style-loader@3.3.1(webpack@5.69.0):
+  registry.npmjs.org/style-loader@3.3.1(webpack@5.78.0):
     resolution: {integrity: sha512-GPcQ+LDJbrcxHORTRes6Jy2sfvK2kS6hpSfI/fXhPt+spVzxF6LJ1dHLN9zIGmVaaP044YKaIatFaufENRiDoQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/style-loader/-/style-loader-3.3.1.tgz}
     id: registry.npmjs.org/style-loader/3.3.1
     name: style-loader
@@ -35230,7 +35240,7 @@ packages:
     peerDependencies:
       webpack: ^5.0.0
     dependencies:
-      webpack: registry.npmjs.org/webpack@5.69.0(esbuild@0.14.47)
+      webpack: registry.npmjs.org/webpack@5.78.0(esbuild@0.14.47)
     dev: false
 
   registry.npmjs.org/style-search@0.1.0:
@@ -35410,7 +35420,7 @@ packages:
       when: registry.npmjs.org/when@3.6.4
     dev: false
 
-  registry.npmjs.org/stylus-loader@6.2.0(stylus@0.55.0)(webpack@5.69.0):
+  registry.npmjs.org/stylus-loader@6.2.0(stylus@0.55.0)(webpack@5.78.0):
     resolution: {integrity: sha512-5dsDc7qVQGRoc6pvCL20eYgRUxepZ9FpeK28XhdXaIPP6kXr6nI1zAAKFQgP5OBkOfKaURp4WUpJzspg1f01Gg==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/stylus-loader/-/stylus-loader-6.2.0.tgz}
     id: registry.npmjs.org/stylus-loader/6.2.0
     name: stylus-loader
@@ -35424,7 +35434,7 @@ packages:
       klona: registry.npmjs.org/klona@2.0.5
       normalize-path: registry.npmjs.org/normalize-path@3.0.0
       stylus: registry.npmjs.org/stylus@0.55.0
-      webpack: registry.npmjs.org/webpack@5.69.0(esbuild@0.14.47)
+      webpack: registry.npmjs.org/webpack@5.78.0(esbuild@0.14.47)
     dev: false
 
   registry.npmjs.org/stylus@0.55.0:
@@ -35823,7 +35833,7 @@ packages:
       - bluebird
     dev: false
 
-  registry.npmjs.org/terser-webpack-plugin@5.3.3(@swc/core@1.3.23)(esbuild@0.14.47)(webpack@5.69.0):
+  registry.npmjs.org/terser-webpack-plugin@5.3.3(@swc/core@1.3.23)(esbuild@0.14.47)(webpack@5.78.0):
     resolution: {integrity: sha512-Fx60G5HNYknNTNQnzQ1VePRuu89ZVYWfjRAeT5rITuCY/1b08s49e5kSQwHDirKZWuoKOBRFS98EUUoZ9kLEwQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/terser-webpack-plugin/-/terser-webpack-plugin-5.3.3.tgz}
     id: registry.npmjs.org/terser-webpack-plugin/5.3.3
     name: terser-webpack-plugin
@@ -35849,9 +35859,10 @@ packages:
       schema-utils: registry.npmjs.org/schema-utils@3.1.1
       serialize-javascript: registry.npmjs.org/serialize-javascript@6.0.0
       terser: registry.npmjs.org/terser@5.14.1
-      webpack: registry.npmjs.org/webpack@5.69.0(@swc/core@1.3.23)(esbuild@0.14.47)
+      webpack: registry.npmjs.org/webpack@5.78.0(@swc/core@1.3.23)(esbuild@0.14.47)
+    dev: true
 
-  registry.npmjs.org/terser-webpack-plugin@5.3.3(esbuild@0.14.47)(webpack@5.69.0):
+  registry.npmjs.org/terser-webpack-plugin@5.3.3(esbuild@0.14.47)(webpack@5.78.0):
     resolution: {integrity: sha512-Fx60G5HNYknNTNQnzQ1VePRuu89ZVYWfjRAeT5rITuCY/1b08s49e5kSQwHDirKZWuoKOBRFS98EUUoZ9kLEwQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/terser-webpack-plugin/-/terser-webpack-plugin-5.3.3.tgz}
     id: registry.npmjs.org/terser-webpack-plugin/5.3.3
     name: terser-webpack-plugin
@@ -35876,9 +35887,9 @@ packages:
       schema-utils: registry.npmjs.org/schema-utils@3.1.1
       serialize-javascript: registry.npmjs.org/serialize-javascript@6.0.0
       terser: registry.npmjs.org/terser@5.14.1
-      webpack: registry.npmjs.org/webpack@5.69.0(esbuild@0.14.47)
+      webpack: registry.npmjs.org/webpack@5.78.0(esbuild@0.14.47)
 
-  registry.npmjs.org/terser-webpack-plugin@5.3.3(webpack@5.69.0):
+  registry.npmjs.org/terser-webpack-plugin@5.3.3(webpack@5.78.0):
     resolution: {integrity: sha512-Fx60G5HNYknNTNQnzQ1VePRuu89ZVYWfjRAeT5rITuCY/1b08s49e5kSQwHDirKZWuoKOBRFS98EUUoZ9kLEwQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/terser-webpack-plugin/-/terser-webpack-plugin-5.3.3.tgz}
     id: registry.npmjs.org/terser-webpack-plugin/5.3.3
     name: terser-webpack-plugin
@@ -35902,7 +35913,7 @@ packages:
       schema-utils: registry.npmjs.org/schema-utils@3.1.1
       serialize-javascript: registry.npmjs.org/serialize-javascript@6.0.0
       terser: registry.npmjs.org/terser@5.14.1
-      webpack: registry.npmjs.org/webpack@5.69.0
+      webpack: registry.npmjs.org/webpack@5.78.0
     dev: true
 
   registry.npmjs.org/terser@4.8.0:
@@ -37095,7 +37106,7 @@ packages:
     name: url-join
     version: 4.0.0
 
-  registry.npmjs.org/url-loader@4.1.0(file-loader@6.0.0)(webpack@5.69.0):
+  registry.npmjs.org/url-loader@4.1.0(file-loader@6.0.0)(webpack@5.78.0):
     resolution: {integrity: sha512-IzgAAIC8wRrg6NYkFIJY09vtktQcsvU8V6HhtQj9PTefbYImzLB1hufqo4m+RyM5N3mLx5BqJKccgxJS+W3kqw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/url-loader/-/url-loader-4.1.0.tgz}
     id: registry.npmjs.org/url-loader/4.1.0
     name: url-loader
@@ -37108,11 +37119,11 @@ packages:
       file-loader:
         optional: true
     dependencies:
-      file-loader: registry.npmjs.org/file-loader@6.0.0(webpack@5.69.0)
+      file-loader: registry.npmjs.org/file-loader@6.0.0(webpack@5.78.0)
       loader-utils: registry.npmjs.org/loader-utils@2.0.2
       mime-types: registry.npmjs.org/mime-types@2.1.35
       schema-utils: registry.npmjs.org/schema-utils@2.7.1
-      webpack: registry.npmjs.org/webpack@5.69.0(esbuild@0.14.47)
+      webpack: registry.npmjs.org/webpack@5.78.0(esbuild@0.14.47)
     dev: false
 
   registry.npmjs.org/url-loader@4.1.1(file-loader@6.2.0)(webpack@4.46.0):
@@ -37538,7 +37549,7 @@ packages:
       - whiskers
     dev: true
 
-  registry.npmjs.org/vue-loader@17.0.0(webpack@5.69.0):
+  registry.npmjs.org/vue-loader@17.0.0(webpack@5.78.0):
     resolution: {integrity: sha512-OWSXjrzIvbF2LtOUmxT3HYgwwubbfFelN8PAP9R9dwpIkj48TVioHhWWSx7W7fk+iF5cgg3CBJRxwTdtLU4Ecg==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/vue-loader/-/vue-loader-17.0.0.tgz}
     id: registry.npmjs.org/vue-loader/17.0.0
     name: vue-loader
@@ -37549,7 +37560,7 @@ packages:
       chalk: registry.npmjs.org/chalk@4.1.2
       hash-sum: registry.npmjs.org/hash-sum@2.0.0
       loader-utils: registry.npmjs.org/loader-utils@2.0.2
-      webpack: registry.npmjs.org/webpack@5.69.0(esbuild@0.14.47)
+      webpack: registry.npmjs.org/webpack@5.78.0(esbuild@0.14.47)
     dev: true
 
   registry.npmjs.org/vue-style-loader@4.1.3:
@@ -37672,7 +37683,7 @@ packages:
     engines: {node: '>=10.13.0'}
     dependencies:
       glob-to-regexp: registry.npmjs.org/glob-to-regexp@0.4.1
-      graceful-fs: registry.npmjs.org/graceful-fs@4.2.10
+      graceful-fs: registry.npmjs.org/graceful-fs@4.2.11
 
   registry.npmjs.org/wbuf@1.7.3:
     resolution: {integrity: sha512-O84QOnr0icsbFGLS0O3bI5FswxzRr8/gHwWkDlQFskhSPryQXvrTMxjxGP4+iWYoauLoBvfDpkrOauZ+0iZpDA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/wbuf/-/wbuf-1.7.3.tgz}
@@ -37748,7 +37759,7 @@ packages:
       webpack-log: registry.npmjs.org/webpack-log@2.0.0
     dev: false
 
-  registry.npmjs.org/webpack-dev-middleware@5.3.3(webpack@5.69.0):
+  registry.npmjs.org/webpack-dev-middleware@5.3.3(webpack@5.78.0):
     resolution: {integrity: sha512-hj5CYrY0bZLB+eTO+x/j67Pkrquiy7kWepMHmUMoPsmcUaeEnQJqFzHJOyxgWlq746/wUuA64p9ta34Kyb01pA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/webpack-dev-middleware/-/webpack-dev-middleware-5.3.3.tgz}
     id: registry.npmjs.org/webpack-dev-middleware/5.3.3
     name: webpack-dev-middleware
@@ -37762,7 +37773,7 @@ packages:
       mime-types: registry.npmjs.org/mime-types@2.1.35
       range-parser: registry.npmjs.org/range-parser@1.2.1
       schema-utils: registry.npmjs.org/schema-utils@4.0.0
-      webpack: registry.npmjs.org/webpack@5.69.0(@swc/core@1.3.23)(esbuild@0.14.47)
+      webpack: registry.npmjs.org/webpack@5.78.0(esbuild@0.14.47)
 
   registry.npmjs.org/webpack-dev-server@3.11.3(webpack@4.46.0):
     resolution: {integrity: sha512-3x31rjbEQWKMNzacUZRE6wXvUFuGpH7vr0lIEbYpMAG9BOxi0928QU1BBswOAP3kg3H1O4hiS+sq4YyAn6ANnA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/webpack-dev-server/-/webpack-dev-server-3.11.3.tgz}
@@ -37817,7 +37828,7 @@ packages:
       - utf-8-validate
     dev: false
 
-  registry.npmjs.org/webpack-dev-server@4.7.4(webpack@5.69.0):
+  registry.npmjs.org/webpack-dev-server@4.7.4(webpack@5.78.0):
     resolution: {integrity: sha512-nfdsb02Zi2qzkNmgtZjkrMOcXnYZ6FLKcQwpxT7MvmHKc+oTtDsBju8j+NMyAygZ9GW1jMEUpy3itHtqgEhe1A==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/webpack-dev-server/-/webpack-dev-server-4.7.4.tgz}
     id: registry.npmjs.org/webpack-dev-server/4.7.4
     name: webpack-dev-server
@@ -37859,8 +37870,8 @@ packages:
       sockjs: registry.npmjs.org/sockjs@0.3.24
       spdy: registry.npmjs.org/spdy@4.0.2
       strip-ansi: registry.npmjs.org/strip-ansi@7.0.1
-      webpack: registry.npmjs.org/webpack@5.69.0(@swc/core@1.3.23)(esbuild@0.14.47)
-      webpack-dev-middleware: registry.npmjs.org/webpack-dev-middleware@5.3.3(webpack@5.69.0)
+      webpack: registry.npmjs.org/webpack@5.78.0(esbuild@0.14.47)
+      webpack-dev-middleware: registry.npmjs.org/webpack-dev-middleware@5.3.3(webpack@5.78.0)
       ws: registry.npmjs.org/ws@8.8.0
     transitivePeerDependencies:
       - bufferutil
@@ -37965,10 +37976,10 @@ packages:
     transitivePeerDependencies:
       - supports-color
 
-  registry.npmjs.org/webpack@5.69.0:
-    resolution: {integrity: sha512-E5Fqu89Gu8fR6vejRqu26h8ld/k6/dCVbeGUcuZjc+goQHDfCPU9rER71JmdtBYGmci7Ec2aFEATQ2IVXKy2wg==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/webpack/-/webpack-5.69.0.tgz}
+  registry.npmjs.org/webpack@5.78.0:
+    resolution: {integrity: sha512-gT5DP72KInmE/3azEaQrISjTvLYlSM0j1Ezhht/KLVkrqtv10JoP/RXhwmX/frrutOPuSq3o5Vq0ehR/4Vmd1g==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/webpack/-/webpack-5.78.0.tgz}
     name: webpack
-    version: 5.69.0
+    version: 5.78.0
     engines: {node: '>=10.13.0'}
     hasBin: true
     peerDependencies:
@@ -37982,23 +37993,23 @@ packages:
       '@webassemblyjs/ast': registry.npmjs.org/@webassemblyjs/ast@1.11.1
       '@webassemblyjs/wasm-edit': registry.npmjs.org/@webassemblyjs/wasm-edit@1.11.1
       '@webassemblyjs/wasm-parser': registry.npmjs.org/@webassemblyjs/wasm-parser@1.11.1
-      acorn: registry.npmjs.org/acorn@8.7.1
-      acorn-import-assertions: registry.npmjs.org/acorn-import-assertions@1.8.0(acorn@8.7.1)
+      acorn: registry.npmjs.org/acorn@8.8.2
+      acorn-import-assertions: registry.npmjs.org/acorn-import-assertions@1.8.0(acorn@8.8.2)
       browserslist: registry.npmjs.org/browserslist@4.21.0
       chrome-trace-event: registry.npmjs.org/chrome-trace-event@1.0.3
-      enhanced-resolve: registry.npmjs.org/enhanced-resolve@5.9.3
+      enhanced-resolve: registry.npmjs.org/enhanced-resolve@5.12.0
       es-module-lexer: registry.npmjs.org/es-module-lexer@0.9.3
       eslint-scope: registry.npmjs.org/eslint-scope@5.1.1
       events: registry.npmjs.org/events@3.3.0
       glob-to-regexp: registry.npmjs.org/glob-to-regexp@0.4.1
-      graceful-fs: registry.npmjs.org/graceful-fs@4.2.10
-      json-parse-better-errors: registry.npmjs.org/json-parse-better-errors@1.0.2
+      graceful-fs: registry.npmjs.org/graceful-fs@4.2.11
+      json-parse-even-better-errors: registry.npmjs.org/json-parse-even-better-errors@2.3.1
       loader-runner: registry.npmjs.org/loader-runner@4.3.0
       mime-types: registry.npmjs.org/mime-types@2.1.35
       neo-async: registry.npmjs.org/neo-async@2.6.2
       schema-utils: registry.npmjs.org/schema-utils@3.1.1
       tapable: registry.npmjs.org/tapable@2.2.1
-      terser-webpack-plugin: registry.npmjs.org/terser-webpack-plugin@5.3.3(webpack@5.69.0)
+      terser-webpack-plugin: registry.npmjs.org/terser-webpack-plugin@5.3.3(webpack@5.78.0)
       watchpack: registry.npmjs.org/watchpack@2.4.0
       webpack-sources: registry.npmjs.org/webpack-sources@3.2.3
     transitivePeerDependencies:
@@ -38007,11 +38018,11 @@ packages:
       - uglify-js
     dev: true
 
-  registry.npmjs.org/webpack@5.69.0(@swc/core@1.3.23)(esbuild@0.14.47):
-    resolution: {integrity: sha512-E5Fqu89Gu8fR6vejRqu26h8ld/k6/dCVbeGUcuZjc+goQHDfCPU9rER71JmdtBYGmci7Ec2aFEATQ2IVXKy2wg==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/webpack/-/webpack-5.69.0.tgz}
-    id: registry.npmjs.org/webpack/5.69.0
+  registry.npmjs.org/webpack@5.78.0(@swc/core@1.3.23)(esbuild@0.14.47):
+    resolution: {integrity: sha512-gT5DP72KInmE/3azEaQrISjTvLYlSM0j1Ezhht/KLVkrqtv10JoP/RXhwmX/frrutOPuSq3o5Vq0ehR/4Vmd1g==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/webpack/-/webpack-5.78.0.tgz}
+    id: registry.npmjs.org/webpack/5.78.0
     name: webpack
-    version: 5.69.0
+    version: 5.78.0
     engines: {node: '>=10.13.0'}
     hasBin: true
     peerDependencies:
@@ -38025,35 +38036,36 @@ packages:
       '@webassemblyjs/ast': registry.npmjs.org/@webassemblyjs/ast@1.11.1
       '@webassemblyjs/wasm-edit': registry.npmjs.org/@webassemblyjs/wasm-edit@1.11.1
       '@webassemblyjs/wasm-parser': registry.npmjs.org/@webassemblyjs/wasm-parser@1.11.1
-      acorn: registry.npmjs.org/acorn@8.7.1
-      acorn-import-assertions: registry.npmjs.org/acorn-import-assertions@1.8.0(acorn@8.7.1)
+      acorn: registry.npmjs.org/acorn@8.8.2
+      acorn-import-assertions: registry.npmjs.org/acorn-import-assertions@1.8.0(acorn@8.8.2)
       browserslist: registry.npmjs.org/browserslist@4.21.0
       chrome-trace-event: registry.npmjs.org/chrome-trace-event@1.0.3
-      enhanced-resolve: registry.npmjs.org/enhanced-resolve@5.9.3
+      enhanced-resolve: registry.npmjs.org/enhanced-resolve@5.12.0
       es-module-lexer: registry.npmjs.org/es-module-lexer@0.9.3
       eslint-scope: registry.npmjs.org/eslint-scope@5.1.1
       events: registry.npmjs.org/events@3.3.0
       glob-to-regexp: registry.npmjs.org/glob-to-regexp@0.4.1
-      graceful-fs: registry.npmjs.org/graceful-fs@4.2.10
-      json-parse-better-errors: registry.npmjs.org/json-parse-better-errors@1.0.2
+      graceful-fs: registry.npmjs.org/graceful-fs@4.2.11
+      json-parse-even-better-errors: registry.npmjs.org/json-parse-even-better-errors@2.3.1
       loader-runner: registry.npmjs.org/loader-runner@4.3.0
       mime-types: registry.npmjs.org/mime-types@2.1.35
       neo-async: registry.npmjs.org/neo-async@2.6.2
       schema-utils: registry.npmjs.org/schema-utils@3.1.1
       tapable: registry.npmjs.org/tapable@2.2.1
-      terser-webpack-plugin: registry.npmjs.org/terser-webpack-plugin@5.3.3(@swc/core@1.3.23)(esbuild@0.14.47)(webpack@5.69.0)
+      terser-webpack-plugin: registry.npmjs.org/terser-webpack-plugin@5.3.3(@swc/core@1.3.23)(esbuild@0.14.47)(webpack@5.78.0)
       watchpack: registry.npmjs.org/watchpack@2.4.0
       webpack-sources: registry.npmjs.org/webpack-sources@3.2.3
     transitivePeerDependencies:
       - '@swc/core'
       - esbuild
       - uglify-js
+    dev: true
 
-  registry.npmjs.org/webpack@5.69.0(esbuild@0.14.47):
-    resolution: {integrity: sha512-E5Fqu89Gu8fR6vejRqu26h8ld/k6/dCVbeGUcuZjc+goQHDfCPU9rER71JmdtBYGmci7Ec2aFEATQ2IVXKy2wg==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/webpack/-/webpack-5.69.0.tgz}
-    id: registry.npmjs.org/webpack/5.69.0
+  registry.npmjs.org/webpack@5.78.0(esbuild@0.14.47):
+    resolution: {integrity: sha512-gT5DP72KInmE/3azEaQrISjTvLYlSM0j1Ezhht/KLVkrqtv10JoP/RXhwmX/frrutOPuSq3o5Vq0ehR/4Vmd1g==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/webpack/-/webpack-5.78.0.tgz}
+    id: registry.npmjs.org/webpack/5.78.0
     name: webpack
-    version: 5.69.0
+    version: 5.78.0
     engines: {node: '>=10.13.0'}
     hasBin: true
     peerDependencies:
@@ -38067,23 +38079,23 @@ packages:
       '@webassemblyjs/ast': registry.npmjs.org/@webassemblyjs/ast@1.11.1
       '@webassemblyjs/wasm-edit': registry.npmjs.org/@webassemblyjs/wasm-edit@1.11.1
       '@webassemblyjs/wasm-parser': registry.npmjs.org/@webassemblyjs/wasm-parser@1.11.1
-      acorn: registry.npmjs.org/acorn@8.7.1
-      acorn-import-assertions: registry.npmjs.org/acorn-import-assertions@1.8.0(acorn@8.7.1)
+      acorn: registry.npmjs.org/acorn@8.8.2
+      acorn-import-assertions: registry.npmjs.org/acorn-import-assertions@1.8.0(acorn@8.8.2)
       browserslist: registry.npmjs.org/browserslist@4.21.0
       chrome-trace-event: registry.npmjs.org/chrome-trace-event@1.0.3
-      enhanced-resolve: registry.npmjs.org/enhanced-resolve@5.9.3
+      enhanced-resolve: registry.npmjs.org/enhanced-resolve@5.12.0
       es-module-lexer: registry.npmjs.org/es-module-lexer@0.9.3
       eslint-scope: registry.npmjs.org/eslint-scope@5.1.1
       events: registry.npmjs.org/events@3.3.0
       glob-to-regexp: registry.npmjs.org/glob-to-regexp@0.4.1
-      graceful-fs: registry.npmjs.org/graceful-fs@4.2.10
-      json-parse-better-errors: registry.npmjs.org/json-parse-better-errors@1.0.2
+      graceful-fs: registry.npmjs.org/graceful-fs@4.2.11
+      json-parse-even-better-errors: registry.npmjs.org/json-parse-even-better-errors@2.3.1
       loader-runner: registry.npmjs.org/loader-runner@4.3.0
       mime-types: registry.npmjs.org/mime-types@2.1.35
       neo-async: registry.npmjs.org/neo-async@2.6.2
       schema-utils: registry.npmjs.org/schema-utils@3.1.1
       tapable: registry.npmjs.org/tapable@2.2.1
-      terser-webpack-plugin: registry.npmjs.org/terser-webpack-plugin@5.3.3(esbuild@0.14.47)(webpack@5.69.0)
+      terser-webpack-plugin: registry.npmjs.org/terser-webpack-plugin@5.3.3(esbuild@0.14.47)(webpack@5.78.0)
       watchpack: registry.npmjs.org/watchpack@2.4.0
       webpack-sources: registry.npmjs.org/webpack-sources@3.2.3
     transitivePeerDependencies:
@@ -38091,7 +38103,7 @@ packages:
       - esbuild
       - uglify-js
 
-  registry.npmjs.org/webpackbar@5.0.2(webpack@5.69.0):
+  registry.npmjs.org/webpackbar@5.0.2(webpack@5.78.0):
     resolution: {integrity: sha512-BmFJo7veBDgQzfWXl/wwYXr/VFus0614qZ8i9znqcl9fnEdiVkdbi0TedLQ6xAK92HZHDJ0QmyQ0fmuZPAgCYQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/webpackbar/-/webpackbar-5.0.2.tgz}
     id: registry.npmjs.org/webpackbar/5.0.2
     name: webpackbar
@@ -38104,7 +38116,7 @@ packages:
       consola: registry.npmjs.org/consola@2.15.3
       pretty-time: registry.npmjs.org/pretty-time@1.1.0
       std-env: registry.npmjs.org/std-env@3.1.1
-      webpack: registry.npmjs.org/webpack@5.69.0(esbuild@0.14.47)
+      webpack: registry.npmjs.org/webpack@5.78.0(esbuild@0.14.47)
     dev: false
 
   registry.npmjs.org/websocket-driver@0.7.4:
