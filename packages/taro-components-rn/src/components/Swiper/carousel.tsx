@@ -122,7 +122,7 @@ class Carousel extends React.Component<CarouselProps, CarouselState> {
     }
 
     const count = this.count
-    let pages: React.ReactFragment
+    let pages: React.ReactNode
 
     if (count > 1) {
       const childrenArray = React.Children.toArray(children)
@@ -198,8 +198,6 @@ class Carousel extends React.Component<CarouselProps, CarouselState> {
           style={this.props.style}
           // Lib does not support dynamically orientation change
           orientation={vertical ? 'vertical' : 'horizontal'}
-          // Lib does not support dynamically transitionStyle change
-          transitionStyle="scroll"
           ref={this.viewPager as any}
         >
           {pages}

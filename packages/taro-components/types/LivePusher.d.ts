@@ -1,124 +1,108 @@
 import { ComponentType } from 'react'
 import { StandardProps, CommonEventFunction, NetStatus } from './common'
-
 /** 实时音视频录制。
  * 需要用户授权 scope.camera、scope.record
  * 暂只针对国内主体如下类目的小程序开放，需要先通过类目审核，再在小程序管理后台，“设置”-“接口设置”中自助开通该组件权限。
  */
 interface LivePusherProps extends StandardProps {
   /** 推流地址。目前仅支持 rtmp 格式
-   * @supported weapp
+   * @supported weapp, qq
    */
   url?: string
-
   /** SD（标清）, HD（高清）, FHD（超清）, RTC（实时通话）
    * @default "RTC"
-   * @supported weapp
+   * @supported weapp, qq
    */
   mode?: 'SD' | 'HD' | 'FHD' | 'RTC'
-
   /** 自动推流
+   * @default false
+   * @supported weapp, qq
+   */
+  autopush?: boolean
+  /** 自定义渲染，允许开发者自行处理所采集的视频帧
    * @default false
    * @supported weapp
    */
-  autopush?: boolean
-
+  enableVideoCustomRender?: boolean
   /** 是否静音。即将废弃，可用 enable-mic 替代
    * @default false
    * @deprecated
-   * @supported weapp
+   * @supported weapp, qq
    */
   muted?: boolean
-
   /** 开启摄像头
    * @default true
-   * @supported weapp
+   * @supported weapp, qq
    */
   enableCamera?: boolean
-
   /** 自动聚集
    * @default true
-   * @supported weapp
+   * @supported weapp, qq
    */
   autoFocus?: boolean
-
   /** 画面方向
    * @default "vertical"
-   * @supported weapp
+   * @supported weapp, qq
    */
   orientation?: keyof LivePusherProps.Orientation
-
   /** 美颜，取值范围 0-9 ，0 表示关闭
    * @default 0
-   * @supported weapp
+   * @supported weapp, qq
    */
   beauty?: number
-
   /** 美白，取值范围 0-9 ，0 表示关闭
    * @default 0
-   * @supported weapp
+   * @supported weapp, qq
    */
   whiteness?: number
-
   /** 宽高比，可选值有 3:4, 9:16
    * @default "9:16"
-   * @supported weapp
+   * @supported weapp, qq
    */
   aspect?: '9:16' | '3:4'
-
   /** 最小码率
    * @default 200
-   * @supported weapp
+   * @supported weapp, qq
    */
   minBitrate?: number
-
   /** 最大码率
    * @default 1000
-   * @supported weapp
+   * @supported weapp, qq
    */
   maxBitrate?: number
-
   /** 高音质(48KHz)或低音质(16KHz)，值为high, low
    * @default "high"
-   * @supported weapp
+   * @supported weapp, qq
    */
   audioQuality?: string
-
   /** 进入后台时推流的等待画面
-   * @supported weapp
+   * @supported weapp, qq
    */
   waitingImage?: string
-
   /** 等待画面资源的MD5值
-   * @supported weapp
+   * @supported weapp, qq
    */
   waitingImageHash?: string
-
   /** 调整焦距
    * @default false
-   * @supported weapp
+   * @supported weapp, qq
    */
   zoom?: boolean
-
   /** 前置或后置，值为front, back
    * @default "front"
-   * @supported weapp
+   * @supported weapp, qq
    */
   devicePosition?: string
-
   /** 进入后台时是否静音
    * @default false
-   * @supported weapp
+   * @supported weapp, qq
    */
   backgroundMute?: boolean
-
   /** 设置推流画面是否镜像，产生的效果在 LivePlayer 反应到
    * @default false
-   * @supported weapp
-   * @deprecated
+   * @supported weapp, qq
    */
   mirror?: boolean
-
   /** 设置推流画面是否镜像，产生的效果在 LivePlayer 反应到
    *
    * **Note:** 同 mirror 属性，后续 mirror 将废弃
@@ -126,103 +110,122 @@ interface LivePusherProps extends StandardProps {
    * @supported weapp
    */
   remoteMirror?: boolean
-
   /** 控制本地预览画面是否镜像
    * @default "auto"
    * @supported weapp
    */
   localMirror?: keyof LivePusherProps.LocalMirror
-
   /** 音频混响类型
    * @default 0
-   * @supported weapp
+   * @supported weapp, qq
    */
   audioReverbType?: keyof LivePusherProps.AudioReverbType
-
   /** 开启或关闭麦克风
    * @default true
    * @supported weapp
    */
   enableMic?: boolean
-
   /** 是否开启音频自动增益
    * @default false
    * @supported weapp
    */
   enableAgc?: boolean
-
   /** 是否开启音频噪声抑制
    * @default false
    * @supported weapp
    */
   enableAns?: boolean
-
   /** 音量类型
    * @default "voicecall"
    * @supported weapp
    */
   audioVolumeType?: keyof LivePusherProps.AudioVolumeType
-
   /** 上推的视频流的分辨率宽度
    * @default 360
    * @supported weapp
    */
   videoWidth?: number
-
   /** 上推的视频流的分辨率高度
    * @default 640
    * @supported weapp
    */
   videoHeight?: number
-
   /** 设置美颜类型
    * @default smooth
    * @supported weapp
    */
   beautyStyle?: keyof LivePusherProps.BeautyStyleType
-
   /** 设置色彩滤镜
    * @default standard
    * @supported weapp
    */
   filter?: keyof LivePusherProps.FilterType
-
-  /** 状态变化事件，detail = {code}
+  /** 设置小窗模式： push, pop，空字符串或通过数组形式设置多种模式（如： ["push", "pop"]）
    * @supported weapp
+   */
+  pictureInPictureMode?: string | any[]
+  /** 是否启动自定义特效，设定后不能更改
+   * @supported weapp
+   * @default false
+   */
+  customEffect?: boolean
+  /** 自定义特效美白效果，取值 0~1。需要开启 custom-effect
+   * @supported weapp
+   * @default 0
+   */
+  skinWhiteness?: number
+  /** 自定义特效磨皮效果，取值 0~1。需要开启 custom-effect
+   * @supported weapp
+   * @default 0
+   */
+  skinSmoothness?: number
+  /** 自定义特效瘦脸效果，取值 0~1。需要开启 custom-effect
+   * @supported weapp
+   * @default 0
+   */
+  faceThinness?: number
+  /** 自定义特效大眼效果，取值 0~1。需要开启 custom-effect
+   * @supported weapp
+   * @default 0
+   */
+  eyeBigness?: number
+  /** 状态变化事件，detail = {code}
+   * @supported weapp, qq
    */
   onStateChange?: CommonEventFunction<LivePusherProps.onStateChangeEventDetail>
-
-  /** 网络状态通知，detail = {info}
-   * @supported weapp
-   */
-  onNetstatus?: CommonEventFunction<LivePusherProps.onNetstatusEventDetail>
-
   /** 渲染错误事件，detail = {errMsg, errCode}
-   * @supported weapp
+   * @supported weapp, qq
    */
   onError?: CommonEventFunction<LivePusherProps.onErrorEventDetail>
-
-  /** 背景音开始播放时触发
-   * @supported weapp
-   */
-  onBgmStart?: CommonEventFunction
-
   /** 背景音进度变化时触发，detail = {progress, duration}
-   * @supported weapp
+   * @supported weapp, qq
    */
   onBgmProgress?: CommonEventFunction<LivePusherProps.onBgmProgressEventDetail>
-
   /** 背景音播放完成时触发
-   * @supported weapp
+   * @supported weapp, qq
    */
   onBgmComplete?: CommonEventFunction
-
   /** 返回麦克风采集的音量大小
    * @supported weapp
    */
   onAudioVolumeNotify?: CommonEventFunction
+  /** 网络状态通知，detail = {info}
+   * @supported weapp, qq
+   */
+  onNetStatus?: CommonEventFunction
+  /** 进入小窗
+   * @supported weapp
+   */
+  onEnterPictureInPicture?: string
+  /** 退出小窗
+   * @supported weapp
+   */
+  onLeavePictureInPicture?: string
+  /** 背景音开始播放时触发
+   * @supported weapp, qq
+   */
+  onBgmStart?: CommonEventFunction
 }
-
 declare namespace LivePusherProps {
   /** orientation 的合法值 */
   interface Orientation {
@@ -261,6 +264,8 @@ declare namespace LivePusherProps {
   }
   /** audioVolumeType 的合法值 */
   interface AudioVolumeType {
+    /** 自动 */
+    auto
     /** 媒体音量 */
     media
     /** 通话音量 */
@@ -319,11 +324,10 @@ declare namespace LivePusherProps {
     duration: number
   }
 }
-
 /** 实时音视频录制。需要用户授权 scope.camera、scope.record
  * 需要先通过类目审核，再在小程序管理后台，「开发」-「接口设置」中自助开通该组件权限。
  * @classification media
- * @supported weapp
+ * @supported weapp, qq
  * @example_react
  * ```tsx
  * class App extends Components {
@@ -343,5 +347,4 @@ declare namespace LivePusherProps {
  * @see https://developers.weixin.qq.com/miniprogram/dev/component/live-pusher.html
  */
 declare const LivePusher: ComponentType<LivePusherProps>
-
 export { LivePusher, LivePusherProps }

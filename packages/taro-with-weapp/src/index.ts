@@ -90,7 +90,7 @@ export default function withWeapp (weappConf: WxOptions, isApp = false) {
       }
     }
 
-    class BaseComponent<P = Record<string, any>, S = Record<string, any>> extends ConnectComponent {
+    class BaseComponent<P = Record<string, any>, S extends Record<string, any> = Record<string, any>> extends ConnectComponent {
       private _observeProps: ObserverProperties[] = []
 
       // mixins 可以多次调用生命周期
@@ -525,6 +525,13 @@ export default function withWeapp (weappConf: WxOptions, isApp = false) {
       public triggerEvent = (eventName: string, detail, options) => {
         if (options) {
           report('triggerEvent 不支持事件选项。')
+        }
+
+        // eventName support kebab case
+        if (eventName.match(/[a-z]+-[a-z]+/g)) {
+          eventName = eventName.replace(/-[a-z]/g, function (match) {
+            return match[1].toUpperCase()
+          })
         }
 
         const props = this.props

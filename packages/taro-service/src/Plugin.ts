@@ -1,13 +1,13 @@
 import { addPlatforms } from '@tarojs/helper'
 
-import Kernel from './Kernel'
-import { ICommand, IHook, IPlatform } from './utils/types'
+import type Kernel from './Kernel'
+import type { Func, ICommand, IHook, IPlatform } from './utils/types'
 
 export default class Plugin {
   id: string
   path: string
   ctx: Kernel
-  optsSchema: (...args: any[]) => void
+  optsSchema: Func
 
   constructor (opts) {
     this.id = opts.id
@@ -47,7 +47,7 @@ export default class Plugin {
   registerMethod (...args) {
     const { name, fn } = processArgs(args)
     const methods = this.ctx.methods.get(name) || []
-    methods.push(fn || function (fn: (...args: any[]) => void) {
+    methods.push(fn || function (fn: Func) {
       this.register({
         name,
         fn

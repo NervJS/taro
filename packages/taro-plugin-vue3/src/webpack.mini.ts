@@ -1,21 +1,22 @@
 import { REG_VUE } from '@tarojs/helper'
-import type { IPluginContext } from '@tarojs/service'
 import { capitalize, internalComponents, toCamelCase } from '@tarojs/shared/dist/template'
-import type { AttributeNode, DirectiveNode, ElementNode, RootNode, SimpleExpressionNode, TemplateChildNode } from '@vue/compiler-core'
 
-import type { IConfig } from './index'
 import { getLoaderMeta } from './loader-meta'
 import { getVueLoaderPath } from './utils'
 
+import type { IPluginContext } from '@tarojs/service'
+import type { AttributeNode, DirectiveNode, ElementNode, RootNode, SimpleExpressionNode, TemplateChildNode } from '@vue/compiler-core'
+import type { IConfig } from './index'
+
 const CUSTOM_WRAPPER = 'custom-wrapper'
 
-export function modifyMiniWebpackChain (_ctx: IPluginContext, chain, data, config: IConfig) {
-  setVueLoader(chain, data, config)
+export function modifyMiniWebpackChain (ctx: IPluginContext, chain, data, config: IConfig) {
+  setVueLoader(ctx, chain, data, config)
   setLoader(chain)
   setDefinePlugin(chain)
 }
 
-function setVueLoader (chain, data, config: IConfig) {
+function setVueLoader (ctx: IPluginContext, chain, data, config: IConfig) {
   const vueLoaderPath = getVueLoaderPath()
 
   // plugin
@@ -46,12 +47,27 @@ function setVueLoader (chain, data, config: IConfig) {
       node = node as ElementNode
       const nodeName = node.tag
 
+      nodeName && ctx.applyPlugins({
+        name: 'onParseCreateElement',
+        opts: {
+          nodeName,
+          componentConfig: data.componentConfig
+        }
+      })
+
       if (capitalize(toCamelCase(nodeName)) in internalComponents) {
         // change only ElementTypes.COMPONENT to ElementTypes.ELEMENT
         // and leave ElementTypes.SLOT untouched
         if (node.tagType === 1 /* COMPONENT */) {
           node.tagType = 0 /* ELEMENT */
         }
+
+        // v-html
+        const props = node.props
+        if(props.find(prop => prop.type === 7 && prop.name === 'html')) {
+          ['input', 'textarea', 'video', 'audio'].forEach(item => data.componentConfig.includes.add(item))
+        }
+
         data.componentConfig.includes.add(nodeName)
       }
 

@@ -16,7 +16,7 @@ export interface StandardProps<T = any, TouchEvent extends BaseTouchEvent<any> =
   /** 组件是否显示, 所有组件默认显示 */
   hidden?: boolean
   /** 动画属性 */
-  animation?: { actions: TaroGeneral.IAnyObject[] }
+  animation?: { actions: TaroGeneral.IAnyObject[] } | TaroGeneral.IAnyObject
   /** 引用 */
   ref?: LegacyRef<T>
   /**

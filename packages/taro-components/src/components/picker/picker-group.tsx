@@ -1,5 +1,4 @@
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { Component, h, ComponentInterface, Prop, Host, State, Listen } from '@stencil/core'
+import { Component, h, ComponentInterface, Prop, Host, Method, State, Listen } from '@stencil/core'
 
 import {
   TOP,
@@ -17,6 +16,7 @@ export class TaroPickerGroup implements ComponentInterface {
   @Prop() height: number
   @Prop() columnId: string
   @Prop() updateHeight: (height: number, columnId: string, needRevise?: boolean) => void
+  // FIXME Please use the "@Event()" decorator to expose events instead, not properties or methods.
   @Prop() onColumnChange: (height: number, columnId: string) => void
   @Prop() updateDay: (value: number, fields: number) => void
 
@@ -56,14 +56,16 @@ export class TaroPickerGroup implements ComponentInterface {
     })
   }
 
-  handleMoveStart (clientY: number) {
+  @Method()
+  async handleMoveStart (clientY: number) {
     // 记录第一次的点击位置
     this.startY = clientY
     this.preY = clientY
     this.hadMove = false
   }
 
-  handleMoving (clientY: number) {
+  @Method()
+  async handleMoving (clientY: number) {
     const y = clientY
     const deltaY = y - this.preY
     this.preY = y
@@ -96,7 +98,8 @@ export class TaroPickerGroup implements ComponentInterface {
     this.updateHeight(newPos, this.columnId)
   }
 
-  handleMoveEnd (clientY: number) {
+  @Method()
+  async handleMoveEnd (clientY: number) {
     const {
       mode,
       range,

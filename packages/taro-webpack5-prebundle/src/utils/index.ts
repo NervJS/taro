@@ -62,7 +62,12 @@ export function getDefines (chain: Chain) {
   let defines
   if (chain.plugins.has('definePlugin')) {
     chain.plugin('definePlugin').tap(args => {
-      defines = args[0]
+      defines = { ...args[0] }
+      Object.keys(defines).forEach(name => {
+        if (typeof defines[name] !== 'string') {
+          delete defines[name]
+        }
+      })
       return args
     })
   }
@@ -86,7 +91,7 @@ export function isExclude (id: string, excludes: (string | RegExp)[]) {
 }
 
 export function isOptimizeIncluded (path: string) {
-  return /\.[jt]sx?$/.test(path)
+  return /\.m?[jt]sx?$/.test(path)
 }
 
 export function isScanIncluded (path: string) {

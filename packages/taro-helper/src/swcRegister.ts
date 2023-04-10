@@ -18,10 +18,10 @@ export class InjectDefineConfigHeader extends Visitor {
 
 interface ICreateSwcRegisterParam {
   only
-  plugin?
+  plugins?: [string, any][]
 }
 
-export default function createSwcRegister ({ only, plugin }: ICreateSwcRegisterParam) {
+export default function createSwcRegister ({ only, plugins }: ICreateSwcRegisterParam) {
   const config: Record<string, any> = {
     only: Array.from(new Set([...only])),
     jsc: {
@@ -38,7 +38,11 @@ export default function createSwcRegister ({ only, plugin }: ICreateSwcRegisterP
     }
   }
 
-  if (plugin) config.plugin = plugin
+  if (plugins) {
+    config.jsc.experimental = {
+      plugins
+    }
+  }
 
   require('@swc/register')(config)
 }

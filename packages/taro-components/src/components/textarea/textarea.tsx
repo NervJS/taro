@@ -1,5 +1,4 @@
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { Component, h, ComponentInterface, Prop, State, Event, EventEmitter, Element } from '@stencil/core'
+import { Component, h, ComponentInterface, Prop, State, Event, EventEmitter, Element, Method, Watch } from '@stencil/core'
 import { TaroEvent } from '../../../types'
 
 function fixControlledValue(value?: string) {
@@ -15,11 +14,11 @@ export class Textarea implements ComponentInterface {
 
   @Element() el: HTMLElement
 
-  @Prop() value: string
+  @Prop({ mutable: true }) value: string
   @Prop() placeholder: string
   @Prop() disabled = false
   @Prop() maxlength = 140
-  @Prop() autoFocus = false
+  @Prop({ attribute: 'focus', reflect: true }) autoFocus = false
   @Prop() autoHeight = false
   @Prop() name: string
   @Prop() nativeProps = {}
@@ -50,31 +49,45 @@ export class Textarea implements ComponentInterface {
   })
   onLineChange: EventEmitter
 
+  @Watch('autoFocus')
+  watchAutoFocus (newValue: boolean, oldValue: boolean) {
+    if (!oldValue && newValue) {
+      this.textareaRef?.focus()
+    }
+  }
+
+  @Method()
+  async focus() {
+    this.textareaRef.focus()
+  }
+
   componentDidLoad() {
     Object.defineProperty(this.el, 'value', {
       get: () => this.textareaRef.value,
-      set: value => (this.value = value),
+      set: value => this.value !== value && (this.value = value),
       configurable: true
     })
-    this.autoFocus && this.textareaRef.focus()
   }
 
   handleInput = (e: TaroEvent<HTMLInputElement>) => {
     e.stopPropagation()
     this.handleLineChange()
+    const value = e.target.value || ''
     this.onInput.emit({
-      value: e.target.value,
-      cursor: e.target.value.length
+      value,
+      cursor: value.length
     })
   }
 
   handleFocus = (e: TaroEvent<HTMLInputElement> & FocusEvent) => {
+    e.stopPropagation()
     this.onFocus.emit({
       value: e.target.value
     })
   }
 
   handleBlur = (e: TaroEvent<HTMLInputElement> & FocusEvent) => {
+    e.stopPropagation()
     this.onBlur.emit({
       value: e.target.value
     })
@@ -178,7 +191,8 @@ export class Textarea implements ComponentInterface {
       <textarea
         ref={input => {
           if (input) {
-            this.textareaRef = input
+            this.textareaRef = input!
+            if (autoFocus && input) input.focus()
           }
         }}
         class={`taro-textarea ${autoHeight ? 'auto-height' : ''}`}

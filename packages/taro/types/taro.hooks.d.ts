@@ -6,7 +6,7 @@ declare module './index' {
      * 页面展示时的回调。
      * @supported global
      */
-    useDidShow(callback: () => void): void
+    useDidShow(callback: (options?: getLaunchOptionsSync.LaunchOptions) => void): void
 
     /**
      * 页面隐藏时的回调。
@@ -84,6 +84,12 @@ declare module './index' {
     useError(callback: (error: string) => void): void
 
     /**
+     * 小程序有未处理的 Promise reject 时触发。也可以使用 Taro.onUnhandledRejection 绑定监听。
+     * @supported weapp, alipay
+     */
+    useUnhandledRejection(callback: (error: { reason: Error, promise: Promise<Error> }) => void): void
+
+    /**
      * 小程序要打开的页面不存在时触发的回调。
      * @supported weapp, h5
      * @h5 多页面模式不支持该方法
@@ -94,7 +100,7 @@ declare module './index' {
      * 页面加载完成时的回调。
      * @supported weapp, h5
      */
-    useLoad(callback: () => void): void
+    useLoad<T extends {} = Record<string, any>>(callback: (param: T) => void): void
 
     /**
      * 页面卸载时的回调。

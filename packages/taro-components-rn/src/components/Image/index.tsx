@@ -16,11 +16,15 @@
 
 import * as React from 'react'
 import { Image, StyleSheet, ImageSourcePropType, LayoutChangeEvent, ImageResolvedAssetSource } from 'react-native'
-// @ts-ignore
-import { SvgCssUri, WithLocalSvg } from 'react-native-svg'
 import { noop, omit } from '../../utils'
 import ClickableSimplified from '../ClickableSimplified'
 import { ImageProps, ImageState, ResizeModeMap, ResizeMode } from './PropsType'
+
+// fix: https://github.com/facebook/metro/issues/836
+// 保证 react-native-svg 是最后一个依赖
+const omitProp = (props) => {
+  return omit(props, ['source', 'src', 'resizeMode', 'onLoad', 'onError', 'onLayout', 'style'])
+}
 
 const resizeModeMap: ResizeModeMap = {
   scaleToFill: 'stretch',
@@ -30,6 +34,15 @@ const resizeModeMap: ResizeModeMap = {
   // And widthFix
   // Not supported value...
 }
+
+let SvgCssUri, WithLocalSvg
+// react-native-svg is optional
+try {
+  // eslint-disable-next-line @typescript-eslint/no-var-requires
+  const svg = require('react-native-svg')
+  SvgCssUri = svg.SvgCssUri
+  WithLocalSvg = svg.WithLocalSvg
+} catch (e) {}
 
 export class _Image extends React.Component<ImageProps, ImageState> {
   static defaultProps: ImageProps = {
@@ -142,7 +155,7 @@ export class _Image extends React.Component<ImageProps, ImageState> {
 
     // remote svg image support, svg 图片暂不支持 mode
     const remoteSvgReg = /(https?:\/\/.*\.(?:svg|svgx))/i
-    if (typeof src === 'string' && remoteSvgReg.test(src)) {
+    if (SvgCssUri && typeof src === 'string' && remoteSvgReg.test(src)) {
       return (
         <SvgCssUri
           uri={src}
@@ -156,7 +169,7 @@ export class _Image extends React.Component<ImageProps, ImageState> {
     const source: ImageSourcePropType = typeof src === 'string' ? { uri: src } : src
 
     // local svg image support, svg 图片暂不支持 mode
-    if (svg) {
+    if (WithLocalSvg && svg) {
       return (
         <WithLocalSvg
           asset={source}
@@ -182,7 +195,7 @@ export class _Image extends React.Component<ImageProps, ImageState> {
         return defaultHeight
       }
     })()
-    const restImageProps = omit(this.props, ['source', 'src', 'resizeMode', 'onLoad', 'onError', 'onLayout', 'style'])
+    const restImageProps = omitProp(this.props)
 
     return (
       <Image

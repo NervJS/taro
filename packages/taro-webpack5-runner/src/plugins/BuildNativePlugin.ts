@@ -4,13 +4,14 @@ import {
   processTypeEnum,
   resolveMainFilePath
 } from '@tarojs/helper'
-import { Config } from '@tarojs/taro'
 import path from 'path'
-import webpack, { Compilation, Compiler } from 'webpack'
 
-import { IComponent } from '../utils/types'
 import { addRequireToSource, getChunkEntryModule, getChunkIdOrName } from '../utils/webpack'
 import MiniPlugin from './MiniPlugin'
+
+import type { Config } from '@tarojs/taro'
+import type { Compilation, Compiler } from 'webpack'
+import type { IComponent } from '../utils/types'
 
 const PLUGIN_NAME = 'BuildNativePlugin'
 
@@ -96,7 +97,7 @@ export default class BuildNativePlugin extends MiniPlugin {
           fileChunks.set(id, deps)
         }
       })
-      webpack.javascript.JavascriptModulesPlugin.getCompilationHooks(compilation).render.tap(PLUGIN_NAME, (modules, { chunk }) => {
+      compiler.webpack.javascript.JavascriptModulesPlugin.getCompilationHooks(compilation).render.tap(PLUGIN_NAME, (modules, { chunk }) => {
         if (!getChunkEntryModule(compilation, chunk)) return modules
 
         // addChunkPages
@@ -115,15 +116,15 @@ export default class BuildNativePlugin extends MiniPlugin {
   }
 
   // 不生成 app.json
-  generateConfigFile (compilation: Compilation, filePath: string, config: Config & { component?: boolean }) {
+  generateConfigFile (compilation: Compilation, compiler: Compiler, filePath: string, config: Config & { component?: boolean }) {
     if (filePath === this.appEntry) return
-    super.generateConfigFile(compilation, filePath, config)
+    super.generateConfigFile(compilation, compiler, filePath, config)
   }
 
   // 加载 taro-runtime 前必须先加载端平台插件的 runtime
   addLoader (compiler: Compiler) {
     compiler.hooks.compilation.tap(PLUGIN_NAME, compilation => {
-      webpack.NormalModule.getCompilationHooks(compilation).loader.tap(PLUGIN_NAME, (_loaderContext, module: any) => {
+      compiler.webpack.NormalModule.getCompilationHooks(compilation).loader.tap(PLUGIN_NAME, (_loaderContext, module: any) => {
         if (module.rawRequest === '@tarojs/runtime') {
           module.loaders.unshift({
             loader: '@tarojs/taro-loader/lib/taro-runtime',

@@ -1,6 +1,7 @@
 import { normalizePath } from '@tarojs/helper'
 import { getOptions, stringifyRequest } from 'loader-utils'
 import * as path from 'path'
+
 import type * as webpack from 'webpack'
 
 interface PageConfig {
@@ -54,6 +55,7 @@ ${config.enableShareAppMessage ? 'component.enableShareAppMessage = true' : ''}
 ${instantiatePage}
 ${options.prerender ? prerender : ''}
 ${hmr}
+export default component
 `
 }
 

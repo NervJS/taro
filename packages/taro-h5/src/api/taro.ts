@@ -1,5 +1,6 @@
 import Taro from '@tarojs/api'
 import { history } from '@tarojs/router'
+import { isFunction } from '@tarojs/shared'
 
 import { getApp, getCurrentInstance, getCurrentPages, navigateBack, navigateTo, nextTick, redirectTo, reLaunch, switchTab } from '../api'
 import { permanentlyNotSupport } from '../utils'
@@ -10,7 +11,6 @@ const {
   ENV_TYPE,
   Link,
   interceptors,
-  getInitPxTransform,
   Current,
   options,
   eventCenter,
@@ -41,14 +41,55 @@ const taro: typeof Taro = {
   switchTab
 }
 
-const initPxTransform = getInitPxTransform(taro)
-
 const requirePlugin = permanentlyNotSupport('requirePlugin')
 
-const pxTransform = function (size) {
-  // @ts-ignore
-  const { designWidth } = taro.config
-  return Math.ceil((((parseInt(size, 10) / 40) * 640) / designWidth) * 10000) / 10000 + 'rem'
+function getConfig (): Record<string, any> {
+  if (this?.pxTransformConfig) return this.pxTransformConfig
+  return ((taro as any).config ||= {})
+}
+
+const initPxTransform = function ({
+  designWidth = 750,
+  deviceRatio = {
+    640: 2.34 / 2,
+    750: 1,
+    828: 1.81 / 2
+  } as TaroGeneral.TDeviceRatio,
+  baseFontSize = 20,
+  unitPrecision = 5,
+  targetUnit = 'rem'
+}) {
+  const config = getConfig.call(this)
+  config.designWidth = designWidth
+  config.deviceRatio = deviceRatio
+  config.baseFontSize = baseFontSize
+  config.targetUnit = targetUnit
+  config.unitPrecision = unitPrecision
+}
+
+const pxTransform = function (size = 0) {
+  const config = getConfig.call(this)
+  const baseFontSize = config.baseFontSize || 20
+  const designWidth = (((input = 0) => isFunction(config.designWidth)
+    ? config.designWidth(input)
+    : config.designWidth))(size)
+  if (!(designWidth in config.deviceRatio)) {
+    throw new Error(`deviceRatio 配置中不存在 ${designWidth} 的设置！`)
+  }
+  const formatSize = ~~size
+  let rootValue = 1 / config.deviceRatio[designWidth] * 2
+  switch (config?.targetUnit) {
+    case 'vw':
+      rootValue *= 0.5 * designWidth / 100
+      break
+    default:
+      rootValue *= baseFontSize
+  }
+  let val: number | string = formatSize / rootValue
+  if (config.unitPrecision >= 0 && config.unitPrecision <= 100) {
+    val = val.toFixed(config.unitPrecision)
+  }
+  return val + config?.targetUnit
 }
 
 const canIUseWebp = function () {
@@ -60,7 +101,6 @@ taro.requirePlugin = requirePlugin
 taro.getApp = getApp
 taro.pxTransform = pxTransform
 taro.initPxTransform = initPxTransform
-// @ts-ignore
 taro.canIUseWebp = canIUseWebp
 
 export default taro

@@ -13,5 +13,5 @@ export interface RadioState {
 export interface RadioProps extends _RadioProps {
   style?: StyleProp<ViewStyle>|any;
   /* rn独有的，在taro里面看不到，得翻源码才能看到 **/
-  onChange?: (evt: EventOnChange) => void;
+  // onChange?: (evt: EventOnChange) => void;
 }

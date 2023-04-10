@@ -66,9 +66,17 @@ describe('px2rem', function () {
     expect(processed).toBe(expected)
   })
 
-  it('7 should remain unitless if 0', function () {
-    const expected = '.rule { font-size: 0px; font-size: 0; }'
-    const processed = postcss(px2rem()).process(expected).css
+  it('7 属性值为"0"时不处理，为"0px"时仍然单位转换', function () {
+    const rule = '.rule { font-size: 0px; font-size: 0; }'
+    const expected = '.rule { font-size: 0rpx; font-size: 0; }'
+    const processed = postcss(px2rem()).process(rule).css
+
+    expect(processed).toBe(expected)
+  })
+
+  it('8 should work on custom baseFontSize', function () {
+    const processed = postcss(px2rem({ platform: 'h5', baseFontSize: 15 })).process(basicCSS).css
+    const expected = '.rule { font-size: 0.5rem }'
 
     expect(processed).toBe(expected)
   })
@@ -623,6 +631,7 @@ describe('rpx 单位转换', () => {
     const processed = postcss(px2rem(options)).process(rules).css
     expect(processed).toBe('h1 {margin: 0 0 20rpx;font-size: 40Px;line-height: 1.2;} .test{}')
   })
+
   it('{platform: \'h5\', designWidth: 640} ', () => {
     const rules = 'h1 {margin: 0 0 20rpx;font-size: 40Px;line-height: 1.2;} .test{}'
     const options = {
@@ -631,5 +640,63 @@ describe('rpx 单位转换', () => {
     }
     const processed = postcss(px2rem(options)).process(rules).css
     expect(processed).toBe('h1 {margin: 0 0 0.585rem;font-size: 40Px;line-height: 1.2;} .test{}')
+  })
+})
+
+describe('vw 单位转换', () => {
+  it('{platform: \'h5\', designWidth: 640} ', () => {
+    const rules = 'h1 {margin: 0 0 640px;font-size: 40Px;line-height: 1.2;} .test{}'
+    const options = {
+      platform: 'h5',
+      designWidth: 750,
+      targetUnit: 'vw'
+    }
+    const processed = postcss(px2rem(options)).process(rules).css
+    expect(processed).toBe('h1 {margin: 0 0 85.33333vw;font-size: 40Px;line-height: 1.2;} .test{}')
+  })
+
+  it('{platform: \'h5\', designWidth: 750} ', () => {
+    const rules = 'h1 {margin: 0 0 375px;font-size: 40Px;line-height: 1.2;} .test{}'
+    const options = {
+      platform: 'h5',
+      designWidth: 750,
+      targetUnit: 'vw'
+    }
+    const processed = postcss(px2rem(options)).process(rules).css
+    expect(processed).toBe('h1 {margin: 0 0 50vw;font-size: 40Px;line-height: 1.2;} .test{}')
+  })
+})
+
+describe('platform 为 rn，适配', () => {
+  it('{platform: \'rn\', designWidth: 750} ', () => {
+    const rules = 'view { width: 100px; }'
+    const options = {
+      platform: 'rn',
+      designWidth: 750,
+      deviceRatio: {
+        640: 2.34 / 2,
+        750: 1,
+        828: 1.81 / 2
+      }
+    }
+    const processed = postcss(px2rem(options)).process(rules).css
+    expect(processed).toBe('view { width: 50px; }')
+  })
+})
+
+describe('platform 为 harmony，适配', () => {
+  it('{platform: \'harmony\', designWidth: 640} ', () => {
+    const rules = 'view { width: 100PX; }'
+    const options = {
+      platform: 'harmony',
+      designWidth: 640,
+      deviceRatio: {
+        640: 2.34 / 2,
+        750: 1,
+        828: 1.81 / 2
+      }
+    }
+    const processed = postcss(px2rem(options)).process(rules).css
+    expect(processed).toBe('view { width: 100vp; }')
   })
 })

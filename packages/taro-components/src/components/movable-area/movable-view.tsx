@@ -1,4 +1,3 @@
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { Component, h, Host, Prop, Event, EventEmitter, Element, Watch, Method } from '@stencil/core'
 
 @Component({
@@ -288,7 +287,7 @@ export class MovableView {
       })
     }
 
-    const transform = `translateX(${x}px) translateY(${y}) translateZ(0px) scale(${scale})`
+    const transform = `translateX(${x}px) translateY(${y}px) translateZ(0px) scale(${scale})`
     this.element.style.transform = transform
     this.element.style.webkitTransform = transform
     this.translateX = x
@@ -445,15 +444,11 @@ export class MovableView {
 
   render () {
     return (
-      <Host>
-        <div
-          onTouchStart={this.handleTouchStart}
-          onTouchMove={this.handleTouchMove}
-          onTouchEnd={this.handleTouchEnd}
-        >
-          <slot />
-        </div>
-      </Host>
+      <Host
+        onTouchStart={this.handleTouchStart}
+        onTouchMove={this.handleTouchMove}
+        onTouchEnd={this.handleTouchEnd}
+      />
     )
   }
 }

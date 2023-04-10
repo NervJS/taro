@@ -1,19 +1,18 @@
 import { chalk, REG_VUE, VUE_EXT } from '@tarojs/helper'
 import { DEFAULT_Components } from '@tarojs/runner-utils'
-import type { IPluginContext } from '@tarojs/service'
-import { isString } from '@tarojs/shared'
+import { isString, isWebPlatform } from '@tarojs/shared'
 import { capitalize, internalComponents, toCamelCase } from '@tarojs/shared/dist/template'
+import { mergeWith } from 'lodash'
 
 import { getLoaderMeta } from './loader-meta'
 
-const CUSTOM_WRAPPER = 'custom-wrapper'
-let isBuildH5
+import type { IPluginContext } from '@tarojs/service'
+
+export const CUSTOM_WRAPPER = 'custom-wrapper'
 
 export default (ctx: IPluginContext) => {
   const { framework } = ctx.initialConfig
   if (framework !== 'vue') return
-
-  isBuildH5 = process.env.TARO_ENV === 'h5'
 
   ctx.modifyWebpackChain(({ chain, data }) => {
     if (process.env.NODE_ENV !== 'production') {
@@ -22,7 +21,7 @@ export default (ctx: IPluginContext) => {
     customVueChain(chain, data)
     setLoader(chain)
 
-    if (isBuildH5) {
+    if (isWebPlatform()) {
       setStyleLoader(ctx, chain)
     }
   })
@@ -32,19 +31,24 @@ export default (ctx: IPluginContext) => {
 
     if (!opts?.compiler) return
 
-    // 提供给 webpack5 依赖预编译收集器的第三方依赖
-    const deps = ['@tarojs/plugin-framework-vue2/dist/runtime']
     if (isString(opts.compiler)) {
       opts.compiler = {
         type: opts.compiler
       }
     }
+
     const { compiler } = opts
     if (compiler.type === 'webpack5') {
+      // 提供给 webpack5 依赖预编译收集器的第三方依赖
+      const deps = [
+        'vue',
+        '@tarojs/plugin-framework-vue2/dist/runtime'
+      ]
       compiler.prebundle ||= {}
       const prebundleOptions = compiler.prebundle
       prebundleOptions.include ||= []
       prebundleOptions.include = prebundleOptions.include.concat(deps)
+      prebundleOptions.exclude ||= []
     }
   })
 }
@@ -73,7 +77,7 @@ function customVueChain (chain, data) {
   // loader
   let vueLoaderOption
 
-  if (isBuildH5) {
+  if (isWebPlatform()) {
     // H5
     vueLoaderOption = {
       transformAssetUrls: {
@@ -166,10 +170,15 @@ function setStyleLoader (ctx: IPluginContext, chain) {
 }
 
 function setLoader (chain) {
-  if (isBuildH5) {
+  function customizer (object = '', sources = '') {
+    if ([object, sources].every(e => typeof e === 'string')) return object + sources
+  }
+  if (isWebPlatform()) {
     chain.plugin('mainPlugin')
       .tap(args => {
-        args[0].loaderMeta = getLoaderMeta()
+        args[0].loaderMeta = mergeWith(
+          getLoaderMeta(), args[0].loaderMeta, customizer
+        )
         return args
       })
   } else {

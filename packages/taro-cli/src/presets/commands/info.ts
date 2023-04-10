@@ -1,8 +1,9 @@
-import { IPluginContext } from '@tarojs/service'
 import * as envinfo from 'envinfo'
 import * as path from 'path'
 
 import { getPkgVersion } from '../../util'
+
+import type { IPluginContext } from '@tarojs/service'
 
 export default (ctx: IPluginContext) => {
   ctx.registerCommand({
@@ -34,7 +35,7 @@ export default (ctx: IPluginContext) => {
 }
 
 async function info (options, ctx) {
-  const npmPackages = ctx.helper.UPDATE_PACKAGE_LIST.concat(['react', 'react-native', 'nervjs', 'expo', 'taro-ui'])
+  const npmPackages = ctx.helper.UPDATE_PACKAGE_LIST.concat(['react', 'react-native', 'expo', 'taro-ui'])
   const info = await envinfo.run(Object.assign({}, {
     System: ['OS', 'Shell'],
     Binaries: ['Node', 'Yarn', 'npm'],

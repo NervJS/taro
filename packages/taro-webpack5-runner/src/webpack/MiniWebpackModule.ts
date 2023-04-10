@@ -8,14 +8,15 @@ import {
   REG_STYLUS,
   REG_TEMPLATE
 } from '@tarojs/helper'
-import type { IPostcssOption, PostcssOption } from '@tarojs/taro/types/compile'
 import { cloneDeep } from 'lodash'
 import path from 'path'
 
 import { getPostcssPlugins } from '../postcss/postcss.mini'
+import { WebpackModule } from './WebpackModule'
+
+import type { IPostcssOption, PostcssOption } from '@tarojs/taro/types/compile'
 import type { MiniCombination } from './MiniCombination'
 import type { CssModuleOptionConfig, IRule } from './WebpackModule'
-import { WebpackModule } from './WebpackModule'
 
 type PostcssUrlConfig = PostcssOption.url['config']
 type CSSLoaders = {
@@ -66,7 +67,7 @@ export class MiniWebpackModule {
         test: REG_STYLUS,
         oneOf: this.addCSSLoader(cssLoaders, stylusLoader)
       },
-      nomorlCss: {
+      normalCss: {
         test: REG_CSS,
         oneOf: cssLoaders
       },
@@ -85,6 +86,17 @@ export class MiniWebpackModule {
         use: [WebpackModule.getLoader(path.resolve(__dirname, '../loaders/miniTemplateLoader'), {
           buildAdapter
         })]
+      },
+
+      xscript: {
+        test: new RegExp(`\\${this.combination.fileType.xs || 'wxs'}$`),
+        type: 'asset/resource',
+        generator: {
+          filename ({ filename }) {
+            return filename.replace(sourceRoot + '/', '')
+          }
+        },
+        use: [WebpackModule.getLoader(path.resolve(__dirname, '../loaders/miniXScriptLoader'))]
       },
 
       media: this.getMediaRule(postcssUrlOption),

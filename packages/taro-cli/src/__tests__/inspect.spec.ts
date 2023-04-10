@@ -28,8 +28,7 @@ jest.mock('@tarojs/helper', () => {
 const runInspect = run('inspect', [
   'commands/build',
   'commands/inspect',
-  require.resolve('@tarojs/plugin-platform-weapp'),
-  'platforms/h5'
+  require.resolve('@tarojs/plugin-platform-weapp')
 ])
 
 describe('inspect', () => {
@@ -44,7 +43,7 @@ describe('inspect', () => {
 
     try {
       await runInspect('')
-    } catch (error) {}
+    } catch (error) {} // eslint-disable-line no-empty
 
     expect(exitSpy).toBeCalledWith(1)
     expect(logSpy).toBeCalledWith(chalk.red('找不到项目配置文件config/index，请确定当前目录是 Taro 项目根目录!'))
@@ -64,7 +63,7 @@ describe('inspect', () => {
 
     try {
       await runInspect(path.resolve(__dirname, 'fixtures/default'))
-    } catch (error) {}
+    } catch (error) {} // eslint-disable-line no-empty
 
     expect(exitSpy).toBeCalledWith(0)
     expect(logSpy).toBeCalledWith(chalk.red('请传入正确的编译类型！'))
@@ -89,7 +88,7 @@ describe('inspect', () => {
           type: 'weapp'
         }
       })
-    } catch (error) {}
+    } catch (error) {} // eslint-disable-line no-empty
 
     expect(exitSpy).toBeCalledWith(0)
     expect(logSpy).toBeCalledTimes(1)
@@ -117,7 +116,7 @@ describe('inspect', () => {
         },
         args: ['resolve.mainFields.0']
       })
-    } catch (error) {}
+    } catch (error) {} // eslint-disable-line no-empty
 
     expect(exitSpy).toBeCalledWith(0)
     expect(logSpy).toBeCalledTimes(1)
@@ -146,7 +145,7 @@ describe('inspect', () => {
         },
         args: ['resolve.mainFields.0']
       })
-    } catch (error) {}
+    } catch (error) {} // eslint-disable-line no-empty
 
     expect(exitSpy).toBeCalledWith(0)
     expect(writeFileSync).toBeCalledWith(outputPath, '\'browser\'')

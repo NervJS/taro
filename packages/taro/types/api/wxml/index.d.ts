@@ -18,12 +18,12 @@ declare module '../../index' {
    */
   interface IntersectionObserver {
     /** 停止监听。回调函数将不再触发
-     * @supported weapp, tt
+     * @supported weapp, tt, h5
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/wxml/IntersectionObserver.disconnect.html
      */
     disconnect(): void
     /** 指定目标节点并开始监听相交状态变化情况
-     * @supported weapp, tt
+     * @supported weapp, tt, h5
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/wxml/IntersectionObserver.observe.html
      */
     observe(
@@ -33,7 +33,7 @@ declare module '../../index' {
       callback: IntersectionObserver.ObserveCallback,
     ): void
     /** 使用选择器指定一个节点，作为参照区域之一。
-     * @supported weapp, tt
+     * @supported weapp, tt, h5
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/wxml/IntersectionObserver.relativeTo.html
      */
     relativeTo(
@@ -43,7 +43,7 @@ declare module '../../index' {
       margins?: IntersectionObserver.RelativeToMargins,
     ): IntersectionObserver
     /** 指定页面显示区域作为参照区域之一
-     * @supported weapp, tt
+     * @supported weapp, tt, h5
      * @example
      * 下面的示例代码中，如果目标节点（用选择器 .target-class 指定）进入显示区域以下 100px 时，就会触发回调函数。
      *
@@ -304,7 +304,7 @@ declare module '../../index' {
   namespace NodesRef {
     /** 回调函数，在执行 `SelectorQuery.exec` 方法后，节点信息会在 `callback` 中返回。 */
     type BoundingClientRectCallback = (
-      result: BoundingClientRectCallbackResult,
+      result: BoundingClientRectCallbackResult | BoundingClientRectCallbackResult[],
     ) => void
     interface BoundingClientRectCallbackResult {
       /** 节点的下边界坐标 */
@@ -500,12 +500,12 @@ declare module '../../index' {
     createSelectorQuery(): SelectorQuery
 
     /** 创建并返回一个 IntersectionObserver 对象实例。在自定义组件或包含自定义组件的页面中，应使用 `this.createIntersectionObserver([options])` 来代替。
-     * @supported weapp, tt
+     * @supported weapp, h5, tt
      * @example
      * ```tsx
      * const observer = Taro.createIntersectionObserver(this, { thresholds: [0], observeAll: true })
      * ```
-     * @see https://developers.weixin.qq.com/miniprogram/dev/api/wxml/wx.createSelectorQuery.html
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/wxml/wx.createIntersectionObserver.html
      */
     createIntersectionObserver(
       /** 自定义组件实例 */
@@ -513,5 +513,22 @@ declare module '../../index' {
       /** 选项 */
       options?: createIntersectionObserver.Option,
     ): IntersectionObserver
+
+    /** 创建并返回一个 MediaQueryObserver 对象实例。在自定义组件或包含自定义组件的页面中，应使用 `this.createMediaQueryObserver()` 来代替。
+     * @supported h5
+     * @example
+     * ```tsx
+     * let createMediaQueryObserver
+     * if (process.env.TARO_ENV === 'weapp') {
+     *    // 小程序没有组件实例，只能获取Page级组件实例
+     *    createMediaQueryObserver = Taro.getCurrentInstance().page.createMediaQueryObserver
+     * } else if (process.env.TARO_ENV === 'h5') {
+     *    createMediaQueryObserver= Taro.createMediaQueryObserver
+     * }
+     * const mediaQueryObserver = createMediaQueryObserver() 
+     * ```
+     * @see https://developers.weixin.qq.com/miniprogram/dev/framework/view/resizable.html#Media%20Query
+     */
+    createMediaQueryObserver(): MediaQueryObserver
   }
 }

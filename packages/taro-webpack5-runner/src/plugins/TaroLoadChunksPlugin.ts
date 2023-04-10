@@ -3,15 +3,17 @@ import {
   taroJsComponents
 } from '@tarojs/helper'
 import { toDashed } from '@tarojs/shared'
-import webpack, { Chunk, ChunkGraph, Compilation, Compiler } from 'webpack'
-import { ConcatSource } from 'webpack-sources'
+import { sources } from 'webpack'
 
-import { componentConfig } from '../template/component'
+import { componentConfig } from '../utils/component'
+import { addRequireToSource, chunkHasJs, getChunkEntryModule, getChunkIdOrName } from '../utils/webpack'
+
+import type { Chunk, Compilation, Compiler } from 'webpack'
 import type { AddPageChunks, IComponent } from '../utils/types'
-import { addRequireToSource, getChunkEntryModule, getChunkIdOrName } from '../utils/webpack'
-import TaroNormalModule from './TaroNormalModule'
+import type TaroNormalModule from './TaroNormalModule'
 
 const PLUGIN_NAME = 'TaroLoadChunksPlugin'
+const { ConcatSource } = sources
 
 interface IOptions {
   commonChunks: string[]
@@ -59,14 +61,14 @@ export default class TaroLoadChunksPlugin {
 
         this.isCompDepsFound = false
         for (const chunk of commonChunks) {
-          this.collectComponents(compilation, chunk)
+          this.collectComponents(compiler, compilation, chunk)
         }
         if (!this.isCompDepsFound) {
           // common chunks 找不到再去别的 chunk 中找
           chunksArray
             .filter(chunk => !this.commonChunks.includes(chunk.name))
             .some(chunk => {
-              this.collectComponents(compilation, chunk)
+              this.collectComponents(compiler, compilation, chunk)
               return this.isCompDepsFound
             })
         }
@@ -88,7 +90,7 @@ export default class TaroLoadChunksPlugin {
         }
       })
 
-      webpack.javascript.JavascriptModulesPlugin.getCompilationHooks(compilation).render.tap(PLUGIN_NAME, (modules: ConcatSource, { chunk }) => {
+      compiler.webpack.javascript.JavascriptModulesPlugin.getCompilationHooks(compilation).render.tap(PLUGIN_NAME, (modules: sources.ConcatSource, { chunk }) => {
         const chunkEntryModule = getChunkEntryModule(compilation, chunk) as any
         if (chunkEntryModule) {
           const entryModule: TaroNormalModule = chunkEntryModule.rootModule ?? chunkEntryModule
@@ -108,7 +110,7 @@ export default class TaroLoadChunksPlugin {
       /**
        * 在每个 chunk 文本刚生成后，按判断条件在文本头部插入 require 语句
        */
-      webpack.javascript.JavascriptModulesPlugin.getCompilationHooks(compilation).render.tap(PLUGIN_NAME, (modules: ConcatSource, { chunk }) => {
+      compiler.webpack.javascript.JavascriptModulesPlugin.getCompilationHooks(compilation).render.tap(PLUGIN_NAME, (modules: sources.ConcatSource, { chunk }) => {
         const chunkEntryModule = getChunkEntryModule(compilation, chunk) as any
         if (chunkEntryModule) {
           if (this.isBuildPlugin) {
@@ -155,15 +157,15 @@ export default class TaroLoadChunksPlugin {
     })
   }
 
-  collectComponents (compilation: Compilation, chunk: Chunk) {
+  collectComponents (compiler: Compiler, compilation: Compilation, chunk: Chunk) {
     const chunkGraph = compilation.chunkGraph
     const moduleGraph = compilation.moduleGraph
-    const modulesIterable: Iterable<TaroNormalModule> = chunkGraph.getOrderedChunkModulesIterable(chunk, webpack.util.comparators.compareModulesByIdentifier) as any
+    const modulesIterable: Iterable<TaroNormalModule> = chunkGraph.getOrderedChunkModulesIterable(chunk, compiler.webpack.util.comparators.compareModulesByIdentifier) as any
     for (const module of modulesIterable) {
       if (module.rawRequest === taroJsComponents) {
         this.isCompDepsFound = true
         const includes = componentConfig.includes
-        const moduleUsedExports = moduleGraph.getUsedExports(module, undefined)
+        const moduleUsedExports = moduleGraph.getUsedExports(module, chunk.runtime)
         if (moduleUsedExports === null || typeof moduleUsedExports === 'boolean') {
           componentConfig.includeAll = true
         } else {
@@ -175,11 +177,4 @@ export default class TaroLoadChunksPlugin {
       }
     }
   }
-}
-
-function chunkHasJs (chunk: Chunk, chunkGraph: ChunkGraph) {
-  if (chunk.name === chunk.runtime) return true
-  if (chunkGraph.getNumberOfEntryModules(chunk) > 0) return true
-
-  return Boolean(chunkGraph.getChunkModulesIterableBySourceType(chunk, 'javascript'))
 }

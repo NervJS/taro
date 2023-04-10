@@ -6,7 +6,6 @@ import {
   resolveScriptPath,
   SOURCE_DIR
 } from '@tarojs/helper'
-import { IProjectConfig } from '@tarojs/taro/types/compile'
 import * as fs from 'fs-extra'
 import * as path from 'path'
 import * as merge from 'webpack-merge'
@@ -15,6 +14,8 @@ import {
   CONFIG_DIR_NAME,
   DEFAULT_CONFIG_FILE
 } from './utils/constants'
+
+import type { IProjectConfig } from '@tarojs/taro/types/compile'
 
 interface IConfigOptions {
   appPath: string
@@ -52,7 +53,7 @@ export default class Config {
     }
   }
 
-  getConfigWithNamed (platform, useConfigName) {
+  getConfigWithNamed (platform, configName) {
     const initialConfig = this.initialConfig
     const sourceDirName = initialConfig.sourceRoot || SOURCE_DIR
     const outputDirName = initialConfig.outputRoot || OUTPUT_DIR
@@ -90,7 +91,7 @@ export default class Config {
       cssMinimizer: initialConfig.cssMinimizer,
       terser: initialConfig.terser,
       esbuild: initialConfig.esbuild,
-      ...initialConfig[useConfigName]
+      ...initialConfig[configName]
     }
   }
 }

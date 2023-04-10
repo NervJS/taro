@@ -64,14 +64,11 @@ exports[`scanCode should render scanCode success 1`] = `
       }
     }
   >
-    <RNCSafeAreaView
-      edges={
-        Array [
-          "bottom",
-          "left",
-          "right",
-          "top",
-        ]
+    <View
+      style={
+        Object {
+          "paddingTop": 20,
+        }
       }
     >
       <Image
@@ -84,7 +81,7 @@ exports[`scanCode should render scanCode success 1`] = `
           }
         }
       />
-    </RNCSafeAreaView>
+    </View>
   </View>
   <View
     accessible={true}
@@ -106,14 +103,11 @@ exports[`scanCode should render scanCode success 1`] = `
       }
     }
   >
-    <RNCSafeAreaView
-      edges={
-        Array [
-          "bottom",
-          "left",
-          "right",
-          "top",
-        ]
+    <View
+      style={
+        Object {
+          "paddingTop": 20,
+        }
       }
     >
       <Image
@@ -125,7 +119,7 @@ exports[`scanCode should render scanCode success 1`] = `
           }
         }
       />
-    </RNCSafeAreaView>
+    </View>
   </View>
 </View>
 `;

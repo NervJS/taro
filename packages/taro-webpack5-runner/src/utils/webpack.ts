@@ -1,12 +1,15 @@
 import { promoteRelativePath } from '@tarojs/helper'
 import path from 'path'
-import { Chunk, Compilation } from 'webpack'
-import { ConcatSource, Source } from 'webpack-sources'
+import { sources } from 'webpack'
+
+import type { Chunk, ChunkGraph, Compilation } from 'webpack'
+
+const { ConcatSource } = sources
 
 /**
  * 在文本头部加入一些 require 语句
  */
-export function addRequireToSource (id: string, modules: Source, commonChunks: (Chunk | { name: string })[]) {
+export function addRequireToSource (id: string, modules: sources.Source, commonChunks: (Chunk | { name: string })[]) {
   const source = new ConcatSource()
   commonChunks.forEach(chunkItem => {
     source.add(`require(${JSON.stringify(promoteRelativePath(path.relative(id, chunkItem.name)))});\n`)
@@ -30,4 +33,11 @@ export function getChunkIdOrName (chunk: Chunk) {
     return chunk.id
   }
   return chunk.name
+}
+
+export function chunkHasJs (chunk: Chunk, chunkGraph: ChunkGraph) {
+  if (chunk.name === chunk.runtime) return true
+  if (chunkGraph.getNumberOfEntryModules(chunk) > 0) return true
+
+  return Boolean(chunkGraph.getChunkModulesIterableBySourceType(chunk, 'javascript'))
 }

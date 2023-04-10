@@ -155,7 +155,7 @@ export const getTerserPlugin = ([enableSourceMap, terserOptions]) => {
     parallel: true,
     sourceMap: enableSourceMap,
     terserOptions: recursiveMerge({}, defaultTerserOptions, terserOptions)
-  })
+  } as TerserPlugin.BasePluginOptions)
 }
 export const getCssoWebpackPlugin = ([cssoOption]) => {
   return pipe(listify, partial(getPlugin, CssoWebpackPlugin))([mergeOption([defaultCSSCompressOption, cssoOption]), REG_STYLE])
@@ -516,7 +516,7 @@ export const getEntry = ({
 
 export function getOutput (appPath: string, [{ outputRoot, publicPath, globalObject }, customOutput]) {
   return {
-    path: path.join(appPath, outputRoot),
+    path: path.resolve(appPath, outputRoot),
     publicPath,
     filename: '[name].js',
     chunkFilename: '[name].js',

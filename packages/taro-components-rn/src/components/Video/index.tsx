@@ -73,10 +73,12 @@ const ObjectFit = {
 
 declare const global: any
 
-global._taroVideoMap = {}
+global._taroVideoMap = global._taroVideoMap || {}
 
 interface Props extends VideoProps {
   onLoad: () => void;
+  // 兼容旧版本，可传入 style 对象
+  style?: any;
 }
 
 class _Video extends Component<Props, any> {
@@ -136,9 +138,10 @@ class _Video extends Component<Props, any> {
   getToastVolumeBarRef: (ref: any) => void
   unbindTouchEvents: () => void
 
-  constructor({ props, context }: { props: Props; context: any }) {
-    super(props, context)
+  constructor(props: Props) {
+    super(props)
     const stateObj = this.props
+    const id = props.id
     this.videoRef = (React.createRef() as unknown) as Video
     this.state = Object.assign(
       {
@@ -151,6 +154,11 @@ class _Video extends Component<Props, any> {
       },
       stateObj
     )
+    this.getVideoRef = (ref: any) => {
+      if (!ref) return
+      this.videoRef = ref
+      id && (global._taroVideoMap[id] = ref)
+    }
   }
 
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
@@ -258,18 +266,6 @@ class _Video extends Component<Props, any> {
     this.videoRef.dismissFullscreenPlayer()
   }
 
-  componentDidMount(): void {
-    const getRef = (refName: string) => {
-      const { id } = this.props
-      return (ref: any) => {
-        if (!ref) return
-        this[refName] = ref
-        id && (global._taroVideoMap[id] = ref)
-      }
-    }
-    this.getVideoRef = getRef('videoRef')
-  }
-
   static getDerivedStateFromProps(nProps: VideoProps): VideoProps {
     return nProps
   }
@@ -290,7 +286,7 @@ class _Video extends Component<Props, any> {
     const detail: onFullscreenChangeEventDetail = {
       fullScreen: fullscreenUpdate === PLAYER_WILL_PRESENT || fullscreenUpdate === PLAYER_DID_PRESENT,
       fullscreenUpdate,
-      direction: 1,
+      direction: 'vertical',
       ...status,
     }
     if (this.state.isFullScreen !== fullScreen) {

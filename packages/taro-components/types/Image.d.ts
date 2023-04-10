@@ -1,65 +1,82 @@
 import { ComponentType, ImgHTMLAttributes } from 'react'
 import { StandardProps, CommonEventFunction } from './common'
-
 interface ImageProps extends StandardProps {
   /** 图片资源地址
-   * @supported weapp, h5, rn, swan, alipay, tt
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn
    */
   src: string
-
   /** 图片裁剪、缩放的模式
    * @default "scaleToFill"
-   * @supported weapp, h5, rn, swan, alipay, tt
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn
    * @rn 部分支持 scaleToFill, aspectFit, aspectFill, widthFix
    */
   mode?: keyof ImageProps.Mode
-
-	/** 默认不解析 webP 格式，只支持网络资源
+  /** 默认不解析 webP 格式，只支持网络资源
    * @default false
-   * @supported weapp
-	 */
-	webp?: boolean
-
+   * @supported weapp, swan
+   */
+  webp?: boolean
   /** 默认不解析 svg 格式，svg 图片只支持 aspectFit
    * @default false
    * @supported rn
-	 */
-   svg?: boolean
-
+   */
+  svg?: boolean
   /** 图片懒加载。只针对 page 与 scroll-view 下的 image 有效
    * @default false
-   * @supported weapp, swan, alipay, tt, h5
+   * @supported weapp, alipay, swan, tt, qq, h5
    */
   lazyLoad?: boolean
-
   /** 开启长按图片显示识别小程序码菜单
    * @default false
    * @supported weapp
    */
   showMenuByLongpress?: boolean
-
-  /** 当错误发生时，发布到 AppService 的事件名，事件对象
-   * @supported weapp, h5, rn, swan, alipay, tt
-   */
-  onError?: CommonEventFunction<ImageProps.onErrorEventDetail>
-
-  /** 当图片载入完毕时，发布到 AppService 的事件名，事件对象
-   * @supported weapp, h5, rn, swan, alipay, tt
-   */
-  onLoad?: CommonEventFunction<ImageProps.onLoadEventDetail>
-
   /**
    * 为 img 标签额外增加的属性
    * @supported h5
    */
   imgProps?: ImgHTMLAttributes<HTMLImageElement>
-
   /** 用于透传 `WebComponents` 上的属性到内部 H5 标签上
    * @supported h5
    */
   nativeProps?: Record<string, unknown>
+  /** 默认图片地址，若设置默认图片地址，会先显示默认图片，等 src 对应的图片加载成功后，再渲染对应的图片。
+   * @supported alipay
+   */
+  defaultSource?: string
+  /** 阻止长按图片时弹起默认菜单（即将该属性设置为image-menu-prevent="true"或image-menu-prevent），只在初始化时有效，不能动态变更；若不想阻止弹起默认菜单，则不需要设置此属性。注：长按菜单后的操作暂不支持 svg 格式
+   * @supported swan
+   */
+  imageMenuPrevent?: string
+  /** 点击后是否预览图片。在不设置的情况下，若 image 未监听点击事件且宽度大于 1/4 屏宽，则默认开启
+   * @supported swan
+   */
+  preview?: string
+  /** 预览时显示的图片地址
+   * @supported swan
+   */
+  originalSrc?: string
+  /** 无障碍访问，（属性）元素的额外描述
+   * @supported qq
+   */
+  ariaLabel?: string
+  /** 当错误发生时，发布到 AppService 的事件名，事件对象
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn
+   */
+  onError?: CommonEventFunction<ImageProps.onErrorEventDetail>
+  /** 当图片载入完毕时，发布到 AppService 的事件名，事件对象
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn
+   */
+  onLoad?: CommonEventFunction<ImageProps.onLoadEventDetail>
+  /** 点击图片时触发。
+   * @supported alipay
+   */
+  onTap?: CommonEventFunction
+  /** 点击图片时触发，阻止事件冒泡。
+   * @supported alipay
+   */
+  catchTap?: CommonEventFunction
 }
-
 declare namespace ImageProps {
   /** mode 的合法值 */
   interface Mode {
@@ -103,12 +120,11 @@ declare namespace ImageProps {
     width: number | string
   }
 }
-
 /** 图片。支持 JPG、PNG、SVG、WEBP、GIF 等格式以及云文件ID。
  *
  * **Note:** 为实现小程序的 `mode` 特性，在 H5 组件中使用一个 `div` 容器来对内部的 `img` 进行展示区域的裁剪，因此请勿使用元素选择器来重置 `img` 的样式！
  * @classification media
- * @supported weapp, h5, rn, swan, alipay, tt
+ * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony
  * @example_react
  * ```tsx
  * export default class PageView extends Component {
@@ -150,5 +166,4 @@ declare namespace ImageProps {
  * @see https://developers.weixin.qq.com/miniprogram/dev/component/image.html
  */
 declare const Image: ComponentType<ImageProps>
-
 export { Image, ImageProps }

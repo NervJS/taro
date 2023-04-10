@@ -2,102 +2,167 @@
 import * as path from 'path'
 
 import BaseCI from './BaseCi'
-import generateQrCode from './QRCode'
+import { AlipayInstance } from './types'
+import { compareVersion } from './utils/compareVersion'
+import { getNpmPkgSync } from './utils/npm'
+import { generateQrcodeImageFile, printQrcode2Terminal, readQrcodeImageContent } from './utils/qrcode'
 
-/** 文档地址： https://opendocs.alipay.com/mini/miniu/api */
+
+
+/** 文档地址： https://opendocs.alipay.com/mini/02q29z */
 export default class AlipayCI extends BaseCI {
-  miniu
-  minidev
+  protected minidev: AlipayInstance
 
-  /** 小程序开发者工具安装路径 */
-  private devToolsInstallPath: string
-
-  protected _init (): void {
+  init (): void {
     if (this.pluginOpts.alipay == null) {
       throw new Error('请为"@tarojs/plugin-mini-ci"插件配置 "alipay" 选项')
     }
+    const { fs, printLog, processTypeEnum, chalk } = this.ctx.helper
     try {
-      this.miniu = require('miniu')
+      this.minidev = getNpmPkgSync('minidev',process.cwd())
     } catch (error) {
-      throw new Error('请安装依赖：miniu')
+      printLog(processTypeEnum.ERROR, chalk.red('请安装依赖：minidev'))
+      process.exit(1)
     }
 
     const { appPath } = this.ctx.paths
-    const { fs } = this.ctx.helper
-    const { toolId, privateKeyPath: _privateKeyPath, proxy, devToolsInstallPath } = this.pluginOpts.alipay
-    const privateKeyPath = path.isAbsolute(_privateKeyPath) ? _privateKeyPath : path.join(appPath, _privateKeyPath)
+    const { toolId, privateKey: _privateKey, privateKeyPath: _privateKeyPath } = this.pluginOpts.alipay
 
-    this.devToolsInstallPath = devToolsInstallPath || ''
-    if (!fs.pathExistsSync(privateKeyPath)) {
-      throw new Error(`"alipay.privateKeyPath"选项配置的路径不存在,本次上传终止:${privateKeyPath}`)
+    let privateKey = _privateKey
+    if (!privateKey) {
+      const privateKeyPath = path.isAbsolute(_privateKeyPath) ? _privateKeyPath : path.join(appPath, _privateKeyPath)
+      if (!fs.pathExistsSync(privateKeyPath)) {
+        printLog(processTypeEnum.ERROR, chalk.red(`"alipay.privateKeyPath"选项配置的路径"${ privateKeyPath }"不存在,本次上传终止`))
+        process.exit(1)
+      } else {
+        privateKey = fs.readFileSync(privateKeyPath, 'utf-8')
+      }
     }
 
-    this.miniu.setConfig({
-      toolId,
-      privateKey: fs.readFileSync(privateKeyPath, 'utf-8'),
-      proxy
-    })
-  }
-
-  open () {
-    const { printLog, processTypeEnum } = this.ctx.helper
-    const { outputPath: projectPath } = this.ctx.paths
-    try {
-      this.minidev = require('minidev').minidev
-    } catch (error) {
-      throw new Error('请安装依赖：minidev')
-    }
-    this.minidev
-      .startIde(
-        Object.assign(
-          {
-            project: projectPath,
-            projectType: 'alipay-mini'
-          },
-          this.devToolsInstallPath ? { appPath: this.devToolsInstallPath } : {}
-        )
-      )
-      .then(() => {
-        printLog(processTypeEnum.START, '打开 IDE 成功')
-      })
-      .catch(res => {
-        printLog(processTypeEnum.ERROR, res.message)
-      })
-  }
-
-  async upload () {
-    const { chalk, printLog, processTypeEnum } = this.ctx.helper
-    const clientType = this.pluginOpts.alipay!.clientType || 'alipay'
-    printLog(processTypeEnum.START, '上传代码到阿里小程序后台', clientType)
-    // 上传结果CI库本身有提示，故此不做异常处理
-    // TODO 阿里的CI库上传时不能设置“禁止压缩”，所以上传时被CI二次压缩代码，可能会造成报错，这块暂时无法处理; SDK上传不支持设置描述信息
-    const result = await this.miniu.miniUpload({
-      project: this.ctx.paths.outputPath,
-      appId: this.pluginOpts.alipay!.appId,
-      packageVersion: this.version,
-      clientType,
-      experience: true,
-      onProgressUpdate (info) {
-        const { status, data } = info
-        console.log(status, data)
+    this.minidev.useDefaults({
+      config: {
+        defaults: {
+          'alipay.authentication.privateKey': privateKey,
+          'alipay.authentication.toolId': toolId,
+        }
       }
     })
-    if (result.packages) {
-      const allPackageInfo = result.packages.find(pkg => pkg.type === 'FULL')
-      const mainPackageInfo = result.packages.find((item) => item.type === 'MAIN')
-      const extInfo = `本次上传${allPackageInfo!.size} ${mainPackageInfo ? ',其中主包' + mainPackageInfo.size : ''}`
-      console.log(chalk.green(`上传成功 ${new Date().toLocaleString()} ${extInfo}`))
+
+  }
+
+  async open () {
+    const { devToolsInstallPath } = this.pluginOpts.alipay!
+    const { chalk, printLog, processTypeEnum } = this.ctx.helper
+    try {
+      printLog(processTypeEnum.START, '小程序开发者工具...', this.projectPath)
+      await this.minidev.minidev
+        .startIde(
+          Object.assign(
+            {
+              project: this.projectPath
+            },
+            devToolsInstallPath ? { appPath: devToolsInstallPath } : {}
+          )
+        )
+    } catch (error) {
+      printLog(processTypeEnum.ERROR, chalk.red(error.message))
     }
   }
 
   async preview () {
-    const previewResult = await this.miniu.miniPreview({
-      project: this.ctx.paths.outputPath,
-      appId: this.pluginOpts.alipay!.appId,
-      clientType: this.pluginOpts.alipay!.clientType || 'alipay',
-      qrcodeFormat: 'base64'
-    })
-    console.log('预览二维码地址：', previewResult.packageQrcode)
-    generateQrCode(previewResult.packageQrcode!)
+    const { chalk, printLog, processTypeEnum } = this.ctx.helper
+    const { appid: appId, clientType = 'alipay' } = this.pluginOpts.alipay!
+    try {
+      const previewResult = await this.minidev.minidev.preview({
+        project: this.projectPath,
+        appId,
+        clientType,
+        autoPush: false
+      })
+
+      const previewQrcodePath = path.join(this.projectPath, 'preview.png')
+      // schema url规则 alipays://platformapi/startapp?appId=xxxx&nbsource=debug&nbsv=返回的临时版本号&nbsn=DEBUG&nboffline=sync&nbtoken=ide_qr&nbprefer=YES
+      /** 注意： 这是二维码的线上图片地址， 不是二维码中的内容 */
+      const qrcodeUrl = previewResult.qrcodeUrl
+      const qrcodeContent = await readQrcodeImageContent(qrcodeUrl)
+      // console.log('qrcodeContent', qrcodeContent)
+      await generateQrcodeImageFile(previewQrcodePath, qrcodeContent)
+      printLog(processTypeEnum.REMIND, `预览版二维码已生成，存储在:"${ previewQrcodePath }",二维码内容是："${ qrcodeContent }"`)
+
+      this.triggerPreviewHooks({
+        success: true,
+        data: {
+          platform: 'alipay',
+          qrCodeContent: qrcodeContent,
+          qrCodeLocalPath: previewQrcodePath
+        }
+      })
+    } catch (error) {
+      printLog(processTypeEnum.ERROR, chalk.red(`预览上传失败 ${ new Date().toLocaleString() } \n${ error.message }`))
+
+      this.triggerPreviewHooks({
+        success: false,
+        data: {
+          platform: 'alipay',
+          qrCodeContent: '',
+          qrCodeLocalPath: ''
+        },
+        error
+      })
+    }
   }
+
+  async upload () {
+    const { chalk, printLog, processTypeEnum } = this.ctx.helper
+    const { clientType = 'alipay', appid: appId } = this.pluginOpts.alipay!
+    printLog(processTypeEnum.START, '上传代码到阿里小程序后台', clientType)
+
+    //  SDK上传不支持设置描述信息; 版本号必须大于现有版本号
+    try {
+      const lasterVersion  = await this.minidev.minidev.app.getUploadedVersion({
+        appId,
+        clientType
+      })
+      if (compareVersion(this.version, lasterVersion) <=0) {
+        printLog(processTypeEnum.ERROR, chalk.red(`上传版本号 "${ this.version }" 必须大于最新上传版本 "${ lasterVersion }"`))
+      }
+      const result = await this.minidev.minidev.upload({
+        project: this.projectPath,
+        appId,
+        version: this.version,
+        clientType,
+        experience: true
+      })
+      /** 注意： 这是二维码的线上图片地址， 不是二维码中的内容 */
+      const qrcodeUrl = result.experienceQrCodeUrl!
+      const qrcodeContent = await readQrcodeImageContent(qrcodeUrl)
+
+      const uploadQrcodePath = path.join(this.projectPath, 'upload.png')
+      await printQrcode2Terminal(qrcodeContent)
+      await generateQrcodeImageFile(uploadQrcodePath, qrcodeContent)
+      printLog(processTypeEnum.REMIND, `体验版二维码已生成，存储在:"${uploadQrcodePath}",二维码内容是："${qrcodeContent}"`)
+
+      this.triggerUploadHooks({
+        success: true,
+        data: {
+          platform: 'alipay',
+          qrCodeContent: qrcodeContent,
+          qrCodeLocalPath: uploadQrcodePath
+        },
+      })
+    } catch (error) {
+      printLog(processTypeEnum.ERROR, chalk.red(`体验版上传失败 ${ new Date().toLocaleString() } \n${ error }`))
+
+      this.triggerUploadHooks({
+        success: false,
+        data: {
+          platform: 'alipay',
+          qrCodeContent: '',
+          qrCodeLocalPath: ''
+        },
+        error
+      })
+    }
+  }
+
 }

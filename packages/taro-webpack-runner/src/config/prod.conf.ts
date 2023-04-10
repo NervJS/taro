@@ -1,8 +1,8 @@
-import { chalk, recursiveMerge } from '@tarojs/helper'
+import { chalk, fs, recursiveMerge } from '@tarojs/helper'
 import { get, mapValues, merge } from 'lodash'
 import * as path from 'path'
 
-import { addTrailingSlash, emptyObj, parseHtmlScript } from '../util'
+import { addTrailingSlash, AppHelper, parseHtmlScript } from '../utils'
 import {
   getCopyWebpackPlugin,
   getCssoWebpackPlugin,
@@ -15,24 +15,24 @@ import {
   getTerserPlugin,
   parseModule,
   processEnvOption
-} from '../util/chain'
-import { BuildConfig } from '../util/types'
+} from '../utils/chain'
+import { BuildConfig } from '../utils/types'
 import getBaseChain from './base.conf'
 
-export default function (appPath: string, config: Partial<BuildConfig>): any {
+export default function (appPath: string, config: Partial<BuildConfig>, appHelper: AppHelper): any {
   const chain = getBaseChain(appPath, config)
   const {
-    alias = emptyObj,
+    alias = {},
     copy,
-    entry = emptyObj,
+    entry = {},
     entryFileName = 'app',
-    output = emptyObj,
+    output = {},
     sourceRoot = '',
     outputRoot = 'dist',
     publicPath = '/',
     staticDirectory = 'static',
     chunkDirectory = 'chunk',
-    router = emptyObj,
+    router = {},
 
     designWidth = 750,
     deviceRatio,
@@ -40,30 +40,30 @@ export default function (appPath: string, config: Partial<BuildConfig>): any {
     sourceMapType,
     enableExtract = true,
 
-    defineConstants = emptyObj,
-    env = emptyObj,
-    styleLoaderOption = emptyObj,
-    cssLoaderOption = emptyObj,
-    sassLoaderOption = emptyObj,
-    lessLoaderOption = emptyObj,
-    stylusLoaderOption = emptyObj,
-    mediaUrlLoaderOption = emptyObj,
-    fontUrlLoaderOption = emptyObj,
-    imageUrlLoaderOption = emptyObj,
+    defineConstants = {},
+    env = {},
+    styleLoaderOption = {},
+    cssLoaderOption = {},
+    sassLoaderOption = {},
+    lessLoaderOption = {},
+    stylusLoaderOption = {},
+    mediaUrlLoaderOption = {},
+    fontUrlLoaderOption = {},
+    imageUrlLoaderOption = {},
 
-    miniCssExtractPluginOption = emptyObj,
+    miniCssExtractPluginOption = {},
     esnextModules = [],
 
-    useHtmlComponents = false,
-
-    postcss,
-    htmlPluginOption = emptyObj,
+    compile = {},
+    postcss = {},
+    htmlPluginOption = {},
     csso,
     uglify,
-    terser
+    terser,
+
+    useDeprecatedAdapterComponent = false
   } = config
   const sourceDir = path.join(appPath, sourceRoot)
-  const outputDir = path.join(appPath, outputRoot)
   const isMultiRouterMode = get(router, 'mode') === 'multi'
 
   const { rule, postcssOption } = parseModule(appPath, {
@@ -82,7 +82,9 @@ export default function (appPath: string, config: Partial<BuildConfig>): any {
     mediaUrlLoaderOption,
     esnextModules,
 
+    compile,
     postcss,
+    sourceDir,
     staticDirectory
   })
   const [, pxtransformOption] = postcssOption.find(([name]) => name === 'postcss-pxtransform') || []
@@ -90,15 +92,20 @@ export default function (appPath: string, config: Partial<BuildConfig>): any {
   const plugin: any = {}
 
   plugin.mainPlugin = getMainPlugin({
+    /** paths */
+    sourceDir,
+    entryFileName,
+    /** config & message */
     framework: config.framework,
     frameworkExts: config.frameworkExts,
-    entryFileName,
-    sourceDir,
-    outputDir,
     routerConfig: router,
-    useHtmlComponents,
-    designWidth,
-    deviceRatio
+    runtimePath: config.runtimePath,
+    pxTransformConfig: pxtransformOption?.config || {},
+    /** building mode */
+    isBuildNativeComp: config.isBuildNativeComp,
+    /** hooks & methods */
+    onCompilerMake: config.onCompilerMake,
+    onParseCreateElement: config.onParseCreateElement,
   })
 
   if (enableExtract) {
@@ -121,23 +128,32 @@ export default function (appPath: string, config: Partial<BuildConfig>): any {
       chalk.yellowBright('配置文件覆盖 htmlPluginOption.script 参数会导致 pxtransform 脚本失效，请慎重使用！')
     )
   }
-  if (isMultiRouterMode) {
-    merge(plugin, mapValues(entry, (_filePath, entryName) => {
-      return getHtmlWebpackPlugin([recursiveMerge({
-        filename: `${entryName}.html`,
-        template: path.join(appPath, sourceRoot, 'index.html'),
+
+  const template = path.join(sourceDir, 'index.html')
+  if (fs.existsSync(template)) {
+    if (isMultiRouterMode) {
+      delete entry[entryFileName]
+      appHelper.pagesConfigList.forEach((page, index) => {
+        entry[index] = [page]
+      })
+      merge(plugin, mapValues(entry, (_filePath, entryName) => {
+        return getHtmlWebpackPlugin([recursiveMerge({
+          filename: `${entryName}.html`,
+          script: htmlScript,
+          template,
+          chunks: [entryName]
+        }, htmlPluginOption)])
+      }))
+    } else {
+      plugin.htmlWebpackPlugin = getHtmlWebpackPlugin([recursiveMerge({
+        filename: 'index.html',
         script: htmlScript,
-        chunks: [entryName]
+        template,
       }, htmlPluginOption)])
-    }))
-  } else {
-    plugin.htmlWebpackPlugin = getHtmlWebpackPlugin([recursiveMerge({
-      filename: 'index.html',
-      template: path.join(appPath, sourceRoot, 'index.html'),
-      script: htmlScript
-    }, htmlPluginOption)])
+    }
   }
   env.SUPPORT_DINGTALK_NAVIGATE = env.SUPPORT_DINGTALK_NAVIGATE || '"disabled"'
+  defineConstants.DEPRECATED_ADAPTER_COMPONENT = JSON.stringify(!!useDeprecatedAdapterComponent)
   plugin.definePlugin = getDefinePlugin([processEnvOption(env), defineConstants])
 
   const isCssoEnabled = !(csso && csso.enable === false)

@@ -1,5 +1,5 @@
 import * as path from 'path'
-import externals from 'rollup-plugin-node-externals'
+import { externals } from 'rollup-plugin-node-externals'
 import ts from 'rollup-plugin-ts'
 
 const cwd = __dirname
@@ -7,6 +7,7 @@ const cwd = __dirname
 const base = {
   plugins: [
     externals({
+      deps: true,
       devDeps: false,
     }),
     ts(),

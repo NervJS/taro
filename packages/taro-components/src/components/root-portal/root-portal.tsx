@@ -1,12 +1,13 @@
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { Component, h, Host } from '@stencil/core'
+import { Component, ComponentInterface, h, Host } from '@stencil/core'
+
+import { notSupport } from '../../utils'
 
 @Component({
   tag: 'taro-root-portal-core'
 })
-export class RootPortal {
+export class RootPortal implements ComponentInterface {
   componentDidLoad () {
-    console.error('H5 暂不支持 RootPortal 组件！')
+    notSupport('RootPortal', this)
   }
 
   render () {

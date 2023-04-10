@@ -1,11 +1,5 @@
-import {
-  createDebug,
-  createSwcRegister,
-  NODE_MODULES,
-  recursiveFindNodeModules
-} from '@tarojs/helper'
 import * as helper from '@tarojs/helper'
-import { IProjectConfig, PluginItem } from '@tarojs/taro/types/compile'
+import { getPlatformType } from '@tarojs/shared'
 import { EventEmitter } from 'events'
 import { merge } from 'lodash'
 import * as path from 'path'
@@ -20,7 +14,10 @@ import {
   IS_MODIFY_HOOK,
   PluginType
 } from './utils/constants'
-import {
+
+import type { IProjectConfig, PluginItem } from '@tarojs/taro/types/compile'
+import type {
+  Func,
   ICommand,
   IHook,
   IPaths,
@@ -48,7 +45,7 @@ export default class Kernel extends EventEmitter {
   config: Config
   initialConfig: IProjectConfig
   hooks: Map<string, IHook[]>
-  methods: Map<string, ((...args: any[]) => void)[]>
+  methods: Map<string, Func[]>
   commands: Map<string, ICommand>
   platforms: Map<string, IPlatform>
   helper: any
@@ -57,7 +54,7 @@ export default class Kernel extends EventEmitter {
 
   constructor (options: IKernelOptions) {
     super()
-    this.debugger = process.env.DEBUG === 'Taro:Kernel' ? createDebug('Taro:Kernel') : function () {}
+    this.debugger = process.env.DEBUG === 'Taro:Kernel' ? helper.createDebug('Taro:Kernel') : function () {}
     this.appPath = options.appPath || process.cwd()
     this.optsPresets = options.presets
     this.optsPlugins = options.plugins
@@ -81,13 +78,13 @@ export default class Kernel extends EventEmitter {
   initPaths () {
     this.paths = {
       appPath: this.appPath,
-      nodeModulesPath: recursiveFindNodeModules(path.join(this.appPath, NODE_MODULES))
+      nodeModulesPath: helper.recursiveFindNodeModules(path.join(this.appPath, helper.NODE_MODULES))
     } as IPaths
     if (this.config.isInitSuccess) {
       Object.assign(this.paths, {
         configPath: this.config.configPath,
         sourcePath: path.join(this.appPath, this.initialConfig.sourceRoot as string),
-        outputPath: path.join(this.appPath, this.initialConfig.outputRoot as string)
+        outputPath: path.resolve(this.appPath, this.initialConfig.outputRoot as string)
       })
     }
     this.debugger(`initPaths:${JSON.stringify(this.paths, null, 2)}`)
@@ -104,7 +101,7 @@ export default class Kernel extends EventEmitter {
     const allConfigPlugins = mergePlugins(this.optsPlugins || [], initialConfig.plugins || [])()
     this.debugger('initPresetsAndPlugins', allConfigPresets, allConfigPlugins)
     process.env.NODE_ENV !== 'test' &&
-    createSwcRegister({
+    helper.createSwcRegister({
       only: [...Object.keys(allConfigPresets), ...Object.keys(allConfigPlugins)]
     })
     this.plugins = new Map()
@@ -271,7 +268,9 @@ export default class Kernel extends EventEmitter {
     if (!this.platforms.has(platform)) {
       throw new Error(`不存在编译平台 ${platform}`)
     }
-    const withNameConfig = this.config.getConfigWithNamed(platform, this.platforms.get(platform)!.useConfigName)
+    const config = this.platforms.get(platform)!
+    const withNameConfig = this.config.getConfigWithNamed(config.name, config.useConfigName)
+    process.env.TARO_PLATFORM = getPlatformType(config.name, config.useConfigName)
     return withNameConfig
   }
 

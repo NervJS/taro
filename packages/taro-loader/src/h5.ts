@@ -3,6 +3,9 @@ import { AppConfig } from '@tarojs/taro'
 import { IH5Config } from '@tarojs/taro/types/compile'
 import { getOptions, stringifyRequest } from 'loader-utils'
 import { dirname, join } from 'path'
+
+import { REG_POST } from './constants'
+
 import type * as webpack from 'webpack'
 
 function genResource (path: string, pages: Map<string, string>, loaderContext: webpack.LoaderContext<any>, syncFileName: string | false = false) {
@@ -20,37 +23,42 @@ function genResource (path: string, pages: Map<string, string>, loaderContext: w
 export default function (this: webpack.LoaderContext<any>) {
   const options = getOptions(this)
   const stringify = (s: string): string => stringifyRequest(this, s)
-  const {
-    importFrameworkStatement,
-    frameworkArgs,
-    creator,
-    creatorLocation,
-    importFrameworkName,
-    extraImportForWeb,
-    execBeforeCreateWebApp,
-    compatComponentImport,
-    compatComponentExtra
-  } = options.loaderMeta
   const config: AppConfig & IH5Config = options.config
-  const pages: Map<string, string> = options.pages
   const routerMode = config?.router?.mode || 'hash'
+  const isBuildNativeComp = options.isBuildNativeComp
   const isMultiRouterMode = routerMode === 'multi'
-  const pxTransformConfig = options.pxTransformConfig
 
   const pathDirname = dirname(this.resourcePath)
-  const pageName = isMultiRouterMode ? join(pathDirname, options.name).replace(options.sourceDir + '/', '') : ''
-  if (options.bootstrap) {
-    /** NOTE: Webpack Virtual Module plugin doesn't support triggering a rebuild for webpack5,
-     * which can cause "module not found" error when webpack5 cache is enabled.
-     * Currently the only "non-hacky" workaround is to mark this module as non-cacheable.
-     *
-     * See also:
-     *   - https://github.com/sysgears/webpack-virtual-modules/issues/76
-     *   - https://github.com/sysgears/webpack-virtual-modules/issues/86
-     *   - https://github.com/windicss/windicss-webpack-plugin/blob/bbb91323a2a0c0f880eecdf49b831be092ccf511/src/loaders/virtual-module.ts
-     *   - https://github.com/sveltejs/svelte-loader/pull/151
-     */
-    this.cacheable?.(false)
+  const pageName = isMultiRouterMode ? join(pathDirname, options.filename).replace(options.sourceDir + '/', '') : ''
+  const pages: Map<string, string> = new Map(options.pages)
+  const pxTransformConfig = options.pxTransformConfig
+  const runtimePath = Array.isArray(options.runtimePath) ? options.runtimePath : [options.runtimePath]
+  let setReconcilerPost = ''
+  const setReconciler = runtimePath.reduce((res, item) => {
+    if (REG_POST.test(item)) {
+      setReconcilerPost += `import '${item.replace(REG_POST, '')}'\n`
+      return res
+    } else {
+      return res + `import '${item}'\n`
+    }
+  }, '')
+
+  if (isBuildNativeComp) {
+    const compPath = join(pathDirname, options.filename)
+    return `import component from ${stringify(compPath)}
+import { initPxTransform } from '@tarojs/taro'
+${setReconcilerPost}
+component.config = {}
+component.pxTransformConfig = {}
+Object.assign(component.config, ${JSON.stringify(readConfig(this.resourcePath))})
+initPxTransform.call(component, {
+  designWidth: ${pxTransformConfig.designWidth},
+  deviceRatio: ${JSON.stringify(pxTransformConfig.deviceRatio)},
+  baseFontSize: ${pxTransformConfig.baseFontSize || (pxTransformConfig.minRootSize >= 1 ? pxTransformConfig.minRootSize : 20)},
+  unitPrecision: ${pxTransformConfig.unitPrecision},
+  targetUnit: ${JSON.stringify(pxTransformConfig.targetUnit)}
+})
+export default component`
   }
   if (options.bootstrap) return `import(${stringify(join(options.sourceDir, `${isMultiRouterMode ? pageName : options.entryFileName}.boot`))})`
 
@@ -72,31 +80,23 @@ var tabbarSelectedIconPath = []
     }
   }
 
-  const webComponents = `
-import { defineCustomElements, applyPolyfills } from '@tarojs/components/loader'
-import '@tarojs/components/dist/taro-components/taro-components.css'
-${extraImportForWeb || ''}
-applyPolyfills().then(function () {
-  defineCustomElements(window)
-})
-`
-
-  const components = options.useHtmlComponents ? compatComponentImport || '' : webComponents
   const routesConfig = isMultiRouterMode ? `config.routes = []
-config.route = ${genResource(pageName, pages, this, options.name)}
+config.route = ${genResource(pageName, pages, this, options.filename)}
 config.pageName = "${pageName}"` : `config.routes = [
   ${config.pages?.map(path => genResource(path, pages, this)).join(',')}
 ]`
   const routerCreator = isMultiRouterMode ? 'createMultiRouter' : 'createRouter'
 
-  const code = `import { initPxTransform } from '@tarojs/taro'
+  const code = `${setReconciler}
+import { initPxTransform } from '@tarojs/taro'
 import { ${routerCreator} } from '@tarojs/router'
 import component from ${stringify(join(options.sourceDir, options.entryFileName))}
 import { window } from '@tarojs/runtime'
-import { ${creator} } from '${creatorLocation}'
+import { ${options.loaderMeta.creator} } from '${options.loaderMeta.creatorLocation}'
+${options.loaderMeta.importFrameworkStatement}
+${options.loaderMeta.extraImportForWeb}
+${setReconcilerPost}
 var config = ${JSON.stringify(config)}
-${importFrameworkStatement}
-${components}
 window.__taroAppConfig = config
 ${config.tabBar ? tabBarCode : ''}
 if (config.tabBar) {
@@ -112,13 +112,15 @@ if (config.tabBar) {
   }
 }
 ${routesConfig}
-${options.useHtmlComponents ? compatComponentExtra : ''}
-${execBeforeCreateWebApp || ''}
-var inst = ${creator}(component, ${frameworkArgs})
-${routerCreator}(inst, config, ${importFrameworkName})
+${options.loaderMeta.execBeforeCreateWebApp || ''}
+var inst = ${options.loaderMeta.creator}(component, ${options.loaderMeta.frameworkArgs})
+${routerCreator}(inst, config, ${options.loaderMeta.importFrameworkName})
 initPxTransform({
   designWidth: ${pxTransformConfig.designWidth},
-  deviceRatio: ${JSON.stringify(pxTransformConfig.deviceRatio)}
+  deviceRatio: ${JSON.stringify(pxTransformConfig.deviceRatio)},
+  baseFontSize: ${pxTransformConfig.baseFontSize || (pxTransformConfig.minRootSize >= 1 ? pxTransformConfig.minRootSize : 20)},
+  unitPrecision: ${pxTransformConfig.unitPrecision},
+  targetUnit: ${JSON.stringify(pxTransformConfig.targetUnit)}
 })
 `
   return code

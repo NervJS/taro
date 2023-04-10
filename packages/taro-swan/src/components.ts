@@ -39,7 +39,8 @@ export const components = {
   Form: {
     'report-type': 'default',
     'template-id': '',
-    'subscribe-id': ''
+    'subscribe-id': '',
+    'skip-subscribe-authorize': 'false'
   },
   Input: {
     'adjust-position': 'true'
@@ -103,8 +104,9 @@ export const components = {
     'resource-height': '400',
     'canvas-style': singleQuote('width:400px;height:400px'),
     path: '',
-    loop: 'fasle',
-    autoplay: 'fasle',
+    loop: 'false',
+    autoplay: 'false',
+    'alpha-direction': singleQuote('left'),
     bindStarted: '',
     bindEnded: ''
   },
@@ -153,7 +155,64 @@ export const components = {
   },
   Login: {
     'button-class': '',
+    'checked-color': singleQuote('#3388FF'),
+    'theme-color': singleQuote('#3388FF'),
     bindGetPhoneNumber: '',
     bindLoadError: ''
-  }
+  },
+  Like: {
+    'is-liked': 'false',
+    mode: singleQuote('icon'),
+    'icon-type': singleQuote('hand'),
+    'like-text': singleQuote('赞'),
+    'like-num': '0',
+    'like-type': '0',
+    'animation-type': '1',
+    'is-show-toast': 'false',
+    'toast-text': "['已点赞', '已取消']",
+    'like-param': '',
+    bindError: '',
+    bindSuccess: '',
+    bindFail: '',
+  },
+  CommentList: {
+    'comment-param': '',
+    'toolbar-config': '',
+    'is-page-scroll': 'true',
+    'need-toolbar': 'true',
+    'add-comment': 'false',
+    'detail-path': '',
+    'is-folded': 'false',
+    'fold-num': '3',
+    'view-more-path': '',
+    'view-more-style': '',
+    bindClickComment: '',
+    bindViewMore: '',
+  },
+  CommentDetail: {
+    'comment-param': '',
+    srid: '',
+    'is-page-scroll': 'true',
+    'need-toolbar': 'true',
+    'need-like-btn': 'true',
+    'back-list-after-delete': 'true',
+    'add-comment': 'false',
+    bindDelete: '',
+  },
+  FollowSwan: {
+    size: singleQuote('default'),
+    type: singleQuote('primary'),
+    bindFavorStatusChange: '',
+  },
+  InlinePaymentPanel: {
+    'total-amount': '',
+    'deal-id': '',
+    'app-key': '',
+    'promotion-tag': '',
+    'enable-page-back-modal': '',
+    'custom-style': '',
+    'style-type': singleQuote('default'),
+    bindGetPaymentInfo: '',
+    bindError: ''
+  },
 }

@@ -1,8 +1,8 @@
 import { isNpmPkg, recursiveMerge } from '@tarojs/helper'
-import { Func } from '@tarojs/runtime'
-import type { IPostcssOption, TogglableOptions } from '@tarojs/taro/types/compile'
 import path from 'path'
 import { sync as resolveSync } from 'resolve'
+
+import type { Func, IPostcssOption, TogglableOptions } from '@tarojs/taro/types/compile'
 
 const platform = 'h5'
 const defaultAutoprefixerOption = {
@@ -42,7 +42,7 @@ const defaultUrlOption: {
 } = {
   enable: true,
   config: {
-    url: 'inline'
+    url: 'rebase'
   }
 }
 

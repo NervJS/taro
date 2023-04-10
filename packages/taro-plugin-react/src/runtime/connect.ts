@@ -4,12 +4,13 @@ import {
   PageLifeCycle, PageProps,
   ReactAppInstance, ReactPageComponent
 } from '@tarojs/runtime'
-import { EMPTY_OBJ, ensure, hooks } from '@tarojs/shared'
-import type { AppConfig } from '@tarojs/taro'
-import type * as React from 'react'
+import { EMPTY_OBJ, ensure, hooks, isWebPlatform } from '@tarojs/shared'
 
 import { reactMeta } from './react-meta'
 import { ensureIsArray, HOOKS_APP_ID, isClassComponent, setDefaultDescriptor, setRouterParams } from './utils'
+
+import type { AppConfig } from '@tarojs/taro'
+import type * as React from 'react'
 
 type PageComponent = React.CElement<PageProps, React.Component<PageProps, any, any>>
 
@@ -18,6 +19,7 @@ let ReactDOM
 let Fragment: typeof React.Fragment
 
 const pageKeyId = incrementId()
+const isWeb = isWebPlatform()
 
 export function setReconciler (ReactDOM) {
   hooks.tap('getLifecycle', function (instance, lifecycle: string) {
@@ -26,7 +28,10 @@ export function setReconciler (ReactDOM) {
   })
 
   hooks.tap('modifyMpEvent', function (event) {
-    event.type = event.type.replace(/-/g, '')
+    // Note: ohos 上事件没有设置 type 类型 setter 方法导致报错
+    Object.defineProperty(event, 'type', {
+      value: event.type.replace(/-/g, '')
+    })
   })
 
   hooks.tap('batchedEventUpdates', function (cb) {
@@ -48,7 +53,7 @@ export function setReconciler (ReactDOM) {
     })
   })
 
-  if (process.env.TARO_ENV === 'h5') {
+  if (isWeb) {
     hooks.tap('createPullDownComponent', (
       el: React.FunctionComponent<PageProps> | React.ComponentClass<PageProps>,
       _,
@@ -127,7 +132,7 @@ export function connectReactPage (
             ...refs
           }))
 
-        if (process.env.TARO_ENV === 'h5') {
+        if (isWeb) {
           return h(
             'div',
             { id, className: 'taro_page' },
@@ -179,9 +184,13 @@ export function createReactApp (
     return appInstanceRef.current
   }
 
+  function waitAppWrapper (cb: () => void) {
+    appWrapper ? cb() : appWrapperPromise.then(() => cb())
+  }
+
   function renderReactRoot () {
     let appId = 'app'
-    if (process.env.TARO_ENV === 'h5') {
+    if (isWeb) {
       appId = config?.appId || appId
     }
     const container = document.getElementById(appId)
@@ -236,12 +245,12 @@ export function createReactApp (
       return h(
         App,
         props,
-        process.env.TARO_ENV === 'h5' ? h(Fragment ?? 'div', null, elements.slice()) : elements.slice()
+        isWeb ? h(Fragment ?? 'div', null, elements.slice()) : elements.slice()
       )
     }
   }
 
-  if (process.env.TARO_ENV !== 'h5') {
+  if (!isWeb) {
     renderReactRoot()
   }
 
@@ -273,7 +282,7 @@ export function createReactApp (
       value (options) {
         setRouterParams(options)
 
-        if (process.env.TARO_ENV === 'h5') {
+        if (isWeb) {
           // 由于 H5 路由初始化的时候会清除 app 下的 dom 元素，所以需要在路由初始化后执行 render
           renderReactRoot()
         }
@@ -309,11 +318,7 @@ export function createReactApp (
           triggerAppHook('onLaunch', options)
         }
 
-        if (appWrapper) {
-          onLaunch()
-        } else {
-          appWrapperPromise.then(() => onLaunch())
-        }
+        waitAppWrapper(onLaunch)
       }
     }),
 
@@ -321,46 +326,74 @@ export function createReactApp (
       value (options) {
         setRouterParams(options)
 
-        /**
-         * trigger lifecycle
-         */
-        const app = getAppInstance()
-        // class component, componentDidShow
-        app?.componentDidShow?.(options)
-        // functional component, useDidShow
-        triggerAppHook('onShow', options)
+        const onShow = () => {
+          /**
+          * trigger lifecycle
+          */
+          const app = getAppInstance()
+          // class component, componentDidShow
+          app?.componentDidShow?.(options)
+          // functional component, useDidShow
+          triggerAppHook('onShow', options)
+        }
+
+        waitAppWrapper(onShow)
       }
     }),
 
     [ONHIDE]: setDefaultDescriptor({
       value () {
-        /**
-         * trigger lifecycle
-         */
-        const app = getAppInstance()
-        // class component, componentDidHide
-        app?.componentDidHide?.()
-        // functional component, useDidHide
-        triggerAppHook('onHide')
+        const onHide = () => {
+          /**
+           * trigger lifecycle
+           */
+          const app = getAppInstance()
+          // class component, componentDidHide
+          app?.componentDidHide?.()
+          // functional component, useDidHide
+          triggerAppHook('onHide')
+        }
+
+        waitAppWrapper(onHide)
       }
     }),
 
     onError: setDefaultDescriptor({
       value (error: string) {
-        const app = getAppInstance()
-        app?.onError?.(error)
-        triggerAppHook('onError', error)
-        if (process.env.NODE_ENV !== 'production' && error?.includes('Minified React error')) {
-          console.warn('React 出现报错，请打开编译配置 mini.debugReact 查看报错详情：https://docs.taro.zone/docs/config-detail#minidebugreact')
+        const onError = () => {
+          const app = getAppInstance()
+          app?.onError?.(error)
+          triggerAppHook('onError', error)
+          if (process.env.NODE_ENV !== 'production' && error?.includes('Minified React error')) {
+            console.warn('React 出现报错，请打开编译配置 mini.debugReact 查看报错详情：https://docs.taro.zone/docs/config-detail#minidebugreact')
+          }
         }
+
+        waitAppWrapper(onError)
+      }
+    }),
+
+    onUnhandledRejection: setDefaultDescriptor({
+      value (res: unknown) {
+        const onUnhandledRejection = () => {
+          const app = getAppInstance()
+          app?.onUnhandledRejection?.(res)
+          triggerAppHook('onUnhandledRejection', res)
+        }
+
+        waitAppWrapper(onUnhandledRejection)
       }
     }),
 
     onPageNotFound: setDefaultDescriptor({
       value (res: unknown) {
-        const app = getAppInstance()
-        app?.onPageNotFound?.(res)
-        triggerAppHook('onPageNotFound', res)
+        const onPageNotFound = () => {
+          const app = getAppInstance()
+          app?.onPageNotFound?.(res)
+          triggerAppHook('onPageNotFound', res)
+        }
+
+        waitAppWrapper(onPageNotFound)
       }
     })
   })

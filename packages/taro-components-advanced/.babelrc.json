@@ -1,0 +1,14 @@
+{
+  "presets": [
+    [
+      "taro",
+      {
+        "absoluteRuntime": false,
+        "framework": "advanced",
+        "hot": false,
+        "modules": false,
+        "ts": true
+      }
+    ]
+  ]
+}

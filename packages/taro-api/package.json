@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/api",
-  "version": "3.5.2",
+  "version": "3.6.5-alpha",
   "description": "Taro common API",
   "author": "yuche <i@yuche.me>",
   "homepage": "https://github.com/nervjs/taro/tree/master/packages/api#readme",
@@ -30,6 +30,14 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.14.5",
-    "@tarojs/runtime": "workspace:*"
+    "@tarojs/runtime": "workspace:*",
+    "@tarojs/shared": "workspace:*"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.14.5",
+    "@rollup/plugin-babel": "^5.2.1",
+    "@rollup/plugin-commonjs": "^20.0.0",
+    "@rollup/plugin-node-resolve": "^8.0.0",
+    "rollup": "^2.79.0"
   }
 }

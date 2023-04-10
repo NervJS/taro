@@ -1,7 +1,5 @@
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { Component, h, ComponentInterface, Prop, State, Event, EventEmitter, Host, Watch, Listen, Element, Method } from '@stencil/core'
 import classNames from 'classnames'
-import Hls from 'hls.js'
 
 import { throttle } from '../../utils'
 import {
@@ -12,6 +10,8 @@ import {
   isHls,
   scene
 } from './utils'
+
+import type HLS from 'hls.js'
 
 @Component({
   tag: 'taro-video-core',
@@ -31,10 +31,11 @@ export class Video implements ComponentInterface {
   private lastTouchScreenY: number | undefined
   private isDraggingProgress = false
   private lastVolume: number
-  private lastPercentage
-  private nextPercentage
+  private lastPercentage: number
+  private nextPercentage: number
   private gestureType = 'none'
-  private hls: Hls
+  private HLS: typeof HLS
+  private hls: HLS
 
   @Element() el: HTMLTaroVideoCoreElement
 
@@ -195,7 +196,7 @@ export class Video implements ComponentInterface {
       this.videoRef.currentTime = this.initialTime
     }
     // 目前只支持 danmuList 初始化弹幕列表，还未支持更新弹幕列表
-    this.danmuRef.sendDanmu(this.danmuList)
+    this.danmuRef.sendDanmu?.(this.danmuList)
 
     if (document.addEventListener) {
       document.addEventListener(screenFn.fullscreenchange, this.handleFullScreenChange)
@@ -288,7 +289,7 @@ export class Video implements ComponentInterface {
       this.toastVolumeBarRef.style.width = `${nextVolume * 100}%`
     } else if (gestureObj.type === 'adjustProgress') {
       this.isDraggingProgress = true
-      this.nextPercentage = Math.max(Math.min(this.lastPercentage + gestureObj.dataX, 1), 0)
+      this.nextPercentage = Math.max(Math.min(this.lastPercentage + (gestureObj.dataX || 0), 1), 0)
       if (this.controls && this.showProgress) {
         this.controlsRef.setProgressBall(this.nextPercentage)
         this.controlsRef.toggleVisibility(true)
@@ -325,7 +326,7 @@ export class Video implements ComponentInterface {
   loadNativePlayer = () => {
     if (this.videoRef) {
       this.videoRef.src = this.src
-      this.videoRef.load()
+      this.videoRef.load?.()
     }
   }
 
@@ -333,21 +334,31 @@ export class Video implements ComponentInterface {
     const { src, videoRef } = this
 
     if (isHls(src)) {
-      if (Hls.isSupported()) {
-        if (this.hls) {
-          this.hls.destroy()
+      import(
+        /* webpackMode: "weak" */
+        'hls.js'
+      ).then(e => {
+        const Hls = e.default
+        this.HLS = Hls
+        if (Hls.isSupported()) {
+          if (this.hls) {
+            this.hls.destroy()
+          }
+          this.hls = new Hls()
+          this.hls.loadSource(src)
+          this.hls.attachMedia(videoRef)
+          this.hls.on(Hls.Events.MANIFEST_PARSED, () => {
+            this.autoplay && this.play()
+          })
+          this.hls.on(Hls.Events.ERROR, (_, data) => {
+            this.handleError(data)
+          })
+        } else if (videoRef.canPlayType('application/vnd.apple.mpegurl')) {
+          this.loadNativePlayer()
+        } else {
+          console.error('该浏览器不支持 HLS 播放')
         }
-        this.hls = new Hls()
-        this.hls.loadSource(src)
-        this.hls.attachMedia(videoRef)
-        this.hls.on(Hls.Events.MANIFEST_PARSED, () => {
-          this.autoplay && this.play()
-        })
-      } else if (videoRef.canPlayType('application/vnd.apple.mpegurl')) {
-        this.loadNativePlayer()
-      } else {
-        console.error('该浏览器不支持 HLS 播放')
-      }
+      })
     } else {
       this.loadNativePlayer()
     }
@@ -401,9 +412,25 @@ export class Video implements ComponentInterface {
   }, 250)
 
   handleError = e => {
-    this.onError.emit({
-      errMsg: e.target?.error?.message
-    })
+    if (this.hls) {
+      switch (e.type) {
+        case this.HLS.ErrorTypes.NETWORK_ERROR:
+          // try to recover network error
+          this.onError.emit({ errMsg: e.response })
+          this.hls.startLoad()
+          break
+        case this.HLS.ErrorTypes.MEDIA_ERROR:
+          this.onError.emit({ errMsg: e.reason || '媒体错误,请重试' })
+          this.hls.recoverMediaError()
+          break
+        default:
+          break
+      }
+    } else {
+      this.onError.emit({
+        errMsg: e.target?.error?.message,
+      })
+    }
   }
 
   handleDurationChange = () => {
@@ -423,22 +450,31 @@ export class Video implements ComponentInterface {
     })
   }
 
+  @Method()
+  async getHlsObject() {
+    // Note: H5 端专属方法，获取 HLS 实例 fix #11894
+    return this.hls
+  }
+
   /** 播放视频 */
-  @Method() async play () {
+  @Method()
+  async play () {
     this._play()
   }
 
   _play = () => this.videoRef.play()
 
   /** 暂停视频 */
-  @Method() async pause () {
+  @Method()
+  async pause () {
     this._pause()
   }
 
   _pause = () => this.videoRef.pause()
 
   /** 停止视频 */
-  @Method() async stop () {
+  @Method()
+  async stop () {
     this._stop()
   }
 
@@ -448,7 +484,8 @@ export class Video implements ComponentInterface {
   }
 
   /** 跳转到指定位置 */
-  @Method() async seek (position: number) {
+  @Method()
+  async seek (position: number) {
     this._seek(position)
   }
 
@@ -457,12 +494,14 @@ export class Video implements ComponentInterface {
   }
 
   /** 进入全屏。若有自定义内容需在全屏时展示，需将内容节点放置到 video 节点内。 */
-  @Method() async requestFullScreen () {
+  @Method()
+  async requestFullScreen () {
     this.toggleFullScreen(true)
   }
 
   /** 退出全屏 */
-  @Method() async exitFullScreen () {
+  @Method()
+  async exitFullScreen () {
     this.toggleFullScreen(false)
   }
 

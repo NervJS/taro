@@ -12,14 +12,14 @@ import {
   WebView
 } from 'react-native-webview'
 import { WebViewProps } from './PropsType'
-import utils from '../../utils'
+import { noop } from '../../utils'
 
 const _WebView: React.FC<WebViewProps> = ({
   style,
   src,
-  onMessage = utils.noop,
-  onLoad = utils.noop,
-  onError = utils.noop,
+  onMessage = noop,
+  onLoad = noop,
+  onError = noop,
 }: WebViewProps) => {
   return (
     <WebView

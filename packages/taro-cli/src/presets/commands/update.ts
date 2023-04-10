@@ -1,4 +1,3 @@
-import { IPluginContext } from '@tarojs/service'
 import { exec } from 'child_process'
 import * as inquirer from 'inquirer'
 import * as getLatestVersion from 'latest-version'
@@ -8,6 +7,8 @@ import * as semver from 'semver'
 
 import packagesManagement from '../../config/packagesManagement'
 import { getPkgItemByKey } from '../../util'
+
+import type { IPluginContext } from '@tarojs/service'
 
 export default (ctx: IPluginContext) => {
   ctx.registerCommand({
@@ -68,28 +69,24 @@ export default (ctx: IPluginContext) => {
         child.stdout!.on('data', function (data) {
           spinner.stop()
           console.log(data.replace(/\n$/, ''))
-          spinner.start()
         })
         child.stderr!.on('data', function (data) {
+          spinner.stop()
           spinner.warn(data.replace(/\n$/, ''))
-          spinner.start()
         })
       }
 
       /** 更新全局的 Taro CLI */
       async function updateSelf () {
+        const spinner = ora('正在获取最新版本信息...').start()
         const targetTaroVersion = await getTargetVersion()
+        spinner.stop()
+        console.log(chalk.green(`Taro 最新版本：${targetTaroVersion}\n`))
+
         askNpm(conf, prompts)
         const answers = npm ? { npm } : await inquirer.prompt(prompts)
-        const command = `${packagesManagement[answers.npm].globalCommand}@${targetTaroVersion}`
-        // if (shouldUseYarn()) {
-        //   command = `yarn global add @tarojs/cli@${targetTaroVersion}`
-        // } else if (shouldUseCnpm()) {
-        //   command = `cnpm i -g @tarojs/cli@${targetTaroVersion}`
-        // } else {
-        //   command = `npm i -g @tarojs/cli@${targetTaroVersion}`
-        // }
 
+        const command = `${packagesManagement[answers.npm].globalCommand}@${targetTaroVersion}`
         execUpdate(command, targetTaroVersion, true)
       }
 
@@ -101,34 +98,29 @@ export default (ctx: IPluginContext) => {
         }
         const packageMap = require(pkgPath)
 
-        const version = await getTargetVersion()
-        // 获取 NervJS 版本
-        const nervJSVersion = `^${await getLatestVersion('nervjs')}`
+        const spinner = ora('正在获取最新版本信息...').start()
 
+        const version = await getTargetVersion()
+
+        spinner.stop()
+
+        const oldVersion = packageMap.dependencies['@tarojs/taro']
         // 更新 @tarojs/* 版本和 NervJS 版本
         Object.keys(packageMap.dependencies || {}).forEach((key) => {
           if (UPDATE_PACKAGE_LIST.indexOf(key) !== -1) {
-            if (key.includes('nerv')) {
-              packageMap.dependencies[key] = nervJSVersion
-            } else {
-              packageMap.dependencies[key] = version
-            }
+            packageMap.dependencies[key] = version
           }
         })
         Object.keys(packageMap.devDependencies || {}).forEach((key) => {
           if (UPDATE_PACKAGE_LIST.indexOf(key) !== -1) {
-            if (key.includes('nerv')) {
-              packageMap.devDependencies[key] = nervJSVersion
-            } else {
-              packageMap.devDependencies[key] = version
-            }
+            packageMap.devDependencies[key] = version
           }
         })
 
         // 写入package.json
         try {
           await fs.writeJson(pkgPath, packageMap, { spaces: '\t' })
-          console.log(chalk.green('更新项目 package.json 成功！'))
+          console.log(chalk.green(`项目当前 Taro 版本：${oldVersion}，Taro 最新版本：${version}，更新项目 package.json 成功！`))
           console.log()
         } catch (err) {
           console.error(err)
@@ -138,13 +130,6 @@ export default (ctx: IPluginContext) => {
         const answers = npm ? { npm } : await inquirer.prompt(prompts)
 
         const command = packagesManagement[answers.npm].command
-        // if (shouldUseYarn()) {
-        //   command = 'yarn'
-        // } else if (shouldUseCnpm()) {
-        //   command = 'cnpm install'
-        // } else {
-        //   command = 'npm install'
-        // }
 
         execUpdate(command, version)
       }

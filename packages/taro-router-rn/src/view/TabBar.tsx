@@ -13,9 +13,9 @@ import {
   TouchableWithoutFeedback,
   View
 } from 'react-native'
-import { EdgeInsets,withSafeAreaInsets, WithSafeAreaInsetsProps } from 'react-native-safe-area-context'
+import { EdgeInsets, withSafeAreaInsets, WithSafeAreaInsetsProps } from 'react-native-safe-area-context'
 
-import { getDefalutTabItem, getTabConfig, getTabItemConfig, getTabVisible, isUrl } from '../utils/index'
+import { getDefaultTabItem, getTabConfig, getTabItemConfig, getTabVisible, isUrl } from '../utils/index'
 import TabBarItem, { TabBarOptions, TabOptions } from './TabBarItem'
 import { getInitSafeAreaInsets } from './tabBarUtils'
 
@@ -114,14 +114,19 @@ export class TabBar extends React.PureComponent<TabBarProps & WithSafeAreaInsets
     }
   }
 
-  UNSAFE_componentWillReceiveProps (): void {
+  UNSAFE_componentWillReceiveProps (nextProps): void {
     const curVisible = getTabVisible()
-    const { tabVisible } = this.state
+    const { tabVisible, insets } = this.state
     if (curVisible !== tabVisible) {
       this.setState({
         tabVisible: curVisible
       })
       this.setTabBarHidden(!curVisible)
+    }
+    if(nextProps.insets && insets !== nextProps.insets) {
+      this.setState({
+        insets: nextProps.insets
+      })
     }
   }
 
@@ -220,7 +225,7 @@ export class TabBar extends React.PureComponent<TabBarProps & WithSafeAreaInsets
   }
 
   getTabIconSource (index: number, focused: boolean) {
-    const item: any = getDefalutTabItem(index)
+    const item: any = getDefaultTabItem(index)
     const iconPath = getTabItemConfig(index, 'iconPath') ?? item?.iconPath
     const selectedIconPath = getTabItemConfig(index, 'selectedIconPath') ?? item?.selectedIconPath
     const path = focused ? selectedIconPath : iconPath
@@ -275,10 +280,11 @@ export class TabBar extends React.PureComponent<TabBarProps & WithSafeAreaInsets
         const source = this.getTabIconSource(index, focused)
 
         if (Platform.OS === 'web') {
-          const linkto = this.buildLink(route.name, route.params)
+          const linkTo = this.buildLink(route.name, route.params)
           return (
             <Link
-              to={linkto}
+              key={route.key}
+              to={linkTo}
               style={[]}
               onPress={(e: any) => {
                 if (
@@ -388,7 +394,7 @@ export class TabBar extends React.PureComponent<TabBarProps & WithSafeAreaInsets
                   })
                 }
               ],
-              position: showTabBar ? 'absolute' : (null as any)
+              position: showTabBar ? 'relative' : (null as any)
             },
             style,
             {

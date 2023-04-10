@@ -6,9 +6,10 @@ import {
   REG_SCRIPTS
 } from '@tarojs/helper'
 import { isFunction } from '@tarojs/shared'
-import type { PostcssOption } from '@tarojs/taro/types/compile'
 import fs from 'fs-extra'
 import path from 'path'
+
+import type { PostcssOption } from '@tarojs/taro/types/compile'
 
 export interface IRule {
   test?: any
@@ -35,10 +36,10 @@ export interface IRule {
 export type CssModuleOptionConfig = Exclude<PostcssOption.cssModules['config'], undefined>
 
 export class WebpackModule {
-  static getLoader (loaderName: string, options: Record<string, any>) {
+  static getLoader (loaderName: string, options: Record<string, any> = {}) {
     return {
       loader: require.resolve(loaderName),
-      options: options || {}
+      options
     }
   }
 

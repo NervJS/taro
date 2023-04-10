@@ -1,6 +1,6 @@
 import { createReactApp } from '@tarojs/plugin-framework-react/dist/runtime'
 import { createRouter } from '@tarojs/router'
-import React, { Component } from 'react'
+import React, { Component, PropsWithChildren } from 'react'
 import ReactDOM from 'react-test-renderer'
 
 const appConfig: any = {
@@ -53,7 +53,7 @@ export function waitForChange (dom) {
   })
 }
 
-export const delay = (ms) => {
+export const delay = (ms = 500) => {
   return new Promise<void>((resolve) => {
     setTimeout(() => {
       resolve()
@@ -63,7 +63,7 @@ export const delay = (ms) => {
 
 export function buildApp () {
   const config: any = { ...appConfig }
-  class App extends Component {
+  class App extends Component<PropsWithChildren> {
     render () {
       return this.props.children
     }

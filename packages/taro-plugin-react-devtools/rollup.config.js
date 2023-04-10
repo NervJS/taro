@@ -1,6 +1,6 @@
 import { join } from 'path'
 import copy from 'rollup-plugin-copy'
-import externals from 'rollup-plugin-node-externals'
+import { externals } from 'rollup-plugin-node-externals'
 import ts from 'rollup-plugin-ts'
 
 const cwd = __dirname
@@ -8,7 +8,8 @@ const cwd = __dirname
 const base = {
   plugins: [
     externals({
-      devDeps: false
+      deps: true,
+      devDeps: false,
     }),
     copy({
       targets: [

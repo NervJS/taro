@@ -1,3 +1,5 @@
 templates/*
 !templates/default
 templates/default/.*
+!templates/plugin-compile
+!src/__tests__/env/.*

@@ -22,16 +22,14 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-import { recursiveMerge } from '@tarojs/helper'
 import fs from 'fs-extra'
 import path from 'path'
 import { performance } from 'perf_hooks'
-import webpack, { ProvidePlugin, Stats } from 'webpack'
+import { ProvidePlugin } from 'webpack'
 
 import BasePrebundle, { IPrebundleConfig } from './prebundle'
 import { bundle } from './prebundle/bundle'
 import {
-  createResolve,
   flattenId,
   getBundleHash,
   getMfHash
@@ -39,11 +37,18 @@ import {
 import { MF_NAME } from './utils/constant'
 import TaroModuleFederationPlugin from './webpack/TaroModuleFederationPlugin'
 
+import type { Stats } from 'webpack'
+
 export interface IMiniPrebundleConfig extends IPrebundleConfig {
   runtimePath?: string | string[]
+  isBuildPlugin?: boolean
 }
 
 export class MiniPrebundle extends BasePrebundle<IMiniPrebundleConfig> {
+  getIsBuildPluginPath (filePath, isBuildPlugin) {
+    return isBuildPlugin ? `${filePath}/plugin` : filePath
+  }
+
   async bundle () {
     const PREBUNDLE_START = performance.now()
 
@@ -95,7 +100,6 @@ export class MiniPrebundle extends BasePrebundle<IMiniPrebundleConfig> {
     const BUILD_LIB_START = performance.now()
 
     const exposes: Record<string, string> = {}
-    const mode = process.env.NODE_ENV === 'production' ? 'production' : 'development'
     const devtool = this.config.enableSourceMap && 'hidden-source-map'
     const mainBuildOutput = this.chain.output.entries()
     const taroRuntimeBundlePath: string = this.metadata.taroRuntimeBundlePath || exposes['./@tarojs/runtime']
@@ -112,18 +116,23 @@ export class MiniPrebundle extends BasePrebundle<IMiniPrebundleConfig> {
       cancelAnimationFrame: [taroRuntimeBundlePath, '_caf'],
       Element: [taroRuntimeBundlePath, 'TaroElement'],
       SVGElement: [taroRuntimeBundlePath, 'SVGElement'],
-      MutationObserver: [taroRuntimeBundlePath, 'MutationObserver']
+      MutationObserver: [taroRuntimeBundlePath, 'MutationObserver'],
+      history: [taroRuntimeBundlePath, 'history'],
+      location: [taroRuntimeBundlePath, 'location'],
+      URLSearchParams: [taroRuntimeBundlePath, 'URLSearchParams'],
+      URL: [taroRuntimeBundlePath, 'URL'],
     }
     const customWebpackConfig = this.option.webpack
     if (customWebpackConfig?.provide?.length) {
       customWebpackConfig.provide.forEach(cb => {
         cb(provideObject, taroRuntimeBundlePath)
       })
+      delete customWebpackConfig.provide
     }
 
     this.metadata.mfHash = getMfHash({
       bundleHash: this.metadata.bundleHash,
-      mode,
+      mode: this.mode,
       devtool,
       output,
       taroRuntimeBundlePath
@@ -141,7 +150,7 @@ export class MiniPrebundle extends BasePrebundle<IMiniPrebundleConfig> {
 
       this.metadata.runtimeRequirements = new Set<string>()
 
-      const compiler = webpack(recursiveMerge(this.chain.toConfig(), {
+      const compiler = this.getRemoteWebpackCompiler({
         cache: {
           type: 'filesystem',
           cacheDirectory: path.join(this.cacheDir, 'webpack-cache'),
@@ -151,7 +160,7 @@ export class MiniPrebundle extends BasePrebundle<IMiniPrebundleConfig> {
         },
         devtool,
         entry: path.resolve(__dirname, './webpack/index.js'),
-        mode,
+        mode: this.mode,
         output,
         plugins: [
           new TaroModuleFederationPlugin(
@@ -164,13 +173,15 @@ export class MiniPrebundle extends BasePrebundle<IMiniPrebundleConfig> {
             {
               deps: this.deps,
               env: this.env,
+              platformType: this.platformType,
               remoteAssets: this.metadata.remoteAssets,
+              isBuildPlugin: this.config.isBuildPlugin,
               runtimeRequirements: this.metadata.runtimeRequirements
             }
           ),
           new ProvidePlugin(provideObject)
         ]
-      }, customWebpackConfig))
+      }, customWebpackConfig)
       this.metadata.remoteAssets = await new Promise((resolve, reject) => {
         compiler.run((error: Error, stats: Stats) => {
           compiler.close(err => {
@@ -179,7 +190,11 @@ export class MiniPrebundle extends BasePrebundle<IMiniPrebundleConfig> {
             if (errors[0]) return reject(errors[0])
             const remoteAssets =
               assets
-                ?.filter(item => item.name !== 'runtime.js')
+                ?.filter(
+                  item => this.config.isBuildPlugin
+                    ? item.name !== 'plugin/runtime.js'
+                    : item.name !== 'runtime.js'
+                )
                 ?.map(item => ({
                   name: path.join('prebundle', item.name)
                 })) || []
@@ -192,14 +207,13 @@ export class MiniPrebundle extends BasePrebundle<IMiniPrebundleConfig> {
       this.metadata.remoteAssets = this.preMetadata.remoteAssets
     }
 
-    fs.copy(this.remoteCacheDir, path.join(mainBuildOutput.path, 'prebundle'))
+    fs.copy(this.remoteCacheDir, path.join(this.getIsBuildPluginPath(mainBuildOutput.path, this.config.isBuildPlugin), 'prebundle'))
 
     this.measure(`Build remote ${MF_NAME} duration`, BUILD_LIB_START)
   }
 
   async run () {
     this.isUseCache = true
-    createResolve(this.appPath, this.chain.toConfig().resolve)
 
     /** 扫描出所有的 node_modules 依赖 */
     /**

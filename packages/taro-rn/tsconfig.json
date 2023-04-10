@@ -8,10 +8,10 @@
     "lib": ["ESNEXT"],
     "paths": {
       "react": ["./node_modules/@types/react", "./node_modules/react"],
-      "vue": ["./src/types/vue/index.d.ts"],
+      "vue": ["./src/types/vue/index.d.ts"]
     },
-    "typeRoots": ["./node_modules/@types"],
+    "typeRoots": ["./node_modules/@types"]
   },
   "include": ["./src", "./types"],
-  "exclude": ["./src/__tests__/**"],
+  "exclude": ["./src/__tests__/**"]
 }

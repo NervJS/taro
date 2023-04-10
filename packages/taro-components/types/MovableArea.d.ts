@@ -1,17 +1,15 @@
 import { ComponentType } from 'react'
 import { StandardProps } from './common'
-
 interface MovableAreaProps extends StandardProps {
   /** 当里面的 movable-view 设置为支持双指缩放时，设置此值可将缩放手势生效区域修改为整个 movable-area
    * @default false
-   * @supported weapp, tt
+   * @supported weapp, alipay, swan, tt, qq, jd, h5
    */
   scaleArea?: boolean
 }
-
 /** movable-view 的可移动区域
  * @classification viewContainer
- * @supported weapp, rn
+ * @supported weapp, alipay, swan, tt, qq, jd, h5, rn
  * @example_react
  * ```tsx
  * class App extends Components {
@@ -33,5 +31,4 @@ interface MovableAreaProps extends StandardProps {
  * @see https://developers.weixin.qq.com/miniprogram/dev/component/movable-area.html
  */
 declare const MovableArea: ComponentType<MovableAreaProps>
-
 export { MovableArea, MovableAreaProps }

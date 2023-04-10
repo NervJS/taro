@@ -32,6 +32,14 @@ export interface VirtualListProps {
   overscanCount?: number;
   /** 是否注入 isScrolling 属性到 children 组件。这个参数一般用于实现滚动骨架屏（或其它 placeholder） 时比较有用。 */
   useIsScrolling?: boolean;
+  // 兼容 H5 虚拟列表组件
+  item: ComponentType<{
+    id?: string;
+    style?: React.CSSProperties;
+    data: any;
+    index: number;
+    isScrolling?: boolean;
+  } & ListRenderItemInfo<any>>;
   children: ComponentType<{
     /** 单项的样式，样式必须传入组件的 style 中 */
     style?: Record<string, unknown>;

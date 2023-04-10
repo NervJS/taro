@@ -8,29 +8,37 @@ import webpack, { EntryNormalized } from 'webpack'
 import WebpackDevServer from 'webpack-dev-server'
 
 import { addHtmlSuffix, addLeadingSlash, formatOpenHost, parsePublicPath, stripBasename, stripTrailingSlash } from './utils'
-import H5AppInstance from './utils/H5AppInstance'
-import type { H5BuildConfig } from './utils/types'
+import AppHelper from './utils/app'
+import { bindDevLogger, bindProdLogger, printBuildError } from './utils/logHelper'
 import { H5Combination } from './webpack/H5Combination'
 
-let isFirstBuild = true
+import type { H5BuildConfig } from './utils/types'
 
 export default async function build (appPath: string, rawConfig: H5BuildConfig): Promise<void> {
   const combination = new H5Combination(appPath, rawConfig)
   await combination.make()
 
   const { chunkDirectory = 'chunk', devServer, enableSourceMap, entryFileName = 'app', entry = {}, publicPath } = combination.config
-  const prebundle = new Prebundle({
-    appPath,
-    sourceRoot: combination.sourceRoot,
-    chain: combination.chain,
-    chunkDirectory,
-    devServer,
-    enableSourceMap,
-    entryFileName,
-    entry,
-    publicPath
-  })
-  await prebundle.run(combination.getPrebundleOptions())
+  if (!combination.isBuildNativeComp) {
+    const prebundle = new Prebundle({
+      appPath,
+      sourceRoot: combination.sourceRoot,
+      chain: combination.chain,
+      chunkDirectory,
+      devServer,
+      enableSourceMap,
+      entryFileName,
+      entry,
+      isWatch: combination.config.isWatch,
+      publicPath
+    })
+    try {
+      await prebundle.run(combination.getPrebundleOptions())
+    } catch (error) {
+      console.error(error)
+      console.warn(chalk.yellow('依赖预编译失败，已经为您跳过预编译步骤，但是编译速度可能会受到影响。'))
+    }
+  }
 
   const webpackConfig = combination.chain.toConfig()
   const config = combination.config
@@ -46,6 +54,8 @@ export default async function build (appPath: string, rawConfig: H5BuildConfig):
         callback()
       })
       return new Promise<void>((resolve, reject) => {
+        bindProdLogger(compiler)
+
         compiler.run((error, stats) => {
           compiler.close(error2 => {
             const err = error || error2
@@ -65,28 +75,24 @@ export default async function build (appPath: string, rawConfig: H5BuildConfig):
     } else {
       config.devServer = recursiveMerge(config.devServer || {}, webpackConfig.devServer)
       config.output = webpackConfig.output
+      const routerConfig = config.router || {}
+      const routerMode = routerConfig.mode || 'hash'
+      const routerBasename = routerConfig.basename || '/'
       webpackConfig.devServer = await getDevServerOptions(appPath, config)
+
+      const devUrl = formatUrl({
+        protocol: webpackConfig.devServer?.https ? 'https' : 'http',
+        hostname: formatOpenHost(webpackConfig.devServer?.host),
+        port: webpackConfig.devServer?.port,
+        pathname: routerMode === 'browser' ? routerBasename : '/'
+      })
+      if (typeof webpackConfig.devServer.open === 'undefined') {
+        webpackConfig.devServer.open = devUrl
+      }
+
       const compiler = webpack(webpackConfig)
       const server = new WebpackDevServer(webpackConfig.devServer, compiler)
-
-      compiler.hooks.done.tap('taroDone', () => {
-        if (isFirstBuild) {
-          isFirstBuild = false
-          const routerConfig = config.router || {}
-          const routerMode = routerConfig.mode || 'hash'
-          const routerBasename = routerConfig.basename || '/'
-
-          const devUrl = formatUrl({
-            protocol: webpackConfig.devServer?.https ? 'https' : 'http',
-            hostname: formatOpenHost(webpackConfig.devServer?.host),
-            port: webpackConfig.devServer?.port,
-            pathname: routerMode === 'browser' ? routerBasename : '/'
-          })
-          if (devUrl) {
-            console.log(chalk.cyan(`ℹ Listening at ${devUrl}\n`))
-          }
-        }
-      })
+      bindDevLogger(compiler, devUrl)
 
       compiler.hooks.emit.tapAsync('taroBuildDone', async (compilation, callback) => {
         if (isFunction(config.modifyBuildAssets)) {
@@ -116,6 +122,7 @@ export default async function build (appPath: string, rawConfig: H5BuildConfig):
       return new Promise<void>((resolve, reject) => {
         server.startCallback(err => {
           if (err) {
+            printBuildError(err)
             reject(err)
             return console.log(err)
           }
@@ -130,21 +137,28 @@ export default async function build (appPath: string, rawConfig: H5BuildConfig):
 }
 
 async function getDevServerOptions (appPath: string, config: H5BuildConfig): Promise<WebpackDevServer.Configuration> {
+  if (config.isBuildNativeComp) {
+    return {
+      devMiddleware: {
+        writeToDisk: true
+      }
+    }
+  }
   const publicPath = parsePublicPath(config.publicPath)
   const outputPath = path.join(appPath, config.outputRoot || 'dist')
-  const customDevServerOption = config.devServer || {}
+  const { proxy: customProxy = [], ...customDevServerOption } = config.devServer || {}
   const routerConfig = config.router || {}
   const routerMode = routerConfig.mode || 'hash'
   const isMultiRouterMode = routerMode === 'multi'
-  const proxy = {}
+  const proxy: WebpackDevServer.Configuration['proxy'] = []
   if (isMultiRouterMode) {
-    const app = new H5AppInstance(config.entry as EntryNormalized, {
+    const app = new AppHelper(config.entry as EntryNormalized, {
       sourceDir: path.join(appPath, config.sourceRoot || SOURCE_DIR),
       frameworkExts: config.frameworkExts,
       entryFileName: config.entryFileName
     })
     const appConfig = app.appConfig
-    const customRoutes = routerConfig?.customRoutes || {}
+    const customRoutes = routerConfig.customRoutes || {}
     const routerBasename = routerConfig.basename || '/'
     const getEntriesRoutes = (customRoutes: Record<string, string | string[]> = {}) => {
       const conf: string[][] = []
@@ -163,27 +177,45 @@ async function getDevServerOptions (appPath: string, config: H5BuildConfig): Pro
       if (req.headers.accept?.indexOf('html') !== -1) {
         const pagePath = stripTrailingSlash(stripBasename(req.path, routerBasename))
         // console.log('bypass:' + req.path, pagePath)
+        const getBypassUrl = url => addHtmlSuffix(addLeadingSlash(url))
         if (pagePath === '') {
-          return addHtmlSuffix(appConfig.entryPagePath || appConfig.pages?.[0])
+          return getBypassUrl(appConfig.entryPagePath || appConfig.pages?.[0])
         }
 
         const pageIdx = (appConfig.pages ?? []).findIndex(e => addLeadingSlash(e) === pagePath)
         if (pageIdx > -1) {
-          return addHtmlSuffix(appConfig.pages?.[pageIdx])
+          return getBypassUrl(appConfig.pages?.[pageIdx])
         }
 
         const customRoutesConf = getEntriesRoutes(customRoutes)
         const idx = getEntriesRoutes(customRoutes).findIndex(list => list[1] === pagePath)
         if (idx > -1) {
           // NOTE: 自定义路由
-          return addHtmlSuffix(customRoutesConf[idx][0])
+          return getBypassUrl(customRoutesConf[idx][0])
         }
       }
     }
-    proxy[routerBasename] = { bypass }
+    proxy.push({
+      context: [routerBasename],
+      bypass
+    })
   }
 
-  const chunkFilename = config.output.chunkFilename ?? `${config.chunkDirectory || 'chunk'}/[name].js`
+  if (!(customProxy instanceof Array)) {
+    proxy.push(...Object.entries(customProxy).map(([url, options = {}]) => {
+      const item: WebpackDevServer.ProxyConfigArrayItem = {
+        context: [url]
+      }
+      if (typeof options === 'string') {
+        item.target = options
+      } else {
+        Object.assign(item, options)
+      }
+      return item
+    }))
+  }
+
+  const chunkFilename = config.output?.chunkFilename as string ?? `${config.chunkDirectory || 'chunk'}/[name].js`
   const devServerOptions: WebpackDevServer.Configuration = recursiveMerge<any>(
     {
       devMiddleware: {
@@ -202,7 +234,6 @@ async function getDevServerOptions (appPath: string, config: H5BuildConfig): Pro
       hot: 'only',
       https: false,
       // inline: true, // the inline option (iframe live mode) was removed
-      open: [publicPath],
       client: {
         overlay: true
       },
@@ -226,14 +257,13 @@ async function getDevServerOptions (appPath: string, config: H5BuildConfig): Pro
     customDevServerOption
   )
 
-  const originalPort = devServerOptions.port
-  const availablePort = await detectPort(Number(originalPort))
+  const originalPort = Number(devServerOptions.port)
+  const availablePort = await detectPort(originalPort)
 
   if (availablePort !== originalPort) {
     console.log(`ℹ 预览端口 ${originalPort} 被占用, 自动切换到空闲端口 ${availablePort}`)
     devServerOptions.port = availablePort
   }
 
-  devServerOptions.host = formatOpenHost(devServerOptions.host)
   return devServerOptions
 }

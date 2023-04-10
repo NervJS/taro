@@ -1,15 +1,16 @@
 import {
   addLeadingSlash, Current, document, eventHandler,
-  incrementId, injectPageInstance, Instance, safeExecute,
+  incrementId, injectPageInstance, Instance, removePageInstance, safeExecute,
   TaroRootElement
 } from '@tarojs/runtime'
 import { EMPTY_OBJ } from '@tarojs/shared'
-import type { PageInstance } from '@tarojs/taro'
-import type * as React from 'react'
 
 import { setReconciler } from './connect'
 import { reactMeta } from './react-meta'
 import { isClassComponent } from './utils'
+
+import type { PageInstance } from '@tarojs/taro'
+import type * as React from 'react'
 
 declare const getCurrentPages: () => PageInstance[]
 
@@ -105,6 +106,8 @@ function initNativeComponentEntry (R: typeof React, ReactDOM) {
       const next = [...components.slice(0, index), ...components.slice(index + 1)]
       this.setState({
         components: next
+      }, () => {
+        removePageInstance(compId)
       })
     }
 
@@ -140,7 +143,7 @@ export function createNativeComponentConfig (Component, react: typeof React, rea
         type: null,
         value: null,
         observer (_newVal, oldVal) {
-          oldVal && this.component.forceUpdate()
+          oldVal && this.component?.forceUpdate()
         }
       }
     },
@@ -159,6 +162,7 @@ export function createNativeComponentConfig (Component, react: typeof React, rea
       safeExecute(this.compId, 'onReady')
     },
     detached () {
+      resetCurrent()
       Current.app!.unmount!(this.compId)
     },
     pageLifetimes: {
@@ -170,8 +174,20 @@ export function createNativeComponentConfig (Component, react: typeof React, rea
       }
     },
     methods: {
-      eh: eventHandler
+      eh: eventHandler,
+      onLoad (options) {
+        safeExecute(this.compId, 'onLoad', options)
+      },
+      onUnload () {
+        safeExecute(this.compId, 'onUnload')
+      }
     }
+  }
+  
+  function resetCurrent () {
+    // 小程序插件页面卸载之后返回到宿主页面时，需重置Current页面和路由。否则引发插件组件二次加载异常 fix:#11991
+    Current.page = null
+    Current.router = null
   }
 
   function setCurrent (compId: string) {

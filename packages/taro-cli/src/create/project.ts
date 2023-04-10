@@ -17,9 +17,10 @@ import * as semver from 'semver'
 
 import { clearConsole } from '../util'
 import Creator from './creator'
-import type { ITemplates } from './fetchTemplate'
 import fetchTemplate from './fetchTemplate'
 import { createApp } from './init'
+
+import type { ITemplates } from './fetchTemplate'
 
 export interface IProjectConf {
   projectName: string
@@ -44,7 +45,7 @@ interface AskMethods {
   (conf: IProjectConf, prompts: Record<string, unknown>[], choices?: ITemplates[]): void
 }
 
-const NONE_AVALIABLE_TEMPLATE = '无可用模板'
+const NONE_AVAILABLE_TEMPLATE = '无可用模板'
 
 export default class Project extends Creator {
   public rootPath: string
@@ -315,6 +316,7 @@ export default class Project extends Creator {
       type: 'input',
       name: 'templateSource',
       message: '请输入模板源！',
+      askAnswered: true,
       when (answers) {
         return answers.templateSource === 'self-input'
       }
@@ -326,6 +328,7 @@ export default class Project extends Creator {
         const choices = await getOpenSourceTemplates(answers.framework)
         return choices
       },
+      askAnswered: true,
       when (answers) {
         return answers.templateSource === 'open-source'
       }
@@ -393,7 +396,7 @@ export default class Project extends Creator {
       this.conf.template = 'default'
       answers.templateSource = DEFAULT_TEMPLATE_SRC_GITEE
     }
-    if (this.conf.template === 'default' || answers.templateSource === NONE_AVALIABLE_TEMPLATE) return Promise.resolve([])
+    if (this.conf.template === 'default' || answers.templateSource === NONE_AVAILABLE_TEMPLATE) return Promise.resolve([])
 
     // 从模板源下载模板
     const isClone = /gitee/.test(this.conf.templateSource) || this.conf.clone
@@ -423,7 +426,7 @@ export default class Project extends Creator {
 
 function getOpenSourceTemplates (platform) {
   return new Promise((resolve, reject) => {
-    const spinner = ora('正在拉取开源模板列表...').start()
+    const spinner = ora({ text: '正在拉取开源模板列表...', discardStdin: false }).start()
     request.get('https://gitee.com/NervJS/awesome-taro/raw/next/index.json', (error, _response, body) => {
       if (error) {
         spinner.fail(chalk.red('拉取开源模板列表失败！'))
@@ -440,7 +443,7 @@ function getOpenSourceTemplates (platform) {
         case 'vue':
           return resolve(collection.vue)
         default:
-          return resolve([NONE_AVALIABLE_TEMPLATE])
+          return resolve([NONE_AVAILABLE_TEMPLATE])
       }
     })
   })

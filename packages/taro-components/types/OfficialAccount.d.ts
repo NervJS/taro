@@ -1,18 +1,15 @@
 import { ComponentType } from 'react'
 import { StandardProps, CommonEventFunction } from './common'
-
 interface OfficialAccountProps extends StandardProps {
   /** 组件加载成功时触发
    * @supported weapp
    */
   onLoad?: CommonEventFunction<OfficialAccountProps.Detail>
-
   /** 组件加载失败时触发
    * @supported weapp
    */
   onError?: CommonEventFunction<OfficialAccountProps.Detail>
 }
-
 declare namespace OfficialAccountProps {
   /** detail 对象 */
   interface Detail {
@@ -43,7 +40,6 @@ declare namespace OfficialAccountProps {
     6
   }
 }
-
 /** 公众号关注组件。当用户扫小程序码打开小程序时，开发者可在小程序内配置公众号关注组件，方便用户快捷关注公众号，可嵌套在原生组件内。
  *
  * Tips
@@ -59,5 +55,4 @@ declare namespace OfficialAccountProps {
  * @see https://developers.weixin.qq.com/miniprogram/dev/component/official-account.html
  */
 declare const OfficialAccount: ComponentType<OfficialAccountProps>
-
 export { OfficialAccount, OfficialAccountProps }

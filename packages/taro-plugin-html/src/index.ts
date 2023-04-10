@@ -1,30 +1,22 @@
-
 import generator from '@babel/generator'
 import * as parser from '@babel/parser'
 import traverse from '@babel/traverse'
 import * as t from '@babel/types'
-import type { IPluginContext, TaroPlatformBase } from '@tarojs/service'
 import { isArray, isString } from '@tarojs/shared'
 import * as path from 'path'
 
-interface IOptions {
+import type { IPluginContext, TaroPlatformBase } from '@tarojs/service'
+import type { IComponentConfig } from '@tarojs/taro/types/compile/hooks'
+
+export interface IOptions {
   pxtransformBlackList?: any[]
   modifyElements?(inline: string[], block: string[]): void
   enableSizeAPIs?: boolean
 }
 
-interface IComponentConfig {
-  includes: Set<string>
-}
-
 interface OnParseCreateElementArgs {
   nodeName: string
   componentConfig: IComponentConfig
-}
-
-interface ModifyComponentConfigArgs {
-  componentConfig: IComponentConfig
-  config: Record<string, any>
 }
 
 export default (ctx: IPluginContext, options: IOptions) => {
@@ -49,7 +41,7 @@ export default (ctx: IPluginContext, options: IOptions) => {
       injectRuntimePath(platform)
     }
   })
-  // React 收集使用到的小程序组件
+  // 映射、收集使用到的小程序组件
   ctx.onParseCreateElement(({ nodeName, componentConfig }: OnParseCreateElementArgs) => {
     if (!(
       inlineElements.includes(nodeName) ||
@@ -72,14 +64,6 @@ export default (ctx: IPluginContext, options: IOptions) => {
       const maps = special[nodeName]
       maps.forEach(item => {
         !includes.has(item) && includes.add(item)
-      })
-    }
-  })
-  // 如果组件使用渲染函数而不是模板，我们分析不了使用到的内置组件，所以只能默认加上所有 HTML 对应的小程序组件模板
-  ctx.modifyComponentConfig(({ componentConfig, config }: ModifyComponentConfigArgs) => {
-    if (config.framework === 'vue' || config.framework === 'vue3') {
-      ['audio', 'button', 'canvas', 'form', 'label', 'progress', 'textarea', 'video', 'navigator', 'web-view', 'image', 'input', 'checkbox', 'radio'].forEach(item => {
-        componentConfig.includes.add(item)
       })
     }
   })
@@ -130,25 +114,27 @@ function patchMappingElements (ctx: IPluginContext, options: IOptions, inlineEle
   const content = helper.fs.readFileSync(filePath).toString()
   const ast = parser.parse(content, { sourceType: 'unambiguous' })
 
-  options.modifyElements?.(inlineElements, blockElements)
+  if (t.isNode(ast)) {
+    options.modifyElements?.(inlineElements, blockElements)
 
-  traverse(ast, {
-    VariableDeclarator (path) {
-      const node = path.node
-      const varid = node.id
-      if (varid.type === 'Identifier') {
-        if (varid.name === 'inlineElements') {
-          node.init = getNewExpression(inlineElements)
-        }
-        if (varid.name === 'blockElements') {
-          node.init = getNewExpression(blockElements)
+    traverse(ast, {
+      VariableDeclarator (path) {
+        const node = path.node
+        const varId = node.id
+        if (varId.type === 'Identifier') {
+          if (varId.name === 'inlineElements') {
+            node.init = getNewExpression(inlineElements)
+          }
+          if (varId.name === 'blockElements') {
+            node.init = getNewExpression(blockElements)
+          }
         }
       }
-    }
-  })
+    })
 
-  const str = generator(ast).code
-  helper.fs.writeFileSync(filePath, str)
+    const str = generator(ast).code
+    helper.fs.writeFileSync(filePath, str)
+  }
 }
 
 function getNewExpression (elements: string[]) {

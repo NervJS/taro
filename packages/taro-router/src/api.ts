@@ -1,11 +1,12 @@
 import Taro from '@tarojs/taro'
 import { parsePath } from 'history'
 
-import type { NavigateBackOption, Option } from '../types/api'
 import { history, prependBasename } from './history'
 import { RouterConfig } from './router'
 import stacks from './router/stack'
 import { addLeadingSlash, routesAlias } from './utils'
+
+import type { NavigateBackOption, Option } from '../types/api'
 
 type MethodName = 'navigateTo' | 'navigateBack' | 'switchTab' | 'redirectTo' | 'reLaunch'
 
@@ -39,6 +40,7 @@ function processNavigateUrl (option: Option) {
 
 async function navigate (option: Option | NavigateBackOption, method: MethodName) {
   return new Promise<TaroGeneral.CallbackResult>((resolve, reject) => {
+    stacks.method = method
     const { success, complete, fail } = option
     const unListen = history.listen(() => {
       const res = { errMsg: `${method}:ok` }
@@ -97,9 +99,9 @@ export function reLaunch (option: Taro.reLaunch.Option): ReturnType<typeof Taro.
 }
 
 export function getCurrentPages (): Taro.Page[] {
-  if (process.env.NODE_ENV === 'development' && RouterConfig.mode === 'multi') {
+  if (process.env.NODE_ENV !== 'production' && RouterConfig.mode === 'multi') {
     console.warn('多页面路由模式不支持使用 getCurrentPages 方法！')
   }
   const pages = stacks.get()
-  return pages.map(e => ({ ...e, route: e.path || '' }))
+  return pages.map(e => ({ ...e, route: e.path?.replace(/\?.*/g, '') || '' }))
 }

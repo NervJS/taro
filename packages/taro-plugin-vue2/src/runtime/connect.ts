@@ -1,20 +1,22 @@
-import type { AppInstance, VueAppInstance, VueInstance } from '@tarojs/runtime'
 import {
   Current,
   document,
   injectPageInstance
 } from '@tarojs/runtime'
-import { ensure, hooks, isBoolean, isFunction, noop } from '@tarojs/shared'
+import { ensure, hooks, isBoolean, isFunction, isWebPlatform, noop } from '@tarojs/shared'
+
+import { setDefaultDescriptor, setRouterParams } from './utils'
+
+import type { AppInstance, VueAppInstance, VueInstance } from '@tarojs/runtime'
 import type { AppConfig } from '@tarojs/taro'
 /* eslint-disable import/no-duplicates */
 import type VueCtor from 'vue'
-import type { ComponentOptions, VNode, VueConstructor } from 'vue'
-
-import { setDefaultDescriptor, setRouterParams } from './utils'
+import type { ComponentOptions, CreateElement, VNode, VueConstructor } from 'vue'
 
 export type V = typeof VueCtor
 
 let Vue
+const isWeb = isWebPlatform()
 
 function setReconciler () {
   hooks.tap('onRemoveAttribute', function (dom, qualifiedName) {
@@ -31,20 +33,20 @@ function setReconciler () {
     return instance.$options[lifecycle]
   })
 
-  if (process.env.TARO_ENV === 'h5') {
+  if (isWeb) {
     hooks.tap('createPullDownComponent', (el, path, vue: VueConstructor) => {
       const injectedPage = vue.extend({
         props: {
           tid: String
         },
-        mixins: [el as ComponentOptions<Vue>, {
+        mixins: [el as ComponentOptions<VueCtor>, {
           created () {
             injectPageInstance(this, path)
           }
         }]
       })
 
-      const options: ComponentOptions<Vue> = {
+      const options: ComponentOptions<VueCtor> = {
         name: 'PullToRefresh',
         render (h) {
           return h(
@@ -82,11 +84,11 @@ export function connectVuePage (Vue: VueConstructor, id: string) {
     const options: ComponentOptions<VueCtor> = {
       render (h) {
         return h(
-          process.env.TARO_ENV === 'h5' ? 'div' : 'root',
+          isWeb ? 'div' : 'root',
           {
             attrs: {
               id,
-              class: process.env.TARO_ENV === 'h5' ? 'taro_page' : ''
+              class: isWeb ? 'taro_page' : ''
             }
           },
           [
@@ -108,7 +110,7 @@ export function createVueApp (App: ComponentOptions<VueCtor>, vue: V, config: Ap
   Vue = vue
   Vue.config.getTagNamespace = noop
   const elements: VNode[] = []
-  const pages: Array<(h: Vue.CreateElement) => VNode> = []
+  const pages: Array<(h: CreateElement) => VNode> = []
   let appInstance: VueAppInstance
 
   setReconciler()
@@ -145,7 +147,7 @@ export function createVueApp (App: ComponentOptions<VueCtor>, vue: V, config: Ap
     }
   })
 
-  if (process.env.TARO_ENV !== 'h5') {
+  if (!isWeb) {
     wrapper.$mount(document.getElementById('app') as any)
   }
 
@@ -170,7 +172,7 @@ export function createVueApp (App: ComponentOptions<VueCtor>, vue: V, config: Ap
       value (options) {
         setRouterParams(options)
 
-        if (process.env.TARO_ENV === 'h5') {
+        if (isWeb) {
           // 由于 H5 路由初始化的时候会清除 app 下的 dom 元素，所以需要在路由初始化后再执行 render
           wrapper.$mount(document.getElementById(config?.appId || 'app') as any)
         }
@@ -204,6 +206,14 @@ export function createVueApp (App: ComponentOptions<VueCtor>, vue: V, config: Ap
       value (error) {
         if (appInstance != null && isFunction(appInstance.$options.onError)) {
           appInstance.$options.onError.call(appInstance, error)
+        }
+      }
+    }),
+
+    onUnhandledRejection: setDefaultDescriptor({
+      value (error) {
+        if (appInstance != null && isFunction(appInstance.$options.onUnhandledRejection)) {
+          appInstance.$options.onUnhandledRejection.call(appInstance, error)
         }
       }
     }),

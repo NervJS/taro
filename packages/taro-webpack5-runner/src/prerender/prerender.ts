@@ -1,11 +1,12 @@
 import { isFunction, isObject, isString, noop, Shortcuts } from '@tarojs/shared'
-import type { IAdapter } from '@tarojs/shared/dist/template'
 import fs from 'fs'
 import { join } from 'path'
-import type { NodeVM } from 'vm2'
 import { Configuration, Stats, StatsCompilation } from 'webpack'
 
 import { printPrerenderFail, printPrerenderSuccess } from '../utils/logHelper'
+
+import type { IAdapter, RecursiveTemplate, UnRecursiveTemplate } from '@tarojs/shared/dist/template'
+import type { NodeVM } from 'vm2'
 import type { MiniBuildConfig } from '../utils/types'
 
 type Attributes = Record<string, string>
@@ -25,7 +26,7 @@ function getAttrValue (value) {
     try {
       const res = JSON.stringify(value)
       return `'${res}'`
-    } catch (error) {}
+    } catch (error) {} // eslint-disable-line no-empty
   }
 
   if (value === 'true' || value === 'false' || !isString(value)) {
@@ -109,16 +110,18 @@ export class Prerender {
   private stat: StatsCompilation
   private vm: NodeVM
   private appLoaded = false
+  private template: RecursiveTemplate | UnRecursiveTemplate
   private adapter: IAdapter
 
-  public constructor (buildConfig: MiniBuildConfig, webpackConfig: Configuration, stat: Stats, adapter) {
+  public constructor (buildConfig: MiniBuildConfig, webpackConfig: Configuration, stat: Stats, template: RecursiveTemplate | UnRecursiveTemplate) {
     const VM = require('vm2').NodeVM
     this.buildConfig = buildConfig
     this.outputPath = webpackConfig.output!.path!
     this.globalObject = webpackConfig.output!.globalObject!
     this.prerenderConfig = buildConfig.prerender!
     this.stat = stat.toJson()
-    this.adapter = adapter
+    this.template = template
+    this.adapter = template.Adapter
     this.vm = new VM({
       console: this.prerenderConfig.console ? 'inherit' : 'off',
       require: {
@@ -199,7 +202,17 @@ export class Prerender {
   }
 
   private renderToXML = (data: MiniData) => {
+    const componentAlias = this.template.componentsAlias
     let nodeName = data[Shortcuts.NodeName]
+
+    // covert alias to nodeName
+    for (const key in componentAlias) {
+      const obj = componentAlias[key]
+      if (obj._num === nodeName) {
+        nodeName = key
+        break
+      }
+    }
 
     if (nodeName === '#text') {
       return data[Shortcuts.Text]
@@ -282,7 +295,7 @@ export class Prerender {
       `, this.outputPath)
 
       dataReceiver((data) => {
-        const domTree = data['root.cn.[0]'] || data['root.cn[0]']
+        const domTree = data['root.cn.[0]'] || data['root.cn[0]'] || data['root.cn']?.[0]
         if (domTree == null) {
           reject(new Error('初始化渲染没有任何数据。'))
         }

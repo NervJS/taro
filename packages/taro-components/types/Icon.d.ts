@@ -1,24 +1,24 @@
 import { ComponentType } from 'react'
 import { StandardProps } from './common'
-
 interface IconProps extends StandardProps {
   /** icon 的类型
-   * @supported weapp, swan, alipay, tt, h5, rn
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn
    */
   type: keyof IconProps.TIconType
-
   /** icon 的大小，单位px
    * @default 23
-   * @supported weapp, swan, alipay, tt, h5, rn
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn
    */
-  size?: string,
-
+  size?: string
   /** icon 的颜色，同 css 的 color
-   * @supported weapp, swan, alipay, tt, h5, rn
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn
    */
   color?: string
+  /** 无障碍访问，（属性）元素的额外描述
+   * @supported qq
+   */
+  ariaLabel?: string
 }
-
 declare namespace IconProps {
   /** icon 的类型 */
   interface TIconType {
@@ -46,10 +46,9 @@ declare namespace IconProps {
     info_circle
   }
 }
-
 /** 图标。组件属性的长度单位默认为 px
  * @classification base
- * @supported weapp, swan, alipay, tt, h5, rn
+ * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony
  * @example_react
  * ```tsx
  * export default class PageView extends Component {
@@ -95,5 +94,4 @@ declare namespace IconProps {
  * @see https://developers.weixin.qq.com/miniprogram/dev/component/icon.html
  */
 declare const Icon: ComponentType<IconProps>
-
 export { Icon, IconProps }

@@ -4,45 +4,52 @@
  * Author Tobias Koppers @sokra and Zackary Jackson @ScriptedAlchemy
 */
 import _ from 'lodash'
-import { Compiler, sharing } from 'webpack'
 import ModuleFederationPlugin from 'webpack/lib/container/ModuleFederationPlugin'
 import isValidExternalsType from 'webpack/schemas/plugins/container/ExternalsType.check.js'
-import type { ContainerReferencePluginOptions, ModuleFederationPluginOptions } from 'webpack/types'
 
 import { CollectedDeps } from '../utils/constant'
 import TaroContainerPlugin from './TaroContainerPlugin'
 import TaroContainerReferencePlugin from './TaroContainerReferencePlugin'
 
-const { SharePlugin } = sharing
+import type { PLATFORM_TYPE } from '@tarojs/shared'
+import type { Compiler, LibraryOptions } from 'webpack'
+import type { ContainerReferencePluginOptions, ModuleFederationPluginOptions } from 'webpack/types'
 
 const PLUGIN_NAME = 'TaroModuleFederationPlugin'
 
 interface IParams {
   deps: CollectedDeps
   env: string
+  isBuildPlugin?: boolean
+  platformType: PLATFORM_TYPE
   remoteAssets?: Record<'name', string>[]
   runtimeRequirements: Set<string>
 }
 
 export default class TaroModuleFederationPlugin extends ModuleFederationPlugin {
   private deps: IParams['deps']
+  private isBuildPlugin: IParams['isBuildPlugin']
   private remoteAssets: IParams['remoteAssets']
   private runtimeRequirements: IParams['runtimeRequirements']
 
   protected _options: ModuleFederationPluginOptions
+  protected _Library: LibraryOptions
 
   constructor (options: ModuleFederationPluginOptions, private params: IParams) {
     super(options)
 
     this.deps = params.deps
+    this.isBuildPlugin = params.isBuildPlugin || false
     this.remoteAssets = params.remoteAssets || []
     this.runtimeRequirements = params.runtimeRequirements
+    this._Library = { type: 'var', name: options.name }
   }
 
   /** Apply the plugin */
   apply (compiler: Compiler) {
+    const { SharePlugin } = compiler.webpack.sharing
     const { _options: options } = this
-    const library = options.library || { type: 'var', name: options.name }
+    const library = options.library || this._Library
     const remoteType = options.remoteType ||
       (options.library && isValidExternalsType(options.library.type)
         ? (options.library.type as ContainerReferencePluginOptions['remoteType'])
@@ -64,6 +71,7 @@ export default class TaroModuleFederationPlugin extends ModuleFederationPlugin {
           },
           {
             env: this.params.env,
+            platformType: this.params.platformType,
             runtimeRequirements: this.runtimeRequirements
           }
         ).apply(compiler)
@@ -78,7 +86,9 @@ export default class TaroModuleFederationPlugin extends ModuleFederationPlugin {
           {
             deps: this.deps,
             env: this.params.env,
+            platformType: this.params.platformType,
             remoteAssets: this.remoteAssets,
+            isBuildPlugin: this.isBuildPlugin,
             runtimeRequirements: this.runtimeRequirements
           }
         ).apply(compiler)

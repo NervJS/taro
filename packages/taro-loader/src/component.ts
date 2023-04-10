@@ -1,6 +1,7 @@
 import { normalizePath } from '@tarojs/helper'
 import { getOptions, stringifyRequest } from 'loader-utils'
 import * as path from 'path'
+
 import type * as webpack from 'webpack'
 
 export default function (this: webpack.LoaderContext<any>) {
@@ -24,5 +25,6 @@ if (typeof PRERENDER !== 'undefined') {
 import component from ${stringify(componentPath)}
 var inst = Component(createComponentConfig(component, '${options.name}'))
 ${options.prerender ? prerender : ''}
+export default component
 `
 }

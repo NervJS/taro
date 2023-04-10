@@ -1,4 +1,6 @@
-import { inlineStyle } from '../../../utils'
+import { Current } from '@tarojs/runtime'
+
+import { getCurrentPath, inlineStyle } from '../../../utils'
 
 export default class Toast {
   options = {
@@ -75,6 +77,7 @@ export default class Toast {
     }
   }
 
+  currentPath: string | null
   el: HTMLDivElement
   mask: HTMLDivElement
   icon: HTMLParagraphElement
@@ -150,6 +153,9 @@ export default class Toast {
     // disappear after duration
     config.duration >= 0 && this.hide(config.duration, this.type)
 
+    // Current.page不存在时说明路由还未挂载，此时需根据url来分配将要渲染的页面path
+    this.currentPath = Current.page?.path ?? getCurrentPath()
+
     return ''
   }
 
@@ -203,14 +209,19 @@ export default class Toast {
     // disappear after duration
     config.duration >= 0 && this.hide(config.duration, this.type)
 
+    // Current.page不存在时说明路由还未挂载，此时需根据url来分配将要渲染的页面path
+    this.currentPath = Current.page?.path ?? getCurrentPath()
+
     return ''
   }
 
-  hide (duration = 0, type) {
-    if (this.type !== type) return
+  hide (duration = 0, type = '') {
+    if (type && type !== this.type) return
 
     if (this.hideOpacityTimer) clearTimeout(this.hideOpacityTimer)
     if (this.hideDisplayTimer) clearTimeout(this.hideDisplayTimer)
+
+    this.currentPath = null
 
     this.hideOpacityTimer = setTimeout(() => {
       this.el.style.opacity = '0'

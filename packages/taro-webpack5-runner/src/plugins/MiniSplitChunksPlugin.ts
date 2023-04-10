@@ -3,10 +3,9 @@ import { isArray, isFunction, isString } from '@tarojs/shared'
 import { AppConfig, SubPackage } from '@tarojs/taro'
 import md5 from 'md5'
 import path from 'path'
-import { Chunk, ChunkGraph, Compilation, Compiler, Module, sources } from 'webpack'
 import SplitChunksPlugin from 'webpack/lib/optimize/SplitChunksPlugin'
-import { ConcatSource, RawSource } from 'webpack-sources'
 
+import type { Chunk, ChunkGraph, Compilation, Compiler, Module, sources } from 'webpack'
 import type { IFileType } from '../utils/types'
 
 const PLUGIN_NAME = 'MiniSplitChunkPlugin' // 插件名
@@ -324,7 +323,8 @@ export default class MiniSplitChunksPlugin extends SplitChunksPlugin {
 
   apply (compiler: Compiler) {
     const { webpack, context, options } = compiler
-    const { util, Compilation } = webpack
+    const { util, Compilation, sources } = webpack
+    const { ConcatSource, RawSource } = sources
 
     this.context = context
     this.subPackages = this.getSubpackageConfig(compiler).map((subPackage: SubPackage) => ({

@@ -108,7 +108,7 @@ class ScrollView extends React.Component<IProps> {
         scrollIntoView(props.scrollIntoView)
       }
     } else {
-      const isAnimation = 'scrollWithAnimation' in props
+      const isAnimation = !!props.scrollWithAnimation
       // Y 轴滚动
       if (props.scrollY && typeof props.scrollTop === 'number' && props.scrollTop !== this._scrollTop) {
         if (isInit) {

@@ -1,4 +1,5 @@
 import { PLATFORMS, taroJsComponents } from '@tarojs/helper'
+import { isArray, isFunction, PLATFORM_TYPE } from '@tarojs/shared'
 import * as path from 'path'
 
 import { createTarget } from '../plugins/MiniPlugin'
@@ -114,6 +115,7 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
 
   env.FRAMEWORK = JSON.stringify(framework)
   env.TARO_ENV = JSON.stringify(buildAdapter)
+  env.TARO_PLATFORM = JSON.stringify(process.env.TARO_PLATFORM || PLATFORM_TYPE.MINI)
   const runtimeConstants = getRuntimeConstants(runtime)
   const constantsReplaceList = mergeOption([processEnvOption(env), defineConstants, runtimeConstants])
   const entryRes = getEntry({
@@ -125,9 +127,9 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
     ? ['plugin/runtime', 'plugin/vendors', 'plugin/taro', 'plugin/common']
     : ['runtime', 'vendors', 'taro', 'common']
   let customCommonChunks = defaultCommonChunks
-  if (typeof commonChunks === 'function') {
+  if (isFunction(commonChunks)) {
     customCommonChunks = commonChunks(defaultCommonChunks.concat()) || defaultCommonChunks
-  } else if (Array.isArray(commonChunks) && commonChunks.length) {
+  } else if (isArray(commonChunks) && commonChunks.length) {
     customCommonChunks = commonChunks
   }
   plugin.definePlugin = getDefinePlugin([constantsReplaceList])
@@ -186,7 +188,11 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
     cancelAnimationFrame: ['@tarojs/runtime', 'cancelAnimationFrame'],
     Element: ['@tarojs/runtime', 'TaroElement'],
     SVGElement: ['@tarojs/runtime', 'SVGElement'],
-    MutationObserver: ['@tarojs/runtime', 'MutationObserver']
+    MutationObserver: ['@tarojs/runtime', 'MutationObserver'],
+    history: ['@tarojs/runtime', 'history'],
+    location: ['@tarojs/runtime', 'location'],
+    URLSearchParams: ['@tarojs/runtime', 'URLSearchParams'],
+    URL: ['@tarojs/runtime', 'URL'],
   })
 
   const isCssoEnabled = !((csso && csso.enable === false))

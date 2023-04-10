@@ -1,6 +1,6 @@
 import { ComponentType } from 'react'
+import { StyleProp, TextStyle, ViewStyle } from 'react-native'
 import { StandardProps, CommonEventFunction, FormItemProps } from './common'
-
 /** 选择器通用参数 */
 interface PickerStandardProps extends StandardProps, FormItemProps {
   /**
@@ -21,7 +21,6 @@ interface PickerStandardProps extends StandardProps, FormItemProps {
    */
   onCancel?: CommonEventFunction
 }
-
 declare namespace PickerStandardProps {
   /** 选择器类型 */
   interface Mode {
@@ -37,7 +36,6 @@ declare namespace PickerStandardProps {
     region
   }
 }
-
 /** 普通选择器：mode = selector */
 interface PickerSelectorProps extends PickerStandardProps {
   /** 选择器类型 */
@@ -60,19 +58,29 @@ interface PickerSelectorProps extends PickerStandardProps {
    */
   value?: number
   /**
-   * value 改变时触发 change 事件，event.detail = {value}
+   * mode为 selector 或 multiSelector 时 itemStyle 有效
+   * @supported rn
+   * @default {}
+   */
+  itemStyle?: StyleProp<TextStyle>
+  /**
+   * mode为 selector 或 multiSelector 时 indicatorStyle 有效
+   * @supported rn
+   * @default {}
+   */
+  indicatorStyle?: StyleProp<ViewStyle>
+  /**
+   * value 改变时触发 change 事件
    * @supported weapp, h5, rn
    */
   onChange: CommonEventFunction<PickerSelectorProps.ChangeEventDetail>
 }
-
 declare namespace PickerSelectorProps {
   interface ChangeEventDetail {
     /** 表示变更值的下标 */
     value: string | number
   }
 }
-
 /** 多列选择器：mode = multiSelector */
 interface PickerMultiSelectorProps extends PickerStandardProps {
   /** 选择器类型 */
@@ -95,7 +103,19 @@ interface PickerMultiSelectorProps extends PickerStandardProps {
    */
   value: number[] | string[] | Record<string, any>[]
   /**
-   * 当 value 改变时触发 change 事件，event.detail = {value}
+   * mode为 selector 或 multiSelector 时 itemStyle 有效
+   * @supported rn
+   * @default {}
+   */
+  itemStyle?: StyleProp<TextStyle>
+  /**
+   * mode为 selector 或 multiSelector 时 indicatorStyle 有效
+   * @supported rn
+   * @default {}
+   */
+  indicatorStyle?: StyleProp<ViewStyle>
+  /**
+   * 当 value 改变时触发 change 事件
    * @supported weapp, h5, rn
    */
   onChange: CommonEventFunction<PickerMultiSelectorProps.ChangeEventDetail>
@@ -105,7 +125,6 @@ interface PickerMultiSelectorProps extends PickerStandardProps {
    */
   onColumnChange?: CommonEventFunction<PickerMultiSelectorProps.ColumnChangeEventDetail>
 }
-
 declare namespace PickerMultiSelectorProps {
   interface ChangeEventDetail {
     /** 表示变更值的下标 */
@@ -118,7 +137,6 @@ declare namespace PickerMultiSelectorProps {
     value: number
   }
 }
-
 /** 时间选择器：mode = time */
 interface PickerTimeProps extends PickerStandardProps {
   /** 选择器类型 */
@@ -139,19 +157,17 @@ interface PickerTimeProps extends PickerStandardProps {
    */
   end?: string
   /**
-   * value 改变时触发 change 事件，event.detail = {value}
+   * value 改变时触发 change 事件
    * @supported weapp, h5, rn
    */
   onChange: CommonEventFunction<PickerTimeProps.ChangeEventDetail>
 }
-
 declare namespace PickerTimeProps {
   interface ChangeEventDetail {
     /** 表示选中的时间 */
     value: string
   }
 }
-
 /** 日期选择器：mode = date */
 interface PickerDateProps extends PickerStandardProps {
   /** 选择器类型 */
@@ -179,12 +195,11 @@ interface PickerDateProps extends PickerStandardProps {
    */
   fields?: keyof PickerDateProps.Fields
   /**
-   * value 改变时触发 change 事件，event.detail = {value}
+   * value 改变时触发 change 事件
    * @supported weapp, h5, rn
    */
   onChange: CommonEventFunction<PickerDateProps.ChangeEventDetail>
 }
-
 declare namespace PickerDateProps {
   interface Fields {
     /** 选择器粒度为年 */
@@ -199,7 +214,6 @@ declare namespace PickerDateProps {
     value: string
   }
 }
-
 /** 省市区选择器：mode = region */
 interface PickerRegionProps extends PickerStandardProps {
   /** 选择器类型 */
@@ -209,24 +223,29 @@ interface PickerRegionProps extends PickerStandardProps {
    * @supported weapp, h5, rn
    * @default []
    */
-  value: string[]
+  value?: string[]
   /**
    * 可为每一列的顶部添加一个自定义的项
    * @supported weapp, h5, rn
    */
   customItem?: string
   /**
+   * 选择器层级
+   * @supported weapp
+   * @default "region"
+   */
+  level?: keyof PickerRegionProps.Level
+  /**
    * 自定义省市区数据
    * @supported rn
    */
   regionData?: PickerRegionProps.RegionData[]
   /**
-   * value 改变时触发 change 事件，event.detail = {value, code, postcode}，其中字段 code 是统计用区划代码，postcode 是邮政编码
+   * value 改变时触发 change 事件
    * @supported weapp, h5, rn
    */
   onChange: CommonEventFunction<PickerRegionProps.ChangeEventDetail>
 }
-
 declare namespace PickerRegionProps {
   interface ChangeEventDetail {
     /** 表示选中的省市区 */
@@ -241,12 +260,21 @@ declare namespace PickerRegionProps {
     code: string
     postcode?: string
   }
+  interface Level {
+    /** 省级选择器 */
+    province
+    /** 市级选择器 */
+    city
+    /** 区级选择器 */
+    region
+    /** 街道选择器 */
+    'sub-district'
+  }
 }
-
 /**
  * 从底部弹起的滚动选择器
  * @classification forms
- * @supported weapp, h5, rn, swan, alipay, tt
+ * @supported weapp, swan, alipay, tt, h5, rn, harmony
  * @example_react
  * ```tsx
  * export default class PagePicker extends Component {
@@ -379,8 +407,9 @@ declare namespace PickerRegionProps {
  * ```
  * @see https://developers.weixin.qq.com/miniprogram/dev/component/picker.html
  */
-declare const Picker: ComponentType<PickerMultiSelectorProps | PickerTimeProps | PickerDateProps | PickerRegionProps | PickerSelectorProps>
-
+declare const Picker: ComponentType<
+  PickerMultiSelectorProps | PickerTimeProps | PickerDateProps | PickerRegionProps | PickerSelectorProps
+>
 export {
   Picker,
   PickerStandardProps,
@@ -388,5 +417,5 @@ export {
   PickerMultiSelectorProps,
   PickerTimeProps,
   PickerDateProps,
-  PickerRegionProps
+  PickerRegionProps,
 }

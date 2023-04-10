@@ -1,7 +1,7 @@
-import type { IPluginContext } from '@tarojs/service'
-
 import configValidator from '../../doctor/configValidator'
 import * as hooks from '../constant'
+
+import type { IPluginContext } from '@tarojs/service'
 
 export default (ctx: IPluginContext) => {
   ctx.registerCommand({
@@ -10,6 +10,7 @@ export default (ctx: IPluginContext) => {
       '--type [typeName]': 'Build type, weapp/swan/alipay/tt/qq/jd/h5/rn',
       '--watch': 'Watch mode',
       '--env [env]': 'Value for process.env.NODE_ENV',
+      '--mode [mode]': 'Value of dotenv extname',
       '-p, --port [port]': 'Specified port',
       '--platform': '[rn] Specific React-Native build target: android / ios, android is default value',
       '--reset-cache': '[rn] Clear transform cache',
@@ -21,7 +22,8 @@ export default (ctx: IPluginContext) => {
       '--assets-dest': '[rn] Directory name where to store assets referenced in the bundle',
       '--qr': '[rn] Print qrcode of React-Native bundle server',
       '--blended': 'Blended Taro project in an original MiniApp project',
-      '--plugin [typeName]': 'Build Taro plugin project, weapp'
+      '--plugin [typeName]': 'Build Taro plugin project, weapp',
+      '--env-prefix [envPrefix]': "Provide the dotEnv varables's prefix"
     },
     synopsisList: [
       'taro build --type weapp',
@@ -30,7 +32,8 @@ export default (ctx: IPluginContext) => {
       'taro build --type weapp --blended',
       'taro build native-components --type weapp',
       'taro build --plugin weapp --watch',
-      'taro build --plugin weapp'
+      'taro build --plugin weapp',
+      'taro build --type weapp --mode prepare --env-prefix TARO_APP_'
     ],
     async fn (opts) {
       const { options, config, _ } = opts
@@ -127,11 +130,13 @@ export default (ctx: IPluginContext) => {
                 }
               })
             },
-            async onCompilerMake (compilation) {
+            async onCompilerMake (compilation, compiler, plugin) {
               await ctx.applyPlugins({
                 name: hooks.ON_COMPILER_MAKE,
                 opts: {
-                  compilation
+                  compilation,
+                  compiler,
+                  plugin
                 }
               })
             },

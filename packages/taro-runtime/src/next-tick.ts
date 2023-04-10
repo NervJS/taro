@@ -1,6 +1,9 @@
+import { isWebPlatform } from '@tarojs/shared'
+
 import { Current } from './current'
 import { TaroRootElement } from './dom/root'
 import env from './env'
+
 import type { Func } from './interface'
 
 export const nextTick = (cb: Func, ctx?: Record<string, any>) => {
@@ -16,7 +19,7 @@ export const nextTick = (cb: Func, ctx?: Record<string, any>) => {
     const path = router.$taroPath
     pageElement = env.document.getElementById<TaroRootElement>(path)
     if (pageElement?.pendingUpdate) {
-      if (process.env.TARO_ENV === 'h5') {
+      if (isWebPlatform()) {
         // eslint-disable-next-line dot-notation
         pageElement.firstChild?.['componentOnReady']?.().then(() => {
           timerFunc()

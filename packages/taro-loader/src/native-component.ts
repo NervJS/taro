@@ -1,9 +1,10 @@
 import { normalizePath } from '@tarojs/helper'
 import { getOptions, stringifyRequest } from 'loader-utils'
 import * as path from 'path'
-import type * as webpack from 'webpack'
 
 import { getPageConfig } from './page'
+
+import type * as webpack from 'webpack'
 
 export default function (this: webpack.LoaderContext<any>) {
   const options = getOptions(this)
@@ -38,5 +39,6 @@ var component = require(${stringify(componentPath)}).default
 var config = ${configString};
 var inst = Component(createNativeComponentConfig(component, ${frameworkArgs}))
 ${options.prerender ? prerender : ''}
+export default component
 `
 }

@@ -43,7 +43,7 @@ export class Picker implements ComponentInterface {
   @Prop() disabled = false
   @Prop() range: any[] = []
   @Prop() rangeKey: string
-  @Prop() value: number | number[] | string
+  @Prop({ mutable: true }) value: number | number[] | string
   @Prop() start = ''
   @Prop() end = ''
   @Prop() fields: Fields = 'day'
@@ -75,7 +75,7 @@ export class Picker implements ComponentInterface {
   componentDidLoad () {
     Object.defineProperty(this.el, 'value', {
       get: () => this.pickerValue,
-      set: val => (this.value = val),
+      set: value => this.value !== value && (this.value = value),
       configurable: true
     })
 
