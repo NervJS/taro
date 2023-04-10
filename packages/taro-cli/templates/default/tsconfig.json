@@ -16,7 +16,8 @@
     "baseUrl": ".",
     "rootDir": ".",
     "jsx": "<%= ['vue', 'vue3', 'solid'].includes(framework) ? 'preserve' : 'react-jsx' %>",<% if (framework === 'preact') {%>
-    "skipLibCheck": true,<%}%>
+    "skipLibCheck": true,<%}%><% if (framework === 'solid') {%>
+    "jsxImportSource": "solid-js",<%}%>
     "allowJs": true,
     "resolveJsonModule": true,
     "typeRoots": [

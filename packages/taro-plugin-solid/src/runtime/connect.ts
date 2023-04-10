@@ -65,7 +65,7 @@ export function setReconciler() {
  * @param config 入口组件配置 app.config.js 的内容
  * @returns 传递给 App 构造器的对象 obj ：App(obj)
  */
-export function createReactApp(App: Component, config: AppConfig) {
+export function createSolidApp(App: Component, config: AppConfig) {
   setReconciler();
   const [pages, setPages] = createSignal<any[]>([]);
 

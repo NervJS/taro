@@ -71,7 +71,7 @@ function addConfig(source) {
 }
 
 const frameworkMeta: Record<string, ILoaderMeta> = {
-  react: {
+  solid: {
     importFrameworkStatement: `
 `,
     mockAppStatement: `
@@ -80,7 +80,7 @@ const frameworkMeta: Record<string, ILoaderMeta> = {
     }
     `,
     frameworkArgs: "config",
-    creator: "createReactApp",
+    creator: "createSolidApp",
     creatorLocation: "@tarojs/plugin-framework-solid/dist/runtime",
     importFrameworkName: "",
     compatComponentImport:

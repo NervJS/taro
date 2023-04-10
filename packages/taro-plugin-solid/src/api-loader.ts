@@ -22,7 +22,7 @@ export default function (str: string) {
   useTitleClick,
   useScope,
   useUnload
-} from '@tarojs/plugin-framework-react/dist/runtime'
+} from '@tarojs/plugin-framework-solid/dist/runtime'
 ${str}
 
 taro.useAddToFavorites = useAddToFavorites

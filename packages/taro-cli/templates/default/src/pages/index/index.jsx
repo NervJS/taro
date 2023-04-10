@@ -4,6 +4,7 @@ import { Component<% if (typescript) {%>, PropsWithChildren<%}%> } from 'react'
 import { View, Text } from '@tarojs/components'
 import './index.<%= cssExt %>'
 
+<%if (['react', 'preact'].includes(framework)) {-%>
 export default class <%= _.capitalize(pageName) %> extends <% if (typescript) {%>Component<PropsWithChildren><%} else {%>Component<%}%> {
 
   componentWillMount () { }
@@ -24,3 +25,13 @@ export default class <%= _.capitalize(pageName) %> extends <% if (typescript) {%
     )
   }
 }
+<%}-%>
+<%if (['solid'].includes(framework)) {-%>
+export default function Index() {
+  return (
+    <View class='<%= pageName %>'>
+      <Text>Hello world!</Text>
+    </View>
+  );
+}
+<%}-%>

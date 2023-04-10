@@ -43,7 +43,7 @@ export default (ctx: IPluginContext) => {
     const { compiler } = opts;
     if (compiler.type === "webpack5") {
       // 提供给 webpack5 依赖预编译收集器的第三方依赖
-      const deps = ["@tarojs/plugin-framework-react/dist/runtime"];
+      const deps = ["@tarojs/plugin-framework-solid/dist/runtime"];
       compiler.prebundle ||= {};
       const prebundleOptions = compiler.prebundle;
       prebundleOptions.include ||= [];
