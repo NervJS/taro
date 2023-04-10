@@ -158,12 +158,18 @@ export default class PageHandler {
     const pageEl = this.getPageContainer(page)
     if (pageEl && !pageEl?.['__isReady']) {
       const el = pageEl.firstElementChild
-      el?.['componentOnReady']?.()?.then(() => {
-        requestAnimationFrame(() => {
-          page.onReady?.()
-          pageEl!['__isReady'] = true
+      const componentOnReady = el?.['componentOnReady']
+      if (componentOnReady) {
+        componentOnReady?.().then(() => {
+          requestAnimationFrame(() => {
+            page.onReady?.()
+            pageEl!['__isReady'] = true
+          })
         })
-      })
+      } else {
+        page.onReady?.()
+        pageEl!['__isReady'] = true
+      }
       onLoad && (pageEl['__page'] = page)
     }
   }
