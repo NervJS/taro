@@ -13,12 +13,10 @@ Taro.noop();"
 
 exports[`should not go wrong when using an api twice 1`] = `
 "import Taro, { createAnimation as _createAnimation } from '@tarojs/taro-h5';
-
 const animation = _createAnimation({
   duration: dura * 1000,
   timingFunction: 'linear'
 });
-
 const resetAnimation = _createAnimation({
   duration: 0,
   timingFunction: 'linear'
@@ -28,9 +26,7 @@ const resetAnimation = _createAnimation({
 exports[`should not import taro duplicatly 1`] = `
 "import Taro, { createAnimation as _createAnimation, initPxTransform as _initPxTransform } from "@tarojs/taro-h5";
 Taro.Component;
-
 _createAnimation();
-
 _initPxTransform();"
 `;
 
@@ -43,9 +39,7 @@ animation = _createAnimation({
   timingFunction: "ease",
   delay: 0
 });
-
 _request();
-
 Taro.request = '';
 Taro['request'] = '';"
 `;
@@ -63,16 +57,10 @@ export class Connected extends Taro.Component {}"
 
 exports[`should work! 1`] = `
 "import Taro, { setStorage as _setStorage, initPxTransform as _initPxTransform, getStorage as _getStorage } from '@tarojs/taro-h5';
-
 _initPxTransform(Taro.param);
-
 _initPxTransform();
-
 _initPxTransform();
-
 _getStorage();
-
 _setStorage();
-
 export { Taro };"
 `;
