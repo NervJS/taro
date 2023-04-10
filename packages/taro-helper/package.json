@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/helper",
-  "version": "3.6.4",
+  "version": "3.6.5-alpha",
   "description": "Taro Helper",
   "main": "index.js",
   "types": "dist/index.d.ts",

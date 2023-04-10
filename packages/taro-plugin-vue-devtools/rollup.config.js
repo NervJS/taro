@@ -9,7 +9,8 @@ const base = {
   external: ['vue'],
   plugins: [
     externals({
-      devDeps: false
+      deps: true,
+      devDeps: false,
     }),
     copy({
       targets: [
