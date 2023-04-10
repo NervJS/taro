@@ -40,7 +40,7 @@
     "@prefresh/webpack": "^3.2.3",
     "preact": "^10.10.0",
     "react-refresh": "^0.11.0",
-    "webpack": "5.69.0",
+    "webpack": "5.78.0",
     "rollup": "^3.8.1",
     "rollup-plugin-node-externals": "^5.0.0",
     "rollup-plugin-ts": "^3.0.2",

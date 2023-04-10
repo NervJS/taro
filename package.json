@@ -153,7 +153,7 @@
     "vue": "^2.6.11",
     "vue-loader": "^17.0.0",
     "vue-template-compiler": "^2.6.11",
-    "webpack": "5.69.0",
+    "webpack": "5.78.0",
     "webpack-chain": "6.5.1",
     "webpack-dev-server": "4.7.4",
     "webpack-sources": "^3.2.3"

@@ -44,6 +44,6 @@
     "webpack-merge": "^4.2.2"
   },
   "devDependencies": {
-    "webpack": "5.69.0"
+    "webpack": "5.78.0"
   }
 }
