@@ -7,6 +7,9 @@ module.exports = {
   testMatch: ['**/__tests__/?(*.)+(spec|test).[jt]s?(x)'],
   testTimeout: 60000,
   transform: {
+    '^.+\\.(css|sass|scss|less|styl|stylus|pcss|postcss)$': ['jest-transform-css', {
+      module: true
+    }],
     '^.+\\.jsx?$': 'babel-jest',
     '^.+\\.tsx?$': ['ts-jest', {
       diagnostics: false,

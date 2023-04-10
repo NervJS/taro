@@ -142,6 +142,8 @@ export const createOverlayComponent = <OverlayComponent extends object, OverlayT
   }
 
   return React.forwardRef<OverlayType, Props>((props, ref) => {
+    // Note: 组件库错误引入 vue 的 ts 类型，导致 ts 报错，这里先忽略
+    // @ts-ignore
     return <Overlay {...props} forwardedRef={ref} />
   })
 }

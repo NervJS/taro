@@ -4,12 +4,12 @@ import Button from '../components/Button'
 
 describe('<Button />', () => {
   it('render default', () => {
-    const { getByTestId, getAllByText, getAllByA11yState } = render(<Button>BUTTON</Button>)
+    const { getByTestId, getAllByText, getByRole } = render(<Button>BUTTON</Button>)
     expect(getAllByText('BUTTON')).toHaveLength(1)
     expect(() => getByTestId('loading')).toThrow(
       'Unable to find an element with testID: loading'
     )
-    expect(getAllByA11yState({ disabled: false })).toHaveLength(1)
+    expect(getByRole('button', { disabled: false })).toBeTruthy()
   })
 
   it('render loading button', () => {
@@ -34,9 +34,9 @@ describe('<Button />', () => {
   })
 
   it('mini size', () => {
-    const { getByText, getByA11yState } = render(<Button size="mini">BUTTON</Button>)
+    const { getByText, getByRole } = render(<Button size="mini">BUTTON</Button>)
     const text = getByText('BUTTON')
-    const view = getByA11yState({ disabled: false })
+    const view = getByRole('button', { disabled: false })
     expect(view).toContainElement(text)
     expect(view).toHaveStyle({
       height: 30

@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/components-rn",
-  "version": "3.6.4",
+  "version": "3.6.5-alpha",
   "description": "多端解决方案基础组件（RN）",
   "main": "./dist/index.js",
   "scripts": {
@@ -44,7 +44,7 @@
     "@react-native-camera-roll/camera-roll": "~5.0.4",
     "@react-native-community/segmented-control": "^2.2.2",
     "@testing-library/jest-native": "^4.0.4",
-    "@testing-library/react-native": "^11.0.0",
+    "@testing-library/react-native": "^11.5.0",
     "@types/react-native": "^0.69.8",
     "expo": "~47.0.3",
     "jest": "^26.4.2",
