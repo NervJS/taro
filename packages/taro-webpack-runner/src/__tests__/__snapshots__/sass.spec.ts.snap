@@ -19,9 +19,6 @@ exports[`sass should build app with sass 2`] = `
         var createSuper = __webpack_require__(10);
         var react = __webpack_require__(0);
         var taro_components = "taro-components-mock";
-        function defineCustomElements() {}
-        function applyPolyfills() {}
-        function initVue3Components() {}
         var index = __webpack_require__(31);
         var index_Index = function(_Component) {
             Object(inherits["a"])(Index, _Component);
@@ -1470,9 +1467,6 @@ exports[`sass should build app with scss 2`] = `
         var createSuper = __webpack_require__(10);
         var react = __webpack_require__(0);
         var taro_components = "taro-components-mock";
-        function defineCustomElements() {}
-        function applyPolyfills() {}
-        function initVue3Components() {}
         var index = __webpack_require__(32);
         var index_Index = function(_Component) {
             Object(inherits["a"])(Index, _Component);
@@ -2946,9 +2940,6 @@ exports[`sass should set global sass content with data 2`] = `
         var createSuper = __webpack_require__(10);
         var react = __webpack_require__(0);
         var taro_components = "taro-components-mock";
-        function defineCustomElements() {}
-        function applyPolyfills() {}
-        function initVue3Components() {}
         var index = __webpack_require__(32);
         var index_Index = function(_Component) {
             Object(inherits["a"])(Index, _Component);
@@ -4422,9 +4413,6 @@ exports[`sass should set global sass content with source & dir 2`] = `
         var createSuper = __webpack_require__(10);
         var react = __webpack_require__(0);
         var taro_components = "taro-components-mock";
-        function defineCustomElements() {}
-        function applyPolyfills() {}
-        function initVue3Components() {}
         var index = __webpack_require__(32);
         var index_Index = function(_Component) {
             Object(inherits["a"])(Index, _Component);
@@ -5898,9 +5886,6 @@ exports[`sass should set global sass content with source 2`] = `
         var createSuper = __webpack_require__(10);
         var react = __webpack_require__(0);
         var taro_components = "taro-components-mock";
-        function defineCustomElements() {}
-        function applyPolyfills() {}
-        function initVue3Components() {}
         var index = __webpack_require__(32);
         var index_Index = function(_Component) {
             Object(inherits["a"])(Index, _Component);
