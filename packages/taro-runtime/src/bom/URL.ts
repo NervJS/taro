@@ -17,7 +17,7 @@ export class URL {
   #pathname = ''
   #port = ''
   #protocol = ''
-  #search = ''
+  #search: URLSearchParams
 
   constructor (url: string, base?: string) {
     if (!isString(url)) url = String(url)
@@ -30,7 +30,7 @@ export class URL {
     this.#pathname = pathname || '/'
     this.#port = port
     this.#protocol = protocol
-    this.#search = search
+    this.#search = new URLSearchParams(search)
   }
 
   /* public property */
@@ -89,14 +89,13 @@ export class URL {
   }
 
   get search () {
-    return this.#search
+    return this.#search.toString()
   }
 
   set search (val: string) {
     if (isString(val)) {
       val = val.trim()
-      if (val) this.#search = val.startsWith('?') ? val : `?${val}`
-      else this.#search = ''
+      this.#search = new URLSearchParams(val.startsWith('?') ? val : `?${val}`)
     }
   }
 
@@ -144,7 +143,7 @@ export class URL {
   }
 
   get searchParams () {
-    return new URLSearchParams(this.search)
+    return this.#search
   }
 
   // public method
