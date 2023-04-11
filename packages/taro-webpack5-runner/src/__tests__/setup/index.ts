@@ -1,18 +1,8 @@
-import * as babel from '@babel/core'
+import { transformFileSync } from '@babel/core'
 import * as fs from 'fs'
-import { createFsFromVolume, IFs, Volume } from 'memfs'
-import * as joinPath from 'memory-fs/lib/join'
+import { createFsFromVolume, Volume } from 'memfs'
 
-interface EnsuredFs extends IFs {
-  join: () => string
-}
-
-function ensureWebpackMemoryFs (fs: IFs): EnsuredFs {
-  const newFs: EnsuredFs = Object.create(fs)
-  newFs.join = joinPath
-
-  return newFs
-}
+import { ensureWebpackMemoryFs } from '../utils/helper'
 
 jest.mock('webpack', () => {
   const originalModule = jest.requireActual('webpack')
@@ -39,7 +29,7 @@ jest.mock('@tarojs/helper', () => {
         if (/\.json$/.test(configPath)) {
           return require(configPath)
         } else if (/\.(js|ts)$/.test(configPath)) {
-          const res = babel.transformFileSync(configPath, {
+          const res = transformFileSync(configPath, {
             presets: [['@babel/env']],
             plugins: ['@babel/plugin-proposal-class-properties']
           })

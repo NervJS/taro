@@ -1,12 +1,12 @@
 import ReactLikePlugin from '@tarojs/plugin-framework-react'
 import Vue2Plugin from '@tarojs/plugin-framework-vue2'
 import Vue3Plugin from '@tarojs/plugin-framework-vue3'
-import { IFs } from 'memfs'
-import joinPath from 'memory-fs/lib/join'
-import path from 'path'
+import * as joinPath from 'memory-fs/lib/join'
+import * as path from 'path'
 
 import { componentConfig } from '../../utils/component'
 
+import type { IFs } from 'memfs'
 import type { CommonBuildConfig, H5BuildConfig, MiniBuildConfig } from '../../utils/types'
 
 interface EnsuredFs extends IFs {
@@ -48,11 +48,11 @@ ${fs.readFileSync(file)}
   return output
 }
 
-export /**
+/**
 * 处理不同框架的自定义逻辑
 * @param chain webpack-chain
 */
-function frameworkPatch (chain, webpack, config) {
+export function frameworkPatch (chain, webpack, config) {
   const mockCtx = {
     initialConfig: {
       framework: config.framework || 'react'
