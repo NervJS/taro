@@ -82,12 +82,23 @@ function _request (options) {
   if (options.mode) {
     params.mode = options.mode
   }
+  let timeoutTimer: ReturnType<typeof setTimeout> | null = null
   if (options.signal) {
     params.signal = options.signal
+  } else if (typeof options.timeout === 'number') {
+    const controller = new AbortController()
+    params.signal = controller.signal
+    timeoutTimer = setTimeout(function () {
+      controller.abort()
+    }, options.timeout)
   }
   params.credentials = options.credentials
   return fetch(url, params)
     .then(response => {
+      if (timeoutTimer) {
+        clearTimeout(timeoutTimer)
+        timeoutTimer = null
+      }
       if (!response) {
         const errorResponse = { ok: false }
         throw errorResponse
@@ -119,6 +130,10 @@ function _request (options) {
       return res
     })
     .catch(err => {
+      if (timeoutTimer) {
+        clearTimeout(timeoutTimer)
+        timeoutTimer = null
+      }
       isFunction(fail) && fail(err)
       isFunction(complete) && complete(res)
       err.statusCode = res.statusCode
