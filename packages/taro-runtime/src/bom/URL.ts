@@ -89,13 +89,14 @@ export class URL {
   }
 
   get search () {
-    return this.#search.toString()
+    const val = this.#search.toString()
+    return (val.length === 0 || val.startsWith('?')) ? val : `?${val}`
   }
 
   set search (val: string) {
     if (isString(val)) {
       val = val.trim()
-      this.#search = new URLSearchParams(val.startsWith('?') ? val : `?${val}`)
+      this.#search = new URLSearchParams(val)
     }
   }
 
