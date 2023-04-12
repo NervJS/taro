@@ -1,4 +1,5 @@
 import 'whatwg-fetch'
+import 'abortcontroller-polyfill/dist/abortcontroller-polyfill-only'
 
 import Taro from '@tarojs/api'
 import { isFunction } from '@tarojs/shared'
@@ -86,7 +87,7 @@ function _request (options) {
   if (options.signal) {
     params.signal = options.signal
   } else if (typeof options.timeout === 'number') {
-    const controller = new AbortController()
+    const controller = new window.AbortController()
     params.signal = controller.signal
     timeoutTimer = setTimeout(function () {
       controller.abort()
