@@ -123,3 +123,5 @@ export async function compile<T extends MiniBuildConfig | H5BuildConfig = Common
 
   return { stats, config }
 }
+
+export { getOutput, readDir } from './helper'

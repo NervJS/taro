@@ -20,7 +20,7 @@ export function ensureWebpackMemoryFs (fs: IFs): EnsuredFs {
   return newFs
 }
 
-function readDir (fs: IFs, dir: string) {
+export function readDir (fs: IFs, dir: string) {
   let files: string[] = []
   const list = fs.readdirSync(dir)
   list.forEach(item => {
@@ -36,15 +36,17 @@ function readDir (fs: IFs, dir: string) {
 }
 
 export function getOutput<T extends MiniBuildConfig | H5BuildConfig = CommonBuildConfig> (stats, config: Partial<T>) {
-  const fs: IFs = stats.compilation.compiler.outputFileSystem
+  // @ts-ignore
+  const fs: IFs = config.fs ?? stats.compilation.compiler.outputFileSystem
 
-  const files = readDir(fs, config.outputRoot as string)
+  const files = readDir(fs, config.outputRoot || '')
   const output = files.reduce((content, file) => {
     return `${content}
 /** filePath: ${file} **/
-${fs.readFileSync(file)}
+${file === 'dist/runtime.js' ? '' : fs.readFileSync(file)}
 `
   }, '')
+  fs.rmdirSync(config.outputRoot || '', { recursive: true })
   return output
 }
 

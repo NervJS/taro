@@ -14,6 +14,7 @@ export function internalComponents () {}
 export function toCamelCase () {}
 export function toDashed () {}
 export function processApis () {}
+export function singleQuote () {}
 export const EMPTY_OBJ = {}
 export const hooks = {}
 
