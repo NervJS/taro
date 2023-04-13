@@ -140,4 +140,31 @@ describe('request', () => {
         expect(complete.mock.calls.length).toBe(1)
       })
   })
+
+  test('should abort request when it timeout', () => {
+    const success = jest.fn()
+    const fail = jest.fn()
+    const complete = jest.fn()
+
+    fetch.once(() => new Promise((resolve) => {
+      setTimeout(resolve, 3000, JSON.stringify({ body: 'ok' }))
+    }))
+
+    expect.assertions(6)
+    return Taro.request({
+      url: 'https://github.com',
+      timeout: 30,
+      success,
+      fail,
+      complete
+    })
+      .catch(err => {
+        expect(err.code).toBe(20)
+        expect(err.message).toBe('The operation was aborted. ')
+        expect(err.name).toBe('AbortError')
+        expect(success.mock.calls.length).toBe(0)
+        expect(fail.mock.calls.length).toBe(1)
+        expect(complete.mock.calls.length).toBe(1)
+      })
+  })
 })
