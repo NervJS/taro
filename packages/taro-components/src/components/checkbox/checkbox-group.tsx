@@ -6,7 +6,7 @@ import { Component, h, ComponentInterface, Host, Prop, Event, EventEmitter, List
 })
 export class CheckboxGroup implements ComponentInterface {
   private uniqueName = Date.now().toString(36)
-  private value: string[]
+  #value: string[]
 
   @Prop() name
 
@@ -24,10 +24,10 @@ export class CheckboxGroup implements ComponentInterface {
 
     const childList = this.el.querySelectorAll('taro-checkbox-core')
 
-    this.value = this.getValues(childList)
+    this.#value = this.getValues(childList)
 
     this.onChange.emit({
-      value: this.value
+      value: this.#value
     })
   }
 
@@ -40,11 +40,11 @@ export class CheckboxGroup implements ComponentInterface {
 
     Object.defineProperty(this.el, 'value', {
       get: () => {
-        if (!this.value) {
+        if (!this.#value) {
           const childList = this.el.querySelectorAll('taro-checkbox-core')
-          this.value = this.getValues(childList)
+          this.#value = this.getValues(childList)
         }
-        return this.value
+        return this.#value
       },
       configurable: true
     })
