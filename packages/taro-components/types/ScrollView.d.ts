@@ -137,7 +137,7 @@ interface ScrollViewProps extends StandardProps {
    * @supported weapp
    * @default 'list'
    */
-  type: 'list' | 'custom'
+  type?: 'list' | 'custom'
   /** 是否反向滚动。一般初始滚动位置是在顶部，反向滚动则是在底部。
    * @supported weapp
    * @default false
