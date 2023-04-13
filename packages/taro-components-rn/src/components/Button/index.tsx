@@ -68,7 +68,7 @@ const Loading = (props: { type: ButtonProps['type'], hasSibling: boolean }) => {
     }
   }, [])
 
-  const rotateDeg: Animated.AnimatedInterpolation = rotate.interpolate({
+  const rotateDeg: Animated.AnimatedInterpolation<string | number> = rotate.interpolate({
     inputRange: [0, 1],
     outputRange: ['0deg', '360deg']
   })
