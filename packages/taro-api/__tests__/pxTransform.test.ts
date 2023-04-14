@@ -64,7 +64,7 @@ describe('pxtransform', () => {
     expect(Taro.pxTransform(20)).toBe('0.5rem')
   })
 
-  test('pxTransform, targetUnit=rew, designWidth=640', () => {
+  test('pxTransform, targetUnit=rem, designWidth=640', () => {
     Taro.initPxTransform({
       designWidth: 640,
       deviceRatio: {
