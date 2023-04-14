@@ -75,6 +75,7 @@ interface ITaroMiniPluginOptions {
   designWidth: number
   loaderMeta?: Record<string, string>
   hot: boolean
+  isBuildNativeComp?: boolean
 }
 
 export interface IComponentObj {
@@ -1178,26 +1179,38 @@ export default class TaroMiniPlugin {
    */
   injectCommonStyles ({ assets }: webpack.compilation.Compilation) {
     const styleExt = this.options.fileType.style
-    const appStyle = `app${styleExt}`
     const REG_STYLE_EXT = new RegExp(`\\.(${styleExt.replace('.', '')})(\\?.*)?$`)
+    let pages = new Set<IComponent>()
 
-    if (!assets[appStyle]) return
+    if (this.options.isBuildNativeComp) {
+      pages = this.pages
+    } else {
+      pages.add({
+        name: 'app',
+        isNative: false,
+        path: ''
+      })
+    }
 
-    const originSource: string = assets[appStyle].source()
-    const source = new ConcatSource()
-    source.add(originSource)
+    pages.forEach(item => {
+      const pageStyle = `${item.name}${styleExt}`
+      const originSource: string = assets[pageStyle].source()
+      if (item.isNative || !originSource) return
+      const source = new ConcatSource()
+      source.add(originSource)
 
-    // 组件公共样式需要放在 app 全局样式之后：https://github.com/NervJS/taro/pull/6125
-    Object.keys(assets).forEach(assetName => {
-      const fileName = path.basename(assetName, path.extname(assetName))
-      if ((REG_STYLE.test(assetName) || REG_STYLE_EXT.test(assetName)) && this.options.commonChunks.includes(fileName)) {
-        source.add('\n')
-        source.add(`@import ${JSON.stringify(urlToRequest(assetName))};`)
-        assets[appStyle] = {
-          size: () => source.source().length,
-          source: () => source.source()
+      // 组件公共样式需要放在 app 全局样式之后：https://github.com/NervJS/taro/pull/6125
+      Object.keys(assets).forEach(assetName => {
+        const fileName = path.basename(assetName, path.extname(assetName))
+        if ((REG_STYLE.test(assetName) || REG_STYLE_EXT.test(assetName)) && this.options.commonChunks.includes(fileName)) {
+          source.add('\n')
+          source.add(`@import ${JSON.stringify(urlToRequest(path.relative(path.dirname(pageStyle), assetName)))};`)
+          assets[pageStyle] = {
+            size: () => source.source().length,
+            source: () => source.source()
+          }
         }
-      }
+      })
     })
   }
 
