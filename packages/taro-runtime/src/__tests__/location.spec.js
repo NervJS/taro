@@ -185,10 +185,14 @@ describe('location', () => {
 
     // searchParams
     {
-      const searchParams = new URL('http://taro.com/?a=1&b=2').searchParams
-      expect(searchParams.keys()).toEqual(['a', 'b'])
-      expect(searchParams.get('a')).toBe('1')
-      expect(searchParams.get('b')).toBe('2')
+      const url = new URL('http://taro.com/?a=1&b=2')
+      url.searchParams.append('c', '3')
+      expect(url.searchParams.keys()).toEqual(['a', 'b', 'c'])
+      expect(url.searchParams.get('a')).toBe('1')
+      expect(url.searchParams.get('b')).toBe('2')
+      expect(url.searchParams.get('c')).toBe('3')
+      url.searchParams.append('d', '4')
+      expect(url.toString()).toBe('http://taro.com/?a=1&b=2&c=3&d=4')
     }
 
     // setters
