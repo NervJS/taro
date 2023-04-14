@@ -1,6 +1,6 @@
 {
   "name": "taro",
-  "version": "3.6.5-alpha",
+  "version": "3.6.5",
   "description": "开放式跨端跨框架开发解决方案",
   "homepage": "https://github.com/NervJS/taro#readme",
   "author": "O2Team",
@@ -147,7 +147,7 @@
     "stylelint-config-taro-rn": "workspace:*",
     "stylelint-order": "^5.0.0",
     "stylelint-taro-rn": "workspace:*",
-    "tslib": "^1.9.3",
+    "tslib": "^2.5.0",
     "typescript": "^4.7.4",
     "vue": "^2.6.11",
     "vue-loader": "^17.0.0",
