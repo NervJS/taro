@@ -283,7 +283,7 @@ export class Swiper implements ComponentInterface {
       direction: vertical ? 'vertical' : 'horizontal',
       loop: circular,
       slidesPerView: displayMultipleItems,
-      initialSlide: current,
+      initialSlide: circular ? current + 1 : current,
       speed: duration,
       observer: true,
       observeParents: true,
