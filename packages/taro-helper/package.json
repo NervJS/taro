@@ -9,7 +9,9 @@
     "clean": "rimraf dist",
     "dev": "tsc -w",
     "prepack": "pnpm run build",
-    "prod": "tsc"
+    "prod": "tsc",
+    "test": "jest --collectCoverage",
+    "test:ci": "jest --ci --i --coverage false"
   },
   "repository": {
     "type": "git",
