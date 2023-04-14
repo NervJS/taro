@@ -77,17 +77,22 @@ const pxTransform = function (size = 0) {
     throw new Error(`deviceRatio 配置中不存在 ${designWidth} 的设置！`)
   }
   const formatSize = ~~size
-  let rootValue = 1 / config.deviceRatio[designWidth] * 2
+  let rootValue = 1 / config.deviceRatio[designWidth]
   switch (config?.targetUnit) {
     case 'vw':
-      rootValue *= 0.5 * designWidth / 100
+      rootValue = designWidth / 100
       break
-    default:
-      rootValue *= baseFontSize
+    case 'rem':
+      rootValue *= baseFontSize * 2
+      break
+    case 'px':
+      rootValue *= 2
+      break
   }
   let val: number | string = formatSize / rootValue
   if (config.unitPrecision >= 0 && config.unitPrecision <= 100) {
-    val = val.toFixed(config.unitPrecision)
+    // Number(val): 0.50000 => 0.5
+    val = Number(val.toFixed(config.unitPrecision))
   }
   return val + config?.targetUnit
 }

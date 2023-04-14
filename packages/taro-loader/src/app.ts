@@ -61,6 +61,9 @@ ${options.prerender ? prerender : ''}
 initPxTransform({
   designWidth: ${pxTransformConfig.designWidth},
   deviceRatio: ${JSON.stringify(pxTransformConfig.deviceRatio)}
+  baseFontSize: ${pxTransformConfig.baseFontSize || (pxTransformConfig.minRootSize >= 1 ? pxTransformConfig.minRootSize : 20)},
+  unitPrecision: ${pxTransformConfig.unitPrecision},
+  targetUnit: ${JSON.stringify(pxTransformConfig.targetUnit)}
 })
 `
 }

@@ -566,7 +566,7 @@ describe('platform 为 weapp, targetUnit 为 px', () => {
 
   it('{platform: \'weapp\', designWidth: 640, targetUnit: \'px\'} ', () => {
     const rules = 'h1 {margin: 0 0 20px;font-size: 40px;line-height: 1.2;}'
-    const expected = 'h1 {margin: 0 0 8.54701px;font-size: 17.09402px;line-height: 1.2;}'
+    const expected = 'h1 {margin: 0 0 11.7px;font-size: 23.4px;line-height: 1.2;}'
     const options = {
       platform: 'weapp',
       designWidth: 640,
@@ -616,7 +616,7 @@ describe('platform 为 h5, targetUnit 为 px', () => {
 
   it('{platform: \'h5\', designWidth: 640, targetUnit: \'px\'} ', () => {
     const rules = 'h1 {margin: 0 0 20px;font-size: 40Px;line-height: 1.2;}'
-    const expected = 'h1 {margin: 0 0 8.54701px;font-size: 40Px;line-height: 1.2;}'
+    const expected = 'h1 {margin: 0 0 11.7px;font-size: 40Px;line-height: 1.2;}'
     const options = {
       platform: 'h5',
       designWidth: 640,
@@ -738,6 +738,17 @@ describe('vw 单位转换', () => {
     const options = {
       platform: 'h5',
       designWidth: 750,
+      targetUnit: 'vw'
+    }
+    const processed = postcss(px2rem(options)).process(rules).css
+    expect(processed).toBe('h1 {margin: 0 0 50vw;font-size: 40Px;line-height: 1.2;} .test{}')
+  })
+
+  it('{platform: \'h5\', designWidth: 640} ', () => {
+    const rules = 'h1 {margin: 0 0 320px;font-size: 40Px;line-height: 1.2;} .test{}'
+    const options = {
+      platform: 'h5',
+      designWidth: 640,
       targetUnit: 'vw'
     }
     const processed = postcss(px2rem(options)).process(rules).css

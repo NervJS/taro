@@ -52,11 +52,10 @@ module.exports = (options = {}) => {
 
       if (targetUnit === 'vw') {
         options.rootValue = (input) => {
-          const designWidthValue = designWidth(input)
-          return designWidthValue / 100 / options.deviceRatio[designWidthValue]
+          return designWidth(input) / 100
         }
       } else if (targetUnit === 'px') {
-        options.rootValue = (input) => options.deviceRatio[designWidth(input)] * 2
+        options.rootValue = (input) => (1 / options.deviceRatio[designWidth(input)]) * 2
       } else {
         // rem
         options.rootValue = (input) => {
@@ -89,7 +88,7 @@ module.exports = (options = {}) => {
       if (targetUnit === 'rem') {
         options.rootValue = (input) => (baseFontSize / options.deviceRatio[designWidth(input)]) * 2
       } else if (targetUnit === 'px') {
-        options.rootValue = (input) => options.deviceRatio[designWidth(input)] * 2
+        options.rootValue = (input) => (1 / options.deviceRatio[designWidth(input)]) * 2
       } else {
         // rpx
         options.rootValue = (input) => 1 / options.deviceRatio[designWidth(input)]
