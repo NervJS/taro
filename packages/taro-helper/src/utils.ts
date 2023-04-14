@@ -13,6 +13,7 @@ import {
   PLATFORMS,
   processTypeEnum,
   processTypeMap,
+  REG_JSON,
   SCRIPT_EXT,
   TARO_CONFIG_FOLDER
 } from './constants'
@@ -598,27 +599,31 @@ export function readPageConfig (configPath: string) {
 export function readConfig (configPath: string) {
   let result: any = {}
   if (fs.existsSync(configPath)) {
-    result = transformFileSync(configPath, {
-      jsc: {
-        parser: {
-          syntax: 'typescript',
-          decorators: true
+    if (REG_JSON.test(configPath)) {
+      result = fs.readJSONSync(configPath)
+    } else {
+      const { code } = transformFileSync(configPath, {
+        jsc: {
+          parser: {
+            syntax: 'typescript',
+            decorators: true
+          },
+          transform: {
+            legacyDecorator: true
+          },
+          experimental: {
+            plugins: [
+              [path.resolve(__dirname, '../swc/plugin-define-config/target/wasm32-wasi/release/swc_plugin_define_config.wasm'), {}]
+            ]
+          }
         },
-        transform: {
-          legacyDecorator: true
-        },
-        experimental: {
-          plugins: [
-            [path.resolve(__dirname, '../swc/plugin-define-config/target/wasm32-wasi/release/swc_plugin_define_config.wasm'), {}]
-          ]
+        module: {
+          type: 'commonjs'
         }
-      },
-      module: {
-        type: 'commonjs'
-      }
-    })
-
-    result = getModuleDefaultExport(requireFromString(result.code))
+      })
+  
+      result = getModuleDefaultExport(requireFromString(code, configPath))
+    }
   } else {
     result = readPageConfig(configPath)
   }
