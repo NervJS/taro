@@ -6,23 +6,23 @@ exports[`nerv should build nerv app 2`] = `
 "
 /** filePath: dist/chunk/1.js **/
 (window["webpackJsonp"] = window["webpackJsonp"] || []).push([ [ 1 ], {
-    "29": function(module, exports, __webpack_require__) {},
-    "30": function(module, __webpack_exports__, __webpack_require__) {
+    "32": function(module, exports, __webpack_require__) {},
+    "33": function(module, __webpack_exports__, __webpack_require__) {
         "use strict";
         __webpack_require__.r(__webpack_exports__);
         __webpack_require__.d(__webpack_exports__, "default", (function() {
             return index_Index;
         }));
-        var classCallCheck = __webpack_require__(7);
-        var createClass = __webpack_require__(8);
-        var inherits = __webpack_require__(10);
-        var createSuper = __webpack_require__(9);
-        var nerv = __webpack_require__(1);
+        var classCallCheck = __webpack_require__(9);
+        var createClass = __webpack_require__(11);
+        var inherits = __webpack_require__(12);
+        var createSuper = __webpack_require__(10);
+        var nerv = __webpack_require__(2);
         var taro_components = "taro-components-mock";
         function defineCustomElements() {}
         function applyPolyfills() {}
         function initVue3Components() {}
-        var index = __webpack_require__(29);
+        var index = __webpack_require__(32);
         var index_Index = function(_Component) {
             Object(inherits["a"])(Index, _Component);
             var _super = Object(createSuper["a"])(Index);
@@ -256,7 +256,7 @@ exports[`nerv should build nerv app 2`] = `
     jsonpArray = jsonpArray.slice();
     for (var i = 0; i < jsonpArray.length; i++) webpackJsonpCallback(jsonpArray[i]);
     var parentJsonpFunction = oldJsonpFunction;
-    return __webpack_require__(__webpack_require__.s = 15);
+    return __webpack_require__(__webpack_require__.s = 17);
 })([ function(module, __webpack_exports__, __webpack_require__) {
     "use strict";
     __webpack_require__.r(__webpack_exports__);
@@ -279,33 +279,20 @@ exports[`nerv should build nerv app 2`] = `
     function createVue3App() {}
 }, function(module, __webpack_exports__, __webpack_require__) {
     "use strict";
+    __webpack_require__.d(__webpack_exports__, "a", (function() {
+        return _typeof;
+    }));
+    function _typeof(obj) {
+        "@babel/helpers - typeof";
+        return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function(obj) {
+            return typeof obj;
+        } : function(obj) {
+            return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
+        }, _typeof(obj);
+    }
+}, function(module, __webpack_exports__, __webpack_require__) {
+    "use strict";
     __webpack_exports__["b"] = "nervjs-mock";
-}, function(module, exports) {
-    function _classCallCheck(instance, Constructor) {
-        if (!(instance instanceof Constructor)) {
-            throw new TypeError("Cannot call a class as a function");
-        }
-    }
-    module.exports = _classCallCheck, module.exports.__esModule = true, module.exports["default"] = module.exports;
-}, function(module, exports) {
-    function _defineProperties(target, props) {
-        for (var i = 0; i < props.length; i++) {
-            var descriptor = props[i];
-            descriptor.enumerable = descriptor.enumerable || false;
-            descriptor.configurable = true;
-            if ("value" in descriptor) descriptor.writable = true;
-            Object.defineProperty(target, descriptor.key, descriptor);
-        }
-    }
-    function _createClass(Constructor, protoProps, staticProps) {
-        if (protoProps) _defineProperties(Constructor.prototype, protoProps);
-        if (staticProps) _defineProperties(Constructor, staticProps);
-        Object.defineProperty(Constructor, "prototype", {
-            "writable": false
-        });
-        return Constructor;
-    }
-    module.exports = _createClass, module.exports.__esModule = true, module.exports["default"] = module.exports;
 }, function(module, exports) {
     function _typeof(obj) {
         "@babel/helpers - typeof";
@@ -318,7 +305,36 @@ exports[`nerv should build nerv app 2`] = `
     }
     module.exports = _typeof, module.exports.__esModule = true, module.exports["default"] = module.exports;
 }, function(module, exports) {
+    function _classCallCheck(instance, Constructor) {
+        if (!(instance instanceof Constructor)) {
+            throw new TypeError("Cannot call a class as a function");
+        }
+    }
+    module.exports = _classCallCheck, module.exports.__esModule = true, module.exports["default"] = module.exports;
+}, function(module, exports, __webpack_require__) {
+    var toPropertyKey = __webpack_require__(8);
+    function _defineProperties(target, props) {
+        for (var i = 0; i < props.length; i++) {
+            var descriptor = props[i];
+            descriptor.enumerable = descriptor.enumerable || false;
+            descriptor.configurable = true;
+            if ("value" in descriptor) descriptor.writable = true;
+            Object.defineProperty(target, toPropertyKey(descriptor.key), descriptor);
+        }
+    }
+    function _createClass(Constructor, protoProps, staticProps) {
+        if (protoProps) _defineProperties(Constructor.prototype, protoProps);
+        if (staticProps) _defineProperties(Constructor, staticProps);
+        Object.defineProperty(Constructor, "prototype", {
+            "writable": false
+        });
+        return Constructor;
+    }
+    module.exports = _createClass, module.exports.__esModule = true, module.exports["default"] = module.exports;
+}, function(module, exports, __webpack_require__) {
+    var toPropertyKey = __webpack_require__(8);
     function _defineProperty(obj, key, value) {
+        key = toPropertyKey(key);
         if (key in obj) {
             Object.defineProperty(obj, key, {
                 "value": value,
@@ -335,12 +351,18 @@ exports[`nerv should build nerv app 2`] = `
 }, function(module, exports) {
     function _arrayLikeToArray(arr, len) {
         if (len == null || len > arr.length) len = arr.length;
-        for (var i = 0, arr2 = new Array(len); i < len; i++) {
-            arr2[i] = arr[i];
-        }
+        for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i];
         return arr2;
     }
     module.exports = _arrayLikeToArray, module.exports.__esModule = true, module.exports["default"] = module.exports;
+}, function(module, exports, __webpack_require__) {
+    var _typeof = __webpack_require__(3)["default"];
+    var toPrimitive = __webpack_require__(29);
+    function _toPropertyKey(arg) {
+        var key = toPrimitive(arg, "string");
+        return _typeof(key) === "symbol" ? key : String(key);
+    }
+    module.exports = _toPropertyKey, module.exports.__esModule = true, module.exports["default"] = module.exports;
 }, function(module, __webpack_exports__, __webpack_require__) {
     "use strict";
     __webpack_require__.d(__webpack_exports__, "a", (function() {
@@ -350,28 +372,6 @@ exports[`nerv should build nerv app 2`] = `
         if (!(instance instanceof Constructor)) {
             throw new TypeError("Cannot call a class as a function");
         }
-    }
-}, function(module, __webpack_exports__, __webpack_require__) {
-    "use strict";
-    __webpack_require__.d(__webpack_exports__, "a", (function() {
-        return _createClass;
-    }));
-    function _defineProperties(target, props) {
-        for (var i = 0; i < props.length; i++) {
-            var descriptor = props[i];
-            descriptor.enumerable = descriptor.enumerable || false;
-            descriptor.configurable = true;
-            if ("value" in descriptor) descriptor.writable = true;
-            Object.defineProperty(target, descriptor.key, descriptor);
-        }
-    }
-    function _createClass(Constructor, protoProps, staticProps) {
-        if (protoProps) _defineProperties(Constructor.prototype, protoProps);
-        if (staticProps) _defineProperties(Constructor, staticProps);
-        Object.defineProperty(Constructor, "prototype", {
-            "writable": false
-        });
-        return Constructor;
     }
 }, function(module, __webpack_exports__, __webpack_require__) {
     "use strict";
@@ -395,14 +395,7 @@ exports[`nerv should build nerv app 2`] = `
             return false;
         }
     }
-    function _typeof(obj) {
-        "@babel/helpers - typeof";
-        return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function(obj) {
-            return typeof obj;
-        } : function(obj) {
-            return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
-        }, _typeof(obj);
-    }
+    var esm_typeof = __webpack_require__(1);
     function _assertThisInitialized(self) {
         if (self === void 0) {
             throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
@@ -410,7 +403,7 @@ exports[`nerv should build nerv app 2`] = `
         return self;
     }
     function _possibleConstructorReturn(self, call) {
-        if (call && (_typeof(call) === "object" || typeof call === "function")) {
+        if (call && (Object(esm_typeof["a"])(call) === "object" || typeof call === "function")) {
             return call;
         } else if (call !== void 0) {
             throw new TypeError("Derived constructors may only return object or undefined");
@@ -429,6 +422,43 @@ exports[`nerv should build nerv app 2`] = `
             }
             return _possibleConstructorReturn(this, result);
         };
+    }
+}, function(module, __webpack_exports__, __webpack_require__) {
+    "use strict";
+    __webpack_require__.d(__webpack_exports__, "a", (function() {
+        return _createClass;
+    }));
+    var esm_typeof = __webpack_require__(1);
+    function _toPrimitive(input, hint) {
+        if (Object(esm_typeof["a"])(input) !== "object" || input === null) return input;
+        var prim = input[Symbol.toPrimitive];
+        if (prim !== undefined) {
+            var res = prim.call(input, hint || "default");
+            if (Object(esm_typeof["a"])(res) !== "object") return res;
+            throw new TypeError("@@toPrimitive must return a primitive value.");
+        }
+        return (hint === "string" ? String : Number)(input);
+    }
+    function _toPropertyKey(arg) {
+        var key = _toPrimitive(arg, "string");
+        return Object(esm_typeof["a"])(key) === "symbol" ? key : String(key);
+    }
+    function _defineProperties(target, props) {
+        for (var i = 0; i < props.length; i++) {
+            var descriptor = props[i];
+            descriptor.enumerable = descriptor.enumerable || false;
+            descriptor.configurable = true;
+            if ("value" in descriptor) descriptor.writable = true;
+            Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor);
+        }
+    }
+    function _createClass(Constructor, protoProps, staticProps) {
+        if (protoProps) _defineProperties(Constructor.prototype, protoProps);
+        if (staticProps) _defineProperties(Constructor, staticProps);
+        Object.defineProperty(Constructor, "prototype", {
+            "writable": false
+        });
+        return Constructor;
     }
 }, function(module, __webpack_exports__, __webpack_require__) {
     "use strict";
@@ -460,14 +490,14 @@ exports[`nerv should build nerv app 2`] = `
     }
 }, function(module, exports, __webpack_require__) {
     var _require = __webpack_require__(0), hooks = _require.hooks;
-    var taro = __webpack_require__(16).default;
+    var taro = __webpack_require__(18).default;
     if (hooks.isExist("initNativeApi")) {
         hooks.call("initNativeApi", taro);
     }
     module.exports = taro;
     module.exports.default = module.exports;
 }, function(module, exports, __webpack_require__) {
-    var setPrototypeOf = __webpack_require__(22);
+    var setPrototypeOf = __webpack_require__(24);
     function _inherits(subClass, superClass) {
         if (typeof superClass !== "function" && superClass !== null) {
             throw new TypeError("Super expression must either be null or a function");
@@ -486,9 +516,9 @@ exports[`nerv should build nerv app 2`] = `
     }
     module.exports = _inherits, module.exports.__esModule = true, module.exports["default"] = module.exports;
 }, function(module, exports, __webpack_require__) {
-    var getPrototypeOf = __webpack_require__(23);
-    var isNativeReflectConstruct = __webpack_require__(24);
-    var possibleConstructorReturn = __webpack_require__(25);
+    var getPrototypeOf = __webpack_require__(25);
+    var isNativeReflectConstruct = __webpack_require__(26);
+    var possibleConstructorReturn = __webpack_require__(27);
     function _createSuper(Derived) {
         var hasNativeReflectConstruct = isNativeReflectConstruct();
         return function _createSuperInternal() {
@@ -504,7 +534,7 @@ exports[`nerv should build nerv app 2`] = `
     }
     module.exports = _createSuper, module.exports.__esModule = true, module.exports["default"] = module.exports;
 }, function(module, exports, __webpack_require__) {
-    var defineProperty = __webpack_require__(5);
+    var defineProperty = __webpack_require__(6);
     function ownKeys(object, enumerableOnly) {
         var keys = Object.keys(object);
         if (Object.getOwnPropertySymbols) {
@@ -528,29 +558,29 @@ exports[`nerv should build nerv app 2`] = `
     }
     module.exports = _objectSpread2, module.exports.__esModule = true, module.exports["default"] = module.exports;
 }, function(module, exports, __webpack_require__) {
-    module.exports = __webpack_require__(28);
+    module.exports = __webpack_require__(31);
 }, function(module, __webpack_exports__, __webpack_require__) {
     "use strict";
     __webpack_require__.r(__webpack_exports__);
     __webpack_require__.d(__webpack_exports__, "default", (function() {
         return Taro;
     }));
-    var _babel_runtime_helpers_typeof__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(4);
+    var _babel_runtime_helpers_typeof__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(3);
     var _babel_runtime_helpers_typeof__WEBPACK_IMPORTED_MODULE_0___default = __webpack_require__.n(_babel_runtime_helpers_typeof__WEBPACK_IMPORTED_MODULE_0__);
     var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(0);
-    var _babel_runtime_helpers_toConsumableArray__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(17);
+    var _babel_runtime_helpers_toConsumableArray__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(19);
     var _babel_runtime_helpers_toConsumableArray__WEBPACK_IMPORTED_MODULE_2___default = __webpack_require__.n(_babel_runtime_helpers_toConsumableArray__WEBPACK_IMPORTED_MODULE_2__);
-    var _babel_runtime_helpers_inherits__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(12);
+    var _babel_runtime_helpers_inherits__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(14);
     var _babel_runtime_helpers_inherits__WEBPACK_IMPORTED_MODULE_3___default = __webpack_require__.n(_babel_runtime_helpers_inherits__WEBPACK_IMPORTED_MODULE_3__);
-    var _babel_runtime_helpers_createSuper__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(13);
+    var _babel_runtime_helpers_createSuper__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(15);
     var _babel_runtime_helpers_createSuper__WEBPACK_IMPORTED_MODULE_4___default = __webpack_require__.n(_babel_runtime_helpers_createSuper__WEBPACK_IMPORTED_MODULE_4__);
-    var _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(2);
+    var _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(4);
     var _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_5___default = __webpack_require__.n(_babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_5__);
-    var _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(3);
+    var _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(5);
     var _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_6___default = __webpack_require__.n(_babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_6__);
-    var _babel_runtime_helpers_objectSpread2__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(14);
+    var _babel_runtime_helpers_objectSpread2__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(16);
     var _babel_runtime_helpers_objectSpread2__WEBPACK_IMPORTED_MODULE_7___default = __webpack_require__.n(_babel_runtime_helpers_objectSpread2__WEBPACK_IMPORTED_MODULE_7__);
-    var _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(5);
+    var _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(6);
     var _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_8___default = __webpack_require__.n(_babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_8__);
     function isFunction$1(x) {
         return typeof x === "function";
@@ -1247,16 +1277,16 @@ exports[`nerv should build nerv app 2`] = `
     Taro.preload = getPreload(_tarojs_runtime__WEBPACK_IMPORTED_MODULE_1__["Current"]);
     Taro.pxTransform = getPxTransform(Taro);
 }, function(module, exports, __webpack_require__) {
-    var arrayWithoutHoles = __webpack_require__(18);
-    var iterableToArray = __webpack_require__(19);
-    var unsupportedIterableToArray = __webpack_require__(20);
-    var nonIterableSpread = __webpack_require__(21);
+    var arrayWithoutHoles = __webpack_require__(20);
+    var iterableToArray = __webpack_require__(21);
+    var unsupportedIterableToArray = __webpack_require__(22);
+    var nonIterableSpread = __webpack_require__(23);
     function _toConsumableArray(arr) {
         return arrayWithoutHoles(arr) || iterableToArray(arr) || unsupportedIterableToArray(arr) || nonIterableSpread();
     }
     module.exports = _toConsumableArray, module.exports.__esModule = true, module.exports["default"] = module.exports;
 }, function(module, exports, __webpack_require__) {
-    var arrayLikeToArray = __webpack_require__(6);
+    var arrayLikeToArray = __webpack_require__(7);
     function _arrayWithoutHoles(arr) {
         if (Array.isArray(arr)) return arrayLikeToArray(arr);
     }
@@ -1267,7 +1297,7 @@ exports[`nerv should build nerv app 2`] = `
     }
     module.exports = _iterableToArray, module.exports.__esModule = true, module.exports["default"] = module.exports;
 }, function(module, exports, __webpack_require__) {
-    var arrayLikeToArray = __webpack_require__(6);
+    var arrayLikeToArray = __webpack_require__(7);
     function _unsupportedIterableToArray(o, minLen) {
         if (!o) return;
         if (typeof o === "string") return arrayLikeToArray(o, minLen);
@@ -1314,8 +1344,8 @@ exports[`nerv should build nerv app 2`] = `
     }
     module.exports = _isNativeReflectConstruct, module.exports.__esModule = true, module.exports["default"] = module.exports;
 }, function(module, exports, __webpack_require__) {
-    var _typeof = __webpack_require__(4)["default"];
-    var assertThisInitialized = __webpack_require__(26);
+    var _typeof = __webpack_require__(3)["default"];
+    var assertThisInitialized = __webpack_require__(28);
     function _possibleConstructorReturn(self, call) {
         if (call && (_typeof(call) === "object" || typeof call === "function")) {
             return call;
@@ -1333,18 +1363,31 @@ exports[`nerv should build nerv app 2`] = `
         return self;
     }
     module.exports = _assertThisInitialized, module.exports.__esModule = true, module.exports["default"] = module.exports;
+}, function(module, exports, __webpack_require__) {
+    var _typeof = __webpack_require__(3)["default"];
+    function _toPrimitive(input, hint) {
+        if (_typeof(input) !== "object" || input === null) return input;
+        var prim = input[Symbol.toPrimitive];
+        if (prim !== undefined) {
+            var res = prim.call(input, hint || "default");
+            if (_typeof(res) !== "object") return res;
+            throw new TypeError("@@toPrimitive must return a primitive value.");
+        }
+        return (hint === "string" ? String : Number)(input);
+    }
+    module.exports = _toPrimitive, module.exports.__esModule = true, module.exports["default"] = module.exports;
 }, function(module, exports, __webpack_require__) {}, function(module, __webpack_exports__, __webpack_require__) {
     "use strict";
     __webpack_require__.r(__webpack_exports__);
-    var taro = __webpack_require__(11);
+    var taro = __webpack_require__(13);
     function createMultiRouter() {}
     function createRouter() {}
-    var classCallCheck = __webpack_require__(7);
-    var createClass = __webpack_require__(8);
-    var inherits = __webpack_require__(10);
-    var createSuper = __webpack_require__(9);
-    var nerv = __webpack_require__(1);
-    var app = __webpack_require__(27);
+    var classCallCheck = __webpack_require__(9);
+    var createClass = __webpack_require__(11);
+    var inherits = __webpack_require__(12);
+    var createSuper = __webpack_require__(10);
+    var nerv = __webpack_require__(2);
+    var app = __webpack_require__(30);
     var app_App = function(_Component) {
         Object(inherits["a"])(App, _Component);
         var _super = Object(createSuper["a"])(App);
@@ -1404,7 +1447,7 @@ exports[`nerv should build nerv app 2`] = `
     config.routes = [ Object.assign({
         "path": "pages/index/index",
         "load": function load(context, params) {
-            var page = __webpack_require__.e(1).then(__webpack_require__.bind(null, 30));
+            var page = __webpack_require__.e(1).then(__webpack_require__.bind(null, 33));
             return [ page, context, params ];
         }
     }, {

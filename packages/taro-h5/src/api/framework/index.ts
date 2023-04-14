@@ -1,7 +1,7 @@
 import Taro from '@tarojs/api'
 
-export const getApp: typeof Taro.getApp = function <T = TaroGeneral.IAnyObject> () {
-  return Taro.getCurrentInstance().app as unknown as Taro.getApp.Instance<T>
+export const getApp: typeof Taro.getApp = function <T extends Taro.App = TaroGeneral.IAnyObject> () {
+  return Taro.getCurrentInstance().app as unknown as T
 }
 
 export { getCurrentPages } from '@tarojs/router'

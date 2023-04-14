@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/service",
-  "version": "3.6.4",
+  "version": "3.6.5-alpha",
   "description": "Taro Service",
   "main": "index.js",
   "types": "types/index.d.ts",
@@ -44,6 +44,6 @@
     "webpack-merge": "^4.2.2"
   },
   "devDependencies": {
-    "webpack": "5.69.0"
+    "webpack": "5.78.0"
   }
 }

@@ -1,8 +1,10 @@
+import { transformFileSync } from '@swc/core'
 import * as child_process from 'child_process'
 import * as fs from 'fs-extra'
 import { camelCase, flatMap, isPlainObject, mergeWith } from 'lodash'
 import * as os from 'os'
 import * as path from 'path'
+import requireFromString from 'require-from-string'
 
 import {
   CSS_EXT,
@@ -11,11 +13,9 @@ import {
   PLATFORMS,
   processTypeEnum,
   processTypeMap,
-  REG_SCRIPTS,
   SCRIPT_EXT,
   TARO_CONFIG_FOLDER
 } from './constants'
-import createSwcRegister from './swcRegister'
 import { chalk } from './terminal'
 
 const execSync = child_process.execSync
@@ -492,50 +492,6 @@ export function removeHeadSlash (str: string) {
   return str.replace(/^(\/|\\)/, '')
 }
 
-function analyzeImport (filePath: string): string[] {
-  const parser = require('@babel/parser')
-  const traverse = require('@babel/traverse').default
-  const code = fs.readFileSync(filePath).toString()
-  let importPaths: string[] = []
-  filePath = path.dirname(filePath)
-
-  const ast = parser.parse(code, {
-    sourceType: 'module',
-    plugins: [
-      'typescript',
-      'classProperties',
-      'objectRestSpread',
-      'optionalChaining'
-    ]
-  })
-
-  traverse(ast, {
-    ImportDeclaration ({ node }) {
-      const list: string[] = []
-      const source = node.source.value
-
-      if (path.extname(source)) {
-        const importPath = path.resolve(filePath, source)
-        list.push(importPath)
-      } else {
-        ['.js', '.ts', '.json'].forEach(ext => {
-          const importPath = path.resolve(filePath, source + ext)
-          list.push(importPath)
-        })
-      }
-
-      const dep = list.find(importPath => fs.existsSync(importPath))
-      if (!dep) return
-
-      importPaths.push(dep)
-      if (path.extname(dep) !== '.json') {
-        importPaths = importPaths.concat(analyzeImport(dep))
-      }
-    }
-  })
-  return importPaths
-}
-
 // converts ast nodes to js object
 function exprToObject (node: any) {
   const types = ['BooleanLiteral', 'StringLiteral', 'NumericLiteral']
@@ -642,23 +598,27 @@ export function readPageConfig (configPath: string) {
 export function readConfig (configPath: string) {
   let result: any = {}
   if (fs.existsSync(configPath)) {
-    const importPaths = REG_SCRIPTS.test(configPath) ? analyzeImport(configPath) : []
-
-    createSwcRegister({
-      only: [
-        fs.realpathSync(configPath), // configPath might be a symlink. that will cause compilation to fail
-        filepath => importPaths.includes(filepath)
-      ],
-      plugins: [
-        [path.resolve(__dirname, '../swc/plugin-define-config/target/wasm32-wasi/release/swc_plugin_define_config.wasm'), {}]
-      ]
+    result = transformFileSync(configPath, {
+      jsc: {
+        parser: {
+          syntax: 'typescript',
+          decorators: true
+        },
+        transform: {
+          legacyDecorator: true
+        },
+        experimental: {
+          plugins: [
+            [path.resolve(__dirname, '../swc/plugin-define-config/target/wasm32-wasi/release/swc_plugin_define_config.wasm'), {}]
+          ]
+        }
+      },
+      module: {
+        type: 'commonjs'
+      }
     })
 
-    importPaths.concat([configPath]).forEach(item => {
-      delete require.cache[item]
-    })
-
-    result = getModuleDefaultExport(require(configPath))
+    result = getModuleDefaultExport(requireFromString(result.code))
   } else {
     result = readPageConfig(configPath)
   }

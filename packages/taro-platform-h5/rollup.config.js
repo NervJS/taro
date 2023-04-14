@@ -41,7 +41,7 @@ const variesConfig = [{
   },
   plugins: getPlugins([externals({
     deps: true,
-    devDeps: false
+    devDeps: false,
   })])
 }, {
   input: [
@@ -56,7 +56,7 @@ const variesConfig = [{
   },
   plugins: getPlugins([externals({
     deps: true,
-    devDeps: false
+    devDeps: false,
   })])
 }, {
   input: path.join(cwd, 'src/runtime/apis/index.ts'), // 供 babel-plugin-transform-taroapi 使用，为了能 tree-shaking

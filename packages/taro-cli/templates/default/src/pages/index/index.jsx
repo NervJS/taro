@@ -1,37 +1,17 @@
-<%if (['react', 'preact'].includes(framework)) {-%>
-import { Component<% if (typescript) {%>, PropsWithChildren<%}%> } from 'react'
-<%}-%>
 import { View, Text } from '@tarojs/components'
+import { useLoad } from '@tarojs/taro'
 import './index.<%= cssExt %>'
 
-<%if (['react', 'preact'].includes(framework)) {-%>
-export default class <%= _.capitalize(pageName) %> extends <% if (typescript) {%>Component<PropsWithChildren><%} else {%>Component<%}%> {
+export default function <%= _.capitalize(pageName) %>() {
 
-  componentWillMount () { }
+  useLoad(() => {
+    console.log('Page loaded.')
+  })
 
-  componentDidMount () { }
-
-  componentWillUnmount () { }
-
-  componentDidShow () { }
-
-  componentDidHide () { }
-
-  render () {
-    return (
-      <View className='<%= pageName %>'>
-        <Text>Hello world!</Text>
-      </View>
-    )
-  }
-}
-<%}-%>
-<%if (['solid'].includes(framework)) {-%>
-export default function Index() {
   return (
-    <View class='<%= pageName %>'>
+    <View className='<%= pageName %>'>
       <Text>Hello world!</Text>
     </View>
-  );
+  )
 }
 <%}-%>
