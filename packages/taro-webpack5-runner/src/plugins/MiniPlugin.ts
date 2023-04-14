@@ -67,6 +67,7 @@ interface ITaroMiniPluginOptions {
   logger?: {
     quiet?: boolean
   }
+  isBuildNativeComp?: boolean
 }
 
 export interface IComponentObj {
@@ -1152,21 +1153,32 @@ export default class TaroMiniPlugin {
   injectCommonStyles ({ assets }: Compilation, { webpack }: Compiler) {
     const { ConcatSource } = webpack.sources
     const styleExt = this.options.fileType.style
-    const appStyle = `app${styleExt}`
     const REG_STYLE_EXT = new RegExp(`\\.(${styleExt.replace('.', '')})(\\?.*)?$`)
+    let pages = new Set<IComponent>()
 
-    if (!assets[appStyle]) return
+    if (this.options.isBuildNativeComp) {
+      pages = this.pages
+    } else {
+      pages.add({
+        name: 'app',
+        isNative: false,
+        path: ''
+      })
+    }
 
-    const originSource = assets[appStyle]
-    const source = new ConcatSource(originSource)
-
-    Object.keys(assets).forEach(assetName => {
-      const fileName = path.basename(assetName, path.extname(assetName))
-      if ((REG_STYLE.test(assetName) || REG_STYLE_EXT.test(assetName)) && this.options.commonChunks.includes(fileName)) {
-        source.add('\n')
-        source.add(`@import ${JSON.stringify(urlToRequest(assetName))};`)
-        assets[appStyle] = source
-      }
+    pages.forEach(item => {
+      const pageStyle = `${item.name}${styleExt}`
+      const originSource = assets[pageStyle]
+      if (item.isNative || !originSource) return
+      const source = new ConcatSource(originSource)
+      Object.keys(assets).forEach(assetName => {
+        const fileName = path.basename(assetName, path.extname(assetName))
+        if ((REG_STYLE.test(assetName) || REG_STYLE_EXT.test(assetName)) && this.options.commonChunks.includes(fileName)) {
+          source.add('\n')
+          source.add(`@import ${JSON.stringify(urlToRequest(path.relative(path.dirname(pageStyle), assetName)))};`)
+          assets[pageStyle] = source
+        }
+      })
     })
   }
 
