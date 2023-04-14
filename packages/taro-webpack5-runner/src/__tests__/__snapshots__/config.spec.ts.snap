@@ -13327,7 +13327,7 @@ exports[`config should build from origin and pipe to output web 2`] = `
 "
 `;
 
-exports[`config should copy assets mini 1`] = `15`;
+exports[`config should copy assets mini 1`] = `17`;
 
 exports[`config should copy assets mini 2`] = `
 "
@@ -19112,6 +19112,7 @@ require("./runtime");
         function toCamelCase() {}
         function toDashed() {}
         function processApis() {}
+        function singleQuote() {}
         var EMPTY_OBJ = {};
         var hooks = {};
         function Events() {}
@@ -19150,6 +19151,10 @@ require("./runtime");
 <import src="./base.wxml" />
 <template is="tmpl_0_container" data="{{i:i,l:l}}" />
 
+/** filePath: dist/irrelevant.txt **/
+I m irrelevant.
+
+
 /** filePath: dist/pages/index/index.js **/
 "use strict";
 
@@ -19161,7 +19166,16 @@ require("./runtime");
         var inherits = __webpack_require__(410);
         var createSuper = __webpack_require__(635);
         var react = __webpack_require__(374);
+        var Canvas = {};
+        var CoverView = {};
+        var CoverImage = {};
+        var Input = {};
+        var Picker = {};
+        var Swiper = {};
+        var SwiperItem = {};
         var Text = {};
+        var Textarea = {};
+        var Video = {};
         var View = {};
         var taro_components = "taro-components-mock";
         function say() {
@@ -19749,10 +19763,14 @@ module.exports = {
         }
     }
 } ]);
+
+/** filePath: dist/weapp/index.wxml **/
+<view>weapp</view>
+
 "
 `;
 
-exports[`config should copy assets web 1`] = `3`;
+exports[`config should copy assets web 1`] = `5`;
 
 exports[`config should copy assets web 2`] = `
 "
@@ -19761,6 +19779,10 @@ exports[`config should copy assets web 2`] = `
 
 /** filePath: dist/index.html **/
 <!doctype html><html><head><meta content="text/html; charset=utf-8" http-equiv="Content-Type"><meta content="width=device-width,initial-scale=1,user-scalable=no" name="viewport"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-touch-fullscreen" content="yes"><meta name="format-detection" content="telephone=no,address=no"><meta name="apple-mobile-web-app-status-bar-style" content="white"><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><title></title><script>!function(x){function w(){var v,u,t,tes,s=x.document,r=s.documentElement,a=r.getBoundingClientRect().width;if(!v&&!u){var n=!!x.navigator.appVersion.match(/AppleWebKit.*Mobile.*/);v=x.devicePixelRatio;tes=x.devicePixelRatio;v=n?v:1,u=1/v}if(a>=640){r.style.fontSize="40px"}else{if(a<=320){r.style.fontSize="20px"}else{r.style.fontSize=a/320*20+"px"}}}x.addEventListener("resize",function(){w()});w()}(window);</script><script defer="defer" src="/js/app.js"></script><link href="/css/app.css" rel="stylesheet"></head><body><div id="app"></div></body></html>
+
+/** filePath: dist/irrelevant.txt **/
+I m irrelevant.
+
 
 /** filePath: dist/js/app.js **/
 (function() {
@@ -19905,6 +19927,10 @@ exports[`config should copy assets web 2`] = `
     }(Component);
     var app = null && App;
 })();
+
+/** filePath: dist/weapp/index.wxml **/
+<view>weapp</view>
+
 "
 `;
 

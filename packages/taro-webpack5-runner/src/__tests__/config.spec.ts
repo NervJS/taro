@@ -41,7 +41,7 @@ describe('config', () => {
   })
 
   // FIXME 配置 copy 时，runner 会意外退出，暂时跳过
-  describe.skip('should copy assets', () => {
+  describe('should copy assets', () => {
     test('web', async () => {
       const { stats, config } = await compile('config', {
         platformType: 'web',
