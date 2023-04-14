@@ -618,7 +618,7 @@ export function readConfig (configPath: string) {
       }
     })
 
-    result = requireFromString(result.code).default
+    result = getModuleDefaultExport(requireFromString(result.code))
   } else {
     result = readPageConfig(configPath)
   }

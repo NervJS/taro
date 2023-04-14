@@ -25,7 +25,7 @@
     "clear-all": "rimraf **/node_modules",
     "lint": "eslint packages/ --ext .js --ext .ts --ext .tsx",
     "lint:style": "stylelint ./packages/**/*.{css,scss}",
-    "test": "pnpm --parallel -r --filter @tarojs/cli --filter babel-preset-taro --filter babel-plugin-transform-taroapi --filter @tarojs/components --filter @tarojs/taro-h5 --filter @tarojs/react --filter @tarojs/webpack-runner --filter @tarojs/mini-runner --filter @tarojs/taro-rn --filter @tarojs/components-rn run test:ci",
+    "test": "pnpm --parallel -r --filter @tarojs/cli --filter @tarojs/helper --filter babel-preset-taro --filter babel-plugin-transform-taroapi --filter @tarojs/components --filter @tarojs/taro-h5 --filter @tarojs/react --filter @tarojs/webpack-runner --filter @tarojs/mini-runner --filter @tarojs/taro-rn --filter @tarojs/components-rn run test:ci",
     "version": "run-s version:*",
     "version:release": "pnpm --parallel -r --filter=./packages/* exec npm version ${npm_package_version}",
     "version:git": "git add . && git commit -m \"chore(release): publish ${npm_package_version}\"",
