@@ -64,6 +64,10 @@ export class MiniCombination extends Combination<MiniBuildConfig> {
     const webpackPlugin = new MiniWebpackPlugin(this)
     const webpackModule = new MiniWebpackModule(this)
 
+    const module = webpackModule.getModules()
+    const [, pxtransformOption] = webpackModule.__postcssOption.find(([name]) => name === 'postcss-pxtransform') || []
+    webpackPlugin.pxtransformOption = pxtransformOption as any
+
     chain.merge({
       entry: webpackEntry,
       output: webpackOutput,
@@ -73,7 +77,7 @@ export class MiniCombination extends Combination<MiniBuildConfig> {
         alias: this.getAlias()
       },
       plugin: webpackPlugin.getPlugins(),
-      module: webpackModule.getModules(),
+      module,
       optimization: this.getOptimization()
     })
   }
