@@ -1310,19 +1310,24 @@ exports[`subpackages should process subpackages 2`] = `
         "828": 1.81 / 2
     };
     var defaultBaseFontSize = 20;
+    var defaultUnitPrecision = 5;
+    var defaultTargetUnit = "rpx";
     function getInitPxTransform(taro) {
         return function(config) {
-            var _config$designWidth = config.designWidth, designWidth = _config$designWidth === void 0 ? defaultDesignWidth : _config$designWidth, _config$deviceRatio = config.deviceRatio, deviceRatio = _config$deviceRatio === void 0 ? defaultDesignRatio : _config$deviceRatio, _config$baseFontSize = config.baseFontSize, baseFontSize = _config$baseFontSize === void 0 ? defaultBaseFontSize : _config$baseFontSize;
+            var _config$designWidth = config.designWidth, designWidth = _config$designWidth === void 0 ? defaultDesignWidth : _config$designWidth, _config$deviceRatio = config.deviceRatio, deviceRatio = _config$deviceRatio === void 0 ? defaultDesignRatio : _config$deviceRatio, _config$baseFontSize = config.baseFontSize, baseFontSize = _config$baseFontSize === void 0 ? defaultBaseFontSize : _config$baseFontSize, _config$targetUnit = config.targetUnit, targetUnit = _config$targetUnit === void 0 ? defaultTargetUnit : _config$targetUnit, _config$unitPrecision = config.unitPrecision, unitPrecision = _config$unitPrecision === void 0 ? defaultUnitPrecision : _config$unitPrecision;
             taro.config = taro.config || {};
             taro.config.designWidth = designWidth;
             taro.config.deviceRatio = deviceRatio;
             taro.config.baseFontSize = baseFontSize;
+            taro.config.targetUnit = targetUnit;
+            taro.config.unitPrecision = unitPrecision;
         };
     }
     function getPxTransform(taro) {
         return function(size) {
             var config = taro.config || {};
             var deviceRatio = config.deviceRatio || defaultDesignRatio;
+            var baseFontSize = config.baseFontSize;
             var designWidth = function() {
                 var input = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
                 return isFunction$1(config.designWidth) ? config.designWidth(input) : config.designWidth || defaultDesignWidth;
@@ -1330,7 +1335,22 @@ exports[`subpackages should process subpackages 2`] = `
             if (!(designWidth in deviceRatio)) {
                 throw new Error("deviceRatio 配置中不存在 ".concat(designWidth, " 的设置！"));
             }
-            return parseInt(size, 10) * deviceRatio[designWidth] + "rpx";
+            var formatSize = ~~size;
+            var rootValue = 1 / config.deviceRatio[designWidth];
+            switch (config.targetUnit) {
+              case "rem":
+                rootValue *= baseFontSize * 2;
+                break;
+
+              case "px":
+                rootValue *= 2;
+                break;
+            }
+            var val = formatSize / rootValue;
+            if (config.unitPrecision >= 0 && config.unitPrecision <= 100) {
+                val = Number(val.toFixed(config.unitPrecision));
+            }
+            return val + config.targetUnit;
         };
     }
     var Taro = {
