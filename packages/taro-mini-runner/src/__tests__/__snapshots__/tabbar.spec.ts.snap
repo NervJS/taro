@@ -843,7 +843,10 @@ require("./taro");
                 640: 1.17,
                 750: 1,
                 828: .905
-            }
+            },
+            baseFontSize: 20,
+            unitPrecision: undefined,
+            targetUnit: undefined
         });
     }
 }, [ [ 16, 0, 1, 3, 2 ] ] ]);
@@ -1798,7 +1801,10 @@ require("./taro");
                 640: 1.17,
                 750: 1,
                 828: .905
-            }
+            },
+            baseFontSize: 20,
+            unitPrecision: undefined,
+            targetUnit: undefined
         });
     }
 }, [ [ 15, 0, 1, 3, 2 ] ] ]);
