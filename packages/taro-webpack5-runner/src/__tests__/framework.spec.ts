@@ -43,11 +43,10 @@ describe('framework', () => {
       expect(output).toMatchSnapshot()
     })
 
-    // FIXME: vue/compiler-sfc 错误
-    test.skip('mini', async () => {
+    test('mini', async () => {
       const { stats, config } = await compile('vue', {
         platformType: 'mini',
-        framework: 'vue'
+        framework: 'vue',
       })
       const assets = stats?.toJson().assets || []
 
@@ -72,8 +71,7 @@ describe('framework', () => {
       expect(output).toMatchSnapshot()
     })
 
-    // FIXME: vue/compiler-sfc 错误
-    test.skip('mini', async () => {
+    test('mini', async () => {
       const { stats, config } = await compile('vue3', {
         platformType: 'mini',
         framework: 'vue3'

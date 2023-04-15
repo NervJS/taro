@@ -16,8 +16,7 @@ describe('mini-split-chunks', () => {
     readDir = compiler.readDir
   })
 
-  // FIXME
-  test.skip('should process mini-split-chunks', async () => {
+  test('should process mini-split-chunks', async () => {
     const appName = 'mini-split-chunks'
     const { stats, config } = await compile(appName, {
       platformType: 'mini',
@@ -68,14 +67,20 @@ describe('mini-split-chunks', () => {
 
         if (!isNeedTestFile) return
 
+        const chunkPaths: string[] = []
         const matchChunks = (fileContent || '').match(new RegExp(regexp, 'g'))
-        const chunkPaths = (matchChunks || []).map(chunkPath => {
-          return chunkPath.replace(new RegExp(regexp), '$1')
+        ;(matchChunks || []).forEach(chunkPath => {
+          const regex =new RegExp(regexp, 'g')
+          const matches = [...chunkPath.matchAll(regex)]
+          const paths: string[] = matches.map(match => {
+            // @ts-ignore
+            return match[0].match(/"([^"]+)"/)[1] || match[0].match(/'([^']+)'/)[1]
+          })
+          chunkPaths.push(...paths)
         })
 
         chunkPaths.forEach(chunkPath => {
-          const chunkExt = ext === jsExt ? jsExt : ''
-          const chunkAbsolutePath = path.resolve(file, '..', chunkPath + chunkExt)
+          const chunkAbsolutePath = path.resolve(file, '..', chunkPath)
           const isExists = fs.pathExistsSync(chunkAbsolutePath)
 
           // 根据match到的module path查看输出的chunk是否存在
@@ -87,7 +92,7 @@ describe('mini-split-chunks', () => {
       if (path.extname(file) === jsExt) {
         checkChunksExist({
           ext: jsExt,
-          regexp: 'require\\("(.*)"\\);'
+          regexp: 'require\\([\'"]\\.\\.\\/.*?[\'"]\\)'
         })
       }
 
