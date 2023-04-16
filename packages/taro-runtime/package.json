@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/runtime",
-  "version": "3.6.5-alpha",
+  "version": "3.6.5",
   "description": "taro runtime for mini apps.",
   "main": "dist/runtime.esm.js",
   "module": "dist/runtime.esm.js",
@@ -36,7 +36,7 @@
     "rollup": "^2.79.0",
     "rollup-plugin-ts": "^3.0.2",
     "ts-jest": "^29.0.5",
-    "tslib": "^2.4.0",
+    "tslib": "^2.5.0",
     "typescript": "^4.7.4"
   }
 }
