@@ -380,6 +380,25 @@ function equipCommonApis (taro, global, apis: Record<string, any> = {}) {
   taro.addInterceptor = link.addInterceptor.bind(link)
   taro.cleanInterceptors = link.cleanInterceptors.bind(link)
   taro.miniGlobal = taro.options.miniGlobal = global
+
+  // 创建 request 实例，管理自己的 Interceptor
+  taro.createRequest = function () {
+    return new taro.Link(function (chain) {
+      return request(chain.requestParams)
+    })
+  }
+  // 创建 uploadFile 实例，管理自己的 Interceptor
+  taro.createUploadFile = function () {
+    return new taro.Link(function (chain) {
+      return taro.uploadFile(chain.requestParams)
+    })
+  }
+  // 创建 downloadFile 实例，管理自己的 Interceptor
+  taro.createDownloadFile = function () {
+    return new taro.Link(function (chain) {
+      return taro.downloadFile(chain.requestParams)
+    })
+  }
 }
 
 /**
