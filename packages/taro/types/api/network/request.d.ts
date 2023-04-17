@@ -284,7 +284,7 @@ declare module '../../index' {
       /** Transfer-Encoding Chunk Received 事件的回调函数 */
       callback: RequestTask.onChunkReceived.Callback,
     ): void
-    /** 监听 Transfer-Encoding Chunk Received 事件。当接收到新的chunk时触发。
+    /** 移除 Transfer-Encoding Chunk Received 事件的监听函数
      * @supported weapp
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/network/request/RequestTask.offChunkReceived.html
      */
