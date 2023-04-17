@@ -4134,7 +4134,7 @@ require("./runtime");
         class URLSearchParams {
             constructor(query) {
                 _URLSearchParams_dict.set(this, Object.create(null));
-                if (!query) return;
+                query !== null && query !== void 0 ? query : query = "";
                 const dict = __classPrivateFieldGet(this, _URLSearchParams_dict, "f");
                 if (typeof query === "string") {
                     if (query.charAt(0) === "?") {
@@ -4225,7 +4225,7 @@ require("./runtime");
                 _URL_pathname.set(this, "");
                 _URL_port.set(this, "");
                 _URL_protocol.set(this, "");
-                _URL_search.set(this, "");
+                _URL_search.set(this, void 0);
                 if (!(0, _tarojs_shared__WEBPACK_IMPORTED_MODULE_0__.HD)(url)) url = String(url);
                 const parseResult = parseUrlBase(url, base);
                 const {hash: hash, hostname: hostname, pathname: pathname, port: port, protocol: protocol, search: search} = parseResult;
@@ -4234,7 +4234,7 @@ require("./runtime");
                 __classPrivateFieldSet(this, _URL_pathname, pathname || "/", "f");
                 __classPrivateFieldSet(this, _URL_port, port, "f");
                 __classPrivateFieldSet(this, _URL_protocol, protocol, "f");
-                __classPrivateFieldSet(this, _URL_search, search, "f");
+                __classPrivateFieldSet(this, _URL_search, new URLSearchParams(search), "f");
             }
             get protocol() {
                 return __classPrivateFieldGet(this, _URL_protocol, "f");
@@ -4280,12 +4280,13 @@ require("./runtime");
                 }
             }
             get search() {
-                return __classPrivateFieldGet(this, _URL_search, "f");
+                const val = __classPrivateFieldGet(this, _URL_search, "f").toString();
+                return val.length === 0 || val.startsWith("?") ? val : \`?\${val}\`;
             }
             set search(val) {
                 if ((0, _tarojs_shared__WEBPACK_IMPORTED_MODULE_0__.HD)(val)) {
                     val = val.trim();
-                    if (val) __classPrivateFieldSet(this, _URL_search, val.startsWith("?") ? val : \`?\${val}\`, "f"); else __classPrivateFieldSet(this, _URL_search, "", "f");
+                    __classPrivateFieldSet(this, _URL_search, new URLSearchParams(val), "f");
                 }
             }
             get hash() {
@@ -4325,7 +4326,7 @@ require("./runtime");
                 }
             }
             get searchParams() {
-                return new URLSearchParams(this.search);
+                return __classPrivateFieldGet(this, _URL_search, "f");
             }
             toString() {
                 return this.href;

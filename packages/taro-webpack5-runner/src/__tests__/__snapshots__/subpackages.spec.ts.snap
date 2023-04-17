@@ -4232,7 +4232,7 @@ require("./runtime");
             function URLSearchParams(query) {
                 (0, _babel_runtime_helpers_esm_classCallCheck__WEBPACK_IMPORTED_MODULE_1__.Z)(this, URLSearchParams);
                 _URLSearchParams_dict.set(this, Object.create(null));
-                if (!query) return;
+                query !== null && query !== void 0 ? query : query = "";
                 var dict = __classPrivateFieldGet(this, _URLSearchParams_dict, "f");
                 if (typeof query === "string") {
                     if (query.charAt(0) === "?") {
@@ -4340,7 +4340,7 @@ require("./runtime");
                 _URL_pathname.set(this, "");
                 _URL_port.set(this, "");
                 _URL_protocol.set(this, "");
-                _URL_search.set(this, "");
+                _URL_search.set(this, void 0);
                 if (!(0, _tarojs_shared__WEBPACK_IMPORTED_MODULE_0__.HD)(url)) url = String(url);
                 var parseResult = parseUrlBase(url, base);
                 var hash = parseResult.hash, hostname = parseResult.hostname, pathname = parseResult.pathname, port = parseResult.port, protocol = parseResult.protocol, search = parseResult.search;
@@ -4349,7 +4349,7 @@ require("./runtime");
                 __classPrivateFieldSet(this, _URL_pathname, pathname || "/", "f");
                 __classPrivateFieldSet(this, _URL_port, port, "f");
                 __classPrivateFieldSet(this, _URL_protocol, protocol, "f");
-                __classPrivateFieldSet(this, _URL_search, search, "f");
+                __classPrivateFieldSet(this, _URL_search, new URLSearchParams(search), "f");
             }
             (0, _babel_runtime_helpers_esm_createClass__WEBPACK_IMPORTED_MODULE_2__.Z)(URL, [ {
                 key: "protocol",
@@ -4407,12 +4407,13 @@ require("./runtime");
             }, {
                 key: "search",
                 get: function get() {
-                    return __classPrivateFieldGet(this, _URL_search, "f");
+                    var val = __classPrivateFieldGet(this, _URL_search, "f").toString();
+                    return val.length === 0 || val.startsWith("?") ? val : "?".concat(val);
                 },
                 set: function set(val) {
                     if ((0, _tarojs_shared__WEBPACK_IMPORTED_MODULE_0__.HD)(val)) {
                         val = val.trim();
-                        if (val) __classPrivateFieldSet(this, _URL_search, val.startsWith("?") ? val : "?".concat(val), "f"); else __classPrivateFieldSet(this, _URL_search, "", "f");
+                        __classPrivateFieldSet(this, _URL_search, new URLSearchParams(val), "f");
                     }
                 }
             }, {
@@ -4460,7 +4461,7 @@ require("./runtime");
             }, {
                 key: "searchParams",
                 get: function get() {
-                    return new URLSearchParams(this.search);
+                    return __classPrivateFieldGet(this, _URL_search, "f");
                 }
             }, {
                 key: "toString",
