@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/plugin-http",
-  "version": "3.6.3",
+  "version": "3.6.5",
   "description": "Taro 小程序端支持使用 web 请求 的插件",
   "main": "index.js",
   "scripts": {
@@ -43,7 +43,7 @@
     "rollup-plugin-node-externals": "^5.0.0",
     "rollup-plugin-ts": "^3.0.2",
     "ts-jest": "^29.0.5",
-    "tslib": "^2.4.0",
+    "tslib": "^2.5.0",
     "typescript": "^4.7.4"
   }
 }

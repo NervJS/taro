@@ -18,7 +18,8 @@ const baseConfig = {
   ],
   plugins: [
     externals({
-      devDeps: false
+      deps: true,
+      devDeps: false,
     }),
     resolve({
       preferBuiltins: false,

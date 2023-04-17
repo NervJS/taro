@@ -40,7 +40,8 @@ const variesConfig = [{
     format: 'cjs'
   },
   plugins: getPlugins([externals({
-    devDeps: false
+    deps: true,
+    devDeps: false,
   })])
 }, {
   input: [
@@ -54,7 +55,8 @@ const variesConfig = [{
     preserveModulesRoot: 'src'
   },
   plugins: getPlugins([externals({
-    devDeps: false
+    deps: true,
+    devDeps: false,
   })])
 }, {
   input: path.join(cwd, 'src/runtime/apis/index.ts'), // 供 babel-plugin-transform-taroapi 使用，为了能 tree-shaking
@@ -63,11 +65,7 @@ const variesConfig = [{
     format: 'cjs',
     inlineDynamicImports: true
   },
-  plugins: getPlugins([
-    externals({
-      exclude: ['@tarojs/components', '@tarojs/taro-h5']
-    })
-  ], [exportNameOnly()])
+  plugins: getPlugins([exportNameOnly()])
 }]
 
 if (process.env.NODE_ENV === 'production') {

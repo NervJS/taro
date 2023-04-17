@@ -13,7 +13,7 @@ import { CollectedDeps, MF_NAME } from '../utils/constant'
 import TaroRemoteRuntimeModule from './TaroRemoteRuntimeModule'
 
 import type { PLATFORM_TYPE } from '@tarojs/shared'
-import type { Compiler, NormalModule, sources } from 'webpack'
+import type { Compiler, Module, NormalModule, sources } from 'webpack'
 import type { ContainerReferencePluginOptions, RemotesConfig } from 'webpack/types'
 
 const ExternalsPlugin = require('webpack/lib/ExternalsPlugin')
@@ -128,6 +128,9 @@ export default class TaroContainerReferencePlugin extends ContainerReferencePlug
             }
           }
         }
+        // Note: webpack 5.78.0 类型禁用了返回 void 的情况，但实际在 webpack 中仍使用同样方法返回 void
+        // https://github.com/webpack/webpack/blob/main/lib/container/ContainerReferencePlugin.js#L99
+        return undefined as unknown as Module
       })
 
       const { RuntimeGlobals } = compiler.webpack
@@ -175,6 +178,9 @@ export default class TaroContainerReferencePlugin extends ContainerReferencePlug
                 }
               }
             }
+            // Note: webpack 5.78.0 类型禁用了返回 void 的情况，但实际在 webpack 中仍使用同样方法返回 void
+            // https://github.com/webpack/webpack/blob/main/lib/container/ContainerReferencePlugin.js#L99
+            return undefined as unknown as Module
           }
         )
 

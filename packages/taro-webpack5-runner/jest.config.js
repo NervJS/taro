@@ -11,6 +11,9 @@ module.exports = {
   testMatch: ['**/__tests__/?(*.)+(spec|test).[jt]s?(x)'],
   testTimeout: 120000,
   transform: {
+    '^.+\\.(css|sass|scss|less|styl|stylus|pcss|postcss)$': ['jest-transform-css', {
+      module: true
+    }],
     '^.+\\.m?[tj]sx?$': ['ts-jest', {
       diagnostics: false,
       tsconfig: 'tsconfig.test.json'

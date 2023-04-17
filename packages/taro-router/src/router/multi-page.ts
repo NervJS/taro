@@ -62,10 +62,13 @@ export default class MultiPageHandler {
 
     const appId = this.appId
     let app = document.getElementById(appId)
+    let isPosition = true
     if (!app) {
       app = document.createElement('div')
       app.id = appId
+      isPosition = false
     }
+    const appWrapper = app?.parentNode || app?.parentElement || document.body
     app.classList.add('taro_router')
 
     if (this.tabBarList.length > 1) {
@@ -76,14 +79,18 @@ export default class MultiPageHandler {
       const panel = document.createElement('div')
       panel.classList.add('taro-tabbar__panel')
 
-      panel.appendChild(app)
+      panel.appendChild(app.cloneNode(true))
       container.appendChild(panel)
 
-      document.body.appendChild(container)
+      if (!isPosition) {
+        appWrapper.appendChild(container)
+      } else {
+        appWrapper.replaceChild(container, app)
+      }
 
       initTabbar(this.config)
     } else {
-      document.body.appendChild(app)
+      if (!isPosition) appWrapper.appendChild(app)
     }
   }
 

@@ -268,7 +268,6 @@ class _ScrollView extends React.Component<ScrollViewProps<any>, ScrollViewState>
         'onScroll',
         'onScrollEndDrag',
         'onMomentumScrollEnd',
-        'scrollEventThrottle',
         'scrollsToTop',
         'style',
         'contentContainerStyle',
