@@ -401,6 +401,15 @@ declare module '../../index' {
      */
     addInterceptor(interceptor: interceptor): any
 
+    /** 清除所有拦截器
+     * @example
+     * ```tsx
+     * Taro.cleanInterceptors()
+     * ```
+     * @supported weapp, h5, alipay, swan, tt, qq
+     */
+    cleanInterceptors(): void
+
     interceptors: interceptors
   }
 }
