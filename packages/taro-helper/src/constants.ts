@@ -220,3 +220,6 @@ export enum FRAMEWORK_MAP {
   REACT = 'react',
   NERV = 'nerv'
 }
+
+
+export const TARO_GROBAL_PLUGIN_CONFIG_DIR = '.taro-init-plugin'

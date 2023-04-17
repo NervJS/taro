@@ -2,9 +2,11 @@ import {
   createSwcRegister,
   ENTRY,
   getModuleDefaultExport,
+  getUserHomeDir,
   OUTPUT_DIR,
   resolveScriptPath,
-  SOURCE_DIR
+  SOURCE_DIR,
+  TARO_GROBAL_PLUGIN_CONFIG_DIR
 } from '@tarojs/helper'
 import * as fs from 'fs-extra'
 import * as path from 'path'
@@ -15,7 +17,7 @@ import {
   DEFAULT_CONFIG_FILE
 } from './utils/constants'
 
-import type { IProjectConfig } from '@tarojs/taro/types/compile'
+import type { IProjectConfig, PluginItem } from '@tarojs/taro/types/compile'
 
 interface IConfigOptions {
   appPath: string
@@ -25,6 +27,7 @@ export default class Config {
   appPath: string
   configPath: string
   initialConfig: IProjectConfig
+  initGlobalPluginConfig: PluginItem[]
   isInitSuccess: boolean
   constructor (opts: IConfigOptions) {
     this.appPath = opts.appPath
@@ -34,7 +37,18 @@ export default class Config {
   init () {
     this.configPath = resolveScriptPath(path.join(this.appPath, CONFIG_DIR_NAME, DEFAULT_CONFIG_FILE))
     if (!fs.existsSync(this.configPath)) {
+      /**
+       * 如果项目 config 不存在，可以查找全局的 plugin-config，这个步骤在这个 branch 进行，不影响主流程
+      */
+      const initPluginConfigPath = resolveScriptPath(path.join(getUserHomeDir(), TARO_GROBAL_PLUGIN_CONFIG_DIR, DEFAULT_CONFIG_FILE))
       this.initialConfig = {}
+      console.log(`获取不到项目 config 文件，开始读取 taro 全局插件配置文件： ${initPluginConfigPath}`)
+      if(!fs.existsSync(initPluginConfigPath)) {
+        console.log(`获取不到 taro 全局插件配置文件： ${initPluginConfigPath}`)
+      } else {
+        this.initGlobalPluginConfig = getModuleDefaultExport(require(initPluginConfigPath))
+      }
+
       this.isInitSuccess = false
     } else {
       createSwcRegister({

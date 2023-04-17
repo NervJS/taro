@@ -48,6 +48,7 @@ export default class Kernel extends EventEmitter {
   methods: Map<string, Func[]>
   commands: Map<string, ICommand>
   platforms: Map<string, IPlatform>
+  initGlobalPluginConfig: PluginItem[]
   helper: any
   runOpts: any
   debugger: any
@@ -72,6 +73,7 @@ export default class Kernel extends EventEmitter {
       appPath: this.appPath
     })
     this.initialConfig = this.config.initialConfig
+    this.initGlobalPluginConfig = this.config.initGlobalPluginConfig
     this.debugger('initConfig', this.initialConfig)
   }
 
@@ -98,16 +100,17 @@ export default class Kernel extends EventEmitter {
   initPresetsAndPlugins () {
     const initialConfig = this.initialConfig
     const allConfigPresets = mergePlugins(this.optsPresets || [], initialConfig.presets || [])()
-    const allConfigPlugins = mergePlugins(this.optsPlugins || [], initialConfig.plugins || [])()
-    this.debugger('initPresetsAndPlugins', allConfigPresets, allConfigPlugins)
+    const globalPlugins = convertPluginsToObject(this.initGlobalPluginConfig|| [])()
+    const cliAndProjectPlugins = mergePlugins(this.optsPlugins || [], initialConfig.plugins || [])()
+    this.debugger('initPresetsAndPlugins', allConfigPresets, cliAndProjectPlugins, globalPlugins)
     process.env.NODE_ENV !== 'test' &&
     helper.createSwcRegister({
-      only: [...Object.keys(allConfigPresets), ...Object.keys(allConfigPlugins)]
+      only: [...Object.keys(allConfigPresets), ...Object.keys(cliAndProjectPlugins)]
     })
     this.plugins = new Map()
     this.extraPlugins = {}
     this.resolvePresets(allConfigPresets)
-    this.resolvePlugins(allConfigPlugins)
+    this.resolvePlugins(cliAndProjectPlugins, globalPlugins)
   }
 
   resolvePresets (presets) {
@@ -117,12 +120,14 @@ export default class Kernel extends EventEmitter {
     }
   }
 
-  resolvePlugins (plugins) {
-    plugins = merge(this.extraPlugins, plugins)
-    const allPlugins = resolvePresetsOrPlugins(this.appPath, plugins, PluginType.Plugin)
-
-    while (allPlugins.length) {
-      this.initPlugin(allPlugins.shift()!)
+  resolvePlugins (cliAndProjectPlugins, globalPlugins) {
+    cliAndProjectPlugins = merge(this.extraPlugins, cliAndProjectPlugins)
+    const globalPluginsRootPath = path.join(helper.getUserHomeDir(), helper.TARO_GROBAL_PLUGIN_CONFIG_DIR)
+    const resolvedCliAndProjectPlugins = resolvePresetsOrPlugins(this.appPath, cliAndProjectPlugins, PluginType.Plugin)
+    const resolvedGlobalPlugins = resolvePresetsOrPlugins(globalPluginsRootPath , globalPlugins, PluginType.Plugin)
+    const resolvedPlugins = resolvedCliAndProjectPlugins.concat(resolvedGlobalPlugins)
+    while (resolvedPlugins.length) {
+      this.initPlugin(resolvedPlugins.shift()!)
     }
     this.extraPlugins = {}
   }
