@@ -3,11 +3,11 @@ import type { TaroElement } from './element'
 export class ClassList {
   private el: TaroElement
 
-  private _value: string[] = []
+  private tokenList: string[] = []
 
   constructor (className: string, el: TaroElement) {
     this.el = el
-    className.trim().split(/\s+/).forEach(token => this._value.push(token))
+    className.trim().split(/\s+/).forEach(token => this.tokenList.push(token))
   }
 
   public get value () {
@@ -15,26 +15,26 @@ export class ClassList {
   }
 
   public get length () {
-    return this._value.length
+    return this.tokenList.length
   }
 
   add () {
-    let i = 0
+    let index = 0
     let updated = false
 
     const tokens = arguments
-    const l = tokens.length
-    const value = this._value
+    const length = tokens.length
+    const tokenList = this.tokenList
 
     do {
-      const token: string = tokens[i]
+      const token: string = tokens[index]
 
-      if (this.checkTokenIsValid(token) && !~value.indexOf(token)) {
-        value.push(token)
+      if (this.checkTokenIsValid(token) && !~tokenList.indexOf(token)) {
+        tokenList.push(token)
 
         updated = true
       }
-    } while (++i < l)
+    } while (++index < length)
 
     if (updated) {
       this._update()
@@ -46,22 +46,22 @@ export class ClassList {
     let updated = false
 
     const tokens = arguments
-    const l = tokens.length
-    const value = this._value
+    const length = tokens.length
+    const tokenList = this.tokenList
 
     do {
       const token = tokens[i] + ''
 
       if (!this.checkTokenIsValid(token)) continue
     
-      const index = value.indexOf(token)
+      const index = tokenList.indexOf(token)
 
-      if (~index) {
-        value.splice(index, 1)
+      if (~tokenList.indexOf(token)) {
+        tokenList.splice(index, 1)
 
         updated = true
       }
-    } while (++i < l)
+    } while (++i < length)
 
     if (updated) {
       this._update()
@@ -71,7 +71,7 @@ export class ClassList {
   contains (token: string) {
     if (!this.checkTokenIsValid(token)) return false
 
-    return !!~this._value.indexOf(token)
+    return !!~this.tokenList.indexOf(token)
   }
 
   toggle (token: string, force: boolean) {
@@ -93,16 +93,16 @@ export class ClassList {
   replace (token: string, replacement_token: string) {
     if (!this.checkTokenIsValid(token) || !this.checkTokenIsValid(replacement_token)) return
   
-    const index = this._value.indexOf(token)
+    const index = this.tokenList.indexOf(token)
 
     if (~index) {
-      this._value.splice(index, 1, replacement_token)
+      this.tokenList.splice(index, 1, replacement_token)
 		  this._update()
     }
   }
 
   toString () {
-	  return this._value.filter(v => v !== '').join(' ')
+	  return this.tokenList.filter(v => v !== '').join(' ')
   }
 
   private checkTokenIsValid (token: string) {
