@@ -292,8 +292,19 @@ export class Swiper implements ComponentInterface {
         slideTo () {
           that.current = this.realIndex
         },
-        // slideChange 事件在 swiper.slideTo 改写 current 时不触发，因此用 slideChangeTransitionStart 事件代替
-        slideChangeTransitionStart (_swiper: ISwiper) {
+        // Note: slideChange 事件在 swiper.slideTo 改写 current 时不触发，因此用 slideChangeTransitionEnd 事件代替
+        slideChangeTransitionEnd () {
+          /** Note: 此处不能使用 slideChangeTransitionStart 事件
+           * - 因为在它触发时 swiper 各个参数并未准备好，将会导致错误的事件抛出；
+           * - 同时抛出 change 事件会导致 current 监听被打乱 swiper 的生命周期；
+           * - 模式与 slideTo 结合时，会导致动画会被中断、slider 展示不完整或衔接模式错误等问题。
+           */
+          if (circular) {
+            if (this.isBeginning || this.isEnd) {
+              this.slideToLoop(this.realIndex, 0) // 更新下标
+              return
+            }
+          }
           that.onChange.emit({
             current: this.realIndex,
             source: ''

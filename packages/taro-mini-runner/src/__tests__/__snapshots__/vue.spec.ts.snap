@@ -491,7 +491,10 @@ require("./taro");
                 640: 1.17,
                 750: 1,
                 828: .905
-            }
+            },
+            baseFontSize: 20,
+            unitPrecision: undefined,
+            targetUnit: undefined
         });
     }
 }, [ [ 7, 0, 1 ] ] ]);
