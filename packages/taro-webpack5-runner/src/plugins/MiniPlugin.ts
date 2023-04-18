@@ -69,7 +69,6 @@ interface ITaroMiniPluginOptions {
     baseFontSize: number
     deviceRatio: any
     designWidth: number
-    minRootSize: number
     unitPrecision: number
     targetUnit: string
   }
