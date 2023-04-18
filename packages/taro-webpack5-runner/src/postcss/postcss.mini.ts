@@ -39,8 +39,6 @@ const defaultHtmltransformOption: {
   }
 }
 
-const optionsWithDefaults = ['cssModules']
-
 const plugins = [] as any[]
 
 export const getDefaultPostcssConfig = function ({
@@ -74,11 +72,9 @@ export const getDefaultPostcssConfig = function ({
 }
 
 
-export const getPostcssPlugins = function (appPath: string, postcssOption: [string, any, Func?][] = []) {
-
-  postcssOption.forEach(([pluginName, pluginOption, pluginPkg]) => {
-    if (optionsWithDefaults.includes(pluginName)) return
-    if (!pluginOption) return
+export const getPostcssPlugins = function (appPath: string, option: [string, any, Func?][] = []) {
+  option.forEach(([pluginName, pluginOption, pluginPkg]) => {
+    if (!pluginOption || ['cssModules'].includes(pluginName)) return
     if (Object.hasOwnProperty.call(pluginOption, 'enable') && !pluginOption.enable) return
 
     if (pluginPkg) {
@@ -86,7 +82,8 @@ export const getPostcssPlugins = function (appPath: string, postcssOption: [stri
       return
     }
 
-    if (!isNpmPkg(pluginName)) { // local plugin
+    if (!isNpmPkg(pluginName)) {
+      // local plugin
       pluginName = path.join(appPath, pluginName)
     }
 
