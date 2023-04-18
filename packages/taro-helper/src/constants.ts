@@ -222,5 +222,5 @@ export enum FRAMEWORK_MAP {
 }
 
 
-export const TARO_GROBAL_PLUGIN_CONFIG_DIR = '.taro-init-plugin'
+export const TARO_GROBAL_PLUGIN_CONFIG_DIR = '.taro-global-config'
 export const TARO_GLOBAL_PLUGIN_CONFIG_FILE = 'index.json'

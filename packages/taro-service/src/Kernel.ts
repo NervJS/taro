@@ -44,11 +44,11 @@ export default class Kernel extends EventEmitter {
   extraPlugins: IPluginsObject
   config: Config
   initialConfig: IProjectConfig
+  initGlobalConfig: IProjectConfig
   hooks: Map<string, IHook[]>
   methods: Map<string, Func[]>
   commands: Map<string, ICommand>
   platforms: Map<string, IPlatform>
-  initGlobalPluginConfig: PluginItem[]
   helper: any
   runOpts: any
   debugger: any
@@ -73,7 +73,7 @@ export default class Kernel extends EventEmitter {
       appPath: this.appPath,
     })
     this.initialConfig = this.config.initialConfig
-    this.initGlobalPluginConfig = this.config.initGlobalPluginConfig
+    this.initGlobalConfig = this.config.initGlobalConfig
     this.debugger('initConfig', this.initialConfig)
   }
 
@@ -99,9 +99,10 @@ export default class Kernel extends EventEmitter {
 
   initPresetsAndPlugins () {
     const initialConfig = this.initialConfig
+    const initGlobalConfig = this.initGlobalConfig
     const allConfigPresets = mergePlugins(this.optsPresets || [], initialConfig.presets || [])()
-    const globalPlugins = convertPluginsToObject(this.initGlobalPluginConfig|| [])()
     const cliAndProjectPlugins = mergePlugins(this.optsPlugins || [], initialConfig.plugins || [])()
+    const globalPlugins = convertPluginsToObject(initGlobalConfig.plugins|| [])()
     this.debugger('initPresetsAndPlugins', allConfigPresets, cliAndProjectPlugins, globalPlugins)
     process.env.NODE_ENV !== 'test' &&
     helper.createSwcRegister({

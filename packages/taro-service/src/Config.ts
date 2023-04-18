@@ -19,7 +19,7 @@ import {
   DEFAULT_CONFIG_FILE
 } from './utils/constants'
 
-import type { IProjectConfig, PluginItem } from '@tarojs/taro/types/compile'
+import type { IProjectConfig } from '@tarojs/taro/types/compile'
 
 interface IConfigOptions {
   appPath: string
@@ -29,7 +29,7 @@ export default class Config {
   appPath: string
   configPath: string
   initialConfig: IProjectConfig
-  initGlobalPluginConfig: PluginItem[]
+  initGlobalConfig: IProjectConfig
   isInitSuccess: boolean
   constructor (opts: IConfigOptions) {
     this.appPath = opts.appPath
@@ -44,15 +44,17 @@ export default class Config {
       const homedir = getUserHomeDir()
       if(!homedir) return console.error('获取不到用户 home 路径')
       const globalPluginConfigPath = path.join(getUserHomeDir(), TARO_GROBAL_PLUGIN_CONFIG_DIR, TARO_GLOBAL_PLUGIN_CONFIG_FILE)
-      const spinner = ora(`开始获取 taro 全局插件配置文件： ${globalPluginConfigPath}`).start()
+      console.log('globalPluginConfigPath', globalPluginConfigPath)
+      const spinner = ora(`开始获取 taro 全局配置文件： ${globalPluginConfigPath}`).start()
       if (!fs.existsSync(globalPluginConfigPath)) {
-        spinner.fail(`获取 taro 全局插件配置文件失败，不存在 全局插件配置文件：${globalPluginConfigPath}`)
+        this.initGlobalConfig = {}
+        spinner.warn(`获取 taro 全局配置文件失败，不存在全局配置文件：${globalPluginConfigPath}`)
       }else{
         try {
-          this.initGlobalPluginConfig = JSON.parse(String(fs.readFileSync(globalPluginConfigPath)))?.plugins
-          spinner.succeed('获取 taro 全局插件配置成功')
+          this.initGlobalConfig = JSON.parse(String(fs.readFileSync(globalPluginConfigPath))) || {}
+          spinner.succeed('获取 taro 全局配置成功')
         }catch(e){
-          spinner.fail(`获取全局插件配置失败，如果需要启用全局插件请查看配置文件: ${globalPluginConfigPath} `)
+          spinner.fail(`获取全局配置失败，如果需要启用全局插件请查看配置文件: ${globalPluginConfigPath} `)
         }
       }
     } else {
