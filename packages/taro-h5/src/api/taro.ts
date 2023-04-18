@@ -82,12 +82,12 @@ const pxTransform = function (size = 0) {
     case 'vw':
       rootValue = designWidth / 100
       break
-    case 'rem':
-      rootValue *= baseFontSize * 2
-      break
     case 'px':
       rootValue *= 2
       break
+    default:
+      // rem
+      rootValue *= baseFontSize * 2
   }
   let val: number | string = formatSize / rootValue
   if (config.unitPrecision >= 0 && config.unitPrecision <= 100) {
