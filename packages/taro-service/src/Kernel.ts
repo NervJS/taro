@@ -31,6 +31,7 @@ interface IKernelOptions {
   appPath: string
   presets?: PluginItem[]
   plugins?: PluginItem[]
+  enableGlobalConfig: boolean
 }
 
 export default class Kernel extends EventEmitter {
@@ -52,6 +53,7 @@ export default class Kernel extends EventEmitter {
   helper: any
   runOpts: any
   debugger: any
+  enableGlobalConfig: boolean
 
   constructor (options: IKernelOptions) {
     super()
@@ -59,6 +61,7 @@ export default class Kernel extends EventEmitter {
     this.appPath = options.appPath || process.cwd()
     this.optsPresets = options.presets
     this.optsPlugins = options.plugins
+    this.enableGlobalConfig = options.enableGlobalConfig
     this.hooks = new Map()
     this.methods = new Map()
     this.commands = new Map()
@@ -70,7 +73,8 @@ export default class Kernel extends EventEmitter {
 
   initConfig () {
     this.config = new Config({
-      appPath: this.appPath
+      appPath: this.appPath,
+      enableGlobalConfig: this.enableGlobalConfig
     })
     this.initialConfig = this.config.initialConfig
     this.initGlobalPluginConfig = this.config.initGlobalPluginConfig

@@ -58,7 +58,9 @@ export default class CLI {
       // 这里解析 dotenv 以便于 config 解析时能获取 dotenv 配置信息
       const expandEnv = dotenvParse(appPath, args.envPrefix, args.mode || process.env.NODE_ENV)
 
+      const enableGlobalConfig = !!args['global-config']
       const kernel = new Kernel({
+        enableGlobalConfig,
         appPath,
         presets: [
           path.resolve(__dirname, '.', 'presets', 'index.js')

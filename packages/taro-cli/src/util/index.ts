@@ -1,4 +1,5 @@
 import { chalk, isWindows } from '@tarojs/helper'
+import { exec } from 'child_process'
 import { parse } from 'dotenv'
 import { expand } from 'dotenv-expand'
 import * as fs from 'fs-extra'
@@ -158,4 +159,19 @@ export const patchEnv = (config: IProjectConfig, expandEnv: Record<string, strin
     ...config.env,
     ...expandEnvStringify
   }
+}
+
+export function execCommand (params: {
+  command: string
+  successCallback?: (data: string) => void
+  failCallback?: (data: string) => void
+}) {
+  const { command, successCallback, failCallback } = params
+  const child = exec(command)
+  child.stdout!.on('data', function (data) {
+    successCallback?.(data)
+  })
+  child.stderr!.on('data', function (data) {
+    failCallback?.(data)
+  })
 }

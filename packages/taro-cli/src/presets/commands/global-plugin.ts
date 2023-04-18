@@ -1,7 +1,7 @@
-import { exec } from 'child_process'
+import * as ora from 'ora'
 import * as path from 'path'
 
-import { getRootPath } from '../../util'
+import { execCommand, getRootPath } from '../../util'
 
 import type { IPluginContext } from '@tarojs/service'
 
@@ -14,89 +14,102 @@ export default (ctx: IPluginContext) => {
       'taro global-plugin reset',
       'taro global-plugin install'
     ],
-    async fn ({ _ }) {
+    optionsMap: {
+      '--pkg-version [version]': 'pkg version',
+      '-h, --help': 'output usage information'
+    },
+    fn ({ _, options }) {
+      const version = options?.['pkg-version'] || ''
       const [, action, pluginName] = _
-      const { getUserHomeDir, TARO_GROBAL_PLUGIN_CONFIG_DIR, fs } = ctx.helper
+      const { getUserHomeDir, TARO_GROBAL_PLUGIN_CONFIG_DIR, fs, TARO_GLOBAL_PLUGIN_CONFIG_FILE } = ctx.helper
       const homedir = getUserHomeDir()
-      console.log(action, pluginName)
       const globalPluginConfigDir = path.join(homedir, TARO_GROBAL_PLUGIN_CONFIG_DIR)
       if (!homedir) return console.log('找不到用户根目录')
-
-      // function displayConfigPath (configPath) {
-      //   console.log(`Config path: ${configPath}`)
-      //   console.log()
-      // }
-      const rootPath =getRootPath()
-      console.log('rootPath', rootPath)
+      const rootPath = getRootPath()
+      const templatePath = path.join(rootPath, 'templates', 'global-plugin')
       switch (action) {
         case 'add':
           if(!fs.existsSync(globalPluginConfigDir)){
             console.log('目录不存在，初始化')
-            await fs.mkdir(globalPluginConfigDir)
-            await fs.copyFile('')
+            fs.copySync(templatePath, globalPluginConfigDir)
           }
-          {
-            const child = exec(`cd ${globalPluginConfigDir} && pwd`)
-            child.stdout!.on('data', function (data) {
-            // spinner.stop()
-              console.log(data.replace(/\n$/, ''))
+          if (!pluginName)  return console.log('缺少要添加的插件')
+          {const spinner = ora(`开始安装插件 ${pluginName}`).start()
+            execCommand({
+              command: `cd ${globalPluginConfigDir} && npm install ${pluginName}@${version}`,
+              successCallback (data) {
+                console.log(data.replace(/\n$/, ''))
+                spinner.start('开始修改插件配置')
+                const configFilePath = path.join(globalPluginConfigDir, TARO_GLOBAL_PLUGIN_CONFIG_FILE)
+                let pluginList
+                try {
+                  pluginList = JSON.parse(String(fs.readFileSync(configFilePath)))?.plugins || []
+                } catch (e){
+                  spinner.fail('获取配置文件失败')
+                }
+                const isPluginEeists = pluginList.findIndex((item)=>{
+                  if(typeof item === 'string') return item === pluginName
+                  if( item instanceof Array) return item?.[0] === pluginName
+                }) !== -1
+                if(!isPluginEeists){
+                  pluginList.push(pluginName)
+                  const newFile = `{ "plugins" : ${JSON.stringify(pluginList)} }`
+                  fs.writeFileSync(configFilePath, newFile)
+                }
+                spinner.succeed('修改配置文件成功')
+              },
+              failCallback (data) {
+                spinner.stop()
+                spinner.warn(data.replace(/\n$/, ''))
+              }
             })
+            break
           }
+        case 'reset':
+          if(fs.existsSync(globalPluginConfigDir)) fs.removeSync(globalPluginConfigDir)
+          fs.copySync(templatePath, globalPluginConfigDir)
+          break
+        case 'remove' :
+          if(!fs.existsSync(globalPluginConfigDir)){
+            console.log('目录不存在，初始化')
+            fs.copySync(templatePath, globalPluginConfigDir)
+          }
+          if (!pluginName)  return console.log('缺少要删除的插件')
+          {const spinner = ora(`开始删除插件 ${pluginName}`).start()
+            execCommand({
+              command: `cd ${globalPluginConfigDir} && npm uninstall ${pluginName}`,
+              successCallback (data) {
+                console.log(data.replace(/\n$/, ''))
+                spinner.start('开始修改插件配置')
+                const configFilePath = path.join(globalPluginConfigDir, TARO_GLOBAL_PLUGIN_CONFIG_FILE)
+                let pluginList
+                try {
+                  pluginList = JSON.parse(String(fs.readFileSync(configFilePath)))?.plugins || []
+                } catch (e){
+                  spinner.fail('获取配置文件失败')
+                }
+                const pluginIndex = pluginList.findIndex((item)=>{
+                  if(typeof item === 'string') return item === pluginName
+                  if( item instanceof Array) return item?.[0] === pluginName
+                }) 
+                console.log(pluginIndex)
+                if(pluginIndex !== -1){
+                  pluginList.splice(pluginIndex, 1)
+                  const newFile = `{ "plugins" : ${JSON.stringify(pluginList)} }`
+                  fs.writeFileSync(configFilePath, newFile)
+                }
+                spinner.succeed('修改配置文件成功')
+              },
+              failCallback (data) {
+                spinner.stop()
+                spinner.warn(data.replace(/\n$/, ''))
+              }
+            })
+            break
+          }
+        default:
+          console.warn('请输出正确的参数')
       }
-      // switch (cmd) {
-      //   case 'get':
-      //     if (!key) return console.log('Usage: taro config get <key>')
-      //     if (fs.existsSync(configPath)) {
-      //       displayConfigPath(configPath)
-      //       const config = fs.readJSONSync(configPath)
-      //       console.log(`key: ${key}, value: ${config[key]}`)
-      //     }
-      //     break
-      //   case 'set':
-      //     if (!key || !value) return console.log('Usage: taro config set <key> <value>')
-
-      //     if (fs.existsSync(configPath)) {
-      //       displayConfigPath(configPath)
-      //       const config = fs.readJSONSync(configPath)
-      //       config[key] = value
-      //       fs.writeJSONSync(configPath, config)
-      //     } else {
-      //       fs.ensureFileSync(configPath)
-      //       fs.writeJSONSync(configPath, {
-      //         [key]: value
-      //       })
-      //     }
-      //     console.log(`set key: ${key}, value: ${value}`)
-      //     break
-      //   case 'delete':
-      //     if (!key) return console.log('Usage: taro config delete <key>')
-
-      //     if (fs.existsSync(configPath)) {
-      //       displayConfigPath(configPath)
-      //       const config = fs.readJSONSync(configPath)
-      //       delete config[key]
-      //       fs.writeJSONSync(configPath, config)
-      //     }
-      //     console.log(`deleted: ${key}`)
-      //     break
-      //   case 'list':
-      //   case 'ls':
-      //     if (fs.existsSync(configPath)) {
-      //       displayConfigPath(configPath)
-      //       console.log('Config info:')
-      //       const config = fs.readJSONSync(configPath)
-      //       if (json) {
-      //         console.log(JSON.stringify(config, null, 2))
-      //       } else {
-      //         for (const key in config) {
-      //           console.log(`${key}=${config[key]}`)
-      //         }
-      //       }
-      //     }
-      //     break
-      //   default:
-      //     break
-      // }
     }
   })
 }
