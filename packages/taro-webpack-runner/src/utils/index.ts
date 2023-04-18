@@ -56,7 +56,9 @@ export function parseHtmlScript (pxtransformOption: IPostcssOption['pxtransform'
     ? options.designWidth(input)
     : options.designWidth)(baseFontSize)
   const rootValue = baseFontSize / options.deviceRatio[designWidth] * 2
-  return `!function(n){function f(){var e=n.document.documentElement,w=e.getBoundingClientRect().width,x=${rootValue}*w/${designWidth};e.style.fontSize=x>=${max}?"${max}px":x<=${min}?"${min}px":x+"px"}n.addEventListener("resize",(function(){f()})),f()}(window);`
+  if ((options?.targetUnit ?? 'rem') === 'rem') {
+    return `!function(n){function f(){var e=n.document.documentElement,w=e.getBoundingClientRect().width,x=${rootValue}*w/${designWidth};e.style.fontSize=x>=${max}?"${max}px":x<=${min}?"${min}px":x+"px"}n.addEventListener("resize",(function(){f()})),f()}(window);`
+  }
 }
 
 export * from './app'

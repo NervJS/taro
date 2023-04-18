@@ -501,7 +501,12 @@ importers:
       '@rollup/plugin-node-resolve': ^8.0.0
       '@tarojs/runtime': workspace:*
       '@tarojs/shared': workspace:*
+      jest: ^29.3.1
+      jest-cli: ^29.3.1
+      jest-environment-node: ^29.5.0
       rollup: ^2.79.0
+      ts-jest: ^29.0.5
+      typescript: ^4.7.4
     dependencies:
       '@babel/runtime': registry.npmjs.org/@babel/runtime/7.21.0
       '@tarojs/runtime': link:../taro-runtime
@@ -511,7 +516,12 @@ importers:
       '@rollup/plugin-babel': registry.npmjs.org/@rollup/plugin-babel/5.3.1_b6cdhqm2xsfe2bpl424qdsl4ei
       '@rollup/plugin-commonjs': registry.npmjs.org/@rollup/plugin-commonjs/20.0.0_rollup@2.79.1
       '@rollup/plugin-node-resolve': registry.npmjs.org/@rollup/plugin-node-resolve/8.4.0_rollup@2.79.1
+      jest: registry.npmjs.org/jest/29.5.0
+      jest-cli: registry.npmjs.org/jest-cli/29.5.0
+      jest-environment-node: registry.npmjs.org/jest-environment-node/29.5.0
       rollup: registry.npmjs.org/rollup/2.79.1
+      ts-jest: registry.npmjs.org/ts-jest/29.1.0_rgossuqlslmrpogqankdav3e2e
+      typescript: registry.npmjs.org/typescript/4.9.5
 
   packages/taro-cli:
     specifiers:

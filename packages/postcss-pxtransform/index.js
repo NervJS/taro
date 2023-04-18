@@ -42,19 +42,27 @@ module.exports = (options = {}) => {
   options = Object.assign({}, DEFAULT_WEAPP_OPTIONS, options)
 
   const transUnits = ['px']
-  let baseFontSize = options.baseFontSize || (options.minRootSize >= 1 ? options.minRootSize : 20)
+  const baseFontSize = options.baseFontSize || (options.minRootSize >= 1 ? options.minRootSize : 20)
   const designWidth = (input) =>
     typeof options.designWidth === 'function' ? options.designWidth(input) : options.designWidth
 
   switch (options.platform) {
     case 'h5': {
       targetUnit = options.targetUnit ?? 'rem'
-      options.rootValue = (input) => {
-        if (targetUnit === 'vw') {
-          baseFontSize = 0.5 * designWidth(input) / 100
+
+      if (targetUnit === 'vw') {
+        options.rootValue = (input) => {
+          return designWidth(input) / 100
         }
-        return (baseFontSize / options.deviceRatio[designWidth(input)]) * 2 
+      } else if (targetUnit === 'px') {
+        options.rootValue = (input) => (1 / options.deviceRatio[designWidth(input)]) * 2
+      } else {
+        // rem
+        options.rootValue = (input) => {
+          return (baseFontSize / options.deviceRatio[designWidth(input)]) * 2
+        }
       }
+
       transUnits.push('rpx')
       break
     }
@@ -75,8 +83,16 @@ module.exports = (options = {}) => {
     }
     default: {
       // mini-program
-      options.rootValue = (input) => 1 / options.deviceRatio[designWidth(input)]
-      targetUnit = 'rpx'
+      targetUnit = options.targetUnit ?? 'rpx'
+
+      if (targetUnit === 'rem') {
+        options.rootValue = (input) => (baseFontSize / options.deviceRatio[designWidth(input)]) * 2
+      } else if (targetUnit === 'px') {
+        options.rootValue = (input) => (1 / options.deviceRatio[designWidth(input)]) * 2
+      } else {
+        // rpx
+        options.rootValue = (input) => 1 / options.deviceRatio[designWidth(input)]
+      }
     }
   }
 
