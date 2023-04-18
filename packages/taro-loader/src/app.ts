@@ -60,7 +60,10 @@ ${instantiateApp}
 ${options.prerender ? prerender : ''}
 initPxTransform({
   designWidth: ${pxTransformConfig.designWidth},
-  deviceRatio: ${JSON.stringify(pxTransformConfig.deviceRatio)}
+  deviceRatio: ${JSON.stringify(pxTransformConfig.deviceRatio)},
+  baseFontSize: ${pxTransformConfig.baseFontSize || 20},
+  unitPrecision: ${pxTransformConfig.unitPrecision},
+  targetUnit: ${JSON.stringify(pxTransformConfig.targetUnit)}
 })
 `
 }

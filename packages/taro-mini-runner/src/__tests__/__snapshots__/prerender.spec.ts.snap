@@ -521,7 +521,10 @@ require("./taro");
                 640: 1.17,
                 750: 1,
                 828: .905
-            }
+            },
+            baseFontSize: 20,
+            unitPrecision: undefined,
+            targetUnit: undefined
         });
     }
 }, [ [ 18, 0, 1, 3, 2 ] ] ]);
@@ -3513,7 +3516,10 @@ require("./taro");
                 640: 1.17,
                 750: 1,
                 828: .905
-            }
+            },
+            baseFontSize: 20,
+            unitPrecision: undefined,
+            targetUnit: undefined
         });
     }
 }, [ [ 18, 0, 1, 3, 2 ] ] ]);
@@ -6505,7 +6511,10 @@ require("./taro");
                 640: 1.17,
                 750: 1,
                 828: .905
-            }
+            },
+            baseFontSize: 20,
+            unitPrecision: undefined,
+            targetUnit: undefined
         });
     }
 }, [ [ 18, 0, 1, 3, 2 ] ] ]);

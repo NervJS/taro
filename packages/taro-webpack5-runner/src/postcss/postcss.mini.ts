@@ -2,7 +2,7 @@ import { isNpmPkg, recursiveMerge } from '@tarojs/helper'
 import path from 'path'
 import { sync as resolveSync } from 'resolve'
 
-import type { IPostcssOption } from '@tarojs/taro/types/compile'
+import type { Func, IPostcssOption, TogglableOptions } from '@tarojs/taro/types/compile'
 
 const platform = process.env.TARO_ENV
 const defaultAutoprefixerOption = {
@@ -39,15 +39,15 @@ const defaultHtmltransformOption: {
   }
 }
 
-const optionsWithDefaults = ['autoprefixer', 'pxtransform', 'cssModules', 'url', 'htmltransform']
-
 const plugins = [] as any[]
 
-export const getPostcssPlugins = function (appPath: string, {
+export const getDefaultPostcssConfig = function ({
   designWidth,
   deviceRatio,
   postcssOption = {} as IPostcssOption
-}) {
+}): [string, any, Func?][] {
+  const { autoprefixer, pxtransform, htmltransform, url, ...options } = postcssOption
+
   if (designWidth) {
     defaultPxtransformOption.config.designWidth = designWidth
   }
@@ -56,33 +56,34 @@ export const getPostcssPlugins = function (appPath: string, {
     defaultPxtransformOption.config.deviceRatio = deviceRatio
   }
 
-  const autoprefixerOption = recursiveMerge({}, defaultAutoprefixerOption, postcssOption.autoprefixer)
-  const pxtransformOption = recursiveMerge({}, defaultPxtransformOption, postcssOption.pxtransform)
-  const htmltransformOption = recursiveMerge({}, defaultHtmltransformOption, postcssOption.htmltransform)
-  const urlOption = recursiveMerge({}, defaultUrlOption, postcssOption.url)
-  if (autoprefixerOption.enable) {
-    const autoprefixer = require('autoprefixer')
-    plugins.push(autoprefixer(autoprefixerOption.config))
-  }
+  const autoprefixerOption = recursiveMerge({}, defaultAutoprefixerOption, autoprefixer)
+  const pxtransformOption = recursiveMerge({}, defaultPxtransformOption, pxtransform)
+  const htmltransformOption = recursiveMerge({}, defaultHtmltransformOption, htmltransform)
+  const urlOption = recursiveMerge({}, defaultUrlOption, url)
 
-  if (pxtransformOption.enable) {
-    const pxtransform = require('postcss-pxtransform')
-    plugins.push(pxtransform(pxtransformOption.config))
-  }
-  if (urlOption.enable) {
-    const url = require('postcss-url')
-    plugins.push(url(urlOption.config))
-  }
-  if (htmltransformOption?.enable) {
-    const htmlTransform = require('postcss-html-transform')
-    plugins.push(htmlTransform(htmltransformOption.config))
-  }
-  plugins.unshift(require('postcss-import'))
-  Object.entries(postcssOption).forEach(([pluginName, pluginOption]) => {
-    if (optionsWithDefaults.indexOf(pluginName) > -1) return
-    if (!pluginOption || !pluginOption.enable) return
+  return [
+    ['postcss-import', {}, require('postcss-import')],
+    ['autoprefixer', autoprefixerOption, require('autoprefixer')],
+    ['postcss-pxtransform', pxtransformOption, require('postcss-pxtransform')],
+    ['postcss-url', urlOption, require('postcss-url')],
+    ['postcss-html-transform', htmltransformOption, require('postcss-html-transform')],
+    ...Object.entries(options)
+  ]
+}
 
-    if (!isNpmPkg(pluginName)) { // local plugin
+
+export const getPostcssPlugins = function (appPath: string, option: [string, TogglableOptions<Record<string, unknown>>, Func?][] = []) {
+  option.forEach(([pluginName, pluginOption, pluginPkg]) => {
+    if (!pluginOption || ['cssModules'].includes(pluginName)) return
+    if (Object.hasOwnProperty.call(pluginOption, 'enable') && !pluginOption.enable) return
+
+    if (pluginPkg) {
+      plugins.push(pluginPkg(pluginOption.config || {}))
+      return
+    }
+
+    if (!isNpmPkg(pluginName)) {
+      // local plugin
       pluginName = path.join(appPath, pluginName)
     }
 
