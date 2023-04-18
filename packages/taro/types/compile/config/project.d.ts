@@ -67,7 +67,7 @@ export interface IProjectBaseConfig {
   onCompilerMake?: (compilation: Webpack.Compilation, compiler: Webpack.Compiler, plugin: any) => Promise<any>
   onWebpackChainReady?: (webpackChain: Chain) => Promise<any>
   /**
-   * 编译中修改 webpack 配置，在这个钩子中，你可以对 webpackChain 作出想要的调整，等同于配置 [`webpackChain`](./config-detail.md#miniwebpackchain)
+   * 编译中修改 webpack 配置，在这个钩子中，你可以对 webpackChain 作出想要的调整，等同于配置 [`webpackChain`](./config-detail#miniwebpackchain)
    */
   modifyWebpackChain?: (chain: Chain, webpack: typeof Webpack, data: IModifyWebpackChain) => Promise<any>
   /**

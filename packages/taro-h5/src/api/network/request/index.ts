@@ -151,3 +151,4 @@ const link = new Link(taroInterceptor)
 
 export const request: typeof Taro.request = link.request.bind(link)
 export const addInterceptor = link.addInterceptor.bind(link)
+export const cleanInterceptors = link.cleanInterceptors.bind(link)
