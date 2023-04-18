@@ -174,7 +174,6 @@ interface InputProps extends StandardProps, FormItemProps {
   onBlur?: CommonEventFunction<InputProps.inputValueEventDetail>
   /** 点击完成按钮时触发
    * @supported weapp, alipay, swan, tt, qq, jd, h5, rn
-   * @h5 借用[Form 组件](./form)的`onSubmit`事件来替代
    */
   onConfirm?: CommonEventFunction<InputProps.inputValueEventDetail>
   /** 键盘高度发生变化的时候触发此事件
