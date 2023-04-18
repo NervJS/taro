@@ -2,7 +2,7 @@ import { isNpmPkg, recursiveMerge } from '@tarojs/helper'
 import path from 'path'
 import { sync as resolveSync } from 'resolve'
 
-import type { Func, IPostcssOption } from '@tarojs/taro/types/compile'
+import type { Func, IPostcssOption, TogglableOptions } from '@tarojs/taro/types/compile'
 
 const platform = process.env.TARO_ENV
 const defaultAutoprefixerOption = {
@@ -72,7 +72,7 @@ export const getDefaultPostcssConfig = function ({
 }
 
 
-export const getPostcssPlugins = function (appPath: string, option: [string, any, Func?][] = []) {
+export const getPostcssPlugins = function (appPath: string, option: [string, TogglableOptions<Record<string, unknown>>, Func?][] = []) {
   option.forEach(([pluginName, pluginOption, pluginPkg]) => {
     if (!pluginOption || ['cssModules'].includes(pluginName)) return
     if (Object.hasOwnProperty.call(pluginOption, 'enable') && !pluginOption.enable) return
