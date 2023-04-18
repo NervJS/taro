@@ -1,6 +1,6 @@
 import { PLATFORMS } from '@tarojs/helper'
 import { isArray, isFunction, PLATFORM_TYPE } from '@tarojs/shared'
-import { ICopyOptions } from '@tarojs/taro/types/compile'
+import { ICopyOptions, IPostcssOption } from '@tarojs/taro/types/compile'
 
 import BuildNativePlugin from '../plugins/BuildNativePlugin'
 import MiniPlugin from '../plugins/MiniPlugin'
@@ -11,6 +11,7 @@ import type { MiniCombination } from './MiniCombination'
 
 export class MiniWebpackPlugin {
   combination: MiniCombination
+  pxtransformOption: IPostcssOption['pxtransform']
 
   constructor (combination: MiniCombination) {
     this.combination = combination
@@ -141,6 +142,7 @@ export class MiniWebpackPlugin {
       fileType
     } = this.combination
     const plugin = isBuildNativeComp ? BuildNativePlugin : MiniPlugin
+    const pxTransformConfig = this.pxtransformOption?.config || {}
     const options = {
       /** paths */
       sourceDir,
@@ -153,12 +155,11 @@ export class MiniWebpackPlugin {
       fileType,
       template: config.template,
       commonChunks: this.getCommonChunks(),
-      designWidth: config.designWidth || 750,
-      deviceRatio: config.deviceRatio,
       baseLevel: config.baseLevel || 16,
       minifyXML: config.minifyXML || {},
       alias: config.alias || {},
       constantsReplaceList: definePluginOptions,
+      pxTransformConfig,
       /** building mode */
       hot: false,
       prerender: config.prerender,

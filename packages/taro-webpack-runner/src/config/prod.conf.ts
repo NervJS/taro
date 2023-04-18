@@ -123,7 +123,7 @@ export default function (appPath: string, config: Partial<BuildConfig>, appHelpe
   }
 
   const htmlScript = parseHtmlScript(pxtransformOption)
-  if (process.env.NODE_ENV !== 'production' && Object.hasOwnProperty.call(htmlPluginOption, 'script')) {
+  if (process.env.NODE_ENV !== 'production' && htmlScript !== undefined && Object.hasOwnProperty.call(htmlPluginOption, 'script')) {
     console.warn(
       chalk.yellowBright('配置文件覆盖 htmlPluginOption.script 参数会导致 pxtransform 脚本失效，请慎重使用！')
     )
