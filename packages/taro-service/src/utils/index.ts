@@ -42,7 +42,7 @@ export function mergePlugins (dist: PluginItem[], src: PluginItem[]) {
 }
 
 // getModuleDefaultExport
-export function resolvePresetsOrPlugins (root: string, args, type: PluginType): IPlugin[] {
+export function resolvePresetsOrPlugins (root: string, args, type: PluginType, isGlobal?: boolean): IPlugin[] {
   return Object.keys(args).map(item => {
     let fPath
     try {
@@ -54,6 +54,8 @@ export function resolvePresetsOrPlugins (root: string, args, type: PluginType): 
       if (args[item]?.backup) {
         // 如果项目中没有，可以使用 CLI 中的插件
         fPath = args[item].backup
+      } else if (isGlobal) {
+        console.log(chalk.yellow(`找不到依赖 "${item}"，请先在项目中安装`))
       } else {
         console.log(chalk.red(`找不到依赖 "${item}"，请先在项目中安装`))
         process.exit(1)
@@ -68,6 +70,7 @@ export function resolvePresetsOrPlugins (root: string, args, type: PluginType): 
         try {
           return getModuleDefaultExport(require(fPath))
         } catch (error) {
+          if(isGlobal) return () => {}
           console.error(error)
           throw new Error(`插件依赖 "${item}" 加载失败，请检查插件配置`)
         }

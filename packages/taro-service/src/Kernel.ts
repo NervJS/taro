@@ -31,7 +31,6 @@ interface IKernelOptions {
   appPath: string
   presets?: PluginItem[]
   plugins?: PluginItem[]
-  enableGlobalConfig: boolean
 }
 
 export default class Kernel extends EventEmitter {
@@ -53,7 +52,6 @@ export default class Kernel extends EventEmitter {
   helper: any
   runOpts: any
   debugger: any
-  enableGlobalConfig: boolean
 
   constructor (options: IKernelOptions) {
     super()
@@ -61,7 +59,6 @@ export default class Kernel extends EventEmitter {
     this.appPath = options.appPath || process.cwd()
     this.optsPresets = options.presets
     this.optsPlugins = options.plugins
-    this.enableGlobalConfig = options.enableGlobalConfig
     this.hooks = new Map()
     this.methods = new Map()
     this.commands = new Map()
@@ -74,7 +71,6 @@ export default class Kernel extends EventEmitter {
   initConfig () {
     this.config = new Config({
       appPath: this.appPath,
-      enableGlobalConfig: this.enableGlobalConfig
     })
     this.initialConfig = this.config.initialConfig
     this.initGlobalPluginConfig = this.config.initGlobalPluginConfig
@@ -128,7 +124,7 @@ export default class Kernel extends EventEmitter {
     cliAndProjectPlugins = merge(this.extraPlugins, cliAndProjectPlugins)
     const globalPluginsRootPath = path.join(helper.getUserHomeDir(), helper.TARO_GROBAL_PLUGIN_CONFIG_DIR)
     const resolvedCliAndProjectPlugins = resolvePresetsOrPlugins(this.appPath, cliAndProjectPlugins, PluginType.Plugin)
-    const resolvedGlobalPlugins = resolvePresetsOrPlugins(globalPluginsRootPath , globalPlugins, PluginType.Plugin)
+    const resolvedGlobalPlugins = resolvePresetsOrPlugins(globalPluginsRootPath , globalPlugins, PluginType.Plugin, true)
     const resolvedPlugins = resolvedCliAndProjectPlugins.concat(resolvedGlobalPlugins)
     while (resolvedPlugins.length) {
       this.initPlugin(resolvedPlugins.shift()!)

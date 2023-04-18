@@ -23,7 +23,6 @@ import type { IProjectConfig, PluginItem } from '@tarojs/taro/types/compile'
 
 interface IConfigOptions {
   appPath: string
-  enableGlobalConfig: boolean
 }
 
 export default class Config {
@@ -32,10 +31,8 @@ export default class Config {
   initialConfig: IProjectConfig
   initGlobalPluginConfig: PluginItem[]
   isInitSuccess: boolean
-  enableGlobalConfig: boolean
   constructor (opts: IConfigOptions) {
     this.appPath = opts.appPath
-    this.enableGlobalConfig = opts.enableGlobalConfig
     this.init()
   }
 
@@ -43,24 +40,7 @@ export default class Config {
     this.configPath = resolveScriptPath(path.join(this.appPath, CONFIG_DIR_NAME, DEFAULT_CONFIG_FILE))
     if (!fs.existsSync(this.configPath)) {
       this.initialConfig = {}
-      this.isInitSuccess = false
-    } else {
-      createSwcRegister({
-        only: [
-          filePath => filePath.indexOf(path.join(this.appPath, CONFIG_DIR_NAME)) >= 0
-        ]
-      })
-      try {
-        this.initialConfig = getModuleDefaultExport(require(this.configPath))(merge)
-        this.isInitSuccess = true
-      } catch (err) {
-        this.initialConfig = {}
-        this.isInitSuccess = false
-        console.log(err)
-      }
-    }
-
-    if(this.enableGlobalConfig){
+      this.isInitSuccess = false      
       const homedir = getUserHomeDir()
       if(!homedir) return console.error('获取不到用户 home 路径')
       const globalPluginConfigPath = path.join(getUserHomeDir(), TARO_GROBAL_PLUGIN_CONFIG_DIR, TARO_GLOBAL_PLUGIN_CONFIG_FILE)
@@ -74,6 +54,20 @@ export default class Config {
         }catch(e){
           spinner.fail(`获取全局插件配置失败，如果需要启用全局插件请查看配置文件: ${globalPluginConfigPath} `)
         }
+      }
+    } else {
+      createSwcRegister({
+        only: [
+          filePath => filePath.indexOf(path.join(this.appPath, CONFIG_DIR_NAME)) >= 0
+        ]
+      })
+      try {
+        this.initialConfig = getModuleDefaultExport(require(this.configPath))(merge)
+        this.isInitSuccess = true
+      } catch (err) {
+        this.initialConfig = {}
+        this.isInitSuccess = false
+        console.log(err)
       }
     }
   }
