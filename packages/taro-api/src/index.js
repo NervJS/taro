@@ -17,7 +17,8 @@ import {
   Behavior,
   getInitPxTransform,
   getPreload,
-  getPxTransform
+  getPxTransform,
+  interceptorify
 } from './tools'
 
 const Taro = {
@@ -32,7 +33,8 @@ const Taro = {
   nextTick,
   eventCenter,
   Events,
-  getInitPxTransform
+  getInitPxTransform,
+  interceptorify
 }
 
 Taro.initPxTransform = getInitPxTransform(Taro)
