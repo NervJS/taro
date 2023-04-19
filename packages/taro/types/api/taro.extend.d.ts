@@ -123,5 +123,10 @@ declare module '../index' {
      * @param page 小程序页面对象，可以通过 Taro.getCurrentInstance().page 获取
      */
     getTabBar<T>(page: Current['page']): T | undefined
+
+    /** 获取当前页面渲染引擎类型
+     * @supported weapp
+     */
+    getRenderer(): 'webview' | 'skyline'
   }
 }
