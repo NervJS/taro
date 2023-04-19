@@ -5,12 +5,24 @@ import { execCommand, getRootPath } from '../../util'
 
 import type { IPluginContext } from '@tarojs/service'
 
-type TPluginAction = 'install' | 'uninstall'
+type TPresetOrPluginAction = 'install' | 'uninstall'
+type TPluginType = 'plugin' | 'preset'
 
-const PLUGIN_COMMAND_TIPS_MAP = {
+const PRESET_OR_PLUGIN_COMMAND_CHINESE_MAP_MAP = {
   install: '添加',
   uninstall: '删除'
 }
+const PRESET_OR_PLUGIN_CHINESE_NAME_MAP = {
+  plugin: '插件',
+  preset: '插件集'
+}
+
+const PLUGIN_TYPE_TO_CONFIG_KEY = {
+  plugin: 'plugins',
+  preset: 'presets'
+}
+
+
 
 export default (ctx: IPluginContext) => {
   ctx.registerCommand({
@@ -18,6 +30,8 @@ export default (ctx: IPluginContext) => {
     synopsisList: [
       'taro global-config add-plugin [pluginName]',
       'taro global-config remove-plugin [pluginName]',
+      'taro global-config add-preset [presetName]',
+      'taro global-config remove-preset [presetName]',
       'taro global-config reset',
     ],
     optionsMap: {
@@ -25,9 +39,9 @@ export default (ctx: IPluginContext) => {
     },
     fn ({ _ }) {
       const [, action, pluginName] = _
-      const { getUserHomeDir, TARO_GROBAL_PLUGIN_CONFIG_DIR, fs, TARO_GLOBAL_PLUGIN_CONFIG_FILE } = ctx.helper
+      const { getUserHomeDir, TARO_GROBAL_CONFIG_DIR, fs, TARO_GLOBAL_CONFIG_FILE } = ctx.helper
       const homedir = getUserHomeDir()
-      const globalPluginConfigDir = path.join(homedir, TARO_GROBAL_PLUGIN_CONFIG_DIR)
+      const globalPluginConfigDir = path.join(homedir, TARO_GROBAL_CONFIG_DIR)
       if (!homedir) return console.log('找不到用户根目录')
       const rootPath = getRootPath()
       const templatePath = path.join(rootPath, 'templates', 'global-config')
@@ -44,32 +58,40 @@ export default (ctx: IPluginContext) => {
 
         }
       }
-      function addOrRemovePlugin (actionType: TPluginAction) {
-        const tips = PLUGIN_COMMAND_TIPS_MAP[actionType]
-        const spinner = ora(`开始${tips}插件 ${pluginName}`).start()
+      function addOrRemovePresetOrPlugin (actionType: TPresetOrPluginAction, pluginType: TPluginType ) {
+        makeSureConfigExists()
+        const presetOrPluginChineseName = PRESET_OR_PLUGIN_CHINESE_NAME_MAP[pluginType]
+        const chineseCommand = PRESET_OR_PLUGIN_COMMAND_CHINESE_MAP_MAP[actionType]
+        if (!pluginName) {
+          console.error(`缺少要${chineseCommand}的${presetOrPluginChineseName}`)
+          process.exit(1)
+        } 
+        const spinner = ora(`开始${chineseCommand}${presetOrPluginChineseName} ${pluginName}`).start()
         execCommand({
           command: `cd ${globalPluginConfigDir} && npm ${actionType} ${pluginName}`,
           successCallback (data) {
             console.log(data.replace(/\n$/, ''))
-            spinner.start('开始修改插件配置')
-            const configFilePath = path.join(globalPluginConfigDir, TARO_GLOBAL_PLUGIN_CONFIG_FILE)
-            let pluginList
+            spinner.start(`开始修改${presetOrPluginChineseName}配置`)
+            const configFilePath = path.join(globalPluginConfigDir, TARO_GLOBAL_CONFIG_FILE)
+            let globalConfig
             try {
-              pluginList = JSON.parse(String(fs.readFileSync(configFilePath)))?.plugins || []
+              globalConfig = JSON.parse(String(fs.readFileSync(configFilePath))) || {}
             } catch (e){
               spinner.fail('获取配置文件失败')
             }
+            const configKey = PLUGIN_TYPE_TO_CONFIG_KEY[pluginType]
+            const configItem = globalConfig[configKey] || []
             const pluginWithoutVersionName = getPkgVersionNameByFilterVsersion(pluginName)
-            const pluginIndex = pluginList.findIndex((item)=>{
+            const pluginIndex = configItem.findIndex((item)=>{
               if(typeof item === 'string') return item === pluginWithoutVersionName
               if( item instanceof Array) return item?.[0] === pluginWithoutVersionName
             })
             const shouldChangeFile = !(Number(pluginIndex !== -1) ^ Number(actionType === 'uninstall'))
             if(shouldChangeFile){
-              actionType === 'install' ? pluginList.push(pluginWithoutVersionName) : pluginList.splice(pluginIndex, 1)
-              const newFile = `{ "plugins" : ${JSON.stringify(pluginList)} }`
+              actionType === 'install' ? configItem.push(pluginWithoutVersionName) : configItem.splice(pluginIndex, 1)
               try {
-                fs.writeFileSync(configFilePath, newFile)
+                globalConfig[configKey] = configItem
+                fs.writeFileSync(configFilePath, JSON.stringify(globalConfig))
               } catch (e) {
                 spinner.fail(`修改配置文件失败：${e}`)
               }
@@ -84,14 +106,16 @@ export default (ctx: IPluginContext) => {
       }
       switch (action) {
         case 'add-plugin':
-          makeSureConfigExists()
-          if (!pluginName)  return console.log('缺少要添加的插件')
-          addOrRemovePlugin('install')
+          addOrRemovePresetOrPlugin('install', 'plugin')
           break
         case 'remove-plugin' :
-          makeSureConfigExists()
-          if (!pluginName)  return console.error('缺少要删除的插件')
-          addOrRemovePlugin('uninstall')
+          addOrRemovePresetOrPlugin('uninstall', 'plugin')
+          break
+        case 'add-preset':
+          addOrRemovePresetOrPlugin('install', 'preset')
+          break
+        case 'remove-preset' :
+          addOrRemovePresetOrPlugin('uninstall', 'preset')
           break
         case 'reset':
           if(fs.existsSync(globalPluginConfigDir)) fs.removeSync(globalPluginConfigDir)

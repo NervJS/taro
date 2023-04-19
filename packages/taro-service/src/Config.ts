@@ -6,8 +6,8 @@ import {
   OUTPUT_DIR,
   resolveScriptPath,
   SOURCE_DIR,
-  TARO_GLOBAL_PLUGIN_CONFIG_FILE,
-  TARO_GROBAL_PLUGIN_CONFIG_DIR
+  TARO_GLOBAL_CONFIG_FILE,
+  TARO_GROBAL_CONFIG_DIR
 } from '@tarojs/helper'
 import * as fs from 'fs-extra'
 import * as ora from 'ora'
@@ -43,8 +43,7 @@ export default class Config {
       this.isInitSuccess = false      
       const homedir = getUserHomeDir()
       if(!homedir) return console.error('获取不到用户 home 路径')
-      const globalPluginConfigPath = path.join(getUserHomeDir(), TARO_GROBAL_PLUGIN_CONFIG_DIR, TARO_GLOBAL_PLUGIN_CONFIG_FILE)
-      console.log('globalPluginConfigPath', globalPluginConfigPath)
+      const globalPluginConfigPath = path.join(getUserHomeDir(), TARO_GROBAL_CONFIG_DIR, TARO_GLOBAL_CONFIG_FILE)
       const spinner = ora(`开始获取 taro 全局配置文件： ${globalPluginConfigPath}`).start()
       if (!fs.existsSync(globalPluginConfigPath)) {
         this.initGlobalConfig = {}

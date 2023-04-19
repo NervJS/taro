@@ -77,7 +77,12 @@ export function resolvePresetsOrPlugins (root: string, args, type: PluginType, s
           return getModuleDefaultExport(require(fPath))
         } catch (error) {
           console.error(error)
-          throw new Error(`插件依赖 "${item}" 加载失败，请检查插件配置`)
+          // 全局的插件运行报错，不抛出 Error 影响主流程，而是通过 log 提醒然后把插件 fliter 掉，保证主流程不变
+          if(skipError) {
+            console.error(`插件依赖 "${item}" 加载失败，请检查插件配置`)
+          } else { 
+            throw new Error(`插件依赖 "${item}" 加载失败，请检查插件配置`)
+          }
         }
       }
     }

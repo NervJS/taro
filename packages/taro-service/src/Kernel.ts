@@ -42,6 +42,7 @@ export default class Kernel extends EventEmitter {
   plugins: Map<string, IPlugin>
   paths: IPaths
   extraPlugins: IPluginsObject
+  globalExtraPlugins: IPluginsObject
   config: Config
   initialConfig: IProjectConfig
   initGlobalConfig: IProjectConfig
@@ -100,53 +101,71 @@ export default class Kernel extends EventEmitter {
   initPresetsAndPlugins () {
     const initialConfig = this.initialConfig
     const initGlobalConfig = this.initGlobalConfig
-    const allConfigPresets = mergePlugins(this.optsPresets || [], initialConfig.presets || [])()
+    const cliAndProjectConfigPresets = mergePlugins(this.optsPresets || [], initialConfig.presets || [])()
     const cliAndProjectPlugins = mergePlugins(this.optsPlugins || [], initialConfig.plugins || [])()
-    const globalPlugins = convertPluginsToObject(initGlobalConfig.plugins|| [])()
-    this.debugger('initPresetsAndPlugins', allConfigPresets, cliAndProjectPlugins, globalPlugins)
+    const globalPlugins = convertPluginsToObject(initGlobalConfig.plugins || [])()
+    const globalPresets = convertPluginsToObject(initGlobalConfig.presets || [])()
+    this.debugger('initPresetsAndPlugins', cliAndProjectConfigPresets, cliAndProjectPlugins)
+    this.debugger('globalPresetsAndPlugins', globalPlugins, globalPresets)
     process.env.NODE_ENV !== 'test' &&
     helper.createSwcRegister({
-      only: [...Object.keys(allConfigPresets), ...Object.keys(cliAndProjectPlugins)]
+      only: [...Object.keys(cliAndProjectConfigPresets), ...Object.keys(cliAndProjectPlugins)]
     })
     this.plugins = new Map()
     this.extraPlugins = {}
-    this.resolvePresets(allConfigPresets)
+    this.globalExtraPlugins = {}
+    this.resolvePresets(cliAndProjectConfigPresets, globalPresets)
     this.resolvePlugins(cliAndProjectPlugins, globalPlugins)
   }
 
-  resolvePresets (presets) {
-    const allPresets = resolvePresetsOrPlugins(this.appPath, presets, PluginType.Preset)
-    while (allPresets.length) {
-      this.initPreset(allPresets.shift()!)
+  resolvePresets (cliAndProjectPresets, globalPresets) {
+    const resolvedCliAndProjectPresets = resolvePresetsOrPlugins(this.appPath, cliAndProjectPresets, PluginType.Preset)
+    while (resolvedCliAndProjectPresets.length) {
+      this.initPreset(resolvedCliAndProjectPresets.shift()!)
+    }
+
+    const globalConfigRootPath = path.join(helper.getUserHomeDir(), helper.TARO_GROBAL_CONFIG_DIR)
+    const resolvedGlobalPresets = resolvePresetsOrPlugins(globalConfigRootPath , globalPresets, PluginType.Plugin, true)
+    while (resolvedGlobalPresets.length) {
+      this.initPreset(resolvedGlobalPresets.shift()!, true)
     }
   }
 
   resolvePlugins (cliAndProjectPlugins, globalPlugins) {
     cliAndProjectPlugins = merge(this.extraPlugins, cliAndProjectPlugins)
-    const globalPluginsRootPath = path.join(helper.getUserHomeDir(), helper.TARO_GROBAL_PLUGIN_CONFIG_DIR)
     const resolvedCliAndProjectPlugins = resolvePresetsOrPlugins(this.appPath, cliAndProjectPlugins, PluginType.Plugin)
-    const resolvedGlobalPlugins = resolvePresetsOrPlugins(globalPluginsRootPath , globalPlugins, PluginType.Plugin, true)
+
+    globalPlugins = merge(this.globalExtraPlugins, globalPlugins)
+    const globalConfigRootPath = path.join(helper.getUserHomeDir(), helper.TARO_GROBAL_CONFIG_DIR)
+    const resolvedGlobalPlugins = resolvePresetsOrPlugins(globalConfigRootPath , globalPlugins, PluginType.Plugin, true)
+
     const resolvedPlugins = resolvedCliAndProjectPlugins.concat(resolvedGlobalPlugins)
+
     while (resolvedPlugins.length) {
       this.initPlugin(resolvedPlugins.shift()!)
     }
+    
     this.extraPlugins = {}
+    this.globalExtraPlugins = {}
   }
 
-  initPreset (preset: IPreset) {
+  initPreset (preset: IPreset, isGlobalConfigPreset?: boolean) {
     this.debugger('initPreset', preset)
     const { id, path, opts, apply } = preset
     const pluginCtx = this.initPluginCtx({ id, path, ctx: this })
     const { presets, plugins } = apply()(pluginCtx, opts) || {}
     this.registerPlugin(preset)
     if (Array.isArray(presets)) {
-      const _presets = resolvePresetsOrPlugins(this.appPath, convertPluginsToObject(presets)(), PluginType.Preset)
+      const _presets = resolvePresetsOrPlugins(this.appPath, convertPluginsToObject(presets)(), PluginType.Preset, isGlobalConfigPreset)
       while (_presets.length) {
-        this.initPreset(_presets.shift()!)
+        this.initPreset(_presets.shift()!, isGlobalConfigPreset)
       }
     }
     if (Array.isArray(plugins)) {
-      this.extraPlugins = merge(this.extraPlugins, convertPluginsToObject(plugins)())
+      isGlobalConfigPreset ?
+        (this.globalExtraPlugins = merge(this.globalExtraPlugins, convertPluginsToObject(plugins)()))
+        :
+        (this.extraPlugins = merge(this.extraPlugins, convertPluginsToObject(plugins)()))
     }
   }
 
