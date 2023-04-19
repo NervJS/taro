@@ -47,6 +47,18 @@ declare module '../index' {
     [TaroGeneral.ENV_TYPE.JD]: TaroGeneral.ENV_TYPE.JD
   }
 
+  type promiseifyApi<T, R> = (requestParams: T) => Promise<R>
+  interface InterceptorifyChain<T, R> {
+    requestParams: T
+    proceed: promiseifyApi<T, R>
+  }
+  type InterceptorifyInterceptor<T, R> = (chain: InterceptorifyChain<T, R>) => Promise<R>
+  interface Interceptorify<T, R> {
+    request(requestParams: T): Promise<R>
+    addInterceptor( interceptor: InterceptorifyInterceptor<T, R>): void
+    cleanInterceptors(): void
+  }
+
   interface TaroStatic {
     /** @ignore */
     Events: {
@@ -123,5 +135,11 @@ declare module '../index' {
      * @param page 小程序页面对象，可以通过 Taro.getCurrentInstance().page 获取
      */
     getTabBar<T>(page: Current['page']): T | undefined
+
+    /**
+     * 包裹 promiseify api 的洋葱圈模型
+     * @param promiseifyApi
+     */
+    interceptorify<T, R>(promiseifyApi: promiseifyApi<T, R>): Interceptorify<T, R>
   }
 }
