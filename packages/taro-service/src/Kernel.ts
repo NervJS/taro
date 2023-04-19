@@ -48,6 +48,8 @@ export default class Kernel extends EventEmitter {
   initGlobalConfig: IProjectConfig
   hooks: Map<string, IHook[]>
   methods: Map<string, Func[]>
+  cliCommands: string []
+  cliComadnsPath: string
   commands: Map<string, ICommand>
   platforms: Map<string, IPlatform>
   helper: any
@@ -178,6 +180,21 @@ export default class Kernel extends EventEmitter {
     this.checkPluginOpts(pluginCtx, opts)
   }
 
+  applayCliCommandPlugin (commandNames: string[] = []) {
+    const existsCliCommand: string[] = []
+    for( let i = 0; i < commandNames.length; i++ ) {
+      const commandFileName = `${commandNames[i]}.js`
+      const commandFilePath = path.resolve(this.cliComadnsPath, commandFileName)
+      if(this.cliCommands.includes(commandFileName)) existsCliCommand.push(commandFilePath)
+    }
+
+    const commandPlugins = convertPluginsToObject(existsCliCommand || [])()
+    const resolvedCommandPlugins = resolvePresetsOrPlugins(this.appPath , commandPlugins, PluginType.Plugin)
+    while (resolvedCommandPlugins.length) {
+      this.initPlugin(resolvedCommandPlugins.shift()!)
+    }
+  }
+
   checkPluginOpts (pluginCtx, opts) {
     if (typeof pluginCtx.optsSchema !== 'function') {
       return
@@ -214,7 +231,8 @@ export default class Kernel extends EventEmitter {
       'helper',
       'runOpts',
       'initialConfig',
-      'applyPlugins'
+      'applyPlugins',
+      'applayCliCommandPlugin'
     ]
     internalMethods.forEach(name => {
       if (!this.methods.has(name)) {
@@ -332,6 +350,7 @@ export default class Kernel extends EventEmitter {
 
     this.debugger('initPresetsAndPlugins')
     this.initPresetsAndPlugins()
+    this.applayCliCommandPlugin([name])
 
     await this.applyPlugins('onReady')
 
