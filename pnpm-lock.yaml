@@ -107,7 +107,7 @@ importers:
       react: ^18.2.0
       react-dom: ^18.2.0
       react-test-renderer: ^18.2.0
-      rimraf: ^3.0.0
+      rimraf: ^5.0.0
       stylelint: ^14.6.1
       stylelint-config-standard-scss: ^3.0.0
       stylelint-config-taro-rn: workspace:*
@@ -224,7 +224,7 @@ importers:
       react: registry.npmjs.org/react/18.2.0
       react-dom: registry.npmjs.org/react-dom/18.2.0_react@18.2.0
       react-test-renderer: registry.npmjs.org/react-test-renderer/18.2.0_react@18.2.0
-      rimraf: registry.npmjs.org/rimraf/3.0.2
+      rimraf: registry.npmjs.org/rimraf/5.0.0
       stylelint: registry.npmjs.org/stylelint/14.16.1
       stylelint-config-standard-scss: registry.npmjs.org/stylelint-config-standard-scss/3.0.0_w5gtdy6oq4ictd5o4eu6befejy
       stylelint-config-taro-rn: link:packages/stylelint-config-taro-rn
@@ -501,7 +501,12 @@ importers:
       '@rollup/plugin-node-resolve': ^8.0.0
       '@tarojs/runtime': workspace:*
       '@tarojs/shared': workspace:*
+      jest: ^29.3.1
+      jest-cli: ^29.3.1
+      jest-environment-node: ^29.5.0
       rollup: ^2.79.0
+      ts-jest: ^29.0.5
+      typescript: ^4.7.4
     dependencies:
       '@babel/runtime': registry.npmjs.org/@babel/runtime/7.21.0
       '@tarojs/runtime': link:../taro-runtime
@@ -511,7 +516,12 @@ importers:
       '@rollup/plugin-babel': registry.npmjs.org/@rollup/plugin-babel/5.3.1_b6cdhqm2xsfe2bpl424qdsl4ei
       '@rollup/plugin-commonjs': registry.npmjs.org/@rollup/plugin-commonjs/20.0.0_rollup@2.79.1
       '@rollup/plugin-node-resolve': registry.npmjs.org/@rollup/plugin-node-resolve/8.4.0_rollup@2.79.1
+      jest: registry.npmjs.org/jest/29.5.0
+      jest-cli: registry.npmjs.org/jest-cli/29.5.0
+      jest-environment-node: registry.npmjs.org/jest-environment-node/29.5.0
       rollup: registry.npmjs.org/rollup/2.79.1
+      ts-jest: registry.npmjs.org/ts-jest/29.1.0_rgossuqlslmrpogqankdav3e2e
+      typescript: registry.npmjs.org/typescript/4.9.5
 
   packages/taro-cli:
     specifiers:
@@ -13933,7 +13943,6 @@ packages:
     version: 2.0.1
     dependencies:
       balanced-match: registry.npmjs.org/balanced-match/1.0.2
-    dev: false
 
   registry.npmjs.org/braces/2.3.2:
     resolution: {integrity: sha512-aNdbnj9P8PjdXU4ybaWLK2IF3jc/EoDYbC7AazW6to3TRsfXxscC9UXOB5iDiEQrkyIbWp2SLQda4+QAa7nc3w==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/braces/-/braces-2.3.2.tgz}
@@ -20732,6 +20741,18 @@ packages:
     name: glob-to-regexp
     version: 0.4.1
 
+  registry.npmjs.org/glob/10.1.0:
+    resolution: {integrity: sha512-daGobsYuT0G4hng24B5LbeLNvwKZYRhWyDl3RvqqAGZjJnCopWWK6PWnAGBY1M/vdA63QE+jddhZcYp+74Bq6Q==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/glob/-/glob-10.1.0.tgz}
+    name: glob
+    version: 10.1.0
+    engines: {node: '>=16 || 14 >=14.17'}
+    dependencies:
+      fs.realpath: registry.npmjs.org/fs.realpath/1.0.0
+      minimatch: registry.npmjs.org/minimatch/9.0.0
+      minipass: registry.npmjs.org/minipass/5.0.0
+      path-scurry: registry.npmjs.org/path-scurry/1.7.0
+    dev: true
+
   registry.npmjs.org/glob/6.0.4:
     resolution: {integrity: sha512-MKZeRNyYZAVVVG1oZeLaWie1uweH40m9AZwIwxyPbTSX4hHrVYSzLg0Ro5Z5R7XKkIX+Cc6oD1rqeDJnwsB8/A==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/glob/-/glob-6.0.4.tgz}
     name: glob
@@ -26078,6 +26099,13 @@ packages:
     dependencies:
       yallist: registry.npmjs.org/yallist/4.0.0
 
+  registry.npmjs.org/lru-cache/9.0.3:
+    resolution: {integrity: sha512-cyjNRew29d4kbgnz1sjDqxg7qg8NW4s+HQzCGjeon7DV5T2yDije16W9HaUFV1dhVEMh+SjrOcK0TomBmf3Egg==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/lru-cache/-/lru-cache-9.0.3.tgz}
+    name: lru-cache
+    version: 9.0.3
+    engines: {node: 14 || >=16.14}
+    dev: true
+
   registry.npmjs.org/magic-string/0.25.9:
     resolution: {integrity: sha512-RmF0AsMzgt25qzqqLc1+MbHmhdx0ojF2Fvs4XnOqz2ZOBXzzkEwc/dJQZCYHAn7v1jbVOjAZfK8msRn4BxO4VQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/magic-string/-/magic-string-0.25.9.tgz}
     name: magic-string
@@ -27000,6 +27028,15 @@ packages:
       brace-expansion: registry.npmjs.org/brace-expansion/2.0.1
     dev: false
 
+  registry.npmjs.org/minimatch/9.0.0:
+    resolution: {integrity: sha512-0jJj8AvgKqWN05mrwuqi8QYKx1WmYSUoKSxu5Qhs9prezTz10sxAHGNZe9J9cqIJzta8DWsleh2KaVaLl6Ru2w==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/minimatch/-/minimatch-9.0.0.tgz}
+    name: minimatch
+    version: 9.0.0
+    engines: {node: '>=16 || 14 >=14.17'}
+    dependencies:
+      brace-expansion: registry.npmjs.org/brace-expansion/2.0.1
+    dev: true
+
   registry.npmjs.org/minimist-options/4.1.0:
     resolution: {integrity: sha512-Q4r8ghd80yhO/0j1O3B2BjweX3fiHg9cdOwjJd2J76Q135c+NDxGCqdYKQ1SKBuFfgWbAUzBfvYjPUEeNgqN1A==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/minimist-options/-/minimist-options-4.1.0.tgz}
     name: minimist-options
@@ -27066,6 +27103,13 @@ packages:
     name: minipass
     version: 4.2.5
     engines: {node: '>=8'}
+
+  registry.npmjs.org/minipass/5.0.0:
+    resolution: {integrity: sha512-3FnjYuehv9k6ovOEbyOswadCDPX1piCfhV8ncmYtHOjuPwylVWsghTLo7rabjC3Rx5xD4HDx8Wm1xnMF7S5qFQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/minipass/-/minipass-5.0.0.tgz}
+    name: minipass
+    version: 5.0.0
+    engines: {node: '>=8'}
+    dev: true
 
   registry.npmjs.org/miniprogram-api-typings/3.9.0:
     resolution: {integrity: sha512-QCXHHW9H4XYazb8J9EMiFyaOWHXhBG4oehkQqi+76FJpKKIlpgL0ZkXxzJ2L+6T/c5OxKm7iegovKIQGVkZDLQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/miniprogram-api-typings/-/miniprogram-api-typings-3.9.0.tgz}
@@ -27175,7 +27219,7 @@ packages:
     version: 2.1.2
     engines: {node: '>= 8'}
     dependencies:
-      minipass: registry.npmjs.org/minipass/3.1.6
+      minipass: registry.npmjs.org/minipass/3.3.6
       yallist: registry.npmjs.org/yallist/4.0.0
 
   registry.npmjs.org/mississippi/3.0.0:
@@ -28703,6 +28747,16 @@ packages:
     resolution: {integrity: sha512-LDJzPVEEEPR+y48z93A0Ed0yXb8pAByGWo/k5YYdYgpY2/2EsOsksJrq7lOHxryrVOn1ejG6oAp8ahvOIQD8sw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/path-parse/-/path-parse-1.0.7.tgz}
     name: path-parse
     version: 1.0.7
+
+  registry.npmjs.org/path-scurry/1.7.0:
+    resolution: {integrity: sha512-UkZUeDjczjYRE495+9thsgcVgsaCPkaw80slmfVFgllxY+IO8ubTsOpFVjDPROBqJdHfVPUFRHPBV/WciOVfWg==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/path-scurry/-/path-scurry-1.7.0.tgz}
+    name: path-scurry
+    version: 1.7.0
+    engines: {node: '>=16 || 14 >=14.17'}
+    dependencies:
+      lru-cache: registry.npmjs.org/lru-cache/9.0.3
+      minipass: registry.npmjs.org/minipass/5.0.0
+    dev: true
 
   registry.npmjs.org/path-to-regexp/0.1.7:
     resolution: {integrity: sha512-5DFkuoqlv1uYQKxy8omFBeJPQcdoE07Kv2sferDCrAq1ohOU+MSDswDIbnx3YAM60qIOnYa53wBhXW0EbMonrQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/path-to-regexp/-/path-to-regexp-0.1.7.tgz}
@@ -32118,6 +32172,16 @@ packages:
     hasBin: true
     dependencies:
       glob: registry.npmjs.org/glob/7.2.3
+
+  registry.npmjs.org/rimraf/5.0.0:
+    resolution: {integrity: sha512-Jf9llaP+RvaEVS5nPShYFhtXIrb3LRKP281ib3So0KkeZKo2wIKyq0Re7TOSwanasA423PSr6CCIL4bP6T040g==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/rimraf/-/rimraf-5.0.0.tgz}
+    name: rimraf
+    version: 5.0.0
+    engines: {node: '>=14'}
+    hasBin: true
+    dependencies:
+      glob: registry.npmjs.org/glob/10.1.0
+    dev: true
 
   registry.npmjs.org/ripemd160/2.0.2:
     resolution: {integrity: sha512-ii4iagi25WusVoiC4B4lq7pbXfAp3D9v5CwfkY33vffw2+pkDjY1D8GaN7spsxvCSx8dkPqOZCEZyfxcmJG2IA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/ripemd160/-/ripemd160-2.0.2.tgz}

@@ -33,7 +33,14 @@ if (process.env.TARO_ENV && !isWebPlatform()) {
       globalProperties.forEach(property => {
         if (property === 'atob' || property === 'document') return
         if (!Object.prototype.hasOwnProperty.call(this, property)) {
-          this[property] = global[property]
+          // 防止小程序环境下，window 上的某些 get 属性在赋值时报错
+          try {
+            this[property] = global[property]            
+          } catch (e) {
+            if (process.env.NODE_ENV !== 'production') {
+              console.warn(`[Taro warn] window.${String(property)} 在赋值到 window 时报错`)
+            }
+          }
         }
       })
 
