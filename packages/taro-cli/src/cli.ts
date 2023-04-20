@@ -6,7 +6,7 @@ import * as path from 'path'
 import customCommand from './commands/customCommand'
 import { dotenvParse, getPkgVersion, patchEnv } from './util'
 
-const DISABLE_GLOBAL_CONFIG_COMMANDS = ['build', 'global-config', 'doctor']
+const DISABLE_GLOBAL_CONFIG_COMMANDS = ['build', 'global-config', 'doctor', 'update', 'config']
 
 export default class CLI {
   appPath: string
