@@ -37,6 +37,7 @@ export default (ctx: IPluginContext, options: IOptions) => {
       })
 
       if (ctx.initialConfig.compiler === 'webpack4' || (isObject<boolean>(ctx.initialConfig.compiler) && ctx.initialConfig.compiler.type === 'webpack4')) {
+        // taro webpack4 中, 未正确识别到 axios package.json 中的 browser 字段, 以致于打包进入了 node 相关的代码（https://github.com/axios/axios/blob/59eb99183546d822bc27e881f5dcd748daa04173/package.json#L128-L132）
         const inAxiosReg = /(\/|\\)(node_modules)(\/|\\)(axios)(\/|\\)/
         chain.merge({
           externals: [
