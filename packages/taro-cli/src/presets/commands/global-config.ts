@@ -1,7 +1,8 @@
 import * as ora from 'ora'
 import * as path from 'path'
+import * as validatePkgName from 'validate-npm-package-name'
 
-import { execCommand, getRootPath } from '../../util'
+import { execCommand, getPkgNameByFilterVsersion, getRootPath } from '../../util'
 
 import type { IPluginContext } from '@tarojs/service'
 
@@ -39,9 +40,9 @@ export default (ctx: IPluginContext) => {
     },
     fn ({ _ }) {
       const [, action, pluginName] = _
-      const { getUserHomeDir, TARO_GROBAL_CONFIG_DIR, fs, TARO_GLOBAL_CONFIG_FILE } = ctx.helper
+      const { getUserHomeDir, TARO_GLOBAL_CONFIG_DIR, fs, TARO_GLOBAL_CONFIG_FILE } = ctx.helper
       const homedir = getUserHomeDir()
-      const globalPluginConfigDir = path.join(homedir, TARO_GROBAL_CONFIG_DIR)
+      const globalPluginConfigDir = path.join(homedir, TARO_GLOBAL_CONFIG_DIR)
       if (!homedir) return console.log('找不到用户根目录')
       const rootPath = getRootPath()
       const templatePath = path.join(rootPath, 'templates', 'global-config')
@@ -66,7 +67,13 @@ export default (ctx: IPluginContext) => {
           console.error(`缺少要${chineseCommand}的${presetOrPluginChineseName}`)
           process.exit(1)
         } 
+        
         const spinner = ora(`开始${chineseCommand}${presetOrPluginChineseName} ${pluginName}`).start()
+        const pluginWithoutVersionName = getPkgNameByFilterVsersion(pluginName)
+        if(!validatePkgName(pluginWithoutVersionName).validForNewPackages) {
+          spinner.fail('安装的插件名不合规！')
+          process.exit(1)
+        }
         execCommand({
           command: `cd ${globalPluginConfigDir} && npm ${actionType} ${pluginName}`,
           successCallback (data) {
@@ -81,7 +88,6 @@ export default (ctx: IPluginContext) => {
             }
             const configKey = PLUGIN_TYPE_TO_CONFIG_KEY[pluginType]
             const configItem = globalConfig[configKey] || []
-            const pluginWithoutVersionName = getPkgVersionNameByFilterVsersion(pluginName)
             const pluginIndex = configItem.findIndex((item)=>{
               if(typeof item === 'string') return item === pluginWithoutVersionName
               if( item instanceof Array) return item?.[0] === pluginWithoutVersionName
@@ -129,7 +135,3 @@ export default (ctx: IPluginContext) => {
   })
 }
 
-function getPkgVersionNameByFilterVsersion (pkgString: string) {
-  const versionFlagIndex = pkgString.lastIndexOf('@')
-  return versionFlagIndex === 0 ? pkgString : pkgString.slice(0, versionFlagIndex)
-}

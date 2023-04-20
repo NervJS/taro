@@ -6,7 +6,7 @@ import * as path from 'path'
 import customCommand from './commands/customCommand'
 import { dotenvParse, getPkgVersion, patchEnv } from './util'
 
-const DISABLE_GLOBAL_CONFIG_COMMANDS = ['build', 'global-plugin', 'doctor']
+const DISABLE_GLOBAL_CONFIG_COMMANDS = ['build', 'global-config', 'doctor']
 
 export default class CLI {
   appPath: string
@@ -84,7 +84,7 @@ export default class CLI {
       }
       
       // 把内置命令插件传递给 kernel，可以暴露给其他插件使用
-      kernel.cliComadnsPath = commandsPath
+      kernel.cliCommandsPath = commandsPath
       kernel.cliCommands = commandPlugins
         .filter(commandFileName => /^[\w-]+(\.[\w-]+)*\.js$/.test(commandFileName))
         .map(fileName => fileName.replace(/\.js$/, ''))
@@ -177,7 +177,7 @@ export default class CLI {
             description: args.description,
             typescript: args.typescript,
             framework: args.framework,
-            compiler: args.compilter,
+            compiler: args.compiler,
             npm: args.npm,
             templateSource: args['template-source'],
             clone: !!args.clone,

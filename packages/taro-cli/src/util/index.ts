@@ -175,3 +175,8 @@ export function execCommand (params: {
     failCallback?.(data)
   })
 }
+
+export function getPkgNameByFilterVsersion (pkgString: string) {
+  const versionFlagIndex = pkgString.lastIndexOf('@')
+  return versionFlagIndex === 0 ? pkgString : pkgString.slice(0, versionFlagIndex)
+}

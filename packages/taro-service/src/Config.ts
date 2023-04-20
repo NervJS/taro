@@ -6,8 +6,8 @@ import {
   OUTPUT_DIR,
   resolveScriptPath,
   SOURCE_DIR,
-  TARO_GLOBAL_CONFIG_FILE,
-  TARO_GROBAL_CONFIG_DIR
+  TARO_GLOBAL_CONFIG_DIR,
+  TARO_GLOBAL_CONFIG_FILE
 } from '@tarojs/helper'
 import * as fs from 'fs-extra'
 import * as ora from 'ora'
@@ -23,7 +23,7 @@ import type { IProjectConfig } from '@tarojs/taro/types/compile'
 
 interface IConfigOptions {
   appPath: string
-  disableGlobalConfig: boolean
+  disableGlobalConfig?: boolean
 }
 
 export default class Config {
@@ -32,10 +32,10 @@ export default class Config {
   initialConfig: IProjectConfig
   initialGlobalConfig: IProjectConfig
   isInitSuccess: boolean
-  disableGlobalConfig
+  disableGlobalConfig: boolean
   constructor (opts: IConfigOptions) {
     this.appPath = opts.appPath
-    this.disableGlobalConfig = opts.disableGlobalConfig
+    this.disableGlobalConfig = !!opts?.disableGlobalConfig
     this.init()
   }
 
@@ -65,7 +65,7 @@ export default class Config {
   initGlobalConfig () {
     const homedir = getUserHomeDir()
     if(!homedir) return  console.error('获取不到用户 home 路径')
-    const globalPluginConfigPath = path.join(getUserHomeDir(), TARO_GROBAL_CONFIG_DIR, TARO_GLOBAL_CONFIG_FILE)
+    const globalPluginConfigPath = path.join(getUserHomeDir(), TARO_GLOBAL_CONFIG_DIR, TARO_GLOBAL_CONFIG_FILE)
     const spinner = ora(`开始获取 taro 全局配置文件： ${globalPluginConfigPath}`).start()
     if (!fs.existsSync(globalPluginConfigPath)) return spinner.warn(`获取 taro 全局配置文件失败，不存在全局配置文件：${globalPluginConfigPath}`)
     try {

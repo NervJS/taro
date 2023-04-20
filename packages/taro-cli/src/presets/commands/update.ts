@@ -1,4 +1,3 @@
-
 import * as inquirer from 'inquirer'
 import * as getLatestVersion from 'latest-version'
 import * as ora from 'ora'

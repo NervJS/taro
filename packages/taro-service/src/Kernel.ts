@@ -50,7 +50,7 @@ export default class Kernel extends EventEmitter {
   hooks: Map<string, IHook[]>
   methods: Map<string, Func[]>
   cliCommands: string []
-  cliComadnsPath: string
+  cliCommandsPath: string
   disableGlobalConfig: boolean
   commands: Map<string, ICommand>
   platforms: Map<string, IPlatform>
@@ -135,7 +135,7 @@ export default class Kernel extends EventEmitter {
       this.initPreset(resolvedCliAndProjectPresets.shift()!)
     }
 
-    const globalConfigRootPath = path.join(helper.getUserHomeDir(), helper.TARO_GROBAL_CONFIG_DIR)
+    const globalConfigRootPath = path.join(helper.getUserHomeDir(), helper.TARO_GLOBAL_CONFIG_DIR)
     const resolvedGlobalPresets = resolvePresetsOrPlugins(globalConfigRootPath , globalPresets, PluginType.Plugin, true)
     while (resolvedGlobalPresets.length) {
       this.initPreset(resolvedGlobalPresets.shift()!, true)
@@ -147,7 +147,7 @@ export default class Kernel extends EventEmitter {
     const resolvedCliAndProjectPlugins = resolvePresetsOrPlugins(this.appPath, cliAndProjectPlugins, PluginType.Plugin)
 
     globalPlugins = merge(this.globalExtraPlugins, globalPlugins)
-    const globalConfigRootPath = path.join(helper.getUserHomeDir(), helper.TARO_GROBAL_CONFIG_DIR)
+    const globalConfigRootPath = path.join(helper.getUserHomeDir(), helper.TARO_GLOBAL_CONFIG_DIR)
     const resolvedGlobalPlugins = resolvePresetsOrPlugins(globalConfigRootPath , globalPlugins, PluginType.Plugin, true)
 
     const resolvedPlugins = resolvedCliAndProjectPlugins.concat(resolvedGlobalPlugins)
@@ -173,10 +173,9 @@ export default class Kernel extends EventEmitter {
       }
     }
     if (Array.isArray(plugins)) {
-      isGlobalConfigPreset ?
-        (this.globalExtraPlugins = merge(this.globalExtraPlugins, convertPluginsToObject(plugins)()))
-        :
-        (this.extraPlugins = merge(this.extraPlugins, convertPluginsToObject(plugins)()))
+      isGlobalConfigPreset
+        ? (this.globalExtraPlugins = merge(this.globalExtraPlugins, convertPluginsToObject(plugins)()))
+        : (this.extraPlugins = merge(this.extraPlugins, convertPluginsToObject(plugins)()))
     }
   }
 
@@ -189,12 +188,12 @@ export default class Kernel extends EventEmitter {
     this.checkPluginOpts(pluginCtx, opts)
   }
 
-  applayCliCommandPlugin (commandNames: string[] = []) {
+  applyCliCommandPlugin (commandNames: string[] = []) {
     const existsCliCommand: string[] = []
     for( let i = 0; i < commandNames.length; i++ ) {
-      const coommandName = commandNames[i]
-      const commandFilePath = path.resolve(this.cliComadnsPath, `${coommandName}.js`)
-      if(this.cliCommands.includes(coommandName)) existsCliCommand.push(commandFilePath)
+      const commandName = commandNames[i]
+      const commandFilePath = path.resolve(this.cliCommandsPath, `${commandName}.js`)
+      if(this.cliCommands.includes(commandName)) existsCliCommand.push(commandFilePath)
     }
     const commandPlugins = convertPluginsToObject(existsCliCommand || [])()
     helper.createSwcRegister({ only: [ ...Object.keys(commandPlugins) ] })
@@ -241,7 +240,7 @@ export default class Kernel extends EventEmitter {
       'runOpts',
       'initialConfig',
       'applyPlugins',
-      'applayCliCommandPlugin'
+      'applyCliCommandPlugin'
     ]
     internalMethods.forEach(name => {
       if (!this.methods.has(name)) {

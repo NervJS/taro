@@ -73,7 +73,6 @@ export default function fetchTemplate (templateSource: string, templateRootPath:
           await fs.remove(tempPath)
           return resolve()
         })
-        
     }
   }).then(async () => {
     const templateFolder = name ? path.join(tempPath, name) : ''

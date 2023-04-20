@@ -4,9 +4,9 @@ import * as path from 'path'
 import * as resolve from 'resolve'
 
 import { PluginType } from './constants'
-import { IPlugin, IPluginsObject } from './types'
 
 import type { PluginItem } from '@tarojs/taro/types/compile'
+import type { IPlugin, IPluginsObject } from './types'
 
 export const isNpmPkg: (name: string) => boolean = name => !(/^(\.|\/)/.test(name))
 
@@ -42,8 +42,8 @@ export function mergePlugins (dist: PluginItem[], src: PluginItem[]) {
 }
 
 // getModuleDefaultExport
-export function resolvePresetsOrPlugins (root: string, args, type: PluginType, skipError?: boolean): IPlugin[] {
-  // 全局的插件引入报错，不抛出 Error 影响主流程，而是通过 log 提醒然后把插件 fliter 掉，保证主流程不变
+export function resolvePresetsOrPlugins (root: string, args: IPluginsObject, type: PluginType, skipError?: boolean): IPlugin[] {
+  // 全局的插件引入报错，不抛出 Error 影响主流程，而是通过 log 提醒然后把插件 filter 掉，保证主流程不变
   const resolvedPresetsOrPlugins: IPlugin[] =  [] 
   const presetsOrPluginsNames = Object.keys(args) || []
   for( let i = 0; i < presetsOrPluginsNames.length; i++ ) {
@@ -57,7 +57,7 @@ export function resolvePresetsOrPlugins (root: string, args, type: PluginType, s
     } catch (err) {
       if (args[item]?.backup) {
         // 如果项目中没有，可以使用 CLI 中的插件
-        fPath = args[item].backup
+        fPath = args[item]?.backup
       } else if (skipError) {
         // 如果跳过报错，那么 log 提醒，并且不使用该插件
         console.log(chalk.yellow(`找不到插件依赖 "${item}"，请先在项目中安装，项目路径：${root}`))
@@ -77,7 +77,7 @@ export function resolvePresetsOrPlugins (root: string, args, type: PluginType, s
           return getModuleDefaultExport(require(fPath))
         } catch (error) {
           console.error(error)
-          // 全局的插件运行报错，不抛出 Error 影响主流程，而是通过 log 提醒然后把插件 fliter 掉，保证主流程不变
+          // 全局的插件运行报错，不抛出 Error 影响主流程，而是通过 log 提醒然后把插件 filter 掉，保证主流程不变
           if(skipError) {
             console.error(`插件依赖 "${item}" 加载失败，请检查插件配置`)
           } else { 
