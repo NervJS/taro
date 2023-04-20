@@ -533,7 +533,7 @@ importers:
       '@tarojs/helper': workspace:*
       '@tarojs/service': workspace:*
       '@tarojs/shared': workspace:*
-      adm-zip: ^0.4.13
+      adm-zip: ^0.5.3
       babel-jest: ^29.5.0
       cli-highlight: ^2.1.11
       dotenv: ^16.0.3
@@ -569,7 +569,7 @@ importers:
       '@tarojs/helper': link:../taro-helper
       '@tarojs/service': link:../taro-service
       '@tarojs/shared': link:../shared
-      adm-zip: registry.npmjs.org/adm-zip/0.4.16
+      adm-zip: registry.npmjs.org/adm-zip/0.5.10
       cli-highlight: registry.npmjs.org/cli-highlight/2.1.11
       dotenv: registry.npmjs.org/dotenv/16.0.3
       dotenv-expand: registry.npmjs.org/dotenv-expand/9.0.0
@@ -11394,11 +11394,11 @@ packages:
       regex-parser: registry.npmjs.org/regex-parser/2.2.11
     dev: false
 
-  registry.npmjs.org/adm-zip/0.4.16:
-    resolution: {integrity: sha512-TFi4HBKSGfIKsK5YCkKaaFG2m4PEDyViZmEwof3MTIgzimHLto6muaHVpbrljdIvIrFZzEq/p4nafOeLcYegrg==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/adm-zip/-/adm-zip-0.4.16.tgz}
+  registry.npmjs.org/adm-zip/0.5.10:
+    resolution: {integrity: sha512-x0HvcHqVJNTPk/Bw8JbLWlWoo6Wwnsug0fnYYro1HBrjxZ3G7/AZk7Ahv8JwDe1uIcz8eBqvu86FuF1POiG7vQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/adm-zip/-/adm-zip-0.5.10.tgz}
     name: adm-zip
-    version: 0.4.16
-    engines: {node: '>=0.3.0'}
+    version: 0.5.10
+    engines: {node: '>=6.0'}
     dev: false
 
   registry.npmjs.org/after/0.8.2:

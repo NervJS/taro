@@ -48,6 +48,7 @@ export default function fetchTemplate (templateSource: string, templateRootPath:
       const zipPath = path.join(tempPath, 'temp.zip')
       request
         .get(templateSource)
+        .pipe(fs.createWriteStream(zipPath))
         .on('close', () => {
           // unzip
           const zip = new AdmZip(zipPath)
@@ -72,7 +73,7 @@ export default function fetchTemplate (templateSource: string, templateRootPath:
           await fs.remove(tempPath)
           return resolve()
         })
-        .pipe(fs.createWriteStream(zipPath))
+        
     }
   }).then(async () => {
     const templateFolder = name ? path.join(tempPath, name) : ''
