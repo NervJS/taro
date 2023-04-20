@@ -45,7 +45,7 @@ export default class Kernel extends EventEmitter {
   globalExtraPlugins: IPluginsObject
   config: Config
   initialConfig: IProjectConfig
-  initGlobalConfig: IProjectConfig
+  initialGlobalConfig: IProjectConfig
   hooks: Map<string, IHook[]>
   methods: Map<string, Func[]>
   cliCommands: string []
@@ -76,7 +76,7 @@ export default class Kernel extends EventEmitter {
       appPath: this.appPath,
     })
     this.initialConfig = this.config.initialConfig
-    this.initGlobalConfig = this.config.initGlobalConfig
+    this.initialGlobalConfig = this.config.initialGlobalConfig
     this.debugger('initConfig', this.initialConfig)
   }
 
@@ -102,11 +102,11 @@ export default class Kernel extends EventEmitter {
 
   initPresetsAndPlugins () {
     const initialConfig = this.initialConfig
-    const initGlobalConfig = this.initGlobalConfig
+    const initialGlobalConfig = this.initialGlobalConfig
     const cliAndProjectConfigPresets = mergePlugins(this.optsPresets || [], initialConfig.presets || [])()
     const cliAndProjectPlugins = mergePlugins(this.optsPlugins || [], initialConfig.plugins || [])()
-    const globalPlugins = convertPluginsToObject(initGlobalConfig.plugins || [])()
-    const globalPresets = convertPluginsToObject(initGlobalConfig.presets || [])()
+    const globalPlugins = convertPluginsToObject(initialGlobalConfig.plugins || [])()
+    const globalPresets = convertPluginsToObject(initialGlobalConfig.presets || [])()
     this.debugger('initPresetsAndPlugins', cliAndProjectConfigPresets, cliAndProjectPlugins)
     this.debugger('globalPresetsAndPlugins', globalPlugins, globalPresets)
     process.env.NODE_ENV !== 'test' &&

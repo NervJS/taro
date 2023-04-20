@@ -29,7 +29,7 @@ export default class Config {
   appPath: string
   configPath: string
   initialConfig: IProjectConfig
-  initGlobalConfig: IProjectConfig
+  initialGlobalConfig: IProjectConfig
   isInitSuccess: boolean
   constructor (opts: IConfigOptions) {
     this.appPath = opts.appPath
@@ -37,25 +37,12 @@ export default class Config {
   }
 
   init () {
+    this.initialConfig = {}
+    this.initialGlobalConfig = {}
+    this.isInitSuccess = false   
     this.configPath = resolveScriptPath(path.join(this.appPath, CONFIG_DIR_NAME, DEFAULT_CONFIG_FILE))
     if (!fs.existsSync(this.configPath)) {
-      this.initialConfig = {}
-      this.isInitSuccess = false      
-      const homedir = getUserHomeDir()
-      if(!homedir) return console.error('获取不到用户 home 路径')
-      const globalPluginConfigPath = path.join(getUserHomeDir(), TARO_GROBAL_CONFIG_DIR, TARO_GLOBAL_CONFIG_FILE)
-      const spinner = ora(`开始获取 taro 全局配置文件： ${globalPluginConfigPath}`).start()
-      if (!fs.existsSync(globalPluginConfigPath)) {
-        this.initGlobalConfig = {}
-        spinner.warn(`获取 taro 全局配置文件失败，不存在全局配置文件：${globalPluginConfigPath}`)
-      }else{
-        try {
-          this.initGlobalConfig = fs.readJSONSync(globalPluginConfigPath) || {}
-          spinner.succeed('获取 taro 全局配置成功')
-        }catch(e){
-          spinner.fail(`获取全局配置失败，如果需要启用全局插件请查看配置文件: ${globalPluginConfigPath} `)
-        }
-      }
+      this.initGlobalConfig()
     } else {
       createSwcRegister({
         only: [
@@ -66,10 +53,23 @@ export default class Config {
         this.initialConfig = getModuleDefaultExport(require(this.configPath))(merge)
         this.isInitSuccess = true
       } catch (err) {
-        this.initialConfig = {}
-        this.isInitSuccess = false
         console.log(err)
       }
+    }
+  }
+
+  initGlobalConfig () {
+    const homedir = getUserHomeDir()
+    if(!homedir) return  console.error('获取不到用户 home 路径')
+    const globalPluginConfigPath = path.join(getUserHomeDir(), TARO_GROBAL_CONFIG_DIR, TARO_GLOBAL_CONFIG_FILE)
+    const spinner = ora(`开始获取 taro 全局配置文件： ${globalPluginConfigPath}`).start()
+    if (!fs.existsSync(globalPluginConfigPath)) return spinner.warn(`获取 taro 全局配置文件失败，不存在全局配置文件：${globalPluginConfigPath}`)
+    try {
+      this.initialGlobalConfig = fs.readJSONSync(globalPluginConfigPath) || {}
+      spinner.succeed('获取 taro 全局配置成功')
+    }catch(e){
+      spinner.stop()
+      console.warn(`获取全局配置失败，如果需要启用全局插件请查看配置文件: ${globalPluginConfigPath} `)
     }
   }
 
