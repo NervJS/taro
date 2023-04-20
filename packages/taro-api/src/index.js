@@ -11,14 +11,13 @@ import {
 } from '@tarojs/runtime'
 
 import { ENV_TYPE, getEnv } from './env'
-import Link from './interceptor'
+import Link, { interceptorify } from './interceptor'
 import * as interceptors from './interceptor/interceptors'
 import {
   Behavior,
   getInitPxTransform,
   getPreload,
   getPxTransform,
-  interceptorify
 } from './tools'
 
 const Taro = {

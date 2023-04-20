@@ -1,4 +1,3 @@
-import Link from './interceptor'
 import { isFunction, isObject } from './utils'
 
 export function Behavior (options) {
@@ -70,10 +69,4 @@ export function getPxTransform (taro) {
     }
     return val + config.targetUnit
   }
-}
-
-export function interceptorify (promiseifyApi) {
-  return new Link(function (chain) {
-    return promiseifyApi(chain.requestParams)
-  })
 }
