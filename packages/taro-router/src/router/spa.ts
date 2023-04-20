@@ -1,6 +1,5 @@
 /* eslint-disable dot-notation */
 import {
-  AppInstance,
   createPageConfig, Current,
   eventCenter, hooks,
   incrementId,
@@ -16,6 +15,7 @@ import { RouterConfig } from '.'
 import PageHandler from './page'
 import stacks from './stack'
 
+import type { AppInstance } from '@tarojs/runtime'
 import type { Listener as LocationListener } from 'history'
 import type { Routes } from 'universal-router'
 import type { SpaRouterConfig } from '../../types/router'
