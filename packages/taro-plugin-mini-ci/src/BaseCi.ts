@@ -1,7 +1,8 @@
-import { IPluginContext } from '@tarojs/service'
 import * as path from 'path'
 
 import { ON_PREVIEW_COMPLETE, ON_UPLOAD_COMPLETE } from './hooks'
+
+import type { IPluginContext } from '@tarojs/service'
 
 export type ProjectType = 'miniProgram' | 'miniGame' | 'miniProgramPlugin' | 'miniGamePlugin';
 
@@ -19,6 +20,27 @@ export interface WeappConfig {
   ignores?: Array<string>
   /** 指定使用哪一个 ci 机器人，可选值：1 ~ 30 */
   robot?: number
+  /** 预览和上传时的编译设置 */
+  setting?: {
+    /** 对应于微信开发者工具的 "es6 转 es5" */
+    es6: boolean
+    /** 对应于微信开发者工具的 "增强编译" */
+    es7: boolean
+    /** "增强编译" 开启时，是否禁用JS文件严格模式，默认为false */
+    disableUseStrict: boolean
+    /** 上传时压缩 JS 代码 */
+    minifyJS: boolean
+    /** 上传时压缩 WXML 代码 */
+    minifyWXML: boolean
+    /** 上传时压缩 WXSS 代码 */
+    minifyWXSS: boolean
+    /** 上传时压缩所有代码，对应于微信开发者工具的 "上传时压缩代码" */
+    minify: boolean
+    /** 对应于微信开发者工具的 "上传时进行代码保护" */
+    codeProtect: boolean
+    /** 对应于微信开发者工具的 "上传时样式自动补全" */
+    autoPrefixWXSS: boolean
+  }
 }
 
 /** 头条小程序配置 */
@@ -111,7 +133,7 @@ export interface CIOptions {
   alipay?: AlipayConfig
   /** 钉钉小程序配置 */
   dd?: DingtalkConfig
-  /** 百度小程序配置, 官方文档地址：https://smartprogram.baidu.com/docs/develop/devtools/commandtool/ */
+  /** 百度小程序配置, 官方文档地址：https://smartprogram.baidu.com/docs/develop/devtools/smartapp_cli_function/ */
   swan?: SwanConfig
   /** 京东小程序配置, 官方文档地址：https://mp-docs.jd.com/doc/dev/devtools/1597 */
   jd?: JdConfig

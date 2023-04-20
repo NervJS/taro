@@ -1,3 +1,4 @@
+const PLATFORM_TYPE = require('@tarojs/shared').PLATFORM_TYPE
 const reactNativeBabelPreset = require('metro-react-native-babel-preset')
 const { merge } = require('lodash')
 const fs = require('fs')
@@ -38,7 +39,8 @@ function getRNConfig () {
 function getEnv () {
   const config = getProjectConfig()
   const envConst = {
-    'process.env.TARO_ENV': 'rn'
+    'process.env.TARO_ENV': 'rn',
+    'process.env.TARO_PLATFORM': PLATFORM_TYPE.RN,
   }
   if (config.env) {
     Object.keys(config.env).forEach((key) => {

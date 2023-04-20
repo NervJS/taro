@@ -1,8 +1,10 @@
-import * as apis from '@tarojs/taro-h5'
-import * as babel from 'babel-core'
-import * as t from 'babel-types'
+import * as babel from '@babel/core'
+import * as t from '@babel/types'
+import * as apis from '@tarojs/plugin-platform-h5/dist/taroApis'
 
 import plugin from '../src'
+
+type ImportType = babel.types.ImportSpecifier | babel.types.ImportDefaultSpecifier | babel.types.ImportNamespaceSpecifier
 
 const pluginOptions = [
   plugin,
@@ -11,11 +13,10 @@ const pluginOptions = [
     packageName: '@tarojs/taro-h5'
   }
 ]
-
 const getNamedImports = (importSpecifiers: (t.ImportSpecifier | t.ImportDefaultSpecifier | t.ImportNamespaceSpecifier)[]) => {
-  return importSpecifiers.reduce((prev, curr: t.ImportSpecifier) => {
+  return importSpecifiers.reduce((prev, curr) => {
     if (t.isImportSpecifier(curr)) {
-      prev.add(curr.imported.name)
+      prev.add(((curr as t.ImportSpecifier).imported as babel.types.Identifier).name)
     }
     return prev
   }, new Set())
@@ -31,8 +32,9 @@ it('should work!', function () {
     setStorage()
     export { Taro }
   `
-  const result = babel.transform(code, { plugins: [pluginOptions] })
-  expect(result.code).toMatchSnapshot()
+  const result = babel.transform(code, { ast: true, configFile: false, plugins: [pluginOptions] })
+
+  expect(result?.code).toMatchSnapshot()
 })
 
 it('should leave other apis untouched', function () {
@@ -40,24 +42,28 @@ it('should leave other apis untouched', function () {
     import Taro from '@tarojs/taro-h5'
     Taro.noop
   `
-  const result = babel.transform(code, { plugins: [pluginOptions] })
+  const result = babel.transform(code, { ast: true, configFile: false, plugins: [pluginOptions] }) as babel.BabelFileResult
   expect(result.code).toMatchSnapshot()
 
   const ast = result.ast as t.File
   const body = ast.program.body as [t.ImportDeclaration, t.ExpressionStatement]
   expect(t.isImportDeclaration(body[0])).toBeTruthy()
   expect(t.isExpressionStatement(body[1])).toBeTruthy()
-  const defaultImport = body[0].specifiers.find(v => t.isImportDefaultSpecifier(v))
+  const defaultImport = body[0].specifiers.find(v => t.isImportDefaultSpecifier(v)) as ImportType
   expect(defaultImport).toBeTruthy()
 
   const taroName = defaultImport.local.name
   const namedImports = getNamedImports(body[0].specifiers)
   expect(namedImports).toEqual(new Set())
   expect(t.isMemberExpression(body[1].expression)).toBeTruthy()
-  expect((body[1].expression as t.MemberExpression)).toMatchObject(t.memberExpression(
+
+  const obj = t.memberExpression(
     t.identifier(taroName),
-    t.identifier('noop')
-  ))
+    t.identifier('noop'),
+  )
+  delete obj.optional
+  
+  expect((body[1].expression as t.MemberExpression)).toMatchObject(obj)
 })
 
 it('should move static apis under "Taro"', function () {
@@ -67,10 +73,10 @@ it('should move static apis under "Taro"', function () {
     noop();
   `
 
-  const result = babel.transform(code, { plugins: [pluginOptions] })
-  expect(result.code).toMatchSnapshot()
+  const result = babel.transform(code, { ast: true, configFile: false, plugins: [pluginOptions] })
+  expect(result?.code).toMatchSnapshot()
 
-  const ast = result.ast as t.File
+  const ast = result?.ast as t.File
   const body = ast.program.body as [t.ImportDeclaration, t.ExpressionStatement]
   expect(t.isImportDeclaration(body[0])).toBeTruthy()
   expect(t.isExpressionStatement(body[1])).toBeTruthy()
@@ -78,9 +84,9 @@ it('should move static apis under "Taro"', function () {
   expect(defaultImport).toBeTruthy()
 
   const taroName = defaultImport!.local.name
-  let memberExpression = body[1].expression
+  let memberExpression: any = body[1].expression
   if (t.isCallExpression(body[1])) {
-    memberExpression = (body[1].expression as t.CallExpression).callee
+    memberExpression = ((body[1] as t.ExpressionStatement).expression as t.CallExpression).callee
   }
   expect(memberExpression).toMatchObject(t.memberExpression(
     t.identifier(taroName),
@@ -97,10 +103,9 @@ it('should not import taro duplicatly', function () {
     Taro.initPxTransform()
   `
 
-  const result = babel.transform(code, { plugins: [pluginOptions] })
-  expect(result.code).toMatchSnapshot()
-
-  const ast = result.ast as t.File
+  const result = babel.transform(code, { ast: true, configFile: false, plugins: [pluginOptions] })
+  expect(result?.code).toMatchSnapshot()
+  const ast = result?.ast as t.File
   const body = ast.program.body as [t.ImportDeclaration, t.ExpressionStatement, t.ExpressionStatement]
   expect(t.isImportDeclaration(body[0])).toBeTruthy()
   expect(t.isExpressionStatement(body[1])).toBeTruthy()
@@ -120,8 +125,8 @@ it('should not go wrong when using an api twice', function () {
     })
   `
   expect(() => {
-    const result = babel.transform(code, { plugins: [pluginOptions] })
-    expect(result.code).toMatchSnapshot()
+    const result = babel.transform(code, { ast: true, configFile: false, plugins: [pluginOptions] })
+    expect(result?.code).toMatchSnapshot()
   }).not.toThrowError()
 })
 
@@ -130,8 +135,8 @@ it('should preserve default imports', function () {
     import Taro from '@tarojs/taro-h5'
     console.log(Taro)
   `
-  const result = babel.transform(code, { plugins: [pluginOptions] })
-  expect(result.code).toMatchSnapshot()
+  const result = babel.transform(code, { ast: true, configFile: false, plugins: [pluginOptions] })
+  expect(result?.code).toMatchSnapshot()
 })
 
 it('should preserve assignments in lefthands', function () {
@@ -148,8 +153,8 @@ it('should preserve assignments in lefthands', function () {
     Taro.request = ''
     Taro['request'] = ''
   `
-  const result = babel.transform(code, { plugins: [pluginOptions] })
-  expect(result.code).toMatchSnapshot()
+  const result = babel.transform(code, { ast: true, configFile: false, plugins: [pluginOptions] })
+  expect(result?.code).toMatchSnapshot()
 })
 
 it('should support rename of imported names', function () {
@@ -158,6 +163,6 @@ it('should support rename of imported names', function () {
   import { Component as TaroComponent } from "@tarojs/taro-h5";
   export class Connected extends TaroComponent {}
   `
-  const result = babel.transform(code, { plugins: [pluginOptions] })
-  expect(result.code).toMatchSnapshot()
+  const result = babel.transform(code, { ast: true, configFile: false, plugins: [pluginOptions] })
+  expect(result?.code).toMatchSnapshot()
 })

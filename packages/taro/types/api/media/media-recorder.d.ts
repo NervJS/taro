@@ -82,11 +82,36 @@ declare module '../../index' {
     }
   }
 
+  namespace createMediaRecorder {
+    /**
+     * createMediaRecorder Option
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/media-recorder/wx.createMediaRecorder.html
+     */
+    interface Option {
+      /** 指定录制的时长（s)，到达自动停止。最大 7200，最小 5
+       * @default 600
+       */
+      duration?: number
+      /** 视频比特率（kbps），最小值 600，最大值 3000
+       * @default 1000
+       */
+      videoBitsPerSecond?: number
+      /** 视频关键帧间隔
+       * @default 12
+       */
+      gop?: number
+      /** 视频 fps
+       * @default 24
+       */
+      fps?: number
+    }
+  }
+
   interface TaroStatic {
     /** 创建 WebGL 画面录制器，可逐帧录制在 WebGL 上渲染的画面并导出视频文件
      * @supported weapp
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/media-recorder/wx.createMediaRecorder.html
      */
-    createMediaRecorder(): MediaRecorder
+    createMediaRecorder(canvas?: Canvas | OffscreenCanvas, option?: createMediaRecorder.Option): MediaRecorder
   }
 }

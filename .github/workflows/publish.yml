@@ -3,6 +3,7 @@ on:
   # When Release Pull Request is merged
   push:
     branches:
+      - 'chore/**'
       - 'feat/**'
   pull_request:
     branches:

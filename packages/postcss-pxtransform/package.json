@@ -1,6 +1,6 @@
 {
   "name": "postcss-pxtransform",
-  "version": "3.6.1",
+  "version": "3.6.5",
   "description": "PostCSS plugin px 转小程序 rpx及h5 rem 单位",
   "main": "index.js",
   "keywords": [
@@ -23,9 +23,12 @@
     "test": "jest"
   },
   "jest": {
-    "testEnvironment": "node"
+    "testEnvironment": "node",
+    "testEnvironmentOptions": {}
   },
   "devDependencies": {
+    "jest": "^29.3.1",
+    "jest-cli": "^29.3.1",
     "postcss": "^8.4.18"
   },
   "peerDependencies": {

@@ -7,7 +7,7 @@ import type { IPluginContext, TaroPlatformBase } from '@tarojs/service'
 type VoidComponents = Set<string>
 type NestElements = Map<string, number>
 
-interface IOptions {
+export interface IOptions {
   voidComponents: string[] | ((list: VoidComponents) => VoidComponents)
   nestElements: Record<string, number> | ((elem: NestElements) => NestElements)
   components: Record<string, Record<string, any>>
@@ -19,6 +19,12 @@ interface IOptions {
 
 export default (ctx: IPluginContext, options: IOptions) => {
   const fs = ctx.helper.fs
+
+  ctx.modifyWebpackChain(({ chain }) => {
+    if(options.componentsMap){
+      chain.optimization.providedExports(false)
+    }
+  })
 
   ctx.registerMethod({
     name: 'onSetupClose',

@@ -1,9 +1,12 @@
-import { IPluginContext } from '@tarojs/service'
+import { getPlatformType } from '@tarojs/shared'
 
+import type { IPluginContext } from '@tarojs/service'
+
+const configName = 'mini'
 export default (ctx: IPluginContext) => {
   ctx.registerPlatform({
     name: 'plugin',
-    useConfigName: 'mini',
+    useConfigName: configName,
     async fn ({ config }) {
       const {
         options,
@@ -21,8 +24,9 @@ export default (ctx: IPluginContext) => {
         return
       }
       console.log(chalk.green(`开始编译${typeMap[plugin]}小程序插件`))
-      async function buildPlugin (type) {
-        process.env.TARO_ENV = type
+      async function buildPlugin (platform) {
+        process.env.TARO_ENV = platform
+        process.env.TARO_PLATFORM = getPlatformType(platform, configName)
         await ctx.applyPlugins({
           name: 'build',
           opts: {
@@ -31,11 +35,11 @@ export default (ctx: IPluginContext) => {
               isBuildPlugin: true,
               isWatch,
               outputRoot: `${config.outputRoot}`,
-              platform: type,
+              platform,
               needClearOutput: false
             },
             options: Object.assign({}, options, {
-              platform: type
+              platform
             }),
             _
           }
@@ -48,11 +52,11 @@ export default (ctx: IPluginContext) => {
               isBuildPlugin: false,
               isWatch,
               outputRoot: `${config.outputRoot}/miniprogram`,
-              platform: type,
+              platform,
               needClearOutput: false
             },
             options: Object.assign({}, options, {
-              platform: type
+              platform
             }),
             _
           }

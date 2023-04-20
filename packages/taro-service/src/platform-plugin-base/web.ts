@@ -1,10 +1,15 @@
+import { PLATFORM_TYPE } from '@tarojs/shared'
 import { get, merge } from 'lodash'
 import * as path from 'path'
 
 import { getPkgVersion } from '../utils/package'
 import TaroPlatform from './platform'
 
-export abstract class TaroPlatformWeb extends TaroPlatform {
+import type { TConfig } from '../utils/types'
+
+export abstract class TaroPlatformWeb<T extends TConfig = TConfig> extends TaroPlatform<T> {
+  platformType = PLATFORM_TYPE.WEB
+
   /**
    * 1. 清空 dist 文件夹
    * 2. 输出编译提示
@@ -77,8 +82,9 @@ export abstract class TaroPlatformWeb extends TaroPlatform {
     const config = recursiveMerge(Object.assign({}, this.config), {
       entryFileName: ENTRY,
       env: {
-        TARO_ENV: JSON.stringify('h5'),
         FRAMEWORK: JSON.stringify(this.config.framework),
+        TARO_ENV: JSON.stringify(this.platform),
+        TARO_PLATFORM: JSON.stringify(this.platformType),
         TARO_VERSION: JSON.stringify(getPkgVersion())
       },
       devServer: { port },
@@ -89,6 +95,8 @@ export abstract class TaroPlatformWeb extends TaroPlatform {
 
     return {
       ...config,
+      buildAdapter: config.platform,
+      platformType: this.platformType,
       ...extraOptions
     }
   }

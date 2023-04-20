@@ -1,0 +1,48 @@
+{
+  "name": "@tarojs/cli-convertor",
+  "version": "3.6.5",
+  "description": "cli tool for taro-convert",
+  "main": "index.js",
+  "scripts": {
+    "build": "pnpm run clean && pnpm run prod",
+    "dev": "tsc -w",
+    "prod": "tsc",
+    "clean": "rimraf dist"
+  },
+  "files": [
+    "bin",
+    "dist"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NervJS/taro.git"
+  },
+  "bin": {
+    "taro-convert": "bin/taro-convert"
+  },
+  "keywords": [
+    "taro",
+    "weapp"
+  ],
+  "engines": {
+    "node": ">=12"
+  },
+  "author": "O2Team",
+  "license": "MIT",
+  "dependencies": {
+    "@babel/template": "^7.20.0",
+    "@babel/traverse": "^7.20.0",
+    "@babel/types": "^7.20.0",
+    "@tarojs/helper": "workspace:*",
+    "@tarojs/taroize": "workspace:*",
+    "@tarojs/cli": "workspace:*",
+    "@tarojs/transformer-wx": "^2.2.10",
+    "postcss-taro-unit-transform": "^2.2.10",
+    "prettier": "^2.7.1",
+    "postcss": "^8.4.18"
+  },
+  "devDependencies": {
+    "@babel/parser": "^7.14.5",
+    "@tarojs/taro": "workspace:*"
+  }
+}

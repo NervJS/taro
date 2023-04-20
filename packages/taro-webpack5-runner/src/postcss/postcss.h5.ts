@@ -40,9 +40,9 @@ const defaultHtmltransformOption: {
 const defaultUrlOption: {
   [key: string]: any
 } = {
-  enable: false,
+  enable: true,
   config: {
-    url: 'inline'
+    url: 'rebase'
   }
 }
 
@@ -77,7 +77,7 @@ export const getDefaultPostcssConfig = function ({
   ]
 }
 
-export const getPostcssPlugins = function (appPath: string, option = {} as IPostcssOption) {
+export const getPostcssPlugins = function (appPath: string, option: [string, TogglableOptions<Record<string, unknown>>, Func?][] = []) {
   option.forEach(([pluginName, pluginOption, pluginPkg]) => {
     if (!pluginOption || ['cssModules'].includes(pluginName)) return
     if (Object.hasOwnProperty.call(pluginOption, 'enable') && !pluginOption.enable) return

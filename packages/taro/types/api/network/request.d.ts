@@ -150,6 +150,8 @@ declare module '../../index' {
       POST
       /** HTTP 请求 PUT */
       PUT
+      /** HTTP 请求 PATCH */
+      PATCH
       /** HTTP 请求 DELETE */
       DELETE
       /** HTTP 请求 TRACE */
@@ -282,7 +284,7 @@ declare module '../../index' {
       /** Transfer-Encoding Chunk Received 事件的回调函数 */
       callback: RequestTask.onChunkReceived.Callback,
     ): void
-    /** 监听 Transfer-Encoding Chunk Received 事件。当接收到新的chunk时触发。
+    /** 移除 Transfer-Encoding Chunk Received 事件的监听函数
      * @supported weapp
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/network/request/RequestTask.offChunkReceived.html
      */
@@ -304,12 +306,8 @@ declare module '../../index' {
     namespace onChunkReceived {
       /** Transfer-Encoding Chunk Received 事件的回调函数 */
       type Callback = (result: CallbackResult) => void
-      interface CallbackResult {
-        /** 开发者服务器每次返回新 chunk 时的 Response */
-        res: Response
-      }
       /** 开发者服务器每次返回新 chunk 时的 Response */
-      interface Response {
+      interface CallbackResult {
         /** 返回的chunk buffer */
         data: ArrayBuffer
       }
@@ -402,6 +400,15 @@ declare module '../../index' {
      * @since 1.2.16
      */
     addInterceptor(interceptor: interceptor): any
+
+    /** 清除所有拦截器
+     * @example
+     * ```tsx
+     * Taro.cleanInterceptors()
+     * ```
+     * @supported weapp, h5, alipay, swan, tt, qq
+     */
+    cleanInterceptors(): void
 
     interceptors: interceptors
   }

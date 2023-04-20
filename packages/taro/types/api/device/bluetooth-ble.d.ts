@@ -428,7 +428,7 @@ declare module '../../index' {
      */
     offBLEConnectionStateChange(
       /** 蓝牙低功耗连接状态的改变事件的回调函数 */
-      callback: onBLEMTUChange.Callback,
+      callback: onBLEConnectionStateChange.Callback,
     ): void
 
     /** 取消监听蓝牙低功耗设备的特征值变化事件
@@ -437,7 +437,7 @@ declare module '../../index' {
      */
     offBLECharacteristicValueChange(
       /** 低功耗蓝牙设备的特征值变化事件的回调函数 */
-      callback: onBLEMTUChange.Callback,
+      callback: onBLECharacteristicValueChange.Callback,
     ): void
 
     /** 启用低功耗蓝牙设备特征值变化时的 notify 功能，订阅特征值。注意：必须设备的特征值支持 notify 或者 indicate 才可以成功调用。

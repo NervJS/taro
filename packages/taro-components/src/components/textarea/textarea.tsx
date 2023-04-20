@@ -1,4 +1,4 @@
-import { Component, h, ComponentInterface, Prop, State, Event, EventEmitter, Element, Method } from '@stencil/core'
+import { Component, h, ComponentInterface, Prop, State, Event, EventEmitter, Element, Method, Watch } from '@stencil/core'
 import { TaroEvent } from '../../../types'
 
 function fixControlledValue(value?: string) {
@@ -18,7 +18,7 @@ export class Textarea implements ComponentInterface {
   @Prop() placeholder: string
   @Prop() disabled = false
   @Prop() maxlength = 140
-  @Prop() autoFocus = false
+  @Prop({ attribute: 'focus', reflect: true }) autoFocus = false
   @Prop() autoHeight = false
   @Prop() name: string
   @Prop() nativeProps = {}
@@ -40,6 +40,10 @@ export class Textarea implements ComponentInterface {
   onBlur: EventEmitter
 
   @Event({
+    eventName: 'confirm'
+  }) onConfirm: EventEmitter
+
+  @Event({
     eventName: 'change'
   })
   onChange: EventEmitter
@@ -49,18 +53,28 @@ export class Textarea implements ComponentInterface {
   })
   onLineChange: EventEmitter
 
+  @Event({
+    eventName: 'keydown'
+  }) onKeyDown: EventEmitter
+
+  @Watch('autoFocus')
+  watchAutoFocus (newValue: boolean, oldValue: boolean) {
+    if (!oldValue && newValue) {
+      this.textareaRef?.focus()
+    }
+  }
+
   @Method()
-  focus() {
+  async focus() {
     this.textareaRef.focus()
   }
 
   componentDidLoad() {
     Object.defineProperty(this.el, 'value', {
       get: () => this.textareaRef.value,
-      set: value => (this.value = value),
+      set: value => this.value !== value && (this.value = value),
       configurable: true
     })
-    this.autoFocus && this.textareaRef.focus()
   }
 
   handleInput = (e: TaroEvent<HTMLInputElement>) => {
@@ -103,6 +117,20 @@ export class Textarea implements ComponentInterface {
         lineCount: this.line
       })
     }
+  }
+
+  handleKeyDown = (e: TaroEvent<HTMLInputElement> & KeyboardEvent) => {
+    e.stopPropagation()
+    const { value } = e.target
+    const keyCode = e.keyCode || e.code
+
+    this.onKeyDown.emit({
+      value,
+      cursor: value.length,
+      keyCode
+    })
+
+    keyCode === 13 && this.onConfirm.emit({ value })
   }
 
   calculateContentHeight = (ta, scanAmount) => {
@@ -185,7 +213,8 @@ export class Textarea implements ComponentInterface {
       <textarea
         ref={input => {
           if (input) {
-            this.textareaRef = input
+            this.textareaRef = input!
+            if (autoFocus && input) input.focus()
           }
         }}
         class={`taro-textarea ${autoHeight ? 'auto-height' : ''}`}
@@ -199,6 +228,7 @@ export class Textarea implements ComponentInterface {
         onFocus={handleFocus}
         onBlur={handleBlur}
         onChange={handleChange}
+        onKeyDown={this.handleKeyDown}
         {...nativeProps}
         {...otherProps}
       />

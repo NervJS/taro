@@ -19,7 +19,7 @@ interface IPrebundle {
 
 interface ICompiler {
   type: CompilerTypes
-  prebundle: IPrebundle
+  prebundle?: IPrebundle
 }
 
 export type Compiler = CompilerTypes | ICompiler

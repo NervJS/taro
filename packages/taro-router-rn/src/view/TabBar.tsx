@@ -15,7 +15,7 @@ import {
 } from 'react-native'
 import { EdgeInsets, withSafeAreaInsets, WithSafeAreaInsetsProps } from 'react-native-safe-area-context'
 
-import { getDefalutTabItem, getTabConfig, getTabItemConfig, getTabVisible, isUrl } from '../utils/index'
+import { getDefaultTabItem, getTabConfig, getTabItemConfig, getTabVisible, isUrl } from '../utils/index'
 import TabBarItem, { TabBarOptions, TabOptions } from './TabBarItem'
 import { getInitSafeAreaInsets } from './tabBarUtils'
 
@@ -225,7 +225,7 @@ export class TabBar extends React.PureComponent<TabBarProps & WithSafeAreaInsets
   }
 
   getTabIconSource (index: number, focused: boolean) {
-    const item: any = getDefalutTabItem(index)
+    const item: any = getDefaultTabItem(index)
     const iconPath = getTabItemConfig(index, 'iconPath') ?? item?.iconPath
     const selectedIconPath = getTabItemConfig(index, 'selectedIconPath') ?? item?.selectedIconPath
     const path = focused ? selectedIconPath : iconPath
@@ -280,10 +280,11 @@ export class TabBar extends React.PureComponent<TabBarProps & WithSafeAreaInsets
         const source = this.getTabIconSource(index, focused)
 
         if (Platform.OS === 'web') {
-          const linkto = this.buildLink(route.name, route.params)
+          const linkTo = this.buildLink(route.name, route.params)
           return (
             <Link
-              to={linkto}
+              key={route.key}
+              to={linkTo}
               style={[]}
               onPress={(e: any) => {
                 if (

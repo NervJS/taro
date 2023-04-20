@@ -58,3 +58,7 @@ export function errorHandler (fail: OptionsFunc | undefined, complete: OptionsFu
     return Promise.reject(res)
   }
 }
+
+export function getPageStr (path: string):string{
+  return path.replace(/\//g,'')
+}

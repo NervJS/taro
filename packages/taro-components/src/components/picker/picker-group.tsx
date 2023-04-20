@@ -16,6 +16,7 @@ export class TaroPickerGroup implements ComponentInterface {
   @Prop() height: number
   @Prop() columnId: string
   @Prop() updateHeight: (height: number, columnId: string, needRevise?: boolean) => void
+  // FIXME Please use the "@Event()" decorator to expose events instead, not properties or methods.
   @Prop() onColumnChange: (height: number, columnId: string) => void
   @Prop() updateDay: (value: number, fields: number) => void
 
@@ -56,7 +57,7 @@ export class TaroPickerGroup implements ComponentInterface {
   }
 
   @Method()
-  handleMoveStart (clientY: number) {
+  async handleMoveStart (clientY: number) {
     // 记录第一次的点击位置
     this.startY = clientY
     this.preY = clientY
@@ -64,7 +65,7 @@ export class TaroPickerGroup implements ComponentInterface {
   }
 
   @Method()
-  handleMoving (clientY: number) {
+  async handleMoving (clientY: number) {
     const y = clientY
     const deltaY = y - this.preY
     this.preY = y
@@ -98,7 +99,7 @@ export class TaroPickerGroup implements ComponentInterface {
   }
 
   @Method()
-  handleMoveEnd (clientY: number) {
+  async handleMoveEnd (clientY: number) {
     const {
       mode,
       range,

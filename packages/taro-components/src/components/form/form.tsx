@@ -5,11 +5,11 @@ import { Component, h, ComponentInterface, Event, EventEmitter, Element, Listen 
 })
 export class Form implements ComponentInterface {
   private form: HTMLFormElement
-  private value: {[propName: string]: any} = {}
   private originalAppendChild: <T extends Node>(newChild: T) => T
   private originalInsertBefore: <T extends Node>(newChild: T, refChild: Node | null) => T
   private originalReplaceChild: <T extends Node>(newChild: Node, oldChild: T) => T
   private originalRemoveChild: <T extends Node>(oldChild: T) => T
+  #value: {[propName: string]: any} = {}
 
   @Element() el: HTMLElement
 
@@ -21,10 +21,10 @@ export class Form implements ComponentInterface {
   onButtonSubmit (e: Event) {
     e.stopPropagation()
 
-    this.value = this.getFormValue()
+    this.#value = this.getFormValue()
 
     this.onSubmit.emit({
-      value: this.value
+      value: this.#value
     })
   }
 
@@ -35,10 +35,10 @@ export class Form implements ComponentInterface {
   }
 
   componentDidLoad () {
-    this.value = this.getFormValue()
+    this.#value = this.getFormValue()
 
     Object.defineProperty(this.el, 'value', {
-      get: () => this.value,
+      get: () => this.#value,
       configurable: true
     })
   }
