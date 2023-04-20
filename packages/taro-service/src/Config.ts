@@ -23,6 +23,7 @@ import type { IProjectConfig } from '@tarojs/taro/types/compile'
 
 interface IConfigOptions {
   appPath: string
+  disableGlobalConfig: boolean
 }
 
 export default class Config {
@@ -31,8 +32,10 @@ export default class Config {
   initialConfig: IProjectConfig
   initialGlobalConfig: IProjectConfig
   isInitSuccess: boolean
+  disableGlobalConfig
   constructor (opts: IConfigOptions) {
     this.appPath = opts.appPath
+    this.disableGlobalConfig = opts.disableGlobalConfig
     this.init()
   }
 
@@ -42,6 +45,7 @@ export default class Config {
     this.isInitSuccess = false   
     this.configPath = resolveScriptPath(path.join(this.appPath, CONFIG_DIR_NAME, DEFAULT_CONFIG_FILE))
     if (!fs.existsSync(this.configPath)) {
+      if(this.disableGlobalConfig) return
       this.initGlobalConfig()
     } else {
       createSwcRegister({

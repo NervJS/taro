@@ -29,6 +29,7 @@ import type {
 
 interface IKernelOptions {
   appPath: string
+  disableGlobalConfig: boolean
   presets?: PluginItem[]
   plugins?: PluginItem[]
 }
@@ -50,6 +51,7 @@ export default class Kernel extends EventEmitter {
   methods: Map<string, Func[]>
   cliCommands: string []
   cliComadnsPath: string
+  disableGlobalConfig: boolean
   commands: Map<string, ICommand>
   platforms: Map<string, IPlatform>
   helper: any
@@ -62,6 +64,7 @@ export default class Kernel extends EventEmitter {
     this.appPath = options.appPath || process.cwd()
     this.optsPresets = options.presets
     this.optsPlugins = options.plugins
+    this.disableGlobalConfig = options.disableGlobalConfig
     this.hooks = new Map()
     this.methods = new Map()
     this.commands = new Map()
@@ -74,6 +77,7 @@ export default class Kernel extends EventEmitter {
   initConfig () {
     this.config = new Config({
       appPath: this.appPath,
+      disableGlobalConfig: this.disableGlobalConfig
     })
     this.initialConfig = this.config.initialConfig
     this.initialGlobalConfig = this.config.initialGlobalConfig

@@ -59,7 +59,7 @@ describe('doctor', () => {
     logSpy.mockImplementation(() => {})
 
     try {
-      await runDoctor('')
+      await runDoctor('', { options: { disableGlobalConfig: true } })
     } catch (error) {} // eslint-disable-line no-empty
 
     expect(exitSpy).toBeCalledWith(1)

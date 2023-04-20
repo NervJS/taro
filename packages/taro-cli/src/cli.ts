@@ -6,6 +6,8 @@ import * as path from 'path'
 import customCommand from './commands/customCommand'
 import { dotenvParse, getPkgVersion, patchEnv } from './util'
 
+const DISABLE_GLOBAL_CONFIG_COMMANDS = ['build', 'global-plugin', 'doctor']
+
 export default class CLI {
   appPath: string
   constructor (appPath) {
@@ -29,9 +31,9 @@ export default class CLI {
         sourceMapUrl: ['sourcemap-use-absolute-path'], // specially for rn, Report SourceMapURL using its full path.
         sourcemapSourcesRoot: ['sourcemap-sources-root'], // specially for rn, Path to make sourcemaps sources entries relative to.
         assetsDest: ['assets-dest'], // specially for rn, Directory name where to store assets referenced in the bundle.
-        envPrefix: ['env-prefix']
+        envPrefix: ['env-prefix'],
       },
-      boolean: ['version', 'help']
+      boolean: ['version', 'help', 'disable-global-config']
     })
     const _ = args._
     const command = _[0]
@@ -58,11 +60,14 @@ export default class CLI {
       // 这里解析 dotenv 以便于 config 解析时能获取 dotenv 配置信息
       const expandEnv = dotenvParse(appPath, args.envPrefix, args.mode || process.env.NODE_ENV)
 
+      const disableGlobalConfig = !!(args['disable-global-config'] || DISABLE_GLOBAL_CONFIG_COMMANDS.includes(command))
+
       const kernel = new Kernel({
         appPath,
         presets: [
           path.resolve(__dirname, '.', 'presets', 'index.js')
         ],
+        disableGlobalConfig,
         plugins: []
       })
       kernel.optsPlugins ||= []
