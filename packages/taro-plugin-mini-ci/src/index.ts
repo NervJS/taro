@@ -1,4 +1,3 @@
-import { IPluginContext } from '@tarojs/service'
 import * as minimist from 'minimist'
 import * as path from 'path'
 
@@ -9,6 +8,8 @@ import JdCI from './JdCI'
 import SwanCI from './SwanCI'
 import TTCI from './TTCI'
 import WeappCI from './WeappCI'
+
+import type { IPluginContext } from '@tarojs/service'
 
 const enum EnumAction  {
   /** 自动打开预览工具 */
@@ -201,7 +202,7 @@ export default (ctx: IPluginContext, _pluginOpts: CIOptions | (() => CIOptions))
         `taro ${action} --type weapp`,
         `taro ${action} --type alipay`
       ],
-      async fn ({options}) {
+      async fn ({ options }) {
         doAction(options.type, action, options.projectPath)
       }
     })

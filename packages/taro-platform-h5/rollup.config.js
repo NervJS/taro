@@ -39,7 +39,10 @@ const variesConfig = [{
     file: path.join(cwd, 'dist/index.js'),
     format: 'cjs'
   },
-  plugins: getPlugins([externals()])
+  plugins: getPlugins([externals({
+    deps: true,
+    devDeps: false,
+  })])
 }, {
   input: [
     path.join(cwd, 'src/runtime/index.ts'), // 供 Loader 使用的运行时入口
@@ -51,7 +54,10 @@ const variesConfig = [{
     preserveModules: true,
     preserveModulesRoot: 'src'
   },
-  plugins: getPlugins([externals()])
+  plugins: getPlugins([externals({
+    deps: true,
+    devDeps: false,
+  })])
 }, {
   input: path.join(cwd, 'src/runtime/apis/index.ts'), // 供 babel-plugin-transform-taroapi 使用，为了能 tree-shaking
   output: {
@@ -59,11 +65,18 @@ const variesConfig = [{
     format: 'cjs',
     inlineDynamicImports: true
   },
-  plugins: getPlugins([
-    externals({
-      exclude: ['@tarojs/components', '@tarojs/taro-h5']
-    })
-  ], [exportNameOnly()])
+  plugins: getPlugins([exportNameOnly()])
 }]
+
+if (process.env.NODE_ENV === 'production') {
+  variesConfig.push({
+    input: path.join(cwd, 'build/rollup-plugin-export-name-only.js'),
+    output: {
+      file: 'dist/rollup-plugin-export-name-only.js',
+      format: 'cjs',
+      sourcemap: false
+    },
+  })
+}
 
 export default variesConfig.map(v => merge({}, baseConfig, v))

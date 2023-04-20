@@ -1,4 +1,4 @@
-import Taro from '@tarojs/taro'
+import { createSelectorQuery } from '@tarojs/taro'
 
 // In DEV mode, this Set helps us only log a warning once per component instance.
 // This avoids spamming the console every time a render happens.
@@ -19,7 +19,7 @@ export function isRtlFunc ({ direction }: IRrl) {
 }
 
 export function getRectSize (id: string, success?: TFunc, fail?: TFunc, retryMs = 500) {
-  const query = Taro.createSelectorQuery()
+  const query = createSelectorQuery()
   try {
     query.select(id).boundingClientRect((res) => {
       if (res) {
@@ -36,6 +36,6 @@ export function getRectSize (id: string, success?: TFunc, fail?: TFunc, retryMs 
 }
 
 export async function getScrollViewContextNode (id: string) {
-  const query = Taro.createSelectorQuery()
+  const query = createSelectorQuery()
   return new Promise((resolve) => query.select(id).node(({ node }) => resolve(node)).exec())
 }

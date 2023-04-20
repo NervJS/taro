@@ -1,5 +1,6 @@
-import { IPluginContext } from '@tarojs/service'
 import * as path from 'path'
+
+import type { IPluginContext } from '@tarojs/service'
 
 export default (ctx: IPluginContext) => {
   ctx.registerMethod('generateProjectConfig', ({ srcConfigName, distConfigName }) => {

@@ -90,7 +90,7 @@ export default function withWeapp (weappConf: WxOptions, isApp = false) {
       }
     }
 
-    class BaseComponent<P = Record<string, any>, S = Record<string, any>> extends ConnectComponent {
+    class BaseComponent<P = Record<string, any>, S extends Record<string, any> = Record<string, any>> extends ConnectComponent {
       private _observeProps: ObserverProperties[] = []
 
       // mixins 可以多次调用生命周期

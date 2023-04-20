@@ -13,7 +13,8 @@ const baseConfig = {
   treeshake: false,
   plugins: [
     externals({
-      devDeps: false
+      deps: true,
+      devDeps: false,
     }),
     resolve({
       preferBuiltins: false,

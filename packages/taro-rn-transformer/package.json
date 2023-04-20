@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/rn-transformer",
-  "version": "3.6.2",
+  "version": "3.6.5",
   "description": "Taro RN 入口文件处理",
   "main": "dist/index.js",
   "types": "./src/types/index.d.ts",
@@ -42,6 +42,11 @@
     "@babel/parser": "^7.14.5",
     "@babel/traverse": "^7.14.5",
     "@babel/types": "^7.14.5",
-    "@tarojs/helper": "workspace:*"
+    "@tarojs/helper": "workspace:*",
+    "jest": "^29.3.1",
+    "jest-cli": "^29.3.1",
+    "jest-environment-node": "^29.5.0",
+    "ts-jest": "^29.0.5",
+    "typescript": "^4.7.4"
   }
 }

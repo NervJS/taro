@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/components-react",
-  "version": "3.6.2",
+  "version": "3.6.5",
   "description": "",
   "main:h5": "src/index.js",
   "main": "dist/index.js",
@@ -26,11 +26,23 @@
   "license": "MIT",
   "dependencies": {
     "@babel/runtime": "^7.14.5",
+    "@tarojs/taro": "workspace:*",
     "@tarojs/components": "workspace:*",
     "classnames": "^2.2.5",
     "intersection-observer": "^0.7.0",
     "resolve-pathname": "^3.0.0",
     "swiper": "6.8.0",
     "weui": "^1.1.2"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.14.5",
+    "@rollup/plugin-babel": "^5.2.1",
+    "@rollup/plugin-commonjs": "^20.0.0",
+    "@rollup/plugin-node-resolve": "^8.0.0",
+    "rollup": "^2.79.0",
+    "rollup-plugin-node-externals": "^5.0.0",
+    "rollup-plugin-postcss": "^3.1.8",
+    "rollup-plugin-ts": "^3.0.2",
+    "typescript": "^4.7.4"
   }
 }

@@ -1,6 +1,9 @@
+import { PLATFORM_TYPE } from '@tarojs/shared'
+
 import TaroPlatform from './platform'
 
 import type { RecursiveTemplate, UnRecursiveTemplate } from '@tarojs/shared/dist/template'
+import type { TConfig } from '../utils/types'
 
 interface IFileType {
   templ: string
@@ -10,7 +13,9 @@ interface IFileType {
   xs?: string
 }
 
-export abstract class TaroPlatformBase extends TaroPlatform {
+export abstract class TaroPlatformBase<T extends TConfig = TConfig> extends TaroPlatform<T> {
+  platformType = PLATFORM_TYPE.MINI
+
   abstract globalObject: string
   abstract fileType: IFileType
   abstract template: RecursiveTemplate | UnRecursiveTemplate
@@ -104,6 +109,7 @@ ${exampleCommand}`))
       ...config,
       nodeModulesPath: ctx.paths.nodeModulesPath,
       buildAdapter: config.platform,
+      platformType: this.platformType,
       globalObject,
       fileType,
       template,

@@ -1,5 +1,5 @@
 import { fs } from '@tarojs/helper'
-import { isString } from '@tarojs/shared'
+import { isString, isWebPlatform } from '@tarojs/shared'
 
 import { miniVitePlugin } from './vite.mini'
 import { modifyH5WebpackChain } from './webpack.h5'
@@ -27,7 +27,7 @@ export default (ctx: IPluginContext) => {
         return args
       })
 
-    if (process.env.TARO_ENV === 'h5') {
+    if (isWebPlatform()) {
       // H5
       modifyH5WebpackChain(ctx, framework, chain)
     } else {
@@ -115,10 +115,10 @@ function viteCommonPlugin (framework: Frameworks): PluginOption {
     config () {
       const alias = framework === 'preact'
         ? [
-          { find: 'react', replacement: 'preact/compat'},
-          { find: 'react-dom/test-utils', replacement:'preact/test-utils'},
-          { find: 'react-dom', replacement: 'preact/compat'},
-          { find: 'react/jsx-runtime', replacement: 'preact/jsx-runtime'},
+          { find: 'react', replacement: 'preact/compat' },
+          { find: 'react-dom/test-utils', replacement:'preact/test-utils' },
+          { find: 'react-dom', replacement: 'preact/compat' },
+          { find: 'react/jsx-runtime', replacement: 'preact/jsx-runtime' },
         ]
         : []
 

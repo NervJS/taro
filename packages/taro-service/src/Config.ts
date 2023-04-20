@@ -53,7 +53,7 @@ export default class Config {
     }
   }
 
-  getConfigWithNamed (platform, useConfigName) {
+  getConfigWithNamed (platform, configName) {
     const initialConfig = this.initialConfig
     const sourceDirName = initialConfig.sourceRoot || SOURCE_DIR
     const outputDirName = initialConfig.outputRoot || OUTPUT_DIR
@@ -91,7 +91,7 @@ export default class Config {
       cssMinimizer: initialConfig.cssMinimizer,
       terser: initialConfig.terser,
       esbuild: initialConfig.esbuild,
-      ...initialConfig[useConfigName]
+      ...initialConfig[configName]
     }
   }
 }

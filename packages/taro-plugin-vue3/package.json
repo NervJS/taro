@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/plugin-framework-vue3",
-  "version": "3.6.2",
+  "version": "3.6.5",
   "description": "Vue3 框架插件",
   "author": "drchan",
   "homepage": "https://github.com/nervjs/taro",
@@ -35,12 +35,13 @@
   "devDependencies": {
     "@vitejs/plugin-vue": "^4.0.0",
     "@vitejs/plugin-vue-jsx": "^3.0.0",
+    "@tarojs/taro": "workspace:*",
     "@vue/compiler-core": "^3.0.0",
     "@vue/runtime-core": "^3.0.0",
     "vite": "^4.2.0",
     "vue": "^3.0.0",
     "rollup": "^3.8.1",
-    "rollup-plugin-node-externals": "^4.0.0",
+    "rollup-plugin-node-externals": "^5.0.0",
     "rollup-plugin-ts": "^3.0.2",
     "typescript": "^4.7.4"
   },

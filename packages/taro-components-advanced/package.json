@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/components-advanced",
-  "version": "3.6.2",
+  "version": "3.6.5",
   "description": "",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -24,6 +24,8 @@
   "dependencies": {
     "@tarojs/components": "workspace:*",
     "@tarojs/shared": "workspace:*",
+    "@tarojs/runtime": "workspace:*",
+    "@tarojs/taro": "workspace:*",
     "memoize-one": "^6.0.0",
     "postcss": "^8.4.18"
   },
@@ -38,7 +40,8 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "rollup": "^2.79.0",
-    "rollup-plugin-node-externals": "^4.0.0",
+    "rollup-plugin-node-externals": "^5.0.0",
+    "rollup-plugin-postcss": "^3.1.8",
     "rollup-plugin-ts": "^3.0.2",
     "typescript": "^4.7.4",
     "vue": "^3.0.0"

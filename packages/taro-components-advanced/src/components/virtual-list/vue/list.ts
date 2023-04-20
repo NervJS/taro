@@ -1,3 +1,4 @@
+import { isWebPlatform } from '@tarojs/shared'
 import memoizeOne from 'memoize-one'
 
 import { convertNumber2PX } from '../../../utils/convert'
@@ -8,6 +9,8 @@ import { getRTLOffsetType } from '../dom-helpers'
 import Preset from '../preset'
 import { defaultItemKey, getRectSize, getScrollViewContextNode } from '../utils'
 import render from './render'
+
+const isWeb = isWebPlatform()
 
 export default {
   props: {
@@ -45,7 +48,7 @@ export default {
     },
     innerElementType: {
       type: String,
-      default: process.env.TARO_ENV === 'h5' ? 'taro-view-core' : 'view'
+      default: isWeb ? 'taro-view-core' : 'view'
     },
     direction: {
       type: String,
@@ -72,15 +75,15 @@ export default {
     itemKey: String,
     itemTagName: {
       type: String,
-      default: process.env.TARO_ENV === 'h5' ? 'taro-view-core' : 'view'
+      default: isWeb ? 'taro-view-core' : 'view'
     },
     innerTagName: {
       type: String,
-      default: process.env.TARO_ENV === 'h5' ? 'taro-view-core' : 'view'
+      default: isWeb ? 'taro-view-core' : 'view'
     },
     outerTagName: {
       type: String,
-      default: process.env.TARO_ENV === 'h5' ? 'taro-scroll-view-core' : 'scroll-view'
+      default: isWeb ? 'taro-scroll-view-core' : 'scroll-view'
     },
     itemElementType: String,
     outerElementType: String,
@@ -257,11 +260,11 @@ export default {
 
     _onScrollHorizontal (event) {
       const {
-        clientWidth,
+        clientWidth = this.itemList.wrapperSize,
+        scrollHeight,
+        scrollWidth = this.itemList.getOffsetSize(),
         scrollTop,
         scrollLeft,
-        scrollHeight,
-        scrollWidth
       } = event.currentTarget
       this.preset.field = {
         scrollHeight: scrollHeight,
@@ -312,11 +315,11 @@ export default {
 
     _onScrollVertical (event) {
       const {
-        clientHeight,
-        scrollHeight,
+        clientHeight = this.itemList.wrapperSize,
+        scrollHeight = this.itemList.getOffsetSize(),
         scrollWidth,
         scrollTop,
-        scrollLeft
+        scrollLeft,
       } = event.currentTarget
       if (this.$props.onScrollNative) {
         this.$props.onScrollNative(event)

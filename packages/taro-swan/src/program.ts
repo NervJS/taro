@@ -3,6 +3,9 @@ import { TaroPlatformBase } from '@tarojs/service'
 import { components } from './components'
 import { Template } from './template'
 
+import type { IPluginContext } from '@tarojs/service'
+import type { IOptions } from './index'
+
 const PACKAGE_NAME = '@tarojs/plugin-platform-swan'
 const PROJECT_JSON = 'project.swan.json'
 
@@ -29,7 +32,7 @@ export default class Swan extends TaroPlatformBase {
    * 5. build
    * 6. buildTransaction - close
    */
-  constructor (ctx, config) {
+  constructor (ctx: IPluginContext, config, options: IOptions = {}) {
     super(ctx, config)
 
     this.setupTransaction.addWrapper({
@@ -41,7 +44,9 @@ export default class Swan extends TaroPlatformBase {
     })
 
     this.template = new Template({
-      flattenViewLevel: config.flattenViewLevel
+      flattenViewLevel: options.flattenViewLevel,
+      flattenCoverLevel: options.flattenCoverLevel,
+      flattenTextLevel: options.flattenTextLevel,
     })
   }
 

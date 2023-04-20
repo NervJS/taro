@@ -1,5 +1,5 @@
 import { fs, VUE_EXT } from '@tarojs/helper'
-import { isString } from '@tarojs/shared'
+import { isString, isWebPlatform } from '@tarojs/shared'
 import { capitalize, internalComponents, toCamelCase } from '@tarojs/shared/dist/template'
 
 import { getMiniVueLoaderOptions,miniVitePlugin } from './vite.mini'
@@ -7,6 +7,7 @@ import { modifyH5WebpackChain } from './webpack.h5'
 import { modifyMiniWebpackChain } from './webpack.mini'
 
 import type { IPluginContext } from '@tarojs/service'
+import type { IComponentConfig } from '@tarojs/taro/types/compile/hooks'
 import type { PluginOption } from 'vite'
 
 type CompilerOptions = {
@@ -15,10 +16,6 @@ type CompilerOptions = {
   delimiters: string[]
   comments: boolean
   nodeTransforms: ((...args: any) => void)[]
-}
-
-interface IComponentConfig {
-  includes: Set<string>
 }
 
 interface OnParseCreateElementArgs {
@@ -36,13 +33,10 @@ export interface IConfig {
   }
 }
 
-let isBuildH5
 
 export default (ctx: IPluginContext, config: IConfig = {}) => {
   const { framework } = ctx.initialConfig
   if (framework !== 'vue3') return
-
-  isBuildH5 = process.env.TARO_ENV === 'h5'
 
   ctx.modifyWebpackChain(({ chain, data }) => {
     // 通用
@@ -51,7 +45,7 @@ export default (ctx: IPluginContext, config: IConfig = {}) => {
     }
     setDefinePlugin(chain)
 
-    if (isBuildH5) {
+    if (isWebPlatform()) {
       // H5
       modifyH5WebpackChain(ctx, chain, config)
     } else {
@@ -61,7 +55,7 @@ export default (ctx: IPluginContext, config: IConfig = {}) => {
   })
 
   ctx.modifyViteConfig(({ viteConfig, componentConfig }) => {
-    const vueLoaderOptions = isBuildH5 ? {} : getMiniVueLoaderOptions(ctx, componentConfig, config)
+    const vueLoaderOptions = isWebPlatform() ? {} : getMiniVueLoaderOptions(ctx, componentConfig, config)
     viteConfig.plugins.push(require('@vitejs/plugin-vue').default({
       template: vueLoaderOptions
     }))
@@ -109,7 +103,7 @@ export default (ctx: IPluginContext, config: IConfig = {}) => {
     } else if (compiler.type === 'vite') {
       compiler.vitePlugins ||= []
       compiler.vitePlugins.push(viteCommonPlugin())
-      if (isBuildH5) {
+      if (isWebPlatform()) {
         // H5
       } else {
         // 小程序

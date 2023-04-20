@@ -11,7 +11,6 @@ const {
   ENV_TYPE,
   Link,
   interceptors,
-  getInitPxTransform,
   Current,
   options,
   eventCenter,
@@ -42,18 +41,60 @@ const taro: typeof Taro = {
   switchTab
 }
 
-const initPxTransform = getInitPxTransform(taro)
-
 const requirePlugin = permanentlyNotSupport('requirePlugin')
 
-const pxTransform = function (size) {
-  const config = (taro as any).config
+function getConfig (): Record<string, any> {
+  if (this?.pxTransformConfig) return this.pxTransformConfig
+  return ((taro as any).config ||= {})
+}
+
+const initPxTransform = function ({
+  designWidth = 750,
+  deviceRatio = {
+    640: 2.34 / 2,
+    750: 1,
+    828: 1.81 / 2
+  } as TaroGeneral.TDeviceRatio,
+  baseFontSize = 20,
+  unitPrecision = 5,
+  targetUnit = 'rem'
+}) {
+  const config = getConfig.call(this)
+  config.designWidth = designWidth
+  config.deviceRatio = deviceRatio
+  config.baseFontSize = baseFontSize
+  config.targetUnit = targetUnit
+  config.unitPrecision = unitPrecision
+}
+
+const pxTransform = function (size = 0) {
+  const config = getConfig.call(this)
   const baseFontSize = config.baseFontSize || 20
   const designWidth = (((input = 0) => isFunction(config.designWidth)
     ? config.designWidth(input)
     : config.designWidth))(size)
-  const rootValue = baseFontSize / config.deviceRatio[designWidth] * 2
-  return Math.ceil((parseInt(size, 10) / rootValue) * 10000) / 10000 + 'rem'
+  if (!(designWidth in config.deviceRatio)) {
+    throw new Error(`deviceRatio 配置中不存在 ${designWidth} 的设置！`)
+  }
+  const formatSize = ~~size
+  let rootValue = 1 / config.deviceRatio[designWidth]
+  switch (config?.targetUnit) {
+    case 'vw':
+      rootValue = designWidth / 100
+      break
+    case 'px':
+      rootValue *= 2
+      break
+    default:
+      // rem
+      rootValue *= baseFontSize * 2
+  }
+  let val: number | string = formatSize / rootValue
+  if (config.unitPrecision >= 0 && config.unitPrecision <= 100) {
+    // Number(val): 0.50000 => 0.5
+    val = Number(val.toFixed(config.unitPrecision))
+  }
+  return val + config?.targetUnit
 }
 
 const canIUseWebp = function () {
@@ -65,7 +106,6 @@ taro.requirePlugin = requirePlugin
 taro.getApp = getApp
 taro.pxTransform = pxTransform
 taro.initPxTransform = initPxTransform
-// @ts-ignore
 taro.canIUseWebp = canIUseWebp
 
 export default taro

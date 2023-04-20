@@ -47,9 +47,6 @@ export class MethodHandler<T = Partial<TaroGeneral.CallbackResult>> {
     } else {
       res.errMsg = `${this.methodName}:fail ${res.errMsg}`
     }
-    if (process.env.NODE_ENV !== 'production') {
-      console.error(res.errMsg)
-    }
     isFunction(this.__fail) && this.__fail(res)
     isFunction(this.__complete) && this.__complete(res)
 

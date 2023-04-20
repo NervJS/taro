@@ -1,4 +1,5 @@
 import 'whatwg-fetch'
+import 'abortcontroller-polyfill/dist/abortcontroller-polyfill-only'
 
 import Taro from '@tarojs/api'
 import { isFunction } from '@tarojs/shared'
@@ -82,12 +83,23 @@ function _request (options) {
   if (options.mode) {
     params.mode = options.mode
   }
+  let timeoutTimer: ReturnType<typeof setTimeout> | null = null
   if (options.signal) {
     params.signal = options.signal
+  } else if (typeof options.timeout === 'number') {
+    const controller = new window.AbortController()
+    params.signal = controller.signal
+    timeoutTimer = setTimeout(function () {
+      controller.abort()
+    }, options.timeout)
   }
   params.credentials = options.credentials
   return fetch(url, params)
     .then(response => {
+      if (timeoutTimer) {
+        clearTimeout(timeoutTimer)
+        timeoutTimer = null
+      }
       if (!response) {
         const errorResponse = { ok: false }
         throw errorResponse
@@ -119,6 +131,10 @@ function _request (options) {
       return res
     })
     .catch(err => {
+      if (timeoutTimer) {
+        clearTimeout(timeoutTimer)
+        timeoutTimer = null
+      }
       isFunction(fail) && fail(err)
       isFunction(complete) && complete(res)
       err.statusCode = res.statusCode
@@ -135,3 +151,4 @@ const link = new Link(taroInterceptor)
 
 export const request: typeof Taro.request = link.request.bind(link)
 export const addInterceptor = link.addInterceptor.bind(link)
+export const cleanInterceptors = link.cleanInterceptors.bind(link)

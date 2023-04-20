@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/shared",
-  "version": "3.6.2",
+  "version": "3.6.5",
   "description": "Taro utils internal use.",
   "author": "yuche <i@yuche.me>",
   "homepage": "https://github.com/nervjs/taro/tree/master/packages/shared#readme",
@@ -17,12 +17,18 @@
   },
   "scripts": {
     "build": "rollup -c",
-    "dev": "rollup -c -w"
+    "dev": "rollup -c -w",
+    "test": "jest"
   },
   "bugs": {
     "url": "https://github.com/NervJS/taro/issues"
   },
-  "publishConfig": {
-    "access": "public"
+  "devDependencies": {
+    "jest": "^29.3.1",
+    "jest-cli": "^29.3.1",
+    "rollup": "^2.79.0",
+    "rollup-plugin-ts": "^3.0.2",
+    "ts-jest": "^29.0.5",
+    "typescript": "^4.7.4"
   }
 }

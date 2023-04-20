@@ -1,14 +1,13 @@
 import { document, window } from '@tarojs/runtime'
+import { isWebPlatform } from '@tarojs/shared'
 
 import { Cookie, createCookieInstance } from './Cookie'
 import { XMLHttpRequest } from './XMLHttpRequest'
 
 declare const ENABLE_COOKIE: boolean
 
-if (process.env.TARO_ENV !== 'h5') {
-
+if (!isWebPlatform()) {
   if (ENABLE_COOKIE) {
-
     const _cookie = createCookieInstance()
   
     Object.defineProperties(document, {
@@ -32,4 +31,5 @@ if (process.env.TARO_ENV !== 'h5') {
 
   window.XMLHttpRequest = XMLHttpRequest
 }
+
 export { Cookie, document, XMLHttpRequest }

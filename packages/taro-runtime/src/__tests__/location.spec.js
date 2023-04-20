@@ -185,10 +185,14 @@ describe('location', () => {
 
     // searchParams
     {
-      const searchParams = new URL('http://taro.com/?a=1&b=2').searchParams
-      expect(searchParams.keys()).toEqual(['a', 'b'])
-      expect(searchParams.get('a')).toBe('1')
-      expect(searchParams.get('b')).toBe('2')
+      const url = new URL('http://taro.com/?a=1&b=2')
+      url.searchParams.append('c', '3')
+      expect(url.searchParams.keys()).toEqual(['a', 'b', 'c'])
+      expect(url.searchParams.get('a')).toBe('1')
+      expect(url.searchParams.get('b')).toBe('2')
+      expect(url.searchParams.get('c')).toBe('3')
+      url.searchParams.append('d', '4')
+      expect(url.toString()).toBe('http://taro.com/?a=1&b=2&c=3&d=4')
     }
 
     // setters
@@ -455,19 +459,19 @@ describe('location', () => {
       })
       expect(location.href).toBe('https://taro.com/5')
 
-      history.pushState({i: 6}, '6', 'https://taro.com/6')
+      history.pushState({ i: 6 }, '6', 'https://taro.com/6')
       expect(history.length).toBe(6)
       expect(history.state).toMatchObject({
-        state: {i: 6},
+        state: { i: 6 },
         title: '6',
         url: 'https://taro.com/6',
       })
       expect(location.href).toBe('https://taro.com/6')
 
-      history.replaceState({i: 7}, '7', 'https://taro.com/7')
+      history.replaceState({ i: 7 }, '7', 'https://taro.com/7')
       expect(history.length).toBe(6)
       expect(history.state).toMatchObject({
-        state: {i: 7},
+        state: { i: 7 },
         title: '7',
         url: 'https://taro.com/7',
       })
@@ -482,7 +486,7 @@ describe('location', () => {
         params: {},
       }
       const mockTrigger = jest.fn()
-      const location = new Location({window: fakerWindow})
+      const location = new Location({ window: fakerWindow })
       const history = new History(location, { window: { trigger: mockTrigger } })
       const cache = history.cache
 
