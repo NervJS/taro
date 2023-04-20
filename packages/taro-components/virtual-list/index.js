@@ -1,4 +1,3 @@
-const VirtualList = require('@tarojs/components-advanced/dist/components/virtual-list/index.js')
+module.exports = require('@tarojs/components-advanced/dist/components/virtual-list/index.js').default
 
-module.exports = VirtualList
-module.exports.default = VirtualList.default
+module.exports.default = module.exports
