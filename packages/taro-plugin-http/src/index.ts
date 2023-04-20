@@ -1,4 +1,4 @@
-import { isArray, isObject,isString } from '@tarojs/shared'
+import { isArray, isObject, isString } from '@tarojs/shared'
 import path from 'path'
 
 import { name as packageName } from '../package.json'
