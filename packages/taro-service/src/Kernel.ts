@@ -111,7 +111,12 @@ export default class Kernel extends EventEmitter {
     this.debugger('globalPresetsAndPlugins', globalPlugins, globalPresets)
     process.env.NODE_ENV !== 'test' &&
     helper.createSwcRegister({
-      only: [...Object.keys(cliAndProjectConfigPresets), ...Object.keys(cliAndProjectPlugins)]
+      only: [
+        ...Object.keys(cliAndProjectConfigPresets),
+        ...Object.keys(cliAndProjectPlugins), 
+        ...Object.keys(globalPresets),
+        ...Object.keys(globalPlugins)
+      ]
     })
     this.plugins = new Map()
     this.extraPlugins = {}
@@ -183,12 +188,12 @@ export default class Kernel extends EventEmitter {
   applayCliCommandPlugin (commandNames: string[] = []) {
     const existsCliCommand: string[] = []
     for( let i = 0; i < commandNames.length; i++ ) {
-      const commandFileName = `${commandNames[i]}.js`
-      const commandFilePath = path.resolve(this.cliComadnsPath, commandFileName)
-      if(this.cliCommands.includes(commandFileName)) existsCliCommand.push(commandFilePath)
+      const coommandName = commandNames[i]
+      const commandFilePath = path.resolve(this.cliComadnsPath, `${coommandName}.js`)
+      if(this.cliCommands.includes(coommandName)) existsCliCommand.push(commandFilePath)
     }
-
     const commandPlugins = convertPluginsToObject(existsCliCommand || [])()
+    helper.createSwcRegister({ only: [ ...Object.keys(commandPlugins) ] })
     const resolvedCommandPlugins = resolvePresetsOrPlugins(this.appPath , commandPlugins, PluginType.Plugin)
     while (resolvedCommandPlugins.length) {
       this.initPlugin(resolvedCommandPlugins.shift()!)
@@ -350,8 +355,7 @@ export default class Kernel extends EventEmitter {
 
     this.debugger('initPresetsAndPlugins')
     this.initPresetsAndPlugins()
-    this.applayCliCommandPlugin([name])
-
+    
     await this.applyPlugins('onReady')
 
     this.debugger('command:onStart')

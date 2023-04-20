@@ -50,7 +50,7 @@ export default class Config {
         spinner.warn(`获取 taro 全局配置文件失败，不存在全局配置文件：${globalPluginConfigPath}`)
       }else{
         try {
-          this.initGlobalConfig = JSON.parse(String(fs.readFileSync(globalPluginConfigPath))) || {}
+          this.initGlobalConfig = fs.readJSONSync(globalPluginConfigPath) || {}
           spinner.succeed('获取 taro 全局配置成功')
         }catch(e){
           spinner.fail(`获取全局配置失败，如果需要启用全局插件请查看配置文件: ${globalPluginConfigPath} `)

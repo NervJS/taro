@@ -75,7 +75,7 @@ export default (ctx: IPluginContext) => {
             const configFilePath = path.join(globalPluginConfigDir, TARO_GLOBAL_CONFIG_FILE)
             let globalConfig
             try {
-              globalConfig = JSON.parse(String(fs.readFileSync(configFilePath))) || {}
+              globalConfig = fs.readJSONSync(configFilePath)
             } catch (e){
               spinner.fail('获取配置文件失败')
             }
@@ -90,8 +90,9 @@ export default (ctx: IPluginContext) => {
             if(shouldChangeFile){
               actionType === 'install' ? configItem.push(pluginWithoutVersionName) : configItem.splice(pluginIndex, 1)
               try {
-                globalConfig[configKey] = configItem
-                fs.writeFileSync(configFilePath, JSON.stringify(globalConfig))
+                fs.writeJSONSync(configFilePath, {
+                  [configKey] : configItem
+                })
               } catch (e) {
                 spinner.fail(`修改配置文件失败：${e}`)
               }

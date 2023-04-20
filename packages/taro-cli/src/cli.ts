@@ -41,6 +41,7 @@ export default class CLI {
       const commandsPath = path.resolve(presetsPath, 'commands')
       const platformsPath = path.resolve(presetsPath, 'platforms')
       const commandPlugins = fs.readdirSync(commandsPath)
+      const targetPlugin = `${command}.js`
 
       // 设置环境变量
       process.env.NODE_ENV ||= args.env
@@ -72,9 +73,16 @@ export default class CLI {
         initialConfig.env = patchEnv(initialConfig, expandEnv)
       }
 
-      // 把内置命令插件传递给 kernel，在里面去做判断是否读取
+      // 针对不同的内置命令注册对应的命令插件
+      if (commandPlugins.includes(targetPlugin)) {
+        kernel.optsPlugins.push(path.resolve(commandsPath, targetPlugin))
+      }
+      
+      // 把内置命令插件传递给 kernel，可以暴露给其他插件使用
       kernel.cliComadnsPath = commandsPath
       kernel.cliCommands = commandPlugins
+        .filter(commandFileName => /^[\w-]+(\.[\w-]+)*\.js$/.test(commandFileName))
+        .map(fileName => fileName.replace(/\.js$/, ''))
 
       switch (command) {
         case 'inspect':
