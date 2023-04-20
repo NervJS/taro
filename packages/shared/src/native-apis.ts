@@ -380,6 +380,11 @@ function equipCommonApis (taro, global, apis: Record<string, any> = {}) {
   taro.addInterceptor = link.addInterceptor.bind(link)
   taro.cleanInterceptors = link.cleanInterceptors.bind(link)
   taro.miniGlobal = taro.options.miniGlobal = global
+  taro.initAppInfo = (appInfo) => {
+    if (taro.getAppInfo) return
+
+    taro.getAppInfo = () => appInfo 
+  }
 }
 
 /**
