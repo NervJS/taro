@@ -83,6 +83,7 @@ declare module './index' {
       unitPrecision?: number
     }): void
 
+    /** @ignore */
     initAppInfo(appInfo: AppInfo): void
 
     /** 小程序获取和 Taro 相关的 App 信息
