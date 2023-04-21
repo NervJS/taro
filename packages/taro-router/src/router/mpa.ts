@@ -1,6 +1,5 @@
 /* eslint-disable dot-notation */
 import {
-  AppInstance,
   createPageConfig,
   eventCenter, hooks,
   incrementId,
@@ -11,6 +10,7 @@ import { setTitle } from '../utils/navigate'
 import { RouterConfig } from '.'
 import MultiPageHandler from './multi-page'
 
+import type { AppInstance } from '@tarojs/runtime'
 import type { MpaRouterConfig } from '../../types/router'
 
 const createStampId = incrementId()
