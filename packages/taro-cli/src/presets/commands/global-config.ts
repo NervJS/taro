@@ -2,7 +2,7 @@ import * as ora from 'ora'
 import * as path from 'path'
 import * as validatePkgName from 'validate-npm-package-name'
 
-import { execCommand, getPkgNameByFilterVsersion, getRootPath } from '../../util'
+import { execCommand, getPkgNameByFilterVersion, getRootPath } from '../../util'
 
 import type { IPluginContext } from '@tarojs/service'
 
@@ -66,10 +66,10 @@ export default (ctx: IPluginContext) => {
         if (!pluginName) {
           console.error(`缺少要${chineseCommand}的${presetOrPluginChineseName}`)
           process.exit(1)
-        } 
-        
+        }
+
         const spinner = ora(`开始${chineseCommand}${presetOrPluginChineseName} ${pluginName}`).start()
-        const pluginWithoutVersionName = getPkgNameByFilterVsersion(pluginName)
+        const pluginWithoutVersionName = getPkgNameByFilterVersion(pluginName)
         if(!validatePkgName(pluginWithoutVersionName).validForNewPackages) {
           spinner.fail('安装的插件名不合规！')
           process.exit(1)

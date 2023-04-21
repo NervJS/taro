@@ -44,7 +44,7 @@ export function mergePlugins (dist: PluginItem[], src: PluginItem[]) {
 // getModuleDefaultExport
 export function resolvePresetsOrPlugins (root: string, args: IPluginsObject, type: PluginType, skipError?: boolean): IPlugin[] {
   // 全局的插件引入报错，不抛出 Error 影响主流程，而是通过 log 提醒然后把插件 filter 掉，保证主流程不变
-  const resolvedPresetsOrPlugins: IPlugin[] =  [] 
+  const resolvedPresetsOrPlugins: IPlugin[] =  []
   const presetsOrPluginsNames = Object.keys(args) || []
   for( let i = 0; i < presetsOrPluginsNames.length; i++ ) {
     const item = presetsOrPluginsNames[i]
@@ -80,7 +80,7 @@ export function resolvePresetsOrPlugins (root: string, args: IPluginsObject, typ
           // 全局的插件运行报错，不抛出 Error 影响主流程，而是通过 log 提醒然后把插件 filter 掉，保证主流程不变
           if(skipError) {
             console.error(`插件依赖 "${item}" 加载失败，请检查插件配置`)
-          } else { 
+          } else {
             throw new Error(`插件依赖 "${item}" 加载失败，请检查插件配置`)
           }
         }

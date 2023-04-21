@@ -33,6 +33,7 @@ export default class Config {
   initialGlobalConfig: IProjectConfig
   isInitSuccess: boolean
   disableGlobalConfig: boolean
+
   constructor (opts: IConfigOptions) {
     this.appPath = opts.appPath
     this.disableGlobalConfig = !!opts?.disableGlobalConfig
@@ -42,7 +43,7 @@ export default class Config {
   init () {
     this.initialConfig = {}
     this.initialGlobalConfig = {}
-    this.isInitSuccess = false   
+    this.isInitSuccess = false
     this.configPath = resolveScriptPath(path.join(this.appPath, CONFIG_DIR_NAME, DEFAULT_CONFIG_FILE))
     if (!fs.existsSync(this.configPath)) {
       if(this.disableGlobalConfig) return

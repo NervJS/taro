@@ -176,7 +176,7 @@ export function execCommand (params: {
   })
 }
 
-export function getPkgNameByFilterVsersion (pkgString: string) {
+export function getPkgNameByFilterVersion (pkgString: string) {
   const versionFlagIndex = pkgString.lastIndexOf('@')
   return versionFlagIndex === 0 ? pkgString : pkgString.slice(0, versionFlagIndex)
 }

@@ -117,7 +117,7 @@ export default class Kernel extends EventEmitter {
     helper.createSwcRegister({
       only: [
         ...Object.keys(cliAndProjectConfigPresets),
-        ...Object.keys(cliAndProjectPlugins), 
+        ...Object.keys(cliAndProjectPlugins),
         ...Object.keys(globalPresets),
         ...Object.keys(globalPlugins)
       ]
@@ -129,7 +129,7 @@ export default class Kernel extends EventEmitter {
     this.resolvePlugins(cliAndProjectPlugins, globalPlugins)
   }
 
-  resolvePresets (cliAndProjectPresets, globalPresets) {
+  resolvePresets (cliAndProjectPresets: IPluginsObject, globalPresets: IPluginsObject) {
     const resolvedCliAndProjectPresets = resolvePresetsOrPlugins(this.appPath, cliAndProjectPresets, PluginType.Preset)
     while (resolvedCliAndProjectPresets.length) {
       this.initPreset(resolvedCliAndProjectPresets.shift()!)
@@ -142,7 +142,7 @@ export default class Kernel extends EventEmitter {
     }
   }
 
-  resolvePlugins (cliAndProjectPlugins, globalPlugins) {
+  resolvePlugins (cliAndProjectPlugins: IPluginsObject, globalPlugins: IPluginsObject) {
     cliAndProjectPlugins = merge(this.extraPlugins, cliAndProjectPlugins)
     const resolvedCliAndProjectPlugins = resolvePresetsOrPlugins(this.appPath, cliAndProjectPlugins, PluginType.Plugin)
 
@@ -155,7 +155,7 @@ export default class Kernel extends EventEmitter {
     while (resolvedPlugins.length) {
       this.initPlugin(resolvedPlugins.shift()!)
     }
-    
+
     this.extraPlugins = {}
     this.globalExtraPlugins = {}
   }
@@ -358,7 +358,7 @@ export default class Kernel extends EventEmitter {
 
     this.debugger('initPresetsAndPlugins')
     this.initPresetsAndPlugins()
-    
+
     await this.applyPlugins('onReady')
 
     this.debugger('command:onStart')
