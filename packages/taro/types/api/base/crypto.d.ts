@@ -26,7 +26,7 @@ declare module '../../index' {
      * @supported weapp
      * @example
      * ```tsx
-     * Taro.getRandomValues({
+     * Taro.getUserCryptoManager().getRandomValues({
      *   length: 6 // 生成 6 个字节长度的随机数,
      *   success: res => {
      *     console.log(Taro.arrayBufferToBase64(res.randomValues)) // 转换为 base64 字符串后打印
@@ -35,7 +35,7 @@ declare module '../../index' {
      * ```
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/base/crypto/UserCryptoManager.getRandomValues.html
      */
-    getRandomValues(option: UserCryptoManager.getRandomValues.Option): Promise<UserCryptoManager.getRandomValues.SuccessCallbackResult>
+    getRandomValues(option: UserCryptoManager.getRandomValues.Option): void
   }
 
   namespace UserCryptoManager {
@@ -66,7 +66,7 @@ declare module '../../index' {
         /** 整数，生成随机数的字节数，最大 1048576 */
         length: number
         /** 接口调用成功的回调函数 */
-        success?: (res: TaroGeneral.CallbackResult) => void
+        success?: (res: SuccessCallbackResult) => void
         /** 接口调用失败的回调函数 */
         fail?: (res: TaroGeneral.CallbackResult) => void
         /** 接口调用结束的回调函数（调用成功、失败都会执行） */
@@ -86,5 +86,19 @@ declare module '../../index' {
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/base/crypto/wx.getUserCryptoManager.html
      */
     getUserCryptoManager(): UserCryptoManager
+
+    /** 获取密码学安全随机数
+     * @supported weapp
+     * @example
+     * ```tsx
+     * Taro.getRandomValues({
+     *   length: 6 // 生成 6 个字节长度的随机数
+     * }).then(res => {
+     *   console.log(Taro.arrayBufferToBase64(res.randomValues)) // 转换为 base64 字符串后打印
+     * })
+     * ```
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/base/crypto/UserCryptoManager.getRandomValues.html
+     */
+    getRandomValues(option: UserCryptoManager.getRandomValues.Option): Promise<UserCryptoManager.getRandomValues.SuccessCallbackResult>
   }
 }
