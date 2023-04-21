@@ -83,8 +83,12 @@ declare module './index' {
       unitPrecision?: number
     }): void
 
+    /** @ignore */
     initAppInfo(appInfo: AppInfo): void
 
+    /** 小程序获取和 Taro 相关的 App 信息
+     * @supported weapp, alipay, jd, qq, swan, tt
+     */
     getAppInfo(): AppInfo
 
     /** 小程序引用插件 JS 接口

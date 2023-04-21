@@ -207,6 +207,8 @@ export const DEFAULT_TEMPLATE_SRC = 'github:NervJS/taro-project-templates#v3.6'
 export const DEFAULT_TEMPLATE_SRC_GITEE = 'direct:https://gitee.com/o2team/taro-project-templates.git#v3.6'
 export const TARO_CONFIG_FOLDER = '.taro3.6'
 export const TARO_BASE_CONFIG = 'index.json'
+export const TARO_GLOBAL_CONFIG_DIR = '.taro-global-config'
+export const TARO_GLOBAL_CONFIG_FILE = 'index.json'
 
 export const OUTPUT_DIR = 'dist'
 export const SOURCE_DIR = 'src'
