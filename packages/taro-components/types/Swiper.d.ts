@@ -146,6 +146,7 @@ interface SwiperProps extends StandardProps {
   scrollWithAnimation?: boolean
   /** 缓存区域大小，值为 1 表示提前渲染上下各一屏区域（swiper 容器大小）
    * @supported weapp
+   * @default 0
    */
   cacheExtent?: number
   /** current 改变时会触发 change 事件
