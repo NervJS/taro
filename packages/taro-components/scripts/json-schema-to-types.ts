@@ -67,7 +67,7 @@ class GenerateTypes {
   }
 
   // 转换不存在的属性，便于添加到已有的类型声明中
-  convertProps (props: PROP) {
+  convertProps (props: PROP = {}) {
     const array = Array.from(new Set(flattenDeep(toArray(props))))
     const reverseProps: PROP = {}
     array.forEach((prop) => {
@@ -154,7 +154,7 @@ class GenerateTypes {
   }
 
   // 添加不存在的属性
-  addProps (ast: AST, props: PROP) {
+  addProps (ast: AST, props: PROP = {}) {
     const componentName = this.componentName
     const jsonSchemas = this.jsonSchemas[this.componentName]
     traverse(ast, {
@@ -205,7 +205,7 @@ class GenerateTypes {
                 if (defaultValue) {
                   if (defaultValue instanceof Array) {
                     commentValue += `* @default ${defaultValue.join(',')}\n`
-                  } else if (!defaultValue.startsWith('"') && !['none', '无'].includes(defaultValue) && type === 'string') {
+                  } else if (typeof defaultValue === 'string' && !defaultValue.startsWith('"') && !['none', '无'].includes(defaultValue) && type === 'string') {
                     commentValue += `* @default "${propSchema.defaultValue.replace(/(^')|('$)/ig, '')}"\n`
                   } else {
                     commentValue += `* @default ${defaultValue}\n`
