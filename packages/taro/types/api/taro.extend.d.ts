@@ -1,44 +1,41 @@
 import React from 'react'
 
-import Taro from './index'
+import Taro from '../index'
 
-declare module './index' {
-  type MessageType = 'info' | 'success' | 'error' | 'warning'
-
-  interface AtMessageOptions {
-    message: string
-    type?: MessageType
-    duration?: number
+declare module '../index' {
+  namespace getAppInfo {
+    /** 应用信息 */
+    interface AppInfo {
+      platform: string
+      taroVersion: string
+      designWidth: number
+    }
   }
 
-  interface AppInfo {
-    platform: string,
-    taroVersion: string
-    designWidth: number
+  namespace getCurrentInstance {
+    interface Current {
+      app: AppInstance | null
+      router: RouterInfo | null
+      page: PageInstance | null
+      onReady: string
+      onHide: string
+      onShow: string
+      preloadData?: Record<any, any>
+      /**
+       * RN 私有对象navigationRef，用于使用底层接口控制路由
+       */
+      rnNavigationRef?: React.RefObject<any>
+    }
   }
 
-  interface RequestParams<T=any> extends request.Option<T, any> {
-    [propName: string]: any
+  namespace setGlobalDataPlugin {
+    /** Vue3 插件，用于设置 `getApp()` 中的全局变量 */
+    interface Plugin {
+      install (app: any, data: any): void
+    }
   }
 
-  interface Current {
-    app: AppInstance | null
-    router: RouterInfo | null
-    page: PageInstance | null
-    onReady: string
-    onHide: string
-    onShow: string
-    preloadData?: Record<any, any>
-    /**
-     * RN 私有对象navigationRef，用于使用底层接口控制路由
-     */
-    rnNavigationRef?: React.RefObject<any>
-  }
-
-  interface SetGlobalDataPlugin {
-    install (app: any, data: any): void
-  }
-
+    /** @ignore */
   interface TARO_ENV_TYPE {
     [TaroGeneral.ENV_TYPE.WEAPP]: TaroGeneral.ENV_TYPE.WEAPP
     [TaroGeneral.ENV_TYPE.WEB]: TaroGeneral.ENV_TYPE.WEB
@@ -51,6 +48,7 @@ declare module './index' {
   }
 
   interface TaroStatic {
+    /** @ignore */
     Events: {
       new (): TaroGeneral.Events
     }
@@ -60,6 +58,7 @@ declare module './index' {
      */
     eventCenter: TaroGeneral.Events
 
+    /** @ignore */
     ENV_TYPE: TARO_ENV_TYPE
 
     /** 获取环境变量
@@ -84,12 +83,12 @@ declare module './index' {
     }): void
 
     /** @ignore */
-    initAppInfo(appInfo: AppInfo): void
+    initAppInfo(appInfo: getAppInfo.AppInfo): void
 
     /** 小程序获取和 Taro 相关的 App 信息
      * @supported weapp, alipay, jd, qq, swan, tt
      */
-    getAppInfo(): AppInfo
+    getAppInfo(): getAppInfo.AppInfo
 
     /** 小程序引用插件 JS 接口
      * @supported weapp, alipay, h5, rn, jd, qq, swan, tt, quickapp
@@ -99,8 +98,10 @@ declare module './index' {
     /** 获取当前页面实例
      * @supported global
      */
-    getCurrentInstance(): Current
-    Current: Current
+    getCurrentInstance(): getCurrentInstance.Current
+
+    /** @ignore */
+    Current: getCurrentInstance.Current
 
     /** Vue3 插件，用于设置 `getApp()` 中的全局变量
      * @supported weapp, alipay, h5, rn, jd, qq, swan, tt, quickapp
@@ -115,7 +116,7 @@ declare module './index' {
      * Taro.getApp().xxx
      * ```
      */
-    setGlobalDataPlugin: SetGlobalDataPlugin
+    setGlobalDataPlugin: setGlobalDataPlugin.Plugin
 
     /** 获取自定义 TabBar 对应的 React 或 Vue 组件实例
      * @supported weapp

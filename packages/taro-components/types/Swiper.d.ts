@@ -139,6 +139,15 @@ interface SwiperProps extends StandardProps {
    * @supported swan
    */
   disableTouchmove?: string
+  /** 改变 current 时使用动画过渡
+   * @supported weapp
+   * @default true
+   */
+  scrollWithAnimation?: boolean
+  /** 缓存区域大小，值为 1 表示提前渲染上下各一屏区域（swiper 容器大小）
+   * @supported weapp
+   */
+  cacheExtent?: number
   /** current 改变时会触发 change 事件
    * @supported weapp, alipay, swan, tt, qq, jd, h5, rn
    */

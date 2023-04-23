@@ -1,4 +1,4 @@
-import Taro from './index'
+import Taro from '../index'
 
 declare module './index' {
   interface TaroStatic {
@@ -46,7 +46,7 @@ declare module './index' {
 
     /**
      * 当前是 tab 页时，tab 被点击时的回调。
-     * @supported weapp, rn
+     * @supported weapp, h5, rn
      */
     useTabItemTap(callback: (payload: TabItemTapObject) => void): void
 
