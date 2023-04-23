@@ -26,6 +26,7 @@ interface ShareElementProps extends StandardProps {
   easingFunction?: string
   /** 手势返回时是否进行动画
    * @supported weapp
+   * @default false
    */
   transitionOnGesture?: boolean
   /** 指定 push 阶段的飞跃物

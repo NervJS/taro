@@ -118,6 +118,7 @@ interface TextareaProps extends StandardProps, FormItemProps {
   ariaLabel?: string
   /** 键盘对齐位置
    * @supported weapp
+   * @default false
    */
   adjustKeyboardTo?: boolean
   /** 输入框聚焦时触发

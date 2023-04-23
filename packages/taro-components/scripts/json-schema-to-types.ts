@@ -4,7 +4,7 @@ import traverse from '@babel/traverse'
 import * as t from '@babel/types'
 import { camelCase, paramCase } from 'change-case'
 import fs from 'fs'
-import { flattenDeep, isEmpty, toArray, xorWith } from 'lodash'
+import { flattenDeep, isEmpty, isNil, toArray, xorWith } from 'lodash'
 import { format as prettify } from 'prettier'
 
 import { MINI_APP_TYPES } from './constants'
@@ -202,7 +202,7 @@ class GenerateTypes {
                 let commentValue = `* ${propSchema.description?.replace(/\n/g, '\n * ')} \n`
                 commentValue += `* @supported ${props[prop].join(', ')}\n`
                 const { defaultValue, type } = propSchema
-                if (defaultValue) {
+                if (!isNil(defaultValue)) {
                   if (defaultValue instanceof Array) {
                     commentValue += `* @default ${defaultValue.join(',')}\n`
                   } else if (typeof defaultValue === 'string' && !defaultValue.startsWith('"') && !['none', '无'].includes(defaultValue) && type === 'string') {
@@ -211,6 +211,7 @@ class GenerateTypes {
                     commentValue += `* @default ${defaultValue}\n`
                   }
                 }
+
                 // @ts-ignore
                 node.leadingComments[0] ||= { type: 'CommentBlock' }
                 node.leadingComments[0].value = commentValue
