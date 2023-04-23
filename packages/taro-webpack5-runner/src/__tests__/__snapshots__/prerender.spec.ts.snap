@@ -15,6 +15,16 @@ require("./runtime");
 
 (wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 143 ], {
     130: function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
+        var taro_namespaceObject = {};
+        __webpack_require__.r(taro_namespaceObject);
+        __webpack_require__.d(taro_namespaceObject, {
+            Ox: function() {
+                return createReactApp;
+            },
+            J1: function() {
+                return initPxTransform;
+            }
+        });
         var taro_shared = __webpack_require__(106);
         var needPromiseApis = new Set([ "addFileToFavorites", "addVideoToFavorites", "authPrivateMessage", "checkIsAddedToMyMiniProgram", "chooseContact", "cropImage", "disableAlertBeforeUnload", "editImage", "enableAlertBeforeUnload", "getBackgroundFetchData", "getFuzzyLocation", "getGroupEnterInfo", "getLocalIPAddress", "getShareInfo", "getUserProfile", "getWeRunData", "join1v1Chat", "openCustomerServiceChat", "openVideoEditor", "saveFileToDisk", "scanItem", "setEnable1v1Chat", "setWindowSize", "sendBizRedPacket", "startFacialRecognitionVerify" ]);
         function initNativeApi(taro) {
@@ -512,7 +522,15 @@ require("./runtime");
                 640: 1.17,
                 750: 1,
                 828: .905
-            }
+            },
+            baseFontSize: 20,
+            unitPrecision: undefined,
+            targetUnit: undefined
+        });
+        (0, taro_namespaceObject.initAppInfo)({
+            platform: "MiniProgram",
+            taroVersion: "3.6.5",
+            designWidth: 750
         });
     }
 }, function(__webpack_require__) {
@@ -5272,7 +5290,11 @@ require("./runtime");
                     globalProperties.forEach((function(property) {
                         if (property === "atob" || property === "document") return;
                         if (!Object.prototype.hasOwnProperty.call((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_7__.Z)(_this21), property)) {
-                            _this21[property] = __webpack_require__.g[property];
+                            try {
+                                _this21[property] = __webpack_require__.g[property];
+                            } catch (e) {
+                                if (false) {}
+                            }
                         }
                     }));
                     _this21.Date || (_this21.Date = Date);
@@ -7838,6 +7860,16 @@ require("./runtime");
 
 (wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 143 ], {
     130: function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
+        var taro_namespaceObject = {};
+        __webpack_require__.r(taro_namespaceObject);
+        __webpack_require__.d(taro_namespaceObject, {
+            Ox: function() {
+                return createReactApp;
+            },
+            J1: function() {
+                return initPxTransform;
+            }
+        });
         var taro_shared = __webpack_require__(106);
         var needPromiseApis = new Set([ "addFileToFavorites", "addVideoToFavorites", "authPrivateMessage", "checkIsAddedToMyMiniProgram", "chooseContact", "cropImage", "disableAlertBeforeUnload", "editImage", "enableAlertBeforeUnload", "getBackgroundFetchData", "getFuzzyLocation", "getGroupEnterInfo", "getLocalIPAddress", "getShareInfo", "getUserProfile", "getWeRunData", "join1v1Chat", "openCustomerServiceChat", "openVideoEditor", "saveFileToDisk", "scanItem", "setEnable1v1Chat", "setWindowSize", "sendBizRedPacket", "startFacialRecognitionVerify" ]);
         function initNativeApi(taro) {
@@ -8335,7 +8367,15 @@ require("./runtime");
                 640: 1.17,
                 750: 1,
                 828: .905
-            }
+            },
+            baseFontSize: 20,
+            unitPrecision: undefined,
+            targetUnit: undefined
+        });
+        (0, taro_namespaceObject.initAppInfo)({
+            platform: "MiniProgram",
+            taroVersion: "3.6.5",
+            designWidth: 750
         });
     }
 }, function(__webpack_require__) {
@@ -13095,7 +13135,11 @@ require("./runtime");
                     globalProperties.forEach((function(property) {
                         if (property === "atob" || property === "document") return;
                         if (!Object.prototype.hasOwnProperty.call((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_7__.Z)(_this21), property)) {
-                            _this21[property] = __webpack_require__.g[property];
+                            try {
+                                _this21[property] = __webpack_require__.g[property];
+                            } catch (e) {
+                                if (false) {}
+                            }
                         }
                     }));
                     _this21.Date || (_this21.Date = Date);
@@ -15661,6 +15705,16 @@ require("./runtime");
 
 (wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 143 ], {
     130: function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
+        var taro_namespaceObject = {};
+        __webpack_require__.r(taro_namespaceObject);
+        __webpack_require__.d(taro_namespaceObject, {
+            Ox: function() {
+                return createReactApp;
+            },
+            J1: function() {
+                return initPxTransform;
+            }
+        });
         var taro_shared = __webpack_require__(106);
         var needPromiseApis = new Set([ "addFileToFavorites", "addVideoToFavorites", "authPrivateMessage", "checkIsAddedToMyMiniProgram", "chooseContact", "cropImage", "disableAlertBeforeUnload", "editImage", "enableAlertBeforeUnload", "getBackgroundFetchData", "getFuzzyLocation", "getGroupEnterInfo", "getLocalIPAddress", "getShareInfo", "getUserProfile", "getWeRunData", "join1v1Chat", "openCustomerServiceChat", "openVideoEditor", "saveFileToDisk", "scanItem", "setEnable1v1Chat", "setWindowSize", "sendBizRedPacket", "startFacialRecognitionVerify" ]);
         function initNativeApi(taro) {
@@ -16158,7 +16212,15 @@ require("./runtime");
                 640: 1.17,
                 750: 1,
                 828: .905
-            }
+            },
+            baseFontSize: 20,
+            unitPrecision: undefined,
+            targetUnit: undefined
+        });
+        (0, taro_namespaceObject.initAppInfo)({
+            platform: "MiniProgram",
+            taroVersion: "3.6.5",
+            designWidth: 750
         });
     }
 }, function(__webpack_require__) {
@@ -20918,7 +20980,11 @@ require("./runtime");
                     globalProperties.forEach((function(property) {
                         if (property === "atob" || property === "document") return;
                         if (!Object.prototype.hasOwnProperty.call((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_7__.Z)(_this21), property)) {
-                            _this21[property] = __webpack_require__.g[property];
+                            try {
+                                _this21[property] = __webpack_require__.g[property];
+                            } catch (e) {
+                                if (false) {}
+                            }
                         }
                     }));
                     _this21.Date || (_this21.Date = Date);

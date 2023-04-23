@@ -482,7 +482,15 @@ require("./runtime");
                 640: 1.17,
                 750: 1,
                 828: .905
-            }
+            },
+            baseFontSize: 20,
+            unitPrecision: undefined,
+            targetUnit: undefined
+        });
+        (0, taro.initAppInfo)({
+            platform: "MiniProgram",
+            taroVersion: "3.6.5",
+            designWidth: 750
         });
     }
 }, function(__webpack_require__) {
@@ -5231,7 +5239,11 @@ require("./runtime");
                     globalProperties.forEach((function(property) {
                         if (property === "atob" || property === "document") return;
                         if (!Object.prototype.hasOwnProperty.call((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_7__.Z)(_this21), property)) {
-                            _this21[property] = __webpack_require__.g[property];
+                            try {
+                                _this21[property] = __webpack_require__.g[property];
+                            } catch (e) {
+                                if (false) {}
+                            }
                         }
                     }));
                     _this21.Date || (_this21.Date = Date);

@@ -18,6 +18,16 @@ require("./runtime");
 
 (my["webpackJsonp"] = my["webpackJsonp"] || []).push([ [ 143 ], {
     796: function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
+        var taro_namespaceObject = {};
+        __webpack_require__.r(taro_namespaceObject);
+        __webpack_require__.d(taro_namespaceObject, {
+            Ox: function() {
+                return createReactApp;
+            },
+            J1: function() {
+                return initPxTransform;
+            }
+        });
         var taro_shared = __webpack_require__(106);
         var runtime_navigator = __webpack_require__(631)["navigator"];
         var needPromiseApis = new Set([ "addCardAuth", "getOpenUserInfo", "chooseAlipayContact", "chooseCity", "chooseContact", "choosePhoneContact", "datePicker", "getAddress", "getAuthCode", "getPhoneNumber", "getRunData", "getRunScene", "getServerTime", "getTitleColor", "rsa", "paySignCenter", "tradePay", "isCollected", "multiLevelSelect", "onLocatedComplete", "optionsSelect", "prompt", "regionPicker", "setLocatedCity", "showAuthGuide", "textRiskIdentification", "vibrate", "watchShake", "connectBLEDevice", "disconnectBLEDevice", "makeBluetoothPair", "writeBLECharacteristicValue", "readBLECharacteristicValue", "notifyBLECharacteristicValueChange", "getBLEDeviceServices", "getBLEDeviceCharacteristics", "openBluetoothAdapter", "closeBluetoothAdapter", "getBluetoothAdapterState", "startBluetoothDevicesDiscovery", "stopBluetoothDevicesDiscovery", "getBluetoothDevices", "getConnectedBluetoothDevices" ]);
@@ -797,7 +807,15 @@ require("./runtime");
                 640: 1.17,
                 750: 1,
                 828: .905
-            }
+            },
+            baseFontSize: 20,
+            unitPrecision: undefined,
+            targetUnit: undefined
+        });
+        (0, taro_namespaceObject.initAppInfo)({
+            platform: "MiniProgram",
+            taroVersion: "3.6.5",
+            designWidth: 750
         });
     }
 }, function(__webpack_require__) {
@@ -4922,7 +4940,11 @@ require("./runtime");
                     globalProperties.forEach((function(property) {
                         if (property === "atob" || property === "document") return;
                         if (!Object.prototype.hasOwnProperty.call((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_7__.Z)(_this21), property)) {
-                            _this21[property] = __webpack_require__.g[property];
+                            try {
+                                _this21[property] = __webpack_require__.g[property];
+                            } catch (e) {
+                                if (false) {}
+                            }
                         }
                     }));
                     _this21.Date || (_this21.Date = Date);
@@ -6439,6 +6461,16 @@ require("./runtime");
 
 (tt["webpackJsonp"] = tt["webpackJsonp"] || []).push([ [ 143 ], {
     278: function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
+        var taro_namespaceObject = {};
+        __webpack_require__.r(taro_namespaceObject);
+        __webpack_require__.d(taro_namespaceObject, {
+            Ox: function() {
+                return createReactApp;
+            },
+            J1: function() {
+                return initPxTransform;
+            }
+        });
         var taro_shared = __webpack_require__(106);
         var needPromiseApis = new Set([ "applyRefund", "canRateAwemeOrders", "checkFollowAwemeState", "checkFollowState", "continueToPay", "createOrder", "exitMiniProgram", "followAwemeUser", "followOfficialAccount", "getEnvInfoSync", "getMenuButtonLayout", "getUserProfile", "hideInteractionBar", "navigateToVideoView", "openAwemeUserProfile", "openEcGood", "openWebcastRoom", "pay", "rateAwemeOrder", "showDouyinOpenAuth", "showInteractionBar" ]);
         var apiDiff = {
@@ -6714,7 +6746,15 @@ require("./runtime");
                 640: 1.17,
                 750: 1,
                 828: .905
-            }
+            },
+            baseFontSize: 20,
+            unitPrecision: undefined,
+            targetUnit: undefined
+        });
+        (0, taro_namespaceObject.initAppInfo)({
+            platform: "MiniProgram",
+            taroVersion: "3.6.5",
+            designWidth: 750
         });
     }
 }, function(__webpack_require__) {
@@ -10846,7 +10886,11 @@ require("./runtime");
                     globalProperties.forEach((function(property) {
                         if (property === "atob" || property === "document") return;
                         if (!Object.prototype.hasOwnProperty.call((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_7__.Z)(_this21), property)) {
-                            _this21[property] = __webpack_require__.g[property];
+                            try {
+                                _this21[property] = __webpack_require__.g[property];
+                            } catch (e) {
+                                if (false) {}
+                            }
                         }
                     }));
                     _this21.Date || (_this21.Date = Date);
@@ -12340,6 +12384,16 @@ require("./runtime");
 
 (jd["webpackJsonp"] = jd["webpackJsonp"] || []).push([ [ 143 ], {
     715: function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
+        var taro_namespaceObject = {};
+        __webpack_require__.r(taro_namespaceObject);
+        __webpack_require__.d(taro_namespaceObject, {
+            Ox: function() {
+                return createReactApp;
+            },
+            J1: function() {
+                return initPxTransform;
+            }
+        });
         var taro_shared = __webpack_require__(106);
         function initNativeApi(taro) {
             (0, taro_shared.Ig)(taro, jd);
@@ -12447,7 +12501,15 @@ require("./runtime");
                 640: 1.17,
                 750: 1,
                 828: .905
-            }
+            },
+            baseFontSize: 20,
+            unitPrecision: undefined,
+            targetUnit: undefined
+        });
+        (0, taro_namespaceObject.initAppInfo)({
+            platform: "MiniProgram",
+            taroVersion: "3.6.5",
+            designWidth: 750
         });
     }
 }, function(__webpack_require__) {
@@ -17428,7 +17490,11 @@ require("./runtime");
                     globalProperties.forEach((function(property) {
                         if (property === "atob" || property === "document") return;
                         if (!Object.prototype.hasOwnProperty.call((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_7__.Z)(_this21), property)) {
-                            _this21[property] = __webpack_require__.g[property];
+                            try {
+                                _this21[property] = __webpack_require__.g[property];
+                            } catch (e) {
+                                if (false) {}
+                            }
                         }
                     }));
                     _this21.Date || (_this21.Date = Date);

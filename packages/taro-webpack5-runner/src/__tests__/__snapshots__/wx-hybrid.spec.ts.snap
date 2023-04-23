@@ -479,7 +479,15 @@ require("./runtime");
                 640: 1.17,
                 750: 1,
                 828: .905
-            }
+            },
+            baseFontSize: 20,
+            unitPrecision: undefined,
+            targetUnit: undefined
+        });
+        (0, taro.initAppInfo)({
+            platform: "MiniProgram",
+            taroVersion: "3.6.5",
+            designWidth: 750
         });
     }
 }, function(__webpack_require__) {
@@ -4926,7 +4934,11 @@ require("./runtime");
                     globalProperties.forEach((property => {
                         if (property === "atob" || property === "document") return;
                         if (!Object.prototype.hasOwnProperty.call(this, property)) {
-                            this[property] = __webpack_require__.g[property];
+                            try {
+                                this[property] = __webpack_require__.g[property];
+                            } catch (e) {
+                                if (false) {}
+                            }
                         }
                     }));
                     this.Date || (this.Date = Date);
