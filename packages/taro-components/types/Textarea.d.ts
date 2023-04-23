@@ -116,6 +116,10 @@ interface TextareaProps extends StandardProps, FormItemProps {
    * @supported qq
    */
   ariaLabel?: string
+  /** 键盘对齐位置
+   * @supported weapp
+   */
+  adjustKeyboardTo?: boolean
   /** 输入框聚焦时触发
    * @supported weapp, alipay, swan, tt, qq, jd, h5, rn
    */

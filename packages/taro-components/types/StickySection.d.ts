@@ -7,7 +7,6 @@ interface StickySectionProps extends StandardProps {
    */
   pushPinnedHeader?: boolean
 }
-
 /**
  * 吸顶布局容器，仅支持作为 scroll-view 自定义模式下的直接子节点。仅 Skyline 支持。
  * @classification viewContainer
