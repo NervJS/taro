@@ -4,12 +4,10 @@ exports[`jsx style plugin Processing module style assignment When css module ena
 "import { createElement, Component } from 'rax';
 import _appScssStyleSheet from "./app.scss";
 import _styleSheetModuleStyle from './app.module.scss';
-
 function _getClassName() {
   var className = [];
   var args = arguments[0];
   var type = Object.prototype.toString.call(args).slice(8, -1).toLowerCase();
-
   if (type === 'string') {
     args = args.trim();
     args && className.push(args);
@@ -21,57 +19,43 @@ function _getClassName() {
   } else if (type === 'object') {
     for (var k in args) {
       k = k.trim();
-
       if (k && args.hasOwnProperty(k) && args[k]) {
         className.push(k);
       }
     }
   }
-
   return className.join(' ').trim();
 }
-
 function _getStyle(classNameExpression) {
   var className = _getClassName(classNameExpression);
-
   var classNameArr = className.split(/\\s+/);
   var style = {};
   classNameArr.reduce((sty, cls) => Object.assign(sty, _styleSheet[cls.trim()]), style);
   return style;
 }
-
 function _getModuleClassName(moduleStyle, styleId) {
   return Object.keys(moduleStyle).reduce((pre, cur) => Object.assign(pre, {
     [cur]: styleId + '-' + cur
   }), {});
 }
-
 var styleSheet = _getModuleClassName(_styleSheetModuleStyle, 'styleSheet');
-
 function _mergeStyles() {
   var newTarget = {};
-
   for (var index = 0; index < arguments.length; index++) {
     var [styleSheet, rawStyleName] = arguments[index];
-
     for (var key in styleSheet) {
       const _key = rawStyleName ? rawStyleName + '-' + key : key;
-
       newTarget[_key] = Object.assign(newTarget[_key] || {}, styleSheet[key]);
     }
   }
-
   return newTarget;
 }
-
 var _styleSheet = _mergeStyles([_appScssStyleSheet, ""], [_styleSheetModuleStyle, "styleSheet"]);
-
 class App extends Component {
   render() {
     const a = styleSheet.red;
     return <div style={_getStyle(a)} />;
   }
-
 }"
 `;
 
@@ -79,12 +63,10 @@ exports[`jsx style plugin Processing module style conditional expression When cs
 "import { createElement, Component } from 'rax';
 import _appScssStyleSheet from "./app.scss";
 import _styleSheetModuleStyle from './app.module.scss';
-
 function _getClassName() {
   var className = [];
   var args = arguments[0];
   var type = Object.prototype.toString.call(args).slice(8, -1).toLowerCase();
-
   if (type === 'string') {
     args = args.trim();
     args && className.push(args);
@@ -96,57 +78,43 @@ function _getClassName() {
   } else if (type === 'object') {
     for (var k in args) {
       k = k.trim();
-
       if (k && args.hasOwnProperty(k) && args[k]) {
         className.push(k);
       }
     }
   }
-
   return className.join(' ').trim();
 }
-
 function _getStyle(classNameExpression) {
   var className = _getClassName(classNameExpression);
-
   var classNameArr = className.split(/\\s+/);
   var style = {};
   classNameArr.reduce((sty, cls) => Object.assign(sty, _styleSheet[cls.trim()]), style);
   return style;
 }
-
 function _getModuleClassName(moduleStyle, styleId) {
   return Object.keys(moduleStyle).reduce((pre, cur) => Object.assign(pre, {
     [cur]: styleId + '-' + cur
   }), {});
 }
-
 var styleSheet = _getModuleClassName(_styleSheetModuleStyle, 'styleSheet');
-
 function _mergeStyles() {
   var newTarget = {};
-
   for (var index = 0; index < arguments.length; index++) {
     var [styleSheet, rawStyleName] = arguments[index];
-
     for (var key in styleSheet) {
       const _key = rawStyleName ? rawStyleName + '-' + key : key;
-
       newTarget[_key] = Object.assign(newTarget[_key] || {}, styleSheet[key]);
     }
   }
-
   return newTarget;
 }
-
 var _styleSheet = _mergeStyles([_appScssStyleSheet, ""], [_styleSheetModuleStyle, "styleSheet"]);
-
 class App extends Component {
   render() {
     const a = 1 ? styleSheet.red : styleSheet.blue;
     return <div style={_getStyle(a)} />;
   }
-
 }"
 `;
 
@@ -154,12 +122,10 @@ exports[`jsx style plugin Processing module style spread and assign When css mod
 "import { createElement, Component } from 'rax';
 import _appScssStyleSheet from "./app.scss";
 import _styleSheetModuleStyle from './app.module.scss';
-
 function _getClassName() {
   var className = [];
   var args = arguments[0];
   var type = Object.prototype.toString.call(args).slice(8, -1).toLowerCase();
-
   if (type === 'string') {
     args = args.trim();
     args && className.push(args);
@@ -171,72 +137,58 @@ function _getClassName() {
   } else if (type === 'object') {
     for (var k in args) {
       k = k.trim();
-
       if (k && args.hasOwnProperty(k) && args[k]) {
         className.push(k);
       }
     }
   }
-
   return className.join(' ').trim();
 }
-
 function _getStyle(classNameExpression) {
   var className = _getClassName(classNameExpression);
-
   var classNameArr = className.split(/\\s+/);
   var style = {};
   classNameArr.reduce((sty, cls) => Object.assign(sty, _styleSheet[cls.trim()]), style);
   return style;
 }
-
 function _getModuleClassName(moduleStyle, styleId) {
   return Object.keys(moduleStyle).reduce((pre, cur) => Object.assign(pre, {
     [cur]: styleId + '-' + cur
   }), {});
 }
-
 var styleSheet = _getModuleClassName(_styleSheetModuleStyle, 'styleSheet');
-
 function _mergeStyles() {
   var newTarget = {};
-
   for (var index = 0; index < arguments.length; index++) {
     var [styleSheet, rawStyleName] = arguments[index];
-
     for (var key in styleSheet) {
       const _key = rawStyleName ? rawStyleName + '-' + key : key;
-
       newTarget[_key] = Object.assign(newTarget[_key] || {}, styleSheet[key]);
     }
   }
-
   return newTarget;
 }
-
 var _styleSheet = _mergeStyles([_appScssStyleSheet, ""], [_styleSheetModuleStyle, "styleSheet"]);
-
 class App extends Component {
   render() {
-    const a = { ...styleSheet.red
+    const a = {
+      ...styleSheet.red
     };
     const b = a;
-    return <div style={_getStyle({ ...b
+    return <div style={_getStyle({
+      ...b
     })} />;
   }
-
 }"
 `;
 
 exports[`jsx style plugin Processing module style through call expression When css module enable 1`] = `
 "import { createElement, Component } from 'rax';
 import _styleSheetModuleStyle from './app.module.scss';
-
 function _getClassName() {
   var className = [];
   var args = arguments[0];
   var type = Object.prototype.toString.call(args).slice(8, -1).toLowerCase();
-
   if (type === 'string') {
     args = args.trim();
     args && className.push(args);
@@ -248,58 +200,44 @@ function _getClassName() {
   } else if (type === 'object') {
     for (var k in args) {
       k = k.trim();
-
       if (k && args.hasOwnProperty(k) && args[k]) {
         className.push(k);
       }
     }
   }
-
   return className.join(' ').trim();
 }
-
 function _getStyle(classNameExpression) {
   var className = _getClassName(classNameExpression);
-
   var classNameArr = className.split(/\\s+/);
   var style = {};
   classNameArr.reduce((sty, cls) => Object.assign(sty, _styleSheet[cls.trim()]), style);
   return style;
 }
-
 function _getModuleClassName(moduleStyle, styleId) {
   return Object.keys(moduleStyle).reduce((pre, cur) => Object.assign(pre, {
     [cur]: styleId + '-' + cur
   }), {});
 }
-
 var styleSheet = _getModuleClassName(_styleSheetModuleStyle, 'styleSheet');
-
 function _mergeStyles() {
   var newTarget = {};
-
   for (var index = 0; index < arguments.length; index++) {
     var [styleSheet, rawStyleName] = arguments[index];
-
     for (var key in styleSheet) {
       const _key = rawStyleName ? rawStyleName + '-' + key : key;
-
       newTarget[_key] = Object.assign(newTarget[_key] || {}, styleSheet[key]);
     }
   }
-
   return newTarget;
 }
-
 var _styleSheet = _mergeStyles([_styleSheetModuleStyle, "styleSheet"]);
-
 class App extends Component {
   render() {
     const a = Object.assign({}, styleSheet.red);
     const b = Object.assign({}, a);
     return <div style={_getStyle(a)}><span style={_getStyle(b)} /><span style={_getStyle(Object.assign({}, b))} /></div>;
   }
-
 }"
 `;
 
@@ -307,12 +245,10 @@ exports[`jsx style plugin Processing multiple module style When css module enabl
 "import { createElement, Component } from 'rax';
 import _styleSheetModuleStyle from './app.module.scss';
 import _styleSheet2ModuleStyle from './app2.module.scss';
-
 function _getClassName() {
   var className = [];
   var args = arguments[0];
   var type = Object.prototype.toString.call(args).slice(8, -1).toLowerCase();
-
   if (type === 'string') {
     args = args.trim();
     args && className.push(args);
@@ -324,71 +260,54 @@ function _getClassName() {
   } else if (type === 'object') {
     for (var k in args) {
       k = k.trim();
-
       if (k && args.hasOwnProperty(k) && args[k]) {
         className.push(k);
       }
     }
   }
-
   return className.join(' ').trim();
 }
-
 function _getStyle(classNameExpression) {
   var className = _getClassName(classNameExpression);
-
   var classNameArr = className.split(/\\s+/);
   var style = {};
   classNameArr.reduce((sty, cls) => Object.assign(sty, _styleSheet[cls.trim()]), style);
   return style;
 }
-
 function _getModuleClassName(moduleStyle, styleId) {
   return Object.keys(moduleStyle).reduce((pre, cur) => Object.assign(pre, {
     [cur]: styleId + '-' + cur
   }), {});
 }
-
 var styleSheet = _getModuleClassName(_styleSheetModuleStyle, 'styleSheet');
-
 var styleSheet2 = _getModuleClassName(_styleSheet2ModuleStyle, 'styleSheet2');
-
 function _mergeStyles() {
   var newTarget = {};
-
   for (var index = 0; index < arguments.length; index++) {
     var [styleSheet, rawStyleName] = arguments[index];
-
     for (var key in styleSheet) {
       const _key = rawStyleName ? rawStyleName + '-' + key : key;
-
       newTarget[_key] = Object.assign(newTarget[_key] || {}, styleSheet[key]);
     }
   }
-
   return newTarget;
 }
-
 var _styleSheet = _mergeStyles([_styleSheetModuleStyle, "styleSheet"], [_styleSheet2ModuleStyle, "styleSheet2"]);
-
 class App extends Component {
   render() {
     const a = styleSheet.red;
     return <div style={_getStyle(\`\${a} \${styleSheet2.b}\`)} />;
   }
-
 }"
 `;
 
 exports[`jsx style plugin Provide a default stylesheet object when css module enable and import css module sheet only 1`] = `
 "import { createElement, Component } from 'rax';
 import _styleSheetModuleStyle from './app.module.scss';
-
 function _getClassName() {
   var className = [];
   var args = arguments[0];
   var type = Object.prototype.toString.call(args).slice(8, -1).toLowerCase();
-
   if (type === 'string') {
     args = args.trim();
     args && className.push(args);
@@ -400,51 +319,38 @@ function _getClassName() {
   } else if (type === 'object') {
     for (var k in args) {
       k = k.trim();
-
       if (k && args.hasOwnProperty(k) && args[k]) {
         className.push(k);
       }
     }
   }
-
   return className.join(' ').trim();
 }
-
 function _getStyle(classNameExpression) {
   var className = _getClassName(classNameExpression);
-
   var classNameArr = className.split(/\\s+/);
   var style = {};
   classNameArr.reduce((sty, cls) => Object.assign(sty, _styleSheet[cls.trim()]), style);
   return style;
 }
-
 function _getModuleClassName(moduleStyle, styleId) {
   return Object.keys(moduleStyle).reduce((pre, cur) => Object.assign(pre, {
     [cur]: styleId + '-' + cur
   }), {});
 }
-
 var styleSheet = _getModuleClassName(_styleSheetModuleStyle, 'styleSheet');
-
 function _mergeStyles() {
   var newTarget = {};
-
   for (var index = 0; index < arguments.length; index++) {
     var [styleSheet, rawStyleName] = arguments[index];
-
     for (var key in styleSheet) {
       const _key = rawStyleName ? rawStyleName + '-' + key : key;
-
       newTarget[_key] = Object.assign(newTarget[_key] || {}, styleSheet[key]);
     }
   }
-
   return newTarget;
 }
-
 var _styleSheet = _mergeStyles([_styleSheetModuleStyle, "styleSheet"]);
-
 class App extends Component {
   render() {
     return <div>
@@ -452,27 +358,22 @@ class App extends Component {
       <div style={_styleSheet["red"]} />
     </div>;
   }
-
 }"
 `;
 
 exports[`jsx style plugin combine inline style object and className 1`] = `
 "import { createElement, Component } from 'rax';
 import _appCssStyleSheet from "./app.css";
-
 function _mergeEleStyles() {
   return [].concat.apply([], arguments).reduce((pre, cur) => Object.assign(pre, cur), {});
 }
-
 var _styleSheet = _appCssStyleSheet;
-
 class App extends Component {
   render() {
     return <div style={_mergeEleStyles(_styleSheet["header"], {
       height: 100
     })} />;
   }
-
 }"
 `;
 
@@ -480,34 +381,25 @@ exports[`jsx style plugin combine multiple anonymous css file 1`] = `
 "import { createElement, Component } from 'rax';
 import _app1CssStyleSheet from "./app1.css";
 import _app2CssStyleSheet from "./app2.css";
-
 function _mergeEleStyles() {
   return [].concat.apply([], arguments).reduce((pre, cur) => Object.assign(pre, cur), {});
 }
-
 function _mergeStyles() {
   var newTarget = {};
-
   for (var index = 0; index < arguments.length; index++) {
     var [styleSheet, rawStyleName] = arguments[index];
-
     for (var key in styleSheet) {
       const _key = rawStyleName ? rawStyleName + '-' + key : key;
-
       newTarget[_key] = Object.assign(newTarget[_key] || {}, styleSheet[key]);
     }
   }
-
   return newTarget;
 }
-
 var _styleSheet = _mergeStyles([_app1CssStyleSheet, ""], [_app2CssStyleSheet, ""]);
-
 class App extends Component {
   render() {
     return <div style={_mergeEleStyles(_styleSheet["header1"], _styleSheet["header2"])} />;
   }
-
 }"
 `;
 
@@ -517,25 +409,18 @@ import _indexCssStyleSheet from "./index.css";
 import _indexScssStyleSheet from "./index.scss";
 import _indexLessStyleSheet from "../index.less";
 import styl from "./index.styl";
-
 function _mergeStyles() {
   var newTarget = {};
-
   for (var index = 0; index < arguments.length; index++) {
     var [styleSheet, rawStyleName] = arguments[index];
-
     for (var key in styleSheet) {
       const _key = rawStyleName ? rawStyleName + '-' + key : key;
-
       newTarget[_key] = Object.assign(newTarget[_key] || {}, styleSheet[key]);
     }
   }
-
   return newTarget;
 }
-
 var _styleSheet = _mergeStyles([_indexCssStyleSheet, ""], [_indexScssStyleSheet, ""], [_indexLessStyleSheet, ""], [styl, ""]);
-
 render(<div style={_styleSheet["header"]} />);"
 `;
 
@@ -543,34 +428,25 @@ exports[`jsx style plugin combine multiple styles and className 1`] = `
 "import { createElement, Component } from 'rax';
 import _appCssStyleSheet from "./app.css";
 import style from "./style.css";
-
 function _mergeEleStyles() {
   return [].concat.apply([], arguments).reduce((pre, cur) => Object.assign(pre, cur), {});
 }
-
 function _mergeStyles() {
   var newTarget = {};
-
   for (var index = 0; index < arguments.length; index++) {
     var [styleSheet, rawStyleName] = arguments[index];
-
     for (var key in styleSheet) {
       const _key = rawStyleName ? rawStyleName + '-' + key : key;
-
       newTarget[_key] = Object.assign(newTarget[_key] || {}, styleSheet[key]);
     }
   }
-
   return newTarget;
 }
-
 var _styleSheet = _mergeStyles([_appCssStyleSheet, ""], [style, ""]);
-
 class App extends Component {
   render() {
     return <div style={_mergeEleStyles(_styleSheet["header2"], style.header1, style.header3)} />;
   }
-
 }"
 `;
 
@@ -578,34 +454,25 @@ exports[`jsx style plugin combine one style and className 1`] = `
 "import { createElement, Component } from 'rax';
 import _appCssStyleSheet from "./app.css";
 import style from "./style.css";
-
 function _mergeEleStyles() {
   return [].concat.apply([], arguments).reduce((pre, cur) => Object.assign(pre, cur), {});
 }
-
 function _mergeStyles() {
   var newTarget = {};
-
   for (var index = 0; index < arguments.length; index++) {
     var [styleSheet, rawStyleName] = arguments[index];
-
     for (var key in styleSheet) {
       const _key = rawStyleName ? rawStyleName + '-' + key : key;
-
       newTarget[_key] = Object.assign(newTarget[_key] || {}, styleSheet[key]);
     }
   }
-
   return newTarget;
 }
-
 var _styleSheet = _mergeStyles([_appCssStyleSheet, ""], [style, ""]);
-
 class App extends Component {
   render() {
     return <div style={_mergeEleStyles(_styleSheet["header2"], style.header1)} />;
   }
-
 }"
 `;
 
@@ -614,34 +481,25 @@ exports[`jsx style plugin combine the same filename style source 1`] = `
 import _appCssStyleSheet from "./app.css";
 import _appCssStyleSheet2 from "../a/app.css";
 import _appCssStyleSheet3 from "../b/app.css";
-
 function _mergeEleStyles() {
   return [].concat.apply([], arguments).reduce((pre, cur) => Object.assign(pre, cur), {});
 }
-
 function _mergeStyles() {
   var newTarget = {};
-
   for (var index = 0; index < arguments.length; index++) {
     var [styleSheet, rawStyleName] = arguments[index];
-
     for (var key in styleSheet) {
       const _key = rawStyleName ? rawStyleName + '-' + key : key;
-
       newTarget[_key] = Object.assign(newTarget[_key] || {}, styleSheet[key]);
     }
   }
-
   return newTarget;
 }
-
 var _styleSheet = _mergeStyles([_appCssStyleSheet, ""], [_appCssStyleSheet2, ""], [_appCssStyleSheet3, ""]);
-
 class App extends Component {
   render() {
     return <div style={_mergeEleStyles(_styleSheet["header1"], _styleSheet["header2"])} />;
   }
-
 }"
 `;
 
@@ -649,12 +507,10 @@ exports[`jsx style plugin disableMultipleClassName and transform multiple classN
 "import { createElement, Component } from 'rax';
 import _appCssStyleSheet from "./app.css";
 var _styleSheet = _appCssStyleSheet;
-
 class App extends Component {
   render() {
     return <div headerClassName="header" style={_styleSheet["container"]} />;
   }
-
 }"
 `;
 
@@ -662,12 +518,10 @@ exports[`jsx style plugin enableMultipleClassName and transform error css value 
 "import { createElement, Component } from 'rax';
 import _appCssStyleSheet from "./app.css";
 var _styleSheet = _appCssStyleSheet;
-
 class App extends Component {
   render() {
     return <StatusBar barStyle={"dark-content"} />;
   }
-
 }"
 `;
 
@@ -675,25 +529,20 @@ exports[`jsx style plugin enableMultipleClassName and transform multiple classNa
 "import { createElement, Component } from 'rax';
 import _appCssStyleSheet from "./app.css";
 var _styleSheet = _appCssStyleSheet;
-
 class App extends Component {
   render() {
     return <div style={_styleSheet["container"]} headerStyle={_styleSheet["header"]} />;
   }
-
 }"
 `;
 
 exports[`jsx style plugin enableMultipleClassName and transform multiple className to multiple style as array 1`] = `
 "import { createElement, Component } from 'rax';
 import _appCssStyleSheet from "./app.css";
-
 function _mergeEleStyles() {
   return [].concat.apply([], arguments).reduce((pre, cur) => Object.assign(pre, cur), {});
 }
-
 var _styleSheet = _appCssStyleSheet;
-
 class App extends Component {
   render() {
     return <div style={_mergeEleStyles(_styleSheet["container"], {
@@ -702,7 +551,6 @@ class App extends Component {
       color: "green"
     })} />;
   }
-
 }"
 `;
 
@@ -710,46 +558,35 @@ exports[`jsx style plugin merge stylesheet when css module disable 1`] = `
 "import { createElement, Component } from 'rax';
 import _appScssStyleSheet from "./app.scss";
 import styleSheet from "./app.module.scss";
-
 function _mergeEleStyles() {
   return [].concat.apply([], arguments).reduce((pre, cur) => Object.assign(pre, cur), {});
 }
-
 function _mergeStyles() {
   var newTarget = {};
-
   for (var index = 0; index < arguments.length; index++) {
     var [styleSheet, rawStyleName] = arguments[index];
-
     for (var key in styleSheet) {
       const _key = rawStyleName ? rawStyleName + '-' + key : key;
-
       newTarget[_key] = Object.assign(newTarget[_key] || {}, styleSheet[key]);
     }
   }
-
   return newTarget;
 }
-
 var _styleSheet = _mergeStyles([_appScssStyleSheet, ""], [styleSheet, ""]);
-
 class App extends Component {
   render() {
     return <div style={_mergeEleStyles(_styleSheet["header"], styleSheet.red)} />;
   }
-
 }"
 `;
 
 exports[`jsx style plugin transform array, object and expressions 1`] = `
 "import { createElement, Component } from 'rax';
 import _appCssStyleSheet from "./app.css";
-
 function _getClassName() {
   var className = [];
   var args = arguments[0];
   var type = Object.prototype.toString.call(args).slice(8, -1).toLowerCase();
-
   if (type === 'string') {
     args = args.trim();
     args && className.push(args);
@@ -761,27 +598,21 @@ function _getClassName() {
   } else if (type === 'object') {
     for (var k in args) {
       k = k.trim();
-
       if (k && args.hasOwnProperty(k) && args[k]) {
         className.push(k);
       }
     }
   }
-
   return className.join(' ').trim();
 }
-
 function _getStyle(classNameExpression) {
   var className = _getClassName(classNameExpression);
-
   var classNameArr = className.split(/\\s+/);
   var style = {};
   classNameArr.reduce((sty, cls) => Object.assign(sty, _styleSheet[cls.trim()]), style);
   return style;
 }
-
 var _styleSheet = _appCssStyleSheet;
-
 class App extends Component {
   render() {
     return <div style={_styleSheet["header"]}>
@@ -795,7 +626,6 @@ class App extends Component {
       <div style={_getStyle(getClassName())} />
     </div>;
   }
-
 }"
 `;
 
@@ -816,18 +646,14 @@ render(<div style={_styleSheet["header"]} />);"
 exports[`jsx style plugin transform multiple classNames to style as array 1`] = `
 "import { createElement, Component } from 'rax';
 import _appCssStyleSheet from "./app.css";
-
 function _mergeEleStyles() {
   return [].concat.apply([], arguments).reduce((pre, cur) => Object.assign(pre, cur), {});
 }
-
 var _styleSheet = _appCssStyleSheet;
-
 class App extends Component {
   render() {
     return <div style={_mergeEleStyles(_styleSheet["header1"], _styleSheet["header2"])} />;
   }
-
 }"
 `;
 
@@ -835,12 +661,10 @@ exports[`jsx style plugin transform only one className to style as member 1`] = 
 "import { createElement, Component } from 'rax';
 import _appCssStyleSheet from "./app.css";
 var _styleSheet = _appCssStyleSheet;
-
 class App extends Component {
   render() {
     return <div style={_styleSheet["header"]} />;
   }
-
 }"
 `;
 
@@ -848,12 +672,10 @@ exports[`jsx style plugin transform scss file 1`] = `
 "import { createElement, Component } from 'rax';
 import _appScssStyleSheet from "./app.scss";
 var _styleSheet = _appScssStyleSheet;
-
 class App extends Component {
   render() {
     return <div style={_styleSheet["header"]} />;
   }
-
 }"
 `;
 
@@ -861,23 +683,19 @@ exports[`jsx style plugin transform scss file with hyphen(-) in the filename 1`]
 "import { createElement, Component } from 'rax';
 import _appStyleScssStyleSheet from "./app-style.scss";
 var _styleSheet = _appStyleScssStyleSheet;
-
 class App extends Component {
   render() {
     return <div style={_styleSheet["header"]} />;
   }
-
 }"
 `;
 
 exports[`jsx style plugin transform styleAttribute expression 1`] = `
 "import { createElement, render } from 'rax';
 import _appLessStyleSheet from "./app.less";
-
 function _mergeEleStyles() {
   return [].concat.apply([], arguments).reduce((pre, cur) => Object.assign(pre, cur), {});
 }
-
 var _styleSheet = _appLessStyleSheet;
 render(<div style={_mergeEleStyles(_styleSheet["header"], {
   width: 100,
@@ -888,11 +706,9 @@ render(<div style={_mergeEleStyles(_styleSheet["header"], {
 exports[`jsx style plugin transform styleAttribute inline string and exsit classNameAttribute 1`] = `
 "import { createElement, render } from 'rax';
 import _appLessStyleSheet from "./app.less";
-
 function _mergeEleStyles() {
   return [].concat.apply([], arguments).reduce((pre, cur) => Object.assign(pre, cur), {});
 }
-
 var _styleSheet = _appLessStyleSheet;
 render(<div style={_mergeEleStyles(_styleSheet["header"], {
   "width": 100,
