@@ -19,7 +19,8 @@ export function run (name: string, presets: string[] = []): IRun {
         path.resolve(__dirname, '../__mocks__', 'presets.ts'),
         ...presets.map(e => path.isAbsolute(e) ? e : path.resolve(__dirname, '../../presets', `${e}.ts`))
       ],
-      plugins: []
+      plugins: [],
+      disableGlobalConfig: !!options.disableGlobalConfig
     })
     kernel.optsPlugins ||= []
 

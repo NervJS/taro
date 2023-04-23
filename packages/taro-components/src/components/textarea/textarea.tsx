@@ -40,6 +40,10 @@ export class Textarea implements ComponentInterface {
   onBlur: EventEmitter
 
   @Event({
+    eventName: 'confirm'
+  }) onConfirm: EventEmitter
+
+  @Event({
     eventName: 'change'
   })
   onChange: EventEmitter
@@ -48,6 +52,10 @@ export class Textarea implements ComponentInterface {
     eventName: 'linechange' // 必须全小写
   })
   onLineChange: EventEmitter
+
+  @Event({
+    eventName: 'keydown'
+  }) onKeyDown: EventEmitter
 
   @Watch('autoFocus')
   watchAutoFocus (newValue: boolean, oldValue: boolean) {
@@ -109,6 +117,20 @@ export class Textarea implements ComponentInterface {
         lineCount: this.line
       })
     }
+  }
+
+  handleKeyDown = (e: TaroEvent<HTMLInputElement> & KeyboardEvent) => {
+    e.stopPropagation()
+    const { value } = e.target
+    const keyCode = e.keyCode || e.code
+
+    this.onKeyDown.emit({
+      value,
+      cursor: value.length,
+      keyCode
+    })
+
+    keyCode === 13 && this.onConfirm.emit({ value })
   }
 
   calculateContentHeight = (ta, scanAmount) => {
@@ -206,6 +228,7 @@ export class Textarea implements ComponentInterface {
         onFocus={handleFocus}
         onBlur={handleBlur}
         onChange={handleChange}
+        onKeyDown={this.handleKeyDown}
         {...nativeProps}
         {...otherProps}
       />

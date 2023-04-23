@@ -1,13 +1,12 @@
 /* eslint-disable dot-notation */
 import {
-  AppInstance,
   createPageConfig, Current,
   eventCenter, hooks,
   incrementId,
   stringify,
 } from '@tarojs/runtime'
-import { Action as LocationAction, Listener as LocationListener } from 'history'
-import UniversalRouter, { Routes } from 'universal-router'
+import { Action as LocationAction } from 'history'
+import UniversalRouter from 'universal-router'
 
 import { history, prependBasename } from '../history'
 import { addLeadingSlash, routesAlias, stripBasename } from '../utils'
@@ -16,6 +15,9 @@ import { RouterConfig } from '.'
 import PageHandler from './page'
 import stacks from './stack'
 
+import type { AppInstance } from '@tarojs/runtime'
+import type { Listener as LocationListener } from 'history'
+import type { Routes } from 'universal-router'
 import type { SpaRouterConfig } from '../../types/router'
 
 const createStampId = incrementId()
