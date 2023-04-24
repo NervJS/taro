@@ -34,7 +34,6 @@
     "@tarojs/taro": "workspace:*",
     "enhanced-resolve": "^5.9.3",
     "es-module-lexer": "^0.10.4",
-    "esbuild": "^0.14.27",
     "lodash": "^4.17.21",
     "webpack-chain": "6.5.1",
     "webpack-virtual-modules": "^0.5.0"

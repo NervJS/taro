@@ -1,6 +1,5 @@
 import { chalk, fs, readConfig, recursiveMerge, REG_SCRIPTS, resolveMainFilePath, terminalLink } from '@tarojs/helper'
 import { PLATFORM_TYPE } from '@tarojs/shared'
-import { Message } from 'esbuild'
 import path from 'path'
 import { performance } from 'perf_hooks'
 import webpack from 'webpack'
@@ -12,6 +11,7 @@ import { bundle } from './bundle'
 import { scanImports } from './scanImports'
 
 import type { Config } from '@swc/core'
+import type { esbuild } from '@tarojs/helper'
 import type { IProjectBaseConfig } from '@tarojs/taro/types/compile'
 import type { Configuration, EntryObject, RuleSetRule } from 'webpack'
 import type Chain from 'webpack-chain'
@@ -192,7 +192,7 @@ export default class BasePrebundle<T extends IPrebundleConfig = IPrebundleConfig
     this.measure('Prebundle duration', PREBUNDLE_START)
   }
 
-  handleBundleError (errors: Message[] = []) {
+  handleBundleError (errors: esbuild.Message[] = []) {
     const keys = Array.from(this.deps.keys())
     if (errors.length > 0) {
       const deps = errors.reduce((p, e) => {

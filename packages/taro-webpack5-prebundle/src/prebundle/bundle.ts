@@ -1,21 +1,18 @@
 import { transformSync } from '@swc/core'
-import { fs, REG_SCRIPTS } from '@tarojs/helper'
+import { defaultEsbuildLoader, esbuild, externalEsbuildModule, fs, REG_SCRIPTS } from '@tarojs/helper'
 import { init, parse } from 'es-module-lexer'
-import esbuild from 'esbuild'
 import { defaults } from 'lodash'
 import path from 'path'
 
 import {
-  externalModule,
   flattenId,
   getDefines,
   getHash,
   getResolve
 } from '../utils'
-import { assetsRE, defaultEsbuildLoader, moduleRE } from '../utils/constant'
+import { assetsRE, moduleRE } from '../utils/constant'
 
 import type { Config } from '@swc/core'
-import type { Plugin } from 'esbuild'
 import type Chain from 'webpack-chain'
 import type { CollectedDeps } from '../utils/constant'
 
@@ -110,7 +107,7 @@ function getEntryPlugin ({
   flattenDeps: CollectedDeps
   flatIdExports: Map<string, ExportsData>
   prebundleOutputDir: string
-}): Plugin {
+}): esbuild.Plugin {
   const resolve = getResolve()
   return {
     name: 'entry',
@@ -124,7 +121,7 @@ function getEntryPlugin ({
 
         const outputFile = path.join(prebundleOutputDir, `${fileBasename}-${getHash(filePath)}${fileExt}`)
         await fs.writeFile(outputFile, fileContent)
-        return externalModule({ path: `./${path.relative(prebundleOutputDir, outputFile)}` })
+        return externalEsbuildModule({ path: `./${path.relative(prebundleOutputDir, outputFile)}` })
       })
 
       build.onResolve({ filter: moduleRE }, async ({ path: id, importer }) => {
@@ -141,10 +138,10 @@ function getEntryPlugin ({
           if (typeof resolvedPath === 'string' && !assetsRE.test(resolvedPath)) {
             return { path: resolvedPath }
           } else {
-            return externalModule({ path: id })
+            return externalEsbuildModule({ path: id })
           }
         } catch (e) {
-          return externalModule({ path: id })
+          return externalEsbuildModule({ path: id })
         }
       })
 
@@ -197,7 +194,7 @@ export function getSwcPlugin ({
 }: {
   appPath: string
   flatIdExports: Map<string, ExportsData>
-}, config?: Config): Plugin {
+}, config?: Config): esbuild.Plugin {
   return {
     name: 'swc-plugin',
     setup (build) {
