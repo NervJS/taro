@@ -1,11 +1,9 @@
-import { Config, transformSync } from '@swc/core'
-import { REG_SCRIPTS } from '@tarojs/helper'
+import { transformSync } from '@swc/core'
+import { fs, REG_SCRIPTS } from '@tarojs/helper'
 import { init, parse } from 'es-module-lexer'
-import esbuild, { Plugin } from 'esbuild'
-import fs from 'fs-extra'
+import esbuild from 'esbuild'
 import { defaults } from 'lodash'
 import path from 'path'
-import Chain from 'webpack-chain'
 
 import {
   externalModule,
@@ -14,7 +12,12 @@ import {
   getHash,
   getResolve
 } from '../utils'
-import { assetsRE, CollectedDeps, defaultEsbuildLoader, moduleRE } from '../utils/constant'
+import { assetsRE, defaultEsbuildLoader, moduleRE } from '../utils/constant'
+
+import type { Config } from '@swc/core'
+import type { Plugin } from 'esbuild'
+import type Chain from 'webpack-chain'
+import type { CollectedDeps } from '../utils/constant'
 
 type ExportsData = ReturnType<typeof parse> & { hasReExports?: boolean, needInterop?: boolean }
 

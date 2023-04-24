@@ -1,7 +1,6 @@
-import esbuild, { Loader } from 'esbuild'
-import fs from 'fs'
+import { fs } from '@tarojs/helper'
+import esbuild from 'esbuild'
 import path from 'path'
-import Chain from 'webpack-chain'
 
 import {
   externalModule,
@@ -13,7 +12,6 @@ import {
 } from '../utils'
 import {
   assetsRE,
-  CollectedDeps,
   commentRE,
   defaultEsbuildLoader,
   importsRE,
@@ -25,6 +23,10 @@ import {
   virtualModulePrefix,
   virtualModuleRE
 } from '../utils/constant'
+
+import type { Loader } from 'esbuild'
+import type Chain from 'webpack-chain'
+import type { CollectedDeps } from '../utils/constant'
 
 interface ScanImportsConfig {
   appPath: string

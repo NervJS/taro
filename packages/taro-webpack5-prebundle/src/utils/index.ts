@@ -1,11 +1,10 @@
-import { chalk } from '@tarojs/helper'
+import { chalk, fs } from '@tarojs/helper'
 import { createHash } from 'crypto'
 import enhancedResolve from 'enhanced-resolve'
-import fs from 'fs-extra'
 import path from 'path'
 import { performance } from 'perf_hooks'
-import Chain from 'webpack-chain'
 
+import type Chain from 'webpack-chain'
 import type { CollectedDeps } from './constant'
 
 export interface Metadata {

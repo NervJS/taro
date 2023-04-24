@@ -1,4 +1,4 @@
-import { Loader } from 'esbuild'
+import type { Loader } from 'esbuild'
 
 const KNOWN_ASSET_TYPES = [
   // css

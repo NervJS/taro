@@ -1,4 +1,5 @@
 import {
+  fs,
   isAliasPath,
   isEmptyObject,
   META_TYPE,
@@ -12,7 +13,6 @@ import {
   resolveMainFilePath,
   SCRIPT_EXT
 } from '@tarojs/helper'
-import fs from 'fs-extra'
 import { urlToRequest } from 'loader-utils'
 import path from 'path'
 import EntryDependency from 'webpack/lib/dependencies/EntryDependency'
