@@ -42,13 +42,6 @@ export function getResolve () {
   return resolve
 }
 
-export function externalModule ({ path }: { path: string }) {
-  return {
-    path,
-    external: true
-  }
-}
-
 export function flattenId (id: string) {
   return id.replace(/(\s*>\s*)/g, '__').replace(/[/.:]/g, '_')
 }

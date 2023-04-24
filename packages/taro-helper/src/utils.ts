@@ -1,10 +1,8 @@
-import { transformFileSync } from '@swc/core'
 import * as child_process from 'child_process'
 import * as fs from 'fs-extra'
 import { camelCase, flatMap, isPlainObject, mergeWith } from 'lodash'
 import * as os from 'os'
 import * as path from 'path'
-import requireFromString from 'require-from-string'
 
 import {
   CSS_EXT,
@@ -17,6 +15,7 @@ import {
   SCRIPT_EXT,
   TARO_CONFIG_FOLDER
 } from './constants'
+import { requireWithEsbuild } from './esbuild'
 import { chalk } from './terminal'
 
 const execSync = child_process.execSync
@@ -39,11 +38,11 @@ export function isQuickAppPkg (name: string): boolean {
 }
 
 export function isAliasPath (name: string, pathAlias: Record<string, any> = {}): boolean {
-  const prefixs = Object.keys(pathAlias)
-  if (prefixs.length === 0) {
+  const prefixes = Object.keys(pathAlias)
+  if (prefixes.length === 0) {
     return false
   }
-  return prefixs.includes(name) || (new RegExp(`^(${prefixs.join('|')})/`).test(name))
+  return prefixes.includes(name) || (new RegExp(`^(${prefixes.join('|')})/`).test(name))
 }
 
 export function replaceAliasPath (filePath: string, name: string, pathAlias: Record<string, any> = {}) {
@@ -52,11 +51,11 @@ export function replaceAliasPath (filePath: string, name: string, pathAlias: Rec
   // 源代码文件，导致文件被意外修改
   filePath = fs.realpathSync(filePath)
 
-  const prefixs = Object.keys(pathAlias)
-  if (prefixs.includes(name)) {
+  const prefixes = Object.keys(pathAlias)
+  if (prefixes.includes(name)) {
     return promoteRelativePath(path.relative(filePath, fs.realpathSync(resolveScriptPath(pathAlias[name]))))
   }
-  const reg = new RegExp(`^(${prefixs.join('|')})/(.*)`)
+  const reg = new RegExp(`^(${prefixes.join('|')})/(.*)`)
   name = name.replace(reg, function (_m, $1, $2) {
     return promoteRelativePath(path.relative(filePath, path.join(pathAlias[$1], $2)))
   })
@@ -602,28 +601,31 @@ export function readConfig (configPath: string) {
     if (REG_JSON.test(configPath)) {
       result = fs.readJSONSync(configPath)
     } else {
-      const { code } = transformFileSync(configPath, {
-        jsc: {
-          parser: {
-            syntax: 'typescript',
-            decorators: true
+      result = requireWithEsbuild(configPath, {
+        customSwcConfig: {
+          jsc: {
+            parser: {
+              syntax: 'typescript',
+              decorators: true
+            },
+            transform: {
+              legacyDecorator: true
+            },
+            experimental: {
+              plugins: [
+                // Note: 更新 SWC 版本可能会使插件将箭头函数等代码错误抖动，导致配置读取错误
+                [path.resolve(__dirname, '../swc/plugin-define-config/target/wasm32-wasi/release/swc_plugin_define_config.wasm'), {}]
+              ]
+            }
           },
-          transform: {
-            legacyDecorator: true
-          },
-          experimental: {
-            plugins: [
-              [path.resolve(__dirname, '../swc/plugin-define-config/target/wasm32-wasi/release/swc_plugin_define_config.wasm'), {}]
-            ]
+          module: {
+            type: 'commonjs'
           }
-        },
-        module: {
-          type: 'commonjs'
         }
       })
-
-      result = getModuleDefaultExport(requireFromString(code, configPath))
     }
+
+    result = getModuleDefaultExport(result)
   } else {
     result = readPageConfig(configPath)
   }
