@@ -1,5 +1,4 @@
 export * as chokidar from 'chokidar'
-export * as fs from 'fs-extra'
 
 export const createDebug = (id: string) => require('debug')(id)
 

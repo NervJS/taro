@@ -58,7 +58,6 @@
     "esbuild": "^0.14.27",
     "esbuild-loader": "2.18.0",
     "file-loader": "6.0.0",
-    "fs-extra": "^8.0.1",
     "html-minifier": "^4.0.0",
     "html-webpack-plugin": "5.5.0",
     "jsdom": "^21.1.0",

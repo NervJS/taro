@@ -621,7 +621,7 @@ export function readConfig (configPath: string) {
           type: 'commonjs'
         }
       })
-  
+
       result = getModuleDefaultExport(requireFromString(code, configPath))
     }
   } else {
@@ -629,3 +629,5 @@ export function readConfig (configPath: string) {
   }
   return result
 }
+
+export { fs }

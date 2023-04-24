@@ -1,4 +1,4 @@
-import * as fs from 'fs-extra'
+import { fs } from '@tarojs/helper'
 import * as path from 'path'
 import * as request from 'request'
 
