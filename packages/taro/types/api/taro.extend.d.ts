@@ -138,7 +138,58 @@ declare module '../index' {
 
     /**
      * 包裹 promiseify api 的洋葱圈模型
+     * @supported global
      * @param promiseifyApi
+     * @example
+     * ```tsx
+     * // 创建实例
+     * const modalInterceptorify = interceptorify(taro.showModal)
+     * // 添加拦截器
+     * modalInterceptorify.addInterceptor(async function (chain) {
+     *   const res = await chain.proceed({
+     *     ...chain.requestParams,
+     *     title: 'interceptor1'
+     *   })
+     *   return res
+     * })
+     * modalInterceptorify.addInterceptor(async function (chain) {
+     *   const res = await chain.proceed({
+     *     ...chain.requestParams,
+     *     content: 'interceptor2'
+     *   })
+     *   return res
+     * })
+     * // 使用
+     * modalInterceptorify.request({})
+     * ```
+     * @example
+     * ```tsx
+     * // 创建实例
+     * const fetchDataInterceptorify = interceptorify(taro.request)
+     * // 添加拦截器
+     * fetchDataInterceptorify.addInterceptor(async function (chain) {
+     *   taro.showLoading({
+     *     title: 'Loading...'
+     *   })
+     *   const res = await chain.proceed(chain.requestParams)
+     *   taro.hideLoading()
+     *   return res
+     * })
+     * fetchDataInterceptorify.addInterceptor(async function (chain) {
+     *   const params = chain.requestParams
+     *   const res = await chain.proceed({
+     *     url: 'http://httpbin.org' + params.url,
+     *   })
+     *   return res.data
+     * })
+     * // 使用
+     * fetchDataInterceptorify.request({
+     *   url: '/ip'
+     * }).then((res) => {
+     *   // log my ip
+     *   console.log(res.origin)
+     * })
+     * ```
      */
     interceptorify<T, R>(promiseifyApi: promiseifyApi<T, R>): Interceptorify<T, R>
   }
