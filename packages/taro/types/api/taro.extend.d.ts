@@ -8,7 +8,7 @@ declare module '../index' {
     interface AppInfo {
       platform: string
       taroVersion: string
-      designWidth: number
+      designWidth: number | ((size?: string | number) => number)
     }
   }
 
@@ -91,7 +91,7 @@ declare module '../index' {
     initPxTransform(config: {
       baseFontSize?: number
       deviceRatio?: TaroGeneral.TDeviceRatio
-      designWidth?: number
+      designWidth?: number | ((size?: string | number) => number)
       targetUnit?: string
       unitPrecision?: number
     }): void
@@ -100,7 +100,7 @@ declare module '../index' {
     initAppInfo(appInfo: getAppInfo.AppInfo): void
 
     /** 小程序获取和 Taro 相关的 App 信息
-     * @supported weapp, alipay, jd, qq, swan, tt
+     * @supported weapp, alipay, jd, qq, swan, tt, h5
      */
     getAppInfo(): getAppInfo.AppInfo
 
