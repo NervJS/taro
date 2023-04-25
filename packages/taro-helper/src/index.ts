@@ -1,3 +1,4 @@
+export * as swc from '@swc/core'
 export * as chokidar from 'chokidar'
 
 export const createDebug = (id: string) => require('debug')(id)

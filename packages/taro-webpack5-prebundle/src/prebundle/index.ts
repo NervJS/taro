@@ -10,8 +10,7 @@ import TaroModuleFederationPlugin from '../webpack/TaroModuleFederationPlugin'
 import { bundle } from './bundle'
 import { scanImports } from './scanImports'
 
-import type { Config } from '@swc/core'
-import type { esbuild } from '@tarojs/helper'
+import type { esbuild, swc } from '@tarojs/helper'
 import type { IProjectBaseConfig } from '@tarojs/taro/types/compile'
 import type { Configuration, EntryObject, RuleSetRule } from 'webpack'
 import type Chain from 'webpack-chain'
@@ -40,7 +39,7 @@ export default class BasePrebundle<T extends IPrebundleConfig = IPrebundleConfig
   cacheDir: string
   chain: Chain
   customEsbuildConfig: IPrebundle['esbuild']
-  customSwcConfig?: Config
+  customSwcConfig?: swc.Config
   env: string
   mode: TMode
   platformType: PLATFORM_TYPE
