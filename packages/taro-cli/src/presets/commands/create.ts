@@ -26,12 +26,13 @@ export default (ctx: IPluginContext) => {
   ctx.registerCommand({
     name: 'create',
     optionsMap: {
-      '--name [name]': '名称',
+      '--name [name]': '名称，如果是创建页面，可以是一个目录',
       '--description [description]': '介绍',
       '--type [type]': '模版类型(page(默认)|plugin-command|plugin-build|plugin-template)'
     },
     synopsisList: [
       'taro create page',
+      'taro create dir1/dir2/page',
       'taro create --name=page --description=desc',
       'taro create my-plugin --type=plugin-command',
     ],

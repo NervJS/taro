@@ -1,4 +1,4 @@
-import { chalk, DEFAULT_TEMPLATE_SRC, getUserHomeDir, TARO_BASE_CONFIG, TARO_CONFIG_FOLDER } from '@tarojs/helper'
+import { chalk, DEFAULT_TEMPLATE_SRC, getUserHomeDir, resolveScriptPath, TARO_BASE_CONFIG, TARO_CONFIG_FOLDER } from '@tarojs/helper'
 import * as fs from 'fs-extra'
 import { isNil } from 'lodash'
 import * as path from 'path'
@@ -47,6 +47,9 @@ const DEFAULT_TEMPLATE_INFO = {
   typescript: false,
   compiler: 'webpack5'
 }
+
+const APP_CONFIG_BASENAME = 'app.config'
+
 export default class Page extends Creator {
   public rootPath: string
   public conf: IPageConf
@@ -146,8 +149,22 @@ export default class Page extends Creator {
   }
 
   write () {
-    createPage(this, this.conf, () => {
-      console.log(`${chalk.green('✔ ')}${chalk.grey(`创建页面 ${this.conf.pageName} 成功！`)}`)
-    }).catch(err => console.log(err))
+    const srcDir = path.join(this.conf.projectDir, 'src')
+    const configPath = resolveScriptPath(path.join(srcDir, APP_CONFIG_BASENAME))
+    debugger
+    const a = require(configPath)
+
+    // let isAppConfigJsExists = false
+    // let isAppConfigTsExists = false
+    // if(fs.existsSync(path.join(srcDir, `${APP_CONFIG_BASENAME}.js`))) isAppConfigJsExists = true
+    // if(fs.existsSync(path.join(srcDir, `${APP_CONFIG_BASENAME}.ts`))) isAppConfigTsExists = true
+    // if(!(Number(isAppConfigJsExists) ^ Number(isAppConfigTsExists))) return console.error('获取不到项目配置文件 或 存在多个项目配置文件')
+    // 要修改配置文件
+    // createPage(this, this.conf, () => {
+    //   console.log(`${chalk.green('✔ ')}${chalk.grey(`创建页面 ${this.conf.pageName} 成功！`)}`)
+    //   const appConfigBasename = 'app.config'
+    //   const srcDir = path.join(this.conf.projectDir, 'src')
+    //   //判断app.config 文件是否存在
+    // }).catch(err => console.log(err))
   }
 }

@@ -111,6 +111,7 @@ function createFiles (
     // createPage 创建页面模式
     if (config.setPageName) {
       destRePath = config.setPageName
+      pageName.indexOf('/') && (config.pageName = config.pageName.replace(/.*\//, ''))
     }
     destRePath = destRePath.replace(/^\//, '')
     // 处理 .js 和 .css 的后缀
@@ -140,7 +141,7 @@ function createFiles (
 }
 
 export async function createPage (creator: Creator, params: IPageConf, cb) {
-  const { projectDir, template, pageName, isCustomTemplate, customTemplatePath } = params
+  const { projectDir, template, isCustomTemplate, customTemplatePath } = params
 
   // path
   let templatePath
@@ -163,8 +164,6 @@ export async function createPage (creator: Creator, params: IPageConf, cb) {
     ...params,
     templatePath,
     projectPath: projectDir,
-    pageName,
-    isCustomTemplate,
     period: 'createPage'
   })
 
