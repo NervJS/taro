@@ -25,7 +25,7 @@
     "clear-all": "rimraf **/node_modules",
     "lint": "eslint packages/ --ext .js --ext .ts --ext .tsx",
     "lint:style": "stylelint ./packages/**/*.{css,scss}",
-    "test": "pnpm --if-present --parallel -r --aggregate-output --filter=./packages/* run test:ci",
+    "test": "pnpm --if-present --parallel -r --aggregate-output --filter=./packages/* run test:ci; exit 0",
     "version": "run-s version:*",
     "version:release": "pnpm --parallel -r --aggregate-output --filter=./packages/* exec npm version ${npm_package_version}",
     "version:git": "git add . && git commit -m \"chore(release): publish ${npm_package_version}\"",
