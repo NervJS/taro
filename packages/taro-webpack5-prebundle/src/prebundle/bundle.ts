@@ -1,5 +1,4 @@
-import { transformSync } from '@swc/core'
-import { defaultEsbuildLoader, esbuild, externalEsbuildModule, fs, REG_SCRIPTS } from '@tarojs/helper'
+import { defaultEsbuildLoader, esbuild, externalEsbuildModule, fs, REG_SCRIPTS, swc } from '@tarojs/helper'
 import { init, parse } from 'es-module-lexer'
 import { defaults } from 'lodash'
 import path from 'path'
@@ -12,7 +11,6 @@ import {
 } from '../utils'
 import { assetsRE, moduleRE } from '../utils/constant'
 
-import type { Config } from '@swc/core'
 import type Chain from 'webpack-chain'
 import type { CollectedDeps } from '../utils/constant'
 
@@ -24,7 +22,7 @@ interface BundleConfig {
   chain: Chain
   prebundleOutputDir: string
   customEsbuildConfig?: Record<string, any>
-  customSwcConfig?: Config
+  customSwcConfig?: swc.Config
 }
 
 // esbuild generates nested directory output with lowest common ancestor base
@@ -194,14 +192,14 @@ export function getSwcPlugin ({
 }: {
   appPath: string
   flatIdExports: Map<string, ExportsData>
-}, config?: Config): esbuild.Plugin {
+}, config?: swc.Config): esbuild.Plugin {
   return {
     name: 'swc-plugin',
     setup (build) {
       build.onEnd(async ({ outputFiles = [], metafile = {} }) => {
         await Promise.all(outputFiles.map(async ({ path, text }) => {
           if (!REG_SCRIPTS.test(path)) return
-          const { code } = transformSync(text, defaults(config, { jsc: { target: 'es2015' } }))
+          const { code } = swc.transformSync(text, defaults(config, { jsc: { target: 'es2015' } }))
           fs.writeFile(path, code)
         }))
 

@@ -43,6 +43,7 @@ export function requireWithEsbuild (id: string, {
     })
   )
 
+  // Note: esbuild.buildSync 模式下不支持引入插件，所以这里需要手动转换
   const { code = '' } = transformSync(outputFiles[0].text, defaults(customSwcConfig, {
     jsc: { target: 'es2015' },
   }))
