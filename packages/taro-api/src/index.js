@@ -11,13 +11,13 @@ import {
 } from '@tarojs/runtime'
 
 import { ENV_TYPE, getEnv } from './env'
-import Link from './interceptor'
+import Link, { interceptorify } from './interceptor'
 import * as interceptors from './interceptor/interceptors'
 import {
   Behavior,
   getInitPxTransform,
   getPreload,
-  getPxTransform
+  getPxTransform,
 } from './tools'
 
 const Taro = {
@@ -32,7 +32,8 @@ const Taro = {
   nextTick,
   eventCenter,
   Events,
-  getInitPxTransform
+  getInitPxTransform,
+  interceptorify
 }
 
 Taro.initPxTransform = getInitPxTransform(Taro)
