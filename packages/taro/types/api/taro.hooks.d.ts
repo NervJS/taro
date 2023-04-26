@@ -1,6 +1,6 @@
 import Taro from '../index'
 
-declare module './index' {
+declare module '../index' {
   interface TaroStatic {
     /**
      * 页面展示时的回调。
