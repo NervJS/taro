@@ -4626,7 +4626,7 @@ require("./runtime");
                 return __classPrivateFieldGet(this, _History_stack, "f").length;
             }
             get state() {
-                return __classPrivateFieldGet(this, _History_stack, "f")[__classPrivateFieldGet(this, _History_cur, "f")];
+                return __classPrivateFieldGet(this, _History_stack, "f")[__classPrivateFieldGet(this, _History_cur, "f")].state;
             }
             go(delta) {
                 if (!(0, _tarojs_shared__WEBPACK_IMPORTED_MODULE_0__.hj)(delta) || isNaN(delta)) return;

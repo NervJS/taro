@@ -1,6 +1,7 @@
 import {
   createSwcRegister,
   ENTRY,
+  fs,
   getModuleDefaultExport,
   getUserHomeDir,
   OUTPUT_DIR,
@@ -9,7 +10,6 @@ import {
   TARO_GLOBAL_CONFIG_DIR,
   TARO_GLOBAL_CONFIG_FILE
 } from '@tarojs/helper'
-import * as fs from 'fs-extra'
 import * as ora from 'ora'
 import * as path from 'path'
 import * as merge from 'webpack-merge'

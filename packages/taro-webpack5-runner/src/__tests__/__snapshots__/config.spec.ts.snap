@@ -5076,7 +5076,7 @@ require("./runtime");
             }, {
                 key: "state",
                 get: function get() {
-                    return __classPrivateFieldGet(this, _History_stack, "f")[__classPrivateFieldGet(this, _History_cur, "f")];
+                    return __classPrivateFieldGet(this, _History_stack, "f")[__classPrivateFieldGet(this, _History_cur, "f")].state;
                 }
             }, {
                 key: "go",
@@ -11534,7 +11534,7 @@ require("./runtime");
             }, {
                 key: "state",
                 get: function get() {
-                    return __classPrivateFieldGet(this, _History_stack, "f")[__classPrivateFieldGet(this, _History_cur, "f")];
+                    return __classPrivateFieldGet(this, _History_stack, "f")[__classPrivateFieldGet(this, _History_cur, "f")].state;
                 }
             }, {
                 key: "go",
@@ -18273,7 +18273,7 @@ require("./runtime");
             }, {
                 key: "state",
                 get: function get() {
-                    return __classPrivateFieldGet(this, _History_stack, "f")[__classPrivateFieldGet(this, _History_cur, "f")];
+                    return __classPrivateFieldGet(this, _History_stack, "f")[__classPrivateFieldGet(this, _History_cur, "f")].state;
                 }
             }, {
                 key: "go",
@@ -24903,7 +24903,7 @@ require("./runtime");
             }, {
                 key: "state",
                 get: function get() {
-                    return __classPrivateFieldGet(this, _History_stack, "f")[__classPrivateFieldGet(this, _History_cur, "f")];
+                    return __classPrivateFieldGet(this, _History_stack, "f")[__classPrivateFieldGet(this, _History_cur, "f")].state;
                 }
             }, {
                 key: "go",

@@ -270,19 +270,19 @@ export function transformLinaria ({ sourcePath, sourceCode }: TransformLinariaOp
         if (className) {
           const index = attributes.findIndex(attribute =>
             types.isJSXAttribute(attribute) && attribute.name.name === 'style')
-  
+
           let attribute = attributes[index]
           const linariaExpression = types.memberExpression(
             linariaStyle,
             types.identifier(className)
           )
-  
+
           // 不处理行内字符串样式，删除 style 属性
           if (attribute && types.isJSXAttribute(attribute) && types.isStringLiteral(attribute.value)) {
             attributes.splice(index, 1)
             attribute = null as any
           }
-  
+
           if (attribute) {
             if (types.isJSXAttribute(attribute) && types.isJSXExpressionContainer(attribute.value)) {
               const expression = attribute.value.expression
@@ -312,7 +312,7 @@ export function transformLinaria ({ sourcePath, sourceCode }: TransformLinariaOp
         }
       }
     })
-  
+
     // 根据 ast 生成新的结果
     const transformResult = transformFromAstSync(ast, result.code, {
       filename,
@@ -322,7 +322,7 @@ export function transformLinaria ({ sourcePath, sourceCode }: TransformLinariaOp
       sourceFileName: filename,
       inputSourceMap: result.sourceMap
     })
-  
+
     return transformResult
   }
 }

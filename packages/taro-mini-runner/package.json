@@ -10,7 +10,7 @@
     "mv:comp": "node ./mv-comp.js",
     "clean": "rimraf dist",
     "test": "cross-env NODE_ENV=jest jest",
-    "test:ci": "cross-env NODE_ENV=jest jest --ci -i",
+    "test:ci": "cross-env NODE_ENV=jest jest --ci -u=50% --maxConcurrency=10",
     "test:dev": "cross-env NODE_ENV=jest jest --watch",
     "test:coverage": "cross-env NODE_ENV=jest jest --coverage",
     "updateSnapshot": "cross-env NODE_ENV=jest jest --updateSnapshot"
@@ -55,7 +55,6 @@
     "css-loader": "5.2.7",
     "csso-webpack-plugin": "2.0.0-beta.1",
     "file-loader": "^6.0.0",
-    "fs-extra": "^8.0.1",
     "html-minifier": "^4.0.0",
     "jsdom": "^21.1.0",
     "less": "^4.1.0",
