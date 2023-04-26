@@ -1,3 +1,5 @@
+import { internalComponents } from '@tarojs/shared/dist/template'
+
 import TaroSingleEntryDependency from '../dependencies/TaroSingleEntryDependency'
 import { componentConfig } from '../utils/component'
 import TaroNormalModule from './TaroNormalModule'
@@ -8,6 +10,7 @@ import type { Compiler } from 'webpack'
 const walk = require('acorn-walk')
 
 const PLUGIN_NAME = 'TaroNormalModulesPlugin'
+const miniAppComponents = Object.keys(internalComponents).map((comp) => comp.toLowerCase())
 
 export default class TaroNormalModulesPlugin {
   onParseCreateElement: Func | undefined
@@ -76,7 +79,24 @@ export default class TaroNormalModulesPlugin {
               prop.properties
                 .filter(p => p.type === 'Property' && p.key.type === 'Identifier' && p.key.name !== 'children' && p.key.name !== 'id')
                 .forEach(p => attrs.add(p.key.name))
-            }
+            },
+            FunctionExpression (node) {
+              const name = node?.id?.name
+              if (name === 'render') {
+                const renderFn = node?.params[0]?.name
+                if (!renderFn) return
+                walk.simple(node.body, {
+                  CallExpression (node) {
+                    if (node.callee.name === renderFn) {
+                      const firstArg = node?.arguments?.[0]
+                      if (firstArg.type === 'Literal' && miniAppComponents.includes(firstArg.value)) {
+                        componentConfig.includes.add(firstArg.value)
+                      }
+                    }
+                  },
+                })
+              }
+            },
           })
         })
       })
