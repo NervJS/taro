@@ -29,8 +29,7 @@ ability.xml所需声明内容包括：
 详细配置规范请参考华为开发者网站：developer.huawei.com
 */
 
-import { chalk } from '@tarojs/helper'
-import * as fs from 'fs-extra'
+import { chalk, fs } from '@tarojs/helper'
 import * as _ from 'lodash/fp'
 import * as path from 'path'
 
