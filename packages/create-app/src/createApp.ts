@@ -20,6 +20,7 @@ export function init () {
     css: undefined,
     clone: undefined,
     template: undefined,
+    npm: undefined,
     typescript
   })
 

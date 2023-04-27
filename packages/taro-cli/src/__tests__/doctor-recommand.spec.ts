@@ -1,14 +1,19 @@
-import { chalk } from '@tarojs/helper'
-import * as fs from 'fs-extra'
+import { chalk, fs } from '@tarojs/helper'
 import * as path from 'path'
 
 import validator from '../doctor/recommandValidator'
 
-jest.mock('fs-extra', () => {
+jest.mock('@tarojs/helper', () => {
+  const helper = jest.requireActual('@tarojs/helper')
+  const fs = helper.fs
   return {
     __esModule: true,
-    readdirSync: jest.fn(),
-    existsSync: jest.fn()
+    ...helper,
+    fs: {
+      ...fs,
+      readdirSync: jest.fn(),
+      existsSync: jest.fn()
+    }
   }
 })
 

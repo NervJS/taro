@@ -1,5 +1,5 @@
+import { fs } from '@tarojs/helper'
 import { Kernel } from '@tarojs/service'
-import * as fs from 'fs-extra'
 import * as minimist from 'minimist'
 import * as path from 'path'
 
@@ -82,7 +82,7 @@ export default class CLI {
       if (commandPlugins.includes(targetPlugin)) {
         kernel.optsPlugins.push(path.resolve(commandsPath, targetPlugin))
       }
-      
+
       // 把内置命令插件传递给 kernel，可以暴露给其他插件使用
       kernel.cliCommandsPath = commandsPath
       kernel.cliCommands = commandPlugins
