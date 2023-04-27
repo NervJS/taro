@@ -55,7 +55,6 @@
     "css-loader": "5.2.7",
     "csso-webpack-plugin": "2.0.0-beta.1",
     "file-loader": "^6.0.0",
-    "fs-extra": "^8.0.1",
     "html-minifier": "^4.0.0",
     "jsdom": "^21.1.0",
     "less": "^4.1.0",

@@ -2,13 +2,13 @@ import {
   chalk,
   DEFAULT_TEMPLATE_SRC,
   DEFAULT_TEMPLATE_SRC_GITEE,
+  fs,
   getUserHomeDir,
   SOURCE_DIR,
   TARO_BASE_CONFIG,
   TARO_CONFIG_FOLDER
 } from '@tarojs/helper'
 import { isArray } from '@tarojs/shared'
-import * as fs from 'fs-extra'
 import * as inquirer from 'inquirer'
 import * as ora from 'ora'
 import * as path from 'path'

@@ -1,5 +1,5 @@
 import * as babel from '@babel/core'
-import * as fs from 'fs'
+import { fs } from '@tarojs/helper'
 
 jest.mock('@tarojs/helper', () => {
   const originalModule = jest.requireActual('@tarojs/helper')
