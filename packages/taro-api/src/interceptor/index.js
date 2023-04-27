@@ -25,3 +25,9 @@ export default class Link {
     this.chain = new Chain()
   }
 }
+
+export function interceptorify (promiseifyApi) {
+  return new Link(function (chain) {
+    return promiseifyApi(chain.requestParams)
+  })
+}

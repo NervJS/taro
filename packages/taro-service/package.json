@@ -36,7 +36,6 @@
     "@tarojs/helper": "workspace:*",
     "@tarojs/shared": "workspace:*",
     "@tarojs/taro": "workspace:*",
-    "fs-extra": "^8.1.0",
     "joi": "^17.6.0",
     "lodash": "^4.17.21",
     "resolve": "^1.22.0",

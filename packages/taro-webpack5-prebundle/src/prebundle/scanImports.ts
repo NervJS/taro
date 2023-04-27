@@ -1,10 +1,7 @@
-import esbuild, { Loader } from 'esbuild'
-import fs from 'fs'
+import { defaultEsbuildLoader, esbuild, externalEsbuildModule, fs } from '@tarojs/helper'
 import path from 'path'
-import Chain from 'webpack-chain'
 
 import {
-  externalModule,
   getDefines,
   getResolve,
   isExclude,
@@ -13,9 +10,7 @@ import {
 } from '../utils'
 import {
   assetsRE,
-  CollectedDeps,
   commentRE,
-  defaultEsbuildLoader,
   importsRE,
   langRE,
   moduleRE,
@@ -25,6 +20,9 @@ import {
   virtualModulePrefix,
   virtualModuleRE
 } from '../utils/constant'
+
+import type Chain from 'webpack-chain'
+import type { CollectedDeps } from '../utils/constant'
 
 interface ScanImportsConfig {
   appPath: string
@@ -105,13 +103,13 @@ deps: CollectedDeps = new Map()
 function getScanImportsPlugin (deps: CollectedDeps, includes: string[], excludes: string[]) {
   const resolve = getResolve()
   // for storing vue <script> contents
-  const scripts = new Map<string, { loader: Loader, contents: string }>()
+  const scripts = new Map<string, { loader: esbuild.Loader, contents: string }>()
 
   return {
     name: 'scanImports',
     setup (build) {
       // assets
-      build.onResolve(({ filter: assetsRE }), externalModule)
+      build.onResolve(({ filter: assetsRE }), externalEsbuildModule)
 
       // .vue
       build.onLoad({ filter: /\.vue$/, namespace: 'vue' }, ({ path }) => {
@@ -128,7 +126,7 @@ function getScanImportsPlugin (deps: CollectedDeps, includes: string[], excludes
           const langMatch = openTag.match(langRE)
           const lang = langMatch && (langMatch[1] || langMatch[2] || langMatch[3])
 
-          let loader: Loader = 'js'
+          let loader: esbuild.Loader = 'js'
           if (lang === 'ts' || lang === 'tsx' || lang === 'jsx') {
             loader = lang
           }
@@ -176,9 +174,9 @@ function getScanImportsPlugin (deps: CollectedDeps, includes: string[], excludes
 
       // bare imports
       build.onResolve({ filter: moduleRE }, async ({ path: id, importer }) => {
-        if (isExclude(id, excludes)) return externalModule({ path: id })
+        if (isExclude(id, excludes)) return externalEsbuildModule({ path: id })
 
-        if (deps.has(id)) return externalModule({ path: id })
+        if (deps.has(id)) return externalEsbuildModule({ path: id })
 
         try {
           const resolvedPath = await resolve(path.dirname(importer), id)
@@ -187,21 +185,21 @@ function getScanImportsPlugin (deps: CollectedDeps, includes: string[], excludes
             if (isOptimizeIncluded(resolvedPath)) {
               deps.set(id, resolvedPath)
             }
-            return externalModule({ path: id })
+            return externalEsbuildModule({ path: id })
           } else if (isScanIncluded(resolvedPath)) {
             return {
               path: resolvedPath,
               namespace: 'vue'
             }
           } else if (assetsRE.test(resolvedPath)) {
-            externalModule({ path: id })
+            externalEsbuildModule({ path: id })
           } else {
             return {
               path: resolvedPath
             }
           }
         } catch (e) {
-          return externalModule({ path: id })
+          return externalEsbuildModule({ path: id })
         }
       })
 

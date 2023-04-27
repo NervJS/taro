@@ -1,4 +1,4 @@
-import * as fs from 'fs-extra'
+import { fs } from '@tarojs/helper'
 
 import { detailMock, indexMock } from './fixtures/prerender/vmMock'
 

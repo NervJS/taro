@@ -2,7 +2,7 @@
  *
  * 微信端能力
  * original code from: https://github.com/wx-minapp/minapp-wx/blob/master/typing/wx.d.ts
- * Lincenced under MIT license: https://github.com/qiu8310/minapp/issues/69
+ * Licensed under MIT license: https://github.com/qiu8310/minapp/issues/69
  * thanks for the great work by @qiu8310 👍👍👍
  *
  */
@@ -110,3 +110,6 @@
 /// <reference path="api/alipay/index.d.ts" />
 /// <reference path="api/qq/index.d.ts" />
 /// <reference path="api/swan/index.d.ts" />
+
+/// <reference path="api/taro.extend.d.ts" />
+/// <reference path="api/taro.hooks.d.ts" />

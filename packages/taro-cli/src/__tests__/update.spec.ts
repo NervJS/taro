@@ -46,7 +46,7 @@ jest.mock('ora', () => {
 
 jest.mock('@tarojs/helper', () => {
   const helper = jest.requireActual('@tarojs/helper')
-  const fs = jest.requireActual('fs-extra')
+  const fs = helper.fs
   return {
     __esModule: true,
     ...helper,
