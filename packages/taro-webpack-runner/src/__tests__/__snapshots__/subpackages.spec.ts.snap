@@ -1258,6 +1258,11 @@ exports[`subpackages should process subpackages 2`] = `
         } ]);
         return Link;
     }();
+    function interceptorify(promiseifyApi) {
+        return new Link((function(chain) {
+            return promiseifyApi(chain.requestParams);
+        }));
+    }
     function timeoutInterceptor(chain) {
         var requestParams = chain.requestParams;
         var p;
@@ -1366,7 +1371,8 @@ exports[`subpackages should process subpackages 2`] = `
         "nextTick": _tarojs_runtime__WEBPACK_IMPORTED_MODULE_1__["nextTick"],
         "eventCenter": _tarojs_runtime__WEBPACK_IMPORTED_MODULE_1__["eventCenter"],
         "Events": _tarojs_runtime__WEBPACK_IMPORTED_MODULE_1__["Events"],
-        "getInitPxTransform": getInitPxTransform
+        "getInitPxTransform": getInitPxTransform,
+        "interceptorify": interceptorify
     };
     Taro.initPxTransform = getInitPxTransform(Taro);
     Taro.preload = getPreload(_tarojs_runtime__WEBPACK_IMPORTED_MODULE_1__["Current"]);
