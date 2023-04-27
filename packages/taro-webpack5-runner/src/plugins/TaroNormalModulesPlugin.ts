@@ -24,7 +24,7 @@ function isRenderNode (node, ancestors): boolean {
   })
 
   if (hasRenderMethod && node.callee.name === renderFn) {
-    const firstArg = node.arguments[0]
+    const firstArg = node.arguments[0] || {}
     if (firstArg.type === 'Literal' && miniAppComponents.includes(firstArg.value)) {
       componentConfig.includes.add(firstArg.value)
     }
