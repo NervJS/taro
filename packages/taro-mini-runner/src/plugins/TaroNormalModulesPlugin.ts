@@ -1,3 +1,4 @@
+import { internalComponents,toDashed } from '@tarojs/shared'
 import webpack from 'webpack'
 
 import TaroSingleEntryDependency from '../dependencies/TaroSingleEntryDependency'
@@ -9,6 +10,30 @@ import type { Func } from '@tarojs/taro/types/compile'
 const walk = require('acorn-walk')
 
 const PLUGIN_NAME = 'TaroNormalModulesPlugin'
+
+const miniAppComponents = Object.keys(internalComponents).map((comp) => toDashed(comp).toLowerCase())
+
+function isRenderNode (node, ancestors): boolean {
+  let renderFn
+  const hasRenderMethod = ancestors.some((ancestor) => {
+    if (ancestor.type === 'FunctionExpression' && ancestor?.id?.name === 'render') {
+      renderFn = ancestor.params[0]?.name
+      return true
+    } else {
+      return false
+    }
+  })
+
+  if (hasRenderMethod && node.callee.name === renderFn) {
+    const firstArg = node.arguments[0]
+    if (firstArg.type === 'Literal' && miniAppComponents.includes(firstArg.value)) {
+      componentConfig.includes.add(firstArg.value)
+    }
+    return true
+  } else {
+    return false
+  }
+}
 
 export default class TaroNormalModulesPlugin {
   onParseCreateElement: Func | undefined
@@ -29,8 +54,8 @@ export default class TaroNormalModulesPlugin {
       // react 的第三方组件支持
       normalModuleFactory.hooks.parser.for('javascript/auto').tap(PLUGIN_NAME, (parser) => {
         parser.hooks.program.tap(PLUGIN_NAME, (ast) => {
-          walk.simple(ast, {
-            CallExpression: node => {
+          walk.ancestor(ast, {
+            CallExpression: (node, ancestors) => {
               const callee = node.callee
               if (callee.type === 'MemberExpression') {
                 if (callee.property.name !== 'createElement') {
@@ -38,6 +63,9 @@ export default class TaroNormalModulesPlugin {
                 }
               } else {
                 const nameOfCallee = callee.name
+                if (isRenderNode(node, ancestors)) {
+                  return
+                }
                 if (
                   // 兼容 react17 new jsx transtrom
                   nameOfCallee !== '_jsx' && nameOfCallee !== '_jsxs' &&
