@@ -41,7 +41,7 @@ class MpaHistory implements History {
   }
 
   push (to: Partial<Path>, _state: Record<string, unknown> = {}): void {
-    window.location.pathname = this.parseUrl(to)
+    window.location.assign(this.parseUrl(to))
     // this.pushState(_state, '', this.parseUrl(to))
   }
 

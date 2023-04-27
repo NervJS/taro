@@ -1076,6 +1076,7 @@ exports[`sass should build app with sass 2`] = `
                 console.warn("[Taro modifyMpEvent hook Error]: " + (error === null || error === void 0 ? void 0 : error.message));
             }
         })),
+        "injectNewStyleProperties": TaroHook(HOOK_TYPE.SINGLE),
         "modifyTaroEvent": TaroHook(HOOK_TYPE.MULTI),
         "modifyDispatchEvent": TaroHook(HOOK_TYPE.MULTI),
         "initNativeApi": TaroHook(HOOK_TYPE.MULTI),
@@ -1169,6 +1170,11 @@ exports[`sass should build app with sass 2`] = `
         } ]);
         return Link;
     }();
+    function interceptorify(promiseifyApi) {
+        return new Link((function(chain) {
+            return promiseifyApi(chain.requestParams);
+        }));
+    }
     function timeoutInterceptor(chain) {
         var requestParams = chain.requestParams;
         var p;
@@ -1277,7 +1283,8 @@ exports[`sass should build app with sass 2`] = `
         "nextTick": _tarojs_runtime__WEBPACK_IMPORTED_MODULE_1__["nextTick"],
         "eventCenter": _tarojs_runtime__WEBPACK_IMPORTED_MODULE_1__["eventCenter"],
         "Events": _tarojs_runtime__WEBPACK_IMPORTED_MODULE_1__["Events"],
-        "getInitPxTransform": getInitPxTransform
+        "getInitPxTransform": getInitPxTransform,
+        "interceptorify": interceptorify
     };
     Taro.initPxTransform = getInitPxTransform(Taro);
     Taro.preload = getPreload(_tarojs_runtime__WEBPACK_IMPORTED_MODULE_1__["Current"]);
@@ -2562,6 +2569,7 @@ exports[`sass should build app with scss 2`] = `
                 console.warn("[Taro modifyMpEvent hook Error]: " + (error === null || error === void 0 ? void 0 : error.message));
             }
         })),
+        "injectNewStyleProperties": TaroHook(HOOK_TYPE.SINGLE),
         "modifyTaroEvent": TaroHook(HOOK_TYPE.MULTI),
         "modifyDispatchEvent": TaroHook(HOOK_TYPE.MULTI),
         "initNativeApi": TaroHook(HOOK_TYPE.MULTI),
@@ -2655,6 +2663,11 @@ exports[`sass should build app with scss 2`] = `
         } ]);
         return Link;
     }();
+    function interceptorify(promiseifyApi) {
+        return new Link((function(chain) {
+            return promiseifyApi(chain.requestParams);
+        }));
+    }
     function timeoutInterceptor(chain) {
         var requestParams = chain.requestParams;
         var p;
@@ -2763,7 +2776,8 @@ exports[`sass should build app with scss 2`] = `
         "nextTick": _tarojs_runtime__WEBPACK_IMPORTED_MODULE_1__["nextTick"],
         "eventCenter": _tarojs_runtime__WEBPACK_IMPORTED_MODULE_1__["eventCenter"],
         "Events": _tarojs_runtime__WEBPACK_IMPORTED_MODULE_1__["Events"],
-        "getInitPxTransform": getInitPxTransform
+        "getInitPxTransform": getInitPxTransform,
+        "interceptorify": interceptorify
     };
     Taro.initPxTransform = getInitPxTransform(Taro);
     Taro.preload = getPreload(_tarojs_runtime__WEBPACK_IMPORTED_MODULE_1__["Current"]);
@@ -4058,6 +4072,7 @@ exports[`sass should set global sass content with data 2`] = `
                 console.warn("[Taro modifyMpEvent hook Error]: " + (error === null || error === void 0 ? void 0 : error.message));
             }
         })),
+        "injectNewStyleProperties": TaroHook(HOOK_TYPE.SINGLE),
         "modifyTaroEvent": TaroHook(HOOK_TYPE.MULTI),
         "modifyDispatchEvent": TaroHook(HOOK_TYPE.MULTI),
         "initNativeApi": TaroHook(HOOK_TYPE.MULTI),
@@ -4151,6 +4166,11 @@ exports[`sass should set global sass content with data 2`] = `
         } ]);
         return Link;
     }();
+    function interceptorify(promiseifyApi) {
+        return new Link((function(chain) {
+            return promiseifyApi(chain.requestParams);
+        }));
+    }
     function timeoutInterceptor(chain) {
         var requestParams = chain.requestParams;
         var p;
@@ -4259,7 +4279,8 @@ exports[`sass should set global sass content with data 2`] = `
         "nextTick": _tarojs_runtime__WEBPACK_IMPORTED_MODULE_1__["nextTick"],
         "eventCenter": _tarojs_runtime__WEBPACK_IMPORTED_MODULE_1__["eventCenter"],
         "Events": _tarojs_runtime__WEBPACK_IMPORTED_MODULE_1__["Events"],
-        "getInitPxTransform": getInitPxTransform
+        "getInitPxTransform": getInitPxTransform,
+        "interceptorify": interceptorify
     };
     Taro.initPxTransform = getInitPxTransform(Taro);
     Taro.preload = getPreload(_tarojs_runtime__WEBPACK_IMPORTED_MODULE_1__["Current"]);
@@ -5554,6 +5575,7 @@ exports[`sass should set global sass content with source & dir 2`] = `
                 console.warn("[Taro modifyMpEvent hook Error]: " + (error === null || error === void 0 ? void 0 : error.message));
             }
         })),
+        "injectNewStyleProperties": TaroHook(HOOK_TYPE.SINGLE),
         "modifyTaroEvent": TaroHook(HOOK_TYPE.MULTI),
         "modifyDispatchEvent": TaroHook(HOOK_TYPE.MULTI),
         "initNativeApi": TaroHook(HOOK_TYPE.MULTI),
@@ -5647,6 +5669,11 @@ exports[`sass should set global sass content with source & dir 2`] = `
         } ]);
         return Link;
     }();
+    function interceptorify(promiseifyApi) {
+        return new Link((function(chain) {
+            return promiseifyApi(chain.requestParams);
+        }));
+    }
     function timeoutInterceptor(chain) {
         var requestParams = chain.requestParams;
         var p;
@@ -5755,7 +5782,8 @@ exports[`sass should set global sass content with source & dir 2`] = `
         "nextTick": _tarojs_runtime__WEBPACK_IMPORTED_MODULE_1__["nextTick"],
         "eventCenter": _tarojs_runtime__WEBPACK_IMPORTED_MODULE_1__["eventCenter"],
         "Events": _tarojs_runtime__WEBPACK_IMPORTED_MODULE_1__["Events"],
-        "getInitPxTransform": getInitPxTransform
+        "getInitPxTransform": getInitPxTransform,
+        "interceptorify": interceptorify
     };
     Taro.initPxTransform = getInitPxTransform(Taro);
     Taro.preload = getPreload(_tarojs_runtime__WEBPACK_IMPORTED_MODULE_1__["Current"]);
@@ -7050,6 +7078,7 @@ exports[`sass should set global sass content with source 2`] = `
                 console.warn("[Taro modifyMpEvent hook Error]: " + (error === null || error === void 0 ? void 0 : error.message));
             }
         })),
+        "injectNewStyleProperties": TaroHook(HOOK_TYPE.SINGLE),
         "modifyTaroEvent": TaroHook(HOOK_TYPE.MULTI),
         "modifyDispatchEvent": TaroHook(HOOK_TYPE.MULTI),
         "initNativeApi": TaroHook(HOOK_TYPE.MULTI),
@@ -7143,6 +7172,11 @@ exports[`sass should set global sass content with source 2`] = `
         } ]);
         return Link;
     }();
+    function interceptorify(promiseifyApi) {
+        return new Link((function(chain) {
+            return promiseifyApi(chain.requestParams);
+        }));
+    }
     function timeoutInterceptor(chain) {
         var requestParams = chain.requestParams;
         var p;
@@ -7251,7 +7285,8 @@ exports[`sass should set global sass content with source 2`] = `
         "nextTick": _tarojs_runtime__WEBPACK_IMPORTED_MODULE_1__["nextTick"],
         "eventCenter": _tarojs_runtime__WEBPACK_IMPORTED_MODULE_1__["eventCenter"],
         "Events": _tarojs_runtime__WEBPACK_IMPORTED_MODULE_1__["Events"],
-        "getInitPxTransform": getInitPxTransform
+        "getInitPxTransform": getInitPxTransform,
+        "interceptorify": interceptorify
     };
     Taro.initPxTransform = getInitPxTransform(Taro);
     Taro.preload = getPreload(_tarojs_runtime__WEBPACK_IMPORTED_MODULE_1__["Current"]);
