@@ -176,11 +176,11 @@ interface ScrollViewProps extends StandardProps {
   /** 滚动开始事件
    * @supported weapp
    */
-  onScrollStart?:BaseEventOrigFunction<ScrollViewProps.onScrollDetail>
+  onScrollStart?: BaseEventOrigFunction<ScrollViewProps.onScrollDetail>
   /** 滚动结束事件
    * @supported weapp
    */
-  onScrollEnd?:BaseEventOrigFunction<ScrollViewProps.onScrollDetail>
+  onScrollEnd?: BaseEventOrigFunction<ScrollViewProps.onScrollDetail>
   /** 自定义下拉刷新控件被下拉
    * @supported weapp
    */

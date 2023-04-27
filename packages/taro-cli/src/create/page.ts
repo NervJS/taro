@@ -1,5 +1,4 @@
-import { chalk, DEFAULT_TEMPLATE_SRC, getUserHomeDir, TARO_BASE_CONFIG, TARO_CONFIG_FOLDER } from '@tarojs/helper'
-import * as fs from 'fs-extra'
+import { chalk, DEFAULT_TEMPLATE_SRC, fs, getUserHomeDir, TARO_BASE_CONFIG, TARO_CONFIG_FOLDER } from '@tarojs/helper'
 import { isNil } from 'lodash'
 import * as path from 'path'
 

@@ -1,3 +1,3 @@
-const json = require('./app.config.json')
+const json = require('./app.config').default
 
 export default json

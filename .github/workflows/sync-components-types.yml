@@ -2,6 +2,9 @@ name: Sync Components types
 on:
   schedule:
     - cron: '0 0 * * 6'
+  push:
+    branches:
+      - dev-ci
 
 jobs:
   sync-components-types:
@@ -39,8 +42,7 @@ jobs:
 
       - name: execute sync script
         run: |
-          cd packages/taro-components
-          pnpm run sync:types
+          pnpm --filter=@tarojs/components run sync:types
 
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v4
