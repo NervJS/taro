@@ -381,9 +381,9 @@ function equipCommonApis (taro, global, apis: Record<string, any> = {}) {
   taro.cleanInterceptors = link.cleanInterceptors.bind(link)
   taro.miniGlobal = taro.options.miniGlobal = global
   taro.initAppInfo = (appInfo) => {
-    if (taro.getAppInfo) return
+    if (typeof taro.getAppInfo !== 'function') return
 
-    taro.getAppInfo = () => appInfo 
+    taro.getAppInfo = () => appInfo
   }
 }
 

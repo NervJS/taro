@@ -1185,6 +1185,11 @@ exports[`config should build from origin and pipe to output 2`] = `
         } ]);
         return Link;
     }();
+    function interceptorify(promiseifyApi) {
+        return new Link((function(chain) {
+            return promiseifyApi(chain.requestParams);
+        }));
+    }
     function timeoutInterceptor(chain) {
         var requestParams = chain.requestParams;
         var p;
@@ -1293,7 +1298,8 @@ exports[`config should build from origin and pipe to output 2`] = `
         "nextTick": _tarojs_runtime__WEBPACK_IMPORTED_MODULE_1__["nextTick"],
         "eventCenter": _tarojs_runtime__WEBPACK_IMPORTED_MODULE_1__["eventCenter"],
         "Events": _tarojs_runtime__WEBPACK_IMPORTED_MODULE_1__["Events"],
-        "getInitPxTransform": getInitPxTransform
+        "getInitPxTransform": getInitPxTransform,
+        "interceptorify": interceptorify
     };
     Taro.initPxTransform = getInitPxTransform(Taro);
     Taro.preload = getPreload(_tarojs_runtime__WEBPACK_IMPORTED_MODULE_1__["Current"]);
@@ -2686,6 +2692,11 @@ I m irrelevant.
         } ]);
         return Link;
     }();
+    function interceptorify(promiseifyApi) {
+        return new Link((function(chain) {
+            return promiseifyApi(chain.requestParams);
+        }));
+    }
     function timeoutInterceptor(chain) {
         var requestParams = chain.requestParams;
         var p;
@@ -2794,7 +2805,8 @@ I m irrelevant.
         "nextTick": _tarojs_runtime__WEBPACK_IMPORTED_MODULE_1__["nextTick"],
         "eventCenter": _tarojs_runtime__WEBPACK_IMPORTED_MODULE_1__["eventCenter"],
         "Events": _tarojs_runtime__WEBPACK_IMPORTED_MODULE_1__["Events"],
-        "getInitPxTransform": getInitPxTransform
+        "getInitPxTransform": getInitPxTransform,
+        "interceptorify": interceptorify
     };
     Taro.initPxTransform = getInitPxTransform(Taro);
     Taro.preload = getPreload(_tarojs_runtime__WEBPACK_IMPORTED_MODULE_1__["Current"]);
@@ -4187,6 +4199,11 @@ exports[`config should resolved alias 2`] = `
         } ]);
         return Link;
     }();
+    function interceptorify(promiseifyApi) {
+        return new Link((function(chain) {
+            return promiseifyApi(chain.requestParams);
+        }));
+    }
     function timeoutInterceptor(chain) {
         var requestParams = chain.requestParams;
         var p;
@@ -4295,7 +4312,8 @@ exports[`config should resolved alias 2`] = `
         "nextTick": _tarojs_runtime__WEBPACK_IMPORTED_MODULE_1__["nextTick"],
         "eventCenter": _tarojs_runtime__WEBPACK_IMPORTED_MODULE_1__["eventCenter"],
         "Events": _tarojs_runtime__WEBPACK_IMPORTED_MODULE_1__["Events"],
-        "getInitPxTransform": getInitPxTransform
+        "getInitPxTransform": getInitPxTransform,
+        "interceptorify": interceptorify
     };
     Taro.initPxTransform = getInitPxTransform(Taro);
     Taro.preload = getPreload(_tarojs_runtime__WEBPACK_IMPORTED_MODULE_1__["Current"]);
