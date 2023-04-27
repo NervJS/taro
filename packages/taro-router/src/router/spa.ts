@@ -28,6 +28,9 @@ export function createRouter (
   config: SpaRouterConfig,
   framework?: string
 ) {
+  if (typeof app.onUnhandledRejection === 'function') {
+    window.addEventListener('unhandledrejection', app.onUnhandledRejection)
+  }
   RouterConfig.config = config
   const handler = new PageHandler(config)
 

@@ -29,6 +29,9 @@ export async function createMultiRouter (
   config: MpaRouterConfig,
   framework?: string
 ) {
+  if (typeof app.onUnhandledRejection === 'function') {
+    window.addEventListener('unhandledrejection', app.onUnhandledRejection)
+  }
   RouterConfig.config = config
   const handler = new MultiPageHandler(config)
   const launchParam: Taro.getLaunchOptionsSync.LaunchOptions = {
