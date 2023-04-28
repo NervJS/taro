@@ -1419,6 +1419,8 @@ importers:
       esbuild: ^0.14.27
       lodash: ^4.17.21
       preact: ^10.10.0
+      react: ^18.2.0
+      react-dom: ^18.2.0
       react-refresh: ^0.11.0
       rollup: ^3.8.1
       rollup-plugin-node-externals: ^5.0.0
@@ -1440,6 +1442,8 @@ importers:
       '@prefresh/webpack': registry.npmjs.org/@prefresh/webpack/3.3.4_jmcgudhvcqnurzt2u7zsxsr2pq
       esbuild: registry.npmjs.org/esbuild/0.14.54
       preact: registry.npmjs.org/preact/10.13.2
+      react: registry.npmjs.org/react/18.2.0
+      react-dom: registry.npmjs.org/react-dom/18.2.0_react@18.2.0
       react-refresh: registry.npmjs.org/react-refresh/0.11.0
       rollup: registry.npmjs.org/rollup/3.20.2
       rollup-plugin-node-externals: registry.npmjs.org/rollup-plugin-node-externals/5.1.2_rollup@3.20.2
