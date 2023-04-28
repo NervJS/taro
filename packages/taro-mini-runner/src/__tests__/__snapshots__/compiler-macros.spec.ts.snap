@@ -529,7 +529,7 @@ require("./taro");
         });
         undefined({
             platform: "MiniProgram",
-            taroVersion: "3.6.5",
+            taroVersion: "3.6.6",
             designWidth: 750
         });
     }
