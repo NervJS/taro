@@ -1073,6 +1073,7 @@ exports[`sass should build app with sass 2`] = `
                 console.warn("[Taro modifyMpEvent hook Error]: " + (error === null || error === void 0 ? void 0 : error.message));
             }
         })),
+        "injectNewStyleProperties": TaroHook(HOOK_TYPE.SINGLE),
         "modifyTaroEvent": TaroHook(HOOK_TYPE.MULTI),
         "modifyDispatchEvent": TaroHook(HOOK_TYPE.MULTI),
         "initNativeApi": TaroHook(HOOK_TYPE.MULTI),
@@ -1195,10 +1196,10 @@ exports[`sass should build app with sass 2`] = `
     function logInterceptor(chain) {
         var requestParams = chain.requestParams;
         var method = requestParams.method, data = requestParams.data, url = requestParams.url;
-        if (false) {}
+        console.log("http ".concat(method || "GET", " --\\x3e ").concat(url, " data: "), data);
         var p = chain.proceed(requestParams);
         var res = p.then((function(res) {
-            if (false) {}
+            console.log("http <-- ".concat(url, " result:"), res);
             return res;
         }));
         if (isFunction$1(p.abort)) res.abort = p.abort;
@@ -2562,6 +2563,7 @@ exports[`sass should build app with scss 2`] = `
                 console.warn("[Taro modifyMpEvent hook Error]: " + (error === null || error === void 0 ? void 0 : error.message));
             }
         })),
+        "injectNewStyleProperties": TaroHook(HOOK_TYPE.SINGLE),
         "modifyTaroEvent": TaroHook(HOOK_TYPE.MULTI),
         "modifyDispatchEvent": TaroHook(HOOK_TYPE.MULTI),
         "initNativeApi": TaroHook(HOOK_TYPE.MULTI),
@@ -2684,10 +2686,10 @@ exports[`sass should build app with scss 2`] = `
     function logInterceptor(chain) {
         var requestParams = chain.requestParams;
         var method = requestParams.method, data = requestParams.data, url = requestParams.url;
-        if (false) {}
+        console.log("http ".concat(method || "GET", " --\\x3e ").concat(url, " data: "), data);
         var p = chain.proceed(requestParams);
         var res = p.then((function(res) {
-            if (false) {}
+            console.log("http <-- ".concat(url, " result:"), res);
             return res;
         }));
         if (isFunction$1(p.abort)) res.abort = p.abort;
@@ -4061,6 +4063,7 @@ exports[`sass should set global sass content with data 2`] = `
                 console.warn("[Taro modifyMpEvent hook Error]: " + (error === null || error === void 0 ? void 0 : error.message));
             }
         })),
+        "injectNewStyleProperties": TaroHook(HOOK_TYPE.SINGLE),
         "modifyTaroEvent": TaroHook(HOOK_TYPE.MULTI),
         "modifyDispatchEvent": TaroHook(HOOK_TYPE.MULTI),
         "initNativeApi": TaroHook(HOOK_TYPE.MULTI),
@@ -4183,10 +4186,10 @@ exports[`sass should set global sass content with data 2`] = `
     function logInterceptor(chain) {
         var requestParams = chain.requestParams;
         var method = requestParams.method, data = requestParams.data, url = requestParams.url;
-        if (false) {}
+        console.log("http ".concat(method || "GET", " --\\x3e ").concat(url, " data: "), data);
         var p = chain.proceed(requestParams);
         var res = p.then((function(res) {
-            if (false) {}
+            console.log("http <-- ".concat(url, " result:"), res);
             return res;
         }));
         if (isFunction$1(p.abort)) res.abort = p.abort;
@@ -5560,6 +5563,7 @@ exports[`sass should set global sass content with source & dir 2`] = `
                 console.warn("[Taro modifyMpEvent hook Error]: " + (error === null || error === void 0 ? void 0 : error.message));
             }
         })),
+        "injectNewStyleProperties": TaroHook(HOOK_TYPE.SINGLE),
         "modifyTaroEvent": TaroHook(HOOK_TYPE.MULTI),
         "modifyDispatchEvent": TaroHook(HOOK_TYPE.MULTI),
         "initNativeApi": TaroHook(HOOK_TYPE.MULTI),
@@ -5682,10 +5686,10 @@ exports[`sass should set global sass content with source & dir 2`] = `
     function logInterceptor(chain) {
         var requestParams = chain.requestParams;
         var method = requestParams.method, data = requestParams.data, url = requestParams.url;
-        if (false) {}
+        console.log("http ".concat(method || "GET", " --\\x3e ").concat(url, " data: "), data);
         var p = chain.proceed(requestParams);
         var res = p.then((function(res) {
-            if (false) {}
+            console.log("http <-- ".concat(url, " result:"), res);
             return res;
         }));
         if (isFunction$1(p.abort)) res.abort = p.abort;
@@ -7059,6 +7063,7 @@ exports[`sass should set global sass content with source 2`] = `
                 console.warn("[Taro modifyMpEvent hook Error]: " + (error === null || error === void 0 ? void 0 : error.message));
             }
         })),
+        "injectNewStyleProperties": TaroHook(HOOK_TYPE.SINGLE),
         "modifyTaroEvent": TaroHook(HOOK_TYPE.MULTI),
         "modifyDispatchEvent": TaroHook(HOOK_TYPE.MULTI),
         "initNativeApi": TaroHook(HOOK_TYPE.MULTI),
@@ -7181,10 +7186,10 @@ exports[`sass should set global sass content with source 2`] = `
     function logInterceptor(chain) {
         var requestParams = chain.requestParams;
         var method = requestParams.method, data = requestParams.data, url = requestParams.url;
-        if (false) {}
+        console.log("http ".concat(method || "GET", " --\\x3e ").concat(url, " data: "), data);
         var p = chain.proceed(requestParams);
         var res = p.then((function(res) {
-            if (false) {}
+            console.log("http <-- ".concat(url, " result:"), res);
             return res;
         }));
         if (isFunction$1(p.abort)) res.abort = p.abort;
