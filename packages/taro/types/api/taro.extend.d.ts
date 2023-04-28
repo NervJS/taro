@@ -138,6 +138,11 @@ declare module '../index' {
      */
     getTabBar<T>(page: getCurrentInstance.Current['page']): T | undefined
 
+    /** 获取当前页面渲染引擎类型
+     * @supported weapp
+     */
+    getRenderer(): 'webview' | 'skyline'
+
     /**
      * 包裹 promiseify api 的洋葱圈模型
      * @supported global
