@@ -8,7 +8,7 @@ declare module '../index' {
     interface AppInfo {
       platform: string
       taroVersion: string
-      designWidth: number
+      designWidth: number | ((size?: string | number) => number)
     }
   }
 
@@ -47,6 +47,20 @@ declare module '../index' {
     [TaroGeneral.ENV_TYPE.JD]: TaroGeneral.ENV_TYPE.JD
   }
 
+  namespace interceptorify {
+    type promiseifyApi<T, R> = (requestParams: T) => Promise<R>
+    interface InterceptorifyChain<T, R> {
+      requestParams: T
+      proceed: promiseifyApi<T, R>
+    }
+    type InterceptorifyInterceptor<T, R> = (chain: InterceptorifyChain<T, R>) => Promise<R>
+    interface Interceptorify<T, R> {
+      request(requestParams: T): Promise<R>
+      addInterceptor( interceptor: InterceptorifyInterceptor<T, R>): void
+      cleanInterceptors(): void
+    }
+  }
+
   interface TaroStatic {
     /** @ignore */
     Events: {
@@ -77,7 +91,7 @@ declare module '../index' {
     initPxTransform(config: {
       baseFontSize?: number
       deviceRatio?: TaroGeneral.TDeviceRatio
-      designWidth?: number
+      designWidth?: number | ((size?: string | number) => number)
       targetUnit?: string
       unitPrecision?: number
     }): void
@@ -86,7 +100,7 @@ declare module '../index' {
     initAppInfo(appInfo: getAppInfo.AppInfo): void
 
     /** 小程序获取和 Taro 相关的 App 信息
-     * @supported weapp, alipay, jd, qq, swan, tt
+     * @supported weapp, alipay, jd, qq, swan, tt, h5
      */
     getAppInfo(): getAppInfo.AppInfo
 
@@ -122,11 +136,68 @@ declare module '../index' {
      * @supported weapp
      * @param page 小程序页面对象，可以通过 Taro.getCurrentInstance().page 获取
      */
-    getTabBar<T>(page: Current['page']): T | undefined
+    getTabBar<T>(page: getCurrentInstance.Current['page']): T | undefined
 
     /** 获取当前页面渲染引擎类型
      * @supported weapp
      */
     getRenderer(): 'webview' | 'skyline'
+
+    /**
+     * 包裹 promiseify api 的洋葱圈模型
+     * @supported global
+     * @param promiseifyApi
+     * @example
+     * ```tsx
+     * // 创建实例
+     * const modalInterceptorify = interceptorify(taro.showModal)
+     * // 添加拦截器
+     * modalInterceptorify.addInterceptor(async function (chain) {
+     *   const res = await chain.proceed({
+     *     ...chain.requestParams,
+     *     title: 'interceptor1'
+     *   })
+     *   return res
+     * })
+     * modalInterceptorify.addInterceptor(async function (chain) {
+     *   const res = await chain.proceed({
+     *     ...chain.requestParams,
+     *     content: 'interceptor2'
+     *   })
+     *   return res
+     * })
+     * // 使用
+     * modalInterceptorify.request({})
+     * ```
+     * @example
+     * ```tsx
+     * // 创建实例
+     * const fetchDataInterceptorify = interceptorify(taro.request)
+     * // 添加拦截器
+     * fetchDataInterceptorify.addInterceptor(async function (chain) {
+     *   taro.showLoading({
+     *     title: 'Loading...'
+     *   })
+     *   const res = await chain.proceed(chain.requestParams)
+     *   taro.hideLoading()
+     *   return res
+     * })
+     * fetchDataInterceptorify.addInterceptor(async function (chain) {
+     *   const params = chain.requestParams
+     *   const res = await chain.proceed({
+     *     url: 'http://httpbin.org' + params.url,
+     *   })
+     *   return res.data
+     * })
+     * // 使用
+     * fetchDataInterceptorify.request({
+     *   url: '/ip'
+     * }).then((res) => {
+     *   // log my ip
+     *   console.log(res.origin)
+     * })
+     * ```
+     */
+    interceptorify<T, R>(promiseifyApi: interceptorify.promiseifyApi<T, R>): interceptorify.Interceptorify<T, R>
   }
 }

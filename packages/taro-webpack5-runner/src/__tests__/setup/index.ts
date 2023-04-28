@@ -1,5 +1,5 @@
 import * as babel from '@babel/core'
-import * as fs from 'fs'
+import { fs } from '@tarojs/helper'
 import { createFsFromVolume, IFs, Volume } from 'memfs'
 import * as joinPath from 'memory-fs/lib/join'
 

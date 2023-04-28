@@ -1,5 +1,6 @@
 import {
   FRAMEWORK_MAP,
+  fs,
   isAliasPath,
   isEmptyObject,
   META_TYPE,
@@ -13,7 +14,6 @@ import {
   resolveMainFilePath,
   SCRIPT_EXT
 } from '@tarojs/helper'
-import * as fs from 'fs-extra'
 import { minify } from 'html-minifier'
 import { urlToRequest } from 'loader-utils'
 import * as MiniCssExtractPlugin from 'mini-css-extract-plugin'
@@ -30,7 +30,7 @@ import * as JsonpTemplatePlugin from 'webpack/lib/web/JsonpTemplatePlugin'
 import { ConcatSource } from 'webpack-sources'
 
 import TaroSingleEntryDependency from '../dependencies/TaroSingleEntryDependency'
-import { PrerenderConfig, validatePrerenderPages } from '../prerender/prerender'
+import { validatePrerenderPages } from '../prerender/prerender'
 import { componentConfig } from '../template/component'
 import TaroLoadChunksPlugin from './TaroLoadChunksPlugin'
 import TaroNormalModulesPlugin from './TaroNormalModulesPlugin'
@@ -39,6 +39,7 @@ import TaroSingleEntryPlugin from './TaroSingleEntryPlugin'
 import type { RecursiveTemplate, UnRecursiveTemplate } from '@tarojs/shared/dist/template'
 import type { AppConfig, Config } from '@tarojs/taro'
 import type { Func } from '@tarojs/taro/types/compile'
+import type { PrerenderConfig } from '../prerender/prerender'
 import type { AddPageChunks, IComponent, IFileType } from '../utils/types'
 
 const PLUGIN_NAME = 'TaroMiniPlugin'
@@ -873,7 +874,8 @@ export default class TaroMiniPlugin {
         item['selectedIconPath'] && this.tabBarIcons.add(item['selectedIconPath'])
       })
       if (tabBar.custom) {
-        const customTabBarPath = path.join(sourceDir, 'custom-tab-bar')
+        const isAlipay = process.env.TARO_ENV === 'alipay'
+        const customTabBarPath = path.join(sourceDir, isAlipay ? 'customize-tab-bar' : 'custom-tab-bar')
         const customTabBarComponentPath = resolveMainFilePath(customTabBarPath, [...frameworkExts, ...SCRIPT_EXT])
         if (fs.existsSync(customTabBarComponentPath)) {
           const customTabBarComponentTemplPath = this.getTemplatePath(customTabBarComponentPath)
@@ -882,7 +884,7 @@ export default class TaroMiniPlugin {
             printLog(processTypeEnum.COMPILE, '自定义 tabBar', this.getShowPath(customTabBarComponentPath))
           }
           const componentObj: IComponent = {
-            name: 'custom-tab-bar/index',
+            name: isAlipay ? 'customize-tab-bar/index' : 'custom-tab-bar/index',
             path: customTabBarComponentPath,
             isNative,
             stylePath: isNative ? this.getStylePath(customTabBarComponentPath) : undefined,

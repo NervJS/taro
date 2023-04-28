@@ -1,5 +1,4 @@
-import { chalk } from '@tarojs/helper'
-import * as fs from 'fs-extra'
+import { chalk, fs } from '@tarojs/helper'
 import * as _ from 'lodash/fp'
 import * as path from 'path'
 
