@@ -43,7 +43,8 @@ describe('recommand validator of doctor', () => {
     validator({ appPath: 'src/' })
 
     expect(exitSpy).toBeCalledWith(1)
-    expect(logSpy).toBeCalledWith(chalk.red('找不到src/package.json，请确定当前目录是Taro项目根目录!'))
+    const PACKAGE_JSON_PATH = path.join('src', 'package.json')
+    expect(logSpy).toBeCalledWith(chalk.red(`找不到${PACKAGE_JSON_PATH}，请确定当前目录是Taro项目根目录!`))
 
     exitSpy.mockRestore()
     logSpy.mockRestore()
