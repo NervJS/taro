@@ -194,6 +194,8 @@ export default class WeappCI extends BaseCI {
         },
         error
       })
+
+      throw error
     }
   }
 }
