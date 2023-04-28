@@ -19,9 +19,6 @@ exports[`config should build from origin and pipe to output 2`] = `
         var createSuper = __webpack_require__(10);
         var react = __webpack_require__(0);
         var taro_components = "taro-components-mock";
-        function defineCustomElements() {}
-        function applyPolyfills() {}
-        function initVue3Components() {}
         var index = __webpack_require__(32);
         var index_Index = function(_Component) {
             Object(inherits["a"])(Index, _Component);
@@ -1522,9 +1519,6 @@ exports[`config should copy assets 2`] = `
         var createSuper = __webpack_require__(10);
         var react = __webpack_require__(0);
         var taro_components = "taro-components-mock";
-        function defineCustomElements() {}
-        function applyPolyfills() {}
-        function initVue3Components() {}
         var index = __webpack_require__(32);
         var index_Index = function(_Component) {
             Object(inherits["a"])(Index, _Component);
@@ -3033,9 +3027,6 @@ exports[`config should resolved alias 2`] = `
         var createSuper = __webpack_require__(10);
         var react = __webpack_require__(0);
         var taro_components = "taro-components-mock";
-        function defineCustomElements() {}
-        function applyPolyfills() {}
-        function initVue3Components() {}
         var index = __webpack_require__(34);
         var index_Index = function(_Component) {
             Object(inherits["a"])(Index, _Component);

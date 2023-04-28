@@ -9,9 +9,6 @@ exports[`subpackages should process subpackages 2`] = `
     "32": function(module, __webpack_exports__, __webpack_require__) {
         "use strict";
         var _unused_webpack_default_export = "taro-components-mock";
-        function defineCustomElements() {}
-        function applyPolyfills() {}
-        function initVue3Components() {}
     },
     "34": function(module, exports, __webpack_require__) {},
     "36": function(module, __webpack_exports__, __webpack_require__) {
@@ -65,9 +62,6 @@ exports[`subpackages should process subpackages 2`] = `
     "32": function(module, __webpack_exports__, __webpack_require__) {
         "use strict";
         var _unused_webpack_default_export = "taro-components-mock";
-        function defineCustomElements() {}
-        function applyPolyfills() {}
-        function initVue3Components() {}
     },
     "33": function(module, exports, __webpack_require__) {},
     "35": function(module, __webpack_exports__, __webpack_require__) {
