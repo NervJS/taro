@@ -7,7 +7,7 @@
     "build": "tsc",
     "dev": "tsc -w",
     "test": "cross-env NODE_ENV=jest jest",
-    "test:ci": "cross-env NODE_ENV=jest jest --ci -u=50% --maxConcurrency=10",
+    "test:ci": "cross-env NODE_ENV=jest jest --ci -w=50% --maxConcurrency=10",
     "test:dev": "cross-env NODE_ENV=jest jest --watch",
     "test:coverage": "cross-env NODE_ENV=jest jest --coverage",
     "updateSnapshot": "cross-env NODE_ENV=jest jest --updateSnapshot"

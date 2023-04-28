@@ -38,7 +38,7 @@
 | `name`        | `name`        |             | `string`  | `undefined` |
 | `nativeProps` | --            |             | `{}`      | `{}`        |
 | `placeholder` | `placeholder` |             | `string`  | `undefined` |
-| `value`       | `value`       |             | `string`  | `undefined` |
+| `value`       | `value`       |             | `string`  | `''`        |
 
 
 ## Events
@@ -47,8 +47,10 @@
 | ------------ | ----------- | ------------------ |
 | `blur`       |             | `CustomEvent<any>` |
 | `change`     |             | `CustomEvent<any>` |
+| `confirm`    |             | `CustomEvent<any>` |
 | `focus`      |             | `CustomEvent<any>` |
 | `input`      |             | `CustomEvent<any>` |
+| `keydown`    |             | `CustomEvent<any>` |
 | `linechange` |             | `CustomEvent<any>` |
 
 

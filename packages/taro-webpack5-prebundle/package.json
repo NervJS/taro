@@ -9,7 +9,7 @@
     "prod": "tsc",
     "clean": "rimraf dist",
     "test": "cross-env NODE_ENV=jest jest",
-    "test:ci": "cross-env NODE_ENV=jest jest --ci -u=50% --maxConcurrency=10 --passWithNoTests",
+    "test:ci": "cross-env NODE_ENV=jest jest --ci -w=50% --maxConcurrency=10 --passWithNoTests",
     "test:coverage": "cross-env NODE_ENV=jest jest --coverage"
   },
   "repository": {
