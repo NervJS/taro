@@ -9,6 +9,7 @@ const base = {
     externals({
       deps: true,
       devDeps: false,
+      include: ['react', 'react-dom']
     }),
     ts(),
   ]

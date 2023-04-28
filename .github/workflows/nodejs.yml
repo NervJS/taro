@@ -48,10 +48,10 @@ jobs:
             - recursive: true
               args: [--frozen-lockfile]
       - name: lint
-        run: pnpm run lint
+        run: pnpm lint
       - name: build
-        run: pnpm run build
+        run: pnpm build
       - name: test
-        run: pnpm run test
+        run: pnpm test
         env:
           CI: true
