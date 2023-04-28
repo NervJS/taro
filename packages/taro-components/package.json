@@ -35,9 +35,9 @@
     "generate:lib": "mkdir -p lib",
     "generate:stencil-config": "esbuild ./scripts/stencil/stencil.config.ts --bundle --platform=node --outfile=stencil.config.js",
     "test": "cross-env NODE_ENV=test stencil test --spec --e2e",
-    "test:ci": "pnpm run test --ci --no-build",
-    "test:coverage": "pnpm run test --ci --screenshot --coverage",
-    "test:watch": "pnpm run test --screenshot --watch",
+    "test:ci": "pnpm test -- --ci --no-build",
+    "test:coverage": "pnpm test -- --ci --screenshot --coverage",
+    "test:watch": "pnpm test -- --screenshot --watch",
     "sync:types": "ts-node scripts/json-schema-to-types.ts"
   },
   "repository": {

@@ -1,5 +1,6 @@
 import { Component, h, ComponentInterface, Prop, Event, EventEmitter, Element, Watch, Method } from '@stencil/core'
-import { EventHandler, TaroEvent } from '../../../types'
+
+import type { EventHandler, TaroEvent } from '../../../types'
 
 function getTrueType (type: string | undefined, confirmType: string, password: boolean) {
   if (confirmType === 'search') type = 'search'
@@ -30,7 +31,7 @@ export class Input implements ComponentInterface {
   private onInputExcuted = false
   private fileListener: EventHandler
 
-  @Prop({ mutable: true }) value: string
+  @Prop({ mutable: true }) value: string = ''
   @Prop() type: string
   @Prop() password = false
   @Prop() placeholder: string
@@ -103,12 +104,6 @@ export class Input implements ComponentInterface {
       this.inputRef?.addEventListener('beforeinput', this.handleBeforeinput)
       this.inputRef?.addEventListener('textInput', this.handleBeforeinput)
     }
-
-    Object.defineProperty(this.el, 'value', {
-      get: () => this.inputRef.value,
-      set: value => this.value !== value && (this.value = value),
-      configurable: true
-    })
   }
 
   disconnectedCallback () {

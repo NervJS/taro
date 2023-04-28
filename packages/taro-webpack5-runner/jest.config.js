@@ -1,6 +1,7 @@
 module.exports = {
   moduleFileExtensions: ['js', 'jsx', 'ts', 'tsx', 'json', 'node'],
   moduleNameMapper: {
+    '^globby$': '<rootDir>/src/__tests__/bundled/globby/index.js',
     '@pmmmwh/react-refresh-webpack-plugin': '<rootDir>/src/__tests__/mocks/react-refresh',
     '@prefresh/webpack': '<rootDir>/src/__tests__/mocks/react-refresh'
   },
@@ -19,7 +20,6 @@ module.exports = {
       tsconfig: 'tsconfig.test.json'
     }],
   },
-  transformIgnorePatterns: [
-    'node_modules',
-  ],
+  transformIgnorePatterns: ['^(?=.*node_modules)(?!.*copy-webpack-plugin).*'],
+  globalSetup: '<rootDir>/globalSetup.js',
 }

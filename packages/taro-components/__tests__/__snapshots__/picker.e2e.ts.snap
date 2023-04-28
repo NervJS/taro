@@ -6632,7 +6632,7 @@ exports[`Picker date fields month 1`] = `
 CDPPage {
   "_e2eClose": [Function],
   "_e2eElements": Array [
-    <taro-picker-core class="hydrated" fields="month" mode="date" value="2016-09-01">
+    <taro-picker-core class="hydrated" fields="month" mode="date" value="2016-09">
   <!---->
   <div>
     <div>
@@ -9847,7 +9847,7 @@ exports[`Picker date fields month 2`] = `
 CDPPage {
   "_e2eClose": [Function],
   "_e2eElements": Array [
-    <taro-picker-core class="hydrated" fields="month" mode="date" value="2016-09-01">
+    <taro-picker-core class="hydrated" fields="month" mode="date" value="2016-09">
   <!---->
   <div>
     <div>
@@ -13062,7 +13062,7 @@ exports[`Picker date fields year 1`] = `
 CDPPage {
   "_e2eClose": [Function],
   "_e2eElements": Array [
-    <taro-picker-core class="hydrated" fields="year" mode="date" value="2016-09-01">
+    <taro-picker-core class="hydrated" fields="year" mode="date" value="2016">
   <!---->
   <div>
     <div>
@@ -16235,7 +16235,7 @@ exports[`Picker date fields year 2`] = `
 CDPPage {
   "_e2eClose": [Function],
   "_e2eElements": Array [
-    <taro-picker-core class="hydrated" fields="year" mode="date" value="2016-09-01">
+    <taro-picker-core class="hydrated" fields="year" mode="date" value="2016">
   <!---->
   <div>
     <div>
