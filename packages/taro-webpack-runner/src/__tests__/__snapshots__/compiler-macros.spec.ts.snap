@@ -1079,6 +1079,7 @@ exports[`compiler-macros - defineAppConfig and definePageConfig should read app 
                 console.warn("[Taro modifyMpEvent hook Error]: " + (error === null || error === void 0 ? void 0 : error.message));
             }
         })),
+        "injectNewStyleProperties": TaroHook(HOOK_TYPE.SINGLE),
         "modifyTaroEvent": TaroHook(HOOK_TYPE.MULTI),
         "modifyDispatchEvent": TaroHook(HOOK_TYPE.MULTI),
         "initNativeApi": TaroHook(HOOK_TYPE.MULTI),

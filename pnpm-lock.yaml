@@ -289,6 +289,7 @@ importers:
       '@babel/preset-typescript': ^7.14.5
       '@babel/runtime': ^7.14.5
       '@babel/runtime-corejs3': ^7.14.5
+      '@prefresh/babel-plugin': ^0.4.1
       '@tarojs/helper': workspace:*
       '@tarojs/shared': workspace:*
       '@vue/babel-plugin-jsx': ^1.0.6
@@ -332,6 +333,7 @@ importers:
       react-refresh: registry.npmjs.org/react-refresh/0.11.0
     devDependencies:
       '@babel/core': registry.npmjs.org/@babel/core/7.21.4
+      '@prefresh/babel-plugin': registry.npmjs.org/@prefresh/babel-plugin/0.4.4
       '@vue/babel-plugin-jsx': registry.npmjs.org/@vue/babel-plugin-jsx/1.1.1_@babel+core@7.21.4
       '@vue/babel-preset-jsx': registry.npmjs.org/@vue/babel-preset-jsx/1.4.0_@babel+core@7.21.4
       jest: registry.npmjs.org/jest/29.5.0

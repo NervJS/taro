@@ -1,4 +1,4 @@
-import { isArray, isString } from '@tarojs/shared'
+import { isArray, isObject, isString } from '@tarojs/shared'
 import path from 'path'
 
 import { name as packageName } from '../package.json'
@@ -35,6 +35,22 @@ export default (ctx: IPluginContext, options: IOptions) => {
 
         return args
       })
+
+      if (ctx.initialConfig.compiler === 'webpack4' || (isObject<boolean>(ctx.initialConfig.compiler) && ctx.initialConfig.compiler.type === 'webpack4')) {
+        // taro webpack4 中, 未正确识别到 axios package.json 中的 browser 字段, 以致于打包进入了 node 相关的代码（https://github.com/axios/axios/blob/59eb99183546d822bc27e881f5dcd748daa04173/package.json#L128-L132）
+        const inAxiosReg = /(\/|\\)(node_modules)(\/|\\)(axios)(\/|\\)/
+        chain.merge({
+          externals: [
+            (context, request, callback) => {
+              if (inAxiosReg.test(context) && request.includes('http.js')) {
+                // 将 http 适配器从源码里干掉 https://github.com/axios/axios/blob/59eb99183546d822bc27e881f5dcd748daa04173/lib/adapters/adapters.js#L2
+                return callback(null, 'var undefined')
+              }
+              callback()
+            }
+          ]
+        })
+      }
     }
   })
 
