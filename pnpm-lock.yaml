@@ -96,6 +96,7 @@ importers:
       jest-cli: ^27.4.5
       jest-environment-node: ^27.4.4
       lint-staged: ^13.0.2
+      mkdirp: ^3.0.1
       nervjs: ^1.4.6
       npm-run-all: ^4.1.2
       postcss: ^8.4.18
@@ -213,6 +214,7 @@ importers:
       jest-cli: registry.npmjs.org/jest-cli/27.5.1
       jest-environment-node: registry.npmjs.org/jest-environment-node/27.5.1
       lint-staged: registry.npmjs.org/lint-staged/13.2.2
+      mkdirp: registry.npmjs.org/mkdirp/3.0.1
       nervjs: registry.npmjs.org/nervjs/1.5.7
       npm-run-all: registry.npmjs.org/npm-run-all/4.1.5
       postcss: registry.npmjs.org/postcss/8.4.23
@@ -27857,6 +27859,14 @@ packages:
     engines: {node: '>=10'}
     hasBin: true
     dev: false
+
+  registry.npmjs.org/mkdirp/3.0.1:
+    resolution: {integrity: sha512-+NsyUUAZDmo6YVHzL/stxSu3t9YS1iljliy3BSDrXJ/dkn1KYdmtZODGGjLcc9XLgVVpH4KshHB8XmZgMhaBXg==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/mkdirp/-/mkdirp-3.0.1.tgz}
+    name: mkdirp
+    version: 3.0.1
+    engines: {node: '>=10'}
+    hasBin: true
+    dev: true
 
   registry.npmjs.org/mobile-detect/1.4.5:
     resolution: {integrity: sha512-yc0LhH6tItlvfLBugVUEtgawwFU2sIe+cSdmRJJCTMZ5GEJyLxNyC/NIOAOGk67Fa8GNpOttO3Xz/1bHpXFD/g==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/mobile-detect/-/mobile-detect-1.4.5.tgz}
