@@ -15,8 +15,9 @@
   "scripts": {
     "build": "rimraf ./dist && tsc && rollup -c",
     "dev": "tsc -w",
-    "test": "jest",
-    "test:dev": "jest --watch"
+    "test": "cross-env NODE_ENV=jest jest",
+    "test:ci": "cross-env NODE_ENV=jest jest --ci",
+    "test:dev": "cross-env NODE_ENV=jest jest --watch"
   },
   "repository": {
     "type": "git",

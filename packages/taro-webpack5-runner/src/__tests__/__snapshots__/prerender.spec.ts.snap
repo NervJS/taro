@@ -533,7 +533,7 @@ require("./runtime");
         });
         (0, taro_namespaceObject.initAppInfo)({
             platform: "MiniProgram",
-            taroVersion: "3.6.5",
+            taroVersion: "3.6.6",
             designWidth: 750
         });
     }
@@ -8433,7 +8433,7 @@ require("./runtime");
         });
         (0, taro_namespaceObject.initAppInfo)({
             platform: "MiniProgram",
-            taroVersion: "3.6.5",
+            taroVersion: "3.6.6",
             designWidth: 750
         });
     }
@@ -16333,7 +16333,7 @@ require("./runtime");
         });
         (0, taro_namespaceObject.initAppInfo)({
             platform: "MiniProgram",
-            taroVersion: "3.6.5",
+            taroVersion: "3.6.6",
             designWidth: 750
         });
     }

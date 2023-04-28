@@ -21,11 +21,11 @@
   "scripts": {
     "preinstall": "npx only-allow pnpm",
     "prepare": "husky install",
-    "build": "pnpm -r --aggregate-output --filter=./packages/* run build",
+    "build": "pnpm -r --aggregate-output --filter=./packages/* build",
     "clear-all": "rimraf **/node_modules",
     "lint": "eslint packages/ --ext .js --ext .ts --ext .tsx",
     "lint:style": "stylelint ./packages/**/*.{css,scss}",
-    "test": "pnpm --parallel --if-present -r --aggregate-output --filter=./packages/* run test:ci",
+    "test": "pnpm --parallel --if-present -r --aggregate-output --filter=./packages/* test:ci",
     "version": "run-s version:*",
     "version:release": "pnpm --parallel -r --aggregate-output --filter=./packages/* exec npm version ${npm_package_version}",
     "version:git": "git add . && git commit -m \"chore(release): publish ${npm_package_version}\"",
