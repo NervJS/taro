@@ -21,6 +21,7 @@ export default function (str: string) {
   useTabItemTap,
   useTitleClick,
   useScope,
+  useUnhandledRejection,
   useUnload
 } from '@tarojs/plugin-framework-react/dist/runtime'
 ${str}
@@ -46,6 +47,7 @@ taro.useShareTimeline = useShareTimeline
 taro.useTabItemTap = useTabItemTap
 taro.useTitleClick = useTitleClick
 taro.useScope = useScope
+taro.useUnhandledRejection = useUnhandledRejection
 taro.useUnload = useUnload
 
 export {
@@ -70,6 +72,7 @@ export {
   useTabItemTap,
   useTitleClick,
   useScope,
+  useUnhandledRejection,
   useUnload
 }
 `

@@ -28,6 +28,9 @@ export function createRouter (
   config: SpaRouterConfig,
   framework?: string
 ) {
+  if (typeof app.onUnhandledRejection === 'function') {
+    window.addEventListener('unhandledrejection', app.onUnhandledRejection)
+  }
   RouterConfig.config = config
   const handler = new PageHandler(config)
 
@@ -68,9 +71,13 @@ export function createRouter (
       ;[element, , params] = await Promise.all(result)
     } catch (error) {
       if (error.status === 404) {
-        app.onPageNotFound?.({
-          path: handler.pathname
-        })
+        const notFoundEvent = {
+          isEntryPage: stacks.length === 0,
+          path: handler.pathname,
+          query: handler.getQuery(createStampId()),
+        }
+        app.onPageNotFound?.(notFoundEvent)
+        eventCenter.trigger('__taroRouterNotFound', notFoundEvent)
       } else if (/Loading hot update .* failed./.test(error.message)) {
         // NOTE: webpack5 与 prebundle 搭配使用时，开发环境下初次启动时偶发错误，由于 HMR 加载 chunk hash 错误，导致热更新失败
         window.location.reload()
