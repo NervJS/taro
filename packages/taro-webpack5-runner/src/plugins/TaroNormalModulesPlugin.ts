@@ -1,5 +1,3 @@
-import { internalComponents,toDashed } from '@tarojs/shared'
-
 import TaroSingleEntryDependency from '../dependencies/TaroSingleEntryDependency'
 import { componentConfig } from '../utils/component'
 import TaroNormalModule from './TaroNormalModule'
@@ -10,7 +8,6 @@ import type { Compiler } from 'webpack'
 const walk = require('acorn-walk')
 
 const PLUGIN_NAME = 'TaroNormalModulesPlugin'
-const miniAppComponents = Object.keys(internalComponents).map((comp) => toDashed(comp).toLowerCase())
 
 function isRenderNode (node, ancestors): boolean {
   let renderFn
@@ -22,16 +19,7 @@ function isRenderNode (node, ancestors): boolean {
       return false
     }
   })
-
-  if (hasRenderMethod && node.callee.name === renderFn) {
-    const firstArg = node.arguments[0] || {}
-    if (firstArg.type === 'Literal' && miniAppComponents.includes(firstArg.value)) {
-      componentConfig.includes.add(firstArg.value)
-    }
-    return true
-  } else {
-    return false
-  }
+  return hasRenderMethod && node.callee.name === renderFn
 }
 
 export default class TaroNormalModulesPlugin {
@@ -65,9 +53,6 @@ export default class TaroNormalModulesPlugin {
                 }
               } else {
                 const nameOfCallee = callee.name
-                if (isRenderNode(node, ancestors)) {
-                  return
-                }
                 if (
                   // 兼容 react17 new jsx transtrom
                   nameOfCallee !== '_jsx' && nameOfCallee !== '_jsxs' &&
@@ -76,7 +61,8 @@ export default class TaroNormalModulesPlugin {
                   !(nameOfCallee && nameOfCallee.includes('createBlock')) &&
                   !(nameOfCallee && nameOfCallee.includes('createElementVNode')) &&
                   !(nameOfCallee && nameOfCallee.includes('createElementBlock')) &&
-                  !(nameOfCallee && nameOfCallee.includes('resolveComponent')) // 收集使用解析函数的组件名称
+                  !(nameOfCallee && nameOfCallee.includes('resolveComponent')) && // 收集使用解析函数的组件名称
+                  !isRenderNode(node, ancestors)
                   // TODO: 兼容 vue 2.0 渲染函数及 JSX，函数名 h 与 _c 在压缩后太常见，需要做更多限制后才能兼容
                   // nameOfCallee !== 'h' && nameOfCallee !== '_c'
                 ) {
