@@ -53,6 +53,10 @@ require("./runtime");
                     return (_a = pageCtx.getTabBar()) === null || _a === void 0 ? void 0 : _a.$taroInstances;
                 }
             };
+            taro.getRenderer = function() {
+                var _a, _b, _c;
+                return (_c = (_b = (_a = taro.getCurrentInstance()) === null || _a === void 0 ? void 0 : _a.page) === null || _b === void 0 ? void 0 : _b.renderer) !== null && _c !== void 0 ? _c : "webview";
+            };
         }
         var _true = "true";
         var _false = "false";
@@ -6945,6 +6949,10 @@ require("./runtime");
                 if (typeof (pageCtx === null || pageCtx === void 0 ? void 0 : pageCtx.getTabBar) === "function") {
                     return (_a = pageCtx.getTabBar()) === null || _a === void 0 ? void 0 : _a.$taroInstances;
                 }
+            };
+            taro.getRenderer = function() {
+                var _a, _b, _c;
+                return (_c = (_b = (_a = taro.getCurrentInstance()) === null || _a === void 0 ? void 0 : _a.page) === null || _b === void 0 ? void 0 : _b.renderer) !== null && _c !== void 0 ? _c : "webview";
             };
         }
         var _true = "true";
@@ -14210,6 +14218,10 @@ require("./runtime");
                     return (_a = pageCtx.getTabBar()) === null || _a === void 0 ? void 0 : _a.$taroInstances;
                 }
             };
+            taro.getRenderer = function() {
+                var _a, _b, _c;
+                return (_c = (_b = (_a = taro.getCurrentInstance()) === null || _a === void 0 ? void 0 : _a.page) === null || _b === void 0 ? void 0 : _b.renderer) !== null && _c !== void 0 ? _c : "webview";
+            };
         }
         var _true = "true";
         var _false = "false";
@@ -21312,6 +21324,10 @@ require("./runtime");
                 if (typeof (pageCtx === null || pageCtx === void 0 ? void 0 : pageCtx.getTabBar) === "function") {
                     return (_a = pageCtx.getTabBar()) === null || _a === void 0 ? void 0 : _a.$taroInstances;
                 }
+            };
+            taro.getRenderer = function() {
+                var _a, _b, _c;
+                return (_c = (_b = (_a = taro.getCurrentInstance()) === null || _a === void 0 ? void 0 : _a.page) === null || _b === void 0 ? void 0 : _b.renderer) !== null && _c !== void 0 ? _c : "webview";
             };
         }
         var _true = "true";
