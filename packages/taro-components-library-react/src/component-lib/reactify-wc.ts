@@ -8,7 +8,7 @@ const h = React.createElement
 
 const SCROLL_VIEW = 'taro-scroll-view-core'
 
-const IS_NON_DIMENSIONAL = /acit|ex(?:s|g|n|p|$)|rph|grid|ows|mnc|ntw|ine[ch]|zoo|^ord|itera/i
+const IS_NON_DIMENSIONAL = /aspect|acit|ex(?:s|g|n|p|$)|rph|grid|ows|mnc|ntw|ine[ch]|zoo|^ord|itera/i
 
 // 为了不要覆盖 wc 中 host 内置的 class 和 stencil 加入的 class
 function getClassName (wc, prevProps, props) {
