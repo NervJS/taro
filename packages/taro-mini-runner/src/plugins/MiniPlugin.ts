@@ -874,7 +874,8 @@ export default class TaroMiniPlugin {
         item['selectedIconPath'] && this.tabBarIcons.add(item['selectedIconPath'])
       })
       if (tabBar.custom) {
-        const customTabBarPath = path.join(sourceDir, 'custom-tab-bar')
+        const isAlipay = process.env.TARO_ENV === 'alipay'
+        const customTabBarPath = path.join(sourceDir, isAlipay ? 'customize-tab-bar' : 'custom-tab-bar')
         const customTabBarComponentPath = resolveMainFilePath(customTabBarPath, [...frameworkExts, ...SCRIPT_EXT])
         if (fs.existsSync(customTabBarComponentPath)) {
           const customTabBarComponentTemplPath = this.getTemplatePath(customTabBarComponentPath)
@@ -883,7 +884,7 @@ export default class TaroMiniPlugin {
             printLog(processTypeEnum.COMPILE, '自定义 tabBar', this.getShowPath(customTabBarComponentPath))
           }
           const componentObj: IComponent = {
-            name: 'custom-tab-bar/index',
+            name: isAlipay ? 'customize-tab-bar/index' : 'custom-tab-bar/index',
             path: customTabBarComponentPath,
             isNative,
             stylePath: isNative ? this.getStylePath(customTabBarComponentPath) : undefined,
