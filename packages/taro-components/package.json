@@ -32,7 +32,7 @@
     "dev:library-react": "cross-env NODE_ENV=development pnpm --filter @tarojs/components-library-react run dev",
     "dev:library-vue2": "cross-env NODE_ENV=development pnpm --filter @tarojs/components-library-vue2 run dev",
     "dev:library-vue3": "cross-env NODE_ENV=development pnpm --filter @tarojs/components-library-vue3 run dev",
-    "generate:lib": "mkdir -p lib",
+    "generate:lib": "mkdirp lib",
     "generate:stencil-config": "esbuild ./scripts/stencil/stencil.config.ts --bundle --platform=node --outfile=stencil.config.js",
     "test": "cross-env NODE_ENV=test stencil test --spec --e2e",
     "test:ci": "pnpm run test --ci --no-build",
