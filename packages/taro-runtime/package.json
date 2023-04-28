@@ -11,8 +11,7 @@
   "scripts": {
     "build": "rimraf ./dist && tsc -emitDeclarationOnly && rollup -c",
     "dev": "rollup -c -w",
-    "test": "jest",
-    "test:ci": "jest --ci -i --coverage false"
+    "test": "jest --ci -i --coverage false"
   },
   "repository": {
     "type": "git",

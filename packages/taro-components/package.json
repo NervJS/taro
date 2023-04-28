@@ -34,11 +34,11 @@
     "dev:library-vue3": "cross-env NODE_ENV=development pnpm --filter @tarojs/components-library-vue3 run dev",
     "generate:lib": "mkdir -p lib",
     "generate:stencil-config": "esbuild ./scripts/stencil/stencil.config.ts --bundle --platform=node --outfile=stencil.config.js",
-    "test": "cross-env NODE_ENV=test stencil test --spec --e2e",
-    "test:ci": "pnpm test -- --ci --no-build",
-    "test:coverage": "pnpm test -- --ci --screenshot --coverage",
-    "test:watch": "pnpm test -- --screenshot --watch",
-    "sync:types": "ts-node scripts/json-schema-to-types.ts"
+    "stencil:test": "cross-env NODE_ENV=test stencil test --spec --e2e",
+    "sync:types": "ts-node scripts/json-schema-to-types.ts",
+    "test": "pnpm run stencil:test -- --ci --no-build",
+    "test:coverage": "pnpm run stencil:test -- --ci --screenshot --coverage",
+    "test:watch": "pnpm run stencil:test -- --screenshot --watch"
   },
   "repository": {
     "type": "git",

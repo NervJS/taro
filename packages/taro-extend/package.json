@@ -14,7 +14,6 @@
     "url": "git+https://github.com/NervJS/taro.git"
   },
   "scripts": {
-    "test": "TARO_ENV=weapp jest --coverage false",
     "test:dev": "jest --watch",
     "test:coverage": "jest --coverage"
   },

@@ -10,8 +10,7 @@
     "dev": "tsc -w",
     "prepack": "pnpm run build",
     "prod": "tsc",
-    "test": "jest --collectCoverage",
-    "test:ci": "jest --ci --i --coverage false"
+    "test": "jest --ci --i --coverage false"
   },
   "repository": {
     "type": "git",

@@ -4,8 +4,7 @@
   "description": "cli tool for taro",
   "main": "index.js",
   "scripts": {
-    "test": "cross-env NODE_ENV=test jest",
-    "test:ci": "cross-env NODE_ENV=test jest --ci -i",
+    "test": "cross-env NODE_ENV=test jest --ci -i",
     "test:dev": "cross-env NODE_ENV=test jest --watch",
     "test:coverage": "cross-env NODE_ENV=test jest --coverage",
     "updateSnapshot": "cross-env NODE_ENV=test jest --updateSnapshot",

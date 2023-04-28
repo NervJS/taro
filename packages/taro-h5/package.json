@@ -19,8 +19,7 @@
   "scripts": {
     "build": "rimraf ./dist && cross-env NODE_ENV=production rollup -c",
     "dev": "cross-env NODE_ENV=development rollup -c -w",
-    "test": "node_modules/jest/bin/jest.js",
-    "test:ci": "jest -i --coverage false",
+    "test": "jest --ci -i --coverage false",
     "test:dev": "jest --watch",
     "test:coverage": "jest --coverage"
   },

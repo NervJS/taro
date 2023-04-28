@@ -11,10 +11,9 @@
     "build": "tsc",
     "dev": "tsc --watch",
     "lint": "eslint .",
-    "test": "jest --silent",
-    "test:dev": "jest --watch",
-    "test:ci": "jest --ci --silent --coverage false",
-    "test:coverage": "jest --coverage"
+    "test": "jest --ci --silent --coverage false",
+    "test:coverage": "jest --coverage",
+    "test:dev": "jest --watch"
   },
   "keywords": [
     "taro"

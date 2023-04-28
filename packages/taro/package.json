@@ -11,9 +11,6 @@
     "html.css",
     "html5.css"
   ],
-  "scripts": {
-    "test": "echo \"Error: run tests from root\" && exit 1"
-  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/NervJS/taro.git"

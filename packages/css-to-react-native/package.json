@@ -12,8 +12,7 @@
     "README.md"
   ],
   "scripts": {
-    "build": "babel src --ignore *.spec.js --out-dir ./dist",
-    "test": "jest"
+    "build": "babel src --ignore *.spec.js --out-dir ./dist"
   },
   "repository": {
     "type": "git",

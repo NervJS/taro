@@ -8,9 +8,8 @@
     "build": "rimraf ./dist && tsc && pnpm run assets",
     "dev": "pnpm run assets && tsc --watch",
     "lint": "eslint .",
-    "test": "jest --silent",
+    "test": "jest --ci --silent --coverage false",
     "test:dev": "jest --watch",
-    "test:ci": "jest --ci --silent --coverage false",
     "test:coverage": "jest --coverage"
   },
   "files": [

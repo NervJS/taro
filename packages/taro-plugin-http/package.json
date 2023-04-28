@@ -6,8 +6,7 @@
   "scripts": {
     "dev": "rollup -c -w --bundleConfigAsCjs",
     "build": "rollup -c --bundleConfigAsCjs",
-    "test": "jest",
-    "test:ci": "jest --ci -i --coverage false"
+    "test": "jest --ci -i --coverage false"
   },
   "files": [
     "src",

@@ -9,8 +9,7 @@
     "url": "git+https://github.com/NervJS/taro.git"
   },
   "scripts": {
-    "test": "jest",
-    "test:ci": "jest --ci --silent --coverage false",
+    "test": "jest --ci --silent --coverage false",
     "dev": "tsc -w",
     "build": "tsc"
   },

@@ -7,8 +7,7 @@
     "build": "tsc",
     "dev": "tsc -w",
     "lint": "eslint .",
-    "test": "jest",
-    "test:ci": "jest --ci --silent --coverage false"
+    "test": "jest --ci --silent --coverage false"
   },
   "repository": {
     "type": "git",
