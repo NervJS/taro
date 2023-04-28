@@ -16,7 +16,7 @@ require("./runtime");
 (wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 143 ], {
     639: function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
         var taro_shared = __webpack_require__(106);
-        const needPromiseApis = new Set([ "addFileToFavorites", "addVideoToFavorites", "authPrivateMessage", "checkIsAddedToMyMiniProgram", "chooseContact", "cropImage", "disableAlertBeforeUnload", "editImage", "enableAlertBeforeUnload", "getBackgroundFetchData", "getFuzzyLocation", "getGroupEnterInfo", "getLocalIPAddress", "getShareInfo", "getUserProfile", "getWeRunData", "join1v1Chat", "openCustomerServiceChat", "openVideoEditor", "saveFileToDisk", "scanItem", "setEnable1v1Chat", "setWindowSize", "sendBizRedPacket", "startFacialRecognitionVerify" ]);
+        const needPromiseApis = new Set([ "addFileToFavorites", "addVideoToFavorites", "authPrivateMessage", "checkIsAddedToMyMiniProgram", "chooseContact", "cropImage", "disableAlertBeforeUnload", "editImage", "enableAlertBeforeUnload", "getBackgroundFetchData", "getChannelsLiveInfo", "getChannelsLiveNoticeInfo", "getFuzzyLocation", "getGroupEnterInfo", "getLocalIPAddress", "getShareInfo", "getUserProfile", "getWeRunData", "join1v1Chat", "openChannelsActivity", "openChannelsEvent", "openChannelsLive", "openChannelsUserProfile", "openCustomerServiceChat", "openVideoEditor", "saveFileToDisk", "scanItem", "setEnable1v1Chat", "setWindowSize", "sendBizRedPacket", "startFacialRecognitionVerify" ]);
         function initNativeApi(taro) {
             (0, taro_shared.Ig)(taro, wx, {
                 needPromiseApis: needPromiseApis,
@@ -1938,45 +1938,84 @@ require("./runtime");
             }
             return componentsAlias$1;
         }
-        class ClassList extends Set {
+        class ClassList {
             constructor(className, el) {
-                super();
-                className.trim().split(/\\s+/).forEach(super.add.bind(this));
+                this.tokenList = [];
                 this.el = el;
+                className.trim().split(/\\s+/).forEach((token => this.tokenList.push(token)));
             }
             get value() {
-                return [ ...this ].filter((v => v !== "")).join(" ");
-            }
-            add(s) {
-                super.add(s);
-                this._update();
-                return this;
+                return this.toString();
             }
             get length() {
-                return this.size;
+                return this.tokenList.length;
             }
-            remove(s) {
-                super.delete(s);
-                this._update();
-            }
-            toggle(s) {
-                if (super.has(s)) {
-                    super.delete(s);
-                } else {
-                    super.add(s);
+            add() {
+                let index = 0;
+                let updated = false;
+                const tokens = arguments;
+                const length = tokens.length;
+                const tokenList = this.tokenList;
+                do {
+                    const token = tokens[index];
+                    if (this.checkTokenIsValid(token) && !~tokenList.indexOf(token)) {
+                        tokenList.push(token);
+                        updated = true;
+                    }
+                } while (++index < length);
+                if (updated) {
+                    this._update();
                 }
-                this._update();
             }
-            replace(s1, s2) {
-                super.delete(s1);
-                super.add(s2);
-                this._update();
+            remove() {
+                let i = 0;
+                let updated = false;
+                const tokens = arguments;
+                const length = tokens.length;
+                const tokenList = this.tokenList;
+                do {
+                    const token = tokens[i] + "";
+                    if (!this.checkTokenIsValid(token)) continue;
+                    const index = tokenList.indexOf(token);
+                    if (~tokenList.indexOf(token)) {
+                        tokenList.splice(index, 1);
+                        updated = true;
+                    }
+                } while (++i < length);
+                if (updated) {
+                    this._update();
+                }
             }
-            contains(s) {
-                return super.has(s);
+            contains(token) {
+                if (!this.checkTokenIsValid(token)) return false;
+                return !!~this.tokenList.indexOf(token);
+            }
+            toggle(token, force) {
+                const result = this.contains(token);
+                const method = result ? force !== true && "remove" : force !== false && "add";
+                if (method) {
+                    this[method](token);
+                }
+                if (force === true || force === false) {
+                    return force;
+                } else {
+                    return !result;
+                }
+            }
+            replace(token, replacement_token) {
+                if (!this.checkTokenIsValid(token) || !this.checkTokenIsValid(replacement_token)) return;
+                const index = this.tokenList.indexOf(token);
+                if (~index) {
+                    this.tokenList.splice(index, 1, replacement_token);
+                    this._update();
+                }
             }
             toString() {
-                return this.value;
+                return this.tokenList.filter((v => v !== "")).join(" ");
+            }
+            checkTokenIsValid(token) {
+                if (token === "" || /\\s/.test(token)) return false;
+                return true;
             }
             _update() {
                 this.el.className = this.value;
@@ -2321,7 +2360,7 @@ require("./runtime");
             }
         }
         const WEBKIT = "webkit";
-        const styleProperties = [ "all", "appearance", "blockOverflow", "blockSize", "bottom", "clear", "contain", "content", "continue", "cursor", "direction", "display", "filter", "float", "gap", "height", "inset", "isolation", "left", "letterSpacing", "lightingColor", "markerSide", "mixBlendMode", "opacity", "order", "position", "quotes", "resize", "right", "rowGap", "tabSize", "tableLayout", "top", "userSelect", "verticalAlign", "visibility", "voiceFamily", "volume", "whiteSpace", "widows", "width", "zIndex", "pointerEvents" ];
+        const styleProperties = [ "all", "appearance", "blockOverflow", "blockSize", "bottom", "clear", "contain", "content", "continue", "cursor", "direction", "display", "filter", "float", "gap", "height", "inset", "isolation", "left", "letterSpacing", "lightingColor", "markerSide", "mixBlendMode", "opacity", "order", "position", "quotes", "resize", "right", "rowGap", "tabSize", "tableLayout", "top", "userSelect", "verticalAlign", "visibility", "voiceFamily", "volume", "whiteSpace", "widows", "width", "zIndex", "pointerEvents", "aspectRatio" ];
         function combine(prefix, list, excludeSelf) {
             !excludeSelf && styleProperties.push(prefix);
             list.forEach((item => {
@@ -2455,10 +2494,11 @@ require("./runtime");
             }
             !this._pending && enqueueUpdate(this);
         }
-        function initStyle(ctor) {
+        function initStyle(ctor, styleProperties) {
             const properties = {};
             for (let i = 0; i < styleProperties.length; i++) {
                 const styleKey = styleProperties[i];
+                if (ctor[styleKey]) return;
                 properties[styleKey] = {
                     get() {
                         const val = this._value[styleKey];
@@ -2562,7 +2602,15 @@ require("./runtime");
                 return value;
             }
         }
-        initStyle(Style);
+        initStyle(Style, styleProperties);
+        _tarojs_shared__WEBPACK_IMPORTED_MODULE_0__.PT.tap("injectNewStyleProperties", (newStyleProperties => {
+            if ((0, _tarojs_shared__WEBPACK_IMPORTED_MODULE_0__.kJ)(newStyleProperties)) {
+                initStyle(Style, newStyleProperties);
+            } else {
+                if (typeof newStyleProperties !== "string") return;
+                initStyle(Style, [ newStyleProperties ]);
+            }
+        }));
         function returnTrue() {
             return true;
         }
@@ -2580,7 +2628,8 @@ require("./runtime");
         }
         function following(el, root) {
             const firstChild = el.firstChild;
-            if (firstChild) {
+            const isElmentTypeValid = el.nodeType === 1 || el.nodeType === 9;
+            if (firstChild && isElmentTypeValid) {
                 return firstChild;
             }
             let current = el;
@@ -2809,10 +2858,10 @@ require("./runtime");
                 return treeToArray(this, (el => el.nodeName === tagName || tagName === "*" && this !== el));
             }
             getElementsByClassName(className) {
+                const classNames = className.trim().split(/\\s+/);
                 return treeToArray(this, (el => {
                     const classList = el.classList;
-                    const classNames = className.trim().split(/\\s+/);
-                    return classNames.every((c => classList.has(c)));
+                    return classNames.every((c => classList.contains(c)));
                 }));
             }
             dispatchEvent(event) {

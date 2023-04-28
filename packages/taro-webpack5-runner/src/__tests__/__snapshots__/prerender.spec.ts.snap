@@ -26,7 +26,7 @@ require("./runtime");
             }
         });
         var taro_shared = __webpack_require__(106);
-        var needPromiseApis = new Set([ "addFileToFavorites", "addVideoToFavorites", "authPrivateMessage", "checkIsAddedToMyMiniProgram", "chooseContact", "cropImage", "disableAlertBeforeUnload", "editImage", "enableAlertBeforeUnload", "getBackgroundFetchData", "getFuzzyLocation", "getGroupEnterInfo", "getLocalIPAddress", "getShareInfo", "getUserProfile", "getWeRunData", "join1v1Chat", "openCustomerServiceChat", "openVideoEditor", "saveFileToDisk", "scanItem", "setEnable1v1Chat", "setWindowSize", "sendBizRedPacket", "startFacialRecognitionVerify" ]);
+        var needPromiseApis = new Set([ "addFileToFavorites", "addVideoToFavorites", "authPrivateMessage", "checkIsAddedToMyMiniProgram", "chooseContact", "cropImage", "disableAlertBeforeUnload", "editImage", "enableAlertBeforeUnload", "getBackgroundFetchData", "getChannelsLiveInfo", "getChannelsLiveNoticeInfo", "getFuzzyLocation", "getGroupEnterInfo", "getLocalIPAddress", "getShareInfo", "getUserProfile", "getWeRunData", "join1v1Chat", "openChannelsActivity", "openChannelsEvent", "openChannelsLive", "openChannelsUserProfile", "openCustomerServiceChat", "openVideoEditor", "saveFileToDisk", "scanItem", "setEnable1v1Chat", "setWindowSize", "sendBizRedPacket", "startFacialRecognitionVerify" ]);
         function initNativeApi(taro) {
             (0, taro_shared.Ig)(taro, wx, {
                 needPromiseApis: needPromiseApis,
@@ -1480,16 +1480,17 @@ require("./runtime");
                 return window$1;
             }
         });
-        var _babel_runtime_helpers_esm_slicedToArray__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(62);
-        var _babel_runtime_helpers_esm_set__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(286);
-        var _babel_runtime_helpers_esm_toArray__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(298);
-        var _babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(208);
-        var _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(13);
+        var _babel_runtime_helpers_esm_slicedToArray__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(62);
+        var _babel_runtime_helpers_esm_get__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(306);
+        var _babel_runtime_helpers_esm_set__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(286);
+        var _babel_runtime_helpers_esm_getPrototypeOf__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(475);
+        var _babel_runtime_helpers_esm_toArray__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(298);
+        var _babel_runtime_helpers_esm_typeof__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(156);
+        var _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(13);
+        var _babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(208);
         var _babel_runtime_helpers_esm_inherits__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(410);
         var _babel_runtime_helpers_esm_createSuper__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(635);
-        var _babel_runtime_helpers_esm_get__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(306);
-        var _babel_runtime_helpers_esm_getPrototypeOf__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(475);
-        var _babel_runtime_helpers_esm_wrapNativeSuper__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(213);
+        var _babel_runtime_helpers_esm_wrapNativeSuper__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(213);
         var _babel_runtime_helpers_esm_toConsumableArray__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(528);
         var _babel_runtime_helpers_esm_classCallCheck__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(351);
         var _babel_runtime_helpers_esm_createClass__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(23);
@@ -1760,71 +1761,108 @@ require("./runtime");
             }
             return componentsAlias$1;
         }
-        var ClassList = function(_Set) {
-            (0, _babel_runtime_helpers_esm_inherits__WEBPACK_IMPORTED_MODULE_4__.Z)(ClassList, _Set);
-            var _super = (0, _babel_runtime_helpers_esm_createSuper__WEBPACK_IMPORTED_MODULE_5__.Z)(ClassList);
+        var ClassList = function() {
             function ClassList(className, el) {
-                var _thisSuper, _this;
+                var _this = this;
                 (0, _babel_runtime_helpers_esm_classCallCheck__WEBPACK_IMPORTED_MODULE_1__.Z)(this, ClassList);
-                _this = _super.call(this);
-                className.trim().split(/\\s+/).forEach((0, _babel_runtime_helpers_esm_get__WEBPACK_IMPORTED_MODULE_6__.Z)((_thisSuper = (0, 
-                _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_7__.Z)(_this), 
-                (0, _babel_runtime_helpers_esm_getPrototypeOf__WEBPACK_IMPORTED_MODULE_8__.Z)(ClassList.prototype)), "add", _thisSuper).bind((0, 
-                _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_7__.Z)(_this)));
-                _this.el = el;
-                return _this;
+                this.tokenList = [];
+                this.el = el;
+                className.trim().split(/\\s+/).forEach((function(token) {
+                    return _this.tokenList.push(token);
+                }));
             }
             (0, _babel_runtime_helpers_esm_createClass__WEBPACK_IMPORTED_MODULE_2__.Z)(ClassList, [ {
                 key: "value",
                 get: function get() {
-                    return (0, _babel_runtime_helpers_esm_toConsumableArray__WEBPACK_IMPORTED_MODULE_3__.Z)(this).filter((function(v) {
-                        return v !== "";
-                    })).join(" ");
-                }
-            }, {
-                key: "add",
-                value: function add(s) {
-                    (0, _babel_runtime_helpers_esm_get__WEBPACK_IMPORTED_MODULE_6__.Z)((0, _babel_runtime_helpers_esm_getPrototypeOf__WEBPACK_IMPORTED_MODULE_8__.Z)(ClassList.prototype), "add", this).call(this, s);
-                    this._update();
-                    return this;
+                    return this.toString();
                 }
             }, {
                 key: "length",
                 get: function get() {
-                    return this.size;
+                    return this.tokenList.length;
+                }
+            }, {
+                key: "add",
+                value: function add() {
+                    var index = 0;
+                    var updated = false;
+                    var tokens = arguments;
+                    var length = tokens.length;
+                    var tokenList = this.tokenList;
+                    do {
+                        var token = tokens[index];
+                        if (this.checkTokenIsValid(token) && !~tokenList.indexOf(token)) {
+                            tokenList.push(token);
+                            updated = true;
+                        }
+                    } while (++index < length);
+                    if (updated) {
+                        this._update();
+                    }
                 }
             }, {
                 key: "remove",
-                value: function remove(s) {
-                    (0, _babel_runtime_helpers_esm_get__WEBPACK_IMPORTED_MODULE_6__.Z)((0, _babel_runtime_helpers_esm_getPrototypeOf__WEBPACK_IMPORTED_MODULE_8__.Z)(ClassList.prototype), "delete", this).call(this, s);
-                    this._update();
-                }
-            }, {
-                key: "toggle",
-                value: function toggle(s) {
-                    if ((0, _babel_runtime_helpers_esm_get__WEBPACK_IMPORTED_MODULE_6__.Z)((0, _babel_runtime_helpers_esm_getPrototypeOf__WEBPACK_IMPORTED_MODULE_8__.Z)(ClassList.prototype), "has", this).call(this, s)) {
-                        (0, _babel_runtime_helpers_esm_get__WEBPACK_IMPORTED_MODULE_6__.Z)((0, _babel_runtime_helpers_esm_getPrototypeOf__WEBPACK_IMPORTED_MODULE_8__.Z)(ClassList.prototype), "delete", this).call(this, s);
-                    } else {
-                        (0, _babel_runtime_helpers_esm_get__WEBPACK_IMPORTED_MODULE_6__.Z)((0, _babel_runtime_helpers_esm_getPrototypeOf__WEBPACK_IMPORTED_MODULE_8__.Z)(ClassList.prototype), "add", this).call(this, s);
+                value: function remove() {
+                    var i = 0;
+                    var updated = false;
+                    var tokens = arguments;
+                    var length = tokens.length;
+                    var tokenList = this.tokenList;
+                    do {
+                        var token = tokens[i] + "";
+                        if (!this.checkTokenIsValid(token)) continue;
+                        var index = tokenList.indexOf(token);
+                        if (~tokenList.indexOf(token)) {
+                            tokenList.splice(index, 1);
+                            updated = true;
+                        }
+                    } while (++i < length);
+                    if (updated) {
+                        this._update();
                     }
-                    this._update();
-                }
-            }, {
-                key: "replace",
-                value: function replace(s1, s2) {
-                    (0, _babel_runtime_helpers_esm_get__WEBPACK_IMPORTED_MODULE_6__.Z)((0, _babel_runtime_helpers_esm_getPrototypeOf__WEBPACK_IMPORTED_MODULE_8__.Z)(ClassList.prototype), "delete", this).call(this, s1);
-                    (0, _babel_runtime_helpers_esm_get__WEBPACK_IMPORTED_MODULE_6__.Z)((0, _babel_runtime_helpers_esm_getPrototypeOf__WEBPACK_IMPORTED_MODULE_8__.Z)(ClassList.prototype), "add", this).call(this, s2);
-                    this._update();
                 }
             }, {
                 key: "contains",
-                value: function contains(s) {
-                    return (0, _babel_runtime_helpers_esm_get__WEBPACK_IMPORTED_MODULE_6__.Z)((0, _babel_runtime_helpers_esm_getPrototypeOf__WEBPACK_IMPORTED_MODULE_8__.Z)(ClassList.prototype), "has", this).call(this, s);
+                value: function contains(token) {
+                    if (!this.checkTokenIsValid(token)) return false;
+                    return !!~this.tokenList.indexOf(token);
+                }
+            }, {
+                key: "toggle",
+                value: function toggle(token, force) {
+                    var result = this.contains(token);
+                    var method = result ? force !== true && "remove" : force !== false && "add";
+                    if (method) {
+                        this[method](token);
+                    }
+                    if (force === true || force === false) {
+                        return force;
+                    } else {
+                        return !result;
+                    }
+                }
+            }, {
+                key: "replace",
+                value: function replace(token, replacement_token) {
+                    if (!this.checkTokenIsValid(token) || !this.checkTokenIsValid(replacement_token)) return;
+                    var index = this.tokenList.indexOf(token);
+                    if (~index) {
+                        this.tokenList.splice(index, 1, replacement_token);
+                        this._update();
+                    }
                 }
             }, {
                 key: "toString",
                 value: function toString() {
-                    return this.value;
+                    return this.tokenList.filter((function(v) {
+                        return v !== "";
+                    })).join(" ");
+                }
+            }, {
+                key: "checkTokenIsValid",
+                value: function checkTokenIsValid(token) {
+                    if (token === "" || /\\s/.test(token)) return false;
+                    return true;
                 }
             }, {
                 key: "_update",
@@ -1833,13 +1871,13 @@ require("./runtime");
                 }
             } ]);
             return ClassList;
-        }((0, _babel_runtime_helpers_esm_wrapNativeSuper__WEBPACK_IMPORTED_MODULE_9__.Z)(Set));
+        }();
         var EventSource = function(_Map) {
             (0, _babel_runtime_helpers_esm_inherits__WEBPACK_IMPORTED_MODULE_4__.Z)(EventSource, _Map);
-            var _super2 = (0, _babel_runtime_helpers_esm_createSuper__WEBPACK_IMPORTED_MODULE_5__.Z)(EventSource);
+            var _super = (0, _babel_runtime_helpers_esm_createSuper__WEBPACK_IMPORTED_MODULE_5__.Z)(EventSource);
             function EventSource() {
                 (0, _babel_runtime_helpers_esm_classCallCheck__WEBPACK_IMPORTED_MODULE_1__.Z)(this, EventSource);
-                return _super2.apply(this, arguments);
+                return _super.apply(this, arguments);
             }
             (0, _babel_runtime_helpers_esm_createClass__WEBPACK_IMPORTED_MODULE_2__.Z)(EventSource, [ {
                 key: "removeNode",
@@ -1860,7 +1898,7 @@ require("./runtime");
                 }
             } ]);
             return EventSource;
-        }((0, _babel_runtime_helpers_esm_wrapNativeSuper__WEBPACK_IMPORTED_MODULE_9__.Z)(Map));
+        }((0, _babel_runtime_helpers_esm_wrapNativeSuper__WEBPACK_IMPORTED_MODULE_6__.Z)(Map));
         var eventSource = new EventSource;
         var isWeb$1 = (0, _tarojs_shared__WEBPACK_IMPORTED_MODULE_0__.gl)();
         var env = {
@@ -1880,12 +1918,12 @@ require("./runtime");
             var nodeName = node.nodeName;
             if (isText(node)) {
                 var _ref;
-                return _ref = {}, (0, _babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_10__.Z)(_ref, "v", node.nodeValue), 
-                (0, _babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_10__.Z)(_ref, "nn", componentsAlias[nodeName]._num), 
+                return _ref = {}, (0, _babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_7__.Z)(_ref, "v", node.nodeValue), 
+                (0, _babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_7__.Z)(_ref, "nn", componentsAlias[nodeName]._num), 
                 _ref;
             }
-            var data = (_data = {}, (0, _babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_10__.Z)(_data, "nn", nodeName), 
-            (0, _babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_10__.Z)(_data, "sid", node.sid), 
+            var data = (_data = {}, (0, _babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_7__.Z)(_data, "nn", nodeName), 
+            (0, _babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_7__.Z)(_data, "sid", node.sid), 
             _data);
             if (node.uid !== node.sid) {
                 data.uid = node.uid;
@@ -2018,11 +2056,11 @@ require("./runtime");
         var nodeId = incrementId();
         var TaroNode = function(_TaroEventTarget) {
             (0, _babel_runtime_helpers_esm_inherits__WEBPACK_IMPORTED_MODULE_4__.Z)(TaroNode, _TaroEventTarget);
-            var _super3 = (0, _babel_runtime_helpers_esm_createSuper__WEBPACK_IMPORTED_MODULE_5__.Z)(TaroNode);
+            var _super2 = (0, _babel_runtime_helpers_esm_createSuper__WEBPACK_IMPORTED_MODULE_5__.Z)(TaroNode);
             function TaroNode() {
                 var _this3;
                 (0, _babel_runtime_helpers_esm_classCallCheck__WEBPACK_IMPORTED_MODULE_1__.Z)(this, TaroNode);
-                _this3 = _super3.call(this);
+                _this3 = _super2.call(this);
                 _this3.parentNode = null;
                 _this3.childNodes = [];
                 _this3.hydrate = function(node) {
@@ -2032,7 +2070,7 @@ require("./runtime");
                 };
                 _this3.uid = "_" + nodeId();
                 _this3.sid = _this3.uid;
-                eventSource.set(_this3.sid, (0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_7__.Z)(_this3));
+                eventSource.set(_this3.sid, (0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_8__.Z)(_this3));
                 return _this3;
             }
             (0, _babel_runtime_helpers_esm_createClass__WEBPACK_IMPORTED_MODULE_2__.Z)(TaroNode, [ {
@@ -2259,7 +2297,7 @@ require("./runtime");
             return TaroNode;
         }(TaroEventTarget);
         var WEBKIT = "webkit";
-        var styleProperties = [ "all", "appearance", "blockOverflow", "blockSize", "bottom", "clear", "contain", "content", "continue", "cursor", "direction", "display", "filter", "float", "gap", "height", "inset", "isolation", "left", "letterSpacing", "lightingColor", "markerSide", "mixBlendMode", "opacity", "order", "position", "quotes", "resize", "right", "rowGap", "tabSize", "tableLayout", "top", "userSelect", "verticalAlign", "visibility", "voiceFamily", "volume", "whiteSpace", "widows", "width", "zIndex", "pointerEvents" ];
+        var styleProperties = [ "all", "appearance", "blockOverflow", "blockSize", "bottom", "clear", "contain", "content", "continue", "cursor", "direction", "display", "filter", "float", "gap", "height", "inset", "isolation", "left", "letterSpacing", "lightingColor", "markerSide", "mixBlendMode", "opacity", "order", "position", "quotes", "resize", "right", "rowGap", "tabSize", "tableLayout", "top", "userSelect", "verticalAlign", "visibility", "voiceFamily", "volume", "whiteSpace", "widows", "width", "zIndex", "pointerEvents", "aspectRatio" ];
         function combine(prefix, list, excludeSelf) {
             !excludeSelf && styleProperties.push(prefix);
             list.forEach((function(item) {
@@ -2393,10 +2431,13 @@ require("./runtime");
             }
             !this._pending && enqueueUpdate(this);
         }
-        function initStyle(ctor) {
+        function initStyle(ctor, styleProperties) {
             var properties = {};
             var _loop = function _loop() {
                 var styleKey = styleProperties[i];
+                if (ctor[styleKey]) return {
+                    v: void 0
+                };
                 properties[styleKey] = {
                     get: function get() {
                         var val = this._value[styleKey];
@@ -2408,7 +2449,8 @@ require("./runtime");
                 };
             };
             for (var i = 0; i < styleProperties.length; i++) {
-                _loop();
+                var _ret = _loop();
+                if ((0, _babel_runtime_helpers_esm_typeof__WEBPACK_IMPORTED_MODULE_9__.Z)(_ret) === "object") return _ret.v;
             }
             Object.defineProperties(ctor.prototype, properties);
         }
@@ -2473,7 +2515,7 @@ require("./runtime");
                         if (rule === "") {
                             continue;
                         }
-                        var _rule$split = rule.split(":"), _rule$split2 = (0, _babel_runtime_helpers_esm_toArray__WEBPACK_IMPORTED_MODULE_11__.Z)(_rule$split), propName = _rule$split2[0], valList = _rule$split2.slice(1);
+                        var _rule$split = rule.split(":"), _rule$split2 = (0, _babel_runtime_helpers_esm_toArray__WEBPACK_IMPORTED_MODULE_10__.Z)(_rule$split), propName = _rule$split2[0], valList = _rule$split2.slice(1);
                         var val = valList.join(":");
                         if ((0, _tarojs_shared__WEBPACK_IMPORTED_MODULE_0__.o8)(val)) {
                             continue;
@@ -2521,7 +2563,15 @@ require("./runtime");
             } ]);
             return Style;
         }();
-        initStyle(Style);
+        initStyle(Style, styleProperties);
+        _tarojs_shared__WEBPACK_IMPORTED_MODULE_0__.PT.tap("injectNewStyleProperties", (function(newStyleProperties) {
+            if ((0, _tarojs_shared__WEBPACK_IMPORTED_MODULE_0__.kJ)(newStyleProperties)) {
+                initStyle(Style, newStyleProperties);
+            } else {
+                if (typeof newStyleProperties !== "string") return;
+                initStyle(Style, [ newStyleProperties ]);
+            }
+        }));
         function returnTrue() {
             return true;
         }
@@ -2539,7 +2589,8 @@ require("./runtime");
         }
         function following(el, root) {
             var firstChild = el.firstChild;
-            if (firstChild) {
+            var isElmentTypeValid = el.nodeType === 1 || el.nodeType === 9;
+            if (firstChild && isElmentTypeValid) {
                 return firstChild;
             }
             var current = el;
@@ -2557,16 +2608,16 @@ require("./runtime");
         }
         var TaroElement = function(_TaroNode) {
             (0, _babel_runtime_helpers_esm_inherits__WEBPACK_IMPORTED_MODULE_4__.Z)(TaroElement, _TaroNode);
-            var _super4 = (0, _babel_runtime_helpers_esm_createSuper__WEBPACK_IMPORTED_MODULE_5__.Z)(TaroElement);
+            var _super3 = (0, _babel_runtime_helpers_esm_createSuper__WEBPACK_IMPORTED_MODULE_5__.Z)(TaroElement);
             function TaroElement() {
                 var _this9;
                 (0, _babel_runtime_helpers_esm_classCallCheck__WEBPACK_IMPORTED_MODULE_1__.Z)(this, TaroElement);
-                _this9 = _super4.call(this);
+                _this9 = _super3.call(this);
                 _this9.props = {};
                 _this9.dataset = _tarojs_shared__WEBPACK_IMPORTED_MODULE_0__.kT;
                 _this9.nodeType = 1;
-                _this9.style = new Style((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_7__.Z)(_this9));
-                _tarojs_shared__WEBPACK_IMPORTED_MODULE_0__.PT.call("patchElement", (0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_7__.Z)(_this9));
+                _this9.style = new Style((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_8__.Z)(_this9));
+                _tarojs_shared__WEBPACK_IMPORTED_MODULE_0__.PT.call("patchElement", (0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_8__.Z)(_this9));
                 return _this9;
             }
             (0, _babel_runtime_helpers_esm_createClass__WEBPACK_IMPORTED_MODULE_2__.Z)(TaroElement, [ {
@@ -2643,7 +2694,7 @@ require("./runtime");
                     return text;
                 },
                 set: function set(text) {
-                    (0, _babel_runtime_helpers_esm_set__WEBPACK_IMPORTED_MODULE_12__.Z)((0, _babel_runtime_helpers_esm_getPrototypeOf__WEBPACK_IMPORTED_MODULE_8__.Z)(TaroElement.prototype), "textContent", text, this, true);
+                    (0, _babel_runtime_helpers_esm_set__WEBPACK_IMPORTED_MODULE_11__.Z)((0, _babel_runtime_helpers_esm_getPrototypeOf__WEBPACK_IMPORTED_MODULE_12__.Z)(TaroElement.prototype), "textContent", text, this, true);
                 }
             }, {
                 key: "hasAttribute",
@@ -2814,11 +2865,11 @@ require("./runtime");
             }, {
                 key: "getElementsByClassName",
                 value: function getElementsByClassName(className) {
+                    var classNames = className.trim().split(/\\s+/);
                     return treeToArray(this, (function(el) {
                         var classList = el.classList;
-                        var classNames = className.trim().split(/\\s+/);
                         return classNames.every((function(c) {
-                            return classList.has(c);
+                            return classList.contains(c);
                         }));
                     }));
                 }
@@ -2874,13 +2925,13 @@ require("./runtime");
                             value: alias
                         });
                     }
-                    (0, _babel_runtime_helpers_esm_get__WEBPACK_IMPORTED_MODULE_6__.Z)((0, _babel_runtime_helpers_esm_getPrototypeOf__WEBPACK_IMPORTED_MODULE_8__.Z)(TaroElement.prototype), "addEventListener", this).call(this, type, handler, options);
+                    (0, _babel_runtime_helpers_esm_get__WEBPACK_IMPORTED_MODULE_13__.Z)((0, _babel_runtime_helpers_esm_getPrototypeOf__WEBPACK_IMPORTED_MODULE_12__.Z)(TaroElement.prototype), "addEventListener", this).call(this, type, handler, options);
                 }
             }, {
                 key: "removeEventListener",
                 value: function removeEventListener(type, handler) {
                     var sideEffect = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : true;
-                    (0, _babel_runtime_helpers_esm_get__WEBPACK_IMPORTED_MODULE_6__.Z)((0, _babel_runtime_helpers_esm_getPrototypeOf__WEBPACK_IMPORTED_MODULE_8__.Z)(TaroElement.prototype), "removeEventListener", this).call(this, type, handler);
+                    (0, _babel_runtime_helpers_esm_get__WEBPACK_IMPORTED_MODULE_13__.Z)((0, _babel_runtime_helpers_esm_getPrototypeOf__WEBPACK_IMPORTED_MODULE_12__.Z)(TaroElement.prototype), "removeEventListener", this).call(this, type, handler);
                     var name = this.nodeName;
                     var SPECIAL_NODES = _tarojs_shared__WEBPACK_IMPORTED_MODULE_0__.PT.call("getSpecialNodes");
                     if (sideEffect !== false && !this.isAnyEventBinded() && SPECIAL_NODES.indexOf(name) > -1) {
@@ -3333,7 +3384,7 @@ require("./runtime");
                         };
                         item = item.replace(/^[>~+]/, "");
                         item = item.replace(/\\[(.+?)\\]/g, (function(_, $1) {
-                            var _$1$split = $1.split("="), _$1$split2 = (0, _babel_runtime_helpers_esm_slicedToArray__WEBPACK_IMPORTED_MODULE_13__.Z)(_$1$split, 2), key = _$1$split2[0], value = _$1$split2[1];
+                            var _$1$split = $1.split("="), _$1$split2 = (0, _babel_runtime_helpers_esm_slicedToArray__WEBPACK_IMPORTED_MODULE_14__.Z)(_$1$split, 2), key = _$1$split2[0], value = _$1$split2[1];
                             var all = $1.indexOf("=") === -1;
                             var attr = {
                                 all: all,
@@ -3581,7 +3632,7 @@ require("./runtime");
                 }
                 for (var i = 0; i < child.attributes.length; i++) {
                     var attr = child.attributes[i];
-                    var _splitEqual = splitEqual(attr), _splitEqual2 = (0, _babel_runtime_helpers_esm_slicedToArray__WEBPACK_IMPORTED_MODULE_13__.Z)(_splitEqual, 2), key = _splitEqual2[0], value = _splitEqual2[1];
+                    var _splitEqual = splitEqual(attr), _splitEqual2 = (0, _babel_runtime_helpers_esm_slicedToArray__WEBPACK_IMPORTED_MODULE_14__.Z)(_splitEqual, 2), key = _splitEqual2[0], value = _splitEqual2[1];
                     if (key === "class") {
                         el.className += " " + unquote(value);
                     } else if (key[0] === "o" && key[1] === "n") {
@@ -3981,10 +4032,10 @@ require("./runtime");
         }
         var FormElement = function(_TaroElement) {
             (0, _babel_runtime_helpers_esm_inherits__WEBPACK_IMPORTED_MODULE_4__.Z)(FormElement, _TaroElement);
-            var _super5 = (0, _babel_runtime_helpers_esm_createSuper__WEBPACK_IMPORTED_MODULE_5__.Z)(FormElement);
+            var _super4 = (0, _babel_runtime_helpers_esm_createSuper__WEBPACK_IMPORTED_MODULE_5__.Z)(FormElement);
             function FormElement() {
                 (0, _babel_runtime_helpers_esm_classCallCheck__WEBPACK_IMPORTED_MODULE_1__.Z)(this, FormElement);
-                return _super5.apply(this, arguments);
+                return _super4.apply(this, arguments);
             }
             (0, _babel_runtime_helpers_esm_createClass__WEBPACK_IMPORTED_MODULE_2__.Z)(FormElement, [ {
                 key: "value",
@@ -4006,7 +4057,7 @@ require("./runtime");
                             this.value = val;
                         }
                     }
-                    return (0, _babel_runtime_helpers_esm_get__WEBPACK_IMPORTED_MODULE_6__.Z)((0, _babel_runtime_helpers_esm_getPrototypeOf__WEBPACK_IMPORTED_MODULE_8__.Z)(FormElement.prototype), "dispatchEvent", this).call(this, event);
+                    return (0, _babel_runtime_helpers_esm_get__WEBPACK_IMPORTED_MODULE_13__.Z)((0, _babel_runtime_helpers_esm_getPrototypeOf__WEBPACK_IMPORTED_MODULE_12__.Z)(FormElement.prototype), "dispatchEvent", this).call(this, event);
                 }
             } ]);
             return FormElement;
@@ -4071,11 +4122,11 @@ require("./runtime");
         }
         var TaroRootElement = function(_TaroElement2) {
             (0, _babel_runtime_helpers_esm_inherits__WEBPACK_IMPORTED_MODULE_4__.Z)(TaroRootElement, _TaroElement2);
-            var _super6 = (0, _babel_runtime_helpers_esm_createSuper__WEBPACK_IMPORTED_MODULE_5__.Z)(TaroRootElement);
+            var _super5 = (0, _babel_runtime_helpers_esm_createSuper__WEBPACK_IMPORTED_MODULE_5__.Z)(TaroRootElement);
             function TaroRootElement() {
                 var _this15;
                 (0, _babel_runtime_helpers_esm_classCallCheck__WEBPACK_IMPORTED_MODULE_1__.Z)(this, TaroRootElement);
-                _this15 = _super6.call(this);
+                _this15 = _super5.call(this);
                 _this15.updatePayloads = [];
                 _this15.updateCallbacks = [];
                 _this15.pendingUpdate = false;
@@ -4149,7 +4200,7 @@ require("./runtime");
                                 if (found) {
                                     var customWrapper = found.customWrapper, splitedPath = found.splitedPath;
                                     customWrapperMap.set(customWrapper, Object.assign(Object.assign({}, customWrapperMap.get(customWrapper) || {}), (0, 
-                                    _babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_10__.Z)({}, "i.".concat(splitedPath), data[p])));
+                                    _babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_7__.Z)({}, "i.".concat(splitedPath), data[p])));
                                 } else {
                                     normalUpdate[p] = data[p];
                                 }
@@ -4201,11 +4252,11 @@ require("./runtime");
         }(TaroElement);
         var TaroText = function(_TaroNode2) {
             (0, _babel_runtime_helpers_esm_inherits__WEBPACK_IMPORTED_MODULE_4__.Z)(TaroText, _TaroNode2);
-            var _super7 = (0, _babel_runtime_helpers_esm_createSuper__WEBPACK_IMPORTED_MODULE_5__.Z)(TaroText);
+            var _super6 = (0, _babel_runtime_helpers_esm_createSuper__WEBPACK_IMPORTED_MODULE_5__.Z)(TaroText);
             function TaroText(value) {
                 var _this17;
                 (0, _babel_runtime_helpers_esm_classCallCheck__WEBPACK_IMPORTED_MODULE_1__.Z)(this, TaroText);
-                _this17 = _super7.call(this);
+                _this17 = _super6.call(this);
                 _this17.nodeType = 3;
                 _this17.nodeName = "#text";
                 _this17._value = value;
@@ -4620,10 +4671,10 @@ require("./runtime");
         }
         var AnchorElement = function(_TaroElement3) {
             (0, _babel_runtime_helpers_esm_inherits__WEBPACK_IMPORTED_MODULE_4__.Z)(AnchorElement, _TaroElement3);
-            var _super8 = (0, _babel_runtime_helpers_esm_createSuper__WEBPACK_IMPORTED_MODULE_5__.Z)(AnchorElement);
+            var _super7 = (0, _babel_runtime_helpers_esm_createSuper__WEBPACK_IMPORTED_MODULE_5__.Z)(AnchorElement);
             function AnchorElement() {
                 (0, _babel_runtime_helpers_esm_classCallCheck__WEBPACK_IMPORTED_MODULE_1__.Z)(this, AnchorElement);
-                return _super8.apply(this, arguments);
+                return _super7.apply(this, arguments);
             }
             (0, _babel_runtime_helpers_esm_createClass__WEBPACK_IMPORTED_MODULE_2__.Z)(AnchorElement, [ {
                 key: "href",
@@ -4682,10 +4733,10 @@ require("./runtime");
                     if (qualifiedName === "href") {
                         var willSetAttr = parseUrl(value);
                         for (var k in willSetAttr) {
-                            (0, _babel_runtime_helpers_esm_get__WEBPACK_IMPORTED_MODULE_6__.Z)((0, _babel_runtime_helpers_esm_getPrototypeOf__WEBPACK_IMPORTED_MODULE_8__.Z)(AnchorElement.prototype), "setAttribute", this).call(this, k, willSetAttr[k]);
+                            (0, _babel_runtime_helpers_esm_get__WEBPACK_IMPORTED_MODULE_13__.Z)((0, _babel_runtime_helpers_esm_getPrototypeOf__WEBPACK_IMPORTED_MODULE_12__.Z)(AnchorElement.prototype), "setAttribute", this).call(this, k, willSetAttr[k]);
                         }
                     } else {
-                        (0, _babel_runtime_helpers_esm_get__WEBPACK_IMPORTED_MODULE_6__.Z)((0, _babel_runtime_helpers_esm_getPrototypeOf__WEBPACK_IMPORTED_MODULE_8__.Z)(AnchorElement.prototype), "setAttribute", this).call(this, qualifiedName, value);
+                        (0, _babel_runtime_helpers_esm_get__WEBPACK_IMPORTED_MODULE_13__.Z)((0, _babel_runtime_helpers_esm_getPrototypeOf__WEBPACK_IMPORTED_MODULE_12__.Z)(AnchorElement.prototype), "setAttribute", this).call(this, qualifiedName, value);
                     }
                 }
             } ]);
@@ -4693,20 +4744,20 @@ require("./runtime");
         }(TaroElement);
         var CustomWrapperElement = function(_TaroElement4) {
             (0, _babel_runtime_helpers_esm_inherits__WEBPACK_IMPORTED_MODULE_4__.Z)(CustomWrapperElement, _TaroElement4);
-            var _super9 = (0, _babel_runtime_helpers_esm_createSuper__WEBPACK_IMPORTED_MODULE_5__.Z)(CustomWrapperElement);
+            var _super8 = (0, _babel_runtime_helpers_esm_createSuper__WEBPACK_IMPORTED_MODULE_5__.Z)(CustomWrapperElement);
             function CustomWrapperElement() {
                 (0, _babel_runtime_helpers_esm_classCallCheck__WEBPACK_IMPORTED_MODULE_1__.Z)(this, CustomWrapperElement);
-                return _super9.apply(this, arguments);
+                return _super8.apply(this, arguments);
             }
             return (0, _babel_runtime_helpers_esm_createClass__WEBPACK_IMPORTED_MODULE_2__.Z)(CustomWrapperElement);
         }(TaroElement);
         var TaroDocument = function(_TaroElement5) {
             (0, _babel_runtime_helpers_esm_inherits__WEBPACK_IMPORTED_MODULE_4__.Z)(TaroDocument, _TaroElement5);
-            var _super10 = (0, _babel_runtime_helpers_esm_createSuper__WEBPACK_IMPORTED_MODULE_5__.Z)(TaroDocument);
+            var _super9 = (0, _babel_runtime_helpers_esm_createSuper__WEBPACK_IMPORTED_MODULE_5__.Z)(TaroDocument);
             function TaroDocument() {
                 var _this18;
                 (0, _babel_runtime_helpers_esm_classCallCheck__WEBPACK_IMPORTED_MODULE_1__.Z)(this, TaroDocument);
-                _this18 = _super10.call(this);
+                _this18 = _super9.call(this);
                 _this18.createEvent = createEvent;
                 _this18.nodeType = 9;
                 _this18.nodeName = DOCUMENT_ELEMENT_NAME;
@@ -4850,60 +4901,60 @@ require("./runtime");
         var cache$1 = new RuntimeCache("history");
         var History = function(_Events) {
             (0, _babel_runtime_helpers_esm_inherits__WEBPACK_IMPORTED_MODULE_4__.Z)(History, _Events);
-            var _super11 = (0, _babel_runtime_helpers_esm_createSuper__WEBPACK_IMPORTED_MODULE_5__.Z)(History);
+            var _super10 = (0, _babel_runtime_helpers_esm_createSuper__WEBPACK_IMPORTED_MODULE_5__.Z)(History);
             function History(location, options) {
                 var _this19;
                 (0, _babel_runtime_helpers_esm_classCallCheck__WEBPACK_IMPORTED_MODULE_1__.Z)(this, History);
-                _this19 = _super11.call(this);
-                _History_instances.add((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_7__.Z)(_this19));
-                _History_location.set((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_7__.Z)(_this19), void 0);
-                _History_stack.set((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_7__.Z)(_this19), []);
-                _History_cur.set((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_7__.Z)(_this19), 0);
-                _History_window.set((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_7__.Z)(_this19), void 0);
-                __classPrivateFieldSet((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_7__.Z)(_this19), _History_window, options.window, "f");
-                __classPrivateFieldSet((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_7__.Z)(_this19), _History_location, location, "f");
-                __classPrivateFieldGet((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_7__.Z)(_this19), _History_location, "f").on("__record_history__", (function(href) {
+                _this19 = _super10.call(this);
+                _History_instances.add((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_8__.Z)(_this19));
+                _History_location.set((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_8__.Z)(_this19), void 0);
+                _History_stack.set((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_8__.Z)(_this19), []);
+                _History_cur.set((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_8__.Z)(_this19), 0);
+                _History_window.set((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_8__.Z)(_this19), void 0);
+                __classPrivateFieldSet((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_8__.Z)(_this19), _History_window, options.window, "f");
+                __classPrivateFieldSet((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_8__.Z)(_this19), _History_location, location, "f");
+                __classPrivateFieldGet((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_8__.Z)(_this19), _History_location, "f").on("__record_history__", (function(href) {
                     var _a;
-                    __classPrivateFieldSet((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_7__.Z)(_this19), _History_cur, (_a = __classPrivateFieldGet((0, 
-                    _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_7__.Z)(_this19), _History_cur, "f"), 
+                    __classPrivateFieldSet((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_8__.Z)(_this19), _History_cur, (_a = __classPrivateFieldGet((0, 
+                    _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_8__.Z)(_this19), _History_cur, "f"), 
                     _a++, _a), "f");
-                    __classPrivateFieldSet((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_7__.Z)(_this19), _History_stack, __classPrivateFieldGet((0, 
-                    _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_7__.Z)(_this19), _History_stack, "f").slice(0, __classPrivateFieldGet((0, 
-                    _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_7__.Z)(_this19), _History_cur, "f")), "f");
-                    __classPrivateFieldGet((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_7__.Z)(_this19), _History_stack, "f").push({
+                    __classPrivateFieldSet((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_8__.Z)(_this19), _History_stack, __classPrivateFieldGet((0, 
+                    _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_8__.Z)(_this19), _History_stack, "f").slice(0, __classPrivateFieldGet((0, 
+                    _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_8__.Z)(_this19), _History_cur, "f")), "f");
+                    __classPrivateFieldGet((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_8__.Z)(_this19), _History_stack, "f").push({
                         state: null,
                         title: "",
                         url: href
                     });
                 }), null);
-                __classPrivateFieldGet((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_7__.Z)(_this19), _History_location, "f").on("__reset_history__", (function(href) {
-                    __classPrivateFieldGet((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_7__.Z)(_this19), _History_instances, "m", _History_reset).call((0, 
-                    _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_7__.Z)(_this19), href);
+                __classPrivateFieldGet((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_8__.Z)(_this19), _History_location, "f").on("__reset_history__", (function(href) {
+                    __classPrivateFieldGet((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_8__.Z)(_this19), _History_instances, "m", _History_reset).call((0, 
+                    _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_8__.Z)(_this19), href);
                 }), null);
                 _this19.on(CONTEXT_ACTIONS.INIT, (function() {
-                    __classPrivateFieldGet((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_7__.Z)(_this19), _History_instances, "m", _History_reset).call((0, 
-                    _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_7__.Z)(_this19));
+                    __classPrivateFieldGet((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_8__.Z)(_this19), _History_instances, "m", _History_reset).call((0, 
+                    _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_8__.Z)(_this19));
                 }), null);
                 _this19.on(CONTEXT_ACTIONS.RESTORE, (function(pageId) {
                     cache$1.set(pageId, {
-                        location: __classPrivateFieldGet((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_7__.Z)(_this19), _History_location, "f"),
-                        stack: __classPrivateFieldGet((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_7__.Z)(_this19), _History_stack, "f").slice(),
-                        cur: __classPrivateFieldGet((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_7__.Z)(_this19), _History_cur, "f")
+                        location: __classPrivateFieldGet((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_8__.Z)(_this19), _History_location, "f"),
+                        stack: __classPrivateFieldGet((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_8__.Z)(_this19), _History_stack, "f").slice(),
+                        cur: __classPrivateFieldGet((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_8__.Z)(_this19), _History_cur, "f")
                     });
                 }), null);
                 _this19.on(CONTEXT_ACTIONS.RECOVER, (function(pageId) {
                     if (cache$1.has(pageId)) {
                         var ctx = cache$1.get(pageId);
-                        __classPrivateFieldSet((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_7__.Z)(_this19), _History_location, ctx.location, "f");
-                        __classPrivateFieldSet((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_7__.Z)(_this19), _History_stack, ctx.stack, "f");
-                        __classPrivateFieldSet((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_7__.Z)(_this19), _History_cur, ctx.cur, "f");
+                        __classPrivateFieldSet((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_8__.Z)(_this19), _History_location, ctx.location, "f");
+                        __classPrivateFieldSet((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_8__.Z)(_this19), _History_stack, ctx.stack, "f");
+                        __classPrivateFieldSet((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_8__.Z)(_this19), _History_cur, ctx.cur, "f");
                     }
                 }), null);
                 _this19.on(CONTEXT_ACTIONS.DESTORY, (function(pageId) {
                     cache$1.delete(pageId);
                 }), null);
-                __classPrivateFieldGet((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_7__.Z)(_this19), _History_instances, "m", _History_reset).call((0, 
-                _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_7__.Z)(_this19));
+                __classPrivateFieldGet((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_8__.Z)(_this19), _History_instances, "m", _History_reset).call((0, 
+                _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_8__.Z)(_this19));
                 return _this19;
             }
             (0, _babel_runtime_helpers_esm_createClass__WEBPACK_IMPORTED_MODULE_2__.Z)(History, [ {
@@ -4991,30 +5042,30 @@ require("./runtime");
         var cache = new RuntimeCache("location");
         var Location = function(_Events2) {
             (0, _babel_runtime_helpers_esm_inherits__WEBPACK_IMPORTED_MODULE_4__.Z)(Location, _Events2);
-            var _super12 = (0, _babel_runtime_helpers_esm_createSuper__WEBPACK_IMPORTED_MODULE_5__.Z)(Location);
+            var _super11 = (0, _babel_runtime_helpers_esm_createSuper__WEBPACK_IMPORTED_MODULE_5__.Z)(Location);
             function Location(options) {
                 var _this20;
                 (0, _babel_runtime_helpers_esm_classCallCheck__WEBPACK_IMPORTED_MODULE_1__.Z)(this, Location);
-                _this20 = _super12.call(this);
-                _Location_instances.add((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_7__.Z)(_this20));
-                _Location_url.set((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_7__.Z)(_this20), new URL(INIT_URL));
-                _Location_noCheckUrl.set((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_7__.Z)(_this20), false);
-                _Location_window.set((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_7__.Z)(_this20), void 0);
-                __classPrivateFieldSet((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_7__.Z)(_this20), _Location_window, options.window, "f");
-                __classPrivateFieldGet((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_7__.Z)(_this20), _Location_instances, "m", _Location_reset).call((0, 
-                _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_7__.Z)(_this20));
+                _this20 = _super11.call(this);
+                _Location_instances.add((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_8__.Z)(_this20));
+                _Location_url.set((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_8__.Z)(_this20), new URL(INIT_URL));
+                _Location_noCheckUrl.set((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_8__.Z)(_this20), false);
+                _Location_window.set((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_8__.Z)(_this20), void 0);
+                __classPrivateFieldSet((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_8__.Z)(_this20), _Location_window, options.window, "f");
+                __classPrivateFieldGet((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_8__.Z)(_this20), _Location_instances, "m", _Location_reset).call((0, 
+                _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_8__.Z)(_this20));
                 _this20.on("__set_href_without_history__", (function(href) {
-                    __classPrivateFieldSet((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_7__.Z)(_this20), _Location_noCheckUrl, true, "f");
-                    var lastHash = __classPrivateFieldGet((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_7__.Z)(_this20), _Location_url, "f").hash;
-                    __classPrivateFieldGet((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_7__.Z)(_this20), _Location_url, "f").href = generateFullUrl(href);
-                    if (lastHash !== __classPrivateFieldGet((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_7__.Z)(_this20), _Location_url, "f").hash) {
-                        __classPrivateFieldGet((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_7__.Z)(_this20), _Location_window, "f").trigger("hashchange");
+                    __classPrivateFieldSet((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_8__.Z)(_this20), _Location_noCheckUrl, true, "f");
+                    var lastHash = __classPrivateFieldGet((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_8__.Z)(_this20), _Location_url, "f").hash;
+                    __classPrivateFieldGet((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_8__.Z)(_this20), _Location_url, "f").href = generateFullUrl(href);
+                    if (lastHash !== __classPrivateFieldGet((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_8__.Z)(_this20), _Location_url, "f").hash) {
+                        __classPrivateFieldGet((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_8__.Z)(_this20), _Location_window, "f").trigger("hashchange");
                     }
-                    __classPrivateFieldSet((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_7__.Z)(_this20), _Location_noCheckUrl, false, "f");
+                    __classPrivateFieldSet((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_8__.Z)(_this20), _Location_noCheckUrl, false, "f");
                 }), null);
                 _this20.on(CONTEXT_ACTIONS.INIT, (function() {
-                    __classPrivateFieldGet((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_7__.Z)(_this20), _Location_instances, "m", _Location_reset).call((0, 
-                    _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_7__.Z)(_this20));
+                    __classPrivateFieldGet((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_8__.Z)(_this20), _Location_instances, "m", _Location_reset).call((0, 
+                    _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_8__.Z)(_this20));
                 }), null);
                 _this20.on(CONTEXT_ACTIONS.RESTORE, (function(pageId) {
                     cache.set(pageId, {
@@ -5024,9 +5075,9 @@ require("./runtime");
                 _this20.on(CONTEXT_ACTIONS.RECOVER, (function(pageId) {
                     if (cache.has(pageId)) {
                         var ctx = cache.get(pageId);
-                        __classPrivateFieldSet((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_7__.Z)(_this20), _Location_noCheckUrl, true, "f");
-                        __classPrivateFieldGet((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_7__.Z)(_this20), _Location_url, "f").href = ctx.lastHref;
-                        __classPrivateFieldSet((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_7__.Z)(_this20), _Location_noCheckUrl, false, "f");
+                        __classPrivateFieldSet((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_8__.Z)(_this20), _Location_noCheckUrl, true, "f");
+                        __classPrivateFieldGet((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_8__.Z)(_this20), _Location_url, "f").href = ctx.lastHref;
+                        __classPrivateFieldSet((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_8__.Z)(_this20), _Location_noCheckUrl, false, "f");
                     }
                 }), null);
                 _this20.on(CONTEXT_ACTIONS.DESTORY, (function(pageId) {
@@ -5276,11 +5327,11 @@ require("./runtime");
         if (true && !(0, _tarojs_shared__WEBPACK_IMPORTED_MODULE_0__.gl)()) {
             var Window = function(_Events3) {
                 (0, _babel_runtime_helpers_esm_inherits__WEBPACK_IMPORTED_MODULE_4__.Z)(Window, _Events3);
-                var _super13 = (0, _babel_runtime_helpers_esm_createSuper__WEBPACK_IMPORTED_MODULE_5__.Z)(Window);
+                var _super12 = (0, _babel_runtime_helpers_esm_createSuper__WEBPACK_IMPORTED_MODULE_5__.Z)(Window);
                 function Window() {
                     var _this21;
                     (0, _babel_runtime_helpers_esm_classCallCheck__WEBPACK_IMPORTED_MODULE_1__.Z)(this, Window);
-                    _this21 = _super13.call(this);
+                    _this21 = _super12.call(this);
                     _this21.navigator = nav;
                     _this21.requestAnimationFrame = _raf;
                     _this21.cancelAnimationFrame = _caf;
@@ -5289,7 +5340,7 @@ require("./runtime");
                     _babel_runtime_helpers_esm_toConsumableArray__WEBPACK_IMPORTED_MODULE_3__.Z)(Object.getOwnPropertySymbols(__webpack_require__.g || {})));
                     globalProperties.forEach((function(property) {
                         if (property === "atob" || property === "document") return;
-                        if (!Object.prototype.hasOwnProperty.call((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_7__.Z)(_this21), property)) {
+                        if (!Object.prototype.hasOwnProperty.call((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_8__.Z)(_this21), property)) {
                             try {
                                 _this21[property] = __webpack_require__.g[property];
                             } catch (e) {
@@ -5299,10 +5350,10 @@ require("./runtime");
                     }));
                     _this21.Date || (_this21.Date = Date);
                     _this21.location = new Location({
-                        window: (0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_7__.Z)(_this21)
+                        window: (0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_8__.Z)(_this21)
                     });
                     _this21.history = new History(_this21.location, {
-                        window: (0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_7__.Z)(_this21)
+                        window: (0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_8__.Z)(_this21)
                     });
                     _this21.initEvent();
                     return _this21;
@@ -5382,10 +5433,10 @@ require("./runtime");
         var history = window$1.history;
         var SVGElement = function(_TaroElement6) {
             (0, _babel_runtime_helpers_esm_inherits__WEBPACK_IMPORTED_MODULE_4__.Z)(SVGElement, _TaroElement6);
-            var _super14 = (0, _babel_runtime_helpers_esm_createSuper__WEBPACK_IMPORTED_MODULE_5__.Z)(SVGElement);
+            var _super13 = (0, _babel_runtime_helpers_esm_createSuper__WEBPACK_IMPORTED_MODULE_5__.Z)(SVGElement);
             function SVGElement() {
                 (0, _babel_runtime_helpers_esm_classCallCheck__WEBPACK_IMPORTED_MODULE_1__.Z)(this, SVGElement);
-                return _super14.apply(this, arguments);
+                return _super13.apply(this, arguments);
             }
             return (0, _babel_runtime_helpers_esm_createClass__WEBPACK_IMPORTED_MODULE_2__.Z)(SVGElement);
         }(TaroElement);
@@ -5459,7 +5510,7 @@ require("./runtime");
         function createPageConfig(component, pageName, data, pageConfig) {
             var _config;
             var id = pageName !== null && pageName !== void 0 ? pageName : "taro_page_".concat(pageId());
-            var _hooks$call$page = (0, _babel_runtime_helpers_esm_slicedToArray__WEBPACK_IMPORTED_MODULE_13__.Z)(_tarojs_shared__WEBPACK_IMPORTED_MODULE_0__.PT.call("getMiniLifecycleImpl").page, 7), ONLOAD = _hooks$call$page[0], ONUNLOAD = _hooks$call$page[1], ONREADY = _hooks$call$page[2], ONSHOW = _hooks$call$page[3], ONHIDE = _hooks$call$page[4], LIFECYCLES = _hooks$call$page[5], SIDE_EFFECT_LIFECYCLES = _hooks$call$page[6];
+            var _hooks$call$page = (0, _babel_runtime_helpers_esm_slicedToArray__WEBPACK_IMPORTED_MODULE_14__.Z)(_tarojs_shared__WEBPACK_IMPORTED_MODULE_0__.PT.call("getMiniLifecycleImpl").page, 7), ONLOAD = _hooks$call$page[0], ONUNLOAD = _hooks$call$page[1], ONREADY = _hooks$call$page[2], ONSHOW = _hooks$call$page[3], ONHIDE = _hooks$call$page[4], LIFECYCLES = _hooks$call$page[5], SIDE_EFFECT_LIFECYCLES = _hooks$call$page[6];
             var pageElement = null;
             var unmounting = false;
             var prepareMountList = [];
@@ -5479,7 +5530,7 @@ require("./runtime");
             }
             var loadResolver;
             var hasLoaded;
-            var config = (_config = {}, (0, _babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_10__.Z)(_config, ONLOAD, (function() {
+            var config = (_config = {}, (0, _babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_7__.Z)(_config, ONLOAD, (function() {
                 var _this22 = this;
                 var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
                 var cb = arguments.length > 1 ? arguments[1] : undefined;
@@ -5522,7 +5573,7 @@ require("./runtime");
                 } else {
                     mount();
                 }
-            })), (0, _babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_10__.Z)(_config, ONUNLOAD, (function() {
+            })), (0, _babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_7__.Z)(_config, ONUNLOAD, (function() {
                 var $taroPath = this.$taroPath;
                 if (!isWeb) {
                     window$1.trigger(CONTEXT_ACTIONS.DESTORY, $taroPath);
@@ -5543,7 +5594,7 @@ require("./runtime");
                         prepareMountList = [];
                     }
                 }));
-            })), (0, _babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_10__.Z)(_config, ONREADY, (function() {
+            })), (0, _babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_7__.Z)(_config, ONREADY, (function() {
                 var _this23 = this;
                 hasLoaded.then((function() {
                     safeExecute(_this23.$taroPath, ON_READY);
@@ -5552,7 +5603,7 @@ require("./runtime");
                     }));
                     _this23.onReady.called = true;
                 }));
-            })), (0, _babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_10__.Z)(_config, ONSHOW, (function() {
+            })), (0, _babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_7__.Z)(_config, ONSHOW, (function() {
                 var _this24 = this;
                 var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
                 hasLoaded.then((function() {
@@ -5566,7 +5617,7 @@ require("./runtime");
                         return eventCenter.trigger(getOnShowEventKey(id));
                     }));
                 }));
-            })), (0, _babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_10__.Z)(_config, ONHIDE, (function() {
+            })), (0, _babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_7__.Z)(_config, ONHIDE, (function() {
                 if (!isWeb) {
                     window$1.trigger(CONTEXT_ACTIONS.RESTORE, this.$taroPath);
                 }
@@ -5613,8 +5664,8 @@ require("./runtime");
             var _config2;
             var id = componentName !== null && componentName !== void 0 ? componentName : "taro_component_".concat(pageId());
             var componentElement = null;
-            var _hooks$call$component = (0, _babel_runtime_helpers_esm_slicedToArray__WEBPACK_IMPORTED_MODULE_13__.Z)(_tarojs_shared__WEBPACK_IMPORTED_MODULE_0__.PT.call("getMiniLifecycleImpl").component, 2), ATTACHED = _hooks$call$component[0], DETACHED = _hooks$call$component[1];
-            var config = (_config2 = {}, (0, _babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_10__.Z)(_config2, ATTACHED, (function() {
+            var _hooks$call$component = (0, _babel_runtime_helpers_esm_slicedToArray__WEBPACK_IMPORTED_MODULE_14__.Z)(_tarojs_shared__WEBPACK_IMPORTED_MODULE_0__.PT.call("getMiniLifecycleImpl").component, 2), ATTACHED = _hooks$call$component[0], DETACHED = _hooks$call$component[1];
+            var config = (_config2 = {}, (0, _babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_7__.Z)(_config2, ATTACHED, (function() {
                 var _this25 = this;
                 var _a;
                 perf.start(PAGE_INIT);
@@ -5631,7 +5682,7 @@ require("./runtime");
                         componentElement.performUpdate(true);
                     }
                 }));
-            })), (0, _babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_10__.Z)(_config2, DETACHED, (function() {
+            })), (0, _babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_7__.Z)(_config2, DETACHED, (function() {
                 var path = getPath(id, {
                     id: this.getPageId()
                 });
@@ -5641,7 +5692,7 @@ require("./runtime");
                         componentElement.ctx = null;
                     }
                 }));
-            })), (0, _babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_10__.Z)(_config2, "methods", {
+            })), (0, _babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_7__.Z)(_config2, "methods", {
                 eh: eventHandler
             }), _config2);
             if (!(0, _tarojs_shared__WEBPACK_IMPORTED_MODULE_0__.o8)(data)) {
@@ -5656,8 +5707,8 @@ require("./runtime");
         function createRecursiveComponentConfig(componentName) {
             var _ref3;
             var isCustomWrapper = componentName === CUSTOM_WRAPPER;
-            var _hooks$call$component2 = (0, _babel_runtime_helpers_esm_slicedToArray__WEBPACK_IMPORTED_MODULE_13__.Z)(_tarojs_shared__WEBPACK_IMPORTED_MODULE_0__.PT.call("getMiniLifecycleImpl").component, 2), ATTACHED = _hooks$call$component2[0], DETACHED = _hooks$call$component2[1];
-            var lifeCycles = isCustomWrapper ? (_ref3 = {}, (0, _babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_10__.Z)(_ref3, ATTACHED, (function() {
+            var _hooks$call$component2 = (0, _babel_runtime_helpers_esm_slicedToArray__WEBPACK_IMPORTED_MODULE_14__.Z)(_tarojs_shared__WEBPACK_IMPORTED_MODULE_0__.PT.call("getMiniLifecycleImpl").component, 2), ATTACHED = _hooks$call$component2[0], DETACHED = _hooks$call$component2[1];
+            var lifeCycles = isCustomWrapper ? (_ref3 = {}, (0, _babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_7__.Z)(_ref3, ATTACHED, (function() {
                 var _a, _b;
                 var componentId = ((_a = this.data.i) === null || _a === void 0 ? void 0 : _a.sid) || ((_b = this.props.i) === null || _b === void 0 ? void 0 : _b.sid);
                 if ((0, _tarojs_shared__WEBPACK_IMPORTED_MODULE_0__.HD)(componentId)) {
@@ -5667,7 +5718,7 @@ require("./runtime");
                         el.ctx = this;
                     }
                 }
-            })), (0, _babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_10__.Z)(_ref3, DETACHED, (function() {
+            })), (0, _babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_7__.Z)(_ref3, DETACHED, (function() {
                 var _a, _b;
                 var componentId = ((_a = this.data.i) === null || _a === void 0 ? void 0 : _a.sid) || ((_b = this.props.i) === null || _b === void 0 ? void 0 : _b.sid);
                 if ((0, _tarojs_shared__WEBPACK_IMPORTED_MODULE_0__.HD)(componentId)) {
@@ -5682,7 +5733,7 @@ require("./runtime");
                 properties: {
                     i: {
                         type: Object,
-                        value: (0, _babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_10__.Z)({}, "nn", (0, 
+                        value: (0, _babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_7__.Z)({}, "nn", (0, 
                         _tarojs_shared__WEBPACK_IMPORTED_MODULE_0__.W)(_tarojs_shared__WEBPACK_IMPORTED_MODULE_0__.rD)[VIEW]._num)
                     },
                     l: {
@@ -7871,7 +7922,7 @@ require("./runtime");
             }
         });
         var taro_shared = __webpack_require__(106);
-        var needPromiseApis = new Set([ "addFileToFavorites", "addVideoToFavorites", "authPrivateMessage", "checkIsAddedToMyMiniProgram", "chooseContact", "cropImage", "disableAlertBeforeUnload", "editImage", "enableAlertBeforeUnload", "getBackgroundFetchData", "getFuzzyLocation", "getGroupEnterInfo", "getLocalIPAddress", "getShareInfo", "getUserProfile", "getWeRunData", "join1v1Chat", "openCustomerServiceChat", "openVideoEditor", "saveFileToDisk", "scanItem", "setEnable1v1Chat", "setWindowSize", "sendBizRedPacket", "startFacialRecognitionVerify" ]);
+        var needPromiseApis = new Set([ "addFileToFavorites", "addVideoToFavorites", "authPrivateMessage", "checkIsAddedToMyMiniProgram", "chooseContact", "cropImage", "disableAlertBeforeUnload", "editImage", "enableAlertBeforeUnload", "getBackgroundFetchData", "getChannelsLiveInfo", "getChannelsLiveNoticeInfo", "getFuzzyLocation", "getGroupEnterInfo", "getLocalIPAddress", "getShareInfo", "getUserProfile", "getWeRunData", "join1v1Chat", "openChannelsActivity", "openChannelsEvent", "openChannelsLive", "openChannelsUserProfile", "openCustomerServiceChat", "openVideoEditor", "saveFileToDisk", "scanItem", "setEnable1v1Chat", "setWindowSize", "sendBizRedPacket", "startFacialRecognitionVerify" ]);
         function initNativeApi(taro) {
             (0, taro_shared.Ig)(taro, wx, {
                 needPromiseApis: needPromiseApis,
@@ -9325,16 +9376,17 @@ require("./runtime");
                 return window$1;
             }
         });
-        var _babel_runtime_helpers_esm_slicedToArray__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(62);
-        var _babel_runtime_helpers_esm_set__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(286);
-        var _babel_runtime_helpers_esm_toArray__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(298);
-        var _babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(208);
-        var _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(13);
+        var _babel_runtime_helpers_esm_slicedToArray__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(62);
+        var _babel_runtime_helpers_esm_get__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(306);
+        var _babel_runtime_helpers_esm_set__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(286);
+        var _babel_runtime_helpers_esm_getPrototypeOf__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(475);
+        var _babel_runtime_helpers_esm_toArray__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(298);
+        var _babel_runtime_helpers_esm_typeof__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(156);
+        var _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(13);
+        var _babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(208);
         var _babel_runtime_helpers_esm_inherits__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(410);
         var _babel_runtime_helpers_esm_createSuper__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(635);
-        var _babel_runtime_helpers_esm_get__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(306);
-        var _babel_runtime_helpers_esm_getPrototypeOf__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(475);
-        var _babel_runtime_helpers_esm_wrapNativeSuper__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(213);
+        var _babel_runtime_helpers_esm_wrapNativeSuper__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(213);
         var _babel_runtime_helpers_esm_toConsumableArray__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(528);
         var _babel_runtime_helpers_esm_classCallCheck__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(351);
         var _babel_runtime_helpers_esm_createClass__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(23);
@@ -9605,71 +9657,108 @@ require("./runtime");
             }
             return componentsAlias$1;
         }
-        var ClassList = function(_Set) {
-            (0, _babel_runtime_helpers_esm_inherits__WEBPACK_IMPORTED_MODULE_4__.Z)(ClassList, _Set);
-            var _super = (0, _babel_runtime_helpers_esm_createSuper__WEBPACK_IMPORTED_MODULE_5__.Z)(ClassList);
+        var ClassList = function() {
             function ClassList(className, el) {
-                var _thisSuper, _this;
+                var _this = this;
                 (0, _babel_runtime_helpers_esm_classCallCheck__WEBPACK_IMPORTED_MODULE_1__.Z)(this, ClassList);
-                _this = _super.call(this);
-                className.trim().split(/\\s+/).forEach((0, _babel_runtime_helpers_esm_get__WEBPACK_IMPORTED_MODULE_6__.Z)((_thisSuper = (0, 
-                _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_7__.Z)(_this), 
-                (0, _babel_runtime_helpers_esm_getPrototypeOf__WEBPACK_IMPORTED_MODULE_8__.Z)(ClassList.prototype)), "add", _thisSuper).bind((0, 
-                _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_7__.Z)(_this)));
-                _this.el = el;
-                return _this;
+                this.tokenList = [];
+                this.el = el;
+                className.trim().split(/\\s+/).forEach((function(token) {
+                    return _this.tokenList.push(token);
+                }));
             }
             (0, _babel_runtime_helpers_esm_createClass__WEBPACK_IMPORTED_MODULE_2__.Z)(ClassList, [ {
                 key: "value",
                 get: function get() {
-                    return (0, _babel_runtime_helpers_esm_toConsumableArray__WEBPACK_IMPORTED_MODULE_3__.Z)(this).filter((function(v) {
-                        return v !== "";
-                    })).join(" ");
-                }
-            }, {
-                key: "add",
-                value: function add(s) {
-                    (0, _babel_runtime_helpers_esm_get__WEBPACK_IMPORTED_MODULE_6__.Z)((0, _babel_runtime_helpers_esm_getPrototypeOf__WEBPACK_IMPORTED_MODULE_8__.Z)(ClassList.prototype), "add", this).call(this, s);
-                    this._update();
-                    return this;
+                    return this.toString();
                 }
             }, {
                 key: "length",
                 get: function get() {
-                    return this.size;
+                    return this.tokenList.length;
+                }
+            }, {
+                key: "add",
+                value: function add() {
+                    var index = 0;
+                    var updated = false;
+                    var tokens = arguments;
+                    var length = tokens.length;
+                    var tokenList = this.tokenList;
+                    do {
+                        var token = tokens[index];
+                        if (this.checkTokenIsValid(token) && !~tokenList.indexOf(token)) {
+                            tokenList.push(token);
+                            updated = true;
+                        }
+                    } while (++index < length);
+                    if (updated) {
+                        this._update();
+                    }
                 }
             }, {
                 key: "remove",
-                value: function remove(s) {
-                    (0, _babel_runtime_helpers_esm_get__WEBPACK_IMPORTED_MODULE_6__.Z)((0, _babel_runtime_helpers_esm_getPrototypeOf__WEBPACK_IMPORTED_MODULE_8__.Z)(ClassList.prototype), "delete", this).call(this, s);
-                    this._update();
-                }
-            }, {
-                key: "toggle",
-                value: function toggle(s) {
-                    if ((0, _babel_runtime_helpers_esm_get__WEBPACK_IMPORTED_MODULE_6__.Z)((0, _babel_runtime_helpers_esm_getPrototypeOf__WEBPACK_IMPORTED_MODULE_8__.Z)(ClassList.prototype), "has", this).call(this, s)) {
-                        (0, _babel_runtime_helpers_esm_get__WEBPACK_IMPORTED_MODULE_6__.Z)((0, _babel_runtime_helpers_esm_getPrototypeOf__WEBPACK_IMPORTED_MODULE_8__.Z)(ClassList.prototype), "delete", this).call(this, s);
-                    } else {
-                        (0, _babel_runtime_helpers_esm_get__WEBPACK_IMPORTED_MODULE_6__.Z)((0, _babel_runtime_helpers_esm_getPrototypeOf__WEBPACK_IMPORTED_MODULE_8__.Z)(ClassList.prototype), "add", this).call(this, s);
+                value: function remove() {
+                    var i = 0;
+                    var updated = false;
+                    var tokens = arguments;
+                    var length = tokens.length;
+                    var tokenList = this.tokenList;
+                    do {
+                        var token = tokens[i] + "";
+                        if (!this.checkTokenIsValid(token)) continue;
+                        var index = tokenList.indexOf(token);
+                        if (~tokenList.indexOf(token)) {
+                            tokenList.splice(index, 1);
+                            updated = true;
+                        }
+                    } while (++i < length);
+                    if (updated) {
+                        this._update();
                     }
-                    this._update();
-                }
-            }, {
-                key: "replace",
-                value: function replace(s1, s2) {
-                    (0, _babel_runtime_helpers_esm_get__WEBPACK_IMPORTED_MODULE_6__.Z)((0, _babel_runtime_helpers_esm_getPrototypeOf__WEBPACK_IMPORTED_MODULE_8__.Z)(ClassList.prototype), "delete", this).call(this, s1);
-                    (0, _babel_runtime_helpers_esm_get__WEBPACK_IMPORTED_MODULE_6__.Z)((0, _babel_runtime_helpers_esm_getPrototypeOf__WEBPACK_IMPORTED_MODULE_8__.Z)(ClassList.prototype), "add", this).call(this, s2);
-                    this._update();
                 }
             }, {
                 key: "contains",
-                value: function contains(s) {
-                    return (0, _babel_runtime_helpers_esm_get__WEBPACK_IMPORTED_MODULE_6__.Z)((0, _babel_runtime_helpers_esm_getPrototypeOf__WEBPACK_IMPORTED_MODULE_8__.Z)(ClassList.prototype), "has", this).call(this, s);
+                value: function contains(token) {
+                    if (!this.checkTokenIsValid(token)) return false;
+                    return !!~this.tokenList.indexOf(token);
+                }
+            }, {
+                key: "toggle",
+                value: function toggle(token, force) {
+                    var result = this.contains(token);
+                    var method = result ? force !== true && "remove" : force !== false && "add";
+                    if (method) {
+                        this[method](token);
+                    }
+                    if (force === true || force === false) {
+                        return force;
+                    } else {
+                        return !result;
+                    }
+                }
+            }, {
+                key: "replace",
+                value: function replace(token, replacement_token) {
+                    if (!this.checkTokenIsValid(token) || !this.checkTokenIsValid(replacement_token)) return;
+                    var index = this.tokenList.indexOf(token);
+                    if (~index) {
+                        this.tokenList.splice(index, 1, replacement_token);
+                        this._update();
+                    }
                 }
             }, {
                 key: "toString",
                 value: function toString() {
-                    return this.value;
+                    return this.tokenList.filter((function(v) {
+                        return v !== "";
+                    })).join(" ");
+                }
+            }, {
+                key: "checkTokenIsValid",
+                value: function checkTokenIsValid(token) {
+                    if (token === "" || /\\s/.test(token)) return false;
+                    return true;
                 }
             }, {
                 key: "_update",
@@ -9678,13 +9767,13 @@ require("./runtime");
                 }
             } ]);
             return ClassList;
-        }((0, _babel_runtime_helpers_esm_wrapNativeSuper__WEBPACK_IMPORTED_MODULE_9__.Z)(Set));
+        }();
         var EventSource = function(_Map) {
             (0, _babel_runtime_helpers_esm_inherits__WEBPACK_IMPORTED_MODULE_4__.Z)(EventSource, _Map);
-            var _super2 = (0, _babel_runtime_helpers_esm_createSuper__WEBPACK_IMPORTED_MODULE_5__.Z)(EventSource);
+            var _super = (0, _babel_runtime_helpers_esm_createSuper__WEBPACK_IMPORTED_MODULE_5__.Z)(EventSource);
             function EventSource() {
                 (0, _babel_runtime_helpers_esm_classCallCheck__WEBPACK_IMPORTED_MODULE_1__.Z)(this, EventSource);
-                return _super2.apply(this, arguments);
+                return _super.apply(this, arguments);
             }
             (0, _babel_runtime_helpers_esm_createClass__WEBPACK_IMPORTED_MODULE_2__.Z)(EventSource, [ {
                 key: "removeNode",
@@ -9705,7 +9794,7 @@ require("./runtime");
                 }
             } ]);
             return EventSource;
-        }((0, _babel_runtime_helpers_esm_wrapNativeSuper__WEBPACK_IMPORTED_MODULE_9__.Z)(Map));
+        }((0, _babel_runtime_helpers_esm_wrapNativeSuper__WEBPACK_IMPORTED_MODULE_6__.Z)(Map));
         var eventSource = new EventSource;
         var isWeb$1 = (0, _tarojs_shared__WEBPACK_IMPORTED_MODULE_0__.gl)();
         var env = {
@@ -9725,12 +9814,12 @@ require("./runtime");
             var nodeName = node.nodeName;
             if (isText(node)) {
                 var _ref;
-                return _ref = {}, (0, _babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_10__.Z)(_ref, "v", node.nodeValue), 
-                (0, _babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_10__.Z)(_ref, "nn", componentsAlias[nodeName]._num), 
+                return _ref = {}, (0, _babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_7__.Z)(_ref, "v", node.nodeValue), 
+                (0, _babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_7__.Z)(_ref, "nn", componentsAlias[nodeName]._num), 
                 _ref;
             }
-            var data = (_data = {}, (0, _babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_10__.Z)(_data, "nn", nodeName), 
-            (0, _babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_10__.Z)(_data, "sid", node.sid), 
+            var data = (_data = {}, (0, _babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_7__.Z)(_data, "nn", nodeName), 
+            (0, _babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_7__.Z)(_data, "sid", node.sid), 
             _data);
             if (node.uid !== node.sid) {
                 data.uid = node.uid;
@@ -9863,11 +9952,11 @@ require("./runtime");
         var nodeId = incrementId();
         var TaroNode = function(_TaroEventTarget) {
             (0, _babel_runtime_helpers_esm_inherits__WEBPACK_IMPORTED_MODULE_4__.Z)(TaroNode, _TaroEventTarget);
-            var _super3 = (0, _babel_runtime_helpers_esm_createSuper__WEBPACK_IMPORTED_MODULE_5__.Z)(TaroNode);
+            var _super2 = (0, _babel_runtime_helpers_esm_createSuper__WEBPACK_IMPORTED_MODULE_5__.Z)(TaroNode);
             function TaroNode() {
                 var _this3;
                 (0, _babel_runtime_helpers_esm_classCallCheck__WEBPACK_IMPORTED_MODULE_1__.Z)(this, TaroNode);
-                _this3 = _super3.call(this);
+                _this3 = _super2.call(this);
                 _this3.parentNode = null;
                 _this3.childNodes = [];
                 _this3.hydrate = function(node) {
@@ -9877,7 +9966,7 @@ require("./runtime");
                 };
                 _this3.uid = "_" + nodeId();
                 _this3.sid = _this3.uid;
-                eventSource.set(_this3.sid, (0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_7__.Z)(_this3));
+                eventSource.set(_this3.sid, (0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_8__.Z)(_this3));
                 return _this3;
             }
             (0, _babel_runtime_helpers_esm_createClass__WEBPACK_IMPORTED_MODULE_2__.Z)(TaroNode, [ {
@@ -10104,7 +10193,7 @@ require("./runtime");
             return TaroNode;
         }(TaroEventTarget);
         var WEBKIT = "webkit";
-        var styleProperties = [ "all", "appearance", "blockOverflow", "blockSize", "bottom", "clear", "contain", "content", "continue", "cursor", "direction", "display", "filter", "float", "gap", "height", "inset", "isolation", "left", "letterSpacing", "lightingColor", "markerSide", "mixBlendMode", "opacity", "order", "position", "quotes", "resize", "right", "rowGap", "tabSize", "tableLayout", "top", "userSelect", "verticalAlign", "visibility", "voiceFamily", "volume", "whiteSpace", "widows", "width", "zIndex", "pointerEvents" ];
+        var styleProperties = [ "all", "appearance", "blockOverflow", "blockSize", "bottom", "clear", "contain", "content", "continue", "cursor", "direction", "display", "filter", "float", "gap", "height", "inset", "isolation", "left", "letterSpacing", "lightingColor", "markerSide", "mixBlendMode", "opacity", "order", "position", "quotes", "resize", "right", "rowGap", "tabSize", "tableLayout", "top", "userSelect", "verticalAlign", "visibility", "voiceFamily", "volume", "whiteSpace", "widows", "width", "zIndex", "pointerEvents", "aspectRatio" ];
         function combine(prefix, list, excludeSelf) {
             !excludeSelf && styleProperties.push(prefix);
             list.forEach((function(item) {
@@ -10238,10 +10327,13 @@ require("./runtime");
             }
             !this._pending && enqueueUpdate(this);
         }
-        function initStyle(ctor) {
+        function initStyle(ctor, styleProperties) {
             var properties = {};
             var _loop = function _loop() {
                 var styleKey = styleProperties[i];
+                if (ctor[styleKey]) return {
+                    v: void 0
+                };
                 properties[styleKey] = {
                     get: function get() {
                         var val = this._value[styleKey];
@@ -10253,7 +10345,8 @@ require("./runtime");
                 };
             };
             for (var i = 0; i < styleProperties.length; i++) {
-                _loop();
+                var _ret = _loop();
+                if ((0, _babel_runtime_helpers_esm_typeof__WEBPACK_IMPORTED_MODULE_9__.Z)(_ret) === "object") return _ret.v;
             }
             Object.defineProperties(ctor.prototype, properties);
         }
@@ -10318,7 +10411,7 @@ require("./runtime");
                         if (rule === "") {
                             continue;
                         }
-                        var _rule$split = rule.split(":"), _rule$split2 = (0, _babel_runtime_helpers_esm_toArray__WEBPACK_IMPORTED_MODULE_11__.Z)(_rule$split), propName = _rule$split2[0], valList = _rule$split2.slice(1);
+                        var _rule$split = rule.split(":"), _rule$split2 = (0, _babel_runtime_helpers_esm_toArray__WEBPACK_IMPORTED_MODULE_10__.Z)(_rule$split), propName = _rule$split2[0], valList = _rule$split2.slice(1);
                         var val = valList.join(":");
                         if ((0, _tarojs_shared__WEBPACK_IMPORTED_MODULE_0__.o8)(val)) {
                             continue;
@@ -10366,7 +10459,15 @@ require("./runtime");
             } ]);
             return Style;
         }();
-        initStyle(Style);
+        initStyle(Style, styleProperties);
+        _tarojs_shared__WEBPACK_IMPORTED_MODULE_0__.PT.tap("injectNewStyleProperties", (function(newStyleProperties) {
+            if ((0, _tarojs_shared__WEBPACK_IMPORTED_MODULE_0__.kJ)(newStyleProperties)) {
+                initStyle(Style, newStyleProperties);
+            } else {
+                if (typeof newStyleProperties !== "string") return;
+                initStyle(Style, [ newStyleProperties ]);
+            }
+        }));
         function returnTrue() {
             return true;
         }
@@ -10384,7 +10485,8 @@ require("./runtime");
         }
         function following(el, root) {
             var firstChild = el.firstChild;
-            if (firstChild) {
+            var isElmentTypeValid = el.nodeType === 1 || el.nodeType === 9;
+            if (firstChild && isElmentTypeValid) {
                 return firstChild;
             }
             var current = el;
@@ -10402,16 +10504,16 @@ require("./runtime");
         }
         var TaroElement = function(_TaroNode) {
             (0, _babel_runtime_helpers_esm_inherits__WEBPACK_IMPORTED_MODULE_4__.Z)(TaroElement, _TaroNode);
-            var _super4 = (0, _babel_runtime_helpers_esm_createSuper__WEBPACK_IMPORTED_MODULE_5__.Z)(TaroElement);
+            var _super3 = (0, _babel_runtime_helpers_esm_createSuper__WEBPACK_IMPORTED_MODULE_5__.Z)(TaroElement);
             function TaroElement() {
                 var _this9;
                 (0, _babel_runtime_helpers_esm_classCallCheck__WEBPACK_IMPORTED_MODULE_1__.Z)(this, TaroElement);
-                _this9 = _super4.call(this);
+                _this9 = _super3.call(this);
                 _this9.props = {};
                 _this9.dataset = _tarojs_shared__WEBPACK_IMPORTED_MODULE_0__.kT;
                 _this9.nodeType = 1;
-                _this9.style = new Style((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_7__.Z)(_this9));
-                _tarojs_shared__WEBPACK_IMPORTED_MODULE_0__.PT.call("patchElement", (0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_7__.Z)(_this9));
+                _this9.style = new Style((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_8__.Z)(_this9));
+                _tarojs_shared__WEBPACK_IMPORTED_MODULE_0__.PT.call("patchElement", (0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_8__.Z)(_this9));
                 return _this9;
             }
             (0, _babel_runtime_helpers_esm_createClass__WEBPACK_IMPORTED_MODULE_2__.Z)(TaroElement, [ {
@@ -10488,7 +10590,7 @@ require("./runtime");
                     return text;
                 },
                 set: function set(text) {
-                    (0, _babel_runtime_helpers_esm_set__WEBPACK_IMPORTED_MODULE_12__.Z)((0, _babel_runtime_helpers_esm_getPrototypeOf__WEBPACK_IMPORTED_MODULE_8__.Z)(TaroElement.prototype), "textContent", text, this, true);
+                    (0, _babel_runtime_helpers_esm_set__WEBPACK_IMPORTED_MODULE_11__.Z)((0, _babel_runtime_helpers_esm_getPrototypeOf__WEBPACK_IMPORTED_MODULE_12__.Z)(TaroElement.prototype), "textContent", text, this, true);
                 }
             }, {
                 key: "hasAttribute",
@@ -10659,11 +10761,11 @@ require("./runtime");
             }, {
                 key: "getElementsByClassName",
                 value: function getElementsByClassName(className) {
+                    var classNames = className.trim().split(/\\s+/);
                     return treeToArray(this, (function(el) {
                         var classList = el.classList;
-                        var classNames = className.trim().split(/\\s+/);
                         return classNames.every((function(c) {
-                            return classList.has(c);
+                            return classList.contains(c);
                         }));
                     }));
                 }
@@ -10719,13 +10821,13 @@ require("./runtime");
                             value: alias
                         });
                     }
-                    (0, _babel_runtime_helpers_esm_get__WEBPACK_IMPORTED_MODULE_6__.Z)((0, _babel_runtime_helpers_esm_getPrototypeOf__WEBPACK_IMPORTED_MODULE_8__.Z)(TaroElement.prototype), "addEventListener", this).call(this, type, handler, options);
+                    (0, _babel_runtime_helpers_esm_get__WEBPACK_IMPORTED_MODULE_13__.Z)((0, _babel_runtime_helpers_esm_getPrototypeOf__WEBPACK_IMPORTED_MODULE_12__.Z)(TaroElement.prototype), "addEventListener", this).call(this, type, handler, options);
                 }
             }, {
                 key: "removeEventListener",
                 value: function removeEventListener(type, handler) {
                     var sideEffect = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : true;
-                    (0, _babel_runtime_helpers_esm_get__WEBPACK_IMPORTED_MODULE_6__.Z)((0, _babel_runtime_helpers_esm_getPrototypeOf__WEBPACK_IMPORTED_MODULE_8__.Z)(TaroElement.prototype), "removeEventListener", this).call(this, type, handler);
+                    (0, _babel_runtime_helpers_esm_get__WEBPACK_IMPORTED_MODULE_13__.Z)((0, _babel_runtime_helpers_esm_getPrototypeOf__WEBPACK_IMPORTED_MODULE_12__.Z)(TaroElement.prototype), "removeEventListener", this).call(this, type, handler);
                     var name = this.nodeName;
                     var SPECIAL_NODES = _tarojs_shared__WEBPACK_IMPORTED_MODULE_0__.PT.call("getSpecialNodes");
                     if (sideEffect !== false && !this.isAnyEventBinded() && SPECIAL_NODES.indexOf(name) > -1) {
@@ -11178,7 +11280,7 @@ require("./runtime");
                         };
                         item = item.replace(/^[>~+]/, "");
                         item = item.replace(/\\[(.+?)\\]/g, (function(_, $1) {
-                            var _$1$split = $1.split("="), _$1$split2 = (0, _babel_runtime_helpers_esm_slicedToArray__WEBPACK_IMPORTED_MODULE_13__.Z)(_$1$split, 2), key = _$1$split2[0], value = _$1$split2[1];
+                            var _$1$split = $1.split("="), _$1$split2 = (0, _babel_runtime_helpers_esm_slicedToArray__WEBPACK_IMPORTED_MODULE_14__.Z)(_$1$split, 2), key = _$1$split2[0], value = _$1$split2[1];
                             var all = $1.indexOf("=") === -1;
                             var attr = {
                                 all: all,
@@ -11426,7 +11528,7 @@ require("./runtime");
                 }
                 for (var i = 0; i < child.attributes.length; i++) {
                     var attr = child.attributes[i];
-                    var _splitEqual = splitEqual(attr), _splitEqual2 = (0, _babel_runtime_helpers_esm_slicedToArray__WEBPACK_IMPORTED_MODULE_13__.Z)(_splitEqual, 2), key = _splitEqual2[0], value = _splitEqual2[1];
+                    var _splitEqual = splitEqual(attr), _splitEqual2 = (0, _babel_runtime_helpers_esm_slicedToArray__WEBPACK_IMPORTED_MODULE_14__.Z)(_splitEqual, 2), key = _splitEqual2[0], value = _splitEqual2[1];
                     if (key === "class") {
                         el.className += " " + unquote(value);
                     } else if (key[0] === "o" && key[1] === "n") {
@@ -11826,10 +11928,10 @@ require("./runtime");
         }
         var FormElement = function(_TaroElement) {
             (0, _babel_runtime_helpers_esm_inherits__WEBPACK_IMPORTED_MODULE_4__.Z)(FormElement, _TaroElement);
-            var _super5 = (0, _babel_runtime_helpers_esm_createSuper__WEBPACK_IMPORTED_MODULE_5__.Z)(FormElement);
+            var _super4 = (0, _babel_runtime_helpers_esm_createSuper__WEBPACK_IMPORTED_MODULE_5__.Z)(FormElement);
             function FormElement() {
                 (0, _babel_runtime_helpers_esm_classCallCheck__WEBPACK_IMPORTED_MODULE_1__.Z)(this, FormElement);
-                return _super5.apply(this, arguments);
+                return _super4.apply(this, arguments);
             }
             (0, _babel_runtime_helpers_esm_createClass__WEBPACK_IMPORTED_MODULE_2__.Z)(FormElement, [ {
                 key: "value",
@@ -11851,7 +11953,7 @@ require("./runtime");
                             this.value = val;
                         }
                     }
-                    return (0, _babel_runtime_helpers_esm_get__WEBPACK_IMPORTED_MODULE_6__.Z)((0, _babel_runtime_helpers_esm_getPrototypeOf__WEBPACK_IMPORTED_MODULE_8__.Z)(FormElement.prototype), "dispatchEvent", this).call(this, event);
+                    return (0, _babel_runtime_helpers_esm_get__WEBPACK_IMPORTED_MODULE_13__.Z)((0, _babel_runtime_helpers_esm_getPrototypeOf__WEBPACK_IMPORTED_MODULE_12__.Z)(FormElement.prototype), "dispatchEvent", this).call(this, event);
                 }
             } ]);
             return FormElement;
@@ -11916,11 +12018,11 @@ require("./runtime");
         }
         var TaroRootElement = function(_TaroElement2) {
             (0, _babel_runtime_helpers_esm_inherits__WEBPACK_IMPORTED_MODULE_4__.Z)(TaroRootElement, _TaroElement2);
-            var _super6 = (0, _babel_runtime_helpers_esm_createSuper__WEBPACK_IMPORTED_MODULE_5__.Z)(TaroRootElement);
+            var _super5 = (0, _babel_runtime_helpers_esm_createSuper__WEBPACK_IMPORTED_MODULE_5__.Z)(TaroRootElement);
             function TaroRootElement() {
                 var _this15;
                 (0, _babel_runtime_helpers_esm_classCallCheck__WEBPACK_IMPORTED_MODULE_1__.Z)(this, TaroRootElement);
-                _this15 = _super6.call(this);
+                _this15 = _super5.call(this);
                 _this15.updatePayloads = [];
                 _this15.updateCallbacks = [];
                 _this15.pendingUpdate = false;
@@ -11994,7 +12096,7 @@ require("./runtime");
                                 if (found) {
                                     var customWrapper = found.customWrapper, splitedPath = found.splitedPath;
                                     customWrapperMap.set(customWrapper, Object.assign(Object.assign({}, customWrapperMap.get(customWrapper) || {}), (0, 
-                                    _babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_10__.Z)({}, "i.".concat(splitedPath), data[p])));
+                                    _babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_7__.Z)({}, "i.".concat(splitedPath), data[p])));
                                 } else {
                                     normalUpdate[p] = data[p];
                                 }
@@ -12046,11 +12148,11 @@ require("./runtime");
         }(TaroElement);
         var TaroText = function(_TaroNode2) {
             (0, _babel_runtime_helpers_esm_inherits__WEBPACK_IMPORTED_MODULE_4__.Z)(TaroText, _TaroNode2);
-            var _super7 = (0, _babel_runtime_helpers_esm_createSuper__WEBPACK_IMPORTED_MODULE_5__.Z)(TaroText);
+            var _super6 = (0, _babel_runtime_helpers_esm_createSuper__WEBPACK_IMPORTED_MODULE_5__.Z)(TaroText);
             function TaroText(value) {
                 var _this17;
                 (0, _babel_runtime_helpers_esm_classCallCheck__WEBPACK_IMPORTED_MODULE_1__.Z)(this, TaroText);
-                _this17 = _super7.call(this);
+                _this17 = _super6.call(this);
                 _this17.nodeType = 3;
                 _this17.nodeName = "#text";
                 _this17._value = value;
@@ -12465,10 +12567,10 @@ require("./runtime");
         }
         var AnchorElement = function(_TaroElement3) {
             (0, _babel_runtime_helpers_esm_inherits__WEBPACK_IMPORTED_MODULE_4__.Z)(AnchorElement, _TaroElement3);
-            var _super8 = (0, _babel_runtime_helpers_esm_createSuper__WEBPACK_IMPORTED_MODULE_5__.Z)(AnchorElement);
+            var _super7 = (0, _babel_runtime_helpers_esm_createSuper__WEBPACK_IMPORTED_MODULE_5__.Z)(AnchorElement);
             function AnchorElement() {
                 (0, _babel_runtime_helpers_esm_classCallCheck__WEBPACK_IMPORTED_MODULE_1__.Z)(this, AnchorElement);
-                return _super8.apply(this, arguments);
+                return _super7.apply(this, arguments);
             }
             (0, _babel_runtime_helpers_esm_createClass__WEBPACK_IMPORTED_MODULE_2__.Z)(AnchorElement, [ {
                 key: "href",
@@ -12527,10 +12629,10 @@ require("./runtime");
                     if (qualifiedName === "href") {
                         var willSetAttr = parseUrl(value);
                         for (var k in willSetAttr) {
-                            (0, _babel_runtime_helpers_esm_get__WEBPACK_IMPORTED_MODULE_6__.Z)((0, _babel_runtime_helpers_esm_getPrototypeOf__WEBPACK_IMPORTED_MODULE_8__.Z)(AnchorElement.prototype), "setAttribute", this).call(this, k, willSetAttr[k]);
+                            (0, _babel_runtime_helpers_esm_get__WEBPACK_IMPORTED_MODULE_13__.Z)((0, _babel_runtime_helpers_esm_getPrototypeOf__WEBPACK_IMPORTED_MODULE_12__.Z)(AnchorElement.prototype), "setAttribute", this).call(this, k, willSetAttr[k]);
                         }
                     } else {
-                        (0, _babel_runtime_helpers_esm_get__WEBPACK_IMPORTED_MODULE_6__.Z)((0, _babel_runtime_helpers_esm_getPrototypeOf__WEBPACK_IMPORTED_MODULE_8__.Z)(AnchorElement.prototype), "setAttribute", this).call(this, qualifiedName, value);
+                        (0, _babel_runtime_helpers_esm_get__WEBPACK_IMPORTED_MODULE_13__.Z)((0, _babel_runtime_helpers_esm_getPrototypeOf__WEBPACK_IMPORTED_MODULE_12__.Z)(AnchorElement.prototype), "setAttribute", this).call(this, qualifiedName, value);
                     }
                 }
             } ]);
@@ -12538,20 +12640,20 @@ require("./runtime");
         }(TaroElement);
         var CustomWrapperElement = function(_TaroElement4) {
             (0, _babel_runtime_helpers_esm_inherits__WEBPACK_IMPORTED_MODULE_4__.Z)(CustomWrapperElement, _TaroElement4);
-            var _super9 = (0, _babel_runtime_helpers_esm_createSuper__WEBPACK_IMPORTED_MODULE_5__.Z)(CustomWrapperElement);
+            var _super8 = (0, _babel_runtime_helpers_esm_createSuper__WEBPACK_IMPORTED_MODULE_5__.Z)(CustomWrapperElement);
             function CustomWrapperElement() {
                 (0, _babel_runtime_helpers_esm_classCallCheck__WEBPACK_IMPORTED_MODULE_1__.Z)(this, CustomWrapperElement);
-                return _super9.apply(this, arguments);
+                return _super8.apply(this, arguments);
             }
             return (0, _babel_runtime_helpers_esm_createClass__WEBPACK_IMPORTED_MODULE_2__.Z)(CustomWrapperElement);
         }(TaroElement);
         var TaroDocument = function(_TaroElement5) {
             (0, _babel_runtime_helpers_esm_inherits__WEBPACK_IMPORTED_MODULE_4__.Z)(TaroDocument, _TaroElement5);
-            var _super10 = (0, _babel_runtime_helpers_esm_createSuper__WEBPACK_IMPORTED_MODULE_5__.Z)(TaroDocument);
+            var _super9 = (0, _babel_runtime_helpers_esm_createSuper__WEBPACK_IMPORTED_MODULE_5__.Z)(TaroDocument);
             function TaroDocument() {
                 var _this18;
                 (0, _babel_runtime_helpers_esm_classCallCheck__WEBPACK_IMPORTED_MODULE_1__.Z)(this, TaroDocument);
-                _this18 = _super10.call(this);
+                _this18 = _super9.call(this);
                 _this18.createEvent = createEvent;
                 _this18.nodeType = 9;
                 _this18.nodeName = DOCUMENT_ELEMENT_NAME;
@@ -12695,60 +12797,60 @@ require("./runtime");
         var cache$1 = new RuntimeCache("history");
         var History = function(_Events) {
             (0, _babel_runtime_helpers_esm_inherits__WEBPACK_IMPORTED_MODULE_4__.Z)(History, _Events);
-            var _super11 = (0, _babel_runtime_helpers_esm_createSuper__WEBPACK_IMPORTED_MODULE_5__.Z)(History);
+            var _super10 = (0, _babel_runtime_helpers_esm_createSuper__WEBPACK_IMPORTED_MODULE_5__.Z)(History);
             function History(location, options) {
                 var _this19;
                 (0, _babel_runtime_helpers_esm_classCallCheck__WEBPACK_IMPORTED_MODULE_1__.Z)(this, History);
-                _this19 = _super11.call(this);
-                _History_instances.add((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_7__.Z)(_this19));
-                _History_location.set((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_7__.Z)(_this19), void 0);
-                _History_stack.set((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_7__.Z)(_this19), []);
-                _History_cur.set((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_7__.Z)(_this19), 0);
-                _History_window.set((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_7__.Z)(_this19), void 0);
-                __classPrivateFieldSet((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_7__.Z)(_this19), _History_window, options.window, "f");
-                __classPrivateFieldSet((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_7__.Z)(_this19), _History_location, location, "f");
-                __classPrivateFieldGet((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_7__.Z)(_this19), _History_location, "f").on("__record_history__", (function(href) {
+                _this19 = _super10.call(this);
+                _History_instances.add((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_8__.Z)(_this19));
+                _History_location.set((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_8__.Z)(_this19), void 0);
+                _History_stack.set((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_8__.Z)(_this19), []);
+                _History_cur.set((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_8__.Z)(_this19), 0);
+                _History_window.set((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_8__.Z)(_this19), void 0);
+                __classPrivateFieldSet((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_8__.Z)(_this19), _History_window, options.window, "f");
+                __classPrivateFieldSet((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_8__.Z)(_this19), _History_location, location, "f");
+                __classPrivateFieldGet((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_8__.Z)(_this19), _History_location, "f").on("__record_history__", (function(href) {
                     var _a;
-                    __classPrivateFieldSet((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_7__.Z)(_this19), _History_cur, (_a = __classPrivateFieldGet((0, 
-                    _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_7__.Z)(_this19), _History_cur, "f"), 
+                    __classPrivateFieldSet((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_8__.Z)(_this19), _History_cur, (_a = __classPrivateFieldGet((0, 
+                    _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_8__.Z)(_this19), _History_cur, "f"), 
                     _a++, _a), "f");
-                    __classPrivateFieldSet((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_7__.Z)(_this19), _History_stack, __classPrivateFieldGet((0, 
-                    _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_7__.Z)(_this19), _History_stack, "f").slice(0, __classPrivateFieldGet((0, 
-                    _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_7__.Z)(_this19), _History_cur, "f")), "f");
-                    __classPrivateFieldGet((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_7__.Z)(_this19), _History_stack, "f").push({
+                    __classPrivateFieldSet((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_8__.Z)(_this19), _History_stack, __classPrivateFieldGet((0, 
+                    _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_8__.Z)(_this19), _History_stack, "f").slice(0, __classPrivateFieldGet((0, 
+                    _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_8__.Z)(_this19), _History_cur, "f")), "f");
+                    __classPrivateFieldGet((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_8__.Z)(_this19), _History_stack, "f").push({
                         state: null,
                         title: "",
                         url: href
                     });
                 }), null);
-                __classPrivateFieldGet((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_7__.Z)(_this19), _History_location, "f").on("__reset_history__", (function(href) {
-                    __classPrivateFieldGet((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_7__.Z)(_this19), _History_instances, "m", _History_reset).call((0, 
-                    _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_7__.Z)(_this19), href);
+                __classPrivateFieldGet((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_8__.Z)(_this19), _History_location, "f").on("__reset_history__", (function(href) {
+                    __classPrivateFieldGet((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_8__.Z)(_this19), _History_instances, "m", _History_reset).call((0, 
+                    _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_8__.Z)(_this19), href);
                 }), null);
                 _this19.on(CONTEXT_ACTIONS.INIT, (function() {
-                    __classPrivateFieldGet((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_7__.Z)(_this19), _History_instances, "m", _History_reset).call((0, 
-                    _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_7__.Z)(_this19));
+                    __classPrivateFieldGet((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_8__.Z)(_this19), _History_instances, "m", _History_reset).call((0, 
+                    _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_8__.Z)(_this19));
                 }), null);
                 _this19.on(CONTEXT_ACTIONS.RESTORE, (function(pageId) {
                     cache$1.set(pageId, {
-                        location: __classPrivateFieldGet((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_7__.Z)(_this19), _History_location, "f"),
-                        stack: __classPrivateFieldGet((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_7__.Z)(_this19), _History_stack, "f").slice(),
-                        cur: __classPrivateFieldGet((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_7__.Z)(_this19), _History_cur, "f")
+                        location: __classPrivateFieldGet((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_8__.Z)(_this19), _History_location, "f"),
+                        stack: __classPrivateFieldGet((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_8__.Z)(_this19), _History_stack, "f").slice(),
+                        cur: __classPrivateFieldGet((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_8__.Z)(_this19), _History_cur, "f")
                     });
                 }), null);
                 _this19.on(CONTEXT_ACTIONS.RECOVER, (function(pageId) {
                     if (cache$1.has(pageId)) {
                         var ctx = cache$1.get(pageId);
-                        __classPrivateFieldSet((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_7__.Z)(_this19), _History_location, ctx.location, "f");
-                        __classPrivateFieldSet((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_7__.Z)(_this19), _History_stack, ctx.stack, "f");
-                        __classPrivateFieldSet((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_7__.Z)(_this19), _History_cur, ctx.cur, "f");
+                        __classPrivateFieldSet((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_8__.Z)(_this19), _History_location, ctx.location, "f");
+                        __classPrivateFieldSet((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_8__.Z)(_this19), _History_stack, ctx.stack, "f");
+                        __classPrivateFieldSet((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_8__.Z)(_this19), _History_cur, ctx.cur, "f");
                     }
                 }), null);
                 _this19.on(CONTEXT_ACTIONS.DESTORY, (function(pageId) {
                     cache$1.delete(pageId);
                 }), null);
-                __classPrivateFieldGet((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_7__.Z)(_this19), _History_instances, "m", _History_reset).call((0, 
-                _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_7__.Z)(_this19));
+                __classPrivateFieldGet((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_8__.Z)(_this19), _History_instances, "m", _History_reset).call((0, 
+                _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_8__.Z)(_this19));
                 return _this19;
             }
             (0, _babel_runtime_helpers_esm_createClass__WEBPACK_IMPORTED_MODULE_2__.Z)(History, [ {
@@ -12836,30 +12938,30 @@ require("./runtime");
         var cache = new RuntimeCache("location");
         var Location = function(_Events2) {
             (0, _babel_runtime_helpers_esm_inherits__WEBPACK_IMPORTED_MODULE_4__.Z)(Location, _Events2);
-            var _super12 = (0, _babel_runtime_helpers_esm_createSuper__WEBPACK_IMPORTED_MODULE_5__.Z)(Location);
+            var _super11 = (0, _babel_runtime_helpers_esm_createSuper__WEBPACK_IMPORTED_MODULE_5__.Z)(Location);
             function Location(options) {
                 var _this20;
                 (0, _babel_runtime_helpers_esm_classCallCheck__WEBPACK_IMPORTED_MODULE_1__.Z)(this, Location);
-                _this20 = _super12.call(this);
-                _Location_instances.add((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_7__.Z)(_this20));
-                _Location_url.set((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_7__.Z)(_this20), new URL(INIT_URL));
-                _Location_noCheckUrl.set((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_7__.Z)(_this20), false);
-                _Location_window.set((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_7__.Z)(_this20), void 0);
-                __classPrivateFieldSet((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_7__.Z)(_this20), _Location_window, options.window, "f");
-                __classPrivateFieldGet((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_7__.Z)(_this20), _Location_instances, "m", _Location_reset).call((0, 
-                _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_7__.Z)(_this20));
+                _this20 = _super11.call(this);
+                _Location_instances.add((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_8__.Z)(_this20));
+                _Location_url.set((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_8__.Z)(_this20), new URL(INIT_URL));
+                _Location_noCheckUrl.set((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_8__.Z)(_this20), false);
+                _Location_window.set((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_8__.Z)(_this20), void 0);
+                __classPrivateFieldSet((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_8__.Z)(_this20), _Location_window, options.window, "f");
+                __classPrivateFieldGet((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_8__.Z)(_this20), _Location_instances, "m", _Location_reset).call((0, 
+                _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_8__.Z)(_this20));
                 _this20.on("__set_href_without_history__", (function(href) {
-                    __classPrivateFieldSet((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_7__.Z)(_this20), _Location_noCheckUrl, true, "f");
-                    var lastHash = __classPrivateFieldGet((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_7__.Z)(_this20), _Location_url, "f").hash;
-                    __classPrivateFieldGet((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_7__.Z)(_this20), _Location_url, "f").href = generateFullUrl(href);
-                    if (lastHash !== __classPrivateFieldGet((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_7__.Z)(_this20), _Location_url, "f").hash) {
-                        __classPrivateFieldGet((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_7__.Z)(_this20), _Location_window, "f").trigger("hashchange");
+                    __classPrivateFieldSet((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_8__.Z)(_this20), _Location_noCheckUrl, true, "f");
+                    var lastHash = __classPrivateFieldGet((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_8__.Z)(_this20), _Location_url, "f").hash;
+                    __classPrivateFieldGet((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_8__.Z)(_this20), _Location_url, "f").href = generateFullUrl(href);
+                    if (lastHash !== __classPrivateFieldGet((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_8__.Z)(_this20), _Location_url, "f").hash) {
+                        __classPrivateFieldGet((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_8__.Z)(_this20), _Location_window, "f").trigger("hashchange");
                     }
-                    __classPrivateFieldSet((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_7__.Z)(_this20), _Location_noCheckUrl, false, "f");
+                    __classPrivateFieldSet((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_8__.Z)(_this20), _Location_noCheckUrl, false, "f");
                 }), null);
                 _this20.on(CONTEXT_ACTIONS.INIT, (function() {
-                    __classPrivateFieldGet((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_7__.Z)(_this20), _Location_instances, "m", _Location_reset).call((0, 
-                    _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_7__.Z)(_this20));
+                    __classPrivateFieldGet((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_8__.Z)(_this20), _Location_instances, "m", _Location_reset).call((0, 
+                    _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_8__.Z)(_this20));
                 }), null);
                 _this20.on(CONTEXT_ACTIONS.RESTORE, (function(pageId) {
                     cache.set(pageId, {
@@ -12869,9 +12971,9 @@ require("./runtime");
                 _this20.on(CONTEXT_ACTIONS.RECOVER, (function(pageId) {
                     if (cache.has(pageId)) {
                         var ctx = cache.get(pageId);
-                        __classPrivateFieldSet((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_7__.Z)(_this20), _Location_noCheckUrl, true, "f");
-                        __classPrivateFieldGet((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_7__.Z)(_this20), _Location_url, "f").href = ctx.lastHref;
-                        __classPrivateFieldSet((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_7__.Z)(_this20), _Location_noCheckUrl, false, "f");
+                        __classPrivateFieldSet((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_8__.Z)(_this20), _Location_noCheckUrl, true, "f");
+                        __classPrivateFieldGet((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_8__.Z)(_this20), _Location_url, "f").href = ctx.lastHref;
+                        __classPrivateFieldSet((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_8__.Z)(_this20), _Location_noCheckUrl, false, "f");
                     }
                 }), null);
                 _this20.on(CONTEXT_ACTIONS.DESTORY, (function(pageId) {
@@ -13121,11 +13223,11 @@ require("./runtime");
         if (true && !(0, _tarojs_shared__WEBPACK_IMPORTED_MODULE_0__.gl)()) {
             var Window = function(_Events3) {
                 (0, _babel_runtime_helpers_esm_inherits__WEBPACK_IMPORTED_MODULE_4__.Z)(Window, _Events3);
-                var _super13 = (0, _babel_runtime_helpers_esm_createSuper__WEBPACK_IMPORTED_MODULE_5__.Z)(Window);
+                var _super12 = (0, _babel_runtime_helpers_esm_createSuper__WEBPACK_IMPORTED_MODULE_5__.Z)(Window);
                 function Window() {
                     var _this21;
                     (0, _babel_runtime_helpers_esm_classCallCheck__WEBPACK_IMPORTED_MODULE_1__.Z)(this, Window);
-                    _this21 = _super13.call(this);
+                    _this21 = _super12.call(this);
                     _this21.navigator = nav;
                     _this21.requestAnimationFrame = _raf;
                     _this21.cancelAnimationFrame = _caf;
@@ -13134,7 +13236,7 @@ require("./runtime");
                     _babel_runtime_helpers_esm_toConsumableArray__WEBPACK_IMPORTED_MODULE_3__.Z)(Object.getOwnPropertySymbols(__webpack_require__.g || {})));
                     globalProperties.forEach((function(property) {
                         if (property === "atob" || property === "document") return;
-                        if (!Object.prototype.hasOwnProperty.call((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_7__.Z)(_this21), property)) {
+                        if (!Object.prototype.hasOwnProperty.call((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_8__.Z)(_this21), property)) {
                             try {
                                 _this21[property] = __webpack_require__.g[property];
                             } catch (e) {
@@ -13144,10 +13246,10 @@ require("./runtime");
                     }));
                     _this21.Date || (_this21.Date = Date);
                     _this21.location = new Location({
-                        window: (0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_7__.Z)(_this21)
+                        window: (0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_8__.Z)(_this21)
                     });
                     _this21.history = new History(_this21.location, {
-                        window: (0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_7__.Z)(_this21)
+                        window: (0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_8__.Z)(_this21)
                     });
                     _this21.initEvent();
                     return _this21;
@@ -13227,10 +13329,10 @@ require("./runtime");
         var history = window$1.history;
         var SVGElement = function(_TaroElement6) {
             (0, _babel_runtime_helpers_esm_inherits__WEBPACK_IMPORTED_MODULE_4__.Z)(SVGElement, _TaroElement6);
-            var _super14 = (0, _babel_runtime_helpers_esm_createSuper__WEBPACK_IMPORTED_MODULE_5__.Z)(SVGElement);
+            var _super13 = (0, _babel_runtime_helpers_esm_createSuper__WEBPACK_IMPORTED_MODULE_5__.Z)(SVGElement);
             function SVGElement() {
                 (0, _babel_runtime_helpers_esm_classCallCheck__WEBPACK_IMPORTED_MODULE_1__.Z)(this, SVGElement);
-                return _super14.apply(this, arguments);
+                return _super13.apply(this, arguments);
             }
             return (0, _babel_runtime_helpers_esm_createClass__WEBPACK_IMPORTED_MODULE_2__.Z)(SVGElement);
         }(TaroElement);
@@ -13304,7 +13406,7 @@ require("./runtime");
         function createPageConfig(component, pageName, data, pageConfig) {
             var _config;
             var id = pageName !== null && pageName !== void 0 ? pageName : "taro_page_".concat(pageId());
-            var _hooks$call$page = (0, _babel_runtime_helpers_esm_slicedToArray__WEBPACK_IMPORTED_MODULE_13__.Z)(_tarojs_shared__WEBPACK_IMPORTED_MODULE_0__.PT.call("getMiniLifecycleImpl").page, 7), ONLOAD = _hooks$call$page[0], ONUNLOAD = _hooks$call$page[1], ONREADY = _hooks$call$page[2], ONSHOW = _hooks$call$page[3], ONHIDE = _hooks$call$page[4], LIFECYCLES = _hooks$call$page[5], SIDE_EFFECT_LIFECYCLES = _hooks$call$page[6];
+            var _hooks$call$page = (0, _babel_runtime_helpers_esm_slicedToArray__WEBPACK_IMPORTED_MODULE_14__.Z)(_tarojs_shared__WEBPACK_IMPORTED_MODULE_0__.PT.call("getMiniLifecycleImpl").page, 7), ONLOAD = _hooks$call$page[0], ONUNLOAD = _hooks$call$page[1], ONREADY = _hooks$call$page[2], ONSHOW = _hooks$call$page[3], ONHIDE = _hooks$call$page[4], LIFECYCLES = _hooks$call$page[5], SIDE_EFFECT_LIFECYCLES = _hooks$call$page[6];
             var pageElement = null;
             var unmounting = false;
             var prepareMountList = [];
@@ -13324,7 +13426,7 @@ require("./runtime");
             }
             var loadResolver;
             var hasLoaded;
-            var config = (_config = {}, (0, _babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_10__.Z)(_config, ONLOAD, (function() {
+            var config = (_config = {}, (0, _babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_7__.Z)(_config, ONLOAD, (function() {
                 var _this22 = this;
                 var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
                 var cb = arguments.length > 1 ? arguments[1] : undefined;
@@ -13367,7 +13469,7 @@ require("./runtime");
                 } else {
                     mount();
                 }
-            })), (0, _babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_10__.Z)(_config, ONUNLOAD, (function() {
+            })), (0, _babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_7__.Z)(_config, ONUNLOAD, (function() {
                 var $taroPath = this.$taroPath;
                 if (!isWeb) {
                     window$1.trigger(CONTEXT_ACTIONS.DESTORY, $taroPath);
@@ -13388,7 +13490,7 @@ require("./runtime");
                         prepareMountList = [];
                     }
                 }));
-            })), (0, _babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_10__.Z)(_config, ONREADY, (function() {
+            })), (0, _babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_7__.Z)(_config, ONREADY, (function() {
                 var _this23 = this;
                 hasLoaded.then((function() {
                     safeExecute(_this23.$taroPath, ON_READY);
@@ -13397,7 +13499,7 @@ require("./runtime");
                     }));
                     _this23.onReady.called = true;
                 }));
-            })), (0, _babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_10__.Z)(_config, ONSHOW, (function() {
+            })), (0, _babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_7__.Z)(_config, ONSHOW, (function() {
                 var _this24 = this;
                 var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
                 hasLoaded.then((function() {
@@ -13411,7 +13513,7 @@ require("./runtime");
                         return eventCenter.trigger(getOnShowEventKey(id));
                     }));
                 }));
-            })), (0, _babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_10__.Z)(_config, ONHIDE, (function() {
+            })), (0, _babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_7__.Z)(_config, ONHIDE, (function() {
                 if (!isWeb) {
                     window$1.trigger(CONTEXT_ACTIONS.RESTORE, this.$taroPath);
                 }
@@ -13458,8 +13560,8 @@ require("./runtime");
             var _config2;
             var id = componentName !== null && componentName !== void 0 ? componentName : "taro_component_".concat(pageId());
             var componentElement = null;
-            var _hooks$call$component = (0, _babel_runtime_helpers_esm_slicedToArray__WEBPACK_IMPORTED_MODULE_13__.Z)(_tarojs_shared__WEBPACK_IMPORTED_MODULE_0__.PT.call("getMiniLifecycleImpl").component, 2), ATTACHED = _hooks$call$component[0], DETACHED = _hooks$call$component[1];
-            var config = (_config2 = {}, (0, _babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_10__.Z)(_config2, ATTACHED, (function() {
+            var _hooks$call$component = (0, _babel_runtime_helpers_esm_slicedToArray__WEBPACK_IMPORTED_MODULE_14__.Z)(_tarojs_shared__WEBPACK_IMPORTED_MODULE_0__.PT.call("getMiniLifecycleImpl").component, 2), ATTACHED = _hooks$call$component[0], DETACHED = _hooks$call$component[1];
+            var config = (_config2 = {}, (0, _babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_7__.Z)(_config2, ATTACHED, (function() {
                 var _this25 = this;
                 var _a;
                 perf.start(PAGE_INIT);
@@ -13476,7 +13578,7 @@ require("./runtime");
                         componentElement.performUpdate(true);
                     }
                 }));
-            })), (0, _babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_10__.Z)(_config2, DETACHED, (function() {
+            })), (0, _babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_7__.Z)(_config2, DETACHED, (function() {
                 var path = getPath(id, {
                     id: this.getPageId()
                 });
@@ -13486,7 +13588,7 @@ require("./runtime");
                         componentElement.ctx = null;
                     }
                 }));
-            })), (0, _babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_10__.Z)(_config2, "methods", {
+            })), (0, _babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_7__.Z)(_config2, "methods", {
                 eh: eventHandler
             }), _config2);
             if (!(0, _tarojs_shared__WEBPACK_IMPORTED_MODULE_0__.o8)(data)) {
@@ -13501,8 +13603,8 @@ require("./runtime");
         function createRecursiveComponentConfig(componentName) {
             var _ref3;
             var isCustomWrapper = componentName === CUSTOM_WRAPPER;
-            var _hooks$call$component2 = (0, _babel_runtime_helpers_esm_slicedToArray__WEBPACK_IMPORTED_MODULE_13__.Z)(_tarojs_shared__WEBPACK_IMPORTED_MODULE_0__.PT.call("getMiniLifecycleImpl").component, 2), ATTACHED = _hooks$call$component2[0], DETACHED = _hooks$call$component2[1];
-            var lifeCycles = isCustomWrapper ? (_ref3 = {}, (0, _babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_10__.Z)(_ref3, ATTACHED, (function() {
+            var _hooks$call$component2 = (0, _babel_runtime_helpers_esm_slicedToArray__WEBPACK_IMPORTED_MODULE_14__.Z)(_tarojs_shared__WEBPACK_IMPORTED_MODULE_0__.PT.call("getMiniLifecycleImpl").component, 2), ATTACHED = _hooks$call$component2[0], DETACHED = _hooks$call$component2[1];
+            var lifeCycles = isCustomWrapper ? (_ref3 = {}, (0, _babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_7__.Z)(_ref3, ATTACHED, (function() {
                 var _a, _b;
                 var componentId = ((_a = this.data.i) === null || _a === void 0 ? void 0 : _a.sid) || ((_b = this.props.i) === null || _b === void 0 ? void 0 : _b.sid);
                 if ((0, _tarojs_shared__WEBPACK_IMPORTED_MODULE_0__.HD)(componentId)) {
@@ -13512,7 +13614,7 @@ require("./runtime");
                         el.ctx = this;
                     }
                 }
-            })), (0, _babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_10__.Z)(_ref3, DETACHED, (function() {
+            })), (0, _babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_7__.Z)(_ref3, DETACHED, (function() {
                 var _a, _b;
                 var componentId = ((_a = this.data.i) === null || _a === void 0 ? void 0 : _a.sid) || ((_b = this.props.i) === null || _b === void 0 ? void 0 : _b.sid);
                 if ((0, _tarojs_shared__WEBPACK_IMPORTED_MODULE_0__.HD)(componentId)) {
@@ -13527,7 +13629,7 @@ require("./runtime");
                 properties: {
                     i: {
                         type: Object,
-                        value: (0, _babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_10__.Z)({}, "nn", (0, 
+                        value: (0, _babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_7__.Z)({}, "nn", (0, 
                         _tarojs_shared__WEBPACK_IMPORTED_MODULE_0__.W)(_tarojs_shared__WEBPACK_IMPORTED_MODULE_0__.rD)[VIEW]._num)
                     },
                     l: {
@@ -15716,7 +15818,7 @@ require("./runtime");
             }
         });
         var taro_shared = __webpack_require__(106);
-        var needPromiseApis = new Set([ "addFileToFavorites", "addVideoToFavorites", "authPrivateMessage", "checkIsAddedToMyMiniProgram", "chooseContact", "cropImage", "disableAlertBeforeUnload", "editImage", "enableAlertBeforeUnload", "getBackgroundFetchData", "getFuzzyLocation", "getGroupEnterInfo", "getLocalIPAddress", "getShareInfo", "getUserProfile", "getWeRunData", "join1v1Chat", "openCustomerServiceChat", "openVideoEditor", "saveFileToDisk", "scanItem", "setEnable1v1Chat", "setWindowSize", "sendBizRedPacket", "startFacialRecognitionVerify" ]);
+        var needPromiseApis = new Set([ "addFileToFavorites", "addVideoToFavorites", "authPrivateMessage", "checkIsAddedToMyMiniProgram", "chooseContact", "cropImage", "disableAlertBeforeUnload", "editImage", "enableAlertBeforeUnload", "getBackgroundFetchData", "getChannelsLiveInfo", "getChannelsLiveNoticeInfo", "getFuzzyLocation", "getGroupEnterInfo", "getLocalIPAddress", "getShareInfo", "getUserProfile", "getWeRunData", "join1v1Chat", "openChannelsActivity", "openChannelsEvent", "openChannelsLive", "openChannelsUserProfile", "openCustomerServiceChat", "openVideoEditor", "saveFileToDisk", "scanItem", "setEnable1v1Chat", "setWindowSize", "sendBizRedPacket", "startFacialRecognitionVerify" ]);
         function initNativeApi(taro) {
             (0, taro_shared.Ig)(taro, wx, {
                 needPromiseApis: needPromiseApis,
@@ -17170,16 +17272,17 @@ require("./runtime");
                 return window$1;
             }
         });
-        var _babel_runtime_helpers_esm_slicedToArray__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(62);
-        var _babel_runtime_helpers_esm_set__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(286);
-        var _babel_runtime_helpers_esm_toArray__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(298);
-        var _babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(208);
-        var _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(13);
+        var _babel_runtime_helpers_esm_slicedToArray__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(62);
+        var _babel_runtime_helpers_esm_get__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(306);
+        var _babel_runtime_helpers_esm_set__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(286);
+        var _babel_runtime_helpers_esm_getPrototypeOf__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(475);
+        var _babel_runtime_helpers_esm_toArray__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(298);
+        var _babel_runtime_helpers_esm_typeof__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(156);
+        var _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(13);
+        var _babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(208);
         var _babel_runtime_helpers_esm_inherits__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(410);
         var _babel_runtime_helpers_esm_createSuper__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(635);
-        var _babel_runtime_helpers_esm_get__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(306);
-        var _babel_runtime_helpers_esm_getPrototypeOf__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(475);
-        var _babel_runtime_helpers_esm_wrapNativeSuper__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(213);
+        var _babel_runtime_helpers_esm_wrapNativeSuper__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(213);
         var _babel_runtime_helpers_esm_toConsumableArray__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(528);
         var _babel_runtime_helpers_esm_classCallCheck__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(351);
         var _babel_runtime_helpers_esm_createClass__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(23);
@@ -17450,71 +17553,108 @@ require("./runtime");
             }
             return componentsAlias$1;
         }
-        var ClassList = function(_Set) {
-            (0, _babel_runtime_helpers_esm_inherits__WEBPACK_IMPORTED_MODULE_4__.Z)(ClassList, _Set);
-            var _super = (0, _babel_runtime_helpers_esm_createSuper__WEBPACK_IMPORTED_MODULE_5__.Z)(ClassList);
+        var ClassList = function() {
             function ClassList(className, el) {
-                var _thisSuper, _this;
+                var _this = this;
                 (0, _babel_runtime_helpers_esm_classCallCheck__WEBPACK_IMPORTED_MODULE_1__.Z)(this, ClassList);
-                _this = _super.call(this);
-                className.trim().split(/\\s+/).forEach((0, _babel_runtime_helpers_esm_get__WEBPACK_IMPORTED_MODULE_6__.Z)((_thisSuper = (0, 
-                _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_7__.Z)(_this), 
-                (0, _babel_runtime_helpers_esm_getPrototypeOf__WEBPACK_IMPORTED_MODULE_8__.Z)(ClassList.prototype)), "add", _thisSuper).bind((0, 
-                _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_7__.Z)(_this)));
-                _this.el = el;
-                return _this;
+                this.tokenList = [];
+                this.el = el;
+                className.trim().split(/\\s+/).forEach((function(token) {
+                    return _this.tokenList.push(token);
+                }));
             }
             (0, _babel_runtime_helpers_esm_createClass__WEBPACK_IMPORTED_MODULE_2__.Z)(ClassList, [ {
                 key: "value",
                 get: function get() {
-                    return (0, _babel_runtime_helpers_esm_toConsumableArray__WEBPACK_IMPORTED_MODULE_3__.Z)(this).filter((function(v) {
-                        return v !== "";
-                    })).join(" ");
-                }
-            }, {
-                key: "add",
-                value: function add(s) {
-                    (0, _babel_runtime_helpers_esm_get__WEBPACK_IMPORTED_MODULE_6__.Z)((0, _babel_runtime_helpers_esm_getPrototypeOf__WEBPACK_IMPORTED_MODULE_8__.Z)(ClassList.prototype), "add", this).call(this, s);
-                    this._update();
-                    return this;
+                    return this.toString();
                 }
             }, {
                 key: "length",
                 get: function get() {
-                    return this.size;
+                    return this.tokenList.length;
+                }
+            }, {
+                key: "add",
+                value: function add() {
+                    var index = 0;
+                    var updated = false;
+                    var tokens = arguments;
+                    var length = tokens.length;
+                    var tokenList = this.tokenList;
+                    do {
+                        var token = tokens[index];
+                        if (this.checkTokenIsValid(token) && !~tokenList.indexOf(token)) {
+                            tokenList.push(token);
+                            updated = true;
+                        }
+                    } while (++index < length);
+                    if (updated) {
+                        this._update();
+                    }
                 }
             }, {
                 key: "remove",
-                value: function remove(s) {
-                    (0, _babel_runtime_helpers_esm_get__WEBPACK_IMPORTED_MODULE_6__.Z)((0, _babel_runtime_helpers_esm_getPrototypeOf__WEBPACK_IMPORTED_MODULE_8__.Z)(ClassList.prototype), "delete", this).call(this, s);
-                    this._update();
-                }
-            }, {
-                key: "toggle",
-                value: function toggle(s) {
-                    if ((0, _babel_runtime_helpers_esm_get__WEBPACK_IMPORTED_MODULE_6__.Z)((0, _babel_runtime_helpers_esm_getPrototypeOf__WEBPACK_IMPORTED_MODULE_8__.Z)(ClassList.prototype), "has", this).call(this, s)) {
-                        (0, _babel_runtime_helpers_esm_get__WEBPACK_IMPORTED_MODULE_6__.Z)((0, _babel_runtime_helpers_esm_getPrototypeOf__WEBPACK_IMPORTED_MODULE_8__.Z)(ClassList.prototype), "delete", this).call(this, s);
-                    } else {
-                        (0, _babel_runtime_helpers_esm_get__WEBPACK_IMPORTED_MODULE_6__.Z)((0, _babel_runtime_helpers_esm_getPrototypeOf__WEBPACK_IMPORTED_MODULE_8__.Z)(ClassList.prototype), "add", this).call(this, s);
+                value: function remove() {
+                    var i = 0;
+                    var updated = false;
+                    var tokens = arguments;
+                    var length = tokens.length;
+                    var tokenList = this.tokenList;
+                    do {
+                        var token = tokens[i] + "";
+                        if (!this.checkTokenIsValid(token)) continue;
+                        var index = tokenList.indexOf(token);
+                        if (~tokenList.indexOf(token)) {
+                            tokenList.splice(index, 1);
+                            updated = true;
+                        }
+                    } while (++i < length);
+                    if (updated) {
+                        this._update();
                     }
-                    this._update();
-                }
-            }, {
-                key: "replace",
-                value: function replace(s1, s2) {
-                    (0, _babel_runtime_helpers_esm_get__WEBPACK_IMPORTED_MODULE_6__.Z)((0, _babel_runtime_helpers_esm_getPrototypeOf__WEBPACK_IMPORTED_MODULE_8__.Z)(ClassList.prototype), "delete", this).call(this, s1);
-                    (0, _babel_runtime_helpers_esm_get__WEBPACK_IMPORTED_MODULE_6__.Z)((0, _babel_runtime_helpers_esm_getPrototypeOf__WEBPACK_IMPORTED_MODULE_8__.Z)(ClassList.prototype), "add", this).call(this, s2);
-                    this._update();
                 }
             }, {
                 key: "contains",
-                value: function contains(s) {
-                    return (0, _babel_runtime_helpers_esm_get__WEBPACK_IMPORTED_MODULE_6__.Z)((0, _babel_runtime_helpers_esm_getPrototypeOf__WEBPACK_IMPORTED_MODULE_8__.Z)(ClassList.prototype), "has", this).call(this, s);
+                value: function contains(token) {
+                    if (!this.checkTokenIsValid(token)) return false;
+                    return !!~this.tokenList.indexOf(token);
+                }
+            }, {
+                key: "toggle",
+                value: function toggle(token, force) {
+                    var result = this.contains(token);
+                    var method = result ? force !== true && "remove" : force !== false && "add";
+                    if (method) {
+                        this[method](token);
+                    }
+                    if (force === true || force === false) {
+                        return force;
+                    } else {
+                        return !result;
+                    }
+                }
+            }, {
+                key: "replace",
+                value: function replace(token, replacement_token) {
+                    if (!this.checkTokenIsValid(token) || !this.checkTokenIsValid(replacement_token)) return;
+                    var index = this.tokenList.indexOf(token);
+                    if (~index) {
+                        this.tokenList.splice(index, 1, replacement_token);
+                        this._update();
+                    }
                 }
             }, {
                 key: "toString",
                 value: function toString() {
-                    return this.value;
+                    return this.tokenList.filter((function(v) {
+                        return v !== "";
+                    })).join(" ");
+                }
+            }, {
+                key: "checkTokenIsValid",
+                value: function checkTokenIsValid(token) {
+                    if (token === "" || /\\s/.test(token)) return false;
+                    return true;
                 }
             }, {
                 key: "_update",
@@ -17523,13 +17663,13 @@ require("./runtime");
                 }
             } ]);
             return ClassList;
-        }((0, _babel_runtime_helpers_esm_wrapNativeSuper__WEBPACK_IMPORTED_MODULE_9__.Z)(Set));
+        }();
         var EventSource = function(_Map) {
             (0, _babel_runtime_helpers_esm_inherits__WEBPACK_IMPORTED_MODULE_4__.Z)(EventSource, _Map);
-            var _super2 = (0, _babel_runtime_helpers_esm_createSuper__WEBPACK_IMPORTED_MODULE_5__.Z)(EventSource);
+            var _super = (0, _babel_runtime_helpers_esm_createSuper__WEBPACK_IMPORTED_MODULE_5__.Z)(EventSource);
             function EventSource() {
                 (0, _babel_runtime_helpers_esm_classCallCheck__WEBPACK_IMPORTED_MODULE_1__.Z)(this, EventSource);
-                return _super2.apply(this, arguments);
+                return _super.apply(this, arguments);
             }
             (0, _babel_runtime_helpers_esm_createClass__WEBPACK_IMPORTED_MODULE_2__.Z)(EventSource, [ {
                 key: "removeNode",
@@ -17550,7 +17690,7 @@ require("./runtime");
                 }
             } ]);
             return EventSource;
-        }((0, _babel_runtime_helpers_esm_wrapNativeSuper__WEBPACK_IMPORTED_MODULE_9__.Z)(Map));
+        }((0, _babel_runtime_helpers_esm_wrapNativeSuper__WEBPACK_IMPORTED_MODULE_6__.Z)(Map));
         var eventSource = new EventSource;
         var isWeb$1 = (0, _tarojs_shared__WEBPACK_IMPORTED_MODULE_0__.gl)();
         var env = {
@@ -17570,12 +17710,12 @@ require("./runtime");
             var nodeName = node.nodeName;
             if (isText(node)) {
                 var _ref;
-                return _ref = {}, (0, _babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_10__.Z)(_ref, "v", node.nodeValue), 
-                (0, _babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_10__.Z)(_ref, "nn", componentsAlias[nodeName]._num), 
+                return _ref = {}, (0, _babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_7__.Z)(_ref, "v", node.nodeValue), 
+                (0, _babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_7__.Z)(_ref, "nn", componentsAlias[nodeName]._num), 
                 _ref;
             }
-            var data = (_data = {}, (0, _babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_10__.Z)(_data, "nn", nodeName), 
-            (0, _babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_10__.Z)(_data, "sid", node.sid), 
+            var data = (_data = {}, (0, _babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_7__.Z)(_data, "nn", nodeName), 
+            (0, _babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_7__.Z)(_data, "sid", node.sid), 
             _data);
             if (node.uid !== node.sid) {
                 data.uid = node.uid;
@@ -17708,11 +17848,11 @@ require("./runtime");
         var nodeId = incrementId();
         var TaroNode = function(_TaroEventTarget) {
             (0, _babel_runtime_helpers_esm_inherits__WEBPACK_IMPORTED_MODULE_4__.Z)(TaroNode, _TaroEventTarget);
-            var _super3 = (0, _babel_runtime_helpers_esm_createSuper__WEBPACK_IMPORTED_MODULE_5__.Z)(TaroNode);
+            var _super2 = (0, _babel_runtime_helpers_esm_createSuper__WEBPACK_IMPORTED_MODULE_5__.Z)(TaroNode);
             function TaroNode() {
                 var _this3;
                 (0, _babel_runtime_helpers_esm_classCallCheck__WEBPACK_IMPORTED_MODULE_1__.Z)(this, TaroNode);
-                _this3 = _super3.call(this);
+                _this3 = _super2.call(this);
                 _this3.parentNode = null;
                 _this3.childNodes = [];
                 _this3.hydrate = function(node) {
@@ -17722,7 +17862,7 @@ require("./runtime");
                 };
                 _this3.uid = "_" + nodeId();
                 _this3.sid = _this3.uid;
-                eventSource.set(_this3.sid, (0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_7__.Z)(_this3));
+                eventSource.set(_this3.sid, (0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_8__.Z)(_this3));
                 return _this3;
             }
             (0, _babel_runtime_helpers_esm_createClass__WEBPACK_IMPORTED_MODULE_2__.Z)(TaroNode, [ {
@@ -17949,7 +18089,7 @@ require("./runtime");
             return TaroNode;
         }(TaroEventTarget);
         var WEBKIT = "webkit";
-        var styleProperties = [ "all", "appearance", "blockOverflow", "blockSize", "bottom", "clear", "contain", "content", "continue", "cursor", "direction", "display", "filter", "float", "gap", "height", "inset", "isolation", "left", "letterSpacing", "lightingColor", "markerSide", "mixBlendMode", "opacity", "order", "position", "quotes", "resize", "right", "rowGap", "tabSize", "tableLayout", "top", "userSelect", "verticalAlign", "visibility", "voiceFamily", "volume", "whiteSpace", "widows", "width", "zIndex", "pointerEvents" ];
+        var styleProperties = [ "all", "appearance", "blockOverflow", "blockSize", "bottom", "clear", "contain", "content", "continue", "cursor", "direction", "display", "filter", "float", "gap", "height", "inset", "isolation", "left", "letterSpacing", "lightingColor", "markerSide", "mixBlendMode", "opacity", "order", "position", "quotes", "resize", "right", "rowGap", "tabSize", "tableLayout", "top", "userSelect", "verticalAlign", "visibility", "voiceFamily", "volume", "whiteSpace", "widows", "width", "zIndex", "pointerEvents", "aspectRatio" ];
         function combine(prefix, list, excludeSelf) {
             !excludeSelf && styleProperties.push(prefix);
             list.forEach((function(item) {
@@ -18083,10 +18223,13 @@ require("./runtime");
             }
             !this._pending && enqueueUpdate(this);
         }
-        function initStyle(ctor) {
+        function initStyle(ctor, styleProperties) {
             var properties = {};
             var _loop = function _loop() {
                 var styleKey = styleProperties[i];
+                if (ctor[styleKey]) return {
+                    v: void 0
+                };
                 properties[styleKey] = {
                     get: function get() {
                         var val = this._value[styleKey];
@@ -18098,7 +18241,8 @@ require("./runtime");
                 };
             };
             for (var i = 0; i < styleProperties.length; i++) {
-                _loop();
+                var _ret = _loop();
+                if ((0, _babel_runtime_helpers_esm_typeof__WEBPACK_IMPORTED_MODULE_9__.Z)(_ret) === "object") return _ret.v;
             }
             Object.defineProperties(ctor.prototype, properties);
         }
@@ -18163,7 +18307,7 @@ require("./runtime");
                         if (rule === "") {
                             continue;
                         }
-                        var _rule$split = rule.split(":"), _rule$split2 = (0, _babel_runtime_helpers_esm_toArray__WEBPACK_IMPORTED_MODULE_11__.Z)(_rule$split), propName = _rule$split2[0], valList = _rule$split2.slice(1);
+                        var _rule$split = rule.split(":"), _rule$split2 = (0, _babel_runtime_helpers_esm_toArray__WEBPACK_IMPORTED_MODULE_10__.Z)(_rule$split), propName = _rule$split2[0], valList = _rule$split2.slice(1);
                         var val = valList.join(":");
                         if ((0, _tarojs_shared__WEBPACK_IMPORTED_MODULE_0__.o8)(val)) {
                             continue;
@@ -18211,7 +18355,15 @@ require("./runtime");
             } ]);
             return Style;
         }();
-        initStyle(Style);
+        initStyle(Style, styleProperties);
+        _tarojs_shared__WEBPACK_IMPORTED_MODULE_0__.PT.tap("injectNewStyleProperties", (function(newStyleProperties) {
+            if ((0, _tarojs_shared__WEBPACK_IMPORTED_MODULE_0__.kJ)(newStyleProperties)) {
+                initStyle(Style, newStyleProperties);
+            } else {
+                if (typeof newStyleProperties !== "string") return;
+                initStyle(Style, [ newStyleProperties ]);
+            }
+        }));
         function returnTrue() {
             return true;
         }
@@ -18229,7 +18381,8 @@ require("./runtime");
         }
         function following(el, root) {
             var firstChild = el.firstChild;
-            if (firstChild) {
+            var isElmentTypeValid = el.nodeType === 1 || el.nodeType === 9;
+            if (firstChild && isElmentTypeValid) {
                 return firstChild;
             }
             var current = el;
@@ -18247,16 +18400,16 @@ require("./runtime");
         }
         var TaroElement = function(_TaroNode) {
             (0, _babel_runtime_helpers_esm_inherits__WEBPACK_IMPORTED_MODULE_4__.Z)(TaroElement, _TaroNode);
-            var _super4 = (0, _babel_runtime_helpers_esm_createSuper__WEBPACK_IMPORTED_MODULE_5__.Z)(TaroElement);
+            var _super3 = (0, _babel_runtime_helpers_esm_createSuper__WEBPACK_IMPORTED_MODULE_5__.Z)(TaroElement);
             function TaroElement() {
                 var _this9;
                 (0, _babel_runtime_helpers_esm_classCallCheck__WEBPACK_IMPORTED_MODULE_1__.Z)(this, TaroElement);
-                _this9 = _super4.call(this);
+                _this9 = _super3.call(this);
                 _this9.props = {};
                 _this9.dataset = _tarojs_shared__WEBPACK_IMPORTED_MODULE_0__.kT;
                 _this9.nodeType = 1;
-                _this9.style = new Style((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_7__.Z)(_this9));
-                _tarojs_shared__WEBPACK_IMPORTED_MODULE_0__.PT.call("patchElement", (0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_7__.Z)(_this9));
+                _this9.style = new Style((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_8__.Z)(_this9));
+                _tarojs_shared__WEBPACK_IMPORTED_MODULE_0__.PT.call("patchElement", (0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_8__.Z)(_this9));
                 return _this9;
             }
             (0, _babel_runtime_helpers_esm_createClass__WEBPACK_IMPORTED_MODULE_2__.Z)(TaroElement, [ {
@@ -18333,7 +18486,7 @@ require("./runtime");
                     return text;
                 },
                 set: function set(text) {
-                    (0, _babel_runtime_helpers_esm_set__WEBPACK_IMPORTED_MODULE_12__.Z)((0, _babel_runtime_helpers_esm_getPrototypeOf__WEBPACK_IMPORTED_MODULE_8__.Z)(TaroElement.prototype), "textContent", text, this, true);
+                    (0, _babel_runtime_helpers_esm_set__WEBPACK_IMPORTED_MODULE_11__.Z)((0, _babel_runtime_helpers_esm_getPrototypeOf__WEBPACK_IMPORTED_MODULE_12__.Z)(TaroElement.prototype), "textContent", text, this, true);
                 }
             }, {
                 key: "hasAttribute",
@@ -18504,11 +18657,11 @@ require("./runtime");
             }, {
                 key: "getElementsByClassName",
                 value: function getElementsByClassName(className) {
+                    var classNames = className.trim().split(/\\s+/);
                     return treeToArray(this, (function(el) {
                         var classList = el.classList;
-                        var classNames = className.trim().split(/\\s+/);
                         return classNames.every((function(c) {
-                            return classList.has(c);
+                            return classList.contains(c);
                         }));
                     }));
                 }
@@ -18564,13 +18717,13 @@ require("./runtime");
                             value: alias
                         });
                     }
-                    (0, _babel_runtime_helpers_esm_get__WEBPACK_IMPORTED_MODULE_6__.Z)((0, _babel_runtime_helpers_esm_getPrototypeOf__WEBPACK_IMPORTED_MODULE_8__.Z)(TaroElement.prototype), "addEventListener", this).call(this, type, handler, options);
+                    (0, _babel_runtime_helpers_esm_get__WEBPACK_IMPORTED_MODULE_13__.Z)((0, _babel_runtime_helpers_esm_getPrototypeOf__WEBPACK_IMPORTED_MODULE_12__.Z)(TaroElement.prototype), "addEventListener", this).call(this, type, handler, options);
                 }
             }, {
                 key: "removeEventListener",
                 value: function removeEventListener(type, handler) {
                     var sideEffect = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : true;
-                    (0, _babel_runtime_helpers_esm_get__WEBPACK_IMPORTED_MODULE_6__.Z)((0, _babel_runtime_helpers_esm_getPrototypeOf__WEBPACK_IMPORTED_MODULE_8__.Z)(TaroElement.prototype), "removeEventListener", this).call(this, type, handler);
+                    (0, _babel_runtime_helpers_esm_get__WEBPACK_IMPORTED_MODULE_13__.Z)((0, _babel_runtime_helpers_esm_getPrototypeOf__WEBPACK_IMPORTED_MODULE_12__.Z)(TaroElement.prototype), "removeEventListener", this).call(this, type, handler);
                     var name = this.nodeName;
                     var SPECIAL_NODES = _tarojs_shared__WEBPACK_IMPORTED_MODULE_0__.PT.call("getSpecialNodes");
                     if (sideEffect !== false && !this.isAnyEventBinded() && SPECIAL_NODES.indexOf(name) > -1) {
@@ -19023,7 +19176,7 @@ require("./runtime");
                         };
                         item = item.replace(/^[>~+]/, "");
                         item = item.replace(/\\[(.+?)\\]/g, (function(_, $1) {
-                            var _$1$split = $1.split("="), _$1$split2 = (0, _babel_runtime_helpers_esm_slicedToArray__WEBPACK_IMPORTED_MODULE_13__.Z)(_$1$split, 2), key = _$1$split2[0], value = _$1$split2[1];
+                            var _$1$split = $1.split("="), _$1$split2 = (0, _babel_runtime_helpers_esm_slicedToArray__WEBPACK_IMPORTED_MODULE_14__.Z)(_$1$split, 2), key = _$1$split2[0], value = _$1$split2[1];
                             var all = $1.indexOf("=") === -1;
                             var attr = {
                                 all: all,
@@ -19271,7 +19424,7 @@ require("./runtime");
                 }
                 for (var i = 0; i < child.attributes.length; i++) {
                     var attr = child.attributes[i];
-                    var _splitEqual = splitEqual(attr), _splitEqual2 = (0, _babel_runtime_helpers_esm_slicedToArray__WEBPACK_IMPORTED_MODULE_13__.Z)(_splitEqual, 2), key = _splitEqual2[0], value = _splitEqual2[1];
+                    var _splitEqual = splitEqual(attr), _splitEqual2 = (0, _babel_runtime_helpers_esm_slicedToArray__WEBPACK_IMPORTED_MODULE_14__.Z)(_splitEqual, 2), key = _splitEqual2[0], value = _splitEqual2[1];
                     if (key === "class") {
                         el.className += " " + unquote(value);
                     } else if (key[0] === "o" && key[1] === "n") {
@@ -19671,10 +19824,10 @@ require("./runtime");
         }
         var FormElement = function(_TaroElement) {
             (0, _babel_runtime_helpers_esm_inherits__WEBPACK_IMPORTED_MODULE_4__.Z)(FormElement, _TaroElement);
-            var _super5 = (0, _babel_runtime_helpers_esm_createSuper__WEBPACK_IMPORTED_MODULE_5__.Z)(FormElement);
+            var _super4 = (0, _babel_runtime_helpers_esm_createSuper__WEBPACK_IMPORTED_MODULE_5__.Z)(FormElement);
             function FormElement() {
                 (0, _babel_runtime_helpers_esm_classCallCheck__WEBPACK_IMPORTED_MODULE_1__.Z)(this, FormElement);
-                return _super5.apply(this, arguments);
+                return _super4.apply(this, arguments);
             }
             (0, _babel_runtime_helpers_esm_createClass__WEBPACK_IMPORTED_MODULE_2__.Z)(FormElement, [ {
                 key: "value",
@@ -19696,7 +19849,7 @@ require("./runtime");
                             this.value = val;
                         }
                     }
-                    return (0, _babel_runtime_helpers_esm_get__WEBPACK_IMPORTED_MODULE_6__.Z)((0, _babel_runtime_helpers_esm_getPrototypeOf__WEBPACK_IMPORTED_MODULE_8__.Z)(FormElement.prototype), "dispatchEvent", this).call(this, event);
+                    return (0, _babel_runtime_helpers_esm_get__WEBPACK_IMPORTED_MODULE_13__.Z)((0, _babel_runtime_helpers_esm_getPrototypeOf__WEBPACK_IMPORTED_MODULE_12__.Z)(FormElement.prototype), "dispatchEvent", this).call(this, event);
                 }
             } ]);
             return FormElement;
@@ -19761,11 +19914,11 @@ require("./runtime");
         }
         var TaroRootElement = function(_TaroElement2) {
             (0, _babel_runtime_helpers_esm_inherits__WEBPACK_IMPORTED_MODULE_4__.Z)(TaroRootElement, _TaroElement2);
-            var _super6 = (0, _babel_runtime_helpers_esm_createSuper__WEBPACK_IMPORTED_MODULE_5__.Z)(TaroRootElement);
+            var _super5 = (0, _babel_runtime_helpers_esm_createSuper__WEBPACK_IMPORTED_MODULE_5__.Z)(TaroRootElement);
             function TaroRootElement() {
                 var _this15;
                 (0, _babel_runtime_helpers_esm_classCallCheck__WEBPACK_IMPORTED_MODULE_1__.Z)(this, TaroRootElement);
-                _this15 = _super6.call(this);
+                _this15 = _super5.call(this);
                 _this15.updatePayloads = [];
                 _this15.updateCallbacks = [];
                 _this15.pendingUpdate = false;
@@ -19839,7 +19992,7 @@ require("./runtime");
                                 if (found) {
                                     var customWrapper = found.customWrapper, splitedPath = found.splitedPath;
                                     customWrapperMap.set(customWrapper, Object.assign(Object.assign({}, customWrapperMap.get(customWrapper) || {}), (0, 
-                                    _babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_10__.Z)({}, "i.".concat(splitedPath), data[p])));
+                                    _babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_7__.Z)({}, "i.".concat(splitedPath), data[p])));
                                 } else {
                                     normalUpdate[p] = data[p];
                                 }
@@ -19891,11 +20044,11 @@ require("./runtime");
         }(TaroElement);
         var TaroText = function(_TaroNode2) {
             (0, _babel_runtime_helpers_esm_inherits__WEBPACK_IMPORTED_MODULE_4__.Z)(TaroText, _TaroNode2);
-            var _super7 = (0, _babel_runtime_helpers_esm_createSuper__WEBPACK_IMPORTED_MODULE_5__.Z)(TaroText);
+            var _super6 = (0, _babel_runtime_helpers_esm_createSuper__WEBPACK_IMPORTED_MODULE_5__.Z)(TaroText);
             function TaroText(value) {
                 var _this17;
                 (0, _babel_runtime_helpers_esm_classCallCheck__WEBPACK_IMPORTED_MODULE_1__.Z)(this, TaroText);
-                _this17 = _super7.call(this);
+                _this17 = _super6.call(this);
                 _this17.nodeType = 3;
                 _this17.nodeName = "#text";
                 _this17._value = value;
@@ -20310,10 +20463,10 @@ require("./runtime");
         }
         var AnchorElement = function(_TaroElement3) {
             (0, _babel_runtime_helpers_esm_inherits__WEBPACK_IMPORTED_MODULE_4__.Z)(AnchorElement, _TaroElement3);
-            var _super8 = (0, _babel_runtime_helpers_esm_createSuper__WEBPACK_IMPORTED_MODULE_5__.Z)(AnchorElement);
+            var _super7 = (0, _babel_runtime_helpers_esm_createSuper__WEBPACK_IMPORTED_MODULE_5__.Z)(AnchorElement);
             function AnchorElement() {
                 (0, _babel_runtime_helpers_esm_classCallCheck__WEBPACK_IMPORTED_MODULE_1__.Z)(this, AnchorElement);
-                return _super8.apply(this, arguments);
+                return _super7.apply(this, arguments);
             }
             (0, _babel_runtime_helpers_esm_createClass__WEBPACK_IMPORTED_MODULE_2__.Z)(AnchorElement, [ {
                 key: "href",
@@ -20372,10 +20525,10 @@ require("./runtime");
                     if (qualifiedName === "href") {
                         var willSetAttr = parseUrl(value);
                         for (var k in willSetAttr) {
-                            (0, _babel_runtime_helpers_esm_get__WEBPACK_IMPORTED_MODULE_6__.Z)((0, _babel_runtime_helpers_esm_getPrototypeOf__WEBPACK_IMPORTED_MODULE_8__.Z)(AnchorElement.prototype), "setAttribute", this).call(this, k, willSetAttr[k]);
+                            (0, _babel_runtime_helpers_esm_get__WEBPACK_IMPORTED_MODULE_13__.Z)((0, _babel_runtime_helpers_esm_getPrototypeOf__WEBPACK_IMPORTED_MODULE_12__.Z)(AnchorElement.prototype), "setAttribute", this).call(this, k, willSetAttr[k]);
                         }
                     } else {
-                        (0, _babel_runtime_helpers_esm_get__WEBPACK_IMPORTED_MODULE_6__.Z)((0, _babel_runtime_helpers_esm_getPrototypeOf__WEBPACK_IMPORTED_MODULE_8__.Z)(AnchorElement.prototype), "setAttribute", this).call(this, qualifiedName, value);
+                        (0, _babel_runtime_helpers_esm_get__WEBPACK_IMPORTED_MODULE_13__.Z)((0, _babel_runtime_helpers_esm_getPrototypeOf__WEBPACK_IMPORTED_MODULE_12__.Z)(AnchorElement.prototype), "setAttribute", this).call(this, qualifiedName, value);
                     }
                 }
             } ]);
@@ -20383,20 +20536,20 @@ require("./runtime");
         }(TaroElement);
         var CustomWrapperElement = function(_TaroElement4) {
             (0, _babel_runtime_helpers_esm_inherits__WEBPACK_IMPORTED_MODULE_4__.Z)(CustomWrapperElement, _TaroElement4);
-            var _super9 = (0, _babel_runtime_helpers_esm_createSuper__WEBPACK_IMPORTED_MODULE_5__.Z)(CustomWrapperElement);
+            var _super8 = (0, _babel_runtime_helpers_esm_createSuper__WEBPACK_IMPORTED_MODULE_5__.Z)(CustomWrapperElement);
             function CustomWrapperElement() {
                 (0, _babel_runtime_helpers_esm_classCallCheck__WEBPACK_IMPORTED_MODULE_1__.Z)(this, CustomWrapperElement);
-                return _super9.apply(this, arguments);
+                return _super8.apply(this, arguments);
             }
             return (0, _babel_runtime_helpers_esm_createClass__WEBPACK_IMPORTED_MODULE_2__.Z)(CustomWrapperElement);
         }(TaroElement);
         var TaroDocument = function(_TaroElement5) {
             (0, _babel_runtime_helpers_esm_inherits__WEBPACK_IMPORTED_MODULE_4__.Z)(TaroDocument, _TaroElement5);
-            var _super10 = (0, _babel_runtime_helpers_esm_createSuper__WEBPACK_IMPORTED_MODULE_5__.Z)(TaroDocument);
+            var _super9 = (0, _babel_runtime_helpers_esm_createSuper__WEBPACK_IMPORTED_MODULE_5__.Z)(TaroDocument);
             function TaroDocument() {
                 var _this18;
                 (0, _babel_runtime_helpers_esm_classCallCheck__WEBPACK_IMPORTED_MODULE_1__.Z)(this, TaroDocument);
-                _this18 = _super10.call(this);
+                _this18 = _super9.call(this);
                 _this18.createEvent = createEvent;
                 _this18.nodeType = 9;
                 _this18.nodeName = DOCUMENT_ELEMENT_NAME;
@@ -20540,60 +20693,60 @@ require("./runtime");
         var cache$1 = new RuntimeCache("history");
         var History = function(_Events) {
             (0, _babel_runtime_helpers_esm_inherits__WEBPACK_IMPORTED_MODULE_4__.Z)(History, _Events);
-            var _super11 = (0, _babel_runtime_helpers_esm_createSuper__WEBPACK_IMPORTED_MODULE_5__.Z)(History);
+            var _super10 = (0, _babel_runtime_helpers_esm_createSuper__WEBPACK_IMPORTED_MODULE_5__.Z)(History);
             function History(location, options) {
                 var _this19;
                 (0, _babel_runtime_helpers_esm_classCallCheck__WEBPACK_IMPORTED_MODULE_1__.Z)(this, History);
-                _this19 = _super11.call(this);
-                _History_instances.add((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_7__.Z)(_this19));
-                _History_location.set((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_7__.Z)(_this19), void 0);
-                _History_stack.set((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_7__.Z)(_this19), []);
-                _History_cur.set((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_7__.Z)(_this19), 0);
-                _History_window.set((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_7__.Z)(_this19), void 0);
-                __classPrivateFieldSet((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_7__.Z)(_this19), _History_window, options.window, "f");
-                __classPrivateFieldSet((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_7__.Z)(_this19), _History_location, location, "f");
-                __classPrivateFieldGet((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_7__.Z)(_this19), _History_location, "f").on("__record_history__", (function(href) {
+                _this19 = _super10.call(this);
+                _History_instances.add((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_8__.Z)(_this19));
+                _History_location.set((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_8__.Z)(_this19), void 0);
+                _History_stack.set((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_8__.Z)(_this19), []);
+                _History_cur.set((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_8__.Z)(_this19), 0);
+                _History_window.set((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_8__.Z)(_this19), void 0);
+                __classPrivateFieldSet((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_8__.Z)(_this19), _History_window, options.window, "f");
+                __classPrivateFieldSet((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_8__.Z)(_this19), _History_location, location, "f");
+                __classPrivateFieldGet((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_8__.Z)(_this19), _History_location, "f").on("__record_history__", (function(href) {
                     var _a;
-                    __classPrivateFieldSet((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_7__.Z)(_this19), _History_cur, (_a = __classPrivateFieldGet((0, 
-                    _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_7__.Z)(_this19), _History_cur, "f"), 
+                    __classPrivateFieldSet((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_8__.Z)(_this19), _History_cur, (_a = __classPrivateFieldGet((0, 
+                    _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_8__.Z)(_this19), _History_cur, "f"), 
                     _a++, _a), "f");
-                    __classPrivateFieldSet((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_7__.Z)(_this19), _History_stack, __classPrivateFieldGet((0, 
-                    _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_7__.Z)(_this19), _History_stack, "f").slice(0, __classPrivateFieldGet((0, 
-                    _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_7__.Z)(_this19), _History_cur, "f")), "f");
-                    __classPrivateFieldGet((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_7__.Z)(_this19), _History_stack, "f").push({
+                    __classPrivateFieldSet((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_8__.Z)(_this19), _History_stack, __classPrivateFieldGet((0, 
+                    _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_8__.Z)(_this19), _History_stack, "f").slice(0, __classPrivateFieldGet((0, 
+                    _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_8__.Z)(_this19), _History_cur, "f")), "f");
+                    __classPrivateFieldGet((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_8__.Z)(_this19), _History_stack, "f").push({
                         state: null,
                         title: "",
                         url: href
                     });
                 }), null);
-                __classPrivateFieldGet((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_7__.Z)(_this19), _History_location, "f").on("__reset_history__", (function(href) {
-                    __classPrivateFieldGet((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_7__.Z)(_this19), _History_instances, "m", _History_reset).call((0, 
-                    _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_7__.Z)(_this19), href);
+                __classPrivateFieldGet((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_8__.Z)(_this19), _History_location, "f").on("__reset_history__", (function(href) {
+                    __classPrivateFieldGet((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_8__.Z)(_this19), _History_instances, "m", _History_reset).call((0, 
+                    _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_8__.Z)(_this19), href);
                 }), null);
                 _this19.on(CONTEXT_ACTIONS.INIT, (function() {
-                    __classPrivateFieldGet((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_7__.Z)(_this19), _History_instances, "m", _History_reset).call((0, 
-                    _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_7__.Z)(_this19));
+                    __classPrivateFieldGet((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_8__.Z)(_this19), _History_instances, "m", _History_reset).call((0, 
+                    _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_8__.Z)(_this19));
                 }), null);
                 _this19.on(CONTEXT_ACTIONS.RESTORE, (function(pageId) {
                     cache$1.set(pageId, {
-                        location: __classPrivateFieldGet((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_7__.Z)(_this19), _History_location, "f"),
-                        stack: __classPrivateFieldGet((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_7__.Z)(_this19), _History_stack, "f").slice(),
-                        cur: __classPrivateFieldGet((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_7__.Z)(_this19), _History_cur, "f")
+                        location: __classPrivateFieldGet((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_8__.Z)(_this19), _History_location, "f"),
+                        stack: __classPrivateFieldGet((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_8__.Z)(_this19), _History_stack, "f").slice(),
+                        cur: __classPrivateFieldGet((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_8__.Z)(_this19), _History_cur, "f")
                     });
                 }), null);
                 _this19.on(CONTEXT_ACTIONS.RECOVER, (function(pageId) {
                     if (cache$1.has(pageId)) {
                         var ctx = cache$1.get(pageId);
-                        __classPrivateFieldSet((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_7__.Z)(_this19), _History_location, ctx.location, "f");
-                        __classPrivateFieldSet((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_7__.Z)(_this19), _History_stack, ctx.stack, "f");
-                        __classPrivateFieldSet((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_7__.Z)(_this19), _History_cur, ctx.cur, "f");
+                        __classPrivateFieldSet((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_8__.Z)(_this19), _History_location, ctx.location, "f");
+                        __classPrivateFieldSet((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_8__.Z)(_this19), _History_stack, ctx.stack, "f");
+                        __classPrivateFieldSet((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_8__.Z)(_this19), _History_cur, ctx.cur, "f");
                     }
                 }), null);
                 _this19.on(CONTEXT_ACTIONS.DESTORY, (function(pageId) {
                     cache$1.delete(pageId);
                 }), null);
-                __classPrivateFieldGet((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_7__.Z)(_this19), _History_instances, "m", _History_reset).call((0, 
-                _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_7__.Z)(_this19));
+                __classPrivateFieldGet((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_8__.Z)(_this19), _History_instances, "m", _History_reset).call((0, 
+                _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_8__.Z)(_this19));
                 return _this19;
             }
             (0, _babel_runtime_helpers_esm_createClass__WEBPACK_IMPORTED_MODULE_2__.Z)(History, [ {
@@ -20681,30 +20834,30 @@ require("./runtime");
         var cache = new RuntimeCache("location");
         var Location = function(_Events2) {
             (0, _babel_runtime_helpers_esm_inherits__WEBPACK_IMPORTED_MODULE_4__.Z)(Location, _Events2);
-            var _super12 = (0, _babel_runtime_helpers_esm_createSuper__WEBPACK_IMPORTED_MODULE_5__.Z)(Location);
+            var _super11 = (0, _babel_runtime_helpers_esm_createSuper__WEBPACK_IMPORTED_MODULE_5__.Z)(Location);
             function Location(options) {
                 var _this20;
                 (0, _babel_runtime_helpers_esm_classCallCheck__WEBPACK_IMPORTED_MODULE_1__.Z)(this, Location);
-                _this20 = _super12.call(this);
-                _Location_instances.add((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_7__.Z)(_this20));
-                _Location_url.set((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_7__.Z)(_this20), new URL(INIT_URL));
-                _Location_noCheckUrl.set((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_7__.Z)(_this20), false);
-                _Location_window.set((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_7__.Z)(_this20), void 0);
-                __classPrivateFieldSet((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_7__.Z)(_this20), _Location_window, options.window, "f");
-                __classPrivateFieldGet((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_7__.Z)(_this20), _Location_instances, "m", _Location_reset).call((0, 
-                _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_7__.Z)(_this20));
+                _this20 = _super11.call(this);
+                _Location_instances.add((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_8__.Z)(_this20));
+                _Location_url.set((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_8__.Z)(_this20), new URL(INIT_URL));
+                _Location_noCheckUrl.set((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_8__.Z)(_this20), false);
+                _Location_window.set((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_8__.Z)(_this20), void 0);
+                __classPrivateFieldSet((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_8__.Z)(_this20), _Location_window, options.window, "f");
+                __classPrivateFieldGet((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_8__.Z)(_this20), _Location_instances, "m", _Location_reset).call((0, 
+                _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_8__.Z)(_this20));
                 _this20.on("__set_href_without_history__", (function(href) {
-                    __classPrivateFieldSet((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_7__.Z)(_this20), _Location_noCheckUrl, true, "f");
-                    var lastHash = __classPrivateFieldGet((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_7__.Z)(_this20), _Location_url, "f").hash;
-                    __classPrivateFieldGet((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_7__.Z)(_this20), _Location_url, "f").href = generateFullUrl(href);
-                    if (lastHash !== __classPrivateFieldGet((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_7__.Z)(_this20), _Location_url, "f").hash) {
-                        __classPrivateFieldGet((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_7__.Z)(_this20), _Location_window, "f").trigger("hashchange");
+                    __classPrivateFieldSet((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_8__.Z)(_this20), _Location_noCheckUrl, true, "f");
+                    var lastHash = __classPrivateFieldGet((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_8__.Z)(_this20), _Location_url, "f").hash;
+                    __classPrivateFieldGet((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_8__.Z)(_this20), _Location_url, "f").href = generateFullUrl(href);
+                    if (lastHash !== __classPrivateFieldGet((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_8__.Z)(_this20), _Location_url, "f").hash) {
+                        __classPrivateFieldGet((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_8__.Z)(_this20), _Location_window, "f").trigger("hashchange");
                     }
-                    __classPrivateFieldSet((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_7__.Z)(_this20), _Location_noCheckUrl, false, "f");
+                    __classPrivateFieldSet((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_8__.Z)(_this20), _Location_noCheckUrl, false, "f");
                 }), null);
                 _this20.on(CONTEXT_ACTIONS.INIT, (function() {
-                    __classPrivateFieldGet((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_7__.Z)(_this20), _Location_instances, "m", _Location_reset).call((0, 
-                    _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_7__.Z)(_this20));
+                    __classPrivateFieldGet((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_8__.Z)(_this20), _Location_instances, "m", _Location_reset).call((0, 
+                    _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_8__.Z)(_this20));
                 }), null);
                 _this20.on(CONTEXT_ACTIONS.RESTORE, (function(pageId) {
                     cache.set(pageId, {
@@ -20714,9 +20867,9 @@ require("./runtime");
                 _this20.on(CONTEXT_ACTIONS.RECOVER, (function(pageId) {
                     if (cache.has(pageId)) {
                         var ctx = cache.get(pageId);
-                        __classPrivateFieldSet((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_7__.Z)(_this20), _Location_noCheckUrl, true, "f");
-                        __classPrivateFieldGet((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_7__.Z)(_this20), _Location_url, "f").href = ctx.lastHref;
-                        __classPrivateFieldSet((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_7__.Z)(_this20), _Location_noCheckUrl, false, "f");
+                        __classPrivateFieldSet((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_8__.Z)(_this20), _Location_noCheckUrl, true, "f");
+                        __classPrivateFieldGet((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_8__.Z)(_this20), _Location_url, "f").href = ctx.lastHref;
+                        __classPrivateFieldSet((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_8__.Z)(_this20), _Location_noCheckUrl, false, "f");
                     }
                 }), null);
                 _this20.on(CONTEXT_ACTIONS.DESTORY, (function(pageId) {
@@ -20966,11 +21119,11 @@ require("./runtime");
         if (true && !(0, _tarojs_shared__WEBPACK_IMPORTED_MODULE_0__.gl)()) {
             var Window = function(_Events3) {
                 (0, _babel_runtime_helpers_esm_inherits__WEBPACK_IMPORTED_MODULE_4__.Z)(Window, _Events3);
-                var _super13 = (0, _babel_runtime_helpers_esm_createSuper__WEBPACK_IMPORTED_MODULE_5__.Z)(Window);
+                var _super12 = (0, _babel_runtime_helpers_esm_createSuper__WEBPACK_IMPORTED_MODULE_5__.Z)(Window);
                 function Window() {
                     var _this21;
                     (0, _babel_runtime_helpers_esm_classCallCheck__WEBPACK_IMPORTED_MODULE_1__.Z)(this, Window);
-                    _this21 = _super13.call(this);
+                    _this21 = _super12.call(this);
                     _this21.navigator = nav;
                     _this21.requestAnimationFrame = _raf;
                     _this21.cancelAnimationFrame = _caf;
@@ -20979,7 +21132,7 @@ require("./runtime");
                     _babel_runtime_helpers_esm_toConsumableArray__WEBPACK_IMPORTED_MODULE_3__.Z)(Object.getOwnPropertySymbols(__webpack_require__.g || {})));
                     globalProperties.forEach((function(property) {
                         if (property === "atob" || property === "document") return;
-                        if (!Object.prototype.hasOwnProperty.call((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_7__.Z)(_this21), property)) {
+                        if (!Object.prototype.hasOwnProperty.call((0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_8__.Z)(_this21), property)) {
                             try {
                                 _this21[property] = __webpack_require__.g[property];
                             } catch (e) {
@@ -20989,10 +21142,10 @@ require("./runtime");
                     }));
                     _this21.Date || (_this21.Date = Date);
                     _this21.location = new Location({
-                        window: (0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_7__.Z)(_this21)
+                        window: (0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_8__.Z)(_this21)
                     });
                     _this21.history = new History(_this21.location, {
-                        window: (0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_7__.Z)(_this21)
+                        window: (0, _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_8__.Z)(_this21)
                     });
                     _this21.initEvent();
                     return _this21;
@@ -21072,10 +21225,10 @@ require("./runtime");
         var history = window$1.history;
         var SVGElement = function(_TaroElement6) {
             (0, _babel_runtime_helpers_esm_inherits__WEBPACK_IMPORTED_MODULE_4__.Z)(SVGElement, _TaroElement6);
-            var _super14 = (0, _babel_runtime_helpers_esm_createSuper__WEBPACK_IMPORTED_MODULE_5__.Z)(SVGElement);
+            var _super13 = (0, _babel_runtime_helpers_esm_createSuper__WEBPACK_IMPORTED_MODULE_5__.Z)(SVGElement);
             function SVGElement() {
                 (0, _babel_runtime_helpers_esm_classCallCheck__WEBPACK_IMPORTED_MODULE_1__.Z)(this, SVGElement);
-                return _super14.apply(this, arguments);
+                return _super13.apply(this, arguments);
             }
             return (0, _babel_runtime_helpers_esm_createClass__WEBPACK_IMPORTED_MODULE_2__.Z)(SVGElement);
         }(TaroElement);
@@ -21149,7 +21302,7 @@ require("./runtime");
         function createPageConfig(component, pageName, data, pageConfig) {
             var _config;
             var id = pageName !== null && pageName !== void 0 ? pageName : "taro_page_".concat(pageId());
-            var _hooks$call$page = (0, _babel_runtime_helpers_esm_slicedToArray__WEBPACK_IMPORTED_MODULE_13__.Z)(_tarojs_shared__WEBPACK_IMPORTED_MODULE_0__.PT.call("getMiniLifecycleImpl").page, 7), ONLOAD = _hooks$call$page[0], ONUNLOAD = _hooks$call$page[1], ONREADY = _hooks$call$page[2], ONSHOW = _hooks$call$page[3], ONHIDE = _hooks$call$page[4], LIFECYCLES = _hooks$call$page[5], SIDE_EFFECT_LIFECYCLES = _hooks$call$page[6];
+            var _hooks$call$page = (0, _babel_runtime_helpers_esm_slicedToArray__WEBPACK_IMPORTED_MODULE_14__.Z)(_tarojs_shared__WEBPACK_IMPORTED_MODULE_0__.PT.call("getMiniLifecycleImpl").page, 7), ONLOAD = _hooks$call$page[0], ONUNLOAD = _hooks$call$page[1], ONREADY = _hooks$call$page[2], ONSHOW = _hooks$call$page[3], ONHIDE = _hooks$call$page[4], LIFECYCLES = _hooks$call$page[5], SIDE_EFFECT_LIFECYCLES = _hooks$call$page[6];
             var pageElement = null;
             var unmounting = false;
             var prepareMountList = [];
@@ -21169,7 +21322,7 @@ require("./runtime");
             }
             var loadResolver;
             var hasLoaded;
-            var config = (_config = {}, (0, _babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_10__.Z)(_config, ONLOAD, (function() {
+            var config = (_config = {}, (0, _babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_7__.Z)(_config, ONLOAD, (function() {
                 var _this22 = this;
                 var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
                 var cb = arguments.length > 1 ? arguments[1] : undefined;
@@ -21212,7 +21365,7 @@ require("./runtime");
                 } else {
                     mount();
                 }
-            })), (0, _babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_10__.Z)(_config, ONUNLOAD, (function() {
+            })), (0, _babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_7__.Z)(_config, ONUNLOAD, (function() {
                 var $taroPath = this.$taroPath;
                 if (!isWeb) {
                     window$1.trigger(CONTEXT_ACTIONS.DESTORY, $taroPath);
@@ -21233,7 +21386,7 @@ require("./runtime");
                         prepareMountList = [];
                     }
                 }));
-            })), (0, _babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_10__.Z)(_config, ONREADY, (function() {
+            })), (0, _babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_7__.Z)(_config, ONREADY, (function() {
                 var _this23 = this;
                 hasLoaded.then((function() {
                     safeExecute(_this23.$taroPath, ON_READY);
@@ -21242,7 +21395,7 @@ require("./runtime");
                     }));
                     _this23.onReady.called = true;
                 }));
-            })), (0, _babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_10__.Z)(_config, ONSHOW, (function() {
+            })), (0, _babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_7__.Z)(_config, ONSHOW, (function() {
                 var _this24 = this;
                 var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
                 hasLoaded.then((function() {
@@ -21256,7 +21409,7 @@ require("./runtime");
                         return eventCenter.trigger(getOnShowEventKey(id));
                     }));
                 }));
-            })), (0, _babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_10__.Z)(_config, ONHIDE, (function() {
+            })), (0, _babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_7__.Z)(_config, ONHIDE, (function() {
                 if (!isWeb) {
                     window$1.trigger(CONTEXT_ACTIONS.RESTORE, this.$taroPath);
                 }
@@ -21303,8 +21456,8 @@ require("./runtime");
             var _config2;
             var id = componentName !== null && componentName !== void 0 ? componentName : "taro_component_".concat(pageId());
             var componentElement = null;
-            var _hooks$call$component = (0, _babel_runtime_helpers_esm_slicedToArray__WEBPACK_IMPORTED_MODULE_13__.Z)(_tarojs_shared__WEBPACK_IMPORTED_MODULE_0__.PT.call("getMiniLifecycleImpl").component, 2), ATTACHED = _hooks$call$component[0], DETACHED = _hooks$call$component[1];
-            var config = (_config2 = {}, (0, _babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_10__.Z)(_config2, ATTACHED, (function() {
+            var _hooks$call$component = (0, _babel_runtime_helpers_esm_slicedToArray__WEBPACK_IMPORTED_MODULE_14__.Z)(_tarojs_shared__WEBPACK_IMPORTED_MODULE_0__.PT.call("getMiniLifecycleImpl").component, 2), ATTACHED = _hooks$call$component[0], DETACHED = _hooks$call$component[1];
+            var config = (_config2 = {}, (0, _babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_7__.Z)(_config2, ATTACHED, (function() {
                 var _this25 = this;
                 var _a;
                 perf.start(PAGE_INIT);
@@ -21321,7 +21474,7 @@ require("./runtime");
                         componentElement.performUpdate(true);
                     }
                 }));
-            })), (0, _babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_10__.Z)(_config2, DETACHED, (function() {
+            })), (0, _babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_7__.Z)(_config2, DETACHED, (function() {
                 var path = getPath(id, {
                     id: this.getPageId()
                 });
@@ -21331,7 +21484,7 @@ require("./runtime");
                         componentElement.ctx = null;
                     }
                 }));
-            })), (0, _babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_10__.Z)(_config2, "methods", {
+            })), (0, _babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_7__.Z)(_config2, "methods", {
                 eh: eventHandler
             }), _config2);
             if (!(0, _tarojs_shared__WEBPACK_IMPORTED_MODULE_0__.o8)(data)) {
@@ -21346,8 +21499,8 @@ require("./runtime");
         function createRecursiveComponentConfig(componentName) {
             var _ref3;
             var isCustomWrapper = componentName === CUSTOM_WRAPPER;
-            var _hooks$call$component2 = (0, _babel_runtime_helpers_esm_slicedToArray__WEBPACK_IMPORTED_MODULE_13__.Z)(_tarojs_shared__WEBPACK_IMPORTED_MODULE_0__.PT.call("getMiniLifecycleImpl").component, 2), ATTACHED = _hooks$call$component2[0], DETACHED = _hooks$call$component2[1];
-            var lifeCycles = isCustomWrapper ? (_ref3 = {}, (0, _babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_10__.Z)(_ref3, ATTACHED, (function() {
+            var _hooks$call$component2 = (0, _babel_runtime_helpers_esm_slicedToArray__WEBPACK_IMPORTED_MODULE_14__.Z)(_tarojs_shared__WEBPACK_IMPORTED_MODULE_0__.PT.call("getMiniLifecycleImpl").component, 2), ATTACHED = _hooks$call$component2[0], DETACHED = _hooks$call$component2[1];
+            var lifeCycles = isCustomWrapper ? (_ref3 = {}, (0, _babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_7__.Z)(_ref3, ATTACHED, (function() {
                 var _a, _b;
                 var componentId = ((_a = this.data.i) === null || _a === void 0 ? void 0 : _a.sid) || ((_b = this.props.i) === null || _b === void 0 ? void 0 : _b.sid);
                 if ((0, _tarojs_shared__WEBPACK_IMPORTED_MODULE_0__.HD)(componentId)) {
@@ -21357,7 +21510,7 @@ require("./runtime");
                         el.ctx = this;
                     }
                 }
-            })), (0, _babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_10__.Z)(_ref3, DETACHED, (function() {
+            })), (0, _babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_7__.Z)(_ref3, DETACHED, (function() {
                 var _a, _b;
                 var componentId = ((_a = this.data.i) === null || _a === void 0 ? void 0 : _a.sid) || ((_b = this.props.i) === null || _b === void 0 ? void 0 : _b.sid);
                 if ((0, _tarojs_shared__WEBPACK_IMPORTED_MODULE_0__.HD)(componentId)) {
@@ -21372,7 +21525,7 @@ require("./runtime");
                 properties: {
                     i: {
                         type: Object,
-                        value: (0, _babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_10__.Z)({}, "nn", (0, 
+                        value: (0, _babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_7__.Z)({}, "nn", (0, 
                         _tarojs_shared__WEBPACK_IMPORTED_MODULE_0__.W)(_tarojs_shared__WEBPACK_IMPORTED_MODULE_0__.rD)[VIEW]._num)
                     },
                     l: {
