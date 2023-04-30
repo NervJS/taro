@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/rn-runner",
-  "version": "3.6.5",
+  "version": "3.6.6",
   "description": "ReactNative build tool for taro",
   "main": "index.js",
   "repository": {
@@ -12,9 +12,9 @@
     "dev": "tsc --watch",
     "lint": "eslint .",
     "test": "jest --silent",
-    "test:dev": "jest --watch",
     "test:ci": "jest --ci --silent --coverage false",
-    "test:coverage": "jest --coverage"
+    "test:coverage": "jest --coverage",
+    "test:dev": "jest --watch"
   },
   "keywords": [
     "taro"

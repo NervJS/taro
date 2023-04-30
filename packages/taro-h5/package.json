@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/taro-h5",
-  "version": "3.6.5",
+  "version": "3.6.6",
   "description": "Taro h5 framework",
   "browser": "dist/index.esm.js",
   "main:h5": "dist/index.js",
@@ -20,7 +20,7 @@
     "build": "rimraf ./dist && cross-env NODE_ENV=production rollup -c",
     "dev": "cross-env NODE_ENV=development rollup -c -w",
     "test": "node_modules/jest/bin/jest.js",
-    "test:ci": "jest -i --coverage false",
+    "test:ci": "jest --ci -i --coverage false",
     "test:dev": "jest --watch",
     "test:coverage": "jest --coverage"
   },

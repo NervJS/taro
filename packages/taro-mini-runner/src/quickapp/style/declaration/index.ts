@@ -1,4 +1,4 @@
-import * as fs from 'fs-extra'
+import { fs } from '@tarojs/helper'
 import * as path from 'path'
 
 export const declarations = {}

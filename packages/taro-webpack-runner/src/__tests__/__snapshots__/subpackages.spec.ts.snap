@@ -9,9 +9,6 @@ exports[`subpackages should process subpackages 2`] = `
     "32": function(module, __webpack_exports__, __webpack_require__) {
         "use strict";
         var _unused_webpack_default_export = "taro-components-mock";
-        function defineCustomElements() {}
-        function applyPolyfills() {}
-        function initVue3Components() {}
     },
     "34": function(module, exports, __webpack_require__) {},
     "36": function(module, __webpack_exports__, __webpack_require__) {
@@ -65,9 +62,6 @@ exports[`subpackages should process subpackages 2`] = `
     "32": function(module, __webpack_exports__, __webpack_require__) {
         "use strict";
         var _unused_webpack_default_export = "taro-components-mock";
-        function defineCustomElements() {}
-        function applyPolyfills() {}
-        function initVue3Components() {}
     },
     "33": function(module, exports, __webpack_require__) {},
     "35": function(module, __webpack_exports__, __webpack_require__) {
@@ -1164,6 +1158,7 @@ exports[`subpackages should process subpackages 2`] = `
                 console.warn("[Taro modifyMpEvent hook Error]: " + (error === null || error === void 0 ? void 0 : error.message));
             }
         })),
+        "injectNewStyleProperties": TaroHook(HOOK_TYPE.SINGLE),
         "modifyTaroEvent": TaroHook(HOOK_TYPE.MULTI),
         "modifyDispatchEvent": TaroHook(HOOK_TYPE.MULTI),
         "initNativeApi": TaroHook(HOOK_TYPE.MULTI),
@@ -1286,10 +1281,10 @@ exports[`subpackages should process subpackages 2`] = `
     function logInterceptor(chain) {
         var requestParams = chain.requestParams;
         var method = requestParams.method, data = requestParams.data, url = requestParams.url;
-        if (false) {}
+        console.log("http ".concat(method || "GET", " --\\x3e ").concat(url, " data: "), data);
         var p = chain.proceed(requestParams);
         var res = p.then((function(res) {
-            if (false) {}
+            console.log("http <-- ".concat(url, " result:"), res);
             return res;
         }));
         if (isFunction$1(p.abort)) res.abort = p.abort;

@@ -370,7 +370,6 @@ describe('location', () => {
       location.trigger('2', pageId)
       expect(location.href).toBe('https://taro.com/?a=1')
 
-
       // CONTEXT_ACTIONS.DESTORY
       location.trigger('3', pageId)
       expect(cache.has(pageId)).toBe(false)
@@ -394,89 +393,48 @@ describe('location', () => {
       const location = new Location({ window: fakerWindow })
       const history = new History(location, { window: fakerWindow })
       expect(history.length).toBe(1)
-      expect(history.state).toMatchObject({
-        state: null,
-        title: '',
-        url: 'https://taro.com/1',
-      })
+      expect(history.state).toBe(null)
 
       location.href = 'https://taro.com/2'
       expect(history.length).toBe(2)
-      expect(history.state).toMatchObject({
-        state: null,
-        title: '',
-        url: 'https://taro.com/2',
-      })
+      expect(history.state).toBe(null)
 
       location.pathname = '/3'
       location.pathname = '/4'
       location.pathname = '/5'
       expect(history.length).toBe(5)
-      expect(history.state).toMatchObject({
-        state: null,
-        title: '',
-        url: 'https://taro.com/5',
-      })
+      expect(history.state).toBe(null)
 
       history.back()
       expect(history.length).toBe(5)
-      expect(history.state).toMatchObject({
-        state: null,
-        title: '',
-        url: 'https://taro.com/4',
-      })
+      expect(history.state).toBe(null)
 
       history.go(-1)
       expect(history.length).toBe(5)
-      expect(history.state).toMatchObject({
-        state: null,
-        title: '',
-        url: 'https://taro.com/3',
-      })
+      expect(history.state).toBe(null)
 
       history.go(-2)
       expect(history.length).toBe(5)
-      expect(history.state).toMatchObject({
-        state: null,
-        title: '',
-        url: 'https://taro.com/1',
-      })
+      expect(history.state).toBe(null)
 
       history.forward()
       expect(history.length).toBe(5)
-      expect(history.state).toMatchObject({
-        state: null,
-        title: '',
-        url: 'https://taro.com/2',
-      })
+      expect(history.state).toBe(null)
 
       history.go(3)
       expect(history.length).toBe(5)
-      expect(history.state).toMatchObject({
-        state: null,
-        title: '',
-        url: 'https://taro.com/5',
-      })
+      expect(history.state).toBe(null)
       expect(location.href).toBe('https://taro.com/5')
 
       history.pushState({ i: 6 }, '6', 'https://taro.com/6')
       expect(history.length).toBe(6)
-      expect(history.state).toMatchObject({
-        state: { i: 6 },
-        title: '6',
-        url: 'https://taro.com/6',
-      })
+      expect(history.state).toMatchObject({ i: 6 })
       expect(location.href).toBe('https://taro.com/6')
 
       history.replaceState({ i: 7 }, '7', 'https://taro.com/7')
       expect(history.length).toBe(6)
-      expect(history.state).toMatchObject({
-        state: { i: 7 },
-        title: '7',
-        url: 'https://taro.com/7',
-      })
+      expect(history.state).toMatchObject({ i: 7 })
       expect(location.href).toBe('https://taro.com/7')
-
     }
 
     // CONTEXT_ACTIONS

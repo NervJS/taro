@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/components",
-  "version": "3.6.5",
+  "version": "3.6.6",
   "description": "Taro 组件库",
   "browser": "dist/index.js",
   "main:h5": "dist/index.js",
@@ -34,11 +34,11 @@
     "dev:library-vue3": "cross-env NODE_ENV=development pnpm --filter @tarojs/components-library-vue3 run dev",
     "generate:lib": "mkdir -p lib",
     "generate:stencil-config": "esbuild ./scripts/stencil/stencil.config.ts --bundle --platform=node --outfile=stencil.config.js",
+    "sync:types": "ts-node scripts/json-schema-to-types.ts",
     "test": "cross-env NODE_ENV=test stencil test --spec --e2e",
-    "test:ci": "pnpm run test --ci --no-build",
-    "test:coverage": "pnpm run test --ci --screenshot --coverage",
-    "test:watch": "pnpm run test --screenshot --watch",
-    "sync:types": "ts-node scripts/json-schema-to-types.ts"
+    "test:ci": "pnpm test -- --ci --no-build",
+    "test:coverage": "pnpm test -- --ci --screenshot --coverage",
+    "test:watch": "pnpm test -- --screenshot --watch"
   },
   "repository": {
     "type": "git",

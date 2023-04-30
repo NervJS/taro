@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/with-weapp",
-  "version": "3.6.5",
+  "version": "3.6.6",
   "description": "taroize 之后的运行时",
   "main": "index.js",
   "files": [
@@ -18,7 +18,6 @@
   "scripts": {
     "build": "rollup -c rollup.config.js",
     "dev": "rollup -c -w rollup.config.js",
-    "test": "jest",
     "tsc": "tsc"
   },
   "dependencies": {

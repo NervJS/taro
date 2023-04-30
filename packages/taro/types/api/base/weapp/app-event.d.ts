@@ -18,7 +18,7 @@ declare module '../../../index' {
     /** 小程序错误事件的回调函数 */
     type Callback = (
       /** 错误信息，包含堆栈 */
-      error: string,
+      error: string | ErrorEvent | Error,
     ) => void
   }
 
@@ -113,13 +113,13 @@ declare module '../../../index' {
      *
      * **注意**
      *  - 所有的 unhandledRejection 都可以被这一监听捕获，但只有 Error 类型的才会在小程序后台触发报警。
-     * @supported weapp, tt
+     * @supported weapp, tt, h5
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/base/app/app-event/wx.onUnhandledRejection.html
      */
     onUnhandledRejection<T = any>(callback: onUnhandledRejection.Callback<T>): void
 
     /** 监听系统主题改变事件。该事件与 [`App.onThemeChange`](https://developers.weixin.qq.com/miniprogram/dev/reference/api/App.html#onThemeChange-Object-object) 的回调时机一致。
-     * @supported weapp
+     * @supported weapp, h5
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/base/app/app-event/wx.onThemeChange.html
      */
     onThemeChange(callback: onThemeChange.Callback): void
@@ -131,13 +131,13 @@ declare module '../../../index' {
      * - 开发者可以在回调中进行页面重定向，但必须在回调中**同步**处理，异步处理（例如 `setTimeout` 异步执行）无效。
      * - 若开发者没有调用 [Taro.onPageNotFound](/docs/apis/base/weapp/app-event/onPageNotFound) 绑定监听，也没有声明 `App.onPageNotFound`，当跳转页面不存在时，将推入微信客户端原生的页面不存在提示页面。
      * - 如果回调中又重定向到另一个不存在的页面，将推入微信客户端原生的页面不存在提示页面，并且不再第二次回调。
-     * @supported weapp, h5, tt
+     * @supported weapp, tt, h5
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/base/app/app-event/wx.onPageNotFound.html
      */
     onPageNotFound(callback: onPageNotFound.Callback): void
 
     /** 监听小程序错误事件。如脚本错误或 API 调用报错等。该事件与 [`App.onError`](https://developers.weixin.qq.com/miniprogram/dev/reference/api/App.html#onerrorstring-error) 的回调时机与参数一致。
-     * @supported weapp, tt
+     * @supported weapp, tt, h5
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/base/app/app-event/wx.onError.html
      */
     onError(callback: onError.Callback): void
@@ -178,16 +178,16 @@ declare module '../../../index' {
      * **注意**
      *
      * 部分版本在无`referrerInfo`的时候会返回 `undefined`，建议使用 `options.referrerInfo && options.referrerInfo.appId` 进行判断。
-     * @supported weapp, h5, tt
+     * @supported weapp, tt, h5
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/base/app/app-event/wx.onAppShow.html
      */
     onAppShow(
       /** 小程序切前台事件的回调函数 */
-      callback: (result: onAppShow.CallbackResult) => void,
+      callback: (res: onAppShow.CallbackResult) => void,
     ): void
 
     /** 监听小程序切后台事件。该事件与 [`App.onHide`](https://developers.weixin.qq.com/miniprogram/dev/reference/api/App.html#onhide) 的回调时机一致。
-     * @supported weapp, h5, tt
+     * @supported weapp, tt, h5
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/base/app/app-event/wx.onAppHide.html
      */
     onAppHide(
@@ -196,34 +196,34 @@ declare module '../../../index' {
     ): void
 
     /** 取消监听未处理的 Promise 拒绝事件
-     * @supported weapp, tt
+     * @supported weapp, tt, h5
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/base/app/app-event/wx.offUnhandledRejection.html
      */
     offUnhandledRejection<T = any>(callback: onUnhandledRejection.Callback<T>): void
 
     /** 取消监听系统主题改变事件
-     * @supported weapp
+     * @supported weapp, h5
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/base/app/app-event/wx.offThemeChange.html
      */
     offThemeChange(callback: onThemeChange.Callback): void
 
     /** 取消监听小程序要打开的页面不存在事件
-     * @supported weapp, tt
+     * @supported weapp, tt, h5
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/base/app/app-event/wx.offPageNotFound.html
      */
     offPageNotFound(
       /** 小程序要打开的页面不存在事件的回调函数 */
-      callback: (res: onPageNotFound.Callback) => void,
+      callback: onPageNotFound.Callback,
     ): void
 
     /** 取消监听音频播放错误事件
-     * @supported weapp, tt
+     * @supported weapp, tt, h5
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/audio/InnerAudioContext.offError.html
      */
 
     offError(
       /** 音频播放错误事件的回调函数 */
-      callback: (res: onError.Callback) => void,
+      callback: onError.Callback,
     ): void
 
     /** 取消监听音频中断结束事件
@@ -245,21 +245,21 @@ declare module '../../../index' {
     ): void
 
     /** 取消监听小程序切前台事件
-     * @supported weapp, h5, tt
+     * @supported weapp, tt, h5
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/base/app/app-event/wx.offAppShow.html
      */
     offAppShow(
       /** 小程序切前台事件的回调函数 */
-      callback: (res: TaroGeneral.CallbackResult) => void,
+      callback: (res: onAppShow.CallbackResult) => void,
     ): void
 
     /** 取消监听小程序切后台事件
-     * @supported weapp, h5, tt
+     * @supported weapp, tt, h5
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/base/app/app-event/wx.offAppHide.html
      */
     offAppHide(
       /** 小程序切后台事件的回调函数 */
-      callback: (res: TaroGeneral.CallbackResult) => void,
+      callback: (res: onAppHide.CallbackResult) => void,
     ): void
   }
 }

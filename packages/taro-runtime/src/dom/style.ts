@@ -1,4 +1,4 @@
-import { isNull, isString, isUndefined, Shortcuts, toCamelCase, toDashed, warn } from '@tarojs/shared'
+import { hooks, isArray, isNull, isString, isUndefined, Shortcuts, toCamelCase, toDashed, warn } from '@tarojs/shared'
 
 import { PROPERTY_THRESHOLD } from '../constants'
 import { MutationObserver, MutationRecordType } from '../dom-external/mutation-observer'
@@ -47,11 +47,14 @@ function setStyle (this: Style, newVal: string, styleKey: string) {
   !this._pending && enqueueUpdate(this)
 }
 
-function initStyle (ctor: typeof Style) {
+function initStyle (ctor: typeof Style, styleProperties: string[]) {
   const properties = {}
 
   for (let i = 0; i < styleProperties.length; i++) {
     const styleKey = styleProperties[i]
+    
+    if (ctor[styleKey]) return
+
     properties[styleKey] = {
       get (this: Style) {
         const val = this._value[styleKey]
@@ -187,4 +190,14 @@ export class Style {
   }
 }
 
-initStyle(Style)
+initStyle(Style, styleProperties)
+
+hooks.tap('injectNewStyleProperties', (newStyleProperties: string[]) => {
+  if (isArray(newStyleProperties)) {
+    initStyle(Style, newStyleProperties)    
+  } else {
+    if (typeof newStyleProperties !== 'string') return
+
+    initStyle(Style, [newStyleProperties])
+  }
+})

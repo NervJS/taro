@@ -1,6 +1,5 @@
-import { chalk } from '@tarojs/helper'
+import { chalk, fs } from '@tarojs/helper'
 import { exec } from 'child_process'
-import * as fs from 'fs-extra'
 import * as ora from 'ora'
 import * as path from 'path'
 
