@@ -221,6 +221,7 @@ export default class PageHandler {
       const pageEl = this.getPageContainer(page)
       pageEl?.classList.remove('taro_page_stationed')
       pageEl?.classList.remove('taro_page_show')
+      pageEl?.style.zIndex = 1
 
       this.unloadTimer = setTimeout(() => {
         this.unloadTimer = null
