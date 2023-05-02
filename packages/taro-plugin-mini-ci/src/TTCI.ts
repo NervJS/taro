@@ -44,6 +44,8 @@ export default class TTCI extends BaseCI {
       console.log(chalk.green(`打开IDE成功`))
     } catch (error) {
       printLog(processTypeEnum.ERROR, chalk.red('打开IDE失败', error))
+
+      process.exit(1)
     }
   }
 
@@ -97,6 +99,8 @@ export default class TTCI extends BaseCI {
         },
         error: new Error(error)
       })
+
+      process.exit(1)
     }
   }
 
@@ -148,6 +152,8 @@ export default class TTCI extends BaseCI {
         },
         error: new Error(error)
       })
+
+      process.exit(1)
     }
   }
 }

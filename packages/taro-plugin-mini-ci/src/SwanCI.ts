@@ -72,6 +72,8 @@ export default class SwanCI extends BaseCI {
           },
           error: new Error(stderr.split('\n')[0])
         })
+
+        process.exit(1)
       }
     })
   }
@@ -83,7 +85,7 @@ export default class SwanCI extends BaseCI {
     shell.exec(`${this.swanBin} upload --project-path ${this.projectPath} --token ${this.pluginOpts.swan!.token} --release-version ${this.version} --min-swan-version ${this.pluginOpts.swan!.minSwanVersion || '3.350.6'} --desc ${this.desc} --json`, async (_code, stdout, stderr) => {
       if (!stderr) {
         console.log(chalk.green(`上传成功 ${new Date().toLocaleString()}`))
-        
+
         const stdoutRes = JSON.parse(stdout) as UploadResponse
         const qrContent = stdoutRes.schemeUrl
         const uploadQrcodePath = path.join(this.projectPath, 'upload.png')
@@ -94,7 +96,7 @@ export default class SwanCI extends BaseCI {
           processTypeEnum.REMIND,
           `体验版二维码已生成，存储在:"${ uploadQrcodePath }",二维码内容是：${ qrContent }`
         )
-        
+
         this.triggerUploadHooks({
           success: true,
           data: {
@@ -113,10 +115,12 @@ export default class SwanCI extends BaseCI {
           },
           error: new Error(stderr.split('\n')[0])
         })
+
+        process.exit(1)
       }
     })
   }
-  
+
 }
 
 interface UploadResponse {

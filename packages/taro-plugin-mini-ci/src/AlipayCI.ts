@@ -109,6 +109,8 @@ export default class AlipayCI extends BaseCI {
         },
         error
       })
+
+      process.exit(1)
     }
   }
 
@@ -162,6 +164,8 @@ export default class AlipayCI extends BaseCI {
         },
         error
       })
+
+      process.exit(1)
     }
   }
 
