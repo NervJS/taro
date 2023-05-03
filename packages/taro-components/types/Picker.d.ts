@@ -147,12 +147,12 @@ interface PickerTimeProps extends PickerStandardProps {
    */
   value: string
   /**
-   * 仅当 mode = time|date 时有效，表示有效时间范围的开始，字符串格式为"hh:mm"
+   * 仅当 mode 为 "time" 或 "date" 时有效，表示有效时间范围的开始，字符串格式为"hh:mm"
    * @supported weapp, h5, rn
    */
   start?: string
   /**
-   * 仅当 mode = time|date 时有效，表示有效时间范围的结束，字符串格式为"hh:mm"
+   * 仅当 mode 为 "time" 或 "date" 时有效，表示有效时间范围的结束，字符串格式为"hh:mm"
    * @supported weapp, h5, rn
    */
   end?: string
@@ -179,12 +179,12 @@ interface PickerDateProps extends PickerStandardProps {
    */
   value: string
   /**
-   * 仅当 mode = time|date 时有效，表示有效时间范围的开始，字符串格式为"hh:mm"
+   * 仅当 mode 为 "time" 或 "date" 时有效，表示有效时间范围的开始，字符串格式为"YYYY-MM-DD"
    * @supported weapp, h5, rn
    */
   start?: string
   /**
-   * 仅当 mode = time|date 时有效，表示有效时间范围的结束，字符串格式为"hh:mm"
+   * 仅当 mode 为 "time" 或 "date" 时有效，表示有效时间范围的结束，字符串格式为"YYYY-MM-DD"
    * @supported weapp, h5, rn
    */
   end?: string

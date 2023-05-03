@@ -97,11 +97,8 @@ export class H5WebpackPlugin {
       : options.designWidth)(baseFontSize)
     const rootValue = baseFontSize / options.deviceRatio[designWidth] * 2
     let htmlScript = ''
-    switch (options?.targetUnit) {
-      case 'vw':
-        break
-      default:
-        htmlScript = `!function(n){function f(){var e=n.document.documentElement,w=e.getBoundingClientRect().width,x=${rootValue}*w/${designWidth};e.style.fontSize=x>=${max}?"${max}px":x<=${min}?"${min}px":x+"px"}n.addEventListener("resize",(function(){f()})),f()}(window);`
+    if ((options?.targetUnit ?? 'rem') === 'rem') {
+      htmlScript = `!function(n){function f(){var e=n.document.documentElement,w=e.getBoundingClientRect().width,x=${rootValue}*w/${designWidth};e.style.fontSize=x>=${max}?"${max}px":x<=${min}?"${min}px":x+"px"}n.addEventListener("resize",(function(){f()})),f()}(window);`
     }
     const args: Record<string, string | string []> = {
       filename: `${entry || 'index'}.html`,

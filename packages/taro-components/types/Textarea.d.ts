@@ -116,6 +116,11 @@ interface TextareaProps extends StandardProps, FormItemProps {
    * @supported qq
    */
   ariaLabel?: string
+  /** 键盘对齐位置
+   * @supported weapp
+   * @default false
+   */
+  adjustKeyboardTo?: boolean
   /** 输入框聚焦时触发
    * @supported weapp, alipay, swan, tt, qq, jd, h5, rn
    */
@@ -135,7 +140,7 @@ interface TextareaProps extends StandardProps, FormItemProps {
    */
   onInput?: CommonEventFunction<TextareaProps.onInputEventDetail>
   /** 点击完成时， 触发 confirm 事件
-   * @supported weapp, alipay, swan, tt, qq, jd, rn
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn
    */
   onConfirm?: CommonEventFunction<TextareaProps.onConfirmEventDetail>
   /** 键盘高度发生变化的时候触发此事件

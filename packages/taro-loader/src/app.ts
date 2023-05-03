@@ -2,6 +2,7 @@ import { normalizePath } from '@tarojs/helper'
 import { getOptions, stringifyRequest } from 'loader-utils'
 
 import { REG_POST } from './constants'
+import { getPkgVersion } from './util'
 
 import type * as webpack from 'webpack'
 
@@ -50,7 +51,7 @@ exports.taroApp = app
   return `${setReconciler}
 import { window } from '@tarojs/runtime'
 import { ${creator} } from '${creatorLocation}'
-import { initPxTransform } from '@tarojs/taro'
+import { initPxTransform, initAppInfo } from '@tarojs/taro'
 ${setReconcilerPost}
 import component from ${stringify(this.request.split('!').slice(thisLoaderIndex + 1).join('!'))}
 ${importFrameworkStatement}
@@ -60,7 +61,15 @@ ${instantiateApp}
 ${options.prerender ? prerender : ''}
 initPxTransform({
   designWidth: ${pxTransformConfig.designWidth},
-  deviceRatio: ${JSON.stringify(pxTransformConfig.deviceRatio)}
+  deviceRatio: ${JSON.stringify(pxTransformConfig.deviceRatio)},
+  baseFontSize: ${pxTransformConfig.baseFontSize || 20},
+  unitPrecision: ${pxTransformConfig.unitPrecision},
+  targetUnit: ${JSON.stringify(pxTransformConfig.targetUnit)}
+})
+initAppInfo({
+  platform: 'MiniProgram',
+  taroVersion: ${JSON.stringify(getPkgVersion())},
+  designWidth: ${pxTransformConfig.designWidth},
 })
 `
 }

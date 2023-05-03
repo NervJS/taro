@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/cli",
-  "version": "3.6.5",
+  "version": "3.6.6",
   "description": "cli tool for taro",
   "main": "index.js",
   "scripts": {
@@ -41,10 +41,6 @@
   "author": "O2Team",
   "license": "MIT",
   "dependencies": {
-    "@babel/generator": "^7.20.0",
-    "@babel/template": "^7.20.0",
-    "@babel/traverse": "^7.20.0",
-    "@babel/types": "^7.20.0",
     "@tarojs/helper": "workspace:*",
     "@tarojs/service": "workspace:*",
     "@tarojs/shared": "workspace:*",
@@ -53,10 +49,8 @@
     "dotenv": "^16.0.3",
     "dotenv-expand": "^9.0.0",
     "download-git-repo": "^2.0.0",
-    "ejs": "^3.1.8",
     "envinfo": "^7.8.1",
     "eslint": "^8.12.0",
-    "fs-extra": "^8.0.1",
     "glob": "^7.1.2",
     "inquirer": "^8.0.0",
     "joi": "^17.6.0",
@@ -69,10 +63,10 @@
     "ora": "^5.0.0",
     "request": "^2.88.0",
     "semver": "^7.3.8",
+    "validate-npm-package-name": "^5.0.0",
     "xml2js": "^0.4.19"
   },
   "devDependencies": {
-    "@babel/core": "^7.14.5",
     "babel-jest": "^29.5.0",
     "jest": "^29.3.1",
     "jest-cli": "^29.3.1",

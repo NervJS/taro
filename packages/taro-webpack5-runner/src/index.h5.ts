@@ -4,7 +4,7 @@ import Prebundle from '@tarojs/webpack5-prebundle'
 import detectPort from 'detect-port'
 import path from 'path'
 import { format as formatUrl } from 'url'
-import webpack, { EntryNormalized } from 'webpack'
+import webpack from 'webpack'
 import WebpackDevServer from 'webpack-dev-server'
 
 import { addHtmlSuffix, addLeadingSlash, formatOpenHost, parsePublicPath, stripBasename, stripTrailingSlash } from './utils'
@@ -12,9 +12,10 @@ import AppHelper from './utils/app'
 import { bindDevLogger, bindProdLogger, printBuildError } from './utils/logHelper'
 import { H5Combination } from './webpack/H5Combination'
 
+import type { EntryNormalized, Stats } from 'webpack'
 import type { H5BuildConfig } from './utils/types'
 
-export default async function build (appPath: string, rawConfig: H5BuildConfig): Promise<void> {
+export default async function build (appPath: string, rawConfig: H5BuildConfig): Promise<Stats | void> {
   const combination = new H5Combination(appPath, rawConfig)
   await combination.make()
 
@@ -53,10 +54,10 @@ export default async function build (appPath: string, rawConfig: H5BuildConfig):
         }
         callback()
       })
-      return new Promise<void>((resolve, reject) => {
+      return new Promise<Stats>((resolve, reject) => {
         bindProdLogger(compiler)
 
-        compiler.run((error, stats) => {
+        compiler.run((error, stats: Stats) => {
           compiler.close(error2 => {
             const err = error || error2
 
@@ -68,7 +69,7 @@ export default async function build (appPath: string, rawConfig: H5BuildConfig):
               })
             }
 
-            err ? reject(err) : resolve()
+            err ? reject(err) : resolve(stats)
           })
         })
       })

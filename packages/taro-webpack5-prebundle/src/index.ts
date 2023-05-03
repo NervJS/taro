@@ -91,7 +91,7 @@ export default class TaroPrebundle {
     }, {} as EntryObject)
   }
 
-  async run (options: IPrebundle) {
+  async run (options: IPrebundle = {}) {
     if (!options.enable) return
 
     let prebundleRunner: BasePrebundle

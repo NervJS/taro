@@ -108,13 +108,13 @@
  * │   │   └── interaction.d.ts             界面 -> 交互 API
  * │   ├── worker
  * │   │   └── index.d.ts                   Worker API
- * │   └── wxml
- * │       └── index.d.ts                   WXML API
+ * │   ├── wxml
+ * │   │   └── index.d.ts                   WXML API
+ * │   ├── taro.extend.d.ts                 Taro 扩展 API 类型定义
+ * │   └── taro.hooks.d.ts                  Taro Hooks 类型定义
  * ├── index.d.ts                           此文件
  * ├── taro.component.d.ts                  Taro Component 类型定义
- * ├── taro.config.d.ts                     Taro 小程序 App 与 Window 设置类型定义
- * ├── taro.extend.d.ts                     Taro 扩展 API 类型定义
- * ├── taro.hooks.d.ts                      Taro Hooks 类型定义
+ * ├── taro.config.d.ts                      Taro 小程序 App 与 Window 设置类型定义
  * └── taro.lifecycle.d.ts                  Taro 生命周期类型定义
  */
 
@@ -123,8 +123,6 @@
 /// <reference path="taro.api.d.ts" />
 /// <reference path="taro.component.d.ts" />
 /// <reference path="taro.config.d.ts" />
-/// <reference path="taro.extend.d.ts" />
-/// <reference path="taro.hooks.d.ts" />
 /// <reference path="taro.lifecycle.d.ts" />
 
 /// <reference types="@tarojs/plugin-platform-alipay/types/shims-alipay" />

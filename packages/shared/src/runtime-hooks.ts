@@ -235,6 +235,7 @@ type ITaroHooks = {
   dispatchTaroEventFinish: (event, element) => void
 
   modifyDispatchEvent: (event, element) => void
+  injectNewStyleProperties: (styleProperties: string[]) => void
   initNativeApi: (taro: Record<string, any>) => void
   patchElement: (node) => void
 }
@@ -307,6 +308,8 @@ export const hooks = new TaroHooks<ITaroHooks>({
       console.warn('[Taro modifyMpEvent hook Error]: ' + error?.message)
     }
   }),
+
+  injectNewStyleProperties: TaroHook(HOOK_TYPE.SINGLE),
 
   modifyTaroEvent: TaroHook(HOOK_TYPE.MULTI),
   

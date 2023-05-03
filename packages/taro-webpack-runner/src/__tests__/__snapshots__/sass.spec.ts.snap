@@ -19,9 +19,6 @@ exports[`sass should build app with sass 2`] = `
         var createSuper = __webpack_require__(10);
         var react = __webpack_require__(0);
         var taro_components = "taro-components-mock";
-        function defineCustomElements() {}
-        function applyPolyfills() {}
-        function initVue3Components() {}
         var index = __webpack_require__(31);
         var index_Index = function(_Component) {
             Object(inherits["a"])(Index, _Component);
@@ -1076,6 +1073,7 @@ exports[`sass should build app with sass 2`] = `
                 console.warn("[Taro modifyMpEvent hook Error]: " + (error === null || error === void 0 ? void 0 : error.message));
             }
         })),
+        "injectNewStyleProperties": TaroHook(HOOK_TYPE.SINGLE),
         "modifyTaroEvent": TaroHook(HOOK_TYPE.MULTI),
         "modifyDispatchEvent": TaroHook(HOOK_TYPE.MULTI),
         "initNativeApi": TaroHook(HOOK_TYPE.MULTI),
@@ -1169,6 +1167,11 @@ exports[`sass should build app with sass 2`] = `
         } ]);
         return Link;
     }();
+    function interceptorify(promiseifyApi) {
+        return new Link((function(chain) {
+            return promiseifyApi(chain.requestParams);
+        }));
+    }
     function timeoutInterceptor(chain) {
         var requestParams = chain.requestParams;
         var p;
@@ -1193,10 +1196,10 @@ exports[`sass should build app with sass 2`] = `
     function logInterceptor(chain) {
         var requestParams = chain.requestParams;
         var method = requestParams.method, data = requestParams.data, url = requestParams.url;
-        if (false) {}
+        console.log("http ".concat(method || "GET", " --\\x3e ").concat(url, " data: "), data);
         var p = chain.proceed(requestParams);
         var res = p.then((function(res) {
-            if (false) {}
+            console.log("http <-- ".concat(url, " result:"), res);
             return res;
         }));
         if (isFunction$1(p.abort)) res.abort = p.abort;
@@ -1222,19 +1225,24 @@ exports[`sass should build app with sass 2`] = `
         "828": 1.81 / 2
     };
     var defaultBaseFontSize = 20;
+    var defaultUnitPrecision = 5;
+    var defaultTargetUnit = "rpx";
     function getInitPxTransform(taro) {
         return function(config) {
-            var _config$designWidth = config.designWidth, designWidth = _config$designWidth === void 0 ? defaultDesignWidth : _config$designWidth, _config$deviceRatio = config.deviceRatio, deviceRatio = _config$deviceRatio === void 0 ? defaultDesignRatio : _config$deviceRatio, _config$baseFontSize = config.baseFontSize, baseFontSize = _config$baseFontSize === void 0 ? defaultBaseFontSize : _config$baseFontSize;
+            var _config$designWidth = config.designWidth, designWidth = _config$designWidth === void 0 ? defaultDesignWidth : _config$designWidth, _config$deviceRatio = config.deviceRatio, deviceRatio = _config$deviceRatio === void 0 ? defaultDesignRatio : _config$deviceRatio, _config$baseFontSize = config.baseFontSize, baseFontSize = _config$baseFontSize === void 0 ? defaultBaseFontSize : _config$baseFontSize, _config$targetUnit = config.targetUnit, targetUnit = _config$targetUnit === void 0 ? defaultTargetUnit : _config$targetUnit, _config$unitPrecision = config.unitPrecision, unitPrecision = _config$unitPrecision === void 0 ? defaultUnitPrecision : _config$unitPrecision;
             taro.config = taro.config || {};
             taro.config.designWidth = designWidth;
             taro.config.deviceRatio = deviceRatio;
             taro.config.baseFontSize = baseFontSize;
+            taro.config.targetUnit = targetUnit;
+            taro.config.unitPrecision = unitPrecision;
         };
     }
     function getPxTransform(taro) {
         return function(size) {
             var config = taro.config || {};
             var deviceRatio = config.deviceRatio || defaultDesignRatio;
+            var baseFontSize = config.baseFontSize;
             var designWidth = function() {
                 var input = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
                 return isFunction$1(config.designWidth) ? config.designWidth(input) : config.designWidth || defaultDesignWidth;
@@ -1242,7 +1250,22 @@ exports[`sass should build app with sass 2`] = `
             if (!(designWidth in deviceRatio)) {
                 throw new Error("deviceRatio 配置中不存在 ".concat(designWidth, " 的设置！"));
             }
-            return parseInt(size, 10) * deviceRatio[designWidth] + "rpx";
+            var formatSize = ~~size;
+            var rootValue = 1 / config.deviceRatio[designWidth];
+            switch (config.targetUnit) {
+              case "rem":
+                rootValue *= baseFontSize * 2;
+                break;
+
+              case "px":
+                rootValue *= 2;
+                break;
+            }
+            var val = formatSize / rootValue;
+            if (config.unitPrecision >= 0 && config.unitPrecision <= 100) {
+                val = Number(val.toFixed(config.unitPrecision));
+            }
+            return val + config.targetUnit;
         };
     }
     var Taro = {
@@ -1257,7 +1280,8 @@ exports[`sass should build app with sass 2`] = `
         "nextTick": _tarojs_runtime__WEBPACK_IMPORTED_MODULE_1__["nextTick"],
         "eventCenter": _tarojs_runtime__WEBPACK_IMPORTED_MODULE_1__["eventCenter"],
         "Events": _tarojs_runtime__WEBPACK_IMPORTED_MODULE_1__["Events"],
-        "getInitPxTransform": getInitPxTransform
+        "getInitPxTransform": getInitPxTransform,
+        "interceptorify": interceptorify
     };
     Taro.initPxTransform = getInitPxTransform(Taro);
     Taro.preload = getPreload(_tarojs_runtime__WEBPACK_IMPORTED_MODULE_1__["Current"]);
@@ -1470,9 +1494,6 @@ exports[`sass should build app with scss 2`] = `
         var createSuper = __webpack_require__(10);
         var react = __webpack_require__(0);
         var taro_components = "taro-components-mock";
-        function defineCustomElements() {}
-        function applyPolyfills() {}
-        function initVue3Components() {}
         var index = __webpack_require__(32);
         var index_Index = function(_Component) {
             Object(inherits["a"])(Index, _Component);
@@ -2542,6 +2563,7 @@ exports[`sass should build app with scss 2`] = `
                 console.warn("[Taro modifyMpEvent hook Error]: " + (error === null || error === void 0 ? void 0 : error.message));
             }
         })),
+        "injectNewStyleProperties": TaroHook(HOOK_TYPE.SINGLE),
         "modifyTaroEvent": TaroHook(HOOK_TYPE.MULTI),
         "modifyDispatchEvent": TaroHook(HOOK_TYPE.MULTI),
         "initNativeApi": TaroHook(HOOK_TYPE.MULTI),
@@ -2635,6 +2657,11 @@ exports[`sass should build app with scss 2`] = `
         } ]);
         return Link;
     }();
+    function interceptorify(promiseifyApi) {
+        return new Link((function(chain) {
+            return promiseifyApi(chain.requestParams);
+        }));
+    }
     function timeoutInterceptor(chain) {
         var requestParams = chain.requestParams;
         var p;
@@ -2659,10 +2686,10 @@ exports[`sass should build app with scss 2`] = `
     function logInterceptor(chain) {
         var requestParams = chain.requestParams;
         var method = requestParams.method, data = requestParams.data, url = requestParams.url;
-        if (false) {}
+        console.log("http ".concat(method || "GET", " --\\x3e ").concat(url, " data: "), data);
         var p = chain.proceed(requestParams);
         var res = p.then((function(res) {
-            if (false) {}
+            console.log("http <-- ".concat(url, " result:"), res);
             return res;
         }));
         if (isFunction$1(p.abort)) res.abort = p.abort;
@@ -2688,19 +2715,24 @@ exports[`sass should build app with scss 2`] = `
         "828": 1.81 / 2
     };
     var defaultBaseFontSize = 20;
+    var defaultUnitPrecision = 5;
+    var defaultTargetUnit = "rpx";
     function getInitPxTransform(taro) {
         return function(config) {
-            var _config$designWidth = config.designWidth, designWidth = _config$designWidth === void 0 ? defaultDesignWidth : _config$designWidth, _config$deviceRatio = config.deviceRatio, deviceRatio = _config$deviceRatio === void 0 ? defaultDesignRatio : _config$deviceRatio, _config$baseFontSize = config.baseFontSize, baseFontSize = _config$baseFontSize === void 0 ? defaultBaseFontSize : _config$baseFontSize;
+            var _config$designWidth = config.designWidth, designWidth = _config$designWidth === void 0 ? defaultDesignWidth : _config$designWidth, _config$deviceRatio = config.deviceRatio, deviceRatio = _config$deviceRatio === void 0 ? defaultDesignRatio : _config$deviceRatio, _config$baseFontSize = config.baseFontSize, baseFontSize = _config$baseFontSize === void 0 ? defaultBaseFontSize : _config$baseFontSize, _config$targetUnit = config.targetUnit, targetUnit = _config$targetUnit === void 0 ? defaultTargetUnit : _config$targetUnit, _config$unitPrecision = config.unitPrecision, unitPrecision = _config$unitPrecision === void 0 ? defaultUnitPrecision : _config$unitPrecision;
             taro.config = taro.config || {};
             taro.config.designWidth = designWidth;
             taro.config.deviceRatio = deviceRatio;
             taro.config.baseFontSize = baseFontSize;
+            taro.config.targetUnit = targetUnit;
+            taro.config.unitPrecision = unitPrecision;
         };
     }
     function getPxTransform(taro) {
         return function(size) {
             var config = taro.config || {};
             var deviceRatio = config.deviceRatio || defaultDesignRatio;
+            var baseFontSize = config.baseFontSize;
             var designWidth = function() {
                 var input = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
                 return isFunction$1(config.designWidth) ? config.designWidth(input) : config.designWidth || defaultDesignWidth;
@@ -2708,7 +2740,22 @@ exports[`sass should build app with scss 2`] = `
             if (!(designWidth in deviceRatio)) {
                 throw new Error("deviceRatio 配置中不存在 ".concat(designWidth, " 的设置！"));
             }
-            return parseInt(size, 10) * deviceRatio[designWidth] + "rpx";
+            var formatSize = ~~size;
+            var rootValue = 1 / config.deviceRatio[designWidth];
+            switch (config.targetUnit) {
+              case "rem":
+                rootValue *= baseFontSize * 2;
+                break;
+
+              case "px":
+                rootValue *= 2;
+                break;
+            }
+            var val = formatSize / rootValue;
+            if (config.unitPrecision >= 0 && config.unitPrecision <= 100) {
+                val = Number(val.toFixed(config.unitPrecision));
+            }
+            return val + config.targetUnit;
         };
     }
     var Taro = {
@@ -2723,7 +2770,8 @@ exports[`sass should build app with scss 2`] = `
         "nextTick": _tarojs_runtime__WEBPACK_IMPORTED_MODULE_1__["nextTick"],
         "eventCenter": _tarojs_runtime__WEBPACK_IMPORTED_MODULE_1__["eventCenter"],
         "Events": _tarojs_runtime__WEBPACK_IMPORTED_MODULE_1__["Events"],
-        "getInitPxTransform": getInitPxTransform
+        "getInitPxTransform": getInitPxTransform,
+        "interceptorify": interceptorify
     };
     Taro.initPxTransform = getInitPxTransform(Taro);
     Taro.preload = getPreload(_tarojs_runtime__WEBPACK_IMPORTED_MODULE_1__["Current"]);
@@ -2946,9 +2994,6 @@ exports[`sass should set global sass content with data 2`] = `
         var createSuper = __webpack_require__(10);
         var react = __webpack_require__(0);
         var taro_components = "taro-components-mock";
-        function defineCustomElements() {}
-        function applyPolyfills() {}
-        function initVue3Components() {}
         var index = __webpack_require__(32);
         var index_Index = function(_Component) {
             Object(inherits["a"])(Index, _Component);
@@ -4018,6 +4063,7 @@ exports[`sass should set global sass content with data 2`] = `
                 console.warn("[Taro modifyMpEvent hook Error]: " + (error === null || error === void 0 ? void 0 : error.message));
             }
         })),
+        "injectNewStyleProperties": TaroHook(HOOK_TYPE.SINGLE),
         "modifyTaroEvent": TaroHook(HOOK_TYPE.MULTI),
         "modifyDispatchEvent": TaroHook(HOOK_TYPE.MULTI),
         "initNativeApi": TaroHook(HOOK_TYPE.MULTI),
@@ -4111,6 +4157,11 @@ exports[`sass should set global sass content with data 2`] = `
         } ]);
         return Link;
     }();
+    function interceptorify(promiseifyApi) {
+        return new Link((function(chain) {
+            return promiseifyApi(chain.requestParams);
+        }));
+    }
     function timeoutInterceptor(chain) {
         var requestParams = chain.requestParams;
         var p;
@@ -4135,10 +4186,10 @@ exports[`sass should set global sass content with data 2`] = `
     function logInterceptor(chain) {
         var requestParams = chain.requestParams;
         var method = requestParams.method, data = requestParams.data, url = requestParams.url;
-        if (false) {}
+        console.log("http ".concat(method || "GET", " --\\x3e ").concat(url, " data: "), data);
         var p = chain.proceed(requestParams);
         var res = p.then((function(res) {
-            if (false) {}
+            console.log("http <-- ".concat(url, " result:"), res);
             return res;
         }));
         if (isFunction$1(p.abort)) res.abort = p.abort;
@@ -4164,19 +4215,24 @@ exports[`sass should set global sass content with data 2`] = `
         "828": 1.81 / 2
     };
     var defaultBaseFontSize = 20;
+    var defaultUnitPrecision = 5;
+    var defaultTargetUnit = "rpx";
     function getInitPxTransform(taro) {
         return function(config) {
-            var _config$designWidth = config.designWidth, designWidth = _config$designWidth === void 0 ? defaultDesignWidth : _config$designWidth, _config$deviceRatio = config.deviceRatio, deviceRatio = _config$deviceRatio === void 0 ? defaultDesignRatio : _config$deviceRatio, _config$baseFontSize = config.baseFontSize, baseFontSize = _config$baseFontSize === void 0 ? defaultBaseFontSize : _config$baseFontSize;
+            var _config$designWidth = config.designWidth, designWidth = _config$designWidth === void 0 ? defaultDesignWidth : _config$designWidth, _config$deviceRatio = config.deviceRatio, deviceRatio = _config$deviceRatio === void 0 ? defaultDesignRatio : _config$deviceRatio, _config$baseFontSize = config.baseFontSize, baseFontSize = _config$baseFontSize === void 0 ? defaultBaseFontSize : _config$baseFontSize, _config$targetUnit = config.targetUnit, targetUnit = _config$targetUnit === void 0 ? defaultTargetUnit : _config$targetUnit, _config$unitPrecision = config.unitPrecision, unitPrecision = _config$unitPrecision === void 0 ? defaultUnitPrecision : _config$unitPrecision;
             taro.config = taro.config || {};
             taro.config.designWidth = designWidth;
             taro.config.deviceRatio = deviceRatio;
             taro.config.baseFontSize = baseFontSize;
+            taro.config.targetUnit = targetUnit;
+            taro.config.unitPrecision = unitPrecision;
         };
     }
     function getPxTransform(taro) {
         return function(size) {
             var config = taro.config || {};
             var deviceRatio = config.deviceRatio || defaultDesignRatio;
+            var baseFontSize = config.baseFontSize;
             var designWidth = function() {
                 var input = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
                 return isFunction$1(config.designWidth) ? config.designWidth(input) : config.designWidth || defaultDesignWidth;
@@ -4184,7 +4240,22 @@ exports[`sass should set global sass content with data 2`] = `
             if (!(designWidth in deviceRatio)) {
                 throw new Error("deviceRatio 配置中不存在 ".concat(designWidth, " 的设置！"));
             }
-            return parseInt(size, 10) * deviceRatio[designWidth] + "rpx";
+            var formatSize = ~~size;
+            var rootValue = 1 / config.deviceRatio[designWidth];
+            switch (config.targetUnit) {
+              case "rem":
+                rootValue *= baseFontSize * 2;
+                break;
+
+              case "px":
+                rootValue *= 2;
+                break;
+            }
+            var val = formatSize / rootValue;
+            if (config.unitPrecision >= 0 && config.unitPrecision <= 100) {
+                val = Number(val.toFixed(config.unitPrecision));
+            }
+            return val + config.targetUnit;
         };
     }
     var Taro = {
@@ -4199,7 +4270,8 @@ exports[`sass should set global sass content with data 2`] = `
         "nextTick": _tarojs_runtime__WEBPACK_IMPORTED_MODULE_1__["nextTick"],
         "eventCenter": _tarojs_runtime__WEBPACK_IMPORTED_MODULE_1__["eventCenter"],
         "Events": _tarojs_runtime__WEBPACK_IMPORTED_MODULE_1__["Events"],
-        "getInitPxTransform": getInitPxTransform
+        "getInitPxTransform": getInitPxTransform,
+        "interceptorify": interceptorify
     };
     Taro.initPxTransform = getInitPxTransform(Taro);
     Taro.preload = getPreload(_tarojs_runtime__WEBPACK_IMPORTED_MODULE_1__["Current"]);
@@ -4422,9 +4494,6 @@ exports[`sass should set global sass content with source & dir 2`] = `
         var createSuper = __webpack_require__(10);
         var react = __webpack_require__(0);
         var taro_components = "taro-components-mock";
-        function defineCustomElements() {}
-        function applyPolyfills() {}
-        function initVue3Components() {}
         var index = __webpack_require__(32);
         var index_Index = function(_Component) {
             Object(inherits["a"])(Index, _Component);
@@ -5494,6 +5563,7 @@ exports[`sass should set global sass content with source & dir 2`] = `
                 console.warn("[Taro modifyMpEvent hook Error]: " + (error === null || error === void 0 ? void 0 : error.message));
             }
         })),
+        "injectNewStyleProperties": TaroHook(HOOK_TYPE.SINGLE),
         "modifyTaroEvent": TaroHook(HOOK_TYPE.MULTI),
         "modifyDispatchEvent": TaroHook(HOOK_TYPE.MULTI),
         "initNativeApi": TaroHook(HOOK_TYPE.MULTI),
@@ -5587,6 +5657,11 @@ exports[`sass should set global sass content with source & dir 2`] = `
         } ]);
         return Link;
     }();
+    function interceptorify(promiseifyApi) {
+        return new Link((function(chain) {
+            return promiseifyApi(chain.requestParams);
+        }));
+    }
     function timeoutInterceptor(chain) {
         var requestParams = chain.requestParams;
         var p;
@@ -5611,10 +5686,10 @@ exports[`sass should set global sass content with source & dir 2`] = `
     function logInterceptor(chain) {
         var requestParams = chain.requestParams;
         var method = requestParams.method, data = requestParams.data, url = requestParams.url;
-        if (false) {}
+        console.log("http ".concat(method || "GET", " --\\x3e ").concat(url, " data: "), data);
         var p = chain.proceed(requestParams);
         var res = p.then((function(res) {
-            if (false) {}
+            console.log("http <-- ".concat(url, " result:"), res);
             return res;
         }));
         if (isFunction$1(p.abort)) res.abort = p.abort;
@@ -5640,19 +5715,24 @@ exports[`sass should set global sass content with source & dir 2`] = `
         "828": 1.81 / 2
     };
     var defaultBaseFontSize = 20;
+    var defaultUnitPrecision = 5;
+    var defaultTargetUnit = "rpx";
     function getInitPxTransform(taro) {
         return function(config) {
-            var _config$designWidth = config.designWidth, designWidth = _config$designWidth === void 0 ? defaultDesignWidth : _config$designWidth, _config$deviceRatio = config.deviceRatio, deviceRatio = _config$deviceRatio === void 0 ? defaultDesignRatio : _config$deviceRatio, _config$baseFontSize = config.baseFontSize, baseFontSize = _config$baseFontSize === void 0 ? defaultBaseFontSize : _config$baseFontSize;
+            var _config$designWidth = config.designWidth, designWidth = _config$designWidth === void 0 ? defaultDesignWidth : _config$designWidth, _config$deviceRatio = config.deviceRatio, deviceRatio = _config$deviceRatio === void 0 ? defaultDesignRatio : _config$deviceRatio, _config$baseFontSize = config.baseFontSize, baseFontSize = _config$baseFontSize === void 0 ? defaultBaseFontSize : _config$baseFontSize, _config$targetUnit = config.targetUnit, targetUnit = _config$targetUnit === void 0 ? defaultTargetUnit : _config$targetUnit, _config$unitPrecision = config.unitPrecision, unitPrecision = _config$unitPrecision === void 0 ? defaultUnitPrecision : _config$unitPrecision;
             taro.config = taro.config || {};
             taro.config.designWidth = designWidth;
             taro.config.deviceRatio = deviceRatio;
             taro.config.baseFontSize = baseFontSize;
+            taro.config.targetUnit = targetUnit;
+            taro.config.unitPrecision = unitPrecision;
         };
     }
     function getPxTransform(taro) {
         return function(size) {
             var config = taro.config || {};
             var deviceRatio = config.deviceRatio || defaultDesignRatio;
+            var baseFontSize = config.baseFontSize;
             var designWidth = function() {
                 var input = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
                 return isFunction$1(config.designWidth) ? config.designWidth(input) : config.designWidth || defaultDesignWidth;
@@ -5660,7 +5740,22 @@ exports[`sass should set global sass content with source & dir 2`] = `
             if (!(designWidth in deviceRatio)) {
                 throw new Error("deviceRatio 配置中不存在 ".concat(designWidth, " 的设置！"));
             }
-            return parseInt(size, 10) * deviceRatio[designWidth] + "rpx";
+            var formatSize = ~~size;
+            var rootValue = 1 / config.deviceRatio[designWidth];
+            switch (config.targetUnit) {
+              case "rem":
+                rootValue *= baseFontSize * 2;
+                break;
+
+              case "px":
+                rootValue *= 2;
+                break;
+            }
+            var val = formatSize / rootValue;
+            if (config.unitPrecision >= 0 && config.unitPrecision <= 100) {
+                val = Number(val.toFixed(config.unitPrecision));
+            }
+            return val + config.targetUnit;
         };
     }
     var Taro = {
@@ -5675,7 +5770,8 @@ exports[`sass should set global sass content with source & dir 2`] = `
         "nextTick": _tarojs_runtime__WEBPACK_IMPORTED_MODULE_1__["nextTick"],
         "eventCenter": _tarojs_runtime__WEBPACK_IMPORTED_MODULE_1__["eventCenter"],
         "Events": _tarojs_runtime__WEBPACK_IMPORTED_MODULE_1__["Events"],
-        "getInitPxTransform": getInitPxTransform
+        "getInitPxTransform": getInitPxTransform,
+        "interceptorify": interceptorify
     };
     Taro.initPxTransform = getInitPxTransform(Taro);
     Taro.preload = getPreload(_tarojs_runtime__WEBPACK_IMPORTED_MODULE_1__["Current"]);
@@ -5898,9 +5994,6 @@ exports[`sass should set global sass content with source 2`] = `
         var createSuper = __webpack_require__(10);
         var react = __webpack_require__(0);
         var taro_components = "taro-components-mock";
-        function defineCustomElements() {}
-        function applyPolyfills() {}
-        function initVue3Components() {}
         var index = __webpack_require__(32);
         var index_Index = function(_Component) {
             Object(inherits["a"])(Index, _Component);
@@ -6970,6 +7063,7 @@ exports[`sass should set global sass content with source 2`] = `
                 console.warn("[Taro modifyMpEvent hook Error]: " + (error === null || error === void 0 ? void 0 : error.message));
             }
         })),
+        "injectNewStyleProperties": TaroHook(HOOK_TYPE.SINGLE),
         "modifyTaroEvent": TaroHook(HOOK_TYPE.MULTI),
         "modifyDispatchEvent": TaroHook(HOOK_TYPE.MULTI),
         "initNativeApi": TaroHook(HOOK_TYPE.MULTI),
@@ -7063,6 +7157,11 @@ exports[`sass should set global sass content with source 2`] = `
         } ]);
         return Link;
     }();
+    function interceptorify(promiseifyApi) {
+        return new Link((function(chain) {
+            return promiseifyApi(chain.requestParams);
+        }));
+    }
     function timeoutInterceptor(chain) {
         var requestParams = chain.requestParams;
         var p;
@@ -7087,10 +7186,10 @@ exports[`sass should set global sass content with source 2`] = `
     function logInterceptor(chain) {
         var requestParams = chain.requestParams;
         var method = requestParams.method, data = requestParams.data, url = requestParams.url;
-        if (false) {}
+        console.log("http ".concat(method || "GET", " --\\x3e ").concat(url, " data: "), data);
         var p = chain.proceed(requestParams);
         var res = p.then((function(res) {
-            if (false) {}
+            console.log("http <-- ".concat(url, " result:"), res);
             return res;
         }));
         if (isFunction$1(p.abort)) res.abort = p.abort;
@@ -7116,19 +7215,24 @@ exports[`sass should set global sass content with source 2`] = `
         "828": 1.81 / 2
     };
     var defaultBaseFontSize = 20;
+    var defaultUnitPrecision = 5;
+    var defaultTargetUnit = "rpx";
     function getInitPxTransform(taro) {
         return function(config) {
-            var _config$designWidth = config.designWidth, designWidth = _config$designWidth === void 0 ? defaultDesignWidth : _config$designWidth, _config$deviceRatio = config.deviceRatio, deviceRatio = _config$deviceRatio === void 0 ? defaultDesignRatio : _config$deviceRatio, _config$baseFontSize = config.baseFontSize, baseFontSize = _config$baseFontSize === void 0 ? defaultBaseFontSize : _config$baseFontSize;
+            var _config$designWidth = config.designWidth, designWidth = _config$designWidth === void 0 ? defaultDesignWidth : _config$designWidth, _config$deviceRatio = config.deviceRatio, deviceRatio = _config$deviceRatio === void 0 ? defaultDesignRatio : _config$deviceRatio, _config$baseFontSize = config.baseFontSize, baseFontSize = _config$baseFontSize === void 0 ? defaultBaseFontSize : _config$baseFontSize, _config$targetUnit = config.targetUnit, targetUnit = _config$targetUnit === void 0 ? defaultTargetUnit : _config$targetUnit, _config$unitPrecision = config.unitPrecision, unitPrecision = _config$unitPrecision === void 0 ? defaultUnitPrecision : _config$unitPrecision;
             taro.config = taro.config || {};
             taro.config.designWidth = designWidth;
             taro.config.deviceRatio = deviceRatio;
             taro.config.baseFontSize = baseFontSize;
+            taro.config.targetUnit = targetUnit;
+            taro.config.unitPrecision = unitPrecision;
         };
     }
     function getPxTransform(taro) {
         return function(size) {
             var config = taro.config || {};
             var deviceRatio = config.deviceRatio || defaultDesignRatio;
+            var baseFontSize = config.baseFontSize;
             var designWidth = function() {
                 var input = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
                 return isFunction$1(config.designWidth) ? config.designWidth(input) : config.designWidth || defaultDesignWidth;
@@ -7136,7 +7240,22 @@ exports[`sass should set global sass content with source 2`] = `
             if (!(designWidth in deviceRatio)) {
                 throw new Error("deviceRatio 配置中不存在 ".concat(designWidth, " 的设置！"));
             }
-            return parseInt(size, 10) * deviceRatio[designWidth] + "rpx";
+            var formatSize = ~~size;
+            var rootValue = 1 / config.deviceRatio[designWidth];
+            switch (config.targetUnit) {
+              case "rem":
+                rootValue *= baseFontSize * 2;
+                break;
+
+              case "px":
+                rootValue *= 2;
+                break;
+            }
+            var val = formatSize / rootValue;
+            if (config.unitPrecision >= 0 && config.unitPrecision <= 100) {
+                val = Number(val.toFixed(config.unitPrecision));
+            }
+            return val + config.targetUnit;
         };
     }
     var Taro = {
@@ -7151,7 +7270,8 @@ exports[`sass should set global sass content with source 2`] = `
         "nextTick": _tarojs_runtime__WEBPACK_IMPORTED_MODULE_1__["nextTick"],
         "eventCenter": _tarojs_runtime__WEBPACK_IMPORTED_MODULE_1__["eventCenter"],
         "Events": _tarojs_runtime__WEBPACK_IMPORTED_MODULE_1__["Events"],
-        "getInitPxTransform": getInitPxTransform
+        "getInitPxTransform": getInitPxTransform,
+        "interceptorify": interceptorify
     };
     Taro.initPxTransform = getInitPxTransform(Taro);
     Taro.preload = getPreload(_tarojs_runtime__WEBPACK_IMPORTED_MODULE_1__["Current"]);

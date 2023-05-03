@@ -182,6 +182,7 @@ interface MapProps extends StandardProps {
   enableAutoMaxOverlooking?: boolean
   /** 展示3D楼块
    * @supported weapp, swan, tt, qq
+   * @default false
    */
   enable3D?: boolean
   /** 点击地图时触发

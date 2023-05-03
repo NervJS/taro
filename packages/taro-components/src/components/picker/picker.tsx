@@ -43,7 +43,7 @@ export class Picker implements ComponentInterface {
   @Prop() disabled = false
   @Prop() range: any[] = []
   @Prop() rangeKey: string
-  @Prop({ mutable: true }) value: number | number[] | string
+  @Prop({ mutable: true }) value: PickerValue
   @Prop() start = ''
   @Prop() end = ''
   @Prop() fields: Fields = 'day'
@@ -73,12 +73,6 @@ export class Picker implements ComponentInterface {
   }
 
   componentDidLoad () {
-    Object.defineProperty(this.el, 'value', {
-      get: () => this.pickerValue,
-      set: value => this.value !== value && (this.value = value),
-      configurable: true
-    })
-
     if (this.overlay) {
       document.body.appendChild(this.overlay)
     }
@@ -255,7 +249,8 @@ export class Picker implements ComponentInterface {
         .join('-')
     }
 
-    this.pickerValue = value
+    this.value = value
+    this.pickerValue = this.value
 
     this.onChange.emit({
       value

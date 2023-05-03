@@ -159,7 +159,7 @@ export interface AppConfig {
   tabBar?: TabBar
   subPackages?: SubPackage[]
   subpackages?: SubPackage[]
-  designWidth: number | ((size: number) => number)
+  designWidth: number | ((size?: string | number) => number)
   deviceRatio: Record<string, number>
   linkPrefix: string[]
   rn?: any
