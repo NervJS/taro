@@ -29,8 +29,8 @@
   "dependencies": {
     "@tarojs/runner-utils": "2.2.19",
     "@tarojs/service": "2.2.19",
-    "node-sass": "4.14.1",
     "resolve-url-loader": "3.1.1",
+    "sass": "1.26.2",
     "sass-loader": "8.0.2"
   },
   "devDependencies": {

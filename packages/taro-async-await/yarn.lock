@@ -6,6 +6,7 @@ promise-polyfill@^7.1.2:
   version "7.1.2"
   resolved "https://registry.npm.taobao.org/promise-polyfill/download/promise-polyfill-7.1.2.tgz?cache=0&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fpromise-polyfill%2Fdownload%2Fpromise-polyfill-7.1.2.tgz#ab05301d8c28536301622d69227632269a70ca3b"
 
-regenerator-runtime@^0.11.1:
+regenerator-runtime@0.11.1:
   version "0.11.1"
-  resolved "https://registry.npm.taobao.org/regenerator-runtime/download/regenerator-runtime-0.11.1.tgz#be05ad7f9bf7d22e056f9726cee5017fbf19e2e9"
+  resolved "https://registry.yarnpkg.com/regenerator-runtime/-/regenerator-runtime-0.11.1.tgz#be05ad7f9bf7d22e056f9726cee5017fbf19e2e9"
+  integrity sha512-MguG95oij0fC3QV3URf4V2SDYGJhJnJGqvIIgdECeODCT98wSWDAJ94SSuVpYQUoTcGUIL6L4yNB7j1DFFHSBg==

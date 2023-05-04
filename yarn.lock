@@ -13141,7 +13141,7 @@ webpack-cli@^1.0.12:
     webpack-addons "^1.1.4"
     yargs "^9.0.1"
     yeoman-environment "^2.0.0"
-    yeoman-generator "git://github.com/ev1stensberg/generator.git#Feature-getArgument"
+    yeoman-generator "2.0.5"
 
 webpack-dev-middleware@^3.7.2:
   version "3.7.2"
