@@ -165,6 +165,8 @@ export class Picker implements ComponentInterface {
       } else {
         throw new Error('Date Interval Error')
       }
+    } else {
+      throw new Error(`Picker not support "${mode}" mode.`)
     }
 
     // Prop 变化时，无论是否正在显示弹层，都更新 height 值
