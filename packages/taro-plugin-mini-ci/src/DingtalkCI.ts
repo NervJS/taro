@@ -67,7 +67,6 @@ export default class DingtalkCI extends BaseCI {
       )
     } catch (error) {
       printLog(processTypeEnum.ERROR, chalk.red(error.message))
-      process.exit(1)
     }
   }
 
@@ -75,7 +74,7 @@ export default class DingtalkCI extends BaseCI {
   async preview () {
     const { chalk, printLog, processTypeEnum } = this.ctx.helper
     const { appid,   } = this.pluginOpts.dd!
-
+    
 
     try {
       const previewUrl = await this.dingtalkSDK.previewBuild({
@@ -123,8 +122,6 @@ export default class DingtalkCI extends BaseCI {
         },
         error
       })
-
-      process.exit(1)
     }
   }
 
@@ -195,8 +192,6 @@ export default class DingtalkCI extends BaseCI {
         },
         error
       })
-
-      process.exit(1)
     }
   }
 }

@@ -72,7 +72,7 @@ export default class WeappCI extends BaseCI {
       printLog(processTypeEnum.ERROR, '命令行工具路径不存在', cliPath)
     }
     printLog(processTypeEnum.START, '微信开发者工具...', this.projectPath)
-
+    
     shell.exec(`${cliPath} open --project ${this.projectPath}`)
   }
 
@@ -105,7 +105,7 @@ export default class WeappCI extends BaseCI {
       } catch (error) {
         printLog(processTypeEnum.ERROR, chalk.red(`获取预览二维码失败：${error.message}`))
       }
-
+      
       this.triggerPreviewHooks({
         success: true,
         data: {
@@ -126,8 +126,6 @@ export default class WeappCI extends BaseCI {
         },
         error
       })
-
-      process.exit(1)
     }
   }
 
@@ -196,8 +194,6 @@ export default class WeappCI extends BaseCI {
         },
         error
       })
-
-      process.exit(1)
     }
   }
 }

@@ -63,8 +63,6 @@ export default class JdCI extends BaseCI {
         },
         error
       })
-
-      process.exit(1)
     }
   }
 
@@ -107,8 +105,6 @@ export default class JdCI extends BaseCI {
         },
         error
       })
-
-      process.exit(1)
     }
   }
 }
