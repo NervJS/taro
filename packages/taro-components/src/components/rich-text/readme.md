@@ -11,9 +11,11 @@
 
 ## Properties
 
-| Property | Attribute | Description | Type                      | Default     |
-| -------- | --------- | ----------- | ------------------------- | ----------- |
-| `nodes`  | `nodes`   |             | `ElementType[] \| string` | `undefined` |
+| Property     | Attribute     | Description | Type                                      | Default     |
+| ------------ | ------------- | ----------- | ----------------------------------------- | ----------- |
+| `nodes`      | `nodes`       |             | `ElementType[] \| string`                 | `undefined` |
+| `space`      | `space`       |             | `"emsp" \| "ensp" \| "nbsp" \| undefined` | `undefined` |
+| `userSelect` | `user-select` |             | `boolean \| undefined`                    | `undefined` |
 
 
 ----------------------------------------------
