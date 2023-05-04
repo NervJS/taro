@@ -1,4 +1,4 @@
-import { Component, h, ComponentInterface, Prop, Host, Method, State, Listen } from '@stencil/core'
+import { Component, ComponentInterface, Event, EventEmitter, Host, h, Listen, Method, Prop, State } from '@stencil/core'
 
 import {
   TOP,
@@ -16,15 +16,19 @@ export class TaroPickerGroup implements ComponentInterface {
   @Prop() height: number
   @Prop() columnId: string
   @Prop() updateHeight: (height: number, columnId: string, needRevise?: boolean) => void
-  // FIXME Please use the "@Event()" decorator to expose events instead, not properties or methods.
-  @Prop() onColumnChange: (height: number, columnId: string) => void
-  @Prop() updateDay: (value: number, fields: number) => void
+  @Prop() updateDay?: (value: number, fields: number) => void
 
   @State() startY: number
   @State() preY: number
   @State() hadMove: boolean
   @State() touchEnd: boolean
   @State() isMove: boolean
+
+  @Event({
+    eventName: 'columnChange',
+    bubbles: true,
+  })
+  onColumnChange: EventEmitter
 
   getPosition () {
     const transition = this.touchEnd ? 0.3 : 0
@@ -105,7 +109,6 @@ export class TaroPickerGroup implements ComponentInterface {
       range,
       height,
       updateHeight,
-      onColumnChange,
       columnId
     } = this
     const max = 0
@@ -162,7 +165,7 @@ export class TaroPickerGroup implements ComponentInterface {
     const index = Math.round(absoluteHeight / -LINE_HEIGHT)
     const relativeHeight = TOP - LINE_HEIGHT * index
 
-    if (this.mode === 'date') {
+    if (this.mode === 'date' && typeof this.updateDay === 'function') {
       if (this.columnId === '0') {
         this.updateDay(
           +this.range[index].replace(/[^0-9]/gi, ''),
@@ -184,7 +187,10 @@ export class TaroPickerGroup implements ComponentInterface {
     }
 
     updateHeight(relativeHeight, columnId, mode === 'time')
-    onColumnChange && onColumnChange(relativeHeight, columnId)
+    this.onColumnChange.emit({
+      columnId,
+      height: relativeHeight,
+    })
   }
 
   @Listen('mousedown')
