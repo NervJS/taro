@@ -193,10 +193,8 @@ export class TaroPickerGroup implements ComponentInterface {
     this.handleMoveStart(e.clientY)
   }
 
-  @Listen('mousemove')
+  @Listen('mousemove', { capture: true })
   onMouseMove (e: MouseEvent) {
-    e.preventDefault()
-
     if (!this.isMove) return
 
     this.handleMoving(e.clientY)
@@ -216,10 +214,8 @@ export class TaroPickerGroup implements ComponentInterface {
     this.handleMoveStart(e.changedTouches[0].clientY)
   }
 
-  @Listen('touchmove')
+  @Listen('touchmove', { capture: true })
   onTouchMove (e: TouchEvent) {
-    e.preventDefault()
-
     this.handleMoving(e.changedTouches[0].clientY)
   }
 
