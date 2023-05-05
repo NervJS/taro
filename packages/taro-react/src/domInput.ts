@@ -29,17 +29,9 @@ function updateNamedCousins (rootNode, props) {
 }
 
 export function getToStringValue (value: any) {
-  switch (typeof value) {
-    case 'boolean':
-    case 'number':
-    case 'string':
-    case 'undefined':
-      return value
-    case 'object':
-      return value
-    default:
-      return ''
-  }
+  const isEmptyType = typeof value === 'function' || typeof value === 'symbol'
+
+  return isEmptyType ? '' : value
 }
 
 export function toString (value): string {

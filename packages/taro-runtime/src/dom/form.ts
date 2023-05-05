@@ -9,9 +9,7 @@ import type { TaroEvent } from './event'
 
 export class FormElement extends TaroElement {
   public get type () {
-    // eslint-disable-next-line dot-notation
-    const val = this.props[TYPE]
-    return val == null ? '' : val
+    return this.props[TYPE] ?? ''
   }
 
   public set type (val: string) {

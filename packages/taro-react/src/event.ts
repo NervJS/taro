@@ -15,7 +15,6 @@ interface RestoreItem {
   value: RestoreType
 }
 
-let restoreTarget: RestoreItem | null = null
 let restoreQueue: RestoreItem[] | null = null
 
 // 对比 TaroElement tracker 下的 value 和事件下的 value，判断 element 的值是否存在更改
@@ -45,20 +44,16 @@ function getInstIfValueChanged (targetInst: Fiber, nextValue: string) {
 
 // 把 target 塞入更新队列中
 export function enqueueStateRestore (target: RestoreItem): void {
-  if (restoreTarget) {
-    if (restoreQueue) {
-      restoreQueue.push(target)
-    } else {
-      restoreQueue = [target]
-    }
+  if (restoreQueue) {
+    restoreQueue.push(target)
   } else {
-    restoreTarget = target
+    restoreQueue = [target]
   }
 }
 
 // 判断是否需要恢复 target（input、textarea） 的状态
 export function needsStateRestore (): boolean {
-  return restoreTarget !== null || restoreQueue !== null
+  return restoreQueue !== null
 }
 
 export function finishEventHandler () {
@@ -72,21 +67,15 @@ export function finishEventHandler () {
 
 // 遍历 restoreQueue、restoreTarget，恢复其状态
 export function restoreStateIfNeeded () {
-  if (!restoreTarget) {
+  if (!restoreQueue) {
     return
   }
 
-  const target = restoreTarget
   const queuedTargets = restoreQueue
-  restoreTarget = null
   restoreQueue = null
 
-  restoreStateOfTarget(target)
-  
-  if (queuedTargets) {
-    for (let i = 0; i < queuedTargets.length; i++) {
-      restoreStateOfTarget(queuedTargets[i])
-    }
+  for (let i = 0; i < queuedTargets.length; i++) {
+    restoreStateOfTarget(queuedTargets[i])
   }
 }
 
@@ -112,11 +101,12 @@ function restoreStateOfTarget (item: RestoreItem) {
 
   if (!internalInstance) return
 
-  const stateNode = internalInstance.stateNode
+  const { stateNode, type } = internalInstance
 
   if (stateNode) {
     const props = getFiberCurrentPropsFromNode(stateNode)
-    restoreImpl(internalInstance.stateNode, internalInstance.type, item.value, props)
+
+    restoreImpl(stateNode, type, item.value, props)
   }
 }
 

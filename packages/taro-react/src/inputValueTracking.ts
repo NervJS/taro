@@ -41,8 +41,10 @@ function trackValueOnNode (node: any) {
   }
 
   const { get, set } = descriptor
+
   Object.defineProperty(node, valueField, {
     configurable: true,
+    enumerable: descriptor.enumerable,
     get: function () {
       return get.call(this)
     },
@@ -50,10 +52,6 @@ function trackValueOnNode (node: any) {
       currentValue = '' + value
       set.call(this, value)
     },
-  })
-
-  Object.defineProperty(node, valueField, {
-    enumerable: descriptor.enumerable,
   })
 
   const tracker = {

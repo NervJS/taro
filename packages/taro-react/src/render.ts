@@ -112,24 +112,22 @@ export function createRoot (domContainer: TaroElement, options: CreateRootOption
 
   markContainerAsRoot(root?.internalRoot?.current, domContainer)
 
-  if (process.env.TARO_ENV !== 'h5') {
-    hooks.tap('dispatchTaroEvent', (e: TaroEvent, node: TaroElement) => {
-      const eventPriority = getEventPriority(e.type)
+  hooks.tap('dispatchTaroEvent', (e: TaroEvent, node: TaroElement) => {
+    const eventPriority = getEventPriority(e.type)
 
-      TaroReconciler.runWithPriority(eventPriority, () => {
-        node.dispatchEvent(e)
-      })
+    TaroReconciler.runWithPriority(eventPriority, () => {
+      node.dispatchEvent(e)
     })
-  
-    hooks.tap('modifyTaroEvent', (e: TaroEvent, node: TaroElement) => {
-      const inst = getTargetInstForInputOrChangeEvent(e, node)
-  
-      if (!inst) return
-  
-      const nextValue = e.mpEvent?.detail?.value as unknown as RestoreType
-      enqueueStateRestore({ target: node, value: nextValue })
-    })
-  }
+  })
+
+  hooks.tap('modifyTaroEvent', (e: TaroEvent, node: TaroElement) => {
+    const inst = getTargetInstForInputOrChangeEvent(e, node)
+
+    if (!inst) return
+
+    const nextValue = e.mpEvent?.detail?.value as unknown as RestoreType
+    enqueueStateRestore({ target: node, value: nextValue })
+  })
 
   return root
 }
