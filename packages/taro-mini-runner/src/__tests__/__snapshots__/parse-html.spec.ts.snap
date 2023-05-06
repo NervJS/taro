@@ -4,291 +4,7 @@ exports[`parse html should parse dangerouslySetInnerHTML 1`] = `16`;
 
 exports[`parse html should parse dangerouslySetInnerHTML 2`] = `
 "
-/** filePath: dist\\runtime.js **/
-(function(modules) {
-    function webpackJsonpCallback(data) {
-        var chunkIds = data[0];
-        var moreModules = data[1];
-        var executeModules = data[2];
-        var moduleId, chunkId, i = 0, resolves = [];
-        for (;i < chunkIds.length; i++) {
-            chunkId = chunkIds[i];
-            if (Object.prototype.hasOwnProperty.call(installedChunks, chunkId) && installedChunks[chunkId]) {
-                resolves.push(installedChunks[chunkId][0]);
-            }
-            installedChunks[chunkId] = 0;
-        }
-        for (moduleId in moreModules) {
-            if (Object.prototype.hasOwnProperty.call(moreModules, moduleId)) {
-                modules[moduleId] = moreModules[moduleId];
-            }
-        }
-        if (parentJsonpFunction) parentJsonpFunction(data);
-        while (resolves.length) {
-            resolves.shift()();
-        }
-        deferredModules.push.apply(deferredModules, executeModules || []);
-        return checkDeferredModules();
-    }
-    function checkDeferredModules() {
-        var result;
-        for (var i = 0; i < deferredModules.length; i++) {
-            var deferredModule = deferredModules[i];
-            var fulfilled = true;
-            for (var j = 1; j < deferredModule.length; j++) {
-                var depId = deferredModule[j];
-                if (installedChunks[depId] !== 0) fulfilled = false;
-            }
-            if (fulfilled) {
-                deferredModules.splice(i--, 1);
-                result = __webpack_require__(__webpack_require__.s = deferredModule[0]);
-            }
-        }
-        return result;
-    }
-    var installedModules = {};
-    var installedChunks = {
-        0: 0
-    };
-    var deferredModules = [];
-    function __webpack_require__(moduleId) {
-        if (installedModules[moduleId]) {
-            return installedModules[moduleId].exports;
-        }
-        var module = installedModules[moduleId] = {
-            i: moduleId,
-            l: false,
-            exports: {}
-        };
-        modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
-        module.l = true;
-        return module.exports;
-    }
-    __webpack_require__.m = modules;
-    __webpack_require__.c = installedModules;
-    __webpack_require__.d = function(exports, name, getter) {
-        if (!__webpack_require__.o(exports, name)) {
-            Object.defineProperty(exports, name, {
-                enumerable: true,
-                get: getter
-            });
-        }
-    };
-    __webpack_require__.r = function(exports) {
-        if (typeof Symbol !== "undefined" && Symbol.toStringTag) {
-            Object.defineProperty(exports, Symbol.toStringTag, {
-                value: "Module"
-            });
-        }
-        Object.defineProperty(exports, "__esModule", {
-            value: true
-        });
-    };
-    __webpack_require__.t = function(value, mode) {
-        if (mode & 1) value = __webpack_require__(value);
-        if (mode & 8) return value;
-        if (mode & 4 && typeof value === "object" && value && value.__esModule) return value;
-        var ns = Object.create(null);
-        __webpack_require__.r(ns);
-        Object.defineProperty(ns, "default", {
-            enumerable: true,
-            value: value
-        });
-        if (mode & 2 && typeof value != "string") for (var key in value) __webpack_require__.d(ns, key, function(key) {
-            return value[key];
-        }.bind(null, key));
-        return ns;
-    };
-    __webpack_require__.n = function(module) {
-        var getter = module && module.__esModule ? function getDefault() {
-            return module["default"];
-        } : function getModuleExports() {
-            return module;
-        };
-        __webpack_require__.d(getter, "a", getter);
-        return getter;
-    };
-    __webpack_require__.o = function(object, property) {
-        return Object.prototype.hasOwnProperty.call(object, property);
-    };
-    __webpack_require__.p = "/";
-    var jsonpArray = wx["webpackJsonp"] = wx["webpackJsonp"] || [];
-    var oldJsonpFunction = jsonpArray.push.bind(jsonpArray);
-    jsonpArray.push = webpackJsonpCallback;
-    jsonpArray = jsonpArray.slice();
-    for (var i = 0; i < jsonpArray.length; i++) webpackJsonpCallback(jsonpArray[i]);
-    var parentJsonpFunction = oldJsonpFunction;
-    checkDeferredModules();
-})([]);
-
-/** filePath: dist\\taro.js **/
-(wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 1 ], {
-    0: function(module, __webpack_exports__, __webpack_require__) {
-        "use strict";
-        var _unused_webpack_default_export = "taro-runtime-mock";
-    },
-    7: function(module, __webpack_exports__, __webpack_require__) {
-        "use strict";
-        var _unused_webpack_default_export = "taro-components-mock";
-    },
-    8: function(module, __webpack_exports__, __webpack_require__) {
-        "use strict";
-        __webpack_exports__["a"] = "taro-react-mock";
-    }
-} ]);
-
-/** filePath: dist\\common.js **/
-(wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 2 ], [ , function(module, __webpack_exports__, __webpack_require__) {
-    "use strict";
-    __webpack_require__.r(__webpack_exports__);
-    __webpack_exports__["default"] = "react-mock";
-} ] ]);
-
-/** filePath: dist\\vendors.js **/
-(wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 3 ], [ , , function(module, __webpack_exports__, __webpack_require__) {
-    "use strict";
-    __webpack_require__.d(__webpack_exports__, "a", (function() {
-        return _typeof;
-    }));
-    function _typeof(obj) {
-        "@babel/helpers - typeof";
-        return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function(obj) {
-            return typeof obj;
-        } : function(obj) {
-            return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
-        }, _typeof(obj);
-    }
-}, function(module, __webpack_exports__, __webpack_require__) {
-    "use strict";
-    __webpack_require__.d(__webpack_exports__, "a", (function() {
-        return _classCallCheck;
-    }));
-    function _classCallCheck(instance, Constructor) {
-        if (!(instance instanceof Constructor)) {
-            throw new TypeError("Cannot call a class as a function");
-        }
-    }
-}, function(module, __webpack_exports__, __webpack_require__) {
-    "use strict";
-    __webpack_require__.d(__webpack_exports__, "a", (function() {
-        return _createSuper;
-    }));
-    function _getPrototypeOf(o) {
-        _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function _getPrototypeOf(o) {
-            return o.__proto__ || Object.getPrototypeOf(o);
-        };
-        return _getPrototypeOf(o);
-    }
-    function _isNativeReflectConstruct() {
-        if (typeof Reflect === "undefined" || !Reflect.construct) return false;
-        if (Reflect.construct.sham) return false;
-        if (typeof Proxy === "function") return true;
-        try {
-            Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], (function() {})));
-            return true;
-        } catch (e) {
-            return false;
-        }
-    }
-    var esm_typeof = __webpack_require__(2);
-    function _assertThisInitialized(self) {
-        if (self === void 0) {
-            throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
-        }
-        return self;
-    }
-    function _possibleConstructorReturn(self, call) {
-        if (call && (Object(esm_typeof["a"])(call) === "object" || typeof call === "function")) {
-            return call;
-        } else if (call !== void 0) {
-            throw new TypeError("Derived constructors may only return object or undefined");
-        }
-        return _assertThisInitialized(self);
-    }
-    function _createSuper(Derived) {
-        var hasNativeReflectConstruct = _isNativeReflectConstruct();
-        return function _createSuperInternal() {
-            var Super = _getPrototypeOf(Derived), result;
-            if (hasNativeReflectConstruct) {
-                var NewTarget = _getPrototypeOf(this).constructor;
-                result = Reflect.construct(Super, arguments, NewTarget);
-            } else {
-                result = Super.apply(this, arguments);
-            }
-            return _possibleConstructorReturn(this, result);
-        };
-    }
-}, function(module, __webpack_exports__, __webpack_require__) {
-    "use strict";
-    __webpack_require__.d(__webpack_exports__, "a", (function() {
-        return _createClass;
-    }));
-    var esm_typeof = __webpack_require__(2);
-    function _toPrimitive(input, hint) {
-        if (Object(esm_typeof["a"])(input) !== "object" || input === null) return input;
-        var prim = input[Symbol.toPrimitive];
-        if (prim !== undefined) {
-            var res = prim.call(input, hint || "default");
-            if (Object(esm_typeof["a"])(res) !== "object") return res;
-            throw new TypeError("@@toPrimitive must return a primitive value.");
-        }
-        return (hint === "string" ? String : Number)(input);
-    }
-    function _toPropertyKey(arg) {
-        var key = _toPrimitive(arg, "string");
-        return Object(esm_typeof["a"])(key) === "symbol" ? key : String(key);
-    }
-    function _defineProperties(target, props) {
-        for (var i = 0; i < props.length; i++) {
-            var descriptor = props[i];
-            descriptor.enumerable = descriptor.enumerable || false;
-            descriptor.configurable = true;
-            if ("value" in descriptor) descriptor.writable = true;
-            Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor);
-        }
-    }
-    function _createClass(Constructor, protoProps, staticProps) {
-        if (protoProps) _defineProperties(Constructor.prototype, protoProps);
-        if (staticProps) _defineProperties(Constructor, staticProps);
-        Object.defineProperty(Constructor, "prototype", {
-            writable: false
-        });
-        return Constructor;
-    }
-}, function(module, __webpack_exports__, __webpack_require__) {
-    "use strict";
-    __webpack_require__.d(__webpack_exports__, "a", (function() {
-        return _inherits;
-    }));
-    function _setPrototypeOf(o, p) {
-        _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function _setPrototypeOf(o, p) {
-            o.__proto__ = p;
-            return o;
-        };
-        return _setPrototypeOf(o, p);
-    }
-    function _inherits(subClass, superClass) {
-        if (typeof superClass !== "function" && superClass !== null) {
-            throw new TypeError("Super expression must either be null or a function");
-        }
-        subClass.prototype = Object.create(superClass && superClass.prototype, {
-            constructor: {
-                value: subClass,
-                writable: true,
-                configurable: true
-            }
-        });
-        Object.defineProperty(subClass, "prototype", {
-            writable: false
-        });
-        if (superClass) _setPrototypeOf(subClass, superClass);
-    }
-} ] ]);
-
-/** filePath: dist\\app.wxss **/
-
-
-/** filePath: dist\\app.js **/
+/** filePath: dist/app.js **/
 require("./runtime");
 
 require("./common");
@@ -821,85 +537,13 @@ require("./taro");
 
 
 
-/** filePath: dist\\comp.js **/
-(wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 6 ], {
-    12: function(module, __webpack_exports__, __webpack_require__) {
-        "use strict";
-        __webpack_require__.r(__webpack_exports__);
-        var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
-        Component(Object(_tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__["createRecursiveComponentConfig"])());
-    }
-}, [ [ 12, 0, 1 ] ] ]);
-
-/** filePath: dist\\pages\\index\\index.wxss **/
-
-
-/** filePath: dist\\pages\\index\\index.js **/
-(wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 8 ], {
-    14: function(module, exports, __webpack_require__) {},
-    16: function(module, __webpack_exports__, __webpack_require__) {
-        "use strict";
-        __webpack_require__.r(__webpack_exports__);
-        var taro_runtime = __webpack_require__(0);
-        var classCallCheck = __webpack_require__(3);
-        var createClass = __webpack_require__(5);
-        var inherits = __webpack_require__(6);
-        var createSuper = __webpack_require__(4);
-        var react = __webpack_require__(1);
-        var taro_components = __webpack_require__(7);
-        var index = __webpack_require__(14);
-        var index_Index = function(_Component) {
-            Object(inherits["a"])(Index, _Component);
-            var _super = Object(createSuper["a"])(Index);
-            function Index() {
-                Object(classCallCheck["a"])(this, Index);
-                return _super.apply(this, arguments);
-            }
-            Object(createClass["a"])(Index, [ {
-                key: "render",
-                value: function render() {
-                    var html = '<div class="page" role="" aria-label=""></div>\\n    <div class="page__hd" role="" aria-label=""><span class="page__title"><span\\n          style="display:none;">image</span><span>image</span></span><span class="page__desc"><span\\n          style="display:none;">\\u56fe\\u7247</span><span>\\u56fe\\u7247</span></span></div>\\n    <div class="page__bd" role="" aria-label="">\\n      <div class="section section_gap" role="" aria-label="">\\n        <div class="section__title" role="" aria-label="">scaleToFill\\uff1a\\u4e0d\\u4fdd\\u6301\\u7eb5\\u6a2a\\u6bd4\\u7f29\\u653e\\u56fe\\u7247\\uff0c\\u4f7f\\u56fe\\u7247\\u5b8c\\u5168\\u9002\\u5e94</div>\\n        <div class="section__ctn" role="" aria-label=""><img mode="scaleToFill"\\n            src="https://res.wx.qq.com/wxdoc/dist/assets/img/0.4cb08bb4.jpg"\\n            style="width: 200px; height: 200px; background-color: #eeeeee;">\\n          <div role="img" aria-label=""\\n            style=\\'background-size: 100% 100%; background-position: 0% 0%; background-repeat: no-repeat; background-image: url("https://res.wx.qq.com/wxdoc/dist/assets/img/0.4cb08bb4.jpg");\\'>\\n          </div>\\n          <span></span></img>\\n        </div>\\n      </div>\\n      <div class="section section_gap" role="" aria-label="">\\n        <div class="section__title" role="" aria-label="">aspectFit\\uff1a\\u4fdd\\u6301\\u7eb5\\u6a2a\\u6bd4\\u7f29\\u653e\\u56fe\\u7247\\uff0c\\u4f7f\\u56fe\\u7247\\u7684\\u957f\\u8fb9\\u80fd\\u5b8c\\u5168\\u663e\\u793a\\u51fa\\u6765</div>\\n        <div class="section__ctn" role="" aria-label=""><img mode="aspectFit"\\n            src="https://res.wx.qq.com/wxdoc/dist/assets/img/0.4cb08bb4.jpg"\\n            style="width: 200px; height: 200px; background-color: #eeeeee;">\\n          <div role="img" aria-label=""\\n            style=\\'background-size: contain; background-position: center center; background-repeat: no-repeat; background-image: url("https://res.wx.qq.com/wxdoc/dist/assets/img/0.4cb08bb4.jpg");\\'>\\n          </div>\\n          <span></span></img>\\n        </div>\\n      </div>\\n      <div class="section section_gap" role="" aria-label="">\\n        <div class="section__title" role="" aria-label="">aspectFill\\uff1a\\u4fdd\\u6301\\u7eb5\\u6a2a\\u6bd4\\u7f29\\u653e\\u56fe\\u7247\\uff0c\\u53ea\\u4fdd\\u8bc1\\u56fe\\u7247\\u7684\\u77ed\\u8fb9\\u80fd\\u5b8c\\u5168\\u663e\\u793a\\u51fa\\u6765</div>\\n        <div class="section__ctn" role="" aria-label=""><img mode="aspectFill"\\n            src="https://res.wx.qq.com/wxdoc/dist/assets/img/0.4cb08bb4.jpg"\\n            style="width: 200px; height: 200px; background-color: #eeeeee;">\\n          <div role="img" aria-label=""\\n            style=\\'background-size: cover; background-position: center center; background-repeat: no-repeat; background-image: url("https://res.wx.qq.com/wxdoc/dist/assets/img/0.4cb08bb4.jpg");\\'>\\n          </div>\\n          <span></span></img>\\n        </div>\\n      </div>\\n      <div class="section section_gap" role="" aria-label="">\\n        <div class="section__title" role="" aria-label="">top\\uff1a\\u4e0d\\u7f29\\u653e\\u56fe\\u7247\\uff0c\\u53ea\\u663e\\u793a\\u56fe\\u7247\\u7684\\u9876\\u90e8\\u533a\\u57df</div>\\n        <div class="section__ctn" role="" aria-label=""><img mode="top"\\n            src="https://res.wx.qq.com/wxdoc/dist/assets/img/0.4cb08bb4.jpg"\\n            style="width: 200px; height: 200px; background-color: #eeeeee;">\\n          <div role="img" aria-label=""\\n            style=\\'background-size: auto; background-position: center top; background-repeat: no-repeat; background-image: url("https://res.wx.qq.com/wxdoc/dist/assets/img/0.4cb08bb4.jpg");\\'>\\n          </div>\\n          <span></span></img>\\n        </div>\\n      </div>\\n      <div class="section section_gap" role="" aria-label="">\\n        <div class="section__title" role="" aria-label="">bottom\\uff1a\\u4e0d\\u7f29\\u653e\\u56fe\\u7247\\uff0c\\u53ea\\u663e\\u793a\\u56fe\\u7247\\u7684\\u5e95\\u90e8\\u533a\\u57df</div>\\n        <div class="section__ctn" role="" aria-label=""><img mode="bottom"\\n            src="https://res.wx.qq.com/wxdoc/dist/assets/img/0.4cb08bb4.jpg"\\n            style="width: 200px; height: 200px; background-color: #eeeeee;">\\n          <div role="img" aria-label=""\\n            style=\\'background-size: auto; background-position: center bottom; background-repeat: no-repeat; background-image: url("https://res.wx.qq.com/wxdoc/dist/assets/img/0.4cb08bb4.jpg");\\'>\\n          </div>\\n          <span></span></img>\\n        </div>\\n      </div>\\n      <div class="section section_gap" role="" aria-label="">\\n        <div class="section__title" role="" aria-label="">center\\uff1a\\u4e0d\\u7f29\\u653e\\u56fe\\u7247\\uff0c\\u53ea\\u663e\\u793a\\u56fe\\u7247\\u7684\\u4e2d\\u95f4\\u533a\\u57df</div>\\n        <div class="section__ctn" role="" aria-label=""><img mode="center"\\n            src="https://res.wx.qq.com/wxdoc/dist/assets/img/0.4cb08bb4.jpg"\\n            style="width: 200px; height: 200px; background-color: #eeeeee;">\\n          <div role="img" aria-label=""\\n            style=\\'background-size: auto; background-position: center center; background-repeat: no-repeat; background-image: url("https://res.wx.qq.com/wxdoc/dist/assets/img/0.4cb08bb4.jpg");\\'>\\n          </div>\\n          <span></span></img>\\n        </div>\\n      </div>\\n      <div class="section section_gap" role="" aria-label="">\\n        <div class="section__title" role="" aria-label="">left\\uff1a\\u4e0d\\u7f29\\u653e\\u56fe\\u7247\\uff0c\\u53ea\\u663e\\u793a\\u56fe\\u7247\\u7684\\u5de6\\u8fb9\\u533a\\u57df</div>\\n        <div class="section__ctn" role="" aria-label=""><img mode="left"\\n            src="https://res.wx.qq.com/wxdoc/dist/assets/img/0.4cb08bb4.jpg"\\n            style="width: 200px; height: 200px; background-color: #eeeeee;">\\n          <div role="img" aria-label=""\\n            style=\\'background-size: auto; background-position: left center; background-repeat: no-repeat; background-image: url("https://res.wx.qq.com/wxdoc/dist/assets/img/0.4cb08bb4.jpg");\\'>\\n          </div>\\n          <span></span></img>\\n        </div>\\n      </div>\\n      <div class="section section_gap" role="" aria-label="">\\n        <div class="section__title" role="" aria-label="">right\\uff1a\\u4e0d\\u7f29\\u653e\\u56fe\\u7247\\uff0c\\u53ea\\u663e\\u793a\\u56fe\\u7247\\u7684\\u53f3\\u8fb9\\u8fb9\\u533a\\u57df</div>\\n        <div class="section__ctn" role="" aria-label=""><img mode="right"\\n            src="https://res.wx.qq.com/wxdoc/dist/assets/img/0.4cb08bb4.jpg"\\n            style="width: 200px; height: 200px; background-color: #eeeeee;">\\n          <div role="img" aria-label=""\\n            style=\\'background-size: auto; background-position: right center; background-repeat: no-repeat; background-image: url("https://res.wx.qq.com/wxdoc/dist/assets/img/0.4cb08bb4.jpg");\\'>\\n          </div>\\n          <span></span></img>\\n        </div>\\n      </div>\\n      <div class="section section_gap" role="" aria-label="">\\n        <div class="section__title" role="" aria-label="">top left\\uff1a\\u4e0d\\u7f29\\u653e\\u56fe\\u7247\\uff0c\\u53ea\\u663e\\u793a\\u56fe\\u7247\\u7684\\u5de6\\u4e0a\\u8fb9\\u533a\\u57df</div>\\n        <div class="section__ctn" role="" aria-label=""><img mode="top left"\\n            src="https://res.wx.qq.com/wxdoc/dist/assets/img/0.4cb08bb4.jpg"\\n            style="width: 200px; height: 200px; background-color: #eeeeee;">\\n          <div role="img" aria-label=""\\n            style=\\'background-size: auto; background-position: left top; background-repeat: no-repeat; background-image: url("https://res.wx.qq.com/wxdoc/dist/assets/img/0.4cb08bb4.jpg");\\'>\\n          </div>\\n          <span></span></img>\\n        </div>\\n      </div>\\n      <div class="section section_gap" role="" aria-label="">\\n        <div class="section__title" role="" aria-label="">top right\\uff1a\\u4e0d\\u7f29\\u653e\\u56fe\\u7247\\uff0c\\u53ea\\u663e\\u793a\\u56fe\\u7247\\u7684\\u53f3\\u4e0a\\u8fb9\\u533a\\u57df</div>\\n        <div class="section__ctn" role="" aria-label=""><img mode="top right"\\n            src="https://res.wx.qq.com/wxdoc/dist/assets/img/0.4cb08bb4.jpg"\\n            style="width: 200px; height: 200px; background-color: #eeeeee;">\\n          <div role="img" aria-label=""\\n            style=\\'background-size: auto; background-position: right top; background-repeat: no-repeat; background-image: url("https://res.wx.qq.com/wxdoc/dist/assets/img/0.4cb08bb4.jpg");\\'>\\n          </div>\\n          <span></span></img>\\n        </div>\\n      </div>\\n      <div class="section section_gap" role="" aria-label="">\\n        <div class="section__title" role="" aria-label="">bottom left\\uff1a\\u4e0d\\u7f29\\u653e\\u56fe\\u7247\\uff0c\\u53ea\\u663e\\u793a\\u56fe\\u7247\\u7684\\u5de6\\u4e0b\\u8fb9\\u533a\\u57df</div>\\n        <div class="section__ctn" role="" aria-label=""><img mode="bottom left"\\n            src="https://res.wx.qq.com/wxdoc/dist/assets/img/0.4cb08bb4.jpg"\\n            style="width: 200px; height: 200px; background-color: #eeeeee;">\\n          <div role="img" aria-label=""\\n            style=\\'background-size: auto; background-position: left bottom; background-repeat: no-repeat; background-image: url("https://res.wx.qq.com/wxdoc/dist/assets/img/0.4cb08bb4.jpg");\\'>\\n          </div>\\n          <span></span></img>\\n        </div>\\n      </div>\\n      <div class="section section_gap" role="" aria-label="">\\n        <div class="section__title" role="" aria-label="">bottom right\\uff1a\\u4e0d\\u7f29\\u653e\\u56fe\\u7247\\uff0c\\u53ea\\u663e\\u793a\\u56fe\\u7247\\u7684\\u53f3\\u4e0b\\u8fb9\\u533a\\u57df</div>\\n        <div class="section__ctn" role="" aria-label=""><img mode="bottom right"\\n            src="https://res.wx.qq.com/wxdoc/dist/assets/img/0.4cb08bb4.jpg"\\n            style="width: 200px; height: 200px; background-color: #eeeeee;">\\n          <div role="img" aria-label=""\\n            style=\\'background-size: auto; background-position: right bottom; background-repeat: no-repeat; background-image: url("https://res.wx.qq.com/wxdoc/dist/assets/img/0.4cb08bb4.jpg");\\'>\\n          </div>\\n          <span></span></img>\\n        </div>\\n      </div>\\n    </div>\\n  </div>';
-                    return react["default"].createElement(taro_components["View"], {
-                        className: "index"
-                    }, react["default"].createElement(taro_components["View"], {
-                        dangerouslySetInnerHTML: {
-                            __html: html
-                        }
-                    }));
-                }
-            } ]);
-            return Index;
-        }(react["Component"]);
-        var config = {
-            navigationBarTitleText: "\\u9996\\u9875"
-        };
-        var inst = Page(Object(taro_runtime["createPageConfig"])(index_Index, "pages/index/index", {
-            root: {
-                cn: []
-            }
-        }, config || {}));
-        var pages_index = __webpack_exports__["default"] = index_Index;
-    }
-}, [ [ 16, 0, 1, 3, 2 ] ] ]);
-
-/** filePath: dist\\pages\\index\\index.json **/
-{"navigationBarTitleText":"首页","usingComponents":{"comp":"../../comp"}}
-
-/** filePath: dist\\pages\\index\\index.wxml **/
-<import src="../../base.wxml"/>
-<template is="taro_tmpl" data="{{root:root}}" />
-
-/** filePath: dist\\app.json **/
+/** filePath: dist/app.json **/
 {"pages":["pages/index/index"],"window":{"backgroundTextStyle":"light","navigationBarBackgroundColor":"#fff","navigationBarTitleText":"WeChat","navigationBarTextStyle":"black"}}
 
-/** filePath: dist\\comp.wxml **/
-<import src="./base.wxml" />
-<template is="tmpl_0_container" data="{{i:i,l:l}}" />
+/** filePath: dist/app.wxss **/
 
-/** filePath: dist\\comp.json **/
-{"component":true,"usingComponents":{"comp":"./comp"}}
 
-/** filePath: dist\\base.wxml **/
+/** filePath: dist/base.wxml **/
 <wxs module="xs" src="./utils.wxs" />
 <template name="taro_tmpl">
   <block wx:for="{{root.cn}}" wx:key="sid">
@@ -1677,7 +1321,108 @@ require("./taro");
 </template>
 
 
-/** filePath: dist\\utils.wxs **/
+/** filePath: dist/common.js **/
+(wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 2 ], [ , function(module, __webpack_exports__, __webpack_require__) {
+    "use strict";
+    __webpack_require__.r(__webpack_exports__);
+    __webpack_exports__["default"] = "react-mock";
+} ] ]);
+
+/** filePath: dist/comp.js **/
+(wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 6 ], {
+    12: function(module, __webpack_exports__, __webpack_require__) {
+        "use strict";
+        __webpack_require__.r(__webpack_exports__);
+        var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
+        Component(Object(_tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__["createRecursiveComponentConfig"])());
+    }
+}, [ [ 12, 0, 1 ] ] ]);
+
+/** filePath: dist/comp.json **/
+{"component":true,"usingComponents":{"comp":"./comp"}}
+
+/** filePath: dist/comp.wxml **/
+<import src="./base.wxml" />
+<template is="tmpl_0_container" data="{{i:i,l:l}}" />
+
+/** filePath: dist/pages/index/index.js **/
+(wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 8 ], {
+    14: function(module, exports, __webpack_require__) {},
+    16: function(module, __webpack_exports__, __webpack_require__) {
+        "use strict";
+        __webpack_require__.r(__webpack_exports__);
+        var taro_runtime = __webpack_require__(0);
+        var classCallCheck = __webpack_require__(3);
+        var createClass = __webpack_require__(5);
+        var inherits = __webpack_require__(6);
+        var createSuper = __webpack_require__(4);
+        var react = __webpack_require__(1);
+        var taro_components = __webpack_require__(7);
+        var index = __webpack_require__(14);
+        var index_Index = function(_Component) {
+            Object(inherits["a"])(Index, _Component);
+            var _super = Object(createSuper["a"])(Index);
+            function Index() {
+                Object(classCallCheck["a"])(this, Index);
+                return _super.apply(this, arguments);
+            }
+            Object(createClass["a"])(Index, [ {
+                key: "render",
+                value: function render() {
+                    var html = '<div class="page" role="" aria-label=""></div>\\n    <div class="page__hd" role="" aria-label=""><span class="page__title"><span\\n          style="display:none;">image</span><span>image</span></span><span class="page__desc"><span\\n          style="display:none;">\\u56fe\\u7247</span><span>\\u56fe\\u7247</span></span></div>\\n    <div class="page__bd" role="" aria-label="">\\n      <div class="section section_gap" role="" aria-label="">\\n        <div class="section__title" role="" aria-label="">scaleToFill\\uff1a\\u4e0d\\u4fdd\\u6301\\u7eb5\\u6a2a\\u6bd4\\u7f29\\u653e\\u56fe\\u7247\\uff0c\\u4f7f\\u56fe\\u7247\\u5b8c\\u5168\\u9002\\u5e94</div>\\n        <div class="section__ctn" role="" aria-label=""><img mode="scaleToFill"\\n            src="https://res.wx.qq.com/wxdoc/dist/assets/img/0.4cb08bb4.jpg"\\n            style="width: 200px; height: 200px; background-color: #eeeeee;">\\n          <div role="img" aria-label=""\\n            style=\\'background-size: 100% 100%; background-position: 0% 0%; background-repeat: no-repeat; background-image: url("https://res.wx.qq.com/wxdoc/dist/assets/img/0.4cb08bb4.jpg");\\'>\\n          </div>\\n          <span></span></img>\\n        </div>\\n      </div>\\n      <div class="section section_gap" role="" aria-label="">\\n        <div class="section__title" role="" aria-label="">aspectFit\\uff1a\\u4fdd\\u6301\\u7eb5\\u6a2a\\u6bd4\\u7f29\\u653e\\u56fe\\u7247\\uff0c\\u4f7f\\u56fe\\u7247\\u7684\\u957f\\u8fb9\\u80fd\\u5b8c\\u5168\\u663e\\u793a\\u51fa\\u6765</div>\\n        <div class="section__ctn" role="" aria-label=""><img mode="aspectFit"\\n            src="https://res.wx.qq.com/wxdoc/dist/assets/img/0.4cb08bb4.jpg"\\n            style="width: 200px; height: 200px; background-color: #eeeeee;">\\n          <div role="img" aria-label=""\\n            style=\\'background-size: contain; background-position: center center; background-repeat: no-repeat; background-image: url("https://res.wx.qq.com/wxdoc/dist/assets/img/0.4cb08bb4.jpg");\\'>\\n          </div>\\n          <span></span></img>\\n        </div>\\n      </div>\\n      <div class="section section_gap" role="" aria-label="">\\n        <div class="section__title" role="" aria-label="">aspectFill\\uff1a\\u4fdd\\u6301\\u7eb5\\u6a2a\\u6bd4\\u7f29\\u653e\\u56fe\\u7247\\uff0c\\u53ea\\u4fdd\\u8bc1\\u56fe\\u7247\\u7684\\u77ed\\u8fb9\\u80fd\\u5b8c\\u5168\\u663e\\u793a\\u51fa\\u6765</div>\\n        <div class="section__ctn" role="" aria-label=""><img mode="aspectFill"\\n            src="https://res.wx.qq.com/wxdoc/dist/assets/img/0.4cb08bb4.jpg"\\n            style="width: 200px; height: 200px; background-color: #eeeeee;">\\n          <div role="img" aria-label=""\\n            style=\\'background-size: cover; background-position: center center; background-repeat: no-repeat; background-image: url("https://res.wx.qq.com/wxdoc/dist/assets/img/0.4cb08bb4.jpg");\\'>\\n          </div>\\n          <span></span></img>\\n        </div>\\n      </div>\\n      <div class="section section_gap" role="" aria-label="">\\n        <div class="section__title" role="" aria-label="">top\\uff1a\\u4e0d\\u7f29\\u653e\\u56fe\\u7247\\uff0c\\u53ea\\u663e\\u793a\\u56fe\\u7247\\u7684\\u9876\\u90e8\\u533a\\u57df</div>\\n        <div class="section__ctn" role="" aria-label=""><img mode="top"\\n            src="https://res.wx.qq.com/wxdoc/dist/assets/img/0.4cb08bb4.jpg"\\n            style="width: 200px; height: 200px; background-color: #eeeeee;">\\n          <div role="img" aria-label=""\\n            style=\\'background-size: auto; background-position: center top; background-repeat: no-repeat; background-image: url("https://res.wx.qq.com/wxdoc/dist/assets/img/0.4cb08bb4.jpg");\\'>\\n          </div>\\n          <span></span></img>\\n        </div>\\n      </div>\\n      <div class="section section_gap" role="" aria-label="">\\n        <div class="section__title" role="" aria-label="">bottom\\uff1a\\u4e0d\\u7f29\\u653e\\u56fe\\u7247\\uff0c\\u53ea\\u663e\\u793a\\u56fe\\u7247\\u7684\\u5e95\\u90e8\\u533a\\u57df</div>\\n        <div class="section__ctn" role="" aria-label=""><img mode="bottom"\\n            src="https://res.wx.qq.com/wxdoc/dist/assets/img/0.4cb08bb4.jpg"\\n            style="width: 200px; height: 200px; background-color: #eeeeee;">\\n          <div role="img" aria-label=""\\n            style=\\'background-size: auto; background-position: center bottom; background-repeat: no-repeat; background-image: url("https://res.wx.qq.com/wxdoc/dist/assets/img/0.4cb08bb4.jpg");\\'>\\n          </div>\\n          <span></span></img>\\n        </div>\\n      </div>\\n      <div class="section section_gap" role="" aria-label="">\\n        <div class="section__title" role="" aria-label="">center\\uff1a\\u4e0d\\u7f29\\u653e\\u56fe\\u7247\\uff0c\\u53ea\\u663e\\u793a\\u56fe\\u7247\\u7684\\u4e2d\\u95f4\\u533a\\u57df</div>\\n        <div class="section__ctn" role="" aria-label=""><img mode="center"\\n            src="https://res.wx.qq.com/wxdoc/dist/assets/img/0.4cb08bb4.jpg"\\n            style="width: 200px; height: 200px; background-color: #eeeeee;">\\n          <div role="img" aria-label=""\\n            style=\\'background-size: auto; background-position: center center; background-repeat: no-repeat; background-image: url("https://res.wx.qq.com/wxdoc/dist/assets/img/0.4cb08bb4.jpg");\\'>\\n          </div>\\n          <span></span></img>\\n        </div>\\n      </div>\\n      <div class="section section_gap" role="" aria-label="">\\n        <div class="section__title" role="" aria-label="">left\\uff1a\\u4e0d\\u7f29\\u653e\\u56fe\\u7247\\uff0c\\u53ea\\u663e\\u793a\\u56fe\\u7247\\u7684\\u5de6\\u8fb9\\u533a\\u57df</div>\\n        <div class="section__ctn" role="" aria-label=""><img mode="left"\\n            src="https://res.wx.qq.com/wxdoc/dist/assets/img/0.4cb08bb4.jpg"\\n            style="width: 200px; height: 200px; background-color: #eeeeee;">\\n          <div role="img" aria-label=""\\n            style=\\'background-size: auto; background-position: left center; background-repeat: no-repeat; background-image: url("https://res.wx.qq.com/wxdoc/dist/assets/img/0.4cb08bb4.jpg");\\'>\\n          </div>\\n          <span></span></img>\\n        </div>\\n      </div>\\n      <div class="section section_gap" role="" aria-label="">\\n        <div class="section__title" role="" aria-label="">right\\uff1a\\u4e0d\\u7f29\\u653e\\u56fe\\u7247\\uff0c\\u53ea\\u663e\\u793a\\u56fe\\u7247\\u7684\\u53f3\\u8fb9\\u8fb9\\u533a\\u57df</div>\\n        <div class="section__ctn" role="" aria-label=""><img mode="right"\\n            src="https://res.wx.qq.com/wxdoc/dist/assets/img/0.4cb08bb4.jpg"\\n            style="width: 200px; height: 200px; background-color: #eeeeee;">\\n          <div role="img" aria-label=""\\n            style=\\'background-size: auto; background-position: right center; background-repeat: no-repeat; background-image: url("https://res.wx.qq.com/wxdoc/dist/assets/img/0.4cb08bb4.jpg");\\'>\\n          </div>\\n          <span></span></img>\\n        </div>\\n      </div>\\n      <div class="section section_gap" role="" aria-label="">\\n        <div class="section__title" role="" aria-label="">top left\\uff1a\\u4e0d\\u7f29\\u653e\\u56fe\\u7247\\uff0c\\u53ea\\u663e\\u793a\\u56fe\\u7247\\u7684\\u5de6\\u4e0a\\u8fb9\\u533a\\u57df</div>\\n        <div class="section__ctn" role="" aria-label=""><img mode="top left"\\n            src="https://res.wx.qq.com/wxdoc/dist/assets/img/0.4cb08bb4.jpg"\\n            style="width: 200px; height: 200px; background-color: #eeeeee;">\\n          <div role="img" aria-label=""\\n            style=\\'background-size: auto; background-position: left top; background-repeat: no-repeat; background-image: url("https://res.wx.qq.com/wxdoc/dist/assets/img/0.4cb08bb4.jpg");\\'>\\n          </div>\\n          <span></span></img>\\n        </div>\\n      </div>\\n      <div class="section section_gap" role="" aria-label="">\\n        <div class="section__title" role="" aria-label="">top right\\uff1a\\u4e0d\\u7f29\\u653e\\u56fe\\u7247\\uff0c\\u53ea\\u663e\\u793a\\u56fe\\u7247\\u7684\\u53f3\\u4e0a\\u8fb9\\u533a\\u57df</div>\\n        <div class="section__ctn" role="" aria-label=""><img mode="top right"\\n            src="https://res.wx.qq.com/wxdoc/dist/assets/img/0.4cb08bb4.jpg"\\n            style="width: 200px; height: 200px; background-color: #eeeeee;">\\n          <div role="img" aria-label=""\\n            style=\\'background-size: auto; background-position: right top; background-repeat: no-repeat; background-image: url("https://res.wx.qq.com/wxdoc/dist/assets/img/0.4cb08bb4.jpg");\\'>\\n          </div>\\n          <span></span></img>\\n        </div>\\n      </div>\\n      <div class="section section_gap" role="" aria-label="">\\n        <div class="section__title" role="" aria-label="">bottom left\\uff1a\\u4e0d\\u7f29\\u653e\\u56fe\\u7247\\uff0c\\u53ea\\u663e\\u793a\\u56fe\\u7247\\u7684\\u5de6\\u4e0b\\u8fb9\\u533a\\u57df</div>\\n        <div class="section__ctn" role="" aria-label=""><img mode="bottom left"\\n            src="https://res.wx.qq.com/wxdoc/dist/assets/img/0.4cb08bb4.jpg"\\n            style="width: 200px; height: 200px; background-color: #eeeeee;">\\n          <div role="img" aria-label=""\\n            style=\\'background-size: auto; background-position: left bottom; background-repeat: no-repeat; background-image: url("https://res.wx.qq.com/wxdoc/dist/assets/img/0.4cb08bb4.jpg");\\'>\\n          </div>\\n          <span></span></img>\\n        </div>\\n      </div>\\n      <div class="section section_gap" role="" aria-label="">\\n        <div class="section__title" role="" aria-label="">bottom right\\uff1a\\u4e0d\\u7f29\\u653e\\u56fe\\u7247\\uff0c\\u53ea\\u663e\\u793a\\u56fe\\u7247\\u7684\\u53f3\\u4e0b\\u8fb9\\u533a\\u57df</div>\\n        <div class="section__ctn" role="" aria-label=""><img mode="bottom right"\\n            src="https://res.wx.qq.com/wxdoc/dist/assets/img/0.4cb08bb4.jpg"\\n            style="width: 200px; height: 200px; background-color: #eeeeee;">\\n          <div role="img" aria-label=""\\n            style=\\'background-size: auto; background-position: right bottom; background-repeat: no-repeat; background-image: url("https://res.wx.qq.com/wxdoc/dist/assets/img/0.4cb08bb4.jpg");\\'>\\n          </div>\\n          <span></span></img>\\n        </div>\\n      </div>\\n    </div>\\n  </div>';
+                    return react["default"].createElement(taro_components["View"], {
+                        className: "index"
+                    }, react["default"].createElement(taro_components["View"], {
+                        dangerouslySetInnerHTML: {
+                            __html: html
+                        }
+                    }));
+                }
+            } ]);
+            return Index;
+        }(react["Component"]);
+        var config = {
+            navigationBarTitleText: "\\u9996\\u9875"
+        };
+        var inst = Page(Object(taro_runtime["createPageConfig"])(index_Index, "pages/index/index", {
+            root: {
+                cn: []
+            }
+        }, config || {}));
+        var pages_index = __webpack_exports__["default"] = index_Index;
+    }
+}, [ [ 16, 0, 1, 3, 2 ] ] ]);
+
+/** filePath: dist/pages/index/index.json **/
+{"navigationBarTitleText":"首页","usingComponents":{"comp":"../../comp"}}
+
+/** filePath: dist/pages/index/index.wxml **/
+<import src="../../base.wxml"/>
+<template is="taro_tmpl" data="{{root:root}}" />
+
+/** filePath: dist/pages/index/index.wxss **/
+
+
+/** filePath: dist/runtime.js **/
+
+
+/** filePath: dist/taro.js **/
+(wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 1 ], {
+    0: function(module, __webpack_exports__, __webpack_require__) {
+        "use strict";
+        var _unused_webpack_default_export = "taro-runtime-mock";
+    },
+    7: function(module, __webpack_exports__, __webpack_require__) {
+        "use strict";
+        var _unused_webpack_default_export = "taro-components-mock";
+    },
+    8: function(module, __webpack_exports__, __webpack_require__) {
+        "use strict";
+        __webpack_exports__["a"] = "taro-react-mock";
+    }
+} ]);
+
+/** filePath: dist/utils.wxs **/
 module.exports = {
   a: function (l, n, s) {
     var a = ["7","0","18","5","2","11","6","4","38","39","22","19","36","40","41"]
@@ -1717,5 +1462,146 @@ module.exports = {
     return l
   }
 }
+
+/** filePath: dist/vendors.js **/
+(wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 3 ], [ , , function(module, __webpack_exports__, __webpack_require__) {
+    "use strict";
+    __webpack_require__.d(__webpack_exports__, "a", (function() {
+        return _typeof;
+    }));
+    function _typeof(obj) {
+        "@babel/helpers - typeof";
+        return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function(obj) {
+            return typeof obj;
+        } : function(obj) {
+            return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
+        }, _typeof(obj);
+    }
+}, function(module, __webpack_exports__, __webpack_require__) {
+    "use strict";
+    __webpack_require__.d(__webpack_exports__, "a", (function() {
+        return _classCallCheck;
+    }));
+    function _classCallCheck(instance, Constructor) {
+        if (!(instance instanceof Constructor)) {
+            throw new TypeError("Cannot call a class as a function");
+        }
+    }
+}, function(module, __webpack_exports__, __webpack_require__) {
+    "use strict";
+    __webpack_require__.d(__webpack_exports__, "a", (function() {
+        return _createSuper;
+    }));
+    function _getPrototypeOf(o) {
+        _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function _getPrototypeOf(o) {
+            return o.__proto__ || Object.getPrototypeOf(o);
+        };
+        return _getPrototypeOf(o);
+    }
+    function _isNativeReflectConstruct() {
+        if (typeof Reflect === "undefined" || !Reflect.construct) return false;
+        if (Reflect.construct.sham) return false;
+        if (typeof Proxy === "function") return true;
+        try {
+            Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], (function() {})));
+            return true;
+        } catch (e) {
+            return false;
+        }
+    }
+    var esm_typeof = __webpack_require__(2);
+    function _assertThisInitialized(self) {
+        if (self === void 0) {
+            throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+        }
+        return self;
+    }
+    function _possibleConstructorReturn(self, call) {
+        if (call && (Object(esm_typeof["a"])(call) === "object" || typeof call === "function")) {
+            return call;
+        } else if (call !== void 0) {
+            throw new TypeError("Derived constructors may only return object or undefined");
+        }
+        return _assertThisInitialized(self);
+    }
+    function _createSuper(Derived) {
+        var hasNativeReflectConstruct = _isNativeReflectConstruct();
+        return function _createSuperInternal() {
+            var Super = _getPrototypeOf(Derived), result;
+            if (hasNativeReflectConstruct) {
+                var NewTarget = _getPrototypeOf(this).constructor;
+                result = Reflect.construct(Super, arguments, NewTarget);
+            } else {
+                result = Super.apply(this, arguments);
+            }
+            return _possibleConstructorReturn(this, result);
+        };
+    }
+}, function(module, __webpack_exports__, __webpack_require__) {
+    "use strict";
+    __webpack_require__.d(__webpack_exports__, "a", (function() {
+        return _createClass;
+    }));
+    var esm_typeof = __webpack_require__(2);
+    function _toPrimitive(input, hint) {
+        if (Object(esm_typeof["a"])(input) !== "object" || input === null) return input;
+        var prim = input[Symbol.toPrimitive];
+        if (prim !== undefined) {
+            var res = prim.call(input, hint || "default");
+            if (Object(esm_typeof["a"])(res) !== "object") return res;
+            throw new TypeError("@@toPrimitive must return a primitive value.");
+        }
+        return (hint === "string" ? String : Number)(input);
+    }
+    function _toPropertyKey(arg) {
+        var key = _toPrimitive(arg, "string");
+        return Object(esm_typeof["a"])(key) === "symbol" ? key : String(key);
+    }
+    function _defineProperties(target, props) {
+        for (var i = 0; i < props.length; i++) {
+            var descriptor = props[i];
+            descriptor.enumerable = descriptor.enumerable || false;
+            descriptor.configurable = true;
+            if ("value" in descriptor) descriptor.writable = true;
+            Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor);
+        }
+    }
+    function _createClass(Constructor, protoProps, staticProps) {
+        if (protoProps) _defineProperties(Constructor.prototype, protoProps);
+        if (staticProps) _defineProperties(Constructor, staticProps);
+        Object.defineProperty(Constructor, "prototype", {
+            writable: false
+        });
+        return Constructor;
+    }
+}, function(module, __webpack_exports__, __webpack_require__) {
+    "use strict";
+    __webpack_require__.d(__webpack_exports__, "a", (function() {
+        return _inherits;
+    }));
+    function _setPrototypeOf(o, p) {
+        _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function _setPrototypeOf(o, p) {
+            o.__proto__ = p;
+            return o;
+        };
+        return _setPrototypeOf(o, p);
+    }
+    function _inherits(subClass, superClass) {
+        if (typeof superClass !== "function" && superClass !== null) {
+            throw new TypeError("Super expression must either be null or a function");
+        }
+        subClass.prototype = Object.create(superClass && superClass.prototype, {
+            constructor: {
+                value: subClass,
+                writable: true,
+                configurable: true
+            }
+        });
+        Object.defineProperty(subClass, "prototype", {
+            writable: false
+        });
+        if (superClass) _setPrototypeOf(subClass, superClass);
+    }
+} ] ]);
 "
 `;

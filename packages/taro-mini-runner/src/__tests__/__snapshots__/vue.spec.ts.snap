@@ -4,133 +4,7 @@ exports[`vue should build vue app 1`] = `13`;
 
 exports[`vue should build vue app 2`] = `
 "
-/** filePath: dist\\runtime.js **/
-(function(modules) {
-    function webpackJsonpCallback(data) {
-        var chunkIds = data[0];
-        var moreModules = data[1];
-        var executeModules = data[2];
-        var moduleId, chunkId, i = 0, resolves = [];
-        for (;i < chunkIds.length; i++) {
-            chunkId = chunkIds[i];
-            if (Object.prototype.hasOwnProperty.call(installedChunks, chunkId) && installedChunks[chunkId]) {
-                resolves.push(installedChunks[chunkId][0]);
-            }
-            installedChunks[chunkId] = 0;
-        }
-        for (moduleId in moreModules) {
-            if (Object.prototype.hasOwnProperty.call(moreModules, moduleId)) {
-                modules[moduleId] = moreModules[moduleId];
-            }
-        }
-        if (parentJsonpFunction) parentJsonpFunction(data);
-        while (resolves.length) {
-            resolves.shift()();
-        }
-        deferredModules.push.apply(deferredModules, executeModules || []);
-        return checkDeferredModules();
-    }
-    function checkDeferredModules() {
-        var result;
-        for (var i = 0; i < deferredModules.length; i++) {
-            var deferredModule = deferredModules[i];
-            var fulfilled = true;
-            for (var j = 1; j < deferredModule.length; j++) {
-                var depId = deferredModule[j];
-                if (installedChunks[depId] !== 0) fulfilled = false;
-            }
-            if (fulfilled) {
-                deferredModules.splice(i--, 1);
-                result = __webpack_require__(__webpack_require__.s = deferredModule[0]);
-            }
-        }
-        return result;
-    }
-    var installedModules = {};
-    var installedChunks = {
-        0: 0
-    };
-    var deferredModules = [];
-    function __webpack_require__(moduleId) {
-        if (installedModules[moduleId]) {
-            return installedModules[moduleId].exports;
-        }
-        var module = installedModules[moduleId] = {
-            i: moduleId,
-            l: false,
-            exports: {}
-        };
-        modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
-        module.l = true;
-        return module.exports;
-    }
-    __webpack_require__.m = modules;
-    __webpack_require__.c = installedModules;
-    __webpack_require__.d = function(exports, name, getter) {
-        if (!__webpack_require__.o(exports, name)) {
-            Object.defineProperty(exports, name, {
-                enumerable: true,
-                get: getter
-            });
-        }
-    };
-    __webpack_require__.r = function(exports) {
-        if (typeof Symbol !== "undefined" && Symbol.toStringTag) {
-            Object.defineProperty(exports, Symbol.toStringTag, {
-                value: "Module"
-            });
-        }
-        Object.defineProperty(exports, "__esModule", {
-            value: true
-        });
-    };
-    __webpack_require__.t = function(value, mode) {
-        if (mode & 1) value = __webpack_require__(value);
-        if (mode & 8) return value;
-        if (mode & 4 && typeof value === "object" && value && value.__esModule) return value;
-        var ns = Object.create(null);
-        __webpack_require__.r(ns);
-        Object.defineProperty(ns, "default", {
-            enumerable: true,
-            value: value
-        });
-        if (mode & 2 && typeof value != "string") for (var key in value) __webpack_require__.d(ns, key, function(key) {
-            return value[key];
-        }.bind(null, key));
-        return ns;
-    };
-    __webpack_require__.n = function(module) {
-        var getter = module && module.__esModule ? function getDefault() {
-            return module["default"];
-        } : function getModuleExports() {
-            return module;
-        };
-        __webpack_require__.d(getter, "a", getter);
-        return getter;
-    };
-    __webpack_require__.o = function(object, property) {
-        return Object.prototype.hasOwnProperty.call(object, property);
-    };
-    __webpack_require__.p = "/";
-    var jsonpArray = wx["webpackJsonp"] = wx["webpackJsonp"] || [];
-    var oldJsonpFunction = jsonpArray.push.bind(jsonpArray);
-    jsonpArray.push = webpackJsonpCallback;
-    jsonpArray = jsonpArray.slice();
-    for (var i = 0; i < jsonpArray.length; i++) webpackJsonpCallback(jsonpArray[i]);
-    var parentJsonpFunction = oldJsonpFunction;
-    checkDeferredModules();
-})([]);
-
-/** filePath: dist\\taro.js **/
-(wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 1 ], [ function(module, __webpack_exports__, __webpack_require__) {
-    "use strict";
-    var _unused_webpack_default_export = "taro-runtime-mock";
-} ] ]);
-
-/** filePath: dist\\app.wxss **/
-
-
-/** filePath: dist\\app.js **/
+/** filePath: dist/app.js **/
 require("./runtime");
 
 require("./taro");
@@ -636,121 +510,13 @@ require("./taro");
 
 
 
-/** filePath: dist\\comp.js **/
-(wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 4 ], {
-    4: function(module, __webpack_exports__, __webpack_require__) {
-        "use strict";
-        __webpack_require__.r(__webpack_exports__);
-        var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
-        Component(Object(_tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__["createRecursiveComponentConfig"])());
-    }
-}, [ [ 4, 0, 1 ] ] ]);
-
-/** filePath: dist\\pages\\index\\index.js **/
-(wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 6 ], {
-    6: function(module, __webpack_exports__, __webpack_require__) {
-        "use strict";
-        __webpack_require__.r(__webpack_exports__);
-        var taro_runtime = __webpack_require__(0);
-        var render = function render() {
-            var _vm = this, _c = _vm._self._c;
-            return _c("view", {
-                staticClass: "index"
-            }, [ _c("text", [ _vm._v(_vm._s(_vm.msg)) ]) ]);
-        };
-        var staticRenderFns = [];
-        render._withStripped = true;
-        var indexvue_type_script_lang_js_ = {
-            data: function data() {
-                return {
-                    msg: "Hello world!"
-                };
-            }
-        };
-        var pages_indexvue_type_script_lang_js_ = indexvue_type_script_lang_js_;
-        function normalizeComponent(scriptExports, render, staticRenderFns, functionalTemplate, injectStyles, scopeId, moduleIdentifier, shadowMode) {
-            var options = typeof scriptExports === "function" ? scriptExports.options : scriptExports;
-            if (render) {
-                options.render = render;
-                options.staticRenderFns = staticRenderFns;
-                options._compiled = true;
-            }
-            if (functionalTemplate) {
-                options.functional = true;
-            }
-            if (scopeId) {
-                options._scopeId = "data-v-" + scopeId;
-            }
-            var hook;
-            if (moduleIdentifier) {
-                hook = function(context) {
-                    context = context || this.$vnode && this.$vnode.ssrContext || this.parent && this.parent.$vnode && this.parent.$vnode.ssrContext;
-                    if (!context && typeof __VUE_SSR_CONTEXT__ !== "undefined") {
-                        context = __VUE_SSR_CONTEXT__;
-                    }
-                    if (injectStyles) {
-                        injectStyles.call(this, context);
-                    }
-                    if (context && context._registeredComponents) {
-                        context._registeredComponents.add(moduleIdentifier);
-                    }
-                };
-                options._ssrRegister = hook;
-            } else if (injectStyles) {
-                hook = shadowMode ? function() {
-                    injectStyles.call(this, (options.functional ? this.parent : this).$root.$options.shadowRoot);
-                } : injectStyles;
-            }
-            if (hook) {
-                if (options.functional) {
-                    options._injectStyles = hook;
-                    var originalRender = options.render;
-                    options.render = function renderWithStyleInjection(h, context) {
-                        hook.call(context);
-                        return originalRender(h, context);
-                    };
-                } else {
-                    var existing = options.beforeCreate;
-                    options.beforeCreate = existing ? [].concat(existing, hook) : [ hook ];
-                }
-            }
-            return {
-                exports: scriptExports,
-                options: options
-            };
-        }
-        var component = normalizeComponent(pages_indexvue_type_script_lang_js_, render, staticRenderFns, false, null, null, null);
-        var index = component.exports;
-        var config = {
-            navigationBarTitleText: "\\u9996\\u9875"
-        };
-        var inst = Page(Object(taro_runtime["createPageConfig"])(index, "pages/index/index", {
-            root: {
-                cn: []
-            }
-        }, config || {}));
-        var pages_index = __webpack_exports__["default"] = index;
-    }
-}, [ [ 6, 0, 1 ] ] ]);
-
-/** filePath: dist\\pages\\index\\index.json **/
-{"navigationBarTitleText":"首页","usingComponents":{"comp":"../../comp"}}
-
-/** filePath: dist\\pages\\index\\index.wxml **/
-<import src="../../base.wxml"/>
-<template is="taro_tmpl" data="{{root:root}}" />
-
-/** filePath: dist\\app.json **/
+/** filePath: dist/app.json **/
 {"pages":["pages/index/index"],"window":{"backgroundTextStyle":"light","navigationBarBackgroundColor":"#fff","navigationBarTitleText":"WeChat","navigationBarTextStyle":"black"}}
 
-/** filePath: dist\\comp.wxml **/
-<import src="./base.wxml" />
-<template is="tmpl_0_container" data="{{i:i,l:l}}" />
+/** filePath: dist/app.wxss **/
 
-/** filePath: dist\\comp.json **/
-{"component":true,"usingComponents":{"comp":"./comp"}}
 
-/** filePath: dist\\base.wxml **/
+/** filePath: dist/base.wxml **/
 <wxs module="xs" src="./utils.wxs" />
 <template name="taro_tmpl">
   <block wx:for="{{root.cn}}" wx:key="sid">
@@ -1528,7 +1294,127 @@ require("./taro");
 </template>
 
 
-/** filePath: dist\\utils.wxs **/
+/** filePath: dist/comp.js **/
+(wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 4 ], {
+    4: function(module, __webpack_exports__, __webpack_require__) {
+        "use strict";
+        __webpack_require__.r(__webpack_exports__);
+        var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
+        Component(Object(_tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__["createRecursiveComponentConfig"])());
+    }
+}, [ [ 4, 0, 1 ] ] ]);
+
+/** filePath: dist/comp.json **/
+{"component":true,"usingComponents":{"comp":"./comp"}}
+
+/** filePath: dist/comp.wxml **/
+<import src="./base.wxml" />
+<template is="tmpl_0_container" data="{{i:i,l:l}}" />
+
+/** filePath: dist/pages/index/index.js **/
+(wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 6 ], {
+    6: function(module, __webpack_exports__, __webpack_require__) {
+        "use strict";
+        __webpack_require__.r(__webpack_exports__);
+        var taro_runtime = __webpack_require__(0);
+        var render = function render() {
+            var _vm = this, _c = _vm._self._c;
+            return _c("view", {
+                staticClass: "index"
+            }, [ _c("text", [ _vm._v(_vm._s(_vm.msg)) ]) ]);
+        };
+        var staticRenderFns = [];
+        render._withStripped = true;
+        var indexvue_type_script_lang_js_ = {
+            data: function data() {
+                return {
+                    msg: "Hello world!"
+                };
+            }
+        };
+        var pages_indexvue_type_script_lang_js_ = indexvue_type_script_lang_js_;
+        function normalizeComponent(scriptExports, render, staticRenderFns, functionalTemplate, injectStyles, scopeId, moduleIdentifier, shadowMode) {
+            var options = typeof scriptExports === "function" ? scriptExports.options : scriptExports;
+            if (render) {
+                options.render = render;
+                options.staticRenderFns = staticRenderFns;
+                options._compiled = true;
+            }
+            if (functionalTemplate) {
+                options.functional = true;
+            }
+            if (scopeId) {
+                options._scopeId = "data-v-" + scopeId;
+            }
+            var hook;
+            if (moduleIdentifier) {
+                hook = function(context) {
+                    context = context || this.$vnode && this.$vnode.ssrContext || this.parent && this.parent.$vnode && this.parent.$vnode.ssrContext;
+                    if (!context && typeof __VUE_SSR_CONTEXT__ !== "undefined") {
+                        context = __VUE_SSR_CONTEXT__;
+                    }
+                    if (injectStyles) {
+                        injectStyles.call(this, context);
+                    }
+                    if (context && context._registeredComponents) {
+                        context._registeredComponents.add(moduleIdentifier);
+                    }
+                };
+                options._ssrRegister = hook;
+            } else if (injectStyles) {
+                hook = shadowMode ? function() {
+                    injectStyles.call(this, (options.functional ? this.parent : this).$root.$options.shadowRoot);
+                } : injectStyles;
+            }
+            if (hook) {
+                if (options.functional) {
+                    options._injectStyles = hook;
+                    var originalRender = options.render;
+                    options.render = function renderWithStyleInjection(h, context) {
+                        hook.call(context);
+                        return originalRender(h, context);
+                    };
+                } else {
+                    var existing = options.beforeCreate;
+                    options.beforeCreate = existing ? [].concat(existing, hook) : [ hook ];
+                }
+            }
+            return {
+                exports: scriptExports,
+                options: options
+            };
+        }
+        var component = normalizeComponent(pages_indexvue_type_script_lang_js_, render, staticRenderFns, false, null, null, null);
+        var index = component.exports;
+        var config = {
+            navigationBarTitleText: "\\u9996\\u9875"
+        };
+        var inst = Page(Object(taro_runtime["createPageConfig"])(index, "pages/index/index", {
+            root: {
+                cn: []
+            }
+        }, config || {}));
+        var pages_index = __webpack_exports__["default"] = index;
+    }
+}, [ [ 6, 0, 1 ] ] ]);
+
+/** filePath: dist/pages/index/index.json **/
+{"navigationBarTitleText":"首页","usingComponents":{"comp":"../../comp"}}
+
+/** filePath: dist/pages/index/index.wxml **/
+<import src="../../base.wxml"/>
+<template is="taro_tmpl" data="{{root:root}}" />
+
+/** filePath: dist/runtime.js **/
+
+
+/** filePath: dist/taro.js **/
+(wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 1 ], [ function(module, __webpack_exports__, __webpack_require__) {
+    "use strict";
+    var _unused_webpack_default_export = "taro-runtime-mock";
+} ] ]);
+
+/** filePath: dist/utils.wxs **/
 module.exports = {
   a: function (l, n, s) {
     var a = ["7","0","18","5","2","11","6","4","38","39","22","19","36","40","41"]
