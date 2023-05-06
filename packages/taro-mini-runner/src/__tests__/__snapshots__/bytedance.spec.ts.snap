@@ -329,9 +329,7 @@ require("./taro");
 
 /** filePath: dist/app.ttss **/
 
-
 /** filePath: dist/base.ttml **/
-
 <template name="taro_tmpl">
   <block tt:for="{{root.cn}}" tt:key="sid">
     <template is="{{'tmpl_0_' + item.nn}}" data="{{i:item}}" />
@@ -924,9 +922,7 @@ require("./taro");
 
 /** filePath: dist/pages/index/index.ttss **/
 
-
 /** filePath: dist/runtime.js **/
-
 
 /** filePath: dist/taro.js **/
 (tt["webpackJsonp"] = tt["webpackJsonp"] || []).push([ [ 1 ], {

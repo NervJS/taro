@@ -397,6 +397,18 @@ importers:
       eslint-plugin-vue: registry.npmjs.org/eslint-plugin-vue/8.7.1_eslint@8.40.0
       typescript: registry.npmjs.org/typescript/4.9.5
 
+  packages/jest-helper:
+    specifiers:
+      '@jest/test-sequencer': ^29.5.0
+      jest-runner: ^29.5.0
+      pretty-format: ^29.5.0
+      typescript: ^4.7.4
+    devDependencies:
+      '@jest/test-sequencer': registry.npmjs.org/@jest/test-sequencer/29.5.0
+      jest-runner: registry.npmjs.org/jest-runner/29.5.0
+      pretty-format: registry.npmjs.org/pretty-format/29.5.0
+      typescript: registry.npmjs.org/typescript/4.9.5
+
   packages/postcss-html-transform:
     specifiers:
       postcss: ^8.4.18
@@ -1174,6 +1186,7 @@ importers:
       jest: ^29.3.1
       jest-cli: ^29.3.1
       jest-environment-node: ^29.5.0
+      jest-taro-helper: workspace:*
       jest-transform-css: ^6.0.1
       jsdom: ^21.1.0
       less: ^4.1.0
@@ -1275,6 +1288,7 @@ importers:
       jest: registry.npmjs.org/jest/29.5.0
       jest-cli: registry.npmjs.org/jest-cli/29.5.0
       jest-environment-node: registry.npmjs.org/jest-environment-node/29.5.0
+      jest-taro-helper: link:../jest-helper
       jest-transform-css: registry.npmjs.org/jest-transform-css/6.0.1_postcss@8.4.23
       memfs: registry.npmjs.org/memfs/3.5.1
       memory-fs: registry.npmjs.org/memory-fs/0.5.0
@@ -1364,7 +1378,7 @@ importers:
 
   packages/taro-plugin-http:
     specifiers:
-      '@rollup/plugin-json': ^4.1.0
+      '@rollup/plugin-json': ^6.0.0
       '@rollup/plugin-node-resolve': ^15.0.1
       '@tarojs/runtime': workspace:*
       '@tarojs/service': workspace:*
@@ -1383,7 +1397,7 @@ importers:
       '@tarojs/service': link:../taro-service
       '@tarojs/shared': link:../shared
     devDependencies:
-      '@rollup/plugin-json': registry.npmjs.org/@rollup/plugin-json/4.1.0_rollup@3.21.5
+      '@rollup/plugin-json': registry.npmjs.org/@rollup/plugin-json/6.0.0_rollup@3.21.5
       '@rollup/plugin-node-resolve': registry.npmjs.org/@rollup/plugin-node-resolve/15.0.2_rollup@3.21.5
       jest: registry.npmjs.org/jest/29.5.0
       jest-cli: registry.npmjs.org/jest-cli/29.5.0
@@ -2184,6 +2198,7 @@ importers:
       jest: ^29.3.1
       jest-cli: ^29.3.1
       jest-environment-node: ^29.5.0
+      jest-taro-helper: workspace:*
       jest-transform-css: ^6.0.1
       less: ^4.1.0
       less-loader: 7.3.0
@@ -2264,6 +2279,7 @@ importers:
       jest: registry.npmjs.org/jest/29.5.0
       jest-cli: registry.npmjs.org/jest-cli/29.5.0
       jest-environment-node: registry.npmjs.org/jest-environment-node/29.5.0
+      jest-taro-helper: link:../jest-helper
       jest-transform-css: registry.npmjs.org/jest-transform-css/6.0.1_postcss@8.4.23
       memfs: registry.npmjs.org/memfs/3.5.1
       memory-fs: registry.npmjs.org/memory-fs/0.5.0
@@ -2345,6 +2361,7 @@ importers:
       jest: ^29.3.1
       jest-cli: ^29.3.1
       jest-environment-node: ^29.5.0
+      jest-taro-helper: workspace:*
       jest-transform-css: ^6.0.1
       jsdom: ^21.1.0
       less: ^4.1.0
@@ -2458,6 +2475,7 @@ importers:
       jest: registry.npmjs.org/jest/29.5.0_dhdbzqqs2prsx27gcyl6e2nple
       jest-cli: registry.npmjs.org/jest-cli/29.5.0_dhdbzqqs2prsx27gcyl6e2nple
       jest-environment-node: registry.npmjs.org/jest-environment-node/29.5.0
+      jest-taro-helper: link:../jest-helper
       jest-transform-css: registry.npmjs.org/jest-transform-css/6.0.1_3fojqsmttcn75cbnzsztj3o6qa
       memfs: registry.npmjs.org/memfs/3.5.1
       memory-fs: registry.npmjs.org/memory-fs/0.5.0
@@ -9075,6 +9093,22 @@ packages:
       rollup: ^1.20.0 || ^2.0.0
     dependencies:
       '@rollup/pluginutils': registry.npmjs.org/@rollup/pluginutils/3.1.0_rollup@3.21.5
+      rollup: registry.npmjs.org/rollup/3.21.5
+    dev: true
+
+  registry.npmjs.org/@rollup/plugin-json/6.0.0_rollup@3.21.5:
+    resolution: {integrity: sha512-i/4C5Jrdr1XUarRhVu27EEwjt4GObltD7c+MkCIpO2QIbojw8MUs+CCTqOphQi3Qtg1FLmYt+l+6YeoIf51J7w==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@rollup/plugin-json/-/plugin-json-6.0.0.tgz}
+    id: registry.npmjs.org/@rollup/plugin-json/6.0.0
+    name: '@rollup/plugin-json'
+    version: 6.0.0
+    engines: {node: '>=14.0.0'}
+    peerDependencies:
+      rollup: ^1.20.0||^2.0.0||^3.0.0
+    peerDependenciesMeta:
+      rollup:
+        optional: true
+    dependencies:
+      '@rollup/pluginutils': registry.npmjs.org/@rollup/pluginutils/5.0.2_rollup@3.21.5
       rollup: registry.npmjs.org/rollup/3.21.5
     dev: true
 

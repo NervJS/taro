@@ -540,7 +540,6 @@ require("./taro");
 
 /** filePath: dist/app.wxss **/
 
-
 /** filePath: dist/base.wxml **/
 <wxs module="xs" src="./utils.wxs" />
 <template name="taro_tmpl">
@@ -1506,9 +1505,7 @@ require("./taro");
 
 /** filePath: dist/pages/index/index.wxss **/
 
-
 /** filePath: dist/runtime.js **/
-
 
 /** filePath: dist/taro.js **/
 (wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 1 ], {
@@ -2249,7 +2246,6 @@ require("./taro");
 {"pages":["pages/index/index"],"window":{"backgroundTextStyle":"light","navigationBarBackgroundColor":"#fff","navigationBarTitleText":"WeChat","navigationBarTextStyle":"black"}}
 
 /** filePath: output/app.wxss **/
-
 
 /** filePath: output/base.wxml **/
 <wxs module="xs" src="./utils.wxs" />
@@ -3055,7 +3051,6 @@ require("./taro");
 <template is="taro_tmpl" data="{{root:root}}" />
 
 /** filePath: output/pages/index/index.wxss **/
-
 
 /** filePath: output/runtime.js **/
 (function(modules) {
@@ -3914,7 +3909,6 @@ require("./taro");
 
 /** filePath: dist/app.wxss **/
 
-
 /** filePath: dist/base.wxml **/
 <wxs module="xs" src="./utils.wxs" />
 <template name="taro_tmpl">
@@ -4724,9 +4718,7 @@ I m irrelevant.
 
 /** filePath: dist/pages/index/index.wxss **/
 
-
 /** filePath: dist/runtime.js **/
-
 
 /** filePath: dist/taro.js **/
 (wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 1 ], {

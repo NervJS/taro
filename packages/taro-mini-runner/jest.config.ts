@@ -1,7 +1,10 @@
-module.exports = {
+import type { Config } from 'jest'
+
+const config: Config = {
   moduleFileExtensions: ['ts', 'tsx', 'js', 'json', 'jsx', 'node'],
   preset: 'ts-jest',
-  setupFilesAfterEnv: ['./src/__tests__/setup/index.ts'],
+  setupFilesAfterEnv: ['<rootDir>/src/__tests__/setup/index.ts'],
+  snapshotSerializers: ['jest-taro-helper/lib/snapshot/serializers.js'],
   testEnvironment: 'node',
   testEnvironmentOptions: {},
   testMatch: ['**/__tests__/?(*.)+(spec|test).[jt]s?(x)'],
@@ -20,3 +23,5 @@ module.exports = {
     'node_modules',
   ],
 }
+
+export default config
