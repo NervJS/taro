@@ -105,13 +105,15 @@ interface TextareaProps extends StandardProps, FormItemProps {
    */
   name?: string
   /** 是否渲染字数统计功能（是否删除默认计数器/是否显示字数统计）。
+   * @default true
    * @supported alipay
    */
-  showCount?: string
+  showCount?: boolean
   /** 是否为受控组件。为 true 时，value 内容会完全受 setData 控制。
+   * @default false
    * @supported alipay
    */
-  controlled?: string
+  controlled?: boolean
   /** 无障碍访问，（属性）元素的额外描述
    * @supported qq
    */
