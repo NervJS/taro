@@ -4,52 +4,13 @@ exports[`compiler-macros - defineAppConfig and definePageConfig should read app 
 
 exports[`compiler-macros - defineAppConfig and definePageConfig should read app and page configs 2`] = `
 "
-/** filePath: dist/chunk/1.js **/
-(window["webpackJsonp"] = window["webpackJsonp"] || []).push([ [ 1 ], {
-    "32": function(module, exports, __webpack_require__) {},
-    "33": function(module, __webpack_exports__, __webpack_require__) {
-        "use strict";
-        __webpack_require__.r(__webpack_exports__);
-        __webpack_require__.d(__webpack_exports__, "default", (function() {
-            return index_Index;
-        }));
-        var classCallCheck = __webpack_require__(9);
-        var createClass = __webpack_require__(11);
-        var inherits = __webpack_require__(12);
-        var createSuper = __webpack_require__(10);
-        var react = __webpack_require__(0);
-        var taro_components = "taro-components-mock";
-        var index = __webpack_require__(32);
-        var index_Index = function(_Component) {
-            Object(inherits["a"])(Index, _Component);
-            var _super = Object(createSuper["a"])(Index);
-            function Index() {
-                Object(classCallCheck["a"])(this, Index);
-                return _super.apply(this, arguments);
-            }
-            Object(createClass["a"])(Index, [ {
-                "key": "render",
-                "value": function render() {
-                    return react["default"].createElement(undefined, {
-                        "className": "index"
-                    }, react["default"].createElement(undefined, null, "Hello world!"));
-                }
-            } ]);
-            return Index;
-        }(react["Component"]);
-    }
-} ]);
-
-/** filePath: dist/css/1.css **/
+/** filePath: dist\\css\\app.css **/
 
 
-/** filePath: dist/css/app.css **/
+/** filePath: dist\\css\\1.css **/
 
 
-/** filePath: dist/index.html **/
-<!doctype html><html><head><meta content="text/html; charset=utf-8" http-equiv="Content-Type"><meta content="width=device-width,initial-scale=1,user-scalable=no" name="viewport"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-touch-fullscreen" content="yes"><meta name="format-detection" content="telephone=no,address=no"><meta name="apple-mobile-web-app-status-bar-style" content="white"><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><title></title><script>!function(x){function w(){var v,u,t,tes,s=x.document,r=s.documentElement,a=r.getBoundingClientRect().width;if(!v&&!u){var n=!!x.navigator.appVersion.match(/AppleWebKit.*Mobile.*/);v=x.devicePixelRatio;tes=x.devicePixelRatio;v=n?v:1,u=1/v}if(a>=640){r.style.fontSize="40px"}else{if(a<=320){r.style.fontSize="20px"}else{r.style.fontSize=a/320*20+"px"}}}x.addEventListener("resize",function(){w()});w()}(window);</script><link href="/css/app.css" rel="stylesheet"></head><body><div id="app"></div><script src="/js/app.js"></script></body></html>
-
-/** filePath: dist/js/app.js **/
+/** filePath: dist\\js\\app.js **/
 (function(modules) {
     function webpackJsonpCallback(data) {
         var chunkIds = data[0];
@@ -1499,5 +1460,44 @@ exports[`compiler-macros - defineAppConfig and definePageConfig should read app 
         "targetUnit": undefined
     });
 } ]);
+
+/** filePath: dist\\chunk\\1.js **/
+(window["webpackJsonp"] = window["webpackJsonp"] || []).push([ [ 1 ], {
+    "32": function(module, exports, __webpack_require__) {},
+    "33": function(module, __webpack_exports__, __webpack_require__) {
+        "use strict";
+        __webpack_require__.r(__webpack_exports__);
+        __webpack_require__.d(__webpack_exports__, "default", (function() {
+            return index_Index;
+        }));
+        var classCallCheck = __webpack_require__(9);
+        var createClass = __webpack_require__(11);
+        var inherits = __webpack_require__(12);
+        var createSuper = __webpack_require__(10);
+        var react = __webpack_require__(0);
+        var taro_components = "taro-components-mock";
+        var index = __webpack_require__(32);
+        var index_Index = function(_Component) {
+            Object(inherits["a"])(Index, _Component);
+            var _super = Object(createSuper["a"])(Index);
+            function Index() {
+                Object(classCallCheck["a"])(this, Index);
+                return _super.apply(this, arguments);
+            }
+            Object(createClass["a"])(Index, [ {
+                "key": "render",
+                "value": function render() {
+                    return react["default"].createElement(undefined, {
+                        "className": "index"
+                    }, react["default"].createElement(undefined, null, "Hello world!"));
+                }
+            } ]);
+            return Index;
+        }(react["Component"]);
+    }
+} ]);
+
+/** filePath: dist\\index.html **/
+<!doctype html><html><head><meta content="text/html; charset=utf-8" http-equiv="Content-Type"><meta content="width=device-width,initial-scale=1,user-scalable=no" name="viewport"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-touch-fullscreen" content="yes"><meta name="format-detection" content="telephone=no,address=no"><meta name="apple-mobile-web-app-status-bar-style" content="white"><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><title></title><script>!function(x){function w(){var v,u,t,tes,s=x.document,r=s.documentElement,a=r.getBoundingClientRect().width;if(!v&&!u){var n=!!x.navigator.appVersion.match(/AppleWebKit.*Mobile.*/);v=x.devicePixelRatio;tes=x.devicePixelRatio;v=n?v:1,u=1/v}if(a>=640){r.style.fontSize="40px"}else{if(a<=320){r.style.fontSize="20px"}else{r.style.fontSize=a/320*20+"px"}}}x.addEventListener("resize",function(){w()});w()}(window);</script><link href="/css/app.css" rel="stylesheet"></head><body><div id="app"></div><script src="/js/app.js"></script></body></html>
 "
 `;

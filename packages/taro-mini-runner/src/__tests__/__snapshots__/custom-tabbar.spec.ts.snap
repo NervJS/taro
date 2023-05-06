@@ -4,7 +4,343 @@ exports[`custom tabbar should weapp custom tabbar work 1`] = `26`;
 
 exports[`custom tabbar should weapp custom tabbar work 2`] = `
 "
-/** filePath: dist/app.js **/
+/** filePath: dist\\runtime.js **/
+(function(modules) {
+    function webpackJsonpCallback(data) {
+        var chunkIds = data[0];
+        var moreModules = data[1];
+        var executeModules = data[2];
+        var moduleId, chunkId, i = 0, resolves = [];
+        for (;i < chunkIds.length; i++) {
+            chunkId = chunkIds[i];
+            if (Object.prototype.hasOwnProperty.call(installedChunks, chunkId) && installedChunks[chunkId]) {
+                resolves.push(installedChunks[chunkId][0]);
+            }
+            installedChunks[chunkId] = 0;
+        }
+        for (moduleId in moreModules) {
+            if (Object.prototype.hasOwnProperty.call(moreModules, moduleId)) {
+                modules[moduleId] = moreModules[moduleId];
+            }
+        }
+        if (parentJsonpFunction) parentJsonpFunction(data);
+        while (resolves.length) {
+            resolves.shift()();
+        }
+        deferredModules.push.apply(deferredModules, executeModules || []);
+        return checkDeferredModules();
+    }
+    function checkDeferredModules() {
+        var result;
+        for (var i = 0; i < deferredModules.length; i++) {
+            var deferredModule = deferredModules[i];
+            var fulfilled = true;
+            for (var j = 1; j < deferredModule.length; j++) {
+                var depId = deferredModule[j];
+                if (installedChunks[depId] !== 0) fulfilled = false;
+            }
+            if (fulfilled) {
+                deferredModules.splice(i--, 1);
+                result = __webpack_require__(__webpack_require__.s = deferredModule[0]);
+            }
+        }
+        return result;
+    }
+    var installedModules = {};
+    var installedChunks = {
+        0: 0
+    };
+    var deferredModules = [];
+    function __webpack_require__(moduleId) {
+        if (installedModules[moduleId]) {
+            return installedModules[moduleId].exports;
+        }
+        var module = installedModules[moduleId] = {
+            i: moduleId,
+            l: false,
+            exports: {}
+        };
+        modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
+        module.l = true;
+        return module.exports;
+    }
+    __webpack_require__.m = modules;
+    __webpack_require__.c = installedModules;
+    __webpack_require__.d = function(exports, name, getter) {
+        if (!__webpack_require__.o(exports, name)) {
+            Object.defineProperty(exports, name, {
+                enumerable: true,
+                get: getter
+            });
+        }
+    };
+    __webpack_require__.r = function(exports) {
+        if (typeof Symbol !== "undefined" && Symbol.toStringTag) {
+            Object.defineProperty(exports, Symbol.toStringTag, {
+                value: "Module"
+            });
+        }
+        Object.defineProperty(exports, "__esModule", {
+            value: true
+        });
+    };
+    __webpack_require__.t = function(value, mode) {
+        if (mode & 1) value = __webpack_require__(value);
+        if (mode & 8) return value;
+        if (mode & 4 && typeof value === "object" && value && value.__esModule) return value;
+        var ns = Object.create(null);
+        __webpack_require__.r(ns);
+        Object.defineProperty(ns, "default", {
+            enumerable: true,
+            value: value
+        });
+        if (mode & 2 && typeof value != "string") for (var key in value) __webpack_require__.d(ns, key, function(key) {
+            return value[key];
+        }.bind(null, key));
+        return ns;
+    };
+    __webpack_require__.n = function(module) {
+        var getter = module && module.__esModule ? function getDefault() {
+            return module["default"];
+        } : function getModuleExports() {
+            return module;
+        };
+        __webpack_require__.d(getter, "a", getter);
+        return getter;
+    };
+    __webpack_require__.o = function(object, property) {
+        return Object.prototype.hasOwnProperty.call(object, property);
+    };
+    __webpack_require__.p = "/";
+    var jsonpArray = wx["webpackJsonp"] = wx["webpackJsonp"] || [];
+    var oldJsonpFunction = jsonpArray.push.bind(jsonpArray);
+    jsonpArray.push = webpackJsonpCallback;
+    jsonpArray = jsonpArray.slice();
+    for (var i = 0; i < jsonpArray.length; i++) webpackJsonpCallback(jsonpArray[i]);
+    var parentJsonpFunction = oldJsonpFunction;
+    checkDeferredModules();
+})([]);
+
+/** filePath: dist\\taro.js **/
+(wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 1 ], {
+    1: function(module, __webpack_exports__, __webpack_require__) {
+        "use strict";
+        var _unused_webpack_default_export = "taro-runtime-mock";
+    },
+    3: function(module, __webpack_exports__, __webpack_require__) {
+        "use strict";
+        var _unused_webpack_default_export = "taro-components-mock";
+    },
+    9: function(module, __webpack_exports__, __webpack_require__) {
+        "use strict";
+        __webpack_exports__["a"] = "taro-react-mock";
+    }
+} ]);
+
+/** filePath: dist\\common.js **/
+(wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 2 ], [ function(module, __webpack_exports__, __webpack_require__) {
+    "use strict";
+    __webpack_require__.r(__webpack_exports__);
+    __webpack_exports__["default"] = "react-mock";
+}, , function(module, __webpack_exports__, __webpack_require__) {
+    "use strict";
+    __webpack_require__.d(__webpack_exports__, "f", (function() {
+        return mergeReconciler;
+    }));
+    __webpack_require__.d(__webpack_exports__, "e", (function() {
+        return mergeInternalComponents;
+    }));
+    __webpack_require__.d(__webpack_exports__, "g", (function() {
+        return processApis;
+    }));
+    __webpack_require__.d(__webpack_exports__, "a", (function() {
+        return createReactApp;
+    }));
+    __webpack_exports__["b"] = "taro";
+    function mergeReconciler() {}
+    function mergeInternalComponents() {}
+    function isFunction() {}
+    function isArray() {}
+    function processApis() {}
+    var EMPTY_OBJ = {};
+    var hooks = {};
+    function setReconciler() {}
+    function connectReactPage() {}
+    function createReactApp() {}
+    function createNativeComponentConfig() {}
+    function connectVuePage() {}
+    function createVueApp() {}
+    function createVue3App() {}
+    var setGlobalDataPlugin = {};
+    function useDidHide() {}
+    function useDidShow() {}
+    function useError() {}
+    function useLaunch() {}
+    function usePageNotFound() {}
+    function useLoad() {}
+    function usePageScroll() {}
+    function usePullDownRefresh() {}
+    function usePullIntercept() {}
+    function useReachBottom() {}
+    function useResize() {}
+    function useUnload() {}
+    function useAddToFavorites() {}
+    function useOptionMenuClick() {}
+    function useSaveExitState() {}
+    function useShareAppMessage() {}
+    function useShareTimeline() {}
+    function useTitleClick() {}
+    function useReady() {}
+    function useRouter() {}
+    function useTabItemTap() {}
+    function useScope() {}
+} ] ]);
+
+/** filePath: dist\\vendors.js **/
+(wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 3 ], [ , , , , function(module, __webpack_exports__, __webpack_require__) {
+    "use strict";
+    __webpack_require__.d(__webpack_exports__, "a", (function() {
+        return _classCallCheck;
+    }));
+    function _classCallCheck(instance, Constructor) {
+        if (!(instance instanceof Constructor)) {
+            throw new TypeError("Cannot call a class as a function");
+        }
+    }
+}, function(module, __webpack_exports__, __webpack_require__) {
+    "use strict";
+    __webpack_require__.d(__webpack_exports__, "a", (function() {
+        return _createSuper;
+    }));
+    function _getPrototypeOf(o) {
+        _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function _getPrototypeOf(o) {
+            return o.__proto__ || Object.getPrototypeOf(o);
+        };
+        return _getPrototypeOf(o);
+    }
+    function _isNativeReflectConstruct() {
+        if (typeof Reflect === "undefined" || !Reflect.construct) return false;
+        if (Reflect.construct.sham) return false;
+        if (typeof Proxy === "function") return true;
+        try {
+            Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], (function() {})));
+            return true;
+        } catch (e) {
+            return false;
+        }
+    }
+    var esm_typeof = __webpack_require__(8);
+    function _assertThisInitialized(self) {
+        if (self === void 0) {
+            throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+        }
+        return self;
+    }
+    function _possibleConstructorReturn(self, call) {
+        if (call && (Object(esm_typeof["a"])(call) === "object" || typeof call === "function")) {
+            return call;
+        } else if (call !== void 0) {
+            throw new TypeError("Derived constructors may only return object or undefined");
+        }
+        return _assertThisInitialized(self);
+    }
+    function _createSuper(Derived) {
+        var hasNativeReflectConstruct = _isNativeReflectConstruct();
+        return function _createSuperInternal() {
+            var Super = _getPrototypeOf(Derived), result;
+            if (hasNativeReflectConstruct) {
+                var NewTarget = _getPrototypeOf(this).constructor;
+                result = Reflect.construct(Super, arguments, NewTarget);
+            } else {
+                result = Super.apply(this, arguments);
+            }
+            return _possibleConstructorReturn(this, result);
+        };
+    }
+}, function(module, __webpack_exports__, __webpack_require__) {
+    "use strict";
+    __webpack_require__.d(__webpack_exports__, "a", (function() {
+        return _createClass;
+    }));
+    var esm_typeof = __webpack_require__(8);
+    function _toPrimitive(input, hint) {
+        if (Object(esm_typeof["a"])(input) !== "object" || input === null) return input;
+        var prim = input[Symbol.toPrimitive];
+        if (prim !== undefined) {
+            var res = prim.call(input, hint || "default");
+            if (Object(esm_typeof["a"])(res) !== "object") return res;
+            throw new TypeError("@@toPrimitive must return a primitive value.");
+        }
+        return (hint === "string" ? String : Number)(input);
+    }
+    function _toPropertyKey(arg) {
+        var key = _toPrimitive(arg, "string");
+        return Object(esm_typeof["a"])(key) === "symbol" ? key : String(key);
+    }
+    function _defineProperties(target, props) {
+        for (var i = 0; i < props.length; i++) {
+            var descriptor = props[i];
+            descriptor.enumerable = descriptor.enumerable || false;
+            descriptor.configurable = true;
+            if ("value" in descriptor) descriptor.writable = true;
+            Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor);
+        }
+    }
+    function _createClass(Constructor, protoProps, staticProps) {
+        if (protoProps) _defineProperties(Constructor.prototype, protoProps);
+        if (staticProps) _defineProperties(Constructor, staticProps);
+        Object.defineProperty(Constructor, "prototype", {
+            writable: false
+        });
+        return Constructor;
+    }
+}, function(module, __webpack_exports__, __webpack_require__) {
+    "use strict";
+    __webpack_require__.d(__webpack_exports__, "a", (function() {
+        return _inherits;
+    }));
+    function _setPrototypeOf(o, p) {
+        _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function _setPrototypeOf(o, p) {
+            o.__proto__ = p;
+            return o;
+        };
+        return _setPrototypeOf(o, p);
+    }
+    function _inherits(subClass, superClass) {
+        if (typeof superClass !== "function" && superClass !== null) {
+            throw new TypeError("Super expression must either be null or a function");
+        }
+        subClass.prototype = Object.create(superClass && superClass.prototype, {
+            constructor: {
+                value: subClass,
+                writable: true,
+                configurable: true
+            }
+        });
+        Object.defineProperty(subClass, "prototype", {
+            writable: false
+        });
+        if (superClass) _setPrototypeOf(subClass, superClass);
+    }
+}, function(module, __webpack_exports__, __webpack_require__) {
+    "use strict";
+    __webpack_require__.d(__webpack_exports__, "a", (function() {
+        return _typeof;
+    }));
+    function _typeof(obj) {
+        "@babel/helpers - typeof";
+        return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function(obj) {
+            return typeof obj;
+        } : function(obj) {
+            return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
+        }, _typeof(obj);
+    }
+} ] ]);
+
+/** filePath: dist\\app.wxss **/
+
+
+/** filePath: dist\\app.js **/
 require("./runtime");
 
 require("./common");
@@ -19,7 +355,7 @@ require("./taro");
         "use strict";
         __webpack_require__.r(__webpack_exports__);
         var mocks_taro = __webpack_require__(2);
-        var needPromiseApis = new Set([ "addFileToFavorites", "addVideoToFavorites", "authPrivateMessage", "checkIsAddedToMyMiniProgram", "chooseContact", "cropImage", "disableAlertBeforeUnload", "editImage", "enableAlertBeforeUnload", "getBackgroundFetchData", "getChannelsLiveInfo", "getChannelsLiveNoticeInfo", "getFuzzyLocation", "getGroupEnterInfo", "getLocalIPAddress", "getShareInfo", "getUserProfile", "getWeRunData", "join1v1Chat", "openChannelsActivity", "openChannelsEvent", "openChannelsLive", "openChannelsUserProfile", "openCustomerServiceChat", "openVideoEditor", "saveFileToDisk", "scanItem", "setEnable1v1Chat", "setWindowSize", "sendBizRedPacket", "startFacialRecognitionVerify" ]);
+        var needPromiseApis = new Set([ "authPrivateMessage", "chooseContact", "cropImage", "disableAlertBeforeUnload", "editImage", "enableAlertBeforeUnload", "getBackgroundFetchData", "getFuzzyLocation", "getGroupEnterInfo", "getLocalIPAddress", "getShareInfo", "getUserProfile", "getWeRunData", "join1v1Chat", "openCustomerServiceChat", "openVideoEditor", "saveFileToDisk", "scanItem", "setEnable1v1Chat", "setWindowSize", "sendBizRedPacket", "startFacialRecognitionVerify" ]);
         function initNativeApi(taro) {
             Object(mocks_taro["g"])(taro, wx, {
                 needPromiseApis: needPromiseApis,
@@ -45,10 +381,6 @@ require("./taro");
                 if (typeof (pageCtx === null || pageCtx === void 0 ? void 0 : pageCtx.getTabBar) === "function") {
                     return (_a = pageCtx.getTabBar()) === null || _a === void 0 ? void 0 : _a.$taroInstances;
                 }
-            };
-            taro.getRenderer = function() {
-                var _a, _b, _c;
-                return (_c = (_b = (_a = taro.getCurrentInstance()) === null || _a === void 0 ? void 0 : _a.page) === null || _b === void 0 ? void 0 : _b.renderer) !== null && _c !== void 0 ? _c : "webview";
             };
         }
         var _true = "true";
@@ -128,8 +460,7 @@ require("./taro");
                 bindNicknameReview: _empty
             },
             Picker: {
-                "header-text": _empty,
-                level: "region"
+                "header-text": _empty
             },
             PickerView: {
                 "immediate-change": _false,
@@ -150,8 +481,6 @@ require("./taro");
                 bindKeyboardHeightChange: _empty
             },
             ScrollView: {
-                type: "'list'",
-                "event-passive": _false,
                 "enable-flex": _false,
                 "scroll-anchoring": _false,
                 "refresher-enabled": _false,
@@ -164,33 +493,14 @@ require("./taro");
                 "show-scrollbar": _true,
                 "paging-enabled": _false,
                 "fast-deceleration": _false,
-                reverse: _false,
-                "cache-extent": _zero,
-                "scroll-into-view-within-extent": _false,
-                "scroll-into-view-alignment": "'start'",
                 bindDragStart: _empty,
                 bindDragging: _empty,
                 bindDragEnd: _empty,
                 bindRefresherPulling: _empty,
                 bindRefresherRefresh: _empty,
                 bindRefresherRestore: _empty,
-                bindRefresherAbort: _empty,
-                bindScrollStart: _empty,
-                bindScrollEnd: _empty,
-                bindRefresherWillRefresh: _empty
+                bindRefresherAbort: _empty
             },
-            StickySection: {
-                "push-pinned-header": _true
-            },
-            GridView: {
-                type: "'aligned'",
-                "cross-axis-count": "2",
-                "max-cross-axis-extent": _zero,
-                "main-axis-gap": _zero,
-                "cross-axis-gap": _zero
-            },
-            ListView: {},
-            StickyHeader: {},
             Swiper: {
                 "snap-to-edge": _false,
                 "easing-function": "'default'"
@@ -412,15 +722,6 @@ require("./taro");
             ChannelLive: {
                 feedId: _empty,
                 finderUserName: _empty
-            },
-            ChannelVideo: {
-                feedId: _empty,
-                finderUserName: _empty,
-                autoplay: _false,
-                loop: _false,
-                muted: _false,
-                objectFit: "'contain'",
-                bindError: _empty
             }
         };
         var hostConfig = {
@@ -518,47 +819,186 @@ require("./taro");
 
 
 
-/** filePath: dist/app.json **/
+/** filePath: dist\\comp.js **/
+(wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 6 ], {
+    15: function(module, __webpack_exports__, __webpack_require__) {
+        "use strict";
+        __webpack_require__.r(__webpack_exports__);
+        var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(1);
+        Component(Object(_tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__["createRecursiveComponentConfig"])());
+    }
+}, [ [ 15, 0, 1 ] ] ]);
+
+/** filePath: dist\\custom-tab-bar\\index.wxss **/
+.icon{width:68rpx;height:68rpx}
+
+/** filePath: dist\\custom-tab-bar\\index.js **/
+(wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 7 ], {
+    17: function(module, exports, __webpack_require__) {},
+    21: function(module, __webpack_exports__, __webpack_require__) {
+        "use strict";
+        __webpack_require__.r(__webpack_exports__);
+        var taro_runtime = __webpack_require__(1);
+        var classCallCheck = __webpack_require__(4);
+        var createClass = __webpack_require__(6);
+        var inherits = __webpack_require__(7);
+        var createSuper = __webpack_require__(5);
+        var react = __webpack_require__(0);
+        var taro_components = __webpack_require__(3);
+        var taro = __webpack_require__(2);
+        var custom_tab_bar = __webpack_require__(17);
+        var custom_tab_bar_Index = function(_Component) {
+            Object(inherits["a"])(Index, _Component);
+            var _super = Object(createSuper["a"])(Index);
+            function Index() {
+                Object(classCallCheck["a"])(this, Index);
+                return _super.apply(this, arguments);
+            }
+            Object(createClass["a"])(Index, [ {
+                key: "render",
+                value: function render() {
+                    return react["default"].createElement(taro_components["CoverView"], null, react["default"].createElement(taro_components["CoverView"], {
+                        onClick: function onClick() {
+                            taro["b"].switchTab({
+                                url: "/pages/index/index"
+                            });
+                        }
+                    }, "Index", react["default"].createElement(taro_components["CoverImage"], {
+                        className: "icon",
+                        src: "../assets/view_red.png"
+                    })), react["default"].createElement(taro_components["CoverView"], {
+                        onClick: function onClick() {
+                            taro["b"].switchTab({
+                                url: "/pages/detail/index"
+                            });
+                        }
+                    }, "Detail", react["default"].createElement(taro_components["CoverImage"], {
+                        className: "icon",
+                        src: "../assets/nav.png"
+                    })));
+                }
+            } ]);
+            return Index;
+        }(react["Component"]);
+        var inst = Component(Object(taro_runtime["createComponentConfig"])(custom_tab_bar_Index, "custom-tab-bar/index"));
+        var src_custom_tab_bar = __webpack_exports__["default"] = custom_tab_bar_Index;
+    }
+}, [ [ 21, 0, 1, 3, 2 ] ] ]);
+
+/** filePath: dist\\custom-tab-bar\\index.json **/
+{}
+
+/** filePath: dist\\custom-tab-bar\\index.wxml **/
+<import src="../base.wxml"/>
+<template is="taro_tmpl" data="{{root:root}}" />
+
+/** filePath: dist\\pages\\detail\\index.js **/
+(wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 10 ], {
+    20: function(module, __webpack_exports__, __webpack_require__) {
+        "use strict";
+        __webpack_require__.r(__webpack_exports__);
+        var taro_runtime = __webpack_require__(1);
+        var classCallCheck = __webpack_require__(4);
+        var createClass = __webpack_require__(6);
+        var inherits = __webpack_require__(7);
+        var createSuper = __webpack_require__(5);
+        var react = __webpack_require__(0);
+        var taro_components = __webpack_require__(3);
+        var detail_Index = function(_Component) {
+            Object(inherits["a"])(Index, _Component);
+            var _super = Object(createSuper["a"])(Index);
+            function Index() {
+                Object(classCallCheck["a"])(this, Index);
+                return _super.apply(this, arguments);
+            }
+            Object(createClass["a"])(Index, [ {
+                key: "render",
+                value: function render() {
+                    return react["default"].createElement(taro_components["View"], {
+                        className: "detail"
+                    }, react["default"].createElement(taro_components["Text"], null, "I m detail!"));
+                }
+            } ]);
+            return Index;
+        }(react["Component"]);
+        var config = {
+            navigationBarTitleText: "\\u8be6\\u60c5\\u9875"
+        };
+        var inst = Page(Object(taro_runtime["createPageConfig"])(detail_Index, "pages/detail/index", {
+            root: {
+                cn: []
+            }
+        }, config || {}));
+        var detail = __webpack_exports__["default"] = detail_Index;
+    }
+}, [ [ 20, 0, 1, 3, 2 ] ] ]);
+
+/** filePath: dist\\pages\\detail\\index.json **/
+{"navigationBarTitleText":"详情页","usingComponents":{"comp":"../../comp"}}
+
+/** filePath: dist\\pages\\detail\\index.wxml **/
+<import src="../../base.wxml"/>
+<template is="taro_tmpl" data="{{root:root}}" />
+
+/** filePath: dist\\pages\\index\\index.js **/
+(wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 12 ], {
+    19: function(module, __webpack_exports__, __webpack_require__) {
+        "use strict";
+        __webpack_require__.r(__webpack_exports__);
+        var taro_runtime = __webpack_require__(1);
+        var classCallCheck = __webpack_require__(4);
+        var createClass = __webpack_require__(6);
+        var inherits = __webpack_require__(7);
+        var createSuper = __webpack_require__(5);
+        var react = __webpack_require__(0);
+        var taro_components = __webpack_require__(3);
+        var index_Index = function(_Component) {
+            Object(inherits["a"])(Index, _Component);
+            var _super = Object(createSuper["a"])(Index);
+            function Index() {
+                Object(classCallCheck["a"])(this, Index);
+                return _super.apply(this, arguments);
+            }
+            Object(createClass["a"])(Index, [ {
+                key: "render",
+                value: function render() {
+                    return react["default"].createElement(taro_components["View"], {
+                        className: "index"
+                    }, react["default"].createElement(taro_components["Text"], null, "Hello world!"));
+                }
+            } ]);
+            return Index;
+        }(react["Component"]);
+        var config = {
+            navigationBarTitleText: "\\u9996\\u9875"
+        };
+        var inst = Page(Object(taro_runtime["createPageConfig"])(index_Index, "pages/index/index", {
+            root: {
+                cn: []
+            }
+        }, config || {}));
+        var index = __webpack_exports__["default"] = index_Index;
+    }
+}, [ [ 19, 0, 1, 3, 2 ] ] ]);
+
+/** filePath: dist\\pages\\index\\index.json **/
+{"navigationBarTitleText":"首页","usingComponents":{"comp":"../../comp"}}
+
+/** filePath: dist\\pages\\index\\index.wxml **/
+<import src="../../base.wxml"/>
+<template is="taro_tmpl" data="{{root:root}}" />
+
+/** filePath: dist\\app.json **/
 {"pages":["pages/index/index","pages/detail/index"],"window":{"backgroundTextStyle":"light","navigationBarBackgroundColor":"#fff","navigationBarTitleText":"WeChat","navigationBarTextStyle":"black"},"tabBar":{"custom":true,"color":"#000000","selectedColor":"#000000","backgroundColor":"#000000","list":[{"pagePath":"pages/index/index","text":"首页","iconPath":"assets/view.png","selectedIconPath":"assets/view_red.png"},{"pagePath":"pages/detail/index","text":"详情页","iconPath":"assets/nav.png","selectedIconPath":"assets/nav_red.png"}]},"usingComponents":{}}
 
-/** filePath: dist/app.wxss **/
+/** filePath: dist\\comp.wxml **/
+<import src="./base.wxml" />
+<template is="tmpl_0_container" data="{{i:i,l:l}}" />
 
+/** filePath: dist\\comp.json **/
+{"component":true,"usingComponents":{"comp":"./comp"}}
 
-/** filePath: dist/assets/nav.png **/
-�PNG
-
-   
-IHDR   D   D   8��   sRGB ���  �IDATx�Mh\\U�;��1	5��-j�u�)����
-m0PтR�U	�B�BA\\��B
-�V\\4����RJ�*��bh>��$�.�IM AG!1�$��ӹaxsߛ�+�<8����?����wsow��#\`��0F�#\`��0F�#\`��0F�#���=̌�������}��0�����;�]�?0555�05�����'fff���&�B1~��rss�������մ���FBs��wҟî&�OFFF~�T�"�����777 �+Ơ_c�NNN���|�|icc���/��FUU��7C�e�����;eA�q9��R�[_����k��#�����o�������&�}�U��1:::�R�g�i��R�huuuJ��|�I#�r*=�8��c����9cW�'��)�^�":;;���g)����5>��s|=94Ϣ9�f �	��I�?�>[WW�V.���T��d�\\YY��4���|��-r��� ��+�L@�>���,�����#��{��ߌ��}0������O{���;�~����r ��K�8��<��FZ���hL��8m��bZ�ւf��&��	B�J���D盞����7����;��ע둟�Y��O#�bҨ�r��=�1���\\|�skqks��6�&	�w7J|}����S�y������l��5K4�o�N7fŚ%kq9ee�e�����p�������_
-9ہ����t+�,�r�Km{ܘk����lq�P l�$���wb_���hu��'��1����}�>5�q��r�\`��4򻜠ƽ���������֭ŭͧ	���S~�����%��ES8ji?^�霏?z��ey���zNG����x잓FZ帘�՘[1��ɧ+���,hm>�|��)^���\\nh�r$^_]]��Wx?�50�5n��-i�]�t�A��Y�c�Ǆr���p
-��k^�������E=�c�Ts���kQ͟jkk�^�������y��9��	D��>6W�*-:ꙛ�����t�#+���V��O��$�����[%X��K===_-..�?���[�~�Τ����lv1���9\`C�T�j4�}�6���.�M����OGհ�0F�#\`��0F�#\`��0F�#\`��0F�%� A�LEEK\`    IEND�B\`�
-
-/** filePath: dist/assets/nav_red.png **/
-�PNG
-
-   
-IHDR   D   D   8��   tEXtSoftware Adobe ImageReadyq�e<  (iTXtXML:com.adobe.xmp     <?xpacket begin="﻿" id="W5M0MpCehiHzreSzNTczkc9d"?> <x:xmpmeta xmlns:x="adobe:ns:meta/" x:xmptk="Adobe XMP Core 5.6-c067 79.157747, 2015/03/30-23:40:42        "> <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"> <rdf:Description rdf:about="" xmlns:xmp="http://ns.adobe.com/xap/1.0/" xmlns:xmpMM="http://ns.adobe.com/xap/1.0/mm/" xmlns:stRef="http://ns.adobe.com/xap/1.0/sType/ResourceRef#" xmp:CreatorTool="Adobe Photoshop CC 2015 (Macintosh)" xmpMM:InstanceID="xmp.iid:5164EEF3659211E8BC71FE35AE00F48C" xmpMM:DocumentID="xmp.did:5164EEF4659211E8BC71FE35AE00F48C"> <xmpMM:DerivedFrom stRef:instanceID="xmp.iid:5164EEF1659211E8BC71FE35AE00F48C" stRef:documentID="xmp.did:5164EEF2659211E8BC71FE35AE00F48C"/> </rdf:Description> </rdf:RDF> </x:xmpmeta> <?xpacket end="r"?>��F�  �IDATx��KHTQ��Q�J��J�^Pd��6�PA�I	��˰EL�2-Z�B�A%\\I�FCI-L����� z�V������.�9��{�����g����7s7S�T��Od$DB$DB$DB$DB$DB$DB$DB$DB$DBdAB$DB$DB$DB$��:�+����@3�f� x�r�e�8��s���R��z@���p	|�6�Z�N-��	�8�N�o	��n����N��	�\\
-n�nG�p܏��������d�NP�Lࡕ3�&0E�����f~�e�����3�n�Td�Y�<�g�3�Z2Y&��Wk4���Fp�K�v�%p�կ wm:b�i�� x���5ڜW�'Ђ_�פB�;�r�p��{�of��vx�l��r��r/��s9��A���upB��.�v��=ߎ��j��=�r8B�a�p��+Z9��GF�Y�]
-��l	lp��	�q��c�C}�gٗg�Q�2�2c�|��+�$3�S�<s�<����,z&i���n�����Xvq�4�jW��+&9�v��|��4B�yDxdǱ[=j{='��iQ��55��!�)yN�9{�y�9Ǳ[�3����W/f���n���t \\�?��?΋Q�7�,/����1[����C̋�8��E���}�#u��Q{[��=��=���0�^��}�n�^�����˝^�"!"!"!"!"!"!"!"!��	�	�	�	�w�[� �]���(0    IEND�B\`�
-
-/** filePath: dist/assets/view.png **/
-�PNG
-
-   
-IHDR   D   D   8��   sRGB ���  GIDATx�?NA�YW(l�R�*Bh����^�����<��%R�'TFo�h��
-$��P��-��d�M&̷�fw��>\`&�I$x� 	� 	� 	� 	Ă�7�)��|&���#iߞ����<ϫH�l6�/�#�P(��������.i�!%�P�Ѥ��R|'�;\`��i���\`P����%)���5Sh]�3�J��C}��t:}���W���i���j��<
-r���6�j���l�wu�WN @2C�d� ��Hڧ�\\.Lm\\���j��t��Pf �ΐ��Y�e-�!��@�d� �!  �z"#�G�V����l���l��q���[2��z����"end �Z�iY�l�+_e�n�>������ �� �!@2C�d� ��C���z��L����Y�5���rg��9���m�;�ߙa�QDB @ $3�@� Hf�@^5�X,�A�3��6�je�,��׀N�s���\`����Ջx��������2�=d�]�����l�^o��|Sh��nf2���u�̆�w��
-D�RN��/y�   X}_�A��T�    IEND�B\`�
-
-/** filePath: dist/assets/view_red.png **/
-�PNG
-
-   
-IHDR   D   D   8��   tEXtSoftware Adobe ImageReadyq�e<  (iTXtXML:com.adobe.xmp     <?xpacket begin="﻿" id="W5M0MpCehiHzreSzNTczkc9d"?> <x:xmpmeta xmlns:x="adobe:ns:meta/" x:xmptk="Adobe XMP Core 5.6-c067 79.157747, 2015/03/30-23:40:42        "> <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"> <rdf:Description rdf:about="" xmlns:xmp="http://ns.adobe.com/xap/1.0/" xmlns:xmpMM="http://ns.adobe.com/xap/1.0/mm/" xmlns:stRef="http://ns.adobe.com/xap/1.0/sType/ResourceRef#" xmp:CreatorTool="Adobe Photoshop CC 2015 (Macintosh)" xmpMM:InstanceID="xmp.iid:5164EEEF659211E8BC71FE35AE00F48C" xmpMM:DocumentID="xmp.did:5164EEF0659211E8BC71FE35AE00F48C"> <xmpMM:DerivedFrom stRef:instanceID="xmp.iid:5164EEED659211E8BC71FE35AE00F48C" stRef:documentID="xmp.did:5164EEEE659211E8BC71FE35AE00F48C"/> </rdf:Description> </rdf:RDF> </x:xmpmeta> <?xpacket end="r"?>�f�  mIDATx����MA��cz�Ϟ�J � �Y�
-h�hځ� �r������Nb2��х��K~��>;;ːL�1�w�A  �  �tT���0��T�U�ʑ��?��r����Du��(�N'�]�K�BJ�-s�0&J�g�����t��!�i������t���r�ƕ�s���S��. �  [���Am����q:C�Gf �  ����j�{��7�3d�W���d���S@(@ @ م�L��]�o@��2�w�,��  �t���q�e�k#�,��E}L�[YO��4�0���ad_x-����S��|�6C촀�#y*��6��zzT�ʺu���R�  � H7�%� ��1� }��    IEND�B\`�
-
-/** filePath: dist/base.wxml **/
+/** filePath: dist\\base.wxml **/
 <wxs module="xs" src="./utils.wxs" />
 <template name="taro_tmpl">
   <block wx:for="{{root.cn}}" wx:key="sid">
@@ -1464,261 +1904,7 @@ h�hځ� �r������Nb2��х��K~��>;;ːL�1�
 </template>
 
 
-/** filePath: dist/common.js **/
-(wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 2 ], [ function(module, __webpack_exports__, __webpack_require__) {
-    "use strict";
-    __webpack_require__.r(__webpack_exports__);
-    __webpack_exports__["default"] = "react-mock";
-}, , function(module, __webpack_exports__, __webpack_require__) {
-    "use strict";
-    __webpack_require__.d(__webpack_exports__, "f", (function() {
-        return mergeReconciler;
-    }));
-    __webpack_require__.d(__webpack_exports__, "e", (function() {
-        return mergeInternalComponents;
-    }));
-    __webpack_require__.d(__webpack_exports__, "g", (function() {
-        return processApis;
-    }));
-    __webpack_require__.d(__webpack_exports__, "a", (function() {
-        return createReactApp;
-    }));
-    __webpack_exports__["b"] = "taro";
-    function mergeReconciler() {}
-    function mergeInternalComponents() {}
-    function isFunction() {}
-    function isArray() {}
-    function processApis() {}
-    var EMPTY_OBJ = {};
-    var hooks = {};
-    function setReconciler() {}
-    function connectReactPage() {}
-    function createReactApp() {}
-    function createNativeComponentConfig() {}
-    function connectVuePage() {}
-    function createVueApp() {}
-    function createVue3App() {}
-    var setGlobalDataPlugin = {};
-    function useDidHide() {}
-    function useDidShow() {}
-    function useError() {}
-    function useLaunch() {}
-    function usePageNotFound() {}
-    function useLoad() {}
-    function usePageScroll() {}
-    function usePullDownRefresh() {}
-    function usePullIntercept() {}
-    function useReachBottom() {}
-    function useResize() {}
-    function useUnload() {}
-    function useAddToFavorites() {}
-    function useOptionMenuClick() {}
-    function useSaveExitState() {}
-    function useShareAppMessage() {}
-    function useShareTimeline() {}
-    function useTitleClick() {}
-    function useReady() {}
-    function useRouter() {}
-    function useTabItemTap() {}
-    function useScope() {}
-} ] ]);
-
-/** filePath: dist/comp.js **/
-(wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 6 ], {
-    15: function(module, __webpack_exports__, __webpack_require__) {
-        "use strict";
-        __webpack_require__.r(__webpack_exports__);
-        var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(1);
-        Component(Object(_tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__["createRecursiveComponentConfig"])());
-    }
-}, [ [ 15, 0, 1 ] ] ]);
-
-/** filePath: dist/comp.json **/
-{"component":true,"usingComponents":{"comp":"./comp"}}
-
-/** filePath: dist/comp.wxml **/
-<import src="./base.wxml" />
-<template is="tmpl_0_container" data="{{i:i,l:l}}" />
-
-/** filePath: dist/custom-tab-bar/index.js **/
-(wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 7 ], {
-    17: function(module, exports, __webpack_require__) {},
-    21: function(module, __webpack_exports__, __webpack_require__) {
-        "use strict";
-        __webpack_require__.r(__webpack_exports__);
-        var taro_runtime = __webpack_require__(1);
-        var classCallCheck = __webpack_require__(4);
-        var createClass = __webpack_require__(6);
-        var inherits = __webpack_require__(7);
-        var createSuper = __webpack_require__(5);
-        var react = __webpack_require__(0);
-        var taro_components = __webpack_require__(3);
-        var taro = __webpack_require__(2);
-        var custom_tab_bar = __webpack_require__(17);
-        var custom_tab_bar_Index = function(_Component) {
-            Object(inherits["a"])(Index, _Component);
-            var _super = Object(createSuper["a"])(Index);
-            function Index() {
-                Object(classCallCheck["a"])(this, Index);
-                return _super.apply(this, arguments);
-            }
-            Object(createClass["a"])(Index, [ {
-                key: "render",
-                value: function render() {
-                    return react["default"].createElement(taro_components["CoverView"], null, react["default"].createElement(taro_components["CoverView"], {
-                        onClick: function onClick() {
-                            taro["b"].switchTab({
-                                url: "/pages/index/index"
-                            });
-                        }
-                    }, "Index", react["default"].createElement(taro_components["CoverImage"], {
-                        className: "icon",
-                        src: "../assets/view_red.png"
-                    })), react["default"].createElement(taro_components["CoverView"], {
-                        onClick: function onClick() {
-                            taro["b"].switchTab({
-                                url: "/pages/detail/index"
-                            });
-                        }
-                    }, "Detail", react["default"].createElement(taro_components["CoverImage"], {
-                        className: "icon",
-                        src: "../assets/nav.png"
-                    })));
-                }
-            } ]);
-            return Index;
-        }(react["Component"]);
-        var inst = Component(Object(taro_runtime["createComponentConfig"])(custom_tab_bar_Index, "custom-tab-bar/index"));
-        var src_custom_tab_bar = __webpack_exports__["default"] = custom_tab_bar_Index;
-    }
-}, [ [ 21, 0, 1, 3, 2 ] ] ]);
-
-/** filePath: dist/custom-tab-bar/index.json **/
-{}
-
-/** filePath: dist/custom-tab-bar/index.wxml **/
-<import src="../base.wxml"/>
-<template is="taro_tmpl" data="{{root:root}}" />
-
-/** filePath: dist/custom-tab-bar/index.wxss **/
-.icon{width:68rpx;height:68rpx}
-
-/** filePath: dist/pages/detail/index.js **/
-(wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 10 ], {
-    20: function(module, __webpack_exports__, __webpack_require__) {
-        "use strict";
-        __webpack_require__.r(__webpack_exports__);
-        var taro_runtime = __webpack_require__(1);
-        var classCallCheck = __webpack_require__(4);
-        var createClass = __webpack_require__(6);
-        var inherits = __webpack_require__(7);
-        var createSuper = __webpack_require__(5);
-        var react = __webpack_require__(0);
-        var taro_components = __webpack_require__(3);
-        var detail_Index = function(_Component) {
-            Object(inherits["a"])(Index, _Component);
-            var _super = Object(createSuper["a"])(Index);
-            function Index() {
-                Object(classCallCheck["a"])(this, Index);
-                return _super.apply(this, arguments);
-            }
-            Object(createClass["a"])(Index, [ {
-                key: "render",
-                value: function render() {
-                    return react["default"].createElement(taro_components["View"], {
-                        className: "detail"
-                    }, react["default"].createElement(taro_components["Text"], null, "I m detail!"));
-                }
-            } ]);
-            return Index;
-        }(react["Component"]);
-        var config = {
-            navigationBarTitleText: "\\u8be6\\u60c5\\u9875"
-        };
-        var inst = Page(Object(taro_runtime["createPageConfig"])(detail_Index, "pages/detail/index", {
-            root: {
-                cn: []
-            }
-        }, config || {}));
-        var detail = __webpack_exports__["default"] = detail_Index;
-    }
-}, [ [ 20, 0, 1, 3, 2 ] ] ]);
-
-/** filePath: dist/pages/detail/index.json **/
-{"navigationBarTitleText":"详情页","usingComponents":{"comp":"../../comp"}}
-
-/** filePath: dist/pages/detail/index.wxml **/
-<import src="../../base.wxml"/>
-<template is="taro_tmpl" data="{{root:root}}" />
-
-/** filePath: dist/pages/index/index.js **/
-(wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 12 ], {
-    19: function(module, __webpack_exports__, __webpack_require__) {
-        "use strict";
-        __webpack_require__.r(__webpack_exports__);
-        var taro_runtime = __webpack_require__(1);
-        var classCallCheck = __webpack_require__(4);
-        var createClass = __webpack_require__(6);
-        var inherits = __webpack_require__(7);
-        var createSuper = __webpack_require__(5);
-        var react = __webpack_require__(0);
-        var taro_components = __webpack_require__(3);
-        var index_Index = function(_Component) {
-            Object(inherits["a"])(Index, _Component);
-            var _super = Object(createSuper["a"])(Index);
-            function Index() {
-                Object(classCallCheck["a"])(this, Index);
-                return _super.apply(this, arguments);
-            }
-            Object(createClass["a"])(Index, [ {
-                key: "render",
-                value: function render() {
-                    return react["default"].createElement(taro_components["View"], {
-                        className: "index"
-                    }, react["default"].createElement(taro_components["Text"], null, "Hello world!"));
-                }
-            } ]);
-            return Index;
-        }(react["Component"]);
-        var config = {
-            navigationBarTitleText: "\\u9996\\u9875"
-        };
-        var inst = Page(Object(taro_runtime["createPageConfig"])(index_Index, "pages/index/index", {
-            root: {
-                cn: []
-            }
-        }, config || {}));
-        var index = __webpack_exports__["default"] = index_Index;
-    }
-}, [ [ 19, 0, 1, 3, 2 ] ] ]);
-
-/** filePath: dist/pages/index/index.json **/
-{"navigationBarTitleText":"首页","usingComponents":{"comp":"../../comp"}}
-
-/** filePath: dist/pages/index/index.wxml **/
-<import src="../../base.wxml"/>
-<template is="taro_tmpl" data="{{root:root}}" />
-
-/** filePath: dist/runtime.js **/
-
-
-/** filePath: dist/taro.js **/
-(wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 1 ], {
-    1: function(module, __webpack_exports__, __webpack_require__) {
-        "use strict";
-        var _unused_webpack_default_export = "taro-runtime-mock";
-    },
-    3: function(module, __webpack_exports__, __webpack_require__) {
-        "use strict";
-        var _unused_webpack_default_export = "taro-components-mock";
-    },
-    9: function(module, __webpack_exports__, __webpack_require__) {
-        "use strict";
-        __webpack_exports__["a"] = "taro-react-mock";
-    }
-} ]);
-
-/** filePath: dist/utils.wxs **/
+/** filePath: dist\\utils.wxs **/
 module.exports = {
   a: function (l, n, s) {
     var a = ["7","0","18","5","2","11","6","4","38","39","22","19","36","40","41"]
@@ -1759,145 +1945,38 @@ module.exports = {
   }
 }
 
-/** filePath: dist/vendors.js **/
-(wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 3 ], [ , , , , function(module, __webpack_exports__, __webpack_require__) {
-    "use strict";
-    __webpack_require__.d(__webpack_exports__, "a", (function() {
-        return _classCallCheck;
-    }));
-    function _classCallCheck(instance, Constructor) {
-        if (!(instance instanceof Constructor)) {
-            throw new TypeError("Cannot call a class as a function");
-        }
-    }
-}, function(module, __webpack_exports__, __webpack_require__) {
-    "use strict";
-    __webpack_require__.d(__webpack_exports__, "a", (function() {
-        return _createSuper;
-    }));
-    function _getPrototypeOf(o) {
-        _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function _getPrototypeOf(o) {
-            return o.__proto__ || Object.getPrototypeOf(o);
-        };
-        return _getPrototypeOf(o);
-    }
-    function _isNativeReflectConstruct() {
-        if (typeof Reflect === "undefined" || !Reflect.construct) return false;
-        if (Reflect.construct.sham) return false;
-        if (typeof Proxy === "function") return true;
-        try {
-            Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], (function() {})));
-            return true;
-        } catch (e) {
-            return false;
-        }
-    }
-    var esm_typeof = __webpack_require__(8);
-    function _assertThisInitialized(self) {
-        if (self === void 0) {
-            throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
-        }
-        return self;
-    }
-    function _possibleConstructorReturn(self, call) {
-        if (call && (Object(esm_typeof["a"])(call) === "object" || typeof call === "function")) {
-            return call;
-        } else if (call !== void 0) {
-            throw new TypeError("Derived constructors may only return object or undefined");
-        }
-        return _assertThisInitialized(self);
-    }
-    function _createSuper(Derived) {
-        var hasNativeReflectConstruct = _isNativeReflectConstruct();
-        return function _createSuperInternal() {
-            var Super = _getPrototypeOf(Derived), result;
-            if (hasNativeReflectConstruct) {
-                var NewTarget = _getPrototypeOf(this).constructor;
-                result = Reflect.construct(Super, arguments, NewTarget);
-            } else {
-                result = Super.apply(this, arguments);
-            }
-            return _possibleConstructorReturn(this, result);
-        };
-    }
-}, function(module, __webpack_exports__, __webpack_require__) {
-    "use strict";
-    __webpack_require__.d(__webpack_exports__, "a", (function() {
-        return _createClass;
-    }));
-    var esm_typeof = __webpack_require__(8);
-    function _toPrimitive(input, hint) {
-        if (Object(esm_typeof["a"])(input) !== "object" || input === null) return input;
-        var prim = input[Symbol.toPrimitive];
-        if (prim !== undefined) {
-            var res = prim.call(input, hint || "default");
-            if (Object(esm_typeof["a"])(res) !== "object") return res;
-            throw new TypeError("@@toPrimitive must return a primitive value.");
-        }
-        return (hint === "string" ? String : Number)(input);
-    }
-    function _toPropertyKey(arg) {
-        var key = _toPrimitive(arg, "string");
-        return Object(esm_typeof["a"])(key) === "symbol" ? key : String(key);
-    }
-    function _defineProperties(target, props) {
-        for (var i = 0; i < props.length; i++) {
-            var descriptor = props[i];
-            descriptor.enumerable = descriptor.enumerable || false;
-            descriptor.configurable = true;
-            if ("value" in descriptor) descriptor.writable = true;
-            Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor);
-        }
-    }
-    function _createClass(Constructor, protoProps, staticProps) {
-        if (protoProps) _defineProperties(Constructor.prototype, protoProps);
-        if (staticProps) _defineProperties(Constructor, staticProps);
-        Object.defineProperty(Constructor, "prototype", {
-            writable: false
-        });
-        return Constructor;
-    }
-}, function(module, __webpack_exports__, __webpack_require__) {
-    "use strict";
-    __webpack_require__.d(__webpack_exports__, "a", (function() {
-        return _inherits;
-    }));
-    function _setPrototypeOf(o, p) {
-        _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function _setPrototypeOf(o, p) {
-            o.__proto__ = p;
-            return o;
-        };
-        return _setPrototypeOf(o, p);
-    }
-    function _inherits(subClass, superClass) {
-        if (typeof superClass !== "function" && superClass !== null) {
-            throw new TypeError("Super expression must either be null or a function");
-        }
-        subClass.prototype = Object.create(superClass && superClass.prototype, {
-            constructor: {
-                value: subClass,
-                writable: true,
-                configurable: true
-            }
-        });
-        Object.defineProperty(subClass, "prototype", {
-            writable: false
-        });
-        if (superClass) _setPrototypeOf(subClass, superClass);
-    }
-}, function(module, __webpack_exports__, __webpack_require__) {
-    "use strict";
-    __webpack_require__.d(__webpack_exports__, "a", (function() {
-        return _typeof;
-    }));
-    function _typeof(obj) {
-        "@babel/helpers - typeof";
-        return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function(obj) {
-            return typeof obj;
-        } : function(obj) {
-            return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
-        }, _typeof(obj);
-    }
-} ] ]);
+/** filePath: dist\\assets\\view.png **/
+�PNG
+
+   
+IHDR   D   D   8��   sRGB ���  GIDATx�?NA�YW(l�R�*Bh����^�����<��%R�'TFo�h��
+$��P��-��d�M&̷�fw��>\`&�I$x� 	� 	� 	� 	Ă�7�)��|&���#iߞ����<ϫH�l6�/�#�P(��������.i�!%�P�Ѥ��R|'�;\`��i���\`P����%)���5Sh]�3�J��C}��t:}���W���i���j��<
+r���6�j���l�wu�WN @2C�d� ��Hڧ�\\.Lm\\���j��t��Pf �ΐ��Y�e-�!��@�d� �!  �z"#�G�V����l���l��q���[2��z����"end �Z�iY�l�+_e�n�>������ �� �!@2C�d� ��C���z��L����Y�5���rg��9���m�;�ߙa�QDB @ $3�@� Hf�@^5�X,�A�3��6�je�,��׀N�s���\`����Ջx��������2�=d�]�����l�^o��|Sh��nf2���u�̆�w��
+D�RN��/y�   X}_�A��T�    IEND�B\`�
+
+/** filePath: dist\\assets\\view_red.png **/
+�PNG
+
+   
+IHDR   D   D   8��   tEXtSoftware Adobe ImageReadyq�e<  (iTXtXML:com.adobe.xmp     <?xpacket begin="﻿" id="W5M0MpCehiHzreSzNTczkc9d"?> <x:xmpmeta xmlns:x="adobe:ns:meta/" x:xmptk="Adobe XMP Core 5.6-c067 79.157747, 2015/03/30-23:40:42        "> <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"> <rdf:Description rdf:about="" xmlns:xmp="http://ns.adobe.com/xap/1.0/" xmlns:xmpMM="http://ns.adobe.com/xap/1.0/mm/" xmlns:stRef="http://ns.adobe.com/xap/1.0/sType/ResourceRef#" xmp:CreatorTool="Adobe Photoshop CC 2015 (Macintosh)" xmpMM:InstanceID="xmp.iid:5164EEEF659211E8BC71FE35AE00F48C" xmpMM:DocumentID="xmp.did:5164EEF0659211E8BC71FE35AE00F48C"> <xmpMM:DerivedFrom stRef:instanceID="xmp.iid:5164EEED659211E8BC71FE35AE00F48C" stRef:documentID="xmp.did:5164EEEE659211E8BC71FE35AE00F48C"/> </rdf:Description> </rdf:RDF> </x:xmpmeta> <?xpacket end="r"?>�f�  mIDATx����MA��cz�Ϟ�J � �Y�
+h�hځ� �r������Nb2��х��K~��>;;ːL�1�w�A  �  �tT���0��T�U�ʑ��?��r����Du��(�N'�]�K�BJ�-s�0&J�g�����t��!�i������t���r�ƕ�s���S��. �  [���Am����q:C�Gf �  ����j�{��7�3d�W���d���S@(@ @ م�L��]�o@��2�w�,��  �t���q�e�k#�,��E}L�[YO��4�0���ad_x-����S��|�6C촀�#y*��6��zzT�ʺu���R�  � H7�%� ��1� }��    IEND�B\`�
+
+/** filePath: dist\\assets\\nav.png **/
+�PNG
+
+   
+IHDR   D   D   8��   sRGB ���  �IDATx�Mh\\U�;��1	5��-j�u�)����
+m0PтR�U	�B�BA\\��B
+�V\\4����RJ�*��bh>��$�.�IM AG!1�$��ӹaxsߛ�+�<8����?����wsow��#\`��0F�#\`��0F�#\`��0F�#���=̌�������}��0�����;�]�?0555�05�����'fff���&�B1~��rss�������մ���FBs��wҟî&�OFFF~�T�"�����777 �+Ơ_c�NNN���|�|icc���/��FUU��7C�e�����;eA�q9��R�[_����k��#�����o�������&�}�U��1:::�R�g�i��R�huuuJ��|�I#�r*=�8��c����9cW�'��)�^�":;;���g)����5>��s|=94Ϣ9�f �	��I�?�>[WW�V.���T��d�\\YY��4���|��-r��� ��+�L@�>���,�����#��{��ߌ��}0������O{���;�~����r ��K�8��<��FZ���hL��8m��bZ�ւf��&��	B�J���D盞����7����;��ע둟�Y��O#�bҨ�r��=�1���\\|�skqks��6�&	�w7J|}����S�y������l��5K4�o�N7fŚ%kq9ee�e�����p�������_
+9ہ����t+�,�r�Km{ܘk����lq�P l�$���wb_���hu��'��1����}�>5�q��r�\`��4򻜠ƽ���������֭ŭͧ	���S~�����%��ES8ji?^�霏?z��ey���zNG����x잓FZ帘�՘[1��ɧ+���,hm>�|��)^���\\nh�r$^_]]��Wx?�50�5n��-i�]�t�A��Y�c�Ǆr���p
+��k^�������E=�c�Ts���kQ͟jkk�^�������y��9��	D��>6W�*-:ꙛ�����t�#+���V��O��$�����[%X��K===_-..�?���[�~�Τ����lv1���9\`C�T�j4�}�6���.�M����OGհ�0F�#\`��0F�#\`��0F�#\`��0F�%� A�LEEK\`    IEND�B\`�
+
+/** filePath: dist\\assets\\nav_red.png **/
+�PNG
+
+   
+IHDR   D   D   8��   tEXtSoftware Adobe ImageReadyq�e<  (iTXtXML:com.adobe.xmp     <?xpacket begin="﻿" id="W5M0MpCehiHzreSzNTczkc9d"?> <x:xmpmeta xmlns:x="adobe:ns:meta/" x:xmptk="Adobe XMP Core 5.6-c067 79.157747, 2015/03/30-23:40:42        "> <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"> <rdf:Description rdf:about="" xmlns:xmp="http://ns.adobe.com/xap/1.0/" xmlns:xmpMM="http://ns.adobe.com/xap/1.0/mm/" xmlns:stRef="http://ns.adobe.com/xap/1.0/sType/ResourceRef#" xmp:CreatorTool="Adobe Photoshop CC 2015 (Macintosh)" xmpMM:InstanceID="xmp.iid:5164EEF3659211E8BC71FE35AE00F48C" xmpMM:DocumentID="xmp.did:5164EEF4659211E8BC71FE35AE00F48C"> <xmpMM:DerivedFrom stRef:instanceID="xmp.iid:5164EEF1659211E8BC71FE35AE00F48C" stRef:documentID="xmp.did:5164EEF2659211E8BC71FE35AE00F48C"/> </rdf:Description> </rdf:RDF> </x:xmpmeta> <?xpacket end="r"?>��F�  �IDATx��KHTQ��Q�J��J�^Pd��6�PA�I	��˰EL�2-Z�B�A%\\I�FCI-L����� z�V������.�9��{�����g����7s7S�T��Od$DB$DB$DB$DB$DB$DB$DB$DB$DBdAB$DB$DB$DB$��:�+����@3�f� x�r�e�8��s���R��z@���p	|�6�Z�N-��	�8�N�o	��n����N��	�\\
+n�nG�p܏��������d�NP�Lࡕ3�&0E�����f~�e�����3�n�Td�Y�<�g�3�Z2Y&��Wk4���Fp�K�v�%p�կ wm:b�i�� x���5ڜW�'Ђ_�פB�;�r�p��{�of��vx�l��r��r/��s9��A���upB��.�v��=ߎ��j��=�r8B�a�p��+Z9��GF�Y�]
+��l	lp��	�q��c�C}�gٗg�Q�2�2c�|��+�$3�S�<s�<����,z&i���n�����Xvq�4�jW��+&9�v��|��4B�yDxdǱ[=j{='��iQ��55��!�)yN�9{�y�9Ǳ[�3����W/f���n���t \\�?��?΋Q�7�,/����1[����C̋�8��E���}�#u��Q{[��=��=���0�^��}�n�^�����˝^�"!"!"!"!"!"!"!"!��	�	�	�	�w�[� �]���(0    IEND�B\`�
 "
 `;

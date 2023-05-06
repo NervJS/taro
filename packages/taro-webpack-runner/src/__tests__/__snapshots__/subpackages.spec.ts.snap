@@ -4,133 +4,16 @@ exports[`subpackages should process subpackages 1`] = `7`;
 
 exports[`subpackages should process subpackages 2`] = `
 "
-/** filePath: dist/chunk/1.js **/
-(window["webpackJsonp"] = window["webpackJsonp"] || []).push([ [ 1 ], {
-    "32": function(module, __webpack_exports__, __webpack_require__) {
-        "use strict";
-        var _unused_webpack_default_export = "taro-components-mock";
-    },
-    "34": function(module, exports, __webpack_require__) {},
-    "36": function(module, __webpack_exports__, __webpack_require__) {
-        "use strict";
-        __webpack_require__.r(__webpack_exports__);
-        __webpack_require__.d(__webpack_exports__, "default", (function() {
-            return Detail;
-        }));
-        var _babel_runtime_helpers_esm_classCallCheck__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(7);
-        var _babel_runtime_helpers_esm_createClass__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(9);
-        var _babel_runtime_helpers_esm_inherits__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(10);
-        var _babel_runtime_helpers_esm_createSuper__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(8);
-        var react__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(0);
-        var _tarojs_components__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(32);
-        var _index_css__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(34);
-        var _index_css__WEBPACK_IMPORTED_MODULE_6___default = __webpack_require__.n(_index_css__WEBPACK_IMPORTED_MODULE_6__);
-        var Detail = function(_Component) {
-            Object(_babel_runtime_helpers_esm_inherits__WEBPACK_IMPORTED_MODULE_2__["a"])(Detail, _Component);
-            var _super = Object(_babel_runtime_helpers_esm_createSuper__WEBPACK_IMPORTED_MODULE_3__["a"])(Detail);
-            function Detail() {
-                Object(_babel_runtime_helpers_esm_classCallCheck__WEBPACK_IMPORTED_MODULE_0__["a"])(this, Detail);
-                return _super.apply(this, arguments);
-            }
-            Object(_babel_runtime_helpers_esm_createClass__WEBPACK_IMPORTED_MODULE_1__["a"])(Detail, [ {
-                "key": "componentDidMount",
-                "value": function componentDidMount() {}
-            }, {
-                "key": "componentWillUnmount",
-                "value": function componentWillUnmount() {}
-            }, {
-                "key": "componentDidShow",
-                "value": function componentDidShow() {}
-            }, {
-                "key": "componentDidHide",
-                "value": function componentDidHide() {}
-            }, {
-                "key": "render",
-                "value": function render() {
-                    return react__WEBPACK_IMPORTED_MODULE_4__["default"].createElement(_tarojs_components__WEBPACK_IMPORTED_MODULE_5__["View"], {
-                        "className": "detail"
-                    }, react__WEBPACK_IMPORTED_MODULE_4__["default"].createElement(_tarojs_components__WEBPACK_IMPORTED_MODULE_5__["Text"], null, "I m detail"));
-                }
-            } ]);
-            return Detail;
-        }(react__WEBPACK_IMPORTED_MODULE_4__["Component"]);
-    }
-} ]);
+/** filePath: dist\\css\\app.css **/
 
-/** filePath: dist/chunk/2.js **/
-(window["webpackJsonp"] = window["webpackJsonp"] || []).push([ [ 2 ], {
-    "32": function(module, __webpack_exports__, __webpack_require__) {
-        "use strict";
-        var _unused_webpack_default_export = "taro-components-mock";
-    },
-    "33": function(module, exports, __webpack_require__) {},
-    "35": function(module, __webpack_exports__, __webpack_require__) {
-        "use strict";
-        __webpack_require__.r(__webpack_exports__);
-        __webpack_require__.d(__webpack_exports__, "default", (function() {
-            return Index;
-        }));
-        var _babel_runtime_helpers_esm_classCallCheck__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(7);
-        var _babel_runtime_helpers_esm_createClass__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(9);
-        var _babel_runtime_helpers_esm_inherits__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(10);
-        var _babel_runtime_helpers_esm_createSuper__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(8);
-        var react__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(0);
-        var _tarojs_components__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(32);
-        var _tarojs_taro__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(11);
-        var _tarojs_taro__WEBPACK_IMPORTED_MODULE_6___default = __webpack_require__.n(_tarojs_taro__WEBPACK_IMPORTED_MODULE_6__);
-        var _index_css__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(33);
-        var _index_css__WEBPACK_IMPORTED_MODULE_7___default = __webpack_require__.n(_index_css__WEBPACK_IMPORTED_MODULE_7__);
-        var Index = function(_Component) {
-            Object(_babel_runtime_helpers_esm_inherits__WEBPACK_IMPORTED_MODULE_2__["a"])(Index, _Component);
-            var _super = Object(_babel_runtime_helpers_esm_createSuper__WEBPACK_IMPORTED_MODULE_3__["a"])(Index);
-            function Index() {
-                Object(_babel_runtime_helpers_esm_classCallCheck__WEBPACK_IMPORTED_MODULE_0__["a"])(this, Index);
-                return _super.apply(this, arguments);
-            }
-            Object(_babel_runtime_helpers_esm_createClass__WEBPACK_IMPORTED_MODULE_1__["a"])(Index, [ {
-                "key": "componentDidMount",
-                "value": function componentDidMount() {}
-            }, {
-                "key": "componentWillUnmount",
-                "value": function componentWillUnmount() {}
-            }, {
-                "key": "componentDidShow",
-                "value": function componentDidShow() {}
-            }, {
-                "key": "componentDidHide",
-                "value": function componentDidHide() {}
-            }, {
-                "key": "render",
-                "value": function render() {
-                    return react__WEBPACK_IMPORTED_MODULE_4__["default"].createElement(_tarojs_components__WEBPACK_IMPORTED_MODULE_5__["View"], {
-                        "className": "index"
-                    }, react__WEBPACK_IMPORTED_MODULE_4__["default"].createElement(_tarojs_components__WEBPACK_IMPORTED_MODULE_5__["Text"], {
-                        "onClick": function onClick() {
-                            _tarojs_taro__WEBPACK_IMPORTED_MODULE_6___default.a.navigateTo({
-                                "url": "/packageA/detail/index"
-                            });
-                        }
-                    }, "Hello world!"));
-                }
-            } ]);
-            return Index;
-        }(react__WEBPACK_IMPORTED_MODULE_4__["Component"]);
-    }
-} ]);
 
-/** filePath: dist/css/1.css **/
+/** filePath: dist\\css\\1.css **/
 .detail{width:100%;height:100%}
 
-/** filePath: dist/css/2.css **/
+/** filePath: dist\\css\\2.css **/
 
 
-/** filePath: dist/css/app.css **/
-
-
-/** filePath: dist/index.html **/
-<!doctype html><html><head><meta content="text/html; charset=utf-8" http-equiv="Content-Type"><meta content="width=device-width,initial-scale=1,user-scalable=no" name="viewport"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-touch-fullscreen" content="yes"><meta name="format-detection" content="telephone=no,address=no"><meta name="apple-mobile-web-app-status-bar-style" content="white"><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><title></title><script>!function(x){function w(){var v,u,t,tes,s=x.document,r=s.documentElement,a=r.getBoundingClientRect().width;if(!v&&!u){var n=!!x.navigator.appVersion.match(/AppleWebKit.*Mobile.*/);v=x.devicePixelRatio;tes=x.devicePixelRatio;v=n?v:1,u=1/v}if(a>=640){r.style.fontSize="40px"}else{if(a<=320){r.style.fontSize="20px"}else{r.style.fontSize=a/320*20+"px"}}}x.addEventListener("resize",function(){w()});w()}(window);</script><link href="/css/app.css" rel="stylesheet"></head><body><div id="app"></div><script src="/js/app.js"></script></body></html>
-
-/** filePath: dist/js/app.js **/
+/** filePath: dist\\js\\app.js **/
 (function(modules) {
     function webpackJsonpCallback(data) {
         var chunkIds = data[0];
@@ -1593,5 +1476,122 @@ exports[`subpackages should process subpackages 2`] = `
         "targetUnit": undefined
     });
 } ]);
+
+/** filePath: dist\\chunk\\1.js **/
+(window["webpackJsonp"] = window["webpackJsonp"] || []).push([ [ 1 ], {
+    "32": function(module, __webpack_exports__, __webpack_require__) {
+        "use strict";
+        var _unused_webpack_default_export = "taro-components-mock";
+    },
+    "34": function(module, exports, __webpack_require__) {},
+    "36": function(module, __webpack_exports__, __webpack_require__) {
+        "use strict";
+        __webpack_require__.r(__webpack_exports__);
+        __webpack_require__.d(__webpack_exports__, "default", (function() {
+            return Detail;
+        }));
+        var _babel_runtime_helpers_esm_classCallCheck__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(7);
+        var _babel_runtime_helpers_esm_createClass__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(9);
+        var _babel_runtime_helpers_esm_inherits__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(10);
+        var _babel_runtime_helpers_esm_createSuper__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(8);
+        var react__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(0);
+        var _tarojs_components__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(32);
+        var _index_css__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(34);
+        var _index_css__WEBPACK_IMPORTED_MODULE_6___default = __webpack_require__.n(_index_css__WEBPACK_IMPORTED_MODULE_6__);
+        var Detail = function(_Component) {
+            Object(_babel_runtime_helpers_esm_inherits__WEBPACK_IMPORTED_MODULE_2__["a"])(Detail, _Component);
+            var _super = Object(_babel_runtime_helpers_esm_createSuper__WEBPACK_IMPORTED_MODULE_3__["a"])(Detail);
+            function Detail() {
+                Object(_babel_runtime_helpers_esm_classCallCheck__WEBPACK_IMPORTED_MODULE_0__["a"])(this, Detail);
+                return _super.apply(this, arguments);
+            }
+            Object(_babel_runtime_helpers_esm_createClass__WEBPACK_IMPORTED_MODULE_1__["a"])(Detail, [ {
+                "key": "componentDidMount",
+                "value": function componentDidMount() {}
+            }, {
+                "key": "componentWillUnmount",
+                "value": function componentWillUnmount() {}
+            }, {
+                "key": "componentDidShow",
+                "value": function componentDidShow() {}
+            }, {
+                "key": "componentDidHide",
+                "value": function componentDidHide() {}
+            }, {
+                "key": "render",
+                "value": function render() {
+                    return react__WEBPACK_IMPORTED_MODULE_4__["default"].createElement(_tarojs_components__WEBPACK_IMPORTED_MODULE_5__["View"], {
+                        "className": "detail"
+                    }, react__WEBPACK_IMPORTED_MODULE_4__["default"].createElement(_tarojs_components__WEBPACK_IMPORTED_MODULE_5__["Text"], null, "I m detail"));
+                }
+            } ]);
+            return Detail;
+        }(react__WEBPACK_IMPORTED_MODULE_4__["Component"]);
+    }
+} ]);
+
+/** filePath: dist\\chunk\\2.js **/
+(window["webpackJsonp"] = window["webpackJsonp"] || []).push([ [ 2 ], {
+    "32": function(module, __webpack_exports__, __webpack_require__) {
+        "use strict";
+        var _unused_webpack_default_export = "taro-components-mock";
+    },
+    "33": function(module, exports, __webpack_require__) {},
+    "35": function(module, __webpack_exports__, __webpack_require__) {
+        "use strict";
+        __webpack_require__.r(__webpack_exports__);
+        __webpack_require__.d(__webpack_exports__, "default", (function() {
+            return Index;
+        }));
+        var _babel_runtime_helpers_esm_classCallCheck__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(7);
+        var _babel_runtime_helpers_esm_createClass__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(9);
+        var _babel_runtime_helpers_esm_inherits__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(10);
+        var _babel_runtime_helpers_esm_createSuper__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(8);
+        var react__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(0);
+        var _tarojs_components__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(32);
+        var _tarojs_taro__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(11);
+        var _tarojs_taro__WEBPACK_IMPORTED_MODULE_6___default = __webpack_require__.n(_tarojs_taro__WEBPACK_IMPORTED_MODULE_6__);
+        var _index_css__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(33);
+        var _index_css__WEBPACK_IMPORTED_MODULE_7___default = __webpack_require__.n(_index_css__WEBPACK_IMPORTED_MODULE_7__);
+        var Index = function(_Component) {
+            Object(_babel_runtime_helpers_esm_inherits__WEBPACK_IMPORTED_MODULE_2__["a"])(Index, _Component);
+            var _super = Object(_babel_runtime_helpers_esm_createSuper__WEBPACK_IMPORTED_MODULE_3__["a"])(Index);
+            function Index() {
+                Object(_babel_runtime_helpers_esm_classCallCheck__WEBPACK_IMPORTED_MODULE_0__["a"])(this, Index);
+                return _super.apply(this, arguments);
+            }
+            Object(_babel_runtime_helpers_esm_createClass__WEBPACK_IMPORTED_MODULE_1__["a"])(Index, [ {
+                "key": "componentDidMount",
+                "value": function componentDidMount() {}
+            }, {
+                "key": "componentWillUnmount",
+                "value": function componentWillUnmount() {}
+            }, {
+                "key": "componentDidShow",
+                "value": function componentDidShow() {}
+            }, {
+                "key": "componentDidHide",
+                "value": function componentDidHide() {}
+            }, {
+                "key": "render",
+                "value": function render() {
+                    return react__WEBPACK_IMPORTED_MODULE_4__["default"].createElement(_tarojs_components__WEBPACK_IMPORTED_MODULE_5__["View"], {
+                        "className": "index"
+                    }, react__WEBPACK_IMPORTED_MODULE_4__["default"].createElement(_tarojs_components__WEBPACK_IMPORTED_MODULE_5__["Text"], {
+                        "onClick": function onClick() {
+                            _tarojs_taro__WEBPACK_IMPORTED_MODULE_6___default.a.navigateTo({
+                                "url": "/packageA/detail/index"
+                            });
+                        }
+                    }, "Hello world!"));
+                }
+            } ]);
+            return Index;
+        }(react__WEBPACK_IMPORTED_MODULE_4__["Component"]);
+    }
+} ]);
+
+/** filePath: dist\\index.html **/
+<!doctype html><html><head><meta content="text/html; charset=utf-8" http-equiv="Content-Type"><meta content="width=device-width,initial-scale=1,user-scalable=no" name="viewport"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-touch-fullscreen" content="yes"><meta name="format-detection" content="telephone=no,address=no"><meta name="apple-mobile-web-app-status-bar-style" content="white"><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><title></title><script>!function(x){function w(){var v,u,t,tes,s=x.document,r=s.documentElement,a=r.getBoundingClientRect().width;if(!v&&!u){var n=!!x.navigator.appVersion.match(/AppleWebKit.*Mobile.*/);v=x.devicePixelRatio;tes=x.devicePixelRatio;v=n?v:1,u=1/v}if(a>=640){r.style.fontSize="40px"}else{if(a<=320){r.style.fontSize="20px"}else{r.style.fontSize=a/320*20+"px"}}}x.addEventListener("resize",function(){w()});w()}(window);</script><link href="/css/app.css" rel="stylesheet"></head><body><div id="app"></div><script src="/js/app.js"></script></body></html>
 "
 `;
