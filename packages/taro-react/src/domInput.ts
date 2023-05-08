@@ -46,6 +46,9 @@ export function updateWrapper (element: TaroElement, oldValue: RestoreType, prop
   setNodeValue(node, oldValue, value, type)
 }
 
+// oldValue 为 event.detail.value，value 为 fiber.props.value
+// 如果 oldValue 和 value 不相等，代表受控组件需要更新
+// 更新的原则为，fiber.props.value 永远为用户所需要的值，因此 node.value = toString(value)
 export function setNodeValue (node: FormElement, oldValue: RestoreType, value, type = 'string') {
   if (value != null) {
     if (type === 'number') {

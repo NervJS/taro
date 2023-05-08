@@ -126,6 +126,9 @@ export function createRoot (domContainer: TaroElement, options: CreateRootOption
 
     if (!inst) return
 
+    // 这里塞入的是 event.detail.value，也就是事件的值，在受控组件中，你可以理解为需要被变更的值
+    // 后续会在 finishEventHandler 中，使用最新的 fiber.props.value 来与其比较
+    // 如果不一致，则表示需要更新，会执行 node.value = fiber.props.value 的更新操作
     const nextValue = e.mpEvent?.detail?.value as unknown as RestoreType
     enqueueStateRestore({ target: node, value: nextValue })
   })

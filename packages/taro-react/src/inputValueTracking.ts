@@ -22,6 +22,7 @@ function detachTracker (node) {
 // 之所以单独创建一个 tacker，是为了统一监听不同 type 的 input 值
 // 比如 type=checkbox 或者 type=radio，就需要监听 checked，而不是 value
 // 虽然目前还未实现 checkbox 和 radio 的 finishEventHandle，但后续不好说，所以先统一和 react 一样的写法
+// 需要特别注意的是，tracker 初始化时的值为 node 的初始值，但后续会变更为事件的 detail.value 值
 function trackValueOnNode (node: any) {
   const valueField = isCheckable(node) ? 'checked' : 'value'
   const descriptor = Object.getOwnPropertyDescriptor(
