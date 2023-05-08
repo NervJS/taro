@@ -1,6 +1,6 @@
-const plugin = function (babel: {
-  types: any
-}) {
+import type * as BabelCore from '@babel/core'
+
+const plugin = function (babel: typeof BabelCore): BabelCore.PluginObj {
   const t = babel.types
 
   // 这些变量需要在每个 program 里重置
@@ -14,8 +14,9 @@ const plugin = function (babel: {
     name: 'babel-plugin-transform-taro-api',
     visitor: {
       ImportDeclaration (ast, state) {
-        const packageName = state.opts.packageName
-        const apis = state.opts.apis
+        const { opts = {} as any } = state
+        const packageName = opts.packageName
+        const apis = opts.apis
         if (ast.node.source.value !== packageName) return
 
         ast.node.specifiers.forEach(node => {
@@ -23,7 +24,8 @@ const plugin = function (babel: {
             needDefault = true
             taroName = node.local.name
           } else if (t.isImportSpecifier(node)) {
-            const propertyName = node.imported.name
+            const { imported } = node
+            const propertyName = t.isIdentifier(imported) ? imported.name : imported.value
             if (apis.has(propertyName)) { // 记录api名字
               ast.scope.rename(node.local.name)
               invokedApis.set(propertyName, node.local.name)
@@ -47,7 +49,8 @@ const plugin = function (babel: {
       },
       MemberExpression (ast, state) {
         /* 处理Taro.xxx */
-        const apis = state.opts.apis
+        const { opts = {} as any } = state
+        const apis = opts.apis
         const isTaro = t.isIdentifier(ast.node.object, { name: taroName })
         const property = ast.node.property
         let propertyName: string | null = null
@@ -69,7 +72,7 @@ const plugin = function (babel: {
           const isAssignment = t.isAssignmentExpression(parentNode) && parentNode.left === ast.node
 
           if (!isAssignment) {
-            let identifier: any
+            let identifier: BabelCore.types.Identifier
             if (invokedApis.has(propertyName)) {
               identifier = t.identifier(invokedApis.get(propertyName)!)
             } else {
@@ -103,7 +106,8 @@ const plugin = function (babel: {
 
           ast.traverse({
             ImportDeclaration (ast) {
-              const packageName = state.opts.packageName
+              const { opts = {} as any } = state
+              const packageName = opts.packageName
               const isImportingTaroApi = ast.node.source.value === packageName
               if (!isImportingTaroApi) return
               if (isTaroApiImported) return ast.remove()
