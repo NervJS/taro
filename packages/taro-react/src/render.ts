@@ -120,6 +120,7 @@ export function createRoot (domContainer: TaroElement, options: CreateRootOption
     })
   })
 
+  // 对比 event.detail.value 和 node.tracker.value，判断 value 值是否有变动，存在变动则塞入队列中
   hooks.tap('modifyTaroEvent', (e: TaroEvent, node: TaroElement) => {
     const inst = getTargetInstForInputOrChangeEvent(e, node)
 

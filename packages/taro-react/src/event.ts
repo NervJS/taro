@@ -109,5 +109,3 @@ function restoreStateOfTarget (item: RestoreItem) {
     restoreImpl(stateNode, type, item.value, props)
   }
 }
-
-export const updatePropertiesByTag = restoreImpl

@@ -5,11 +5,10 @@ import Reconciler from 'react-reconciler'
 import { DefaultEventPriority } from 'react-reconciler/constants'
 
 import { precacheFiberNode, updateFiberProps } from './componentTree'
-import { updatePropertiesByTag } from './event'
 import { track } from './inputValueTracking'
 import { getUpdatePayload, Props, updateProps, updatePropsByPayload } from './props'
 
-import type { FormElement, TaroElement, TaroText } from '@tarojs/runtime'
+import type { TaroElement, TaroText } from '@tarojs/runtime'
 import type { Fiber, HostConfig } from 'react-reconciler'
 
 const hostConfig: HostConfig<
@@ -131,7 +130,6 @@ const hostConfig: HostConfig<
   commitMount: noop,
   commitUpdate (dom, updatePayload, _, oldProps, newProps) {
     updatePropsByPayload(dom, oldProps, updatePayload)
-    updatePropertiesByTag(dom, dom.tagName, (dom as FormElement).value, newProps)
     updateFiberProps(dom, newProps)
   },
   insertBefore (parent, child, refChild) {
