@@ -9,7 +9,7 @@ jest.mock('envinfo', () => {
   return {
     __esModule: true,
     async run (data, options) {
-      const res = await envinfo.run(data, { ...options, json: true, showNotFound: true })
+      const res = await envinfo.run(data, { ...options, json: true })
       return JSON.parse(res)
     }
   }
@@ -54,7 +54,8 @@ describe('info', () => {
     expect('Binaries' in info).toBeTruthy()
     // envinfo 还不支持 yarn workspace
     // expect('npmPackages' in info).toBeTruthy()
-    expect(Object.keys(info.System)).toEqual(['OS', 'Shell'])
+    // windows 操作系统可能不存在 System.Shell
+    expect(Object.keys(info.System)).toContain('OS')
     expect(Object.keys(info.Binaries)).toEqual(['Node', 'Yarn', 'npm'])
     // expect(info.npmPackages.hasOwnProperty('@tarojs/helper')).toBeTruthy()
     // expect(info.npmPackages.hasOwnProperty('@tarojs/mini-runner')).toBeTruthy()

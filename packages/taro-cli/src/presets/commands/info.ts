@@ -42,8 +42,7 @@ async function info (options, ctx) {
     npmPackages,
     npmGlobalPackages: ['typescript']
   }, options), {
-    title: `Taro CLI ${getPkgVersion()} environment info`,
-    showNotFound: true
+    title: `Taro CLI ${getPkgVersion()} environment info`
   })
 
   console.log(info)
