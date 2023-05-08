@@ -9,7 +9,7 @@ jest.mock('envinfo', () => {
   return {
     __esModule: true,
     async run (data, options) {
-      const res = await envinfo.run(data, { ...options, json: true })
+      const res = await envinfo.run(data, { ...options, json: true, showNotFound: true })
       return JSON.parse(res)
     }
   }

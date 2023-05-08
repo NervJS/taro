@@ -1,5 +1,3 @@
-import { isWindows } from '@tarojs/helper'
-import { execSync } from 'child_process'
 import * as envinfo from 'envinfo'
 import * as path from 'path'
 
@@ -37,7 +35,6 @@ export default (ctx: IPluginContext) => {
 }
 
 async function info (options, ctx) {
-  const TITLE = `Taro CLI ${getPkgVersion()} environment info`
   const npmPackages = ctx.helper.UPDATE_PACKAGE_LIST.concat(['react', 'react-native', 'expo', 'taro-ui'])
   const info = await envinfo.run(Object.assign({}, {
     System: ['OS', 'Shell'],
@@ -45,14 +42,9 @@ async function info (options, ctx) {
     npmPackages,
     npmGlobalPackages: ['typescript']
   }, options), {
-    title: `Taro CLI ${getPkgVersion()} environment info`
+    title: `Taro CLI ${getPkgVersion()} environment info`,
+    showNotFound: true
   })
-  // 由于 envinfo 包实现的问题，window 的 powershell 获取不到 system 里面的 Shell 字段，得通过其他方法来获取
-  if(isWindows && !info[TITLE].System.Shell) {
-    const windowShell = execSync('echo %ComSpec%').toString().trim()
-    Object.assign(info[TITLE].System, {
-      Shell: windowShell
-    })
-  }
+
   console.log(info)
 }
