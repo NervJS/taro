@@ -1078,6 +1078,10 @@ exports[`compiler-macros - defineAppConfig and definePageConfig should read app 
         })),
         "injectNewStyleProperties": TaroHook(HOOK_TYPE.SINGLE),
         "modifyTaroEvent": TaroHook(HOOK_TYPE.MULTI),
+        "dispatchTaroEvent": TaroHook(HOOK_TYPE.SINGLE, (function(e, node) {
+            node.dispatchEvent(e);
+        })),
+        "dispatchTaroEventFinish": TaroHook(HOOK_TYPE.MULTI),
         "modifyDispatchEvent": TaroHook(HOOK_TYPE.MULTI),
         "initNativeApi": TaroHook(HOOK_TYPE.MULTI),
         "patchElement": TaroHook(HOOK_TYPE.MULTI)
