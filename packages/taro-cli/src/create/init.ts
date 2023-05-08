@@ -1,4 +1,4 @@
-import { chalk, fs } from '@tarojs/helper'
+import { chalk, fs, readConfig } from '@tarojs/helper'
 import { exec } from 'child_process'
 import * as ora from 'ora'
 import * as path from 'path'
@@ -18,10 +18,10 @@ const styleExtMap = {
   sass: 'scss',
   less: 'less',
   stylus: 'styl',
-  none: 'css'
+  none: 'css',
 }
 enum TemplateType {
-  rn = 'react-native'
+  rn = 'react-native',
 }
 const doNotCopyFiles = ['.DS_Store', '.npmrc', TEMPLATE_CREATOR]
 
@@ -51,14 +51,14 @@ function createFiles (
     pageName,
     framework,
     compiler,
-    isCustomTemplate
+    isCustomTemplate,
   } = options
   const logs: string[] = []
   // 模板库模板，直接创建，不需要改后缀
   const globalChangeExt = Boolean(handler)
   const currentStyleExt = styleExtMap[css] || 'css'
 
-  files.forEach(async file => {
+  files.forEach(async (file) => {
     // fileRePath startsWith '/'
     let fileRePath = file.replace(templatePath, '').replace(new RegExp(`\\${path.sep}`, 'g'), '/')
 
@@ -100,7 +100,7 @@ function createFiles (
         template,
         pageName,
         framework,
-        compiler
+        compiler,
       },
       externalConfig
     )
@@ -144,7 +144,7 @@ export async function createPage (creator: Creator, params: IPageConf, cb) {
   // path
   let templatePath
 
-  if(isCustomTemplate) {
+  if (isCustomTemplate) {
     templatePath = customTemplatePath
   } else {
     templatePath = creator.templatePath(template)
@@ -164,16 +164,21 @@ export async function createPage (creator: Creator, params: IPageConf, cb) {
     projectPath: projectDir,
     pageName,
     isCustomTemplate,
-    period: 'createPage'
+    period: 'createPage',
   })
 
   creator.fs.commit(() => {
     // logs
     console.log()
-    logs.forEach(log => console.log(log))
+    logs.forEach((log) => console.log(log))
     console.log()
     typeof cb === 'function' && cb()
   })
+
+  if (files.length > 0 && handler) {
+    // TODO: 同步修改 app.config.js 中的 pages 配置
+    await updateAppConfig(files, handler, params)
+  }
 }
 
 export async function createApp (creator: Creator, params: IProjectConf, cb) {
@@ -202,7 +207,7 @@ export async function createApp (creator: Creator, params: IProjectConf, cb) {
       templatePath,
       projectPath,
       pageName: 'index',
-      period: 'createApp'
+      period: 'createApp',
     })
   )
 
@@ -211,7 +216,7 @@ export async function createApp (creator: Creator, params: IProjectConf, cb) {
     // logs
     console.log()
     console.log(`${chalk.green('✔ ')}${chalk.grey(`创建项目: ${chalk.grey.bold(projectName)}`)}`)
-    logs.forEach(log => console.log(log))
+    logs.forEach((log) => console.log(log))
 
     // 当选择 rn 模板时，替换默认项目名
     if (template === TemplateType.rn) {
@@ -223,7 +228,7 @@ export async function createApp (creator: Creator, params: IProjectConf, cb) {
     const gitInitSpinner = ora(`cd ${chalk.cyan.bold(projectName)}, 执行 ${chalk.cyan.bold('git init')}`).start()
     process.chdir(projectPath)
     const gitInit = exec('git init')
-    gitInit.on('close', code => {
+    gitInit.on('close', (code) => {
       if (code === 0) {
         gitInitSpinner.color = 'green'
         gitInitSpinner.succeed(gitInit.stdout!.read())
@@ -271,4 +276,30 @@ export async function createApp (creator: Creator, params: IProjectConf, cb) {
       callSuccess()
     }
   })
+}
+
+async function updateAppConfig (files: string[], handler: Record<string, (params: IPageConf) => any>, params: IPageConf) {
+  const { projectDir, typescript, framework } = params
+  const configFileExt = typescript ? '.ts' : '.js'
+  const pageExt = framework.startsWith('vue') ? '.vue' : '.jsx'
+  const pagePath = files.find((file) => file.endsWith(pageExt))
+
+  const appConfigPath = path.join(projectDir, 'src/app.config' + configFileExt)
+  if (pagePath && fs.existsSync(appConfigPath)) {
+    const externalConfig = typeof handler[pagePath] === 'function' ? handler[pagePath](params) : null
+    const destPageName = (externalConfig && externalConfig.setPageName) || pagePath
+    const destPagePathWithoutExt = 'pages' + destPageName.split('pages')[1].replace(pageExt, '')
+    const appConfigContent = fs.readFileSync(appConfigPath, 'utf-8')
+    const hasDefineConfig = appConfigContent.includes('defineAppConfig')
+    const configJson = readConfig(appConfigPath)
+
+    if (!configJson.pages.includes(destPagePathWithoutExt)) {
+      configJson.pages.push(destPagePathWithoutExt)
+      const rawAppConfig = JSON.stringify(configJson, null, 2)
+      await fs.writeFile(
+        appConfigPath,
+        hasDefineConfig ? `export default defineAppConfig(${rawAppConfig})` : `export default ${rawAppConfig}`
+      )
+    }
+  }
 }
