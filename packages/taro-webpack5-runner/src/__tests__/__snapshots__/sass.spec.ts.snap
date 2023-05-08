@@ -3984,7 +3984,8 @@ require("./runtime");
                 var dispatch = function dispatch() {
                     var e = createEvent(event, node);
                     _tarojs_shared__WEBPACK_IMPORTED_MODULE_0__.PT.call("modifyTaroEvent", e, node);
-                    node.dispatchEvent(e);
+                    _tarojs_shared__WEBPACK_IMPORTED_MODULE_0__.PT.call("dispatchTaroEvent", e, node);
+                    _tarojs_shared__WEBPACK_IMPORTED_MODULE_0__.PT.call("dispatchTaroEventFinish", e, node);
                 };
                 if (_tarojs_shared__WEBPACK_IMPORTED_MODULE_0__.PT.isExist("batchedEventUpdates")) {
                     var type = event.type;
@@ -4016,6 +4017,15 @@ require("./runtime");
                 return _super4.apply(this, arguments);
             }
             (0, _babel_runtime_helpers_esm_createClass__WEBPACK_IMPORTED_MODULE_2__.Z)(FormElement, [ {
+                key: "type",
+                get: function get() {
+                    var _a;
+                    return (_a = this.props[TYPE]) !== null && _a !== void 0 ? _a : "";
+                },
+                set: function set(val) {
+                    this.setAttribute(TYPE, val);
+                }
+            }, {
                 key: "value",
                 get: function get() {
                     var val = this.props[VALUE];
@@ -10630,7 +10640,8 @@ require("./runtime");
                 var dispatch = function dispatch() {
                     var e = createEvent(event, node);
                     _tarojs_shared__WEBPACK_IMPORTED_MODULE_0__.PT.call("modifyTaroEvent", e, node);
-                    node.dispatchEvent(e);
+                    _tarojs_shared__WEBPACK_IMPORTED_MODULE_0__.PT.call("dispatchTaroEvent", e, node);
+                    _tarojs_shared__WEBPACK_IMPORTED_MODULE_0__.PT.call("dispatchTaroEventFinish", e, node);
                 };
                 if (_tarojs_shared__WEBPACK_IMPORTED_MODULE_0__.PT.isExist("batchedEventUpdates")) {
                     var type = event.type;
@@ -10662,6 +10673,15 @@ require("./runtime");
                 return _super4.apply(this, arguments);
             }
             (0, _babel_runtime_helpers_esm_createClass__WEBPACK_IMPORTED_MODULE_2__.Z)(FormElement, [ {
+                key: "type",
+                get: function get() {
+                    var _a;
+                    return (_a = this.props[TYPE]) !== null && _a !== void 0 ? _a : "";
+                },
+                set: function set(val) {
+                    this.setAttribute(TYPE, val);
+                }
+            }, {
                 key: "value",
                 get: function get() {
                     var val = this.props[VALUE];
@@ -17300,7 +17320,8 @@ require("./runtime");
                 var dispatch = function dispatch() {
                     var e = createEvent(event, node);
                     _tarojs_shared__WEBPACK_IMPORTED_MODULE_0__.PT.call("modifyTaroEvent", e, node);
-                    node.dispatchEvent(e);
+                    _tarojs_shared__WEBPACK_IMPORTED_MODULE_0__.PT.call("dispatchTaroEvent", e, node);
+                    _tarojs_shared__WEBPACK_IMPORTED_MODULE_0__.PT.call("dispatchTaroEventFinish", e, node);
                 };
                 if (_tarojs_shared__WEBPACK_IMPORTED_MODULE_0__.PT.isExist("batchedEventUpdates")) {
                     var type = event.type;
@@ -17332,6 +17353,15 @@ require("./runtime");
                 return _super4.apply(this, arguments);
             }
             (0, _babel_runtime_helpers_esm_createClass__WEBPACK_IMPORTED_MODULE_2__.Z)(FormElement, [ {
+                key: "type",
+                get: function get() {
+                    var _a;
+                    return (_a = this.props[TYPE]) !== null && _a !== void 0 ? _a : "";
+                },
+                set: function set(val) {
+                    this.setAttribute(TYPE, val);
+                }
+            }, {
                 key: "value",
                 get: function get() {
                     var val = this.props[VALUE];
@@ -23970,7 +24000,8 @@ require("./runtime");
                 var dispatch = function dispatch() {
                     var e = createEvent(event, node);
                     _tarojs_shared__WEBPACK_IMPORTED_MODULE_0__.PT.call("modifyTaroEvent", e, node);
-                    node.dispatchEvent(e);
+                    _tarojs_shared__WEBPACK_IMPORTED_MODULE_0__.PT.call("dispatchTaroEvent", e, node);
+                    _tarojs_shared__WEBPACK_IMPORTED_MODULE_0__.PT.call("dispatchTaroEventFinish", e, node);
                 };
                 if (_tarojs_shared__WEBPACK_IMPORTED_MODULE_0__.PT.isExist("batchedEventUpdates")) {
                     var type = event.type;
@@ -24002,6 +24033,15 @@ require("./runtime");
                 return _super4.apply(this, arguments);
             }
             (0, _babel_runtime_helpers_esm_createClass__WEBPACK_IMPORTED_MODULE_2__.Z)(FormElement, [ {
+                key: "type",
+                get: function get() {
+                    var _a;
+                    return (_a = this.props[TYPE]) !== null && _a !== void 0 ? _a : "";
+                },
+                set: function set(val) {
+                    this.setAttribute(TYPE, val);
+                }
+            }, {
                 key: "value",
                 get: function get() {
                     var val = this.props[VALUE];
@@ -30640,7 +30680,8 @@ require("./runtime");
                 var dispatch = function dispatch() {
                     var e = createEvent(event, node);
                     _tarojs_shared__WEBPACK_IMPORTED_MODULE_0__.PT.call("modifyTaroEvent", e, node);
-                    node.dispatchEvent(e);
+                    _tarojs_shared__WEBPACK_IMPORTED_MODULE_0__.PT.call("dispatchTaroEvent", e, node);
+                    _tarojs_shared__WEBPACK_IMPORTED_MODULE_0__.PT.call("dispatchTaroEventFinish", e, node);
                 };
                 if (_tarojs_shared__WEBPACK_IMPORTED_MODULE_0__.PT.isExist("batchedEventUpdates")) {
                     var type = event.type;
@@ -30672,6 +30713,15 @@ require("./runtime");
                 return _super4.apply(this, arguments);
             }
             (0, _babel_runtime_helpers_esm_createClass__WEBPACK_IMPORTED_MODULE_2__.Z)(FormElement, [ {
+                key: "type",
+                get: function get() {
+                    var _a;
+                    return (_a = this.props[TYPE]) !== null && _a !== void 0 ? _a : "";
+                },
+                set: function set(val) {
+                    this.setAttribute(TYPE, val);
+                }
+            }, {
                 key: "value",
                 get: function get() {
                     var val = this.props[VALUE];
