@@ -21,7 +21,7 @@ export type Mode = 'selector' | 'multiSelector' | 'time' | 'date'
 export type Fields = 'day' | 'month' | 'year'
 export type PickerValue = number | number[] | string
 
-export type PickerText = {
+export interface PickerText {
   okText?: string
   cancelText?: string
 }
@@ -53,7 +53,7 @@ export class Picker implements ComponentInterface {
   @Prop() end = ''
   @Prop() fields: Fields = 'day'
   @Prop() name = ''
-  @Prop() textProps?: PickerText = undefined
+  @Prop() textProps: PickerText = {}
 
   @State() pickerValue: PickerValue = []
   @State() height: number[] = []
@@ -498,10 +498,10 @@ export class Picker implements ComponentInterface {
           <div class={clsSlider}>
             <div class='weui-picker__hd'>
               <div class='weui-picker__action' onClick={this.handleCancel}>
-                {this.textProps?.cancelText ?? '取消'}
+                {this.textProps.cancelText ?? '取消'}
               </div>
               <div class='weui-picker__action' onClick={this.handleChange}>
-                {this.textProps?.okText ?? '确定'}
+                {this.textProps.okText ?? '确定'}
               </div>
             </div>
             <div class='weui-picker__bd'>{pickerGroup}</div>
