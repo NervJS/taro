@@ -36,3 +36,5 @@ export const offWindowResize: typeof Taro.offWindowResize = callback => {
     window.removeEventListener('resize', resizeListener)
   }
 }
+
+export const checkIsPictureInPictureActive = temporarilyNotSupport('checkIsPictureInPictureActive')
