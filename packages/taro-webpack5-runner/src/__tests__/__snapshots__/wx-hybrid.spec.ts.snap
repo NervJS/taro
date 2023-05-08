@@ -3920,7 +3920,8 @@ require("./runtime");
                 const dispatch = () => {
                     const e = createEvent(event, node);
                     _tarojs_shared__WEBPACK_IMPORTED_MODULE_0__.PT.call("modifyTaroEvent", e, node);
-                    node.dispatchEvent(e);
+                    _tarojs_shared__WEBPACK_IMPORTED_MODULE_0__.PT.call("dispatchTaroEvent", e, node);
+                    _tarojs_shared__WEBPACK_IMPORTED_MODULE_0__.PT.call("dispatchTaroEventFinish", e, node);
                 };
                 if (_tarojs_shared__WEBPACK_IMPORTED_MODULE_0__.PT.isExist("batchedEventUpdates")) {
                     const type = event.type;
@@ -3943,6 +3944,13 @@ require("./runtime");
             }
         }
         class FormElement extends TaroElement {
+            get type() {
+                var _a;
+                return (_a = this.props[TYPE]) !== null && _a !== void 0 ? _a : "";
+            }
+            set type(val) {
+                this.setAttribute(TYPE, val);
+            }
             get value() {
                 const val = this.props[VALUE];
                 return val == null ? "" : val;
