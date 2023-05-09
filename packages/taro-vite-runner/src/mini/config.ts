@@ -2,7 +2,7 @@ import { babel, RollupBabelInputPluginOptions } from '@rollup/plugin-babel'
 import inject, { RollupInjectOptions } from '@rollup/plugin-inject'
 import { fs, PLATFORMS, recursiveMerge } from '@tarojs/helper'
 import { getSassLoaderOption } from '@tarojs/runner-utils'
-import { isArray } from '@tarojs/shared'
+import { isArray, PLATFORM_TYPE } from '@tarojs/shared'
 import path from 'path'
 
 import { getPostcssPlugins } from '../postcss/postcss.mini'
@@ -62,6 +62,7 @@ export default function (appPath: string, taroConfig: MiniBuildConfig): PluginOp
 
     env.FRAMEWORK = JSON.stringify(framework)
     env.TARO_ENV = JSON.stringify(buildAdapter)
+    env.TARO_PLATFORM = JSON.stringify(process.env.TARO_PLATFORM || PLATFORM_TYPE.MINI)
     const envConstants = Object.keys(env).reduce((target, key) => {
       target[`process.env.${key}`] = env[key]
       return target
