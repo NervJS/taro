@@ -25,7 +25,8 @@
   },
   "scripts": {
     "build": "cross-env NODE_ENV=production rollup -c",
-    "dev": "cross-env NODE_ENV=development rollup -c -w"
+    "dev": "cross-env NODE_ENV=development rollup -c -w",
+    "script:desc": "ts-node -r tsconfig-paths/register --project ./build/tsconfig.json --files ./build/parse-definition-json"
   },
   "bugs": {
     "url": "https://github.com/NervJS/taro/issues"
@@ -43,10 +44,14 @@
   "devDependencies": {
     "@rollup/plugin-commonjs": "^20.0.0",
     "@rollup/plugin-node-resolve": "^8.0.0",
+    "@tarojs/taro": "workspace:*",
+    "change-case": "^4.1.2",
     "lodash": "^4.17.21",
     "rollup": "^2.79.0",
     "rollup-plugin-node-externals": "^5.0.0",
     "rollup-plugin-ts": "^3.0.2",
+    "ts-node": "^10.9.1",
+    "tsconfig-paths": "^3.14.1",
     "typescript": "^4.7.4"
   }
 }
