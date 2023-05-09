@@ -44,6 +44,5 @@ async function info (options, ctx) {
   }, options), {
     title: `Taro CLI ${getPkgVersion()} environment info`
   })
-
   console.log(info)
 }
