@@ -1,9 +1,12 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`common style should extract common styles 1`] = `19`;
+exports[`common style should extract common styles 1`] = `20`;
 
 exports[`common style should extract common styles 2`] = `
 "
+/** filePath: dist/app-origin.wxss **/
+.body{background-color:#e8e8ed}
+
 /** filePath: dist/app.js **/
 require("./runtime");
 
@@ -536,8 +539,9 @@ require("./taro");
 {"pages":["pages/index/index","pages/about/index"],"window":{"backgroundTextStyle":"light","navigationBarBackgroundColor":"#fff","navigationBarTitleText":"WeChat","navigationBarTextStyle":"black"}}
 
 /** filePath: dist/app.wxss **/
-.body{background-color:#e8e8ed}
+@import "./app-origin.wxss";
 @import "./common.wxss";
+
 
 /** filePath: dist/base.wxml **/
 <wxs module="xs" src="./utils.wxs" />
