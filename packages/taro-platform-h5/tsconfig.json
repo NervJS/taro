@@ -3,7 +3,9 @@
   "compilerOptions": {
     "baseUrl": ".",
     "declaration": true,
+    "esModuleInterop": true,
     "module": "ESNext",
+    "preserveConstEnums": true,
     "sourceMap": true
   },
   "include": ["./src", "./types"]

@@ -87,6 +87,8 @@ const plugin = function (babel: typeof BabelCore): BabelCore.PluginObj {
           needDefault = true
         }
       },
+      // TODO: 使用 babel 将 canIUse('schema') 转换为 true/false
+      // FunctionExpression (ast, state) {},
       Program: {
         enter (ast) {
           needDefault = false
