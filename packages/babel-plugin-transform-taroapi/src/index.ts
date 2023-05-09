@@ -1,6 +1,12 @@
 import type * as BabelCore from '@babel/core'
 
-const plugin = function (babel: typeof BabelCore): BabelCore.PluginObj {
+interface IState extends BabelCore.PluginPass {
+  apis: Set<string>
+  packageName: string
+  definition: Record<string, any>
+}
+
+const plugin = function (babel: typeof BabelCore): BabelCore.PluginObj<IState> {
   const t = babel.types
 
   // 这些变量需要在每个 program 里重置
@@ -12,12 +18,19 @@ const plugin = function (babel: typeof BabelCore): BabelCore.PluginObj {
 
   return {
     name: 'babel-plugin-transform-taro-api',
+    pre () {
+      const { opts = {} as any } = this
+      const { apis = new Set<string>(), packageName = '@tarojs/taro-h5', definition = {} } = opts
+      this.definition = { ...definition.apis, ...definition.components }
+      this.packageName = packageName
+      if (apis.size < 1) {
+        Object.keys(definition.apis || {}).forEach(key => apis.add(key))
+      }
+      this.apis = apis
+    },
     visitor: {
-      ImportDeclaration (ast, state) {
-        const { opts = {} as any } = state
-        const packageName = opts.packageName
-        const apis = opts.apis
-        if (ast.node.source.value !== packageName) return
+      ImportDeclaration (ast) {
+        if (ast.node.source.value !== this.packageName) return
 
         ast.node.specifiers.forEach(node => {
           if (t.isImportDefaultSpecifier(node)) {
@@ -26,7 +39,7 @@ const plugin = function (babel: typeof BabelCore): BabelCore.PluginObj {
           } else if (t.isImportSpecifier(node)) {
             const { imported } = node
             const propertyName = t.isIdentifier(imported) ? imported.name : imported.value
-            if (apis.has(propertyName)) { // 记录api名字
+            if (this.apis.has(propertyName)) { // 记录api名字
               ast.scope.rename(node.local.name)
               invokedApis.set(propertyName, node.local.name)
             } else { // 如果是未实现的api 改成Taro.xxx
@@ -47,10 +60,8 @@ const plugin = function (babel: typeof BabelCore): BabelCore.PluginObj {
           }
         })
       },
-      MemberExpression (ast, state) {
+      MemberExpression (ast) {
         /* 处理Taro.xxx */
-        const { opts = {} as any } = state
-        const apis = opts.apis
         const isTaro = t.isIdentifier(ast.node.object, { name: taroName })
         const property = ast.node.property
         let propertyName: string | null = null
@@ -67,7 +78,7 @@ const plugin = function (babel: typeof BabelCore): BabelCore.PluginObj {
         if (!propertyName) return
 
         // 同一api使用多次, 读取变量名
-        if (apis.has(propertyName)) {
+        if (this.apis.has(propertyName)) {
           const parentNode = ast.parent
           const isAssignment = t.isAssignmentExpression(parentNode) && parentNode.left === ast.node
 
@@ -99,7 +110,8 @@ const plugin = function (babel: typeof BabelCore): BabelCore.PluginObj {
             ? ast.scope.generateUid('Taro')
             : 'Taro'
         },
-        exit (ast, state) {
+        exit (ast) {
+          const that = this
           // 防止重复引入
           let isTaroApiImported = false
           referTaro.forEach(node => {
@@ -108,9 +120,7 @@ const plugin = function (babel: typeof BabelCore): BabelCore.PluginObj {
 
           ast.traverse({
             ImportDeclaration (ast) {
-              const { opts = {} as any } = state
-              const packageName = opts.packageName
-              const isImportingTaroApi = ast.node.source.value === packageName
+              const isImportingTaroApi = ast.node.source.value === that.packageName
               if (!isImportingTaroApi) return
               if (isTaroApiImported) return ast.remove()
               isTaroApiImported = true
@@ -132,4 +142,5 @@ const plugin = function (babel: typeof BabelCore): BabelCore.PluginObj {
     }
   }
 }
+
 export default plugin

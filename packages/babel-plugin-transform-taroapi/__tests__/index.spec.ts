@@ -1,6 +1,6 @@
 import * as babel from '@babel/core'
 import * as t from '@babel/types'
-import * as apis from '@tarojs/plugin-platform-h5/dist/taroApis'
+import * as definition from '@tarojs/plugin-platform-h5/dist/definition.json'
 
 import plugin from '../src'
 
@@ -9,7 +9,7 @@ type ImportType = babel.types.ImportSpecifier | babel.types.ImportDefaultSpecifi
 const pluginOptions = [
   plugin,
   {
-    apis,
+    definition,
     packageName: '@tarojs/taro-h5'
   }
 ]
@@ -62,7 +62,7 @@ it('should leave other apis untouched', function () {
     t.identifier('noop'),
   )
   delete obj.optional
-  
+
   expect((body[1].expression as t.MemberExpression)).toMatchObject(obj)
 })
 

@@ -97,12 +97,12 @@ export function parseAnyOrVoid (str = '', obj: unknown = str) {
 
 export function parseDefinitionJSON () {
   const apis = parseAPIs()
-  const comps = parseComponents()
+  const components = parseComponents()
 
   // Note: 写入文件
   fs.writeJSONSync('dist/definition.json', {
-    ...apis,
-    ...comps,
+    apis,
+    components,
   }, { spaces: 2 })
 }
 
