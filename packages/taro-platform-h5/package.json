@@ -25,6 +25,7 @@
   },
   "scripts": {
     "build": "cross-env NODE_ENV=production rollup -c",
+    "postbuild": "pnpm run script:desc",
     "dev": "cross-env NODE_ENV=development rollup -c -w",
     "script:desc": "ts-node -r tsconfig-paths/register --project ./build/tsconfig.json --files ./build/parse-definition-json"
   },
