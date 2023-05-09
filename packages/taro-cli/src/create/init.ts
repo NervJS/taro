@@ -294,8 +294,8 @@ async function updateAppConfig (
 
   if (pagePath && fs.existsSync(appConfigPath)) {
     const externalConfig = typeof handler[pagePath] === 'function' ? handler[pagePath](params) : null
-    const destPageName = (externalConfig && externalConfig?.setPageName) || pagePath
-    const destPagePathWithoutExt = 'pages' + destPageName.split('pages')[1].replace(pageExt, '')
+    const destPagePath = (externalConfig && externalConfig?.setPageName) || pagePath
+    const destPagePathWithoutExt = 'pages' + destPagePath.split('pages')[1].replace(pageExt, '')
     const appConfigContent = fs.readFileSync(appConfigPath, 'utf-8')
 
     const { types, parse, traverse, generate } = babelKit
