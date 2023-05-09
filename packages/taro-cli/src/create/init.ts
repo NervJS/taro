@@ -1,4 +1,4 @@
-import { chalk, fs, readConfig } from '@tarojs/helper'
+import { babelKit,chalk, fs } from '@tarojs/helper'
 import { exec } from 'child_process'
 import * as ora from 'ora'
 import * as path from 'path'
@@ -176,7 +176,6 @@ export async function createPage (creator: Creator, params: IPageConf, cb) {
   })
 
   if (files.length > 0 && handler) {
-    // TODO: 同步修改 app.config.js 中的 pages 配置
     await updateAppConfig(files, handler, params)
   }
 }
@@ -278,28 +277,52 @@ export async function createApp (creator: Creator, params: IProjectConf, cb) {
   })
 }
 
-async function updateAppConfig (files: string[], handler: Record<string, (params: IPageConf) => any>, params: IPageConf) {
+/**
+ * 同步更新 app.config.(js|ts) 文件中的 pages 属性
+ */
+async function updateAppConfig (
+  files: string[],
+  handler: Record<string, (params: IPageConf) => any>,
+  params: IPageConf
+) {
   const { projectDir, typescript, framework } = params
   const configFileExt = typescript ? '.ts' : '.js'
   const pageExt = framework.startsWith('vue') ? '.vue' : '.jsx'
   const pagePath = files.find((file) => file.endsWith(pageExt))
-
   const appConfigPath = path.join(projectDir, 'src/app.config' + configFileExt)
+
   if (pagePath && fs.existsSync(appConfigPath)) {
     const externalConfig = typeof handler[pagePath] === 'function' ? handler[pagePath](params) : null
-    const destPageName = (externalConfig && externalConfig.setPageName) || pagePath
+    const destPageName = (externalConfig && externalConfig?.setPageName) || pagePath
     const destPagePathWithoutExt = 'pages' + destPageName.split('pages')[1].replace(pageExt, '')
     const appConfigContent = fs.readFileSync(appConfigPath, 'utf-8')
-    const hasDefineConfig = appConfigContent.includes('defineAppConfig')
-    const configJson = readConfig(appConfigPath)
 
-    if (!configJson.pages.includes(destPagePathWithoutExt)) {
-      configJson.pages.push(destPagePathWithoutExt)
-      const rawAppConfig = JSON.stringify(configJson, null, 2)
-      await fs.writeFile(
-        appConfigPath,
-        hasDefineConfig ? `export default defineAppConfig(${rawAppConfig})` : `export default ${rawAppConfig}`
-      )
+    const { types, parse, traverse, generate } = babelKit
+
+    const ast = parse(appConfigContent, {
+      sourceType: 'module',
+      plugins: typescript ? ['typescript'] : [],
+    })
+
+    let hasChanged = false
+    const objectPropertyHandler = (p: any) => {
+      const { key, value } = p.node
+      if (key.name !== 'pages' || value.type !== 'ArrayExpression') return
+
+      const pagePathNode = value?.elements?.find((element: any) => element.value === destPagePathWithoutExt) ?? null
+      if (!pagePathNode) {
+        const pagePath = types.stringLiteral(destPagePathWithoutExt)
+        value.elements.push(pagePath)
+        hasChanged = true
+      }
+    }
+
+    if (ast) {
+      traverse(ast.program, { ObjectProperty: objectPropertyHandler })
+      if (hasChanged) {
+        const { code } = generate(ast)
+        await fs.writeFile(appConfigPath, code)
+      }
     }
   }
 }

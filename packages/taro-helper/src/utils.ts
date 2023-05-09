@@ -1,3 +1,7 @@
+import * as babel from '@babel/core'
+import babelGenerator from '@babel/generator'
+import * as babelParser from '@babel/parser'
+import babelTraverse from '@babel/traverse'
 import * as child_process from 'child_process'
 import * as fs from 'fs-extra'
 import { camelCase, flatMap, isPlainObject, mergeWith } from 'lodash'
@@ -633,3 +637,11 @@ export function readConfig (configPath: string) {
 }
 
 export { fs }
+
+export const babelKit = {
+  core: babel,
+  types: babel.types,
+  parse: babelParser.parse,
+  generate: babelGenerator,
+  traverse: babelTraverse,
+}
