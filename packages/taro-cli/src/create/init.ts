@@ -1,4 +1,4 @@
-import { babelKit,chalk, fs } from '@tarojs/helper'
+import { babelKit, chalk, fs } from '@tarojs/helper'
 import { exec } from 'child_process'
 import * as ora from 'ora'
 import * as path from 'path'
@@ -167,17 +167,18 @@ export async function createPage (creator: Creator, params: IPageConf, cb) {
     period: 'createPage',
   })
 
-  creator.fs.commit(() => {
+  creator.fs.commit(async () => {
     // logs
     console.log()
     logs.forEach((log) => console.log(log))
     console.log()
+
+    if (files.length > 0 && handler) {
+      await updateAppConfig(files, handler, params).catch(() => {})
+    }
+
     typeof cb === 'function' && cb()
   })
-
-  if (files.length > 0 && handler) {
-    await updateAppConfig(files, handler, params)
-  }
 }
 
 export async function createApp (creator: Creator, params: IProjectConf, cb) {
@@ -305,14 +306,14 @@ async function updateAppConfig (
     })
 
     let hasChanged = false
+    // 目前假设模块内仅存在一个 pages 属性，若有多个 pages 属性，则均会被更新
     const objectPropertyHandler = (p: any) => {
       const { key, value } = p.node
-      if (key.name !== 'pages' || value.type !== 'ArrayExpression') return
+      if (key.name !== 'pages' || value.type !== 'ArrayExpression') return // 仅更新数组字面量
 
-      const pagePathNode = value?.elements?.find((element: any) => element.value === destPagePathWithoutExt) ?? null
+      const pagePathNode = value?.elements?.find((element: any) => element.value === destPagePathWithoutExt) || null
       if (!pagePathNode) {
-        const pagePath = types.stringLiteral(destPagePathWithoutExt)
-        value.elements.push(pagePath)
+        value.elements.push(types.stringLiteral(destPagePathWithoutExt))
         hasChanged = true
       }
     }
@@ -322,6 +323,8 @@ async function updateAppConfig (
       if (hasChanged) {
         const { code } = generate(ast)
         await fs.writeFile(appConfigPath, code)
+        console.log(`${chalk.green('✔ ')}${chalk.grey(`app.config${configFileExt} 配置文件 pages 属性更新成功！`)}`)
+        console.log()
       }
     }
   }
