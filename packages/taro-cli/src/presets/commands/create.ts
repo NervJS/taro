@@ -28,7 +28,7 @@ export default (ctx: IPluginContext) => {
     optionsMap: {
       '--name [name]': '名称',
       '--dir [dir]': '路径',
-      '--subpage [subpage]': '分包路径',
+      '--subpkg [subpkg]': '分包路径',
       '--description [description]': '介绍',
       '--type [type]': '模版类型(page(默认)|plugin-command|plugin-build|plugin-template)'
     },
@@ -49,19 +49,13 @@ export default (ctx: IPluginContext) => {
           if (typeof name !== 'string') {
             return console.log(chalk.red('请输入需要创建的页面名称'))
           }
-          // 兼容旧的写法 taro cerate a/b/c 这一种情况
-          const dir = options.dir || ''
-          let realPageName
-          let realDir 
 
-          if(!dir){
-
-          } else {
-            
-          }
-
+          const pageDir = options.dir || ''
+          const subPkg = options.subpkg
           const Page = require('../../create/page').default
           const page = new Page({
+            pageDir,
+            subPkg,
             pageName: name,
             projectDir: appPath,
             description,

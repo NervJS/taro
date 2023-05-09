@@ -1026,6 +1026,7 @@ importers:
   packages/taro-helper:
     specifiers:
       '@babel/core': ^7.14.5
+      '@babel/generator': ^7.14.5
       '@babel/parser': ^7.14.5
       '@babel/plugin-proposal-decorators': ^7.14.5
       '@babel/plugin-proposal-object-rest-spread': ^7.14.5
@@ -1058,6 +1059,7 @@ importers:
       yauzl: 2.10.0
     dependencies:
       '@babel/core': registry.npmjs.org/@babel/core/7.21.4
+      '@babel/generator': registry.npmjs.org/@babel/generator/7.21.4
       '@babel/parser': registry.npmjs.org/@babel/parser/7.21.4
       '@babel/plugin-proposal-decorators': registry.npmjs.org/@babel/plugin-proposal-decorators/7.21.0_@babel+core@7.21.4
       '@babel/plugin-proposal-object-rest-spread': registry.npmjs.org/@babel/plugin-proposal-object-rest-spread/7.20.7_@babel+core@7.21.4
