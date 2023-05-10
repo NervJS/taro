@@ -50,11 +50,9 @@ export default (ctx: IPluginContext) => {
             return console.log(chalk.red('请输入需要创建的页面名称'))
           }
 
-          const pageDir = options.dir || ''
           const subPkg = options.subpkg
           const Page = require('../../create/page').default
           const page = new Page({
-            pageDir,
             subPkg,
             pageName: name,
             projectDir: appPath,

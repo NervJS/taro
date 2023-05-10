@@ -1,6 +1,8 @@
+import generator from '@babel/generator'
+import * as parser from '@babel/parser'
+import traverse, { NodePath } from '@babel/traverse'
+import * as t from '@babel/types'
 import {
-  babelParser,
-  babelTraverse,
   chalk,
   DEFAULT_TEMPLATE_SRC,
   fs,
@@ -8,15 +10,15 @@ import {
   resolveScriptPath,
   TARO_BASE_CONFIG,
   TARO_CONFIG_FOLDER,
-  babel
 } from '@tarojs/helper'
-import { Expression } from 'babel-types'
 import { isNil } from 'lodash'
 import * as path from 'path'
 
 import Creator from './creator'
 import fetchTemplate from './fetchTemplate'
 import { createPage } from './init'
+
+import type { ObjectExpression, ObjectProperty } from '@babel/types'
 
 export interface IPageConf {
   projectDir: string
@@ -79,8 +81,19 @@ export default class Page extends Creator {
       },
       otherOptions
     )
-    this.modifyCustomTemplateConfig = modifyCustomTemplateConfig
+
     this.conf.projectName = path.basename(this.conf.projectDir)
+    this.modifyCustomTemplateConfig = modifyCustomTemplateConfig
+    this.processPageName()
+  }
+
+  processPageName () {
+    const { pageName } = this.conf
+    const lastDirSplitSymbolIndex = pageName.lastIndexOf('/')
+    if (lastDirSplitSymbolIndex !== -1) {
+      this.conf.pageDir = pageName.substring(0, lastDirSplitSymbolIndex)
+      this.conf.pageName = pageName.substring(lastDirSplitSymbolIndex + 1)
+    }
   }
 
   getPkgPath () {
@@ -163,45 +176,96 @@ export default class Page extends Creator {
     this.write()
   }
 
-  //读取文件 的 app.js / app.ts 读取 pages 字段 或者 subpages
   x () {
     const { subPkg, projectDir } = this.conf
-    //把路径搞出来
-    const test = '/src/pages/index/index.vue'
-    const [sourceString, pageString] = test.split('/src')
+    const [sourceString, pageString] = this.pageEntryPath.split('/src/')
+    const pageMessage = {
+      pkg: '',
+      page: ''
+    }
+    const processedPageString = pageString.slice(0, pageString.lastIndexOf('.'))
+    if (subPkg) {
+      const processedSubPkg = `${subPkg}/`
+      pageMessage.pkg = processedSubPkg
+      pageMessage.page = processedPageString.split(processedSubPkg)[1]
+    } else {
+      pageMessage.page = processedPageString
+    }
+
+    console.log('pageMessage', pageMessage)
+
     const appConfigPath = resolveScriptPath(path.join(projectDir, sourceString, 'src', 'app.config'))
     if(!fs.existsSync(appConfigPath)) return
     const configFileContent = fs.readFileSync(appConfigPath, 'utf-8')
-    const ast = babelParser.parse(configFileContent, {
+    const ast = parser.parse(configFileContent, {
       sourceType: 'module',
-      // plugins: ['typescript']
+      plugins: ['typescript']
     })
 
-    babelTraverse(ast, {
+    const addNewPage = (node: ObjectExpression, page: string) => {
+      const pages = node?.properties.find(node => (node as any).key.name === 'pages') as ObjectProperty
+      if (!pages) return
+      const value = pages?.value
+      if(!value || value?.type !== 'ArrayExpression') return
+      const newArrayElement = t.stringLiteral(page)
+      value.elements.push(newArrayElement)
+    }
+
+    const addNewSubPackage = (node: ObjectExpression, page: string, subPackage: string) =>{
+      
+      const subPackages = node?.properties.find(node => (node as any).key.name === 'subPackages') as ObjectProperty
+      debugger
+      if (!subPackages) return
+      const value = subPackages?.value
+      if(!value || value?.type !== 'ArrayExpression') return
+      console.log(value)
+
+    }
+
+    const modifyPages = (path: NodePath<t.ExportDefaultDeclaration>) => {
+      const node = path.node.declaration as any
+      // `export default defineAppConfig({})` 这种情况
+      if (node.type === 'CallExpression' && node.callee.name === 'defineAppConfig') {
+        const configNode = node.arguments[0]
+        addNewPage(configNode, pageMessage.page)
+      }
+      // `export default {}` 这种情况
+      if (node.type === 'ObjectExpression') {
+        addNewPage(node, pageMessage.page)
+      }
+    }
+  
+    const modifySubPackages = (path: NodePath<t.ExportDefaultDeclaration>) => {
+      const node = path.node.declaration as any
+      // `export default defineAppConfig({})` 这种情况
+      if (node.type === 'CallExpression' && node.callee.name === 'defineAppConfig') {
+        const configNode = node.arguments[0]
+        addNewSubPackage(configNode, pageMessage.page, pageMessage.pkg)
+      }
+      // `export default {}` 这种情况
+      if (node.type === 'ObjectExpression') {
+        addNewSubPackage(node, pageMessage.page, pageMessage.pkg)
+      }
+    }
+
+    traverse(ast, {
       ExportDefaultDeclaration (path) {
-        const node = path.node.declaration as any
-        if (node.type === 'CallExpression' && node.callee.name === 'defineAppConfig') {
-          const configNode = node.arguments[0]
-          const pages = configNode?.properties.find(node => node.key.name === 'pages')
-          console.log(pages)
-        }
+        subPkg ? modifySubPackages(path) : modifyPages(path)
       },
     })
 
-    debugger
-    // if (subPkg) {
 
-    // } else {
-
-    // }
+    // const newCode = generator(ast)
+    // fs.writeFileSync(appConfigPath, newCode.code)
   }
 
   write () {
-    this.x()
-    // createPage(this, this.conf, () => {
-    //   console.log(`${chalk.green('✔ ')}${chalk.grey(`创建页面 ${this.conf.pageName} 成功！`)}`)
-    //   console.log(this.pageEntryPath)
-    // }).catch(err => console.log(err))
+    createPage(this, this.conf, () => {
+      console.log(`${chalk.green('✔ ')}${chalk.grey(`创建页面 ${this.conf.pageName} 成功！`)}`)
+      console.log(this.pageEntryPath)
+      this.x()
+      debugger
+    }).catch(err => console.log(err))
   }
 }
 

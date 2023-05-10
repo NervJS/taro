@@ -528,6 +528,10 @@ importers:
 
   packages/taro-cli:
     specifiers:
+      '@babel/generator': ^7.14.5
+      '@babel/parser': ^7.14.5
+      '@babel/traverse': ^7.14.5
+      '@babel/types': ^7.14.5
       '@tarojs/helper': workspace:*
       '@tarojs/service': workspace:*
       '@tarojs/shared': workspace:*
@@ -559,6 +563,10 @@ importers:
       validate-npm-package-name: ^5.0.0
       xml2js: ^0.4.19
     dependencies:
+      '@babel/generator': registry.npmjs.org/@babel/generator/7.21.4
+      '@babel/parser': registry.npmjs.org/@babel/parser/7.21.4
+      '@babel/traverse': registry.npmjs.org/@babel/traverse/7.21.4
+      '@babel/types': registry.npmjs.org/@babel/types/7.21.4
       '@tarojs/helper': link:../taro-helper
       '@tarojs/service': link:../taro-service
       '@tarojs/shared': link:../shared
@@ -1026,7 +1034,6 @@ importers:
   packages/taro-helper:
     specifiers:
       '@babel/core': ^7.14.5
-      '@babel/generator': ^7.14.5
       '@babel/parser': ^7.14.5
       '@babel/plugin-proposal-decorators': ^7.14.5
       '@babel/plugin-proposal-object-rest-spread': ^7.14.5
@@ -1059,7 +1066,6 @@ importers:
       yauzl: 2.10.0
     dependencies:
       '@babel/core': registry.npmjs.org/@babel/core/7.21.4
-      '@babel/generator': registry.npmjs.org/@babel/generator/7.21.4
       '@babel/parser': registry.npmjs.org/@babel/parser/7.21.4
       '@babel/plugin-proposal-decorators': registry.npmjs.org/@babel/plugin-proposal-decorators/7.21.0_@babel+core@7.21.4
       '@babel/plugin-proposal-object-rest-spread': registry.npmjs.org/@babel/plugin-proposal-object-rest-spread/7.20.7_@babel+core@7.21.4

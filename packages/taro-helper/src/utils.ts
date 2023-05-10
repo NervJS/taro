@@ -1,7 +1,3 @@
-import * as babel from '@babel/core'
-import * as babelGenerator from '@babel/generator'
-import * as babelParser from '@babel/parser'
-import babelTraverse from '@babel/traverse'
 import * as child_process from 'child_process'
 import * as fs from 'fs-extra'
 import { camelCase, flatMap, isPlainObject, mergeWith } from 'lodash'
@@ -570,7 +566,7 @@ function readSFCPageConfig (configPath: string) {
       p.stop()
     }
     const configSource = matches[0]
-    // const babel = require('@babel/core')
+    const babel = require('@babel/core')
     const ast = babel.parse(configSource, { filename: '' }) as babel.ParseResult
 
     babel.traverse(ast.program, { CallExpression: callExprHandler })
@@ -635,4 +631,4 @@ export function readConfig (configPath: string) {
   return result
 }
 
-export { babel,babelGenerator, babelParser, babelTraverse,fs }
+export { fs }
