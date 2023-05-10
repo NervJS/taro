@@ -2,7 +2,9 @@ import type * as BabelCore from '@babel/core'
 
 interface IState extends BabelCore.PluginPass {
   apis: Set<string>
+  bindingName: string
   packageName: string
+  canIUse: string
   definition: Record<string, any>
 }
 
@@ -16,13 +18,27 @@ const plugin = function (babel: typeof BabelCore): BabelCore.PluginObj<IState> {
 
   let referTaro: any[]
 
+  function replaceCanIUse (ast: BabelCore.NodePath<BabelCore.types.CallExpression>) {
+    const args = ast.node.arguments
+
+    if (args.length < 1) return
+
+    // Note: 暂不考虑其他类型的参数映射
+    if (t.isStringLiteral(args[0])) {
+      const isSupported = true
+      ast.replaceInline(t.booleanLiteral(isSupported))
+    }
+  }
+
   return {
     name: 'babel-plugin-transform-taro-api',
     pre () {
       const { opts = {} as any } = this
-      const { apis = new Set<string>(), packageName = '@tarojs/taro-h5', definition = {} } = opts
+      const { apis = new Set<string>(), bindingName = 'Taro', packageName = '@tarojs/taro-h5', definition = {} } = opts
       this.definition = { ...definition.apis, ...definition.components }
+      this.bindingName = bindingName
       this.packageName = packageName
+      this.canIUse = 'canIUse'
       if (apis.size < 1) {
         Object.keys(definition.apis || {}).forEach(key => apis.add(key))
       }
@@ -98,17 +114,38 @@ const plugin = function (babel: typeof BabelCore): BabelCore.PluginObj<IState> {
           needDefault = true
         }
       },
-      // TODO: 使用 babel 将 canIUse('schema') 转换为 true/false
-      // FunctionExpression (ast, state) {},
+      CallExpression (ast) {
+        if (!ast.scope.hasReference(this.canIUse)) return
+        const callee = ast.node.callee
+        if (t.isMemberExpression(callee) && t.isIdentifier(callee.object, { name: taroName })) {
+          let propertyName: string | null = null
+          let propName = 'name'
+
+          // 兼容一下 Taro['xxx']
+          if (t.isStringLiteral(callee.property)) {
+            propName = 'value'
+          }
+          propertyName = callee.property[propName]
+          if (propertyName === this.canIUse) {
+            // Taro.canIUse or Taro['canIUse']
+            replaceCanIUse(ast)
+          }
+        } else if (invokedApis.has(this.canIUse)) {
+          const { name } = t.identifier(invokedApis.get(this.canIUse)!)
+          const isCanIUse = t.isIdentifier(callee, { name })
+          // canIUse as _canIUse
+          if (isCanIUse) replaceCanIUse(ast)
+        }
+      },
       Program: {
         enter (ast) {
           needDefault = false
           referTaro = []
           invokedApis.clear()
 
-          taroName = ast.scope.getBinding('Taro')
-            ? ast.scope.generateUid('Taro')
-            : 'Taro'
+          taroName = ast.scope.getBinding(this.bindingName)
+            ? ast.scope.generateUid(this.bindingName)
+            : this.bindingName
         },
         exit (ast) {
           const that = this
@@ -135,7 +172,17 @@ const plugin = function (babel: typeof BabelCore): BabelCore.PluginObj<IState> {
               } else {
                 ast.node.specifiers = namedImports
               }
-            }
+            },
+            CallExpression (ast) {
+              if (!invokedApis.has(that.canIUse)) return
+              const callee = ast.node.callee
+              const { name } = t.identifier(invokedApis.get(that.canIUse)!)
+              const isCanIUse = t.isIdentifier(callee, { name })
+              if (isCanIUse) {
+                // canIUse as _use
+                replaceCanIUse(ast)
+              }
+            },
           })
         }
       }
