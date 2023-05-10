@@ -499,11 +499,6 @@ require("./taro");
             unitPrecision: undefined,
             targetUnit: undefined
         });
-        undefined({
-            platform: "MiniProgram",
-            taroVersion: "3.6.6",
-            designWidth: 750
-        });
     }
 }, [ [ 8, 0, 1, 2 ] ] ]);
 
