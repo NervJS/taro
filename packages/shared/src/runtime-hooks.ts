@@ -231,6 +231,9 @@ type ITaroHooks = {
   /** 用于修改 Taro DOM 事件对象 */
   modifyTaroEvent: (event, element) => void
 
+  dispatchTaroEvent: (event, element) => void 
+  dispatchTaroEventFinish: (event, element) => void
+
   modifyDispatchEvent: (event, element) => void
   injectNewStyleProperties: (styleProperties: string[]) => void
   initNativeApi: (taro: Record<string, any>) => void
@@ -309,6 +312,12 @@ export const hooks = new TaroHooks<ITaroHooks>({
   injectNewStyleProperties: TaroHook(HOOK_TYPE.SINGLE),
 
   modifyTaroEvent: TaroHook(HOOK_TYPE.MULTI),
+  
+  dispatchTaroEvent: TaroHook(HOOK_TYPE.SINGLE, (e, node) => {
+    node.dispatchEvent(e)
+  }),
+
+  dispatchTaroEventFinish: TaroHook(HOOK_TYPE.MULTI),
 
   modifyDispatchEvent: TaroHook(HOOK_TYPE.MULTI),
 
