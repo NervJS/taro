@@ -1,17 +1,47 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`should leave other apis untouched 1`] = `
+exports[`babel-plugin-transform-taroapi should canIUse support! 1`] = `
+"import { canIUse as _canUse } from '@tarojs/taro-h5';
+// 对象的属性或方法
+true;
+true;
+true;
+true;
+
+// 接口参数、回调或者返回值
+true;
+true;
+true;
+true;
+true;
+true;
+
+// 组件的属性
+true;
+true;
+true;"
+`;
+
+exports[`babel-plugin-transform-taroapi should canIUse work or skip! 1`] = `
+"import Taro from '@tarojs/taro-h5';
+function canIUse() {}
+true;
+true;
+canIUse('showToast.object.image');"
+`;
+
+exports[`babel-plugin-transform-taroapi should leave other apis untouched 1`] = `
 "import Taro from '@tarojs/taro-h5';
 Taro.noop;"
 `;
 
-exports[`should move static apis under "Taro" 1`] = `
+exports[`babel-plugin-transform-taroapi should move static apis under "Taro" 1`] = `
 "import Taro from '@tarojs/taro-h5';
 Taro.noop;
 Taro.noop();"
 `;
 
-exports[`should not go wrong when using an api twice 1`] = `
+exports[`babel-plugin-transform-taroapi should not go wrong when using an api twice 1`] = `
 "import Taro, { createAnimation as _createAnimation } from '@tarojs/taro-h5';
 const animation = _createAnimation({
   duration: dura * 1000,
@@ -23,14 +53,14 @@ const resetAnimation = _createAnimation({
 });"
 `;
 
-exports[`should not import taro duplicatly 1`] = `
-"import Taro, { createAnimation as _createAnimation, initPxTransform as _initPxTransform } from "@tarojs/taro-h5";
+exports[`babel-plugin-transform-taroapi should not import taro duplicity 1`] = `
+"import Taro, { createAnimation as _createAnimation, initPxTransform as _initPxTransform } from '@tarojs/taro-h5';
 Taro.Component;
 _createAnimation();
 _initPxTransform();"
 `;
 
-exports[`should preserve assignments in lefthands 1`] = `
+exports[`babel-plugin-transform-taroapi should preserve assignments in left hands 1`] = `
 "import Taro, { createAnimation as _createAnimation, request as _request } from '@tarojs/taro-h5';
 let animation;
 animation = _createAnimation({
@@ -44,18 +74,18 @@ Taro.request = '';
 Taro['request'] = '';"
 `;
 
-exports[`should preserve default imports 1`] = `
+exports[`babel-plugin-transform-taroapi should preserve default imports 1`] = `
 "import Taro from '@tarojs/taro-h5';
 console.log(Taro);"
 `;
 
-exports[`should support rename of imported names 1`] = `
+exports[`babel-plugin-transform-taroapi should support rename of imported names 1`] = `
 "// import { inject as mobxInject, observer as mobxObserver } from '@tarojs/mobx'
-import Taro from "@tarojs/taro-h5";
+import Taro from '@tarojs/taro-h5';
 export class Connected extends Taro.Component {}"
 `;
 
-exports[`should work! 1`] = `
+exports[`babel-plugin-transform-taroapi should work! 1`] = `
 "import Taro, { setStorage as _setStorage, initPxTransform as _initPxTransform, getStorage as _getStorage } from '@tarojs/taro-h5';
 _initPxTransform(Taro.param);
 _initPxTransform();
