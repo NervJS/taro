@@ -24,10 +24,12 @@
     "url": "git+https://github.com/NervJS/taro.git"
   },
   "scripts": {
-    "build": "cross-env NODE_ENV=production rollup -c",
-    "postbuild": "pnpm run script:desc",
-    "dev": "cross-env NODE_ENV=development rollup -c -w",
-    "script:desc": "ts-node -r tsconfig-paths/register --project ./build/tsconfig.json --files ./build/parse-definition-json"
+    "prebuild": "run-s clean generate:desc",
+    "build": "cross-env NODE_ENV=production pnpm run rollup",
+    "dev": "cross-env NODE_ENV=development pnpm run rollup -w",
+    "rollup": "rollup --config rollup.config.ts --configPlugin @rollup/plugin-typescript",
+    "generate:desc": "ts-node -r tsconfig-paths/register --project ./build/tsconfig.json --files ./build/parse-definition-json",
+    "clean": "rimraf dist"
   },
   "bugs": {
     "url": "https://github.com/NervJS/taro/issues"
@@ -40,15 +42,17 @@
     "@tarojs/shared": "workspace:*",
     "@tarojs/taro-h5": "workspace:*",
     "babel-plugin-transform-taroapi": "workspace:*",
+    "lodash-es": "4.17.21",
     "resolve": "^1.22.0"
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^20.0.0",
+    "@rollup/plugin-json": "^4.1.0",
     "@rollup/plugin-node-resolve": "^8.0.0",
+    "@rollup/plugin-typescript": "^11.1.0",
     "@tarojs/taro": "workspace:*",
     "change-case": "^4.1.2",
-    "lodash": "^4.17.21",
-    "rollup": "^2.79.0",
+    "rollup": "^3.8.1",
     "rollup-plugin-node-externals": "^5.0.0",
     "rollup-plugin-ts": "^3.0.2",
     "ts-node": "^10.9.1",

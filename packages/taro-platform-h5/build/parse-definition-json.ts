@@ -97,6 +97,7 @@ export function parseDefinitionJSON () {
   const components = parseComponents()
 
   // Note: 写入文件
+  fs.ensureDirSync('dist')
   fs.writeJSONSync('dist/definition.json', {
     apis,
     components,
