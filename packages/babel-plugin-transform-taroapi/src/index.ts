@@ -45,11 +45,16 @@ const plugin = function (babel: typeof BabelCore): BabelCore.PluginObj<IState> {
     pre () {
       const { opts = {} as any } = this
       const { apis = new Set<string>(), bindingName = 'Taro', packageName = '@tarojs/taro-h5', definition = {} } = opts
-      this.definition = { ...definition.apis, ...definition.components }
+      this.definition = {
+        ...definition.apis,
+        ...definition.components,
+        [this.canIUse]: '*'
+      }
       this.bindingName = bindingName
       this.packageName = packageName
       this.canIUse = 'canIUse'
       if (apis.size < 1) {
+        apis.add(this.canIUse)
         Object.keys(definition.apis || {}).forEach(key => apis.add(key))
       }
       this.apis = apis

@@ -1,4 +1,4 @@
-import * as definition from '@tarojs/plugin-platform-h5/dist/definition.json'
+import definition from '@tarojs/plugin-platform-h5/dist/definition.json'
 import { isMatchWith, set } from 'lodash-es'
 
 import Taro from './taro'
@@ -16,7 +16,7 @@ export function canIUse (scheme = '') {
       ...definition.apis,
       ...definition.components,
       canIUse: '*'
-    }
+    } as Exclude<typeof list, null>
   }
   if (!scheme) return false
   const o = set({}, scheme, true)
