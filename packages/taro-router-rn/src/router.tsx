@@ -82,11 +82,11 @@ export interface RouterConfig {
   entryPagePath?: string // 默认启动路径
 }
 
-export function createRouter (config: RouterConfig) {
+export function createRouter (config: RouterConfig, onReady: (options) => void) {
   if (config?.tabBar?.list?.length) {
-    return createTabNavigate(config)
+    return createTabNavigate(config,onReady)
   } else {
-    return createStackNavigate(config)
+    return createStackNavigate(config,onReady)
   }
 }
 
@@ -327,16 +327,29 @@ function getLinkingConfig (config: RouterConfig) {
   }
 }
 
-function createTabNavigate (config: RouterConfig) {
+// 入口组件，onLaunch，onShow初始化参数 
+function getInitOptions (config){
+  const initRouteName = getInitRouteName(config)
+  const initParams = getInitParams(config, initRouteName)
+  const initPath = config.pages.find(p => p.name === initRouteName)?.pagePath
+  return {
+    path: initPath,
+    query:initParams,
+  }
+}
+
+function createTabNavigate (config: RouterConfig, onReadyCallback) {
   const Stack = config.rnConfig?.useNativeStack ? createNativeStackNavigator() : createStackNavigator()
   const pageList = getPageList(config)
   const linking = getLinkingConfig(config)
   const stackProps = config.rnConfig?.stackProps
   const screenOptions = getStackOptions(config)
+  const initOptions  = getInitOptions(config)
 
   return <NavigationContainer
     ref={navigationRef}
     linking={linking}
+    onReady={()=> onReadyCallback(initOptions)}
   >
     <Stack.Navigator
       detachInactiveScreens={false}
@@ -369,16 +382,19 @@ function createTabNavigate (config: RouterConfig) {
   </NavigationContainer>
 }
 
-function createStackNavigate (config: RouterConfig) {
+function createStackNavigate (config: RouterConfig, onReadyCallback) {
   const Stack = config.rnConfig?.useNativeStack ? createNativeStackNavigator() : createStackNavigator()
   const pageList = getPageList(config)
   if (pageList.length <= 0) return null
   const linking = getLinkingConfig(config)
   const stackProps = config.rnConfig?.stackProps
   const screenOptions = getStackOptions(config)
+  const initOptions  = getInitOptions(config)
+
   return <NavigationContainer
     ref={navigationRef}
     linking={linking}
+    onReady={()=> onReadyCallback(initOptions)}
   >
     <Stack.Navigator
       detachInactiveScreens={false}

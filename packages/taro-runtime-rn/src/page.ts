@@ -64,7 +64,7 @@ export let PageContext: Context<string> = EMPTY_OBJ
 let appState = AppState.currentState
 
 AppState.addEventListener('change', (nextAppState) => {
-  const { page } = Current
+  const { page, app, router } = Current
   if (!page) return
   if (appState.match(/inactive|background/) && nextAppState === 'active') {
     if (!page.__isReactComponent && page.__safeExecute) {
@@ -72,6 +72,10 @@ AppState.addEventListener('change', (nextAppState) => {
     } else if (page.onShow) {
       page.onShow()
     }
+    app?.onShow && app.onShow({
+      path: router?.path,
+      query: router?.params
+    })
   }
   if (appState === 'active' && nextAppState.match(/inactive|background/)) {
     if (!page.__isReactComponent && page.__safeExecute) {
@@ -79,6 +83,7 @@ AppState.addEventListener('change', (nextAppState) => {
     } else if (page.onHide) {
       page.onHide()
     }
+    app?.onHide && app.onHide()
   }
   appState = nextAppState
 })

@@ -1,20 +1,23 @@
 import { Provider as TCNProvider } from '@tarojs/components-rn'
 import { createRouter, RouterConfig } from '@tarojs/router-rn'
-import React, { Component, ComponentClass,ComponentProps, createRef } from 'react'
+import React, { Component, ComponentProps, createRef, forwardRef } from 'react'
 import { RootSiblingParent } from 'react-native-root-siblings'
 
 import { Current } from './current'
-import { AppInstance } from './instance'
+import { AppInstance, PageLifeCycle } from './instance'
+import { getPageInstance } from './page'
 import { RNAppConfig } from './types/index'
-import { isFunction } from './utils'
+import { HOOKS_APP_ID, isFunction } from './utils'
+
 
 export function isClassComponent (component): boolean {
-  return isFunction(component.render) ||
+  return isFunction(component?.render) ||
     !!component.prototype?.isReactComponent ||
     component.prototype instanceof Component
 }
 
-export function createReactNativeApp (component: ComponentClass, config: RNAppConfig) {
+
+export function createReactNativeApp (AppEntry: any, config: RNAppConfig) {
   const routerConfig: RouterConfig = {
     tabBar: config.appConfig.tabBar,
     pages: config.pageList,
@@ -24,18 +27,29 @@ export function createReactNativeApp (component: ComponentClass, config: RNAppCo
     rnConfig: config.appConfig.rn || {}
   }
 
-  const ref = createRef<AppInstance>()
-
-  const isReactComponent = isClassComponent(component)
+  const appRef = createRef<AppInstance>()
+  const isReactComponent = isClassComponent(AppEntry)
+  let AppComponent:any = AppEntry
+  if(!isReactComponent){ 
+    // eslint-disable-next-line react/display-name
+    AppComponent = forwardRef((props, ref) => {
+      return <AppEntry forwardRef={ref}  {...props} />
+    })
+  }
 
   const NewAppComponent = (AppCompoent) => {
     return class Entry extends Component <any, any> {
-      render () {
-        let props: ComponentProps<any> | null = null
 
-        if (isReactComponent) {
-          props = { ref }
-        }
+
+      // 导航onReady
+      onReady (options){
+        triggerAppLifecycle('componentDidShow',options)
+        triggerAppLifecycle('onLaunch',options)
+      }
+
+      render () {
+        const props: ComponentProps<any> | null = null
+
         const { initPath = '', initParams = {} } = this.props
         const appProps = {
           ...props,
@@ -45,8 +59,8 @@ export function createReactNativeApp (component: ComponentClass, config: RNAppCo
         routerConfig.initParams = initParams
         return <RootSiblingParent>
           <TCNProvider {...this.props}>
-            <AppCompoent {...appProps}>
-              {createRouter(routerConfig)}
+            <AppCompoent {...appProps} ref={appRef}>
+              {createRouter(routerConfig, this.onReady)}
             </AppCompoent>
           </TCNProvider>
         </RootSiblingParent>
@@ -54,7 +68,7 @@ export function createReactNativeApp (component: ComponentClass, config: RNAppCo
     }
   }
 
-  const App = NewAppComponent(component)
+  const App = NewAppComponent(AppComponent)
 
   // 与小程序端实例保持一致
   const appInst = Object.create({}, {
@@ -68,33 +82,43 @@ export function createReactNativeApp (component: ComponentClass, config: RNAppCo
       enumerable: true,
       writable: true,
       value (options) {
-        const app = ref.current
-        if (app != null && isFunction(app.onLaunch)) {
-          app.onLaunch && app.onLaunch(options)
-        }
+        triggerAppLifecycle('onLaunch', options)
       }
     },
     onShow: {
       enumerable: true,
       writable: true,
       value (options) {
-        const app = ref.current
-        if (app != null && isFunction(app.componentDidShow)) {
-          app.componentDidShow && app.componentDidShow(options)
-        }
+        triggerAppLifecycle('componentDidShow', options)
       }
     },
     onHide: {
       enumerable: true,
       writable: true,
       value (options: unknown) {
-        const app = ref.current
-        if (app != null && isFunction(app.componentDidHide)) {
-          app.componentDidHide && app.componentDidHide(options)
-        }
+        triggerAppLifecycle('componentDidHide',options)
       }
     }
   })
+
+  function triggerAppLifecycle (lifecycle: keyof PageLifeCycle | keyof AppInstance, ...args){
+    try {
+      const app = appRef.current
+      if(isReactComponent){
+        app?.[lifecycle] && app?.[lifecycle](...args)
+      }else{
+        const instance = getPageInstance(HOOKS_APP_ID)
+        if(instance){
+          const func = instance[lifecycle]
+          if (Array.isArray(func)) {
+            func.forEach(cb => cb.apply(app, args))
+          }
+        }
+      }
+    } catch (err) {
+      throw new Error(err)
+    }
+  }
 
   Current.app = appInst
   return App
