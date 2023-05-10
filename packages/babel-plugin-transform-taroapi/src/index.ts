@@ -1,3 +1,5 @@
+import { isMatchWith, set } from 'lodash'
+
 import type * as BabelCore from '@babel/core'
 
 interface IState extends BabelCore.PluginPass {
@@ -18,14 +20,22 @@ const plugin = function (babel: typeof BabelCore): BabelCore.PluginObj<IState> {
 
   let referTaro: any[]
 
-  function replaceCanIUse (ast: BabelCore.NodePath<BabelCore.types.CallExpression>) {
+  function canIUse (definition, scheme = '') {
+    if (!scheme) return false
+    const o = set({}, scheme, true)
+    return isMatchWith(definition, o, (a, _) => {
+      if (a === '*') return true
+    })
+  }
+
+  function replaceCanIUse (ast: BabelCore.NodePath<BabelCore.types.CallExpression>, definition) {
     const args = ast.node.arguments
 
     if (args.length < 1) return
 
     // Note: 暂不考虑其他类型的参数映射
     if (t.isStringLiteral(args[0])) {
-      const isSupported = true
+      const isSupported = canIUse(definition, args[0].value)
       ast.replaceInline(t.booleanLiteral(isSupported))
     }
   }
@@ -128,13 +138,13 @@ const plugin = function (babel: typeof BabelCore): BabelCore.PluginObj<IState> {
           propertyName = callee.property[propName]
           if (propertyName === this.canIUse) {
             // Taro.canIUse or Taro['canIUse']
-            replaceCanIUse(ast)
+            replaceCanIUse(ast, this.definition)
           }
         } else if (invokedApis.has(this.canIUse)) {
           const { name } = t.identifier(invokedApis.get(this.canIUse)!)
           const isCanIUse = t.isIdentifier(callee, { name })
           // canIUse as _canIUse
-          if (isCanIUse) replaceCanIUse(ast)
+          if (isCanIUse) replaceCanIUse(ast, this.definition)
         }
       },
       Program: {
@@ -180,7 +190,7 @@ const plugin = function (babel: typeof BabelCore): BabelCore.PluginObj<IState> {
               const isCanIUse = t.isIdentifier(callee, { name })
               if (isCanIUse) {
                 // canIUse as _use
-                replaceCanIUse(ast)
+                replaceCanIUse(ast, that.definition)
               }
             },
           })

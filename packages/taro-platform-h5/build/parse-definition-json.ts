@@ -61,10 +61,7 @@ export function parseAPIMethod (e: DocEntry) {
   const o: Record<string, any> = {}
   const { type = 'any', flags = ts.SymbolFlags.None, declarations = [] } = e
   if (anyTypes.includes(type)) {
-    o.return = anyStr
-    o.success = anyStr
-    o.object = anyStr
-    o.callback = anyStr
+    return anyStr
   } else if (flags === ts.SymbolFlags.BlockScopedVariable && declarations.length > 0) {
     const [declaration = {}] = declarations
     const { parameters = [], returnType = '' } = declaration
@@ -78,7 +75,7 @@ export function parseAPIMethod (e: DocEntry) {
       o.callback = parseAnyOrVoid(obj?.type)
     } else {
       // FIXME parse parameter ${param}.${option}
-      o.object = parseAnyOrVoid(parameter?.type, parameter)
+      o.object = parseAnyOrVoid(parameter?.type)
       // FIXME parse successCallback ${param}.${option}
       o.success = voidStr
     }
