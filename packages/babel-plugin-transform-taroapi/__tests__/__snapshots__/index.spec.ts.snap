@@ -3,30 +3,30 @@
 exports[`babel-plugin-transform-taroapi should canIUse support! 1`] = `
 "import { canIUse as _canUse } from '@tarojs/taro-h5';
 // 对象的属性或方法
-true;
-true;
-true;
-true;
+false;
+false;
+false;
+false;
 
 // 接口参数、回调或者返回值
-true;
-true;
-true;
-true;
-true;
+false;
+false;
+false;
+false;
+false;
 true;
 
 // 组件的属性
-true;
-true;
-true;"
+false;
+false;
+false;"
 `;
 
 exports[`babel-plugin-transform-taroapi should canIUse work or skip! 1`] = `
 "import Taro from '@tarojs/taro-h5';
 function canIUse() {}
-true;
-true;
+false;
+false;
 canIUse('showToast.object.image');"
 `;
 
