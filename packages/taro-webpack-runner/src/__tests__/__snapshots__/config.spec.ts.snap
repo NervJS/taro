@@ -1104,10 +1104,6 @@ exports[`config should build from origin and pipe to output 2`] = `
         })),
         "injectNewStyleProperties": TaroHook(HOOK_TYPE.SINGLE),
         "modifyTaroEvent": TaroHook(HOOK_TYPE.MULTI),
-        "dispatchTaroEvent": TaroHook(HOOK_TYPE.SINGLE, (function(e, node) {
-            node.dispatchEvent(e);
-        })),
-        "dispatchTaroEventFinish": TaroHook(HOOK_TYPE.MULTI),
         "modifyDispatchEvent": TaroHook(HOOK_TYPE.MULTI),
         "initNativeApi": TaroHook(HOOK_TYPE.MULTI),
         "patchElement": TaroHook(HOOK_TYPE.MULTI)
@@ -2626,10 +2622,6 @@ I m irrelevant.
         })),
         "injectNewStyleProperties": TaroHook(HOOK_TYPE.SINGLE),
         "modifyTaroEvent": TaroHook(HOOK_TYPE.MULTI),
-        "dispatchTaroEvent": TaroHook(HOOK_TYPE.SINGLE, (function(e, node) {
-            node.dispatchEvent(e);
-        })),
-        "dispatchTaroEventFinish": TaroHook(HOOK_TYPE.MULTI),
         "modifyDispatchEvent": TaroHook(HOOK_TYPE.MULTI),
         "initNativeApi": TaroHook(HOOK_TYPE.MULTI),
         "patchElement": TaroHook(HOOK_TYPE.MULTI)
@@ -4148,10 +4140,6 @@ exports[`config should resolved alias 2`] = `
         })),
         "injectNewStyleProperties": TaroHook(HOOK_TYPE.SINGLE),
         "modifyTaroEvent": TaroHook(HOOK_TYPE.MULTI),
-        "dispatchTaroEvent": TaroHook(HOOK_TYPE.SINGLE, (function(e, node) {
-            node.dispatchEvent(e);
-        })),
-        "dispatchTaroEventFinish": TaroHook(HOOK_TYPE.MULTI),
         "modifyDispatchEvent": TaroHook(HOOK_TYPE.MULTI),
         "initNativeApi": TaroHook(HOOK_TYPE.MULTI),
         "patchElement": TaroHook(HOOK_TYPE.MULTI)

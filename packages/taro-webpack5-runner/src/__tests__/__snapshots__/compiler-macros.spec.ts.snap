@@ -14,8 +14,18 @@ require("./vendors");
 require("./runtime");
 
 (wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 143 ], {
-    130: function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
-        var taro_shared = __webpack_require__(106);
+    8: function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
+        var taro_namespaceObject = {};
+        __webpack_require__.r(taro_namespaceObject);
+        __webpack_require__.d(taro_namespaceObject, {
+            Ox: function() {
+                return createReactApp;
+            },
+            J1: function() {
+                return initPxTransform;
+            }
+        });
+        var taro_shared = __webpack_require__(738);
         var needPromiseApis = new Set([ "addFileToFavorites", "addVideoToFavorites", "authPrivateMessage", "checkIsAddedToMyMiniProgram", "chooseContact", "cropImage", "disableAlertBeforeUnload", "editImage", "enableAlertBeforeUnload", "getBackgroundFetchData", "getChannelsLiveInfo", "getChannelsLiveNoticeInfo", "getFuzzyLocation", "getGroupEnterInfo", "getLocalIPAddress", "getShareInfo", "getUserProfile", "getWeRunData", "join1v1Chat", "openChannelsActivity", "openChannelsEvent", "openChannelsLive", "openChannelsUserProfile", "openCustomerServiceChat", "openVideoEditor", "saveFileToDisk", "scanItem", "setEnable1v1Chat", "setWindowSize", "sendBizRedPacket", "startFacialRecognitionVerify" ]);
         function initNativeApi(taro) {
             (0, taro_shared.Ig)(taro, wx, {
@@ -517,6 +527,11 @@ require("./runtime");
             baseFontSize: 20,
             unitPrecision: undefined,
             targetUnit: undefined
+        });
+        (0, taro_namespaceObject.initAppInfo)({
+            platform: "MiniProgram",
+            taroVersion: "3.6.6",
+            designWidth: 750
         });
     }
 }, function(__webpack_require__) {
@@ -3981,8 +3996,7 @@ require("./runtime");
                 var dispatch = function dispatch() {
                     var e = createEvent(event, node);
                     _tarojs_shared__WEBPACK_IMPORTED_MODULE_0__.PT.call("modifyTaroEvent", e, node);
-                    _tarojs_shared__WEBPACK_IMPORTED_MODULE_0__.PT.call("dispatchTaroEvent", e, node);
-                    _tarojs_shared__WEBPACK_IMPORTED_MODULE_0__.PT.call("dispatchTaroEventFinish", e, node);
+                    node.dispatchEvent(e);
                 };
                 if (_tarojs_shared__WEBPACK_IMPORTED_MODULE_0__.PT.isExist("batchedEventUpdates")) {
                     var type = event.type;
@@ -4014,15 +4028,6 @@ require("./runtime");
                 return _super4.apply(this, arguments);
             }
             (0, _babel_runtime_helpers_esm_createClass__WEBPACK_IMPORTED_MODULE_2__.Z)(FormElement, [ {
-                key: "type",
-                get: function get() {
-                    var _a;
-                    return (_a = this.props[TYPE]) !== null && _a !== void 0 ? _a : "";
-                },
-                set: function set(val) {
-                    this.setAttribute(TYPE, val);
-                }
-            }, {
                 key: "value",
                 get: function get() {
                     var val = this.props[VALUE];
