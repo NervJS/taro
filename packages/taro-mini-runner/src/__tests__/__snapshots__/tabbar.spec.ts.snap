@@ -19,13 +19,13 @@ require("./taro");
 (my["webpackJsonp"] = my["webpackJsonp"] || []).push([ [ 4 ], {
     0: function(module, __webpack_exports__, __webpack_require__) {
         "use strict";
-        __webpack_require__.d(__webpack_exports__, "e", (function() {
+        __webpack_require__.d(__webpack_exports__, "d", (function() {
             return mergeReconciler;
         }));
-        __webpack_require__.d(__webpack_exports__, "d", (function() {
+        __webpack_require__.d(__webpack_exports__, "c", (function() {
             return mergeInternalComponents;
         }));
-        __webpack_require__.d(__webpack_exports__, "f", (function() {
+        __webpack_require__.d(__webpack_exports__, "e", (function() {
             return processApis;
         }));
         __webpack_require__.d(__webpack_exports__, "a", (function() {
@@ -544,7 +544,7 @@ require("./taro");
                 }));
             }
             function initNativeApi(taro) {
-                Object(_tarojs_shared__WEBPACK_IMPORTED_MODULE_0__["f"])(taro, my, {
+                Object(_tarojs_shared__WEBPACK_IMPORTED_MODULE_0__["e"])(taro, my, {
                     needPromiseApis: needPromiseApis,
                     handleSyncApis: handleSyncApis,
                     transformMeta: transformMeta,
@@ -768,8 +768,8 @@ require("./taro");
                     return userAgent || navigator.swuserAgent || "";
                 }
             });
-            Object(_tarojs_shared__WEBPACK_IMPORTED_MODULE_0__["e"])(hostConfig);
-            Object(_tarojs_shared__WEBPACK_IMPORTED_MODULE_0__["d"])(components);
+            Object(_tarojs_shared__WEBPACK_IMPORTED_MODULE_0__["d"])(hostConfig);
+            Object(_tarojs_shared__WEBPACK_IMPORTED_MODULE_0__["c"])(components);
         }).call(this, __webpack_require__(2)["navigator"]);
     },
     14: function(module, exports, __webpack_require__) {},
@@ -847,11 +847,6 @@ require("./taro");
             baseFontSize: 20,
             unitPrecision: undefined,
             targetUnit: undefined
-        });
-        Object(taro["initAppInfo"])({
-            platform: "MiniProgram",
-            taroVersion: "3.6.6",
-            designWidth: 750
         });
     }
 }, [ [ 16, 0, 1, 3, 2 ] ] ]);
@@ -1814,11 +1809,6 @@ require("./taro");
             baseFontSize: 20,
             unitPrecision: undefined,
             targetUnit: undefined
-        });
-        undefined({
-            platform: "MiniProgram",
-            taroVersion: "3.6.6",
-            designWidth: 750
         });
     }
 }, [ [ 15, 0, 1, 3, 2 ] ] ]);

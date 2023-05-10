@@ -491,11 +491,6 @@ require("./runtime");
             unitPrecision: undefined,
             targetUnit: undefined
         });
-        (0, taro.initAppInfo)({
-            platform: "MiniProgram",
-            taroVersion: "3.6.6",
-            designWidth: 750
-        });
     }
 }, function(__webpack_require__) {
     var __webpack_exec__ = function(moduleId) {
