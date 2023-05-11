@@ -1,5 +1,5 @@
 import { Provider as TCNProvider } from '@tarojs/components-rn'
-import { createRouter, RouterConfig } from '@tarojs/router-rn'
+import { createRouter, getInitOptions, RouterConfig, RouterOption } from '@tarojs/router-rn'
 import React, { Component, ComponentProps, createRef, forwardRef } from 'react'
 import { RootSiblingParent } from 'react-native-root-siblings'
 
@@ -29,46 +29,62 @@ export function createReactNativeApp (AppEntry: any, config: RNAppConfig) {
 
   const appRef = createRef<AppInstance>()
   const isReactComponent = isClassComponent(AppEntry)
-  let AppComponent:any = AppEntry
+  let entryComponent:any = AppEntry
   if(!isReactComponent){ 
     // eslint-disable-next-line react/display-name
-    AppComponent = forwardRef((props, ref) => {
+    entryComponent = forwardRef((props, ref) => {
       return <AppEntry forwardRef={ref}  {...props} />
     })
   }
 
-  const NewAppComponent = (AppCompoent) => {
+
+  const NewAppComponent = (AppComponent) => {
     return class Entry extends Component <any, any> {
 
+      constructor (props){
+        super(props)
+        const { initPath = '', initParams = {} } = this.props
+        routerConfig.initPath = initPath
+        routerConfig.initParams = initParams
 
-      // 导航onReady
-      onReady (options){
-        triggerAppLifecycle('componentDidShow',options)
+      }
+
+      componentDidMount () {
+        const options = getInitOptions(routerConfig)
         triggerAppLifecycle('onLaunch',options)
+        triggerAppLifecycle('componentDidShow',options)
+
+      }
+
+      // 导航onUnhandledAction
+      onUnhandledAction (options){
+        triggerAppLifecycle('onPageNotFound',options)
       }
 
       render () {
         const props: ComponentProps<any> | null = null
 
-        const { initPath = '', initParams = {} } = this.props
         const appProps = {
           ...props,
           ...this.props
         }
-        routerConfig.initPath = initPath
-        routerConfig.initParams = initParams
+
+        const routerOptions: RouterOption = {
+          onUnhandledAction: this.onUnhandledAction
+        }
+        
         return <RootSiblingParent>
           <TCNProvider {...this.props}>
-            <AppCompoent {...appProps} ref={appRef}>
-              {createRouter(routerConfig, this.onReady)}
-            </AppCompoent>
+            <AppComponent {...appProps} ref={appRef}>
+              {createRouter(routerConfig, routerOptions)}
+            </AppComponent>
           </TCNProvider>
         </RootSiblingParent>
       }
     }
   }
 
-  const App = NewAppComponent(AppComponent)
+  const App = NewAppComponent(entryComponent)
 
   // 与小程序端实例保持一致
   const appInst = Object.create({}, {
@@ -98,7 +114,14 @@ export function createReactNativeApp (AppEntry: any, config: RNAppConfig) {
       value (options: unknown) {
         triggerAppLifecycle('componentDidHide',options)
       }
-    }
+    },
+    onPageNotFound: {
+      enumerable: true,
+      writable: true,
+      value (options) {
+        triggerAppLifecycle('onPageNotFound', options)
+      }
+    },
   })
 
   function triggerAppLifecycle (lifecycle: keyof PageLifeCycle | keyof AppInstance, ...args){

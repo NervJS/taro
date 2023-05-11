@@ -1,6 +1,6 @@
 import { getCurrentRoute, isTabPage, PageProvider } from '@tarojs/router-rn'
 import { Component, Context, createContext, createElement, createRef, forwardRef, RefObject } from 'react'
-import { AppState, Dimensions, EmitterSubscription, NativeEventSubscription, RefreshControl, ScrollView } from 'react-native'
+import { AppState, Dimensions, EmitterSubscription, RefreshControl, ScrollView } from 'react-native'
 
 import { isClassComponent } from './app'
 import { Current } from './current'
@@ -67,15 +67,15 @@ AppState.addEventListener('change', (nextAppState) => {
   const { page, app, router } = Current
   if (!page) return
   if (appState.match(/inactive|background/) && nextAppState === 'active') {
+    app?.onShow && app.onShow({
+      path: router?.path,
+      query: router?.params
+    })
     if (!page.__isReactComponent && page.__safeExecute) {
       page.__safeExecute('componentDidShow')
     } else if (page.onShow) {
       page.onShow()
     }
-    app?.onShow && app.onShow({
-      path: router?.path,
-      query: router?.params
-    })
   }
   if (appState === 'active' && nextAppState.match(/inactive|background/)) {
     if (!page.__isReactComponent && page.__safeExecute) {
@@ -126,7 +126,6 @@ export function createPageConfig (Page: any, pageConfig: PageConfig): any {
       unSubscribleFocus: any
       unSubscribleTabPress: any
       pageId: string
-      appStateSubscription: NativeEventSubscription | undefined
       dimensionsSubscription: EmitterSubscription | undefined
       isPageReady: boolean
 
@@ -136,10 +135,10 @@ export function createPageConfig (Page: any, pageConfig: PageConfig): any {
         const backgroundTextStyle = pageConfig.backgroundTextStyle || globalAny.__taroAppConfig?.appConfig?.window?.backgroundTextStyle || 'dark'
         this.state = {
           refreshing: false, // 刷新指示器
-          appState: AppState.currentState,
           textColor: refreshStyle.textColor || (backgroundTextStyle === 'dark' ? '#000000' : '#ffffff'),
           backgroundColor: refreshStyle.backgroundColor || '#ffffff'
         }
+        appState = AppState.currentState
         this.screenRef = createRef<Instance>()
         this.pageScrollView = createRef()
         this.setPageInstance()

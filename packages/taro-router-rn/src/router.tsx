@@ -9,7 +9,7 @@ import React from 'react'
 import { StyleProp, ViewStyle } from 'react-native'
 
 import { navigationRef } from './rootNavigation'
-import { getTabInitRoute, getTabItemConfig, getTabVisible, handleUrl, hasJumpAnimate, setTabConfig } from './utils/index'
+import { getCurrentJumpUrl, getTabInitRoute, getTabItemConfig, getTabVisible, handleUrl, hasJumpAnimate, setTabConfig } from './utils/index'
 import BackButton from './view/BackButton'
 import HeadTitle from './view/HeadTitle'
 import CustomTabBar from './view/TabBar'
@@ -82,11 +82,27 @@ export interface RouterConfig {
   entryPagePath?: string // 默认启动路径
 }
 
-export function createRouter (config: RouterConfig, onReady: (options) => void) {
+export interface RouterOption{
+  onReady?: (options)=> void
+  onUnhandledAction?: (options)=> void
+}
+
+export function createRouter (config: RouterConfig, options:RouterOption) {
   if (config?.tabBar?.list?.length) {
-    return createTabNavigate(config,onReady)
+    return createTabNavigate(config,options)
   } else {
-    return createStackNavigate(config,onReady)
+    return createStackNavigate(config,options)
+  }
+}
+
+// 初始化路由相关，入口组件，onLaunch，onShow  
+export function getInitOptions (config){
+  const initRouteName = getInitRouteName(config)
+  const initParams = getInitParams(config, initRouteName)
+  const initPath = config.pages.find(p => p.name === initRouteName)?.pagePath
+  return {
+    path: initPath,
+    query:initParams,
   }
 }
 
@@ -327,29 +343,27 @@ function getLinkingConfig (config: RouterConfig) {
   }
 }
 
-// 入口组件，onLaunch，onShow初始化参数 
-function getInitOptions (config){
-  const initRouteName = getInitRouteName(config)
-  const initParams = getInitParams(config, initRouteName)
-  const initPath = config.pages.find(p => p.name === initRouteName)?.pagePath
-  return {
-    path: initPath,
-    query:initParams,
+function handlePageNotFound (action, options){
+  const routeObj:Record<string,any> = action?.payload  ?? {}
+  if(routeObj?.name){
+    options?.onUnhandledAction && options?.onUnhandledAction({
+      path:  getCurrentJumpUrl() ?? routeObj?.name,
+      query: routeObj?.params ?? {}
+    })
   }
 }
 
-function createTabNavigate (config: RouterConfig, onReadyCallback) {
+function createTabNavigate (config: RouterConfig, options: RouterOption) {
   const Stack = config.rnConfig?.useNativeStack ? createNativeStackNavigator() : createStackNavigator()
   const pageList = getPageList(config)
   const linking = getLinkingConfig(config)
   const stackProps = config.rnConfig?.stackProps
   const screenOptions = getStackOptions(config)
-  const initOptions  = getInitOptions(config)
 
   return <NavigationContainer
     ref={navigationRef}
     linking={linking}
-    onReady={()=> onReadyCallback(initOptions)}
+    onUnhandledAction = {(action)=> handlePageNotFound(action, options)}
   >
     <Stack.Navigator
       detachInactiveScreens={false}
@@ -382,19 +396,19 @@ function createTabNavigate (config: RouterConfig, onReadyCallback) {
   </NavigationContainer>
 }
 
-function createStackNavigate (config: RouterConfig, onReadyCallback) {
+
+function createStackNavigate (config: RouterConfig, options:RouterOption) {
   const Stack = config.rnConfig?.useNativeStack ? createNativeStackNavigator() : createStackNavigator()
   const pageList = getPageList(config)
   if (pageList.length <= 0) return null
   const linking = getLinkingConfig(config)
   const stackProps = config.rnConfig?.stackProps
   const screenOptions = getStackOptions(config)
-  const initOptions  = getInitOptions(config)
 
   return <NavigationContainer
     ref={navigationRef}
     linking={linking}
-    onReady={()=> onReadyCallback(initOptions)}
+    onUnhandledAction = {(action)=> handlePageNotFound(action, options)}
   >
     <Stack.Navigator
       detachInactiveScreens={false}
