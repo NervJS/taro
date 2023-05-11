@@ -1,7 +1,7 @@
 import commonjs from '@rollup/plugin-commonjs'
 import json from '@rollup/plugin-json'
-import resolve from '@rollup/plugin-node-resolve'
-import { merge } from 'lodash-es'
+import { nodeResolve } from '@rollup/plugin-node-resolve'
+import { merge } from 'lodash'
 import { defineConfig } from 'rollup'
 import externals from 'rollup-plugin-node-externals'
 import ts from 'rollup-plugin-ts'
@@ -20,7 +20,7 @@ const baseConfig: RollupOptions = {
 function getPlugins<T = InputPluginOption> (pre: T[] = [], post: T[] = []) {
   return [
     ...pre,
-    resolve({
+    nodeResolve({
       preferBuiltins: false,
       mainFields: ['main:h5', 'browser', 'module', 'jsnext:main', 'main']
     }),

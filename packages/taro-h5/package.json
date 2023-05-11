@@ -20,9 +20,9 @@
   ],
   "scripts": {
     "prebuild": "rimraf ./dist",
-    "build": "cross-env NODE_ENV=production pnpm run rollup",
-    "dev": "cross-env NODE_ENV=development pnpm run rollup -w",
-    "rollup": "rollup --config rollup.config.ts --configPlugin @rollup/plugin-typescript",
+    "build": "pnpm run rollup --environment NODE_ENV:production",
+    "dev": "pnpm run rollup --environment NODE_ENV:development -w",
+    "rollup": "rollup --config rollup.config.ts --configPlugin @rollup/plugin-typescript --bundleConfigAsCjs",
     "test": "node_modules/jest/bin/jest.js",
     "test:ci": "jest --ci -i --coverage false",
     "test:dev": "jest --watch",
