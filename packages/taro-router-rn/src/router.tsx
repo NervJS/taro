@@ -343,14 +343,53 @@ function getLinkingConfig (config: RouterConfig) {
   }
 }
 
+function defaultOnUnhandledAction (action){
+  // @ts-ignore
+  if (process.env.NODE_ENV === 'production') {
+    return
+  }
+  const payload: Record<string, any> | undefined = action.payload
+  let message = `The action '${action.type}'${
+    payload ? ` with payload ${JSON.stringify(action.payload)}` : ''
+  } was not handled by any navigator.`
+  switch (action.type) {
+    case 'NAVIGATE':
+    case 'PUSH':
+    case 'REPLACE':
+    case 'JUMP_TO':
+      if (payload?.name) {
+        const pageName = getCurrentJumpUrl() ?? payload?.name
+        message += `\n\nDo you have a screen '${pageName}'?\n\nIf you're trying to navigate to a screen in a nested navigator, see https://reactnavigation.org/docs/nesting-navigators#navigating-to-a-screen-in-a-nested-navigator.`
+      } else {
+        message += `\n\nYou need to pass the name of the screen to navigate to.\n\nSee https://reactnavigation.org/docs/navigation-actions for usage.`
+      }
+
+      break
+    case 'GO_BACK':
+    case 'POP':
+    case 'POP_TO_TOP':
+      message += `\n\nIs there any screen to go back to?`
+      break
+    case 'OPEN_DRAWER':
+    case 'CLOSE_DRAWER':
+    case 'TOGGLE_DRAWER':
+      message += `\n\nIs your screen inside a Drawer navigator?`
+      break
+  }
+  message += `\n\nThis is a development-only warning and won't be shown in production.`
+  console.error(message)
+}
+
 function handlePageNotFound (action, options){
   const routeObj:Record<string,any> = action?.payload  ?? {}
   if(routeObj?.name){
     options?.onUnhandledAction && options?.onUnhandledAction({
-      path:  getCurrentJumpUrl() ?? routeObj?.name,
+      path: getCurrentJumpUrl() ?? routeObj?.name,
       query: routeObj?.params ?? {}
     })
   }
+  // 监听了onUnhandledAction，导航默认打印错误就不执行了, 把源码中默认打印加一下😭
+  defaultOnUnhandledAction(action)
 }
 
 function createTabNavigate (config: RouterConfig, options: RouterOption) {
@@ -395,7 +434,6 @@ function createTabNavigate (config: RouterConfig, options: RouterOption) {
     </Stack.Navigator>
   </NavigationContainer>
 }
-
 
 function createStackNavigate (config: RouterConfig, options:RouterOption) {
   const Stack = config.rnConfig?.useNativeStack ? createNativeStackNavigator() : createStackNavigator()
