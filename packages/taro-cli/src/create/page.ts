@@ -214,8 +214,18 @@ export default class Page extends Creator {
     const addNewSubPackage = (node: ObjectExpression, page: string, subPackage: string) =>{
       
       const subPackages = node?.properties.find(node => (node as any).key.name === 'subPackages') as ObjectProperty
-      debugger
-      if (!subPackages) return
+      if (!subPackages) {
+        const pagesArray = t.arrayExpression([
+          t.stringLiteral(page),
+        ])
+        const pageObject = t.objectProperty(t.identifier('pages'), pagesArray)
+        const subPkgRootObject = t.objectProperty(t.identifier('root'), t.stringLiteral(subPackage))
+        const subPkgItemObject = t.objectExpression([subPkgRootObject, pageObject])
+        const subPkgArray = t.arrayExpression([subPkgItemObject])
+        const subPkgObject = t.objectProperty(t.identifier('subPackages'), subPkgArray)
+        node?.properties.push(subPkgObject)
+      }
+     
       const value = subPackages?.value
       if(!value || value?.type !== 'ArrayExpression') return
       console.log(value)
@@ -255,8 +265,8 @@ export default class Page extends Creator {
     })
 
 
-    // const newCode = generator(ast)
-    // fs.writeFileSync(appConfigPath, newCode.code)
+    const newCode = generator(ast)
+    fs.writeFileSync(appConfigPath, newCode.code)
   }
 
   write () {
