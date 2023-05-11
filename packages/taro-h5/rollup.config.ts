@@ -1,6 +1,6 @@
 import commonjs from '@rollup/plugin-commonjs'
-import resolve from '@rollup/plugin-node-resolve'
-import { mergeWith } from 'lodash-es'
+import { nodeResolve } from '@rollup/plugin-node-resolve'
+import { mergeWith } from 'lodash'
 import { defineConfig } from 'rollup'
 import externals from 'rollup-plugin-node-externals'
 import postcss from 'rollup-plugin-postcss'
@@ -19,7 +19,7 @@ const baseConfig: RollupOptions = {
       deps: true,
       devDeps: false,
     }),
-    resolve({
+    nodeResolve({
       preferBuiltins: false,
       mainFields: ['main:h5', 'browser', 'module', 'jsnext:main', 'main']
     }) as InputPluginOption,
