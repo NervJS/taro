@@ -7,9 +7,9 @@ import type { TextProps } from 'types'
   styleUrl: './style/index.scss'
 })
 export class Text implements ComponentInterface {
-  @Prop() selectable = false
-  @Prop() userSelect = false
-  @Prop() space?: keyof TextProps.TSpace
+  @Prop({ mutable: true }) selectable = false
+  @Prop({ mutable: true }) userSelect = false
+  @Prop({ mutable: true }) space?: keyof TextProps.TSpace
   @Prop() numberOfLines?: number
 
   render () {

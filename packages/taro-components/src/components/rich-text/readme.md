@@ -14,8 +14,9 @@
 | Property     | Attribute     | Description | Type                                      | Default     |
 | ------------ | ------------- | ----------- | ----------------------------------------- | ----------- |
 | `nodes`      | `nodes`       |             | `ElementType[] \| string`                 | `undefined` |
+| `selectable` | `selectable`  |             | `boolean`                                 | `false`     |
 | `space`      | `space`       |             | `"emsp" \| "ensp" \| "nbsp" \| undefined` | `undefined` |
-| `userSelect` | `user-select` |             | `boolean \| undefined`                    | `undefined` |
+| `userSelect` | `user-select` |             | `boolean`                                 | `false`     |
 
 
 ----------------------------------------------
