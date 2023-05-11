@@ -35,6 +35,11 @@ declare namespace PickerStandardProps {
     /** 省市区选择器 */
     region
   }
+
+  interface PickerText {
+    okText?: string
+    cancelText?: string
+  }
 }
 /** 普通选择器：mode = selector */
 interface PickerSelectorProps extends PickerStandardProps {
@@ -74,6 +79,11 @@ interface PickerSelectorProps extends PickerStandardProps {
    * @supported weapp, h5, rn
    */
   onChange: CommonEventFunction<PickerSelectorProps.ChangeEventDetail>
+  /**
+   * 用于替换组件内部文本
+   * @supported h5
+   */
+  textProps?: PickerStandardProps.PickerText
 }
 declare namespace PickerSelectorProps {
   interface ChangeEventDetail {

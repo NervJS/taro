@@ -749,16 +749,20 @@ exports[`vue3 should build vue3 app 2`] = `
         _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_6___default()(Events, [ {
             "key": "on",
             "value": function on(eventName, callback, context) {
-                var event, node, tail, list;
+                var event, tail, _eventName;
                 if (!callback) {
                     return this;
                 }
-                eventName = eventName.split(Events.eventSplitter);
+                if (_babel_runtime_helpers_typeof__WEBPACK_IMPORTED_MODULE_0___default()(eventName) === "symbol") {
+                    _eventName = [ eventName ];
+                } else {
+                    _eventName = eventName.split(Events.eventSplitter);
+                }
                 this.callbacks || (this.callbacks = {});
                 var calls = this.callbacks;
-                while (event = eventName.shift()) {
-                    list = calls[event];
-                    node = list ? list.tail : {};
+                while (event = _eventName.shift()) {
+                    var list = calls[event];
+                    var node = list ? list.tail : {};
                     node.next = tail = {};
                     node.context = context;
                     node.callback = callback;
@@ -786,7 +790,7 @@ exports[`vue3 should build vue3 app 2`] = `
         }, {
             "key": "off",
             "value": function off(events, callback, context) {
-                var event, calls, node, tail, cb, ctx;
+                var event, calls, _events;
                 if (!(calls = this.callbacks)) {
                     return this;
                 }
@@ -794,17 +798,21 @@ exports[`vue3 should build vue3 app 2`] = `
                     delete this.callbacks;
                     return this;
                 }
-                events = events ? events.split(Events.eventSplitter) : Object.keys(calls);
-                while (event = events.shift()) {
-                    node = calls[event];
+                if (_babel_runtime_helpers_typeof__WEBPACK_IMPORTED_MODULE_0___default()(events) === "symbol") {
+                    _events = [ events ];
+                } else {
+                    _events = events ? events.split(Events.eventSplitter) : Object.keys(calls);
+                }
+                while (event = _events.shift()) {
+                    var node = calls[event];
                     delete calls[event];
                     if (!node || !(callback || context)) {
                         continue;
                     }
-                    tail = node.tail;
+                    var tail = node.tail;
                     while ((node = node.next) !== tail) {
-                        cb = node.callback;
-                        ctx = node.context;
+                        var cb = node.callback;
+                        var ctx = node.context;
                         if (callback && cb !== callback || context && ctx !== context) {
                             this.on(event, cb, ctx);
                         }
@@ -815,17 +823,23 @@ exports[`vue3 should build vue3 app 2`] = `
         }, {
             "key": "trigger",
             "value": function trigger(events) {
-                var event, node, calls, tail;
+                var event, node, calls, _events;
                 if (!(calls = this.callbacks)) {
                     return this;
                 }
-                events = events.split(Events.eventSplitter);
-                var rest = [].slice.call(arguments, 1);
-                while (event = events.shift()) {
+                if (_babel_runtime_helpers_typeof__WEBPACK_IMPORTED_MODULE_0___default()(events) === "symbol") {
+                    _events = [ events ];
+                } else {
+                    _events = events.split(Events.eventSplitter);
+                }
+                for (var _len2 = arguments.length, args = new Array(_len2 > 1 ? _len2 - 1 : 0), _key2 = 1; _key2 < _len2; _key2++) {
+                    args[_key2 - 1] = arguments[_key2];
+                }
+                while (event = _events.shift()) {
                     if (node = calls[event]) {
-                        tail = node.tail;
+                        var tail = node.tail;
                         while ((node = node.next) !== tail) {
-                            node.callback.apply(node.context || this, rest);
+                            node.callback.apply(node.context || this, args);
                         }
                     }
                 }
@@ -909,8 +923,8 @@ exports[`vue3 should build vue3 app 2`] = `
                 if (list) {
                     var tail = list.tail;
                     var node = list.next;
-                    for (var _len2 = arguments.length, rest = new Array(_len2 > 1 ? _len2 - 1 : 0), _key2 = 1; _key2 < _len2; _key2++) {
-                        rest[_key2 - 1] = arguments[_key2];
+                    for (var _len3 = arguments.length, rest = new Array(_len3 > 1 ? _len3 - 1 : 0), _key3 = 1; _key3 < _len3; _key3++) {
+                        rest[_key3 - 1] = arguments[_key3];
                     }
                     var args = rest;
                     var res;
@@ -977,6 +991,10 @@ exports[`vue3 should build vue3 app 2`] = `
         })),
         "injectNewStyleProperties": TaroHook(HOOK_TYPE.SINGLE),
         "modifyTaroEvent": TaroHook(HOOK_TYPE.MULTI),
+        "dispatchTaroEvent": TaroHook(HOOK_TYPE.SINGLE, (function(e, node) {
+            node.dispatchEvent(e);
+        })),
+        "dispatchTaroEventFinish": TaroHook(HOOK_TYPE.MULTI),
         "modifyDispatchEvent": TaroHook(HOOK_TYPE.MULTI),
         "initNativeApi": TaroHook(HOOK_TYPE.MULTI),
         "patchElement": TaroHook(HOOK_TYPE.MULTI)
