@@ -31,7 +31,8 @@ export type Nodes = ElementType[] | StringType
 })
 export class RichText implements ComponentInterface {
   @Prop() nodes: Nodes
-  @Prop() userSelect?: boolean
+  @Prop({ mutable: true }) selectable = false
+  @Prop({ mutable: true }) userSelect = false
   @Prop() space?: keyof TextProps.TSpace
 
   renderNode = (node: ElementType) => {
