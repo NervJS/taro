@@ -13,7 +13,9 @@
     "index.js"
   ],
   "sideEffects": [
+    "*.scss.js",
     "*.scss",
+    "*.css.js",
     "*.css"
   ],
   "scripts": {
