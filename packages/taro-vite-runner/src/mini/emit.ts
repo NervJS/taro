@@ -9,7 +9,7 @@ import { baseCompName, baseTemplateName,customWrapperName } from '../utils/const
 import type { Config } from '@tarojs/taro'
 import type { PluginContext } from 'rollup'
 import type { PluginOption } from 'vite'
-import type { TaroCompiler } from '../utils/taroCompiler'
+import type { TaroCompiler } from '../utils/compiler/mini'
 
 export default function (): PluginOption {
   return [{

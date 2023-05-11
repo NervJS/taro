@@ -7,7 +7,7 @@ import { getCompiler,isRelativePath, isVirtualModule } from '../utils'
 
 import type { PluginContext } from 'rollup'
 import type { PluginOption } from 'vite'
-import type { TaroCompiler } from '../utils/taroCompiler'
+import type { TaroCompiler } from '../utils/compiler/mini'
 import type { MiniBuildConfig } from '../utils/types'
 
 const QUERY_IS_NATIVE_SCRIPT = '?isNativeScript='

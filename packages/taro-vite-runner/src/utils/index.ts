@@ -2,13 +2,40 @@ import { NODE_MODULES_REG } from '@tarojs/helper'
 import { isString } from '@tarojs/shared'
 import path from 'path'
 
-import { TARO_COMPILER,TaroCompiler } from './taroCompiler'
+import { TaroCompiler } from '../utils/compiler/mini'
 
 import type { PluginContext } from 'rollup'
-// import type { H5BuildConfig, MiniBuildConfig } from './types'
+import type { Target } from 'vite-plugin-static-copy'
+import type { H5BuildConfig, MiniBuildConfig } from './types'
+
+export function convertCopyOptions (taroConfig: MiniBuildConfig | H5BuildConfig) {
+  const copy = taroConfig.copy
+  const copyOptions: Target[] = []
+  copy?.patterns.forEach(({ from, to }) => {
+    const { base, ext } = path.parse(to)
+    to = to
+      .replace(new RegExp('^' + taroConfig.outputRoot + '/'), '')
+    let rename
+
+    if (ext) {
+      to = to.replace(base, '')
+      rename = base
+    } else {
+      rename = '/'
+    }
+
+
+    copyOptions.push({
+      src: from,
+      dest: to,
+      rename
+    })
+  })
+  return copyOptions
+}
 
 export function getCompiler (rollupPluginContext: PluginContext) {
-  const info = rollupPluginContext.getModuleInfo(TARO_COMPILER)
+  const info = rollupPluginContext.getModuleInfo(TaroCompiler.label)
   const compiler: TaroCompiler | undefined = info?.meta.compiler
   return compiler
 }
