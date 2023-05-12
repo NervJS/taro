@@ -1,7 +1,6 @@
 import generator from '@babel/generator'
 import * as parser from '@babel/parser'
-import traverse, { NodePath } from '@babel/traverse'
-import * as t from '@babel/types'
+import traverse from '@babel/traverse'
 import {
   chalk,
   DEFAULT_TEMPLATE_SRC,
@@ -14,11 +13,11 @@ import {
 import { isNil } from 'lodash'
 import * as path from 'path'
 
+import { modifyPagesOrSubPackages } from '../util/createPage'
 import Creator from './creator'
 import fetchTemplate from './fetchTemplate'
 import { createPage } from './init'
 
-import type { ObjectExpression, ObjectProperty } from '@babel/types'
 
 export interface IPageConf {
   projectDir: string
@@ -62,6 +61,13 @@ const DEFAULT_TEMPLATE_INFO = {
   typescript: false,
   compiler: 'webpack5'
 }
+
+export enum ConfigModificationState {
+  Success,
+  Fail,
+  NeedLess
+}
+
 export default class Page extends Creator {
   public rootPath: string
   public conf: IPageConf
@@ -177,102 +183,50 @@ export default class Page extends Creator {
   }
 
   x () {
-    const { subPkg, projectDir } = this.conf
+    let modifyState: ConfigModificationState = ConfigModificationState.Fail
+    const { subPkg, projectDir, typescript } = this.conf
     const [sourceString, pageString] = this.pageEntryPath.split('/src/')
-    const pageMessage = {
-      pkg: '',
-      page: ''
-    }
-    const processedPageString = pageString.slice(0, pageString.lastIndexOf('.'))
-    if (subPkg) {
-      const processedSubPkg = `${subPkg}/`
-      pageMessage.pkg = processedSubPkg
-      pageMessage.page = processedPageString.split(processedSubPkg)[1]
-    } else {
-      pageMessage.page = processedPageString
-    }
-
-    console.log('pageMessage', pageMessage)
-
     const appConfigPath = resolveScriptPath(path.join(projectDir, sourceString, 'src', 'app.config'))
     if(!fs.existsSync(appConfigPath)) return
     const configFileContent = fs.readFileSync(appConfigPath, 'utf-8')
     const ast = parser.parse(configFileContent, {
       sourceType: 'module',
-      plugins: ['typescript']
+      plugins: typescript ? ['typescript'] : []
     })
 
-    const addNewPage = (node: ObjectExpression, page: string) => {
-      const pages = node?.properties.find(node => (node as any).key.name === 'pages') as ObjectProperty
-      if (!pages) return
-      const value = pages?.value
-      if(!value || value?.type !== 'ArrayExpression') return
-      const newArrayElement = t.stringLiteral(page)
-      value.elements.push(newArrayElement)
-    }
-
-    const addNewSubPackage = (node: ObjectExpression, page: string, subPackage: string) =>{
-      
-      const subPackages = node?.properties.find(node => (node as any).key.name === 'subPackages') as ObjectProperty
-      if (!subPackages) {
-        const pagesArray = t.arrayExpression([
-          t.stringLiteral(page),
-        ])
-        const pageObject = t.objectProperty(t.identifier('pages'), pagesArray)
-        const subPkgRootObject = t.objectProperty(t.identifier('root'), t.stringLiteral(subPackage))
-        const subPkgItemObject = t.objectExpression([subPkgRootObject, pageObject])
-        const subPkgArray = t.arrayExpression([subPkgItemObject])
-        const subPkgObject = t.objectProperty(t.identifier('subPackages'), subPkgArray)
-        node?.properties.push(subPkgObject)
-      }
-     
-      const value = subPackages?.value
-      if(!value || value?.type !== 'ArrayExpression') return
-      console.log(value)
-
-    }
-
-    const modifyPages = (path: NodePath<t.ExportDefaultDeclaration>) => {
-      const node = path.node.declaration as any
-      // `export default defineAppConfig({})` 这种情况
-      if (node.type === 'CallExpression' && node.callee.name === 'defineAppConfig') {
-        const configNode = node.arguments[0]
-        addNewPage(configNode, pageMessage.page)
-      }
-      // `export default {}` 这种情况
-      if (node.type === 'ObjectExpression') {
-        addNewPage(node, pageMessage.page)
-      }
-    }
-  
-    const modifySubPackages = (path: NodePath<t.ExportDefaultDeclaration>) => {
-      const node = path.node.declaration as any
-      // `export default defineAppConfig({})` 这种情况
-      if (node.type === 'CallExpression' && node.callee.name === 'defineAppConfig') {
-        const configNode = node.arguments[0]
-        addNewSubPackage(configNode, pageMessage.page, pageMessage.pkg)
-      }
-      // `export default {}` 这种情况
-      if (node.type === 'ObjectExpression') {
-        addNewSubPackage(node, pageMessage.page, pageMessage.pkg)
-      }
+    const callback = (state: ConfigModificationState) =>{
+      modifyState = state
     }
 
     traverse(ast, {
       ExportDefaultDeclaration (path) {
-        subPkg ? modifySubPackages(path) : modifyPages(path)
+        modifyPagesOrSubPackages({ 
+          path,
+          fullPagePath: pageString,
+          subPkgRootPath: subPkg,
+          callback
+        })
       },
     })
 
-
-    const newCode = generator(ast)
-    fs.writeFileSync(appConfigPath, newCode.code)
+    debugger
+    switch (modifyState as ConfigModificationState) {
+      case ConfigModificationState.Fail:
+        break
+      case ConfigModificationState.Success:
+      {
+        const newCode = generator(ast)
+        fs.writeFileSync(appConfigPath, newCode.code)
+        break  
+      }
+      case ConfigModificationState.NeedLess:
+        break
+    }
   }
 
   write () {
     createPage(this, this.conf, () => {
       console.log(`${chalk.green('✔ ')}${chalk.grey(`创建页面 ${this.conf.pageName} 成功！`)}`)
-      console.log(this.pageEntryPath)
       this.x()
       debugger
     }).catch(err => console.log(err))
