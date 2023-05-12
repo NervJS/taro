@@ -96,12 +96,12 @@ export default class Modal {
       const mask = document.createElement('div')
       mask.className = 'taro-modal__mask'
       mask.setAttribute('style', inlineStyle(maskStyle))
-      mask.ontouchmove = eventHandler;
+      mask.ontouchmove = eventHandler
       // modal
       const modal = document.createElement('div')
       modal.className = 'taro-modal__content'
       modal.setAttribute('style', inlineStyle(modalStyle))
-      modal.ontouchmove = eventHandler;
+      modal.ontouchmove = eventHandler
 
       // title
       const titleCSS = config.title ? titleStyle : {
