@@ -89,9 +89,9 @@ export default class Modal {
       this.el.style.transition = 'opacity 0.2s linear'
 
       const eventHandler = (e) => {
-        e.stopPropagation();
-        e.preventDefault();
-      };
+        e.stopPropagation()
+        e.preventDefault()
+      }
       // mask
       const mask = document.createElement('div')
       mask.className = 'taro-modal__mask'
