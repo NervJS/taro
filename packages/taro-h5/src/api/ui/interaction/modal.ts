@@ -88,15 +88,20 @@ export default class Modal {
       this.el.style.opacity = '0'
       this.el.style.transition = 'opacity 0.2s linear'
 
+      const eventHandler = (e) => {
+        e.stopPropagation();
+        e.preventDefault();
+      };
       // mask
       const mask = document.createElement('div')
       mask.className = 'taro-modal__mask'
       mask.setAttribute('style', inlineStyle(maskStyle))
-
+      mask.ontouchmove = eventHandler;
       // modal
       const modal = document.createElement('div')
       modal.className = 'taro-modal__content'
       modal.setAttribute('style', inlineStyle(modalStyle))
+      modal.ontouchmove = eventHandler;
 
       // title
       const titleCSS = config.title ? titleStyle : {
