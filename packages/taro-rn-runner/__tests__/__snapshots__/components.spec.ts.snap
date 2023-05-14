@@ -452,18 +452,3 @@ export { Cell as default };
 ",
 ]
 `;
-
-exports[`build_components svg transform 1`] = `
-[
-  "import 'react';
-import { jsx } from 'react/jsx-runtime';
-
-var Logo = require('./assets/rollup-logo-a3c30bf4.svg');
-
-function index(){return jsx(Logo,{className:"logo",width:120,height:40});}
-
-export { index as default };
-",
-  undefined,
-]
-`;
