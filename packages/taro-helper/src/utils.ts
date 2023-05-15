@@ -1,3 +1,8 @@
+import * as babel from '@babel/core'
+import babelGenerator from '@babel/generator'
+import * as babelParser from '@babel/parser'
+import babelTraverse from '@babel/traverse'
+import * as t from '@babel/types'
 import * as child_process from 'child_process'
 import * as fs from 'fs-extra'
 import { camelCase, flatMap, isPlainObject, mergeWith } from 'lodash'
@@ -632,3 +637,11 @@ export function readConfig (configPath: string) {
 }
 
 export { fs }
+
+// 集中引入 babel 工具箱，供编译时使用
+export const babelKit = {
+  types: t,
+  parse: babelParser.parse,
+  generate: babelGenerator,
+  traverse: babelTraverse,
+}

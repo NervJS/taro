@@ -1,15 +1,12 @@
-import generator from '@babel/generator'
-import * as parser from '@babel/parser'
-import traverse from '@babel/traverse'
 import {
+  babelKit,
   chalk,
   DEFAULT_TEMPLATE_SRC,
   fs,
   getUserHomeDir,
   resolveScriptPath,
   TARO_BASE_CONFIG,
-  TARO_CONFIG_FOLDER,
-} from '@tarojs/helper'
+  TARO_CONFIG_FOLDER } from '@tarojs/helper'
 import { isNil } from 'lodash'
 import * as path from 'path'
 
@@ -17,7 +14,6 @@ import { modifyPagesOrSubPackages } from '../util/createPage'
 import Creator from './creator'
 import fetchTemplate from './fetchTemplate'
 import { createPage } from './init'
-
 
 export interface IPageConf {
   projectDir: string
@@ -185,13 +181,15 @@ export default class Page extends Creator {
   }
 
   updateAppConfig () {
+    const { parse, generate, traverse } = babelKit
+
     let modifyState: ConfigModificationState = ConfigModificationState.Fail
     const { subPkg, projectDir, typescript } = this.conf
     const [sourceString, pageString] = this.pageEntryPath.split('/src/')
     const appConfigPath = resolveScriptPath(path.join(projectDir, sourceString, 'src', 'app.config'))
     if(!fs.existsSync(appConfigPath)) return
     const configFileContent = fs.readFileSync(appConfigPath, 'utf-8')
-    const ast = parser.parse(configFileContent, {
+    const ast = parse(configFileContent, {
       sourceType: 'module',
       plugins: typescript ? ['typescript'] : []
     })
@@ -217,7 +215,7 @@ export default class Page extends Creator {
         break
       case ConfigModificationState.Success:
       {
-        const newCode = generator(ast, { retainLines: true })
+        const newCode = generate(ast, { retainLines: true })
         fs.writeFileSync(appConfigPath, newCode.code)
         break
       }

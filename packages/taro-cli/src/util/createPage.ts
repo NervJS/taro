@@ -1,10 +1,11 @@
-import * as t from '@babel/types'
+import { babelKit } from '@tarojs/helper'
 
 import { ConfigModificationState } from '../create/page'
 
 import type { NodePath } from '@babel/traverse'
-import type { ArrayExpression,ObjectExpression, ObjectProperty } from '@babel/types'
+import type { ArrayExpression, ExportDefaultDeclaration,ObjectExpression, ObjectProperty } from '@babel/types'
 
+const t = babelKit.types
 
 const generateNewSubPackageItem = (subPackage: string) => {
   const pageObject = t.objectProperty(t.identifier('pages'), t.arrayExpression([]))
@@ -72,7 +73,7 @@ const addNewPage = (node: ObjectExpression, page: string): ConfigModificationSta
 }
 
 
-const modifyPages = (path: NodePath<t.ExportDefaultDeclaration>, newPageConfig, callback: (state: ConfigModificationState) => void) => {
+const modifyPages = (path: NodePath<ExportDefaultDeclaration>, newPageConfig, callback: (state: ConfigModificationState) => void) => {
   let state = ConfigModificationState.Fail
   const node = path.node.declaration as any
   // Case 1. `export default defineAppConfig({})` 这种情况
@@ -87,7 +88,7 @@ const modifyPages = (path: NodePath<t.ExportDefaultDeclaration>, newPageConfig, 
   callback(state)
 }
 
-const modifySubPackages = (path: NodePath<t.ExportDefaultDeclaration>, newPageConfig, callback: (state: ConfigModificationState) => void) => {
+const modifySubPackages = (path: NodePath<ExportDefaultDeclaration>, newPageConfig, callback: (state: ConfigModificationState) => void) => {
   let state = ConfigModificationState.Fail
   const node = path.node.declaration as any
   // `export default defineAppConfig({})` 这种情况
@@ -120,7 +121,7 @@ const generateNewPageConfig = (fullPagePath: string, subPkgRootPath = '') => {
 }
 
 export const modifyPagesOrSubPackages = (params: {
-  path: NodePath<t.ExportDefaultDeclaration>
+  path: NodePath<ExportDefaultDeclaration>
   fullPagePath: string
   subPkgRootPath?: string
   callback

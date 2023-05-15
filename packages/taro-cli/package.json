@@ -41,10 +41,6 @@
   "author": "O2Team",
   "license": "MIT",
   "dependencies": {
-    "@babel/generator": "^7.14.5",
-    "@babel/parser": "^7.14.5",
-    "@babel/traverse": "^7.14.5",
-    "@babel/types": "^7.14.5",
     "@tarojs/helper": "workspace:*",
     "@tarojs/service": "workspace:*",
     "@tarojs/shared": "workspace:*",
