@@ -345,10 +345,10 @@ importers:
   packages/create-app:
     specifiers:
       '@tarojs/cli': workspace:*
-      minimist: 1.2.5
+      minimist: ^1.2.8
     dependencies:
       '@tarojs/cli': link:../taro-cli
-      minimist: registry.npmjs.org/minimist/1.2.5
+      minimist: registry.npmjs.org/minimist/1.2.8
 
   packages/css-to-react-native:
     specifiers:
@@ -557,7 +557,7 @@ importers:
       ts-jest: ^29.0.5
       typescript: ^4.7.4
       validate-npm-package-name: ^5.0.0
-      xml2js: ^0.4.19
+      xml2js: ^0.5.0
     dependencies:
       '@tarojs/helper': link:../taro-helper
       '@tarojs/service': link:../taro-service
@@ -582,7 +582,7 @@ importers:
       request: registry.npmjs.org/request/2.88.2
       semver: registry.npmjs.org/semver/7.5.0
       validate-npm-package-name: registry.npmjs.org/validate-npm-package-name/5.0.0
-      xml2js: registry.npmjs.org/xml2js/0.4.23
+      xml2js: registry.npmjs.org/xml2js/0.5.0
     devDependencies:
       babel-jest: registry.npmjs.org/babel-jest/29.5.0
       jest: registry.npmjs.org/jest/29.5.0
@@ -612,7 +612,7 @@ importers:
       '@tarojs/cli': link:../taro-cli
       '@tarojs/helper': link:../taro-helper
       '@tarojs/taroize': link:../taroize
-      '@tarojs/transformer-wx': registry.npmjs.org/@tarojs/transformer-wx/2.2.10
+      '@tarojs/transformer-wx': 2.2.10
       postcss: registry.npmjs.org/postcss/8.4.23
       postcss-taro-unit-transform: registry.npmjs.org/postcss-taro-unit-transform/2.2.10
       prettier: registry.npmjs.org/prettier/2.8.8
@@ -2492,6 +2492,38 @@ importers:
       '@types/babel-traverse': registry.npmjs.org/@types/babel-traverse/6.25.6
 
 packages:
+
+  /@tarojs/transformer-wx/2.2.10:
+    resolution: {integrity: sha512-17VF0f/+TILniFQHl+OK7PXt+QgH+evPijJPFkJgpgRUn0S2QKK89g27S6kG8s3GYCgY3XbJRY9w17yAkf9pZA==, registry: https://registry.yarnpkg.com/}
+    dependencies:
+      '@babel/code-frame': registry.npmjs.org/@babel/code-frame/7.21.4
+      babel-core: registry.npmjs.org/babel-core/6.26.3
+      babel-eslint: registry.npmjs.org/babel-eslint/8.2.6
+      babel-helper-evaluate-path: registry.npmjs.org/babel-helper-evaluate-path/0.5.0
+      babel-helper-mark-eval-scopes: registry.npmjs.org/babel-helper-mark-eval-scopes/0.4.3
+      babel-helper-remove-or-void: registry.npmjs.org/babel-helper-remove-or-void/0.4.3
+      babel-plugin-danger-remove-unused-import: registry.npmjs.org/babel-plugin-danger-remove-unused-import/1.1.2
+      babel-plugin-minify-dead-code: registry.npmjs.org/babel-plugin-minify-dead-code/1.3.2
+      babel-plugin-preval: registry.npmjs.org/babel-plugin-preval/1.6.2
+      babel-plugin-syntax-dynamic-import: registry.npmjs.org/babel-plugin-syntax-dynamic-import/6.18.0
+      babel-plugin-transform-class-properties: registry.npmjs.org/babel-plugin-transform-class-properties/6.24.1
+      babel-plugin-transform-define: registry.npmjs.org/babel-plugin-transform-define/1.3.2
+      babel-plugin-transform-do-expressions: registry.npmjs.org/babel-plugin-transform-do-expressions/6.22.0
+      babel-plugin-transform-es2015-template-literals: registry.npmjs.org/babel-plugin-transform-es2015-template-literals/6.22.0
+      babel-plugin-transform-export-extensions: registry.npmjs.org/babel-plugin-transform-export-extensions/6.22.0
+      babel-plugin-transform-flow-strip-types: registry.npmjs.org/babel-plugin-transform-flow-strip-types/6.22.0
+      babel-traverse: registry.npmjs.org/babel-traverse/6.26.0
+      babel-types: registry.npmjs.org/babel-types/6.26.0
+      eslint: registry.npmjs.org/eslint/5.16.0
+      eslint-plugin-react: registry.npmjs.org/eslint-plugin-react/7.10.0_eslint@5.16.0
+      eslint-plugin-taro: registry.npmjs.org/eslint-plugin-taro/2.2.19_qnj6j5lts2zfavoiwthslq75pu
+      html: registry.npmjs.org/html/1.0.0
+      lodash: registry.npmjs.org/lodash/4.17.21
+      prettier: registry.npmjs.org/prettier/1.19.1
+      typescript: registry.npmjs.org/typescript/3.9.10
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
 
   registry.npmjs.org/@adobe/css-tools/4.2.0:
     resolution: {integrity: sha512-E09FiIft46CmH5Qnjb0wsW54/YQd69LsxeKUOWawmws1XWvyFGURnAChH0mlr7YPFR1ofwvUQfcL0J3lMxXqPA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@adobe/css-tools/-/css-tools-4.2.0.tgz}
@@ -9626,40 +9658,6 @@ packages:
     engines: {node: '>=6'}
     dependencies:
       defer-to-connect: registry.npmjs.org/defer-to-connect/1.1.3
-    dev: false
-
-  registry.npmjs.org/@tarojs/transformer-wx/2.2.10:
-    resolution: {integrity: sha512-17VF0f/+TILniFQHl+OK7PXt+QgH+evPijJPFkJgpgRUn0S2QKK89g27S6kG8s3GYCgY3XbJRY9w17yAkf9pZA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@tarojs/transformer-wx/-/transformer-wx-2.2.10.tgz}
-    name: '@tarojs/transformer-wx'
-    version: 2.2.10
-    dependencies:
-      '@babel/code-frame': registry.npmjs.org/@babel/code-frame/7.21.4
-      babel-core: registry.npmjs.org/babel-core/6.26.3
-      babel-eslint: registry.npmjs.org/babel-eslint/8.2.6
-      babel-helper-evaluate-path: registry.npmjs.org/babel-helper-evaluate-path/0.5.0
-      babel-helper-mark-eval-scopes: registry.npmjs.org/babel-helper-mark-eval-scopes/0.4.3
-      babel-helper-remove-or-void: registry.npmjs.org/babel-helper-remove-or-void/0.4.3
-      babel-plugin-danger-remove-unused-import: registry.npmjs.org/babel-plugin-danger-remove-unused-import/1.1.2
-      babel-plugin-minify-dead-code: registry.npmjs.org/babel-plugin-minify-dead-code/1.3.2
-      babel-plugin-preval: registry.npmjs.org/babel-plugin-preval/1.6.2
-      babel-plugin-syntax-dynamic-import: registry.npmjs.org/babel-plugin-syntax-dynamic-import/6.18.0
-      babel-plugin-transform-class-properties: registry.npmjs.org/babel-plugin-transform-class-properties/6.24.1
-      babel-plugin-transform-define: registry.npmjs.org/babel-plugin-transform-define/1.3.2
-      babel-plugin-transform-do-expressions: registry.npmjs.org/babel-plugin-transform-do-expressions/6.22.0
-      babel-plugin-transform-es2015-template-literals: registry.npmjs.org/babel-plugin-transform-es2015-template-literals/6.22.0
-      babel-plugin-transform-export-extensions: registry.npmjs.org/babel-plugin-transform-export-extensions/6.22.0
-      babel-plugin-transform-flow-strip-types: registry.npmjs.org/babel-plugin-transform-flow-strip-types/6.22.0
-      babel-traverse: registry.npmjs.org/babel-traverse/6.26.0
-      babel-types: registry.npmjs.org/babel-types/6.26.0
-      eslint: registry.npmjs.org/eslint/5.16.0
-      eslint-plugin-react: registry.npmjs.org/eslint-plugin-react/7.10.0_eslint@5.16.0
-      eslint-plugin-taro: registry.npmjs.org/eslint-plugin-taro/2.2.19_qnj6j5lts2zfavoiwthslq75pu
-      html: registry.npmjs.org/html/1.0.0
-      lodash: registry.npmjs.org/lodash/4.17.21
-      prettier: registry.npmjs.org/prettier/1.19.1
-      typescript: registry.npmjs.org/typescript/3.9.10
-    transitivePeerDependencies:
-      - supports-color
     dev: false
 
   registry.npmjs.org/@testing-library/jest-dom/5.16.5:
@@ -27270,12 +27268,6 @@ packages:
       is-plain-obj: registry.npmjs.org/is-plain-obj/1.1.0
       kind-of: registry.npmjs.org/kind-of/6.0.3
 
-  registry.npmjs.org/minimist/1.2.5:
-    resolution: {integrity: sha512-FM9nNUYrRBAELZQT3xeZQ7fmMOBg6nWNmJKTcgsJeaLstP/UODVpGsr5OhXhhXg6f+qtJ8uiZ+PUxkDWcgIXLw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/minimist/-/minimist-1.2.5.tgz}
-    name: minimist
-    version: 1.2.5
-    dev: false
-
   registry.npmjs.org/minimist/1.2.8:
     resolution: {integrity: sha512-2yyAR8qBkN3YuheJanUpWC5U3bb5osDywNB8RzDVlDwDHbocAJveqqj1u8+SVD7jkWT4yvsHCpWqqWqAxb0zCA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/minimist/-/minimist-1.2.8.tgz}
     name: minimist
@@ -35097,7 +35089,6 @@ packages:
       serialize-javascript: registry.npmjs.org/serialize-javascript/6.0.1
       terser: registry.npmjs.org/terser/5.17.1
       webpack: registry.npmjs.org/webpack/5.78.0
-    dev: true
 
   registry.npmjs.org/terser/4.8.0:
     resolution: {integrity: sha512-EAPipTNeWsb/3wLPeup1tVPaXfIaU68xMnVdPafIL1TV05OhASArYyIfFvnvJCNrR2NIOvDVNNTFRa+Re2MWyw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/terser/-/terser-4.8.0.tgz}
@@ -37071,7 +37062,7 @@ packages:
       mime-types: registry.npmjs.org/mime-types/2.1.35
       range-parser: registry.npmjs.org/range-parser/1.2.1
       schema-utils: registry.npmjs.org/schema-utils/4.0.1
-      webpack: registry.npmjs.org/webpack/5.78.0_esbuild@0.14.54
+      webpack: registry.npmjs.org/webpack/5.78.0
 
   registry.npmjs.org/webpack-dev-server/3.11.3_webpack@4.46.0:
     resolution: {integrity: sha512-3x31rjbEQWKMNzacUZRE6wXvUFuGpH7vr0lIEbYpMAG9BOxi0928QU1BBswOAP3kg3H1O4hiS+sq4YyAn6ANnA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/webpack-dev-server/-/webpack-dev-server-3.11.3.tgz}
@@ -37168,7 +37159,7 @@ packages:
       sockjs: registry.npmjs.org/sockjs/0.3.24
       spdy: registry.npmjs.org/spdy/4.0.2
       strip-ansi: registry.npmjs.org/strip-ansi/7.0.1
-      webpack: registry.npmjs.org/webpack/5.78.0_esbuild@0.14.54
+      webpack: registry.npmjs.org/webpack/5.78.0
       webpack-dev-middleware: registry.npmjs.org/webpack-dev-middleware/5.3.3_webpack@5.78.0
       ws: registry.npmjs.org/ws/8.13.0
     transitivePeerDependencies:
@@ -37314,7 +37305,6 @@ packages:
       - '@swc/core'
       - esbuild
       - uglify-js
-    dev: true
 
   registry.npmjs.org/webpack/5.78.0_esbuild@0.14.54:
     resolution: {integrity: sha512-gT5DP72KInmE/3azEaQrISjTvLYlSM0j1Ezhht/KLVkrqtv10JoP/RXhwmX/frrutOPuSq3o5Vq0ehR/4Vmd1g==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/webpack/-/webpack-5.78.0.tgz}
@@ -37792,6 +37782,16 @@ packages:
     dependencies:
       sax: registry.npmjs.org/sax/1.2.4
       xmlbuilder: registry.npmjs.org/xmlbuilder/11.0.1
+
+  registry.npmjs.org/xml2js/0.5.0:
+    resolution: {integrity: sha512-drPFnkQJik/O+uPKpqSgr22mpuFHqKdbS835iAQrUC73L2F5WkboIRd63ai/2Yg6I1jzifPFKH2NTK+cfglkIA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/xml2js/-/xml2js-0.5.0.tgz}
+    name: xml2js
+    version: 0.5.0
+    engines: {node: '>=4.0.0'}
+    dependencies:
+      sax: registry.npmjs.org/sax/1.2.4
+      xmlbuilder: registry.npmjs.org/xmlbuilder/11.0.1
+    dev: false
 
   registry.npmjs.org/xmlbuilder/11.0.1:
     resolution: {integrity: sha512-fDlsI/kFEx7gLvbecc0/ohLG50fugQp8ryHzMTuW9vSa1GJ0XYWKnhsUx7oie3G98+r56aTQIUB4kht42R3JvA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/xmlbuilder/-/xmlbuilder-11.0.1.tgz}
