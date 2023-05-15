@@ -14,10 +14,9 @@ const generateNewSubPackageItem = (subPackage: string) => {
 }
 
 const isValidSubPkgObject = (subPkgObject: ObjectExpression) => {
-  debugger
-  const properties = subPkgObject.properties
-  const rootProperty: ObjectProperty = properties.find((property: ObjectProperty) => (property.key as any)?.name === 'root') as ObjectProperty
-  const pagesProperty: ObjectProperty =  properties.find((property: ObjectProperty) => (property.key as any)?.name === 'pages') as ObjectProperty
+  const properties = subPkgObject?.properties || {}
+  const rootProperty = properties.find((property: ObjectProperty) => (property.key as any)?.name === 'root') as ObjectProperty
+  const pagesProperty =  properties.find((property: ObjectProperty) => (property.key as any)?.name === 'pages') as ObjectProperty
   const rootPropertyValueType = rootProperty?.value?.type
   const pagesPropertyValueType = pagesProperty?.value?.type
   return rootPropertyValueType === 'StringLiteral' && pagesPropertyValueType === 'ArrayExpression'
@@ -89,7 +88,6 @@ const modifySubPackages = (path: NodePath<t.ExportDefaultDeclaration>, newPageCo
   }
   // `export default {}` 这种情况
   if (node.type === 'ObjectExpression') {
-    debugger
     state = addNewSubPackage(node, newPageConfig.page, newPageConfig.pkg)
   }
   callback(state)
@@ -120,7 +118,6 @@ export const modifyPagesOrSubPackages = (params: {
 }) => {
   const { fullPagePath, subPkgRootPath, callback, path } = params
   const newPageConfig = generateNewPageConfig(fullPagePath, subPkgRootPath)
-  debugger
   subPkgRootPath 
     ? modifySubPackages(path, newPageConfig, callback) 
     : modifyPages(path, newPageConfig, callback)

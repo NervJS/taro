@@ -95,6 +95,7 @@ export default class Page extends Creator {
 
   processPageName () {
     const { pageName } = this.conf
+    // todo 目前还没有对 subPkg 和 pageName 这两个字段做 格式验证或者处理
     const lastDirSplitSymbolIndex = pageName.lastIndexOf('/')
     if (lastDirSplitSymbolIndex !== -1) {
       this.conf.pageDir = pageName.substring(0, lastDirSplitSymbolIndex)
@@ -182,7 +183,7 @@ export default class Page extends Creator {
     this.write()
   }
 
-  x () {
+  updateAppConfig () {
     let modifyState: ConfigModificationState = ConfigModificationState.Fail
     const { subPkg, projectDir, typescript } = this.conf
     const [sourceString, pageString] = this.pageEntryPath.split('/src/')
@@ -209,9 +210,9 @@ export default class Page extends Creator {
       },
     })
 
-    debugger
     switch (modifyState as ConfigModificationState) {
       case ConfigModificationState.Fail:
+        // todo log提醒
         break
       case ConfigModificationState.Success:
       {
@@ -220,6 +221,7 @@ export default class Page extends Creator {
         break  
       }
       case ConfigModificationState.NeedLess:
+        // todo log提醒
         break
     }
   }
@@ -227,8 +229,7 @@ export default class Page extends Creator {
   write () {
     createPage(this, this.conf, () => {
       console.log(`${chalk.green('✔ ')}${chalk.grey(`创建页面 ${this.conf.pageName} 成功！`)}`)
-      this.x()
-      debugger
+      this.updateAppConfig()
     }).catch(err => console.log(err))
   }
 }
