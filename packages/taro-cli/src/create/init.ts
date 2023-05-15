@@ -110,7 +110,6 @@ function createFiles (
 
     let destRePath = fileRePath
 
-
     // createPage 创建页面模式
     if (period === 'createPage') {
       destRePath = subPkg ? config.setSubPkgName : config.setPageName || config.setPageName
@@ -163,7 +162,6 @@ export async function createPage (creator: Creator, params: IPageConf, cb) {
   const basePageFiles = fs.existsSync(handlerPath) ? require(handlerPath).basePageFiles : []
   const files = Array.isArray(basePageFiles) ? basePageFiles : []
   const handler = fs.existsSync(handlerPath) ? require(handlerPath).handler : null
-  // const pageEntryFiles = 
   const logs = createFiles(creator, files, handler, {
     ...params,
     templatePath,

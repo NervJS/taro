@@ -35,7 +35,7 @@ const addNewSubPackage = (node: ObjectExpression, page: string, subPackage: stri
   // 文件格式不对的情况
   if(!value || value?.type !== 'ArrayExpression') return ConfigModificationState.Fail
   let targetSubPkgObject: ObjectExpression = value.elements.find(node => (node as any)?.properties?.find(property => (property as any)?.value?.value === subPackage)) as ObjectExpression
-    
+
   if(!targetSubPkgObject) {
     // 不存在 当前分包配置对象的情况
     const subPkgItemObject = generateNewSubPackageItem(subPackage)
@@ -46,8 +46,10 @@ const addNewSubPackage = (node: ObjectExpression, page: string, subPackage: stri
   if(targetSubPkgObject.type !== 'ObjectExpression' || !isValidSubPkgObject(targetSubPkgObject)) return ConfigModificationState.Fail
   const pagesProperty: ObjectProperty = targetSubPkgObject.properties.find((property: ObjectProperty) => (property.key as any)?.name === 'pages') as ObjectProperty
   const currentPages = (pagesProperty.value as ArrayExpression).elements
-  const isPageExists = !!currentPages.find(node => (node as any).value === page)
+  const isPageExists = Boolean(currentPages.find(node => (node as any).value === page))
+
   if (isPageExists) return ConfigModificationState.NeedLess
+
   currentPages.push(t.stringLiteral(page))
   return ConfigModificationState.Success
 }
@@ -55,10 +57,17 @@ const addNewSubPackage = (node: ObjectExpression, page: string, subPackage: stri
 const addNewPage = (node: ObjectExpression, page: string): ConfigModificationState => {
   const pages = node?.properties.find(node => (node as any).key.name === 'pages') as ObjectProperty
   if (!pages) return ConfigModificationState.Fail
+
   const value = pages?.value
+  // 仅处理 pages 为数组字面量的情形
   if(!value || value?.type !== 'ArrayExpression') return ConfigModificationState.Fail
+
+  const isPageExists = Boolean(value.elements.find(node => (node as any).value === page))
+  if (isPageExists) return ConfigModificationState.NeedLess
+
   const newArrayElement = t.stringLiteral(page)
   value.elements.push(newArrayElement)
+
   return ConfigModificationState.Success
 }
 
@@ -66,12 +75,12 @@ const addNewPage = (node: ObjectExpression, page: string): ConfigModificationSta
 const modifyPages = (path: NodePath<t.ExportDefaultDeclaration>, newPageConfig, callback: (state: ConfigModificationState) => void) => {
   let state = ConfigModificationState.Fail
   const node = path.node.declaration as any
-  // `export default defineAppConfig({})` 这种情况
+  // Case 1. `export default defineAppConfig({})` 这种情况
   if (node.type === 'CallExpression' && node.callee.name === 'defineAppConfig') {
     const configNode = node.arguments[0]
     state = addNewPage(configNode, newPageConfig.page)
   }
-  // `export default {}` 这种情况
+  // Case 2. `export default {}` 这种情况
   if (node.type === 'ObjectExpression') {
     state = addNewPage(node, newPageConfig.page)
   }
@@ -112,13 +121,13 @@ const generateNewPageConfig = (fullPagePath: string, subPkgRootPath = '') => {
 
 export const modifyPagesOrSubPackages = (params: {
   path: NodePath<t.ExportDefaultDeclaration>
-  fullPagePath: string  
+  fullPagePath: string
   subPkgRootPath?: string
   callback
 }) => {
   const { fullPagePath, subPkgRootPath, callback, path } = params
   const newPageConfig = generateNewPageConfig(fullPagePath, subPkgRootPath)
-  subPkgRootPath 
-    ? modifySubPackages(path, newPageConfig, callback) 
+  subPkgRootPath
+    ? modifySubPackages(path, newPageConfig, callback)
     : modifyPages(path, newPageConfig, callback)
 }

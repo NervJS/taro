@@ -83,7 +83,8 @@ export default class Page extends Creator {
         projectDir: '',
         projectName: '',
         template: '',
-        description: ''
+        description: '',
+        pageDir: ''
       },
       otherOptions
     )
@@ -201,7 +202,7 @@ export default class Page extends Creator {
 
     traverse(ast, {
       ExportDefaultDeclaration (path) {
-        modifyPagesOrSubPackages({ 
+        modifyPagesOrSubPackages({
           path,
           fullPagePath: pageString,
           subPkgRootPath: subPkg,
@@ -216,9 +217,9 @@ export default class Page extends Creator {
         break
       case ConfigModificationState.Success:
       {
-        const newCode = generator(ast)
+        const newCode = generator(ast, { retainLines: true })
         fs.writeFileSync(appConfigPath, newCode.code)
-        break  
+        break
       }
       case ConfigModificationState.NeedLess:
         // todo log提醒
