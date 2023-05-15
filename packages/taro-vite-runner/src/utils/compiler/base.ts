@@ -39,8 +39,6 @@ interface FilesConfig {
   }
 }
 
-export const TARO_COMPILER = 'taro:compiler'
-
 export class Compiler<T extends MiniBuildConfig | H5BuildConfig> {
   static label = 'taro:compiler'
   rollupCtx: PluginContext | null
@@ -63,8 +61,12 @@ export class Compiler<T extends MiniBuildConfig | H5BuildConfig> {
     this.frameworkExts = this.taroConfig.frameworkExts || SCRIPT_EXT
   }
 
+  getAppScriptPath (): string {
+    return this.taroConfig.entry.app[0]
+  }
+
   getApp (): AppMeta {
-    const scriptPath = this.taroConfig.entry.app[0]
+    const scriptPath = this.getAppScriptPath()
     const configPath = this.getConfigFilePath(scriptPath)
     const config: AppConfig = readConfig(configPath)
 

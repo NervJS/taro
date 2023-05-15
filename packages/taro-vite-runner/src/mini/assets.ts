@@ -2,7 +2,7 @@ import { fs, recursiveMerge, REG_FONT, REG_IMAGE, REG_MEDIA, } from '@tarojs/hel
 import { isBoolean,isFunction, isString } from '@tarojs/shared'
 import mrmime from 'mrmime'
 
-import { getCompiler,isVirtualModule } from '../utils'
+import { getMiniCompiler,isVirtualModule } from '../utils'
 
 import type { IOption, PostcssOption } from '@tarojs/taro/types/compile'
 import type { PluginOption, ResolvedConfig } from 'vite'
@@ -38,7 +38,7 @@ export default function (taroConfig: MiniBuildConfig): PluginOption {
       if (!resolvedConfig.assetsInclude(id)) return
 
 
-      const compiler = getCompiler(this)
+      const compiler = getMiniCompiler(this)
       if (!compiler) return
 
       const cache = assetsCache.get(resolvedConfig)

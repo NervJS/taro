@@ -52,6 +52,7 @@ export class TaroCompiler extends Compiler<MiniBuildConfig> {
 
     this.fileType = this.taroConfig.fileType || defaultFileType
     this.commonChunks = this.getCommonChunks()
+    this.app = this.getApp()
     this.collectNativeComponents(this.app)
     this.pages = this.getPages()
   }

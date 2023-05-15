@@ -2,10 +2,11 @@ import { NODE_MODULES_REG } from '@tarojs/helper'
 import { isString } from '@tarojs/shared'
 import path from 'path'
 
-import { TaroCompiler } from '../utils/compiler/mini'
+import { Compiler } from '../utils/compiler/base'
 
 import type { PluginContext } from 'rollup'
 import type { Target } from 'vite-plugin-static-copy'
+import type { TaroCompiler as H5Compiler,TaroCompiler as MiniCompiler  } from '../utils/compiler/mini'
 import type { H5BuildConfig, MiniBuildConfig } from './types'
 
 export function convertCopyOptions (taroConfig: MiniBuildConfig | H5BuildConfig) {
@@ -34,17 +35,25 @@ export function convertCopyOptions (taroConfig: MiniBuildConfig | H5BuildConfig)
   return copyOptions
 }
 
-export function getCompiler (rollupPluginContext: PluginContext) {
-  const info = rollupPluginContext.getModuleInfo(TaroCompiler.label)
-  const compiler: TaroCompiler | undefined = info?.meta.compiler
+export function getCompiler<T extends MiniCompiler | H5Compiler> (rollupPluginContext: PluginContext) {
+  const info = rollupPluginContext.getModuleInfo(Compiler.label)
+  const compiler: T | undefined = info?.meta.compiler
   return compiler
+}
+
+export function getMiniCompiler (rollupPluginContext: PluginContext) {
+  return getCompiler<MiniCompiler>(rollupPluginContext)
+}
+
+export function getH5Compiler (rollupPluginContext: PluginContext) {
+  return getCompiler<H5Compiler>(rollupPluginContext)
 }
 
 export function prettyPrintJson (obj: Record<string, any>) {
   return JSON.stringify(obj, null, 2)
 }
 
-export function getComponentName (compiler: TaroCompiler, componentPath: string) {
+export function getComponentName (compiler: MiniCompiler | H5Compiler, componentPath: string) {
   let componentName: string
   if (NODE_MODULES_REG.test(componentPath)) {
     componentName = componentPath
