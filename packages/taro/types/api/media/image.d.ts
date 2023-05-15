@@ -127,19 +127,27 @@ declare module '../../index' {
 
   namespace chooseImage {
     interface Option {
+      /** 最多可以选择的图片张数
+       * @default 9
+       */
+      count?: number
+      /** 所选的图片的尺寸
+       * @default ['original', 'compressed']
+       */
+      sizeType?: Array<keyof sizeType>
+      /** 选择图片的来源
+       * @default ['album', 'camera']
+       */
+      sourceType?: Array<keyof sourceType>
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
       complete?: (res: TaroGeneral.CallbackResult) => void
-      /** 最多可以选择的图片张数 */
-      count?: number
       /** 接口调用失败的回调函数 */
       fail?: (res: TaroGeneral.CallbackResult) => void
-      /** 所选的图片的尺寸 */
-      sizeType?: Array<keyof sizeType>
-      /** 选择图片的来源 */
-      sourceType?: Array<keyof sourceType>
       /** 接口调用成功的回调函数 */
       success?: (result: SuccessCallbackResult) => void
-      /** 用来上传的input元素ID（仅h5端）@supported h5 */
+      /** 用来上传的input元素ID（仅h5端
+       * @supported h5
+       */
       imageId?: string
     }
     /** 图片的尺寸 */

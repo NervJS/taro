@@ -233,18 +233,26 @@ declare module '../../index' {
 
   namespace chooseVideo {
     interface Option {
-      /** 默认拉起的是前置或者后置摄像头。部分 Android 手机下由于系统 ROM 不支持无法生效 */
+      /** 默认拉起的是前置或者后置摄像头。部分 Android 手机下由于系统 ROM 不支持无法生效
+       * @default "back"
+       */
       camera?: keyof Camera
+      /** 是否压缩所选择的视频文件
+       * @default true
+       */
+      compressed?: boolean
+      /** 拍摄视频最长拍摄时间，单位秒
+       * @default 60
+       */
+      maxDuration?: number
+      /** 视频选择的来源
+       * @default ['album', 'camera']
+       */
+      sourceType?: Array<keyof sourceType>
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
       complete?: (res: TaroGeneral.CallbackResult) => void
-      /** 是否压缩所选择的视频文件 */
-      compressed?: boolean
       /** 接口调用失败的回调函数 */
       fail?: (res: TaroGeneral.CallbackResult) => void
-      /** 拍摄视频最长拍摄时间，单位秒 */
-      maxDuration?: number
-      /** 视频选择的来源 */
-      sourceType?: Array<keyof sourceType>
       /** 接口调用成功的回调函数 */
       success?: (result: SuccessCallbackResult) => void
     }
@@ -279,27 +287,45 @@ declare module '../../index' {
 
   namespace chooseMedia {
     interface Option {
-      /** 最多可以选择的文件个数 */
+      /** 最多可以选择的文件个数
+       * @default 9
+       */
       count?: number
-      /** 文件类型 */
+      /** 文件类型
+       * @default ['image', 'video']
+       */
       mediaType?: Array<keyof mediaType>
-      /** 图片和视频选择的来源 */
+      /** 图片和视频选择的来源
+       * @default ['album', 'camera']
+       */
       sourceType?: Array<keyof sourceType>
-      /** 拍摄视频最长拍摄时间，单位秒。时间范围为 3s 至 30s 之间 */
+      /** 拍摄视频最长拍摄时间，单位秒。时间范围为 3s 至 60s 之间
+       * @default 10
+       */
       maxDuration?: number
-      /** 仅对 mediaType 为 image 时有效，是否压缩所选文件 */
+      /** 仅对 mediaType 为 image 时有效，是否压缩所选文件
+       * @default ['original', 'compressed']
+       */
       sizeType?: Array<'original' | 'compressed'>
-      /** 仅在 sourceType 为 camera 时生效，使用前置或后置摄像头 */
+      /** 仅在 sourceType 为 camera 时生效，使用前置或后置摄像头
+       * @default "back"
+       */
       camera?: string
+      /** 接口调用结束的回调函数（调用成功、失败都会执行） */
+      complete?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用失败的回调函数 */
       fail?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用成功的回调函数 */
       success?: (result: SuccessCallbackResult) => void
+      /** 用来上传的input元素ID
+       * @supported h5
+       */
+      mediaId?: string
     }
     interface SuccessCallbackResult extends TaroGeneral.CallbackResult {
       /** 本地临时文件列表 */
       tempFiles: ChooseMedia[]
-      /** 文件类型，有效值有 image 、video */
+      /** 文件类型，有效值有 image 、video、mix */
       type: string
     }
     /** 本地临时文件列表 */
@@ -316,6 +342,12 @@ declare module '../../index' {
       width: number
       /** 视频缩略图临时文件路径 */
       thumbTempFilePath: string
+      /** 选择的文件的类型 */
+      fileType: string
+      /** 原始的浏览器 File 对象
+       * @supported h5
+       */
+      originalFileObj?: File
     }
     interface mediaType {
       /** 只能拍摄视频或从相册选择视频 */

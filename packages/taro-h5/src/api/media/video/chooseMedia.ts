@@ -4,32 +4,34 @@ import { getParameterError, shouldBeObject } from '../../../utils'
 import { MethodHandler } from '../../../utils/handler'
 
 /**
- * 从本地相册选择图片或使用相机拍照。
+ * 拍摄或从手机相册中选择图片或视频。
  */
-export const chooseImage: typeof Taro.chooseImage = function (options) {
+export const chooseMedia: typeof Taro.chooseMedia = function (options) {
   // options must be an Object
   const isObject = shouldBeObject(options)
   if (!isObject.flag) {
-    const res = { errMsg: `chooseImage:fail ${isObject.msg}` }
+    const res = { errMsg: `chooseMedia:fail ${isObject.msg}` }
     console.error(res.errMsg)
     return Promise.reject(res)
   }
 
   const {
     count = 9,
-    imageId = 'taroChooseImage',
+    mediaId = 'taroChooseMedia',
+    // mediaType = ['image', 'video'],
     sourceType = ['album', 'camera'],
     // TODO 考虑通过 ffmpeg 支持压缩
     // sizeType = ['original', 'compressed'],
+    // maxDuration = 10,
     // camera = 'back',
     success,
     fail,
     complete,
   } = options
-  const handle = new MethodHandler({ name: 'chooseImage', success, fail, complete })
-  const res: Partial<Taro.chooseImage.SuccessCallbackResult> = {
-    tempFilePaths: [],
-    tempFiles: []
+  const handle = new MethodHandler({ name: 'chooseMedia', success, fail, complete })
+  const res: Partial<Taro.chooseMedia.SuccessCallbackResult> = {
+    tempFiles: [],
+    type: ' mix',
   }
   const sourceTypeString = sourceType && sourceType.toString()
   const acceptableSourceType = ['user', 'environment', 'camera']
@@ -43,11 +45,11 @@ export const chooseImage: typeof Taro.chooseImage = function (options) {
     return handle.fail(res)
   }
 
-  let el = document.getElementById(imageId)
+  let el = document.getElementById(mediaId)
   if (!el) {
     const obj = document.createElement('input')
     obj.setAttribute('type', 'file')
-    obj.setAttribute('id', imageId)
+    obj.setAttribute('id', mediaId)
     if (count > 1) {
       obj.setAttribute('multiple', 'multiple')
     }
@@ -57,7 +59,7 @@ export const chooseImage: typeof Taro.chooseImage = function (options) {
     obj.setAttribute('accept', 'image/*')
     obj.setAttribute('style', 'position: fixed; top: -4000px; left: -3000px; z-index: -300;')
     document.body.appendChild(obj)
-    el = document.getElementById(imageId)
+    el = document.getElementById(mediaId)
   } else {
     if (count > 1) {
       el.setAttribute('multiple', 'multiple')
@@ -86,11 +88,14 @@ export const chooseImage: typeof Taro.chooseImage = function (options) {
               type: item.type
             })
             const url = URL.createObjectURL(blob)
-            res.tempFilePaths?.push(url)
             res.tempFiles?.push({
-              path: url,
+              tempFilePath: url,
               size: item.size,
-              type: item.type,
+              duration: 0,
+              height: 0,
+              width: 0,
+              thumbTempFilePath: '',
+              fileType: item.type,
               originalFileObj: item
             })
           })
