@@ -1,73 +1,49 @@
 import Taro from '@tarojs/api'
 
 import { shouldBeObject } from '../../../utils'
-import { MethodHandler } from '../../../utils/handler'
+import { chooseMedia } from './chooseMedia'
 
 /**
  * 拍摄视频或从手机相册中选视频。
+ * @deprecated 请使用 chooseMedia 接口
  */
 export const chooseVideo: typeof Taro.chooseVideo = (options) => {
   // options must be an Object
   const isObject = shouldBeObject(options)
   if (!isObject.flag) {
-    const res = { errMsg: `chooseVideo:fail ${isObject.msg}` }
+    const res = { errMsg: `${chooseVideo.name}:fail ${isObject.msg}` }
     console.error(res.errMsg)
     return Promise.reject(res)
   }
 
   const {
-    // sourceType = ['album', 'camera'],
+    sourceType = ['album', 'camera'],
     // TODO 考虑通过 ffmpeg 支持压缩
     // compressed = true,
-    // maxDuration = 60,
-    // camera = 'back',
+    maxDuration = 60,
+    camera = 'back',
     success,
     fail,
     complete,
   } = options
-  const handle = new MethodHandler<Taro.chooseVideo.SuccessCallbackResult>({ name: 'chooseVideo', success, fail, complete })
-  const res: Partial<Taro.chooseVideo.SuccessCallbackResult> = {
-    tempFilePath: '',
-    duration: 0,
-    size: 0,
-    height: 0,
-    width: 0
+
+  function parseRes (res: Taro.chooseMedia.SuccessCallbackResult): Taro.chooseVideo.SuccessCallbackResult {
+    const { tempFiles = [], errMsg } = res
+    const [video] = tempFiles
+    return { ...video, errMsg }
   }
 
-  const inputEl = document.createElement('input')
-  inputEl.setAttribute('type', 'file')
-  inputEl.setAttribute('multiple', 'multiple')
-  inputEl.setAttribute('accept', 'video/*')
-  inputEl.setAttribute('style', 'position: fixed; top: -4000px; left: -3000px; z-index: -300;')
-  document.body.appendChild(inputEl)
-
-  return new Promise<Taro.chooseVideo.SuccessCallbackResult>((resolve, reject) => {
-    const TaroMouseEvents = document.createEvent('MouseEvents')
-    TaroMouseEvents.initEvent('click', true, true)
-    inputEl.dispatchEvent(TaroMouseEvents)
-    inputEl.onchange = function (e) {
-      const target = e.target as HTMLInputElement
-      const file = target.files?.[0]
-      const reader = new FileReader()
-      reader.onload = function (event: ProgressEvent<FileReader>) {
-        const videoEl = document.createElement('video')
-        const url = event.target?.result as string
-        videoEl.preload = 'metadata'
-        videoEl.src = url
-        videoEl.onloadedmetadata = () => {
-          res.tempFilePath = url
-          res.duration = videoEl.duration
-          res.size = event.total
-          res.height = videoEl.videoHeight
-          res.width = videoEl.videoHeight
-          return handle.success(res, { resolve, reject })
-        }
-      }
-      if (file) {
-        reader.readAsDataURL(file)
-      }
-    }
-  }).finally(() => {
-    document.body.removeChild(inputEl)
-  })
+  return chooseMedia({
+    mediaId: 'taroChooseVideo',
+    sourceType,
+    maxDuration,
+    camera,
+    success: (res) => {
+      const param = parseRes(res)
+      success?.(param)
+      complete?.(param)
+    },
+    fail,
+    complete,
+  }, chooseVideo.name).then(parseRes)
 }

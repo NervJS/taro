@@ -257,14 +257,14 @@ declare module '../../index' {
       success?: (result: SuccessCallbackResult) => void
     }
     interface SuccessCallbackResult extends TaroGeneral.CallbackResult {
-      /** 选定视频的时间长度 */
-      duration: number
-      /** 返回选定视频的高度 */
-      height: number
-      /** 选定视频的数据量大小 */
-      size: number
       /** 选定视频的临时文件路径 */
       tempFilePath: string
+      /** 选定视频的时间长度 */
+      duration: number
+      /** 选定视频的数据量大小 */
+      size: number
+      /** 返回选定视频的高度 */
+      height: number
       /** 返回选定视频的宽度 */
       width: number
       /** 调用结果 */
@@ -284,7 +284,6 @@ declare module '../../index' {
     }
   }
 
-
   namespace chooseMedia {
     interface Option {
       /** 最多可以选择的文件个数
@@ -303,7 +302,7 @@ declare module '../../index' {
        * @default 10
        */
       maxDuration?: number
-      /** 仅对 mediaType 为 image 时有效，是否压缩所选文件
+      /** 是否压缩所选文件
        * @default ['original', 'compressed']
        */
       sizeType?: Array<'original' | 'compressed'>
@@ -382,7 +381,7 @@ declare module '../../index' {
      * @example
      ```tsx
      * Taro.saveVideoToPhotosAlbum({
-     *   filePath: 'wxfile://xxx',
+     *   filePath: 'file://xxx',
      *   success: function (res) {
      *     console.log(res.errMsg)
      *   }
