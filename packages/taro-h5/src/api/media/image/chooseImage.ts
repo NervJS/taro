@@ -17,7 +17,13 @@ export const chooseImage: typeof Taro.chooseImage = function (options) {
   }
 
   let camera = 'back'
-  const { sourceType = [], success, complete, ...args } = options
+  const {
+    sourceType = ['album', 'camera'],
+    success,
+    complete,
+    fail,
+    ...args
+  } = options
   if (sourceType.includes('camera') && sourceType.indexOf('user') > -1) {
     camera = 'front'
   }
@@ -40,12 +46,16 @@ export const chooseImage: typeof Taro.chooseImage = function (options) {
     mediaId: 'taroChooseImage',
     ...args,
     sourceType: sourceType as Taro.chooseMedia.Option['sourceType'],
+    mediaType: ['image'],
     camera,
     success: (res) => {
       const param = parseRes(res)
       success?.(param)
       complete?.(param)
     },
-    complete,
+    fail: (err) => {
+      fail?.(err)
+      complete?.(err)
+    },
   }, chooseImage.name).then(parseRes)
 }

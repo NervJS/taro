@@ -1,5 +1,7 @@
 import Taro from '@tarojs/api'
+import { getMobileDetect } from '@tarojs/router/dist/utils/navigate'
 
+import { showActionSheet } from '../../../api/ui'
 import { getParameterError, shouldBeObject } from '../../../utils'
 import { REG_MEDIA } from '../../../utils/constants'
 import { MethodHandler } from '../../../utils/handler'
@@ -7,7 +9,7 @@ import { MethodHandler } from '../../../utils/handler'
 /**
  * 拍摄或从手机相册中选择图片或视频。
  */
-export const chooseMedia = function (
+export const chooseMedia = async function (
   options: Taro.chooseMedia.Option,
   methodName = chooseMedia.name,
 ): Promise<Taro.chooseMedia.SuccessCallbackResult> {
@@ -50,7 +52,7 @@ export const chooseMedia = function (
 
   let el = document.getElementById(mediaId)
   if (!el) {
-    el = document.createElement(mediaId)
+    el = document.createElement('input')
     el.setAttribute('type', 'file')
     el.setAttribute('id', mediaId)
     el.setAttribute('style', 'position: fixed; top: -4000px; left: -3000px; z-index: -300;')
@@ -63,7 +65,21 @@ export const chooseMedia = function (
   }
 
   // Note: Input 仅在移动端支持 capture 属性，可以使用 getUserMedia 替代（暂不考虑）
-  // FIXME sourceType 有多个值时，判断在移动端，提示用户选择【拍摄、从相册选择】
+  const md = getMobileDetect()
+  if (!md.mobile()) {
+    if (sourceType.length > 1 || sourceType.length < 1) {
+      try {
+        const { tapIndex } = await showActionSheet({
+          itemList: ['拍摄', '从相册选择'],
+        }, methodName)
+        sourceType.splice(0, 1, tapIndex === 0 ? 'camera' : 'album')
+      } catch (e) {
+        return handle.fail({
+          errMsg: e.errMsg?.replace('^.*:fail ', '')
+        })
+      }
+    }
+  }
   if (sourceType.includes('camera')) {
     el.setAttribute('capture', camera === 'front' ? 'user' : 'environment')
   } else {
@@ -77,34 +93,34 @@ export const chooseMedia = function (
   } else {
     el.setAttribute('accept', 'image/*, video/*')
   }
-  document.body.appendChild(el)
-
   return new Promise<Taro.chooseMedia.SuccessCallbackResult>((resolve, reject) => {
-    const TaroMouseEvents = document.createEvent('MouseEvents')
-    TaroMouseEvents.initEvent('click', true, true)
-    if (el) {
-      el.dispatchEvent(TaroMouseEvents)
-      el.onchange = async function (e) {
-        const target = e.target as HTMLInputElement
-        if (target) {
-          const files = target.files || [] // name webkitRelativePath type
-          const arr = [...files]
-          await Promise.all(
-            arr.map(async item => {
-              try {
-                res.tempFiles?.push(await loadMedia(item))
-              } catch (error) {
-                console.error(error)
-              }
-            })
-          )
-        }
-        handle.success(res, { resolve, reject })
-        target.value = ''
+    if (!el) return
+    document.body.appendChild(el)
+    el.onchange = async function (e) {
+      const target = e.target as HTMLInputElement
+      if (target) {
+        const files = target.files || []
+        const arr = [...files]
+        await Promise.all(
+          arr.map(async item => {
+            try {
+              res.tempFiles?.push(await loadMedia(item))
+            } catch (error) {
+              console.error(error)
+            }
+          })
+        )
       }
+      handle.success(res, { resolve, reject })
+      target.value = ''
     }
+    el.onabort = () => handle.fail({ errMsg: 'abort' }, { resolve, reject })
+    el.oncancel = () => handle.fail({ errMsg: 'cancel' }, { resolve, reject })
+    el.onerror = e => handle.fail({ errMsg: e.toString() }, { resolve, reject })
+    el.click()
   }).finally(() => {
-    el && document.body.removeChild(el)
+    if (!el) return
+    document.body.removeChild(el)
   })
 
   function loadMedia (file: File): Promise<Taro.chooseMedia.ChooseMedia> {

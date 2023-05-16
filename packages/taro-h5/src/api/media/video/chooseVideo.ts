@@ -36,6 +36,7 @@ export const chooseVideo: typeof Taro.chooseVideo = (options) => {
   return chooseMedia({
     mediaId: 'taroChooseVideo',
     sourceType,
+    mediaType: ['video'],
     maxDuration,
     camera,
     success: (res) => {
@@ -43,7 +44,9 @@ export const chooseVideo: typeof Taro.chooseVideo = (options) => {
       success?.(param)
       complete?.(param)
     },
-    fail,
-    complete,
+    fail: (err) => {
+      fail?.(err)
+      complete?.(err)
+    },
   }, chooseVideo.name).then(parseRes)
 }
