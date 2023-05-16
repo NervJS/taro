@@ -129,14 +129,17 @@ declare module '../../index' {
     interface Option {
       /** 最多可以选择的图片张数
        * @default 9
+       * @supported weapp, alipay, swan, tt, h5, rn
        */
       count?: number
       /** 所选的图片的尺寸
        * @default ['original', 'compressed']
+       * @supported weapp, alipay, swan, tt, rn
        */
       sizeType?: Array<keyof sizeType>
       /** 选择图片的来源
        * @default ['album', 'camera']
+       * @supported weapp, alipay, swan, tt, h5, rn
        */
       sourceType?: Array<keyof sourceType>
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
@@ -309,7 +312,7 @@ declare module '../../index' {
 
   interface TaroStatic {
     /** 保存图片到系统相册。需要[用户授权](https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/authorize.html) scope.writePhotosAlbum
-     * @supported weapp, rn, alipay, swan, tt
+     * @supported weapp, alipay, swan, tt, rn
      * @example
      * ```tsx
      * Taro.saveImageToPhotosAlbum({
@@ -333,7 +336,7 @@ declare module '../../index' {
     previewMedia(option: previewMedia.Option): Promise<TaroGeneral.CallbackResult>
 
     /** 在新页面中全屏预览图片。预览的过程中用户可以进行保存图片、发送给朋友等操作。
-     * @supported weapp, h5, rn, alipay, swan, tt
+     * @supported weapp, alipay, swan, tt, h5, rn
      * @example
      * ```tsx
      * Taro.previewImage({
@@ -346,7 +349,7 @@ declare module '../../index' {
     previewImage(option: previewImage.Option): Promise<TaroGeneral.CallbackResult>
 
     /** 获取图片信息。网络图片需先配置download域名才能生效。
-     * @supported weapp, h5, rn, alipay, swan, tt
+     * @supported weapp, alipay, swan, tt, h5, rn
      * @example
      * ```tsx
      * Taro.getImageInfo({
@@ -385,7 +388,7 @@ declare module '../../index' {
     editImage(option: editImage.Option): Promise<editImage.SuccessCallbackResult>
 
     /** 压缩图片接口，可选压缩质量
-     * @supported weapp, rn, tt
+     * @supported weapp, tt, rn
      * @example
      * ```tsx
      * Taro.compressImage({
@@ -416,7 +419,7 @@ declare module '../../index' {
 
     /**
      * 从本地相册选择图片或使用相机拍照。
-     * @supported weapp, h5, rn, alipay, swan, tt
+     * @supported weapp, alipay, swan, tt, h5, rn
      * @example
      * ```tsx
      * Taro.chooseImage({

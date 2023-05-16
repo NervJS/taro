@@ -235,18 +235,22 @@ declare module '../../index' {
     interface Option {
       /** 默认拉起的是前置或者后置摄像头。部分 Android 手机下由于系统 ROM 不支持无法生效
        * @default "back"
+       * @supported weapp, h5
        */
       camera?: keyof Camera
       /** 是否压缩所选择的视频文件
        * @default true
+       * @supported weapp
        */
       compressed?: boolean
       /** 拍摄视频最长拍摄时间，单位秒
        * @default 60
+       * @supported weapp
        */
       maxDuration?: number
       /** 视频选择的来源
        * @default ['album', 'camera']
+       * @supported weapp, h5
        */
       sourceType?: Array<keyof sourceType>
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
@@ -288,26 +292,32 @@ declare module '../../index' {
     interface Option {
       /** 最多可以选择的文件个数
        * @default 9
+       * @supported weapp, h5
        */
       count?: number
       /** 文件类型
        * @default ['image', 'video']
+       * @supported weapp, h5
        */
       mediaType?: Array<keyof mediaType>
       /** 图片和视频选择的来源
        * @default ['album', 'camera']
+       * @supported weapp, h5
        */
       sourceType?: Array<keyof sourceType>
       /** 拍摄视频最长拍摄时间，单位秒。时间范围为 3s 至 60s 之间
        * @default 10
+       * @supported weapp
        */
       maxDuration?: number
       /** 是否压缩所选文件
        * @default ['original', 'compressed']
+       * @supported weapp
        */
       sizeType?: Array<'original' | 'compressed'>
       /** 仅在 sourceType 为 camera 时生效，使用前置或后置摄像头
        * @default "back"
+       * @supported weapp, h5
        */
       camera?: string
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
@@ -478,7 +488,7 @@ declare module '../../index' {
     compressVideo(option: compressVideo.Option): Promise<compressVideo.SuccessCallbackResult>
 
     /** 拍摄视频或从手机相册中选视频。
-     * @supported weapp, rn
+     * @supported weapp, h5, rn
      * @example
      * ```tsx
      * Taro.chooseVideo({
@@ -495,7 +505,7 @@ declare module '../../index' {
     chooseVideo(option: chooseVideo.Option): Promise<chooseVideo.SuccessCallbackResult>
 
     /** 拍摄或从手机相册中选择图片或视频。
-     * @supported weapp
+     * @supported weapp, h5
      * @example
      * ```tsx
      * Taro.chooseMedia({
