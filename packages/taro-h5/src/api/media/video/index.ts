@@ -5,7 +5,8 @@ import { findDOM, temporarilyNotSupport } from '../../../utils'
 // 视频
 export const saveVideoToPhotosAlbum: typeof Taro.saveVideoToPhotosAlbum = temporarilyNotSupport('saveVideoToPhotosAlbum')
 export const openVideoEditor = temporarilyNotSupport('openVideoEditor')
-export const getVideoInfo = temporarilyNotSupport('getVideoInfo')
+
+export * from './getVideoInfo'
 
 /**
  * 创建 video 上下文 VideoContext 对象。
