@@ -3,7 +3,7 @@ import Taro from '@tarojs/api'
 import { findDOM, temporarilyNotSupport } from '../../../utils'
 
 // 视频
-export const saveVideoToPhotosAlbum = temporarilyNotSupport('saveVideoToPhotosAlbum')
+export const saveVideoToPhotosAlbum: typeof Taro.saveVideoToPhotosAlbum = temporarilyNotSupport('saveVideoToPhotosAlbum')
 export const openVideoEditor = temporarilyNotSupport('openVideoEditor')
 export const getVideoInfo = temporarilyNotSupport('getVideoInfo')
 

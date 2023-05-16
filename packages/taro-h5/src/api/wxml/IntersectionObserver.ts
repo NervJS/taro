@@ -1,8 +1,11 @@
-import Taro from '@tarojs/taro'
+import Taro from '@tarojs/api'
 
 import { findDOM } from '../../utils'
-// pollify
-import('intersection-observer')
+
+import(
+  /* webpackMode: "weak" */
+  'intersection-observer'
+)
 
 type TElement = Document | HTMLElement | Element
 

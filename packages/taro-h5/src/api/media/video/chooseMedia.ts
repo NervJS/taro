@@ -3,7 +3,6 @@ import { getMobileDetect } from '@tarojs/router/dist/utils/navigate'
 
 import { showActionSheet } from '../../../api/ui'
 import { getParameterError, shouldBeObject } from '../../../utils'
-import { REG_MEDIA } from '../../../utils/constants'
 import { MethodHandler } from '../../../utils/handler'
 
 /**
@@ -66,7 +65,7 @@ export const chooseMedia = async function (
 
   // Note: Input 仅在移动端支持 capture 属性，可以使用 getUserMedia 替代（暂不考虑）
   const md = getMobileDetect()
-  if (!md.mobile()) {
+  if (md.mobile()) {
     if (sourceType.length > 1 || sourceType.length < 1) {
       try {
         const { tapIndex } = await showActionSheet({
@@ -136,25 +135,32 @@ export const chooseMedia = async function (
       originalFileObj: file
     }
 
-    if (REG_MEDIA.test(res.fileType)) {
+    if (/^video\//.test(res.fileType)) {
       // Video
-      const reader = new FileReader()
       const video = document.createElement('video')
+      const reader = new FileReader()
+      video.crossOrigin = 'Anonymous'
       video.preload = 'metadata'
       video.src = res.tempFilePath
 
       return new Promise((resolve, reject) => {
-        reader.onload = function () {
-          video.onloadedmetadata = async () => {
-            res.duration = video.duration
-            res.height = video.videoHeight
-            res.width = video.videoWidth
-            res.thumbTempFilePath = getThumbTempFilePath(video, res.height, res.width, 0.8)
-            resolve(res)
-          }
+        // 对齐旧版本实现
+        reader.onload = (event) => {
+          res.tempFilePath = event.target?.result as string
         }
         reader.onerror = e => reject(e)
         reader.readAsDataURL(res.originalFileObj)
+
+        video.onloadedmetadata = () => {
+          res.duration = video.duration
+          res.height = video.videoHeight
+          res.width = video.videoWidth
+        }
+        video.oncanplay = () => {
+          res.thumbTempFilePath = getThumbTempFilePath(video, res.height, res.width, 0.8)
+          resolve(res)
+        }
+        video.onerror = e => reject(e)
       })
     } else {
       // Image

@@ -1,6 +1,6 @@
 
+import Taro from '@tarojs/api'
 import { isFunction, toKebabCase } from '@tarojs/shared'
-import Taro from '@tarojs/taro'
 
 function generateMediaQueryStr (descriptor: Taro.MediaQueryObserver.descriptor) {
   const mediaQueryArr: string[] = []

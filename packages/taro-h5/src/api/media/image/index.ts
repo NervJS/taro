@@ -1,14 +1,16 @@
-import { temporarilyNotSupport } from '../../../utils'
+import Taro from '@tarojs/api'
+
+import { permanentlyNotSupport, temporarilyNotSupport } from '../../../utils'
 
 // 图片
-export const saveImageToPhotosAlbum = temporarilyNotSupport('saveImageToPhotosAlbum')
-export const previewMedia = temporarilyNotSupport('previewMedia')
+export const saveImageToPhotosAlbum: typeof Taro.saveImageToPhotosAlbum = temporarilyNotSupport('saveImageToPhotosAlbum')
+export const previewMedia: typeof Taro.saveImageToPhotosAlbum = temporarilyNotSupport('previewMedia')
 
 export * from './getImageInfo'
 export * from './previewImage'
 
 export const compressImage = temporarilyNotSupport('compressImage')
-export const chooseMessageFile = temporarilyNotSupport('chooseMessageFile')
+export const chooseMessageFile = permanentlyNotSupport('chooseMessageFile')
 
 export * from './chooseImage'
 
