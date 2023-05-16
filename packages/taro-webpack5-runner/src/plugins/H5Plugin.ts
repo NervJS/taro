@@ -108,7 +108,7 @@ export default class TaroH5Plugin {
         if (
           isBuildNativeComp
             ? this.appHelper.compsConfigList.has(pageName)
-            : (isApp || this.appHelper.pagesConfigList.has(pageName))
+            : (isApp || this.appHelper.pagesConfigList.has(pageName.split(path.sep).join('/')))
         ) {
           if (bootstrap) {
             const bootPath = path.relative(appPath, path.join(sourceDir, `${isMultiRouterMode ? pageName : entryFileName}.boot.js`))
