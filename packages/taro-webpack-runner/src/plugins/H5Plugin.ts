@@ -104,7 +104,7 @@ export default class TaroH5Plugin {
         if (
           isBuildNativeComp
             ? this.appHelper.compsConfigList.has(pageName)
-            : (isApp || this.appHelper.pagesConfigList.has(pageName))
+            : (isApp || this.appHelper.pagesConfigList.has(pageName.split(path.sep).join('/')))
         ) {
           module.loaders.push({
             loader: require.resolve('@tarojs/taro-loader/lib/h5'),
