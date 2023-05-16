@@ -123,16 +123,17 @@ export const chooseMedia = function (
     if (REG_MEDIA.test(res.fileType)) {
       // Video
       const reader = new FileReader()
-      const vEl = document.createElement('video')
-      vEl.preload = 'metadata'
-      vEl.src = res.tempFilePath
+      const video = document.createElement('video')
+      video.preload = 'metadata'
+      video.src = res.tempFilePath
 
       return new Promise((resolve, reject) => {
         reader.onload = function () {
-          vEl.onloadedmetadata = () => {
-            res.duration = vEl.duration
-            res.height = vEl.height
-            res.width = vEl.width
+          video.onloadedmetadata = async () => {
+            res.duration = video.duration
+            res.height = video.videoHeight
+            res.width = video.videoWidth
+            res.thumbTempFilePath = getThumbTempFilePath(video, res.height, res.width, 0.8)
             resolve(res)
           }
         }
@@ -142,22 +143,49 @@ export const chooseMedia = function (
     } else {
       // Image
       const img = new Image()
+      /** 允许图片和 canvas 跨源使用
+       * https://developer.mozilla.org/zh-CN/docs/Web/HTML/CORS_enabled_image
+       */
+      img.crossOrigin = 'Anonymous'
       img.src = res.tempFilePath
 
       return new Promise((resolve, reject) => {
         if (img.complete) {
           res.height = img.height
           res.width = img.width
+          res.thumbTempFilePath = getThumbTempFilePath(img, res.height, res.width, 0.8)
           resolve(res)
         } else {
           img.onload = () => {
             res.height = img.height
             res.width = img.width
+            res.thumbTempFilePath = getThumbTempFilePath(img, res.height, res.width, 0.8)
             resolve(res)
           }
           img.onerror = e => reject(e)
         }
       })
     }
+  }
+
+  function getThumbTempFilePath (el: CanvasImageSource, height = 0, width = height, quality = 0.8) {
+    const max = 256
+    const canvas = document.createElement('canvas')
+    if (height > max || width > max) {
+      const radio = height / width
+      if (radio > 1) {
+        height = max
+        width = height / radio
+      } else {
+        width = max
+        height = width * radio
+      }
+    }
+    canvas.height = height
+    canvas.width = width
+
+    const ctx = canvas.getContext('2d')
+    ctx?.drawImage(el, 0, 0, canvas.width, canvas.height)
+    return canvas.toDataURL('image/jpeg', quality)
   }
 }
