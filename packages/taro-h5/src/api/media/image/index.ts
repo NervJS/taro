@@ -1,8 +1,11 @@
+import Taro from '@tarojs/api'
+
 import { temporarilyNotSupport } from '../../../utils'
 
 // 图片
-export const saveImageToPhotosAlbum = temporarilyNotSupport('saveImageToPhotosAlbum')
-export const previewMedia = temporarilyNotSupport('previewMedia')
+export * from './saveImageToPhotosAlbum'
+
+export const previewMedia: typeof Taro.saveImageToPhotosAlbum = temporarilyNotSupport('previewMedia')
 
 export * from './getImageInfo'
 export * from './previewImage'
