@@ -1,3 +1,5 @@
+import 'whatwg-fetch'
+
 import Taro from '@tarojs/api'
 
 import { getParameterError, shouldBeObject } from '../../../utils'
