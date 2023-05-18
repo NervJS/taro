@@ -346,7 +346,7 @@ declare module '../../index' {
      * **Bug & Tip：**
      *
      * 1.  `tip`: camera 参数在部分 Android 手机下由于系统 ROM 不支持无法生效
-     * @supported weapp, rn
+     * @supported weapp, h5, rn
      * @example
      ```tsx
      * Taro.saveVideoToPhotosAlbum({
