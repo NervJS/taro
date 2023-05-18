@@ -4,10 +4,11 @@ import { createDownload, getParameterError, shouldBeObject } from '../../../util
 import { MethodHandler } from '../../../utils/handler'
 
 export const saveVideoToPhotosAlbum: typeof Taro.saveVideoToPhotosAlbum = (options) => {
+  const methodName = 'saveVideoToPhotosAlbum'
   // options must be an Object
   const isObject = shouldBeObject(options)
   if (!isObject.flag) {
-    const res = { errMsg: `${saveVideoToPhotosAlbum.name}:fail ${isObject.msg}` }
+    const res = { errMsg: `${methodName}:fail ${isObject.msg}` }
     console.error(res.errMsg)
     return Promise.reject(res)
   }
@@ -18,16 +19,15 @@ export const saveVideoToPhotosAlbum: typeof Taro.saveVideoToPhotosAlbum = (optio
     fail,
     complete,
   } = options
-  const handle = new MethodHandler({ name: saveVideoToPhotosAlbum.name, success, fail, complete })
-  const res: Partial<TaroGeneral.CallbackResult> = {}
-
+  const handle = new MethodHandler({ name: methodName, success, fail, complete })
   if (typeof filePath !== 'string') {
-    res.errMsg = getParameterError({
-      para: 'filePath',
-      correct: 'String',
-      wrong: filePath
+    return handle.fail({
+      errMsg: getParameterError({
+        para: 'filePath',
+        correct: 'String',
+        wrong: filePath
+      })
     })
-    return handle.fail(res)
   }
 
   createDownload(filePath)
