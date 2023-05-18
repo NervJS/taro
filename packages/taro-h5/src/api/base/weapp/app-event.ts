@@ -92,8 +92,8 @@ export const onError: typeof Taro.onError = callback => {
   }
 }
 
-export const onAudioInterruptionEnd = temporarilyNotSupport('onAudioInterruptionEnd')
-export const onAudioInterruptionBegin = temporarilyNotSupport('onAudioInterruptionBegin')
+export const onAudioInterruptionEnd = /* @__PURE__ */ temporarilyNotSupport('onAudioInterruptionEnd')
+export const onAudioInterruptionBegin = /* @__PURE__ */ temporarilyNotSupport('onAudioInterruptionBegin')
 
 export const onAppShow: typeof Taro.onAppShow = callback => {
   appShowCallbackManager.add(callback)
@@ -141,8 +141,8 @@ export const offError: typeof Taro.offError = callback => {
   }
 }
 
-export const offAudioInterruptionEnd = temporarilyNotSupport('offAudioInterruptionEnd')
-export const offAudioInterruptionBegin = temporarilyNotSupport('offAudioInterruptionBegin')
+export const offAudioInterruptionEnd = /* @__PURE__ */ temporarilyNotSupport('offAudioInterruptionEnd')
+export const offAudioInterruptionBegin = /* @__PURE__ */ temporarilyNotSupport('offAudioInterruptionBegin')
 
 export const offAppShow: typeof Taro.offAppShow = callback => {
   appShowCallbackManager.remove(callback)
