@@ -1,7 +1,7 @@
 import Taro from '@tarojs/api'
 
 import { shouldBeObject } from '../../../utils'
-import { chooseMedia } from '../video'
+import { chooseMedia } from '../video/chooseMedia'
 
 /**
  * 从本地相册选择图片或使用相机拍照。
@@ -11,7 +11,7 @@ export const chooseImage: typeof Taro.chooseImage = function (options) {
   // options must be an Object
   const isObject = shouldBeObject(options)
   if (!isObject.flag) {
-    const res = { errMsg: `${chooseImage.name}:fail ${isObject.msg}` }
+    const res = { errMsg: `chooseImage:fail ${isObject.msg}` }
     console.error(res.errMsg)
     return Promise.reject(res)
   }
@@ -57,5 +57,5 @@ export const chooseImage: typeof Taro.chooseImage = function (options) {
       fail?.(err)
       complete?.(err)
     },
-  }, chooseImage.name).then(parseRes)
+  }, 'chooseImage').then(parseRes)
 }

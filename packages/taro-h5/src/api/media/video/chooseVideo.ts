@@ -11,7 +11,7 @@ export const chooseVideo: typeof Taro.chooseVideo = (options) => {
   // options must be an Object
   const isObject = shouldBeObject(options)
   if (!isObject.flag) {
-    const res = { errMsg: `${chooseVideo.name}:fail ${isObject.msg}` }
+    const res = { errMsg: `chooseVideo:fail ${isObject.msg}` }
     console.error(res.errMsg)
     return Promise.reject(res)
   }
@@ -48,5 +48,5 @@ export const chooseVideo: typeof Taro.chooseVideo = (options) => {
       fail?.(err)
       complete?.(err)
     },
-  }, chooseVideo.name).then(parseRes)
+  }, 'chooseVideo').then(parseRes)
 }

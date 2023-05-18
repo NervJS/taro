@@ -1,10 +1,7 @@
 import { Component, Prop, h, ComponentInterface, Host, State, Event, EventEmitter } from '@stencil/core'
 import classNames from 'classnames'
 
-import(
-  /* webpackMode: "weak" */
-  'intersection-observer'
-)
+import('intersection-observer')
 
 export type Mode =
   'scaleToFill'

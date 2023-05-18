@@ -10,7 +10,7 @@ import { MethodHandler } from '../../../utils/handler'
  */
 export const chooseMedia = async function (
   options: Taro.chooseMedia.Option,
-  methodName = chooseMedia.name,
+  methodName = 'chooseMedia',
 ): Promise<Taro.chooseMedia.SuccessCallbackResult> {
   // options must be an Object
   const isObject = shouldBeObject(options)

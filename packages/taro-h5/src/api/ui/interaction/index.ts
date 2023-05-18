@@ -36,7 +36,7 @@ const showToast: typeof Taro.showToast = (options = { title: '' }) => {
     mask: false
   }, options)
   const { success, fail, complete } = options
-  const handle = new MethodHandler({ name: showToast.name, success, fail, complete })
+  const handle = new MethodHandler({ name: 'showToast', success, fail, complete })
 
   if (typeof options.title !== 'string') {
     return handle.fail({
@@ -72,7 +72,7 @@ const showToast: typeof Taro.showToast = (options = { title: '' }) => {
 }
 
 const hideToast: typeof Taro.hideToast = ({ noConflict = false, success, fail, complete } = {}) => {
-  const handle = new MethodHandler({ name: hideToast.name, success, fail, complete })
+  const handle = new MethodHandler({ name: 'hideToast', success, fail, complete })
   if (!toast.el) return handle.success()
   toast.hide(0, noConflict ? 'toast' : '')
   return handle.success()
@@ -85,7 +85,7 @@ const showLoading: typeof Taro.showLoading = (options = { title: '' }) => {
     mask: false
   }, options)
   const { success, fail, complete } = options
-  const handle = new MethodHandler({ name: showLoading.name, success, fail, complete })
+  const handle = new MethodHandler({ name: 'showLoading', success, fail, complete })
 
   const config = {
     icon: 'loading',
@@ -117,7 +117,7 @@ const showLoading: typeof Taro.showLoading = (options = { title: '' }) => {
 }
 
 const hideLoading: typeof Taro.hideLoading = ({ noConflict = false, success, fail, complete } = {}) => {
-  const handle = new MethodHandler({ name: hideLoading.name, success, fail, complete })
+  const handle = new MethodHandler({ name: 'hideLoading', success, fail, complete })
   if (!toast.el) return handle.success()
   toast.hide(0, noConflict ? 'loading' : '')
   return handle.success()
@@ -135,7 +135,7 @@ const showModal: typeof Taro.showModal = async (options = {}) => {
     confirmColor: '#3CC51F'
   }, options)
   const { success, fail, complete } = options
-  const handle = new MethodHandler({ name: showModal.name, success, fail, complete })
+  const handle = new MethodHandler({ name: 'showModal', success, fail, complete })
 
   if (typeof options.title !== 'string') {
     return handle.fail({
@@ -229,7 +229,7 @@ function hideModal () {
 
 const showActionSheet = async (
   options: Taro.showActionSheet.Option = { itemList: [] },
-  methodName = showActionSheet.name
+  methodName = 'showActionSheet'
 ): Promise<Taro.showActionSheet.SuccessCallbackResult> => {
   init(document)
   options = Object.assign({

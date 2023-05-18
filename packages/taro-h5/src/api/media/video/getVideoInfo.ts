@@ -9,7 +9,7 @@ export const getVideoInfo: typeof Taro.getVideoInfo = async function (options) {
   // options must be an Object
   const isObject = shouldBeObject(options)
   if (!isObject.flag) {
-    const res = { errMsg: `${getVideoInfo.name}:fail ${isObject.msg}` }
+    const res = { errMsg: `getVideoInfo:fail ${isObject.msg}` }
     console.error(res.errMsg)
     return Promise.reject(res)
   }
@@ -29,7 +29,7 @@ export const getVideoInfo: typeof Taro.getVideoInfo = async function (options) {
     fail,
     complete,
   } = options
-  const handle = new MethodHandler({ name: getVideoInfo.name, success, fail, complete })
+  const handle = new MethodHandler({ name: 'getVideoInfo', success, fail, complete })
 
   if (typeof src !== 'string') {
     res.errMsg = getParameterError({
@@ -50,14 +50,14 @@ export const getVideoInfo: typeof Taro.getVideoInfo = async function (options) {
       res.duration = video.duration
       res.height = video.videoHeight
       res.width = video.videoWidth
-  
+
       fetch(src)
         .then(async e => {
           const blob = await e.blob()
           res.type = blob.type
           res.size = blob.size
           res.bitrate = blob.size / video.duration
-    
+
           handle.success(res, { resolve, reject })
         })
         .catch(e => {
