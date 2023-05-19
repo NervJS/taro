@@ -135,7 +135,7 @@ export class BaseTemplate {
               const propInCamelCase = toCamelCase(prop)
               const propAlias = componentAlias[propInCamelCase] || propInCamelCase
 
-              // cursur 默认取最后输入框最后一位 fix #13809
+              // cursor 默认取最后输入框最后一位 fix #13809
               if (prop === 'cursor') {
                 propValue = `i.${componentAlias.value}?i.${componentAlias.value}.length:-1`
               }
