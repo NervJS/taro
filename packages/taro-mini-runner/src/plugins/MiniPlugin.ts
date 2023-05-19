@@ -1185,22 +1185,27 @@ export default class TaroMiniPlugin {
 
     if (!assets[appStyle]) return
 
-    const originSource: string = assets[appStyle].source()
-    const source = new ConcatSource()
-    source.add(originSource)
+    const commons = new ConcatSource('')
 
     // 组件公共样式需要放在 app 全局样式之后：https://github.com/NervJS/taro/pull/6125
     Object.keys(assets).forEach(assetName => {
       const fileName = path.basename(assetName, path.extname(assetName))
       if ((REG_STYLE.test(assetName) || REG_STYLE_EXT.test(assetName)) && this.options.commonChunks.includes(fileName)) {
-        source.add('\n')
-        source.add(`@import ${JSON.stringify(urlToRequest(assetName))};`)
-        assets[appStyle] = {
-          size: () => source.source().length,
-          source: () => source.source()
-        }
+        commons.add('\n')
+        commons.add(`@import ${JSON.stringify(urlToRequest(assetName))};`)
       }
     })
+
+    if (commons.size() > 0) {
+      const APP_STYLE_NAME = 'app-origin' + styleExt
+      const originSource = assets[appStyle]
+      assets[APP_STYLE_NAME] = new ConcatSource(originSource)
+      const source = new ConcatSource('')
+      source.add(`@import ${JSON.stringify(urlToRequest(APP_STYLE_NAME))};`)
+      source.add(commons)
+      source.add('\n')
+      assets[appStyle] = source
+    }
   }
 
   addTarBarFilesToDependencies (compilation: webpack.compilation.Compilation) {
