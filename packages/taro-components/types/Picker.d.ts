@@ -35,7 +35,6 @@ declare namespace PickerStandardProps {
     /** 省市区选择器 */
     region
   }
-
   interface PickerText {
     okText?: string
     cancelText?: string
