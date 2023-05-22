@@ -2,9 +2,9 @@ import { fs } from '@tarojs/helper'
 import { paramCase } from 'change-case'
 import ts from 'typescript'
 
-import { generateDocumentation } from './utils/ast'
+import { generateDocumentation } from '../utils/ast'
 
-import type { DocEntry } from './utils/ast'
+import type { DocEntry } from '../utils/ast'
 
 const CompRGX = /^Taro(.*)Core$/
 const tsconfig: ts.CompilerOptions = {
@@ -17,10 +17,10 @@ const tsconfig: ts.CompilerOptions = {
   },
   'types': ['@tarojs/taro-h5/types']
 }
-export function parseComponents () {
-  const docTree = generateDocumentation([
-    require.resolve('@tarojs/components/dist/types/components.d.ts'),
-  ], tsconfig)
+export function parseComponents (
+  docsPath = require.resolve('@tarojs/components/dist/types/components.d.ts'),
+) {
+  const docTree = generateDocumentation([docsPath], tsconfig)
   const Components = docTree.find(e => e.name === 'Components')?.children || []
 
   // ${component}.${attribute}.${option}
@@ -37,12 +37,12 @@ export function parseComponents () {
   }, {})
 }
 
-export function parseAPIs () {
-  const docTree = generateDocumentation([
-    require.resolve('@tarojs/taro-h5/dist/index.esm.d.ts'),
-    // require.resolve('@tarojs/taro'),
-  ], tsconfig)
+export function parseAPIs (
+  docsPath = require.resolve('@tarojs/taro-h5/dist/index.esm.d.ts'),
+) {
+  const docTree = generateDocumentation([docsPath], tsconfig)
 
+  // ${API}.${method}.${param}.${option}
   return docTree.reduce((p, e) => {
     p[e.name ?? ''] = parseAPIMethod(e)
     return p
@@ -92,9 +92,12 @@ export function parseAnyOrVoid (str = '', obj: unknown = str) {
   return anyTypes.includes(str) ? anyStr : voidTypes.includes(str) ? voidStr : obj || str
 }
 
-export function parseDefinitionJSON () {
-  const apis = parseAPIs()
-  const components = parseComponents()
+export function parseDefinitionJSON ({
+  apisPath = require.resolve('@tarojs/taro-h5/dist/index.esm.d.ts'),
+  componentsPath = require.resolve('@tarojs/components/dist/types/components.d.ts'),
+} = {}) {
+  const apis = parseAPIs(apisPath)
+  const components = parseComponents(componentsPath)
 
   // Note: 写入文件
   fs.ensureDirSync('dist')
@@ -103,5 +106,3 @@ export function parseDefinitionJSON () {
     components,
   }, { spaces: 2 })
 }
-
-parseDefinitionJSON()
