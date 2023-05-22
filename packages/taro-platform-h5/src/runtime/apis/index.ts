@@ -1,10 +1,13 @@
-import definition from '@tarojs/plugin-platform-h5/dist/definition.json'
 import { isMatchWith, set } from 'lodash-es'
 
 import Taro from './taro'
 
+import type TDefinition from '@tarojs/plugin-platform-h5/dist/definition.json'
+
 export * from './taro'
 export * from './taro-h5'
+
+const definition = require('@tarojs/plugin-platform-h5/dist/definition.json') as typeof TDefinition
 
 let list: Record<string, unknown> | null = null
 export function canIUse (scheme = '') {
