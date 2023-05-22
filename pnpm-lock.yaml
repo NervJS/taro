@@ -35979,6 +35979,7 @@ packages:
     version: 3.17.4
     engines: {node: '>=0.8.0'}
     hasBin: true
+    requiresBuild: true
 
   registry.npmjs.org/unbox-primitive/1.0.2:
     resolution: {integrity: sha512-61pPlCD9h51VoreyJ0BReideM3MDKMKnh6+V9L08331ipq6Q8OFXZYiqP6n/tbHx4s5I9uRhcye6BrbkizkBDw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/unbox-primitive/-/unbox-primitive-1.0.2.tgz}
