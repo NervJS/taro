@@ -91,7 +91,7 @@
     "lint-staged": "^8.1.0",
     "markdown-it": "^10.0.0",
     "nerv-markdown-loader": "0.0.1",
-    "node-sass": "^4.12.0",
+    "sass": "1.26.2",
     "npm-run-all": "^4.1.2",
     "ora": "^2.1.0",
     "pretty": "^2.0.0",
@@ -109,7 +109,7 @@
     "ts-node": "^8.4.1",
     "typescript": "^3.6.4",
     "webpack": "^3.11.0",
-    "webpack-cli": "^1.0.12",
+    "webpack-cli": "^3.1.2",
     "webpack-dev-server": "^3.1.4"
   }
 }

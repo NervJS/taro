@@ -6,7 +6,7 @@ export default (ctx: IPluginContext, opts) => {
     const { enableSourceMap = true } = opts
     const taroEnv = process.env.TARO_ENV
     if (taroEnv) {
-      const sass = require('node-sass')
+      const sass = require('sass')
       const currentPlatform = ctx.platforms.get(taroEnv)
       if (!currentPlatform) return
       const { sass: sassOption } = ctx.initialConfig
