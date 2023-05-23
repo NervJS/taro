@@ -2,7 +2,7 @@ import { document, window } from '@tarojs/runtime'
 import { isWebPlatform } from '@tarojs/shared'
 
 import { Cookie, createCookieInstance } from './Cookie'
-import { XMLHttpRequest } from './XMLHttpRequest'
+import { type XMLHttpRequestEvent,XMLHttpRequest } from './XMLHttpRequest'
 
 declare const ENABLE_COOKIE: boolean
 
@@ -32,4 +32,4 @@ if (!isWebPlatform()) {
   window.XMLHttpRequest = XMLHttpRequest
 }
 
-export { Cookie, document, XMLHttpRequest }
+export { Cookie, document, XMLHttpRequest, XMLHttpRequestEvent }
