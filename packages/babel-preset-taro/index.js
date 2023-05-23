@@ -1,7 +1,7 @@
 const path = require('path')
 
 function hasBrowserslist () {
-  const fs = require('fs')
+  const fs = require('@tarojs/helper').fs
   const root = process.cwd()
   try {
     const pkg = require(path.resolve(root, 'package.json'))
@@ -34,17 +34,20 @@ module.exports = (_, options = {}) => {
   const isVue = options.framework === 'vue'
   const isVue3 = options.framework === 'vue3'
   const moduleName = options.framework.charAt(0).toUpperCase() + options.framework.slice(1)
+  const presetReactConfig = options.react || {}
 
   if (isNerv) {
     presets.push([require('@babel/preset-react'), {
       pragma: `${moduleName}.createElement`,
-      pragmaFrag: `${moduleName}.Fragment`
+      pragmaFrag: `${moduleName}.Fragment`,
+      ...presetReactConfig
     }])
   }
 
   if (isReact) {
     presets.push([require('@babel/preset-react'), {
-      runtime: options.reactJsxRuntime || 'automatic'
+      runtime: options.reactJsxRuntime || 'automatic',
+      ...presetReactConfig
     }])
     if (isWeb && process.env.NODE_ENV !== 'production' && options.hot !== false) {
       if (options.framework === 'react') {

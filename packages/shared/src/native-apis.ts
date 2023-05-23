@@ -380,6 +380,13 @@ function equipCommonApis (taro, global, apis: Record<string, any> = {}) {
   taro.addInterceptor = link.addInterceptor.bind(link)
   taro.cleanInterceptors = link.cleanInterceptors.bind(link)
   taro.miniGlobal = taro.options.miniGlobal = global
+  taro.getAppInfo = function () {
+    return {
+      platform: process.env.TARO_PLATFORM || 'MiniProgram',
+      taroVersion: process.env.TARO_VERSION || 'unknown',
+      designWidth: taro.config.designWidth
+    }
+  }
 }
 
 /**

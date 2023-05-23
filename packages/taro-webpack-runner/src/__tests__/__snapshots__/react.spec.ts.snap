@@ -19,9 +19,6 @@ exports[`react should build react app 2`] = `
         var createSuper = __webpack_require__(10);
         var react = __webpack_require__(0);
         var taro_components = "taro-components-mock";
-        function defineCustomElements() {}
-        function applyPolyfills() {}
-        function initVue3Components() {}
         var index = __webpack_require__(32);
         var index_Index = function(_Component) {
             Object(inherits["a"])(Index, _Component);
@@ -281,6 +278,17 @@ exports[`react should build react app 2`] = `
     function createReactApp() {}
     function createVueApp() {}
     function createVue3App() {}
+}, function(module, exports) {
+    function _typeof(obj) {
+        "@babel/helpers - typeof";
+        return module.exports = _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function(obj) {
+            return typeof obj;
+        } : function(obj) {
+            return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
+        }, module.exports.__esModule = true, module.exports["default"] = module.exports, 
+        _typeof(obj);
+    }
+    module.exports = _typeof, module.exports.__esModule = true, module.exports["default"] = module.exports;
 }, function(module, __webpack_exports__, __webpack_require__) {
     "use strict";
     __webpack_require__.d(__webpack_exports__, "a", (function() {
@@ -294,17 +302,6 @@ exports[`react should build react app 2`] = `
             return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
         }, _typeof(obj);
     }
-}, function(module, exports) {
-    function _typeof(obj) {
-        "@babel/helpers - typeof";
-        return module.exports = _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function(obj) {
-            return typeof obj;
-        } : function(obj) {
-            return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
-        }, module.exports.__esModule = true, module.exports["default"] = module.exports, 
-        _typeof(obj);
-    }
-    module.exports = _typeof, module.exports.__esModule = true, module.exports["default"] = module.exports;
 }, function(module, exports) {
     function _classCallCheck(instance, Constructor) {
         if (!(instance instanceof Constructor)) {
@@ -357,7 +354,7 @@ exports[`react should build react app 2`] = `
     }
     module.exports = _arrayLikeToArray, module.exports.__esModule = true, module.exports["default"] = module.exports;
 }, function(module, exports, __webpack_require__) {
-    var _typeof = __webpack_require__(3)["default"];
+    var _typeof = __webpack_require__(2)["default"];
     var toPrimitive = __webpack_require__(29);
     function _toPropertyKey(arg) {
         var key = toPrimitive(arg, "string");
@@ -396,7 +393,7 @@ exports[`react should build react app 2`] = `
             return false;
         }
     }
-    var esm_typeof = __webpack_require__(2);
+    var esm_typeof = __webpack_require__(3);
     function _assertThisInitialized(self) {
         if (self === void 0) {
             throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
@@ -429,7 +426,7 @@ exports[`react should build react app 2`] = `
     __webpack_require__.d(__webpack_exports__, "a", (function() {
         return _createClass;
     }));
-    var esm_typeof = __webpack_require__(2);
+    var esm_typeof = __webpack_require__(3);
     function _toPrimitive(input, hint) {
         if (Object(esm_typeof["a"])(input) !== "object" || input === null) return input;
         var prim = input[Symbol.toPrimitive];
@@ -566,7 +563,7 @@ exports[`react should build react app 2`] = `
     __webpack_require__.d(__webpack_exports__, "default", (function() {
         return Taro;
     }));
-    var _babel_runtime_helpers_typeof__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(3);
+    var _babel_runtime_helpers_typeof__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(2);
     var _babel_runtime_helpers_typeof__WEBPACK_IMPORTED_MODULE_0___default = __webpack_require__.n(_babel_runtime_helpers_typeof__WEBPACK_IMPORTED_MODULE_0__);
     var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(1);
     var _babel_runtime_helpers_toConsumableArray__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(19);
@@ -865,16 +862,20 @@ exports[`react should build react app 2`] = `
         _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_6___default()(Events, [ {
             "key": "on",
             "value": function on(eventName, callback, context) {
-                var event, node, tail, list;
+                var event, tail, _eventName;
                 if (!callback) {
                     return this;
                 }
-                eventName = eventName.split(Events.eventSplitter);
+                if (_babel_runtime_helpers_typeof__WEBPACK_IMPORTED_MODULE_0___default()(eventName) === "symbol") {
+                    _eventName = [ eventName ];
+                } else {
+                    _eventName = eventName.split(Events.eventSplitter);
+                }
                 this.callbacks || (this.callbacks = {});
                 var calls = this.callbacks;
-                while (event = eventName.shift()) {
-                    list = calls[event];
-                    node = list ? list.tail : {};
+                while (event = _eventName.shift()) {
+                    var list = calls[event];
+                    var node = list ? list.tail : {};
                     node.next = tail = {};
                     node.context = context;
                     node.callback = callback;
@@ -902,7 +903,7 @@ exports[`react should build react app 2`] = `
         }, {
             "key": "off",
             "value": function off(events, callback, context) {
-                var event, calls, node, tail, cb, ctx;
+                var event, calls, _events;
                 if (!(calls = this.callbacks)) {
                     return this;
                 }
@@ -910,17 +911,21 @@ exports[`react should build react app 2`] = `
                     delete this.callbacks;
                     return this;
                 }
-                events = events ? events.split(Events.eventSplitter) : Object.keys(calls);
-                while (event = events.shift()) {
-                    node = calls[event];
+                if (_babel_runtime_helpers_typeof__WEBPACK_IMPORTED_MODULE_0___default()(events) === "symbol") {
+                    _events = [ events ];
+                } else {
+                    _events = events ? events.split(Events.eventSplitter) : Object.keys(calls);
+                }
+                while (event = _events.shift()) {
+                    var node = calls[event];
                     delete calls[event];
                     if (!node || !(callback || context)) {
                         continue;
                     }
-                    tail = node.tail;
+                    var tail = node.tail;
                     while ((node = node.next) !== tail) {
-                        cb = node.callback;
-                        ctx = node.context;
+                        var cb = node.callback;
+                        var ctx = node.context;
                         if (callback && cb !== callback || context && ctx !== context) {
                             this.on(event, cb, ctx);
                         }
@@ -931,17 +936,23 @@ exports[`react should build react app 2`] = `
         }, {
             "key": "trigger",
             "value": function trigger(events) {
-                var event, node, calls, tail;
+                var event, node, calls, _events;
                 if (!(calls = this.callbacks)) {
                     return this;
                 }
-                events = events.split(Events.eventSplitter);
-                var rest = [].slice.call(arguments, 1);
-                while (event = events.shift()) {
+                if (_babel_runtime_helpers_typeof__WEBPACK_IMPORTED_MODULE_0___default()(events) === "symbol") {
+                    _events = [ events ];
+                } else {
+                    _events = events.split(Events.eventSplitter);
+                }
+                for (var _len2 = arguments.length, args = new Array(_len2 > 1 ? _len2 - 1 : 0), _key2 = 1; _key2 < _len2; _key2++) {
+                    args[_key2 - 1] = arguments[_key2];
+                }
+                while (event = _events.shift()) {
                     if (node = calls[event]) {
-                        tail = node.tail;
+                        var tail = node.tail;
                         while ((node = node.next) !== tail) {
-                            node.callback.apply(node.context || this, rest);
+                            node.callback.apply(node.context || this, args);
                         }
                     }
                 }
@@ -1025,8 +1036,8 @@ exports[`react should build react app 2`] = `
                 if (list) {
                     var tail = list.tail;
                     var node = list.next;
-                    for (var _len2 = arguments.length, rest = new Array(_len2 > 1 ? _len2 - 1 : 0), _key2 = 1; _key2 < _len2; _key2++) {
-                        rest[_key2 - 1] = arguments[_key2];
+                    for (var _len3 = arguments.length, rest = new Array(_len3 > 1 ? _len3 - 1 : 0), _key3 = 1; _key3 < _len3; _key3++) {
+                        rest[_key3 - 1] = arguments[_key3];
                     }
                     var args = rest;
                     var res;
@@ -1091,7 +1102,12 @@ exports[`react should build react app 2`] = `
                 console.warn("[Taro modifyMpEvent hook Error]: " + (error === null || error === void 0 ? void 0 : error.message));
             }
         })),
+        "injectNewStyleProperties": TaroHook(HOOK_TYPE.SINGLE),
         "modifyTaroEvent": TaroHook(HOOK_TYPE.MULTI),
+        "dispatchTaroEvent": TaroHook(HOOK_TYPE.SINGLE, (function(e, node) {
+            node.dispatchEvent(e);
+        })),
+        "dispatchTaroEventFinish": TaroHook(HOOK_TYPE.MULTI),
         "modifyDispatchEvent": TaroHook(HOOK_TYPE.MULTI),
         "initNativeApi": TaroHook(HOOK_TYPE.MULTI),
         "patchElement": TaroHook(HOOK_TYPE.MULTI)
@@ -1184,6 +1200,11 @@ exports[`react should build react app 2`] = `
         } ]);
         return Link;
     }();
+    function interceptorify(promiseifyApi) {
+        return new Link((function(chain) {
+            return promiseifyApi(chain.requestParams);
+        }));
+    }
     function timeoutInterceptor(chain) {
         var requestParams = chain.requestParams;
         var p;
@@ -1208,10 +1229,10 @@ exports[`react should build react app 2`] = `
     function logInterceptor(chain) {
         var requestParams = chain.requestParams;
         var method = requestParams.method, data = requestParams.data, url = requestParams.url;
-        if (false) {}
+        console.log("http ".concat(method || "GET", " --\\x3e ").concat(url, " data: "), data);
         var p = chain.proceed(requestParams);
         var res = p.then((function(res) {
-            if (false) {}
+            console.log("http <-- ".concat(url, " result:"), res);
             return res;
         }));
         if (isFunction$1(p.abort)) res.abort = p.abort;
@@ -1292,7 +1313,8 @@ exports[`react should build react app 2`] = `
         "nextTick": _tarojs_runtime__WEBPACK_IMPORTED_MODULE_1__["nextTick"],
         "eventCenter": _tarojs_runtime__WEBPACK_IMPORTED_MODULE_1__["eventCenter"],
         "Events": _tarojs_runtime__WEBPACK_IMPORTED_MODULE_1__["Events"],
-        "getInitPxTransform": getInitPxTransform
+        "getInitPxTransform": getInitPxTransform,
+        "interceptorify": interceptorify
     };
     Taro.initPxTransform = getInitPxTransform(Taro);
     Taro.preload = getPreload(_tarojs_runtime__WEBPACK_IMPORTED_MODULE_1__["Current"]);
@@ -1365,7 +1387,7 @@ exports[`react should build react app 2`] = `
     }
     module.exports = _isNativeReflectConstruct, module.exports.__esModule = true, module.exports["default"] = module.exports;
 }, function(module, exports, __webpack_require__) {
-    var _typeof = __webpack_require__(3)["default"];
+    var _typeof = __webpack_require__(2)["default"];
     var assertThisInitialized = __webpack_require__(28);
     function _possibleConstructorReturn(self, call) {
         if (call && (_typeof(call) === "object" || typeof call === "function")) {
@@ -1385,7 +1407,7 @@ exports[`react should build react app 2`] = `
     }
     module.exports = _assertThisInitialized, module.exports.__esModule = true, module.exports["default"] = module.exports;
 }, function(module, exports, __webpack_require__) {
-    var _typeof = __webpack_require__(3)["default"];
+    var _typeof = __webpack_require__(2)["default"];
     function _toPrimitive(input, hint) {
         if (_typeof(input) !== "object" || input === null) return input;
         var prim = input[Symbol.toPrimitive];

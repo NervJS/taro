@@ -21,6 +21,11 @@ export type Mode = 'selector' | 'multiSelector' | 'time' | 'date'
 export type Fields = 'day' | 'month' | 'year'
 export type PickerValue = number | number[] | string
 
+export interface PickerText {
+  okText?: string
+  cancelText?: string
+}
+
 export interface PickerDate {
   _value: Date
   _start: Date
@@ -43,11 +48,12 @@ export class Picker implements ComponentInterface {
   @Prop() disabled = false
   @Prop() range: any[] = []
   @Prop() rangeKey: string
-  @Prop({ mutable: true }) value: number | number[] | string
+  @Prop({ mutable: true }) value: PickerValue
   @Prop() start = ''
   @Prop() end = ''
   @Prop() fields: Fields = 'day'
   @Prop() name = ''
+  @Prop() textProps: PickerText = {}
 
   @State() pickerValue: PickerValue = []
   @State() height: number[] = []
@@ -73,12 +79,6 @@ export class Picker implements ComponentInterface {
   }
 
   componentDidLoad () {
-    Object.defineProperty(this.el, 'value', {
-      get: () => this.pickerValue,
-      set: value => this.value !== value && (this.value = value),
-      configurable: true
-    })
-
     if (this.overlay) {
       document.body.appendChild(this.overlay)
     }
@@ -255,7 +255,8 @@ export class Picker implements ComponentInterface {
         .join('-')
     }
 
-    this.pickerValue = value
+    this.value = value
+    this.pickerValue = this.value
 
     this.onChange.emit({
       value
@@ -497,10 +498,10 @@ export class Picker implements ComponentInterface {
           <div class={clsSlider}>
             <div class='weui-picker__hd'>
               <div class='weui-picker__action' onClick={this.handleCancel}>
-                取消
+                {this.textProps.cancelText ?? '取消'}
               </div>
               <div class='weui-picker__action' onClick={this.handleChange}>
-                确定
+                {this.textProps.okText ?? '确定'}
               </div>
             </div>
             <div class='weui-picker__bd'>{pickerGroup}</div>

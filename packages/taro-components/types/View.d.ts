@@ -33,7 +33,7 @@ interface ViewProps extends StandardProps {
    * @supported alipay
    * @default false
    */
-  disableScroll?: string
+  disableScroll?: boolean
   /** 是否隐藏。
    * @supported alipay
    * @default false

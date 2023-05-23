@@ -1,12 +1,12 @@
+import { fs } from '@tarojs/helper'
 import { isFunction, isObject, isString, noop, Shortcuts } from '@tarojs/shared'
-import fs from 'fs'
 import { join } from 'path'
-import { Configuration, Stats, StatsCompilation } from 'webpack'
 
 import { printPrerenderFail, printPrerenderSuccess } from '../utils/logHelper'
 
 import type { IAdapter, RecursiveTemplate, UnRecursiveTemplate } from '@tarojs/shared/dist/template'
 import type { NodeVM } from 'vm2'
+import type { Configuration, Stats, StatsCompilation } from 'webpack'
 import type { MiniBuildConfig } from '../utils/types'
 
 type Attributes = Record<string, string>
@@ -278,7 +278,7 @@ export class Prerender {
       if (typeof PRERENDER !== 'undefined') {
         module.exports = ${this.globalObject}._prerender
       }`
-      fs.appendFile(path, s, 'utf8', () => {
+      fs.appendFile(path, s, { encoding: 'utf8' }, () => {
         resolve()
       })
     })
