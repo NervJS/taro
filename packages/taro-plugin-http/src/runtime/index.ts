@@ -2,7 +2,7 @@ import { document, window } from '@tarojs/runtime'
 import { isWebPlatform } from '@tarojs/shared'
 
 import { Cookie, createCookieInstance } from './Cookie'
-import { type XMLHttpRequestEvent,XMLHttpRequest } from './XMLHttpRequest'
+import { type XMLHttpRequestEvent, XMLHttpRequest } from './XMLHttpRequest'
 
 declare const ENABLE_COOKIE: boolean
 
