@@ -348,10 +348,10 @@ importers:
   packages/create-app:
     specifiers:
       '@tarojs/cli': workspace:*
-      minimist: 1.2.5
+      minimist: ^1.2.8
     dependencies:
       '@tarojs/cli': link:../taro-cli
-      minimist: registry.npmjs.org/minimist/1.2.5
+      minimist: registry.npmjs.org/minimist/1.2.8
 
   packages/css-to-react-native:
     specifiers:
@@ -560,7 +560,7 @@ importers:
       ts-jest: ^29.0.5
       typescript: ^4.7.4
       validate-npm-package-name: ^5.0.0
-      xml2js: ^0.4.19
+      xml2js: ^0.5.0
     dependencies:
       '@tarojs/helper': link:../taro-helper
       '@tarojs/service': link:../taro-service
@@ -585,7 +585,7 @@ importers:
       request: registry.npmjs.org/request/2.88.2
       semver: registry.npmjs.org/semver/7.3.8
       validate-npm-package-name: registry.npmjs.org/validate-npm-package-name/5.0.0
-      xml2js: registry.npmjs.org/xml2js/0.4.23
+      xml2js: registry.npmjs.org/xml2js/0.5.0
     devDependencies:
       babel-jest: registry.npmjs.org/babel-jest/29.5.0
       jest: registry.npmjs.org/jest/29.5.0
@@ -27296,12 +27296,6 @@ packages:
       is-plain-obj: registry.npmjs.org/is-plain-obj/1.1.0
       kind-of: registry.npmjs.org/kind-of/6.0.3
 
-  registry.npmjs.org/minimist/1.2.5:
-    resolution: {integrity: sha512-FM9nNUYrRBAELZQT3xeZQ7fmMOBg6nWNmJKTcgsJeaLstP/UODVpGsr5OhXhhXg6f+qtJ8uiZ+PUxkDWcgIXLw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/minimist/-/minimist-1.2.5.tgz}
-    name: minimist
-    version: 1.2.5
-    dev: false
-
   registry.npmjs.org/minimist/1.2.8:
     resolution: {integrity: sha512-2yyAR8qBkN3YuheJanUpWC5U3bb5osDywNB8RzDVlDwDHbocAJveqqj1u8+SVD7jkWT4yvsHCpWqqWqAxb0zCA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/minimist/-/minimist-1.2.8.tgz}
     name: minimist
@@ -37890,6 +37884,16 @@ packages:
     dependencies:
       sax: registry.npmjs.org/sax/1.2.4
       xmlbuilder: registry.npmjs.org/xmlbuilder/11.0.1
+
+  registry.npmjs.org/xml2js/0.5.0:
+    resolution: {integrity: sha512-drPFnkQJik/O+uPKpqSgr22mpuFHqKdbS835iAQrUC73L2F5WkboIRd63ai/2Yg6I1jzifPFKH2NTK+cfglkIA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/xml2js/-/xml2js-0.5.0.tgz}
+    name: xml2js
+    version: 0.5.0
+    engines: {node: '>=4.0.0'}
+    dependencies:
+      sax: registry.npmjs.org/sax/1.2.4
+      xmlbuilder: registry.npmjs.org/xmlbuilder/11.0.1
+    dev: false
 
   registry.npmjs.org/xmlbuilder/11.0.1:
     resolution: {integrity: sha512-fDlsI/kFEx7gLvbecc0/ohLG50fugQp8ryHzMTuW9vSa1GJ0XYWKnhsUx7oie3G98+r56aTQIUB4kht42R3JvA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/xmlbuilder/-/xmlbuilder-11.0.1.tgz}

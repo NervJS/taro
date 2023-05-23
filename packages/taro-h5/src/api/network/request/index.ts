@@ -53,7 +53,7 @@ function _request (options: Partial<Taro.request.Option> = {}) {
   params.cache = options.cache || 'default'
   if (methodUpper === 'GET' || methodUpper === 'HEAD') {
     url = generateRequestUrlWithParams(url, options.data)
-  } else if (Object.prototype.toString.call(options.data) === '[object Object]') {
+  } else if (['[object Array]', '[object Object]'].indexOf(Object.prototype.toString.call(options.data)) >= 0) {
     options.header = options.header || {}
 
     const keyOfContentType = Object.keys(options.header).find(item => item.toLowerCase() === 'content-type')

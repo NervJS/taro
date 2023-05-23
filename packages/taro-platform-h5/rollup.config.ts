@@ -6,7 +6,7 @@ import { defineConfig } from 'rollup'
 import externals from 'rollup-plugin-node-externals'
 import ts from 'rollup-plugin-ts'
 
-import type { InputPluginOption,RollupOptions } from 'rollup'
+import type { InputPluginOption, RollupOptions } from 'rollup'
 
 const baseConfig: RollupOptions = {
   output: {

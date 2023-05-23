@@ -1555,6 +1555,9 @@ h�hځ� �r������Nb2��х��K~��>;;ːL�1�
             getPageInstance: function() {
                 return getPageInstance;
             },
+            getPath: function() {
+                return getPath;
+            },
             history: function() {
                 return history;
             },
@@ -7870,6 +7873,9 @@ h�hځ� �r������Nb2��х��K~��>;;ːL�1�
             },
             getPageInstance: function() {
                 return getPageInstance;
+            },
+            getPath: function() {
+                return getPath;
             },
             history: function() {
                 return history;
@@ -14437,6 +14443,9 @@ h�hځ� �r������Nb2��х��K~��>;;ːL�1�
             },
             getPageInstance: function() {
                 return getPageInstance;
+            },
+            getPath: function() {
+                return getPath;
             },
             history: function() {
                 return history;
