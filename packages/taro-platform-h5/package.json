@@ -9,6 +9,7 @@
     "taro"
   ],
   "files": [
+    "build",
     "dist",
     "index.js",
     "types"
