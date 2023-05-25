@@ -23,8 +23,8 @@ const plugin = function (babel: typeof BabelCore): BabelCore.PluginObj<IState> {
   function canIUse (definition, scheme = '') {
     if (!scheme) return false
     const o = set({}, scheme, true)
-    return isMatchWith(definition, o, (a, _) => {
-      if (a === '*') return true
+    return isMatchWith(definition, o, (a, b) => {
+      if (a === '*' || b === true) return true
     })
   }
 
