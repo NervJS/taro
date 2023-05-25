@@ -16,15 +16,7 @@ export function modifyMiniWebpackChain (ctx: IPluginContext, chain, data, config
   setDefinePlugin(chain)
 }
 
-function setVueLoader (ctx: IPluginContext, chain, data, config: IConfig) {
-  const vueLoaderPath = getVueLoaderPath()
-
-  // plugin
-  const { VueLoaderPlugin } = require(vueLoaderPath)
-  chain
-    .plugin('vueLoaderPlugin')
-    .use(VueLoaderPlugin)
-
+export function getMiniVueLoaderOptions (ctx: IPluginContext, componentConfig, config: IConfig) {
   const compilerOptions = config.vueLoaderOption?.compilerOptions || config.mini?.compilerOptions || {}
   // loader
   const vueLoaderOption: any = {
@@ -51,7 +43,7 @@ function setVueLoader (ctx: IPluginContext, chain, data, config: IConfig) {
         name: 'onParseCreateElement',
         opts: {
           nodeName,
-          componentConfig: data.componentConfig
+          componentConfig: componentConfig
         }
       })
 
@@ -65,18 +57,18 @@ function setVueLoader (ctx: IPluginContext, chain, data, config: IConfig) {
         // v-html
         const props = node.props
         if(props.find(prop => prop.type === 7 && prop.name === 'html')) {
-          ['input', 'textarea', 'video', 'audio'].forEach(item => data.componentConfig.includes.add(item))
+          ['input', 'textarea', 'video', 'audio'].forEach(item => componentConfig.includes.add(item))
         }
 
-        data.componentConfig.includes.add(nodeName)
+        componentConfig.includes.add(nodeName)
       }
 
       if (nodeName === CUSTOM_WRAPPER) {
         node.tagType = 0 /* ELEMENT */
-        data.componentConfig.thirdPartyComponents.set(CUSTOM_WRAPPER, new Set())
+        componentConfig.thirdPartyComponents.set(CUSTOM_WRAPPER, new Set())
       }
 
-      const usingComponent = data.componentConfig.thirdPartyComponents.get(nodeName)
+      const usingComponent = componentConfig.thirdPartyComponents.get(nodeName)
       if (usingComponent != null) {
         node.props.forEach(prop => {
           if (prop.type === 6 /* ATTRIBUTE */) {
@@ -95,6 +87,21 @@ function setVueLoader (ctx: IPluginContext, chain, data, config: IConfig) {
       }
     }
   })
+
+  return vueLoaderOption
+}
+
+function setVueLoader (ctx: IPluginContext, chain, data, config: IConfig) {
+  const vueLoaderPath = getVueLoaderPath()
+
+  // plugin
+  const { VueLoaderPlugin } = require(vueLoaderPath)
+  chain
+    .plugin('vueLoaderPlugin')
+    .use(VueLoaderPlugin)
+
+  // loader
+  const vueLoaderOption = getMiniVueLoaderOptions(ctx, data.componentConfig, config)
 
   chain.module
     .rule('vue')

@@ -5,8 +5,8 @@ import { getSassLoaderOption } from '@tarojs/runner-utils'
 import { isArray, PLATFORM_TYPE } from '@tarojs/shared'
 import path from 'path'
 
-import { getPostcssPlugins } from '../postcss/postcss.mini'
-import { stripMultiPlatformExt } from '../utils'
+import { getDefaultPostcssConfig, getPostcssPlugins } from '../postcss/postcss.mini'
+import { getMode,stripMultiPlatformExt } from '../utils'
 import { logger } from '../utils/logger'
 
 import type { CSSModulesOptions,PluginOption } from 'vite'
@@ -221,10 +221,16 @@ export default function (appPath: string, taroConfig: MiniBuildConfig): PluginOp
           : 'terser'
   }
 
+  const __postcssOption = getDefaultPostcssConfig({
+    designWidth: taroConfig.designWidth || 750,
+    deviceRatio: taroConfig.deviceRatio,
+    postcssOption: taroConfig.postcss
+  })
+
   return {
     name: 'taro:vite-mini-config',
     config: async () => ({
-      mode: taroConfig.mode,
+      mode: getMode(taroConfig),
       outDir: taroConfig.outputRoot || 'dist',
       build: {
         target: 'es6',
@@ -287,11 +293,7 @@ export default function (appPath: string, taroConfig: MiniBuildConfig): PluginOp
       },
       css: {
         postcss: {
-          plugins: getPostcssPlugins(appPath, {
-            designWidth: taroConfig.designWidth || 750,
-            deviceRatio: taroConfig.deviceRatio,
-            postcssOption: taroConfig.postcss || {}
-          })
+          plugins: getPostcssPlugins(appPath, __postcssOption)
         },
         preprocessorOptions: {
           ...(await getSassOption()),

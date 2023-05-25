@@ -31,11 +31,13 @@
     "url": "https://github.com/NervJS/taro/issues"
   },
   "dependencies": {
-    "@tarojs/service": "workspace:*",
+    "@babel/core": "^7.14.5",
     "@tarojs/components": "workspace:*",
     "@tarojs/components-react": "workspace:*",
     "@tarojs/router": "workspace:*",
+    "@tarojs/service": "workspace:*",
     "@tarojs/shared": "workspace:*",
+    "@tarojs/helper": "workspace:*",
     "@tarojs/taro-h5": "workspace:*",
     "babel-plugin-transform-taroapi": "workspace:*",
     "resolve": "^1.22.0"

@@ -55,6 +55,9 @@ export abstract class TaroPlatformWeb<T extends TConfig = TConfig> extends TaroP
       case 'webpack5':
         runnerPkg = '@tarojs/webpack5-runner'
         break
+      case 'vite':
+        runnerPkg = '@tarojs/vite-runner'
+        break
       default:
         runnerPkg = '@tarojs/webpack-runner'
     }

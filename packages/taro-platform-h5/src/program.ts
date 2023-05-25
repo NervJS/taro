@@ -1,3 +1,5 @@
+import { transformAsync } from '@babel/core'
+import { SCRIPT_EXT } from '@tarojs/helper'
 import { TaroPlatformWeb } from '@tarojs/service'
 import path from 'path'
 
@@ -20,6 +22,7 @@ export default class H5 extends TaroPlatformWeb {
     this.setupTransaction.addWrapper({
       close () {
         this.modifyWebpackConfig()
+        this.modifyViteConfig()
       }
     })
   }
@@ -113,6 +116,109 @@ export default class H5 extends TaroPlatformWeb {
       // Note: 本地调试 stencil 组件库时，如果启用 sourceMap 则需要相关配置
       chain.module.rule('map')
         .test(/\.map$/).type('json')
+    })
+  }
+
+  /**
+   * 修改 Vite 配置
+   */
+  modifyViteConfig () {
+    const that = this
+    that.ctx.modifyViteConfig(({ viteConfig }) => {
+      function aliasPlugin () {
+        return {
+          name: 'taro:vite-h5-alias',
+          config: () => ({
+            resolve: {
+              alias: [
+                { find: /@tarojs\/components$/, replacement: require.resolve(that.componentLibrary) },
+                { find: '@tarojs/components/lib', replacement: that.componentAdapter },
+                { find: /@tarojs\/router$/, replacement: require.resolve('@tarojs/router') },
+                { find: '@tarojs/taro', replacement: require.resolve('./runtime/apis') },
+              ]
+            }
+          })
+        }
+      }
+      function injectLoaderMeta () {
+        return {
+          name: 'taro-vue3:loader-meta',
+          async buildStart () {
+            await this.load({ id: 'taro:compiler' })
+            const info = this.getModuleInfo('taro:compiler')
+            const compiler = info?.meta.compiler
+            if (compiler) {
+              compiler.loaderMeta ||= {
+                extraImportForWeb: '',
+                execBeforeCreateWebApp: ''
+              }
+
+              // Note: 旧版本适配器不会自动注册 Web Components 组件，需要加载 defineCustomElements 脚本自动注册使用的组件
+              if (that.useDeprecatedAdapterComponent) {
+                compiler.loaderMeta.extraImportForWeb += `import { applyPolyfills, defineCustomElements } from '@tarojs/components/loader'\n`
+                compiler.loaderMeta.execBeforeCreateWebApp += `applyPolyfills().then(() => defineCustomElements(window))\n`
+              }
+
+              if (!that.useHtmlComponents) {
+                compiler.loaderMeta.extraImportForWeb += `import { defineCustomElementTaroPullToRefresh } from '@tarojs/components/dist/components'\n`
+                compiler.loaderMeta.execBeforeCreateWebApp += `defineCustomElementTaroPullToRefresh()\n`
+              }
+
+              switch (that.framework) {
+                case 'vue':
+                  compiler.loaderMeta.extraImportForWeb += `import { initVue2Components } from '@tarojs/components/lib/vue2/components-loader'\nimport * as list from '@tarojs/components'\n`
+                  compiler.loaderMeta.execBeforeCreateWebApp += `initVue2Components(list)\n`
+                  break
+                case 'vue3':
+                  compiler.loaderMeta.extraImportForWeb += `import { initVue3Components } from '@tarojs/components/lib/vue3/components-loader'\nimport * as list from '@tarojs/components'\n`
+                  compiler.loaderMeta.execBeforeCreateWebApp += `initVue3Components(component, list)\n`
+                  break
+                default:
+                  if (that.useHtmlComponents) {
+                    compiler.loaderMeta.extraImportForWeb += `import { PullDownRefresh } from '@tarojs/components'\n`
+                    compiler.loaderMeta.execBeforeCreateWebApp += `config.PullDownRefresh = PullDownRefresh\n`
+                  }
+              }
+            }
+          }
+        }
+      }
+      function apiPlugin () {
+        return {
+          name: 'taro:vite-h5-api',
+          enforce: 'post',
+          async transform (code, id) {
+            await this.load({ id: 'taro:compiler' })
+            const info = this.getModuleInfo('taro:compiler')
+            const compiler = info?.meta.compiler
+            if (compiler) {
+              const exts = Array.from(new Set(compiler.frameworkExts.concat(SCRIPT_EXT)))
+              if (
+                id.startsWith(compiler.sourceDir) &&
+                exts.some(ext => id.includes(ext))
+              ) {
+                // @TODO 后续考虑使用 SWC 插件的方式实现
+                const result = await transformAsync(code, {
+                  filename: id,
+                  plugins: [
+                    [require('babel-plugin-transform-taroapi'), {
+                      packageName: '@tarojs/taro',
+                      apis: require(resolveSync('./taroApis'))
+                    }]
+                  ]
+                })
+                return {
+                  code: result?.code || code,
+                  map: result?.map || null,
+                }
+              }
+            }
+          }
+        }
+      }
+      viteConfig.plugins.push(aliasPlugin())
+      viteConfig.plugins.push(injectLoaderMeta())
+      viteConfig.plugins.push(apiPlugin())
     })
   }
 }
