@@ -24,7 +24,10 @@ function getPlugins<T = InputPluginOption> (pre: T[] = [], post: T[] = []) {
       preferBuiltins: false,
       mainFields: ['main:h5', 'browser', 'module', 'jsnext:main', 'main']
     }),
-    json(),
+    json({
+      compact: true,
+      preferConst: true,
+    }),
     ts({
       tsconfig: e => ({
         ...e,

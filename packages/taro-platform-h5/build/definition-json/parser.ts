@@ -6,7 +6,6 @@ import { generateDocumentation } from '../utils/ast'
 
 import type { DocEntry } from '../utils/ast'
 
-const CompRGX = /^Taro(.*)Core$/
 const tsconfig: ts.CompilerOptions = {
   target: ts.ScriptTarget.ES5,
   module: ts.ModuleKind.NodeNext,
@@ -17,19 +16,22 @@ const tsconfig: ts.CompilerOptions = {
   },
   'types': ['@tarojs/taro-h5/types']
 }
-export function parseComponents (
-  docsPath = require.resolve('@tarojs/components/dist/types/components.d.ts'),
-) {
-  const docTree = generateDocumentation([docsPath], tsconfig)
-  const Components = docTree.find(e => e.name === 'Components')?.children || []
+const CompRGX = /^Taro(.*)Core$/
+const IgnoreSymbols = [
+  ts.SymbolFlags.Interface,
+  ts.SymbolFlags.TypeLiteral,
+  ts.SymbolFlags.TypeAlias,
+]
 
+export function parseComponents (docTree: DocEntry[]) {
   // ${component}.${attribute}.${option}
-  return Components.reduce((p, e) => {
+  return docTree.reduce((p, e) => {
     let { name = '', members = [] } = e
     if (CompRGX.test(name)) {
       name = paramCase(name.replace(CompRGX, '$1'))
       p[name] = members.reduce((p2, e2) => {
         p2[e2.name ?? ''] = parseComponentAttribute(e2)
+
         return p2
       }, {})
     }
@@ -37,14 +39,13 @@ export function parseComponents (
   }, {})
 }
 
-export function parseAPIs (
-  docsPath = require.resolve('@tarojs/taro-h5/dist/index.esm.d.ts'),
-) {
-  const docTree = generateDocumentation([docsPath], tsconfig)
-
+export function parseAPIs (docTree: DocEntry[]) {
   // ${API}.${method}.${param}.${option}
   return docTree.reduce((p, e) => {
-    p[e.name ?? ''] = parseAPIMethod(e)
+    if (!IgnoreSymbols.includes(e.flags!)) {
+      p[e.name ?? ''] = parseAPIMethod(e)
+    }
+
     return p
   }, {})
 }
@@ -95,9 +96,12 @@ export function parseAnyOrVoid (str = '', obj: unknown = str) {
 export function parseDefinitionJSON ({
   apisPath = require.resolve('@tarojs/taro-h5/dist/index.esm.d.ts'),
   componentsPath = require.resolve('@tarojs/components/dist/types/components.d.ts'),
-} = {}) {
-  const apis = parseAPIs(apisPath)
-  const components = parseComponents(componentsPath)
+} = {},
+config: ts.CompilerOptions = tsconfig,
+) {
+  const apis = parseAPIs(generateDocumentation([apisPath], config))
+  const Components = generateDocumentation([componentsPath], config).find(e => e.name === 'Components')?.children || []
+  const components = parseComponents(Components)
 
   // Note: 写入文件
   fs.ensureDirSync('dist')
