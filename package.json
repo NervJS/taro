@@ -1,6 +1,6 @@
 {
   "name": "taro",
-  "version": "3.7.0-alpha.0",
+  "version": "3.7.0-alpha.1",
   "description": "开放式跨端跨框架开发解决方案",
   "homepage": "https://github.com/NervJS/taro#readme",
   "author": "O2Team",
@@ -169,7 +169,7 @@
       },
       "react-native-root-siblings": {
         "peerDependencies": {
-          "react": "18.1.0"
+          "react": "18.2.0"
         },
         "peerDependenciesMeta": {
           "react": {

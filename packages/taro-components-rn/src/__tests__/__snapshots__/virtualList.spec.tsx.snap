@@ -18,9 +18,9 @@ exports[`VirtualList VirtualList render 1`] = `
   removeClippedSubviews={false}
   renderItem={[Function]}
   scrollEventThrottle={50}
-  stickyHeaderIndices={Array []}
+  stickyHeaderIndices={[]}
   upperThreshold={50}
-  viewabilityConfigCallbackPairs={Array []}
+  viewabilityConfigCallbackPairs={[]}
   windowSize={1}
 >
   <View />
