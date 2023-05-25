@@ -20,8 +20,8 @@ export function canIUse (scheme = '') {
   }
   if (!scheme) return false
   const o = set({}, scheme, true)
-  return isMatchWith(list, o, (a, _) => {
-    if (a === '*') return true
+  return isMatchWith(list, o, (a, b) => {
+    if (a === '*' || b === true) return true
   })
 }
 
