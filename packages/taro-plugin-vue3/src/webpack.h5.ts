@@ -17,32 +17,10 @@ export function modifyH5WebpackChain (ctx: IPluginContext, chain, config: IConfi
   setTaroApiLoader(chain)
 }
 
-function setStyleLoader (ctx: IPluginContext, chain) {
-  const config = ctx.initialConfig.h5 || {}
-
-  const { styleLoaderOption = {} } = config
-  chain.module
-    .rule('customStyle')
-    .merge({
-      use: [{
-        loader: 'style-loader',
-        options: styleLoaderOption
-      }]
-    })
-}
-
-function setVueLoader (chain, config: IConfig) {
-  const vueLoaderPath = getVueLoaderPath()
-
-  // plugin
-  const { VueLoaderPlugin } = require(vueLoaderPath)
-  chain
-    .plugin('vueLoaderPlugin')
-    .use(VueLoaderPlugin)
-
+export function getH5VueLoaderOptions (config: IConfig) {
   const compilerOptions = config.vueLoaderOption?.compilerOptions || {}
   // loader
-  const vueLoaderOption = {
+  return {
     transformAssetUrls: {
       video: ['src', 'poster'],
       'live-player': 'src',
@@ -73,6 +51,33 @@ function setVueLoader (chain, config: IConfig) {
       }]
     }
   }
+}
+
+function setStyleLoader (ctx: IPluginContext, chain) {
+  const config = ctx.initialConfig.h5 || {}
+
+  const { styleLoaderOption = {} } = config
+  chain.module
+    .rule('customStyle')
+    .merge({
+      use: [{
+        loader: 'style-loader',
+        options: styleLoaderOption
+      }]
+    })
+}
+
+function setVueLoader (chain, config: IConfig) {
+  const vueLoaderPath = getVueLoaderPath()
+
+  // plugin
+  const { VueLoaderPlugin } = require(vueLoaderPath)
+  chain
+    .plugin('vueLoaderPlugin')
+    .use(VueLoaderPlugin)
+
+  // loader
+  const vueLoaderOption = getH5VueLoaderOptions(config)
 
   chain.module
     .rule('vue')

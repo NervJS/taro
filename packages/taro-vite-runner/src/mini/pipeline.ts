@@ -1,6 +1,6 @@
 import { isFunction } from '@tarojs/shared'
 
-import { TARO_COMPILER, TaroCompiler } from '../utils/taroCompiler'
+import { TaroCompiler } from '../utils/compiler/mini'
 
 import type { UnRecursiveTemplate } from '@tarojs/shared/dist/template'
 import type { PluginOption } from 'vite'
@@ -12,8 +12,8 @@ export default function (appPath: string, taroConfig: MiniBuildConfig): PluginOp
     name: 'taro:vite-mini-pipeline',
     enforce: 'pre',
     buildStart () {
-      this.load({ id: TARO_COMPILER })
-      const info = this.getModuleInfo(TARO_COMPILER)
+      this.load({ id: TaroCompiler.label })
+      const info = this.getModuleInfo(TaroCompiler.label)
       if (info) {
         compiler = new TaroCompiler(this, appPath, taroConfig)
         info.meta = { compiler }
@@ -24,7 +24,7 @@ export default function (appPath: string, taroConfig: MiniBuildConfig): PluginOp
       }
     },
     load (id) {
-      if (id === TARO_COMPILER) return ''
+      if (id === TaroCompiler.label) return ''
     },
     closeBundle () {
       compiler.cleanup()

@@ -3,9 +3,9 @@ import { fs, SCRIPT_EXT } from '@tarojs/helper'
 import { isVirtualModule } from '../utils'
 
 import type { PluginOption } from 'vite'
-import type { MiniBuildConfig } from '../utils/types'
+import type { H5BuildConfig, MiniBuildConfig } from '../utils/types'
 
-export default function (taroConfig: MiniBuildConfig): PluginOption {
+export default function (taroConfig: MiniBuildConfig | H5BuildConfig): PluginOption {
   let cache: Map<string, string>
   return {
     name: 'taro:vite-multi-platform-plugin',

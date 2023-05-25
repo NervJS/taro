@@ -39,14 +39,6 @@ const defaultHtmltransformOption: {
     removeCursorStyle: false
   }
 }
-const defaultUrlOption: {
-  [key: string]: any
-} = {
-  enable: true,
-  config: {
-    url: 'rebase'
-  }
-}
 
 const plugins: any[] = []
 
@@ -55,7 +47,7 @@ export const getDefaultPostcssConfig = function ({
   deviceRatio,
   option = {} as IPostcssOption
 }): [string, any, Func?][] {
-  const { autoprefixer, pxtransform, htmltransform, url, ...options } = option
+  const { autoprefixer, pxtransform, htmltransform, ...options } = option
   if (designWidth) {
     defaultPxtransformOption.config.designWidth = designWidth
   }
@@ -66,15 +58,12 @@ export const getDefaultPostcssConfig = function ({
   const autoprefixerOption = recursiveMerge<TogglableOptions>({}, defaultAutoprefixerOption, autoprefixer)
   const pxtransformOption = recursiveMerge<TogglableOptions>({}, defaultPxtransformOption, pxtransform)
   const htmltransformOption = recursiveMerge({}, defaultHtmltransformOption, htmltransform)
-  const urlOption = recursiveMerge({}, defaultUrlOption, url)
 
   return [
-    ['postcss-import', {}, require('postcss-import')],
     ['autoprefixer', autoprefixerOption, require('autoprefixer')],
     ['postcss-pxtransform', pxtransformOption, require('postcss-pxtransform')],
     ['postcss-html-transform', htmltransformOption, require('postcss-html-transform')],
     ['postcss-plugin-constparse', defaultConstparseOption, require('postcss-plugin-constparse')],
-    ['postcss-url', urlOption, require('postcss-url')],
     ...Object.entries(options)
   ]
 }

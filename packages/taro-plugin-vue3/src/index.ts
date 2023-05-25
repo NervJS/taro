@@ -2,7 +2,8 @@ import { fs, VUE_EXT } from '@tarojs/helper'
 import { isString, isWebPlatform } from '@tarojs/shared'
 import { capitalize, internalComponents, toCamelCase } from '@tarojs/shared/dist/template'
 
-import { getMiniVueLoaderOptions,miniVitePlugin } from './vite.mini'
+import { h5VitePlugin } from './vite.h5'
+import { miniVitePlugin } from './vite.mini'
 import { modifyH5WebpackChain } from './webpack.h5'
 import { modifyMiniWebpackChain } from './webpack.mini'
 
@@ -55,10 +56,15 @@ export default (ctx: IPluginContext, config: IConfig = {}) => {
   })
 
   ctx.modifyViteConfig(({ viteConfig, componentConfig }) => {
-    const vueLoaderOptions = isWebPlatform() ? {} : getMiniVueLoaderOptions(ctx, componentConfig, config)
-    viteConfig.plugins.push(require('@vitejs/plugin-vue').default({
-      template: vueLoaderOptions
-    }))
+    viteConfig.plugins.push(viteCommonPlugin())
+    viteConfig.plugins.push(require('@vitejs/plugin-vue-jsx').default())
+    if (isWebPlatform()) {
+      // H5
+      viteConfig.plugins.push(h5VitePlugin(ctx, config))
+    } else {
+      // 小程序
+      viteConfig.plugins.push(miniVitePlugin(ctx, componentConfig, config))
+    }
   })
 
   ctx.modifyRunnerOpts(({ opts }) => {
@@ -100,16 +106,6 @@ export default (ctx: IPluginContext, config: IConfig = {}) => {
       const esbuildConfig = prebundleOptions.esbuild
       esbuildConfig.plugins ||= []
       esbuildConfig.plugins.push(taroVue3Plugin)
-    } else if (compiler.type === 'vite') {
-      compiler.vitePlugins ||= []
-      compiler.vitePlugins.push(viteCommonPlugin())
-      if (isWebPlatform()) {
-        // H5
-      } else {
-        // 小程序
-        compiler.vitePlugins.push(miniVitePlugin())
-        compiler.vitePlugins.push(require('@vitejs/plugin-vue-jsx').default())
-      }
     }
   })
 

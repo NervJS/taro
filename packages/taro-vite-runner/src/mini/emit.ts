@@ -3,19 +3,19 @@ import { isFunction, isString,toDashed } from '@tarojs/shared'
 import path from 'path'
 
 import { componentConfig } from '../template/component'
-import { getCompiler, getComponentName,prettyPrintJson } from '../utils'
+import { getComponentName,getMiniCompiler, prettyPrintJson } from '../utils'
 import { baseCompName, baseTemplateName,customWrapperName } from '../utils/constants'
 
 import type { Config } from '@tarojs/taro'
 import type { PluginContext } from 'rollup'
 import type { PluginOption } from 'vite'
-import type { TaroCompiler } from '../utils/taroCompiler'
+import type { TaroCompiler } from '../utils/compiler/mini'
 
 export default function (): PluginOption {
   return [{
     name: 'taro:vite-mini-emit',
     async generateBundle (_outputOpts, bundle) {
-      const compiler = getCompiler(this)
+      const compiler = getMiniCompiler(this)
       const isUsingCustomWrapper = componentConfig.thirdPartyComponents.has('custom-wrapper')
 
       if (compiler) {
@@ -165,7 +165,7 @@ export default function (): PluginOption {
   }, {
     name: 'taro:vite-mini-emit-post',
     async generateBundle (_outputOpts, bundle) {
-      const compiler = getCompiler(this)
+      const compiler = getMiniCompiler(this)
       if (compiler) {
         const { taroConfig } = compiler
         if (isFunction(taroConfig.modifyBuildAssets)) {

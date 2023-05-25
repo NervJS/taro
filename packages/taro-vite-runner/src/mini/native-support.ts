@@ -3,11 +3,11 @@ import path from 'path'
 import { normalizePath } from 'vite'
 
 import { componentConfig } from '../template/component'
-import { getCompiler,isRelativePath, isVirtualModule } from '../utils'
+import { getMiniCompiler,isRelativePath, isVirtualModule } from '../utils'
 
 import type { PluginContext } from 'rollup'
 import type { PluginOption } from 'vite'
-import type { TaroCompiler } from '../utils/taroCompiler'
+import type { TaroCompiler } from '../utils/compiler/mini'
 import type { MiniBuildConfig } from '../utils/types'
 
 const QUERY_IS_NATIVE_SCRIPT = '?isNativeScript='
@@ -23,7 +23,7 @@ export default function (taroConfig: MiniBuildConfig): PluginOption {
     name: 'taro:vite-native-support',
     enforce: 'pre',
     buildStart () {
-      compiler = getCompiler(this)
+      compiler = getMiniCompiler(this)
     },
     buildEnd () {
       compiler = undefined

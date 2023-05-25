@@ -2,22 +2,59 @@ import { NODE_MODULES_REG } from '@tarojs/helper'
 import { isString } from '@tarojs/shared'
 import path from 'path'
 
-import { TARO_COMPILER,TaroCompiler } from './taroCompiler'
+import { Compiler } from '../utils/compiler/base'
 
 import type { PluginContext } from 'rollup'
-// import type { H5BuildConfig, MiniBuildConfig } from './types'
+import type { Target } from 'vite-plugin-static-copy'
+import type { TaroCompiler as H5Compiler } from '../utils/compiler/h5'
+import type { TaroCompiler as MiniCompiler  } from '../utils/compiler/mini'
+import type { H5BuildConfig, MiniBuildConfig } from './types'
 
-export function getCompiler (rollupPluginContext: PluginContext) {
-  const info = rollupPluginContext.getModuleInfo(TARO_COMPILER)
-  const compiler: TaroCompiler | undefined = info?.meta.compiler
+export function convertCopyOptions (taroConfig: MiniBuildConfig | H5BuildConfig) {
+  const copy = taroConfig.copy
+  const copyOptions: Target[] = []
+  copy?.patterns.forEach(({ from, to }) => {
+    const { base, ext } = path.parse(to)
+    to = to
+      .replace(new RegExp('^' + taroConfig.outputRoot + '/'), '')
+    let rename
+
+    if (ext) {
+      to = to.replace(base, '')
+      rename = base
+    } else {
+      rename = '/'
+    }
+
+
+    copyOptions.push({
+      src: from,
+      dest: to,
+      rename
+    })
+  })
+  return copyOptions
+}
+
+export function getCompiler<T extends MiniCompiler | H5Compiler> (rollupPluginContext: PluginContext): T | undefined {
+  const info = rollupPluginContext.getModuleInfo(Compiler.label)
+  const compiler: T | undefined = info?.meta.compiler
   return compiler
+}
+
+export function getMiniCompiler (rollupPluginContext: PluginContext): MiniCompiler | undefined {
+  return getCompiler<MiniCompiler>(rollupPluginContext)
+}
+
+export function getH5Compiler (rollupPluginContext: PluginContext): H5Compiler | undefined {
+  return getCompiler<H5Compiler>(rollupPluginContext)
 }
 
 export function prettyPrintJson (obj: Record<string, any>) {
   return JSON.stringify(obj, null, 2)
 }
 
-export function getComponentName (compiler: TaroCompiler, componentPath: string) {
+export function getComponentName (compiler: MiniCompiler | H5Compiler, componentPath: string) {
   let componentName: string
   if (NODE_MODULES_REG.test(componentPath)) {
     componentName = componentPath
@@ -62,4 +99,14 @@ export function isRelativePath (id: string | undefined): boolean {
 
 export function stripMultiPlatformExt (id: string): string {
   return id.replace(new RegExp(`\\.${process.env.TARO_ENV}$`), '')
+}
+
+export const addTrailingSlash = (url = '') => (url.charAt(url.length - 1) === '/' ? url : url + '/')
+
+export function getMode (config: H5BuildConfig | MiniBuildConfig) {
+  const preMode = config.mode || process.env.NODE_ENV
+  const modes: ('production' | 'development' | 'none')[] = ['production', 'development', 'none']
+  const mode = modes.find(e => e === preMode)
+    || (!config.isWatch || process.env.NODE_ENV === 'production' ? 'production' : 'development')
+  return mode
 }

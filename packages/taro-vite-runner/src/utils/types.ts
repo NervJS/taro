@@ -12,17 +12,22 @@ export interface IFileType {
 
 export interface CommonBuildConfig extends IProjectBaseConfig {
   entry: {
-    app: string
+    app: string | string[]
   }
   mode: 'production' | 'development' | 'none'
+  buildAdapter: string // weapp | swan | alipay | tt | qq | jd | h5
+  platformType: string // mini | web
+  /** special mode */
+  isBuildNativeComp?: boolean
+  /** hooks */
+  onCompilerMake: (compilation) => Promise<any>
+  onParseCreateElement: (nodeName, componentConfig) => Promise<any>
 }
 
 export interface MiniBuildConfig extends CommonBuildConfig, IMiniAppConfig {
   isBuildPlugin: boolean
-  isBuildNativeComp?: boolean
   isSupportRecursive: boolean
   isSupportXS: boolean
-  buildAdapter: string
   nodeModulesPath: string
   fileType: IFileType
   globalObject: string
@@ -37,10 +42,9 @@ export interface MiniBuildConfig extends CommonBuildConfig, IMiniAppConfig {
   }
   /** hooks */
   modifyComponentConfig: (componentConfig: IComponentConfig, config: Partial<MiniBuildConfig>) => Promise<any>
-  onCompilerMake: (compilation) => Promise<any>
-  onParseCreateElement: (nodeName, componentConfig) => Promise<any>
 }
 
 export interface H5BuildConfig extends CommonBuildConfig, IH5Config {
   entryFileName?: string
+  runtimePath?: string | string[]
 }
