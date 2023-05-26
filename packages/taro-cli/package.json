@@ -64,7 +64,7 @@
     "request": "^2.88.0",
     "semver": "^7.3.8",
     "validate-npm-package-name": "^5.0.0",
-    "xml2js": "^0.4.19"
+    "xml2js": "^0.5.0"
   },
   "devDependencies": {
     "babel-jest": "^29.5.0",

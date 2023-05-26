@@ -31,6 +31,6 @@
   },
   "dependencies": {
     "@tarojs/cli": "workspace:*",
-    "minimist": "1.2.5"
+    "minimist": "^1.2.8"
   }
 }
