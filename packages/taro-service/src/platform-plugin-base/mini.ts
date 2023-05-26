@@ -1,3 +1,4 @@
+import { recursiveMerge } from '@tarojs/helper'
 import { PLATFORM_TYPE } from '@tarojs/shared'
 
 import { getPkgVersion } from '../utils/package'
@@ -101,14 +102,16 @@ ${exampleCommand}`))
    * @param extraOptions 需要额外合入 Options 的配置项
    */
   protected getOptions (extraOptions = {}) {
-    const { ctx, config, globalObject, fileType, template } = this
+    const { ctx, globalObject, fileType, template } = this
 
-    Reflect.set(config, 'env', Object.assign({}, config.env, {
-      FRAMEWORK: JSON.stringify(this.config.framework),
-      TARO_ENV: JSON.stringify(this.platform),
-      TARO_PLATFORM: JSON.stringify(this.platformType),
-      TARO_VERSION: JSON.stringify(getPkgVersion())
-    }))
+    const config = recursiveMerge(Object.assign({}, this.config), {
+      env: {
+        FRAMEWORK: JSON.stringify(this.config.framework),
+        TARO_ENV: JSON.stringify(this.platform),
+        TARO_PLATFORM: JSON.stringify(this.platformType),
+        TARO_VERSION: JSON.stringify(getPkgVersion())
+      }
+    })
 
     return {
       ...config,
