@@ -1066,6 +1066,9 @@ require("./runtime");
             getPageInstance: function() {
                 return getPageInstance;
             },
+            getPath: function() {
+                return getPath;
+            },
             history: function() {
                 return history;
             },
@@ -7057,6 +7060,9 @@ require("./runtime");
             },
             getPageInstance: function() {
                 return getPageInstance;
+            },
+            getPath: function() {
+                return getPath;
             },
             history: function() {
                 return history;
@@ -13707,6 +13713,9 @@ require("./runtime");
             },
             getPageInstance: function() {
                 return getPageInstance;
+            },
+            getPath: function() {
+                return getPath;
             },
             history: function() {
                 return history;

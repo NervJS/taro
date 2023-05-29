@@ -172,7 +172,7 @@ export function createRouter (
       }
 
       const page = createPageConfig(
-        enablePullDownRefresh ? hooks.call('createPullDownComponent', el, location.pathname, framework, handler.PullDownRefresh) : el,
+        enablePullDownRefresh ? hooks.call('createPullDownComponent', el, pathname, framework, handler.PullDownRefresh, pageStampId) : el,
         pathname + stringify(handler.getQuery(pageStampId)),
         {},
         loadConfig
