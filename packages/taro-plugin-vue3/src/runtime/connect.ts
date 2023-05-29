@@ -1,4 +1,4 @@
-import { Current, injectPageInstance } from '@tarojs/runtime'
+import { Current, getPath, injectPageInstance } from '@tarojs/runtime'
 import { ensure, hooks, isArray, isFunction, isWebPlatform } from '@tarojs/shared'
 import { provide } from 'vue'
 
@@ -23,13 +23,15 @@ export function setReconciler () {
   })
 
   if (isWeb) {
-    hooks.tap('createPullDownComponent', (component, path, h: typeof createElement) => {
+    hooks.tap('createPullDownComponent', (component, path, h: typeof createElement, _, stampId: string) => {
       const inject = {
         props: {
           tid: String
         },
         created () {
-          injectPageInstance(this, path)
+          const pagePath = stampId ? getPath(path, { stamp: stampId }) : path
+
+          injectPageInstance(this, pagePath)
         }
       }
 

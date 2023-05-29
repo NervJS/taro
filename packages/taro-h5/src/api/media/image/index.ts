@@ -11,3 +11,6 @@ export const compressImage = temporarilyNotSupport('compressImage')
 export const chooseMessageFile = temporarilyNotSupport('chooseMessageFile')
 
 export * from './chooseImage'
+
+export const editImage = temporarilyNotSupport('editImage')
+export const cropImage = temporarilyNotSupport('cropImage')
