@@ -7,7 +7,7 @@ interface RichTextProps extends StandardProps {
    */
   userSelect?: boolean
   /** 节点列表/ HTML String
-   * @supported weapp, swan, alipay, tt, h5, rn, harmony
+   * @supported weapp, alipay, swan, tt, qq, h5, rn, harmony
    */
   nodes?: Nodes
   /** 显示连续空格

@@ -185,7 +185,7 @@ interface ButtonProps extends StandardProps {
   onContact?: CommonEventFunction<ButtonProps.onContactEventDetail>
   /** 获取用户手机号回调
    *
-   * 生效时机：`open-type="getphonenumber"`
+   * 生效时机：`open-type="getPhoneNumber"`
    * @supported weapp, alipay, swan, tt, jd
    */
   onGetPhoneNumber?: CommonEventFunction<ButtonProps.onGetPhoneNumberEventDetail>
@@ -504,6 +504,7 @@ declare namespace ButtonProps {
  *         <Button size='mini' type='primary'>按钮</Button>
  *         <Button size='mini' >按钮</Button>
  *         <Button size='mini' type='warn'>按钮</Button>
+ *         <Button openType='getPhoneNumber' onGetPhoneNumber="callback">按钮</Button>
  *       </View>
  *     )
  *   }
@@ -529,6 +530,7 @@ declare namespace ButtonProps {
  *     <button size="mini" type="primary">按钮</button>
  *     <button size="mini" >按钮</button>
  *     <button size="mini" type="warn">按钮</button>
+ *     <button open-type="getPhoneNumber" `@getphonenumber="callback">按钮</button>
  *   </view>
  * </template>
  *
