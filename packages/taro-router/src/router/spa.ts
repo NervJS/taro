@@ -146,7 +146,6 @@ export function createRouter (
           shouldLoad = true
         }
       }
-      Current.page = stacks.getItem(prevIndex)
     } else if (action === 'REPLACE') {
       const delta = stacks.getDelta(pathname)
       // NOTE: 页面路由记录并不会清空，只是移除掉缓存的 stack 以及页面
@@ -181,12 +180,6 @@ export function createRouter (
       if (params) page.options = params
       handler.load(page, pageConfig, pageStampId, stacksIndex)
     }
-
-    eventCenter.trigger('__afterTaroRouterChange', {
-      toLocation: {
-        path: handler.pathname
-      }
-    })
   }
 
   const routePath = addLeadingSlash(stripBasename(history.location.pathname, handler.basename))
