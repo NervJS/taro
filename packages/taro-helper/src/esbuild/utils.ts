@@ -8,6 +8,7 @@ export function externalEsbuildModule (args: Partial<OnResolveArgs>): OnResolveR
       'path',
       'namespace',
       'pluginData',
+      'importer',
     ]),
     external: true
   }
