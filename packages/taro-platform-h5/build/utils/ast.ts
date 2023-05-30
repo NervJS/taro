@@ -19,16 +19,24 @@ export interface DocEntry {
 export function generateDocumentation (
   filepaths: string[],
   options: ts.CompilerOptions,
+  param: {
+    mapAll?: boolean
+    withDeclaration?: boolean
+  } = {},
   output: DocEntry[] = []
 ): DocEntry[] {
   const program = ts.createProgram(filepaths, options)
   const checker = program.getTypeChecker()
-  const sourceFiles = program.getSourceFiles()
-  const mainFile = sourceFiles.find(e => e.fileName === filepaths[0])
 
-  // if (!mainFile.isDeclarationFile) {}
-  if (mainFile) {
-    ts.forEachChild(mainFile, (n) => visitAST(n, output))
+  for (const sourceFile of program.getSourceFiles()) {
+    if (param.withDeclaration !== false || !sourceFile.isDeclarationFile) {
+      if (
+        (param.mapAll === true && filepaths.includes(sourceFile.fileName))
+        || sourceFile.fileName === filepaths[0]
+      ) {
+        ts.forEachChild(sourceFile, (n) => visitAST(n, output))
+      }
+    }
   }
 
   return output
