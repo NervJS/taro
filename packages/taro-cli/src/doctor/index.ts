@@ -1,8 +1,16 @@
-import configValidator from './configValidator'
-import eslintValidator from './eslintValidator'
-import packageValidator from './packageValidator'
-import recommandValidator from './recommandValidator'
+// @ts-nocheck
+import {
+  validateEslint
+} from '@tarojs/plugin-doctor'
+import {
+  validateConfig,
+  validateEnv,
+  validatePackage,
+  validateRecommend
+} from '@tarojs/plugin-doctor/js-binding'
 
 export default {
-  validators: [configValidator, packageValidator, recommandValidator, eslintValidator]
+  validators: {
+    validateEnv, validateConfig, validateEslint, validatePackage, validateRecommend
+  }
 }

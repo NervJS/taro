@@ -11,4 +11,5 @@ export default {
 export {
   Creator,
   doctor,
-  Project }
+  Project
+}
