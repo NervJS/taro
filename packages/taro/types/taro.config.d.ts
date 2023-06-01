@@ -360,7 +360,9 @@ declare module './index' {
      * @default false
      * @since 2.1.0
      */
-    functionalPages?: boolean
+    functionalPages?: boolean  | {
+      independent?: boolean
+    }
     /** 分包结构配置
      * @example
      * ```json
