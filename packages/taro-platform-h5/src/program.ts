@@ -13,7 +13,7 @@ const compLibraryAlias = {
 const PACKAGE_NAME = '@tarojs/plugin-platform-h5'
 export default class H5 extends TaroPlatformWeb {
   platform = 'h5'
-  runtimePath = `${PACKAGE_NAME}/dist/runtime`
+  runtimePath: string[] | string = `${PACKAGE_NAME}/dist/runtime`
 
   constructor (ctx: IPluginContext, config: TConfig) {
     super(ctx, config)
