@@ -125,6 +125,13 @@ function viteCommonPlugin (framework: Frameworks): PluginOption {
         : []
 
       return {
+        optimizeDeps:{
+          esbuildOptions:{
+            define: {
+              __TARO_FRAMEWORK__: `"${framework}"`
+            }
+          }
+        },
         define: {
           __TARO_FRAMEWORK__: `"${framework}"`
         },
