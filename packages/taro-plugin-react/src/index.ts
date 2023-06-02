@@ -1,6 +1,7 @@
 import { fs } from '@tarojs/helper'
 import { isString, isWebPlatform } from '@tarojs/shared'
 
+import { h5iVitePlugin } from './vite.h5'
 import { miniVitePlugin } from './vite.mini'
 import { modifyH5WebpackChain } from './webpack.h5'
 import { modifyMiniWebpackChain } from './webpack.mini'
@@ -13,7 +14,7 @@ export type Frameworks = 'react' | 'preact' | 'nerv'
 
 export default (ctx: IPluginContext) => {
   const { framework } = ctx.initialConfig
-
+  
   if (framework !== 'react' && framework !== 'nerv' && framework !== 'preact') return
 
   ctx.modifyWebpackChain(({ chain }) => {
@@ -82,8 +83,9 @@ export default (ctx: IPluginContext) => {
       compiler.vitePlugins ||= []
       compiler.vitePlugins.push(viteCommonPlugin(framework))
       compiler.vitePlugins.push(require('@vitejs/plugin-react').default())
-      if (process.env.TARO === 'h5') {
+      if (isWebPlatform()) {
         // H5
+        compiler.vitePlugins.push(h5iVitePlugin(framework))
       } else {
         // 小程序
         compiler.vitePlugins.push(miniVitePlugin(ctx, framework))

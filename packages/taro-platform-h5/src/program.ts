@@ -142,7 +142,7 @@ export default class H5 extends TaroPlatformWeb {
       }
       function injectLoaderMeta () {
         return {
-          name: 'taro-vue3:loader-meta',
+          name: 'taro:vite-h5-loader-meta',
           async buildStart () {
             await this.load({ id: 'taro:compiler' })
             const info = this.getModuleInfo('taro:compiler')
