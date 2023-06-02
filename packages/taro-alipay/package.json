@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/plugin-platform-alipay",
-  "version": "3.6.7",
+  "version": "3.6.7-alpha.0",
   "description": "支付宝小程序平台插件",
   "author": "Chen-jj",
   "homepage": "https://github.com/nervjs/taro/tree/master/packages/taro-alipay#readme",
