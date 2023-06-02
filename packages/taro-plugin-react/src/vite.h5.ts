@@ -1,4 +1,3 @@
-import commonjs from '@rollup/plugin-commonjs'
 import { fs } from '@tarojs/helper'
 import { mergeWith } from 'lodash'
 
@@ -11,14 +10,7 @@ import type { Frameworks } from './index'
 export function h5iVitePlugin (framework: Frameworks): PluginOption {
   return [
     injectLoaderMeta(framework),
-    setTaroApi(),
-    commonjs({
-      dynamicRequireTargets: [
-        // 包含要转换为动态import语句的模块名称的数组
-        'node_modules/preact'
-      ],
-      // include: 'node_modules/@tarojs/plugin-framework-react/dist/runtime.js'
-    })
+    setTaroApi()
   ]
 }
 
