@@ -27,10 +27,11 @@
   "scripts": {
     "prebuild": "run-s clean generate:desc",
     "build": "pnpm run rollup --environment NODE_ENV:production",
+    "clean": "rimraf dist",
     "dev": "pnpm run rollup --environment NODE_ENV:development -w",
+    "generate:desc": "pnpm run tsx --files ./build/definition-json",
     "rollup": "rollup --config rollup.config.ts --configPlugin @rollup/plugin-typescript --bundleConfigAsCjs",
-    "generate:desc": "ts-node -r tsconfig-paths/register --project ./build/tsconfig.json --files ./build/definition-json",
-    "clean": "rimraf dist"
+    "tsx": "ts-node --skipIgnore"
   },
   "bugs": {
     "url": "https://github.com/NervJS/taro/issues"

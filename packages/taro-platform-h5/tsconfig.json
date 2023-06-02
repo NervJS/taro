@@ -7,5 +7,18 @@
     "preserveConstEnums": true,
     "sourceMap": true
   },
-  "include": ["./src", "./types", "rollup.config.ts"]
+  "include": ["./src", "./types", "rollup.config.ts"],
+  "ts-node": {
+    "compilerOptions": {
+      "module": "UMD",
+      "moduleResolution": "Node",
+      "noEmit": true,
+      "resolveJsonModule": false,
+      "rootDir": ".",
+      "target": "ESNext"
+    },
+    "esm": true,
+    "experimentalSpecifierResolution": "node",
+    "require": ["tsconfig-paths/register"]
+  }
 }
