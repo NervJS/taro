@@ -74,7 +74,7 @@
     "esbuild": "^0.14.27",
     "jquery": "^3.4.1",
     "lodash": "^4.17.21",
-    "miniapp-types": "1.5.1",
+    "miniapp-types": "1.6.0",
     "puppeteer": "^19.2.0",
     "stencil-vue2-output-target": "0.0.4",
     "ts-node": "^10.9.1",

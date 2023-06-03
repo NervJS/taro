@@ -146,7 +146,7 @@ interface TextareaProps extends StandardProps, FormItemProps {
    */
   onConfirm?: CommonEventFunction<TextareaProps.onConfirmEventDetail>
   /** 键盘高度发生变化的时候触发此事件
-   * @supported weapp
+   * @supported weapp, tt
    */
   onKeyboardHeightChange?: CommonEventFunction<TextareaProps.onKeyboardHeightChangeEventDetail>
 }
