@@ -9,7 +9,7 @@ false;
 false;
 
 // 接口参数、回调或者返回值
-false;
+true;
 false;
 false;
 false;
@@ -17,8 +17,8 @@ false;
 true;
 
 // 组件的属性
-false;
-false;
+true;
+true;
 false;"
 `;
 

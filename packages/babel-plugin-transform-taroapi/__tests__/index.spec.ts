@@ -25,7 +25,7 @@ const getNamedImports = (importSpecifiers: (t.ImportSpecifier | t.ImportDefaultS
 const babelTransform = (code = '') => babel.transform(code, { ast: true, configFile: false, plugins: [pluginOptions] })
 
 describe('babel-plugin-transform-taroapi', () => {
-  test.skip('should work!', function () {
+  test('should work!', function () {
     const code = `
       import Taro, { setStorage, initPxTransform, param } from '${packageName}';
       initPxTransform(param)
@@ -39,7 +39,7 @@ describe('babel-plugin-transform-taroapi', () => {
     expect(result?.code).toMatchSnapshot()
   })
 
-  test.skip('should leave other apis untouched', function () {
+  test('should leave other apis untouched', function () {
     const code = `
       import Taro from '${packageName}'
       Taro.noop
@@ -68,7 +68,7 @@ describe('babel-plugin-transform-taroapi', () => {
     expect((body[1].expression as t.MemberExpression)).toMatchObject(obj)
   })
 
-  test.skip('should move static apis under "Taro"', function () {
+  test('should move static apis under "Taro"', function () {
     const code = `
       import { noop } from '${packageName}';
       noop;
@@ -96,7 +96,7 @@ describe('babel-plugin-transform-taroapi', () => {
     ))
   })
 
-  test.skip('should not import taro duplicity', function () {
+  test('should not import taro duplicity', function () {
     const code = `
       import { Component } from '${packageName}';
       import Taro from '${packageName}';
@@ -114,7 +114,7 @@ describe('babel-plugin-transform-taroapi', () => {
     expect(t.isExpressionStatement(body[2])).toBeTruthy()
   })
 
-  test.skip('should not go wrong when using an api twice', function () {
+  test('should not go wrong when using an api twice', function () {
     const code = `
       import Taro from '${packageName}';
       const animation = Taro.createAnimation({
@@ -132,7 +132,7 @@ describe('babel-plugin-transform-taroapi', () => {
     }).not.toThrowError()
   })
 
-  test.skip('should preserve default imports', function () {
+  test('should preserve default imports', function () {
     const code = `
       import Taro from '${packageName}'
       console.log(Taro)
@@ -141,7 +141,7 @@ describe('babel-plugin-transform-taroapi', () => {
     expect(result?.code).toMatchSnapshot()
   })
 
-  test.skip('should preserve assignments in left hands', function () {
+  test('should preserve assignments in left hands', function () {
     const code = `
       import Taro from '${packageName}'
       let animation
@@ -159,7 +159,7 @@ describe('babel-plugin-transform-taroapi', () => {
     expect(result?.code).toMatchSnapshot()
   })
 
-  test.skip('should support rename of imported names', function () {
+  test('should support rename of imported names', function () {
     const code = `
     // import { inject as mobxInject, observer as mobxObserver } from '@tarojs/mobx'
     import { Component as TaroComponent } from '${packageName}';
