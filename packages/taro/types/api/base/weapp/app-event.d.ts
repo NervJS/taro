@@ -259,7 +259,7 @@ declare module '../../../index' {
      */
     offAppHide(
       /** 小程序切后台事件的回调函数 */
-      callback: (res: onAppHide.CallbackResult) => void,
+      callback: (res: onAppShow.CallbackResult) => void,
     ): void
   }
 }
