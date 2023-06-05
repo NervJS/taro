@@ -36,6 +36,10 @@ export default class H5 extends TaroPlatformWeb {
     return !!this.ctx.initialConfig.h5?.useDeprecatedAdapterComponent
   }
 
+  get apiLibrary () {
+    return './runtime/apis'
+  }
+
   get componentLibrary () {
     if (this.useHtmlComponents && this.framework === 'react') {
       return './runtime/components'
@@ -48,6 +52,14 @@ export default class H5 extends TaroPlatformWeb {
 
   get componentAdapter () {
     return path.join(path.dirname(require.resolve('@tarojs/components')), '..', 'lib')
+  }
+
+  get routerLibrary () {
+    return '@tarojs/router'
+  }
+
+  get libraryDefinition () {
+    return resolveSync('./definition.json')
   }
 
   /**
@@ -63,7 +75,7 @@ export default class H5 extends TaroPlatformWeb {
         plugins: [
           [require('babel-plugin-transform-taroapi'), {
             packageName: '@tarojs/taro',
-            definition: require(resolveSync('./definition.json'))
+            definition: require(this.libraryDefinition)
           }]
         ]
       })
@@ -72,8 +84,8 @@ export default class H5 extends TaroPlatformWeb {
       // TODO 考虑集成到 taroComponentsPath 中，与小程序端对齐
       alias.set('@tarojs/components$', require.resolve(this.componentLibrary))
       alias.set('@tarojs/components/lib', this.componentAdapter)
-      alias.set('@tarojs/router$', require.resolve('@tarojs/router'))
-      alias.set('@tarojs/taro', require.resolve('./runtime/apis'))
+      alias.set('@tarojs/router$', require.resolve(this.routerLibrary))
+      alias.set('@tarojs/taro', require.resolve(this.apiLibrary))
       chain.plugin('mainPlugin')
         .tap(args => {
           args[0].loaderMeta ||= {
