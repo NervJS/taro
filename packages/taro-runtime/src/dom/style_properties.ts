@@ -48,7 +48,8 @@ const styleProperties = [
   'widows',
   'width',
   'zIndex',
-  'pointerEvents'
+  'pointerEvents',
+  'aspectRatio'
 
   /** 非常用 style */
   // 'azimuth',

@@ -14,7 +14,7 @@ export class Textarea implements ComponentInterface {
 
   @Element() el: HTMLElement
 
-  @Prop({ mutable: true }) value: string
+  @Prop({ mutable: true }) value: string = ''
   @Prop() placeholder: string
   @Prop() disabled = false
   @Prop() maxlength = 140
@@ -67,14 +67,6 @@ export class Textarea implements ComponentInterface {
   @Method()
   async focus() {
     this.textareaRef.focus()
-  }
-
-  componentDidLoad() {
-    Object.defineProperty(this.el, 'value', {
-      get: () => this.textareaRef.value,
-      set: value => this.value !== value && (this.value = value),
-      configurable: true
-    })
   }
 
   handleInput = (e: TaroEvent<HTMLInputElement>) => {

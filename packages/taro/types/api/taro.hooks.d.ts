@@ -1,6 +1,6 @@
-import Taro from './index'
+import Taro from '../index'
 
-declare module './index' {
+declare module '../index' {
   interface TaroStatic {
     /**
      * 页面展示时的回调。
@@ -46,7 +46,7 @@ declare module './index' {
 
     /**
      * 当前是 tab 页时，tab 被点击时的回调。
-     * @supported weapp, rn
+     * @supported weapp, h5, rn
      */
     useTabItemTap(callback: (payload: TabItemTapObject) => void): void
 
@@ -85,7 +85,7 @@ declare module './index' {
 
     /**
      * 小程序有未处理的 Promise reject 时触发。也可以使用 Taro.onUnhandledRejection 绑定监听。
-     * @supported weapp, alipay
+     * @supported weapp, alipay, h5
      */
     useUnhandledRejection(callback: (error: { reason: Error, promise: Promise<Error> }) => void): void
 

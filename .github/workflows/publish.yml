@@ -119,7 +119,7 @@ jobs:
             - recursive: true
               args: [--frozen-lockfile]
       - name: build
-        run: pnpm run build
+        run: pnpm build
 
       # Git stash
       - name: Drop current changes

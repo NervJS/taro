@@ -1,9 +1,7 @@
-import { recursiveMerge, REG_FONT, REG_IMAGE, REG_LESS, REG_MEDIA, REG_SASS_SASS, REG_SASS_SCSS, REG_SCRIPTS, REG_STYLE, REG_STYLUS } from '@tarojs/helper'
+import { fs, recursiveMerge, REG_FONT, REG_IMAGE, REG_LESS, REG_MEDIA, REG_SASS_SASS, REG_SASS_SCSS, REG_SCRIPTS, REG_STYLE, REG_STYLUS } from '@tarojs/helper'
 import { getSassLoaderOption } from '@tarojs/runner-utils'
-import { ICopyOptions, IPostcssOption, PostcssOption } from '@tarojs/taro/types/compile'
 import * as CopyWebpackPlugin from 'copy-webpack-plugin'
 import CssoWebpackPlugin from 'csso-webpack-plugin'
-import * as fs from 'fs-extra'
 import * as HtmlWebpackPlugin from 'html-webpack-plugin'
 import { partial } from 'lodash'
 import { mapKeys, pipe } from 'lodash/fp'
@@ -15,7 +13,9 @@ import * as webpack from 'webpack'
 
 import { getDefaultPostcssConfig, getPostcssPlugins } from '../config/postcss.conf'
 import H5Plugin from '../plugins/H5Plugin'
-import { BuildConfig, Option } from './types'
+
+import type { ICopyOptions, IPostcssOption, PostcssOption } from '@tarojs/taro/types/compile'
+import type { BuildConfig, Option } from './types'
 
 export const makeConfig = async (buildConfig: BuildConfig) => {
   const sassLoaderOption = await getSassLoaderOption(buildConfig)

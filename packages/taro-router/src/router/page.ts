@@ -1,5 +1,5 @@
 /* eslint-disable dot-notation */
-import { Current, PageInstance, requestAnimationFrame } from '@tarojs/runtime'
+import { Current, eventCenter, PageInstance, requestAnimationFrame } from '@tarojs/runtime'
 import queryString from 'query-string'
 
 import { loadAnimateStyle } from '../animation'
@@ -194,6 +194,7 @@ export default class PageHandler {
       this.addAnimation(pageEl, pageNo === 0)
       page.onShow?.()
       this.bindPageEvents(page, pageEl, pageConfig)
+      this.triggerRouterChange()
     } else {
       page.onLoad?.(param, () => {
         pageEl = this.getPageContainer(page)
@@ -202,6 +203,7 @@ export default class PageHandler {
         this.onReady(page, true)
         page.onShow?.()
         this.bindPageEvents(page, pageEl, pageConfig)
+        this.triggerRouterChange()
       })
     }
   }
@@ -221,6 +223,9 @@ export default class PageHandler {
       const pageEl = this.getPageContainer(page)
       pageEl?.classList.remove('taro_page_stationed')
       pageEl?.classList.remove('taro_page_show')
+      if (pageEl) {
+        pageEl.style.zIndex = '1'
+      }
 
       this.unloadTimer = setTimeout(() => {
         this.unloadTimer = null
@@ -245,6 +250,7 @@ export default class PageHandler {
       this.addAnimation(pageEl, pageNo === 0)
       page.onShow?.()
       this.bindPageEvents(page, pageEl, pageConfig)
+      this.triggerRouterChange()
     } else {
       page.onLoad?.(param, () => {
         pageEl = this.getPageContainer(page)
@@ -252,6 +258,7 @@ export default class PageHandler {
         this.onReady(page, false)
         page.onShow?.()
         this.bindPageEvents(page, pageEl, pageConfig)
+        this.triggerRouterChange()
       })
     }
   }
@@ -314,5 +321,19 @@ export default class PageHandler {
     const distance = config.onReachBottomDistance || this.config.window?.onReachBottomDistance || 50
     bindPageScroll(page, pageEl, distance)
     bindPageResize(page)
+  }
+
+  triggerRouterChange () {
+    /**
+     * @tarojs/runtime 中生命周期跑在 promise 中，所以这里需要 setTimeout 延迟事件调用
+     * TODO 考虑将生命周期返回 Promise，用于处理相关事件调用顺序
+     */
+    setTimeout(() => {
+      eventCenter.trigger('__afterTaroRouterChange', {
+        toLocation: {
+          path: this.pathname
+        }
+      })
+    }, 0)
   }
 }

@@ -1,7 +1,11 @@
+const path = require('path')
+
 module.exports = {
   collectCoverage: false,
   moduleFileExtensions: ['js', 'jsx', 'ts', 'tsx', 'json', 'node'],
   preset: 'ts-jest',
+  setupFiles: [path.resolve(__dirname, './src/__tests__/setup.js')],
+  testEnvironment: 'node',
   testMatch: ['**/__tests__/**/?(*.)+(spec|test).[jt]s?(x)'],
   testPathIgnorePatterns: [
     'node_modules',

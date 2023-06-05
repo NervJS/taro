@@ -27,6 +27,9 @@
     "@tarojs/api": "workspace:*",
     "@tarojs/runtime": "workspace:*"
   },
+  "devDependencies": {
+    "@tarojs/helper": "workspace:*"
+  },
   "peerDependenciesMeta": {
     "@types/react": {
       "optional": true

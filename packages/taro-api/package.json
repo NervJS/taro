@@ -22,8 +22,8 @@
     "url": "git+https://github.com/NervJS/taro.git"
   },
   "scripts": {
-    "test": "jest",
-    "build": "rollup -c rollup.config.js"
+    "build": "rollup -c rollup.config.js",
+    "test": "cross-env NODE_ENV=test jest --ci"
   },
   "bugs": {
     "url": "https://github.com/NervJS/taro/issues"

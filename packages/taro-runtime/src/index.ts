@@ -32,6 +32,7 @@ export {
   createPageConfig,
   createRecursiveComponentConfig,
   getPageInstance,
+  getPath,
   injectPageInstance,
   removePageInstance,
   safeExecute,

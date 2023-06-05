@@ -22,11 +22,9 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-import { chalk } from '@tarojs/helper'
-import fs from 'fs-extra'
+import { chalk, fs } from '@tarojs/helper'
 import path from 'path'
 import { performance } from 'perf_hooks'
-import webpackDevServer from 'webpack-dev-server'
 import VirtualModulesPlugin from 'webpack-virtual-modules'
 
 import BasePrebundle, { IPrebundleConfig } from './prebundle'
@@ -39,6 +37,7 @@ import { MF_NAME } from './utils/constant'
 import TaroModuleFederationPlugin from './webpack/TaroModuleFederationPlugin'
 
 import type { Configuration, Stats } from 'webpack'
+import type webpackDevServer from 'webpack-dev-server'
 import type { IPrebundle } from './prebundle'
 
 export const VirtualModule = new VirtualModulesPlugin()
