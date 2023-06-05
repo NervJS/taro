@@ -160,6 +160,11 @@ interface InputProps extends StandardProps, FormItemProps {
    * @supported qq
    */
   ariaLabel?: string
+  /** 用于分发目的。取值：0 和 1，其中 0 表示默认，1 表示手机号，需要和留资分发配置一起使用，详情见留资分发配置。
+   * @supported tt
+   * @default 0
+   */
+  clueType?: number
   /** 当键盘输入时，触发input事件，event.detail = {value, cursor, keyCode}，处理函数可以直接 return 一个字符串，将替换输入框的内容。
    * @supported weapp, alipay, swan, tt, qq, jd, h5, rn
    */
@@ -177,7 +182,7 @@ interface InputProps extends StandardProps, FormItemProps {
    */
   onConfirm?: CommonEventFunction<InputProps.inputValueEventDetail>
   /** 键盘高度发生变化的时候触发此事件
-   * @supported weapp, qq
+   * @supported weapp, tt, qq
    */
   onKeyboardHeightChange?: CommonEventFunction<InputProps.onKeyboardHeightChangeEventDetail>
   /** 用户昵称审核完毕后触发，仅在 type 为 "nickname" 时有效，event.detail = { pass, timeout }

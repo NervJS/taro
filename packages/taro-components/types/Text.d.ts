@@ -25,6 +25,10 @@ interface TextProps extends StandardProps {
    * @supported alipay
    */
   numberOfLines?: number
+  /** 限制文本最大行数
+   * @supported weapp
+   */
+  maxLines?: number
 }
 declare namespace TextProps {
   /** space 的合法值 */
