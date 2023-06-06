@@ -1,0 +1,16 @@
+{
+  "format": 2,
+  "developOptions": {
+    "hotReload": false
+  },
+  "compileOptions": {
+    "component2": true,
+    "enableNodeModuleBabelTransform": true
+  },
+  "miniprogramRoot": "dist/alipay",
+  "compileType": "mini",
+  "uploadExclude": [
+    "src/**",
+    "node_modules/**"
+  ]
+}

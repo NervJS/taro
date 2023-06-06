@@ -1,5 +1,6 @@
 {
-  "miniprogramRoot": "./dist",
+  "miniprogramRoot": "dist/weapp/",
+  "srcMiniprogramRoot": "dist/weapp/",
   "projectname": "<%= projectName %>",
   "description": "<%= description %>",
   "appid": "touristappid",

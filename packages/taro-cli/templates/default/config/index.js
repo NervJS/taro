@@ -8,7 +8,7 @@ const config = {
     828: 1.81 / 2
   },
   sourceRoot: 'src',
-  outputRoot: 'dist',
+	outputRoot: `dist/${process.env.TARO_ENV}`,
   plugins: [],
   defineConstants: {
   },
