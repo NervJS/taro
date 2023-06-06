@@ -1082,6 +1082,9 @@ exports[`compiler-macros - defineAppConfig and definePageConfig should read app 
         "modifySetAttrPayload": TaroHook(HOOK_TYPE.SINGLE),
         "modifyRmAttrPayload": TaroHook(HOOK_TYPE.SINGLE),
         "onAddEvent": TaroHook(HOOK_TYPE.SINGLE),
+        "proxyToRaw": TaroHook(HOOK_TYPE.SINGLE, (function(proxyObj) {
+            return proxyObj;
+        })),
         "modifyMpEvent": TaroHook(HOOK_TYPE.MULTI),
         "modifyMpEventImpl": TaroHook(HOOK_TYPE.SINGLE, (function(e) {
             try {

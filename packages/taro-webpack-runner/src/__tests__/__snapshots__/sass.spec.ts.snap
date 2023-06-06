@@ -1079,6 +1079,9 @@ exports[`sass should build app with sass 2`] = `
         "modifySetAttrPayload": TaroHook(HOOK_TYPE.SINGLE),
         "modifyRmAttrPayload": TaroHook(HOOK_TYPE.SINGLE),
         "onAddEvent": TaroHook(HOOK_TYPE.SINGLE),
+        "proxyToRaw": TaroHook(HOOK_TYPE.SINGLE, (function(proxyObj) {
+            return proxyObj;
+        })),
         "modifyMpEvent": TaroHook(HOOK_TYPE.MULTI),
         "modifyMpEventImpl": TaroHook(HOOK_TYPE.SINGLE, (function(e) {
             try {
@@ -2587,6 +2590,9 @@ exports[`sass should build app with scss 2`] = `
         "modifySetAttrPayload": TaroHook(HOOK_TYPE.SINGLE),
         "modifyRmAttrPayload": TaroHook(HOOK_TYPE.SINGLE),
         "onAddEvent": TaroHook(HOOK_TYPE.SINGLE),
+        "proxyToRaw": TaroHook(HOOK_TYPE.SINGLE, (function(proxyObj) {
+            return proxyObj;
+        })),
         "modifyMpEvent": TaroHook(HOOK_TYPE.MULTI),
         "modifyMpEventImpl": TaroHook(HOOK_TYPE.SINGLE, (function(e) {
             try {
@@ -4105,6 +4111,9 @@ exports[`sass should set global sass content with data 2`] = `
         "modifySetAttrPayload": TaroHook(HOOK_TYPE.SINGLE),
         "modifyRmAttrPayload": TaroHook(HOOK_TYPE.SINGLE),
         "onAddEvent": TaroHook(HOOK_TYPE.SINGLE),
+        "proxyToRaw": TaroHook(HOOK_TYPE.SINGLE, (function(proxyObj) {
+            return proxyObj;
+        })),
         "modifyMpEvent": TaroHook(HOOK_TYPE.MULTI),
         "modifyMpEventImpl": TaroHook(HOOK_TYPE.SINGLE, (function(e) {
             try {
@@ -5623,6 +5632,9 @@ exports[`sass should set global sass content with source & dir 2`] = `
         "modifySetAttrPayload": TaroHook(HOOK_TYPE.SINGLE),
         "modifyRmAttrPayload": TaroHook(HOOK_TYPE.SINGLE),
         "onAddEvent": TaroHook(HOOK_TYPE.SINGLE),
+        "proxyToRaw": TaroHook(HOOK_TYPE.SINGLE, (function(proxyObj) {
+            return proxyObj;
+        })),
         "modifyMpEvent": TaroHook(HOOK_TYPE.MULTI),
         "modifyMpEventImpl": TaroHook(HOOK_TYPE.SINGLE, (function(e) {
             try {
@@ -7141,6 +7153,9 @@ exports[`sass should set global sass content with source 2`] = `
         "modifySetAttrPayload": TaroHook(HOOK_TYPE.SINGLE),
         "modifyRmAttrPayload": TaroHook(HOOK_TYPE.SINGLE),
         "onAddEvent": TaroHook(HOOK_TYPE.SINGLE),
+        "proxyToRaw": TaroHook(HOOK_TYPE.SINGLE, (function(proxyObj) {
+            return proxyObj;
+        })),
         "modifyMpEvent": TaroHook(HOOK_TYPE.MULTI),
         "modifyMpEventImpl": TaroHook(HOOK_TYPE.SINGLE, (function(e) {
             try {

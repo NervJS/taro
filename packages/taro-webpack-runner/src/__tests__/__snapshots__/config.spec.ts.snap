@@ -1094,6 +1094,9 @@ exports[`config should build from origin and pipe to output 2`] = `
         "modifySetAttrPayload": TaroHook(HOOK_TYPE.SINGLE),
         "modifyRmAttrPayload": TaroHook(HOOK_TYPE.SINGLE),
         "onAddEvent": TaroHook(HOOK_TYPE.SINGLE),
+        "proxyToRaw": TaroHook(HOOK_TYPE.SINGLE, (function(proxyObj) {
+            return proxyObj;
+        })),
         "modifyMpEvent": TaroHook(HOOK_TYPE.MULTI),
         "modifyMpEventImpl": TaroHook(HOOK_TYPE.SINGLE, (function(e) {
             try {
@@ -2616,6 +2619,9 @@ I m irrelevant.
         "modifySetAttrPayload": TaroHook(HOOK_TYPE.SINGLE),
         "modifyRmAttrPayload": TaroHook(HOOK_TYPE.SINGLE),
         "onAddEvent": TaroHook(HOOK_TYPE.SINGLE),
+        "proxyToRaw": TaroHook(HOOK_TYPE.SINGLE, (function(proxyObj) {
+            return proxyObj;
+        })),
         "modifyMpEvent": TaroHook(HOOK_TYPE.MULTI),
         "modifyMpEventImpl": TaroHook(HOOK_TYPE.SINGLE, (function(e) {
             try {
@@ -4138,6 +4144,9 @@ exports[`config should resolved alias 2`] = `
         "modifySetAttrPayload": TaroHook(HOOK_TYPE.SINGLE),
         "modifyRmAttrPayload": TaroHook(HOOK_TYPE.SINGLE),
         "onAddEvent": TaroHook(HOOK_TYPE.SINGLE),
+        "proxyToRaw": TaroHook(HOOK_TYPE.SINGLE, (function(proxyObj) {
+            return proxyObj;
+        })),
         "modifyMpEvent": TaroHook(HOOK_TYPE.MULTI),
         "modifyMpEventImpl": TaroHook(HOOK_TYPE.SINGLE, (function(e) {
             try {
