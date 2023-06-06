@@ -4041,7 +4041,7 @@ require("./runtime");
             }
             performUpdate(initRender = false, prerender) {
                 this.pendingUpdate = true;
-                const ctx = this.ctx;
+                const ctx = _tarojs_shared__WEBPACK_IMPORTED_MODULE_0__.PT.call("proxyToRaw", this.ctx);
                 setTimeout((() => {
                     const setDataMark = \`\${SET_DATA} \\u5f00\\u59cb\\u65f6\\u95f4\\u6233 \${Date.now()}\`;
                     perf.start(setDataMark);
