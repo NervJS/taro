@@ -508,6 +508,7 @@ importers:
       jest-cli: ^29.3.1
       jest-environment-node: ^29.5.0
       rollup: ^2.79.0
+      rollup-plugin-node-externals: ^5.0.0
       ts-jest: ^29.0.5
       typescript: ^4.7.4
     dependencies:
@@ -523,6 +524,7 @@ importers:
       jest-cli: registry.npmjs.org/jest-cli/29.5.0
       jest-environment-node: registry.npmjs.org/jest-environment-node/29.5.0
       rollup: registry.npmjs.org/rollup/2.79.1
+      rollup-plugin-node-externals: registry.npmjs.org/rollup-plugin-node-externals/5.1.3_rollup@2.79.1
       ts-jest: registry.npmjs.org/ts-jest/29.1.0_viinukn7nustgjlyhsmms6zpji
       typescript: registry.npmjs.org/typescript/4.9.5
 
@@ -2494,7 +2496,7 @@ importers:
 packages:
 
   /@tarojs/transformer-wx/2.2.10:
-    resolution: {integrity: sha512-17VF0f/+TILniFQHl+OK7PXt+QgH+evPijJPFkJgpgRUn0S2QKK89g27S6kG8s3GYCgY3XbJRY9w17yAkf9pZA==, registry: https://registry.yarnpkg.com/}
+    resolution: {integrity: sha512-17VF0f/+TILniFQHl+OK7PXt+QgH+evPijJPFkJgpgRUn0S2QKK89g27S6kG8s3GYCgY3XbJRY9w17yAkf9pZA==}
     dependencies:
       '@babel/code-frame': registry.npmjs.org/@babel/code-frame/7.21.4
       babel-core: registry.npmjs.org/babel-core/6.26.3
