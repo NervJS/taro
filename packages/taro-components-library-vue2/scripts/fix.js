@@ -13,7 +13,7 @@ if (fs.existsSync(componentsPath)) {
   }
 
   if (!code.includes('fragment')) {
-    const comps = ['block', 'custom-wrapper']
+    const comps = ['block']
     code = code.replace(new RegExp(`'taro-(${comps.join('|')})-core'`, 'ig'), `'fragment'`)
   }
 
