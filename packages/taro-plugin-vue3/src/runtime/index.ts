@@ -11,7 +11,7 @@ hooks.tap('initNativeApi', function (taro) {
   taro.setGlobalDataPlugin = setGlobalDataPlugin
 })
 
-hooks.tap('toRaw', function (proxyObj) {
+hooks.tap('proxyToRaw', function (proxyObj) {
   return toRaw(proxyObj)
 })
 

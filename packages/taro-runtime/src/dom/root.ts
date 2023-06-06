@@ -86,7 +86,7 @@ export class TaroRootElement extends TaroElement {
   public performUpdate (initRender = false, prerender?: Func) {
     this.pendingUpdate = true
 
-    const ctx = hooks.call('toRaw', this.ctx)!
+    const ctx = hooks.call('proxyToRaw', this.ctx)!
 
     setTimeout(() => {
       const setDataMark = `${SET_DATA} 开始时间戳 ${Date.now()}`

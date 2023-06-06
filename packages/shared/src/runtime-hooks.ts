@@ -240,7 +240,7 @@ type ITaroHooks = {
   patchElement: (node) => void
 
   /** 解 Proxy */
-  toRaw: (proxyObj) => Record<any, any>
+  proxyToRaw: (proxyObj) => Record<any, any>
 }
 
 export const hooks = new TaroHooks<ITaroHooks>({
@@ -301,7 +301,7 @@ export const hooks = new TaroHooks<ITaroHooks>({
 
   onAddEvent: TaroHook(HOOK_TYPE.SINGLE),
 
-  toRaw: TaroHook(HOOK_TYPE.SINGLE, function (proxyObj) {
+  proxyToRaw: TaroHook(HOOK_TYPE.SINGLE, function (proxyObj) {
     return proxyObj
   }),
 
