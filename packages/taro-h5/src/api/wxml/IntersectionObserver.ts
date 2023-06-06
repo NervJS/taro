@@ -1,4 +1,4 @@
-import Taro from '@tarojs/taro'
+import Taro from '@tarojs/api'
 
 import { findDOM } from '../../utils'
 // pollify
@@ -36,8 +36,8 @@ export class TaroH5IntersectionObserver implements Taro.IntersectionObserver {
   // selector 的容器节点
   protected get container () {
     const container: TElement = (
-      this._component !== null 
-        ? (findDOM(this._component) as HTMLElement || document) 
+      this._component !== null
+        ? (findDOM(this._component) as HTMLElement || document)
         : document
     )
     return container
@@ -96,15 +96,17 @@ export class TaroH5IntersectionObserver implements Taro.IntersectionObserver {
       console.warn('Intersection observer will be ignored because no relative nodes are found.')
       return
     }
-  
-    const nodeList = this._options.observeAll 
-      ? this.container.querySelectorAll(targetSelector) 
+
+    const nodeList = this._options.observeAll
+      ? this.container.querySelectorAll(targetSelector)
       : [this.container.querySelector(targetSelector)]
-    
-    nodeList.forEach(element => {
-      if (!element) return
-      this._observerInst.observe(element)
-      this._listeners.push({ element, callback })
+
+    Taro.nextTick(() => {
+      nodeList.forEach(element => {
+        if (!element) return
+        this._observerInst.observe(element)
+        this._listeners.push({ element, callback })
+      })
     })
   }
 
