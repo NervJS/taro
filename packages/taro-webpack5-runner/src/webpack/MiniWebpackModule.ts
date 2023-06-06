@@ -49,7 +49,8 @@ export class MiniWebpackModule {
     this.__postcssOption = getDefaultPostcssConfig({
       designWidth,
       deviceRatio,
-      postcssOption
+      postcssOption,
+      alias: config.alias,
     })
 
     const postcssPlugins = getPostcssPlugins(appPath, this.__postcssOption)

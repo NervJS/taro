@@ -85,6 +85,11 @@ interface LivePlayerProps extends StandardProps {
    * @default false
    */
   enableAutoRotation?: boolean
+  /** 是否支持投屏。开启后，可以通过 LivePlayerContext 上相关方法进行操作。
+   * @supported weapp
+   * @default false
+   */
+  enableCasting?: boolean
   /** 播放状态变化事件，detail = {code}
    * @supported weapp, swan, tt, qq, jd
    */
@@ -117,6 +122,18 @@ interface LivePlayerProps extends StandardProps {
    * @supported qq
    */
   onMetaDataChange?: CommonEventFunction
+  /** 用户选择投屏设备时触发 detail = { state: "success"/"fail" }
+   * @supported weapp
+   */
+  onCastingUserSelect?: CommonEventFunction
+  /** 投屏成功/失败时触发 detail = { type, state: "success"/"fail" }
+   * @supported weapp
+   */
+  onCastingStateChange?: CommonEventFunction
+  /** 投屏被中断时触发
+   * @supported weapp
+   */
+  onCastingInterrupt?: CommonEventFunction
 }
 declare namespace LivePlayerProps {
   /** mode 的合法值 */
