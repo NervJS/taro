@@ -5,6 +5,7 @@ import queryString from 'query-string'
 import { bindPageResize } from '../events/resize'
 import { bindPageScroll } from '../events/scroll'
 import { setHistoryMode } from '../history'
+import { loadRouterStyle } from '../style'
 import { initTabbar } from '../tabbar'
 import { addLeadingSlash, stripBasename } from '../utils'
 
@@ -49,6 +50,15 @@ export default class MultiPageHandler {
 
   get search () { return location.search.substr(1) }
 
+  get usingWindowScroll () {
+    let usingWindowScroll = true
+    if (typeof this.pageConfig?.usingWindowScroll === 'boolean') {
+      usingWindowScroll = this.pageConfig.usingWindowScroll
+    }
+    (window as any).__taroAppConfig.usingWindowScroll = usingWindowScroll
+    return usingWindowScroll
+  }
+
   getQuery (search = '', options: Record<string, unknown> = {}) {
     search = search ? `${search}&${this.search}` : this.search
     const query = search
@@ -59,6 +69,8 @@ export default class MultiPageHandler {
 
   mount () {
     setHistoryMode(this.routerMode, this.router.basename)
+
+    loadRouterStyle(this.usingWindowScroll)
 
     const appId = this.appId
     let app = document.getElementById(appId)
@@ -107,11 +119,13 @@ export default class MultiPageHandler {
     if (!page) return
 
     page.onLoad?.(this.getQuery('', page.options), () => {
-      const pageEl = this.getPageContainer(page)
-      this.isTabBar && pageEl?.classList.add('taro_tabbar_page')
+      if (this.isTabBar) {
+        const pageEl = this.getPageContainer(page)
+        pageEl?.classList.add('taro_tabbar_page')
+      }
       this.onReady(page, true)
       page.onShow?.()
-      this.bindPageEvents(page, pageEl, pageConfig)
+      this.bindPageEvents(page, pageConfig)
     })
   }
 
@@ -125,15 +139,18 @@ export default class MultiPageHandler {
       ? document.querySelector(`.taro_page#${id}`)
       : document.querySelector('.taro_page') ||
     document.querySelector('.taro_router')) as HTMLDivElement
-    return el || window
+    return el
   }
 
-  bindPageEvents (page: PageInstance, pageEl?: HTMLElement | null, config: Partial<PageConfig> = {}) {
-    if (!pageEl) {
-      pageEl = this.getPageContainer() as HTMLElement
-    }
+  getScrollingElement (page?: PageInstance | null) {
+    if (this.usingWindowScroll) return window
+    return this.getPageContainer(page) || window
+  }
+
+  bindPageEvents (page: PageInstance, config: Partial<PageConfig> = {}) {
+    const scrollEl = this.getScrollingElement(page)
     const distance = config.onReachBottomDistance || this.config.window?.onReachBottomDistance || 50
-    bindPageScroll(page, pageEl, distance)
+    bindPageScroll(page, scrollEl, distance)
     bindPageResize(page)
   }
 }
