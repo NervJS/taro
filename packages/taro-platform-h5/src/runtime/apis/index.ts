@@ -1,5 +1,6 @@
 import definition from '@tarojs/plugin-platform-h5/dist/definition.json'
-import { isMatchWith, set } from 'lodash-es'
+import isMatchWith from 'lodash-es/isMatchWith'
+import set from 'lodash-es/set'
 
 import Taro from './taro'
 

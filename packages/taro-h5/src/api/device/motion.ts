@@ -1,5 +1,5 @@
 import Taro from '@tarojs/api'
-import { throttle } from 'lodash-es'
+import throttle from 'lodash-es/throttle'
 
 import { CallbackManager, MethodHandler } from '../../utils/handler'
 
