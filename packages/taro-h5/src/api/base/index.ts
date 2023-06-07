@@ -8,7 +8,7 @@ export const env = {
 }
 
 // Note: 该方法由 taro-plugin-platform-h5 实现
-// export const canIUse = temporarilyNotSupport('canIUse')
+// export const canIUse = /* @__PURE__ */ temporarilyNotSupport('canIUse')
 
 export function arrayBufferToBase64 (arrayBuffer: ArrayBuffer) {
   return fromByteArray(arrayBuffer as Uint8Array)
