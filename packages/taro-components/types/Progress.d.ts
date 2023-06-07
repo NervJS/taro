@@ -54,7 +54,7 @@ interface ProgressProps extends StandardProps {
   activeMode?: 'backwards' | 'forwards'
   /** 进度增加 1% 所需毫秒数
    * @default 30
-   * @supported weapp, swan, jd, h5
+   * @supported weapp, swan, tt, jd, h5
    */
   duration?: number
   /** 无障碍访问，（属性）元素的额外描述
@@ -62,7 +62,7 @@ interface ProgressProps extends StandardProps {
    */
   ariaLabel?: string
   /** 动画完成事件
-   * @supported weapp, qq, jd, h5
+   * @supported weapp, tt, qq, jd, h5
    */
   onActiveEnd?: CommonEventFunction
 }

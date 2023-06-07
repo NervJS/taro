@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/components-rn",
-  "version": "3.6.5",
+  "version": "3.6.7",
   "description": "多端解决方案基础组件（RN）",
   "main": "./dist/index.js",
   "scripts": {
@@ -9,8 +9,8 @@
     "dev": "pnpm run assets && tsc --watch",
     "lint": "eslint .",
     "test": "jest --silent",
-    "test:dev": "jest --watch",
     "test:ci": "jest --ci --silent --coverage false",
+    "test:dev": "jest --watch",
     "test:coverage": "jest --coverage"
   },
   "files": [

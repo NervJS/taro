@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/service",
-  "version": "3.6.5",
+  "version": "3.6.7",
   "description": "Taro Service",
   "main": "index.js",
   "types": "types/index.d.ts",
@@ -10,8 +10,9 @@
     "prod": "tsc",
     "clean": "rimraf dist types",
     "prepack": "pnpm run build",
-    "test": "jest",
-    "test:dev": "jest --watch"
+    "test": "cross-env NODE_ENV=jest jest",
+    "test:ci": "cross-env NODE_ENV=jest jest --ci -i --passWithNoTests",
+    "test:dev": "cross-env NODE_ENV=jest jest --watch"
   },
   "repository": {
     "type": "git",

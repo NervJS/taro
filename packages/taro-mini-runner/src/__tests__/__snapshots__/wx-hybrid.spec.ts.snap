@@ -21,7 +21,7 @@ require("./taro");
         var mocks_taro = __webpack_require__(0);
         const needPromiseApis = new Set([ "addFileToFavorites", "addVideoToFavorites", "authPrivateMessage", "checkIsAddedToMyMiniProgram", "chooseContact", "cropImage", "disableAlertBeforeUnload", "editImage", "enableAlertBeforeUnload", "getBackgroundFetchData", "getChannelsLiveInfo", "getChannelsLiveNoticeInfo", "getFuzzyLocation", "getGroupEnterInfo", "getLocalIPAddress", "getShareInfo", "getUserProfile", "getWeRunData", "join1v1Chat", "openChannelsActivity", "openChannelsEvent", "openChannelsLive", "openChannelsUserProfile", "openCustomerServiceChat", "openVideoEditor", "saveFileToDisk", "scanItem", "setEnable1v1Chat", "setWindowSize", "sendBizRedPacket", "startFacialRecognitionVerify" ]);
         function initNativeApi(taro) {
-            Object(mocks_taro["g"])(taro, wx, {
+            Object(mocks_taro["f"])(taro, wx, {
                 needPromiseApis: needPromiseApis,
                 modifyApis(apis) {
                     apis.delete("lanDebug");
@@ -431,8 +431,8 @@ require("./taro");
                 return config;
             }
         };
-        Object(mocks_taro["f"])(hostConfig);
-        Object(mocks_taro["e"])(components);
+        Object(mocks_taro["e"])(hostConfig);
+        Object(mocks_taro["d"])(components);
         var taro_runtime = __webpack_require__(2);
         var classCallCheck = __webpack_require__(5);
         var createClass = __webpack_require__(7);
@@ -490,11 +490,6 @@ require("./taro");
             baseFontSize: 20,
             unitPrecision: undefined,
             targetUnit: undefined
-        });
-        Object(mocks_taro["initAppInfo"])({
-            platform: "MiniProgram",
-            taroVersion: "3.6.5",
-            designWidth: 750
         });
     }
 }, [ [ 24, 0, 1, 3, 2 ] ] ]);
@@ -1416,13 +1411,13 @@ require("./taro");
 /** filePath: dist/common.js **/
 (wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 2 ], [ function(module, __webpack_exports__, __webpack_require__) {
     "use strict";
-    __webpack_require__.d(__webpack_exports__, "f", (function() {
+    __webpack_require__.d(__webpack_exports__, "e", (function() {
         return mergeReconciler;
     }));
-    __webpack_require__.d(__webpack_exports__, "e", (function() {
+    __webpack_require__.d(__webpack_exports__, "d", (function() {
         return mergeInternalComponents;
     }));
-    __webpack_require__.d(__webpack_exports__, "g", (function() {
+    __webpack_require__.d(__webpack_exports__, "f", (function() {
         return processApis;
     }));
     __webpack_require__.d(__webpack_exports__, "a", (function() {

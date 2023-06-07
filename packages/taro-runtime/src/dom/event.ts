@@ -165,8 +165,10 @@ export function eventHandler (event: MpEvent) {
   if (node) {
     const dispatch = () => {
       const e = createEvent(event, node)
+
       hooks.call('modifyTaroEvent', e, node)
-      node.dispatchEvent(e)
+      hooks.call('dispatchTaroEvent', e, node)
+      hooks.call('dispatchTaroEventFinish', e, node)
     }
     if (hooks.isExist('batchedEventUpdates')) {
       const type = event.type

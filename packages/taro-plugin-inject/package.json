@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/plugin-inject",
-  "version": "3.6.5",
+  "version": "3.6.7",
   "description": "Taro 小程序端平台中间层插件",
   "author": "luckyadam",
   "homepage": "https://github.com/nervjs/taro",

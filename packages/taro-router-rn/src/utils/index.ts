@@ -129,7 +129,14 @@ export function hasJumpAnimate () :boolean{
   return true
 }
 
-
 export function updateJumpAnimate (needAnimate: boolean){
   globalAny.__taroJumpAnimate = needAnimate
+}
+
+export function updateCurrentJumpUrl (path: string){
+  globalAny.__taroJumpUrl = path
+}
+
+export function getCurrentJumpUrl (): string{
+  return globalAny?.__taroJumpUrl  ?? ''
 }

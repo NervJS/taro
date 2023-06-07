@@ -527,11 +527,6 @@ require("./taro");
             unitPrecision: undefined,
             targetUnit: undefined
         });
-        undefined({
-            platform: "MiniProgram",
-            taroVersion: "3.6.5",
-            designWidth: 750
-        });
     }
 }, [ [ 15, 0, 1, 3, 2 ] ] ]);
 
@@ -2315,11 +2310,6 @@ require("./taro");
             unitPrecision: undefined,
             targetUnit: undefined
         });
-        undefined({
-            platform: "MiniProgram",
-            taroVersion: "3.6.5",
-            designWidth: 750
-        });
     }
 }, [ [ 15, 0, 1, 3, 2 ] ] ]);
 
@@ -4040,11 +4030,6 @@ require("./taro");
             baseFontSize: 20,
             unitPrecision: undefined,
             targetUnit: undefined
-        });
-        undefined({
-            platform: "MiniProgram",
-            taroVersion: "3.6.5",
-            designWidth: 750
         });
     }
 }, [ [ 15, 0, 1, 3, 2 ] ] ]);

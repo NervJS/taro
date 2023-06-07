@@ -18,10 +18,10 @@ require("./taro");
     18: function(module, __webpack_exports__, __webpack_require__) {
         "use strict";
         __webpack_require__.r(__webpack_exports__);
-        var mocks_taro = __webpack_require__(2);
+        var mocks_taro = __webpack_require__(3);
         var needPromiseApis = new Set([ "addFileToFavorites", "addVideoToFavorites", "authPrivateMessage", "checkIsAddedToMyMiniProgram", "chooseContact", "cropImage", "disableAlertBeforeUnload", "editImage", "enableAlertBeforeUnload", "getBackgroundFetchData", "getChannelsLiveInfo", "getChannelsLiveNoticeInfo", "getFuzzyLocation", "getGroupEnterInfo", "getLocalIPAddress", "getShareInfo", "getUserProfile", "getWeRunData", "join1v1Chat", "openChannelsActivity", "openChannelsEvent", "openChannelsLive", "openChannelsUserProfile", "openCustomerServiceChat", "openVideoEditor", "saveFileToDisk", "scanItem", "setEnable1v1Chat", "setWindowSize", "sendBizRedPacket", "startFacialRecognitionVerify" ]);
         function initNativeApi(taro) {
-            Object(mocks_taro["g"])(taro, wx, {
+            Object(mocks_taro["f"])(taro, wx, {
                 needPromiseApis: needPromiseApis,
                 modifyApis: function modifyApis(apis) {
                     apis.delete("lanDebug");
@@ -433,8 +433,8 @@ require("./taro");
                 return config;
             }
         };
-        Object(mocks_taro["f"])(hostConfig);
-        Object(mocks_taro["e"])(components);
+        Object(mocks_taro["e"])(hostConfig);
+        Object(mocks_taro["d"])(components);
         var taro_runtime = __webpack_require__(1);
         var classCallCheck = __webpack_require__(4);
         var createClass = __webpack_require__(6);
@@ -507,11 +507,6 @@ require("./taro");
             baseFontSize: 20,
             unitPrecision: undefined,
             targetUnit: undefined
-        });
-        Object(mocks_taro["initAppInfo"])({
-            platform: "MiniProgram",
-            taroVersion: "3.6.5",
-            designWidth: 750
         });
     }
 }, [ [ 18, 0, 1, 3, 2 ] ] ]);
@@ -1469,15 +1464,15 @@ h�hځ� �r������Nb2��х��K~��>;;ːL�1�
     "use strict";
     __webpack_require__.r(__webpack_exports__);
     __webpack_exports__["default"] = "react-mock";
-}, , function(module, __webpack_exports__, __webpack_require__) {
+}, , , function(module, __webpack_exports__, __webpack_require__) {
     "use strict";
-    __webpack_require__.d(__webpack_exports__, "f", (function() {
+    __webpack_require__.d(__webpack_exports__, "e", (function() {
         return mergeReconciler;
     }));
-    __webpack_require__.d(__webpack_exports__, "e", (function() {
+    __webpack_require__.d(__webpack_exports__, "d", (function() {
         return mergeInternalComponents;
     }));
-    __webpack_require__.d(__webpack_exports__, "g", (function() {
+    __webpack_require__.d(__webpack_exports__, "f", (function() {
         return processApis;
     }));
     __webpack_require__.d(__webpack_exports__, "a", (function() {
@@ -1552,8 +1547,8 @@ h�hځ� �r������Nb2��х��K~��>;;ːL�1�
         var inherits = __webpack_require__(7);
         var createSuper = __webpack_require__(5);
         var react = __webpack_require__(0);
-        var taro_components = __webpack_require__(3);
-        var taro = __webpack_require__(2);
+        var taro_components = __webpack_require__(2);
+        var taro = __webpack_require__(3);
         var custom_tab_bar = __webpack_require__(17);
         var custom_tab_bar_Index = function(_Component) {
             Object(inherits["a"])(Index, _Component);
@@ -1614,7 +1609,7 @@ h�hځ� �r������Nb2��х��K~��>;;ːL�1�
         var inherits = __webpack_require__(7);
         var createSuper = __webpack_require__(5);
         var react = __webpack_require__(0);
-        var taro_components = __webpack_require__(3);
+        var taro_components = __webpack_require__(2);
         var detail_Index = function(_Component) {
             Object(inherits["a"])(Index, _Component);
             var _super = Object(createSuper["a"])(Index);
@@ -1662,7 +1657,7 @@ h�hځ� �r������Nb2��х��K~��>;;ːL�1�
         var inherits = __webpack_require__(7);
         var createSuper = __webpack_require__(5);
         var react = __webpack_require__(0);
-        var taro_components = __webpack_require__(3);
+        var taro_components = __webpack_require__(2);
         var index_Index = function(_Component) {
             Object(inherits["a"])(Index, _Component);
             var _super = Object(createSuper["a"])(Index);
@@ -1708,7 +1703,7 @@ h�hځ� �r������Nb2��х��K~��>;;ːL�1�
         "use strict";
         var _unused_webpack_default_export = "taro-runtime-mock";
     },
-    3: function(module, __webpack_exports__, __webpack_require__) {
+    2: function(module, __webpack_exports__, __webpack_require__) {
         "use strict";
         var _unused_webpack_default_export = "taro-components-mock";
     },

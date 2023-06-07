@@ -1,6 +1,7 @@
 import {
   Current,
   document,
+  getPath,
   injectPageInstance
 } from '@tarojs/runtime'
 import { ensure, hooks, isBoolean, isFunction, isWebPlatform, noop } from '@tarojs/shared'
@@ -34,14 +35,16 @@ function setReconciler () {
   })
 
   if (isWeb) {
-    hooks.tap('createPullDownComponent', (el, path, vue: VueConstructor) => {
+    hooks.tap('createPullDownComponent', (el, path, vue: VueConstructor, _, stampId: string) => {
       const injectedPage = vue.extend({
         props: {
           tid: String
         },
         mixins: [el as ComponentOptions<VueCtor>, {
           created () {
-            injectPageInstance(this, path)
+            const pagePath = stampId ? getPath(path, { stamp: stampId }) : path
+            
+            injectPageInstance(this, pagePath)
           }
         }]
       })
