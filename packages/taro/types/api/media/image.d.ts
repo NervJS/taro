@@ -312,7 +312,7 @@ declare module '../../index' {
 
   interface TaroStatic {
     /** 保存图片到系统相册。需要[用户授权](https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/authorize.html) scope.writePhotosAlbum
-     * @supported weapp, alipay, swan, tt, rn
+     * @supported weapp, alipay, swan, tt, h5, rn
      * @example
      * ```tsx
      * Taro.saveImageToPhotosAlbum({

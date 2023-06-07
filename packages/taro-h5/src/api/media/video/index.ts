@@ -3,8 +3,9 @@ import Taro from '@tarojs/api'
 import { findDOM, temporarilyNotSupport } from '../../../utils'
 
 // 视频
-export const saveVideoToPhotosAlbum: typeof Taro.saveVideoToPhotosAlbum = temporarilyNotSupport('saveVideoToPhotosAlbum')
-export const openVideoEditor = temporarilyNotSupport('openVideoEditor')
+export * from './saveVideoToPhotosAlbum'
+
+export const openVideoEditor = /* @__PURE__ */ temporarilyNotSupport('openVideoEditor')
 
 export * from './getVideoInfo'
 
@@ -17,7 +18,7 @@ export const createVideoContext: typeof Taro.createVideoContext = (id, inst) => 
   return el?.querySelector(`taro-video-core[id=${id}]`) as unknown as Taro.VideoContext
 }
 
-export const compressVideo = temporarilyNotSupport('compressVideo')
+export const compressVideo = /* @__PURE__ */ temporarilyNotSupport('compressVideo')
 
 export * from './chooseMedia'
 export * from './chooseVideo'
