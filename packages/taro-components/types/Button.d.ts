@@ -70,28 +70,28 @@ interface ButtonProps extends StandardProps {
   /** 会话来源
    *
    * 生效时机：`open-type="contact"`
-   * @supported weapp
+   * @supported weapp, swan
    */
   sessionFrom?: string
   /** 会话内消息卡片标题
    *
    * 生效时机：`open-type="contact"`
    * @default 当前标题
-   * @supported weapp
+   * @supported weapp, swan
    */
   sendMessageTitle?: string
   /** 会话内消息卡片点击跳转小程序路径
    *
    * 生效时机：`open-type="contact"`
    * @default 当前标题
-   * @supported weapp
+   * @supported weapp, swan
    */
   sendMessagePath?: string
   /** 会话内消息卡片图片
    *
    * 生效时机：`open-type="contact"`
    * @default 截图
-   * @supported weapp
+   * @supported weapp, swan
    */
   sendMessageImg?: string
   /** 打开 APP 时，向 APP 传递的参数
@@ -109,7 +109,7 @@ interface ButtonProps extends StandardProps {
   /** 显示会话内消息卡片
    *
    * 生效时机：`open-type="contact"`
-   * @supported weapp
+   * @supported weapp, swan
    * @default false
    */
   showMessageCard?: boolean
@@ -185,7 +185,7 @@ interface ButtonProps extends StandardProps {
   onContact?: CommonEventFunction<ButtonProps.onContactEventDetail>
   /** 获取用户手机号回调
    *
-   * 生效时机：`open-type="getphonenumber"`
+   * 生效时机：`open-type="getPhoneNumber"`
    * @supported weapp, alipay, swan, tt, jd
    */
   onGetPhoneNumber?: CommonEventFunction<ButtonProps.onGetPhoneNumberEventDetail>
@@ -198,7 +198,7 @@ interface ButtonProps extends StandardProps {
   /** 在打开授权设置页后回调
    *
    * 生效时机：`open-type="openSetting"`
-   * @supported weapp, swan, qq, jd
+   * @supported weapp, swan, tt, qq, jd
    */
   onOpenSetting?: CommonEventFunction<ButtonProps.onOpenSettingEventDetail>
   /** 打开 APP 成功的回调
@@ -504,6 +504,7 @@ declare namespace ButtonProps {
  *         <Button size='mini' type='primary'>按钮</Button>
  *         <Button size='mini' >按钮</Button>
  *         <Button size='mini' type='warn'>按钮</Button>
+ *         <Button openType='getPhoneNumber' onGetPhoneNumber="callback">按钮</Button>
  *       </View>
  *     )
  *   }
@@ -529,6 +530,7 @@ declare namespace ButtonProps {
  *     <button size="mini" type="primary">按钮</button>
  *     <button size="mini" >按钮</button>
  *     <button size="mini" type="warn">按钮</button>
+ *     <button open-type="getPhoneNumber" `@getphonenumber="callback">按钮</button>
  *   </view>
  * </template>
  *

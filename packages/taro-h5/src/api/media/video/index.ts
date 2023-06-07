@@ -4,7 +4,8 @@ import { findDOM, shouldBeObject, temporarilyNotSupport } from '../../../utils'
 import { MethodHandler } from '../../../utils/handler'
 
 // 视频
-export const saveVideoToPhotosAlbum = temporarilyNotSupport('saveVideoToPhotosAlbum')
+export * from './saveVideoToPhotosAlbum'
+
 export const openVideoEditor = temporarilyNotSupport('openVideoEditor')
 export const getVideoInfo = temporarilyNotSupport('getVideoInfo')
 

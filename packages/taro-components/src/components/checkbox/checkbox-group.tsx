@@ -6,7 +6,7 @@ import { Component, h, ComponentInterface, Host, Prop, Event, EventEmitter, List
 })
 export class CheckboxGroup implements ComponentInterface {
   private uniqueName = Date.now().toString(36)
-  #value: string[]
+  #value: (string | number)[]
 
   @Prop() name
 

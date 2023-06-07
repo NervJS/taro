@@ -103,15 +103,16 @@ ${exampleCommand}`))
    */
   protected getOptions (extraOptions = {}) {
     const { ctx, globalObject, fileType, template } = this
-    const config = recursiveMerge(Object.assign({}, this.config, {
+
+    const config = recursiveMerge(Object.assign({}, this.config), {
       env: {
         FRAMEWORK: JSON.stringify(this.config.framework),
         TARO_ENV: JSON.stringify(this.platform),
         TARO_PLATFORM: JSON.stringify(this.platformType),
         TARO_VERSION: JSON.stringify(getPkgVersion())
       }
-    }))
-  
+    })
+
     return {
       ...config,
       nodeModulesPath: ctx.paths.nodeModulesPath,

@@ -13,7 +13,7 @@ if (fs.existsSync(componentsPath)) {
   }
 
   if (!code.includes('slots.default')) {
-    const comps = ['Block', 'CustomWrapper']
+    const comps = ['Block']
     code = code.replace('/* auto-generated vue proxies */', `/* auto-generated vue proxies */\nimport { defineComponent } from 'vue'`)
     code = code.replace(new RegExp(`export const (${comps.join('|')}) = \\/\\*\\@__PURE__\\*\\/ defineContainer[^;]*;`, 'ig'), 'export const $1 = defineComponent((__props, { slots }) => slots.default);')
   }
