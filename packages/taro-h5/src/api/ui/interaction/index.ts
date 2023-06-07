@@ -302,7 +302,7 @@ Taro.eventCenter.on('__afterTaroRouterChange', () => {
   }
 })
 
-const enableAlertBeforeUnload = temporarilyNotSupport('enableAlertBeforeUnload')
-const disableAlertBeforeUnload = temporarilyNotSupport('disableAlertBeforeUnload')
+const enableAlertBeforeUnload = /* @__PURE__ */ temporarilyNotSupport('enableAlertBeforeUnload')
+const disableAlertBeforeUnload = /* @__PURE__ */ temporarilyNotSupport('disableAlertBeforeUnload')
 
 export { disableAlertBeforeUnload, enableAlertBeforeUnload, hideLoading, hideToast, showActionSheet, showLoading, showModal, showToast }

@@ -222,7 +222,8 @@ export class XMLHttpRequest extends Events {
 
     // 头信息
     const header = Object.assign({}, this.#header)
-    header.cookie = window.document.cookie
+    // https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Cookies
+    header.cookie = window.document.$$cookie
     if (!this.withCredentials) {
       // 不同源，要求 withCredentials 为 true 才携带 cookie
       const { origin } = parseUrl(url)
