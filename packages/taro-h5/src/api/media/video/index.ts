@@ -6,8 +6,8 @@ import { MethodHandler } from '../../../utils/handler'
 // 视频
 export * from './saveVideoToPhotosAlbum'
 
-export const openVideoEditor = temporarilyNotSupport('openVideoEditor')
-export const getVideoInfo = temporarilyNotSupport('getVideoInfo')
+export const openVideoEditor = /* @__PURE__ */ temporarilyNotSupport('openVideoEditor')
+export const getVideoInfo = /* @__PURE__ */ temporarilyNotSupport('getVideoInfo')
 
 /**
  * 创建 video 上下文 VideoContext 对象。
@@ -18,7 +18,7 @@ export const createVideoContext: typeof Taro.createVideoContext = (id, inst) => 
   return el?.querySelector(`taro-video-core[id=${id}]`) as unknown as Taro.VideoContext
 }
 
-export const compressVideo = temporarilyNotSupport('compressVideo')
+export const compressVideo = /* @__PURE__ */ temporarilyNotSupport('compressVideo')
 
 /**
  * 拍摄视频或从手机相册中选视频。
@@ -80,4 +80,4 @@ export const chooseVideo: typeof Taro.chooseVideo = (options) => {
   })
 }
 
-export const chooseMedia = temporarilyNotSupport('chooseMedia')
+export const chooseMedia = /* @__PURE__ */ temporarilyNotSupport('chooseMedia')
