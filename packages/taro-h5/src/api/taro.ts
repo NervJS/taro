@@ -43,7 +43,7 @@ const taro: typeof Taro = {
   switchTab
 }
 
-const requirePlugin = permanentlyNotSupport('requirePlugin')
+const requirePlugin = /* @__PURE__ */ permanentlyNotSupport('requirePlugin')
 
 function getConfig (): Record<string, any> {
   if (this?.pxTransformConfig) return this.pxTransformConfig

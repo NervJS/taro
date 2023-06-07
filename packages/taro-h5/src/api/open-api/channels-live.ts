@@ -1,9 +1,9 @@
 import { temporarilyNotSupport } from '../../utils'
 
 // 视频号
-export const reserveChannelsLive = temporarilyNotSupport('reserveChannelsLive')
-export const openChannelsLive = temporarilyNotSupport('openChannelsLive')
-export const openChannelsEvent = temporarilyNotSupport('openChannelsEvent')
-export const openChannelsActivity = temporarilyNotSupport('openChannelsActivity')
-export const getChannelsLiveNoticeInfo = temporarilyNotSupport('getChannelsLiveNoticeInfo')
-export const getChannelsLiveInfo = temporarilyNotSupport('getChannelsLiveInfo')
+export const reserveChannelsLive = /* @__PURE__ */ temporarilyNotSupport('reserveChannelsLive')
+export const openChannelsLive = /* @__PURE__ */ temporarilyNotSupport('openChannelsLive')
+export const openChannelsEvent = /* @__PURE__ */ temporarilyNotSupport('openChannelsEvent')
+export const openChannelsActivity = /* @__PURE__ */ temporarilyNotSupport('openChannelsActivity')
+export const getChannelsLiveNoticeInfo = /* @__PURE__ */ temporarilyNotSupport('getChannelsLiveNoticeInfo')
+export const getChannelsLiveInfo = /* @__PURE__ */ temporarilyNotSupport('getChannelsLiveInfo')

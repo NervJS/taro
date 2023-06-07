@@ -75,7 +75,7 @@ const getLocationByW3CApi: (options: Taro.getLocation.Option) => Promise<Taro.ge
   )
 }
 
-export const getLocation = processOpenApi({
+export const getLocation = /* @__PURE__ */ processOpenApi({
   name: 'getLocation',
   standardMethod: getLocationByW3CApi
 })
