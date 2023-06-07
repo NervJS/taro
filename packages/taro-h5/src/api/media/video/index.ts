@@ -4,7 +4,8 @@ import { findDOM, shouldBeObject, temporarilyNotSupport } from '../../../utils'
 import { MethodHandler } from '../../../utils/handler'
 
 // 视频
-export const saveVideoToPhotosAlbum: typeof Taro.saveVideoToPhotosAlbum = /* @__PURE__ */ temporarilyNotSupport('saveVideoToPhotosAlbum')
+export * from './saveVideoToPhotosAlbum'
+
 export const openVideoEditor = /* @__PURE__ */ temporarilyNotSupport('openVideoEditor')
 export const getVideoInfo = /* @__PURE__ */ temporarilyNotSupport('getVideoInfo')
 
