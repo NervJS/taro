@@ -51,7 +51,8 @@ const plugins: any[] = []
 export const getDefaultPostcssConfig = function ({
   designWidth,
   deviceRatio,
-  option = {} as IPostcssOption
+  option = {} as IPostcssOption,
+  alias = {}
 }): [string, any, Func?][] {
   const { autoprefixer, pxtransform, htmltransform, url, ...options } = option
   if (designWidth) {
@@ -72,6 +73,7 @@ export const getDefaultPostcssConfig = function ({
     ['postcss-pxtransform', pxtransformOption, require('postcss-pxtransform')],
     ['postcss-html-transform', htmltransformOption, require('postcss-html-transform')],
     ['postcss-plugin-constparse', defaultConstparseOption, require('postcss-plugin-constparse')],
+    ['postcss-alias', { config: { alias } }, require('./postcss-alias').default],
     ['postcss-url', urlOption, require('postcss-url')],
     ...Object.entries(options)
   ]

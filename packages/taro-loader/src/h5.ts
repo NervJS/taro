@@ -2,7 +2,7 @@ import { readConfig } from '@tarojs/helper'
 import { AppConfig } from '@tarojs/taro'
 import { IH5Config } from '@tarojs/taro/types/compile'
 import { getOptions, stringifyRequest } from 'loader-utils'
-import { dirname, join } from 'path'
+import { dirname, join, sep } from 'path'
 
 import { REG_POST } from './constants'
 
@@ -17,7 +17,7 @@ function genResource (path: string, pages: Map<string, string>, loaderContext: w
     const page = ${importDependent}(${stringify(join(loaderContext.context, syncFileName || path))})
     return [page, context, params]
   }
-}, ${JSON.stringify(readConfig(pages.get(path)!))})`
+}, ${JSON.stringify(readConfig(pages.get(path.split(sep).join('/'))!))})`
 }
 
 export default function (this: webpack.LoaderContext<any>) {
@@ -29,7 +29,7 @@ export default function (this: webpack.LoaderContext<any>) {
   const isMultiRouterMode = routerMode === 'multi'
 
   const pathDirname = dirname(this.resourcePath)
-  const pageName = isMultiRouterMode ? join(pathDirname, options.filename).replace(options.sourceDir + '/', '') : ''
+  const pageName = isMultiRouterMode ? join(pathDirname, options.filename).replace(options.sourceDir + sep, '') : ''
   const pages: Map<string, string> = new Map(options.pages)
   const pxTransformConfig = options.pxTransformConfig
   const runtimePath = Array.isArray(options.runtimePath) ? options.runtimePath : [options.runtimePath]

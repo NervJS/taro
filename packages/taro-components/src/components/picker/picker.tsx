@@ -1,4 +1,4 @@
-import { Component, h, ComponentInterface, Prop, Event, EventEmitter, Host, State, Watch, Element } from '@stencil/core'
+import { Component, ComponentInterface, Element, Event, EventEmitter, Host, h, Prop, State, Watch } from '@stencil/core'
 import classNames from 'classnames'
 import {
   hoursRange,
@@ -20,6 +20,11 @@ import {
 export type Mode = 'selector' | 'multiSelector' | 'time' | 'date'
 export type Fields = 'day' | 'month' | 'year'
 export type PickerValue = number | number[] | string
+
+export interface PickerText {
+  okText?: string
+  cancelText?: string
+}
 
 export interface PickerDate {
   _value: Date
@@ -48,6 +53,7 @@ export class Picker implements ComponentInterface {
   @Prop() end = ''
   @Prop() fields: Fields = 'day'
   @Prop() name = ''
+  @Prop() textProps: PickerText = {}
 
   @State() pickerValue: PickerValue = []
   @State() height: number[] = []
@@ -159,6 +165,8 @@ export class Picker implements ComponentInterface {
       } else {
         throw new Error('Date Interval Error')
       }
+    } else {
+      throw new Error(`Picker not support "${mode}" mode.`)
     }
 
     // Prop 变化时，无论是否正在显示弹层，都更新 height 值
@@ -257,6 +265,14 @@ export class Picker implements ComponentInterface {
     })
   }
 
+  handleColumnChange = (e: CustomEvent) => {
+    const { columnId, height } = e.detail
+    this.onColumnChange.emit({
+      column: Number(columnId),
+      value: (TOP - height) / LINE_HEIGHT
+    })
+  }
+
   // 点击取消按钮或蒙层
   handleCancel = () => {
     this.hidePicker()
@@ -295,13 +311,6 @@ export class Picker implements ComponentInterface {
         requestAnimationFrame(() => (this.height = height))
       }
     }
-  }
-
-  handleColumnChange = (height: number, columnId: string) => {
-    this.onColumnChange.emit({
-      column: Number(columnId),
-      value: (TOP - height) / LINE_HEIGHT
-    })
   }
 
   updateDay = (value: number, fields: number) => {
@@ -492,10 +501,10 @@ export class Picker implements ComponentInterface {
           <div class={clsSlider}>
             <div class='weui-picker__hd'>
               <div class='weui-picker__action' onClick={this.handleCancel}>
-                取消
+                {this.textProps.cancelText ?? '取消'}
               </div>
               <div class='weui-picker__action' onClick={this.handleChange}>
-                确定
+                {this.textProps.okText ?? '确定'}
               </div>
             </div>
             <div class='weui-picker__bd'>{pickerGroup}</div>

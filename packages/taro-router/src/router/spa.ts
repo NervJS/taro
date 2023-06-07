@@ -172,7 +172,7 @@ export function createRouter (
       }
 
       const page = createPageConfig(
-        enablePullDownRefresh ? hooks.call('createPullDownComponent', el, location.pathname, framework, handler.PullDownRefresh) : el,
+        enablePullDownRefresh ? hooks.call('createPullDownComponent', el, pathname, framework, handler.PullDownRefresh, pageStampId) : el,
         pathname + stringify(handler.getQuery(pageStampId)),
         {},
         loadConfig
@@ -180,12 +180,6 @@ export function createRouter (
       if (params) page.options = params
       handler.load(page, pageConfig, pageStampId, stacksIndex)
     }
-
-    eventCenter.trigger('__afterTaroRouterChange', {
-      toLocation: {
-        path: handler.pathname
-      }
-    })
   }
 
   const routePath = addLeadingSlash(stripBasename(history.location.pathname, handler.basename))

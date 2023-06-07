@@ -9,7 +9,7 @@ export const env = {
   TARO_VERSION: process.env.TARO_VERSION,
 }
 
-export const canIUse = temporarilyNotSupport('canIUse')
+export const canIUse = /* @__PURE__ */ temporarilyNotSupport('canIUse')
 
 export function arrayBufferToBase64 (arrayBuffer: ArrayBuffer) {
   return fromByteArray(arrayBuffer as Uint8Array)

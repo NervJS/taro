@@ -3,7 +3,7 @@ import { NavigationContainerRef, StackActions } from '@react-navigation/native'
 import { camelCase } from 'lodash'
 import * as React from 'react'
 
-import { getTabBarPages, handleUrl, setTabInitRoute, updateJumpAnimate } from './utils/index'
+import { getTabBarPages, handleUrl, setTabInitRoute, updateCurrentJumpUrl, updateJumpAnimate } from './utils/index'
 import { BaseOption, CallbackResult } from './utils/types'
 
 
@@ -24,8 +24,6 @@ interface NavigateRef extends NavigationContainerRef<ReactNavigation.RootParamLi
 }
 
 let routeEvtChannel
-
-export const isReadyRef = React.createRef()
 
 export const navigationRef = React.createRef<NavigateRef>()
 
@@ -56,6 +54,7 @@ export function navigate (option: NavigateOption | NavigateBackOption, method: N
   const path = (option as NavigateOption).url
   if (path) {
     routeParam = handleUrl(path)
+    updateCurrentJumpUrl(path)
   }
   updateJumpAnimate(true)
   try {

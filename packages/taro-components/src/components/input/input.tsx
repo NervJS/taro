@@ -37,7 +37,7 @@ export class Input implements ComponentInterface {
   @Prop() placeholder: string
   @Prop() disabled = false
   @Prop() maxlength = 140
-  @Prop({ attribute: 'focus', reflect: true }) autoFocus = false
+  @Prop({ attribute: 'focus' }) autoFocus = false
   @Prop() confirmType = 'done'
   @Prop() name: string
   @Prop() nativeProps = {}
@@ -101,8 +101,8 @@ export class Input implements ComponentInterface {
     } else {
       this.inputRef?.addEventListener('compositionstart', this.handleComposition)
       this.inputRef?.addEventListener('compositionend', this.handleComposition)
-      this.inputRef?.addEventListener('beforeinput', this.handleBeforeinput)
-      this.inputRef?.addEventListener('textInput', this.handleBeforeinput)
+      this.inputRef?.addEventListener('beforeinput', this.handleBeforeInput)
+      this.inputRef?.addEventListener('textInput', this.handleBeforeInput)
     }
   }
 
@@ -112,8 +112,8 @@ export class Input implements ComponentInterface {
     } else {
       this.inputRef?.removeEventListener('compositionstart', this.handleComposition)
       this.inputRef?.removeEventListener('compositionend', this.handleComposition)
-      this.inputRef?.removeEventListener('beforeinput', this.handleBeforeinput)
-      this.inputRef?.removeEventListener('textInput', this.handleBeforeinput)
+      this.inputRef?.removeEventListener('beforeinput', this.handleBeforeInput)
+      this.inputRef?.removeEventListener('textInput', this.handleBeforeInput)
     }
   }
 
@@ -225,7 +225,7 @@ export class Input implements ComponentInterface {
     }
   }
 
-  handleBeforeinput = (e) => {
+  handleBeforeInput = (e) => {
     if (!e.data) return
     const isNumber = e.data && /[0-9]/.test(e.data)
     if (this.type === 'number' && !isNumber) {

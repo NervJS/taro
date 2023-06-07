@@ -78,7 +78,7 @@ export async function createMultiRouter (
   delete loadConfig['path']
   delete loadConfig['load']
   const page = createPageConfig(
-    enablePullDownRefresh ? hooks.call('createPullDownComponent', el, location.pathname, framework, handler.PullDownRefresh) : el,
+    enablePullDownRefresh ? hooks.call('createPullDownComponent', el, pathName, framework, handler.PullDownRefresh) : el,
     pathName + stringify(launchParam as Record<string, any>),
     {},
     loadConfig

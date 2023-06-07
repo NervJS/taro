@@ -8,6 +8,7 @@ export class InnerAudioContext implements Taro.InnerAudioContext {
   errorStack: CallbackManager
   stopStack: CallbackManager
   __startTime = 0
+  __isFirstPlay = true
 
   constructor () {
     this.Instance = new Audio()
@@ -16,7 +17,8 @@ export class InnerAudioContext implements Taro.InnerAudioContext {
 
     Taro.eventCenter.on('__taroRouterChange', () => { this.stop() })
     this.onPlay(() => {
-      if (this.currentTime !== this.startTime) {
+      if (this.__isFirstPlay) {
+        this.__isFirstPlay = false
         this.seek(this.startTime)
       }
     })
@@ -26,6 +28,7 @@ export class InnerAudioContext implements Taro.InnerAudioContext {
   get autoplay () { return this.Instance?.autoplay || false }
   get buffered () { return this.Instance?.buffered.length || 0 }
   get currentTime () { return this.Instance?.currentTime || 0 }
+  set currentTime (e) { this.seek(e) }
   get duration () { return this.Instance?.duration || 0 }
   set loop (e) { this.setProperty('loop', e) }
   get loop () { return this.Instance?.loop || false }
