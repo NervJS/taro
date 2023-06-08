@@ -60,58 +60,61 @@ declare module '../../index' {
       fail?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
       complete?: (res: TaroGeneral.CallbackResult) => void
-      /** 设置 H5 端是否使用jsonp方式获取数据
+      /** 设置是否使用 jsonp 方式获取数据
        * @default false
        * @supported h5
        */
-      jsonp?: boolean
-      /** 设置 H5 端 jsonp 请求 url 是否需要被缓存
-       * @default false
+      jsonp?: boolean | string
+      /** 设置 jsonp 请求 url 是否需要被缓存
        * @supported h5
        */
-      jsonpCache?: boolean
-      /** 设置 H5 端是否允许跨域请求
+      jsonpCache?: RequestCache
+      /** 设置是否允许跨域请求
        * @default "same-origin"
        * @supported h5
        */
       mode?: keyof CorsMode
-      /** 设置 H5 端是否携带 Cookie
+      /** 设置是否携带 Cookie
        * @default "omit"
        * @supported h5
        */
       credentials?: keyof Credentials
-      /** 设置 H5 端缓存模式
+      /** 设置缓存模式
        * @default "default"
        * @supported h5
        */
       cache?: keyof Cache
-      /** 设置 H5 端请求重试次数
+      /** 设置请求重试次数
        * @default 2
        * @supported h5
        */
       retryTimes?: number
-      /** 设置 H5 端请求的兜底接口
+      /** 设置请求的兜底接口
        * @supported h5
        */
       backup?: string | string[]
-      /** 设置 H5 端请求响应的数据校验函数，若返回 false，则请求兜底接口，若无兜底接口，则报请求失败
+      /** 设置请求中止信号
+       * @supported h5
+       */
+      signal?: AbortSignal
+      /** 设置请求响应的数据校验函数，若返回 false，则请求兜底接口，若无兜底接口，则报请求失败
        * @supported h5
        */
       dataCheck?(): boolean
-      /** 设置 H5 端请求是否使用缓存
+      /** 设置请求是否使用缓存
        * @default false
        * @supported h5
        */
       useStore?: boolean
-      /** 设置 H5 端请求缓存校验的 key
+      /** 设置请求缓存校验的 key
        * @supported h5
        */
       storeCheckKey?: string
-      /** 设置 H5 端请求缓存签名
+      /** 设置请求缓存签名
        * @supported h5
        */
       storeSign?: string
-      /** 设置 H5 端请求校验函数，一般不需要设置
+      /** 设置请求校验函数，一般不需要设置
        * @supported h5
        */
       storeCheck?(): boolean

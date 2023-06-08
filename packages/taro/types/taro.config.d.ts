@@ -154,6 +154,11 @@ declare module './index' {
      * @default: false
      */
     disableScroll?: boolean
+    /** 是否使用页面全局滚动，MPA下默认为全局滚动，SPA默认为局部滚动
+     * 只在H5生效
+     * @default: MPA:true  SPA:false
+     */
+    usingWindowScroll?: boolean
     /** 禁止页面右滑手势返回
      *
      * **注意** 自微信客户端 7.0.5 开始，页面配置中的 disableSwipeBack 属性将不再生效，

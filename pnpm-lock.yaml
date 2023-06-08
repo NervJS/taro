@@ -266,8 +266,11 @@ importers:
       babel-jest: ^29.5.0
       jest: ^29.3.1
       jest-cli: ^29.3.1
+      lodash: ^4.17.21
       ts-jest: ^29.0.5
       typescript: ^4.7.4
+    dependencies:
+      lodash: registry.npmjs.org/lodash/4.17.21
     devDependencies:
       '@babel/core': registry.npmjs.org/@babel/core/7.21.8
       '@babel/types': registry.npmjs.org/@babel/types/7.21.5
@@ -300,11 +303,11 @@ importers:
       babel-plugin-minify-dead-code-elimination: ^0.5.2
       babel-plugin-transform-imports-api: 1.0.0
       babel-plugin-transform-react-jsx-to-rn-stylesheet: workspace:*
-      babel-plugin-transform-taroapi: workspace:*
       core-js: ^3.6.5
       jest: ^29.3.1
       jest-cli: ^29.3.1
       jest-environment-node: ^29.5.0
+      lodash: ^4.17.21
       metro-react-native-babel-preset: ^0.72.1
       react-refresh: ^0.11.0
       ts-jest: ^29.0.5
@@ -327,8 +330,8 @@ importers:
       babel-plugin-minify-dead-code-elimination: registry.npmjs.org/babel-plugin-minify-dead-code-elimination/0.5.2
       babel-plugin-transform-imports-api: registry.npmjs.org/babel-plugin-transform-imports-api/1.0.0
       babel-plugin-transform-react-jsx-to-rn-stylesheet: link:../babel-plugin-transform-react-jsx-to-rn-stylesheet
-      babel-plugin-transform-taroapi: link:../babel-plugin-transform-taroapi
       core-js: registry.npmjs.org/core-js/3.30.2
+      lodash: registry.npmjs.org/lodash/4.17.21
       metro-react-native-babel-preset: registry.npmjs.org/metro-react-native-babel-preset/0.72.3_@babel+core@7.21.8
       react-refresh: registry.npmjs.org/react-refresh/0.11.0
     devDependencies:
@@ -651,6 +654,7 @@ importers:
       stencil-vue2-output-target: 0.0.4
       swiper: 6.8.0
       ts-node: ^10.9.1
+      tsconfig-paths: ^3.14.1
       typescript: ^4.7.4
       weui: ^1.1.2
     dependencies:
@@ -683,6 +687,7 @@ importers:
       puppeteer: registry.npmjs.org/puppeteer/19.11.1_typescript@4.9.5
       stencil-vue2-output-target: registry.npmjs.org/stencil-vue2-output-target/0.0.4_@stencil+core@2.22.3
       ts-node: registry.npmjs.org/ts-node/10.9.1_of4lcaytkze4fgy74ksjb4kg44
+      tsconfig-paths: registry.npmjs.org/tsconfig-paths/3.14.2
       typescript: registry.npmjs.org/typescript/4.9.5
 
   packages/taro-components-advanced:
@@ -955,6 +960,7 @@ importers:
       '@babel/core': ^7.14.5
       '@rollup/plugin-commonjs': ^20.0.0
       '@rollup/plugin-node-resolve': ^8.0.0
+      '@rollup/plugin-typescript': ^11.1.0
       '@tarojs/api': workspace:*
       '@tarojs/components': workspace:*
       '@tarojs/router': workspace:*
@@ -975,13 +981,13 @@ importers:
       jest-transform-css: ^6.0.1
       jsdom: ^21.1.0
       jsonp-retry: ^1.0.3
-      lodash: ^4.17.21
+      lodash-es: 4.17.21
       mock-socket: ^7.1.0
       postcss: ^8.4.18
       query-string: ^7.1.1
       react: ^18.2.0
       react-test-renderer: ^18.2.0
-      rollup: ^2.79.0
+      rollup: ^3.8.1
       rollup-plugin-node-externals: ^5.0.0
       rollup-plugin-postcss: ^3.1.8
       rollup-plugin-ts: ^3.0.2
@@ -999,12 +1005,14 @@ importers:
       ics: registry.npmjs.org/ics/3.1.0
       intersection-observer: registry.npmjs.org/intersection-observer/0.7.0
       jsonp-retry: registry.npmjs.org/jsonp-retry/1.0.3
+      lodash-es: registry.npmjs.org/lodash-es/4.17.21
       query-string: registry.npmjs.org/query-string/7.1.3
       whatwg-fetch: registry.npmjs.org/whatwg-fetch/3.6.2
     devDependencies:
       '@babel/core': registry.npmjs.org/@babel/core/7.21.8
-      '@rollup/plugin-commonjs': registry.npmjs.org/@rollup/plugin-commonjs/20.0.0_rollup@2.79.1
-      '@rollup/plugin-node-resolve': registry.npmjs.org/@rollup/plugin-node-resolve/8.4.0_rollup@2.79.1
+      '@rollup/plugin-commonjs': registry.npmjs.org/@rollup/plugin-commonjs/20.0.0_rollup@3.21.5
+      '@rollup/plugin-node-resolve': registry.npmjs.org/@rollup/plugin-node-resolve/8.4.0_rollup@3.21.5
+      '@rollup/plugin-typescript': registry.npmjs.org/@rollup/plugin-typescript/11.1.1_2kkkjclyparzkaevnmwvqixwuq
       '@testing-library/jest-dom': registry.npmjs.org/@testing-library/jest-dom/5.16.5
       '@types/testing-library__jest-dom': registry.npmjs.org/@types/testing-library__jest-dom/5.14.5
       babel-jest: registry.npmjs.org/babel-jest/29.5.0_@babel+core@7.21.8
@@ -1015,15 +1023,14 @@ importers:
       jest-mock-console: registry.npmjs.org/jest-mock-console/1.3.0_jest@29.5.0
       jest-transform-css: registry.npmjs.org/jest-transform-css/6.0.1_postcss@8.4.23
       jsdom: registry.npmjs.org/jsdom/21.1.2
-      lodash: registry.npmjs.org/lodash/4.17.21
       mock-socket: registry.npmjs.org/mock-socket/7.1.0
       postcss: registry.npmjs.org/postcss/8.4.23
       react: registry.npmjs.org/react/18.2.0
       react-test-renderer: registry.npmjs.org/react-test-renderer/18.2.0_react@18.2.0
-      rollup: registry.npmjs.org/rollup/2.79.1
-      rollup-plugin-node-externals: registry.npmjs.org/rollup-plugin-node-externals/5.1.3_rollup@2.79.1
+      rollup: registry.npmjs.org/rollup/3.21.5
+      rollup-plugin-node-externals: registry.npmjs.org/rollup-plugin-node-externals/5.1.3_rollup@3.21.5
       rollup-plugin-postcss: registry.npmjs.org/rollup-plugin-postcss/3.1.8
-      rollup-plugin-ts: registry.npmjs.org/rollup-plugin-ts/3.2.0_dzcbcbwujefpcs3z2rh6fhgwn4
+      rollup-plugin-ts: registry.npmjs.org/rollup-plugin-ts/3.2.0_uxngq5dzznlvmenhhbwg5otmaa
       ts-jest: registry.npmjs.org/ts-jest/29.1.0_kmwxgr6d5ficzg7hutbrpex7wm
       typescript: registry.npmjs.org/typescript/4.9.5
 
@@ -1276,19 +1283,25 @@ importers:
   packages/taro-platform-h5:
     specifiers:
       '@rollup/plugin-commonjs': ^20.0.0
+      '@rollup/plugin-json': ^4.1.0
       '@rollup/plugin-node-resolve': ^8.0.0
+      '@rollup/plugin-typescript': ^11.1.0
       '@tarojs/components': workspace:*
       '@tarojs/components-react': workspace:*
       '@tarojs/router': workspace:*
       '@tarojs/service': workspace:*
       '@tarojs/shared': workspace:*
+      '@tarojs/taro': workspace:*
       '@tarojs/taro-h5': workspace:*
       babel-plugin-transform-taroapi: workspace:*
-      lodash: ^4.17.21
+      change-case: ^4.1.2
+      lodash-es: 4.17.21
       resolve: ^1.22.0
-      rollup: ^2.79.0
+      rollup: ^3.8.1
       rollup-plugin-node-externals: ^5.0.0
       rollup-plugin-ts: ^3.0.2
+      ts-node: ^10.9.1
+      tsconfig-paths: ^3.14.1
       typescript: ^4.7.4
     dependencies:
       '@tarojs/components': link:../taro-components
@@ -1298,14 +1311,20 @@ importers:
       '@tarojs/shared': link:../shared
       '@tarojs/taro-h5': link:../taro-h5
       babel-plugin-transform-taroapi: link:../babel-plugin-transform-taroapi
+      change-case: registry.npmjs.org/change-case/4.1.2
+      lodash-es: registry.npmjs.org/lodash-es/4.17.21
       resolve: registry.npmjs.org/resolve/1.22.2
     devDependencies:
-      '@rollup/plugin-commonjs': registry.npmjs.org/@rollup/plugin-commonjs/20.0.0_rollup@2.79.1
-      '@rollup/plugin-node-resolve': registry.npmjs.org/@rollup/plugin-node-resolve/8.4.0_rollup@2.79.1
-      lodash: registry.npmjs.org/lodash/4.17.21
-      rollup: registry.npmjs.org/rollup/2.79.1
-      rollup-plugin-node-externals: registry.npmjs.org/rollup-plugin-node-externals/5.1.3_rollup@2.79.1
-      rollup-plugin-ts: registry.npmjs.org/rollup-plugin-ts/3.2.0_zptcx3kz3uwp66hzhyyt545weq
+      '@rollup/plugin-commonjs': registry.npmjs.org/@rollup/plugin-commonjs/20.0.0_rollup@3.21.5
+      '@rollup/plugin-json': registry.npmjs.org/@rollup/plugin-json/4.1.0_rollup@3.21.5
+      '@rollup/plugin-node-resolve': registry.npmjs.org/@rollup/plugin-node-resolve/8.4.0_rollup@3.21.5
+      '@rollup/plugin-typescript': registry.npmjs.org/@rollup/plugin-typescript/11.1.1_2kkkjclyparzkaevnmwvqixwuq
+      '@tarojs/taro': link:../taro
+      rollup: registry.npmjs.org/rollup/3.21.5
+      rollup-plugin-node-externals: registry.npmjs.org/rollup-plugin-node-externals/5.1.3_rollup@3.21.5
+      rollup-plugin-ts: registry.npmjs.org/rollup-plugin-ts/3.2.0_2kkkjclyparzkaevnmwvqixwuq
+      ts-node: registry.npmjs.org/ts-node/10.9.1_typescript@4.9.5
+      tsconfig-paths: registry.npmjs.org/tsconfig-paths/3.14.2
       typescript: registry.npmjs.org/typescript/4.9.5
 
   packages/taro-plugin-html:
@@ -9081,6 +9100,25 @@ packages:
       resolve: registry.npmjs.org/resolve/1.22.2
       rollup: registry.npmjs.org/rollup/2.79.1
 
+  registry.npmjs.org/@rollup/plugin-commonjs/20.0.0_rollup@3.21.5:
+    resolution: {integrity: sha512-5K0g5W2Ol8hAcTHqcTBHiA7M58tfmYi1o9KxeJuuRNpGaTa5iLjcyemBitCBcKXaHamOBBEH2dGom6v6Unmqjg==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@rollup/plugin-commonjs/-/plugin-commonjs-20.0.0.tgz}
+    id: registry.npmjs.org/@rollup/plugin-commonjs/20.0.0
+    name: '@rollup/plugin-commonjs'
+    version: 20.0.0
+    engines: {node: '>= 8.0.0'}
+    peerDependencies:
+      rollup: ^2.38.3
+    dependencies:
+      '@rollup/pluginutils': registry.npmjs.org/@rollup/pluginutils/3.1.0_rollup@3.21.5
+      commondir: registry.npmjs.org/commondir/1.0.1
+      estree-walker: registry.npmjs.org/estree-walker/2.0.2
+      glob: registry.npmjs.org/glob/7.2.3
+      is-reference: registry.npmjs.org/is-reference/1.2.1
+      magic-string: registry.npmjs.org/magic-string/0.25.9
+      resolve: registry.npmjs.org/resolve/1.22.2
+      rollup: registry.npmjs.org/rollup/3.21.5
+    dev: true
+
   registry.npmjs.org/@rollup/plugin-json/4.1.0_rollup@2.79.1:
     resolution: {integrity: sha512-yfLbTdNS6amI/2OpmbiBoW12vngr5NW2jCJVZSBEz+H5KfUJZ2M7sDjk0U6GOOdCWFVScShte29o9NezJ53TPw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@rollup/plugin-json/-/plugin-json-4.1.0.tgz}
     id: registry.npmjs.org/@rollup/plugin-json/4.1.0
@@ -9163,6 +9201,25 @@ packages:
       rollup: registry.npmjs.org/rollup/2.79.1
     dev: true
 
+  registry.npmjs.org/@rollup/plugin-node-resolve/8.4.0_rollup@3.21.5:
+    resolution: {integrity: sha512-LFqKdRLn0ShtQyf6SBYO69bGE1upV6wUhBX0vFOUnLAyzx5cwp8svA0eHUnu8+YU57XOkrMtfG63QOpQx25pHQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@rollup/plugin-node-resolve/-/plugin-node-resolve-8.4.0.tgz}
+    id: registry.npmjs.org/@rollup/plugin-node-resolve/8.4.0
+    name: '@rollup/plugin-node-resolve'
+    version: 8.4.0
+    engines: {node: '>= 8.0.0'}
+    peerDependencies:
+      rollup: ^1.20.0||^2.0.0
+    dependencies:
+      '@rollup/pluginutils': registry.npmjs.org/@rollup/pluginutils/3.1.0_rollup@3.21.5
+      '@types/resolve': registry.npmjs.org/@types/resolve/1.17.1
+      builtin-modules: registry.npmjs.org/builtin-modules/3.3.0
+      deep-freeze: registry.npmjs.org/deep-freeze/0.0.1
+      deepmerge: registry.npmjs.org/deepmerge/4.3.1
+      is-module: registry.npmjs.org/is-module/1.0.0
+      resolve: registry.npmjs.org/resolve/1.22.2
+      rollup: registry.npmjs.org/rollup/3.21.5
+    dev: true
+
   registry.npmjs.org/@rollup/plugin-replace/4.0.0_rollup@2.79.1:
     resolution: {integrity: sha512-+rumQFiaNac9y64OHtkHGmdjm7us9bo1PlbgQfdihQtuNxzjpaB064HbRnewUOggLQxVCCyINfStkgmBeQpv1g==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@rollup/plugin-replace/-/plugin-replace-4.0.0.tgz}
     id: registry.npmjs.org/@rollup/plugin-replace/4.0.0
@@ -9175,6 +9232,28 @@ packages:
       magic-string: registry.npmjs.org/magic-string/0.25.9
       rollup: registry.npmjs.org/rollup/2.79.1
     dev: false
+
+  registry.npmjs.org/@rollup/plugin-typescript/11.1.1_2kkkjclyparzkaevnmwvqixwuq:
+    resolution: {integrity: sha512-Ioir+x5Bejv72Lx2Zbz3/qGg7tvGbxQZALCLoJaGrkNXak/19+vKgKYJYM3i/fJxvsb23I9FuFQ8CUBEfsmBRg==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@rollup/plugin-typescript/-/plugin-typescript-11.1.1.tgz}
+    id: registry.npmjs.org/@rollup/plugin-typescript/11.1.1
+    name: '@rollup/plugin-typescript'
+    version: 11.1.1
+    engines: {node: '>=14.0.0'}
+    peerDependencies:
+      rollup: ^2.14.0||^3.0.0
+      tslib: '*'
+      typescript: '>=3.7.0'
+    peerDependenciesMeta:
+      rollup:
+        optional: true
+      tslib:
+        optional: true
+    dependencies:
+      '@rollup/pluginutils': registry.npmjs.org/@rollup/pluginutils/5.0.2_rollup@3.21.5
+      resolve: registry.npmjs.org/resolve/1.22.2
+      rollup: registry.npmjs.org/rollup/3.21.5
+      typescript: registry.npmjs.org/typescript/4.9.5
+    dev: true
 
   registry.npmjs.org/@rollup/pluginutils/3.1.0_rollup@2.79.1:
     resolution: {integrity: sha512-GksZ6pr6TpIjHm8h9lSQ8pi8BE9VeubNT0OMJ3B5uZJ8pz73NPiqOtCog/x2/QzM1ENChPKxMDhiQuRHsqc+lg==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@rollup/pluginutils/-/pluginutils-3.1.0.tgz}
@@ -14680,7 +14759,6 @@ packages:
       no-case: registry.npmjs.org/no-case/3.0.4
       tslib: registry.npmjs.org/tslib/2.5.0
       upper-case-first: registry.npmjs.org/upper-case-first/2.0.2
-    dev: true
 
   registry.npmjs.org/capture-exit/2.0.0:
     resolution: {integrity: sha512-PiT/hQmTonHhl/HFGN+Lx3JJUznrVYJ3+AQsnthneZbvW7x+f08Tk7yLJTLEOUvBTbduLeeBkxEaYXUOUrRq6g==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/capture-exit/-/capture-exit-2.0.0.tgz}
@@ -14780,7 +14858,6 @@ packages:
       sentence-case: registry.npmjs.org/sentence-case/3.0.4
       snake-case: registry.npmjs.org/snake-case/3.0.4
       tslib: registry.npmjs.org/tslib/2.5.0
-    dev: true
 
   registry.npmjs.org/char-regex/1.0.2:
     resolution: {integrity: sha512-kWWXztvZ5SBQV+eRgKFeh8q5sLuZY2+8WUIzlxWVTg+oGwY14qylx1KbKzHd8P6ZYkAg0xyIDU9JMHhyJMZ1jw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/char-regex/-/char-regex-1.0.2.tgz}
@@ -15761,7 +15838,6 @@ packages:
       no-case: registry.npmjs.org/no-case/3.0.4
       tslib: registry.npmjs.org/tslib/2.5.0
       upper-case: registry.npmjs.org/upper-case/2.0.2
-    dev: true
 
   registry.npmjs.org/constants-browserify/1.0.0:
     resolution: {integrity: sha512-xFxOwqIzR/e1k1gLiWEophSCMqXcwVHIH7akf7b/vxcUeGunlj3hvZaaqxwHsTgn+IndtkQJgSztIDWeumWJDQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/constants-browserify/-/constants-browserify-1.0.0.tgz}
@@ -21544,7 +21620,6 @@ packages:
     dependencies:
       capital-case: registry.npmjs.org/capital-case/1.0.4
       tslib: registry.npmjs.org/tslib/2.5.0
-    dev: true
 
   registry.npmjs.org/helpertypes/0.0.19:
     resolution: {integrity: sha512-J00e55zffgi3yVnUp0UdbMztNkr2PnizEkOe9URNohnrNhW5X0QpegkuLpOmFQInpi93Nb8MCjQRHAiCDF42NQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/helpertypes/-/helpertypes-0.0.19.tgz}
@@ -28914,7 +28989,6 @@ packages:
     dependencies:
       dot-case: registry.npmjs.org/dot-case/3.0.4
       tslib: registry.npmjs.org/tslib/2.5.0
-    dev: true
 
   registry.npmjs.org/path-dirname/1.0.2:
     resolution: {integrity: sha512-ALzNPpyNq9AqXMBjeymIjFDAkAFH06mHJH/cSBHAgU0s4vfpBn6b2nf8tiRLvagKD8RbTpq2FKTBg7cl9l3c7Q==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/path-dirname/-/path-dirname-1.0.2.tgz}
@@ -32651,6 +32725,53 @@ packages:
       typescript: registry.npmjs.org/typescript/4.9.5
     dev: true
 
+  registry.npmjs.org/rollup-plugin-ts/3.2.0_uxngq5dzznlvmenhhbwg5otmaa:
+    resolution: {integrity: sha512-KkTLVifkUexEiAXS9VtSjDrjKr0TyusmNJpb2ZTAzI9VuPumSu4AktIaVNnwv70iUEitHwZtET7OAM+5n1u1tg==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/rollup-plugin-ts/-/rollup-plugin-ts-3.2.0.tgz}
+    id: registry.npmjs.org/rollup-plugin-ts/3.2.0
+    name: rollup-plugin-ts
+    version: 3.2.0
+    engines: {node: '>=14.9.0', npm: '>=7.0.0', pnpm: '>=3.2.0', yarn: '>=1.13'}
+    peerDependencies:
+      '@babel/core': '>=6.x || >=7.x'
+      '@babel/plugin-transform-runtime': '>=6.x || >=7.x'
+      '@babel/preset-env': '>=6.x || >=7.x'
+      '@babel/preset-typescript': '>=6.x || >=7.x'
+      '@babel/runtime': '>=6.x || >=7.x'
+      '@swc/core': '>=1.x'
+      '@swc/helpers': '>=0.2'
+      rollup: '>=1.x || >=2.x'
+      typescript: '>=3.2.x || >= 4.x'
+    peerDependenciesMeta:
+      '@babel/core':
+        optional: true
+      '@babel/plugin-transform-runtime':
+        optional: true
+      '@babel/preset-env':
+        optional: true
+      '@babel/preset-typescript':
+        optional: true
+      '@babel/runtime':
+        optional: true
+      '@swc/core':
+        optional: true
+      '@swc/helpers':
+        optional: true
+    dependencies:
+      '@babel/core': registry.npmjs.org/@babel/core/7.21.8
+      '@rollup/pluginutils': registry.npmjs.org/@rollup/pluginutils/5.0.2_rollup@3.21.5
+      '@wessberg/stringutil': registry.npmjs.org/@wessberg/stringutil/1.0.19
+      ansi-colors: registry.npmjs.org/ansi-colors/4.1.3
+      browserslist: registry.npmjs.org/browserslist/4.21.5
+      browserslist-generator: registry.npmjs.org/browserslist-generator/2.0.3
+      compatfactory: registry.npmjs.org/compatfactory/2.0.9_typescript@4.9.5
+      crosspath: registry.npmjs.org/crosspath/2.0.0
+      magic-string: registry.npmjs.org/magic-string/0.27.0
+      rollup: registry.npmjs.org/rollup/3.21.5
+      ts-clone-node: registry.npmjs.org/ts-clone-node/2.0.4_typescript@4.9.5
+      tslib: registry.npmjs.org/tslib/2.5.0
+      typescript: registry.npmjs.org/typescript/4.9.5
+    dev: true
+
   registry.npmjs.org/rollup-plugin-ts/3.2.0_zptcx3kz3uwp66hzhyyt545weq:
     resolution: {integrity: sha512-KkTLVifkUexEiAXS9VtSjDrjKr0TyusmNJpb2ZTAzI9VuPumSu4AktIaVNnwv70iUEitHwZtET7OAM+5n1u1tg==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/rollup-plugin-ts/-/rollup-plugin-ts-3.2.0.tgz}
     id: registry.npmjs.org/rollup-plugin-ts/3.2.0
@@ -33202,7 +33323,6 @@ packages:
       no-case: registry.npmjs.org/no-case/3.0.4
       tslib: registry.npmjs.org/tslib/2.5.0
       upper-case-first: registry.npmjs.org/upper-case-first/2.0.2
-    dev: true
 
   registry.npmjs.org/serialize-error/2.1.0:
     resolution: {integrity: sha512-ghgmKt5o4Tly5yEG/UJp8qTd0AN7Xalw4XBtDEKP655B699qMEtra1WlXeE6WIvdEG481JvRxULKsInq/iNysw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/serialize-error/-/serialize-error-2.1.0.tgz}
@@ -33558,7 +33678,6 @@ packages:
     dependencies:
       dot-case: registry.npmjs.org/dot-case/3.0.4
       tslib: registry.npmjs.org/tslib/2.5.0
-    dev: true
 
   registry.npmjs.org/snapdragon-node/2.1.1:
     resolution: {integrity: sha512-O27l4xaMYt/RSQ5TR3vpWCAB5Kb/czIcqUFOM/C4fYcLnbZUc1PkjTAMjof2pBWaSTwOUd6qUHcFGVGj7aIwnw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/snapdragon-node/-/snapdragon-node-2.1.1.tgz}
@@ -35756,6 +35875,39 @@ packages:
       yn: registry.npmjs.org/yn/3.1.1
     dev: true
 
+  registry.npmjs.org/ts-node/10.9.1_typescript@4.9.5:
+    resolution: {integrity: sha512-NtVysVPkxxrwFGUUxGYhfux8k78pQB3JqYBXlLRZgdGUqTO5wU/UyHop5p70iEbGhB7q5KmiZiU0Y3KlJrScEw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/ts-node/-/ts-node-10.9.1.tgz}
+    id: registry.npmjs.org/ts-node/10.9.1
+    name: ts-node
+    version: 10.9.1
+    hasBin: true
+    peerDependencies:
+      '@swc/core': '>=1.2.50'
+      '@swc/wasm': '>=1.2.50'
+      '@types/node': '*'
+      typescript: '>=2.7'
+    peerDependenciesMeta:
+      '@swc/core':
+        optional: true
+      '@swc/wasm':
+        optional: true
+    dependencies:
+      '@cspotcode/source-map-support': registry.npmjs.org/@cspotcode/source-map-support/0.8.1
+      '@tsconfig/node10': registry.npmjs.org/@tsconfig/node10/1.0.9
+      '@tsconfig/node12': registry.npmjs.org/@tsconfig/node12/1.0.11
+      '@tsconfig/node14': registry.npmjs.org/@tsconfig/node14/1.0.3
+      '@tsconfig/node16': registry.npmjs.org/@tsconfig/node16/1.0.3
+      acorn: registry.npmjs.org/acorn/8.8.2
+      acorn-walk: registry.npmjs.org/acorn-walk/8.2.0
+      arg: registry.npmjs.org/arg/4.1.3
+      create-require: registry.npmjs.org/create-require/1.1.1
+      diff: registry.npmjs.org/diff/4.0.2
+      make-error: registry.npmjs.org/make-error/1.3.6
+      typescript: registry.npmjs.org/typescript/4.9.5
+      v8-compile-cache-lib: registry.npmjs.org/v8-compile-cache-lib/3.0.1
+      yn: registry.npmjs.org/yn/3.1.1
+    dev: true
+
   registry.npmjs.org/tsconfig-paths/3.14.2:
     resolution: {integrity: sha512-o/9iXgCYc5L/JxCHPe3Hvh8Q/2xm5Z+p18PESBU6Ff33695QnCHBEjcytY2q19ua7Mbl/DavtBOLq+oG0RCL+g==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/tsconfig-paths/-/tsconfig-paths-3.14.2.tgz}
     name: tsconfig-paths
@@ -36283,7 +36435,6 @@ packages:
     version: 2.0.2
     dependencies:
       tslib: registry.npmjs.org/tslib/2.5.0
-    dev: true
 
   registry.npmjs.org/upper-case/1.1.3:
     resolution: {integrity: sha512-WRbjgmYzgXkCV7zNVpy5YgrHgbBv126rMALQQMrmzOVC4GM2waQ9x7xtm8VU+1yF2kWyPzI9zbZ48n4vSxwfSA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/upper-case/-/upper-case-1.1.3.tgz}
@@ -36297,7 +36448,6 @@ packages:
     version: 2.0.2
     dependencies:
       tslib: registry.npmjs.org/tslib/2.5.0
-    dev: true
 
   registry.npmjs.org/uri-js/4.4.1:
     resolution: {integrity: sha512-7rKUyy33Q1yc98pQ1DAmLtwX109F7TIfWlW1Ydo8Wl1ii1SeHieeh0HHfPeL2fMXK6z0s8ecKs9frCuLJvndBg==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/uri-js/-/uri-js-4.4.1.tgz}
