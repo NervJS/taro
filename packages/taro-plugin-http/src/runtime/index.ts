@@ -26,6 +26,12 @@ if (!isWebPlatform()) {
           _cookie.setCookie(value, this.URL)
         },
       },
+      /** 获取完整的 cookie，包括 httpOnly 也能获取到 */
+      $$cookie: {
+        get () {
+          return _cookie.getCookie(this.URL, true)
+        },
+      }
     })
   }
 

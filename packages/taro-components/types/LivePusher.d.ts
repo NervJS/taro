@@ -189,6 +189,16 @@ interface LivePusherProps extends StandardProps {
    * @default 0
    */
   eyeBigness?: number
+  /** 0：关闭变声；1：熊孩子；2：萝莉；3：大叔；4：重金属；6：外国人；7：困兽；8：死肥仔；9：强电流；10：重机械；11：空灵
+   * @supported weapp
+   * @default 0
+   */
+  voiceChangerType?: number
+  /** 帧率，有效值为 1~30
+   * @supported weapp
+   * @default 15
+   */
+  fps?: number
   /** 状态变化事件，detail = {code}
    * @supported weapp, qq
    */

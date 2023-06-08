@@ -205,5 +205,6 @@ export function getCurrentPath (): string {
 }
 
 export * from './animation'
+export * from './helper'
 export * from './lodash'
 export * from './valid'
