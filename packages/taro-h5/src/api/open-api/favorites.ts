@@ -1,6 +1,6 @@
 import { temporarilyNotSupport } from '../../utils'
 
 // 收藏
-export const addVideoToFavorites = temporarilyNotSupport('addVideoToFavorites')
-export const addFileToFavorites = temporarilyNotSupport('addFileToFavorites')
-export const checkIsAddedToMyMiniProgram = temporarilyNotSupport('checkIsAddedToMyMiniProgram')
+export const addVideoToFavorites = /* @__PURE__ */ temporarilyNotSupport('addVideoToFavorites')
+export const addFileToFavorites = /* @__PURE__ */ temporarilyNotSupport('addFileToFavorites')
+export const checkIsAddedToMyMiniProgram = /* @__PURE__ */ temporarilyNotSupport('checkIsAddedToMyMiniProgram')

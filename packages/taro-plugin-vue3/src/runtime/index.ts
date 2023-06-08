@@ -1,4 +1,5 @@
 import { hooks } from '@tarojs/shared'
+import { toRaw } from 'vue'
 
 import * as taroHooks from './composition-functions'
 import { setGlobalDataPlugin } from './plugins'
@@ -8,6 +9,10 @@ hooks.tap('initNativeApi', function (taro) {
     taro[hook] = taroHooks[hook]
   }
   taro.setGlobalDataPlugin = setGlobalDataPlugin
+})
+
+hooks.tap('proxyToRaw', function (proxyObj) {
+  return toRaw(proxyObj)
 })
 
 export * from './composition-functions'

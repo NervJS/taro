@@ -4121,7 +4121,7 @@ require("./runtime");
                     var initRender = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
                     var prerender = arguments.length > 1 ? arguments[1] : undefined;
                     this.pendingUpdate = true;
-                    var ctx = this.ctx;
+                    var ctx = _tarojs_shared__WEBPACK_IMPORTED_MODULE_0__.PT.call("proxyToRaw", this.ctx);
                     setTimeout((function() {
                         var setDataMark = "".concat(SET_DATA, " \\u5f00\\u59cb\\u65f6\\u95f4\\u6233 ").concat(Date.now());
                         perf.start(setDataMark);

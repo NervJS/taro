@@ -1,4 +1,4 @@
 import { temporarilyNotSupport } from '../../utils'
 
 // 微信红包
-export const showRedPackage = temporarilyNotSupport('showRedPackage')
+export const showRedPackage = /* @__PURE__ */ temporarilyNotSupport('showRedPackage')
