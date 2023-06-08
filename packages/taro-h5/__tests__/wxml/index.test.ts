@@ -5,6 +5,8 @@ import { findDOM } from '../../src/utils'
 import { buildApp } from '../utils'
 
 let pageDOM: any
+// @ts-ignore
+window.__taroAppConfig = {}
 
 describe('selectorQuery', () => {
   beforeAll(() => {
