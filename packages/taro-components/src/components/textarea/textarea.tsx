@@ -18,7 +18,7 @@ export class Textarea implements ComponentInterface {
   @Prop() placeholder: string
   @Prop() disabled = false
   @Prop() maxlength = 140
-  @Prop({ attribute: 'focus', reflect: true }) autoFocus = false
+  @Prop({ attribute: 'focus' }) autoFocus = false
   @Prop() autoHeight = false
   @Prop() name: string
   @Prop() nativeProps = {}
