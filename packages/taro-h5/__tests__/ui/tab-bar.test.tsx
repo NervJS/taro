@@ -2,9 +2,6 @@ import * as Taro from '@tarojs/taro-h5'
 
 import { buildApp } from '../utils'
 
-// @ts-ignore
-window.__taroAppConfig = {}
-
 describe('tabbar', () => {
   beforeEach(() => {
     jest.resetAllMocks()

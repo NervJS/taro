@@ -117,7 +117,9 @@ export default class PageHandler {
     if (typeof this.pageConfig?.usingWindowScroll === 'boolean') {
       usingWindowScroll = this.pageConfig.usingWindowScroll
     }
-    (window as any).__taroAppConfig.usingWindowScroll = usingWindowScroll
+    const win = window as any
+    win.__taroAppConfig ||= {}
+    win.__taroAppConfig.usingWindowScroll = usingWindowScroll
     return usingWindowScroll
   }
 
