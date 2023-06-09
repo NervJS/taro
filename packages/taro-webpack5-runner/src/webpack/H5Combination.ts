@@ -1,5 +1,3 @@
-import { Configuration, EntryNormalized } from 'webpack'
-
 import { parsePublicPath } from '../utils'
 import AppHelper from '../utils/app'
 import { Combination } from './Combination'
@@ -7,6 +5,7 @@ import { H5BaseConfig } from './H5BaseConfig'
 import { H5WebpackModule } from './H5WebpackModule'
 import { H5WebpackPlugin } from './H5WebpackPlugin'
 
+import type { Configuration, EntryNormalized, LibraryOptions } from 'webpack'
 import type { H5BuildConfig } from '../utils/types'
 
 type Output = Required<Configuration>['output']
@@ -32,10 +31,12 @@ export class H5Combination extends Combination<H5BuildConfig> {
       sourceMapType = 'eval-cheap-module-source-map',
       publicPath = '/',
       chunkDirectory = 'chunk',
+      framework = 'react',
       alias = {},
       router,
       frameworkExts
     } = config
+    const externals: Configuration['externals'] = []
     const routerMode = router?.mode || 'hash'
     this.isMultiRouterMode = routerMode === 'multi'
     this.appHelper = new AppHelper(entry as EntryNormalized, {
@@ -69,6 +70,32 @@ export class H5Combination extends Combination<H5BuildConfig> {
     this.webpackPlugin.pxtransformOption = pxtransformOption as any
     const plugin = this.webpackPlugin.getPlugins()
 
+    if (this.isBuildNativeComp) {
+      // Note: 当开发者没有配置时，优先使用 module 导出组件
+      if (!webpackOutput.libraryTarget && !(webpackOutput.library as LibraryOptions)?.type) {
+        webpackOutput.library = {
+          name: webpackOutput.library as (Exclude<typeof webpackOutput.library, LibraryOptions>),
+          type: 'commonjs-module',
+        }
+      }
+
+      switch (framework) {
+        case 'vue2':
+        case 'vue3':
+          externals.push('vue')
+          break
+        case 'preact':
+          externals.push('preact')
+          externals.push('react')
+          externals.push('react-dom')
+          break
+        default:
+          // react
+          externals.push('react')
+          externals.push('react-dom')
+      }
+    }
+
     chain.merge({
       entry,
       output: webpackOutput,
@@ -77,7 +104,8 @@ export class H5Combination extends Combination<H5BuildConfig> {
       resolve: { alias },
       plugin,
       module,
-      optimization: this.getOptimization(mode)
+      optimization: this.getOptimization(mode),
+      externals,
     })
   }
 
