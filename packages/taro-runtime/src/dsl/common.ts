@@ -106,7 +106,7 @@ export function createPageConfig (component: any, pageName?: string, data?: Reco
     ONSHOW,
     ONHIDE,
     LIFECYCLES,
-    SIDE_EFFECT_LIFECYCLES
+    SIDE_EFFECT_LIFECYCLES,
   ] = hooks.call('getMiniLifecycleImpl')!.page
   let pageElement: TaroRootElement | null = null
   let unmounting = false
@@ -249,7 +249,8 @@ export function createPageConfig (component: any, pageName?: string, data?: Reco
   SIDE_EFFECT_LIFECYCLES.forEach(lifecycle => {
     if (component[lifecycle] ||
       component.prototype?.[lifecycle] ||
-      component[lifecycle.replace(/^on/, 'enable')]
+      component[lifecycle.replace(/^on/, 'enable')] ||
+      pageConfig?.[lifecycle.replace(/^on/, 'enable')]
     ) {
       config[lifecycle] = function (...args) {
         const target = args[0]?.target
