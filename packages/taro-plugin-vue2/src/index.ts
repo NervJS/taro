@@ -7,9 +7,16 @@ import { mergeWith } from 'lodash'
 import { getLoaderMeta } from './loader-meta'
 
 import type { IPluginContext } from '@tarojs/service'
+import type { IComponentConfig } from '@tarojs/taro/types/compile/hooks'
 import type { PluginOption } from 'vite'
 
 export const CUSTOM_WRAPPER = 'custom-wrapper'
+
+
+interface OnParseCreateElementArgs {
+  nodeName: string
+  componentConfig: IComponentConfig
+}
 
 export default (ctx: IPluginContext) => {
   const { framework } = ctx.initialConfig
@@ -59,6 +66,12 @@ export default (ctx: IPluginContext) => {
     } else if (compiler.type === 'vite') {
       compiler.vitePlugins ||= []
       compiler.vitePlugins.push(viteCommonPlugin())
+    }
+  })
+
+  ctx.onParseCreateElement(({ nodeName, componentConfig }: OnParseCreateElementArgs) => {
+    if (capitalize(toCamelCase(nodeName)) in internalComponents) {
+      componentConfig.includes.add(nodeName)
     }
   })
 }

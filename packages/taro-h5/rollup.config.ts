@@ -1,11 +1,14 @@
 import commonjs from '@rollup/plugin-commonjs'
-import resolve from '@rollup/plugin-node-resolve'
+import { nodeResolve } from '@rollup/plugin-node-resolve'
 import { mergeWith } from 'lodash'
+import { defineConfig } from 'rollup'
 import externals from 'rollup-plugin-node-externals'
 import postcss from 'rollup-plugin-postcss'
 import ts from 'rollup-plugin-ts'
 
-const baseConfig = {
+import type { InputPluginOption,RollupOptions } from 'rollup'
+
+const baseConfig: RollupOptions = {
   output: {
     sourcemap: true,
     exports: 'named'
@@ -16,21 +19,24 @@ const baseConfig = {
       deps: true,
       devDeps: false,
     }),
-    resolve({
+    nodeResolve({
       preferBuiltins: false,
       mainFields: ['main:h5', 'browser', 'module', 'jsnext:main', 'main']
-    }),
+    }) as InputPluginOption,
     ts({
-      sourceMap: true,
+      tsconfig: e => ({
+        ...e,
+        sourceMap: true,
+      })
     }),
-    commonjs(),
+    commonjs() as InputPluginOption,
     postcss({
       inject: { insertAt: 'top' }
-    })
+    }) as InputPluginOption
   ]
 }
 
-const variesConfig = [{
+const variesConfig: RollupOptions[] = [{
   input: ['src/index.ts', 'src/api/index.ts', 'src/api/taro.ts'],
   output: {
     dir: 'dist',
@@ -56,7 +62,7 @@ if (process.env.NODE_ENV === 'production') {
   })
 }
 
-export default variesConfig.map(v => {
+export default defineConfig(variesConfig.map(v => {
   const customizer = function (objValue, srcValue) {
     if (Array.isArray(objValue)) {
       return objValue.concat(srcValue)
@@ -66,4 +72,4 @@ export default variesConfig.map(v => {
     }
   }
   return mergeWith({}, baseConfig, v, customizer)
-})
+}))

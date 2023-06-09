@@ -15,7 +15,7 @@ const compLibraryAlias = {
 const PACKAGE_NAME = '@tarojs/plugin-platform-h5'
 export default class H5 extends TaroPlatformWeb {
   platform = 'h5'
-  runtimePath = `${PACKAGE_NAME}/dist/runtime`
+  runtimePath: string[] | string = `${PACKAGE_NAME}/dist/runtime`
 
   constructor (ctx: IPluginContext, config: TConfig) {
     super(ctx, config)
@@ -39,18 +39,34 @@ export default class H5 extends TaroPlatformWeb {
     return !!this.ctx.initialConfig.h5?.useDeprecatedAdapterComponent
   }
 
+  get apiLibrary () {
+    return require.resolve('./runtime/apis')
+  }
+
+  get aliasFramework (): string {
+    return compLibraryAlias[this.framework] || 'react'
+  }
+
   get componentLibrary () {
-    if (this.useHtmlComponents && this.framework === 'react') {
-      return './runtime/components'
+    if (this.useHtmlComponents && this.aliasFramework === 'react') {
+      return require.resolve('./runtime/components')
     } else if (this.useDeprecatedAdapterComponent) {
-      return `@tarojs/components/lib/component-lib/${compLibraryAlias[this.framework] || 'react'}`
+      return require.resolve(`@tarojs/components/lib/component-lib/${this.aliasFramework}`)
     } else {
-      return `@tarojs/components/lib/${compLibraryAlias[this.framework] || 'react'}`
+      return require.resolve(`@tarojs/components/lib/${this.aliasFramework}`)
     }
   }
 
   get componentAdapter () {
     return path.join(path.dirname(require.resolve('@tarojs/components')), '..', 'lib')
+  }
+
+  get routerLibrary () {
+    return require.resolve('@tarojs/router')
+  }
+
+  get libraryDefinition () {
+    return resolveSync('./definition.json')
   }
 
   /**
@@ -66,17 +82,17 @@ export default class H5 extends TaroPlatformWeb {
         plugins: [
           [require('babel-plugin-transform-taroapi'), {
             packageName: '@tarojs/taro',
-            apis: require(resolveSync('./taroApis'))
+            definition: require(this.libraryDefinition)
           }]
         ]
       })
 
       const alias = chain.resolve.alias
       // TODO 考虑集成到 taroComponentsPath 中，与小程序端对齐
-      alias.set('@tarojs/components$', require.resolve(this.componentLibrary))
+      alias.set('@tarojs/components$', this.componentLibrary)
       alias.set('@tarojs/components/lib', this.componentAdapter)
-      alias.set('@tarojs/router$', require.resolve('@tarojs/router'))
-      alias.set('@tarojs/taro', require.resolve('./runtime/apis'))
+      alias.set('@tarojs/router$', this.routerLibrary)
+      alias.set('@tarojs/taro', this.apiLibrary)
       chain.plugin('mainPlugin')
         .tap(args => {
           args[0].loaderMeta ||= {

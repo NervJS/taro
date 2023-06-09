@@ -37,7 +37,7 @@ export class Input implements ComponentInterface {
   @Prop() placeholder: string
   @Prop() disabled = false
   @Prop() maxlength = 140
-  @Prop({ attribute: 'focus', reflect: true }) autoFocus = false
+  @Prop({ attribute: 'focus' }) autoFocus = false
   @Prop() confirmType = 'done'
   @Prop() name: string
   @Prop() nativeProps = {}

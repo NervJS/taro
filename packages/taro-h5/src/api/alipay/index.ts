@@ -1,4 +1,4 @@
 import { temporarilyNotSupport } from '../../utils'
 
 // AliPay
-export const getOpenUserInfo = temporarilyNotSupport('getOpenUserInfo')
+export const getOpenUserInfo = /* @__PURE__ */ temporarilyNotSupport('getOpenUserInfo')

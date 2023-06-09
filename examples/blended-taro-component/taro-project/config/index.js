@@ -13,6 +13,12 @@ const config = {
   outputRoot: 'dist',
   plugins: [path.join(process.cwd(), '/plugin-mv/index.js')],
   framework: 'react',
+  compiler: {
+    type: 'webpack5',
+    prebundle: {
+      enable: false
+    }
+  },
   mini: {
     enableSourceMap: false,
     postcss: {
