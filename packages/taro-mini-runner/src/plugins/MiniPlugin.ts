@@ -27,7 +27,7 @@ import * as NaturalChunkOrderPlugin from 'webpack/lib/optimize/NaturalChunkOrder
 import * as RuntimeChunkPlugin from 'webpack/lib/optimize/RuntimeChunkPlugin'
 import * as SplitChunksPlugin from 'webpack/lib/optimize/SplitChunksPlugin'
 import * as JsonpTemplatePlugin from 'webpack/lib/web/JsonpTemplatePlugin'
-import { ConcatSource } from 'webpack-sources'
+import { ConcatSource, RawSource } from 'webpack-sources'
 
 import TaroSingleEntryDependency from '../dependencies/TaroSingleEntryDependency'
 import { validatePrerenderPages } from '../prerender/prerender'
@@ -1183,8 +1183,6 @@ export default class TaroMiniPlugin {
     const appStyle = `app${styleExt}`
     const REG_STYLE_EXT = new RegExp(`\\.(${styleExt.replace('.', '')})(\\?.*)?$`)
 
-    if (!assets[appStyle]) return
-
     const commons = new ConcatSource('')
 
     // 组件公共样式需要放在 app 全局样式之后：https://github.com/NervJS/taro/pull/6125
@@ -1198,7 +1196,7 @@ export default class TaroMiniPlugin {
 
     if (commons.size() > 0) {
       const APP_STYLE_NAME = 'app-origin' + styleExt
-      const originSource = assets[appStyle]
+      const originSource = assets[appStyle] || new RawSource('')
       assets[APP_STYLE_NAME] = new ConcatSource(originSource)
       const source = new ConcatSource('')
       source.add(`@import ${JSON.stringify(urlToRequest(APP_STYLE_NAME))};`)

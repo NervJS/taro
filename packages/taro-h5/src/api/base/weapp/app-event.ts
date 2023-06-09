@@ -1,5 +1,5 @@
 import Taro from '@tarojs/api'
-import { isNil } from 'lodash'
+import isNil from 'lodash-es/isNil'
 import { parse } from 'query-string'
 
 import { temporarilyNotSupport } from '../../../utils'
