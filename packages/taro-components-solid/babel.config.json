@@ -1,0 +1,16 @@
+{
+  "presets": [
+    ["@babel/preset-env", {
+      "modules": false,
+      "targets": {
+        "ios": "9",
+        "android": "4.4"
+      }
+    }]
+  ],
+  "plugins": [
+    ["@babel/plugin-transform-runtime", {
+      "version": "^7.14.5"
+    }]
+  ]
+}

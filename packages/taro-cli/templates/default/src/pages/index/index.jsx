@@ -14,3 +14,4 @@ export default function <%= _.capitalize(pageName) %>() {
     </View>
   )
 }
+<%}-%>

@@ -44,7 +44,7 @@ const schema = Joi.object().keys({
     })
   }),
 
-  framework: Joi.any().valid('nerv', 'react', 'preact', 'vue', 'vue3').required(),
+  framework: Joi.any().valid('nerv', 'react', 'preact', 'vue', 'vue3', 'solid').required(),
 
   compiler: Joi.alternatives(
     Joi.string().valid('webpack4', 'webpack5'),

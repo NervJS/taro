@@ -1,0 +1,12 @@
+{
+  "extends": "../../tsconfig.root.json",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "jsx": "preserve",
+    "jsxImportSource": "solid-js",
+    "module": "ESNext",
+    "sourceMap": false,
+    "typeRoots": ["./node_modules/@types"]
+  },
+  "include": ["./src", "./types"]
+}
