@@ -1,4 +1,6 @@
-module.exports = {
+import type { Config } from 'jest'
+
+const config: Config = {
   collectCoverage: false,
   moduleFileExtensions: ['js', 'jsx', 'ts', 'tsx', 'json', 'node'],
   preset: 'ts-jest',
@@ -18,3 +20,5 @@ module.exports = {
   },
   transformIgnorePatterns: ['<rootDir>/node_modules/']
 }
+
+export default config

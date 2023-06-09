@@ -1,6 +1,6 @@
 {
   "name": "babel-plugin-transform-taroapi",
-  "version": "3.6.7",
+  "version": "3.6.8",
   "main": "dist/index.js",
   "scripts": {
     "build": "tsc",
@@ -9,6 +9,9 @@
     "test:dev": "cross-env NODE_ENV=jest jest --watch",
     "test:coverage": "cross-env NODE_ENV=jest jest --coverage",
     "updateSnapshot": "cross-env NODE_ENV=jest jest --updateSnapshot"
+  },
+  "dependencies": {
+    "lodash": "^4.17.21"
   },
   "devDependencies": {
     "@babel/core": "^7.14.5",

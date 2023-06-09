@@ -1151,14 +1151,12 @@ export default class TaroMiniPlugin {
    * 小程序全局样式文件中引入 common chunks 中的公共样式文件
    */
   injectCommonStyles ({ assets }: Compilation, { webpack }: Compiler) {
-    const { ConcatSource } = webpack.sources
+    const { ConcatSource, RawSource } = webpack.sources
     const styleExt = this.options.fileType.style
     const appStyle = `app${styleExt}`
     const REG_STYLE_EXT = new RegExp(`\\.(${styleExt.replace('.', '')})(\\?.*)?$`)
 
-    if (!assets[appStyle]) return
-
-    const originSource = assets[appStyle]
+    const originSource = assets[appStyle] || new RawSource('')
     const commons = new ConcatSource('')
 
     Object.keys(assets).forEach(assetName => {
