@@ -59,6 +59,8 @@ export function createRouter (
 
   const render: LocationListener = async ({ location, action }) => {
     handler.pathname = decodeURI(location.pathname)
+
+    if ((window as any).__taroAppConfig?.usingWindowScroll) window.scrollTo(0,0)
     eventCenter.trigger('__taroRouterChange', {
       toLocation: {
         path: handler.pathname
@@ -180,12 +182,6 @@ export function createRouter (
       if (params) page.options = params
       handler.load(page, pageConfig, pageStampId, stacksIndex)
     }
-
-    eventCenter.trigger('__afterTaroRouterChange', {
-      toLocation: {
-        path: handler.pathname
-      }
-    })
   }
 
   const routePath = addLeadingSlash(stripBasename(history.location.pathname, handler.basename))

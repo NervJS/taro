@@ -7,8 +7,15 @@ import { mergeWith } from 'lodash'
 import { getLoaderMeta } from './loader-meta'
 
 import type { IPluginContext } from '@tarojs/service'
+import type { IComponentConfig } from '@tarojs/taro/types/compile/hooks'
 
 export const CUSTOM_WRAPPER = 'custom-wrapper'
+
+
+interface OnParseCreateElementArgs {
+  nodeName: string
+  componentConfig: IComponentConfig
+}
 
 export default (ctx: IPluginContext) => {
   const { framework } = ctx.initialConfig
@@ -49,6 +56,12 @@ export default (ctx: IPluginContext) => {
       prebundleOptions.include ||= []
       prebundleOptions.include = prebundleOptions.include.concat(deps)
       prebundleOptions.exclude ||= []
+    }
+  })
+
+  ctx.onParseCreateElement(({ nodeName, componentConfig }: OnParseCreateElementArgs) => {
+    if (capitalize(toCamelCase(nodeName)) in internalComponents) {
+      componentConfig.includes.add(nodeName)
     }
   })
 }

@@ -15,3 +15,5 @@ export default (ctx: IPluginContext) => {
     }
   })
 }
+
+export * from './utils'

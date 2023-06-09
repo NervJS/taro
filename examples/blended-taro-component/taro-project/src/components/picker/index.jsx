@@ -1,5 +1,6 @@
 import React from 'react'
 import { View, Button } from '@tarojs/components'
+import Common from '../common'
 
 import './index.scss'
 
@@ -11,6 +12,7 @@ export default function (props) {
         <View>PickerItem: {item}</View>
       ))}
       <Button onClick={() => props.onButtonClick()}>Click me</Button>
+      <Common />
     </View>
   )
 }

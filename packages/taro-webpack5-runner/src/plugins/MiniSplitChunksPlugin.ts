@@ -510,6 +510,20 @@ export default class MiniSplitChunksPlugin extends SplitChunksPlugin {
                     map: () => assetSource.map(),
                     sourceAndMap: () => assetSource.sourceAndMap()
                   }
+                  const originSourceMapPath = path.join(SUB_COMMON_DIR, `${moduleName}${FileExtsMap.JS_MAP}`)
+                  const originSourceMap = this.assets[originSourceMapPath]
+                  // 输出 source map
+                  if (ext === FileExtsMap.JS && originSourceMap) {
+                    const subRootSourceMapFilePath = path.join(subRoot, originSourceMapPath)
+                    this.assets[normalizePath(subRootSourceMapFilePath)] = {
+                      size: () => originSourceMap.size(),
+                      source: () => originSourceMap.source(),
+                      updateHash: () => originSourceMap.updateHash,
+                      buffer: () => originSourceMap.buffer(),
+                      map: () => originSourceMap.map(),
+                      sourceAndMap: () => originSourceMap.sourceAndMap()
+                    }
+                  }
                   if (ext === FileExtsMap.STYLE) {
                     source.add(`@import ${JSON.stringify(`${chunkRelativePath}`)};`)
                   }
