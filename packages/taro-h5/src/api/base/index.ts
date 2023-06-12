@@ -1,7 +1,5 @@
 import { fromByteArray, toByteArray } from 'base64-js'
 
-import { temporarilyNotSupport } from '../../utils'
-
 export const env = {
   FRAMEWORK: process.env.FRAMEWORK,
   TARO_ENV: process.env.TARO_ENV,
@@ -9,7 +7,8 @@ export const env = {
   TARO_VERSION: process.env.TARO_VERSION,
 }
 
-export const canIUse = temporarilyNotSupport('canIUse')
+// Note: 该方法由 taro-plugin-platform-h5 实现
+// export const canIUse = /* @__PURE__ */ temporarilyNotSupport('canIUse')
 
 export function arrayBufferToBase64 (arrayBuffer: ArrayBuffer) {
   return fromByteArray(arrayBuffer as Uint8Array)
