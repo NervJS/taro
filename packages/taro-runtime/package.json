@@ -5,7 +5,7 @@
   "main:h5": "dist/runtime.h5.js",
   "main": "dist/runtime.cjs.js",
   "module": "dist/runtime.esm.js",
-  "types": "./dist/index.d.ts",
+  "types": "./dist/runtime.esm.d.ts",
   "files": [
     "dist"
   ],
