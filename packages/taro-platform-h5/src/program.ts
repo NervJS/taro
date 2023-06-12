@@ -8,8 +8,8 @@ import { resolveSync } from './utils'
 import type { IPluginContext, TConfig } from '@tarojs/service'
 
 const compLibraryAlias = {
-  'vue': 'vue2',
-  'vue3': 'vue3'
+  vue: 'vue2',
+  vue3: 'vue3',
 }
 
 const PACKAGE_NAME = '@tarojs/plugin-platform-h5'
@@ -17,37 +17,37 @@ export default class H5 extends TaroPlatformWeb {
   platform = 'h5'
   runtimePath: string[] | string = `${PACKAGE_NAME}/dist/runtime`
 
-  constructor (ctx: IPluginContext, config: TConfig) {
+  constructor(ctx: IPluginContext, config: TConfig) {
     super(ctx, config)
     this.setupTransaction.addWrapper({
-      close () {
+      close() {
         this.modifyWebpackConfig()
         this.modifyViteConfig()
-      }
+      },
     })
   }
 
-  get framework () {
+  get framework() {
     return this.ctx.initialConfig.framework || 'react'
   }
 
-  get useHtmlComponents () {
+  get useHtmlComponents() {
     return !!this.ctx.initialConfig.h5?.useHtmlComponents
   }
 
-  get useDeprecatedAdapterComponent () {
+  get useDeprecatedAdapterComponent() {
     return !!this.ctx.initialConfig.h5?.useDeprecatedAdapterComponent
   }
 
-  get apiLibrary () {
+  get apiLibrary() {
     return require.resolve('./runtime/apis')
   }
 
-  get aliasFramework (): string {
+  get aliasFramework(): string {
     return compLibraryAlias[this.framework] || 'react'
   }
 
-  get componentLibrary () {
+  get componentLibrary() {
     if (this.useHtmlComponents && this.aliasFramework === 'react') {
       return require.resolve('./runtime/components')
     } else if (this.useDeprecatedAdapterComponent) {
@@ -57,22 +57,22 @@ export default class H5 extends TaroPlatformWeb {
     }
   }
 
-  get componentAdapter () {
+  get componentAdapter() {
     return path.join(path.dirname(require.resolve('@tarojs/components')), '..', 'lib')
   }
 
-  get routerLibrary () {
+  get routerLibrary() {
     return require.resolve('@tarojs/router')
   }
 
-  get libraryDefinition () {
+  get libraryDefinition() {
     return resolveSync('./definition.json')
   }
 
   /**
    * 修改 Webpack 配置
    */
-  modifyWebpackConfig () {
+  modifyWebpackConfig() {
     this.ctx.modifyWebpackChain(({ chain }) => {
       const rules = chain.module.rules
       const script = rules.get('script')
@@ -80,11 +80,14 @@ export default class H5 extends TaroPlatformWeb {
       babelLoader.set('options', {
         ...babelLoader.get('options'),
         plugins: [
-          [require('babel-plugin-transform-taroapi'), {
-            packageName: '@tarojs/taro',
-            definition: require(this.libraryDefinition)
-          }]
-        ]
+          [
+            require('babel-plugin-transform-taroapi'),
+            {
+              packageName: '@tarojs/taro',
+              definition: require(this.libraryDefinition),
+            },
+          ],
+        ],
       })
 
       const alias = chain.resolve.alias
@@ -93,80 +96,81 @@ export default class H5 extends TaroPlatformWeb {
       alias.set('@tarojs/components/lib', this.componentAdapter)
       alias.set('@tarojs/router$', this.routerLibrary)
       alias.set('@tarojs/taro', this.apiLibrary)
-      chain.plugin('mainPlugin')
-        .tap(args => {
-          args[0].loaderMeta ||= {
-            extraImportForWeb: '',
-            execBeforeCreateWebApp: ''
-          }
+      chain.plugin('mainPlugin').tap((args) => {
+        args[0].loaderMeta ||= {
+          extraImportForWeb: '',
+          execBeforeCreateWebApp: '',
+        }
 
-          // Note: 旧版本适配器不会自动注册 Web Components 组件，需要加载 defineCustomElements 脚本自动注册使用的组件
-          if (this.useDeprecatedAdapterComponent) {
-            args[0].loaderMeta.extraImportForWeb += `import { applyPolyfills, defineCustomElements } from '@tarojs/components/loader'\n`
-            args[0].loaderMeta.execBeforeCreateWebApp += `applyPolyfills().then(() => defineCustomElements(window))\n`
-          }
+        // Note: 旧版本适配器不会自动注册 Web Components 组件，需要加载 defineCustomElements 脚本自动注册使用的组件
+        if (this.useDeprecatedAdapterComponent) {
+          args[0].loaderMeta.extraImportForWeb += `import { applyPolyfills, defineCustomElements } from '@tarojs/components/loader'\n`
+          args[0].loaderMeta.execBeforeCreateWebApp += `applyPolyfills().then(() => defineCustomElements(window))\n`
+        }
 
-          if (!this.useHtmlComponents) {
-            args[0].loaderMeta.extraImportForWeb += `import { defineCustomElementTaroPullToRefresh } from '@tarojs/components/dist/components'\n`
-            args[0].loaderMeta.execBeforeCreateWebApp += `defineCustomElementTaroPullToRefresh()\n`
-          }
+        if (!this.useHtmlComponents) {
+          args[0].loaderMeta.extraImportForWeb += `import { defineCustomElementTaroPullToRefresh } from '@tarojs/components/dist/components'\n`
+          args[0].loaderMeta.execBeforeCreateWebApp += `defineCustomElementTaroPullToRefresh()\n`
+        }
 
-          switch (this.framework) {
-            case 'vue':
-              args[0].loaderMeta.extraImportForWeb += `import { initVue2Components } from '@tarojs/components/lib/vue2/components-loader'\nimport * as list from '@tarojs/components'\n`
-              args[0].loaderMeta.execBeforeCreateWebApp += `initVue2Components(list)\n`
-              break
-            case 'vue3':
-              args[0].loaderMeta.extraImportForWeb += `import { initVue3Components } from '@tarojs/components/lib/vue3/components-loader'\nimport * as list from '@tarojs/components'\n`
-              args[0].loaderMeta.execBeforeCreateWebApp += `initVue3Components(component, list)\n`
-              break
-            default:
-              if (this.useHtmlComponents) {
-                args[0].loaderMeta.extraImportForWeb += `import { PullDownRefresh } from '@tarojs/components'\n`
-                args[0].loaderMeta.execBeforeCreateWebApp += `config.PullDownRefresh = PullDownRefresh\n`
-              }
-          }
-          return args
-        })
+        switch (this.framework) {
+          case 'vue':
+            args[0].loaderMeta.extraImportForWeb += `import { initVue2Components } from '@tarojs/components/lib/vue2/components-loader'\nimport * as list from '@tarojs/components'\n`
+            args[0].loaderMeta.execBeforeCreateWebApp += `initVue2Components(list)\n`
+            break
+          case 'vue3':
+            args[0].loaderMeta.extraImportForWeb += `import { initVue3Components } from '@tarojs/components/lib/vue3/components-loader'\nimport * as list from '@tarojs/components'\n`
+            args[0].loaderMeta.execBeforeCreateWebApp += `initVue3Components(component, list)\n`
+            break
+          default:
+            if (this.useHtmlComponents) {
+              args[0].loaderMeta.extraImportForWeb += `import { PullDownRefresh } from '@tarojs/components'\n`
+              args[0].loaderMeta.execBeforeCreateWebApp += `config.PullDownRefresh = PullDownRefresh\n`
+            }
+        }
+        return args
+      })
 
       // Note: 本地调试 stencil 组件库时，如果启用 sourceMap 则需要相关配置
-      chain.module.rule('map')
-        .test(/\.map$/).type('json')
+      chain.module
+        .rule('map')
+        .test(/\.map$/)
+        .type('json')
     })
   }
 
   /**
    * 修改 Vite 配置
    */
-  modifyViteConfig () {
+  modifyViteConfig() {
     const that = this
     that.ctx.modifyViteConfig(({ viteConfig }) => {
-      function aliasPlugin () {
+      function aliasPlugin() {
         return {
           name: 'taro:vite-h5-alias',
           config: () => ({
             resolve: {
               alias: [
-                { find: /@tarojs\/components$/, replacement: require.resolve(that.componentLibrary) },
+                { find: /@tarojs\/components$/, replacement: that.componentLibrary },
                 { find: '@tarojs/components/lib', replacement: that.componentAdapter },
-                { find: /@tarojs\/router$/, replacement: require.resolve('@tarojs/router') },
-                { find: '@tarojs/taro', replacement: require.resolve('./runtime/apis') },
-              ]
-            }
-          })
+                { find: /@tarojs\/router$/, replacement: that.routerLibrary },
+                { find: '@tarojs/taro', replacement: that.apiLibrary },
+              ],
+            },
+          }),
         }
       }
-      function injectLoaderMeta () {
+      function injectLoaderMeta() {
         return {
           name: 'taro-vue3:loader-meta',
-          async buildStart () {
+          async buildStart() {
             await this.load({ id: 'taro:compiler' })
             const info = this.getModuleInfo('taro:compiler')
             const compiler = info?.meta.compiler
             if (compiler) {
               compiler.loaderMeta ||= {
                 extraImportForWeb: '',
-                execBeforeCreateWebApp: ''
+                execBeforeCreateWebApp: '',
               }
 
               // Note: 旧版本适配器不会自动注册 Web Components 组件，需要加载 defineCustomElements 脚本自动注册使用的组件
@@ -196,32 +200,32 @@ export default class H5 extends TaroPlatformWeb {
                   }
               }
             }
-          }
+          },
         }
       }
-      function apiPlugin () {
+      function apiPlugin() {
         return {
           name: 'taro:vite-h5-api',
           enforce: 'post',
-          async transform (code, id) {
+          async transform(code, id) {
             await this.load({ id: 'taro:compiler' })
             const info = this.getModuleInfo('taro:compiler')
             const compiler = info?.meta.compiler
             if (compiler) {
               const exts = Array.from(new Set(compiler.frameworkExts.concat(SCRIPT_EXT)))
-              if (
-                id.startsWith(compiler.sourceDir) &&
-                exts.some(ext => id.includes(ext))
-              ) {
+              if (id.startsWith(compiler.sourceDir) && exts.some((ext) => id.includes(ext))) {
                 // @TODO 后续考虑使用 SWC 插件的方式实现
                 const result = await transformAsync(code, {
                   filename: id,
                   plugins: [
-                    [require('babel-plugin-transform-taroapi'), {
-                      packageName: '@tarojs/taro',
-                      apis: require(resolveSync('./taroApis'))
-                    }]
-                  ]
+                    [
+                      require('babel-plugin-transform-taroapi'),
+                      {
+                        packageName: '@tarojs/taro',
+                        apis: require(resolveSync('./taroApis')),
+                      },
+                    ],
+                  ],
                 })
                 return {
                   code: result?.code || code,
@@ -229,7 +233,7 @@ export default class H5 extends TaroPlatformWeb {
                 }
               }
             }
-          }
+          },
         }
       }
       viteConfig.plugins.push(aliasPlugin())
