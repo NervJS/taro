@@ -1,27 +1,23 @@
 module.exports = {
   parser: '@typescript-eslint/parser',
-  plugins: [
-    '@typescript-eslint',
-    'import',
-    'jest',
-    'react',
-    'simple-import-sort',
-    'prettier'
-  ],
+  plugins: ['@typescript-eslint', 'import', 'jest', 'react', 'simple-import-sort', 'prettier'],
   extends: [
     'eslint:recommended',
     'standard',
     'plugin:@typescript-eslint/recommended',
     'plugin:react/jsx-runtime',
     'plugin:react/recommended',
-    'prettier'
+    'prettier',
   ],
   rules: {
     '@typescript-eslint/ban-ts-comment': 0,
     '@typescript-eslint/explicit-function-return-type': 0,
     '@typescript-eslint/explicit-module-boundary-types': 0,
     '@typescript-eslint/indent': [2, 2],
-    '@typescript-eslint/member-delimiter-style': [1, { multiline: { delimiter: 'none' }, singleline: { delimiter: 'comma' } }],
+    '@typescript-eslint/member-delimiter-style': [
+      1,
+      { multiline: { delimiter: 'none' }, singleline: { delimiter: 'comma' } },
+    ],
     '@typescript-eslint/no-empty-function': 0,
     '@typescript-eslint/no-explicit-any': 0,
     '@typescript-eslint/no-namespace': 0,
@@ -40,8 +36,8 @@ module.exports = {
     'no-unused-expressions': 0,
     'no-unused-vars': 'off',
     'no-use-before-define': 0,
-    'object-curly-spacing': 2,
     'no-empty': 1,
+    'object-curly-spacing': 0,
     'prefer-spread': 0,
     'prefer-rest-params': 0,
     'react/jsx-uses-vars': 1,
@@ -50,34 +46,38 @@ module.exports = {
     'react/no-unknown-property': 0,
     quotes: [2, 'single', { avoidEscape: true, allowTemplateLiterals: true }],
     semi: [2, 'never'],
-    'simple-import-sort/imports': [2, {
-      groups: [
-        // Side effect imports.
-        ['^\\u0000'],
-        // Node.js builtins prefixed with `node:`.
-        ['^node:'],
-        // Packages.
-        // Things that start with a letter (or digit or underscore), or `@` followed by a letter.
-        ['^@?\\w'],
-        // Absolute imports and other imports such as Vue-style `@/foo`.
-        // Anything not matched in another group.
-        ['^'],
-        // Relative imports.
-        // Anything that starts with a dot.
-        ['^\\.'],
-        // Types Group
-        ['^node:.*\\u0000$', '^@?\\w.*\\u0000$', '(?<=\\u0000)$', '^\\..*\\u0000$'],
-      ]
-    }],
+    'simple-import-sort/imports': [
+      2,
+      {
+        groups: [
+          // Side effect imports.
+          ['^\\u0000'],
+          // Node.js builtins prefixed with `node:`.
+          ['^node:'],
+          // Packages.
+          // Things that start with a letter (or digit or underscore), or `@` followed by a letter.
+          ['^@?\\w'],
+          // Absolute imports and other imports such as Vue-style `@/foo`.
+          // Anything not matched in another group.
+          ['^'],
+          // Relative imports.
+          // Anything that starts with a dot.
+          ['^\\.'],
+          // Types Group
+          ['^node:.*\\u0000$', '^@?\\w.*\\u0000$', '(?<=\\u0000)$', '^\\..*\\u0000$'],
+        ],
+      },
+    ],
     'simple-import-sort/exports': 2,
+    'computed-property-spacing': 1,
     'space-before-function-paren': [2, 'always'],
-    'standard/no-callback-literal': 0
+    'standard/no-callback-literal': 0,
   },
   env: {
     'jest/globals': true,
     browser: true,
     node: true,
-    es6: true
+    es6: true,
   },
   globals: {
     testRule: 'readonly',
@@ -91,16 +91,16 @@ module.exports = {
     requirePlugin: 'readonly',
     jd: 'readonly',
     ks: 'readonly',
-    LOCATION_APIKEY: 'readonly'
+    LOCATION_APIKEY: 'readonly',
   },
   parserOptions: {
     ecmaFeatures: {
-      jsx: true
-    }
+      jsx: true,
+    },
   },
   settings: {
     react: {
-      version: 'detect'
-    }
-  }
+      version: 'detect',
+    },
+  },
 }
