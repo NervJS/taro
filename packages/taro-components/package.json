@@ -4,7 +4,7 @@
   "description": "Taro 组件库",
   "browser": "dist/index.js",
   "main:h5": "dist/index.js",
-  "main": "dist/index.js",
+  "main": "dist/index.cjs.js",
   "module": "dist/index.cjs.js",
   "types": "types/index.d.ts",
   "sideEffects": [
