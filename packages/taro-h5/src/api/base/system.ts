@@ -209,3 +209,9 @@ export const getSystemInfo: typeof Taro.getSystemInfo = async (options = {}) => 
     })
   }
 }
+
+export const getSkylineInfoSync = /* @__PURE__ */ temporarilyNotSupport('getSkylineInfoSync')
+
+export const getSkylineInfo = /* @__PURE__ */ temporarilyNotSupport('getSkylineInfo')
+
+export const getRendererUserAgent = /* @__PURE__ */ temporarilyNotSupport('getRendererUserAgent')
