@@ -2040,13 +2040,15 @@ importers:
   packages/taro-runtime:
     specifiers:
       '@rollup/plugin-buble': ^0.21.3
+      '@rollup/plugin-replace': ^5.0.2
+      '@rollup/plugin-typescript': ^11.1.0
       '@tarojs/shared': workspace:*
       '@vue/runtime-core': 3.2.41
       jest: ^29.3.1
       jest-cli: ^29.3.1
       jest-environment-node: ^29.5.0
       lodash-es: 4.17.21
-      rollup: ^2.79.0
+      rollup: ^3.8.1
       rollup-plugin-ts: ^3.0.2
       ts-jest: ^29.0.5
       tslib: ^2.5.0
@@ -2055,13 +2057,15 @@ importers:
       '@tarojs/shared': link:../shared
       lodash-es: registry.npmjs.org/lodash-es/4.17.21
     devDependencies:
-      '@rollup/plugin-buble': registry.npmjs.org/@rollup/plugin-buble/0.21.3_rollup@2.79.1
+      '@rollup/plugin-buble': registry.npmjs.org/@rollup/plugin-buble/0.21.3_rollup@3.21.5
+      '@rollup/plugin-replace': registry.npmjs.org/@rollup/plugin-replace/5.0.2_rollup@3.21.5
+      '@rollup/plugin-typescript': registry.npmjs.org/@rollup/plugin-typescript/11.1.1_zbvynxjsshkmfsrzjt34poassy
       '@vue/runtime-core': registry.npmjs.org/@vue/runtime-core/3.2.41
       jest: registry.npmjs.org/jest/29.5.0
       jest-cli: registry.npmjs.org/jest-cli/29.5.0
       jest-environment-node: registry.npmjs.org/jest-environment-node/29.5.0
-      rollup: registry.npmjs.org/rollup/2.79.1
-      rollup-plugin-ts: registry.npmjs.org/rollup-plugin-ts/3.2.0_zptcx3kz3uwp66hzhyyt545weq
+      rollup: registry.npmjs.org/rollup/3.21.5
+      rollup-plugin-ts: registry.npmjs.org/rollup-plugin-ts/3.2.0_2kkkjclyparzkaevnmwvqixwuq
       ts-jest: registry.npmjs.org/ts-jest/29.1.0_doipufordlnvh5g4adbwayvyvy
       tslib: registry.npmjs.org/tslib/2.5.0
       typescript: registry.npmjs.org/typescript/4.9.5
@@ -9096,6 +9100,21 @@ packages:
       rollup: registry.npmjs.org/rollup/2.79.1
     dev: true
 
+  registry.npmjs.org/@rollup/plugin-buble/0.21.3_rollup@3.21.5:
+    resolution: {integrity: sha512-Iv8cCuFPnMdqV4pcyU+OrfjOfagPArRQ1PyQjx5KgHk3dARedI+8PNTLSMpJts0lQJr8yF2pAU4GxpxCBJ9HYw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@rollup/plugin-buble/-/plugin-buble-0.21.3.tgz}
+    id: registry.npmjs.org/@rollup/plugin-buble/0.21.3
+    name: '@rollup/plugin-buble'
+    version: 0.21.3
+    engines: {node: '>= 8.0.0'}
+    peerDependencies:
+      rollup: ^1.20.0||^2.0.0
+    dependencies:
+      '@rollup/pluginutils': registry.npmjs.org/@rollup/pluginutils/3.1.0_rollup@3.21.5
+      '@types/buble': registry.npmjs.org/@types/buble/0.19.2
+      buble: registry.npmjs.org/buble/0.20.0
+      rollup: registry.npmjs.org/rollup/3.21.5
+    dev: true
+
   registry.npmjs.org/@rollup/plugin-commonjs/20.0.0_rollup@2.79.1:
     resolution: {integrity: sha512-5K0g5W2Ol8hAcTHqcTBHiA7M58tfmYi1o9KxeJuuRNpGaTa5iLjcyemBitCBcKXaHamOBBEH2dGom6v6Unmqjg==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@rollup/plugin-commonjs/-/plugin-commonjs-20.0.0.tgz}
     id: registry.npmjs.org/@rollup/plugin-commonjs/20.0.0
@@ -9265,6 +9284,23 @@ packages:
       rollup: registry.npmjs.org/rollup/2.79.1
     dev: false
 
+  registry.npmjs.org/@rollup/plugin-replace/5.0.2_rollup@3.21.5:
+    resolution: {integrity: sha512-M9YXNekv/C/iHHK+cvORzfRYfPbq0RDD8r0G+bMiTXjNGKulPnCT9O3Ss46WfhI6ZOCgApOP7xAdmCQJ+U2LAA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@rollup/plugin-replace/-/plugin-replace-5.0.2.tgz}
+    id: registry.npmjs.org/@rollup/plugin-replace/5.0.2
+    name: '@rollup/plugin-replace'
+    version: 5.0.2
+    engines: {node: '>=14.0.0'}
+    peerDependencies:
+      rollup: ^1.20.0||^2.0.0||^3.0.0
+    peerDependenciesMeta:
+      rollup:
+        optional: true
+    dependencies:
+      '@rollup/pluginutils': registry.npmjs.org/@rollup/pluginutils/5.0.2_rollup@3.21.5
+      magic-string: registry.npmjs.org/magic-string/0.27.0
+      rollup: registry.npmjs.org/rollup/3.21.5
+    dev: true
+
   registry.npmjs.org/@rollup/plugin-typescript/11.1.1_2kkkjclyparzkaevnmwvqixwuq:
     resolution: {integrity: sha512-Ioir+x5Bejv72Lx2Zbz3/qGg7tvGbxQZALCLoJaGrkNXak/19+vKgKYJYM3i/fJxvsb23I9FuFQ8CUBEfsmBRg==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@rollup/plugin-typescript/-/plugin-typescript-11.1.1.tgz}
     id: registry.npmjs.org/@rollup/plugin-typescript/11.1.1
@@ -9284,6 +9320,29 @@ packages:
       '@rollup/pluginutils': registry.npmjs.org/@rollup/pluginutils/5.0.2_rollup@3.21.5
       resolve: registry.npmjs.org/resolve/1.22.2
       rollup: registry.npmjs.org/rollup/3.21.5
+      typescript: registry.npmjs.org/typescript/4.9.5
+    dev: true
+
+  registry.npmjs.org/@rollup/plugin-typescript/11.1.1_zbvynxjsshkmfsrzjt34poassy:
+    resolution: {integrity: sha512-Ioir+x5Bejv72Lx2Zbz3/qGg7tvGbxQZALCLoJaGrkNXak/19+vKgKYJYM3i/fJxvsb23I9FuFQ8CUBEfsmBRg==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@rollup/plugin-typescript/-/plugin-typescript-11.1.1.tgz}
+    id: registry.npmjs.org/@rollup/plugin-typescript/11.1.1
+    name: '@rollup/plugin-typescript'
+    version: 11.1.1
+    engines: {node: '>=14.0.0'}
+    peerDependencies:
+      rollup: ^2.14.0||^3.0.0
+      tslib: '*'
+      typescript: '>=3.7.0'
+    peerDependenciesMeta:
+      rollup:
+        optional: true
+      tslib:
+        optional: true
+    dependencies:
+      '@rollup/pluginutils': registry.npmjs.org/@rollup/pluginutils/5.0.2_rollup@3.21.5
+      resolve: registry.npmjs.org/resolve/1.22.2
+      rollup: registry.npmjs.org/rollup/3.21.5
+      tslib: registry.npmjs.org/tslib/2.5.0
       typescript: registry.npmjs.org/typescript/4.9.5
     dev: true
 
@@ -10217,14 +10276,14 @@ packages:
     version: 3.7.4
     dependencies:
       '@types/eslint': registry.npmjs.org/@types/eslint/8.37.0
-      '@types/estree': registry.npmjs.org/@types/estree/0.0.51
+      '@types/estree': registry.npmjs.org/@types/estree/1.0.1
 
   registry.npmjs.org/@types/eslint/8.37.0:
     resolution: {integrity: sha512-Piet7dG2JBuDIfohBngQ3rCt7MgO9xCO4xIMKxBThCq5PNRB91IjlJ10eJVwfoNtvTErmxLzwBZ7rHZtbOMmFQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@types/eslint/-/eslint-8.37.0.tgz}
     name: '@types/eslint'
     version: 8.37.0
     dependencies:
-      '@types/estree': registry.npmjs.org/@types/estree/0.0.51
+      '@types/estree': registry.npmjs.org/@types/estree/1.0.1
       '@types/json-schema': registry.npmjs.org/@types/json-schema/7.0.11
 
   registry.npmjs.org/@types/estree/0.0.39:
@@ -26863,7 +26922,7 @@ packages:
     name: metro-minify-terser
     version: 0.73.9
     dependencies:
-      terser: registry.npmjs.org/terser/5.17.1
+      terser: registry.npmjs.org/terser/5.17.7
 
   registry.npmjs.org/metro-minify-uglify/0.73.10:
     resolution: {integrity: sha512-eocnSeJKnLz/UoYntVFhCJffED7SLSgbCHgNvI6ju6hFb6EFHGJT9OLbkJWeXaWBWD3Zw5mYLS8GGqGn/CHZPA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/metro-minify-uglify/-/metro-minify-uglify-0.73.10.tgz}
@@ -35473,6 +35532,18 @@ packages:
     resolution: {integrity: sha512-hVl35zClmpisy6oaoKALOpS0rDYLxRFLHhRuDlEGTKey9qHjS1w9GMORjuwIMt70Wan4lwsLYyWDVnWgF+KUEw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/terser/-/terser-5.17.1.tgz}
     name: terser
     version: 5.17.1
+    engines: {node: '>=10'}
+    hasBin: true
+    dependencies:
+      '@jridgewell/source-map': registry.npmjs.org/@jridgewell/source-map/0.3.3
+      acorn: registry.npmjs.org/acorn/8.8.2
+      commander: registry.npmjs.org/commander/2.20.3
+      source-map-support: registry.npmjs.org/source-map-support/0.5.21
+
+  registry.npmjs.org/terser/5.17.7:
+    resolution: {integrity: sha512-/bi0Zm2C6VAexlGgLlVxA0P2lru/sdLyfCVaRMfKVo9nWxbmz7f/sD8VPybPeSUJaJcwmCJis9pBIhcVcG1QcQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/terser/-/terser-5.17.7.tgz}
+    name: terser
+    version: 5.17.7
     engines: {node: '>=10'}
     hasBin: true
     dependencies:

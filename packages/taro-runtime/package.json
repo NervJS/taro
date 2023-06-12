@@ -2,15 +2,18 @@
   "name": "@tarojs/runtime",
   "version": "3.7.0-alpha.2",
   "description": "taro runtime for mini apps.",
+  "main:h5": "dist/runtime.h5.js",
   "main": "dist/runtime.esm.js",
-  "module": "dist/runtime.esm.js",
+  "module": "dist/runtime.cjs.js",
   "types": "./dist/index.d.ts",
   "files": [
     "dist"
   ],
   "scripts": {
-    "build": "rimraf ./dist && tsc -emitDeclarationOnly && rollup -c",
-    "dev": "rollup -c -w",
+    "prebuild": "rimraf ./dist",
+    "build": "pnpm run rollup",
+    "dev": "pnpm run rollup --environment TARGET:esm -w",
+    "rollup": "rollup --config rollup.config.ts --configPlugin @rollup/plugin-typescript --bundleConfigAsCjs",
     "test": "jest",
     "test:ci": "jest --ci -i --coverage false"
   },
@@ -29,11 +32,13 @@
   },
   "devDependencies": {
     "@rollup/plugin-buble": "^0.21.3",
+    "@rollup/plugin-replace": "^5.0.2",
+    "@rollup/plugin-typescript": "^11.1.0",
     "@vue/runtime-core": "3.2.41",
     "jest": "^29.3.1",
     "jest-cli": "^29.3.1",
     "jest-environment-node": "^29.5.0",
-    "rollup": "^2.79.0",
+    "rollup": "^3.8.1",
     "rollup-plugin-ts": "^3.0.2",
     "ts-jest": "^29.0.5",
     "tslib": "^2.5.0",
