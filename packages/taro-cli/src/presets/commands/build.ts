@@ -1,6 +1,7 @@
 import {
   MessageKind,
-  validateConfig } from '@tarojs/plugin-doctor/js-binding'
+  validateConfig
+} from '@tarojs/plugin-doctor/js-binding'
 
 import * as hooks from '../constant'
 
@@ -186,6 +187,9 @@ function checkConfig ({ projectConfig }) {
   const configStr = JSON.stringify(projectConfig, (_, v) => {
     if (typeof v === 'function') {
       return '__function__'
+    }
+    if (v instanceof RegExp) {
+      return v.toString()
     }
     return v
   })
