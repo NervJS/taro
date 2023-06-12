@@ -84,6 +84,12 @@ export default function (appPath: string, taroConfig: H5BuildConfig): PluginOpti
   if (isBoolean(serverOption.open) || isString(serverOption.open)) {
     open = serverOption.open
   }
+  const mainFields: string[] = []
+  if (taroConfig.mode === 'production') {
+    mainFields.push('main:h5', 'browser', 'module', 'jsnext:main', 'main')
+  } else {
+    mainFields.push('module', 'jsnext:main', 'main', 'main:h5', 'browser')
+  }
 
   return {
     name: 'taro:vite-h5-config',
@@ -95,7 +101,7 @@ export default function (appPath: string, taroConfig: H5BuildConfig): PluginOpti
       outDir: taroConfig.outputRoot || 'dist',
       define: getDefineOption(),
       resolve: {
-        mainFields: ['main:h5', 'browser', 'module', 'jsnext:main', 'main'],
+        mainFields,
         extensions: ['.js', '.jsx', '.ts', '.tsx', '.mjs', '.vue'],
         alias: getAliasOption(),
         dedupe: [

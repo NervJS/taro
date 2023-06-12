@@ -5,6 +5,12 @@ import type { BuildConfig } from '../utils/types'
 
 export default (_appPath: string, _config: Partial<BuildConfig>) => {
   const chain = new Chain()
+  const mainFields: string[] = []
+  if (chain.get('mode') === 'production') {
+    mainFields.push('main:h5', 'browser', 'module', 'jsnext:main', 'main')
+  } else {
+    mainFields.push('module', 'jsnext:main', 'main', 'main:h5', 'browser')
+  }
   chain.merge({
     resolve: {
       extensions: ['.mjs', '.js', '.jsx', '.ts', '.tsx', '.vue'],
