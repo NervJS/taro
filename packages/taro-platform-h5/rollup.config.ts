@@ -22,7 +22,7 @@ function getPlugins<T = InputPluginOption>(pre: T[] = [], post: T[] = []) {
     ...pre,
     nodeResolve({
       preferBuiltins: false,
-      mainFields: ['main:h5', 'browser', 'module', 'jsnext:main', 'main'],
+      mainFields: ['browser', 'module', 'jsnext:main', 'main'],
     }),
     json({
       compact: true,

@@ -1,20 +1,23 @@
-import { defaultEsbuildLoader, esbuild, externalEsbuildModule, fs, REG_SCRIPTS, swc } from '@tarojs/helper'
+import {
+  defaultEsbuildLoader,
+  defaultMainFields,
+  esbuild,
+  externalEsbuildModule,
+  fs,
+  REG_SCRIPTS,
+  swc,
+} from '@tarojs/helper'
 import { init, parse } from 'es-module-lexer'
 import { defaults } from 'lodash'
 import path from 'path'
 
-import {
-  flattenId,
-  getDefines,
-  getHash,
-  getResolve
-} from '../utils'
+import { flattenId, getDefines, getHash, getResolve } from '../utils'
 import { assetsRE, moduleRE } from '../utils/constant'
 
 import type Chain from 'webpack-chain'
 import type { CollectedDeps } from '../utils/constant'
 
-type ExportsData = ReturnType<typeof parse> & { hasReExports?: boolean, needInterop?: boolean }
+type ExportsData = ReturnType<typeof parse> & { hasReExports?: boolean; needInterop?: boolean }
 
 interface BundleConfig {
   appPath: string
@@ -31,13 +34,13 @@ interface BundleConfig {
 // 1. flatten all ids to eliminate slash
 // 2. in the plugin, read the entry ourselves as virtual files to retain the
 //    path.
-export async function bundle ({
+export async function bundle({
   appPath,
   deps,
   chain,
   prebundleOutputDir,
   customEsbuildConfig = {},
-  customSwcConfig = {}
+  customSwcConfig = {},
 }: BundleConfig) {
   await init
 
@@ -61,9 +64,7 @@ export async function bundle ({
     flatIdExports.set(flatId, exportsData)
   }
 
-  fs.existsSync(prebundleOutputDir)
-    ? fs.emptyDirSync(prebundleOutputDir)
-    : fs.ensureDirSync(prebundleOutputDir)
+  fs.existsSync(prebundleOutputDir) ? fs.emptyDirSync(prebundleOutputDir) : fs.ensureDirSync(prebundleOutputDir)
 
   return esbuild.build({
     ...customEsbuildConfig,
@@ -71,7 +72,7 @@ export async function bundle ({
     bundle: true,
     write: false,
     entryPoints: Array.from(flattenDeps.keys()),
-    mainFields: ['main:h5', 'browser', 'module', 'jsnext:main', 'main'],
+    mainFields: [...defaultMainFields],
     format: 'esm',
     loader: defaults(customEsbuildConfig.loader, defaultEsbuildLoader),
     define: {
@@ -79,7 +80,7 @@ export async function bundle ({
       // AMD 被 esbuild 转 ESM 后，是套着 ESM 外皮的 AMD 语法模块。
       // Webpack HarmonyDetectionParserPlugin 会阻止 AMDDefineDependencyParserPlugin 对这些模块的处理。
       // 导致这些模块报错（如 lodash）。目前的办法是把 define 置为 false，不支持 AMD 导出。
-      define: 'false'
+      define: 'false',
     },
     splitting: true,
     metafile: true,
@@ -89,18 +90,18 @@ export async function bundle ({
       getEntryPlugin({
         flattenDeps,
         flatIdExports,
-        prebundleOutputDir
+        prebundleOutputDir,
       }),
-      ...customEsbuildConfig.plugins || [],
-      getSwcPlugin({ appPath, flatIdExports }, customSwcConfig)
-    ]
+      ...(customEsbuildConfig.plugins || []),
+      getSwcPlugin({ appPath, flatIdExports }, customSwcConfig),
+    ],
   })
 }
 
-function getEntryPlugin ({
+function getEntryPlugin({
   flattenDeps,
   flatIdExports,
-  prebundleOutputDir
+  prebundleOutputDir,
 }: {
   flattenDeps: CollectedDeps
   flatIdExports: Map<string, ExportsData>
@@ -109,7 +110,7 @@ function getEntryPlugin ({
   const resolve = getResolve()
   return {
     name: 'entry',
-    setup (build) {
+    setup(build) {
       // assets
       build.onResolve({ filter: assetsRE }, async ({ path: id, importer }) => {
         const filePath = await resolve(path.dirname(importer), id)
@@ -127,7 +128,7 @@ function getEntryPlugin ({
         if (!importer && flattenDeps.has(id)) {
           return {
             path: id,
-            namespace: 'entry'
+            namespace: 'entry',
           }
         }
 
@@ -160,11 +161,7 @@ function getEntryPlugin ({
             // export default
             js += `import d from "${filePath}";export default d;`
           }
-          if (
-            hasReExports ||
-            exportsList.length > 1 ||
-            exportsList[0] !== 'default'
-          ) {
+          if (hasReExports || exportsList.length > 1 || exportsList[0] !== 'default') {
             // export * from 'xx'
             // export const xx
             js += `export * from "${filePath}";`
@@ -179,29 +176,34 @@ function getEntryPlugin ({
         return {
           loader: 'js',
           resolveDir: process.cwd(),
-          contents: js
+          contents: js,
         }
       })
-    }
+    },
   }
 }
 
-export function getSwcPlugin ({
-  appPath,
-  flatIdExports
-}: {
-  appPath: string
-  flatIdExports: Map<string, ExportsData>
-}, config?: swc.Config): esbuild.Plugin {
+export function getSwcPlugin(
+  {
+    appPath,
+    flatIdExports,
+  }: {
+    appPath: string
+    flatIdExports: Map<string, ExportsData>
+  },
+  config?: swc.Config
+): esbuild.Plugin {
   return {
     name: 'swc-plugin',
-    setup (build) {
+    setup(build) {
       build.onEnd(async ({ outputFiles = [], metafile = {} }) => {
-        await Promise.all(outputFiles.map(async ({ path, text }) => {
-          if (!REG_SCRIPTS.test(path)) return
-          const { code } = swc.transformSync(text, defaults(config, { jsc: { target: 'es2015' } }))
-          fs.writeFile(path, code)
-        }))
+        await Promise.all(
+          outputFiles.map(async ({ path, text }) => {
+            if (!REG_SCRIPTS.test(path)) return
+            const { code } = swc.transformSync(text, defaults(config, { jsc: { target: 'es2015' } }))
+            fs.writeFile(path, code)
+          })
+        )
 
         // esbuild 把 Commonjs 转 ESM 时，打包后只有 export default 语句，
         // 无法实现原模块 module.exports = 的功能。
@@ -217,29 +219,26 @@ export function getSwcPlugin ({
           const entry = output.entryPoint.replace(/^entry:/, '')
           if (!flatIdExports.has(entry)) continue
 
-          if (
-            flatIdExports.get(entry)?.needInterop &&
-            output.exports.length === 1 &&
-            output.exports[0] === 'default'
-          ) {
+          if (flatIdExports.get(entry)?.needInterop && output.exports.length === 1 && output.exports[0] === 'default') {
             const srcPath = path.join(appPath, outputName)
             const destPath = path.join(appPath, outputName.replace(/(\.js)$/, '.core$1'))
 
             processAll.push(
-              fs.move(srcPath, destPath)
-                .then(() => fs.writeFile(
+              fs.move(srcPath, destPath).then(() =>
+                fs.writeFile(
                   srcPath,
                   `var m = require('./${path.basename(destPath)}');
                    module.exports = m.default;
                    exports.default = module.exports;
                   `
-                ))
+                )
+              )
             )
           }
         }
 
         await Promise.all(processAll)
       })
-    }
+    },
   }
 }

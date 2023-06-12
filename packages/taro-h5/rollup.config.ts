@@ -6,12 +6,12 @@ import externals from 'rollup-plugin-node-externals'
 import postcss from 'rollup-plugin-postcss'
 import ts from 'rollup-plugin-ts'
 
-import type { InputPluginOption,RollupOptions } from 'rollup'
+import type { InputPluginOption, RollupOptions } from 'rollup'
 
 const baseConfig: RollupOptions = {
   output: {
     sourcemap: true,
-    exports: 'named'
+    exports: 'named',
   },
   treeshake: false,
   plugins: [
@@ -21,55 +21,62 @@ const baseConfig: RollupOptions = {
     }),
     nodeResolve({
       preferBuiltins: false,
-      mainFields: ['main:h5', 'browser', 'module', 'jsnext:main', 'main']
+      mainFields: ['browser', 'module', 'jsnext:main', 'main'],
     }) as InputPluginOption,
     ts({
-      tsconfig: e => ({
+      tsconfig: (e) => ({
         ...e,
         sourceMap: true,
-      })
+      }),
     }),
     commonjs() as InputPluginOption,
     postcss({
-      inject: { insertAt: 'top' }
-    }) as InputPluginOption
-  ]
+      inject: { insertAt: 'top' },
+    }) as InputPluginOption,
+  ],
 }
 
-const variesConfig: RollupOptions[] = [{
-  input: ['src/index.ts', 'src/api/index.ts', 'src/api/taro.ts'],
-  output: {
-    dir: 'dist',
-    preserveModules: true,
-    preserveModulesRoot: 'src'
-  }
-}]
+const variesConfig: RollupOptions[] = [
+  {
+    input: ['src/index.ts', 'src/api/index.ts', 'src/api/taro.ts'],
+    output: {
+      dir: 'dist',
+      preserveModules: true,
+      preserveModulesRoot: 'src',
+    },
+  },
+]
 
 if (process.env.NODE_ENV === 'production') {
-  variesConfig.push({
-    input: 'src/index.ts',
-    output: {
-      format: 'cjs',
-      file: 'dist/index.cjs.js',
-      inlineDynamicImports: true
+  variesConfig.push(
+    {
+      input: 'src/index.ts',
+      output: {
+        format: 'cjs',
+        file: 'dist/index.cjs.js',
+        inlineDynamicImports: true,
+      },
+    },
+    {
+      input: 'src/index.ts',
+      output: {
+        file: 'dist/index.esm.js',
+        inlineDynamicImports: true,
+      },
     }
-  }, {
-    input: 'src/index.ts',
-    output: {
-      file: 'dist/index.esm.js',
-      inlineDynamicImports: true
-    }
-  })
+  )
 }
 
-export default defineConfig(variesConfig.map(v => {
-  const customizer = function (objValue, srcValue) {
-    if (Array.isArray(objValue)) {
-      return objValue.concat(srcValue)
+export default defineConfig(
+  variesConfig.map((v) => {
+    const customizer = function (objValue, srcValue) {
+      if (Array.isArray(objValue)) {
+        return objValue.concat(srcValue)
+      }
+      if (typeof objValue === 'object') {
+        return mergeWith({}, objValue, srcValue, customizer)
+      }
     }
-    if (typeof objValue === 'object') {
-      return mergeWith({}, objValue, srcValue, customizer)
-    }
-  }
-  return mergeWith({}, baseConfig, v, customizer)
-}))
+    return mergeWith({}, baseConfig, v, customizer)
+  })
+)

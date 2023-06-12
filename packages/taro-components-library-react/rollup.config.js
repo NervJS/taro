@@ -11,30 +11,30 @@ const config = {
     exports: 'named',
     preserveModules: true,
     preserveModulesRoot: 'src',
-    sourcemap: true
+    sourcemap: true,
   },
   treeshake: false,
   plugins: [
     externals({
       deps: true,
       devDeps: false,
-      include: ['react', 'react-dom']
+      include: ['react', 'react-dom'],
     }),
     resolve({
       preferBuiltins: false,
-      mainFields: ['main:h5', 'browser', 'module', 'jsnext:main', 'main']
+      mainFields: ['browser', 'module', 'jsnext:main', 'main'],
     }),
     ts({
       sourceMap: true,
     }),
     commonjs({
       transformMixedEsModules: true,
-      dynamicRequireTargets: ['./src/**/*.js']
+      dynamicRequireTargets: ['./src/**/*.js'],
     }),
     postcss({
-      inject: { insertAt: 'top' }
-    })
-  ]
+      inject: { insertAt: 'top' },
+    }),
+  ],
 }
 
 export default config
