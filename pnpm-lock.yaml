@@ -1304,7 +1304,6 @@ importers:
       babel-plugin-transform-taroapi: workspace:*
       change-case: ^4.1.2
       lodash-es: 4.17.21
-      resolve: ^1.22.0
       rollup: ^3.8.1
       rollup-plugin-node-externals: ^5.0.0
       rollup-plugin-ts: ^3.0.2
@@ -1323,7 +1322,6 @@ importers:
       babel-plugin-transform-taroapi: link:../babel-plugin-transform-taroapi
       change-case: registry.npmjs.org/change-case/4.1.2
       lodash-es: registry.npmjs.org/lodash-es/4.17.21
-      resolve: registry.npmjs.org/resolve/1.22.2
     devDependencies:
       '@rollup/plugin-commonjs': registry.npmjs.org/@rollup/plugin-commonjs/20.0.0_rollup@3.21.5
       '@rollup/plugin-json': registry.npmjs.org/@rollup/plugin-json/4.1.0_rollup@3.21.5

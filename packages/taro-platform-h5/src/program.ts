@@ -1,5 +1,5 @@
 import { transformAsync } from '@babel/core'
-import { SCRIPT_EXT } from '@tarojs/helper'
+import { defaultMainFields, SCRIPT_EXT } from '@tarojs/helper'
 import { TaroPlatformWeb } from '@tarojs/service'
 import path from 'path'
 
@@ -47,6 +47,8 @@ export default class H5 extends TaroPlatformWeb {
     return compLibraryAlias[this.framework] || 'react'
   }
 
+  protected mainFields = [...defaultMainFields]
+
   get componentLibrary() {
     if (this.useHtmlComponents && this.aliasFramework === 'react') {
       return require.resolve('./runtime/components')
@@ -62,11 +64,17 @@ export default class H5 extends TaroPlatformWeb {
   }
 
   get routerLibrary() {
-    return require.resolve('@tarojs/router')
+    const name = '@tarojs/router'
+    return (
+      resolveSync(name, {
+        basedir: this.ctx.paths.appPath,
+        mainFields: this.mainFields,
+      }) || name
+    )
   }
 
   get libraryDefinition() {
-    return resolveSync('./definition.json')
+    return resolveSync('./definition.json')!
   }
 
   /**
@@ -74,6 +82,12 @@ export default class H5 extends TaroPlatformWeb {
    */
   modifyWebpackConfig() {
     this.ctx.modifyWebpackChain(({ chain }) => {
+      // Note: 更新 mainFields 配置，确保 resolveSync 能正确读取到相关依赖入口文件
+      const mainFields = chain.resolve.mainFields.values() || [...defaultMainFields]
+      if (mainFields.length > 0) {
+        this.mainFields = mainFields
+      }
+
       const rules = chain.module.rules
       const script = rules.get('script')
       const babelLoader = script.uses.get('babelLoader')
@@ -222,7 +236,7 @@ export default class H5 extends TaroPlatformWeb {
                       require('babel-plugin-transform-taroapi'),
                       {
                         packageName: '@tarojs/taro',
-                        apis: require(resolveSync('./taroApis')),
+                        apis: require(resolveSync('./taroApis')!),
                       },
                     ],
                   ],
