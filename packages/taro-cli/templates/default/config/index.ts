@@ -1,4 +1,4 @@
-import { defineConfig } from "@tarojs/cli"
+import { defineConfig, type UserConfigExport } from "@tarojs/cli"
 
 export default defineConfig(async (merge, { comman, mode }) => {
   return {

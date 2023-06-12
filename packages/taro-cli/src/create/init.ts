@@ -177,7 +177,7 @@ export async function createPage (creator: Creator, params: IPageConf, cb) {
 }
 
 export async function createApp (creator: Creator, params: IProjectConf, cb) {
-  const { projectName, projectDir, template, autoInstall = true, framework, npm } = params
+  const { projectName, projectDir, template, autoInstall = true, framework, npm, typescript } = params
   const logs: string[] = []
   // path
   const projectPath = path.join(projectDir, projectName)
@@ -187,7 +187,18 @@ export async function createApp (creator: Creator, params: IProjectConf, cb) {
   const version = getPkgVersion()
 
   // 遍历出模板中所有文件
-  const files = await getAllFilesInFolder(templatePath, doNotCopyFiles)
+  let files = await getAllFilesInFolder(templatePath, doNotCopyFiles)
+
+  // 新增规则：config目录下文件， 如果用户选择了使用ts模板，则只拷贝.ts后缀文件;用户未选择ts， 则只拷贝.js后缀文件
+  files = files.filter(file => {
+    const fileRePath = file.replace(templatePath, '').replace(new RegExp(`\\${path.sep}`, 'g'), '/').replace(/^\//, '')
+    if (fileRePath.startsWith(`${CONFIG_DIR_NAME}`)) {
+      if ((typescript && file.endsWith('.js')) || (!typescript && file.endsWith('.ts'))) {
+        return false
+      }
+    } 
+    return true
+  })
 
   // 引入模板编写者的自定义逻辑
   const handlerPath = path.join(templatePath, TEMPLATE_CREATOR)

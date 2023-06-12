@@ -9,7 +9,7 @@ import { createApp } from 'vue'
 import './app.<%= cssExt %>'
 
 <% if (['react', 'preact'].includes(framework)) { -%>
-function App({ children }<% if (typescript) {%>: PropsWithChildren<%}%>) {
+function App({ children }<% if (typescript) {%>: PropsWithChildren<any><%}%>) {
 
   useLaunch(() => {
     console.log('App launched.', process.env.TARO_APP_API)
