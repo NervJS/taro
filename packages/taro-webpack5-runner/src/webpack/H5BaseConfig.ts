@@ -27,7 +27,7 @@ export class H5BaseConfig extends BaseConfig {
         mainFields,
         alias: {
           // Note: link 本地依赖调试，runtime 包需要指向本地 node_modules 顶层的 runtime，保证闭包值 Current 一致，shared 也一样
-          '@tarojs/runtime': require.resolve('@tarojs/runtime'),
+          '@tarojs/runtime': require.resolve('@tarojs/runtime/dist/runtime.esm.js'),
           '@tarojs/shared': require.resolve('@tarojs/shared/dist/shared.esm.js'),
         },
       },
