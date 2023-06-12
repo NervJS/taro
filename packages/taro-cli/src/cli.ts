@@ -88,9 +88,10 @@ export default class CLI {
       if(initialConfig) {
         initialConfig.env = patchEnv(initialConfig, expandEnv)
       }
-
-      // 针对不同的内置命令注册对应的命令插件
-      if (commandPlugins.includes(targetPlugin)) {
+      if (command === 'doctor') {
+        kernel.optsPlugins.push('@tarojs/plugin-doctor')
+      } else if (commandPlugins.includes(targetPlugin)) {
+        // 针对不同的内置命令注册对应的命令插件
         kernel.optsPlugins.push(path.resolve(commandsPath, targetPlugin))
       }
 

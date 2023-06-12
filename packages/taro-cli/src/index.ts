@@ -16,4 +16,5 @@ export {
   Creator,
   defineConfig,
   doctor,
-  Project }
+  Project
+}
