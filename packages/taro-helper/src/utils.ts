@@ -3,7 +3,6 @@ import * as fs from 'fs-extra'
 import { camelCase, flatMap, isPlainObject, mergeWith } from 'lodash'
 import * as os from 'os'
 import * as path from 'path'
-import { type SyncOpts, sync as resolve } from 'resolve'
 
 import {
   CSS_EXT,
@@ -18,6 +17,8 @@ import {
 } from './constants'
 import { requireWithEsbuild } from './esbuild'
 import { chalk } from './terminal'
+
+import type TResolve from 'resolve'
 
 const execSync = child_process.execSync
 
@@ -210,8 +211,9 @@ export function isEmptyObject(obj: any): boolean {
   return true
 }
 
-export function resolveSync(id: string, opts: SyncOpts & { mainFields?: string[] } = {}): string | null {
+export function resolveSync(id: string, opts: TResolve.SyncOpts & { mainFields?: string[] } = {}): string | null {
   try {
+    const resolve = require('resolve').sync as (typeof TResolve)['sync']
     return resolve(id, {
       ...opts,
       packageFilter(pkg, pkgfile) {
@@ -220,6 +222,7 @@ export function resolveSync(id: string, opts: SyncOpts & { mainFields?: string[]
         } else if (opts.mainFields?.length) {
           pkg.main = pkg[opts.mainFields.find((field) => pkg[field]) || 'main']
         }
+        return pkg
       },
     })
   } catch (error) {
@@ -335,6 +338,7 @@ export const pascalCase: (str: string) => string = (str: string): string =>
 
 export function getInstalledNpmPkgPath(pkgName: string, basedir: string): string | null {
   try {
+    const resolve = require('resolve').sync as (typeof TResolve)['sync']
     return resolve(`${pkgName}/package.json`, { basedir })
   } catch (err) {
     return null

@@ -67,21 +67,23 @@ export default class H5 extends TaroPlatformWeb {
     const name = '@tarojs/router'
     return (
       resolveSync(name, {
-        basedir: this.ctx.paths.appPath,
+        // basedir: this.ctx.paths.appPath,
         mainFields: this.mainFields,
       }) || name
     )
   }
 
   get libraryDefinition() {
-    return resolveSync('./definition.json')!
+    return resolveSync('./definition.json', {
+      basedir: __dirname,
+    })!
   }
 
   /**
    * 修改 Webpack 配置
    */
   modifyWebpackConfig() {
-    this.ctx.modifyWebpackChain(({ chain }) => {
+    this.ctx.modifyWebpackChain?.(({ chain }) => {
       // Note: 更新 mainFields 配置，确保 resolveSync 能正确读取到相关依赖入口文件
       const mainFields = chain.resolve.mainFields.values() || [...defaultMainFields]
       if (mainFields.length > 0) {
@@ -158,7 +160,7 @@ export default class H5 extends TaroPlatformWeb {
    */
   modifyViteConfig() {
     const that = this
-    that.ctx.modifyViteConfig(({ viteConfig }) => {
+    that.ctx.modifyViteConfig?.(({ viteConfig }) => {
       function aliasPlugin() {
         return {
           name: 'taro:vite-h5-alias',
