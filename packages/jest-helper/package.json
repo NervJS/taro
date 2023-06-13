@@ -16,7 +16,6 @@
   "license": "ISC",
   "devDependencies": {
     "@jest/test-sequencer": "^29.5.0",
-    "@tarojs/helper": "workspace:*",
     "jest-resolve": "^29.5.0",
     "jest-runner": "^29.5.0",
     "pretty-format": "^29.5.0",

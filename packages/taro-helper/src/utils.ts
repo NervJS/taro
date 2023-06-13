@@ -220,7 +220,7 @@ export function resolveSync(id: string, opts: TResolve.SyncOpts & { mainFields?:
         if (opts.packageFilter) {
           pkg = opts.packageFilter(pkg, pkgfile)
         } else if (opts.mainFields?.length) {
-          pkg.main = pkg[opts.mainFields.find((field) => pkg[field]) || 'main']
+          pkg.main = pkg[opts.mainFields.find((field) => pkg[field] && typeof pkg[field] === 'string') || 'main']
         }
         return pkg
       },

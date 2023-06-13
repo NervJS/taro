@@ -96,6 +96,7 @@
     "jest-cli": "^29.3.1",
     "jest-transform-css": "^6.0.1",
     "jest-environment-node": "^29.5.0",
+    "jest-taro-helper": "workspace:*",
     "memfs": "^3.1.2",
     "memory-fs": "^0.5.0",
     "postcss": "^8.4.18",
