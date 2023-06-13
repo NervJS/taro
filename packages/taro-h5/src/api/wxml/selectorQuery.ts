@@ -202,13 +202,15 @@ export class SelectorQuery implements Taro.SelectorQuery {
   }
 
   exec (cb) {
-    queryBat(this._queue, res => {
-      const _queueCb = this._queueCb
-      res.forEach((item, index) => {
-        const cb = _queueCb[index]
-        isFunction(cb) && cb.call(this, item)
+    Taro.nextTick(() => {
+      queryBat(this._queue, res => {
+        const _queueCb = this._queueCb
+        res.forEach((item, index) => {
+          const cb = _queueCb[index]
+          isFunction(cb) && cb.call(this, item)
+        })
+        isFunction(cb) && cb.call(this, res)
       })
-      isFunction(cb) && cb.call(this, res)
     })
     return this as unknown as Taro.NodesRef
   }
