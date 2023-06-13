@@ -403,6 +403,22 @@ importers:
       eslint-plugin-vue: registry.npmjs.org/eslint-plugin-vue/8.7.1_eslint@8.40.0
       typescript: registry.npmjs.org/typescript/4.9.5
 
+  packages/jest-helper:
+    specifiers:
+      '@jest/test-sequencer': ^29.5.0
+      '@tarojs/helper': workspace:*
+      jest-resolve: ^29.5.0
+      jest-runner: ^29.5.0
+      pretty-format: ^29.5.0
+      typescript: ^4.7.4
+    devDependencies:
+      '@jest/test-sequencer': registry.npmjs.org/@jest/test-sequencer/29.5.0
+      '@tarojs/helper': link:../taro-helper
+      jest-resolve: registry.npmjs.org/jest-resolve/29.5.0
+      jest-runner: registry.npmjs.org/jest-runner/29.5.0
+      pretty-format: registry.npmjs.org/pretty-format/29.5.0
+      typescript: registry.npmjs.org/typescript/4.9.5
+
   packages/postcss-html-transform:
     specifiers:
       postcss: ^8.4.18

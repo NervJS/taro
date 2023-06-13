@@ -1,0 +1,25 @@
+{
+  "name": "jest-taro-helper",
+  "version": "3.7.0-alpha.2",
+  "description": "jest helper for taro",
+  "private": true,
+  "main": "index.js",
+  "files": [
+    "lib"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc -w"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@jest/test-sequencer": "^29.5.0",
+    "@tarojs/helper": "workspace:*",
+    "jest-resolve": "^29.5.0",
+    "jest-runner": "^29.5.0",
+    "pretty-format": "^29.5.0",
+    "typescript": "^4.7.4"
+  }
+}
