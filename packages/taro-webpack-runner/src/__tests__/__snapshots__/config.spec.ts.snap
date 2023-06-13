@@ -273,11 +273,19 @@ exports[`config should build from origin and pipe to output 2`] = `
     __webpack_require__.d(__webpack_exports__, "createVue3App", (function() {
         return createVue3App;
     }));
+    __webpack_require__.d(__webpack_exports__, "createRecursiveComponentConfig", (function() {
+        return createRecursiveComponentConfig;
+    }));
+    __webpack_require__.d(__webpack_exports__, "createPageConfig", (function() {
+        return createPageConfig;
+    }));
     __webpack_exports__["default"] = "taro-runtime-mock";
     var window = {};
     function createReactApp() {}
     function createVueApp() {}
     function createVue3App() {}
+    function createRecursiveComponentConfig() {}
+    function createPageConfig() {}
 }, function(module, __webpack_exports__, __webpack_require__) {
     "use strict";
     __webpack_require__.d(__webpack_exports__, "a", (function() {
@@ -1208,11 +1216,19 @@ I m irrelevant.
     __webpack_require__.d(__webpack_exports__, "createVue3App", (function() {
         return createVue3App;
     }));
+    __webpack_require__.d(__webpack_exports__, "createRecursiveComponentConfig", (function() {
+        return createRecursiveComponentConfig;
+    }));
+    __webpack_require__.d(__webpack_exports__, "createPageConfig", (function() {
+        return createPageConfig;
+    }));
     __webpack_exports__["default"] = "taro-runtime-mock";
     var window = {};
     function createReactApp() {}
     function createVueApp() {}
     function createVue3App() {}
+    function createRecursiveComponentConfig() {}
+    function createPageConfig() {}
 }, function(module, __webpack_exports__, __webpack_require__) {
     "use strict";
     __webpack_require__.d(__webpack_exports__, "a", (function() {
@@ -2143,11 +2159,19 @@ exports[`config should resolved alias 2`] = `
     __webpack_require__.d(__webpack_exports__, "createVue3App", (function() {
         return createVue3App;
     }));
+    __webpack_require__.d(__webpack_exports__, "createRecursiveComponentConfig", (function() {
+        return createRecursiveComponentConfig;
+    }));
+    __webpack_require__.d(__webpack_exports__, "createPageConfig", (function() {
+        return createPageConfig;
+    }));
     __webpack_exports__["default"] = "taro-runtime-mock";
     var window = {};
     function createReactApp() {}
     function createVueApp() {}
     function createVue3App() {}
+    function createRecursiveComponentConfig() {}
+    function createPageConfig() {}
 }, function(module, __webpack_exports__, __webpack_require__) {
     "use strict";
     __webpack_require__.d(__webpack_exports__, "a", (function() {

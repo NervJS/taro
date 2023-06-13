@@ -60,8 +60,10 @@ exports[`vue should build vue app 2`] = `
 }, function(module, __webpack_exports__, __webpack_require__) {
     "use strict";
     __webpack_require__.r(__webpack_exports__);
-    var render = function render() {
-        var _vm = this, _c = _vm._self._c;
+    var render = function() {
+        var _vm = this;
+        var _h = _vm.$createElement;
+        var _c = _vm._self._c || _h;
         return _c("taro-view", {
             "staticClass": "index"
         }, [ _c("taro-text", [ _vm._v(_vm._s(_vm.msg)) ]) ], 1);
@@ -302,11 +304,19 @@ exports[`vue should build vue app 2`] = `
     __webpack_require__.d(__webpack_exports__, "createVue3App", (function() {
         return createVue3App;
     }));
+    __webpack_require__.d(__webpack_exports__, "createRecursiveComponentConfig", (function() {
+        return createRecursiveComponentConfig;
+    }));
+    __webpack_require__.d(__webpack_exports__, "createPageConfig", (function() {
+        return createPageConfig;
+    }));
     __webpack_exports__["default"] = "taro-runtime-mock";
     var window = {};
     function createReactApp() {}
     function createVueApp() {}
     function createVue3App() {}
+    function createRecursiveComponentConfig() {}
+    function createPageConfig() {}
 }, function(module, exports) {
     function _typeof(obj) {
         "@babel/helpers - typeof";

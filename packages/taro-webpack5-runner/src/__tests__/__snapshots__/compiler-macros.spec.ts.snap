@@ -1358,8 +1358,14 @@ require("./runtime");
     202: function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
         __webpack_require__.r(__webpack_exports__);
         __webpack_require__.d(__webpack_exports__, {
+            createPageConfig: function() {
+                return createPageConfig;
+            },
             createReactApp: function() {
                 return createReactApp;
+            },
+            createRecursiveComponentConfig: function() {
+                return createRecursiveComponentConfig;
             },
             createVue3App: function() {
                 return createVue3App;
@@ -1376,6 +1382,8 @@ require("./runtime");
         function createReactApp() {}
         function createVueApp() {}
         function createVue3App() {}
+        function createRecursiveComponentConfig() {}
+        function createPageConfig() {}
     }
 } ]);
 

@@ -9,8 +9,10 @@ exports[`vue3 should build vue3 app 2`] = `
     "17": function(module, __webpack_exports__, __webpack_require__) {
         "use strict";
         __webpack_require__.r(__webpack_exports__);
-        var render = function render() {
-            var _vm = this, _c = _vm._self._c;
+        var render = function() {
+            var _vm = this;
+            var _h = _vm.$createElement;
+            var _c = _vm._self._c || _h;
             return _c("view", {
                 "staticClass": "index"
             }, [ _c("text", [ _vm._v(_vm._s(_vm.msg)) ]) ]);
@@ -252,11 +254,19 @@ exports[`vue3 should build vue3 app 2`] = `
     __webpack_require__.d(__webpack_exports__, "createVue3App", (function() {
         return createVue3App;
     }));
+    __webpack_require__.d(__webpack_exports__, "createRecursiveComponentConfig", (function() {
+        return createRecursiveComponentConfig;
+    }));
+    __webpack_require__.d(__webpack_exports__, "createPageConfig", (function() {
+        return createPageConfig;
+    }));
     __webpack_exports__["default"] = "taro-runtime-mock";
     var window = {};
     function createReactApp() {}
     function createVueApp() {}
     function createVue3App() {}
+    function createRecursiveComponentConfig() {}
+    function createPageConfig() {}
 }, function(module, __webpack_exports__, __webpack_require__) {
     "use strict";
     var _unused_webpack_default_export = "vue-mock";
