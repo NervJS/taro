@@ -99,6 +99,7 @@
 /// <reference path="api/device/vibrate.d.ts" />
 /// <reference path="api/ai/visionkit.d.ts" />
 /// <reference path="api/ai/face.d.ts" />
+/// <reference path="api/ai/inference.d.ts" />
 /// <reference path="api/worker/index.d.ts" />
 /// <reference path="api/wxml/index.d.ts" />
 /// <reference path="api/ext/index.d.ts" />
