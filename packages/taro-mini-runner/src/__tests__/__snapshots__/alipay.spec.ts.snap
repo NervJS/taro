@@ -6,7 +6,6 @@ exports[`alipay should build alipay app 2`] = `
 "
 /** filePath: dist/app.acss **/
 
-
 /** filePath: dist/app.js **/
 require("./runtime");
 
@@ -1007,7 +1006,6 @@ require("./taro");
 
 /** filePath: dist/pages/index/index.acss **/
 
-
 /** filePath: dist/pages/index/index.axml **/
 <import src="../../base.axml"/>
 <template is="taro_tmpl" data="{{root:root}}" />
@@ -1437,7 +1435,6 @@ require("./taro");
 {"navigationBarTitleText":"首页","usingComponents":{}}
 
 /** filePath: dist/runtime.js **/
-
 
 /** filePath: dist/taro.js **/
 (my["webpackJsonp"] = my["webpackJsonp"] || []).push([ [ 1 ], {

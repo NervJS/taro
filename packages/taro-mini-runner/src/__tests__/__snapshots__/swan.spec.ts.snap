@@ -6,7 +6,6 @@ exports[`swan should build swan app 2`] = `
 "
 /** filePath: dist/app.css **/
 
-
 /** filePath: dist/app.js **/
 require("./runtime");
 
@@ -892,7 +891,6 @@ require("./taro");
 
 /** filePath: dist/pages/index/index.css **/
 
-
 /** filePath: dist/pages/index/index.js **/
 /*! For license information please see index.js.LICENSE.txt */
 (swan["webpackJsonp"] = swan["webpackJsonp"] || []).push([ [ 7 ], {
@@ -1322,7 +1320,6 @@ require("./taro");
 <template is="taro_tmpl" data="{{{ root:root }}}" />
 
 /** filePath: dist/runtime.js **/
-
 
 /** filePath: dist/taro.js **/
 (swan["webpackJsonp"] = swan["webpackJsonp"] || []).push([ [ 1 ], {

@@ -559,7 +559,6 @@ require("./runtime");
 
 /** filePath: dist/app.wxss **/
 
-
 /** filePath: dist/base.wxml **/
 <wxs module="xs" src="./utils.wxs" />
 <template name="taro_tmpl">
@@ -1483,9 +1482,7 @@ require("./runtime");
 
 /** filePath: dist/pages/index/index.wxss **/
 
-
 /** filePath: dist/runtime.js **/
-
 
 /** filePath: dist/utils.wxs **/
 module.exports = {

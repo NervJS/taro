@@ -537,7 +537,6 @@ require("./taro");
 
 /** filePath: dist/app.wxss **/
 
-
 /** filePath: dist/base.wxml **/
 <wxs module="xs" src="./utils.wxs" />
 <template name="taro_tmpl">
@@ -1406,7 +1405,6 @@ require("./taro");
 .index{width:100%}.index .list{display:flex}.index .list .list-item{width:20rpx}
 
 /** filePath: dist/runtime.js **/
-
 
 /** filePath: dist/taro.js **/
 (wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 1 ], {
@@ -3015,7 +3013,6 @@ require("./taro");
 
 /** filePath: dist/runtime.js **/
 
-
 /** filePath: dist/taro.js **/
 (wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 1 ], {
     0: function(module, __webpack_exports__, __webpack_require__) {
@@ -4623,7 +4620,6 @@ require("./taro");
 
 /** filePath: dist/runtime.js **/
 
-
 /** filePath: dist/taro.js **/
 (wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 1 ], {
     0: function(module, __webpack_exports__, __webpack_require__) {
@@ -6230,7 +6226,6 @@ require("./taro");
 .body{background-color:#00f}.index{width:100%}.index .list{display:flex}.index .list .list-item{width:20rpx}
 
 /** filePath: dist/runtime.js **/
-
 
 /** filePath: dist/taro.js **/
 (wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 1 ], {

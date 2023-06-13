@@ -1472,7 +1472,6 @@ require("./runtime");
 
 /** filePath: dist/runtime.js **/
 
-
 /** filePath: dist/utils.wxs **/
 module.exports = {
   a: function (l, n, s) {
@@ -2375,7 +2374,6 @@ require("./runtime");
 {"pages":["pages/index/index"],"window":{"backgroundTextStyle":"light","navigationBarBackgroundColor":"#fff","navigationBarTitleText":"WeChat","navigationBarTextStyle":"black"}}
 
 /** filePath: dist/app.wxss **/
-
 
 /** filePath: dist/base.wxml **/
 <wxs module="xs" src="./utils.wxs" />
@@ -3310,7 +3308,6 @@ require("./runtime");
 
 /** filePath: dist/runtime.js **/
 
-
 /** filePath: dist/utils.wxs **/
 module.exports = {
   a: function (l, n, s) {
@@ -3513,7 +3510,6 @@ exports[`sass should build app with scss web 1`] = `3`;
 exports[`sass should build app with scss web 2`] = `
 "
 /** filePath: dist/css/app.css **/
-
 
 /** filePath: dist/index.html **/
 <!doctype html><html><head><meta content="text/html; charset=utf-8" http-equiv="Content-Type"><meta content="width=device-width,initial-scale=1,user-scalable=no" name="viewport"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-touch-fullscreen" content="yes"><meta name="format-detection" content="telephone=no,address=no"><meta name="apple-mobile-web-app-status-bar-style" content="white"><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><title></title><script>!function(x){function w(){var v,u,t,tes,s=x.document,r=s.documentElement,a=r.getBoundingClientRect().width;if(!v&&!u){var n=!!x.navigator.appVersion.match(/AppleWebKit.*Mobile.*/);v=x.devicePixelRatio;tes=x.devicePixelRatio;v=n?v:1,u=1/v}if(a>=640){r.style.fontSize="40px"}else{if(a<=320){r.style.fontSize="20px"}else{r.style.fontSize=a/320*20+"px"}}}x.addEventListener("resize",function(){w()});w()}(window);</script><script defer="defer" src="/js/app.js"></script><link href="/css/app.css" rel="stylesheet"></head><body><div id="app"></div></body></html>
@@ -5159,7 +5155,6 @@ require("./runtime");
 .body{background-color:blue}.body{background-color:red}.index{width:100%}.index .list{display:flex}.index .list .list-item{width:20rpx}
 
 /** filePath: dist/runtime.js **/
-
 
 /** filePath: dist/utils.wxs **/
 module.exports = {
@@ -7010,7 +7005,6 @@ require("./runtime");
 
 /** filePath: dist/runtime.js **/
 
-
 /** filePath: dist/utils.wxs **/
 module.exports = {
   a: function (l, n, s) {
@@ -8859,7 +8853,6 @@ require("./runtime");
 .body{background-color:blue}.index{width:100%}.index .list{display:flex}.index .list .list-item{width:20rpx}
 
 /** filePath: dist/runtime.js **/
-
 
 /** filePath: dist/utils.wxs **/
 module.exports = {

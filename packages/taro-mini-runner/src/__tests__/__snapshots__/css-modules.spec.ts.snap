@@ -539,7 +539,6 @@ require("./taro");
 
 /** filePath: dist/app.wxss **/
 
-
 /** filePath: dist/base.wxml **/
 <wxs module="xs" src="./utils.wxs" />
 <template name="taro_tmpl">
@@ -1426,7 +1425,6 @@ require("./taro");
 
 /** filePath: dist/runtime.js **/
 
-
 /** filePath: dist/taro.js **/
 (wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 1 ], {
     0: function(module, __webpack_exports__, __webpack_require__) {
@@ -2163,7 +2161,6 @@ require("./taro");
 {"pages":["pages/index/index"],"window":{"backgroundTextStyle":"light","navigationBarBackgroundColor":"#fff","navigationBarTitleText":"WeChat","navigationBarTextStyle":"black"}}
 
 /** filePath: dist/app.wxss **/
-
 
 /** filePath: dist/base.wxml **/
 <wxs module="xs" src="./utils.wxs" />
@@ -3046,7 +3043,6 @@ require("./taro");
 .index-module__cbody___7MNr8{height:300rpx;background-color:#e8e8ed}.index-module__ctext___Oge7c{display:inline-block;width:100%;color:#ff0}.cwrapper{font-size:36rpx}.chomepage{background:gray}
 
 /** filePath: dist/runtime.js **/
-
 
 /** filePath: dist/taro.js **/
 (wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 1 ], {
