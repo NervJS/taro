@@ -1,4 +1,4 @@
-import { type esbuild,fs } from '@tarojs/helper'
+import { type esbuild, fs, REG_TARO_H5 } from '@tarojs/helper'
 import { isString, isWebPlatform } from '@tarojs/shared'
 
 import { miniVitePlugin } from './vite.mini'
@@ -18,13 +18,11 @@ export default (ctx: IPluginContext) => {
   ctx.modifyWebpackChain(({ chain }) => {
     // 通用
     setAlias(framework, chain)
-    chain
-      .plugin('definePlugin')
-      .tap(args => {
-        const config = args[0]
-        config.__TARO_FRAMEWORK__ = `"${framework}"`
-        return args
-      })
+    chain.plugin('definePlugin').tap((args) => {
+      const config = args[0]
+      config.__TARO_FRAMEWORK__ = `"${framework}"`
+      return args
+    })
 
     if (isWebPlatform()) {
       // H5
@@ -40,19 +38,14 @@ export default (ctx: IPluginContext) => {
 
     if (isString(opts.compiler)) {
       opts.compiler = {
-        type: opts.compiler
+        type: opts.compiler,
       }
     }
 
     const { compiler } = opts
     if (compiler.type === 'webpack5') {
       // 提供给 webpack5 依赖预编译收集器的第三方依赖
-      const deps = [
-        'react',
-        'react-dom',
-        'react/jsx-runtime',
-        '@tarojs/plugin-framework-react/dist/runtime'
-      ]
+      const deps = ['react', 'react-dom', 'react/jsx-runtime', '@tarojs/plugin-framework-react/dist/runtime']
       compiler.prebundle ||= {}
       const prebundleOptions = compiler.prebundle
       prebundleOptions.include ||= []
@@ -63,14 +56,14 @@ export default (ctx: IPluginContext) => {
 
       const taroReactPlugin: esbuild.Plugin = {
         name: 'taroReactPlugin',
-        setup (build) {
-          build.onLoad({ filter: /taro-h5[\\/]dist[\\/]api[\\/]taro/ }, ({ path }) => {
+        setup(build) {
+          build.onLoad({ filter: REG_TARO_H5 }, ({ path }) => {
             const content = fs.readFileSync(path).toString()
             return {
-              contents: require('./api-loader')(content)
+              contents: require('./api-loader')(content),
             }
           })
-        }
+        },
       }
 
       prebundleOptions.esbuild ||= {}
@@ -91,7 +84,7 @@ export default (ctx: IPluginContext) => {
   })
 }
 
-function setAlias (framework: Frameworks, chain) {
+function setAlias(framework: Frameworks, chain) {
   const alias = chain.resolve.alias
 
   switch (framework) {
@@ -108,27 +101,28 @@ function setAlias (framework: Frameworks, chain) {
   }
 }
 
-function viteCommonPlugin (framework: Frameworks): PluginOption {
+function viteCommonPlugin(framework: Frameworks): PluginOption {
   return {
     name: 'taro-react:common',
-    config () {
-      const alias = framework === 'preact'
-        ? [
-          { find: 'react', replacement: 'preact/compat' },
-          { find: 'react-dom/test-utils', replacement:'preact/test-utils' },
-          { find: 'react-dom', replacement: 'preact/compat' },
-          { find: 'react/jsx-runtime', replacement: 'preact/jsx-runtime' },
-        ]
-        : []
+    config() {
+      const alias =
+        framework === 'preact'
+          ? [
+              { find: 'react', replacement: 'preact/compat' },
+              { find: 'react-dom/test-utils', replacement: 'preact/test-utils' },
+              { find: 'react-dom', replacement: 'preact/compat' },
+              { find: 'react/jsx-runtime', replacement: 'preact/jsx-runtime' },
+            ]
+          : []
 
       return {
         define: {
-          __TARO_FRAMEWORK__: `"${framework}"`
+          __TARO_FRAMEWORK__: `"${framework}"`,
         },
         resolve: {
-          alias
-        }
+          alias,
+        },
       }
-    }
+    },
   }
 }

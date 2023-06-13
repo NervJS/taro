@@ -1,4 +1,4 @@
-import { fs, VUE_EXT } from '@tarojs/helper'
+import { fs, REG_TARO_H5, VUE_EXT } from '@tarojs/helper'
 import { isString, isWebPlatform } from '@tarojs/shared'
 import { capitalize, internalComponents, toCamelCase } from '@tarojs/shared/dist/template'
 
@@ -33,7 +33,6 @@ export interface IConfig {
     [key: string]: any
   }
 }
-
 
 export default (ctx: IPluginContext, config: IConfig = {}) => {
   const { framework } = ctx.initialConfig
@@ -74,17 +73,14 @@ export default (ctx: IPluginContext, config: IConfig = {}) => {
 
     if (isString(opts.compiler)) {
       opts.compiler = {
-        type: opts.compiler
+        type: opts.compiler,
       }
     }
 
     const { compiler } = opts
     if (compiler.type === 'webpack5') {
       // 提供给 webpack5 依赖预编译收集器的第三方依赖
-      const deps = [
-        'vue',
-        '@tarojs/plugin-framework-vue3/dist/runtime'
-      ]
+      const deps = ['vue', '@tarojs/plugin-framework-vue3/dist/runtime']
       compiler.prebundle ||= {}
       const prebundleOptions = compiler.prebundle
       prebundleOptions.include ||= []
@@ -92,14 +88,14 @@ export default (ctx: IPluginContext, config: IConfig = {}) => {
 
       const taroVue3Plugin = {
         name: 'taroVue3Plugin',
-        setup (build) {
-          build.onLoad({ filter: /taro-h5[\\/]dist[\\/]api[\\/]taro/ }, ({ path }) => {
+        setup(build) {
+          build.onLoad({ filter: REG_TARO_H5 }, ({ path }) => {
             const content = fs.readFileSync(path).toString()
             return {
-              contents: require('./api-loader')(content)
+              contents: require('./api-loader')(content),
             }
           })
-        }
+        },
       }
 
       prebundleOptions.esbuild ||= {}
@@ -116,37 +112,34 @@ export default (ctx: IPluginContext, config: IConfig = {}) => {
   })
 }
 
-function setAlias (chain) {
+function setAlias(chain) {
   // 避免 npm link 时，taro composition apis 使用的 vue 和项目使用的 vue 实例不一致。
-  chain.resolve.alias
-    .set('vue', require.resolve('vue'))
+  chain.resolve.alias.set('vue', require.resolve('vue'))
 }
 
-function setDefinePlugin (chain) {
-  chain
-    .plugin('definePlugin')
-    .tap(args => {
-      const config = args[0]
-      config.__VUE_OPTIONS_API__ = JSON.stringify(true)
-      config.__VUE_PROD_DEVTOOLS__ = JSON.stringify(false)
-      return args
-    })
+function setDefinePlugin(chain) {
+  chain.plugin('definePlugin').tap((args) => {
+    const config = args[0]
+    config.__VUE_OPTIONS_API__ = JSON.stringify(true)
+    config.__VUE_PROD_DEVTOOLS__ = JSON.stringify(false)
+    return args
+  })
 }
 
-function viteCommonPlugin (): PluginOption {
+function viteCommonPlugin(): PluginOption {
   return {
     name: 'taro-vue3:common',
     config: () => ({
       define: {
-        '__VUE_OPTIONS_API__': JSON.stringify(true),
-        '__VUE_PROD_DEVTOOLS__': JSON.stringify(false),
+        __VUE_OPTIONS_API__: JSON.stringify(true),
+        __VUE_PROD_DEVTOOLS__: JSON.stringify(false),
       },
       resolve: {
-        dedupe: ['vue']
+        dedupe: ['vue'],
       },
       build: {
-        sourcemap: false // https://github.com/vitejs/vite-plugin-vue/issues/35
-      }
-    })
+        sourcemap: false, // https://github.com/vitejs/vite-plugin-vue/issues/35
+      },
+    }),
   }
 }
