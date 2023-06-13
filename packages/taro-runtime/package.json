@@ -3,7 +3,7 @@
   "version": "3.7.0-alpha.2",
   "description": "taro runtime for mini apps.",
   "main:h5": "dist/runtime.h5.js",
-  "main": "dist/runtime.cjs.js",
+  "main": "dist/runtime.esm.js",
   "module": "dist/runtime.esm.js",
   "types": "./dist/runtime.esm.d.ts",
   "files": [

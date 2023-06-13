@@ -1,4 +1,6 @@
-module.exports = {
+import type { Config } from 'jest'
+
+const config: Config = {
   globals: {
     window: true,
     ENABLE_INNER_HTML: true,
@@ -13,16 +15,21 @@ module.exports = {
   preset: 'ts-jest',
   testEnvironment: 'jsdom',
   testEnvironmentOptions: {
-    url: 'https://taro.aotu.io'
+    url: 'https://taro.aotu.io',
   },
   transform: {
-    '^.+\\.m?[tj]sx?$': ['ts-jest', {
-      diagnostics: false,
-      tsconfig: {
-        jsx: 'react',
-        allowJs: true
-      }
-    }],
+    '^.+\\.m?[tj]sx?$': [
+      'ts-jest',
+      {
+        diagnostics: false,
+        tsconfig: {
+          jsx: 'react',
+          allowJs: true,
+        },
+      },
+    ],
   },
-  transformIgnorePatterns: ['<rootDir>/node_modules/']
+  transformIgnorePatterns: ['<rootDir>/node_modules/'],
 }
+
+export default config
