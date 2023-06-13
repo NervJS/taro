@@ -17,7 +17,7 @@ export default class TTCI extends BaseCI {
     }
     try {
       // 调试使用版本是： tt-ide-cli@0.1.13
-      this.tt = getNpmPkgSync('tt-ide-cli',process.cwd())
+      this.tt = getNpmPkgSync('tt-ide-cli', process.cwd())
     } catch (error) {
       printLog(processTypeEnum.ERROR, chalk.red('请安装依赖：tt-ide-cli'))
       process.exit(1)

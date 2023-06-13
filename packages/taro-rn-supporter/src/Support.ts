@@ -35,7 +35,7 @@ export function getTransformer (opt: Options = {}) {
       }
     })
   }
-  if(process.env.PUBLIC_PATH) {
+  if (process.env.PUBLIC_PATH) {
     transform.publicPath = process.env.PUBLIC_PATH
   }
   return transform

@@ -88,9 +88,9 @@ export interface RouterOption{
 
 export function createRouter (config: RouterConfig, options:RouterOption) {
   if (config?.tabBar?.list?.length) {
-    return createTabNavigate(config,options)
+    return createTabNavigate(config, options)
   } else {
-    return createStackNavigate(config,options)
+    return createStackNavigate(config, options)
   }
 }
 
@@ -380,8 +380,8 @@ function defaultOnUnhandledAction (action){
 }
 
 function handlePageNotFound (action, options){
-  const routeObj:Record<string,any> = action?.payload  ?? {}
-  if(routeObj?.name){
+  const routeObj:Record<string, any> = action?.payload ?? {}
+  if (routeObj?.name){
     options?.onUnhandledAction && options?.onUnhandledAction({
       path: getCurrentJumpUrl() ?? routeObj?.name,
       query: routeObj?.params ?? {}

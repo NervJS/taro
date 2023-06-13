@@ -56,7 +56,7 @@ export function getMiniVueLoaderOptions (ctx: IPluginContext, componentConfig, c
 
         // v-html
         const props = node.props
-        if(props.find(prop => prop.type === 7 && prop.name === 'html')) {
+        if (props.find(prop => prop.type === 7 && prop.name === 'html')) {
           ['input', 'textarea', 'video', 'audio'].forEach(item => componentConfig.includes.add(item))
         }
 

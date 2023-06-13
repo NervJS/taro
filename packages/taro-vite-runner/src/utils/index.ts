@@ -7,7 +7,7 @@ import { Compiler } from '../utils/compiler/base'
 import type { PluginContext } from 'rollup'
 import type { Target } from 'vite-plugin-static-copy'
 import type { TaroCompiler as H5Compiler } from '../utils/compiler/h5'
-import type { TaroCompiler as MiniCompiler  } from '../utils/compiler/mini'
+import type { TaroCompiler as MiniCompiler } from '../utils/compiler/mini'
 import type { H5BuildConfig, MiniBuildConfig } from './types'
 
 export function convertCopyOptions (taroConfig: MiniBuildConfig | H5BuildConfig) {

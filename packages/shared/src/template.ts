@@ -200,7 +200,7 @@ export class BaseTemplate {
           result[compName] = {
             name: newComp?.name,
           }
-        }  else {
+        } else {
           result[compName] = newComp
         }
       }

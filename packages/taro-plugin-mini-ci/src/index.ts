@@ -11,13 +11,13 @@ import WeappCI from './WeappCI'
 
 import type { IPluginContext } from '@tarojs/service'
 
-const enum EnumAction  {
+const enum EnumAction {
   /** 自动打开预览工具 */
-  'open' = 'open' ,
+  'open' = 'open',
   /** 预览小程序（上传代码，作为“开发版”小程序） */
   'preview' = 'preview',
   /** 上传小程序（上传代码，可设置为“体验版”小程序） */
-  'upload' = 'upload' ,
+  'upload' = 'upload',
 }
 
 interface MinimistArgs {
@@ -34,7 +34,7 @@ interface MinimistArgs {
 export { CIOptions } from './BaseCi'
 export default (ctx: IPluginContext, _pluginOpts: CIOptions | (() => CIOptions)) => {
   const args = minimist<MinimistArgs>(process.argv.slice(2), {
-    boolean: [EnumAction.open,EnumAction.preview, EnumAction.upload],
+    boolean: [EnumAction.open, EnumAction.preview, EnumAction.upload],
     string: ['projectPath'],
     default: {
       projectPath: ''

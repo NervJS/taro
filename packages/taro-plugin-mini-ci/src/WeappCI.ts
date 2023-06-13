@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
 import * as crypto from 'crypto'
 import * as ci from 'miniprogram-ci'
-import  { Project }from 'miniprogram-ci'
+import { Project } from 'miniprogram-ci'
 import * as os from 'os'
 import * as path from 'path'
 import * as shell from 'shelljs'

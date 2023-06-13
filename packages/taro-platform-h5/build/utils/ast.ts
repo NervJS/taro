@@ -136,7 +136,7 @@ export function generateDocumentation (
   }
 
   /** Serialize a types (type or interface) symbol information */
-  function serializeType (symbol: ts.Symbol, name?: string, type?:  keyof typeof ts.SyntaxKind): DocEntry {
+  function serializeType (symbol: ts.Symbol, name?: string, type?: keyof typeof ts.SyntaxKind): DocEntry {
     // console.log(type, Object.keys(symbol))
     const doc: DocEntry = serializeSymbol(symbol, name, type)
     symbol.exports && symbol.exports.forEach((value) => {

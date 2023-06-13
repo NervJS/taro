@@ -30,10 +30,10 @@ export function createReactNativeApp (AppEntry: any, config: RNAppConfig) {
   const appRef = createRef<AppInstance>()
   const isReactComponent = isClassComponent(AppEntry)
   let entryComponent:any = AppEntry
-  if(!isReactComponent){ 
+  if (!isReactComponent){ 
     // eslint-disable-next-line react/display-name
     entryComponent = forwardRef((props, ref) => {
-      return <AppEntry forwardRef={ref}  {...props} />
+      return <AppEntry forwardRef={ref} {...props} />
     })
   }
 
@@ -51,14 +51,14 @@ export function createReactNativeApp (AppEntry: any, config: RNAppConfig) {
 
       componentDidMount () {
         const options = getInitOptions(routerConfig)
-        triggerAppLifecycle('onLaunch',options)
-        triggerAppLifecycle('componentDidShow',options)
+        triggerAppLifecycle('onLaunch', options)
+        triggerAppLifecycle('componentDidShow', options)
 
       }
 
       // 导航onUnhandledAction
       onUnhandledAction (options){
-        triggerAppLifecycle('onPageNotFound',options)
+        triggerAppLifecycle('onPageNotFound', options)
       }
 
       render () {
@@ -112,7 +112,7 @@ export function createReactNativeApp (AppEntry: any, config: RNAppConfig) {
       enumerable: true,
       writable: true,
       value (options: unknown) {
-        triggerAppLifecycle('componentDidHide',options)
+        triggerAppLifecycle('componentDidHide', options)
       }
     },
     onPageNotFound: {
@@ -127,11 +127,11 @@ export function createReactNativeApp (AppEntry: any, config: RNAppConfig) {
   function triggerAppLifecycle (lifecycle: keyof PageLifeCycle | keyof AppInstance, ...args){
     try {
       const app = appRef.current
-      if(isReactComponent){
+      if (isReactComponent){
         app?.[lifecycle] && app?.[lifecycle](...args)
-      }else{
+      } else {
         const instance = getPageInstance(HOOKS_APP_ID)
-        if(instance){
+        if (instance){
           const func = instance[lifecycle]
           if (Array.isArray(func)) {
             func.forEach(cb => cb.apply(app, args))

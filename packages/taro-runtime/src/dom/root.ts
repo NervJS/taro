@@ -1,4 +1,4 @@
-import { hooks,isArray, isFunction, isUndefined, Shortcuts } from '@tarojs/shared'
+import { hooks, isArray, isFunction, isUndefined, Shortcuts } from '@tarojs/shared'
 
 import {
   CUSTOM_WRAPPER,

@@ -62,5 +62,5 @@ export function errorHandler (fail: OptionsFunc | undefined, complete: OptionsFu
 }
 
 export function getPageStr (path: string):string{
-  return path.replace(/\//g,'')
+  return path.replace(/\//g, '')
 }

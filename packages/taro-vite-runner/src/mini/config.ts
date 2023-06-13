@@ -211,12 +211,12 @@ export default function (appPath: string, taroConfig: MiniBuildConfig): PluginOp
     return taroConfig.mode !== 'production'
       ? false
       : taroConfig.jsMinimizer === 'esbuild'
-      ? taroConfig.esbuild?.minify?.enable === false
-        ? false // 只有在明确配置了 esbuild.minify.enable: false 时才不启用压缩
-        : 'esbuild'
-      : taroConfig.terser?.enable === false
-      ? false // 只有在明确配置了 terser.enable: false 时才不启用压缩
-      : 'terser'
+        ? taroConfig.esbuild?.minify?.enable === false
+          ? false // 只有在明确配置了 esbuild.minify.enable: false 时才不启用压缩
+          : 'esbuild'
+        : taroConfig.terser?.enable === false
+          ? false // 只有在明确配置了 terser.enable: false 时才不启用压缩
+          : 'terser'
   }
 
   const __postcssOption = getDefaultPostcssConfig({

@@ -197,7 +197,7 @@ export default abstract class BaseCI {
       },
     })
 
-    if(!success) {
+    if (!success) {
       process.exit(1)
     }
   }
@@ -223,7 +223,7 @@ export default abstract class BaseCI {
       },
     })
 
-    if(!success) {
+    if (!success) {
       process.exit(1)
     }
   }

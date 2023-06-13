@@ -19,7 +19,7 @@ export default class AlipayCI extends BaseCI {
     }
     const { fs, printLog, processTypeEnum, chalk } = this.ctx.helper
     try {
-      this.minidev = getNpmPkgSync('minidev',process.cwd())
+      this.minidev = getNpmPkgSync('minidev', process.cwd())
     } catch (error) {
       printLog(processTypeEnum.ERROR, chalk.red('请安装依赖：minidev'))
       process.exit(1)
@@ -119,7 +119,7 @@ export default class AlipayCI extends BaseCI {
 
     //  SDK上传不支持设置描述信息; 版本号必须大于现有版本号
     try {
-      const lasterVersion  = await this.minidev.minidev.app.getUploadedVersion({
+      const lasterVersion = await this.minidev.minidev.app.getUploadedVersion({
         appId,
         clientType
       })

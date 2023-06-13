@@ -17,7 +17,7 @@ import { assetsRE, moduleRE } from '../utils/constant'
 import type Chain from 'webpack-chain'
 import type { CollectedDeps } from '../utils/constant'
 
-type ExportsData = ReturnType<typeof parse> & { hasReExports?: boolean; needInterop?: boolean }
+type ExportsData = ReturnType<typeof parse> & { hasReExports?: boolean, needInterop?: boolean }
 
 interface BundleConfig {
   appPath: string

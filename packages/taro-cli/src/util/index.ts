@@ -118,7 +118,7 @@ export const dotenvParse = (root: string, prefixs: string | string[] = ['TARO_AP
     /** local file */ `.env.local`,
   ])
 
-  if(mode) {
+  if (mode) {
     envFiles.add(/** mode file */ `.env.${mode}`)
     envFiles.add(/** mode local file */ `.env.${mode}.local`)
   }
@@ -126,7 +126,7 @@ export const dotenvParse = (root: string, prefixs: string | string[] = ['TARO_AP
   let parseTemp = {}
   const load = envPath => {
     // file doesn'et exist
-    if(!fs.existsSync(envPath)) return
+    if (!fs.existsSync(envPath)) return
     const env = parse(fs.readFileSync(envPath))
     parseTemp = {
       ...parseTemp,
@@ -140,7 +140,7 @@ export const dotenvParse = (root: string, prefixs: string | string[] = ['TARO_AP
 
   const parsed = {}
   Object.entries(parseTemp).forEach(([key, value]) => {
-    if(prefixsArr.some(prefix => key.startsWith(prefix))) {
+    if (prefixsArr.some(prefix => key.startsWith(prefix))) {
       parsed[key] = value
     }
   })

@@ -92,7 +92,7 @@ export async function scanImports(
 function getScanImportsPlugin(deps: CollectedDeps, includes: string[], excludes: string[]) {
   const resolve = getResolve()
   // for storing vue <script> contents
-  const scripts = new Map<string, { loader: esbuild.Loader; contents: string }>()
+  const scripts = new Map<string, { loader: esbuild.Loader, contents: string }>()
 
   return {
     name: 'scanImports',

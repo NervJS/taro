@@ -144,7 +144,7 @@ export async function createPage (creator: Creator, params: IPageConf, cb) {
   // path
   let templatePath
 
-  if(isCustomTemplate) {
+  if (isCustomTemplate) {
     templatePath = customTemplatePath
   } else {
     templatePath = creator.templatePath(template)

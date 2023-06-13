@@ -999,7 +999,7 @@ export default class TaroMiniPlugin {
         config.content.usingComponents = {
           ...config.content.usingComponents
         }
-        if(isUsingCustomWrapper) {
+        if (isUsingCustomWrapper) {
           config.content.usingComponents[customWrapperName] = importCustomWrapperPath
         }
         if (!template.isSupportRecursive && !page.isNative) {

@@ -22,7 +22,7 @@ export class TerminalReporter {
     this.qr = qr ?? false
     this.entry = entry || 'app'
     const argvs = yargs(process.argv).argv
-    if(this.qr && argvs._.includes('bundle')) {
+    if (this.qr && argvs._.includes('bundle')) {
       process.on('beforeExit', () => {
         previewProd({
           out: argvs.bundleOutput as string,
@@ -49,7 +49,7 @@ export class TerminalReporter {
       case 'initialize_done':
         process.stdin.on('keypress', (_key, data) => {
           const { name } = data
-          if(name === 'q') {
+          if (name === 'q') {
             previewDev(args)
           }
         })
@@ -94,7 +94,7 @@ export class TerminalReporter {
           dependencyGraph.getWatcher().on('change', ({ eventsQueue }) => {
             const changedFiles = eventsQueue.filter( item => {
               // APP配置文件变更和页面配置文件新增或删除时，重新编译入口文件
-              if(item.filePath.includes(`${this.entry}.config`)) {
+              if (item.filePath.includes(`${this.entry}.config`)) {
                 return true
               }
               return item.type !=='change'

@@ -919,7 +919,7 @@ ${code}
       typescript: false,
       framework: this.framework
     })
-    creator.template(templateName, path.join('src', 'index.html'), path.join(this.convertDir, 'index.html'),{
+    creator.template(templateName, path.join('src', 'index.html'), path.join(this.convertDir, 'index.html'), {
       projectName
     })
     creator.fs.commit(() => {

@@ -123,7 +123,7 @@ export class TabBar extends React.PureComponent<TabBarProps & WithSafeAreaInsets
       })
       this.setTabBarHidden(!curVisible)
     }
-    if(nextProps.insets && insets !== nextProps.insets) {
+    if (nextProps.insets && insets !== nextProps.insets) {
       this.setState({
         insets: nextProps.insets
       })
