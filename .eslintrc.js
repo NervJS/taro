@@ -37,7 +37,7 @@ module.exports = {
     'no-unused-vars': 'off',
     'no-use-before-define': 0,
     'no-empty': 1,
-    'object-curly-spacing': 0,
+    'object-curly-spacing': 2,
     'prefer-spread': 0,
     'prefer-rest-params': 0,
     'react/jsx-uses-vars': 1,
@@ -69,8 +69,7 @@ module.exports = {
       },
     ],
     'simple-import-sort/exports': 2,
-    'computed-property-spacing': 1,
-    'space-before-function-paren': [2, 'always'],
+    'space-before-function-paren': 0,
     'standard/no-callback-literal': 0,
   },
   env: {
