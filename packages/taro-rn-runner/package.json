@@ -14,7 +14,8 @@
     "test": "jest --silent",
     "test:ci": "jest --ci --silent --coverage false",
     "test:coverage": "jest --coverage",
-    "test:dev": "jest --watch"
+    "test:dev": "jest --watch",
+    "updateSnapshot": "jest --updateSnapshot"
   },
   "keywords": [
     "taro"

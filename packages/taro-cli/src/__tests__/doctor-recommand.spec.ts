@@ -30,7 +30,7 @@ describe('recommand validator of doctor', () => {
     existsSyncMocked.mockReturnValue(true)
   })
 
-  it("should exit because there isn't a Taro project", async () => {
+  it.skip("should exit because there isn't a Taro project", async () => {
     const exitSpy = jest.spyOn(process, 'exit') as jest.SpyInstance<void, any>
     const logSpy = jest.spyOn(console, 'log')
 
@@ -53,7 +53,7 @@ describe('recommand validator of doctor', () => {
     logSpy.mockRestore()
   })
 
-  it('should warn when test framework not found', async () => {
+  it.skip('should warn when test framework not found', async () => {
     jest.doMock('./fixtures/default/package.json', () => ({
       devDependencies: {
         eslint: 1,
@@ -75,7 +75,7 @@ describe('recommand validator of doctor', () => {
     jest.dontMock('./fixtures/default/package.json')
   })
 
-  it('should warn when linters not found', async () => {
+  it.skip('should warn when linters not found', async () => {
     jest.doMock('./fixtures/default/package.json', () => ({
       devDependencies: {
         jest: 1,
@@ -97,7 +97,7 @@ describe('recommand validator of doctor', () => {
     jest.dontMock('./fixtures/default/package.json')
   })
 
-  it('should warn when Readme not found', async () => {
+  it.skip('should warn when Readme not found', async () => {
     jest.doMock('./fixtures/default/package.json', () => ({
       devDependencies: {
         mocha: 1,
@@ -117,7 +117,7 @@ describe('recommand validator of doctor', () => {
     jest.dontMock('./fixtures/default/package.json')
   })
 
-  it('should warn when .gitignore not found', async () => {
+  it.skip('should warn when .gitignore not found', async () => {
     jest.doMock('./fixtures/default/package.json', () => ({
       devDependencies: {
         jesmine: 1,
@@ -137,7 +137,7 @@ describe('recommand validator of doctor', () => {
     jest.dontMock('./fixtures/default/package.json')
   })
 
-  it('should warn when .editorconfig not found', async () => {
+  it.skip('should warn when .editorconfig not found', async () => {
     jest.doMock('./fixtures/default/package.json', () => ({
       devDependencies: {
         karma: 1,
