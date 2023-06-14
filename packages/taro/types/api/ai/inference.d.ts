@@ -57,12 +57,12 @@ declare module '../../index' {
      * @supported weapp
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/ai/inference/InferenceSession.offError.html
      */
-    offError(callback: InferenceSession.OffErrorCallback): void
+    offError(callback?: InferenceSession.OffErrorCallback): void
     /** 取消监听模型加载完成事件
      * @supported weapp
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/ai/inference/InferenceSession.offLoad.html
      */
-    offLoad(callback: InferenceSession.OffLoadCallback): void
+    offLoad(callback?: InferenceSession.OffLoadCallback): void
     /** 监听模型加载失败事件
      * @supported weapp
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/ai/inference/InferenceSession.onError.html
