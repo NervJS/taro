@@ -1,6 +1,5 @@
-import { chalk } from '@tarojs/helper'
+import { chalk, fs } from '@tarojs/helper'
 import { exec } from 'child_process'
-import * as fs from 'fs-extra'
 import * as ora from 'ora'
 import * as path from 'path'
 
@@ -8,8 +7,9 @@ import packagesManagement from '../config/packagesManagement'
 import { getAllFilesInFolder, getPkgVersion } from '../util'
 import Creator from './creator'
 import { changeDefaultNameInTemplate } from './editTemplate'
-import { IPageConf } from './page'
-import { IProjectConf } from './project'
+
+import type { IPageConf } from './page'
+import type { IProjectConf } from './project'
 
 const CONFIG_DIR_NAME = 'config'
 export const TEMPLATE_CREATOR = 'template_creator.js'
@@ -35,6 +35,7 @@ function createFiles (
     pageName: string
     period: string
     version?: string
+    isCustomTemplate?: boolean
   }
 ): string[] {
   const {
@@ -49,7 +50,8 @@ function createFiles (
     projectPath,
     pageName,
     framework,
-    compiler
+    compiler,
+    isCustomTemplate
   } = options
   const logs: string[] = []
   // 模板库模板，直接创建，不需要改后缀
@@ -58,7 +60,7 @@ function createFiles (
 
   files.forEach(async file => {
     // fileRePath startsWith '/'
-    const fileRePath = file.replace(templatePath, '').replace(new RegExp(`\\${path.sep}`, 'g'), '/')
+    let fileRePath = file.replace(templatePath, '').replace(new RegExp(`\\${path.sep}`, 'g'), '/')
 
     let externalConfig: any = null
 
@@ -124,6 +126,8 @@ function createFiles (
       destRePath = destRePath.replace('.css', `.${currentStyleExt}`)
     }
 
+    if (isCustomTemplate) fileRePath = path.join(templatePath, fileRePath)
+
     // 创建
     creator.template(template, fileRePath, path.join(projectPath, destRePath), config)
 
@@ -135,9 +139,16 @@ function createFiles (
 }
 
 export async function createPage (creator: Creator, params: IPageConf, cb) {
-  const { projectDir, template, pageName } = params
+  const { projectDir, template, pageName, isCustomTemplate, customTemplatePath } = params
+
   // path
-  const templatePath = creator.templatePath(template)
+  let templatePath
+
+  if(isCustomTemplate) {
+    templatePath = customTemplatePath
+  } else {
+    templatePath = creator.templatePath(template)
+  }
 
   if (!fs.existsSync(templatePath)) return console.log(chalk.red(`创建页面错误：找不到模板${templatePath}`))
 
@@ -152,6 +163,7 @@ export async function createPage (creator: Creator, params: IPageConf, cb) {
     templatePath,
     projectPath: projectDir,
     pageName,
+    isCustomTemplate,
     period: 'createPage'
   })
 

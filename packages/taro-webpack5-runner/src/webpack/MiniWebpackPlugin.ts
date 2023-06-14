@@ -1,6 +1,6 @@
 import { PLATFORMS } from '@tarojs/helper'
-import { isArray, isFunction } from '@tarojs/shared'
-import { ICopyOptions } from '@tarojs/taro/types/compile'
+import { isArray, isFunction, PLATFORM_TYPE } from '@tarojs/shared'
+import { ICopyOptions, IPostcssOption } from '@tarojs/taro/types/compile'
 
 import BuildNativePlugin from '../plugins/BuildNativePlugin'
 import MiniPlugin from '../plugins/MiniPlugin'
@@ -11,6 +11,7 @@ import type { MiniCombination } from './MiniCombination'
 
 export class MiniWebpackPlugin {
   combination: MiniCombination
+  pxtransformOption: IPostcssOption['pxtransform']
 
   constructor (combination: MiniCombination) {
     this.combination = combination
@@ -26,9 +27,11 @@ export class MiniWebpackPlugin {
     const copyWebpackPlugin = this.getCopyWebpackPlugin()
     if (copyWebpackPlugin) plugins.copyWebpackPlugin = copyWebpackPlugin
 
-    /** 需要在 MiniPlugin 前，否则无法获取 entry 地址 */
-    const miniSplitChunksPlugin = this.getMiniSplitChunksPlugin()
-    if (miniSplitChunksPlugin) plugins.miniSplitChunksPlugin = miniSplitChunksPlugin
+    if (!this.combination.isBuildPlugin) {
+      /** 需要在 MiniPlugin 前，否则无法获取 entry 地址 */
+      const miniSplitChunksPlugin = this.getMiniSplitChunksPlugin()
+      if (miniSplitChunksPlugin) plugins.miniSplitChunksPlugin = miniSplitChunksPlugin
+    }
 
     const definePluginOptions = plugins.definePlugin.args[0]
     const mainPlugin = this.getMainPlugin(definePluginOptions)
@@ -65,6 +68,7 @@ export class MiniWebpackPlugin {
 
     env.FRAMEWORK = JSON.stringify(framework)
     env.TARO_ENV = JSON.stringify(buildAdapter)
+    env.TARO_PLATFORM = JSON.stringify(process.env.TARO_PLATFORM || PLATFORM_TYPE.MINI)
     const envConstants = Object.keys(env).reduce((target, key) => {
       target[`process.env.${key}`] = env[key]
       return target
@@ -138,6 +142,7 @@ export class MiniWebpackPlugin {
       fileType
     } = this.combination
     const plugin = isBuildNativeComp ? BuildNativePlugin : MiniPlugin
+    const pxTransformConfig = this.pxtransformOption?.config || {}
     const options = {
       /** paths */
       sourceDir,
@@ -150,12 +155,11 @@ export class MiniWebpackPlugin {
       fileType,
       template: config.template,
       commonChunks: this.getCommonChunks(),
-      designWidth: config.designWidth || 750,
-      deviceRatio: config.deviceRatio,
       baseLevel: config.baseLevel || 16,
       minifyXML: config.minifyXML || {},
       alias: config.alias || {},
       constantsReplaceList: definePluginOptions,
+      pxTransformConfig,
       /** building mode */
       hot: false,
       prerender: config.prerender,

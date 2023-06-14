@@ -1,13 +1,11 @@
 {
   "name": "@tarojs/plugin-vue-devtools",
-  "version": "3.6.2",
+  "version": "3.6.8",
   "description": "Taro 小程序端支持使用 Vue DevTools 的插件",
   "main": "index.js",
   "scripts": {
     "dev": "rollup -c -w --bundleConfigAsCjs",
-    "build": "rollup -c --bundleConfigAsCjs",
-    "test": "jest",
-    "test:dev": "jest --watch"
+    "build": "rollup -c --bundleConfigAsCjs"
   },
   "files": [
     "dist",

@@ -3,6 +3,7 @@ on:
   # When Release Pull Request is merged
   push:
     branches:
+      - 'chore/**'
       - 'feat/**'
   pull_request:
     branches:
@@ -118,7 +119,7 @@ jobs:
             - recursive: true
               args: [--frozen-lockfile]
       - name: build
-        run: pnpm run build
+        run: pnpm build
 
       # Git stash
       - name: Drop current changes

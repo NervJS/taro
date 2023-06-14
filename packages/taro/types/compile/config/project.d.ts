@@ -3,8 +3,8 @@ import type Chain from 'webpack-chain'
 import type { Compiler } from '../compiler'
 import type { IModifyWebpackChain } from '../hooks'
 import type { ICopyOptions, IOption, ISassOptions, TogglableOptions } from "./util"
-import { IH5Config } from './h5'
-import { IMiniAppConfig } from './mini'
+import type { IH5Config } from './h5'
+import type { IMiniAppConfig } from './mini'
 
 export type PluginItem = string | [string, object]
 
@@ -24,7 +24,7 @@ export interface IProjectBaseConfig {
   port?: number
   projectName?: string
   date?: string
-  designWidth?: number | ((size: number) => number)
+  designWidth?: number | ((size?: string | number) => number)
   deviceRatio?: TaroGeneral.TDeviceRatio
   watcher?: any[]
   sourceRoot?: string
@@ -67,7 +67,7 @@ export interface IProjectBaseConfig {
   onCompilerMake?: (compilation: Webpack.Compilation, compiler: Webpack.Compiler, plugin: any) => Promise<any>
   onWebpackChainReady?: (webpackChain: Chain) => Promise<any>
   /**
-   * 编译中修改 webpack 配置，在这个钩子中，你可以对 webpackChain 作出想要的调整，等同于配置 [`webpackChain`](./config-detail.md#miniwebpackchain)
+   * 编译中修改 webpack 配置，在这个钩子中，你可以对 webpackChain 作出想要的调整，等同于配置 [`webpackChain`](./config-detail#miniwebpackchain)
    */
   modifyWebpackChain?: (chain: Chain, webpack: typeof Webpack, data: IModifyWebpackChain) => Promise<any>
   /**

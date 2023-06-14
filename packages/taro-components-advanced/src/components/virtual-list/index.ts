@@ -191,8 +191,26 @@ declare namespace VirtualListProps {
  * ```
  * @see https://taro-docs.jd.com/docs/virtual-list
  */
-declare class VirtualListComponent extends Component<VirtualListProps> {}
+declare class VirtualListComponent extends Component<VirtualListProps> {
+  /**
+   * 滚动到指定的地点。
+   */
+  public scrollTo(scrollOffset: number): void
 
+  /** 滚动到指定的条目。
+   * @param index 指定条目的索引。
+   * @param align 滚动到指定条目时，指定条目的位置。默认值为 auto。
+   *
+   * - start：指定条目在可视区域的顶部。
+   * - end：指定条目在可视区域的底部。
+   * - center：指定条目在可视区域的中间。
+   * - auto：尽可能滚动距离最小保证条目在可视区域中，如果已经在可视区域，就不滚动。
+   * - smart：条目如果已经在可视区域，就不滚动；如果有部分在可视区域，尽可能滚动距离最小保证条目在可视区域中；如果条目完全不在可视区域，那就滚动到条目在可视区域居中显示。
+   */
+  public scrollToItem(index: number, align: 'start' | 'end' | 'center' | 'auto' | 'smart'): void
+}
+
+declare type VirtualList = VirtualListComponent
 const VirtualList: typeof VirtualListComponent = (process.env.FRAMEWORK === 'vue' || process.env.FRAMEWORK === 'vue3')
   ? require('./vue').default
   : require('./react').default

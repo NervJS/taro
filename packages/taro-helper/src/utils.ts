@@ -11,11 +11,11 @@ import {
   PLATFORMS,
   processTypeEnum,
   processTypeMap,
-  REG_SCRIPTS,
+  REG_JSON,
   SCRIPT_EXT,
   TARO_CONFIG_FOLDER
 } from './constants'
-import createSwcRegister from './swcRegister'
+import { requireWithEsbuild } from './esbuild'
 import { chalk } from './terminal'
 
 const execSync = child_process.execSync
@@ -38,11 +38,11 @@ export function isQuickAppPkg (name: string): boolean {
 }
 
 export function isAliasPath (name: string, pathAlias: Record<string, any> = {}): boolean {
-  const prefixs = Object.keys(pathAlias)
-  if (prefixs.length === 0) {
+  const prefixes = Object.keys(pathAlias)
+  if (prefixes.length === 0) {
     return false
   }
-  return prefixs.includes(name) || (new RegExp(`^(${prefixs.join('|')})/`).test(name))
+  return prefixes.includes(name) || (new RegExp(`^(${prefixes.join('|')})/`).test(name))
 }
 
 export function replaceAliasPath (filePath: string, name: string, pathAlias: Record<string, any> = {}) {
@@ -51,11 +51,11 @@ export function replaceAliasPath (filePath: string, name: string, pathAlias: Rec
   // 源代码文件，导致文件被意外修改
   filePath = fs.realpathSync(filePath)
 
-  const prefixs = Object.keys(pathAlias)
-  if (prefixs.includes(name)) {
+  const prefixes = Object.keys(pathAlias)
+  if (prefixes.includes(name)) {
     return promoteRelativePath(path.relative(filePath, fs.realpathSync(resolveScriptPath(pathAlias[name]))))
   }
-  const reg = new RegExp(`^(${prefixs.join('|')})/(.*)`)
+  const reg = new RegExp(`^(${prefixes.join('|')})/(.*)`)
   name = name.replace(reg, function (_m, $1, $2) {
     return promoteRelativePath(path.relative(filePath, path.join(pathAlias[$1], $2)))
   })
@@ -492,50 +492,6 @@ export function removeHeadSlash (str: string) {
   return str.replace(/^(\/|\\)/, '')
 }
 
-function analyzeImport (filePath: string): string[] {
-  const parser = require('@babel/parser')
-  const traverse = require('@babel/traverse').default
-  const code = fs.readFileSync(filePath).toString()
-  let importPaths: string[] = []
-  filePath = path.dirname(filePath)
-
-  const ast = parser.parse(code, {
-    sourceType: 'module',
-    plugins: [
-      'typescript',
-      'classProperties',
-      'objectRestSpread',
-      'optionalChaining'
-    ]
-  })
-
-  traverse(ast, {
-    ImportDeclaration ({ node }) {
-      const list: string[] = []
-      const source = node.source.value
-
-      if (path.extname(source)) {
-        const importPath = path.resolve(filePath, source)
-        list.push(importPath)
-      } else {
-        ['.js', '.ts', '.json'].forEach(ext => {
-          const importPath = path.resolve(filePath, source + ext)
-          list.push(importPath)
-        })
-      }
-
-      const dep = list.find(importPath => fs.existsSync(importPath))
-      if (!dep) return
-
-      importPaths.push(dep)
-      if (path.extname(dep) !== '.json') {
-        importPaths = importPaths.concat(analyzeImport(dep))
-      }
-    }
-  })
-  return importPaths
-}
-
 // converts ast nodes to js object
 function exprToObject (node: any) {
   const types = ['BooleanLiteral', 'StringLiteral', 'NumericLiteral']
@@ -642,25 +598,38 @@ export function readPageConfig (configPath: string) {
 export function readConfig (configPath: string) {
   let result: any = {}
   if (fs.existsSync(configPath)) {
-    const importPaths = REG_SCRIPTS.test(configPath) ? analyzeImport(configPath) : []
+    if (REG_JSON.test(configPath)) {
+      result = fs.readJSONSync(configPath)
+    } else {
+      result = requireWithEsbuild(configPath, {
+        customSwcConfig: {
+          jsc: {
+            parser: {
+              syntax: 'typescript',
+              decorators: true
+            },
+            transform: {
+              legacyDecorator: true
+            },
+            experimental: {
+              plugins: [
+                // Note: 更新 SWC 版本可能会使插件将箭头函数等代码错误抖动，导致配置读取错误
+                [path.resolve(__dirname, '../swc/plugin-define-config/target/wasm32-wasi/release/swc_plugin_define_config.wasm'), {}]
+              ]
+            }
+          },
+          module: {
+            type: 'commonjs'
+          }
+        }
+      })
+    }
 
-    createSwcRegister({
-      only: [
-        fs.realpathSync(configPath), // configPath might be a symlink. that will cause compilation to fail
-        filepath => importPaths.includes(filepath)
-      ],
-      plugins: [
-        [path.resolve(__dirname, '../swc/plugin-define-config/target/wasm32-wasi/release/swc_plugin_define_config.wasm'), {}]
-      ]
-    })
-
-    importPaths.concat([configPath]).forEach(item => {
-      delete require.cache[item]
-    })
-
-    result = getModuleDefaultExport(require(configPath))
+    result = getModuleDefaultExport(result)
   } else {
     result = readPageConfig(configPath)
   }
   return result
 }
+
+export { fs }

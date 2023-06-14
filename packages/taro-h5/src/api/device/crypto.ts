@@ -1,4 +1,4 @@
 import { temporarilyNotSupport } from '../../utils'
 
 // 加密
-export const getRandomValues = temporarilyNotSupport('getRandomValues')
+export const getRandomValues = /* @__PURE__ */ temporarilyNotSupport('getRandomValues')

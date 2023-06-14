@@ -1,7 +1,9 @@
-import { IPluginContext } from '@tarojs/service'
 import * as path from 'path'
+import * as process from 'process'
 
 import { ON_PREVIEW_COMPLETE, ON_UPLOAD_COMPLETE } from './hooks'
+
+import type { IPluginContext } from '@tarojs/service'
 
 export type ProjectType = 'miniProgram' | 'miniGame' | 'miniProgramPlugin' | 'miniGamePlugin';
 
@@ -194,6 +196,10 @@ export default abstract class BaseCI {
         error
       },
     })
+
+    if(!success) {
+      process.exit(1)
+    }
   }
 
   /** 执行上传命令后触发 */
@@ -216,6 +222,10 @@ export default abstract class BaseCI {
         error
       },
     })
+
+    if(!success) {
+      process.exit(1)
+    }
   }
 
   /** 初始化函数，new实例化后会被立即调用一次 */

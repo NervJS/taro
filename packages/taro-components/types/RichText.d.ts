@@ -3,18 +3,20 @@ import { CommonEventFunction, StandardProps } from './common'
 interface RichTextProps extends StandardProps {
   /** 文本是否可选，该属性会使节点显示为 block
    * @default false
-   * @supported weapp
+   * @supported weapp, h5
    */
   userSelect?: boolean
-  /** 节点列表/ HTML String */
+  /** 节点列表/ HTML String
+   * @supported weapp, alipay, swan, tt, qq, h5, rn, harmony
+   */
   nodes?: Nodes
   /** 显示连续空格
-   * @supported weapp, alipay, qq, rn
+   * @supported weapp, alipay, tt, qq, h5, rn
    */
   space?: keyof RichTextProps.TSpace
   /** 富文本是否可以长按选中，可用于复制，粘贴，长按搜索等场景
    * @default false（基础库 3.150.1 以前版本）true（基础库 3.150.1 及以后版本）
-   * @supported swan
+   * @supported swan, h5
    */
   selectable?: string
   /** 阻止长按图片时弹起默认菜单（将该属性设置为image-menu-prevent或image-menu-prevent="true"），只在初始化时有效，不能动态变更；若不想阻止弹起默认菜单，则不需要设置此属性

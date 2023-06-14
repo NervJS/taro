@@ -8,20 +8,20 @@ exports[`swan should build swan app 2`] = `
 
 
 /** filePath: dist/app.js **/
-require(\\"./runtime\\");
+require("./runtime");
 
-require(\\"./common\\");
+require("./common");
 
-require(\\"./vendors\\");
+require("./vendors");
 
-require(\\"./taro\\");
+require("./taro");
 
-(swan[\\"webpackJsonp\\"] = swan[\\"webpackJsonp\\"] || []).push([ [ 4 ], {
+(swan["webpackJsonp"] = swan["webpackJsonp"] || []).push([ [ 4 ], {
     11: function(module, exports, __webpack_require__) {},
     14: function(module, __webpack_exports__, __webpack_require__) {
-        \\"use strict\\";
+        "use strict";
         __webpack_require__.r(__webpack_exports__);
-        var mocks_taro = \\"taro\\";
+        var mocks_taro = "taro";
         function mergeReconciler() {}
         function mergeInternalComponents() {}
         function isFunction() {}
@@ -59,10 +59,10 @@ require(\\"./taro\\");
         function useRouter() {}
         function useTabItemTap() {}
         function useScope() {}
-        var needPromiseApis = new Set([ \\"addEventOnCalendar\\", \\"chooseAlbum\\", \\"closeCommunityEditor\\", \\"getSwanId\\", \\"requestPolymerPayment\\", \\"navigateBackSmartProgram\\", \\"navigateToSmartProgram\\", \\"setPageInfo\\", \\"closeReplyEditor\\", \\"deleteBookShelf\\", \\"deleteEventOnCalendar\\", \\"getSystemRiskInfo\\", \\"insertBookshelf\\", \\"loadSubPackage\\", \\"openCommunityEditor\\", \\"openReplyEditor\\", \\"openShare\\", \\"setDocumentTitle\\", \\"setMetaDescription\\", \\"setMetaKeywords\\", \\"shareFile\\", \\"subscribeService\\", \\"updateBookshelfReadTime\\" ]);
+        var needPromiseApis = new Set([ "addEventOnCalendar", "chooseAlbum", "closeCommunityEditor", "getSwanId", "requestPolymerPayment", "navigateBackSmartProgram", "navigateToSmartProgram", "setPageInfo", "closeReplyEditor", "deleteBookShelf", "deleteEventOnCalendar", "getSystemRiskInfo", "insertBookshelf", "loadSubPackage", "openCommunityEditor", "openReplyEditor", "openShare", "setDocumentTitle", "setMetaDescription", "setMetaKeywords", "shareFile", "subscribeService", "updateBookshelfReadTime" ]);
         var apiDiff = {
             login: {
-                alias: \\"getLoginCode\\"
+                alias: "getLoginCode"
             }
         };
         function transformMeta(api, options) {
@@ -83,7 +83,7 @@ require(\\"./taro\\");
                         }
                         if (set) {
                             set.forEach((function(setItem) {
-                                options[setItem.key] = typeof setItem.value === \\"function\\" ? setItem.value(options) : setItem.value;
+                                options[setItem.key] = typeof setItem.value === "function" ? setItem.value(options) : setItem.value;
                             }));
                         }
                     }
@@ -102,292 +102,295 @@ require(\\"./taro\\");
         }
         var components = {
             Progress: {
-                \\"border-radius\\": \\"0\\",
-                \\"font-size\\": \\"16\\",
-                duration: \\"30\\"
+                "border-radius": "0",
+                "font-size": "16",
+                duration: "30"
             },
             RichText: {
-                selectable: \\"false\\",
-                name: \\"\\",
-                attrs: \\"\\",
-                children: \\"[]\\",
-                text: \\"\\",
-                \\"image-menu-prevent\\": \\"false\\",
-                preview: \\"\\"
+                selectable: "false",
+                name: "",
+                attrs: "",
+                children: "[]",
+                text: "",
+                "image-menu-prevent": "false",
+                preview: ""
             },
             Map: {
-                polygons: \\"[]\\",
-                \\"enable-3D\\": \\"false\\",
-                \\"show-compass\\": \\"false\\",
-                \\"enable-overlooking\\": \\"false\\",
-                \\"enable-zoom\\": \\"true\\",
-                \\"enable-scroll\\": \\"true\\",
-                \\"enable-rotate\\": \\"false\\",
-                bindRegionChange: \\"\\",
-                bindPoiTap: \\"\\"
+                polygons: "[]",
+                "enable-3D": "false",
+                "show-compass": "false",
+                "enable-overlooking": "false",
+                "enable-zoom": "true",
+                "enable-scroll": "true",
+                "enable-rotate": "false",
+                bindRegionChange: "",
+                bindPoiTap: ""
             },
             Button: {
-                bindGetPhoneNumber: \\"\\",
-                bindGetUserInfo: \\"\\",
-                bindOpenSetting: \\"\\",
-                bindContact: \\"\\",
-                bindChooseAddress: \\"\\",
-                bindChooseInvoiceTitle: \\"\\",
-                bindLogin: \\"\\"
+                bindGetPhoneNumber: "",
+                bindGetUserInfo: "",
+                bindOpenSetting: "",
+                bindContact: "",
+                bindChooseAddress: "",
+                bindChooseInvoiceTitle: "",
+                bindLogin: ""
             },
             Form: {
-                \\"report-type\\": \\"default\\",
-                \\"template-id\\": \\"\\",
-                \\"subscribe-id\\": \\"\\",
-                \\"skip-subscribe-authorize\\": \\"false\\"
+                "report-type": "default",
+                "template-id": "",
+                "subscribe-id": "",
+                "skip-subscribe-authorize": "false"
             },
             Input: {
-                \\"adjust-position\\": \\"true\\"
+                "adjust-position": "true"
             },
             Textarea: {
-                \\"confirm-type\\": undefined(\\"default\\"),
-                \\"confirm-hold\\": \\"false\\",
-                \\"show-confirm-bar\\": \\"true\\",
-                \\"adjust-position\\": \\"true\\"
+                "confirm-type": undefined("default"),
+                "confirm-hold": "false",
+                "show-confirm-bar": "true",
+                "adjust-position": "true"
             },
             Navigator: {
-                target: undefined(\\"self\\"),
-                \\"app-id\\": \\"\\",
-                path: \\"\\",
-                \\"extra-data\\": \\"\\",
-                version: undefined(\\"version\\")
+                target: undefined("self"),
+                "app-id": "",
+                path: "",
+                "extra-data": "",
+                version: undefined("version")
             },
             Image: {
-                webp: \\"false\\",
-                \\"image-menu-prevent\\": \\"false\\",
-                preview: \\"\\",
-                \\"original-src\\": \\"\\"
+                webp: "false",
+                "image-menu-prevent": "false",
+                preview: "",
+                "original-src": ""
             },
             Video: {
-                title: \\"\\",
-                \\"show-no-wifi-tip\\": \\"true\\",
-                \\"vslide-gesture\\": \\"false\\",
-                \\"vslide-gesture-in-fullscreen\\": \\"true\\",
-                \\"enable-play-gesture\\": \\"false\\",
-                \\"show-rate-btn\\": \\"false\\",
-                \\"show-vslide-btn-in-fullscreen\\": \\"true\\",
-                \\"silent-play\\": \\"false\\",
-                bindLoadedMetadata: \\"\\"
+                title: "",
+                "show-no-wifi-tip": "true",
+                "vslide-gesture": "false",
+                "vslide-gesture-in-fullscreen": "true",
+                "enable-play-gesture": "false",
+                "show-rate-btn": "false",
+                "show-vslide-btn-in-fullscreen": "true",
+                "silent-play": "false",
+                bindLoadedMetadata: ""
             },
             Ad: {
-                appid: \\"\\",
-                apid: \\"\\",
-                type: undefined(\\"feed\\"),
-                updatetime: \\"\\",
-                bindStatus: \\"\\"
+                appid: "",
+                apid: "",
+                type: undefined("feed"),
+                updatetime: "",
+                bindStatus: ""
             },
             Tabs: {
-                \\"tabs-background-color\\": undefined(\\"#fff\\"),
-                \\"tabs-active-text-color\\": undefined(\\"#000\\"),
-                \\"tabs-inactive-text-color\\": undefined(\\"#666\\"),
-                \\"tabs-underline-color\\": undefined(\\"#333\\"),
-                \\"active-name\\": \\"\\",
-                \\"url-query-name\\": \\"\\",
-                \\"max-tab-item-amount\\": \\"5\\",
-                bindTabChange: \\"\\"
+                "tabs-background-color": undefined("#fff"),
+                "tabs-active-text-color": undefined("#000"),
+                "tabs-inactive-text-color": undefined("#666"),
+                "tabs-underline-color": undefined("#333"),
+                "active-name": "",
+                "url-query-name": "",
+                "max-tab-item-amount": "5",
+                bindTabChange: ""
             },
             TabItem: {
-                label: \\"\\",
-                name: \\"\\",
-                \\"badge-type\\": \\"\\",
-                \\"badge-text\\": \\"\\"
+                label: "",
+                name: "",
+                "badge-type": "",
+                "badge-text": ""
             },
             AnimationVideo: {
-                \\"resource-width\\": \\"800\\",
-                \\"resource-height\\": \\"400\\",
-                \\"canvas-style\\": undefined(\\"width:400px;height:400px\\"),
-                path: \\"\\",
-                loop: \\"false\\",
-                autoplay: \\"false\\",
-                \\"alpha-direction\\": undefined(\\"left\\"),
-                bindStarted: \\"\\",
-                bindEnded: \\"\\"
+                "resource-width": "800",
+                "resource-height": "400",
+                "canvas-style": undefined("width:400px;height:400px"),
+                path: "",
+                loop: "false",
+                autoplay: "false",
+                "alpha-direction": undefined("left"),
+                bindStarted: "",
+                bindEnded: ""
             },
             AnimationView: {
-                path: \\"\\",
-                loop: \\"false\\",
-                autoplay: \\"true\\",
-                action: undefined(\\"play\\"),
-                hidden: \\"true\\",
-                bindEnded: \\"\\"
+                path: "",
+                loop: "false",
+                autoplay: "true",
+                action: undefined("play"),
+                hidden: "true",
+                bindEnded: ""
             },
             ArCamera: {
-                key: \\"\\",
-                type: \\"\\",
-                flash: undefined(\\"off\\"),
-                bindError: \\"\\",
-                bindLoad: \\"\\",
-                bindMessage: \\"\\",
-                bindScanCode: \\"\\"
+                key: "",
+                type: "",
+                flash: undefined("off"),
+                bindError: "",
+                bindLoad: "",
+                bindMessage: "",
+                bindScanCode: ""
             },
             RtcRoom: {
-                id: \\"\\",
-                \\"enable-camera\\": \\"true\\",
-                \\"enable-auto-focus\\": \\"true\\",
-                \\"enable-zoom\\": \\"false\\",
-                \\"device-position\\": undefined(\\"front\\"),
-                \\"enable-mic\\": \\"true\\",
-                \\"enable-agc\\": \\"false\\",
-                \\"enable-ans\\": \\"false\\",
-                bitrate: \\"900\\",
-                \\"video-width\\": \\"360\\",
-                \\"video-height\\": \\"640\\",
-                \\"enable-remote-mirror\\": \\"false\\",
-                \\"local-mirror\\": undefined(\\"auto\\"),
-                \\"sound-mode\\": undefined(\\"speaker\\"),
-                bindStateChange: \\"\\",
-                bindError: \\"\\"
+                id: "",
+                "enable-camera": "true",
+                "enable-auto-focus": "true",
+                "enable-zoom": "false",
+                "device-position": undefined("front"),
+                "enable-mic": "true",
+                "enable-agc": "false",
+                "enable-ans": "false",
+                bitrate: "900",
+                "video-width": "360",
+                "video-height": "640",
+                "enable-remote-mirror": "false",
+                "local-mirror": undefined("auto"),
+                "sound-mode": undefined("speaker"),
+                bindStateChange: "",
+                bindError: ""
             },
             RtcRoomItem: {
-                id: \\"\\",
-                type: \\"\\",
-                \\"user-id\\": \\"\\"
+                id: "",
+                type: "",
+                "user-id": ""
             },
             OpenData: {
-                type: \\"\\"
+                type: ""
             },
             Login: {
-                \\"button-class\\": \\"\\",
-                \\"checked-color\\": undefined(\\"#3388FF\\"),
-                \\"theme-color\\": undefined(\\"#3388FF\\"),
-                bindGetPhoneNumber: \\"\\",
-                bindLoadError: \\"\\"
+                "button-class": "",
+                "checked-color": undefined("#3388FF"),
+                "theme-color": undefined("#3388FF"),
+                bindGetPhoneNumber: "",
+                bindLoadError: ""
             },
             Like: {
-                \\"is-liked\\": \\"false\\",
-                mode: undefined(\\"icon\\"),
-                \\"icon-type\\": undefined(\\"hand\\"),
-                \\"like-text\\": undefined(\\"\\\\u8d5e\\"),
-                \\"like-num\\": \\"0\\",
-                \\"like-type\\": \\"0\\",
-                \\"animation-type\\": \\"1\\",
-                \\"is-show-toast\\": \\"false\\",
-                \\"toast-text\\": \\"['\\\\u5df2\\\\u70b9\\\\u8d5e', '\\\\u5df2\\\\u53d6\\\\u6d88']\\",
-                \\"like-param\\": \\"\\",
-                bindError: \\"\\",
-                bindSuccess: \\"\\",
-                bindFail: \\"\\"
+                "is-liked": "false",
+                mode: undefined("icon"),
+                "icon-type": undefined("hand"),
+                "like-text": undefined("\\u8d5e"),
+                "like-num": "0",
+                "like-type": "0",
+                "animation-type": "1",
+                "is-show-toast": "false",
+                "toast-text": "['\\u5df2\\u70b9\\u8d5e', '\\u5df2\\u53d6\\u6d88']",
+                "like-param": "",
+                bindError: "",
+                bindSuccess: "",
+                bindFail: ""
             },
             CommentList: {
-                \\"comment-param\\": \\"\\",
-                \\"toolbar-config\\": \\"\\",
-                \\"is-page-scroll\\": \\"true\\",
-                \\"need-toolbar\\": \\"true\\",
-                \\"add-comment\\": \\"false\\",
-                \\"detail-path\\": \\"\\",
-                \\"is-folded\\": \\"false\\",
-                \\"fold-num\\": \\"3\\",
-                \\"view-more-path\\": \\"\\",
-                \\"view-more-style\\": \\"\\",
-                bindClickComment: \\"\\",
-                bindViewMore: \\"\\"
+                "comment-param": "",
+                "toolbar-config": "",
+                "is-page-scroll": "true",
+                "need-toolbar": "true",
+                "add-comment": "false",
+                "detail-path": "",
+                "is-folded": "false",
+                "fold-num": "3",
+                "view-more-path": "",
+                "view-more-style": "",
+                bindClickComment: "",
+                bindViewMore: ""
             },
             CommentDetail: {
-                \\"comment-param\\": \\"\\",
-                srid: \\"\\",
-                \\"is-page-scroll\\": \\"true\\",
-                \\"need-toolbar\\": \\"true\\",
-                \\"need-like-btn\\": \\"true\\",
-                \\"back-list-after-delete\\": \\"true\\",
-                \\"add-comment\\": \\"false\\",
-                bindDelete: \\"\\"
+                "comment-param": "",
+                srid: "",
+                "is-page-scroll": "true",
+                "need-toolbar": "true",
+                "need-like-btn": "true",
+                "back-list-after-delete": "true",
+                "add-comment": "false",
+                bindDelete: ""
             },
             FollowSwan: {
-                size: undefined(\\"default\\"),
-                type: undefined(\\"primary\\"),
-                bindFavorStatusChange: \\"\\"
+                size: undefined("default"),
+                type: undefined("primary"),
+                bindFavorStatusChange: ""
             },
             InlinePaymentPanel: {
-                \\"total-amount\\": \\"\\",
-                \\"deal-id\\": \\"\\",
-                \\"app-key\\": \\"\\",
-                \\"promotion-tag\\": \\"\\",
-                \\"enable-page-back-modal\\": \\"\\",
-                \\"custom-style\\": \\"\\",
-                \\"style-type\\": undefined(\\"default\\"),
-                bindGetPaymentInfo: \\"\\",
-                bindError: \\"\\"
+                "total-amount": "",
+                "deal-id": "",
+                "app-key": "",
+                "promotion-tag": "",
+                "enable-page-back-modal": "",
+                "custom-style": "",
+                "style-type": undefined("default"),
+                bindGetPaymentInfo: "",
+                bindError: ""
             }
         };
         var hostConfig = {
             initNativeApi: initNativeApi,
             getPathIndex: function getPathIndex(indexOfNode) {
-                return \\"\\".concat(indexOfNode);
+                return "".concat(indexOfNode);
             },
             getSpecialNodes: function getSpecialNodes() {
-                return [ \\"text\\", \\"image\\" ];
+                return [ "text", "image" ];
             },
             modifyTaroEvent: function modifyTaroEvent(event, node) {
-                if (node.tagName === \\"MAP\\" && event.type === \\"regionchange\\") {
-                    event.type = \\"end\\";
+                if (node.tagName === "MAP" && event.type === "regionchange") {
+                    event.type = "end";
                 }
             },
             getMiniLifecycle: function getMiniLifecycle(config) {
-                config.page[0] = \\"onInit\\";
+                config.page[0] = "onInit";
                 return config;
             }
         };
         mergeReconciler(hostConfig);
         var internalComponents = mergeInternalComponents(components);
         delete internalComponents.Input.cursor;
-        delete internalComponents.Input[\\"selection-start\\"];
-        delete internalComponents.Input[\\"selection-end\\"];
-        var taro_runtime = __webpack_require__(2);
-        var classCallCheck = __webpack_require__(3);
-        var createClass = __webpack_require__(4);
+        delete internalComponents.Input["selection-start"];
+        delete internalComponents.Input["selection-end"];
+        var taro_runtime = __webpack_require__(3);
+        var classCallCheck = __webpack_require__(4);
+        var createClass = __webpack_require__(6);
         var inherits = __webpack_require__(7);
-        var createSuper = __webpack_require__(6);
+        var createSuper = __webpack_require__(5);
         var react = __webpack_require__(0);
         var app = __webpack_require__(11);
         var app_App = function(_Component) {
-            Object(inherits[\\"a\\"])(App, _Component);
-            var _super = Object(createSuper[\\"a\\"])(App);
+            Object(inherits["a"])(App, _Component);
+            var _super = Object(createSuper["a"])(App);
             function App() {
-                Object(classCallCheck[\\"a\\"])(this, App);
+                Object(classCallCheck["a"])(this, App);
                 return _super.apply(this, arguments);
             }
-            Object(createClass[\\"a\\"])(App, [ {
-                key: \\"componentDidMount\\",
+            Object(createClass["a"])(App, [ {
+                key: "componentDidMount",
                 value: function componentDidMount() {}
             }, {
-                key: \\"componentDidShow\\",
+                key: "componentDidShow",
                 value: function componentDidShow() {}
             }, {
-                key: \\"componentDidHide\\",
+                key: "componentDidHide",
                 value: function componentDidHide() {}
             }, {
-                key: \\"render\\",
+                key: "render",
                 value: function render() {
                     return this.props.children;
                 }
             } ]);
             return App;
-        }(react[\\"Component\\"]);
+        }(react["Component"]);
         var lib_src_app = app_App;
         var taro_react = __webpack_require__(8);
         var config = {
-            pages: [ \\"pages/index/index\\" ],
+            pages: [ "pages/index/index" ],
             window: {
-                backgroundTextStyle: \\"light\\",
-                navigationBarBackgroundColor: \\"#fff\\",
-                navigationBarTitleText: \\"WeChat\\",
-                navigationBarTextStyle: \\"black\\"
+                backgroundTextStyle: "light",
+                navigationBarBackgroundColor: "#fff",
+                navigationBarTitleText: "WeChat",
+                navigationBarTextStyle: "black"
             }
         };
-        taro_runtime[\\"window\\"].__taroAppConfig = config;
-        var inst = App(createReactApp(lib_src_app, react, taro_react[\\"a\\"], config));
+        taro_runtime["window"].__taroAppConfig = config;
+        var inst = App(createReactApp(lib_src_app, react, taro_react["a"], config));
         undefined({
             designWidth: 750,
             deviceRatio: {
                 640: 1.17,
                 750: 1,
                 828: .905
-            }
+            },
+            baseFontSize: 20,
+            unitPrecision: undefined,
+            targetUnit: undefined
         });
     }
 }, [ [ 14, 0, 1, 3, 2 ] ] ]);
@@ -395,269 +398,269 @@ require(\\"./taro\\");
 
 
 /** filePath: dist/app.json **/
-{\\"pages\\":[\\"pages/index/index\\"],\\"window\\":{\\"backgroundTextStyle\\":\\"light\\",\\"navigationBarBackgroundColor\\":\\"#fff\\",\\"navigationBarTitleText\\":\\"WeChat\\",\\"navigationBarTextStyle\\":\\"black\\"}}
+{"pages":["pages/index/index"],"window":{"backgroundTextStyle":"light","navigationBarBackgroundColor":"#fff","navigationBarTitleText":"WeChat","navigationBarTextStyle":"black"}}
 
 /** filePath: dist/base.swan **/
-<import-sjs module=\\"xs\\" src=\\"./utils.sjs\\" />
-<template name=\\"taro_tmpl\\">
-  <block s-for=\\"root.cn trackBy item.sid\\">
-    <template is=\\"{{xs.a(0, item.nn)}}\\" data=\\"{{{ i:item }}}\\" />
+<import-sjs module="xs" src="./utils.sjs" />
+<template name="taro_tmpl">
+  <block s-for="root.cn trackBy item.sid">
+    <template is="tmpl_0_container" data="{{{ i:item }}}" />
   </block>
 </template>
 
-<template name=\\"tmpl_0_0\\">
-  <view hover-class=\\"{{xs.b(i.p1,'none')}}\\" hover-stop-propagation=\\"{{xs.b(i.p4,!1)}}\\" hover-start-time=\\"{{xs.b(i.p2,50)}}\\" hover-stay-time=\\"{{xs.b(i.p3,400)}}\\" bindtouchstart=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongtap=\\"eh\\" animation=\\"{{i.p0}}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\" catchtouchmove=\\"eh\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
-    <block s-for=\\"i.cn trackBy item.sid\\">
-      <template is=\\"{{xs.a(0, item.nn)}}\\" data=\\"{{{ i:item }}}\\" />
+<template name="tmpl_0_0">
+  <view hover-class="{{xs.b(i.p1,'none')}}" hover-stop-propagation="{{xs.b(i.p4,!1)}}" hover-start-time="{{xs.b(i.p2,50)}}" hover-stay-time="{{xs.b(i.p3,400)}}" bindtouchstart="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongtap="eh" animation="{{i.p0}}" bindanimationstart="eh" bindanimationiteration="eh" bindanimationend="eh" bindtransitionend="eh" style="{{i.st}}" class="{{i.cl}}" bindtap="eh" catchtouchmove="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+    <block s-for="i.cn trackBy item.sid">
+      <template is="{{xs.e(0)}}" data="{{{ i:item }}}" />
     </block>
   </view>
 </template>
 
-<template name=\\"tmpl_0_7\\">
-  <view hover-class=\\"{{xs.b(i.p1,'none')}}\\" hover-stop-propagation=\\"{{xs.b(i.p4,!1)}}\\" hover-start-time=\\"{{xs.b(i.p2,50)}}\\" hover-stay-time=\\"{{xs.b(i.p3,400)}}\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongtap=\\"eh\\" animation=\\"{{i.p0}}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
-    <block s-for=\\"i.cn trackBy item.sid\\">
-      <view s-if=\\"{{item.nn==='7'&&(item.st||item.cl)}}\\" id=\\"{{item.uid||item.sid}}\\" data-sid=\\"{{item.sid}}\\" hover-class=\\"{{xs.b(item.p1,'none')}}\\" hover-stop-propagation=\\"{{xs.b(item.p4,!1)}}\\" hover-start-time=\\"{{xs.b(item.p2,50)}}\\" hover-stay-time=\\"{{xs.b(item.p3,400)}}\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongtap=\\"eh\\" animation=\\"{{item.p0}}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\" bindtap=\\"eh\\">
-        <block s-for=\\"item.cn trackBy item.sid\\">
-          <view s-if=\\"{{item.nn==='7'&&(item.st||item.cl)}}\\" id=\\"{{item.uid||item.sid}}\\" data-sid=\\"{{item.sid}}\\" hover-class=\\"{{xs.b(item.p1,'none')}}\\" hover-stop-propagation=\\"{{xs.b(item.p4,!1)}}\\" hover-start-time=\\"{{xs.b(item.p2,50)}}\\" hover-stay-time=\\"{{xs.b(item.p3,400)}}\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongtap=\\"eh\\" animation=\\"{{item.p0}}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\" bindtap=\\"eh\\">
-            <block s-for=\\"item.cn trackBy item.sid\\">
-              <view s-if=\\"{{item.nn==='7'&&(item.st||item.cl)}}\\" id=\\"{{item.uid||item.sid}}\\" data-sid=\\"{{item.sid}}\\" hover-class=\\"{{xs.b(item.p1,'none')}}\\" hover-stop-propagation=\\"{{xs.b(item.p4,!1)}}\\" hover-start-time=\\"{{xs.b(item.p2,50)}}\\" hover-stay-time=\\"{{xs.b(item.p3,400)}}\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongtap=\\"eh\\" animation=\\"{{item.p0}}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\" bindtap=\\"eh\\">
-                <block s-for=\\"item.cn trackBy item.sid\\">
-                  <view s-if=\\"{{item.nn==='7'&&(item.st||item.cl)}}\\" id=\\"{{item.uid||item.sid}}\\" data-sid=\\"{{item.sid}}\\" hover-class=\\"{{xs.b(item.p1,'none')}}\\" hover-stop-propagation=\\"{{xs.b(item.p4,!1)}}\\" hover-start-time=\\"{{xs.b(item.p2,50)}}\\" hover-stay-time=\\"{{xs.b(item.p3,400)}}\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongtap=\\"eh\\" animation=\\"{{item.p0}}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\" bindtap=\\"eh\\">
-                    <block s-for=\\"item.cn trackBy item.sid\\">
-                      <view s-if=\\"{{item.nn==='7'&&(item.st||item.cl)}}\\" id=\\"{{item.uid||item.sid}}\\" data-sid=\\"{{item.sid}}\\" hover-class=\\"{{xs.b(item.p1,'none')}}\\" hover-stop-propagation=\\"{{xs.b(item.p4,!1)}}\\" hover-start-time=\\"{{xs.b(item.p2,50)}}\\" hover-stay-time=\\"{{xs.b(item.p3,400)}}\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongtap=\\"eh\\" animation=\\"{{item.p0}}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\" bindtap=\\"eh\\">
-                        <block s-for=\\"item.cn trackBy item.sid\\">
-                          <view s-if=\\"{{item.nn==='7'&&(item.st||item.cl)}}\\" id=\\"{{item.uid||item.sid}}\\" data-sid=\\"{{item.sid}}\\" hover-class=\\"{{xs.b(item.p1,'none')}}\\" hover-stop-propagation=\\"{{xs.b(item.p4,!1)}}\\" hover-start-time=\\"{{xs.b(item.p2,50)}}\\" hover-stay-time=\\"{{xs.b(item.p3,400)}}\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongtap=\\"eh\\" animation=\\"{{item.p0}}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\" bindtap=\\"eh\\">
-                            <block s-for=\\"item.cn trackBy item.sid\\">
-                              <view s-if=\\"{{item.nn==='7'&&(item.st||item.cl)}}\\" id=\\"{{item.uid||item.sid}}\\" data-sid=\\"{{item.sid}}\\" hover-class=\\"{{xs.b(item.p1,'none')}}\\" hover-stop-propagation=\\"{{xs.b(item.p4,!1)}}\\" hover-start-time=\\"{{xs.b(item.p2,50)}}\\" hover-stay-time=\\"{{xs.b(item.p3,400)}}\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongtap=\\"eh\\" animation=\\"{{item.p0}}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\" bindtap=\\"eh\\">
-                                <block s-for=\\"item.cn trackBy item.sid\\">
-                                  <view s-if=\\"{{item.nn==='7'&&(item.st||item.cl)}}\\" id=\\"{{item.uid||item.sid}}\\" data-sid=\\"{{item.sid}}\\" hover-class=\\"{{xs.b(item.p1,'none')}}\\" hover-stop-propagation=\\"{{xs.b(item.p4,!1)}}\\" hover-start-time=\\"{{xs.b(item.p2,50)}}\\" hover-stay-time=\\"{{xs.b(item.p3,400)}}\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongtap=\\"eh\\" animation=\\"{{item.p0}}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\" bindtap=\\"eh\\">
-                                    <block s-for=\\"item.cn trackBy item.sid\\">
-                                      <template is=\\"{{xs.a(0, item.nn)}}\\" data=\\"{{{i:item}}}\\" />
+<template name="tmpl_0_7">
+  <view hover-class="{{xs.b(i.p1,'none')}}" hover-stop-propagation="{{xs.b(i.p4,!1)}}" hover-start-time="{{xs.b(i.p2,50)}}" hover-stay-time="{{xs.b(i.p3,400)}}" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongtap="eh" animation="{{i.p0}}" bindanimationstart="eh" bindanimationiteration="eh" bindanimationend="eh" bindtransitionend="eh" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+    <block s-for="i.cn trackBy item.sid">
+      <view s-if="{{item.nn==='7'&&(item.st||item.cl)}}" id="{{item.uid||item.sid}}" data-sid="{{item.sid}}" hover-class="{{xs.b(item.p1,'none')}}" hover-stop-propagation="{{xs.b(item.p4,!1)}}" hover-start-time="{{xs.b(item.p2,50)}}" hover-stay-time="{{xs.b(item.p3,400)}}" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongtap="eh" animation="{{item.p0}}" bindanimationstart="eh" bindanimationiteration="eh" bindanimationend="eh" bindtransitionend="eh" style="{{item.st}}" class="{{item.cl}}" bindtap="eh">
+        <block s-for="item.cn trackBy item.sid">
+          <view s-if="{{item.nn==='7'&&(item.st||item.cl)}}" id="{{item.uid||item.sid}}" data-sid="{{item.sid}}" hover-class="{{xs.b(item.p1,'none')}}" hover-stop-propagation="{{xs.b(item.p4,!1)}}" hover-start-time="{{xs.b(item.p2,50)}}" hover-stay-time="{{xs.b(item.p3,400)}}" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongtap="eh" animation="{{item.p0}}" bindanimationstart="eh" bindanimationiteration="eh" bindanimationend="eh" bindtransitionend="eh" style="{{item.st}}" class="{{item.cl}}" bindtap="eh">
+            <block s-for="item.cn trackBy item.sid">
+              <view s-if="{{item.nn==='7'&&(item.st||item.cl)}}" id="{{item.uid||item.sid}}" data-sid="{{item.sid}}" hover-class="{{xs.b(item.p1,'none')}}" hover-stop-propagation="{{xs.b(item.p4,!1)}}" hover-start-time="{{xs.b(item.p2,50)}}" hover-stay-time="{{xs.b(item.p3,400)}}" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongtap="eh" animation="{{item.p0}}" bindanimationstart="eh" bindanimationiteration="eh" bindanimationend="eh" bindtransitionend="eh" style="{{item.st}}" class="{{item.cl}}" bindtap="eh">
+                <block s-for="item.cn trackBy item.sid">
+                  <view s-if="{{item.nn==='7'&&(item.st||item.cl)}}" id="{{item.uid||item.sid}}" data-sid="{{item.sid}}" hover-class="{{xs.b(item.p1,'none')}}" hover-stop-propagation="{{xs.b(item.p4,!1)}}" hover-start-time="{{xs.b(item.p2,50)}}" hover-stay-time="{{xs.b(item.p3,400)}}" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongtap="eh" animation="{{item.p0}}" bindanimationstart="eh" bindanimationiteration="eh" bindanimationend="eh" bindtransitionend="eh" style="{{item.st}}" class="{{item.cl}}" bindtap="eh">
+                    <block s-for="item.cn trackBy item.sid">
+                      <view s-if="{{item.nn==='7'&&(item.st||item.cl)}}" id="{{item.uid||item.sid}}" data-sid="{{item.sid}}" hover-class="{{xs.b(item.p1,'none')}}" hover-stop-propagation="{{xs.b(item.p4,!1)}}" hover-start-time="{{xs.b(item.p2,50)}}" hover-stay-time="{{xs.b(item.p3,400)}}" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongtap="eh" animation="{{item.p0}}" bindanimationstart="eh" bindanimationiteration="eh" bindanimationend="eh" bindtransitionend="eh" style="{{item.st}}" class="{{item.cl}}" bindtap="eh">
+                        <block s-for="item.cn trackBy item.sid">
+                          <view s-if="{{item.nn==='7'&&(item.st||item.cl)}}" id="{{item.uid||item.sid}}" data-sid="{{item.sid}}" hover-class="{{xs.b(item.p1,'none')}}" hover-stop-propagation="{{xs.b(item.p4,!1)}}" hover-start-time="{{xs.b(item.p2,50)}}" hover-stay-time="{{xs.b(item.p3,400)}}" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongtap="eh" animation="{{item.p0}}" bindanimationstart="eh" bindanimationiteration="eh" bindanimationend="eh" bindtransitionend="eh" style="{{item.st}}" class="{{item.cl}}" bindtap="eh">
+                            <block s-for="item.cn trackBy item.sid">
+                              <view s-if="{{item.nn==='7'&&(item.st||item.cl)}}" id="{{item.uid||item.sid}}" data-sid="{{item.sid}}" hover-class="{{xs.b(item.p1,'none')}}" hover-stop-propagation="{{xs.b(item.p4,!1)}}" hover-start-time="{{xs.b(item.p2,50)}}" hover-stay-time="{{xs.b(item.p3,400)}}" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongtap="eh" animation="{{item.p0}}" bindanimationstart="eh" bindanimationiteration="eh" bindanimationend="eh" bindtransitionend="eh" style="{{item.st}}" class="{{item.cl}}" bindtap="eh">
+                                <block s-for="item.cn trackBy item.sid">
+                                  <view s-if="{{item.nn==='7'&&(item.st||item.cl)}}" id="{{item.uid||item.sid}}" data-sid="{{item.sid}}" hover-class="{{xs.b(item.p1,'none')}}" hover-stop-propagation="{{xs.b(item.p4,!1)}}" hover-start-time="{{xs.b(item.p2,50)}}" hover-stay-time="{{xs.b(item.p3,400)}}" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongtap="eh" animation="{{item.p0}}" bindanimationstart="eh" bindanimationiteration="eh" bindanimationend="eh" bindtransitionend="eh" style="{{item.st}}" class="{{item.cl}}" bindtap="eh">
+                                    <block s-for="item.cn trackBy item.sid">
+                                      <template is="{{xs.e(0)}}" data="{{{i:item}}}" />
                                     </block>
                                   </view>
-                                  <text s-elif=\\"{{item.nn==='6'&&(item.st||item.cl)}}\\" id=\\"{{item.uid||item.sid}}\\" data-sid=\\"{{item.sid}}\\" selectable=\\"{{xs.b(item.p1,!1)}}\\" space=\\"{{item.p2}}\\" decode=\\"{{xs.b(item.p0,!1)}}\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\" bindtap=\\"eh\\">
-                                    <block s-for=\\"item.cn trackBy item.sid\\">
+                                  <text s-elif="{{item.nn==='6'&&(item.st||item.cl)}}" id="{{item.uid||item.sid}}" data-sid="{{item.sid}}" selectable="{{xs.b(item.p1,!1)}}" space="{{item.p2}}" decode="{{xs.b(item.p0,!1)}}" style="{{item.st}}" class="{{item.cl}}" bindtap="eh">
+                                    <block s-for="item.cn trackBy item.sid">
                                       <block>{{item.v}}</block>
                                     </block>
                                   </text>
-                                  <text s-elif=\\"{{item.nn==='4'&&(item.st||item.cl)}}\\" id=\\"{{item.uid||item.sid}}\\" data-sid=\\"{{item.sid}}\\" selectable=\\"{{xs.b(item.p1,!1)}}\\" space=\\"{{item.p2}}\\" decode=\\"{{xs.b(item.p0,!1)}}\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\">
-                                    <block s-for=\\"item.cn trackBy item.sid\\">
+                                  <text s-elif="{{item.nn==='4'&&(item.st||item.cl)}}" id="{{item.uid||item.sid}}" data-sid="{{item.sid}}" selectable="{{xs.b(item.p1,!1)}}" space="{{item.p2}}" decode="{{xs.b(item.p0,!1)}}" style="{{item.st}}" class="{{item.cl}}">
+                                    <block s-for="item.cn trackBy item.sid">
                                       <block>{{item.v}}</block>
                                     </block>
                                   </text>
-                                  <button s-elif=\\"{{item.nn==='12'&&(item.st||item.cl)}}\\" id=\\"{{item.uid||item.sid}}\\" data-sid=\\"{{item.sid}}\\" size=\\"{{xs.b(item.p10,'default')}}\\" type=\\"{{item.p11}}\\" plain=\\"{{xs.b(item.p9,!1)}}\\" disabled=\\"{{item.p0}}\\" loading=\\"{{xs.b(item.p6,!1)}}\\" form-type=\\"{{item.p1}}\\" open-type=\\"{{item.p8}}\\" hover-class=\\"{{xs.b(item.p2,'button-hover')}}\\" hover-stop-propagation=\\"{{xs.b(item.p5,!1)}}\\" hover-start-time=\\"{{xs.b(item.p3,20)}}\\" hover-stay-time=\\"{{xs.b(item.p4,70)}}\\" name=\\"{{item.p7}}\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongtap=\\"eh\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\" bindtap=\\"eh\\">
-                                    <block s-for=\\"item.cn trackBy item.sid\\">
-                                      <template is=\\"{{xs.a(0, item.nn)}}\\" data=\\"{{{ i:item }}}\\" />
+                                  <button s-elif="{{item.nn==='12'&&(item.st||item.cl)}}" id="{{item.uid||item.sid}}" data-sid="{{item.sid}}" size="{{xs.b(item.p10,'default')}}" type="{{item.p11}}" plain="{{xs.b(item.p9,!1)}}" disabled="{{item.p0}}" loading="{{xs.b(item.p6,!1)}}" form-type="{{item.p1}}" open-type="{{item.p8}}" hover-class="{{xs.b(item.p2,'button-hover')}}" hover-stop-propagation="{{xs.b(item.p5,!1)}}" hover-start-time="{{xs.b(item.p3,20)}}" hover-stay-time="{{xs.b(item.p4,70)}}" name="{{item.p7}}" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongtap="eh" style="{{item.st}}" class="{{item.cl}}" bindtap="eh">
+                                    <block s-for="item.cn trackBy item.sid">
+                                      <template is="{{xs.e(0)}}" data="{{{ i:item }}}" />
                                     </block>
                                   </button>
-                                  <input s-elif=\\"{{item.nn==='21'&&(item.st||item.cl)}}\\" id=\\"{{item.uid||item.sid}}\\" data-sid=\\"{{item.sid}}\\" value=\\"{{item.p14}}\\" type=\\"{{xs.b(item.p13,'')}}\\" password=\\"{{xs.b(item.p7,!1)}}\\" placeholder=\\"{{item.p8}}\\" placeholder-style=\\"{{item.p10}}\\" placeholder-class=\\"{{xs.b(item.p9,'input-placeholder')}}\\" disabled=\\"{{item.p4}}\\" maxlength=\\"{{xs.b(item.p5,140)}}\\" cursor-spacing=\\"{{xs.b(item.p3,0)}}\\" focus=\\"{{xs.b(item.focus,!1)}}\\" confirm-type=\\"{{xs.b(item.p1,'done')}}\\" confirm-hold=\\"{{xs.b(item.p0,!1)}}\\" cursor=\\"{{xs.b(item.p2,i.value.length)}}\\" selection-start=\\"{{xs.b(item.p12,-1)}}\\" selection-end=\\"{{xs.b(item.p11,-1)}}\\" bindinput=\\"eh\\" bindfocus=\\"eh\\" bindblur=\\"eh\\" bindconfirm=\\"eh\\" name=\\"{{item.p6}}\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\" bindtap=\\"eh\\" />
-                                  <swiper s-elif=\\"{{item.nn==='40'&&(item.st||item.cl)}}\\" id=\\"{{item.uid||item.sid}}\\" data-sid=\\"{{item.sid}}\\" indicator-dots=\\"{{xs.b(item.p7,!1)}}\\" indicator-color=\\"{{xs.b(item.p6,'rgba(0, 0, 0, .3)')}}\\" indicator-active-color=\\"{{xs.b(item.p5,'#000000')}}\\" autoplay=\\"{{xs.b(item.p0,!1)}}\\" current=\\"{{xs.b(item.p2,0)}}\\" interval=\\"{{xs.b(item.p8,5000)}}\\" duration=\\"{{xs.b(item.p4,500)}}\\" circular=\\"{{xs.b(item.p1,!1)}}\\" vertical=\\"{{xs.b(item.p11,!1)}}\\" previous-margin=\\"{{xs.b(item.p10,'0px')}}\\" next-margin=\\"{{xs.b(item.p9,'0px')}}\\" display-multiple-items=\\"{{xs.b(item.p3,1)}}\\" bindchange=\\"eh\\" bindtransition=\\"eh\\" bindanimationfinish=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongtap=\\"eh\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\" bindtap=\\"eh\\">
-                                    <block s-for=\\"xs.f(item.cn) trackBy item.sid\\">
-                                      <template is=\\"{{xs.a(0, item.nn)}}\\" data=\\"{{{ i:item }}}\\" />
+                                  <input s-elif="{{item.nn==='21'&&(item.st||item.cl)}}" id="{{item.uid||item.sid}}" data-sid="{{item.sid}}" value="{{item.p14}}" type="{{xs.b(item.p13,'')}}" password="{{xs.b(item.p7,!1)}}" placeholder="{{item.p8}}" placeholder-style="{{item.p10}}" placeholder-class="{{xs.b(item.p9,'input-placeholder')}}" disabled="{{item.p4}}" maxlength="{{xs.b(item.p5,140)}}" cursor-spacing="{{xs.b(item.p3,0)}}" focus="{{xs.b(item.focus,!1)}}" confirm-type="{{xs.b(item.p1,'done')}}" confirm-hold="{{xs.b(item.p0,!1)}}" cursor="{{xs.b(item.p2,i.p14?i.p14.length:-1)}}" selection-start="{{xs.b(item.p12,-1)}}" selection-end="{{xs.b(item.p11,-1)}}" bindinput="eh" bindfocus="eh" bindblur="eh" bindconfirm="eh" name="{{item.p6}}" style="{{item.st}}" class="{{item.cl}}" bindtap="eh" />
+                                  <swiper s-elif="{{item.nn==='40'&&(item.st||item.cl)}}" id="{{item.uid||item.sid}}" data-sid="{{item.sid}}" indicator-dots="{{xs.b(item.p7,!1)}}" indicator-color="{{xs.b(item.p6,'rgba(0, 0, 0, .3)')}}" indicator-active-color="{{xs.b(item.p5,'#000000')}}" autoplay="{{xs.b(item.p0,!1)}}" current="{{xs.b(item.p2,0)}}" interval="{{xs.b(item.p8,5000)}}" duration="{{xs.b(item.p4,500)}}" circular="{{xs.b(item.p1,!1)}}" vertical="{{xs.b(item.p11,!1)}}" previous-margin="{{xs.b(item.p10,'0px')}}" next-margin="{{xs.b(item.p9,'0px')}}" display-multiple-items="{{xs.b(item.p3,1)}}" bindchange="eh" bindtransition="eh" bindanimationfinish="eh" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongtap="eh" style="{{item.st}}" class="{{item.cl}}" bindtap="eh">
+                                    <block s-for="xs.f(item.cn) trackBy item.sid">
+                                      <template is="{{xs.e(0)}}" data="{{{ i:item }}}" />
                                     </block>
                                   </swiper>
                                   <block s-else>
-                                    <template is=\\"{{xs.a(0, item.nn)}}\\" data=\\"{{{i:item}}}\\" />
+                                    <template is="{{xs.e(0)}}" data="{{{i:item}}}" />
                                   </block>
                                 </block>
                               </view>
-                              <text s-elif=\\"{{item.nn==='6'&&(item.st||item.cl)}}\\" id=\\"{{item.uid||item.sid}}\\" data-sid=\\"{{item.sid}}\\" selectable=\\"{{xs.b(item.p1,!1)}}\\" space=\\"{{item.p2}}\\" decode=\\"{{xs.b(item.p0,!1)}}\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\" bindtap=\\"eh\\">
-                                <block s-for=\\"item.cn trackBy item.sid\\">
+                              <text s-elif="{{item.nn==='6'&&(item.st||item.cl)}}" id="{{item.uid||item.sid}}" data-sid="{{item.sid}}" selectable="{{xs.b(item.p1,!1)}}" space="{{item.p2}}" decode="{{xs.b(item.p0,!1)}}" style="{{item.st}}" class="{{item.cl}}" bindtap="eh">
+                                <block s-for="item.cn trackBy item.sid">
                                   <block>{{item.v}}</block>
                                 </block>
                               </text>
-                              <text s-elif=\\"{{item.nn==='4'&&(item.st||item.cl)}}\\" id=\\"{{item.uid||item.sid}}\\" data-sid=\\"{{item.sid}}\\" selectable=\\"{{xs.b(item.p1,!1)}}\\" space=\\"{{item.p2}}\\" decode=\\"{{xs.b(item.p0,!1)}}\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\">
-                                <block s-for=\\"item.cn trackBy item.sid\\">
+                              <text s-elif="{{item.nn==='4'&&(item.st||item.cl)}}" id="{{item.uid||item.sid}}" data-sid="{{item.sid}}" selectable="{{xs.b(item.p1,!1)}}" space="{{item.p2}}" decode="{{xs.b(item.p0,!1)}}" style="{{item.st}}" class="{{item.cl}}">
+                                <block s-for="item.cn trackBy item.sid">
                                   <block>{{item.v}}</block>
                                 </block>
                               </text>
-                              <button s-elif=\\"{{item.nn==='12'&&(item.st||item.cl)}}\\" id=\\"{{item.uid||item.sid}}\\" data-sid=\\"{{item.sid}}\\" size=\\"{{xs.b(item.p10,'default')}}\\" type=\\"{{item.p11}}\\" plain=\\"{{xs.b(item.p9,!1)}}\\" disabled=\\"{{item.p0}}\\" loading=\\"{{xs.b(item.p6,!1)}}\\" form-type=\\"{{item.p1}}\\" open-type=\\"{{item.p8}}\\" hover-class=\\"{{xs.b(item.p2,'button-hover')}}\\" hover-stop-propagation=\\"{{xs.b(item.p5,!1)}}\\" hover-start-time=\\"{{xs.b(item.p3,20)}}\\" hover-stay-time=\\"{{xs.b(item.p4,70)}}\\" name=\\"{{item.p7}}\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongtap=\\"eh\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\" bindtap=\\"eh\\">
-                                <block s-for=\\"item.cn trackBy item.sid\\">
-                                  <template is=\\"{{xs.a(0, item.nn)}}\\" data=\\"{{{ i:item }}}\\" />
+                              <button s-elif="{{item.nn==='12'&&(item.st||item.cl)}}" id="{{item.uid||item.sid}}" data-sid="{{item.sid}}" size="{{xs.b(item.p10,'default')}}" type="{{item.p11}}" plain="{{xs.b(item.p9,!1)}}" disabled="{{item.p0}}" loading="{{xs.b(item.p6,!1)}}" form-type="{{item.p1}}" open-type="{{item.p8}}" hover-class="{{xs.b(item.p2,'button-hover')}}" hover-stop-propagation="{{xs.b(item.p5,!1)}}" hover-start-time="{{xs.b(item.p3,20)}}" hover-stay-time="{{xs.b(item.p4,70)}}" name="{{item.p7}}" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongtap="eh" style="{{item.st}}" class="{{item.cl}}" bindtap="eh">
+                                <block s-for="item.cn trackBy item.sid">
+                                  <template is="{{xs.e(0)}}" data="{{{ i:item }}}" />
                                 </block>
                               </button>
-                              <input s-elif=\\"{{item.nn==='21'&&(item.st||item.cl)}}\\" id=\\"{{item.uid||item.sid}}\\" data-sid=\\"{{item.sid}}\\" value=\\"{{item.p14}}\\" type=\\"{{xs.b(item.p13,'')}}\\" password=\\"{{xs.b(item.p7,!1)}}\\" placeholder=\\"{{item.p8}}\\" placeholder-style=\\"{{item.p10}}\\" placeholder-class=\\"{{xs.b(item.p9,'input-placeholder')}}\\" disabled=\\"{{item.p4}}\\" maxlength=\\"{{xs.b(item.p5,140)}}\\" cursor-spacing=\\"{{xs.b(item.p3,0)}}\\" focus=\\"{{xs.b(item.focus,!1)}}\\" confirm-type=\\"{{xs.b(item.p1,'done')}}\\" confirm-hold=\\"{{xs.b(item.p0,!1)}}\\" cursor=\\"{{xs.b(item.p2,i.value.length)}}\\" selection-start=\\"{{xs.b(item.p12,-1)}}\\" selection-end=\\"{{xs.b(item.p11,-1)}}\\" bindinput=\\"eh\\" bindfocus=\\"eh\\" bindblur=\\"eh\\" bindconfirm=\\"eh\\" name=\\"{{item.p6}}\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\" bindtap=\\"eh\\" />
-                              <swiper s-elif=\\"{{item.nn==='40'&&(item.st||item.cl)}}\\" id=\\"{{item.uid||item.sid}}\\" data-sid=\\"{{item.sid}}\\" indicator-dots=\\"{{xs.b(item.p7,!1)}}\\" indicator-color=\\"{{xs.b(item.p6,'rgba(0, 0, 0, .3)')}}\\" indicator-active-color=\\"{{xs.b(item.p5,'#000000')}}\\" autoplay=\\"{{xs.b(item.p0,!1)}}\\" current=\\"{{xs.b(item.p2,0)}}\\" interval=\\"{{xs.b(item.p8,5000)}}\\" duration=\\"{{xs.b(item.p4,500)}}\\" circular=\\"{{xs.b(item.p1,!1)}}\\" vertical=\\"{{xs.b(item.p11,!1)}}\\" previous-margin=\\"{{xs.b(item.p10,'0px')}}\\" next-margin=\\"{{xs.b(item.p9,'0px')}}\\" display-multiple-items=\\"{{xs.b(item.p3,1)}}\\" bindchange=\\"eh\\" bindtransition=\\"eh\\" bindanimationfinish=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongtap=\\"eh\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\" bindtap=\\"eh\\">
-                                <block s-for=\\"xs.f(item.cn) trackBy item.sid\\">
-                                  <template is=\\"{{xs.a(0, item.nn)}}\\" data=\\"{{{ i:item }}}\\" />
+                              <input s-elif="{{item.nn==='21'&&(item.st||item.cl)}}" id="{{item.uid||item.sid}}" data-sid="{{item.sid}}" value="{{item.p14}}" type="{{xs.b(item.p13,'')}}" password="{{xs.b(item.p7,!1)}}" placeholder="{{item.p8}}" placeholder-style="{{item.p10}}" placeholder-class="{{xs.b(item.p9,'input-placeholder')}}" disabled="{{item.p4}}" maxlength="{{xs.b(item.p5,140)}}" cursor-spacing="{{xs.b(item.p3,0)}}" focus="{{xs.b(item.focus,!1)}}" confirm-type="{{xs.b(item.p1,'done')}}" confirm-hold="{{xs.b(item.p0,!1)}}" cursor="{{xs.b(item.p2,i.p14?i.p14.length:-1)}}" selection-start="{{xs.b(item.p12,-1)}}" selection-end="{{xs.b(item.p11,-1)}}" bindinput="eh" bindfocus="eh" bindblur="eh" bindconfirm="eh" name="{{item.p6}}" style="{{item.st}}" class="{{item.cl}}" bindtap="eh" />
+                              <swiper s-elif="{{item.nn==='40'&&(item.st||item.cl)}}" id="{{item.uid||item.sid}}" data-sid="{{item.sid}}" indicator-dots="{{xs.b(item.p7,!1)}}" indicator-color="{{xs.b(item.p6,'rgba(0, 0, 0, .3)')}}" indicator-active-color="{{xs.b(item.p5,'#000000')}}" autoplay="{{xs.b(item.p0,!1)}}" current="{{xs.b(item.p2,0)}}" interval="{{xs.b(item.p8,5000)}}" duration="{{xs.b(item.p4,500)}}" circular="{{xs.b(item.p1,!1)}}" vertical="{{xs.b(item.p11,!1)}}" previous-margin="{{xs.b(item.p10,'0px')}}" next-margin="{{xs.b(item.p9,'0px')}}" display-multiple-items="{{xs.b(item.p3,1)}}" bindchange="eh" bindtransition="eh" bindanimationfinish="eh" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongtap="eh" style="{{item.st}}" class="{{item.cl}}" bindtap="eh">
+                                <block s-for="xs.f(item.cn) trackBy item.sid">
+                                  <template is="{{xs.e(0)}}" data="{{{ i:item }}}" />
                                 </block>
                               </swiper>
                               <block s-else>
-                                <template is=\\"{{xs.a(0, item.nn)}}\\" data=\\"{{{i:item}}}\\" />
+                                <template is="{{xs.e(0)}}" data="{{{i:item}}}" />
                               </block>
                             </block>
                           </view>
-                          <text s-elif=\\"{{item.nn==='6'&&(item.st||item.cl)}}\\" id=\\"{{item.uid||item.sid}}\\" data-sid=\\"{{item.sid}}\\" selectable=\\"{{xs.b(item.p1,!1)}}\\" space=\\"{{item.p2}}\\" decode=\\"{{xs.b(item.p0,!1)}}\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\" bindtap=\\"eh\\">
-                            <block s-for=\\"item.cn trackBy item.sid\\">
+                          <text s-elif="{{item.nn==='6'&&(item.st||item.cl)}}" id="{{item.uid||item.sid}}" data-sid="{{item.sid}}" selectable="{{xs.b(item.p1,!1)}}" space="{{item.p2}}" decode="{{xs.b(item.p0,!1)}}" style="{{item.st}}" class="{{item.cl}}" bindtap="eh">
+                            <block s-for="item.cn trackBy item.sid">
                               <block>{{item.v}}</block>
                             </block>
                           </text>
-                          <text s-elif=\\"{{item.nn==='4'&&(item.st||item.cl)}}\\" id=\\"{{item.uid||item.sid}}\\" data-sid=\\"{{item.sid}}\\" selectable=\\"{{xs.b(item.p1,!1)}}\\" space=\\"{{item.p2}}\\" decode=\\"{{xs.b(item.p0,!1)}}\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\">
-                            <block s-for=\\"item.cn trackBy item.sid\\">
+                          <text s-elif="{{item.nn==='4'&&(item.st||item.cl)}}" id="{{item.uid||item.sid}}" data-sid="{{item.sid}}" selectable="{{xs.b(item.p1,!1)}}" space="{{item.p2}}" decode="{{xs.b(item.p0,!1)}}" style="{{item.st}}" class="{{item.cl}}">
+                            <block s-for="item.cn trackBy item.sid">
                               <block>{{item.v}}</block>
                             </block>
                           </text>
-                          <button s-elif=\\"{{item.nn==='12'&&(item.st||item.cl)}}\\" id=\\"{{item.uid||item.sid}}\\" data-sid=\\"{{item.sid}}\\" size=\\"{{xs.b(item.p10,'default')}}\\" type=\\"{{item.p11}}\\" plain=\\"{{xs.b(item.p9,!1)}}\\" disabled=\\"{{item.p0}}\\" loading=\\"{{xs.b(item.p6,!1)}}\\" form-type=\\"{{item.p1}}\\" open-type=\\"{{item.p8}}\\" hover-class=\\"{{xs.b(item.p2,'button-hover')}}\\" hover-stop-propagation=\\"{{xs.b(item.p5,!1)}}\\" hover-start-time=\\"{{xs.b(item.p3,20)}}\\" hover-stay-time=\\"{{xs.b(item.p4,70)}}\\" name=\\"{{item.p7}}\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongtap=\\"eh\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\" bindtap=\\"eh\\">
-                            <block s-for=\\"item.cn trackBy item.sid\\">
-                              <template is=\\"{{xs.a(0, item.nn)}}\\" data=\\"{{{ i:item }}}\\" />
+                          <button s-elif="{{item.nn==='12'&&(item.st||item.cl)}}" id="{{item.uid||item.sid}}" data-sid="{{item.sid}}" size="{{xs.b(item.p10,'default')}}" type="{{item.p11}}" plain="{{xs.b(item.p9,!1)}}" disabled="{{item.p0}}" loading="{{xs.b(item.p6,!1)}}" form-type="{{item.p1}}" open-type="{{item.p8}}" hover-class="{{xs.b(item.p2,'button-hover')}}" hover-stop-propagation="{{xs.b(item.p5,!1)}}" hover-start-time="{{xs.b(item.p3,20)}}" hover-stay-time="{{xs.b(item.p4,70)}}" name="{{item.p7}}" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongtap="eh" style="{{item.st}}" class="{{item.cl}}" bindtap="eh">
+                            <block s-for="item.cn trackBy item.sid">
+                              <template is="{{xs.e(0)}}" data="{{{ i:item }}}" />
                             </block>
                           </button>
-                          <input s-elif=\\"{{item.nn==='21'&&(item.st||item.cl)}}\\" id=\\"{{item.uid||item.sid}}\\" data-sid=\\"{{item.sid}}\\" value=\\"{{item.p14}}\\" type=\\"{{xs.b(item.p13,'')}}\\" password=\\"{{xs.b(item.p7,!1)}}\\" placeholder=\\"{{item.p8}}\\" placeholder-style=\\"{{item.p10}}\\" placeholder-class=\\"{{xs.b(item.p9,'input-placeholder')}}\\" disabled=\\"{{item.p4}}\\" maxlength=\\"{{xs.b(item.p5,140)}}\\" cursor-spacing=\\"{{xs.b(item.p3,0)}}\\" focus=\\"{{xs.b(item.focus,!1)}}\\" confirm-type=\\"{{xs.b(item.p1,'done')}}\\" confirm-hold=\\"{{xs.b(item.p0,!1)}}\\" cursor=\\"{{xs.b(item.p2,i.value.length)}}\\" selection-start=\\"{{xs.b(item.p12,-1)}}\\" selection-end=\\"{{xs.b(item.p11,-1)}}\\" bindinput=\\"eh\\" bindfocus=\\"eh\\" bindblur=\\"eh\\" bindconfirm=\\"eh\\" name=\\"{{item.p6}}\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\" bindtap=\\"eh\\" />
-                          <swiper s-elif=\\"{{item.nn==='40'&&(item.st||item.cl)}}\\" id=\\"{{item.uid||item.sid}}\\" data-sid=\\"{{item.sid}}\\" indicator-dots=\\"{{xs.b(item.p7,!1)}}\\" indicator-color=\\"{{xs.b(item.p6,'rgba(0, 0, 0, .3)')}}\\" indicator-active-color=\\"{{xs.b(item.p5,'#000000')}}\\" autoplay=\\"{{xs.b(item.p0,!1)}}\\" current=\\"{{xs.b(item.p2,0)}}\\" interval=\\"{{xs.b(item.p8,5000)}}\\" duration=\\"{{xs.b(item.p4,500)}}\\" circular=\\"{{xs.b(item.p1,!1)}}\\" vertical=\\"{{xs.b(item.p11,!1)}}\\" previous-margin=\\"{{xs.b(item.p10,'0px')}}\\" next-margin=\\"{{xs.b(item.p9,'0px')}}\\" display-multiple-items=\\"{{xs.b(item.p3,1)}}\\" bindchange=\\"eh\\" bindtransition=\\"eh\\" bindanimationfinish=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongtap=\\"eh\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\" bindtap=\\"eh\\">
-                            <block s-for=\\"xs.f(item.cn) trackBy item.sid\\">
-                              <template is=\\"{{xs.a(0, item.nn)}}\\" data=\\"{{{ i:item }}}\\" />
+                          <input s-elif="{{item.nn==='21'&&(item.st||item.cl)}}" id="{{item.uid||item.sid}}" data-sid="{{item.sid}}" value="{{item.p14}}" type="{{xs.b(item.p13,'')}}" password="{{xs.b(item.p7,!1)}}" placeholder="{{item.p8}}" placeholder-style="{{item.p10}}" placeholder-class="{{xs.b(item.p9,'input-placeholder')}}" disabled="{{item.p4}}" maxlength="{{xs.b(item.p5,140)}}" cursor-spacing="{{xs.b(item.p3,0)}}" focus="{{xs.b(item.focus,!1)}}" confirm-type="{{xs.b(item.p1,'done')}}" confirm-hold="{{xs.b(item.p0,!1)}}" cursor="{{xs.b(item.p2,i.p14?i.p14.length:-1)}}" selection-start="{{xs.b(item.p12,-1)}}" selection-end="{{xs.b(item.p11,-1)}}" bindinput="eh" bindfocus="eh" bindblur="eh" bindconfirm="eh" name="{{item.p6}}" style="{{item.st}}" class="{{item.cl}}" bindtap="eh" />
+                          <swiper s-elif="{{item.nn==='40'&&(item.st||item.cl)}}" id="{{item.uid||item.sid}}" data-sid="{{item.sid}}" indicator-dots="{{xs.b(item.p7,!1)}}" indicator-color="{{xs.b(item.p6,'rgba(0, 0, 0, .3)')}}" indicator-active-color="{{xs.b(item.p5,'#000000')}}" autoplay="{{xs.b(item.p0,!1)}}" current="{{xs.b(item.p2,0)}}" interval="{{xs.b(item.p8,5000)}}" duration="{{xs.b(item.p4,500)}}" circular="{{xs.b(item.p1,!1)}}" vertical="{{xs.b(item.p11,!1)}}" previous-margin="{{xs.b(item.p10,'0px')}}" next-margin="{{xs.b(item.p9,'0px')}}" display-multiple-items="{{xs.b(item.p3,1)}}" bindchange="eh" bindtransition="eh" bindanimationfinish="eh" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongtap="eh" style="{{item.st}}" class="{{item.cl}}" bindtap="eh">
+                            <block s-for="xs.f(item.cn) trackBy item.sid">
+                              <template is="{{xs.e(0)}}" data="{{{ i:item }}}" />
                             </block>
                           </swiper>
                           <block s-else>
-                            <template is=\\"{{xs.a(0, item.nn)}}\\" data=\\"{{{i:item}}}\\" />
+                            <template is="{{xs.e(0)}}" data="{{{i:item}}}" />
                           </block>
                         </block>
                       </view>
-                      <text s-elif=\\"{{item.nn==='6'&&(item.st||item.cl)}}\\" id=\\"{{item.uid||item.sid}}\\" data-sid=\\"{{item.sid}}\\" selectable=\\"{{xs.b(item.p1,!1)}}\\" space=\\"{{item.p2}}\\" decode=\\"{{xs.b(item.p0,!1)}}\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\" bindtap=\\"eh\\">
-                        <block s-for=\\"item.cn trackBy item.sid\\">
+                      <text s-elif="{{item.nn==='6'&&(item.st||item.cl)}}" id="{{item.uid||item.sid}}" data-sid="{{item.sid}}" selectable="{{xs.b(item.p1,!1)}}" space="{{item.p2}}" decode="{{xs.b(item.p0,!1)}}" style="{{item.st}}" class="{{item.cl}}" bindtap="eh">
+                        <block s-for="item.cn trackBy item.sid">
                           <block>{{item.v}}</block>
                         </block>
                       </text>
-                      <text s-elif=\\"{{item.nn==='4'&&(item.st||item.cl)}}\\" id=\\"{{item.uid||item.sid}}\\" data-sid=\\"{{item.sid}}\\" selectable=\\"{{xs.b(item.p1,!1)}}\\" space=\\"{{item.p2}}\\" decode=\\"{{xs.b(item.p0,!1)}}\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\">
-                        <block s-for=\\"item.cn trackBy item.sid\\">
+                      <text s-elif="{{item.nn==='4'&&(item.st||item.cl)}}" id="{{item.uid||item.sid}}" data-sid="{{item.sid}}" selectable="{{xs.b(item.p1,!1)}}" space="{{item.p2}}" decode="{{xs.b(item.p0,!1)}}" style="{{item.st}}" class="{{item.cl}}">
+                        <block s-for="item.cn trackBy item.sid">
                           <block>{{item.v}}</block>
                         </block>
                       </text>
-                      <button s-elif=\\"{{item.nn==='12'&&(item.st||item.cl)}}\\" id=\\"{{item.uid||item.sid}}\\" data-sid=\\"{{item.sid}}\\" size=\\"{{xs.b(item.p10,'default')}}\\" type=\\"{{item.p11}}\\" plain=\\"{{xs.b(item.p9,!1)}}\\" disabled=\\"{{item.p0}}\\" loading=\\"{{xs.b(item.p6,!1)}}\\" form-type=\\"{{item.p1}}\\" open-type=\\"{{item.p8}}\\" hover-class=\\"{{xs.b(item.p2,'button-hover')}}\\" hover-stop-propagation=\\"{{xs.b(item.p5,!1)}}\\" hover-start-time=\\"{{xs.b(item.p3,20)}}\\" hover-stay-time=\\"{{xs.b(item.p4,70)}}\\" name=\\"{{item.p7}}\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongtap=\\"eh\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\" bindtap=\\"eh\\">
-                        <block s-for=\\"item.cn trackBy item.sid\\">
-                          <template is=\\"{{xs.a(0, item.nn)}}\\" data=\\"{{{ i:item }}}\\" />
+                      <button s-elif="{{item.nn==='12'&&(item.st||item.cl)}}" id="{{item.uid||item.sid}}" data-sid="{{item.sid}}" size="{{xs.b(item.p10,'default')}}" type="{{item.p11}}" plain="{{xs.b(item.p9,!1)}}" disabled="{{item.p0}}" loading="{{xs.b(item.p6,!1)}}" form-type="{{item.p1}}" open-type="{{item.p8}}" hover-class="{{xs.b(item.p2,'button-hover')}}" hover-stop-propagation="{{xs.b(item.p5,!1)}}" hover-start-time="{{xs.b(item.p3,20)}}" hover-stay-time="{{xs.b(item.p4,70)}}" name="{{item.p7}}" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongtap="eh" style="{{item.st}}" class="{{item.cl}}" bindtap="eh">
+                        <block s-for="item.cn trackBy item.sid">
+                          <template is="{{xs.e(0)}}" data="{{{ i:item }}}" />
                         </block>
                       </button>
-                      <input s-elif=\\"{{item.nn==='21'&&(item.st||item.cl)}}\\" id=\\"{{item.uid||item.sid}}\\" data-sid=\\"{{item.sid}}\\" value=\\"{{item.p14}}\\" type=\\"{{xs.b(item.p13,'')}}\\" password=\\"{{xs.b(item.p7,!1)}}\\" placeholder=\\"{{item.p8}}\\" placeholder-style=\\"{{item.p10}}\\" placeholder-class=\\"{{xs.b(item.p9,'input-placeholder')}}\\" disabled=\\"{{item.p4}}\\" maxlength=\\"{{xs.b(item.p5,140)}}\\" cursor-spacing=\\"{{xs.b(item.p3,0)}}\\" focus=\\"{{xs.b(item.focus,!1)}}\\" confirm-type=\\"{{xs.b(item.p1,'done')}}\\" confirm-hold=\\"{{xs.b(item.p0,!1)}}\\" cursor=\\"{{xs.b(item.p2,i.value.length)}}\\" selection-start=\\"{{xs.b(item.p12,-1)}}\\" selection-end=\\"{{xs.b(item.p11,-1)}}\\" bindinput=\\"eh\\" bindfocus=\\"eh\\" bindblur=\\"eh\\" bindconfirm=\\"eh\\" name=\\"{{item.p6}}\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\" bindtap=\\"eh\\" />
-                      <swiper s-elif=\\"{{item.nn==='40'&&(item.st||item.cl)}}\\" id=\\"{{item.uid||item.sid}}\\" data-sid=\\"{{item.sid}}\\" indicator-dots=\\"{{xs.b(item.p7,!1)}}\\" indicator-color=\\"{{xs.b(item.p6,'rgba(0, 0, 0, .3)')}}\\" indicator-active-color=\\"{{xs.b(item.p5,'#000000')}}\\" autoplay=\\"{{xs.b(item.p0,!1)}}\\" current=\\"{{xs.b(item.p2,0)}}\\" interval=\\"{{xs.b(item.p8,5000)}}\\" duration=\\"{{xs.b(item.p4,500)}}\\" circular=\\"{{xs.b(item.p1,!1)}}\\" vertical=\\"{{xs.b(item.p11,!1)}}\\" previous-margin=\\"{{xs.b(item.p10,'0px')}}\\" next-margin=\\"{{xs.b(item.p9,'0px')}}\\" display-multiple-items=\\"{{xs.b(item.p3,1)}}\\" bindchange=\\"eh\\" bindtransition=\\"eh\\" bindanimationfinish=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongtap=\\"eh\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\" bindtap=\\"eh\\">
-                        <block s-for=\\"xs.f(item.cn) trackBy item.sid\\">
-                          <template is=\\"{{xs.a(0, item.nn)}}\\" data=\\"{{{ i:item }}}\\" />
+                      <input s-elif="{{item.nn==='21'&&(item.st||item.cl)}}" id="{{item.uid||item.sid}}" data-sid="{{item.sid}}" value="{{item.p14}}" type="{{xs.b(item.p13,'')}}" password="{{xs.b(item.p7,!1)}}" placeholder="{{item.p8}}" placeholder-style="{{item.p10}}" placeholder-class="{{xs.b(item.p9,'input-placeholder')}}" disabled="{{item.p4}}" maxlength="{{xs.b(item.p5,140)}}" cursor-spacing="{{xs.b(item.p3,0)}}" focus="{{xs.b(item.focus,!1)}}" confirm-type="{{xs.b(item.p1,'done')}}" confirm-hold="{{xs.b(item.p0,!1)}}" cursor="{{xs.b(item.p2,i.p14?i.p14.length:-1)}}" selection-start="{{xs.b(item.p12,-1)}}" selection-end="{{xs.b(item.p11,-1)}}" bindinput="eh" bindfocus="eh" bindblur="eh" bindconfirm="eh" name="{{item.p6}}" style="{{item.st}}" class="{{item.cl}}" bindtap="eh" />
+                      <swiper s-elif="{{item.nn==='40'&&(item.st||item.cl)}}" id="{{item.uid||item.sid}}" data-sid="{{item.sid}}" indicator-dots="{{xs.b(item.p7,!1)}}" indicator-color="{{xs.b(item.p6,'rgba(0, 0, 0, .3)')}}" indicator-active-color="{{xs.b(item.p5,'#000000')}}" autoplay="{{xs.b(item.p0,!1)}}" current="{{xs.b(item.p2,0)}}" interval="{{xs.b(item.p8,5000)}}" duration="{{xs.b(item.p4,500)}}" circular="{{xs.b(item.p1,!1)}}" vertical="{{xs.b(item.p11,!1)}}" previous-margin="{{xs.b(item.p10,'0px')}}" next-margin="{{xs.b(item.p9,'0px')}}" display-multiple-items="{{xs.b(item.p3,1)}}" bindchange="eh" bindtransition="eh" bindanimationfinish="eh" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongtap="eh" style="{{item.st}}" class="{{item.cl}}" bindtap="eh">
+                        <block s-for="xs.f(item.cn) trackBy item.sid">
+                          <template is="{{xs.e(0)}}" data="{{{ i:item }}}" />
                         </block>
                       </swiper>
                       <block s-else>
-                        <template is=\\"{{xs.a(0, item.nn)}}\\" data=\\"{{{i:item}}}\\" />
+                        <template is="{{xs.e(0)}}" data="{{{i:item}}}" />
                       </block>
                     </block>
                   </view>
-                  <text s-elif=\\"{{item.nn==='6'&&(item.st||item.cl)}}\\" id=\\"{{item.uid||item.sid}}\\" data-sid=\\"{{item.sid}}\\" selectable=\\"{{xs.b(item.p1,!1)}}\\" space=\\"{{item.p2}}\\" decode=\\"{{xs.b(item.p0,!1)}}\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\" bindtap=\\"eh\\">
-                    <block s-for=\\"item.cn trackBy item.sid\\">
+                  <text s-elif="{{item.nn==='6'&&(item.st||item.cl)}}" id="{{item.uid||item.sid}}" data-sid="{{item.sid}}" selectable="{{xs.b(item.p1,!1)}}" space="{{item.p2}}" decode="{{xs.b(item.p0,!1)}}" style="{{item.st}}" class="{{item.cl}}" bindtap="eh">
+                    <block s-for="item.cn trackBy item.sid">
                       <block>{{item.v}}</block>
                     </block>
                   </text>
-                  <text s-elif=\\"{{item.nn==='4'&&(item.st||item.cl)}}\\" id=\\"{{item.uid||item.sid}}\\" data-sid=\\"{{item.sid}}\\" selectable=\\"{{xs.b(item.p1,!1)}}\\" space=\\"{{item.p2}}\\" decode=\\"{{xs.b(item.p0,!1)}}\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\">
-                    <block s-for=\\"item.cn trackBy item.sid\\">
+                  <text s-elif="{{item.nn==='4'&&(item.st||item.cl)}}" id="{{item.uid||item.sid}}" data-sid="{{item.sid}}" selectable="{{xs.b(item.p1,!1)}}" space="{{item.p2}}" decode="{{xs.b(item.p0,!1)}}" style="{{item.st}}" class="{{item.cl}}">
+                    <block s-for="item.cn trackBy item.sid">
                       <block>{{item.v}}</block>
                     </block>
                   </text>
-                  <button s-elif=\\"{{item.nn==='12'&&(item.st||item.cl)}}\\" id=\\"{{item.uid||item.sid}}\\" data-sid=\\"{{item.sid}}\\" size=\\"{{xs.b(item.p10,'default')}}\\" type=\\"{{item.p11}}\\" plain=\\"{{xs.b(item.p9,!1)}}\\" disabled=\\"{{item.p0}}\\" loading=\\"{{xs.b(item.p6,!1)}}\\" form-type=\\"{{item.p1}}\\" open-type=\\"{{item.p8}}\\" hover-class=\\"{{xs.b(item.p2,'button-hover')}}\\" hover-stop-propagation=\\"{{xs.b(item.p5,!1)}}\\" hover-start-time=\\"{{xs.b(item.p3,20)}}\\" hover-stay-time=\\"{{xs.b(item.p4,70)}}\\" name=\\"{{item.p7}}\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongtap=\\"eh\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\" bindtap=\\"eh\\">
-                    <block s-for=\\"item.cn trackBy item.sid\\">
-                      <template is=\\"{{xs.a(0, item.nn)}}\\" data=\\"{{{ i:item }}}\\" />
+                  <button s-elif="{{item.nn==='12'&&(item.st||item.cl)}}" id="{{item.uid||item.sid}}" data-sid="{{item.sid}}" size="{{xs.b(item.p10,'default')}}" type="{{item.p11}}" plain="{{xs.b(item.p9,!1)}}" disabled="{{item.p0}}" loading="{{xs.b(item.p6,!1)}}" form-type="{{item.p1}}" open-type="{{item.p8}}" hover-class="{{xs.b(item.p2,'button-hover')}}" hover-stop-propagation="{{xs.b(item.p5,!1)}}" hover-start-time="{{xs.b(item.p3,20)}}" hover-stay-time="{{xs.b(item.p4,70)}}" name="{{item.p7}}" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongtap="eh" style="{{item.st}}" class="{{item.cl}}" bindtap="eh">
+                    <block s-for="item.cn trackBy item.sid">
+                      <template is="{{xs.e(0)}}" data="{{{ i:item }}}" />
                     </block>
                   </button>
-                  <input s-elif=\\"{{item.nn==='21'&&(item.st||item.cl)}}\\" id=\\"{{item.uid||item.sid}}\\" data-sid=\\"{{item.sid}}\\" value=\\"{{item.p14}}\\" type=\\"{{xs.b(item.p13,'')}}\\" password=\\"{{xs.b(item.p7,!1)}}\\" placeholder=\\"{{item.p8}}\\" placeholder-style=\\"{{item.p10}}\\" placeholder-class=\\"{{xs.b(item.p9,'input-placeholder')}}\\" disabled=\\"{{item.p4}}\\" maxlength=\\"{{xs.b(item.p5,140)}}\\" cursor-spacing=\\"{{xs.b(item.p3,0)}}\\" focus=\\"{{xs.b(item.focus,!1)}}\\" confirm-type=\\"{{xs.b(item.p1,'done')}}\\" confirm-hold=\\"{{xs.b(item.p0,!1)}}\\" cursor=\\"{{xs.b(item.p2,i.value.length)}}\\" selection-start=\\"{{xs.b(item.p12,-1)}}\\" selection-end=\\"{{xs.b(item.p11,-1)}}\\" bindinput=\\"eh\\" bindfocus=\\"eh\\" bindblur=\\"eh\\" bindconfirm=\\"eh\\" name=\\"{{item.p6}}\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\" bindtap=\\"eh\\" />
-                  <swiper s-elif=\\"{{item.nn==='40'&&(item.st||item.cl)}}\\" id=\\"{{item.uid||item.sid}}\\" data-sid=\\"{{item.sid}}\\" indicator-dots=\\"{{xs.b(item.p7,!1)}}\\" indicator-color=\\"{{xs.b(item.p6,'rgba(0, 0, 0, .3)')}}\\" indicator-active-color=\\"{{xs.b(item.p5,'#000000')}}\\" autoplay=\\"{{xs.b(item.p0,!1)}}\\" current=\\"{{xs.b(item.p2,0)}}\\" interval=\\"{{xs.b(item.p8,5000)}}\\" duration=\\"{{xs.b(item.p4,500)}}\\" circular=\\"{{xs.b(item.p1,!1)}}\\" vertical=\\"{{xs.b(item.p11,!1)}}\\" previous-margin=\\"{{xs.b(item.p10,'0px')}}\\" next-margin=\\"{{xs.b(item.p9,'0px')}}\\" display-multiple-items=\\"{{xs.b(item.p3,1)}}\\" bindchange=\\"eh\\" bindtransition=\\"eh\\" bindanimationfinish=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongtap=\\"eh\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\" bindtap=\\"eh\\">
-                    <block s-for=\\"xs.f(item.cn) trackBy item.sid\\">
-                      <template is=\\"{{xs.a(0, item.nn)}}\\" data=\\"{{{ i:item }}}\\" />
+                  <input s-elif="{{item.nn==='21'&&(item.st||item.cl)}}" id="{{item.uid||item.sid}}" data-sid="{{item.sid}}" value="{{item.p14}}" type="{{xs.b(item.p13,'')}}" password="{{xs.b(item.p7,!1)}}" placeholder="{{item.p8}}" placeholder-style="{{item.p10}}" placeholder-class="{{xs.b(item.p9,'input-placeholder')}}" disabled="{{item.p4}}" maxlength="{{xs.b(item.p5,140)}}" cursor-spacing="{{xs.b(item.p3,0)}}" focus="{{xs.b(item.focus,!1)}}" confirm-type="{{xs.b(item.p1,'done')}}" confirm-hold="{{xs.b(item.p0,!1)}}" cursor="{{xs.b(item.p2,i.p14?i.p14.length:-1)}}" selection-start="{{xs.b(item.p12,-1)}}" selection-end="{{xs.b(item.p11,-1)}}" bindinput="eh" bindfocus="eh" bindblur="eh" bindconfirm="eh" name="{{item.p6}}" style="{{item.st}}" class="{{item.cl}}" bindtap="eh" />
+                  <swiper s-elif="{{item.nn==='40'&&(item.st||item.cl)}}" id="{{item.uid||item.sid}}" data-sid="{{item.sid}}" indicator-dots="{{xs.b(item.p7,!1)}}" indicator-color="{{xs.b(item.p6,'rgba(0, 0, 0, .3)')}}" indicator-active-color="{{xs.b(item.p5,'#000000')}}" autoplay="{{xs.b(item.p0,!1)}}" current="{{xs.b(item.p2,0)}}" interval="{{xs.b(item.p8,5000)}}" duration="{{xs.b(item.p4,500)}}" circular="{{xs.b(item.p1,!1)}}" vertical="{{xs.b(item.p11,!1)}}" previous-margin="{{xs.b(item.p10,'0px')}}" next-margin="{{xs.b(item.p9,'0px')}}" display-multiple-items="{{xs.b(item.p3,1)}}" bindchange="eh" bindtransition="eh" bindanimationfinish="eh" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongtap="eh" style="{{item.st}}" class="{{item.cl}}" bindtap="eh">
+                    <block s-for="xs.f(item.cn) trackBy item.sid">
+                      <template is="{{xs.e(0)}}" data="{{{ i:item }}}" />
                     </block>
                   </swiper>
                   <block s-else>
-                    <template is=\\"{{xs.a(0, item.nn)}}\\" data=\\"{{{i:item}}}\\" />
+                    <template is="{{xs.e(0)}}" data="{{{i:item}}}" />
                   </block>
                 </block>
               </view>
-              <text s-elif=\\"{{item.nn==='6'&&(item.st||item.cl)}}\\" id=\\"{{item.uid||item.sid}}\\" data-sid=\\"{{item.sid}}\\" selectable=\\"{{xs.b(item.p1,!1)}}\\" space=\\"{{item.p2}}\\" decode=\\"{{xs.b(item.p0,!1)}}\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\" bindtap=\\"eh\\">
-                <block s-for=\\"item.cn trackBy item.sid\\">
+              <text s-elif="{{item.nn==='6'&&(item.st||item.cl)}}" id="{{item.uid||item.sid}}" data-sid="{{item.sid}}" selectable="{{xs.b(item.p1,!1)}}" space="{{item.p2}}" decode="{{xs.b(item.p0,!1)}}" style="{{item.st}}" class="{{item.cl}}" bindtap="eh">
+                <block s-for="item.cn trackBy item.sid">
                   <block>{{item.v}}</block>
                 </block>
               </text>
-              <text s-elif=\\"{{item.nn==='4'&&(item.st||item.cl)}}\\" id=\\"{{item.uid||item.sid}}\\" data-sid=\\"{{item.sid}}\\" selectable=\\"{{xs.b(item.p1,!1)}}\\" space=\\"{{item.p2}}\\" decode=\\"{{xs.b(item.p0,!1)}}\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\">
-                <block s-for=\\"item.cn trackBy item.sid\\">
+              <text s-elif="{{item.nn==='4'&&(item.st||item.cl)}}" id="{{item.uid||item.sid}}" data-sid="{{item.sid}}" selectable="{{xs.b(item.p1,!1)}}" space="{{item.p2}}" decode="{{xs.b(item.p0,!1)}}" style="{{item.st}}" class="{{item.cl}}">
+                <block s-for="item.cn trackBy item.sid">
                   <block>{{item.v}}</block>
                 </block>
               </text>
-              <button s-elif=\\"{{item.nn==='12'&&(item.st||item.cl)}}\\" id=\\"{{item.uid||item.sid}}\\" data-sid=\\"{{item.sid}}\\" size=\\"{{xs.b(item.p10,'default')}}\\" type=\\"{{item.p11}}\\" plain=\\"{{xs.b(item.p9,!1)}}\\" disabled=\\"{{item.p0}}\\" loading=\\"{{xs.b(item.p6,!1)}}\\" form-type=\\"{{item.p1}}\\" open-type=\\"{{item.p8}}\\" hover-class=\\"{{xs.b(item.p2,'button-hover')}}\\" hover-stop-propagation=\\"{{xs.b(item.p5,!1)}}\\" hover-start-time=\\"{{xs.b(item.p3,20)}}\\" hover-stay-time=\\"{{xs.b(item.p4,70)}}\\" name=\\"{{item.p7}}\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongtap=\\"eh\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\" bindtap=\\"eh\\">
-                <block s-for=\\"item.cn trackBy item.sid\\">
-                  <template is=\\"{{xs.a(0, item.nn)}}\\" data=\\"{{{ i:item }}}\\" />
+              <button s-elif="{{item.nn==='12'&&(item.st||item.cl)}}" id="{{item.uid||item.sid}}" data-sid="{{item.sid}}" size="{{xs.b(item.p10,'default')}}" type="{{item.p11}}" plain="{{xs.b(item.p9,!1)}}" disabled="{{item.p0}}" loading="{{xs.b(item.p6,!1)}}" form-type="{{item.p1}}" open-type="{{item.p8}}" hover-class="{{xs.b(item.p2,'button-hover')}}" hover-stop-propagation="{{xs.b(item.p5,!1)}}" hover-start-time="{{xs.b(item.p3,20)}}" hover-stay-time="{{xs.b(item.p4,70)}}" name="{{item.p7}}" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongtap="eh" style="{{item.st}}" class="{{item.cl}}" bindtap="eh">
+                <block s-for="item.cn trackBy item.sid">
+                  <template is="{{xs.e(0)}}" data="{{{ i:item }}}" />
                 </block>
               </button>
-              <input s-elif=\\"{{item.nn==='21'&&(item.st||item.cl)}}\\" id=\\"{{item.uid||item.sid}}\\" data-sid=\\"{{item.sid}}\\" value=\\"{{item.p14}}\\" type=\\"{{xs.b(item.p13,'')}}\\" password=\\"{{xs.b(item.p7,!1)}}\\" placeholder=\\"{{item.p8}}\\" placeholder-style=\\"{{item.p10}}\\" placeholder-class=\\"{{xs.b(item.p9,'input-placeholder')}}\\" disabled=\\"{{item.p4}}\\" maxlength=\\"{{xs.b(item.p5,140)}}\\" cursor-spacing=\\"{{xs.b(item.p3,0)}}\\" focus=\\"{{xs.b(item.focus,!1)}}\\" confirm-type=\\"{{xs.b(item.p1,'done')}}\\" confirm-hold=\\"{{xs.b(item.p0,!1)}}\\" cursor=\\"{{xs.b(item.p2,i.value.length)}}\\" selection-start=\\"{{xs.b(item.p12,-1)}}\\" selection-end=\\"{{xs.b(item.p11,-1)}}\\" bindinput=\\"eh\\" bindfocus=\\"eh\\" bindblur=\\"eh\\" bindconfirm=\\"eh\\" name=\\"{{item.p6}}\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\" bindtap=\\"eh\\" />
-              <swiper s-elif=\\"{{item.nn==='40'&&(item.st||item.cl)}}\\" id=\\"{{item.uid||item.sid}}\\" data-sid=\\"{{item.sid}}\\" indicator-dots=\\"{{xs.b(item.p7,!1)}}\\" indicator-color=\\"{{xs.b(item.p6,'rgba(0, 0, 0, .3)')}}\\" indicator-active-color=\\"{{xs.b(item.p5,'#000000')}}\\" autoplay=\\"{{xs.b(item.p0,!1)}}\\" current=\\"{{xs.b(item.p2,0)}}\\" interval=\\"{{xs.b(item.p8,5000)}}\\" duration=\\"{{xs.b(item.p4,500)}}\\" circular=\\"{{xs.b(item.p1,!1)}}\\" vertical=\\"{{xs.b(item.p11,!1)}}\\" previous-margin=\\"{{xs.b(item.p10,'0px')}}\\" next-margin=\\"{{xs.b(item.p9,'0px')}}\\" display-multiple-items=\\"{{xs.b(item.p3,1)}}\\" bindchange=\\"eh\\" bindtransition=\\"eh\\" bindanimationfinish=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongtap=\\"eh\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\" bindtap=\\"eh\\">
-                <block s-for=\\"xs.f(item.cn) trackBy item.sid\\">
-                  <template is=\\"{{xs.a(0, item.nn)}}\\" data=\\"{{{ i:item }}}\\" />
+              <input s-elif="{{item.nn==='21'&&(item.st||item.cl)}}" id="{{item.uid||item.sid}}" data-sid="{{item.sid}}" value="{{item.p14}}" type="{{xs.b(item.p13,'')}}" password="{{xs.b(item.p7,!1)}}" placeholder="{{item.p8}}" placeholder-style="{{item.p10}}" placeholder-class="{{xs.b(item.p9,'input-placeholder')}}" disabled="{{item.p4}}" maxlength="{{xs.b(item.p5,140)}}" cursor-spacing="{{xs.b(item.p3,0)}}" focus="{{xs.b(item.focus,!1)}}" confirm-type="{{xs.b(item.p1,'done')}}" confirm-hold="{{xs.b(item.p0,!1)}}" cursor="{{xs.b(item.p2,i.p14?i.p14.length:-1)}}" selection-start="{{xs.b(item.p12,-1)}}" selection-end="{{xs.b(item.p11,-1)}}" bindinput="eh" bindfocus="eh" bindblur="eh" bindconfirm="eh" name="{{item.p6}}" style="{{item.st}}" class="{{item.cl}}" bindtap="eh" />
+              <swiper s-elif="{{item.nn==='40'&&(item.st||item.cl)}}" id="{{item.uid||item.sid}}" data-sid="{{item.sid}}" indicator-dots="{{xs.b(item.p7,!1)}}" indicator-color="{{xs.b(item.p6,'rgba(0, 0, 0, .3)')}}" indicator-active-color="{{xs.b(item.p5,'#000000')}}" autoplay="{{xs.b(item.p0,!1)}}" current="{{xs.b(item.p2,0)}}" interval="{{xs.b(item.p8,5000)}}" duration="{{xs.b(item.p4,500)}}" circular="{{xs.b(item.p1,!1)}}" vertical="{{xs.b(item.p11,!1)}}" previous-margin="{{xs.b(item.p10,'0px')}}" next-margin="{{xs.b(item.p9,'0px')}}" display-multiple-items="{{xs.b(item.p3,1)}}" bindchange="eh" bindtransition="eh" bindanimationfinish="eh" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongtap="eh" style="{{item.st}}" class="{{item.cl}}" bindtap="eh">
+                <block s-for="xs.f(item.cn) trackBy item.sid">
+                  <template is="{{xs.e(0)}}" data="{{{ i:item }}}" />
                 </block>
               </swiper>
               <block s-else>
-                <template is=\\"{{xs.a(0, item.nn)}}\\" data=\\"{{{i:item}}}\\" />
+                <template is="{{xs.e(0)}}" data="{{{i:item}}}" />
               </block>
             </block>
           </view>
-          <text s-elif=\\"{{item.nn==='6'&&(item.st||item.cl)}}\\" id=\\"{{item.uid||item.sid}}\\" data-sid=\\"{{item.sid}}\\" selectable=\\"{{xs.b(item.p1,!1)}}\\" space=\\"{{item.p2}}\\" decode=\\"{{xs.b(item.p0,!1)}}\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\" bindtap=\\"eh\\">
-            <block s-for=\\"item.cn trackBy item.sid\\">
+          <text s-elif="{{item.nn==='6'&&(item.st||item.cl)}}" id="{{item.uid||item.sid}}" data-sid="{{item.sid}}" selectable="{{xs.b(item.p1,!1)}}" space="{{item.p2}}" decode="{{xs.b(item.p0,!1)}}" style="{{item.st}}" class="{{item.cl}}" bindtap="eh">
+            <block s-for="item.cn trackBy item.sid">
               <block>{{item.v}}</block>
             </block>
           </text>
-          <text s-elif=\\"{{item.nn==='4'&&(item.st||item.cl)}}\\" id=\\"{{item.uid||item.sid}}\\" data-sid=\\"{{item.sid}}\\" selectable=\\"{{xs.b(item.p1,!1)}}\\" space=\\"{{item.p2}}\\" decode=\\"{{xs.b(item.p0,!1)}}\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\">
-            <block s-for=\\"item.cn trackBy item.sid\\">
+          <text s-elif="{{item.nn==='4'&&(item.st||item.cl)}}" id="{{item.uid||item.sid}}" data-sid="{{item.sid}}" selectable="{{xs.b(item.p1,!1)}}" space="{{item.p2}}" decode="{{xs.b(item.p0,!1)}}" style="{{item.st}}" class="{{item.cl}}">
+            <block s-for="item.cn trackBy item.sid">
               <block>{{item.v}}</block>
             </block>
           </text>
-          <button s-elif=\\"{{item.nn==='12'&&(item.st||item.cl)}}\\" id=\\"{{item.uid||item.sid}}\\" data-sid=\\"{{item.sid}}\\" size=\\"{{xs.b(item.p10,'default')}}\\" type=\\"{{item.p11}}\\" plain=\\"{{xs.b(item.p9,!1)}}\\" disabled=\\"{{item.p0}}\\" loading=\\"{{xs.b(item.p6,!1)}}\\" form-type=\\"{{item.p1}}\\" open-type=\\"{{item.p8}}\\" hover-class=\\"{{xs.b(item.p2,'button-hover')}}\\" hover-stop-propagation=\\"{{xs.b(item.p5,!1)}}\\" hover-start-time=\\"{{xs.b(item.p3,20)}}\\" hover-stay-time=\\"{{xs.b(item.p4,70)}}\\" name=\\"{{item.p7}}\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongtap=\\"eh\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\" bindtap=\\"eh\\">
-            <block s-for=\\"item.cn trackBy item.sid\\">
-              <template is=\\"{{xs.a(0, item.nn)}}\\" data=\\"{{{ i:item }}}\\" />
+          <button s-elif="{{item.nn==='12'&&(item.st||item.cl)}}" id="{{item.uid||item.sid}}" data-sid="{{item.sid}}" size="{{xs.b(item.p10,'default')}}" type="{{item.p11}}" plain="{{xs.b(item.p9,!1)}}" disabled="{{item.p0}}" loading="{{xs.b(item.p6,!1)}}" form-type="{{item.p1}}" open-type="{{item.p8}}" hover-class="{{xs.b(item.p2,'button-hover')}}" hover-stop-propagation="{{xs.b(item.p5,!1)}}" hover-start-time="{{xs.b(item.p3,20)}}" hover-stay-time="{{xs.b(item.p4,70)}}" name="{{item.p7}}" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongtap="eh" style="{{item.st}}" class="{{item.cl}}" bindtap="eh">
+            <block s-for="item.cn trackBy item.sid">
+              <template is="{{xs.e(0)}}" data="{{{ i:item }}}" />
             </block>
           </button>
-          <input s-elif=\\"{{item.nn==='21'&&(item.st||item.cl)}}\\" id=\\"{{item.uid||item.sid}}\\" data-sid=\\"{{item.sid}}\\" value=\\"{{item.p14}}\\" type=\\"{{xs.b(item.p13,'')}}\\" password=\\"{{xs.b(item.p7,!1)}}\\" placeholder=\\"{{item.p8}}\\" placeholder-style=\\"{{item.p10}}\\" placeholder-class=\\"{{xs.b(item.p9,'input-placeholder')}}\\" disabled=\\"{{item.p4}}\\" maxlength=\\"{{xs.b(item.p5,140)}}\\" cursor-spacing=\\"{{xs.b(item.p3,0)}}\\" focus=\\"{{xs.b(item.focus,!1)}}\\" confirm-type=\\"{{xs.b(item.p1,'done')}}\\" confirm-hold=\\"{{xs.b(item.p0,!1)}}\\" cursor=\\"{{xs.b(item.p2,i.value.length)}}\\" selection-start=\\"{{xs.b(item.p12,-1)}}\\" selection-end=\\"{{xs.b(item.p11,-1)}}\\" bindinput=\\"eh\\" bindfocus=\\"eh\\" bindblur=\\"eh\\" bindconfirm=\\"eh\\" name=\\"{{item.p6}}\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\" bindtap=\\"eh\\" />
-          <swiper s-elif=\\"{{item.nn==='40'&&(item.st||item.cl)}}\\" id=\\"{{item.uid||item.sid}}\\" data-sid=\\"{{item.sid}}\\" indicator-dots=\\"{{xs.b(item.p7,!1)}}\\" indicator-color=\\"{{xs.b(item.p6,'rgba(0, 0, 0, .3)')}}\\" indicator-active-color=\\"{{xs.b(item.p5,'#000000')}}\\" autoplay=\\"{{xs.b(item.p0,!1)}}\\" current=\\"{{xs.b(item.p2,0)}}\\" interval=\\"{{xs.b(item.p8,5000)}}\\" duration=\\"{{xs.b(item.p4,500)}}\\" circular=\\"{{xs.b(item.p1,!1)}}\\" vertical=\\"{{xs.b(item.p11,!1)}}\\" previous-margin=\\"{{xs.b(item.p10,'0px')}}\\" next-margin=\\"{{xs.b(item.p9,'0px')}}\\" display-multiple-items=\\"{{xs.b(item.p3,1)}}\\" bindchange=\\"eh\\" bindtransition=\\"eh\\" bindanimationfinish=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongtap=\\"eh\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\" bindtap=\\"eh\\">
-            <block s-for=\\"xs.f(item.cn) trackBy item.sid\\">
-              <template is=\\"{{xs.a(0, item.nn)}}\\" data=\\"{{{ i:item }}}\\" />
+          <input s-elif="{{item.nn==='21'&&(item.st||item.cl)}}" id="{{item.uid||item.sid}}" data-sid="{{item.sid}}" value="{{item.p14}}" type="{{xs.b(item.p13,'')}}" password="{{xs.b(item.p7,!1)}}" placeholder="{{item.p8}}" placeholder-style="{{item.p10}}" placeholder-class="{{xs.b(item.p9,'input-placeholder')}}" disabled="{{item.p4}}" maxlength="{{xs.b(item.p5,140)}}" cursor-spacing="{{xs.b(item.p3,0)}}" focus="{{xs.b(item.focus,!1)}}" confirm-type="{{xs.b(item.p1,'done')}}" confirm-hold="{{xs.b(item.p0,!1)}}" cursor="{{xs.b(item.p2,i.p14?i.p14.length:-1)}}" selection-start="{{xs.b(item.p12,-1)}}" selection-end="{{xs.b(item.p11,-1)}}" bindinput="eh" bindfocus="eh" bindblur="eh" bindconfirm="eh" name="{{item.p6}}" style="{{item.st}}" class="{{item.cl}}" bindtap="eh" />
+          <swiper s-elif="{{item.nn==='40'&&(item.st||item.cl)}}" id="{{item.uid||item.sid}}" data-sid="{{item.sid}}" indicator-dots="{{xs.b(item.p7,!1)}}" indicator-color="{{xs.b(item.p6,'rgba(0, 0, 0, .3)')}}" indicator-active-color="{{xs.b(item.p5,'#000000')}}" autoplay="{{xs.b(item.p0,!1)}}" current="{{xs.b(item.p2,0)}}" interval="{{xs.b(item.p8,5000)}}" duration="{{xs.b(item.p4,500)}}" circular="{{xs.b(item.p1,!1)}}" vertical="{{xs.b(item.p11,!1)}}" previous-margin="{{xs.b(item.p10,'0px')}}" next-margin="{{xs.b(item.p9,'0px')}}" display-multiple-items="{{xs.b(item.p3,1)}}" bindchange="eh" bindtransition="eh" bindanimationfinish="eh" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongtap="eh" style="{{item.st}}" class="{{item.cl}}" bindtap="eh">
+            <block s-for="xs.f(item.cn) trackBy item.sid">
+              <template is="{{xs.e(0)}}" data="{{{ i:item }}}" />
             </block>
           </swiper>
           <block s-else>
-            <template is=\\"{{xs.a(0, item.nn)}}\\" data=\\"{{{i:item}}}\\" />
+            <template is="{{xs.e(0)}}" data="{{{i:item}}}" />
           </block>
         </block>
       </view>
-      <text s-elif=\\"{{item.nn==='6'&&(item.st||item.cl)}}\\" id=\\"{{item.uid||item.sid}}\\" data-sid=\\"{{item.sid}}\\" selectable=\\"{{xs.b(item.p1,!1)}}\\" space=\\"{{item.p2}}\\" decode=\\"{{xs.b(item.p0,!1)}}\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\" bindtap=\\"eh\\">
-        <block s-for=\\"item.cn trackBy item.sid\\">
+      <text s-elif="{{item.nn==='6'&&(item.st||item.cl)}}" id="{{item.uid||item.sid}}" data-sid="{{item.sid}}" selectable="{{xs.b(item.p1,!1)}}" space="{{item.p2}}" decode="{{xs.b(item.p0,!1)}}" style="{{item.st}}" class="{{item.cl}}" bindtap="eh">
+        <block s-for="item.cn trackBy item.sid">
           <block>{{item.v}}</block>
         </block>
       </text>
-      <text s-elif=\\"{{item.nn==='4'&&(item.st||item.cl)}}\\" id=\\"{{item.uid||item.sid}}\\" data-sid=\\"{{item.sid}}\\" selectable=\\"{{xs.b(item.p1,!1)}}\\" space=\\"{{item.p2}}\\" decode=\\"{{xs.b(item.p0,!1)}}\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\">
-        <block s-for=\\"item.cn trackBy item.sid\\">
+      <text s-elif="{{item.nn==='4'&&(item.st||item.cl)}}" id="{{item.uid||item.sid}}" data-sid="{{item.sid}}" selectable="{{xs.b(item.p1,!1)}}" space="{{item.p2}}" decode="{{xs.b(item.p0,!1)}}" style="{{item.st}}" class="{{item.cl}}">
+        <block s-for="item.cn trackBy item.sid">
           <block>{{item.v}}</block>
         </block>
       </text>
-      <button s-elif=\\"{{item.nn==='12'&&(item.st||item.cl)}}\\" id=\\"{{item.uid||item.sid}}\\" data-sid=\\"{{item.sid}}\\" size=\\"{{xs.b(item.p10,'default')}}\\" type=\\"{{item.p11}}\\" plain=\\"{{xs.b(item.p9,!1)}}\\" disabled=\\"{{item.p0}}\\" loading=\\"{{xs.b(item.p6,!1)}}\\" form-type=\\"{{item.p1}}\\" open-type=\\"{{item.p8}}\\" hover-class=\\"{{xs.b(item.p2,'button-hover')}}\\" hover-stop-propagation=\\"{{xs.b(item.p5,!1)}}\\" hover-start-time=\\"{{xs.b(item.p3,20)}}\\" hover-stay-time=\\"{{xs.b(item.p4,70)}}\\" name=\\"{{item.p7}}\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongtap=\\"eh\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\" bindtap=\\"eh\\">
-        <block s-for=\\"item.cn trackBy item.sid\\">
-          <template is=\\"{{xs.a(0, item.nn)}}\\" data=\\"{{{ i:item }}}\\" />
+      <button s-elif="{{item.nn==='12'&&(item.st||item.cl)}}" id="{{item.uid||item.sid}}" data-sid="{{item.sid}}" size="{{xs.b(item.p10,'default')}}" type="{{item.p11}}" plain="{{xs.b(item.p9,!1)}}" disabled="{{item.p0}}" loading="{{xs.b(item.p6,!1)}}" form-type="{{item.p1}}" open-type="{{item.p8}}" hover-class="{{xs.b(item.p2,'button-hover')}}" hover-stop-propagation="{{xs.b(item.p5,!1)}}" hover-start-time="{{xs.b(item.p3,20)}}" hover-stay-time="{{xs.b(item.p4,70)}}" name="{{item.p7}}" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongtap="eh" style="{{item.st}}" class="{{item.cl}}" bindtap="eh">
+        <block s-for="item.cn trackBy item.sid">
+          <template is="{{xs.e(0)}}" data="{{{ i:item }}}" />
         </block>
       </button>
-      <input s-elif=\\"{{item.nn==='21'&&(item.st||item.cl)}}\\" id=\\"{{item.uid||item.sid}}\\" data-sid=\\"{{item.sid}}\\" value=\\"{{item.p14}}\\" type=\\"{{xs.b(item.p13,'')}}\\" password=\\"{{xs.b(item.p7,!1)}}\\" placeholder=\\"{{item.p8}}\\" placeholder-style=\\"{{item.p10}}\\" placeholder-class=\\"{{xs.b(item.p9,'input-placeholder')}}\\" disabled=\\"{{item.p4}}\\" maxlength=\\"{{xs.b(item.p5,140)}}\\" cursor-spacing=\\"{{xs.b(item.p3,0)}}\\" focus=\\"{{xs.b(item.focus,!1)}}\\" confirm-type=\\"{{xs.b(item.p1,'done')}}\\" confirm-hold=\\"{{xs.b(item.p0,!1)}}\\" cursor=\\"{{xs.b(item.p2,i.value.length)}}\\" selection-start=\\"{{xs.b(item.p12,-1)}}\\" selection-end=\\"{{xs.b(item.p11,-1)}}\\" bindinput=\\"eh\\" bindfocus=\\"eh\\" bindblur=\\"eh\\" bindconfirm=\\"eh\\" name=\\"{{item.p6}}\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\" bindtap=\\"eh\\" />
-      <swiper s-elif=\\"{{item.nn==='40'&&(item.st||item.cl)}}\\" id=\\"{{item.uid||item.sid}}\\" data-sid=\\"{{item.sid}}\\" indicator-dots=\\"{{xs.b(item.p7,!1)}}\\" indicator-color=\\"{{xs.b(item.p6,'rgba(0, 0, 0, .3)')}}\\" indicator-active-color=\\"{{xs.b(item.p5,'#000000')}}\\" autoplay=\\"{{xs.b(item.p0,!1)}}\\" current=\\"{{xs.b(item.p2,0)}}\\" interval=\\"{{xs.b(item.p8,5000)}}\\" duration=\\"{{xs.b(item.p4,500)}}\\" circular=\\"{{xs.b(item.p1,!1)}}\\" vertical=\\"{{xs.b(item.p11,!1)}}\\" previous-margin=\\"{{xs.b(item.p10,'0px')}}\\" next-margin=\\"{{xs.b(item.p9,'0px')}}\\" display-multiple-items=\\"{{xs.b(item.p3,1)}}\\" bindchange=\\"eh\\" bindtransition=\\"eh\\" bindanimationfinish=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongtap=\\"eh\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\" bindtap=\\"eh\\">
-        <block s-for=\\"xs.f(item.cn) trackBy item.sid\\">
-          <template is=\\"{{xs.a(0, item.nn)}}\\" data=\\"{{{ i:item }}}\\" />
+      <input s-elif="{{item.nn==='21'&&(item.st||item.cl)}}" id="{{item.uid||item.sid}}" data-sid="{{item.sid}}" value="{{item.p14}}" type="{{xs.b(item.p13,'')}}" password="{{xs.b(item.p7,!1)}}" placeholder="{{item.p8}}" placeholder-style="{{item.p10}}" placeholder-class="{{xs.b(item.p9,'input-placeholder')}}" disabled="{{item.p4}}" maxlength="{{xs.b(item.p5,140)}}" cursor-spacing="{{xs.b(item.p3,0)}}" focus="{{xs.b(item.focus,!1)}}" confirm-type="{{xs.b(item.p1,'done')}}" confirm-hold="{{xs.b(item.p0,!1)}}" cursor="{{xs.b(item.p2,i.p14?i.p14.length:-1)}}" selection-start="{{xs.b(item.p12,-1)}}" selection-end="{{xs.b(item.p11,-1)}}" bindinput="eh" bindfocus="eh" bindblur="eh" bindconfirm="eh" name="{{item.p6}}" style="{{item.st}}" class="{{item.cl}}" bindtap="eh" />
+      <swiper s-elif="{{item.nn==='40'&&(item.st||item.cl)}}" id="{{item.uid||item.sid}}" data-sid="{{item.sid}}" indicator-dots="{{xs.b(item.p7,!1)}}" indicator-color="{{xs.b(item.p6,'rgba(0, 0, 0, .3)')}}" indicator-active-color="{{xs.b(item.p5,'#000000')}}" autoplay="{{xs.b(item.p0,!1)}}" current="{{xs.b(item.p2,0)}}" interval="{{xs.b(item.p8,5000)}}" duration="{{xs.b(item.p4,500)}}" circular="{{xs.b(item.p1,!1)}}" vertical="{{xs.b(item.p11,!1)}}" previous-margin="{{xs.b(item.p10,'0px')}}" next-margin="{{xs.b(item.p9,'0px')}}" display-multiple-items="{{xs.b(item.p3,1)}}" bindchange="eh" bindtransition="eh" bindanimationfinish="eh" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongtap="eh" style="{{item.st}}" class="{{item.cl}}" bindtap="eh">
+        <block s-for="xs.f(item.cn) trackBy item.sid">
+          <template is="{{xs.e(0)}}" data="{{{ i:item }}}" />
         </block>
       </swiper>
       <block s-else>
-        <template is=\\"{{xs.a(0, item.nn)}}\\" data=\\"{{{i:item}}}\\" />
+        <template is="{{xs.e(0)}}" data="{{{i:item}}}" />
       </block>
     </block>
   </view>
 </template>
 
-<template name=\\"tmpl_0_4\\">
-  <text selectable=\\"{{xs.b(i.p1,!1)}}\\" space=\\"{{i.p2}}\\" decode=\\"{{xs.b(i.p0,!1)}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
-    <block s-for=\\"i.cn trackBy item.sid\\">
-      <block s-if=\\"item.nn === '8'\\">{{item.v}}</block>
-      <text s-else id=\\"{{item.uid||item.sid}}\\" data-sid=\\"{{item.sid}}\\" selectable=\\"{{xs.b(item.p1,!1)}}\\" space=\\"{{item.p2}}\\" decode=\\"{{xs.b(item.p0,!1)}}\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\" bindtap=\\"eh\\">
-        <block s-for=\\"item.cn trackBy item.sid\\">
-          <block s-if=\\"item.nn === '8'\\">{{item.v}}</block>
-          <text s-else id=\\"{{item.uid||item.sid}}\\" data-sid=\\"{{item.sid}}\\" selectable=\\"{{xs.b(item.p1,!1)}}\\" space=\\"{{item.p2}}\\" decode=\\"{{xs.b(item.p0,!1)}}\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\" bindtap=\\"eh\\">
-            <block s-for=\\"item.cn trackBy item.sid\\">
-              <block s-if=\\"item.nn === '8'\\">{{item.v}}</block>
-              <text s-else id=\\"{{item.uid||item.sid}}\\" data-sid=\\"{{item.sid}}\\" selectable=\\"{{xs.b(item.p1,!1)}}\\" space=\\"{{item.p2}}\\" decode=\\"{{xs.b(item.p0,!1)}}\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\" bindtap=\\"eh\\">
-                <block s-for=\\"item.cn trackBy item.sid\\">
-                  <block>{{i.cn[index].v}}</block>
+<template name="tmpl_0_4">
+  <text selectable="{{xs.b(i.p1,!1)}}" space="{{i.p2}}" decode="{{xs.b(i.p0,!1)}}" style="{{i.st}}" class="{{i.cl}}"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+    <block s-for="i.cn trackBy item.sid">
+      <block s-if="item.nn === '8'">{{item.v}}</block>
+      <text s-else id="{{item.uid||item.sid}}" data-sid="{{item.sid}}" selectable="{{xs.b(item.p1,!1)}}" space="{{item.p2}}" decode="{{xs.b(item.p0,!1)}}" style="{{item.st}}" class="{{item.cl}}" bindtap="eh">
+        <block s-for="item.cn trackBy item.sid">
+          <block s-if="item.nn === '8'">{{item.v}}</block>
+          <text s-else id="{{item.uid||item.sid}}" data-sid="{{item.sid}}" selectable="{{xs.b(item.p1,!1)}}" space="{{item.p2}}" decode="{{xs.b(item.p0,!1)}}" style="{{item.st}}" class="{{item.cl}}" bindtap="eh">
+            <block s-for="item.cn trackBy item.sid">
+              <block s-if="item.nn === '8'">{{item.v}}</block>
+              <text s-else id="{{item.uid||item.sid}}" data-sid="{{item.sid}}" selectable="{{xs.b(item.p1,!1)}}" space="{{item.p2}}" decode="{{xs.b(item.p0,!1)}}" style="{{item.st}}" class="{{item.cl}}" bindtap="eh">
+                <block s-for="item.cn trackBy item.sid">
+                  <block>{{item.v}}</block>
                 </block>
               </text>
             </block>
@@ -668,19 +671,19 @@ require(\\"./taro\\");
   </text>
 </template>
 
-<template name=\\"tmpl_0_6\\">
-  <text selectable=\\"{{xs.b(i.p1,!1)}}\\" space=\\"{{i.p2}}\\" decode=\\"{{xs.b(i.p0,!1)}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
-    <block s-for=\\"i.cn trackBy item.sid\\">
-      <block s-if=\\"item.nn === '8'\\">{{item.v}}</block>
-      <text s-else id=\\"{{item.uid||item.sid}}\\" data-sid=\\"{{item.sid}}\\" selectable=\\"{{xs.b(item.p1,!1)}}\\" space=\\"{{item.p2}}\\" decode=\\"{{xs.b(item.p0,!1)}}\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\" bindtap=\\"eh\\">
-        <block s-for=\\"item.cn trackBy item.sid\\">
-          <block s-if=\\"item.nn === '8'\\">{{item.v}}</block>
-          <text s-else id=\\"{{item.uid||item.sid}}\\" data-sid=\\"{{item.sid}}\\" selectable=\\"{{xs.b(item.p1,!1)}}\\" space=\\"{{item.p2}}\\" decode=\\"{{xs.b(item.p0,!1)}}\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\" bindtap=\\"eh\\">
-            <block s-for=\\"item.cn trackBy item.sid\\">
-              <block s-if=\\"item.nn === '8'\\">{{item.v}}</block>
-              <text s-else id=\\"{{item.uid||item.sid}}\\" data-sid=\\"{{item.sid}}\\" selectable=\\"{{xs.b(item.p1,!1)}}\\" space=\\"{{item.p2}}\\" decode=\\"{{xs.b(item.p0,!1)}}\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\" bindtap=\\"eh\\">
-                <block s-for=\\"item.cn trackBy item.sid\\">
-                  <block>{{i.cn[index].v}}</block>
+<template name="tmpl_0_6">
+  <text selectable="{{xs.b(i.p1,!1)}}" space="{{i.p2}}" decode="{{xs.b(i.p0,!1)}}" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+    <block s-for="i.cn trackBy item.sid">
+      <block s-if="item.nn === '8'">{{item.v}}</block>
+      <text s-else id="{{item.uid||item.sid}}" data-sid="{{item.sid}}" selectable="{{xs.b(item.p1,!1)}}" space="{{item.p2}}" decode="{{xs.b(item.p0,!1)}}" style="{{item.st}}" class="{{item.cl}}" bindtap="eh">
+        <block s-for="item.cn trackBy item.sid">
+          <block s-if="item.nn === '8'">{{item.v}}</block>
+          <text s-else id="{{item.uid||item.sid}}" data-sid="{{item.sid}}" selectable="{{xs.b(item.p1,!1)}}" space="{{item.p2}}" decode="{{xs.b(item.p0,!1)}}" style="{{item.st}}" class="{{item.cl}}" bindtap="eh">
+            <block s-for="item.cn trackBy item.sid">
+              <block s-if="item.nn === '8'">{{item.v}}</block>
+              <text s-else id="{{item.uid||item.sid}}" data-sid="{{item.sid}}" selectable="{{xs.b(item.p1,!1)}}" space="{{item.p2}}" decode="{{xs.b(item.p0,!1)}}" style="{{item.st}}" class="{{item.cl}}" bindtap="eh">
+                <block s-for="item.cn trackBy item.sid">
+                  <block>{{item.v}}</block>
                 </block>
               </text>
             </block>
@@ -691,196 +694,200 @@ require(\\"./taro\\");
   </text>
 </template>
 
-<template name=\\"tmpl_0_21\\">
-  <template is=\\"{{xs.c(i, 'tmpl_0_')}}\\" data=\\"{{{ i:i }}}\\" />
+<template name="tmpl_0_21">
+  <template is="{{xs.c(i, 'tmpl_0_')}}" data="{{{ i:i }}}" />
 </template>
 
-<template name=\\"tmpl_0_21_focus\\">
-  <input value=\\"{= i.p14 =}\\" type=\\"{{xs.b(i.p13,'')}}\\" password=\\"{{xs.b(i.p7,!1)}}\\" placeholder=\\"{{i.p8}}\\" placeholder-style=\\"{{i.p10}}\\" placeholder-class=\\"{{xs.b(i.p9,'input-placeholder')}}\\" disabled=\\"{{i.p4}}\\" maxlength=\\"{{xs.b(i.p5,140)}}\\" cursor-spacing=\\"{{xs.b(i.p3,0)}}\\" focus=\\"{{xs.b(i.focus,!1)}}\\" confirm-type=\\"{{xs.b(i.p1,'done')}}\\" confirm-hold=\\"{{xs.b(i.p0,!1)}}\\" cursor=\\"{{xs.b(i.p2,i.value.length)}}\\" selection-start=\\"{{xs.b(i.p12,-1)}}\\" selection-end=\\"{{xs.b(i.p11,-1)}}\\" bindinput=\\"eh\\" bindfocus=\\"eh\\" bindblur=\\"eh\\" bindconfirm=\\"eh\\" name=\\"{{i.p6}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\"></input>
+<template name="tmpl_0_21_focus">
+  <input value="{= i.p14 =}" type="{{xs.b(i.p13,'')}}" password="{{xs.b(i.p7,!1)}}" placeholder="{{i.p8}}" placeholder-style="{{i.p10}}" placeholder-class="{{xs.b(i.p9,'input-placeholder')}}" disabled="{{i.p4}}" maxlength="{{xs.b(i.p5,140)}}" cursor-spacing="{{xs.b(i.p3,0)}}" focus="{{xs.b(i.focus,!1)}}" confirm-type="{{xs.b(i.p1,'done')}}" confirm-hold="{{xs.b(i.p0,!1)}}" cursor="{{xs.b(i.p2,i.p14?i.p14.length:-1)}}" selection-start="{{xs.b(i.p12,-1)}}" selection-end="{{xs.b(i.p11,-1)}}" bindinput="eh" bindfocus="eh" bindblur="eh" bindconfirm="eh" name="{{i.p6}}" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}"></input>
 </template>
 
-<template name=\\"tmpl_0_21_blur\\">
-  <input value=\\"{= i.p14 =}\\" type=\\"{{xs.b(i.p13,'')}}\\" password=\\"{{xs.b(i.p7,!1)}}\\" placeholder=\\"{{i.p8}}\\" placeholder-style=\\"{{i.p10}}\\" placeholder-class=\\"{{xs.b(i.p9,'input-placeholder')}}\\" disabled=\\"{{i.p4}}\\" maxlength=\\"{{xs.b(i.p5,140)}}\\" cursor-spacing=\\"{{xs.b(i.p3,0)}}\\" confirm-type=\\"{{xs.b(i.p1,'done')}}\\" confirm-hold=\\"{{xs.b(i.p0,!1)}}\\" cursor=\\"{{xs.b(i.p2,i.value.length)}}\\" selection-start=\\"{{xs.b(i.p12,-1)}}\\" selection-end=\\"{{xs.b(i.p11,-1)}}\\" bindinput=\\"eh\\" bindfocus=\\"eh\\" bindblur=\\"eh\\" bindconfirm=\\"eh\\" name=\\"{{i.p6}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\"></input>
+<template name="tmpl_0_21_blur">
+  <input value="{= i.p14 =}" type="{{xs.b(i.p13,'')}}" password="{{xs.b(i.p7,!1)}}" placeholder="{{i.p8}}" placeholder-style="{{i.p10}}" placeholder-class="{{xs.b(i.p9,'input-placeholder')}}" disabled="{{i.p4}}" maxlength="{{xs.b(i.p5,140)}}" cursor-spacing="{{xs.b(i.p3,0)}}" confirm-type="{{xs.b(i.p1,'done')}}" confirm-hold="{{xs.b(i.p0,!1)}}" cursor="{{xs.b(i.p2,i.p14?i.p14.length:-1)}}" selection-start="{{xs.b(i.p12,-1)}}" selection-end="{{xs.b(i.p11,-1)}}" bindinput="eh" bindfocus="eh" bindblur="eh" bindconfirm="eh" name="{{i.p6}}" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}"></input>
 </template>
 
-<template name=\\"tmpl_0_17\\">
-  <cover-image src=\\"{{i.p0}}\\" bindload=\\"eh\\" binderror=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
-    <block s-for=\\"i.cn trackBy item.sid\\">
-      <template is=\\"{{xs.a(0, item.nn)}}\\" data=\\"{{{ i:item }}}\\" />
+<template name="tmpl_0_17">
+  <cover-image src="{{i.p0}}" bindload="eh" binderror="eh" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+    <block s-for="i.cn trackBy item.sid">
+      <template is="{{xs.e(0)}}" data="{{{ i:item }}}" />
     </block>
   </cover-image>
 </template>
 
-<template name=\\"tmpl_0_43\\">
-  <template is=\\"{{xs.c(i, 'tmpl_0_')}}\\" data=\\"{{{ i:i }}}\\" />
+<template name="tmpl_0_43">
+  <template is="{{xs.c(i, 'tmpl_0_')}}" data="{{{ i:i }}}" />
 </template>
 
-<template name=\\"tmpl_0_43_focus\\">
-  <textarea value=\\"{= i.p13 =}\\" placeholder=\\"{{i.p8}}\\" placeholder-style=\\"{{i.p10}}\\" placeholder-class=\\"{{xs.b(i.p9,'textarea-placeholder')}}\\" disabled=\\"{{i.p4}}\\" maxlength=\\"{{xs.b(i.p6,140)}}\\" auto-focus=\\"{{xs.b(i.p0,!1)}}\\" focus=\\"{{xs.b(i.focus,!1)}}\\" auto-height=\\"{{xs.b(i.p1,!1)}}\\" fixed=\\"{{xs.b(i.p5,!1)}}\\" cursor-spacing=\\"{{xs.b(i.p3,0)}}\\" cursor=\\"{{xs.b(i.p2,-1)}}\\" selection-start=\\"{{xs.b(i.p12,-1)}}\\" selection-end=\\"{{xs.b(i.p11,-1)}}\\" bindfocus=\\"eh\\" bindblur=\\"eh\\" bindlinechange=\\"eh\\" bindinput=\\"eh\\" bindconfirm=\\"eh\\" name=\\"{{i.p7}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\"></textarea>
+<template name="tmpl_0_43_focus">
+  <textarea value="{= i.p13 =}" placeholder="{{i.p8}}" placeholder-style="{{i.p10}}" placeholder-class="{{xs.b(i.p9,'textarea-placeholder')}}" disabled="{{i.p4}}" maxlength="{{xs.b(i.p6,140)}}" auto-focus="{{xs.b(i.p0,!1)}}" focus="{{xs.b(i.focus,!1)}}" auto-height="{{xs.b(i.p1,!1)}}" fixed="{{xs.b(i.p5,!1)}}" cursor-spacing="{{xs.b(i.p3,0)}}" cursor="{{xs.b(i.p2,i.p13?i.p13.length:-1)}}" selection-start="{{xs.b(i.p12,-1)}}" selection-end="{{xs.b(i.p11,-1)}}" bindfocus="eh" bindblur="eh" bindlinechange="eh" bindinput="eh" bindconfirm="eh" name="{{i.p7}}" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}"></textarea>
 </template>
 
-<template name=\\"tmpl_0_43_blur\\">
-  <textarea value=\\"{= i.p13 =}\\" placeholder=\\"{{i.p8}}\\" placeholder-style=\\"{{i.p10}}\\" placeholder-class=\\"{{xs.b(i.p9,'textarea-placeholder')}}\\" disabled=\\"{{i.p4}}\\" maxlength=\\"{{xs.b(i.p6,140)}}\\" auto-focus=\\"{{xs.b(i.p0,!1)}}\\" auto-height=\\"{{xs.b(i.p1,!1)}}\\" fixed=\\"{{xs.b(i.p5,!1)}}\\" cursor-spacing=\\"{{xs.b(i.p3,0)}}\\" cursor=\\"{{xs.b(i.p2,-1)}}\\" selection-start=\\"{{xs.b(i.p12,-1)}}\\" selection-end=\\"{{xs.b(i.p11,-1)}}\\" bindfocus=\\"eh\\" bindblur=\\"eh\\" bindlinechange=\\"eh\\" bindinput=\\"eh\\" bindconfirm=\\"eh\\" name=\\"{{i.p7}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\"></textarea>
+<template name="tmpl_0_43_blur">
+  <textarea value="{= i.p13 =}" placeholder="{{i.p8}}" placeholder-style="{{i.p10}}" placeholder-class="{{xs.b(i.p9,'textarea-placeholder')}}" disabled="{{i.p4}}" maxlength="{{xs.b(i.p6,140)}}" auto-focus="{{xs.b(i.p0,!1)}}" auto-height="{{xs.b(i.p1,!1)}}" fixed="{{xs.b(i.p5,!1)}}" cursor-spacing="{{xs.b(i.p3,0)}}" cursor="{{xs.b(i.p2,i.p13?i.p13.length:-1)}}" selection-start="{{xs.b(i.p12,-1)}}" selection-end="{{xs.b(i.p11,-1)}}" bindfocus="eh" bindblur="eh" bindlinechange="eh" bindinput="eh" bindconfirm="eh" name="{{i.p7}}" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}"></textarea>
 </template>
 
-<template name=\\"tmpl_0_18\\">
-  <cover-view scroll-top=\\"{{xs.b(i.p0,!1)}}\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongtap=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
-    <block s-for=\\"i.cn trackBy item.sid\\">
-      <cover-view s-if=\\"{{item.nn==='18'}}\\" id=\\"{{item.uid||item.sid}}\\" data-sid=\\"{{item.sid}}\\" scroll-top=\\"{{xs.b(item.p0,!1)}}\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongtap=\\"eh\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\" bindtap=\\"eh\\">
-        <block s-for=\\"item.cn trackBy item.sid\\">
-          <cover-view s-if=\\"{{item.nn==='18'}}\\" id=\\"{{item.uid||item.sid}}\\" data-sid=\\"{{item.sid}}\\" scroll-top=\\"{{xs.b(item.p0,!1)}}\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongtap=\\"eh\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\" bindtap=\\"eh\\">
-            <block s-for=\\"item.cn trackBy item.sid\\">
-              <cover-view s-if=\\"{{item.nn==='18'}}\\" id=\\"{{item.uid||item.sid}}\\" data-sid=\\"{{item.sid}}\\" scroll-top=\\"{{xs.b(item.p0,!1)}}\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongtap=\\"eh\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\" bindtap=\\"eh\\">
-                <block s-for=\\"item.cn trackBy item.sid\\">
-                  <template is=\\"{{xs.a(0, item.nn)}}\\" data=\\"{{{i:item}}}\\" />
+<template name="tmpl_0_18">
+  <cover-view scroll-top="{{xs.b(i.p0,!1)}}" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongtap="eh" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+    <block s-for="i.cn trackBy item.sid">
+      <cover-view s-if="{{item.nn==='18'}}" id="{{item.uid||item.sid}}" data-sid="{{item.sid}}" scroll-top="{{xs.b(item.p0,!1)}}" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongtap="eh" style="{{item.st}}" class="{{item.cl}}" bindtap="eh">
+        <block s-for="item.cn trackBy item.sid">
+          <cover-view s-if="{{item.nn==='18'}}" id="{{item.uid||item.sid}}" data-sid="{{item.sid}}" scroll-top="{{xs.b(item.p0,!1)}}" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongtap="eh" style="{{item.st}}" class="{{item.cl}}" bindtap="eh">
+            <block s-for="item.cn trackBy item.sid">
+              <cover-view s-if="{{item.nn==='18'}}" id="{{item.uid||item.sid}}" data-sid="{{item.sid}}" scroll-top="{{xs.b(item.p0,!1)}}" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongtap="eh" style="{{item.st}}" class="{{item.cl}}" bindtap="eh">
+                <block s-for="item.cn trackBy item.sid">
+                  <template is="{{xs.e(0)}}" data="{{{i:item}}}" />
                 </block>
               </cover-view>
-              <cover-image s-elif=\\"{{item.nn==='17'}}\\" id=\\"{{item.uid||item.sid}}\\" data-sid=\\"{{item.sid}}\\"  src=\\"{{item.p0}}\\" bindload=\\"eh\\" binderror=\\"eh\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\" bindtap=\\"eh\\"></cover-image>
-              <block s-elif=\\"{{item.nn==='8'}}\\">{{item.v}}</block>
+              <cover-image s-elif="{{item.nn==='17'}}" id="{{item.uid||item.sid}}" data-sid="{{item.sid}}"  src="{{item.p0}}" bindload="eh" binderror="eh" style="{{item.st}}" class="{{item.cl}}" bindtap="eh"></cover-image>
+              <block s-elif="{{item.nn==='8'}}">{{item.v}}</block>
               <block s-else>
-                <template is=\\"{{xs.a(0, item.nn)}}\\" data=\\"{{{i:item}}}\\" />
+                <template is="{{xs.e(0)}}" data="{{{i:item}}}" />
               </block>
             </block>
           </cover-view>
-          <cover-image s-elif=\\"{{item.nn==='17'}}\\" id=\\"{{item.uid||item.sid}}\\" data-sid=\\"{{item.sid}}\\"  src=\\"{{item.p0}}\\" bindload=\\"eh\\" binderror=\\"eh\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\" bindtap=\\"eh\\"></cover-image>
-          <block s-elif=\\"{{item.nn==='8'}}\\">{{item.v}}</block>
+          <cover-image s-elif="{{item.nn==='17'}}" id="{{item.uid||item.sid}}" data-sid="{{item.sid}}"  src="{{item.p0}}" bindload="eh" binderror="eh" style="{{item.st}}" class="{{item.cl}}" bindtap="eh"></cover-image>
+          <block s-elif="{{item.nn==='8'}}">{{item.v}}</block>
           <block s-else>
-            <template is=\\"{{xs.a(0, item.nn)}}\\" data=\\"{{{i:item}}}\\" />
+            <template is="{{xs.e(0)}}" data="{{{i:item}}}" />
           </block>
         </block>
       </cover-view>
-      <cover-image s-elif=\\"{{item.nn==='17'}}\\" id=\\"{{item.uid||item.sid}}\\" data-sid=\\"{{item.sid}}\\"  src=\\"{{item.p0}}\\" bindload=\\"eh\\" binderror=\\"eh\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\" bindtap=\\"eh\\"></cover-image>
-      <block s-elif=\\"{{item.nn==='8'}}\\">{{item.v}}</block>
+      <cover-image s-elif="{{item.nn==='17'}}" id="{{item.uid||item.sid}}" data-sid="{{item.sid}}"  src="{{item.p0}}" bindload="eh" binderror="eh" style="{{item.st}}" class="{{item.cl}}" bindtap="eh"></cover-image>
+      <block s-elif="{{item.nn==='8'}}">{{item.v}}</block>
       <block s-else>
-        <template is=\\"{{xs.a(0, item.nn)}}\\" data=\\"{{{i:item}}}\\" />
+        <template is="{{xs.e(0)}}" data="{{{i:item}}}" />
       </block>
     </block>
   </cover-view>
 </template>
 
-<template name=\\"tmpl_0_36\\">
-  <scroll-view scroll-x=\\"{{xs.b(i.p7,!1)}}\\" scroll-y=\\"{{xs.b(i.p8,!1)}}\\" upper-threshold=\\"{{xs.b(i.p9,50)}}\\" lower-threshold=\\"{{xs.b(i.p2,50)}}\\" scroll-top=\\"{= i.p5 =}\\" scroll-left=\\"{= i.p4 =}\\" scroll-into-view=\\"{= i.p3 =}\\" scroll-with-animation=\\"{{xs.b(i.p6,!1)}}\\" enable-back-to-top=\\"{{xs.b(i.p1,!1)}}\\" bindscrolltoupper=\\"eh\\" bindscrolltolower=\\"eh\\" bindscroll=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongtap=\\"eh\\" animation=\\"{{i.p0}}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
-    <block s-for=\\"i.cn trackBy item.sid\\">
-      <template is=\\"{{xs.a(0, item.nn)}}\\" data=\\"{{{ i:item }}}\\" />
+<template name="tmpl_0_36">
+  <scroll-view scroll-x="{{xs.b(i.p7,!1)}}" scroll-y="{{xs.b(i.p8,!1)}}" upper-threshold="{{xs.b(i.p9,50)}}" lower-threshold="{{xs.b(i.p2,50)}}" scroll-top="{= i.p5 =}" scroll-left="{= i.p4 =}" scroll-into-view="{= i.p3 =}" scroll-with-animation="{{xs.b(i.p6,!1)}}" enable-back-to-top="{{xs.b(i.p1,!1)}}" bindscrolltoupper="eh" bindscrolltolower="eh" bindscroll="eh" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongtap="eh" animation="{{i.p0}}" bindanimationstart="eh" bindanimationiteration="eh" bindanimationend="eh" bindtransitionend="eh" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+    <block s-for="i.cn trackBy item.sid">
+      <template is="{{xs.e(0)}}" data="{{{ i:item }}}" />
     </block>
   </scroll-view>
 </template>
 
-<template name=\\"tmpl_0_40\\">
-  <swiper indicator-dots=\\"{{xs.b(i.p7,!1)}}\\" indicator-color=\\"{{xs.b(i.p6,'rgba(0, 0, 0, .3)')}}\\" indicator-active-color=\\"{{xs.b(i.p5,'#000000')}}\\" autoplay=\\"{{xs.b(i.p0,!1)}}\\" current=\\"{{xs.b(i.p2,0)}}\\" interval=\\"{{xs.b(i.p8,5000)}}\\" duration=\\"{{xs.b(i.p4,500)}}\\" circular=\\"{{xs.b(i.p1,!1)}}\\" vertical=\\"{{xs.b(i.p11,!1)}}\\" previous-margin=\\"{{xs.b(i.p10,'0px')}}\\" next-margin=\\"{{xs.b(i.p9,'0px')}}\\" display-multiple-items=\\"{{xs.b(i.p3,1)}}\\" bindchange=\\"eh\\" bindtransition=\\"eh\\" bindanimationfinish=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongtap=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
-    <block s-for=\\"xs.f(i.cn) trackBy item.sid\\" s-key=\\"sid\\">
-      <template is=\\"{{xs.a(0, item.nn)}}\\" data=\\"{{{ i:item }}}\\" />
+<template name="tmpl_0_40">
+  <swiper indicator-dots="{{xs.b(i.p7,!1)}}" indicator-color="{{xs.b(i.p6,'rgba(0, 0, 0, .3)')}}" indicator-active-color="{{xs.b(i.p5,'#000000')}}" autoplay="{{xs.b(i.p0,!1)}}" current="{{xs.b(i.p2,0)}}" interval="{{xs.b(i.p8,5000)}}" duration="{{xs.b(i.p4,500)}}" circular="{{xs.b(i.p1,!1)}}" vertical="{{xs.b(i.p11,!1)}}" previous-margin="{{xs.b(i.p10,'0px')}}" next-margin="{{xs.b(i.p9,'0px')}}" display-multiple-items="{{xs.b(i.p3,1)}}" bindchange="eh" bindtransition="eh" bindanimationfinish="eh" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongtap="eh" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+    <block s-for="xs.f(i.cn) trackBy item.sid" s-key="sid">
+      <template is="{{xs.e(0)}}" data="{{{ i:item }}}" />
     </block>
   </swiper>
 </template>
 
-<template name=\\"tmpl_0_41\\">
-  <swiper-item item-id=\\"{{i.p0}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
-    <block s-for=\\"i.cn trackBy item.sid\\">
-      <template is=\\"{{xs.a(0, item.nn)}}\\" data=\\"{{{ i:item }}}\\" />
+<template name="tmpl_0_41">
+  <swiper-item item-id="{{i.p0}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+    <block s-for="i.cn trackBy item.sid">
+      <template is="{{xs.e(0)}}" data="{{{ i:item }}}" />
     </block>
   </swiper-item>
 </template>
 
-<template name=\\"tmpl_0_3\\">
-  <image src=\\"{{i.p2}}\\" mode=\\"{{xs.b(i.p1,'scaleToFill')}}\\" lazy-load=\\"{{xs.b(i.p0,!1)}}\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
-    <block s-for=\\"i.cn trackBy item.sid\\">
-      <template is=\\"{{xs.a(0, item.nn)}}\\" data=\\"{{{ i:item }}}\\" />
+<template name="tmpl_0_3">
+  <image src="{{i.p2}}" mode="{{xs.b(i.p1,'scaleToFill')}}" lazy-load="{{xs.b(i.p0,!1)}}" style="{{i.st}}" class="{{i.cl}}"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+    <block s-for="i.cn trackBy item.sid">
+      <template is="{{xs.e(0)}}" data="{{{ i:item }}}" />
     </block>
   </image>
 </template>
 
-<template name=\\"tmpl_0_1\\">
-  <image src=\\"{{i.p2}}\\" mode=\\"{{xs.b(i.p1,'scaleToFill')}}\\" lazy-load=\\"{{xs.b(i.p0,!1)}}\\" binderror=\\"eh\\" bindload=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongtap=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
-    <block s-for=\\"i.cn trackBy item.sid\\">
-      <template is=\\"{{xs.a(0, item.nn)}}\\" data=\\"{{{ i:item }}}\\" />
+<template name="tmpl_0_1">
+  <image src="{{i.p2}}" mode="{{xs.b(i.p1,'scaleToFill')}}" lazy-load="{{xs.b(i.p0,!1)}}" binderror="eh" bindload="eh" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongtap="eh" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+    <block s-for="i.cn trackBy item.sid">
+      <template is="{{xs.e(0)}}" data="{{{ i:item }}}" />
     </block>
   </image>
 </template>
 
-<template name=\\"tmpl_0_44\\">
-  <video src=\\"{{i.p20}}\\" duration=\\"{{i.p6}}\\" controls=\\"{{xs.b(i.p2,!0)}}\\" danmu-list=\\"{{i.p4}}\\" danmu-btn=\\"{{i.p3}}\\" enable-danmu=\\"{{i.p7}}\\" autoplay=\\"{{xs.b(i.p1,!1)}}\\" loop=\\"{{xs.b(i.p10,!1)}}\\" muted=\\"{{xs.b(i.p11,!1)}}\\" initial-time=\\"{{xs.b(i.p9,0)}}\\" page-gesture=\\"{{xs.b(i.p13,!1)}}\\" direction=\\"{{i.p5}}\\" show-progress=\\"{{xs.b(i.p19,!0)}}\\" show-fullscreen-btn=\\"{{xs.b(i.p16,!0)}}\\" show-play-btn=\\"{{xs.b(i.p18,!0)}}\\" show-center-play-btn=\\"{{xs.b(i.p15,!0)}}\\" enable-progress-gesture=\\"{{xs.b(i.p8,!0)}}\\" object-fit=\\"{{xs.b(i.p12,'contain')}}\\" poster=\\"{{i.p14}}\\" show-mute-btn=\\"{{xs.b(i.p17,!1)}}\\" bindplay=\\"eh\\" bindpause=\\"eh\\" bindended=\\"eh\\" bindtimeupdate=\\"eh\\" bindfullscreenchange=\\"eh\\" bindwaiting=\\"eh\\" binderror=\\"eh\\" animation=\\"{{i.p0}}\\" bindanimationstart=\\"eh\\" bindanimationiteration=\\"eh\\" bindanimationend=\\"eh\\" bindtransitionend=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
-    <block s-for=\\"i.cn trackBy item.sid\\">
-      <ad s-if={{item.nn==='9'}} id=\\"{{item.uid||item.sid}}\\" data-sid=\\"{{item.sid}}\\" unit-id=\\"{{item.p1}}\\" ad-intervals=\\"{{item.p0}}\\" bindload=\\"eh\\" binderror=\\"eh\\" bindclose=\\"eh\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\" bindtap=\\"eh\\"></ad>
+<template name="tmpl_0_44">
+  <video src="{{i.p20}}" duration="{{i.p6}}" controls="{{xs.b(i.p2,!0)}}" danmu-list="{{i.p4}}" danmu-btn="{{i.p3}}" enable-danmu="{{i.p7}}" autoplay="{{xs.b(i.p1,!1)}}" loop="{{xs.b(i.p10,!1)}}" muted="{{xs.b(i.p11,!1)}}" initial-time="{{xs.b(i.p9,0)}}" page-gesture="{{xs.b(i.p13,!1)}}" direction="{{i.p5}}" show-progress="{{xs.b(i.p19,!0)}}" show-fullscreen-btn="{{xs.b(i.p16,!0)}}" show-play-btn="{{xs.b(i.p18,!0)}}" show-center-play-btn="{{xs.b(i.p15,!0)}}" enable-progress-gesture="{{xs.b(i.p8,!0)}}" object-fit="{{xs.b(i.p12,'contain')}}" poster="{{i.p14}}" show-mute-btn="{{xs.b(i.p17,!1)}}" bindplay="eh" bindpause="eh" bindended="eh" bindtimeupdate="eh" bindfullscreenchange="eh" bindwaiting="eh" binderror="eh" animation="{{i.p0}}" bindanimationstart="eh" bindanimationiteration="eh" bindanimationend="eh" bindtransitionend="eh" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+    <block s-for="i.cn trackBy item.sid">
+      <ad s-if={{item.nn==='9'}} id="{{item.uid||item.sid}}" data-sid="{{item.sid}}" unit-id="{{item.p1}}" ad-intervals="{{item.p0}}" bindload="eh" binderror="eh" bindclose="eh" style="{{item.st}}" class="{{item.cl}}" bindtap="eh"></ad>
       <block s-else>
-        <cover-view s-if=\\"{{item.nn==='18'}}\\" id=\\"{{item.uid||item.sid}}\\" data-sid=\\"{{item.sid}}\\" scroll-top=\\"{{xs.b(item.p0,!1)}}\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongtap=\\"eh\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\" bindtap=\\"eh\\">
-          <block s-for=\\"item.cn trackBy item.sid\\">
-            <cover-view s-if=\\"{{item.nn==='18'}}\\" id=\\"{{item.uid||item.sid}}\\" data-sid=\\"{{item.sid}}\\" scroll-top=\\"{{xs.b(item.p0,!1)}}\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongtap=\\"eh\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\" bindtap=\\"eh\\">
-              <block s-for=\\"item.cn trackBy item.sid\\">
-                <cover-view s-if=\\"{{item.nn==='18'}}\\" id=\\"{{item.uid||item.sid}}\\" data-sid=\\"{{item.sid}}\\" scroll-top=\\"{{xs.b(item.p0,!1)}}\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongtap=\\"eh\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\" bindtap=\\"eh\\">
-                  <block s-for=\\"item.cn trackBy item.sid\\">
-                    <template is=\\"{{xs.a(0, item.nn)}}\\" data=\\"{{{i:item}}}\\" />
+        <cover-view s-if="{{item.nn==='18'}}" id="{{item.uid||item.sid}}" data-sid="{{item.sid}}" scroll-top="{{xs.b(item.p0,!1)}}" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongtap="eh" style="{{item.st}}" class="{{item.cl}}" bindtap="eh">
+          <block s-for="item.cn trackBy item.sid">
+            <cover-view s-if="{{item.nn==='18'}}" id="{{item.uid||item.sid}}" data-sid="{{item.sid}}" scroll-top="{{xs.b(item.p0,!1)}}" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongtap="eh" style="{{item.st}}" class="{{item.cl}}" bindtap="eh">
+              <block s-for="item.cn trackBy item.sid">
+                <cover-view s-if="{{item.nn==='18'}}" id="{{item.uid||item.sid}}" data-sid="{{item.sid}}" scroll-top="{{xs.b(item.p0,!1)}}" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongtap="eh" style="{{item.st}}" class="{{item.cl}}" bindtap="eh">
+                  <block s-for="item.cn trackBy item.sid">
+                    <template is="{{xs.e(0)}}" data="{{{i:item}}}" />
                   </block>
                 </cover-view>
-                <cover-image s-elif=\\"{{item.nn==='17'}}\\" id=\\"{{item.uid||item.sid}}\\" data-sid=\\"{{item.sid}}\\"  src=\\"{{item.p0}}\\" bindload=\\"eh\\" binderror=\\"eh\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\" bindtap=\\"eh\\"></cover-image>
-                <block s-elif=\\"{{item.nn==='8'}}\\">{{item.v}}</block>
+                <cover-image s-elif="{{item.nn==='17'}}" id="{{item.uid||item.sid}}" data-sid="{{item.sid}}"  src="{{item.p0}}" bindload="eh" binderror="eh" style="{{item.st}}" class="{{item.cl}}" bindtap="eh"></cover-image>
+                <block s-elif="{{item.nn==='8'}}">{{item.v}}</block>
                 <block s-else>
-                  <template is=\\"{{xs.a(0, item.nn)}}\\" data=\\"{{{i:item}}}\\" />
+                  <template is="{{xs.e(0)}}" data="{{{i:item}}}" />
                 </block>
               </block>
             </cover-view>
-            <cover-image s-elif=\\"{{item.nn==='17'}}\\" id=\\"{{item.uid||item.sid}}\\" data-sid=\\"{{item.sid}}\\"  src=\\"{{item.p0}}\\" bindload=\\"eh\\" binderror=\\"eh\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\" bindtap=\\"eh\\"></cover-image>
-            <block s-elif=\\"{{item.nn==='8'}}\\">{{item.v}}</block>
+            <cover-image s-elif="{{item.nn==='17'}}" id="{{item.uid||item.sid}}" data-sid="{{item.sid}}"  src="{{item.p0}}" bindload="eh" binderror="eh" style="{{item.st}}" class="{{item.cl}}" bindtap="eh"></cover-image>
+            <block s-elif="{{item.nn==='8'}}">{{item.v}}</block>
             <block s-else>
-              <template is=\\"{{xs.a(0, item.nn)}}\\" data=\\"{{{i:item}}}\\" />
+              <template is="{{xs.e(0)}}" data="{{{i:item}}}" />
             </block>
           </block>
         </cover-view>
-        <cover-image s-elif=\\"{{item.nn==='17'}}\\" id=\\"{{item.uid||item.sid}}\\" data-sid=\\"{{item.sid}}\\"  src=\\"{{item.p0}}\\" bindload=\\"eh\\" binderror=\\"eh\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\" bindtap=\\"eh\\"></cover-image>
-        <block s-elif=\\"{{item.nn==='8'}}\\">{{item.v}}</block>
+        <cover-image s-elif="{{item.nn==='17'}}" id="{{item.uid||item.sid}}" data-sid="{{item.sid}}"  src="{{item.p0}}" bindload="eh" binderror="eh" style="{{item.st}}" class="{{item.cl}}" bindtap="eh"></cover-image>
+        <block s-elif="{{item.nn==='8'}}">{{item.v}}</block>
         <block s-else>
-          <template is=\\"{{xs.a(0, item.nn)}}\\" data=\\"{{{i:item}}}\\" />
+          <template is="{{xs.e(0)}}" data="{{{i:item}}}" />
         </block>
       </block>
     </block>
   </video>
 </template>
 
-<template name=\\"tmpl_0_14\\">
-  <canvas canvas-id=\\"{{i.p0}}\\" disable-scroll=\\"{{xs.b(i.p1,!1)}}\\" binderror=\\"eh\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongtap=\\"eh\\" style=\\"{{i.st}}\\" class=\\"{{i.cl}}\\" bindtap=\\"eh\\"  id=\\"{{i.uid||i.sid}}\\" data-sid=\\"{{i.sid}}\\">
-    <block s-for=\\"i.cn trackBy item.sid\\">
-      <cover-view s-if=\\"{{item.nn==='18'}}\\" id=\\"{{item.uid||item.sid}}\\" data-sid=\\"{{item.sid}}\\" scroll-top=\\"{{xs.b(item.p0,!1)}}\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongtap=\\"eh\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\" bindtap=\\"eh\\">
-        <block s-for=\\"item.cn trackBy item.sid\\">
-          <cover-view s-if=\\"{{item.nn==='18'}}\\" id=\\"{{item.uid||item.sid}}\\" data-sid=\\"{{item.sid}}\\" scroll-top=\\"{{xs.b(item.p0,!1)}}\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongtap=\\"eh\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\" bindtap=\\"eh\\">
-            <block s-for=\\"item.cn trackBy item.sid\\">
-              <cover-view s-if=\\"{{item.nn==='18'}}\\" id=\\"{{item.uid||item.sid}}\\" data-sid=\\"{{item.sid}}\\" scroll-top=\\"{{xs.b(item.p0,!1)}}\\" bindtouchstart=\\"eh\\" bindtouchmove=\\"eh\\" bindtouchend=\\"eh\\" bindtouchcancel=\\"eh\\" bindlongtap=\\"eh\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\" bindtap=\\"eh\\">
-                <block s-for=\\"item.cn trackBy item.sid\\">
-                  <template is=\\"{{xs.a(0, item.nn)}}\\" data=\\"{{{i:item}}}\\" />
+<template name="tmpl_0_14">
+  <canvas canvas-id="{{i.p0}}" disable-scroll="{{xs.b(i.p1,!1)}}" binderror="eh" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongtap="eh" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+    <block s-for="i.cn trackBy item.sid">
+      <cover-view s-if="{{item.nn==='18'}}" id="{{item.uid||item.sid}}" data-sid="{{item.sid}}" scroll-top="{{xs.b(item.p0,!1)}}" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongtap="eh" style="{{item.st}}" class="{{item.cl}}" bindtap="eh">
+        <block s-for="item.cn trackBy item.sid">
+          <cover-view s-if="{{item.nn==='18'}}" id="{{item.uid||item.sid}}" data-sid="{{item.sid}}" scroll-top="{{xs.b(item.p0,!1)}}" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongtap="eh" style="{{item.st}}" class="{{item.cl}}" bindtap="eh">
+            <block s-for="item.cn trackBy item.sid">
+              <cover-view s-if="{{item.nn==='18'}}" id="{{item.uid||item.sid}}" data-sid="{{item.sid}}" scroll-top="{{xs.b(item.p0,!1)}}" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongtap="eh" style="{{item.st}}" class="{{item.cl}}" bindtap="eh">
+                <block s-for="item.cn trackBy item.sid">
+                  <template is="{{xs.e(0)}}" data="{{{i:item}}}" />
                 </block>
               </cover-view>
-              <cover-image s-elif=\\"{{item.nn==='17'}}\\" id=\\"{{item.uid||item.sid}}\\" data-sid=\\"{{item.sid}}\\"  src=\\"{{item.p0}}\\" bindload=\\"eh\\" binderror=\\"eh\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\" bindtap=\\"eh\\"></cover-image>
-              <block s-elif=\\"{{item.nn==='8'}}\\">{{item.v}}</block>
+              <cover-image s-elif="{{item.nn==='17'}}" id="{{item.uid||item.sid}}" data-sid="{{item.sid}}"  src="{{item.p0}}" bindload="eh" binderror="eh" style="{{item.st}}" class="{{item.cl}}" bindtap="eh"></cover-image>
+              <block s-elif="{{item.nn==='8'}}">{{item.v}}</block>
               <block s-else>
-                <template is=\\"{{xs.a(0, item.nn)}}\\" data=\\"{{{i:item}}}\\" />
+                <template is="{{xs.e(0)}}" data="{{{i:item}}}" />
               </block>
             </block>
           </cover-view>
-          <cover-image s-elif=\\"{{item.nn==='17'}}\\" id=\\"{{item.uid||item.sid}}\\" data-sid=\\"{{item.sid}}\\"  src=\\"{{item.p0}}\\" bindload=\\"eh\\" binderror=\\"eh\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\" bindtap=\\"eh\\"></cover-image>
-          <block s-elif=\\"{{item.nn==='8'}}\\">{{item.v}}</block>
+          <cover-image s-elif="{{item.nn==='17'}}" id="{{item.uid||item.sid}}" data-sid="{{item.sid}}"  src="{{item.p0}}" bindload="eh" binderror="eh" style="{{item.st}}" class="{{item.cl}}" bindtap="eh"></cover-image>
+          <block s-elif="{{item.nn==='8'}}">{{item.v}}</block>
           <block s-else>
-            <template is=\\"{{xs.a(0, item.nn)}}\\" data=\\"{{{i:item}}}\\" />
+            <template is="{{xs.e(0)}}" data="{{{i:item}}}" />
           </block>
         </block>
       </cover-view>
-      <cover-image s-elif=\\"{{item.nn==='17'}}\\" id=\\"{{item.uid||item.sid}}\\" data-sid=\\"{{item.sid}}\\"  src=\\"{{item.p0}}\\" bindload=\\"eh\\" binderror=\\"eh\\" style=\\"{{item.st}}\\" class=\\"{{item.cl}}\\" bindtap=\\"eh\\"></cover-image>
-      <block s-elif=\\"{{item.nn==='8'}}\\">{{item.v}}</block>
+      <cover-image s-elif="{{item.nn==='17'}}" id="{{item.uid||item.sid}}" data-sid="{{item.sid}}"  src="{{item.p0}}" bindload="eh" binderror="eh" style="{{item.st}}" class="{{item.cl}}" bindtap="eh"></cover-image>
+      <block s-elif="{{item.nn==='8'}}">{{item.v}}</block>
       <block s-else>
-        <template is=\\"{{xs.a(0, item.nn)}}\\" data=\\"{{{i:item}}}\\" />
+        <template is="{{xs.e(0)}}" data="{{{i:item}}}" />
       </block>
     </block>
   </canvas>
 </template>
 
-<template name=\\"tmpl_0_8\\">
+<template name="tmpl_0_8">
   <block>{{i.v}}</block>
+</template>
+
+<template name="tmpl_0_container">
+  <template is="{{xs.a(0, i.nn)}}" data="{{{ i:i }}}" />
 </template>
 
 
 /** filePath: dist/common.js **/
-(swan[\\"webpackJsonp\\"] = swan[\\"webpackJsonp\\"] || []).push([ [ 2 ], [ function(module, __webpack_exports__, __webpack_require__) {
-    \\"use strict\\";
+(swan["webpackJsonp"] = swan["webpackJsonp"] || []).push([ [ 2 ], [ function(module, __webpack_exports__, __webpack_require__) {
+    "use strict";
     __webpack_require__.r(__webpack_exports__);
-    __webpack_exports__[\\"default\\"] = \\"react-mock\\";
+    __webpack_exports__["default"] = "react-mock";
 } ] ]);
 
 /** filePath: dist/pages/index/index.css **/
@@ -888,19 +895,21 @@ require(\\"./taro\\");
 
 /** filePath: dist/pages/index/index.js **/
 /*! For license information please see index.js.LICENSE.txt */
-(swan[\\"webpackJsonp\\"] = swan[\\"webpackJsonp\\"] || []).push([ [ 7 ], {
+(swan["webpackJsonp"] = swan["webpackJsonp"] || []).push([ [ 7 ], {
     13: function(module, exports, __webpack_require__) {},
     15: function(module, __webpack_exports__, __webpack_require__) {
-        \\"use strict\\";
+        "use strict";
         __webpack_require__.r(__webpack_exports__);
-        var taro_runtime = __webpack_require__(2);
-        var esm_typeof = __webpack_require__(5);
+        var taro_runtime = __webpack_require__(3);
+        var esm_typeof = __webpack_require__(2);
         function _regeneratorRuntime() {
-            \\"use strict\\";
+            "use strict";
             _regeneratorRuntime = function _regeneratorRuntime() {
                 return exports;
             };
-            var exports = {}, Op = Object.prototype, hasOwn = Op.hasOwnProperty, $Symbol = \\"function\\" == typeof Symbol ? Symbol : {}, iteratorSymbol = $Symbol.iterator || \\"@@iterator\\", asyncIteratorSymbol = $Symbol.asyncIterator || \\"@@asyncIterator\\", toStringTagSymbol = $Symbol.toStringTag || \\"@@toStringTag\\";
+            var exports = {}, Op = Object.prototype, hasOwn = Op.hasOwnProperty, defineProperty = Object.defineProperty || function(obj, key, desc) {
+                obj[key] = desc.value;
+            }, $Symbol = "function" == typeof Symbol ? Symbol : {}, iteratorSymbol = $Symbol.iterator || "@@iterator", asyncIteratorSymbol = $Symbol.asyncIterator || "@@asyncIterator", toStringTagSymbol = $Symbol.toStringTag || "@@toStringTag";
             function define(obj, key, value) {
                 return Object.defineProperty(obj, key, {
                     value: value,
@@ -910,7 +919,7 @@ require(\\"./taro\\");
                 }), obj[key];
             }
             try {
-                define({}, \\"\\");
+                define({}, "");
             } catch (err) {
                 define = function define(obj, key, value) {
                     return obj[key] = value;
@@ -918,50 +927,19 @@ require(\\"./taro\\");
             }
             function wrap(innerFn, outerFn, self, tryLocsList) {
                 var protoGenerator = outerFn && outerFn.prototype instanceof Generator ? outerFn : Generator, generator = Object.create(protoGenerator.prototype), context = new Context(tryLocsList || []);
-                return generator._invoke = function(innerFn, self, context) {
-                    var state = \\"suspendedStart\\";
-                    return function(method, arg) {
-                        if (\\"executing\\" === state) throw new Error(\\"Generator is already running\\");
-                        if (\\"completed\\" === state) {
-                            if (\\"throw\\" === method) throw arg;
-                            return doneResult();
-                        }
-                        for (context.method = method, context.arg = arg; ;) {
-                            var delegate = context.delegate;
-                            if (delegate) {
-                                var delegateResult = maybeInvokeDelegate(delegate, context);
-                                if (delegateResult) {
-                                    if (delegateResult === ContinueSentinel) continue;
-                                    return delegateResult;
-                                }
-                            }
-                            if (\\"next\\" === context.method) context.sent = context._sent = context.arg; else if (\\"throw\\" === context.method) {
-                                if (\\"suspendedStart\\" === state) throw state = \\"completed\\", context.arg;
-                                context.dispatchException(context.arg);
-                            } else \\"return\\" === context.method && context.abrupt(\\"return\\", context.arg);
-                            state = \\"executing\\";
-                            var record = tryCatch(innerFn, self, context);
-                            if (\\"normal\\" === record.type) {
-                                if (state = context.done ? \\"completed\\" : \\"suspendedYield\\", record.arg === ContinueSentinel) continue;
-                                return {
-                                    value: record.arg,
-                                    done: context.done
-                                };
-                            }
-                            \\"throw\\" === record.type && (state = \\"completed\\", context.method = \\"throw\\", context.arg = record.arg);
-                        }
-                    };
-                }(innerFn, self, context), generator;
+                return defineProperty(generator, "_invoke", {
+                    value: makeInvokeMethod(innerFn, self, context)
+                }), generator;
             }
             function tryCatch(fn, obj, arg) {
                 try {
                     return {
-                        type: \\"normal\\",
+                        type: "normal",
                         arg: fn.call(obj, arg)
                     };
                 } catch (err) {
                     return {
-                        type: \\"throw\\",
+                        type: "throw",
                         arg: err
                     };
                 }
@@ -979,7 +957,7 @@ require(\\"./taro\\");
             NativeIteratorPrototype && NativeIteratorPrototype !== Op && hasOwn.call(NativeIteratorPrototype, iteratorSymbol) && (IteratorPrototype = NativeIteratorPrototype);
             var Gp = GeneratorFunctionPrototype.prototype = Generator.prototype = Object.create(IteratorPrototype);
             function defineIteratorMethods(prototype) {
-                [ \\"next\\", \\"throw\\", \\"return\\" ].forEach((function(method) {
+                [ "next", "throw", "return" ].forEach((function(method) {
                     define(prototype, method, (function(arg) {
                         return this._invoke(method, arg);
                     }));
@@ -988,47 +966,79 @@ require(\\"./taro\\");
             function AsyncIterator(generator, PromiseImpl) {
                 function invoke(method, arg, resolve, reject) {
                     var record = tryCatch(generator[method], generator, arg);
-                    if (\\"throw\\" !== record.type) {
+                    if ("throw" !== record.type) {
                         var result = record.arg, value = result.value;
-                        return value && \\"object\\" == Object(esm_typeof[\\"a\\"])(value) && hasOwn.call(value, \\"__await\\") ? PromiseImpl.resolve(value.__await).then((function(value) {
-                            invoke(\\"next\\", value, resolve, reject);
+                        return value && "object" == Object(esm_typeof["a"])(value) && hasOwn.call(value, "__await") ? PromiseImpl.resolve(value.__await).then((function(value) {
+                            invoke("next", value, resolve, reject);
                         }), (function(err) {
-                            invoke(\\"throw\\", err, resolve, reject);
+                            invoke("throw", err, resolve, reject);
                         })) : PromiseImpl.resolve(value).then((function(unwrapped) {
                             result.value = unwrapped, resolve(result);
                         }), (function(error) {
-                            return invoke(\\"throw\\", error, resolve, reject);
+                            return invoke("throw", error, resolve, reject);
                         }));
                     }
                     reject(record.arg);
                 }
                 var previousPromise;
-                this._invoke = function(method, arg) {
-                    function callInvokeWithMethodAndArg() {
-                        return new PromiseImpl((function(resolve, reject) {
-                            invoke(method, arg, resolve, reject);
-                        }));
+                defineProperty(this, "_invoke", {
+                    value: function value(method, arg) {
+                        function callInvokeWithMethodAndArg() {
+                            return new PromiseImpl((function(resolve, reject) {
+                                invoke(method, arg, resolve, reject);
+                            }));
+                        }
+                        return previousPromise = previousPromise ? previousPromise.then(callInvokeWithMethodAndArg, callInvokeWithMethodAndArg) : callInvokeWithMethodAndArg();
                     }
-                    return previousPromise = previousPromise ? previousPromise.then(callInvokeWithMethodAndArg, callInvokeWithMethodAndArg) : callInvokeWithMethodAndArg();
+                });
+            }
+            function makeInvokeMethod(innerFn, self, context) {
+                var state = "suspendedStart";
+                return function(method, arg) {
+                    if ("executing" === state) throw new Error("Generator is already running");
+                    if ("completed" === state) {
+                        if ("throw" === method) throw arg;
+                        return doneResult();
+                    }
+                    for (context.method = method, context.arg = arg; ;) {
+                        var delegate = context.delegate;
+                        if (delegate) {
+                            var delegateResult = maybeInvokeDelegate(delegate, context);
+                            if (delegateResult) {
+                                if (delegateResult === ContinueSentinel) continue;
+                                return delegateResult;
+                            }
+                        }
+                        if ("next" === context.method) context.sent = context._sent = context.arg; else if ("throw" === context.method) {
+                            if ("suspendedStart" === state) throw state = "completed", context.arg;
+                            context.dispatchException(context.arg);
+                        } else "return" === context.method && context.abrupt("return", context.arg);
+                        state = "executing";
+                        var record = tryCatch(innerFn, self, context);
+                        if ("normal" === record.type) {
+                            if (state = context.done ? "completed" : "suspendedYield", record.arg === ContinueSentinel) continue;
+                            return {
+                                value: record.arg,
+                                done: context.done
+                            };
+                        }
+                        "throw" === record.type && (state = "completed", context.method = "throw", context.arg = record.arg);
+                    }
                 };
             }
             function maybeInvokeDelegate(delegate, context) {
-                var method = delegate.iterator[context.method];
-                if (undefined === method) {
-                    if (context.delegate = null, \\"throw\\" === context.method) {
-                        if (delegate.iterator[\\"return\\"] && (context.method = \\"return\\", context.arg = undefined, 
-                        maybeInvokeDelegate(delegate, context), \\"throw\\" === context.method)) return ContinueSentinel;
-                        context.method = \\"throw\\", context.arg = new TypeError(\\"The iterator does not provide a 'throw' method\\");
-                    }
-                    return ContinueSentinel;
-                }
+                var methodName = context.method, method = delegate.iterator[methodName];
+                if (undefined === method) return context.delegate = null, "throw" === methodName && delegate.iterator["return"] && (context.method = "return", 
+                context.arg = undefined, maybeInvokeDelegate(delegate, context), "throw" === context.method) || "return" !== methodName && (context.method = "throw", 
+                context.arg = new TypeError("The iterator does not provide a '" + methodName + "' method")), 
+                ContinueSentinel;
                 var record = tryCatch(method, delegate.iterator, context.arg);
-                if (\\"throw\\" === record.type) return context.method = \\"throw\\", context.arg = record.arg, 
+                if ("throw" === record.type) return context.method = "throw", context.arg = record.arg, 
                 context.delegate = null, ContinueSentinel;
                 var info = record.arg;
                 return info ? info.done ? (context[delegate.resultName] = info.value, context.next = delegate.nextLoc, 
-                \\"return\\" !== context.method && (context.method = \\"next\\", context.arg = undefined), 
-                context.delegate = null, ContinueSentinel) : info : (context.method = \\"throw\\", context.arg = new TypeError(\\"iterator result is not an object\\"), 
+                "return" !== context.method && (context.method = "next", context.arg = undefined), 
+                context.delegate = null, ContinueSentinel) : info : (context.method = "throw", context.arg = new TypeError("iterator result is not an object"), 
                 context.delegate = null, ContinueSentinel);
             }
             function pushTryEntry(locs) {
@@ -1040,23 +1050,22 @@ require(\\"./taro\\");
             }
             function resetTryEntry(entry) {
                 var record = entry.completion || {};
-                record.type = \\"normal\\", delete record.arg, entry.completion = record;
+                record.type = "normal", delete record.arg, entry.completion = record;
             }
             function Context(tryLocsList) {
                 this.tryEntries = [ {
-                    tryLoc: \\"root\\"
+                    tryLoc: "root"
                 } ], tryLocsList.forEach(pushTryEntry, this), this.reset(!0);
             }
             function values(iterable) {
                 if (iterable) {
                     var iteratorMethod = iterable[iteratorSymbol];
                     if (iteratorMethod) return iteratorMethod.call(iterable);
-                    if (\\"function\\" == typeof iterable.next) return iterable;
+                    if ("function" == typeof iterable.next) return iterable;
                     if (!isNaN(iterable.length)) {
                         var i = -1, next = function next() {
-                            for (;++i < iterable.length; ) {
-                                if (hasOwn.call(iterable, i)) return next.value = iterable[i], next.done = !1, next;
-                            }
+                            for (;++i < iterable.length; ) if (hasOwn.call(iterable, i)) return next.value = iterable[i], 
+                            next.done = !1, next;
                             return next.value = undefined, next.done = !0, next;
                         };
                         return next.next = next;
@@ -1072,14 +1081,19 @@ require(\\"./taro\\");
                     done: !0
                 };
             }
-            return GeneratorFunction.prototype = GeneratorFunctionPrototype, define(Gp, \\"constructor\\", GeneratorFunctionPrototype), 
-            define(GeneratorFunctionPrototype, \\"constructor\\", GeneratorFunction), GeneratorFunction.displayName = define(GeneratorFunctionPrototype, toStringTagSymbol, \\"GeneratorFunction\\"), 
+            return GeneratorFunction.prototype = GeneratorFunctionPrototype, defineProperty(Gp, "constructor", {
+                value: GeneratorFunctionPrototype,
+                configurable: !0
+            }), defineProperty(GeneratorFunctionPrototype, "constructor", {
+                value: GeneratorFunction,
+                configurable: !0
+            }), GeneratorFunction.displayName = define(GeneratorFunctionPrototype, toStringTagSymbol, "GeneratorFunction"), 
             exports.isGeneratorFunction = function(genFun) {
-                var ctor = \\"function\\" == typeof genFun && genFun.constructor;
-                return !!ctor && (ctor === GeneratorFunction || \\"GeneratorFunction\\" === (ctor.displayName || ctor.name));
+                var ctor = "function" == typeof genFun && genFun.constructor;
+                return !!ctor && (ctor === GeneratorFunction || "GeneratorFunction" === (ctor.displayName || ctor.name));
             }, exports.mark = function(genFun) {
                 return Object.setPrototypeOf ? Object.setPrototypeOf(genFun, GeneratorFunctionPrototype) : (genFun.__proto__ = GeneratorFunctionPrototype, 
-                define(genFun, toStringTagSymbol, \\"GeneratorFunction\\")), genFun.prototype = Object.create(Gp), 
+                define(genFun, toStringTagSymbol, "GeneratorFunction")), genFun.prototype = Object.create(Gp), 
                 genFun;
             }, exports.awrap = function(arg) {
                 return {
@@ -1093,15 +1107,13 @@ require(\\"./taro\\");
                 return exports.isGeneratorFunction(outerFn) ? iter : iter.next().then((function(result) {
                     return result.done ? result.value : iter.next();
                 }));
-            }, defineIteratorMethods(Gp), define(Gp, toStringTagSymbol, \\"Generator\\"), define(Gp, iteratorSymbol, (function() {
+            }, defineIteratorMethods(Gp), define(Gp, toStringTagSymbol, "Generator"), define(Gp, iteratorSymbol, (function() {
                 return this;
-            })), define(Gp, \\"toString\\", (function() {
-                return \\"[object Generator]\\";
-            })), exports.keys = function(object) {
-                var keys = [];
-                for (var key in object) {
-                    keys.push(key);
-                }
+            })), define(Gp, "toString", (function() {
+                return "[object Generator]";
+            })), exports.keys = function(val) {
+                var object = Object(val), keys = [];
+                for (var key in object) keys.push(key);
                 return keys.reverse(), function next() {
                     for (;keys.length; ) {
                         var key = keys.pop();
@@ -1113,36 +1125,34 @@ require(\\"./taro\\");
                 constructor: Context,
                 reset: function reset(skipTempReset) {
                     if (this.prev = 0, this.next = 0, this.sent = this._sent = undefined, this.done = !1, 
-                    this.delegate = null, this.method = \\"next\\", this.arg = undefined, this.tryEntries.forEach(resetTryEntry), 
-                    !skipTempReset) for (var name in this) {
-                        \\"t\\" === name.charAt(0) && hasOwn.call(this, name) && !isNaN(+name.slice(1)) && (this[name] = undefined);
-                    }
+                    this.delegate = null, this.method = "next", this.arg = undefined, this.tryEntries.forEach(resetTryEntry), 
+                    !skipTempReset) for (var name in this) "t" === name.charAt(0) && hasOwn.call(this, name) && !isNaN(+name.slice(1)) && (this[name] = undefined);
                 },
                 stop: function stop() {
                     this.done = !0;
                     var rootRecord = this.tryEntries[0].completion;
-                    if (\\"throw\\" === rootRecord.type) throw rootRecord.arg;
+                    if ("throw" === rootRecord.type) throw rootRecord.arg;
                     return this.rval;
                 },
                 dispatchException: function dispatchException(exception) {
                     if (this.done) throw exception;
                     var context = this;
                     function handle(loc, caught) {
-                        return record.type = \\"throw\\", record.arg = exception, context.next = loc, caught && (context.method = \\"next\\", 
+                        return record.type = "throw", record.arg = exception, context.next = loc, caught && (context.method = "next", 
                         context.arg = undefined), !!caught;
                     }
                     for (var i = this.tryEntries.length - 1; i >= 0; --i) {
                         var entry = this.tryEntries[i], record = entry.completion;
-                        if (\\"root\\" === entry.tryLoc) return handle(\\"end\\");
+                        if ("root" === entry.tryLoc) return handle("end");
                         if (entry.tryLoc <= this.prev) {
-                            var hasCatch = hasOwn.call(entry, \\"catchLoc\\"), hasFinally = hasOwn.call(entry, \\"finallyLoc\\");
+                            var hasCatch = hasOwn.call(entry, "catchLoc"), hasFinally = hasOwn.call(entry, "finallyLoc");
                             if (hasCatch && hasFinally) {
                                 if (this.prev < entry.catchLoc) return handle(entry.catchLoc, !0);
                                 if (this.prev < entry.finallyLoc) return handle(entry.finallyLoc);
                             } else if (hasCatch) {
                                 if (this.prev < entry.catchLoc) return handle(entry.catchLoc, !0);
                             } else {
-                                if (!hasFinally) throw new Error(\\"try statement without catch or finally\\");
+                                if (!hasFinally) throw new Error("try statement without catch or finally");
                                 if (this.prev < entry.finallyLoc) return handle(entry.finallyLoc);
                             }
                         }
@@ -1151,20 +1161,20 @@ require(\\"./taro\\");
                 abrupt: function abrupt(type, arg) {
                     for (var i = this.tryEntries.length - 1; i >= 0; --i) {
                         var entry = this.tryEntries[i];
-                        if (entry.tryLoc <= this.prev && hasOwn.call(entry, \\"finallyLoc\\") && this.prev < entry.finallyLoc) {
+                        if (entry.tryLoc <= this.prev && hasOwn.call(entry, "finallyLoc") && this.prev < entry.finallyLoc) {
                             var finallyEntry = entry;
                             break;
                         }
                     }
-                    finallyEntry && (\\"break\\" === type || \\"continue\\" === type) && finallyEntry.tryLoc <= arg && arg <= finallyEntry.finallyLoc && (finallyEntry = null);
+                    finallyEntry && ("break" === type || "continue" === type) && finallyEntry.tryLoc <= arg && arg <= finallyEntry.finallyLoc && (finallyEntry = null);
                     var record = finallyEntry ? finallyEntry.completion : {};
-                    return record.type = type, record.arg = arg, finallyEntry ? (this.method = \\"next\\", 
+                    return record.type = type, record.arg = arg, finallyEntry ? (this.method = "next", 
                     this.next = finallyEntry.finallyLoc, ContinueSentinel) : this.complete(record);
                 },
                 complete: function complete(record, afterLoc) {
-                    if (\\"throw\\" === record.type) throw record.arg;
-                    return \\"break\\" === record.type || \\"continue\\" === record.type ? this.next = record.arg : \\"return\\" === record.type ? (this.rval = this.arg = record.arg, 
-                    this.method = \\"return\\", this.next = \\"end\\") : \\"normal\\" === record.type && afterLoc && (this.next = afterLoc), 
+                    if ("throw" === record.type) throw record.arg;
+                    return "break" === record.type || "continue" === record.type ? this.next = record.arg : "return" === record.type ? (this.rval = this.arg = record.arg, 
+                    this.method = "return", this.next = "end") : "normal" === record.type && afterLoc && (this.next = afterLoc), 
                     ContinueSentinel;
                 },
                 finish: function finish(finallyLoc) {
@@ -1179,21 +1189,21 @@ require(\\"./taro\\");
                         var entry = this.tryEntries[i];
                         if (entry.tryLoc === tryLoc) {
                             var record = entry.completion;
-                            if (\\"throw\\" === record.type) {
+                            if ("throw" === record.type) {
                                 var thrown = record.arg;
                                 resetTryEntry(entry);
                             }
                             return thrown;
                         }
                     }
-                    throw new Error(\\"illegal catch attempt\\");
+                    throw new Error("illegal catch attempt");
                 },
                 delegateYield: function delegateYield(iterable, resultName, nextLoc) {
                     return this.delegate = {
                         iterator: values(iterable),
                         resultName: resultName,
                         nextLoc: nextLoc
-                    }, \\"next\\" === this.method && (this.arg = undefined), ContinueSentinel;
+                    }, "next" === this.method && (this.arg = undefined), ContinueSentinel;
                 }
             }, exports;
         }
@@ -1217,44 +1227,42 @@ require(\\"./taro\\");
                 return new Promise((function(resolve, reject) {
                     var gen = fn.apply(self, args);
                     function _next(value) {
-                        asyncGeneratorStep(gen, resolve, reject, _next, _throw, \\"next\\", value);
+                        asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);
                     }
                     function _throw(err) {
-                        asyncGeneratorStep(gen, resolve, reject, _next, _throw, \\"throw\\", err);
+                        asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err);
                     }
                     _next(undefined);
                 }));
             };
         }
-        var classCallCheck = __webpack_require__(3);
-        var createClass = __webpack_require__(4);
+        var classCallCheck = __webpack_require__(4);
+        var createClass = __webpack_require__(6);
         var inherits = __webpack_require__(7);
-        var createSuper = __webpack_require__(6);
+        var createSuper = __webpack_require__(5);
         var react = __webpack_require__(0);
         var taro_components = __webpack_require__(1);
         var index = __webpack_require__(13);
         var index_Index = function(_Component) {
-            Object(inherits[\\"a\\"])(Index, _Component);
-            var _super = Object(createSuper[\\"a\\"])(Index);
+            Object(inherits["a"])(Index, _Component);
+            var _super = Object(createSuper["a"])(Index);
             function Index() {
-                Object(classCallCheck[\\"a\\"])(this, Index);
+                Object(classCallCheck["a"])(this, Index);
                 return _super.apply(this, arguments);
             }
-            Object(createClass[\\"a\\"])(Index, [ {
-                key: \\"componentWillMount\\",
+            Object(createClass["a"])(Index, [ {
+                key: "componentWillMount",
                 value: function() {
                     var _componentWillMount = _asyncToGenerator(_regeneratorRuntime().mark((function _callee() {
                         return _regeneratorRuntime().wrap((function _callee$(_context) {
-                            while (1) {
-                                switch (_context.prev = _context.next) {
-                                  case 0:
-                                    _context.next = 2;
-                                    return Promise.resolve(1);
+                            while (1) switch (_context.prev = _context.next) {
+                              case 0:
+                                _context.next = 2;
+                                return Promise.resolve(1);
 
-                                  case 2:
-                                  case \\"end\\":
-                                    return _context.stop();
-                                }
+                              case 2:
+                              case "end":
+                                return _context.stop();
                             }
                         }), _callee);
                     })));
@@ -1264,40 +1272,41 @@ require(\\"./taro\\");
                     return componentWillMount;
                 }()
             }, {
-                key: \\"componentDidMount\\",
+                key: "componentDidMount",
                 value: function componentDidMount() {}
             }, {
-                key: \\"componentWillUnmount\\",
+                key: "componentWillUnmount",
                 value: function componentWillUnmount() {}
             }, {
-                key: \\"componentDidShow\\",
+                key: "componentDidShow",
                 value: function componentDidShow() {}
             }, {
-                key: \\"componentDidHide\\",
+                key: "componentDidHide",
                 value: function componentDidHide() {}
             }, {
-                key: \\"render\\",
+                key: "render",
                 value: function render() {
-                    return react[\\"default\\"].createElement(taro_components[\\"View\\"], {
-                        className: \\"index\\"
-                    }, react[\\"default\\"].createElement(taro_components[\\"Text\\"], null, \\"Hello world!\\"), react[\\"default\\"].createElement(taro_components[\\"Input\\"], {
-                        placeholder: \\"input\\",
-                        value: \\"\\"
-                    }), react[\\"default\\"].createElement(taro_components[\\"Textarea\\"], {
-                        value: \\"\\"
-                    }), react[\\"default\\"].createElement(taro_components[\\"Swiper\\"], null, react[\\"default\\"].createElement(taro_components[\\"SwiperItem\\"], null, react[\\"default\\"].createElement(taro_components[\\"Text\\"], null, \\"Swiper item\\"))), react[\\"default\\"].createElement(taro_components[\\"Video\\"], null), react[\\"default\\"].createElement(taro_components[\\"Canvas\\"], null, react[\\"default\\"].createElement(taro_components[\\"CoverView\\"], null, react[\\"default\\"].createElement(taro_components[\\"CoverImage\\"], null))));
+                    return react["default"].createElement(taro_components["View"], {
+                        className: "index"
+                    }, react["default"].createElement(taro_components["Text"], null, "Hello world!"), react["default"].createElement(taro_components["Input"], {
+                        placeholder: "input",
+                        value: ""
+                    }), react["default"].createElement(taro_components["Textarea"], {
+                        value: ""
+                    }), react["default"].createElement(taro_components["Swiper"], null, react["default"].createElement(taro_components["SwiperItem"], null, react["default"].createElement(taro_components["Text"], null, "Swiper item"))), react["default"].createElement(taro_components["Video"], null), react["default"].createElement(taro_components["Canvas"], null, react["default"].createElement(taro_components["CoverView"], null, react["default"].createElement(taro_components["CoverImage"], null))));
                 }
             } ]);
             return Index;
-        }(react[\\"Component\\"]);
+        }(react["Component"]);
         var config = {
-            navigationBarTitleText: \\"\\\\u9996\\\\u9875\\"
+            navigationBarTitleText: "\\u9996\\u9875"
         };
-        var inst = Page(Object(taro_runtime[\\"createPageConfig\\"])(index_Index, \\"pages/index/index\\", {
+        var inst = Page(Object(taro_runtime["createPageConfig"])(index_Index, "pages/index/index", {
             root: {
                 cn: []
             }
         }, config || {}));
+        var pages_index = __webpack_exports__["default"] = index_Index;
     }
 }, [ [ 15, 0, 1, 3, 2 ] ] ]);
 
@@ -1306,28 +1315,28 @@ require(\\"./taro\\");
 
 
 /** filePath: dist/pages/index/index.json **/
-{\\"navigationBarTitleText\\":\\"首页\\",\\"usingComponents\\":{}}
+{"navigationBarTitleText":"首页","usingComponents":{}}
 
 /** filePath: dist/pages/index/index.swan **/
-<import src=\\"../../base.swan\\"/>
-<template is=\\"taro_tmpl\\" data=\\"{{{ root:root }}}\\" />
+<import src="../../base.swan"/>
+<template is="taro_tmpl" data="{{{ root:root }}}" />
 
 /** filePath: dist/runtime.js **/
 
 
 /** filePath: dist/taro.js **/
-(swan[\\"webpackJsonp\\"] = swan[\\"webpackJsonp\\"] || []).push([ [ 1 ], {
+(swan["webpackJsonp"] = swan["webpackJsonp"] || []).push([ [ 1 ], {
     1: function(module, __webpack_exports__, __webpack_require__) {
-        \\"use strict\\";
-        var _unused_webpack_default_export = \\"taro-components-mock\\";
+        "use strict";
+        var _unused_webpack_default_export = "taro-components-mock";
     },
-    2: function(module, __webpack_exports__, __webpack_require__) {
-        \\"use strict\\";
-        var _unused_webpack_default_export = \\"taro-runtime-mock\\";
+    3: function(module, __webpack_exports__, __webpack_require__) {
+        "use strict";
+        var _unused_webpack_default_export = "taro-runtime-mock";
     },
     8: function(module, __webpack_exports__, __webpack_require__) {
-        \\"use strict\\";
-        __webpack_exports__[\\"a\\"] = \\"taro-react-mock\\";
+        "use strict";
+        __webpack_exports__["a"] = "taro-react-mock";
     }
 } ]);
 
@@ -1352,54 +1361,32 @@ module.exports = {
 }
 
 /** filePath: dist/vendors.js **/
-(swan[\\"webpackJsonp\\"] = swan[\\"webpackJsonp\\"] || []).push([ [ 3 ], [ , , , function(module, __webpack_exports__, __webpack_require__) {
-    \\"use strict\\";
-    __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
+(swan["webpackJsonp"] = swan["webpackJsonp"] || []).push([ [ 3 ], [ , , function(module, __webpack_exports__, __webpack_require__) {
+    "use strict";
+    __webpack_require__.d(__webpack_exports__, "a", (function() {
+        return _typeof;
+    }));
+    function _typeof(obj) {
+        "@babel/helpers - typeof";
+        return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function(obj) {
+            return typeof obj;
+        } : function(obj) {
+            return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
+        }, _typeof(obj);
+    }
+}, , function(module, __webpack_exports__, __webpack_require__) {
+    "use strict";
+    __webpack_require__.d(__webpack_exports__, "a", (function() {
         return _classCallCheck;
     }));
     function _classCallCheck(instance, Constructor) {
         if (!(instance instanceof Constructor)) {
-            throw new TypeError(\\"Cannot call a class as a function\\");
+            throw new TypeError("Cannot call a class as a function");
         }
     }
 }, function(module, __webpack_exports__, __webpack_require__) {
-    \\"use strict\\";
-    __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
-        return _createClass;
-    }));
-    function _defineProperties(target, props) {
-        for (var i = 0; i < props.length; i++) {
-            var descriptor = props[i];
-            descriptor.enumerable = descriptor.enumerable || false;
-            descriptor.configurable = true;
-            if (\\"value\\" in descriptor) descriptor.writable = true;
-            Object.defineProperty(target, descriptor.key, descriptor);
-        }
-    }
-    function _createClass(Constructor, protoProps, staticProps) {
-        if (protoProps) _defineProperties(Constructor.prototype, protoProps);
-        if (staticProps) _defineProperties(Constructor, staticProps);
-        Object.defineProperty(Constructor, \\"prototype\\", {
-            writable: false
-        });
-        return Constructor;
-    }
-}, function(module, __webpack_exports__, __webpack_require__) {
-    \\"use strict\\";
-    __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
-        return _typeof;
-    }));
-    function _typeof(obj) {
-        \\"@babel/helpers - typeof\\";
-        return _typeof = \\"function\\" == typeof Symbol && \\"symbol\\" == typeof Symbol.iterator ? function(obj) {
-            return typeof obj;
-        } : function(obj) {
-            return obj && \\"function\\" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? \\"symbol\\" : typeof obj;
-        }, _typeof(obj);
-    }
-}, function(module, __webpack_exports__, __webpack_require__) {
-    \\"use strict\\";
-    __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
+    "use strict";
+    __webpack_require__.d(__webpack_exports__, "a", (function() {
         return _createSuper;
     }));
     function _getPrototypeOf(o) {
@@ -1409,9 +1396,9 @@ module.exports = {
         return _getPrototypeOf(o);
     }
     function _isNativeReflectConstruct() {
-        if (typeof Reflect === \\"undefined\\" || !Reflect.construct) return false;
+        if (typeof Reflect === "undefined" || !Reflect.construct) return false;
         if (Reflect.construct.sham) return false;
-        if (typeof Proxy === \\"function\\") return true;
+        if (typeof Proxy === "function") return true;
         try {
             Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], (function() {})));
             return true;
@@ -1419,18 +1406,18 @@ module.exports = {
             return false;
         }
     }
-    var esm_typeof = __webpack_require__(5);
+    var esm_typeof = __webpack_require__(2);
     function _assertThisInitialized(self) {
         if (self === void 0) {
-            throw new ReferenceError(\\"this hasn't been initialised - super() hasn't been called\\");
+            throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
         }
         return self;
     }
     function _possibleConstructorReturn(self, call) {
-        if (call && (Object(esm_typeof[\\"a\\"])(call) === \\"object\\" || typeof call === \\"function\\")) {
+        if (call && (Object(esm_typeof["a"])(call) === "object" || typeof call === "function")) {
             return call;
         } else if (call !== void 0) {
-            throw new TypeError(\\"Derived constructors may only return object or undefined\\");
+            throw new TypeError("Derived constructors may only return object or undefined");
         }
         return _assertThisInitialized(self);
     }
@@ -1448,8 +1435,45 @@ module.exports = {
         };
     }
 }, function(module, __webpack_exports__, __webpack_require__) {
-    \\"use strict\\";
-    __webpack_require__.d(__webpack_exports__, \\"a\\", (function() {
+    "use strict";
+    __webpack_require__.d(__webpack_exports__, "a", (function() {
+        return _createClass;
+    }));
+    var esm_typeof = __webpack_require__(2);
+    function _toPrimitive(input, hint) {
+        if (Object(esm_typeof["a"])(input) !== "object" || input === null) return input;
+        var prim = input[Symbol.toPrimitive];
+        if (prim !== undefined) {
+            var res = prim.call(input, hint || "default");
+            if (Object(esm_typeof["a"])(res) !== "object") return res;
+            throw new TypeError("@@toPrimitive must return a primitive value.");
+        }
+        return (hint === "string" ? String : Number)(input);
+    }
+    function _toPropertyKey(arg) {
+        var key = _toPrimitive(arg, "string");
+        return Object(esm_typeof["a"])(key) === "symbol" ? key : String(key);
+    }
+    function _defineProperties(target, props) {
+        for (var i = 0; i < props.length; i++) {
+            var descriptor = props[i];
+            descriptor.enumerable = descriptor.enumerable || false;
+            descriptor.configurable = true;
+            if ("value" in descriptor) descriptor.writable = true;
+            Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor);
+        }
+    }
+    function _createClass(Constructor, protoProps, staticProps) {
+        if (protoProps) _defineProperties(Constructor.prototype, protoProps);
+        if (staticProps) _defineProperties(Constructor, staticProps);
+        Object.defineProperty(Constructor, "prototype", {
+            writable: false
+        });
+        return Constructor;
+    }
+}, function(module, __webpack_exports__, __webpack_require__) {
+    "use strict";
+    __webpack_require__.d(__webpack_exports__, "a", (function() {
         return _inherits;
     }));
     function _setPrototypeOf(o, p) {
@@ -1460,8 +1484,8 @@ module.exports = {
         return _setPrototypeOf(o, p);
     }
     function _inherits(subClass, superClass) {
-        if (typeof superClass !== \\"function\\" && superClass !== null) {
-            throw new TypeError(\\"Super expression must either be null or a function\\");
+        if (typeof superClass !== "function" && superClass !== null) {
+            throw new TypeError("Super expression must either be null or a function");
         }
         subClass.prototype = Object.create(superClass && superClass.prototype, {
             constructor: {
@@ -1470,7 +1494,7 @@ module.exports = {
                 configurable: true
             }
         });
-        Object.defineProperty(subClass, \\"prototype\\", {
+        Object.defineProperty(subClass, "prototype", {
             writable: false
         });
         if (superClass) _setPrototypeOf(subClass, superClass);

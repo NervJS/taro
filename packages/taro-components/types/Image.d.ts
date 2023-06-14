@@ -60,6 +60,11 @@ interface ImageProps extends StandardProps {
    * @supported qq
    */
   ariaLabel?: string
+  /** 是否渐显
+   * @supported weapp
+   * @default false
+   */
+  fadeIn?: boolean
   /** 当错误发生时，发布到 AppService 的事件名，事件对象
    * @supported weapp, alipay, swan, tt, qq, jd, h5, rn
    */

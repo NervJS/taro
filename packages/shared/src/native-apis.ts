@@ -380,6 +380,15 @@ function equipCommonApis (taro, global, apis: Record<string, any> = {}) {
   taro.addInterceptor = link.addInterceptor.bind(link)
   taro.cleanInterceptors = link.cleanInterceptors.bind(link)
   taro.miniGlobal = taro.options.miniGlobal = global
+  taro.getAppInfo = function () {
+    return {
+      platform: process.env.TARO_PLATFORM || 'MiniProgram',
+      taroVersion: process.env.TARO_VERSION || 'unknown',
+      designWidth: taro.config.designWidth
+    }
+  }
+  taro.createSelectorQuery = delayRef(taro, global, 'createSelectorQuery', 'exec')
+  taro.createIntersectionObserver = delayRef(taro, global, 'createIntersectionObserver', 'observe')
 }
 
 /**
@@ -395,6 +404,17 @@ function equipTaskMethodsIntoPromise (task, promise) {
       promise[method] = task[method].bind(task)
     }
   })
+}
+
+function delayRef (taro, global, name: string, method: string) {
+  return function () {
+    const res = global[name]()
+    const raw = res[method].bind(res)
+    res[method] = function (...args) {
+      taro.nextTick(() => raw(...args))
+    }
+    return res
+  }
 }
 
 export {

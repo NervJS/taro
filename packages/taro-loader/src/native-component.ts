@@ -39,5 +39,6 @@ var component = require(${stringify(componentPath)}).default
 var config = ${configString};
 var inst = Component(createNativeComponentConfig(component, ${frameworkArgs}))
 ${options.prerender ? prerender : ''}
+export default component
 `
 }

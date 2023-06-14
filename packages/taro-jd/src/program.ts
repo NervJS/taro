@@ -14,7 +14,8 @@ export default class JD extends TaroPlatformBase {
     templ: '.jxml',
     style: '.jxss',
     config: '.json',
-    script: '.js'
+    script: '.js',
+    xs: '.jds'
   }
 
   template = new Template()

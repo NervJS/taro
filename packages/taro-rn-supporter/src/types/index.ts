@@ -23,7 +23,7 @@ interface Sass {
 export interface Config {
   projectName?: string
   date?: string
-  designWidth?: number | ((size: number) => number)
+  designWidth?: number | ((size?: string | number) => number)
   deviceRatio?: Record<string, number>
   sourceRoot?: string
   outputRoot?: string
