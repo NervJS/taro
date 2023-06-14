@@ -73,6 +73,7 @@
 /// <reference path="api/open-api/favorites.d.ts" />
 /// <reference path="api/open-api/license-plate.d.ts" />
 /// <reference path="api/open-api/channels.d.ts" />
+/// <reference path="api/open-api/device-voip.d.ts" />
 /// <reference path="api/open-api/group.d.ts" />
 /// <reference path="api/open-api/customer-service.d.ts" />
 /// <reference path="api/device/bluetooth.d.ts" />
