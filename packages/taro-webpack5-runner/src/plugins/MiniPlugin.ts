@@ -1,4 +1,5 @@
 import {
+  fs,
   isAliasPath,
   isEmptyObject,
   META_TYPE,
@@ -12,14 +13,13 @@ import {
   resolveMainFilePath,
   SCRIPT_EXT
 } from '@tarojs/helper'
-import fs from 'fs-extra'
 import { urlToRequest } from 'loader-utils'
 import path from 'path'
 import EntryDependency from 'webpack/lib/dependencies/EntryDependency'
 
 import TaroSingleEntryDependency from '../dependencies/TaroSingleEntryDependency'
 import { validatePrerenderPages } from '../prerender/prerender'
-import { componentConfig } from '../template/component'
+import { componentConfig } from '../utils/component'
 import TaroLoadChunksPlugin from './TaroLoadChunksPlugin'
 import TaroNormalModulesPlugin from './TaroNormalModulesPlugin'
 import TaroSingleEntryPlugin from './TaroSingleEntryPlugin'
@@ -60,12 +60,17 @@ interface ITaroMiniPluginOptions {
   onParseCreateElement?: Func
   blended: boolean
   alias: Record<string, string>
-  deviceRatio: any
-  designWidth: number
   loaderMeta?: Record<string, string>
   hot: boolean
   logger?: {
     quiet?: boolean
+  }
+  pxTransformConfig: {
+    baseFontSize: number
+    deviceRatio: any
+    designWidth: number
+    unitPrecision: number
+    targetUnit: string
   }
 }
 
@@ -226,7 +231,7 @@ export default class TaroMiniPlugin {
        * 往 NormalModule.loaders 中插入对应的 Taro Loader
        */
       compiler.webpack.NormalModule.getCompilationHooks(compilation).loader.tap(PLUGIN_NAME, (_loaderContext, module:/** TaroNormalModule */ any) => {
-        const { framework, loaderMeta, designWidth, deviceRatio } = this.options
+        const { framework, loaderMeta, pxTransformConfig } = this.options
         if (module.miniType === META_TYPE.ENTRY) {
           const loaderName = '@tarojs/taro-loader'
           if (!isLoaderExist(module.loaders, loaderName)) {
@@ -239,12 +244,7 @@ export default class TaroMiniPlugin {
                 config: this.appConfig,
                 runtimePath: this.options.runtimePath,
                 blended: this.options.blended,
-                pxTransformConfig: {
-                  designWidth: designWidth || 750,
-                  deviceRatio: deviceRatio || {
-                    750: 1
-                  }
-                }
+                pxTransformConfig
               }
             })
           }
@@ -843,7 +843,8 @@ export default class TaroMiniPlugin {
         item['selectedIconPath'] && this.tabBarIcons.add(item['selectedIconPath'])
       })
       if (tabBar.custom) {
-        const customTabBarPath = path.join(sourceDir, 'custom-tab-bar')
+        const isAlipay = process.env.TARO_ENV === 'alipay'
+        const customTabBarPath = path.join(sourceDir, isAlipay ? 'customize-tab-bar' : 'custom-tab-bar')
         const customTabBarComponentPath = resolveMainFilePath(customTabBarPath, [...frameworkExts, ...SCRIPT_EXT])
         if (fs.existsSync(customTabBarComponentPath)) {
           const customTabBarComponentTemplPath = this.getTemplatePath(customTabBarComponentPath)
@@ -852,7 +853,7 @@ export default class TaroMiniPlugin {
             printLog(processTypeEnum.COMPILE, '自定义 tabBar', this.getShowPath(customTabBarComponentPath))
           }
           const componentObj: IComponent = {
-            name: 'custom-tab-bar/index',
+            name: isAlipay ? 'customize-tab-bar/index' : 'custom-tab-bar/index',
             path: customTabBarComponentPath,
             isNative,
             stylePath: isNative ? this.getStylePath(customTabBarComponentPath) : undefined,
@@ -1150,24 +1151,31 @@ export default class TaroMiniPlugin {
    * 小程序全局样式文件中引入 common chunks 中的公共样式文件
    */
   injectCommonStyles ({ assets }: Compilation, { webpack }: Compiler) {
-    const { ConcatSource } = webpack.sources
+    const { ConcatSource, RawSource } = webpack.sources
     const styleExt = this.options.fileType.style
     const appStyle = `app${styleExt}`
     const REG_STYLE_EXT = new RegExp(`\\.(${styleExt.replace('.', '')})(\\?.*)?$`)
 
-    if (!assets[appStyle]) return
-
-    const originSource = assets[appStyle]
-    const source = new ConcatSource(originSource)
+    const originSource = assets[appStyle] || new RawSource('')
+    const commons = new ConcatSource('')
 
     Object.keys(assets).forEach(assetName => {
       const fileName = path.basename(assetName, path.extname(assetName))
       if ((REG_STYLE.test(assetName) || REG_STYLE_EXT.test(assetName)) && this.options.commonChunks.includes(fileName)) {
-        source.add('\n')
-        source.add(`@import ${JSON.stringify(urlToRequest(assetName))};`)
-        assets[appStyle] = source
+        commons.add('\n')
+        commons.add(`@import ${JSON.stringify(urlToRequest(assetName))};`)
       }
     })
+
+    if (commons.size() > 0) {
+      const APP_STYLE_NAME = 'app-origin' + styleExt
+      assets[APP_STYLE_NAME] = new ConcatSource(originSource)
+      const source = new ConcatSource('')
+      source.add(`@import ${JSON.stringify(urlToRequest(APP_STYLE_NAME))};`)
+      source.add(commons)
+      source.add('\n')
+      assets[appStyle] = source
+    }
   }
 
   addTarBarFilesToDependencies (compilation: Compilation) {

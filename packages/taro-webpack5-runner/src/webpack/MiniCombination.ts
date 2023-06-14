@@ -1,6 +1,6 @@
 import { taroJsComponents } from '@tarojs/helper'
 
-import { componentConfig } from '../template/component'
+import { componentConfig } from '../utils/component'
 import { BuildNativePlugin } from './BuildNativePlugin'
 import { Combination } from './Combination'
 import { MiniBaseConfig } from './MiniBaseConfig'
@@ -12,13 +12,13 @@ import type { IFileType, MiniBuildConfig } from '../utils/types'
 export class MiniCombination extends Combination<MiniBuildConfig> {
   buildNativePlugin: BuildNativePlugin
   fileType: IFileType
-  isBuildNativeComp = false
   isBuildPlugin = false
   optimizeMainPackage: { enable?: boolean | undefined, exclude?: any[] | undefined } = {
     enable: true
   }
 
   process (config: Partial<MiniBuildConfig>) {
+    super.process(config)
     const baseConfig = new MiniBaseConfig(this.appPath, config)
     const chain = this.chain = baseConfig.chain
     const {
@@ -34,7 +34,6 @@ export class MiniCombination extends Combination<MiniBuildConfig> {
         templ: '.wxml'
       },
       /** special mode */
-      isBuildNativeComp = false,
       isBuildPlugin = false,
       /** hooks */
       modifyComponentConfig,
@@ -44,10 +43,6 @@ export class MiniCombination extends Combination<MiniBuildConfig> {
     this.fileType = fileType
 
     modifyComponentConfig?.(componentConfig, config)
-
-    if (isBuildNativeComp) {
-      this.isBuildNativeComp = true
-    }
 
     if (isBuildPlugin) {
       // 编译目标 - 小程序原生插件
@@ -69,6 +64,11 @@ export class MiniCombination extends Combination<MiniBuildConfig> {
     const webpackPlugin = new MiniWebpackPlugin(this)
     const webpackModule = new MiniWebpackModule(this)
 
+    const module = webpackModule.getModules()
+    const [, pxtransformOption] = webpackModule.__postcssOption.find(([name]) => name === 'postcss-pxtransform') || []
+    webpackPlugin.pxtransformOption = pxtransformOption as any
+    const plugin = webpackPlugin.getPlugins()
+
     chain.merge({
       entry: webpackEntry,
       output: webpackOutput,
@@ -77,8 +77,8 @@ export class MiniCombination extends Combination<MiniBuildConfig> {
       resolve: {
         alias: this.getAlias()
       },
-      plugin: webpackPlugin.getPlugins(),
-      module: webpackModule.getModules(),
+      plugin,
+      module,
       optimization: this.getOptimization()
     })
   }

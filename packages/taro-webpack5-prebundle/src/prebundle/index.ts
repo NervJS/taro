@@ -1,5 +1,5 @@
 import { chalk, fs, readConfig, recursiveMerge, REG_SCRIPTS, resolveMainFilePath, terminalLink } from '@tarojs/helper'
-import { Message } from 'esbuild'
+import { PLATFORM_TYPE } from '@tarojs/shared'
 import path from 'path'
 import { performance } from 'perf_hooks'
 import webpack from 'webpack'
@@ -10,7 +10,7 @@ import TaroModuleFederationPlugin from '../webpack/TaroModuleFederationPlugin'
 import { bundle } from './bundle'
 import { scanImports } from './scanImports'
 
-import type { Config } from '@swc/core'
+import type { esbuild, swc } from '@tarojs/helper'
 import type { IProjectBaseConfig } from '@tarojs/taro/types/compile'
 import type { Configuration, EntryObject, RuleSetRule } from 'webpack'
 import type Chain from 'webpack-chain'
@@ -26,7 +26,9 @@ export interface IPrebundleConfig {
   entryFileName?: string
   env: string
   isWatch?: boolean
+  platformType: PLATFORM_TYPE
   sourceRoot: string
+  isBuildPlugin?: boolean
 }
 
 type TMode = 'production' | 'development' | 'none'
@@ -37,9 +39,10 @@ export default class BasePrebundle<T extends IPrebundleConfig = IPrebundleConfig
   cacheDir: string
   chain: Chain
   customEsbuildConfig: IPrebundle['esbuild']
-  customSwcConfig?: Config
+  customSwcConfig?: swc.Config
   env: string
   mode: TMode
+  platformType: PLATFORM_TYPE
   prebundleCacheDir: string
   remoteCacheDir: string
   metadataPath: string
@@ -54,7 +57,7 @@ export default class BasePrebundle<T extends IPrebundleConfig = IPrebundleConfig
   constructor (protected config: T, protected option: IPrebundle) {
     if (!option.enable) return
 
-    const { appPath, env, chain, sourceRoot, isWatch } = this.config
+    const { appPath, env, chain, platformType, sourceRoot, isWatch } = this.config
     const { cacheDir = getCacheDir(appPath, env), esbuild = {}, force, swc } = this.option
 
     this.chain = chain
@@ -64,6 +67,7 @@ export default class BasePrebundle<T extends IPrebundleConfig = IPrebundleConfig
     this.customEsbuildConfig = esbuild
     this.customSwcConfig = swc
     this.env = env
+    this.platformType = platformType
     this.mode = ['production', 'development', 'none'].find(e => e === env) as TMode
       || (!isWatch || process.env.NODE_ENV === 'production' ? 'production' : 'development')
     this.prebundleCacheDir = path.resolve(cacheDir, './prebundle')
@@ -187,7 +191,7 @@ export default class BasePrebundle<T extends IPrebundleConfig = IPrebundleConfig
     this.measure('Prebundle duration', PREBUNDLE_START)
   }
 
-  handleBundleError (errors: Message[] = []) {
+  handleBundleError (errors: esbuild.Message[] = []) {
     const keys = Array.from(this.deps.keys())
     if (errors.length > 0) {
       const deps = errors.reduce((p, e) => {
@@ -225,6 +229,8 @@ export default class BasePrebundle<T extends IPrebundleConfig = IPrebundleConfig
       {
         deps: this.deps,
         env: this.env,
+        isBuildPlugin: this.config.isBuildPlugin,
+        platformType: this.platformType,
         remoteAssets: this.metadata.remoteAssets,
         runtimeRequirements: this.metadata.runtimeRequirements || new Set()
       }])

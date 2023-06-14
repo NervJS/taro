@@ -11,10 +11,10 @@ import {
 import { cloneDeep } from 'lodash'
 import path from 'path'
 
-import { getPostcssPlugins } from '../postcss/postcss.mini'
+import { getDefaultPostcssConfig, getPostcssPlugins } from '../postcss/postcss.mini'
 import { WebpackModule } from './WebpackModule'
 
-import type { IPostcssOption, PostcssOption } from '@tarojs/taro/types/compile'
+import type { Func, PostcssOption } from '@tarojs/taro/types/compile'
 import type { MiniCombination } from './MiniCombination'
 import type { CssModuleOptionConfig, IRule } from './WebpackModule'
 
@@ -27,23 +27,35 @@ type CSSLoaders = {
 
 export class MiniWebpackModule {
   combination: MiniCombination
+  __postcssOption: [string, any, Func?][]
 
   constructor (combination: MiniCombination) {
     this.combination = combination
   }
 
   getModules () {
-    const { config, sourceRoot, fileType } = this.combination
+    const { appPath, config, sourceRoot, fileType } = this.combination
     const {
       buildAdapter,
       sassLoaderOption,
       lessLoaderOption,
-      stylusLoaderOption
+      stylusLoaderOption,
+      designWidth,
+      deviceRatio
     } = config
 
     const { postcssOption, postcssUrlOption, cssModuleOption } = this.parsePostCSSOptions()
 
-    const cssLoaders = this.getCSSLoaders(postcssOption, cssModuleOption)
+    this.__postcssOption = getDefaultPostcssConfig({
+      designWidth,
+      deviceRatio,
+      postcssOption,
+      alias: config.alias,
+    })
+
+    const postcssPlugins = getPostcssPlugins(appPath, this.__postcssOption)
+
+    const cssLoaders = this.getCSSLoaders(postcssPlugins, cssModuleOption)
     const resolveUrlLoader = WebpackModule.getResolveUrlLoader()
     const sassLoader = WebpackModule.getSassLoader(sassLoaderOption)
     const scssLoader = WebpackModule.getScssLoader(sassLoaderOption)
@@ -118,22 +130,16 @@ export class MiniWebpackModule {
     return cssLoadersCopy
   }
 
-  getCSSLoaders (postcssOption: IPostcssOption, cssModuleOption: PostcssOption.cssModules) {
-    const { appPath, config } = this.combination
+  getCSSLoaders (postcssPlugins: any[], cssModuleOption: PostcssOption.cssModules) {
+    const { config } = this.combination
     const {
-      designWidth = 750,
-      deviceRatio,
       cssLoaderOption
     } = config
     const extractCSSLoader = WebpackModule.getExtractCSSLoader()
     const cssLoader = WebpackModule.getCSSLoader(cssLoaderOption)
     const postCSSLoader = WebpackModule.getPostCSSLoader({
       postcssOptions: {
-        plugins: getPostcssPlugins(appPath, {
-          designWidth,
-          deviceRatio,
-          postcssOption
-        })
+        plugins: postcssPlugins
       }
     })
 

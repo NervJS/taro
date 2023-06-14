@@ -4,7 +4,7 @@
  * Author Tobias Koppers @sokra and Zackary Jackson @ScriptedAlchemy
  */
 import { META_TYPE } from '@tarojs/helper'
-import { RuntimeGlobals } from 'webpack'
+import path from 'path'
 import ContainerReferencePlugin from 'webpack/lib/container/ContainerReferencePlugin'
 import RemoteModule from 'webpack/lib/container/RemoteModule'
 
@@ -12,7 +12,8 @@ import { addRequireToSource, getChunkEntryModule, getChunkIdOrName } from '../ut
 import { CollectedDeps, MF_NAME } from '../utils/constant'
 import TaroRemoteRuntimeModule from './TaroRemoteRuntimeModule'
 
-import type { Compiler, NormalModule, sources } from 'webpack'
+import type { PLATFORM_TYPE } from '@tarojs/shared'
+import type { Compiler, Module, NormalModule, sources } from 'webpack'
 import type { ContainerReferencePluginOptions, RemotesConfig } from 'webpack/types'
 
 const ExternalsPlugin = require('webpack/lib/ExternalsPlugin')
@@ -29,6 +30,8 @@ type MFOptions = Partial<ContainerReferencePluginOptions>
 interface IParams {
   deps: CollectedDeps
   env: string
+  isBuildPlugin?: boolean
+  platformType: PLATFORM_TYPE
   remoteAssets?: Record<'name', string>[]
   runtimeRequirements: Set<string>
 }
@@ -38,6 +41,7 @@ export default class TaroContainerReferencePlugin extends ContainerReferencePlug
   private remoteAssets: Exclude<IParams['remoteAssets'], undefined>
   private remoteName: string
   private remoteConfig: RemotesConfig
+  private isBuildPlugin: IParams['isBuildPlugin']
   private runtimeRequirements: IParams['runtimeRequirements']
 
   protected _remoteType?: ContainerReferencePluginOptions['remoteType']
@@ -49,6 +53,7 @@ export default class TaroContainerReferencePlugin extends ContainerReferencePlug
     const remoteName = Object.keys(remotes)[0] || MF_NAME
     const [, remoteConfig] = this._remotes.find(([key, config]) => key === remoteName && config) || [this.remoteName, { external: [], shareScope: 'default' }]
     this.deps = params.deps
+    this.isBuildPlugin = params.isBuildPlugin || false
     this.remoteAssets = params.remoteAssets || []
     this.remoteName = remoteName
     this.remoteConfig = remoteConfig
@@ -56,8 +61,8 @@ export default class TaroContainerReferencePlugin extends ContainerReferencePlug
   }
 
   apply (compiler: Compiler) {
-    switch (this.params.env) {
-      case 'h5':
+    switch (this.params.platformType) {
+      case 'web':
         this.applyWebApp(compiler)
         break
       default:
@@ -123,22 +128,25 @@ export default class TaroContainerReferencePlugin extends ContainerReferencePlug
             }
           }
         }
+        // Note: webpack 5.78.0 类型禁用了返回 void 的情况，但实际在 webpack 中仍使用同样方法返回 void
+        // https://github.com/webpack/webpack/blob/main/lib/container/ContainerReferencePlugin.js#L99
+        return undefined as unknown as Module
       })
 
+      const { RuntimeGlobals } = compiler.webpack
       /** 修改 webpack runtime */
-      compilation.hooks.additionalTreeRuntimeRequirements.tap(
-        PLUGIN_NAME,
-        (chunk, set) => {
-          set.add(RuntimeGlobals.module)
-          set.add(RuntimeGlobals.moduleFactoriesAddOnly)
+      compilation.hooks.runtimeRequirementInTree
+        .for(RuntimeGlobals.ensureChunkHandlers)
+        .tap(PLUGIN_NAME, (chunk, set) => {
           set.add(RuntimeGlobals.hasOwnProperty)
           set.add(RuntimeGlobals.initializeSharing)
+          set.add(RuntimeGlobals.module)
+          set.add(RuntimeGlobals.moduleFactoriesAddOnly)
           set.add(RuntimeGlobals.shareScopeMap)
           // 收集 Remote runtime 使用到的工具函数
           this.runtimeRequirements.forEach(item => set.add(item))
-          compilation.addRuntimeModule(chunk, new TaroRemoteRuntimeModule(this.params.env))
-        }
-      )
+          compilation.addRuntimeModule(chunk, new TaroRemoteRuntimeModule(this.params.platformType))
+        })
     })
   }
 
@@ -170,6 +178,9 @@ export default class TaroContainerReferencePlugin extends ContainerReferencePlug
                 }
               }
             }
+            // Note: webpack 5.78.0 类型禁用了返回 void 的情况，但实际在 webpack 中仍使用同样方法返回 void
+            // https://github.com/webpack/webpack/blob/main/lib/container/ContainerReferencePlugin.js#L99
+            return undefined as unknown as Module
           }
         )
 
@@ -179,7 +190,7 @@ export default class TaroContainerReferencePlugin extends ContainerReferencePlug
           (chunk, set) => {
             // 收集 Remote runtime 使用到的工具函数
             this.runtimeRequirements.forEach(item => set.add(item))
-            compilation.addRuntimeModule(chunk, new TaroRemoteRuntimeModule(this.params.env))
+            compilation.addRuntimeModule(chunk, new TaroRemoteRuntimeModule(this.params.platformType))
           }
         )
 
@@ -193,6 +204,18 @@ export default class TaroContainerReferencePlugin extends ContainerReferencePlug
           (modules: sources.ConcatSource, { chunk }) => {
             const chunkEntryModule = getChunkEntryModule(compilation, chunk) as any
             if (chunkEntryModule) {
+              if (this.isBuildPlugin) {
+                let id = getChunkIdOrName(chunk)
+                const idList = id.split(path.sep)
+
+                if (idList.length > 1) {
+                  idList.splice(0, 1)
+                  id = idList.join(path.sep)
+                }
+
+                return addRequireToSource(id, modules, this.remoteAssets)
+              }
+
               const entryModule = chunkEntryModule.rootModule ?? chunkEntryModule
               if (entryModule.miniType === META_TYPE.ENTRY) {
                 return addRequireToSource(getChunkIdOrName(chunk), modules, this.remoteAssets)

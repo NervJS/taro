@@ -1,5 +1,5 @@
 import TaroSingleEntryDependency from '../dependencies/TaroSingleEntryDependency'
-import { componentConfig } from '../template/component'
+import { componentConfig } from '../utils/component'
 import TaroNormalModule from './TaroNormalModule'
 
 import type { Func } from '@tarojs/taro/types/compile'
@@ -8,6 +8,19 @@ import type { Compiler } from 'webpack'
 const walk = require('acorn-walk')
 
 const PLUGIN_NAME = 'TaroNormalModulesPlugin'
+
+function isRenderNode (node, ancestors): boolean {
+  let renderFn
+  const hasRenderMethod = ancestors.some((ancestor) => {
+    if (ancestor.type === 'FunctionExpression' && ancestor?.id?.name === 'render') {
+      renderFn = ancestor.params[0]?.name
+      return true
+    } else {
+      return false
+    }
+  })
+  return hasRenderMethod && node.callee.name === renderFn
+}
 
 export default class TaroNormalModulesPlugin {
   onParseCreateElement: Func | undefined
@@ -31,8 +44,8 @@ export default class TaroNormalModulesPlugin {
       // react 的第三方组件支持
       normalModuleFactory.hooks.parser.for('javascript/auto').tap(PLUGIN_NAME, (parser) => {
         parser.hooks.program.tap(PLUGIN_NAME, (ast) => {
-          walk.simple(ast, {
-            CallExpression: node => {
+          walk.ancestor(ast, {
+            CallExpression: (node, ancestors) => {
               const callee = node.callee
               if (callee.type === 'MemberExpression') {
                 if (callee.property.name !== 'createElement') {
@@ -48,7 +61,8 @@ export default class TaroNormalModulesPlugin {
                   !(nameOfCallee && nameOfCallee.includes('createBlock')) &&
                   !(nameOfCallee && nameOfCallee.includes('createElementVNode')) &&
                   !(nameOfCallee && nameOfCallee.includes('createElementBlock')) &&
-                  !(nameOfCallee && nameOfCallee.includes('resolveComponent')) // 收集使用解析函数的组件名称
+                  !(nameOfCallee && nameOfCallee.includes('resolveComponent')) && // 收集使用解析函数的组件名称
+                  !isRenderNode(node, ancestors)
                   // TODO: 兼容 vue 2.0 渲染函数及 JSX，函数名 h 与 _c 在压缩后太常见，需要做更多限制后才能兼容
                   // nameOfCallee !== 'h' && nameOfCallee !== '_c'
                 ) {
@@ -76,7 +90,7 @@ export default class TaroNormalModulesPlugin {
               prop.properties
                 .filter(p => p.type === 'Property' && p.key.type === 'Identifier' && p.key.name !== 'children' && p.key.name !== 'id')
                 .forEach(p => attrs.add(p.key.name))
-            }
+            },
           })
         })
       })

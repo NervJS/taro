@@ -1,6 +1,5 @@
 /* eslint-disable dot-notation */
 import {
-  AppInstance,
   createPageConfig,
   eventCenter, hooks,
   incrementId,
@@ -11,6 +10,7 @@ import { setTitle } from '../utils/navigate'
 import { RouterConfig } from '.'
 import MultiPageHandler from './multi-page'
 
+import type { AppInstance } from '@tarojs/runtime'
 import type { MpaRouterConfig } from '../../types/router'
 
 const createStampId = incrementId()
@@ -29,6 +29,9 @@ export async function createMultiRouter (
   config: MpaRouterConfig,
   framework?: string
 ) {
+  if (typeof app.onUnhandledRejection === 'function') {
+    window.addEventListener('unhandledrejection', app.onUnhandledRejection)
+  }
   RouterConfig.config = config
   const handler = new MultiPageHandler(config)
   const launchParam: Taro.getLaunchOptionsSync.LaunchOptions = {
@@ -75,7 +78,7 @@ export async function createMultiRouter (
   delete loadConfig['path']
   delete loadConfig['load']
   const page = createPageConfig(
-    enablePullDownRefresh ? hooks.call('createPullDownComponent', el, location.pathname, framework, config.PullDownRefresh) : el,
+    enablePullDownRefresh ? hooks.call('createPullDownComponent', el, pathName, framework, handler.PullDownRefresh) : el,
     pathName + stringify(launchParam as Record<string, any>),
     {},
     loadConfig

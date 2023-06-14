@@ -202,7 +202,7 @@ type ITaroHooks = {
   /** 用于修改传递给小程序 Page 构造器的对象 */
   modifyPageObject: (config: Record<any, any>) => void
   /** H5 下拉刷新 wrapper */
-  createPullDownComponent: (el, path: string, framework, customWrapper?: any) => void
+  createPullDownComponent: (el, path: string, framework, customWrapper?: any, stampId?: string) => void
   /** H5 获取原生 DOM 对象 */
   getDOMNode: (instance) => any
   /**
@@ -231,9 +231,16 @@ type ITaroHooks = {
   /** 用于修改 Taro DOM 事件对象 */
   modifyTaroEvent: (event, element) => void
 
+  dispatchTaroEvent: (event, element) => void
+  dispatchTaroEventFinish: (event, element) => void
+
   modifyDispatchEvent: (event, element) => void
+  injectNewStyleProperties: (styleProperties: string[]) => void
   initNativeApi: (taro: Record<string, any>) => void
   patchElement: (node) => void
+
+  /** 解 Proxy */
+  proxyToRaw: (proxyObj) => Record<any, any>
 }
 
 export const hooks = new TaroHooks<ITaroHooks>({
@@ -294,6 +301,10 @@ export const hooks = new TaroHooks<ITaroHooks>({
 
   onAddEvent: TaroHook(HOOK_TYPE.SINGLE),
 
+  proxyToRaw: TaroHook(HOOK_TYPE.SINGLE, function (proxyObj) {
+    return proxyObj
+  }),
+
   modifyMpEvent: TaroHook(HOOK_TYPE.MULTI),
 
   modifyMpEventImpl: TaroHook(HOOK_TYPE.SINGLE, function (this: TaroHooks<ITaroHooks>, e: MpEvent) {
@@ -305,7 +316,15 @@ export const hooks = new TaroHooks<ITaroHooks>({
     }
   }),
 
+  injectNewStyleProperties: TaroHook(HOOK_TYPE.SINGLE),
+
   modifyTaroEvent: TaroHook(HOOK_TYPE.MULTI),
+
+  dispatchTaroEvent: TaroHook(HOOK_TYPE.SINGLE, (e, node) => {
+    node.dispatchEvent(e)
+  }),
+
+  dispatchTaroEventFinish: TaroHook(HOOK_TYPE.MULTI),
 
   modifyDispatchEvent: TaroHook(HOOK_TYPE.MULTI),
 

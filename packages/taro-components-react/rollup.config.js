@@ -10,7 +10,8 @@ export default {
   input: 'src/index.ts',
   plugins: [
     externals({
-      devDeps: true,
+      deps: true,
+      devDeps: false,
       include: [/^react$/]
     }),
     resolve({

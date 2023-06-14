@@ -6,7 +6,10 @@ const cwd = __dirname
 
 const base = {
   plugins: [
-    externals({ devDeps: true }),
+    externals({
+      deps: true,
+      devDeps: false,
+    }),
     ts(),
   ]
 }

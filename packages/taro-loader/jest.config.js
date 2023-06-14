@@ -1,33 +1,24 @@
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const { jsWithTs: tsjPreset } = require('ts-jest/presets')
-
 module.exports = {
+  collectCoverage: false,
+  moduleFileExtensions: ['js', 'jsx', 'ts', 'tsx', 'json', 'node'],
+  preset: 'ts-jest',
   testEnvironment: 'node',
-  transform: {
-    ...tsjPreset.transform
+  testEnvironmentOptions: {
+    url: 'http://localhost/'
   },
-  testURL: 'http://localhost/',
-  moduleFileExtensions: [
-    'ts',
-    'tsx',
-    'js',
-    'jsx',
-    'json',
-    'node'
-  ],
-  globals: {
-    'ts-jest': {
-      diagnostics: false,
-      tsconfig: {
-        jsx: 'react',
-        allowJs: true,
-        target: 'ES6'
-      }
-    }
-  },
+  testMatch: ['**/__tests__/?(*.)+(spec|test).[jt]s?(x)'],
   testPathIgnorePatterns: [
     'node_modules',
     'utils'
   ],
-  testMatch: ['**/__tests__/?(*.)+(spec|test).[jt]s?(x)']
+  transform: {
+    '^.+\\.m?[tj]sx?$': ['ts-jest', {
+      diagnostics: false,
+      tsconfig: {
+        jsx: 'react',
+        allowJs: true
+      }
+    }],
+  },
+  transformIgnorePatterns: ['node_modules']
 }

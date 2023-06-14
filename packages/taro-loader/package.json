@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/taro-loader",
-  "version": "3.6.2",
+  "version": "3.6.8",
   "description": "Taro runner use webpack loader",
   "author": "yuche <i@yuche.me>",
   "homepage": "https://github.com/nervjs/taro/tree/master/packages/taro-loader#readme",
@@ -18,9 +18,9 @@
     "url": "git+https://github.com/NervJS/taro.git"
   },
   "scripts": {
-    "test": "jest --collectCoverage",
     "build": "tsc",
-    "dev": "tsc -w"
+    "dev": "tsc -w",
+    "test": "jest"
   },
   "bugs": {
     "url": "https://github.com/NervJS/taro/issues"
@@ -30,10 +30,12 @@
     "@tarojs/taro": "workspace:*",
     "loader-utils": "^1.2.3"
   },
-  "publishConfig": {
-    "access": "public"
-  },
   "devDependencies": {
-    "webpack": "5.69.0"
+    "jest": "^29.3.1",
+    "jest-cli": "^29.3.1",
+    "jest-environment-node": "^29.5.0",
+    "ts-jest": "^29.0.5",
+    "typescript": "^4.7.4",
+    "webpack": "5.78.0"
   }
 }

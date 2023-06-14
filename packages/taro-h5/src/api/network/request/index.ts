@@ -1,4 +1,5 @@
 import 'whatwg-fetch'
+import 'abortcontroller-polyfill/dist/abortcontroller-polyfill-only'
 
 import Taro from '@tarojs/api'
 import { isFunction } from '@tarojs/shared'
@@ -9,7 +10,7 @@ import { serializeParams } from '../../../utils'
 // @ts-ignore
 const { Link } = Taro
 
-function generateRequestUrlWithParams (url: string, params?: unknown) {
+function generateRequestUrlWithParams (url = '', params?: unknown) {
   params = typeof params === 'string' ? params : serializeParams(params)
   if (params) {
     url += (~url.indexOf('?') ? '&' : '?') + params
@@ -18,26 +19,21 @@ function generateRequestUrlWithParams (url: string, params?: unknown) {
   return url
 }
 
-// FIXME 移除 any 标注
-function _request (options) {
-  options = options || {}
-  if (typeof options === 'string') {
-    options = {
-      url: options
-    }
-  }
+function _request (options: Partial<Taro.request.Option> = {}) {
   const { success, complete, fail } = options
-  let url = options.url
-  const params: any = {}
+  let url = options.url || ''
+  const params: RequestInit = {}
   const res: any = {}
   if (options.jsonp) {
-    Object.assign(params, options)
-    params.params = options.data
-    params.cache = options.jsonpCache
-    if (typeof options.jsonp === 'string') {
-      params.name = options.jsonp
+    const { jsonp, ...opts } = options
+    Object.assign(params, opts)
+    // @ts-ignore
+    params.params = opts.data
+    params.cache = opts.jsonpCache
+    if (typeof jsonp === 'string') {
+      // @ts-ignore
+      params.name = jsonp
     }
-    delete params.jsonp
     return jsonpRetry(url, params)
       .then(data => {
         res.statusCode = 200
@@ -57,7 +53,7 @@ function _request (options) {
   params.cache = options.cache || 'default'
   if (methodUpper === 'GET' || methodUpper === 'HEAD') {
     url = generateRequestUrlWithParams(url, options.data)
-  } else if (Object.prototype.toString.call(options.data) === '[object Object]') {
+  } else if (['[object Array]', '[object Object]'].indexOf(Object.prototype.toString.call(options.data)) >= 0) {
     options.header = options.header || {}
 
     const keyOfContentType = Object.keys(options.header).find(item => item.toLowerCase() === 'content-type')
@@ -82,12 +78,23 @@ function _request (options) {
   if (options.mode) {
     params.mode = options.mode
   }
+  let timeoutTimer: ReturnType<typeof setTimeout> | null = null
   if (options.signal) {
     params.signal = options.signal
+  } else if (typeof options.timeout === 'number') {
+    const controller = new window.AbortController()
+    params.signal = controller.signal
+    timeoutTimer = setTimeout(function () {
+      controller.abort()
+    }, options.timeout)
   }
   params.credentials = options.credentials
   return fetch(url, params)
     .then(response => {
+      if (timeoutTimer) {
+        clearTimeout(timeoutTimer)
+        timeoutTimer = null
+      }
       if (!response) {
         const errorResponse = { ok: false }
         throw errorResponse
@@ -119,6 +126,10 @@ function _request (options) {
       return res
     })
     .catch(err => {
+      if (timeoutTimer) {
+        clearTimeout(timeoutTimer)
+        timeoutTimer = null
+      }
       isFunction(fail) && fail(err)
       isFunction(complete) && complete(res)
       err.statusCode = res.statusCode
@@ -133,5 +144,14 @@ function taroInterceptor (chain) {
 
 const link = new Link(taroInterceptor)
 
-export const request: typeof Taro.request = link.request.bind(link)
+export const request = (<T extends Partial<Taro.request.Option> = TaroGeneral.IAnyObject>(...args: [string | T, T]) => {
+  const [url = '', options = {} as T] = args
+  if (typeof url === 'string') {
+    options.url = url
+  } else {
+    Object.assign(options, url)
+  }
+  return link.request(options)
+}) as typeof Taro.request
 export const addInterceptor = link.addInterceptor.bind(link)
+export const cleanInterceptors = link.cleanInterceptors.bind(link)

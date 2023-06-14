@@ -1,7 +1,10 @@
-import { TaroElement } from '@tarojs/runtime'
+import { hooks, TaroElement, TaroEvent } from '@tarojs/runtime'
 import { ReactNode } from 'react'
 import { OpaqueRoot } from 'react-reconciler'
 
+import { markContainerAsRoot } from './componentTree'
+import { getEventPriority } from './constant'
+import { enqueueStateRestore, getTargetInstForInputOrChangeEvent, RestoreType } from './event'
 import { TaroReconciler } from './reconciler'
 
 export const ContainerMap: WeakMap<TaroElement, Root> = new WeakMap()
@@ -20,7 +23,7 @@ export type Callback = () => void | null | undefined
 
 class Root {
   private renderer: Renderer
-  private internalRoot: OpaqueRoot
+  public internalRoot: OpaqueRoot
 
   public constructor (renderer: Renderer, domContainer: TaroElement, options?: CreateRootOptions) {
     this.renderer = renderer
@@ -106,5 +109,29 @@ export function createRoot (domContainer: TaroElement, options: CreateRootOption
   // options should be an object
   const root = new Root(TaroReconciler, domContainer, options)
   ContainerMap.set(domContainer, root)
+
+  markContainerAsRoot(root?.internalRoot?.current, domContainer)
+
+  hooks.tap('dispatchTaroEvent', (e: TaroEvent, node: TaroElement) => {
+    const eventPriority = getEventPriority(e.type)
+
+    TaroReconciler.runWithPriority(eventPriority, () => {
+      node.dispatchEvent(e)
+    })
+  })
+
+  // 对比 event.detail.value 和 node.tracker.value，判断 value 值是否有变动，存在变动则塞入队列中
+  hooks.tap('modifyTaroEvent', (e: TaroEvent, node: TaroElement) => {
+    const inst = getTargetInstForInputOrChangeEvent(e, node)
+
+    if (!inst) return
+
+    // 这里塞入的是 event.detail.value，也就是事件的值，在受控组件中，你可以理解为需要被变更的值
+    // 后续会在 finishEventHandler 中，使用最新的 fiber.props.value 来与其比较
+    // 如果不一致，则表示需要更新，会执行 node.value = fiber.props.value 的更新操作
+    const nextValue = e.mpEvent?.detail?.value as unknown as RestoreType
+    enqueueStateRestore({ target: node, value: nextValue })
+  })
+
   return root
 }
