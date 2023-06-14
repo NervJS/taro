@@ -1,6 +1,8 @@
-const path = require('path')
+import * as path from 'path'
 
-module.exports = {
+import type { Config } from 'jest'
+
+const config: Config = {
   collectCoverage: false,
   globals: {
     window: true,
@@ -20,6 +22,7 @@ module.exports = {
     '@tarojs/plugin-framework-react/dist/runtime': '<rootDir>/__mocks__/taro-framework',
     '@tarojs/plugin-framework-vue2/dist/runtime': '<rootDir>/__mocks__/taro-framework',
     '@tarojs/plugin-framework-vue3/dist/runtime': '<rootDir>/__mocks__/taro-framework',
+    // @ts-ignore
     '(^.+\\.(css|sass|scss|less|styl|stylus|pcss|postcss)$)|weui': ['jest-transform-css', {
       module: true
     }],
@@ -51,3 +54,5 @@ module.exports = {
   },
   transformIgnorePatterns: ['<rootDir>/node_modules/']
 }
+
+export default config

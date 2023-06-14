@@ -5,10 +5,10 @@ import { temporarilyNotSupport } from '../../utils'
 import { MethodHandler } from '../../utils/handler'
 
 /** 跳转系统蓝牙设置页 */
-export const openSystemBluetoothSetting = temporarilyNotSupport('openSystemBluetoothSetting')
+export const openSystemBluetoothSetting = /* @__PURE__ */ temporarilyNotSupport('openSystemBluetoothSetting')
 
 /** 跳转系统微信授权管理页 */
-export const openAppAuthorizeSetting = temporarilyNotSupport('openAppAuthorizeSetting')
+export const openAppAuthorizeSetting = /* @__PURE__ */ temporarilyNotSupport('openAppAuthorizeSetting')
 
 /** 获取窗口信息 */
 export const getWindowInfo: typeof Taro.getWindowInfo = () => {

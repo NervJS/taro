@@ -1,4 +1,4 @@
-import { Events, parseUrl, window } from '@tarojs/runtime'
+import { createEvent, Events, parseUrl, TaroEvent, window } from '@tarojs/runtime'
 import { isFunction, isString } from '@tarojs/shared'
 import { request } from '@tarojs/taro'
 
@@ -51,6 +51,42 @@ const STATUS_TEXT_MAP = {
   504: 'Gateway Timeout',
   505: 'HTTP Version Not Supported',
 }
+
+export interface XMLHttpRequestEvent extends TaroEvent {
+  target: XMLHttpRequest
+  currentTarget: XMLHttpRequest
+  loaded: number
+  total: number
+}
+
+function createXMLHttpRequestEvent (event: string, target:XMLHttpRequest, loaded: number): XMLHttpRequestEvent {
+  const e = createEvent(event) as XMLHttpRequestEvent
+  try {
+    Object.defineProperties(e, {
+      'currentTarget': {
+        enumerable: true,
+        value: target
+      },
+      'target': {
+        enumerable: true,
+        value: target
+      },
+      'loaded': {
+        enumerable: true,
+        value: loaded || 0
+      },
+      // 读 Content-Range 字段，目前来说作用不大,先和 loaded 保持一致
+      'total': {
+        enumerable: true,
+        value: loaded || 0
+      }
+    })
+  } catch (err) {
+    // no handler
+  } 
+  return e
+}
+
 // https://developer.mozilla.org/zh-CN/docs/Web/API/XMLHttpRequest
 export class XMLHttpRequest extends Events {
   static readonly UNSENT = 0
@@ -85,25 +121,25 @@ export class XMLHttpRequest extends Events {
   // 事件
 
   /** 当 request 被停止时触发，例如当程序调用 XMLHttpRequest.abort() 时 */
-  onabort: (() => void) | null = null
+  onabort: ((e: XMLHttpRequestEvent) => void) | null = null
 
   /** 当 request 遭遇错误时触发 */
-  onerror: ((err: any) => void) | null = null
+  onerror: ((e: XMLHttpRequestEvent) => void) | null = null
 
   /** 接收到响应数据时触发 */
-  onloadstart: (() => void) | null = null
+  onloadstart: ((e: XMLHttpRequestEvent) => void) | null = null
 
   /** 请求成功完成时触发 */
-  onload: (() => void) | null = null
+  onload: ((e: XMLHttpRequestEvent) => void) | null = null
 
   /** 当请求结束时触发，无论请求成功 ( load) 还是失败 (abort 或 error)。 */
-  onloadend: (() => void) | null = null
+  onloadend: ((e: XMLHttpRequestEvent) => void) | null = null
 
   /** 在预设时间内没有接收到响应时触发 */
-  ontimeout: (() => void) | null = null
+  ontimeout: ((e: XMLHttpRequestEvent) => void) | null = null
 
   /** 当 readyState 属性发生变化时，调用的事件处理器 */
-  onreadystatechange: (() => void) | null = null
+  onreadystatechange: ((e: XMLHttpRequestEvent) => void) | null = null
 
   constructor () {
     super()
@@ -145,8 +181,9 @@ export class XMLHttpRequest extends Events {
     this.#readyState = readyState
 
     if (hasChange) {
-      this.trigger('readystatechange')
-      isFunction(this.onreadystatechange) && this.onreadystatechange()
+      const readystatechangeEvent = createXMLHttpRequestEvent('readystatechange', this, 0)
+      this.trigger('readystatechange', readystatechangeEvent)
+      isFunction(this.onreadystatechange) && this.onreadystatechange(readystatechangeEvent)
     }
   }
 
@@ -165,8 +202,9 @@ export class XMLHttpRequest extends Events {
           // 超时
           if (this.#requestTask) this.#requestTask.abort()
           this.#callReadyStateChange(XMLHttpRequest.DONE)
-          this.trigger('timeout')
-          isFunction(this.ontimeout) && this.ontimeout()
+          const timeoutEvent = createXMLHttpRequestEvent('timeout', this, 0)
+          this.trigger('timeout', timeoutEvent)
+          isFunction(this.ontimeout) && this.ontimeout(timeoutEvent)
         }
       }, this.#timeout)
     }
@@ -184,7 +222,8 @@ export class XMLHttpRequest extends Events {
 
     // 头信息
     const header = Object.assign({}, this.#header)
-    header.cookie = window.document.cookie
+    // https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Cookies
+    header.cookie = window.document.$$cookie
     if (!this.withCredentials) {
       // 不同源，要求 withCredentials 为 true 才携带 cookie
       const { origin } = parseUrl(url)
@@ -255,11 +294,14 @@ export class XMLHttpRequest extends Events {
     // 处理返回数据
     if (data) {
       this.#callReadyStateChange(XMLHttpRequest.LOADING)
-      this.trigger('loadstart')
-      isFunction(this.onloadstart) && this.onloadstart()
+      const loadstartEvent = createXMLHttpRequestEvent('loadstart', this, header['Content-Length'])
+      this.trigger('loadstart', loadstartEvent)
+      isFunction(this.onloadstart) && this.onloadstart(loadstartEvent)
       this.#response = data
-      this.trigger('load')
-      isFunction(this.onload) && this.onload()
+
+      const loadEvent = createXMLHttpRequestEvent('load', this, header['Content-Length'])
+      this.trigger('load', loadEvent)
+      isFunction(this.onload) && this.onload(loadEvent)
     }
   }
 
@@ -269,8 +311,9 @@ export class XMLHttpRequest extends Events {
   #requestFail (err) {
     this.#status = 0
     this.#statusText = err.errMsg
-    this.trigger('error')
-    isFunction(this.onerror) && this.onerror(err)
+    const errorEvent = createXMLHttpRequestEvent('error', this, 0)
+    this.trigger('error', errorEvent)
+    isFunction(this.onerror) && this.onerror(errorEvent)
   }
 
   /**
@@ -281,8 +324,9 @@ export class XMLHttpRequest extends Events {
     this.#callReadyStateChange(XMLHttpRequest.DONE)
 
     if (this.#status) {
-      this.trigger('loadend')
-      isFunction(this.onloadend) && this.onloadend()
+      const loadendEvent = createXMLHttpRequestEvent('loadend', this, this.#header['Content-Length'])
+      this.trigger('loadend', loadendEvent)
+      isFunction(this.onloadend) && this.onloadend(loadendEvent)
     }
   }
 
@@ -346,8 +390,9 @@ export class XMLHttpRequest extends Events {
   abort () {
     if (this.#requestTask) {
       this.#requestTask.abort()
-      this.trigger('abort')
-      isFunction(this.onabort) && this.onabort()
+      const abortEvent = createXMLHttpRequestEvent('abort', this, 0)
+      this.trigger('abort', abortEvent)
+      isFunction(this.onabort) && this.onabort(abortEvent)
     }
   }
 

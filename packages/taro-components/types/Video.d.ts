@@ -443,6 +443,18 @@ interface VideoProps extends StandardProps {
    * @supported tt
    */
   onAdLoad?: CommonEventFunction
+  /** 用户选择投屏设备时触发 detail = { state: "success"/"fail" }
+   * @supported weapp
+   */
+  onCastingUserSelect?: CommonEventFunction
+  /** 投屏成功/失败时触发 detail = { type, state: "success"/"fail" }
+   * @supported weapp
+   */
+  onCastingStateChange?: CommonEventFunction
+  /** 投屏被中断时触发
+   * @supported weapp
+   */
+  onCastingInterrupt?: CommonEventFunction
 }
 declare namespace VideoProps {
   /** direction 的合法值 */

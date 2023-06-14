@@ -2,11 +2,14 @@ import {
   isEmptyObject,
   printLog,
   processTypeEnum,
-  resolveMainFilePath
+  REG_STYLE,
+  resolveMainFilePath,
 } from '@tarojs/helper'
 import { Config } from '@tarojs/taro'
+import { urlToRequest } from 'loader-utils'
 import * as path from 'path'
 import * as webpack from 'webpack'
+import { ConcatSource } from 'webpack-sources'
 
 import { IComponent } from '../utils/types'
 import MiniPlugin from './MiniPlugin'
@@ -134,5 +137,38 @@ export default class BuildNativePlugin extends MiniPlugin {
         }
       })
     })
+  }
+
+  /**
+   * 各组件的样式文件中引入 common chunks 中的公共样式文件
+   */
+  injectCommonStyles ({ assets }: webpack.compilation.Compilation) {
+    const styleExt = this.options.fileType.style
+    const REG_STYLE_EXT = new RegExp(`\\.(${styleExt.replace('.', '')})(\\?.*)?$`)
+
+    const commons: string[] = []
+
+    Object.keys(assets).forEach(assetName => {
+      const fileName = path.basename(assetName, path.extname(assetName))
+      if ((REG_STYLE.test(assetName) || REG_STYLE_EXT.test(assetName)) && this.options.commonChunks.includes(fileName)) {
+        commons.push(assetName)
+      }
+    })
+
+    if (commons.length > 0) {
+      this.pages.forEach(page => {
+        if (page.isNative) return
+        const pageStyle = `${page.name}${styleExt}`
+        if (pageStyle in assets) {
+          const source = new ConcatSource('')
+          const originSource = assets[pageStyle]
+          commons.forEach(item => {
+            source.add(`@import ${JSON.stringify(urlToRequest(path.relative(path.dirname(pageStyle), item)))};\n`)
+          })
+          source.add(originSource)
+          assets[pageStyle] = source
+        }
+      })
+    }
   }
 }

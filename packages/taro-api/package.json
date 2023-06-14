@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/api",
-  "version": "3.6.6",
+  "version": "3.6.8",
   "description": "Taro common API",
   "author": "yuche <i@yuche.me>",
   "homepage": "https://github.com/nervjs/taro/tree/master/packages/api#readme",
@@ -42,6 +42,7 @@
     "jest-cli": "^29.3.1",
     "jest-environment-node": "^29.5.0",
     "rollup": "^2.79.0",
+    "rollup-plugin-node-externals": "^5.0.0",
     "ts-jest": "^29.0.5",
     "typescript": "^4.7.4"
   }
