@@ -15,6 +15,15 @@ export function modifyH5WebpackChain (ctx: IPluginContext, chain, config: IConfi
   setVueLoader(chain, config)
   setLoader(chain)
   setTaroApiLoader(chain)
+
+  const { isBuildNativeComp = false } = ctx.runOpts.options
+  const externals: Record<string, string> = {}
+  if (isBuildNativeComp) {
+    // Note: 该模式不支持 prebundle 优化，不必再处理
+    externals.vue = 'vue'
+  }
+
+  chain.merge({ externals })
 }
 
 function setStyleLoader (ctx: IPluginContext, chain) {

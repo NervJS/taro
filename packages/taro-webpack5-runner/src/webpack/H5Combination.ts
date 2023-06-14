@@ -31,7 +31,6 @@ export class H5Combination extends Combination<H5BuildConfig> {
       sourceMapType = 'eval-cheap-module-source-map',
       publicPath = '/',
       chunkDirectory = 'chunk',
-      framework = 'react',
       alias = {},
       router,
       frameworkExts
@@ -77,22 +76,6 @@ export class H5Combination extends Combination<H5BuildConfig> {
           name: webpackOutput.library as (Exclude<typeof webpackOutput.library, LibraryOptions>),
           type: 'commonjs-module',
         }
-      }
-
-      switch (framework) {
-        case 'vue2':
-        case 'vue3':
-          externals.push('vue')
-          break
-        case 'preact':
-          externals.push('preact')
-          externals.push('react')
-          externals.push('react-dom')
-          break
-        default:
-          // react
-          externals.push('react')
-          externals.push('react-dom')
       }
     }
 
