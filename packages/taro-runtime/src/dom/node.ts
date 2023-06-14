@@ -52,6 +52,19 @@ export class TaroNode extends TaroEventTarget {
     })
   }
 
+  private updateSingleChild (index: number) {
+    this.childNodes.forEach((child, childIndex) => {
+      if (isComment(child)) return
+
+      if (index && childIndex < index) return
+
+      this.enqueueUpdate({
+        path: child._path,
+        value: this.hydrate(child)
+      })
+    })
+  }
+
   public get _root (): TaroRootElement | null {
     return this.parentNode?._root || null
   }
@@ -160,22 +173,25 @@ export class TaroNode extends TaroEventTarget {
     //   - update: true (Need to update parent.childNodes, because parent.childNodes is reordered)
     newChild.remove({ cleanRef: false })
 
+    let childIndex = 0
     // Data structure
     newChild.parentNode = this
     if (refChild) {
       // insertBefore & replaceChild
       const index = this.findIndex(refChild)
       this.childNodes.splice(index, 0, newChild)
+      childIndex = index
     } else {
       // appendChild
       this.childNodes.push(newChild)
     }
 
+    const childNodesLength = this.childNodes.length
     // Serialization
     if (this._root) {
       if (!refChild) {
         // appendChild
-        const isOnlyChild = this.childNodes.length === 1
+        const isOnlyChild = childNodesLength === 1
         if (isOnlyChild) {
           this.updateChildNodes()
         } else {
@@ -191,8 +207,25 @@ export class TaroNode extends TaroEventTarget {
           value: this.hydrate(newChild)
         })
       } else {
-        // insertBefore
-        this.updateChildNodes()
+        // insertBefore 有两种更新模式
+        // 比方说有 A B C 三个节点，现在要在 C 前插入 D
+        // 1. 插入 D，然后更新整个父节点的 childNodes 数组
+        // setData({ cn: [A, B, D, C] })
+        // 2. 插入 D，然后更新 D 以及 D 之后每个节点的数据
+        // setData ({
+        //   cn.[2]: D,
+        //   cn.[3]: C,
+        // })
+        // 由于微信解析 ’cn.[2]‘ 这些路径的时候也需要消耗时间，
+        // 所以根据 insertBefore 插入的位置来做不同的处理
+        const mark = childNodesLength * 2 / 3
+        if (mark > childIndex) {
+          // 如果 insertBefore 的位置在 childNodes 的 2/3 前，则为了避免解析路径消耗过多的时间，采用第一种方式
+          this.updateChildNodes()
+        } else {
+          // 如果 insertBefore 的位置在 childNodes 的 2/3 之后，则采用第二种方式，避免 childNodes 的全量更新
+          this.updateSingleChild(childIndex)
+        }
       }
     }
 
