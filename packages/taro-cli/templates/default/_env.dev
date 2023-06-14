@@ -1,0 +1,2 @@
+# 注意配置在这里的环境变量名称必须以 TARO_APP_ 前缀开头
+TARO_APP_API="dev环境api接口"

@@ -28,7 +28,11 @@
     "@tarojs/runtime": "workspace:*"
   },
   "devDependencies": {
-    "@tarojs/helper": "workspace:*"
+    "@tarojs/helper": "workspace:*",
+    "postcss": "^8.4.18"
+  },
+  "peerDependencies": {
+    "postcss": "^8.4.18"
   },
   "peerDependenciesMeta": {
     "@types/react": {
