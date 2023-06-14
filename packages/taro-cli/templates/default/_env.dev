@@ -1,2 +1,5 @@
 # 注意配置在这里的环境变量名称必须以 TARO_APP_ 前缀开头
 TARO_APP_API="dev环境api接口"
+
+# 如果您不同环境有不同的小程序，可通过配置这个变量来方便快速修改 appid， 而不必手动去修改 dist/project.config.json 文件；若只有一个小程序，直接删除此环境变量即可
+TARO_APP_ID="dev环境小程序appid"

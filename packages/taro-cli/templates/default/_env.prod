@@ -1,1 +1,3 @@
 TARO_APP_API="prod环境api接口"
+
+TARO_APP_ID="生产环境小程序appid"
