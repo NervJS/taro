@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/components",
-  "version": "3.6.7",
+  "version": "3.6.8",
   "description": "Taro 组件库",
   "browser": "dist/index.js",
   "main:h5": "dist/index.js",
