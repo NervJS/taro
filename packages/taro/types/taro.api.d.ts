@@ -88,6 +88,7 @@
 /// <reference path="api/device/clipboard.d.ts" />
 /// <reference path="api/device/network.d.ts" />
 /// <reference path="api/device/screen.d.ts" />
+/// <reference path="api/device/sms.d.ts" />
 /// <reference path="api/device/keyboard.d.ts" />
 /// <reference path="api/device/phone.d.ts" />
 /// <reference path="api/device/accelerometer.d.ts" />
