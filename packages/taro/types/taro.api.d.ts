@@ -41,6 +41,7 @@
 /// <reference path="api/payment/index.d.ts" />
 /// <reference path="api/storage/index.d.ts" />
 /// <reference path="api/storage/background-fetch.d.ts" />
+/// <reference path="api/storage/cache-manager.d.ts" />
 /// <reference path="api/data-analysis/index.d.ts" />
 /// <reference path="api/canvas/index.d.ts" />
 /// <reference path="api/media/map.d.ts" />
