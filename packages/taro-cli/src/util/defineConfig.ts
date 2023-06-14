@@ -13,5 +13,5 @@ export type UserConfigFn = (mergin: WebpackMerge, env: ConfigEnv) => IProjectCon
 export type UserConfigExport = IProjectConfig | Promise<IProjectConfig> | UserConfigFn
 
 export function defineConfig (config: UserConfigExport) {
-  return () => config
+  return config
 }
