@@ -28,11 +28,7 @@
     "@tarojs/runtime": "workspace:*"
   },
   "devDependencies": {
-    "@tarojs/helper": "workspace:*",
-    "postcss": "^8.4.18"
-  },
-  "peerDependencies": {
-    "postcss": "^8.4.18"
+    "@tarojs/helper": "workspace:*"
   },
   "peerDependenciesMeta": {
     "@types/react": {
@@ -42,6 +38,9 @@
       "optional": true
     },
     "@types/webpack-dev-server": {
+      "optional": true
+    },
+    "postcss": {
       "optional": true
     },
     "vue": {

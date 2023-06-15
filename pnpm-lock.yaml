@@ -475,13 +475,11 @@ importers:
       '@tarojs/api': workspace:*
       '@tarojs/helper': workspace:*
       '@tarojs/runtime': workspace:*
-      postcss: ^8.4.18
     dependencies:
       '@tarojs/api': link:../taro-api
       '@tarojs/runtime': link:../taro-runtime
     devDependencies:
       '@tarojs/helper': link:../taro-helper
-      postcss: registry.npmjs.org/postcss/8.4.23
 
   packages/taro-alipay:
     specifiers:

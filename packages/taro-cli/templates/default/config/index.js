@@ -1,6 +1,6 @@
 import { defineConfig<% if (typescript) {%>, type UserConfigExport<%}%> } from "@tarojs/cli"
 
-export default defineConfig(async (merge, { comman, mode }) => {
+export default defineConfig(async (merge, { command, mode }) => {
   return {
     projectName: '<%= projectName %>',
     date: '<%= date %>',
