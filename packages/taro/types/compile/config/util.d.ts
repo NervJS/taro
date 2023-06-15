@@ -18,11 +18,24 @@ export namespace PostcssOption {
   }>
 }
 
+export interface IHtmlTransformOption {
+  /** 是否启用 postcss-html-transform 插件 */
+  enable?: boolean
+  config?: {
+    /** 当前编译平台 (此选项插件内部根据编译平台自行生成，无需传入) */
+    readonly platform?: string
+    /** 设置是否去除 cursor 相关样式 (h5默认值：true) */
+    removeCursorStyle: boolean
+  }
+}
+
 export interface IPostcssOption {
   autoprefixer?: TogglableOptions
   pxtransform?: TogglableOptions
   cssModules?: PostcssOption.cssModules
   url?: PostcssOption.url
+  /** 插件 postcss-html-transform 相关配置, 一般启用了 @tarojs/plugin-html 插件才配置 */
+  htmltransform?: IHtmlTransformOption
   [key: string]: any
 }
 
@@ -96,9 +109,9 @@ export const enum CONFIG_TYPES {
 }
 
 export type IMINI_APP_FILE_TYPE = {
-  TEMPL: TEMPLATE_TYPES,
-  STYLE: STYLE_TYPES,
-  SCRIPT: SCRIPT_TYPES,
+  TEMPL: TEMPLATE_TYPES
+  STYLE: STYLE_TYPES
+  SCRIPT: SCRIPT_TYPES
   CONFIG: CONFIG_TYPES
 }
 
