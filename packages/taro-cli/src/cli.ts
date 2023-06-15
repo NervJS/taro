@@ -105,6 +105,8 @@ export default class CLI {
             case 'qq':
             case 'jd':
             case 'h5':
+            case 'mpharmony':
+            case 'mpandroid':
               kernel.optsPlugins.push(`@tarojs/plugin-platform-${platform}`)
               break
             default: {

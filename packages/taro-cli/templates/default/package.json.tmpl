@@ -18,6 +18,8 @@
     "build:qq": "taro build --type qq",
     "build:jd": "taro build --type jd",
     "build:quickapp": "taro build --type quickapp",
+    "build:mpharmony": "taro build --type mpharmony",
+    "build:mpandroid": "taro build --type mpandroid",
     "dev:weapp": "npm run build:weapp -- --watch",
     "dev:swan": "npm run build:swan -- --watch",
     "dev:alipay": "npm run build:alipay -- --watch",
@@ -26,7 +28,9 @@
     "dev:rn": "npm run build:rn -- --watch",
     "dev:qq": "npm run build:qq -- --watch",
     "dev:jd": "npm run build:jd -- --watch",
-    "dev:quickapp": "npm run build:quickapp -- --watch"
+    "dev:quickapp": "npm run build:quickapp -- --watch",
+    "dev:mpharmony": "npm run build:mpharmony -- --watch",
+    "dev:mpandroid": "npm run build:mpandroid -- --watch"
   },
   "browserslist": [
     "last 3 versions",
@@ -45,6 +49,8 @@
     "@tarojs/plugin-platform-jd": "<%= version %>",
     "@tarojs/plugin-platform-qq": "<%= version %>",
     "@tarojs/plugin-platform-h5": "<%= version %>",
+    "@tarojs/plugin-platform-mpharmony": "<%= version %>",
+    "@tarojs/plugin-platform-mpandroid": "<%= version %>",
     "@tarojs/runtime": "<%= version %>",
     "@tarojs/shared": "<%= version %>",
     "@tarojs/taro": "<%= version %>",<% if (['react', 'preact'].includes(framework)) {%>
